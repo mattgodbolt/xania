@@ -52,9 +52,8 @@ extern "C" {
 /* the clanz */
 #include "clan.h"
 
-#if defined(riscos)
 #include <time.h>
-#endif
+#include <stdio.h>
 
 
 /* system calls */

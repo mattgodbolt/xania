@@ -46,11 +46,11 @@
  * Fucking ARMLinux mutter mutter
  */
 extern int sleep (int);
-#include "merc.h"
-#include "note.h"
-#include "news.h"
 #include "challeng.h"
-#include "doorman.h"
+#include "doorman/doorman.h"
+#include "merc.h"
+#include "news.h"
+#include "note.h"
 
 /* command procedures needed */
 DECLARE_DO_FUN(do_help     );
