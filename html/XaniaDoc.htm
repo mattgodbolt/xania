@@ -1,0 +1,363 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="author" CONTENT="TheMoog <themoog@xania.org>">
+<META NAME="keywords" CONTENT="Xania;area building">
+<TITLE>XaniaDoc - Area Building for Xania</TITLE>
+</HEAD>
+<BODY>
+
+<h1>Area Building for Xania MUD</h1>
+
+<a name="top"><h2>Contents</h2></a>
+<ol>
+	<li><a href="#Ack">Acknowledgements</a>
+	<li><a href="#Intro">Introduction</a>
+	<li><a href="#Basics">Building basics</a>
+	<li><a href="#AREA">The <b>#AREA</b> block</a>
+	<li><a href="#ROOMS">The <b>#ROOMS</b> block</a>
+	<li><a href="#MOBILES">The <b>#MOBILES</b> block</a>
+	<li><a href="#OBJECTS">The <b>#OBJECTS</b> block</a>
+	<li><a href="#RESETS">The <b>#RESETS</b> block</a>
+	<li><a href="#SHOPS">The <b>#SHOPS</b> block</a>
+	<li><a href="#SPECIALS">The <b>#SPECIALS</b> block</a>
+	<li><a href="#MOBPROGS">The <b>#MOBPROGS</b> block</a>
+	<li><a href="#HELPS">The <b>#HELPS</b> block</a>
+	<li><a href="#Reference">Reference section</a>
+</ol>
+
+
+
+
+<!-- Ack section -->
+<hr><a name="Ack"><h2>Acknowledgements</h2></a>
+
+Xania's area file format is based on ROM2.3/ROM2.4 which carries the following acknowledgements:
+<p><i>DikuMUD by Hans Staerfeldt, Katja Nyboe, Tom Madsen, Michael Seifert, and Sebastian Hammer.
+Based on MERC 2.2 code by Hatchet, Furey, and Kahn, ROM 2.4 &copy; 1993-96 Russ Taylor</i>
+
+<p>Apart from that, the Xanian Immortals would like to thank their family, friends and partners for putting up with
+their anti-social behaviour during the development and administration of the MUD.
+
+<h6><a href="#top">Back to the top</a></h6>
+
+
+
+
+<!-- Introduction section -->
+<hr><a name="Intro"><h2>Introduction</h2></a>
+
+This document is designed as a cross between a reference and a tutorial on creating your own areas for the Multi-User Dungeon, 
+<a href="http://www.xania.org/~xania">Xania</a>.  Xania was created in the mid-nineties, and was originally based on a ROM2.3 code base.
+Most MUDs are not written from scratch, but take a previous MUD's code and build upon it; Xania took Russ Taylor's ROM2.3 code and built
+upon that.  Since Xania was created, ROM2.4 has been created, and Xania has put some of the more important features from ROM2.4
+into its repertoire, as well as some features unique to Xania.
+<p>This document is aimed at those who already have a working knowledge of Xania from a player's point of view.  If you haven't
+already acquired some player knowledge, then you're way out of your depth trying to write areas, so go play 
+some <a href="telnet://xania.org:9000">Xania</a>!
+
+<h6><a href="#top">Back to the top</a></h6>
+
+
+
+
+<!-- Basics section -->
+<hr><a name="Basics"><h2>Building basics</h2></a>
+
+If you are a higher-level player on Xania you will already be aware of the vast array of data Xania holds on each object,
+mobile and room.  As an area builder it is your responsibility to ensure each object and mobile has stats commensurate with
+its level - so no putting in level 10 wands of level 50 acid blast!  This is probably one of the hardest parts of area building
+- striking the balance between making mobiles too easy to kill or objects too powerful, and making the area so difficult that
+no-one will visit it.  We'll try to give you some hints as how to make this the case.
+
+<p>Before you start your area, we'd recommend sketching out a rough plan of your area on paper, along with where you want
+your mobiles to be, and which equipment they'll carry.  Also what objects you'll have in your area, either lying on the
+ground or being carried by mobiles or locked in chests or hidden away in rooms.  It's much easier to write the area file if
+you have a reasonably good idea how the whole thing is going to fit together.
+
+<p>A quick word on VNUMs before we go any further.  They'll crop up everywhere, so I thought it best to mention them now rather
+than in each section.  A VNUM is a 'virtual number' - a piece of terminology that makes little or no sense, but nevertheless
+it's important you understand what they are.  A VNUM is a 'reference number' that uniquely references an object, room or mobile.
+Imagine that every object, room or mobile is created from a template on a filing card - you know, those cards that dentists and
+doctors used to keep your details on before computers cropped up everywhere.  The filing card has all the details needed to create
+a new mobile, object or room - a name, description, statistics and so on and so forth.  However, as many objects, rooms and
+mobiles refer to each other in some way (for example mobile X wears object Y on its arms) the referencing is done by VNUM.
+So in an area file, you'll be creating things like 'a blue monster', and giving it a VNUM, say 1000.  When you want to place
+two of that kind of monster in a room, you'll load 'monster 1000' twice in the #RESETS (more of that later).  Similarly, when
+you're describing the exits from one room to another, you'll use the VNUM of the rooms to do so; room 1010 is north of room 1009,
+for example.  It's worth mentioning that monster 1000 is different to room 1000 is different to object 1000, so you can re-use
+the vnums across different types of 'thing'.  VNUMs mustn't clash across different areas though - your VNUMs must be different
+to everyone else's - so speak to an Immortal before you start your area for a good set of VNUMs to use.
+Hopefully all that will be a lot clearer when we get into the area file proper.
+
+<p>Another note on strings.  No, not pieces of twine, but the text of descriptions, names and suchlike.  In the Xanian (and ROM)
+file format, strings end with a tilde character (~).  This lurks above the hash character on UK keyboards, but on US keyboards
+may be up on the top left somewhere - I'm sure you'll find it.  Let me give you an example, which is an object from the Flying
+Citadel area:
+
+<p><pre>
+#13028
+sleeves chain mail chain-mail~
+a pair of chain-mail sleeves~
+Some chain-mail sleeves have been left on the ground.~
+iron~
+armor 0 AI
+11 12 9 1 0
+34 6 20 G
+E
+sleeves chain mail chain-mail~
+A pair of dented and buckled chain-mail sleeves. Not very comfortable, but
+usable enough.
+~
+</pre>
+The number after the hash character at the top is the VNUM we mentioned earlier.  The next line is the keywords for the object;
+these are the words the player can use to refer to the object.  Notice how this line ends in a tilde?  The next line is the
+short name, used when you pick up the object.  The next line is the long description - how the object appears when left on the
+ground.  Ignore the rest until the 'E' on its own (we'll go over this fully in the #OBJECTS section later).  The 'E' section is
+the 'extra' section which allows us to put more descriptions of the object in when the player 'looks' at it.  In this case we're 
+totally replacing the long description with a longer, more verbose description.  Notice how the tilde is on a line by itself, after
+the description, and notice how the description is split to fit onto two lines?  This is for a reason:  all of the text mustn't scroll
+past 80 characters of screen, so we've word-wrapped 'usable enough' onto a new line.  The tilde is on its own for an important reason:
+it means that the following text will be forced onto the next line.  Without the tilde on its own line, any text following it will
+continue on the same line - looking very messy.
+
+<p>Right, now take a deep breath and relax.  Sitting comfortably?  Got a nice cool glass of water nearby?  Put the dog/children/spouse
+somewhere they're not going to disturb you?  Phone on answermachine?  Good - you're ready to start!  Load up your favourite
+text editor - be it Notepad for windows, EMACS under Linux/BSD, UltraEdit, MSDev or whatever, as long as it saves files as 'text
+files' that's fine.  This means MS Word is <b>not</b> suitable, in case you were wondering - unless you want to get really
+handy with cut and paste, I'd forget it - Notepad is fine.  The first thing we'd suggest you do now is save the empty file somewhere
+with an appropriate name before you forget!  The area file <b>must</b> have the extension <i>.are</i> for example <i>flying.are</i>.
+
+<p>The area file is split up into chunks of information - each chunk starts with a hash character and a name.  The order isn't
+important, except for the <b>#AREA</b> section, which must go first, and so we deal with that next.
+
+<h6><a href="#top">Back to the top</a></h6>
+
+
+
+
+<!-- Area block -->
+<hr><a name="AREA"><h2>The <b>#AREA</b> block</h2></a>
+
+The <b>#AREA</b> block is the simplest and shortest block of data - it describes some basic information about your area
+which is used in Xania when you enter the 'areas' command.  Here is the Flying Citadel's <b>#AREA</b> block:
+
+<p><pre>
+#AREA   
+flying.are~
+The Flying Citadel~
+{20 50} TheMoog The Flying Citadel~
+13000 13050
+</pre>
+
+The first line tells Xania that this is an area block.  The next line is a string which is the filename of the area file - this may
+be used in later version of Xania for on-line creation - just ensure its the same name that you saved your area earlier.
+The next string is the area name - at the moment only used internally.  The next string is the line shown in the 'areas'
+command in Xania - the lower lever and higher level in curly brackets, followed by the author's name, followed by the area name.
+The last line in this section is the low and high VNUM limits - the lowest VNUM you used and the highest VNUM you used in that
+order.  As VNUMs mustn't clash across areas (VNUMs in your area mustn't be the same as anyone else's) this helps the Immortals
+ensure there are no problems of this sort.
+
+<p>That's it!  That's your first step to creating your own area!  After this block, the order isn't too important; but we'd suggest
+you go onto the rooms next, as this is the basic skeleton that all areas need.
+
+<h6><a href="#top">Back to the top</a></h6>
+
+
+
+
+<!-- Rooms block -->
+<hr><a name="ROOMS"><h2>The <b>#ROOMS</b> block</h2></a>
+
+This is one of the more complicated blocks, so we'll take it slowly and explain some of the attributes a room has, then we'll
+examine a room from the Flying Citadel and explain what everything means.
+
+<p>Rooms are slightly different to mobiles and objects, because there is only one room per VNUM, whereas there can be many
+copies of a mobile or object.  In practise this doesn't make much difference, but its worth mentioning to help your understanding
+of resets, towards the end of this document.  A room has a VNUM, a short and long description, a sector type and some room options.
+For reasons lost in the obscurity of programming, these options are bundled together and called 'flags' - and 'cos we're programmer
+types, we'll be calling them flags too.
+
+<p>As well as these pieces of information a room usually has one or more exits.  These exits have a direction, a short description,
+a keyword or name, a type and key VNUM and some more flags, and perhaps most importantly, the VNUM of the room they lead to.
+Usually when you design the rooms you link rooms back to eachother; that is, going east from room A to room B is the same as
+going west from room B to room A - but this isn't done automatically, you have to put an easterly exit in room A <em>and</em> a
+westerly exit in room B back to room A.  Of course, you can build some evil mazes where going back west from room B takes you
+to another place to confuse the player, but make sure you don't abuse this power too much or your player will get upset very quickly!
+
+<p>The last pieces of information a room can have are 'extras' - little areas of interest that the player can 'look' at to get
+more information about the area they are in.  The example below should help show you how this works:
+
+<p><pre>
+#13004
+Citadel North-East~
+You feel the wind ruffling your hair - the source of the rushing air a huge
+hole in the north wall.  Pointing out of the window is a huge rusted metal
+siege cannon.  Standing on tip-toes you can just about peer through the huge
+hole - and you can see the mountainous terrain.  A ladder leads up to a trap-
+door in the ceiling.
+~
+13 D 1
+D4
+The ladder leads upwards to a trap-door in the ceiling.
+~
+trap-door trap door~
+1 -1 13017
+D3
+You see an open space to the east.
+~
+~
+0 -1 13005
+D2
+You can see a corridor to the south.
+~
+~
+0 -1 13003
+E
+seige cannon rusted metal~
+This device has obviously not been built by the draconians, rather stolen from
+some castle or other - still, it is a powerful machine.  You can smell burnt
+gunpowder, and you see wisps of blueish smoke trail out of the barrel of the
+cannon.
+~
+S
+</pre>
+
+The first few lines should be fairly self-explanatory: they are the VNUM, the short name and the long description.  The short
+name is shown if the player has brief descriptions on, if not, both the short and long name are shown.  As an aside, put any warnings about 
+high-level areas in the short name so that players with brief mode on can see them!  Notice that the tilde in the long description
+lives on its own line, to give a nice space after the text.
+
+<p>After that comes a line of numbers and letters, separated by spaces.  The first is the area number; it is actually no longer used
+in Xania, you can place 'XX' or the first two numbers of your VNUM block here.  In Flying Citadel, we put '13' as the VNUMs range from
+13000 to 13050 are used.  The next letter is the room flags - those options we mentioned earlier.  Flags are usually a set of letters
+where each letter is an option that is to be turned on.  In this case, the only room option is 'D' which is the indoor flag.  A room
+which only two people can occupy, that is dark, and that you can't recall from would have 'AJN' in this part of the file.  Don't
+worry too much about which flag means what, the <a href="#Reference">reference section</a> has a list of all the possible flags for all
+parts.  The last part of this line is the sector type; the type of terrain this room is comprised of.  In this case sector type 1
+is 'city'.  The sector type is used by Xania in calculating how much movement (mv) it takes to cross the room.  Again, you'll find all
+the sector type in the <a href="#Reference">reference section</a>.
+
+
+
+
+<h6><a href="#top">Back to the top</a></h6>
+
+
+
+
+<!-- Reference -->
+<hr><a name="Reference"><h2>Reference</h2></a>
+
+<a name="topref"><h3>Contents</h3></a>
+<ol>
+	<li><a href="#RoomFlags">Room Flags</a>
+	<li><a href="#SectorTypes">Sector Types</a>
+</ol>
+
+
+
+
+<!-- Room flags-->
+<hr><a name="RoomFlags"><h3>Room flags</h3></a>
+
+<table cols="3" border="4">
+	<tr>
+		<td width="10%"><b>Letter</b></td>
+		<td><b>Name</b></td>
+		<td><b>Meaning</b></td>
+	</tr>
+	<tr>
+		<td>A</td>
+		<td>ROOM_DARK</td>
+		<td>Player is effectively blind in this room unless they have a light source.</td>
+	</tr>
+	<tr>
+		<td>C</td>
+		<td>ROOM_NO_MOB</td>
+		<td>Mobiles can't wander into this room.  Only charmed mobs and pets can enter.</td>
+	</tr>
+	<tr>
+		<td>D</td>
+		<td>ROOM_INDOORS</td>
+		<td>The room is indoors.  No weather effects take place.</td>
+	</tr>
+	<tr>
+		<td>J</td>
+		<td>ROOM_PRIVATE</td>
+		<td>Only two characters at a time may enter this room.</td>
+	</tr>
+	<tr>
+		<td>K</td>
+		<td>ROOM_SAFE</td>
+		<td>No fighting or protagonistic behaviour may take place. (attacking spells etc).</td>
+	</tr>
+	<tr>
+		<td>L</td>
+		<td>ROOM_SOLITARY</td>
+		<td>Only one character may enter this room at a time.</td>
+	</tr>
+	<tr>
+		<td>M</td>
+		<td>ROOM_PET_SHOP</td>
+		<td>Special flag for pet shops.  The room with a VNUM one greater than the shop must be filled with the pets (see <a href"#SHOPS"><b>#SHOPS</b> section</a>)</td>
+	</tr>
+	<tr>
+		<td>N</td>
+		<td>ROOM_NO_RECALL</td>
+		<td>Characters are unable to recall from this room.</td>
+	</tr>
+	<tr>
+		<td>O</td>
+		<td>ROOM_IMP_ONLY</td>
+		<td>Only level 100 characters may enter.</td>
+	</tr>
+	<tr>
+		<td>P</td>
+		<td>ROOM_GODS_ONLY</td>
+		<td>Only level 92+ characters may enter.</td>
+	</tr>
+	<tr>
+		<td>Q</td>
+		<td>ROOM_HEROES_ONLY</td>
+		<td>Only level 91+ characters may enter.</td>
+	</tr>
+	<tr>
+		<td>R</td>
+		<td>ROOM_NEWBIES_ONLY</td>
+		<td>Only newbies (level &lt; 5) and level 92+ characters may enter.</td>
+	</tr>
+	<tr>
+		<td>S</td>
+		<td>ROOM_LAW</td>
+		<td>Only non-aggressive mobiles may enter this room.</td>
+	</tr>
+</table>
+<h6><a href="#reftop">Back to the top of the reference section</a></h6>
+
+
+<!-- Sector types-->
+<hr><a name="SectorTypes"><h3>Room flags</h3></a>
+
+<table cols="2" border="4">
+	<tr>
+		<td width="10%"><b>Number</b></td>
+		<td><b>Type</b></td>
+	</tr>
+	<tr><td>0</td><td>Inside</td></tr>
+	<tr><td>1</td><td>City</td></tr>
+	<tr><td>2</td><td>Field</td></tr>
+	<tr><td>3</td><td>Forest</td></tr>
+	<tr><td>4</td><td>Hills</td></tr>
+	<tr><td>5</td><td>Mountain</td></tr>
+	<tr><td>6</td><td>Water (swimmable)</td></tr>
+	<tr><td>7</td><td>Water (non-swimmable)</td></tr>
+	<tr><td>8</td><td>(unused)</td></tr>
+	<tr><td>9</td><td>Air (requires fly to pass)</td></tr>
+	<tr><td>10</td><td>Desert</td></tr>
+</table>
+
+<h6><a href="#reftop">Back to the top of the reference section</a></h6>
+
+</BODY>
+</HTML>

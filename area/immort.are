@@ -1,0 +1,635 @@
+#AREA   
+immort.are~
+Immortal Zone~
+{Imrtl} ROM     Immortal Zone~
+1200 1265
+
+#MOBILES
+#1200
+Heimdall~
+Heimdall~
+Heimdall, guardian of Bifrost, stands guard over the Rainbow Bridge.
+~
+Standing over 7 feet tall and muscled as only a god can be, Heimdall keeps
+his unsleeping gaze over the Rainbow bridge.  His trusty Gjallor-horn never
+leaves his side, and shall remain unwinded until the dread ship Naglfar sails
+towards Valhalla on the dawn of Ragnarok 
+~
+human~
+BTV CDFJZ 1000 0
+57 30 1d1+19999 1d1+499 5d4+40 crush
+-20 -20 -20 -10
+ACDEFHIKLNOT ABP CD 0
+stand stand male 0
+0 0 large 0
+#0
+
+
+#ROOMS
+#1200
+The Chat Room~
+You are lounging in a quiet cosy parlour, warmed by a gentle magical fire
+which twinkles happily in a warm fireplace.  This is one of the many rooms
+where the heroes and gods come to socialize.  It is by far one of the most
+comfortable! 
+~
+0 DJQ  0
+D2
+Asgard lies to the south.
+~
+~
+0 -1 1220
+S
+
+#1201
+Moses' Hangout~
+   You see here a cozy little room with a fireplace.  You can tell it is Moses'
+room by the two stone tablets and a bible on a small ledge near the fireplace.
+This room was designed for total relaxation.  You can watch television, listen
+to the stereo, even soak in a hot tub.
+There is a bell here for the butler.
+~
+0 DQ 0
+D0
+Asgard lies to the north.
+~
+~
+0 -1 1213 
+S
+#1202
+The Center of the Universe~  
+  You are at the centre of the universe, everything is filled with bright
+light in all colors. You feel time and space no longer exist here.
+Exits fill the room in all 42 dimensions, leading everywhere.
+~
+0 DJQ 0
+D1
+Asgard lies to the east.
+~
+~
+0 -1 1213 
+S
+#1203
+Valhalla~
+  This is the huge Hall of Valhalla, where the Gods rule supreme.  The
+cavernous building stretches infinitely in all directions.  Valhalla 
+continues to the east, and the gods make their homes north and south of
+the halls.  The golden gates are to the west.  You know not what lies 
+upward...
+~
+0 DP 0 
+D0
+Warbird and Thanatos own an office to the north.
+~
+door~
+1 -1 1209
+D1
+Valhalla continues east.
+~
+~
+0 -1 1217
+D2
+A sea cave is south of here.
+~
+door~
+1 -1 1208
+D3
+The entrance to Valhalla is to the west.
+~
+~
+0 -1 1216
+D4
+If you want to know what is up there, you shall have to go look...
+~
+~
+0 -1 1
+S
+#1204
+Priscilla's Pleasure Palace ~
+As you look around you, you see the largest collection of erotic toys
+in the world!!!  On a table in the middle of the room lies a book titled :
+"All You Ever Wanted to Know About Sex..But Were Afraid to Ask"
+There are things here that you never even imagined in your wildest dreams!
+~
+0 DJP 0
+D0
+Valhalla is to the north.
+~
+door~
+1 -1 1218
+S
+#1205
+The Eye of the Hurricane~
+  The shrieking winds of a monstrous storm surround you, spinning you around
+in an endless web of fury. But then, in the middle of turmoil, you find a
+strange calm. You find yourself hovering in the calm eye of a hurricane. All
+around you you can see the desruction caused by the powerful storm. White
+hot flashes of lightning flicker from the depths of the hurricane.  But
+everything is strangely peaceful in here, with the sun shining in from above
+and a flock of birds winging across the sky.  You stretch out and relax, this
+storm is going to be here a while.
+~
+0 512|8192|16384 9
+S
+#1206
+Walking on the Moon~
+The proud and lonely silence of Mare Imbrium surrounds you, as you gaze upon
+the sterile splendor of the moon.  All around is the velvet curtain of night,
+studded with a thousand gleaming jewels.  Below you hangs the beautiful
+fields of Earth, looking fragile and far away, but full of hope.  A sense of
+wistful regret touches you, as you think about what might have been, and what
+will be.
+~
+0 512|8192|16384 0
+E
+crater mare imbrium~
+A small shipping tag is pinned to the ground with a worn hunting knife.
+Upon it is a dedication to Robert Anson Heinlein, the father of the future.
+~
+S
+#1207
+Lisa's Private Heaven~
+You find yourself walking the sea shore at sunset.  Soft, soothing mist curls
+contentedly around your ankles.  A cool salt breeze lifts your hair and
+pastes tendrils of hair to your cheeks.  The sounds of the water pound and
+roar in your ears.  Waves rise up and break in front of you, their foam gently
+tugging at you, tempting you, begging you to walk out into their depths.
+Someone has written in the sand the words, "We love you Lisa" and placed
+delicate pink sea shells all around.
+~
+0 DPJ 0
+D2
+Valhalla is to the south.
+~
+door~
+1 -1 1217
+S
+#1208
+A Sea Cave~
+  You are in a small cave in the cliff next to a deep green sea.  Fine
+gold and pink sand blanket the floor.  Shells are scattered and strewn
+about.  A blow hole in roof of the cave allows beams of light to stream
+in and illuminate the cave.  The wind blows outside the entrance, but
+you are protected from the weather in your cozy cave.  The foamy surf
+never seems to quite reach your feet.  Several boulders here have been
+worn by time into a shape similar to a comfortable chair.
+~
+0 DPJ 0
+D0
+Valhalla lies to the north.
+~
+door~
+1 -1 1203
+S
+#1209
+Office of WarBird/Thanatos (The War Room)~
+  This is where WarBird and Thanatos plan strategy. The rooms walls are
+just giant bookcases. Deep comfortable chairs form a half circle round a
+crackling fireplace. Prominantly displayed is a large painting of Thanatos
+because people often forget what the absentee immort looks like. Lastly you
+notice two huge oaken desks strewn with toy cannons, books of military
+history and various battle maps.
+There is a sign on the wall.
+~
+0 PDJ 0
+D2
+Valhalla lies to the south.
+~
+door~
+1 -1 1203
+E
+sign~
+The sign says:
+
+And please.
+No smoking.
+~
+S
+#1210
+Bigfoot's Office~
+  The first thing you notice about this office is the floor; it
+is a black & white checkerboard pattern, with 8 squares to a side.  The
+south wall is a HUGE picture window that produces a magnificent view of 
+the land.  In front of the window is a large desk.  Completely covering
+the east wall is a bookshelf, that is crammed full.  In the northwest
+corner, you notice a statue.
+~ 
+0 DJP 0
+D0
+Valhalla is to the north
+~
+door~
+1 -1 1217
+E 
+bookshelf~
+This is the most amazing collection of chess books you have ever seen.
+Everything from Damiano's manuscripts, to a complete collection of the
+Encyclopedia of Chess Openings, to the latest Imformants are all here.
+~
+E 
+statue~
+You recognize this as a statue of Robert James Fischer, one of the most 
+creative, if not eccentric, players of all time.  The inscription on the
+base reads, "I like the moment when I crush a man's ego."
+~
+E 
+desk~
+This desk is much larger than anyone could possibly need.  At one end you 
+notice a large, disorderly mass of papers; it must be all his immortal
+paperwork.  At the other end is a magnificent wooden inlaid board with
+handcrafted ebony and hardwood pieces.
+~
+S
+#1211
+Arena of Judgement~
+The scene lain before you is one that gives you the feeling of being placed
+under a higher authority.  The jury is out.  A statue of Pontius Pilate is
+in the aft of the Arena.  Staring balefully, the statue faces a distant
+hillside where many aged crosses still stand.  The Arena is set in a wide
+pit-like field of trampled bloodstained grass, and is guarded by high walls
+of veinous marble.  A bloodstone seat awaits the true paragon of Romanity.
+~
+0 DJP 0 
+D2
+Valhalla is to the south.
+~
+door~
+1 -1 1218
+E
+statue~
+A statue of Pontius Pilate is here.  On it's face is the expression of some
+age old contemplation.  Standing at the statues bronzy feet is a Blood red
+shield that glimmers like a pool of blood.
+~
+S
+#1212
+The Realm of the Dead~
+You are standing on an immense, grey stone floor that stretches as far as you
+can see in all directions.  Rough winds plunging from the dark, starless sky
+tear savagely at your fragile body.
+~
+69 DN 0
+D0
+The hard floor seems to go on forever.
+~
+~
+0 -1 1212
+D1
+The hard floor seems to go on forever.
+~
+~
+0 -1 1212
+D2
+The hard floor seems to go on forever.
+~
+~
+0 -1 1212
+D3
+The hard floor seems to go on forever.
+~
+~
+0 -1 1212
+E
+floor~
+The stone floor is the same shade of grey as the sky and is completely plain
+and unscratched.  It is probably too hard for anything to leave as much as a
+scratch on it.
+~
+E
+sky wind winds~
+Cold winds plunge ceaselessly at you from the dark, cloudless sky.
+~
+S
+#1213
+Asgard~
+   You stand on a huge expanse of glass.  Below you are clouds and the 
+pains of mortality.  As you stand in Asgard, home of the bravest of the
+brave, you are frozen in awe of the power held within these walls.  A 
+huge mansion lies to the east beyond a set of magnificent golden doors. 
+~
+0 0 0
+D0
+The Bottom of the Rainbow
+~
+~
+0 -1 1900
+D1
+The golden doors of Valhalla are to the east
+~
+~
+0 -1 1216
+D2
+Moses' hangout is to the south.
+~
+~
+0 -1 1201
+D3
+The center of the universe is to the west.
+~
+~
+0 -1 1202
+D5
+The Rainbow Bridge is below you.  You can barely see it through the clouds.
+~
+~
+0 -1 1215
+S
+#1214
+The Room of Lost Souls~
+  This is the room full of souls that never made it to Asgard.  They are 
+trapped here eternally, left to wander about in misery.  They were infidels
+and cowards.  Their cries of misery send a shiver down your spine.
+~
+0 D 0
+D5
+~
+~
+0 -1 1219
+S
+#1215
+Head of the Rainbow Bridge~
+  Standing on the mortal end of the Rainbow Bridge, the bridge arches up 
+before you and seems to disappear into the clouds.  You wonder if it is 
+wise to venture upward into the realm of the gods.  But it seems so calm
+and peaceful here that it would be a shame to leave...
+~
+0 0 1
+D0
+The viewing gallery.
+~
+~
+0 -1 1222
+D4
+The Rainbow Bridge stretches ahead before you.
+~
+~
+0 -1 1220
+D5
+The altar of Midgaard is below you.
+~
+~
+0 -1 3054
+S
+#1216
+The Entrance of Valhalla~
+  The huge ornate entrance of Valhalla is before you.  It seems as though
+atleast eight-hundred soldiers could walk abreast of one another through
+these doors. You stare in awe at the sparkling mansion before you.  You
+wonder what secrets are held behind these doors and long to hear the stories
+of bravery and glory that you know are kept within the walls of Valhalla.
+~
+0 P 1
+D3
+Asgard lies to the west.
+~
+~
+0 -1 1213
+D1
+Valhalla lies to the east.
+~
+~
+0 -1 1203
+S
+#1217
+Valhalla~
+  You are standing in the halls of Valhalla.  Pictures of Odin, Thor, Tyr,
+Loki, Freyr, Feyja, and Balder line the walls.  The cavernous hall extends
+to the east and west.  Rooms belonging to the gods lie to the north and 
+south.  There appears to be an exit above you, but you do not know what is
+up there...
+~
+0 P 0
+D0
+Lisa's room is north of here.
+~
+door~
+1 -1 1207
+D1
+Valhalla continues east.
+~
+~
+0 -1 1218
+D2
+Bigfoots' room is south of here.
+~
+door~
+1 -1 1210
+D3
+Valhalla continues west.
+~
+~
+0 -1 1203
+D4
+If you want to know what is up there you shall have to go and look...
+~
+~
+0 -1 1212
+S
+#1218
+Valhalla~
+  You are standing in the halls of Valhalla.  Tapestries of the gods line
+the walls.  A statue of Odin is here.  The halls continue to the east and
+west, and there are doors to the north and south of you.  There is some 
+sort of exit above you, but you do not know where it leads...
+~
+0 P 0
+D0
+Pontius' room is north of here.
+~
+door~
+1 -1 1211
+D1
+Valhalla continues east.
+~
+~
+0 -1 1219
+D2
+Priscilla's Pleasure Palace is south of here.
+~
+door~
+1 -1 1204
+D3
+Valhalla continues west.
+~
+~
+0 -1 1217
+D4
+If you want to know what is up there you shall have to go up and see...
+~
+~
+0 -1 2
+E
+statue odin~
+The statue of Odin has been exquisitely crafted.  It is of white marble
+with black and gold veins.  It looks to be of magical origin.
+~
+S
+#1219
+Valhalla~
+  You have reached the end of the halls of Valhalla.  There are heavy doors
+on 3 walls.  They lead into the rooms of the gods.  The hall goes back to
+the west, and there is some sort of an exit above you.  Torches sputter
+softly and the scent of incense is strong here.
+~
+0 P 0
+D0
+Melancholys' room is north of here.
+~
+~
+0 -1 3161
+D1
+Inside the wardrobe
+~
+~
+0 -1 30001
+D2
+The Temple of Stupid is south of here.
+~
+~
+0 -1 3170
+D3
+Valhalla goes back to the west.
+~
+~
+0 -1 1218
+D4
+If you want to know what is up from here, you shall have to go up and see...
+~
+~
+0 -1 1214
+S
+#1220
+On the Rainbow Bridge~
+  You have reached the center of the Rainbow Bridge.  Clouds and mist swirl
+around your feet.  The view from here is incredible.  It is little wonder 
+that the heavens were saved for the gods personal pleasures.
+~
+0 0 1
+D0
+The Chat Room
+~
+~
+0 -1 1200
+D4
+The Rainbow Bridge continues upwards into the heavens.
+~
+~
+0 -1 1221
+D5
+The Rainbow Bridge disappears down into the clouds.
+~
+~
+0 -1 1215
+E
+clouds~
+The clouds are beautiful.  There are shades of gray, pink and purple swirled
+into the blue sky.
+~
+S
+#1221
+The End of the Rainbow Bridge~
+  You have reached the end of the Rainbow Bridge.  Asgard stretches out above 
+you.  Looking around, you search for the legendary guardian of Asgard.  The
+clouds are far below you and a sense of beauty and peacefulness surrounds you. 
+Over to the north, beyond a glistening golden walkway, you see the vast
+stone arch of a temple, topped by a glistening dome. 
+~
+0 0 -1
+D0
+Towards the golden walkway.
+~
+~ 
+0 -1 200
+D4
+Asgard is above you, spread out in all its glory.
+~
+~
+0 -1 1213
+D5
+Bifrost, the Rainbow Bridge leads down to the Temple of Isca.
+~
+~
+0 -1 1220
+S
+#1222
+The viewing gallery~
+You stand on a high balcony. Below you is the combat room, from here 
+you can see all that goes on below during the duels.
+~
+0 0 -1
+D2
+Head of the rainbow bridge.
+~
+~
+0 -1 1215
+S
+
+#1263
+The Villa Straylight~
+You stand at the Villa Straylight's silicon core, in a small room.  On a
+plain pedestal of glass, rests an ornate bust of platinum and cloisonne,
+studded with lapis and pearl.  You notice that the back of the head has a
+socket in it in a compartment that is open.  The head is reading an ESSAY
+in a musical voice.  No one else seems to be around, and there doesn't
+appear to be any exits, so it looks like you will be here for awhile.
+~
+0 CDJNP 0
+E
+essay~
+The Villa Straylight is a body grown in upon itself, a Gothic folly.  Each
+space in Straylight is in some way secret, this endless series of chambers
+linked by passages, by stairwells vaulted like intestines, where the eye is
+trapped in narrow curves, carried past ornate screens, empty alcoves... The
+architects of Freeside went to great pains to conceal the fact that the
+interior of the spindle is arranged with the banal precision of furniture
+in a hotel room.  In Straylight, the hull's inner surface is overgrown with
+a desperate proliferation of structures, forms flowing, interlocking,
+rising toward a solid core of microcircuitry, our clan's corporate heart, a
+cylinder of silicon wormholed with narrow maintenance tunnels, some no
+wider than a man's hand.  The bright crabs burrow there, the drones, alert
+for micromechanical decay or sabotage.  By the standards of the
+archipelago, ours is an old family, the convolutions of our home reflecting
+that age.  But reflecting something else as well.  The semiotics of the
+Villa bespeak a turning in, a denial of the bright void beyond the hull.
+Tessier and Ashpool climbed the well of gravity to discover that they
+loathed space.  They built Freeside to tap the wealth of the new islands,
+grew rich and eccentric, and began the construction of an extended body in
+Straylight.  We have sealed ourselves away behind our money, growing
+inward, generating a seamless universe of self.  The Villa Straylight knows
+no sky, recorded or otherwise.  At the Villa's silicon core is a small
+room, the only rectilinear chamber in the complex.  Here, on a plain
+pedestal of glass, rests an ornate bust, platinum and cloisonne, studded
+with lapis and pearl.  The bright marbles of its eyes were cut from the
+synthetic ruby viewport of the ship that brought the first Tessier up the
+well, and returned for the first Ashpool...
+~
+S
+
+#0
+
+#RESETS
+
+* Heimdall
+M 0 1200 1 1221 1  1 	    Heimdall at the rainbow bridge  
+*
+* Doors
+D 0 1204 0 1
+D 0 1218 2 1
+*
+D 0 1207 2 1
+D 0 1217 0 1
+*
+D 0 1208 0 1
+D 0 1203 2 1
+*
+D 0 1209 2 1
+D 0 1203 0 1
+*
+D 0 1210 0 1
+D 0 1217 2 1
+*
+D 0 1211 2 1
+D 0 1218 0 1
+S
+
+#$

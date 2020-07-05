@@ -1,0 +1,1030 @@
+#AREA 
+lore.are~
+Lore Keep~
+[Clans] Lore Keep~
+30150 30199
+
+#MOBILES
+
+#30150
+Lorebinder~
+a Lorebinder~
+A Lorebinder stands here waiting to train you.
+~
+A small dimunative hobbit sits in a chair to one side. She looks very 
+old and wise. She stands as you enter the room, and smiles at you.
+~
+hobbit~
+BGCQ DFHN 0 0
+90 45 10d100+10000 10d20+600 9d10+40 divine
+-50 -50 -50 -40
+FHU ABQ JK 0
+stand stand female 1500
+0 0 small 0
+
+#30151
+novice~
+a novice of the Lore~
+A novice of the Lore is wandering around
+~
+A young fresh-faced novice is wandering around. Can you help?
+~
+human~
+GHT 0 0 0
+8 4 2d5+100 1d1+100 2d5+5 slash
+-5 -5 -5 -5
+EFKU ABQ 0 0 
+stand stand male 1
+0 0 medium 0
+
+#30152
+initiate~
+a Lore initiate~
+An initate of the Lore stands here.
+~
+A pretty initiate of the Lore stands deep in thought. She turns to you 
+and smiles.
+~
+elf~
+BGCNQ N 0 0
+30 15 30d5+750 30d10+300 4d7+15 slice
+-15 -15 -15 -15
+EFU ABQ 0 0
+stand stand female 500
+0 0 medium 0
+
+#30153
+initiate~
+a Lore initiate~
+An initiate of the Lore stands here.
+~
+A stocky initiate of the Lore is engrossed in a book. He looks up and 
+glares at you as you enter.
+~
+dwarf~
+BGCNQ N 0 0
+30 15 1d1+749 1d1+299 6d5+15 slash
+-15 -15 -15 -15
+CDIU ABQ O O
+stand stand male 500
+0 0 medium 0
+
+#30154
+protector~
+a Lore protector~
+A protector of the Lore stands here.
+~
+A huge robed minotaur stands brooding. His eyes blaze with intellect. Do 
+not waste his time. 
+~
+minotaur~
+BCGHT DFHN 0 0
+60 30 1d1+3000 1d1+550 10d6+25 whip
+-25 -25 -25 -20
+CDEKU ABQ 0 0
+stand stand male 1000
+0 0 medium 0
+
+#30155
+protector~
+a Lore protector~
+A protector of the Lore stands here.
+~
+A wise looking white wolf stands before you. His dark blue eyes consider 
+you as you enter.
+~
+wolf~
+BCGHT DFHNV 0 0
+75 40 40d5+5500 40d5+500 9d8+40 bite
+-40 -40 -40 -30
+EFIKP ABQ 0 0
+stand stand male 2000
+0 0 medium 0
+
+#30156
+protector~
+a Lore protector~
+A protector of the Lore stands here.
+~
+An old battle scarred orc stands here. Fear him not, he is an ally.
+~
+orc~
+BCGHR HN 0 0
+50 25 1d1+2000 1d1+499 10d6+25 whip
+-25 -25 -25 -10
+CEI ABQ 0 X
+stand stand neutral 1000
+0 0 medium 0
+
+#30157
+lorebinder~
+a lorebinder~
+A lorebinder stands here waiting to advise you.
+~
+You see before you a very, very old elf wearing grey robes. He has a 
+long white beard and he radiates peace and serenity. He stands as you 
+enter, leaning on a huge oak staff.
+~
+elf~
+BGCR DFHNV 0 0
+100 50 40d5+8000 40d5+1000 10d10+50 hit
+-50 -50 -50 -50
+EFHK ABQ C 0
+stand stand male 4000
+0 0 medium 0
+
+#30158
+wizened shopkeeper~
+a wizened shopkeeper~
+A wizened shopkeeper stands here waiting to serve you.
+~
+You see before you a very, very old human wearing faded purple robes. He
+has a long white beard and he is pouring over some documents, He looks
+up with a faint expression of annoyance on his face as you enter.
+~
+human~
+BGRU CDEFHVZ 0 0
+90 50 20d5+7000 40d5+1000 10d10+50 0
+-100 -100 -100 -100
+ACEFKLP ABCDEHIKLPO 0 0
+stand stand male 10000
+0 0 medium 0
+
+#0
+
+#OBJECTS
+
+#30150
+robes red material pile~
+|Rflowing red robes of the Lore|w~
+A pile of red material lies here.~
+cloth~
+armor AG AK
+2 2 2 2 0
+5 5 450 P
+A
+4 1
+
+#30151
+robes green material~
+|Gflowing green robes of the Lore|w~
+A pile of green material lies here.~
+cloth~
+armor AG AK
+10 10 10 8 0
+25 5 2500 P
+A
+4 1
+A
+12 15
+
+#30152
+robes material blue~
+|Cflowing blue robes of the Lore|w~
+A pile of blue material lies here.~
+cloth~
+armor AG AK
+15 15 15 15 0
+55 5 7000 P
+A
+3 1
+A
+4 1
+A
+12 25
+
+#30153
+robes indigo material~
+|Bflowing indigo robes of the Lore|w~
+A pile of indigo material lies here.~
+cloth~
+armor AB AK
+20 20 20 20 0
+90 5 15000 P
+A
+12 50
+A
+13 20
+
+#30154
+gloves satin~
+a pair of fine satin gloves~
+A pair of fine satin gloves lie here.~
+cloth~
+armor AB AH
+10 10 10 10 0
+90 5 10000 P
+A
+12 35
+A
+13 25
+
+#30155
+axe~
+the axe of the Protector of the Lore~
+A huge, awesome looking axe is here.~
+steel~
+weapon AB AN
+'axe' 6 10 'chop' D
+60 30 8000 P
+A
+18 2
+A
+19 2
+
+#30156
+ring enlightenment band gold~
+the ring of enlightenment~
+A small band of gold lies here.~
+gold~
+armor AG AB
+10 10 10 10 0 
+30 2 3000 P
+A
+3 1
+A
+4 1
+
+#30157
+amulet silver pendant~
+|Wthe amulet of the Lore Binder|w~
+A silver pendant lies here.~
+silver~
+armor ABG AC
+20 20 20 20 0
+90 3 9000 P
+A
+12 45
+
+
+#30158
+staff oak~
+|Wthe staff of the Loremaster|w~
+A huge oak staff with runes carved upon its surface rests here.~
+wood~
+light ABG AN
+0 0 999 0 0
+90 25 9000 P
+A
+2 1
+A
+18 1
+A 
+19 1
+
+#30159
+shield~
+the shield of the protector of the Lore~
+A beautifully crafted shield featuring a gold star glistens.~
+bronze~
+armor AB AJ
+15 15 15 15 0
+50 15 5000 P
+
+#30160
+cloak silk~
+cloak of the Protector of the Lore~
+A beautiful silk cloak has been discarded.~
+cloth~
+armor ABG AC
+16 16 16 16 0
+60 9 6000 P
+A
+2 1
+A
+5 1
+
+#30161
+boots leather~
+the boots of an initiate of the Lore~
+A pair of sturdy leather boots lie on the ground.~
+leather~
+armor AB AG
+10 10 10 10 0
+30 10 3000 P
+A
+5 2
+
+#30162  
+red potion blood~
+a red potion~
+A red potion labelled "dragons blood" sits here.~
+glass~
+potion 0 AO
+15 "stone skin" shield~ 0 0
+16 5 1 P
+
+#30163
+green potion vial fighting brew~
+a green potion~
+A vial containing a green liquid, labelled "fighting brew" rests here.~
+glass~
+potion 0 AO
+15 frenzy~ haste~ 0 0
+16 5 1 P
+
+#30164
+blue potion flask key~
+a blue potion~
+A flask full of a blue liquid labelled "the key to all doors".~
+glass~
+potion 0 AO
+12 "pass door" 0 0 0
+12 5 1 P
+
+#30165
+golden key~
+a golden key~
+A small golden key has been carelessly dropped here.~
+gold~
+key B AO
+0 0 0 0 0
+1 5 0 P
+
+#30166
+steel key~
+a steel key~
+A small, steel key on a golden chain is here.~
+steel~
+key B AO
+0 0 0 0 0
+1 5 0 P
+
+#30167
+chest~
+an iron bound chest~
+An iron bound chest lies in the corner of the room.~
+iron~
+container 0 0
+150 15 30165 0 0
+1 5 0 P
+
+#30168
+chest~
+a large metal chest~
+A large metal chest lies in the corner of the room.~
+iron~
+container 0 0
+250 15 30169 0 0
+1 5 0 P
+
+#30169
+black key~
+a black key~
+A black key is here.~
+steel~
+key B AO
+0 0 0 0 0
+1 5 0 P
+
+#30170
+chest~
+a large oak chest~
+A large oak chest rests in the centre of the room.~
+wood~
+container 0 0
+200 15 30166 0 0
+1 5 0 P
+
+#30171
+oak table~
+a large oak table~
+You see a large oak table with dirty plates and cutlery on it.~
+wood~
+furniture 0 0
+0 0 0 0 0
+1 250 100 W
+
+#30172
+ornate throne golden dazzling~
+the beautiful throne of the Loremaster~
+Before you is the dazzling golden throne of the Loremaster. ~
+gold~
+furniture 0 0
+0 0 0 0 0
+93 5000 900 W
+E
+throne~
+This vast, glorious seat has been formed from great slabs of the
+finest gold, mined by only the bravest of Xanian dwarves. Below the 
+armrests and behind the head piece are intricate lacings of golden 
+thread which are emblazoned with ancient runic symbols which you
+cannot comprehend. The air around this marvel of furnishings seems
+itself to glow with a radiance of power and wisdom.
+~
+
+#30173
+waterfall~
+a large cascading waterfall~
+A waterfall of crystal clear water, cascading over the rockface.~
+stone~
+fountain 0 0
+999 999 0 0 0 
+1 0 0 P
+
+#30174
+armour scroll~
+a scroll of GOD's armour~
+An old scroll lies in tatters here.~
+paper~
+scroll 0 AO
+10 'armor' 0 0 0
+10 6 10000 P
+
+#30175
+strength scroll~
+a scroll of GOD's strength~
+An old scroll lies in tatters here.~
+paper~
+scroll 0 AO
+18 'giant' 0 0 0
+18 6 18000 P
+
+#30176
+speed scroll haste~
+a scroll of GOD's speed~
+An old scroll lies in tatters here.~
+paper~
+scroll 0 AO
+26 'haste' 0 0 0
+26 6 26000 P
+
+#30177
+wrath scroll frenzy~
+a scroll of GOD's wrath~
+An old scroll lies in tatters here.~
+paper~
+scroll 0 AO
+35 'frenzy' 0 0 0
+35 6 35000 P
+
+#30178
+stone skin scroll~
+a scroll of GOD's skin~
+An old scroll lies in tatters here.~
+paper~
+scroll 0 AO
+45 'stone skin' 0 0 0
+45 6 45000 P
+
+#30179
+heal scroll~
+a scroll of GOD's healing touch~
+An old scroll lies in tatters here.~
+paper~
+scroll 0 AO
+52 'heal' 0 0 0
+52 6 60000 P
+
+#30180
+radar scroll locate~
+a scroll of GOD's radar~
+An old scroll lies in tatters here.~
+paper~
+scroll 0 AO
+60 'locate object' 0 0 0
+60 6 75000 P
+
+#30181
+undo spell scroll purging~
+a scroll of GOD's purging power~
+An old scroll lies in tatters here.~
+paper~
+scroll 0 AO
+70 'undo spell' 0 0 0
+70 6 90000 P
+
+#30182
+blessing scroll~
+a scroll of GOD's blessing~
+An old scroll lies in tatters here.~
+paper~
+scroll 0 AO
+75 'bless' 0 0 0
+75 6 110000 P
+
+
+#0
+
+#ROOMS
+#30150
+Stone path~
+You stand on an old stone path leading north towards a very small round 
+tower. The pathway has been heavily worn by the elements and the
+pounding of a thousand feet, but the thick tangle of bracken and 
+musty grey tree branches on either side appear to be preserved.
+~
+30 0 4
+D0
+~
+~
+0 -1 30165
+D2
+~
+~
+0 -1 6151
+S
+
+#30151
+The Courtyard~
+You enter a broad courtyard and are suddenly overcome with awe. The 
+place is huge, more than huge, it's unfathomable. Just how did they fit 
+such a huge room within the confines of such a small tower? Beneath 
+your feet a huge marble chequered floor stretches beyond you, making you 
+feel even more like a small pawn in a very big game. Above you the 
+ceiling depicts the incredible scene of the raging dragon wars. Strangely 
+despite the enormity of the place you feel at peace in the sanctuary of 
+this place.
+~
+30 D 0
+D0
+The archway leads north to the great altar.
+~
+~
+0 -1 30152
+D1
+The archway leading to the eastern passageway.
+~
+~
+0 -1 30153
+D2
+The entrance to the temple through the secret door.
+~
+door portcullis~ 
+1 -1 30165
+
+D3
+The archway leading to the western passageway.
+~
+~
+0 -1 30154
+S
+
+#30152
+At the altar of the Keepers of the Lore~
+Before you stands the altar of the Keepers of the Lore. A beautiful 
+waterfall is in front of you cascading from up high. The ceiling is 
+glass and the sun beaming through it produces a rainbow in the mist 
+of the falls. This room is quite busy with Lore members moving to and 
+fro. Others just sit and read in the tranquility of this room.
+One of the walls has a plaque on it, next to the plaque is an elegant 
+stone statue of a mighty hero.
+~
+30 D 0
+D0
+A secret passage lies here through the waterfall.
+~
+secret~
+1 -1 30155
+D2
+The archway leads south to the courtroom.
+~
+~
+0 -1 30151
+E
+plaque~
+--|----------------------------------------------------|--
+  | The foundations for this great temple were created |
+  |  by the legendary |RTanis|w, the great Loremaster  |
+  |    of Xania, with help from the mystical XXX.      |
+--|----------------------------------------------------|--
+~
+E
+statue tanis~
+This is a very life like statue carved in marble. It depicts an elf 
+dressed in full battle atire. You shudder as you consider what a 
+fearsome foe he would make. 
+~
+S
+
+#30153
+Eastern passage~
+You are in a marble floored passageway. Ahead of you the sounds of 
+plates and dishes crashing can be heard. To the north of you is a finely 
+crafted archway through which many strange smells are emanating.
+~
+30 D 0
+D0
+Through the archway you can see a chemistry lab.
+~
+~
+0 -1 30157
+D1
+You see a large canteen to the east.
+~
+~
+0 -1 30158
+D3
+The archway leading to the courtyard.
+~
+~
+0 -1 30151
+S
+
+#30154
+Western passageway~
+You are in a marble floored passageway. The corridor is lit by 
+flickering torches set in brackets on the walls.  The corridor continues 
+both to the north and west. There are oak doors set in the north and 
+west walls.
+~
+30 D 0
+D0
+You see a large oak door, on which the word "LIBRARY" is stencilled in gold.
+~
+door north~
+1 -1 30160
+D1
+This is the archway leading back to the courtyard.
+~
+~
+0 -1 30151
+D3
+You see a solid oak door.  A sign on the door reads "SPARING ROOM".
+~
+door west oak~
+1 -1 30162
+S
+
+
+#30155
+The passageway~
+This is a small passage carved out of the rock. It is damp from the 
+waterfall, and you can smell mildew and moss. A light can be made out 
+ahead of you.
+~
+30 D 0
+D0
+The secret study lies to the north.
+~
+~
+0 -1 30156
+D2
+The secret passge thought the waterfall lies to south.
+~
+secret~
+1 -1 30152
+S
+
+#30156
+The secret study~
+This is a small study. There is a desk with a large pile of papers, and 
+several shelves which are so full of books they look in danger of collapsing.
+It is quite dark and cramped in here. A large oak chest sits in the corner.
+~
+30 D 0
+D2
+A dark entrance back towards the waterfall.
+~
+~
+0 -1 30155
+S
+
+
+#30157
+The chemistry lab~
+This large room is filled with the pungent smell of sulphur. Three large 
+oak tables are overloaded with glass tubes, burners and vials containing 
+many different coloured liquids. On the wall are parchments written in 
+languages you do not understand. Be careful you don't touch anything as 
+it may explode! A small archway lies to the north of you.
+~
+30 D 0
+D0
+A small archway lies ahead of you.
+~
+archway~
+1 -1 30159
+D2
+This is the entrance to the chemistry lab.
+~
+~
+0 -1 30153
+S
+
+#30158
+The Canteen~
+You are in a large room filled with tables and chairs. The smell of
+roasted chicken fills the air. This is the room where members eat and
+drink, and discuss things with each other. On the far wall you can see 
+tables loaded with fresh fruits and bottles of wine. A few people are
+here having a well earned meal.
+~
+30 D 0
+D0
+You see an open doorway to the north.
+~
+~
+0 1 30166
+D3
+You see a passageway to the west.
+~
+~
+0 -1 30153
+S
+
+
+#30159
+A small office~
+As was the case in the lab, this room is bristling with lab equipment. 
+On two wall are hundreds of draws, each neatly labelled with substances 
+that you haven't heard of. To one side is a small desk, and chair. The 
+desk is covered in papers. A large metal chest is in one corner of the room.
+~
+30 D 0
+D2
+This is the entrance to the chemistry lab.
+~
+~
+0 -1 30157
+S
+
+#30160
+The Library Of Enlightenment~
+This is a huge libary with a vaulted roof. In every direction you can 
+see books, tomes, manuscripts, scrolls and papers. The walls have beautiful 
+oak shelves that tower above you. In front of you are several rosewood 
+tables, with small lamps and ink wells resting upon then. You wonder at the 
+knowledge that is stored in this room. What stories these walls could tell 
+if they could only speak! There are several clan members mulling around the 
+room, and the silence is almost deafening.
+~
+30 D 0
+D0
+A small door is concealed in the oak panelling of this wall.
+~
+secret~
+1 -1 30161
+D2
+Library entrance~
+door entrance~
+1 -1 30154
+E
+rosewood table~
+This is a beautiful table. On the table are several weighty tomes. In 
+one corner "RAGNAR woz 'ere" has been carved into the wood. 
+~
+S
+
+#30161
+A small, secret room~
+This is a small gloomy room. To one side is a small altar where some 
+incense burns and fills the air with it's pungent smell. In the corner 
+of the room is a large red leather chair, with a small table next to it. 
+In another corner of the room is a small iron chest.
+~
+30 D 0
+D2
+The secret door back to the library
+~
+secret~
+1 -1 30160
+S
+
+#30162
+The sparing room~
+You enter a large oval shaped arena. As you survey the surroundings a 
+great feeling of power and fury engulfs you. The walls are aligned with 
+hundreds of weapons and pieces of armour all of which have undoubtedly 
+seen more than their fair share of bloodshed. The centre piece of the 
+display is a large painting depicting the overpowering of the dragon 
+lords, its image depicting the slain corpse of the dragon  lord leader 
+surrounded by numerous cheery face Xanians.
+~
+30 D 0
+D0
+A intricately carved wooden door.
+~
+north wooden door~
+1 -1 30163
+D1
+A solid oak door.
+~
+door east oak~
+1 -1 30154
+E
+large painting~
+The large painting displays an image of the final victory in the great 
+dragon wars. It is signed at the bottom in a barely legible script 
+"V.Van Moog".
+~
+S
+
+#30163
+The throne room~
+You enter a magnificent throne room. There is gold everywhere. So much, 
+in fact, that you have to shield your eyes from the glare. The room quite 
+literally oozes wealth, from the golden sculpture of the Loremaster to 
+the jewel encrusted ceiling. Dominating the centre of the room a large 
+throne stands atop a vast pyramid of steps before which a very scantily 
+clad french maid busily polishes the master's equipment!
+~
+30 D 0
+D0
+A barely noticable set of golden swing doors.
+~
+golden swing door~
+1 -1 30164
+D2
+An intricately carved wooden door.
+~
+wooden door~
+1 -1 30162
+E
+throne~
+The throne belongs to the Loremaster himself. It is the largest throne 
+ever built out of a single diamond and was shaped and designed by the 
+most accomplished and famous architect of Xania - "Mr Dickie Davies".
+~
+E
+master equipment~
+The kings equipment is boasted to be the largest and cleanest in the 
+land!
+~
+S
+
+#30164
+Gallery~
+You are in a splendid armour gallery.  It sets out to display the 
+progressive stages of armour development that have been witnessed in 
+Xania since the beginning of time. It begins with a rather sexy off 
+the shoulder number in pigskin, to the more up-to-date all over body 
+wrap in platinum. At the farthest end of the room a large glass cabinet 
+is set which claims to hold within it "A Vision of the Future", within 
+which two men, one in shiny black and one in long brown flowing robes are 
+battling with what seems like beams of light...|Wvery|w strange.... A 
+large sign is on one of the side walls, perhaps you should read it?
+~
+30 D 0
+D2
+The golden swing doors.
+~
+golden door~
+1 -1 30163
+E
+sign~
+This room is a DONATION ROOM. Please leave equipment and items you think 
+may be useful to other members. T.
+~
+S
+
+#30165
+Before the gates of Lore Keep
+[The Clan of Keepers of the Lore]~
+The silence of the forest of Haon Dor falls about your ears and you 
+become aware of the flickering shadows in the trees as the multitude
+of inhabitabts flit around, attempting to avoid you steely gaze. The
+community of deciduous and coniferous trees is interrupted here by 
+what appears to be a small, grey stone tower to your immediate north.
+A large, rusted portcullis covers the blackened entrance tunnel, but
+through it you can just about see a torchlit courtyard. A trail leads
+south through the trees.
+~
+30 D 0
+D0
+The Courtyard
+~
+door portcullis~
+1 -1 30151
+D2
+Stone path
+~
+~
+0 -1 30150
+S
+
+#30166
+The Old Scroll Shoppe~
+You stand in a large room that is literally filled to overflowing with
+paper. Scrolls fill a wall lined with pigeon-holes and labelled with
+archaic words you cannot decipher. Books are stacked in piles that rise 
+above you and threaten to topple at any moment. In one corner a man sits
+at a desk.
+~
+30 D 0
+D2
+You see an open doorway to the south.
+~
+~
+0 -1 30158
+S
+
+#0
+
+
+#RESETS
+* Hobbit Lorebinder in Lab Office
+M 0 30150 1 30159 1  1   
+E 1 30153 5 12
+E 1 30157 5 3
+E 1 30169 5 17
+* Novice of Lore
+M 0 30151 9 30158 1  1   
+E 1 30150 20 12
+M 0 30151 9 30158 1  1   
+E 1 30150 20 12
+M 0 30151 9 30151 1  1   
+E 1 30150 20 12
+M 0 30151 9 30152 1  1   
+E 1 30150 20 12
+M 0 30151 9 30152 1  1   
+E 1 30150 20 12
+M 0 30151 9 30160 1  1   
+E 1 30150 20 12
+M 0 30151 9 30160 1  1   
+E 1 30150 20 12
+M 0 30151 9 30163 1  1   
+E 1 30150 20 12
+M 0 30151 9 30163 1  1   
+E 1 30150 20 12
+* Half-elf Initiate in Gallery
+M 0 30152 1 30164 1  1   
+E 1 30151 10 12
+* Dwarf Initiate in Libary
+M 0 30153 1 30160 1  1   
+E 1 30151 10 12
+E 1 30161 10 8
+* Minotaur Protector in Lab
+M 0 30154 1 30157 1  1   
+E 1 30152 10 12
+E 1 30155 10 16
+* Wolf in Secret Study
+M 0 30155 1 30156 1  1   
+E 1 30152 10 12
+E 1 30157 10 3
+E 1 30166 10 17
+* Orc in Sparing Room
+M 0 30156 1 30162 1  1   
+E 1 30152 10 12
+E 1 30159 10 11
+* Elf Lorebinder in Secret Room
+M 0 30157 1 30161 1  1   
+E 1 30153 5 12
+E 1 30154 5 9
+E 1 30158 5 17
+E 1 30165 5 17
+* Chest in Hobbit's Office
+O 0 30168 1 30159
+P 1 30162 3 30168 1  1    
+P 1 30163 3 30168 1  1   
+P 1 30164 3 30168 1  1   
+* Chest in Wolf's Office
+O 0 30170 1 30156
+P 1 30161 3 30170 1  1   
+* Chest in Elf Lorebinder's Room
+O 0 30167 1  30161
+P 1 30162 3 30170 1  1   
+P 1 30163 3 30170 1  1   
+P 1 30164 3 30170 1  1   
+* Oak Canteen Table
+O 0 30171 1 30158
+* Loremaster's Throne
+O 0 30172 1 30163
+* Waterfall
+O 0 30173 1 30152
+*Shut some doors
+D 0 30165 0 1
+D 0 30151 2 1
+D 0 30152 0 1
+D 0 30155 2 1
+D 0 30154 0 1
+D 0 30160 2 1
+D 0 30154 3 1
+D 0 30162 1 1
+D 0 30160 0 1
+D 0 30161 2 1
+D 0 30162 0 1
+D 0 30163 2 1
+D 0 30163 0 1
+D 0 30164 2 1
+
+
+* Old man in scroll shoppe
+M 0 30158 1 30166 1 1
+G 1 30174 -1
+G 1 30175 -1
+G 1 30176 -1
+G 1 30177 -1
+G 1 30178 -1
+G 1 30179 -1
+G 1 30180 -1
+G 1 30181 -1
+G 1 30182 -1
+
+
+S
+
+#SHOPS 
+
+30158  0  0  0  0 0  115  100  0  23 ; The Old Man
+
+0
+
+
+#$
+#SPECIALS
+M 30150 spec_cast_cleric
+M 30156 spec_cast_mage
+M 30157 spec_cast_mage
+S
+#$

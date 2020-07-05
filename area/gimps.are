@@ -1,0 +1,4661 @@
+#AREA {20 91} Scourge    GimpVille~
+#MOBILES
+#7500
+statue gimp~
+a statue of Gimp~
+A statue of Gimp the Pulp Fiction Hero stands tall here.
+~
+You see a statue of Gimp.~
+human~
+BGR H -200 0
+79 10 60d10+13500 67d10+328 8d8+38 punch
+-247 -247 -246 -130
+ACDEFN B AINPQ K
+stand stand male 0
+0 0 4 0
+#7501
+thief~
+A thief~
+A thief is eying your wallet.
+~
+You see a shady looking individual, you get the feeling she would steal from 
+her own grandmother.  She is also very pretty.  She steals the hearts and 
+money of men.
+~
+human~
+CGHS PU -361 0
+28 1 5d10+669 1d1+150 5d4+8 stab
+-7 -8 -7 4 
+BEFIJKN 0 BP 0
+stand stand female 4567
+0 0 2 0
+#7502
+nobleman noble man~
+a nobleman~
+A nobleman of Gimpville walks by, ignoring your presence.  
+~
+This guy is as conceeded as you can get.  You are disgusted by his attitude,
+maybe you should introduce him to yours.
+~
+human~
+H 0 0 0
+29 0 6d12+777 1d1+100 2d12+8 pierce
+-9 -9 -8 5
+FIU 0 0 0 
+stand stand male 6374
+0 0 2 0
+#7503
+guard~
+A Gimpville guard~
+A loyal guard of Gimpville stands watch.
+~
+A strong, yet rather dumb looking guard.  To make them angry would surely be
+a mistake, but you have the feeling you could get away with murder right in 
+front of them.
+~
+human~
+GT cc 358 0
+38 2 10d10+1706 1d1+250 5d6+12 pound
+-13 -15 -12 4
+EFKQ N BOPQ 0
+stand stand neutral 1974
+0 0 2 0 
+#7504
+GimpII prince~
+GimpII~
+GimpII, the prince of Gimpville, observes the activities of his town.
+~
+The son of Gimp, he is a strong, arrogant individual, but is not as wise his
+father, and is inexperienced.  His most notable feature is that he appears to 
+be half dragon.
+~
+dragon~
+GT HNPcc -500 0
+52 20 35d10+5100 1d1+300 6d7+21 punch
+-23 -25 -24 -3 
+ACDEFIKLT 0 BILP 0
+stand stand male 11001
+AHMZ ABCDEFGHIJKUV 2 0
+#7505
+vendor bobby streetvendor~
+Bobby the street-vendor~
+Bobby the street-vendor is trying to sell you some junk.
+~
+A sleazy looking elf, he can sell a fridge to an Eskimo.
+~
+elf~
+BGS DHVaa -300 0
+41 10 25d10+2200 1d1+350 3d12+14 stab
+-20 -21 -20 -3
+BCDEFIKN BNQ FGHIJLRS 0
+stand stand male 17500
+0 0 2 0
+#7506
+shasta crazy cleric~
+Shasta the Crazy Cleric~
+Shasta the Crazy Cleric is here muttering to herself.
+~
+She was employed by Gimp himself.  After her husband was killed, she became
+slightly insane, yet Gimp couldn't bear to fire her.  She is dancing by herself
+while muttering obscenities to herself.
+~
+human~
+Qaa HPUcc 353 0
+22 22 5d10+410 22d10+100 2d8+5 divine
+-5 -6 -5 3
+HS 0 N AB
+stand stand female 120
+0 0 2 0
+#7507
+statue hero~
+A statue of Scourge~
+A larger than life statue of the Hero Scourge stands here.
+~
+He ascended to great power after the death of Gimp and took the Pulp Fiction
+crown.  However he was inexperienced, lost favor, and was striped of all
+powers.  He still lives in the form of a dragon,  but is very weak.  He was 
+Gimp's half-brother.
+~
+human~
+BGO H -475 0
+44 19 25d10+3300 44d10+100 8d4+15 wrath
+-15 -15 -15 4
+CFHK B 0 0 
+stand stand male 0
+0 0 3 0
+#7508
+statue shazam~
+A statue of Shazam~
+A statue of Shazam is in the corner.
+~
+Gimp's mother. Her disapperance, like Gimp's wife, is still a mystery.
+~
+human~
+BGQ H 350 0
+48 5 25d10+3777 48d10+100 6d6+17 divine
+-118 -118 -118 10
+KN B INP 0
+stand stand female 0
+0 0 2 0
+#7509
+Garlic Maniac Magician~
+Garlic the Magician~
+Garlic the Maniac Magician is casting spells.
+~
+He was Gimp's personal mage.  However, it is rumored that this wizard plots 
+to assainate GimpII and take over the Pulp-Fiction crown.
+~
+human~
+BCGR EHaacc -700 0
+80 25 60d10+16500 75d10+750 9d8+43 magic
+-60 -59 -60 -30
+ACFN AB MOPS 0
+stand stand male 2174
+0 0 2 0
+#7510
+hunchback~
+The hunchback~
+A hunchback is waiting for the hour.
+~
+A VERY muscular dwarf.  He is a loyal servant of this castle and would give his
+life to defend it.  He looks like he could crush you easily in his huge arms.
+~
+dwarf~
+BGS aa -210 0
+65 0 50d10+10250 60d5+100 8d7+55 beating
+-42 -44 -41 -16
+ACEFI B EN P
+stand stand male 0
+0 0 3 0
+#7511
+evil~
+The evil warrior~
+An evil warrior is fighting a good warrior.
+~
+A young warrior who hopes to be employed by Garlic the Magician.
+~
+human~
+BGT 0 -400 0
+25 0 5d10+600 25d5+100 2d10+7 slash
+-7 -7 -7 6
+DEIKQ 0 0 0 
+A
+stand stand neutral 38
+0 0 2 0
+#7512
+good warrior~
+The good warrior~
+The good warrior is fighting an evil warrior.
+~
+Still a teenager, this young warrior would give his life to GimpII.
+~
+human~
+BGT 0 400 0
+26 0 5d10+650 26d5+100 3d7+7 pierce
+-7 -7 -7 6
+DEIKQ 0 0 0 
+stand stand male 29
+0 0 2 0
+#7513
+ranger~
+A ranger~
+A ranger is here protecting nature
+~
+~
+human~
+BGT 0 450 0
+27 0 5d10+650 27d5+100 5d4+7 slice
+-8 -8 -8 6
+FIKLQ 0 0 0 
+stand stand neutral 34
+0 0 2 0 
+#7514
+darkstalker~
+A darkstalker~
+A darkstalker is here desecrating the land.
+~
+Some say they are the toughest to kill.  Fight and find out.
+~
+human~
+BGS 0 -450 0
+28 0 6d12+703 28d5+100 2d12+8 stab
+-8 -8 -8 6
+BENQ 0 0 0
+stand stand neutral 44
+0 0 2 0 
+#7515
+deathknight~
+The deathknight~
+A deathknight is breaking the law.
+~
+A knight who doesn't believe in being very lawful.
+~
+human~
+BGQ 0 -500 0
+23 0 5d10+450 23d5+100 3d6+6 pierce
+-6 -6 -6 6
+FKNQ 0 0 N
+stand stand neutral 50
+0 0 2 0 
+#7516
+knight~
+A knight~
+A knight in shining armor is here upholding the law.
+~
+She is in service to GimpII and abides by the laws of Gimpville.
+~
+human~
+BGQ 0 500 0
+24 0 5d10+500 24d5+100 2d10+6 pierce
+-6 -6 -6 6
+FKNQ 0 N 0
+stand stand female 23
+0 0 2 0 
+#7517
+passerby citizen passer~
+A passerby~
+A passerby is here looking at you strange
+~
+He is dressed in rather odd clothing.  He seems to be wondering why you are 
+equiped in medival gear.
+~
+human~
+B 0 360 0
+24 0 5d10+500 1d1+100 2d10+5 punch
+-5 -5 -6 7
+I 0 0 0
+stand stand male 81
+0 0 2 0
+#7518
+officer police~
+A police officer~
+A police officer is here making sure there is no trouble.
+~
+Gimpville's finest.  These cops are usually friendly, but they are quick to 
+catch the few criminals that attempt to make a dishonest living in Gimpville.
+~
+human~
+BT 0 490 0
+39 1 15d10+1850 1d1+100 5d6+13 blast
+-13 -13 -14 3 
+ELQTU B N 0
+stand stand neutral 18
+0 0 2 0 
+#7519
+Matt cashier~
+Matt the cashier~
+Matt the cashier is patiently waiting to ring up your order.
+~
+A short, but cute cashier.  To try to rip him off would be a mistake.
+~
+human~
+BC Hcc 550 0
+59 12 50d10+9500 59d5+100 8d6+36 punch
+-40 -39 -40 -12
+ACFIKN BP Q 0
+stand stand male 345
+0 0 2 0
+#7520
+kid punk~
+A punk kid~
+A punk kid is here wasting his money.
+~
+A scrawny kid with a big mouth.  
+~
+human~
+B 0 222 0
+21 0 4d10+355 1d1+100 4d4+5 beating
+-5 -4 -5 7
+F 0 0 0 
+stand stand neutral 15
+0 0 2 0 
+#7521
+ticket person~
+A ticket person~
+A ticket person is waiting to tear your ticket.
+~
+Dressed in a black usher's uniform, this person waits to tear your ticket, 
+and to keep people from sneaking in.
+~
+human~
+B N 313 0
+53 0 35d10+5500 1d1+100 6d7+20 pound
+-15 -16 -15 4
+CD B 0 0 
+stand stand neutral 12
+0 0 2 0 
+B
+#7522
+movie goer~
+A movie goer~
+A movie goer is enjoying the film.
+~
+~
+human~
+B JZ 353 0
+27 0 5d10+650 1d1+100 5d4+7 slash
+-8 -8 -8 6
+K 0 0 0 
+stand stand neutral 25
+0 0 2 0
+#7523
+movie goer~
+A movie goer~
+A movie goer is searching for the perfect seat.
+~
+Never satisfied, this person believes you are always too close or too far 
+from the screen.
+~
+human~
+H JZ 353 0
+27 0 5d10+650 1d1+100 5d4+7 slash
+-8 -8 -8 6
+K 0 0 0 
+stand stand neutral 70
+0 0 2 0 
+#7524
+seiskel gene~
+Gene Seiskel~
+Gene Seiskel is playing with his thumbs.
+~
+A skinny man with a receding hair line who likes to play with his thumbs.
+~
+human~
+B Z 381 0
+33 0 10d10+1100 1d1+100 6d4+10 punch
+-11 -11 -11 5
+N 0 S B
+stand stand male 21
+0 0 2 0
+#7525
+Ebert Roger~
+Roger Ebert~
+Roger Ebert is hogging all the popcorn.
+~
+A rather, er..., large man with gray hair and glasses.  He likes to eat popcorn
+and play with his thumbs.
+~
+human~
+B Z 388 0
+34 -1 10d10+1200 1d1+100 4d7+10 crush
+-11 -10 -11 5
+CI 0 S B
+stand stand male 19
+0 0 3 0
+#7526
+Becker Sy~
+Sy Becker~
+Sy Becker is looking at the movie.
+~
+A geeky looking movie reviewer on a local TV station in Springfield, MA.
+~
+human~
+B Z 344 0
+30 0 6d12+801 1d1+100 4d6+7 scratch
+-9 -9 -8 5
+FJ 0 0 0 
+stand stand male 20
+0 0 2 0 
+#7527
+girl counter~
+The girl behind the counter~
+A girl is standing behind the counter watching the clock.
+~
+A young blond girl of about 16 or 17.  She is chewing gum, and obviously is 
+bored, yet acts like she has more important things to do then wait on you.
+~
+human~
+B 0 250 0
+34 0 10d10+1200 1d1+100 4d7+10 slap
+-11 -11 -11 5
+K 0 C 0
+stand stand female 170
+0 0 2 0 
+#7528
+mosher~
+The mosher~
+A mosher is here...moshing.
+~
+Dressed in a sweaty t-shirt and flannel, this person is slamming into 
+everyone in sight.
+~
+human~
+GH aa 105 0
+24 1 5d10+501 1d1+100 2d10+6 smash
+-6 -7 -6 6
+CDI 0 E 0
+stand stand neutral 2
+0 0 2 0 
+#7529
+girl chick dancing~
+A dancing chick~
+A girl is here dancing in her own world.
+~
+She looks lost, probably stoned.  She is dancing so slow, she must be at a 
+different concert.  Maybe the music is better there.
+~
+human~
+H PU 411 0
+23 0 5d10+450 1d1+100 3d6+6 slap
+-6 -6 -6 6
+0 0 0 0 
+stand stand female 0
+0 0 2 0
+#7530
+spectator~
+A spectator~
+A spectator is head-banging to the music.
+~
+A spectator appears to be REALLY into the music.
+~
+human~
+GH Z 389 0
+21 0 4d10+360 1d1+100 4d4+5 pound
+-5 -5 -5 6
+F 0 0 0 
+stand stand neutral 11
+0 0 2 0
+#7531
+spectator~
+A spectator with bad seats~
+A spectator with lousy seats is trying to see the show.
+~
+This person will be trying to steal your seat when you go to the bathroom.
+~
+human~
+BG Z 381 0
+21 0 4d10+360 1d1+100 4d4+5 pound
+-5 -5 -5 6 
+DF 0 0 0 
+stand stand neutral 5
+0 0 2 0
+#7532
+aggro aggresive mosher~
+An aggro mosher~
+An aggressive mosher slams into you!
+~
+This guy thinks he's a tough guy and is looking for a fight.  
+~
+human~
+FG aa -349 0
+26 1 5d10+600 1d1+100 3d7+7 smash
+-7 -8 -7 6
+CDI 0 E 0 
+stand stand male 1
+0 0 2 0 
+#7533
+guard security~
+a security guard~
+A security guard is here to make sure no one gets on stage.
+~
+This person won't take s**t from no one, especially some freak in armor.
+~
+human~
+BF 0 227 0
+32 2 10d10+1010 1d1+100 6d4+9 slap
+-10 -10 -10 5
+DEKNT B 0 0 
+stand stand neutral 15
+0 0 2 0 
+#7534
+bodyguard guard~
+The bodyguard~
+The Gimps' bodyguard is here.
+~
+Hired to protect the band and to keep unwanted guests from coming backstage.
+~
+human~
+BF Hcc -200 0
+36 2 10d10+1450 1d1+100 3d10+12 cleave
+-12 -13 -11 5
+BK B 0 0 
+stand stand neutral 250
+0 0 2 0
+#7535
+guitarist gimps lead~
+The Lead Guitarist~
+The Lead Guitarist of the Gimps is jammin'.
+~
+She doesn't seem to mind that you are on stage, she is having too much fun 
+to care.
+~
+human~
+B HNcc -398 0
+52 3 50d10+5500 1d1+100 6d7+20 chop
+-23 -22 -22 2
+ACDK B M N 
+stand stand female 345
+0 0 2 0 
+#7536
+singer lead glen~
+Glen Gimp~
+The lead singer of the Gimps is singing...er...screaming.
+B
+~
+Glen Gimp, the lead singer of THE GIMPS.  He is huge, and looks tougher than
+Henry Rollins, and Danzig put together.
+~
+human~
+BCT Haacc -560 0
+83 5 60d10+14500 1d1+100 7d10+50 beating
+-59 -58 -60 -12
+CDEIN B MQ N
+stand stand male 1000
+0 0 3 0
+#7537
+bassist gimps~
+The bassist~
+The bassist of The Gimps is playing...bass.
+~
+Some tall dude. Everyone is watching the singer and the cute guitarist anyway.
+~
+human~
+B HNcc -401 0
+54 2 50d10+6500 1d1+100 7d6+23 slash
+-25 -24 -24 2
+ACDKN B M N
+stand stand male 415
+0 0 2 0
+#7538
+drummer gimps~
+The drummer~
+The drummer of The Gimps is pounding on the skins.
+~
+This guy has been going psycho for hours.  No wonder he's so skinny.
+~
+human~
+B HNV -403 0
+48 4 25d10+3750 1d1+100 6d6+18 pound
+-18 -18 -18 3
+DEFI B 0 0 
+stand stand male 412
+0 0 2 0 
+#7539
+cockroach roach~
+A cockroach~
+A cockroach scurries across the floor.
+~
+A big cockroach.  You have the urge to squash it because you know they were
+here before us, and will be here after we are gone.
+~
+centipede~
+CHR HPUZcc 0 0
+1 0 2d6+8 1d1+100 1d4+0 digestion
+8 10 8 10
+H Q CFGLQS E
+stand stand neutral 0
+AGO ACDFK 0 0 
+#7540
+Julie owner~
+Julie~
+Julie, the pet shop owner, is waiting to help you
+~
+A tall, pretty girl with very long light brown hair.
+~
+human~
+BC Ncc 500 0
+57 30 50d10+8000 57d5+100 6d8+24 slice
+-27 -27 -27 -7
+AEFHK BN CD 0
+stand stand female 2500
+0 0 2 0 
+#7541
+Cheesy~
+Cheesy~
+Cheesy is here displaying his handiwork.
+~
+Cheesy the weaponsmaster.  He seems like an honest gentleman, but there is just
+something about the name...
+~
+giant~
+BT 0 350 0
+56 1 50d10+8000 56d5+100 10d4+24 slash
+-26 -26 -27 0
+ADIN B 0 0 
+stand stand male 2700
+0 0 3 0
+#7542
+Cuathon~
+Cuathon the Magic Shop Owner~
+Cuathon, the owner of the Magic Shop, is here.
+~
+A nerdy looking magician.  He has appeared on the mud in other forms.
+~
+elf~
+BR 0 380 0
+55 2 50d10+6500 55d10+1000 6d7+20 stab
+-24 -25 -24 -7
+AK B 0 0 
+stand stand male 2424
+0 0 2 0
+#7543
+spider large~
+A spider~
+A very large spider is jumping about.
+~
+EEK! A spider! 
+~
+centipede~
+FG 0 -250 0
+21 0 4d10+360 21d2+100 4d4+5 bite
+-5 -5 -5 6
+DH 0 0 0 
+stand stand neutral 0
+AGP ACFKV 2 0 
+#7544
+flea~
+A flea~
+A flea is waiting to jump on top of you.
+~
+Not very large compared to other insects, but it has a tough hide.
+~
+centipede~
+BG H -290 0
+22 0 5d10+400 22d2+100 4d4+6 bite
+-5 -5 -5 6
+0 0 0 0
+stand stand neutral 0
+AGP ACFK 1 0 
+#7545
+head centipede~
+A centipede head~
+A centipede head is scurrying by.
+~
+What the?  A head of a centipede walking about on it's own.
+~
+centipede~
+GH 0 -225 0
+20 0 3d9+333 20d1+100 2d8+5 bite
+-4 -4 -4 7
+H 0 0 0 
+stand stand neutral 0
+0 0 1 0
+#7546 
+centipede~
+The centipede~
+OH NO! It's a giant centipede!
+~
+A huge centipede that loses sections as you kill it.
+~
+centipede~
+BCGee 0 -360 0
+25 -1 5d10+575 25d2+100 3d7+7 bite
+-7 -7 -7 6
+AD B 0 0 
+stand stand neutral 0
+0 0 3 0 
+#7547
+scorpian~
+a scorpian~
+A scorpian is racing by...WATCH THE STING!
+~
+An exetremly fast creature.  It's not really an insect, it belongs to that ...
+nevermind.
+~
+centipede~
+G V -350 0
+23 1 5d10+452 23d5+100 2d10+6 sting
+-6 -6 -6 6
+DH B L 0
+stand stand neutral 0
+BGP ABCFKQUV 2 0 
+#7548
+spider deeler~
+A deeler~
+A large spider drops out of a tree!
+~
+They are giant spiders that drop out of the trees and attack.
+~
+centipede~
+BFG 0 -350 0
+20 0 3d9+330 20d3+100 2d8+5 bite
+-4 -4 -4 7
+H 0 0 C
+stand stand neutral 0
+AGP ACDFKV 1 0 
+#7549
+Moblin red~
+A red moblin~
+A red moblin is throwing spears around.
+~
+A goblin that looks like a humanoid bulldog.
+~
+orc~
+BCGT 0 -375 0
+26 0 5d10+650 26d3+100 3d7+7 pierce
+-7 -7 -8 6
+EIU 0 0 0 
+stand stand neutral 2
+0 0 2 0 
+#7550
+moblin blue~
+A blue moblin~
+A blue moblin is throwing spears.
+~
+The elite of the moblins, they are tough and slightly smarter (which isn't
+saying much) than red moblins.
+~
+orc~
+T 0 -388 0
+27 0 6d12+703 26d3+100 5d4+7 pierce
+-8 -8 -8 6 
+EIU B 0 0 
+stand stand neutral 10
+0 0 2 0
+#7551
+octorok~
+an octorok~
+An octorok is spitting rocks at you!
+~
+a type of octopus that lives above ground.
+~
+human~
+FGH I -360 0
+24 0 5d10+500 24d2+100 2d10+6 blast
+-6 -6 -6 6
+CU 0 0 0 
+stand stand neutral 0
+AGc ADFKN 1 0
+#7552
+tektik~
+A tektik~
+A tektik is hopping about.
+~
+Basicly a head with legs.  Not very strong, but is annoying and jumps 
+around  alot.
+~
+human~
+B Y -351 0
+25 0 5d10+550 1d1+100 2d10+6 charge
+-7 -7 -6 6 
+DH 0 0 F
+stand stand neutral 0
+AGP ACDEFHK 1 0
+#7553
+goriya~
+A goriya~
+A goriya is here tossing boomerangs.
+~
+A tough little (sorta) devil that likes to knock it's oppenents silly
+with it's boomerang.
+~
+human~
+BGTee D -402 0
+30 1 6d12+938 30d5+100 4d6+8 chop
+-9 -9 -9 5 
+EF 0 0 0 
+stand stand male 15
+AHMV ABCDEFGHIJKV 2 0
+#7554
+stalfos~
+a stalfos~
+A stalfos is here.
+~
+A skeleton warrior that can somehow use a sword but is poor at
+handling a shield.
+~
+human~
+GHT 0 350 0
+28 0 6d12+780 28d1+100 2d12+8 pierce
+-9 -8 -9 5
+EK 0 FG E
+stand stand neutral 0
+AHIc ABCGHI 2 0
+#7555
+ironknuckle iron knuckle~
+An ironknuckle~
+An ironknuckle defends the palace.
+~
+An iron warrior who is a very strong and skilled advesary.
+~
+human~
+BTdd CHNaa 425 0
+35 1 10d10+1400 35d5+100 3d10+11 slash
+-14 -13 -14 3
+CEFKQU BN 0 0 
+stand stand neutral 59
+HM ABCGHIK 2 0 
+#7556
+bot~
+a bot~
+A bot lunges for you!!
+~
+a jelly-like monster, not very tough.
+~
+human~
+FG U -350 0
+3 0 2d6+36 1d1+100 1d6+0 digestion
+7 7 7 10
+0 0 0 0
+stand stand neutral 0
+AGS FK 1 0
+#7557
+Ganon~
+Ganon~
+Ganon is here challenging you to a duel to the death.
+~
+To disgusting, gross, and vile to describe.
+~
+giant~
+BGR Hcc -750 0
+45 2 25d10+3400 45d10+100 8d4+16 pound
+-25 -25 -25 -5
+ACDEFI B M N 
+stand stand male 9576
+BHMV ABCDEFGHIJKVUW 4 0 
+#7558
+zelda princess~
+Princess Zelda~
+The Lovely Princess Zelda is being held captive.
+~
+~
+human~
+BCGQ HN 600 0
+31 1 6d12+928 31d10+100 4d6+8 stab
+-10 -10 -10 0 
+EFK 0 N 0
+stand stand female 4856
+0 0 2 0
+#7559
+soldier former human~
+a soldier~
+A former human attacks!
+~
+Just a few days ago, you were probably swapping war stories with this guy,
+now it's time to swap some lead upside his head.
+~
+human~
+BFGT 0 -500 0
+50 1 35d10+4600 1d1+100 6d6+20 blast
+-20 -20 -20 0
+0 B 0 0 
+stand stand male 0
+0 0 2 0 
+#7560
+sergeant human former sarge~
+a sergeant~
+A former human sergeant attacks!
+~
+Meaner and tougher than soldiers, these walking shotguns provide you with a
+few extra holes if you're not careful!
+~
+human~
+GTee DZ -666 0
+56 1 35d10+6200 43d5+100 8d6+26 blast
+-25 -25 -25 -2
+ADF B 0 0
+stand stand male 1
+0 0 2 0
+#7561
+imp~
+an imp~
+An imp attacks!
+~
+You thought an imp was a cute little dude in a red suit with a pitch fork
+or a friendly mud administrator.  Where did this brown jerk come from?
+It intends to heave fireballs down your throat.
+~
+human~
+GTddee CDEFZ -900 0
+61 45d11+7545 46d10+100 8d6+29 5
+-30 -31 -30 -5
+ACDEFIK BH 0 IN
+stand stand neutral 0
+AHM ABCDEFGHIJKUW 2 0
+#7562
+demon~
+a demon~
+A demon bolts for you!
+~
+Sorta like a pink shaved gorilla, except with horns, a big head, lots of teeth,
+and harder to kill.  Don't get too close or it'll rip your friggin' head off.
+~
+demon~
+Gddee CDEPZ -990 0
+71 0 55d12+10000 51d5+100 6d8+44 chomp
+-41 -41 -41 -8 
+ACDG BH 0 IN
+stand stand neutral 0
+AHMV ABCDEFGHIKUVW 3 0
+#7563 
+spectre~
+a spectre~
+You see...something...running towards you.
+~
+A very vage form, resembling a demon.
+~
+demon~
+BGddee BCDEFZaacc -1000 0
+73 0 55d10+10600 53d5+100 6d8+44 chomp
+-43 -43 -43 -9
+ACDG BH 0 IN 
+stand stand neutral 0
+AHLM ABCDEFGHIKUVW 3 0
+#7564
+baron~
+a Baron of Hell~
+A baron of Hell screams and attacks!
+~
+Tough as a dump truck, and nearly as big, these goliaths are the worst things 
+on two legs since Tyrannosaurus Rex.
+~
+human~
+BCFGSddee CDEFHcc -1000 0
+90 25 65d15+14700 90d10+100 8d7+60 wrath
+-65 -65 -65 -30
+ABCEFIU ABH JM IN
+stand stand neutral 23487
+AHMV ABCDEFGHIKW 5 0 
+#7565
+baron~
+a baron of Hell~
+A baron of Hell screams and attacks!
+~
+Tough as a dump truck, and nearly as big, these goliaths are the worst things
+on two legs since Tyrannosaurus rex.
+~
+human~
+BFGQddee CDEFHNaa -1000 0
+90 19 65d15+14250 90d10+450 8d7+57 wrath
+-55 -55 -55 -38
+ADEJKNU ABH 0 IN
+stand stand neutral 23486
+AHMV ABCDEFGHIKW 5 0
+#7566
+mia wallace~
+Mia Wallace~
+Mia Wallace is dancing to a Neil Diamond re-make.
+~
+You see a beautiful woman with straight, shoulder length black hair.  She is
+wearing a long white jacket that shows off her figure.
+~
+human~
+BCG 0 -375 0
+37 0 10d10+1500 1d1+100 3d10+12 slash
+-12 -12 -12 5
+FN 0 0 0 
+stand stand female 675
+0 0 2 0 
+#7567
+Jules~
+Jules~
+Jules is here pointing a gun at Ringo.
+~
+A man with jerrycurls and sideburns.  He doesn't look like someone you should 
+mess with.
+~
+human~
+BGT H -500 0
+49 1 50d10+4200 1d1+100 4d10+18 pound
+-19 -19 -20 3 
+ACE 0 0 0 
+stand stand male 1500
+0 0 2 0 
+#7568
+pumpkin ringo~
+Ringo~
+Pumpkin is looking down the barrel of Jules's gun.
+~
+A middle-age, small-time con.  His plans to hold up this coffee shop do not
+seem to be working out.
+~
+human~
+BG 0 -400 0
+32 0 6d12+928 1d1+100 4d6+9 beating
+-10 -10 -10 5
+FK 0 0 0
+stand stand male 200
+0 0 2 0 
+#7569
+honeybunny honey bunny yolanda~
+Honeybunny~
+Honeybunny is standing on a counter pointing a gun at Jules.
+~
+The wife of Ringo, she is very excitable.
+~
+human~
+BG 0 -404 0
+33 0 10d10+1100 1d1+100 6d4+10 blast
+-11 -11 -11 5
+DIK 0 0 0 
+stand stand female 156
+0 0 2 0 
+#7570
+Vincent vega~
+Vincent Vega~
+Vincent Vega walks out of the bathroom.
+~
+A sleezy looking guy who know how to dance.
+~
+human~
+BCGT H -550 0
+47 1 25d10+3500 1d1+100 6d6+17 blast
+-16 -17 -16 3
+CDFN 0 0 0 
+stand stand male 1251
+0 0 2 0
+#7571
+jimmy~
+Jimmy~
+Jimmy is here looking a little distressed.
+~
+A dorky looking man who looks like he could direct movies.
+~
+human~
+BG H -300 0
+41 0 15d10+2000 1d1+100 4d6+14 slap
+-15 -16 -15 2
+DEJ B 0 0 
+stand stand male 200
+0 0 2 0
+#7572
+wolf man~
+The Wolf~
+The Wolf is here holding alot of cash
+~
+You see a well-dressed man who has money to buy what he wants.
+~
+human~
+BCGS H -501 0
+46 2 25d10+3250 1d1+100 6d6+16 punch
+-16 -16 -16 4
+ACDK 0 0 0 
+stand stand male 21834
+0 0 2 0 
+#7573
+gimp man leather~
+The Gimp~
+A man dressed in leather is here.
+~
+You see a man dressed head to toe in black leather.  The words "Bring out the
+Gimp" come to mind...
+~
+human~
+BGQ HN -450 0
+70 10 60d10+14500 70d10+100 8d8+37 whip
+-50 -50 -50 -13
+ACEFIN AB G H 
+sleep stand male 1
+0 0 2 0 
+#7574 
+Butch~
+Butch~
+Butch is here.
+~
+Bruce Willis with a really short crew-cut, enough said.
+~
+human~
+BGT H 0 0
+48 2 50d10+4000 1d1+100 6d6+20 punch
+-18 -20 -18 3
+CDFH 0 E P
+stand stand male 2000
+0 0 2 0
+#7575
+Marselis marsalis Wallace~
+Marsalis Wallace~
+Marsalis is far from okay.
+~
+A large, bald man.  He is the head guy in the movie, but you're not sure
+exactly what he does.
+~
+human~
+BG H -505 0
+50 0 50d10+4700 1d1+100 5d8+19 slice
+-20 -20 -20 3
+CIK 0 0 0
+stand stand male 28687
+0 0 2 0
+#7576
+sarah~
+Sarah~
+Sarah is here.
+~
+A young girl of about 11 or 12.  You think to yourself that she needs a new
+set of clothes.
+~
+human~
+H 0 455 0
+20 0 3d9+333 1d1+100 2d8+5 charge
+-4 -4 -4 7
+F 0 0 0 
+stand stand female 20
+0 0 2 0 
+#7577
+officer albret~
+Officer Albret~
+Officer Albret is eating a hot dog with onions.
+~
+A nice, honest policeman.  No wonder his boss doesn't like him.
+~
+human~
+BGT H 500 0
+35 0 10d10+1300 1d1+100 4d7+11 blast
+-11 -11 -11 5
+BET 0 0 0
+stand stand male 35
+0 0 2 0
+#7578
+Gabriel cat~
+Gabriel the cat~
+A white cat is purring on the counter.
+~
+Eric and Shelly's pet cat
+~
+cat~
+HU 0 0 0
+2 0 2d7+21 1d1+100 1d5+0 scratch
+8 8 8 10 
+0 0 0 0 
+stand stand male 0
+0 0 1 0
+#7579
+tin-tin tin tintin~
+Tin-Tin~
+Tin-Tin is walking through the alley looking for victims.
+~
+A bad-ass with dredlocks.  He was one of the four who murdered Eric and Shelly.
+He has a knife fetish.
+~
+human~
+BGT H -500 0
+45 3 25d10+3250 1d1+100 8d4+17 stab
+-15 -15 -15 4 
+CDIK 0 0 0 
+stand stand male 271
+0 0 2 0 
+#7580
+B
+skank~
+Skank~
+Skank is here.
+~
+He lives up to his name.  He is another one of T-bird's pals.  He is dumb as 
+a brick, and is high on speed.
+~
+human~
+GH 0 -500 0
+37 0 10d10+1500 1d1+100 3d10+12 beating
+-12 -12 -12 5
+DFJ 0 0 0 
+stand stand male 82
+0 0 2 0 
+#7581
+T-bird tbird~
+T-bird~
+T-bird is standing by his hotrod.
+~
+The leader of the gang of four who murdered Eric and Shelly.
+~
+human~
+BG 0 -502 0
+42 0 25d10+2250 1d1+100 3d12+14 blast
+-14 -14 -15 4
+CFN 0 0 0 
+stand stand male 512
+0 0 2 0 
+#7582
+Gideon~
+Gideon~
+Gideon is counting his money.
+~
+A fat, bald man.  He is scum, he buys items that thugs got from mugged 
+innocent victums and sells them.  Maybe you should kill him.
+~
+human~
+BG 0 -500 0
+30 0 6d12+853 1d1+100 4d6+8 blast
+-9 -8 -9 6 
+DI 0 0 0 
+stand stand male 413
+0 0 2 0 
+#7583
+darla~
+Darla~
+Darla is making out with FunBoy.
+~
+A waitress who is addicted to drugs, and neglects her daughter, Sarah.
+~
+human~
+BG 0 100 0
+22 0 5d10+400 1d1+100 4d4+6 slash
+-5 -5 -5 6 
+K 0 0 0 
+stand stand female 100
+0 0 2 0
+#7584
+Funboy boy~
+FunBoy~
+Funboy is making out with Darla.
+~
+A slimeball with long hair.  He is one of T-birds pals.
+~
+human~
+BG 0 -500 0
+40 0 15d10+1850 1d1+100 4d8+13 blast
+-13 -13 -13 4
+FI 0 0 0 
+B
+stand stand male 323
+0 0 2 0 
+#7585
+sister~
+Top-Dollar's sister~
+Top-Dollar's sister is here.
+~
+You know the saying "Incest is Best", well Top$ and his sister seem to
+believe that....ew.
+~
+human~
+BG 0 -500 0
+38 0 10d10+1600 38d5+100 5d6+12 blast
+-13 -13 -13 4
+CEFN 0 C 0
+stand stand female 1000
+0 0 2 0
+#7586
+bodyguard guard~
+Top-Dollar's bodyguard~
+Top-Dollar's bodyguard glares at you.
+~
+A large man in a gray suit and top-hat.  He also has a large gun.
+~
+human~
+BGT H -520 0
+51 5 50d10+5500 51d5+100 5d8+25 blast
+-22 -21 -21 1 
+CEFKN 0 0 0 
+stand stand male 4583
+0 0 3 0
+#7587
+Top Dollar topdollar~
+Top Dollar~
+Top Dollar is fighting Eric Draven!
+~
+The head villan in town.  T-bird answers to him, and he is responsible for
+what happened to Eric and Shelly.
+~
+human~
+BCGT H -600 0
+58 10 50d10+9500 58d5+100 5d10+26 punch
+-40 -40 -40 -5
+ACDEFK AB M N 
+stand stand male 62174
+0 0 2 0 
+#7588
+Eric draven crow~
+Eric Draven~
+The Crow, Eric Draven, is fighting Top Dollar!
+~
+Eric has been brought back from the dead by a crow to avenge the death of him
+and his fiance.  His face is painted black and white like a clown's.
+~
+human~
+BGO H 600 0
+62 12 50d10+11500 62d10+180 6d10+30 beating
+-60 -60 -60 -30 
+ACDEFHN ABN DJ MO
+stand stand male 0
+0 0 2 0 
+#7589
+cockroach roach~
+a cockroach~
+A cockroach is scuttling dangerously close to it's owner's foot.
+~
+A cute, slimy little cockroach... how sweet!
+~
+centipede~
+I HPUZcc 0 0
+1 0 2d6+8 1d1+100 1d4+0 digestion
+8 10 8 10 
+H Q CFGLQS E
+stand stand neutral 0
+AGO ACFK 0 0 
+#7590
+labrador retriever lab~
+a labrador retriever~
+a black lab is here.
+~
+A loyal, friendly dog.
+~
+dog~
+CI Cbb 400 0
+8 1 2d7+100 1d1+100 1d7+2 bite
+3 3 3 8 
+0 0 IR 0
+stand stand neutral 0
+0 0 1 0
+#7591
+tiger~
+A large tiger~
+A large tiger is stalking its prey.
+~
+A vicious killer of the jungle.
+~
+cat~
+I FP 200 0
+16 2 3d9+250 1d1+100 2d6+6 claw
+-2 -2 -2 7 
+CD 0 S 0 
+stand stand neutral 1600
+0 0 3 0 
+#7592
+dragon~
+A tame dragon~
+A young dragon is here.
+~
+A young dragon that won't think twice to protect it's master.
+~
+dragon~
+I DNT -250 0
+30 3 6d12+875 30d10+100 4d6+9 smash
+-9 -9 -9 5 
+CEJ 0 0 0 
+stand stand neutral 0
+0 0 4 0 
+#7593
+punk kid~
+a punk kid~
+a punk kid is wandering about.
+~
+Dressed in faded jeans and a t-shirt, thinks he's king of the mall.
+~
+human~
+0 0 100 0
+19 0 3d9+308 1d1+100 2d7+4 pound
+-4 -4 -4 7 
+0 0 0 0 
+stand stand neutral 10
+0 0 2 0 
+#7594
+B
+shopper~
+a shopper~
+A shopper is...shopping *bonk*
+~
+Must be rich to buy all that stuff.
+~
+human~
+GH 0 0 0
+20 0 3d9+333 20d5+100 2d8+5 pound
+-4 -4 -4 7 
+FJK 0 0 0 
+stand stand neutral 145
+0 0 2 0
+#0
+#OBJECTS
+#7500
+leather jacket black~
+Gimp's leather jacket~
+A black leather jacket lies on the floor.~
+leather~
+armor B AK
+10 12 10 11 0
+60 10 1527 G
+E
+jacket leather~
+You see a black leather jacket with "The Gimp" stiched on the back.
+~
+A
+12 50
+A
+13 -10
+#7501
+collar black leather~
+Gimp's leather collar~
+A black collar lies here.~
+leather~
+armor BGRSVWX AC
+9 10 9 11 0
+60 4 5001 G
+E
+collar black leather~
+Where's the leash? ...EEP!
+~
+A
+12 59
+A
+13 -9
+A
+18 2
+A
+19 -1
+#7502
+hat Magician's~
+Magician's hat~
+a large funny-looking hat has fallen here.~
+cloth~
+armor AG AE
+9 8 12 40 0
+65 3 25120 G
+E
+hat~
+A long, pointy hat with strange symbols on it.
+~
+A
+12 100
+A
+13 -4
+A
+23 -4
+A
+24 -4
+#7503
+handbook warrior's book~
+A Warrior's Handbook of Magic~
+A large book lies here.~
+paper~
+armor GSTVWX AO
+6 6 6 8 0
+50 8 1205 G
+E
+handbook book~
+B
+This is a large book titled "A Warrior's Handbook of Magic".
+~
+A 
+12 42
+A
+13 -3
+#7504
+belt~
+The Hunchback's Belt~
+A large belt has been dropped here.~
+leather~
+armor ABGL AL
+8 7 8 9 0 
+50 6 3248 G
+A
+12 25
+A
+13 15
+A
+14 -5
+A
+18 2
+A
+19 2
+#7505 
+blades Scourge's~
+Scourge's Blades of Doom~
+Two very nasty looking sabres lie waiting here.~
+steel~
+weapon AG ANP
+'exotic' 7 9 'slash' 0
+45 16 1388 G
+E
+blades doom~
+These evil looking blades belong to Scourge, brother of the Pulp-Fiction Hero.
+~
+A
+18 3
+#7506 
+plate revenge shazam's~
+Shazam's Revenge~
+A large breast plate awaits it's next owner.~
+steel~
+armor AGKLRSTVW AD
+11 13 12 11 0
+40 21 4327 G
+E
+plate revenge~
+"Why should darkstalkers have all the fun?"
+~
+A
+12 75
+A
+13 35
+A
+18 3
+A
+19 1
+#7507 
+helm black~
+a black helm~
+A black helm of evil lies here.~
+iron~
+armor J AE
+9 10 11 0 0 
+35 9 680 G
+E
+helm~
+"Kilroy was here"
+~
+A
+13 45
+A
+18 3
+#7508
+white vambraces~
+a pair of white vambraces~
+A pair of white vambraces has been left here.~
+steel~
+armor K AI
+10 9 8 7 0 
+35 8 658 G
+A
+13 45
+A
+18 2
+#7509
+gauntlets green~
+a pair of forest green gauntlets~
+A pair of forest green gauntlets has been dropped here.~
+steel~
+armor K AH
+10 10 10 2 0
+40 7 598 G
+A
+1 2 
+A
+12 70
+A
+19 2
+#7510
+plate blood red~
+a blood-red breast plate~
+A plate of red iron sits in the dust.~
+iron~
+armor J AD
+11 8 10 0 0 
+40 18 1001 G
+A
+13 70
+#7511
+shield yellow~
+a sickly yellow shield~
+A pale shield rests against the wall.~
+iron~
+armor G AJ
+10 9 10 8 0
+40 19 1567 G
+A
+24 -5
+#7512
+greaves royal blue~
+royal blue greaves~
+Some blue greaves are collecting dust here.~
+steel~
+armor 0 AF
+10 11 10 0 0
+40 8 886 G
+A
+12 -5
+A
+14 10
+#7513
+watch geek~
+Matt's Geek Watch~
+A digital watch has been discarded here.~
+plastic~                            
+weapon ABRS AM
+'axe' 5 6 'crush' 0
+45 1 51 G
+E
+watch~
+A calculator watch with all kinds of Neato features that you need a college
+degree to figure out.
+~
+A
+3 2
+A
+4 2
+A
+12 60
+A
+13 25
+A
+14 -15
+A
+18 -3
+A
+19 3
+#7514
+ring skull~
+lead singer's skull ring~
+A ring shaped like a skull lies here.~
+metal~
+armor JRSVWX AB
+9 12 11 4 0
+44 2 1697 G
+E
+ring skull~
+A scary looking ring worn by the lead singer of The Gimps for taking care of
+those annoying fans that get on stage.
+~
+A
+12 -30
+A
+13 100
+A
+18 2
+#7515
+sticks drumsticks~
+a pair of drumsticks~
+A pair of over-used drumsticks lay here.~
+wood~
+armor 0 AO
+10 11 9 10 0
+45 1 51 G
+A
+2 2
+A
+18 2
+A
+19 3
+#7516
+guitar~
+an ESP guitar~
+A black guitar lies here waiting to be jammed on.~
+wood~
+armor B AO
+10 9 8 5 0
+48 10 2121 G
+E
+guitar~
+A black ESP guitar.  Better than that $10 guitar you bought at a garage sale.
+~
+A
+12 37
+A
+13 20
+#7517
+bass~
+a bass~
+a bass~
+wood~
+armor B AJ
+9 10 11 0 0
+30 11 1899 G
+E
+bass~
+A long, black bass with skulls on the frets.
+~
+A
+2 3
+A
+12 5
+A
+13 12
+A
+18 1
+#7518
+ring wedding~
+Shelly's Wedding Ring~
+A gold engagement ring lies here.~
+gold~
+armor K AB
+12 11 10 8 0
+25 1 3299 G
+E
+ring wedding~
+Eric's already came back to life once for Shellfy, you can be sure he'll stop
+at nothing to get this back.
+~
+#7519
+soundtrack crow~
+The Crow soundtrack~
+A CD lies glistening in the light.~
+platic~
+armor B AO
+10 10 10 0 0 
+24 1 18 G
+A
+17 -2
+A
+20 -1
+A
+21 -1
+A
+22 -2
+A
+23 -1
+A
+24 -2
+#7520
+skateboard skate board~
+Sarah's skateboard~
+A skateboard is resting against the wall.~
+wood~
+armor B AG
+12 11 12 0 0 
+25 6 109 G
+E
+skateboard~
+You think you can go fast with this.
+~
+A
+14 100
+A
+18 3
+#7521
+jacket Tin-Tin's leather~
+Tin-Tin's leather jacket~
+A leather jacket is laying in the dust.~
+leather~
+armor H AK
+11 10 11 0 0 
+35 10 550 G
+E
+jacket~
+A real tough-guy must have owned this jacket.
+~
+A
+1 4 
+A
+12 -10
+A
+13 45
+A
+19 3
+#7522
+hat~
+Officer Albret's hat~
+A policeman's hat lies here.~
+cloth~
+armor K AE
+5 5 5 2 0
+20 2 49 G
+A
+3 2
+A
+5 1
+#7523
+sword top~
+Top Dollar's sword~
+A REALLY sharp sword rest here.~
+steel~
+weapon J AN
+'sword' 6 10 'slice' 0
+39 18 21218 G
+E
+sword~
+Top Dollar's favorite sword, you get the urge to slice some heads off.
+~
+A
+13 10
+A
+18 1
+A
+19 3
+#7524 
+hood leather gimp's~
+The Gimp's leather hood~
+A black leather hood lies here~
+leather~
+armor BRS AE
+8 9 10 11 0
+37 4 8760 G
+E
+hood leather~
+Bring out the Gimp!
+~
+A
+3 2
+A
+12 42
+A
+13 -25
+A
+18 2
+#7525
+pants leather Gimp's~
+The Gimp's leather pants~
+A pair of black leather pants has been forgotten here.~
+leather~
+armor BL AF
+10 10 10 8 0
+39 6 7774 G
+E
+pants leather~
+You see a pair of skin tight black leather pants - EEK!
+~
+A
+12 35
+A
+13 35
+A
+18 2
+A
+19 3
+#7526 
+sabre~
+a bloodied sabre~
+A sabre covered in blood lies here.~
+steel~
+weapon 0 AN
+'sword' 5 8 'slash' 0
+22 10 5 G
+A
+18 2
+#7527
+briefcase case~
+Jules' Briefcase~
+A briefcase has been placed here.~
+leather~
+armor AHI AO
+9 11 10 6 0 
+26 20 0 G
+E
+briefcase~
+It contains the most beautiful thing you ever saw.
+~
+A
+1 2
+A
+2 2
+A
+5 2
+A
+18 2
+#7528
+bowtie bow tie bow-tie~
+The Wolf's bowtie~
+A black bow-tie has been misplaced here.~
+cloth~
+armor GRS AC
+1 1 1 1 0
+40 1 11 G
+A
+3 2 
+A
+4 2 
+#7529
+shield~
+IronKnuckle's Shield~
+A VERY strong shield is resting here.~
+iron~
+armor B AJ
+15 14 15 2 0
+22 26 999 G
+A
+1 1 
+A
+2 1
+A
+17 -5
+#7530
+triforce power~
+The Triforce of Power~
+A golden triangle rests here.~
+gold~
+armor AG AO
+10 10 10 0 0
+50 9 999 G
+E
+triforce power~
+When you hold this, a great feeling of power overcomes you.
+~
+A
+1 2
+A
+13 90
+#7531
+bracelet Zelda's Zelda~
+Zelda's bracelet~
+An elegant bracelet has been left here.~
+gold~
+armor FGQ AM
+8 6 7 3 0
+20 8 1199 G
+A
+3 1
+A
+4 1
+A
+12 15
+#7532
+shotgun gun~
+a shotgun~
+A shotgun lies here.~
+steel~
+weapon 0 AN
+'exotic' 6 9 'blast' 0
+20 20 50 G
+A
+19 4
+#7533
+chainsaw saw~
+a chain saw~
+A LARGE chainsaw lies here covered in blood.~
+steel~
+weapon B AN
+'exotic' 6 9 'chop' 0
+50 22 49 G
+E
+chainsaw saw~
+A chainsaw!  Find some meat!
+~
+A
+18 -1
+A
+19 3
+#7534
+chaingun chain gun~
+the chaingun~
+A large, yet wieldable, gatling gun lies here.~
+steel~
+weapon 0 AN
+'exotic' 6 10 'blast' 0
+50 35 52 G
+A
+18 3
+#7535
+plate demon~
+The Demon Plate~
+An evil looking breast plate lies here.~
+iron~
+armor EHJLUVX AD
+10 10 10 10 0
+90 25 666 G
+E
+plate demon~
+This evil-red plate has been cursed by Satan himself.
+~
+A
+12 95
+A
+13 95
+#7536
+belt death~
+The Belt of Death~
+A belt with a skull for a buckle lies here.~
+leather~
+armor BEHJLVX AL
+10 10 10 10 0
+45 5 666 G
+E
+belt~
+This belt will turn your useless lifeforce into power.
+~
+A
+5 -1
+A
+12 50
+A
+13 -6
+A
+18 2
+A
+19 3
+#7537
+boots hell~
+Boots from Hell~
+A pair of boots with "666" sketched on the soles lie here.~
+leather~
+armor BEHJLVX AG
+10 10 10 10 0
+45 12 666 G
+E
+boots hell~
+You know you're going to Hell anyway, so why not be dressed for it.
+~
+A
+12 -6
+A
+13 40
+A
+14 100
+#7538
+cloak fire~
+The Cloak of Fire~
+A fiery cloak lies here.~
+cloth~
+armor AEHJLVX AK
+8 8 8 8 0
+75 11 666 G
+E
+cloak~
+It has a pentegram sewn on the back...you sure you want to wear this?
+~
+A
+12 60
+A
+13 30
+A
+14 6 
+A
+18 3
+A
+19 2
+#7539
+fountain statue Gimp~
+a statue of Gimp~
+A statue of Gimp which appears to be made into a fountain stands here.~
+stone~
+B
+25 0 0
+0 0 0 0 0
+0 525 0 G
+E
+statue gimp~
+What's This?!?! The statue of Gimp made into a FOUNTAIN???
+~
+#7540 
+pool~
+a pool of water~ 
+A pool of water is at the base of the statue.~
+water~
+fountain 0 0
+0 0 0 0 0
+0 0 0 G
+B
+#7541
+hot pink~
+A hot pink potion~
+A hot pink potion lies here.~
+glass~
+potion G A
+10 35 0 0 0
+0 1 590 G
+#7542
+blank white~
+A blank white potion~
+A blank white potion lies here.~
+iron~
+potion G A
+10 36 0 0 0 
+0 1 2010 G
+#7543
+plaid~
+a plaid scroll~
+a plaid scroll lies here.~
+iron~
+scroll G A
+9 5 82 0 0
+0 1 580 G
+#7544
+death wand~
+a Wand of Death~
+A Wand of Death is here.~
+steel~
+wand G AO
+20 5 5 25 0
+0 2 1500 G
+#7545
+refresh~
+potion of refresh~
+a potion of refresh lies here.~
+glass~
+potion G A
+5 81 0 0 0
+0 3 300 G
+#7546
+alignment~
+a potion of know alignment~
+a potion of know alignment rest on the shelf.~
+glass~
+potion G A
+5 58 0 0 0
+0 1 210 G
+#7547
+heal~
+a heal potion~
+a potion of heal is here~
+glass~
+potion G A
+25 28 0 0 0
+0 11 3000 G
+#7548
+protection~
+potion of protection~
+a potion of protection is here.~
+glass~
+potion G A
+6 34 0 0 0
+0 3 550 G
+#7549
+sword Cheesy~
+a Cheesy sword~
+a sword lies here.~
+iron~
+weapon 0 AN
+'sword' 5 5 'slice' 0
+30 10 300 G
+#7550
+dagger cheesy~
+a Cheesy dagger~
+a dagger lies here.~
+iron~
+weapon 0 AN
+'dagger' 4 6 'stab' 0
+30 9 290 G
+#7551
+A
+spear cheesy~
+a Cheesy spear~
+a spear is stuck in the ground.~
+steel~
+weapon 0 AN
+'spear' 5 5 'pierce' 0
+30 11 309 G
+#7552
+mace cheesy~
+a Cheesy mace~
+a mace rests here.~
+iron~
+weapon 0 AN
+'mace' 4 7 'pound' 0
+30 14 315 G
+#7553
+axe Cheesy~
+a Cheesy axe~
+An axe lies here.~
+iron~
+weapon 0 AN
+'flail' 3 9 'chop' 0
+30 12 285 G
+#7554
+whip Cheesy~
+a Cheesy whip~
+A black leather whip lies coiled.~
+leather~
+weapon 0 AN
+'whip' 6 8 'whip' 0
+30 8 325 G
+E
+whip Cheesy~
+This whip is signed "Gimp the Pulp Fiction Hero".
+~
+A
+18 1
+A
+19 1
+#7555
+polearm Cheesy~
+a Cheesy polearm~
+A polearm lies here.~
+steel~
+weapon 0 AN
+'polearm' 6 4 'slash' 0
+30 13 330 G
+#7556
+blue light~
+a blue light~
+A blue light is flashing here.~
+glass~
+light A A
+0 0 1234 0 0
+0 2 1234 G
+#7557
+bag gymbag~
+a blue gymbag~
+A blue gymbag lays crumpled here.~
+cloth~
+container 0 A
+B
+90 1 0 0 0
+0 3 90 G
+#7558
+apple cereal jacks~
+a box of Apple Jacks(TM) cereal~
+A box of cereal lies here.~
+apple~                 
+food 0 A
+25 0 0 0 0 
+0 1 50 G
+#7559
+popcorn popsecret~
+Popsecret(TM) microwave popcorn~
+A hot bag of popcorn lies here.~
+popcorn~
+food 0 A
+6 0 0 0 0
+0 1 12 G
+#7560
+pizza bread~
+a Stoffer's(TM) frozen bread pizza~
+A bread pizza topped with pepperoni lies here.~
+bread~
+food 0 A
+8 0 0 0 0
+0 1 16 G
+#7561
+doritos~
+a bag of Cool Ranch Doritos(TM)~
+A bag of Doritos(tm) lies here.~
+chips~
+food 0 A
+11 0 0 0 0
+0 1 22 G
+#7562 
+chair~
+Gimp's EZ chair~
+Gimp's easy chair is here.~
+wood~
+furniture 0 A
+0 0 0 0 0
+0 500 0 G
+E
+chair~
+This chair looks VERY comfortable.
+~
+#7563
+bed~
+Gimp's bed~
+A large bed is here.~
+wood~
+furniture 0 0
+0 0 0 0 0
+0 180 0 G
+E
+bed~
+The Gimp's bed...*yawn*
+~
+#7564 
+orange pulp fiction~
+The Pulp Fiction Scroll~
+An orange and black scroll has been left here.~
+wood~
+scroll 0 A
+25 24 0 0 0
+0 1 0 G
+#7565
+popcorn~
+a box of popcorn~
+A box of popcorn has been discarded.~
+food~
+food 0 A
+6 0 0 0 0
+0 1 5 G
+#7566
+Coke large~
+a large Coke(TM)~
+a large Coke(tm) is here.~
+soda~
+drink 0 A
+1 1 'coke' 0 0
+0 1 8 G
+#7567 
+beer~
+a beer~
+a cup of your favorite beer is here.~
+beer~
+drink 0 A
+1 1 'beer' 0 0
+0 1 12 G
+#7568
+pretzel~
+a giant pretzel~
+A giant pretzel, where's the beer?~
+food~
+food 0 A
+8 0 0 0 0 
+0 1 14 G
+#7569 
+tub popcorn~
+a huge tub of popcorn~
+A huge tub of popcorn sits here.~
+food~
+food 0 AO
+20 0 0 0 0
+0 3 29 G
+#7570 
+revolver~
+a revolver~
+A revolver lies here.~
+steel~
+weapon 0 AN
+'exotic' 6 6 'blast' 0
+25 9 99 G
+#7571 
+sword gimpville~
+a Gimpville guard's sword~
+a longsword lies here.~
+steel~
+weapon Z AN
+'sword' 6 6 'slice' 0
+21 15 500 G
+A
+18 1
+#7599
+plague sword~ 
+Plague Sword~
+A long, light sword lies here in a patch of dead grass.~
+steel~
+5 BEHRSTUVWXY AN
+1 10 10 18 0
+107 18 100000 G
+E
+sword~
+This was crafted by Scourge to save himself from the gods.  It failed.
+~
+E
+plague~
+This sword is said to be powerful enough to slay Mother Nature.  It gives 
+meaning to the term 'Scourge of Nature'.
+~
+A
+1 1 
+A
+2 1 
+A
+3 1
+A
+4 1
+A
+5 1
+A
+12 10
+A
+13 20
+A
+14 10
+A
+17 -10
+A
+18 1
+A
+19 3
+#0
+#ROOMS
+#7500
+The Road to Gimpville~
+   You are on a wide, well-traveled dirt road leading north towards the town of
+Gimpville.  There are two and three story houses crammed together to the east
+and west.  A sign has been posted on the side of the road.
+~
+0 0 2
+D0
+The entrance to Gimpville
+~
+~
+0 -1 7501
+D2
+You see the dark river.
+~
+~
+0 -1 9772
+E
+sign~
+                   WELCOME TO GIMPVILLE!
+
+             area created Summer 1995 by Scourge
+
+             Credit should be given to the  
+             people who created the movies and
+             video games featured in this area.
+             With the execeptions of a few 
+             objects, most other things here 
+             are from the messed up mind of the 
+             author.
+~
+S
+#7501
+Southern Market Square~
+   You are in the southern section of market square.  The marketplace streches
+north, east and west.  A grate is below you.
+~
+0 0 1
+D0
+center of Gimpville
+~
+~
+0 -1 7502
+D1
+southeast market square
+~
+~
+0 -1 7503
+D2
+a dirt road
+~
+~
+0 -1 7500
+D3
+southwest market square
+~
+~
+0 -1 7504
+D5
+A heavy grate covering what seems to be a room.
+~
+grate down d do~
+1 -1 7510
+S
+#7502
+Center of Gimpville~
+   You are standing in the middle of market square, the center of Gimpville.
+A statue of the town's founder looms over you.
+~
+0 0 1
+D0
+northern market square
+~
+~
+0 -1 7508
+D1
+eastern market square
+~
+~
+0 -1 7505
+D2
+southern market square
+~
+~
+0 -1 7501
+D3
+western market square
+~
+~
+0 -1 7506
+S
+#7503
+Southeast Corner of Market Square~
+   This part of the square is bustling with activity.  A pet store is east
+and you see houses crowded together south.
+~
+0 0 1
+D0
+eastern market square
+~
+~
+0 -1 7505
+D1
+You see a pet store.
+~
+~
+0 -1 7511
+D3
+southern market square
+~
+~
+0 -1 7501
+S
+#7504
+Southwest Corner of Market Square~
+   This is the boring section of market square, you only see an occassional 
+person leaving their home to go to the shops on the other side of town.  A 
+field lies west and houses are to the south.
+~
+0 0 1
+D0
+western market square
+~
+~
+0 -1 7506
+D1
+southern market square
+~
+~
+0 -1 7501
+D3
+a practice field for combat
+~
+field west~
+0 -1 7514
+S
+#7505
+Eastern Market Square~
+   This section is filled with shoppers going in and out of a row of shops to
+the east.  The center of Gimpville is west, and a weapons shop is to the east.
+Market square continues north and south.
+~
+0 0 1
+D0
+northeast corner of market
+~
+~
+0 -1 7507
+D1
+A sign on the door reads "Cheesy's Weapons".
+~
+shop~
+0 -1 7600
+D2
+southeast corner of market
+~
+~
+0 -1 7503
+D3
+center of Gimpville
+~
+~
+0 -1 7502
+S
+#7506
+Western Market Square~
+   A quiet part of market square.  A field lies west and market square continues
+in the other three directions.
+~
+0 0 1
+D0
+northwest corner of market
+~
+~
+0 -1 7509
+D1
+center of Gimpville
+~
+~
+0 -1 7502
+D2
+southwest corner of market
+~
+~
+0 -1 7504
+D3
+you see a large field.  Sounds of combat come from this direction.
+~
+field~
+0 -1 7515
+S
+#7507
+Northeast Corner of Market Square~
+   Tons of activity here.  The row of shops continues to the right, with an 
+entrance to a magic shop to the east.  The wall of Gimp's castle is north, and
+market square continues west and south.
+~
+0 0 1
+D1
+you see a magic shop
+~
+~
+0 -1 7513
+D2
+western market square
+~
+~
+0 -1 7505
+D3
+northern market square
+~
+~
+0 -1 7508
+S
+#7508
+Northern Market Square~
+   You stand before the small but magnificent castle of the late, great Gimp.
+It strikes you as being odd that this castle has a bell tower instead of
+turrets. A gate is to the north, the center is south, and the north corners 
+of market square are east and west.
+~
+0 0 1
+D0
+A large archway with your typical iron gate.  
+~
+gate north~
+1 -1 7517
+D1
+northeast corner of market
+~
+~
+0 -1 7507
+D2
+center of Gimpville
+~
+~
+0 -1 7502
+D3
+northwest corner of market
+~
+~
+0 -1 7509
+S
+#7509
+Northwest Corner of Market Square~
+   A rather shady part of the market.  Lots of questionable people are walking
+through here.  A street vendor is one of them.
+~
+0 0 1
+D1
+northern market square
+~
+~
+0 -1 7508
+D2
+western market square
+~
+~
+0 -1 7506
+D3
+A large field for combat practice stretches before you.
+~
+field~
+0 -1 7516
+S
+#7510
+A Small Room~
+   You are in a small room below market square.  You see a portal to the north,
+you wonder where it leads.  A grate is covering the opening above you.
+~
+0 ADKNT 0
+D0
+You see a portal to the future.
+~
+portal north n~
+1 -1 7528
+D4
+You see a large grate.
+~
+grate up u~
+1 -1 7501
+S
+#7511
+Gimpville Pet Store~
+   The Gimpville Pet Store, with many common and strange animals to choose from.
+Ya know the shop commands by now.
+~
+0 DM 0
+D3
+you see market square
+~
+~
+0 -1 7503
+S
+#7512
+The Pet Cages~
+   For the keeping of pets.
+~
+0 D 0
+S
+#7513
+A Magic Shop~
+   What town would be complete without a magic shop?  Be sure to contribute to
+the local economy.  A nerdy looking magician stands behind the counter.
+~
+0 D 0
+D3
+You see... MARKET SQUARE!!!!
+~
+~
+0 -1 7507
+S
+#7514
+A Field~
+   You are on a combat field for young warriors.  Houses lie to the south, and 
+the rest of the village can be seen on the western edge of the field.  The field
+continues north.
+~
+0 V 2
+D0
+The field continues.
+~
+~
+0 -1 7515
+D1
+market square
+~
+~
+0 -1 7504
+S
+#7515
+A Field~
+   You are in a field used for combat practice.  You seem to be interupting a 
+battle in progress...maybe you better leave.  You see the rest of the village
+to the west, market square to the east, and the field continues north and south.
+~
+0 V 2
+D0
+You see the field.
+~
+~
+0 -1 7516
+D1
+You see market square.
+~
+~
+0 -1 7506
+D2
+You see the field.
+~
+~
+0 -1 7514
+S
+#7516
+A field~
+   You stand on a combat field.  The village is to the west.  What appears to be
+the rich part of town is to the north.  The field continues south and market 
+square is east.
+~
+0 V 2
+D1
+You see market square.
+~
+~
+0 -1 7509
+D2
+The field continues south.
+~
+~
+0 -1 7515
+S
+#7517 
+Gimp's Castle~
+   You are inside the castle of Gimp.  This is a fairly large room with 
+tapestries and paintings on the wall.  A stairway leads upstairs and there are
+exits north, east, and west.  Market Square is south.
+~
+0 D 0
+D0
+The living room
+~
+~
+0 -1 7520
+D1
+The ballroom
+~
+~
+0 -1 7518
+D2
+market square
+~
+~
+0 -1 7508
+D3
+The dining room
+~
+~
+0 -1 7522
+D4
+You see a marble staircase.
+~
+~
+0 -1 7523
+S
+#7518
+The Ballroom~
+   You are in a very large room with guests dancing the night away.  Large 
+chandiliers light the room.  A peculiar lady is dancing in the corner.
+~
+0 D 0
+D0
+You see the trophy room. 
+~
+~
+0 -1 7519
+D3
+the center room
+~
+~
+0 -1 7517
+S
+#7519
+The Trophy Room~
+   A room filled with animal heads, pretigious awards, treasures, and trophies.
+The living room is west, and the ballroom south.  A statue stands in the corner.
+~
+0 D 0
+D2
+You see the ballroom.
+~
+~
+0 -1 7518
+D3
+You see the living room.
+~
+~
+0 -1 7520
+S
+#7520
+The Living Room~
+   A cozy little room with lots of expensive leather furniture, a coffee table,
+and a fireplace in the wall.  The kitchen is west, the center room is south, and
+the trophy room is east.
+~
+0 D 0
+D1
+You see the trophy room.
+~
+~
+0 -1 7519
+D2
+You see the center room.
+~
+~
+0 -1 7517
+D3
+you see the kitchen.
+~
+~
+0 -1 7521
+S
+#7521
+The Kitchen~
+   Boy, what a MESS!  The kitchen workers must be on strike or something, it 
+obviously hasn't been cleaned since the last meal.  The living room is east and
+the dining room is south.
+~
+0 D 0
+D1
+You see the living room.
+~
+~
+0 -1 7520
+D2
+You see the dining room.
+~
+~
+0 -1 7522
+S
+#7522
+The Dining Room~
+   You are in a large dining room.  The kitchen is north and the center room 
+east.
+~
+0 D 0
+D0
+You see the kitchen.
+~
+~
+0 -1 7521
+D1
+You see the center room.
+~
+~
+0 -1 7517
+S
+#7523
+The Top of the Stairs~
+   You reach the top of the stairs and see doors to the north and to the east.
+You also notice a ladder leading to the bell tower.
+~
+0 D 0
+D0
+You see a large oak door.  A sign reads "Only the most worthy may enter".
+~
+north n oak~
+1 -1 7525
+D1
+You see a purple door that reads: "Do not enter".
+~
+east e purple door~
+1 -1 7524
+D4
+a ladder
+~
+~
+0 -1 7527
+D5
+a staircase leading down
+~
+~
+0 -1 7517
+S
+#7524 
+The Magician's Room~
+   You have entered the chamber of Garlic, the Maniac Magician.  He looks ticked,
+maybe you should leave.
+~
+0 DV 0
+D3
+A landing
+~
+~
+1 -1 7523
+S
+#7525
+Gimp's Den~
+   This is the room that Gimp entertained his friends in.  Sit down.  Take a 
+load off.  Exits are east and south.
+~
+0 CDKQT 0 
+D1
+You see Gimp's bedroom.
+~
+east~
+1 -1 7526
+D2
+You see a landing at the top of the stairs.
+~
+south door~
+1 -1 7523
+S
+#7526
+Gimp's Bedroom~
+   The room is rather messy.  Gimp was kinda lazy.  The only exit is west.
+~
+0 DK 0
+D3
+The den
+~
+~
+1 -1 7525
+S
+#7527
+The Belltower~
+   You are in a tower that overlooks all of Gimpville.  One of Gimp's faithful
+servants is here eyeing you. The only exit is down.
+~
+0 D 0
+D5
+You see a ladder that descends downward.
+~
+~
+0 -1 7523
+S
+#7528
+A Small Room~
+   You are in a small room below market square.  You see a portal to the south,
+you wonder where it leads.  A grate is covering the opening above you.  A sign
+is on the wall.
+~
+0 ADKN 0
+D2 
+You see a portal to the past.
+~
+portal south~
+1 -1 7510
+D4
+You see a large grate.
+~
+grate up u~
+1 -1 7529
+E
+sign~
+Welcome to present day Gimpville!  It is the summer of 1995.
+~
+S
+#7529
+The Market Place~
+   You are in a large marketplace.  The buildings seem very strange to you.  
+So do the many people walking around.  A group of kids point and laugh at you.
+You wonder what is so funny.  Exits are north and south, along with an entrance
+to a video arcade to the east.
+~
+0 0 1
+D0
+You see the end of the marketplace.
+~
+~
+0 -1 7530
+D1
+You see a video arcade.
+~
+~
+0 -1 7533
+D2
+a road.
+~
+~
+0 -1 7531
+D5
+You see a large grate.
+~
+down grate d~
+1 -1 7528
+S
+#7530
+The End of the Marketplace~
+   You are surounded by buildings.  A concert arena is north, a supermarket is 
+east, a movie theater is to the west, and the market place continues south.
+~
+0 0 1
+D0
+You see a large arena.
+~
+~
+0 -1 7542
+D1
+You see a Big Y Supermarket
+~
+~
+0 -1 7532
+D2
+the marketplace
+~
+~
+0 -1 7529
+D3
+You see Gimpville Cinemas.
+~
+~
+0 -1 7535
+S
+#7531
+A Road to the City~
+   You are on a road that leads into downtown.  You see a large brick arch to 
+the south.  The road is made of some hard, black substance, the word "pavement"
+comes to mind.  The only exit is north.
+~
+0 0 1
+D0
+You see the marketplace.
+~
+~
+0 -1 7529
+E
+arch archway south~
+Alas! The area ends here, so you can't go this way.  If people like this 
+concept, then maybe there will be a Downtown Gimpville next summer.
+~
+S
+#7532
+Big Y~
+   You are in a large supermarket.  There are many aisles stocked with food and
+many other things.  There is a row of cash registers along the front of the store.
+A cashier waits for you in the express checkout.  The only exit is west.
+A sign is on the window.
+~
+0 D 0
+D3
+You see the marketplace
+~
+~
+0 -1 7530
+E
+sign~
+This is a real supermarket chain in Western Mass. and Conn.
+~
+S
+#7533
+The Arcade~
+   You are in a video arcade with lots of teenagers plugging quarters into the 
+multitude of games.  West leads back to the marketplace.  You spy a door slightly
+ajar to the east.
+~
+0 D 0
+D1
+You see a door marked employees only.
+~
+door east~
+1 -1 7534
+D3
+You see the marketplace
+~
+~
+0 -1 7529
+S
+#7534
+The Backroom~
+   You are in the backroom of the arcade.  You notice three machines that are 
+very different from the rest of the games.  Curious, you plug in the games and 
+to your suprise a portal opens behind each of the games.  This is more than 
+virtual reality, you can actually go inside the games!  But beware, this is no
+game, if you die, it's for real.  Centipede is south, the Legend of Zelda east,
+and DOOM is north.  The arcade is west.  If you are a low level, you better 
+read the SIGN.
+~
+0 CDK 0
+D0
+A portal to the PC game, DOOM, that everyone was talking about in 1994.
+~
+portal north doom~
+1 -1 7573
+D1 
+A portal to the old Nintendo game that everyone played in Jr. High
+~
+east Zelda~
+1 -1 7566
+D2
+A portal to the old arcade game Centipede.
+~
+south centipede~ 
+1 -1 7560
+D3
+back to the arcade
+~
+west w~
+1 -1 7533
+E
+sign~
+      Centipede    levels 20-25
+      Leg.Zelda    levels 25-45
+        DOOM       levels 40(45?)+    (LOTS of high level evil aggros!!!)
+~
+S
+#7535
+Gimpville Cinemas~
+   You are in Gimpville's smallest movie theater.  "The Crow" is playing to
+the north and "Pulp Fiction" is showing in the South Theater.  The
+marketplace is east.
+~
+0 D 0
+D0
+Theater 1
+~
+~
+0 -1 7536
+D1
+the marketplace
+~
+~
+0 -1 7530
+D2
+Theater 2
+~
+~
+0 -1 7538
+S
+#7536
+The North Theater~
+   You are in a small movie theater.  The aisle continues down to the west.  The
+entrance is south.
+~
+0 AD 0
+D2
+The Cinema entrance
+~
+~
+0 -1 7535
+D3
+The north theater
+~
+~
+0 -1 7537
+S
+#7537
+The North Theater~
+   You are in front of the movie screen, just in time for your favorite scene
+of "The Crow".  The theater continues east.  There appears to be a door ajar
+leading south to the left of the screen.
+~
+0 AD 0
+D1
+the north theater
+~
+~
+0 -1 7536
+D2
+You see a door leading...somewhere.
+~
+door south~
+1 -1 7590
+S
+#7538
+The South Theater~
+   You are standing in the back of the theater.  Aisle one is west and the back
+continues south.
+~
+0 AD 0
+D0
+The entrance
+~
+~
+0 -1 7535
+D2
+the back
+~
+~
+0 -1 7539
+D3
+aisle 1
+~
+~
+0 -1 7541
+S
+#7539
+The Back of the Theater~
+   You are in the back of the South Theater.  Aisle two is west and the back
+continues north.
+~
+0 AD 0
+D0
+You see a line of people waiting for you to take your seat.
+~
+~
+0 -1 7538
+D3
+You see an aisle and lots of seats.
+~
+~
+0 -1 7540
+S
+#7540
+Aisle 2~
+   You are in a long aisle leading toward the screen.  Two famous movie critics
+are reviewing the movie.  The back of the theater is east and Aisle 1 is north 
+if you want to be rude and inconsiderate by disturbing the people in the 
+middle rows.
+~
+0 AD 0
+D0
+Lots and lots of seats.
+~
+~
+0 -1 7541
+D1
+The back of the theater
+~
+~
+0 -1 7539
+S
+#7541
+Aisle 1~
+   You are in a long aisle leading toward the screen.  "Pulp Fiction" is about
+to start, better take your seat.  Aisle 2 is to the south if you want to piss 
+off the people in the middle row.  The back is east.  A door is ajar to the 
+west next to the screen.
+~
+0 AD 0
+D1
+the back of the theater
+~
+~
+0 -1 7538
+D2
+You see the middle rows.
+~
+~
+0 -1 7540
+D3
+You see a door leading...somewhere.
+~
+door west~
+1 -1 7581
+S
+#7542
+Gimpville Arena~
+   You are in the city's concert arena.  This arena has an abnormally large
+floor, making it ideal for rock concerts.  You hear VERY loud music to the
+north. A refreshment stand is east and the marketplace is south.
+~
+0 CD 0
+D0
+the floor
+~
+~
+0 -1 7549
+D1
+a refreshment stand
+~
+~
+0 -1 7543
+D2
+the marketplace
+~
+~
+0 -1 7530
+S
+#7543
+The Refreshment Stand~
+   You are at the refreshment stand.  The only exit is west.
+~
+0 D 0
+D3
+The arena entrance.
+~
+~
+0 -1 7542
+S
+#7544
+The Mosh Pit~
+   You are on the floor.  You see nothing but people dancing, moshing, 
+headbanging, and more moshing.  The pit is north and west, and the seats are
+east.
+~
+0 AD 0
+D0
+the mosh pit
+~
+~
+0 -1 7547
+D1
+the stands
+~
+~
+0 -1 7545
+D3
+the pit
+~
+~
+0 -1 7549 
+S
+#7545
+The Stands~
+   You are in the seats of the arena.  Because of the huge floor, the seats are
+close together and there are few of them.  The stands are north, and the mosh
+pit is west.
+~
+0 AD 0
+D0
+the stands
+~
+~
+0 -1 7546
+D3
+the mosh pit
+~
+~
+0 -1 7544
+S
+#7546
+The Stands~
+   You are in the seats of the arena.  Because of the huge floor, the seating is
+limited and crowed.  The moshpit is west and the stands are south.
+~
+0 AD 0
+D2
+The stands
+~
+~
+0 -1 7545
+D3
+the moshpit
+~
+~
+0 -1 7547
+S
+#7547
+The Mosh Pit~
+   You are in the mosh pit.  You see nothing but people moshing to the music.  A
+security guard is north to make sure no one gets on stage.  The pit is west and
+south.  The stands are east.
+~
+0 AD 0
+D0
+You see the stage
+~
+~
+0 -1 7556
+D1
+the stands
+~
+~
+0 -1 7546
+D2
+the mosh pit
+~
+~
+0 -1 7544
+D3
+the mosh pit
+~
+~
+0 -1 7548
+S
+#7548
+The Mosh Pit~
+   You are in the mosh pit.  You see nothing but people moshing to the music.
+The stage is north, the pit continues east, west and south.
+~
+0 AD 0
+D0
+you see the stage
+~
+~
+0 -1 7555
+D1
+the mosh pit
+~
+~
+0 -1 7547
+D2
+the mosh pit
+~
+~
+0 -1 7549
+D3
+the mosh pit 
+~
+~
+0 -1 7553
+S
+#7549
+The Mosh Pit~
+   You are on the floor.  You see nothing but people dancing, moshing, head 
+banging, and more moshing.  The pit is north, east, and west.  The arena 
+entrance is south.
+~
+0 AD 0
+D0
+the mosh pit
+~
+~
+0 -1 7548
+D1
+the mosh pit
+~
+~
+0 -1 7544
+D2
+the arena entrance
+~
+~
+0 -1 7542
+D3
+the mosh pit
+~
+~
+0 -1 7550
+S
+#7550
+The Mosh Pit~
+   You are on the floor.  You see nothing but people dancing, moshing, head 
+banging, and more moshing.  The pit is north and east. The stands are west.
+~
+0 AD 0
+D0
+the mosh pit
+~
+~
+0 -1 7553
+D1
+the mosh pit
+~
+~
+0 -1 7549
+D3
+the stands
+~
+~
+0 -1 7551
+S
+#7551
+The Stands~
+   You are in the seats of the arena.  Because of the huge floor the seats are 
+close together and there are few of them.  The stands are close together and
+there are few of them.  The stands are north, and the mosh pit is east.
+~
+0 AD 0 
+D0
+the stands
+~
+~
+0 -1 7552
+D1
+the mosh pit
+~
+~
+0 -1 7550
+S
+#7552
+The Stands~
+   You are in the seats of the arena.  Because of the huge floor, the seating
+is limited and crowded.  The stands are south and the mosh pit is east.
+~
+0 AD 0
+D1
+the mosh pit
+~
+~
+0 -1 7553
+D2
+the stands
+~
+~
+0 -1 7551
+S
+#7553
+The Mosh Pit~
+   You are in the mosh pit.  You see nothing but people moshing to the music.
+A security guard is north to make sure no one else gets on stage.  The pit is 
+east and south.  The stands are west.
+~
+0 AD 0
+D0 
+You see the stage.
+~
+~
+0 -1 7554
+D1
+the mosh pit
+~
+~
+0 -1 7548
+D2
+the mosh pit
+~
+~
+0 -1 7550
+D3
+the stands
+~
+~
+0 -1 7552
+S
+#7554
+The Stage~
+   You are on the stage.  A security officer doesn't take too kindly that you
+are on stage.  The stage is east, the mosh pit is south.
+~
+0 D 0
+D1
+the stage
+~
+~
+0 -1 7555
+D2
+the mosh pit
+~
+~
+0 -1 7553
+S
+#7555
+The Stage~
+   You are on the stage.  The headliner tonight is THE GIMPS and they are 
+playing REALLY loud music.  The stage is north, east and, west.  The pit is 
+south.
+~
+0 D 0
+D0
+You see the back of the stage.
+~
+~
+0 -1 7558
+D1
+the stage
+~
+~
+0 -1 7556
+D2
+the mosh pit
+~
+~
+0 -1 7548
+D3
+the stage
+~
+~
+0 -1 7554
+S
+#7556
+The Stage~
+   You are on the stage.  A security officer doesn't take to kindly that you are
+on stage.  The stage is west, the mosh pit is south.  Backstage is north.
+~
+0 D 0
+D0
+backstage
+~
+~
+0 -1 7557
+D2
+the mosh pit
+~
+~
+0 -1 7547
+D3
+the stage
+~
+~
+0 -1 7555
+S
+#7557
+Backstage~
+   You are backstage.  The Gimps' bodyguard doesn't appear to want you back here.
+The only exit is south - maybe you better use it fast.
+~
+0 AD 0
+D2
+the stage
+~
+~
+0 -1 7556
+S
+#7558
+The Back of the Stage~
+   You are in the rear of the stage.  Some strange fellow is banging away on 
+LOTS of drums.  More stands are north and the stage is south.
+~
+0 D 0
+D0
+The worst seats in the house.
+~
+~
+0 -1 7559
+D2
+the stage
+~
+~
+0 -1 7555
+S
+#7559
+The Upper Deck~
+   From the stage you climb into the upper deck.  Boy these seats suck!  You
+are behind the stage and are glad you didn't have to pay for this.  Only exit
+is south.
+~
+0 AD 0
+D2
+the stage
+~
+~
+0 -1 7558
+S
+#7560
+Centipede~
+   You are in a large field.  All you see are lots and lots of giant mushrooms.
+The mushroom patch continues east,west, and south.  The arcade is north.
+~
+0 0 2
+D0
+the backroom
+~
+north~
+1 -1 7534
+D1
+a mushroom patch
+~
+~
+0 -1 7565 
+D2
+a mushroom patch
+~
+~
+0 -1 7563
+D3
+a mushroom patch
+~
+~
+0 -1 7561
+S
+#7561
+The Mushroom Patch~
+   More mushrooms!  Exits are east and south.
+~
+0 0 2
+D1
+a mushroom patch
+~
+~
+0 -1 7560
+D2
+a mushroom patch
+~
+~
+0 -1 7562
+S
+#7562
+The Mushroom Patch~
+   Even more giant mushrooms!  Exits are north and east.
+~
+0 0 2
+D0
+a mushroom patch
+~
+~
+0 -1 7561
+D1 
+a mushroom patch
+~
+~
+0 -1 7563
+S
+#7563
+The Mushroom Patch~
+   You guessed it... even more mushrooms.  Exits are north, east and west.
+~
+0 0 2
+D0
+a mushroom patch
+~
+~
+0 -1 7560
+D1
+a mushroom patch 
+~
+~
+0 -1 7564
+D3
+a mushroom patch
+~
+~
+0 -1 7562
+S
+#7564
+The Mushroom Patch~
+   Even more giant mushrooms!  Exits are north and west.
+~
+0 0 2
+D0
+a mushroom patch
+~
+~
+0 -1 7565
+D3
+a mushroom patch
+~
+~
+0 -1 7563
+S
+#7565
+The Mushroom Patch~
+   More Mushrooms!  Exits are south and west.
+~
+0 0 2
+D2
+a mushroom patch
+~
+~
+0 -1 7564
+D3
+a mushroom patch
+~
+~
+0 -1 7560
+S
+#7566
+The Legend of Zelda~
+   You are in a dense forest.  Hardly any light gets through the trees.  A palace
+is north and a field is east.  The arcade is back west.
+~
+0 A 3
+D0
+You see a large palace.
+~
+~
+0 -1 7569
+D1
+You see what you THINK is a clearing.
+~
+~
+0 -1 7567
+D3
+back to the arcade
+~
+west~
+1 -1 7534
+S
+#7567
+A field~
+   You are in a field with a few scattered trees.  But wait, the trees aren't so
+scattered, yet appear to be arranged in a pattern.  The forest is west and the 
+hills are east.
+~
+0 0 2
+D1
+the hills
+~
+~
+0 -1 7568
+D3
+a dense forest
+~
+~
+0 -1 7566
+S
+#7568
+The Hills~
+   The land here is rather barren and rocky.  The only exit is west.
+~
+0 0 4
+D3
+the field
+~
+~
+0 -1 7567
+S
+#7569
+The Palace~
+   The guardians in the underworld are much harder than foes encountered so far.
+Higher level mobs await to the east, the forest is south.
+~
+0 AD 0
+D1
+Deeper into the palace.
+~
+~
+0 -1 7570
+D2
+the forest
+~
+~
+0 -1 7566
+S
+#7570
+The Palace~
+   An IronKnuckle blocks your progress.  A big red door is east, those weak of
+heart may go west.
+~
+0 AD 0
+D1
+A red door.
+~
+door red e~
+1 -1 7571
+D3
+The palace
+~
+~
+0 -1 7569
+S
+#7571
+Ganon's Lair~
+   OH NO!  You've stumbled into the lair of the vile, evil, and disgusting
+Ganon!  Looks like he has a visitor, better leave quick!
+~
+0 AD 0
+D3
+An open red door.
+~
+red door w west~
+1 -1 7570
+S
+#7572
+A Room With a View~
+   You are in a room with a staircase leading up to what appears to be 
+some sort of observation deck.  Of course the view is of a barren moon.  
+The only exit is east.
+~
+0 DV 0
+D1
+a large room
+~
+~
+0 -1 7573
+S
+#7573
+DOOM~
+   Oh No!  The exit closes behind you!  You are in a large room.  There are
+exits west and north.  A sign beckons to low levels.
+~
+0 CD 0
+D0
+A door, open at your own risk.
+~
+door n north~
+1 -1 7574
+D3
+a side room
+~
+~
+0 -1 7572
+E
+sign~
+If you are low - level, you probably should recall now.  The only other way out
+is through, which means fighting LOTS of evil agrros.  Have a nice day!
+~
+S
+#7574
+Another Large Room~
+   You are in a room crawling with soldiers.  Three jump off a platform in the 
+middle of the room and attack!!  Exits are north and south.  A sign is here.
+~
+0 DV 0
+D0
+a hallway to the center
+~
+~
+0 -1 7575
+D2
+a door, better keep it open.
+~
+door south s~
+1 -1 7573
+E
+sign~
+Mob descriptions taken directly from README doc that comes with game disk.
+~
+S
+#7575
+The Center of the Hanger~
+   You are smack-dab in the middle of the first level of DOOM.  Two ugly 
+creatures are hurling fireballs down your throat from a platform.  A walkway
+leads north across toxic slime.  Exits are north and south.
+~
+0 D 0 
+D0
+A door, are you ready?
+~
+door n north~
+1 -1 7577
+D1
+The wall here is a different shade
+~
+east wall~
+1 -1 7576
+D2 
+a large room
+~
+~
+0 -1 7574
+S
+#7576
+A Secret Passage Way~
+   Unlike in the video game, this hallway leads straight to the Barons of Hell!
+So unless you are a REAL badass looking for evil equipment, turn back now.
+~
+0 AD 0
+D1
+your own probable doom
+~
+~
+0 -1 7599
+D3
+A panel back to where you came from.
+~
+panel door west w~
+1 -1 7575
+S
+#7577
+Near the End~
+   But who's end?  North you see a door that looks like it could be an exit.
+Exits north and south.
+~
+0 AD 0
+D0
+Another door, open it quick!
+~
+door n north~
+1 -1 7578
+D2
+the center room door
+~
+s south~
+1 -1 7575
+S
+#7578
+The Exit Room~
+   Finally!  You've reached the end.   However you notice an extension to the 
+east.  A switch is on the north wall, and a door is south.
+~
+0 D 0
+D0
+A switch, you wonder what would happen if you type "open switch"
+~
+switch n north~
+1 -1 7534
+D1
+DOOM extension
+~
+~
+0 -1 7579
+D2
+a door
+~
+door s south~
+1 -1 7577
+S
+#7579
+DOOM Extension~
+  Exits are east and west.
+~
+0 D 0
+D1
+The end of the extension
+~
+~
+0 -1 7580
+D3
+the exit room
+~
+~
+0 -1 7578
+S
+#7580
+End of Extension~
+   A barren, grey room.  Something invisible is here.  The only exit is west.
+~
+0 ADNV 0
+D3
+DOOM extension
+~
+~
+0 -1 7579
+S
+#7581
+Tarantino Ave.~
+   You are on Tarantino Avenue, off of which are different scences from the 
+movie Pulp Fiction.  A store is north, a coffee shop is south.  The avenue 
+continues west and the theatre is east.
+~
+0 T 1
+D0
+a store
+~
+~
+0 -1 7584
+D1
+the theater
+~
+east~
+1 -1 7541 
+D2
+a coffeeshop
+~
+~
+0 -1 7585
+D3 
+Tarantino Ave.
+~
+~
+0 -1 7582 
+S
+#7582
+Tarantino Ave.~
+   You are on Tarantino Avenue, off of which are different scenes from the movie
+Pulp Fiction.  The Wallace's home is north, Butch's apartment is south, and 
+Jimmy's house is west.
+~
+0 T 1
+D0
+the Wallace home
+~
+~
+0 -1 7583
+D1
+Tarantino Avenue
+~
+~
+0 -1 7581
+D2
+an apartment
+~
+~
+0 -1 7586
+D3
+Jimmy's house
+~
+~
+0 -1 7587
+S
+#7583
+The Wallace Manor~
+   You are in the living room of Marsellis and Mia Wallace.  The only exit is 
+south.
+~
+0 D 0
+D2
+the avenue
+~
+~
+0 -1 7582
+S
+#7584
+A Store~
+   You are in some sort of store.  An annoying song is playing on the radio.  
+You hear a commotion coming from down stairs.  The street is south.
+~
+0 D 0
+D2
+the avenue
+~
+~
+0 -1 7581
+D5
+the basement
+~
+~
+0 -1 7588
+S
+#7585
+A Coffee Shop~
+   You seem to have walked in on a tense situation.  A woman is on the counter
+with a gun screaming, and two men are at a table, one pointing a gun at the 
+other.  The street is north.
+~
+0 D 0
+D0 
+the avenue
+~
+~
+0 -1 7581
+S
+#7586
+Butch's Apartment~
+   You are in Butch's apartment.  There appears to be an intruder, you hear a 
+toilet flush.  The street is north.
+~
+0 D 0
+D0
+the avenue
+~
+~
+0 -1 7582
+S
+#7587
+Jimmy's House~
+   You are in a room of a typical suburbean home.  Someone in a suit appears to 
+be giving Jimmy a large sum of money.  The avenue is east.
+~
+0 D 0
+D1
+the avenue
+~
+~
+0 -1 7582
+S
+#7588
+The Basement~
+   You descend slowly into the basement.  You notice a man dressed in leather 
+chained here.  You hear screams and a gunshot in the next room.  A back room
+is north, the store is up.
+~
+0 AD 0
+D0
+a door.
+~
+door n north~
+1 -1 7589
+D4
+the store
+~
+~
+0 -1 7584
+S
+#7589
+The Backroom~
+   Whoa! You always seem to be walking in at the wrong time!  Two men are lying
+on the floor, one already dead the other surely will be soon.  The only exit is
+south.
+~
+0 ADV 0
+D2
+a door
+~
+door s south~
+1 -1 7588
+S
+#7590
+The Crow~
+   You are on a street in a city.  If you explore, you will find different 
+places and scenes from "The Crow".  The Theatre is north, a hotdog stand is
+south, and an alley is west.
+~
+0 0 1
+D0
+the theatre door
+~
+door n north~
+1 -1 7537
+D2
+a hotdog stand
+~
+~
+0 -1 7591
+D3
+a dark alley
+~
+~
+0 -1 7592
+S
+#7591
+A Hot Dog Stand~
+   You are in a hot dog stand.  A policeman and a young girl are discussing
+something about people returning from the dead.
+~
+0 D 0
+D0
+the street
+~
+~
+0 -1 7590
+S
+#7592
+A Dark Alley~
+   You are in a dark alley.  Gideon's is north, a dark street is west, and the 
+street is east.
+~
+0 A 1
+D0
+Gideon's pawnshop
+~
+~
+0 -1 7594
+D1
+the street
+~
+~
+0 -1 7590
+D3
+a dark street
+~
+~
+0 -1 7593 
+S
+#7593
+A Dark Street~
+   You are in a dark street with a big red hot rod parked by the curb.  FunBoy's
+apartment is north, an alley is east, and a graveyard is west.
+~
+0 A 1
+D0
+FunBoy's apartment
+~
+~
+0 -1 7595
+D1
+a dark alley
+~
+~
+0 -1 7592
+D3
+a graveyard 
+~
+~
+0 -1 7596
+S
+#7594
+Gideon's Pawn Shop~
+   You see all kinds of stuff and junk for sale.  Everything from guitars to 
+televisions is here.  The alley is south.
+~
+0 D 0
+D2
+the alley
+~
+~
+0 -1 7592
+S
+#7595 
+FunBoy's Apartment~
+   You are in a small, dark and dirt, run-down apartment.  The street is south.
+~
+0 AD 0 
+D2
+the street
+~
+~
+0 -1 7593
+S
+#7596
+A Graveyard~
+   You are in a small graveyard.  You notice two tombstones.  A large church is
+south, the street is east.
+~
+0 A 2
+D1
+the street
+~
+~
+0 -1 7593
+D2
+A large, gothic cathedral towers over you.
+~
+~
+0 -1 7597
+E
+tomestones tomestone stone~
+The names on the tombstones are: 'Eric Draven' and 'Shelly Webster'.
+~
+S
+#7597
+The Church~
+   You are in a large, gothic cathedral.  It seems rather odd to find one in 
+an American city.  The roof is up (naturally) and the graveyard is north.
+~
+0 AD 0 
+D0
+The graveyard
+~
+~
+0 -1 7596
+D4
+the roof
+~
+~
+0 -1 7598
+S
+#7598
+The Church Roof~
+   This is where the final fight between Eric and Top Dollar takes place.  Watch
+your step!  It's a long way down.
+~
+0 A 1
+D5
+inside the church
+~
+~
+0 -1 7597
+S
+#7599
+The End of the First Episode~
+   You are in a star shaped room.  Two VERY large foes are here.  The only exit
+is west or the after-life.
+~
+0 DV 0
+D3
+the passageway
+~
+~
+0 -1 7576
+S
+#7600
+Cheesy's Weapon Shop~
+   You see Cheesy admiring his handiwork.  You wonder if the merchandise lives
+up to it's name.
+~
+0 D 0
+D3
+you see the market
+~
+~
+0 -1 7505 
+S
+
+#0
+#RESETS
+M 0 7503 6 7501 1  1  guard1  
+E 1 7571 8 16   wield longsword
+*
+M 0 7503 6 7507 1  1  guard2  
+E 1 7571 8 16   wield longsword
+*
+M 0 7503 6 7509 1  1  guard3  
+E 1 7571 8 16   wield longsword
+*
+M 0 7500 1 7502 1  1  statue of Gimp  
+E 1 7500 10 12   jacket
+E 1 7501 2 3    collar
+*
+M 0 7502 4 7503 1  1  Nobleman  
+*
+M 0 7504 1 7506 1  1  GimpII  
+E 1 7571 8 16   longsword
+*
+M 0 7501 1 7507 1  1  thief  
+E 1 7550 -1 16  cheesy dagger
+*
+M 0 7512 1 7514 1  1  good warrior  
+E 1 7512 15 7   greaves
+*
+M 0 7511 1 7514 1  1  evil warrior  
+E 1 7511 15 11  shield
+*
+M 0 7513 1 7515 1  1  ranger  
+E 1 7509 15 9   guantlets
+*
+M 0 7514 1 7515 1  1  Dst  
+E 1 7510 12 5   plate
+*
+M 0 7515 1 7516 1  1  Dkn  
+E 1 7507 15 6   helm
+*
+M 0 7516 1 7516 1  1  Kn  
+E 1 7508 15 10  vambraces
+*
+M 0 7594 15 7511 1  1  shopper1  
+M 0 7594 15 7505 1  1  shopper2  
+M 0 7594 15 7513 1  1  shopper3  
+M 0 7594 15 7509 1  1  shopper4  
+M 0 7594 15 7532 1  1  shopper5  
+*
+M 0 7539 8 7600 1  1  roach1  
+M 0 7539 8 7521 1  1  roach2  
+M 0 7539 8 7585 1  1  roach3  
+M 0 7539 8 7591 1  1  roach4  
+*
+M 0 7505 1 7509 1  1  Bobby  
+G 1 7541 100    hot pink potion
+G 1 7542 100    blank white potion
+G 1 7543 110    plaid scroll
+G 1 7556 120    blue light
+G 1 7557 130    gymbag
+*
+M 0 7519 1 7532 1  1  Matt  
+G 1 7558 -1    cereal
+G 1 7559 -1    popcorn
+G 1 7560 -1    pizza
+G 1 7561 -1    doritos
+E 1 7513 2 14   watch
+*
+M 0 7527 1 7543 1  1  counter girl  
+G 1 7565 150    popcorn
+G 1 7566 150    coke
+G 1 7567 150    beer
+G 1 7568 150    pretzel
+*
+M 0 7540 1 7511 1  1  Julie the pet shop owner  
+M 0 7589 1 7512 1  1  roach(pet)  
+M 0 7590 1 7512 1  1  lab retriever(pet)  
+M 0 7591 1 7512 1  1  tiger(pet)  
+M 0 7592 1 7512 1  1  dragon(pet)  
+*
+M 0 7541 1 7600 1  1  Cheesy the Weaponmaster  
+G 1 7549 -1     sword
+G 1 7550 -1     dagger
+G 1 7551 -1     spear
+G 1 7552 -1     mace
+G 1 7553 -1     axe
+G 1 7554  5     whip
+G 1 7555 -1     polearm
+*
+M 0 7542 1 7513 1  1  Cuathon, magic shop owner  
+G 1 7544 -1    wand o death
+G 1 7545 -1    refresh potion
+G 1 7546 -1    know-align potion
+G 1 7547 -1    heal potion
+G 1 7548 -1    protection potion
+*
+M 0 7506 1 7518 1  1  Shasta  
+*
+M 0 7507 1 7519 1  1  Scourge   
+E 1 7505 10 16   Blades o Doom
+*
+M 0 7508 1 7521 1  1  Shazam  
+E 1 7506 3 5   Shazam's Revenge
+*
+M 0 7509 1 7524 1  1  Garlic  
+E 1 7502 5 6   Mag's hat
+*
+M 0 7510 1 7527 1  1  hunchback  
+E 1 7503 15 17  handbook
+E 1 7504 25 13  belt
+*
+O 0 7562 2 7525 chair
+O 0 7563 1 7526 bed
+*
+M 0 7517 3 7529 1  1   passerby  
+*
+M 0 7518 2 7531 1  1   police officer  
+E 1 7570 7 16    revolver
+*
+O 0 7539 0 7530  statue
+O 0 7540 0 7530  pool
+*
+M 0 7520 2 7533 1  1   punk kid1  
+M 0 7593 3 7533 1  1   punk kid2  
+*
+M 0 7521 1 7535 1  1   ticket person  
+M 0 7522 8 7536 1  1   viewer1  
+M 0 7522 8 7537 1  1   viewer2  
+M 0 7522 8 7539 1  1   viewer3  
+M 0 7522 8 7541 1  1   viewer4  
+M 0 7523 3 7537 1  1   viewer1  
+M 0 7523 3 7538 1  1   viewer2  
+*
+M 0 7524 1 7540 1  1   Seiskel  
+*
+M 0 7525 1 7540 1  1   Ebert  
+E 1 7569 150 17  tub popcorn
+*
+M 0 7526 1 7541 1  1   Sy  
+*
+M 0 7528 10 7544 1  1  mosher1  
+M 0 7528 10 7547 1  1  mosher2  
+M 0 7528 10 7549 1  1  mosher3  
+M 0 7528 10 7550 1  1  mosher4  
+M 0 7528 10 7553 1  1  mosher5  
+*
+M 0 7532 3 7548 1  1   aggromosh1  
+M 0 7532 3 7550 1  1   aggromosh2  
+*
+M 0 7529 1 7545 1  1   dancing chick  
+*
+M 0 7530 2 7546 1  1   spectator1  
+M 0 7530 2 7552 1  1   spectator2  
+M 0 7531 9 7545 1  1   spectator1  
+M 0 7531 9 7551 1  1   spec2  
+M 0 7531 9 7552 1  1   spec3  
+M 0 7531 9 7559 1  1   spec4  
+*
+M 0 7533 2 7554 1  1   sec. guard1  
+M 0 7533 2 7556 1  1   sec. guard2  
+*
+M 0 7534 1 7557 1  1   bodyguard  
+*
+M 0 7535 1 7554 1  1   guitarist  
+E 1 7516 30 17   guitar
+*
+M 0 7536 1 7555 1  1   singer  
+E 1 7514 3 2    skullring
+*
+M 0 7537 1 7556 1  1   bassist  
+E 1 7517 30 11   bass
+*
+M 0 7538 1 7558 1  1   drummer  
+E 1 7515 30 17   drumsticks
+*
+M 0 7543 1 7560 1  1   spider  
+M 0 7544 1 7561 1  1  flea  
+M 0 7545 3 7562 1  1  head1  
+M 0 7545 3 7565 1  1  head2  
+M 0 7546 1 7563 1  1  centipede  
+M 0 7547 1 7564 1  1  scorpian  
+*
+M 0 7548 2 7566 1  1  deeler  
+*
+M 0 7549 1 7566 1  1  red moblin  
+*
+M 0 7550 1 7567 1  1  blue moblin  
+*
+M 0 7551 2 7567 1  1  octorok  
+*
+M 0 7556 7 7567 1  1  bot1  
+M 0 7556 7 7569 1  1  bot2  
+M 0 7556 7 7570 1  1  bot3  
+*
+M 0 7552 2 7568 1  1  tektik  
+*
+M 0 7553 1 7568 1  1  goriya  
+*
+M 0 7554 1 7569 1  1  stalfos  
+*
+M 0 7555 1 7570 1  1  ironknuckle  
+E 1 7529 50 11  shield
+*
+M 0 7557 1 7571 1  1  Ganon  
+E 1 7530 20 17  trifore
+*
+M 0 7558 1 7571 1  1  Zelda  
+E 1 7531 50 14  bracelet
+*
+M 0 7559 7 7574 1  1  soldier1  
+M 0 7559 7 7575 1  1  soldier2  
+M 0 7559 7 7575 1  1  soldier3  
+M 0 7559 7 7577 1  1  soldier4  
+*
+M 0 7560 16 7572 1  1  sergeant1  
+M 0 7560 16 7572 1  1  sarge2  
+E 1 7532 6  16   shotgun
+M 0 7560 16 7574 1  1  sarge3  
+M 0 7560 16 7574 1  1  sarge4  
+M 0 7560 16 7574 1  1  sarge5  
+E 1 7532 6 16   shotgun
+M 0 7560 16 7575 1  1  sarge6  
+M 0 7560 16 7575 1  1  sarge7  
+M 0 7560 16 7576 1  1  sarge8  
+M 0 7560 16 7577 1  1  sarge9  
+*
+M 0 7561 6 7575 1  1   imp1  
+M 0 7561 6 7575 1  1  imp2  
+M 0 7561 6 7577 1  1  imp3  
+M 0 7561 6 7578 1  1  imp4  
+M 0 7561 6 7579 1  1  imp5  
+M 0 7561 6 7579 1  1  imp6  
+*
+M 0 7562 4 7580 1  1  demon1  
+M 0 7562 4 7579 1  1  demon2  
+M 0 7562 4 7576 1  1  demon3  
+*
+M 0 7563 2 7579 1  1  spectre1  
+G 1 7533 10     chainsaw
+*
+M 0 7563 2 7580 1  1  spectre2  
+G 1 7534 10     chaingun
+* 
+M 0 7564 1 7599 1  1  Baron 1 (warrior)  
+E 1 7536 -1 13  belt o death
+E 1 7535 2 5   demon plate
+*
+M 0 7565 1 7599 1  1  Baron2 (mage)  
+E 1 7537 18 8   boots
+E 1 7538 7 12  cloak o fire
+*
+M 0 7566 1 7583 1  1  Mia W.  
+*
+M 0 7567 1 7585 1  1  Jules  
+E 1 7527 70 17  briefcase
+E 1 7570 7 16   revolver
+*
+M 0 7568 1 7585 1  1  Pumpkin  
+*
+M 0 7569 1 7585 1  1  HoneyBunny  
+E 1 7570 7 16   revolver
+*
+M 0 7570 1 7586 1  1  Vinny V.  
+*
+M 0 7571 1 7587 1  1  Jimmy  
+E 1 7564 2 17  scroll
+*
+M 0 7572 1 7587 1  1  The Wolf  
+E 1 7528 4 4   bowtie
+*
+M 0 7573 1 7588 1  1  The Gimp  
+E 1 7524 12 6   hood
+E 1 7525 4 7   pants
+*
+M 0 7574 1 7589 1  1  Butch  
+E 1 7526 20 16  sabre
+*
+M 0 7575 1 7589 1  1  Marselis  
+E 1 7532 6 16  shotgun
+*
+M 0 7576 1 7591 1  1  Sarah  
+E 1 7520 80 8   skateboard
+*
+M 0 7577 1 7591 1  1  Albret  
+E 1 7522 80 6   hat
+E 1 7570 7 16     revolver
+*
+M 0 7578 1 7591 1  1  Gabriel  
+*
+M 0 7579 1 7592 1  1  Tin-tin  
+E 1 7521 20 12 jacket
+*
+M 0 7580 1 7593 1  1  Skank  
+* 
+M 0 7581 1 7593 1  1  Tbird  
+*
+M 0 7582 1 7594 1  1  Gideon  
+*
+M 0 7583 1 7595 1  1  Darla  
+M 0 7584 1 7595 1  1  Funboy  
+*
+M 0 7585 1 7597 1  1  sister  
+M 0 7586 1 7597 1  1  bodyguard  
+*
+M 0 7587 1 7598 1  1  Top$  
+E 1 7523 9 16  sword
+*
+M 0 7588 1 7598 1  1  Eric Draven  
+E 1 7518 -1 1   ring
+E 1 7519 5 17  soundtrack
+*
+D 0 7501 5 1 close grate
+D 0 7510 4 1 close grate
+D 0 7510 0 0 open portal
+D 0 7523 1 1 close door
+D 0 7528 2 0 open portal
+D 0 7528 4 1 close grate
+D 0 7529 5 1 grate
+D 0 7560 0 0 open centipede
+D 0 7566 3 0 open zelda
+D 0 7575 1 1 close secret door
+D 0 7576 3 1 secret door
+D 0 7581 1 0 open door
+D 0 7590 0 0 open door
+S
+#SHOPS
+7505 7511 7516 7518 7520 7564 105 55 9 23
+7519 7513 0 0 0 0 100 50 8 22
+7527 0 0 0 0 0 100 100 10 23
+7540 0 0 0 0 0 100 100 0 23
+7541 7505 7523 7526 7533 7571 105 80 0 23
+7542 0 0 0 0 0 100 100 0 23
+0
+#SPECIALS
+M 7500 spec_cast_mage ; gimp statue
+M 7501 spec_thief
+M 7504 spec_executioner ; gimpII
+M 7506 spec_cast_adept ; shasta
+M 7507 spec_cast_undead ; scourge
+M 7508 spec_cast_cleric ; shazam
+M 7509 spec_breath_any ; garlic
+M 7515 spec_cast_cleric ; Dkn
+M 7516 spec_cast_cleric ; Kn
+M 7518 spec_guard  ; police
+M 7547 spec_poison ; scorpian
+M 7557 spec_cast_mage ; ganon
+M 7558 spec_cast_cleric ; zelda
+M 7561 spec_breath_acid    ;imp - want to cast just fireball if possible
+M 7564 spec_breath_lightning ; Baron 1
+M 7565 spec_cast_mage ; Baron 2
+M 7573 spec_cast_cleric ; The Gimp
+M 7588 spec_cast_undead ; eric
+M 7592 spec_breath_acid ; pet dragon
+S
+
+#$
+

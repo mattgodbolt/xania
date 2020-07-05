@@ -1,0 +1,1740 @@
+#AREA   
+juargan.are~
+Kingdom of Juargan~
+{10 25} Anon    Kingdom of Juargan~
+4700 4790
+
+#ROOMS
+#4700
+The Spiral Stair~
+A spiral stone stair leads up higher in the mountain, spiraling into the
+spine of the Dra-Korrin.  A small glint of light can be seen far up the
+stair shaft.
+~
+47 0 1
+D3
+~
+~
+0 -1 4701
+D4
+~
+stone~
+1 -1 4772
+S
+#4701
+Mines~
+A small glint of the burning torches is all that lights the way here.  Spots
+along the jagged wall show that these mines are rich as gold and silver glitters
+all around you.
+~
+47 0 1
+D1
+~
+~
+0 -1 4700
+D3
+~
+~
+0 -1 4702
+S
+#4702
+Mines~
+This small dark tunnel continues to the north where to light no longer allows
+normal sight.  To the east the small mine leads a a better lit area and you can
+smell a brisk fresh air.
+~
+47 0 1
+D0
+~
+~
+0 -1 4703
+D1
+~
+~
+0 -1 4701
+S
+#4703
+Mines~
+This small tunnel is only five to six feet high and possibly the same
+dimensions wide.  It travels on a slight downslope to the west and to the south
+some light can be seen.
+~
+47 AD 1
+D2
+~
+~
+0 -1 4702
+D3
+~
+~
+0 -1 4704
+S
+#4704
+Mines~
+The small mine continues east and west here, small rocks and precious jewels
+scattered about.  There is a small tunnel that leads to the south here.
+~
+47 AD 1
+D1
+~
+~
+0 -1 4703
+D2
+~
+~
+0 -1 4705
+D3
+~
+~
+0 -1 4706
+S
+#4705
+Unfinished Mine~
+This is a small area that has been left unfinished at the moment.  It would
+have continued south from the main shaft that is to the north of here.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4704
+S
+#4706
+Mines~
+This small shaft of the mines continues its tunneling east and west.  Small
+glints of metal can be seen within the walls.
+~
+47 AD 1
+D1
+~
+~
+0 -1 4704
+D3
+~
+~
+0 -1 4707
+S
+#4707
+Turn in the Mine~
+The small shaft travels east and south here, the masterful mining skills that
+made this turn possible are evidently by the smooth cuts in the walls.  Almost
+as if a hot knife made its way through some warm butter.
+~
+47 AD 1
+D1
+~
+~
+0 -1 4706
+D2
+~
+~
+0 -1 4708
+S
+#4708
+Mines~
+This is a three-way intersection in these mazes of mines with directions
+going north, west, and south which travels further down into the heart of the
+mountain itself.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4707
+D2
+~
+~
+0 -1 4709
+D3
+~
+~
+0 -1 4736
+S
+#4709
+Dwarven mine~
+The walls of this mine are chipped and cut to perfection.  Workmanship of
+this type could only have been done by the masterful Dwarven race.  Tunnels
+continue to the south and east, and the tunnel travels upward to the north.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4708
+D1
+~
+~
+0 -1 4724
+D2
+~
+~
+0 -1 4710
+S
+#4710
+Dwarven mine~
+Tunnels spread off in all directions except to the west where the wall is made
+of a dark and bleak stone.  A small glow emanates from the walls of the mines,
+but not enough to see by.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4709
+D1
+~
+~
+0 -1 4712
+D2
+~
+~
+0 -1 4711
+S
+#4711
+Dwarven mine~
+The small shaft ends abruptly at a jewel encrusted wall.  To the north the
+small shaft continues some past some small rocks.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4710
+S
+#4712
+Dwarven mine~
+This section of small shaft is a turning point and continues to the west and to
+the south.  Small glints of gold and silver can be seen in the walls.
+~
+47 AD 1
+D2
+~
+~
+0 -1 4713
+D3
+~
+~
+0 -1 4710
+S
+#4713
+Dwarven mine~
+The small shaft continues north and south deep inside this large mountain.  A
+light glow can be seen in the walls, but not enough to see by.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4712
+D2
+~
+~
+0 -1 4714
+S
+#4714
+Dwarven mines~
+This section of the small shafts is a intersection of three separate tunnels.
+They lead north, east, and west.  A faint glow is within the walls of this
+small intersection.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4713
+D1
+~
+~
+0 -1 4719
+D3
+~
+~
+0 -1 4715
+S
+#4715
+Dwarven mines~
+The small shaft of glittering gold and silver travels east and south here.
+The faint glow from within the walls give you a sense of safety.
+~
+47 AD 1
+D1
+~
+~
+0 -1 4714
+D2
+~
+~
+0 -1 4716
+S
+#4716
+Dwarven mines~
+The small Dwarven carved shaft continues to the north and to the east here.
+Small clumps of precious metals can be seen within the rocky walls.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4715
+D1
+~
+~
+0 -1 4717
+S
+#4717
+Dwarven mines~
+The small shaft of the mine continues to the west and to the south here.  A
+small amount of light can be seen to the south.
+~
+47 AD 1
+D2
+~
+~
+0 -1 4718
+D3
+~
+~
+0 -1 4716
+S
+#4718
+End of the mine~
+The south section of the small tunnel is covered in a blue light, and also
+radiating a aura of heat.  The eastern and western walls also glow but not as
+fierce as the southern section.
+~
+47 CD 1
+D0
+~
+~
+0 -1 4717
+S
+#4719
+Dwarven mines~
+Small shafts lead off in all directions except northerly, where the wall seems
+to have a tinted blue color to it.  The southern tunnel seems to end a small
+ways down.
+~
+47 AD 1
+D1
+~
+~
+0 -1 4721
+D2
+~
+~
+0 -1 4720
+D3
+~
+~
+0 -1 4714
+S
+#4720
+Unfinished shaft~
+The walls here are jagged and unfinished in there cuts, leaving sharp and
+jagged edges at every turn.  The only exit appears to be to the north.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4719
+S
+#4721
+Dwarven mines~
+This small shaft travels to the west and to the south, sporting small clumps
+of precious metals as they go.
+~
+47 AD 1
+D2
+~
+~
+0 -1 4722
+D3
+~
+~
+0 -1 4719
+S
+#4722
+Dwarven mines~
+A slight downslope is present as this tunnel continues to the south and to the
+north.  To the south is where the small slope is present, traveling slightly
+further down into the depths of the mountain.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4721
+D2
+~
+~
+0 -1 4723
+S
+#4723
+Unfinished mine~
+The southern wall of this mine has been left uncarved and unfinished as you
+can see that the amount of metals in the walls have decreased slightly here.
+The tunnel leads to the north out of this dead end.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4722
+S
+#4724
+Dwarven mine~
+This small shaft travels to the east and west while along the way several
+spots of precious metal and rock jut forth from the red rock.
+~
+47 AD 1
+D1
+~
+~
+0 -1 4725
+D3
+~
+~
+0 -1 4709
+S
+#4725
+Dwarven mine~
+The small tunnel continues to the west and to the south from this turning
+point.  Small spots of gold and silver can be seen in the walls.
+~
+47 AD 1
+D2
+~
+~
+0 -1 4726
+D3
+~
+~
+0 -1 4724
+S
+#4726
+Dwarven mines~
+This is a north and south shaft that has been carved to perfection.  The walls
+are almost square here, giving it a hall like appearance.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4725
+D2
+~
+~
+0 -1 4727
+S
+#4727
+Dwarven mines~
+The small shaft here continues to the north and to the east. As it slopes
+slightly downward to the east, the walls have a more unfinished look to them.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4726
+D1
+~
+~
+0 -1 4728
+S
+#4728
+Dwarven mines~
+This small east-west shaft, which travels slightly downward to the east, has
+a distinct smell to it.  The smell is revolting, coming close to that of rotting
+flesh.
+~
+47 AD 1
+D1
+~
+~
+0 -1 4729
+D3
+~
+~
+0 -1 4727
+S
+#4729
+Dwarven mines~
+This intersection combines three tunnels, the western tunnel leading up.  To
+the south is darkness, but there is a disgusting stench emanating from a very
+large cavern.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4732
+D2
+~
+~
+0 -1 4730
+D3
+~
+~
+0 -1 4728
+S
+#4730
+Dwarven mines~
+This is a small north and south passage that is bleak and void of any gold or
+silver in the walls.  It continues into darkness to the south.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4729
+D2
+~
+~
+0 -1 4731
+S
+#4731
+Dwarven mines~
+This small shaft ends abruptly at the southern wall.  There is a faint blue
+glow to the southern wall but no metals of jewels are present.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4730
+S
+#4732
+Duergar Outcamp~
+This is a large cavern that stinks of decay and death.  To the north there is
+a rather large hut, while to the west there is a small fire and several big
+boulders.
+~
+47 D 1
+D0
+~
+~
+0 -1 4733
+D2
+~
+~
+0 -1 4729
+D3
+~
+~
+0 -1 4735
+S
+#4733
+Duergar Barracks~
+Several small cots line the walls here  inside this large thatched hut.  Small
+scraps of food and several small disfigured bodies lie about, no doubt the
+remains of some unfortunate dwarf.
+~
+47 D 1
+D2
+~
+~
+0 -1 4732
+S
+#4734
+Small cave~
+Many small and disfigured bodies have been piled up here stinking up the whole
+cavern.  Blood stains line the walls and entrails are strewn about the floor.
+~
+47 D 1
+D2
+~
+~
+0 -1 4735
+S
+#4735
+By a small fire~
+Several large rocks surround a petty little fire that has formed a cloud in
+the ceiling of this large cavern.  A window of the hut looks out over this small
+meeting area.  To the north a small dark cave can be seen.
+~
+47 D 1
+D0
+~
+~
+0 -1 4734
+D1
+~
+~
+0 -1 4732
+S
+#4736
+Carved Tunnel~
+This small tunnel has been carved to perfection, the walls are smooth and the
+floor has been worn soft through years of passage.  The red coloring of the
+rock gives this small tunnel a soft glow.
+~
+47 AD 1
+D0
+~
+~
+0 -1 4737
+D1
+~
+~
+0 -1 4708
+S
+#4737
+Carved Tunnel~
+The walls of the small tunnel have been carved to perfection as well as the
+floor that has been worn smooth.  It travels south and west leading off into
+darkness.
+~
+47 AD 1
+D2
+~
+~
+0 -1 4736
+D3
+~
+~
+0 -1 4738
+S
+#4738
+Carved Tunnel~
+The walls here are red and smooth as they have been carved into perfection.
+The floor has been worm smooth with use and clear of any rubble.
+~
+47 AD 1
+D1
+~
+~
+0 -1 4737
+D2
+~
+~
+0 -1 4739
+S
+#4739
+Stone Gates~
+Two monstrous pillars of stone support a great stone gate that leads south
+into a gigantic cavern with a small city inside.  The redden rock of the of
+mountain gives this small gate and cavern within a slight reddish glow.
+~
+47 D 1
+D0
+~
+~
+0 -1 4738
+D2
+~
+~
+0 -1 4740
+S
+#4740
+Walkway~
+A small stone walkway leads its way through the immense cavern and all of its
+scattered boulders and misplaced stalagmites.  To the south you can see a large
+area of many multicolored rock, rising up in the center of which is a small
+building.
+~
+47 D 1
+D0
+~
+~
+0 -1 4739
+D2
+~
+~
+0 -1 4741
+D3
+~
+~
+0 -1 4750
+S
+#4741
+Rock Garden~
+A small path works its way through all types of multicolored boulders of all
+sizes and shapes.  Despite it's hardness and great size it has a certain
+beauty to it.
+~
+47 D 1
+D0
+~
+~
+0 -1 4740
+D1
+~
+~
+0 -1 4742
+D3
+~
+~
+0 -1 4748
+S
+#4742
+Rock Garden~
+A small path works its way south and west from this section of a enormously
+large, yet beautiful conglomeration of rocks and boulders.
+~
+47 D 1
+D2
+~
+~
+0 -1 4743
+D3
+~
+~
+0 -1 4741
+S
+#4743
+Rock Garden~
+A small path works its way north and south through this large display of many
+different colored boulders and rocks.  A large building can be seen rising above
+the boulders directly to the west.
+~
+47 D 1
+D0
+~
+~
+0 -1 4742
+D2
+~
+~
+0 -1 4744
+S
+#4744
+Rock Garden~
+A small path works its way to the north and to the west as the many different
+colored boulders and rocks perform a array of beauty before you.
+~
+47 D 1
+D0
+~
+~
+0 -1 4743
+D3
+~
+~
+0 -1 4745
+S
+#4745
+Rock Garden~
+A small path works its way west and east through this array of multicolored
+boulders and rocks.  To the north a smooth path leads to a large and immaculate
+stone building.
+~
+47 D 1
+D0
+~
+~
+0 -1 4749
+D1
+~
+~
+0 -1 4744
+D3
+~
+~
+0 -1 4746
+S
+#4746
+Rock Garden~
+A small path works its way east and north through this small section of the
+large array of boulders and rocks of all different colors.
+~
+47 D 1
+D0
+~
+~
+0 -1 4747
+D1
+~
+~
+0 -1 4745
+S
+#4747
+Rock Garden~
+A small path works its way north and south through this small section of the
+large garden of multicolored boulders.  Directly to the east a large building
+can be seen rising above the piles of boulders.
+~
+47 D 1
+D0
+~
+~
+0 -1 4748
+D2
+~
+~
+0 -1 4746
+S
+#4748
+Rock Garden~
+A small path works its way east and south through this section of the great
+multicolored array of boulders and rock formations.
+~
+47 D 1
+D1
+~
+~
+0 -1 4741
+D2
+~
+~
+0 -1 4747
+S
+#4749
+Temple of Juargan~
+This large building is circular in shape and open on all sides, as the ceiling
+is supported by pillars made of the deep red stone from the heart of the
+Dra-Korrin.
+  In the center there is rests a large throne, formed of red rock.
+~
+47 D 1
+D2
+~
+~
+0 -1 4745
+E
+throne~
+The throne is made of deep red rock from the core of the Dra-Korrin.~
+S
+#4750
+Walkway~
+A small stone walkway travels east and west through the many stalagmites and
+stray boulders that scatter the floor of the great cavern.
+~
+47 D 1
+D1
+~
+~
+0 -1 4740
+D3
+~
+~
+0 -1 4751
+S
+#4751
+Walkway~
+A small stone walkway travels east and south through the debris of many
+boulders and stalagmites.  Another small walkway leads west to a small building
+pushing a black smoke from its roof.
+~
+47 D 1
+D1
+~
+~
+0 -1 4750
+D2
+~
+~
+0 -1 4753
+D3
+~
+~
+0 -1 4752
+S
+#4752
+Blacksmith's Home~
+A large black forge lies in the center of this small house pushing waves of
+heat into your face, barley allowing you to stand within the entranceway.  A
+large trough of water and several anvils are resting here as well.
+~
+47 D 1
+D1
+~
+~
+0 -1 4751
+S
+#4753
+Walkway~
+A small walkway travels north and south through the many scattered boulders
+and stalagmites.  A separate, less used path leads to the west.
+~
+47 D 1
+D0
+~
+~
+0 -1 4751
+D2
+~
+~
+0 -1 4759
+D3
+~
+~
+0 -1 4754
+S
+#4754
+Path in the Rock~
+A small path leads west further into the less carved rock while to the east
+the larger walkway can be seen.
+~
+47 D 1
+D1
+~
+~
+0 -1 4753
+D3
+~
+~
+0 -1 4755
+S
+#4755
+Path in the Rock~
+This small uncarved path travels south and east as the edge of the cavern
+blocks any travel further west.  The wall of the cavern has a deep red color to
+it and with the many stalactites parts resemble dripping blood.
+~
+47 D 1
+D1
+~
+~
+0 -1 4754
+D2
+~
+~
+0 -1 4756
+S
+#4756
+Path in the Rock~
+This small, uncarved path leads north and south along the cavern wall, over
+many boulders at points.  To the east you can see a path leading up to a small
+hole in a large boulder.
+~
+47 D 1
+D0
+~
+~
+0 -1 4755
+D1
+~
+~
+0 -1 4771
+D2
+~
+~
+0 -1 4757
+S
+#4757
+Path in the Rock~
+A small path travels over boulders and crevices to the north and east.  The
+edge of the cavern lies to the west while mounds of boulders are heaped to the
+south.
+~
+47 D 1
+D0
+~
+~
+0 -1 4756
+D1
+~
+~
+0 -1 4758
+S
+#4758
+Path in the Rock~
+A small and unused path travels over boulders and by many large hole as it
+makes its way to the west.  To the east the small path ends in the larger walk-
+way of the city.  To the south a path leads to a small hut perched on top of a
+large boulder.
+~
+47 D 1
+D1
+~
+~
+0 -1 4760
+D2
+~
+~
+0 -1 4761
+D3
+~
+~
+0 -1 4757
+S
+#4759
+Walkway~
+A stone walkway travels north and south through this section of this rocky
+city.  To the west you can see a uncarved and hug mound of rock and boulder.
+~
+47 D 1
+D0
+~
+~
+0 -1 4753
+D2
+~
+~
+0 -1 4760
+S
+#4760
+Walkway~
+A stone walkway travels north and south through this section of the city.  A
+small and unused path can be seen traveling west into the uncut and jagged rock.
+~
+47 D 1
+D0
+~
+~
+0 -1 4759
+D2
+~
+~
+0 -1 4762
+D3
+~
+~
+0 -1 4758
+S
+#4761
+Pasty's Dwelling~
+This is a small stone dwelling with a large oven on the south wall.  There are
+many tables and chairs placed about the place and by the oven there is a table
+piled with grains and a small bowl of dough.
+~
+47 D 1
+D0
+~
+~
+0 -1 4758
+S
+#4762
+Walkway~
+A stone walkway travels north and east through this section of the stone city.
+A small path leads south to a small rock dwelling.
+~
+47 D 1
+D0
+~
+~
+0 -1 4760
+D1
+~
+~
+0 -1 4763
+D2
+~
+~
+0 -1 4764
+S
+#4763
+Walkway~
+A stone walkway leads west from here.  To the east the small walkway ends in a
+large building, and to the south a small path leads to a small stone dwelling.
+~
+47 D 1
+D1
+~
+~
+0 -1 4766
+D2
+~
+~
+0 -1 4765
+D3
+~
+~
+0 -1 4762
+S
+#4764
+Leatherbies Home~
+This is a small stone dwelling with many sizes of leather strewn about the
+place.  A small table with a few chairs sits in the center of the house.
+~
+47 D 1
+D0
+~
+~
+0 -1 4762
+S
+#4765
+The Stone Jewel~
+Many different colors and sizes of jewels hang from the walls of this well
+kept dwelling.  A small counter sits on the far wall with other small tables
+lining the walls.
+~
+47 D 1
+D0
+~
+~
+0 -1 4763
+S
+#4766
+Guard Barrack~
+Many small cots line the walls of this large building as it serves for the
+homes of many brave Dwarven men who pledge their lives to the suppression of
+their Duergar enemies.  A small archway leads south to a lower level.
+~
+47 D 1
+D2
+~
+~
+0 -1 4767
+D3
+~
+~
+0 -1 4763
+S
+#4767
+Alcove~
+A small alcove serves as a turning point for this small, dark tunnel that goes
+north and west from here.
+~
+47 ACD 1
+D0
+~
+~
+0 -1 4766
+D3
+~
+~
+0 -1 4768
+S
+#4768
+Entrance to Tomb~
+A large archway leads north to a dark vault.  An old stench emanates from it,
+as dust seems to continually flow from the old arch.  There is a small tunnel
+that travels east into a darkness.
+~
+47 ACD 1
+D0
+~
+~
+0 -1 4769
+D1
+~
+~
+0 -1 4767
+S
+#4769
+Ancients Tomb~
+Two large stone sarcophagus's lie stagnant in the center of this small tomb.
+The walls are lined with holes that contain many coffers containing, no doubt,
+the remains of some ancient dwarf.
+  A great stone door leads to the west, it has many inscriptions upon it.
+~
+47 ACD 1
+D2
+~
+~
+0 -1 4768
+D3
+~
+tomb vault door~
+2 4700 4770
+S
+#4770
+Ancients Vault~
+This is more of a small alcove than anything else.  The ceiling is covered
+with many descriptive carvings, as are the walls and floor.  Where it not for
+the years of decay and no upkeep, this would be a glamorous chamber.
+~
+47 AD 1
+D1
+~
+tomb vault door~
+2 4700 4769
+S
+#4771
+Siven's Stone~
+A small and dark little room entombed within a large boulder, a very strange
+place to want to live.  There is a small table in the center, but the room is
+void of any other objects.
+~
+47 D 1
+D3
+~
+~
+0 -1 4756
+S
+#4772
+The small cave~
+You barely squeeze through into this cave, and you don't see much to it
+either.  All you see are piles of stones.  At least none of the stones has
+fallen over your exit north.
+~
+47 D 4
+D0
+You see a sparkling light north.
+~
+~
+0 -1 4773
+D5
+You see rocks and stones.
+~
+stone stones rock rocks~
+1 -1 4700
+S
+#4773
+Beneath the waterfall~
+As you wring your clothes, you see sunlight reflect beautifully off the
+waterfall, forming at rainbow.  With the sparkling illumination, you think you
+see a cave to the south.
+~
+47 CD 4
+D2
+You think you hear a small noise coming from there too.
+~
+~
+0 -1 4772
+D3
+You see fish falling down the waterfall.
+~
+~
+0 -1 4774
+S
+#4774
+By the beautiful waterfall~
+You see a VERY beautiful waterfall here.  It looks almost as if diamonds are
+falling down the mountain.  (You reach out and grab and no, it IS only water.)
+It looks so nice here, you feel like taking a nap.
+The trail leads north and south.
+~
+47 0 4
+D0
+You see the trail leading north.
+~
+~
+0 0 5279
+D1
+You see fish falling down the waterfall.
+~
+~
+0 0 4773
+D2
+You see the trail leading back to the valley.
+~
+~
+0 0 4775
+S
+#4775
+A valley~
+You see a fresh green valley.  Flowers blossom everywhere around you, and you
+have a big urge to giggle.  To the north, you can see the source of this
+greenness, a waterfall.  To the west, you see the trail along the valley.
+~
+47 0 2
+D0
+You hear the rush of a waterfall.
+~
+~
+0 0 4774
+D3
+You see the valley.
+~
+~
+0 0 4776
+S
+#4776
+A valley~
+You see a fresh green valley.  Flowers blossom everywhere around you, and you
+have a big urge to giggle.  The valley continues to the east, or you can take
+a steep trail up.
+~
+47 0 2
+D1
+You see the valley.
+~
+~
+0 0 4775
+D4
+You see the trail up to the uncomfortable hills.
+~
+~
+0 0 4777
+S
+#4777
+At the end of the hills~
+What a view!  From here, you can see a waterfall toward the east, and lush
+green forests south-east.  To the north, you see the Mountains of Moria.  To
+the west, you see the dirty trail again.  A trail leads down to the valley
+below.
+~
+47 C 2
+D3
+You see the trail continue west.
+~
+~
+0 0 4778
+D5
+You see the valley.
+~
+~
+0 0 4776
+S
+#4778
+A trail along the hills~
+The dirt road you are treading on is as gentle as you can believe.  Rocks
+catch on you as you try to keep your balance.  The trail continues east and
+back west to relative safety.
+~
+47 0 4
+D1
+You see the trail.
+~
+~
+0 0 4777
+D3
+You see the trail.
+~
+~
+0 0 4779
+S
+#4779
+A trail along the hills~
+The trail flattens out a bit, giving you time to breathe.  You don't see much
+water and don't think the sun is going to help your thirst.  The closest shade
+appears to be the dwarf forest, which is VERY far away.
+~
+47 0 4
+D1
+You see the trail.
+~
+~
+0 0 4778
+D5
+You see the scary cliff down, but at least you know you can climb it.
+~
+~
+0 0 4780
+S
+#4780
+Up the hill~
+You continue to climb this hill as sweat breaks out upon your forehead.  It
+looks like you are close to the plateau.  Down is the relative comfort of
+ground again, but you are SO close to the top!
+~
+47 0 5
+D4
+You see rocks.
+~
+~
+0 0 4779
+D5
+You see rocks.
+~
+~
+0 0 4781
+S
+#4781
+Up the hill~
+You continue to climb this hill as sweat breaks out upon your forehead.  It
+looks like you are close to the plateau.  Down is the relative comfort of
+ground again, but you are SO close to the top!
+~
+47 0 5
+D4
+You see rocks.
+~
+~
+0 0 4780
+D5
+You see rocks.
+~
+~
+0 0 4782
+S
+#4782
+Up the hill~
+You continue to climb this hill as sweat breaks out upon your forehead.  It
+looks like you are close to the plateau.  Down is the relative comfort of
+ground again, but you are SO close to the top!
+~
+47 0 5
+D4
+You see rocks.
+~
+~
+0 0 4781
+D5
+You see rocks.
+~
+~
+0 0 4783
+S
+#4783
+Up the hill~
+You continue to climb this hill as sweat breaks out upon your forehead.  It
+looks like you are close to the plateau.  Down is the relative comfort of
+ground again, but you are SO close to the top!
+~
+47 0 5
+D4
+You see rocks.
+~
+~
+0 0 4782
+D5
+You see the floor again!
+~
+~
+0 0 4784
+S
+#4784
+The hills~
+You sigh as the trail continues straight up into the mountain.  West leads
+back to the more stable ground, but you wonder what's on the other side of this
+little hill.....
+~
+47 0 4
+D3
+You see the trail back.
+~
+~
+0 0 4785
+D4
+You see rocks.
+~
+~
+0 0 4783
+S
+#4785
+The hills~
+You see all around you ... hills.  You're lucky you get to get so much
+exercise today!  You wonder if you should save your breath and go back west or
+continue east toward the hills.  There is a trail leading south towards
+a black glassy mountain range.  A small plaque is on the rock.
+~
+47 0 4
+D1
+You see the trail along the hills.
+~
+~
+0 0 4784
+D2
+You see a black glassy mountain range.
+~
+~
+0 0 2900
+D3
+You see the dirty hills still.
+~
+~
+0 0 4000
+E
+plaque~
+This extension (hills and dwarf forest) is made my Hatchet for any Merc Mud.
+copyright 1992
+~
+S
+#0
+
+#MOBILES
+#4700
+dwarf~
+the small dwarf~
+A small dwarf is here mining at the tunnel walls.
+~
+The small dwarf is dirty and dressed only in a small tunic and leggings.  His
+beard is encrusted with cracked rock and dust from the tunnel walls.
+~
+unique~
+CA 0 500 0
+7 3 1d1+161 1d1+140 3d3+3 chop
+5 5 5 7
+FENU 0 0 0
+stand stand male 283
+0 0 medium 0
+
+#4701
+dwarf~
+the small dwarf~
+A small dwarf is here, on the watch for Duergar.
+~
+The small dwarf is dressed in colorful clothing and has a full and long beard.
+His eyes are keen and sharp, well suited for sight in the dark tunnels of the
+mines.
+~
+unique~
+CA 0 500 0
+5 2 1d1+100 1d1+100 2d3+2 chop
+6 6 6 8
+FENU 0 0 0
+stand stand male 205
+0 0 medium 0
+
+#4702
+dwarf guard~
+the dwarf guard~
+A small dwarf is here, dressed in a makeshift suit of armor.
+~
+This small dwarf is the militia of the Dwarven Kingdom it watches over.  The
+small body is strong which makes him a match for any foe.  The armor of the
+dwarf is of no use to anyone but him, but provides adequate defense.
+~
+unique~
+BA 0 700 0
+10 5 1d1+230 1d1+200 3d3+5 chop
+3 3 3 6
+FENU 0 0 0
+stand stand male 401
+0 0 medium 0
+
+#4703
+dwarf yentle~
+Yentle the dwarf~
+A small dwarf sits here trying to grow a new rock.
+~
+The insane little dwarf who thinks he can grow a rock.  He is dressed in many
+yellows and oranges, and seems to have a happy look about him despite his years
+of failure at growing rocks.
+~
+unique~
+CA D 1000 0
+10 5 1d1+230 1d1+200 3d3+5 chop
+3 3 3 6
+FENU 0 0 0
+sit sit male 413
+0 0 medium 0
+
+#4704
+juargan dwarf king~
+Juargan the Dwarven King~
+Juargan the Dwarven King sits here upon his throne, looking out over his gardens.
+~
+The small king is bulging at the seems with muscle.  He is dressed in nothing
+but a noble robe made of a grey silk.  His face has a visage of stone like his
+surroundings, as if his burden has become to much for him.
+~
+unique~
+BLA D 1000 0
+27 13 1d1+911 1d1+540 5d5+13 slash
+-7 -7 -7 1
+FENU 0 0 0
+sit sit male 1406
+0 0 medium 0
+
+#4705
+duergar dwarf~
+the duergar dwarf~
+A repulsive Duergar is here, biting at its own arm.
+~
+The Duergar are the outcast dark dwarves.  They have grown insane through
+their isolation from the rest of the dwarven population and have become bitter
+enemies with them.
+~
+unique~
+CFA D -1000 0
+8 4 1d1+184 1d1+160 3d3+4 slash
+5 5 5 7
+FENU 0 0 0
+stand stand male 327
+0 0 medium 0
+
+#4706
+grimdale king dwarf~
+Grimdale the ancient king~
+A ancient and partially decayed dwarf lies here ever so silent.
+~
+The ancient king of the dwarves lies here.  Forgotten over the past decades
+his once cherished body has fallen into utter decay.  His once cheery face has
+turned into a crude scowl as you can feel that his soul is not at ease.
+~
+unique~
+BFLA DF -999 0
+27 13 1d1+906 1d1+540 5d5+13 slash
+-7 -7 -7 1
+FENU 0 0 0
+stand stand male 1408
+0 0 medium 0
+
+#4707
+rock worm dreaded~
+The dreaded rock worm~
+The dreaded rock worm has blasted through the rock wall, its jaws open wide!
+~
+The jaws of this strange beast are large enough to fit at lease two dwarves
+into.  Judging by the size you can see that is has been eating quite a few too
+many dwarves as it's body is at least five feet in diameter.
+~
+unique~
+BFA D 0 0
+20 10 1d1+580 1d1+400 4d5+10 slash
+-3 -3 -3 3
+FENU 0 0 0
+stand stand neutral 1020
+0 0 medium 0
+
+#4708
+spirit dwarf~
+a dwarven spirit~
+A small dwarven spirit is at unrest here.
+~
+The small spirit screams in agony as it is bound to this wretched existence.
+The soul of some unfortunate dwarf now has to fly aimlessly through this chamber
+of eternal pain.
+~
+unique~
+BFA DFH -999 0
+15 7 1d1+375 1d1+300 4d4+7 chop
+0 0 0 5
+FENU 0 0 0
+stand stand neutral 605
+0 0 medium 0
+
+#0
+
+#OBJECTS
+#4700
+key small~
+a small key~
+A small key of red rock lies here on the ground.~
+~
+key 0 A
+2 0 0 0 0
+27 1 5400 P
+
+#4701
+pick mining~
+a mining pick~
+A small pick lies here on the ground.~
+~
+weapon 0 AN
+'mace' 2 3 'pierce' 0
+7 10 1436 P
+
+#4702
+helm dwarven~
+a dwarven helm~
+A large dwarven helm lies here on the ground.~
+~
+armor 0 AE
+5 5 5 0 0
+10 10 2092 P
+
+#4703
+plate dwarven breast~
+a dwarven breast plate~
+A dwarven breast plate lies here on the ground.~
+~
+armor 0 AD
+5 5 5 0 0
+10 15 2095 P
+
+#4704
+shield large dwarven~
+a large dwarven shield~
+A large dwarven shield lies here on the ground.~
+~
+armor A AJ
+4 0 0 0 0
+0 7 0 P
+A
+17     -2
+A
+24      4
+
+#4705
+coins large pile~
+a large pile of coins~
+A large pile of coins are piled here.~
+~
+money 0 A
+30000 0 0 0 0
+0 0 0 P
+
+#4706
+dwarven battle axe~
+a large dwarven battle axe~
+A large battle axe lies here on the ground.~
+~
+weapon GI AN
+'axe' 4 5 'slice' 0
+27 5 5416 P
+E
+dwarven battle axe~
+It is engraved with beautiful dwarven runes.~
+A
+18      1
+A
+19      1
+
+#4707
+large stone sarcophagus~
+a large stone sarcophagus~
+A large stone sarcophagus lies here, the lid fallen on the floor.~
+~
+container 0 0
+1000 1 0 0 0
+0 1000 0 P
+
+#4708
+staff ruling large~
+the staff of ruling~
+A large and intricate staff rests here.~
+~
+staff B AO
+25 5 5 7 0
+0 10 0 P
+
+#0
+
+#RESETS
+M 0 4700 10 4705 1  1   the small dwarf into Unfinished Mine  
+E   1   4701  100     16     a mining pick wielded                
+M 0 4700 10 4709 1  1   the small dwarf into Dwarven mine  
+E   1   4701  100     16     a mining pick wielded                
+M 0 4700 10 4713 1  1   the small dwarf into Dwarven mine  
+E   1   4701  100     16     a mining pick wielded                
+M 0 4700 10 4720 1  1   the small dwarf into Unfinished shaft  
+E   1   4701  100     16     a mining pick wielded                
+M 0 4700 10 4716 1  1   the small dwarf into Dwarven mines  
+E   1   4701  100     16     a mining pick wielded                
+M 0 4700 10 4723 1  1   the small dwarf into Unfinished mine  
+E   1   4701  100     16     a mining pick wielded                
+M 0 4700 10 4727 1  1   the small dwarf into Dwarven mines  
+E   1   4701  100     16     a mining pick wielded                
+M 0 4700 10 4725 1  1   the small dwarf into Dwarven mine  
+E   1   4701  100     16     a mining pick wielded                
+M 0 4700 10 4729 1  1   the small dwarf into Dwarven mines  
+E   1   4701  100     16     a mining pick wielded                
+M 0 4700 10 4738 1  1   the small dwarf into Carved Tunnel  
+E   1   4701  100     16     a mining pick wielded                
+M 0 4701 6 4740 1  1   the small dwarf into Walkway  
+M 0 4701 6 4740 1  1   the small dwarf into Walkway  
+M 0 4701 6 4759 1  1   the small dwarf into Walkway  
+M 0 4701 6 4759 1  1   the small dwarf into Walkway  
+M 0 4701 6 4763 1  1   the small dwarf into Walkway  
+M 0 4701 6 4763 1  1   the small dwarf into Walkway  
+M 0 4702 11 4739 1  1   the dwarf guard into Stone Gates  
+M 0 4702 11 4739 1  1   the dwarf guard into Stone Gates  
+M 0 4702 11 4757 1  1   the dwarf guard into Path in the Rock  
+M 0 4702 11 4757 1  1   the dwarf guard into Path in the Rock  
+M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack  
+M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack  
+M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack  
+M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack  
+M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack  
+M 0 4702 11 4749 1  1   the dwarf guard into Temple of Juargan  
+E   1   4702  100      6     a dwarven helm on head                
+E   1   4703  100      5     a dwarven breast plate on body                
+M 0 4702 11 4749 1  1   the dwarf guard into Temple of Juargan  
+E   1   4702  100      6     a dwarven helm on head                
+E   1   4703  100      5     a dwarven breast plate on body                
+M 0 4704 1 4749 1  1   Juargan the Dwarven King into Temple of Juargan  
+G   1   4700    1            a small key in inventory
+M 0 4705 10 4733 1  1   the duergar dwarf into Duergar Barracks  
+M 0 4705 10 4733 1  1   the duergar dwarf into Duergar Barracks  
+M 0 4705 10 4733 1  1   the duergar dwarf into Duergar Barracks  
+M 0 4705 10 4733 1  1   the duergar dwarf into Duergar Barracks  
+M 0 4705 10 4735 1  1   the duergar dwarf into By a small fire  
+M 0 4705 10 4735 1  1   the duergar dwarf into By a small fire  
+M 0 4705 10 4732 1  1   the duergar dwarf into Duergar Outcamp  
+M 0 4705 10 4729 1  1   the duergar dwarf into Dwarven mines  
+M 0 4705 10 4729 1  1   the duergar dwarf into Dwarven mines  
+M 0 4705 10 4715 1  1   the duergar dwarf into Dwarven mines  
+M 0 4703 1 4743 1  1   Yentle the dwarf into Rock Garden  
+M 0 4706 1 4769 1  1   Grimdale the ancient king into Ancients Tomb  
+E   1   4706    1     16     a large dwarven battle axe wielded                
+M 0 4707 1 4720 1  1   The dreaded rock worm into Unfinished shaft  
+M 0 4708 3 4769 1  1   a dwarven spirit into Ancients Tomb  
+M 0 4708 3 4769 1  1   a dwarven spirit into Ancients Tomb  
+M 0 4708 3 4769 1  1   a dwarven spirit into Ancients Tomb  
+O   0   4707    1   4769  load a large stone sarcophagus into Ancients Tomb
+P 1 4708 3 4707 1  1   Load the staff of ruling into a large stone sarcophagus  
+O   0   4704    1   4770  load a large dwarven shield into Ancients Vault
+O   0   4705    1   4770  load a large pile of coins into Ancients Vault
+D   0   4769    3      2  Ancients Tomb: Door west locked
+D   0   4770    1      2  Ancients Vault: Door east locked
+D   0   4700    4      1  The Spiral Stair: Door up closed
+D   0   4772    5      1  The small cave: Door down closed
+S
+
+#$

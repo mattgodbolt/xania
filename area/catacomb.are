@@ -1,0 +1,1812 @@
+#AREA   
+catacomb.are~
+Dwarven Catacombs~
+{10 20} Raff    Dwarven Catacombs~
+2001 2069
+
+#ROOMS
+#2001
+North entrance to the catacombs~
+You are almost surprised to see a tunnel leading off to the south
+into utter darkness.  The floorboards above you haven't been moved
+in a long time, yet there is life down here.  A beam of light from
+the opening above you falls upon a message scrawled on the wall here.
+
+The message reads:
+     Adventure for the strong yet calculating
+     Death for the weak and shallow
+     Treasure for the smart and lucky
+     Death for the stupid and accursed
+
+An ancient Glyph above the entrance keeps monsters from wandering up
+from the catacombs.
+~
+20 C 1
+D2
+~
+~
+0 -1 2002
+D4
+~
+floorboard board~
+1 -1 6524
+S
+#2002
+North/south tunnel~
+This part of the catacombs looked roughly hewn and man-made. There is
+a large cross painted on the floor of the tunnel.To the south it seems
+maybe a bit lighter for some odd reason.  To the north a ray of light
+comes in from a hole in the ceiling.
+~
+20 DI 0
+D0
+~
+~
+0 -1 2001
+D2
+~
+~
+0 -1 2007
+E
+cross paint floor~
+The cross is a Templar's cross. It seems to have had a fresh coat of
+paint recently.~
+S
+#2003
+Weapon training area~
+This is a place to keep up on there weapon skills.  Much of the
+equipment looks old and worn but upon further inspection seems quite
+sturdy in fact.
+~
+20 DI 0
+D1
+~
+~
+0 -1 2004
+D2
+~
+~
+0 -1 2008
+S
+#2004
+Prayer training area~
+The templar's curious mix of religion and fighting is evident here.
+A central painting depicts a cross composed of swords.  The elders
+teach the ancient art of prayer to the young pages.
+~
+20 DI 0
+D1
+~
+~
+0 -1 2005
+D3
+~
+~
+0 -1 2003
+S
+#2005
+Junction of hallways~
+Training facilities are evident to the west. To the south lies a hallway
+which has doors every couple of feet, looks like living quarters of some
+sort.  To the east the tunnel leads back into the natural catacombs.
+~
+20 DI 0
+D1
+~
+~
+0 -1 2006
+D2
+~
+~
+0 -1 2010
+D3
+~
+~
+0 -1 2004
+S
+#2006
+Hallway~
+The hallway takes on a more indoor look to the west.  To the east it
+looks awfully dark.
+~
+20 CDI 0
+D1
+~
+~
+0 -1 2007
+D3
+~
+~
+0 -1 2005
+S
+#2007
+Intersection~
+The tunnel continues to the north and the south, becoming less hewn and
+more natural to the south.  A passageway lined with paneling leads west.
+~
+20 DI 0
+D0
+~
+~
+0 -1 2002
+D2
+~
+~
+0 -1 2012
+D3
+~
+~
+0 -1 2006
+S
+#2008
+Pages' sleeping quarters~
+Several bunk beds are lined up across the room.  It looks rather spartan
+and there is little evidence of toys or games.  Most of the desks are
+filled with books and papers of little interest.
+~
+20 DI 0
+D0
+~
+~
+0 -1 2003
+D1
+~
+~
+0 -1 2009
+S
+#2009
+Templar Knights sleeping quarters~
+This is a huge room which is filled wall to wall with beds. Apparently
+all the low level knights all sleep in this one room.  A door on the
+south wall is labelled "Elders only!".
+~
+20 DI 0
+D2
+~
+~
+0 -1 2013
+D3
+~
+~
+0 -1 2008
+S
+#2010
+N/S hallway~
+The hallway leads north an south.  A door leads to a templar's room to
+the east.  The decoration looks rather sparse here.
+~
+20 DI 0
+D0
+~
+~
+0 -1 2005
+D1
+~
+~
+0 -1 2011
+D2
+~
+~
+0 0 2014
+S
+#2011
+A Middle-aged templar's room~
+This is a room furnished in a room becoming a low level templar scribe.
+No real amenities but better than a communal sleeping quarters. As far
+as you can tell he would be a rank equivalent to a Sargeant.
+~
+20 DI 0
+D3
+~
+~
+0 -1 2010
+S
+#2012
+Humid, damp tunnel~
+As the tunnel leads south it gets more humid and damp.  Moss covers the
+walls and ferns even grow in the cracks here and there.  To the north it
+seems much more sterile.
+~
+20 ADI 2
+D0
+~
+~
+0 -1 2007
+D2
+~
+~
+0 -1 2019
+S
+#2013
+Administration room~
+The elders gather here to discuss training strategies and count their
+loot.  You notice papers which look like important secret documents
+lying around. An escape passage leads west.
+~
+20 DI 0
+D0
+~
+~
+0 -1 2009
+D2
+~
+~
+0 -1 2016
+D3
+~
+~
+0 -1 2069
+E
+papers documents secrets~
+It seems that the loot comes from raids on the towns in the surrounding
+areas above ground.  From the documents it seems that the pages and
+trainees are kidnapped from the villages too!
+~
+S
+#2014
+N/S hallway~
+The hallway continues to become more important-looking as you wander
+south.  A room to the east looks rather more pleasant that some of the
+others.
+~
+20 DI 0
+D0
+~
+~
+0 -1 2010
+D1
+~
+~
+0 -1 2015
+D2
+~
+~
+0 -1 2017
+S
+#2015
+Mid-level leader's room~
+A rather nice looking room considering the drab conditions down here.
+Through all the signs of decoration you can still see evidence of water
+leaks.
+~
+20 DI 0
+D3
+~
+~
+0 -1 2014
+S
+#2016
+Mess hall~
+The a huge table with an immaculate white table cloth stretches way off
+to the south.  The room is kept immaculately clean by the nights
+themselves.  They truly belive that cleanliness is next to godliness.
+~
+20 DI 0
+D0
+~
+~
+0 -1 2013
+D2
+~
+~
+0 -1 2023
+S
+#2017
+N/S hallway~
+The hallway continues north and south.  A peculiar kind of glow seems
+to come from somewhere further along the hallway to the south. The room
+to the east looks like the lap of luxury.
+~
+20 DI 0
+D0
+~
+~
+0 -1 2014
+D1
+~
+~
+0 -1 2018
+D2
+~
+~
+0 -1 2024
+S
+#2018
+High officer's room~
+First thing you notice in this room is the pleasant aroma of cedar.  All
+the paneling in the room is made of fine cedar.  A painting of an
+elegant knight hangs on the wall.
+~
+20 DI 0
+D3
+~
+~
+0 -1 2017
+E
+painting elegant knight~
+Something oddly familiar about the knight.  He carries a glowing sword
+with a silvery blade.
+~
+S
+#2019
+Mossy intersection~
+There is a turn off to the passage here.  The main passage leads north
+and south. To the south it seems to get impossibly darker.  To the east
+you hear... birds?  A small rivulet of water seeps in from the passage
+east.  The air is very humid and damp here.
+~
+20 ADI 2
+D0
+~
+~
+0 -1 2012
+D1
+~
+~
+0 -1 2020
+D2
+~
+~
+0 -1 2026
+S
+#2020
+The holy grove~
+A small grove of birches grow seem to grow from solid rock.  You hear
+birds singing but try as you might you cant see any.  A strange glow
+emanates from a place somewhere to the southeast in the grove.
+~
+20 DJ 3
+D1
+~
+~
+0 -1 2021
+D3
+~
+~
+0 -1 2019
+S
+#2021
+The holy grove~
+The trees seem real enough even though they take root in solid rock.
+You hear other small animals scampering through the light undergrowth
+yet you see nothing. The grove continues south, east and west. An out of
+place passage way for some reason heads north.
+~
+20 DJ 3
+D0
+~
+~
+0 -1 2068
+D1
+~
+~
+0 -1 2022
+D2
+~
+~
+0 -1 2027
+D3
+~
+~
+0 -1 2020
+S
+#2022
+The holy grove~
+The grove continues west and south.  The glow is roughly to the south
+somewhere.
+~
+20 DJ 3
+D2
+~
+~
+0 -1 2028
+D3
+~
+~
+0 -1 2021
+S
+#2023
+Mess hall~
+"mess" isn't exactly the best word to describe this room.  On the
+contrary, it is immaculately clean.  A very long table stretches way off
+to the north. A hallway is to the east.
+~
+20 DI 0
+D0
+~
+~
+0 -1 2016
+D1
+~
+~
+0 -1 2024
+S
+#2024
+End of a hallway~
+You hear voices coming from a room to the west.  the hallway goes north.
+To the east lies a room which seems to glow with power and piety.
+~
+20 DI 0
+D0
+~
+~
+0 -1 2017
+D1
+~
+~
+0 -1 2025
+D3
+~
+~
+0 -1 2023
+S
+#2025
+Grand Templar's room~
+All the items in this room look ancient yet strangely very powerful and
+rich.  There is an aura of great holiness about the room.
+~
+20 DI 0
+D3
+~
+~
+0 -1 2024
+S
+#2026
+Very dark passage~
+This room is so dark that even powerful magic lights seems to barely
+illuminate the ground in front of you.  If its possible it seems even
+darker to the south.  The passage also leads back north.
+~
+20 ADI 2
+D0
+~
+~
+0 -1 2019
+D2
+~
+~
+0 -1 2030
+S
+#2027
+The holy grove~
+The grove continues north and east.  To the east a strange humming can
+barely be heard.
+~
+20 DJ 3
+D0
+~
+~
+0 -1 2021
+D1
+~
+~
+0 -1 2028
+S
+#2028
+The holy grove~
+All of a sudden all the mysterious sounds of the grove stop. Or perhaps
+its just the strange humming and glowing from a clearing to the south
+drowning out everything else. There is a sort of magical forcefield door
+to the south.
+~
+20 DJ 3
+D0
+~
+~
+0 -1 2022
+D2
+a glowing forcefield with a small circular hole in it.
+~
+glow glowing field forcefield door~
+2 2001 2032
+D3
+~
+~
+0 -1 2027
+S
+#2029
+Very dark caveway~
+This room is so very dark that no one is quite sure whats in it, so
+there's nothing really to describe except maybe the powerful sense of
+evil coming from the east and the almost overcoming urge to run to the
+west.
+~
+20 ADI 2
+D1
+~
+~
+0 -1 2030
+D3
+~
+~
+0 -1 2033
+S
+#2030
+Deep within the catacombs~
+It stinks like a lair in here.  A rotten smell of humanoid flesh
+lingers.  You stumble over what you think are corpses in the utter
+darkness. You sense a evil growl from somewhere in the room. maybe
+everywhere in the room. . ..
+~
+20 AD 5
+D0
+~
+~
+0 -1 2026
+D1
+~
+~
+0 -1 2031
+D3
+~
+~
+0 -1 2029
+S
+#2031
+Very dark cavern~
+The cavern is hard to describe due to the extreme magical darkness.
+Probing with a light source seems to reveal nothing but more darkness.
+~
+20 AD 5
+D2
+~
+~
+0 -1 2034
+D3
+~
+~
+0 -1 2030
+S
+#2032
+The holy place~
+A glowing stone lies in the center of the clearing.  You recognize it as
+the stone of the Excalibur.  The strange humming glowing makes it
+difficult to see if the Excalibur is there or not. Might want to take a
+closer look if possible.
+~
+20 DJ 3
+D0
+a glowing forcefield with a small circular hole in it.
+~
+glow glowing field forcefield door~
+2 2001 2028
+S
+#2033
+Misty passageway~
+Warm mist swirl about you making you feel threatened as well as
+protected at the same time.  The swirling mist makes it tough to tell
+directions quite clearly, but you seem to be able to go north or south.
+The mist gets denser to the south.
+~
+20 ADI 2
+D0
+~
+~
+0 -1 2029
+D2
+~
+~
+0 -1 2042
+S
+#2034
+Intersection of caverns~
+Caverns head north, south and east from this peculiar spot. Medium
+sized caverns from the east and the north join to form a huge cavern
+heading south.  The walls of the cavern are made of a bizarre mixture
+of many shiny crystals.
+~
+20 AD 5
+D0
+~
+~
+0 -1 2031
+D1
+~
+~
+0 -1 2035
+D2
+~
+~
+0 -1 2044
+S
+#2035
+Entrance to the burial grounds~
+You have entered what appears to be a burial ground of sorts. The
+templars buried their dead here.  Chills go down your spine as you feel
+something watching you.  You hear the random groan of a ghost, the howl
+of a wraith, and the dry clanking of bones.
+~
+20 AD 5
+D1
+~
+~
+0 -1 2036
+D3
+~
+~
+0 -1 2034
+S
+#2036
+The burial grounds~
+Random tombs to unknown warriors were lain in rows as far as the eye
+can see.  To your horror many of the graves are empty and desecrated.
+A gap in the rows of tombs leads south and there are more graves to the
+east and west.
+~
+20 AD 5
+D1
+~
+~
+0 -1 2037
+D2
+~
+~
+0 -1 2045
+D3
+~
+~
+0 -1 2035
+S
+#2037
+The burial grounds~
+It seems as if many of the warriors could not stop fighting even in
+death.  They fight amongst each other and flail at any living being
+that would wander near.
+~
+20 AD 5
+D1
+~
+~
+0 -1 2038
+D3
+~
+~
+0 -1 2036
+S
+#2038
+The burial grounds~
+Legions of skeletal warriors wander by and battle the enemy even in
+death.  Old battlelines have been forgotten and new ones made. Its a
+gruesome scene.
+~
+20 AD 5
+D1
+~
+~
+0 -1 2039
+D3
+~
+~
+0 -1 2037
+S
+#2039
+New graves~
+The tombs in this section seem somewhat more recent.  Rotting zombie
+warriors groan and wail with blank stares.  You hear sounds of digging
+off a bit to the south.
+~
+20 AD 5
+D2
+~
+~
+0 -1 2047
+D3
+~
+~
+0 -1 2038
+S
+#2040
+Misty cavern~
+A chilling icy mist swirl about you.  The dampness and warmth has become
+bitter cold.  The walls of the cavern are several feet thick with ice
+here.  An icy wind blows from the south.
+~
+20 ADI 2
+D1
+~
+~
+0 -1 2041
+D2
+~
+~
+0 -1 2048
+S
+#2041
+Misty cavern~
+The temperature is a pleasant and mild here.  This is due to a warm wind
+blowing in from the east and a chilly breeze blowing in from the west.
+The updrafts create bizarre icy-steamy mists which dance along the
+walls.
+~
+20 ADI 2
+D1
+~
+~
+0 -1 2042
+D3
+~
+~
+0 -1 2040
+S
+#2042
+Mist cavern~
+A warm wind blows in from the east.  The air is still stifling hot in
+here despite the breeze.  The mist seems thick enough to be alive. . .
+~
+20 ADI 2
+D0
+~
+~
+0 -1 2033
+D1
+~
+~
+0 -1 2043
+D3
+~
+~
+0 -1 2041
+S
+#2043
+Waterfall of mist~
+River of hot mist pour down in a cascade from a hole in the cavern.  It
+falls like water down from the heights like a waterfall and creates
+beautiful swirls.  It causes a hot wind to flow west.
+~
+20 ADI 2
+D3
+~
+~
+0 -1 2042
+E
+hole height waterfall cascade~
+The hole is much too high up for you to reach.
+~
+S
+#2044
+Huge multicolored tunnel~
+The tunnel leads north and south.  To the south there is an odd
+twinkling phenomenon.
+~
+20 ADI 2
+D0
+~
+~
+0 -1 2034
+D2
+~
+~
+0 -1 2050
+S
+#2045
+Desolate ruins~
+Several mausoleums used to grace the way here but these have been
+defiled. And most have been torn down and burned by looters. Some still
+seem to be intact to the south.  To the northwest is a seeming field of
+tombs of soldiers, now a battleground for the undead.
+~
+20 AD 5
+D2
+~
+~
+0 -1 2051
+S
+#2046
+Curators place~
+The undertaker, the historian and the curator used to be here. Now they
+too have joined the legions of the undead.  From the looks of the place
+they seem to have starved to death.  Rickety stairs head down into a
+sort of basement.
+~
+20 AD 4
+D1
+~
+~
+0 -1 2047
+D5
+~
+~
+0 -1 2052
+E
+stairs basement~
+Surprisingly the stairs look sturdy enough.
+~
+S
+#2047
+Fresh graves~
+Graves of recent casualties lie here.  Even the most recent don't seem to
+have been left undisturbed.  You hear sounds of digging in progress
+further to the south.
+~
+20 AD 4
+D0
+~
+~
+0 -1 2039
+D2
+~
+~
+0 -1 2053
+D3
+~
+~
+0 -1 2046
+S
+#2048
+Twisty cavern~
+The way twist this way and that and its all you can do to keep your head
+from spinning.  The air is very cold here and layers of ice on the wall.
+The sounds of metal on ice echo through the cavern. A side passage leads
+east and the main passage goes north and south.
+~
+20 ADI 2
+D0
+~
+~
+0 -1 2040
+D1
+~
+~
+0 -1 2049
+D2
+~
+~
+0 -1 2056
+S
+#2049
+Striped tunnel~
+The walls of the tunnels have many brilliant colors in them from the
+various veins of crystals running in them.  An odd twinkling comes from
+the east.
+~
+20 ADI 2
+D1
+~
+~
+0 -1 2050
+D3
+~
+~
+0 -1 2048
+S
+#2050
+Prism cave~
+The roof of this cave peaks over a hundred feet high making it one of
+the biggest in the catacombs.  Crystals of every color cast prismatic
+sprays of light everywhere.  The light from your lamp causes almost a
+blinding flare of brilliance as more light is added to the multi-colored
+twinkling phenomenon that exists here.  This is also the lair of the
+fabled and feared Prism Dragon.
+~
+20 D 5
+D0
+~
+~
+0 -1 2044
+D1
+~
+~
+0 -1 2058
+D2
+~
+~
+0 -1 2057
+D3
+~
+~
+0 -1 2049
+S
+#2051
+Ruined monument~
+A monument to a famous king once stood here. Not much is left to even
+signify that is was here at all.  A building of some sort can be entered
+through a basement to the east.  The southern gate of the grounds is to
+the south.
+~
+20 AD 4
+D0
+~
+~
+0 -1 2045
+D1
+~
+~
+0 -1 2052
+D2
+~
+~
+0 -1 2054
+S
+#2052
+Basement~
+Its dark and it smells like. ...BATS down here!  All you see is a swirl
+of the darkness and lots of scratching bats madly flailing around. A set
+of stairs go up into the building and a broken window leads west.
+~
+20 AD 4
+D3
+~
+~
+0 -1 2051
+D4
+~
+~
+0 -1 2046
+S
+#2053
+Fresh graves~
+The graves here seem very recent.  You notice many signs of digging and
+defilement.  There are piles of fresh bodies here awaiting burial.  A
+strange sense of evil magic from the south makes the hairs on the back
+of your neck to stand on end!
+~
+20 AD 4
+D0
+~
+~
+0 -1 2047
+D2
+~
+~
+0 -1 2055
+S
+#2054
+Southern gate~
+A rusty gate here no longer keeps anyone out or in.  You see a lonely
+E/W passage to the south.  A little used trail winds east through a
+crack in the wall.
+~
+20 AD 2
+D0
+~
+~
+0 -1 2051
+D1
+~
+~
+0 -1 2066
+D2
+~
+~
+0 -1 2059
+S
+#2055
+Scene of ghastly horror~
+An army of undead creatures of all types are lined up patiently. Their
+leader is an evil demonoid necromancer.  His plans to use his army of
+undead to take over the world seem about ready to get underway.
+~
+20 AD 5
+D0
+~
+~
+0 -1 2053
+D2
+~
+~
+0 -1 2062
+S
+#2056
+Twisty passage~
+The passage bends north and east here.  To the east your not certain
+what lies ahead due to all the twists and turns you've made.  To the
+north is seems cold.
+~
+20 ADI 2
+D0
+~
+~
+0 -1 2048
+D1
+~
+~
+0 -1 2057
+S
+#2057
+Cross of caverns~
+A little-used cavern enters from the south. A passage twists away to
+the west.  An odd twinkling comes from the cave to the north.
+~
+20 ADI 2
+D0
+~
+~
+0 -1 2050
+D2
+~
+~
+0 -1 2066
+D3
+~
+~
+0 -1 2056
+S
+#2058
+Lonely tunnel~
+Something indescribable makes you feel lonesome and sad here. Its just
+a feeling you get from this tunnel.  The tunnel east and west.
+~
+20 ADI 2
+D1
+~
+~
+0 -1 2059
+D3
+~
+~
+0 -1 2050
+S
+#2059
+Lonely tunnel~
+Something indescribable makes you feel lonesome and sad here. You see a
+gate to a burial ground to the north.  This lonesome tunnel sighs along
+west and east.
+~
+20 ADI 2
+D0
+~
+~
+0 -1 2054
+D1
+~
+~
+0 -1 2060
+D3
+~
+~
+0 -1 2058
+S
+#2060
+Bend in the lonely tunnel~
+Something indescribable makes you feel lonesome and sad here. The
+tunnel bends west and south.
+~
+20 ADI 2
+D2
+~
+~
+0 -1 2061
+D3
+~
+~
+0 -1 2059
+S
+#2061
+Lonely tunnel~
+Something indescribable makes you feel lonesome and sad here. The very
+walls of the tunnel seems to groan.  to the north the tunnel bends and
+east is an intersection.
+~
+20 ADI 2
+D0
+~
+~
+0 -1 2060
+D1
+~
+~
+0 -1 2062
+S
+#2062
+Intersection~
+To the north you enter the burial grounds.  a trail of blood leads that
+direction.  Also you feel an ominous sense of evil magic from there.
+The tunnel to the west creaks and sighs as if alive.  To the south you
+smell a hint of fresh air.
+~
+20 ADI 2
+D0
+~
+~
+0 -1 2055
+D2
+~
+~
+0 -1 2063
+D3
+~
+~
+0 -1 2061
+S
+#2063
+Tunnel~
+The tunnel heads north and south.  North you see an intersection and
+far to the south you sense light and smell a fresh breeze.
+~
+20 ADI 2
+D0
+~
+~
+0 -1 2062
+D2
+~
+~
+0 -1 2064
+S
+#2064
+Tunnel~
+The tunnel slopes noticeably down to the north and you sense the surface
+could be reached to the south.
+~
+20 ADI 2
+D0
+~
+~
+0 -1 2063
+D2
+~
+~
+0 -1 2065
+S
+#2065
+Southern entrance to the catacombs~
+Through a trapdoor above you streams light.  Through a doorway to
+the south streams darkness.  A message has been scrawled upon the wall
+here.  The message reads:
+     Adventure for the strong yet calculating
+     Death for the weak and shallow
+     Treasure for the smart and lucky
+     Death for the stupid and accursed
+An ancient Glyph above the entrance keeps monsters from wandering up
+from the catacombs.
+~
+20 C 2
+D0
+~
+~
+0 -1 2064
+D4
+~
+floorboard board~
+1 -1 6527
+S
+#2066
+Unknown passage~
+Oh dear you seem to have lost your way.  You look back from whence you
+came but there's no exit there anymore.  There are exits in other
+directions but you have a feeling that you are hopelessly lost.
+~
+20 ACDI 2
+D1
+~
+~
+0 -1 2067
+D2
+~
+~
+0 -1 2068
+S
+#2067
+Unknown passage~
+Oh dear you seem to have lost your way.  You look back from whence you
+came but there's no exit there anymore.  There are exits in other
+directions but you have a feeling that you are hopelessly lost.
+~
+20 ACDI 2
+D2
+~
+~
+0 -1 2069
+D3
+~
+~
+0 -1 2066
+S
+#2068
+Unknown passage~
+Oh dear you seem to have lost your way.  You look back from whence you
+came but there's no exit there anymore.  There are exits in other
+directions but you have a feeling that you are hopelessly lost.
+~
+20 ACDI 2
+D0
+~
+~
+0 -1 2066
+D1
+~
+~
+0 -1 2069
+S
+#2069
+Unknown passage~
+Oh dear you seem to have lost your way.  You look back from whence you
+came but there's no exit there anymore.  There are exits in other
+directions but you have a feeling that you are hopelessly lost.
+~
+20 ACDI 2
+D0
+~
+~
+0 -1 2067
+D3
+~
+~
+0 -1 2068
+S
+#0
+
+#MOBILES
+#2001
+bat~
+a bat~
+A bat flaps wildly at you!
+~
+Your typical smelly, blind flying mammal.
+~
+unique~
+BFA F 0 0
+5 2 1d1+80 1d1+100 2d3+2 slash
+6 6 6 8
+FENU 0 0 0
+stand stand neutral 202
+0 0 medium 0
+
+#2002
+page templar~
+a templar page~
+A templar page in training is here looking mildly confused.
+~
+He has lost his family and everything of his former life.
+~
+human~
+HA 0 200 0
+7 3 1d1+141 1d1+140 3d3+3 slash
+5 5 5 7
+FENU 0 0 0
+stand stand male 287
+0 0 medium 0
+
+#2003
+spelunker explorer~
+a spelunker~
+A spelunker knows his way around these tunnels.
+~
+He recently discovered these catacombs and wants to see where they lead.
+He just hopes he doesn't get killed in the process.  He carries only
+essential exploration gear; if there IS anything down here, he
+probably won't last long.
+~
+orc~
+CHA F 100 0
+8 3 1d1+174 1d1+160 3d3+4 scratch
+5 5 5 7
+FENCU 0 0 0
+stand stand male 329
+0 0 medium 0
+
+#2004
+gravedigger digger robber graverobber~
+a graverobber~
+A graverobber uncovers dead bodies.
+~
+Working for an evil necromancer isn't the greatest thing in the world.
+They seem like little more than zombie servants themselves.
+~
+orc~
+CFA 0 -500 0
+9 4 1d1+190 1d1+180 3d3+4 slash
+4 4 4 7
+FENCU 0 0 0
+stand stand male 375
+0 0 medium 0
+
+#2005
+mist swirling~
+some mist~
+Some mist swirls about you here ... it seems ALIVE!
+~
+In fact it IS alive in a magical sort of sense.
+~
+unique~
+A HPU 0 0
+10 4 1d1+210 1d1+200 3d3+5 slash
+3 3 3 6
+FENU 0 0 0
+stand stand neutral 403
+0 0 medium 0
+
+#2006
+It~
+It~
+It is here.~
+It is here.~
+unique~
+FA 0 0 0
+10 4 1d1+210 1d1+200 3d3+5 slash
+3 3 3 6
+FENU 0 0 0
+stand stand neutral 414
+0 0 medium 0
+
+#2007
+skeleton skeletal soldier~
+a skeleton~
+A skeletal soldier fights in the battle of the underworld.
+~
+Even though he has died in the physical sense of the word, the battle
+continues for him in his charmed state.
+~
+undead~
+CFA 0 -290 0
+11 5 1d1+255 1d1+220 3d4+5 acbite
+3 3 3 6
+FENU 0 0 0
+stand stand male 457
+0 0 medium 0
+
+#2008
+templar~
+a templar~
+A templar shouts "AKK! SLAY THE INFIDEL!"
+~
+As you peer closely he peers back at you
+
+A templar peers closely at you.
+A templar tells you, "You are an evil force trying to spread your ways!".
+A templar tells you, "You must die for your sin!".
+~
+human~
+CFA 0 600 0
+12 6 1d1+280 1d1+240 3d4+6 pound
+2 2 2 6
+FENU 0 0 0
+stand stand male 499
+0 0 medium 0
+
+#2009
+wraith~
+a mysterious wraith~
+A mysterious ghostly wraith forms before your eyes.
+~
+Hard to tell much about the mysterious form even upon further inspection.
+~
+undead~
+CFA FU 0 0
+12 6 1d1+280 1d1+240 3d4+6 slash
+2 2 2 6
+FENU 0 0 0
+stand stand male 502
+0 0 medium 0
+
+#2010
+officer templar~
+the templar officer~
+A templar officer keeps an eye on things here.
+~
+A templar officer tells you "Better move along evil one!"
+~
+human~
+FA D 700 0
+13 6 1d1+305 1d1+260 4d4+6 slash
+1 1 1 5
+FENU 0 0 0
+stand stand male 521
+0 0 medium 0
+
+#2011
+zombie mage~
+zombie~
+A blank-faced zombie mage joins the battle.
+~
+He seems to lack real interest in what he is doing.
+~
+undead~
+CFA 0 -100 0
+13 6 1d1+305 1d1+260 4d4+6 slash
+1 1 1 5
+FENU 0 0 0
+stand stand male 529
+0 0 medium 0
+
+#2012
+shadow shadows~
+the shadow~
+Eerie shadows fill the room.
+~
+Looks vaguely you-shaped.
+~
+unique~
+A FPU 0 0
+14 6 1d1+330 1d1+280 4d4+7 slash
+1 1 1 5
+FENU 0 0 0
+stand stand neutral 563
+0 0 medium 0
+
+#2013
+bat vampire~
+The vampire~
+A bat flaps wildly at you!
+~
+A rather LARGE "bat" ...
+~
+unique~
+BFA F -100 0
+15 6 1d1+355 1d1+300 4d4+7 acbite
+0 0 0 5
+FENU 0 0 0
+stand stand male 605
+0 0 medium 0
+
+#2014
+necromancer necro cleric~
+the evil necromancer~
+The evil necromancer makes undead soldiers from corpses.
+~
+Though he seems absorbed in his work, you'd bet he'd take the time out
+to kill you to get a fresh corpse!
+~
+undead~
+BFA 0 -888 0
+15 6 1d1+355 1d1+300 4d4+7 slash
+0 0 0 5
+FENU 0 0 0
+stand stand male 621
+0 0 medium 0
+
+#2015
+grand templar leader~
+the grand templar~
+The grand templar stands here quietly observing your actions
+~
+A slight, tolerant smile comes briefly across his face.  In the blink
+of an eye he seems stern again.
+~
+human~
+BA DFH 1000 0
+16 8 1d1+464 1d1+320 4d4+8 slash
+0 0 0 5
+FENU 0 0 0
+stand stand male 657
+0 0 medium 0
+
+#2016
+prism dragon prismdragon~
+the prism dragon~
+The light shines off a beautiful but dangerous dragon lurking here.
+~
+The spray of colored light bouncing off his scales is almost blinding.
+~
+dragon~
+BFA DF -303 0
+20 10 1d1+580 1d1+400 4d5+10 slash
+-3 -3 -3 3
+FENCU 0 0 0
+stand stand male 1023
+0 0 medium 0
+
+#2017
+darken dark beast darkenbeast~
+The DarkenBeast~
+You hear and smell the presense of the darkenbeast.
+~
+You see nothing more than the sense of darkness and evil.
+~
+dragon~
+BFA 0 -1000 0
+24 12 1d1+821 1d1+480 5d5+12 slash
+-5 -5 -5 2
+FENCU 0 0 0
+stand stand neutral 1254
+0 0 medium 0
+
+#0
+
+#OBJECTS
+#2001
+glowing key~
+a glowing key~
+A circular, glowing key radiates a bright aura around it.~
+iron~
+key ABG A
+39 0 0 0 0
+16 1 3214 P
+
+#2002
+granite plate mail platemail~
+a suit of granite platemail~
+A suit of platemail hewn from granite stands by itself in the corner.~
+stone~
+armor JB AD
+7 7 7 0 0
+24 55 4971 P
+A
+2      -1
+
+#2003
+onyx ring~
+an onyx ring~
+A ring with a very dark onyx stone in it has been left in the dirt.~
+stone~
+armor J AB
+7 7 7 0 0
+24 1 4903 P
+A
+4       1
+
+#2004
+neutralizer sword~
+the neutralizer~
+A long thin sword with a wide blade makes you wonder.~
+steel~
+weapon BJK AN
+'sword' 3 5 'slash' 0
+15 9 3041 P
+A
+18      1
+A
+19      1
+
+#2005
+sword excalibur~
+The sword Excalibur~
+A sword gleams by the light of its magical silvery blade.~
+steel~
+weapon AGKL AN
+'sword' 5 6 'slash' 0
+30 15 6240 P
+A
+18      3
+A
+1       1
+
+#2006
+crown~
+A kingly crown~
+The crown of a long lost King lies forgotten here.~
+gold~
+key I AE
+15 0 0 0 0
+24 10 4900 P
+A
+17     -8
+
+#2007
+stone~
+stone~
+The stone is surrounded by a bright glow, better look closer.~
+stone~
+container A 0
+15 15 2006 0 0
+0 2000 0 P
+
+#2008
+holy water flask~
+a flask of holy water~
+A flask of holy water is here.~
+glass~
+potion A AO
+25 3 36 1 0
+16 2 3269 P
+
+#2009
+chainmail chain mail suit~
+a suit of chainmail~
+A nice suit of chainmail has been left behind.~
+iron~
+armor I AD
+5 5 5 0 0
+11 20 2213 P
+
+#2010
+white cape~
+a white cape~
+A blazing cape of white lies in a careful pile.~
+cloth~
+armor A AC
+6 6 6 0 0
+16 3 3255 P
+A
+18      1
+
+#2011
+shield defence~
+the shield of defence~
+A large shield lies protecting the ground.~
+steel~
+armor G AJ
+6 6 6 0 0
+15 15 3027 P
+A
+12     10
+A
+13     10
+A
+18     -2
+A
+19     -1
+
+#2012
+scale shield dragonscale~
+a dragonscale shield~
+A shield from from the scales of a large dragon lies here.~
+adamantite~
+armor 0 AJ
+7 7 7 0 0
+20 18 4086 P
+A
+23      3
+
+#2013
+prism wand~
+a prism wand~
+A wand made of a triangular prism twinkles in the dust.~
+glass~
+wand AG AO
+11 4 4 10 0
+20 4 4108 P
+
+#2014
+shadow cloak~
+a shadow cloak~
+The shadows in the corner of the room seems strange ...~
+cloth~
+armor G AK
+5 5 5 0 0
+14 1 2936 P
+A
+14    -30
+
+#2015
+misty potion~
+a misty potion~
+A potion of swirling mist-like substance is here.~
+glass~
+potion 0 AO
+10 74 1 1 0
+10 1 2037 P
+
+#2016
+templar templars sword wooden~
+a templar's sword~
+A sword made of wood has been left here.~
+wood~
+weapon I AN
+'sword' 3 4 'slash' 0
+12 6 2433 P
+A
+18      1
+
+#0
+
+#RESETS
+M 0 2001 6 2052 1  1   a bat into Basement  
+M 0 2001 6 2052 1  1   a bat into Basement  
+M 0 2001 6 2052 1  1   a bat into Basement  
+M 0 2013 1 2052 1  1   The vampire into Basement  
+E   1   2004    9     16     the neutralizer wielded                
+M 0 2001 6 2052 1  1   a bat into Basement  
+M 0 2001 6 2052 1  1   a bat into Basement  
+M 0 2001 6 2052 1  1   a bat into Basement  
+M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters  
+M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters  
+M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters  
+M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters  
+M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters  
+M 0 2002 8 2009 1  1   a templar page into Templar Knights sleeping quarters  
+M 0 2002 8 2009 1  1   a templar page into Templar Knights sleeping quarters  
+M 0 2002 8 2010 1  1   a templar page into N/S hallway  
+M 0 2003 2 2002 1  1   a spelunker into North/south tunnel  
+M 0 2003 2 2064 1  1   a spelunker into Tunnel  
+M 0 2004 4 2053 1  1   a graverobber into Fresh graves  
+M 0 2004 4 2053 1  1   a graverobber into Fresh graves  
+M 0 2004 4 2055 1  1   a graverobber into Scene of ghastly horror  
+M 0 2004 4 2055 1  1   a graverobber into Scene of ghastly horror  
+M 0 2006 7 2039 1  1   It into New graves  
+M 0 2006 7 2040 1  1   It into Misty cavern  
+M 0 2006 7 2028 1  1   It into The holy grove  
+M 0 2006 7 2019 1  1   It into Mossy intersection  
+M 0 2006 7 2049 1  1   It into Striped tunnel  
+M 0 2006 7 2033 1  1   It into Misty passageway  
+M 0 2006 7 2036 1  1   It into The burial grounds  
+M 0 2007 4 2035 1  1   a skeleton into Entrance to the burial grounds  
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2007 4 2036 1  1   a skeleton into The burial grounds  
+M 0 2007 4 2037 1  1   a skeleton into The burial grounds  
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2007 4 2038 1  1   a skeleton into The burial grounds  
+M 0 2008 12 2003 1  1   a templar into Weapon training area  
+E   1   2009   99      5     a suit of chainmail on body                
+E   1   2016   99     16     a templar's sword wielded                
+M 0 2008 12 2004 1  1   a templar into Prayer training area  
+E   1   2016   99     16     a templar's sword wielded                
+M 0 2008 12 2005 1  1   a templar into Junction of hallways  
+M 0 2008 12 2006 1  1   a templar into Hallway  
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2008 12 2009 1  1   a templar into Templar Knights sleeping quarters  
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2008 12 2009 1  1   a templar into Templar Knights sleeping quarters  
+E   1   2016   99     16     a templar's sword wielded                
+M 0 2008 12 2009 1  1   a templar into Templar Knights sleeping quarters  
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2008 12 2016 1  1   a templar into Mess hall  
+E   1   2016   99     16     a templar's sword wielded                
+M 0 2008 12 2016 1  1   a templar into Mess hall  
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2008 12 2016 1  1   a templar into Mess hall  
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2008 12 2023 1  1   a templar into Mess hall  
+E   1   2016   99     16     a templar's sword wielded                
+M 0 2008 12 2023 1  1   a templar into Mess hall  
+M 0 2009 2 2039 1  1   a mysterious wraith into New graves  
+M 0 2009 2 2047 1  1   a mysterious wraith into Fresh graves  
+M 0 2010 6 2016 1  1   the templar officer into Mess hall  
+E   1   2016   99     16     a templar's sword wielded                
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2010 6 2016 1  1   the templar officer into Mess hall  
+E   1   2016   99     16     a templar's sword wielded                
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2010 6 2016 1  1   the templar officer into Mess hall  
+E   1   2016   99     16     a templar's sword wielded                
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2010 6 2023 1  1   the templar officer into Mess hall  
+E   1   2009   99      5     a suit of chainmail on body                
+E   1   2016   99     16     a templar's sword wielded                
+M 0 2010 6 2018 1  1   the templar officer into High officer's room  
+E   1   2016   99     16     a templar's sword wielded                
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2010 6 2015 1  1   the templar officer into Mid-level leader's room  
+E   1   2016   99     16     a templar's sword wielded                
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2011 4 2047 1  1   zombie into Fresh graves  
+M 0 2011 4 2053 1  1   zombie into Fresh graves  
+M 0 2011 4 2037 1  1   zombie into The burial grounds  
+M 0 2011 4 2036 1  1   zombie into The burial grounds  
+M 0 2012 2 2026 1  1   the shadow into Very dark passage  
+E   1   2014   25     12     a shadow cloak about body             
+M 0 2014 1 2055 1  1   the evil necromancer into Scene of ghastly horror  
+E   1   2011    9     11     the shield of defence as shield              
+M 0 2015 1 2025 1  1   the grand templar into Grand Templar's room  
+E   1   2010    9      3     a white cape on neck                
+E   1   2001    9      0     a glowing key as light               
+E   1   2008    9     17     a flask of holy water held                   
+M 0 2016 1 2050 1  1   the prism dragon into Prism cave  
+E   1   2012    9      5     a dragonscale shield on body                
+E   1   2013    9     17     a prism wand held                   
+M 0 2017 1 2030 1  1   The DarkenBeast into Deep within the catacombs  
+E   1   2003    9      2     an onyx ring on right finger        
+E   1   2002    9      5     a suit of granite platemail on body                
+E   1   2006    9     17     A kingly crown held                   
+O   0   2007    1   2032  load stone into The holy place
+P 1 2005 3 2007 1  1   Load The sword Excalibur into stone  
+M 0 2005 9 2033 1  1   some mist into Misty passageway  
+E   1   2015   35     17     a misty potion held                   
+M 0 2005 9 2040 1  1   some mist into Misty cavern  
+E   1   2015   35     17     a misty potion held                   
+M 0 2005 9 2040 1  1   some mist into Misty cavern  
+E   1   2015   35     17     a misty potion held                   
+M 0 2005 9 2041 1  1   some mist into Misty cavern  
+E   1   2015   35     17     a misty potion held                   
+M 0 2005 9 2041 1  1   some mist into Misty cavern  
+E   1   2015   35     17     a misty potion held                   
+M 0 2005 9 2042 1  1   some mist into Mist cavern  
+E   1   2015   35     17     a misty potion held                   
+M 0 2005 9 2043 1  1   some mist into Waterfall of mist  
+E   1   2015   35     17     a misty potion held                   
+M 0 2005 9 2043 1  1   some mist into Waterfall of mist  
+E   1   2015   35     17     a misty potion held                   
+M 0 2005 9 2043 1  1   some mist into Waterfall of mist  
+E   1   2015   35     17     a misty potion held                   
+D   0   2028    2      2  The holy grove: Door south locked
+D   0   2032    0      2  The holy place: Door north locked
+D   0   2001    4      1  North entrance to the catacombs: Door up closed
+D   0   2065    4      1  Southern entrance to the catacombs: Door up closed
+S
+#SPECIALS
+
+
+
+
+
+
+M  2007 spec_cast_undead
+M  2009 spec_cast_undead
+M  2011 spec_cast_mage
+M  2013 spec_cast_undead
+M  2014 spec_cast_undead
+M  2016 spec_breath_any
+M  2017 spec_poison
+S
+
+#$

@@ -1,0 +1,3542 @@
+#AREA 
+imladris.are~
+Imladris~
+{10 25} Faramir Imladris~
+12000 12090
+
+#ROOMS
+
+#12000
+The Beaten Trail~
+You are heading along an undulating pathway which runs east to west.
+Some grassy plains lie in the west whilst the dark shadow of tree
+covered hills lie in the east. In the distance, beyond the hills you
+can make out the snow capped peaks of some mist covered mountains.
+~
+11 0 4
+D1
+The trail continues
+~
+~
+0 -1 12001
+D3
+Grassy plains~
+~0 -1 312
+S
+
+#12001
+The trail continues~
+This well worn trail cuts eastwards, deep into the hills. The vegetation
+to the north and south grows increasingly thick, and ominously dark.
+The trail looks lighter and more welcoming in the west.
+~
+11 0 4
+D1
+The trail through the steep, wooded hills
+~
+~
+0 -1 12002
+D3
+The beaten trail
+~
+~
+0 -1 12000
+S
+#12002
+The trail through the steep wooded hills~
+Tall, coniferous woodlands lie to the north and south of this dirt
+track, which continues to lead a way between the east and west.
+Although the trees shadow the track in darkness, you feel particularly
+exposed, especially as the trail is not perfectly straight. If anyone,
+or rather, anything, were to come round a bend or over a hill, they would
+see you immediately. Somehow, the cover of the trees seem like a good idea...
+~
+11 0 4
+D0
+Dark woods
+~
+~
+0 -1 12005
+D1
+The dark, undulating trail
+~
+~
+0 -1 12003
+D2
+Dark woods
+~
+~
+0 -1 12006
+D3
+The trail continues
+~
+~
+0 -1 12001
+
+S
+#12003
+The dark, undulating trail~
+The path rolls up and down over steep foothills, which appear to
+diminish in height in the west. Much further in the west is the
+imposing line of the Misty Mountains. The darkness of the trees
+to the north and south offer you shelter from the elements, and
+indeed, from any enemies you may encounter.
+~
+11 0 4
+D0
+Dark woods
+~
+~
+0 -1 12007
+D1
+The end of the steep foothills
+~
+~
+0 -1 12004
+D2
+Dark woods
+~
+~
+0 -1 12008
+D3
+The trail through the steep wooded hills
+~
+~
+0 -1 12002
+S
+
+#12004
+The top of the steep foothills~
+You stand upon a worn pathway which heads west through some dark,
+wooded hills. To the east, the land falls away to a sandy, dried
+river bed and then you notice the silver snake of the river Bruinen
+which heads between the north and south. The beautiful, yet fearful
+Misty Mountains stand regally in the far east.
+~
+11 0 4
+D1
+The sandy shoreline
+~
+~
+0 -1 12009
+D3
+The dark, undulating trail
+~
+~
+0 -1 12003
+S
+
+#12005
+Hiding in the dark undergrowth~
+You step north off the trail into the thick undergrowth. Tall pine
+and spruce trees tower around you and footsteps are perfectly silent
+on the ferny floor.  This looks like an ideal place to set up camp for
+the night.
+~
+11 0 3
+D2
+Back to the trail
+~
+~
+0 -1 12002
+S
+#12006
+Hiding in the dark undergrowth~
+You slide down the slope to the south of the trail into the security
+of the undergrowth. There is no lower canopy of vegetation here, as
+the tall trees have blocked out all of the light, preventing the
+growth of any other species. The thick layer of pine needles on the
+ground would be comfortable to lie upon though. Perhaps you should
+take a break from the perils of the road.
+~
+11 0 4
+D0
+Back to the trail
+~
+~
+0 -1 12002
+S
+#12007
+Hiding in the dark undergrowth~
+You step north off the trail into the thick undergrowth. Tall pine
+and spruce trees tower around you and footsteps are perfectly
+silent on the ferny floor. This looks like an ideal place to set up
+camp for the night.
+~
+11 0 4
+D2
+Back to the trail
+~
+~
+0 -1 12003
+S
+
+#12008
+Hiding in the deep undergrowth~
+You slide down the slope to the south of the trail into the security
+of the undergrowth. The trees crowd around you and you hear a faint
+whispering...as if they are ushering you to return to the trail
+immediately. The whispering causes fear to surge through your body!
+~
+11 0 4
+D0
+Back to the trail
+~
+~
+0 -1 12003
+S
+
+#12009
+The deserted, sandy shoreline~
+The hardpacked sand of a dried river bed crunches beneath your feet.
+The sand spreads out to the north, south and over to the east where
+you can hear and smell the presence of a river, beyond which lie the
+Misty Mountains. Some forested hills spring up to your west, and you
+can see a trail winding up into them.
+~
+11 0 2
+D0
+The deserted river bed
+~
+~
+0 -1 12010
+D1
+On the shore of the river
+~
+~
+0 -1 12012
+D2
+The deserted river bed
+~
+~
+0 -1 12013
+D3
+The beginning of the forested trail
+~
+~
+0 -1 12004
+S
+
+#12010
+The dried river bed~
+You head across what appears to be a terrace cut out by a river which
+has long since meandered in another direction. The sandy surface is
+covered in shingle and skeletons of various amphibious creatures.
+You can hear the sound of a river gliding along to your east, whilst
+the land climbs sharply to your west, topped by some dark trees.
+~
+11 0 2
+D0
+The deserted river bed
+~
+~
+0 -1 12011
+D2
+The deserted, sandy shoreline
+~
+~
+0 -1 12009
+S
+
+#12011
+The dried river bed~
+You have reached the most northerly point of a dried river bed. Here,
+the land meets with the river to your east, and the steep terrace to the
+west arches round to the north blocking your progress in that direction.
+You can jump in the river, or head back south across the arid bed.
+~
+11 0 2
+D1
+In the river Bruinen
+~
+~
+0 -1 12015
+D2
+The deserted river bed
+~
+~
+0 -1 12010
+S
+
+#12012
+On the shoreline of the river Bruinen~
+Your feet make well defined prints in the sand which borders the river
+Bruinen. This wide, clear river glides its way south into uncharted
+lands and acts as a natural barrier, protecting the lands to the east.
+It appears that there is a ford across the river here, whilst the
+dried bed, indicating the path which the river formerly took, lies to
+the north and southwest.
+~
+11 0 2
+D5
+The ford across the river
+~
+~
+0 -1 12020
+D3
+The deserted river bed
+~
+~
+0 -1 12009
+S
+
+#12013
+The dried river bed~
+Crunching across this dried river bed, you see a river flowing quickly
+to the east, whilst the sands spread out to the south. The land steepens
+to the west, shadowed by a dark forest.
+~
+11 0 2
+D0
+The deserted, sandy shoreline
+~
+~
+0 -1 12009
+D2
+The deserted river bed
+~
+~
+0 -1 12014
+S
+
+#12014
+The dried river bed~
+You head further south across the land where the river Bruinen once
+flowed. Its hardpacked surface is dusty and coated with debris and
+rotting corpses of amphibious creatures. The steep land in the west
+swings around to the south and makes further progress in that
+direction impossible. You consider jumping in the fast flowing river
+to the east, or you can head back north again.
+~
+11 0 2
+D0
+The deserted river bed
+~
+~
+0 -1 12013
+D1
+In the river Bruinen
+~
+~
+0 -1 12018
+S
+
+#12015
+Amidst the powerful current of the river Bruinen~
+You enter the river Bruinen. The spray of water is FREEZING cold, and
+who knows what beasts may lurk beneath the surface, waiting to gobble
+you up?! You were far safer on land and besides the flow heading
+southwards is far too strong for you to fight. You suddenly notice that
+the wind has whipped up too, causing the river to forge along at a
+tremendous pace. It looks like you don't have much choice but to let the
+flow take you....
+~
+11 N 6
+D2
+Carried along by the flow
+~
+~
+0 -1 12016
+S
+
+#12016
+Rushing south along the river Bruinen~
+The river is accelerating! You are helpless against the wind and water
+as they take you south!
+~
+11 N 6
+D2
+The ford
+~
+~
+0 -1 12017
+S
+
+#12017
+Speeding over the ford~
+The flow has taken you to a ford across the river. Unfortunately, it
+appears that you are going far to fast to stop and clamber onto dry
+land. Don't bother wasting your effort.
+~
+11 N 6
+D2
+Entering the rapids
+~
+~
+0 -1 12018
+S
+
+#12018
+Entering the rapids~
+Start praying! You are being forced southwards by the fast flowing
+river Bruinen and the water is getting rather choppy. The flow
+accelerates....faster and faster..in an almost supernatural manner.
+You have no alternative but to let the flow take you.
+~
+11 N 6
+D2
+Caught in a viscious whirlpool
+~
+~
+0 -1 12019
+S
+
+#12019
+Caught in a viscious whirlpool~
+The river and the wind fury into an insane rage, taking you
+faster and faster over the rapids of the Bruinen. You are soaked to
+the skin by the icy water and thoroughly demoralised by your total
+helplessness.
+
+Entering this river was a |RBAD|w decision. After all, it has been
+enhanced magically by a great wizard, with the intention of keeping
+out daemons who have far greater power than you! Take a hint!
+
+Suddenly, by pure chance, the swirling elements
+catch you in a whirlpool and giving you one chance to save your
+own skin before you drown....you might like to consider RECALLing out
+of here....
+~
+11 0 6
+S
+
+#12020
+Ford across the river~
+You are standing in in the middle of a ford across the icy river
+Bruinen. Its clear, rippling waters scatter reflections of the
+lands around, particularly of the Misty Mountains in the east.
+This ford is the one and only gateway to Imladris. Dark, ominous
+hills lie in the west and it is possible to enter the river as it
+goes on it southerly course.
+~
+11 0 2
+D1
+The entrance to Imladris
+~
+~
+0 -1 12021
+D2
+In the river
+~
+~
+0 -1 12018
+D4
+On the shoreline
+~
+~
+0 -1 12012
+S
+
+#12021
+The Entrance to Imladris~
+A smooth, well paved pathway runs between the river and Imladris to
+the east. A stout wooden guardpost stands here but it seems quite
+evident that it is here only for display purposes rather than for it's
+defensive capabilities. Mountains loom in the east and you can see
+clusters of small buildings amidst trees nearby.
+A sign stands here prominently.
+~
+11 0 2
+D1
+Gilthoniel Avenue
+~
+~
+0 -1  12022
+D3
+On the ford
+~
+~
+0 -1 12020
+E
+sign~
+
+------------------------------------
+|                                  |
+|            Welcome!              |
+|      This is the haven of        |
+|                                  |
+|            Imladris              |
+|                                  |
+| also known by the alternative    |
+|       name of Rivendell          |
+|                                  |
+| This particular manifestion of   |
+| Imladris was created by Faramir, |
+| Prince of Minas Ithil, Oct 1995  |
+|                                  |
+| Also, this is a small tribute    |
+|            to the                |
+| fantastic, unique & unrivalled   |
+|       works of the great         |
+|         J.R.R. Tolkien           |
+|                                  |
+------------------------------------
+~
+S
+
+#12022
+Gilthoniel Avenue~
+You are travelling along a well kept pathway which heads east-west
+through Imladris. To the north and south stand closely clustered
+trees, amongst which homes have been constructed. The beautiful
+scent of flowers fills the air and ornate vines hang down from
+the branches which reach over, far above your head.
+
+In the distance you can hear the beautiful sound of elves singing
+intricate harmonies.
+~
+11 0 2
+D0
+An elven dwelling
+~
+~
+0 -1 12030
+D1
+Gilthoniel Avenue
+~
+~
+0 -1 12023
+D2
+An elven dwelling
+~
+~
+0 -1 12032
+D3
+The Entrance to Imladris
+~
+~
+0 -1 12021
+S
+
+#12023
+Gilthoniel Avenue~
+You are travelling along a well kept pathway which heads east-west
+through Imladris. To the north and south stand closely clustered
+trees, amongst which homes have been constructed. The beautiful
+scent of flowers fills the air and tangled vines hang down from the
+branches which reach over, far above you.
+
+The sonorous harmonies of young elven voices melt through the air.
+~
+11 0 2
+D0
+An elven dwelling
+~
+~
+0 -1 12034
+D1
+Gilthoniel Avenue
+~
+~
+0 -1 12024
+D2
+An elven dwelling
+~
+~
+0 -1 12036
+D3
+Gilthoniel Avenue
+~
+~
+0 -1 12022
+S
+
+
+#12024
+Gilthoniel Avenue~
+This beautiful, tree-lined pathway heads westwards through Imladris
+and turns north towards a water well which you can see in the
+distance. A large tree stands here on the corner, reaching out
+huge branches and the multitude of leaves appear to radiate every colour
+of the rainbow. You suddenly realise that this great tree is a
+'Mallorn', one of the finest and indeed, rarest trees in the world.
+It's presence fills you with a tremendous feeling of goodness and it
+is only then that you notice the fact that most of the lengthy branches
+are pointing towards the gardens to the south.
+~
+11 0 2
+D0
+The Well of Elbereth
+~
+~
+0 -1 12025
+D2
+Entrance to the gardens
+~
+~
+0 -1 12075
+D3
+Gilthoniel Avenue
+~
+~
+0 -1 12023
+E
+tree mallorn~
+This is one of the mighty Mallorns. The great strengths and virtuous
+properties of these trees are renowned throughout the world. You are
+most surprised to see this golden tree standing here though, for it
+is also well known that very few of this species now remain. The last
+remaining cluster of such trees stand in the forest of Lothlorien, in
+a land far away....
+~
+S
+
+#12025
+The Well of Elbereth~
+Before you stands a stout well of smooth grey stone. This must be a
+communal drinking place, and you seriously consider testing the
+qualities of the local water. From rumours you have heard in the
+past, the water which flows out of the Misty Mountains into Imladris
+is some of the finest in the world. A path heads southwards, or you
+can go east along the way of Nimrodel.
+~
+11 0 2
+D1
+Nimrodel Way
+~
+~
+0 -1 12026
+D2
+Gilthoniel Avenue
+~
+~
+0 -1 12024
+S
+
+#12026
+Nimrodel Way~
+A pathway marked out with smooth white pebbles heads eastwards further
+into Imladris. Tree and flowers of unparalleled beauty flood the air
+with the most incredible aroma you have ever had the pleasure to sample.
+Although the trees arch over and block out much of the light, Nimrodel
+Way appears to glow with it's own inexplicable, magic light. A well
+stands in the west, whilst the way of Nimrodel continues east.
+For a moment you see faces amongst the trees to the north and south.
+~
+11 0 2
+D0
+An elven dwelling
+~
+~
+0 -1 12038
+D1
+Nimrodel Way
+~
+~
+0 -1 12027
+D2
+An elven dwelling
+~
+~
+0 -1 12040
+D3
+The Well of Elbereth
+~
+~
+0 -1 12025
+S
+
+#12027
+Nimrodel Way~
+White pebbles mark out Nimrodel Way, a pathway through this beautiful
+elf haven. The road rises slightly to the east, and you can detect the
+beautiful aroma of flowers in the west. Somewhere in the trees to the
+south you can hear the sound of a hammer striking an anvil
+~
+11 0 2
+D0
+An elven dwelling
+~
+~
+0 -1 12042
+D1
+Nimrodel Way
+~
+~
+0 -1 12028
+D2
+The Smithy
+~
+~
+0 -1 12044
+D3
+Nimrodel Way
+~
+~
+0 -1 12026
+S
+
+#12028
+Nimrodel Way~
+You stand at the eastern end of the way of Nimrodel, a pretty, pathway
+bordered with a great variety of trees and flowers. A cluster of blue
+roses catches your eye and their unique aroma lifts your spirit to the
+skies. The pebble lined way heads west, whilst you can detect another
+curious smell drifts up from the south. From here you can see another
+pathway marked out by pure white granite heading north.
+~
+11 0 2
+D0
+The White pathway
+~
+~
+0 -1 12046
+D1
+Amongst the trees
+~
+~
+0 -1 12029
+D2
+The Tanner
+~
+~
+0 -1 12045
+D3
+Nimrodel Way
+~
+~
+0 -1 12027
+E
+flowers blue roses~
+These rare, blue roses are incredible! They appear to glow with every
+conceivable shade of blue imaginable, but, as with all roses, it seems
+that their thorns are extremely sharp, so to attempt to pick one may
+not be conducive to the well-being of your fingers.
+~
+S
+
+#12029
+Amongst the shadows of the trees~
+You walk amidst towering trees, typical of Imladris. They are widely
+varied, with trunks of brown, mossed over with fuzzy green lichen
+and the thin, silvery white Poplars, streaked with black gashes. It
+seems odd that such a range of trees could grow in one place - surely
+the soil is not capable of sustaining so many! The chirp of birdlife
+sprinkles the cool air and you step as lightly as possible, lest your
+tramping feet spoil the purity of this place.
+~
+11 A 3
+D0
+Lost in the forest
+~
+~
+0 -1 12081
+D1
+Lost in the forest
+~
+~
+0 -1 12082
+D2
+Lost in the forest
+~
+~
+0 -1 12083
+D3
+Nimrodel Way
+~
+~
+0 -1 12028
+S
+
+#12030
+An Elven Dwelling~
+You are standing in what appears to be a cluster of trees. However, upon
+closer inspection it appears that this is the home of some elves.
+Rafters of wood have been lain between strong branches high up in the
+air, and you can see that the dwelling is quite large. Some ropes woven
+from vines hang down before you, trailing up through a hatchway in the
+bottom of the structure above.
+~
+11 A 3
+D2
+Elbereth Avenue
+~
+~
+0 -1 12022
+D4
+Up inside an Elven Dwelling
+~
+~
+0 -1 12031
+S
+
+#12031
+High up in the trees~
+Well, if you're scared of heights then don't look down! A beautiful
+Elven Dwelling has been built about fifteen metres above the surface
+of the forest. It has been constructed using the utmost skill of a
+woodsman as fine beams of oak cross each other intricately, forming
+the floor and peaked roof. A large hand woven rug lies in the centre of
+this simply furnished room and a small silvery urn is smoking in the
+corner, releasing a delicious, floristic odour.
+~
+11 A 11
+D5
+An Elven Dwelling
+~
+~
+0 -1 12030
+S
+
+#12032
+An Elven Dwelling~
+You are standing in what appears to be a cluster of trees. However, upon
+closer inspection it appears that this is the home of some elves.
+Rafters of wood have been lain between strong branches high up in the
+air, and you can see that the dwelling is quite large. Some ropes woven
+from vines hang down before you, trailing up through a hatchway in the
+bottom of the structure above.
+~
+11 A 2
+D0
+Elbereth Avenue
+~
+~
+0 -1 12022
+D4
+Up inside an Elven Dwelling
+~
+~
+0 -1 12033
+S
+
+#12033
+High up in the trees~
+Well, if you're scared of heights then don't look down! A beautiful
+Elven Dwelling has been built about fifteen metres above the surface
+of the forest. It has been constructed using the utmost skill of a
+woodsman as fine beams of oak cross each other intricately, forming
+the floor and peaked roof. A large hand woven rug lies in the centre of
+this simply furnished room and a small silvery urn is smoking in the
+corner, releasing a delicious, floristic odour.
+~
+11 A 11
+D5
+An Elven Dwelling
+~
+~
+0 -1 12032
+S
+
+#12034
+An Elven Dwelling~
+You are standing in what appears to be a cluster of trees. However, upon
+closer inspection it appears that this is the home of some elves.
+Rafters of wood have been lain between strong branches high up in the
+air, and you can see that the dwelling is quite large. Some ropes woven
+from vines hang down before you, trailing up through a hatchway in the
+bottom of the structure above.
+~
+11 A 2
+D2
+Elbereth Avenue
+~
+~
+0 -1 12023
+D4
+Up inside an Elven Dwelling
+~
+~
+0 -1 12035
+S
+
+#12035
+High up in the trees~
+Well, if you're scared of heights then don't look down! A beautiful
+Elven Dwelling has been built about fifteen metres above the surface
+of the forest. It has been constructed using the utmost skill of a
+woodsman as fine beams of oak cross each other intricately, forming
+the floor and peaked roof. A large hand woven rug lies in the centre of
+this simply furnished room and a small silvery urn is smoking in the
+corner, releasing a delicious, floristic odour.
+~
+11 A 11
+D5
+An Elven Dwelling
+~
+~
+0 -1 12034
+S
+
+#12036
+An Elven Dwelling~
+You are standing in what appears to be a cluster of trees. However, upon
+closer inspection it appears that this is the home of some elves.
+Rafters of wood have been lain between strong branches high up in the
+air, and you can see that the dwelling is quite large. Some ropes woven
+from vines hang down before you, trailing up through a hatchway in the
+bottom of the structure above.
+~
+11 A 2
+D0
+Elbereth Avenue
+~
+~
+0 -1 12023
+D4
+Up inside an Elven Dwelling
+~
+~
+0 -1 12037
+S
+
+#12037
+High up in the trees~
+You are very high up in the air, amongst the lofty branches! A beautiful
+Elven Dwelling has been built about fifteen metres above the surface
+of the forest. It has been constructed using the utmost skill of a
+woodsman as fine beams of oak cross each other intricately, forming
+the floor and peaked roof. An bed of large made of large green
+leaves lies in the centre of the room and a phial of magical light
+suspended from the ceiling casts flickering beams of light.
+~
+11 A 11
+D5
+An Elven Dwelling
+~
+~
+0 -1 12036
+S
+
+#12038
+An Elven Dwelling~
+You are standing in what appears to be a cluster of trees. However, upon
+closer inspection it appears that this is the home of some elves.
+Rafters of wood have been lain between strong branches high up in the
+air, and you can see that the dwelling is quite large. Some ropes woven
+from vines hang down before you, trailing up through a hatchway in the
+bottom of the structure above.
+~
+11 A 2
+D2
+Nimrodel Way
+~
+~
+0 -1 12026
+D4
+Up inside an Elven Dwelling
+~
+~
+0 -1 12039
+S
+
+#12039
+High up in the trees~
+Woah! You're very high up in the trees!! A fantastic Elven Dwelling has 
+been built about twenty metres above the surface of the forest. It has 
+been constructed using the utmost skill of a woodsman as fine beams of 
+oak cross each other intricately, forming the floor and peaked roof. 
+Several mats made of twined reeds are sprawled across the polished floor.
+~
+11 A 11
+D5
+An Elven Dwelling
+~
+~
+0 -1 12038
+S
+
+#12040
+An Elven Dwelling~
+You are standing in what appears to be a cluster of trees. However, upon
+closer inspection it appears that this is the home of some elves.
+Rafters of wood have been lain between strong branches high up in the
+air, and you can see that the dwelling is quite large. Some ropes woven
+from vines hang down before you, trailing up through a hatchway in the
+bottom of the structure above.
+~
+11 A 2
+D0
+Nimrodel Way
+~
+~
+0 -1 12026
+D4
+Up inside an Elven Dwelling
+~
+~
+0 -1 12041
+S
+
+#12041
+High up in the trees~
+I hope you don't suffer from vertigo! A beautiful Elven Dwelling has been 
+built about fifteen metres above the surface of the forest. It has been 
+constructed using the utmost skill of a woodsman as fine beams of oak 
+cross each other intricately, forming the floor and peaked roof. A 
+collection of terracotta earthenwear pots stand in one corner of the room, 
+radiating a luscious, magical warmth.
+~
+11 A 11
+D5
+An Elven Dwelling
+~
+~
+0 -1 12040
+S
+
+#12042
+An Elven Dwelling~
+You are standing in what appears to be a cluster of trees. However, upon
+closer inspection it appears that this is the home of some elves.
+Rafters of wood have been lain between strong branches high up in the
+air, and you can see that the dwelling is quite large. Some ropes woven
+from vines hang down before you, trailing up through a hatchway in the
+bottom of the structure above.
+~
+11 A 2
+D2
+Nimrodel Way
+~
+~
+0 -1 12027
+D4
+Up inside an Elven Dwelling
+~
+~
+0 -1 12043
+S
+
+#12043
+High up in the trees~
+You stand inside an Elven Dwelling, a great distance from the forest
+floor. Mysterious shadows flicker about the room and the sound of
+birdsong floats on the refreshing, scented air. A huge, circular,
+wooden tub held together by large bands of iron sits in the centre
+of the room, filled with steaming hot water. This looks like an ideal
+opportunity for a bath, but quite how an elf managed to get so much
+hot water up inside a treehouse is beyond you....
+~
+11 A 11
+D5
+An Elven Dwelling
+~
+~
+0 -1 12042
+S
+
+#12044
+The Smithy~
+This is the workshop of the elf who is skilled in the art of metalwork.
+A huge brazier sits in the corner of this dark, sweltering hut which
+has been built of large beams of wood covered in straw thatching. A
+metal pipe runs up from the brazier out through the centre of the roof
+to act as a chimney for the fumes. The hard flagstones support
+an iron anvil which sits in the centre of the room beside a stool.
+Racks and shelves line the walls, littered with tools and a varied
+selection of metal items which are still undergoing the process of
+construction. Nimrodel Way runs it's course to the north.
+~
+11 A 2
+D0
+Nimrodel Way
+~
+~
+0 -1 12027
+S
+
+#12045
+The Tanner~
+You stand in the workshop of an elf who is skilled with animal hides. 
+The presence of a tanner surprises you, for you had always assumed that 
+elves used materials which were more ecologically sound. A great many 
+racks line this room, upon which the skins of many beasts are suspended, 
+awaiting preparation. A pungent odour wafts around the workshop causing 
+you to edge back towards the sweeter smells of Nimrodel Way, to the north.
+~
+11 A 2
+D0
+Nimrodel Way
+~
+~
+0 -1 12028
+S
+
+#12046
+Along the White Pathway~
+You head along a picturesque, winding, white stone pathway. To the
+south is the eastern end of Nimrodel Way and to the north, through
+the trees, you can make out the corners of a large building.
+~
+11 0 2
+D0
+Before the House of the Elf-Lord
+~
+~
+0 -1 12047
+D2
+Nimrodel Way
+~
+~
+0 -1 12028
+S
+
+#12047
+Outside the House of The Elven Lord~
+To the north stands a great house of dark grey granite. Many narrow
+openings are set in the stone, and sculpted figurines adorn the white
+lintel which runs all the way around the building. A huge, oak door stands
+at the top of a set of wide steps which sweep up between two flower
+beds. Above door is a large, deep bronze plaque bearing elven symbols
+which are too complex for you to read. From here you can also see the
+roof which towers into the sky. It is of a steep gothic design, constructed
+from startling duck egg blue tiles and midway along the roof ridge there
+stands a vast, squared, smoking chimney. A white pathway heads south,
+and east into what appear to be some hedged gardens.
+
+In the past you have heard rumours of a magical shield which protects
+the house of the Elven Lord, but you can't see any evidence here....
+~
+11 C 1
+D0
+Inside the house
+~
+door oak~
+1 -1 12048
+D1
+Along the white pathway
+~
+~
+0 -1 12074
+D2
+Along the white pathway
+~
+~
+0 -1 12046
+E
+bronze plaque symbols~
+The bronze plaque above the door seems to be some indication of greeting
+but the runes are extremely ornate and no doubt, very ancient. Making
+any sense of them whatsoever will probably require a few weeks intensive
+study.
+~
+E
+door oak~
+The oak door has been constructed of thick, sturdy planks. Heavy duty
+black bands of iron reinforce it, and a large, intricate, hinged hammer
+is set in the centre, waiting to be knocked.
+~
+E
+tiles blue roof~
+The roof has been made of bright blue tiles. Yes blue! It looks really
+unusual, but quite beautiful and until now you had not realised that a
+roof could be so seminal in artistic terms.
+~
+S
+
+#12048
+The Hallway~
+A large, dark, cool hallway built from solid stone heads north further
+into the house of the Elven Lord. Heavy duty oak doors lie to the
+south and east, visible only by the light of a torch hanging from the
+wall.
+~
+11 ADN 0
+D0
+Too dark to tell
+~
+~
+0 -1 12049
+D1
+Too dark to tell
+~
+door oak~
+1 -1 12052
+D2
+Outside the house
+~
+door oak~
+1 -1 12047
+S
+
+#12049
+The Gallery~
+Works of art of varying scales adorn the walls and shelves of this room.
+This display of fine Elven art fills you with awe, for the pictures and
+sculptures are perfectly coloured, and are almost gruesomely detailed.
+Light shines into the room via a narrow slit in the western wall,
+supplemented by that of a large crystal chandelier which is suspended
+from the centre of the stone ceiling. A hallway leads south, or
+you can try the large oak door to the north.
+~
+11 ADN 0
+D0
+Too dark to tell
+~
+door oak~
+
+1 -1 12050
+D2
+The Hallway
+~
+~
+0 -1 12048
+E
+art pictures sculptures~
+The paintings on the walls are generally landscapes of picturesque elven
+valleys or oils of rare flowers. The sculptures are terracotta
+animals and some other rather obscure natural shapes. You are most
+impressed by this display and the apparent lack of security in this
+place tells you that the elves of Imladris are a trustworthy bunch.
+~
+S
+
+#12050
+The Scriptorium~
+You have entered a small, musty room full of tables and racks which have
+been littered with a vast array of scrolls and tomes. One table features
+a pot of ink beside several dangerous looking quills. Doors lie to the
+south and west. The light which shines in through the arrow slit to the
+north allows you to see a small piece of paper has been nailed to one of
+the shelves.
+~
+11 ADN 0
+D2
+Too dark to tell
+~
+door oak~
+1 -1 12049
+D3
+Too dark to tell
+~
+door oak~
+1 -1 12051
+E
+scrolls books tomes~
+The scrolls and books which are scattered around the place all appear
+to be very old but in great use, as somebody has been sifting through
+them and making notes on fresh pieces of parchment. You wonder what
+sort of research might be going on here.
+~
+E
+sign paper~
+
+*******************************
+*                             *
+* Silence in the Scriptorium! *
+*                             *
+*******************************
+
+..you'd have thought they'd be more polite.
+~
+
+S
+
+#12051
+The Map Room~
+Similar to the scriptorium to the east, the map room contains a great
+many scrolls, some of which have been thrown upon the floor. There is
+a single, enormous wooden table in the centre of the room and upon it
+lies a vast map of the locality. Looking at it closely you can make
+a few words such as 'Minas Tirith' and 'Mordor'. The latter, for some
+explicable reason, sends a shudder down your spine. An oak door stands
+to the east.
+~
+11 ADN 0
+D1
+Too dark to tell
+~
+door oak~
+1 -1 12050
+E
+maps~
+The large map on the table, upon even closer inspection, appears to be
+a complete geographical guide to Middle Earth! After searching for a
+couple of minutes you manage to find Imladris, which lies to the top
+of the map. You seriously consider grabbing a quill to annotate the
+map with an arrow and the comment "You Are Here." But that might be
+considered vandalism.
+~
+S
+
+#12052
+The Great Hall~
+You enter the western wing of The Great Hall. Several arrow slits in the
+stonework of the southern wall permit beams of light to shine upon the
+contents of this vast room. A huge fire along the north wall roars with
+a tremendous heat, alongside which stand double oak doors. Your footsteps
+are dulled by the thick layer of reeds which have been scattered far
+and wide. A few comfortable velvet chairs tempt you into taking a brief
+rest. The Great Hall stretches off into the east, but you may go both
+north or west through oak doors.
+~
+11 DN 0
+D0
+The Dining Room
+~
+door oak~
+1 -1 12054
+D1
+The Great Hall
+~
+~
+0 -1 12053
+D3
+Too dark to tell
+~
+door oak~
+1 -1 12048
+S
+
+#12053
+The Great Hall~
+You stand in the eastern wing of the Great Hall. Your breathing is
+echoed around this very homely place. The warmth from the fireplace
+in the west spreads and glows upon your face. A polished mahogany table
+features several burning candles set in silvery candlesticks which have
+been formed in the shape of twisting trees. A set of stairs in the
+north of the hall rotate upwards into darkness and a large oak door
+blocks the way to the east.
+~
+11 DN 0
+D1
+The Glade of Tinuviel
+~
+door oak~
+1 -1 12072
+D3
+The Great Hall
+~
+~
+0 -1 12052
+D4
+Too dark to tell
+~
+~
+0 -1 12061
+S
+
+#12054
+The Dining Room~
+You enter a large room of cold stone which features a vast mahogany
+dining table. The table has been prepared for a great banquet although
+no food has appeared yet. Torches burn brightly upon the walls which
+also feature ornate, multicoloured tapestries of curious design. Oak
+doors lie to the east and south, and there appears to be a set of stairs
+in the far corner of the room leading down into darkness.
+~
+11 DN 0
+D1
+Too dark to tell
+~
+door oak~
+1 -1 12055
+D2
+The Great Hall
+~
+door oak~
+1 -1 12052
+D5
+Too dark to tell
+~
+~
+0 -1 12058
+E
+tapestry tapestries~
+The tapestries suspended from the walls depict scenes of Elven legends.
+You recognise only one - a scene depicting the beautiful forest of
+Neldoreth, and the character of Beren is chasing the beautiful maiden
+Luthien. This tapestry must have take forever to make, it is incredibly
+detailed. The elves certainly love their art.
+~
+S
+
+#12055
+Dark Corridor~
+A dark corridor heads in an east-west direction. Strong oak doors stand
+at either end.
+~
+11 ADN 0
+D1
+Too dark to tell
+~
+door oak~
+1 -1 12056
+D3
+Too dark to tell
+~
+door oak~
+1 -1 12054
+S
+
+#12056
+The Sanctuary of the Lord of the Elves~
+You have entered the private sanctuary of the Elf Lord. This small room,
+like all others in the house, is built of the same dark stone. A fire
+burns in the north wall and a humble bed of reeds has been made in a
+southern corner. A singular shelf holds a few scrolls of lore and some
+mysterious vials of coloured liquid. The only way out is through the
+door in the west.
+~
+11 DN 0
+D3
+Too dark to tell
+~
+door oak~
+1 -1 12055
+D5
+~
+secret-hatch hatch~
+1 12042 12057
+S
+
+#12057
+The Secret Storeroom~
+Bang! The secret trapdoor above you shuts suddenly as you climb down into
+a cold dark chamber. You can just make out a selection of scrolls and
+potions which have been placed on the ground.
+
+It looks like you are trapped in this room as no amount of banging and
+bashing on the trapdoor above will open it.
+~
+11 AD 0
+S
+
+#12058
+Dark Stairway~
+You are on a cold, damp stairway. A glimmer of heat and light can
+be detected from both the rooms above and below.
+~
+11 ADN 0
+D4
+Too dark to tell
+~
+~
+0 -1 12054
+D5
+Too dark to tell
+~
+~
+0 -1 12059
+S
+
+#12059
+The Kitchen~
+You are standing amidst the steaming bustle of a kitchen. Two large
+fires are heating large pots, from which a mixtures of delicious
+odours are emanating. A thick wooden table stands to one side,
+with a variety of vegetables and kitchen utensils lying upon it.
+It looks like a huge feast is being prepared for. Your stomach rumbles.
+Stairs lead upwards and a trapdoor lies in the floor.
+~
+11 DN 0
+D4
+Too dark to tell
+~
+~
+0 -1 12058
+D5
+Too dark to tell
+~
+trapdoor~
+1 -1 12060
+S
+
+#12060
+The Cellar~
+You enter a musty, dimly lit cellar. Huge wooden racks hold vast iron
+bound barrels which contain, no doubt, enough alcohol to get a thousand
+elves very merry! The cold stone floor has been scattered with straw
+to help keep out the damp, and a little light shines in through the
+trap door above.
+~
+11 ADN 0
+D4
+The Kitchen
+~
+trapdoor~
+1 -1 12059
+S
+
+#12061
+Dark Stairway~
+You are halfway along a very dark, winding stairway. Flickering shadows
+caused by a singular, glowing torch leap out at you.
+~
+11 ADN 0
+D4
+Too dark to tell
+~
+~
+0 -1 12062
+D5
+Too dark to tell
+~
+~
+0 -1 12053
+S
+
+#12062
+Cold Stone Corridor~
+This sinister, echoing corridor heads west. Doors lie to the north and
+south or you can try the stairs which lead downwards.
+~
+11 ADN 0
+D0
+A bedroom
+~
+door oak~
+1 -1 12063
+D2
+A bedroom
+~
+door oak~
+1 -1 12064
+D3
+Cold Stone Corridor
+~
+~
+0 -1 12065
+D5
+Too dark to tell
+~
+~
+0 -1 12061
+
+S
+
+#12063
+A Bedroom~
+You enter a small, cosy bedroom which is lit by a single candle and by
+the light which shines in through the arrow slit to the north. The white
+bed looks really soft and most welcoming. The simple furnishing also
+includes a chair and bookshelf.
+~
+11 DN 0
+D2
+Cold Stone Corridor
+~
+door oak~
+1 -1 12062
+S
+
+
+#12064
+A Bedroom~
+You enter a small, cosy bedroom which is lit by a single candle and by
+the light which shines in through the arrow slit to the south. The white
+bed looks really soft and most welcoming. The simple furnishing also
+includes a chair and bookshelf.
+~
+11 DN 0
+D0
+Cold Stone Corridor
+~
+door oak~
+1 -1 12062
+S
+
+
+#12065
+Cold Stone Corridor~
+This cool, damp corridor leads east to west but you may attempt to open
+the oak doors which lie to the north and south.
+~
+11 ADN 0
+D0
+A large bedroom
+~
+door oak~
+1 -1 12066
+D1
+Cold Stone Corridor
+~
+~
+0 -1 12062
+D2
+A large bedroom
+~
+door oak~
+1 -1 12067
+D3
+Cold Stone Corridor
+~
+~
+0 -1 12068
+
+S
+
+#12066
+A Large Bedroom~
+A great big double bed is the main feature of this otherwise simple
+room. A crimson red rug is spread out across the floor and in the
+far corner there stands a small stool supporting a lantern.
+~
+11 DN 0
+D2
+Cold Stone Corridor
+~
+door oak~
+1 -1 12065
+S
+
+#12067
+A Large Bedroom~
+An enormous double bed sits prominently in the centre of this chilly
+room. A deep blue rug featuring the symbol of a crescent moon lies
+on the ground and a large torch glows brightly on the southern
+wall.
+~
+11 DN 0
+D0
+Cold Dark Corridor
+~
+door oak~
+1 -1 12065
+S
+
+#12068
+Cold Stone Corridor~
+You are at the western end of a chilly, shadowed corridor. You can
+hear peels of laughter echoing faintly from somewhere else in this
+building. Oak doors stand firmly in the north, south and west.
+~
+11 ADN 0
+D0
+A bedroom
+~
+door oak~
+1 -1 12069
+D1
+Cold Dark Corridor
+~
+~
+0 -1 12065
+D2
+A bedroom
+~
+door oak~
+1 -1 12070
+D3
+Out on the balcony
+~
+door oak~
+1 -1 12071
+S
+
+#12069
+A Bedroom~
+You enter a small, cosy bedroom which is lit by a single candle and by
+the light which shines in through the arrow slit to the north. The white
+bed looks really soft and most welcoming. The simple furnishing also
+includes a chair and bookshelf.
+~
+11 DN 0
+D2
+Cold Stone Corridor
+~
+door oak~
+1 -1 12068
+S
+
+#12070
+A Warm Bedroom~
+You enter a small, warm bedroom. A hearth glows brightly in the west wall
+and the bed is the most welcoming one you have EVER seen! The
+temptation to take a nap here is almost overwhelming and you feel your
+eyes beginning to droop....
+~
+11 DN 0
+D0
+Cold Stone Corridor
+~
+door oak~
+1 -1 12068
+S
+
+#12071
+Out on the Balcony~
+The fresh air sighs over your face as you take in the scenery. This
+balcony is perched some ten metres above the forest floor but you can
+see a white pathway winding south away from this house. Birdsong rolls
+sweetly to your ears and it suddenly dawns upon you that it would be
+a great shame to have to leave this wonderful place at all.
+~
+11 0 1
+D1
+Cold Stone Corridor
+~
+door oak~
+1 -1 12068
+S
+
+
+#12072
+The Glade of Tinuviel~
+You are at the head of an incredibly beautiful grassy glade which is
+interspersed with a blinding variety of colourful flowers.
+Amongst the few trees, you see a single Mallorn - a rare sight indeed.
+This glade must be the very place where the hidden King first met
+the beautiful Undomiel, daughter of the Elf Lord. The Glade
+spreads out to the east whilst a large stone house can be entered
+through a door to the west, and a white path heads south.
+~
+11 N 2
+D1
+The Glade of Tinuviel
+~
+~
+0 -1 12073
+D2
+Along the White Pathway
+~
+~
+0 -1 12074
+D3
+The Great Hall
+~
+door oak~
+1 -1 12053
+E
+tree mallorn~
+This is one of the mighty Mallorns. The great strengths and virtuous
+properties of these trees are renowned throughout the world. You are
+most surprised to see this golden tree standing here though, for it
+is also well known that very few of this species now remain. The last
+remaining cluster of such trees stand in the forest of Lothlorien, in
+a land far away....
+~
+S
+
+#12073
+The Glade of Tinuviel~
+You stand at the eastern end of a picturesque glade. Here, a swirl of
+water foams down over a steep rock face which blocks the
+way to the east, and collects in a deep pool at the bottom. Flowers at your
+feet sway in the wind, shining with a satin beauty. The sound of the
+cascading water mixed with the beautiful aroma of this wonderful place
+causes you to close your eyes for a moment, for sure - experiences such
+as this make life worth living...
+~
+11 N 2
+D3
+The Glade of Tinuviel
+~
+~
+0 -1 12072
+E
+rock waterfall~
+This tall rock face appears to form part of the toeslopes of the Misty
+Mountains to the east. It occurs to you that it acts as a natural
+barrier, helping to protect Imladris from the incursions of evil. The
+flow of water probably acts as a tributary for the river Bruinen.
+~
+S
+
+
+#12074
+Along the White Pathway~
+This white stone pathway, hemmed in by some tall hedges, turns a sharp
+corner, heading both west and north. The smell of flowers and trill
+of birdsong dance through the air.
+~
+11 N 2
+D0
+The Glade of Tinuviel
+~
+~
+0 -1 12072
+D3
+Outside the house of the Elven Lord
+~
+~
+0 -1 12047
+S
+
+#12075
+Entrance to the Gardens~
+This is the gateway to a public garden which spreads out to the south.
+Here, you can see colourful flowers fluttering happily in the wind
+and a great many tiny birds titter with each other in their own tongue.
+Gilthoniel Avenue, a main route through Imladris, lies to the north.
+~
+11 0 2
+D0
+Gilthoniel Avenue
+~
+~
+0 -1 12024
+D2
+In the gardens
+~
+~
+0 -1 12076
+S
+
+#12076
+In the Gardens~
+As you travel through the gardens, it becomes clear to you that this
+place is more than just one of beauty. The elves appear to be
+cultivating foodstuffs here too, and baskets lie on the ground
+containing today's harvest of vegetables. The pathway through the
+garden splits four ways at this point.
+~
+11 0 2
+D0
+Entrance to the Gardens
+~
+~
+0 -1 12075
+D1
+In the Gardens
+~
+~
+0 -1 12077
+D2
+In the Gardens
+~
+~
+0 -1 12079
+D3
+In the Gardens
+~
+~
+0 -1 12080
+S
+
+#12077
+In the Gardens~
+These beautiful, peaceful gardens relax your very soul (if you have
+one), as the wind whispers through the flowerbeds. The rains will
+soon come and lay their gift of life upon the crops of the elves
+so that the life in Imladris can be sustained forever.
+~
+11 0 2
+D1
+In the Gardens
+~
+~
+0 -1 12078
+D3
+In the Gardens
+~
+~
+0 -1 12076
+S
+
+#12078
+In the Gardens~
+You reach the end of a pathway through the gardens. Here the fine, loamy
+soils have been laced with the seeds of blue roses, and the species
+has flourished wildly! The sea of azure petals seems almost artificial,
+but of course, nothing could be further from the truth.
+~
+11 0 2
+D3
+In the Gardens
+~
+~
+0 -1 12077
+S
+
+#12079
+In the Gardens~
+This is the southern stretch of the gardens. Here, the blessing of the
+sun has produced beds of crops, large enough in quantity to feed
+the whole of Imladris for over a year.
+~
+11 0 2
+D0
+In the Gardens
+~
+~
+0 -1 12076
+S
+
+#12080
+In the Gardens~
+The forest to the west signals the halt of the gardens. A mixture of
+unidentifiable plants grow here, but whatever they may be, the elves
+seem to know what they are doing.
+~
+11 0 2
+D1
+In the Gardens
+~
+~
+0 -1 12076
+S
+
+#12081
+Lost in the Forest~
+The tall trees of the elves cluster closely around you, casting
+confusing shadows and filling you with fear. Birdsong can no longer
+be heard, just the mysterious thud of a thickening atmosphere...
+~
+11 A 3
+D0
+Lost in the Forest
+~
+~
+0 -1 12083
+D1
+Lost in the Forest
+~
+~
+0 -1 12082
+D2
+Lost in the Forest
+~
+~
+0 -1 12029
+D3
+Lost in the Forest
+~
+~
+0 -1 12081
+S
+
+#12082
+Lost in the Forest~
+The tall trees of the elves cluster closely around you, casting
+confusing shadows and filling you with fear. Birdsong can no longer
+be heard, just the mysterious thud of a thickening atmosphere...
+~
+11 A 3
+D0
+Lost in the Forest
+~
+~
+0 -1 12084
+D1
+Lost in the Forest
+~
+~
+0 -1 12081
+D2
+Lost in the Forest
+~
+~
+0 -1 12082
+D3
+Lost in the Forest
+~
+~
+0 -1 12083
+S
+
+#12083
+Lost in the Forest~
+The tall trees of the elves cluster closely around you, casting
+confusing shadows and filling you with fear. Birdsong can no longer
+be heard, just the mysterious thud of a thickening atmosphere...
+~
+11 A 3
+D0
+Lost in the Forest
+~
+~
+0 -1 12029
+D1
+Lost in the Forest
+~
+~
+0 -1 12081
+D2
+Lost in the Forest
+~
+~
+0 -1 12081
+D3
+Lost in the Forest
+~
+~
+0 -1 12082
+S
+
+#12084
+Lost in the Forest~
+The tall trees of the elves cluster closely around you, casting
+gloomy shadows upon you, filling you with terror. Nothing can be
+heard, not even a whisper of the wind. You decide that it's probably
+wise to get out of here as soon as possible, before something
+unpleasant happens to you.
+~
+11 A 3
+D0
+Lost in the Forest
+~
+~
+0 -1 12081
+D1
+Lost in the Forest
+~
+~
+0 -1 12084
+D2
+Lost in the Forest
+~
+~
+0 -1 12081
+D3
+Lost in the Forest
+~
+~
+0 -1 12081
+S
+
+#0
+
+
+#MOBILES
+
+#12000
+elf lord~
+the Lord of the Elves~
+The Lord of the Elves stands here, preparing to give council.
+~
+This tall, ancient elf has the unmistakable crease of wisdom on his
+face. This is an elf to whom others would come to in times of
+dire emergency, for surely he is the wisest among the wise in
+this land. His long, silky white hair floods down over his
+shoulders, which are clothed in an ornate robe.
+The Elf Lord is thinking so deeply that he ignores your presence
+totally!
+~
+elf~
+MBGQL DFH 1000 0
+24 10 8d6+700 1d1+400 4d6+6 pierce
+-5 -5 -5 -5
+EFQR AB C 0
+stand stand male 650
+0 0 medium 0
+
+
+#12001
+wizard~
+a wrinkled old wizard~
+A wrinkled old wizard sits here, blowing smoke rings with his pipe.
+~
+You could almost swear that you have seen this guy somewhere before.
+He looks quite old, although precisely how old, one cannot be sure.
+His well kept white beard flows gently off his chin onto the front
+of a manky travelling cape.
+
+The old wizard seems to be contemplating something quite serious as
+he keeps frowning and scratching his head as he stares intensely at
+the ground. An ebony smoking pipe burns readily in his hand.
+~
+human~
+MBGRL DH 1000 0
+25 10 8d6+650 1d1+500 4d6+6 magic
+-5 -5 -5 -5
+EQR ABH 0 0
+stand stand male 54
+0 0 medium 0
+
+
+#12002
+lord southerner~
+the Lord from the distant south~
+A Lord from a land in the distant south is here, bearing grave news.
+~
+This human male is quite tall and has a very noble face. There is
+something about his eyes which you find untrustworthy, but you
+can't quite put a finger on the reason for this hunch.
+~
+human~
+MBGT N 450 0
+22 9 7d6+610 1d1+350 4d6+5 slash
+-5 -6 -6 -6
+CEQR AB 0 OP
+stand stand male 985
+0 0 medium 0
+
+
+#12003
+presley elvish minstrel elven~
+Elvish Presley, the elven minstrel~
+An elven minstrel is here, singing tales of Houn' Dokhs.
+~
+Woah! This guy is great! What a voice! What style! What flair!
+He's got a fantastic slick black haircut and has the funkiest
+dance routine in all of Elvendom!! The King is alive!
+~
+elf~
+MHQ N 0 0
+15 6 4d6+355 1d1+200 3d6+3 beating
+-3 -3 -3 0
+N 0 0 0
+stand stand male 560
+0 0 medium 0
+
+
+#12004
+hobbit storyteller~
+the old storyteller~
+An old, story telling hobbit sits here, writing poor poetry.
+~
+This hobbit is reaching the end of his days and by the looks of things,
+he's been through a great many adventures in his time. Now, his
+lack of energy means that he is only capable of writing and reciting
+tales of legends, mystery and magic.
+
+As you look at the hobbit, his physical form flickers into translucence
+for a moment. You blink just in case this is a trick of the eye but the
+hobbit once again appears to be whole. Curious.
+~
+hobbit~
+MBHS NU 1000 0
+12 5 3d6+205 1d1+250 2d6+3 sting
+-2 -2 -2 -6
+NR 0 BP 0
+stand stand male 99
+0 0 small 0
+
+
+#12005
+noble dwarf~
+a dwarf of noble blood~
+A dwarf of noble blood stands proud.
+~
+A large plaited beard is the main feature of this typically small but
+sturdy dwarf. His round nose juts prominently from his wrinkled face
+and somewhere below bushy white eyebrows are a pair of sparkling, black
+eyes.
+~
+dwarf~
+BT 0 600 0
+14 6 4d6+305 1d1+190 3d6+2 cleave
+-3 -3 -3 -3
+CDEKH 0 0 0
+stand stand male 235
+0 0 small 0
+
+
+#12006
+elven princess elf~
+a beautiful elven princess~
+A beautiful elven princess dances in circles, singing a sweet melody.
+~
+This elf is simply gorgeous! Her swaying black hair shines as she
+dances with indefinable grace and her smile would warm even the coldest
+of hearts.
+~
+elf~
+BQ HTV 1000 0
+14 6 4d6+340 1d1+200 3d6+2 slice
+-3 -3 -3 -3
+FQR AB 0 0
+stand stand female 35
+0 0 medium 0
+
+
+#12007
+elf warrior elven~
+a mighty elven warrior~
+A mighty elven warrior stands here, in protection of his homeland.
+~
+As warriors go, this one looks fearsome. His long, blonde hair has been
+tied back and the ornate armour which he wears makes no sound as he moves
+stealthily towards you. The expression on his face indicates that
+he would not be happy if you were to attempt to proceed further into
+the lands of his kinsfolk.
+~
+elf~
+MBCGT NHV 850 0
+20 8 6d6+510 1d1+430 4d6+5 pierce
+-4 -5 -4 -4
+CDEFKQR AB C 0
+stand stand male 675
+0 0 medium 0
+
+
+#12008
+dwarf slayer~
+a brave dwarven Orc-Slayer~
+A brave dwarven Orc-Slayer is busy polishing his axe.
+~
+Short, stout and very strong, this dwarf has a shorter beard than most
+of his kind, probably because he's relatively young. However, his
+bravery, some might say stupidity, is totally apparent, for his face
+is marked with a series of scars.
+~
+dwarf~
+T N 500 0
+16 6 5d6+340 1d1+225 3d6+4 slice
+-4 -4 -4 -4
+CDQR 0 0 0
+stand stand male 276
+0 0 small 0
+
+#12009
+elf archer slender tall~
+a slender, elven archer~
+A tall, slender elf is attempting to teach others how to be a fletcher.
+~
+He has a perfectly formed elven face, with almond shaped eyes and
+pointed ears. However, the fact that he carries a longbow indicates to
+you that at range, you wouldn't want to have an argument with him, or
+you might find an arrow in the back of your head.
+~
+elf~
+BQ N 900 0
+18 7 5d6+350 1d1+260 4d6+1 punch
+-4 -4 -4 -4
+FHQR 0 0 0
+stand stand male 150
+0 0 medium 0
+
+
+#12010
+dark ranger~
+a dark ranger~
+A mysterious, dark ranger lurks in the shadows.
+~
+You can't quite make out the features of this man as there seems
+to be a permanent shadow cast across his face by a large grey
+cowl. He is very tall and quite well built with ragged black hair
+and the glint of his eyes flash as they move. His clothes are in need
+of replacement and you cannot fail to notice a large scabbard suspended
+from his left side.
+~
+human~
+BGQT NHCDV 1000 0
+25 10 6d6+525 1d1+430 5d6+2 pierce
+-6 -6 -6 -6
+EFIK ABI 0 0
+stand stand male 0
+0 0 large 0
+
+#12011
+hobbit~
+a wounded hobbit~
+A hobbit who bears a great burden is recovering from a terrible wound.
+~
+The poor hobbit is suffering from a near-mortal wound in this shoulder,
+surely it would be sheer cruelty to attack him! His hands lie across 
+his chest, as if they are protecting something valuable; you suddenly
+become very curious as to what it might be...
+~
+hobbit~
+BGHS 0 1000 0
+17 6 4d6+320 1d1+400 3d6+4 punch
+-3 -3 -3 -9
+FQR A C F
+stand stand male 39
+0 0 small 0
+
+#12012
+hobbit tough~
+a tough hobbit~
+A hobbit stands by his master, caring for his every need.
+~
+He looks bold, brave and brash. It seems that this little hobbit has
+grown a few muscles since he first began adventuring, not too long ago.
+~
+hobbit~
+BGHS N 1000 0
+16 4 4d6+320 1d1+190 3d6+5 slap
+-3 -3 -3 -2
+FCQR AE 0 0
+stand stand male 26
+0 0 small 0
+
+#12013
+youth young hobbit~
+a young hobbit~
+A young hobbit is busy filling his stomach.
+~
+For a hobbit, he is quite tall and thin, with the blood of youth
+still visible in his sweet, smiling complexion. The hobbit returns
+your glance and belches loudly. It seems that he hasn't had much
+to eat recently and is now taking great lengths to put his stomach
+at rest.
+~
+hobbit~
+BGHS 0 1000 0
+16 3 4d6+320 1d1+190 3d6+4 slap
+-3 -3 -3 -2
+FQR A 0 0
+stand stand male 45
+0 0 small 0
+
+#12014
+cunning hobbit sneaky~
+a cunning hobbit~
+You notice a sneaky little hobbit trying to pick your pocket.
+~
+Bah! This one is a typical thieving little brat! It doesn't look like
+he means any harm though as his warm face is one which only a kindly soul
+would have.
+~
+hobbit~
+BGHS 0 1000 0
+16 3 4d6+320 1d1+180 3d6+4 slap
+-3 -3 -3 -2
+FQR A 0 0
+stand stand male 116
+0 0 small 0
+
+#12015
+ringwraith shadow~
+a terrifying Ring Wraith~
+A tall, black shadow appears to be sniffing around, searching for something.
+~
+The shadowy figure is the embodiment of darkness itself. You hear a faint
+sniffing sound coming from where the face of the creature ought to be...
+"grrr...bagginsssss," followed by a high pitched rasping sound. The shadow
+seems to melt and reform rather than move. You shiver at the terrible
+prospect that you might have to fight this....thing.
+~
+unique~
+BCQTH NHQ -1000 0
+21 4 5d6+430 1d1+340 4d6+2 wrath
+-4 -4 -5 -4
+CEFGHKU AB F NO
+stand stand neutral 0
+0 0 large 0
+
+#12016
+ringwraith cloaked shadow~
+a demonic Ring Wraith~
+A cloaked shadow howls the cries of a thousand tortured souls!
+~
+The shadow appears to be a streak of blackness, highlighted by the grey
+aura of permanent, evil curse. You can see nothing inside the hood which
+cloaks the head of the entity, but you feel the pierce of satanic eyes,
+burning into your skull. 
+~
+unique~
+BCFQT NH -1000 0
+21 4 5d6+430 1d1+340 4d6+2 wrath
+-4 -4 -4 -4
+CEFGHKU AB F NO
+stand stand neutral 0
+0 0 large 0
+
+#12017
+burly orc~
+a burly orc~
+A burly orc is hiding amidst the deep vegetation.
+~
+The thick green skin of this unpleasant looking character is probably
+capable of stopping blows from any weapon! The orc's glowing red eyes
+give away the fact that he is trying to hide. If he had any sense, he'd
+close them.
+~
+orc~
+BCT Q -300 0
+12 3 2d6+230 1d1+100 3d6+1 slash
+-1 -1 -1 0
+CDKUR 0 F 0
+stand stand male 250
+0 0 large 0
+
+#12018
+sergeant orc~
+the orc sergeant~
+The orc sergeant is here, trying to keep his boys in order.
+~
+Bigger and meaner than the average orc, this green skinned beast has
+a low view of humans, and hates elves to an even greater extent.
+~
+orc~
+BCT Q -400 0
+13 3 2d6+240 1d1+120 3d6+2 slash
+-2 -1 -2 0
+CDKR 0 F 0 
+stand stand male 350
+0 0 large 0
+
+#12019
+white foam sea horse~
+the white sea horse~ 
+The foam of the river forms into the shape of a white sea horse!
+~
+The water of the river foams up into a large, bubbling sea horse. It
+snarls at you angrily, before tossing it's aquatic mane with disdain.
+Looks like it's been a bad day for this water elemental.
+~
+unique~
+BF NDU 0 0
+12 3 2d6+235 1d1+100 2d6+3 frbite
+-2 -2 -2 -5
+N ABI 0 C
+stand stand neutral 0
+0 0 large 0
+
+
+#12020
+captain orc~
+the orc captain~
+The orc captain is still celebrating the fact that he has invaded Imladris.
+~
+This is a great big brute of an orc, with muscles the size of large melons
+and a jaw stronger than a lump of solid granite. The huge grin on his
+face indicates that he is quite happy about something. It might
+be a good idea not to put him in a bad mood....
+~
+orc~
+BCT Q -500 0
+14 3 2d6+340 1d1+140 3d6+4 slash
+-3 -2 -2 -1
+CDKR 0 F 0 
+stand stand male 550
+0 0 large 0
+
+#12021
+blacksmith elf~
+the elven blacksmith~
+A dirty blacksmith is leaning over, reforging his Lord's broken sword.
+~
+Years of this hard trade have ground a thick layer of dust and dirt into
+the skin of this rather atypical elf. From what you can see, he's repairing
+a sword which has, rather unfortunately, been broken cleanly into two pieces.
+~
+elf~
+BHQ 0 750 0
+12 3 2d6+240 1d1+110 2d6+3 pierce
+-2 -2 -2 0
+FHR 0 0 0
+stand stand male 85
+0 0 medium 0
+
+#12022
+tanner elf skilled~
+the elven tanner~
+A skilled elf is practicing her craft here.
+~
+This beautiful female elf has a waterfall of golden hair and incredible
+green eyes. However, it appears that she has little time to stop and
+chat as she is busy tanning hides.
+~
+elf~
+BHQ 0 750 0
+12 3 2d6+240 1d1+110 2d6+3 pierce
+-2 -2 -2 0
+FHR 0 0 0
+stand stand female 85
+0 0 medium 0
+
+#12023
+elf guard~
+the elven guard~
+A guard stands firmly here, protecting Imladris.
+~
+Larger than most, this elf has a stern face, marked by the strain of 
+intensive training. 
+~
+elf~
+BT N 1000 0
+13 3 2d6+250 1d1+120 2d6+3 slice
+-2 -2 -2 0
+EFKQRU 0 G 0 
+stand stand female 30
+0 0 medium 0
+
+#12024
+elf~
+an elf of Imladris~
+An elf stands here, enjoying the security of his fine home.
+~
+This typical male elf is rather tall and slim. He has tawny hair and
+a wry grin rests upon his shining face.
+~
+elf~
+BT N 1000 0
+13 3 2d6+250 1d1+120 2d6+3 slice
+-2 -2 -2 0
+EFKQRU 0 G 0 
+stand stand male 30
+0 0 medium 0
+
+#12025
+elf female~
+a female elf~
+A female elf lets the breeze blow through her hair.
+~
+Like most female elves, this one is utterly gorgeous, with a perfect face
+and a river of golden hair. Aren't ANY elves ugly??
+~
+elf~
+BT N 1000 0
+13 3 2d6+250 1d1+120 2d6+3 slice
+-2 -2 -2 0
+EFKQRU 0 G 0 
+stand stand female 30
+0 0 medium 0
+
+#12026
+elf gardener~
+an elven gardener~
+An elven gardener is nimbly planting some seeds.
+~
+Like most female elves, this one is terribly beautiful, with a divine
+face and silky black hair. She appears to be particularly adept at
+bending over and showing off her fine figure.
+~
+elf~
+BT N 1000 0
+13 3 2d6+250 1d1+120 2d6+3 slice
+-2 -2 -2 0
+EFKQRU 0 G 0 
+stand stand female 30
+0 0 medium 0
+
+#0
+
+#OBJECTS
+
+
+#12000
+ebony smoking pipe~
+an ebony smoking pipe~
+Trails of smoke rise from an ebony pipe.~
+wood~
+staff GM AO
+35 15 15 sleep~ 0
+24 1 55 P
+
+E
+ebony smoking pipe~
+This small pipe is a fine work of craftsmanship as the symbol of an
+eagle's head has been engraved upon one side of the smooth, round
+barrel end. The mouthpiece is tipped with polished brass and a small
+quantity of pipe weed pressed into the pipe seems to smoke perpetually.
+~
+
+#12001
+robes~
+the ornate robes of the Elf Lord~
+An ornate, crimson red robe lie here.~
+cloth~
+armor BG AK
+5 5 5 5 0
+24 9 3500 P
+
+E
+robes~
+A crimson red robe is interlaced with fine golden embroidery. A vignette
+of two dragons locked in combat below a blazing sun and silvery moon
+adorns the back of this wonderful item.
+~
+A
+12 25
+
+
+
+#12002
+dagger loriana~
+a black hilted dagger called "Loriana"~
+A large, black hilted dagger lies here.~
+steel~
+weapon BI AN
+'dagger' 4 7 'wrath' D
+24 10 2500 P
+E
+dagger loriana~
+This long, razor sharp dagger has a glistening black hilt crowned with
+a large blue sapphire. The blade, curiously, does not shine, but is a
+dull silver weapon. Like many elven weapons, this dagger will probably
+flash blue at the edges when a foe is in close proximity...
+~
+A
+1 1
+A
+2 2
+
+
+#12003
+helm crown~
+the silver-winged helm of the Elf Lord~
+Graceful, silver wings sweep up from a beautiful crown.~
+silver~
+armor B AE
+5 5 5 5 0
+24 14 1900 P
+
+E
+helm crown~
+Silvery wings of a sea bird are the main feature of this fantastic helm.
+They rise from a simple, white circlet which has a single black gem
+set at its front.
+~
+A
+4 2
+
+
+#12004
+mighty sword~
+a mighty, two-handed sword~
+A well polished sword which is bigger than you lies discarded.~
+adamantite~
+weapon K ANP
+'sword' 4 6 'cleave' F
+22 28 565 P
+
+E
+mighty sword~
+With a broad, straight blade of at least one and a half metres in
+length, this is truely a formidable, if not heavy, weapon. The
+pommel on the end features the embossed symbol of a white tree.
+~
+A
+18 2
+A
+19 2
+
+#12005
+ivory horn~
+an intricately carved ivory Great Horn~
+A fine horn lies on the ground, waiting to be blown.~
+bone~
+wand GK AO
+30 6 6 "acid blast" 0
+22 7 1250 P
+
+E
+ivory horn~
+This ivory white, hand carved horn is circumscribed by two bands
+of silver. The mouthpiece has been moulded from brass, and it is
+rumoured that the sound which comes from the Great Horn will
+warm the hearts of friends and chill the bones of foes for miles
+around.
+~
+
+#12006
+bronze boots~
+a pair of gleaming, bronze boots~
+Some sturdy, bronze capped boots have been polished quite recently.~
+bronze~
+armor A AG
+5 5 5 5 0
+22 11 640 P
+
+A
+5 2
+
+
+#12007
+quill feather~
+a white feathered quill~
+A large white feather shuffles along the ground in the faint breeze.~
+bone~
+weapon 0 AN
+'dagger' 3 5 'stab' 0
+12 1 35 G
+E
+quill feather~
+This looks like a fine piece of writing equipment. It has been used very
+much recently, as the tip looks a little worn and is stained in black
+ink. You feel tempted to tickle someone with the satin white feather!
+~
+A
+2 1
+
+#12008
+parchment~
+a piece of parchment~
+A strip of browned parchment cries out to be written upon.~
+vellum~
+scroll G AO
+22 1 1 38 0
+12 7 10 G
+
+#12009
+golden dragonwing shield~
+the golden DragonWing shield~
+The symbol of a golden dragon wing adorns the surface of this shield.~
+steel~
+armor A AJ
+3 4 4 2 0
+14 15 1650 P
+E
+golden dragonwing shield~
+This large, matt black shield is embellished by the symbol of a beautiful
+dragon wing. The edges of this weighty, arrow shaped piece of apparatus
+have been glossed in bright red and its surface seems to be
+unblemished - this shield has not yet experienced combat.~
+A
+2 -1
+A
+24 -8
+
+#12010
+bronze bracer~
+a bronze bracer~
+A simple loop of bronze lies here.~
+bronze~
+armor A AM
+3 4 4 0 0
+14 4 230 P
+
+A
+19 2
+
+#12011
+axe~
+a visciously sharp axe featuring a skull pommel~
+An axe has been casually discarded.~
+adamantite~
+weapon 0 AN
+'axe' 3 7 'slice' D
+14 18 1050 P
+
+E
+axe~
+An ugly, grey skull has been driven upon the end of this wicked,
+curved blade. The hilt has been surfaced in an extremely comfortable
+black twine.
+~
+A
+1 1
+
+#12012
+phial~
+a phial of blazing light~
+A tiny phial dazzles you with a magical light.~
+glass~
+potion ABGK AO
+19 bless~ sanctuary~ regeneration~ 0
+12 1 6100 P
+E
+phial~
+This tiny, crystal container has been sealed with a stopper cut from
+a ruby. The light which shines from within is terribly bright and
+you find yourself looking elsewhere before your retina are burned
+away.
+~
+
+#12013
+silk neglige~
+a lavender coloured silk neglige~
+A pile of silk has been crumpled up on the ground.~
+vellum~
+armor I AK
+2 3 2 5 0
+12 1 2350 P
+
+A
+6 1
+A
+24 -2
+
+
+#12014
+emerald dragonwing shield~
+the emerald DragonWing shield~
+The symbol of an emerald dragon wing adorns the surface of this shield.~
+steel~
+armor A AJ
+4 4 5 3 0
+20 15 1950 P
+E
+emerald dragonwing shield~
+This large, yellow shield is embellished by the symbol of a beautiful
+dragon wing. The edges of this weighty, arrow shaped piece of apparatus
+have been glossed in a deep blue and its surface seems to be
+unblemished - this shield has not yet experienced combat.
+~
+A
+2 -1
+A
+24 -6
+A
+1 1
+
+
+#12015
+sword~
+the sword of an Elflord~
+You notice a well made sword lying here.~
+adamantite~
+weapon 0 AN
+'sword' 4 6 'pierce' 0
+20 18 980 P
+E
+sword~
+This appears to be an ancient elven weapon, and, if you remember
+correctly, its dull blade will flash at the edges whenever a foe
+draws near...
+~
+A
+13 15
+
+#12016
+maroon silk leggings~
+a pair of maroon, silk leggings~
+A pile of silk lies crumpled up on the floor.~
+cloth~
+armor 0 AF
+5 3 3 2 0
+20 1 120 P
+
+#12017
+maroon silk shirt~
+a maroon silk shirt, embroidered with silver thread~
+A pile of silk lies crumpled up on the floor.~
+cloth~
+armor I AD
+5 3 3 2 0
+20 1 135 P
+E
+shirt~
+This rather stylish shirt has been carefully handstitched with some
+silvery thread. The thread forms pretty, concentric circle patterns
+and they add a certain strength to the material.
+~
+A
+2 1
+A
+5 1
+
+#12018
+helmet~
+the helm of an Elflord~
+An ergonomically designed helmet sits here.~
+steel~
+armor 0 AE
+4 4 4 4 0
+20 14 650 P
+E
+helmet~
+Constructed of thin, strong steel, this helm has a cunningly hinged
+'beaver' or faceplate built in. Arcane inscriptions have been
+engraved deeply upon its surface in a tongue which you cannot
+understand.
+~
+A
+5 1
+
+#12019
+sapphire dragonwing shield~
+the sapphire DragonWing shield~
+The symbol of a sapphire dragon wing adorns the surface of this shield.~
+steel~
+armor A AJ
+4 4 4 3 0
+16 15 1950 P
+E
+sapphire dragonwing shield~
+This large, silvery shield is embellished by the symbol of a beautiful
+dragon wing. The edges of this weighty, arrow shaped piece of apparatus
+have been glossed in a fine turquoise and its surface seems to be
+unblemished - this shield has not yet experienced combat.
+~
+A
+2 -1
+A
+24 -2
+A
+1 1
+
+
+#12020
+bow longbow wood~
+a longbow from the lands of Lorien~
+A curiously curved piece of wood lies on the ground.~
+wood~
+weapon I AN
+'exotic' 7 3 'pierce' 0
+18 6 90 G
+
+#12021
+maroon silk sleeves~
+a pair of maroon, silk sleeves~
+A pile of silk lies crumpled up on the floor.~
+vellum~
+armor G AI
+4 3 3 2 0
+18 1 120 P
+A
+12 8
+
+#12022
+silent boots~
+a pair of silent boots~
+Some dull grey boots have been discarded.~
+silver~
+armor 0 AG
+4 3 4 4 0
+18 3 875 P
+E
+silent boots~
+These boots look quite boring, as their silvery surface has been coated
+in layers of dust. However, you notice that these boots are quite soft
+and have been made with the intention of making the wearer perfectly
+silent during movement.
+~
+A
+2 2
+
+#12023
+cloak~
+a cloak~
+A simple travelling cloak has been carelessly left behind by someone.~
+cloth~
+armor KGIB AK
+6 5 6 5 0
+23 9 85 G
+
+A
+13 25
+A
+14 100
+
+#12024
+scabbard~
+a scabbard~
+A black scabbard is no longer in use.~
+steel~
+container I AL
+25 0 0 0 0
+23 5 105 P
+E
+scabbard~
+It looks like the owner of this scabbard found one which was superior,
+as this one contains no blade.
+~
+A
+17 -10
+
+
+#12025
+great burden~
+a great burden~
+A circular piece of metal doesn't look like it's worth picking up.~
+gold~
+trash AB AO
+0 0 0 0 0
+1 200 0 P
+
+A
+1 -3
+A
+14 -100
+
+#12026
+cotton shirt~
+a white, cotton shirt~
+A pile of cotton lies screwed up on the ground.~
+cloth~
+armor 0 AD
+3 2 3 0 0
+6 2 35 G
+E
+cotton shirt~
+This is smart travelling shirt, made of thick, durable cotton.
+~
+
+#12027
+grey trousers~
+a pair of grey, woolen trousers~
+Someone has removed their trousers!~
+cloth~
+armor 0 AF
+3 3 3 0 0
+7 2 35 G
+E
+grey trousers~
+They look like a fine pair of slacks, with nice spacious pockets and
+loops for a belt.
+~
+
+#12028
+leather belt~
+a black, leather belt~
+A black, leather belt curls up on the ground.~
+leather~
+armor 0 AL
+3 3 3 0 0
+7 1 20 G
+E
+leather belt~
+A long, broad strip of leather with a tarnished, brass buckle would be
+ideal for holding up your pants.
+~
+A
+18 1
+A
+19 2
+
+#12029
+shadowy cloak~
+a shadowy cloak~
+An evil shadow floats just above the ground.~
+adamantite~
+armor BCJ AK
+4 4 4 4 0
+19 23 0 P
+E
+shadowy cloak~
+This heavy cloak is the blackest black you have ever encountered. Light
+seems to be absorbed completely and it occurs to you that if it were
+worn in a dim place, the wearer would probably be rendered virtually
+invisible.
+~
+A
+3 -1
+A
+12 -15
+A
+13 35
+
+#12030
+shadowy hood~
+a shadowy hood~
+A wicked shadow is trying to hide in the periphery of your vision.~
+adamantite~
+armor BCJ AE
+7 4 4 7 0
+19 17 0 P
+E
+shadowy hood~
+Ugh! The thought of putting this vile item on your head makes you
+recoil in horror, for the evil which emanates from its darkness
+is truely vile.
+~
+A
+3 -1
+A
+4 -1
+A
+13 25
+
+#12031
+wraithblade weapon blade~
+the Wraithblade~
+A foul weapon from the black heart of Mordor begs to kill.~
+adamantite~
+weapon BCM AN
+'dagger' 3 8 'frbite' B
+18 20 2450 P
+
+E
+wraithblade~
+This weighty dagger is featureless and has a totally dull, black
+surface. The diamond shaped blade is frighteningly cold and sharp
+so you are careful not to let your fingers to anywhere near it...
+~
+A
+18 2
+A
+19 2
+
+
+#12032
+steel ringmail~
+steel ringmail~
+A rusty suit of ringmail lies on the ground.~
+steel~
+armor 0 AD
+2 3 3 0 0
+12 15 263 A
+E
+steel ringmail~
+This armour has not been looked after and has been put through
+substantial service in a moist environment as it is a little
+rusty.
+~
+
+#12033
+spear~
+a really nasty Orcish spear~
+A sharp spear awaits the pleasure of impalement.~
+wood~
+weapon 0 AN
+'spear' 4 4 'pierce' 0
+12 9 133 G
+
+A
+19 3
+
+#12034
+iron shield~
+an iron shield bearing the symbol of the White Eye~
+A circular, iron shield wobbles on the ground.~
+iron~
+armor CG AJ
+3 3 2 1 0
+12 12 260 P
+E
+iron shield~
+An ugly, circular shield with an uglier, even gruesome, white eye embossed
+upon its centre. The eye glares at you and strikes fear into your
+heart. Who would have the power to give sight to an object?
+~
+A
+12 15
+
+#12035
+lyre instrument~
+a lyre~
+A wooden musical instrument tempts you towards singing a melody.~
+wood~
+staff G AO
+10 10 10 80 0
+10 3 310 P
+E
+lyre~
+This is a beautifully crafted lyre, with tight strings which are
+perfectly in tune. It is fretted, has a rounded back and an ebony
+strumming board. There is a symbol of a man wearing a ridiculously
+large, circular hat branded on the front.
+~
+
+#12036
+mallorn leaf~
+a mallorn leaf~
+A golden leaf is blowing in the wind.~
+vellum~
+wand ABG AO
+20 10 10 bless~ 0
+10 0 0 P
+E
+mallorn leaf~
+Amber rays of light ooze from this gorgeous mallorn leaf. It's magical
+properties can probably be felt a mile away!
+~
+
+#12037
+blue rose~
+a blue rose~
+A blue rose sways gracefully.~
+wood~
+trash 0 AO
+0 0 0 0 0
+1 0 0 P
+E
+blue rose~
+A blue rose! The symbol of love, its satin, azure petals ruffle softly
+under your breath as you absorb the wonderous aroma. This fabulous
+flower has been created by an expert gardener of Imladris. Treasure
+this item, for indeed, they are very rare in this perilous world.
+~
+
+#12038
+lembas~
+some lembas~
+A dull, crumbling substance is scattered upon the floor.~
+food~
+food 0 A
+50 0 0 0 0
+1 1 0 P
+
+#12039
+broken sword~
+a broken sword~
+Part of a sword has been left here.
+~
+adamantite~
+trash ABGI AO
+0 0 0 0 0
+25 15 0 R
+E
+broken sword~
+At one time of day, this appears as if it was a very great sword. Sadly,
+it appears to have come to the end of its servicable life. Perhaps
+you could get it repaired by a smithy somewhere...
+~
+
+#12040
+tip shard~
+the tip of a sword~
+A shard of metal lies in the corner.~
+adamantite~
+trash ABGI AO
+0 0 0 0 0
+25 5 0 R
+E
+tip shard~
+This shard of adamantite appears to be the end of a fine sword. It looks
+like it is useless now, unless it could be turned into a dagger.
+~
+
+#12041
+seeds~
+some seeds~
+Some seeds have been carelessly scattered.~
+vellum~
+wand G AO
+10 10 10 12 0
+10 1 0 P
+E
+seeds~
+These seeds tingle faintly with magic!
+~
+
+#12042
+key~
+an intricate, silver key~
+A shiny, silver key catches your eye.~
+silver~
+key B AO
+0 0 0 0 0
+15 0 0 P
+
+
+#12043
+well stone~
+the well of elbereth~
+A smooth, stony well protrudes from the ground.~
+stone~
+fountain G 0
+999 999 0 0 0
+0 0 0 P
+E
+well stone~
+The well of Elbereth is a simple, stone construction, used to quench
+the thirst of all citizens of Imladris. Lichen has spread about its
+base and a few cracks blemish the otherwise smooth surface.
+~
+
+
+#12044
+potion creamy small bottle~
+a creamy coloured potion~
+A small glass bottle stands here.~
+glass~
+potion G AO
+35 shield~ refresh~ 0 0
+25 5 0 P
+
+#12045
+potion icy cold frosted bottle~
+an icy cold potion~
+A frosted, glass bottle stands here.~
+glass~
+potion G AO
+35 "stone skin" talon~ 0 0
+25 6 0 P
+
+
+
+#12046
+emerald silk shirt~
+an emerald silk shirt~
+A pile of green silk lies crumpled on the ground.~
+cloth~
+armor 0 AD
+3 3 3 1 0
+13 1 100 P
+
+A
+5 1
+
+
+#12047
+emerald silk sleeves~
+some emerald silk sleeves~
+Some strips of pearlescent green silk have been dropped.~
+cloth~
+armor 0 AI
+3 3 3 1 0
+13 1 90 P
+
+#12048
+emerald silk pants~
+a pair of emerald, silk pants~
+A pair of fine looking pants attract your attention.~
+cloth~
+armor 0 AF
+3 3 3 2 0
+13 2 130 P
+
+A
+14 50
+A
+18 1
+A
+19 1
+
+
+#12049
+dull grey cloak~
+a dull grey cloak~
+A cloak has been discarded.~
+silver~
+armor G AK
+3 4 3 3 0
+13 1 465 P
+E
+dull grey cloak~
+It looks most unremarkable, but something about this elven cloak gives
+you the feeling that there is more to it than meets the eye.
+~
+A
+12 20
+
+
+#12050
+oak staff~
+a sturdy staff of oak~
+There is a bit of wood on the ground.~
+wood~
+weapon B ANP
+'polearm' 4 5 'pound' F
+13 10 10 P
+E
+oak staff~
+This simple, but effective weapon is merely a length of solid oak
+which has been honed down by a woodsman.
+~
+A
+19 3
+A
+2 -1
+
+#12051
+terraflux shield~
+the terraflux shield <tm>~
+The TerraFlux Forceshield <tm> shimmers with an irridescent purple glow.~
+glass~
+trash FGO 0
+0 0 0 0 0
+100 2000 0 P
+E
+terraflux shield~
+This almost inexplicable, magical phenomenon is normally invisble to the
+naked eye, but its magical presence permits you to see every ripple and 
+surge of energy which flows through it. This ancient  device is what
+protects the House of the elven Lord from the powerful evil forces which
+roam the planet. However, this field is not infinite in power and it is
+rumoured that should the lord of Darkness rise again, Imladris would be
+defenceless and the House would be crushed utterly.
+~
+#12052
+shoes blue suede~
+a pair of blue suede shoes~
+A pair of extremely attractive shoes are venting a curious odour.~
+brass~
+armor B AG
+4 4 4 4 0
+14 4 1100 P
+E
+shoes blue suede~
+Arguably the most stylish pieces of apparel in the universe, these great 
+dancing shoes were made to be worn on special occassions. It doesn't look
+as if the suede would clean very easily were you to get them dirty.
+~
+A
+14 15
+
+#0
+
+#RESETS
+
+
+** SHUT ALL THE DOORS FIRST **
+
+
+D 0 12047 0 1
+D 0 12048 1 1
+D 0 12048 2 1
+D 0 12049 0 1
+D 0 12050 2 1
+D 0 12050 3 1
+D 0 12051 1 1
+D 0 12052 0 1
+D 0 12052 3 1
+D 0 12053 1 1
+D 0 12054 1 1
+D 0 12054 2 1
+D 0 12055 1 1
+D 0 12055 3 1
+D 0 12056 3 1
+D 0 12056 5 2
+D 0 12059 5 1
+D 0 12060 4 1
+D 0 12062 0 1
+D 0 12062 2 1
+D 0 12063 2 1
+D 0 12064 0 1
+D 0 12065 0 1
+D 0 12065 2 1
+D 0 12066 2 1
+D 0 12067 0 1
+D 0 12068 0 1
+D 0 12068 2 1
+D 0 12068 3 1
+D 0 12069 2 1
+D 0 12070 0 1
+D 0 12071 1 1
+D 0 12072 3 1
+
+** LOAD STATIC OBJECTS **
+
+
+O 0 12036 3 12024       leaf by tree
+O 0 12037 2 12078       rose in gardens
+O 0 12044 3 12057
+O 0 12045 3 12057       potions in store room
+O 0 12040 1 12044       tip of sword in smithy
+O 0 12041 3 12077
+O 0 12041 3 12080       seeds in gardens
+O 0 12043 1 12025       well
+O 0 12051 4 12047	shield
+O 0 12051 4 12074
+O 0 12051 3 12072
+
+
+** LOAD MOBILES AND EQUIPMENT **
+
+
+M 0 12000 1 12056 1  1        elflord  
+E 1 12001 3 12          robe
+E 1 12002 3 16          dagger
+E 1 12003 3  6          helm
+G 1 12042 1		silver key
+
+M 0 12001 1 12053 1  1        wizard  
+E 1 12000 2 17          pipe
+
+M 0 12002 1 12052 1  1        southerner  
+E 1 12004 3 16          sword
+E 1 12005 2 17          horn
+E 1 12006 4 8           bronze boots
+
+M 0 12003 1 12025 1  1        elvish presley  
+E 1 12035 5 17          lyre
+E 1 12052 1 8 		blue suede shoes
+G 1 12038 15            lembas
+
+M 0 12004 1 12052 1  1        storyteller  
+E 1 12007 3 17          quill
+G 1 12008 3             parchment
+
+M 0 12005 1 12049 1  1        noble dwarf  
+E 1 12009 4 11          shield
+E 1 12010 4 14          bracer
+E 1 12011 3 16          axe
+
+M 0 12008 1 12049 1  1 	dwarf  
+E 1 12019 4 11		shield
+E 1 12011 3 16		axe
+E 1 12010 4 14		bracer
+
+M 0 12006 1 12073 1  1        princess  
+E 1 12013 3 12          neglige
+E 1 12012 3 17          phial
+
+M 0 12007 1 12004 1  1        warrior  
+E 1 12014 3 11          shield
+E 1 12015 3 16          sword
+E 1 12016 3 7           leggings
+E 1 12017 2 5           shirt
+E 1 12018 3 6           helm
+G 1 12038 15            lembas
+
+M 0 12009 1 12072 1  1        archer  
+E 1 12020 4 16          bow
+E 1 12021 3 10          sleeves
+E 1 12022 2 8           silent boots
+
+M 0 12010 1 12051 1  1        ranger  
+E 1 12023 3 12          cloak
+E 1 12024 4 13          scabbard
+G 1 12038 15            lembas
+
+M 0 12011 1 12067 1  1        wounded hobbit  
+G 1 12025 3             burden
+G 1 12038 15            lembas
+
+M 0 12012 1 12067 1  1        tough hobbit  
+E 1 12026 5 5           shirt
+E 1 12027 5 7           pants
+E 1 12028 5 13          belt
+
+M 0 12013 1 12059 1  1        young hobbit  
+E 1 12026 5 5           shirt
+E 1 12027 5 7           pants
+E 1 12028 5 13          belt
+
+M 0 12014 1 12052 1  1        sneaky hobbit  
+E 1 12026 5 5           shirt
+E 1 12027 5 7           pants
+E 1 12028 5 13          belt
+
+M 0 12015 3 12003 1  1        ringwraith  
+E 1 12029 3 12          cloak
+E 1 12030 3 6           hood
+E 1 12031 3 16          blade
+
+M 0 12015 3 12006 1  1        ringwraith  
+E 1 12029 3 12          cloak
+E 1 12030 3 6           hood
+E 1 12031 3 16          blade
+
+M 0 12016 3 12010 1  1        ringwraith  
+E 1 12029 3 12          cloak
+E 1 12030 3 6           hood
+E 1 12031 3 16          blade
+
+M 0 12017 6 12007 1  1        orc  
+E 1 12032 4 5           ringmail
+E 1 12033 4 16          spear
+E 1 12034 4 11          shield
+
+M 0 12017 6 12007 1  1        orc  
+E 1 12032 4 5           ringmail
+E 1 12033 4 16          spear
+E 1 12034 4 11          shield
+
+M 0 12018 1 12007 1  1        sergeant  
+E 1 12034 4 11          shield
+
+M 0 12019 1 12020 1  1        sea horse  
+
+M 0 12020 1 12084 1  1        orc captain  
+E 1 12034 4 11          ringmail
+E 1 12033 4 16          spear
+E 1 12034 4 11          shield
+
+M 0 12017 6 12084 1  1        orc  
+E 1 12032 4 5           ringmail
+E 1 12033 4 16          spear
+E 1 12034 4 11          shield
+
+M 0 12023 3 12021 1  1        guard  
+E 1 12046 4 5           shirt
+E 1 12047 4 10          sleeves
+E 1 12048 4 7           pants
+E 1 12049 4 12          cloak
+E 1 12050 4 16          staff
+
+M 0 12023 3 12021 1  1        guard  
+E 1 12046 4 5           shirt
+E 1 12047 4 10          sleeves
+E 1 12048 4 7           pants
+E 1 12049 4 12          cloak
+E 1 12050 4 16          staff
+
+M 0 12023 3 12021 1  1        guard  
+E 1 12046 4 5           shirt
+E 1 12048 4 7           pants
+
+M 0 12021 1 12044 1  1        smith  
+G 1 12039 1             broken sword
+
+M 0 12022 1 12045 1  1        tanner  
+G 1 12038 15            lembas
+
+M 0 12024 4 12035 1  1        elves  
+M 0 12025 5 12035 1  1   
+M 0 12024 4 12039 1  1   
+M 0 12025 5 12039 1  1   
+M 0 12025 5 12026 1  1   
+
+M 0 12026 3 12026 1  1        gardener  
+G 1 12038 15            lembas
+G 1 12041 3             seeds
+
+M 0 12024 4 12037 1  1        elves  
+M 0 12025 5 12039 1  1   
+M 0 12024 4 12041 1  1   
+
+M 0 12025 5 12041 1  1   
+G 1 12038 15            lembas
+
+M 0 12026 3 12076 1  1        gardener  
+
+M 0 12026 3 12080 1  1        gardener  
+
+S
+
+#SPECIALS
+
+M 12000 spec_cast_cleric
+M 12001 spec_cast_mage
+M 12013 spec_thief
+S
+#$

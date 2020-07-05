@@ -1,0 +1,471 @@
+#HELPS
+
+1 CLANS~
+
+This is the main clan help page; it is an index of the other help files
+available.
+
+   "......and thus there came a time when the Gods of Xania looked down
+    upon their world, and they were displeased with the progress that had
+    been made by their subjects. Soon after, the Gods grouped together in
+    a heated debate, the result being that the Gods were to grant certain
+    mortals the right to create clans, in the hope that they would find
+    followers. By doing so, the Gods were giving the mortals the ability to
+    utilise independence in terms of organisation, communication and
+    creative talents....."
+                           (from Book III, Lore of Xania)
+
+See help on: |Y
+             ClanCreate ClanChannels ClanRanks ClanWho    ClanCommands
+             Recall     ClanWeb      ClanList  ClanLeader ClanFunds  |w
+
+For the latest information on your clan, see the clan thread dedicated to
+your clan in the Xania news system.
+~
+
+1 CLANCOMMANDS~
+The following commands are available for members of clans:
+(see also Help ClanRanks for info on ranks)
+|G
+Default Rank    Commands Available  |w
+-----------------------------------------------------------------------------
+Leader          member (+/-)   demote    clanchannel(automatic)
+                noclanchan     promote   'recall clan'
+                clantalk
+
+Hero            noclanchan     clanchannel(automatic)
+                'recall clan'  clantalk
+
+Adept           clantalk       'recall clan'
+
+Initiate        clantalk       'recall clan'
+
+Member          clantalk       'recall clan'
+
+~
+
+
+1 CLANCREATE~
+This help is intended for high level players intending to create their
+own clan. To do so is not a simple task as there are many things which
+you must think about.
+
+Name:      the clan must have a name! Ideally a few words long. Avoid
+           putting in words which are existing races, classes or even
+           clans(!) and it must be able to be prepended by the word 'the'.
+           You could have 'Brotherhood of Schmee', but could not have
+           'the Eagle Clerics'.
+
+Ranks:     you must come up with five distinct clan rank names. See help
+           clanrank.
+
+Whoname:   this is what is seen on the who list before a member's name
+           and should be no more than five characters long.
+Theme
+& History:
+           there must be a general theme to the clan, e.g. military,
+           magical, chaotic, druidic etc. This must be explained in a
+           few paragraphs of text. The more detail the better, as this
+           adds depth to the roleplaying aspect of clans.
+
+Rooms:     you must create a few clan rooms to start out with (with potential
+           for expansion later). These will have a financial cost, details
+           of this will be explained to you. One of the rooms will be the
+           'recall clan' point.
+
+Objects:   you must create several clan objects which members will be
+           encouraged to wear. The 'stats' (e.g. armour class, bonuses for
+           characteristics etc) cannot be too good and, like any other piece
+           of equipment on the mud, will be influenced by level.
+
+To create rooms and objects requires you to know how to code using the Xania
+Area Writing format. If you have e-mail then you can be sent the appropriate
+document for explaining how to do this. This document may also be on the
+Xania web page soon (http://www.pyro.org/). Speak to an implementor soon
+about your ideas and to learn how to submit your clan application.
+~
+
+1 CLANCHANNELS~	
+Syntax:   |Gclantalk <message>|w
+Shortcut: |G> <message>|w
+
+The communication channels of Xania are all based on a telepathic network
+which is supported by the Gods. If you use the 'gossip' channel, for
+example, you transmit a telepathic message which gets relayed via the
+Gods and transmitted to all denizens of Xania, if they chose to hear it.
+
+When engaging in private communications, e.g. when using 'tell', you are
+using your own psychic capabilities to transmit the message, and similarly,
+when you are grouped, 'group tell' requires a group effort.
+
+In recent times, the Gods decided to give certain individuals the ability to
+support their own private communications network. This 'clan channel' ability
+has fallen upon those who create and lead clans. Those who hold a high
+standing within a clan can also support the clan channel.
+
+If a clan leader or clan hero is present in the lands of Xania, then they
+act as a |Wtelepathic nexus|w by which messages sent by members of the clan
+get relayed to all other members. If no leader or clan hero is present, then
+no telepathic nexus exists, and any effort you may make to use the clan
+channel will be futile.
+
+Clan leaders and heroes are responsible for what is sent on the clan channels,
+as it is by their very presence that the channel can actually function. See
+help NOCLANCHAN.
+~
+
+1 CLANFUNDS~
+For the present, clan leaders and heroes may collect money for the benefit
+of their clan and store it in the form of the unique clan gems. These gems
+are only available from immortals and are worth $500,000. If you wish to
+exchange this amount of gold for a gem, you must wait until a God is present
+and willing to provide you with a piece of the sacred krellstone. Keepers
+of the gems are responsible for looking after them; if you lose them or they
+get destroyed then you have lost a significant store of wealth. Keep them
+in a protected container! It will be possible to use these funds for the
+purposes of buying objects, rooms and other things, for the clan.
+~
+
+
+1 CLANLEADER~
+This help file is meant for those who hold the (default) rank of leader
+in their clan.
+
+You are the most powerful individual in your clan and therefore hold a
+degree of responsibility for its actions. The clan channel is a right which
+has been granted to you as a favour from the Gods and it is up to you
+to keep tabs on what is said upon it. If you intend to give a member of your
+clan the rank of 'hero', keep in mind the fact that this rank gives them
+the ability to activate the clan channel, and gives them the noclanchan
+command too.
+
+Promotion or demotion of members of your clan is at your own discretion, but
+the following guidelines should be maintained: (see help ClanRank)
+
+       Rank      Number of Clan Members
+---------------------------------------
+       Leader    1
+       Hero      2       Note: use of the promote and demote command
+       Adept     5             is logged, so don't think you can get
+       Initiate  any           away with promoting and demoting members
+       Member    any           regularly.
+
+As clan leader, you have final say in what rooms, equipment etc is
+submitted to the implementors. However, you should encourage all active
+members to make an input - it should not be a 'one man clan' situation.
+
+There will probably be more to come here, watch this space!
+~
+
+1 CLANLIST~
+      This is a list of the clans currently roaming the world of Xania
+------------------------------------------------------------------------------
+
+Title  Help       Name                              Founder   Startup Date
+------------------------------------------------------------------------------
+
+(Wyrm) Wyrm       Disciples of the Wyrm             Samael     3/ 3/96
+
+(Lore) Lorekeep   Keepers of the Lore               Tanis     25/ 6/96
+
+~
+
+1 CLANRANKS~
+Each clan has its own discrete ranks, the name of each being based on the
+nature of the clan. However, the highest rank in a clan, is generally
+referred to as the '|Rleader|w' and one rank below leader is '|Rclan hero|w'.
+Each clan has five default clan ranks.
+
+example:
+Clan: Warriors of Kai
+
+    Default Rank      Rank Name (unique to this clan)
+    -------------------------------------------------
+(1) Clan Leader       Patriarch
+(2) Clan Hero         Kai-Lord
+(3) Adept             Kai-Crusader
+(4) Initiate          Kai-Rider
+(5) Member            Kai-Intrepid
+
+Only those ranked Clan Leader can use the |Wmember|w or |Wpromote|w commands.
+Only those ranked Clan Hero or higher allow the clan channel to be active.
+~
+
+1 CLANWEB~
+Clans can have their own web pages, courtesy of pyro.org ;) If you are a leader
+or a member of a clan, you may come up with some clan related info which can
+be placed on the page.
+
+Typical stuff would include the fantasy history of your clan, legendary
+members, the clan's objectives and as much roleplaying stuff as possible.
+
+You don't have to write the pages in html format, just leave a note to immortal
+or speak to an implementor and you will be told how to submit clan web pages.
+
+It is possible to tie your clan web page in with your own characters web
+page (see 'help web').
+~
+
+1 CLANWHO~
+Typing 'clanwho' will show you all of the visible members of your clan who
+are currently logged on, along with their clan rank. You cannot use it to
+see members and ranks of other clans.~
+
+
+
+1 MEMBER~
+Syntax: member + <player name>
+        member - <player name>
+
+This is used by clan leaders to make a player a member of their clan, or to
+remove an existing member.
+~
+
+1 PROMOTE DEMOTE~
+Syntax: promote <clan member name>
+        demote  <clan member name>
+
+This can be used by clan leaders to promote or demote the status of an existing
+clan member. The default number of 'ranks' in a clan is 5. There can only ever
+be a single leader who holds this command.
+~
+
+1 NOCLANCHAN~
+Syntax: noclanchan <clan member name>
+
+This is used to remove a clan member's right to use the clan channel. Members
+of a clan who allow the channel to function i.e. leader and clan heroes, are
+in control of the channel, and are responsible for what is said on it.
+Therefore, it is up to them to use this command when necessary. A clan member
+who has been noclanchanned can still see what other clan members say, unless
+he turns the channel off.
+~
+
+
+
+96 CLANSET~
+Syntax: clanset {+/-}  <player> <clan>
+        clanset leader <player>
+
+Immortals can use this to add or remove a player's clan membership. 
+They can also use it to make a clan member a leader. Please use this
+only under special circumstances, eg. if the former leader of a clan
+has left the clan, or immed or whatever :)
+
+Note: don't use this to member or demember a player's clan status.
+That is something which only clan leaders should do and immortals
+should respect the decisions of clan leaders as to who joins their
+clan or not.
+~
+
+
+1 'DISCIPLES OF THE WYRM' WYRM~
+|W
+The Book of the Wyrm
+|w
+   Of  all  the races  that  of dragon  is the most  ancient on Xania.
+Before the  creation of Xania, before  the universe was forged, before
+the  immortals  were born,  even before  the   beginning of time there
+existed the Great Wyrm. 
+
+   Before  the dawn of time  the Great Wyrm  was  all that existed. He
+lingered  in  an  eternal  slumber  and  experienced   a  multitude of
+dreams. These  dreams became more and  more vivid  and real until they
+began to take on physical forms. Thus in the silence and darkness, the
+immortals were born.  The Great Wyrm watched the immortals antics with
+amusement.....until they created Xania. 
+
+   Soon after their world   took shape, the immortals discovered  that
+their bounty was tainted with evil. This worried the great dragon, for
+he found that  his  dreams were  disturbed by  horrifying  images.  He
+could  feel another consciousness slowly  forming, which could perhaps
+gain power to rival his own.  After great deliberation, the Great Wyrm
+decided that  he must  make others in  his own  form, who would embody
+virtue  and power.  He would create  beings who  would carry forth the
+rites of the Wyrm. So the dragons of Xania were born. 
+
+   The most ancient of all the dragons was Samael,  and the Great Wyrm
+appeared to  his disciple and taught him  of the virtues  that he must
+uphold.  The  first   was  that  he must    crush all  evil   that  he
+encountered.  Secondly,  he was to  help all those of good intentions,
+in order to ward against the encroachment of evil and chaos.  Thirdly,
+he was instructed to protect the weak  from injustice. Finally, he was
+to  spread the word of  the Wyrm to others  and gather about him those
+who embody the spirit of the dragon, whether  they possess the body of
+a dragon or not. 
+
+   And so the Disciples of the Wyrm  were founded, a great temple hewn
+from ancient rock and  the timeless task of   upholding the wishes  of
+Great Wyrm begun. 
+
+See help on: |WWyrmlore, Wyrmjoin|w
+
+~
+1 WYRMLORE~
+|W
+The Writings of Samael
+|w
+...It has been many millenia since I was taught  the virtues.  In this
+time we have  amassed  many believers and   the corporeal form  of the
+Great Wyrm has strengthened.  We have fought against darkness wherever
+we have  found it.  But  even our  own clan  members, and perhaps even
+myself, are not immune to the corruptions of evil. 
+
+   Some dragons have been known to become so contaminated by evil that
+they have  opposed the Disciplehood  of the Wyrm. Others were infected
+in a more subtle way and  have worked to pervert the  clan. It is they
+who believed  not  in the  virtues,  but  rather in the   supremacy of
+dragons over all of the other races,  to some extent that continues to
+the present day.   Many dragons consider  the  other races as  nothing
+more that cattle for them to feast upon. 
+
+   Fortunately, most  of   the dragons where  able   to  withstand the
+darkness and uphold the virtues of the  Great Wyrm. A great temple was
+built by such a  band of dragons,  using a solid  block of white stone
+and  was imbued with magical essence  from the Great  Wyrm himself.  A
+dungeon  was built with puzzles and  creatures to  challenge those who
+would seek  to join the  clan:  to discover whether  they were  strong
+enough to maintain the strict laws of the Wyrm. 
+
+   After  the temple was  built, we were approached by  a band of dark
+elves, known as  the Elves of  Narion.  With diplomacy  they requested
+entry, saying that  they wished to learn more  of the teachings of the
+Great Wyrm. We welcomed  them  gladly, rejoicing  that so many  people
+wished  to embrace  our   virtues.  Alas,  the   elves  bore us   evil
+intentions; they were misguided and believed that we followed the path
+of  our evil   breathen who  fed  upon  them,  and  in our sleep  they
+slaughtered my  brothers.  Overcome with anger,   I entered a  fury of
+revenge which I now  regret. Using the height of  my powers,  I called
+for the Great Wyrm from his eternal slumber in the  hope that he might
+protect his   followers from harm.  The   revenge was  spectacular and
+frightening. In an instance the elves grew old  and withered until all
+that remained was dust blowing in the wind. 
+
+   It has taken time,  but  I have found  new  followers and we   have
+restored   our  temple.  We  are  again  upholding   the virtues,  and
+spreading the  word of the  Wyrm. Some animosity still  exists between
+dragons and elves; alas it seems  that neither will ever fully forgive
+the other.... 
+
+See help on: |WDisciples, Wyrmjoin|w
+~
+
+1 WYRMJOIN~
+The Disciples of  the Wyrm  are essentially,  a class  who uphold  the
+virtues of  their God, the Great Wyrm.  There aligned towards goodness
+and law,  and will therefore purge sources  of evil and chaos whenever
+they are given the opportunity. 
+
+To join this clan, you must speak to  the Preceptor of the Great Wyrm.
+He will look into your heart and see whether you are worthy enough to 
+undertake the labours that this clan established for itself, centuries
+ago. 
+
+See help on: |WDisciples, Wyrmlore|w
+~
+
+
+1 LOREHISTORY~ 
+
+The history of The Lore 
+----------------------- 
+ 
+First there was nothing,  and there came a  time when the Gods saw fit
+to create a  good and peaceful  land. When their  creation was finally
+completed and named Xania, it was a time of much rejoicing. This great
+land was  ruled by the  wise dragons  who  were bestowed with  all the
+knowledge of this  world. This knowledge was  called the lore, and the
+dragons were entrusted with it's safe keeping.  For many centuries the
+dragons ruled and Xania's inhabitants lived in peace and harmony. They
+felt  secure that the   wise dragons and   their knowledge of the LORE
+could aid them in times of trouble and confusion. 
+ 
+But then came bad times, several of the  dragons saw the potential for
+abuse that the power of the LORE gave  them. They twisted its power to
+serve  their own purposes,  and used this  knowledge to wreak havoc on
+the lands of  Xania. These greedy, power  hungry dragons plundered and
+pillaged  the lands, snatching its  treasures for themselves. It was a
+time of darkness for all the inhabitants of Xania. 
+
+The few good dragons left waged war on  the evil ones. And the battles
+where  fierce. Whole  cities were destroyed   and burnt to the ground,
+many brave  citizens who banded  together  against the  evil ones were
+slaughtered. It is said that in places the blood  flowed like a river,
+and the screams of dead and maimed echoed through the valleys. 
+
+Horrified by what was occuring in their own lands, the Gods decided to
+intervene. They used their awesome power to destroy the evil ones, the
+few survivors  were cast from the  lands. Those good dragons who still
+lived were  put into slumber  and ordered to awaken   if the evil ones
+ever returned. Sadly, amongst all the fighting and destruction much of
+the  LORE was gone.  The people of Xania  returned  to their burnt out
+towns and villages to rebuild much that they had  lost. The brave dead
+were buried and  their heroism is  still echoed today  in many  of the
+ballads of the bards. 
+
+See also: |c'help lorekeepers' 'help lorephilosophy'|w
+~
+
+1 LOREKEEPERS~
+
+The history of the Keepers of the Lore
+-------------------------------------- 
+
+The people of Xania prayed that  one day a hero may  take them back to
+the happy times that they had  lost, and that  one day the LORE may be
+restored. One day  that hero came  from the mists of the battle-fields
+of Xania. He was  an elf and his  name  was Tanis. Tanis saw  that the
+LORE had to be restored for peace to return to Xania and he swore that
+he would do everything in his power to return it.  He explored much of
+these  lands   recording   what  he   found   and  learnt   from   his
+experiences. On his travels he met two other great heroes. Ragnar, the
+mighty barbarian minotaur  whose strength  and cunning was   legendary
+throughout the lands.  Firestorm,   the  powerful hobbit  mage   whose
+magical powers and knowledge  were second to   none. He asked them  to
+join him  in his quest and between  them  they pledged to  restore the
+lost LORE. Tanis and his allies built the  Library of Enlightenment to
+store that that  they had found and recruited  followers from  far and
+wide to record the rediscovered knowledge of Xania. Now the Library is
+the  finest in  all Xania,   its  four  walls  are the  boundaries  to
+boundless knowledge.  The triad of  allies still  continue their quest
+and there is still much to be done. 
+
+See also: |c'help lorephilosophy' 'help lorehistory'|w
+~
+
+1 LOREPHILOSOPHY~
+
+The philosophy of the Keepers of the Lore
+----------------------------------------- 
+
+The members  of this clan are dedicated   to discovering and exploring
+the lands of Xania. Using intelligence rather than brute strength they
+hope to get the measure of  their opponents and  help their allies and
+fellow clan members. The  more their wisdom and experience  increases,
+the more their responsibility in the clan increases. They are expected
+to aid those less experienced by relaying helpful information to them,
+so that they  may not make the  mistakes that others before  them have
+made. This is particularly important for those brave enough to venture
+into  the wilder, barren regions  of Xania where  many terrible beasts
+roam. 
+
+There  are   five  major   ranks in the   clan,    and each is  easily
+identifiable from the colour of the robes that they are wearing. 
+
+LOREMASTER |W(Black)|w   LOREBINDER |B(Indigo)|w
+LOREPROTECTOR |C(Blue)|w INITIATE |G(Green)|w NOVICE |R(Red)|w 
+ 
+All  those who  join  are expected to  be   neutral in  alignment,  and
+willing to  help and  aid their  fellow clan  members. If you feel that 
+you are up to the task of following  this way of life,  then  seek  the  
+Loremaster and inform him of your desire the serve the Lore.
+
+See also: |c'help lorehistory' 'help lorekeepers'|w
+~
+
+0 $~
+
+
+
+#$
+

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# adapted from original csh version by Faramir.
+
+PATH="/bin:/usr/bin:.:"
+
+port=9000;    # can't be arsed to see if someone wants another port
+
+# Change to area directory.
+cd ../area;
+
+# Set limits.
+if ( test -e shutdown.txt ); then
+    rm -f shutdown.txt
+fi
+
+# Ensure doorman is up and running
+if (! test -e doorman.txt); then
+    ../src/startup.doorman $port &
+fi
+
+while ( true )
+    do
+    # If you want to have logs in a different directory,
+    #   change the 'set logfile' line to reflect the directory name.
+	logfile="../log/`date +%T%B%d.log`";  # avoids spaces in filename  
+	echo "logging to $logfile";
+	pwd;
+
+	# Run xania.
+	if( ! test -e ../src/xania ); then
+	    echo "no mud binary exists - have you done make install?";
+	fi
+	../src/xania >& $logfile 
+
+
+    # Restart, giving old connections a chance to die.
+    if ( test -e shutdown.txt ); then
+        rm -f shutdown.txt;
+	exit 0;
+	fi
+    sleep 15;
+done

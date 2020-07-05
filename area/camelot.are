@@ -1,0 +1,2518 @@
+#AREA  {40 100} Manacle    Camelot~
+
+#MOBILES
+
+#501
+king arthur~
+King Arthur~
+King Arthur scowls at your intrusion.
+~
+King Arthur wears his ancient armor proudly, almost reflecting the power of his
+old God on this living plane.  A second feeling of awe rushes over you again in
+the presence of this legendary mortal.
+~
+human~
+BFT DHVX 1000 0
+105 20 12d10+10100 10d6+945 5d4+47 divine
+-54 -50 -53 -30
+CEFJK ABKNQ IJ 0
+8 8  15234
+0 0 large 0
+#502
+morgana witch lady~
+Morgana of the Faeries~
+Morgana, Lady of the Lake, stands here.
+~
+Beguiling Morgana smiles at you - don't be fooled by her beautiful face...  She
+is the greatest of the old people, believed to possess immense magical powers.
+~
+human~
+GCRJK BDEFHTaa -800 0
+100 16 9d4+9600 12d10+600 3d5+40 claw
+-40 -42 -41 -40
+ABEJK ABJQ KNO X
+stand stand female 7522
+0 0 medium 0
+#503
+merlin druid~
+Merlin~
+Merlin head of the ancient order of the druids is lookig for herbs here.
+~
+The wizened old man smiles at you, radiating peace and tranquility.  He reminds
+you of the kind of person who plucks thorns from the feet of small furry and above
+all squishy animals.
+~
+human~
+CGHJKQaa DEFHTU 850 0
+100 15 10d12+8800 10d12+550 3d3+45 blast
+-46 -45 -48 -36
+CDEFHJK BCQ JLNO X
+stand stand male 0
+0 0 medium 0
+#504
+gwen queen gwenefwhar~
+Queen Gwenefwhar~
+Queen Gwenefwhar is resting here, pining for her beloved Lancelot.
+~
+Queen Gwenefwhar looks elegant in her flowing green dress, almost as if she were
+going to a ball.  The green train looks almost as lush as the fields north of
+Midgaard, with glinting jewels flashing like small flowers in the wind.
+~
+human~
+GHQ CDEFHNcc 800 0
+85 12 10d20+6500 6d6+400 4d5+23 bite
+-37 -37 -33 -25
+CDEFHJKN ABLMNPQ HIJK D
+stand stand female 0
+0 0 medium 0
+#505
+lancelet sir knight~
+Lancelot~
+The brave Knight Sir Lancelot is polishing his armor here.
+~
+Lancelot, the greatest of all of Arthur's Knights, looks every bit as splendid as the
+tales tell.  Tall and muscular, his long tressess cover some of his battle scars.
+~
+human~
+GT CDEFHTVZaacc 950 0
+95 14 30d36+7500 6d4+500 5d6+20 pound
+-42 -45 -41 -31
+CDEFGIKLOT AEJMNOQ BD CHI
+stand stand male 0
+0 0 large 0
+#506
+black knight markham prince~
+Prince Markham~
+Prince Markham - the Black Knight - unsheathes his sword and glares at you.
+~
+The Black Knight stares coldly at you, shoving his plans for overthrowing the King into
+his belt, and unsheathing his great sword.  He laughs and your hair stands on end
+as you realise that the sword in his hand is heading your way!
+~
+human~
+BCFHT DEFHJNQVaa -1000 0
+95 15 30d36+6750 6d4+500 5d6+25 pound
+-45 -48 -41 -33
+ABCDEFHJK ABMNO EJLPQ IR
+stand stand male 0
+0 0 large 0
+#507
+knight~
+Knight of the Round Table~
+A Knight of the Round Table stands here appalled at you blatant disregard for ceremony!
+~
+This man is one of the greatest in Arthur's disciplined army, you don't want to mess with him.
+~
+human~
+CGHTcc CDEFHNTVcc 750 0
+78 11 20d10+4800 10d6+460 3d4+30 pound
+-33 -32 -34 -23
+CDEFHIJKLU NOPQRS CE 0
+stand stand male 0
+0 0 medium 0
+#508
+priest preacher vicar chaplain~
+Chaplain~
+A tall man clad in white robes is knelt in silent prayer.
+~
+The priest of the old God sighs gently at your intrusion.  "We don't often get new disciples." he moans.
+~
+human~
+BCGHQaa CHVZaacc 1000 0
+72 9 12d10+4500 10d6+700 2d6+26 divine
+-30 -33 -33 -28
+ACDEFGKNOQ ABEHIMNO JKQ D
+stand rest male 0
+0 0 medium 0
+#509
+jester clown fool~
+Court Jester~
+The Court Jester flops his hat and grins.  His bowed legs carry him towards you.
+~
+The Court Jester has some sort of bladder on a stick which makes strange noises.
+~
+human~
+CGHScc HPUVcc 0 0
+61 7 1d1+2999 1d1+899 1d1+29 pound
+-24 -23 -20 -20
+DEFHJKU J BMNOP RSX
+stand stand male 0
+0 0 medium 0
+#510
+lady slave waiting~
+Lady in Waiting~
+A Lady in waiting waits here.
+~
+The lady in waiting patiently twiddles her thumbs as she waits for her Queen to
+call her to help her dress.  She blushes as you look at her and twitches her veil
+into place to cover her face.
+~
+human~
+CGH HNTUcc 0 0
+42 5 2d12+1200 1d1+349 1d1+19 claw
+-18 -19 -19 -12
+CDEFKNU MNOPQRS J E
+stand stand female 0
+0 0 medium 0
+#511
+commoner peasant~
+A commoner~
+A peasant of Camelot wanders by.
+~
+This poor looking peasant looks quite contented with his lot.
+~
+human~
+CGH Ncc 0 0
+39 3 12d12+900 1d1+299 1d1+17 pound
+-14 -12 -12 -10
+CDEFNU S E X
+stand stand male 0
+0 0 medium 0
+#512
+soldier~
+Foot Soldier~
+A soldier of Arthur's army is on guard here.
+~
+This stalwart soldier looks like he could stand on guard all day, his bladder
+control is phenomenal his face never twitches.
+~
+human~
+BGTcc HNZcc 500 0
+53 5 12d20+1800 1d1+339 2d6+18 slash
+-19 -20 -18 -15
+CDEFHJKU ABMN C R
+stand stand male 0
+0 0 medium 0
+#513
+cook chef~
+The Castle Cook~
+The Chef raises his cleaver and advances on the days dinner.
+~
+This short, plump man looks like a pleasant soul, even with his raised meat
+cleaver!
+~
+human~
+BHT HNVaacc 0 0
+44 4 12d6+1800 1d1+399 2d6+15 slash
+-16 -14 -14 -10
+DEFHIK ABJ MN X
+stand stand male 0
+0 0 medium 0
+#514
+peasant shopkeeper grocer~
+the shopkeeper~
+A pleasant looking Camelot peasant who has taken upon himself the duty of
+selling his wares to the populace at large stands behind his stall.
+~
+A short but powerful looking man who looks handy with a scythe.
+~
+human~
+ABV 0 900 0
+23 0 1d1+999 1d1+99 1d8+20 beating
+-15 -15 -15 -15
+EFJ ABCD 0 0
+stand stand male 1300
+0 0 medium 0
+
+#0
+
+#OBJECTS
+#501
+excalibur mighty sword~
+The mighty Excalibur~
+The mighty Excalibur, sacred sword of the Druids, lies in a beam of
+pure light.~
+steel~
+weapon ABGHIKM AN
+'sword' 11 8 'slice' DEF
+88 22 45000 P
+E
+sword excalibur mighty~
+This huge sword, wielded only by the greatest warriors as decreed
+by the high druids of this land, lies waiting for the command to
+kill.  The druidical symbols on it's hilt are too old for even you
+to fathom.
+~
+E
+hilt~
+The hilt of this huge sword is strangely decorated with druidical
+symbols too old for you to fathom.  The materials used seem of
+strange origin, but feel amazingly comfortable in the hand.
+~
+A
+18 10
+A
+19 10
+A
+4 1
+A
+13 50
+A
+12 25
+#502
+dagger jewelled~
+The jewelled dagger of Anwe~
+The jewelled dagger of Anwe lies here in an eerie blue light.~
+steel~
+weapon AGHLM AN
+'dagger' 11 8 'divine' BE
+E
+dagger jewelled~
+The blade of this dagger is long and slim, of the type used to
+disembowel the days kills.  The hilt feels cool in your hand, no
+matter how long you hold it, and the weapon seems to have a life
+all of it's own.  Anwe, Goddess of Nature, fills the blade with
+her divine presence.
+~
+A
+6 1
+A
+18 11
+A
+19 10
+#503
+sword deceit deceiver~
+The Sword of a deceiver~
+A large, magnificent sword of ancient origin waits to be wielded.~
+steel~
+weapon BGL AN
+'sword' 8 12 'slash' DE
+85 25 35000 P
+E
+sword deceiver~
+The sword of the great Sir Lancelot, reaper of many lives,
+ex-sword for hire he now resides in Camelot as the greatest of the
+Knights at Arthur's Round Table.  The sword's serated edge tells
+many tales of woe, and traces of blood can still be found in the
+stitching on the hilt.  A great golden crucifix adorns the end of
+the hilt, which glows in the sunlight as if the God himself is looking
+down upon your battles.
+~
+A
+1 3
+A
+2 -1
+A
+19 15
+#504
+black sword hilted~
+A huge black hilted sword~
+A huge black hilted sword glares at you from it's resting place.~
+iron~
+weapon BCEJM AN
+'sword' 6 15 'chop' BDF
+88 25 45000 G
+E
+sword black~
+This huge black sword is the epitome of the evil in nature, the
+dark side of the soul.  The darkened blade gleams coldly in the
+light of day, but seems brilliant in the dark of dusk, as night
+begins it's rule of the lands.
+~
+A
+5 2
+A
+18 8
+A
+19 8
+A
+13 25
+#505
+razor sword edged~
+A Knight of the Round Table's sword~
+A razor edged sword, worn by the Knight's of Camelot, lies unattended
+here.~
+steel~
+weapon IK AN
+'sword' 7 12 'slice' D
+75 15 30000 P
+E
+sword razor~
+The sword of a Knight of the Round Table is a sacred sign of the
+greatest warriors in the kingdom of Camelot.  Only the best may wield
+such a sword.
+~
+A
+19 8
+#506
+pewter candle candlestick~
+A heavy pewter candlestick~
+A heavy pewter candlestick rests here.~
+adamantite~
+weapon AK ANO
+'exotic' 6 12 'smash' A
+70 20 25000 P
+E
+candlestick candle pewter~
+The candlestick seems to be the type commonly used in places of
+worship to inspire awe in the congregation.  You expect it'll
+inspire awe in your enemies when it heads towards their unshielded
+bodies!
+~
+A
+19 5
+A
+1 2
+#507
+arm justice polearm~
+The long arm of justice~
+A footsoldiers polearm waits to smite the guilty.~
+bronze~
+weapon KM AN
+'polearm' 7 8 'cleave' D
+50 18 20000 P
+A
+4 2
+#508
+bladder stick~
+A bladder onna stick~
+A squelching bladder onna stick lies here.~
+wood~
+weapon GLP ANO
+'exotic' 6 10 'beating' E
+58 12 19500 P
+A
+4 -1
+A
+19 8
+#509
+cleaver meat~
+A HUGE meat cleaver~
+A huge meat cleaver with a notch in the blade lies here.~
+bronze~
+weapon BL AN
+'exotic' 8 5 'cleave' D
+40 10 14000 G
+#510
+staff stave anwe~
+The staff of Anwe~
+A small staff made from the wood of a beech tree looks down upon you.~
+wood~
+staff ABGL ANO
+85 30 25 acid_blast~ 0
+88 20 25000 P
+E
+staff~
+The staff seems very short, about the right size to be hidden amongst
+the robes of the priestesses of the lake.  A pale blue light radiates
+malevolence from within.
+~
+A
+18 6
+A
+19 6
+#511
+scabbard jewelled~
+The Jewelled Scabbard of the druids~
+An awe inspiringly decorated scabbard dazzles you.~
+leather~
+armor GHIK AL
+-25 -25 -25 -20 0
+89 10 39000 P
+E
+scabbard~
+The scabbard is covered in druidical symbols, lovingly hand crafted
+in a golden braid.  Rare and fabulous jewels adorn the buckle, but
+surprisingly the belt is undecorated.
+~
+A
+5 3
+A
+12 50
+#512
+plate mail platemail~
+King Arthur's Platemail~
+A magnificent suit of platemail gleams in the light.~
+steel~
+armor ABGKM AD
+-12 -14 -20 -20 0
+86 20 50000 P
+A
+2 3
+A
+13 100
+#513
+cloak robes~
+The Merlin's cloak~
+The robes of the Merlin lie discarded upon the ground.~
+cloth~
+armor GHIKM ACK
+-10 -12 -15 -10 0
+85 8 12000 P
+E
+cloak robes~
+The Merlin's robes of office are of a pure white material you
+have never before experienced.  The pure silver necklet that
+adorns the collar of the robes feels like an extension of yourself
+when worn.
+~
+A
+12 25
+A
+18 3
+#514
+chain boots~
+Arthur's chainmail boots~
+A pair of ordinary chainmail boots have been discarded here.~
+steel~
+armor GL AG
+-10 -10 -10 -10 0
+70 12 9000 G
+A
+1 2
+A
+5 2
+A
+14 50
+A
+19 5
+#515
+crucifix~
+A golden crucifix~
+A length of plain rope holds a golden crucifix.~
+gold~
+armor ABGK ACL
+-9 -9 -9 -8 0
+48 8 9905 P
+E
+crucifix~
+The golden crucifix is worn by all in Arthur's great army.
+It is used to signify the path of the righteous one.
+~
+A
+3 2
+A
+4 2
+#516
+plate mail arthurian~
+Arthurian platemail~
+A suit of Arthurian platemail glints in the light.~
+steel~
+armor Al AD
+-18 -18 -19 -14 0
+72 18 13000 P
+A
+13 -20
+A
+17 -25
+A
+18 5
+#517
+heart pendant~
+The heart of Queen Gwenefwhar~
+A pendant with a lock of Queen Gwenefwhar's hair entombed in it
+has been discarded.~
+gold~
+armor GHIK AC
+-14 -13 -14 -10 0
+87 9 12000 P
+E
+The locket is plain and designed to be hidden away under the
+breastplate of your armour.  A lock of golden hair is all it carries.
+~
+A
+13 50
+#518
+dark chain mail chainmail~
+Prince Markham's Chainmail~
+A suit of darkened chainmail.~
+iron~
+armor BCEJO AD
+-24 -22 -25 -20 0
+88 28 32100 P
+E
+chain mail chainmail~
+The links of this chainmail suit are made of a dark iron, creating
+an almost black appearance.  The stench of war and death emanates
+from within.
+~
+A
+2 3
+A
+4 -1
+A
+17 -25
+A
+18 -1
+A
+19 8
+#519
+strange green potion~
+A strange green potion~
+A vial of a strange murky green liquid has been forgotten.~
+glass~
+potion AH A
+80 shield~ talon~ invis~ 0
+79 4 2000 P
+#520
+robes white~
+A priests white robes~
+Some white robes of the priesthood lie here.~
+cloth~
+armor IK AK
+-20 -18 -19 -23 0
+68 6 12300 P
+A
+3 3
+A
+12 30
+A
+23 -7
+#521
+chain mail chainmail~
+Arthurian chainmail~
+A suit of Arthurian Chainmail.~
+iron~
+armor AGL AD
+-12 -10 -14 -10 0
+48 14 6000 P
+A
+18 3
+A
+19 3
+#522
+baggy trousers pants~
+A pair of baggy trousers~
+A pair of baggy jesters pants.~
+cloth~
+armor LO AF
+-18 -18 -18 -17 0
+58 4 9500 P
+#523
+shirt bright~
+A brightly coloured shirt~
+A dazzlingly bright shirt lies here.~
+cloth~
+armor AL AK
+-18 -19 -16 -17 0
+59 6 1000 P
+A
+6 1
+A
+17 -10
+#524
+apron~
+A blood covered apron~
+A blood covered apron waits to be washed.~
+cloth~
+armor L AK
+-8 -7 -6 -7 0
+40 6 2000 P
+E
+apron~
+The chef's apron has seen better days!  There's more blood on here
+than on your armour!
+~
+A
+1 3
+A
+18 3
+A
+19 2
+#525
+blue robes~
+Morgana's Blue robes~
+The blue robes of a priestess~
+cloth~
+armor ABGL AK
+-29 -30 -28 -27 0
+87 6 39000 P
+E
+robes~
+The robes of the great priestess Morgana, Lady of the Lake,
+bestow upon the wearer the great knowledge of the seasons.
+~
+A
+4 4
+A
+12 100
+#526
+beads~
+A strange set of beads~
+A strange set of beads has been dropped.~
+silver~
+armor ABGHLM AC
+-22 -25 -22 -20 0
+86 10 33500 P
+E
+strange~
+The strange looking beads seem to possess a life of their own.
+a low humming emanates from them!
+~
+A
+9 3
+A
+13 50
+#527
+mirror golden~
+A golden mirror~
+A glittering, golden mirror of exquisite design rests here.~
+gold~
+wand ABG AO
+88 30 30 stone_skin~ 0
+86 12 2500 P
+#528
+key ornate~
+An ornate key~
+A dark and foreboding key lies here.~
+adamantite~
+key BCG AO
+0 0 0 0 0
+30 5 0 P
+#529
+cabbage~
+A green cabbage~
+One of the biggest cabbages you have ever seen!~
+food~
+food P AO
+8 0 0 0 0
+20 6 150 P
+#530
+carrot~
+An orange carrot~
+The most perfectly formed carrot in Thera.~
+food~
+food P AO
+4 0 0 0 0
+20 6 75 P
+#530
+baked potato~
+A baked potato~
+A huge potato, baked to perfection.~
+food~
+food 0 AO
+12 0 0 0 0
+20 7 250 P
+#531
+map tourist scroll~
+A tourist map~
+A tourists information booklet lies here.~
+paper~
+map L A
+1 0 0 0 0
+40 5 500 P
+E
+map brochure scroll tourist~
+A Tourists Map Of:-
+
+Ground Floor Of Camelot.
+
+
+                          < North Wing >
+   ______________________________________________________________
+   |        |                                   |               |
+   |        |                                   |               |
+^  |        |         SOLDIERS                  |               | ^
+W  |______  |                   BARRACKS        |               | E
+e  | D   |  |___________________________________|               | a
+s  | I H |                 ___________                          | s
+t  | N A |  _______        |         |                          | t
+   | I L |  |     |        |         |     _____________________|
+W  | N L |  |STORE|        | GARDEN  |     |                    | W
+i  | G   | _|_____|________|         |     |                    | i
+n  |_____| |               |_________|     |                    | n
+g  |       |               |               |      LIBRARY       | g
+   |       |  KITCHENS     |               |                    |
+v  |       |               |               |                    | v
+   |_______|_______________|_______________|____________________|
+                          < South Wing >
+                                |
+                                |
+                                |
+                  /-------------|-------------\
+                  |                           |
+                  |    The Castle             |
+                  |                           |
+                  |          Courtyard        |
+                  |                           |
+                  |                           |
+                  \-------------|-------------/
+                                |
+                                |
+                                |
+                            Gate House
+                                |
+                                |
+                                #
+                            Drawbridge
+                                #
+~
+#0
+
+#ROOMS
+#501
+The Drawbridge~
+       An enormous wooden drawbridge is all that stands between you and the
+chilly water below.  To the North of you, you can see the great portcullis
+that guards the entrance to the fabled city of Camelot.  To the South, you
+can still see the lands of Thera through the hazy fog, but to the East an
+impenetrable wall of fog blots out the view.  You can hear water lapping
+on a shore somewhere, possibly below you...
+~
+5 0 1
+D0
+Entrance to the fabled city of Camelot.
+~
+~
+0 -1 502
+D2
+<Description of link room>.
+~
+~
+0 -1 <vnum of link room>
+S
+#502
+The Gatehouse~
+        The portcullis hangs above you, with it's 3 inch diameter spikes,
+looking very menacing.  The guards who stand here seem unperturbed by your
+presence, and continue their gossip almost immediately after your rude
+interuption.  The drawbridge stretches out to the South and there is a
+large courtyard to the North.
+~
+5 D 1
+D0
+A Courtyard.
+~
+~
+0 -1 503
+D2
+The Drawbridge.
+~
+~
+0 -1 501
+S
+#503
+The Southern Courtyard.~
+        The hustle and bustle of every day life in a large city is epitomised
+here in Camelot.  People mill around you, all going about their business in
+their own little worlds - almost like a hive.  That's where the similarity
+with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
+such as you have never seen.  The people, though poor, all seem quite content.
+The great Castle of Camelot looms above you to the North.
+~
+5 0 1
+D0
+More Courtyard.
+~
+~
+0 -1 506
+D1
+More Courtyard.
+~
+~
+0 -1 504
+D2
+The Gatehouse.
+~
+~
+0 -1 502
+D3
+More Courtyard.
+~
+~
+0 -1 508
+S
+#504
+Southwestern Courtyard.~
+        The hustle and bustle of every day life in a large city is epitomised
+here in Camelot.  People mill around you, all going about their business in
+their own little worlds - almost like a hive.  That's where the similarity
+with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
+such as you have never seen.  The people, though poor, all seem quite content.
+The great Castle of Camelot looms above you to the North.
+~
+5 0 1
+D0
+More Courtyard.
+~
+~
+0 -1 505
+D3
+More Courtyard.
+~
+~
+0 -1 503
+S
+#505
+Northeastern Courtyard.~
+        The hustle and bustle of every day life in a large city is epitomised
+here in Camelot.  People mill around you, all going about their business in
+their own little worlds - almost like a hive.  That's where the similarity
+with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
+such as you have never seen.  The people, though poor, all seem quite content.
+The great Castle of Camelot looms above you to the North.
+~
+5 0 1
+D2
+More Courtyard.
+~
+~
+0 -1 504
+D3
+More Courtyard.
+~
+~
+0 -1 506
+S
+#506
+The Northern Courtyard.~
+        The hustle and bustle of every day life in a large city is epitomised
+here in Camelot.  People mill around you, all going about their business in
+their own little worlds - almost like a hive.  That's where the similarity
+with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
+such as you have never seen.  The people, though poor, all seem quite content.
+The great Castle of Camelot looms above you to the North.
+~
+5 0 1
+D0
+Entrance to Castle.
+~
+~
+0 -1 509
+D1
+More Courtyard.
+~
+~
+0 -1 505
+D2
+More Courtyard.
+~
+~
+0 -1 503
+D3
+More Courtyard.
+~
+~
+0 -1 507
+S
+#507
+Northwestern Courtyard.~
+        The hustle and bustle of every day life in a large city is epitomised
+here in Camelot.  People mill around you, all going about their business in
+their own little worlds - almost like a hive.  That's where the similarity
+with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
+such as you have never seen.  The people, though poor, all seem quite content.
+The great Castle of Camelot looms above you to the North.
+~
+5 0 1
+D1
+More Courtyard.
+~
+~
+0 -1 506
+D2
+More Courtyard.
+~
+~
+0 -1 508
+D3
+A Small Grocery Stall.
+~
+~
+0 -1 537
+S
+#508
+Southwestern Courtyard.~
+        The hustle and bustle of every day life in a large city is epitomised
+here in Camelot.  People mill around you, all going about their business in
+their own little worlds - almost like a hive.  That's where the similarity
+with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
+such as you have never seen.  The people, though poor, all seem quite content.
+The great Castle of Camelot looms above you to the North.
+~
+5 0 1
+D0
+More Courtyard.
+~
+~
+0 -1 507
+D1
+More Courtyard.
+~
+~
+0 -1 503
+S
+#509
+Entrance to the Castle.~
+        You stand before the great castle, and it towers above you into the
+ever present mists.  To the North, you can see an opulent corridor, and back
+to the South you can see the courtyard.
+~
+5 0 1
+D0
+Into the Castle.
+~
+~
+0 -1 510
+D2
+More Courtyard.
+~
+~
+0 -1 506
+S
+#510
+The South Wing.~
+        This part of the Castle is open to all, and it is obvious the king
+wants everyone to believe in the legendary wealth of Camelot.  The walls
+are hung with gilt edged battle flags, many of them depicting the great
+attles that King Arthur and his men have won.  The floor is carpeted in
+thick fresh hay, giving of a very sweet aroma, the occasional heavy footmarks
+hardly leave a mark on it.
+~
+5 D 0
+D1
+West along the South Wing.
+~
+~
+0 -1 516
+D3
+East along the South Wing.
+~
+~
+0 -1 511
+S
+#511
+Outside the Kitchens.~
+        The scent of cooking meat wafts through the air mouth-wateringly,
+making your stomach rumble.  The corridor is as magnificent as the rest,
+but you neglect your surroundings as your belly now rules your mind!  You
+can hear someone singing in the kitchens - obviously the chef enjoys his
+work.
+~
+5 D 0
+D0
+Following your nose!
+~
+~
+0 -1 512
+D1
+West along the South Wing.
+~
+~
+0 -1 510
+D3
+East along the South Wing.
+~
+~
+0 -1 515
+S
+#512
+The Kitchens.~
+        The aroma you could smell outside is overwhelming in here.  There
+are numerous pots and pans bubbling away and it's difficult to tell what is
+actually inside any of them.  The chef is pottering about dicing beats of
+animals and singing cheerfully to himself - obviously your intrusion is of
+no interest to him.
+~
+5 D 0
+D0
+The store room.
+~
+~
+1 -1 513
+D1
+The kitchen herb garden.
+~
+~
+0 -1 514
+E
+pots pans~
+The boiling mass of pots and pans seems to have no specific order, but smells
+absolutely delicious.  Maybe you chould try some if you are not scared of
+what the chef might do!
+~
+S
+#513
+The Store Room.~
+        This is where the chef stores all his utensils and occasionally some
+meat, even though he prefers everything he cooks to be fresh.  Somehow, it is
+amazingly cold in here, you can feel your fingers turning blue and icicles
+are forming from your ears.
+~
+5 D 0
+D2
+The Kitchens.
+~
+~
+0 -1 512
+S
+#514
+The Kitchen Garden.~
+        Every herb you can possibly think of is growing in here!  The chef must
+be a cullinary whiz!  The scent of all the herbs together makes for a very
+heady aroma and you begin to feel a little light headed.
+~
+5 D 0
+D3
+Back to the kitchens.
+~
+~
+0 -1 512
+S
+#515
+The end of the South Wing.~
+        The wide corridor you have been following now comes to an end.  The
+West wing extends away to the North, and the South wing disapears away to
+the East.  The paintings here are of Arthur's renowned feasts, held every
+year in the castle dining hall.  The smiling face of King Arthur stares at
+you from his mask of oil.
+~
+5 D 0
+D0
+Along the West Wing.
+~
+~
+0 -1 521
+D1
+Along the South Wing.
+~
+~
+0 -1 511
+S
+#516
+The South Wing.~
+        You are travelling along the South wing of the castle, which seems
+to be mainly a bit of a tourist attraction.  The walls of this keep are over
+four feet thick, made to withstand the onslaught of any army, but now they
+are decorated in tapestries and paintings to bestow upon the peasants the
+knowledge of Arthur's great victories.
+~
+5 D 0
+D1
+Along the South Wing.
+~
+~
+0 -1 517
+D3
+Along the South Wing.
+~
+~
+0 -1 510
+S
+#517
+Outside the Library.~
+        You are travelling along the South wing of the castle, which seems
+to be mainly a bit of a tourist attraction.  The walls of this keep are over
+four feet thick, made to withstand the onslaught of any army, but now they
+are decorated in tapestries and paintings to bestow upon the peasants the
+knowledge of Arthur's great victories.  To the North, an open door leads
+into what appears to be a library, presumably open to all.
+~
+5 D 0
+D0
+Into the Library.
+~
+~
+0 -1 518
+D1
+Along the South Wing.
+~
+~
+0 -1 519
+D3
+Along the South Wing.
+~
+~
+0 -1 516
+S
+#518
+The Library.~
+        The walls of the library are bare, except for the North wall, where
+a large bookshelf has been erected.  The books upon it are all accounts of
+the battles faught and won by King Arthur and his brave knights.  From the
+decor of the room, it is easy to surmise that this used to be the war room
+of the king, but since he brought peace to his lands it has been no longer
+needed.  The floor has been marked by the passing of many iron shod men.
+~
+5 D 0
+D1
+Into the East Wing.
+~
+~
+1 -1 520
+D2
+Into the South Wing.
+~
+~
+0 -1 517
+S
+#519
+The end of the South Wing.~
+        The wide corridor you have been following now comes to an end.  The
+East wing extends away to the North, and the South wing disapears away to
+the West.  The paintings here are of the priestesses of Avalon, and the Lady
+of the Lake.  The beautiful Morgana, High Priestess and Lady of the Lake
+stares down at you with here mesmerising brown eyes.  You feel an urge to bow
+before such a one.
+~
+5 D 0
+D0
+Along the East Wing.
+~
+~
+0 -1 520
+D3
+Along the South Wing.
+~
+~
+0 -1 517
+S
+#520
+Outside the Library.~
+        You are travelling along the East wing of the castle, which seems
+to be mainly a bit of a tourist attraction.  The walls of this keep are over
+four feet thick, made to withstand the onslaught of any army, but now they
+are decorated in tapestries and paintings to bestow upon the peasants the
+knowledge of Arthur's great victories.  To the West, an open door leads
+into what appears to be a library, presumably open to all.
+~
+5 D 0
+D0
+Along the East Wing.
+~
+~
+0 -1 525
+D2
+Along the East Wing.
+~
+~
+0 -1 519
+D3
+Into the Library.
+~
+~
+0 -1 518
+S
+#521
+Along the West Wing.~
+        The walls here are also adorned with more paintings and tapestries
+of Arthur's legendary feasts, but are broken by a number of tapestries of
+the ancient God the knights worship.  One such tapestry depicts a man dying
+slowly on a crucifix.  It seems to move slightly under your gaze, or was it
+a draught from somewhere.
+~
+5 D 0
+D0
+Along the West Wing.
+~
+~
+0 -1 522
+D1
+Up the Stairs.
+~
+tapestry~
+1 -1 538
+D2
+Along the West Wing.
+~
+~
+0 -1 515
+S
+#522
+Along the West Wing.~
+        You stand outside the dining area of the king.  To your East lies
+the entrance, and to the North and South the West wing continues.  The
+tourist attractions are still very apparent, and are becoming more of a
+military nature.  The depictions are becoming appallingly violent, some with
+gruesome violence as a main theme.
+~
+5 D 0
+D0
+Along the West Wing.
+~
+~
+0 -1 529
+D1
+Into the Dining Hall.
+~
+~
+0 -1 523
+D2
+Along the West Wing.
+~
+~
+0 -1 521
+S
+#523
+The Dining Hall.~
+        This is the largest dining area you have ever seen!  The seating is
+arranged to seat all of Camelot's inhabitants easily, with extra room for
+the King and his men at the head of the table.  In the centre of the room
+is a clear space where the jester entertains people with his juggling tricks
+and deranged sense of humour.
+~
+5 D 0
+D2
+Some more Dining Hall.
+~
+~
+0 -1 524
+D3
+Back to the West Wing.
+~
+~
+0 -1 522
+S
+#524
+The Dining Hall.~
+        The continuation of the immense dining hall is where the king and
+his men are seated on feast days, or if the king is having a private meeting,
+this is where it all goes on.  The floor is littered with old bones and half
+rotten vegetables.  In the centre of the room is a clear space where the
+jester entertains people with his juggling tricks and deranged sense of
+humour.
+~
+5 D 0
+D0
+Some more Dining Hall.
+~
+~
+0 -1 523
+S
+#525
+The East Wing.~
+        You are travelling along the East wing of the castle, which seems
+to be mainly a bit of a tourist attraction.  The walls of this keep are over
+four feet thick, made to withstand the onslaught of any army, but now they
+are decorated in tapestries and paintings to bestow upon the peasants the
+knowledge of Arthur's great victories.  One tapestry stands out from the rest
+by it's sheer beauty - it shows a large, perfectly calm lake, with a small
+barge rowing along it but leaving no trace.  Inside the barge a small but
+beautiful lady stands, parting the mist that surrounds them like a curtain.
+~
+5 D 0
+D0
+Along the East Wing.
+~
+~
+0 -1 526
+D2
+Along the East Wing.
+~
+~
+0 -1 520
+S
+#526
+Along the East Wing.~
+        You are travelling along the East wing of the castle, which seems
+to be mainly a bit of a tourist attraction.  The walls of this keep are over
+four feet thick, made to withstand the onslaught of any army, but now they
+are decorated in tapestries and paintings to bestow upon the peasants the
+knowledge of Arthur's great victories.  A very dark painting hangs on the
+East wall, and you can't quite make out exactly what it is - maybe you should
+have a closer look...
+~
+5 D 0
+D0
+Along the East Wing.
+~
+~
+0 -1 528
+D1
+Morgana's secret entrance to the Castle.
+~
+secret~
+2 528 527
+D2
+Along the East Wing.
+~
+~
+0 -1 525
+S
+#527
+A Secret Corridor.~
+        In the distance you can hear a strange cackling laughter, mingling
+with water lapping upon a shore.  There are strange markings on the walls
+here, as if the walls themselves had shrunk back in terror.  Twisted lines
+criss cross the corridor to create the impression that the walls of Camelot
+have veins like aliving animal.  The secret door to the West is obviously
+there to protect people rather than prevent people from seeing this dark
+gruesome sight...
+~
+5 D 0
+D1
+Edge of the Lake.
+~
+~
+0 -1 536
+D3
+Back to the East Wing.
+~
+~
+0 -1 526
+S
+#528
+The End of the East Wing.~
+        The wide corridor you have been following now comes to an end.  The
+East wing extends away to the South, and the North wing disapears away to
+the West.  The paintings here are of Arthur's fearsome army, held in the
+deepest regard by all the countries around.  The Great Knight Lancelot
+stares at you from his mask of oil.
+~
+5 D 0
+D2
+Along the East Wing.
+~
+~
+0 -1 526
+D3
+Along the North Wing.
+~
+~
+0 -1 532
+S
+#529
+The End of the East Wing.~
+        The wide corridor you have been following now comes to an end.  The
+West wing extends away to the South, and the North wing disapears away to
+the East.  The paintings here are of Arthur's fearsome army, held in the
+deepest regard by all the countries around.  The Great Knight Lancelot
+stares at you from his mask of oil.
+~
+5 D 0
+D2
+Along the West Wing.
+~
+~
+0 -1 522
+D3
+Along the North Wing.
+~
+~
+0 -1 530
+E
+picture painting lancelot~
+The greatest of Arthur's Knights, Sir Lancelot, glares down at you from this
+impressive piece of artwork.  The face of the brave knight seems drawn in
+pain, and you remember the dilemma of his life: his loyalty to his king,
+or the love he had for his queen?
+~
+S
+#530
+The North Wing.~
+        The tapestries now take on a more sombre look, obviously this is not
+one of the areas where the peasants visit often.  The paintings are old, and
+of things you can't quite seem to understand.  The visage of a dark haired
+lady hangs above you with a small moon painted upon her brow.  In contrast,
+there are more battle scenes, but the walls are becoming bare now and you
+can hear the laughter of male voices in the distance to the East.
+~
+5 D 0
+D1
+Along the North Wing.
+~
+~
+0 -1 531
+D3
+Along the North Wing.
+~
+~
+0 -1 529
+S
+#531
+Outside the Barracks.~
+        The male voices you heard from down the corridor are echoing from
+within the room to the South.  This is obviously where the King's guards
+come to cool down after their duties in and around the city.  The smell of
+fresh sweat and ale wafts through the air.
+~
+5 D 0
+D1
+Along the North Wing.
+~
+~
+0 -1 532
+D2
+Into the Barracks.
+~
+~
+0 -1 533
+D3
+Along the North Wing.
+~
+~
+0 -1 530
+S
+#532
+Outside the Barracks.~
+        The male voices you heard from down the corridor are echoing from
+within the room to the South.  This is obviously where the King's guards
+come to cool down after their duties in and around the city.  The smell of
+fresh sweat and ale wafts through the air.
+~
+5 D 0
+D1
+Along the North Wing.
+~
+~
+0 -1 528
+D2
+Into the Barracks.
+~
+~
+0 -1 535
+D3
+Along the North Wing.
+~
+~
+0 -1 531
+S
+#533
+Inside the Barracks.~
+        The floor is littered with broken ale jugs and half eaten food.  The
+men themselves seem to be an amiable bunch, obviously your intrusion into
+their private conversation has affected them little.  You feel almost at home
+in their company - maybe you should relax here for a while and let your
+worries disappear while you can.
+~
+5 D 0
+D0
+Into the North Wing.
+~
+~
+0 -1 531
+D1
+More Barracks.
+~
+~
+0 -1 534
+S
+#534
+Inside the Barracks.~
+        The floor is littered with broken ale jugs and half eaten food.  The
+men themselves seem to be an amiable bunch, obviously your intrusion into
+their private conversation has affected them little.  You feel almost at home
+in their company - maybe you should relax here for a while and let your
+worries disappear while you can.
+~
+5 D 0
+D1
+More Barracks.
+~
+~
+0 -1 535
+D3
+More Barracks.
+~
+~
+0 -1 533
+S
+#535
+Inside the Barracks.~
+        The floor is littered with broken ale jugs and half eaten food.  The
+men themselves seem to be an amiable bunch, obviously your intrusion into
+their private conversation has affected them little.  You feel almost at home
+in their company - maybe you should relax here for a while and let your
+worries disappear while you can.
+~
+5 D 0
+D0
+Into the North Wing.
+~
+~
+0 -1 532
+D3
+More Barracks.
+~
+~
+0 -1 534
+S
+#536
+Morgana's Secret Entrance to Camelot.~
+        This is the edge of the lake that reaches up to Camelot's East wall,
+completely blocking out any chance of an invasion from the East.  The water
+is shrouded in the eternal fog, but a black barge rests here - with no visible
+signs of propulsion available you wonder how it moves.  This is how the Lady
+Morgana of the Faeries enters Camelot to see her Brother Arthur, even though
+she has been publicly banned from entering.
+~
+5 D 2
+D3
+Back towards the Castle.
+~
+~
+0 -1 527
+S
+#537
+A Small Grocery Stall.~
+        This small stall has a large bright canopy covering it's wares and
+it's keeper from the elements.  You smell the distinct aroma of baking
+potatoes, and can see various vegetables all around.
+~
+5 D 0
+D1
+Back into the Courtyard.
+~
+~
+0 -1 507
+#538
+A Stairway Up.~
+        Away from all the trappings of the open areas, these stairs mean
+business, and you can tell that their owners obviously don't want people
+travelling into their private realm.  The stairs are worn with the passing
+of many iron shod feet, and the halls echo with the long lost calls of
+battle.
+~
+5 D 0
+D3
+Back to the West Wing.
+~
+~
+0 -1 521
+D4
+Up to the Second Level of Camelot.
+~
+~
+0 -1 539
+S
+#539
+The West Wing.~
+        You are now in the upper level of Camelot, in the area where only
+the King and his trusted subjects see.  The staircase down is here.  The
+splendour of the ground floor is in stark contrast to the barrenness of
+this floor.  The walls are bare, the floor has a shallow sprinkling of
+sawdust, and there is a strange smell, almost of decay...
+~
+5 D 0
+D0
+Along the West Wing.
+~
+~
+0 -1 541
+D2
+Along the West Wing.
+~
+~
+0 -1 540
+D5
+Down to Ground Floor.
+~
+~
+0 -1 538
+S
+#540
+At the Corner of the West Wing.~
+        The bare walls seem to be closing in on you.  A wave of nausea hits
+you and you can't help feeling claustrophobic in this environment.  A glint
+of light can be seen through a small aperture cut into the wall in the angle
+of the corner.  To the East, the South Wing extends into the distance and to
+the North, the West Wing disappears out of view.
+~
+5 D 0
+D0
+Along the West Wing.
+~
+~
+0 -1 539
+D1
+Along the South Wing.
+~
+~
+0 -1 543
+S
+#541
+Along the West Wing.~
+        The walls here seem to have token coverings - small paintings of
+people posing for the artists.  They all seem to be staring straight through
+you, and you get the urge to leave this place as soon as possible!
+~
+5 D 0
+D0 
+Along the West Wing.
+~
+~
+0 -1 542
+D2
+Along the West Wing.
+~
+~
+0 -1 539
+E
+paintings~
+Taking a closer look at the paintings, you discover that they are of Arthur's
+fore-fathers.  Uther Pendragon stares down at you relentlessly and you begin
+to get uncomfortable under his unwaverring gaze.
+~
+S
+#542
+At the Corner of the West Wing.~
+        The bare walls seem to be closing in on you.  A wave of nausea hits
+you and you can't help feeling claustrophobic in this environment.  A glint
+of light can be seen through a small aperture cut into the wall in the angle
+of the corner.  To the East, the North Wing extends into the distance and to
+the South, the West Wing disappears out of view.
+~
+5 D 0
+D1
+Along the North Wing.
+~
+~
+0 -1 551
+D2
+Along the West Wing.
+~
+~
+0 -1 541
+S
+#543
+Along the South Wing.~
+        The corridor is slightly better lit here, and the tapestries are back.
+To the North, there is a bedroom of some sort.  The door is half open and you
+can see the furnishings, but whether there is someone in is another matter.
+A light shines from within, glinting off your imperfect armour.
+~
+5 D 0
+D0
+Into the Bedroom.
+~
+~
+0 -1 558
+D1
+Along the South Wing.
+~
+~
+0 -1 544
+D3
+Along the South Wing.
+~
+~
+0 -1 544
+S
+#544
+Along the South Wing.~
+        The corridor is slightly better lit here, and the tapestries are back.
+To the North, there is a room of some sort.  The door is closed, so you can't
+tell what is in there.  A godawful stench emanates from within, and you feel
+like vomiting!
+~
+5 D 0
+D0
+Into the Room.
+~
+~
+1 -1 559
+D1
+Along the South Wing.
+~
+~
+0 -1 545
+D3
+Along the South Wing.
+~
+~
+0 -1 543
+S
+#545
+At the Corner of the East Wing.~
+        The bare walls seem to be closing in on you.  A wave of nausea hits
+you and you can't help feeling claustrophobic in this environment.  A glint
+of light can be seen through a small aperture cut into the wall in the angle
+of the corner.  To the West, the South Wing extends into the distance and to
+the North, the East Wing disappears out of view.
+~
+5 D 0
+D0
+Along the East Wing.
+~
+~
+0 -1 546
+D3
+Along the South Wing.
+~
+~
+0 -1 544
+S
+#546
+Along the East Wing.~
+        The walls here seem to have token coverings - small paintings of
+people posing for the artists.  They all seem to be staring straight through
+you, and you get the urge to leave this place as soon as possible!
+~
+5 D 0
+D0
+Along the East Wing.
+~
+~
+0 -1 547
+D2
+Along the East Wing.
+~
+~
+0 -1 545
+E
+paintings~
+Taking a closer look at the paintings, you discover that they are of Arthur's
+fore-fathers.  Uther Pendragon stares down at you relentlessly and you begin
+to get uncomfortable under his unwaverring gaze.
+~
+S
+#547
+Along the East Wing.~
+        The walls here seem to have token coverings - small paintings of
+people posing for the artists.  They all seem to be staring straight through
+you, and you get the urge to leave this place as soon as possible!
+~
+5 D 0
+D0
+Along the East Wing.
+~
+~
+0 -1 548
+D2
+Along the East Wing.
+~
+~
+0 -1 545
+E
+paintings~
+Taking a closer look at the paintings, you discover that they are of Arthur's
+fore-fathers.  Uther Pendragon stares down at you relentlessly and you begin
+to get uncomfortable under his unwaverring gaze.
+~
+S
+#548
+At the Corner of the East Wing.~
+        The bare walls seem to be closing in on you.  A wave of nausea hits
+you and you can't help feeling claustrophobic in this environment.  A glint
+of light can be seen through a small aperture cut into the wall in the angle
+of the corner.  To the West, the North Wing extends into the distance and to
+the South, the East Wing disappears out of view.
+~
+5 D 0
+D2
+Along the East Wing.
+~
+~
+0 -1 547
+D3
+Along the North Wing.
+~
+~
+0 -1 549
+S
+#549
+Along the North Wing.
+        A bright light shines into the corridor from the South, and ladies
+chatter washes over you like a wave.  There seems to be a lot of activity
+in there, maybe you should take a look.
+~
+5 D 0
+D1
+Along the North Wing.
+~
+~
+0 -1 548
+D2
+Into the Room.
+~
+~
+0 -1 561
+D3
+Along the North Wing.
+~
+~
+0 -1 550
+S
+#550
+Opposite some Large Iron Doors.~
+        Some huge iron doors stand to the South blocking your view of what
+lies within.  You can hear the sounds of male laughter and the occasional
+clank of armour.  From the sounds of it, there is a body of fighting men
+inside...
+~
+5 D 0
+D1
+Along the North Wing.
+~
+~
+0 -1 549
+D2
+Into the Room.
+~
+~
+1 -1 552
+D3
+Along the North Wing.
+~
+~
+0 -1 551
+S
+#551
+Along the North Wing.~
+        The walls here seem to have token coverings - small paintings of
+people posing for the artists.  They all seem to be staring straight through
+you, and you get the urge to leave this place as soon as possible!
+~
+5 D 0
+D1
+Along the North Wing.
+~
+~
+0 -1 550
+D3
+Along the North Wing.
+~
+~
+0 -1 542
+S
+#552
+Inside the War Room.~
+        This enormous room houses the legendary Round Table.  The most
+renowned of Arthur's knights are invited to become Knight's of the Round
+Table, an elite fighting force.  These men are highly trained and dedicated
+killers, but fiercely loyal to their king.  The room is decorated in the
+colours of each knight, depicting his family heritage, and battles he has
+fought and won.  The bright colours of the knights dazzle you, and the sea
+of faces becomes a blur.
+~
+5 D 0
+D0
+Out of the Room.
+~
+~
+0 -1 550
+D2
+More of the same.
+~
+~
+0 -1 553
+E
+table round~
+The huge round table is divided up into 12 segments, each bearing the name
+of the knight who sits at that part.  There is no raised area, as all are
+equal including King Arthur himself.
+~
+S
+#553
+Inside the War Room.~
+        This enormous room houses the legendary Round Table.  The most
+renowned of Arthur's knights are invited to become Knight's of the Round
+Table, an elite fighting force.  These men are highly trained and dedicated
+killers, but fiercely loyal to their king.  The room is decorated in the
+colours of each knight, depicting his family heritage, and battles he has
+fought and won.  The bright colours of the knights dazzle you, and the sea
+of faces becomes a blur.
+~
+5 D 0
+D0
+More of the same.
+~
+~
+0 -1 552
+D1
+A small ante chamber.
+~
+~
+1 -1 560
+D3
+A small serene chapel.
+~
+~
+0 -1 554
+E
+table round~
+The huge round table is divided up into 12 segments, each bearing the name
+of the knight who sits at that part.  There is no raised area, as all are
+equal including King Arthur himself.
+~
+S
+#554
+Inside a small chapel.~
+        This elegant chapel is small to the standards of Thera, where there
+are numerous Gods to worship.  The people who frequent this chapel dedicate
+their lives to the "One" God.  The altar is a structure made almost totally
+of gold, with an enormous wooden crucifix adorning the front.  There are
+rows of benches either side of a main, silk carpeted walkway leading
+directly to the altar.  A picture of their "Christ" hangs above the altar,
+staring down at you from the heavens.  There is a small door in the South
+wall.
+~
+5 D 0
+D1
+The War Room.
+~
+~
+0 -1 553
+D2
+A Private Prayer Room.
+~
+~
+1 -1 555
+S
+#555
+King Arthur's Private Prayer Room.~
+        This is King Arthur's private prayer room, decorated in exactly the
+same fashion as the chapel.  There is a small altar with a large golden
+crucifix fixed to the top, in front of which is a small kneeling cushion.
+The King spends a lot of his time here, contemplating his life, loves and
+victories.  Your intrusion has broken his concentration!
+~
+5 D 0
+D0
+To the Chapel.
+~
+~
+0 -1 554
+D2
+A Small Passageway.
+~
+~
+0 -1 556
+S
+#556
+The Small Passageway.~
+        This small dark passageway is obviously a functional path for the
+king, as it has been marked by his passing many times.  The walls are bare,
+and the only light comes from a solitary candle placed in a hole in the wall.
+~
+5 D 0
+D0
+The Prayer Room.
+~
+~
+0 -1 555
+D1
+More Corridor.
+~
+~
+0 -1 557
+S
+#557
+The Small Passageway.~
+        This small dark passageway is obviously a functional path for the
+king, as it has been marked by his passing many times.  The walls are bare,
+and the only light comes from a solitary candle placed in a hole in the wall.
+You can feel some markings on the south wall.
+~
+5 D 0
+D2
+A Secret Door.
+~
+~
+1 -1 558
+D3
+More Corridor.
+~
+~
+0 -1 556
+E
+markings south wall~
+The markings turn out to be the outline of a secret door!
+~
+S
+#558
+The King's Bedroom.~
+        The splendid four poster bed in the centre of the room distracts your
+attention from the beautiful artwork that adorns the walls.  The bed towers
+above you, with green silk curtains hanging from the posts and is covered
+with a similarly green covered felt.  There is a clothes chest at the foot
+of the bed, and a large crucifix stands atop it.
+~
+5 D 0
+D0
+A Secret Place.
+~
+~
+1 -1 557
+D2
+Into the South Wing.
+~
+~
+0 -1 543
+#559
+Inside the Water Closet.~
+        The stench in here is unbearable and you feel a desperate urge to
+vomit!  Obviously every inhabitant of Camelot has been and done their duty
+in this room!  Ugh!
+~
+5 D 0
+D2
+Into the South Wing.
+~
+~
+0 -1 544
+#560
+The Ante-Chamber.~
+        This small room is used for the housing of important guests who wish
+to address the congress of Knight's of the Round Table.  At present, Prince
+Markham has been in here for the past 2 hours, impatiently awaiting the
+arrival of King Arthur, and is not pleased to see just you enter into his
+presence!
+~
+5 D 0
+D3
+The War Room.
+~
+~
+1 -1 553
+#561
+The Ladies in Waiting's Room.~
+        This opulent room bears the signs of a female inhabitance, there are
+half made tapestries strewn upon any item of furniture, and all the ladies
+themselves are gossiping together in a corner of the room.  Your intrusion
+obviously hasn't phased them at all, only one glances at you and smiles, then
+resumes her conversation.
+~
+5 D 0
+D0
+Into the North Wing.
+~
+~
+0 -1 549
+D2
+An opulent bedroom.
+~
+~
+0 -1 562
+S
+#562
+The Queens Bedroom.~
+        The chamber of the Queen Gwenefwhar is the most splendid room you have
+ever seen!  The floor has been carpeted with an enormous tapestry with the
+image of their "Christ" upon the cross, surrounded by a halo of light, the
+bed is enormous, and clothed in different coloured lace, and on the walls are
+hung pictures of Arthur's greatest deeds.
+~
+5 0 0
+D0
+The Ladies in Waiting.
+~
+~
+0 -1 561
+S
+#563
+The North Western Battlement.~
+        The battlements above Camelot allow the viewer to see for miles around
+and all that is within the viewing distance.  To the West and North lie the
+known lands of Thera, in the distant West, you can make out the sprawling
+city of New Thalos.
+~
+5 0 0
+D1
+North Eastern Battlement.
+~
+~
+0 -1 565
+D2
+South Western Battlement.
+~
+~
+0 -1 564
+S
+#564
+The South Western Battlement.~
+       The battlements above Camelot allow the viewer to see for miles around
+and all that is within the viewing distance.  To the West and South lie the
+known lands of Thera, in the distant West, you can make out the sprawling
+city of New Thalos.
+~
+5 0 0
+D0
+North Western Battlement.
+~
+~
+0 -1 563
+D1
+South Eastern Battlement.
+~
+~
+0 -1 566
+S
+#565
+The North Eastern Battlement.~
+        The battlements above Camelot allow the viewer to see for miles around
+and  all  that  is  within  the  viewing  distance.  To  the East,  a  thick
+impenetrable fog lies over what appears to be water, you can hear it lapping
+against the shore far below you.
+~
+5 0 0
+D2
+South Eastern Battlement.
+~
+~
+0 -1 566
+D3
+North Western Battlement.
+~
+~
+0 -1 563
+S
+#566
+The South Eastern Battlement.~
+        The battlements above Camelot allow the viewer to see for miles around
+and  all  that  is  within  the  viewing  distance.  To  the East,  a  thick
+impenetrable fog lies over what appears to be water, you can hear it lapping
+against the shore far below you.
+~
+5 0 0
+D0
+North Eastern Battlement.
+~
+~
+0 -1 565
+D3
+South Western Battlement.
+~
+~
+0 -1 564
+S
+
+#0
+
+#RESETS
+*
+* ----  Camelot Resets  ----
+*
+M 0 501 1 555 1  1  ; King Arthur  
+E 1 501 1 16  ; Sword
+E 1 511 1 13  ; Scabbard
+E 1 512 1 5   ; Platemail
+E 1 513 1 8   ; Boots
+E 1 515 -1 17 ; Crucifix
+*
+M 0 502 1 536 1  1  ; Morgana  
+G 1 519 -1    ; Load Potion
+E 1 502 1 16  ; Jewelled Dagger
+E 1 525 2 3   ; Robes
+E 1 526 2 4   ; Beads
+*
+M 0 503 1 514 1  1  ; The Merlin  
+E 1 513 1 3   ; Robes
+E 1 510 1 17  ; Staff
+*
+M 0 504 1 562 1  1  ; Queen Gwenefwhar  
+G 1 527 -1    ; Mirror
+E 1 515 1 17  ; Crucifix
+*
+M 0 505 1 562 1  1  ; Lancelot  
+E 1 503 1 16  ; Sword
+E 1 515 1 17  ; Crucifix
+E 1 516 1 5   ; Platemail
+E 1 517 1 3   ; Pendant
+*
+M 0 506 1 560 1  1  ; Prince Markham  
+E 1 504 1 16  ; Sword
+E 1 518 1 5   ; Chainmail
+*
+M 0 508 1 554 1  1  ; Priest  
+E 1 506 1 16  ; Candlestick
+E 1 515 1 17  ; Crucifix
+E 1 520 1 3   ; Robes
+*
+M 0 509 1 524 1  1  ; Jester  
+E 1 522 1 7   ; Trousers
+E 1 508 1 16  ; Bladder Onna Stick
+*
+M 0 513 1 512 1  1  ; Chef  
+E 1 524 1 3   ; Apron
+E 1 509 1 16  ; Cleaver
+*
+M 0 507 12 552 1  1  ; Knights of Round Table (1)  
+E 1 505 1 16   ; Sword
+E 1 515 1 17   ; Crucifix
+E 1 516 1 5    ; Plate Mail
+*
+M 0 507 12 552 1  1  ; Knights of Round Table (2)  
+E 1 505 1 16   ; Sword
+E 1 515 1 17   ; Crucifix
+E 1 516 1 5    ; Plate Mail
+*
+M 0 507 12 552 1  1  ; Knights of Round Table (3)  
+E 1 505 1 16   ; Sword
+E 1 515 1 17   ; Crucifix
+E 1 516 1 5    ; Plate Mail
+*
+M 0 507 12 552 1  1  ; Knights of Round Table (4)  
+E 1 505 1 16   ; Sword
+E 1 515 1 17   ; Crucifix
+E 1 516 1 5    ; Plate Mail
+*
+M 0 507 12 552 1  1  ; Knights of Round Table (5)  
+E 1 505 1 16   ; Sword
+E 1 515 1 17   ; Crucifix
+E 1 516 1 5    ; Plate Mail
+*
+M 0 507 12 552 1  1  ; Knights of Round Table (6)  
+E 1 505 1 16   ; Sword
+E 1 515 1 17   ; Crucifix
+E 1 516 1 5    ; Plate Mail
+*
+M 0 507 12 553 1  1  ; Knights of Round Table (7)  
+E 1 505 1 16   ; Sword
+E 1 515 1 17   ; Crucifix
+E 1 516 1 5    ; Plate Mail
+*
+M 0 507 12 553 1  1  ; Knights of Round Table (8)  
+E 1 505 1 16   ; Sword
+E 1 515 1 17   ; Crucifix
+E 1 516 1 5    ; Plate Mail
+*
+M 0 507 12 553 1  1  ; Knights of Round Table (9)  
+E 1 505 1 16   ; Sword
+E 1 515 1 17   ; Crucifix
+E 1 516 1 5    ; Plate Mail
+*
+M 0 507 12 553 1  1  ; Knights of Round Table (10)  
+E 1 505 1 16   ; Sword
+E 1 515 1 17   ; Crucifix
+E 1 516 1 5    ; Plate Mail
+*
+M 0 507 12 553 1  1  ; Knights of Round Table (11)  
+E 1 505 1 16   ; Sword
+E 1 515 1 17   ; Crucifix
+E 1 516 1 5    ; Plate Mail
+*
+M 0 507 12 553 1  1  ; Knights of Round Table (12)  
+E 1 505 1 16   ; Sword
+E 1 515 1 17   ; Crucifix
+E 1 516 1 5    ; Plate Mail
+*
+M 0 512 30 502 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 502 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 504 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 506 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 508 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 510 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 515 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 517 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 520 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 525 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 528 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 532 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 535 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 535 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 535 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 535 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 534 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 534 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 534 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 533 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 533 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 533 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 533 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 533 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 533 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 529 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 535 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 539 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 545 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 545 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 550 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 550 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 546 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 546 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 563 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 564 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 565 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 512 30 566 1  1  ; Foot Soldier  
+E 1 521 1 5    ; Chainmail
+E 1 507 1 16   ; Polearm
+*
+M 0 510 6 561 1  1   ; Lady in Waiting  
+*
+M 0 510 6 561 1  1   ; Lady in Waiting  
+*
+M 0 510 6 561 1  1   ; Lady in Waiting  
+*
+M 0 510 6 561 1  1   ; Lady in Waiting  
+*
+M 0 510 6 561 1  1   ; Lady in Waiting  
+*
+M 0 510 6 561 1  1   ; Lady in Waiting  
+*
+M 0 511 20 507 1  1  ; Commoner  
+*
+M 0 511 20 507 1  1  ; Commoner  
+*
+M 0 511 20 508 1  1  ; Commoner  
+*
+M 0 511 20 508 1  1  ; Commoner  
+*
+M 0 511 20 509 1  1  ; Commoner  
+*
+M 0 511 20 511 1  1  ; Commoner  
+*
+M 0 511 20 518 1  1  ; Commoner  
+*
+M 0 511 20 525 1  1  ; Commoner  
+*
+M 0 511 20 523 1  1  ; Commoner  
+*
+M 0 511 20 504 1  1  ; Commoner  
+*
+M 0 511 20 504 1  1  ; Commoner  
+*
+M 0 511 20 505 1  1  ; Commoner  
+*
+M 0 511 20 515 1  1  ; Commoner  
+*
+O 0 528 1 558  ; Key to Morgana's Secret Entrance
+*
+M 0 514 1 537 1  1   ; Grocer  
+G 15 529 -1    ; Cabbages
+G 15 530 -1    ; Carrots
+G 15 531 -1    ; Baked Potatoes
+*
+D 0 512 0 1    ; Close door to store room
+D 0 513 2 1    ; Close door inside store room
+D 0 526 1 2    ; Lock Door to Morgana's Secret Room
+D 0 527 3 2    ; Lock Door from inside Secret Room
+D 0 521 1 1    ; Close secret door to upper level
+D 0 538 3 1    ; Ditto
+D 0 544 0 1    ; Close door to lavvy
+D 0 559 2 1    ; Ditto
+D 0 554 2 1    ; Close door to Private Prayer Room
+D 0 555 0 1    ; Ditto
+D 0 557 2 1    ; Close secret Door
+D 0 558 0 1    ; Close secret door in King's Bedroom
+D 0 553 1 1    ; Close door to ante-chamber
+D 0 560 3 1    ; Ditto
+*
+O 0 531 5 518  ; Load the tourist information
+*
+S
+
+#SHOPS
+514 0 0 0 0 0 125 100 0 23  ; The Grocer in the Courtyard.
+
+0
+
+#$
+
+
+--=====================_828149444==_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+
+--
+Thought for the day:
+
+	Life is the only 100% fatal Sexually Transmitted Disease.
+
+
+                                 =AC*=AC
+                                (O O)
+-------------------------oOOo----(_)----oOOo--------------------------
+       =3D          =3D     E-Mail: wayne.baker@zen.co.uk=20
+    E     ][                    =20
+   N                Snail-Mail: Wayne Baker
+  Y    Z    E                   Saddleworth Computer Centre,         =3D
+ A    O    R       =3D            79 Lees Rd,   ][
+W    W    E                     Oldham,                 =3D
+        =3D                 =3D     Lancs.   OL4 1JW
+,,/,,,,,,,\,,,,,,,\,,,,,,,/,,,,,,;,,;,,,/,,,,,,\,,,,,,,\,,,,/,,,;,,,,/
+
+--=====================_828149444==_--
+

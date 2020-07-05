@@ -1,0 +1,1492 @@
+#AREA   
+heavens.are~
+The Heavens~
+{55 90} Faramir The Heavens~
+1000 1040
+
+#ROOMS
+#1001
+In the air ...~
+You are flying!
+Currently you are about 40 meters above the ground north of the city.
+It seems like you can see forever!
+~
+30 0 9
+D1
+More of the same.
+~
+~
+0 0 1006
+D2
+More of the same.
+~
+~
+0 0 1002
+D4
+More of the same.
+~
+~
+0 0 1021
+S
+#1002
+In the air ...~
+You are flying!
+Currently you are about 20 meters above the inside wall of West Midgaard.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1001
+D1
+More of the same.
+~
+~
+0 0 1007
+D2
+More of the same.
+~
+~
+0 0 1003
+D4
+More of the same.
+~
+~
+0 0 1022
+S
+#1003
+In the air ...~
+You are flying!
+Currently you are about 20 meters above the west gate of Midgaard.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1002
+D1
+More of the same.
+~
+~
+0 0 1008
+D2
+More of the same.
+~
+~
+0 0 1004
+D4
+More of the same.
+~
+~
+0 0 1023
+S
+#1004
+In the air ...~
+You are flying!
+Currently you are about 40 meters above Wall Road.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1003
+D1
+More of the same.
+~
+~
+0 0 1009
+D2
+More of the same.
+~
+~
+0 0 1005
+D4
+More of the same.
+~
+~
+0 0 1024
+S
+#1005
+In the air ...~
+You are flying!
+Currently you are about 40 meters above Wall Road.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1004
+D1
+More of the same.
+~
+~
+0 0 1010
+D4
+More of the same.
+~
+~
+0 0 1025
+S
+#1006
+In the air ...~
+You are flying!
+Currently you are about 40 meters above the ground north of Midgaard.
+It seems like you can see forever!
+~
+30 0 9
+D1
+More of the same.
+~
+~
+0 0 1011
+D2
+More of the same.
+~
+~
+0 0 1007
+D3
+More of the same.
+~
+~
+0 0 1001
+D4
+More of the same.
+~
+~
+0 0 1026
+S
+#1007
+In the air ...~
+You are flying!
+Currently you are about 20 meters above the magic shop.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1006
+D1
+More of the same.
+~
+~
+0 0 1012
+D2
+More of the same.
+~
+~
+0 0 1008
+D3
+More of the same.
+~
+~
+0 0 1002
+D4
+More of the same.
+~
+~
+0 0 1027
+S
+#1008
+In the air ...~
+You are flying!
+Currently you are about 40 meters above Main Street.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1007
+D1
+More of the same.
+~
+~
+0 0 1013
+D2
+More of the same.
+~
+~
+0 0 1009
+D3
+More of the same.
+~
+~
+0 0 1003
+D4
+More of the same.
+~
+~
+0 0 1028
+S
+#1009
+In the air ...~
+You are flying!
+Currently you are about 20 meters above the Mage Guild Hall.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1008
+D1
+More of the same.
+~
+~
+0 0 1014
+D2
+More of the same.
+~
+~
+0 0 1010
+D3
+More of the same.
+~
+~
+0 0 1004
+D4
+More of the same.
+~
+~
+0 0 1029
+S
+#1010
+In the air ...~
+You are flying!
+Currently you are about 40 meters above Poor Alley.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1009
+D1
+More of the same.
+~
+~
+0 0 1015
+D3
+More of the same.
+~
+~
+0 0 1005
+D4
+More of the same.
+~
+~
+0 0 1030
+S
+#1011
+In the air ...~
+You are flying!
+Currently you are about 40 meters above the ground north of Midgaard.
+It seems like you can see forever!
+~
+30 0 9
+D1
+More of the same.
+~
+~
+0 0 1016
+D2
+More of the same.
+~
+~
+0 0 1012
+D3
+More of the same.
+~
+~
+0 0 1006
+D4
+More of the same.
+~
+~
+0 0 1031
+S
+#1012
+In the air ...~
+You are flying!
+Currently you are about 20 meters above the bakery.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1011
+D1
+More of the same.
+~
+~
+0 0 1017
+D2
+More of the same.
+~
+~
+0 0 1013
+D3
+More of the same.
+~
+~
+0 0 1007
+D4
+More of the same.
+~
+~
+0 0 1032
+S
+#1013
+In the air ...~
+You are flying!
+Currently you are about 40 meters above Main Street.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1012
+D1
+More of the same.
+~
+~
+0 0 1018
+D2
+More of the same.
+~
+~
+0 0 1014
+D3
+More of the same.
+~
+~
+0 0 1008
+D4
+More of the same.
+~
+~
+0 0 1033
+S
+#1014
+In the air ...~
+You are flying!
+Currently you are about 20 meters above Armoury.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1013
+D1
+More of the same.
+~
+~
+0 0 1019
+D2
+More of the same.
+~
+~
+0 0 1015
+D3
+More of the same.
+~
+~
+0 0 1009
+D4
+More of the same.
+~
+~
+0 0 1034
+S
+#1015
+In the air ...~
+You are flying!
+Currently you are about 40 meters above Poor Alley.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1014
+D1
+More of the same.
+~
+~
+0 0 1020
+D3
+More of the same.
+~
+~
+0 0 1010
+D4
+More of the same.
+~
+~
+0 0 1035
+S
+#1016
+In the air ...~
+You are flying!
+Currently you are about 10 meters above the temple spire of Isca
+It seems like you can see forever!
+~
+30 0 9
+D2
+More of the same.
+~
+~
+0 0 1017
+D3
+More of the same.
+~
+~
+0 0 1011
+D4
+More of the same.
+~
+~
+0 0 1036
+S
+#1017
+In the air ...~
+You are flying!
+Currently you are about 40 meters above the Temple Square.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1016
+D2
+More of the same.
+~
+~
+0 0 1018
+D3
+More of the same.
+~
+~
+0 0 1012
+D4
+More of the same.
+~
+~
+0 0 1037
+D5
+More of the same
+~
+~
+0 0 3057
+S
+#1018
+In the air ...~
+You are flying!
+Currently you are about 40 meters above Market Square.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1017
+D2
+More of the same.
+~
+~
+0 0 1019
+D3
+More of the same.
+~
+~
+0 0 1013
+D4
+More of the same.
+~
+~
+0 0 1038
+S
+#1019
+In the air ...~
+You are flying!
+Currently you are about 40 meters above Market and Commons.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1018
+D2
+More of the same.
+~
+~
+0 0 1020
+D3
+More of the same.
+~
+~
+0 0 1014
+D4
+More of the same.
+~
+~
+0 0 1039
+S
+#1020
+In the air ...~
+You are flying!
+Currently you are about 40 meters above ground, overlooking the Common Square.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1019
+D3
+More of the same.
+~
+~
+0 0 1015
+D4
+More of the same.
+~
+~
+0 0 1040
+S
+#1021
+In the air ...~
+You are flying!
+Currently you are about 60 meters above the ground just north of Midgaard.
+It seems like you can see forever!
+~
+30 0 9
+D1
+More of the same.
+~
+~
+0 0 1026
+D2
+More of the same.
+~
+~
+0 0 1022
+D5
+More of the same.
+~
+~
+0 0 1001
+S
+#1022
+In the air ...~
+You are flying!
+Currently you are about 40 meters above the west gate of Midgaard.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1021
+D1
+More of the same.
+~
+~
+0 0 1027
+D2
+More of the same.
+~
+~
+0 0 1023
+D5
+More of the same.
+~
+~
+0 0 1002
+S
+#1023
+In the air ...~
+You are flying!
+Currently you are about 60 meters above west gate of Midgaard.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1022
+D1
+More of the same.
+~
+~
+0 0 1028
+D2
+More of the same.
+~
+~
+0 0 1024
+D5
+More of the same.
+~
+~
+0 0 1003
+S
+#1024
+In the air ...~
+You are flying!
+Currently you are about 60 meters above wall road.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1023
+D1
+More of the same.
+~
+~
+0 0 1029
+D2
+More of the same.
+~
+~
+0 0 1025
+D5
+More of the same.
+~
+~
+0 0 1004
+S
+#1025
+In the air ...~
+You are flying!
+Currently you are about 60 meters above wall road.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1024
+D1
+More of the same.
+~
+~
+0 0 1030
+D5
+More of the same.
+~
+~
+0 0 1005
+S
+#1026
+In the air ...~
+You are flying!
+Currently you are about 60 meters above the ground north of Midgaard.
+It seems like you can see forever!
+~
+30 0 9
+D1
+More of the same.
+~
+~
+0 0 1031
+D2
+More of the same.
+~
+~
+0 0 1027
+D3
+More of the same.
+~
+~
+0 0 1021
+D5
+More of the same.
+~
+~
+0 0 1006
+S
+#1027
+In the air ...~
+You are flying!
+Currently you are about 40 meters above the magic shop.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1026
+D1
+More of the same.
+~
+~
+0 0 1032
+D2
+More of the same.
+~
+~
+0 0 1028
+D3
+More of the same.
+~
+~
+0 0 1022
+D5
+More of the same.
+~
+~
+0 0 1007
+S
+#1028
+In the air ...~
+You are flying!
+Currently you are about 60 meters above main street.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1027
+D1
+More of the same.
+~
+~
+0 0 1033
+D2
+More of the same.
+~
+~
+0 0 1029
+D3
+More of the same.
+~
+~
+0 0 1023
+D5
+More of the same.
+~
+~
+0 0 1008
+S
+#1029
+In the air ...~
+You are flying!
+Currently you are about 40 meters above the mage guild.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1028
+D1
+More of the same.
+~
+~
+0 0 1034
+D2
+More of the same.
+~
+~
+0 0 1030
+D3
+More of the same.
+~
+~
+0 0 1024
+D5
+More of the same.
+~
+~
+0 0 1009
+S
+#1030
+In the air ...~
+You are flying!
+Currently you are about 60 meters above poor alley.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1029
+D1
+More of the same.
+~
+~
+0 0 1035
+D3
+More of the same.
+~
+~
+0 0 1025
+D5
+More of the same.
+~
+~
+0 0 1010
+S
+#1031
+In the air ...~
+You are flying!
+Currently you are about 60 meters above the ground north of Midgaard.
+It seems like you can see forever!
+~
+30 0 9
+D1
+More of the same.
+~
+~
+0 0 1036
+D2
+More of the same.
+~
+~
+0 0 1032
+D3
+More of the same.
+~
+~
+0 0 1026
+D5
+More of the same.
+~
+~
+0 0 1011
+S
+#1032
+In the air ...~
+You are flying!
+Currently you are about 40 meters above bakery and cleric guild.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1031
+D1
+More of the same.
+~
+~
+0 0 1037
+D2
+More of the same.
+~
+~
+0 0 1033
+D3
+More of the same.
+~
+~
+0 0 1027
+D5
+More of the same.
+~
+~
+0 0 1012
+S
+#1033
+In the air ...~
+You are flying!
+Currently you are about 60 meters above main street.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1032
+D1
+More of the same.
+~
+~
+0 0 1038
+D2
+More of the same.
+~
+~
+0 0 1034
+D3
+More of the same.
+~
+~
+0 0 1028
+D5
+More of the same.
+~
+~
+0 0 1013
+S
+#1034
+In the air ...~
+You are flying!
+Currently you are about 40 meters above the armoury.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1033
+D1
+More of the same.
+~
+~
+0 0 1039
+D2
+More of the same.
+~
+~
+0 0 1035
+D3
+More of the same.
+~
+~
+0 0 1029
+D5
+More of the same.
+~
+~
+0 0 1014
+S
+#1035
+In the air ...~
+You are flying!
+Currently you are about 60 meters above poor alley.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1034
+D1
+More of the same.
+~
+~
+0 0 1040
+D3
+More of the same.
+~
+~
+0 0 1030
+D5
+More of the same.
+~
+~
+0 0 1015
+S
+#1036
+In the air ...~
+You are flying!
+Currently you are about 30 meters above the temple spire.
+It seems like you can see forever!
+~
+30 0 9
+D2
+More of the same.
+~
+~
+0 0 1037
+D3
+More of the same.
+~
+~
+0 0 1031
+D5
+More of the same.
+~
+~
+0 0 1016
+S
+#1037
+In the air ...~
+You are flying!
+Currently you are about 60 meters above the temple square.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1036
+D2
+More of the same.
+~
+~
+0 0 1038
+D3
+More of the same.
+~
+~
+0 0 1032
+D5
+More of the same.
+~
+~
+0 0 1017
+S
+#1038
+In the air ...~
+You are flying!
+Currently you are about 60 meters above market square.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1037
+D2
+More of the same.
+~
+~
+0 0 1039
+D3
+More of the same.
+~
+~
+0 0 1033
+D5
+More of the same.
+~
+~
+0 0 1018
+S
+#1039
+In the air ...~
+You are flying!
+Currently you are about 60 meters above market square and commons square.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1038
+D2
+More of the same.
+~
+~
+0 0 1040
+D3
+More of the same.
+~
+~
+0 0 1034
+D5
+More of the same.
+~
+~
+0 0 1019
+S
+#1040
+In the air ...~
+You are flying!
+Currently you are about 60 meters above commoners square and the dump.
+It seems like you can see forever!
+~
+30 0 9
+D0
+More of the same.
+~
+~
+0 0 1039
+D3
+More of the same.
+~
+~
+0 0 1035
+D5
+More of the same.
+~
+~
+0 0 1020
+S
+#0
+
+#MOBILES
+#1000
+fairy dragon~
+A fairy dragon~
+A fairy dragon is fluttering around here looking for something to do...
+~
+It's a cute little multi-colored dragon...about 2 foot long.
+It gracefully dances around your head.
+~
+dragon~
+GTL NT 0 0
+55 10 1d1+2807 1d1+600 7d7+27 pierce
+-18 -18 -18 -9
+EKHUFNC A 0 0
+stand stand female 3430
+0 0 small 0
+
+#1001
+griffin~
+A griffin~
+A large black winged griffin swoops into an attack.
+~
+Golden maned and black all over.  It's quite a beautiful creature if not
+for the fact it is hungry and is attacking you!
+~
+wyvern~
+GTL HNT -500 0
+61 20 1d1+3684 1d1+700 8d8+30 pierce
+-20 -20 -20 -10
+EHKUFN A 0 0
+stand stand male 3788
+0 0 medium 0
+
+#1002
+pegasus~
+A white pegasus~
+A white pegasus arcs gracefully through the air.
+~
+This huge, winged horse has a shimmering satin white coat.
+~
+unique~
+GTL HNT 1000 0
+72 15 1d1+5170 1d1+800 8d8+36 pierce
+-25 -25 -25 -11
+EHKUFN A I 0
+stand stand male 4467
+0 0 medium 0
+
+#1003
+pegasus~
+A black pegasus~
+A black pegasus circles around you, with evil intention.
+~
+This huge, winged horse has a glistening sable coat.
+~
+unique~
+GTL HNT -1000 0
+72 15 1d1+5077 1d1+800 8d8+36 pierce
+-25 -25 -25 -11
+EHKUFN A I 0
+stand stand male 4444
+0 0 medium 0
+
+#1004
+unicorn~
+A black unicorn~
+A black unicorn tosses it's mane haughtily.
+~
+You see a beautiful, horned beast with a flowing black mane and a set of
+sharp looking hooves. It snorts at you and rolls it's eyeballs in disgust.
+~
+unique~
+GTL HNT -1000 0
+82 20 1d1+6896 1d1+900 9d9+41 charge
+-28 -28 -28 -17
+EHKUFN A I 0
+stand stand female 4965
+0 0 large 0
+
+#1005
+unicorn~
+A white unicorn~
+A white unicorn tosses it's mane haughtily.
+~
+You see a beautiful, horned beast with a flowing black mane and a set of
+sharp looking hooves. It eyes glint with wisdom and arrogance.
+~
+unique~
+GTL HNT 1000 0
+82 20 1d1+7031 1d1+900 9d9+41 charge
+-28 -28 -28 -17
+EHKUFN A I 0
+stand stand female 4984
+0 0 large 0
+
+#1006
+evil cloud giant~
+An evil cloud giant~
+A evil cloud giant rumbles discontentedly here.
+~
+This huge cloud of tangible vapour has, over a long period of time, become
+a terribly malignant force.
+~
+unique~
+FGRT HNT -1000 0
+90 22 1d1+7779 1d1+1000 9d9+45 pound
+-30 -30 -30 -19
+DEKUFNH AI 0 0
+stand stand male 5618
+0 0 huge 0
+
+#1007
+cloud giant creamy~
+A cloud giant~
+The creamy white body of a cloud giant is here.
+~
+This enormous cloud of tangible vapour might do the sewers of Midgaard  a 
+favour by precipitating one day....
+~
+unique~
+GTRL HNT 1000 0
+90 22 1d1+7592 1d1+1000 9d9+45 pound
+-30 -30 -30 -19
+DEKUFNH AI 0 0
+stand stand male 5552
+0 0 huge 0
+
+#1008
+perseus king unicorn~
+Perseus~
+Perseus, King of the Unicorns, stands proudly here.
+~
+You see a mighty, silvery unicorn. The most incredible horn you have ever
+seen protrudes from his head.
+~
+unique~
+BGQRSTL HNTV 0 0
+96 24 1d1+8835 1d1+1200 10d9+48 wrath
+-32 -32 -32 -21
+CDEFHKNU ABGI JI 0
+stand stand male 5984
+0 0 huge 0
+
+#1009
+icarus king cloud giant~
+Icarus~
+Icarus, King of the Cloud Giants, is here.
+~
+You see a simply ENORMOUS silvery cloud, moving in the opposite direction
+to the wind thanks to a beautiful pair of wings.
+~
+unique~
+BGQRSTL HNTV 0 0
+96 24 1d1+8688 1d1+1200 10d9+48 pound
+-32 -32 -32 -21
+CDEFHKNU ABGI JI 0
+stand stand male 5828
+0 0 giant 0
+
+#1010
+nitrius acid acidic cloud~
+Nitrius~
+A terrible cloud of acid called Nitrius coughs and splutters here.
+~
+You see a huge cloud that has been polluted by terristrial gaseous emissions
+so that now, the cloud has an almost fluorescent green glow.
+~
+unique~
+BFGQRST HNTV 0 0
+100 25 1d1+9434 1d1+1300 10d10+50 acbite
+-33 -33 -33 -23
+CDEFHKNU ABGIK CJI 0
+stand stand male 6153
+0 0 giant 0
+
+#1011
+chaos butterfly~
+Butterfly of Chaos~
+The butterfly of Chaos flutters innocently here.
+~
+This little butterfly is whirling around in a world of it's own. Sadly, it
+has not realised that according to chaos, the fluttering of it's wings
+is causing a devasting hurricane approximately 1043 miles away, along the
+coastline of the helpless tropical island of Butu.
+~
+unique~
+GHQ BQFDNH 0 0
+60 15 1d1+3122 1d1+640 8d7+30 beating
+-20 -20 -20 -11
+FHJENU ABF 0 R
+stand stand neutral 3688
+0 0 tiny 0
+
+#0
+
+#OBJECTS
+#1002
+mighty horn perseus~
+The Mighty Horn of Perseus~
+A huge, ornate horn lies here.~
+adamantite~
+armor ABG AE
+30 30 30 17 0
+90 40 18240 P
+E
+mighty horn perseus~
+This huge, creamy coloured horn is a spiral of perfect dimensions. It's
+point is unbelievably sharp and could cause tremendous damage against
+even the strongest of foes.
+~
+A
+18      7
+A
+19      7
+
+#1003
+mighty wings icarus~
+The Mighty Wings of Icarus~
+A enormous pair of silvery wings lie here.~
+silver~
+armor ABG AK
+30 30 30 17 0
+90 35 18124 P
+E
+mighty wings ithicus~
+These beautiful wings have been crafted from invidual feathers of magical
+silver. They emanate an ethereal glow that lifts your very soul to a higher
+plane of understanding.
+~
+A
+24    -16
+
+#1004
+cocoon~
+a cocoon~
+A tiny cocoon lies here, waiting to be crushed underfoot.~
+vellum~
+wand GF AO
+60 15 15 7 0
+60 1 12347 P
+A
+4       2
+
+#1005
+girth nitrius mighty metal battered rusty~
+The Mighty Girth of Nitrius~
+You see a battered, rusty old piece of metal here.~
+steel~
+armor ABG AL
+30 30 30 22 0
+90 28 18449 P
+E
+girth nitrius mighty metal battered rusty~
+This cheap looking piece of metal appears to be glowing with a powerful
+magical aura.
+~
+A
+12     75
+
+#1006
+acid fang fangs nitrius~
+The Fangs of Nitrius~
+You see a huge pair of fangs glowing here.~
+steel~
+weapon ABG AN
+'exotic' 13 7 'acbite' CE
+90 35 18756 P
+E
+acid fang fangs nitrius~
+This huge set of teeth are evidently not what they once were. Their surface
+has been corroded by a powerful acid, but this appears to have had little
+effect on the ultra-sharp tips of the fangs.
+~
+A
+23     -7
+
+#1001
+rose~
+a red rose~
+A red rose is lying on the ground.~
+vellum~
+armor 0 AE
+6 0 0 0 0
+0 8 0 P
+E
+rose~
+This is no ordinary rose, as it is a gift from Dionysus to his
+dearest, Wendella.
+~
+
+#0
+
+#RESETS
+M 0 1000 10 1005 1  1   A fairy dragon into In the air ...  
+M 0 1000 10 1022 1  1   A fairy dragon into In the air ...  
+M 0 1000 10 1019 1  1   A fairy dragon into In the air ...  
+M 0 1001 3 1034 1  1   A griffin into In the air ...  
+M 0 1001 3 1018 1  1   A griffin into In the air ...  
+M 0 1002 3 1016 1  1   A white pegasus into In the air ...  
+M 0 1002 3 1031 1  1   A white pegasus into In the air ...  
+M 0 1003 3 1031 1  1   A black pegasus into In the air ...  
+M 0 1003 3 1028 1  1   A black pegasus into In the air ...  
+M 0 1004 2 1028 1  1   A black unicorn into In the air ...  
+M 0 1004 2 1011 1  1   A black unicorn into In the air ...  
+M 0 1005 2 1007 1  1   A white unicorn into In the air ...  
+M 0 1005 2 1027 1  1   A white unicorn into In the air ...  
+M 0 1006 2 1013 1  1   An evil cloud giant into In the air ...  
+M 0 1006 2 1008 1  1   An evil cloud giant into In the air ...  
+M 0 1007 2 1027 1  1   A cloud giant into In the air ...  
+M 0 1007 2 1036 1  1   A cloud giant into In the air ...  
+M 0 1008 1 1019 1  1   Perseus into In the air ...  
+E   1   1002    1      6     The Mighty Horn of Perseus on head                
+M 0 1009 1 1009 1  1   Icarus into In the air ...  
+E   1   1003    1     12     The Mighty Wings of Icarus about body             
+M 0 1010 1 1021 1  1   Nitrius into In the air ...  
+E   1   1005    1     13     The Mighty Girth of Nitrius around waist           
+E   1   1006    1     16     The Fangs of Nitrius wielded                
+M 0 1011 1 1001 1  1   Butterfly of Chaos into In the air ...  
+G   1   1004    1            a cocoon in inventory
+S
+#SPECIALS
+
+
+
+
+
+
+M  1000 spec_cast_mage
+M  1006 spec_breath_lightning
+M  1007 spec_breath_lightning
+M  1008 spec_cast_mage
+M  1009 spec_breath_any
+M  1010 spec_breath_acid
+M  1010 spec_cast_undead
+
+S
+
+#$

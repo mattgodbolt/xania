@@ -1,0 +1,1939 @@
+#AREA  
+enchanted.are~
+The Enchanted Forest~
+{20 40} Valntyn The Enchanted Forest~
+13210 13280
+
+#MOBILES
+#13210
+dragon~
+a large beautiful dragon~
+A large, beautiful dragon rests here, picking dinner from between its claws.
+~
+A large, beautiful dragon peers up at you from cleaning its claws. As you
+draw closer, it stands fully erect, wings spread wide.  It comes forth, out of
+light shadows, and the fires from the nearby cavern sparkle off its deep
+maroon scales.  Flashes of its few scattered golden scales reflect off the
+flames as well, almost blinding you.
+~
+dragon~
+BCR Hcc -1000 0
+40 9 1450d1+150 10d10+10 5d8+13 flbite
+-14 -15 -14 -13
+EMNO AB F 0
+rest stand neutral 800
+0 0 giant 0
+
+#13211
+white pegasus~
+the white pegasus~
+This white pegasus roams the land and air, keeping peace during the
+day.
+~
+Keeper of peace and law during the sunlit hours, this gorgeous winged
+horse spreads his wings and soars through the lands and air making sure
+all is safe.
+~
+unique~
+GQ CHTV 1000 0
+40 9 1400d1+200 10d10+500 5d8+13 magic
+-15 -14 -15 -13
+CEI AB C 0
+stand stand male 400
+0 0 huge 0
+
+#13212
+black pegasus~
+the black pegasus~
+Keeper of law at night, this black pegasus flies the skies.
+~
+Looking into the moonlit sky, a pair of lavender eyes look down into your
+soul, and a gentle breeze cascades over you as she lands beside you.
+~
+unique~
+GQ CHTV 1000 0
+40 9 1400d1+200 10d10+10 5d8+13 wrath
+-15 -14 -15 -13
+CEI AB C 0
+stand stand female 400
+0 0 huge 0
+
+#13213
+unicorn~
+the unicorn~
+The unicorn ventures through the land here.
+~
+Protector of the forest, this unicorn enjoys life in the company of the forest-
+dwellers.  A golden aura encompases her as she roams her kingdom.
+~
+unique~
+GQ CFHNP 1000 0
+40 9 1455d1+100 10d10+10 5d8+13 divine
+-15 -14 -15 -13
+CEI AB CD 0
+stand stand female 350
+0 0 large 0
+
+#13214
+pixie~
+a pixie~
+A little pixie flutters about here.
+~
+Less than six inches high, this little pixie flies from a toadstool to a nearby
+branch to get a better look at you.  Upon closer inspection of her, you
+realize she isn't wearing anything...  Must be because of the dust that
+surrounds her that you can't make out any details.
+~
+elf~
+BHR NQTV 1000 0
+20 5 3d9+420 10d10+10 2d9+5 sting
+-5 -4 -4 -3
+UFGH A DER HI
+stand stand female 1
+0 0 tiny 0
+
+#13215
+sprite~
+a tiny water sprite~
+A tiny water sprite tests out the pond.
+~
+Upon closer look of this six-inch human-like creature, you realize he's very
+much like a pixie without wings.  His webbed fingers and toes make him
+as avid swimmer...good thing, as much of his time is spent in water.
+~
+elf~
+BHRC QV 850 0
+23 5 5d10+450 10d10+10 4d6+6 hit
+-6 -5 -6 -4
+UHF 0 EFG L
+stand stand male 0
+0 0 tiny 0
+
+#13216
+siren~
+a siren~
+A siren tries to lure travelers to their death with her voice.
+~
+Half-woman, half-snake, she raisers her beautiful voice to attract
+men...only to kill them.
+~
+unique~
+BT Hcc -850 0
+35 8 10d10+890 10d10+10 5d7+11 whip
+-12 -12 -11 -10
+DEF B B HP
+stand stand female 50
+0 0 large 0
+
+#13217
+sylph~
+a young tree sylph~
+A young tree sylph explores her woods.
+~
+A faerie in human form, this sylph needs to stay near her life-line, the
+trees, in order to stay alive.
+~
+elf~
+BQ FHQV 1000 0
+30 7 16d6+853 10d10+10 5d6+8 scratch
+-9 -8 -7 -6
+FHN 0 B HL
+stand stand female 15
+0 0 medium 0
+
+
+#13218
+monster wight~
+an evil wight~
+An ugly little monster looks up at you and laughs.
+~
+This short-legged, long-armed, ugly little wight looks at you and laughs.
+He may be a stupid little creature, but he's got some power in those apish
+arms of his.
+~
+orc~
+GCHSF KNQ -734 0
+24 6 5d10+750 10d10+10 4d6+7 pound
+-7 -7 -8 -6
+DUE P Q 0
+stand stand neutral 24
+0 0 small 0
+
+#13219
+tree ent~
+a tree ent~
+An ancient tree ent stands tall.
+~
+As old as the world, this ancient tree ent talks long-windedly about
+everything...  Well, if you can't take your time talking about something, it
+isn't much worth talking about, is it?
+~
+giant~
+GR Hcc 1000 0
+35 8 10d10+1100 10d10+10 5d7+11 cleave
+-12 -13 -12 -11
+CEO 0 DIP H
+stand stand neutral 350
+0 0 huge 0
+
+#13220
+dryad tree~
+a dryad~
+A dryad spreads it's branches and enjoys the day's light.
+~
+The bark of the tree ripples and moves.  In disbelief, you stare as a
+beautiful woman emerges, almost growing from the bark.
+~
+elf~
+BR HNcc 1000 0
+25 6 5d10+660 10d10+100 5d5+7 slash
+-7 -6 -7 -5
+FEQU DFR GEF H
+stand stand female 250
+0 0 large 0
+
+#13221
+brownie~
+a little naked man~
+A little naked brownie runs around trying to avoid mice.
+~
+Only a few inches high, these little creatures roam around naked and dirty,
+always trying to steal off one another.  Dreams of rats and large men are
+what scare them most as they duck and dodge and scamper through the trees'
+above-ground roots.
+~
+elf~
+GCHS QVZcc 0 0
+21 5 4d10+520 10d10+10 3d7+5 sting
+-5 -5 -4 -4
+DFH 0 0 B
+0 0 1 200
+0 0 tiny 0
+
+#13222
+leprachaun man~
+a leprachaun~
+A wee little man dances to his fiddle.
+~
+Dressed in greens of all shades, this little bearded man dances around
+playing his violin.  A twinkle in his eye suggests he has hidden treasures.
+~
+elf~
+GCHR BDFV 0 0
+22 5 5d10+350 10d10+100 2d11+6 bite
+-5 -5 -4 -4
+DFHN B PQ H
+stand stand male 250
+0 0 small 0
+
+#13223
+firedrake~
+a tiny dragon~
+A young firedrake walks around, practicing hissing fire.
+~
+One of the smallest of dragons, this little creature is just learning how to
+control his bursts of fire.  Hissing like a cat, a ball of fire leaves
+his mouth, scorching a tree.  "Oops," he says, "wrong target," and off
+he skips to try again.
+~
+dragon~
+GHT CDFHNVcc 1000 0
+28 7 6d12+800 10d10+100 4d7+8 blast
+-8 -9 -8 -7
+DEKN HR L 0
+stand stand male 300
+0 0 medium 0
+
+#13224
+wraith~
+a tiny pinpoint of light~
+A tiny wraith flies along, leaving a trail of light behind.
+~
+An extraordinarily tiny creature flitters here, surrounded by a pinprick of
+light.  It's very touch could mean either death or new life, dependant on it's
+mood.
+~
+human~
+GQ HNTVcc 0 0
+32 8 10d10+900 10d10+10 4d8+9 shbite
+-11 -12 -11 -10
+EFHU 0 DEFG I
+stand stand neutral 320
+0 0 tiny 0
+#0
+
+
+#OBJECTS
+#13210
+staff~
+the staff of the dragon~
+A staff emits red sparks.~
+glass~
+staff ABCL AO
+41 5 5 fireball~ 0
+40 3 450 P
+E
+staff dragon~
+The ends of this staff are quite remarkably carved.  At the tail end is just
+that -- the wood is carved into the pointy tail of the dragon.  The top has
+carved the head of a magical dragon.
+~
+
+#13211
+golden wand horn~
+a unicorn's horn~
+A golden horn shines with beautiful magic.~
+gold~
+wand AKG AO
+41 10 10 teleport~ 0
+40 2 450 P
+E
+wand horn~
+This golden spiralled horn was the secret to the unicorn's travels...until you
+claimed it as your trophy.
+~
+
+#13212
+wings pill~
+a pixie's wings~
+A pair of wings still flutters, waiting to be used.~
+pill~
+pill GB AD
+21 fly~ sanctuary~ calm~ 0
+20 2 50 P
+
+#13213
+siren song~
+a siren's final song~
+Having been killed, the siren leaves behind her final song.~
+pill~
+pill BEMJF A
+31 stone~ protection~ earthquake~ 0
+30 3 0 P
+E
+siren song~
+Having been killed, the siren left behind this final song to you.
+~
+
+#13214
+scroll nutrients~
+a scroll of one sylph's nutrients~
+Lying here before you is one way a sylph could venture.~
+paper~
+boat G AO
+31 12 12 80 0
+30 1 100 P
+E
+scroll~
+As a sylph needs to stay by their water or tree to gain nurishment to live in
+human form, some faerie was clever enough to create this scroll, allowing
+them to venture far.
+~
+
+#13215
+scroll bark~
+bark of a tree ent~
+From the bark of a tree, you read these words...~
+paper~
+scroll IK AO
+36 58 44  18 0
+35 2 100 P
+E
+scroll bark~
+An ancient tree ent shares his great wisdom via these words on a piece of
+his bark.
+~
+
+#13216
+dragon talon~
+the dragon's talon~
+A sharp talon gleams in the light.~
+bronze~
+key A AO
+0 0 0 0 0
+1 10 0 P
+
+#13217
+chest~
+an ancient chest~
+An ancient chest with bronze locks sits at the edge of the water.~
+wood~
+container 0 0
+20 48 13216 0 0
+1 10 10 W
+
+#13218
+gold~
+a mound of ancient coins~
+A large mound of ancient coins shines it's beauty and worth.~
+gold~
+money A A
+873 0 0 0 0
+1 1 1 P
+
+#13219
+dust~
+faerie love dust~
+Magical faerie dust is held by a bound leather pouch.~
+gold~
+pill ABG AC
+22 charm~  bless~ fly~ 0
+20 1 10 P
+E
+dust~
+|Y   .
+     .   |y.
+. |Y.   .
+~
+
+#13220
+spear~
+a teeny tiny spear~
+Smaller than the size of a toothpick, this spear is used by the brownies of
+the forest.~
+wood~
+weapon JK AN
+'polearm' 2 10 'pierce' DH
+23 2 100 P
+A
+2 3
+A
+5 2
+
+#13221
+ball fire~
+a ball of fire~
+A ball of fire shoots across the room, looking for a target.~
+wood~
+wand AKG AO
+32 10 10 high~ 0
+30 4 35 P
+E
+wand fire~
+Released from the fire drake as a fair warning, this ball of fire hangs in
+midair, searching for something or someone to scorch.
+~
+#0
+
+#ROOMS
+#13210
+Cave entrance~
+In this deepest darkest part of the evil forest is this cave.  All seems quiet
+on the outside of it's openning, but as you inch your way closer, a low
+rumbling comes from within.  Deep red scales lie scattered on the ground
+in front of the cave, hinting this to be someone's home.
+~
+13 0 3
+D5
+The cavern
+~
+~
+0 -1 13261
+D2
+Dark Forest
+~
+~
+0 -1 13215
+S
+
+#13211
+Dark Forest~
+The sky above is deep, dark grey, brought to life by rumblings of thunder
+and the crack of lightning.  The wind seers through the tops of the trees.
+Rain pelts down on you; and out of the corner of your eye, you keep
+catching quick movements.  Figments of the mind during the storm, or life
+within the storm itself?
+~
+13 0 3
+D2
+Dark forest
+~
+~
+0 -1 13216
+S
+
+#13212
+Forest~
+A gentle breeze plays with the leaves atop the trees.  The sun's rays warm
+your skin and make patchwork designs on the ground.  Happy little critters
+scamper around playing tag in the fallen needles, while birds above bring
+the further reaches of the forest alive with song.
+~
+13 0 3
+D1
+Forest
+~
+~
+0 -1 13213
+D2
+Forest
+~
+~
+0 -1 13219
+S
+
+#13213
+Forest~
+Birds twitter and play with the sunbeams that fall through the boughs of the
+trees.  Squirrels and other such creatures jump from branch to branch
+chittering to one another.  A beautiful peacock with it's hen stand off
+behind a tree, his feathers brilliant and alive with color as he struts for her
+enjoyment.
+~
+13 0 3
+D2
+Forest
+~
+~
+0 -1 13220
+D3
+Forest
+~
+~
+0 -1 13212
+S
+
+#13214
+Dark forest~
+An evil snicker makes you quickly turn, catching something out the
+corner of your eye trying to hide behind a tree.  Not much light of any
+kind shines down here, so you think to yourself that maybe it's time
+to move on...  The low-to-the-ground snicker comes again, and the
+leaves on the groundfloor get scattered by whatever creature this is.
+~
+13 0 3
+D1
+Dark forest
+~
+~
+0 -1 13215
+D2
+Dark forest
+~
+~
+0 -1 13221
+S
+
+#13215
+Dark forest~
+In this evil, forbidding wood, where the sky is always stormy, not much
+light comes down through the trees.  Looking down, though, scattered
+amongst the dirt and leaves, you see a few maroonish scales glistening
+here and there, leading to the cave north.
+~
+13 0 3
+D0
+Cave entrance
+~
+~
+0 -1 13210
+D1
+Dark forest
+~
+~
+0 -1 13216
+D3
+Dark forest
+~
+~
+0 -1 13214
+S
+
+#13216
+Dark forest~
+Looking around, you notice there are no small creatures playing tree-tag,
+there are no birds chirping, no animals eating.  That alone sends shivers
+up and down your spine.  What could possibly make it so there are no
+animals here?  The fact that the sky is always cloudy; that the sun never
+shines?  Or..maybe...there is some OTHER creature that lives here that
+others are petrified of...
+~
+13 0 3
+D0
+Dark forest
+~
+~
+0 -1 13211
+D2
+Dark forest
+~
+~
+0 -1 13223
+D3
+Dark forest
+~
+~
+0 -1 13215
+S
+
+#13217
+Forest~
+The trees grow tall and proud in this healthy, happy environment.  The sun
+almost always shines down through the boughs.  The rain that comes is
+fresh clean and always springlike.  Animals scamper around on the
+ground, making the leaves crackle beneath their pounces; and birds add to
+the light and airy atmosphere with their song.
+~
+13 0 3
+D1
+Forest
+~
+~
+0 -1 13218
+S
+
+#13218
+Forest~
+The woods become lighter and brighter as the trees thin out towards a
+clearing.  Animals scamper around on the ground, making the leaves
+crackle beneath their pounces; and birds add to the light and airy
+atmosphere with their song.
+~
+13 0 3
+D1
+Forest
+~
+~
+0 -1 13219
+D2
+Open clearing
+~
+~
+0 -1 13226
+D3
+Forest
+~
+~
+0 -1 13217
+S
+
+#13219
+Forest~
+The sounds of the woodland creatures surround you.  To the south, the
+trees start to thin out to provide a clearing for the pond nearby.  The warm
+and brightness beckons you to join them.
+~
+13 0 3
+D0
+Forest
+~
+~
+0 -1 13212
+D1
+Forest
+~
+~
+0 -1 13220
+D2
+Open clearing
+~
+~
+0 -1 13227
+D3
+Forest
+~
+~
+0 -1 13218
+S
+
+#13220
+Forest~
+The shining sun through the branches creates patterns at your feet.
+Rustling up ahead indicates playful animals scampering about on the
+needle and leaf covered floor.  Song birds twitter as they fly from one tree
+to the next.
+~
+13 0 3
+D0
+Forest
+~
+~
+0 -1 13213
+D2
+Forest
+~
+~
+0 -1 13228
+D3
+Forest
+~
+~
+0 -1 13219
+S
+
+#13221
+Dark forest~
+|wThe wind howls down through the trees, nipping at your very soul, chilling
+you to the bone.  Thunder overhead |Wb|YOO|Wms|w, masking what you *know* to
+be the sounds of some creature following you.  Lightning crackles scaring
+you senseless, jumping you from your own skin.
+~
+13 0 3
+D0
+Dark forest
+~
+~
+0 -1 13214
+S
+
+#13222
+Dark forest~
+Sounds from behind you, but nothing there when you turn around...  The
+crackling of leaves on the forest floor, only caused from the wind blowing
+so fiercely...  Movement from the corner of your eye, ending up only
+shadows caused by lightning...  |rAfraid?|w
+~
+13 0 3
+D1
+Dark forest
+~
+~
+0 -1 13223
+D2
+Dark forest
+~
+~
+0 -1 13229
+S
+
+#13223
+Dark forest~
+Tall trees loom over you, leafless and bare.  The wind howls through them
+as a banshee maddened would.  To the east, the trees grow less dense;
+and although it's still dark, there is enough light to show some difference in
+scenery there.
+~
+13 0 3
+D0
+Dark forest
+~
+~
+0 -1 13216
+D1
+Small pond
+~
+~
+0 -1 13224
+D2
+Dark forest
+~
+~
+0 -1 13230
+D3
+Dark forest
+~
+~
+0 -1 13222
+S
+
+#13224
+Small pond~
+Here in the midst of the forest lies this smallish pond.  A small clearing
+surrounds it, obviously only there because the water cannot support any
+life.  Slick with thick sludge, the 'water' doesn't move...no frogs hop on
+lillypads, no deer come to sip at her edge, and no trees grow around her.
+Survival of the fittest comes to mind as you now realize WHY there are no
+creatures in this area.
+~
+13 0 7
+D2
+Small pond
+~
+~
+0 -1 13231
+D3
+Dark forest
+~
+~
+0 -1 13223
+S
+
+#13225
+Open clearing~
+Footprints in the sand indicate recent usage of this grassy clearing by the
+water's edge.  This is a place of rest, relaxation and playfulness as
+animals of all kinds bask in the sun and drink from the clear pond.
+~
+13 0 10
+D1
+Open clearing
+~
+~
+0 -1 13226
+D2
+Small pond
+~
+~
+0 -1 13232
+S
+
+#13226
+Open clearing~
+|wMatted down grasses show where some creature made themselves a bed
+for the previous night, between clear water and sheltering woods.
+|YDande|Glio|gn|ys |wscatter a bit of color in this deep green clearing; and
+bees buzz
+to and fro among the pretty yellow flowers, while butterflies flitter above.
+~
+13 0 10
+D0
+Forest
+~
+~
+0 -1 13218
+D2
+Open clearing
+~
+~
+0 -1 13233
+D3
+Open clearing
+~
+~
+0 -1 13225
+S
+
+#13227
+Open clearing~
+Surrounded by forest, this part of the clearning is for first-timers to the
+pond...those who don't understand there *is* no danger here.  Soon they
+will learn and branch out with the others who frolick and tumble in the crisp
+grasses, and splash in the pond.
+~
+13 0 10
+D0
+Forest
+~
+~
+0 -1 13219
+D1
+Forest
+~
+~
+0 -1 13228
+D2
+Open clearing
+~
+~
+0 -1 13234
+S
+
+#13228
+Forest~
+|B*|Ytwe|Get t|Cwee|Yt|B*|w go da birdies!
+|p*|ysca|gmper |pscam|yper|p* |wgo dem critters!!
+Life is completely enjoyable for the creatures who live on this side of the
+pond, happy and carefree all their days.  Eat, play and be merry!!
+~
+13 0 3
+D0
+Forest
+~
+~
+0 -1 13220
+D3
+Open clearing
+~
+~
+0 -1 13227
+S
+
+#13229
+Dark forest~
+Ogers and wights and dragons...*OH MY!*
+~
+13 0 3
+D0
+Dark forest
+~
+~
+0 -1 13222
+D1
+Dark forest
+~
+~
+0 -1 13230
+S
+
+#13230
+Dark forest~
+On the edge of the sludge-pond, small bones lie scattered about footprints
+in the sand.  A few sounds jump out at you in the darkness....a low angry
+grumble, a high pitched crazy laugh, and a scream cut off...
+~
+13 0 3
+D0
+Dark forest
+~
+~
+0 -1 13223
+D1
+Small pond
+~
+~
+0 -1 13231
+D3
+Dark forest
+~
+~
+0 -1 13229
+S
+
+#13231
+Small pond~
+Here lining this side of the pond are small bones...probably of a creature
+eaten alive by the one who made the prints that now lie in the sand.  The
+'water' of the pond, if you can call it that, is slimey and thick and has a
+greenish blackish color; certainly NOT like the clean clear water on the
+other side of the pond.
+~
+13 0 7
+D0
+Small pond
+~
+~
+0 -1 13224
+D1
+Small pond
+~
+~
+0 -1 13232
+D2
+Small pond
+~
+~
+0 -1 13235
+D3
+Dark forest
+~
+~
+0 -1 13230
+S
+
+#13232
+Small pond~
+On the lighter, brighter, happier, cleaner more "good"-populated side of the
+pond (don't you expect to see the Brady Bunch or Snow White appear
+now?!), the water is much cleaner, allowing the animals to drink from the
+east and north banks.
+~
+13 0 6
+D0
+Open clearing
+~
+~
+0 -1 13225
+D1
+Open clearing
+~
+~
+0 -1 13233
+D2
+Small pond
+~
+~
+0 -1 13236
+D3
+Small pond
+~
+~
+0 -1 13231
+S
+
+#13233
+Open clearing~
+Young ones frolick and trample over one another without even a second
+glance from their parents, who know there's nothing to fear here.  They've
+learned from time, knowing those who live in the darker part of the forest
+stay there with their kind.  Even if one happened to venture this way, they
+would be dealt with by the law keepers on this side...and then from their
+own dark side for desertion...
+~
+13 0 10
+D0
+Open clearing
+~
+~
+0 -1 13226
+D1
+Open clearing
+~
+~
+0 -1 13234
+D2
+Small pond
+~
+~
+0 -1 13237
+D3
+Small pond
+~
+~
+0 -1 13232
+S
+
+#13234
+Open clearing~
+In this sunny area between the water and forest, flowers blossom and
+rainbows fill the air.  The fresh, crisp scent that is known to accompany
+spring is always present.  Birds flitter in the air, then dive into the
+water for a quick dip.  A rabbit hops in the grass, looking for cowslip,
+a rabbit's favourite.
+~
+13 0 10
+D0
+Open clearing
+~
+~
+0 -1 13227
+D2
+Open clearing
+~
+~
+0 -1 13238
+D3
+Open clearing
+~
+~
+0 -1 13233
+S
+
+#13235
+Small pond~
+Ick.
+Sludge seems to be the most prominent component, sitting at the top
+layer of the pond.  There even seems to be...smoke (?) rising from the
+water.  Every once in a while, a bubble slowly forms, then pops, releasing
+noxious air from the bottom of the pond.
+~
+13 0 7
+D0
+Small pond
+~
+~
+0 -1 13231
+D1
+Small pond
+~
+~
+0 -1 13236
+D2
+Small pond
+~
+~
+0 -1 13239
+S
+
+#13236
+Small pond~
+Here, in the middle of the pond, is where the dark and the light seem to
+meet.  The sludge from the dark side thins out, making way for cleaner
+waters to the east and south.  Even the air above the water smells and
+feels cleaner, no longer leaving that horrid thick stench that stuck in your
+lungs on the western side.  Although you don't see any birds yet, the sky
+ahead is filled with the sweet melodies of happy flighers.
+~
+13 0 7
+D0
+Small pond
+~
+~
+0 -1 13232
+D1
+Small pond
+~
+~
+0 -1 13237
+D2
+Small pond
+~
+~
+0 -1 13240
+D3
+Small pond
+~
+~
+0 -1 13235
+S
+
+#13237
+Small pond~
+Life!!  The water on this side is pure and clean enough to drink, bathe and
+cool off.  Fish jump into the air from below the surface.  Birds singing
+above dive into the clear cool water for a dip.  Parents from the woods bring
+their offspring to the shore east of here to enjoy sunshine by the water.
+~
+13 0 6
+D0
+Open clearing
+~
+~
+0 -1 13233
+D1
+Open clearing
+~
+~
+0 -1 13238
+D2
+Small pond
+~
+~
+0 -1 13241
+D3
+Small pond
+~
+~
+0 -1 13236
+S
+
+#13238
+Open clearing~
+Between the forest and the pond, here is where many come to bathe and
+play.  Parents bring their offspring here to enjoy the sun by the water's
+edge.  The young scamper about, tumbling in the green grass, stretching
+in the warmth of the sun, exploring the water for the first time.
+~
+13 0 10
+D0
+Open clearing
+~
+~
+0 -1 13234
+D2
+Open clearing
+~
+~
+0 -1 13242
+D3
+Small pond
+~
+~
+0 -1 13237
+S
+
+#13239
+Small pond~
+Starting to get a little cleaner, the beginnings of life can be detected here
+in the pond.  Not life that has sprouted here, just that of those who have
+ventured to see the difference between the two sides of the pond.  The
+water is not clean enough yet to produce life.
+~
+13 0 7
+D0
+Small pond
+~
+~
+0 -1 13235
+D1
+Small pond
+~
+~
+0 -1 13240
+D2
+Small pond
+~
+~
+0 -1 13246
+S
+
+#13240
+Small pond~
+The pond starts to get a little cleaner about here.  Although still no life
+starts off here, at least it is clean enough for animals to visit briefly.
+Dragonflies buzz about, though never landing; a frog from the eastern side
+tries the safety of a decaying log, but jumps off quickly as it falls apart
+under his legs.
+~
+13 0 6
+D0
+Small pond
+~
+~
+0 -1 13236
+D2
+Small pond
+~
+~
+0 -1 13247
+D3
+Small pond
+~
+~
+0 -1 13239
+S
+
+#13241
+Small pond~
+|c*|CsPL|cas|CH!|c*|w
+Animals visiting the clearing swim about, trying to push each other
+underwater in a playful way.  The younger ones stay closer to the shore,
+just learning to swim by watching their siblings and being encouraged by
+their parents.  Frogs hop on lillypads, then get bumped off and thrown into
+the water by turtles who sneakily swim under the plant and tip them with
+their heads.
+~
+13 0 6
+D0
+Small pond
+~
+~
+0 -1 13237
+D1
+Open clearing
+~
+~
+0 -1 13242
+S
+
+#13242
+Open clearing~
+In this last little niche of the clearing, lovers come to woo and relax in
+secret.  Flowers bloom in the skirts of the forest, and the day's light
+sparkles off the water.
+~
+13 0 10
+D0
+Open clearing
+~
+~
+0 -1 13238
+D1
+Forest
+~
+~
+0 -1 13243
+D2
+Forest
+~
+~
+0 -1 13249
+D3
+Small pond
+~
+~
+0 -1 13241
+S
+
+#13243
+Forest~
+Deep in this spiritual forest live many magical beings.  The sun shines
+down through the thick boughs, creating dancing patterns on the needle
+and leaf covered floor of the forest.  Critters scamper about, chittering away
+happily, and birds above sing the most sweetest songs they know.
+~
+13 0 3
+D0
+Forest
+~
+~
+0 -1 13244
+D2
+Forest
+~
+~
+0 -1 13250
+D3
+Open clearing
+~
+~
+0 -1 13242
+S
+
+#13244
+Forest~
+Many secrets lie here in the enchanted forest.  Light shines down through
+the boughs of trees, keeping everything lively and happy.  Birds twitter-twit
+from the skies, singing their most loveliest of songs; and animals scamper
+to and fro on the twig, leaf, and needle covered forest floor.
+
+A pathway leads towards some plains in the east.
+~
+13 0 3
+D1
+Plains
+~
+~
+0 -1 7802
+D2
+Forest
+~
+~
+0 -1 13243
+S
+
+#13245
+Small pond~
+In this little corner of the world, fish jump from the clear water of the pond;
+dragonflies flitter around with pixies; and the sun beams down strongly,
+warming the world.
+~
+13 0 6
+D1
+Small pond
+~
+~
+0 -1 13246
+D2
+Small pond
+~
+~
+0 -1 13251
+S
+
+#13246
+Small pond~
+In this little corner of the world, fish jump from the pond; dragonflies flitter
+around in the air with pixies; and the sun shines down strongly, warming
+the world.
+~
+13 0 6
+D0
+Small pond
+~
+~
+0 -1 13239
+D1
+Small pond
+~
+~
+0 -1 13247
+D2
+Small pond
+~
+~
+0 -1 13252
+D3
+Small pond
+~
+~
+0 -1 13245
+S
+
+#13247
+Small pond~
+Splashes and giggles from water sprites fill the air.  Turtles swim back and
+forth, sprites upon their backs, giggling.  Dragonflies zoom down to the
+surface of the water, playing with the water sprites.
+~
+13 0 6
+D0
+Small pond
+~
+~
+0 -1 13240
+D3
+Small pond
+~
+~
+0 -1 13246
+S
+
+#13248
+Forest~
+The trees grow tallest and strongest here before the pond.  Splashes and
+giggling indicate a happy time going on nearby.  The sun shines down
+through the boughs of the trees, and birds twitter all around.
+~
+13 0 3
+D1
+Forest
+~
+~
+0 -1 13249
+D2
+Forest
+~
+~
+0 -1 13254
+S
+
+#13249
+Forest~
+Trees here lend some shade to the open clearing, where animals frock and
+play in the day's warmth.  Birds sing their sweet melodies from above, and
+small critters scamper around playfully in the fallen leaf litter.
+~
+13 0 3
+D0
+Open clearing
+~
+~
+0 -1 13242
+D1
+Forest
+~
+~
+0 -1 13250
+D3
+Forest
+~
+~
+0 -1 13248
+S
+
+#13250
+Forest~
+Peace and harmony enter your heart and mind as you travel through here.
+Trees surround you at every turn.  The sun beams down, warming your
+skin from the coolness of the woods.  Birds twitter around, singing their
+sweet little melodies, and forest creatures scamper around on the leaf litter
+on the ground.  A horse whinnies in the distance.
+~
+13 0 3
+D0
+Forest
+~
+~
+0 -1 13243
+D2
+Forest
+~
+~
+0 -1 13256
+D3
+Forest
+~
+~
+0 -1 13249
+S
+
+#13251
+Small pond~
+In this, the very end of the pond, crickets chirrup nearby and lilypads take
+most of the waterspace.  Frogs hop about on the water pads, croaking;
+and dragonflies swoop down (careful to avoid the frogs' tongues) to snatch
+up water striders that swim the water's surface.  It's very beautiful here.
+~
+13 0 6
+D0
+Small pond
+~
+~
+0 -1 13245
+D1
+Small pond
+~
+~
+0 -1 13252
+S
+
+#13252
+Small pond~
+Frogs jump from one lillypad to the next.  Dragonflies dive around the frogs,
+playing with them as tongues |g*|RPH|rW|pa|RP!|g* |wforward to snatch them
+up for dinner. Water striders swim along the water top, never breaking the
+surface.
+~
+13 0 6
+D0
+Small pond
+~
+~
+0 -1 13246
+D3
+Small pond
+~
+~
+0 -1 13251
+S
+
+#13253
+Forest~
+Laughter and splashing from nearby indicates another fun day in the forest.
+A dragonfly zooms past, followed by a tiny, flying, giggling human-type
+creature.  Trees provide shade, but allow the sun to shine deeply down
+through the boughs, warming your skin when it touches.
+~
+13 0 3
+D1
+Forest
+~
+~
+0 -1 13254
+D2
+Forest
+~
+~
+0 -1 13258
+S
+
+#13254
+Forest~
+Grass grows thick here in this not-so-visited part of the forest.  A horse
+whinnies in the distance.  Footsteps crackle the leaves on the ground as
+you walk, echoed by another set of footsteps....that stop a split second
+after you do.  Birdies flitter through the air, diving under then swooping up
+above tree branches, all the while singing.  A pair of squirrels jumps from
+one tree branch to the next, looking for an acorn branch.
+~
+13 0 3
+D0
+Forest
+~
+~
+0 -1 13248
+D1
+Forest
+~
+~
+0 -1 13255
+D3
+Forest
+~
+~
+0 -1 13253
+S
+
+#13255
+Forest~
+Grass grows thick here -- you need to walk very carefully so as not to trip
+over roots.  The animals who frequent the woods run and scamper as
+though the roots aren't even there.  The sun shines down on you from
+between the boughs of the trees (but don't look up, cuz a birdie might poop
+on your face).
+~
+13 0 3
+D1
+Forest
+~
+~
+0 -1 13256
+D3
+Forest
+~
+~
+0 -1 13254
+S
+
+#13256
+Forest~
+The sun doesn't have much room to shine down natural light for you,
+because of the thickness of the trees that have grown over hundreds of
+years.  You know you're still in the better half of the forest, though,
+because there are still leaves and needles on the trees, and that feeling of
+tranquility still hovers over you.
+~
+13 0 3
+D0
+Forest
+~
+~
+0 -1 13250
+D3
+Forest
+~
+~
+0 -1 13255
+S
+
+#13257
+Forest~
+The sun doesn't have much room to shine down natural light for you,
+because of the thickness of the trees that have grown over hundreds of
+years.  You know you're still in the better half of the forest, though,
+because there are still leaves and needles on the trees, and that feeling of
+tranquility still hovers over you, protecting you.
+~
+13 0 3
+D1
+Forest
+~
+~
+0 -1 13258
+D2
+Forest
+~
+~
+0 -1 13259
+S
+
+#13258
+Forest~
+The sun doesn't have much room to shine down natural light for you,
+because of the thickness of the trees that have grown over hundreds of
+years.  You know you're still in the better half of the forest, though,
+because there are still leaves and needles on the trees, and that feeling of
+tranquility still hovers over you.
+~
+13 0 3
+D0
+Forest
+~
+~
+0 -1 13253
+D2
+Forest
+~
+~
+0 -1 13260
+D3
+Forest
+~
+~
+0 -1 13257
+S
+
+#13259
+Forest~
+The sun doesn't have much room to shine down natural light for you,
+because of the thickness of the trees that have grown over hundreds of
+years.  You know you're still in the better half of the forest, though,
+because there are still leaves and needles on the trees; that feeling of
+tranquility still hovers over you, protecting you; and the songs of birds fill
+your ears and spirits.
+~
+13 0 3
+D0
+Forest
+~
+~
+0 -1 13257
+D1
+Forest
+~
+~
+0 -1 13260
+S
+
+#13260
+Forest~
+The sun doesn't have much room to shine down natural light for you,
+because of the thickness of the trees that have grown over hundreds of
+years.  You know you're still in the better half of the forest, though,
+because there are still leaves and needles on the trees, and that feeling of
+tranquility still hovers over you.
+~
+13 0 3
+D0
+Forest
+~
+~
+0 -1 13258
+D3
+Forest
+~
+~
+0 -1 13259
+S
+
+#13261
+Cavern~
+This massive cavern is so old, by the looks of it, that you're not sure if it
+was a natural occurance or creature-made.  A couple of stalagtites hang
+here and there from the heavenly high ceiling.  The mighty walls are
+covered with a moss-type growth that stretches to the ceiling.  As you turn
+looking around the cavern, you notice an indentation, what appears to be a
+small tunnel.
+~
+13 0 0
+D2
+Small tunnel
+~
+~
+0 -1 13262
+D4
+Cave entrance
+~
+~
+0 -1 13210
+S
+
+#13262
+Small tunnel~
+Just off the cavern, you walk deeper and deeper through the small tunnel
+you found.  The light from outside grows dimmer, but the tunnel starts
+allowing you to walk a little more upright...  With wonder sparkling in your
+eyes, you walk on...
+~
+13 0 0
+D2
+Enlarging tunnel
+~
+~
+0 -1 13263
+S
+
+#13263
+Enlarging tunnel~
+The tunnel has widened, allowing you to stand more erect while you
+search what's ahead.  The walls are slick with probably the same goo you
+saw on the walls near the cave entrance, but the floor is slick too, so you
+have to use the wall as a balancer.  A muffled noise come to you from
+ahead.
+~
+13 0 0
+D1
+Large dark tunnel
+~
+~
+0 -1 13264
+S
+
+#13264
+Large dark tunnel~
+The tunnel has expanded into this large tunnel.  Your eyes have adjusted
+slowly to the ever-dimming light, and although you can't see much, you
+can tell the size of the tunnel where you are by the squeak of hanging bats
+and the echo as a drip of water *plinks*.
+~
+13 0 0
+D1
+Small underground pool
+~
+~
+0 -1 13265
+D2
+Dark passageway
+~
+~
+0 -1 13268
+S
+
+#13265
+Small underground pool~
+|w*|yPLinK!|w* *|becho|w*|Becho|w*|cecho|w*
+There must be a run-off from the pond up above...that explains the water
+here underground.  But who's...or what's...footprints are dug into the
+surrounding wet dirt?
+~
+13 0 0
+D2
+Small underground pool
+~
+~
+0 -1 13269
+S
+
+#13266
+Fiery cavern~
+As you enter this second cavern, the first thing you notice is the huge fire
+in the center.  Smaller fires, set in no particular pattern, dot the walls,
+illuminating the cavern to the highest point of the ceiling.
+~
+13 0 0
+D2
+Dragon's lair
+~
+~
+0 -1 13270
+S
+
+#13267
+Dark Passageway~
+Deeper and deeper into this small labyrinth you've walked...a glow from
+ahead might mean you've reached the end of your journey.  "Umm...is that
+good or bad?" you whisper aloud.
+~
+13 0 0
+D3
+Fiery cavern
+~
+~
+0 -1 13266
+S
+
+#13268
+Dark passageway~
+Deeper and deeper into this small labyrinth you've walked...a glow from
+ahead might mean you've reached the end of your journey.  "Umm..is that
+good or bad?" you whisper.  A low grumble from beyond echos all around.
+~
+13 0 0
+D3
+Dark passageway
+~
+~
+0 -1 13267
+S
+
+#13269
+Small underground pool~
+The eyes of the few mice that scurry along the edge of the pool shine when
+your light hits them.  Water runs down the walls, probably from  the pond
+above, and join with the smaller pool that has formed down here.
+~
+13 0 6
+D2
+Small underground pool
+~
+~
+0 -1 13272
+S
+
+#13270
+Dragon's lair~
+A warm glow comes from the cavern north.  A pile of meat-covered bones
+lies scattered upon the floor, as scavengers search through for left-overs.
+A deep ditch with it's bottom covered in needle-covered tree branches, has
+been dig into the ground, obviously used as a nest...but what would need a
+bed THAT bi....your thought is cut short by a low grumbling from the far
+corner.
+~
+13 0 0
+D0
+Fiery cavern
+~
+~
+0 -1 13266
+D4
+A hold leading up
+~
+~
+0 -1 13273
+S
+
+#13271
+Small underground pool~
+|W*|cSp|WL|CAS|ch|W*
+|W*|cs|CP|WL|caS|CH|W*
+|W*s|CPL|WA|cs|CH|W*|w
+A rat scurries across the end of the pool, it's eyes reflecting in the light
+you carry.  Water drips down from the ceiling into the pool, it's echoes
+filling the whole cavern.
+~
+13 0 6
+D0
+Dark passageway
+~
+~
+0 -1 13268
+S
+
+#13272
+Small underground pool~
+You look at the luminescent moss that has grown here, and wonder where
+it gets it's light to grow.  The echoes of the water dripping down from the
+pond above now echo IN your head, driving you stir crazy.  Rats and mice
+scurry along the water's edge.  At the edge of the pool also, you notice
+very large scratchings, almost catlike, dug into the earth.
+~
+13 0 6
+D3
+Small underground pool
+~
+~
+0 -1 13271
+S
+
+#13273
+A hole leading up~
+As there was no way the dragon of these caverns wanted to squeeze
+through the small tunnel that leads from the main cavern, he spent time to
+dig this massive hold though which he could climb or fly out of his lair.
+There is nothing to hold onto to help you climb out, and you pity any small
+creature that falls in, for you know who's stomach they'd land in.
+~
+13 0 0
+D4
+The sacred glade
+~
+~
+0 -1 5370
+S
+#0
+
+
+#RESETS
+M 0 13210 1 13270 1  1   
+G 1 13210 3
+G 1 13216 3
+M 0 13211 1 13254 1  1   
+M 0 13212 1 13220 1  1   
+M 0 13213 1 13243 1  1   
+G 1 13211 3
+M 0 13214 8 13218 1  1   
+E 1 13212 -1 12
+M 0 13214 8 13218 1  1   
+E 1 13212 3 12
+M 0 13214 8 13213 1  1   
+M 0 13214 8 13212 1  1   
+E 1 13212 3 12
+M 0 13214 8 13225 1  1   
+M 0 13214 8 13225 1  1   
+M 0 13214 8 13257 1  1   
+M 0 13214 8 13260 1  1   
+E 1 13212 3 12
+M 0 13215 5 13237 1  1   
+M 0 13215 5 13240 1  1   
+M 0 13215 5 13240 1  1   
+M 0 13215 5 13247 1  1   
+M 0 13215 5 13247 1  1   
+M 0 13215 5 13251 1  1   
+M 0 13215 5 13245 1  1   
+M 0 13215 5 13246 1  1   
+M 0 13215 5 13246 1  1   
+M 0 13216 2 13224 1  1   
+G 1 13213 3
+M 0 13216 2 13224 1  1   
+G 1 13213 3
+M 0 13217 6 13234 1  1   
+G 1 13214 3
+M 0 13217 6 13234 1  1   
+G 1 13214 3
+M 0 13217 6 13250 1  1   
+G 1 13214 3
+M 0 13217 6 13250 1  1   
+G 1 13214 3
+M 0 13217 6 13253 1  1   
+G 1 13214 3
+M 0 13217 6 13253 1  1   
+G 1 13214 3
+M 0 13218 5 13211 1  1   
+M 0 13218 5 13211 1  1   
+M 0 13218 5 13214 1  1   
+M 0 13218 5 13222 1  1   
+M 0 13218 5 13223 1  1   
+M 0 13219 3 13257 1  1   
+E 1 13215 3 12
+M 0 13219 3 13258 1  1   
+E 1 13215 3 12
+M 0 13219 3 13259 1  1   
+E 1 13215 3 12
+M 0 13220 4 13220 1  1   
+M 0 13220 4 13249 1  1   
+M 0 13220 4 13249 1  1   
+M 0 13220 4 13260 1  1   
+M 0 13221 6 13217 1  1   
+E 1 13219 3 3
+E 1 13220 3 16
+M 0 13221 6 13217 1  1   
+E 1 13219 3 3
+E 1 13220 3 16
+M 0 13221 6 13226 1  1   
+E 1 13219 3 3
+E 1 13220 3 16
+M 0 13221 6 13242 1  1   
+E 1 13219 3 3
+E 1 13220 3 16
+M 0 13221 6 13255 1  1   
+E 1 13219 3 3
+E 1 13220 3 16
+M 0 13221 6 13255 1  1   
+E 1 13219 3 3
+E 1 13220 3 16
+M 0 13222 1 13256 1  1   
+M 0 13223 1 13238 1  1   
+E 1 13221 3 17
+M 0 13224 3 13218 1  1   
+M 0 13224 3 13225 1  1   
+M 0 13224 3 13250 1  1   
+O 0 13217 1 13272
+P 0 13218 3 13217 1  1  1  
+S
+
+#SPECIALS
+M 13210 spec_breath_any
+M 13211 spec_guard
+M 13212 spec_guard
+M 13216 spec_fido
+M 13218 spec_fido
+M 13221 spec_thief
+M 13222 spec_cast_mage
+M 13223 spec_breath_fire
+S
+
+#$
+
+
+
+

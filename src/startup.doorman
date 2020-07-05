@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Start up doorman and keep it running
+
+while ( true )
+    do
+   	logfile="../log/`date +%T%B%d.doorman.log`";  # avoids spaces in filename  
+
+	echo > doorman.txt
+	../src/doorman $1 >& $logfile
+	rm -f doorman.txt
+
+    	if ( test -e shutdown.doorman ); then
+        	rm -f shutdown.doorman;
+		exit 0;
+	fi
+
+	sleep 15
+done

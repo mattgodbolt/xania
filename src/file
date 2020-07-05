@@ -1,0 +1,19 @@
+doorman::Fri Mar 17 18:45:37 2000 Doorman version 0.2 starting up
+doorman::Fri Mar 17 18:45:37 2000 Attempting to bind to port 9000
+doorman::Fri Mar 17 18:45:37 2000 Bound to socket succesfully.
+doorman::Fri Mar 17 18:45:37 2000 Doorman is ready to rock on port 9000
+doorman::Fri Mar 17 18:45:37 2000 Descriptor 4 is Xania
+doorman::Fri Mar 17 18:45:37 2000 Connection attempt to MUD failed.
+doorman::Fri Mar 17 18:45:37 2000 Closing descriptor 4 (mud)
+doorman::Fri Mar 17 18:45:39 2000 [0] Incoming connection from 192.168.0.3 on fd 4
+doorman::Fri Mar 17 18:45:39 2000 Forked ident process has PID 1355 on 5
+doorman::Fri Mar 17 18:45:39 2000 ID: on 6
+doorman::Fri Mar 17 18:45:39 2000 ID: Attempting to connect to 192.168.0.3:113 : 1430 , 9000
+doorman::Fri Mar 17 18:45:39 2000 ID: Unable to get remote username
+doorman::Fri Mar 17 18:45:39 2000 ID: Looked up (unknown)@192.168.0.3
+doorman::Fri Mar 17 18:45:39 2000 ID: exitting
+doorman::Fri Mar 17 18:45:39 2000 [0 on 5] Incoming IdentD info
+doorman::Fri Mar 17 18:45:39 2000 [0] User is (unknown)@192.168.0.3
+doorman::Fri Mar 17 18:45:39 2000 process 1355 died
+doorman::Fri Mar 17 18:45:39 2000 [0] NAWS = 80x31
+doorman::Fri Mar 17 18:45:39 2000 [0] TTYPE = vt100

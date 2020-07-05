@@ -1,0 +1,37 @@
+
+Chat by Christopher G. Busch
+(c) 1995 All Rights Reserved
+
+During the summer of '95 I added a MERC mud interface into this  program.
+In this way NPC's are able to hold better conversations.
+
+To install this system into a MERC mud, you will need to make a soft link
+to chat.data.  I encourage people to attempt to port this code to other
+MUDs. 
+
+
+Please see the chat.doc file.
+
+The following files are included with this distribution.
+
+Makefile
+README
+akey.C
+akey.hpp
+allkeys.C
+allkeys.hpp
+chat					#this file will be made by make
+chat.database.example
+chat.doc
+chatmain.C
+chatmain.hpp
+chatwithme
+demo
+eliza.C
+eliza.hpp
+test.data
+
+--
+Chris Busch                    "Slugs can also be trapped using a variety
+cbusch@d.umn.edu                           of bait, including beer and 
+http://www.d.umn.edu/~cbusch/               cocoa." - The Waste Paper

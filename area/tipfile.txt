@@ -1,0 +1,64 @@
+this is Xania's tip wizard. Type 'tips' to turn this on/off.~
+
+type 'help' to see the main help menu.~
+
+type 'commands' to view the list of commands available to you.~
+
+you can see who else is playing by typing 'who'.~
+
+you can view your character's state by typing 'score'.~
+
+type 'info' to view the skill groups your character has.~
+
+if you get lost type 'recall' to return to the city of Midgaard.~
+
+type 'practice' to view your current skills and spells.~
+
+type 'train' in a training room to see what characteristics
+     you can improve.~
+
+type 'outfit' to equip yourself with some basic adventuring gear.~
+
+type 'afk' when you go Away From your Keyboard.~
+
+type 'afk <message>' to tell other players why you're unavailable.~
+
+you can talk to other players using commands like 'gossip' or 'tell'.~
+
+you can see a list of the Xanian lands by typing 'areas'.~
+
+you can set various automatic options such as 'autoexit',
+     type 'auto' to get a list of the options available to you.~
+
+type 'brief' to see shorter room descriptions when you walk around.~
+
+use the 'cast' command to use any spells your character may have.~
+
+the 'colour' command can be used to toggle ANSI colour mode.~
+
+use 'description' to create a textual description of your character.~
+
+you can use 'follow' and 'group' to team up with other players.~
+
+the 'note' command allows you read and post notes to other players.~
+
+to see players and creatures nearby, type 'where' or 'scan'.~
+
+you cannot kill other players on Xania but you can duel with them
+     when you reach level 20. See 'help challenge'.~
+
+type 'finger <player name>' to see if a player has been on
+     Xania recently. Use 'setinfo' to record info about yourself.~
+
+most commands can be abbreviated e.g. you can use the 'sleep' command
+     by typing 'sl'.~
+
+typing "." is equivalent to 'gossip', as "'" is say and "," is emote.~
+
+you can customise your command prompt, read 'help prompt'~
+
+the 'showdefence' command lets you show/hide defence actions such as
+     dodging and parrying in combat.~
+
+Xania has existed since 1995. It was created by Death, The Moog,
+     Faramir, Forrey, Wandera and Rohan. See 'help xania'.~

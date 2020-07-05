@@ -1,0 +1,2538 @@
+#Area 
+den.are~
+Den of Monsters~
+{60 90} Urugula Den of Monsters~
+18101 18150
+
+#HELPS 
+
+60 Den~
+	This is an area designed for level 60+ chars with difficult mobs on
+the first level, and mobs of increasing difficulty as you continue forward.
+The second floor is only for EXTREMELY brave (or psychotic) chars, as it has
+four level 100+ mobs.  All mobs have detection spells, and aren't summonable
+or charmable.  Almost all of the mobs are evil and aggro.  Many of the mobs
+under level 90 don't have sanc, but have twice the hps of normal mobs their
+level.  Many of the objects I included where either armor that is sorely 
+needed, a different weapon class from usual, or spells which I haven't seen
+adequately represented in pills/scrolls/etc.  A keyword for all mobs is 
+monster, in case you can't figure out the real one.
+~
+0 $~
+
+#MOBILES
+#18101
+Caretaker Monster~
+The Caretaker~
+The caretaker of the den stands here glaring at you.
+~
+An aged, yet sturdy looking, man stands here.
+He eyes you and says, "Are you sure you want to go in there?"
+~
+human~
+BHTV HNVaacc 0 0
+60 15 1d1+1299 1d1+199 10d5+20 punch
+-40 -40 -40 -20
+CDEFHKNQ ABE 0 0
+stand stand male 1000
+0 0 medium 0
+
+#18102
+Huge Pirhana Fish monster~
+A Huge Pirhana~
+A huge, hungry pirhana swims here.
+~
+A large pirhana leads a group of smaller fish swimming here.
+What's that in his mouth?  It looks like...intestines.
+~
+unique~
+BFT DFNPQVbbcc -1000 0
+65 25 10d50+2500 1d1+199 9d6+30 bite
+-43 -43 -43 -21
+CDEFHKMR ABER 0 HO
+stand stand neutral 0
+0 0 small 0
+
+#18103
+Pirhana Fish Monster~
+A Pirhana~
+A smaller fish swims alongside the huge pirhana.
+~
+You notice a smaller fish swimming here...but it notices you and attacks.
+~
+unique~
+BFT DFNPQVbbcc -1000 0
+60 22 1d1+1199 1d1+199 6d8+32 bite
+-40 -40 -40 -40
+DEFHKMR ABER 0 HO
+stand stand neutral 0
+0 0 small 0
+
+#18104
+Orca Monster~
+Orca~
+A huge, hungry killer whale patrols the waters here.
+~
+You peer at this monster as it starts swimming towards you.
+He looks just like Free Willy....cool.
+Oh crap; hey, get off my arm!
+ACCK!
+~
+unique~
+BFT DFNPQVaabbcc -1000 0
+75 30 11d200+7800 1d1+199 8d8+30 bite
+-45 -45 -45 -30
+CDEFHKMR ABELR JKQ HO
+stand stand neutral 0
+0 0 large 0
+
+#18105
+CREATURE BLACK LAGOON Monster~
+The Creature from the Black Lagoon~
+A large, man like creature floats in the water.
+~
+You realize you've seen this monster before-- perhaps in your nightmares.
+When it doesn't immediately attack, you start to turn away-- then it pounces.
+~
+unique~
+BFT DNPQVbbcc -1000 0
+85 40 10d200+10000 1d1+199 10d7+50 charge
+-50 -50 -50 -30
+CDEFHIKNR ABR G HO
+stand stand male 0
+0 0 medium 0
+
+#18106
+Jaws Shark Monster~
+Jaws~
+The king of all sharks, Jaws, swims silently here.
+~
+The monstrous Great White Jaws swims about here.
+~
+unique~
+BCFT DFHNPQTVbbcc -1000 0
+95 45 11d400+6600 1d1+199 10d8+50 bite
+-60 -60 -60 -40
+ACDEFHIKMNR ABLR LK EHNO
+stand stand male 0
+0 0 giant 0
+
+#18107
+Igor Monster~
+Igor~
+Igor stands here, waiting to help his master.~
+This guy sure is weird and snivelly.  You want to kill him to put him 
+out of his little freak misery.
+~
+dwarf~
+BCHT HPQVXcc -500 0
+70 32 1d1+5499 1d1+299 10d6+40 beating
+-40 -40 -40 -20
+DEFHIKN ABQ L J
+sit sit male 10000
+0 0 small 0
+
+#18108
+Doctor Frankenstein Monster~
+Doctor Frankenstein~
+A crazed looking doctor stands here pulling on his hair.
+~
+Haven't you seen this guy before?  Wait...it's Doctor Frankenstein; man
+does he look loony.  What's that weird book in his hand?
+~
+human~
+BCHRV NPQTVcc -1000 0
+80 35 1d1+12999 1d1+999 10d6+48 divine
+-60 -60 -60 -30
+CDEFGHIKNQ ABKLQ CJ 0
+stand stand male 50000
+0 0 medium 0
+
+#18109
+Frankenstein Monster~
+Frankenstein's Monster~
+A huge, shambling monster trudges about here.
+~
+You notice that this beast is composed of body parts from many individuals.
+As you inspect him further you realize that some parts were probably
+from hapless adventurers such as yourself.
+~
+giant~
+BCFV BDFHNPQTVcc -1000 0
+95 45 11d500+7500 1d1+99 9d9+50 beating
+-70 -70 -70 -35
+CDEFGHIKNQ ABKLQ CJ 0
+stand stand male 20000
+0 0 huge 0
+
+#18110
+Godzooki Monster~
+Godzooki~
+Godzooki, Godzilla's cute little buddy, stands here.
+~
+I guess "cute" is a relative term; this guy still looks like he could take
+your arm off.  He may not be as big as Godzilla, but he still looks rough.
+~
+dragon~
+BCHT HNPQTVcc -500 0
+75 35 10d200+5000 1d1+99 10d6+20 suction
+-45 -45 -45 -25
+ACDEFHIKMR ABEHIL JKQ OP
+stand stand male 10000
+0 0 large 0
+
+#18111
+Mothra Monster~
+Mothra~
+Mothra, the giant moth, hovers here, inspecting you.
+~
+The giant, bug-like Mothra hovers here, sizing you up.  It looks like it is
+just waiting for an opportunity to attack.
+~
+unique~
+BCHT BNPQTVcc -1000 0
+80 35 10d200+10000 1d1+99 10d7+40 pound
+-50 -50 -50 -35
+ACDEFHIKNR ABHIQ KR FO
+stand stand neutral 10000
+0 0 huge 0
+
+#18112
+Rhodan Dragon Monster~
+Rhodan~
+Rhodan the dragon lurks here.
+~
+He appears to be hunting Godzilla, but he decides you will do just fine.
+Man, his claws sure do look sharp.
+~
+dragon~
+BCFT BDFNPQTVcc -1000 0
+80 35 10d200+10000 1d1+99 10d7+40 shbite
+-50 -50 -50 -30
+CDFHPMR ABHIQ KR LO
+stand stand male 15000
+0 0 huge 0
+
+#18113
+Smog Monster~
+Smog Monster~
+A foggy, grungy monster sees you and attacks.
+~
+Godzilla's nemesis, this monster is made up entirely of trash and goop.
+It looks like your weapons won't have much affect on him.
+~
+unique~
+BCFTV BDFHNPQTVaacc -1000 0
+85 38 20d100+7000 1d1+99 10d7+45 digestion
+-100 -100 -100 -50
+ACDEFHIKNR ABDELQ 0 CJK
+stand stand neutral 25000
+0 0 giant 0
+
+#18114
+Mechazilla Monster Dragon~
+Mechazilla~
+A steel replica of Godzilla rests here.
+~
+Mechazilla looks exactly like Godzilla except he is made entirely of metal.
+~
+dragon~
+BCT HNPQTVcc -1000 0
+90 45 50d50+6500 1d1+99 10d7+45 wrath
+-50 -50 -50 -35
+ACDEFHIKMNR ABEHILQ CDJK O
+stand stand neutral 25000
+0 0 giant 0
+
+#18115
+Godzilla Monster Dragon~
+Godzilla~
+Godzilla, king of monsters, roars when you enter.
+~
+This giant lizard sure lives up to his reputation.  He is the toughest 
+monster you have ever seen, standing over 50 feet tall.
+That must be why he has the Orb of the Dragon Kings.
+~
+dragon~
+BCFT BDFHNPQTVcc -1000 0
+100 50 500d11+7500 1d1+99 10d8+60 chomp
+-80 -80 -80 -40
+ACDEFHIKMNR ABELQ DK I
+stand stand male 50000
+0 0 giant 0
+
+#18116
+Mighty Joe Young Gorilla Monster~
+Mighty Joe Young~
+A large gorilla swings about the trees here.
+~
+Mighty Joe Young...Who's that?  The poor simian is other overlooked
+because of his bigger buddy, but overlooking him now would be a big mistake.
+~
+giant~
+BCHT DNPQVcc -500 0
+85 40 200d11+7800 1d1+99 10d7+50 slap
+-50 -50 -50 -30
+CDFHINR ABEHILQ K OP
+stand stand male 10000
+0 0 large 0
+
+#18117
+King Kong Gorilla Monster~
+King Kong~
+King Kong sneers at you then attacks.
+~
+The legendary gorilla dwarfs even the trees, standing over 50 feet tall.  
+His muscles bulge with power, and he begins to pound his hairy chest
+when he sees you.  You think it's time to leave...but it may be too late.
+~
+giant~
+BCFTV BDFHNPQTVcc -1000 0
+100 45 31d100+6900 1d1+99 10d8+65 beating
+-80 -80 -80 -40
+ACDEFGHIJKNR ABE 0 0
+stand stand male 25000
+0 0 giant 0
+
+#18118 
+Medusa Gorgon Monster~
+Medusa~
+Medusa, queen of the Gorgon, slithers along here.
+~
+She has the upper body of a woman and the lower body of a serpent.
+Her hair is a crown of snakes, and you feel stiffer when she glances at you. ~
+human~
+BFT FHNPQT -1000 0
+70 35 20d151+4980 1d1+299 10d6+40 wrath
+-50 -50 -50 -30
+DEFKMNR ABL K HIO
+stand stand female 10000
+0 0 medium 0
+
+#18119
+Chuckie Doll Monster~
+Chuckie~
+Chuckie is here, grinning psychotically.
+~
+He looks so little and cute...what's that gleaming in his hand?
+Why's he sawing at your Achilles's tendon?  Maybe you should attack.
+~
+human~
+BFT BDFHNPQVcc -1000 0
+75 35 30d151+4970 1d1+299 10d6+40 slice
+-45 -45 -45 -25
+BCDEFHIKR ABLQ 0 H
+stand stand male 15000
+0 0 small 0
+
+#18120
+Blob Monster~
+The Blob~
+A large amorphous mass is in the center of the room.
+~
+This monster has no form...what are you supposed to attack?
+Maybe you should start with the part wrapped around your throat.
+~
+unique~
+BFT BDFHNPQcc -1000 0
+85 35 50d51+6950 1d1+99 10d7+50 digestion
+-70 -70 -70 -35
+ACHNR ABDP 0 C
+stand stand neutral 0
+0 0 huge 0
+
+#18121
+Wolfman Monster~
+The Wolfman~
+The wolfman lurks here, waiting for you.
+~
+A kind looking man stands here welcoming you. Then, as you watch, a full
+moon rises.  The man screams in pain as hair sprouts all over his body
+and he becomes lupine.  When his transformation is complete, he pounces.
+~
+human~
+BFT DFHNPQVcc -1000 0
+85 35 50d51+6950 1d1+99 10d7+50 claw
+-60 -60 -60 -30
+CDEFHIJKNR ABLQ 0 OY
+stand stand male 30000
+0 0 large 0
+
+#18122
+Invisible Man Monster Shimmer~
+The Invisible Man~
+You see a slight shimmer in the air.
+~
+As you gaze more intently, you notice that the shimmer is vaguely man-shaped.
+Suddenly the form coalesces and dives for your throat.
+~
+human~
+BCFT BDFHNPQTcc -1000 0
+75 35 30d151+4970 1d1+9 10d6+50 punch
+-45 -45 -45 -25
+CEFHKNU ABE 0 0
+stand stand male 30000
+0 0 medium 0
+
+#18123
+Mummy Monster~
+The Mummy~
+The mummy comes limping towards you.
+~
+The embalmed body of a fallen pharoah comes shambling towards you.
+He reaches his rag-covered arms toward you and moans your name.
+~
+human~
+BCFT DFHNPQcc -1000 0
+75 35 30d151+4970 1d1+299 10d6+50 punch
+-45 -45 -45 -25
+CDFHIJKNR ABKLQ D H
+stand stand male 50000
+0 0 medium 0
+
+#18124
+Grim Reaper Monster~
+The Grim Reaper's minion~
+The minion of the grim reaper stands here, evaluating you.
+~
+He appears to be a large man shrouded in a heavy black cloak wielding a huge
+scythe.  When he looks up at you his cowl falls back, revealing a countenance
+which paralyzes you.  As if in a dream, a raspy voice mutters, "It is 
+your time."  You wonder if that might be the last thing you hear.
+~
+human~
+BCFO BDFNPQTVcc -1000 0
+85 40 50d51+8950 1d1+99 10d7+50 cleave
+-50 -50 -50 -35
+ACDEFHKNQ ABE KLQ 0
+stand stand male 0
+0 0 large 0
+
+#18125
+Phantom Opera Monster Man Deformed~
+The Phantom of the Opera~
+A grossly deformed man sits here playing an organ.
+~
+He doesn't hear you enter, and continues to play his keyboard.
+You reach out to remove his mask so that you can see his face, but just as
+you are about to touch it he whirls about and attacks.
+~
+human~
+BCFT DFNPQTcc -1000 0
+75 30 30d151+8970 1d1+99 10d6+50 beating
+-45 -45 -45 -25
+CEFIKNU AB 0 0
+stand stand male 30000
+0 0 medium 0
+
+#18126
+Blue Mistress Vampire Woman Monster~
+The Blue Vampire Mistress~
+A pale woman clothed in blue stands here.
+~
+As you peer at her closer you notice that she has two holes in her neck.
+While you are pondering where they came from, she tries to put two in you.
+~
+human~
+BCFO DFHNPQT -1000 0
+70 30 1d1+4999 1d1+99 10d6+50 shbite
+-40 -40 -40 -20
+DEFHKNR ABHILPQ K X
+stand stand female 0
+0 0 medium 0
+
+#18127
+White Mistress Vampire Woman Monster~
+The White Vampire Mistress~
+A pale woman clothed in white stands here.
+~
+Didn't you just kill her? No, this mistress is clothed in white (And 
+she looks alot meaner.)
+~
+human~
+BCFO DFHNPQT -1000 0
+72 30 1d1+5249 1d1+99 10d6+50 flbite
+-42 -42 -42 -21
+DEFHKNR ABHILPQ K X
+stand stand female 0
+0 0 medium 0
+
+#18128
+Red Vampire Mistress Woman Monster~
+The Red Vampire Mistress~
+A pale woman clothed in red stands here.
+~
+The third of the vampire mistresses stands before you.  She says, "Welcome...
+you have proven to be a worthy opponent.  Your journey ends here, though."
+She bares her teeth and lunges at you.
+~
+human~
+BCFO DFHNPQTcc -1000 0
+75 30 1d1+5499 1d1+99 10d6+50 frbite
+-45 -45 -45 -25
+DEFHIKNR ABHILPQ K X
+stand stand female 0
+0 0 medium 0
+
+#18129
+Black Mistress Vampire Woman Monster~
+The Black Vampire Mistress~
+A powerful woman clothed in black stands here.
+~
+The grand mistress glances at you as you enter the room.  "Another puny 
+mortal seeks our lord I see..  I'll save him the trouble of dealing with
+you," she says, then strikes with a flash of teeth and a spell on her breath. ~
+human~
+BCFO BDFHNPQTVcc -1000 0
+80 35 1d1+6499 1d1+999 10d7+50 acbite
+-50 -50 -50 -30
+CDEFHJKNR ABEHILOQ CD X
+stand stand female 0
+0 0 medium 0
+
+#18130
+Van Helsing Monster Hunter~
+Van Helsing~
+Van Helsing, the famous vampire hunter, stands here.
+~
+He says to you, "You may want a wooden weapon, like this stake.  I 
+believe that is all he is vulnerable to."
+~
+human~
+BT DFHNTVcc 1000 0
+85 35 1d1+6999 1d1+999 10d7+50 stab
+-80 -80 -80 -40
+ACDEFHIJKN ABH 0 0
+stand stand male 25000
+0 0 medium 0
+
+#18131
+Dracula Monster Vampire~
+Dracula~
+Dracula, lord of vampires, glares at you.
+~
+The Lord of the Vampires glances at you and says, "You are bolder than I 
+thought, but your life ends now.  You should never have invaded my sanctum."
+~
+human~
+BFOV BDFHNPQTVcc -1000 0
+105 50 500d11+6500 1d1+999 9d10+50 divine
+-70 -70 -70 -40
+ADEFHKNR ABELQ CD X
+stand stand male 50000
+0 0 huge 0
+
+#18132
+Pinhead Monster~
+Pinhead~
+Pinhead, the head hellraiser, stands here.
+~
+He says, "I will have your soul!" and fidgets with a box in his hands.
+Hooked chains fly from the box and tear at your flesh.
+~
+human~
+BCOV BHNPQTVcc -1000 0
+105 45 500d11+6500 1d1+99 8d10+50 divine
+-70 -70 -70 -50
+ACDEFHJKNR ABELQ K J
+stand stand male 100000
+0 0 large 0
+
+#18133
+Myers Monster Shatner~
+Michael Myers~
+Hey, is that William Shatner? Why's he so pale?
+~
+No, that's Michael Myers, and he is beating you with your own leg!
+~
+human~
+BCFOV BDFHNPQVcc -1000 0
+110 55 1d1+9999 1d1+99 9d10+55 beating
+-75 -75 -75 -45
+ACDEFHJKNR ABELQ K 0
+stand stand male 50000
+0 0 large 0
+
+#18134
+Man Freddy Krueger Monster~
+Freddy Krueger~
+The man of your dreams is here, flexing his claw.
+~
+From the hat, sweater, and claw, along with the witty conversation, you 
+can tell who this is...and man is he ugly.  He sure needs a dermatologist.
+~
+human~
+BCFOV BDFHNPQVcc -1000 0
+115 50 1d1+12999 1d1+99 10d10+55 divine
+-80 -80 -80 -45
+ACDERHJKNR ABELQ K 0
+stand stand male 100000
+0 0 huge 0
+
+#18135
+Jason Voorhees Monster~
+Jason Voorhees~
+He's back..the man behind the mask.
+~
+Your buddy Jason's here, dulling his machete...on your bones.
+~
+human~
+BCFOV BDFHNPQVcc -1000 0
+125 60 1d1+19999 1d1+99 11d10+60 beating
+-100 -100 -100 -50
+ACDEFHJKNR ABELQ K 0
+stand stand male 200000
+0 0 giant 0
+
+#18136
+Master Den~
+Urugula, Master of the Den~
+Urugula, master of the den, stands here.
+~
+He sure looks powerful; I bet he can do anything.  There probably is not
+a more powerful being in Thera.
+~
+elf~
+BJKUVbb DFH 1000 0
+145 100 1d1+4999 1d1+1999 1d1+199 divine
+-200 -200 -200 -200
+ABCDEFGHIJKNP ABCD 0 0
+stand stand male 5000000
+0 0 giant 0
+#0
+
+#OBJECTS
+#18101
+Gory Key~
+A Gory Key~
+A bloody key lies on the ground here.~
+steel~
+key ACE AO
+0 0 0 0 0
+60 5 0 P
+E
+gory key~
+This key carries an aura of importance with it-- I'd hold onto it.
+~
+#18102
+Brown Belt~
+A Brown Belt~
+A brown, leather belt lies here, looking rather inconspicuous.~
+leather~
+armor ABK AL
+12 12 12 12 0
+60 15 30000 P
+E
+Brown Belt~
+A brown leather belt lies here, begging to be worn.
+~
+A 
+6 -1
+A
+18 3
+A 
+19 3
+#18103
+Guppy Guts~
+Guppy Guts~
+The pirhana must have spit these out when he died...you sure you want them?~
+pill~
+pill 0 AE
+75 28 502 0 0
+65 20 3000 P
+E
+Guppy Guts~
+A mass of mangled intestines and other guts-- must have been lunch.
+~
+#18104
+Clawed Feet~
+Clawed Feet~
+The feet of the Creature were chopped off when you killed him.~
+Leather~
+armor ABJ AG
+17 17 17 0 0 
+80 20 35000 P
+E
+Clawed Feet~
+These feet look extremely deadly, yet clumsy.
+~
+A
+2 -1
+A
+18 4
+A
+19 4
+#18105
+Shark Tooth~
+A Shark's Tooth~
+This looks just like a tooth on the beach...except it's a foot long!~
+stone~
+weapon JM AN
+'dagger' 10 9 'bite' D
+91 10 45000 P
+E
+Shark Tooth~
+This is a long, wicked-looking tooth...it's former owner must have been huge.
+~
+A
+18 5
+A
+19 5
+#18106
+Hunchback Back~
+The Hunchback~
+The huge lump from Igor's back lies on the ground here.~
+leather~
+armor J AD
+14 14 14 28 0
+70 20 40000 P
+E
+Hunchback Back~
+A huge misshapen lump of flesh, it appears to be Igor's famous feature.
+The hunch is the source of Igor's power, but also the root of his lethargy.
+~
+A 
+2 -2
+A
+24 -10
+#18107
+Manual Undead~
+The Manual of the Undead~
+A dusty manual lies on the ground here.~
+vellum~
+armor ABCEJ AO
+15 15 15 50 0
+90 25 100000 P
+E
+Manual Undead~
+A dusty book, this is the prized, and most powerful, possession of the Dr.
+~
+A
+18 2
+A 
+19 2
+A 
+12 50
+#18108
+Scrambled Brains~
+Scrambled Brains~
+Man, Franky sure had some scrambled brains.~
+Leather~
+armor CJ AE
+20 20 20 0 0
+85 20 50000 P
+E
+Scrambled Brains~
+Yummy...good with toast.
+~
+A
+3 -5
+A
+4 -4
+#18109
+Decaying Arm~
+A Decaying Arm~
+A decaying arm lies on the ground here.~
+stone~
+weapon ABCEJ AN
+'flail' 10 8 'beating' 0
+80 15 40000 P
+E
+Decaying Arm~
+Man, you sure could flail away with this limb.
+~
+A
+19 10
+#18110
+Bubble Blower~
+The Bubble Blower~
+A cute little wand, like you had when you were a kid, lies here.~
+stone~
+weapon ABHM AN
+'exotic' 7 11 'suction' 0
+76 5 40000 P
+E
+Bubble Blower~
+This wand looks very powerful...and fun.
+~
+A
+18 1
+A
+19 1
+A
+23 -10
+#18111
+Wings~
+The Wings of Mothra~
+A pair of sturdy insectile wings float here.~
+leather~
+armor AB AI
+15 15 15 0 0
+80 1 40000 P
+E
+Wings~
+These wings look thin, yet powerful.
+~
+A 
+2 2
+A
+14 40
+#18112
+Claws~
+Rhodan's Claws~
+The claws of the giant dragon fell off in the tussle.~
+steel~
+armor ABJ AH
+15 15 15 0 0
+80 20 40000 P
+E
+Claws~
+These claws look sharp, but it will be hard to use a weapon with them on.
+~
+A
+18 -2
+A 
+19 6
+#18113
+Smoggy Aura~
+A Smoggy Aura~
+A dark cloud hangs in the air here.~
+stone~
+armor C AK
+16 16 16 0 0
+85 10 50000 P
+E
+Smoggy Aura~
+A murky, dirty cloud envelops your body, shielding you from harm.
+~
+A
+13 45
+A
+17 -6
+#18114
+Orb Dragon Kings~
+The Orb of the Dragon Kings~
+A huge orb sits on the ground here, calling you to pick it up.~
+stone~
+armor ABJHM AO
+23 23 23 23 0
+90 25 100000 P
+E
+Orb Dragon Kings~
+This orb radiates an aura of power.  Why are you standing here looking at
+it?  Go Kill Something Ya Naff!
+~
+A
+18 6
+A
+19 6
+
+#18115
+Huge Banana~
+A Huge Banana~
+There is a monstrous banana lying on the ground.~
+vellum~
+staff ABH AO
+60 10 10 99 0
+80 15 0 P
+E
+Huge Banana~
+Looks tasty, but you're sure it would weigh on you heavily if used.
+~
+#18116
+Hairy Chest~
+Kong's Hairy Chest~
+There is a hairy skin lying here.~
+leather~
+armor ABH AD
+22 22 22 0 0
+90 10 40000 P
+E
+Hairy Chest~
+Is this Faramir's back?  No, it must be Kong's chest.
+~
+A 
+1 2
+A 
+13 40
+#18117
+Gorgon Head~
+The Gorgon's Head~
+Medusa's head lies on the ground here.~
+leather~
+staff ABH AO
+70 10 10 66 0
+68 20 30000 P
+E
+Gorgon Head~
+The snake-covered head of Medusa is here.
+Just glancing at it, you feel your skin grow firmer.
+~
+#18118
+Ball Ectoplasm~
+A Ball of Ectoplasm~
+A squishy ball of the blob's dead ectoplasm lies here.~
+pill~
+pill AB A
+90 502 511 8 0
+85 10 10000 P
+E
+Ball Ectoplasm~
+Man is this grisly...I wonder what he had for lunch.
+~
+#18119
+Wrappings Rags~
+The Mummy's Wrappings~
+All that is left of the mummy is a pile of rags.~
+cloth~
+armor EHJ AI
+13 13 13 0 0
+75 10 40000 P
+E
+Wrappings Rags~
+A mound of decaying wrappings lies here...damn they stink!
+~
+A
+2 -2
+A
+13 40
+A
+9 100
+#18120
+Cowl~
+Cowl of the Reaper~
+A dark cowl lies on the ground here.~
+leather~
+armor ABFHJM AC
+20 20 20 10 0
+85 20 60000 P
+E
+Cowl~
+A moth-eaten, smelly cowl lies here.  He must have eaten beans before he 
+died....PEEYEW!
+~
+A
+12 50
+#18121
+Scythe~
+The Reaper's Scythe~
+An aura of death emanates from the scythe on the ground.~
+iron~
+weapon ABCEJ AN
+'polearm' 10 9 'beating' C
+90 15 40000 P
+E
+Scythe~
+This scythe looks really deadly and poisonous.
+~
+A
+18 4
+A
+19 4
+#18122
+Ghostly Mask~
+A Ghostly Mask~
+All that is left of the Phantom is his mask.~
+leather~
+armor ABFHJ AE
+17 17 17 0 0
+75 15 40000 P
+E
+Ghostly Mask~
+This mask must have covered all of the scars on the Phantom.
+Maybe you should wear it to cover your ugly excuse for a face...
+~
+A
+12 40
+A
+17 -8
+#18123
+Blue Bracer~
+Blue Bracer~
+A blue bracer lies here.~
+brass~
+armor ABCH AM
+17 17 17 0 0
+70 15 30000 P
+E
+Blue Bracer~
+The bracer of the blue mistress is now yours.
+~
+A
+19 5
+#18124
+White Bracer~
+White Bracer~
+A white bracer lies here.~
+brass~
+armor ABCH AM
+17 17 17 0 0
+72 15 30000 P
+E
+White Bracer~
+The bracer of the white mistress is now yours.
+~
+A
+18 5
+
+#18125
+Red Bracer~
+Red Bracer~
+The red bracer lies here.~
+brass~
+armor ABCH AM
+17 17 17 0 0
+75 15 30000 P
+E
+Red Bracer~
+The bracer of the red mistress is now yours.
+~
+A
+17 -12
+
+#18126
+Black Bracer~
+Black Bracer~
+The black bracer lies here.~
+brass~
+armor ABCH AM
+18 18 18 0 0
+80 15 40000 P
+E
+Black Bracer~
+The bracer of the black mistress is now yours.
+~
+A
+13 20
+A
+12 20
+#18127
+Bloody Stake~
+The Bloody Stake~
+The bane of Dracula lays here.~
+wood~
+weapon ABH AN
+'spear' 8 10 'stab' 0
+85 10 100000 P
+E
+Bloody Stake~
+You can feel an aura of power emanating from this piece of wood.
+It seemingly has one purpose...
+~
+#18128
+Fangs Vampire~
+The Fangs of the Vampire~
+Poison drips from the fangs lying on the ground.~
+steel~
+weapon ABHMO AN
+'exotic' 10 9 'bite' C
+90 20 100000 P
+E
+Fangs Vampire~
+This set of teeth has evil energy seeping from it.
+It is covered in blood...and plaque.  Eww...Drac needed to brush.
+~
+A
+18 5
+A
+19 5
+#18129
+Cloak Darkness~
+The Cloak of Darkness~
+You can barely make out the outline of a dark cloak.~
+leather~
+armor ABEFHJ AK
+23 23 23 23 0
+91 20 100000 P
+E
+Cloak of Darkness~
+Man is it dark.
+~
+A
+18 5
+A
+19 5
+
+#18130
+Runed Cube~
+The Runed Cube~
+A cube covered with runes and sigils sits here.~
+stone~
+weapon ABEFHJ AN
+'whip' 8 12 'scratch' 0
+91 5 150000 P
+E
+Runed Cube~
+As you look at the box it begins to change shape.  A piece detaches, rises,
+turns, and fits itself back in.  Then the chains come...
+~
+A
+18 3
+A
+19 3
+
+#18131
+Pinhead Head~
+The Pinhead~
+The head of Pinhead is lying here.~
+steel~
+armor ABEJ AE
+25 25 25 0 0
+91 20 100000 P
+E
+Pinhead Head~
+What more do you want?  It's Pinhead.
+~
+A
+18 3
+A
+19 5
+
+#18132
+Your Leg~
+Your Leg~
+Lying here on the ground is your leg...better pick it up.~
+steel~
+weapon ABEHJ AN
+'axe' 8 12 'cleave' 0
+91 15 100000 P
+E
+Your Leg~
+Hey..it's your leg.  Better slap it back on.
+~
+
+#18133
+Claw~
+Freddy's Claw~
+Freddy Krueger's claw lies here....watch out.~
+adamantite~
+weapon ABFHM AN
+'exotic' 8 12 'slash' 0
+91 15 200000 P
+E
+Claw~
+This is it..the claw, man.  What more could you want?
+~
+A
+18 7
+A
+19 7
+
+#18134
+Hockey Mask~
+Hockey Mask~
+A battered, bloody hockey mask lies here.~
+adamantite~
+armor ABFHM AE
+25 25 25 25 0
+91 25 150000 P
+E
+Hockey Mask~
+Hey, if you wear this maybe they'll play the cool music...
+Chh...chh...chh...wah...wah...wah...
+~
+A
+5 2
+A
+2 2
+A
+1 2
+
+#18135
+Machete~
+THE Machete~
+Man, is that a wicked looking machete.~
+adamantite~
+weapon ABHJM AN
+'sword' 8 12 'slice' 0
+91 15 250000 P
+E
+machete~
+This looks to be the wickedest weapon ever.  If I were you I wouldn't put
+it down.  Nevermind...you can't.
+~
+A
+18 4
+A
+19 4
+
+#18136
+Mom Finger~
+Mom's Finger~
+Ewww...there's a finger here...~
+steel~
+armor AB AB
+25 25 25 0 0
+91 5 200000 P
+E
+Mom Finger~
+This must be the source of Jason's power.  I wonder where her head is...hmm.
+~
+A
+6 1
+A
+13 35
+
+#18137
+Wing Bat~
+Wing of Bat~
+A bat wing lies here.~
+leather~
+staff AB AO
+80 15 15 56 0
+70 15 40000 P
+E
+Wing Bat~
+A bat wing lies here.
+~
+#18138
+Eye Earthworm~
+Eye of Earthworm~
+A worm's eye lies here.~
+pill~
+pill AB A
+90 15 0 0 0
+80 30 2500 P
+E
+Eye Earthworm~
+Hey, it's looking at you.
+~
+#18139
+Claw Frog~
+Claw of Frog~
+A frog's claw lies here.~
+leather~
+wand AB AO
+80 10 10 37 0
+70 30 30000 P
+E
+claw frog~
+A frog's claw lies here.
+~
+#18140
+Blood Snake~
+Blood of Snake~
+A vial of snake blood lies here.~
+stone~
+potion AB A
+80 43 0 0 0
+70 10 6000 P
+E
+vial blood snake~
+A vial of snake blood lies here.
+~
+#18141
+Skin Cat~
+Skin of Cat~
+Some cat skin lies here...wonder where the rest of it is...~
+vellum~
+scroll AB A
+90 35 0 0 0
+80 10 5000 P
+E
+skin cat~
+A cat's skin lies here...the rest tasted good, though.
+~
+#18142
+Den Map~
+Map of the Den~
+A map of the den lies here.~
+vellum~
+map 0 A
+0 0 0 0 0
+1 10 5000 P
+E
+Den Map~
+Key:  L=locked door  D=unlocked door  
+           N  U
+           |/ 		
+        W-----E 
+         / |
+        D  S                                          The Roof
+                                                        /D	
+     On a Moonlit   Doll     Near Two    In The      The 
+        Plain      Factory  Hairy Trees--Jungle      Lab
+To        |L          |L                 |L           |L     L	
+Hall--Hallway-----Hallway----------Hallway----------Hallway------Entrance
+          |L  	      |L                 |L           |L
+       In the     An Ancient  Mothra's  On a  Rhodan's|         
+        Hills       Temple     Lair ---Cliff-- Lair   |            
+                                     D   |   D       Near 
+                                    In the Air    the Shore	
+                                         |            |
+                                     Smoggy Air  On the Ocean		
+                                         |            |D     D
+                                      Near the  In Deep Water-Creature's	
+                                      Mountain                  Lair
+                                         |D                      |
+                                      On Top of               In Hot   Shark's
+                                     the Volcano              Water-----Cave
+
+
+
+        Top of   D Outside the  D  Bell
+      the Stairs----Bell Room------Room
+         /D
+     Middle of
+    the Stairs
+         /D
+      On the
+      Stairs
+         /D
+    Bottom of  D  In Front of      An Opera        An Ancient
+   the Stairs------a Castle         House            Crypt
+                       |L             |L               |L
+                     Hallway--------Hallway----------Hallway-----From Hallway
+        2nd Floor      |L             |L               |L
+               L\ A Stairwell  The Mausoleum       A Bedroom
+
+
+The Second
+Floor            Purgatory      Camp Crystal Lake                  
+                    |L                 |L
+                  Hallway------------Hallway----------The Inner Sanctum
+              L/    |L                 |L
+      1st Floor  Graveyard      The Boiler Room
+     
+Map by Urugula, who else?
+~
+#0
+#ROOMS
+#18101
+Entrance to the Den.
+     <<< Warning:  This is a high level, tough area, so watch out >>>
+~
+The reek of bloodied corpses emanates from the east, but the smell is far
+worse from the west. You stand in a dark cavern before a large steel door 
+which blocks the way west. Terror begins to encroach upon your mortal soul
+so I hope you have a spare set of underwear handy. If you are weak of heart
+then go no further west.
+~
+181 A 2
+D1
+The Ritual Chamber
+~
+~
+0 -1 27030
+D3
+The beginning of a dark hallway.
+~
+door~
+1 18101 18102
+S
+#18102
+The Beginning of a Dark Hallway~
+	You glance back east and notice the door is still open...last chance
+to leave.  There are doors to the north and south, and the hallway continues
+west.  From the south you hear the sound of waves.  You hear the sound of 
+machinery from the north.
+~
+181 ACD 0
+D0
+The lab.
+~
+~
+1 18101 18103
+D3
+Further along the hallway.
+~
+~
+0 -1 18111
+D2
+Near the shore.
+~
+door~
+1 18101 18105
+D1
+Entrance to the Den.
+~
+door~
+1 18101 18101
+S
+#18103
+The Lab~
+	You are standing in Dr. Frankenstein's lab.  Igor and the doctor are
+here looking triumphant.  I wonder why they keep staring upwards...what 
+could be up there?  You hear the sounds of lightning and thunder from outside
+and a steady downpour assails the roof.  You hear a strange moaning 
+coming from there also..perhaps you should open the hatch and investigate?
+~
+181 AD 0
+D2
+Beginning of the hallway.
+~
+door~
+1 18101 18102
+D4
+The roof.
+~
+hatch~
+1 -1 18104
+S
+#18104
+The Roof~
+	As you step through the hatch, your clothes are immediately soaked 
+through by the incessant downpour around you.  Lightning crashes upon the
+eaves of the building on which you stand, and thunder assails your eardrums.
+Lying on a table is a large man, measuring well over seven feet.  He
+looks peaceful resting on the slab, but as you approach his eyes snap
+open, and he lets out a horrible moan.  Perhaps it is time to go back inside.
+~
+181 A 4
+D5
+The lab.
+~
+hatch~
+1 -1 18103
+S
+#18105
+Near the Shore~
+	You stand on a beach near the shore.  The waves lap on the shore, which
+is to the north, and you can see a door leading to a hallway in that 
+direction, also.  As you stand here, the sun warms your body and instills
+in you a sense of adventure...perhaps you should explore the sea to the
+south.  All you see in the water are a group of small fish..they look 
+relatively harmless.
+~
+181 0 7
+D0
+The beginning of the hallway.
+~
+door~
+1 18101 18102
+D2
+On the ocean.
+~
+~
+0 -1 18106
+S
+#18106
+On the Ocean~
+	You're floating on the ocean when a group of small fish swims towards
+you.  They appear harmless at first, but when you observe them closer, you
+note that they have large, sharp teeth.  Perhaps it is time to abandon your
+adventure and swim north to safety.  Wait...off to the south you see a large
+whale swimming in the ocean..he looks just like Free Willy.  Maybe you should
+go visit with him or ask him for his autograph....bah..these little fish
+can't be that tough, eh?
+~
+181 0 6
+D0
+Near the shore.
+~
+~
+0 -1 18105
+D2
+In deep water.
+~
+~
+0 -1 18107
+S
+#18107
+In Deep Water~
+	You're farther out in the water now, and the smell of salt in the air
+is almost intoxicating.  The water looks very deep...deep enough for a large 
+whale to be swimming about here.  He looks like Free Willy...wait..Free Willy
+didn't have bloody teeth, did he?  Uh oh...perhaps you should paddle back 
+to the north or see what is behind the door to the east of you...anything
+but sit here with this monster.
+~
+181 0 6
+D0
+On the ocean.
+~
+~
+0 -1 18106
+D1 
+The creature's lair.
+~
+door~
+1 -1 18108
+S
+#18108
+The Creature's Lair~
+	You have swum into a small lagoon; the water in it appears to be almost
+black.  Haven't you been here before?  Perhaps in a badly produced black and
+white movie?  Nah..couldn't be.  As you approach the shore, a man-like 
+creature slinks out from behind a large stone.  His beady eyes glare at you
+and he is making funny puffy faces...what a geek.  As you are about to 
+dismiss him he leaps into the water and starts to swim purposefully towards
+your boat.  Man..his claws look much longer up close.  Perhaps you should 
+retreat back through the door to the west or swim to the south where the 
+coast appears to be clear.
+~
+181 0 6
+D3
+In deep water.
+~
+door~
+1 -1 18107
+D2
+In hot water.
+~
+~
+0 -1 18109
+S
+#18109
+In Hot Water~
+	You seem to be in no danger here, but you can hear the hissing of the
+creature to the north.  For some strange reason you feel like you're
+being watched...probably nothing.  You see an opening to the east which
+appears to lead to a large cave.  You hear swimming to the east...sounds
+like a large body, too.  Maybe it's Roseanne?  Dunno...perhaps you should
+check it out.
+~
+181 C 6
+D0
+The creature's lair.
+~
+~
+0 -1 18108
+D1
+A dark cave.
+~ 
+~
+0 -1 18110
+S
+#18110
+A Shark's Cave~
+	There is a huge shape floating in the water here...it looks to be 15 to
+20 feet long.  That couldn't be Roseanne..although it looks to be about the same
+heft as her.  As you watch the shape rears back, and a pair of huge jaws
+emerge from the watters surface....ooh...someone needs some Scope.  Wait, 
+I've seen that fish before; it's that great white shark from Jaws.  Better
+high tail it back to the west before he catches up with you....
+~
+181 A 6
+D3
+In hot water.
+~
+~
+0 -1 18109
+S
+#18111
+The Hallway~
+	You have moved further along the dark hallway.  To the east is the   
+start of the hall, and you can go further along the hall to the west.  To the
+north you smell bananas and hear chest pounding, and to the south you hear 
+the screech of mighty dinosaurs.
+~
+181 A 0
+D1
+The beginning of the hallway.
+~
+~
+0 -1 18102
+D3
+Further along the hallway.
+~
+~
+0 -1 18121
+D0 
+In the jungle.
+~
+door~
+1 18101 18112
+D2
+On a cliff.
+~
+door~
+1 18101 18114
+S
+#18112
+In the Jungle~
+	You stand in a huge jungle.  The air is hot and oppressive, and you
+hear the sounds of many insects buzzing about you.  The screech of a monkey 
+interrupts your thought, and you see a huge gorilla swinging in the trees in 
+front of you.  He is large and grey and looks oddly fuzzy about the edges..like
+the characters in those old black and white movies.  No matter how hard you try
+you can't recall seeing this beast before.  To the west is a door leading 
+further in the jungle...to a pair of large tree trunks it appears.  The
+exit back to the hallway is south.
+~
+181 0 3
+D2
+The hallway.
+~
+door~
+1 18101 18111
+D3
+Near two hairy trees.
+~
+door~
+1 -1 18113
+S
+#18113
+Near Two Hairy Trees~
+	You stand deeper in the jungle near to hairy trees.  The buzzing of the 
+insects must be constant...how irritating.  You lean against one of the trees
+to shoo the bugs away from your ears...then the tree moves.  You hear a loud
+growl, and only then do you realize...those aren't trees..they must be legs.
+But whose legs?  You look up into a relatively human face and realize...
+hey..that's King Kong...cool.  Then, when he picks you up and swings you
+about by your arm, you realize..hey..not cool.
+~
+181 0 3
+D1
+In the jungle.
+~
+door~
+1 -1 18112
+S
+#18114
+On a Cliff~
+	You stand on a cliff overlooking a primitive jungle below.  You can 
+hear the bellow of large animals and the screeching of dinosaurs. Wait..there
+are not dinosaurs left.  From the west comes the sound of large wings...like a
+big horde of insects.  You can see a large dragon to the east.  A large cloud
+of smog floats in the air to the south...must be Los Angeles.  As you are
+about to leave, you notice a little dinosaur...with dimples?
+~
+181 0 4
+D0
+The hallway.
+~
+door~
+1 18101 18111
+D1
+Rhodan's lair.
+~
+door~
+1 -1 18116
+D2
+In the air.
+~
+~
+0 -1 18117
+D3
+Mothra's lair.
+~
+door~
+1 -1 18115
+S
+#18115
+Mothra's Lair~
+	You stand in the lair of the might bug Mothra.  He is floating in the
+air here sizing you up.  The way he is looking at you with those big buggy
+eyes...spooky.  Swat him!
+~
+181 0 9
+D1
+On a cliff.
+~
+door~
+1 -1 18114
+S
+#18116
+Rhodan's Lair~
+	A gigantic dragon flies here blotting out the sun.  The light glints
+off of his scarlet scales, and you can tell why he is a worthy adversary
+for Godzilla.  This room appears to be a nest of some sort, but there are 
+no children around..is that because noone likes Rhodan?  Possibly.  Yeah, he
+does seem a bit grumpy..perhaps now would be a good time to leave him.
+~
+181 0 9
+D3
+On a cliff.
+~
+door~
+1 -1 18114
+S
+#18117
+In the Air~
+	You are floating in the air south of the cliff and Godzooki.  To your
+south you can see primitive Los Angeles..or whatever that nasty smog is.  
+The top of a volcano is visible further to the south, and that seems to be
+the source of the inhuman shrieking you hear.  Perhaps you shouldn't 
+check that out?  Nah...go for the gusto.
+~
+181 C 9
+D0
+On a cliff.
+~
+~
+0 -1 18114
+D2
+Smoggy air.
+~
+~
+0 -1 18118
+S
+#18118
+Smoggy Air~
+	You have reached primitive Los Angeles...or whatever it is.  You can
+hardly see even 5 feet in front of you..man, this is as thick as pea soup.
+Suddenly the smog coalesces into a form which bears no resemblance to pea
+soup; it is the Smog Monster, arch-rival of Godzilla and all around gooey
+guy.  It's probably time to take to the hill and flee north or south (if
+you can get the door south open fast enough.
+~
+181 0 9
+D0
+In the air.
+~
+~
+0 -1 18117
+D2
+Near the mountain.
+~
+door~
+1 -1 18119
+S
+#18119
+Near the Mountain~
+	You are floating very close to the mountain now; you can see the 
+smoke and lava pouring from its cone, and there is a dark shape at the top
+of the cone breathing fire.  Standing in front of you is the target of your
+search..it's the one and only Godzilla.  Wait..why is he so shiny?  Damn,
+you haven't found the real Godzilla..you've found that imposter Mechazilla.
+Perhaps you should be cautious, though...I hear he is tough.
+~
+181 0 9
+D0
+Smoggy air.
+~
+door~
+1 -1 18118
+D2
+On top of the volcano.
+~
+door~
+1 -1 18120
+S
+#18120
+On Top of the Volcano~
+	You've finally reached the volcano's cone after picking your way
+between the lava and falling rocks.  Lava pours from the cone in front of
+you, and as you watch a giant dragon rises from the magma.  He towers above
+you and looks exactly like Mechazilla...except meaner.  You'd better run
+like the wind now..because his mouth is opening.
+~
+181 0 9
+D0
+Near the mountain.
+~
+door~
+1 -1 18119
+S
+#18121
+The Middle of the Hallway~
+	You are now in the middle of the hallway.  It continues forward to
+the west, and you can go back to the east..if you are scared that is. 
+Doors to the north and south lead to more danger...perhaps you should go
+east?
+~
+181 ACD 0
+D1
+The hallway
+~
+~
+0 -1 18111
+D3
+The hallway
+~
+~
+0 -1 18124
+D0
+The doll factory.
+~
+door~
+1 18101 18122
+D2
+An ancient temple.
+~
+door~
+1 18101 18123
+S
+#18122
+The Doll Factory~
+	You stand inside a factory watching the toys roll off of the conveyor
+belts.  Over in the corner, Urugula and Crash are playing with the little
+girlie dolls.  Boxes are stacked as high and far as the eye can see.  One 
+box in particular catches your eye..because it is shaking.  Did someone 
+leave the batteries in and the toy on?  As you watch, a knife juts out of
+the box and cuts it open; then a little head with red hair pops out and
+says, 'Wanna plaaaaaaaaay?'  Chuckie leaps out of the box and charges you.
+~
+181 AD 0
+D2
+The hallway.
+~
+door~
+1 18101 18121
+S
+#18123
+The Ancient Temple~
+	You stand in an ancient Greek temple, surrounded by statues of men.
+Are they heroes?  No..they all look to be in enormous pain...why would
+anyone make a statue like that, much less a whole room of them.  There are
+little trails in the dust...as if snakes have been sliding across the
+floor here.  Now that you think about it, you can hear the hissing and
+rattling of a snake somewhere.  You realize that the noise is coming
+from behind the pillar in front of you, and as you watch a woman with 
+snakes in her hair and a long tail slithers out and glares at you...
+watch out for them eyes.
+~
+181 AD 0
+D0
+The hallway.
+~
+door~
+1 18101 18121
+S
+#18124
+Even Further along the Hallway~
+	Man, won't this hall ever end?  It continues to the west and you
+can return east.  Once again, there are doors to the north and south.
+~
+181 ACD 0
+D0
+On a moonlit plain.
+~
+door~
+1 18101 18126
+D2
+In the hills.
+~
+door~
+1 18101 18125
+D1
+The middle of the hallway.
+~
+~
+0 -1 18121
+D3
+Farther along the hallway.
+~
+~
+0 -1 18127
+S
+#18125
+In the Hills~
+	You stand in a range of small hills.  As you watch, a glob of 
+jelly-like substance slides over a hill in front of you and approaches
+menacingly.  Your only escape is back the way you came...perhaps you 
+should take it.
+~
+181 A 2
+D0
+Farther along the hallway.
+~
+door~
+1 18101 18124
+S
+#18126
+On a Moonlit Plain~
+	You stand on a moonlit plain near a truckstop.  Loud music blares from
+the open door of the truckstop, and the light obscures your view of a 
+figure approaching you.  Perhaps you should be on your guard...  Wait, it
+is a kindly looking man offering you aid.  When he is a few feet from you,
+you notice that a cloud obscuring the full moon has just slid out from in
+front of it.  As your watch, the man doubles over in pain, and you hear 
+rips and tears...whether from the tearing of his garments, of the sudden
+elongation of his jaw, you do not know.  As you step forward to offer
+assistance, he lifts his face to you, and you notice that somehow he has
+grown a beard in the past 10 seconds...and fangs..and his eyes are yellow
+like a cat...perhaps now would be a good time to leave.  As you turn to
+flee he pounces on you..and it begins.
+~
+181 A 2
+D2
+Further along the hallway.
+~
+door~
+1 18101 18124
+S
+#18127
+Even Further than Further Down the Hallway~
+	You come to the realization that if you don't reach the end of the
+hallway soon you should turn back.  Perhaps the doors south and north 
+might offer some excitement, or there could be adventure further to the 
+west along the hall.
+~
+181 ACD 0
+D1
+The hallway.
+~
+~
+0 -1 18124
+D3
+The hallway.
+~
+~
+0 -1 18130
+D0
+An ancient crypt.
+~
+door~
+1 18101 18128
+D2
+A bedroom.
+~
+door~
+1 18101 18129
+S
+#18128
+An Ancient Crypt~
+	You stand in an ancient Egyptian tomb.  Obviously the pharoah
+buried here was powerful since there is a derth of gold and precious stones
+strewn about.  Those however are not the objects which catch your eye at 
+first.  Initially you see the large number of corpses, and you assume that
+he must have been great indeed to have had so many servants buried with
+him...then you see that some of them are wearing sneakers, and you realize
+you are in great danger while you remain in this tomb.  As you turn to 
+leave, you hear a faint shuffling behind you which you had dismissed
+earlier.  You realize your error when the sarcophagus behind you opens and
+a hand shoots out and grasps you about your throat...
+~
+181 AD 0
+D2
+The hallway.
+~
+door~
+1 18101 18127
+E 
+sarcophagus~
+You need to pay attention to what came out of it.....
+~
+E
+treasure~
+Don't be greedy.
+~
+S
+#18129
+A Bedroom~
+	You stand in an ordinary bedroom.  As you glance around, you 
+notice a pile of bandages on the bed, and a pair of glasses and a hat
+on the nightstand.  I wonder where their owner is...probably taking a 
+shower.  Glancing around the room, you see a large bag, like those they
+have at the bank, stuffed full of cash, and a cache of rings, necklaces,
+and other jewelry.  Either this guy's rich, or he is the world's best thief
+(Well next to Urugula that is.)  If he's this good, he's probably a tough
+guy..maybe it's time to exit stage north.  As you get ready to step out 
+the door, you feel a pressure upon your windpipe...almost as if there is
+a hand on it choking you...
+~
+181 AD 0
+D0
+The hallway.
+~
+door~
+1 18101 18127
+S
+#18130
+Near the End of the Hallway~
+	This hallway must have an end...because you are almost there.  The
+end of this hall is to the west, and you hear spooky music coming from 
+the door north.  A chill runs up your spine as you glance at the door to
+the south..your subconscious doesn't like that one.  Believe in ESP?  Might
+want to start now....keep out of there.
+~
+181 ACD 0
+D1
+The hallway.
+~
+~
+0 -1 18127
+D3
+The hallway.
+~
+~
+0 -1 18127
+D3
+The hallway.
+~
+~
+0 -1 18133
+D2
+The mausoleum.
+~
+door~
+1 18101 18132
+D0
+An opera house.
+~
+door~
+1 18101 18131
+S
+#18131
+An Opera House~
+	You have stepped into an ornate deserted theatre.  The balconies 
+are all empty, the seats untenanted, yet you still hear eerie music coming
+from somewhere in the building.  This guy must not be a very popular 
+artist, eh?  You stroll down the aisles towards the source and discover a
+secret room in the back of the hall.  There is a grand organ inside with
+large pipes jutting from its top.  Seated in front of it is a man wearing
+a long flowing cape and a mask over half of his face.  The melody he plays
+is haunting and you are spellbound by the music..almost to the point of
+sleep...better watch yourself; that guy could be dangerous.
+~
+181 AD 0
+D2
+A hallway.
+~
+door~
+1 18101 18130
+S
+#18132
+The Mausoleum~
+	You stand in a moldy mausoleum smelling the stench of death.
+Coffins are lain in orderly rows, and they are stacked almost to the
+ceiling.  An arm projects from one of them; it is covered with green and
+brown sores which ooze puss and a foul odor.  In the center there is a
+space occupied by a brand new looking coffin and one mourner wearing a 
+black cowl.  As you approach he turns to you and points at the name etched
+onto the coffin.  You gasp as you realize that the name is yours...and you
+know that you definitely don't want to be here...  Before you can flee
+from the room the figure draws a wicked-looking scythe from his cloak and
+bars the door.
+~
+181 AD 0
+D0
+The hallway.
+~
+door~
+1 18101 18130
+S
+#18133
+The End of the Hallway~
+	You have finally reached the end of the hallway.  You can return
+east now or try either of the doors to the north and south.  You hear the 
+beating of wings to the north, yet no sound comes from the door to the 
+south.  Pick your poison.
+~
+181 ACD 0
+D1
+The hallway.
+~
+~
+0 -1 18130
+D0
+The front of a castle.
+~
+door~
+1 18101 18134
+D2
+A stairwell.
+~
+door~
+1 18101 18141
+S
+#18134
+In Front of a Castle~
+	You stand in front of a large, gothic castle.  The windows are 
+shrouded in shadows, and the feel of death emanates from the structure.  A
+light is on in the room outside of the bell tower, but the rest of the
+castle is cloaked in darkness.  An inhuman scream pierces the quiet of the
+night, and you realize that it came from the castle..perhaps it would be
+a good idea to return south, but if you are feeling bold, you can enter
+the castle to the north.
+~
+181 AC 2
+D2
+The hallway.
+~
+door~
+1 18101 18133
+D0
+The bottom of the stairs.
+~
+door~
+1 18101 18135
+S
+#18135
+Bottom of the Stairs~
+	You stand at the bottom of a dark stairwell.  Stairs wend up the wall,
+and as you watch a pale woman clothed in blue approaches.  She wears a 
+smirk and her very presence frightens you.
+~
+181 AD 0
+D1
+In front of the castle.
+~
+door~
+1 -1 18134
+D4
+On the stairs.
+~
+door~
+1 -1 18136
+S
+#18136
+On the Stairs~
+	The stairs rise further upwards, but you can descend down if you so
+elect..perhaps down would be the better choice.  As you contemplate your
+decision, another woman wearing red garments descends the stairs, and you
+realize that your choice has already been made for you...
+~
+181 AD 0
+D5
+Bottom of the stairs.
+~
+door~
+1 -1 18135
+D4
+Middle of the stairs.
+~
+door~
+1 -1 18137
+S
+#18137
+The Middle of the Stairwell~
+	You have ascended halfway up the stairwell now, and before you can
+even get your bearings a woman shrouded in red leaps upon you from the 
+shadows.
+~
+181 AD 0
+D5
+On the stairs.
+~
+door~
+1 -1 18136
+D4
+Top of the stairs.
+~
+door~
+1 -1 18138
+S
+#18138
+Top of the Stairs~
+	You have reached the summit of the stairs, and the last of the 
+mistresses.  The white mistress, clothed in a white flowing gown, observes
+you from across the room.  She slowly approaches and says, 'Prepare 
+yourself adventurer' before she bears her fangs at you.  As she leaps, you
+look past her and note that you hear the ringing of a bell, and the screech
+of a bat, to the east.
+~
+181 AD 0
+D1
+Outside the bell tower.
+~
+door~
+1 -1 18139
+D5
+The middle of the stairs.
+~
+door~
+1 -1 18137
+S
+#18139
+Outside the Bell Tower~
+	You feel an ominous aura emanating from the room to the east, and
+as you ponder its ramifications, an aged and sagely looking many quietly steps
+into view in front of you.  He wears the trappings of a Medieval adventurer,
+and he says, 'Hello young adventurer, my name is Van Helsing; perhaps I
+may be of assistance to you?'  He wields a stake in his grasp, and looks like
+he knows how to use it.
+~
+181 AD 0
+D3
+The top of the stairs.
+~
+door~
+1 -1 18138
+D1
+The bell tower.
+~
+door~
+1 -1 18140
+S
+#18140
+The Bell Tower~
+	A huge coffin lies in the middle of the room, shrouded in the shadow
+of a huge, ancient bell which dominates the upper half of the room.  A chill
+runs through your bones as you peer at the sarcophagus, and you don't 
+the pale figure descending from the bell until he is upon you.
+~
+181 AD 0
+D3
+Outside the bell tower.
+~
+door~
+1 -1 18139
+S
+#18141
+A Stairwell~
+	You stand in a dark, dank stairwell.  A hatch up leads to certain
+danger, and you can return to the hallway to the north.  A small, worn
+sign is the only object within sight.
+~
+181 AD 0
+D0
+A hallway.
+~
+door~
+1 18101 18133
+D4
+The second floor.
+~
+hatch~
+1 18101 18142
+E
+sign~
+The sign says, "The second floor is extremely difficult; enter at your own 
+peril."
+~
+S
+#18142
+The Second Floor Hallway~
+	Not another hallway..sheesh.  You can return to the first floor
+by going down, or go east along the hallway.  You hear horrible screams
+and scratches coming from the door to the north, and it is deathly quiet
+to the south.
+~
+181 ACD 0
+D5
+A stairwell.
+~
+hatch~
+1 18101 18141
+D0
+Purgatory.
+~
+door~
+1 18101 18143
+D2
+A graveyard.
+~
+door~
+1 18101 18144
+D1
+The second floor hallway.
+~
+~
+0 -1 18145
+S
+#18143
+Purgatory~
+	You have stepped onto a wide, burning plain.  You hear the tortured
+screams of millions of souls, and you gaze upon all manners of atrocities.
+To your left there is a man with the flesh being stripped off of his bones.
+Off to the right a woman is being impaled upon thousands of small pins.
+5 figures stand out, and the leader of them appears to be a man who is
+dressed from head to toe in black leather and who has had hundreds of pins
+inserted into his face.  That's gotta hurt.
+~
+181 A 2
+D2
+The hallway.
+~
+door~
+1 18101 18142
+S
+#18144
+A Graveyard~
+	At first glance this appears to be a normal graveyard.  There are
+neat rows of plots in various stages of upkeep, but one plot in particular
+catches your eye.  It appears to have been filled in just today, for the
+topsoil looks soft and moist.  You glance at the headstone, and notice that
+it says:  Michael Myers 1970-
+As you bend over to make sure your eyes don't deceive you, a hand shoots out
+of the dirt and grabs your ankle.  You back off hurriedly, and a large
+figure crawls out of the grave.  He looks like William Shatner with a reeally
+bad tan.  Should you ask him about Star Trek or run?  I'd run.
+~
+181 AD 2
+D0
+The hallway.
+~
+door~
+1 18101 18142
+S
+#18145
+End of the Second Floor Hallway~
+	You have reached the end of the second hallway.  To the north and
+south you hear the screaming of victims, but there is a tranquil aura
+emanating from the door to the east, and you can return down the hallway to
+the west.  
+~
+181 ACD 0
+D3
+The hallway.
+~
+~
+0 -1 18142
+D1 
+The inner sanctum.
+~
+door~
+2 18101 18148
+D2
+The boiler room.
+~
+door~
+1 18101 18147
+D0
+Camp crystal lake.
+~
+door~
+1 18101 18146
+S
+#18146
+Camp Crystal Lake~
+	 You stand in the midst of a summer camp which appears deserted.
+As you ponder its emptiness, a piercing scream rips through the night air.
+Wait..you've seen this place before.
+Chh...Chh...Chh...Wah...Wah...Wah....
+What was that noise?  Ahh..probably just your imagination...you ARE scared.
+Chh...Chh...Chh...Wah...Wah...Wah....
+You hear a rustle in the woods and lose your composure...what's that spot
+on your pants?  As you are looking at the spot, the door to one of the 
+cabins flies open, and a man in a hockey mask drags a corpse out by its neck.
+Is that the Rangers goalie?  He must get in a lot of fights to get that much
+blood on his outfit.  Perhaps you should just retreat back to the hallway.
+As you are preparing to turn and flee, the man takes something from his 
+pocket..is that a finger?  Eww...  He replaces the finger, then pulls out a
+machete and begins to stalk you...
+~
+181 AD 0
+D2
+The hallway.
+~
+door~
+1 18101 18145
+S
+#18147
+The Boiler Room~
+	Steam comes pouring our of pipes...it sounds just like the screams
+of little children..wait, that is the screams of little children.  A sudden
+shrill shriek of metal upon metal pierces your eardrums and sends your
+senses reeling.  When you finally regain your composure you look up and
+see that a horribly disfigured man stands before you.  He is wearing a dirty
+green and red striped shirt and a fedora.  Is that Indiana Jones on crack?
+And why is he wearing that deadly looking glove on his hand?  Could this
+be the person who was torturing those innocent children?  You greet him, and
+he sneers at you.  Then he says, 'Welcome to my boiler room. Make yourself
+at home for you won't be leaving!'  He yells, "Welcome to prime time, bitch!"
+and lunges at you.
+~
+181 AD 0
+D0
+The hallway.
+~
+door~
+1 18101 18145
+S
+#18148
+The Inner Sanctum~
+	You have entered the room of the den master.  He seems glad to have
+company, and he invites you to sit down and rest by the fire.  He then tells
+you stories about how it was mudding in the old days and asks you if you
+need to practice, train or gain.  Man..he seems like a really cool guy, and
+he looks very powerful.  I bet he could do anything.  'Oh yeah,' he says,
+'would you like to buy some items you might need throughout your adventures?'
+~
+181 ACD 0
+D3
+The hallway.
+~
+door~
+1 18101 18145
+S
+#0
+#RESETS
+*
+M 0 18101 1 18101 1  1  	Caretaker  
+E 1 18101 5 17 		Gory Key
+E 1 18102 5 13		Brown Belt
+*
+M 0 18102 1 18106 1  1  	Huge Pirhana  
+E 1 18103 5 6		Guppy Guts
+*
+M 0 18103 3 18106 1  1  	Pirhana  
+*
+M 0 18104 1 18107 1  1  	Orca  
+*
+M 0 18105 1 18108 1  1  	C. Black Lagoon  
+E 1 18104 1 8 		Clawed Feet
+*
+M 0 18106 1 18110 1  1 	Jaws  
+E 1 18105 2 16 		Shark's Tooth
+*
+M 0 18107 1 18103 1  1  	Igor  
+E 1 18106 3 5 		Hunchback
+*
+M 0 18108 1 18103 1  1  	Dr. Frank  
+E 1 18107 2 17 		Manual of the Undead
+*
+M 0 18109 1 18104 1  1 	Monster  
+E 1 18108 1 6		Brains
+E 1 18109 1 16		Decaying Arm
+*
+M 0 18110 1 18114 1  1 	Godzooki  
+E 1 18110 5 16		Bubble Blower
+*
+M 0 18111 1 18115 1  1  	Mothra  
+E 1 18111 5 9           Mothra's Wings
+*
+M 0 18112 1 18116 1  1        Rhodan  
+E 1 18112 5 9		Rhodan's Claws
+*
+M 0 18113 1 18118 1  1  	Smog Monster  
+E 1 18113 1 12		Smoggy Aura
+*
+M 0 18114 1 18119 1  1  	Mechazilla  
+*
+M 0 18115 1 18120 1  1  	Godzilla  
+E 1 18114 1 17		Orb of the Dragon Kings
+*
+M 0 18116 1 18112 1  1  	Mighty Joe Young  
+E 1 18115 10 17 	Hug Banana
+*
+M 0 18117 1 18113 1  1  	King Kong  
+E 1 18116 1 5 		Hairy Chest
+*
+M 0 18118 1 18123 1  1 	Medusa  
+E 1 18117 10 17		Gorgon's Head
+*
+M 0 18119 1 18122 1  1 	Chuckie  
+*
+M 0 18120 1 18125 1  1 	The Blob  
+E 1 18118 10 17		Ball of Ectoplasm
+*
+M 0 18121 1 18126 1  1 	Wolfman  
+*
+M 0 18122 1 18129 1  1  	Invisible Man  
+*
+M 0 18123 1 18128 1  1  	The Mummy  
+E 1 18119 1 10 		Wrappings
+*
+M 0 18124 1 18132 1  1 	Grim Reaper  
+E 1 18120 2 3 		Cowl
+E 1 18121 5 16		Scythe
+*
+M 0 18125 1 18131 1  1 	Phantom of the Opera  
+E 1 18122 1 6 		Ghostly Mask
+*
+M 0 18126 1 18135 1  1  	Blue Mistress  
+E 1 18123 4 14		Blue Bracer
+*
+M 0 18127 1 18136 1  1 	White Mistress  
+E 1 18124 4 14 		White Bracer
+*
+M 0 18128 1 18137 1  1  	Red Mistress  
+E 1 18125 4 14		Red Bracer
+*
+M 0 18129 1 18138 1  1  	Black Mistress  
+E 1 18126 4 14		Black Bracer
+*
+M 0 18130 1 18139 1  1 	Van Helsing  
+E 1 18127 10 16 	Bloody Stake
+*
+M 0 18131 1 18140 1  1 	Dracula  
+E 1 18128 2 16		Fangs
+E 1 18129 2 12		Cloak of Darkness
+*
+M 0 18132 1 18143 1  1  	Pinhead  
+E 1 18130 4 16		Runed Cube
+E 1 18131 1 6		The Pinhead
+*
+M 0 18133 1 18144 1  1  	Michael Myers  
+E 1 18132 2 16		Your Leg
+*
+M 0 18134 1 18147 1  1 	Freddy Krueger  
+E 1 18133 2 16		Freddy's Claw
+*
+M 0 18135 1 18146 1  1 	Jason Voorhees  
+E 1 18134 1 6 		Hockey Mask
+E 1 18135 2 16		Machete
+E 1 18136 4 1 		Mom's Finger
+*
+M 0 18136 1 18148 1  1  	Master of the Den  
+G 1 18137 -1		Bat Wing
+G 1 18138 -1		Earthworm Eye
+G 1 18139 -1 		Frog Claw
+G 1 18140 -1 		Snake Blood
+G 1 18141 -1		Cat Skin
+G 1 18142 -1		Den Map
+* Closing/Locking Doors.
+D 0 18101 3 2 	Front Door
+D 0 18102 1 2
+D 0 18102 2 2  	Water Door
+D 0 18105 0 2 
+D 0 18107 1 1	After Orca
+D 0 18108 3 1
+D 0 18102 0 2	Dr. Frankenstein
+D 0 18103 2 2
+D 0 18103 4 1	Frank's Hatch
+D 0 18104 5 1
+D 0 18111 0 2	Jungle Door
+D 0 18112 2 2
+D 0 18112 3 1	Kong Door
+D 0 18113 1 1
+D 0 18111 2 2 	Door to Cliff	
+D 0 18114 0 2
+D 0 18114 3 1	Mothra Door
+D 0 18115 1 1
+D 0 18116 3 1	Rhodan Door
+D 0 18114 1 1
+D 0 18118 2 1	Smog Door
+D 0 18119 0 1
+D 0 18119 2 1	Godzilla Door
+D 0 18120 0 1
+D 0 18121 0 2	Doll Factory
+D 0 18122 2 2 
+D 0 18123 0 2	Ancient Temple
+D 0 18121 2 2
+D 0 18124 0 2 	Moonlit Plain
+D 0 18126 2 2
+D 0 18124 2 2	In the Hills
+D 0 18125 0 2
+D 0 18127 0 2	Ancient Crypt
+D 0 18128 2 2 
+D 0 18127 2 2 	Bedroom
+D 0 18129 0 2
+D 0 18130 0 2 	Opera House
+D 0 18131 2 2
+D 0 18130 2 2 	Mausoleum
+D 0 18132 0 2
+D 0 18133 0 2 	Front of Castle
+D 0 18134 2 2
+D 0 18134 0 1 	To Stairs
+D 0 18135 1 1
+D 0 18135 4 1 	To White
+D 0 18136 5 1
+D 0 18136 4 1 	To Red
+D 0 18137 5 1
+D 0 18137 4 1 	To Black
+D 0 18138 5 1
+D 0 18138 1 1 	To Van Helsing
+D 0 18139 3 1
+D 0 18139 1 1 	To Dracula
+D 0 18140 3 1
+D 0 18133 2 2 	To Stairwell
+D 0 18141 0 2
+D 0 18141 4 2	Hatch To 2nd
+D 0 18142 5 2
+D 0 18142 0 2 	Purgatory
+D 0 18143 2 2
+D 0 18144 0 2	Graveyard
+D 0 18142 2 2
+D 0 18145 2 2 	Boiler Room
+D 0 18147 0 2
+D 0 18146 2 2 	Crystal Lake
+D 0 18145 0 2
+D 0 18145 1 2	Inner Sanctum
+D 0 18148 3 2
+*
+S
+#SHOPS
+18136 1 5 9 19 23 100 50 0 23 Den Master
+0
+#SPECIALS
+M 18101 spec_thief
+M 18108 spec_guard
+M 18110 spec_breath_gas
+M 18111 spec_poison
+M 18112 spec_breath_any
+M 18113 spec_breath_gas
+M 18115 spec_breath_any
+M 18118 spec_poison
+M 18128 spec_poison
+M 18129 spec_cast_cleric
+M 18131 spec_cast_cleric
+M 18132 spec_cast_cleric
+S
+
+#$
+

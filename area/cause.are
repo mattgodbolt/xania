@@ -1,0 +1,670 @@
+#AREA   {-=91=-}  Wandera  Causway to Immortality~
+
+#ROOMS
+#26000
+Bottom of the air spiral~
+You are stood in the centre of a desolate plan.  Infront of you is a large
+collumn of air spiraling upwards.~
+26 0 2
+D4
+On the air spiral~
+~
+0 0 26001
+S
+#26001
+On the air spiral~
+You are walking up an air spiral, the wind blows around you chilling you to the
+bone.  The only way to go is up. ~
+26 0 2
+D4
+the air spiral~
+~
+0 0 26002
+S
+#26002
+On the air spiral~
+You are walking up an air spiral, the wind blows around you chilling you to the
+bone.  The only way to go is up. ~
+26 0 2
+D4
+Entrance Hall~
+~
+0 0 26003
+S
+#26003
+Entrance Hall~
+You stand in a great hall, a fierce light shines to the north.  All around you
+the music of the gods plays continually.
+
+If you think you are worthy of immortality you must prepar to walk north into
+the glowing light.  Befor you can enter the light you must remove all you armor
+and clothes and drop everything on the floor.
+You must be naked and humbile befor your gods.
+
+Now naked and without vanity you are ready to walk north into the light.
+
+Good Luck.~
+26 0 2
+D0
+a large oak door~
+~
+0 0 26004
+S
+#26004
+The guardians room~
+You are in a small room, There is a large oak door to the north the one you
+entered by has vanished there are steps spiraling upwards around the room.~
+26 0 0
+D0
+a large oak door~
+door~
+4 26005 26005
+D4
+a stair case~
+stairs~
+4 26006 26006
+S
+#26005
+Recovery room~
+After your fight with the monster you may need a little time to recover.
+There is a fountain here for you to drink from and some food to eat.
+If you have lost yuor nerve you may leave the corse way to the North
+East West or Down.  If you wish to continue go Up.~
+26 QN 0
+D0
+Bottom of the air spiral~
+~
+0 0 26002
+D1
+Bottom of the air spiral~
+~
+0 0 26002
+D3
+Bottom of the air spiral~
+~
+0 0 26002
+D4
+A small trap door~
+door~
+0 0 26007
+D5
+Bottom of the air spiral~
+~
+0 0 26002
+S
+#26006
+The viewing chair~
+You are in a large room, From here you can see all that goes on in the world.
+The master of knowledge sits here, he will be willing to help you if you pay
+him well.~
+26 NQS 0
+D0
+a magic mirror~
+mirror~
+0 0 3001
+S
+#26007
+a hideous room~
+You are in a hideous room, here on a throne sits your greed.~
+26 NQ 0
+D0
+a large oak door~
+door~
+4 26008 26008
+S
+#26008
+Recovery room~
+After your fight with the monster you may need a little time to recover.  There is a fountain here for you to drink from and some food to eat.  If you have lost yuor nerve you may leave the corse way to the North East West or Down.  If you wish to continue go Up.~
+26 QN 0
+D0
+Bottom of the air spiral~
+~
+0 0 26002
+D1
+Bottom of the air spiral~
+~
+0 0 26002
+D3
+Bottom of the air spiral~
+~
+0 0 26002
+D4
+a small trap door~
+door~
+0 0 26009
+D5
+Bottom of the air spiral~
+~
+0 0 26002
+S
+#26009
+a hideous room~
+You are in a hideous room, here on a throne sits your pride.~
+26 NQ 0
+D0
+a large oak door~
+door~
+4 26010 26010
+S
+#26010
+Recovery room~
+After your fight with the monster you may need a little time to recover.  There is a fountain here for you to drink from and some food to eat.  If you have lost yuor nerve you may leave the corse way to the North East West or Down.  If you wish to continue go Up.~
+26 QN 0
+D0
+Bottom of the air spiral~
+~
+0 0 26002
+D1
+Bottom of the air spiral~
+~
+0 0 26002
+D3
+Bottom of the air spiral~
+~
+0 0 26002
+D4
+a small trap door~
+door~
+0 0 26011
+D5
+Bottom of the air spiral~
+~
+0 0 26002
+S
+#26011
+a hideous room~
+You are in a hideous room, here on a throne sits your hatred.~
+26 NQ 0
+D0
+a large oak door~
+door~
+4 26012 26012
+S
+#26012
+Recovery room~
+After your fight with the monster you may need a little time to recover.  There is a fountain here for you to drink from and some food to eat.  If you have lost yuor nerve you may leave the corse way to the North East West or Down.  If you wish to continue go Up.~
+26 QN 0
+D0
+Bottom of the air spiral~
+~
+0 0 26002
+D1
+Bottom of the air spiral~
+~
+0 0 26002
+D3
+Bottom of the air spiral~
+~
+0 0 26002
+D4
+a small trap door~
+door~
+0 0 26013
+D5
+Bottom of the air spiral~
+~
+0 0 26002
+S
+#26013
+a hideous room~
+You are in a hideous room, here on a throne sits your jelasy.~
+26 NQ 0
+D0
+a large oak door~
+door~
+4 26014 26014
+S
+#26014
+Recovery room~
+After your fight with the monster you may need a little time to recover.
+There is a fountain here for you to drink from and some food to eat.
+If you have lost your nerve you may leave the corse way to the North.
+If you wish to continue go Up if you are good and true of heart or Down
+in you are full of evil intent.~
+26 QN 0
+D0
+Bottom of the air spiral~
+~
+0 0 26002
+D4
+a small tap door~
+~
+0 0 26015
+D5
+a small hatch~
+~
+0 0 26016
+S
+#26015
+a hideous room~
+You are in a hideous room, here on a throne sits your guilt.~
+26 NQ 0
+D0
+a large oak door~
+door~
+4 26017 26017
+S
+#26016
+a hideous room~
+You are in a hideous room, here on a throne sits your self respect.~
+26 NQ 0
+D0
+a large oak door~
+door~
+4 26018 26018
+S
+#26017
+Recovery room~
+After your fight with the monster you may need a little time to recover.  There is a fountain here for you to drink from and some food to eat.  If you have lost yuor nerve you may leave the corse way to the North East West or Down.  If you wish to continue go Up.~
+26 QN 0
+D0
+a large oak door~
+~
+0 0 26019
+D4
+a skylight~
+~
+0 0 26000
+S
+#26018
+Recovery room~
+After your fight with the monster you may need a little time to recover.  There is a fountain here for you to drink from and some food to eat.  If you have lost yuor nerve you may leave the corse way to the North East West or Down.  If you wish to continue go Up.~
+26 QN 0
+D0
+a large oak door~
+~
+0 0 26020
+D5
+a hole~
+~
+0 0 26000
+S
+#26019
+a hideous room~
+You are in a hideous room, here on a throne sits your self doubt.~
+26 NQ 0
+D5
+a large trap door~
+door~
+4 26021 26021
+S
+#26020
+a hideous room~
+You are in a hideous room, here on a throne sits your honour.~
+26 NQ 0
+D4
+a trap door~
+door~
+4 26021 26021
+S
+#26021
+Recovery room~
+After your fight with the monster you may need a little time to recover.  There is a fountain here for you to drink from and some food to eat.  If you have lost yuor nerve you may leave the corse way to the North East West or Down.  If you wish to continue go Up.~
+26 QN 0
+D0
+a massive marble arch~
+~
+0 0 26022
+S
+#26022
+A room of choices~
+You are in a massive room full of light you must decided what feelings lie
+deepest in your heart. Are you good or evil you must decide.~
+26 NQ 0
+D4
+a portal~
+portal~
+4 26023 26023
+D5
+a portal~
+portal~
+4 26024 26024
+S
+#26023
+GODS ROOM~
+HOW DARE YOU ENTER GODS ROOM
+NOW YOU WILL DIE!!~
+26 0 0
+S
+#26024
+SATANS ROOM~
+HOW DARE YOU ENTER SATANS ROOM
+NOW YOU WILL DIE!!~
+26 0 0
+S
+#0
+
+#MOBILES
+#26025
+guardian~
+the guardian~
+The guardian of the causeway
+~
+~
+human~
+B HNTVW 0 0
+93 50 1d1+8593 1d1+1323 10d9+46 claw
+-30  -30  -30  -10
+CDEFHIKNU AB 0 0
+stand stand female 5660
+0 0 medium 0
+
+#26026
+greed~
+your greed~
+An ugly monster that is your greed~
+~
+human~
+B HNTVW 0 0
+93 50 1d1+8694 1d1+1323 10d9+46 claw
+-30  -30  -30  -10
+CDEFHIKNU AB 0 0
+stand stand female 5792
+0 0 medium 0
+
+#26027
+pride~
+your pride~
+An ugly monster that is your pride~
+~
+human~
+B HNTVW 0 0
+93 50 1d1+8666 1d1+1323 10d9+46 claw
+-30  -30  -30  -10
+CDEFHIKNU AB 0 0
+stand stand female 5695
+0 0 medium 0
+
+#26028
+hatred~
+your hatred~
+An ugly monster that is your hatred~
+~
+human~
+B HNTVW 0 0
+93 50 1d1+8700 1d1+1323 10d9+46 claw
+-30  -30  -30  -10
+CDEFHIKNU AB 0 0
+stand stand female 5848
+0 0 medium 0
+
+#26029
+jealousy~
+your jealousy~
+An ugly monster that is your jealousy~
+~
+human~
+B HNTVW 0 0
+93 50 1d1+8393 1d1+1323 10d9+46 claw
+-30  -30  -30  -10
+CDEFHIKNU AB 0 0
+stand stand female 5681
+0 0 medium 0
+
+#26030
+self respect~
+your self respect~
+An ugly monster that is your self respect~
+~
+human~
+B HNTVW 0 0
+93 50 1d1+8691 1d1+1323 10d9+46 claw
+-30  -30  -30  -10
+CDEFHIKNU AB 0 0
+stand stand female 5745
+0 0 medium 0
+
+#26031
+honour~
+your honour~
+An ugly monster that is your honour~
+~
+human~
+B HNTVW 0 0
+93 50  1d1+8494 1d1+1323 10 d9  ++46  5
+-30  -30  -30  -10
+CDEFHIKNU AB 0 0
+stand stand female 5760
+0 0 medium 0
+
+#26032
+guilt~
+your guilt~
+An ugly monster that is your guilt~
+~
+human~
+B HNTVW 0 0
+93 50  1d1+8486 1d1+1323 10 d9  ++46  5
+-30  -30  -30  -10
+CDEFHIKNU AB 0 0
+stand stand female 5810
+0 0 medium 0
+
+#26033
+self doubt~
+your self doubt~
+An ugly monster that is your self doubt~
+~
+human~
+B HNTVW 0 0
+93 50  1d1+8782 1d1+1323 10 d9  ++46  5
+-30  -30  -30  -10
+CDEFHIKNU AB 0 0
+stand stand female 5643
+0 0 medium 0
+
+#26034
+adept of good~
+an adept of good~
+An adept of good~
+~
+human~
+B HNTVW 1000 0
+110 50 1d1+10000 1d1+1323 10d10+55 claw
+-30  -30  -30  -10
+SCDEFHIKNU AB 0 0
+stand stand female 6776
+0 0 medium 0
+
+#26035
+adept of evil~
+an adept of evil~
+An adept of evil ~
+~
+human~
+B HNTVW 0 0
+110 50 1d1+10000 1d1+1323 10d10+55 claw
+-30  -30  -30  -10
+SCDEFHIKNU AB 0 0
+stand stand female 6605
+0 0 medium 0
+
+#26036
+God~
+God~
+God stands here ~
+~
+human~
+B HNTVW 1000 0
+200 100 1d1+19296 1d1+1323 14d14+100 claw
+-30 -30 -30 -10
+CDEFHIKNU AB 0 0
+stand stand female 12479
+0 0 medium 0
+
+#26037
+Satan~
+Satan~
+Satan stand here~
+~
+human~
+B HNTVW -1000 0
+200 100 1d1+19243 1d1+1323 14d14+100 claw
+-30 -30 -30 -10
+CDEFHIKNU AB 0 0
+stand stand female 12229
+0 0 medium 0
+
+#26038
+master of knowledge~
+the master of knowledge~
+A wise old man sits here~
+~
+human~
+B HNTVW 0 0
+93 50 1d1+8766 1d1+1323 10d9+46 claw
+-30 -30 -30 -10
+CDEFHIKNU AB 0 0
+stand stand female 5691
+0 0 medium 0
+
+#0
+
+#OBJECTS
+#26005
+key~
+a key~
+an old key~
+glass~
+key Q AO
+0 0 0 0 0
+91 1 18346 P
+
+#26006
+key~
+a key~
+an old key~
+glass~
+key Q AO
+0 0 0 0 0
+91 1 18788 P
+
+#26008
+key~
+a key~
+an old key~
+glass~
+key Q AO
+0 0 0 0 0
+91 1 18575 P
+
+#26010
+key~
+a key~
+an old key~
+glass~
+key Q AO
+0 0 0 0 0
+91 1 18496 P
+
+#26012
+key~
+a key~
+an old key~
+glass~
+key Q AO
+0 0 0 0 0
+91 1 18388 P
+
+#26014
+key~
+a key~
+an old key~
+glass~
+key Q AO
+0 0 0 0 0
+91 1 18730 P
+
+#26018
+key~
+a key~
+an old key~
+glass~
+key Q AO
+0 0 0 0 0
+91 1 18616 P
+
+#26017
+key~
+a key~
+an old key~
+glass~
+key Q AO
+0 0 0 0 0
+91 1 18437 P
+
+#26021
+key~
+a key~
+an old key~
+glass~
+key Q AO
+0 0 0 0 0
+91 1 18544 P
+
+#26023
+key~
+a key~
+an old key~
+glass~
+key Q AO
+0 0 0 0 0
+91 1 19036 P
+
+#26024
+key~
+a key~
+an old key~
+glass~
+key Q AO
+0 0 0 0 0
+91 1 18771 P
+#0
+
+#RESETS
+
+D 0 26004 4 2
+D 0 26004 0 2
+D 0 26007 0 2
+D 0 26009 0 2
+D 0 26011 0 2
+D 0 26013 0 2
+D 0 26015 0 2
+D 0 26016 0 2
+D 0 26019 5 2
+D 0 26020 4 2
+D 0 26022 5 2
+D 0 26022 4 2
+
+
+
+
+M 0 26025 1 26004 1  1   the guardian into The guardians room  
+G   1  26005   1            a key in inventory
+G   1  26006   1            a key in inventory
+M 0 26038 1 26006 1  1   the master of knowledge into The viewing chair  
+M 0 26026 1 26007 1  1   your greed into a hideous room  
+G   1  26008   1              a key in Inventory &
+M 0 26027 1 26009 1  1   your pride into a hideous room  
+G   1  26010   1              a key in Inventory &
+M 0 26028 1 26011 1  1   your hatred into a hideous room  
+G   1  26012   1              a key in Inventory &
+M 0 26029 1 26013 1  1   your jealousy into a hideous room  
+G   1  26014   1              a key in Inventory &
+M 0 26032 1 26015 1  1   your guilt into a hideous room  
+G   1  26017   1              a key in Inventory &
+M 0 26030 1 26016 1  1   your self respect into a hideous room  
+G   1  26018   1              a key in Inventory &
+M 0 26033 1 26019 1  1   your self doubt into a hideous room  
+G   1  26021   1              a key in Inventory &
+M 0 26031 1 26020 1  1   your honour into a hideous room  
+G   1  26021   1              a key in Inventory &
+M 0 26035 1 26022 1  1   an adept of evil into A room of choices  
+G   1  26024   1              a key in Inventory &
+M 0 26034 1 26022 1  1   an adept of good into A room of choices  
+G   1  26023   1              a key in Inventory &
+M 0 26036 1 26023 1  1   God into GODS ROOM  
+M 0 26037 1 26024 1  1   Satan into SATANS ROOM  
+S
+
+#$

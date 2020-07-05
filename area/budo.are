@@ -1,0 +1,2691 @@
+#AREA
+
+
+
+#XX00
+
+budo.are~
+
+Budo School
+
+{10 90} Ralfa Budo School
+
+XX00 XX99
+
+
+
+#MOBILES
+
+
+
+#XX01
+
+samurai gate guard~
+
+Samurai gate guard~
+
+A heavily armed warrior is here, guarding the gate.
+
+~
+
+A heavily armed and armored guard eyes you suspiciously
+
+as you approach the gate.  He looks like a fearless warrior, ready
+
+to protect the gate with his life.  Finally, he decides to let you
+
+through.  Clearly, he finds you harmless enough.
+
+~
+
+human~
+
+ABGT H 1000 XX01
+
+80 5 50d10+4999 1d1+399 8d6+30 slash
+
+-20 -20 -20 -7
+
+CDEFIKU P B 0
+
+stand stand male 10
+
+AHMV ABCDEFGHIJK large 0
+
+#XX02
+
+student swordsman~
+
+A student swordsman~
+
+A student is here, practicing strikes and parries.
+
+~
+
+A beginner swordsman practices his strikes and blocks.
+
+His motions look rather clumsy right now, but if he keeps
+
+up the work he may very well become a formidable opponent.
+
+The student is so concentrated on his exercise, that he hardly 
+
+notices you.
+
+~
+
+human~
+
+ABGHT 0 0 XX02
+
+10 -1 2d7+121 1d1+99 1d10+2 slash
+
+1 1 1 12
+
+FI 0 0 0
+
+stand stand male 5
+
+AHMV ABCDEFGHIJK medium 0
+
+#XX03
+
+student swordsman~
+
+Intermediate student~
+
+An intermediate student swordsman is here.
+
+~
+
+An intermediate student swordsman is working on his fighting
+
+skills.  His practice armor looks rather old and battered.  So does the
+
+bamboo sword he is wielding.
+
+~
+
+human~
+
+ABCT V 0 XX03
+
+30 0 6d12+928 1d1+250 4d6+8 slash
+
+-1 -1 -1 1
+
+DEFIKU 0 0 0
+
+stand stand male 0
+
+AHMV ABCDEFGHIJK medium 0
+
+#XX04
+
+advanced student swordsman~
+
+Advanced student~
+
+An advanced student is here, sparring with a real sword.
+
+~
+
+An advanced student has almost completely mastered his weapon.
+
+He wields it confidently, as he engages in friendly combat
+
+with his fellow.  You feel that you'd better not interfere.
+
+~
+
+human~
+
+ABT 0 1000 XX04
+
+60 1 50d10+2500 1d1+300 8d6+28 slash
+
+-5 -5 -5 -2
+
+DEFIKU 0 0 0
+
+stand stand male 0
+
+AHMV ABCDEFGHIJK medium 0
+
+#XX05
+
+ninja spy~
+
+Ninja~
+
+A ninja is here, lurking in the shadows.
+
+~
+
+A hired ninja spy is here, on a mission from another
+
+samurai clan.  He looks like a deadly fighter.
+
+Suddenly, he realizes that you've noticed him, and
+
+proceeds to rectify the situation in the fastest and 
+
+quietest way possible.
+
+~
+
+human~
+
+ABFHST PQV -1000 XX05
+
+70 1 1d1+4999 1d1+267 8d6+25 pierce
+
+-5 -5 -5 -2
+
+EFHIJKNU AB EFGFIKPNHOPQRT JS
+
+stand stand male 0
+
+AHMV ABCDEFGHIJK medium 0
+
+#XX06
+
+master swordsman instructor~
+
+The Master~
+
+The Master of the Budo School is here, observing his students.
+
+~
+
+The Master of the Budo school is a seasoned, experienced
+
+swordsman.  He has white hair and an aura of dignity about him.
+
+He calmly observes his students in training.  Occasionally, he utters
+
+a sharp command that is carried out immediately.  Bow before speaking
+
+to the Master...  And don't forget to add "Sir" at the end of each sentence!
+
+~
+
+human~
+
+ABT HNTV 1000 XX06
+
+120 10 1d1+8000 1d1+1000 10d6+50 slash
+
+-50 -50 -50 -50
+
+ACDEFHIKU 0 0 0
+
+stand stand male 0
+
+AHMV ABCDEFGHIJK medium 0
+
+#XX07
+
+ronin warrior dropout
+
+Ronin~
+
+A masterless samurai (ronin) is here.
+
+~
+
+This individual is dressed in dirty clothing.  He smells like
+
+hi hasn't washed for a while.  The sword he carries appears
+
+rusty and covered with blood stains.  The stranger willingly
+
+tells you that he was kicked out of the Budo school for the
+
+lack of respect to the instructor.  He now lives by his sword.
+
+~
+
+human~
+
+ABFHT 0 -500 XX07
+
+50 0 50d10+2000 1d1+300 2d6+20 slash
+
+-3 -3 -3 2
+
+DEFIKU AB 0 0
+
+stand stand male 0
+
+AHMV ABCDEFGHIJK medium 0
+
+#XX08
+
+samurai hall guard treasure~
+
+Samurai guard~
+
+A heavily armed warrior is guarding the treasure room.
+
+~
+
+A heavily armed and armored guard is displeased that you
+
+approach the treasury of the school.  He looks like a fearless
+
+warrior, ready to defend his master's possessions with his life.
+
+He considers your presence here inappropriate.  Nothing personal.
+
+~
+
+human~
+
+ABFT DFJH 500 XX08
+
+80 5 50d10+4999 1d1+399 8d6+30 slash
+
+-20 -20 -20 -7
+
+CDEFIKU AP B 0
+
+stand stand male 10
+
+AHMV ABCDEFGHIJK large 0
+
+#XX09
+
+meditating samurai monk~
+
+Meditating samurai~
+
+A warrior monk is here, practicing seated meditation.
+
+~
+
+A meditating warrior is not noticing you or anything else.
+
+He is submerged deep in meditation.  Trying to reach
+
+satori through zazen is the final part of his training.  The
+
+samurai might look harmless while he sits in meditation, but do 
+
+not fool yourself--his deadly sword is by his side, readier the ever.
+
+~
+
+human~
+
+ABT 0 1000 XX09
+
+90 5 1d1+6999 1d1+399 8d6+38 slash
+
+-30 -30 -30 -9
+
+DEFHIK P 0 0
+
+stand stand male 10
+
+AHMV ABCDEFGHIJK medium 0
+
+#XX10
+
+european traveler knight~
+
+Lonely european~
+
+A lonely european knight is here.
+
+~
+
+A lonely european knight is here, on the ambassadorial 
+
+mission from his government.  What he sees in the Budo
+
+School upsets him greatly--he knows he's no match for any
+
+of the warriors here.  He holds a Portuguese made archebuse
+
+that he hopes to trade for a good katana.
+
+~
+
+human~
+
+ABCHST 0 0 XX10
+
+60 -1 1d1+3500 1d1+250 8d6+25 slash
+
+-1 -1 -1 1
+
+CDEJK 0 0 0
+
+stand stand male 10
+
+AHMV ABCDEFGHIJK medium 0
+
+#XX11
+
+guest warrior~
+
+Guest master~
+
+An invited guest is here, practicing his Art.
+
+~
+
+This individual is obviously a guest of the Budo School.
+
+He is an adept of another Martial Arts discipline.  He is here
+
+to teach his Art, as well as to learn from others.  He wields his
+
+weapon with grace and confidence.
+
+~
+
+human~
+
+ABT H 0 XX11
+
+60 2 1d1+2500 1d1+300 8d6+28 hit
+
+-6 -6 -6 -3
+
+DEFIKU 0 0 0
+
+stand stand male 500
+
+AHMV ABCDEFGHIJK medium 0
+
+#XX12
+
+pet monkey~
+
+Pet monkey~
+
+Master's pet monkey is here, watching you curiously.
+
+~
+
+This cute little monkey looks like a friendly, charming pet.
+
+However, don't let the looks deceive you--it has been at
+
+the Budo School all it's life and learned a good deal.
+
+A green furry hand grabs for your food as you walk by.
+
+~
+
+human~
+
+ABCHS HPV 0 XX12
+
+40 0 1d1+999 1d1+199 4d8+13 scratch
+
+-3 -3 -3 -1
+
+EFHJKN 0 0 0
+
+stand stand either 400
+
+AHMV ABCDEFGHIJK small 0
+
+
+
+#OBJECTS
+
+
+
+#XX01
+
+armor samurai~
+
+Samurai body armor~
+
+Samurai's body armor is here, ready for battle.~
+
+leather~
+
+armor 0 AD
+
+17 19 18 15 2
+
+70 250 30000 P
+
+A 
+
+5 2
+
+A 
+
+12 40
+
+A 
+
+13 30
+
+A 
+
+17 5
+
+A 
+
+18 3
+
+A 
+
+19 3
+
+E
+
+armor samurai~
+
+Samurai armor is made of leather with metal scales attached.
+
+It is relatively light and does not restrain movement.
+
+~
+
+#XX02
+
+helmet mask samurai~
+
+Samurai helmet~
+
+Samurai's helmet is here, ready for battle.~
+
+steel~
+
+armor 0 AE
+
+18 19 17 15 1
+
+70 50 18000 P
+
+A 
+
+12 40
+
+A 
+
+18 3
+
+A 
+
+19 3
+
+E
+
+helmet mask samurai~
+
+Samurai helmet is made of a single sheet of metal, covering
+
+the head, neck, and part of the shoulders.  The opening on top
+
+is protected by the horns/wings.  It is completed by a fierce mask
+
+in the front.
+
+~
+
+#XX03
+
+naginata~
+
+Naginata~
+
+Naginata, the favored polearm of the samurai is lying here.~
+
+steel~
+
+weapon 0 AN
+
+polearm 7 10 slice F
+
+70 100 45000 P
+
+A 
+
+1 2
+
+A 
+
+18 4
+
+A 
+
+19 6
+
+E
+
+naginata~
+
+Naginata is a deadly weapon, with a curved, wide blade,
+
+not unlike that of a katana, only shorter and wider.  The
+
+heavy, five foot long shaft makes it a prime choice for
+
+open quarters combat.
+
+~
+
+#XX04 
+
+wooden sword~
+
+Wooden sword~
+
+A wooden practice sword is here.~
+
+wood~
+
+weapon 0 AN
+
+sword 2 8 slash 0
+
+10 20 100 P
+
+A 
+
+3 1
+
+A 
+
+4 1
+
+A 
+
+18 1
+
+A 
+
+19 1
+
+E
+
+wooden sword~
+
+The practice sword is but a piece of wood, carved
+
+to resemble a katana in shape.  Simple that it might
+
+be, it is sufficient for laying the foundation of warrior
+
+skill.
+
+~
+
+#XX05
+
+bamboo sword~
+
+Bamboo sword~
+
+A bamboo practice sword is here.~
+
+bamboo~
+
+weapon 0 AN
+
+sword 5 5  slash 0
+
+25 10 200 P
+
+A 
+
+2 1
+
+A 
+
+13 25
+
+A 
+
+18 2
+
+A 
+
+19 1
+
+E
+
+bamboo sword~
+
+This is a traditional sword for practice with a partner.
+
+Made of the three bamboo pieces tied together, it is 
+
+light and practical.  Large guard protects the hands of
+
+the wielder; wire wrapped handle provides a comfortable
+
+grip.
+
+~
+
+#XX06
+
+practice armor~
+
+practice armor~
+
+Practice armor is here.~
+
+bamboo~
+
+armor 0 AD
+
+ 6 7 6 7 2
+
+25 100 3000 P
+
+A 
+
+4 2
+
+A 
+
+13 20
+
+A 
+
+18 2
+
+E
+
+practice armor~
+
+Bamboo practice armor does not look like much,
+
+but it sure is an adequate protection.  In its long life
+
+it has saved a countless number of ribs.  It looks old
+
+and battered, but will serve another couple of 
+
+generations of students.
+
+~
+
+#XX07
+
+katana sword~
+
+Black hilted katana~
+
+Katana sword with a black hilt is here.~
+
+steel~
+
+weapon 0 AN
+
+sword 7 8 slash 0
+
+55 30 25000 P
+
+A 
+
+18 4
+
+A 
+
+19 4
+
+E
+
+katana sword~
+
+It's a beautiful black hilted single-edged sword with
+
+a brass guard.  The slightly curved blade looks very 
+
+new and has almost no notches.  As you drop a hair
+
+on its edge it splits the hair in two.
+
+~
+
+#XX08
+
+ninja short sword~
+
+Ninja short sword~
+
+Ninja short sword is here, gleaming wickedly.~
+
+steel~
+
+weapon F AN
+
+sword 6 11 pierce H
+
+65 20 50000 P
+
+A 
+
+2 1
+
+A 
+
+18 3
+
+A 
+
+19 2
+
+E
+
+ninja short sword~
+
+The weapon of the ninja looks simple and deadly.
+
+The short handle fits comfortably in your hand,
+
+and the sword is easy to conceal from the prying eyes.
+
+~
+
+#XX09
+
+ninja uniform~
+
+Ninja uniform~
+
+A black ninja uniform is lying here.~
+
+cloth~
+
+armor 0 AD
+
+14 13 14 13 1
+
+65 10 28000 P
+
+A 
+
+2 2
+
+A 
+
+3 1
+
+A 
+
+12 25
+
+A 
+
+14 15
+
+A 
+
+18 2
+
+A 
+
+19 2
+
+E
+
+ninja uniform~
+
+Black ninja uniform is soft and comfortable.  Its soft
+
+fabric does not rustle as you move.  The multitude of
+
+pockets and secret compartments makes it ideal for
+
+smuggling and stealing.
+
+~
+
+#XX10
+
+shuriken throwing star~
+
+Ninja throwing star~
+
+A ninja throwing star is here.  It's sharp, watch it!~
+
+steel~
+
+weapon 0 AN
+
+exotic 6 11 pierce H
+
+65 10 50000 P
+
+A 
+
+2 1
+
+A 
+
+18 3
+
+A 
+
+19 2
+
+E
+
+shuriken throwing star~
+
+A throwing star is the weapon of choice of assassins.
+
+Sharp-edged and poisoned it allows you to strike down
+
+an opponent without being too close to them.  However,
+
+a shuriken is only useful in the hands of a professional.  You
+
+might become one...Oh, you just cut yourself with it?  Never mind.
+
+~
+
+#XX11
+
+iron hand~
+
+Iron hand~
+
+Iron hand of a ninja is here, waiting to be worn.~
+
+steel~
+
+weapon 0 AN
+
+mace 6 11 crush 0
+
+65 80 50000 P
+
+A 
+
+2 1
+
+A 
+
+18 3
+
+A 
+
+19 2
+
+E
+
+iron hand~
+
+The iron hand is ninja's striking weapon.  Essentially,
+
+a steel glove, it makes a punch a formidable weapon,
+
+capable of breaking swords, shattering shields, bashing
+
+heads, etc.
+
+~
+
+#XX12
+
+bamboo sword~
+
+Master's bamboo sword~
+
+The bamboo sword of the Master lies here.~
+
+bamboo~
+
+weapon 0 AN
+
+sword 9 10 slash 0
+
+90 10 90000 P
+
+A 
+
+3 2
+
+A 
+
+4 2
+
+A 
+
+18 8
+
+A 
+
+19 3
+
+E
+
+bamboo sword~
+
+The bamboo sword of the Budo Master is rather 
+
+simple looking, but is revered by the practitioners,
+
+for it has been at the Master's side longer then
+
+anyone can remember.
+
+~
+
+#XX13
+
+robe robes~
+
+Budo Master's robe~
+
+Budo Master's robe is here.  Don't you dare touch it!
+
+cloth~
+
+armor 0 AK
+
+25 25 25 25 1
+
+90 20 100000 P
+
+A 
+
+3 3
+
+A 
+
+4 3
+
+A 
+
+5 1
+
+A 
+
+12 90
+
+A 
+
+13 30
+
+E
+
+robe~
+
+The robe of the Budo Master looks like that
+
+of a simple Zen monk.  Modest, dark blue
+
+cloth flows around the Master's body.  The
+
+only ornamentation is the red dragon, 
+
+painted on the back.
+
+~
+
+#XX14
+
+wand diploma~
+
+Budo School diploma~
+
+The diploma of the Budo School lies here.~
+
+paper~
+
+wand G AO
+
+85 5 5 'bless' 0
+
+90 10 80000 P
+
+A 
+
+3 4
+
+A 
+
+4 4
+
+A 
+
+12 100
+
+E
+
+wand diploma~
+
+A modest looking sheet of paper is before you.
+
+It bares an ink painted circle and a dragon seal.
+
+Despite its simplistic appearance, it's a document
+
+of great significance.  The recipient of such a 
+
+diploma is an accomplished warrior and a trained
+
+ Zen man.
+
+~
+
+#XX15
+
+rusty katana~
+
+Rusty katana~
+
+A rusty sword was left here carelessly.~
+
+steel~
+
+weapon 0 AN
+
+sword 4 12 slash H
+
+45 30 25000 P
+
+A 
+
+3 -1
+
+A 
+
+18 1
+
+A 
+
+19 1
+
+E
+
+rusty katana~
+
+This once beautiful sword looks neglected.  The blade
+
+is chipped, in places dull and rusting.  Several blood
+
+stains indicate that the sword was used recently, and
+
+not so recently cleaned.
+
+~
+
+#XX16
+
+katana crimson~
+
+Katana~
+
+A sword with a crimson ribbon is lying here.~
+
+steel~
+
+weapon 0 AN
+
+sword 8 9 slash 0
+
+70 30 45000 P
+
+A 
+
+1 1
+
+A 
+
+2 1
+
+A 
+
+18 5
+
+A 
+
+19 5
+
+E
+
+katana crimson~
+
+A katana of rare beauty is before you.  Looking
+
+at it you realize why these swords are considered 
+
+the best ever made.  The balance, the slenderness
+
+and glow of the blade are captivating.  A crimson
+
+ribbon on the scabbard completes this work of art.
+
+~
+
+#XX17
+
+monk robe robes~
+
+Monk's robes~
+
+A plain monk's robe was left here.~
+
+cloth~
+
+armor 0 AK
+
+20 20 20 20 1
+
+80 20 80000 P
+
+A 
+
+3 2
+
+A 
+
+4 2
+
+A 
+
+12 50
+
+A 
+
+13 10
+
+E
+
+monk robe robes~
+
+Monk's robe is old and worn.  Being one of
+
+the very few possessions of a wondering monk
+
+(or a swordsman in training) it has plenty of holes
+
+and rips.
+
+~
+
+#XX18
+
+armor~
+
+European armor~
+
+A Spanish armor is here, heavy and bulcky.~
+
+steel~
+
+armor 0 AD
+
+10 11 10 9 3
+
+55 300 30000 P
+
+A 
+
+5 1
+
+A 
+
+13 15
+
+A 
+
+19 2
+
+E
+
+armor~
+
+The armor of a European knight is heavy and clumsy,
+
+but it provides a feeling of safety.  Surely, a lengthy
+
+fencing match is not to your advantage now, but a
+
+stab in the back is no longer a worry--a plate of solid
+
+steel protects your back, sides, chest and abdomen.
+
+~
+
+#XX19
+
+rapier~
+
+Spanish rapier~
+
+A Spanish rapier is here.~
+
+steel~
+
+weapon 0 AN
+
+sword 7 8 pierce 0
+
+55 50 25000 P
+
+A 
+
+18 2
+
+A 
+
+19 3
+
+E
+
+rapier~
+
+A Spanish rapier is a work of art in itself.
+
+Its blade is made out of famous Milano steel.
+
+Double edged and pointed, this weapon can
+
+stab as well as cut.  The hand guard is richly
+
+ornamented with precious stones.
+
+~
+
+#XX20
+
+wand archebuse~
+
+Portuguese archebuse~
+
+An archebuse is here, propped against the wall.~
+
+steel~
+
+wand G AO
+
+45 5 5 'fireball' 0
+
+40 140 40000 P
+
+E
+
+wand archebuse~
+
+Being one of the earliest firearms, archebuse was
+
+inferior to crossbow in accuracy and range.  The heavy
+
+tube, spitting deadly fire, was more useful for intimidation,
+
+then for actual combat.  
+
+~
+
+#XX21
+
+chain~
+
+Long heavy chain~
+
+A long and heavy chain is here.~
+
+steel~
+
+weapon 0 AN
+
+whip 7 8 blast 0
+
+55 120 25000 P
+
+A 
+
+18 4
+
+A 
+
+19 4
+
+E
+
+chain~
+
+A piece of chain looks very heavy.  One hardly
+
+thinks of it as a weapon.  Yet in the hands of a
+
+master, few weapons are deadlier.  Also, few 
+
+weapons are as hard and as dangerous to learn as
+
+chain.
+
+~
+
+#XX22
+
+sai dagger sais daggers~
+
+A pair of sais~
+
+A pair of sai daggers is here.~
+
+steel~
+
+weapon 0 AN
+
+dagger 7 8 pierce F
+
+55 4 25000 P
+
+A 
+
+18 4
+
+A 
+
+19 4
+
+E
+
+sai sais dagger daggers~
+
+Sais appear to be little but a pair of thin daggers.
+
+But do not underestimate them--in the hands of an
+
+expert they are and ideal tool for trapping opponent's
+
+weapon.  In addition, sais are lighter and easier to
+
+conceal then most weapons.
+
+~
+
+#XX23
+
+nunchaks nunchaku~
+
+Pair of nunchaks~
+
+Two short wooden sticks are here, connected by a chain.~
+
+wood~
+
+weapon 0 AN
+
+flail 7 8 blast 0
+
+55 10 25000 P
+
+A 
+
+18 5
+
+A 
+
+19 3
+
+E
+
+nunchaks nunchaku~
+
+Nunchaks are one of the oldest weapons, an all-time
+
+favorite.  The "little dragon" is famous for it's 
+
+lightning speed and surprising usefulness in disarming
+
+opponents.  Nunchaks are almost as dificult to master as
+
+the chain.
+
+~
+
+#XX24
+
+chinese broadsword axe~
+
+Chinese broadsword~
+
+A Chinese broadsword is here.~
+
+steel~
+
+weapon 0 AN
+
+ax 7 8 chop 0
+
+55 120 25000 P
+
+A 
+
+18 2
+
+A 
+
+19 6
+
+E
+
+chinese broadsword~
+
+Chinese broadsword is one of the heaviest single-
+
+handed weapons.  Its wide blade can cut through
+
+almost anything.  But only a very strong person
+
+can wield it and use it efficiently.
+
+~
+
+#XX25
+
+spear~
+
+Spear~
+
+A long spear is here.~
+
+steel~
+
+weapon 0 AN
+
+spear 7 8 pierce 0
+
+55 60 25000 P
+
+A 
+
+18 4
+
+A 
+
+19 4
+
+E
+
+spear~
+
+You see a long spear, decorated by two
+
+hooks for pulling the horsemen down from
+
+their horses.  Only a naginata, a weapon of
+
+equal length, can match spear usefulness 
+
+on a battlefield.
+
+~
+
+#XX26
+
+cap~
+
+Red cap~
+
+A little red cap is lying here.~
+
+cloth~
+
+armor 0 AE
+
+5 5 5 5 0
+
+35 10 2500 P
+
+A 
+
+2 2
+
+A 
+
+3 -1
+
+A 
+
+12 20
+
+E
+
+cap~
+
+The little red cap belongs to the pet monkey.
+
+Hey, give it back!  It's too small for you anyway!
+
+~
+
+#XX27
+
+banana~
+
+a banana~
+
+A ripe, delicious banana is here.~
+
+food~
+
+food 0 A
+
+1 2 0 0 0
+
+0 1 10 P
+
+#XX28
+
+katana crimson~
+
+Katana~
+
+A sword with a crimson ribbon is lying here.~
+
+steel~
+
+weapon 0 AN
+
+sword 8 10 slash 0
+
+85 30 55000 P
+
+A 
+
+3 1
+
+A 
+
+4 1
+
+A 
+
+12 10
+
+A 
+
+18 6
+
+A 
+
+19 6
+
+E
+
+katana crimson~
+
+A katana of rare beauty is before you.  Looking
+
+at it you realize why these swords are considered 
+
+the best ever made.  The balance, the slenderness
+
+and balance of the blade are captivating.  A crimson
+
+ribbon on the scabbard completes this work of art.
+
+~
+
+#XX29
+
+katana master~
+
+Master's katana~
+
+The Master's sword is here.~
+
+steel~
+
+weapon 0 AN
+
+sword 10 10 slash 0
+
+90 40 100000 P
+
+A 
+
+1 1
+
+A 
+
+2 1
+
+A 
+
+3 1
+
+A 
+
+4 1
+
+A 
+
+18 8
+
+A 
+
+19 8
+
+E
+
+katana master~
+
+Master's sword is the oldest you've ever seen.  This
+
+marvel of swordmaker craftsmanship dates back
+
+to the times of war and unrest, honor and loyalty.  The
+
+decoration is scarce, the beauty of the weapon comes
+
+from its functionality.  This sword is a sacred symbol
+
+of the Budo School.
+
+~
+
+
+
+#ROOMS
+
+
+
+#XX01
+
+In front of the gate~
+
+You are standing in the middle of a clearing in a pine grove.
+
+The mountains rise to the south and west of you.  The gate to
+
+the Budo School is to the east.  You see a sign nailed to a tree
+
+and two flags on the posts.  One of the flags is slightly larger
+
+then the other.
+
+~
+
+0 0 2
+
+D0
+
+<To connection room.>
+
+~
+
+0 #<connection room> 0
+
+D1
+
+You see the gate of the Budo School.
+
+~
+
+0 #XX02 0
+
+extra
+
+sign~
+
+Welcome to the Budo School.  This area was coded by Ralfa.
+
+Lots of thanks to Warmanger for providing information and
+
+advice.
+
+BEWARE!  This area contains high level aggressive mobiles.
+
+~
+
+extra
+
+large flag larger banner~
+
+On the gray background you see a tripointed red Klingon sign.
+
+The arches of blue-white lightning connect its sharp tips.  In the
+
+middle of the Klingon sign there is a figure of a black raven,
+
+holding a curved sword in its claw.
+
+~
+
+extra
+
+small flag smaller banner~
+
+On this banner you see a winged, scaled creature, resembling a
+
+dragon.  Each of the six claws of the demon holds a weapon.  The
+
+top two claws hold a sword and a spear.  The middle two hold a 
+
+flail and a mace.  The lower claws wield a dagger and an ax.
+
+~
+
+S
+
+#XX02
+
+At the Gate~
+
+You are standing before the gate to the Budo School.
+
+The heavy doors are supported by the massive pillars
+
+in the shapes of giant serpents.  The wall extends north
+
+and south.  You can go east through the gate or west
+
+to the clearing.
+
+~
+
+0 0 2
+
+D1
+
+You peer into the training courtyard.
+
+~
+
+0 #XX04 0
+
+D3
+
+You see a clearing in the pine grove.
+
+~
+
+0 #XX01 0
+
+S
+
+#XX03
+
+North-West corner.~
+
+You are standing in the practice courtyard.  The place
+
+has an atmosphere of piety and learning about it.  The 
+
+ground is bare, except for the occasional patches of grass.
+
+The wall is to the north and west of you.  Practice 
+
+courtyard continues south and west.
+
+~
+
+0 0 2
+
+D2
+
+Practice courtyard immediately inside the gate.
+
+~
+
+0 XX04 0
+
+D1
+
+Northern practice courtyard.
+
+~
+
+0 #XX06 0
+
+S
+
+#XX04
+
+Inside the gates~
+
+You are standing in the practice courtyard.  The place
+
+has an atmosphere of piety and learning about it.  The 
+
+ground is bare, except for the occasional patches of grass.
+
+The gate is to the west of you, the practice courtyard 
+
+extends north east and south.  This part of the yard is
+
+designated for beginners.  Perhaps you should stay.
+
+~
+
+0 0 2
+
+D0
+
+North-West corner of the courtyard.
+
+~
+
+0 #XX03 0
+
+D1
+
+Central courtyard.
+
+~
+
+0 #XX07 0
+
+D2
+
+South-West corner of the courtyard.
+
+~
+
+0 #XX05 0
+
+D3
+
+Gates to the Budo School.
+
+~
+
+0 #XX02 0
+
+S
+
+#XX05
+
+South-West corner~
+
+You are standing in the practice courtyard.  The place
+
+has an atmosphere of piety and learning about it.  The 
+
+ground is bare, except for the occasional patches of grass.
+
+The wall is to the south and west of you.  The practice
+
+courtyard extends north and east.
+
+~
+
+0 0 2
+
+D0
+
+Inside the gates.
+
+~
+
+0 #XX04 0
+
+D1
+
+Southern courtyard.
+
+~
+
+0 #XX08 0
+
+S
+
+#XX06
+
+Northern courtyard~
+
+You are standing in the practice courtyard.  The place
+
+has an atmosphere of piety and learning about it.  The 
+
+ground is bare, except for the occasional patches of grass.
+
+The wall is to the north of you.  The practice courtyard 
+
+extends west, south and east.
+
+~
+
+0 0 2
+
+D3
+
+North-West corner.
+
+~
+
+0 #XX03
+
+D2
+
+Central courtyard.
+
+~
+
+0 #XX07 0
+
+D1
+
+Northern courtyard.
+
+~
+
+0 #XX09 0
+
+S
+
+#XX07
+
+Central courtyard~
+
+You are standing in the practice courtyard.  The place
+
+has an atmosphere of piety and learning about it.  The 
+
+ground is bare, except for the occasional patches of grass.
+
+The practice courtyard extends in all directions from here.
+
+The intermediate students practice here.  Are you sure you
+
+belong here?
+
+~
+
+0 0 2
+
+D0
+
+Northern courtyard.
+
+~
+
+0 #XX06 0
+
+D1
+
+Central courtyard.
+
+~
+
+0 #XX10 0
+
+D2
+
+Southern courtyard.
+
+~
+
+0 #XX08 0
+
+D3
+
+Inside the gate.
+
+~
+
+0 #XX04 0
+
+S
+
+#XX08
+
+Southern courtyard~
+
+You are standing in the practice courtyard.  The place
+
+has an atmosphere of piety and learning about it.  The 
+
+ground is bare, except for the occasional patches of grass.
+
+The wall is to the south of you.  Practice courtyard extends
+
+west, north, and east.
+
+~
+
+0 0 2
+
+D3
+
+South-West corner.
+
+~
+
+0 #XX05 0
+
+D0
+
+Central courtyard.
+
+~
+
+0 #XX07 0
+
+D1
+
+Southern courtyard.
+
+~
+
+0 #XX11 0
+
+S
+
+#XX09
+
+Northern courtyard~
+
+You are standing in the practice courtyard.  The place
+
+has an atmosphere of piety and learning about it.  The 
+
+ground is bare, except for the occasional patches of grass.
+
+The wall is to the north of you.  Practice courtyard extends
+
+west, south, and east.
+
+~
+
+0 0 2
+
+D3
+
+Northern courtyard.
+
+~
+
+0 #XX06 0
+
+D2
+
+Central courtyard.
+
+~
+
+0 #XX10 0
+
+D1
+
+Northern courtyard.
+
+~
+
+0 #XX12 0
+
+S
+
+#XX10
+
+Central courtyard~
+
+You are standing in the practice courtyard.  The place
+
+has an atmosphere of piety and learning about it.  The 
+
+ground is bare, except for the occasional patches of grass.
+
+Practice courtyard extends in all directions from here.
+
+This part of the courtyard is designated for the advanced
+
+students.  Are you up to the challenge?  Or should you
+
+rather go west?
+
+~
+
+0 0 2
+
+D0
+
+Northern courtyard.
+
+~
+
+0 #XX09 0
+
+D1
+
+Before the Master.
+
+~
+
+0 #XX13 0
+
+D2
+
+Southern courtyard.
+
+~
+
+0 #XX11 0
+
+D3
+
+Central courtyard.
+
+~
+
+0 #XX07 0
+
+S
+
+#XX11
+
+Southern courtyard~
+
+You are standing in the practice courtyard.  The place
+
+has an atmosphere of piety and learning about it.  The 
+
+ground is bare, except for the occasional patches of grass.
+
+The wall is to the south of you.  Practice courtyard extends
+
+west, north, and east.
+
+~
+
+0 0 2
+
+D3
+
+Southern courtyard.
+
+~
+
+0 #XX08 0
+
+D0
+
+Central courtyard.
+
+~
+
+0 #XX10 0
+
+D1
+
+Southern courtyard.
+
+~
+
+0 #XX014 0
+
+S
+
+#XX12
+
+Northern courtyard~
+
+You are standing in the practice courtyard.  The place
+
+has an atmosphere of piety and learning about it.  The 
+
+ground is bare, except for the occasional patches of grass.
+
+The wall is to the north of you, practice courtyard extends
+
+west, south, and east.
+
+~
+
+0 0 2
+
+D3
+
+Northern courtyard.
+
+~
+
+0 #XX09 0
+
+D2
+
+Before the Master.
+
+~
+
+0 #XX13 0
+
+D1
+
+South-East corner.
+
+~
+
+0 #XX15 0
+
+S
+
+#XX13
+
+Before the Master~
+
+You are standing in front of the Master's seat.
+
+Please do not disturb him with idle talk.  And if
+
+you do decide to speak with him--observe the
+
+etiquette, lest you end up like a man you've met
+
+at the clearing in front of the school.
+
+~
+
+0 0 2
+
+D0
+
+Northern courtyard.
+
+~
+
+0 #XX12 0
+
+D3
+
+Central courtyard.
+
+~
+
+0 #XX10 0
+
+D2
+
+Southern courtyard.
+
+~
+
+0 #XX14 0
+
+S
+
+#XX14
+
+Southern courtyard~
+
+You are standing in the practice courtyard.  The place
+
+has an atmosphere of piety and learning about it.  The 
+
+ground is bare, except for the occasional patches of grass.
+
+The wall is to the south of you.  Practice courtyard extends
+
+west, north, and east.
+
+~
+
+0 0 2
+
+D3
+
+Southern courtyard.
+
+~
+
+0 #XX11 0
+
+D0
+
+Before the Master.
+
+~
+
+0 #XX13 0
+
+D1
+
+South-East corner.
+
+~
+
+0 #XX17 0
+
+S
+
+#XX15
+
+North-East corner~
+
+You are standing in the practice courtyard.  The place
+
+has an atmosphere of piety and learning about it.  The 
+
+ground is bare, except for the occasional patches of grass.
+
+The wall is to the north and east of you, practice courtyard
+
+extends west and south.
+
+~
+
+0 0 2
+
+D3
+
+Northern courtyard.
+
+~
+
+0 #XX12 0
+
+D2
+
+In front of the hall.
+
+~
+
+0 #XX16 0
+
+S
+
+#XX16
+
+In front of the hall~
+
+You are standing in front of a traditional Japanese
+
+building, made entirely out of pine wood, darkened 
+
+by time.  It serves as sleeping quarters, dining hall,
+
+and meditation hall at the same time.  Sufficient
+
+simplicity of the structure and its appearance resemble 
+
+that of a Zen Buddhist temple.
+
+~
+
+0 0 2
+
+D0
+
+North-East corner.
+
+~
+
+0 #XX15 0
+
+D2
+
+South-East corner.
+
+~
+
+0 #XX17 0
+
+S
+
+#XX17
+
+South-East corner~
+
+You are standing in the practice courtyard.  The place
+
+has an atmosphere of piety and learning about it.  The 
+
+ground is bare, except for the occasional patches of grass.
+
+The wall is to the south and east of you; practice courtyard
+
+extends west and north.
+
+~
+
+0 0 2
+
+D3
+
+Southern courtyard.
+
+~
+
+0 #XX14 0
+
+D0
+
+In front for the hall.
+
+~
+
+0 #XX16 0
+
+S
+
+#XX18
+
+The Great Hall~
+
+You are inside the meditation hall.  Each trainee has his mat
+
+here.  The space no more then three by eight feet is where a
+
+warrior/monk sleeps, consumes his food, and meditates.  A
+
+small pagoda is located at the eastern end of the hall.  An 
+
+image of Manjushri, Bodhisattva of Wisdom, completes
+
+the decorum of the place.  The hall is made of the same
+
+darkened pine wood as the rest of the building.  You are
+
+welcome to stay here and meditate, as long as you remain
+
+silent--no idle sound is to be uttered here.
+
+~
+
+0 DK 0
+
+D3
+
+In front of the hall.
+
+~
+
+0 #XX16 0
+
+D1
+
+Treasure room.
+
+You really should not go there.
+
+~
+
+0 #XX19 0
+
+extra
+
+pagoda shrine small~
+
+The pagoda is a five foot tall stone structure,
+
+made out of gray sandstone.  A large image of 
+
+meditating Buddha is on the front panel.  The side 
+
+and back panels are decorated with relieves that 
+
+tell of Buddha's life and various jotaka tales.  
+
+Behind the pagoda you notice the entrance into 
+
+the treasure room of the Budo School. You really 
+
+don't belong in there.
+
+~
+
+S
+
+#XX19
+
+Treasure room~
+
+You are in the treasure room of the Budo School.
+
+Immediately, the most prized possession catches
+
+your attention--it is the Master's own katana.  Set
+
+on a simple sword stand of black lacquered wood it 
+
+dominates the room.  In fact, it is the only object
+
+in the room.
+
+~
+
+0 ADN 0
+
+D3
+
+The Great Hall.
+
+~
+
+0 #XX18 0
+
+S
+
+
+
+#RESETS
+
+
+
+M 0 XX07 XX01 1 1
+
+E 0 XX15 0 16
+
+M 0 XX01 XX02 2 2
+
+E 0 XX01 0 5
+
+E 0 XX02 0 6
+
+E 0 XX03 0 16
+
+M 0 XX01 XX02 2 2
+
+E 0 XX01 0 5
+
+E 0 XX02 0 6
+
+E 0 XX03 0 16
+
+M 0 XX11 XX03 5 1
+
+E 0 XX21 0 16
+
+M 0 XX02 XX04 2 2
+
+E 0 XX04 0 16
+
+M 0 XX02 XX04 2 2
+
+E 0 XX04 0 16
+
+M 0 XX11 XX05 5 1
+
+E 0 XX22 0 16
+
+M 0 XX12 XX06 1 1
+
+E 0 XX26 0 6
+
+G 0 XX27 0
+
+M 0 XX03 XX07 2 2
+
+E 0 XX05 0 16
+
+E 0 XX06 0 5
+
+M 0 XX03 XX07 2 2
+
+E 0 XX05 0 16
+
+E 0 XX06 0 5
+
+M 0 XX11 XX08 5 1
+
+E 0 XX23 0 16
+
+M 0 XX11 XX09 5 1
+
+E 0 XX24 0 16
+
+M 0 XX04 XX10 2 2
+
+E 0 XX07 0 16
+
+M 0 XX04 XX10 2 2
+
+E 0 XX07 0 16
+
+M 0 XX11 XX11 5 1
+
+E 0 XX25 0 16
+
+M 0 XX05 XX12 1 1
+
+E 0 XX08 0 16
+
+E 0 XX09 0 5
+
+G 0 XX10 0
+
+G 0 XX11 0
+
+M 0 XX06 XX13 1 1
+
+E 0 XX12 0 16
+
+E 0 XX13 0 12
+
+G 0 XX14 0
+
+M 0 XX10 XX14 1 1
+
+E 0 XX18 0 5
+
+E 0 XX19 0 16
+
+G 0 XX20 0
+
+M 0 XX09 XX18 2 2
+
+E 0 XX17 0 12
+
+E 0 XX28 0 16
+
+M 0 XX09 XX18 2 2
+
+E 0 XX17 0 12
+
+E 0 XX28 0 16
+
+M 0 XX08 XX19 2 2
+
+E 0 XX16 0 16
+
+E 0 XX01 0 5
+
+E 0 XX02 0 6
+
+O 0 XX29 0 XX19
+
+S
+
+#$

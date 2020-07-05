@@ -1,0 +1,195 @@
+#AREA
+ofcol.are~
+Ofcol~
+{ All } Alfa    Ofcol~
+5550 5580
+
+#ROOMS
+#5550
+Village street~
+You stand at the small village street in Ofcol.
+From here you see small houses and only few people.
+North of here the village street continues up to the small
+square where some people are gathered as always.
+~
+51 0 1
+D0
+You look up the village street noticing nothing special at all.
+~
+~
+0 -1 5551
+D2
+The wide road leads south here towards the T-crossing.
+~
+~
+0 -1 314
+S
+#5551
+Village street~
+You are standing on the village street of Ofcol.
+East from here is a small alley and north you enter the village
+square. Towards the south you can leave Ofcol.
+~
+51 0 1
+D0
+The village square is as usual not overcrowded.
+~
+~
+0 -1 5552
+D1
+The small alley looks relative peaceful.
+~
+~
+0 -1 5553
+D2
+You see the village street eventually becoming the wide road.
+~
+~
+0 -1 5550
+S
+#5552
+Village square~
+The village square is a place where inhabitants of Ofcol gather
+to talk, trade and sell items and just have a good time.
+You see a small shop to the west and the local inn to the north.
+If you leave south you go to village street.
+~
+51 0 1
+D0
+You see a local inn called 'The Ofcol Local Inn'. Looks nice.
+~
+~
+0 -1 5556
+D2
+You see the village street of Ofcol.
+~
+~
+0 -1 5551
+D3
+A small shop with the sign 'Luxan's Mixed goods' hanging in front of it.
+~
+~
+0 -1 5555
+S
+#5553
+The small alley~
+You are in a small, quiet alley.  From here you see the village street
+to the west and a small room lies to the south.
+~
+51 0 1
+D1
+You see a big intersection.
+~
+~
+0 0 601
+D2
+It looks like the future site of a training room.
+~
+~
+0 -1 5554
+D3
+You notice nothing but the village street.
+~
+~
+0 -1 5551
+S
+#5554
+The future training room~
+This is the future site of a training room.  The only exit is north
+leading to the small alley.
+~
+51 D 1
+D0
+You are able to see the small alley, really not very interesting.
+~
+~
+0 -1 5553
+S
+#5555
+Luxan's mixed shop~
+You are standing in a small shop, filled with all kinds of goods.
+Here you might be able to find just the thing you're looking for.
+The only exit is east to village square.
+~
+51 D 1
+D1
+The village square is as usual not overcrowded.
+~
+~
+0 -1 5552
+S
+#5556
+The Local Inn~
+You are in the local inn, where the peaceful citizens of Ofcol
+gather to have a drink or 5 if they have dry throats.
+You can't help thinking that Ofcol is a dry city, when you see the
+many people here.
+The only exit is south to the village square.
+~
+51 D 1
+D2
+The village square is as usual not overcrowded.
+~
+~
+0 -1 5552
+S
+#5577
+Ravan's hideout~
+This place is a small, cosy place where no one disturbs you all
+the time. The room has little decoration except for some pictures
+on the wall.
+You notice that there are no exits from this room.
+~
+55 0 0
+E
+pictures picture decoration~
+These pictures show the friend's and foe's of Ravan.
+They are easy to separate, as most of the foe's have the letters
+R.I.P. inscripted underneath them.
+~
+E
+foe foes enemies~
+There is only one picture yet... Dim.
+It pictures him hanging from a gallow, north of the town.
+It has the letters R.I.P. inscripted underneath.
+~
+E
+friend friends~
+The list include such prominent names as : God, Lottie, Kurgan,
+Ezzard, Mike, Sprocket and Stormbringer.
+~
+S
+#0
+
+#MOBILES
+#0
+
+#OBJECTS
+#0
+
+#RESETS
+M 0 303 5 5556 1  1    into The Local Inn  
+M 0 303 5 5550 1  1    into Village street  
+M 0 304 5 5553 1  1    into The small alley  
+M 0 304 5 5552 1  1    into Village square  
+E   1   3020   99     16      wielded                
+M 0 306 1 5555 1  1    into Luxan's mixed shop  
+G   1    304  100             in inventory
+G   1   3030  100             in inventory
+M 0 308 1 5556 1  1    into The Local Inn  
+G   1   3000  100             in inventory
+G   1   3001  100             in inventory
+M 0 350 1 5577 1  1    into Ravan's hideout  
+S
+#SHOPS
+
+
+
+
+
+
+  306	 1 10 11 19  0	 120   60	 0 23	; Luxan
+  308	 0  0  0  0  0	 110  100	 0 23	; Ofcol Innkeeper
+0
+
+#$

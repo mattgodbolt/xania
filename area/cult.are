@@ -1,0 +1,1629 @@
+#AREA   
+cult.are~
+Dragon Cult~
+{55 90} Sandman Dragon Cult~
+9850 9899
+
+
+#ROOMS
+#9850
+The Reception Area~
+This room is very barren.  There is a desk in the center of the room
+which looks very functional.  There is one painting on the wall, you can't
+quite make it out, because it is what these new artist fools call abstract.
+There is a small sign here and a door to the North.
+~
+98 D 0
+D0
+A door leads into the temple.
+~
+door~
+1 9825 9851
+D4
+The common square.
+~
+~
+0 -1 3025
+E
+sign~
+********  WARNING  ********
+This area is not for level grubbers.  It can be very
+dangerous, and you could die, and even loose your
+corpse.  It was designed to be a challenging area
+with many secrets and some cool EQ, but if you plan
+on an easy ride forget it, it's not here.
+- Sandman
+~
+S
+#9851
+A dimly lit corridor~
+Except for the fact that there is not much light here, this corridor looks
+very plain.  To the South is the reception desk, and to the North the corridor
+continues.
+~
+98 D 0
+D0
+The Corridor continues North.
+~
+~
+0 -1 9852
+D2
+A door leads into the Reception Area.
+~
+door~
+1 9825 9850
+S
+#9852
+Dragon Hall~
+The walls in this room are definately lined with paintings of Dragons
+and battles with Dragons.  In the later it always appears the Dragons are
+winning.  To the North there is an office and to the South there is a corridor.
+~
+98 CD 0
+D0
+You see an office.
+~
+~
+0 -1 9853
+D2
+You see a corridor.
+~
+~
+0 -1 9851
+E
+walls~
+The walls have intricate paintings of dragons upon them.  You see none
+of the good dragons in the paintings though, they are all of famous evil
+dragons like tiamat the five headed.
+~
+S
+#9853
+Tourist Office~
+Brochures every where!  Wow..... you wonder where they printed all of
+this because printing hasn't been invented yet. To the South you see Dragon
+Hall, there is a room to the west and a door to the east.
+ 
+There is a very prominent plaque on the wall.
+~
+98 D 0
+D1
+There is a door to the east.
+~
+door~
+1 -1 9880
+D2
+You see Dragon Hall.
+~
+~
+0 -1 9852
+D3
+You see the waiting room.
+~
+~
+0 -1 9871
+D5
+There is a trapdoor leading down.
+~
+trapdoor~
+1 -1 9854
+E
+plaque~
+The Dragon Cult Temple was created by Sandman,
+late one night, when he should have been studying
+for finals.  12/13/93
+ 
+Dragon Cult Temple revised & expanded
+Spring Break '94 by Sandman when he
+should have been working on his paper.
+~
+E
+brochures~
+The brochure reads:
+      ____________________________________
+      | C U L T  O F  T H E  D R A G O N |
+      |                                  |
+      | Join today and you too can share |
+      | in the many benefits a cult      |
+      | member can have.                 |
+      | advantages like:                 |
+      |   - never having a heating bill  |
+      |   - those cool robes             |
+      |   - free virgin sacrifice        |
+      |     tickets!                     |
+      |   - a cool haircut               |
+      |                                  |
+      | For all this and more call       |
+      | 1-800-FOR-DRGN                   |
+      |                                  |
+      | Remember: vote no on 13          |
+      | Citizens of Midgaard ban on      |
+      | Draconian activity.  If you      |
+      | feel like we do, Kill the Mayor  |
+      | TODAY!                           |
+      |__________________________________|
+~
+S
+#9854
+A five way intersection~
+Not much to say about this room, there are exits North, South, East,
+West, and Up.  There is a bright light coming from the South.
+~
+98 CD 0
+D0
+There is an exit.
+~
+~
+0 -1 9856
+D1
+A hallway leads east.
+~
+~
+0 -1 9857
+D2
+You see a bright light.
+~
+~
+0 -1 9855
+D3
+You see a hallway.
+~
+~
+0 -1 9859
+D4
+As you look up you can see a trapdoor.
+~
+trapdoor~
+1 -1 9853
+S
+#9855
+A Shrine~
+So THIS is where the light came from.  There are candles everywhere.
+In the center of the room there is a shrine with a statue of a Dragon
+on top of it.  It appears to be a place of worship. The only exit is to
+the North.
+~
+98 D 0
+D0
+You see the intersection.
+~
+~
+0 -1 9854
+S
+#9856
+The Tapestry Room~
+The wall of this room are covered with tapestries depicting, you guessed
+it, DRAGONS, of all sizes and colors.  You take a closer look and you see
+that the pictures are moving.  You feel uncomfortable in this room, you
+better leave.  The only exit is to the South.
+~
+98 D 0
+D1
+~
+secret~
+1 -1 9886
+D2
+You see the intersection.
+~
+~
+0 -1 9854
+S
+#9857
+A VERY ordinary hallway~
+This hallway is SO ordinary it almost BORES you to death.  The
+intersection is to the West and there is a door to the East.
+~
+98 D 0
+D0
+You see a small store.
+~
+~
+0 -1 9892
+D1
+You see a door.
+~
+door~
+1 -1 9858
+D3
+You see the intersection.
+~
+~
+0 -1 9854
+S
+#9858
+The Bathroom~
+Well even cultists have to take a dump every once in a while!  There
+is a horrible stench that is rising from the toilet, you don't
+even want to think about what this guy had for lunch. The only exit
+lies to the West.
+~
+98 D 0
+D3
+You see a door.
+~
+door~
+1 -1 9857
+S
+#9859
+A hallway~
+This portion of the hallway is lit by a strange glow that seems to be
+rising from the floor.  The farther you walk, the more you begin to
+sweat, which is very odd, because you are not hot at all.  The hallway
+leads both East and West.
+~
+98 D 0
+D1
+You see the intersection.
+~
+~
+0 -1 9854
+D3
+You see a bend in the hallway.
+~
+~
+0 -1 9860
+S
+#9860
+Bend in the hallway~
+You wonder what lies around the corner to the North.  You could always
+head back by going East.
+~
+98 D 0
+D0
+Its too far to make out.
+~
+~
+0 -1 9861
+D1
+You see a hallway.
+~
+~
+0 -1 9859
+S
+#9861
+A place of worship~
+This must be where the cultists conduct their cermonys, glofifying the
+Dragon.  You are now treading on their sanctified ground, take care
+not to step in the center where a circle is drawn in chalk upon the
+ground.  It seems this circle  is the center of attention of this entire room.
+And to think the cult wanted you to join!
+~
+98 D 0
+D0
+You see a staircase.
+~
+~
+0 -1 9894
+D2
+You still can run back to the hallway.
+~
+~
+0 -1 9860
+D5
+After searching you find a trapdoor.
+~
+trapdoor~
+1 -1 9862
+S
+#9862
+Dark Room~
+This room is very dark.  There is a ladder leading Up, and an exit to
+the South.
+~
+98 ACDK 0
+D2
+It's too dark to see anything.
+~
+~
+0 -1 9863
+D4
+You see a trapdoor.
+~
+trapdoor~
+1 -1 9861
+S
+#9863
+The Inner Circle~
+This is where plans for the future of the Dragon Cult are made.  Only
+High Priests are allowed in here, oh yeah and someone else.  There are
+exits to the north, east, and west.
+~
+98 D 0
+D0
+It's very dark.
+~
+~
+0 -1 9862
+D1
+You see a room.
+~
+~
+0 -1 9864
+D3
+You see a corridor.
+~
+~
+0 -1 9865
+S
+#9864
+Priests Quarters~
+The Priests of the Dragon Cult sleep here. The room is very neat and
+tidy, except for one large tile on the floor with dirt around the edges. The
+only way out is West.
+~
+98 D 0
+D3
+You see the inner circle.
+~
+~
+0 -1 9863
+D5
+You see an opening in the floor.
+~
+tile~
+1 -1 9887
+S
+#9865
+A forboding corridor~
+Whew this place really gives you the chills.  Exits are East and West
+and there is a cell to the North.  You hear a soft weeping coming from the
+cell.
+~
+98 AD 0
+D0
+There is a cell door here.
+~
+cell~
+1 9826 9866
+D1
+You see the inner circle.
+~
+~
+0 -1 9863
+D3
+It's not a safe place to go.
+~
+~
+0 -1 9867
+S
+#9866
+The Cell~
+This dark damp place is the cell where they keep the Virgin
+Sacrifices.  Beyond the door to the south is a forboding corridor.
+~
+98 ADN 0
+D2
+You see a cell door.
+~
+cell~
+1 -1 9865
+S
+#9867
+An even MORE forboding corridor~
+You are really getting somewhere now.  You can tell by the knots
+forming in your stomach.  Exits are East and if you REALLY wish to continue
+onward, West.
+~
+98 D 0
+D1
+It's the hallway you just came from.
+~
+~
+0 -1 9865
+D3
+Better not go that way.
+~
+door~
+1 -1 9868
+S
+#9868
+The Chamber of the High Priestess~
+You have entered the Bed Chamber of the High Priestess.  Now you're in
+trouble.  The high priestess is rumored to fornicate with Dragons,
+some even say that she is half Dragon herself... but a half Dragons and
+Dragons in Midgaard? Impossible.
+~
+98 D 0
+D0
+That way smells REALLY bad.
+~
+~
+0 -1 9869
+D1
+The forboding hallway isn't NEARLY as forboding as what lies beyond
+it.
+~
+door~
+1 -1 9867
+S
+#9869
+A foul smelling hallway~
+WHERE IS THAT AWFUL STENCH COMING FROM?
+WHAT COULD PRODUCE SUCH A SMELL?
+I don't know but it must be BIG!  A door is to the North and
+South, it sure smells better to the South.
+~
+98 D 0
+D0
+You see A BIG STEEL DOOR.
+~
+door~
+1 9827 9870
+D2
+You see the room in which the High Priestess resides.
+~
+~
+0 -1 9868
+S
+#9870
+Chamber of the Wyrmling~
+You have discovered what the Cult was hiding, and if the Black Dragon
+Wyrmling didn't "tell" you himself, the gnawed bones and large piles
+of Dragon defication should.  And they were intending on feeding another
+virgin to this horrible creature.  You shudder to think what this
+Wyrmling will be like if it ever grows up.  The only exit is to the South.
+~
+98 D 0
+D2
+You see a BIG STEEL DOOR, probably meant to keep the Wyrmling IN.
+~
+door~
+1 9826 9869
+S
+#9871
+The Waiting Room~
+This room is filled with chairs, coffee tables and magazines.  You may
+sit and rest here until your appointment.  The office has a number of
+sales represenatives that can help you, provided you made an
+appointment.  You did make an appointment didn't you?
+The tourist office is to the east and you see the main offices to the north.
+~
+98 D 0
+D0
+The main office.
+~
+~
+0 -1 9872
+D1
+You see the tourist office.
+~
+~
+0 -1 9853
+D3
+You see an evil glow.
+~
+door~
+1 -1 9873
+S
+#9872
+Entranceway to the Main Office~
+As you enter this place you feel it gets stranger and stranger.
+People are running around in odd clothes, moving papers from one place to
+another.  There is a shrill ringing sound, and then they pick up these
+things and put it up to their ears and mouths.  This sort of place is
+not meant to exist.
+~
+98 D 0
+D0
+You see a hallway in the office.
+~
+~
+0 -1 9874
+D1
+You see the middle of the office.
+~
+~
+0 -1 9878
+D2
+You see the waiting room.
+~
+~
+0 -1 9871
+D3
+You see a sales booth.
+~
+~
+0 -1 9879
+S
+#9873
+A strange room~
+The door snaps shut and you are left standing, locked in a small tight
+room... it does not look like there is any way out so you may as well lie down
+on the rug that covers the floor.
+~
+98 DN 0
+D5
+~
+trapdoor~
+1 -1 9866
+E
+rug~
+It's pretty big but It isn't nailed down or anything....
+hey you think there could be something under it?
+~
+E
+under~
+Yep you found it, a trapdoor....
+~
+S
+#9874
+A hallway in the office~
+This is a pretty normal place in an odd sort of way.  The
+craftsmanship seems incredible compared to the Inns you've been to in
+the past, but all in all it is a very ordinary building.  There is a
+picture on the wall.  Exits are South, back to the main part of the
+office, and there is a glass wall and open door to the west... there
+is some lettering in the glass.
+~
+98 D 0
+D0
+You see a staircase.
+~
+~
+0 -1 9893
+D2
+You see the main office.
+~
+~
+0 -1 9872
+D3
+You see Gale's office.
+~
+~
+0 -1 9875
+S
+#9875
+Gale's Office~
+Gale's office is very neat and organized, almost to the point of
+obsessive.  It seems that she runs the organization just as well as
+she runs her own office.  Gale is the backbone behind the business
+side of the orginization.  The employee's don't even bother with Fred,
+the boss, they just come here.  There is a desk here with some papers
+on it and some certificates on the wall. The only way out is back to the east.
+~
+98 D 0
+D1
+You see a hallway in the office.
+~
+~
+0 -1 9874
+S
+#9876
+Fred's Office~
+What a mess!  Fred's office is the epitome of disarray.  There a
+papers, cigar butt's, and other random junk everywhere.  Its amazing that
+anything ever gets done in here, or maybe not so, because nothing ever really
+does get done in here.  A huge desk is in the middle of the room, and the
+only way out is south.
+~
+98 D 0
+D2
+You see the middle of the office.
+~
+~
+0 -1 9878
+S
+#9877
+The break room~
+This heavily used room has all the necessary components of a perfect
+break room: Coffee, donuts, and more coffee.  Marie spends lots of time in
+here, because she really doesn't have that much to do.  The only exit is
+south.
+~
+98 D 0
+D2
+You see the copy room.
+~
+~
+0 -1 9882
+S
+#9878
+The middle of the office~
+This is an area where the employees try to work, on the various desks
+scattered around the room.  Unfortuneately this is also a major office
+intersection so they really can't concentrate that well.  Fred
+observes this area from his office to the north.  The Entranceway
+lies west and there is a copy room to the east.
+~
+98 D 0
+D0
+You see Fred's office
+~
+~
+0 -1 9876
+D1
+You see the copy room.
+~
+~
+0 -1 9882
+D3
+The entranceway to the office.
+~
+~
+0 -1 9872
+S
+#9879
+A sales booth~
+This is a small room in which the salesman for the ummm organization
+will give you his pitch.  The furniture is nice but sterile, and there is
+nothing in the room that will distract your attention.  Somehow you feel like a
+trapped animal in this room.  The only exit is east.
+~
+98 D 0
+D1
+You see the entranceway to the office.
+~
+~
+0 -1 9872
+S
+#9880
+A back hallway~
+This is a hallway that people to sneak around, just in case.  It is
+not used very much, except by Fred and Marie who come in here to
+discuss cleaning sometimes.  Oh yeah then Bob and Marie also use this back
+area too.  But never Bob and Fred oh no that would cause trouble, though Fred
+wouldn't mind using this hallway with Gale, that wouldn't be bad at all, But
+secretly Gale wants to use the hallway with Bob, but Bob doesn't know this and
+spends his time in here with Marie, wishing that Marie looked like Cindy (no
+there is no Cindy in this area). Oh well maybe this hallway is used alot.
+~
+98 D 0
+D0
+The hallway ends.
+~
+~
+0 -1 9881
+D3
+You see a door.
+~
+door~
+1 -1 9853
+S
+#9881
+End of the hallway~
+This is the end of a back hallway that is used for dubious purposes.
+There are doors north and west and the hallway continues south.
+~
+98 D 0
+D0
+You see a rather important door.
+~
+door~
+1 -1 9885
+D2
+You see the begining of the hallway where Fred and Marie are....
+~
+~
+0 -1 9880
+D3
+You see a door.
+~
+door~
+1 -1 9882
+S
+#9882
+The copy room~
+This is the all important room in the office, the copy room.  It
+contains a copy machine, that seems to produce an aura of office supply awe.
+There are all sorts of nifty office supplies here, there is a desk in the
+corner, what someone actually has their desk here? weird.  The middle of the
+office is west, the break room is north, and there is a door to the east.
+~
+98 D 0
+D0
+You see the break room.
+~
+~
+0 -1 9877
+D1
+You see a door.
+~
+door~
+1 -1 9881
+D3
+You see the middle of the office.
+~
+~
+0 -1 9878
+S
+#9883
+The dungeon~
+This is a dark dismal cell.  It looks like the only way out is a
+locked door to the west.  The slide opens up about 15 feet above you,
+but its way too slick to try and climb up.
+~
+9 DN 0
+D3
+You see a big rusty iron door.
+~
+door~
+1 9837 9884
+S
+#9884
+The torture chamber~
+All sorts of horrible devices, implementations of pain are strewn
+about the room.  There is a skeleton that is rotting on a rack.  The only
+visible exit is a cell door where prisoners are kept, to the east.
+~
+98 D 0
+D0
+~
+secret~
+1 -1 9886
+D1
+You see a big rusty iron door.
+~
+door~
+1 9837 9883
+S
+#9885
+sliding~
+AH! You're falling!  You managed to catch yourself about midway down
+the slide.  But there is really only one way to get out of this mess and
+that is to let the slide take you to wherever its destination is.  Or you
+could just sit here...
+~
+98 DN 0
+D5
+Well you wish you knew.
+~
+~
+0 -1 9883
+S
+#9886
+A secret passageway~
+This is a dark damp passageway with spiders and cob webs all around.
+Excluding all the twists and turns it takes the passageway has a door
+to the south and a door to the west.
+~
+98 D 0
+D2
+You see the inside of a secret door.
+~
+secret~
+1 -1 9884
+D3
+You see the inside of a secret door.
+~
+secret~
+1 -1 9856
+S
+#9887
+A Downward Tunnel~
+Something about this place is not right.  There is great danger below,
+and to continue further downward would be like flirting with death.  There
+is the stench of human flesh that rises into your nostrils, making you
+ill.  Whatever is downward, is not going to like your presence.  You can go
+up and down, though to go down you'd have to be a fool.
+~
+98 ACD 0
+D4
+You see a dim light through the opening.
+~
+tile~
+1 -1 9864
+D5
+It is too dark to see.
+~
+~
+0 -1 9888
+S
+#9888
+Deeper into the pit~
+There is a great evil that radiates from the earth below.  It is very
+dark down there, an unnatural darkness.  Go back up while you still can.
+~
+98 AD 0
+D4
+It is too dark to see.
+~
+~
+0 -1 9887
+D5
+It is too dark to see.
+~
+~
+0 -1 9889
+S
+#9889
+Before the Jaws of Dark Death~
+This is your last chance to turn away and leave the evil below.  It
+would not be cowardly to turn from danger such as this.  Go back and live to
+tell of this close encounter with death.
+~
+98 AD 0
+D1
+It is too dark to see.
+~
+mud~
+1 -1 9890
+D4
+It is too dark to see.
+~
+~
+0 -1 9888
+D5
+It is too dark to see.
+~
+~
+0 -1 9891
+S
+#9890
+A hidden alcove~
+This small hidden area must have been the home to some sort of
+creature. It looks long abandoned, but the creatures hoard of treasure is still
+here.
+~
+98 AD 0
+D3
+It is too dark to see.
+~
+mud~
+1 -1 9889
+S
+#9891
+The bottom of the pit~
+You look around and see torn human skeletons.  A damp coldness sinks
+into your spine as you realize the full magnitude of what you've stumbled
+in upon.  This is the home of a Lich, and a powerful one at that.
+~
+98 AD 0
+D4
+It is too dark to see.
+~
+~
+0 -1 9889
+S
+#9892
+Candy Store~
+This is the cults own personal candy shop.  You might want to try it,
+but be careful some of the candies are known for their strange effects.
+~
+98 D 0
+D2
+You see the hallway.
+~
+~
+0 -1 9857
+S
+#9893
+Top of the staircase~
+This is a staircase that leads downwards into another part of the
+temple.  The walls change from the white office type walls to a dark stone
+wall, perhaps it is an indication of what lies below.  Exits are south
+and down.
+~
+98 CD 0
+D2
+You see a hallway in the office.
+~
+~
+0 -1 9874
+D5
+You see the bottom of the staircase.
+~
+~
+0 -1 9894
+S
+#9894
+Bottom of the staircase~
+The staircase ends here.  The room is quiet and dismal, but there are
+strange sounds, possibly chants coming from the south.  The only other wat out
+is up.
+~
+98 CD 0
+D2
+It is too blurred to see anything of note.
+~
+~
+0 -1 9861
+D4
+You see the top of the staircase.
+~
+~
+0 -1 9893
+S
+#9897
+Ravenwing's Study~
+You have the rare pleasure of seeing Ravenwing's study.  The room is
+small but not cramped.  There are lazy boy recliners about the room.
+The walls are composed of bookshelves which are filled with texts from
+far off lands.  You can smell the sweet odor of cigar smoke.  There is
+one book lying on the table next to Ravenwing's chair that particulary
+cathes your eye.
+~
+99 CDJKL 0
+E
+book~
+The binding reads "The Necronomicon: translated by H.P. Lovecraft"
+~
+S
+#9898
+Morpheus's Study~
+You have the rare pleasure of seeing Morpheus's study.  The room is
+small but not cramped.  There are lazy boy recliners about the room.
+The walls are composed of bookshelves which are filled with texts from
+far off lands.
+~
+99 CDJKL 0
+S
+#9899
+Sandman's Study~
+You have the rare pleasure of seeing Sandman's study.  The room is
+small but not cramped.  There are lazy boy recliners  about the room.
+The walls are composed of bookshelves which are filled with texts from
+far off lands.
+~
+99 CDJKL 0
+S
+#0
+
+#MOBILES
+#9800
+receptionist~
+the receptionist~
+A receptionist greets you with a knowing grin.
+~
+The Receptionist appears to be friendly.
+~
+human~
+BLA H 0 0
+61 30 1d1+3802 1d1+1220 8d8+30 slash
+-29 -29 -29 -10
+FENU 0 0 0
+stand stand female 3734
+0 0 medium 0
+
+#9801
+minor priest~
+the minor priest~
+A minor priest of the cult scuffles along.
+~
+The minor priest seems preoccupied.
+~
+human~
+GHA DH -100 0
+80 40 1d1+5687 1d1+1600 9d9+40 slash
+-40 -40 -40 -15
+FENUH 0 0 0
+stand stand male 4924
+0 0 medium 0
+
+#9802
+robed priest~
+the robed priest~
+A robed priest is alarmed by your presence.
+~
+The robed priest is not to be trifeled with.
+~
+human~
+FGA DEFH -200 0
+81 40 1d1+6833 1d1+1620 9d9+40 slash
+-41 -41 -41 -16
+FENUH 0 0 0
+stand stand male 5047
+0 0 medium 0
+
+#9803
+draconian knight~
+the draconian knight~
+The draconian knight sees you and attacks!
+~
+The draconian knight's sole purpose is to kill you.
+~
+dragon~
+BFGLA DEFH -400 0
+78 39 1d1+5577 1d1+1560 9d9+39 slash
+-39 -39 -39 -15
+FENUCH 0 0 0
+stand stand male 4718
+0 0 medium 0
+
+#9804
+high priestess~
+the High Priestess~
+The High Priestess is FURIOUS about your intrusion!
+~
+This is the High Priestess of the Dragon Cult, she would be
+quite beautiful if it weren't for her SCALES!
+~
+dragon~
+FGLA DEFH -600 0
+83 41 1d1+6972 1d1+1660 9d9+41 slash
+-42 -42 -42 -16
+FENUCH 0 0 0
+stand stand female 5216
+0 0 medium 0
+
+#9805
+virgin sacrifice~
+a virgin sacrifice~
+A virgin weeping about her pending death is here.
+~
+This innocent, beautiful girl is waiting for some brave, handsome adventurer 
+to save her.
+~
+elf~
+BA H 0 0
+3 1 1d1+60 1d1+60 2d3+1 slash
+8 8 8 9
+FENU 0 0 0
+stand stand female 124
+0 0 medium 0
+
+#9806
+dragon wyrmling~
+The Black Dragon Wyrmling~
+The Black Dragon Wyrmling wants to feed ON YOU.
+~
+The Black Dragon Wyrmling is the center of this obscure Dragon Cult.
+It is viscious and has a nasty bite, so you better be ready!
+~
+dragon~
+BCFA DHJ -1000 0
+85 42 1d1+7067 1d1+1700 9d9+42 slash
+-44 -44 -44 -17
+FENUCH 0 0 0
+stand stand male 5223
+0 0 medium 0
+
+#9807
+minor priest~
+the minor priest~
+A minor priest of the cult is in the bathroom "doing his duty"..
+~
+The minor priest seems preoccupied.
+~
+human~
+BGA DH -100 0
+80 40 1d1+5768 1d1+1600 9d9+40 slash
+-40 -40 -40 -15
+FENUH 0 0 0
+stand stand male 5026
+0 0 medium 0
+
+#9808
+fanatic monk~
+a fanatic monk~
+A fanatic monk is here raving about the day of great black death!
+~
+The monk is sincere, if loony, and he has a look of terror on his eyes.
+~
+human~
+LA DH 0 0
+71 35 1d1+4973 1d1+1420 8d8+35 slash
+-35 -35 -35 -13
+FENU 0 0 0
+stand stand male 4465
+0 0 medium 0
+
+#9809
+bob director~
+Bob~
+Bob the PR Director greets you with the smile of a used car salesman.
+~
+Bob is about 6 feet tall and very lanky.  He wears a cheap polyester
+suit, his hair is slicked back, and he has quite a large gap
+between his front teeth, but that doesn't stop him from talking.
+Incidently, he talks alot.
+~
+human~
+BGLA DH -1000 0
+60 30 1d1+3143 1d1+1200 8d7+30 slash
+-28 -28 -28 -9
+FENU 0 0 0
+stand stand male 3652
+0 0 medium 0
+
+#9810
+marie maid~
+Marie~
+Marie is here on her break sipping some coffee.
+~
+Marie is the maid of this fine institution, but she never seems very
+busy at all.  There are some places that she just won't clean, like
+that basement... it's really terrible down there.
+~
+elf~
+BGLA DH 200 0
+55 27 1d1+2861 1d1+1100 7d7+27 slash
+-25 -25 -25 -8
+FENU 0 0 0
+stand stand female 3309
+0 0 medium 0
+
+#9811
+gale coordinator~
+Gale~
+Gale the office coordinator bustles around the office.
+~
+Gale looks very busy, she runs around the office to make sure
+everything runs well.  She might be attractive if she weren't so
+work oriented.  The boss knows this too, thats why he put all of
+the shelves that the papers go in on the ground.
+~
+human~
+GLA DH -1000 0
+78 39 1d1+5545 1d1+1560 9d9+39 slash
+-39 -39 -39 -15
+FENUH 0 0 0
+stand stand female 4799
+0 0 medium 0
+
+#9812
+fred boss~
+Fred~
+Fred the boss of the office is here smoking a cheap cigar.
+~
+Fred is good at being boss, but there isn't much else he is good
+at at all.  He basicly sits around in his office all day, occasionally
+yelling at people, and trying to look up Gale's dress.
+~
+human~
+BGLA DH -1000 0
+86 43 1d1+7298 1d1+1720 9d9+43 slash
+-44 -44 -44 -17
+FENUH 0 0 0
+stand stand male 5179
+0 0 medium 0
+
+#9813
+torturer~
+the Torturer~
+The Torturer is here ready to inflict great pain upon you.
+~
+Yuck! What an ugly sight, I'm surprised you looked!
+~
+orc~
+BFGA DH -1000 0
+86 43 1d1+7342 1d1+1720 9d9+43 slash
+-44 -44 -44 -17
+FENUCH 0 0 0
+stand stand male 5309
+0 0 medium 0
+
+#9814
+jim sales director~
+Jim~
+Jim the sales Director eyes you like a hungry vulture.
+~
+Hello, I'm Jim.  Let me explain the organization to you.  First, it
+costs nothing.......
+~
+human~
+BGLA DH -1000 0
+68 34 1d1+4244 1d1+1360 8d8+34 slash
+-33 -33 -33 -12
+FENU 0 0 0
+stand stand male 4242
+0 0 medium 0
+
+#9815
+zombie~
+the Zombie~
+The Zombie hates everything alive, namely you.
+~
+The zombie is pretty fresh, not too much flesh has rotted off, but the
+guy who died and became a Zombie, he was very strong, so... this
+Zombie is nothing to be laughed at.
+~
+undead~
+BFGA DH -1000 0
+88 44 1d1+7557 1d1+1760 9d9+44 slash
+-45 -45 -45 -18
+FENUH 0 0 0
+stand stand male 5330
+0 0 medium 0
+
+#9816
+lich priest~
+the Lich Priest~
+The Lich Priest glares at you through dead eyes.
+~
+This is the living corpse of a once powerfull priest of the cult.  In
+his quest for power he learned the ways of the mage and made himself a
+monstrocity.  He is a creature to be reckoned with, and unless the
+gods are in your favor he will probably kill you.
+~
+undead~
+BFGLA DEFH -1000 0
+105 52 1d1+9483 1d1+2100 10d10+52 slice
+-56 -56 -56 -23
+FENUH 0 0 0
+stand stand male 6599
+0 0 medium 0
+
+#9817
+monk old~
+An old monk~
+An old monk is here, attempting to sell you candy.
+~
+He has rotten teeth.
+~
+human~
+BGA DH -200 0
+99 49 1d1+9007 1d1+1980 10d10+49 slash
+-52 -52 -52 -21
+FENUH 0 0 0
+stand stand male 6010
+0 0 medium 0
+
+#0
+
+#OBJECTS
+#9825
+black key~
+a black key~
+You see a very important key here!~
+iron~
+key 0 A
+0 0 0 0 0
+61 1 12357 P
+
+#9826
+primitive key~
+a primitive key~
+You see a primitive key here!~
+iron~
+key 0 A
+0 0 0 0 0
+78 1 16157 P
+
+#9827
+skull key~
+a skull key~
+You see a skull key here!~
+bone~
+key 0 A
+0 0 0 0 0
+83 1 17241 P
+
+#9828
+bone sword~
+a bone sword~
+A sharp looking peice of bone lies here.~
+bone~
+weapon GJ AN
+'exotic' 7 11 'slice' 0
+78 40 15840 P
+A
+1       1
+A
+2       1
+A
+3      -1
+A
+18      2
+A
+19      3
+
+#9829
+skull helm dragon~
+a helm made from a dragon's skull~
+The skull of a dragon lies here~
+bone~
+armor A AE
+18 18 18 0 0
+78 15 16160 P
+A
+3      -1
+A
+5       2
+
+#9830
+robes~
+some dark robes~
+some dark robes lie here~
+cloth~
+armor 0 AD
+19 19 19 0 0
+80 5 16178 P
+A
+12     30
+
+#9831
+black pen~
+a black pen~
+A Black pen catches your eye~
+steel~
+weapon 0 AN
+'dagger' 5 12 'pierce' 0
+60 8 12331 P
+
+#9832
+evil black dagger~
+an evil looking black dagger~
+A black dagger is here radiating evil.~
+adamantite~
+weapon E AN
+'dagger' 9 9 'pierce' 0
+81 10 16365 P
+A
+19      3
+
+#9833
+black staff~
+a black staff~
+A long blackened stick is here~
+wood~
+weapon E AN
+'exotic' 8 9 'pound' 0
+80 10 16503 P
+A
+18      3
+
+#9834
+heap scales black dragonscale robes~
+dragonscale robes~
+You see a shimering black heap of scales.~
+cloth~
+armor EGJL AD
+19 19 19 0 0
+83 20 16650 P
+A
+13     65
+
+#9835
+dragonfang robes~
+dragonfang robes~
+You see a pile of tiny bones.~
+bone~
+armor 0 AD
+19 19 19 0 0
+81 20 16879 P
+A
+19      2
+
+#9836
+white dress torn~
+A torn white dress~
+A once pretty dress is lying here with holes torn in it.~
+cloth~
+armor 0 AD
+3 3 3 0 0
+3 5 612 P
+
+#9837
+rusty key~
+a rusty key~
+A hunk of metal is on the ground.~
+bronze~
+key 0 A
+0 0 0 0 0
+86 1 17626 P
+
+#9838
+cheap plaid pants pair~
+A pair of cheap plaid pants~
+Some really ugly pants are on the ground here.~
+cloth~
+armor 0 AF
+0 0 0 0 0
+1 5 207 P
+
+#9839
+donut~
+a donut~
+There is a jelly filled donut here.~
+food~
+food 0 A
+100 0 0 0 0
+0 1 0 P
+
+#9840
+coffee~
+a cup of coffee~
+There is a piping hot cup of coffee here~
+china~
+drink 0 A
+15 15 'coffee' 0 0
+0 1 0 P
+
+#9841
+clear candy~
+Clear Candy <tm>~
+A piece of Clear Candy~
+food~
+pill 0 A
+10 74 0 0 0
+4 1 500 P
+
+#9842
+white candy~
+White Candy <tm>~
+A piece of White Candy~
+food~
+pill 0 A
+5 36 0 0 0
+4 1 500 P
+
+#9843
+ogre candy~
+Ogre Candy <tm>~
+A piece of Ogre Candy~
+food~
+pill 0 A
+10 39 0 0 0
+4 1 500 P
+
+#9844
+cyclops candy~
+Cyclops Candy <tm>~
+A piece of Cyclops Candy~
+food~
+pill 0 A
+5 77 0 0 0
+4 1 500 P
+
+#9845
+vampire candy~
+Vampire Candy <tm>~
+A piece of Vampire Candy~
+food~
+pill 0 A
+15 25 25 25 0
+4 1 500 P
+
+#9846
+ninja candy~
+Ninja Candy <tm>~
+A piece of Ninja Candy~
+food~
+pill 0 A
+10 502 0 0 0
+4 1 500 P
+
+#9847
+death candy~
+Death Candy <tm>~
+A piece of Death Candy~
+food~
+pill 0 A
+10 208 28 28 0
+4 1 500 P
+
+#9848
+fury candy~
+Fury Candy <tm>~
+A piece of Fury Candy~
+food~
+pill 0 A
+50 504 4 0 0
+4 1 500 P
+
+#9850
+brochure~
+A brochure~
+A sharp looking brochure is lying here~
+paper~
+treasure HM AO
+0 0 0 0 0
+71 1 21602 P
+E
+brochure~
+the brochre reads:
+      ____________________________________
+      | C U L T  O F  T H E  D R A G O N |
+      |                                  |
+      | Join today and you too can share |
+      | in the many benefits a cult      |
+      | member can have.                 |
+      | advantages like:                 |
+      |   - never having a heating bill  |
+      |   - those cool robes             |
+      |   - free virgin sacrifice        |
+      |     tickets!                     |
+      |   - a cool haircut               |
+      |                                  |
+      | For all this and more call       |
+      | 1-800-FOR-DRGN                   |
+      |                                  |
+      | Remember: vote no on 13          |
+      | Citizens of Isca ban on          |
+      | Draconian activity.  If you      |
+      | feel like we do, Kill the Mayor  |
+      | TODAY!                           |
+      |__________________________________|
+~
+
+#0
+
+#RESETS
+D   0   9850    0      2  The Reception Area: Door north locked
+D   0   9851    2      2  A dimly lit corridor: Door south locked
+D   0   9853    5      1  Tourist Office: Door down closed
+D   0   9854    4      1  A five way intersection: Door up closed
+D   0   9857    1      1  A VERY ordinary hallway: Door east closed
+D   0   9858    3      1  The Bathroom: Door west closed
+D   0   9861    5      1  A place of worship: Door down closed
+D   0   9862    4      1  Dark Room: Door up closed
+D   0   9864    5      1  Priests Quarters: Door down closed
+D   0   9865    0      2  A forboding corridor: Door north locked
+D   0   9866    2      2  The Cell: Door south locked
+D   0   9867    3      1  An even MORE forboding corridor: Door west closed
+D   0   9868    1      1  The Chamber of the High Priestess: Door east closed
+D   0   9869    0      2  A foul smelling hallway: Door north locked
+D   0   9870    2      2  Chamber of the Wyrmling: Door south locked
+D   0   9853    1      1  Tourist Office: Door east closed
+D   0   9871    3      1  The Waiting Room: Door west closed
+D   0   9873    5      1  A strange room: Door down closed
+D   0   9880    3      1  A back hallway: Door west closed
+D   0   9882    1      1  The copy room: Door east closed
+D   0   9881    3      1  End of the hallway: Door west closed
+D   0   9881    0      1  End of the hallway: Door north closed
+D   0   9883    3      2  The dungeon: Door west locked
+D   0   9884    1      2  The torture chamber: Door east locked
+D   0   9884    0      1  The torture chamber: Door north closed
+D   0   9886    2      1  A secret passageway: Door south closed
+D   0   9886    3      1  A secret passageway: Door west closed
+D   0   9856    1      1  The Tapestry Room: Door east closed
+D   0   9887    4      1  A Downward Tunnel: Door up closed
+D   0   9889    1      1  Before the Jaws of Dark Death: Door east closed
+D   0   9890    3      1  A hidden alcove: Door west closed
+M 0 9800 1 9850 1  1   the receptionist into The Reception Area  
+E   1   9825    1     17     a black key held                   
+M 0 9801 7 9855 1  1   the minor priest into A Shrine  
+E   1   9830    1      5     some dark robes on body                
+E   1   9833    1     16     a black staff wielded                
+M 0 9801 7 9860 1  1   the minor priest into Bend in the hallway  
+E   1   9830    1      5     some dark robes on body                
+E   1   9833    1     16     a black staff wielded                
+M 0 9801 7 9861 1  1   the minor priest into A place of worship  
+E   1   9830    1      5     some dark robes on body                
+M 0 9801 7 9861 1  1   the minor priest into A place of worship  
+E   1   9830    1      5     some dark robes on body                
+M 0 9802 4 9861 1  1   the robed priest into A place of worship  
+E   1   9832    1     16     an evil looking black dagger wielded                
+E   1   9835    1      5     dragonfang robes on body                
+M 0 9802 4 9863 1  1   the robed priest into The Inner Circle  
+E   1   9832    1     16     an evil looking black dagger wielded                
+E   1   9835    1      5     dragonfang robes on body                
+M 0 9802 4 9863 1  1   the robed priest into The Inner Circle  
+E   1   9835    1      5     dragonfang robes on body                
+M 0 9803 1 9865 1  1   the draconian knight into A forboding corridor  
+G   1   9826    1            a primitive key in inventory
+E   1   9828    1     16     a bone sword wielded                
+E   1   9829    1      6     a helm made from a dragon's skull on head                
+M 0 9804 1 9868 1  1   the High Priestess into The Chamber of the High Priestess  
+G   1   9827    1            a skull key in inventory
+E   1   9834    1      5     dragonscale robes on body                
+M 0 9805 1 9866 1  1   a virgin sacrifice into The Cell  
+E   1   9836    1      5     A torn white dress on body                
+M 0 9806 1 9870 1  1   The Black Dragon Wyrmling into Chamber of the Wyrmling  
+M 0 9807 1 9858 1  1   the minor priest into The Bathroom  
+M 0 9808 1 9850 1  1   a fanatic monk into The Reception Area  
+E   1   9850    1     17     A brochure held                   
+M 0 9809 1 9853 1  1   Bob into Tourist Office  
+E   1   9831    1     16     a black pen wielded                
+M 0 9810 1 9877 1  1   Marie into The break room  
+M 0 9811 1 9875 1  1   Gale into Gale's Office  
+M 0 9812 1 9876 1  1   Fred into Fred's Office  
+M 0 9813 1 9884 1  1   the Torturer into The torture chamber  
+G   0   9837    1            a rusty key in inventory
+M 0 9814 1 9879 1  1   Jim into A sales booth  
+M 0 9815 1 9883 1  1   the Zombie into The dungeon  
+M 0 9816 1 9891 1  1   the Lich Priest into The bottom of the pit  
+M 0 9817 1 9892 1  1   An old monk into Candy Store  
+G   1   9841  100            Clear Candy <tm> in inventory
+G   1   9842  100            White Candy <tm> in inventory
+G   1   9843  100            Ogre Candy <tm> in inventory
+G   1   9844  100            Cyclops Candy <tm> in inventory
+G   1   9845  100            Vampire Candy <tm> in inventory
+G   1   9846  100            Ninja Candy <tm> in inventory
+G   1   9847  100            Death Candy <tm> in inventory
+G   1   9848  100            Fury Candy <tm> in inventory
+O   0   9850    1   9853  load A brochure into Tourist Office
+O   0   9839    1   9877  load a donut into The break room
+O   0   9840    1   9877  load a cup of coffee into The break room
+S
+#SHOPS
+9817       0  0  0  0  0         400 400         0  23 ; The Old Monk
+0
+
+#SPECIALS
+M  9804  spec_cast_cleric
+M  9806  spec_breath_acid
+M  9814  spec_cast_undead
+M  9816  spec_breath_lightning
+S
+
+#$

@@ -1,0 +1,265 @@
+#AREA	
+limbo.are~
+Limbo~
+{None } Diku    Limbo~
+1 30
+
+
+#MOBILES
+#1
+Puff~
+Puff~
+Puff the Fractal Dragon is here, contemplating a higher reality.
+~
+You see a fantastic, vaguely draconian-shaped mathematical pattern.  
+Even as you watch, though, the form reiterates itself in finer detail--
+with each passing moment, the shape becomes more complex and interesting.
+Almost, almost, you can discern the pattern...
+
+For all her fabulous appearance, though, Puff seems quite... addled.  As 
+the definition of her eyes increases, you realize that the Fractal Dragon 
+is obviously not paying much attention to the mortal world; she seems lost 
+in strange contemplations.
+
+~
+unique~
+0 0 1000 0
+26 5 5d10+550 26d5+100 4d6+3 chomp
+-15 -15 -15 -10
+MNc AB CD 0
+stand stand female 500
+DHZ ACDEFHJKPQUVX M 0
+
+#2
+zombie corpse~
+a zombie~
+A recently resurrected corpse lumbers about.
+~
+This rotting corpse has been brought back to life by black magic, and is held 
+upright and together by the same force.  The zombie moans at you and you feel
+a shiver run down your spine.
+~
+unique~
+BO 0 1000 0
+10 4 3d3+200 3d3+180 3d3+3 maul
+4 4 4 7
+FENU 0 0 0
+stand stand neutral 500
+0 0 medium 0
+#0
+
+#OBJECTS
+#2
+coin gold~
+a gold coin~
+One miserable gold coin.~
+gold~
+money 0 A
+1 0 0 0 0
+0 1 0 P
+#3
+coins gold~
+%d gold coins~
+A pile of gold coins.~
+gold~
+money 0 A
+0 0 0 0 0
+0 1 0 P
+#4
+template~
+template~
+This is the template object for area editor~
+octarine~
+1 ABCDEFGHIJKLMONPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ
+0 0 0 0 0
+0 0 0 P
+#10
+corpse~
+corpse of %s~
+The corpse of %s is lying here.~
+meat~
+npc_corpse 0 A
+0 0 0 1 0
+0 100 0 D
+#11
+corpse~
+corpse of %s~
+The corpse of %s is lying here.~
+meat~
+pc_corpse O A
+0 0 0 1 0
+0 100 0 D
+#12
+head~
+the head of %s~
+The severed head of %s is lying here.~
+meat~
+trash 0 A
+0 0 0 0 0
+0 5 0 D
+#13
+heart~
+the heart of %s~
+The torn-out heart of %s is lying here.~
+meat~
+food 0 A
+16 0 0 0 0
+0 2 0 D
+#14
+arm~
+the arm of %s~
+The sliced-off arm of %s is lying here.~
+meat~
+food 0 A
+20 0 0 0 0
+0 5 0 D
+#15
+leg~
+the leg of %s~
+The sliced-off leg of %s is lying here.~
+meat~
+food 0 A
+20 0 0 0 0
+0 5 0 D
+#16
+guts entrails~
+the guts of %s~
+A steaming pile of %s's entrails is lying here.~
+meat~
+food 0 A
+5 0 0 1 0 
+0 2 0 D
+#17
+brains brain~
+the brains of %s~
+The splattered brains of %s are lying here.~
+meat~
+food 0 A
+10 0 0 0 0
+0 2 0 D
+#18
+wing~
+the wing of %s~
+The crumpled wing of %s.~
+meat~
+trash 0 A
+0 0 0 0 0
+0 5 0 D
+#19
+claw~
+the claw of %s~
+The shattered claw of %s.~
+meat~
+trash 0 A
+0 0 0 0 0
+0 5 0 D
+#20
+mushroom~
+a Magic Mushroom~
+A delicious magic mushroom is here.~
+food~
+food 0 A
+8 0 0 0 0
+0 1 10 P
+#21
+ball light~
+a bright ball of light~
+A bright ball of light shimmers in the air.~
+energy~
+light A A
+0 0 999 0 0
+0 0 0 P
+#22
+spring~
+a magical spring~
+A magical spring flows from the ground here.~
+water~
+fountain G 0
+100000 100000 0 0 0
+0 0 0 P
+#23
+scroll hand written handwritten %s~
+a hand-written scroll of %s~
+A hand-written scroll of %s lies here.~
+vellum~
+scroll G AO
+0 0 0 0 0
+0 4 0 P
+E
+scroll~
+This scroll has been lovingly created by a fellow MUDder.
+~
+#24
+potion home-brewed %s~
+a home-brewed potion of %s~
+A home-brewed potion of %s lies here.~
+glass~
+potion G AO
+0 0 0 0 0
+0 10 0 P
+E
+potion~
+This potion has been brewed by a fellow MUDder.
+~
+#25
+home-made bomb made %s's~
+a home-made bomb~
+%s's home-made bomb lies here.~
+adamantite~
+bomb G AO
+0 0 0 0 0
+0 40 0 P
+E
+bomb~
+This bomb has been made by a fellow MUDder.
+Careful - it may go off anytime!!
+~
+#26
+portal doorway~
+a portal~
+This a portal to %s~
+octarine~
+portal AGO 0
+0 0 0 0 0
+0 0 0 P
+#0
+
+
+
+#ROOMS
+#1
+The Void~
+  You are floating in nothing.
+~
+0 8 1
+S
+#2
+Limbo~
+   You are floating in a formless void, detached from all sensation of physical
+matter, surrounded by swirling glowing light, which fades into the relative
+darkness around you without any trace of edges or shadow.
+   There is a "No Tipping" notice pinned to the darkness.
+~
+0 8 1
+D4
+~
+~
+0 -1 3001
+S
+#0
+
+
+
+#RESETS
+M 0 1 1 2 1  1 		Puff  
+S
+
+#SPECIALS
+M  0001 spec_puff spec_cast_puff
+S
+
+
+
+
+
+#$

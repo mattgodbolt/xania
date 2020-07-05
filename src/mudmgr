@@ -1,0 +1,554 @@
+#!/usr/bin/perl
+# Script to manage Xania/Doorman processes
+# by Faramir
+# 
+# run this from the xania/src/ directory (although it doesn't matter hugely)
+
+require 5;
+use POSIX;
+use Getopt::Std;
+use DirHandle;
+
+# this is a million times more powerful than the traditional startup.sh
+# script - there may be some bugs I've not spotted yet! I'm not sure but
+# there may be a slim chance of a race condition when 'restarting' the mud.
+
+# one convention I've tried to stick to is as follows:
+# the term 'xania' refers to the Xania binary
+# the term 'doorman' refers to the Doorman binary
+# the term 'mud' refers to both together, so shutdown_mud means shutdown
+# Xania and Doorman! (sorry if this gets confusing)
+
+# check out 'main' at the bottom to see the thread of execution
+# do_* subroutines are executed by the command line options
+
+# set start time right now - this gets modified as time passes by
+
+my $nowtime =  strftime( "%B-%d-%Y-%H:%M:%S", gmtime );
+my $port = 9000; # default port
+
+# VERY IMPORTANT: this needs to point to the same file as defined in merc.h
+my $SHUTDOWN_FILE = "../area/shutdown.txt";
+
+# change these as necessary
+my $XANIA_BINARY = "../src/xania";
+my $DOORMAN_BINARY = "../src/doorman";
+
+# Statistical analysis related settings:
+# 3600 * 24 * 7
+# number of seconds in 7 days - increase this if you want mudmgr to
+# give statistics on a greater/shorter period of time
+
+my $analysisinterval = 604800; 
+my ( $numlevels, $numdeaths, $numconnect, $numlogins, $numnewbies, 
+     $numtotalplr, $numrecentplr, $numshutdown, $numquits ) = 0;
+
+
+
+# scan_processes
+# role: this sub gets the list of processes and returns the PIDs of the
+#       processes we want to find. Doorman usually exists twice (the login
+#       daemon and the ident daemon) so we may need to find both.
+#       we never return the PID of the current mudmgr process
+# called by: processctl()
+
+sub scan_processes {
+  
+  my $psfind = shift;
+  my @retlist;
+  my $listitem;
+  my $processes = `ps ax`;  # change this if necessary!
+  my @proclist = split( /\n/, $processes );
+
+  foreach $listitem (@proclist ) {
+
+    # you will have to fix the pattern matching below if your version
+    # of procps formats things differently. Linux procps 1.2.7 formats
+    # ps ax like this:
+    # <space?><PID><space><tty><space><state><space><jobtime><space><cmdline>
+
+    # CAVEAT:
+    # we search for .* (any characters) around the name of the process we
+    # want to find because they may be started with a specific path/argument
+    # e.g. ../src/xania 9884 or /usr/bin/perl5 ./mudmgr 8999 - we need
+    # to be able to cater for this! The side effect is that scan_processes
+    # is likely to take action on xania/doorman processes that you may 
+    # NOT want to touch (e.g. testing/debugging ones) - SOLUTION: rename
+    # your test binaries to something different e.g. xantest, doortest.
+
+    if( $listitem =~ /\s?(\d+)\s+\S+\s+\S+\s+\S+\s+.*$psfind.*/ ) {
+      my $mpid = getpid();
+
+      if( $1 eq getpid() ) {
+	next;
+      }
+      else {
+	push( @retlist, $1 ); # we save the PID
+      }
+
+    }
+  }
+  return @retlist;
+}
+
+
+# initialise
+# role: to set up some global variables, usually whenever a component is
+#       shutdown and restarted
+# called by: do_start_mud() 
+
+sub initialise {
+  
+  $nowtime =  strftime( "%B-%d-%Y-%H:%M:%S", gmtime );
+
+}
+
+
+# processctl
+# role: a useful subroutine designed to perform an action on a process
+#       control commands (arg2) = 
+#       0 = ignore,  1 = kill the processes found, 2 = return a list of PIDs
+# called by: do_start_mud(), shutdown_mud()
+
+sub processctl {
+  
+  my $psfind  = shift;
+  my $command = shift;  
+  my @pidlist = scan_processes( $psfind );
+  my $pid;
+
+  if ( $command ==2 ) {  # is this ever used?
+    return @pidlist;
+  }
+  if( $command == 1 ) {
+    kill( 'QUIT', @pidlist );    # use SIGQUIT, friendlier than a crash sig
+  }
+  # did we find any relevant PIDs??
+  return scalar @pidlist;
+
+}
+
+# exec_doorman
+# role: to start a copy of doorman
+# called by: do_start_doorman(), do_restart_mud()
+
+sub exec_doorman {
+
+  my $pid;
+  
+  $pid = fork;
+  if( $pid == 0 ) {  # child
+    # set up the environment
+    chdir( "../area" );
+    close( STDERR );
+    open( STDERR, ">>../log/$nowtime.doorman.log" ); # NEW: log doorman
+    # and launch!
+    exec( $DOORMAN_BINARY, "$port" ) 
+      or print( STDERR "Couldn't execute Doorman.\n" );
+    exit 0;
+  }
+  else {  # parent
+    # don't permit any zombie processes
+    # will only work in nice POSIX environments
+    waitpid( -1, &WNOHANG );
+    return;
+  }
+
+}
+
+# exec_xania
+# role: to start a copy of xania
+# called by: do_start_mud(), do_restart_mud()
+
+sub exec_xania {
+
+  my $pid;
+
+  # probably sensible to check this before we fork...
+    if( ! -f $XANIA_BINARY ) {
+      print( STDERR "$XANIA_BINARY does not exist - have you done make install?\n" );
+      exit 1;
+    }
+  
+  $pid = fork;
+  if( $pid == 0 ) {  # child
+    # set up the environment...
+    chdir( "../area" );
+    close( STDERR );
+    open( STDERR, ">>../log/$nowtime.log" );
+    # and launch!
+    exec( $XANIA_BINARY )
+      or print( STDERR "Couldn't execute Xania\n" );
+    exit 0;
+  }
+  else {  # parent
+    # don't permit any zombie processes
+    # will only work in nice POSIX environments
+    waitpid( -1, &WNOHANG );
+    return;
+  }
+
+}
+
+sub do_usage {
+  print( "\nUsage: mudmgr [ONE OPTION]\n\r",
+	 "       -d        (shutdown Xania)\n\r",
+         "       -s <port> (start Xania)\n\r",
+         "       -r <port> (restart Xania)\n\r",
+         "       -h        (this help)\n\r" ,
+	 "       -u        (view status)\n\r",
+	 "       -a        (statistical analysis)\n\r"      );
+  exit 0;
+}      
+
+
+# do_start_mud
+# role: to start a copy of Xania and Doorman
+# called by: main()
+
+sub do_start_mud {
+
+  # we never return from this, only exit
+  
+  print( STDERR "Nothing will happen if another mudmgr session is already\n",
+	 "running Xania. Use the -r option if you need to restart everything.\n" );
+  
+  # the main start subroutine that loops for ever is then called...
+  my $pid = fork();
+  if( $pid > 0  ){ 
+    exit( 0 );
+  }
+  else {
+    
+    setsid();
+    start_mud();
+  }
+
+}
+
+# start_mud
+# role: to start a copy of Xania and Doorman
+# called by do_start_mud(),  do_restart_mud()
+
+sub start_mud() {
+
+  if( $port <= 1024 ) {
+    print( STDERR "\nPort number '$port' is probably reserved for super user\n" );
+    exit 1;
+  }
+  
+  while() {
+
+    # sort out Doorman first...
+    if( !processctl( $DOORMAN_BINARY, 0 )) {
+      print( STDERR "Hmmm...doorman is down...\n" );
+      if( -f $SHUTDOWN_FILE ) {
+	print( STDERR "no problem because we're shutting down anyway ($SHUTDOWN_FILE).\n" );
+	processctl( $DOORMAN_BINARY, 1 );  # kill doorman
+	processctl( $XANIA_BINARY, 1 );    # kill Xania
+	exit 0;
+      }
+      print( STDERR "better start it up then...\n" );
+      initialise();
+      exec_doorman();
+    }
+    
+    # ...then Xania itself
+    if(!processctl( $XANIA_BINARY, 0 )) {
+      print( STDERR "Hmmm...Xania is down...\n" );
+      if( -f $SHUTDOWN_FILE ) {
+	print( STDERR "no problem because we're shutting down anyway ($SHUTDOWN_FILE).\n" );
+	processctl( $DOORMAN_BINARY, 1 );  # kill doorman
+	processctl( $XANIA_BINARY, 1 );    # kill Xania
+	exit 0;
+      }
+      print( STDERR "better start it up then...\n" );
+      initialise();
+      exec_xania();
+    }
+    sleep 30;    
+  }
+  
+  exit 0;
+  
+  
+}
+
+# do_restart_mud
+# role: to close down any copies of xania and doorman and to run them again
+# the term 'mud' refers to 'xania' and 'doorman' together
+# called by: main()
+
+sub do_restart_mud {
+  
+  
+
+  print( STDERR "Attempting to restart mud...\n" );
+  
+  my $pid = fork();
+  if( $pid > 0  ){ 
+    exit( 0 );
+  }
+  else {
+    
+    setsid();
+    
+    shutdown_mud();
+    unlink( $SHUTDOWN_FILE );
+    
+    # then importantly, call start_mud() and sit in the eternal loop 
+    # that ensures it is restarted again after a crash
+    start_mud();
+    
+    exit 0;
+  }
+}
+
+# shutdown_mud
+# role: to kill off any copies of xania, doorman and mudmgr
+# EXCEPT the mudmgr process that called this!
+# called by: do_shutdown_mud(),  do_restart_mud()
+
+sub shutdown_mud {
+
+  # we also need to shutdown the original 'mudmgr' process just to be sure
+
+  processctl( $XANIA_BINARY, 1 );       # kill Xania
+  processctl( $DOORMAN_BINARY, 1 );     # kill doorman
+  processctl( "mudmgr", 1 );           # kill mudmgr
+  
+  # ensure that a shutdown.txt file exists to quell young upstarts...
+  open( shutdown_fh, "$SHUTDOWN_FILE" );
+  write( shutdown_fh, 0 );
+  close( shutdown_fh );       
+  
+}
+
+# do_shutdown_mud
+# role: used when an imp needs to trigger a nice mud closedown
+# called by: main()
+
+sub do_shutdown_mud {
+
+  print( STDERR "Attempting to shutdown any active MUD/Doorman sessions...\n" );
+  shutdown_mud();
+  exit 0;
+}
+
+sub do_mud_status {
+  
+  # some code taken from scan_processes()
+  my $listitem;
+  my $processes = `ps ax`;  # change this if necessary!
+  my @proclist = split( /\n/, $processes );
+  my @mudlist = ( "$XANIA_BINARY", "$DOORMAN_BINARY" );
+  my $muditem;
+  my $found = 0;
+
+  print( "Status of Xania:\n" );
+  foreach $muditem( @mudlist ) {
+    foreach $listitem (@proclist ) {
+      
+      if( $listitem =~ /\s?(\d+)\s+\S+\s+\S+\s+(\S+)\s+.*$muditem.*/ ) {
+	printf( "-> %-20sCPU time=%-8sPID=%-8d\n", 
+		$muditem, $2, $1 );
+	$found++;
+      }
+    }
+  }
+  if( $found == 0 )  {
+    print( "Not running.\n" );
+  }
+  else {
+    print( "\nFound $found processes running.\n" );
+  }
+  exit 0;
+}
+
+# possible improvement: calculate which player/site has been on most
+# recently
+
+sub analyze_log {
+
+
+  my $filename = shift;
+  # ignore unwanted or unplesant files that might be lingering
+  if( $filename =~ /^\.|^CVS|tar$|gz$|zip$|~$/ ) {
+    return;
+  }
+  my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+   $atime,$mtime,$ctime,$blksize,$blocks)
+    = stat($filename);
+
+  # calculate if this file has been changed in the last $analysisinterval
+  # period (generally one week)
+  if( time() - $mtime <= $analysisinterval ) {
+    open( logfh, $filename);
+    while(<logfh>) {
+      # note: any of these will be tricked by 'gecho' but that's probably
+      # not going to be of significance
+      if( /Incoming/ ) {
+	$numconnect++;
+	next;
+      }
+      if( /sinaddr/ ) {  # cope with pre-doorman logfiles
+	$numconnect++;
+	next;
+      }
+      if( /new player/ ) {
+	$numnewbies++;
+	next;
+      }
+      if( /connected/ ) { 
+	$numlogins++;
+	next;
+      }
+      if( /quit/ ) {
+	$numquits++;
+	next;
+      }
+      if( /made a level/ ) {
+	$numlevels++;
+	next;
+      }
+      if( /killed by/ ) {
+	$numdeaths++;
+	next;
+      }
+      if( /shutdown/ ) {
+	$numshutdown++;
+	next;
+      }
+    }
+    close( logfh);
+  }
+  return;
+}
+
+
+sub analyze_player {
+
+  
+  my $filename = shift;
+  # ignore unwanted or unplesant files that might be lingering
+  if( $filename =~ /^\.|^CVS|tar$|gz$|zip$|~$/ ) {
+    return;
+  }
+  $numtotalplr++;
+  my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+   $atime,$mtime,$ctime,$blksize,$blocks)
+    = stat($filename);
+
+  # calculate if this file has been changed in the last $analysisinterval
+  # period (generally one week)
+  if( time() - $mtime <= $analysisinterval ) {
+
+    $numrecentplr++;
+  }
+  return;
+}
+
+
+# do_analyze_logs
+# role: to open the log and player directories so their contents may
+#       be scanned and reported on
+# called by: main()
+
+sub do_analyze_logs {
+  
+  my $timeperiod = $analysisinterval / ( 3600 * 24 );
+  my $var;
+  
+  print( "Collating statistics for the last $timeperiod days - please wait...\n" );
+
+  chdir( "../log" );
+  my $d = new DirHandle( "." );
+  
+  if( defined $d ) {
+    while( defined( $_ = $d->read )) {
+      analyze_log( $_ );
+    }
+  }
+
+  chdir( "../player" );
+  my $d = new DirHandle( "." );
+  
+  if( defined $d ) {
+    while( defined( $_ = $d->read)) {
+      analyze_player( $_ );
+    }
+  }
+  
+  print( "VARIABLE      FREQUENCY\n\n" );
+  printf( "%-20s%3d\n",  "Newbies:",   $numnewbies );
+  printf( "%-20s%3d\n",  "Connections:",   $numconnect );
+  printf( "%-20s%3d\n",  "Logins:",   $numlogins );
+  printf( "%-20s%3d\n",  "Quits:",   $numquits );
+  printf( "%-20s%3d\n",  "Levels:",   $numlevels );
+  printf( "%-20s%3d\n",  "Deaths:",   $numdeaths );
+  printf( "%-20s%3d\n",  "Shutdowns:",   $numshutdown );
+
+  if( $numrecentplr == 0 or $numtotalplr == 0  ) {
+	print( "No players have logged on recently\n" );
+	exit 0;
+  }  
+  my $proportion = $numrecentplr / $numtotalplr * 100;
+
+  printf( "\nPercentage of all players who've logged in recently: %.1f\n", $proportion );
+
+  exit 0;
+}
+
+sub main {
+
+  my $LOGNAME = $ENV{LOGNAME};
+  print( "\nXania management script executed by \"$LOGNAME\" on $nowtime\n" );
+
+  getopts( 'adhs:r:u' ) || do_usage();
+  
+  # we only execute one command option
+
+  if( $opt_h ) {
+    do_usage();
+  }
+  if( $opt_a ) {
+
+    do_analyze_logs();
+    
+  }
+  if( $opt_d ) {
+
+    do_shutdown_mud();
+    
+  }
+  if( $opt_s ) {
+    if( $opt_s =~ /\D/ ) {
+      print( STDERR "invalid port number '$opt_s'\n" );
+      exit 1;
+    }
+
+    $port = $opt_s;
+    do_start_mud();
+  }
+  if( $opt_r ) {
+
+    if( $opt_r =~ /\D/ ) {
+      print( STDERR "invalid port number '$opt_s'\n" );
+      exit 1;
+    }
+
+    $port = $opt_r;
+    do_restart_mud();
+
+  }
+  if( $opt_u ) {
+    do_mud_status();
+  }
+  else {
+    print( "mudmgr -h to view options.\n" );
+  }
+  exit 0;
+}
+
+  
+main(); 

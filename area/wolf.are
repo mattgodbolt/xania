@@ -1,0 +1,2903 @@
+#AREA         
+wolf.are~
+Wolf Pointe~
+{ All } Scorp   Wolf Pointe~
+10051 10130
+
+#MOBILES
+#10051
+shop keeper magical~
+the magical shop keeper~
+A young shop keeper watches a chess board here. 
+~
+There is a young shop keeper here playing chess and although no one is playing 
+the pieces move as if two players were seated. He is here attending to his 
+potions and scrolls. He looks very young yet his skills in the art of the 
+arcane appear very powerful. 
+~
+human~
+BV D 0 0
+50 0 1d1+2499 1d1+1499 10d10+10 magic
+-20 -20 -20 -20
+FK ABCDLQ BCDLQ 0
+stand stand male 20000
+0 0 medium 0
+#10052
+baker shop keeper~
+the baker~
+The baker is a very large jolly man. He stands here tasting his pastries.
+~
+A very large man stands before you. He mouth is covered in jelly and he seems
+to giggle alot.
+~
+human~
+BV 0 0 0
+50 25 1d1+2499 1d1+199 10d10+25 digestion
+-20 -20 -20 -20
+CDEFKO ABCDLQ BCDLQ 0 
+stand stand male 0
+0 0 large 0
+#10053
+food clerk shop keeper~
+the food clerk~
+A man eager to sell many different foods is here.
+~
+The clerk shifts different foods around the store organizing and cleaning.
+He is a muscular man lifting and moving inventory all day has built up his
+strength.
+~
+human~
+BV 0 0 0
+50 25 1d1+2499 1d1+199 10d10+25 digestion
+-20 -20 -20 -20
+CDEFKO ABCDLQ BCDLQ 0 
+stand stand male 0
+0 0 large 0
+#10054
+butcher shop keeper~
+the butcher~
+A butcher stands here with a bloody cleaver in his hands.
+~
+The butcher is covered in blood from head to toe. He has a wicked smile on his
+face that grows larger with every chop.
+~
+human~
+BV 0 0 0
+50 24 1d1+2499 1d1+199 10d10+19 cleave
+-20 -20 -20 -20
+CDEFKO ABCDLQ BCDLQ 0 
+stand stand male 0
+0 0 large 0
+#10055
+weaponsmaster seller shop keeper~
+the weaponsmaster~
+A weaponsmaster is here sharpening his blades.
+~
+A weaponsmaster stands here. He is very muscular and skilled with each and 
+every weapon in the shop.
+~
+human~
+BV 0 0 0
+50 30 1d1+2499 1d1+199 10d10+30 beating
+-20 -20 -20 -20
+CDEFKO ABCDLQ BCDLQ 0 
+stand stand male 20000
+0 0 large 0
+#10056
+armourer armorer seller shop keeper~
+the armourer~
+An armourer stands here polishing and cleaning his inventory.
+~
+An armorer stands here. he is obviously very proud of each item of armor that
+he sells. He is covered in light grey armor from head to toe.
+~
+human~
+BV 0 0 0
+50 30 1d1+2499 1d1+199 10d10+30 beating
+-20 -20 -20 -20
+CDEFKO ABCDLQ BCDLQ 0 
+stand stand male 20000
+0 0 large 0
+#10057
+wolf trainer pet shop keeper~
+the wolf trainer~
+A wolf trainer stands here, delivering commands to the pups.
+~
+The trainer is obviously a very dominant man. He is very large and not afraid
+to take down any of the animals here if they would happen to talk back to him.
+~
+human~
+BV 0 0 0
+50 30 1d1+2499 1d1+199 10d10+30 bite
+-20 -20 -20 -20
+CDEFKO ABCDLQ BCDLQ 0 
+stand stand male 0
+0 0 large 0
+#10058
+wandering gypsy~
+the wandering gypsy~
+A wandering gypsy is passing through selling potions.
+~
+She is dressed in scarves and robes. She is a very attractive woman. After 
+staring for a while you feel compelled to buy something to not look so 
+foolish.
+~
+human~
+CGV 0 0 0
+50 30 1d1+2499 1d1+199 5d10+30 magic
+-20 -20 -20 -20
+CDEFKO ABCDLQ BCDLQ 0 
+stand stand female 0
+0 0 medium 0
+#10059
+monk wolf pointe healer~
+the wolf pointe monk~
+The Wolf Pointe monk is here, healing souls of weary adventurers.
+~
+A large, jolly monk stands stands here,  wearing dark brown robes and he 
+carries a holy symbol about his neck. The monk is a 
+very mysterious man yet you feel very comfortable around him.
+~
+human~
+BVQ DFHJN 0 0
+50 25 1d1+3499 1d1+199 5d10+25 divine
+-20 -20 -20 -20
+CDEFHKON ABCDLQ BCDLQ 0 
+stand stand male 0
+0 0 large 0
+#10060
+bartender gus seller~
+Gus the bartender~
+Gus the bartender rushes by you.  He looks very busy.
+~
+Gus is a man who seems to have an endless amount of energy flowing through 
+his body. He is a lean man due to all of the exercise he gets running a pub
+all alone. He rushes by you, nods and continues on about his duties.  
+~
+human~
+BV 0 0 0
+50 25 1d1+2499 1d1+99 10d10+18 beating
+-25 -25 -25 0
+FHN ABCDLQ BCD 0
+stand stand male 0
+0 0 medium 0
+#10061
+wolf pointe guard~
+A wolf pointe guard~
+A guard is here, watching the city.
+~
+A large, muscular man is here protecting the citizens.
+~
+human~
+CGT 0 1000 0
+35 17 25d21+900 35d10+100 8d5+12 pound
+-10 -10 -10 -5
+CFNU 0 Q 0
+stand stand male 120
+0 0 large 0
+#10062
+wolf pointe guard~
+A wolf pointe guard~
+A wolf pointe guard watches you.
+~
+A very large man who is protecting the town.
+~
+human~
+CGT 0 1000 0
+35 16 25d21+900 35d10+100 8d5+16 pound
+-10 -10 -10 -5
+CFNU 0 Q 0
+stand stand male 120
+0 0 large 0
+#10063
+wolf pointe guard~
+A wolf pointe guard~
+A wolf pointe guard watches the gates.
+~
+A very large man who is protecting the town.
+~
+human~
+BCT 0 1000 0
+35 16 25d21+900 35d10+100 8d5+12 pound
+-10 -10 -10 -5
+CFNU 0 Q 0
+stand stand male 120
+0 0 large 0
+#10064
+wolf pointe guard~
+A wolf pointe guard~
+A wolf pointe guard is here, strolling through town.
+~
+A very large man who is protecting the town.
+~
+human~
+CGT 0 1000 0
+35 16 25d21+900 35d10+100 8d5+19 pound
+-10 -10 -10 -5
+CFNU 0 Q 0
+stand stand male 120
+0 0 large 0
+#10065
+wolf pointe guard~
+A wolf pointe guard~
+A wolf pointe guard is watching the town activities.
+~
+A very large man who is protecting the town.
+~
+human~
+CGT 0 1000 0
+35 16 25d21+900 35d10+100 8d5+14 pound
+-10 -10 -10 -5
+CFNU 0 Q 0
+stand stand male 120
+0 0 large 0
+#10066
+wolf pointe guard~
+A wolf pointe guard~
+A wolf pointe guard is here, glaring at you.
+~
+A very large man protecting town.
+~
+human~
+CGT 0 1000 0
+35 16 25d21+900 35d10+100 8d5+16 pound
+-10 -10 -10 -5
+CFNU 0 Q 0
+stand stand male 120
+0 0 large 0
+#10067
+wolf pointe guard~
+A wolf pointe guard~
+A wolf pointe guard is here, slacking off.
+~
+A very large man protecting town.
+~
+human~
+CGT 0 1000 0
+35 16 25d21+900 35d10+100 8d5+17 pound
+-10 -10 -10 -5
+CFNU 0 Q 0
+stand stand male 120
+0 0 large 0
+#10068
+white Wolf pup pet~
+the white Wolf pup~
+A white Wolf pup is here.
+~
+The Wolf pup looks like a tough little furball.
+~
+wolf~
+UH 0 0 0
+10 5 10d5+100 10d10+100 3d4+5 bite
+0 0 0 0
+N 0 C 0
+stand stand neutral 0
+0 0 tiny 0
+#10069
+brown Wolf pet~
+the brown Wolf~
+A young brown Wolf is here.
+~
+The brown Wolf looks like an aggressive youth.
+~
+wolf~
+UH F 0 0
+20 10 10d10+300 20d10+100 4d6+10 bite
+-2 -2 -2 -2
+N 0 C 0
+stand stand neutral 0
+0 0 small 0
+#10070
+grey Wolf adult pet~
+the grey adult Wolf~
+An adult grey Wolf is here.
+~
+The grey Wolf looks like a mean protector.
+~
+wolf~
+UH F 0 0
+30 15 30d15+350 30d10+100 2d18+15 bite
+-4 -4 -4 -4
+N 0 C 0
+stand stand neutral 0
+0 0 medium 0
+#10071
+black Wolf elder pet~
+black Wolf elder~
+A large, black Wolf elder is here.
+~
+The Wolf elder stands here watchs carefully over his owner.
+~
+wolf~
+UH F 0 0
+40 20 20d40+400 40d10+100 4d10+15 chomp
+-5 -5 -5 -5
+N 0 C 0
+stand stand neutral 0
+0 0 large 0
+#10072
+recycler janitor cleaner~
+the recycler~
+A recycler is strolling through town picking up cans. 
+~
+You see a grubby man here collecting cans and other items he can recycle. 
+He is bogged down with many items and doesn't seem to be very coordinated.
+~
+human~
+GHC 0 350 0
+10 5 10d5+100 10d10+100 3d5+5 hit
+1 1 1 0
+NE 0 0 0
+stand stand neutral 20
+0 0 medium 0
+#10073
+dart players drunks~
+the dart players~
+A dart player stands here too drunk to hit the broad side of a barn.
+~
+A dart player looks like he is about to pass out. He stands before you with
+a drink in one hand and a dart in the other. You wonder where the dart will
+go when he throws it.
+~
+human~
+BG 0 400 0
+5 2 2d6+42 5d10+100 1d6+2 beating
+1 1 1 3
+U 0 0 C
+stand stand male 55
+0 0 medium 0
+#10074
+citizen person~
+the citizen~
+A citizen is here doing his daily business.
+~
+The citizen is wandering about, clueless, trying to get his daily duties
+finished. He has some papers underneath one arm and is reading a letter that
+he obviously recieved that morning. The citizen is quite unaware about what 
+is going on around him.
+~
+human~
+CGHT 0 1000 0
+15 7 15d15+10 15d10+100 4d5+4 pound
+0 0 0 8
+EK 0 L 0
+stand stand male 50
+0 0 medium 0
+#10075
+citizen person shopper~
+a citizen~
+The citizen is wandering through town shopping.
+~
+She is carrying all the plastic she can hold headed from shop to shop. She
+has an arm full of bags under her arm. She is a well dressed woman who is  
+obviously taken care of by someone.
+~
+human~
+CGHT 0 1000 0
+15 7 15d15+10 15d10+100 4d5+4 pound
+0 0 0 8
+EK 0 L 0
+stand stand female 150
+0 0 medium 0
+#10076
+town judge~
+Town Judge~
+The Town Judge stands here waiting to pass judgement on his next Victim.
+~
+The Judge stands here covered in a long, silky, black robe. He carries a 
+large gavel, ready to beat down anyone who doubts his authority. He has evil
+eyes and a dark grin on his face.
+~
+human~
+BT DFH -1000 0
+75 36 60d60+3500 75d10+100 8d9+30 crush
+-50 -50 -50 -40
+FD AB LQ FY
+stand stand female 750
+0 0 large 0
+#10077
+scavengers rats~
+A scavenger rat~
+A scavenger rat rummages through the dirt and filth here.
+~
+A large red eyed rat is looking through the rubbage for his next meal. 
+~
+unique~
+BU 0 0 0
+1 1 2d6+10 1d10+99 1d5+1 peck
+8 8 8 10
+F 0 0 C 
+stand stand male 0
+0 0 small 0
+#10078
+qwesting adventurer~
+an adventurer~
+A qwesting adventurer is here.
+~
+The adventurer looks ready for a quest. He is a very sturdy looking man
+covered in armor that looks worn and beaten. He has a very intent look on
+his face. You might want to try talking to him but you think that maybe he
+is already too involved.
+~
+human~
+CGHT 0 500 0
+15 7 15d15+10 15d10+149 2d8+7 punch
+0 0 0 8
+CDEHKLU 0 C 0
+stand stand male 150
+0 0 medium 0
+#10079
+executioner~
+the executioner~
+The Executioner stands here ready to dispense justice.
+~
+The executioner is HUGE and cloaked in all black. He looks very evil. Not
+a man that you would care to do business with.
+~
+human~
+BT DFH -1000 0
+65 37 50d50+2500 1d1+99 6d10+30 crush
+-50 -50 -50 -40
+FD AB LQ FY
+stand stand male 750
+0 0 large 0
+#10080
+birds flock~
+some birds~
+A flock of birds are flying around the trees here.
+~
+The birds are flying around singing quietly.
+~
+song bird~
+GHU 0 1000 0
+1 0 2d6+0 1d1+99 1d3+0 peck
+10 10 10 10
+R 0 0 C
+stand stand neutral 0
+0 0 tiny 0
+#10081
+sheriff~
+the sheriff~
+The sheriff is here guarding the prisoner.
+~
+The sheriff looks like a lazy man kicked back in his chair. He is half asleep,
+maybe, and he wears a large weapon about his waist with his hand on the handle 
+at all times. He looks wrinkled in his face due to many years at his job.
+~
+human~
+BT DFH 0 0
+75 37 60d60+3500 75d10+100 8d9+30 crush
+-50 -50 -50 -40
+FD AB LQ FY
+stand stand male 750
+0 0 large 0
+#10082
+town lord mayor~
+the town lord~
+The town lord looks puzzled with happenings in town.
+~
+A big, strong, overworked town lord walks around town trying to keep the 
+peace. He is  hidden in a cloak and hood and as he walks he seems to 
+float across the ground as if he were flying.
+~
+human~
+GT DFH 0 0
+75 37 60d60+3500 75d10+100 8d9+30 crush
+-50 -50 -50 -40
+FD AB LQ FY
+stand stand male 750
+0 0 large 0
+#10083
+little boy child kid~
+a little boy~
+A small boy is here playing marbles is here.
+~
+He is just a little boy. You remember being young. He is playing marbles by
+himself and looks as if he is winning.
+~
+human~
+CHG 0 0 0
+5 0 12d6+10 1d1+99 1d5+0 slap
+10 10 10 10
+D 0 0 C 
+stand stand male 14
+0 0 small 0
+#10084
+small puppy dog~
+the small puppy dog~
+A small puppy dog rolls in the dirt here.
+~
+This is the boy's puppy. He is brown and covered in little white spots. As you
+watch him you see him eat one of the marbles that a boy lost.
+~
+dog~
+CHG 0 0 0
+5 2 12d6+10 1d1+99 1d5+3 slap
+10 10 10 10
+D 0 0 C 
+stand stand neutral 14
+0 0 small 0
+#10085
+little girl child~
+a little girl~
+A little girl playing jax is here.
+~
+She is a beautiful little girl. She is playful and full of smiles. She has
+long dark hair and looks as if she will grow up to be a beautiful young lady.
+~
+human~
+CHG 0 0 0
+5 1 12d6+10 1d1+99 1d5+2 slap
+10 10 10 10
+D 0 0 C 
+stand stand female 14
+0 0 small 0
+#10086
+kitten cat feline~
+a small kitten~
+A small kitten purrs contently at you.
+~
+The small kitten belongs to the little girl. She purrs at you and rubs your
+leg. MMMMEEEEEEEOOOOOOOWWWWWWWWWWWW!!!!!!!!!!
+~
+cat~
+CHG 0 0 0
+5 2 12d6+10 1d1+99 1d5+5 slap
+10 10 10 10
+D 0 0 C 
+stand stand female 14
+0 0 small 0
+#10087
+prisoner inmate~
+the prisoner~
+The Prisoner is here trying to escape.
+~
+He is very large and very mean. You are gonna die!!!
+~
+human~
+BFT DFH -1000 0
+65 25 40d60+3500 65d10+100 6d10+25 crush
+-24 -26 -25 -15
+FD AB LQ FY
+stand stand female 750
+0 0 large 0
+#10088
+resident citizen person~
+the resident~
+A mad resident wonders through town doing business.
+~
+He looks pretty mean. Better not cross him.
+~
+human~
+GCT 0 -500 0
+15 7 15d15+10 15d10+149 2d11+5 punch
+0 0 0 8
+C 0 C 0
+stand stand male 150
+0 0 medium 0
+#10089
+resident citizen person~
+a resident~
+A happy resident wanders through town.
+~
+He is having a wonderful day. Full of smiles and jokes.
+~
+human~
+GCT 0 5000 0
+15 7 15d15+10 15d10+149 2d12+6 punch
+0 0 0 8
+C 0 C 0
+stand stand male 150
+0 0 medium 0
+#10090
+wandering Wolf wanderer~
+a wandering Wolf~
+A Wolf is wandering through town.
+~
+He looks like a friendly, playful Wolf. He is light grey in color and seems 
+to have a smile on his face. His coat gets darker as it extends further down
+his back. His face is thinner than that of an older wolf and his eyes are
+a brilliant yellow-green in color. His tail is silver in color and ends with
+a dark grey tip.
+~
+wolf~
+G N 500 0
+40 20 6d10+500 40d10+199 4d10+20 bite
+-15 -15 -15 -15
+EFN AB Q Y
+stand stand neutral 100
+0 0 medium 0
+#10091
+mother wolf mom~
+a Mother Wolf~
+The mother wolf stands quietly here protecting her pups.
+~
+The mother wolf is standing here protectively keeping watch over her pups.
+She is a beautiful example of her species. She has a perfectly white coat
+with slight highlights of silver. As you walk around the room her eyes 
+follow you everywhere.
+~
+wolf~
+BUQ QHFJ 0 0
+42 21 20d21+500 42d10+99 4d11+20 bite
+-18 -19 -19 -6
+RKNU 0 LQ 0
+stand stand neutral 178
+0 0 medium 0
+#10092
+wolf wolves elder~
+an elder wolf~
+A Wolf Elder is resting here keeping watch over his den.
+~
+You see a large, dignified black wolf here. It looks as if he has been  
+through many hard battles. You can see scars on his body proving his
+valiant efforts. It is obvious to you that this is one of the higher
+leaders of the wolf pack.
+~
+wolf~
+BGU HFJ 0 0
+42 21 20d21+500 1d1+99 4d11+20 bite
+-19 -19 -19 -8
+KNU 0 LQ 0
+stand stand neutral 178
+0 0 medium 0
+#10093
+wandering wolf wanderer~
+a wandering wolf~
+A wolf is wandering through town.
+~
+He looks like a mean and nasty wolf. His face is masked in black fur that 
+extends down over his back through his tail. His eyes are dark green and
+his teeth covered in blood. He grins at you evilly and bares his teeth. With
+every step you take he steps towards you.
+~
+wolf~
+G N -500 0
+40 20 6d10+500 1d1+199 4d10+20 bite
+-15 -15 -15 -15
+EFN AB Q 0
+stand stand neutral 100
+0 0 medium 0
+#10094
+wolf pups babies tiny~
+wolf pup~
+Some tiny wolf pups are here playing in the dirty wrestling all around.
+~
+The wolf pups look playful and harmless. These pups are completely covered
+in a silvery fluff. They have yet to grow into their course protective fur
+yet. They are rolling around together biting each others ears and feet.
+~
+wolf~
+BU HF 0 0
+9 3 6d10+80 1d1+99 2d5+1 bite
+-4 -4 -4 -8
+C 0 C 0
+stand stand neutral 0
+0 0 small 0
+#10095
+mage guildmaster~
+the guildmaster~
+Your guildmaster stands here.
+~
+A young man waving his hands and casting magic is here ready to train you.
+He has grey hair and is wearing spectacles. He wears long purple robe that
+seems in continuous motion.
+~
+human~
+BJKVRbb DFH 0 0
+91 10 1d1+25000 1d1+499 5d8+5 pierce
+-15 -15 -15 -15 
+FHN ABCD 0 0
+stand stand male 0
+0 0 medium 0
+#10096
+cleric guildmaster~
+the guildmaster~
+Your guildmaster stands here.
+~
+An angelic looking man stands here ready to train you. He is surrounded by a
+golden aura. He waits patiently for your request and seems totally content
+with life.
+~
+human~
+BJKQVbb DFH 500 0
+91 10 1d1+25000 1d1+499 6d7+8 bite
+-15 -15 -15 -15
+EFGIK ABCD 0 0
+stand stand male 0
+0 0 medium 0
+#10097
+warrior guildmaster~
+the guildmaster~
+Your guildmaster stands here.
+~
+A large man fighting mobiles here is ready to train you. He is very well 
+armored and his arms are about twice the width as yours.
+~
+human~
+BJKTVbb DFH 0 0
+91 20 1d1+30000 1d1+99 2d4+30 digestion
+-15 -15 -15 -15
+ACEFHIK ABCD 0 0
+stand stand male 0
+0 0 medium 0
+#10098
+thief guildmaster~
+the guildmaster~
+Your guildmaster stands here.
+~
+A man dressed in black is ready to train you. You might want to check your
+pockets before you leave.
+~
+elf~
+BJKSVbb DFH -500 0
+91 15 1d1+25000 1d1+99 1d4+10 digestion
+-15 -15 -15 -15
+BEFHJKN ABCD 0 0
+stand stand male 0
+0 0 medium 0
+#0
+#OBJECTS    
+#10051
+marble gavel~
+A marble gavel~
+A shiney marble gavel lies here.~
+adamantite~
+weapon ABCEHJM AN
+'mace' 7 11 'crush' 0
+75 
+
+15 2109 P
+E
+marble gavel~
+The judge's gavel looks very powerful and evil. It is dark, black marble with
+not a scratch on it. The gavel looks strong and sturdy as if it can withstand 
+quite a beating.
+~
+A
+18 3
+A
+19 3
+A 
+13 10
+#10052
+judge robes~
+Judge's robes~
+A pile of Dark Judge's robes are here almost hidden in the darkness.~
+cloth~ 
+armor ACEJ AK
+15 14 15 10 0
+75 10 1800 P
+E
+judge's robes~
+The judges robes are here. They look dark and mysterious.~
+A
+12 40
+A
+13 30
+#10053
+wolf plate silver~
+Wolf plate~
+Some silver wolf plate is here.~
+silver~
+armor A AD
+8 12 9 7 0
+33 25 520 G
+E
+wolf plate~
+This is a nice piece of silver Wolf Pointe armor. It is in good condition.~
+A
+12 10
+A
+13 10
+A
+1 1
+A
+2 1
+#10054
+wolf sleeves silver~
+Wolf sleeves~
+Some silver wolf sleeves are here.~
+silver~
+armor A AI
+12 10 11 5 0
+33 10 520 G
+E
+wolf sleeves~
+This is a nice piece of silver Wolf Pointe armor. It is in good condition.~
+A
+12 7
+A
+3 1
+A
+4 1
+#10055
+wolf girth silver~
+Wolf girth~
+A girth with a wolf carved into it is here.~
+silver~
+armor A AL
+7 12 14 2 0 
+33 5 513 G
+E
+wolf girth~
+This is a nice piece of silver Wolf Pointe armor. It is in good condition.~
+A
+13 7
+#10056
+wolf leggings silver~
+Wolf leggings~
+Some wolf leggings were left here.~
+silver~
+armor A AF
+13 9 11 1 0
+33 10 591 G
+E
+wolf leggings~
+This is a nice piece of silver Wolf Pointe armor. It is in good condition.~
+A
+12 7
+A
+13 7
+A
+5 1
+#10057
+wolf boots silver~
+Wolf boots~
+Some silver wolf boots have been placed here.~
+silver~
+armor A AG
+12 12 12 0 0
+33 7 480 G
+E
+wolf boots~
+This is a nice piece of silver Wolf Pointe armor. It is in good condition.~
+#10058
+wolf gloves silver~
+Wolf gloves~
+Some powerful looking gloves are here.~
+silver~
+armor A AH
+12 12 12 0 0
+33 7 580 G
+E
+wolf gloves~
+This is a nice piece of silver Wolf Pointe armor. It is in good condition.~
+A
+18 1
+A
+19 2
+#10059
+wolf shield silver~
+Wolf shield~
+A shield with the image of a wolf carved on it rests against the wall here.~
+silver~
+armor A AJ
+13 13 13 0 0
+33 25 523 G
+E
+wolf shield~
+This is a nice piece of silver Wolf Pointe armor. It is in good condition.~
+A
+12 20
+#10113
+wolf bracers silver~
+Wolf bracers~
+Some fancy bracers are here.~
+silver~
+armor A AM
+11 11 11 8 0
+33 3 600 G
+E
+wolf bracers~
+This is a nice piece of silver Wolf Pointe armor. It is in good condition.~
+A
+12 5
+A
+13 5
+A
+17 -5
+#10060
+wolf headress elder~ 
+Headress of a Wolf~
+An extravagant black, wolf headress is here.~
+leather~
+armor L AE
+12 11 10 5 0
+42 8 1280 A
+E
+wolf headress~
+This is a beautiful headress made from a wolf elder. It is black and appears
+to carry the knowledge of it's previous soul.
+~
+A
+3 2
+A
+4 2
+#10061
+smashed plate steel~
+smashed plate~
+A pile of Bashed up armor is here.~
+steel~
+armor 0 AD
+7 6 6 0 0
+15 20 20 W
+#10062
+standard helm steel~
+standard steel helm~
+A standard steel helm is here.~
+steel~
+armor 0 AE
+6 8 6 0 0
+15 5 120 A
+#10063
+standard plate steel~
+standard steel plate~
+Some standard steel armor is here.~
+steel~
+armor 0 AD
+7 6 8 0 0
+15 20 180 A
+#10064
+standard shield steel~
+standard steel shield~
+A standard steel shield is here.~
+steel~
+armor 0 AJ
+7 9 8 0 0
+15 15 190 A
+#10065
+standard sword steel~
+standard steel sword~
+A standard steel sword rests here.~
+steel~
+weapon 0 AN
+'sword' 5 3 'slash' 0
+15 10 120 A
+#10066
+executioner's axe~
+Executioner's Axe~
+The Executioner's Axe is here stuck in the ground.~
+steel~
+weapon ABCEJ AN
+'axe' 6 11 'chop' C
+65 20 1280 P
+E
+executioner's axe~
+The Executioner's axe is very large. The blade is covered in blood, old and
+new. This is one of the largest axe's you have ever seen, razor sharp, and 
+intricate. There is a black aura surrounding this axe and the feeing of death
+about it. On the blade is inscribed the word "Vengence".
+~
+A
+2 2
+A
+18 2
+A
+19 6
+#10067
+sheriff's plate~
+Sheriff's Plate~
+The sheriff's plate is in the middle of the room.~
+steel~
+armor ACE AD
+16 16 16 7 0
+65 25 1840 P
+E
+sheriff's plate~
+This steel blue plate belong's to the sheriff of Wolf Pointe. It glimmers
+with a protective aura.
+~
+A
+12 20
+A 
+13 30
+#10068
+sheriff's mace~
+Sheriff's Mace~
+A large strong mace has been placed on the ground here.~
+steel~
+weapon AB AN
+'mace' 6 11 'smash' 0
+65 20 1900 P
+E
+mace~
+A black handled weapon with a silver tipped ball covered in spikes.
+~
+A 
+5 1
+A
+4 1
+A
+18 4
+A
+19 2
+#10069
+marbles stones~
+marbles~
+Some little boy must have lost his marbles here.~
+bronze~
+trash 0 A
+0 0 0 0 0
+1 1 1 W
+E
+marbles~
+Some multi-coloered pebbles used for children's entertainment are in a circle.
+~
+#10070
+jax~
+jax~
+A little girl must have lost her jax here.~
+bronze~
+trash 0 A
+0 0 0 0 0
+1 1 1 W
+E
+jax~
+Some six pointed objects and a small rubber ball are here.
+~
+#10071
+wolf Pointe cloak~
+Wolf Pointe Cloak~
+A silvery-grey cloak lies here in a pile.
+~
+cloth~
+armor A AK
+15 16 15 15 0
+65 20 2100 P
+E
+wolf pointe cloak~
+A large, dark shroud with the impression of a wolf on it's backside.
+~
+A
+12 10
+A
+13 20
+#10072
+wolf bone dagger~
+Wolf Bone Dagger~
+A beautiful dagger carved from a wolf's femur is stuck into the ground here.~
+bone~
+weapon ABHM AN
+'exotic' 6 11 'pierce' 0
+65 10 1790 P
+E
+bone dagger~
+A femur from a wolf has been honed into this very beautiful, but deadly, 
+weapon. One edge is razor sharp; the other is etched into "teeth". You realize 
+that a strike from this weapon would feel as if bitten by a wolf.
+~
+A
+3 1
+A
+4 1
+A
+18 2
+A
+19 3
+#10073
+wolf eye ring~
+Wolf Eye Ring~
+An eye set into a small ring lying here appears to track your every movement.~
+adamantite~
+armor 0 AB
+12 12 12 12 0
+65 1 1890 P
+E
+eye ring~
+The eye of a wolf elder has been placed in an intricate of onyx and silver.
+When wearing it you feel as if you can see all of the wisdom of the elder.
+~
+A
+12 45
+#10074
+wolf tooth dagger~
+Wolf Tooth Dagger~
+An enamel dagger has been placed here.~
+adamantite~
+weapon AB AN
+'dagger' 6 7 'pierce' 0
+45 5 980 P
+E
+tooth dagger~
+A fine piece of craftmanship: A complete set of wolf teeth has been forged
+into a frightening dagger.
+~
+A
+19 2
+#10075
+wolf dagger~
+Wolf Dagger~
+A standard wolf dagger has been left here.~
+silver~
+weapon 0 AN
+'dagger' 5 5 'pierce' 0
+25 5 700 P
+E
+dagger~
+This is a dagger with a wolf etched into the blade.
+~
+#10076
+wolf sword standard~
+Wolf Sword~
+A standard wolf sword is here.~
+steel~
+weapon 0 AN
+'sword' 5 5 'pierce' 0
+25 10 500 P
+E
+sword~
+This is a long sword with a wolf etched on the handle.
+~
+A
+18 1
+A
+19 1
+#10077
+wolf mace standard~
+Wolf Mace~
+A wolf mace is stuck to the wall.~
+steel~
+weapon 0 AN
+'mace' 5 5 'pound' 0
+25 10 500 P
+E
+mace~
+This is a small mace with a wolf on the handle and teeth covering the top.
+~
+A
+18 1
+A
+19 1
+#10078
+fount fountain simple~
+fountain~
+A simple fountain covered in gold and emeralds flows here.~
+adamantite~
+fountain AO 0
+999 999 0 0 0
+1 999 0 P
+E
+fount fountain~
+This is a beautiful fountain of clear water.  Emeralds line the bottom of the 
+gold-covered masterpiece. It has two levels that you notice. One level for
+the wolves to drink from and one level for adventurers.
+~
+#10079
+fount fountain glass~
+fountain~
+A beautiful glass fountain.~
+glass~
+fountain AO 0
+999 999 0 0 0
+1 999 0 P
+E
+fount fountain glass~
+A clear glass fountain in the shape of a wolf is here.  Water springs forth, 
+beckoning you to drink.
+~
+#10080
+wolf bite drink double shot~
+wolf bite~
+A double shot of Wolf Bite.~
+glass~
+drink 0 A
+2 2 'local specialty' 0 0
+1 1 0 P
+#10081
+wolf tail nasty double~
+wolf tail~
+A nasty double of Wolf Tail.~
+glass~
+drink 0 A
+2 2 'local specialty' 0 0
+1 1 0 P
+#10082
+hair dog~
+hair of the dog~
+Some hair of the dog that bit you.~
+glass~
+drink 0 A
+2 2 'dark ale' 0 0
+1 1 0 P
+#10083
+ale stout glass~
+ale~
+A stout glass of ale.~
+glass~
+drink 0 A
+2 2 'ale' 0 0
+1 1 0 P
+E
+ale~
+A stout glass of ale.
+~
+#10084
+lord's key shimmering~
+lord's key~
+A shimmering key is here.~
+gold~
+key 0 A
+0 0 0 0 0
+95 1 0 P
+#10085
+pet shop key steel~
+pet shop key~
+A steel key is here.~
+steel~
+key 0 A
+0 0 0 0 0
+95 1 0 P
+#10086
+sheriff's key silvery~
+the sheriff's key~
+A silvery key shimmers here.~
+silver~
+key 0 A
+0 0 0 0 0
+95 1 0 P
+#10087
+detect hidden potion~
+potion of detect hidden~
+A potion is here.~
+glass~
+potion GI A
+5 44 0 0 0
+5 1 1000 P
+#10088
+potion heal healing~
+potion of healing~
+A potion bubbles here.~
+glass~
+potion GI A
+20 28 0 0 0
+20 1 2000 P
+#10089
+potion detect invisibility~
+potion of detect invisibility~
+A black potion is here.~
+glass~
+potion GI A
+1 19 0 0 0
+1 1 1000 P
+#10090
+potion invisibility~
+potion of invisibility~
+A translucent potion has been left in the corner.~
+glass~
+potion GI A
+1 29 0 0 0
+1 1 100 P
+#10091
+banana~
+a banana~
+A banana.~
+food~
+food 0 A
+10 0 0 0 0
+1 1 10 P
+#10092
+sandwich~
+sandwich~
+A sandwich.~
+food~
+container 0 A
+48 0 0 0 0
+1 1 20 P
+#10093
+pastry fancy~
+fancy pastry~
+A fancy pastry.~
+food~
+food 0 A
+20 0 0 0 0
+1 1 30 P
+#10094
+carrots~
+carrots~
+Some carrots.~
+food~
+food 0 A
+5 0 0 0 0
+1 1 5 P
+#10095
+spinach~
+spinach~
+Some spinach.~
+food~
+food 0 A
+50 0 0 0 0
+1 1 50 P
+#10096
+wolf meat hunk~
+wolf meat~
+A hunk of wolf meat.~
+food~
+food 0 A
+100 0 0 0 0
+1 1 400 P
+#10097
+pork~
+pork~
+Some pork.~
+food~
+food 0 A
+60 0 0 0 0
+1 1 200 P
+#10098
+chicken~
+chicken~
+A chicken.~
+food~
+food 0 A
+40 0 0 0 0
+1 1 90 P
+#10099
+fish~
+fish~
+A fish.~
+food~
+food 0 A
+55 0 0 0 0
+1 1 100 P
+#10100
+deer meat~
+deer~
+Deer meat.~
+food~
+food 0 A
+60 0 0 0 0
+1 1 120 P
+#10101
+sourdough bread loaf~
+sourdough bread~
+A loaf of sourdough bread.~
+food~
+food 0 A
+16 0 0 0 0
+1 1 20 P
+#10102
+pumpkin pie~
+pumpkin pie~
+A pumpkin pie.~
+food~
+food 0 A
+19 0 0 0 0
+1 1 30 P
+#10103
+banana bread loaf~
+banana bread~
+A loaf of banana bread.~
+food~
+food 0 A
+24 0 0 0 0
+1 1 40 P
+#10104
+wheat bread loaf~
+wheat bread~
+A loaf of wheat bread.~
+food~
+food 0 A
+48 0 0 0 0
+1 1 100 P
+#10105
+white bread loaf~
+white bread~
+A loaf of white bread.~
+food~
+food 0 A
+40 0 0 0 0
+1 1 90 P
+#10106
+rye bread loaf~
+rye bread~
+A loaf of rye bread.~
+food~
+food 0 A
+50 0 0 0 0
+1 1 100 P
+#10107
+apache tear obsidian~
+Apache tear~
+A smooth black piece of obsidian has made its way upto the shore.~
+adamantite~
+armor ABG AO
+7 7 7 0 0
+38 1 1200 P
+E
+apache tear~
+A stone of deep obsidian is here.  When held up to the light, a tear appears
+in the center.
+~
+A
+12 40
+#10108
+wolf feet~
+Wolf feet~
+Some furry footwear is here on the ground.~
+leather~
+armor G AG
+8 7 8 3 0
+45 5 2100 A
+E
+wolf feet~
+These are the feet of a grey wandering wolf.
+~
+A
+14 50
+A 
+12 10
+#10109
+wolf skin belt~
+Wolf skin belt~
+A belt made of wolf skin is here.~
+leather~
+armor G AL
+6 7 7 0 0
+45 5 900 A
+E
+skin belt~
+This is a finely crafted belt made from the skin of a young wolf.
+~
+A
+12 10
+#10110
+wolf claw gauntlets~
+Wolf claw gauntlets~
+Some gauntlets made from the claws of a wolf are here.~
+leather~
+armor G AH
+6 5 7 3 0
+45 5 1200 A
+E
+claw gauntlets~
+A pair of wolf feet have been crafted into a beautiful pair of gauntlets.
+The claws look strong and are very sharp.
+~
+A
+18 2
+A
+19 2
+#10111
+wolf coat hide~
+Wolf coat~
+A complete coat of wolf fur lies upon the ground.~
+leather~
+armor G AK
+7 7 7 7 0
+45 10 1600 A
+E
+wolf coat~
+The hide of a wolf elder has been formed into an exquisite coat of unyielding
+beauty.
+~
+A
+12 20
+#10112
+wolf's eye light~ 
+Wolf eye~
+An eye seems to follow you throughout the room, watching your every move.~
+glass~
+light G AO
+0 0 999 0 0
+60 5 2400 P
+E
+wolf eye~
+The eye of a wolf elder has been polished to stunning beauty.  It sees...
+~
+A
+12 20
+A
+13 20
+#0 
+#ROOMS
+#10051
+The Town Gates~
+   You are standing just inside the gates of Wolf Pointe. The gates behind you 
+are quite extravagant. You notice that occasionally a wolf wanders across the
+path before you. The wolves seem to live with the citizens in peace here.
+~
+45 0 1
+D3
+You see a town street.
+~
+~
+0 -1 10052
+D1
+Outside of the town gates.
+~
+gate east~
+1 -1 10105
+E
+gates~
+The gates are solid silver. There is and ornate figure of a wolf carved into
+the center of the gate. They are carefully guarded and look to be the 
+handywork of a master craftsman and many long hard nights work.
+~
+S
+#10052
+East Wolf Run Ave.~
+   This is a common street in town. To the north you notice the Weapons 
+Shop, to the south you see an Armoury. Citizens are wandering about smiling 
+at you but you are unsure of their motives. There is a Dark feeling in this
+town. Yet it is so peaceful.
+~
+45 0 1
+D0
+You see an ornate building with a sword resting above the door.
+~
+~
+0 -1 10060
+D1
+You see the town gates.
+~
+~
+0 -1 10051
+D2
+You see a building with an empty suit of beautiful armor guarding the door.
+~
+~
+0 -1 10076
+D3
+You see a street leading to the town square.
+~
+~
+0 -1 10053
+S
+#10053
+East Wolf Run Ave.~
+   From here you start to make out the buildings of the town. You can see many  
+people wandering about. They seem to be ignorant of what is going on around   
+them. 
+~
+45 0 1
+D1
+You see the end of Wolf Run Ave.
+~
+~
+0 -1 10052
+D3
+You see a street continuing further into town.
+~
+~
+0 -1 10054
+S
+#10054
+East Wolf Run Ave.~
+   You notice to the north is a doorway hidden in trees and brush, there is
+a thief wandering that way. You assume that it is the Thieves Guild. From   
+the south reeks a stench of ale and sickened drunks. You think to yourself
+what a combination, a Thieves Guild and a Pub. Wolf Run Ave. continues to
+the west and back to the east.
+~
+45 0 1
+D0
+You see a doorway hidden in trees and brush.
+~
+~
+0 -1 10062
+D1
+You see Wolf Run Ave.
+~
+~
+0 -1 10053
+D2
+You smell a sickening stench coming from the pub.
+~
+~
+0 -1 10078
+D3
+You see Wolf Run Ave. leading into the town square.
+~
+~
+0 -1 10055
+S
+#10055
+East Wolf Run Ave.~
+   You are just before the Town Square. To the north is an Arcane Shop. You
+notice both clerics and mages gathered there casting spells upon frogs and 
+each other. To the south is an area filled with many different warriors. You
+see them boasting to each other of battles in the past. To the west is a
+small fountain and back to the east you can barely make out the town gates.
+~
+45 0 1
+D0
+You see the arcane shop.
+~
+~
+0 -1 10063
+D1
+You see Wolf Run Ave.
+~
+~
+0 -1 10054
+D2
+You see a warriors guild.
+~
+~
+0 -1 10079
+D3
+You see the town square.
+~
+~
+0 -1 10056
+S
+#10056
+Town Square Fountain~
+   You are standing in the northeast corner of the Town Square. There is a
+small beautiful fountain here laced with gold and emeralds. You notice that
+the fountain has two sections to drink from, one for the wolves and one for
+thirsty adventurers. To the north is an elaborate building of worship. A monk
+stands just inside the doors ready to heal the souls of those who are lost.
+To the south there is a Jailhouse that you would rather not investigate. The
+doors and paint are old and falling apart but the sheriff does not look in
+quite as bad of shape. To the east is the entrance to the Town Hall and
+back to the west is a street leading out of town.
+~
+45 0 1
+D0
+You see an ornate sanctuary.
+~
+~
+0 -1 10064
+D1
+You see East Wolf Run Ave.
+~
+~
+0 -1 10055
+D2
+You see the southeast corner of town square.
+~
+~
+0 -1 10080
+D3
+You see the northwest corner of town square.
+~
+~
+0 -1 10057
+S
+#10057
+Entrance to Town Hall~
+   You are standing in front of the Town Hall. The Building before you has
+two wolf statues carved out of marble resting on its corners. Citizens rush
+in and out of the hall doing business. To the south you notice an executioner
+waiting to do his duty. To the east is a small fountain and to the west is 
+West Wolf Run Avenue.
+~
+45 0 1
+D0
+The town hall.
+~
+~
+1 -1 10065
+D1
+Northeast town square.
+~
+~
+0 -1 10056
+D2
+The Executioner.
+~
+~
+0 -1 10081
+D3
+An Intersection.
+~
+~
+0 -1 10058
+E
+statues wolves wolf marble~
+On either side of the Town Hall doors you notice a statue of a wolf carved in
+marble. These statues stand proud and are perfect replications of a once 
+brave and noble tribe of hunters. These two statues seem to be a tribute to 
+the life that wanders through and around the town.
+~
+S
+#10058
+West Wolf Run Ave.~
+   You are at an intersection just west of town square.  Foot Path Road 
+extends to the north and south.  Shops are all along Foot Path Road. 
+To the east is the town hall.  To the west you see a large, grand gristmill.
+~
+45 0 1
+D0
+North Foot Path Rd.
+~
+~
+0 -1 10066
+D1
+The town hall entrance.
+~
+~
+0 -1 10057
+D2
+South Foot Path Rd.
+~
+~
+0 -1 10082
+D3
+West End of Wolf Run Ave.
+~
+~
+0 -1 10059
+S
+#10059
+West Wolf Run Ave.~
+   Here Wolf Run Ave. ends and becomes a small path leading to a Gristmill
+and a Waterfall just beyond. To the north you see the entrance to a Wolf Pet
+Shop. The avenue to the east leads into town and to the west you see the path
+to the Gristmill.
+~
+45 0 1
+D0
+The Wolf Pet Shop.
+~
+~
+0 -1 10067
+D1
+An intersection.
+~
+~
+0 -1 10058
+D3
+A small path.
+~
+~
+0 -1 10095
+S
+#10095
+Small Wooden Path~
+   You are standing on a small path made of wood. It is very calm here. You 
+can hear the birds singing and wolves howling off in the distance. To the
+north and south you see huge, magnificent trees that stretch up towards
+the skys forever. To the west is a Gristmill pumping water into town from a
+Stunning Waterfall just beyond. Back to the east is West Wolf Run Ave. leading
+into town.
+~
+45 A 4
+D1
+West End of Wolf Run Ave.
+~
+~
+0 -1 10059
+D3
+The gristmill.
+~
+~
+0 -1 10096
+S
+#10060
+The Weapons Shop~
+   This is the weapons shop where all of Wolf Pointe's destructive tools are
+created. There are a few selections resting on the counter and some more
+hanging on the walls all about. Even though the weaponsmaster is intent on his
+work you feel that his keen senses are focused directly at you. Suddenly a
+knife comes to your neck and you hear "what may i sell you today m'lord?"
+~
+45 0 1
+D2
+East Wolf Run Ave.
+~
+~
+0 -1 10052
+S
+#10062
+Entrance to the Thieves Guild~
+   After making your way through the brush covering the door you find yourself
+within the Thieves Guild. Many people here are cloaked and disguised. You 
+feel as if the walls are moving. Two men stand in the corner throwing daggers 
+at a marked wall. On the east side of the room you see men selling freshly 
+stolen goods to a man in a window. To the north you can see an older pauper 
+training young thieves to be in a courtyard.
+~
+45 0 1
+D0
+The guildyard.
+~
+~
+0 -1 10073
+D2
+East Wolf Run Ave.
+~
+~
+0 -1 10054
+S
+#10063
+The Arcane Shop and Guild~
+   You step into this room and the world around you disappears. Lightning 
+bolts arc above your head and misty cloads arise from the ground. A small man
+suddenly appears before you and asks what your interests are. The mists have
+vanished, the lightning strikes the floor and you loose your footing. Suddenly
+you are before a counter with scrolls and potions scattered all about. The
+man speaks "May I help you?"
+~
+45 0 1
+D0
+A void.
+~
+~
+0 -1 10070
+D2
+East Wolf Run Ave.
+~
+~
+0 -1 10055
+S
+#10064
+The Sanctuary~
+   You are within the hallowed halls of the Town Sanctuary. There is an aura
+throughout the room of pureness, serenity. You feel calm and relaxed ready to
+sleep for eternity. A monk welcomes you in and hugs you close. The monk says
+"hello my friends I hope you have come in peace. Please have a seat and rest
+a while. You are safe here." You realize that the tone in his voice could 
+easily put you to sleep. You feel secure.
+~
+45 0 1
+D2
+A fountain in the town square.
+~
+~
+0 -1 10056
+S
+#10065
+The Town Hall~
+   You have entered the Town Hall. A judge sits on a marble throne behind a 
+large desk made of solid oak. He has authority in his voice, in his gavel. 
+He is here to dispense justice and he looks like he does his job well. There
+are rows of empty pews here as if no one wants to enter these chambers of
+their own free will. The judge slams down his gavel and demands justice.
+~
+45 0 1
+D0
+A locked door.
+~
+north door~
+1 10084 10071
+D2
+The town square.
+~
+~
+0 -1 10057
+E
+pew~
+A long wooden bench is here. It looks very old and has been carved into for
+several years.
+~
+E
+marble throne~
+This is a large throne made of black and grey marble. It stands very tall,
+the arm rests extend out in the spiral design. The seat itself is covered in
+a beautiful black velvet, the throne sparkles bright. 
+~
+E
+bench~
+The bench is large and completely constructed of varnished oak. The are 
+several indentions where the judge pounds his gavel.
+~
+S
+#10066
+North Foot Path Rd.~
+   You are just north of Wolf Run Ave. This is a less traveled area of town.
+To the north you can see some houses and to the west you notice the Wolf Pet
+Shop entrance. Further to the north you notice a fountain.
+~
+45 0 1
+D0
+North Footpath Rd.
+~
+~
+0 -1 10072
+D2
+Wolf Run Ave.
+~
+~
+0 -1 10058
+D3
+The Pet Shop.
+~
+~
+0 -1 10067
+S
+#10067
+The Wolf Shop~
+   This is a wonderous shop full of large kennels and wolves of all sizes and
+colors. Two very large wolves guard a door that appears to be a bedroom.
+Another wolf growls at you as you approach the counter. The clerk says "better
+keep your distance. I am still training this one."  You decide to heed his
+warnings. "Can I interest you in this fine pup here?" he says pointing to a 
+large black wolf.
+~
+45 M 1
+D0
+A locked door.
+~
+north door locked~
+1 10085 10068
+D1
+North Footpath Rd.
+~
+~
+0 -1 10066
+D2
+West Wolf Run Ave.
+~
+~
+0 -1 10059
+S
+#10068
+Wolf Trainers House~
+   This is the wolf trainers house. If you made it this far you must have
+scared the guard wolves. There are several food dishes on the floor and what
+looks to be the trainer's bed in a kennel along the north wall. You see no 
+other furnature in the room. The windows are all barred and the walls are 
+scratched bare left only with indented with claw marks.
+~
+45 0 1
+D1
+North Footpath Rd.
+~
+door east locked~
+1 10085 10072
+D2
+The Wolf Shop.
+~
+door south locked~
+1 10085 10067
+E
+kennel bed~
+You see a large kennel with a bed in the center. There is a small table next
+to the bed and some tile covering the floor in the trainer's kennel.
+~
+S
+#10070
+Entrance to the Arcane Guild~
+   You step out of the Magic Shop and into a void. There is a total feeling of
+nothingness here. There is a light to the north that pulls you towards it.
+You can barely make out a sign that says something that you cannot read but
+your mind repeats the word "arcane". Darkness engulfs the room. It is pitch
+black. Here you must follow your magical feelings. The guild lies somewhere
+beyond.
+~
+45 0 1
+D0
+The Guildmaster.
+~
+~
+0 -1 10074
+D2
+The arcane shop.
+~
+~
+0 -1 10063
+S
+#10071
+The Judges Home~
+   This is the judges home. You notice that it is very cold and dark here. You
+see that the walls are made of a dark grey stone and there are no windows.
+You can hear a trickle in the distance and notice that the only light entering
+the room comes from below the doorway. You sure hope the judge isn't coming 
+home soon.
+~
+45 0 1
+D2
+The town hall.
+~
+door south~
+1 10084 10065
+D3
+North Footpath Rd.
+~
+door west~
+1 10084 10072
+S
+#10072
+North Foot Path Rd.~
+   You are at the northern end of Foot Path Road. This is the least traveled
+area of all Wolf Pointe. You notice to the east is the judges house. To the
+west is the home of the wolf trainer and directly north is a small fountain
+standing alone in a simple little yard.
+~
+45 0 1
+D0
+A small fountain.
+~
+~
+0 -1 10075
+D1
+The judge's house.
+~
+door east~
+1 10084 10071
+D2
+Footpath Rd.
+~
+~
+0 -1 10066
+D3
+The wolf trainer's home.
+~
+door west~
+1 10085 10068
+S
+#10073
+Thieves Courtyard~
+   You are in a large courtyard designed very similar to a common side street.
+Young men stand here trying to learn the art of stealth and pickpocketry. You
+hear a voice from out of thin air "may i help you?" and suddenly a black
+cloaked figure appears before you. "I am the Master of Thieves. What may I
+teach you?"
+~
+45 0 1
+D2
+Guild Entrance.
+~
+~
+0 -1 10062
+S
+#10074
+The Arcane Master~
+   Before you in a whirl of smoke appears the Master of Arcane. As the smoke
+clears the master bows before you and asks what services you require?
+~
+45 0 1
+D2
+The void.
+~
+~
+0 -1 10070
+S
+#10075
+A Silent Fountain~
+   This small yard is simple yet enticing. There is only a small glass 
+fountain in the very center of the area and soft green grass beneath your
+feet.
+~
+45 0 1
+D2
+North Footpath Rd.
+~
+~
+0 -1 10072
+S
+#10076
+The Armoury~
+   You have entered the armoury. On the wall behind the counter you notice
+many different assortments of armour hung in an almost artistic arrangement.
+The armourer is pounding on some freshly heated steel here. As you enter he
+looks up at you and offers his services.
+~
+45 0 1
+D0
+East Wolf Run Ave.
+~
+~
+0 -1 10052
+S
+#10078
+The Town Pub~
+   As you enter the pub the aroma of ale fills your nostrils. You see many
+people shouting at each other across the tables. Laughing, drinking, and
+stumbling seems to be occuring all around the room. You see a man passed out
+in the corner covered in ale. At the bar you notice a small man preparing
+drinks. As he rushes by he asks "what may I get for you sir?" You decide to
+answer him on his next pass.
+~
+45 D 1
+D0
+East Wolf Run Ave.
+~
+~
+0 -1 10054
+D2
+The dart room.
+~
+~
+0 -1 10085
+S
+#10079
+The Fighter's Guild~
+   You are within the entrance of the warrior's guild. Several stout men
+stand here discussing their past victories. You see two men in the eastern
+section of this area beating each other down to prove their worthiness to the
+others. In another corner several men are gathered around watching an arm 
+wrestling match. To the south you can make out a large arena and a large man
+in the center teaching young aspiring adventurers how to slay their opponent.
+~
+45 0 1
+D0
+East Wolf Run Ave.
+~
+~
+0 -1 10055
+D2
+The warrior's arena.
+~
+~
+0 -1 10086
+E
+arena~
+A large area tied off with ropes. There are several men fighting each other
+within this roped off area.
+~
+S
+#10080
+The Jailhouse~
+   You look around and see the inner soul of a worn and tired building. In the
+corner sits a large, muscular man leaning back in a chair behind a desk. He
+eyes you suspiciously expecting you to do something wrong. To the south you 
+see a door with a the word sheriff written above it in what appears to be 
+someone's blood. Behind the door you hear a loud clammer and growls. The walls
+are made of old wood and you think that this must have been the first building
+built in this town.
+~
+45 0 1
+D0
+The town fountain.
+~
+~
+0 -1 10056
+D2
+The sheriff's office.
+~
+~
+0 -1 10087
+D3
+The executioner's block.
+~
+~
+0 -1 10081
+S
+#10081
+The Execution Square~
+   This is a bare section of the town square. No grass grows here. Nothing 
+lives in this area except for on tall hooded man. In the center of the yard
+you see a large tree trunk with many slices etched into it. You wonder if this
+man is close friends to the judge.
+~
+45 0 1
+D0
+Entrance to the town hall.
+~
+~
+0 -1 10057
+D1
+The jailhouse.
+~
+~
+0 -1 10080
+S
+#10082
+South Foot Path Rd.~
+   You are standing on South Foot Path Road. To the north you see the
+intersection between Foot Path Road and Wolf Run Ave. To the west you see a 
+small general foods store and south you see a couple more shops.
+~
+45 0 1
+D0
+Wolf Run Ave.
+~
+~
+0 -1 10058
+D2
+South Footpath Rd.
+~
+~
+0 -1 10089
+D3
+The general foods store.
+~
+~
+0 -1 10083
+S
+#10083
+General Foods~
+   Here is the general foods store. You see shelves lined with canned fruits
+and other foods. Your mouth begins to water as you look over all of the isles
+of inventory in stock here.
+~
+45 0 1
+D1
+South Footpath road.
+~
+~
+0 -1 10082
+S
+#10085
+The Dart Room~
+   This is a back room of the pub. Many people are waiting to get their shot
+at the title of "Dart Master". You see an extravagant dart board along the 
+southern wall. Tall stools line the west and eastern walls. There comes a
+silence to the room just before every throw, then money quickly exchanges 
+hands. Do you think that your skill at darts is as good?
+~
+45 0 1
+D0
+The pub.
+~
+~
+0 -1 10078
+E
+dart board~
+There is a standard dart board here that has seen many days of use. The wall
+behind the board seems to have many more holes than the board itself though.
+~
+S
+#10086
+Fighter's Guild Arena~
+   Here many warriors are gathered around an arena waiting to get their shot
+at each other. A large man stands alone in the center teaching these young
+ones the skills and tactics of the warrior. He looks at you and says "what 
+would you like to learn my young pupil?"
+~
+45 0 1
+D0
+The entrance to the guild.
+~
+~
+0 -1 10079
+S
+#10087
+The Sheriff's Office~
+   This office is bare and dark. You can barely make out a door to the south.
+Something growls from beyond. You now understand why the sheriff has chosen
+to keep himself in the northern room. There is a sign that you can hardly
+read above the southern door that says:
+                  AGGRESSIVE INMATE BEWARE!!!!!!!
+~
+45 0 1
+D0
+The jailhouse.
+~
+~
+0 -1 10080
+D2
+The cell.
+~
+door south~
+1 10086 10101
+S
+#10088
+Town Baker~
+   You see a very large man here pulling some pastries out of a brick oven. He 
+looks around at you and chuckles politely. "how may i serve you sir?"
+~
+45 0 1
+D3
+South Footpath Rd.
+~
+~
+0 -1 10089
+S
+#10089
+South Foot Path Rd.~
+   You are at the end of South Foot Path Road. You can see many shops located
+to the north, east, and west. To the south you see a small town park that 
+looks like a wonderful place to sit and plan out your next adventure.
+~
+45 0 1
+D0
+Footpath Rd.
+~
+~
+0 -1 10082
+D1
+The baker.
+~
+~
+0 -1 10088
+D2
+The garden.
+~
+~
+0 -1 10092
+D3
+The butcher.
+~
+~
+0 -1 10090
+S
+#10090
+The Slaughterhouse~
+   The first thing you notice upon entering the slaughter house is that the 
+floor is covered in animal flesh and blood. You can hear the screams of those 
+about to be slaughtered and put up for sale. You are not sure whether to 
+prepare for a feast or pity these animals. All you do know is that you are 
+HUNGRY.
+~
+45 0 1
+D1
+South Footpath Rd.
+~
+~
+0 -1 10089
+S
+#10091
+The East End Garden~
+   This is the east end of the garden. There is a small pond here filled with
+large goldfish. Some small cat tails are growing out of the water and you can
+see turtles and frogs playing games with eachother on the eastern shore.
+~
+45 0 1
+D3
+The center garden.
+~
+~
+0 -1 10092
+S
+#10092
+The Center Garden~
+   This is the main entrance to the gardens of Wolf Pointe. To the east you
+see a pond. To the south a forest. And to the west a bird haven. This is the
+nature lover's area of town to get away from the trials of life.
+~
+45 0 1
+D0
+South Footpath Rd.
+~
+~
+0 -1 10089
+D1
+East end garden.
+~
+~
+0 -1 10091
+D2
+South end garden.
+~
+~
+0 -1 10094
+D3
+West end garden.
+~
+~
+0 -1 10093
+S
+#10093
+The West End Garden~
+   This area is commonly refered to as the aviary. Many birds gather here to
+socialize, make nests, and breed. You see all different colors fluttering 
+about the skies. Beautiful music is created here amongst the different species
+and it all seems to blend together to make one joyous song.
+~
+45 0 1
+D1
+The center garden.
+~
+~
+0 -1 10092
+S
+#10094
+The South End Garden~
+   This is the forest of the garden. It is quiet here except for the ruffle of
+leaves on the ground as small creatures scurry by. You are surrounded by large
+green monstrous trees. You never know that this many trees have existed in the
+world. you notice some patches in the earth where adventurers have come just
+to sit down in the shade and rest in the cool breeze.
+~
+45 0 1
+D0
+The center garden.
+~
+~
+0 -1 10092
+S
+#10096
+The Gristmill~
+   You are standing alongside a large, stone gristmill. Water flows down 
+from the mountains through a wheel here and is pumped into town. All you can   
+hear are the sounds of rain as the water pours down off of the wheel. This
+building has obviously been abandoned for many years but seems to still be in
+fine working order. When you look back to the east you can see the dust and
+commotion rising from the town. To the west you see a Stunning Waterfall.
+~
+45 0 1
+D1
+A small path.
+~
+~
+0 -1 10095
+D3
+The stunning waterfall.
+~
+~
+0 -1 10097
+S
+#10097
+A Stunning Waterfall~
+   You see a Stunning Waterfall before you. The water seems to dance with the 
+winds as it flows from the skies. You can see rainbows arc from the misty
+trail the waterfall leaves. Birds gather in small pools of water to socialize
+and bath. You notice many different animals here gathering to drink from the
+falls. A wolf elder steps out of the shadows, slowly takes a drink, and then
+disappears back into the woods. To the east is a gristmill and you think you 
+might be able to make it behind the falls to the south.
+~
+45 KC 5
+D1
+The gristmill.
+~
+~
+0 -1 10096
+D2
+Behind the falls.
+~
+~
+0 -1 10098
+S
+#10098
+Behind the Falls~
+   You have made it behind the falls. You notice that there is not much room
+here maybe enough for two people. The falls rage before you yet it is so calm
+and quiet here that you can hear the softest little whisper. You feel safe
+here although you realize that one false step could lead to certain death.
+Looking around you gain a greater appreciation of the world around you. To
+the south you can see a large, black wolf and to the north you see the
+animals basking in the waterfall.
+~
+45 0 1
+D0
+The stunning waterfall.
+~
+~
+0 -1 10097
+D2
+Wolf pointe lookout.
+~
+~
+0 -1 10099
+S
+#10099
+Wolf Pointe Lookout~
+     After emerging from under the stunning waterfall you come upon a small
+wooded area. Trees are scattered all about and tiny creatures scurry around
+scavanging for food.  Off to the west you can see the sun slipping into the
+trees. To the east fireflies dance, a joyous celebration to the coming moon.
+To the north is a large, black wolf guarding what seems to be his den, hidden
+well within the hills.  The wind is cool, and the breeze softly sprinkles 
+your face from the waterfall to the south.  You feel serene and refreashed
+here.  You might be able to explore the den to the north if you dare pass   
+the wolf.  The path back to the south leads to the stunning waterfall.
+~
+45 A 3
+D2
+A well hidden hole in the hills.
+~
+~
+0 -1 10100
+D0
+A path leading back underneath a stunning waterfall.
+~
+~
+0 -1 10098
+S
+#10100
+In the Den~
+   You are now within the den of the large wolf elder. You can see tiny
+little pups playing together, wrestling on the ground causing such a ruckus 
+that they don't even notice your presence. It is cold and damp in here. You 
+feel that someone is watching you but you are unsure who or where this 
+feeling is coming from. You decide that you had better leave the young pups 
+alone. This feels like a wonderful place to rest.
+~
+45 0 1
+D0
+Wolf pointe lookout.
+~
+~
+0 -1 10099
+S
+
+#10101
+A Dark Drab Cell~
+   It is very dark in here. Cold, wet, no life can survive here save one.
+HIM!  Groooowwwwwlllllll!!!!!!
+~
+45 0 1
+D0
+The sheriff's office.
+~
+~
+1 10086 10087
+S
+#10102
+A Small Clearing~
+   You see a small clearing in the woods. There is a path leading to the west 
+into Wolf Pointe. There are two narrow passages leading to the north and 
+south. 
+~
+45 0 1
+D0
+A northern passage.
+~
+~
+0 -1 10103
+D1
+~
+~
+0 -1 3522
+D2
+A southern passage.
+~
+~
+0 -1 10104
+D3
+A path into town.
+~
+~
+0 -1 10105
+S
+#10103
+A small passage in the forest.~
+   This area is surrounded in large trees. Overhead the trees connect into a 
+sort of roof and the sky remains unseen, forever.
+~
+45 0 1
+D2
+A small clearing in the woods.
+~
+~
+0 -1 10102
+D3
+Northeast corner of the town wall.
+~
+~
+0 -1 10106
+S
+#10104
+A small passage in the forest.~
+   This is a southern passge into the woods. It is very dark and cold here. 
+The ground is covered in leaves and dew. You feel as if you are being watched.
+~
+45 0 1
+D0
+A small clearing in the woods.
+~
+~
+0 -1 10102
+D3
+Southeast corner in the forest.
+~
+~
+0 -1 10107
+S
+#10105
+A Pathway into Wolf Pointe.~
+   This is a small path leading into Wolf Pointe. To the north and south is a
+path leading around th town walls. To the east is a small clearing and to the
+west are the town gates.
+~
+45 0 1
+D0
+North of the town gates.
+~
+~
+0 -1 10106
+D1
+A small clearing.
+~
+~
+0 -1 10102
+D2
+South of the town gates.
+~
+~
+0 -1 10107
+D3
+The town gates.
+~
+gate west~
+1 -1 10051
+E
+gates~
+The gates are solid silver. The is and ornate figure of a wolf carved on
+center of the gate. The gates are carefully guarded and look to be the 
+handywork of a master craftsman and many long hard nights work.
+~
+S
+#10106
+North of the town gates.~
+   This is the area just north of the town gates. To the east you see a
+passage into the woods, to the south are the town gates, and to the west is a
+small path leading around the town.
+~
+45 0 1
+D1
+A passage in the woods.
+~
+~
+0 -1 10103
+D2
+The town gates.
+~
+~
+0 -1 10105
+D3
+A path around town.
+~
+~
+0 -1 10108
+S
+#10107
+South of the Town Gates.~
+   This is the area just south of the town gates. You notice to the west is a
+small path leading around town. To the east you can hear animals wandering and
+to the north you see the town gates.
+~
+45 0 1
+D0
+The town gates.
+~
+~
+0 -1 10105
+D1
+A passage in the woods.
+~
+~
+0 -1 10104
+D3
+A path around town.
+~
+~
+0 -1 10109
+S
+#10108
+The Northern Edge of the Town Walls.~
+   This is a small area that looks well traveled. There is a tiny hole in the 
+wall here that looks like a mouse hole. The path continues to the east and 
+west.
+~
+45 0 1
+D1
+Just north of the town gates.
+~
+~
+0 -1 10106
+D3
+The northwest corner of the town walls.
+~
+~
+0 -1 10110
+S
+#10109
+The Southern Edge of the Town Walls.~
+   You have found yourself in a rocky area that leads around the town. There 
+is not much to see here except a few trees and bushes.
+~
+45 0 1
+D1
+Just south of the town gates.
+~
+~
+0 -1 10107
+D3
+A dump site.
+~
+~
+0 -1 10112
+S
+#10110
+The Northwest Corner of the Wall.~
+   You are in the northwestern corner of the town walls. The path goes to the 
+south and east.
+~
+45 0 1
+D1
+A small path along the north wall.
+~
+~
+0 -1 10108
+D2
+Behind the town walls.
+~
+~
+0 -1 10111
+S
+#10111
+Behind the Town Walls.~
+   Here you are behind the city. You can hear a waterfall to the east within
+the town and off in the distance you can hear a wolf howl.
+~
+45 0 1
+D0
+Northwest corner of the town wall.
+~
+~
+0 -1 10110
+D2
+A dump site.
+~
+~
+0 -1 10112
+S
+#10112
+The Southwest Corner of the Town Walls.~
+   This is a small area where the garbage of the town is left. To the north
+and east a path continues.
+~
+45 0 1
+D0
+Behind the town walls.
+~
+~
+0 -1 10111
+D1
+The southern wall.
+~
+~
+0 -1 10109
+S
+#10113
+A Small Hidden Room Behind the Falls.~
+   You have found a small room behind the falls. This room was obviously 
+carved out of the stone to be a secluded place of refuge. you see a small sign
+along the wall.
+~
+45 0 1
+E
+sign~
+                                SCORP'S REFUGE
+                                   BEWARE
+~
+S
+#0
+
+#RESETS
+M 0 10051 1 10063 1  1  1        magic shop keeper   
+G 1 10087 -1                detect hidden potion
+G 1 10088 -1                heal potion
+G 1 10089 -1                detect invis
+G 1 10090 -1                invis
+M 0 10052 1 10088 1  1  1        baker   
+G 1 10101 -1                sourdough bread
+G 1 10102 -1                pumpkin pie
+G 1 10103 -1                banana bread
+G 1 10104 -1                wheat bread
+G 1 10105 -1                white bread
+G 1 10106 -1                rye bread 
+M 0 10053 1 10083 1  1  1        food clerk   
+G 1 10091 -1                banana
+G 1 10092 -1                sandwich
+G 1 10093 -1                pastry
+G 1 10094 -1                carrots
+G 1 10095 -1                spinich
+M 0 10054 1 10090 1  1  1        butcher   
+G 1 10096 -1                wolf meat
+G 1 10097 -1                pork
+G 1 10098 -1                chicken
+G 1 10099 -1                fish
+G 1 10100 -1                deer meat
+M 0 10055 1 10060 1  1  1        weaponsmaster   
+G 1 10076 -1                wolf sword
+G 1 10077 -1                wolf mace
+G 1 10065 -1                stand sword
+G 1 10075 -1                wolf dagger
+M 0 10056 1 10076 1  1  1        armoror   
+G 1 10062 -1                stand helm
+G 1 10063 -1                stand plate
+G 1 10064 -1                stand shield
+M 0 10057 1 10067 1  1  1        wolf trainer   
+M 0 10058 1 10055 1  1  1        gypsy   
+G 1 10087 -1                detect hidden potion
+G 1 10088 -1                heal potion
+G 1 10089 -1                detect invis
+G 1 10090 -1                invis
+M 0 10059 1 10064 1  1  1        monk   
+M 0 10060 1 10078 1  1  1        gus the bartender   
+G 1 10080 -1                wolf bite
+G 1 10081 -1                wolf tail
+G 1 10082 -1                hair dog
+G 1 10083 -1                ale
+M 0 10061 2 10059 1  1  1        guard 1   
+E 1 10053 10 5              wolf plate
+E 1 10057 10 8              wolf boots
+M 0 10061 2 10053 1  1  1        guard 2   
+E 1 10056 10 7              wolf leggings
+M 0 10062 2 10055 1  1  1        guard 3   
+E 1 10059 10 11             wolf shield
+M 0 10062 2 10057 1  1  1        guard 4   
+E 1 10054 10 10             wolf sleeves
+M 0 10063 2 10051 1  1  1        guard 5   
+E 1 10058 10 9              wolf gloves
+M 0 10063 2 10051 1  1  1        guard 6   
+E 1 10055 10 13             wolf girth
+M 0 10064 2 10072 1  1  1        guard 7   
+E 1 10058 10 9              wolf gloves
+M 0 10064 1 10089 1  1  1        guard 8   
+E 1 10113 10 15             wolf bracers
+E 1 10056 10 7              wolf leggings
+M 0 10065 1 10080 1  1  1        guard 9   
+E 1 10053 10 5              wolf plate
+E 1 10057 10 8              wolf boots
+M 0 10066 1 10059 1  1  1        guard 10   
+E 1 10054 10 10             wolf sleeves
+M 0 10067 1 10075 1  1  1        guard 11   
+E 1 10055 10 13             wolf girth
+E 1 10113 10 14             wolf bracers
+M 0 10068 1 10068 1  1  1       puppy pet   
+M 0 10069 1 10068 1  1  1       teen pet   
+M 0 10070 1 10068 1  1  1       adult pet   
+M 0 10071 1 10068 1  1  1       elder pet   
+M 0 10072 1 10087 1  1  1        recycler   
+M 0 10073 1 10085 1  1  1        dart player   
+M 0 10074 2 10056 1  1  1        citizen   
+M 0 10074 2 10057 1  1  1        citizen   
+M 0 10075 2 10090 1  1  1        citizen   
+M 0 10075 2 10083 1  1  1        citizen   
+M 0 10076 1 10065 1  1  1        town judge   
+E 1 10051 1 16              judge gavel
+E 1 10052 1 12              judges robe
+M 0 10077 1 10086 1  1  1        rat   
+M 0 10078 1 10051 1  1  1        adventurer   
+E 1 10061 15 5              smashed plate
+M 0 10079 1 10081 1  1  1        executioner   
+E 1 10066 2 16              axe
+M 0 10080 -1 10093 1  1       birds  
+M 0 10081 1 10080 1  1  1        sheriff   
+E 1 10067 2 5               sheriff's plate
+E 1 10068 2 16              sheriff's mace
+G 1 10086 1                 sheriff's key
+G 1 10085 1                 pet shop key
+M 0 10082 1 10057 1  1  1        town lord   
+E 1 10071 3 12              wolf Pointe cloak
+E 1 10072 3 16              wolf bone dagger
+E 1 10073 3 1               wolf eye ring
+G 1 10084 1                 lord's key
+M 0 10083 1 10066 1  1  1        boy   
+G 1 10069 20                marbles
+M 0 10084 1 10066 1  1  1        dog   
+M 0 10085 1 10052 1  1  1        girl    
+G 1 10070 20                jax
+M 0 10086 1 10052 1  1  1        kitten   
+M 0 10087 1 10101 1  1  1        prisoner   
+E 1 10074 5 16              wolf tooth dagger
+M 0 10088 1 10075 1  1  1        resident   
+M 0 10089 1 10094 1  1  1        resident   
+M 0 10090 2 10095 1  1  1        wandering wolf   
+G 1 10108 10                wolf feet  
+M 0 10090 2 10094 1  1  1        wandering wolf   
+G 1 10111 10                wolf coat
+M 0 10091 1 10100 1  1  1        mother wolf   
+G 1 10112 10                wolf eye
+M 0 10092 1 10099 1  1  1        elder   
+G 1 10060 5                headress
+M 0 10093 2 10075 1  1  1        wandering wolf   
+G 1 10109 10                wolf belt
+M 0 10093 2 10053 1  1  1        wandering wolf   
+G 1 10110 10                wolf gaunt
+M 0 10094 1 10100 1  1  1        wolf pups   
+M 0 10095 1 10074 1  1  1        mage guildmaster   
+M 0 10096 1 10074 1  1  1        cleric guildmaster   
+M 0 10097 1 10086 1  1  1        warrior guildmaster   
+M 0 10098 1 10073 1  1  1        thief guildmaster   
+* Doors Resets
+D 0 10087 2 2       Lock Cell from outside
+D 0 10101 0 2       Lock Cell from inside
+D 0 10065 0 2       thall to judges locked
+D 0 10071 2 2       judges to thall locked
+D 0 10071 3 2       judges to fprd locked
+D 0 10072 1 2       fprd to judges locked
+D 0 10072 3 2       fprd to petsres locked
+D 0 10068 1 2       petsres to fprd locked
+D 0 10068 2 2       petsres to pets locked
+D 0 10067 0 2       pets to petsres locked
+* object resets
+O 0 10078 1 10056   fountain town square
+O 0 10079 1 10075   fountain park
+O 0 10107 1 10100   apache tear  
+S
+#SHOPS
+10051 0 0 0 0 0 100 0 0 23  ; magic
+10052 0 0 0 0 0 100 0 0 23  ; baker
+10053 0 0 0 0 0 100 0 0 23  ; food
+10054 0 0 0 0 0 100 0 0 23  ; butcher
+10055 5 0 0 0 0 150 50 0 23  ; weapon
+10056 9 0 0 0 0 150 50 0 23  ; armor
+10057 0 0 0 0 0 100 0 0 23  ; trainer
+10058 0 0 0 0 0 100 0 0 23  ; gypsy
+10060 0 0 0 0 0 100 0 0 23  ; bartender
+0
+#SPECIALS
+M  10059  spec_cast_adept
+S
+#$
+

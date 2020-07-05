@@ -1,0 +1,260 @@
+#AREA    { 70 91} Reardon    Hell~
+
+#MOBILES
+#2401
+hellbat bat~
+hellbat~
+A hellbat swoops down from the blackness above.
+~
+A large bat, about the size of a dog, with sharp protruding claws and
+leathery hair-covered wings.  It lets out a high pitched squeal as it
+circles around you.
+~
+bat~
+F TZ -200 0
+65 0 55d12+8000 10d9+10 6d9+20 stab
+30 30 30 30
+DFH 0 L ST
+stand stand neutral 0
+BGV ACDEFHJKP 2 0
+#2402
+river ghoul~
+river ghoul~
+A river ghoul jumps from the water, and blocks your path.
+~
+A river ghoul stands on the shore before you.  It appears to have once
+been humna, but is now a thing of jagged decayed bones covered with slime.
+The filthy waters of the Styx drip from it's rotten body.
+~
+human~
+AFGO NZ -300 0
+68 0 55d12+9000 10d9+10 8d7+20 slice
+32 32 32 20
+CEI F L ENS
+stand stand neutral 50
+BIMc ABCDEFGHIJK 3 0
+#2403
+Charon ferryman~
+Charon~
+Charon the Ferryman beckons you with a long bony finger.
+~
+Charon the Ferryman stands before you, ready to guide you across the river
+Styx to the city of Hell.  A deep black cloak shrouds his entire body
+except for a long bony hand which points at you and two fiery eyes which
+glow beneath his hood.  In his other hand he grips a massive paddle, which
+powers his ferry across the river.  You have scond thought about going out
+onto the river all alone with this grim entity.
+~
+human~
+ABCGOR HNVZ -800 0
+90 5 65d15+14500 2d500+200 5d8+19 slice
+50 50 50 50
+ACEIKN AB LM HNL
+stand stand male 1000
+AHIMc ABCDEFGHIJK 4 0
+#2404
+balrog~
+balrog~
+A balrog sneers and snaps a flaming whip at you.
+~
+A small balrog stands before you, carrying out the orders of the Prince of
+Darkness.  The balrog resembles a goblin, but with a wolfish face and a
+fiery whip.
+~
+goblin~
+ACGT J -500 0
+72 3 55d12+10000 10d9+10 8d8+16 slash
+30 30 30 5
+CDEKN H Q CN
+stand stand male 50
+AHMV ABCDEFGHIJK 2 0
+#2405
+mud warg~
+mud warg~
+A mud warg jumps up onto the docks and grabs you!
+~
+The foul dripping creature is covered completely with mud and slime
+except for two luminescent green eyes.
+~
+orc~
+AFT JNZb -300 0
+76 0 55d12+11000 10d9+10 11d6+20 slice
+25 25 25 5
+DEFIKN FC Q HS
+stand stand neutral 0
+AHMV ABCDEFGHIJK 3 0
+#2406
+Gout fawn~
+Gout the fawn~
+Gout the fawn is here collecting lost heads.
+~
+Gout is a fawn, with the torso of a man, and the legs of a goat.  His little
+cloven hooves leave scratches on the stone floor as he stumbles goofily
+about the room.
+~
+human~
+ABNVc O -200 0
+55 -1 35d10+5750 10d9+10 7d7+8 slice
+15 15 15 5
+CFIJN AB P R
+stand stand male 100
+AHMNV ABCDEFGIJKLQW 1 0
+#2407
+chief balrog~
+chief balrog~
+The chief balrog is staring at you angrily.
+~
+The chief balrog towers over his smaller cousins.  His slobbering face
+has a wolf's snout, and a mouth full of rotten fangs.  In his hand he
+snaps a gioant whip of fire over hsi head.
+~
+goblin~
+ABCT JVZ -500 0
+85 1 60d12+13250 10d9+10 15d5+20 slash
+40 40 40 0
+CDEK M Q C
+stand stand male 150
+AHMV ATK 4 0
+#2408
+lava demon~
+lava demon~
+A lava demon rises and takes shape from the bubbling pool.
+~
+The lava demon stands over 10 feet tall, and looks down upon you with
+fiery menace.  Steaming lava oozes and drips from its massive body.
+~
+modron~
+ABCGR IJVcc -400 0
+88 2 60d12+14000 1d960+20 9d9+18 whip
+40 40 40 30
+AEK BH K IR
+stand stand neutral 500
+AHJ ABCDEFGIKL 4 0
+#2409
+harpie~
+harpie~
+A harpie screams and swoops down from above.
+~
+The harpie is a horrible mutation of the human form, with the upper body
+of a woman, but possessing the large wings and fierec talons of an
+eagle.  The harpie constantly lets out a shrill shriek of delight at the
+miseries of Hell.
+~
+human~
+AFHT FJTVZ -500 0
+78 3 55d12+11500 10d9+10 9d8+12 slash
+30 30 30 10
+DFHK AR E O
+stand stand female 80
+AHNV ABDEFIJKLPU 2 0
+#2410
+chasm troll~
+chasm troll~
+A troll crawls onto the bridge from below and blocks your path.
+~
+The troll is foul and dirty, and reeks with a fowl odor.  You see it
+wears the bones of its victims as jewlery, highlighted by a massive
+armbone that goes right through its nose.
+~
+troll~
+ACFTW FJc -500 0
+80 0 60d12+12000 10d9+10 15d5+20 slice
+25 25 25 0
+D A BE HK
+stand stand male 150
+ABHMV ABCDEFGHIJKUV 3 0
+#2411
+vassago demon prince~
+Vassago the Demon Prince~
+Vassago jumps up from his throne and attacks!
+~
+Vassago the Prince of Hell stands before you.  He is easily the size of
+three men.  Vassago is made almost completely of bone, except for a few
+scattered places where his flesh has not completely rotted away yet.  In
+the deep sockets of his eyes, two flames dance brightly, and his decayed
+teeth form an evil grin as he looks down at you.  Vassago holds a large
+wooden pole in one arm, which you don't think is as harmless as it looks.
+~
+human~
+ABCFORT DFHJVZ -900 0
+95 5 65d15+15750 1d1100+50 10d9+10 grep
+80 80 80 60
+ABCDEFHIKN AB M N
+stand stand male 2500
+AHIMV ABCDEFGHIJK 4 0
+#2412
+lava sprite~
+lava sprite~
+A lava sprite stands on the rock in front of you.
+~
+The lava sprite stands about your height, and is completely made of
+molten fire except for two eyes which flicker as they stare at you.
+~
+modron~
+ACFGHR IZ -500 0
+82 0 60d12+12500 1d840+20 15d5+10 whip
+32 32 32 25
+KN AH KF IR
+stand stand neutral 80
+AHJ ABCDEFGIKL 2 0
+#2413
+gothmog balrog~
+Gothmog the Balrog~
+Gothmog, Lord of the Balrogs, snaps his whip at you.
+~
+Gothmog's body dominates the entire hut.  In one hand he holds a massive
+black axe, and in the other he viciously snaps a whip of fire over your
+head.  The fleshy remains of his last victim cling to his rotten fangs.
+~
+goblin~
+ABFGT HDJ -750 0
+98 2 65d15+17000 10d9+10 10d9+20 whip
+60 60 60 10
+ACDFIKN AB Q N
+stand stand male 3000
+AHMV ABCDEFGHIJK 4 0
+#2414
+carcharoth wolf~
+Carcharoth the Wolf of Hell~
+Carcharoth the Wolf of Hell sees you and pounces!
+~
+Carcharoth is like any other wolf, except for the fact he is the size of
+an elephant.  Two huge fangs jut out from his massive maw, dripping a
+mixture of faomy saliva abd blood.  The scent of rotting fecal matter
+fills the room.  Carcharoth's body ripples with muscles, and you wonder
+what master could possibly tame a beast such as this.
+~
+wolf~
+ABCFG VZD -800 0
+98 3 65d15+17000 10d9+10 9d10+10 stab
+50 50 50 30
+ADFH AB E HJ
+stand stand male 2000
+AGV ACDEFJQV 4 0
+#2415
+shelob spider~
+Shelob the Spider Queen~
+Shelob crawls toward you from the darkness and screams in fury!
+~
+Shelob isa large foul creature, like any other s
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

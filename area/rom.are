@@ -1,0 +1,669 @@
+#HELPS
+
+-1 WIZLIST~
+.
+        ________            *********************           ________
+      /+_+_+_+_+_\          * |CThe Gods of Xania|w *         /+_+_+_+_+_\
+      \__________/          *********************         \__________/
+        |::XXXX|                (alphabetical)              |::XXXX|
+        |X::XXX|                                            |X::XXX|
+        |XX::XX|                  Death                     |XX::XX|
+        |X::XXX|                  Faramir                   |X::XXX|
+        |X::XXX|                  Firefawn                  |X::XXX|
+        |XX::XX|                  Forrey                    |XX::XX| 
+        |XX::XX|                  Oshea                     |XX::XX|
+        |XXX::X|                  Rohan                     |XXX::X|
+        |XXX::X|                  Tajil                     |XXX::X|
+        |XXXX::|                  The Moog                  |XXXX::|
+        |::XXXX|                  Wandera                   |::XXXX|
+/<<>>\/<<>>\/<<>>\/<<>>\                            /<<>>\/<<>>\/<<>>\/<<>>\
+\<<>>/\<<>>/\<<>>/\<<>>/                            \<<>>/\<<>>/\<<>>/\<<>>/
+       |.  /  . |                                          |.   / . |
+       |.  /  . |                                          |.  /  . |
+       | .//\.  |                                          | .//\.  |
+       |.  /  . |                                          |.  /  . |
+       | .//\.  |                                          | .//\.  |
+       | .//\.  |                                          | .//\.  |
+       |.  /  . |                                          |.  /  . |
+       | .//\.  |                                          | .//\.  |
+       |.  /  . |                                          |.  /  . |
+       |. //\  .|                                          |. //\  .|
+       |.  /  . |                                          |.  /  . |
+        \ //\. /                                            \ //\. /
+         \ /. /                                              \ /. /
+           \/                                                  \/
+~
+ 
+
+-1 SOCIALS~
+ 
+This is a list of standard Socials (there are a few others):
+ 
+accuse       adjust      air          apologize     applaud     babble
+bark         bcatch      beckon       beer          bearhug     beg
+bird         bkiss       bleed        blink         blush       boast
+boggle       bonk        bounce       bow           brb         burp
+cackle       caress      charge       cheer         chuckle     clap
+claw         collapse    comfort      comb          cough       cover
+cower        cringe      criticize    cry           cuddle      curse
+curtsey      dance       daydream     drool         duck        embrace
+explode      eyebrow     faint        fart          flare       flash
+flex         flinch      flip         flirt         flutter     fondle
+french       frown       fume         gasp          giggle      glare
+goose        grimace     grin         groan         grope       grovel
+growl        grumble     hand         head          hiccup      highfive
+hop          howl        hug          hush          ignore      innocent
+insane       judge       kiss         knee          laugh       lick
+love         lust        massage      meditate      moan        moon
+mosh         mutter      nibble       nod           nudge       nuzzle
+pant         passout     pat          peck          pie         pinch
+pissed       plead       point        poke          ponder      pout
+pray         propose     puke         punch         purr        ramble
+raspberry    rofl        roll         rub           ruffle      run
+scratch      scream      serenade     shake         shiver      shrug
+sigh         sing        slap         slobber       smile       smirk
+snap         snarl       sneeze       snicker       sniff       snore
+snort        snowball    snuggle      sob           spam        spank
+spit         squeal      squeeze      squirm        stare       stretch
+strip        stroke      strut        sulk          swoon       tackle
+tease        thank       threaten     tickle        tip         tongue
+twiddle      type        undress      view          wave        whine
+whistle      wiggle      wince        wink          wonder      worry
+worship      yawn        yeehaw       yodel
+ 
+(list and many of the socials written by Sara)
+~
+
+-1 'NEWBIE INFO' NOVICE~
+Ah! Another mortal, seeking adventure.  You should go through mudschool first,
+to gain experience to face the trials outside.  Be sure to practice a weapon
+in the guild room, or your stay with us shall be very short indeed.  Type
+'equipment' to see what your are wielding, 'spells' to see your spells, 
+'skills' to see your skills, and 'commands' for a list of commands. Help is
+available on most commands and abilities.
+~
+
+
+-1 GREETING~
+
+.                                           
+.   .... NO! ...                  ... MNO! ...   
+.... MNO!! ...................... MNNOO! ..    /    \    /    \
+.... MMNO! ......................... MNNOO!!   \     \  /     / 
+.. MNOONNOO!   MMMMMMMMMMPPPOII!   MNNO!!!!     \     \/     / 
+.. !O! NNO! MMMMMMMMMMMMMPPPOOOII!! NO! ...      \          /  A N I A 
+  ...... ! MMMMMMMMMMMMMPPPPOOOOIII! ! ...       /    /\    \  
+ ........ MMMMMMMMMMMMPPPPPOOOOOOII!! .....     /    /  \    \
+ ........ MMMMMOOOOOOPPPPPPPPOOOOMII! ...      /    /    \    \  
+  ....... MMMMM..    OPPMMP    .,OMI! ....     \   /      \   /
+   ...... MMMM::   o.,OPMP,.o   ::I!! ... 
+       .... NNM:::.,,OOPM!P,.::::!! ....    ...where it is recognised that 
+       .. MMNNNNNOOOOPMO!!IIPPO!!O! .....   shaking hands with Death brings
+       ... MMMMMNNNNOO:!!:!!IPPPPOO! ....  longevity and considerable kudos.
+         .. MMMMMNNOOMMNNIIIPPPOO!! ......
+        ...... MMMONNMMNNNIIIOO!..........
+     ....... MN MOMMMNNNIIIIIO! OO .......... DikuMUD by Hans Staerfeldt  
+  ......... MNO! IiiiiiiiiiiiI OOOO ......... Katja Nyboe, Tom Madsen, Michael
+ ..... NNN.MNO! . O!!!!!!!!!O . OONO NO! .... Seifert, and Sebastian Hammer.
+ .... MNNNNNO! ...OOOOOOOOOOO .  MMNNON!..... Based on MERC 2.2 code
+ ...... MNNNNO! .. PPPPPPPPP .. MMNON!....... by Hatchet, Furey, and Kahn,   
+    ...... OO! ................. ON! .......  ROM 2.4 (C) 1993-96 Russ Taylor
+       ................................       MUDdled by the Xanian Immortals
+
+State thy name and enter the realm of Xania: ~
+ 
+-1 MOTD~ 
+|cWelcome back to the zany world of Xania!|w
+|WXania has moved server!!  Type |RHELP ADDRESS|W for more info!|w
+For a complete list of the CHANGES made on this MUD, type HELP |RXNEWS|w
+
+Type 'help web' for info on our web pages.
+
+If nobody is available to answer your questions, write a note to 'immortal'.
+|w
+*** Important: read |Whelp rules|w, commands to see a list of commands.
+    If you're new, progress from there by reading help on as many keywords
+    as possible or just ask other players!
+
+No multiassisting.  No Player Killing. See 'help challenge' to read
+about our player duelling!
+
+|WNew|w: 'hailcorpse' command added!
+
+For general information on Xanian lore, try help on: |cIsca, Xania|w and|c Wyrm|w.
+
+|g[Hit return to continue]|w
+~ 
+ 
+91 IMOTD~
+
+Read: help ximm, help commandments, help immchallenge for newer rules.
+      help immnews for extra bits on the news system
+
+|g[Hit return to continue]|w
+~
+
+1 ISCA ISCARIANS~
+Xania is  a land  which was once  populated by  the ancient Iscarians.
+Legend has it that this race of people  held a culture of great beauty
+and wisdom. It was their early efforts at  creating a peaceful, lawful
+society which resulted in cities such as Midgaard being founded in the
+otherwise barbarous Xanian  lands. Their original temple still  stands
+today in Midgaard   and it is  there  where  you can see  some  of the
+examples of the Iscarian livelihood. 
+
+Many an  age has passed since the  construction of the city and during
+that time, evil  infiltrated the works of  the Iscarians. It came from
+the  wild outlands, manifested  in the form of blood-crazed barbarians
+who brought unparalleled terror to the innocent and death to those who
+did not submit. 
+
+Nobody really knows the source of this  potent malice, but Midgaardian
+scholars who have studied the stars have come to  a concensus that the
+Iscarians were a   race doomed to  destruction ever   since their very
+creation. For it  is believed that the source   of their demise  was a
+fundamental floor  in  the design  of the  cosmos itself; something so
+powerful that even the mighty  Isca-sorceri, the Iscarians learned  in
+the ways of magic, were unable to thwart its progress. 
+
+Apart from the Temple  of Isca and a  few  of the tomes  detailing the
+Lore of Xania, there is very little left of the Iscarians today. A few
+scattered   peoples roam  the  land   claiming  that  they are  direct
+descendants   of Isca but few   acknowledge  this, and  some, such  as
+disciples of   the Great Wyrm,   hold a  completely different  view of
+Xanian history and hold the Iscarians in contempt. 
+                             
+                                -- adapted from Book II, Lore of Xania
+
+SEE ALSO: |p'help wyrm' 'help wyrmlore' 'help xania' 'help clan'|w
+~
+
+92 JOBS~
+This is a partial list of what a god of any given level should be doing. It is
+not complete yet.
+
+
+Heroes:
+You should be helping mortals in minor ways (i.e. not handing out free spells
+right and left).  An ideal example is leading quest parties or missions to 
+get corpses...don't just get the corpse for a person, make them come along and
+help you do it.
+
+Angels:
+Angels and higher level gods may not assist mortals directly in any way.  
+An Angel's main job is to help with quests (via switch), or possibly run
+small quest of their own -- but the rewards should be minimal.
+
+Deities:
+Deities have two main roles: reimbursement and quest running.  Be skeptical
+on reimburses, don't just hand out every piece of gear.  I suggest limiting
+reimbursements to |W10 items at a time|w, and make sure that you do not load things
+at too high a level (new format items have hard-coded levels, so are not a
+problem).  vnum and stat are useful for this.  You can draft Angels to help you
+run a quest, and please note that quests should NOT have huge rewards -- the
+main point should be to have fun.  Deities have no business trying to enforce
+rules -- the most you should do to a player is a NOCHANNEL or similar light
+punishment.
+
+Gods:
+Gods can run quests just like Deities, and it's nice to do reimbursements too.
+However, the main role of a God is keeping the peace.  Gods can enforce (but
+not create rules), using the various NOTELL-class commands, as well as deny,
+purge, freeze, and ban (but be careful with these commands!)  Gods are expected
+to help make the mud run more smoothly, power trips are strictly verbotten.
+
+Not fufilling the roles of your office can result in demotion or deletion.
+~
+92 XIMM~
+
+Guidelines for the Immortals of Xania                                16/9/95
+==============================================================================
+
+Having ascended to the realms of immortality, you have become the ultimate
+being, the pinnacle of existence in the universe. Your powers, as you know
+only too well, are mighty, far greater than those of any mortal. Therefore,
+you should use them wisely for both your own pleasure and to carry out the 
+task of acaring for the world in a manner which you see fit.
+
+You can do more or less what you want, but there are certain limitations, and
+you must not behave 'ultra vires', beyond the law, otherwise the you might 
+find that a God with bigger muscles than you is going to get angry =).
+
+Firstly
+-------
+In a situation where your attention is required, just use your basic built
+in common sense. Little else can be better, do whatever best suits the
+circumstances. Most of the guidelines here are common sense anyway.
+
+YOU MAY NOT!
+------------
+Use your powers to help mortals:
+   - to level
+   - to heal
+   - with finding equipment and/or areas
+   - with enhancements  and enchantment
+
+Move mobs around:
+   Don't move mobs about, especially aggressive ones. If there are 
+circumstances where what you are doing requires moving/switching a mob then
+do so, but please put it back afterwards! And for heavens sake, don't put
+high level mobs in low level areas. Slaying the mob is a quick way to put
+it back, of course.
+
+Snoop!
+   |WYou may not snoop players.|w Period. People use muds to have private
+conversations and it is up to you to respect this. Circumstances where you
+CAN use snoop might be as follows:
+   - a player thinks there is a bug/problem with his character, so you can
+     see what the problem is with snoop.
+   - if a player is being hassled by another player and it is reported to
+     you, use snoop on the victim (with his/her permission) to catch the
+     culprit red handed. If possible, also capture the events to a text file
+     and this can be used as evidence.
+
+Player Kill or slay. Need I say more?
+
+   - slaying is a technique which can be used to fix a problem with a 
+     character sometimes, please  don't slay out of anger or you might
+     find yourself slain too =)
+
+Other points
+------------
+
+CRs:
+   - with corpse retrievals, you must leave it to the mortals to help each
+     other out. If there are no mortals available or willing to help out
+     or the situation is quite obviously beyond anyone with lesser 
+     capabilities than yourself =) then |Wyou are responsible for getting the
+     player back to his/her corpse.|w Don't ever let yourself get the 
+     reputation as an Imm who will always do a CR, otherwise the higher
+     level mortals might get lazy.
+   - |Rreimburse a player if their corpse is lost in a crash|w (hopefully there
+     won't be too many of those!).
+
+Wizi:
+   - if you are Wizi, then there are fewer things more annoying for a mortal
+     than if you talk them whilst remaining invisible. Reveal yourselves to
+     them when you're chatting about something, you can always go invisible
+     again afterwards. Of course, becoming visible means that players will
+     know that you are logged on. The solution is to stay visible all the 
+     time and when you do disappear, they'll probably assume that you're not
+     there at all!
+  - to hide behind invisibility all the time is to avoid facing up to your
+     responsibilities. Please don't do it.
+
+If!:
+   - a player is quite evidently there just to cause trouble or to spam then
+     give him a few stern words. If it's blatantly nasty behaviour (e.g.
+     spamming swear words on the gossip channel) then nochannel them or
+     just kick them off. This also applies for a rude character name.
+     If a name has a slightly sexual connotation, but seems to be a current
+     player who is having a quick joke, then that's ok. Play it by ear.
+
+Multi-assisting:
+   - this is forbidden and if you spot it occurring, then approach the said
+     individuals and question them. Be careful, things may not be quite what
+     they seem though; it may well be one player just helping another.
+
+   - warn cheaters of Deletion penalties then note a level 98+ or to
+     an implementor. If that player is caught again, they're in mucho trouble.
+
+   - if you materialise suddenly before them, that will probably scare them
+     shitless anyway and they'll stop (he says with an aura of innocence =))
+     If necessary, transfer them to |Rthe Realm of Death (1212)|w in the 
+     immortal zone to let them cook for a couple of minutes. That room should 
+     be inescapable. Of course, don't go over the top and make them quit 
+     because of hatred (perhaps fear!) of the mud.
+
+Loading:
+   - you may load any objects you wish but you may not give equipment out
+     to mortals unless it is to reimburse them for a lost corpse. You can
+     also load objects for mortals if they are genuinely needed to run a 
+     quest (harmless items only though, like food restrung as items with
+     interesting names) Of course, load objects as prizes for your own, or
+     other immortals' quests.
+
+Restrings:
+   - Don't hand them out to mortals, they're special and must be earned. You
+     or any other immortals may string as much as you like for yourselves
+     though. Restrings may be given out as special quest prizes. 
+     No 'Personal Quests' just yet please until Wandera has figured out how
+     quests will work here on X.
+
+==============================================================================
+~
+
+
+92 COMMANDMENTS LAWS 'GOD RULES' GODS~
+.
+                         **********************
+                         *  |R The Rules of  X |w *
+                         **********************
+ 
+
+                >>> For Extended Rules read |RHELP XIMM|w <<<
+
+
+1)  Do not kill mortals, do not kill mortals, do not kill mortals.
+    This includes transferring/summoning them to aggressive mobs.
+ 
+2)  Do not cheat for ANY mortal in ANY way, especially your own. 
+    Unless of course you LIKE deletion. Yes this includes tanking,
+    healing/restoring, casting protection spells <armor, sanct>,    
+    and softening up or altering mobs.
+ 
+3)  Do not transfer or summon mobs to mortals or mortals to mobs.
+    They have legs, if they want to kill a mob, they can easilly
+    go there themselves.
+ 
+4)  DO NOT kill the shopkeepers for any reason at ALL.
+ 
+5)  DO NOT use reboot.  <--- Note, simple English.
+ 
+6)  Do not give out free equipment.  You don't need to win brownie
+    points with the mortals.  Quest are fine but handing out items
+    isn't.
+ 
+7)  A note on quests: Quests are a good thing, more or less, BUT 
+    do not give out overly extravagant prizes.  Exercise some 
+    common sense here folks.  Do not load items more than 4 levels
+    below their normal level (i.e. no level 5 ogre gauntlets).
+ 
+8)  Do not undermine the authority of a higher level god.  If you 
+    see that someone has been frozen or nochannelled do not restore
+    their priveleges.  They are being punished for a reason.
+ 
+9)  Do not try to overrule each other.  
+ 
+10) Trusted mortals:  Do not use your god powers to help your mortal
+    character.  If you do, your trust will be taken away.
+
+~
+-1 Address~
+Xania is now at:
+
+telnet://xania..org:9000
+~
+
+-1 PUFF~
+No plain fanfold paper could hold that fractal Puff --
+He grew so fast no plotting pack could shrink him far enough.
+Compiles and simulations grew so quickly tame
+And swapped out all their data space when Puff pushed his stack frame.
+CHORUS:
+        Puff the fractal dragon was written in C,
+        And frolicked while processes switched in mainframe memory.
+        Puff the fractal dragon was written in C,
+        And frolicked while processes switched in mainframe memory.
+Puff, he grew so quickly, while others moved like snails
+And mini-Puffs would perch themselves on his gigantic tail.
+All the student hackers loved that fractal Puff
+But DCS did not like Puff, and finally said, "Enough!"
+                (chorus)
+Puff used more resources than DCS could spare.
+The operator killed Puff's job -- he didn't seem to care.
+A gloom fell on the hackers; it seemed to be the end,
+But Puff trapped the exception, and grew from naught again!
+                (chorus)
+~
+
+-1 RULES~
+These are the rules of |RX|w.  For other matters, use common sense.
+* No player stealing or player killing. Period.
+
+* excessive foul language will not be tolerated in Xania, from anyone
+  (including gods). Punishments range from deletion to NOCHANNELing.
+
+* sexual harassment of any form will not be tolerated, punishable by deletion
+
+* your presence here is a privilege not a right
+ 
+* |YAbsolutely no multiassisting! You may have more than one character logged
+    on but do not use them to help each other! If you're caught, you're
+    in BIG trouble.|w
+ 
+* no kill stealing.  This means you cannot attack a mob someone else is 
+  fighting, unless they ask you to. Also avoid attacking fleeing mobs.
+
+* cheating will not be tolerated.  This includes accepting favors from gods
+  and exploiting bugs. If you find a bug, report it, then do not use it.
+~
+
+
+
+
+-1 STORAGE~
+If your character is not logged in during a period of 14 consecutive days,
+it will 'disappear' into storage and will need to be restored by an 
+implementor. 
+
+    On the login screen you will see:
+
+    'Did I hear that right - <name> (Y/N)?' if your character has been
+put into storage. 
+
+To get restored to your former self, write a note to immortal (do 'help note' 
+if you don't know how to) and state the following:
+
+    - character name
+    - character level (approximately)
+    - the approximate date when you last played
+    - your e-mail address (optional - we can mail you and tell you if you've  
+                           been restored or not!) 
+With luck, you'll be back in shape fairly soon afterwards.
+~
+-1 STORY XANIA~
+In the  beginning, there was ROM.  (Actually, it was  in February, but
+that's  beside the point)  Then, ROM was updated to  ROM II, and for a
+while there were  two ROMs, separate  but not equal.   Sadly, all good
+things must come to an end, and in a mighty flash  of write heads, ROM
+I was taken from this earth.S Now there is ROM II, the mightier of the
+two, and  many  mortals eager to perish   in the  quest for glory.  In
+further development, ROM II was released, and here we are. 
+|ctelnet://rom.org:9000|w to visit Rivers of Mud.
+
+Xania  was developed  by  TheMoog,   Death, Faramir, Rohan   and
+Wandera, five  bold Gods who  saw fit  to create  a  new world where
+peace and happiness would   reign. Sadly, (due to  sheer incompetence)
+they made a nasty mistake somewhere along the line, and an infestation
+of evil  spread chaotically throughout  the realm. Thus, this place is
+no longer safe and it is up to you, bold adventurer, to face up to the
+prospect of meeting an untimely demise! 
+
+SEE ALSO: |p'help isca'|w
+~
+
+0 DELETE~
+Use the delete command to erase unwanted characters, so the name will be
+available for use.  This command must be typed twice to delete a character,
+and you cannot be forced to delete.  Typing delete with an argument will
+return your character to 'safe' status if you change your mind after the
+first delete.
+~
+ 
+0 HEALER~
+Throughout Xania, there are some special individuals who are hold
+great healing abilities. The most widely known healer is the Iscarian
+druid who resides at the Temple of Isca, Midgaard, although there are
+rumoured to be others dotted around the landscape.
+
+The healer decided to grab a quick buck, and now charges for his heals.  Some
+services are still free to players of level 5 or below, however.  To see
+a full listing of the healer's services, type 'heal' at his residence. To
+receive healing, bring plenty of money, and type 'heal spell'.
+~ 
+
+-1 TAX TAXES~
+Xania charges a tax on the wealthiest players, to help pay for all the sub
+issue equipment and guard death benefits.  This tax amounts to 50% of all
+gold above 250,000 coins, each and every time you log on.
+~
+
+-1 GAIN~
+The gain command is used to learn new skills, once the proper trainer has 
+been found.  The following options can be used with gain:
+
+gain list:    list all groups and skills that can be learned
+gain points:  lower your creation points by 1 (costs two sessions)
+gain <name>:  add a skill or skill group, at the listed cost
+gain convert: turns 10 practices into one training session
+
+Gain uses training sessions, not practices. (see 'help train')
+Gained skills and groups do NOT increase your experience per level or total
+number of creation points. 
+~
+
+95 CLONE~
+Syntax:
+  clone obj <object>
+  clone mob <mobile>
+  clone <name>
+
+The clone command duplicates an object or mobile.  The level of item or mobile
+that may be cloned depends on your level.  The target object or mob must be in
+the same room as you, or in your posession.  Strung and set information is
+preserved by clone, as well as any spell effects and container contents or
+mobile inventory, except for items which are too high for you to clone.  
+Strung extended descriptions on objects are not kept, however.
+~
+
+
+0 SKILLS SPELLS~
+The skills and spells commands are used to display your character's list
+of available skills (or spells, as the case may be).  They are listed in
+order of level, with mana cost (for spells) or percentage (for skills)
+listed where applicable.
+~
+
+
+0 OUTFIT~
+The outfit command, usable by levels 5 and below, equips your character with
+a new set of sub issue gear (banner, weapon, helmet, shield, and vest), 
+courtesy of the Mayor's warehouses.  Only empty equipment slots are affected.
+~
+
+0 AUTO AUTOLIST AUTOLOOT AUTOGOLD AUTOSAC AUTOEXIT AUTOASSIST AUTOSPLIT
+AUTOPEEK~
+ROM uses varies automatic actions, to ease the boredom of always splitting
+gold and sacrificing corpses.  The commands are as follows:
+
+autolist  : list all automatic actions
+autoloot  : take all equipment from dead mobiles
+autogold  : take all gold from dead mobiles
+autosac	  : sacrifice dead monsters (if autoloot is on, only empty corpes)
+autoexit  : display room exits upon entering a room
+autosplit : split up spoils from combat among your group members
+autoassit : makes you help group members in combat
+|Wautopeek|w  : if you have the peek skill, this will toggle its use
+
+brief           activates and deactivates short descriptions
+compact         used to remove most 'empty' lines of text
+nosum           toggle between state of summonability
+nofol           prevent people following you, and gets rid of pets
+|Wshowafk|w         toggles between whether tells are logged when you are afk
+noloot		permits or denies looting of your corpse
+
+Typing a command sets the action (except for autolist), typing it again removes
+it. 
+~ 
+-1 BRIEF COMPACT NOSUM NOFOL SHOWAFK NOLOOT~
+
+brief           activates and deactivates short descriptions
+compact         used to remove most 'empty' lines of text
+nosum           toggle between state of summonability
+nofol           prevent people following you, and gets rid of pets
+showafk         toggles between whether tells are logged when you are afk
+noloot          permits or denies looting of your corpse
+~
+
+
+-1 COUNT~
+The count command displays the number of people (that you can see) logged
+into the mud.  It also displays the highest number observed that day, if
+it is higher.
+~ 
+ 
+-1 GATE~
+The gate spell is a powerful transportation magic that opens up a portal 
+between your character and another person or creature somewhere else in the
+world.  This portal will transport you and any pet you might have, but not
+other members of your group.  Monsters recieve a save against gate, and
+monster or players s more than 3 levels higher than you can not be gated to at 
+all.  God rooms, private rooms, and no recall rooms cannot be gated to, and
+no recall rooms cannot be gated out of.  Finally, any god or hero is also 
+immune to gate, as well as in player who has no summon set.
+~
+
+-1 WEB~
+The Xania web pages are to be found at |chttp://xania.org/-xania|w
+(replace the - with one of those squiggly tildes)
+
+To get a web page for your own character, leave a note or talk to Faramir.
+These are intended mainly for roleplay use, so if your character has 
+an interesting background or perhaps devious motives, you can place a 
+short resume on the pages, along with graphics! 
+~
+-1 __NEUTRALSMITE~
+|W                              \ \
+                               \ \
+                                \ \|R
+     ...the stench of ozone|W      \ \|R
+      rapidly fills the air|W       \ \|R
+             and then......|W     ___\ \
+                                \  ___\
+                                 \ \
+                                  \ \
+                                ___\ \
+                                \  ___\
+                                 \ \
+                                  \ \
+                                   \ \
+                                    \ ||
+                                     \||/   |Caaaaaiiiieeee!!!|W
+                                    - |Y*|W -
+                                     / \ 
+~ 
+-1 __GOODSMITE~|R
+       /\/\/\/\/\/\/\/\/\/\/\          /\/\/\/\/\/\/\/\/\/\/\
+      /\/\/\/\/\/\/\/\/\/\/\/\        /\/\/\/\/\/\/\/\/\/\/\/\
+     /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+|W
+      '||||  ||||    ||||   '||||||||||.  .'||||||'   .'||||||'. '||||||||    ||||||||'
+       |||| ||||   .||  ||.  ||||  ||||  '||   ||'  '||   ||'  ||||'||||  ||||'||||
+       ||||||||   .||||||||||||. |||| ||||  '||||   ||||''||||   ||||' |||| '||||||||  ||||
+       |||| ||||  ||||'  '|||| ||||  ||||  '||   ||'  '||   ||'  ||||  '||||   ||||
+      .||||  ||||.||||.  .||||.||||||||||'  '.||||||.'  '.||||||.' .||||        ||||.
+|R    
+     \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+      \/\/\/\/\/\/\/\/\/\/\/\/        \/\/\/\/\/\/\/\/\/\/\/\/
+       \/\/\/\/\/\/\/\/\/\/\/          \/\/\/\/\/\/\/\/\/\/\/
+~
+-1 __BADSMITE~
+                                      ueeeeeu..
+                               ur d$$$$$$$$$$$$$$Nu 
+                             d$$$ '$$$$$$$$$$$$$$$$$$e.
+                         u$$c   ''   ^^^**$$$$$$$$$$$$$b.
+                       z$$#^^^           `!?$$$$$$$$$$$$$N.
+                     .$P                   -!R$$$$$$$$$$$$$b
+                    x$F                 **$b. ''R).$$$$$$$$$$
+                   J^^                           #$$$$$$$$$$$$.
+                  z$e                      ..      ^**$$$$$$$$$
+                 :$P           .        .$$$$$b.    ..  ^  #$$$$
+                 $$            L          ^*$$$$b   ^      4$$$$L
+                4$$            ^u    .e$$$$e.^*$$$N.       @$$$$$
+                $$E            d$$$$$$$$$$$$$$L ^$$$$$  mu $$$$$$F
+                $$&            $$$$$$$$$$$$$$$$N   ^#* * ?$$$$$$$N
+                $$F            '$$$$$$$$$$$$$$$$$bec...z$ $$$$$$$$
+               '$$F             `$$$$$$$$$$$$$$$$$$$$$$$$ '$$$$E^$
+                $$                  ^^^^^^^`       ^^*$$$& 9$$$$N
+                k  u$                                  ^$$. ^$$P r
+                4$$$$L                                   ^$. eeeR
+                 $$$$$k                                   '$e. .@
+                 3$$$$$b;.                                 '$$$$
+                  ^$$$$%b;.                                 '$$'
+                    ^^^^^^^                                  ;'
+~
+0 $~
+#$
+
+

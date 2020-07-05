@@ -1,0 +1,11 @@
+Merc release 2.2
+Wednesday 24 November 1993
+
+Kahn
+Hatchet
+
+=== MOBProgs directory
+
+	This directory contains the stock distributed in file MOBPrograms
+for a few mobs in Midgaard.  There is also a trigger.txt that explains how
+to add a new trigger for MOBProgrammed mobs.
