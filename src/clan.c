@@ -14,6 +14,7 @@
 #if defined(riscos)
 #include "sys/time.h"
 #else
+#include <memory.h>
 #include <sys/time.h>
 #endif
 #include "merc.h"
@@ -410,7 +411,7 @@ void do_clanwho( CHAR_DATA *ch, char *argument ) {
 
 void do_clanset ( CHAR_DATA *ch, char *argument) {
 
-   char buf[MAX_STRING_LENGTH];
+   char buf[MAX_STRING_LENGTH * 2];
    char buf2[MAX_STRING_LENGTH];
    char arg1[MAX_INPUT_LENGTH];
    char marker;
@@ -503,7 +504,7 @@ void do_clanset ( CHAR_DATA *ch, char *argument) {
 	    send_to_char( buf, ch );
 	    return;
 	 }
-	 sprintf(buf2, victim->pcdata->pcclan->clan->name);
+	 strcpy(buf2, victim->pcdata->pcclan->clan->name);
 
 	 free_mem(victim->pcdata->pcclan, sizeof(PCCLAN));
 	 victim->pcdata->pcclan = NULL;

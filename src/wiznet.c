@@ -27,7 +27,7 @@ extern void copy_areaname(char *dest);
 
 /* Reports a bug. */
 void bug(const char *str, ...) {
-	char buf[MAX_STRING_LENGTH];
+	char buf[MAX_STRING_LENGTH * 2];
 	char buf2[MAX_STRING_LENGTH];
 	va_list arglist;
 

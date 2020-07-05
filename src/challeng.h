@@ -8,7 +8,8 @@
 /*************************************************************************/
 
 
-/* Requires merc.h to be read first! */
+#pragma once
+#include "merc.h"
 
 /* To keep things general. */
 #define CHAL_ROOM 30011

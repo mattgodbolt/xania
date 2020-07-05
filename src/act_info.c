@@ -324,6 +324,7 @@ void show_char_to_char_0( CHAR_DATA *victim, CHAR_DATA *ch )
 void show_char_to_char_1( CHAR_DATA *victim, CHAR_DATA *ch )
 {
    char buf[MAX_STRING_LENGTH];
+   char buf2[MAX_STRING_LENGTH];
    OBJ_DATA *obj;
    int iWear;
    int percent;
@@ -390,8 +391,8 @@ void show_char_to_char_1( CHAR_DATA *victim, CHAR_DATA *ch )
          }
 	 if (obj->wear_string != NULL)
 	   {
-	     sprintf(buf, "<%s>", obj->wear_string);
-	     sprintf(buf, "%-20s", buf);
+	     sprintf(buf2, "<%s>", obj->wear_string);
+	     sprintf(buf, "%-20s", buf2);
 	     send_to_char( buf, ch );
 	   }
 	 else
@@ -2315,6 +2316,7 @@ void do_equipment( CHAR_DATA *ch, char *argument )
    int iWear;
    bool found;
    char buf[MAX_STRING_LENGTH];
+   char buf2[MAX_STRING_LENGTH];
 
    send_to_char( "You are using:\n\r", ch );
    found = FALSE;
@@ -2325,8 +2327,8 @@ void do_equipment( CHAR_DATA *ch, char *argument )
 
       if (obj->wear_string != NULL)
 	{
-	  sprintf(buf, "<%s>", obj->wear_string);
-	  sprintf(buf, "%-20s", buf);
+	  sprintf(buf2, "<%s>", obj->wear_string);
+	  sprintf(buf, "%-20s", buf2);
 	  send_to_char( buf, ch );
 	}
       else

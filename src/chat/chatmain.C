@@ -37,11 +37,12 @@ eliza chatter;
 
 extern "C" void startchat(char *filename)
 {
-  chatter.reducespaces("");
+  char buf[] = "";
+  chatter.reducespaces(buf);
   chatter.loaddata(filename);
 }
 
-extern "C" char* dochat(char* talker,char *msg,char* target)
+extern "C" const char* dochat(char* talker,char *msg,char* target)
 {
   return chatter.process(talker,msg,target);
 }

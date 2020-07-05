@@ -357,7 +357,7 @@ int save_whole_area( char *area_name, char *filename )
          if ( (pExitData = pRoomIndex->exit[door]) == NULL )
             continue;
 
-         switch ( (pExitData->exit_info && (EX_ISDOOR | EX_PICKPROOF)) ) {
+         switch ( (pExitData->exit_info & (EX_ISDOOR | EX_PICKPROOF)) ) {
          default:                         
             locks = 0; 
             break;

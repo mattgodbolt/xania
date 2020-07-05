@@ -534,7 +534,7 @@ bool load_char_obj( DESCRIPTOR_DATA *d, char *name ) {
     static PC_DATA pcdata_zero;
     char strsave[MAX_INPUT_LENGTH];
 #if defined(unix)
-    char buf[100];
+    char buf[MAX_STRING_LENGTH * 2];
 #endif
     CHAR_DATA *ch;
     FILE *fp;
@@ -626,7 +626,7 @@ bool load_char_obj( DESCRIPTOR_DATA *d, char *name ) {
     if ( ( fp = fopen( strsave, "r" ) ) != NULL )
       {
 	FILE *q;
-	char t2[MAX_STRING_LENGTH];
+	char t2[MAX_STRING_LENGTH * 2];
 	fclose(fp);
 	sprintf( t2, "%s%s", PLAYER_DIR, capitalize( name ) );
 	if ( ( q=fopen(t2, "r" ) ) == NULL) {

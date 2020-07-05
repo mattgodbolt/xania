@@ -42,10 +42,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <sys/un.h>
-/*
- * Fucking ARMLinux mutter mutter
- */
-extern int sleep (int);
+
 #include "challeng.h"
 #include "doorman/doorman.h"
 #include "merc.h"
@@ -176,35 +173,7 @@ int   socket        args( ( int domain, int type, int protocol ) );
 #endif
 
 #if   defined(linux)
-
-/*
- * comments added for linux using libc-5.2.18 and gcc-2.7.2
- * under kernel 2.0.1
- */
-
-/*
-int   accept      args( ( int s, struct sockaddr *addr, int *addrlen ) );
-int   bind     args( ( int s, struct sockaddr *name, int namelen ) );
-*/
-
-   int   close    args( ( int fd ) );
-
-/*
-int   getpeername args( ( int s, struct sockaddr *name, int *namelen ) );
-int   getsockname args( ( int s, struct sockaddr *name, int *namelen ) );
-*/
-
-   int   gettimeofday   args( ( struct timeval *tp, struct timezone *tzp ) );
-/*
-   int   listen         args( ( int s, int backlog ) );
-*/
-   int   read           args( ( int fd, char *buf, int nbyte ) );
-   int   select         args( ( int width, fd_set *readfds, fd_set *writefds,
-   fd_set *exceptfds, struct timeval *timeout ) );
-/*
-int   socket      args( ( int domain, int type, int protocol ) );
-*/
-   int   write    args( ( int fd, char *buf, int nbyte ) );
+#include <unistd.h>
 #endif
 
 #if   defined(macintosh) || defined(riscos)
@@ -437,7 +406,7 @@ void ext_shutdown( int signum ) {
       perror( SHUTDOWN_FILE );
    }
    else {
-	   fprintf( fp, buf );
+           fputs(buf, fp);
 	   fclose( fp );
    }
    
@@ -617,7 +586,8 @@ int init_socket (char *file)
    static struct sockaddr_un sa_zero;
    struct sockaddr_un sa;
    int x = 1;
-   int fd, size;
+   int fd;
+   socklen_t size;
 
    unlink (file);
 
@@ -887,7 +857,7 @@ void game_loop_unix( int control )
 	  /* If we don't have a connection from doorman, wait for one */
 	  if (doormanDesc == 0) {
 	       struct sockaddr_un sock;
-	       int size;
+	       socklen_t size;
 
 	       log_string ("Waiting for doorman...");
 	       size = sizeof(sock);
@@ -921,7 +891,7 @@ void game_loop_unix( int control )
 			 while (descriptor_list)
 			      close_socket (descriptor_list);
 		    } else {
-			 char logMes[1024];
+			 char logMes[18 * 1024];
 			 if (p.nExtra) {
 			      read (doormanDesc, buffer, p.nExtra);
 			 }
@@ -2680,7 +2650,7 @@ void show_string(struct descriptor_data *d, char *input)
          *scan = '\0';
          /*     write_to_buffer(d,buffer,strlen(buffer));*/
          send_to_char(buffer, d->character);
-         for (chk = d->showstr_point; isspace(*chk); chk++);
+         for (chk = d->showstr_point; isspace(*chk); chk++)
          {
             if (!*chk)
             {

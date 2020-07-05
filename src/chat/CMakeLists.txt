@@ -1,0 +1,1 @@
+add_library(chat akey.C akey.hpp allkeys.C allkeys.hpp chatmain.C chatmain.hpp eliza.C eliza.hpp)

@@ -8,9 +8,9 @@
 #include "akey.hpp"
 
 
-char* akey::getrndreply()
+const char* akey::getrndreply()
 {
-  char* defaultmsg="Mmm, sounds interesting...";
+  const char* defaultmsg="Mmm, sounds interesting...";
   if(totalwates==0) return defaultmsg;
   int rndnum=random(totalwates),total=0;
 #ifdef DEBUG

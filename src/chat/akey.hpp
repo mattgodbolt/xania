@@ -29,7 +29,7 @@ class akey
 		char *getlogic() {return logic;}
 		int addreply(int,char *);
 		reply& getreply(int num) {return replys[num];}
-		char* getrndreply();
+		const char* getrndreply();
 		~akey();
 };
 

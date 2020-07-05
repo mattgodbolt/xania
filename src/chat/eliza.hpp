@@ -50,13 +50,13 @@ protected:
 public:
   void reducespaces(char *);
   void addrest(char* replied, char* talker,
-		       char* rep, char* target,char* rest);
+		       const char* rep, char* target,char* rest);
 public:
 
 
   bool loaddata(char*,char recurflag=0);
-  char* processdbase(char* talker,char* message,char* target,int dbase);
-  char* process(char* talker,char* message,char* target)    {
+  const char* processdbase(char* talker,char* message,char* target,int dbase);
+  const char* process(char* talker,char* message,char* target)    {
 #ifdef USE_EX_SEARCH	
     return processdbase(talker,message,target,getanyname(talker));
 #else
@@ -64,7 +64,7 @@ public:
 #endif
   }
 
-  eliza() { numdbases=0; numnames=0; addname("default",0); }
+  eliza() { numdbases=0; numnames=0; char de[] = "default"; addname(de,0); }
 
 };
 

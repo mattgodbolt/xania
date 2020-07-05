@@ -84,7 +84,7 @@ void violence_update( void )
      CHAR_DATA *ch_next;
      CHAR_DATA *victim;
 
-     for ( ch = char_list; ch != NULL; ch = ch->next )
+     for ( ch = char_list; ch != NULL; ch = ch_next )
      {
 	  ch_next	= ch->next;
 
@@ -205,7 +205,6 @@ void check_assist(CHAR_DATA *ch,CHAR_DATA *victim)
  */
 void multi_hit( CHAR_DATA *ch, CHAR_DATA *victim, int dt )
 {
-   OBJ_DATA *wield;
    int     chance;
 
    if (!ch->in_room || !victim->in_room)
@@ -282,8 +281,6 @@ void multi_hit( CHAR_DATA *ch, CHAR_DATA *victim, int dt )
 
    if (ch->fighting != victim)
       return;
-
-   wield = get_eq_char( ch, WEAR_WIELD );
 
    if ((IS_AFFECTED(ch,AFF_HASTE)) && !(IS_AFFECTED(ch,AFF_LETHARGY)))
       one_hit(ch,victim,dt);
@@ -1795,6 +1792,7 @@ void group_gain( CHAR_DATA *ch, CHAR_DATA *victim )
       if ( !is_same_group( gch, ch ) || IS_NPC(gch))
          continue;
 
+     (void)lch;
       /*
       	if ( gch->level - lch->level >= 9 )
       	{
@@ -2154,7 +2152,7 @@ void dam_message( CHAR_DATA *ch, CHAR_DATA *victim,int dam,int dt,
 		&& !found  ; b++ ) {
 	   if( dam_prop <= dam_string_table[b].amount ) {
 		   if( dam_type > 0 && 
-		       dam_string_table[b].dam_types[dam_type] != '\0' )
+		       dam_string_table[b].dam_types[dam_type] != NULL )
 			   damstr_ptr = 
 				   dam_string_table[b].dam_types[dam_type];
 		   else    /*default damage string */

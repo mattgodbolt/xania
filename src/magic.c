@@ -46,7 +46,7 @@ void    do_recall       args( ( CHAR_DATA *, char *));
 void say_spell( CHAR_DATA *ch, int sn )
 {
    char buf  [MAX_STRING_LENGTH];
-   char buf2 [MAX_STRING_LENGTH];
+   char buf2 [MAX_STRING_LENGTH * 2];
    char buf3 [MAX_STRING_LENGTH];
    CHAR_DATA *rch;
    char *pName;
@@ -3959,7 +3959,7 @@ void spell_locate_object( int sn, int level, CHAR_DATA *ch, void *vo )
       for ( in_obj = obj; in_obj->in_obj != NULL; in_obj = in_obj->in_obj )
          ;
 
-      if ( in_obj->carried_by != NULL && can_see)
+      if ( in_obj->carried_by != NULL /*&& can_see TODO wth was this supposed to be?*/ )
       {
          if (IS_IMMORTAL(ch))
          {

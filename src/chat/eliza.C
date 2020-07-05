@@ -193,12 +193,12 @@ void fixgrammer(char s[])
 
 //enables $variable translation
 void eliza::addrest(char* replied, char* talker,
-		    char* rep,char* target,char* rest)
+		    const char* rep,char* target,char* rest)
 {
   trim(rest);
   char* i;
   char* point   = replied;
-  char* str     = rep;
+  const char* str     = rep;
   char* toofar = replied+repsize-1;
   while ( *str != '\0')    {
     if ( *str != '$' )      {
@@ -218,9 +218,11 @@ void eliza::addrest(char* replied, char* talker,
       case 'r':
         i=rest;
         break;
-      case '$':
-        i="$";
+      case '$': {
+        static char str[] = "$";
+        i = str;
         break;
+      }
       case 0:
         continue;
       case 'A':  //dont change THIS - Chris Busch  //author
@@ -229,12 +231,17 @@ void eliza::addrest(char* replied, char* talker,
       case 'V': //dont change THIS!   //Version
 	i=(char*)eliza_version;
 	break;
-      case 'C': //dont change this!  //Compile time
-	i= __DATE__ " " __TIME__;
-	break;
-      default:
-        i="$UNDEFINED";
+      case 'C': { // dont change this!  //Compile time
+        static char buf[1024];
+        snprintf(buf, sizeof(buf), "%s %s", __DATE__, __TIME__);
+        i = buf;
         break;
+      }
+      default: {
+        static char undef[] = "$UNDEFINED";
+        i = undef;
+        break;
+      }
       }
     ++str;
     while ( ( *point = *i ) != '\0' ) {
@@ -248,10 +255,10 @@ void eliza::addrest(char* replied, char* talker,
 
 
 //nothing can be NULL!!!
-char* eliza::processdbase(char* talker,char* message,char* target,int dbase)
+const char* eliza::processdbase(char* talker,char* message,char* target,int dbase)
 {
   static char replied[repsize];
-  char *rep=NULL;
+  const char *rep=NULL;
 
   if( dbase<0 || dbase>numdbases) return "dbase error in processnumber";
 
