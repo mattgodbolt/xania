@@ -61,9 +61,9 @@ typedef struct tagInfoData {
 typedef struct tagPacket {
   PacketType type; /* Type of packet */
 
-  int nExtra;   /* Number of extra bytes after the packet */
-  int channel;  /* The channel number */
-  char data[0]; /* nExtra bytes live here onwards */
+  unsigned int nExtra; /* Number of extra bytes after the packet */
+  int channel;         /* The channel number */
+  char data[0];        /* nExtra bytes live here onwards */
 } Packet;
 
 /*

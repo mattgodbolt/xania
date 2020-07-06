@@ -294,7 +294,7 @@ bool SupportsAnsi(const char *src) {
   static const char *terms[] = {"xterm", "xterm-colour", "xterm-color",
                                 "ansi",  "xterm-ansi",   "vt100",
                                 "vt102", "vt220"};
-  int i;
+  size_t i;
   for (i = 0; i < (sizeof(terms) / sizeof(terms[0])); ++i)
     if (!strcasecmp(src, terms[i]))
       return true;
