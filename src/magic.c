@@ -897,6 +897,7 @@ void spell_acid_blast( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_acid_wash( int sn, int level, CHAR_DATA *ch, void *vo)
 {
+  (void)sn;(void)level;
    OBJ_DATA *obj = (OBJ_DATA *) vo;
    /*AFFECT_DATA *paf;
        int result, fail;*/
@@ -988,6 +989,7 @@ void spell_bless( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_blindness( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)ch;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    AFFECT_DATA af;
 
@@ -1022,7 +1024,7 @@ void spell_burning_hands( int sn, int level, CHAR_DATA *ch, void *vo )
    };
    int dam;
 
-   level   = UMIN(level, sizeof(dam_each)/sizeof(dam_each[0]) - 1);
+   level   = UMIN(level, (int)(sizeof(dam_each)/sizeof(dam_each[0]) - 1));
    level   = UMAX(0, level);
    dam     = number_range( dam_each[level] / 2, dam_each[level] * 2 );
    if ( saves_spell( level, victim ) )
@@ -1035,6 +1037,7 @@ void spell_burning_hands( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_call_lightning( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)vo;
    CHAR_DATA *vch;
    CHAR_DATA *vch_next;
    int dam;
@@ -1087,6 +1090,7 @@ void spell_call_lightning( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_calm( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)vo;
    CHAR_DATA *vch;
    int mlevel = 0;
    int count = 0;
@@ -1155,6 +1159,7 @@ void spell_calm( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_cancellation( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    bool found = FALSE;
 
@@ -1538,7 +1543,7 @@ void spell_chill_touch( int sn, int level, CHAR_DATA *ch, void *vo )
    AFFECT_DATA af;
    int dam;
 
-   level   = UMIN(level, sizeof(dam_each)/sizeof(dam_each[0]) - 1);
+   level   = UMIN(level, (int)(sizeof(dam_each)/sizeof(dam_each[0]) - 1));
    level   = UMAX(0, level);
    dam     = number_range( dam_each[level] / 2, dam_each[level] * 2 );
    if ( !saves_spell( level, victim ) )
@@ -1577,7 +1582,7 @@ void spell_colour_spray( int sn, int level, CHAR_DATA *ch, void *vo )
    };
    int dam;
 
-   level   = UMIN(level, sizeof(dam_each)/sizeof(dam_each[0]) - 1);
+   level   = UMIN(level, (int)(sizeof(dam_each)/sizeof(dam_each[0]) - 1));
    level   = UMAX(0, level);
    dam     = number_range( dam_each[level] / 2,  dam_each[level] * 2 );
    if ( saves_spell( level, victim ) )
@@ -1593,6 +1598,7 @@ void spell_colour_spray( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_continual_light( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)level;(void)vo;
    OBJ_DATA *light;
 
    light = create_object( get_obj_index( OBJ_VNUM_LIGHT_BALL ), 0 );
@@ -1606,6 +1612,7 @@ void spell_continual_light( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_control_weather( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)vo;
    if ( !str_cmp( target_name, "better" ) )
       weather_info.change += dice( level / 3, 4 );
    else if ( !str_cmp( target_name, "worse" ) )
@@ -1621,6 +1628,7 @@ void spell_control_weather( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_create_food( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)vo;
    OBJ_DATA *mushroom;
 
    mushroom = create_object( get_obj_index( OBJ_VNUM_MUSHROOM ), 0 );
@@ -1635,6 +1643,7 @@ void spell_create_food( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_create_spring( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)vo;
    OBJ_DATA *spring;
 
    spring = create_object( get_obj_index( OBJ_VNUM_SPRING ), 0 );
@@ -1649,6 +1658,7 @@ void spell_create_spring( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_create_water( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;
    OBJ_DATA *obj = (OBJ_DATA *) vo;
    int water;
 
@@ -1691,6 +1701,7 @@ void spell_create_water( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_cure_blindness( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
 
    if ( !is_affected( victim, gsn_blindness ) )
@@ -1715,6 +1726,7 @@ void spell_cure_blindness( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_cure_critical( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    int heal;
 
@@ -1730,6 +1742,7 @@ void spell_cure_critical( int sn, int level, CHAR_DATA *ch, void *vo )
 /* RT added to cure plague */
 void spell_cure_disease( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
 
    if ( !is_affected( victim, gsn_plague ) )
@@ -1754,6 +1767,7 @@ void spell_cure_disease( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_cure_light( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    int heal;
 
@@ -1770,6 +1784,7 @@ void spell_cure_light( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_cure_poison( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
 
    if ( !is_affected( victim, gsn_poison ) )
@@ -1792,6 +1807,7 @@ void spell_cure_poison( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_cure_serious( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    int heal;
 
@@ -2014,6 +2030,7 @@ void spell_detect_magic( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_detect_poison( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn; (void) level;
    OBJ_DATA *obj = (OBJ_DATA *) vo;
 
    if ( obj->item_type == ITEM_DRINK_CON || obj->item_type == ITEM_FOOD )
@@ -2104,6 +2121,7 @@ void spell_dispel_good( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_dispel_magic( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    bool found = FALSE;
 
@@ -2288,6 +2306,7 @@ void spell_dispel_magic( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_earthquake( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)vo;
    CHAR_DATA *vch;
    CHAR_DATA *vch_next;
 
@@ -2317,6 +2336,7 @@ void spell_earthquake( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_remove_invisible( int sn, int level, CHAR_DATA *ch, void *vo)
 {
+  (void)sn;(void)level;
    OBJ_DATA *obj = (OBJ_DATA *) vo;
    int chance;
 
@@ -2360,6 +2380,7 @@ void spell_remove_invisible( int sn, int level, CHAR_DATA *ch, void *vo)
 
 void spell_remove_alignment( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)level;
    OBJ_DATA *obj = (OBJ_DATA *) vo;
    int chance;
    int levdif;
@@ -2890,6 +2911,7 @@ void spell_enchant_weapon( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_protect_container (int sn, int level, CHAR_DATA *ch, void *vo)
 {
+  (void)sn;(void)level;
    OBJ_DATA *obj = (OBJ_DATA *) vo;
 
    if (obj->item_type != ITEM_CONTAINER)
@@ -2918,6 +2940,7 @@ void spell_protect_container (int sn, int level, CHAR_DATA *ch, void *vo)
 /*PGW A new group to give Barbarians a helping hand*/
 void spell_vorpal( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)level;
    OBJ_DATA *obj = (OBJ_DATA *) vo;
    int mana;
 
@@ -2954,6 +2977,7 @@ void spell_vorpal( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_venom( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)level;
    OBJ_DATA *obj = (OBJ_DATA *) vo;
    int mana;
 
@@ -2990,6 +3014,7 @@ void spell_venom( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_black_death( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)level;
    OBJ_DATA *obj = (OBJ_DATA *) vo;
    int mana;
 
@@ -3026,6 +3051,7 @@ void spell_black_death( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_damnation( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)level;
    OBJ_DATA *obj = (OBJ_DATA *) vo;
    int mana;
 
@@ -3063,6 +3089,7 @@ void spell_damnation( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_vampire( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)level;
    OBJ_DATA *obj = (OBJ_DATA *) vo;
 
    if (obj->item_type != ITEM_WEAPON)
@@ -3087,6 +3114,7 @@ void spell_vampire( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_tame_lightning( int sn, int level, CHAR_DATA *ch, void *vo)
 {
+  (void)level;
    OBJ_DATA *obj = (OBJ_DATA *) vo;
    int mana;
 
@@ -3183,7 +3211,7 @@ void spell_fireball( int sn, int level, CHAR_DATA *ch, void *vo )
    };
    int dam;
 
-   level   = UMIN(level, sizeof(dam_each)/sizeof(dam_each[0]) - 1);
+   level   = UMIN(level, (int)(sizeof(dam_each)/sizeof(dam_each[0]) - 1));
    level   = UMAX(0, level);
    dam     = number_range( dam_each[level] / 2, dam_each[level] * 2 );
    if ( saves_spell( level, victim ) )
@@ -3210,6 +3238,7 @@ void spell_flamestrike( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_faerie_fire( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)ch;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    AFFECT_DATA af;
 
@@ -3230,6 +3259,7 @@ void spell_faerie_fire( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_faerie_fog( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)vo;
    CHAR_DATA *ich;
 
    act( "$n conjures a cloud of purple smoke.", ch, NULL, NULL, TO_ROOM );
@@ -3352,6 +3382,7 @@ void spell_frenzy(int sn, int level, CHAR_DATA *ch, void *vo)
 
 void spell_gate( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)vo;
    CHAR_DATA *victim;
    bool gate_pet;
 
@@ -3576,6 +3607,7 @@ void spell_lethargy( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_heal( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    int heal;
 
@@ -3592,6 +3624,7 @@ void spell_heal( int sn, int level, CHAR_DATA *ch, void *vo )
 /* PGW it was crap so i changed it*/
 void spell_holy_word(int sn, int level, CHAR_DATA *ch, void *vo)
 {
+  (void)vo;
    CHAR_DATA *vch;
    CHAR_DATA *vch_next;
    int dam;
@@ -3650,6 +3683,7 @@ void spell_holy_word(int sn, int level, CHAR_DATA *ch, void *vo)
 
 void spell_identify( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)level;
    OBJ_DATA *obj = (OBJ_DATA *) vo;
    char buf[MAX_STRING_LENGTH];
    AFFECT_DATA *paf;
@@ -3864,6 +3898,7 @@ void spell_infravision( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_invis( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)ch;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    AFFECT_DATA af;
 
@@ -3886,6 +3921,7 @@ void spell_invis( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_know_alignment( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)level;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    char *msg;
    int ap;
@@ -3920,7 +3956,7 @@ void spell_lightning_bolt( int sn, int level, CHAR_DATA *ch, void *vo )
    };
    int dam;
 
-   level   = UMIN(level, sizeof(dam_each)/sizeof(dam_each[0]) - 1);
+   level   = UMIN(level, (int)(sizeof(dam_each)/sizeof(dam_each[0]) - 1));
    level   = UMAX(0, level);
    dam     = number_range( dam_each[level] / 2, dam_each[level] * 2 );
    if ( saves_spell( level, victim ) )
@@ -3933,6 +3969,7 @@ void spell_lightning_bolt( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_locate_object( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)vo;
    char buf[MAX_INPUT_LENGTH];
    char buffer[200*90]; /* extra paranoia factor */
    OBJ_DATA *obj;
@@ -4017,7 +4054,7 @@ void spell_magic_missile( int sn, int level, CHAR_DATA *ch, void *vo )
    };
    int dam;
 
-   level   = UMIN(level, sizeof(dam_each)/sizeof(dam_each[0]) - 1);
+   level   = UMIN(level, (int)(sizeof(dam_each)/sizeof(dam_each[0]) - 1));
    level   = UMAX(0, level);
    dam     = number_range( dam_each[level] / 2, dam_each[level] * 2 );
    if ( saves_spell( level, victim ) )
@@ -4028,6 +4065,7 @@ void spell_magic_missile( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_mass_healing(int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)vo;
    CHAR_DATA *gch;
    int heal_num, refresh_num;
 
@@ -4048,6 +4086,7 @@ void spell_mass_healing(int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_mass_invis( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)vo;
    AFFECT_DATA af;
    CHAR_DATA *gch;
 
@@ -4074,12 +4113,14 @@ void spell_mass_invis( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_null( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)level;(void)vo;
    send_to_char( "That's not a spell!\n\r", ch );
    return;
 }
 
 void spell_octarine_fire( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)ch;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    AFFECT_DATA af;
 
@@ -4155,6 +4196,7 @@ void spell_plague( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_portal( int sn, int level, CHAR_DATA *ch, void *vo)
 {
+  (void)sn;(void)vo;
    CHAR_DATA *victim;
    OBJ_DATA *portal;
    char buf[256];
@@ -4212,6 +4254,7 @@ void spell_portal( int sn, int level, CHAR_DATA *ch, void *vo)
 
 void spell_poison( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)ch;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    AFFECT_DATA af;
 
@@ -4291,6 +4334,7 @@ void spell_protection_good( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_refresh( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    victim->move = UMIN( victim->move + level, victim->max_move );
    if (victim->max_move == victim->move)
@@ -4306,6 +4350,7 @@ void spell_refresh( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_remove_curse( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn; (void)ch;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    bool found = FALSE;
    OBJ_DATA *obj;
@@ -4442,7 +4487,7 @@ void spell_shocking_grasp( int sn, int level, CHAR_DATA *ch, void *vo )
    };
    int dam;
 
-   level   = UMIN(level, sizeof(dam_each)/sizeof(dam_each[0]) - 1);
+   level   = UMIN(level, (int)(sizeof(dam_each)/sizeof(dam_each[0]) - 1));
    level   = UMAX(0, level);
    dam     = number_range( dam_each[level] / 2, dam_each[level] * 2 );
    if ( saves_spell( level, victim ) )
@@ -4455,6 +4500,7 @@ void spell_shocking_grasp( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_sleep( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)ch;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    AFFECT_DATA af;
 
@@ -4516,6 +4562,7 @@ void spell_stone_skin( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_summon( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)vo;
    CHAR_DATA *victim;
 
    if ( ( victim = get_char_world( ch, target_name ) ) == NULL
@@ -4570,6 +4617,7 @@ void spell_summon( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_teleport( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    ROOM_INDEX_DATA *pRoomIndex;
 
@@ -4617,6 +4665,7 @@ void spell_teleport( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_ventriloquate( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)vo;
    char buf1[MAX_STRING_LENGTH];
    char buf2[MAX_STRING_LENGTH];
    char speaker[MAX_INPUT_LENGTH];
@@ -4641,6 +4690,7 @@ void spell_ventriloquate( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_weaken( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)ch;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    AFFECT_DATA af;
 
@@ -4664,6 +4714,7 @@ void spell_weaken( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_word_of_recall( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)level;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    ROOM_INDEX_DATA *location;
 
@@ -4929,6 +4980,7 @@ void spell_frost_breath( int sn, int level, CHAR_DATA *ch, void *vo )
 
 void spell_gas_breath( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)vo;
    CHAR_DATA *vch;
    CHAR_DATA *vch_next;
    int dam;
@@ -5020,6 +5072,7 @@ void explode_bomb( OBJ_DATA *bomb, CHAR_DATA *ch, CHAR_DATA *thrower)
 
 void spell_teleport_object( int sn, int level, CHAR_DATA *ch, void *vo)
 {
+  (void)sn;(void)level;(void)vo;
    CHAR_DATA *victim;
    OBJ_DATA *object;
    char arg1[MAX_STRING_LENGTH];
@@ -5095,6 +5148,7 @@ void spell_teleport_object( int sn, int level, CHAR_DATA *ch, void *vo)
 
 void spell_undo_spell( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)level;(void)vo;
    CHAR_DATA *victim;
    int spell_undo;
    char arg1[MAX_STRING_LENGTH];

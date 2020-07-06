@@ -95,6 +95,7 @@ name);
 /* equips a character */
 void do_outfit ( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    OBJ_DATA *obj;
    char buf [MAX_STRING_LENGTH];
 
@@ -616,6 +617,7 @@ void do_transfer( CHAR_DATA *ch, char *argument )
 
 void do_wizlock( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    extern bool wizlock;
    wizlock = !wizlock;
 
@@ -631,6 +633,7 @@ void do_wizlock( CHAR_DATA *ch, char *argument )
 
 void do_newlock( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    extern bool newlock;
    newlock = !newlock;
 
@@ -2057,6 +2060,7 @@ void do_mwhere(CHAR_DATA *ch, char *argument) {
 
 void do_reboo( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    send_to_char( "If you want to REBOOT, spell it out.\n\r", ch );
    return;
 }
@@ -2065,6 +2069,7 @@ void do_reboo( CHAR_DATA *ch, char *argument )
 
 void do_reboot( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    char buf[MAX_STRING_LENGTH];
    extern bool merc_down;
    DESCRIPTOR_DATA *d,*d_next;
@@ -2090,6 +2095,7 @@ void do_reboot( CHAR_DATA *ch, char *argument )
 
 void do_shutdow( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    send_to_char( "If you want to SHUTDOWN, spell it out.\n\r", ch );
    return;
 }
@@ -2098,6 +2104,7 @@ void do_shutdow( CHAR_DATA *ch, char *argument )
 
 void do_shutdown( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    char buf[MAX_STRING_LENGTH];
    extern bool merc_down;
    DESCRIPTOR_DATA *d,*d_next;
@@ -2249,6 +2256,7 @@ void do_switch( CHAR_DATA *ch, char *argument )
 
 void do_return( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    if ( ch->desc == NULL )
       return;
 
@@ -3082,6 +3090,7 @@ void do_notell( CHAR_DATA *ch, char *argument )
 
 void do_peace( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    CHAR_DATA *rch;
 
    for ( rch = ch->in_room->people; rch != NULL; rch = rch->next_in_room )
@@ -4511,6 +4520,7 @@ void do_prowl( CHAR_DATA *ch, char *argument)
 
 void do_holylight( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    if ( IS_NPC(ch) )
       return;
 

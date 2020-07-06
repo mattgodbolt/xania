@@ -1134,7 +1134,7 @@ bool spec_mayor( CHAR_DATA *ch )
    case '1':
    case '2':
    case '3':
-      move_char( ch, path[pos] - '0', FALSE );
+      move_char( ch, path[pos] - '0');
       break;
 
    case 'W':

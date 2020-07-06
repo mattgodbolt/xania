@@ -365,6 +365,7 @@ void SetEchoState (DESCRIPTOR_DATA *d, int on)
  */
 void sigterm( int signum )
 {
+  (void)signum;
    CHAR_DATA *ch;
 
    bug( "The MUD has caught a SIGTERM - gracefully shutting down\n\r" );
@@ -391,7 +392,7 @@ void sigterm( int signum )
 /* where we're asked nicely to quit from the outside (mudmgr) */
 
 void ext_shutdown( int signum ) {
-
+  (void)signum;
    char buf[MAX_STRING_LENGTH];
    extern bool merc_down;
    CHAR_DATA *vch;
@@ -1325,7 +1326,7 @@ bool read_from_descriptor (DESCRIPTOR_DATA *d, char *data, int nRead)
 
    /* Check for overflow. */
    iStart = strlen(d->inbuf);
-   if ( iStart >= sizeof(d->inbuf) - 10 )
+   if ( iStart >= (int)sizeof(d->inbuf) - 10 )
    {
       sprintf( log_buf, "%s input overflow!", d->host );
       log_string( log_buf );
@@ -1784,6 +1785,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
          close_socket( d );
          return;
       }
+      // falls through
    case CON_CIRCUMVENT_PASSWORD:
       if ( ch->pcdata->pwd[0] == 0)
       {
@@ -2417,6 +2419,7 @@ bool check_parse_name( char *name )
  */
 bool check_reconnect( DESCRIPTOR_DATA *d, char *name, bool fConn )
 {
+  (void)name;
    CHAR_DATA *ch;
 
    for ( ch = char_list; ch != NULL; ch = ch->next )
@@ -2647,22 +2650,19 @@ void show_string(struct descriptor_data *d, char *input)
 
       else if (!*scan || (show_lines > 0 && lines >= show_lines))
       {
-         *scan = '\0';
-         /*     write_to_buffer(d,buffer,strlen(buffer));*/
-         send_to_char(buffer, d->character);
-         for (chk = d->showstr_point; isspace(*chk); chk++)
-         {
-            if (!*chk)
-            {
-               if (d->showstr_head)
-               {
-                  free_string(d->showstr_head);
-                  d->showstr_head = 0;
-               }
-               d->showstr_point  = 0;
-            }
-         }
-         return;
+        *scan = '\0';
+        /*     write_to_buffer(d,buffer,strlen(buffer));*/
+        send_to_char(buffer, d->character);
+        for (chk = d->showstr_point; isspace(*chk); chk++)
+          /* nothing */;
+        if (!*chk) {
+          if (d->showstr_head) {
+            free_string(d->showstr_head);
+            d->showstr_head = 0;
+          }
+          d->showstr_point = 0;
+        }
+        return;
       }
    }
    return;
@@ -3104,7 +3104,7 @@ void show_prompt( DESCRIPTOR_DATA *d, char *prompt )
 
       ++str;
       strncpy( point, i, bufspace-1 );
-      if ( strlen(i) > (bufspace-1) )
+      if ( (int)strlen(i) > (bufspace-1) )
          point[bufspace-1] = '\0';
       point += strlen(i);
       if ( (bufspace -= strlen(i)) <= 0)

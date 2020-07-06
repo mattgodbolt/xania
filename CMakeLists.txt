@@ -3,6 +3,6 @@ project(xania)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_compile_options(-Werror -Wall)
+add_compile_options(-Werror -Wall -Wextra)
 
 add_subdirectory(src)

@@ -152,6 +152,7 @@ bool doSleepActions( CHAR_DATA *ch, ROOM_INDEX_DATA *home )
 /* does a random social on a randomly selected person in the current room */
 void doRandomSocial( CHAR_DATA *ch, ROOM_INDEX_DATA *home )
 {
+  (void)home;
 	int			charsInRoom = 0;
 	int			charSelected;
 	CHAR_DATA	*firstChar;
@@ -255,7 +256,7 @@ bool spec_phil( CHAR_DATA *ch )
 				takeExit = exit;
 	}
 	if ( follow != NULL && (follow->in_room != room) && (ch->position==POS_STANDING) ) {
-		move_char( ch, takeExit, FALSE );
+		move_char( ch, takeExit );
 	}
 
 /* Do a random social on someone in the room */

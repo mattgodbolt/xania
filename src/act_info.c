@@ -584,6 +584,7 @@ void do_scroll(CHAR_DATA *ch, char *argument)
 /* RT does socials */
 void do_socials(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    char buf[MAX_STRING_LENGTH];
    int iSocial;
    int col;
@@ -609,31 +610,37 @@ void do_socials(CHAR_DATA *ch, char *argument)
 
 void do_motd(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    do_help(ch,"motd");
 }
 
 void do_imotd(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    do_help(ch,"imotd");
 }
 
 void do_rules(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    do_help(ch,"rules");
 }
 
 void do_story(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    do_help(ch,"story");
 }
 
 void do_changes(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    do_help(ch,"changes");
 }
 
 void do_wizlist(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    do_help(ch,"wizlist");
 }
 
@@ -642,6 +649,7 @@ void do_wizlist(CHAR_DATA *ch, char *argument)
 
 void do_autolist(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    /* lists most player flags */
    if (IS_NPC(ch))
       return;
@@ -755,6 +763,7 @@ void do_autolist(CHAR_DATA *ch, char *argument)
 
 void do_autoaffect(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_NPC(ch))
       return;
 
@@ -771,6 +780,7 @@ void do_autoaffect(CHAR_DATA *ch, char *argument)
 }
 void do_autoassist(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_NPC(ch))
       return;
 
@@ -788,6 +798,7 @@ void do_autoassist(CHAR_DATA *ch, char *argument)
 
 void do_autoexit(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_NPC(ch))
       return;
 
@@ -805,6 +816,7 @@ void do_autoexit(CHAR_DATA *ch, char *argument)
 
 void do_autogold(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_NPC(ch))
       return;
 
@@ -822,6 +834,7 @@ void do_autogold(CHAR_DATA *ch, char *argument)
 
 void do_autoloot(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_NPC(ch))
       return;
 
@@ -839,6 +852,7 @@ void do_autoloot(CHAR_DATA *ch, char *argument)
 
 void do_autopeek(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_NPC(ch))
       return;
 
@@ -856,6 +870,7 @@ void do_autopeek(CHAR_DATA *ch, char *argument)
 
 void do_autosac(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_NPC(ch))
       return;
 
@@ -873,6 +888,7 @@ void do_autosac(CHAR_DATA *ch, char *argument)
 
 void do_autosplit(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_NPC(ch))
       return;
 
@@ -890,6 +906,7 @@ void do_autosplit(CHAR_DATA *ch, char *argument)
 
 void do_brief(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_SET(ch->comm,COMM_BRIEF))
    {
       send_to_char("Full descriptions activated.\n\r",ch);
@@ -904,6 +921,7 @@ void do_brief(CHAR_DATA *ch, char *argument)
 
 void do_colour (CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if IS_NPC(ch)
       return;
 
@@ -924,6 +942,7 @@ void do_colour (CHAR_DATA *ch, char *argument)
 
 void do_showafk (CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_SET (ch->comm, COMM_SHOWAFK))
    {
       send_to_char("Messages sent to you will now not be shown when afk.\n\r",
@@ -939,6 +958,7 @@ void do_showafk (CHAR_DATA *ch, char *argument)
 }
 void do_showdefence (CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_SET (ch->comm, COMM_SHOWDEFENCE))
    {
       send_to_char("Shield blocks, parries and dodges will not be shown during combat.\n\r",
@@ -955,6 +975,7 @@ void do_showdefence (CHAR_DATA *ch, char *argument)
 
 void do_compact(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_SET(ch->comm,COMM_COMPACT))
    {
       send_to_char("Compact mode removed.\n\r",ch);
@@ -1000,6 +1021,7 @@ void do_prompt(CHAR_DATA *ch, char *argument)
 
 void do_combine(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_SET(ch->comm,COMM_COMBINE))
    {
       send_to_char("Long inventory selected.\n\r",ch);
@@ -1014,6 +1036,7 @@ void do_combine(CHAR_DATA *ch, char *argument)
 
 void do_noloot(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_NPC(ch))
       return;
 
@@ -1031,6 +1054,7 @@ void do_noloot(CHAR_DATA *ch, char *argument)
 
 void do_nofollow(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_NPC(ch))
       return;
 
@@ -1049,6 +1073,7 @@ void do_nofollow(CHAR_DATA *ch, char *argument)
 
 void do_nosummon(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    if (IS_NPC(ch))
    {
       if (IS_SET(ch->imm_flags,IMM_SUMMON))
@@ -1478,6 +1503,7 @@ void do_exits( CHAR_DATA *ch, char *argument )
 
 void do_worth( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    char buf[MAX_STRING_LENGTH];
 
    if (IS_NPC(ch))
@@ -1619,6 +1645,7 @@ const char *get_align_description(int align) {
 
 
 void do_score(CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	char buf[MAX_STRING_LENGTH];
 
 	sprintf(buf, "|wYou are: |W%s%s|w.\n\r", ch->name, IS_NPC(ch) ? "" : ch->pcdata->title);
@@ -1790,6 +1817,7 @@ char *	const	month_name	[] =
 
 void do_time( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    extern char str_boot_time[];
    char buf[MAX_STRING_LENGTH];
    char *suf;
@@ -1857,6 +1885,7 @@ void do_time( CHAR_DATA *ch, char *argument )
 
 void do_weather( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    char buf[MAX_STRING_LENGTH];
 
    static char * const sky_look[4] =
@@ -2279,6 +2308,7 @@ void do_who( CHAR_DATA *ch, char *argument )
 
 void do_count ( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    int count;
    DESCRIPTOR_DATA *d;
    char buf[MAX_STRING_LENGTH];
@@ -2303,6 +2333,7 @@ void do_count ( CHAR_DATA *ch, char *argument )
 
 void do_inventory( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    send_to_char( "You are carrying:\n\r", ch );
    show_list_to_char( ch->carrying, ch, TRUE, TRUE );
    return;
@@ -2312,6 +2343,7 @@ void do_inventory( CHAR_DATA *ch, char *argument )
 
 void do_equipment( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    OBJ_DATA *obj;
    int iWear;
    bool found;
@@ -2458,6 +2490,7 @@ void do_compare( CHAR_DATA *ch, char *argument )
 
 void do_credits( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    do_help( ch, "diku" );
    return;
 }
@@ -2705,6 +2738,7 @@ void do_description( CHAR_DATA *ch, char *argument )
 
 void do_report( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    char buf[MAX_INPUT_LENGTH];
 
    sprintf( buf,
@@ -2979,6 +3013,7 @@ void do_password( CHAR_DATA *ch, char *argument )
 
 void do_scan( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    extern char * const dir_name[];
    ROOM_INDEX_DATA * current_place;
    CHAR_DATA * current_person;
@@ -3046,6 +3081,7 @@ void do_scan( CHAR_DATA *ch, char *argument )
  */
 
 void do_alist(CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	AREA_DATA *pArea;
 	BUFFER *buffer = buffer_create();
 

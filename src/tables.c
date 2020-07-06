@@ -662,7 +662,7 @@ const struct flag_type wear_loc_strings[] =
     {	"held in the hands",	WEAR_HOLD,	TRUE	},
 /*    {	"floating",		WEAR_FLOAT,	TRUE	},*/
 /*    {	"wielded secondary",	WEAR_SECONDARY,	TRUE	},*/
-    {	"",			0			}
+    {	"",			0	, FALSE		}
 };
 
 
@@ -701,7 +701,7 @@ const struct flag_type wear_loc_flags[] =
 const struct flag_type weapon_flags[] =
 {
     {	"hit",		0,	TRUE	},  /*  0 */
-    {	"slice", 	1,	TRUE	},	
+    {	"slice", 	1,	TRUE	},
     {   "stab",		2,	TRUE	},
     {	"slash",	3,	TRUE	},
     {	"whip",		4,	TRUE	},

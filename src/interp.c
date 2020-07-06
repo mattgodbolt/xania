@@ -424,6 +424,7 @@ void interp_initialise(void) {
 
 
 static const struct cmd_type *find_command(CHAR_DATA *ch, char *command, int trust) {
+  (void)ch;
 	return trie_get(cmd_trie, command, trust);
 }
 
@@ -723,6 +724,7 @@ typedef struct columniser {
 
 
 static void command_enumerator(const char *name, int lev, void *value, void *metadata) {
+  (void)lev;
 	columniser_t *col = (columniser_t *)metadata;
 	int buf_len = strlen(col->buf);
 	int name_len = strlen(name);
@@ -751,6 +753,7 @@ static void command_enumerator(const char *name, int lev, void *value, void *met
 
 
 void do_commands(CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	columniser_t col;
 	
 	col.ch = ch;
@@ -767,6 +770,7 @@ void do_commands(CHAR_DATA *ch, char *argument) {
 
 
 void do_wizhelp(CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	columniser_t col;
 	
 	col.ch = ch;

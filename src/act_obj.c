@@ -1856,6 +1856,7 @@ void do_recite( CHAR_DATA *ch, char *argument )
 
 void do_brandish( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    CHAR_DATA *vch;
    CHAR_DATA *vch_next;
    OBJ_DATA *staff;
@@ -2819,6 +2820,7 @@ void do_throw( CHAR_DATA *ch, char *argument )
 
 void do_hailcorpse( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    ROOM_INDEX_DATA * current_place;
    EXIT_DATA * pexit;
    bool foundit = FALSE;

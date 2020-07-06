@@ -55,7 +55,7 @@ bool	has_key		args( ( CHAR_DATA *ch, int key ) );
 
 
 
-void move_char( CHAR_DATA *ch, int door, bool follow )
+void move_char( CHAR_DATA *ch, int door )
 {
    CHAR_DATA *fch;
    CHAR_DATA *fch_next;
@@ -301,7 +301,7 @@ void move_char( CHAR_DATA *ch, int door, bool follow )
          }
 
          act( "You follow $N.", fch, NULL, ch, TO_CHAR );
-         move_char( fch, door, TRUE );
+         move_char( fch, door );
       }
    }
 
@@ -483,9 +483,10 @@ void do_enter( CHAR_DATA * ch, char *argument)
 
 void do_north( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    if (ch->in_room->vnum == CHAL_ROOM)
       do_room_check (ch);
-   move_char( ch, DIR_NORTH, FALSE );
+   move_char( ch, DIR_NORTH );
    return;
 }
 
@@ -493,9 +494,10 @@ void do_north( CHAR_DATA *ch, char *argument )
 
 void do_east( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    if (ch->in_room->vnum == CHAL_ROOM)
       do_room_check (ch);
-   move_char( ch, DIR_EAST, FALSE );
+   move_char( ch, DIR_EAST );
    return;
 }
 
@@ -503,9 +505,10 @@ void do_east( CHAR_DATA *ch, char *argument )
 
 void do_south( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    if (ch->in_room->vnum == CHAL_ROOM )
       do_room_check (ch);
-   move_char( ch, DIR_SOUTH, FALSE );
+   move_char( ch, DIR_SOUTH );
    return;
 }
 
@@ -513,9 +516,10 @@ void do_south( CHAR_DATA *ch, char *argument )
 
 void do_west( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    if (ch->in_room->vnum == CHAL_ROOM )
       do_room_check (ch);
-   move_char( ch, DIR_WEST, FALSE );
+   move_char( ch, DIR_WEST );
    return;
 }
 
@@ -523,9 +527,10 @@ void do_west( CHAR_DATA *ch, char *argument )
 
 void do_up( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    if (ch->in_room->vnum == CHAL_ROOM )
       do_room_check (ch);
-   move_char( ch, DIR_UP, FALSE );
+   move_char( ch, DIR_UP );
    return;
 }
 
@@ -533,9 +538,10 @@ void do_up( CHAR_DATA *ch, char *argument )
 
 void do_down( CHAR_DATA *ch, char *argument )
 {
-   if (ch->in_room->vnum == CHAL_ROOM )
+  (void)argument;
+  if (ch->in_room->vnum == CHAL_ROOM )
       do_room_check (ch);
-   move_char( ch, DIR_DOWN, FALSE );
+   move_char( ch, DIR_DOWN );
    return;
 }
 
@@ -1069,6 +1075,7 @@ void do_pick( CHAR_DATA *ch, char *argument )
 
 void do_stand( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
 
    if (ch->riding != NULL) {
       unride_char( ch, ch->riding);
@@ -1112,6 +1119,7 @@ void do_stand( CHAR_DATA *ch, char *argument )
 
 void do_rest( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
 
    if (ch->riding != NULL) {
       send_to_char( "You cannot rest - the saddle is too uncomfortable!\n\r",
@@ -1155,6 +1163,7 @@ void do_rest( CHAR_DATA *ch, char *argument )
 
 void do_sit (CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
 
    if (ch->riding != NULL) {
       send_to_char( "You're already sitting in a saddle!",
@@ -1191,6 +1200,7 @@ void do_sit (CHAR_DATA *ch, char *argument )
 
 void do_sleep( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
 
    if (ch->riding != NULL) {
       send_to_char( "You can't sleep - it's too uncomfortable in the saddle!\n\r",
@@ -1278,6 +1288,7 @@ void do_wake( CHAR_DATA *ch, char *argument )
 
 void do_sneak( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    AFFECT_DATA af;
 
    send_to_char( "You attempt to move silently.\n\r", ch );
@@ -1304,6 +1315,7 @@ void do_sneak( CHAR_DATA *ch, char *argument )
 
 void do_hide( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    send_to_char( "You attempt to hide.\n\r", ch );
 
    if ( IS_AFFECTED(ch, AFF_HIDE) )
@@ -1327,6 +1339,7 @@ void do_hide( CHAR_DATA *ch, char *argument )
  */
 void do_visible( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    affect_strip ( ch, gsn_invis			);
    affect_strip ( ch, gsn_mass_invis			);
    affect_strip ( ch, gsn_sneak			);

@@ -184,6 +184,7 @@ static void save_notes(void) {
 
 
 static void note_list(CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	char buf[MAX_STRING_LENGTH];
 	int num = 0;
 	NOTE_DATA *note = note_first;
@@ -247,6 +248,7 @@ static void note_addline(CHAR_DATA *ch, char *argument) {
 
 
 static void note_removeline(CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	NOTE_DATA *note = ch->pnote;
 	if (!note || !note->text) {
 		send_to_char("There is no text to delete.\n\r", ch);
@@ -287,6 +289,7 @@ static void note_to(CHAR_DATA *ch, char *argument) {
 
 
 static void note_clear(CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	if (ch->pnote) {
 		destroy_note(ch->pnote);
 		ch->pnote = NULL;
@@ -296,6 +299,7 @@ static void note_clear(CHAR_DATA *ch, char *argument) {
 
 
 static void note_show(CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	char buf[MAX_STRING_LENGTH];
 	NOTE_DATA *note = ch->pnote;
 
@@ -313,6 +317,7 @@ static void note_show(CHAR_DATA *ch, char *argument) {
 
 
 static void note_post(CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	NOTE_DATA *note = ch->pnote;
 	FILE *fp;
 	char *strtime;

@@ -1961,8 +1961,16 @@ extern sh_int  gsn_bless;
 /*
  * Utility macros.
  */
-#define UMIN(a, b)              ((a) < (b) ? (a) : (b))
-#define UMAX(a, b)              ((a) > (b) ? (a) : (b))
+//#define UMIN(a, b)              ((a) < (b) ? (a) : (b))
+//#define UMAX(a, b)              ((a) > (b) ? (a) : (b))
+#define UMIN(a, b) \
+   ({ __typeof__ (a) _a = (a); \
+       __typeof__ (b) _b = (b); \
+     _a < _b ? _a : _b; })
+#define UMAX(a, b) \
+   ({ __typeof__ (a) _a = (a); \
+       __typeof__ (b) _b = (b); \
+     _a > _b ? _a : _b; })
 #define URANGE(a, b, c)         ((b) < (a) ? (a) : ((b) > (c) ? (c) : (b)))
 #define LOWER(c)                ((c) >= 'A' && (c) <= 'Z' ? (c)+'a'-'A' : (c))
 #define UPPER(c)                ((c) >= 'a' && (c) <= 'z' ? (c)+'A'-'a' : (c))
@@ -2293,7 +2301,7 @@ void    fallen_off_mount args(( CHAR_DATA *ch));
 void    set_title       args( ( CHAR_DATA *ch, char *title ) );
 
 /* act_move.c */
-void    move_char       args( ( CHAR_DATA *ch, int door, bool follow ) );
+void    move_char       args( ( CHAR_DATA *ch, int door ) );
 void    unride_char     args( ( CHAR_DATA *ch, CHAR_DATA *pet) );
 void    do_enter        args( ( CHAR_DATA *ch, char * argument ));
 /* act_obj.c */

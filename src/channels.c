@@ -29,6 +29,7 @@ static void print_channel_status(CHAR_DATA *ch, char *chan, int reference, int f
 
 
 void do_channels(CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	PCCLAN *OrigClan;
 
 	/* lists all channels and their status */
@@ -101,6 +102,7 @@ static void toggle_channel(CHAR_DATA *ch, int chan_flag, char *chan_name) {
 
 
 void do_quiet(CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	if (IS_SET(ch->comm, COMM_QUIET)) {
 		send_to_char("Quiet mode removed.\n\r",ch);
 		REMOVE_BIT(ch->comm, COMM_QUIET);
@@ -149,6 +151,7 @@ void channel_command(CHAR_DATA *ch, char *argument, int chan_flag, char *chan_na
 
 
 void do_announce (CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	toggle_channel(ch, COMM_NOANNOUNCE, "Announce");
 }
 

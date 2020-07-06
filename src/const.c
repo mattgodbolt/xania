@@ -361,7 +361,7 @@ const    struct   race_type   race_table  []    =
    ,
 
    {
-      NULL, 0, 0, 0, 0, 0, 0
+      NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0
    }
 };
 
@@ -2822,7 +2822,7 @@ const struct   skill_type  skill_table [MAX_SKILL] =
       ,
       spell_cancellation,  TAR_CHAR_DEFENSIVE,  POS_FIGHTING,
       NULL,       SLOT(507),  20,   12,
-      ""       "!cancellation!",
+      "",       "!cancellation!",
    }
    ,
 

@@ -367,11 +367,11 @@ void mob_hit (CHAR_DATA *ch, CHAR_DATA *victim, int dt)
 
    number = number_range(0,2);
 
-   if (number == 1 && IS_SET(ch->act,ACT_MAGE))
-      /*  { mob_cast_mage(ch,victim); return; } */ ;
-
-   if (number == 2 && IS_SET(ch->act,ACT_CLERIC))
-      /* { mob_cast_cleric(ch,victim); return; } */ ;
+//   if (number == 1 && IS_SET(ch->act,ACT_MAGE))
+//      /*  { mob_cast_mage(ch,victim); return; } */ ;
+//
+//   if (number == 2 && IS_SET(ch->act,ACT_CLERIC))
+//      /* { mob_cast_cleric(ch,victim); return; } */ ;
 
    /* now for the skills */
 
@@ -404,8 +404,8 @@ void mob_hit (CHAR_DATA *ch, CHAR_DATA *victim, int dt)
          }
          else
             do_disarm(ch,"");
-         break;
       }
+     break;
       case (3) :
       if (IS_SET(ch->off_flags,OFF_KICK))
          do_kick(ch,"");
@@ -417,9 +417,10 @@ void mob_hit (CHAR_DATA *ch, CHAR_DATA *victim, int dt)
       break;
 
       case (5) :
-      if (IS_SET(ch->off_flags,OFF_TAIL))
-         /* do_tail(ch,"") */ ;
-      break;
+      if (IS_SET(ch->off_flags,OFF_TAIL)) {
+          /* do_tail(ch,"") */;
+        }
+        break;
 
       case (6) :
       if (IS_SET(ch->off_flags,OFF_TRIP))
@@ -427,9 +428,10 @@ void mob_hit (CHAR_DATA *ch, CHAR_DATA *victim, int dt)
       break;
 
       case (7) :
-      if (IS_SET(ch->off_flags,OFF_CRUSH))
-         /* do_crush(ch,"") */ ;
-      break;
+      if (IS_SET(ch->off_flags,OFF_CRUSH)) {
+          /* do_crush(ch,"") */;
+        }
+        break;
    }
 }
 
@@ -1623,7 +1625,7 @@ void death_cry( CHAR_DATA *ch )
 		   msg  = "$n splatters blood on your armor.";
 		   break;
 	   } /* roll on through to the next case....*/
-
+          // fall through
    case  2:
 	   if( ch->hit_location != 0 ) {
 		   for( ; i < MAX_BODY_PARTS && !found; i++ ) {
@@ -2472,6 +2474,7 @@ void disarm( CHAR_DATA *ch, CHAR_DATA *victim )
 
 void do_berserk( CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    int chance, hp_percent;
    /*    OBJ_DATA *wield = get_eq_char( ch, WEAR_WIELD );*/
 
@@ -3037,6 +3040,7 @@ void do_kill( CHAR_DATA *ch, char *argument )
 
 void do_murde( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    send_to_char( "If you want to MURDER, spell it out.\n\r", ch );
    return;
 }
@@ -3191,6 +3195,7 @@ void do_backstab( CHAR_DATA *ch, char *argument )
 
 void do_flee( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    ROOM_INDEX_DATA *was_in;
    ROOM_INDEX_DATA *now_in;
    CHAR_DATA *victim;
@@ -3225,7 +3230,7 @@ void do_flee( CHAR_DATA *ch, char *argument )
       &&   IS_SET(pexit->u1.to_room->room_flags, ROOM_NO_MOB) ) )
          continue;
 
-      move_char( ch, door, FALSE );
+      move_char( ch, door );
       if ( ( now_in = ch->in_room ) == was_in )
          continue;
 
@@ -3455,6 +3460,7 @@ TO_CHAR);
 /**/
 void do_sharpen( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    OBJ_DATA *weapon;
    int chance;
 
@@ -3564,6 +3570,7 @@ void do_kick( CHAR_DATA *ch, char *argument )
 
 void do_disarm( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    CHAR_DATA *victim;
    OBJ_DATA *obj;
    int chance,hth,ch_weapon,vict_weapon,ch_vict_weapon;
@@ -3650,6 +3657,7 @@ void do_disarm( CHAR_DATA *ch, char *argument )
 
 void do_sla( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    send_to_char( "If you want to SLAY, spell it out.\n\r", ch );
    return;
 }

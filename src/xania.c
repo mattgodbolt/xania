@@ -400,8 +400,10 @@ int get_skill_difficulty( CHAR_DATA *ch, int gsn) {
       return 0;         /* this should never happen as get_skill_level does this */
    case SKILL_ATTAINABLE:
       hard=8;           /* skills at level 60 */
+                        break;
    case SKILL_ASSASSIN:
       hard=5;           /* Assassin group stuff */
+                        break;
    }
    /* Check for race skills */
    for (bonus=0; bonus<5; bonus++) {
@@ -530,6 +532,7 @@ int is_made_of(OBJ_DATA *obj, char *material) {
  ******************************************************************/
 
 void spell_reincarnate( int sn, int level, CHAR_DATA *ch, void *vo) {
+  (void)sn;(void)level;(void)vo;
    /* is of type TAR_IGNORE so ignore *vo */
 
    OBJ_DATA *obj;
@@ -617,7 +620,7 @@ void spell_reincarnate( int sn, int level, CHAR_DATA *ch, void *vo) {
 }
 
 void do_smit ( CHAR_DATA *ch, char *argument) {
-
+  (void)argument;
    send_to_char ("If you wish to smite someone, then SPELL it out!\n\r" , ch);
    return;
 }

@@ -296,7 +296,7 @@ static void node_enumerate(node_t *node, int min_level, int max_level, trie_enum
 	int i;
 	
 	if (node->type == tnode_twig) {
-		if (children[0] && children[0]->level > strlen(children[0]->data.leaf->name))
+		if (children[0] && children[0]->level > (int)strlen(children[0]->data.leaf->name))
 			node_enumerate(children[0], min_level, max_level, ef, metadata);
 		for (i = 1; i < NUM_CHILDREN; i++) {
 			if (children[i]) {

@@ -376,6 +376,7 @@ void do_demote( CHAR_DATA *ch, char *argument ) {
 }
 
 void do_clanwho( CHAR_DATA *ch, char *argument ) {
+  (void)argument;
    DESCRIPTOR_DATA *d;
    CHAR_DATA *wch;
    char buf[MAX_STRING_LENGTH];

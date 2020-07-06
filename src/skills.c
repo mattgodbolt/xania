@@ -245,6 +245,7 @@ void do_gain(CHAR_DATA *ch, char *argument)
 
 void do_spells(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    char spell_list[LEVEL_HERO][MAX_STRING_LENGTH];
    char spell_columns[LEVEL_HERO];
    int sn,lev,mana;
@@ -308,6 +309,7 @@ void do_spells(CHAR_DATA *ch, char *argument)
 
 void do_skills(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    char skill_list[LEVEL_HERO][MAX_STRING_LENGTH];
    char skill_columns[LEVEL_HERO];
    int sn,lev;

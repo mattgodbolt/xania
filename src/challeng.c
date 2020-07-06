@@ -167,6 +167,7 @@ victim->name);
 
 void do_accept( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    char buf[MAX_STRING_LENGTH];
 
    if ((challenger == NULL) || (((challengee!=ch) || (imm==NULL)) &&
@@ -222,6 +223,7 @@ challengee->name);
 
 void do_refuse( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    char buf[MAX_STRING_LENGTH];
 
    if (ch != imm && ch != challenger && ch != challengee)
@@ -263,6 +265,7 @@ void do_refuse( CHAR_DATA *ch, char *argument )
 
 void do_ready (CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    char buf[MAX_STRING_LENGTH];
 
    if (check_duel_status(1))

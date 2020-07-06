@@ -833,6 +833,7 @@ bool mprog_do_ifchck( char *ifchck, CHAR_DATA *mob, CHAR_DATA *actor,
 		  }
 	          else
 		    return -1;
+                  break; // TODO this fell through (as did all) but not clear that's what was wanted
 	case 't': if ( vict )
 	          {
 		    if IS_NPC( actor )
@@ -844,6 +845,7 @@ bool mprog_do_ifchck( char *ifchck, CHAR_DATA *mob, CHAR_DATA *actor,
 		  }
                   else
 		    return -1;
+          break;
 	case 'r': if ( rndm )
 	          {
 		    if IS_NPC( actor )
@@ -854,6 +856,7 @@ bool mprog_do_ifchck( char *ifchck, CHAR_DATA *mob, CHAR_DATA *actor,
 		    }
 		  }
 	         else return -1;
+          break;
 	case 'o': if ( obj )
 	          {
 		    lhsvl = obj->pIndexData->vnum;
@@ -862,6 +865,7 @@ bool mprog_do_ifchck( char *ifchck, CHAR_DATA *mob, CHAR_DATA *actor,
 		  }
 	          else
 		    return -1;
+          break;
 	case 'p': if ( v_obj )
 	          {
 		    lhsvl = v_obj->pIndexData->vnum;
@@ -870,6 +874,7 @@ bool mprog_do_ifchck( char *ifchck, CHAR_DATA *mob, CHAR_DATA *actor,
 		  }
 	          else
 		    return -1;
+          break;
 	default:
 	  bug ( "Mob: %d bad argument to 'number'", mob->pIndexData->vnum ); 
 	  return -1;
@@ -1430,11 +1435,11 @@ void mprog_wordlist_check( char *arg, CHAR_DATA *mob, CHAR_DATA *actor,
       {
 	strcpy( temp1, mprg->arglist );
 	list = temp1;
-	for ( i = 0; i < strlen( list ); i++ )
+	for ( i = 0; i < (int)strlen( list ); i++ )
 	  list[i] = LOWER( list[i] );
 	strcpy( temp2, arg );
 	dupl = temp2;
-	for ( i = 0; i < strlen( dupl ); i++ )
+	for ( i = 0; i < (int)strlen( dupl ); i++ )
 	  dupl[i] = LOWER( dupl[i] );
 	if ( ( list[0] == 'p' ) && ( list[1] == ' ' ) )
 	  {

@@ -191,11 +191,13 @@ void gain_exp( CHAR_DATA *ch, int gain ) {
 
    ch->exp = UMAX( exp_per_level(ch,ch->pcdata->points), ch->exp + gain );
    if (gain >= 0) {
-      while ( (ch->level < LEVEL_HERO) && ((ch->exp)>=((int)exp_per_level(ch,ch->pcdata->points) * ((int)ch->level+1))) ) {
-         send_to_char( "|WYou raise a level!!|w\n\r", ch );
-         ch->level += 1;
-         advance_level( ch );
-      }
+     while ((ch->level < LEVEL_HERO) &&
+            ((ch->exp) >= (unsigned long)((int)exp_per_level(ch, ch->pcdata->points) *
+                           ((int)ch->level + 1)))) {
+       send_to_char("|WYou raise a level!!|w\n\r", ch);
+       ch->level += 1;
+       advance_level(ch);
+     }
    }
 }
 
@@ -528,7 +530,7 @@ void mobile_update( void )
       && ( !IS_SET(ch->act, ACT_STAY_AREA)
       ||   pexit->u1.to_room->area == ch->in_room->area ) )
       {
-         move_char( ch, door, FALSE );
+         move_char( ch, door );
       }
    }
 }

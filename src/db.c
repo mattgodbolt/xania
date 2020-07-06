@@ -879,7 +879,7 @@ void load_old_obj( FILE *fp )
             bug( "Liquid number out of range!");
             exit(1);
          }
-
+         // falls through
       case ITEM_STAFF:
       case ITEM_WAND:
          pObjIndex->value[3] = slot_lookup( pObjIndex->value[3] );
@@ -2700,7 +2700,7 @@ char *fread_string(FILE *fp) {
             iHash     = UMIN( MAX_KEY_HASH - 1, plast - 1 - top_string );
             for ( pHash = string_hash[iHash]; pHash; pHash = pHashPrev )
             {
-               for ( ic = 0; ic < sizeof(char *); ic++ )
+               for ( ic = 0; ic < (int)sizeof(char *); ic++ )
                   u1.rgc[ic] = pHash[ic];
                pHashPrev = u1.pc;
                pHash    += sizeof(char *);
@@ -2715,7 +2715,7 @@ char *fread_string(FILE *fp) {
                pString     = top_string;
                top_string     = plast;
                u1.pc    = string_hash[iHash];
-               for ( ic = 0; ic < sizeof(char *); ic++ )
+               for ( ic = 0; ic < (int)sizeof(char *); ic++ )
                   pString[ic] = u1.rgc[ic];
                string_hash[iHash]   = pString;
 
@@ -2799,7 +2799,7 @@ char *fread_string_eol( FILE *fp )
             iHash     = UMIN( MAX_KEY_HASH - 1, plast - 1 - top_string );
             for ( pHash = string_hash[iHash]; pHash; pHash = pHashPrev )
             {
-               for ( ic = 0; ic < sizeof(char *); ic++ )
+               for ( ic = 0; ic < (int)sizeof(char *); ic++ )
                   u1.rgc[ic] = pHash[ic];
                pHashPrev = u1.pc;
                pHash    += sizeof(char *);
@@ -2814,7 +2814,7 @@ char *fread_string_eol( FILE *fp )
                pString             = top_string;
                top_string          = plast;
                u1.pc               = string_hash[iHash];
-               for ( ic = 0; ic < sizeof(char *); ic++ )
+               for ( ic = 0; ic < (int)sizeof(char *); ic++ )
                   pString[ic] = u1.rgc[ic];
                string_hash[iHash]  = pString;
 
@@ -3147,6 +3147,7 @@ void do_areas( CHAR_DATA *ch, char *argument )
 
 void do_memory( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    char buf[MAX_STRING_LENGTH];
 
    sprintf( buf, "Affects %5d\n\r", top_affect    );
@@ -3187,6 +3188,7 @@ void do_memory( CHAR_DATA *ch, char *argument )
 
 void do_dump( CHAR_DATA *ch, char *argument )
 {
+  (void)ch; (void)argument;
    int count,count2,num_pcs,aff_count;
    CHAR_DATA *fch;
    MOB_INDEX_DATA *pMobIndex;

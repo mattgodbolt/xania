@@ -37,11 +37,13 @@ extern FINGER_INFO *info_cache;
 
 
 void do_delet( CHAR_DATA *ch, char *argument) {
+  (void)argument;
    send_to_char("You must type the full command to delete yourself.\n\r",ch);
 }
 
 
 void do_delete( CHAR_DATA *ch, char *argument) {
+  (void)argument;
    char strsave[MAX_INPUT_LENGTH];
    KNOWN_PLAYERS *cursor, *temp;
    FINGER_INFO *cur, *tmp;
@@ -598,13 +600,14 @@ const	struct	pose_table_type	pose_table	[]	=
 
 void do_pose( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    int level;
    int pose;
 
    if ( IS_NPC(ch) )
       return;
 
-   level = UMIN( ch->level, sizeof(pose_table) / sizeof(pose_table[0]) - 1 );
+   level = UMIN( ch->level, (int)(sizeof(pose_table) / sizeof(pose_table[0]) - 1) );
    pose  = number_range(0, level);
 
    act( pose_table[pose].message[2*ch->class+0], ch, NULL, NULL, TO_CHAR );
@@ -644,6 +647,7 @@ void do_typo( CHAR_DATA *ch, char *argument )
 
 void do_rent( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    send_to_char( "|rThere is no rent here.  Just quit - |WXania|r saves for you.|w\n\r", ch );
    return;
 }
@@ -652,6 +656,7 @@ void do_rent( CHAR_DATA *ch, char *argument )
 
 void do_qui( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    send_to_char( "|cIf you want to |RQUIT|c, you have to spell it out.|w\n\r", ch );
    return;
 }
@@ -660,6 +665,7 @@ void do_qui( CHAR_DATA *ch, char *argument )
 
 void do_quit(CHAR_DATA *ch, char *argument)
 {
+  (void)argument;
    DESCRIPTOR_DATA *d;
    FINGER_INFO *cur;
    bool info_found = FALSE;
@@ -740,6 +746,7 @@ void do_quit(CHAR_DATA *ch, char *argument)
 
 void do_save( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    if ( IS_NPC(ch) )
       return;
 
@@ -818,6 +825,7 @@ void char_ride(CHAR_DATA *ch, CHAR_DATA *ridee)
 
 void do_dismount( CHAR_DATA *ch, char *argument )
 {
+  (void)argument;
    if ( IS_NPC(ch))
       return;
 

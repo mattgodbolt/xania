@@ -246,6 +246,7 @@ void do_mail(CHAR_DATA *ch, char *argument) {
 
 /* Find the next item of news to read */
 void do_news_next(CHAR_DATA *ch, char *argument) {
+  (void)argument;
   char buf[MAX_STRING_LENGTH];
   if (ch->thread==NULL) {			// The user has already 'fallen off' the end of the
   						// linked list - so check for any more unread threads
@@ -278,6 +279,7 @@ void do_news_next(CHAR_DATA *ch, char *argument) {
 
 /* Display a formatted list of the threads */
 void do_news_list(CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	BUFFER *buffer = buffer_create();
 	THREAD *t = thread_head;
 	int numt = 0;
@@ -298,6 +300,7 @@ void do_news_list(CHAR_DATA *ch, char *argument) {
 
 /* Send a formatted list of articles in the user's current thread */
 void do_news_articles(CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	BUFFER *buffer = buffer_create();
 	ARTICLE *a;
 	int mesnum = 1;
@@ -379,6 +382,7 @@ void do_news_thread(CHAR_DATA *ch, char *argument) {
 
 /* Skip to next unread thread - leaving all messages in this thread unread */
 void do_news_skip(CHAR_DATA *ch, char *argument) {
+  (void)argument;
   if (ch->thread) {			// If the user isn't already at the end - move them on
     do {
     	ch->thread=ch->thread->next;
@@ -416,6 +420,7 @@ void do_news_compose(CHAR_DATA *ch, char *argument) {
 
 /* Reply to an existing thread */
 void do_news_reply(CHAR_DATA *ch, char *argument) {
+  (void)argument;
 	char buf[MAX_STRING_LENGTH];
 	if (ch->thread == NULL) {
 		send_to_char("You have no thread selected to reply to.\n\r", ch);
@@ -446,6 +451,7 @@ void do_news_reply(CHAR_DATA *ch, char *argument) {
 
 /* Clear the currently-being-prepared message */
 void do_news_clear(CHAR_DATA *ch, char *argument) {
+  (void)argument;
   if (ch->newsbuffer==NULL) {
     char foo[MAX_STRING_LENGTH];
     sprintf(foo,"You aren't composing a %s message.\n\r",news_name);
@@ -467,6 +473,7 @@ void do_news_clear(CHAR_DATA *ch, char *argument) {
 
 /* Actually post an article and thread into the linked list of articles/and or create a new thread */
 void do_news_post(CHAR_DATA *ch, char *argument) {
+  (void)argument;
   if (ch->newsbuffer==NULL) {			// Is the user actually composing a message?
     char foo[MAX_STRING_LENGTH];
     sprintf(foo,"You aren't composing a %s message.\n\r",news_name);
@@ -544,6 +551,7 @@ void do_news_plus(CHAR_DATA *ch, char *argument) {
 
 /* Remove a line from the message */
 void do_news_minus(CHAR_DATA *ch, char *argument) {
+  (void)argument;
   if (ch->newsbuffer==NULL) {
     char foo[MAX_STRING_LENGTH];
     sprintf(foo,"You aren't composing a %s message.\n\r",news_name);
@@ -556,6 +564,7 @@ void do_news_minus(CHAR_DATA *ch, char *argument) {
 
 /* Show the text being edited */
 void do_news_show(CHAR_DATA *ch, char *argument) {
+  (void)argument;
   if (ch->newsbuffer==NULL) {
     char foo[MAX_STRING_LENGTH];
     sprintf(foo,"You aren't composing a %s message.\n\r",news_name);
@@ -569,6 +578,7 @@ void do_news_show(CHAR_DATA *ch, char *argument) {
 
 /* Mark all articles as read */
 void do_news_catchup(CHAR_DATA *ch, char *argument) {
+  (void)argument;
   ARTICLE *a;
   if (ch->thread==NULL) {
     send_to_char("You have no thread selected.\n\r",ch);
@@ -582,6 +592,7 @@ void do_news_catchup(CHAR_DATA *ch, char *argument) {
 
 /* Mark all articles as unread */
 void do_news_uncatchup(CHAR_DATA *ch, char *argument) {
+  (void)argument;
   ARTICLE *a;
   if (ch->thread==NULL) {
     send_to_char("You have no thread selected.\n\r",ch);

@@ -563,6 +563,7 @@ void load_objects( FILE *fp )
 				{
 				case ITEM_BOMB:
 					pObjIndex->value[4] = slot_lookup( pObjIndex->value[4] );
+                                        // fall through
 				case ITEM_PILL:
 				case ITEM_POTION:
 				case ITEM_SCROLL:

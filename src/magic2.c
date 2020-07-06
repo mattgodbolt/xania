@@ -113,6 +113,7 @@ void tornado_mental(CHAR_DATA *ch, CHAR_DATA *victim, int level) {
 
 void spell_psy_tornado( int sn, int level, CHAR_DATA *ch, void *vo )
 {
+  (void)sn;(void)level;
    CHAR_DATA *victim = (CHAR_DATA *) vo;
    CHAR_DATA *current_person;
    CHAR_DATA *next_person;
@@ -131,6 +132,7 @@ void spell_psy_tornado( int sn, int level, CHAR_DATA *ch, void *vo )
    if ( !IS_NPC(victim) )
    {
       send_to_char("Not on that target.\n\r", ch);
+      return;
    }
 
    if ( is_safe(ch, victim) )
