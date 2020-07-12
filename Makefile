@@ -31,6 +31,7 @@ install: build
 	$(CMAKE) --build $(BUILD_ROOT) --target install
 
 .PHONY: dirs
+dirs:
 	@mkdir -p gods player log
 
 .PHONY: start
