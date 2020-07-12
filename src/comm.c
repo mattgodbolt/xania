@@ -1779,7 +1779,9 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
       write_to_buffer( d, "\n\r", 2 );
 #endif
 
-      if ( strcmp( crypt( argument, ch->pcdata->pwd ), ch->pcdata->pwd ))
+      // TODO crypt can return null if if fails (e.g. password is truncated).
+      // for now we just pwd[0], which lets us reset passwords.
+      if ( ch->pcdata->pwd[0] && strcmp( crypt( argument, ch->pcdata->pwd ), ch->pcdata->pwd ))
       {
          write_to_buffer( d, "Our survey said <Crude buzzer noise>.\n\rWrong password.\n\r", 0 );
          close_socket( d );
