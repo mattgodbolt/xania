@@ -6,3 +6,5 @@ set(CMAKE_CXX_STANDARD 14)
 add_compile_options(-Werror -Wall -Wextra)
 
 add_subdirectory(src)
+
+install(TARGETS xania doorman RUNTIME DESTINATION bin)

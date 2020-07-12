@@ -31,8 +31,8 @@ my $port = 9000; # default port
 my $SHUTDOWN_FILE = "../area/shutdown.txt";
 
 # change these as necessary
-my $XANIA_BINARY = "../src/xania";
-my $DOORMAN_BINARY = "../src/doorman";
+my $XANIA_BINARY = "../install/bin/xania";
+my $DOORMAN_BINARY = "../install/bin/doorman";
 
 # Statistical analysis related settings:
 # 3600 * 24 * 7
