@@ -32,7 +32,7 @@ install: build
 	@mkdir -p gods player log
 
 .PHONY: start
-start: build dirs  ## Build and start Xania
+start: install dirs  ## Build and start Xania
 	@rm -f area/shutdown.txt
 	@echo "Starting Xania on port $(PORT)}"
 	(cd src && ./mudmgr -s $(PORT))
@@ -40,12 +40,12 @@ start: build dirs  ## Build and start Xania
 	@echo "All being well, telnet localhost $(PORT) to log in"
 
 .PHONY: stop
-stop: build dirs  ## Stop Xania
+stop: install dirs  ## Stop Xania
 	@echo "Stopping Xania"
 	(cd src && ./mudmgr -d)
 
 .PHONY: restart
-restart: build dirs  ## Restart Xania
+restart: install dirs  ## Restart Xania
 	@echo "Restarting Xania"
 	(cd src && ./mudmgr -r $(PORT))
 
