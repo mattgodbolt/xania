@@ -54,3 +54,5 @@ add_executable(xania
         Wrapper.cpp
         )
 target_link_libraries(xania crypt chat)
+
+install(TARGETS xania RUNTIME DESTINATION bin)
