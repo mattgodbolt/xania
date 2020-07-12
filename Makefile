@@ -49,9 +49,10 @@ restart: install dirs  ## Restart Xania
 	@echo "Restarting Xania"
 	(cd src && ./mudmgr -r $(PORT))
 
+# Grr older cmakes don't support -S -B
 $(BUILD_ROOT)/CMakeCache.txt:
 	@mkdir -p $(BUILD_ROOT)
-	$(CMAKE) -S . -B $(BUILD_ROOT) $(CMAKE_GENERATOR_FLAGS) -DCMAKE_BUILD_TYPE=$(BUILD_TYPE)
+	cd $(BUILD_ROOT) && $(CMAKE) .. $(BUILD_ROOT) $(CMAKE_GENERATOR_FLAGS) -DCMAKE_BUILD_TYPE=$(BUILD_TYPE)
 
 .PHONY: clean
 clean:  ## Clean up everything
