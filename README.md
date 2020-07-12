@@ -9,8 +9,9 @@ License
 -------
 
 See the [LICENSE](LICENSE) file for more details, but this code is built on and
-extends code from (MadROM)[http://mad-rom.org/], which built and extended on
-[Rom2.4](http://web.archive.org/web/20000818050433/http://www.hypercube.org/tess/rom/) code.
+extends code from [MadROM](http://mad-rom.org/), which built and extended on
+[Rom2.3](http://web.archive.org/web/20000818050433/http://www.hypercube.org/tess/rom/) code. At
+least, to the best of the Xania administrators I contacted, this is the case.
 
 Xania's log on banner contains a lot of the required info. As you may not wish
 to log in, it is:
