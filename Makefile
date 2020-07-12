@@ -25,8 +25,10 @@ endif
 build: $(BUILD_ROOT)/CMakeCache.txt  ## Build Xania source
 	$(CMAKE) --build $(BUILD_ROOT)
 
+# Grr older cmakes don't support --install and --prefix
 install: build
-	$(CMAKE) --install $(BUILD_ROOT) --prefix $(INSTALL_DIR)
+	@mkdir -p $(INSTALL_DIR)
+	$(CMAKE) --build $(BUILD_ROOT) --target install
 
 .PHONY: dirs
 	@mkdir -p gods player log
@@ -52,7 +54,7 @@ restart: install dirs  ## Restart Xania
 # Grr older cmakes don't support -S -B
 $(BUILD_ROOT)/CMakeCache.txt:
 	@mkdir -p $(BUILD_ROOT)
-	cd $(BUILD_ROOT) && $(CMAKE) .. $(CMAKE_GENERATOR_FLAGS) -DCMAKE_BUILD_TYPE=$(BUILD_TYPE)
+	cd $(BUILD_ROOT) && $(CMAKE) .. $(CMAKE_GENERATOR_FLAGS) -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
 
 .PHONY: clean
 clean:  ## Clean up everything
