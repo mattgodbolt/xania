@@ -2441,9 +2441,9 @@ void    obj_to_obj      args( ( OBJ_DATA *obj, OBJ_DATA *obj_to ) );
 void    obj_from_obj    args( ( OBJ_DATA *obj ) );
 void    extract_obj     args( ( OBJ_DATA *obj ) );
 void    extract_char    args( ( CHAR_DATA *ch, bool fPull ) );
-bool    is_set_extra    args( ( CHAR_DATA *ch, int flag) );
-void    set_extra       args( ( CHAR_DATA *ch, int flag) );
-void    remove_extra    args( ( CHAR_DATA *ch, int flag) );
+bool    is_set_extra    args( ( CHAR_DATA *ch, unsigned int flag) );
+void    set_extra       args( ( CHAR_DATA *ch, unsigned int flag) );
+void    remove_extra    args( ( CHAR_DATA *ch, unsigned int flag) );
 
 bool is_switched args(( CHAR_DATA *ch ));
 

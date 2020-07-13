@@ -3045,24 +3045,24 @@ char *off_bit_name(int off_flags)
    return ( buf[0] != '\0' ) ? buf+1 : "none";
 }
 
-bool is_set_extra( CHAR_DATA *ch, int flag) {
+bool is_set_extra( CHAR_DATA *ch, unsigned int flag) {
   if (IS_NPC(ch))
     return FALSE;
-  if (ch->extra_flags[flag/32] & 1<<(flag & 31))
+  if (ch->extra_flags[flag/32] & 1u<<(flag & 31u))
     return TRUE;
   return FALSE;
 }
 
-void set_extra( CHAR_DATA *ch, int flag) {
+void set_extra( CHAR_DATA *ch, unsigned int flag) {
   if (IS_NPC(ch))
     return;
-  ch->extra_flags[flag/32] |= (1<<(flag & 31));
+  ch->extra_flags[flag/32] |= (1u<<(flag & 31u));
 }
 
-void remove_extra( CHAR_DATA *ch, int flag) {
+void remove_extra( CHAR_DATA *ch, unsigned int flag) {
   if (IS_NPC(ch))
     return;
-  ch->extra_flags[flag/32] &= ~(1<<(flag & 31));
+  ch->extra_flags[flag/32] &= ~(1u<<(flag & 31u));
 }
 
 /*
