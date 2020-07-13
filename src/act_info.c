@@ -2975,7 +2975,7 @@ void do_password( CHAR_DATA *ch, char *argument )
       return;
    }
 
-   if ( strcmp( crypt( arg1, ch->pcdata->pwd ), ch->pcdata->pwd ) )
+   if ((strlen(ch->pcdata->pwd) > 0) && strcmp( crypt( arg1, ch->pcdata->pwd ), ch->pcdata->pwd ) )
    {
       WAIT_STATE( ch, 40 );
       send_to_char( "Wrong password.  Wait 10 seconds.\n\r", ch );
