@@ -12,7 +12,6 @@
   |YHobbit|w   small, swift, intelligent, friendly creatures 20 cp
   |CMinotaur|w great big, ugly, strong brutes  15 cp
   |WWolf|w     tough, swift creatures of the wilderness  20 cp
-  |BWraith|w   feral, cold blooded humanoids, rarely seen or heard 15 cp
 
 Different races have different starting statistics, and also different
 stat maximums for magic items and training.
@@ -114,19 +113,6 @@ reasonably wise too. They make great fighters and usually have other
 abilities like being able to see in the dark. 
 
 Wolves start out with 20 creation points.
-~
-
--1 WRAITHS~
-The Wraiths of these lands are feral creatures, occupying the outer
-mountain reaches and the cooler climes to which they are particularly
-well suited. A distant cousin of the orc, wraiths are a secluded, 
-inbred people who rarely make contact with populate regions. They are
-usually equipped with surprising intelligence, short tempers, 
-razor-sharp claws. Rumours of  their dark magicks and witchcraft strike 
-fear in the hearts of many. These are not to be confused with spirit 
-wraiths who are even more mysterious...
-
-Wraiths start with 15 creation points.
 ~
 
 -1 HOBBITS~
