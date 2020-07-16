@@ -1,4 +1,4 @@
-Xania MUD source
+Xania MUD source ![C/C++ CI](https://github.com/mattgodbolt/xania/workflows/C/C++%20CI/badge.svg)
 ----------------
 
 Found on @mattgodbolt's hard disk, and resurrected. Shows the code behind a
