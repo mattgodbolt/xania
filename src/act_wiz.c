@@ -4545,8 +4545,8 @@ void do_sacname( CHAR_DATA *ch, char *argument)
 
    if (argument[0] == '\0')
    {
-      send_to_char( "You must tell me who they're gonna sacrifice to!", ch );
-      sprintf(buf, "Currently sacrificing to: %s", deity_name);
+      send_to_char( "You must tell me who they're gonna sacrifice to!\n\r", ch );
+      sprintf(buf, "Currently sacrificing to: %s\n\r", deity_name);
       send_to_char(buf, ch);
       return;
    }
