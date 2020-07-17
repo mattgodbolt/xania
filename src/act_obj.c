@@ -1694,21 +1694,6 @@ void do_sacrifice( CHAR_DATA *ch, char *argument )
       break;
    };
    send_to_char( buf, ch );
-   /* Moog's code above ! */
-   /*    if (gold == 1)
-       {
-           sprintf( buf,
-   	  "%s gives you a solitary gold coin for your pitiful sacrifice.\n\r",
-                deity_name);
-           send_to_char( buf, ch );
-         }
-       else
-       {
-   	sprintf(buf,"Moog gives you %d gold coins for your sacrifice.\n\r",
-   		gold);
-   	send_to_char(buf,ch);
-       }
-   */
 
    ch->gold += gold;
 

@@ -4793,7 +4793,7 @@ const   struct  group_type      group_table     [MAX_GROUP]     =
 
 };
 
-char deity_name_area[256] = "The Moog";
+char deity_name_area[256] = "Etaine";
 char *deity_name = deity_name_area;
 
 const struct materials_type material_table[] =
