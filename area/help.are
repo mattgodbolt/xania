@@ -87,10 +87,7 @@ Also help on: |cDAMAGE DEATH EXPERIENCE XNEWS XANIA TICK WIZLIST CLAN ISCA|w
 |W
 (XNEWS1)        |PSee also: help xnews2 and xnews3|W                 (XNEWS1)|w
 18/12/00	hailcorpse command added.
-14/10/00	Xania moves to a new server in the UK! Connect via
-                193.128.238.150 9000 if you get any problems using
-                the old address.
-		Areas command improved, and whazzup social added.
+14/10/00	Areas command improved, and whazzup social added.
 23/4/00		Lots of changes that we've been saving up for:
 		* Highlighted 'You have become better at' and 'xxx screams
 		  and attacks' for ANSI users, by TheMoog.
@@ -231,13 +228,7 @@ Also help on: |cDAMAGE DEATH EXPERIENCE XNEWS XANIA TICK WIZLIST CLAN ISCA|w
 ~
 
 0 ADDRESS~
-|WXania has moved!!!|w
-
-We've finally gotten a server in the UK again!  Woohoo!  Until the records
-update you can connect to Xania at |W193.128.238.150 9000|w.
-
-It will take a few days to propogate through the Internet, but then you'll
-be able to connect at xania.org as usual!
+Xania is hibernating at the moment, sorry!
 ~
 
 0 FINGER~
@@ -1843,7 +1834,7 @@ spell may be added to it. There is increasing risk of the bomb detonating
 as you attempt to apply more spells to it. Note, manufacturing a bomb
 uses resources, so it will cost you gold to do so.
 
-Bombs can detonated by throwing them at mobs at the start of combat.
+Bombs can be detonated by throwing them at mobs at the start of combat.
 
 Only mages have the necessary alchemical skills to create bombs.
 

@@ -114,10 +114,8 @@ State thy name and enter the realm of Xania: ~
  
 -1 MOTD~ 
 |cWelcome back to the zany world of Xania!|w
-|WXania has moved server!!  Type |RHELP ADDRESS|W for more info!|w
-For a complete list of the CHANGES made on this MUD, type HELP |RXNEWS|w
 
-Type 'help web' for info on our web pages.
+For a complete list of the CHANGES made on this MUD, type HELP |RXNEWS|w
 
 If nobody is available to answer your questions, write a note to 'immortal'.
 |w
@@ -127,8 +125,6 @@ If nobody is available to answer your questions, write a note to 'immortal'.
 
 No multiassisting.  No Player Killing. See 'help challenge' to read
 about our player duelling!
-
-|WNew|w: 'hailcorpse' command added!
 
 For general information on Xanian lore, try help on: |cIsca, Xania|w and|c Wyrm|w.
 

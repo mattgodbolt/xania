@@ -60,5 +60,9 @@ you can customise your command prompt, read 'help prompt'~
 the 'showdefence' command lets you show/hide defence actions such as
      dodging and parrying in combat.~
 
-Xania has existed since 1995. It was created by Death, The Moog,
-     Faramir, Forrey, Wandera and Rohan. See 'help xania'.~
+you'll recover more quickly if you 'sleep' or 'rest'.~
+
+some of the body parts of your slain foes are edible but beware, 
+     some are poisonous!~
+
+visit Midgaard's map shop to purchase some excellent maps!~
