@@ -620,6 +620,11 @@ void do_pose( CHAR_DATA *ch, char *argument )
 
 void do_bug( CHAR_DATA *ch, char *argument )
 {
+   if (argument[0] == '\0')
+   {
+      send_to_char( "Please provide a brief description of the bug!\n\r", ch );
+      return;
+   }
    append_file( ch, BUG_FILE, argument );
    send_to_char( "|RBug logged! If you're lucky it may even get fixed!|w\n\r", ch );
    return;
@@ -629,6 +634,11 @@ void do_bug( CHAR_DATA *ch, char *argument )
 
 void do_idea( CHAR_DATA *ch, char *argument )
 {
+   if (argument[0] == '\0')
+   {
+      send_to_char( "Please provide a brief description of your idea!\n\r", ch );
+      return;
+   }
    append_file( ch, IDEA_FILE, argument );
    send_to_char( "|WIdea logged. This is |RNOT|W an identify command.|w\n\r", ch );
    return;
@@ -638,6 +648,11 @@ void do_idea( CHAR_DATA *ch, char *argument )
 
 void do_typo( CHAR_DATA *ch, char *argument )
 {
+   if (argument[0] == '\0')
+   {
+      send_to_char( "A typo you say? Tell us where!\n\r", ch );
+      return;
+   }
    append_file( ch, TYPO_FILE, argument );
    send_to_char( "|WTypo logged. One day we'll fix it, or buy a spellchecker.|w\n\r", ch );
    return;
