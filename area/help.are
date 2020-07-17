@@ -519,8 +519,10 @@ certain direction and see what you bump into).
 
 0 DROP GET GIVE PUT TAKE~
 Syntax: drop <object>
+Syntax: drop <index>.<object>
 Syntax: drop <amount> coins
 Syntax: get  <object>
+Syntax: get  <index>.<object>
 Syntax: get  <object> <container>
 Syntax: give <object> <character>
 Syntax: give <amount> coins <character>
@@ -537,6 +539,10 @@ PUT puts an object into a container.
 
 DROP, GET and PUT understand the object names 'ALL' for all objects and
 'ALL.object' for all objects with the same name.
+
+When multiple items of the same name are listed, type 'get n.item', where n
+is the position of the item in a list of that name.  So if there are two
+swords, get 2.sword will buy the second. This works for drop, give and put too.
 ~
 
 0 EQUIPMENT INVENTORY~
@@ -1007,6 +1013,7 @@ pour |Win|w to another of your own.
 
 0 BUY LIST SELL VALUE~
 Syntax: buy   <object>
+Syntax: buy   <index>.<object>
 Syntax: list
 Syntax: sell  <object>
 Syntax: value <object>
