@@ -12,10 +12,12 @@ def main(args):
                                       fallback="")
     obj["MY_SECRET_KEY"] = config.get("default", "aws_secret_access_key",
                                       fallback="")
-
+    if os.path.exists(args.output):
+        # work around foolishness from before
+        os.chmod(args.output, 0o600)
     with open(args.output, "w") as out:
         json.dump(obj, out)
-    os.chmod(args.output, 0o400)
+    os.chmod(args.output, 0o600)
 
 
 if __name__ == '__main__':

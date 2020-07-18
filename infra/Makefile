@@ -41,9 +41,9 @@ terraform: terraform-init $(TERRAFORM)  ## Apply any pending infrastructure chan
 
 PACKER_CONFIG=$(APPS_DIR)/packer-config.json
 
-$(PACKER_CONFIG): make_json.py | $(PYTHON)
+$(PACKER_CONFIG): make_json.py $(HOME)/.aws/credentials | $(PYTHON)
 	$(PYTHON) make_json.py $(PACKER_CONFIG)
 
 .PHONY: packer
-packer: $(PACKER) $(PACKER_CONFIG)
+packer: $(PACKER) $(PACKER_CONFIG)  ## Create a new Xania base image (AWS AMI image)
 	$(PACKER) build -timestamp-ui -var-file=$(PACKER_CONFIG) packer.json

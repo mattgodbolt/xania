@@ -7,7 +7,7 @@ for user_path in /tmp/ssh_users/*; do
   USERNAME=$(basename $user_path)
   if ! id "${USERNAME}" >/dev/null 2>&1; then
     echo "Adding user ${USERNAME}..."
-    useradd -m -s /bin/bash "${USERNAME}"
+    useradd -m "${USERNAME}"
     sudo --login -u "${USERNAME}" bash -c "mkdir -m 700 .ssh && cat ${user_path} > .ssh/authorized_keys"
     echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >"/etc/sudoers.d/99-${USERNAME}"
   fi
