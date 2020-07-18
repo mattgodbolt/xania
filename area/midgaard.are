@@ -1993,7 +1993,7 @@ A rolled up map is here.~
 paper~
 map 0 A
 1 0 0 0 0
-0 1 500 P
+0 1 100 P
 E
 map midgaard~
 .
@@ -2046,7 +2046,7 @@ A rolled up map is here.~
 paper~
 map 0 A
 1 0 0 0 0
-0 1 1500 P
+0 1 150 P
 E
 map Xania~
 .
@@ -2091,7 +2091,7 @@ A rolled up map is here.~
 paper~
 map 0 A
 1 0 0 0 0
-0 1 1000 P
+0 1 100 P
 E
 map southern midgaard~
 .
@@ -2144,7 +2144,7 @@ A rolled up map is here.~
 paper~
 map 0 A
 1 0 0 0 0
-0 1 750 P
+0 1 100 P
 E
 map dwarven kingdom dwarf~
 .
@@ -2193,7 +2193,7 @@ A rolled up map is here.~
 paper~
 map 0 A
 1 0 0 0 0
-0 1 1500 P
+0 1 150 P
 E
 map moria first~
 * * * MORIA - Map 1 * * *                                           To Mahn-Tor
@@ -2235,7 +2235,7 @@ A rolled up map is here.~
 paper~
 map 0 A
 1 0 0 0 0
-0 1 2500 P
+0 1 200 P
 E
 map new thalos~
 .
@@ -2299,7 +2299,7 @@ A rolled up map is here.~
 paper~
 map 0 A
 1 0 0 0 0
-0 1 2000 P
+0 1 250 P
 E
 map olympus~
 .
@@ -6201,10 +6201,10 @@ E 1 3022 900 16         wields a longsword
 *
 M 0 3001 1 3009 1  1        The baker  
 G 1 3009 -1    pie
-G 1 3011 -1    bread
-G 1 3012 -1    cookies
 G 1 3013 -1    roll
+G 1 3012 -1    cookies
 G 1 3014 -1    danish
+G 1 3011 -1    bread
 E 1 3022 100 16         wields a longsword
 *
 M 0 3008 1 3031 1  1        The Pet Shop Boy  
