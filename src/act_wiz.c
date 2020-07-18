@@ -1251,12 +1251,6 @@ void do_ostat( CHAR_DATA *ch, char *argument )
          case(DAM_HARM):
          sprintf(buf, "harm.\n\r");
          break;
-         case(NICKS_ACID):
-         sprintf(buf, "acid.\n\r");
-         break;
-         case(NICKS_LIGHTNING):
-         sprintf(buf, "lightning.\n\r");
-         break;
       default:
          sprintf(buf, "unknown!!!!\n\r");
          bug( "ostat: Unknown damage type %d", dam_type);

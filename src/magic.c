@@ -919,8 +919,7 @@ void spell_acid_wash( int sn, int level, CHAR_DATA *ch, void *vo)
       send_to_char("Acid and lightning don't mix.\n\r", ch);
       return;
    }
-   /* 31 */
-   obj->value[3] = NICKS_ACID;
+   obj->value[3] = ATTACK_TABLE_INDEX_ACID_WASH;
    SET_BIT(obj->value[4], WEAPON_ACID);
    send_to_char("With a mighty scream you draw acid from the earth.\n\rYou wash your weapon in the acid pool.\n\r", ch);
    return;
@@ -3150,8 +3149,7 @@ void spell_tame_lightning( int sn, int level, CHAR_DATA *ch, void *vo)
    }
 
    ch->gold -= (mana*100);
-   /* 28 */
-   obj->value[3] = NICKS_LIGHTNING;
+   obj->value[3] = ATTACK_TABLE_INDEX_TAME_LIGHTNING;
    SET_BIT(obj->value[4], WEAPON_LIGHTNING);
    send_to_char( "You summon a MASSIVE storm.\n\rHolding your weapon aloft you call lightning down from the sky. \n\rThe lightning swirls around it - you have |YTAMED|w the |YLIGHTNING|w.\n\r", ch);
 
