@@ -1,0 +1,15 @@
+[Unit]
+Description=Xania MUD
+
+[Service]
+Type=simple
+User=xania
+TimeoutStartSec=infinity
+WorkingDirectory=/home/xania/xania/infra
+ExecStart=/home/xania/xania/infra/start-xania.sh
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=xania
+
+[Install]
+WantedBy=multi-user.target
