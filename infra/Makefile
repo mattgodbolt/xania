@@ -37,7 +37,7 @@ terraform-init: $(TERRAFORM).init
 
 .PHONY: terraform
 terraform: terraform-init $(TERRAFORM)  ## Apply any pending infrastructure changes
-	$(TERRAFORM) apply terraformPACKER_CONFIG
+	$(TERRAFORM) apply terraform
 
 PACKER_CONFIG=$(APPS_DIR)/packer-config.json
 

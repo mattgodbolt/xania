@@ -20,7 +20,8 @@
       "ssh_username": "ubuntu",
       "ami_name": "Xania packer builder @ {{timestamp}}",
       "vpc_id": "vpc-08b1701cd28aea691",
-      "subnet_id": "subnet-0f97dd39aef934f3c"
+      "subnet_id": "subnet-0f97dd39aef934f3c",
+      "iam_instance_profile": "XaniaInstance"
     }
   ],
   "variables": {

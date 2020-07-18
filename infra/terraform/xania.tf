@@ -122,7 +122,7 @@ resource "aws_security_group_rule" "EgressToAnywhere" {
   description = "Allow egress to anywhere"
 }
 
-resource "aws_iam_instance_profile" "minecraft" {
+resource "aws_iam_instance_profile" "xania" {
   name = "XaniaInstance"
   role = aws_iam_role.xania.name
 }
@@ -165,9 +165,9 @@ resource "aws_iam_role_policy_attachment" "xania_attach_policy" {
 }
 
 resource "aws_instance" "XaniaNode" {
-  ami = "ami-04b9e92b5572fa0d1"
+  ami = "ami-0939cd33dec019846"
   instance_type = "t3a.small"
-  iam_instance_profile = aws_iam_instance_profile.minecraft.name
+  iam_instance_profile = aws_iam_instance_profile.xania.name
   monitoring = false
   key_name = "mattgodbolt"
   subnet_id = aws_subnet.xania-1a.id

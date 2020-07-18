@@ -2,15 +2,15 @@
 
 set -euo pipefail
 
+hostname mud.xania.org
 apt-get update
 apt-get upgrade -y
 apt-get install -y awscli git cmake ninja-build gcc g++ cronic
 apt-get autoremove -y
 
-useradd -m xania
+useradd -m -s /bin/bash xania
 sudo --login -u xania bash -c \
-  'git clone https://github.com/mattgodbolt/xania ' \
-  '&& crontab <$HOME/xania/infra/scripts/crontab.xania'
+  'git clone https://github.com/mattgodbolt/xania && crontab <$HOME/xania/infra/scripts/crontab.xania'
 
 pushd /root
 git clone https://github.com/mattgodbolt/xania
