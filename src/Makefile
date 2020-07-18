@@ -57,7 +57,7 @@ doorman: doorman.o
 	$(LINK) $(L_FLAGS) -o doorman doorman.o $(LIBS)
 
 TAGS:   
-	etags -dt *.c *.h
+	etags -D *.[ch] chat/*.hpp chat/*.C doorman/*.[ch]
 
 backup:
 	tar -zcvf ../area.tgz ../area/*.are ../area/*.lst ../area/chat.data 
