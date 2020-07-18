@@ -330,26 +330,10 @@ void boot_db(void) {
 
 			if ( strArea[0] == '-' ) {
 				fpArea = stdin;
-			} else {
-				char buffa[MAX_STRING_LENGTH];
-				/* TM added to allow gzipped areas :-> */
-				sprintf(buffa, "%s.gz", strArea);
-				if ( ( fpArea = fopen( buffa, "r" ) ) != NULL ) {
-					fclose(fpArea);
-					system("rm -f tmp.are");
-					sprintf(buffa,"gzip -dqc %s.gz > tmp.are", strArea);
-					system(buffa);
-					if ( (fpArea = fopen( "tmp.are", "r")) == NULL ) {
-						bug("Ooops - couldn't decompress file!");
-						exit(1);
-					}
-				} else {
-					if ( ( fpArea = fopen( strArea, "r" ) ) == NULL ) {
-						perror( strArea );
-						exit( 1 );
-					}
-				}
-			}
+			} else if ( ( fpArea = fopen( strArea, "r" ) ) == NULL ) {
+                                perror( strArea );
+                                exit( 1 );
+                        }
 
 			for ( ; ; ) {
 				char *word;

@@ -45,7 +45,7 @@ TIP_TYPE * tip_current;
    that could be wrong with the object */
 
 void objectbug( char *str, OBJ_INDEX_DATA *obj ) {
-   char buf[MAX_STRING_LENGTH];
+   char buf[MAX_STRING_LENGTH + 64];
    sprintf( buf,"obj> %s (#%d): %s", obj->short_descr, obj->vnum, str );
    log_string(buf);
 }

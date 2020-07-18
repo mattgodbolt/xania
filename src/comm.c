@@ -342,13 +342,17 @@ DECLARE_DO_FUN(do_save);
 static int doormanDesc = 0;
 
 /* Send a packet to doorman */
-void SendPacket (Packet *p, void *extra)
+bool SendPacket (Packet *p, void *extra)
 {
-     if (doormanDesc) {
-	  write (doormanDesc, (char *)p, sizeof (Packet));
-	  if (p->nExtra)
-	       write (doormanDesc, extra, p->nExtra);
-     }
+     // TODO: do something rather than return here if there's a failure
+     if (!doormanDesc) return false;
+      int bytesRead = write (doormanDesc, (char *)p, sizeof (Packet));
+      if (bytesRead != sizeof(Packet)) return false;
+      if (p->nExtra) {
+        bytesRead = write(doormanDesc, extra, p->nExtra);
+        if (bytesRead != sizeof(Packet)) return false;
+      }
+      return true;
 }
 void SetEchoState (DESCRIPTOR_DATA *d, int on)
 {
@@ -372,7 +376,7 @@ void sigterm( int signum )
    for (ch = char_list; ch; ch=ch->next) {
       if (!IS_NPC(ch)) {
          do_save(ch, "");
-         send_to_char( 
+         send_to_char(
          "|R******************************************\n\r"
          "**  The machine up which |WXania|R runs is  **\n\r"
 	 "**  being shut down for maintainance.   **\n\r"
@@ -397,7 +401,7 @@ void ext_shutdown( int signum ) {
    extern bool merc_down;
    CHAR_DATA *vch;
    CHAR_DATA *vch_next;
-   FILE *fp;   
+   FILE *fp;
    DESCRIPTOR_DATA *d,*d_next;
 
    sprintf( buf, "Shutdown requested by operating system." );
@@ -410,18 +414,18 @@ void ext_shutdown( int signum ) {
            fputs(buf, fp);
 	   fclose( fp );
    }
-   
+
    fpReserve = fopen( NULL_FILE, "r" );
    log_string( buf );
    /* ask everyone to save! */
    for ( vch = char_list; vch != NULL; vch = vch_next ) {
 	   vch_next = vch->next;
-	   
+
 	   // vch->d->c check added by TM to avoid crashes when
 	   // someone hasn't logged in but the mud is shut down
 	   if ( !IS_NPC(vch) && vch->desc && vch->desc->connected == CON_PLAYING)   {
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-		   MOBtrigger = FALSE;		   
+		   MOBtrigger = FALSE;
 		   do_save(vch, "");
 		   send_to_char( "|RXania has been asked to shutdown by the operating system.|w\n\r", vch );
 		   if (vch->desc && vch->desc->outtop > 0)
@@ -642,7 +646,7 @@ int init_socket (char *file)
       exit(1);
    }
 
-   log_string ("Waiting for doorman...");  
+   log_string ("Waiting for doorman...");
    size = sizeof(sa);
    if ( ( doormanDesc = accept (fd, (struct sockaddr *) &sa, &size) ) < 0 ) {
 	log_string ("Unable to accept doorman...booting anyway");
@@ -894,8 +898,9 @@ void game_loop_unix( int control )
 		    } else {
 			 char logMes[18 * 1024];
 			 if (p.nExtra) {
-			      read (doormanDesc, buffer, p.nExtra);
+			      nBytes += read (doormanDesc, buffer, p.nExtra);
 			 }
+                         // TODO check nBytes and blow up if we get partial messages from doorman
 			 switch (p.type) {
 			 case PACKET_CONNECT:
 			      sprintf (logMes, "Incoming connection on channel %d.", p.channel);
@@ -936,7 +941,7 @@ void game_loop_unix( int control )
 					d->outtop   = 0;
 					if (d->connected == CON_PLAYING)
 					     d->connected = CON_DISCONNECTING;
-					else 
+					else
 					     d->connected = CON_DISCONNECTING_NP;
 					close_socket (d);
 					break;
@@ -1208,7 +1213,7 @@ DESCRIPTOR_DATA *new_descriptor (int channel)
    /*
     * Send the greeting.
     */
-   {	
+   {
       extern char * help_greeting;
       if ( help_greeting[0] == '.' )
          write_to_buffer( dnew, help_greeting+1, 0 );
@@ -1263,8 +1268,8 @@ void close_socket (DESCRIPTOR_DATA *dclose)
          free_char( dclose->original?dclose->original:dclose->character );
       }
    } else {
-	/* 
-	 * New code: debug connections that haven't logged in properly 
+	/*
+	 * New code: debug connections that haven't logged in properly
 	 * ...at least for level 100s
 	 */
 	sprintf (log_buf, "Closing link to descriptor %d.", dclose->descriptor);
@@ -1646,7 +1651,7 @@ bool write_to_descriptor(int desc, char *txt, int length )
    for ( iStart = 0; iStart < length; iStart += nWrite )
    {
       nBlock = UMIN( length - iStart, 4096 );
-      
+
       p.nExtra = nBlock;
       SendPacket (&p, txt+iStart);
       nWrite = p.nExtra;
@@ -1807,7 +1812,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
 
       if ( check_playing( d, ch->name ) )
          return;
-     
+
       if ( check_reconnect( d, ch->name, TRUE ) )
          return;
 
@@ -1819,7 +1824,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
 
       write_to_buffer (d, "Does your terminal support ANSI colour (Y/N/Return = as saved)?", 0);
       d->connected = (d->connected == CON_CIRCUMVENT_PASSWORD) ?
-		CON_READ_MOTD : 
+		CON_READ_MOTD :
 	  CON_GET_ANSI;
 
       break;
@@ -2179,7 +2184,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
          write_to_buffer( d, "\n\r", 2 );
 	 write_to_buffer (d, "Does your terminal support ANSI colour (Y/N/Return = as saved)?", 0);
 	 d->connected = CON_GET_ANSI;
-	 
+
 	 break;
       default:
          write_to_buffer( d, "Please answer (Y/N)? ", 0 );
@@ -2236,8 +2241,8 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
 		  p.nExtra = strlen (ch->name) + 1;
 		  SendPacket (&p, ch->name);
 	  }
-	  
-	  
+
+
 
       if ( ch->level == 0 )
       {
@@ -2276,7 +2281,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
 	 send_to_char( "|WTip: this is Xania's tip wizard! Type 'tips' to turn this on or off.|w\n\r", ch );
 	 /* turn on the newbie's tips */
 	 set_extra( ch, EXTRA_TIP_WIZARD );
-    
+
 
       }
       else if ( ch->in_room != NULL )
@@ -2319,7 +2324,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
 
       /* check notes */
       notes = note_count(ch);
-      
+
       if (notes > 0) {
          sprintf(buf,"\n\rYou have %d new note%s waiting.\n\r", notes,
          		(notes == 1) ? "" : "s");
@@ -2729,10 +2734,10 @@ void act_new( const char *format, CHAR_DATA *ch, const void *arg1, const void *a
 			bug( "Act: null vch with TO_VICT.", 0 );
 			return;
 		}
-		
+
 		if (vch->in_room == NULL)
 			return;
-		
+
 		to = vch->in_room->people;
 	}
 
@@ -2856,7 +2861,7 @@ void act_new( const char *format, CHAR_DATA *ch, const void *arg1, const void *a
       /*        buf[0]   = UPPER(buf[0]); */
 
       /*      write_to_buffer( to->desc, buf, point - buf ); used to be this */
-      if ( (type == TO_ROOM && to == ch) || 
+      if ( (type == TO_ROOM && to == ch) ||
 	   (type == TO_NOTVICT && (to == ch || to == vch)))
       {
 	/* Ignore them */
@@ -2885,7 +2890,7 @@ void act_new( const char *format, CHAR_DATA *ch, const void *arg1, const void *a
          }
       }
    }
-   
+
 
    return;
 }
@@ -2910,12 +2915,12 @@ void show_prompt( DESCRIPTOR_DATA *d, char *prompt )
 
    if (!IS_NPC(ch) && (ch->pcdata->colour))
       send_to_char("|p", ch);
-   
+
    if ( IS_NPC(ch) ) {
       if ( ch->desc->original )
          ch_prefix = ch->desc->original;
    } else ch_prefix = ch;
-   
+
    if (prompt == NULL || prompt[0] == '\0') {
       sprintf( buf, "<%d/%dhp %d/%dm %dmv> |w", ch->hit, ch->max_hit,
       ch->mana, ch->max_mana, ch->move);

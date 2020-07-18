@@ -7,7 +7,6 @@
 /*                                                                       */
 /*************************************************************************/
 
-
 /*
  * Doorman.c
  * Stand-alone 'doorman' for the MUD
@@ -51,7 +50,7 @@
 // Data is bloody well unsigned - I still maintain that char should be! ;)
 typedef unsigned char byte;
 
-void IncomingData(int fd, byte *buffer, int nBytes);
+bool IncomingData(int fd, byte *buffer, int nBytes);
 void SendConnectPacket(int i);
 void SendInfoPacket(int i);
 void ProcessIdent(struct sockaddr_in address, int resultFd);
@@ -87,7 +86,7 @@ fd_set ifds;
 int debug = 0;
 
 /* printf() to an fd */
-void fdprintf(int fd, char *format, ...) {
+bool fdprintf(int fd, char *format, ...) {
   char buffer[4096];
   int len;
 
@@ -95,11 +94,12 @@ void fdprintf(int fd, char *format, ...) {
   va_start(args, format);
   len = vsprintf(buffer, format, args);
   va_end(args);
-  write(fd, buffer, len);
+  int numWritten = write(fd, buffer, len);
+  return numWritten == len;
 }
 
 /* printf() to a channel */
-void cprintf(int chan, char *format, ...) {
+bool cprintf(int chan, char *format, ...) {
   char buffer[4096];
   int len;
 
@@ -107,7 +107,8 @@ void cprintf(int chan, char *format, ...) {
   va_start(args, format);
   len = vsprintf(buffer, format, args);
   va_end(args);
-  write(channel[chan].fd, buffer, len);
+  int numWritten = write(channel[chan].fd, buffer, len);
+  return numWritten == len;
 }
 
 /* printf() to everyone */
@@ -121,8 +122,10 @@ void wall(char *format, ...) {
   va_end(args);
 
   for (chan = 0; chan < CHANNEL_MAX; ++chan)
-    if (channel[chan].fd)
-      write(channel[chan].fd, buffer, len);
+    if (channel[chan].fd) {
+      int numWritten = write(channel[chan].fd, buffer, len);
+      (void)numWritten;
+    }
 }
 
 /* log_out() replaces fprintf (stder,...) */
@@ -301,14 +304,14 @@ bool SupportsAnsi(const char *src) {
   return false;
 }
 
-void SendCom(int fd, char a, char b) {
+bool SendCom(int fd, char a, char b) {
   byte buf[4];
   buf[0] = IAC;
   buf[1] = a;
   buf[2] = b;
-  write(fd, buf, 3);
+  return write(fd, buf, 3) == 3;
 }
-void SendOpt(int fd, char a) {
+bool SendOpt(int fd, char a) {
   byte buf[6];
   buf[0] = IAC;
   buf[1] = SB;
@@ -316,7 +319,7 @@ void SendOpt(int fd, char a) {
   buf[3] = TELQUAL_SEND;
   buf[4] = IAC;
   buf[5] = SE;
-  write(fd, buf, 6);
+  return write(fd, buf, 6) == 6;
 }
 
 void IncomingIdentInfo(int chan, int fd) {
@@ -337,16 +340,22 @@ void IncomingIdentInfo(int chan, int fd) {
     log_out("Ident responded with >1k - possible spam attack");
     numBytes = 1023;
   }
-  read(fd, buffer, numBytes);
+  int numRead = read(fd, buffer, numBytes);
   buffer[numBytes] = '\0'; // ensure zero-termedness
   FD_CLR(fd, &ifds);
   close(fd);
   channel[chan].identFd[0] = channel[chan].identFd[1] = 0;
   channel[chan].identPid = 0;
 
+  if (numRead != numBytes) {
+    log_out("[%d] Partial read %d!=%d", chan, numRead, numBytes);
+    return;
+  }
+
   spc = strchr(buffer, ' ');
   if (spc == NULL) {
     log_out("[%d] Garbled response from ident server (%s)", chan, buffer);
+    return;
   } else {
     // Free any previous data
     if (channel[chan].username)
@@ -362,12 +371,12 @@ void IncomingIdentInfo(int chan, int fd) {
   SendInfoPacket(chan);
 }
 
-void IncomingData(int fd, byte *buffer, int nBytes) {
+bool IncomingData(int fd, byte *buffer, int nBytes) {
   int chan = FindChannel(fd);
 
   if (chan == -1) {
     log_out("Oh dear - I got data on fd %d, but no channel!", fd);
-    return;
+    return false;
   }
 
   if (buffer) {
@@ -376,10 +385,13 @@ void IncomingData(int fd, byte *buffer, int nBytes) {
 
     /* Check for buffer overflow */
     if ((nBytes + channel[chan].nBytes) > INCOMING_BUFFER_SIZE) {
-      char *ovf = ">>> Too much incoming data at once - PUT A LID ON IT!!\n\r";
-      write(fd, ovf, strlen(ovf));
+      const char *ovf =
+          ">>> Too much incoming data at once - PUT A LID ON IT!!\n\r";
+      if (write(fd, ovf, strlen(ovf)) != (ssize_t)strlen(ovf)) {
+        // don't care if this fails..
+      }
       channel[chan].nBytes = 0;
-      return;
+      return false;
     }
     /* Add the data into the buffer */
     memcpy(&channel[chan].buffer[channel[chan].nBytes], buffer, nBytes);
@@ -444,7 +456,7 @@ void IncomingData(int fd, byte *buffer, int nBytes) {
             break;
           }
           sbType = *(ptr + 2);
-//          sbWhat = *(ptr + 3);
+          //          sbWhat = *(ptr + 3);
           /* Now read up to the IAC SE */
           eob = ptr + nLeft - 1;
           for (p = ptr + 4; p < eob; ++p)
@@ -508,9 +520,12 @@ void IncomingData(int fd, byte *buffer, int nBytes) {
           p.type = PACKET_MESSAGE;
           p.channel = chan;
           p.nExtra = strlen((const char *)channel[chan].buffer) + 2;
-          write(mudFd, &p, sizeof(p));
-          write(mudFd, channel[chan].buffer, p.nExtra - 2);
-          write(mudFd, "\n\r", 2);
+          if (write(mudFd, &p, sizeof(p)) != sizeof(p))
+            return false;
+          if (write(mudFd, channel[chan].buffer, p.nExtra - 2) != p.nExtra - 2)
+            return false;
+          if (write(mudFd, "\n\r", 2) != 2)
+            return false;
         } else {
           // XXX NEED TO STORE DATA HERE
         }
@@ -536,6 +551,7 @@ void IncomingData(int fd, byte *buffer, int nBytes) {
     SendCom(fd, DO, TELOPT_NAWS);
     SendCom(fd, WONT, TELOPT_ECHO);
   }
+  return true;
 }
 
 /*********************************/
@@ -548,7 +564,7 @@ void IdentPipeHandler(int ignored) {
 }
 
 void ProcessIdent(struct sockaddr_in address, int outFd) {
-  char buf[1024];
+  char buf[1024 + 64];
   struct sockaddr_in authServer;
   struct hostent *ent;
   int sock;
@@ -611,7 +627,11 @@ void ProcessIdent(struct sockaddr_in address, int outFd) {
   } else {
     char buf[1024];
     sprintf(buf, "%u , %u\n\r", theirPort, port);
-    write(sock, buf, strlen(buf));
+    if (write(sock, buf, strlen(buf)) != (ssize_t)strlen(buf)) {
+      log_out("ID: Unable to write to socket");
+      close(sock);
+      return;
+    }
     nBytes = read(sock, buf, sizeof(buf));
     if (nBytes > 0) {
       char *foo = buf;
@@ -629,14 +649,16 @@ void ProcessIdent(struct sockaddr_in address, int outFd) {
       *foo = '\0';
     } else {
       log_out("ID: Unable to read from socket");
+      close(sock);
+      return;
     }
   }
 
   close(sock);
 
   nBytes = sprintf(buf, "%s %s", userName, hostName) + 1;
-  write(outFd, &nBytes, sizeof(nBytes));
-  if (write(outFd, buf, nBytes) < 0) {
+  int header_written = write(outFd, &nBytes, sizeof(nBytes));
+  if (header_written != sizeof(nBytes) || write(outFd, buf, nBytes) != nBytes) {
     log_out("ID: Unable to write to doorman - perhaps it crashed (%d, %s)",
             errno, strerror(errno));
   } else {
@@ -648,12 +670,12 @@ void ProcessIdent(struct sockaddr_in address, int outFd) {
 
 void SendToMUD(Packet *p, void *payload) {
   if (connected && mudFd != -1) {
-    if (write(mudFd, p, sizeof(Packet)) < 0) {
+    if (write(mudFd, p, sizeof(Packet)) != sizeof(Packet)) {
       perror("SendToMUD");
       exit(1);
     }
     if (p->nExtra)
-      if (write(mudFd, payload, p->nExtra) < 0) {
+      if (write(mudFd, payload, p->nExtra) != p->nExtra) {
         perror("SendToMUD");
         exit(1);
       }
@@ -786,7 +808,10 @@ void TryToConnectToXania(void) {
     log_out("Connection attempt to MUD failed.");
     for (chanFirst = 0; chanFirst < CHANNEL_MAX; ++chanFirst) {
       if (channel[chanFirst].fd && channel[chanFirst].firstReconnect == false) {
-        write(channel[chanFirst].fd, recon, strlen(recon));
+        if (write(channel[chanFirst].fd, recon, strlen(recon)) !=
+            (ssize_t)strlen(recon)) {
+          log_out("Unable to write to channel %d", chanFirst);
+        }
         channel[chanFirst].firstReconnect = true;
       }
     }
@@ -807,21 +832,31 @@ void ProcessMUDMessage(int fd) {
 
   nBytes = read(fd, (char *)&p, sizeof(Packet));
 
-  if (nBytes == 0) {
+  if (nBytes != sizeof(Packet)) {
     log_out("doorman::Connection to MUD lost");
     MudHasCrashed(0);
   } else {
     char payload[16384];
-    if (p.nExtra)
-      read(fd, payload, p.nExtra);
+    if (p.nExtra) {
+      if (p.nExtra > sizeof(payload)) {
+        log_out("payload too big: %d!", p.nExtra);
+        MudHasCrashed(0);
+        return;
+      }
+      int num_read = read(fd, payload, p.nExtra);
+      if (num_read != (int)p.nExtra) {
+        log_out("doorman::Connection to MUD lost");
+        MudHasCrashed(0);
+        return;
+      }
+    }
     switch (p.type) {
     case PACKET_MESSAGE:
       /* A message from the MUD */
       if (p.channel >= 0) {
-        int nBytes;
-        nBytes = write(channel[p.channel].fd, payload, p.nExtra);
-        if (nBytes <= 0) {
-          if (nBytes < 0) {
+        int bytes_written = write(channel[p.channel].fd, payload, p.nExtra);
+        if (bytes_written <= 0) {
+          if (bytes_written < 0) {
             log_out("[%d] Received error %d (%s) on write - closing connection",
                     p.channel, errno, strerror(errno));
           }
