@@ -1,9 +1,9 @@
 /*************************************************************************/
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
-/*  (C) 1995-2000 Xania Development Team                                    */
+/*  (C) 1995-2000 Xania Development Team                                 */
 /*  See the header to file: merc.h for original code copyrights          */
 /*                                                                       */
-/*  handler.c:  a core module with a huge amount of utility functions    */
+/*  lookup.c: lookup functions                                           */
 /*                                                                       */
 /*************************************************************************/
 /***************************************************************************
