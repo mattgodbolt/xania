@@ -965,7 +965,7 @@ A big pot pie has been left here.~
 food~
 food 0 A
 40 0 0 0 0
-0 2 100 P
+0 2 40 P
 #3010
 pit~
 the donation pit~
@@ -985,7 +985,7 @@ a bread~
 A loaf of bread is here. It doesn't look too stale.~
 food~
 food 0 A
-12 0 0 0 0
+10 0 0 0 0
 0 1 10 P
 #3012
 cinnamon roll~
@@ -993,24 +993,24 @@ a cinnamon roll~
 A piping hot cinnamon roll is here. It looks delicious!~
 food~
 food 0 A
-8 0 0 0 0
-0 1 25 P
+13 0 0 0 0
+0 1 13 P
 #3013
 biscuits~
 a packet of Cholmondley-Warner's finest biscuits~
 A packet of biscuits lies here.~
 food~
 food 0 A
-10 0 0 0 0
-0 1 40 P
+18 0 0 0 0
+0 1 18 P
 #3014
 danish blueberry~
 a blueberry danish~
 A scrumptious blueberry danish is here.~
 food~
 food 0 A
-6 0 0 0 0
-0 1 18 P
+15 0 0 0 0
+0 1 15 P
 #3020
 dagger~
 a dagger~
@@ -2930,7 +2930,7 @@ Before you stands the finest, exquisitely polished mahogany serving
 counter you have ever clapped your eyes upon. Below it, a display case
 has been built in, exhibiting the fine works of Mister Cholmondley-Warner's 
 team of bakers. Your mouth begins to water as the delicious aroma
-assails your nostrils. 
+assails your nostrils.  If you're getting hungry, buy some bread!
 A small sign is on the counter.
 ~
 30 8 0
@@ -2946,6 +2946,8 @@ Free instructions provided by Mister Cholmondley-Warner:
    Buy  - Will buy you some bread or pastry.
    List - The baker will kindly tell you the price and sort of the bread in
           his bakery.
+Tip: buy the cheaper food to start with. The more expensive items
+simply last a little longer.
 ~
 S
 #3010
