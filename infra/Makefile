@@ -5,15 +5,28 @@ default: help
 help: # with thanks to Ben Rady
 	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
+PACKER_VERSION:=1.6.0
 TERRAFORM_VERSION:=0.12.28
 
 APPS_DIR=$(CURDIR)/.apps
 TERRAFORM=$(APPS_DIR)/terraform-${TERRAFORM_VERSION}/terraform
+PACKER=$(APPS_DIR)/packer-${PACKER_VERSION}/packer
+PYTHON:=$(shell which python3 || echo .python3-not-found)
 
+$(PYTHON):
+	echo "Unable to find a python installation"
+	exit 1
+
+# Perhaps consider macros if it wasn't so painful
 $(TERRAFORM):
 	@mkdir -p $(dir $(TERRAFORM))
 	curl -sL -o $(APPS_DIR)/terraform-$(TERRAFORM_VERSION).zip https://releases.hashicorp.com/terraform/$(TERRAFORM_VERSION)/terraform_$(TERRAFORM_VERSION)_linux_amd64.zip
 	unzip $(APPS_DIR)/terraform-$(TERRAFORM_VERSION).zip -d $(dir $(TERRAFORM))
+
+$(PACKER):
+	@mkdir -p $(dir $(PACKER))
+	curl -sL -o $(APPS_DIR)/packer-$(PACKER_VERSION).zip https://releases.hashicorp.com/packer/$(PACKER_VERSION)/packer_$(PACKER_VERSION)_linux_amd64.zip
+	unzip $(APPS_DIR)/packer-$(PACKER_VERSION).zip -d $(dir $(PACKER))
 
 $(TERRAFORM).init: $(TERRAFORM) terraform/main.tf
 	$(TERRAFORM) init terraform
@@ -24,4 +37,13 @@ terraform-init: $(TERRAFORM).init
 
 .PHONY: terraform
 terraform: terraform-init $(TERRAFORM)  ## Apply any pending infrastructure changes
-	$(TERRAFORM) apply terraform
+	$(TERRAFORM) apply terraformPACKER_CONFIG
+
+PACKER_CONFIG=$(APPS_DIR)/packer-config.json
+
+$(PACKER_CONFIG): make_json.py | $(PYTHON)
+	$(PYTHON) make_json.py $(PACKER_CONFIG)
+
+.PHONY: packer
+packer: $(PACKER) $(PACKER_CONFIG)
+	$(PACKER) build -timestamp-ui -var-file=$(PACKER_CONFIG) packer.json
