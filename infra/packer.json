@@ -1,0 +1,47 @@
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu/images/*ubuntu-*-20.04-amd64-server-*",
+          "root-device-type": "ebs"
+        },
+        "owners": [
+          "099720109477"
+        ],
+        "most_recent": true
+      },
+      "instance_type": "c5.xlarge",
+      "ssh_username": "ubuntu",
+      "ami_name": "Xania packer builder @ {{timestamp}}",
+      "vpc_id": "vpc-08b1701cd28aea691",
+      "subnet_id": "subnet-0f97dd39aef934f3c"
+    }
+  ],
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "scripts",
+      "destination": "/tmp/install/"
+    },
+    {
+      "type": "shell",
+      "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "inline": [
+        "set -e",
+        "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
+        "export DEBIAN_FRONTEND=noninteractive",
+        "cd /tmp/install && ./setup.sh"
+      ]
+    }
+  ]
+}

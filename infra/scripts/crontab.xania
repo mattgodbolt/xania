@@ -1,0 +1,6 @@
+#MAILTO=TODO
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# m h  dom mon dow   command
+00 00 * * * cronic bash -c "git -C $HOME/xania pull -q"
+05 00 * * * cronic bash -c "crontab <$HOME/xania/infra/scripts/crontab.xania"
