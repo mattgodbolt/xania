@@ -165,7 +165,7 @@ resource "aws_iam_role_policy_attachment" "xania_attach_policy" {
 }
 
 resource "aws_instance" "XaniaNode" {
-  ami = "ami-0939cd33dec019846"
+  ami = "ami-03bd6c18a631bc24a"
   instance_type = "t3a.small"
   iam_instance_profile = aws_iam_instance_profile.xania.name
   monitoring = false
