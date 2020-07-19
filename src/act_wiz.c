@@ -2066,7 +2066,6 @@ void do_reboot( CHAR_DATA *ch, char *argument )
   (void)argument;
    char buf[MAX_STRING_LENGTH];
    extern bool merc_down;
-   DESCRIPTOR_DATA *d,*d_next;
 
    if (!IS_SET(ch->act,PLR_WIZINVIS))
    {
@@ -2076,12 +2075,12 @@ void do_reboot( CHAR_DATA *ch, char *argument )
    do_force ( ch, "all save");
    do_save (ch, "");
    merc_down = TRUE;
-   for ( d = descriptor_list; d != NULL; d = d_next )
-   {
-      d_next = d->next;
-      close_socket(d);
-   }
-
+   // Unlike do_shutdown(), do_reboot() does not explicitly call close_socket()
+   // for every connected player. That's because close_socket() actually
+   // sends a PACKET_DISCONNECT to doorman, causing the client to get booted and
+   // that's not the desired behaviour. Instead, setting the merc_down flag will
+   // cause the main process to terminate while doorman holds onto the client's
+   // connection and then reconnect them to the mud once it's back up.
    return;
 }
 
