@@ -156,7 +156,7 @@ char *print_flags(const int value) {
   static char table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef";
   buf[0]='\0';
   if (value==0) {
-    sprintf( buf, "0");
+    snprintf( buf, sizeof(buf), "0");
     return (char *)&buf;
   }
 
@@ -273,7 +273,7 @@ void find_limits( AREA_DATA *area, int *lower, int *higher ) {
    for ( ; room_vnum < 32768 ; room_vnum++) {
       if ( (room = get_room_index(room_vnum)) != NULL) {
          if (room->area == area) {
-            sprintf(buf, "%d", room_vnum);
+            snprintf(buf, sizeof(buf), "%d", room_vnum);
             for (ptr = (buf+2) ; *ptr ; ptr++)
                *ptr = '0';
             *lower = atoi(buf);

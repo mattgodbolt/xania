@@ -67,7 +67,7 @@ PC_DATA * pcdata_free;
 char bug_buf [2*MAX_INPUT_LENGTH];
 CHAR_DATA * char_list;
 char * help_greeting;
-char log_buf [2*MAX_INPUT_LENGTH];
+char log_buf [LOG_BUF_SIZE];
 KILL_DATA kill_table [MAX_LEVEL];
 OBJ_DATA * object_list;
 TIME_INFO_DATA time_info;
@@ -1068,7 +1068,7 @@ void validate_resets(void) {
 					case 'M':
 						if(!(get_mob_index  ( pReset->arg1 ))) {
 							Okay=FALSE;
-							sprintf(buf,"Get_mob_index: bad vnum %d in reset in room %d.",
+							snprintf(buf, sizeof(buf), "Get_mob_index: bad vnum %d in reset in room %d.",
 									pReset->arg1,pRoom->vnum);
 							bug(buf,0);
 						}
@@ -1079,7 +1079,7 @@ void validate_resets(void) {
 							temp_index->reset_num++;
 						else {
 							Okay=FALSE;
-							sprintf(buf,"Get_obj_index: bad vnum %d in reset in room %d.",
+							snprintf(buf, sizeof(buf), "Get_obj_index: bad vnum %d in reset in room %d.",
 									pReset->arg1,pRoom->vnum);
 							bug(buf,0);
 						}
@@ -1090,7 +1090,7 @@ void validate_resets(void) {
 							temp_index->reset_num++;
 						else {
 							Okay=FALSE;
-							sprintf(buf,"Get_obj_index: bad vnum %d in reset in room %d.",
+							snprintf(buf, sizeof(buf), "Get_obj_index: bad vnum %d in reset in room %d.",
 									pReset->arg1,pRoom->vnum);
 							bug(buf,0);
 						}
@@ -1102,7 +1102,7 @@ void validate_resets(void) {
 							temp_index->reset_num++;
 						else {
 							Okay=FALSE;
-							sprintf(buf,"Get_obj_index: bad vnum %d in reset in room %d.",
+							snprintf(buf, sizeof(buf), "Get_obj_index: bad vnum %d in reset in room %d.",
 									pReset->arg1,pRoom->vnum);
 							bug(buf,0);
 						}
@@ -1362,7 +1362,7 @@ void fix_exits( void ) {
 						&& ( pexit_rev = to_room->exit[rev_dir[door]] ) != NULL
 						&& pexit_rev->u1.to_room != pRoomIndex
 						&& (pRoomIndex->vnum < 1200 || pRoomIndex->vnum > 1299)) {
-					sprintf( buf, "Fix_exits: %d:%d -> %d:%d -> %d.",
+					snprintf( buf, sizeof(buf), "Fix_exits: %d:%d -> %d:%d -> %d.",
 							pRoomIndex->vnum, door, to_room->vnum, rev_dir[door],
 							(pexit_rev->u1.to_room == NULL) ?
 							0 : pexit_rev->u1.to_room->vnum );
@@ -3105,7 +3105,7 @@ void do_areas( CHAR_DATA *ch, char *argument )
 	     pArea2rating = cCode;
 	     nFound++;
 	     // And shift out
-	     sprintf (buf, "%s%-39s%s%-39s|w\n\r",
+	     snprintf (buf, sizeof(buf), "%s%-39s%s%-39s|w\n\r",
 		      pArea1rating, pArea1->name, 
 		      pArea2rating, pArea2->name);
 	     send_to_char (buf, ch);
@@ -3115,12 +3115,12 @@ void do_areas( CHAR_DATA *ch, char *argument )
    // Check for any straggling lines
    if (pArea1)
    {
-	sprintf(buf, "%s%-39s|w\n\r", pArea1rating, pArea1->name);
+	snprintf(buf, sizeof(buf), "%s%-39s|w\n\r", pArea1rating, pArea1->name);
 	send_to_char (buf, ch);
    }
    if (nFound)
    {
-	sprintf (buf, "\n\rAreas found: %d\n\r", 
+	snprintf (buf, sizeof(buf), "\n\rAreas found: %d\n\r", 
 		 nFound);
 	send_to_char(buf, ch);
    } else {
@@ -3134,36 +3134,36 @@ void do_memory( CHAR_DATA *ch, char *argument )
   (void)argument;
    char buf[MAX_STRING_LENGTH];
 
-   sprintf( buf, "Affects %5d\n\r", top_affect    );
+   snprintf( buf, sizeof(buf), "Affects %5d\n\r", top_affect    );
    send_to_char( buf, ch );
-   sprintf( buf, "Areas   %5d\n\r", top_area      );
+   snprintf( buf, sizeof(buf),"Areas   %5d\n\r", top_area      );
    send_to_char( buf, ch );
-   sprintf( buf, "ExDes   %5d\n\r", top_ed        );
+   snprintf( buf, sizeof(buf), "ExDes   %5d\n\r", top_ed        );
    send_to_char( buf, ch );
-   sprintf( buf, "Exits   %5d\n\r", top_exit      );
+   snprintf( buf, sizeof(buf), "Exits   %5d\n\r", top_exit      );
    send_to_char( buf, ch );
-   sprintf( buf, "Helps   %5d\n\r", top_help      );
+   snprintf( buf, sizeof(buf), "Helps   %5d\n\r", top_help      );
    send_to_char( buf, ch );
-   sprintf( buf, "Socials %5d\n\r", social_count  );
+   snprintf( buf, sizeof(buf), "Socials %5d\n\r", social_count  );
    send_to_char( buf, ch );
-   sprintf( buf, "Mobs    %5d(%d new format)\n\r", top_mob_index,newmobs );
+   snprintf( buf, sizeof(buf), "Mobs    %5d(%d new format)\n\r", top_mob_index,newmobs );
    send_to_char( buf, ch );
-   sprintf( buf, "(in use)%5d\n\r", mobile_count  );
+   snprintf( buf, sizeof(buf), "(in use)%5d\n\r", mobile_count  );
    send_to_char( buf, ch );
-   sprintf( buf, "Objs    %5d(%d new format)\n\r", top_obj_index,newobjs );
+   snprintf( buf, sizeof(buf), "Objs    %5d(%d new format)\n\r", top_obj_index,newobjs );
    send_to_char( buf, ch );
-   sprintf( buf, "Resets  %5d\n\r", top_reset     );
+   snprintf( buf, sizeof(buf), "Resets  %5d\n\r", top_reset     );
    send_to_char( buf, ch );
-   sprintf( buf, "Rooms   %5d\n\r", top_room      );
+   snprintf( buf, sizeof(buf), "Rooms   %5d\n\r", top_room      );
    send_to_char( buf, ch );
-   sprintf( buf, "Shops   %5d\n\r", top_shop      );
+   snprintf( buf, sizeof(buf), "Shops   %5d\n\r", top_shop      );
    send_to_char( buf, ch );
 
-   sprintf( buf, "Strings %5d strings of %7d bytes (max %d).\n\r",
+   snprintf( buf, sizeof(buf), "Strings %5d strings of %7d bytes (max %d).\n\r",
    nAllocString, sAllocString, MAX_STRING );
    send_to_char( buf, ch );
 
-   sprintf( buf, "Perms   %5d blocks  of %7d bytes.\n\r",
+   snprintf( buf, sizeof(buf), "Perms   %5d blocks  of %7d bytes.\n\r",
    nAllocPerm, sAllocPerm );
    send_to_char( buf, ch );
 
@@ -3684,7 +3684,7 @@ MPROG_DATA* mprog_file_read( char* f, MPROG_DATA* mprg,
 	bool done=FALSE;
 	char MOBProgfile[MAX_INPUT_LENGTH];
 
-	sprintf( MOBProgfile, "%s%s", MOB_DIR, f );
+	snprintf( MOBProgfile, sizeof(MOBProgfile), "%s%s", MOB_DIR, f );
 	progfile=fopen(MOBProgfile,"r");
 	if (!progfile)
 		{

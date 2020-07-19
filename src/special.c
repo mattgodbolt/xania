@@ -458,7 +458,7 @@ bool spec_greasy_joe( CHAR_DATA *ch )
 
    if (number_percent() > 99)
    {
-      sprintf(buf, "...with onions?...");
+      snprintf(buf, sizeof(buf), "...with onions?...");
       do_say(ch, buf);
    }
    return TRUE;
@@ -778,7 +778,7 @@ bool spec_executioner( CHAR_DATA *ch )
    if ( victim == NULL )
       return FALSE;
 
-   sprintf( buf, "%s is a %s!  PROTECT THE INNOCENT!  MORE BLOOOOD!!!",
+   snprintf( buf, sizeof(buf), "%s is a %s!  PROTECT THE INNOCENT!  MORE BLOOOOD!!!",
    victim->name, crime );
    do_yell( ch, buf );
    multi_hit( ch, victim, TYPE_UNDEFINED );
@@ -877,17 +877,17 @@ bool spec_puff( CHAR_DATA *ch )
       return TRUE;
    else if ( silliness <= 30)
    {
-      sprintf( buf, "Tongue-tied and twisted, just an earthbound misfit, ...");
+      snprintf( buf, sizeof(buf), "Tongue-tied and twisted, just an earthbound misfit, ...");
       do_say ( ch, buf);
    }
    else if ( silliness <= 40)
    {
-      sprintf( buf, "The colors, the colors!");
+      snprintf( buf, sizeof(buf), "The colors, the colors!");
       do_say ( ch, buf);
    }
    else if ( silliness <= 55)
    {
-      sprintf( buf, "Did you know that I'm written in C?");
+      snprintf( buf, sizeof(buf), "Did you know that I'm written in C?");
       do_say ( ch, buf);
    }
    else if ( silliness <= 75)
@@ -1045,7 +1045,7 @@ bool spec_guard( CHAR_DATA *ch )
 
    if ( victim != NULL )
    {
-      sprintf( buf, "%s is a %s!  PROTECT THE INNOCENT!!  BANZAI!!",
+      snprintf( buf, sizeof(buf), "%s is a %s!  PROTECT THE INNOCENT!!  BANZAI!!",
       victim->name, crime );
       do_yell( ch, buf );
       multi_hit( ch, victim, TYPE_UNDEFINED );

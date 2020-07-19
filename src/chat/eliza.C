@@ -63,24 +63,6 @@ void eliza::reducespaces(char *m)
   if(count) m[count]='\0';
 }
 
-
-int subst(char start[],char sub1[],char sub2[])
-{
-  int ln1=strlen(sub1),changed=0;
-  char s[MAXSIZE];
-  while((start=strstr(start,sub1))!=NULL)
-    {
-      changed=1;
-      for(int i=0;i<ln1;i++)
-        start[i]=' ';
-      strcpy(s,start);
-      //printf("1'%s'",start);
-      sprintf(start,"%s%s",sub2,s);
-      //printf("2'%s'",start);
-    }
-  return changed;
-}
-
 //Gets a word out of a string.
 int fggetword(char*& input,char* outword,char& outother) //0 if done
 {

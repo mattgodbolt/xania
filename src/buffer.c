@@ -95,7 +95,7 @@ void buffer_addline_fmt(BUFFER *buffer, const char *text_format, ...)
 	va_list arglist;
 
 	va_start(arglist,text_format);
-	linelen = vsprintf(text, text_format, arglist);
+	linelen = vsnprintf(text, sizeof(text), text_format, arglist);
 	va_end(arglist);
 
 	buffer_addline_internal(buffer, text, linelen);

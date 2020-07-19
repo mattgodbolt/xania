@@ -63,7 +63,7 @@ void advance_level(CHAR_DATA *ch) {
    ch->pcdata->last_level =
    ( ch->played + (int) (current_time - ch->logon) ) / 3600;
 
-   sprintf( buf, "the %s",
+   snprintf( buf, sizeof(buf), "the %s",
    title_table [ch->class] [ch->level] [ch->sex == SEX_FEMALE ? 1 : 0] );
    set_title( ch, buf );
 
@@ -114,14 +114,14 @@ void advance_level(CHAR_DATA *ch) {
    if ( !IS_NPC(ch) )
       REMOVE_BIT( ch->act, PLR_BOUGHT_PET );
 
-   sprintf( buf, "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r",
+   snprintf( buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r",
          add_hp, ch->max_hit, add_mana, ch->max_mana,
          add_move, ch->max_move, add_prac, ch->practice);
    send_to_char(buf, ch);
-   sprintf(log_buf, "### %s has made a level in room %u\n\r", ch->name,
+   snprintf(log_buf, LOG_BUF_SIZE, "### %s has made a level in room %u\n\r", ch->name,
          ch->in_room->vnum);
    log_string( log_buf );
-   sprintf(log_buf , "|W### |P%s |Whas made a level!!!|w", ch->name);
+   snprintf(log_buf, LOG_BUF_SIZE, "|W### |P%s |Whas made a level!!!|w", ch->name);
    announce(log_buf, ch);
 }
 
@@ -137,7 +137,7 @@ void lose_level( CHAR_DATA *ch )
    ch->pcdata->last_level =
    ( ch->played + (int) (current_time - ch->logon) ) / 3600;
 
-   sprintf( buf, "the %s",
+   snprintf(buf, sizeof(buf), "the %s",
    title_table [ch->class] [ch->level] [ch->sex == SEX_FEMALE ? 1 : 0] );
    set_title( ch, buf );
 
@@ -174,14 +174,14 @@ void lose_level( CHAR_DATA *ch )
    if ( !IS_NPC(ch) )
       REMOVE_BIT( ch->act, PLR_BOUGHT_PET );
 
-   sprintf( buf,
+   snprintf( buf, sizeof(buf),
              "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r",
              add_hp,	ch->max_hit,
              add_mana,	ch->max_mana,
              add_move,	ch->max_move,
              add_prac,	ch->practice);
    send_to_char( buf, ch );
-   sprintf (log_buf , "|W### |P%s|W has lost a level!!!|w", ch->name);
+   snprintf (log_buf, LOG_BUF_SIZE, "|W### |P%s|W has lost a level!!!|w", ch->name);
    announce (log_buf, ch);
 }
 
@@ -1160,7 +1160,7 @@ void do_aggressive_sentient (CHAR_DATA *wch, CHAR_DATA *ch)
       {
 	 if ( is_safe_sentient(ch, wch ))
 		 return;
-         sprintf(buf, "|WAha! I never forget a face, prepare to die %s!!!|w",  wch->name);
+         snprintf(buf, sizeof(buf), "|WAha! I never forget a face, prepare to die %s!!!|w",  wch->name);
 	 if (IS_SET(ch->comm, COMM_NOSHOUT)) {
 		 shout = TRUE;
 		 REMOVE_BIT(ch->comm, COMM_NOSHOUT);
@@ -1226,7 +1226,7 @@ bool is_safe_sentient ( CHAR_DATA *ch, CHAR_DATA *wch ) {
 	if (ch->in_room == NULL )
 		return FALSE;
 	if (IS_SET(ch->in_room->room_flags, ROOM_SAFE)) {
-		sprintf(buf, "|WIf it weren't for the law, you'd be dead meat %s!!!|w",  wch->name);
+		snprintf(buf, sizeof(buf), "|WIf it weren't for the law, you'd be dead meat %s!!!|w",  wch->name);
 		if (IS_SET(ch->comm, COMM_NOSHOUT)) {
 			shout = TRUE;
 			REMOVE_BIT(ch->comm, COMM_NOSHOUT);

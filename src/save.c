@@ -107,7 +107,7 @@ void save_char_obj( CHAR_DATA *ch )
     if (IS_IMMORTAL(ch) || ch->level >= LEVEL_IMMORTAL)
     {
    fclose(fpReserve);
-   sprintf(strsave, "%s%s",GOD_DIR, capitalize(ch->name));
+   snprintf(strsave, sizeof(strsave), "%s%s",GOD_DIR, capitalize(ch->name));
    if ((fp = fopen(strsave,"w")) == NULL)
    {
        bug("Save_char_obj: fopen",0);
@@ -122,7 +122,7 @@ void save_char_obj( CHAR_DATA *ch )
 #endif
 
     fclose( fpReserve );
-    sprintf( strsave, "%s%s", PLAYER_DIR, capitalize( ch->name ) );
+    snprintf( strsave, sizeof(strsave), "%s%s", PLAYER_DIR, capitalize( ch->name ) );
     if ( ( fp = fopen( PLAYER_TEMP, "w" ) ) == NULL ) {
              bug( "Save_char_obj: fopen", 0 );
              perror( strsave );
@@ -137,7 +137,7 @@ void save_char_obj( CHAR_DATA *ch )
     }
     fclose( fp );
     /* move the file */
-    sprintf(buf,"mv %s %s",PLAYER_TEMP,strsave);
+    snprintf(buf, sizeof(buf), "mv %s %s",PLAYER_TEMP,strsave);
     system(buf);
     fpReserve = fopen( NULL_FILE, "r" );
     return;
@@ -622,22 +622,22 @@ bool load_char_obj( DESCRIPTOR_DATA *d, char *name ) {
 
 #if defined(unix)
     /* decompress if .gz file exists */
-    sprintf( strsave, "%s%s%s", PLAYER_DIR, capitalize(name),".gz");
+    snprintf( strsave, sizeof(strsave), "%s%s%s", PLAYER_DIR, capitalize(name),".gz");
     if ( ( fp = fopen( strsave, "r" ) ) != NULL )
       {
 	FILE *q;
 	char t2[MAX_STRING_LENGTH * 2];
 	fclose(fp);
-	sprintf( t2, "%s%s", PLAYER_DIR, capitalize( name ) );
+	snprintf( t2, sizeof(t2), "%s%s", PLAYER_DIR, capitalize( name ) );
 	if ( ( q=fopen(t2, "r" ) ) == NULL) {
 	  fclose(q);
-	  sprintf(buf,"gzip -dfq %s",strsave);
+	  snprintf(buf, sizeof(buf), "gzip -dfq %s",strsave);
 	  system(buf);
 	}
       }
 #endif
 
-    sprintf( strsave, "%s%s", PLAYER_DIR, capitalize( name ) );
+    snprintf( strsave, sizeof(strsave), "%s%s", PLAYER_DIR, capitalize( name ) );
     if ( ( fp = fopen( strsave, "r" ) ) != NULL )
     {
    int iNest;
@@ -1094,7 +1094,7 @@ void fread_char( CHAR_DATA *ch, FILE *fp )
          if (ch->pcdata->title[0] != '.' && ch->pcdata->title[0] != ','
       &&  ch->pcdata->title[0] != '!' && ch->pcdata->title[0] != '?')
       {
-          sprintf( buf, " %s", ch->pcdata->title );
+          snprintf( buf, sizeof(buf), " %s", ch->pcdata->title );
           free_string( ch->pcdata->title );
           ch->pcdata->title = str_dup( buf );
       }

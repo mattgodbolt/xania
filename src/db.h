@@ -30,6 +30,7 @@ extern AREA_DATA * area_last;
 
 
 
+
 /* from db2.c */
 
 

@@ -174,7 +174,7 @@ void ban_site(CHAR_DATA *ch, char *argument, bool fPerm)
 
 		buffer_addline(buffer, "Banned sites       Level  Type     Status\n\r");
 		for (pban = ban_list; pban != NULL; pban = pban->next) {
-			sprintf(buf, "%s%s%s", IS_SET(pban->ban_flags,BAN_PREFIX) ? "*" : "",
+			snprintf(buf, sizeof(buf), "%s%s%s", IS_SET(pban->ban_flags,BAN_PREFIX) ? "*" : "",
 					pban->name, IS_SET(pban->ban_flags,BAN_SUFFIX) ? "*" : "");
 			buffer_addline_fmt(buffer, "%-17s    %-3d  %-7s  %s\n\r", buf, pban->level,
 					IS_SET(pban->ban_flags,BAN_NEWBIES) ? "newbies" :
@@ -259,7 +259,7 @@ void ban_site(CHAR_DATA *ch, char *argument, bool fPerm)
     pban->next  = ban_list;
     ban_list    = pban;
     save_bans();
-    sprintf(buf,"The host(s) matching '%s%s%s' have been banned.\n\r",
+    snprintf(buf, sizeof(buf), "The host(s) matching '%s%s%s' have been banned.\n\r",
                 IS_SET(pban->ban_flags,BAN_PREFIX)?"*":"",
 		pban->name,
                 IS_SET(pban->ban_flags,BAN_SUFFIX)?"*":"");
@@ -314,7 +314,7 @@ void do_allow( CHAR_DATA *ch, char *argument )
             else
                 prev->next = curr->next;
 
-	    sprintf(buf,"Ban on '%s%s%s' lifted.\n\r",	   IS_SET(curr->ban_flags,BAN_PREFIX)?"*":"",
+	    snprintf(buf, sizeof(buf), "Ban on '%s%s%s' lifted.\n\r",	   IS_SET(curr->ban_flags,BAN_PREFIX)?"*":"",
 	    						   aargh,
 	                                                   IS_SET(curr->ban_flags,BAN_SUFFIX)?"*":"");
             free_ban(curr);

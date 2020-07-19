@@ -2286,7 +2286,7 @@ OBJ_DATA *create_money( int amount )
    else
    {
       obj = create_object( get_obj_index( OBJ_VNUM_MONEY_SOME ), 0 );
-      sprintf( buf, obj->short_descr, amount );
+      snprintf( buf, sizeof(buf), obj->short_descr, amount );
       free_string( obj->short_descr );
       obj->short_descr	= str_dup( buf );
       obj->value[0]		= amount;

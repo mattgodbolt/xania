@@ -48,13 +48,13 @@ void bug(const char *str, ...) {
 /* FIXME : 'strArea' is not safely readable from here (I think because it's an
  * array, not a pointer) - fix the filename printing so it works properly. */
 		copy_areaname(buf2);
-		sprintf( buf, "[*****] FILE: %s LINE: %d", buf2, iLine);
+		snprintf( buf, sizeof(buf), "[*****] FILE: %s LINE: %d", buf2, iLine);
 		log_string(buf);
 	}
 
 	strcpy(buf, "[*****] BUG: ");
 	va_start(arglist, str);
-	vsprintf(buf + strlen(buf), str, arglist);
+	vsnprintf(buf + strlen(buf), sizeof(buf), str, arglist);
 	va_end (arglist); /* TM added */
 	log_new(buf, EXTRA_WIZNET_BUG, 0); /* TM added */
 
@@ -78,7 +78,7 @@ void log_new(const char *str, int loglevel, int level) {
 	strtime[strlen(strtime)-1] = '\0';
 	fprintf(stderr, "%s :: %s\n", strtime, str);  /* Prints to the log */
 
-	sprintf(buf, "|GWIZNET:|g %s|w\n\r", str);  /* Prepare the Wiznet message */
+	snprintf(buf, sizeof(buf), "|GWIZNET:|g %s|w\n\r", str);  /* Prepare the Wiznet message */
 
 	if (loglevel == EXTRA_WIZNET_DEBUG)
 		level = UMAX(level, 96);   /* Prevent non-SOCK ppl finding out sin_addrs */
@@ -96,19 +96,20 @@ void log_new(const char *str, int loglevel, int level) {
 
 void print_status(CHAR_DATA *ch, char *name, char *master_name, int state, int master_state) {
 	char buff[MAX_STRING_LENGTH];
+	const size_t prefix_len = 16;
 
-	memset(buff, ' ', 16);
+	memset(buff, ' ', prefix_len);
 	memcpy(buff, name, strlen(name));
 	
 	/* Check if the channel argument is the Quiet mode one */
 	if (state) {
 		if (master_state) {
-			strcpy(buff+16, "|gON|w\n\r");
+			strcpy(buff + prefix_len, "|gON|w\n\r");
 		} else {
-			sprintf(buff+16, "|rON (%s)|w\n\r", master_name);
+			snprintf(buff + prefix_len, sizeof(buff)-prefix_len, "|rON (%s)|w\n\r", master_name);
 		}
 	} else {
-		strcpy(buff+16, "|rOFF|w\n\r");
+		strcpy(buff + prefix_len, "|rOFF|w\n\r");
 	}
 	send_to_char(buff, ch);
 }
@@ -153,10 +154,10 @@ static void toggle_wizchan(CHAR_DATA *ch, int flag, char *name) {
 	char buf[MAX_STRING_LENGTH];
 
 	if (is_set_extra(ch, flag)) {
-		sprintf(buf, "|GWIZNET %s is now |rOFF|G.|w\n\r", name);
+		snprintf(buf, sizeof(buf), "|GWIZNET %s is now |rOFF|G.|w\n\r", name);
 		remove_extra(ch, flag);
 	} else {
-		sprintf(buf, "|GWIZNET %s is now %s|G.|w\n\r", name,
+		snprintf(buf, sizeof(buf), "|GWIZNET %s is now %s|G.|w\n\r", name,
 				is_set_extra(ch, EXTRA_WIZNET_ON) ? "|gON" : "|rON (WIZNET OFF)");
 		set_extra(ch, flag);
 	}

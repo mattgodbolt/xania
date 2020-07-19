@@ -127,7 +127,7 @@ void do_delete( CHAR_DATA *ch, char *argument) {
 	 else
 	   log_string ("Info cache was empty.");
 
-         sprintf( strsave, "%s%s", PLAYER_DIR, capitalize( ch->name ) );
+         snprintf( strsave, sizeof(strsave), "%s%s", PLAYER_DIR, capitalize( ch->name ) );
          do_quit(ch,"");
          unlink(strsave);
          return;
@@ -215,13 +215,13 @@ void do_afk (CHAR_DATA *ch, char *argument) {
 		else
 			ch->pcdata->afk = str_dup(argument);
 
-		sprintf(buf, "|cYou notify the mud that you are %s|c.|w", ch->pcdata->afk);
+		snprintf(buf, sizeof(buf), "|cYou notify the mud that you are %s|c.|w", ch->pcdata->afk);
 		act_new(buf, ch, NULL, NULL, TO_CHAR, POS_DEAD);
 
-		sprintf(buf, "|W$n|w is %s|w.", ch->pcdata->afk);
+		snprintf(buf, sizeof(buf), "|W$n|w is %s|w.", ch->pcdata->afk);
 		act_new (buf, ch, NULL, NULL, TO_ROOM, POS_DEAD);
 
-		sprintf(buf, "|W###|w (|cAFK|w) $N is %s|w.", ch->pcdata->afk);
+		snprintf(buf, sizeof(buf), "|W###|w (|cAFK|w) $N is %s|w.", ch->pcdata->afk);
 		announce (buf, ch);
 
 		SET_BIT (ch->act, PLR_AFK);
@@ -252,16 +252,16 @@ static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, char *text) {
 		act("|W$E|c is not receiving replies.|w", ch, 0, victim, TO_CHAR);
 
 	} else if (IS_SET (victim->act, PLR_AFK) && !IS_NPC(victim)) {
-		sprintf(buf, "|W$N|c is %s.|w", victim->pcdata->afk);
+		snprintf(buf, sizeof(buf), "|W$N|c is %s.|w", victim->pcdata->afk);
 		act_new(buf, ch, NULL, victim, TO_CHAR, POS_DEAD);
 		if (IS_SET (victim->comm, COMM_SHOWAFK)) {
 			char *strtime;
 			strtime = ctime (&current_time);
 			strtime [strlen (strtime) - 1] = '\0';
-			sprintf (buf, "|c%cAFK|C: At %s, $n told you '%s|C'.|w", 7,
+			snprintf (buf, sizeof(buf), "|c%cAFK|C: At %s, $n told you '%s|C'.|w", 7,
 					strtime, text);
 			act_new (buf, ch, NULL, victim, TO_VICT, POS_DEAD);
-			sprintf (buf, "|cYour message was logged onto $S screen.|w");
+			snprintf (buf, sizeof(buf), "|cYour message was logged onto $S screen.|w");
 			act_new (buf, ch, NULL, victim, TO_CHAR, POS_DEAD);
 			victim->reply	= ch;
 		}
@@ -708,9 +708,9 @@ void do_quit(CHAR_DATA *ch, char *argument)
    do_chal_canc (ch);
    send_to_char( "|WYou quit reality for the game.|w\n\r",ch);
    act( "|W$n has left reality for the game.|w", ch, NULL, NULL, TO_ROOM );
-   sprintf( log_buf, "%s has quit.", ch->name );
+   snprintf( log_buf, LOG_BUF_SIZE, "%s has quit.", ch->name );
    log_string( log_buf );
-   sprintf (log_buf, "|W### |P%s|W departs, seeking another reality.|w", ch->name );
+   snprintf (log_buf, LOG_BUF_SIZE, "|W### |P%s|W departs, seeking another reality.|w", ch->name );
    announce (log_buf, ch);
 
    /*
@@ -1117,7 +1117,7 @@ void do_order( CHAR_DATA *ch, char *argument )
       && ( fAll || och == victim ) )
       {
          found = TRUE;
-         sprintf( buf, "|W$n|w orders you to '%s'.", argument );
+         snprintf( buf, sizeof(buf), "|W$n|w orders you to '%s'.", argument );
          act( buf, ch, NULL, och, TO_VICT );
          WAIT_STATE( ch, 2 * PULSE_VIOLENCE );
          interpret( och, argument );
@@ -1146,14 +1146,14 @@ void do_group( CHAR_DATA *ch, char *argument )
       CHAR_DATA *leader;
 
       leader = (ch->leader != NULL) ? ch->leader : ch;
-      sprintf( buf, "%s's group:\n\r", PERS(leader, ch) );
+      snprintf( buf, sizeof(buf), "%s's group:\n\r", PERS(leader, ch) );
       send_to_char( buf, ch );
 
       for ( gch = char_list; gch != NULL; gch = gch->next )
       {
          if ( is_same_group( gch, ch ) )
          {
-            sprintf( buf,
+            snprintf( buf, sizeof(buf),
             "[%2d %s] %-16s %4d/%4d hp %4d/%4d mana %4d/%4d mv %5ld xp\n\r",
             gch->level,
             IS_NPC(gch) ? "Mob" : class_table[gch->class].who_name,
@@ -1291,12 +1291,12 @@ void do_split( CHAR_DATA *ch, char *argument )
    ch->gold -= amount;
    ch->gold += share + extra;
 
-   sprintf( buf,
+   snprintf( buf, sizeof(buf),
    "You split %d gold coins.  Your share is %d gold coins.\n\r",
    amount, share + extra );
    send_to_char( buf, ch );
 
-   sprintf( buf, "$n splits %d gold coins.  Your share is %d gold coins.",
+   snprintf( buf, sizeof(buf), "$n splits %d gold coins.  Your share is %d gold coins.",
    amount, share );
 
    for ( gch = ch->in_room->people; gch != NULL; gch = gch->next_in_room )
@@ -1332,9 +1332,9 @@ void do_gtell( CHAR_DATA *ch, char *argument )
    /*
         * Note use of send_to_char, so gtell works on sleepers.
         */
-   sprintf( buf, "|CYou tell the group '%s|C'|w.\n\r", argument );
+   snprintf( buf, sizeof(buf), "|CYou tell the group '%s|C'|w.\n\r", argument );
    send_to_char( buf, ch);
-   sprintf( buf, "|C%s tells the group '%s|C'|w.\n\r", ch->name, argument );
+   snprintf( buf, sizeof(buf), "|C%s tells the group '%s|C'|w.\n\r", ch->name, argument );
    for ( gch = char_list; gch != NULL; gch = gch->next )
    {
       if ( is_same_group( gch, ch ) && (gch != ch))

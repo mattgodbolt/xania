@@ -91,7 +91,7 @@ do_object ( CHAR_DATA *ch, char *argument  ) {
 	    new_obj = get_obj_index(atoi(argument));
 	    set_extra( ch, EXTRA_OLC_OBJ );
 	    ch->pcdata->olc->current_obj = new_obj;
-	    sprintf (buf, "OLC: entering object mode to edit existing obj #%d.\n\r",
+	    snprintf (buf, sizeof(buf), "OLC: entering object mode to edit existing obj #%d.\n\r",
 		     atoi(argument) );
 	    send_to_char( buf, ch);
 	    send_to_char("Syntax: object [command] ? to list.\n\r", ch);
@@ -306,7 +306,7 @@ olc_create_obj ( CHAR_DATA *ch, int vnum, char * type, int level ) {
     pObjIndex->vnum = vnum;
 
     if ( level > OLC_MAX_OBJECT_LEVEL || level < 1 ) {
-	sprintf( buf, "OLC: object level must be between 1 and %d.\n\r", OLC_MAX_OBJECT_LEVEL );
+	snprintf( buf, sizeof(buf), "OLC: object level must be between 1 and %d.\n\r", OLC_MAX_OBJECT_LEVEL );
 	send_to_char( buf, ch);
 	return FALSE;
     }
@@ -351,11 +351,11 @@ olc_create_obj ( CHAR_DATA *ch, int vnum, char * type, int level ) {
     pObjIndex->new_format = TRUE;
     newobjs++;
 
-    sprintf (buf2, "new object %s", type);
+    snprintf (buf2, sizeof(buf2), "new object %s", type);
     pObjIndex->name      = str_dup(buf2);
-    sprintf (buf2, "a new %s", type);
+    snprintf (buf2, sizeof(buf2), "a new %s", type);
     pObjIndex->short_descr  = str_dup (buf2);
-    sprintf( buf2, "A brand new, dull %s lies on the ground.", type);
+    snprintf( buf2, sizeof(buf2), "A brand new, dull %s lies on the ground.", type);
     pObjIndex->description = str_dup (buf2);
 
     switch (typeRef) {
@@ -530,9 +530,9 @@ olc_create_obj ( CHAR_DATA *ch, int vnum, char * type, int level ) {
     ch->pcdata->olc->obj_template = pObjIndex;
     /* defines the 'undo' version of the obj */
 
-    sprintf(buf2, "$n has created a new %s!", type );
+    snprintf(buf2, sizeof(buf2), "$n has created a new %s!", type );
     act( buf2, ch, NULL, NULL, TO_ROOM );
-    sprintf(buf2, "OLC: new %s created!\n\r", type );
+    snprintf(buf2, sizeof(buf2), "OLC: new %s created!\n\r", type );
     send_to_char( buf2, ch );
     return TRUE;
 }
@@ -566,7 +566,7 @@ olc_destroy_obj ( CHAR_DATA *ch ) {
     if ( ( _delete_obj(ch->pcdata->olc->current_obj->vnum ) ) == 0 )
 	send_to_char("OLC: warning: object not erased from database.\n\r", ch);
 
-    sprintf(buf, "OLC: %d instances of object vnum %d destroyed!\n\r",
+    snprintf(buf, sizeof(buf), "OLC: %d instances of object vnum %d destroyed!\n\r",
 	    count, ch->pcdata->olc->current_obj->vnum );
     send_to_char(buf, ch);
     return;
@@ -740,7 +740,7 @@ olc_change_spells_obj ( CHAR_DATA *ch, char * argument,
 	}
 	count++;
 	if (!found) {
-	    sprintf( buf, "%s ", spell_na );
+	    snprintf( buf, sizeof(buf), "%s ", spell_na );
 	    error = TRUE;
 	}
 	if ( max_count <= count )
@@ -783,7 +783,7 @@ olc_material_obj ( CHAR_DATA *ch, char * argument ) {
     }
     if (found) return;
 
-    sprintf(text, "OLC: %s is not a valid material type.\n\r", argument);
+    snprintf(text, sizeof(text), "OLC: %s is not a valid material type.\n\r", argument);
     send_to_char( text, ch);
     send_to_char("     object material (to list types available)\n\r", ch);
     return;
@@ -804,11 +804,11 @@ olc_list_materials_obj ( CHAR_DATA * ch ) {
 	 count ++) {
 	len += strlen(material_table[count].material_name);
 	if ( len >= 70 ) {
-	    sprintf(text, "\n\r");
+	    snprintf(text, sizeof(text), "\n\r");
 	    add_buf( buffer, text );
 	    len = 0;
 	}
-	sprintf( text, "%s ", material_table[count].material_name);
+	snprintf( text, sizeof(text), "%s ", material_table[count].material_name);
 	add_buf( buffer, text);
     }
     buf_to_char( buffer, ch );
@@ -830,7 +830,7 @@ olc_material_search_obj ( CHAR_DATA *ch, char * argument, int count ) {
 	}
 	ch->pcdata->olc->current_obj->material = count;
 
-	sprintf(text, "OLC: object: %s is now material %s.\n\r",
+	snprintf(text, sizeof(text), "OLC: object: %s is now material %s.\n\r",
 		ch->pcdata->olc->current_obj->short_descr,
 		material_table[count].material_name );
 	send_to_char(text, ch);
@@ -1005,10 +1005,10 @@ olc_attack_obj ( CHAR_DATA *ch, char * argument ) {
 	    len += strlen(olc_stripcolour(attack_table[count].name));
 	    if ( len >= 60 ) {
 		len = 0;
-		sprintf( text, "\n\r" );
+		snprintf( text, sizeof(text), "\n\r" );
 		add_buf ( buffer, text );
 	    }
-	    sprintf(text, "%s ", olc_stripcolour(attack_table[count].name));
+	    snprintf(text, sizeof(text), "%s ", olc_stripcolour(attack_table[count].name));
 	    add_buf ( buffer, text);
 	}
 	buf_to_char( buffer, ch);
@@ -1022,13 +1022,13 @@ olc_attack_obj ( CHAR_DATA *ch, char * argument ) {
 	if (!str_prefix( attack_table[count].name, argument )) {
 	    ch->pcdata->olc->current_obj->value[3] = count;
 	    found = TRUE;
-	    sprintf( text, "OLC: attack type set to %s.\n\r", argument);
+	    snprintf( text, sizeof(text), "OLC: attack type set to %s.\n\r", argument);
 	    send_to_char(text, ch);
 	    return;
 	}
     }
     if (!found) {
-	sprintf( text, "OLC: %s is not a recognised attack type.\n\r", argument);
+	snprintf( text, sizeof(text), "OLC: %s is not a recognised attack type.\n\r", argument);
 	send_to_char( text, ch );
 	send_to_char("     object weapon attack (for help)\n\r", ch);
 	return;
@@ -1080,10 +1080,10 @@ olc_weapon_type_obj ( CHAR_DATA *ch, char * argument ) {
 	    len += strlen(weapon_class_table[count]);
 	    if ( len >= 70 ) {
 		len = 0;
-		sprintf(text, "\n\r");
+		snprintf(text, sizeof(text), "\n\r");
 		add_buf ( buffer, text );
 	    }
-	    sprintf(text, "%s ", weapon_class_table[count] );
+	    snprintf(text, sizeof(text), "%s ", weapon_class_table[count] );
 	    add_buf ( buffer, text );
 	}
 	buf_to_char ( buffer, ch);
@@ -1405,14 +1405,14 @@ olc_check_apply_range( CHAR_DATA *ch, int aff_loc, int amount ) {
     char text[MAX_STRING_LENGTH];
 
     if ( amount < (apply_lookup_table[aff_loc].minimum )) {
-	sprintf( text, "OLC: amount %d is below the minimum of %d for apply type '%s'.\n\r",
+	snprintf( text, sizeof(text), "OLC: amount %d is below the minimum of %d for apply type '%s'.\n\r",
 		 amount, apply_lookup_table[aff_loc].minimum,
 		 apply_lookup_table[aff_loc].name );
 	send_to_char( text, ch);
 	return FALSE;
     }
     if ( amount > (apply_lookup_table[aff_loc].maximum )) {
-	sprintf( text, "OLC: amount %d exceeds the maximum of %d for apply type '%s'.\n\r",
+	snprintf( text, sizeof(text), "OLC: amount %d exceeds the maximum of %d for apply type '%s'.\n\r",
 		 amount, apply_lookup_table[aff_loc].maximum,
 		 apply_lookup_table[aff_loc].name );
 	send_to_char( text, ch);
@@ -1442,11 +1442,11 @@ olc_list_apply_table_obj ( CHAR_DATA *ch ) {
 	} else {
 	    len += strlen(apply_lookup_table[count].name);
 	    if (len >=60) {
-		sprintf( text, "\n\r");
+		snprintf( text, sizeof(text), "\n\r");
 		add_buf ( buffer, text);
 		len = 0;
 	    }
-	    sprintf( text, "%s ", apply_lookup_table[count].name);
+	    snprintf( text, sizeof(text), "%s ", apply_lookup_table[count].name);
 	    add_buf ( buffer, text );
 	    count++;
 	}
@@ -1481,9 +1481,9 @@ olc_display_obj_vars ( CHAR_DATA *ch, int info, OBJ_INDEX_DATA *obj ) {
     switch (info) {
     case OLC_V_COST:
     case OLC_V_WEIGHT:
-	sprintf( text, "INFO: current cost: %d\n\r", obj->cost );
+	snprintf( text, sizeof(text), "INFO: current cost: %d\n\r", obj->cost );
 	send_to_char( text, ch);
-	sprintf( text, "      current weight: %d.\n\r", obj->weight );
+	snprintf( text, sizeof(text), "      current weight: %d.\n\r", obj->weight );
 	send_to_char( text, ch);
 	return;
 	break;
@@ -1521,11 +1521,11 @@ olc_display_obj_vars ( CHAR_DATA *ch, int info, OBJ_INDEX_DATA *obj ) {
 	break;
     case OLC_V_STRING:
 	send_to_char("INFO: current strings: \n\r", ch);
-	sprintf( text, "Name:  %s\n\r", obj->name );
+	snprintf( text, sizeof(text), "Name:  %s\n\r", obj->name );
 	send_to_char( text, ch);
-	sprintf( text, "Short: %s\n\r", obj->short_descr );
+	snprintf( text, sizeof(text), "Short: %s\n\r", obj->short_descr );
 	send_to_char( text, ch);
-	sprintf( text, "Long:  %s\n\r", obj->description );
+	snprintf( text, sizeof(text), "Long:  %s\n\r", obj->description );
 	send_to_char( text, ch);
 	ptr = obj->extra_descr;
 	if (ptr == NULL) {
@@ -1534,7 +1534,7 @@ olc_display_obj_vars ( CHAR_DATA *ch, int info, OBJ_INDEX_DATA *obj ) {
 	}
 	for ( ptr ; ptr != NULL ;
 	      ptr = ptr->next ) {
-	    sprintf( text, "Extra description, using keyword(s): %s\n\r%s\n\r",
+	    snprintf( text, sizeof(text), "Extra description, using keyword(s): %s\n\r%s\n\r",
 		     ptr->keyword, ptr->description );
 	    send_to_char( text, ch);
 	}
@@ -1542,7 +1542,7 @@ olc_display_obj_vars ( CHAR_DATA *ch, int info, OBJ_INDEX_DATA *obj ) {
 	break;
     case OLC_V_WEAPON:
 	send_to_char("INFO: current weapon status: \n\r", ch);
-	sprintf( text, "Class: %s \n\rAttack type: %s\n\r",
+	snprintf( text, sizeof(text), "Class: %s \n\rAttack type: %s\n\r",
 		 weapon_class_table[obj->value[0]],
 		 attack_table[obj->value[3]].name );
 	send_to_char( text, ch);
@@ -1557,7 +1557,7 @@ olc_display_obj_vars ( CHAR_DATA *ch, int info, OBJ_INDEX_DATA *obj ) {
 	break;
     case OLC_V_MATERIAL:
 	send_to_char("INFO: material type: ", ch );
-	sprintf ( text, "%s.\n\r", material_table[obj->material].material_name);
+	snprintf ( text, sizeof(text), "%s.\n\r", material_table[obj->material].material_name);
 	send_to_char( text, ch);
 	return;
 	break;
@@ -1575,14 +1575,14 @@ olc_magical_listvals_obj ( CHAR_DATA *ch, OBJ_INDEX_DATA *obj, bool stf_wnd ) {
 
     if ( stf_wnd ) {
 
-	sprintf( text, "Power: %d Max_ch: %d Current_ch: %d Spell: %s\n\r",
+	snprintf( text, sizeof(text), "Power: %d Max_ch: %d Current_ch: %d Spell: %s\n\r",
 		 obj->value[0], obj->value[1], obj->value[2],
 		 skill_table[obj->value[3]].name );
 	send_to_char("INFO: current status: \n\r", ch);
 	send_to_char( text, ch );
 	return;
     }
-    sprintf( text, "Power: %d Sp1: %s Sp2: %s\n\rSp3: %s\n\r",
+    snprintf( text, sizeof(text), "Power: %d Sp1: %s Sp2: %s\n\rSp3: %s\n\r",
 	     obj->value[0],
 	     skill_table[obj->value[1]].name,
 	     skill_table[obj->value[2]].name,
@@ -1658,7 +1658,7 @@ olc_remove_affect_obj ( CHAR_DATA *ch, int aff_loc ) {
 	return;
     }
     ch->pcdata->olc->current_obj = obj;
-    sprintf( buf, "OLC: %d affects stripped.\n\r", count );
+    snprintf( buf, sizeof(buf), "OLC: %d affects stripped.\n\r", count );
     send_to_char( buf, ch );
     return;
 

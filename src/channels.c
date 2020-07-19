@@ -69,7 +69,7 @@ void do_channels(CHAR_DATA *ch, char *argument) {
 	if (ch->lines != PAGELEN) {
 		char buf[100];
 		if (ch->lines) {
-			sprintf(buf,"You display %d lines of scroll.\n\r",ch->lines+2);
+			snprintf(buf, sizeof(buf), "You display %d lines of scroll.\n\r",ch->lines+2);
 			send_to_char(buf,ch);
 		} else
 			send_to_char("Scroll buffering is off.\n\r",ch);
@@ -90,11 +90,11 @@ static void toggle_channel(CHAR_DATA *ch, int chan_flag, char *chan_name) {
 	char buf[MAX_STRING_LENGTH];
 
 	if (IS_SET(ch->comm, chan_flag)) {
-		sprintf(buf, "|c%s channel is now %s|c.|w\n\r", chan_name,
+		snprintf(buf, sizeof(buf), "|c%s channel is now %s|c.|w\n\r", chan_name,
 				IS_SET(ch->comm, COMM_QUIET) ? "|rON (OFF due to quiet mode)" : "|gON");
 		REMOVE_BIT(ch->comm, chan_flag);
 	} else {
-		sprintf(buf, "|c%s channel is now |rOFF|c.|w\n\r", chan_name);
+		snprintf(buf, sizeof(buf), "|c%s channel is now |rOFF|c.|w\n\r", chan_name);
 		SET_BIT(ch->comm, chan_flag);
 	}
 	send_to_char(buf, ch);
@@ -134,7 +134,7 @@ void channel_command(CHAR_DATA *ch, char *argument, int chan_flag, char *chan_na
 			do_afk (ch, NULL);
 		REMOVE_BIT(ch->comm, chan_flag);
 
-		sprintf(buf, desc_self, argument);
+		snprintf(buf, sizeof(buf), desc_self, argument);
 		send_to_char(buf, ch);
 		for (d = descriptor_list; d != NULL; d = d->next) {
 			CHAR_DATA *victim;

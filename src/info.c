@@ -89,32 +89,32 @@ void do_setinfo( CHAR_DATA *ch, char *argument )
     {
       send_to_char("These are your current info settings:\n\r", ch);
       if (ch->pcdata->info_name[0] == '\0')
-	sprintf(buf, "Real name: Not set.\n\r");
+	snprintf(buf, sizeof(buf), "Real name: Not set.\n\r");
       else if (is_set_extra(ch, EXTRA_INFO_NAME))
-	sprintf(buf, "Real name: %s.\n\r", ch->pcdata->info_name);
+	snprintf(buf, sizeof(buf), "Real name: %s.\n\r", ch->pcdata->info_name);
       else
-	sprintf(buf, "Real name: Withheld.\n\r");
+	snprintf(buf, sizeof(buf), "Real name: Withheld.\n\r");
       send_to_char(buf, ch);
       if (ch->pcdata->info_email[0] == '\0')
-	sprintf(buf, "Email: Not set.\n\r");
+	snprintf(buf, sizeof(buf), "Email: Not set.\n\r");
       else if (is_set_extra(ch, EXTRA_INFO_EMAIL))
-	sprintf(buf, "Email: %s\n\r", ch->pcdata->info_email);
+	snprintf(buf, sizeof(buf), "Email: %s\n\r", ch->pcdata->info_email);
       else
-	sprintf(buf, "Email: Withheld.\n\r");
+	snprintf(buf, sizeof(buf), "Email: Withheld.\n\r");
       send_to_char(buf, ch);
       if (ch->pcdata->info_url[0] == '\0')
-	sprintf(buf, "URL: Not set.\n\r");
+	snprintf(buf, sizeof(buf), "URL: Not set.\n\r");
       else if (is_set_extra(ch, EXTRA_INFO_URL))
-	sprintf(buf, "URL: %s\n\r", ch->pcdata->info_url);
+	snprintf(buf, sizeof(buf), "URL: %s\n\r", ch->pcdata->info_url);
       else
-	sprintf(buf, "URL: Withheld.\n\r");
+	snprintf(buf, sizeof(buf), "URL: Withheld.\n\r");
       send_to_char(buf, ch);
       if (ch->pcdata->info_message[0] == '\0')
-	sprintf(buf, "Message: Not set.\n\r");
+	snprintf(buf, sizeof(buf), "Message: Not set.\n\r");
       else if (is_set_extra(ch, EXTRA_INFO_MESSAGE))
-	sprintf(buf, "Message: %s\n\r", ch->pcdata->info_message);
+	snprintf(buf, sizeof(buf), "Message: %s\n\r", ch->pcdata->info_message);
       else
-	sprintf(buf, "Message: Withheld.\n\r");
+	snprintf(buf, sizeof(buf), "Message: Withheld.\n\r");
       send_to_char(buf, ch);
       return;
     }
@@ -129,12 +129,12 @@ void do_setinfo( CHAR_DATA *ch, char *argument )
 	  if (is_set_extra(ch, EXTRA_INFO_NAME))
 	    {
 	      if (ch->pcdata->info_name[0] == '\0')
-		sprintf (buf, "Your real name is currently not set.\n\r");
+		snprintf (buf, sizeof(buf), "Your real name is currently not set.\n\r");
 	      else
-		sprintf(buf, "Your real name is currently set as: %s.\n\r", ch->pcdata->info_name);
+		snprintf(buf, sizeof(buf), "Your real name is currently set as: %s.\n\r", ch->pcdata->info_name);
 	    }
 	  else
-	    sprintf(buf, "Your name is currently being withheld.\n\r");
+	    snprintf(buf, sizeof(buf), "Your name is currently being withheld.\n\r");
 	  send_to_char(buf, ch);
 	}
       else
@@ -143,7 +143,7 @@ void do_setinfo( CHAR_DATA *ch, char *argument )
 	  if (strlen(argument) > 45)
 	    argument[45] = '\0';
 	  ch->pcdata->info_name = strdup(argument);
-	  sprintf(buf, "Your real name has been set to: %s.\n\r", ch->pcdata->info_name);
+	  snprintf(buf, sizeof(buf), "Your real name has been set to: %s.\n\r", ch->pcdata->info_name);
 	  set_extra (ch, EXTRA_INFO_NAME);
 	  send_to_char(buf, ch);
 	  /* Update the info if it is in cache */
@@ -173,12 +173,12 @@ void do_setinfo( CHAR_DATA *ch, char *argument )
 	  if (is_set_extra(ch, EXTRA_INFO_EMAIL))
 	    {
 	      if (ch->pcdata->info_email[0] == '\0')
-		sprintf (buf, "Your email address is currently not set.\n\r");
+		snprintf (buf, sizeof(buf), "Your email address is currently not set.\n\r");
 	      else
-		sprintf(buf, "Your email address is currently set as: %s.\n\r", ch->pcdata->info_email);
+		snprintf(buf, sizeof(buf), "Your email address is currently set as: %s.\n\r", ch->pcdata->info_email);
 	    }
 	  else
-	    sprintf(buf, "Your email address is currently being withheld.\n\r");
+	    snprintf(buf, sizeof(buf), "Your email address is currently being withheld.\n\r");
 	  send_to_char(buf, ch);
 	}
       else
@@ -187,7 +187,7 @@ void do_setinfo( CHAR_DATA *ch, char *argument )
 	  if (strlen(argument) > 45)
 	    argument[45] = '\0';
 	  ch->pcdata->info_email = strdup(argument);
-	  sprintf(buf, "Your email address has been set to: %s.\n\r", ch->pcdata->info_email);
+	  snprintf(buf, sizeof(buf),  "Your email address has been set to: %s.\n\r", ch->pcdata->info_email);
 	  set_extra (ch, EXTRA_INFO_EMAIL);
 	  send_to_char(buf, ch);
 	  /* Update the info if it is in cache */
@@ -217,12 +217,12 @@ void do_setinfo( CHAR_DATA *ch, char *argument )
 	  if (is_set_extra(ch, EXTRA_INFO_URL))
 	    {
 	      if (ch->pcdata->info_url[0] == '\0')
-		sprintf (buf, "Your URL address is currently not set.\n\r");
+		snprintf (buf, sizeof(buf), "Your URL address is currently not set.\n\r");
 	      else
-		sprintf(buf, "Your URL address is currently set as: %s.\n\r", ch->pcdata->info_url);
+		snprintf(buf, sizeof(buf), "Your URL address is currently set as: %s.\n\r", ch->pcdata->info_url);
 	    }
 	  else
-	    sprintf(buf, "Your URL address is currently being withheld.\n\r");
+	    snprintf(buf, sizeof(buf), "Your URL address is currently being withheld.\n\r");
 	  send_to_char(buf, ch);
 	}
       else
@@ -231,7 +231,7 @@ void do_setinfo( CHAR_DATA *ch, char *argument )
 	  if (strlen(argument) > 45)
 	    argument[45] = '\0';
 	  ch->pcdata->info_url = strdup(argument);
-	  sprintf(buf, "Your URL address has been set to: %s.\n\r", ch->pcdata->info_url);
+	  snprintf(buf, sizeof(buf), "Your URL address has been set to: %s.\n\r", ch->pcdata->info_url);
 	  set_extra (ch, EXTRA_INFO_URL);
 	  send_to_char(buf, ch);
 	  /* Update the info if it is in cache */
@@ -261,12 +261,12 @@ void do_setinfo( CHAR_DATA *ch, char *argument )
 	  if (is_set_extra(ch, EXTRA_INFO_MESSAGE))
 	    {
 	      if (ch->pcdata->info_message[0] == '\0')
-		sprintf (buf, "Your message is currently not set.\n\r");
+		snprintf (buf, sizeof(buf), "Your message is currently not set.\n\r");
 	      else
-		sprintf(buf, "Your message is currently set as: %s.\n\r", ch->pcdata->info_message);
+		snprintf(buf, sizeof(buf), "Your message is currently set as: %s.\n\r", ch->pcdata->info_message);
 	    }
 	  else
-	    sprintf(buf, "Your message is currently being withheld.\n\r");
+	    snprintf(buf, sizeof(buf), "Your message is currently being withheld.\n\r");
 	  send_to_char(buf, ch);
 	}
       else
@@ -275,7 +275,7 @@ void do_setinfo( CHAR_DATA *ch, char *argument )
 	  if (strlen(argument) > 45)
 	    argument[45] = '\0';
 	  ch->pcdata->info_message = strdup(argument);
-	  sprintf(buf, "Your message has been set to: %s.\n\r", ch->pcdata->info_message);
+	  snprintf(buf, sizeof(buf), "Your message has been set to: %s.\n\r", ch->pcdata->info_message);
 	  set_extra (ch, EXTRA_INFO_MESSAGE);
 	  send_to_char(buf, ch);
 	  /* Update the info if it is in cache */
@@ -650,35 +650,35 @@ void do_finger( CHAR_DATA *ch, char *argument ) {
 	  
 	  /* Give the char the info */
 	  if (cur->info_name[0] == '\0')
-	      sprintf(buf, "Real name: Not set.\n\r");
+	      snprintf(buf, sizeof(buf), "Real name: Not set.\n\r");
 	  else if (cur->i_name)
-	      sprintf(buf, "Real name: %s.\n\r", cur->info_name);
+	      snprintf(buf, sizeof(buf), "Real name: %s.\n\r", cur->info_name);
 	  else
-	      sprintf(buf, "Real name: Withheld.\n\r");
+	      snprintf(buf, sizeof(buf), "Real name: Withheld.\n\r");
 	  send_to_char(buf, ch);
 	  
 	  if (cur->info_email[0] == '\0')
-	      sprintf(buf, "Email: Not set.\n\r");
+	      snprintf(buf, sizeof(buf), "Email: Not set.\n\r");
 	  else if (cur->i_email)
-	      sprintf(buf, "Email: %s\n\r", cur->info_email);
+	      snprintf(buf, sizeof(buf), "Email: %s\n\r", cur->info_email);
 	  else
-	      sprintf(buf, "Email: Withheld.\n\r");
+	      snprintf(buf, sizeof(buf), "Email: Withheld.\n\r");
 	  send_to_char(buf, ch);
 	  
 	  if (cur->info_url[0] == '\0')
-	      sprintf(buf, "URL: Not set.\n\r");
+	      snprintf(buf, sizeof(buf), "URL: Not set.\n\r");
 	  else if (cur->i_url)
-	      sprintf(buf, "URL: %s\n\r", cur->info_url);
+	      snprintf(buf, sizeof(buf), "URL: %s\n\r", cur->info_url);
 	  else
-	      sprintf(buf, "URL: Withheld.\n\r");
+	      snprintf(buf, sizeof(buf), "URL: Withheld.\n\r");
 	  send_to_char(buf, ch);
 	  
 	  if (cur->info_message[0] == '\0')
-	      sprintf(buf, "Message: Not set.\n\r");
+	      snprintf(buf, sizeof(buf), "Message: Not set.\n\r");
 	  else if (cur->i_message)
-	      sprintf(buf, "Message: %s\n\r", cur->info_message);
+	      snprintf(buf, sizeof(buf), "Message: %s\n\r", cur->info_message);
 	  else
-	      sprintf(buf, "Message: Withheld.\n\r");
+	      snprintf(buf, sizeof(buf), "Message: Withheld.\n\r");
 	  send_to_char(buf, ch);
 	  
 	  /* This is the tricky bit - should the player login time be seen
@@ -689,17 +689,17 @@ void do_finger( CHAR_DATA *ch, char *argument ) {
 	      /* Player is currently logged in */
 	      if (victim->invis_level > ch->level && get_trust(ch) < 96) {
 
-		  sprintf(buf, "It is impossible to determine the last time that %s roamed\n\rthe hills of Xania.\n\r", victim->name);
+		  snprintf(buf, sizeof(buf), "It is impossible to determine the last time that %s roamed\n\rthe hills of Xania.\n\r", victim->name);
 		  send_to_char (buf, ch);
 	      } else {
 
-		  sprintf(buf, "%s is currently roaming the hills of Xania!\n\r", victim->name);
+		  snprintf(buf, sizeof(buf), "%s is currently roaming the hills of Xania!\n\r", victim->name);
 		  send_to_char (buf, ch);
 		  if (get_trust (ch) >= 96) {
 		      if (victim->desc->host[0] == '\0')
-			  sprintf (buf, "It is impossible to determine where %s last logged in from.\n\r", victim->name);
+			  snprintf (buf, sizeof(buf), "It is impossible to determine where %s last logged in from.\n\r", victim->name);
 		      else
-			  sprintf(buf, "%s is currently logged in from %s.\n\r", cur->name, victim->desc->host);
+			  snprintf(buf, sizeof(buf), "%s is currently logged in from %s.\n\r", cur->name, victim->desc->host);
 		      send_to_char (buf, ch);
 		  }
 	      }
@@ -707,22 +707,22 @@ void do_finger( CHAR_DATA *ch, char *argument ) {
 	      /* Player is not currently logged in */
 	      if (cur->invis_level > ch->level && get_trust(ch) < 96) {
 
-		  sprintf(buf, "It is impossible to determine the last time that %s roamed\n\rthe hills of Xania.\n\r", cur->name);
+		  snprintf(buf, sizeof(buf), "It is impossible to determine the last time that %s roamed\n\rthe hills of Xania.\n\r", cur->name);
 		  send_to_char (buf, ch);
 	      } else {
 
 		  if (cur->last_login_at[0] == '\0')
-		      sprintf(buf, "It is impossible to determine the last time that %s roamed\n\rthe hills of Xania.\n\r", cur->name);
+		      snprintf(buf, sizeof(buf), "It is impossible to determine the last time that %s roamed\n\rthe hills of Xania.\n\r", cur->name);
 		  else
-		      sprintf(buf, "%s last roamed the hills of Xania on %s", cur->name, cur->last_login_at);
+		      snprintf(buf, sizeof(buf), "%s last roamed the hills of Xania on %s", cur->name, cur->last_login_at);
 		  
 		  send_to_char (buf, ch);
 		  
 		  if (get_trust(ch) >= 96) {
 		      if (cur->last_login_from[0] == '\0')
-			  sprintf (buf, "It is impossible to determine where %s last logged in from.\n\r", cur->name);
+			  snprintf (buf, sizeof(buf), "It is impossible to determine where %s last logged in from.\n\r", cur->name);
 		      else
-			  sprintf(buf, "%s last logged in from %s.\n\r", cur->name, cur->last_login_from);
+			  snprintf(buf, sizeof(buf), "%s last logged in from %s.\n\r", cur->name, cur->last_login_from);
 		      
 		      send_to_char (buf, ch);
 		  }
@@ -745,7 +745,7 @@ void read_char_info (FINGER_INFO *info)
   char *line;
   bool fMatch;
 
-  sprintf( strsave, "%s%s", PLAYER_DIR, info->name );
+  snprintf( strsave, sizeof(strsave), "%s%s", PLAYER_DIR, info->name );
   if ( ( fp = fopen( strsave, "r" ) ) != NULL )
     {
       /*      log_string ("Player file open");*/
@@ -809,7 +809,7 @@ void read_char_info (FINGER_INFO *info)
     }
   else
     {
-      sprintf (buf, "Could not open player file '%s' to extract info.", info->name);
+      snprintf (buf, sizeof(buf), "Could not open player file '%s' to extract info.", info->name);
       bug (buf);
     }
 }

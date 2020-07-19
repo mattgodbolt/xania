@@ -523,9 +523,9 @@ void interpret( CHAR_DATA *ch, char *argument )
 		if (!IS_NPC(ch) && (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)))
 			level = UMAX(level, get_trust(ch));
 		if (IS_NPC(ch) && ch->desc && ch->desc->original) {
-			sprintf( log_buf, "Log %s (as '%s'): %s", ch->desc->original->name, ch->name, logline );
+			snprintf( log_buf, LOG_BUF_SIZE, "Log %s (as '%s'): %s", ch->desc->original->name, ch->name, logline );
 		} else {
-			sprintf( log_buf, "Log %s: %s", ch->name, logline);
+			snprintf( log_buf, LOG_BUF_SIZE, "Log %s: %s", ch->name, logline);
 		}
 		log_new( log_buf, (cmd->level >= 91) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT, level );
 	}

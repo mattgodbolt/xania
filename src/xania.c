@@ -46,13 +46,13 @@ TIP_TYPE * tip_current;
 
 void objectbug( char *str, OBJ_INDEX_DATA *obj ) {
    char buf[MAX_STRING_LENGTH + 64];
-   sprintf( buf,"obj> %s (#%d): %s", obj->short_descr, obj->vnum, str );
+   snprintf( buf, sizeof(buf), "obj> %s (#%d): %s", obj->short_descr, obj->vnum, str );
    log_string(buf);
 }
 
 void mobbug( char *str, MOB_INDEX_DATA *mob) {
    char buf[MAX_STRING_LENGTH];
-   sprintf( buf,"mob> %s (#%d): %s", mob->short_descr, mob->vnum, str );
+   snprintf( buf, sizeof(buf), "mob> %s (#%d): %s", mob->short_descr, mob->vnum, str );
    log_string(buf);
 }
 
@@ -154,7 +154,7 @@ int report_object( OBJ_DATA *object , int boot ) {
 
    if (boot && (worth>((obj->level/10)+1))) {
       char buf[MAX_STRING_LENGTH];
-      sprintf( buf, "points too high: has %d points (max should be %d)",worth,
+      snprintf( buf, sizeof(buf), "points too high: has %d points (max should be %d)",worth,
       ((obj->level/10)+1));
       objectbug( buf, obj );
    }
@@ -221,17 +221,17 @@ void do_immworth( CHAR_DATA *ch, char *argument) {
    worth = report_object( obj, 0);
    shouldbe = ((obj->level/10)+1);
    if (worth == shouldbe) {
-      sprintf(buf, "Object '%s' has %d point(s) - exactly right.\n\r",
+      snprintf(buf, sizeof(buf), "Object '%s' has %d point(s) - exactly right.\n\r",
       obj->pIndexData->short_descr, worth);
       send_to_char(buf,ch);
       return;
    }
    if (worth > shouldbe) {
-      sprintf(buf, "Object '%s' has %d point(s), %d points |Rtoo high|w.\n\r",
+      snprintf(buf, sizeof(buf), "Object '%s' has %d point(s), %d points |Rtoo high|w.\n\r",
       obj->pIndexData->short_descr, worth, (worth-shouldbe));
    }
    else {
-      sprintf(buf, "Object '%s' has %d point(s), within the %d point maximum.\n\r",
+      snprintf(buf, sizeof(buf), "Object '%s' has %d point(s), within the %d point maximum.\n\r",
       obj->pIndexData->short_descr, worth, shouldbe);
    }
    send_to_char(buf, ch);
@@ -278,17 +278,17 @@ void do_prefix( CHAR_DATA *ch, char *argument ) {
 
    if ( argument[0] == '\0' ) {
       if ( ch_prefix->pcdata->prefix[0] == '\0' ) {
-         sprintf( &ch_buffer[0], "No prefix to remove.\n\r");
+         snprintf( ch_buffer, sizeof(ch_buffer), "No prefix to remove.\n\r");
       } else {
-         sprintf( &ch_buffer[0], "Prefix removed.\n\r");
+         snprintf( ch_buffer, sizeof(ch_buffer), "Prefix removed.\n\r");
       }
    }
 
    set_prefix( ch_prefix, argument );
    if ( ch_prefix->pcdata->prefix[0] != '\0' )
-      sprintf( &ch_buffer[0], "Prefix set to \"%s\"\n\r", ch_prefix->pcdata->prefix );
+      snprintf( ch_buffer, sizeof(ch_buffer), "Prefix set to \"%s\"\n\r", ch_prefix->pcdata->prefix );
 
-   send_to_char( &ch_buffer[0], ch );
+   send_to_char( ch_buffer, ch );
 
    return;
 }
@@ -318,7 +318,7 @@ void do_timezone( CHAR_DATA *ch, char *argument ) {
       }
    } else {
       sscanf( argument, "%d:%d", (int *)&(ch_owner->pcdata->houroffset), (int *)&(ch_owner->pcdata->minoffset) );
-      sprintf( buf, "Time will now be displayed %d:%2d from GMT\n\r",
+      snprintf( buf, sizeof(buf), "Time will now be displayed %d:%2d from GMT\n\r",
                ch_owner->pcdata->houroffset, ch_owner->pcdata->minoffset );
       send_to_char( buf, ch_owner );
    }
@@ -602,10 +602,10 @@ void spell_reincarnate( int sn, int level, CHAR_DATA *ch, void *vo) {
       animated->carrying = obj->contains;
       obj->contains = NULL;
       /* Give the zombie its correct name and stuff */
-      sprintf(buf, animated->description, obj->description);
+      snprintf(buf, sizeof(buf), animated->description, obj->description);
       free_string(animated->long_descr);
       animated->long_descr = str_dup(buf);
-      sprintf(buf, animated->name, obj->name);
+      snprintf(buf, sizeof(buf), animated->name, obj->name);
       free_string(animated->name);
       animated->name = str_dup(buf);
 
@@ -698,7 +698,7 @@ void do_smite ( CHAR_DATA *ch, char *argument) {
    /* tells others that the victim has
                                            been disarmed, but not the victim :) */
 
-   sprintf(smitebuf, "You |W>>> |YSMITE|W <<<|w %s with all of your Godly powers!\n\r", (victim==ch)? "yourself" : victim->name);
+   snprintf(smitebuf, sizeof(smitebuf), "You |W>>> |YSMITE|W <<<|w %s with all of your Godly powers!\n\r", (victim==ch)? "yourself" : victim->name);
    send_to_char (smitebuf,ch);
 
    victim->hit/=2;            /* easiest way of halving hp? */
@@ -857,7 +857,7 @@ void tip_players(void) {
 		tip_current = tip_current->next;
 		return;
 	}
-	sprintf( buf, "|WTip: %s|w\n\r", tip_current->tip );
+	snprintf( buf, sizeof(buf), "|WTip: %s|w\n\r", tip_current->tip );
      	for( d = descriptor_list ; d != NULL ; d = d->next) {
 		CHAR_DATA * ch;
 			

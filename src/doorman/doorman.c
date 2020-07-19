@@ -92,7 +92,7 @@ bool fdprintf(int fd, char *format, ...) {
 
   va_list args;
   va_start(args, format);
-  len = vsprintf(buffer, format, args);
+  len = vsnprintf(buffer, sizeof(buffer), format, args);
   va_end(args);
   int numWritten = write(fd, buffer, len);
   return numWritten == len;
@@ -105,7 +105,7 @@ bool cprintf(int chan, char *format, ...) {
 
   va_list args;
   va_start(args, format);
-  len = vsprintf(buffer, format, args);
+  len = vsnprintf(buffer, sizeof(buffer), format, args);
   va_end(args);
   int numWritten = write(channel[chan].fd, buffer, len);
   return numWritten == len;
@@ -118,7 +118,7 @@ void wall(char *format, ...) {
 
   va_list args;
   va_start(args, format);
-  len = vsprintf(buffer, format, args);
+  len = vsnprintf(buffer, sizeof(buffer), format, args);
   va_end(args);
 
   for (chan = 0; chan < CHANNEL_MAX; ++chan)
@@ -135,7 +135,7 @@ void log_out(char *format, ...) {
 
   va_list args;
   va_start(args, format);
-  vsprintf(buffer, format, args);
+  vsnprintf(buffer, sizeof(buffer), format, args);
   va_end(args);
 
   time(&now);
@@ -626,7 +626,7 @@ void ProcessIdent(struct sockaddr_in address, int outFd) {
     log_out("ID: Unable to get remote username");
   } else {
     char buf[1024];
-    sprintf(buf, "%u , %u\n\r", theirPort, port);
+    snprintf(buf, sizeof(buf), "%u , %u\n\r", theirPort, port);
     if (write(sock, buf, strlen(buf)) != (ssize_t)strlen(buf)) {
       log_out("ID: Unable to write to socket");
       close(sock);
@@ -656,7 +656,7 @@ void ProcessIdent(struct sockaddr_in address, int outFd) {
 
   close(sock);
 
-  nBytes = sprintf(buf, "%s %s", userName, hostName) + 1;
+  nBytes = snprintf(buf, sizeof(buf), "%s %s", userName, hostName) + 1;
   int header_written = write(outFd, &nBytes, sizeof(nBytes));
   if (header_written != sizeof(nBytes) || write(outFd, buf, nBytes) != nBytes) {
     log_out("ID: Unable to write to doorman - perhaps it crashed (%d, %s)",
@@ -784,7 +784,7 @@ void TryToConnectToXania(void) {
 
   memset(&xaniaAddr, 0, sizeof(xaniaAddr));
   xaniaAddr.sun_family = PF_UNIX;
-  sprintf(xaniaAddr.sun_path, XANIA_FILE, port,
+  snprintf(xaniaAddr.sun_path, sizeof(xaniaAddr.sun_path), XANIA_FILE, port,
           getenv("USER") ? getenv("USER") : "unknown");
 
   /*

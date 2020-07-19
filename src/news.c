@@ -254,7 +254,7 @@ void do_news_next(CHAR_DATA *ch, char *argument) {
     ch->article=(ch->thread)?ch->thread->articles:NULL;	// Set up article appropriately
     move_to_next_unread(ch);
     if (ch->thread==NULL) {			// Still no news to read?
-      sprintf(buf,"You have no more %s to read.\n\r",news_name);
+      snprintf(buf, sizeof(buf), "You have no more %s to read.\n\r",news_name);
       send_to_char(buf,ch);
       return;
     }
@@ -266,10 +266,10 @@ void do_news_next(CHAR_DATA *ch, char *argument) {
       return;
     }
   }
-  sprintf(buf,"%s[%3d/%-3d] - %s\n\r",(ch->article==ch->thread->articles)?"|WNew thread: |w":"",
+  snprintf(buf, sizeof(buf), "%s[%3d/%-3d] - %s\n\r",(ch->article==ch->thread->articles)?"|WNew thread: |w":"",
           ch->articlenum, ch->thread->num_articles, ch->thread->subject);
   send_to_char(buf,ch);
-  sprintf(buf,"From: %s\n\rDate: %s\r",ch->article->author,ctime((time_t *)&ch->article->time_sent));
+  snprintf(buf, sizeof(buf), "From: %s\n\rDate: %s\r",ch->article->author,ctime((time_t *)&ch->article->time_sent));
   send_to_char(buf,ch);
   page_to_char(ch->article->text,ch);
   mark_as_read(ch, ch->article->msg_id);
@@ -340,7 +340,7 @@ void do_news_read(CHAR_DATA *ch, char *argument) {
   current = 1;
   for (art = ch->thread->articles; art && (mesnum!=current++); art = art->next) ;	// Step through
   if (art==NULL) {		// Didn't find the message
-    sprintf(num,"Couldn't find message number %d in current thread.\n\r",mesnum);
+    snprintf(num, sizeof(num), "Couldn't find message number %d in current thread.\n\r",mesnum);
     send_to_char(num,ch);
     return;
   }
@@ -368,11 +368,11 @@ void do_news_thread(CHAR_DATA *ch, char *argument) {
     current++;
   }
   if (t==NULL) {
-    sprintf(num,"Couldn't find thread %d.\n\r",threadnum);
+    snprintf(num, sizeof(num), "Couldn't find thread %d.\n\r",threadnum);
     send_to_char(num,ch);
     return;
   }
-  sprintf(num,"Thread '|W%s|w' selected (#%d%s).\n\r", t->subject, threadnum,
+  snprintf(num, sizeof(num), "Thread '|W%s|w' selected (#%d%s).\n\r", t->subject, threadnum,
           IS_SET(t->flags,THREAD_READ_ONLY)?",read only":"");
   send_to_char(num,ch);
   ch->thread = t;
@@ -401,12 +401,12 @@ void do_news_skip(CHAR_DATA *ch, char *argument) {
 void do_news_compose(CHAR_DATA *ch, char *argument) {
 	char buf[MAX_STRING_LENGTH];
 	if (ch->newsbuffer) {
-		sprintf(buf, "You are already composing a %s message!\n\r", news_name);
+		snprintf(buf, sizeof(buf), "You are already composing a %s message!\n\r", news_name);
 		send_to_char(buf, ch);
 		return;
 	}
 	if (argument[0]=='\0') {
-		sprintf(buf, "Usage: %s compose <subject>\n\r", news_name);
+		snprintf(buf, sizeof(buf), "Usage: %s compose <subject>\n\r", news_name);
 		send_to_char(buf, ch);
 		return;
 	}
@@ -414,7 +414,7 @@ void do_news_compose(CHAR_DATA *ch, char *argument) {
 	ch->newsbuffer = buffer_create();
 	ch->newssubject = str_dup(argument);
 	ch->newsfromname = str_dup(ch->name);
-	sprintf(buf, "Composing new %s thread with subject '%s'\n\r", news_name, argument);
+	snprintf(buf, sizeof(buf), "Composing new %s thread with subject '%s'\n\r", news_name, argument);
 	send_to_char(buf, ch);
 }
 
@@ -427,9 +427,8 @@ void do_news_reply(CHAR_DATA *ch, char *argument) {
 		return;
 	}
 	if (ch->newsbuffer) {
-		char foo[MAX_STRING_LENGTH];
-		sprintf(foo, "You are already composing a %s message.\n\r", news_name);
-		send_to_char(foo, ch);
+		snprintf(buf, sizeof(buf), "You are already composing a %s message.\n\r", news_name);
+		send_to_char(buf, ch);
 		return;
 	}
 	if (ch->thread==NULL) {
@@ -444,7 +443,7 @@ void do_news_reply(CHAR_DATA *ch, char *argument) {
 	ch->newsreply  = ch->thread;  // Set up the reply thread, as user may wish
 	                              // to read other threads while editing their message
 	ch->newsfromname = str_dup(ch->name);
-	sprintf(buf, "Replying to thread '%s'\n\r", ch->thread->subject);
+	snprintf(buf, sizeof(buf), "Replying to thread '%s'\n\r", ch->thread->subject);
 	send_to_char(buf, ch);
 }
 
@@ -453,9 +452,9 @@ void do_news_reply(CHAR_DATA *ch, char *argument) {
 void do_news_clear(CHAR_DATA *ch, char *argument) {
   (void)argument;
   if (ch->newsbuffer==NULL) {
-    char foo[MAX_STRING_LENGTH];
-    sprintf(foo,"You aren't composing a %s message.\n\r",news_name);
-    send_to_char(foo,ch);
+    char buf[MAX_STRING_LENGTH];
+    snprintf(buf, sizeof(buf), "You aren't composing a %s message.\n\r",news_name);
+    send_to_char(buf, ch);
     return;
   }
   buffer_destroy(ch->newsbuffer);		// Free all the memory that may have been alloced
@@ -475,9 +474,9 @@ void do_news_clear(CHAR_DATA *ch, char *argument) {
 void do_news_post(CHAR_DATA *ch, char *argument) {
   (void)argument;
   if (ch->newsbuffer==NULL) {			// Is the user actually composing a message?
-    char foo[MAX_STRING_LENGTH];
-    sprintf(foo,"You aren't composing a %s message.\n\r",news_name);
-    send_to_char(foo,ch);
+    char buf[MAX_STRING_LENGTH];
+    snprintf(buf, sizeof(buf), "You aren't composing a %s message.\n\r",news_name);
+    send_to_char(buf, ch);
     return;
   }
   if (!buffer_string(ch->newsbuffer)) {
@@ -538,9 +537,9 @@ void do_news_post(CHAR_DATA *ch, char *argument) {
 /* Add a line to the message being edited */
 void do_news_plus(CHAR_DATA *ch, char *argument) {
   if (ch->newsbuffer==NULL) {				// Are they composing a message?
-    char foo[MAX_STRING_LENGTH];
-    sprintf(foo,"You aren't composing a %s message.\n\r",news_name);
-    send_to_char(foo,ch);
+    char buf[MAX_STRING_LENGTH];
+    snprintf(buf, sizeof(buf), "You aren't composing a %s message.\n\r",news_name);
+    send_to_char(buf, ch);
     return;
   }
   smash_tilde(argument);				// Kill those tildes
@@ -553,9 +552,9 @@ void do_news_plus(CHAR_DATA *ch, char *argument) {
 void do_news_minus(CHAR_DATA *ch, char *argument) {
   (void)argument;
   if (ch->newsbuffer==NULL) {
-    char foo[MAX_STRING_LENGTH];
-    sprintf(foo,"You aren't composing a %s message.\n\r",news_name);
-    send_to_char(foo,ch);
+    char buf[MAX_STRING_LENGTH];
+    snprintf(buf, sizeof(buf), "You aren't composing a %s message.\n\r",news_name);
+    send_to_char(buf, ch);
     return;
   }
   buffer_removeline(ch->newsbuffer);				// Thank God I wrote the buffer routines :)
@@ -566,9 +565,9 @@ void do_news_minus(CHAR_DATA *ch, char *argument) {
 void do_news_show(CHAR_DATA *ch, char *argument) {
   (void)argument;
   if (ch->newsbuffer==NULL) {
-    char foo[MAX_STRING_LENGTH];
-    sprintf(foo,"You aren't composing a %s message.\n\r",news_name);
-    send_to_char(foo,ch);
+    char buf[MAX_STRING_LENGTH];
+    snprintf(buf, sizeof(buf), "You aren't composing a %s message.\n\r",news_name);
+    send_to_char(buf, ch);
     return;
   }
   if (buffer_string(ch->newsbuffer)) {
@@ -617,9 +616,9 @@ void do_news_delete(CHAR_DATA *ch, char *argument) {
     return;
   }
   if ( (artnum=atoi(argument) ) <= 0) {	// We need a non-negative numeric
-    char foo[MAX_STRING_LENGTH];
-    sprintf(foo,"Usage : %s delete <article number>\n\r",news_name);
-    send_to_char(foo,ch);
+    char buf[MAX_STRING_LENGTH];
+    snprintf(buf, sizeof(buf), "Usage : %s delete <article number>\n\r",news_name);
+    send_to_char(buf, ch);
     return;
   }
   for ( art = ch->thread->articles,n=1; art && n!=artnum; art=art->next,n++) ;	// Find the article
@@ -709,9 +708,9 @@ void do_news_flags(CHAR_DATA *ch, char *argument) {
 /* Masquerade as another person */
 void do_news_from(CHAR_DATA *ch, char *argument) {
   if (argument[0]=='\0') {
-    char foo[MAX_STRING_LENGTH];
-    sprintf(foo,"Usage: %s from <pseudonym>.\n\r", news_name);
-    send_to_char(foo, ch);
+    char buf[MAX_STRING_LENGTH];
+    snprintf(buf, sizeof(buf), "Usage: %s from <pseudonym>.\n\r", news_name);
+    send_to_char(buf, ch);
     return;
   }
   if (ch->newsbuffer==NULL) {
@@ -732,18 +731,18 @@ void do_news_expiry(CHAR_DATA *ch, char *argument) {
   }
   if (argument[0]=='\0') {		// Is this an enquiry?
     if (ch->thread->expiry) {
-      sprintf(buf,"The thread '%s' has an expiry time of %d day%s.\n\r",
+      snprintf(buf, sizeof(buf), "The thread '%s' has an expiry time of %d day%s.\n\r",
                   ch->thread->subject,ch->thread->expiry,(ch->thread->expiry==1)?"":"s");
     } else {
-      sprintf(buf,"The thread '%s' does not expire.\n\r",ch->thread->subject);
+      snprintf(buf, sizeof(buf), "The thread '%s' does not expire.\n\r",ch->thread->subject);
     }
     send_to_char(buf,ch);
     return;
   }
   if ( (ch->thread->expiry=atoi(argument)) == 0) {
-    sprintf(buf,"The thread '%s' now does not expire.\n\r",ch->thread->subject);
+    snprintf(buf, sizeof(buf), "The thread '%s' now does not expire.\n\r",ch->thread->subject);
   } else {
-    sprintf(buf,"The thread '%s' now expires after %d day%s.\n\r",
+    snprintf(buf, sizeof(buf), "The thread '%s' now expires after %d day%s.\n\r",
                   ch->thread->subject,ch->thread->expiry,(ch->thread->expiry==1)?"":"s");
   }
   save_news();
@@ -983,7 +982,7 @@ void news_info(CHAR_DATA *ch) {
   }
   if (unreadthreads || unreadarticles) {
     char buf[MAX_STRING_LENGTH];
-    sprintf(buf, "You have %d unread article%s in %d thread%s.\n\rThe news base has %d article%s in %d thread%s.\n\r",
+    snprintf(buf, sizeof(buf), "You have %d unread article%s in %d thread%s.\n\rThe news base has %d article%s in %d thread%s.\n\r",
                  unreadarticles, (unreadarticles==1)?"":"s",
                  unreadthreads, (unreadthreads==1)?"":"s",
                  numarticles, (numarticles==1)?"":"s",

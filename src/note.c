@@ -193,7 +193,7 @@ static void note_list(CHAR_DATA *ch, char *argument) {
 		if (is_note_to(ch, note)) {
 			int is_new = note->date_stamp > ch->last_note && str_cmp(note->sender, ch->name);
 
-			sprintf(buf, "[%3d%s] %s: %s|w\n\r", num, is_new ? "N" : " ",
+			snprintf(buf, sizeof(buf), "[%3d%s] %s: %s|w\n\r", num, is_new ? "N" : " ",
 					note->sender, note->subject);
 			send_to_char(buf, ch);
 			num++;
@@ -224,7 +224,7 @@ static void note_read(CHAR_DATA *ch, char *argument) {
 	if (note) {
 		char buf[MAX_STRING_LENGTH];
 
-		sprintf(buf, "[%3d] %s|w: %s|w\n\r%s|w\n\rTo: %s|w\n\r", note_index,
+		snprintf(buf, sizeof(buf), "[%3d] %s|w: %s|w\n\r%s|w\n\rTo: %s|w\n\r", note_index,
 				note->sender, note->subject, note->date, note->to_list);
 		send_to_char(buf, ch);
 		if (note->text) {
@@ -307,7 +307,7 @@ static void note_show(CHAR_DATA *ch, char *argument) {
 		send_to_char("You have no note in progress.\n\r", ch);
 		return;
 	}
-	sprintf(buf, "%s|w: %s|w\n\rTo: %s|w\n\r", note->sender ? note->sender : "(No sender)",
+	snprintf(buf, sizeof(buf), "%s|w: %s|w\n\rTo: %s|w\n\r", note->sender ? note->sender : "(No sender)",
 			note->subject ? note->subject : "(No subject)",
 			note->to_list ? note->to_list : "(No recipients)");
 	send_to_char(buf, ch);

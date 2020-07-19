@@ -147,7 +147,7 @@ void move_char( CHAR_DATA *ch, int door )
 	    if (to_room->vnum == clantable[iClan].entrance_vnum) {
 	       if (( ch->pcdata->pcclan == NULL) ||
 		   ch->pcdata->pcclan->clan != &clantable[iClan]) {
-		  sprintf(buf, "Only members of the %s may enter there.\n\r",
+		  snprintf(buf, sizeof(buf), "Only members of the %s may enter there.\n\r",
 			  clantable[iClan].name);
 
 		  send_to_char( buf, ch);
@@ -370,7 +370,7 @@ void do_enter( CHAR_DATA * ch, char *argument)
 		   if (to_room->vnum == clantable[iClan].entrance_vnum) {
 		     if (( ch->pcdata->pcclan == NULL) ||
 			 ch->pcdata->pcclan->clan != &clantable[iClan]) {
-		       sprintf(buf, "Only members of the %s may enter there.\n\r",
+		       snprintf(buf, sizeof(buf), "Only members of the %s may enter there.\n\r",
 			       clantable[iClan].name);
 		       
 		       send_to_char( buf, ch);
@@ -1417,7 +1417,7 @@ void do_recall( CHAR_DATA *ch, char *argument )
    if ( IS_SET(ch->in_room->room_flags, ROOM_NO_RECALL)
    ||   IS_AFFECTED(ch, AFF_CURSE) )
    {
-      sprintf(buf, "%s has forsaken you.\n\r", deity_name);
+      snprintf(buf, sizeof(buf), "%s has forsaken you.\n\r", deity_name);
       send_to_char( buf, ch );
       return;
    }
@@ -1435,7 +1435,7 @@ void do_recall( CHAR_DATA *ch, char *argument )
       {
          check_improve(ch,gsn_recall,FALSE,6);
          WAIT_STATE( ch, 4 );
-         sprintf( buf, "You failed!.\n\r");
+         snprintf( buf, sizeof(buf), "You failed!.\n\r");
          send_to_char( buf, ch );
          return;
       }
@@ -1443,7 +1443,7 @@ void do_recall( CHAR_DATA *ch, char *argument )
       lose = (ch->desc != NULL) ? 25 : 50;
       gain_exp( ch, 0 - lose );
       check_improve(ch,gsn_recall,TRUE,4);
-      sprintf( buf, "You recall from combat!  You lose %d exps.\n\r", lose );
+      snprintf( buf, sizeof(buf), "You recall from combat!  You lose %d exps.\n\r", lose );
       send_to_char( buf, ch );
       stop_fighting( ch, TRUE );
 
@@ -1503,7 +1503,7 @@ void do_train( CHAR_DATA *ch, char *argument )
 
    if ( argument[0] == '\0' )
    {
-      sprintf( buf, "You have %d training sessions.\n\r", ch->train );
+      snprintf( buf, sizeof(buf), "You have %d training sessions.\n\r", ch->train );
       send_to_char( buf, ch );
       argument = "foo";
    }

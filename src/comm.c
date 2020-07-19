@@ -404,7 +404,7 @@ void ext_shutdown( int signum ) {
    FILE *fp;
    DESCRIPTOR_DATA *d,*d_next;
 
-   sprintf( buf, "Shutdown requested by operating system." );
+   snprintf( buf, sizeof(buf), "Shutdown requested by operating system." );
 
    fclose( fpReserve );
    if ( ( fp = fopen( SHUTDOWN_FILE, "a" ) ) == NULL ) {
@@ -527,7 +527,7 @@ int main( int argc, char **argv ) {
 		  port = atoi (argv[num]);
       }
    }
-   sprintf (file, XANIA_FILE, port, getenv("USER") ? getenv("USER") : "unknown");
+   snprintf (file, sizeof(file), XANIA_FILE, port, getenv("USER") ? getenv("USER") : "unknown");
 
    /*
     * Run the game.
@@ -548,7 +548,7 @@ int main( int argc, char **argv ) {
    if (printinfo)
       check_xania();
    load_tipfile(); /* tip wizard - Faramir 21 Sep 1998 */
-   sprintf( log_buf, "Xania is ready to rock via %s.", file );
+   snprintf( log_buf, LOG_BUF_SIZE, "Xania is ready to rock via %s.", file );
    log_string( log_buf );
    if (doormanDesc) {
 	Packet pInit;
@@ -903,14 +903,14 @@ void game_loop_unix( int control )
                          // TODO check nBytes and blow up if we get partial messages from doorman
 			 switch (p.type) {
 			 case PACKET_CONNECT:
-			      sprintf (logMes, "Incoming connection on channel %d.", p.channel);
+			      snprintf (logMes, sizeof(logMes), "Incoming connection on channel %d.", p.channel);
 			      log_string (logMes);
 			      new_descriptor (p.channel);
 			      break;
 			 case PACKET_RECONNECT:
 				 {
 					 DESCRIPTOR_DATA *d;
-					 sprintf (logMes, "Incoming reconnection on channel %d for %s.", p.channel, buffer);
+					 snprintf (logMes, sizeof(logMes), "Incoming reconnection on channel %d for %s.", p.channel, buffer);
 					 log_string (logMes);
 					 d = new_descriptor (p.channel);
 					 // Login name
@@ -969,9 +969,9 @@ void game_loop_unix( int control )
 				   }
 			      }
 			      if (!ok) {
-				   sprintf (logMes, "Unable to associate info with a descriptor (%d)", p.channel);
+				   snprintf (logMes, sizeof(logMes),  "Unable to associate info with a descriptor (%d)", p.channel);
 			      } else {
-				   sprintf (logMes, "Info from doorman: %d is %s@%s", p.channel, d->realname, d->host);
+				   snprintf (logMes, sizeof(logMes),  "Info from doorman: %d is %s@%s", p.channel, d->realname, d->host);
 			      }
 			      log_string (logMes);
 			      break;
@@ -989,7 +989,7 @@ void game_loop_unix( int control )
 				   }
 			      }
 			      if (!ok) {
-				   sprintf (logMes, "Unable to associate message with a descriptor (%d)", p.channel);
+				   snprintf (logMes, sizeof(logMes), "Unable to associate message with a descriptor (%d)", p.channel);
 				   log_string (logMes);
 			      }
 			      break;
@@ -1254,7 +1254,7 @@ void close_socket (DESCRIPTOR_DATA *dclose)
    if ( ( ch = dclose->character ) != NULL )
    {
       do_chal_canc (ch);
-      sprintf( log_buf, "Closing link to %s.", ch->name );
+      snprintf( log_buf, LOG_BUF_SIZE, "Closing link to %s.", ch->name );
       log_new( log_buf, EXTRA_WIZNET_DEBUG, (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))
 					     ?get_trust(ch):0 );
       if ( dclose->connected == CON_PLAYING ||
@@ -1272,7 +1272,7 @@ void close_socket (DESCRIPTOR_DATA *dclose)
 	 * New code: debug connections that haven't logged in properly
 	 * ...at least for level 100s
 	 */
-	sprintf (log_buf, "Closing link to descriptor %d.", dclose->descriptor);
+	snprintf (log_buf, LOG_BUF_SIZE, "Closing link to descriptor %d.", dclose->descriptor);
 	log_new (log_buf, EXTRA_WIZNET_DEBUG, 100);
    }
 
@@ -1333,7 +1333,7 @@ bool read_from_descriptor (DESCRIPTOR_DATA *d, char *data, int nRead)
    iStart = strlen(d->inbuf);
    if ( iStart >= (int)sizeof(d->inbuf) - 10 )
    {
-      sprintf( log_buf, "%s input overflow!", d->host );
+      snprintf( log_buf, LOG_BUF_SIZE, "%s input overflow!", d->host );
       log_string( log_buf );
       write_to_descriptor( d->descriptor,
       "\n\r*** PUT A LID ON IT!!! ***\n\r", 0 );
@@ -1436,7 +1436,7 @@ void read_from_buffer( DESCRIPTOR_DATA *d )
       {
           if ( ++d->repeat >= 25 )
           {
-         sprintf( log_buf, "%s input spamming!", d->host );
+         snprintf( log_buf, LOG_BUF_SIZE, "%s input spamming!", d->host );
          log_string( log_buf );
          write_to_descriptor( d->descriptor,
              "\n\r*** PUT A LID ON IT!!! ***\n\r", 0 );
@@ -1498,23 +1498,23 @@ bool process_output( DESCRIPTOR_DATA *d, bool fPrompt )
          percent = -1;
 
          if (percent >= 100)
-            sprintf(wound,"is in excellent condition.");
+            snprintf(wound, sizeof(wound), "is in excellent condition.");
          else if (percent >= 90)
-            sprintf(wound,"has a few scratches.");
+            snprintf(wound, sizeof(wound), "has a few scratches.");
          else if (percent >= 75)
-            sprintf(wound,"has some small wounds and bruises.");
+            snprintf(wound, sizeof(wound), "has some small wounds and bruises.");
          else if (percent >= 50)
-            sprintf(wound,"has quite a few wounds.");
+            snprintf(wound, sizeof(wound), "has quite a few wounds.");
          else if (percent >= 30)
-            sprintf(wound,"has some big nasty wounds and scratches.");
+            snprintf(wound, sizeof(wound), "has some big nasty wounds and scratches.");
          else if (percent >= 15)
-            sprintf(wound,"looks pretty hurt.");
+            snprintf(wound, sizeof(wound), "looks pretty hurt.");
          else if (percent >= 0)
-            sprintf(wound,"is in awful condition.");
+            snprintf(wound, sizeof(wound), "is in awful condition.");
          else
-         sprintf(wound,"is bleeding to death.");
+         snprintf(wound, sizeof(wound), "is bleeding to death.");
 
-         sprintf(buf,"%s %s \n\r",
+         snprintf(buf, sizeof(buf), "%s %s \n\r",
          IS_NPC(victim) ? victim->short_descr : victim->name,wound);
          buf[0] = UPPER(buf[0]);
          write_to_buffer( d, buf, 0);
@@ -1726,7 +1726,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
 
       if ( IS_SET(ch->act, PLR_DENY) )
       {
-         sprintf( log_buf, "Denying access to %s@%s.", argument, d->host );
+         snprintf( log_buf, LOG_BUF_SIZE, "Denying access to %s@%s.", argument, d->host );
          log_string( log_buf );
          write_to_buffer( d, "You are denied access.\n\r", 0 );
          close_socket( d );
@@ -1772,7 +1772,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
            return;
          }
 
-         sprintf( buf, "Did I hear that right -  '%s' (Y/N)? ", argument );
+         snprintf( buf, sizeof(buf), "Did I hear that right -  '%s' (Y/N)? ", argument );
          write_to_buffer( d, buf, 0 );
          d->connected = CON_CONFIRM_NEW_NAME;
          return;
@@ -1817,7 +1817,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
          return;
 
 
-      sprintf( log_buf, "%s@%s has connected.", ch->name, d->host );
+      snprintf( log_buf, LOG_BUF_SIZE, "%s@%s has connected.", ch->name, d->host );
       log_new( log_buf, EXTRA_WIZNET_DEBUG, ((IS_SET(ch->act,PLR_WIZINVIS) ||
 					      IS_SET(ch->act,PLR_PROWL))
 					      )?get_trust(ch):0 );
@@ -1880,7 +1880,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
       {
       case 'y':
       case 'Y':
-         sprintf( buf, "Welcome new character, to Xania.\n\rThink of a password for %s: ",
+         snprintf( buf, sizeof(buf), "Welcome new character, to Xania.\n\rThink of a password for %s: ",
                    (char *)ch->name);
 	 SetEchoState (d, 0);
          write_to_buffer( d, buf, 0 );
@@ -2123,7 +2123,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
 
       ch->class = iClass;
 
-      sprintf( log_buf, "%s@%s new player.", ch->name, d->host );
+      snprintf( log_buf, LOG_BUF_SIZE, "%s@%s new player.", ch->name, d->host );
       log_string( log_buf );
       write_to_buffer( d, "\n\r", 2 );
       write_to_buffer( d, "You may be good, neutral, or evil.\n\r",0);
@@ -2196,9 +2196,9 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
       send_to_char("\n\r",ch);
       if (!str_cmp(argument,"done"))
       {
-	sprintf(buf,"Creation points: %d\n\r",ch->pcdata->points);
+	snprintf(buf, sizeof(buf), "Creation points: %d\n\r",ch->pcdata->points);
 	send_to_char(buf,ch);
-	sprintf(buf,"Experience per level: %d\n\r",
+	snprintf(buf, sizeof(buf), "Experience per level: %d\n\r",
 		exp_per_level(ch,ch->gen_data->points_chosen));
 	if (ch->pcdata->points < 40)
 	  ch->train = (40 - ch->pcdata->points + 1) / 2;
@@ -2257,7 +2257,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
          ch->move   = ch->max_move;
          ch->train   = 3;
          ch->practice = 5;
-         sprintf( buf, "the %s",
+         snprintf( buf, sizeof(buf), "the %s",
          title_table [ch->class] [ch->level]
          [ch->sex == SEX_FEMALE ? 1 : 0] );
          set_title( ch, buf );
@@ -2297,7 +2297,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
          char_to_room( ch, get_room_index( ROOM_VNUM_TEMPLE ) );
       }
 
-      sprintf( log_buf, "|W### |P%s|W has entered the game.|w", ch->name );
+      snprintf( log_buf, LOG_BUF_SIZE, "|W### |P%s|W has entered the game.|w", ch->name );
       announce( log_buf, ch);
       act( "|P$n|W has entered the game.", ch, NULL, NULL, TO_ROOM );
       do_look( ch, "auto" );
@@ -2311,7 +2311,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
       max_on = UMAX(count,max_on);
 
       if (ch->gold > 250000 && !IS_IMMORTAL(ch)) {
-         sprintf(buf,"You are taxed %ld gold to pay for the Mayor's bar.\n\r",
+         snprintf(buf, sizeof(buf), "You are taxed %ld gold to pay for the Mayor's bar.\n\r",
          (ch->gold - 250000) / 2);
          send_to_char(buf,ch);
          ch->gold -= (ch->gold - 250000) / 2;
@@ -2326,7 +2326,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
       notes = note_count(ch);
 
       if (notes > 0) {
-         sprintf(buf,"\n\rYou have %d new note%s waiting.\n\r", notes,
+         snprintf(buf, sizeof(buf), "\n\rYou have %d new note%s waiting.\n\r", notes,
          		(notes == 1) ? "" : "s");
          send_to_char(buf,ch);
       }
@@ -2448,7 +2448,7 @@ bool check_reconnect( DESCRIPTOR_DATA *d, char *name, bool fConn )
             ch->timer    = 0;
             send_to_char( "Reconnecting.\n\r", ch );
             act( "$n has reconnected.", ch, NULL, NULL, TO_ROOM );
-            sprintf( log_buf, "%s@%s reconnected.", ch->name, d->host );
+            snprintf( log_buf, LOG_BUF_SIZE, "%s@%s reconnected.", ch->name, d->host );
             log_new( log_buf, EXTRA_WIZNET_DEBUG, ((IS_SET(ch->act,PLR_WIZINVIS) ||
 						    IS_SET(ch->act,PLR_PROWL)))?get_trust(ch):0 );
             d->connected = CON_PLAYING;
@@ -2922,7 +2922,7 @@ void show_prompt( DESCRIPTOR_DATA *d, char *prompt )
    } else ch_prefix = ch;
 
    if (prompt == NULL || prompt[0] == '\0') {
-      sprintf( buf, "<%d/%dhp %d/%dm %dmv> |w", ch->hit, ch->max_hit,
+      snprintf( buf, sizeof(buf), "<%d/%dhp %d/%dm %dmv> |w", ch->hit, ch->max_hit,
       ch->mana, ch->max_mana, ch->move);
       *(buf+strlen(buf)) = '\0';
       send_to_char(buf, ch);
@@ -2974,51 +2974,51 @@ void show_prompt( DESCRIPTOR_DATA *d, char *prompt )
          break;
       case 'h':
          i = buf2;
-         sprintf( buf2, "%d", ch->hit );
+         snprintf( buf2, sizeof(buf2), "%d", ch->hit );
          break;
       case 'H':
          i = buf2;
-         sprintf( buf2, "%d", ch->max_hit );
+         snprintf( buf2, sizeof(buf2),"%d", ch->max_hit );
          break;
       case 'm':
          i = buf2;
-         sprintf( buf2, "%d", ch->mana );
+         snprintf( buf2, sizeof(buf2),"%d", ch->mana );
          break;
       case 'M':
          i = buf2;
-         sprintf( buf2, "%d", ch->max_mana);
+         snprintf( buf2, sizeof(buf2),"%d", ch->max_mana);
          break;
       case 'g':
          i = buf2;
-         sprintf( buf2, "%ld", ch->gold );
+         snprintf( buf2, sizeof(buf2),"%ld", ch->gold );
          break;
       case 'x':
          i = buf2;
-         sprintf( buf2, "%ld",
+         snprintf( buf2, sizeof(buf2),"%ld",
          (long int)(((long int)(ch->level+1)
          * (long int)(exp_per_level(ch,ch->pcdata->points))
          - (long int)(ch->exp))));
          break;
       case 'v':
          i = buf2;
-         sprintf( buf2, "%d", ch->move );
+         snprintf( buf2, sizeof(buf2), "%d", ch->move );
          break;
       case 'V':
          i = buf2;
-         sprintf( buf2, "%d", ch->max_move);
+         snprintf( buf2, sizeof(buf2), "%d", ch->max_move);
          break;
       case 'a':
          i = buf2;
          if (get_trust(ch)>=10) {
-            sprintf( buf2, "%d", ch->alignment );
+            snprintf( buf2, sizeof(buf2), "%d", ch->alignment );
          }
          else {
-            sprintf( buf2, "??" );
+            snprintf( buf2, sizeof(buf2), "??" );
          }
          break;
       case 'X':
          i = buf2;
-         sprintf( buf2, "%ld", ch->exp );
+         snprintf( buf2, sizeof(buf2), "%ld", ch->exp );
          break;
 /* PCFN 20-05-97 prefix */
       case 'p':
@@ -3059,7 +3059,7 @@ void show_prompt( DESCRIPTOR_DATA *d, char *prompt )
       case 'R':
          if IS_IMMORTAL(ch) {
             i = buf2;
-            sprintf( buf2, "%d", ch->in_room->vnum );
+            snprintf( buf2, sizeof(buf2), "%d", ch->in_room->vnum );
          }
          else {
             i = "|W ?? |p";

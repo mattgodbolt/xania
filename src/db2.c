@@ -597,7 +597,7 @@ char *print_flags(const int value) {
   static char table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef";
   buf[0]='\0';
   if (value==0) {
-    sprintf( buf, "0");
+    snprintf( buf, sizeof(buf), "0");
     return (char *)&buf;
   }
 

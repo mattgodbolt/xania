@@ -146,7 +146,7 @@ do_security ( CHAR_DATA *ch, char *argument ) {
 		return;
 	}
 	if ( ( player->pcdata->olc == NULL ) && security == 0 ) {
-		sprintf(buf,  "OLC: %s already has no security access!\n\r",
+		snprintf(buf, sizeof(buf), "OLC: %s already has no security access!\n\r",
 			player->name);
 		send_to_char( buf, ch);
 		return;
@@ -156,7 +156,7 @@ do_security ( CHAR_DATA *ch, char *argument ) {
 
 	if ( ( player->pcdata->olc->security == OLC_SECURITY_NONE )
 	     && security == 0 ) {
-		sprintf( buf, "OLC: %s already has no security access!\n\r",
+		snprintf( buf, sizeof(buf), "OLC: %s already has no security access!\n\r",
 			 player->name);
 		send_to_char( buf, ch );
 		return;
@@ -164,7 +164,7 @@ do_security ( CHAR_DATA *ch, char *argument ) {
 	switch (security) {
 
 	case 0:
-		sprintf( buf, "OLC: %s now has no security access.\n\r",
+		snprintf( buf, sizeof(buf), "OLC: %s now has no security access.\n\r",
 			 player->name );
 		send_to_char( buf, ch );
 		send_to_char("OLC: your security access has been removed.\n\r",
@@ -172,7 +172,7 @@ do_security ( CHAR_DATA *ch, char *argument ) {
 		player->pcdata->olc->security = 0;
 		break;
 	default:
-		sprintf( buf, "OLC: security access %d", security);
+		snprintf( buf, sizeof(buf), "OLC: security access %d", security);
 		send_to_char( buf, player );
 		send_to_char( " has been granted to you.\n\r", player );
 		send_to_char( buf, ch);
@@ -264,12 +264,12 @@ do_edit ( CHAR_DATA* ch, char * argument ) {
 			send_to_char("     enclose it in '' single quotes.\n\r", ch);
 			return;
 		}
-		sprintf(areaname, arg1);
+		snprintf(areaname, sizeof(areaname), arg1);
 
 		olc_initialise(ch);
 		ch->pcdata->olc->areaname = str_dup(areaname);
 		ch->pcdata->olc->filename = str_dup(filename);
-		sprintf(buf, "OLC: editing area:%s\n\r     file: %s\n\r",
+		snprintf(buf, sizeof(buf), "OLC: editing area:%s\n\r     file: %s\n\r",
 			areaname, filename );
 		send_to_char(buf, ch);
 		SET_BIT( ch->comm, COMM_OLC_MODE );
@@ -427,10 +427,10 @@ olc_slookup_obj( CHAR_DATA *ch ) {
 			continue;                  /* need to know all the spells   */
 		if ( count == 5 ) {
 			count = 0;
-			sprintf ( text, "\n\r" );
+			snprintf ( text, sizeof(text), "\n\r" );
 			add_buf ( buffer, text );
 		}
-		sprintf ( text, "'%s' ", skill_table[sn].name );
+		snprintf ( text, sizeof(text), "'%s' ", skill_table[sn].name );
 		count ++;
 		add_buf ( buffer, text );
 	}
