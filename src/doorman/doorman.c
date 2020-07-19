@@ -144,10 +144,30 @@ void log_out(char *format, ...) {
   fprintf(stderr, "%d::%s %s\n", getpid(), Time, buffer);
 }
 
+unsigned long djb2_hash(const char *str) {
+  unsigned long hash = 5381;
+  int c;
+  while ((c = *str++)) {
+    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  }
+  return hash;
+}
+
+/**
+ * Writes into hostbuf the supplied hostname, masked for privacy
+ * and with a hashcode of the full hostname. This can be used by admins
+ * to spot users coming from the same IP.
+ */
+char* get_masked_hostname(char *hostbuf, const char* hostname) {
+  snprintf(hostbuf, MAX_MASKED_HOSTNAME, "%.6s*** [#%ld]", hostname, djb2_hash(hostname));
+  return hostbuf;
+}
+
 /* Create a new connection */
 int NewConnection(int fd, struct sockaddr_in address) {
   int i;
   pid_t forkRet;
+  char hostbuf[MAX_MASKED_HOSTNAME];
 
   for (i = 0; i < CHANNEL_MAX; ++i) {
     if (channel[i].fd == 0)
@@ -156,8 +176,7 @@ int NewConnection(int fd, struct sockaddr_in address) {
   if (i == CHANNEL_MAX) {
     fdprintf(fd, "Xania is out of channels!\n\rTry again soon\n\r");
     close(fd);
-    log_out("Rejected connection from %s - out of channels",
-            inet_ntoa(address.sin_addr));
+    log_out("Rejected connection - out of channels");
     return -1;
   }
 
@@ -176,7 +195,8 @@ int NewConnection(int fd, struct sockaddr_in address) {
   channel[i].connected = false;
   channel[i].authCharName[0] = '\0'; // Initially unauthenticated
 
-  log_out("[%d] Incoming connection from %s on fd %d", i, channel[i].hostname,
+  log_out("[%d] Incoming connection from %s on fd %d", i, 
+          get_masked_hostname(hostbuf, channel[i].hostname),
           channel[i].fd);
 
   /* Start the state machine */
@@ -261,12 +281,14 @@ int FindChannel(int fd) {
 
 void CloseConnection(int fd) {
   int chan = FindChannel(fd);
+  char hostbuf[MAX_MASKED_HOSTNAME];
   if (chan == -1) {
     log_out("Erk - unable to find channel for fd %d", fd);
     return;
   }
+  // Log the source IP but masked for privacy.
   log_out("[%d] Closing connection to %s@%s", chan, channel[chan].username,
-          channel[chan].hostname);
+          get_masked_hostname(hostbuf, channel[chan].hostname));
   if (channel[chan].hostname)
     free(channel[chan].hostname);
   if (channel[chan].username)
@@ -326,6 +348,7 @@ void IncomingIdentInfo(int chan, int fd) {
   // A response from the ident server
   int numBytes, ret;
   char buffer[1024], *spc;
+  char hostbuf[MAX_MASKED_HOSTNAME];
   ret = read(fd, &numBytes, sizeof(numBytes));
   if (ret <= 0) {
     log_out("[%d] IdentD pipe died on read (read returned %d)", chan, ret);
@@ -366,8 +389,9 @@ void IncomingIdentInfo(int chan, int fd) {
     channel[chan].username = strdup(buffer);
     channel[chan].hostname = strdup(spc + 1);
   }
+  // Log the source IP but mask it for privacy.
   log_out("[%d] User is %s@%s", chan, channel[chan].username,
-          channel[chan].hostname);
+          get_masked_hostname(hostbuf, channel[chan].hostname));
   SendInfoPacket(chan);
 }
 
@@ -607,7 +631,7 @@ void ProcessIdent(struct sockaddr_in address, int outFd) {
    * Now to deal with the pesky ident name
    */
   theirPort = ntohs(address.sin_port);
-  log_out("ID: Attempting to connect to %s:113 : %d , %d", hostName, theirPort,
+  log_out("ID: Attempting to connect to %.6s:113 : %d , %d", hostName, theirPort,
           port);
 
   sock = socket(PF_INET, SOCK_STREAM, 0);
@@ -662,7 +686,9 @@ void ProcessIdent(struct sockaddr_in address, int outFd) {
     log_out("ID: Unable to write to doorman - perhaps it crashed (%d, %s)",
             errno, strerror(errno));
   } else {
-    log_out("ID: Looked up %s@%s", userName, hostName);
+    char hostbuf[MAX_MASKED_HOSTNAME];
+    // Log the source hostname but mask it for privacy.
+    log_out("ID: Looked up %s@%s", userName, get_masked_hostname(hostbuf, hostName));
   }
 }
 

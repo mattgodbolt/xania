@@ -32,7 +32,6 @@
 
 #include "flags.h"  /* for the setting of flags blah blah blah :) */
 
-
 /* command procedures needed */
 DECLARE_DO_FUN(do_rstat		);
 DECLARE_DO_FUN(do_mstat		);
@@ -4168,6 +4167,7 @@ void do_sockets( CHAR_DATA *ch, char *argument )
    char buf[2 * MAX_STRING_LENGTH];
    char buf2[MAX_STRING_LENGTH];
    char arg[MAX_INPUT_LENGTH];
+   char hostbuf[MAX_MASKED_HOSTNAME];
    DESCRIPTOR_DATA *d;
    int count;
 
@@ -4189,7 +4189,7 @@ void do_sockets( CHAR_DATA *ch, char *argument )
          d->original  ? d->original->name  :
          d->character ? d->character->name : "(none)",
 	 d->realname,
-         d->host
+         get_masked_hostname(hostbuf, d->host)
          );
       } else if (d->character == NULL && get_trust(ch)==MAX_LEVEL) {
 	   /*
@@ -4202,7 +4202,7 @@ void do_sockets( CHAR_DATA *ch, char *argument )
 		    (d->localport & 0xffff),
 		    d->connected,
 		    d->realname,
-		    d->host
+		    get_masked_hostname(hostbuf, d->host)
 		    );
       }
    }

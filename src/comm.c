@@ -816,7 +816,27 @@ void game_loop_mac_msdos( void )
 }
 #endif
 
+/**
+ * Calculate a hash of a string.
+ */
+unsigned long djb2_hash(const char *str) {
+  unsigned long hash = 5381;
+  int c;
+  while ((c = *str++)) {
+    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  }
+  return hash;
+}
 
+/**
+ * Writes into hostbuf the supplied hostname, masked for privacy
+ * and with a hashcode of the full hostname. This can be used by admins
+ * to spot users coming from the same IP.
+ */
+char* get_masked_hostname(char *hostbuf, const char* hostname) {
+  snprintf(hostbuf, MAX_MASKED_HOSTNAME, "%.6s*** [#%ld]", hostname, djb2_hash(hostname));
+  return hostbuf;
+}
 
 #if defined(unix)
 void game_loop_unix( int control )
@@ -971,7 +991,8 @@ void game_loop_unix( int control )
 			      if (!ok) {
 				   snprintf (logMes, sizeof(logMes),  "Unable to associate info with a descriptor (%d)", p.channel);
 			      } else {
-				   snprintf (logMes, sizeof(logMes),  "Info from doorman: %d is %s@%s", p.channel, d->realname, d->host);
+                  char hostbuf[MAX_MASKED_HOSTNAME];
+   				   snprintf (logMes, sizeof(logMes),  "Info from doorman: %d is %s@%s", p.channel, d->realname, get_masked_hostname(hostbuf, d->host));
 			      }
 			      log_string (logMes);
 			      break;
@@ -1816,8 +1837,8 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
       if ( check_reconnect( d, ch->name, TRUE ) )
          return;
 
-
-      snprintf( log_buf, LOG_BUF_SIZE, "%s@%s has connected.", ch->name, d->host );
+      char hostbuf[MAX_MASKED_HOSTNAME];
+      snprintf( log_buf, LOG_BUF_SIZE, "%s@%s has connected.", ch->name, get_masked_hostname(hostbuf, d->host));
       log_new( log_buf, EXTRA_WIZNET_DEBUG, ((IS_SET(ch->act,PLR_WIZINVIS) ||
 					      IS_SET(ch->act,PLR_PROWL))
 					      )?get_trust(ch):0 );

@@ -2325,6 +2325,9 @@ bool	check_ban	args( (char *site, int type) );
 void	ban_site	args( (CHAR_DATA *ch, char *site, bool fType) );
 
 /* comm.c */
+#define MAX_MASKED_HOSTNAME 64
+unsigned long djb2_hash(const char *str);
+char* get_masked_hostname(char *hostbuf, const char* hostname);
 void    show_string     args( ( struct descriptor_data *d, char *input) );
 void    close_socket    args( ( DESCRIPTOR_DATA *dclose ) );
 void    write_to_buffer args( ( DESCRIPTOR_DATA *d, const char *txt,
