@@ -4182,13 +4182,12 @@ void do_sockets( CHAR_DATA *ch, char *argument )
       || (d->original && is_name(arg,d->original->name))))
       {
          count++;
-         snprintf( buf + strlen(buf), sizeof(buf), "[%3d %8u %2d] %s:%s@%s\n\r",
+         snprintf( buf + strlen(buf), sizeof(buf), "[%3d %8u %2d] %s@%s\n\r",
          d->descriptor,
          (d->localport & 0xffff),
          d->connected,
          d->original  ? d->original->name  :
          d->character ? d->character->name : "(none)",
-	 d->realname,
          get_masked_hostname(hostbuf, d->host)
          );
       } else if (d->character == NULL && get_trust(ch)==MAX_LEVEL) {
@@ -4197,11 +4196,10 @@ void do_sockets( CHAR_DATA *ch, char *argument )
 	    * Level 100s only, mind
 	    */
 	   count++;
-	   snprintf (buf+strlen(buf), sizeof(buf), "[%3d %8u %2d] (unknown):%s@%s\n\r",
+	   snprintf (buf+strlen(buf), sizeof(buf), "[%3d %8u %2d] (unknown)@%s\n\r",
 		    d->descriptor,
 		    (d->localport & 0xffff),
 		    d->connected,
-		    d->realname,
 		    get_masked_hostname(hostbuf, d->host)
 		    );
       }

@@ -974,25 +974,21 @@ void game_loop_unix( int control )
 			       */
 			      ok = 0;
 			      for (d = descriptor_list; d; d = d->next) {
-				   if (d->descriptor == p.channel) {
-					InfoData *data = (InfoData *)buffer;
-					int userLen = strlen (data->data);
-
-					ok = 1;
-					d->netaddr = data->netaddr;
-					d->localport = data->port;
-					free_string (d->host);
-					d->host = str_dup (&data->data[userLen+1]);
-					free_string (d->realname);
-					d->realname = str_dup (data->data);
-					break;
-				   }
+                  if (d->descriptor == p.channel) {
+                     InfoData *data = (InfoData *)buffer;
+                     ok = 1;
+                     d->netaddr = data->netaddr;
+                     d->localport = data->port;
+                     free_string (d->host);
+                     d->host = str_dup (data->data);
+                     break;
+                  }
 			      }
 			      if (!ok) {
-				   snprintf (logMes, sizeof(logMes),  "Unable to associate info with a descriptor (%d)", p.channel);
+   				   snprintf (logMes, sizeof(logMes),  "Unable to associate info with a descriptor (%d)", p.channel);
 			      } else {
                   char hostbuf[MAX_MASKED_HOSTNAME];
-   				   snprintf (logMes, sizeof(logMes),  "Info from doorman: %d is %s@%s", p.channel, d->realname, get_masked_hostname(hostbuf, d->host));
+   				   snprintf (logMes, sizeof(logMes),  "Info from doorman: %d is %s", p.channel, get_masked_hostname(hostbuf, d->host));
 			      }
 			      log_string (logMes);
 			      break;
@@ -1223,7 +1219,6 @@ DESCRIPTOR_DATA *new_descriptor (int channel)
    dnew->logintime     = str_dup( (char *) ctime( &current_time ) );
 
    dnew->host = str_dup( "(unknown)" );
-   dnew->realname = str_dup ("(unknown)");
 
    /*
     * Init descriptor data.

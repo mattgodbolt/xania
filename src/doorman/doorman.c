@@ -59,7 +59,6 @@ typedef struct tagChannel {
   int fd;         /* File descriptor of the channel */
   int xaniaID;    /* Xania's ID to this channel */
   char *hostname; /* Ptr to hostname */
-  char *username; /* Ptr to username, if any */
   byte *buffer;   /* Buffer of incoming data */
   int nBytes;
   short port;
@@ -182,7 +181,6 @@ int NewConnection(int fd, struct sockaddr_in address) {
 
   channel[i].fd = fd;
   channel[i].hostname = strdup(inet_ntoa(address.sin_addr));
-  channel[i].username = strdup("(unknown)");
   channel[i].port = ntohs(address.sin_port);
   channel[i].netaddr = ntohl(address.sin_addr.s_addr);
   channel[i].nBytes = 0;
@@ -225,7 +223,6 @@ int NewConnection(int fd, struct sockaddr_in address) {
   case -1:
     // Error - unable to fork()
     log_out("Unable to fork() an IdentD lookup process");
-    channel[i].username = strdup("(unknown)");
     // Close up the pipe
     if (channel[i].identFd[0])
       close(channel[i].identFd[0]);
@@ -287,12 +284,10 @@ void CloseConnection(int fd) {
     return;
   }
   // Log the source IP but masked for privacy.
-  log_out("[%d] Closing connection to %s@%s", chan, channel[chan].username,
+  log_out("[%d] Closing connection to %s", chan, 
           get_masked_hostname(hostbuf, channel[chan].hostname));
   if (channel[chan].hostname)
     free(channel[chan].hostname);
-  if (channel[chan].username)
-    free(channel[chan].username);
   channel[chan].fd = 0;
   close(fd);
   FD_CLR(fd, &ifds);
@@ -347,7 +342,7 @@ bool SendOpt(int fd, char a) {
 void IncomingIdentInfo(int chan, int fd) {
   // A response from the ident server
   int numBytes, ret;
-  char buffer[1024], *spc;
+  char buffer[1024];
   char hostbuf[MAX_MASKED_HOSTNAME];
   ret = read(fd, &numBytes, sizeof(numBytes));
   if (ret <= 0) {
@@ -375,22 +370,12 @@ void IncomingIdentInfo(int chan, int fd) {
     return;
   }
 
-  spc = strchr(buffer, ' ');
-  if (spc == NULL) {
-    log_out("[%d] Garbled response from ident server (%s)", chan, buffer);
-    return;
-  } else {
-    // Free any previous data
-    if (channel[chan].username)
-      free(channel[chan].username);
-    if (channel[chan].hostname)
-      free(channel[chan].hostname);
-    *spc = '\0';
-    channel[chan].username = strdup(buffer);
-    channel[chan].hostname = strdup(spc + 1);
-  }
+  // Free any previous data
+  if (channel[chan].hostname)
+    free(channel[chan].hostname);
+  channel[chan].hostname = strdup(buffer);
   // Log the source IP but mask it for privacy.
-  log_out("[%d] User is %s@%s", chan, channel[chan].username,
+  log_out("[%d] %s", chan,
           get_masked_hostname(hostbuf, channel[chan].hostname));
   SendInfoPacket(chan);
 }
@@ -589,14 +574,10 @@ void IdentPipeHandler(int ignored) {
 
 void ProcessIdent(struct sockaddr_in address, int outFd) {
   char buf[1024 + 64];
-  struct sockaddr_in authServer;
   struct hostent *ent;
-  int sock;
   int nBytes;
   int i;
   const char *hostName;
-  char *userName;
-  unsigned short theirPort;
 
   /*
    * Firstly, and quite importantly, close all the descriptors we
@@ -616,71 +597,15 @@ void ProcessIdent(struct sockaddr_in address, int outFd) {
    */
   signal(SIGPIPE, IdentPipeHandler);
 
-  log_out("ID: About to call gethostbyaddr...");
   ent = gethostbyaddr((char *)&address.sin_addr, sizeof(address.sin_addr),
                       AF_INET);
-  log_out("ID: returned from gethostbyaddr...");
 
   if (ent) {
     hostName = ent->h_name;
   } else {
     hostName = inet_ntoa(address.sin_addr);
   }
-
-  /*
-   * Now to deal with the pesky ident name
-   */
-  theirPort = ntohs(address.sin_port);
-  log_out("ID: Attempting to connect to %.6s:113 : %d , %d", hostName, theirPort,
-          port);
-
-  sock = socket(PF_INET, SOCK_STREAM, 0);
-  if (sock < 0) {
-    log_out("ID: Unable to get socket");
-    exit(1);
-  }
-
-  memset(&authServer, 0, sizeof(authServer));
-  authServer.sin_addr.s_addr = address.sin_addr.s_addr;
-  authServer.sin_port = htons(113);
-  authServer.sin_family = PF_INET;
-
-  userName = "(unknown)";
-  if (connect(sock, (struct sockaddr *)&authServer, sizeof(authServer)) < 0) {
-    log_out("ID: Unable to get remote username");
-  } else {
-    char buf[1024];
-    snprintf(buf, sizeof(buf), "%u , %u\n\r", theirPort, port);
-    if (write(sock, buf, strlen(buf)) != (ssize_t)strlen(buf)) {
-      log_out("ID: Unable to write to socket");
-      close(sock);
-      return;
-    }
-    nBytes = read(sock, buf, sizeof(buf));
-    if (nBytes > 0) {
-      char *foo = buf;
-      do {
-        while (isspace(*foo))
-          foo++;
-        userName = foo;
-        foo = strchr(foo, ':');
-        if (foo)
-          foo++;
-      } while (foo);
-      foo = userName;
-      while (!isspace(*foo))
-        foo++;
-      *foo = '\0';
-    } else {
-      log_out("ID: Unable to read from socket");
-      close(sock);
-      return;
-    }
-  }
-
-  close(sock);
-
-  nBytes = snprintf(buf, sizeof(buf), "%s %s", userName, hostName) + 1;
+  nBytes = snprintf(buf, sizeof(buf), "%s", hostName) + 1;
   int header_written = write(outFd, &nBytes, sizeof(nBytes));
   if (header_written != sizeof(nBytes) || write(outFd, buf, nBytes) != nBytes) {
     log_out("ID: Unable to write to doorman - perhaps it crashed (%d, %s)",
@@ -688,7 +613,7 @@ void ProcessIdent(struct sockaddr_in address, int outFd) {
   } else {
     char hostbuf[MAX_MASKED_HOSTNAME];
     // Log the source hostname but mask it for privacy.
-    log_out("ID: Looked up %s@%s", userName, get_masked_hostname(hostbuf, hostName));
+    log_out("ID: Looked up %s", get_masked_hostname(hostbuf, hostName));
   }
 }
 
@@ -725,17 +650,15 @@ void SendInfoPacket(int i) {
   Packet p;
   char buffer[4096];
   InfoData *data = (InfoData *)buffer;
-  char *hostname = channel[i].hostname,
-       *username = channel[i].username ? channel[i].username : "(unknown)";
+  char *hostname = channel[i].hostname;
   p.type = PACKET_INFO;
   p.channel = i;
-  p.nExtra = sizeof(InfoData) + strlen(hostname) + strlen(username) + 2;
+  p.nExtra = sizeof(InfoData) + strlen(hostname) + 1;
 
   data->port = channel[i].port;
   data->netaddr = channel[i].netaddr;
   data->ansi = channel[i].ansi;
-  strcpy(data->data, username);
-  strcpy(&data->data[strlen(username) + 1], hostname);
+  strcpy(data->data, hostname);
   SendToMUD(&p, buffer);
 }
 

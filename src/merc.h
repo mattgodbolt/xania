@@ -290,7 +290,6 @@ struct  descriptor_data
     char *              logintime;
     sh_int              descriptor;
     int                 netaddr;
-    char *              realname;
     sh_int              connected;
     sh_int              localport;
     bool                fcommand;

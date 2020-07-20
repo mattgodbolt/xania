@@ -51,7 +51,7 @@ typedef struct tagInfoData {
   short port;  /* Their port number */
   int netaddr; /* Their IP address */
   char ansi;   /* ANSI-compliant terminal */
-  /* Followed by username\0hostname\0 */
+  /* Followed by hostname\0 */
   char data[0];
 } InfoData;
 
