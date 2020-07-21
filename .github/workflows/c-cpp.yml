@@ -26,13 +26,13 @@ jobs:
       - name: package
         run: cmake --install cmake-build-release --prefix cmake-build-install
       - name: tarball # TODO probably branch name here?
-        run: tar Jcvf xania-$GITHUB_RUN_ID.tar.xz --transform "s|^cmake-build-install|./xania-$GITHUB_RUN_ID|" cmake-build-install
+        run: tar Jcvf xania-$GITHUB_RUN_NUMBER.tar.xz --transform "s|^cmake-build-install|./xania-$GITHUB_RUN_NUMBER|" cmake-build-install
       - name: Upload file to bucket
         uses: zdurham/s3-upload-github-action@master
         env:
-          FILE: xania-${{ github.run_id }}.tar.xz
+          FILE: xania-${{ github.run_number }}.tar.xz
           AWS_REGION: 'us-east-1'
           S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          S3_KEY: releases/xania-${{ github.run_id }}.tar.xz
+          S3_KEY: releases/xania-${{ github.run_number }}.tar.xz
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
