@@ -1,4 +1,4 @@
-#MAILTO=TODO
+MAILTO=matt@godbolt.org
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # m h  dom mon dow   command
