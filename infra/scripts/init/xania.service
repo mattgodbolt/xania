@@ -8,6 +8,7 @@ WorkingDirectory=/home/xania/xania/infra
 ExecStart=/home/xania/xania/infra/scripts/start-xania.sh
 StandardOutput=append:/home/xania/data/log/xania.log
 SyslogIdentifier=xania
+Restart=on-success
 
 [Install]
 WantedBy=default.target
