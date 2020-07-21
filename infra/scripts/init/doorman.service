@@ -1,15 +1,14 @@
 [Unit]
 Description=Doorman
+After=network.target
 
 [Service]
 Type=simple
-User=xania
 TimeoutStartSec=infinity
 WorkingDirectory=/home/xania/xania/infra
 ExecStart=/home/xania/xania/infra/scripts/start-doorman.sh
-StandardOutput=syslog
-StandardError=syslog
+StandardOutput=append:/home/xania/data/log/doorman.log
 SyslogIdentifier=doorman
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

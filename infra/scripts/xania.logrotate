@@ -1,0 +1,6 @@
+/home/xania/data/log/xania.log
+/home/xania/data/log/doorman.log
+{
+    daily
+    rotate 60
+}

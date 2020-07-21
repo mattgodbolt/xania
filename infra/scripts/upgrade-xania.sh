@@ -14,14 +14,10 @@ if [[ ! -d ~/releases/xania-$VERSION ]]; then
   exit 1
 fi
 
-echo "TODO I really don't want sudo for xania?"
-#service ... etc stop
-
-#systemctl enable xania
-#systemctl enable doorman
-
 rm -f ~/releases/current
 ln -s ~/releases/xania-$VERSION ~/releases/current
 
-service start xania
-service start doorman
+echo "Doorman and xania updated"
+echo "To restart doorman, you'll need to run (as your own user):"
+echo "  $ sudo service doorman restart"
+echo "To restart the MUD, best to do so from within the MUD itself"
