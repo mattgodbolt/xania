@@ -5,3 +5,4 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 00 00 * * * cronic bash -c "git -C $HOME/xania pull -q"
 05 00 * * * cronic bash -c "crontab <$HOME/xania/infra/scripts/crontab.xania"
 */10 * * * * cronic bash -c "aws s3 sync $HOME/data/player/ s3://mud.xania.org/player/"
+0 */15 * * * cronic bash $HOME/xania/infra/scripts/data-backup.sh
