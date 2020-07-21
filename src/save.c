@@ -152,6 +152,7 @@ void fwrite_char( CHAR_DATA *ch, FILE *fp )
 {
     AFFECT_DATA *paf;
     int sn, gn;
+    char hostbuf[MAX_MASKED_HOSTNAME];
 
     fprintf( fp, "#%s\n", IS_NPC(ch) ? "MOB" : "PLAYER"  );
 
@@ -253,7 +254,7 @@ void fwrite_char( CHAR_DATA *ch, FILE *fp )
    fprintf( fp, "Info_message %s~\n",ch->pcdata->info_message);
    fprintf( fp, "Info_url %s~\n",  ch->pcdata->info_url);
    if (ch->desc) {
-     fprintf( fp, "LastLoginFrom %s~\n", ch->desc->host );
+     fprintf( fp, "LastLoginFrom %s~\n", get_masked_hostname(hostbuf, ch->desc->host));
      fprintf( fp, "LastLoginAt %s~\n", ch->desc->logintime );
    }
 

@@ -1349,7 +1349,8 @@ bool read_from_descriptor (DESCRIPTOR_DATA *d, char *data, int nRead)
    iStart = strlen(d->inbuf);
    if ( iStart >= (int)sizeof(d->inbuf) - 10 )
    {
-      snprintf( log_buf, LOG_BUF_SIZE, "%s input overflow!", d->host );
+      char hostbuf[MAX_MASKED_HOSTNAME];
+      snprintf( log_buf, LOG_BUF_SIZE, "%s input overflow!", get_masked_hostname(hostbuf, d->host));
       log_string( log_buf );
       write_to_descriptor( d->descriptor,
       "\n\r*** PUT A LID ON IT!!! ***\n\r", 0 );
@@ -1437,30 +1438,6 @@ void read_from_buffer( DESCRIPTOR_DATA *d )
    if ( k == 0 )
       d->incomm[k++] = ' ';
    d->incomm[k] = '\0';
-
-   /*
-        * Deal with bozos with #repeat 1000 ...
-        */
-   /*
-       if ( k > 1 || d->incomm[0] == '!' )
-       {
-         if ( d->incomm[0] != '!' && strcmp( d->incomm, d->inlast ) )
-      {
-          d->repeat = 0;
-      }
-      else
-      {
-          if ( ++d->repeat >= 25 )
-          {
-         snprintf( log_buf, LOG_BUF_SIZE, "%s input spamming!", d->host );
-         log_string( log_buf );
-         write_to_descriptor( d->descriptor,
-             "\n\r*** PUT A LID ON IT!!! ***\n\r", 0 );
-         strcpy( d->incomm, "quit" );
-          }
-      }
-       }
-   */
 
    /*
         * Do '!' substitution.
@@ -1742,7 +1719,8 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
 
       if ( IS_SET(ch->act, PLR_DENY) )
       {
-         snprintf( log_buf, LOG_BUF_SIZE, "Denying access to %s@%s.", argument, d->host );
+         char hostbuf[MAX_MASKED_HOSTNAME];
+         snprintf( log_buf, LOG_BUF_SIZE, "Denying access to %s@%s.", argument, get_masked_hostname(hostbuf, d->host));
          log_string( log_buf );
          write_to_buffer( d, "You are denied access.\n\r", 0 );
          close_socket( d );
@@ -2138,8 +2116,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
       }
 
       ch->class = iClass;
-
-      snprintf( log_buf, LOG_BUF_SIZE, "%s@%s new player.", ch->name, d->host );
+      snprintf( log_buf, LOG_BUF_SIZE, "%s@%s new player.", ch->name, get_masked_hostname(hostbuf, d->host));
       log_string( log_buf );
       write_to_buffer( d, "\n\r", 2 );
       write_to_buffer( d, "You may be good, neutral, or evil.\n\r",0);
@@ -2458,13 +2435,14 @@ bool check_reconnect( DESCRIPTOR_DATA *d, char *name, bool fConn )
          }
          else
          {
+            char hostbuf[MAX_MASKED_HOSTNAME];
             free_char( d->character );
             d->character = ch;
             ch->desc  = d;
             ch->timer    = 0;
             send_to_char( "Reconnecting.\n\r", ch );
             act( "$n has reconnected.", ch, NULL, NULL, TO_ROOM );
-            snprintf( log_buf, LOG_BUF_SIZE, "%s@%s reconnected.", ch->name, d->host );
+            snprintf( log_buf, LOG_BUF_SIZE, "%s@%s reconnected.", ch->name, get_masked_hostname(hostbuf, d->host));
             log_new( log_buf, EXTRA_WIZNET_DEBUG, ((IS_SET(ch->act,PLR_WIZINVIS) ||
 						    IS_SET(ch->act,PLR_PROWL)))?get_trust(ch):0 );
             d->connected = CON_PLAYING;
