@@ -85,7 +85,7 @@ void do_permit ( CHAR_DATA *ch, char *argument ) {
   } else {
     remove_extra(victim, EXTRA_PERMIT);
   }
-  snprintf(buf, sizeof(buf), "PERMIT flag %s for %s.\n\r", (flag)?"set":"removed", victim->
+  bug_snprintf(buf, sizeof(buf), "PERMIT flag %s for %s.\n\r", (flag)?"set":"removed", victim->
 name);
   send_to_char(buf,ch);
 }
@@ -135,7 +135,7 @@ void do_outfit ( CHAR_DATA *ch, char *argument )
       equip_char( ch, obj, WEAR_WIELD );
    }
 
-   snprintf( buf, sizeof(buf), "You have been equipped by %s.\n\r", deity_name);
+   bug_snprintf( buf, sizeof(buf), "You have been equipped by %s.\n\r", deity_name);
    send_to_char( buf,ch);
 }
 
@@ -195,7 +195,7 @@ void do_bamfin( CHAR_DATA *ch, char *argument )
 
       if (argument[0] == '\0')
       {
-         snprintf(buf, sizeof(buf), "Your poofin is %s\n\r",ch->pcdata->bamfin);
+         bug_snprintf(buf, sizeof(buf), "Your poofin is %s\n\r",ch->pcdata->bamfin);
          send_to_char(buf,ch);
          return;
       }
@@ -209,7 +209,7 @@ void do_bamfin( CHAR_DATA *ch, char *argument )
       free_string( ch->pcdata->bamfin );
       ch->pcdata->bamfin = str_dup( argument );
 
-      snprintf(buf, sizeof(buf), "Your poofin is now %s\n\r",ch->pcdata->bamfin);
+      bug_snprintf(buf, sizeof(buf), "Your poofin is now %s\n\r",ch->pcdata->bamfin);
       send_to_char(buf,ch);
    }
    return;
@@ -227,7 +227,7 @@ void do_bamfout( CHAR_DATA *ch, char *argument )
 
       if (argument[0] == '\0')
       {
-         snprintf(buf, sizeof(buf), "Your poofout is %s\n\r",ch->pcdata->bamfout);
+         bug_snprintf(buf, sizeof(buf), "Your poofout is %s\n\r",ch->pcdata->bamfout);
          send_to_char(buf,ch);
          return;
       }
@@ -241,7 +241,7 @@ void do_bamfout( CHAR_DATA *ch, char *argument )
       free_string( ch->pcdata->bamfout );
       ch->pcdata->bamfout = str_dup( argument );
 
-      snprintf(buf, sizeof(buf), "Your poofout is now %s\n\r",ch->pcdata->bamfout);
+      bug_snprintf(buf, sizeof(buf), "Your poofout is now %s\n\r",ch->pcdata->bamfout);
       send_to_char(buf,ch);
    }
    return;
@@ -558,7 +558,7 @@ void do_transfer( CHAR_DATA *ch, char *argument )
          &&   can_see( ch, d->character ) )
          {
             char buf[MAX_STRING_LENGTH];
-            snprintf( buf, sizeof(buf), "%s %s", d->character->name, arg2 );
+            bug_snprintf( buf, sizeof(buf), "%s %s", d->character->name, arg2 );
             do_transfer( ch, buf );
          }
       }
@@ -884,12 +884,12 @@ void do_rstat( CHAR_DATA *ch, char *argument )
      return;
    }
 
-   snprintf( buf, sizeof(buf), "Name: '%s.'\n\rArea: '%s'.\n\r",
+   bug_snprintf( buf, sizeof(buf), "Name: '%s.'\n\rArea: '%s'.\n\r",
    location->name,
    location->area->name );
    send_to_char( buf, ch );
 
-   snprintf( buf, sizeof(buf), 
+   bug_snprintf( buf, sizeof(buf), 
    "Vnum: %d.  Sector: %d.  Light: %d.\n\r",
    location->vnum,
    location->sector_type,
@@ -897,7 +897,7 @@ void do_rstat( CHAR_DATA *ch, char *argument )
    send_to_char( buf, ch );
    send_to_char("Flags:", ch);
    display_flags( ROOM_FLAGS, ch, location->room_flags);
-   snprintf( buf, sizeof(buf), "Description:\n\r%s",
+   bug_snprintf( buf, sizeof(buf), "Description:\n\r%s",
    location->description );
    send_to_char( buf, ch );
 
@@ -941,7 +941,7 @@ void do_rstat( CHAR_DATA *ch, char *argument )
 
       if ( ( pexit = location->exit[door] ) != NULL )
       {
-         snprintf( buf, sizeof(buf), 
+         bug_snprintf( buf, sizeof(buf), 
          "Door: %d.  To: %d.  Key: %d.  Exit flags: %d.\n\rKeyword: '%s'.  Description: %s",
 
          door,
@@ -992,37 +992,37 @@ void do_ostat( CHAR_DATA *ch, char *argument )
 		   return;
 	   }
 	   send_to_char( "Template of object:\n\r", ch );
-	   snprintf( buf, sizeof(buf), "Name(s): %s\n\r", pObjIndex->name );
+	   bug_snprintf( buf, sizeof(buf), "Name(s): %s\n\r", pObjIndex->name );
 	   send_to_char( buf, ch );
 
-	   snprintf( buf, sizeof(buf), "Vnum: %d  Format: %s  Type: %s\n\r",
+	   bug_snprintf( buf, sizeof(buf), "Vnum: %d  Format: %s  Type: %s\n\r",
 		    pObjIndex->vnum, pObjIndex->new_format ? "new" : "old",
 		    item_index_type_name( pObjIndex ));
 	   send_to_char( buf, ch );
 
-	   snprintf( buf, sizeof(buf), "Short description: %s\n\rLong description: %s\n\r",
+	   bug_snprintf( buf, sizeof(buf), "Short description: %s\n\rLong description: %s\n\r",
 		    pObjIndex->short_descr, pObjIndex->description );
 	   send_to_char( buf, ch );
 	   
-	   snprintf( buf, sizeof(buf), "Wear bits: %s\n\rExtra bits: %s\n\r",
+	   bug_snprintf( buf, sizeof(buf), "Wear bits: %s\n\rExtra bits: %s\n\r",
 		    wear_bit_name(pObjIndex->wear_flags), 
 		    extra_bit_name( pObjIndex->extra_flags ) );
 	   send_to_char( buf, ch );
 	   
-	   snprintf( buf, sizeof(buf), "Wear string: %s\n\r",
+	   bug_snprintf( buf, sizeof(buf), "Wear string: %s\n\r",
 		    pObjIndex->wear_string);
 	   send_to_char( buf, ch );
 	   
-	   snprintf( buf, sizeof(buf), "Weight: %d\n\r",
+	   bug_snprintf( buf, sizeof(buf), "Weight: %d\n\r",
 		    pObjIndex->weight );
 	   send_to_char( buf, ch );
 	   
-	   snprintf( buf, sizeof(buf), "Level: %d  Cost: %d  Condition: %d\n\r",
+	   bug_snprintf( buf, sizeof(buf), "Level: %d  Cost: %d  Condition: %d\n\r",
 		    pObjIndex->level, pObjIndex->cost, 
 		    pObjIndex->condition );
 	   send_to_char( buf, ch );
 	   
-	   snprintf( buf, sizeof(buf), "Values: %d %d %d %d %d\n\r",
+	   bug_snprintf( buf, sizeof(buf), "Values: %d %d %d %d %d\n\r",
 		    pObjIndex->value[0], pObjIndex->value[1], 
 		    pObjIndex->value[2], pObjIndex->value[3],
 		    pObjIndex->value[4] );
@@ -1037,37 +1037,37 @@ void do_ostat( CHAR_DATA *ch, char *argument )
       return;
    }
 
-   snprintf( buf, sizeof(buf), "Name(s): %s\n\r",
+   bug_snprintf( buf, sizeof(buf), "Name(s): %s\n\r",
    obj->name );
    send_to_char( buf, ch );
 
-   snprintf( buf, sizeof(buf), "Vnum: %d  Format: %s  Type: %s  Resets: %d\n\r",
+   bug_snprintf( buf, sizeof(buf), "Vnum: %d  Format: %s  Type: %s  Resets: %d\n\r",
    obj->pIndexData->vnum, obj->pIndexData->new_format ? "new" : "old",
    item_type_name(obj), obj->pIndexData->reset_num );
    send_to_char( buf, ch );
 
-   snprintf( buf, sizeof(buf), "Short description: %s\n\rLong description: %s\n\r",
+   bug_snprintf( buf, sizeof(buf), "Short description: %s\n\rLong description: %s\n\r",
    obj->short_descr, obj->description );
    send_to_char( buf, ch );
 
-   snprintf( buf, sizeof(buf), "Wear bits: %s\n\rExtra bits: %s\n\r",
+   bug_snprintf( buf, sizeof(buf), "Wear bits: %s\n\rExtra bits: %s\n\r",
    wear_bit_name(obj->wear_flags), extra_bit_name( obj->extra_flags ) );
    send_to_char( buf, ch );
 
-   snprintf( buf, sizeof(buf), "Wear string: %s\n\r",
+   bug_snprintf( buf, sizeof(buf), "Wear string: %s\n\r",
 	    obj->wear_string);
    send_to_char( buf, ch );
 
-   snprintf( buf, sizeof(buf), "Number: %d/%d  Weight: %d/%d\n\r",
+   bug_snprintf( buf, sizeof(buf), "Number: %d/%d  Weight: %d/%d\n\r",
    1,           get_obj_number( obj ),
    obj->weight, get_obj_weight( obj ) );
    send_to_char( buf, ch );
 
-   snprintf( buf, sizeof(buf), "Level: %d  Cost: %d  Condition: %d  Timer: %d\n\r",
+   bug_snprintf( buf, sizeof(buf), "Level: %d  Cost: %d  Condition: %d  Timer: %d\n\r",
    obj->level, obj->cost, obj->condition, obj->timer );
    send_to_char( buf, ch );
 
-   snprintf( buf, sizeof(buf), 
+   bug_snprintf( buf, sizeof(buf), 
    "In room: %d  In object: %s  Carried by: %s  Wear_loc: %d\n\r",
    obj->in_room    == NULL    ?        0 : obj->in_room->vnum,
    obj->in_obj     == NULL    ? "(none)" : obj->in_obj->short_descr,
@@ -1077,7 +1077,7 @@ void do_ostat( CHAR_DATA *ch, char *argument )
    obj->wear_loc );
    send_to_char( buf, ch );
 
-   snprintf( buf, sizeof(buf), "Values: %d %d %d %d %d\n\r",
+   bug_snprintf( buf, sizeof(buf), "Values: %d %d %d %d %d\n\r",
    obj->value[0], obj->value[1], obj->value[2], obj->value[3],
    obj->value[4] );
    send_to_char( buf, ch );
@@ -1090,7 +1090,7 @@ void do_ostat( CHAR_DATA *ch, char *argument )
    case ITEM_POTION:
    case ITEM_PILL:
    case ITEM_BOMB:
-      snprintf( buf, sizeof(buf), "Level %d spells of:", obj->value[0] );
+      bug_snprintf( buf, sizeof(buf), "Level %d spells of:", obj->value[0] );
       send_to_char( buf, ch );
 
       if ( obj->value[1] >= 0 && obj->value[1] < MAX_SKILL )
@@ -1127,7 +1127,7 @@ void do_ostat( CHAR_DATA *ch, char *argument )
 
    case ITEM_WAND:
    case ITEM_STAFF:
-      snprintf( buf, sizeof(buf), "Has %d(%d) charges of level %d",
+      bug_snprintf( buf, sizeof(buf), "Has %d(%d) charges of level %d",
       obj->value[1], obj->value[2], obj->value[0] );
       send_to_char( buf, ch );
 
@@ -1177,18 +1177,18 @@ void do_ostat( CHAR_DATA *ch, char *argument )
          break;
       }
       if (obj->pIndexData->new_format)
-         snprintf(buf, sizeof(buf), "Damage is %dd%d (average %d)\n\r",
+         bug_snprintf(buf, sizeof(buf), "Damage is %dd%d (average %d)\n\r",
          obj->value[1],obj->value[2],
          (1 + obj->value[2]) * obj->value[1] / 2);
       else
-      snprintf( buf, sizeof(buf), "Damage is %d to %d (average %d)\n\r",
+      bug_snprintf( buf, sizeof(buf), "Damage is %d to %d (average %d)\n\r",
       obj->value[1], obj->value[2],
       ( obj->value[1] + obj->value[2] ) / 2 );
       send_to_char( buf, ch );
 
       if (obj->value[4])  /* weapon flags */
       {
-         snprintf(buf, sizeof(buf), "Weapons flags: %s\n\r",weapon_bit_name(obj->value[4]));
+         bug_snprintf(buf, sizeof(buf), "Weapons flags: %s\n\r",weapon_bit_name(obj->value[4]));
          send_to_char(buf,ch);
       }
 
@@ -1197,61 +1197,61 @@ void do_ostat( CHAR_DATA *ch, char *argument )
       switch(dam_type)
       {
          case(DAM_NONE):
-         snprintf(buf, sizeof(buf), "none.\n\r");
+         bug_snprintf(buf, sizeof(buf), "none.\n\r");
          break;
          case(DAM_BASH):
-         snprintf(buf, sizeof(buf), "bash.\n\r");
+         bug_snprintf(buf, sizeof(buf), "bash.\n\r");
          break;
          case(DAM_PIERCE):
-         snprintf(buf, sizeof(buf), "pierce.\n\r");
+         bug_snprintf(buf, sizeof(buf), "pierce.\n\r");
          break;
          case(DAM_SLASH):
-         snprintf(buf, sizeof(buf), "slash.\n\r");
+         bug_snprintf(buf, sizeof(buf), "slash.\n\r");
          break;
          case(DAM_FIRE):
-         snprintf(buf, sizeof(buf), "fire.\n\r");
+         bug_snprintf(buf, sizeof(buf), "fire.\n\r");
          break;
          case(DAM_COLD):
-         snprintf(buf, sizeof(buf), "cold.\n\r");
+         bug_snprintf(buf, sizeof(buf), "cold.\n\r");
          break;
          case(DAM_LIGHTNING):
-         snprintf(buf, sizeof(buf), "lightning.\n\r");
+         bug_snprintf(buf, sizeof(buf), "lightning.\n\r");
          break;
          case(DAM_ACID):
-         snprintf(buf, sizeof(buf), "acid.\n\r");
+         bug_snprintf(buf, sizeof(buf), "acid.\n\r");
          break;
          case(DAM_POISON):
-         snprintf(buf, sizeof(buf), "poison.\n\r");
+         bug_snprintf(buf, sizeof(buf), "poison.\n\r");
          break;
          case(DAM_NEGATIVE):
-         snprintf(buf, sizeof(buf), "negative.\n\r");
+         bug_snprintf(buf, sizeof(buf), "negative.\n\r");
          break;
          case(DAM_HOLY):
-         snprintf(buf, sizeof(buf), "holy.\n\r");
+         bug_snprintf(buf, sizeof(buf), "holy.\n\r");
          break;
          case(DAM_ENERGY):
-         snprintf(buf, sizeof(buf), "energy.\n\r");
+         bug_snprintf(buf, sizeof(buf), "energy.\n\r");
          break;
          case(DAM_MENTAL):
-         snprintf(buf, sizeof(buf), "mental.\n\r");
+         bug_snprintf(buf, sizeof(buf), "mental.\n\r");
          break;
          case(DAM_DISEASE):
-         snprintf(buf, sizeof(buf), "disease.\n\r");
+         bug_snprintf(buf, sizeof(buf), "disease.\n\r");
          break;
          case(DAM_DROWNING):
-         snprintf(buf, sizeof(buf), "drowning.\n\r");
+         bug_snprintf(buf, sizeof(buf), "drowning.\n\r");
          break;
          case(DAM_LIGHT):
-         snprintf(buf, sizeof(buf), "light.\n\r");
+         bug_snprintf(buf, sizeof(buf), "light.\n\r");
          break;
          case(DAM_OTHER):
-         snprintf(buf, sizeof(buf), "other.\n\r");
+         bug_snprintf(buf, sizeof(buf), "other.\n\r");
          break;
          case(DAM_HARM):
-         snprintf(buf, sizeof(buf), "harm.\n\r");
+         bug_snprintf(buf, sizeof(buf), "harm.\n\r");
          break;
       default:
-         snprintf(buf, sizeof(buf), "unknown!!!!\n\r");
+         bug_snprintf(buf, sizeof(buf), "unknown!!!!\n\r");
          bug( "ostat: Unknown damage type %d", dam_type);
          break;
       }
@@ -1259,14 +1259,14 @@ void do_ostat( CHAR_DATA *ch, char *argument )
       break;
 
    case ITEM_ARMOR:
-      snprintf( buf, sizeof(buf), 
+      bug_snprintf( buf, sizeof(buf), 
       "Armor class is %d pierce, %d bash, %d slash, and %d vs. magic\n\r",
       obj->value[0], obj->value[1], obj->value[2], obj->value[3] );
       send_to_char( buf, ch );
       break;
 
    case ITEM_PORTAL:
-      snprintf( buf, sizeof(buf), "Portal to %s (%d).\n\r", obj->destination->name,
+      bug_snprintf( buf, sizeof(buf), "Portal to %s (%d).\n\r", obj->destination->name,
       obj->destination->vnum);
       send_to_char( buf, ch);
       break;
@@ -1297,7 +1297,7 @@ void do_ostat( CHAR_DATA *ch, char *argument )
 
    for ( paf = obj->affected; paf != NULL; paf = paf->next )
    {
-      snprintf( buf, sizeof(buf), "Affects %s by %d, level %d.\n\r",
+      bug_snprintf( buf, sizeof(buf), "Affects %s by %d, level %d.\n\r",
       affect_loc_name( paf->location ), paf->modifier,paf->level );
       send_to_char( buf, ch );
    }
@@ -1305,7 +1305,7 @@ void do_ostat( CHAR_DATA *ch, char *argument )
    if (!obj->enchanted)
       for ( paf = obj->pIndexData->affected; paf != NULL; paf = paf->next )
       {
-         snprintf( buf, sizeof(buf), "Affects %s by %d, level %d.\n\r",
+         bug_snprintf( buf, sizeof(buf), "Affects %s by %d, level %d.\n\r",
          affect_loc_name( paf->location ), paf->modifier,paf->level );
          send_to_char( buf, ch );
       }
@@ -1340,7 +1340,7 @@ void do_mskills( CHAR_DATA *ch, char *argument)
    if (IS_NPC(victim))
       return;
 
-   snprintf(buf, sizeof(buf), "Skill list for %s:\n\r", victim->name);
+   bug_snprintf(buf, sizeof(buf), "Skill list for %s:\n\r", victim->name);
    send_to_char( buf, ch );
 
    /* initilize data */
@@ -1363,13 +1363,13 @@ void do_mskills( CHAR_DATA *ch, char *argument)
 	   found = TRUE;
 	   lev = get_skill_level(victim,sn);
 	   if (victim->level < lev)
-	     snprintf(buf, sizeof(buf), "%-18s n/a      ", skill_table[sn].name);
+	     bug_snprintf(buf, sizeof(buf), "%-18s n/a      ", skill_table[sn].name);
 	   else
-	     snprintf(buf, sizeof(buf), "%-18s %3d%%      ",skill_table[sn].name,
+	     bug_snprintf(buf, sizeof(buf), "%-18s %3d%%      ",skill_table[sn].name,
 		     victim->pcdata->learned[sn]); // NOT get_skill_
 
 	   if (skill_list[lev][0] == '\0')
-	     snprintf(skill_list[lev], sizeof(skill_list[lev]), "\n\rLevel %2d: %s",lev,buf);
+	     bug_snprintf(skill_list[lev], sizeof(skill_list[lev]), "\n\rLevel %2d: %s",lev,buf);
 	   else /* append */
 	     {
 	       if ( ++skill_columns[lev] % 2 == 0)
@@ -1424,7 +1424,7 @@ void do_mspells( CHAR_DATA *ch, char *argument)
   if (IS_NPC(victim))
     return;
 
-  snprintf(buf, sizeof(buf), "Spell list for %s:\n\r", victim->name);
+  bug_snprintf(buf, sizeof(buf), "Spell list for %s:\n\r", victim->name);
   send_to_char( buf, ch );
 
   /* initilize data */
@@ -1446,16 +1446,16 @@ void do_mspells( CHAR_DATA *ch, char *argument)
 	  found = TRUE;
 	  lev = get_skill_level(victim, sn);
 	  if (victim->level < lev)
-            snprintf(buf, sizeof(buf), "%-18s  n/a      ", skill_table[sn].name);
+            bug_snprintf(buf, sizeof(buf), "%-18s  n/a      ", skill_table[sn].name);
 	  else
 	    {
 	      mana = UMAX(skill_table[sn].min_mana,
 			  100/(2 + victim->level - lev));
-	      snprintf(buf, sizeof(buf), "%-18s  %3d mana  ",skill_table[sn].name,mana);
+	      bug_snprintf(buf, sizeof(buf), "%-18s  %3d mana  ",skill_table[sn].name,mana);
 	    }
 
 	  if (spell_list[lev][0] == '\0')
-            snprintf(spell_list[lev], sizeof(spell_list[lev]), "\n\rLevel %2d: %s",lev,buf);
+            bug_snprintf(spell_list[lev], sizeof(spell_list[lev]), "\n\rLevel %2d: %s",lev,buf);
 	  else /* append */
 	    {
 	      if ( ++spell_columns[lev] % 2 == 0)
@@ -1503,7 +1503,7 @@ void do_maffects( CHAR_DATA *ch, char *argument)
       return;
     }
 
-  snprintf(buf, sizeof(buf), "Affect list for %s:\n\r", victim->name);
+  bug_snprintf(buf, sizeof(buf), "Affect list for %s:\n\r", victim->name);
   send_to_char( buf, ch );
 
   if (victim->affected != NULL)
@@ -1511,18 +1511,18 @@ void do_maffects( CHAR_DATA *ch, char *argument)
       for ( paf = victim->affected; paf != NULL; paf = paf->next )
 	{
 	  if ( (paf->type==gsn_sneak) || (paf->type==gsn_ride) ) {
-            snprintf( buf, sizeof(buf), "Skill: '%s'", skill_table[paf->type].name );
+            bug_snprintf( buf, sizeof(buf), "Skill: '%s'", skill_table[paf->type].name );
             flag=1;
 	  }
 	  else {
-            snprintf( buf, sizeof(buf), "Spell: '%s'", skill_table[paf->type].name );
+            bug_snprintf( buf, sizeof(buf), "Spell: '%s'", skill_table[paf->type].name );
             flag=0;
 	  }
 	  send_to_char( buf, ch );
 
 	  if (flag==0)
 	    {
-	      snprintf( buf, sizeof(buf), 
+	      bug_snprintf( buf, sizeof(buf), 
 		       " modifies %s by %d for %d hours",
 		       affect_loc_name( paf->location ),
 		       paf->modifier,
@@ -1567,7 +1567,7 @@ void do_mpracs( CHAR_DATA *ch, char *argument)
    if ( IS_NPC(victim) )
      return;
 
-   snprintf(buf, sizeof(buf), "Practice list for %s:\n\r", victim->name);
+   bug_snprintf(buf, sizeof(buf), "Practice list for %s:\n\r", victim->name);
    send_to_char( buf, ch );
 
    col    = 0;
@@ -1579,7 +1579,7 @@ void do_mpracs( CHAR_DATA *ch, char *argument)
 	    || victim->pcdata->learned[sn] < 1 /* skill is not known NOT get_skill_learned */)
 	 continue;
 
-       snprintf( buf, sizeof(buf), "%-18s %3d%%  ",
+       bug_snprintf( buf, sizeof(buf), "%-18s %3d%%  ",
 		skill_table[sn].name, victim->pcdata->learned[sn] );
        send_to_char( buf, ch );
        if ( ++col % 3 == 0 )
@@ -1589,7 +1589,7 @@ void do_mpracs( CHAR_DATA *ch, char *argument)
    if ( col % 3 != 0 )
      send_to_char( "\n\r", ch );
 
-   snprintf( buf, sizeof(buf), "They have %d practice sessions left.\n\r",
+   bug_snprintf( buf, sizeof(buf), "They have %d practice sessions left.\n\r",
 	    victim->practice );
    send_to_char( buf, ch );
 
@@ -1622,7 +1622,7 @@ void do_minfo( CHAR_DATA *ch, char *argument)
   if (IS_NPC(victim))
     return;
 
-  snprintf(buf, sizeof(buf), "Info list for %s:\n\r", victim->name);
+  bug_snprintf(buf, sizeof(buf), "Info list for %s:\n\r", victim->name);
 
   col = 0;
 
@@ -1634,7 +1634,7 @@ void do_minfo( CHAR_DATA *ch, char *argument)
 	break;
       if (victim->pcdata->group_known[gn])
 	{
-	  snprintf(buf, sizeof(buf), "%-20s ",group_table[gn].name);
+	  bug_snprintf(buf, sizeof(buf), "%-20s ",group_table[gn].name);
 	  send_to_char(buf,ch);
 	  if (++col % 3 == 0)
 	    send_to_char("\n\r",ch);
@@ -1642,7 +1642,7 @@ void do_minfo( CHAR_DATA *ch, char *argument)
     }
   if ( col % 3 != 0 )
     send_to_char( "\n\r", ch );
-  snprintf(buf, sizeof(buf), "Creation points: %d\n\r",victim->pcdata->points);
+  bug_snprintf(buf, sizeof(buf), "Creation points: %d\n\r",victim->pcdata->points);
 
   send_to_char(buf,ch);
   return;
@@ -1675,7 +1675,7 @@ void do_mstat( CHAR_DATA *ch, char *argument )
       return;
     }
 
-  snprintf( buf, sizeof(buf), "Name: %s     Clan: %s     Rank: %s.\n\r",
+  bug_snprintf( buf, sizeof(buf), "Name: %s     Clan: %s     Rank: %s.\n\r",
 	   victim->name,
 	   (!IS_NPC(victim) && victim->pcdata->pcclan) ?
 	   victim->pcdata->pcclan->clan->name : "(none)",
@@ -1684,7 +1684,7 @@ void do_mstat( CHAR_DATA *ch, char *argument )
 : "(none)" );
   send_to_char( buf, ch );
 
-  snprintf( buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
+  bug_snprintf( buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
 	   IS_NPC(victim) ? victim->pIndexData->vnum : 0,
 	   IS_NPC(victim) ? victim->pIndexData->new_format ? "new" : "old" :
 	   "pc",
@@ -1697,12 +1697,12 @@ void do_mstat( CHAR_DATA *ch, char *argument )
 
   if (IS_NPC(victim))
     {
-      snprintf(buf, sizeof(buf), "Count: %d  Killed: %d\n\r",
+      bug_snprintf(buf, sizeof(buf), "Count: %d  Killed: %d\n\r",
 	      victim->pIndexData->count,victim->pIndexData->killed);
       send_to_char(buf,ch);
     }
 
-  snprintf( buf, sizeof(buf), 
+  bug_snprintf( buf, sizeof(buf), 
 	   "Str: %d(%d)  Int: %d(%d)  Wis: %d(%d)  Dex: %d(%d)  Con: %d(%d)\n\r",
 	   victim->perm_stat[STAT_STR],
 	   get_curr_stat(victim,STAT_STR),
@@ -1716,14 +1716,14 @@ void do_mstat( CHAR_DATA *ch, char *argument )
 	   get_curr_stat(victim,STAT_CON) );
   send_to_char( buf, ch );
 
-  snprintf( buf, sizeof(buf), "Hp: %d/%d  Mana: %d/%d  Move: %d/%d  Practices: %d\n\r",
+  bug_snprintf( buf, sizeof(buf), "Hp: %d/%d  Mana: %d/%d  Move: %d/%d  Practices: %d\n\r",
 	   victim->hit,         victim->max_hit,
 	   victim->mana,        victim->max_mana,
 	   victim->move,        victim->max_move,
 	   IS_NPC(ch) ? 0 : victim->practice );
   send_to_char( buf, ch );
 
-  snprintf( buf, sizeof(buf), 
+  bug_snprintf( buf, sizeof(buf), 
 	   "Lv: %d  Class: %s  Align: %d  Gold: %ld  Exp: %ld\n\r",
 	   victim->level,
 	   IS_NPC(victim) ? "mobile" : class_table[victim->class].name,
@@ -1731,34 +1731,34 @@ void do_mstat( CHAR_DATA *ch, char *argument )
 	   victim->gold,         victim->exp );
   send_to_char( buf, ch );
 
-  snprintf(buf, sizeof(buf), "Armor: pierce: %d  bash: %d  slash: %d  magic: %d\n\r",
+  bug_snprintf(buf, sizeof(buf), "Armor: pierce: %d  bash: %d  slash: %d  magic: %d\n\r",
 	  GET_AC(victim,AC_PIERCE), GET_AC(victim,AC_BASH),
 	  GET_AC(victim,AC_SLASH),  GET_AC(victim,AC_EXOTIC));
   send_to_char(buf,ch);
 
-  snprintf( buf, sizeof(buf), "Hit: %d  Dam: %d  Saves: %d  Position: %d  Wimpy: %d\n\r",
+  bug_snprintf( buf, sizeof(buf), "Hit: %d  Dam: %d  Saves: %d  Position: %d  Wimpy: %d\n\r",
 	   GET_HITROLL(victim), GET_DAMROLL(victim), victim->saving_throw,
 	   victim->position,    victim->wimpy );
   send_to_char( buf, ch );
 
   if (IS_NPC(victim) && victim->pIndexData->new_format)
     {
-      snprintf(buf, sizeof(buf), "Damage: %dd%d  Message:  %s\n\r",
+      bug_snprintf(buf, sizeof(buf), "Damage: %dd%d  Message:  %s\n\r",
 	      victim->damage[DICE_NUMBER],victim->damage[DICE_TYPE],
 	      attack_table[victim->dam_type].noun);
       send_to_char(buf,ch);
     }
-  snprintf( buf, sizeof(buf), "Fighting: %s\n\r",
+  bug_snprintf( buf, sizeof(buf), "Fighting: %s\n\r",
 	   victim->fighting ? victim->fighting->name : "(none)" );
   send_to_char( buf, ch );
 
-  snprintf( buf, sizeof(buf), "Sentient 'victim': %s\n\r",
+  bug_snprintf( buf, sizeof(buf), "Sentient 'victim': %s\n\r",
 	   victim->sentient_victim != NULL ? victim->sentient_victim : "(none)" );
   send_to_char( buf, ch );
 
   if ( !IS_NPC(victim) )
     {
-      snprintf( buf, sizeof(buf), 
+      bug_snprintf( buf, sizeof(buf), 
 	       "Thirst: %d  Full: %d  Drunk: %d\n\r",
 	       victim->pcdata->condition[COND_THIRST],
 	       victim->pcdata->condition[COND_FULL],
@@ -1766,14 +1766,14 @@ void do_mstat( CHAR_DATA *ch, char *argument )
       send_to_char( buf, ch );
     }
 
-  snprintf( buf, sizeof(buf), "Carry number: %d  Carry weight: %d\n\r",
+  bug_snprintf( buf, sizeof(buf), "Carry number: %d  Carry weight: %d\n\r",
 	   victim->carry_number, victim->carry_weight );
   send_to_char( buf, ch );
 
 
   if (!IS_NPC(victim))
     {
-      snprintf( buf, sizeof(buf), 
+      bug_snprintf( buf, sizeof(buf), 
 	       "Age: %d  Played: %d  Last Level: %d  Timer: %d\n\r",
 	       get_age(victim),
 	       (int) (victim->played + current_time - victim->logon) / 3600,
@@ -1782,12 +1782,12 @@ void do_mstat( CHAR_DATA *ch, char *argument )
       send_to_char( buf, ch );
     }
 
-  snprintf(buf, sizeof(buf), "Act: %s\n\r",(char *)act_bit_name(victim->act));
+  bug_snprintf(buf, sizeof(buf), "Act: %s\n\r",(char *)act_bit_name(victim->act));
   send_to_char(buf,ch);
 
   if (!IS_NPC(victim)) {
     int n;
-    snprintf(buf, sizeof(buf), "Extra: ");
+    bug_snprintf(buf, sizeof(buf), "Extra: ");
     for (n=0; n< MAX_EXTRA_FLAGS; n++) {
 	    if (is_set_extra(ch,n)) {
 		    strcat(buf,flagname_extra[n]);
@@ -1799,57 +1799,57 @@ void do_mstat( CHAR_DATA *ch, char *argument )
 
   if (victim->comm)
     {
-      snprintf(buf, sizeof(buf), "Comm: %s\n\r",(char *)comm_bit_name(victim->comm));
+      bug_snprintf(buf, sizeof(buf), "Comm: %s\n\r",(char *)comm_bit_name(victim->comm));
       send_to_char(buf,ch);
     }
 
   if (IS_NPC(victim) && victim->off_flags)
     {
-      snprintf(buf, sizeof(buf), "Offense: %s\n\r",(char *)off_bit_name(victim->off_flags));
+      bug_snprintf(buf, sizeof(buf), "Offense: %s\n\r",(char *)off_bit_name(victim->off_flags));
       send_to_char(buf,ch);
     }
 
   if (victim->imm_flags)
     {
-      snprintf(buf, sizeof(buf), "Immune: %s\n\r",(char *)imm_bit_name(victim->imm_flags));
+      bug_snprintf(buf, sizeof(buf), "Immune: %s\n\r",(char *)imm_bit_name(victim->imm_flags));
       send_to_char(buf,ch);
     }
 
   if (victim->res_flags)
     {
-      snprintf(buf, sizeof(buf), "Resist: %s\n\r", (char *)imm_bit_name(victim->res_flags));
+      bug_snprintf(buf, sizeof(buf), "Resist: %s\n\r", (char *)imm_bit_name(victim->res_flags));
       send_to_char(buf,ch);
     }
 
   if (victim->vuln_flags)
     {
-      snprintf(buf, sizeof(buf), "Vulnerable: %s\n\r", (char *)imm_bit_name(victim->vuln_flags));
+      bug_snprintf(buf, sizeof(buf), "Vulnerable: %s\n\r", (char *)imm_bit_name(victim->vuln_flags));
       send_to_char(buf,ch);
     }
 
-  snprintf(buf, sizeof(buf), "Form: %s\n\rParts: %s\n\r",
+  bug_snprintf(buf, sizeof(buf), "Form: %s\n\rParts: %s\n\r",
 	  form_bit_name(victim->form), (char *)part_bit_name(victim->parts));
   send_to_char(buf,ch);
 
   if (victim->affected_by)
     {
-      snprintf(buf, sizeof(buf), "Affected by %s\n\r",
+      bug_snprintf(buf, sizeof(buf), "Affected by %s\n\r",
 	      (char *)affect_bit_name(victim->affected_by));
       send_to_char(buf,ch);
     }
 
-  snprintf( buf, sizeof(buf), "Master: %s  Leader: %s  Pet: %s\n\r",
+  bug_snprintf( buf, sizeof(buf), "Master: %s  Leader: %s  Pet: %s\n\r",
 	   victim->master      ? victim->master->name   : "(none)",
 	   victim->leader      ? victim->leader->name   : "(none)",
 	   victim->pet 	    ? victim->pet->name	     : "(none)");
   send_to_char( buf, ch );
 
-  snprintf( buf, sizeof(buf), "Riding: %s  Ridden by: %s\n\r",
+  bug_snprintf( buf, sizeof(buf), "Riding: %s  Ridden by: %s\n\r",
 	   victim->riding      ? victim->riding->name   : "(none)",
 	   victim->ridden_by   ? victim->ridden_by->name : "(none)");
   send_to_char( buf, ch );
 
-  snprintf( buf, sizeof(buf), "Short description: %s\n\rLong  description: %s",
+  bug_snprintf( buf, sizeof(buf), "Short description: %s\n\rLong  description: %s",
 	   victim->short_descr,
 	   victim->long_descr[0] != '\0' ? victim->long_descr : "(none)\n\r" );
   send_to_char( buf, ch );
@@ -1858,14 +1858,14 @@ void do_mstat( CHAR_DATA *ch, char *argument )
     send_to_char( "Mobile has special procedure.\n\r", ch );
 
   if ( IS_NPC(victim) && victim->pIndexData->progtypes  ) {
-	  snprintf( buf, sizeof(buf), "Mobile has MOBPROG: view with \"stat prog '%s'\"\n\r",
+	  bug_snprintf( buf, sizeof(buf), "Mobile has MOBPROG: view with \"stat prog '%s'\"\n\r",
 		   victim->name);
       send_to_char( buf, ch );
     }
 
   for ( paf = victim->affected; paf != NULL; paf = paf->next )
     {
-      snprintf( buf, sizeof(buf), 
+      bug_snprintf( buf, sizeof(buf), 
 	       "Spell: '%s' modifies %s by %d for %d hours with bits %s, level %d.\n\r",
 	       (skill_table[(int) paf->type]).name,
 	       affect_loc_name( paf->location ),
@@ -2068,7 +2068,7 @@ void do_reboot( CHAR_DATA *ch, char *argument )
 
    if (!IS_SET(ch->act,PLR_WIZINVIS))
    {
-      snprintf( buf, sizeof(buf), "Reboot by %s.", ch->name );
+      bug_snprintf( buf, sizeof(buf), "Reboot by %s.", ch->name );
       do_echo( ch, buf );
    }
    do_force ( ch, "all save");
@@ -2101,7 +2101,7 @@ void do_shutdown( CHAR_DATA *ch, char *argument )
    extern bool merc_down;
    DESCRIPTOR_DATA *d,*d_next;
 
-   snprintf( buf, sizeof(buf), "Shutdown by %s.", ch->name );
+   bug_snprintf( buf, sizeof(buf), "Shutdown by %s.", ch->name );
    append_file( ch, SHUTDOWN_FILE, buf );
 
    strcat( buf, "\n\r" );
@@ -2574,7 +2574,7 @@ void do_purge( CHAR_DATA *ch, char *argument )
       if (get_trust(ch) <= get_trust(victim))
       {
          send_to_char("Maybe that wasn't a good idea...\n\r",ch);
-         snprintf(buf, sizeof(buf), "%s tried to purge you!\n\r",ch->name);
+         bug_snprintf(buf, sizeof(buf), "%s tried to purge you!\n\r",ch->name);
          send_to_char(buf,victim);
          return;
       }
@@ -2630,7 +2630,7 @@ void do_advance( CHAR_DATA *ch, char *argument )
    if ( ( level = atoi( arg2 ) ) < 1 || level > MAX_LEVEL )
    {
 	   char buf[32];
-	   snprintf( buf, sizeof(buf), "Level must be 1 to %d.\n\r", MAX_LEVEL );
+	   bug_snprintf( buf, sizeof(buf), "Level must be 1 to %d.\n\r", MAX_LEVEL );
 	   
 	   send_to_char( buf, ch );
 	   return;
@@ -2721,7 +2721,7 @@ void do_trust( CHAR_DATA *ch, char *argument )
 
    if (arg2[0] == '\0')
    {
-      snprintf(buf, sizeof(buf), "%s has a trust of %d.\n\r",
+      bug_snprintf(buf, sizeof(buf), "%s has a trust of %d.\n\r",
 	      victim->name,
 	      victim->trust);
       send_to_char(buf, ch);
@@ -3260,7 +3260,7 @@ void do_slookup( CHAR_DATA *ch, char *argument )
       {
          if ( skill_table[sn].name == NULL )
             break;
-         snprintf( buf, sizeof(buf), "Sn: %3d  Slot: %3d  Skill/spell: '%s'\n\r",
+         bug_snprintf( buf, sizeof(buf), "Sn: %3d  Slot: %3d  Skill/spell: '%s'\n\r",
          sn, skill_table[sn].slot, skill_table[sn].name );
          send_to_char( buf, ch );
       }
@@ -3273,7 +3273,7 @@ void do_slookup( CHAR_DATA *ch, char *argument )
          return;
       }
 
-      snprintf( buf, sizeof(buf), "Sn: %3d  Slot: %3d  Skill/spell: '%s'\n\r",
+      bug_snprintf( buf, sizeof(buf), "Sn: %3d  Slot: %3d  Skill/spell: '%s'\n\r",
       sn, skill_table[sn].slot, skill_table[sn].name );
       send_to_char( buf, ch );
    }
@@ -3448,7 +3448,7 @@ void do_mset( CHAR_DATA *ch, char *argument )
    {
       if ( value < 3 || value > get_max_train(victim,STAT_STR) )
       {
-         snprintf(buf, sizeof(buf), 
+         bug_snprintf(buf, sizeof(buf), 
          "Strength range is 3 to %d\n\r.",
          get_max_train(victim,STAT_STR));
          send_to_char(buf,ch);
@@ -3463,7 +3463,7 @@ void do_mset( CHAR_DATA *ch, char *argument )
    {
       if ( value < 3 || value > get_max_train(victim,STAT_INT) )
       {
-         snprintf(buf, sizeof(buf), 
+         bug_snprintf(buf, sizeof(buf), 
          "Intelligence range is 3 to %d.\n\r",
          get_max_train(victim,STAT_INT));
          send_to_char(buf,ch);
@@ -3478,7 +3478,7 @@ void do_mset( CHAR_DATA *ch, char *argument )
    {
       if ( value < 3 || value > get_max_train(victim,STAT_WIS) )
       {
-         snprintf(buf, sizeof(buf), 
+         bug_snprintf(buf, sizeof(buf), 
          "Wisdom range is 3 to %d.\n\r",get_max_train(victim,STAT_WIS));
          send_to_char( buf, ch );
          return;
@@ -3492,7 +3492,7 @@ void do_mset( CHAR_DATA *ch, char *argument )
    {
       if ( value < 3 || value > get_max_train(victim,STAT_DEX) )
       {
-         snprintf(buf, sizeof(buf), 
+         bug_snprintf(buf, sizeof(buf), 
          "Dexterity ranges is 3 to %d.\n\r",
          get_max_train(victim,STAT_DEX));
          send_to_char( buf, ch );
@@ -3507,7 +3507,7 @@ void do_mset( CHAR_DATA *ch, char *argument )
    {
       if ( value < 3 || value > get_max_train(victim,STAT_CON) )
       {
-         snprintf(buf, sizeof(buf), 
+         bug_snprintf(buf, sizeof(buf), 
          "Constitution range is 3 to %d.\n\r",
          get_max_train(victim,STAT_CON));
          send_to_char( buf, ch );
@@ -3662,7 +3662,7 @@ void do_mset( CHAR_DATA *ch, char *argument )
    {
       if ( value < 1 || value > 100 )
       {
-         snprintf(buf, sizeof(buf), 
+         bug_snprintf(buf, sizeof(buf), 
          "|RDamroll range is 1 to 100.|w\n\r");
          send_to_char(buf,ch);
          return;
@@ -3676,7 +3676,7 @@ void do_mset( CHAR_DATA *ch, char *argument )
    {
       if ( value < 1 || value > 100 )
       {
-         snprintf(buf, sizeof(buf), 
+         bug_snprintf(buf, sizeof(buf), 
          "|RHitroll range is 1 to 100.|w\n\r");
          send_to_char(buf,ch);
          return;
@@ -3767,7 +3767,7 @@ void do_mset( CHAR_DATA *ch, char *argument )
    {
       if ( value < 1 || value > 999 )
       {
-         snprintf(buf, sizeof(buf), 
+         bug_snprintf(buf, sizeof(buf), 
          "|RHours range is 1 to 999.|w\n\r");
          send_to_char(buf,ch);
          return;
@@ -4182,7 +4182,7 @@ void do_sockets( CHAR_DATA *ch, char *argument )
       || (d->original && is_name(arg,d->original->name))))
       {
          count++;
-         snprintf( buf + strlen(buf), sizeof(buf), "[%3d %8u %2d] %s@%s\n\r",
+         bug_snprintf( buf + strlen(buf), sizeof(buf), "[%3d %8u %2d] %s@%s\n\r",
          d->descriptor,
          (d->localport & 0xffff),
          d->connected,
@@ -4196,7 +4196,7 @@ void do_sockets( CHAR_DATA *ch, char *argument )
 	    * Level 100s only, mind
 	    */
 	   count++;
-	   snprintf (buf+strlen(buf), sizeof(buf), "[%3d %8u %2d] (unknown)@%s\n\r",
+	   bug_snprintf (buf+strlen(buf), sizeof(buf), "[%3d %8u %2d] (unknown)@%s\n\r",
 		    d->descriptor,
 		    (d->localport & 0xffff),
 		    d->connected,
@@ -4210,7 +4210,7 @@ void do_sockets( CHAR_DATA *ch, char *argument )
       return;
    }
 
-   snprintf( buf2, sizeof(buf2), "%d user%s\n\r", count, count == 1 ? "" : "s" );
+   bug_snprintf( buf2, sizeof(buf2), "%d user%s\n\r", count, count == 1 ? "" : "s" );
    strcat(buf,buf2);
    page_to_char( buf, ch );
    return;
@@ -4248,7 +4248,7 @@ void do_force( CHAR_DATA *ch, char *argument )
       return;
    }
 
-   snprintf( buf, sizeof(buf), "$n forces you to '%s'.", argument );
+   bug_snprintf( buf, sizeof(buf), "$n forces you to '%s'.", argument );
 
    if ( !str_cmp( arg, "all" ) )
    {
@@ -4537,12 +4537,12 @@ void do_sacname( CHAR_DATA *ch, char *argument)
    if (argument[0] == '\0')
    {
       send_to_char( "You must tell me who they're gonna sacrifice to!\n\r", ch );
-      snprintf(buf, sizeof(buf), "Currently sacrificing to: %s\n\r", deity_name);
+      bug_snprintf(buf, sizeof(buf), "Currently sacrificing to: %s\n\r", deity_name);
       send_to_char(buf, ch);
       return;
    }
    strcpy( deity_name_area, argument);
-   snprintf( buf, sizeof(buf), "Players now sacrifice to %s.\n\r", deity_name);
+   bug_snprintf( buf, sizeof(buf), "Players now sacrifice to %s.\n\r", deity_name);
    send_to_char( buf, ch );
 }
 

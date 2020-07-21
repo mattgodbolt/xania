@@ -2655,5 +2655,12 @@ void    mprog_speech_trigger    args( ( char* txt, CHAR_DATA* mob ) );
 
 #include "chat/chatlink.h"
 
+#define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
+#define MACRO_STRINGIFY_(s) #s
+
+#define bug_snprintf(...) do { \
+    if (snprintf(__VA_ARGS__) < 0) bug("Buffer too small at " __FILE__ ":" MACRO_STRINGIFY(__LINE__) " - message was truncated"); \
+  } while (0)
+
 
 #endif
