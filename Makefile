@@ -13,6 +13,7 @@ INSTALL_DIR=$(CURDIR)/install
 TOOLS_DIR=$(CURDIR)/.tools
 CLANG_VERSION?=10
 CLANG_TIDY:=$(TOOLS_DIR)/clang-tidy-$(CLANG_VERSION)
+SOURCE_FILES:=$(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name \*.C)
 
 ifeq ($(shell which ninja),)
 CMAKE_GENERATOR_FLAGS?=
@@ -73,4 +74,8 @@ clean:  ## Clean up everything
 
 .PHONY: reformat-code
 reformat-code: $(CLANG_TIDY)  ## Reformat all the code to conform to the clang-tidy settings
-	$(CLANG_TIDY) -i $(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name \*.C)
+	$(CLANG_TIDY) -i $(SOURCE_FILES)
+
+.PHONY: check-format
+check-format: $(CLANG_TIDY)  ## Check that the code conforms to the format
+	$(CLANG_TIDY) --dry-run -Werror $(SOURCE_FILES)
