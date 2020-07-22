@@ -18,4 +18,4 @@ long flag_set(char *template, char *arg, long current_val, CHAR_DATA *ch);
 /*
  * Display the current flags
  */
-void display_flags (char *template, CHAR_DATA *ch, int current_val);
+void display_flags(char *template, CHAR_DATA *ch, int current_val);

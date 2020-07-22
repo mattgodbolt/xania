@@ -7,12 +7,11 @@
 /*                                                                       */
 /*************************************************************************/
 
-
-extern char * const dir_name[];
-extern sh_int const rev_dir [];
-extern	AREA_DATA *		area_first;
-extern	AREA_DATA *		area_last;
-extern	ROOM_INDEX_DATA *	room_index_hash		[MAX_KEY_HASH];
+extern char *const dir_name[];
+extern sh_int const rev_dir[];
+extern AREA_DATA *area_first;
+extern AREA_DATA *area_last;
+extern ROOM_INDEX_DATA *room_index_hash[MAX_KEY_HASH];
 
 /* info flags */
-#define OLC_R_EXTRAS      1
+#define OLC_R_EXTRAS 1

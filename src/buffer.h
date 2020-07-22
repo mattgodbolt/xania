@@ -11,7 +11,6 @@
 #ifndef __buffer_h
 #define __buffer_h
 
-
 /* Creates a new buffer. */
 BUFFER *buffer_create(void);
 
