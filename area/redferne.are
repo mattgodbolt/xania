@@ -474,7 +474,8 @@ D   0   7906    1      1  The Kitchen of Naris: Door east closed
 D   0   7908    3      1  The Fridge: Door west closed
 D   0   7906    0      1  The Kitchen of Naris: Door north closed
 D   0   7907    2      1  The Larder: Door south closed
-M 0 7900 1 7900 1  1   the Grand Knight of paladins into Outside Redferne's residence  
+M 0 7900 1 7900 1  1   the Grand Knight of paladins into Outside Redferne's residence
+  
 E   1   7216   99     16      wielded                
 E   1   7217   99      5      on body                
 E   1   7218   99      7      on legs                
@@ -487,8 +488,10 @@ E   1   7224   99     12      about body
 G   1   7911   99            a small brass key in inventory
 O   0   6013   10   7908  The Fridge
 O   0   7910    1   7910  load a wooden chest into The Treasure room
-P 1 7298 3 7910 1  1   a wooden chest  
-P 1 7208 3 7910 1  1   a wooden chest  
+P 1 7298 3 7910 1  1   a wooden chest
+  
+P 1 7208 3 7910 1  1   a wooden chest
+  
 O   0   7909   10   7903  load a huge treasure into The Artifact room of Naris
 S
 #SPECIALS

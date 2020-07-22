@@ -2073,8 +2073,9 @@ D 0 3717 1 1
 D 0 3719 3 1
 D 0 3719 1 2
 M 0 3717 1 3718 1  1            storekeeper  
-G 1 3138 -1
-G 1 3031 -1
+G 1 3138 -1    water skin
+G 1 3031 -1    lantern
+G 1 3011 -1    bread
 M 0 3706 1 3720 1  1            monster in dark room.  
 E 1 3709 -1 9            give him gloves
 E 1 3710 -1 10           give him sleeves

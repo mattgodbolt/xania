@@ -959,40 +959,64 @@ D   0  13417    2      2  Ciquala's Throne Room: Door south locked
 D   0  13418    0      2  Treasure Chamber of Ciquala: Door north locked
 D   0  13418    5      1  Treasure Chamber of Ciquala: Door down closed
 D   0  13419    4      1  The hidden crypt of Cyquala: Door up closed
-M 0 13400 1 13403 1  1   Guardian Lich into A dusty tunnel deep under the ground  
-M 0 13401 2 13405 1  1   the vampire lab assistant into The Laboratory of Ciquala  
+M 0 13400 1 13403 1  1   Guardian Lich into A dusty tunnel deep under the ground
+  
+M 0 13401 2 13405 1  1   the vampire lab assistant into The Laboratory of Ciquala
+  
 G   0  13404    1            a key in inventory
-M 0 13402 2 13408 1  1   a warped creature from a nightmare into Holding Cell  
-M 0 13402 2 13407 1  1   a warped creature from a nightmare into Holding Cell  
-M 0 13403 2 13408 1  1   a docile creature into Holding Cell  
-M 0 13403 2 13407 1  1   a docile creature into Holding Cell  
-M 0 13404 2 13412 1  1   the black pudding into Storage Room  
-M 0 13404 2 13406 1  1   the black pudding into Supply room  
-M 0 13405 1 13409 1  1   a gigantic automaton into Guard room  
-M 0 13406 1 13409 1  1   the undead guardian into Guard room  
+M 0 13402 2 13408 1  1   a warped creature from a nightmare into Holding Cell
+  
+M 0 13402 2 13407 1  1   a warped creature from a nightmare into Holding Cell
+  
+M 0 13403 2 13408 1  1   a docile creature into Holding Cell
+  
+M 0 13403 2 13407 1  1   a docile creature into Holding Cell
+  
+M 0 13404 2 13412 1  1   the black pudding into Storage Room
+  
+M 0 13404 2 13406 1  1   the black pudding into Supply room
+  
+M 0 13405 1 13409 1  1   a gigantic automaton into Guard room
+  
+M 0 13406 1 13409 1  1   the undead guardian into Guard room
+  
 G   0  13405    1            a key in inventory
-M 0 13407 1 13410 1  1   the lurker above into A seemingly empty tunnel  
-M 0 13408 1 13411 1  1   a vampire servant into The Map Room  
-M 0 13409 1 13414 1  1   the human automaton into The Room of the Automatons  
-M 0 13410 1 13414 1  1   the human automaton into The Room of the Automatons  
-M 0 13411 1 13414 1  1   the human automaton into The Room of the Automatons  
-M 0 13412 1 13414 1  1   the human automaton into The Room of the Automatons  
-M 0 13413 1 13415 1  1   the torturer lich into Torture Chamber  
+M 0 13407 1 13410 1  1   the lurker above into A seemingly empty tunnel
+  
+M 0 13408 1 13411 1  1   a vampire servant into The Map Room
+  
+M 0 13409 1 13414 1  1   the human automaton into The Room of the Automatons
+  
+M 0 13410 1 13414 1  1   the human automaton into The Room of the Automatons
+  
+M 0 13411 1 13414 1  1   the human automaton into The Room of the Automatons
+  
+M 0 13412 1 13414 1  1   the human automaton into The Room of the Automatons
+  
+M 0 13413 1 13415 1  1   the torturer lich into Torture Chamber
+  
 E   0  13417    1     16     the torturer's whip wielded                
-M 0 13414 1 13416 1  1   Ciquala's undead pet dragon into Entrance to Ciquala's Throne Room  
-M 0 13415 1 13417 1  1   the lich Ciquala into Ciquala's Throne Room  
+M 0 13414 1 13416 1  1   Ciquala's undead pet dragon into Entrance to Ciquala's Throne Room
+  
+M 0 13415 1 13417 1  1   the lich Ciquala into Ciquala's Throne Room
+  
 E   0  13400    1     16     Ciquala's sword wielded                
 E   0  13401    1     12     Ciquala's robe about body             
 E   0  13402    1     17     Ciquala's staff held                   
 G   0  13406    0            a key in inventory
-M 0 13416 2 13419 1  1   Lich into The hidden crypt of Cyquala  
-M 0 13416 2 13419 1  1   Lich into The hidden crypt of Cyquala  
-M 0 13417 2 13419 1  1   vampire into The hidden crypt of Cyquala  
-M 0 13417 2 13419 1  1   vampire into The hidden crypt of Cyquala  
+M 0 13416 2 13419 1  1   Lich into The hidden crypt of Cyquala
+  
+M 0 13416 2 13419 1  1   Lich into The hidden crypt of Cyquala
+  
+M 0 13417 2 13419 1  1   vampire into The hidden crypt of Cyquala
+  
+M 0 13417 2 13419 1  1   vampire into The hidden crypt of Cyquala
+  
 O   0  13403    1  13406  load crate into Supply room
 O   0  13420    1  13406  load crate into Supply room
 O   0  13421    1  13406  load crate into Supply room
-M 0 13401 1 13405 1  1   the vampire lab assistant into The Laboratory of Ciquala  
+M 0 13401 1 13405 1  1   the vampire lab assistant into The Laboratory of Ciquala
+  
 G   0  13404    1            a key in inventory
 G   0  13407    1            a blue potion in inventory
 G   0  13408    1            an emerald vial in inventory
@@ -1000,7 +1024,8 @@ G   0  13409    1            purple potion in inventory
 G   0  13410    1            a clear testube in inventory
 G   0  13411    1            a green vial in inventory
 G   0  13412    1            a vial with gold liquid in inventory
-M 0 13401 2 13405 1  1   the vampire lab assistant into The Laboratory of Ciquala  
+M 0 13401 2 13405 1  1   the vampire lab assistant into The Laboratory of Ciquala
+  
 G   0  13413    1            a vial with milky liquid in inventory
 G   0  13414    1            a black potion in inventory
 G   0  13415    1            a beaker with yellow liquid in inventory

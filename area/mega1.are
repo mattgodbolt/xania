@@ -958,64 +958,92 @@ It looks like it fits a slot somewhere.
 #0
 
 #RESETS
-M 0 8000 5 8004 1  1   a juve into Mahmount Allesh Megway  
+M 0 8000 5 8004 1  1   a juve into Mahmount Allesh Megway
+  
 E   0   8006   40     16     a bashball bat wielded                
-M 0 8000 5 8004 1  1   a juve into Mahmount Allesh Megway  
+M 0 8000 5 8004 1  1   a juve into Mahmount Allesh Megway
+  
 E   0   8009   40     16     a knife wielded                
-M 0 8000 5 8006 1  1   a juve into Central Plaza  
+M 0 8000 5 8006 1  1   a juve into Central Plaza
+  
 E   0   8009   40     16     a knife wielded                
-M 0 8000 5 8015 1  1   a juve into Corner of Junket Way and Threep Lane  
-E   0   8009   40     16     a knife wielded                
-E   0   8001   40      7     a set of knee pads on legs                
-M 0 8001 5 8006 1  1   a punk into Central Plaza  
-E   0   8009   40     16     a knife wielded                
-M 0 8001 5 8009 1  1   a punk into Mahmount Allesh Megway  
+M 0 8000 5 8015 1  1   a juve into Corner of Junket Way and Threep Lane
+  
 E   0   8009   40     16     a knife wielded                
 E   0   8001   40      7     a set of knee pads on legs                
-M 0 8001 5 8011 1  1   a punk into Davies Alley  
+M 0 8001 5 8006 1  1   a punk into Central Plaza
+  
+E   0   8009   40     16     a knife wielded                
+M 0 8001 5 8009 1  1   a punk into Mahmount Allesh Megway
+  
+E   0   8009   40     16     a knife wielded                
+E   0   8001   40      7     a set of knee pads on legs                
+M 0 8001 5 8011 1  1   a punk into Davies Alley
+  
 E   0   8006   40     16     a bashball bat wielded                
-M 0 8003 5 8013 1  1   a Citi-Def Militiaman into Ed Hilldreth Memorial Parkway   
+M 0 8003 5 8013 1  1   a Citi-Def Militiaman into Ed Hilldreth Memorial Parkway 
+  
 E   0   8001   40      7     a set of knee pads on legs                
-M 0 8003 5 8014 1  1   a Citi-Def Militiaman into Construction site of the Harold Finkelbaum Block.  
+M 0 8003 5 8014 1  1   a Citi-Def Militiaman into Construction site of the Harold Finkelbaum Block.
+  
 G   0   8000   10            a spit gun in inventory
-M 0 8002 4 8023 1  1   a Futsie into Bazza's Home for the Terminally Sarky  
+M 0 8002 4 8023 1  1   a Futsie into Bazza's Home for the Terminally Sarky
+  
 E   0   8008   40     16     a Hoover vacuum cleaner wielded                
-M 0 8002 4 8024 1  1   a Futsie into Nu Phisog Parlour  
+M 0 8002 4 8024 1  1   a Futsie into Nu Phisog Parlour
+  
 E   0   8010   40     16     a wet noodle wielded                
-M 0 8004 5 8003 1  1   a dunk into Intersection of Junket Way and Megway  
-M 0 8004 5 8006 1  1   a dunk into Central Plaza  
-M 0 8004 5 8005 1  1   a dunk into Mahmount Allesh Megway  
-M 0 8005 5 8010 1  1   a tap into Junket Way  
+M 0 8004 5 8003 1  1   a dunk into Intersection of Junket Way and Megway
+  
+M 0 8004 5 8006 1  1   a dunk into Central Plaza
+  
+M 0 8004 5 8005 1  1   a dunk into Mahmount Allesh Megway
+  
+M 0 8005 5 8010 1  1   a tap into Junket Way
+  
 E   0   8006   40     16     a bashball bat wielded                
-M 0 8005 5 8017 1  1   a tap into Threep Lane  
+M 0 8005 5 8017 1  1   a tap into Threep Lane
+  
 E   0   8009   40     16     a knife wielded                
-M 0 8005 5 8019 1  1   a tap into Corner of Ed Hilldreth Mem. Prkwy and Threep Lane  
-M 0 8006 5 8018 1  1   a rookie judge into Corner of Max Jaffa Blvd and Threep Way  
+M 0 8005 5 8019 1  1   a tap into Corner of Ed Hilldreth Mem. Prkwy and Threep Lane
+  
+M 0 8006 5 8018 1  1   a rookie judge into Corner of Max Jaffa Blvd and Threep Way
+  
 E   0   8011   40     16     a Judge's club wielded                
-M 0 8006 5 8012 1  1   a rookie judge into Max Jaffa Boulevard  
+M 0 8006 5 8012 1  1   a rookie judge into Max Jaffa Boulevard
+  
 E   0   8011   40     16     a Judge's club wielded                
-M 0 8006 5 8025 1  1   a rookie judge into Ziggi Piggi's Home for the Semi-Stiff  
+M 0 8006 5 8025 1  1   a rookie judge into Ziggi Piggi's Home for the Semi-Stiff
+  
 E   0   8011   40     16     a Judge's club wielded                
-M 0 8007 1 8027 1  1   Wallaby Gleep into Stockroom of Throt & Gleep's Megger Store  
+M 0 8007 1 8027 1  1   Wallaby Gleep into Stockroom of Throt & Gleep's Megger Store
+  
 E   0   8009   40     16     a knife wielded                
 G   0   8012   10            a vault key in inventory
-M 0 8009 1 8021 1  1   Ernie Ramirez into Pustule Palace Cafe  
+M 0 8009 1 8021 1  1   Ernie Ramirez into Pustule Palace Cafe
+  
 E   0   8006   40     16     a bashball bat wielded                
 G   0   8002   10            a stooky gland in inventory
 G   0   8013    5            a key card in inventory
-M 0 8010 1 8007 1  1   Judge Eckersely into Corner of Ed Hilldreth Memorial Parkway and Megway  
+M 0 8010 1 8007 1  1   Judge Eckersely into Corner of Ed Hilldreth Memorial Parkway and Megway
+  
 E   0   8011   40     16     a Judge's club wielded                
 G   0   8003   20            a lawgiver in inventory
-M 0 8011 1 8009 1  1   Judge Beddows into Mahmount Allesh Megway  
+M 0 8011 1 8009 1  1   Judge Beddows into Mahmount Allesh Megway
+  
 E   0   8011   40     16     a Judge's club wielded                
 G   0   8003   20            a lawgiver in inventory
-M 0 8012 2 8011 1  1   a bite fighter into Davies Alley  
-M 0 8012 2 8011 1  1   a bite fighter into Davies Alley  
+M 0 8012 2 8011 1  1   a bite fighter into Davies Alley
+  
+M 0 8012 2 8011 1  1   a bite fighter into Davies Alley
+  
 O   0   8004    1   8028  load the magnetically shielded safe into Throt & Gleep's Vault
-M 0 8008 1 8028 1  1   Pinkerton Throt into Throt & Gleep's Vault  
+M 0 8008 1 8028 1  1   Pinkerton Throt into Throt & Gleep's Vault
+  
 E   0   8009   40     16     a knife wielded                
 G   0   8005   10            a code box in inventory
-P 0 8007 3 8004 1  1   Load the Vibroblade into the magnetically shielded safe  
+P 0 8007 3 8004 1  1   Load the Vibroblade into the magnetically shielded safe
+  
 D   0   8016    1      1  Threep Lane: Door east closed
 D   0   8026    3      1  Throt & Gleep's Megger Store: Door west closed
 D   0   8026    0      2  Throt & Gleep's Megger Store: Door north locked

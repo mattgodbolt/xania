@@ -1667,68 +1667,113 @@ staff B AO
 #0
 
 #RESETS
-M 0 4700 10 4705 1  1   the small dwarf into Unfinished Mine  
+M 0 4700 10 4705 1  1   the small dwarf into Unfinished Mine
+  
 E   1   4701  100     16     a mining pick wielded                
-M 0 4700 10 4709 1  1   the small dwarf into Dwarven mine  
+M 0 4700 10 4709 1  1   the small dwarf into Dwarven mine
+  
 E   1   4701  100     16     a mining pick wielded                
-M 0 4700 10 4713 1  1   the small dwarf into Dwarven mine  
+M 0 4700 10 4713 1  1   the small dwarf into Dwarven mine
+  
 E   1   4701  100     16     a mining pick wielded                
-M 0 4700 10 4720 1  1   the small dwarf into Unfinished shaft  
+M 0 4700 10 4720 1  1   the small dwarf into Unfinished shaft
+  
 E   1   4701  100     16     a mining pick wielded                
-M 0 4700 10 4716 1  1   the small dwarf into Dwarven mines  
+M 0 4700 10 4716 1  1   the small dwarf into Dwarven mines
+  
 E   1   4701  100     16     a mining pick wielded                
-M 0 4700 10 4723 1  1   the small dwarf into Unfinished mine  
+M 0 4700 10 4723 1  1   the small dwarf into Unfinished mine
+  
 E   1   4701  100     16     a mining pick wielded                
-M 0 4700 10 4727 1  1   the small dwarf into Dwarven mines  
+M 0 4700 10 4727 1  1   the small dwarf into Dwarven mines
+  
 E   1   4701  100     16     a mining pick wielded                
-M 0 4700 10 4725 1  1   the small dwarf into Dwarven mine  
+M 0 4700 10 4725 1  1   the small dwarf into Dwarven mine
+  
 E   1   4701  100     16     a mining pick wielded                
-M 0 4700 10 4729 1  1   the small dwarf into Dwarven mines  
+M 0 4700 10 4729 1  1   the small dwarf into Dwarven mines
+  
 E   1   4701  100     16     a mining pick wielded                
-M 0 4700 10 4738 1  1   the small dwarf into Carved Tunnel  
+M 0 4700 10 4738 1  1   the small dwarf into Carved Tunnel
+  
 E   1   4701  100     16     a mining pick wielded                
-M 0 4701 6 4740 1  1   the small dwarf into Walkway  
-M 0 4701 6 4740 1  1   the small dwarf into Walkway  
-M 0 4701 6 4759 1  1   the small dwarf into Walkway  
-M 0 4701 6 4759 1  1   the small dwarf into Walkway  
-M 0 4701 6 4763 1  1   the small dwarf into Walkway  
-M 0 4701 6 4763 1  1   the small dwarf into Walkway  
-M 0 4702 11 4739 1  1   the dwarf guard into Stone Gates  
-M 0 4702 11 4739 1  1   the dwarf guard into Stone Gates  
-M 0 4702 11 4757 1  1   the dwarf guard into Path in the Rock  
-M 0 4702 11 4757 1  1   the dwarf guard into Path in the Rock  
-M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack  
-M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack  
-M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack  
-M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack  
-M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack  
-M 0 4702 11 4749 1  1   the dwarf guard into Temple of Juargan  
+M 0 4701 6 4740 1  1   the small dwarf into Walkway
+  
+M 0 4701 6 4740 1  1   the small dwarf into Walkway
+  
+M 0 4701 6 4759 1  1   the small dwarf into Walkway
+  
+M 0 4701 6 4759 1  1   the small dwarf into Walkway
+  
+M 0 4701 6 4763 1  1   the small dwarf into Walkway
+  
+M 0 4701 6 4763 1  1   the small dwarf into Walkway
+  
+M 0 4702 11 4739 1  1   the dwarf guard into Stone Gates
+  
+M 0 4702 11 4739 1  1   the dwarf guard into Stone Gates
+  
+M 0 4702 11 4757 1  1   the dwarf guard into Path in the Rock
+  
+M 0 4702 11 4757 1  1   the dwarf guard into Path in the Rock
+  
+M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack
+  
+M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack
+  
+M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack
+  
+M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack
+  
+M 0 4702 11 4766 1  1   the dwarf guard into Guard Barrack
+  
+M 0 4702 11 4749 1  1   the dwarf guard into Temple of Juargan
+  
 E   1   4702  100      6     a dwarven helm on head                
 E   1   4703  100      5     a dwarven breast plate on body                
-M 0 4702 11 4749 1  1   the dwarf guard into Temple of Juargan  
+M 0 4702 11 4749 1  1   the dwarf guard into Temple of Juargan
+  
 E   1   4702  100      6     a dwarven helm on head                
 E   1   4703  100      5     a dwarven breast plate on body                
-M 0 4704 1 4749 1  1   Juargan the Dwarven King into Temple of Juargan  
+M 0 4704 1 4749 1  1   Juargan the Dwarven King into Temple of Juargan
+  
 G   1   4700    1            a small key in inventory
-M 0 4705 10 4733 1  1   the duergar dwarf into Duergar Barracks  
-M 0 4705 10 4733 1  1   the duergar dwarf into Duergar Barracks  
-M 0 4705 10 4733 1  1   the duergar dwarf into Duergar Barracks  
-M 0 4705 10 4733 1  1   the duergar dwarf into Duergar Barracks  
-M 0 4705 10 4735 1  1   the duergar dwarf into By a small fire  
-M 0 4705 10 4735 1  1   the duergar dwarf into By a small fire  
-M 0 4705 10 4732 1  1   the duergar dwarf into Duergar Outcamp  
-M 0 4705 10 4729 1  1   the duergar dwarf into Dwarven mines  
-M 0 4705 10 4729 1  1   the duergar dwarf into Dwarven mines  
-M 0 4705 10 4715 1  1   the duergar dwarf into Dwarven mines  
-M 0 4703 1 4743 1  1   Yentle the dwarf into Rock Garden  
-M 0 4706 1 4769 1  1   Grimdale the ancient king into Ancients Tomb  
+M 0 4705 10 4733 1  1   the duergar dwarf into Duergar Barracks
+  
+M 0 4705 10 4733 1  1   the duergar dwarf into Duergar Barracks
+  
+M 0 4705 10 4733 1  1   the duergar dwarf into Duergar Barracks
+  
+M 0 4705 10 4733 1  1   the duergar dwarf into Duergar Barracks
+  
+M 0 4705 10 4735 1  1   the duergar dwarf into By a small fire
+  
+M 0 4705 10 4735 1  1   the duergar dwarf into By a small fire
+  
+M 0 4705 10 4732 1  1   the duergar dwarf into Duergar Outcamp
+  
+M 0 4705 10 4729 1  1   the duergar dwarf into Dwarven mines
+  
+M 0 4705 10 4729 1  1   the duergar dwarf into Dwarven mines
+  
+M 0 4705 10 4715 1  1   the duergar dwarf into Dwarven mines
+  
+M 0 4703 1 4743 1  1   Yentle the dwarf into Rock Garden
+  
+M 0 4706 1 4769 1  1   Grimdale the ancient king into Ancients Tomb
+  
 E   1   4706    1     16     a large dwarven battle axe wielded                
-M 0 4707 1 4720 1  1   The dreaded rock worm into Unfinished shaft  
-M 0 4708 3 4769 1  1   a dwarven spirit into Ancients Tomb  
-M 0 4708 3 4769 1  1   a dwarven spirit into Ancients Tomb  
-M 0 4708 3 4769 1  1   a dwarven spirit into Ancients Tomb  
+M 0 4707 1 4720 1  1   The dreaded rock worm into Unfinished shaft
+  
+M 0 4708 3 4769 1  1   a dwarven spirit into Ancients Tomb
+  
+M 0 4708 3 4769 1  1   a dwarven spirit into Ancients Tomb
+  
+M 0 4708 3 4769 1  1   a dwarven spirit into Ancients Tomb
+  
 O   0   4707    1   4769  load a large stone sarcophagus into Ancients Tomb
-P 1 4708 3 4707 1  1   Load the staff of ruling into a large stone sarcophagus  
+P 1 4708 3 4707 1  1   Load the staff of ruling into a large stone sarcophagus
+  
 O   0   4704    1   4770  load a large dwarven shield into Ancients Vault
 O   0   4705    1   4770  load a large pile of coins into Ancients Vault
 D   0   4769    3      2  Ancients Tomb: Door west locked

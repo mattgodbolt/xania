@@ -1559,50 +1559,73 @@ D   0   9856    1      1  The Tapestry Room: Door east closed
 D   0   9887    4      1  A Downward Tunnel: Door up closed
 D   0   9889    1      1  Before the Jaws of Dark Death: Door east closed
 D   0   9890    3      1  A hidden alcove: Door west closed
-M 0 9800 1 9850 1  1   the receptionist into The Reception Area  
+M 0 9800 1 9850 1  1   the receptionist into The Reception Area
+  
 E   1   9825    1     17     a black key held                   
-M 0 9801 7 9855 1  1   the minor priest into A Shrine  
+M 0 9801 7 9855 1  1   the minor priest into A Shrine
+  
 E   1   9830    1      5     some dark robes on body                
 E   1   9833    1     16     a black staff wielded                
-M 0 9801 7 9860 1  1   the minor priest into Bend in the hallway  
+M 0 9801 7 9860 1  1   the minor priest into Bend in the hallway
+  
 E   1   9830    1      5     some dark robes on body                
 E   1   9833    1     16     a black staff wielded                
-M 0 9801 7 9861 1  1   the minor priest into A place of worship  
+M 0 9801 7 9861 1  1   the minor priest into A place of worship
+  
 E   1   9830    1      5     some dark robes on body                
-M 0 9801 7 9861 1  1   the minor priest into A place of worship  
+M 0 9801 7 9861 1  1   the minor priest into A place of worship
+  
 E   1   9830    1      5     some dark robes on body                
-M 0 9802 4 9861 1  1   the robed priest into A place of worship  
+M 0 9802 4 9861 1  1   the robed priest into A place of worship
+  
 E   1   9832    1     16     an evil looking black dagger wielded                
 E   1   9835    1      5     dragonfang robes on body                
-M 0 9802 4 9863 1  1   the robed priest into The Inner Circle  
+M 0 9802 4 9863 1  1   the robed priest into The Inner Circle
+  
 E   1   9832    1     16     an evil looking black dagger wielded                
 E   1   9835    1      5     dragonfang robes on body                
-M 0 9802 4 9863 1  1   the robed priest into The Inner Circle  
+M 0 9802 4 9863 1  1   the robed priest into The Inner Circle
+  
 E   1   9835    1      5     dragonfang robes on body                
-M 0 9803 1 9865 1  1   the draconian knight into A forboding corridor  
+M 0 9803 1 9865 1  1   the draconian knight into A forboding corridor
+  
 G   1   9826    1            a primitive key in inventory
 E   1   9828    1     16     a bone sword wielded                
 E   1   9829    1      6     a helm made from a dragon's skull on head                
-M 0 9804 1 9868 1  1   the High Priestess into The Chamber of the High Priestess  
+M 0 9804 1 9868 1  1   the High Priestess into The Chamber of the High Priestess
+  
 G   1   9827    1            a skull key in inventory
 E   1   9834    1      5     dragonscale robes on body                
-M 0 9805 1 9866 1  1   a virgin sacrifice into The Cell  
+M 0 9805 1 9866 1  1   a virgin sacrifice into The Cell
+  
 E   1   9836    1      5     A torn white dress on body                
-M 0 9806 1 9870 1  1   The Black Dragon Wyrmling into Chamber of the Wyrmling  
-M 0 9807 1 9858 1  1   the minor priest into The Bathroom  
-M 0 9808 1 9850 1  1   a fanatic monk into The Reception Area  
+M 0 9806 1 9870 1  1   The Black Dragon Wyrmling into Chamber of the Wyrmling
+  
+M 0 9807 1 9858 1  1   the minor priest into The Bathroom
+  
+M 0 9808 1 9850 1  1   a fanatic monk into The Reception Area
+  
 E   1   9850    1     17     A brochure held                   
-M 0 9809 1 9853 1  1   Bob into Tourist Office  
+M 0 9809 1 9853 1  1   Bob into Tourist Office
+  
 E   1   9831    1     16     a black pen wielded                
-M 0 9810 1 9877 1  1   Marie into The break room  
-M 0 9811 1 9875 1  1   Gale into Gale's Office  
-M 0 9812 1 9876 1  1   Fred into Fred's Office  
-M 0 9813 1 9884 1  1   the Torturer into The torture chamber  
+M 0 9810 1 9877 1  1   Marie into The break room
+  
+M 0 9811 1 9875 1  1   Gale into Gale's Office
+  
+M 0 9812 1 9876 1  1   Fred into Fred's Office
+  
+M 0 9813 1 9884 1  1   the Torturer into The torture chamber
+  
 G   0   9837    1            a rusty key in inventory
-M 0 9814 1 9879 1  1   Jim into A sales booth  
-M 0 9815 1 9883 1  1   the Zombie into The dungeon  
-M 0 9816 1 9891 1  1   the Lich Priest into The bottom of the pit  
-M 0 9817 1 9892 1  1   An old monk into Candy Store  
+M 0 9814 1 9879 1  1   Jim into A sales booth
+  
+M 0 9815 1 9883 1  1   the Zombie into The dungeon
+  
+M 0 9816 1 9891 1  1   the Lich Priest into The bottom of the pit
+  
+M 0 9817 1 9892 1  1   An old monk into Candy Store
+  
 G   1   9841  100            Clear Candy <tm> in inventory
 G   1   9842  100            White Candy <tm> in inventory
 G   1   9843  100            Ogre Candy <tm> in inventory

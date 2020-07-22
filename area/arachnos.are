@@ -1263,45 +1263,76 @@ It has a nice sky blue colour and a smell like peppermint.
 #0
 
 #RESETS
-M 0 6319 1 6134 1  1   the Queen Spider into   
+M 0 6319 1 6134 1  1   the Queen Spider into 
+  
 G   1   6308   10            a big pile of gold coins in inventory
 G   1   6309    5            a blue potion in inventory
-M 0 6318 3 6134 1  1   the huge, poisonous spider into   
-M 0 6318 3 6134 1  1   the huge, poisonous spider into   
-M 0 6318 3 6134 1  1   the huge, poisonous spider into   
-M 0 6301 10 6301 1  1   the young spider into Webbed Entrance  
-M 0 6301 10 6306 1  1   the young spider into On the Busy Path  
-M 0 6301 10 6306 1  1   the young spider into On the Busy Path  
-M 0 6301 10 6304 1  1   the young spider into Webby Passage  
-M 0 6305 1 6303 1  1   the Queen Wasp into Wasp Hive  
-M 0 6310 1 6342 1  1   the Bird Spider into The Bird Spider's Lair  
-M 0 6303 1 6313 1  1   the Wolf Spider into Wolf Spider Lair  
-M 0 6308 5 6308 1  1   the slave of Arachnos into On the Busy Path  
-M 0 6308 5 6308 1  1   the slave of Arachnos into On the Busy Path  
-M 0 6308 5 6308 1  1   the slave of Arachnos into On the Busy Path  
-M 0 6308 5 6308 1  1   the slave of Arachnos into On the Busy Path  
-M 0 6308 5 6308 1  1   the slave of Arachnos into On the Busy Path  
-M 0 6309 2 6327 1  1   the quasit into A Leader Strand  
-M 0 6307 5 6335 1  1   the ethereal spider into A Link in the Ethereal Web  
-M 0 6307 5 6333 1  1   the ethereal spider into Above the Clouds  
-M 0 6304 1 6332 1  1   the orc into Through the Trees  
-M 0 6306 3 6321 1  1   the drone spider into Above the Ravine  
-M 0 6306 3 6331 1  1   the drone spider into The Base of the Web  
-M 0 6311 1 6373 1  1   the Hermit into The Hermit's Corner  
-M 0 6315 1 6350 1  1   the Ki-Rin into The Ki-Rin Chamber  
+M 0 6318 3 6134 1  1   the huge, poisonous spider into 
+  
+M 0 6318 3 6134 1  1   the huge, poisonous spider into 
+  
+M 0 6318 3 6134 1  1   the huge, poisonous spider into 
+  
+M 0 6301 10 6301 1  1   the young spider into Webbed Entrance
+  
+M 0 6301 10 6306 1  1   the young spider into On the Busy Path
+  
+M 0 6301 10 6306 1  1   the young spider into On the Busy Path
+  
+M 0 6301 10 6304 1  1   the young spider into Webby Passage
+  
+M 0 6305 1 6303 1  1   the Queen Wasp into Wasp Hive
+  
+M 0 6310 1 6342 1  1   the Bird Spider into The Bird Spider's Lair
+  
+M 0 6303 1 6313 1  1   the Wolf Spider into Wolf Spider Lair
+  
+M 0 6308 5 6308 1  1   the slave of Arachnos into On the Busy Path
+  
+M 0 6308 5 6308 1  1   the slave of Arachnos into On the Busy Path
+  
+M 0 6308 5 6308 1  1   the slave of Arachnos into On the Busy Path
+  
+M 0 6308 5 6308 1  1   the slave of Arachnos into On the Busy Path
+  
+M 0 6308 5 6308 1  1   the slave of Arachnos into On the Busy Path
+  
+M 0 6309 2 6327 1  1   the quasit into A Leader Strand
+  
+M 0 6307 5 6335 1  1   the ethereal spider into A Link in the Ethereal Web
+  
+M 0 6307 5 6333 1  1   the ethereal spider into Above the Clouds
+  
+M 0 6304 1 6332 1  1   the orc into Through the Trees
+  
+M 0 6306 3 6321 1  1   the drone spider into Above the Ravine
+  
+M 0 6306 3 6331 1  1   the drone spider into The Base of the Web
+  
+M 0 6311 1 6373 1  1   the Hermit into The Hermit's Corner
+  
+M 0 6315 1 6350 1  1   the Ki-Rin into The Ki-Rin Chamber
+  
 G   1   6309   10            a blue potion in inventory
 G   1   6309   10            a blue potion in inventory
-M 0 6314 1 6399 1  1   Arachnos into The Lair of Arachnos  
+M 0 6314 1 6399 1  1   Arachnos into The Lair of Arachnos
+  
 G   1   6303    2            a pontiff's headress in inventory
 G   1   6304    2            a black knight's visor in inventory
-M 0 6312 1 6370 1  1   the Donjonkeeper into The Donjonkeep  
+M 0 6312 1 6370 1  1   the Donjonkeeper into The Donjonkeep
+  
 G   1   6309   10            a blue potion in inventory
-M 0 6313 1 6367 1  1   The guardian into The Guardian's Room  
-M 0 6306 3 6330 1  1   the drone spider into The Young Wormkin's Crib  
-M 0 6302 1 6360 1  1   Yevaud into Yevaud's Lair  
+M 0 6313 1 6367 1  1   The guardian into The Guardian's Room
+  
+M 0 6306 3 6330 1  1   the drone spider into The Young Wormkin's Crib
+  
+M 0 6302 1 6360 1  1   Yevaud into Yevaud's Lair
+  
 G   1   6304    2            a black knight's visor in inventory
-M 0 6316 1 6330 1  1   the young dragon wormkin into The Young Wormkin's Crib  
-M 0 6317 1 6340 1  1   the medium dragon wormkin into The Elder Wormkin's Room  
+M 0 6316 1 6330 1  1   the young dragon wormkin into The Young Wormkin's Crib
+  
+M 0 6317 1 6340 1  1   the medium dragon wormkin into The Elder Wormkin's Room
+  
 D   0   6392    0      2  The Great Door: Door north locked
 D   0   6399    2      2  The Lair of Arachnos: Door south locked
 S

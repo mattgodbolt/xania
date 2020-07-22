@@ -3645,37 +3645,44 @@ S
 
 * Stuff at beginning of area is level 0
 
-M 1 3720 1 3721 1  1            the hideous diploma beast  
+M 1 3720 1 3721 1  1            the hideous diploma beast
+  
 
 E 0 3715 -1 17            diploma
 
 *
 
-M 0 3700 1 3701 1  1            (acolyte of FRAG)  
+M 0 3700 1 3701 1  1            (acolyte of FRAG)
+  
 
 D 0 3700 2 1
 
-M 0 3701 1 3710 1  1            blob  
+M 0 3701 1 3710 1  1            blob
+  
 
-M 0 3702 1 3716 1  1            regular monster in cage  
+M 0 3702 1 3716 1  1            regular monster in cage
+  
 
 E 1 3705 -1 3            give him cloak
 
 E 1 3705 -1 4            give him cloak
 
-M 0 3703 1 3715 1  1            wimpy monster in cage  
+M 0 3703 1 3715 1  1            wimpy monster in cage
+  
 
 E 1 3706 -1 6            give him helmet
 
 E 1 3711 -1 12           give him cape
 
-M 0 3704 1 3713 1  1            aggr monster in cage  
+M 0 3704 1 3713 1  1            aggr monster in cage
+  
 
 E 1 3707 -1 7            give him leggings
 
 E 1 3712 -1 13           give him belt
 
-M 0 3705 1 3714 1  1            aggr/wimpy monster in cage  
+M 0 3705 1 3714 1  1            aggr/wimpy monster in cage
+  
 
 E 1 3708 -1 8            give him boots
 
@@ -3687,13 +3694,15 @@ D 0 3719 3 1
 
 D 0 3719 1 2
 
-M 0 3717 1 3718 1  1            storekeeper  
+M 0 3717 1 3718 1  1            storekeeper
+  
 
 G 1 3138 -1
 
 G 1 3031 -1
 
-M 0 3706 1 3720 1  1            monster in dark room.  
+M 0 3706 1 3720 1  1            monster in dark room.
+  
 
 E 1 3709 -1 9            give him gloves
 
@@ -3709,29 +3718,41 @@ D 0 3734 5 1
 
 D 0 3748 4 1
 
-M 0 3709 4 3734 1  1            rabbit  
+M 0 3709 4 3734 1  1            rabbit
+  
 
-M 0 3710 3 3742 1  1            lizard  
+M 0 3710 3 3742 1  1            lizard
+  
 
-M 0 3711 3 3746 1  1            boar  
+M 0 3711 3 3746 1  1            boar
+  
 
-M 0 3712 3 3726 1  1            fox  
+M 0 3712 3 3726 1  1            fox
+  
 
-M 0 3713 5 3724 1  1            snail  
+M 0 3713 5 3724 1  1            snail
+  
 
-M 0 3714 1 3749 1  1            beast  
+M 0 3714 1 3749 1  1            beast
+  
 
-M 0 3715 2 3751 1  1            bear  
+M 0 3715 2 3751 1  1            bear
+  
 
-M 0 3716 2 3754 1  1            wolf  
+M 0 3716 2 3754 1  1            wolf
+  
 
-M 0 3707 1 3712 1  1            adept  
+M 0 3707 1 3712 1  1            adept
+  
 
-M 0 3708 1 3721 1  1            adept  
+M 0 3708 1 3721 1  1            adept
+  
 
-M 0 3718 1 3758 1  1          adept for training  
+M 0 3718 1 3758 1  1          adept for training
+  
 
-M 0 3719 1 3759 1  1          adept for practicing  
+M 0 3719 1 3759 1  1          adept for practicing
+  
 
 S
 

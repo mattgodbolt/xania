@@ -595,60 +595,85 @@ R 0 6614 4
 R 0 6615 4
 R 0 6616 4
 *
-M 0 6607 1 6624 1  1 	    guard  
+M 0 6607 1 6624 1  1 	    guard
+  
 E 1 3023 -1 16		club 
-M 0 6608 1 6631 1  1 	    the brat  
+M 0 6608 1 6631 1  1 	    the brat
+  
 *
-M 0 6600 7 6602 1  1 	    dwarf child  
+M 0 6600 7 6602 1  1 	    dwarf child
+  
 E 1 6600 18 16		toy axe
-M 0 6601 2 6602 1  1 	    teddy bear  
-M 0 6606 2 6602 1  1 	    nanny  
+M 0 6601 2 6602 1  1 	    teddy bear
+  
+M 0 6606 2 6602 1  1 	    nanny
+  
 G 1 6646 20		amber potion
 G 1 6644 20		steak
 E 1 6621 20 12		wear a linen robe
 *
-M 0 6600 7 6603 1  1 	    dwarf child  
+M 0 6600 7 6603 1  1 	    dwarf child
+  
 E 1 6600 18 16		toy axe
 *
-M 0 6600 7 6604 1  1 	    dwarf child  
+M 0 6600 7 6604 1  1 	    dwarf child
+  
 E 1 6600 18 16		toy axe
-M 0 6602 2 6604 1  1 	    raggedy anne doll  
-M 0 6606 2 6604 1  1 		nanny  
+M 0 6602 2 6604 1  1 	    raggedy anne doll
+  
+M 0 6606 2 6604 1  1 		nanny
+  
 G 1 6646 20		amber potion
 E 1 6622 20 16		wield a broom
 *
-M 0 6600 7 6605 1  1 	    dwarf child  
+M 0 6600 7 6605 1  1 	    dwarf child
+  
 E 1 6600 18 16		toy axe
-M 0 6602 2 6605 1  1 	    raggedy anne doll  
+M 0 6602 2 6605 1  1 	    raggedy anne doll
+  
 G 1 6645 20		rotten steak
-M 0 6605 3 6605 1  1 	    old doll  
+M 0 6605 3 6605 1  1 	    old doll
+  
 E 1 6601 20 1		pink ice ring
 *
-M 0 6600 2 6608 1  1 	    dwarf child  
+M 0 6600 2 6608 1  1 	    dwarf child
+  
 E 1 6600 18 16          toy axe
-M 0 6603 4 6608 1  1 	    toy soldier  
+M 0 6603 4 6608 1  1 	    toy soldier
+  
 E 1 6647 -1 16		gun
 *
-M 0 6600 7 6609 1  1 	    dwarf child  
+M 0 6600 7 6609 1  1 	    dwarf child
+  
 E 1 6600 18 16          toy axe
-M 0 6604 2 6609 1  1 	    insane teddy bear  
-M 0 6603 3 6609 1  1   
+M 0 6604 2 6609 1  1 	    insane teddy bear
+  
+M 0 6603 3 6609 1  1 
+  
 E 1 6647 10 16
-M 0 6603 4 6609 1  1 	    toy soldier  
+M 0 6603 4 6609 1  1 	    toy soldier
+  
 E 1 6647 -1 16		gun
 *
-M 0 6600 7 6610 1  1 	    dwarf child  
+M 0 6600 7 6610 1  1 	    dwarf child
+  
 E 1 6600 18 16          toy axe
-M 0 6603 4 6610 1  1 	    toy soldier  
+M 0 6603 4 6610 1  1 	    toy soldier
+  
 E 1 6647 -1 16		gun
-M 0 6605 3 6610 1  1 	    old doll  
+M 0 6605 3 6610 1  1 	    old doll
+  
 *
-M 0 6604 2 6611 1  1 	    insane teddy bear  
-M 0 6603 4 6611 1  1 	    toy soldier  
+M 0 6604 2 6611 1  1 	    insane teddy bear
+  
+M 0 6603 4 6611 1  1 	    toy soldier
+  
 E 1 6647 -1 16		gun
 *
-M 0 6605 3 6606 1  1 	    old doll  
-M 0 6601 2 6606 1  1 	    teddy bear  
+M 0 6605 3 6606 1  1 	    old doll
+  
+M 0 6601 2 6606 1  1 	    teddy bear
+  
 S
 
 

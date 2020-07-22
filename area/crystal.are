@@ -2413,60 +2413,98 @@ iron bands.
 #0
 
 #RESETS
-M 0 11001 1 11002 1  1   Goldmoon into Small Grove  
+M 0 11001 1 11002 1  1   Goldmoon into Small Grove
+  
 E   1  11003   14     17     a blue crystal staff held                   
 E   1  11013   14      5     leather armor on body                
-M 0 11002 1 11030 1  1   Fewmaster Toede into A Wooded Way  
+M 0 11002 1 11030 1  1   Fewmaster Toede into A Wooded Way
+  
 E   1  11014   12     16     Chamorro Dagger wielded                
 E   1  11013   12      5     leather armor on body                
-M 0 11003 1 11002 1  1   Riverwind into Small Grove  
+M 0 11003 1 11002 1  1   Riverwind into Small Grove
+  
 E   1  11008   15     16     silver longsword wielded                
 E   1  11013   15      5     leather armor on body                
-M 0 11004 10 11015 1  1   Baaz Draconian into Twin Flat  
+M 0 11004 10 11015 1  1   Baaz Draconian into Twin Flat
+  
 E   1  11015    7     16     a Footman's lance wielded                
 E   1  11016    7      5     a Humanskin vest on body                
 E   1  11017    7      6     a draconian helmet on head                
-M 0 11005 1 11013 1  1   The Farmer into Nearfields  
+M 0 11005 1 11013 1  1   The Farmer into Nearfields
+  
 E   1  11002   10     16     farming scythe wielded                
 E   1  11009   10      5     a farmer's longjohns on body                
-M 0 11006 10 11013 1  1   Farm worker into Nearfields  
+M 0 11006 10 11013 1  1   Farm worker into Nearfields
+  
 E   1  11009    5      5     a farmer's longjohns on body                
-M 0 11007 16 11069 1  1   Barracuda into Underwater  
-M 0 11007 16 11057 1  1   Barracuda into Underwater  
-M 0 11007 16 11081 1  1   Barracuda into Barracuda Nest  
-M 0 11007 16 11066 1  1   Barracuda into Underwater  
-M 0 11007 16 11079 1  1   Barracuda into Dead end  
-M 0 11007 16 11005 1  1   Barracuda into Middle of Crystalmir Lake  
-M 0 11008 1 11076 1  1   Turtle dragon into Cave of the Turtle Dragon  
+M 0 11007 16 11069 1  1   Barracuda into Underwater
+  
+M 0 11007 16 11057 1  1   Barracuda into Underwater
+  
+M 0 11007 16 11081 1  1   Barracuda into Barracuda Nest
+  
+M 0 11007 16 11066 1  1   Barracuda into Underwater
+  
+M 0 11007 16 11079 1  1   Barracuda into Dead end
+  
+M 0 11007 16 11005 1  1   Barracuda into Middle of Crystalmir Lake
+  
+M 0 11008 1 11076 1  1   Turtle dragon into Cave of the Turtle Dragon
+  
 E   1  11001   20     12     Turtle Dragon Shell about body             
 G   0  11010    0            a heap of ancient gold coins in inventory
-M 0 11009 2 11039 1  1   Farmers guard dog into A Farmer's House  
+M 0 11009 2 11039 1  1   Farmers guard dog into A Farmer's House
+  
 G   0  11006    0            house key in inventory
-M 0 11010 40 11053 1  1   strange fish into Underwater  
-M 0 11010 40 11067 1  1   strange fish into Underwater  
-M 0 11010 40 11061 1  1   strange fish into Underwater  
-M 0 11010 40 11049 1  1   strange fish into Underwater  
-M 0 11010 40 11055 1  1   strange fish into Underwater  
-M 0 11010 40 11064 1  1   strange fish into Underwater  
-M 0 11010 40 11073 1  1   strange fish into Underwater Cave  
-M 0 11010 40 11051 1  1   strange fish into Underwater  
-M 0 11010 40 11078 1  1   strange fish into Small Tunnel  
-M 0 11010 40 11006 1  1   strange fish into North shore of Crystalmir Lake  
-M 0 11010 40 11010 1  1   strange fish into South shore of Crystalmir Lake  
-M 0 11010 40 11026 1  1   strange fish into In the Mountains  
-M 0 11011 17 11029 1  1   hobgoblin flunky into Among the Vallenwoods  
-M 0 11011 17 11023 1  1   hobgoblin flunky into Stone bridge  
-M 0 11011 17 11022 1  1   hobgoblin flunky into Road through the forest  
-M 0 11011 17 11027 1  1   hobgoblin flunky into In the Mountains  
-M 0 11012 1 11016 1  1   the White Stag into Jakanth Vale  
-M 0 11013 2 11043 1  1   Old pooh bear into Kids Room  
-M 0 11014 7 11035 1  1   a large rat into Northfields  
-M 0 11014 7 11031 1  1   a large rat into Northfields  
-M 0 11014 7 11038 1  1   a large rat into Northfields  
-M 0 11015 3 11037 1  1   a field mouse into Northfields  
-M 0 11015 3 11034 1  1   a field mouse into Northfields  
+M 0 11010 40 11053 1  1   strange fish into Underwater
+  
+M 0 11010 40 11067 1  1   strange fish into Underwater
+  
+M 0 11010 40 11061 1  1   strange fish into Underwater
+  
+M 0 11010 40 11049 1  1   strange fish into Underwater
+  
+M 0 11010 40 11055 1  1   strange fish into Underwater
+  
+M 0 11010 40 11064 1  1   strange fish into Underwater
+  
+M 0 11010 40 11073 1  1   strange fish into Underwater Cave
+  
+M 0 11010 40 11051 1  1   strange fish into Underwater
+  
+M 0 11010 40 11078 1  1   strange fish into Small Tunnel
+  
+M 0 11010 40 11006 1  1   strange fish into North shore of Crystalmir Lake
+  
+M 0 11010 40 11010 1  1   strange fish into South shore of Crystalmir Lake
+  
+M 0 11010 40 11026 1  1   strange fish into In the Mountains
+  
+M 0 11011 17 11029 1  1   hobgoblin flunky into Among the Vallenwoods
+  
+M 0 11011 17 11023 1  1   hobgoblin flunky into Stone bridge
+  
+M 0 11011 17 11022 1  1   hobgoblin flunky into Road through the forest
+  
+M 0 11011 17 11027 1  1   hobgoblin flunky into In the Mountains
+  
+M 0 11012 1 11016 1  1   the White Stag into Jakanth Vale
+  
+M 0 11013 2 11043 1  1   Old pooh bear into Kids Room
+  
+M 0 11014 7 11035 1  1   a large rat into Northfields
+  
+M 0 11014 7 11031 1  1   a large rat into Northfields
+  
+M 0 11014 7 11038 1  1   a large rat into Northfields
+  
+M 0 11015 3 11037 1  1   a field mouse into Northfields
+  
+M 0 11015 3 11034 1  1   a field mouse into Northfields
+  
 O   0  11005    1  11018  load fire pit into Smoldering Campsite
-P 0 11004 3 11005 1  1   Load a bright silver bracer into fire pit  
+P 0 11004 3 11005 1  1   Load a bright silver bracer into fire pit
+  
 D   0  11044    3      2  In the closet: Door west locked
 D   0  11042    1      1  Bedroom: Door east closed
 O   0  11007    1  11042  load coathanger into Bedroom

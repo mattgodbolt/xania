@@ -1873,148 +1873,238 @@ weapon 0 AN
 
 #RESETS
 O   0   1102    1   1103  load a sign into Entrance to the Shire
-M 0 1118 1 1105 1  1   the shopkeeper into The General Store  
+M 0 1118 1 1105 1  1   the shopkeeper into The General Store
+  
 G   1   1111  999            an adventurer's rucksack in inventory
 G   1   1112  999            a lantern in inventory
-M 0 1120 1 1107 1  1   the blacksmith into The House of Arms  
-M 0 1104 2 1108 1  1   a nursemaid into Kid'n Keep  
-M 0 1104 2 1108 1  1   a nursemaid into Kid'n Keep  
-M 0 1103 6 1108 1  1   a toddler into Kid'n Keep  
-M 0 1103 6 1108 1  1   a toddler into Kid'n Keep  
-M 0 1103 6 1108 1  1   a toddler into Kid'n Keep  
-M 0 1103 6 1108 1  1   a toddler into Kid'n Keep  
-M 0 1103 6 1108 1  1   a toddler into Kid'n Keep  
-M 0 1103 6 1108 1  1   a toddler into Kid'n Keep  
-M 0 1110 8 1110 1  1   a shiriff into Shiriff Post of the Eastern Shire  
+M 0 1120 1 1107 1  1   the blacksmith into The House of Arms
+  
+M 0 1104 2 1108 1  1   a nursemaid into Kid'n Keep
+  
+M 0 1104 2 1108 1  1   a nursemaid into Kid'n Keep
+  
+M 0 1103 6 1108 1  1   a toddler into Kid'n Keep
+  
+M 0 1103 6 1108 1  1   a toddler into Kid'n Keep
+  
+M 0 1103 6 1108 1  1   a toddler into Kid'n Keep
+  
+M 0 1103 6 1108 1  1   a toddler into Kid'n Keep
+  
+M 0 1103 6 1108 1  1   a toddler into Kid'n Keep
+  
+M 0 1103 6 1108 1  1   a toddler into Kid'n Keep
+  
+M 0 1110 8 1110 1  1   a shiriff into Shiriff Post of the Eastern Shire
+  
 E   1   1109    9     16     a tiny dagger wielded                
 E   1    616  100      5      on body                
-M 0 1110 8 1110 1  1   a shiriff into Shiriff Post of the Eastern Shire  
+M 0 1110 8 1110 1  1   a shiriff into Shiriff Post of the Eastern Shire
+  
 E   1    616  100      5      on body                
-M 0 1111 4 1110 1  1   a shiriff into Shiriff Post of the Eastern Shire  
+M 0 1111 4 1110 1  1   a shiriff into Shiriff Post of the Eastern Shire
+  
 E   1    616  100      5      on body                
-M 0 1112 1 1111 1  1   the Thain into Thain's Office  
+M 0 1112 1 1111 1  1   the Thain into Thain's Office
+  
 E   1   1113  100     16     a bardiche wielded                
 E   1    616  100      5      on body                
 E   1   1108    5     13     the thain girth around waist           
-M 0 1128 4 1114 1  1   a country bumpkin into A smial  
+M 0 1128 4 1114 1  1   a country bumpkin into A smial
+  
 G   1   1103   99            a pipeweed bread in inventory
-M 0 1128 4 1115 1  1   a country bumpkin into A smial  
+M 0 1128 4 1115 1  1   a country bumpkin into A smial
+  
 G   1   1103   99            a pipeweed bread in inventory
-M 0 1113 1 1116 1  1   the Innkeeper into The Ivy Bush  
+M 0 1113 1 1116 1  1   the Innkeeper into The Ivy Bush
+  
 G   1   1110  999            an egg in inventory
 G   1    648  999             in inventory
 G   1    649  999             in inventory
 G   1    650  999             in inventory
-M 0 1123 4 1116 1  1   a seasoned adventurer into The Ivy Bush  
-M 0 1123 4 1116 1  1   a seasoned adventurer into The Ivy Bush  
-M 0 1124 2 1116 1  1   a local gossip into The Ivy Bush  
-M 0 1124 2 1116 1  1   a local gossip into The Ivy Bush  
-M 0 1127 7 1116 1  1   a chic urbanite into The Ivy Bush  
-M 0 1127 7 1116 1  1   a chic urbanite into The Ivy Bush  
-M 0 1127 7 1116 1  1   a chic urbanite into The Ivy Bush  
-M 0 1121 1 1117 1  1   the battle master into Shiriff Training Grounds  
+M 0 1123 4 1116 1  1   a seasoned adventurer into The Ivy Bush
+  
+M 0 1123 4 1116 1  1   a seasoned adventurer into The Ivy Bush
+  
+M 0 1124 2 1116 1  1   a local gossip into The Ivy Bush
+  
+M 0 1124 2 1116 1  1   a local gossip into The Ivy Bush
+  
+M 0 1127 7 1116 1  1   a chic urbanite into The Ivy Bush
+  
+M 0 1127 7 1116 1  1   a chic urbanite into The Ivy Bush
+  
+M 0 1127 7 1116 1  1   a chic urbanite into The Ivy Bush
+  
+M 0 1121 1 1117 1  1   the battle master into Shiriff Training Grounds
+  
 E   1   1113  100     16     a bardiche wielded                
-M 0 1126 3 1117 1  1   a trainee into Shiriff Training Grounds  
+M 0 1126 3 1117 1  1   a trainee into Shiriff Training Grounds
+  
 E   1   1113  100     16     a bardiche wielded                
-M 0 1126 3 1117 1  1   a trainee into Shiriff Training Grounds  
+M 0 1126 3 1117 1  1   a trainee into Shiriff Training Grounds
+  
 E   1   1113  100     16     a bardiche wielded                
-M 0 1126 3 1117 1  1   a trainee into Shiriff Training Grounds  
+M 0 1126 3 1117 1  1   a trainee into Shiriff Training Grounds
+  
 E   1   1113  100     16     a bardiche wielded                
-M 0 1110 8 1119 1  1   a shiriff into Shiriff Post of the Bridge  
+M 0 1110 8 1119 1  1   a shiriff into Shiriff Post of the Bridge
+  
 E   1   1109    3     16     a tiny dagger wielded                
 E   1    616  100      5      on body                
-M 0 1110 8 1119 1  1   a shiriff into Shiriff Post of the Bridge  
+M 0 1110 8 1119 1  1   a shiriff into Shiriff Post of the Bridge
+  
 E   1    616  100      5      on body                
-M 0 1111 4 1119 1  1   a shiriff into Shiriff Post of the Bridge  
+M 0 1111 4 1119 1  1   a shiriff into Shiriff Post of the Bridge
+  
 E   1    616  100      5      on body                
-M 0 1119 1 1121 1  1   the grocer into The Grocer's Delight  
+M 0 1119 1 1121 1  1   the grocer into The Grocer's Delight
+  
 G   1   1103  999            a pipeweed bread in inventory
-M 0 1115 6 1123 1  1   the mill worker into Entrance to Watermill  
-M 0 1115 6 1123 1  1   the mill worker into Entrance to Watermill  
-M 0 1115 6 1124 1  1   the mill worker into The Watermill  
-M 0 1115 6 1124 1  1   the mill worker into The Watermill  
-M 0 1115 6 1124 1  1   the mill worker into The Watermill  
-M 0 1114 1 1124 1  1   the Miller into The Watermill  
+M 0 1115 6 1123 1  1   the mill worker into Entrance to Watermill
+  
+M 0 1115 6 1123 1  1   the mill worker into Entrance to Watermill
+  
+M 0 1115 6 1124 1  1   the mill worker into The Watermill
+  
+M 0 1115 6 1124 1  1   the mill worker into The Watermill
+  
+M 0 1115 6 1124 1  1   the mill worker into The Watermill
+  
+M 0 1114 1 1124 1  1   the Miller into The Watermill
+  
 E   1   1115    2     17     an ancient elven jewel held                   
-M 0 1115 6 1125 1  1   the mill worker into Rear of watermill  
-M 0 1122 9 1127 1  1   a halfling youth into Northern end of grassy field  
-M 0 1122 9 1127 1  1   a halfling youth into Northern end of grassy field  
-M 0 1122 9 1127 1  1   a halfling youth into Northern end of grassy field  
-M 0 1122 9 1129 1  1   a halfling youth into Southern end of grassy field  
-M 0 1122 9 1129 1  1   a halfling youth into Southern end of grassy field  
-M 0 1122 9 1129 1  1   a halfling youth into Southern end of grassy field  
-M 0 1122 9 1130 1  1   a halfling youth into Western end of grassy field  
-M 0 1122 9 1130 1  1   a halfling youth into Western end of grassy field  
-M 0 1122 9 1130 1  1   a halfling youth into Western end of grassy field  
-M 0 1125 1 1128 1  1   a halfling beauty into A grassy field  
-M 0 1100 1 1128 1  1   the Elven Wizard into A grassy field  
+M 0 1115 6 1125 1  1   the mill worker into Rear of watermill
+  
+M 0 1122 9 1127 1  1   a halfling youth into Northern end of grassy field
+  
+M 0 1122 9 1127 1  1   a halfling youth into Northern end of grassy field
+  
+M 0 1122 9 1127 1  1   a halfling youth into Northern end of grassy field
+  
+M 0 1122 9 1129 1  1   a halfling youth into Southern end of grassy field
+  
+M 0 1122 9 1129 1  1   a halfling youth into Southern end of grassy field
+  
+M 0 1122 9 1129 1  1   a halfling youth into Southern end of grassy field
+  
+M 0 1122 9 1130 1  1   a halfling youth into Western end of grassy field
+  
+M 0 1122 9 1130 1  1   a halfling youth into Western end of grassy field
+  
+M 0 1122 9 1130 1  1   a halfling youth into Western end of grassy field
+  
+M 0 1125 1 1128 1  1   a halfling beauty into A grassy field
+  
+M 0 1100 1 1128 1  1   the Elven Wizard into A grassy field
+  
 E   1   1104    1     12     a silvery cloak about body             
 E   1   1100    1      0     the rainbow staff as light               
-M 0 1116 1 1136 1  1   the elven warrior into Bedroom  
+M 0 1116 1 1136 1  1   the elven warrior into Bedroom
+  
 E   1   1106    1     16     an elven bow wielded                
 E   1    622   25      6      on head                
-M 0 1117 1 1136 1  1   the dwarven prince into Bedroom  
+M 0 1117 1 1136 1  1   the dwarven prince into Bedroom
+  
 E   1   1107    1     16     a huge, steel axe wielded                
 E   1    621   10      5      on body                
-M 0 1101 1 1137 1  1   the Keeper of the Ring into Pantry  
+M 0 1101 1 1137 1  1   the Keeper of the Ring into Pantry
+  
 E   1   1101    1     16     Sting wielded                
 E   1   1105   10      1     the One Ring on left finger         
 E   1    623   15      7      on legs                
-M 0 1108 1 1138 1  1   a bull into A grassy field  
-M 0 1106 5 1139 1  1   a pig into Pig pen  
-M 0 1106 5 1139 1  1   a pig into Pig pen  
-M 0 1106 5 1139 1  1   a pig into Pig pen  
-M 0 1106 5 1139 1  1   a pig into Pig pen  
-M 0 1106 5 1139 1  1   a pig into Pig pen  
-M 0 1102 1 1141 1  1   Farmer Gamgee into Gamgee Residence  
-M 0 1105 3 1142 1  1   a cow into A barn  
-M 0 1105 3 1142 1  1   a cow into A barn  
-M 0 1105 3 1142 1  1   a cow into A barn  
-M 0 1109 4 1142 1  1   a horse into A barn  
-M 0 1109 4 1142 1  1   a horse into A barn  
-M 0 1109 4 1142 1  1   a horse into A barn  
-M 0 1109 4 1142 1  1   a horse into A barn  
-M 0 1107 6 1143 1  1   a chicken into A chicken coop  
+M 0 1108 1 1138 1  1   a bull into A grassy field
+  
+M 0 1106 5 1139 1  1   a pig into Pig pen
+  
+M 0 1106 5 1139 1  1   a pig into Pig pen
+  
+M 0 1106 5 1139 1  1   a pig into Pig pen
+  
+M 0 1106 5 1139 1  1   a pig into Pig pen
+  
+M 0 1106 5 1139 1  1   a pig into Pig pen
+  
+M 0 1102 1 1141 1  1   Farmer Gamgee into Gamgee Residence
+  
+M 0 1105 3 1142 1  1   a cow into A barn
+  
+M 0 1105 3 1142 1  1   a cow into A barn
+  
+M 0 1105 3 1142 1  1   a cow into A barn
+  
+M 0 1109 4 1142 1  1   a horse into A barn
+  
+M 0 1109 4 1142 1  1   a horse into A barn
+  
+M 0 1109 4 1142 1  1   a horse into A barn
+  
+M 0 1109 4 1142 1  1   a horse into A barn
+  
+M 0 1107 6 1143 1  1   a chicken into A chicken coop
+  
 G   1   1110  100            an egg in inventory
-M 0 1107 6 1143 1  1   a chicken into A chicken coop  
+M 0 1107 6 1143 1  1   a chicken into A chicken coop
+  
 G   1   1110  100            an egg in inventory
-M 0 1107 6 1143 1  1   a chicken into A chicken coop  
+M 0 1107 6 1143 1  1   a chicken into A chicken coop
+  
 G   1   1110  100            an egg in inventory
-M 0 1107 6 1143 1  1   a chicken into A chicken coop  
+M 0 1107 6 1143 1  1   a chicken into A chicken coop
+  
 G   1   1110  100            an egg in inventory
-M 0 1107 6 1143 1  1   a chicken into A chicken coop  
+M 0 1107 6 1143 1  1   a chicken into A chicken coop
+  
 G   1   1110  100            an egg in inventory
-M 0 1107 6 1143 1  1   a chicken into A chicken coop  
+M 0 1107 6 1143 1  1   a chicken into A chicken coop
+  
 G   1   1110  100            an egg in inventory
-M 0 1130 1 1144 1  1   the Innkeeper into The Green Dragon  
+M 0 1130 1 1144 1  1   the Innkeeper into The Green Dragon
+  
 G   1   1110  999            an egg in inventory
 G   1    648  999             in inventory
 G   1    649  999             in inventory
 G   1    650  999             in inventory
-M 0 1131 1 1157 1  1   the receptionist into The Inn of the Green Dragon  
-M 0 1123 6 1144 1  1   a seasoned adventurer into The Green Dragon  
-M 0 1123 6 1144 1  1   a seasoned adventurer into The Green Dragon  
-M 0 1123 6 1144 1  1   a seasoned adventurer into The Green Dragon  
-M 0 1127 7 1144 1  1   a chic urbanite into The Green Dragon  
-M 0 1127 7 1144 1  1   a chic urbanite into The Green Dragon  
-M 0 1127 7 1144 1  1   a chic urbanite into The Green Dragon  
-M 0 1127 7 1144 1  1   a chic urbanite into The Green Dragon  
-M 0 1110 8 1145 1  1   a shiriff into Shiriff Post of Delving Lane  
+M 0 1131 1 1157 1  1   the receptionist into The Inn of the Green Dragon
+  
+M 0 1123 6 1144 1  1   a seasoned adventurer into The Green Dragon
+  
+M 0 1123 6 1144 1  1   a seasoned adventurer into The Green Dragon
+  
+M 0 1123 6 1144 1  1   a seasoned adventurer into The Green Dragon
+  
+M 0 1127 7 1144 1  1   a chic urbanite into The Green Dragon
+  
+M 0 1127 7 1144 1  1   a chic urbanite into The Green Dragon
+  
+M 0 1127 7 1144 1  1   a chic urbanite into The Green Dragon
+  
+M 0 1127 7 1144 1  1   a chic urbanite into The Green Dragon
+  
+M 0 1110 8 1145 1  1   a shiriff into Shiriff Post of Delving Lane
+  
 E   1   1109    3     16     a tiny dagger wielded                
 E   1    616  100      5      on body                
-M 0 1110 8 1145 1  1   a shiriff into Shiriff Post of Delving Lane  
+M 0 1110 8 1145 1  1   a shiriff into Shiriff Post of Delving Lane
+  
 E   1    616  100      5      on body                
-M 0 1111 4 1145 1  1   a shiriff into Shiriff Post of Delving Lane  
+M 0 1111 4 1145 1  1   a shiriff into Shiriff Post of Delving Lane
+  
 E   1    616  100      5      on body                
-M 0 1110 8 1153 1  1   a shiriff into Shiriff Post of the Lower Shire  
+M 0 1110 8 1153 1  1   a shiriff into Shiriff Post of the Lower Shire
+  
 E   1   1109    3     16     a tiny dagger wielded                
 E   1    616  100      5      on body                
-M 0 1110 8 1153 1  1   a shiriff into Shiriff Post of the Lower Shire  
+M 0 1110 8 1153 1  1   a shiriff into Shiriff Post of the Lower Shire
+  
 E   1    616  100      5      on body                
-M 0 1111 4 1153 1  1   a shiriff into Shiriff Post of the Lower Shire  
+M 0 1111 4 1153 1  1   a shiriff into Shiriff Post of the Lower Shire
+  
 E   1    616  100      5      on body                
-M 0 1128 4 1154 1  1   a country bumpkin into A halfling hole  
-M 0 1128 4 1155 1  1   a country bumpkin into A halfling hole  
+M 0 1128 4 1154 1  1   a country bumpkin into A halfling hole
+  
+M 0 1128 4 1155 1  1   a country bumpkin into A halfling hole
+  
 S
 #HELPS
 

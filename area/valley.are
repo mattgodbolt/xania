@@ -2838,101 +2838,137 @@ D   0   7880    1      2  The Den of the Pyrohydra: Door east locked
 D   0   7882    3      2  The Storage Room: Door west locked
 D   0   7880    3      2  The Den of the Pyrohydra: Door west locked
 D   0   7881    1      2  The Workroom: Door east locked
-M 0 7800 1 7806 1  1   a cooshee into The Edge of the Valley  
-M 0 7800 2 7807 1  1   a cooshee into The Edge of the Valley  
-M 0 7800 3 7837 1  1   a cooshee into A Trail in the Valley  
-M 0 7800 4 7873 1  1   a cooshee into The Small Valley  
-M 0 7800 5 7823 1  1   a cooshee into The Edge of the Valley  
-M 0 7800 6 7833 1  1   a cooshee into A Trail in the Valley  
-M 0 7801 1 7805 1  1   a valley elf into The Entrance to the Valley of the Elves  
+M 0 7800 1 7806 1  1   a cooshee into The Edge of the Valley
+  
+M 0 7800 2 7807 1  1   a cooshee into The Edge of the Valley
+  
+M 0 7800 3 7837 1  1   a cooshee into A Trail in the Valley
+  
+M 0 7800 4 7873 1  1   a cooshee into The Small Valley
+  
+M 0 7800 5 7823 1  1   a cooshee into The Edge of the Valley
+  
+M 0 7800 6 7833 1  1   a cooshee into A Trail in the Valley
+  
+M 0 7801 1 7805 1  1   a valley elf into The Entrance to the Valley of the Elves
+  
 E   1   7802   99     16     an elven longsword wielded                
-M 0 7801 2 7820 1  1   a valley elf into The Valley of the Elves  
+M 0 7801 2 7820 1  1   a valley elf into The Valley of the Elves
+  
 E   1   7802   99     16     an elven longsword wielded                
-M 0 7801 3 7818 1  1   a valley elf into The Edge of the Valley  
+M 0 7801 3 7818 1  1   a valley elf into The Edge of the Valley
+  
 E   1   7802   99     16     an elven longsword wielded                
-M 0 7801 4 7844 1  1   a valley elf into A Trail in the Valley  
+M 0 7801 4 7844 1  1   a valley elf into A Trail in the Valley
+  
 E   1   7802   99     16     an elven longsword wielded                
-M 0 7801 5 7877 1  1   a valley elf into The Small Valley  
+M 0 7801 5 7877 1  1   a valley elf into The Small Valley
+  
 E   1   7802   99     16     an elven longsword wielded                
-M 0 7801 6 7816 1  1   a valley elf into The Valley of the Elves  
+M 0 7801 6 7816 1  1   a valley elf into The Valley of the Elves
+  
 E   1   7802   99     16     an elven longsword wielded                
-M 0 7802 1 7868 1  1   a valley elf into A Bend in the Trail  
+M 0 7802 1 7868 1  1   a valley elf into A Bend in the Trail
+  
 E   1   7802   99     16     an elven longsword wielded                
-M 0 7802 2 7811 1  1   a valley elf into The Valley of the Elves  
+M 0 7802 2 7811 1  1   a valley elf into The Valley of the Elves
+  
 E   1   7802   99     16     an elven longsword wielded                
-M 0 7802 3 7865 1  1   a valley elf into Along a Windy Trail on the Rim of the Valley  
+M 0 7802 3 7865 1  1   a valley elf into Along a Windy Trail on the Rim of the Valley
+  
 E   1   7802   99     16     an elven longsword wielded                
-M 0 7802 4 7854 1  1   a valley elf into Along a Windy Trail on the Rim of the Valley  
+M 0 7802 4 7854 1  1   a valley elf into Along a Windy Trail on the Rim of the Valley
+  
 E   1   7802   99     16     an elven longsword wielded                
-M 0 7802 5 7842 1  1   a valley elf into A Trail in the Valley  
+M 0 7802 5 7842 1  1   a valley elf into A Trail in the Valley
+  
 E   1   7802   99     16     an elven longsword wielded                
-M 0 7802 6 7820 1  1   a valley elf into The Valley of the Elves  
+M 0 7802 6 7820 1  1   a valley elf into The Valley of the Elves
+  
 E   1   7802   99     16     an elven longsword wielded                
-M 0 7803 1 7853 1  1   a valley elf sentry into Along a Windy Trail on the Rim of the Valley  
+M 0 7803 1 7853 1  1   a valley elf sentry into Along a Windy Trail on the Rim of the Valley
+  
 E   1   7800   99      5     elven chainmail on body                
 E   1   7801   99      8     elven boots on feet                
 E   1   7802   99     16     an elven longsword wielded                
 E   1   7803   99      3     a brown cloak on neck                
-M 0 7803 2 7866 1  1   a valley elf sentry into Along a Windy Trail on the Rim of the Valley  
+M 0 7803 2 7866 1  1   a valley elf sentry into Along a Windy Trail on the Rim of the Valley
+  
 E   1   7800   99      5     elven chainmail on body                
 E   1   7801   99      8     elven boots on feet                
 E   1   7802   99     16     an elven longsword wielded                
 E   1   7803   99      3     a brown cloak on neck                
-M 0 7803 3 7860 1  1   a valley elf sentry into Along a Windy Trail on the Rim of the Valley  
+M 0 7803 3 7860 1  1   a valley elf sentry into Along a Windy Trail on the Rim of the Valley
+  
 E   1   7800   99      5     elven chainmail on body                
 E   1   7801   99      8     elven boots on feet                
 E   1   7802   99     16     an elven longsword wielded                
 E   1   7803   99      3     a brown cloak on neck                
-M 0 7803 4 7848 1  1   a valley elf sentry into Study  
+M 0 7803 4 7848 1  1   a valley elf sentry into Study
+  
 E   1   7800   99      5     elven chainmail on body                
 E   1   7801   99      8     elven boots on feet                
 E   1   7802   99     16     an elven longsword wielded                
 E   1   7803   99      3     a brown cloak on neck                
-M 0 7804 1 7850 1  1   a valley elf sentry into Along a Windy Trail on the Rim of the Valley  
+M 0 7804 1 7850 1  1   a valley elf sentry into Along a Windy Trail on the Rim of the Valley
+  
 E   1   7800   99      5     elven chainmail on body                
 E   1   7801   99      8     elven boots on feet                
 E   1   7802   99     16     an elven longsword wielded                
 E   1   7803   99      3     a brown cloak on neck                
-M 0 7804 1 7856 1  1   a valley elf sentry into Along a Windy Trail on the Rim of the Valley  
+M 0 7804 1 7856 1  1   a valley elf sentry into Along a Windy Trail on the Rim of the Valley
+  
 E   1   7800   99      5     elven chainmail on body                
 E   1   7801   99      8     elven boots on feet                
 E   1   7802   99     16     an elven longsword wielded                
 E   1   7803   99      3     a brown cloak on neck                
-M 0 7804 1 7863 1  1   a valley elf sentry into Along a Windy Trail on the Rim of the Valley  
+M 0 7804 1 7863 1  1   a valley elf sentry into Along a Windy Trail on the Rim of the Valley
+  
 E   1   7800   99      5     elven chainmail on body                
 E   1   7801   99      8     elven boots on feet                
 E   1   7802   99     16     an elven longsword wielded                
 E   1   7803   99      3     a brown cloak on neck                
-M 0 7804 1 7848 1  1   a valley elf sentry into Study  
+M 0 7804 1 7848 1  1   a valley elf sentry into Study
+  
 E   1   7800   99      5     elven chainmail on body                
 E   1   7801   99      8     elven boots on feet                
 E   1   7802   99     16     an elven longsword wielded                
 E   1   7803   99      3     a brown cloak on neck                
-M 0 7805 1 7852 1  1   a valley elf scout into Along a Windy Trail on the Rim of the Valley  
+M 0 7805 1 7852 1  1   a valley elf scout into Along a Windy Trail on the Rim of the Valley
+  
 E   1   7801   99      8     elven boots on feet                
 E   1   7802   99     16     an elven longsword wielded                
 E   1   7803   99      3     a brown cloak on neck                
-M 0 7805 2 7862 1  1   a valley elf scout into Along a Windy Trail on the Rim of the Valley  
+M 0 7805 2 7862 1  1   a valley elf scout into Along a Windy Trail on the Rim of the Valley
+  
 E   1   7801   99      8     elven boots on feet                
 E   1   7802   99     16     an elven longsword wielded                
 E   1   7803   99      3     a brown cloak on neck                
-M 0 7805 3 7827 1  1   a valley elf scout into Along the Trail  
+M 0 7805 3 7827 1  1   a valley elf scout into Along the Trail
+  
 E   1   7801   99      8     elven boots on feet                
 E   1   7802   99     16     an elven longsword wielded                
 E   1   7803   99      3     a brown cloak on neck                
-M 0 7805 4 7842 1  1   a valley elf scout into A Trail in the Valley  
+M 0 7805 4 7842 1  1   a valley elf scout into A Trail in the Valley
+  
 E   1   7801   99      8     elven boots on feet                
 E   1   7802   99     16     an elven longsword wielded                
 E   1   7803   99      3     a brown cloak on neck                
-M 0 7805 5 7876 1  1   a valley elf scout into The Small Valley  
+M 0 7805 5 7876 1  1   a valley elf scout into The Small Valley
+  
 E   1   7801   99      8     elven boots on feet                
 E   1   7802   99     16     an elven longsword wielded                
 E   1   7803   99      3     a brown cloak on neck                
-M 0 7806 1 7847 1  1   a valley elf into The Sleeping Quarters  
-M 0 7806 2 7847 1  1   a valley elf into The Sleeping Quarters  
-M 0 7806 3 7835 1  1   a valley elf into The Kitchen  
-M 0 7806 4 7838 1  1   a valley elf into The Living Room  
-M 0 7806 5 7839 1  1   a valley elf into The Storage Room  
+M 0 7806 1 7847 1  1   a valley elf into The Sleeping Quarters
+  
+M 0 7806 2 7847 1  1   a valley elf into The Sleeping Quarters
+  
+M 0 7806 3 7835 1  1   a valley elf into The Kitchen
+  
+M 0 7806 4 7838 1  1   a valley elf into The Living Room
+  
+M 0 7806 5 7839 1  1   a valley elf into The Storage Room
+  
 O   0   7809   99   7846  load a potion into The Storage Room
 O   0   7823   99   7846  load a scroll into The Storage Room
 O   0   7820   99   7846  load a scroll into The Storage Room
@@ -2952,27 +2988,39 @@ O   0   7818   99   7882  load a scroll into The Storage Room
 O   0   7814   99   7882  load a potion into The Storage Room
 O   0   7813   99   7882  load a potion into The Storage Room
 O   0   7823   99   7882  load a scroll into The Storage Room
-M 0 7807 1 7845 1  1   a valley elf elder into The Elders' Room  
+M 0 7807 1 7845 1  1   a valley elf elder into The Elders' Room
+  
 G   1   7804   99            a key in inventory
 E   1   7806   99      1     a gold ring on left finger         
 E   1   7807   99     16     a quarterstaff wielded                
-M 0 7808 1 7845 1  1   a valley elf elder into The Elders' Room  
+M 0 7808 1 7845 1  1   a valley elf elder into The Elders' Room
+  
 E   1   7806   99      1     a gold ring on left finger         
 E   1   7807   99     16     a quarterstaff wielded                
-M 0 7809 1 7880 1  1   the pyrohydra into The Den of the Pyrohydra  
+M 0 7809 1 7880 1  1   the pyrohydra into The Den of the Pyrohydra
+  
 G   1   7805   99            a key in inventory
-M 0 7810 1 7878 1  1   an old hermit into Inside the Small Shack  
-M 0 7811 1 7881 1  1   Talemon into The Workroom  
+M 0 7810 1 7878 1  1   an old hermit into Inside the Small Shack
+  
+M 0 7811 1 7881 1  1   Talemon into The Workroom
+  
 E   1   7806   99      1     a gold ring on left finger         
 E   1   7807   99     16     a quarterstaff wielded                
 E   1   7824   99      0     the Rod of Neutrality as light               
-M 0 7812 1 7882 1  1   the guardian daemon into The Storage Room  
-M 0 7813 3 7818 1  1   a wolf into The Edge of the Valley  
-M 0 7813 3 7830 1  1   a wolf into A Trail in the Valley  
-M 0 7813 3 7860 1  1   a wolf into Along a Windy Trail on the Rim of the Valley  
-M 0 7814 3 7815 1  1   an antelope into The Valley of the Elves  
-M 0 7814 3 7825 1  1   an antelope into The Edge of the Valley  
-M 0 7814 3 7852 1  1   an antelope into Along a Windy Trail on the Rim of the Valley  
+M 0 7812 1 7882 1  1   the guardian daemon into The Storage Room
+  
+M 0 7813 3 7818 1  1   a wolf into The Edge of the Valley
+  
+M 0 7813 3 7830 1  1   a wolf into A Trail in the Valley
+  
+M 0 7813 3 7860 1  1   a wolf into Along a Windy Trail on the Rim of the Valley
+  
+M 0 7814 3 7815 1  1   an antelope into The Valley of the Elves
+  
+M 0 7814 3 7825 1  1   an antelope into The Edge of the Valley
+  
+M 0 7814 3 7852 1  1   an antelope into Along a Windy Trail on the Rim of the Valley
+  
 S
 #HELPS
 

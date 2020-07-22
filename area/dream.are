@@ -1289,7 +1289,8 @@ R   0   8625    6         The Void: Door(s) 0-6 randomized
 R   0   8626    6         The Void: Door(s) 0-6 randomized
 R   0   8627    6         The Void: Door(s) 0-6 randomized
 R   0   8628    6         The Void: Door(s) 0-6 randomized
-M 0 8600 1 8699 1  1   the keeper into The Void  
+M 0 8600 1 8699 1  1   the keeper into The Void
+  
 O   0   8600   80   8631  load morris bells into Newfane Village Square
 O   0   8601   80   8632  load a morris handkerchief into A Large Dance Hall
 O   0   8601   80   8634  load a morris handkerchief into A Small Hall

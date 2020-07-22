@@ -842,42 +842,63 @@ key 0 A
 
 #RESETS
 O   0    108    1    109  load a smurf well into Smurfy Road
-M 0 102 3 118 1  1   a smurf into Smurfberry Patch  
+M 0 102 3 118 1  1   a smurf into Smurfberry Patch
+  
 G   1    100   10            A bunch of smurfberries in inventory
-M 0 102 3 117 1  1   a smurf into Smurfberry Patch  
+M 0 102 3 117 1  1   a smurf into Smurfberry Patch
+  
 G   1    100   10            A bunch of smurfberries in inventory
-M 0 102 3 116 1  1   a smurf into Smurfberry Patch  
+M 0 102 3 116 1  1   a smurf into Smurfberry Patch
+  
 G   1    100   10            A bunch of smurfberries in inventory
-M 0 101 3 105 1  1   a smurf into Smurfy Road  
-M 0 101 3 110 1  1   a smurf into Smurfy Road  
+M 0 101 3 105 1  1   a smurf into Smurfy Road
+  
+M 0 101 3 110 1  1   a smurf into Smurfy Road
+  
 G   1    102   10            a smurf hat in inventory
-M 0 101 3 111 1  1   a smurf into Smurfy Road  
-M 0 101 3 112 1  1   a smurf into Smurfy Road  
+M 0 101 3 111 1  1   a smurf into Smurfy Road
+  
+M 0 101 3 112 1  1   a smurf into Smurfy Road
+  
 G   1    102   10            a smurf hat in inventory
-M 0 101 3 107 1  1   a smurf into Smurfy Road  
-M 0 101 3 108 1  1   a smurf into Smurfy Road  
+M 0 101 3 107 1  1   a smurf into Smurfy Road
+  
+M 0 101 3 108 1  1   a smurf into Smurfy Road
+  
 G   1    102   10            a smurf hat in inventory
-M 0 101 3 109 1  1   a smurf into Smurfy Road  
-M 0 101 3 104 1  1   a smurf into Entrance to Smurf Village  
+M 0 101 3 109 1  1   a smurf into Smurfy Road
+  
+M 0 101 3 104 1  1   a smurf into Entrance to Smurf Village
+  
 G   1    102   10            a smurf hat in inventory
-M 0 103 1 119 1  1   Brainy Smurf into Brainy Smurf's Home  
+M 0 103 1 119 1  1   Brainy Smurf into Brainy Smurf's Home
+  
 E   1    101    8      6     A pair of glasses on head
-M 0 104 1 120 1  1   Handy Smurf into Handy Smurf's Home  
+M 0 104 1 120 1  1   Handy Smurf into Handy Smurf's Home
+  
 E   1    103    8     16     a small axe wielded
-M 0 105 1 122 1  1   Sleepy Smurf into Sleepy Smurf's Home  
-M 0 106 1 121 1  1   Hefty Smurf into Hefty Smurf's Home  
+M 0 105 1 122 1  1   Sleepy Smurf into Sleepy Smurf's Home
+  
+M 0 106 1 121 1  1   Hefty Smurf into Hefty Smurf's Home
+  
 E   1    103    8     16     a small axe wielded
-M 0 107 1 123 1  1   Grumpy Smurf into Grumpy Smurf's Home  
-M 0 108 1 124 1  1   Jokey Smurf into Jokey Smurf's Home  
-M 0 109 1 129 1  1   Smurfette into Smurfette's House  
+M 0 107 1 123 1  1   Grumpy Smurf into Grumpy Smurf's Home
+  
+M 0 108 1 124 1  1   Jokey Smurf into Jokey Smurf's Home
+  
+M 0 109 1 129 1  1   Smurfette into Smurfette's House
+  
 E   1    104    8      3     a small necklace on neck
 G   1    107    8            a tiny key in inventory
-M 0 110 1 125 1  1   Papa Smurf into Papa Smurf's Home  
+M 0 110 1 125 1  1   Papa Smurf into Papa Smurf's Home
+  
 G   1    105   10            a pink potion in inventory
 G   1    109    8            a small key in inventory
-M 0 111 1 128 1  1   Gargamel into Gargamel's Castle  
+M 0 111 1 128 1  1   Gargamel into Gargamel's Castle
+  
 E   1    106    8     17     a small wand held
-M 0 112 1 128 1  1   Azreal into Gargamel's Castle  
+M 0 112 1 128 1  1   Azreal into Gargamel's Castle
+  
 S
 
 

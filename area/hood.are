@@ -1554,151 +1554,232 @@ D   0   2124    1      1  Old Abandoned Warehouse: Door east closed
 D   0   2125    3      1  Bronze Dragon Street at Warehouse: Door west closed
 D   0   2148    1      1  A small ruined chapel: Door east closed
 D   0   2149    3      1  Ajax Avenue at chapel: Door west closed
-M 0 2103 2 2124 1  1   the gang leader into Old Abandoned Warehouse  
+M 0 2103 2 2124 1  1   the gang leader into Old Abandoned Warehouse
+  
 E   1   2111    5      1     a troll signet ring on left finger         
-M 0 2103 2 2148 1  1   the gang leader into A small ruined chapel  
+M 0 2103 2 2148 1  1   the gang leader into A small ruined chapel
+  
 E   1   2106    5     16     a stiletto wielded                
 E   1   2112    6     17     brass knuckles held                   
-M 0 2108 12 2124 1  1   a pitbull into Old Abandoned Warehouse  
-M 0 2108 12 2124 1  1   a pitbull into Old Abandoned Warehouse  
-M 0 2108 12 2124 1  1   a pitbull into Old Abandoned Warehouse  
-M 0 2108 12 2124 1  1   a pitbull into Old Abandoned Warehouse  
-M 0 2108 12 2148 1  1   a pitbull into A small ruined chapel  
-M 0 2108 12 2148 1  1   a pitbull into A small ruined chapel  
-M 0 2108 12 2148 1  1   a pitbull into A small ruined chapel  
-M 0 2108 12 2148 1  1   a pitbull into A small ruined chapel  
-M 0 2104 10 2116 1  1   a bruiser into Dracolich Plaza  
+M 0 2108 12 2124 1  1   a pitbull into Old Abandoned Warehouse
+  
+M 0 2108 12 2124 1  1   a pitbull into Old Abandoned Warehouse
+  
+M 0 2108 12 2124 1  1   a pitbull into Old Abandoned Warehouse
+  
+M 0 2108 12 2124 1  1   a pitbull into Old Abandoned Warehouse
+  
+M 0 2108 12 2148 1  1   a pitbull into A small ruined chapel
+  
+M 0 2108 12 2148 1  1   a pitbull into A small ruined chapel
+  
+M 0 2108 12 2148 1  1   a pitbull into A small ruined chapel
+  
+M 0 2108 12 2148 1  1   a pitbull into A small ruined chapel
+  
+M 0 2104 10 2116 1  1   a bruiser into Dracolich Plaza
+  
 E   1   2104   10     11     a metal shield as shield              
 E   1   2103   10     16     a hefty length of chain wielded                
-M 0 2104 10 2155 1  1   a bruiser into Khan Park  
+M 0 2104 10 2155 1  1   a bruiser into Khan Park
+  
 E   1   2104   10     11     a metal shield as shield              
 E   1   2109    2      9     comfortable leather gloves on hands               
-M 0 2104 10 2114 1  1   a bruiser into The remains of the magic shop  
+M 0 2104 10 2114 1  1   a bruiser into The remains of the magic shop
+  
 E   1   2103   10     16     a hefty length of chain wielded                
-M 0 2104 10 2108 1  1   a bruiser into Corner of Bronze and White Dragon  
+M 0 2104 10 2108 1  1   a bruiser into Corner of Bronze and White Dragon
+  
 E   1   2109    2      9     comfortable leather gloves on hands               
-M 0 2104 10 2170 1  1   a bruiser into Hallway  
+M 0 2104 10 2170 1  1   a bruiser into Hallway
+  
 E   1   2111    5      1     a troll signet ring on left finger         
 E   1   2104   10     11     a metal shield as shield              
-M 0 2105 10 2125 1  1   a doll into Bronze Dragon Street at Warehouse  
+M 0 2105 10 2125 1  1   a doll into Bronze Dragon Street at Warehouse
+  
 E   1   2108   20     17     a mirror held                   
 E   1   2107   10      8     spiked heeled boots on feet                
-M 0 2105 10 2149 1  1   a doll into Ajax Avenue at chapel  
+M 0 2105 10 2149 1  1   a doll into Ajax Avenue at chapel
+  
 E   1   2107   10      8     spiked heeled boots on feet                
 E   1   2108   20     17     a mirror held                   
-M 0 2105 10 2152 1  1   a doll into A bend in the road  
+M 0 2105 10 2152 1  1   a doll into A bend in the road
+  
 E   1   2108   20     17     a mirror held                   
-M 0 2105 10 2123 1  1   a doll into Courtyard South  
+M 0 2105 10 2123 1  1   a doll into Courtyard South
+  
 E   1   2108   20     17     a mirror held                   
-M 0 2106 15 2131 1  1   a patrolman into NO MAN'S LAND  
+M 0 2106 15 2131 1  1   a patrolman into NO MAN'S LAND
+  
 E   1   2110   15     16     a patrol club wielded                
-M 0 2106 15 2132 1  1   a patrolman into NO MAN'S LAND  
+M 0 2106 15 2132 1  1   a patrolman into NO MAN'S LAND
+  
 E   1   2110   15     16     a patrol club wielded                
-M 0 2106 15 2133 1  1   a patrolman into NO MAN'S LAND  
+M 0 2106 15 2133 1  1   a patrolman into NO MAN'S LAND
+  
 E   1   2110   15     16     a patrol club wielded                
-M 0 2106 15 2134 1  1   a patrolman into NO MAN'S LAND  
+M 0 2106 15 2134 1  1   a patrolman into NO MAN'S LAND
+  
 E   1   2110   15     16     a patrol club wielded                
-M 0 2106 15 2135 1  1   a patrolman into NO MAN'S LAND  
+M 0 2106 15 2135 1  1   a patrolman into NO MAN'S LAND
+  
 E   1   2110   15     16     a patrol club wielded                
-M 0 2106 15 2136 1  1   a patrolman into NO MAN'S LAND  
+M 0 2106 15 2136 1  1   a patrolman into NO MAN'S LAND
+  
 E   1   2110   15     16     a patrol club wielded                
-M 0 2106 15 2137 1  1   a patrolman into NO MAN'S LAND  
+M 0 2106 15 2137 1  1   a patrolman into NO MAN'S LAND
+  
 E   1   2110   15     16     a patrol club wielded                
-M 0 2106 15 2138 1  1   a patrolman into NO MAN'S LAND  
+M 0 2106 15 2138 1  1   a patrolman into NO MAN'S LAND
+  
 E   1   2110   15     16     a patrol club wielded                
-M 0 2106 15 2139 1  1   a patrolman into NO MAN'S LAND  
+M 0 2106 15 2139 1  1   a patrolman into NO MAN'S LAND
+  
 E   1   2110   15     16     a patrol club wielded                
-M 0 2106 15 2140 1  1   a patrolman into NO MAN'S LAND  
+M 0 2106 15 2140 1  1   a patrolman into NO MAN'S LAND
+  
 E   1   2110   15     16     a patrol club wielded                
-M 0 2107 4 2102 1  1   a vandal into Beginning of White Dragon Boulevard  
+M 0 2107 4 2102 1  1   a vandal into Beginning of White Dragon Boulevard
+  
 E   1   2105    8     17     a spray paint can held                   
-M 0 2107 4 2114 1  1   a vandal into The remains of the magic shop  
+M 0 2107 4 2114 1  1   a vandal into The remains of the magic shop
+  
 E   1   2105    8     17     a spray paint can held                   
-M 0 2107 4 2165 1  1   a vandal into The inn/pub  
+M 0 2107 4 2165 1  1   a vandal into The inn/pub
+  
 E   1   2105    8     17     a spray paint can held                   
-M 0 2107 4 2161 1  1   a vandal into Alexander Road  
+M 0 2107 4 2161 1  1   a vandal into Alexander Road
+  
 E   1   2105    8     17     a spray paint can held                   
-M 0 2101 25 2102 1  1   a gang member into Beginning of White Dragon Boulevard  
+M 0 2101 25 2102 1  1   a gang member into Beginning of White Dragon Boulevard
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2103 1  1   a gang member into Along White Dragon Boulevard  
+M 0 2101 25 2103 1  1   a gang member into Along White Dragon Boulevard
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2104 1  1   a gang member into White Dragon Boulevard at Armory  
+M 0 2101 25 2104 1  1   a gang member into White Dragon Boulevard at Armory
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2105 1  1   a gang member into White Dragon Blvd.  
-M 0 2101 25 2106 1  1   a gang member into Corner of Ice and White Dragon  
+M 0 2101 25 2105 1  1   a gang member into White Dragon Blvd.
+  
+M 0 2101 25 2106 1  1   a gang member into Corner of Ice and White Dragon
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2107 1  1   a gang member into White Dragon Boulevard  
+M 0 2101 25 2107 1  1   a gang member into White Dragon Boulevard
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2108 1  1   a gang member into Corner of Bronze and White Dragon  
-M 0 2101 25 2109 1  1   a gang member into An over-grown lot  
+M 0 2101 25 2108 1  1   a gang member into Corner of Bronze and White Dragon
+  
+M 0 2101 25 2109 1  1   a gang member into An over-grown lot
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2110 1  1   a gang member into East end of an over-grown plot of land  
+M 0 2101 25 2110 1  1   a gang member into East end of an over-grown plot of land
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2111 1  1   a gang member into Armory  
-M 0 2101 25 2112 1  1   a gang member into A Bend in the Way  
+M 0 2101 25 2111 1  1   a gang member into Armory
+  
+M 0 2101 25 2112 1  1   a gang member into A Bend in the Way
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2113 1  1   a gang member into Ice Dragon Bend  
+M 0 2101 25 2113 1  1   a gang member into Ice Dragon Bend
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2114 1  1   a gang member into The remains of the magic shop  
-M 0 2101 25 2115 1  1   a gang member into Bronze Dragon Street at wizard's back door  
+M 0 2101 25 2114 1  1   a gang member into The remains of the magic shop
+  
+M 0 2101 25 2115 1  1   a gang member into Bronze Dragon Street at wizard's back door
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2116 1  1   a gang member into Dracolich Plaza  
+M 0 2101 25 2116 1  1   a gang member into Dracolich Plaza
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2117 1  1   a gang member into Shortcut  
+M 0 2101 25 2117 1  1   a gang member into Shortcut
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2118 1  1   a gang member into Ice Dragon Way  
+M 0 2101 25 2118 1  1   a gang member into Ice Dragon Way
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2119 1  1   a gang member into Courtyard North  
-M 0 2101 25 2120 1  1   a gang member into Bronze Dragon Street  
-M 0 2101 25 2121 1  1   a gang member into Shortcut  
+M 0 2101 25 2119 1  1   a gang member into Courtyard North
+  
+M 0 2101 25 2120 1  1   a gang member into Bronze Dragon Street
+  
+M 0 2101 25 2121 1  1   a gang member into Shortcut
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2122 1  1   a gang member into Ice Dragon Way  
+M 0 2101 25 2122 1  1   a gang member into Ice Dragon Way
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2101 25 2128 1  1   a gang member into Yellow Dragon Road  
-M 0 2101 25 2130 1  1   a gang member into Yellow Dragon Road  
+M 0 2101 25 2128 1  1   a gang member into Yellow Dragon Road
+  
+M 0 2101 25 2130 1  1   a gang member into Yellow Dragon Road
+  
 E   1   2101   30      5     an Ogre gang jacket on body                
-M 0 2102 25 2142 1  1   a gang member into Hector Street at Bakery  
+M 0 2102 25 2142 1  1   a gang member into Hector Street at Bakery
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2145 1  1   a gang member into Corner of Ajax and Hector  
+M 0 2102 25 2145 1  1   a gang member into Corner of Ajax and Hector
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2146 1  1   a gang member into Hector Street  
+M 0 2102 25 2146 1  1   a gang member into Hector Street
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2150 1  1   a gang member into First intersection of Hector and Achilles  
-M 0 2102 25 2151 1  1   a gang member into Hector street  
+M 0 2102 25 2150 1  1   a gang member into First intersection of Hector and Achilles
+  
+M 0 2102 25 2151 1  1   a gang member into Hector street
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2152 1  1   a gang member into A bend in the road  
+M 0 2102 25 2152 1  1   a gang member into A bend in the road
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2153 1  1   a gang member into What is left of the weaponshop  
+M 0 2102 25 2153 1  1   a gang member into What is left of the weaponshop
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2154 1  1   a gang member into Ajax street at Weaponshop (or whats left of it)  
-M 0 2102 25 2155 1  1   a gang member into Khan Park  
-M 0 2102 25 2156 1  1   a gang member into Achilles avenue at entrance to park  
+M 0 2102 25 2154 1  1   a gang member into Ajax street at Weaponshop (or whats left of it)
+  
+M 0 2102 25 2155 1  1   a gang member into Khan Park
+  
+M 0 2102 25 2156 1  1   a gang member into Achilles avenue at entrance to park
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2157 1  1   a gang member into A bend in Ajax  
-M 0 2102 25 2158 1  1   a gang member into Ajax street  
+M 0 2102 25 2157 1  1   a gang member into A bend in Ajax
+  
+M 0 2102 25 2158 1  1   a gang member into Ajax street
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2159 1  1   a gang member into Curve in the road  
+M 0 2102 25 2159 1  1   a gang member into Curve in the road
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2160 1  1   a gang member into A wide alleyway  
-M 0 2102 25 2161 1  1   a gang member into Alexander Road  
+M 0 2102 25 2160 1  1   a gang member into A wide alleyway
+  
+M 0 2102 25 2161 1  1   a gang member into Alexander Road
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2162 1  1   a gang member into Alexander Street at park entrance  
+M 0 2102 25 2162 1  1   a gang member into Alexander Street at park entrance
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2163 1  1   a gang member into Achilles Avenue  
-M 0 2102 25 2164 1  1   a gang member into Ajax Street  
+M 0 2102 25 2163 1  1   a gang member into Achilles Avenue
+  
+M 0 2102 25 2164 1  1   a gang member into Ajax Street
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2165 1  1   a gang member into The inn/pub  
-M 0 2102 25 2165 1  1   a gang member into The inn/pub  
+M 0 2102 25 2165 1  1   a gang member into The inn/pub
+  
+M 0 2102 25 2165 1  1   a gang member into The inn/pub
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2165 1  1   a gang member into The inn/pub  
+M 0 2102 25 2165 1  1   a gang member into The inn/pub
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2165 1  1   a gang member into The inn/pub  
+M 0 2102 25 2165 1  1   a gang member into The inn/pub
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2166 1  1   a gang member into Solomon Street  
+M 0 2102 25 2166 1  1   a gang member into Solomon Street
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2167 1  1   a gang member into Intersection of Achilles and Solomon  
+M 0 2102 25 2167 1  1   a gang member into Intersection of Achilles and Solomon
+  
 E   1   2102   30      5     a Troll gang jacket on body                
-M 0 2102 25 2169 1  1   a gang member into Intersection of Ajax and Solomon  
+M 0 2102 25 2169 1  1   a gang member into Intersection of Ajax and Solomon
+  
 E   1   2102   30      5     a Troll gang jacket on body                
 S
 
