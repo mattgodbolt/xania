@@ -888,7 +888,7 @@ Dressed in loose fitting rags, this man looks like he could use
 LOTS of rest.
 ~
 unique~
-FGA P 650 0
+GA P 650 0
 8 3 1d1+164 1d1+160 3d3+4 slash
 5 5 5 7
 FENU 0 0 0
@@ -934,7 +934,7 @@ A giant, purple sand worm thrusts up out of the sand and attacks!
 He's big, mean, and purple. Watch out!
 ~
 unique~
-BFA 0 -100 0
+BA 0 -100 0
 18 8 1d1+500 1d1+360 4d4+9 slash
 -2 -2 -2 4
 FENU 0 0 0
