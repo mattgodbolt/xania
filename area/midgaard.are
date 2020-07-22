@@ -6201,7 +6201,7 @@ G 1 3032 -1    bag
 G 1 3033 -1    box
 E 1 3022 900 16         wields a longsword
 *
-M 0 3001 1 3009 1  1        The baker  
+M 0 3001 1 3009 1  1        Mr Cholmondley-Warner (the baker)
 G 1 3009 -1    pie
 G 1 3013 -1    roll
 G 1 3012 -1    cookies
