@@ -1671,122 +1671,193 @@ A
 #0
 
 #RESETS
-M 0 2001 6 2052 1  1   a bat into Basement  
-M 0 2001 6 2052 1  1   a bat into Basement  
-M 0 2001 6 2052 1  1   a bat into Basement  
-M 0 2013 1 2052 1  1   The vampire into Basement  
+M 0 2001 6 2052 1  1   a bat into Basement
+  
+M 0 2001 6 2052 1  1   a bat into Basement
+  
+M 0 2001 6 2052 1  1   a bat into Basement
+  
+M 0 2013 1 2052 1  1   The vampire into Basement
+  
 E   1   2004    9     16     the neutralizer wielded                
-M 0 2001 6 2052 1  1   a bat into Basement  
-M 0 2001 6 2052 1  1   a bat into Basement  
-M 0 2001 6 2052 1  1   a bat into Basement  
-M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters  
-M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters  
-M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters  
-M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters  
-M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters  
-M 0 2002 8 2009 1  1   a templar page into Templar Knights sleeping quarters  
-M 0 2002 8 2009 1  1   a templar page into Templar Knights sleeping quarters  
-M 0 2002 8 2010 1  1   a templar page into N/S hallway  
-M 0 2003 2 2002 1  1   a spelunker into North/south tunnel  
-M 0 2003 2 2064 1  1   a spelunker into Tunnel  
-M 0 2004 4 2053 1  1   a graverobber into Fresh graves  
-M 0 2004 4 2053 1  1   a graverobber into Fresh graves  
-M 0 2004 4 2055 1  1   a graverobber into Scene of ghastly horror  
-M 0 2004 4 2055 1  1   a graverobber into Scene of ghastly horror  
-M 0 2006 7 2039 1  1   It into New graves  
-M 0 2006 7 2040 1  1   It into Misty cavern  
-M 0 2006 7 2028 1  1   It into The holy grove  
-M 0 2006 7 2019 1  1   It into Mossy intersection  
-M 0 2006 7 2049 1  1   It into Striped tunnel  
-M 0 2006 7 2033 1  1   It into Misty passageway  
-M 0 2006 7 2036 1  1   It into The burial grounds  
-M 0 2007 4 2035 1  1   a skeleton into Entrance to the burial grounds  
+M 0 2001 6 2052 1  1   a bat into Basement
+  
+M 0 2001 6 2052 1  1   a bat into Basement
+  
+M 0 2001 6 2052 1  1   a bat into Basement
+  
+M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters
+  
+M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters
+  
+M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters
+  
+M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters
+  
+M 0 2002 8 2008 1  1   a templar page into Pages' sleeping quarters
+  
+M 0 2002 8 2009 1  1   a templar page into Templar Knights sleeping quarters
+  
+M 0 2002 8 2009 1  1   a templar page into Templar Knights sleeping quarters
+  
+M 0 2002 8 2010 1  1   a templar page into N/S hallway
+  
+M 0 2003 2 2002 1  1   a spelunker into North/south tunnel
+  
+M 0 2003 2 2064 1  1   a spelunker into Tunnel
+  
+M 0 2004 4 2053 1  1   a graverobber into Fresh graves
+  
+M 0 2004 4 2053 1  1   a graverobber into Fresh graves
+  
+M 0 2004 4 2055 1  1   a graverobber into Scene of ghastly horror
+  
+M 0 2004 4 2055 1  1   a graverobber into Scene of ghastly horror
+  
+M 0 2006 7 2039 1  1   It into New graves
+  
+M 0 2006 7 2040 1  1   It into Misty cavern
+  
+M 0 2006 7 2028 1  1   It into The holy grove
+  
+M 0 2006 7 2019 1  1   It into Mossy intersection
+  
+M 0 2006 7 2049 1  1   It into Striped tunnel
+  
+M 0 2006 7 2033 1  1   It into Misty passageway
+  
+M 0 2006 7 2036 1  1   It into The burial grounds
+  
+M 0 2007 4 2035 1  1   a skeleton into Entrance to the burial grounds
+  
 E   1   2009   99      5     a suit of chainmail on body                
-M 0 2007 4 2036 1  1   a skeleton into The burial grounds  
-M 0 2007 4 2037 1  1   a skeleton into The burial grounds  
+M 0 2007 4 2036 1  1   a skeleton into The burial grounds
+  
+M 0 2007 4 2037 1  1   a skeleton into The burial grounds
+  
 E   1   2009   99      5     a suit of chainmail on body                
-M 0 2007 4 2038 1  1   a skeleton into The burial grounds  
-M 0 2008 12 2003 1  1   a templar into Weapon training area  
-E   1   2009   99      5     a suit of chainmail on body                
-E   1   2016   99     16     a templar's sword wielded                
-M 0 2008 12 2004 1  1   a templar into Prayer training area  
-E   1   2016   99     16     a templar's sword wielded                
-M 0 2008 12 2005 1  1   a templar into Junction of hallways  
-M 0 2008 12 2006 1  1   a templar into Hallway  
-E   1   2009   99      5     a suit of chainmail on body                
-M 0 2008 12 2009 1  1   a templar into Templar Knights sleeping quarters  
-E   1   2009   99      5     a suit of chainmail on body                
-M 0 2008 12 2009 1  1   a templar into Templar Knights sleeping quarters  
-E   1   2016   99     16     a templar's sword wielded                
-M 0 2008 12 2009 1  1   a templar into Templar Knights sleeping quarters  
-E   1   2009   99      5     a suit of chainmail on body                
-M 0 2008 12 2016 1  1   a templar into Mess hall  
-E   1   2016   99     16     a templar's sword wielded                
-M 0 2008 12 2016 1  1   a templar into Mess hall  
-E   1   2009   99      5     a suit of chainmail on body                
-M 0 2008 12 2016 1  1   a templar into Mess hall  
-E   1   2009   99      5     a suit of chainmail on body                
-M 0 2008 12 2023 1  1   a templar into Mess hall  
-E   1   2016   99     16     a templar's sword wielded                
-M 0 2008 12 2023 1  1   a templar into Mess hall  
-M 0 2009 2 2039 1  1   a mysterious wraith into New graves  
-M 0 2009 2 2047 1  1   a mysterious wraith into Fresh graves  
-M 0 2010 6 2016 1  1   the templar officer into Mess hall  
-E   1   2016   99     16     a templar's sword wielded                
-E   1   2009   99      5     a suit of chainmail on body                
-M 0 2010 6 2016 1  1   the templar officer into Mess hall  
-E   1   2016   99     16     a templar's sword wielded                
-E   1   2009   99      5     a suit of chainmail on body                
-M 0 2010 6 2016 1  1   the templar officer into Mess hall  
-E   1   2016   99     16     a templar's sword wielded                
-E   1   2009   99      5     a suit of chainmail on body                
-M 0 2010 6 2023 1  1   the templar officer into Mess hall  
+M 0 2007 4 2038 1  1   a skeleton into The burial grounds
+  
+M 0 2008 12 2003 1  1   a templar into Weapon training area
+  
 E   1   2009   99      5     a suit of chainmail on body                
 E   1   2016   99     16     a templar's sword wielded                
-M 0 2010 6 2018 1  1   the templar officer into High officer's room  
+M 0 2008 12 2004 1  1   a templar into Prayer training area
+  
+E   1   2016   99     16     a templar's sword wielded                
+M 0 2008 12 2005 1  1   a templar into Junction of hallways
+  
+M 0 2008 12 2006 1  1   a templar into Hallway
+  
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2008 12 2009 1  1   a templar into Templar Knights sleeping quarters
+  
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2008 12 2009 1  1   a templar into Templar Knights sleeping quarters
+  
+E   1   2016   99     16     a templar's sword wielded                
+M 0 2008 12 2009 1  1   a templar into Templar Knights sleeping quarters
+  
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2008 12 2016 1  1   a templar into Mess hall
+  
+E   1   2016   99     16     a templar's sword wielded                
+M 0 2008 12 2016 1  1   a templar into Mess hall
+  
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2008 12 2016 1  1   a templar into Mess hall
+  
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2008 12 2023 1  1   a templar into Mess hall
+  
+E   1   2016   99     16     a templar's sword wielded                
+M 0 2008 12 2023 1  1   a templar into Mess hall
+  
+M 0 2009 2 2039 1  1   a mysterious wraith into New graves
+  
+M 0 2009 2 2047 1  1   a mysterious wraith into Fresh graves
+  
+M 0 2010 6 2016 1  1   the templar officer into Mess hall
+  
 E   1   2016   99     16     a templar's sword wielded                
 E   1   2009   99      5     a suit of chainmail on body                
-M 0 2010 6 2015 1  1   the templar officer into Mid-level leader's room  
+M 0 2010 6 2016 1  1   the templar officer into Mess hall
+  
 E   1   2016   99     16     a templar's sword wielded                
 E   1   2009   99      5     a suit of chainmail on body                
-M 0 2011 4 2047 1  1   zombie into Fresh graves  
-M 0 2011 4 2053 1  1   zombie into Fresh graves  
-M 0 2011 4 2037 1  1   zombie into The burial grounds  
-M 0 2011 4 2036 1  1   zombie into The burial grounds  
-M 0 2012 2 2026 1  1   the shadow into Very dark passage  
+M 0 2010 6 2016 1  1   the templar officer into Mess hall
+  
+E   1   2016   99     16     a templar's sword wielded                
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2010 6 2023 1  1   the templar officer into Mess hall
+  
+E   1   2009   99      5     a suit of chainmail on body                
+E   1   2016   99     16     a templar's sword wielded                
+M 0 2010 6 2018 1  1   the templar officer into High officer's room
+  
+E   1   2016   99     16     a templar's sword wielded                
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2010 6 2015 1  1   the templar officer into Mid-level leader's room
+  
+E   1   2016   99     16     a templar's sword wielded                
+E   1   2009   99      5     a suit of chainmail on body                
+M 0 2011 4 2047 1  1   zombie into Fresh graves
+  
+M 0 2011 4 2053 1  1   zombie into Fresh graves
+  
+M 0 2011 4 2037 1  1   zombie into The burial grounds
+  
+M 0 2011 4 2036 1  1   zombie into The burial grounds
+  
+M 0 2012 2 2026 1  1   the shadow into Very dark passage
+  
 E   1   2014   25     12     a shadow cloak about body             
-M 0 2014 1 2055 1  1   the evil necromancer into Scene of ghastly horror  
+M 0 2014 1 2055 1  1   the evil necromancer into Scene of ghastly horror
+  
 E   1   2011    9     11     the shield of defence as shield              
-M 0 2015 1 2025 1  1   the grand templar into Grand Templar's room  
+M 0 2015 1 2025 1  1   the grand templar into Grand Templar's room
+  
 E   1   2010    9      3     a white cape on neck                
 E   1   2001    9      0     a glowing key as light               
 E   1   2008    9     17     a flask of holy water held                   
-M 0 2016 1 2050 1  1   the prism dragon into Prism cave  
+M 0 2016 1 2050 1  1   the prism dragon into Prism cave
+  
 E   1   2012    9      5     a dragonscale shield on body                
 E   1   2013    9     17     a prism wand held                   
-M 0 2017 1 2030 1  1   The DarkenBeast into Deep within the catacombs  
+M 0 2017 1 2030 1  1   The DarkenBeast into Deep within the catacombs
+  
 E   1   2003    9      2     an onyx ring on right finger        
 E   1   2002    9      5     a suit of granite platemail on body                
 E   1   2006    9     17     A kingly crown held                   
 O   0   2007    1   2032  load stone into The holy place
-P 1 2005 3 2007 1  1   Load The sword Excalibur into stone  
-M 0 2005 9 2033 1  1   some mist into Misty passageway  
+P 1 2005 3 2007 1  1   Load The sword Excalibur into stone
+  
+M 0 2005 9 2033 1  1   some mist into Misty passageway
+  
 E   1   2015   35     17     a misty potion held                   
-M 0 2005 9 2040 1  1   some mist into Misty cavern  
+M 0 2005 9 2040 1  1   some mist into Misty cavern
+  
 E   1   2015   35     17     a misty potion held                   
-M 0 2005 9 2040 1  1   some mist into Misty cavern  
+M 0 2005 9 2040 1  1   some mist into Misty cavern
+  
 E   1   2015   35     17     a misty potion held                   
-M 0 2005 9 2041 1  1   some mist into Misty cavern  
+M 0 2005 9 2041 1  1   some mist into Misty cavern
+  
 E   1   2015   35     17     a misty potion held                   
-M 0 2005 9 2041 1  1   some mist into Misty cavern  
+M 0 2005 9 2041 1  1   some mist into Misty cavern
+  
 E   1   2015   35     17     a misty potion held                   
-M 0 2005 9 2042 1  1   some mist into Mist cavern  
+M 0 2005 9 2042 1  1   some mist into Mist cavern
+  
 E   1   2015   35     17     a misty potion held                   
-M 0 2005 9 2043 1  1   some mist into Waterfall of mist  
+M 0 2005 9 2043 1  1   some mist into Waterfall of mist
+  
 E   1   2015   35     17     a misty potion held                   
-M 0 2005 9 2043 1  1   some mist into Waterfall of mist  
+M 0 2005 9 2043 1  1   some mist into Waterfall of mist
+  
 E   1   2015   35     17     a misty potion held                   
-M 0 2005 9 2043 1  1   some mist into Waterfall of mist  
+M 0 2005 9 2043 1  1   some mist into Waterfall of mist
+  
 E   1   2015   35     17     a misty potion held                   
 D   0   2028    2      2  The holy grove: Door south locked
 D   0   2032    0      2  The holy place: Door north locked

@@ -909,44 +909,60 @@ pill 0 A
 #0
 
 #RESETS
-M 0 8900 1 8905 1  1   The Hierophant into The sacred glade  
+M 0 8900 1 8905 1  1   The Hierophant into The sacred glade
+  
 E   1   8910   99     16     a wooden staff wielded                
 E   1   8911   99      5     a brown robe on body                
 G   1   8919   99            some pinkish herbs in inventory
 G   1   8918   99            some orangish herbs in inventory
-M 0 8901 1 8901 1  1   The Hierophant into The holy grove  
+M 0 8901 1 8901 1  1   The Hierophant into The holy grove
+  
 E   1   8910   99     16     a wooden staff wielded                
 E   1   8911   99      5     a brown robe on body                
 G   1   8913   99            some bluish herbs in inventory
 G   1   8915   99            some blackish herbs in inventory
-M 0 8902 1 8902 1  1   an elder druid into The holy grove  
+M 0 8902 1 8902 1  1   an elder druid into The holy grove
+  
 E   1   8910   99      5     a wooden staff on body                
 G   1   8914   99            some purplish herbs in inventory
 G   1   8916   99            some grayish herbs in inventory
-M 0 8903 1 8904 1  1   an elder druidess into The holy grove  
+M 0 8903 1 8904 1  1   an elder druidess into The holy grove
+  
 E   1   8910   99      5     a wooden staff on body                
 G   1   8919   99            some pinkish herbs in inventory
 G   1   8917   99            some reddish herbs in inventory
-M 0 8904 2 8905 1  1   a doe into The sacred glade  
-M 0 8905 2 8906 1  1   a deer into The holy grove  
-M 0 8906 1 8905 1  1   a stag into The sacred glade  
-M 0 8907 4 8903 1  1   a small bunny into A clearing in the woods  
-M 0 8907 4 8903 1  1   a small bunny into A clearing in the woods  
-M 0 8908 9 8906 1  1   a harmless snake into The holy grove  
-M 0 8909 1 8911 1  1   a druid into The hallway  
+M 0 8904 2 8905 1  1   a doe into The sacred glade
+  
+M 0 8905 2 8906 1  1   a deer into The holy grove
+  
+M 0 8906 1 8905 1  1   a stag into The sacred glade
+  
+M 0 8907 4 8903 1  1   a small bunny into A clearing in the woods
+  
+M 0 8907 4 8903 1  1   a small bunny into A clearing in the woods
+  
+M 0 8908 9 8906 1  1   a harmless snake into The holy grove
+  
+M 0 8909 1 8911 1  1   a druid into The hallway
+  
 G   1   8913   99            some bluish herbs in inventory
-M 0 8909 2 8918 1  1   a druid into The dining hall  
+M 0 8909 2 8918 1  1   a druid into The dining hall
+  
 G   1   8916   99            some grayish herbs in inventory
-M 0 8910 1 8914 1  1   a druidess into The red room  
+M 0 8910 1 8914 1  1   a druidess into The red room
+  
 G   1   8914   99            some purplish herbs in inventory
-M 0 8910 2 8917 1  1   a druidess into The greenhouse  
+M 0 8910 2 8917 1  1   a druidess into The greenhouse
+  
 G   1   8918   99            some orangish herbs in inventory
 O   0   8901    2   8912  load a closet into The blue room
 O   0   8901    2   8914  load a closet into The red room
 O   0   8902    2   8915  load a spice jar into The kitchen
-P 1 8903 3 8902 1  1   Load some black powder into a spice jar  
+P 1 8903 3 8902 1  1   Load some black powder into a spice jar
+  
 O   0   8902    2   8915  load a spice jar into The kitchen
-P 1 8904 3 8902 1  1   Load some small yellow kernels into a spice jar  
+P 1 8904 3 8902 1  1   Load some small yellow kernels into a spice jar
+  
 O   0   8905    1   8915  load a crumpled wad of paper into The kitchen
 D   0   8914    3      1  The red room: Door west closed
 D   0   8913    1      1  The hallway: Door east closed

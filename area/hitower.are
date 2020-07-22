@@ -5297,42 +5297,66 @@ R   0   1307    4         The Shadow Grove: Door(s) 0-4 randomized
 R   0   1308    4         The Shadow Grove: Door(s) 0-4 randomized
 R   0   1309    4         The Shadow Grove: Door(s) 0-4 randomized
 R   0   1392    6         Inside the Energy Field: Door(s) 0-6 randomized
-M 0 1300 6 1302 1  1   a shadow guardian into The Shadow Grove  
-M 0 1300 6 1304 1  1   a shadow guardian into The Shadow Grove  
-M 0 1300 6 1306 1  1   a shadow guardian into The Shadow Grove  
-M 0 1300 6 1308 1  1   a shadow guardian into The Shadow Grove  
-M 0 1300 6 1311 1  1   a shadow guardian into A small clearing  
-M 0 1301 1 1311 1  1   a lost adventurer into A small clearing  
-M 0 1302 1 1307 1  1   Edgar into The Shadow Grove  
-M 0 1303 1 1312 1  1   the golem into Entrance to the High Tower  
-M 0 1304 7 1313 1  1   a mage into Inside the High Tower of Sorcerery  
-M 0 1304 7 1314 1  1   a mage into Common Room  
-M 0 1304 7 1314 1  1   a mage into Common Room  
-M 0 1304 7 1315 1  1   a mage into The Hallway  
-M 0 1304 7 1316 1  1   a mage into Dining Room  
-M 0 1304 7 1318 1  1   a mage into Mages Tavern  
-M 0 1304 7 1319 1  1   a mage into The Magic Shop  
+M 0 1300 6 1302 1  1   a shadow guardian into The Shadow Grove
+  
+M 0 1300 6 1304 1  1   a shadow guardian into The Shadow Grove
+  
+M 0 1300 6 1306 1  1   a shadow guardian into The Shadow Grove
+  
+M 0 1300 6 1308 1  1   a shadow guardian into The Shadow Grove
+  
+M 0 1300 6 1311 1  1   a shadow guardian into A small clearing
+  
+M 0 1301 1 1311 1  1   a lost adventurer into A small clearing
+  
+M 0 1302 1 1307 1  1   Edgar into The Shadow Grove
+  
+M 0 1303 1 1312 1  1   the golem into Entrance to the High Tower
+  
+M 0 1304 7 1313 1  1   a mage into Inside the High Tower of Sorcerery
+  
+M 0 1304 7 1314 1  1   a mage into Common Room
+  
+M 0 1304 7 1314 1  1   a mage into Common Room
+  
+M 0 1304 7 1315 1  1   a mage into The Hallway
+  
+M 0 1304 7 1316 1  1   a mage into Dining Room
+  
+M 0 1304 7 1318 1  1   a mage into Mages Tavern
+  
+M 0 1304 7 1319 1  1   a mage into The Magic Shop
+  
 D   0   1316    3      1  Dining Room: Door west closed
 D   0   1317    5      1  Dark Hallway: Door down closed
-M 0 1305 1 1318 1  1   Strick the bartender into Mages Tavern  
+M 0 1305 1 1318 1  1   Strick the bartender into Mages Tavern
+  
 G   1   1351  100            a herbal brew in inventory
 G   1   1352  100            a waybread in inventory
-M 0 1306 1 1319 1  1   Tatorious into The Magic Shop  
+M 0 1306 1 1319 1  1   Tatorious into The Magic Shop
+  
 D   0   1320    1      1  the kitchen: Door east closed
 O   0   1301    1   1320  load an oven into the kitchen
-P 1 1304 3 1301 1  1   Load A slice of pizza into an oven  
+P 1 1304 3 1301 1  1   Load A slice of pizza into an oven
+  
 O   0   1302    1   1320  load a meat locker into the kitchen
-P 1 1305 3 1302 1  1   Load a large chunk of meat into a meat locker  
-P 1 1306 3 1302 1  1   Load a finger sandwich into a meat locker  
-M 0 1307 1 1320 1  1   Ezmerelda into the kitchen  
+P 1 1305 3 1302 1  1   Load a large chunk of meat into a meat locker
+  
+P 1 1306 3 1302 1  1   Load a finger sandwich into a meat locker
+  
+M 0 1307 1 1320 1  1   Ezmerelda into the kitchen
+  
 E   1   1355    2     16     a meat cleaver wielded                
-M 0 1308 1 1320 1  1   The cook's assistant into the kitchen  
+M 0 1308 1 1320 1  1   The cook's assistant into the kitchen
+  
 D   0   1321    4      1  Below the trapdoor: Door up closed
 D   0   1323    0      2  A dark passage: Door north locked
-M 0 1309 1 1327 1  1   The prisoner into A dark cell  
+M 0 1309 1 1327 1  1   The prisoner into A dark cell
+  
 E   1   1356    1     14     some chain shackles on left wrist          
 D   0   1327    2      2  A dark cell: Door south locked
-M 0 1310 1 1328 1  1   the Jailor into The Jailor's office  
+M 0 1310 1 1328 1  1   the Jailor into The Jailor's office
+  
 E   1   1323    1     17     an old key held                   
 D   0   1330    0      1  The hallway: Door north closed
 D   0   1330    2      1  The hallway: Door south closed
@@ -5341,100 +5365,147 @@ D   0   1331    1      1  A bend in the hallway: Door east closed
 D   0   1331    2      1  A bend in the hallway: Door south closed
 D   0   1332    2      1  A store room: Door south closed
 D   0   1333    0      1  A broom closet: Door north closed
-M 0 1311 2 1333 1  1   a broom into A broom closet  
-M 0 1311 2 1333 1  1   a broom into A broom closet  
+M 0 1311 2 1333 1  1   a broom into A broom closet
+  
+M 0 1311 2 1333 1  1   a broom into A broom closet
+  
 O   0   1307    2   1333  load a straw broom into A broom closet
 O   0   1307    2   1333  load a straw broom into A broom closet
 D   0   1334    1      1  A hallway: Door east closed
 D   0   1334    2      1  A hallway: Door south closed
 D   0   1335    0      1  Guardians chamber: Door north closed
-M 0 1312 10 1335 1  1   a pair of disembodied hands into Guardians chamber  
-M 0 1312 10 1335 1  1   a pair of disembodied hands into Guardians chamber  
-M 0 1312 10 1335 1  1   a pair of disembodied hands into Guardians chamber  
-M 0 1312 10 1335 1  1   a pair of disembodied hands into Guardians chamber  
-M 0 1313 7 1335 1  1   a pair of disembodied eyes into Guardians chamber  
+M 0 1312 10 1335 1  1   a pair of disembodied hands into Guardians chamber
+  
+M 0 1312 10 1335 1  1   a pair of disembodied hands into Guardians chamber
+  
+M 0 1312 10 1335 1  1   a pair of disembodied hands into Guardians chamber
+  
+M 0 1312 10 1335 1  1   a pair of disembodied hands into Guardians chamber
+  
+M 0 1313 7 1335 1  1   a pair of disembodied eyes into Guardians chamber
+  
 D   0   1336    3      1  A guest bedroom: Door west closed
 D   0   1337    3      1  A guest bedroom: Door west closed
-M 0 1314 1 1337 1  1   the mage into A guest bedroom  
+M 0 1314 1 1337 1  1   the mage into A guest bedroom
+  
 D   0   1338    1      1  A hallway: Door east closed
 D   0   1339    3      1  The burnt room: Door west closed
 D   0   1340    0      1  A hallway: Door north closed
-M 0 1312 10 1340 1  1   a pair of disembodied hands into A hallway  
+M 0 1312 10 1340 1  1   a pair of disembodied hands into A hallway
+  
 D   0   1342    2      1  The Apprentice's Barracks: Door south closed
-M 0 1315 3 1342 1  1   a young apprentice magic user into The Apprentice's Barracks  
-M 0 1316 3 1342 1  1   a young apprentice into The Apprentice's Barracks  
-M 0 1317 3 1342 1  1   a young apprentice into The Apprentice's Barracks  
+M 0 1315 3 1342 1  1   a young apprentice magic user into The Apprentice's Barracks
+  
+M 0 1316 3 1342 1  1   a young apprentice into The Apprentice's Barracks
+  
+M 0 1317 3 1342 1  1   a young apprentice into The Apprentice's Barracks
+  
 D   0   1343    0      1  A hallway: Door north closed
 D   0   1344    2      1  The Apprentice's barracks: Door south closed
-M 0 1315 3 1344 1  1   a young apprentice magic user into The Apprentice's barracks  
-M 0 1316 3 1344 1  1   a young apprentice into The Apprentice's barracks  
-M 0 1317 3 1344 1  1   a young apprentice into The Apprentice's barracks  
+M 0 1315 3 1344 1  1   a young apprentice magic user into The Apprentice's barracks
+  
+M 0 1316 3 1344 1  1   a young apprentice into The Apprentice's barracks
+  
+M 0 1317 3 1344 1  1   a young apprentice into The Apprentice's barracks
+  
 D   0   1345    0      1  A hallway: Door north closed
-M 0 1318 3 1345 1  1   A young apprentice into A hallway  
-M 0 1318 3 1345 1  1   A young apprentice into A hallway  
-M 0 1318 3 1345 1  1   A young apprentice into A hallway  
-M 0 1319 1 1345 1  1   a small kitten into A hallway  
+M 0 1318 3 1345 1  1   A young apprentice into A hallway
+  
+M 0 1318 3 1345 1  1   A young apprentice into A hallway
+  
+M 0 1318 3 1345 1  1   A young apprentice into A hallway
+  
+M 0 1319 1 1345 1  1   a small kitten into A hallway
+  
 D   0   1346    2      1  The apprentice's workshop: Door south closed
 D   0   1348    3      1  The hallway: Door west closed
 D   0   1349    1      1  A classroom: Door east closed
-M 0 1320 4 1349 1  1   a student into A classroom  
-M 0 1320 4 1349 1  1   a student into A classroom  
-M 0 1320 4 1349 1  1   a student into A classroom  
-M 0 1320 4 1349 1  1   a student into A classroom  
-M 0 1321 1 1349 1  1   an instructor of magic into A classroom  
+M 0 1320 4 1349 1  1   a student into A classroom
+  
+M 0 1320 4 1349 1  1   a student into A classroom
+  
+M 0 1320 4 1349 1  1   a student into A classroom
+  
+M 0 1320 4 1349 1  1   a student into A classroom
+  
+M 0 1321 1 1349 1  1   an instructor of magic into A classroom
+  
 D   0   1350    3      1  A hallway: Door west closed
 D   0   1351    3      1  A hallway: Door west closed
 D   0   1352    1      1  An empty classroom: Door east closed
 D   0   1354    1      1  An empty classroom: Door east closed
-M 0 1322 4 1354 1  1   a student of spells into An empty classroom  
-M 0 1322 4 1354 1  1   a student of spells into An empty classroom  
-M 0 1322 4 1354 1  1   a student of spells into An empty classroom  
-M 0 1322 4 1354 1  1   a student of spells into An empty classroom  
-M 0 1323 1 1354 1  1   a spell teacher into An empty classroom  
+M 0 1322 4 1354 1  1   a student of spells into An empty classroom
+  
+M 0 1322 4 1354 1  1   a student of spells into An empty classroom
+  
+M 0 1322 4 1354 1  1   a student of spells into An empty classroom
+  
+M 0 1322 4 1354 1  1   a student of spells into An empty classroom
+  
+M 0 1323 1 1354 1  1   a spell teacher into An empty classroom
+  
 D   0   1355    2      1  A hallway: Door south closed
 D   0   1356    2      1  A hallway: Door south closed
 D   0   1357    0      1  The Amphitheater: Door north closed
-M 0 1324 3 1357 1  1   a student of spells into The Amphitheater  
-M 0 1324 3 1357 1  1   a student of spells into The Amphitheater  
-M 0 1324 3 1357 1  1   a student of spells into The Amphitheater  
-M 0 1325 1 1357 1  1   a wizard into The Amphitheater  
+M 0 1324 3 1357 1  1   a student of spells into The Amphitheater
+  
+M 0 1324 3 1357 1  1   a student of spells into The Amphitheater
+  
+M 0 1324 3 1357 1  1   a student of spells into The Amphitheater
+  
+M 0 1325 1 1357 1  1   a wizard into The Amphitheater
+  
 D   0   1358    2      1  A hallway: Door south closed
 D   0   1359    0      1  The training room: Door north closed
-M 0 1326 3 1359 1  1   a young mage into The training room  
+M 0 1326 3 1359 1  1   a young mage into The training room
+  
 E   1   1357    6     16     a silvery dagger wielded                
-M 0 1326 3 1359 1  1   a young mage into The training room  
+M 0 1326 3 1359 1  1   a young mage into The training room
+  
 E   1   1357    6     16     a silvery dagger wielded                
-M 0 1326 3 1359 1  1   a young mage into The training room  
+M 0 1326 3 1359 1  1   a young mage into The training room
+  
 E   1   1357    6     16     a silvery dagger wielded                
-M 0 1327 1 1359 1  1   the battle mistress into The training room  
+M 0 1327 1 1359 1  1   the battle mistress into The training room
+  
 E   1   1357    6     17     a silvery dagger held                   
 D   0   1361    0      1  A dueling room: Door north closed
 D   0   1362    1      1  A hallway: Door east closed
 D   0   1363    1      1  A hallway: Door east closed
 D   0   1364    3      1  The spellmaster's lounge: Door west closed
-M 0 1328 2 1364 1  1   a spell teacher into The spellmaster's lounge  
+M 0 1328 2 1364 1  1   a spell teacher into The spellmaster's lounge
+  
 D   0   1365    3      1  A bedroom: Door west closed
-M 0 1329 1 1365 1  1   an aged wizard into A bedroom  
+M 0 1329 1 1365 1  1   an aged wizard into A bedroom
+  
 D   0   1366    1      1  A hallway: Door east closed
 D   0   1367    3      1  The study: Door west closed
-M 0 1330 1 1367 1  1   a scribe into The study  
-M 0 1312 10 1368 1  1   a pair of disembodied hands into Below the stairs  
-M 0 1339 4 1368 1  1   a wooden golem into Below the stairs  
+M 0 1330 1 1367 1  1   a scribe into The study
+  
+M 0 1312 10 1368 1  1   a pair of disembodied hands into Below the stairs
+  
+M 0 1339 4 1368 1  1   a wooden golem into Below the stairs
+  
 D   0   1370    0      1  A hallway: Door north closed
 D   0   1371    2      1  A small office: Door south closed
 D   0   1371    3      1  A small office: Door west closed
-M 0 1331 2 1371 1  1   a scribe into A small office  
-M 0 1331 2 1371 1  1   a scribe into A small office  
+M 0 1331 2 1371 1  1   a scribe into A small office
+  
+M 0 1331 2 1371 1  1   a scribe into A small office
+  
 D   0   1373    1      1  The master scribe's workshop: Door east closed
-M 0 1332 1 1373 1  1   the master scribe into The master scribe's workshop  
+M 0 1332 1 1373 1  1   the master scribe into The master scribe's workshop
+  
 G   1   1359    2            a scroll in inventory
 G   1   1360    2            a bound scroll in inventory
 G   1   1361    1            a long cylindrical tube in inventory
-M 0 1333 1 1373 1  1   the scribe's assistant into The master scribe's workshop  
+M 0 1333 1 1373 1  1   the scribe's assistant into The master scribe's workshop
+  
 G   1   1362    3            an old scroll in inventory
 D   0   1374    0      1  A hallway: Door north closed
 D   0   1375    2      1  A store room: Door south closed
-M 0 1313 5 1375 1  1   a pair of disembodied eyes into A store room  
+M 0 1313 5 1375 1  1   a pair of disembodied eyes into A store room
+  
 D   0   1377    3      1  A hallway: Door west closed
 D   0   1378    3      1  A hallway: Door west closed
 D   0   1379    1      1  A store room: Door east closed
@@ -5448,129 +5519,186 @@ D   0   1381    4      1  A very hot room: Door up closed
 O   0   1314    1   1381  load a mithril hammer into A very hot room
 D   0   1382    0      1  The master Enchanter's chamber: Door north closed
 O   0   1315    1   1382  load a chest into The master Enchanter's chamber
-P 1 1317 3 1315 1  1   Load a long sword into a chest  
-P 1 1318 3 1315 1  1   Load a silver dagger into a chest  
-P 1 1319 3 1315 1  1   Load a curved scimitar into a chest  
-M 0 1334 1 1382 1  1   the Enchanter into The master Enchanter's chamber  
+P 1 1317 3 1315 1  1   Load a long sword into a chest
+  
+P 1 1318 3 1315 1  1   Load a silver dagger into a chest
+  
+P 1 1319 3 1315 1  1   Load a curved scimitar into a chest
+  
+M 0 1334 1 1382 1  1   the Enchanter into The master Enchanter's chamber
+  
 E   1   1316    1     17     a small key held                   
 G   1   1363    1            a scroll written on blue paper in inventory
-M 0 1335 1 1382 1  1   a dancing sword into The master Enchanter's chamber  
+M 0 1335 1 1382 1  1   a dancing sword into The master Enchanter's chamber
+  
 D   0   1384    2      1  A hallway: Door south closed
 D   0   1386    0      1  A laboratory: Door north closed
 D   0   1387    2      1  A hallway: Door south closed
-M 0 1336 1 1388 1  1   the Mad Alchemist into The Mad Alchemist's workroom  
+M 0 1336 1 1388 1  1   the Mad Alchemist into The Mad Alchemist's workroom
+  
 E   1   1364    5     17     a leather pouch held                   
-P 1 1365 3 1364 1  1   Load a silver stirring spoon into a leather pouch  
-P 1 1367 3 1364 1  1   Load a bright red potion into a leather pouch  
-P 1 1368 3 1364 1  1   Load a green potion into a leather pouch  
-P 1 1369 3 1364 1  1   Load an efervecent potion into a leather pouch  
-P 1 1370 3 1364 1  1   Load a milky white potion into a leather pouch  
+P 1 1365 3 1364 1  1   Load a silver stirring spoon into a leather pouch
+  
+P 1 1367 3 1364 1  1   Load a bright red potion into a leather pouch
+  
+P 1 1368 3 1364 1  1   Load a green potion into a leather pouch
+  
+P 1 1369 3 1364 1  1   Load an efervecent potion into a leather pouch
+  
+P 1 1370 3 1364 1  1   Load a milky white potion into a leather pouch
+  
 D   0   1390    0      1  The pentagram chamber: Door north closed
-M 0 1337 1 1390 1  1   the master summoner into The pentagram chamber  
+M 0 1337 1 1390 1  1   the master summoner into The pentagram chamber
+  
 E   1   1371    2     17     a black staff held                   
 D   0   1391    1      1  A hallway: Door east closed
 D   0   1394    3      1  An empty room: Door west closed
 D   0   1395    0      1  The charm master's chamber: Door north closed
 D   0   1395    3      1  The charm master's chamber: Door west closed
-M 0 1338 1 1395 1  1   the master charmer into The charm master's chamber  
+M 0 1338 1 1395 1  1   the master charmer into The charm master's chamber
+  
 E   1   1372    1     17     a golden flute held                   
 G   1   1373    1            a small figurine in inventory
 D   0   1397    2      1  The animal pens: Door south closed
-M 0 1339 4 1398 1  1   a wooden golem into The end of the hallway  
-M 0 1339 4 1398 1  1   a wooden golem into The end of the hallway  
+M 0 1339 4 1398 1  1   a wooden golem into The end of the hallway
+  
+M 0 1339 4 1398 1  1   a wooden golem into The end of the hallway
+  
 D   0   1400    0      1  A hallway: Door north closed
-M 0 1313 4 1400 1  1   a pair of disembodied eyes into A hallway  
+M 0 1313 4 1400 1  1   a pair of disembodied eyes into A hallway
+  
 D   0   1401    2      1  A store room: Door south closed
 D   0   1401    3      1  A store room: Door west closed
 O   0   1320    1   1401  load a wooden staff into A store room
 D   0   1402    1      1  The master spellbinder's chamber: Door east closed
 D   0   1402    3      1  The master spellbinder's chamber: Door west closed
-M 0 1340 1 1402 1  1   the master spell binder into The master spellbinder's chamber  
+M 0 1340 1 1402 1  1   the master spell binder into The master spellbinder's chamber
+  
 E   1   1325    1     17     a silvery key held                   
 E   1   1374    2     13     a holstered belt around waist           
-P 1 1375 3 1374 1  1   Load a blackened wand into a holstered belt  
+P 1 1375 3 1374 1  1   Load a blackened wand into a holstered belt
+  
 D   0   1403    1      1  The spellbinder's cache: Door east closed
 D   0   1403    2      1  The spellbinder's cache: Door south closed
 O   0   1321    1   1403  load a silver chased cabinet into The spellbinder's cache
-P 1 1326 3 1321 1  1   Load a red and white staff into a silver chased cabinet  
-P 1 1327 3 1321 1  1   Load a burnt staff into a silver chased cabinet  
+P 1 1326 3 1321 1  1   Load a red and white staff into a silver chased cabinet
+  
+P 1 1327 3 1321 1  1   Load a burnt staff into a silver chased cabinet
+  
 O   0   1322    1   1403  load a silver chased cabinet into The spellbinder's cache
-P 1 1328 3 1322 1  1   Load a black rod into a silver chased cabinet  
-P 1 1329 3 1322 1  1   Load a wooden stick into a silver chased cabinet  
-P 1 1330 3 1322 1  1   Load a metal wand into a silver chased cabinet  
+P 1 1328 3 1322 1  1   Load a black rod into a silver chased cabinet
+  
+P 1 1329 3 1322 1  1   Load a wooden stick into a silver chased cabinet
+  
+P 1 1330 3 1322 1  1   Load a metal wand into a silver chased cabinet
+  
 D   0   1405    0      1  A hallway: Door north closed
 D   0   1408    3      1  A hallway: Door west closed
 D   0   1409    1      1  The golem master's workshop: Door east closed
 D   0   1409    5      1  The golem master's workshop: Door down closed
-M 0 1341 1 1409 1  1   the golem maker into The golem master's workshop  
+M 0 1341 1 1409 1  1   the golem maker into The golem master's workshop
+  
 E   1   1376    2     17     a runed chisel held                   
-M 0 1342 1 1409 1  1   a granite golem into The golem master's workshop  
-M 0 1345 2 1409 1  1   a cloth golem into The golem master's workshop  
-M 0 1343 1 1411 1  1   a bronze golem into The golem chamber  
-M 0 1344 1 1411 1  1   a flesh golem into The golem chamber  
-M 0 1346 1 1411 1  1   an adamantite golem into The golem chamber  
-M 0 1347 1 1411 1  1   a clay golem into The golem chamber  
+M 0 1342 1 1409 1  1   a granite golem into The golem master's workshop
+  
+M 0 1345 2 1409 1  1   a cloth golem into The golem master's workshop
+  
+M 0 1343 1 1411 1  1   a bronze golem into The golem chamber
+  
+M 0 1344 1 1411 1  1   a flesh golem into The golem chamber
+  
+M 0 1346 1 1411 1  1   an adamantite golem into The golem chamber
+  
+M 0 1347 1 1411 1  1   a clay golem into The golem chamber
+  
 D   0   1412    4      1  It is very dark here...: Door up closed
 D   0   1412    5      1  It is very dark here...: Door down closed
 D   0   1416    2      1  A hallway: Door south closed
 D   0   1417    0      1  The master of illusion's chamber: Door north closed
-M 0 1348 1 1417 1  1   the master of illusions into The master of illusion's chamber  
+M 0 1348 1 1417 1  1   the master of illusions into The master of illusion's chamber
+  
 E   1   1377    3     13     a beltpouch around waist           
-P 1 1378 3 1377 1  1   Load some sparkling dust into a beltpouch  
+P 1 1378 3 1377 1  1   Load some sparkling dust into a beltpouch
+  
 D   0   1419    2      1  A hallway: Door south closed
 D   0   1420    0      1  The meditation chamber: Door north closed
 D   0   1422    1      1  A hallway: Door east closed
 D   0   1423    3      1  A dark room: Door west closed
-M 0 1349 1 1425 1  1   the Necromancer into The Necromancer's Lair  
+M 0 1349 1 1425 1  1   the Necromancer into The Necromancer's Lair
+  
 E   1   1379    2      3     a dark cowl on neck                
 E   1   1380    2     17     an ashen wand held                   
-M 0 1350 4 1425 1  1   an animated skeleton into The Necromancer's Lair  
-M 0 1350 4 1425 1  1   an animated skeleton into The Necromancer's Lair  
-M 0 1351 1 1425 1  1   an undead giant into The Necromancer's Lair  
+M 0 1350 4 1425 1  1   an animated skeleton into The Necromancer's Lair
+  
+M 0 1350 4 1425 1  1   an animated skeleton into The Necromancer's Lair
+  
+M 0 1351 1 1425 1  1   an undead giant into The Necromancer's Lair
+  
 E   1   1381    1     16     a huge spiked club wielded                
-M 0 1339 5 1428 1  1   a wooden golem into The end of the hallway  
-M 0 1339 5 1428 1  1   a wooden golem into The end of the hallway  
-M 0 1312 10 1430 1  1   a pair of disembodied hands into A corridor  
-M 0 1313 5 1433 1  1   a pair of disembodied eyes into An intersection  
+M 0 1339 5 1428 1  1   a wooden golem into The end of the hallway
+  
+M 0 1339 5 1428 1  1   a wooden golem into The end of the hallway
+  
+M 0 1312 10 1430 1  1   a pair of disembodied hands into A corridor
+  
+M 0 1313 5 1433 1  1   a pair of disembodied eyes into An intersection
+  
 D   0   1434    1      1  A corridor: Door east closed
 D   0   1435    3      1  The scrying chamber: Door west closed
-M 0 1352 3 1435 1  1   an ugly witch into The scrying chamber  
-M 0 1352 3 1435 1  1   an ugly witch into The scrying chamber  
-M 0 1352 3 1435 1  1   an ugly witch into The scrying chamber  
+M 0 1352 3 1435 1  1   an ugly witch into The scrying chamber
+  
+M 0 1352 3 1435 1  1   an ugly witch into The scrying chamber
+  
+M 0 1352 3 1435 1  1   an ugly witch into The scrying chamber
+  
 O   0   1331    1   1435  load a black cauldron into The scrying chamber
-P 1 1332 3 1331 1  1   Load a small pair of bat wings into a black cauldron  
-P 1 1333 3 1331 1  1   Load an eyeball into a black cauldron  
-M 0 1353 1 1437 1  1   the Librarian into The entrance to the library  
+P 1 1332 3 1331 1  1   Load a small pair of bat wings into a black cauldron
+  
+P 1 1333 3 1331 1  1   Load an eyeball into a black cauldron
+  
+M 0 1353 1 1437 1  1   the Librarian into The entrance to the library
+  
 O   0   1334    1   1445  load the book of magic into The reading room
-P 1 1335 3 1334 1  1   Load a pair of spectacles into the book of magic  
-M 0 1313 5 1449 1  1   a pair of disembodied eyes into The landing  
+P 1 1335 3 1334 1  1   Load a pair of spectacles into the book of magic
+  
+M 0 1313 5 1449 1  1   a pair of disembodied eyes into The landing
+  
 D   0   1452    2      1  A grey tiled hallway: Door south closed
 D   0   1453    0      1  The antechamber: Door north closed
-M 0 1354 1 1453 1  1   the master's apprentice into The antechamber  
+M 0 1354 1 1453 1  1   the master's apprentice into The antechamber
+  
 E   1   1382    1     12     a grey robe about body             
 E   1   1384    1     14     a glinting silver bracelet on left wrist          
-M 0 1355 1 1454 1  1   a grey cat into The main chamber  
-M 0 1356 1 1454 1  1   the master of Neutrality into The main chamber  
+M 0 1355 1 1454 1  1   a grey cat into The main chamber
+  
+M 0 1356 1 1454 1  1   the master of Neutrality into The main chamber
+  
 E   1   1383    1      3     a long grey cloak on neck                
 E   1   1385    1     16     an iron shod staff wielded                
 E   1   1386    1     17     a ward minor held                   
 D   0   1460    1      1  The end of the hallway: Door east closed
 D   0   1461    3      1  The chamber of darkness: Door west closed
-M 0 1357 1 1461 1  1   a black robed apprentice into The chamber of darkness  
+M 0 1357 1 1461 1  1   a black robed apprentice into The chamber of darkness
+  
 E   1   1387    1     12     a black robe about body             
 E   1   1388    1     14     an onyx bracelet on left wrist          
-M 0 1358 1 1464 1  1   a black cat into The inner chamber  
-M 0 1359 1 1464 1  1   the master of the black robes into The inner chamber  
+M 0 1358 1 1464 1  1   a black cat into The inner chamber
+  
+M 0 1359 1 1464 1  1   the master of the black robes into The inner chamber
+  
 E   1   1389    1      3     a dark black cloak on neck                
 E   1   1390    1     16     a sharp shard of obsidian wielded                
 E   1   1386    1     17     a ward minor held                   
 D   0   1466    3      1  A bright hallway: Door west closed
 D   0   1467    1      1  An antechamber: Door east closed
-M 0 1360 1 1467 1  1   a white robed apprentice into An antechamber  
+M 0 1360 1 1467 1  1   a white robed apprentice into An antechamber
+  
 E   1   1391    1     12     a white robe about body             
 E   1   1392    1     14     a white gold bracelet on left wrist          
-M 0 1361 1 1469 1  1   a white cat into The chamber of the white light  
-M 0 1362 1 1469 1  1   The master of goodness into The chamber of the white light  
+M 0 1361 1 1469 1  1   a white cat into The chamber of the white light
+  
+M 0 1362 1 1469 1  1   The master of goodness into The chamber of the white light
+  
 E   1   1393    1      3     a white cloak on neck                
 E   1   1394    1     16     an ivory hilted dagger wielded                
 E   1   1386    1     17     a ward minor held                   
@@ -5580,9 +5708,11 @@ D   0   1474    2      1  A wide hallway: Door south closed
 D   0   1475    0      1  A wide hallway: Door north closed
 D   0   1475    2      1  A wide hallway: Door south closed
 D   0   1476    2      1  The entranceway: Door south closed
-M 0 1363 1 1477 1  1   A calico cat into The audience chamber  
+M 0 1363 1 1477 1  1   A calico cat into The audience chamber
+  
 E   1   1395    1      3     a spiked collar on neck                
-M 0 1364 1 1477 1  1   The Grand Mistress into The audience chamber  
+M 0 1364 1 1477 1  1   The Grand Mistress into The audience chamber
+  
 E   1   1401    2      5     a tight fitting green dragon scale shirt on body                
 E   1   1397    1      1     a small emerald ring on left finger         
 E   1   1398    1     14     an emerald bracelet on left wrist          
@@ -5592,18 +5722,23 @@ G   1   1339    1            an intricately carved key in inventory
 D   0   1480    1      1  The altar: Door east closed
 D   0   1480    3      1  The altar: Door west closed
 O   0   1336    1   1480  load a golden altar into The altar
-P 1 1337 3 1336 1  1   Load a heart shaped medallion into a golden altar  
+P 1 1337 3 1336 1  1   Load a heart shaped medallion into a golden altar
+  
 D   0   1481    3      1  The treasury: Door west closed
 O   0   1338    1   1481  load a large chest into The treasury
-P 1 1340 3 1338 1  1   Load a pile of coins is here into a large chest  
+P 1 1340 3 1338 1  1   Load a pile of coins is here into a large chest
+  
 O   0   1341    1   1482  load a brown cloak into A passage
 O   0   1342    1   1482  load a chameleon poncho into A passage
 O   0   1343    1   1482  load a pair of old boots into A passage
 O   0   1345    1   1482  load a leather backpack into A passage
-P 1 1344 3 1345 1  1   Load a seashell ring into a leather backpack  
+P 1 1344 3 1345 1  1   Load a seashell ring into a leather backpack
+  
 O   0   1402    1   1499  load a fridge into Skylar's Hideout
-P 1 1403 3 1402 1  1   Load a bottle of Absolut vodka into a fridge  
-P 1 1404 3 1402 1  1   Load a bottle of cranberry juice into a fridge  
+P 1 1403 3 1402 1  1   Load a bottle of Absolut vodka into a fridge
+  
+P 1 1404 3 1402 1  1   Load a bottle of cranberry juice into a fridge
+  
 S
 #SHOPS
 

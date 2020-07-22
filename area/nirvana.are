@@ -1252,64 +1252,107 @@ S
 
 #RESETS
 *
-M 0 9000 10 9002 1  1         Tridrones  
-M 0 9000 10 9013 1  1         Tridrones  
-M 0 9000 10 9029 1  1         Tridrones  
-M 0 9000 10 9027 1  1         Tridrones  
-M 0 9000 10 9003 1  1         Tridrones  
-M 0 9001 9 9001 1  1          Quadrones  
-M 0 9001 9 9028 1  1          Quadrones  
-M 0 9001 9 9012 1  1          Quadrones  
-M 0 9002 7 9011 1  1          Pentadrones  
-M 0 9002 7 9031 1  1          Pentadrones  
-M 0 9002 7 9038 1  1          Pentadrones  
-M 0 9002 7 9045 1  1          Pentadrones  
-M 0 9002 7 9058 1  1          Pentadrones  
-M 0 9002 7 9052 1  1          Pentadrones  
-M 0 9003 1 9055 1  1          Decaton  
-M 0 9004 1 9048 1  1          Nonaton  
-M 0 9005 4 9040 1  1          Octon  
-M 0 9005 4 9033 1  1          Octon  
-M 0 9005 4 9054 1  1          Octon  
-M 0 9005 4 9047 1  1          Octon  
-M 0 9006 2 9041 1  1          Septon  
-M 0 9006 2 9034 1  1          Septon  
-M 0 9007 8 9043 1  1          Hexton  
+M 0 9000 10 9002 1  1         Tridrones
+  
+M 0 9000 10 9013 1  1         Tridrones
+  
+M 0 9000 10 9029 1  1         Tridrones
+  
+M 0 9000 10 9027 1  1         Tridrones
+  
+M 0 9000 10 9003 1  1         Tridrones
+  
+M 0 9001 9 9001 1  1          Quadrones
+  
+M 0 9001 9 9028 1  1          Quadrones
+  
+M 0 9001 9 9012 1  1          Quadrones
+  
+M 0 9002 7 9011 1  1          Pentadrones
+  
+M 0 9002 7 9031 1  1          Pentadrones
+  
+M 0 9002 7 9038 1  1          Pentadrones
+  
+M 0 9002 7 9045 1  1          Pentadrones
+  
+M 0 9002 7 9058 1  1          Pentadrones
+  
+M 0 9002 7 9052 1  1          Pentadrones
+  
+M 0 9003 1 9055 1  1          Decaton
+  
+M 0 9004 1 9048 1  1          Nonaton
+  
+M 0 9005 4 9040 1  1          Octon
+  
+M 0 9005 4 9033 1  1          Octon
+  
+M 0 9005 4 9054 1  1          Octon
+  
+M 0 9005 4 9047 1  1          Octon
+  
+M 0 9006 2 9041 1  1          Septon
+  
+M 0 9006 2 9034 1  1          Septon
+  
+M 0 9007 8 9043 1  1          Hexton
+  
 *E 1 3090 5 5            iron breastplate
-M 0 9007 8 9044 1  1          Hexton  
+M 0 9007 8 9044 1  1          Hexton
+  
 *E 1 3091 5 6            iron helmet
-M 0 9007 8 9036 1  1          Hexton  
+M 0 9007 8 9036 1  1          Hexton
+  
 *E 1 3092 5 7            iron leggings
-M 0 9007 8 9037 1  1          Hexton  
+M 0 9007 8 9037 1  1          Hexton
+  
 *E 1 3093 5 8            iron boots
-M 0 9007 8 9050 1  1          Hexton  
+M 0 9007 8 9050 1  1          Hexton
+  
 *E 1 3094 5 9            iron gauntlets
-M 0 9007 8 9051 1  1          Hexton  
+M 0 9007 8 9051 1  1          Hexton
+  
 *E 1 3095 5 10           iron bracers
-M 0 9007 8 9056 1  1          Hexton  
+M 0 9007 8 9056 1  1          Hexton
+  
 *E 1 4053 2 16           thieves dirk
-M 0 9007 8 9057 1  1          Hexton  
+M 0 9007 8 9057 1  1          Hexton
+  
 *E 1 3106 5 15
 *G 1 6524 4
-M 0 9008 4 9022 1  1          Quinton  
-M 0 9008 4 9016 1  1          Quinton  
-M 0 9008 4 9025 1  1          Quinton  
-M 0 9008 4 9017 1  1          Quinton  
-M 0 9009 4 9019 1  1          Tertian  
+M 0 9008 4 9022 1  1          Quinton
+  
+M 0 9008 4 9016 1  1          Quinton
+  
+M 0 9008 4 9025 1  1          Quinton
+  
+M 0 9008 4 9017 1  1          Quinton
+  
+M 0 9009 4 9019 1  1          Tertian
+  
 *E 1 6515 2 8            magic boots
-M 0 9009 4 9024 1  1          Tertian  
+M 0 9009 4 9024 1  1          Tertian
+  
 *E 1 7215 2 0            light sabre
-M 0 9009 4 9018 1  1          Tertian  
-M 0 9009 4 9021 1  1          Tertian  
-M 0 9010 4 9038 1  1          Secundus  
+M 0 9009 4 9018 1  1          Tertian
+  
+M 0 9009 4 9021 1  1          Tertian
+  
+M 0 9010 4 9038 1  1          Secundus
+  
 *E 1 3313 1 6            gold helmet
-M 0 9010 4 9045 1  1          Secundus  
+M 0 9010 4 9045 1  1          Secundus
+  
 *E 1 3314 1 10           gold sleeves
-M 0 9010 4 9058 1  1          Secundus  
+M 0 9010 4 9058 1  1          Secundus
+  
 *E 1 3317 1 9            gold gauntlets
-M 0 9010 4 9052 1  1          Secundus  
+M 0 9010 4 9052 1  1          Secundus
+  
 *E 1 3318 1 7            gold leggings
-M 0 9011 1 9020 1  1          Primus  
+M 0 9011 1 9020 1  1          Primus
+  
 E 1 9000 2 16           Give him THE long sword
 *E 1 3312 1 5            gold breastplate
 *E 1 3315 1 3            gold cloak

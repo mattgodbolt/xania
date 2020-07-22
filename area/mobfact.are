@@ -692,40 +692,73 @@ A
 #0
 
 #RESETS
-M 0 9405 7 9401 1  1   The toxic slime into Mob Factory Storage Area  
-M 0 9401 5 9402 1  1   The mutant beastly fido into Mob Factory Storage Area  
-M 0 9402 1 9403 1  1   Foreman Floyd into Foreman's Office  
-M 0 9408 1 9404 1  1   A large rat into Foreman's Bathroom  
+M 0 9405 7 9401 1  1   The toxic slime into Mob Factory Storage Area
+  
+M 0 9401 5 9402 1  1   The mutant beastly fido into Mob Factory Storage Area
+  
+M 0 9402 1 9403 1  1   Foreman Floyd into Foreman's Office
+  
+M 0 9408 1 9404 1  1   A large rat into Foreman's Bathroom
+  
 G   1   9409    5            (Flaming) a rat carcass in inventory
-M 0 9405 7 9404 1  1   The toxic slime into Foreman's Bathroom  
-M 0 9403 9 9406 1  1   The Cityguard head into Mob Factory Storage Area  
-M 0 9405 7 9408 1  1   The toxic slime into Mob Factory Cafeteria  
-M 0 9401 5 9408 1  1   The mutant beastly fido into Mob Factory Cafeteria  
-M 0 9405 7 9409 1  1   The toxic slime into Mob Factory Cafeteria  
-M 0 9407 4 9410 1  1   The factory worker into Mob Factory Inspection Room  
-M 0 9404 6 9410 1  1   The revolving drunk into Mob Factory Inspection Room  
-M 0 9403 9 9410 1  1   The Cityguard head into Mob Factory Inspection Room  
-M 0 9407 4 9411 1  1   The factory worker into Mob Factory Inspection Room  
-M 0 9401 5 9411 1  1   The mutant beastly fido into Mob Factory Inspection Room  
-M 0 9404 6 9413 1  1   The revolving drunk into Mob Factory Reject Room  
-M 0 9403 9 9414 1  1   The Cityguard head into Mob Factory Reject Room  
-M 0 9405 7 9415 1  1   The toxic slime into Primary Assembly Line  
-M 0 9406 9 9415 1  1   The factory worker into Primary Assembly Line  
-M 0 9406 9 9416 1  1   The factory worker into Primary Assembly Line  
-M 0 9406 9 9417 1  1   The factory worker into Primary Assembly Line  
-M 0 9406 9 9418 1  1   The factory worker into Primary Assembly Line  
-M 0 9401 5 9418 1  1   The mutant beastly fido into Primary Assembly Line  
-M 0 9406 9 9419 1  1   The factory worker into Primary Assembly Line  
-M 0 9406 9 9420 1  1   The factory worker into Secondary Assembly Line  
-M 0 9407 4 9420 1  1   The factory worker into Secondary Assembly Line  
-M 0 9405 7 9421 1  1   The toxic slime into Secondary Assembly Line  
-M 0 9403 9 9421 1  1   The Cityguard head into Secondary Assembly Line  
-M 0 9403 9 9422 1  1   The Cityguard head into Secondary Assembly Line  
-M 0 9406 9 9423 1  1   The factory worker into Secondary Assembly Line  
-M 0 9403 9 9423 1  1   The Cityguard head into Secondary Assembly Line  
-M 0 9403 9 9424 1  1   The Cityguard head into Secondary Assembly Line  
-M 0 9406 9 9424 1  1   The factory worker into Secondary Assembly Line  
-M 0 9405 7 9424 1  1   The toxic slime into Secondary Assembly Line  
+M 0 9405 7 9404 1  1   The toxic slime into Foreman's Bathroom
+  
+M 0 9403 9 9406 1  1   The Cityguard head into Mob Factory Storage Area
+  
+M 0 9405 7 9408 1  1   The toxic slime into Mob Factory Cafeteria
+  
+M 0 9401 5 9408 1  1   The mutant beastly fido into Mob Factory Cafeteria
+  
+M 0 9405 7 9409 1  1   The toxic slime into Mob Factory Cafeteria
+  
+M 0 9407 4 9410 1  1   The factory worker into Mob Factory Inspection Room
+  
+M 0 9404 6 9410 1  1   The revolving drunk into Mob Factory Inspection Room
+  
+M 0 9403 9 9410 1  1   The Cityguard head into Mob Factory Inspection Room
+  
+M 0 9407 4 9411 1  1   The factory worker into Mob Factory Inspection Room
+  
+M 0 9401 5 9411 1  1   The mutant beastly fido into Mob Factory Inspection Room
+  
+M 0 9404 6 9413 1  1   The revolving drunk into Mob Factory Reject Room
+  
+M 0 9403 9 9414 1  1   The Cityguard head into Mob Factory Reject Room
+  
+M 0 9405 7 9415 1  1   The toxic slime into Primary Assembly Line
+  
+M 0 9406 9 9415 1  1   The factory worker into Primary Assembly Line
+  
+M 0 9406 9 9416 1  1   The factory worker into Primary Assembly Line
+  
+M 0 9406 9 9417 1  1   The factory worker into Primary Assembly Line
+  
+M 0 9406 9 9418 1  1   The factory worker into Primary Assembly Line
+  
+M 0 9401 5 9418 1  1   The mutant beastly fido into Primary Assembly Line
+  
+M 0 9406 9 9419 1  1   The factory worker into Primary Assembly Line
+  
+M 0 9406 9 9420 1  1   The factory worker into Secondary Assembly Line
+  
+M 0 9407 4 9420 1  1   The factory worker into Secondary Assembly Line
+  
+M 0 9405 7 9421 1  1   The toxic slime into Secondary Assembly Line
+  
+M 0 9403 9 9421 1  1   The Cityguard head into Secondary Assembly Line
+  
+M 0 9403 9 9422 1  1   The Cityguard head into Secondary Assembly Line
+  
+M 0 9406 9 9423 1  1   The factory worker into Secondary Assembly Line
+  
+M 0 9403 9 9423 1  1   The Cityguard head into Secondary Assembly Line
+  
+M 0 9403 9 9424 1  1   The Cityguard head into Secondary Assembly Line
+  
+M 0 9406 9 9424 1  1   The factory worker into Secondary Assembly Line
+  
+M 0 9405 7 9424 1  1   The toxic slime into Secondary Assembly Line
+  
 S
 #HELPS
 

@@ -2742,133 +2742,189 @@ S
 #0
 
 #RESETS
-M 0 10051 1 10063 1  1  1        magic shop keeper   
+M 0 10051 1 10063 1  1  1        magic shop keeper
+   
 G 1 10087 -1                detect hidden potion
 G 1 10088 -1                heal potion
 G 1 10089 -1                detect invis
 G 1 10090 -1                invis
-M 0 10052 1 10088 1  1  1        baker   
+M 0 10052 1 10088 1  1  1        baker
+   
 G 1 10101 -1                sourdough bread
 G 1 10102 -1                pumpkin pie
 G 1 10103 -1                banana bread
 G 1 10104 -1                wheat bread
 G 1 10105 -1                white bread
 G 1 10106 -1                rye bread 
-M 0 10053 1 10083 1  1  1        food clerk   
+M 0 10053 1 10083 1  1  1        food clerk
+   
 G 1 10091 -1                banana
 G 1 10092 -1                sandwich
 G 1 10093 -1                pastry
 G 1 10094 -1                carrots
 G 1 10095 -1                spinich
-M 0 10054 1 10090 1  1  1        butcher   
+M 0 10054 1 10090 1  1  1        butcher
+   
 G 1 10096 -1                wolf meat
 G 1 10097 -1                pork
 G 1 10098 -1                chicken
 G 1 10099 -1                fish
 G 1 10100 -1                deer meat
-M 0 10055 1 10060 1  1  1        weaponsmaster   
+M 0 10055 1 10060 1  1  1        weaponsmaster
+   
 G 1 10076 -1                wolf sword
 G 1 10077 -1                wolf mace
 G 1 10065 -1                stand sword
 G 1 10075 -1                wolf dagger
-M 0 10056 1 10076 1  1  1        armoror   
+M 0 10056 1 10076 1  1  1        armoror
+   
 G 1 10062 -1                stand helm
 G 1 10063 -1                stand plate
 G 1 10064 -1                stand shield
-M 0 10057 1 10067 1  1  1        wolf trainer   
-M 0 10058 1 10055 1  1  1        gypsy   
+M 0 10057 1 10067 1  1  1        wolf trainer
+   
+M 0 10058 1 10055 1  1  1        gypsy
+   
 G 1 10087 -1                detect hidden potion
 G 1 10088 -1                heal potion
 G 1 10089 -1                detect invis
 G 1 10090 -1                invis
-M 0 10059 1 10064 1  1  1        monk   
-M 0 10060 1 10078 1  1  1        gus the bartender   
+M 0 10059 1 10064 1  1  1        monk
+   
+M 0 10060 1 10078 1  1  1        gus the bartender
+   
 G 1 10080 -1                wolf bite
 G 1 10081 -1                wolf tail
 G 1 10082 -1                hair dog
 G 1 10083 -1                ale
-M 0 10061 2 10059 1  1  1        guard 1   
+M 0 10061 2 10059 1  1  1        guard 1
+   
 E 1 10053 10 5              wolf plate
 E 1 10057 10 8              wolf boots
-M 0 10061 2 10053 1  1  1        guard 2   
+M 0 10061 2 10053 1  1  1        guard 2
+   
 E 1 10056 10 7              wolf leggings
-M 0 10062 2 10055 1  1  1        guard 3   
+M 0 10062 2 10055 1  1  1        guard 3
+   
 E 1 10059 10 11             wolf shield
-M 0 10062 2 10057 1  1  1        guard 4   
+M 0 10062 2 10057 1  1  1        guard 4
+   
 E 1 10054 10 10             wolf sleeves
-M 0 10063 2 10051 1  1  1        guard 5   
+M 0 10063 2 10051 1  1  1        guard 5
+   
 E 1 10058 10 9              wolf gloves
-M 0 10063 2 10051 1  1  1        guard 6   
+M 0 10063 2 10051 1  1  1        guard 6
+   
 E 1 10055 10 13             wolf girth
-M 0 10064 2 10072 1  1  1        guard 7   
+M 0 10064 2 10072 1  1  1        guard 7
+   
 E 1 10058 10 9              wolf gloves
-M 0 10064 1 10089 1  1  1        guard 8   
+M 0 10064 1 10089 1  1  1        guard 8
+   
 E 1 10113 10 15             wolf bracers
 E 1 10056 10 7              wolf leggings
-M 0 10065 1 10080 1  1  1        guard 9   
+M 0 10065 1 10080 1  1  1        guard 9
+   
 E 1 10053 10 5              wolf plate
 E 1 10057 10 8              wolf boots
-M 0 10066 1 10059 1  1  1        guard 10   
+M 0 10066 1 10059 1  1  1        guard 10
+   
 E 1 10054 10 10             wolf sleeves
-M 0 10067 1 10075 1  1  1        guard 11   
+M 0 10067 1 10075 1  1  1        guard 11
+   
 E 1 10055 10 13             wolf girth
 E 1 10113 10 14             wolf bracers
-M 0 10068 1 10068 1  1  1       puppy pet   
-M 0 10069 1 10068 1  1  1       teen pet   
-M 0 10070 1 10068 1  1  1       adult pet   
-M 0 10071 1 10068 1  1  1       elder pet   
-M 0 10072 1 10087 1  1  1        recycler   
-M 0 10073 1 10085 1  1  1        dart player   
-M 0 10074 2 10056 1  1  1        citizen   
-M 0 10074 2 10057 1  1  1        citizen   
-M 0 10075 2 10090 1  1  1        citizen   
-M 0 10075 2 10083 1  1  1        citizen   
-M 0 10076 1 10065 1  1  1        town judge   
+M 0 10068 1 10068 1  1  1       puppy pet
+   
+M 0 10069 1 10068 1  1  1       teen pet
+   
+M 0 10070 1 10068 1  1  1       adult pet
+   
+M 0 10071 1 10068 1  1  1       elder pet
+   
+M 0 10072 1 10087 1  1  1        recycler
+   
+M 0 10073 1 10085 1  1  1        dart player
+   
+M 0 10074 2 10056 1  1  1        citizen
+   
+M 0 10074 2 10057 1  1  1        citizen
+   
+M 0 10075 2 10090 1  1  1        citizen
+   
+M 0 10075 2 10083 1  1  1        citizen
+   
+M 0 10076 1 10065 1  1  1        town judge
+   
 E 1 10051 1 16              judge gavel
 E 1 10052 1 12              judges robe
-M 0 10077 1 10086 1  1  1        rat   
-M 0 10078 1 10051 1  1  1        adventurer   
+M 0 10077 1 10086 1  1  1        rat
+   
+M 0 10078 1 10051 1  1  1        adventurer
+   
 E 1 10061 15 5              smashed plate
-M 0 10079 1 10081 1  1  1        executioner   
+M 0 10079 1 10081 1  1  1        executioner
+   
 E 1 10066 2 16              axe
-M 0 10080 -1 10093 1  1       birds  
-M 0 10081 1 10080 1  1  1        sheriff   
+M 0 10080 -1 10093 1  1       birds
+  
+M 0 10081 1 10080 1  1  1        sheriff
+   
 E 1 10067 2 5               sheriff's plate
 E 1 10068 2 16              sheriff's mace
 G 1 10086 1                 sheriff's key
 G 1 10085 1                 pet shop key
-M 0 10082 1 10057 1  1  1        town lord   
+M 0 10082 1 10057 1  1  1        town lord
+   
 E 1 10071 3 12              wolf Pointe cloak
 E 1 10072 3 16              wolf bone dagger
 E 1 10073 3 1               wolf eye ring
 G 1 10084 1                 lord's key
-M 0 10083 1 10066 1  1  1        boy   
+M 0 10083 1 10066 1  1  1        boy
+   
 G 1 10069 20                marbles
-M 0 10084 1 10066 1  1  1        dog   
-M 0 10085 1 10052 1  1  1        girl    
+M 0 10084 1 10066 1  1  1        dog
+   
+M 0 10085 1 10052 1  1  1        girl 
+   
 G 1 10070 20                jax
-M 0 10086 1 10052 1  1  1        kitten   
-M 0 10087 1 10101 1  1  1        prisoner   
+M 0 10086 1 10052 1  1  1        kitten
+   
+M 0 10087 1 10101 1  1  1        prisoner
+   
 E 1 10074 5 16              wolf tooth dagger
-M 0 10088 1 10075 1  1  1        resident   
-M 0 10089 1 10094 1  1  1        resident   
-M 0 10090 2 10095 1  1  1        wandering wolf   
+M 0 10088 1 10075 1  1  1        resident
+   
+M 0 10089 1 10094 1  1  1        resident
+   
+M 0 10090 2 10095 1  1  1        wandering wolf
+   
 G 1 10108 10                wolf feet  
-M 0 10090 2 10094 1  1  1        wandering wolf   
+M 0 10090 2 10094 1  1  1        wandering wolf
+   
 G 1 10111 10                wolf coat
-M 0 10091 1 10100 1  1  1        mother wolf   
+M 0 10091 1 10100 1  1  1        mother wolf
+   
 G 1 10112 10                wolf eye
-M 0 10092 1 10099 1  1  1        elder   
+M 0 10092 1 10099 1  1  1        elder
+   
 G 1 10060 5                headress
-M 0 10093 2 10075 1  1  1        wandering wolf   
+M 0 10093 2 10075 1  1  1        wandering wolf
+   
 G 1 10109 10                wolf belt
-M 0 10093 2 10053 1  1  1        wandering wolf   
+M 0 10093 2 10053 1  1  1        wandering wolf
+   
 G 1 10110 10                wolf gaunt
-M 0 10094 1 10100 1  1  1        wolf pups   
-M 0 10095 1 10074 1  1  1        mage guildmaster   
-M 0 10096 1 10074 1  1  1        cleric guildmaster   
-M 0 10097 1 10086 1  1  1        warrior guildmaster   
-M 0 10098 1 10073 1  1  1        thief guildmaster   
+M 0 10094 1 10100 1  1  1        wolf pups
+   
+M 0 10095 1 10074 1  1  1        mage guildmaster
+   
+M 0 10096 1 10074 1  1  1        cleric guildmaster
+   
+M 0 10097 1 10086 1  1  1        warrior guildmaster
+   
+M 0 10098 1 10073 1  1  1        thief guildmaster
+   
 * Doors Resets
 D 0 10087 2 2       Lock Cell from outside
 D 0 10101 0 2       Lock Cell from inside

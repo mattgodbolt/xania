@@ -539,7 +539,8 @@ S
 *	Wedding Rites
 *	
 *	Moss Bros outfitter
-M 0 201 1 201 1  1   
+M 0 201 1 201 1  1 
+  
 G 1 205 -1
 G 1 206 -1
 G 1 207 -1
@@ -560,7 +561,8 @@ G 1 222 -1
 *
 *	Barman in buffet/bar
 *
-M 0 202 1 205 1  1   
+M 0 202 1 205 1  1 
+  
 G 1 221 -1
 G 1 223 -1
 G 1 224 -1
