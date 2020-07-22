@@ -18,10 +18,10 @@
         |::XXXX|                  Wandera                   |::XXXX|
 /<<>>\/<<>>\/<<>>\/<<>>\                            /<<>>\/<<>>\/<<>>\/<<>>\
 \<<>>/\<<>>/\<<>>/\<<>>/                            \<<>>/\<<>>/\<<>>/\<<>>/
-       |.  /  . |                                          |.   / . |
-       |.  /  . |                                          |.  /  . |
+       |.  /  . |              Legendary Heroes            |.   / . |
+       |.  /  . |              ****************            |.  /  . |
        | .//\.  |                                          | .//\.  |
-       |.  /  . |                                          |.  /  . |
+       |.  /  . |                  Samael                  |.  /  . |
        | .//\.  |                                          | .//\.  |
        | .//\.  |                                          | .//\.  |
        |.  /  . |                                          |.  /  . |
@@ -448,26 +448,47 @@ if you don't know how to) and state the following:
                            been restored or not!) 
 With luck, you'll be back in shape fairly soon afterwards.
 ~
--1 STORY XANIA~
+-1 ROM~
 In the  beginning, there was ROM.  (Actually, it was  in February, but
 that's  beside the point)  Then, ROM was updated to  ROM II, and for a
 while there were  two ROMs, separate  but not equal.   Sadly, all good
 things must come to an end, and in a mighty flash  of write heads, ROM
-I was taken from this earth.S Now there is ROM II, the mightier of the
+I was taken from this earth. Now there is ROM II, the mightier of the
 two, and  many  mortals eager to perish   in the  quest for glory.  In
 further development, ROM II was released, and here we are. 
 |ctelnet://rom.org:9000|w to visit Rivers of Mud.
 
-Xania  was developed  by  TheMoog,   Death, Faramir, Rohan   and
-Wandera, five  bold Gods who  saw fit  to create  a  new world where
-peace and happiness would   reign. Sadly, (due to  sheer incompetence)
+---
+Footnote: The text above was the original help page for ROM. We've
+kept it as a historical reference.
+
+For more credits see:
+    'help diku', 'help merc' and 'help xania'.
+~
+
+-1 STORY XANIA~
+Xania was created by The Moog, Death, Faramir, Rohan  and Wandera,
+five bold Gods who saw fit to create a new world where
+peace and happiness would reign. Sadly, (due to  sheer incompetence)
 they made a nasty mistake somewhere along the line, and an infestation
-of evil  spread chaotically throughout  the realm. Thus, this place is
+of evil spread chaotically throughout  the realm. Thus, this place is
 no longer safe and it is up to you, bold adventurer, to face up to the
 prospect of meeting an untimely demise! 
 
-SEE ALSO: |p'help isca'|w
+A special thank you to the original immortals and heroes who contributed
+to Xania's success, you can see their names using the 'wizlist' command.
+
+And it goes without saying, Xania would have been nothing without the base
+code and areas that shipped with Rivers of Mud (ROM), its sister mud, MadROM,
+and before that, DikuMUD and MERC. We owe a debt of gratitude to the original
+developers and zonesmiths.
+
+For more credits see:
+    'help rom', 'help diku' and 'help merc'.
+
+See 'help isca' for some Iscarian lore.
 ~
+
 
 0 DELETE~
 Use the delete command to erase unwanted characters, so the name will be
