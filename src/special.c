@@ -175,7 +175,7 @@ bool spec_DEATH(CHAR_DATA *ch) {
     CHAR_DATA *v_next;
     CHAR_DATA *lowest_person = NULL;
     CHAR_DATA *phil;
-    ROOM_INDEX_DATA *home;   /* Death's house */
+    ROOM_INDEX_DATA *home; /* Death's house */
     int lowest_percent = 15; /* Lowest percentage of hp Death gates to */
 
     if (ch->position < POS_STANDING)
@@ -197,7 +197,7 @@ bool spec_DEATH(CHAR_DATA *ch) {
     /* check for Phil the meerkat being beaten the shit out of */
     phil = get_mob_by_vnum(PHIL_THE_MEERKAT_VNUM);
     if (phil && (phil->position == POS_FIGHTING) && /* if phil is fighting */
-        ((phil->hit * 100) / phil->max_hit < 10))   /* and has less than 10% hp */
+        ((phil->hit * 100) / phil->max_hit < 10)) /* and has less than 10% hp */
         lowest_person = phil;
     /* end */
 

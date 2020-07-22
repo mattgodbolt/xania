@@ -1417,7 +1417,7 @@ void death_cry(CHAR_DATA *ch) {
             msg = "$n splatters blood on your armor.";
             break;
         } /* roll on through to the next case....*/
-          // fall through
+        // fall through
     case 2:
         if (ch->hit_location != 0) {
             for (; i < MAX_BODY_PARTS && !found; i++) {
@@ -1888,7 +1888,7 @@ void dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type
         found = TRUE;
     }
     strcat(vs, d_suff); /* that's the singular description made */
-                        /* some cunning pluralisation...*/
+    /* some cunning pluralisation...*/
 
     switch (damltr_ptr) {
 
@@ -1917,7 +1917,7 @@ void dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type
     }
     strcpy(vp, d_pref);
     strcat(vp, damstr_ptr);
-    if (back1 == TRUE)             /* do we need to erase the last char?*/
+    if (back1 == TRUE) /* do we need to erase the last char?*/
         vp[strlen(vp) - 1] = '\0'; /* nuke the last char, e.g. 'y' */
     strcat(vp, plural);
     strcat(vp, d_suff);
@@ -2029,9 +2029,9 @@ void dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type
             snprintf(buf1, sizeof(buf1), "$n %s $m %s%c|w", vp, body_part, punct);
             snprintf(buf2, sizeof(buf2), "You %s your own %s%c|w", vs, body_part, punct);
         } else {
-            snprintf(buf1, sizeof(buf1), "$n %s $N's %s%c|w", vp, body_part, punct);  /* NOTVICT */
+            snprintf(buf1, sizeof(buf1), "$n %s $N's %s%c|w", vp, body_part, punct); /* NOTVICT */
             snprintf(buf2, sizeof(buf2), "You %s $N's %s%c|w", vs, body_part, punct); /* CHAR */
-            snprintf(buf3, sizeof(buf3), "$n %s your %s%c|w", vp, body_part, punct);  /* VICT */
+            snprintf(buf3, sizeof(buf3), "$n %s your %s%c|w", vp, body_part, punct); /* VICT */
         }
     } else {
         if (dt >= 0 && dt < MAX_SKILL)
@@ -2960,7 +2960,7 @@ void do_sharpen(CHAR_DATA *ch, char *argument) {
     } else {
         send_to_char("Your lack of skill removes all bonuses on this weapon.\n\r", ch);
         weapon->pIndexData->condition -= 10; /* reduce condition of weapon*/
-        weapon->value[4] = 0;                /* Wipe all bonuses */
+        weapon->value[4] = 0; /* Wipe all bonuses */
     }
     check_improve(ch, gsn_sharpen, TRUE, 5);
 }

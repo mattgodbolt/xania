@@ -162,8 +162,8 @@ int mobile_count = 0;
 int newmobs = 0;
 int newobjs = 0;
 int top_vnum_room; /* OLC */
-int top_vnum_mob;  /* OLC */
-int top_vnum_obj;  /* OLC */
+int top_vnum_mob; /* OLC */
+int top_vnum_obj; /* OLC */
 
 /*
  * Merc-2.2 MOBprogram locals - Faramir 31/8/1998
@@ -402,9 +402,9 @@ void load_area(FILE *fp) {
 
     pArea = alloc_perm(sizeof(*pArea));
 
-    fread_string(fp);                   /* OLC - filename */
+    fread_string(fp); /* OLC - filename */
     pArea->areaname = fread_string(fp); /* OLC - area name */
-    pArea->name = fread_string(fp);     /* credits */
+    pArea->name = fread_string(fp); /* credits */
 
     pArea->lvnum = fread_number(fp);
     pArea->uvnum = fread_number(fp); /* OLC vnums */
@@ -526,21 +526,21 @@ void load_old_mob(FILE *fp) {
         /* The unused stuff is for imps who want to use the old-style
          * stats-in-files method.
          */
-        fread_number(fp);                          /* Unused */
-        fread_number(fp);                          /* Unused */
-        fread_number(fp);                          /* Unused */
-        fread_letter(fp);                          /* 'd' Unused */
-        fread_number(fp);                          /* Unused */
-        fread_letter(fp);                          /* '+' Unused */
-        fread_number(fp);                          /* Unused */
-        fread_number(fp);                          /* Unused */
-        fread_letter(fp);                          /* 'd' Unused */
-        fread_number(fp);                          /* Unused */
-        fread_letter(fp);                          /* '+' Unused */
-        fread_number(fp);                          /* Unused */
-        pMobIndex->gold = fread_number(fp);        /* Unused */
-        fread_number(fp);                          /* xp can't be used! Unused */
-        pMobIndex->start_pos = fread_number(fp);   /* Unused */
+        fread_number(fp); /* Unused */
+        fread_number(fp); /* Unused */
+        fread_number(fp); /* Unused */
+        fread_letter(fp); /* 'd' Unused */
+        fread_number(fp); /* Unused */
+        fread_letter(fp); /* '+' Unused */
+        fread_number(fp); /* Unused */
+        fread_number(fp); /* Unused */
+        fread_letter(fp); /* 'd' Unused */
+        fread_number(fp); /* Unused */
+        fread_letter(fp); /* '+' Unused */
+        fread_number(fp); /* Unused */
+        pMobIndex->gold = fread_number(fp); /* Unused */
+        fread_number(fp); /* xp can't be used! Unused */
+        pMobIndex->start_pos = fread_number(fp); /* Unused */
         pMobIndex->default_pos = fread_number(fp); /* Unused */
 
         if (pMobIndex->start_pos < POS_SLEEPING)
@@ -643,21 +643,21 @@ void load_old_mob_race(FILE *fp) {
          * The unused stuff is for imps who want to use the old-style
          * stats-in-files method.
          */
-        fread_number(fp);                         /* Unused */
-        fread_number(fp);                         /* Unused */
-        fread_number(fp);                         /* Unused */
-        /* 'd'      */ fread_letter(fp);          /* Unused */
-        fread_number(fp);                         /* Unused */
-        /* '+'      */ fread_letter(fp);          /* Unused */
-        fread_number(fp);                         /* Unused */
-        fread_number(fp);                         /* Unused */
-        /* 'd'      */ fread_letter(fp);          /* Unused */
-        fread_number(fp);                         /* Unused */
-        /* '+'      */ fread_letter(fp);          /* Unused */
-        fread_number(fp);                         /* Unused */
-        pMobIndex->gold = fread_number(fp);       /* Unused */
+        fread_number(fp); /* Unused */
+        fread_number(fp); /* Unused */
+        fread_number(fp); /* Unused */
+        /* 'd'      */ fread_letter(fp); /* Unused */
+        fread_number(fp); /* Unused */
+        /* '+'      */ fread_letter(fp); /* Unused */
+        fread_number(fp); /* Unused */
+        fread_number(fp); /* Unused */
+        /* 'd'      */ fread_letter(fp); /* Unused */
+        fread_number(fp); /* Unused */
+        /* '+'      */ fread_letter(fp); /* Unused */
+        fread_number(fp); /* Unused */
+        pMobIndex->gold = fread_number(fp); /* Unused */
         /* xp can't be used! */ fread_number(fp); /* Unused */
-        pMobIndex->start_pos = fread_number(fp);  /* Unused */
+        pMobIndex->start_pos = fread_number(fp); /* Unused */
         pMobIndex->default_pos = pMobIndex->start_pos;
 
         if (pMobIndex->start_pos < POS_SLEEPING)
@@ -1620,9 +1620,9 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
     clear_char(mob);
     mob->pIndexData = pMobIndex;
 
-    mob->name = str_dup(pMobIndex->player_name);        /* OLC */
+    mob->name = str_dup(pMobIndex->player_name); /* OLC */
     mob->short_descr = str_dup(pMobIndex->short_descr); /* OLC */
-    mob->long_descr = str_dup(pMobIndex->long_descr);   /* OLC */
+    mob->long_descr = str_dup(pMobIndex->long_descr); /* OLC */
     mob->description = str_dup(pMobIndex->description); /* OLC */
     mob->spec_fun = pMobIndex->spec_fun;
 
@@ -1713,8 +1713,8 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
         mob->max_mana = 100 + dice(mob->level, 10);
         mob->mana = mob->max_mana;
         switch (number_range(1, 3)) {
-        case (1): mob->dam_type = 3; break;  /* slash */
-        case (2): mob->dam_type = 7; break;  /* pound */
+        case (1): mob->dam_type = 3; break; /* slash */
+        case (2): mob->dam_type = 7; break; /* pound */
         case (3): mob->dam_type = 11; break; /* pierce */
         }
         for (i = 0; i < 3; i++)
@@ -1849,7 +1849,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex, int level) {
         obj->level = UMAX(0, level);
     obj->wear_loc = -1;
 
-    obj->name = str_dup(pObjIndex->name);               /* OLC */
+    obj->name = str_dup(pObjIndex->name); /* OLC */
     obj->short_descr = str_dup(pObjIndex->short_descr); /* OLC */
     obj->description = str_dup(pObjIndex->description); /* OLC */
     obj->material = pObjIndex->material;

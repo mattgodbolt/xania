@@ -35,22 +35,22 @@
  */
 
 typedef enum {
-    PACKET_INIT,       /* Sent on initialisation of the MUD/doorman */
-    PACKET_CONNECT,    /* Initiate a new channel */
+    PACKET_INIT, /* Sent on initialisation of the MUD/doorman */
+    PACKET_CONNECT, /* Initiate a new channel */
     PACKET_DISCONNECT, /* Disconnect a channel */
-    PACKET_RECONNECT,  /* Sent on receipt of MUD init for each channel */
-    PACKET_MESSAGE,    /* Send a message to a channel */
-    PACKET_INFO,       /* Update socket information */
-    PACKET_SHUTDOWN,   /* Notify of a MUD shutdown */
-    PACKET_ECHO_ON,    /* Turn echo on */
-    PACKET_ECHO_OFF,   /* Turn echo off */
+    PACKET_RECONNECT, /* Sent on receipt of MUD init for each channel */
+    PACKET_MESSAGE, /* Send a message to a channel */
+    PACKET_INFO, /* Update socket information */
+    PACKET_SHUTDOWN, /* Notify of a MUD shutdown */
+    PACKET_ECHO_ON, /* Turn echo on */
+    PACKET_ECHO_OFF, /* Turn echo off */
     PACKET_AUTHORIZED, /* Character has been authorized */
 } PacketType;
 
 typedef struct tagInfoData {
-    short port;  /* Their port number */
+    short port; /* Their port number */
     int netaddr; /* Their IP address */
-    char ansi;   /* ANSI-compliant terminal */
+    char ansi; /* ANSI-compliant terminal */
     /* Followed by hostname\0 */
     char data[0];
 } InfoData;
@@ -62,8 +62,8 @@ typedef struct tagPacket {
     PacketType type; /* Type of packet */
 
     unsigned int nExtra; /* Number of extra bytes after the packet */
-    int channel;         /* The channel number */
-    char data[0];        /* nExtra bytes live here onwards */
+    int channel; /* The channel number */
+    char data[0]; /* nExtra bytes live here onwards */
 } Packet;
 
 /*

@@ -125,7 +125,7 @@ typedef struct weather_data WEATHER_DATA;
 typedef struct finger_info FINGER_INFO;
 typedef struct known_players KNOWN_PLAYERS;
 /* Merc22 MOBProgs */
-typedef struct mob_prog_data MPROG_DATA;         /* MOBprogram */
+typedef struct mob_prog_data MPROG_DATA; /* MOBprogram */
 typedef struct mob_prog_act_list MPROG_ACT_LIST; /* MOBprogram */
 
 /*
@@ -259,8 +259,8 @@ struct weather_data {
 #define CON_BREAK_CONNECT 15
 #define CON_GET_ANSI 16
 #define CON_CIRCUMVENT_PASSWORD 18 // used by doorman
-#define CON_DISCONNECTING 254      // disconnecting having been playing
-#define CON_DISCONNECTING_NP 255   // disconnecting before playing
+#define CON_DISCONNECTING 254 // disconnecting having been playing
+#define CON_DISCONNECTING_NP 255 // disconnecting before playing
 
 /*
  * Descriptor (channel) structure.
@@ -287,9 +287,9 @@ struct descriptor_data {
     char *showstr_head;
     char *showstr_point;
 
-    void *pEdit;    /* OLC */
+    void *pEdit; /* OLC */
     char **pString; /* OLC */
-    int editor;     /* OLC */
+    int editor; /* OLC */
 };
 
 /*
@@ -350,13 +350,13 @@ struct help_data {
 #define MAX_TRADE 5
 
 struct shop_data {
-    SHOP_DATA *next;            /* Next shop in list            */
-    sh_int keeper;              /* Vnum of shop keeper mob      */
+    SHOP_DATA *next; /* Next shop in list            */
+    sh_int keeper; /* Vnum of shop keeper mob      */
     sh_int buy_type[MAX_TRADE]; /* Item types shop will buy     */
-    sh_int profit_buy;          /* Cost multiplier for buying   */
-    sh_int profit_sell;         /* Cost multiplier for selling  */
-    sh_int open_hour;           /* First opening hour           */
-    sh_int close_hour;          /* First closing hour           */
+    sh_int profit_buy; /* Cost multiplier for buying   */
+    sh_int profit_sell; /* Cost multiplier for selling  */
+    sh_int open_hour; /* First opening hour           */
+    sh_int close_hour; /* First closing hour           */
 };
 
 /*
@@ -372,19 +372,19 @@ struct shop_data {
 #define STAT_CON 4
 
 struct class_type {
-    char *name;              /* the full name of the class */
-    char who_name[4];        /* Three-letter name for 'who'  */
-    sh_int attr_prime;       /* Prime attribute              */
-    sh_int weapon;           /* First weapon                 */
+    char *name; /* the full name of the class */
+    char who_name[4]; /* Three-letter name for 'who'  */
+    sh_int attr_prime; /* Prime attribute              */
+    sh_int weapon; /* First weapon                 */
     sh_int guild[MAX_GUILD]; /* Vnum of guild rooms          */
-    sh_int skill_adept;      /* Maximum skill level          */
-    sh_int thac0_00;         /* Thac0 for level  0           */
-    sh_int thac0_32;         /* Thac0 for level 32           */
-    sh_int hp_min;           /* Min hp gained on leveling    */
-    sh_int hp_max;           /* Max hp gained on leveling    */
-    sh_int fMana;            /* Class gains mana on level    */
-    char *base_group;        /* base skills gained           */
-    char *default_group;     /* default skills gained        */
+    sh_int skill_adept; /* Maximum skill level          */
+    sh_int thac0_00; /* Thac0 for level  0           */
+    sh_int thac0_32; /* Thac0 for level 32           */
+    sh_int hp_min; /* Min hp gained on leveling    */
+    sh_int hp_max; /* Max hp gained on leveling    */
+    sh_int fMana; /* Class gains mana on level    */
+    char *base_group; /* base skills gained           */
+    char *default_group; /* default skills gained        */
 };
 
 struct attack_type {
@@ -404,37 +404,37 @@ struct dam_string_type {
 
 struct race_body_type {
 
-    long part_flag;  /* one of the PART_* */
-    char *name;      /* verbose string */
-    bool pair;       /* do we normally find a pair of these? e.g. arm*/
-    sh_int pos;      /* lower = 1, middle = 2, upper = 3 */
+    long part_flag; /* one of the PART_* */
+    char *name; /* verbose string */
+    bool pair; /* do we normally find a pair of these? e.g. arm*/
+    sh_int pos; /* lower = 1, middle = 2, upper = 3 */
     char *spill_msg; /* msg when victim killed */
-    int obj_vnum;    /* object to deposit when dead */
+    int obj_vnum; /* object to deposit when dead */
 };
 
 struct race_type {
-    char *name;   /* call name of the race */
+    char *name; /* call name of the race */
     bool pc_race; /* can be chosen by pcs */
-    long act;     /* act bits for the race */
-    long aff;     /* aff bits for the race */
-    long off;     /* off bits for the race */
-    long imm;     /* imm bits for the race */
-    long res;     /* res bits for the race */
-    long vuln;    /* vuln bits for the race */
-    long form;    /* default form flag for the race */
-    long parts;   /* default parts for the race */
+    long act; /* act bits for the race */
+    long aff; /* aff bits for the race */
+    long off; /* off bits for the race */
+    long imm; /* imm bits for the race */
+    long res; /* res bits for the race */
+    long vuln; /* vuln bits for the race */
+    long form; /* default form flag for the race */
+    long parts; /* default parts for the race */
 };
 
 struct pc_race_type /* additional data for pc races */
 {
     char *name; /* MUST be in race_type */
     char who_name[6];
-    sh_int points;                /* cost in points of the race */
+    sh_int points; /* cost in points of the race */
     sh_int class_mult[MAX_CLASS]; /* exp multiplier for class, * 100 */
-    char *skills[5];              /* bonus skills for the race */
-    sh_int stats[MAX_STATS];      /* starting stats */
-    sh_int max_stats[MAX_STATS];  /* maximum stats */
-    sh_int size;                  /* aff bits for the race */
+    char *skills[5]; /* bonus skills for the race */
+    sh_int stats[MAX_STATS]; /* starting stats */
+    sh_int max_stats[MAX_STATS]; /* maximum stats */
+    sh_int size; /* aff bits for the race */
 };
 
 /* verbose damage types - Faramir Aug 98 */
@@ -518,16 +518,16 @@ struct kill_data {
  * ACT bits for mobs.
  * Used in #MOBILES.
  */
-#define ACT_IS_NPC (A)     /* Auto set for mobs    */
-#define ACT_SENTINEL (B)   /* Stays in one room    */
-#define ACT_SCAVENGER (C)  /* Picks up objects     */
+#define ACT_IS_NPC (A) /* Auto set for mobs    */
+#define ACT_SENTINEL (B) /* Stays in one room    */
+#define ACT_SCAVENGER (C) /* Picks up objects     */
 #define ACT_AGGRESSIVE (F) /* Attacks PC's         */
-#define ACT_STAY_AREA (G)  /* Won't leave area     */
+#define ACT_STAY_AREA (G) /* Won't leave area     */
 #define ACT_WIMPY (H)
-#define ACT_PET (I)       /* Auto set for pets    */
-#define ACT_TRAIN (J)     /* Can train PC's       */
-#define ACT_PRACTICE (K)  /* Can practice PC's    */
-#define ACT_SENTIENT (L)  /* Is intelligent       */
+#define ACT_PET (I) /* Auto set for pets    */
+#define ACT_TRAIN (J) /* Can train PC's       */
+#define ACT_PRACTICE (K) /* Can practice PC's    */
+#define ACT_SENTIENT (L) /* Is intelligent       */
 #define ACT_TALKATIVE (M) /* Will respond to says and emotes */
 #define ACT_UNDEAD (O)
 #define ACT_CLERIC (Q)
@@ -1280,7 +1280,7 @@ struct mob_index_data {
     sh_int size;
     sh_int material;
     MPROG_DATA *mobprogs; /* Used by MOBprogram */
-    int progtypes;        /* Used by MOBprogram */
+    int progtypes; /* Used by MOBprogram */
 
     AREA_DATA *area; /* OLC */
 };
@@ -1413,7 +1413,7 @@ struct char_data {
     MES_ID *mes_hash[MES_HASH];
 
     MPROG_ACT_LIST *mpact; /* Used by MOBprogram */
-    int mpactnum;          /* Used by MOBprogram */
+    int mpactnum; /* Used by MOBprogram */
 };
 
 /*
@@ -1556,8 +1556,8 @@ struct liq_type {
  */
 struct extra_descr_data {
     EXTRA_DESCR_DATA *next; /* Next in list                     */
-    char *keyword;          /* Keyword in look/examine          */
-    char *description;      /* What to see                      */
+    char *keyword; /* Keyword in look/examine          */
+    char *description; /* What to see                      */
 };
 
 /*
@@ -1635,8 +1635,8 @@ struct exit_data {
     char *description;
 
     EXIT_DATA *next; /* OLC */
-    int rs_flags;    /* OLC */
-    int orig_door;   /* OLC */
+    int rs_flags; /* OLC */
+    int orig_door; /* OLC */
 };
 
 /*
@@ -1679,10 +1679,10 @@ struct area_data {
     char *areaname; /* OLC */
     char *filename; /* OLC */
     char *builders; /* OLC - Listing of builders */
-    int security;   /* OLC - Value 0-infinity  */
-    int lvnum;      /* OLC - Lower vnum */
-    int uvnum;      /* OLC - Upper vnum */
-    int vnum;       /* OLC - Area vnum  */
+    int security; /* OLC - Value 0-infinity  */
+    int lvnum; /* OLC - Lower vnum */
+    int uvnum; /* OLC - Upper vnum */
+    int vnum; /* OLC - Area vnum  */
     int area_flags; /* OLC */
 };
 
@@ -1757,19 +1757,19 @@ struct note_data {
  * Skills include spells as a particular case.
  */
 struct skill_type {
-    char *name;                    /* Name of skill                */
+    char *name; /* Name of skill                */
     sh_int skill_level[MAX_CLASS]; /* Level needed by class        */
-    sh_int rating[MAX_CLASS];      /* How hard it is to learn      */
+    sh_int rating[MAX_CLASS]; /* How hard it is to learn      */
 
-    SPELL_FUN *spell_fun;    /* Spell pointer (for spells)   */
-    sh_int target;           /* Legal targets                */
+    SPELL_FUN *spell_fun; /* Spell pointer (for spells)   */
+    sh_int target; /* Legal targets                */
     sh_int minimum_position; /* Position for caster / user   */
-    sh_int *pgsn;            /* Pointer to associated gsn    */
-    sh_int slot;             /* Slot for #OBJECT loading     */
-    sh_int min_mana;         /* Minimum mana used            */
-    sh_int beats;            /* Waiting time after use       */
-    char *noun_damage;       /* Damage message               */
-    char *msg_off;           /* Wear off message             */
+    sh_int *pgsn; /* Pointer to associated gsn    */
+    sh_int slot; /* Slot for #OBJECT loading     */
+    sh_int min_mana; /* Minimum mana used            */
+    sh_int beats; /* Waiting time after use       */
+    char *noun_damage; /* Damage message               */
+    char *msg_off; /* Wear off message             */
 };
 
 struct group_type {
@@ -1937,7 +1937,7 @@ extern const struct class_type class_table[MAX_CLASS];
 extern const struct attack_type attack_table[];
 extern const struct race_type race_table[];
 extern const struct pc_race_type pc_race_table[];
-extern const struct race_body_type race_body_table[];   /* verbose body parts*/
+extern const struct race_body_type race_body_table[]; /* verbose body parts*/
 extern const struct dam_string_type dam_string_table[]; /*verbose dam types */
 extern const struct liq_type liq_table[LIQ_MAX + 1];
 extern const struct skill_type skill_table[MAX_SKILL];
@@ -2124,15 +2124,15 @@ char *crypt args((const char *key, const char *salt));
 #if defined(unix) || defined(linux)
 #define PLAYER_DIR "../player/" /* Player files                 */
 #define PLAYER_TEMP "../player/temp"
-#define GOD_DIR "../gods/"    /* list of gods                 */
+#define GOD_DIR "../gods/" /* list of gods                 */
 #define NULL_FILE "/dev/null" /* To reserve one stream        */
 #endif
 
 #define AREA_LIST "area.lst" /* List of areas                */
 
-#define BUG_FILE "bugs.txt"          /* For 'bug' and bug( )         */
-#define IDEA_FILE "ideas.txt"        /* For 'idea'                   */
-#define TYPO_FILE "typos.txt"        /* For 'typo'                   */
+#define BUG_FILE "bugs.txt" /* For 'bug' and bug( )         */
+#define IDEA_FILE "ideas.txt" /* For 'idea'                   */
+#define TYPO_FILE "typos.txt" /* For 'typo'                   */
 #define SHUTDOWN_FILE "shutdown.txt" /* For 'shutdown'               */
 /* tip wizard */
 
@@ -2466,15 +2466,15 @@ void mprog_speech_trigger args((char *txt, CHAR_DATA *mob));
  * Area flags.
  */
 #define AREA_NONE 0
-#define AREA_CHANGED 1     /* Area has been modified. */
-#define AREA_ADDED 2       /* Area has been added to. */
-#define AREA_LOADING 4     /* Used for counting in db.c */
-#define AREA_VERBOSE 8     /* ???? */
-#define AREA_DELETE 16     /* These area's won't be saved in the list */
+#define AREA_CHANGED 1 /* Area has been modified. */
+#define AREA_ADDED 2 /* Area has been added to. */
+#define AREA_LOADING 4 /* Used for counting in db.c */
+#define AREA_VERBOSE 8 /* ???? */
+#define AREA_DELETE 16 /* These area's won't be saved in the list */
 #define AREA_UNFINISHED 32 /* Area is not finished yet. */
-#define AREA_PKZONE 64     /* Player killing is alowed in this zone */
-#define AREA_CONQUEST 128  /* Can this area be conqquered? */
-#define AREA_ARENA 256     /* Player kan pk eachother without losing anything */
+#define AREA_PKZONE 64 /* Player killing is alowed in this zone */
+#define AREA_CONQUEST 128 /* Can this area be conqquered? */
+#define AREA_ARENA 256 /* Player kan pk eachother without losing anything */
 
 #define MAX_DIR 6
 #define NO_FLAG -99 /* Must not be used in flags or stats. */

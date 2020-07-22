@@ -56,10 +56,10 @@ void SendInfoPacket(int i);
 void ProcessIdent(struct sockaddr_in address, int resultFd);
 
 typedef struct tagChannel {
-    int fd;         /* File descriptor of the channel */
-    int xaniaID;    /* Xania's ID to this channel */
+    int fd; /* File descriptor of the channel */
+    int xaniaID; /* Xania's ID to this channel */
     char *hostname; /* Ptr to hostname */
-    byte *buffer;   /* Buffer of incoming data */
+    byte *buffer; /* Buffer of incoming data */
     int nBytes;
     short port;
     long netaddr;
@@ -67,9 +67,9 @@ typedef struct tagChannel {
     bool ansi, gotTerm;
     bool echoing;
     bool firstReconnect;
-    bool connected;        /* Socket is ready to connect to Xania */
-    pid_t identPid;        /* PID of look-up process */
-    int identFd[2];        /* FD of look-up processes pipe (read on 0) */
+    bool connected; /* Socket is ready to connect to Xania */
+    pid_t identPid; /* PID of look-up process */
+    int identFd[2]; /* FD of look-up processes pipe (read on 0) */
     char authCharName[64]; /* name of authorized character */
 } Channel;
 

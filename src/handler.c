@@ -775,7 +775,7 @@ void affect_remove(CHAR_DATA *ch, AFFECT_DATA *paf) {
 
     paf->next = affect_free;
     affect_free = paf->next; /*  Modified by Death \/ as well */
-    paf = NULL;              /*            ""                 */
+    paf = NULL; /*            ""                 */
     return;
 }
 
@@ -808,7 +808,7 @@ void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
 
     paf->next = affect_free;
     affect_free = paf; /* modified from paf->next by TM */
-    paf = NULL;        /* ""  Death */
+    paf = NULL; /* ""  Death */
     return;
 }
 

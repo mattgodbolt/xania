@@ -305,7 +305,7 @@ void load_mobiles(FILE *fp) {
         mob_index_hash[iHash] = pMobIndex;
         top_mob_index++;
         top_vnum_mob = top_vnum_mob < vnum ? vnum : top_vnum_mob; /* OLC */
-        assign_area_vnum(vnum);                                   /* OLC */
+        assign_area_vnum(vnum); /* OLC */
         kill_table[URANGE(0, pMobIndex->level, MAX_LEVEL - 1)].number++;
     }
 
@@ -506,7 +506,7 @@ void load_objects(FILE *fp) {
         obj_index_hash[iHash] = pObjIndex;
         top_obj_index++;
         top_vnum_obj = top_vnum_obj < vnum ? vnum : top_vnum_obj; /* OLC */
-        assign_area_vnum(vnum);                                   /* OLC */
+        assign_area_vnum(vnum); /* OLC */
     }
 
     return;

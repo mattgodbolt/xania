@@ -383,7 +383,7 @@ bool olc_create_obj(CHAR_DATA *ch, int vnum, char *type, int level) {
     case ITEM_WEAPON:
         pObjIndex->material = MATERIAL_STEEL;
         pObjIndex->wear_flags = GET_WIELD; /* weapon */
-        pObjIndex->value[0] = 1;           /* sword default */
+        pObjIndex->value[0] = 1; /* sword default */
         pObjIndex->value[1] = 4;
         pObjIndex->value[2] = level / 4;
         pObjIndex->value[3] = 3; /* slash default */

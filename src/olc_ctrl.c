@@ -371,7 +371,7 @@ void olc_slookup_obj(CHAR_DATA *ch) {
         if (skill_table[sn].name == NULL)
             continue;
         if (skill_table[sn].slot == 0) /* don't print skills! they only */
-            continue;                  /* need to know all the spells   */
+            continue; /* need to know all the spells   */
         if (count == 5) {
             count = 0;
             snprintf(text, sizeof(text), "\n\r");

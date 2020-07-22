@@ -273,12 +273,12 @@ int write args((int fd, char *buf, int nbyte));
  */
 DESCRIPTOR_DATA *descriptor_free; /* Free list for descriptors  */
 DESCRIPTOR_DATA *descriptor_list; /* All open descriptors    */
-DESCRIPTOR_DATA *d_next;          /* Next descriptor in loop */
-FILE *fpReserve;                  /* Reserved file handle    */
-bool god;                         /* All new chars are gods! */
-bool merc_down;                   /* Shutdown       */
-bool wizlock;                     /* Game is wizlocked    */
-bool newlock;                     /* Game is newlocked    */
+DESCRIPTOR_DATA *d_next; /* Next descriptor in loop */
+FILE *fpReserve; /* Reserved file handle    */
+bool god; /* All new chars are gods! */
+bool merc_down; /* Shutdown       */
+bool wizlock; /* Game is wizlocked    */
+bool newlock; /* Game is newlocked    */
 char str_boot_time[MAX_INPUT_LENGTH];
 time_t current_time; /* time of this pulse */
 
@@ -530,9 +530,9 @@ int main(int argc, char **argv) {
     }
     if (!debug) {
         signal(SIGQUIT, ext_shutdown); /* external QUIT request (mudmgr)*/
-        signal(SIGSEGV, panic);        /*     panic  handler    */
-        signal(SIGBUS, panic);         /* another panic handler */
-        signal(SIGTERM, sigterm);      /* catch terminate calls */
+        signal(SIGSEGV, panic); /*     panic  handler    */
+        signal(SIGBUS, panic); /* another panic handler */
+        signal(SIGTERM, sigterm); /* catch terminate calls */
     } else {
         log_string("*** DEBUG MODE ON *** - no signal handlers installed.");
     }

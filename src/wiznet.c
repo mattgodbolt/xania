@@ -53,7 +53,7 @@ void bug(const char *str, ...) {
     strcpy(buf, "[*****] BUG: ");
     va_start(arglist, str);
     vsnprintf(buf + strlen(buf), sizeof(buf), str, arglist);
-    va_end(arglist);                   /* TM added */
+    va_end(arglist); /* TM added */
     log_new(buf, EXTRA_WIZNET_BUG, 0); /* TM added */
 
     return;

@@ -11,3 +11,4 @@ FixNamespaceComments: false
 BreakBeforeBinaryOperators: NonAssignment
 BreakConstructorInitializers: BeforeColon
 AllowShortCaseLabelsOnASingleLine: true
+AlignTrailingComments: false

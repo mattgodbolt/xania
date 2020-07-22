@@ -1187,7 +1187,7 @@ void fread_obj(CHAR_DATA *ch, FILE *fp) {
     bool fVnum;
     bool first;
     bool new_format; /* to prevent errors */
-    bool make_new;   /* update object */
+    bool make_new; /* update object */
 
     fVnum = FALSE;
     obj = NULL;

@@ -30,7 +30,7 @@ const CLAN clantable[NUM_CLANS] = {
         {"a novice", "an initiate", "a Loreprotector", "a Lorebinder", "the Loremaster"},
         30151,
         30151 /* keep courtyard */
-    },        /* Keepers of the Lore */
+    }, /* Keepers of the Lore */
 
     {
         "Disciples of the Wyrm",
@@ -39,7 +39,7 @@ const CLAN clantable[NUM_CLANS] = {
         {"a neophyte", "an acolyte", "a priest", "a high priest", "the Preceptor"},
         30102,
         30102 /* courtyard */
-    },        /* Disciples of the Wyrm */
+    }, /* Disciples of the Wyrm */
 
     {"Implementor",
      "",
@@ -77,7 +77,7 @@ void do_clantalk(CHAR_DATA *ch, char *argument) {
     if (OrigClan == NULL) {
         send_to_char("You are not a member of a clan.\n\r", ch);
         return; /* Disallow mortal PC's with no clan */
-    }           /* if ch->pcclan */
+    } /* if ch->pcclan */
 
     if (IS_SET(ch->comm, COMM_QUIET)) {
         send_to_char("You must remove quiet mode first.\n\r", ch);
@@ -102,7 +102,7 @@ void do_clantalk(CHAR_DATA *ch, char *argument) {
             && (vix->pcdata->pcclan->clan->clanchar == OrigClan->clan->clanchar)
             && (vix->pcdata->pcclan->clanlevel >= CLAN_HERO) && !IS_SET(vix->comm, COMM_QUIET))
             candoit = 1; /* Yeah we can do it! */
-    }                    /* for all descriptors */
+    } /* for all descriptors */
 
     if (!candoit) {
         send_to_char("Your clan lacks the necessary broadcast nexus, causing your vain telepathy to\n\rbe lost upon "
@@ -137,7 +137,7 @@ void do_clantalk(CHAR_DATA *ch, char *argument) {
             snprintf(buf, sizeof(buf), "|G<%s> %s|w\n\r", can_see(d->character, ch) ? ch->name : "Someone", argument);
             send_to_char(buf, d->character);
         } /* If they can see the message */
-    }     /* for all descriptors */
+    } /* for all descriptors */
 
 } /* do_clanchannel */
 
@@ -166,7 +166,7 @@ void do_noclanchan(CHAR_DATA *ch, char *argument) {
 
     if ((victim->pcdata->pcclan == NULL) /* If the victim is not in any clan */
         || (victim->pcdata->pcclan->clan->clanchar != ch->pcdata->pcclan->clan->clanchar) /* or in a different clan */
-        || (victim->pcdata->pcclan->clanlevel > ch->pcdata->pcclan->clanlevel))           /* or they're a higher rank */
+        || (victim->pcdata->pcclan->clanlevel > ch->pcdata->pcclan->clanlevel)) /* or they're a higher rank */
     {
         snprintf(buf, sizeof(buf), "You can't noclanchan %s!\n\r", victim->name);
         send_to_char(buf, ch);
@@ -249,7 +249,7 @@ void do_member(CHAR_DATA *ch, char *argument) {
                 send_to_char(buf, ch);
                 return;
             } /* in your clan? */
-        }     /* if victim already in a clan */
+        } /* if victim already in a clan */
         newpcclan = (PCCLAN *)alloc_mem(sizeof(PCCLAN));
         newpcclan->clan = ch->pcdata->pcclan->clan;
         newpcclan->clanlevel = CLAN_MEMBER;

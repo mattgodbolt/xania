@@ -403,7 +403,7 @@ int get_skill_trains(CHAR_DATA *ch, int gsn) {
 
     switch (skill_table[gsn].rating[ch->class]) {
     case SKILL_UNATTAINABLE: return 0; /* shouldn't happen */
-    case SKILL_ATTAINABLE: return 10;  /* $-) */
+    case SKILL_ATTAINABLE: return 10; /* $-) */
     case SKILL_ASSASSIN: return 10;
     }
     return (skill_table[gsn].rating[ch->class]);
