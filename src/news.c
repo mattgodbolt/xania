@@ -244,8 +244,8 @@ void do_mail(CHAR_DATA *ch, char *argument) {
 void do_news_next(CHAR_DATA *ch, char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
-    if (ch->thread == NULL) { // The user has already 'fallen off' the end of the
-                              // linked list - so check for any more unread threads
+    if (ch->thread == NULL) {                                     // The user has already 'fallen off' the end of the
+                                                                  // linked list - so check for any more unread threads
         ch->thread = thread_head;                                 // Put user to top of linked list
         ch->article = (ch->thread) ? ch->thread->articles : NULL; // Set up article appropriately
         move_to_next_unread(ch);
