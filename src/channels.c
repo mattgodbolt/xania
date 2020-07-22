@@ -10,7 +10,6 @@
 /* initial: 742 lines long */
 /* final: 246 lines long */
 
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -23,212 +22,190 @@ DECLARE_DO_FUN(do_afk);
 extern void print_status(CHAR_DATA *ch, char *name, char *master_name, int state, int master_state);
 
 static void print_channel_status(CHAR_DATA *ch, char *chan, int reference, int flag) {
-	print_status(ch, chan, "OFF due to quiet mode", !IS_SET(reference, flag),
-			!IS_SET(ch->comm, COMM_QUIET));
+    print_status(ch, chan, "OFF due to quiet mode", !IS_SET(reference, flag), !IS_SET(ch->comm, COMM_QUIET));
 }
-
 
 void do_channels(CHAR_DATA *ch, char *argument) {
-  (void)argument;
-	PCCLAN *OrigClan;
+    (void)argument;
+    PCCLAN *OrigClan;
 
-	/* lists all channels and their status */
-	send_to_char("|Wchannel         status|w\n\r",ch);
-	send_to_char("----------------------------\n\r",ch);
+    /* lists all channels and their status */
+    send_to_char("|Wchannel         status|w\n\r", ch);
+    send_to_char("----------------------------\n\r", ch);
 
-	print_channel_status(ch, "gossip", ch->comm, COMM_NOGOSSIP );
-	print_channel_status(ch, "auction", ch->comm, COMM_NOAUCTION );
-	print_channel_status(ch, "music", ch->comm, COMM_NOMUSIC );
-	print_channel_status(ch, "Q/A", ch->comm, COMM_NOQUESTION );
-	print_channel_status(ch, "gratz", ch->comm, COMM_NOGRATZ );
-	print_channel_status(ch, "announce", ch->comm, COMM_NOANNOUNCE );
-	print_channel_status(ch, "allege", ch->comm, COMM_NOALLEGE );
-	print_channel_status(ch, "philosophise", ch->comm, COMM_NOPHILOSOPHISE );
-	print_channel_status(ch, "qwest", ch->comm, COMM_NOQWEST );
-	print_channel_status(ch, "shout", ch->comm, COMM_NOSHOUT );
+    print_channel_status(ch, "gossip", ch->comm, COMM_NOGOSSIP);
+    print_channel_status(ch, "auction", ch->comm, COMM_NOAUCTION);
+    print_channel_status(ch, "music", ch->comm, COMM_NOMUSIC);
+    print_channel_status(ch, "Q/A", ch->comm, COMM_NOQUESTION);
+    print_channel_status(ch, "gratz", ch->comm, COMM_NOGRATZ);
+    print_channel_status(ch, "announce", ch->comm, COMM_NOANNOUNCE);
+    print_channel_status(ch, "allege", ch->comm, COMM_NOALLEGE);
+    print_channel_status(ch, "philosophise", ch->comm, COMM_NOPHILOSOPHISE);
+    print_channel_status(ch, "qwest", ch->comm, COMM_NOQWEST);
+    print_channel_status(ch, "shout", ch->comm, COMM_NOSHOUT);
 
-	/* Determine if the player is in a clan, and find which one */
-	if (IS_NPC(ch)) {
-		if (ch->desc->original != NULL)
-			OrigClan = ch->desc->original->pcdata->pcclan;
-		else
-			OrigClan = NULL;
-	} else
-		OrigClan = ch->pcdata->pcclan;
+    /* Determine if the player is in a clan, and find which one */
+    if (IS_NPC(ch)) {
+        if (ch->desc->original != NULL)
+            OrigClan = ch->desc->original->pcdata->pcclan;
+        else
+            OrigClan = NULL;
+    } else
+        OrigClan = ch->pcdata->pcclan;
 
-	if (OrigClan) {
-		print_channel_status(ch, "clan channel",
-				(OrigClan->channelflags)^CLANCHANNEL_ON, CLANCHANNEL_ON);
-	}
+    if (OrigClan) {
+        print_channel_status(ch, "clan channel", (OrigClan->channelflags) ^ CLANCHANNEL_ON, CLANCHANNEL_ON);
+    }
 
-	if (IS_IMMORTAL(ch))
-		print_channel_status(ch, "god channel", ch->comm, COMM_NOWIZ);
+    if (IS_IMMORTAL(ch))
+        print_channel_status(ch, "god channel", ch->comm, COMM_NOWIZ);
 
-	print_status(ch, "quiet mode", "", IS_SET(ch->comm, COMM_QUIET), 1);
+    print_status(ch, "quiet mode", "", IS_SET(ch->comm, COMM_QUIET), 1);
 
-	if (ch->lines != PAGELEN) {
-		char buf[100];
-		if (ch->lines) {
-			snprintf(buf, sizeof(buf), "You display %d lines of scroll.\n\r",ch->lines+2);
-			send_to_char(buf,ch);
-		} else
-			send_to_char("Scroll buffering is off.\n\r",ch);
-	}
+    if (ch->lines != PAGELEN) {
+        char buf[100];
+        if (ch->lines) {
+            snprintf(buf, sizeof(buf), "You display %d lines of scroll.\n\r", ch->lines + 2);
+            send_to_char(buf, ch);
+        } else
+            send_to_char("Scroll buffering is off.\n\r", ch);
+    }
 
-	if (IS_SET(ch->comm, COMM_NOTELL))
-		send_to_char("You cannot use tell.\n\r",ch);
+    if (IS_SET(ch->comm, COMM_NOTELL))
+        send_to_char("You cannot use tell.\n\r", ch);
 
-	if (IS_SET(ch->comm, COMM_NOCHANNELS))
-		send_to_char("You cannot use channels.\n\r",ch);
+    if (IS_SET(ch->comm, COMM_NOCHANNELS))
+        send_to_char("You cannot use channels.\n\r", ch);
 
-	if (IS_SET(ch->comm, COMM_NOEMOTE))
-			send_to_char("You cannot show emotions.\n\r",ch);
+    if (IS_SET(ch->comm, COMM_NOEMOTE))
+        send_to_char("You cannot show emotions.\n\r", ch);
 }
-
 
 static void toggle_channel(CHAR_DATA *ch, int chan_flag, char *chan_name) {
-	char buf[MAX_STRING_LENGTH];
+    char buf[MAX_STRING_LENGTH];
 
-	if (IS_SET(ch->comm, chan_flag)) {
-		snprintf(buf, sizeof(buf), "|c%s channel is now %s|c.|w\n\r", chan_name,
-				IS_SET(ch->comm, COMM_QUIET) ? "|rON (OFF due to quiet mode)" : "|gON");
-		REMOVE_BIT(ch->comm, chan_flag);
-	} else {
-		snprintf(buf, sizeof(buf), "|c%s channel is now |rOFF|c.|w\n\r", chan_name);
-		SET_BIT(ch->comm, chan_flag);
-	}
-	send_to_char(buf, ch);
+    if (IS_SET(ch->comm, chan_flag)) {
+        snprintf(buf, sizeof(buf), "|c%s channel is now %s|c.|w\n\r", chan_name,
+                 IS_SET(ch->comm, COMM_QUIET) ? "|rON (OFF due to quiet mode)" : "|gON");
+        REMOVE_BIT(ch->comm, chan_flag);
+    } else {
+        snprintf(buf, sizeof(buf), "|c%s channel is now |rOFF|c.|w\n\r", chan_name);
+        SET_BIT(ch->comm, chan_flag);
+    }
+    send_to_char(buf, ch);
 }
-
 
 void do_quiet(CHAR_DATA *ch, char *argument) {
-  (void)argument;
-	if (IS_SET(ch->comm, COMM_QUIET)) {
-		send_to_char("Quiet mode removed.\n\r",ch);
-		REMOVE_BIT(ch->comm, COMM_QUIET);
-	} else {
-		send_to_char("From now on, you will only hear says and emotes.\n\r",ch);
-		SET_BIT(ch->comm, COMM_QUIET);
-	}
+    (void)argument;
+    if (IS_SET(ch->comm, COMM_QUIET)) {
+        send_to_char("Quiet mode removed.\n\r", ch);
+        REMOVE_BIT(ch->comm, COMM_QUIET);
+    } else {
+        send_to_char("From now on, you will only hear says and emotes.\n\r", ch);
+        SET_BIT(ch->comm, COMM_QUIET);
+    }
 }
 
+void channel_command(CHAR_DATA *ch, char *argument, int chan_flag, char *chan_name, char *desc_self, char *desc_other) {
+    char buf[MAX_STRING_LENGTH];
 
-void channel_command(CHAR_DATA *ch, char *argument, int chan_flag, char *chan_name,
-		char *desc_self, char *desc_other) {
-	char buf[MAX_STRING_LENGTH];
+    if (argument[0] == '\0') {
+        toggle_channel(ch, chan_flag, chan_name);
+    } else {
+        DESCRIPTOR_DATA *d;
 
-	if (argument[0] == '\0') {
-		toggle_channel(ch, chan_flag, chan_name);
-	} else {
-		DESCRIPTOR_DATA *d;
+        if (IS_SET(ch->comm, COMM_QUIET)) {
+            send_to_char("You must turn off quiet mode first.\n\r", ch);
+            return;
+        }
+        if (IS_SET(ch->comm, COMM_NOCHANNELS)) {
+            send_to_char("The gods have revoked your channel priviliges.\n\r", ch);
+            return;
+        }
+        if (IS_SET(ch->act, PLR_AFK))
+            do_afk(ch, NULL);
+        REMOVE_BIT(ch->comm, chan_flag);
 
-		if (IS_SET(ch->comm, COMM_QUIET)) {
-			send_to_char("You must turn off quiet mode first.\n\r",ch);
-			return;
-		}
-		if (IS_SET(ch->comm, COMM_NOCHANNELS)) {
-			send_to_char("The gods have revoked your channel priviliges.\n\r",ch);
-			return;
-		}
-		if (IS_SET(ch->act, PLR_AFK))
-			do_afk (ch, NULL);
-		REMOVE_BIT(ch->comm, chan_flag);
+        snprintf(buf, sizeof(buf), desc_self, argument);
+        send_to_char(buf, ch);
+        for (d = descriptor_list; d != NULL; d = d->next) {
+            CHAR_DATA *victim;
 
-		snprintf(buf, sizeof(buf), desc_self, argument);
-		send_to_char(buf, ch);
-		for (d = descriptor_list; d != NULL; d = d->next) {
-			CHAR_DATA *victim;
+            victim = d->original ? d->original : d->character;
 
-			victim = d->original ? d->original : d->character;
-
-			if (d->connected == CON_PLAYING && d->character != ch &&
-					!IS_SET(victim->comm, chan_flag) && !IS_SET(victim->comm, COMM_QUIET)) {
-				act_new(desc_other, ch, argument, d->character, TO_VICT, POS_DEAD);
-			}
-		}
-	}
+            if (d->connected == CON_PLAYING && d->character != ch && !IS_SET(victim->comm, chan_flag)
+                && !IS_SET(victim->comm, COMM_QUIET)) {
+                act_new(desc_other, ch, argument, d->character, TO_VICT, POS_DEAD);
+            }
+        }
+    }
 }
 
-
-void do_announce (CHAR_DATA *ch, char *argument) {
-  (void)argument;
-	toggle_channel(ch, COMM_NOANNOUNCE, "Announce");
+void do_announce(CHAR_DATA *ch, char *argument) {
+    (void)argument;
+    toggle_channel(ch, COMM_NOANNOUNCE, "Announce");
 }
-
 
 void do_immtalk(CHAR_DATA *ch, char *argument) {
-	DESCRIPTOR_DATA *d;
-	char *format = "|W$n: |c$t|w";
+    DESCRIPTOR_DATA *d;
+    char *format = "|W$n: |c$t|w";
 
-	if ( argument[0] == '\0' ) {
-		toggle_channel(ch, COMM_NOWIZ, "Immortal");
-		return;
-	}
+    if (argument[0] == '\0') {
+        toggle_channel(ch, COMM_NOWIZ, "Immortal");
+        return;
+    }
 
-	REMOVE_BIT(ch->comm, COMM_NOWIZ);
+    REMOVE_BIT(ch->comm, COMM_NOWIZ);
 
-	if (IS_SET(ch->act, PLR_AFK))
-		format = "|w(|cAFK|w)|W $n: |c$t|w";
+    if (IS_SET(ch->act, PLR_AFK))
+        format = "|w(|cAFK|w)|W $n: |c$t|w";
 
-	if (get_trust(ch) >= 91)
-		act_new(format, ch, argument, NULL, TO_CHAR, POS_DEAD);
-	for (d = descriptor_list; d != NULL; d = d->next) {
-		if (d->connected == CON_PLAYING && IS_IMMORTAL(d->character) &&
-				!IS_SET(d->character->comm, COMM_NOWIZ)) {
-			act_new(format, ch, argument, d->character, TO_VICT, POS_DEAD);
-		}
-	}
+    if (get_trust(ch) >= 91)
+        act_new(format, ch, argument, NULL, TO_CHAR, POS_DEAD);
+    for (d = descriptor_list; d != NULL; d = d->next) {
+        if (d->connected == CON_PLAYING && IS_IMMORTAL(d->character) && !IS_SET(d->character->comm, COMM_NOWIZ)) {
+            act_new(format, ch, argument, d->character, TO_VICT, POS_DEAD);
+        }
+    }
 }
-
 
 void do_gossip(CHAR_DATA *ch, char *argument) {
-	channel_command(ch, argument, COMM_NOGOSSIP, "Gossip", "|gYou gossip '%s|g'|w\n\r", "|g$n gossips '$t|g'|w");
+    channel_command(ch, argument, COMM_NOGOSSIP, "Gossip", "|gYou gossip '%s|g'|w\n\r", "|g$n gossips '$t|g'|w");
 }
-
 
 void do_auction(CHAR_DATA *ch, char *argument) {
-	channel_command(ch, argument, COMM_NOAUCTION, "Auction", "You auction '%s|w'\n\r", "$n auctions '$t|w'");
+    channel_command(ch, argument, COMM_NOAUCTION, "Auction", "You auction '%s|w'\n\r", "$n auctions '$t|w'");
 }
-
 
 void do_music(CHAR_DATA *ch, char *argument) {
-	channel_command(ch, argument, COMM_NOMUSIC, "Music", "|PYou MUSIC: '%s|P'|w\n\r", "|P$n MUSIC: '$t|P'|w");
+    channel_command(ch, argument, COMM_NOMUSIC, "Music", "|PYou MUSIC: '%s|P'|w\n\r", "|P$n MUSIC: '$t|P'|w");
 }
-
 
 void do_question(CHAR_DATA *ch, char *argument) {
-	channel_command(ch, argument, COMM_NOQUESTION, "Q/A", "|GYou question '%s|G'|w\n\r",
-			"|G$n questions '$t|G'|w");
+    channel_command(ch, argument, COMM_NOQUESTION, "Q/A", "|GYou question '%s|G'|w\n\r", "|G$n questions '$t|G'|w");
 }
-
 
 void do_answer(CHAR_DATA *ch, char *argument) {
-	channel_command(ch, argument, COMM_NOQUESTION, "Q/A", "|GYou answer '%s|G'|w\n\r",
-			"|G$n answers '$t|G'|w");
+    channel_command(ch, argument, COMM_NOQUESTION, "Q/A", "|GYou answer '%s|G'|w\n\r", "|G$n answers '$t|G'|w");
 }
-
 
 void do_gratz(CHAR_DATA *ch, char *argument) {
-	channel_command(ch, argument, COMM_NOGRATZ, "Gratz", "|yYou gratz '%s|y'|w\n\r", "|y$n gratzes '$t|y'|w");
+    channel_command(ch, argument, COMM_NOGRATZ, "Gratz", "|yYou gratz '%s|y'|w\n\r", "|y$n gratzes '$t|y'|w");
 }
-
 
 void do_allege(CHAR_DATA *ch, char *argument) {
-	channel_command(ch, argument, COMM_NOALLEGE, "Allege", "|pYou allege '%s|p'|w\n\r", "|p$n alleges '$t|p'|w");
+    channel_command(ch, argument, COMM_NOALLEGE, "Allege", "|pYou allege '%s|p'|w\n\r", "|p$n alleges '$t|p'|w");
 }
-
 
 void do_philosophise(CHAR_DATA *ch, char *argument) {
-	channel_command(ch, argument, COMM_NOPHILOSOPHISE, "Philosophise",
-			"|WYou philosophise '%s|W'|w\n\r", "|W$n philosophises '$t|W'|w");
+    channel_command(ch, argument, COMM_NOPHILOSOPHISE, "Philosophise", "|WYou philosophise '%s|W'|w\n\r",
+                    "|W$n philosophises '$t|W'|w");
 }
-
 
 void do_qwest(CHAR_DATA *ch, char *argument) {
-	channel_command(ch, argument, COMM_NOQWEST, "Qwest", "|YYou qwest '%s|Y'|w\n\r", "|Y$n qwests '$t|Y'|w");
+    channel_command(ch, argument, COMM_NOQWEST, "Qwest", "|YYou qwest '%s|Y'|w\n\r", "|Y$n qwests '$t|Y'|w");
 }
 
-
 void do_shout(CHAR_DATA *ch, char *argument) {
-	channel_command(ch, argument, COMM_NOSHOUT, "Shout", "|WYou shout '%s|W'|w\n\r", "|W$n shouts '$t|W'|w");
+    channel_command(ch, argument, COMM_NOSHOUT, "Shout", "|WYou shout '%s|W'|w\n\r", "|W$n shouts '$t|W'|w");
 }

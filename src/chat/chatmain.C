@@ -1,7 +1,7 @@
 
-//chatmain.C
-//Chris Busch (c) 1993
-//please see chat.doc
+// chatmain.C
+// Chris Busch (c) 1993
+// please see chat.doc
 
 #include <stdlib.h>
 #include <string.h>
@@ -13,41 +13,22 @@
 #include "chatmain.hpp"
 
 /////YOU MAY NOT change the next 2 lines.
-const char eliza_title[]="chat by Christopher Busch  Copyright (c)1993";
-const char eliza_version[]="version 1.0.0";
-
-
+const char eliza_title[] = "chat by Christopher Busch  Copyright (c)1993";
+const char eliza_version[] = "version 1.0.0";
 
 #ifdef UNIX
-void randomize()
-{
-  srand((int)time(NULL ) );
-}
+void randomize() { srand((int)time(NULL)); }
 
-int random(int x) 
-{ 
-  return rand() % x;
-}
+int random(int x) { return rand() % x; }
 
-#endif //UNIX
+#endif // UNIX
 
 eliza chatter;
 
-
-
-extern "C" void startchat(char *filename)
-{
-  char buf[] = "";
-  chatter.reducespaces(buf);
-  chatter.loaddata(filename);
+extern "C" void startchat(char *filename) {
+    char buf[] = "";
+    chatter.reducespaces(buf);
+    chatter.loaddata(filename);
 }
 
-extern "C" const char* dochat(char* talker,char *msg,char* target)
-{
-  return chatter.process(talker,msg,target);
-}
-
-
-
-
-
+extern "C" const char *dochat(char *talker, char *msg, char *target) { return chatter.process(talker, msg, target); }

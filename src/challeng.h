@@ -7,7 +7,6 @@
 /*              Wandera. Revised by Oshea 26/8/96                        */
 /*************************************************************************/
 
-
 #pragma once
 #include "merc.h"
 
@@ -15,8 +14,8 @@
 #define CHAL_ROOM 30011
 #define CHAL_PREP 30012
 
-int fighting_duel( CHAR_DATA *ch, CHAR_DATA *victim );
-int in_duel( CHAR_DATA *ch );
-void do_chal_tick( void );
-int do_check_chal (CHAR_DATA *ch);
-void raw_kill( CHAR_DATA *victim );
+int fighting_duel(CHAR_DATA *ch, CHAR_DATA *victim);
+int in_duel(CHAR_DATA *ch);
+void do_chal_tick(void);
+int do_check_chal(CHAR_DATA *ch);
+void raw_kill(CHAR_DATA *victim);

@@ -1,0 +1,14 @@
+---
+BasedOnStyle: LLVM
+IndentWidth: 4
+ColumnLimit: 120
+---
+Language: Cpp
+# TODO: once we can handle any-order includes, turn this to true (the default)
+SortIncludes: false
+AlwaysBreakTemplateDeclarations: Yes
+FixNamespaceComments: false
+BreakBeforeBinaryOperators: NonAssignment
+BreakConstructorInitializers: BeforeColon
+AllowShortCaseLabelsOnASingleLine: true
+AlignTrailingComments: false

@@ -10,6 +10,10 @@ CMAKE?=$(shell which cmake || .cmake-not-found)
 BUILD_TYPE?=debug
 BUILD_ROOT:=$(CURDIR)/cmake-build-$(BUILD_TYPE)
 INSTALL_DIR=$(CURDIR)/install
+TOOLS_DIR=$(CURDIR)/.tools
+CLANG_VERSION?=10
+CLANG_FORMAT:=$(TOOLS_DIR)/clang-format-$(CLANG_VERSION)
+SOURCE_FILES:=$(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name \*.C)
 
 ifeq ($(shell which ninja),)
 CMAKE_GENERATOR_FLAGS?=
@@ -33,6 +37,13 @@ install: build
 .PHONY: dirs
 dirs:
 	@mkdir -p gods player log
+
+$(CLANG_FORMAT):
+	@mkdir -p $(dir $@)
+	@echo "Installing clang format static binary locally..."
+	curl -sL --fail https://github.com/muttleyxd/clang-format-static-binaries/releases/download/master-5b56bb49/clang-format-$(CLANG_VERSION)_linux-amd64 -o $@
+	# ideally would check the sha512 here. TODO: This
+	chmod +x $@
 
 .PHONY: start
 start: install dirs  ## Build and start Xania
@@ -59,4 +70,12 @@ $(BUILD_ROOT)/CMakeCache.txt:
 
 .PHONY: clean
 clean:  ## Clean up everything
-	rm -rf cmake-build-* $(INSTALL_DIR)
+	rm -rf cmake-build-* $(TOOLS_DIR) $(INSTALL_DIR)
+
+.PHONY: reformat-code
+reformat-code: $(CLANG_FORMAT)  ## Reformat all the code to conform to the clang-tidy settings
+	$(CLANG_FORMAT) -i $(SOURCE_FILES)
+
+.PHONY: check-format
+check-format: $(CLANG_FORMAT)  ## Check that the code conforms to the format
+	$(CLANG_FORMAT) --dry-run -Werror $(SOURCE_FILES)
