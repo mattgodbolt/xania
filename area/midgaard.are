@@ -1012,8 +1012,8 @@ food 0 A
 15 0 0 0 0
 0 1 15 P
 #3020
-dagger~
-a dagger~
+thin dagger~
+a thin dagger~
 A dagger with a long thin blade is here.~
 steel~
 weapon 0 AN
@@ -1046,10 +1046,10 @@ weapon 0 AN
 A
 18 -1
 #3024
-mace heavy~
-a mace~
-A heavy iron mace is here.~
-iron~
+mace steel~
+a steel mace~
+A steel mace is here.~
+steel~
 weapon 0 AN
 'mace' 2 4 'pound' 0
 6 10 70 G
@@ -2347,8 +2347,8 @@ a standard issue sword~
 You see a standard issue sword here.~
 steel~
 weapon G AN
-'sword' 2 5 'slash' 0
-8 5 0 P
+'sword' 2 4 'slash' 0
+3 5 75 P
 E
 sword~
 You see a sword of great craftsmanship.  Imprinted on the side is:
@@ -2364,8 +2364,8 @@ a standard issue dagger~
 You see a standard issue dagger here.~
 steel~
 weapon G AN
-'dagger' 1 6 'pierce' 0
-2 2 0 P
+'dagger' 3 2 'pierce' 0
+3 2 75 P
 E
 dagger~
 You see a dagger of great craftsmanship.  Imprinted on the side is:
@@ -2379,10 +2379,10 @@ A
 mace standard merc~
 a standard issue mace~
 You see a standard issue mace here.~
-iron~
+steel~
 weapon G AN
-'mace' 2 4 'pound' 0
-7 10 0 P
+'mace' 3 2 'pound' 0
+3 10 75 P
 E
 mace~
 You see a mace of great craftsmanship.  Imprinted on the side is:
@@ -2391,7 +2391,7 @@ Merc Industries
 A
 18 1
 A
-19 2
+19 1
 #3353
 vest standard merc~
 a standard issue vest~
@@ -2625,7 +2625,7 @@ armor A AF
 boots mercenary~
 a pair mercenary issue boots~
 A pair of mercenary issue boots stand here.~
-iron~
+steel~
 armor A AG
 6 6 7 0 3
 13 6 600 P
@@ -2661,7 +2661,7 @@ armor A AJ
 mace studded ebony~
 a studded ebony mace~
 A studded ebony mace is here.~
-iron~
+steel~
 weapon 0 AN
 'mace' 2 5 'pound' 0
 9 10 90 G
@@ -2672,7 +2672,7 @@ A
 axe defiler wicked~
 a defiler's axe~
 A wicked looking axe lies forgotten on the floor.~
-iron~
+steel~
 weapon 0 AN
 'axe' 3 4 'chop' 0
 11 5 130 G
@@ -6146,16 +6146,19 @@ G 1 3380 -1
 G 1 3381 -1
 G 1 3382 -1
 G 1 3383 -1
-G 1 3384 -1
-G 1 3385 -1
 
 * normal items
 
-G 1 3020 -1       dagger
+G 1 3385 -1   stiletto
+G 1 3351 -1       standard issue dagger
+G 1 3020 -1       thin dagger
 G 1 3021 -1       small sword
+G 1 3350 -1       standard issue sword
 G 1 3022 -1       long sword
+G 1 3384 -1    flail
 G 1 3023 -1    club
-G 1 3024 -1    mace
+G 1 3352 -1    standard issue mace
+G 1 3024 -1    wooden mace
 G 1 3025 -1    hand axe
 G 1 3026 -1    battle axe
 G 1 3027 -1    spear
