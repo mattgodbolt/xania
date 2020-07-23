@@ -13,6 +13,12 @@ INSTALL_DIR=$(CURDIR)/install
 TOOLS_DIR=$(CURDIR)/.tools
 CLANG_VERSION?=10
 CLANG_FORMAT:=$(TOOLS_DIR)/clang-format-$(CLANG_VERSION)
+CONDA_VERSION?=4.7.12
+CONDA_ROOT:=$(TOOLS_DIR)/conda-$(CONDA_VERSION)
+CONDA_INSTALLER=$(TOOLS_DIR)/conda-$(CONDA_VERSION)/installer.sh
+CONDA:=$(CONDA_ROOT)/bin/conda
+PIP:=$(CONDA_ROOT)/bin/pip
+CONAN:=$(CONDA_ROOT)/bin/conan
 SOURCE_FILES:=$(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name \*.C)
 
 ifeq ($(shell which ninja),)
@@ -38,12 +44,35 @@ install: build
 dirs:
 	@mkdir -p gods player log
 
+$(CONDA):
+	@mkdir -p $(CONDA_ROOT)
+	@echo "Installing conda locally..."
+	curl -sL --fail https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -o $(CONDA_INSTALLER)
+	@chmod +x $(CONDA_INSTALLER)
+	$(CONDA_INSTALLER) -u -b -p $(CONDA_ROOT)
+$(PIP): $(CONDA) # ideally would specify two outputs in $(CONDA) but make -j fails with that
+
+$(CONAN): $(PIP)
+	@echo "Installing conan locally..."
+	$(PIP) install conan==1.27.1
+
+.PHONY: conda conan
+conda: $(CONDA)
+conan: $(CONAN)
+
+.PHONY: deps cmake-print-deps
+deps: conda conan $(CLANG_FORMAT)
+cmake-print-deps: deps Makefile
+	@echo "# Automatically created by the Makefile - DO NOT EDIT" > $(CMAKE_CONFIG_FILE)
+	@echo "list(PREPEND CMAKE_PROGRAM_PATH $(CONDA_ROOT)/bin)" >> $(CMAKE_CONFIG_FILE)
+
+
+# ideally would check the sha512 here. TODO: This
 $(CLANG_FORMAT):
 	@mkdir -p $(dir $@)
 	@echo "Installing clang format static binary locally..."
 	curl -sL --fail https://github.com/muttleyxd/clang-format-static-binaries/releases/download/master-5b56bb49/clang-format-$(CLANG_VERSION)_linux-amd64 -o $@
-	# ideally would check the sha512 here. TODO: This
-	chmod +x $@
+	@chmod +x $@
 
 .PHONY: start
 start: install dirs  ## Build and start Xania

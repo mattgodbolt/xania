@@ -1,9 +1,25 @@
 cmake_minimum_required(VERSION 3.10)
 project(xania)
 
-set(CMAKE_CXX_STANDARD 14)
+####
+# Shell out to the Makefile to get all the paths it installed for us
+set(CMAKE_MAKE_CONFIG_FILE ${CMAKE_CURRENT_BINARY_DIR}/config-from-make.cmake)
+execute_process(
+        COMMAND make cmake-print-deps CMAKE_CONFIG_FILE=${CMAKE_MAKE_CONFIG_FILE}
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        RESULT_VARIABLE MAKE_CONFIG_FAIL)
+if (MAKE_CONFIG_FAIL)
+    message(FATAL_ERROR "Unable to get makefile configuration")
+endif ()
+include(${CMAKE_MAKE_CONFIG_FILE})
+####
 
+set(CMAKE_CXX_STANDARD 14)
 add_compile_options(-Werror -Wall -Wextra)
+
+include(scripts/conan.cmake)
+
+conan_check(VERSION 1.27.1 REQUIRED)
 
 add_subdirectory(src)
 
