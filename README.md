@@ -5,8 +5,84 @@ Found on @mattgodbolt's hard disk, and resurrected. Shows the code behind a
 UK-based Multi-User Dungeon that my university housemates and I ran, built and
 administrated in late 1990s.
 
-License
--------
+## Building and running
+
+If you want to build and run Xania locally, you'll need a modern Linux (Ubuntu 18.04 and 20.04 have been tested). You'll
+need the following packages to build:
+
+```bash
+$ sudo apt install git make cmake gcc g++ curl
+```
+
+It's pretty likely you have all these already. The hope is that almost all the upstream dependencies of the code are
+downloaded and managed by the master `Makefile`.
+
+To build and run, type `make`:
+
+```bash
+$ make
+... lots of configuration nonsense here, downloads, cmake, and then compilation ...
+Starting Xania on port 9000}
+(cd src && ./mudmgr -s 9000)
+
+Xania management script executed by "mgodbolt" on July-23-2020-22:52:11
+Nothing will happen if another mudmgr session is already
+running Xania. Use the -r option if you need to restart everything.
+Hmmm...doorman is down...
+better start it up then...
+Hmmm...Xania is down...
+better start it up then...
+All being well, telnet localhost 9000 to log in
+$
+```
+
+The MUD is now running in the background, on port 9000. `telnet localhost 9000` should get you the logon prompt. Create
+a character, and log in...and have fun!
+
+By default a debuggable unoptimized build is run. Use `make BUILD_TYPE=release` to build the optimized version.
+
+### Stopping the MUD
+
+To stop Xania, run `make stop`.
+
+### Creating an immortal account
+
+To administrate Xania from inside, you'll need a level 100 character. Create a character as above, then `quit`. Edit
+the `player/Yourplayername` file and edit the line with `Levl 1` to be `Levl 100`. Then log back in and voila! You are
+an immortal!
+
+## Developing
+
+The top-level `Makefile` is more of a convenience layer to set up a consistent environment. It delegates the actual
+building to a `cmake`-built system in one of the `cmake-build-{type}` directories (e.g. `cmake-build-debug`). A tiny
+amount of back-and-forth between the two systems ensures the `cmake` build system uses the various tools installed
+locally in `.tools/` to do work (e.g. `conan` for C++ packages, `clang-format` for code formatting, etc).  The top-level
+`Makefile` will configure `cmake` to use `ninja` if you have that installed, else it'll use `make`.
+
+For day-to-day developing you can use your favourite IDE or editor (CLion, vs.code, vi, emacs). If your IDE supports
+CMake projects, then it might Just Work out of the box. CLion, for example, will open up and run the code from the IDE.
+
+The mud happily runs without being installed: just ensure the working directory is set to the `area` directory. We'll
+likely try and improve on this in future to make it less likely to go wrong.
+
+There are two components, `doorman` and `xania`. The former is the TCP side of things, and unless you're changing how
+the MUD and the connection process communicate you can probably build and run `doorman` and then leave it running.
+`xania` is the MUD part, and so if you're debugging and building, that's probably the target to run.
+
+We use `clang-format` to format all the code consistenly, and a `.clang-format` file is in the root. Again, most IDEs
+will pick up on this and just use it. Command-line users can run `make reformat-code` to reformat everything, or
+`make check-format` to just see if everything's formatted as it should be. At some point we'll make this part of the CI
+process.
+
+There are some very early tests. To run the tests, use `make test`, or run them from your IDE.
+
+### Going "live"
+
+When the MUD is actually deployed, we `make install` to get a built setup with `area`s and binaries etc. That's tar'd
+up and copied to a host to run. `player` files and whatnot are managed separately. If you're curious how we're sketching
+out ideas for the deployment, check out the `infra/` directory. It's a bit wild in there right now though.
+
+# License
 
 See the [LICENSE](LICENSE) file for more details, but this code is built on and
 extends code from [MadROM](http://mad-rom.org/), which built and extended on
