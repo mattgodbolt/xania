@@ -108,3 +108,7 @@ reformat-code: $(CLANG_FORMAT)  ## Reformat all the code to conform to the clang
 .PHONY: check-format
 check-format: $(CLANG_FORMAT)  ## Check that the code conforms to the format
 	$(CLANG_FORMAT) --dry-run -Werror $(SOURCE_FILES)
+
+.PHONY: test
+test: build  ## Build and run tests
+	$(CMAKE) --build $(BUILD_ROOT) -- test
