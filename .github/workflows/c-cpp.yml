@@ -3,8 +3,15 @@ name: C/C++ CI
 on: [push]
 
 jobs:
-  build-ubuntu-debug:
-    runs-on: ubuntu-latest
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    env:
+      CC: gcc-${{ matrix.gcc_version }}
+      CXX: g++-${{ matrix.gcc_version }}
+    strategy:
+      matrix:
+        gcc_version: [ 7, 8, 9 ]
+        os: [ ubuntu-18.04, ubuntu-20.04 ]
     steps:
       - uses: actions/checkout@v1
       - name: configure
@@ -13,16 +20,21 @@ jobs:
         run: cmake --build cmake-build-debug
       - name: test
         run: cd cmake-build-debug && ctest
-  build-ubuntu-release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
       - name: configure
         run: cmake -DCMAKE_BUILD_TYPE=Release -S . -B cmake-build-release
       - name: build
         run: cmake --build cmake-build-release
       - name: test
         run: cd cmake-build-release && ctest
+  deploy-code:
+    needs: build-and-test
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: configure
+        run: cmake -DCMAKE_BUILD_TYPE=Release -S . -B cmake-build-release
+      - name: build
+        run: cmake --build cmake-build-release
       - name: package
         run: cmake --install cmake-build-release --prefix cmake-build-install
       - name: tarball # TODO probably branch name here?
