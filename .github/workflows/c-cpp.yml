@@ -2,7 +2,6 @@ name: C/C++ CI
 
 on: [push]
 
-runs-on: ${{ matrix.os }}
 strategy:
   matrix:
     gcc_version: [ 7 ]
@@ -13,8 +12,13 @@ strategy:
         os: ubuntu-18.04
         deploy: true
 
+env:
+  CC: gcc-${{ matrix.gcc_version }}
+  CXX: g++-${{ matrix.gcc_version }}
+
 jobs:
   build-ubuntu-debug:
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v1
       - name: configure
@@ -24,6 +28,7 @@ jobs:
       - name: test
         run: cd cmake-build-debug && ctest
   build-ubuntu-release:
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v1
       - name: configure
@@ -34,6 +39,7 @@ jobs:
         run: cd cmake-build-release && ctest
   deploy-code:
     needs: build-ubuntu-release
+    runs-on: ${{ matrix.os }}
     if: ${{ matrix.deploy }}
     steps:
       - uses: actions/checkout@v1
