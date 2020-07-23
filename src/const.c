@@ -16,10 +16,10 @@
 #include <sys/types.h>
 #endif
 #endif
+#include "magic.h"
+#include "merc.h"
 #include <stdio.h>
 #include <time.h>
-#include "merc.h"
-#include "magic.h"
 
 /* attack table  -- not very organized :( */
 

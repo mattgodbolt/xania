@@ -8,21 +8,21 @@
 /*************************************************************************/
 
 #if defined(macintosh)
-#include <types.h>
 #include <time.h>
+#include <types.h>
 #else
 #if defined(riscos)
 #include "sys/types.h"
 #include <time.h>
 #else
-#include <sys/types.h>
 #include <sys/time.h>
+#include <sys/types.h>
 #endif
 #endif
+#include "challeng.h"
+#include "merc.h"
 #include <stdio.h>
 #include <string.h>
-#include "merc.h"
-#include "challeng.h"
 
 /* command procedures needed */
 DECLARE_DO_FUN(do_look);

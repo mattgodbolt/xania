@@ -17,12 +17,12 @@
 #include <sys/types.h>
 #endif
 #endif
+#include "merc.h"
+#include "news.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include "merc.h"
-#include "news.h"
 
 #if !defined(macintosh)
 extern int _filbuf args((FILE *));

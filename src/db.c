@@ -7,12 +7,12 @@
 /*                                                                       */
 /*************************************************************************/
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
-#include <time.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 #if defined(macintosh)
 #include <types.h>
 #else
@@ -20,17 +20,17 @@
 #include "sys/types.h"
 #include <time.h>
 #else
-#include <sys/types.h>
-#include <sys/time.h>
 #include <sys/resource.h>
+#include <sys/time.h>
+#include <sys/types.h>
 #endif
 #endif
 
-#include "merc.h"
-#include "db.h"
 #include "buffer.h"
-#include "note.h"
+#include "db.h"
 #include "interp.h"
+#include "merc.h"
+#include "note.h"
 
 #if defined(unix) && !defined(libc6)
 extern int getrlimit(int resource, struct rlimit *rlp);

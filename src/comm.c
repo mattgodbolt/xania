@@ -29,18 +29,18 @@
 #include "sys/types.h"
 #include <time.h>
 #else
-#include <sys/types.h>
 #include <sys/time.h>
+#include <sys/types.h>
 #endif
 #endif
 
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
-#include <time.h>
+#include <string.h>
 #include <sys/un.h>
+#include <time.h>
 
 #include "challeng.h"
 #include "doorman/doorman.h"
@@ -105,22 +105,22 @@ const char go_ahead_str[] = {'\0'};
 #endif
 
 #if defined(unix)
+#include <arpa/telnet.h>
 #include <fcntl.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
-#include <arpa/telnet.h>
 const char echo_off_str[] = {IAC, WILL, TELOPT_ECHO, '\0'};
 const char echo_on_str[] = {IAC, WONT, TELOPT_ECHO, '\0'};
 const char go_ahead_str[] = {IAC, GA, '\0'};
 #endif
 
 #if defined(riscos)
-#include "sys/socket.h"
 #include "arpa/inet.h"
-#include "sys/sockio.h"
 #include "netdb.h"
 #include "netinet/in.h"
+#include "sys/socket.h"
+#include "sys/sockio.h"
 int close args((int fd));
 int write args((int fd, char *buf, int nbyte));
 #endif

@@ -16,12 +16,12 @@
 #include <sys/types.h>
 #endif
 #endif
+#include "magic.h"
+#include "merc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "merc.h"
-#include "magic.h"
 /* include definitions for Phil the meerkat */
 #include "phil.h"
 

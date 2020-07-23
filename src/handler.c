@@ -16,12 +16,12 @@
 #include <sys/types.h>
 #endif
 #endif
+#include "buffer.h"
+#include "merc.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include "merc.h"
-#include "buffer.h"
 
 /* command procedures needed */
 DECLARE_DO_FUN(do_return);

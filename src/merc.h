@@ -48,13 +48,13 @@ extern "C" {
 #define DECLARE_SPELL_FUN(fun) SPELL_FUN fun
 #endif
 
-#include <time.h>
 #include <stdio.h>
+#include <time.h>
 
 /* system calls */
 #if defined(riscos)
-#include <stdlib.h>
 #include "swis.h"
+#include <stdlib.h>
 #define unlink(aak) _swi(OS_FSControl, _IN(0) | _IN(1) | _IN(2) | _IN(3), 27, aak, 0, 0)
 #else
 int unlink(const char *);

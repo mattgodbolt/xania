@@ -10,12 +10,12 @@
 /* initial: 742 lines long */
 /* final: 246 lines long */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <time.h>
 #include "merc.h"
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 DECLARE_DO_FUN(do_afk);
 

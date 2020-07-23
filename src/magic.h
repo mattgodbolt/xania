@@ -14,7 +14,6 @@
  * Defined in magic.c.
  */
 
-
 #pragma once
 
 #include "merc.h"

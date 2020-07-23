@@ -7,15 +7,15 @@
 /*                                                                       */
 /*************************************************************************/
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <time.h>
-#include "merc.h"
 #include "note.h"
-#include "trie.h"
 #include "buffer.h"
+#include "merc.h"
+#include "trie.h"
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 static NOTE_DATA *note_first;
 static NOTE_DATA *note_last;

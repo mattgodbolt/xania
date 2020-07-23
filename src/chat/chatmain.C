@@ -3,14 +3,14 @@
 // Chris Busch (c) 1993
 // please see chat.doc
 
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <time.h>
 #include "akey.hpp"
 #include "allkeys.hpp"
-#include "eliza.hpp"
 #include "chatmain.hpp"
+#include "eliza.hpp"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 /////YOU MAY NOT change the next 2 lines.
 const char eliza_title[] = "chat by Christopher Busch  Copyright (c)1993";

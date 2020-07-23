@@ -7,14 +7,14 @@
 /*                                                                       */
 /*************************************************************************/
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
-#include "merc.h"
 #include "db.h"
+#include "merc.h"
 
 /*
  * Globals.

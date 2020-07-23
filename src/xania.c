@@ -16,16 +16,16 @@
 #include <sys/types.h>
 #endif
 #endif
+#include "buffer.h"
+#include "db.h"
+#include "interp.h"
+#include "magic.h"
+#include "merc.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "merc.h"
-#include "db.h"
-#include "interp.h"
-#include "magic.h"
-#include "buffer.h"
 
 /*
  * KLUDGEMONGER III, Revenge of Kludgie, the Malicious Code Murderer...
