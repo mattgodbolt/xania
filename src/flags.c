@@ -11,24 +11,24 @@
 #include <types.h>
 #else
 #if defined(riscos)
-#include <time.h>
 #include "sys/types.h"
+#include <time.h>
 #else
-#include <sys/types.h>
 #include <sys/time.h>
+#include <sys/types.h>
 #endif
 #endif
 
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
-#include "merc.h"
-#include "flags.h"
 #include "buffer.h"
+#include "flags.h"
+#include "merc.h"
 
 void display_flags(char *template, CHAR_DATA *ch, int current_val) {
     char buf[MAX_STRING_LENGTH];

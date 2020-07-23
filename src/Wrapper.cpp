@@ -1,8 +1,8 @@
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <assert.h>
 
 #include "merc.h"
 
@@ -10,9 +10,9 @@
 
 /////////////////////////////////////////////////
 class Mob {
-  private:
+private:
     CHAR_DATA *theChar; // Wrappered character
-  public:
+public:
     Mob() { theChar = NULL; }
     virtual ~Mob();
 

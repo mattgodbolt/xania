@@ -16,15 +16,15 @@
 #include <sys/types.h>
 #endif
 #endif
+#include "interp.h"
+#include "merc.h"
+#include "note.h"
+#include "trie.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "merc.h"
-#include "interp.h"
-#include "note.h"
-#include "trie.h"
 
 bool check_social args((CHAR_DATA * ch, char *command, char *argument));
 

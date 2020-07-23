@@ -7,6 +7,8 @@
 /*                                                                       */
 /*************************************************************************/
 
+#pragma once
+
 #define INVALID_BIT (-1)
 
 /* Takes: a template string of the form 'flag flag flag', or '*' for no flag,

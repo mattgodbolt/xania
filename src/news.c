@@ -23,10 +23,10 @@
 #else
 #include <sys/time.h>
 #endif
-#include "merc.h"
 #include "buffer.h"
-#include "news.h"
 #include "flags.h"
+#include "merc.h"
+#include "news.h"
 
 DECLARE_DO_FUN(_do_news);
 

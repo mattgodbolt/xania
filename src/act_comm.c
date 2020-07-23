@@ -14,16 +14,16 @@
 #include "sys/types.h"
 #include <time.h>
 #else
-#include <sys/types.h>
 #include <sys/time.h>
+#include <sys/types.h>
 #endif
 #endif
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
 #include "merc.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 /* command procedures needed */
 void do_quit(CHAR_DATA *ch, char *argument);

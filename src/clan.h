@@ -7,8 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
-#ifndef _clan_h
-#define _clan_h
+#pragma once
 
 /* Change this for new clans */
 #define NUM_CLANS 4
@@ -43,6 +42,3 @@ typedef struct _pcclan {
 } PCCLAN;
 
 extern const CLAN clantable[NUM_CLANS];
-
-#endif
-/* clan_h */

@@ -16,6 +16,8 @@
  *	ROM license, in the file Rom24/doc/rom.license			   *
  ***************************************************************************/
 
+#pragma once
+
 #include "merc.h"
 
 struct position_type {

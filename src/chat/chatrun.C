@@ -3,9 +3,9 @@
 //(c) 1995
 
 // dont link this object into your mud!!!!
-#include <stdio.h>
 #include "chatmain.hpp"
 #include "eliza.hpp"
+#include <stdio.h>
 extern eliza chatter;
 
 void byby() {

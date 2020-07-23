@@ -16,11 +16,11 @@
 #include <sys/types.h>
 #endif
 #endif
+#include "merc.h"
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include <ctype.h>
-#include "merc.h"
 
 /* For checking whether a duel is active etc. */
 #include "challeng.h"

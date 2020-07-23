@@ -12,21 +12,21 @@
  * We only support linux these days...so we stopped pretending...
  */
 
-#include <sys/types.h>
-#include <sys/time.h>
+#include <arpa/telnet.h>
 #include <ctype.h>
 #include <errno.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
-#include <sys/un.h>
-#include <signal.h>
 #include <fcntl.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/socket.h>
-#include <arpa/telnet.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/un.h>
+#include <time.h>
 #include <unistd.h>
 
 #include "challeng.h"

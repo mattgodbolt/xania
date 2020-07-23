@@ -15,17 +15,17 @@
 #include "sys/types.h"
 #include <time.h>
 #else
-#include <sys/types.h>
 #include <sys/time.h>
+#include <sys/types.h>
 #endif
 #endif
-#include <stdlib.h>
-#include <stdio.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-#include "merc.h"
 #include "buffer.h"
+#include "merc.h"
 
 #define BUFFER_GRANULARITY 4096 /* Must be a power of 2. */
 

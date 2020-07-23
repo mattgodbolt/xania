@@ -7,6 +7,10 @@
 /*                                                                       */
 /*************************************************************************/
 
+#pragma once
+
+#include "merc.h"
+
 /* Okay - the defined functions we have are ... */
 
 DECLARE_DO_FUN(do_object);

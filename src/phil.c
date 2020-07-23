@@ -16,13 +16,13 @@
 #include <sys/types.h>
 #endif
 #endif
+#include "interp.h"
+#include "magic.h"
+#include "merc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "merc.h"
-#include "magic.h"
-#include "interp.h"
 
 /* command procedures needed */
 DECLARE_DO_FUN(do_yell);

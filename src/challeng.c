@@ -16,13 +16,13 @@
 #include <sys/types.h>
 #endif
 #endif
+#include "merc.h"
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include "merc.h"
 
-#include "interp.h"
 #include "challeng.h"
+#include "interp.h"
 
 /* Some local DEFINES to keep things general. */
 #define NAME_SIZE 30

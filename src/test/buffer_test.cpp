@@ -1,7 +1,7 @@
 #include "buffer.h"
 
-#include <string_view>
 #include <catch2/catch.hpp>
+#include <string_view>
 
 namespace {
 
@@ -68,7 +68,7 @@ TEST_CASE("Buffer tests") {
         SECTION("should handle a single newline character poorly") {
             // This is locking in existing dreadful behaviour.
             b.addline("This is a whole line\nAnd this is the second line\n");
-b.removeline();
+            b.removeline();
             CHECK(b.sv() == "This is a whole line\nA"); // yes, really
         }
     }

@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include "trie.h"
+#include <stdio.h>
 
 static void printstring(void *trie, char *name, int lev) {
     char *str = (char *)trie_get(trie, name, lev);

@@ -3,11 +3,11 @@
 //(c) 1993 all rights reserved.
 // eliza.cpp
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include <ctype.h>
 #include <search.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "eliza.hpp"
 

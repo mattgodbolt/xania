@@ -8,26 +8,26 @@
 /*************************************************************************/
 
 #if defined(macintosh)
-#include <types.h>
 #include <time.h>
+#include <types.h>
 #else
 #if defined(riscos)
-#include <time.h>
 #include "sys/types.h"
+#include <time.h>
 #else
-#include <sys/types.h>
 #include <sys/time.h>
+#include <sys/types.h>
 #endif
 #endif
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "merc.h"
+#include "buffer.h"
 #include "db.h"
 #include "flags.h"
-#include "buffer.h"
+#include "merc.h"
 #include "olc_ctrl.h"
 #include "olc_room.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /*
  * unlike the object and mobiles editors, room editing does not

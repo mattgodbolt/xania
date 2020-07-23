@@ -21,13 +21,13 @@
 #else
 #include <sys/types.h>
 #endif
-#include <stdio.h>
-#include <time.h>
-#include <string.h>
-#include <stdlib.h>
-#include <ctype.h>
 #include "merc.h"
 #include "tables.h"
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 /*
  * This function is Russ Taylor's creation.  Thanks Russ!

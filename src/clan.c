@@ -7,8 +7,8 @@
 /*                                                                       */
 /*************************************************************************/
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #if defined(riscos)
 #include "sys/time.h"
 #else

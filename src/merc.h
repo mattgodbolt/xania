@@ -24,8 +24,9 @@
 /*                                                                       */
 /*************************************************************************/
 
-#ifndef __merc_h
-#define __merc_h
+#pragma once
+
+#include "clan.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -47,16 +48,13 @@ extern "C" {
 #define DECLARE_SPELL_FUN(fun) SPELL_FUN fun
 #endif
 
-/* the clanz */
-#include "clan.h"
-
-#include <time.h>
 #include <stdio.h>
+#include <time.h>
 
 /* system calls */
 #if defined(riscos)
-#include <stdlib.h>
 #include "swis.h"
+#include <stdlib.h>
 #define unlink(aak) _swi(OS_FSControl, _IN(0) | _IN(1) | _IN(2) | _IN(3), 27, aak, 0, 0)
 #else
 int unlink(const char *);
@@ -2497,5 +2495,3 @@ void mprog_speech_trigger args((char *txt, CHAR_DATA *mob));
         if (snprintf(__VA_ARGS__) < 0)                                                                                 \
             bug("Buffer too small at " __FILE__ ":" MACRO_STRINGIFY(__LINE__) " - message was truncated");             \
     } while (0)
-
-#endif

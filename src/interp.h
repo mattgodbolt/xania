@@ -7,6 +7,10 @@
 /*                                                                       */
 /*************************************************************************/
 
+#pragma once
+
+#include "merc.h"
+
 /* for command types */
 #define ML MAX_LEVEL /* implementor */
 #define L1 MAX_LEVEL - 1 /* creator */
