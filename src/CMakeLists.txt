@@ -1,6 +1,7 @@
 add_subdirectory(doorman)
 add_subdirectory(chat)
-add_executable(xania
+add_subdirectory(test)
+add_library(xania_lib STATIC
         act_comm.c
         act_info.c
         act_move.c
@@ -53,6 +54,9 @@ add_executable(xania
         xania.c
         Wrapper.cpp
         )
-target_link_libraries(xania crypt chat)
+target_link_libraries(xania_lib crypt chat)
+
+add_executable(xania main.c)
+target_link_libraries(xania xania_lib)
 
 install(TARGETS xania RUNTIME DESTINATION bin)

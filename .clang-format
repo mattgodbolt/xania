@@ -10,3 +10,5 @@ BreakBeforeBinaryOperators: NonAssignment
 BreakConstructorInitializers: BeforeColon
 AllowShortCaseLabelsOnASingleLine: true
 AlignTrailingComments: false
+NamespaceIndentation: None
+AccessModifierOffset: -4

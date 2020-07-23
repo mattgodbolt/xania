@@ -10,9 +10,9 @@
 
 /////////////////////////////////////////////////
 class Mob {
-  private:
+private:
     CHAR_DATA *theChar; // Wrappered character
-  public:
+public:
     Mob() { theChar = NULL; }
     virtual ~Mob();
 
