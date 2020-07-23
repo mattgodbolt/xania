@@ -2,23 +2,16 @@ name: C/C++ CI
 
 on: [push]
 
-strategy:
-  matrix:
-    gcc_version: [ 7 ]
-    os : [ ubuntu-18.04 ]
-    deploy: [ false ]
-    include:
-      - gcc_version: 7
-        os: ubuntu-18.04
-        deploy: true
-
-env:
-  CC: gcc-${{ matrix.gcc_version }}
-  CXX: g++-${{ matrix.gcc_version }}
-
 jobs:
-  build-ubuntu-debug:
+  build-and-test:
     runs-on: ${{ matrix.os }}
+    env:
+      CC: gcc-${{ matrix.gcc_version }}
+      CXX: g++-${{ matrix.gcc_version }}
+    strategy:
+      matrix:
+        gcc_version: [ 7 ]
+        os: [ ubuntu-18.04 ]
     steps:
       - uses: actions/checkout@v1
       - name: configure
@@ -27,36 +20,32 @@ jobs:
         run: cmake --build cmake-build-debug
       - name: test
         run: cd cmake-build-debug && ctest
-  build-ubuntu-release:
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v1
       - name: configure
         run: cmake -DCMAKE_BUILD_TYPE=Release -S . -B cmake-build-release
       - name: build
         run: cmake --build cmake-build-release
       - name: test
         run: cd cmake-build-release && ctest
-  deploy-code:
-    needs: build-ubuntu-release
-    runs-on: ${{ matrix.os }}
-    if: ${{ matrix.deploy }}
-    steps:
-      - uses: actions/checkout@v1
-      - name: configure
-        run: cmake -DCMAKE_BUILD_TYPE=Release -S . -B cmake-build-release
-      - name: build
-        run: cmake --build cmake-build-release
-      - name: package
-        run: cmake --install cmake-build-release --prefix cmake-build-install
-      - name: tarball # TODO probably branch name here?
-        run: tar Jcvf xania-$GITHUB_RUN_NUMBER.tar.xz --transform "s|^cmake-build-install|./xania-$GITHUB_RUN_NUMBER|" cmake-build-install
-      - name: Upload file to bucket
-        uses: zdurham/s3-upload-github-action@master
-        env:
-          FILE: xania-${{ github.run_number }}.tar.xz
-          AWS_REGION: 'us-east-1'
-          S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          S3_KEY: releases/xania-${{ github.run_number }}.tar.xz
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#  deploy-code:
+#    needs: build-ubuntu-release
+#    runs-on: ${{ matrix.os }}
+#    if: ${{ matrix.deploy }}
+#    steps:
+#      - uses: actions/checkout@v1
+#      - name: configure
+#        run: cmake -DCMAKE_BUILD_TYPE=Release -S . -B cmake-build-release
+#      - name: build
+#        run: cmake --build cmake-build-release
+#      - name: package
+#        run: cmake --install cmake-build-release --prefix cmake-build-install
+#      - name: tarball # TODO probably branch name here?
+#        run: tar Jcvf xania-$GITHUB_RUN_NUMBER.tar.xz --transform "s|^cmake-build-install|./xania-$GITHUB_RUN_NUMBER|" cmake-build-install
+#      - name: Upload file to bucket
+#        uses: zdurham/s3-upload-github-action@master
+#        env:
+#          FILE: xania-${{ github.run_number }}.tar.xz
+#          AWS_REGION: 'us-east-1'
+#          S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+#          S3_KEY: releases/xania-${{ github.run_number }}.tar.xz
+#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
