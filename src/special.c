@@ -16,7 +16,7 @@
 #include <sys/types.h>
 #endif
 #endif
-#include "magic.h"
+   #include "magic.h"
 #include "merc.h"
 #include <stdio.h>
 #include <stdlib.h>
