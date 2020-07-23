@@ -7,5 +7,9 @@
 /*																		*/
 /************************************************************************/
 
+#pragma once
+
+#include "merc.h"
+
 /* function declarations */
 bool spec_phil(CHAR_DATA *ch);

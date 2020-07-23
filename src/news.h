@@ -7,6 +7,8 @@
 /*                                                                       */
 /*************************************************************************/
 
+#pragma once
+
 /* Defines for news */
 #define NEWS_FILE "news.txt"
 

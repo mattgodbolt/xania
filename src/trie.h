@@ -7,8 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
-#ifndef __trie_h
-#define __trie_h
+#pragma once
 
 typedef void(trie_enum_fn_t)(const char *name, int level, void *data, void *metadata);
 
@@ -25,5 +24,3 @@ void trie_addlist(void *trie, trielist_t *list, int num);
 void *trie_create(int allow_zerolength);
 void trie_dump(void *trie, char *filename);
 void trie_enumerate(void *trie, int min_level, int max_level, trie_enum_fn_t *ef, void *metadata);
-
-#endif

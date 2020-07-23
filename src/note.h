@@ -7,8 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
-#ifndef __note_h
-#define __note_h
+#pragma once
 
 #include "merc.h"
 
@@ -19,5 +18,3 @@ void note_initialise(void);
 int note_count(struct char_data *ch);
 int is_note_to(struct char_data *ch, NOTE_DATA *note);
 void note_announce(CHAR_DATA *chsender, NOTE_DATA *note);
-
-#endif

@@ -8,6 +8,8 @@
 /*************************************************************************/
 
 /* files used in db.c */
+#pragma once
+#include "merc.h"
 
 /* vals from db.c */
 extern bool fBootDb;

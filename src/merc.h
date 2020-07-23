@@ -24,8 +24,9 @@
 /*                                                                       */
 /*************************************************************************/
 
-#ifndef __merc_h
-#define __merc_h
+#pragma once
+
+#include "clan.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -46,9 +47,6 @@ extern "C" {
 #define DECLARE_SPEC_FUN(fun) SPEC_FUN fun
 #define DECLARE_SPELL_FUN(fun) SPELL_FUN fun
 #endif
-
-/* the clanz */
-#include "clan.h"
 
 #include <time.h>
 #include <stdio.h>
@@ -2497,5 +2495,3 @@ void mprog_speech_trigger args((char *txt, CHAR_DATA *mob));
         if (snprintf(__VA_ARGS__) < 0)                                                                                 \
             bug("Buffer too small at " __FILE__ ":" MACRO_STRINGIFY(__LINE__) " - message was truncated");             \
     } while (0)
-
-#endif

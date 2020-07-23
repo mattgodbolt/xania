@@ -16,6 +16,10 @@
  *	ROM license, in the file Rom24/doc/rom.license			   *
  ***************************************************************************/
 
+#pragma once
+
+#include "merc.h"
+
 int flag_lookup args((const char *name, const struct flag_type *flag_table));
 int flag_value args((const struct flag_type *flag_table, char *argument));
 char *flag_string args((const struct flag_type *flag_table, int bits));

@@ -14,6 +14,11 @@
  * Defined in magic.c.
  */
 
+
+#pragma once
+
+#include "merc.h"
+
 DECLARE_SPELL_FUN(spell_psy_tornado);
 DECLARE_SPELL_FUN(spell_insanity);
 DECLARE_SPELL_FUN(spell_null);
