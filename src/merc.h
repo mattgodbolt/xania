@@ -92,10 +92,7 @@ typedef unsigned char bool;
 #endif
 
 /* Buffer structure */
-typedef struct _BUFFER {
-    int size;
-    char *buffer;
-} BUFFER;
+typedef struct _BUFFER BUFFER;
 
 /*
  * Structure types.

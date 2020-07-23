@@ -55,7 +55,7 @@ void buffer_destroy(BUFFER *buffer) {
 }
 
 /* Returns the buffer's contents. */
-char *buffer_string(BUFFER *buffer) { return buffer->buffer; }
+const char *buffer_string(const BUFFER *buffer) { return buffer->buffer; }
 
 /* Adds a line of text to the buffer. */
 static void buffer_addline_internal(BUFFER *buffer, const char *text, int linelen) {
