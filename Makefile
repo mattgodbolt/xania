@@ -8,6 +8,7 @@ help: # with thanks to Ben Rady
 PORT?=9000
 CMAKE?=$(shell which cmake || echo .cmake-not-found)
 CURL?=$(shell which curl || echo .curl-not-found)
+CURL_OPTIONS:=-sL --fail -m 120 --connect-timeout 3 --retry 3 --retry-max-time 360
 BUILD_TYPE?=debug
 BUILD_ROOT:=$(CURDIR)/cmake-build-$(BUILD_TYPE)
 INSTALL_DIR=$(CURDIR)/install
@@ -50,7 +51,7 @@ dirs:
 $(CONDA): $(CURL)
 	@mkdir -p $(CONDA_ROOT)
 	@echo "Installing conda locally..."
-	$(CURL) -sL --fail https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -o $(CONDA_INSTALLER)
+	$(CURL) $(CURL_OPTIONS) https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -o $(CONDA_INSTALLER)
 	@chmod +x $(CONDA_INSTALLER)
 	$(CONDA_INSTALLER) -u -b -p $(CONDA_ROOT)
 $(PIP): $(CONDA) # ideally would specify two outputs in $(CONDA) but make -j fails with that
@@ -74,7 +75,7 @@ cmake-print-deps: deps Makefile
 $(CLANG_FORMAT): $(CURL)
 	@mkdir -p $(dir $@)
 	@echo "Installing clang format static binary locally..."
-	$(CURL) -sL --fail https://github.com/muttleyxd/clang-format-static-binaries/releases/download/master-5b56bb49/clang-format-$(CLANG_VERSION)_linux-amd64 -o $@
+	$(CURL) $(CURL_OPTIONS) https://github.com/muttleyxd/clang-format-static-binaries/releases/download/master-5b56bb49/clang-format-$(CLANG_VERSION)_linux-amd64 -o $@
 	@chmod +x $@
 
 .PHONY: start
