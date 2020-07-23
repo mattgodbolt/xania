@@ -224,7 +224,7 @@ void do_spells(CHAR_DATA *ch, char *argument) {
             found = TRUE;
             lev = get_skill_level(ch, sn);
             if (ch->level < lev)
-                bug_snprintf(buf, sizeof(buf), "%-18s  n/a      ", skill_table[sn].name);
+                bug_snprintf(buf, sizeof(buf), "%-18s   n/a      ", skill_table[sn].name);
             else {
                 mana = UMAX(skill_table[sn].min_mana, 100 / (2 + ch->level - lev));
                 bug_snprintf(buf, sizeof(buf), "%-18s  %3d mana  ", skill_table[sn].name, mana);
@@ -281,7 +281,7 @@ void do_skills(CHAR_DATA *ch, char *argument) {
             found = TRUE;
             lev = get_skill_level(ch, sn);
             if (ch->level < lev)
-                bug_snprintf(buf, sizeof(buf), "%-18s n/a      ", skill_table[sn].name);
+                bug_snprintf(buf, sizeof(buf), "%-18s  n/a      ", skill_table[sn].name);
             else
                 bug_snprintf(buf, sizeof(buf), "%-18s %3d%%      ", skill_table[sn].name, ch->pcdata->learned[sn]);
 

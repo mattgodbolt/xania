@@ -1103,7 +1103,7 @@ void do_mskills(CHAR_DATA *ch, char *argument) {
             found = TRUE;
             lev = get_skill_level(victim, sn);
             if (victim->level < lev)
-                bug_snprintf(buf, sizeof(buf), "%-18s n/a      ", skill_table[sn].name);
+                bug_snprintf(buf, sizeof(buf), "%-18s  n/a      ", skill_table[sn].name);
             else
                 bug_snprintf(buf, sizeof(buf), "%-18s %3d%%      ", skill_table[sn].name,
                              victim->pcdata->learned[sn]); // NOT get_skill_
@@ -1178,7 +1178,7 @@ void do_mspells(CHAR_DATA *ch, char *argument) {
             found = TRUE;
             lev = get_skill_level(victim, sn);
             if (victim->level < lev)
-                bug_snprintf(buf, sizeof(buf), "%-18s  n/a      ", skill_table[sn].name);
+                bug_snprintf(buf, sizeof(buf), "%-18s   n/a      ", skill_table[sn].name);
             else {
                 mana = UMAX(skill_table[sn].min_mana, 100 / (2 + victim->level - lev));
                 bug_snprintf(buf, sizeof(buf), "%-18s  %3d mana  ", skill_table[sn].name, mana);
