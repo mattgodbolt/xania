@@ -6,7 +6,8 @@ help: # with thanks to Ben Rady
 	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 PORT?=9000
-CMAKE?=$(shell which cmake || .cmake-not-found)
+CMAKE?=$(shell which cmake || echo .cmake-not-found)
+CURL?=$(shell which curl || echo .curl-not-found)
 BUILD_TYPE?=debug
 BUILD_ROOT:=$(CURDIR)/cmake-build-$(BUILD_TYPE)
 INSTALL_DIR=$(CURDIR)/install
@@ -27,9 +28,11 @@ else
 CMAKE_GENERATOR_FLAGS?=-GNinja
 endif
 
-.cmake-not-found:
-	@echo "Xania needs cmake to build"
-	exit 1
+.%-not-found:
+	@echo "-----------------------"
+	@echo "Xania needs $(@:.%-not-found=%) to build. Please apt install it "
+	@echo "-----------------------"
+	@exit 1
 
 .PHONY: build
 build: $(BUILD_ROOT)/CMakeCache.txt  ## Build Xania source
@@ -44,10 +47,10 @@ install: build
 dirs:
 	@mkdir -p gods player log
 
-$(CONDA):
+$(CONDA): $(CURL)
 	@mkdir -p $(CONDA_ROOT)
 	@echo "Installing conda locally..."
-	curl -sL --fail https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -o $(CONDA_INSTALLER)
+	$(CURL) -sL --fail https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -o $(CONDA_INSTALLER)
 	@chmod +x $(CONDA_INSTALLER)
 	$(CONDA_INSTALLER) -u -b -p $(CONDA_ROOT)
 $(PIP): $(CONDA) # ideally would specify two outputs in $(CONDA) but make -j fails with that
@@ -64,14 +67,14 @@ conan: $(CONAN)
 deps: conda conan $(CLANG_FORMAT)
 cmake-print-deps: deps Makefile
 	@echo "# Automatically created by the Makefile - DO NOT EDIT" > $(CMAKE_CONFIG_FILE)
-	@echo "list(PREPEND CMAKE_PROGRAM_PATH $(CONDA_ROOT)/bin)" >> $(CMAKE_CONFIG_FILE)
+	@echo "set(CMAKE_PROGRAM_PATH $(CONDA_ROOT)/bin $(CMAKE_PROGRAM_PATH))" >> $(CMAKE_CONFIG_FILE)
 
 
 # ideally would check the sha512 here. TODO: This
-$(CLANG_FORMAT):
+$(CLANG_FORMAT): $(CURL)
 	@mkdir -p $(dir $@)
 	@echo "Installing clang format static binary locally..."
-	curl -sL --fail https://github.com/muttleyxd/clang-format-static-binaries/releases/download/master-5b56bb49/clang-format-$(CLANG_VERSION)_linux-amd64 -o $@
+	$(CURL) -sL --fail https://github.com/muttleyxd/clang-format-static-binaries/releases/download/master-5b56bb49/clang-format-$(CLANG_VERSION)_linux-amd64 -o $@
 	@chmod +x $@
 
 .PHONY: start
