@@ -8,17 +8,27 @@
 /*                                                                       */
 /*************************************************************************/
 
-#ifndef __buffer_h
-#define __buffer_h
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct char_data CHAR_DATA;
+
+typedef struct _BUFFER {
+    int size;
+    char *buffer;
+} BUFFER;
 
 /* Creates a new buffer. */
-BUFFER *buffer_create(void);
+BUFFER *buffer_create();
 
 /* Destroys the buffer. */
 void buffer_destroy(BUFFER *buffer);
 
 /* Returns the buffer's contents. */
-char *buffer_string(BUFFER *buffer);
+const char *buffer_string(const BUFFER *buffer);
 
 // TM this was split due to some text being sent in 'text' with no ... - users could
 // do 'note + %s' and BANG! addline(buf, "note + %s"); - no parm! whoops
@@ -39,4 +49,6 @@ void buffer_shrink(BUFFER *buffer);
 /* Pages the buffer to the given char, and then destroys the buffer. */
 void buffer_send(BUFFER *buffer, CHAR_DATA *ch);
 
+#ifdef __cplusplus
+}
 #endif

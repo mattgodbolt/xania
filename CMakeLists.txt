@@ -14,12 +14,20 @@ endif ()
 include(${CMAKE_MAKE_CONFIG_FILE})
 ####
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 add_compile_options(-Werror -Wall -Wextra)
 
 include(scripts/conan.cmake)
 
 conan_check(VERSION 1.27.1 REQUIRED)
+
+conan_add_remote(NAME bincrafters INDEX 1
+        URL https://api.bintray.com/conan/bincrafters/public-conan)
+conan_cmake_run(CONANFILE conanfile.txt
+        BASIC_SETUP CMAKE_TARGETS
+        BUILD missing)
+
+enable_testing()
 
 add_subdirectory(src)
 

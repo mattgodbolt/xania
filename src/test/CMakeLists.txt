@@ -1,0 +1,5 @@
+include_directories(..)
+file(GLOB SOURCE_FILES CONFIGURE_DEPENDS *.cpp *.hpp *.c *.h)
+add_executable(xania_test ${SOURCE_FILES})
+target_link_libraries(xania_test xania_lib CONAN_PKG::Catch2)
+add_test(COMMAND $<TARGET_FILE:xania_test>)
