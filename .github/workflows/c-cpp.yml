@@ -10,8 +10,8 @@ jobs:
       CXX: g++-${{ matrix.gcc_version }}
     strategy:
       matrix:
-        gcc_version: [ 7 ]
-        os: [ ubuntu-18.04 ]
+        gcc_version: [ 7, 8, 9]
+        os: [ ubuntu-18.04, ubuntu-20.04 ]
     steps:
       - uses: actions/checkout@v1
       - name: configure
