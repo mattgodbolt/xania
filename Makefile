@@ -68,7 +68,7 @@ conan: $(CONAN)
 deps: conda conan $(CLANG_FORMAT)
 cmake-print-deps: deps Makefile
 	@echo "# Automatically created by the Makefile - DO NOT EDIT" > $(CMAKE_CONFIG_FILE)
-	@echo "set(CMAKE_PROGRAM_PATH $(CONDA_ROOT)/bin $(CMAKE_PROGRAM_PATH))" >> $(CMAKE_CONFIG_FILE)
+	@echo "set(CMAKE_PROGRAM_PATH $(CONDA_ROOT)/bin \$$(CMAKE_PROGRAM_PATH))" >> $(CMAKE_CONFIG_FILE)
 
 
 # ideally would check the sha512 here. TODO: This
