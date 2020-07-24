@@ -19,14 +19,14 @@
 #include <sys/types.h>
 #include <time.h>
 
-void display_flags(char *template, CHAR_DATA *ch, int current_val) {
+void display_flags(char *format, CHAR_DATA *ch, int current_val) {
     char buf[MAX_STRING_LENGTH];
     char *src, *dest, *ptr;
     BUFFER *buffer;
     int chars;
     if (current_val) {
         int bit;
-        ptr = template;
+        ptr = format;
         buffer = buffer_create();
         buffer_addline(buffer, "|C");
         chars = 0;
@@ -73,11 +73,11 @@ void display_flags(char *template, CHAR_DATA *ch, int current_val) {
     }
 }
 
-int flag_bit(char *template, char *flag, int level) {
+int flag_bit(char *format, char *flag, int level) {
     char buf[MAX_INPUT_LENGTH];
     char buf2[MAX_INPUT_LENGTH];
     char *src = flag, *dest = buf;
-    char *ptr = template;
+    char *ptr = format;
     int bit = 0;
 
     for (; *src && !isspace(*src);)
@@ -109,12 +109,12 @@ int flag_bit(char *template, char *flag, int level) {
     return INVALID_BIT;
 }
 
-long flag_set(char *template, char *arg, long current_val, CHAR_DATA *ch) {
+long flag_set(char *format, char *arg, long current_val, CHAR_DATA *ch) {
     long retval = current_val;
     if (arg[0] == '\0') {
-        display_flags(template, ch, (int)current_val);
+        display_flags(format, ch, (int)current_val);
         send_to_char("Allowed flags are:\n\r", ch);
-        display_flags(template, ch, -1);
+        display_flags(format, ch, -1);
         return current_val;
     }
     for (;;) {
@@ -129,11 +129,11 @@ long flag_set(char *template, char *arg, long current_val, CHAR_DATA *ch) {
             arg++;
             break;
         }
-        bit = flag_bit(template, arg, get_trust(ch));
+        bit = flag_bit(format, arg, get_trust(ch));
         if (bit == INVALID_BIT) {
-            display_flags(template, ch, (int)current_val);
+            display_flags(format, ch, (int)current_val);
             send_to_char("Allowed flags are:\n\r", ch);
-            display_flags(template, ch, -1);
+            display_flags(format, ch, -1);
             return current_val;
         }
         switch (flag) {
@@ -148,6 +148,6 @@ long flag_set(char *template, char *arg, long current_val, CHAR_DATA *ch) {
         if (*arg == '\0')
             break;
     }
-    display_flags(template, ch, (int)retval);
+    display_flags(format, ch, (int)retval);
     return retval;
 }
