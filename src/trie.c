@@ -115,8 +115,7 @@ static void destroy_node(node_t *node) {
 
 /* destroys the given trie. */
 void trie_destroy(void *trie) {
-    trie_t *this = (trie_t *)trie;
-    destroy_node(this->topnode);
+    destroy_node(((trie_t *)trie)->topnode);
     free(trie);
 }
 
