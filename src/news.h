@@ -9,6 +9,40 @@
 
 #pragma once
 
+/* Structures for news - mostly self-explanatory */
+
+// TODO extract and make this not terrible. taken from merc.h
+#ifndef __cplusplus
+typedef unsigned char bool;
+#endif
+typedef struct char_data CHAR_DATA;
+
+extern int cur_msg_id;
+
+#define MES_HASH 32
+
+typedef struct _MES_ID {
+    struct _MES_ID *next;
+    int id;
+} MES_ID;
+
+typedef struct _ARTICLE {
+    struct _ARTICLE *next;
+    char *author;
+    char *text;
+    int time_sent;
+    int msg_id;
+} ARTICLE;
+
+typedef struct _THREAD {
+    struct _THREAD *next;
+    struct _ARTICLE *articles;
+    char *subject;
+    int num_articles;
+    int flags;
+    int expiry;
+} THREAD;
+
 /* Defines for news */
 #define NEWS_FILE "news.txt"
 

@@ -11,21 +11,13 @@
  * newer spells. magic.c is a monster already.
  */
 
-#if defined(macintosh)
-#include <types.h>
-#else
-#if defined(riscos)
-#include "sys/types.h"
-#else
-#include <sys/types.h>
-#endif
-#endif
 #include "challeng.h"
 #include "magic.h"
 #include "merc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 #include <time.h>
 
 /* command procedures needed */

@@ -11,23 +11,13 @@
    direct questions or comments to rtaylor@cie-2.uoregon.edu
    any use of this code must include this header */
 
-#if defined(macintosh)
-#include <time.h>
-#include <types.h>
-#else
-#if defined(riscos)
-#include "sys/types.h"
-#include <time.h>
-#else
-#include <sys/time.h>
-#include <sys/types.h>
-#endif
-#endif
 #include "magic.h"
 #include "merc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/time.h>
+#include <sys/types.h>
 
 void do_heal(CHAR_DATA *ch, char *argument) {
     CHAR_DATA *mob;

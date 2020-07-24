@@ -7,19 +7,11 @@
 /*                                                                       */
 /*************************************************************************/
 
-#if defined(macintosh)
-#include <types.h>
-#else
-#if defined(riscos)
-#include "sys/types.h"
-#else
-#include <sys/types.h>
-#endif
-#endif
 #include "merc.h"
 #include "prog.h"
 #include <stdio.h>
 #include <string.h>
+#include <sys/types.h>
 #include <time.h>
 
 /* command procedures needed */
@@ -609,11 +601,8 @@ void char_update(void) {
                         stop_fighting(ch, TRUE);
                     act("$n disappears into the void.", ch, NULL, NULL, TO_ROOM);
                     send_to_char("You disappear into the void.\n\r", ch);
-#if defined(MSDOS)
-#else
                     if (ch->level > 1)
                         save_char_obj(ch);
-#endif
                     char_from_room(ch);
                     char_to_room(ch, get_room_index(ROOM_VNUM_LIMBO));
                     if (ch->pet) /* move pets, too */
@@ -755,11 +744,8 @@ void char_update(void) {
     for (ch = char_list; ch != NULL; ch = ch_next) {
         ch_next = ch->next;
 
-#if defined(MSDOS)
-#else
         if (ch->desc != NULL && ch->desc->descriptor % 30 == save_number)
             save_char_obj(ch);
-#endif
 
         if (ch == ch_quit)
             do_quit(ch, "");

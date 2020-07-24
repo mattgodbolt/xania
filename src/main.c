@@ -32,13 +32,6 @@ int main(int argc, char **argv) {
     int control;
 
     /*
-     * Memory debugging if needed.
-     */
-#if defined(MALLOC_DEBUG)
-    malloc_debug(2);
-#endif
-
-    /*
      * Init time.
      */
     gettimeofday(&now_time, NULL);

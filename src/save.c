@@ -7,34 +7,16 @@
 /*                                                                       */
 /*************************************************************************/
 
-#if defined(macintosh)
-#include <types.h>
-#else
-#if defined(riscos)
-#include "sys/types.h"
-#include <stdlib.h>
-#else
-#include <sys/types.h>
-#endif
-#endif
 #include "merc.h"
 #include "news.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/types.h>
 #include <time.h>
-
-#if !defined(macintosh)
-extern int _filbuf args((FILE *));
-#endif
 
 char *login_from;
 char *login_at;
-
-#if defined(riscos)
-#else
-extern int atoi(char *); /* Frassen rassen can't be bothered to include stdlib */
-#endif
 
 /*
  * Array of containers read for proper re-nesting of objects.
@@ -99,7 +81,6 @@ void save_char_obj(CHAR_DATA *ch) {
     if (ch->desc != NULL && ch->desc->original != NULL)
         ch = ch->desc->original;
 
-#if defined(unix)
     /* create god log */
     if (IS_IMMORTAL(ch) || ch->level >= LEVEL_IMMORTAL) {
         fclose(fpReserve);
@@ -113,7 +94,6 @@ void save_char_obj(CHAR_DATA *ch) {
         fclose(fp);
         fpReserve = fopen(NULL_FILE, "r");
     }
-#endif
 
     fclose(fpReserve);
     snprintf(strsave, sizeof(strsave), "%s%s", PLAYER_DIR, capitalize(ch->name));
@@ -460,9 +440,7 @@ void fwrite_obj(CHAR_DATA *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
 bool load_char_obj(DESCRIPTOR_DATA *d, char *name) {
     static PC_DATA pcdata_zero;
     char strsave[MAX_INPUT_LENGTH];
-#if defined(unix)
     char buf[MAX_STRING_LENGTH * 2];
-#endif
     CHAR_DATA *ch;
     FILE *fp;
     bool found;
@@ -546,7 +524,6 @@ bool load_char_obj(DESCRIPTOR_DATA *d, char *name) {
     found = FALSE;
     fclose(fpReserve);
 
-#if defined(unix)
     /* decompress if .gz file exists */
     snprintf(strsave, sizeof(strsave), "%s%s%s", PLAYER_DIR, capitalize(name), ".gz");
     if ((fp = fopen(strsave, "r")) != NULL) {
@@ -560,7 +537,6 @@ bool load_char_obj(DESCRIPTOR_DATA *d, char *name) {
             system(buf);
         }
     }
-#endif
 
     snprintf(strsave, sizeof(strsave), "%s%s", PLAYER_DIR, capitalize(name));
     if ((fp = fopen(strsave, "r")) != NULL) {

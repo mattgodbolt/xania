@@ -24,10 +24,6 @@ DECLARE_DO_FUN(do_clipboard);
 
 #define FNAME_LEN 30
 
-#if defined(MSDOS)
-#define FNAME_LEN 8
-#endif
-
 /*
  * Maxima
  */
