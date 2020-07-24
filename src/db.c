@@ -7,41 +7,22 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "db.h"
+#include "buffer.h"
+#include "interp.h"
+#include "merc.h"
+#include "note.h"
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
-#if defined(macintosh)
-#include <types.h>
-#else
-#if defined(riscos)
-#include "sys/types.h"
-#include <time.h>
-#else
 #include <sys/resource.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#endif
-#endif
+#include <time.h>
 
-#include "buffer.h"
-#include "db.h"
-#include "interp.h"
-#include "merc.h"
-#include "note.h"
-
-#if defined(unix) && !defined(libc6)
 extern int getrlimit(int resource, struct rlimit *rlp);
-#if !defined(linux) && !defined(riscbsd)
-extern int setrlimit(int resource, struct rlimit *rlp);
-#endif
-#endif
-
-#if !defined(macintosh)
-extern int _filbuf(FILE *);
-#endif
 
 /* Externally referenced functions. */
 void load_news(void);
@@ -228,7 +209,6 @@ void fix_exits(void);
 
 void reset_area(AREA_DATA *pArea);
 
-#if defined(unix)
 /* RT max open files fix */
 
 void maxfilelimit() {
@@ -238,15 +218,12 @@ void maxfilelimit() {
     r.rlim_cur = r.rlim_max;
     setrlimit(RLIMIT_NOFILE, &r);
 }
-#endif
 
 /* Big mama top level function. */
 void boot_db(void) {
 
-#if defined(unix)
     /* open file fix */
     maxfilelimit();
-#endif
 
     /* Init some data space stuff. */
     if ((string_space = calloc(1, MAX_STRING)) == NULL) {

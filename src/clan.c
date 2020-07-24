@@ -7,15 +7,11 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "merc.h"
+#include <memory.h>
 #include <stdio.h>
 #include <stdlib.h>
-#if defined(riscos)
-#include "sys/time.h"
-#else
-#include <memory.h>
 #include <sys/time.h>
-#endif
-#include "merc.h"
 
 DECLARE_DO_FUN(do_afk);
 

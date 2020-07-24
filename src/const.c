@@ -7,18 +7,10 @@
 /*                                                                       */
 /*************************************************************************/
 
-#if defined(macintosh)
-#include <types.h>
-#else
-#if defined(riscos)
-#include "sys/types.h"
-#else
-#include <sys/types.h>
-#endif
-#endif
 #include "magic.h"
 #include "merc.h"
 #include <stdio.h>
+#include <sys/types.h>
 #include <time.h>
 
 /* attack table  -- not very organized :( */

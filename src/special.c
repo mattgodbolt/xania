@@ -7,23 +7,14 @@
 /*                                                                       */
 /*************************************************************************/
 
-#if defined(macintosh)
-#include <types.h>
-#else
-#if defined(riscos)
-#include "sys/types.h"
-#else
-#include <sys/types.h>
-#endif
-#endif
 #include "magic.h"
 #include "merc.h"
+#include "phil.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 #include <time.h>
-/* include definitions for Phil the meerkat */
-#include "phil.h"
 
 /* command procedures needed */
 DECLARE_DO_FUN(do_yell);

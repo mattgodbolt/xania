@@ -15,18 +15,14 @@
  * Faramir ()
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#if defined(riscos)
-#include "sys/time.h"
-#else
-#include <sys/time.h>
-#endif
+#include "news.h"
 #include "buffer.h"
 #include "flags.h"
 #include "merc.h"
-#include "news.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/time.h>
 
 DECLARE_DO_FUN(_do_news);
 

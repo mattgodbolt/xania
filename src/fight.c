@@ -7,23 +7,13 @@
 /*                                                                       */
 /*************************************************************************/
 
-#if defined(macintosh)
-#include <types.h>
-#else
-#if defined(riscos)
-#include "sys/types.h"
-#else
-#include <sys/types.h>
-#endif
-#endif
+#include "challeng.h"
 #include "merc.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/types.h>
 #include <time.h>
-
-/* For checking whether a duel is active etc. */
-#include "challeng.h"
 
 #define MAX_DAMAGE_MESSAGE 32
 

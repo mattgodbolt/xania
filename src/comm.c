@@ -50,15 +50,6 @@ extern KNOWN_PLAYERS *player_list;
 char str_boot_time[MAX_INPUT_LENGTH];
 
 /*
- * Malloc debugging stuff.
- */
-#if defined(MALLOC_DEBUG)
-#include <malloc.h>
-extern int malloc_debug args((int));
-extern int malloc_verify args((void));
-#endif
-
-/*
  * Socket and TCP/IP stuff.
  */
 
@@ -313,11 +304,6 @@ void game_loop_unix(int control) {
         fd_set exc_set;
         int maxdesc;
         DESCRIPTOR_DATA *d, *dNext;
-
-#if defined(MALLOC_DEBUG)
-        if (malloc_verify() != 1)
-            abort();
-#endif
 
         /*
          * Poll all active descriptors.

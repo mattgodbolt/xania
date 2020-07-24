@@ -7,20 +7,12 @@
 /*                                                                       */
 /*************************************************************************/
 
-#if defined(macintosh)
-#include <types.h>
-#else
-#if defined(riscos)
-#include "sys/types.h"
-#else
-#include <sys/types.h>
-#endif
-#endif
 #include "buffer.h"
 #include "merc.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/types.h>
 #include <time.h>
 
 /* command procedures needed */

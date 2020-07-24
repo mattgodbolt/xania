@@ -7,23 +7,13 @@
 /*                                                                       */
 /*************************************************************************/
 
-#if defined(macintosh)
-#include <time.h>
-#include <types.h>
-#else
-#if defined(riscos)
-#include "sys/types.h"
-#include <time.h>
-#else
-#include <sys/time.h>
-#include <sys/types.h>
-#endif
-#endif
 #include "buffer.h"
 #include "merc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/time.h>
+#include <sys/types.h>
 
 /* command procedures needed */
 DECLARE_DO_FUN(do_split);

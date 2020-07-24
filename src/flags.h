@@ -9,6 +9,8 @@
 
 #pragma once
 
+typedef struct char_data CHAR_DATA;
+
 #define INVALID_BIT (-1)
 
 /* Takes: a template string of the form 'flag flag flag', or '*' for no flag,
