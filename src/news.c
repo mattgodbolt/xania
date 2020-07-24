@@ -37,20 +37,20 @@ static char *news_name = "news"; // The name of the command being used - either 
 
 /* Create a new, blank thread, not chained onto the global linked list */
 THREAD *new_thread(void) {
-    THREAD *new;
+    THREAD *res;
     if (thread_free) {
-        new = thread_free;
+        res = thread_free;
         thread_free = thread_free->next;
     } else {
-        new = (THREAD *)alloc_perm(sizeof(THREAD));
+        res = (THREAD *)alloc_perm(sizeof(THREAD));
     }
-    new->next = NULL;
-    new->articles = NULL;
-    new->subject = NULL;
-    new->num_articles = 0;
-    new->expiry = DEFAULT_EXPIRY;
-    new->flags = 0;
-    return new;
+    res->next = NULL;
+    res->articles = NULL;
+    res->subject = NULL;
+    res->num_articles = 0;
+    res->expiry = DEFAULT_EXPIRY;
+    res->flags = 0;
+    return res;
 }
 
 /* Remove a thread, does not unchain */
@@ -70,18 +70,18 @@ void free_thread(THREAD *thread) {
 
 /* Create a new, blank article - UPDATES cur_msg_id */
 ARTICLE *new_article(void) {
-    ARTICLE *new;
+    ARTICLE *res;
     if (article_free) {
-        new = article_free;
+        res = article_free;
         article_free = article_free->next;
     } else {
-        new = (ARTICLE *)alloc_perm(sizeof(ARTICLE));
+        res = (ARTICLE *)alloc_perm(sizeof(ARTICLE));
     }
-    new->next = NULL;
-    new->author = NULL;
-    new->text = NULL;
-    new->msg_id = cur_msg_id++; // Give the message id to this article, and increment it
-    return new;
+    res->next = NULL;
+    res->author = NULL;
+    res->text = NULL;
+    res->msg_id = cur_msg_id++; // Give the message id to this article, and increment it
+    return res;
 }
 
 /* Free an article - without removing from any linked lists it may be in */
@@ -473,22 +473,22 @@ void do_news_post(CHAR_DATA *ch, char *argument) {
         return;
     }
     if (ch->newssubject) { // If subject is non-NULL then it must be a new thread we are creating
-        THREAD *new = new_thread();
+        THREAD *add = new_thread();
         THREAD *t = thread_head;
         ARTICLE *art;
         if (t == NULL) { // If there are no threads at all - then this is the first one
-            thread_head = new;
-            new->next = NULL;
+            thread_head = add;
+            add->next = NULL;
         } else {
             for (; t->next; t = t->next)
                 ; // Skip to one-before end of linked list
-            t->next = new; // Chain onto list here
-            new->next = NULL;
+            t->next = add; // Chain onto list here
+            add->next = NULL;
         }
-        new->subject = str_dup(ch->newssubject); // Dup the subject for this thread's subject
+        add->subject = str_dup(ch->newssubject); // Dup the subject for this thread's subject
         art = new_article(); // Create a new article
-        new->articles = art; // Chain the article onto the thread's l_list
-        new->num_articles = 1;
+        add->articles = art; // Chain the article onto the thread's l_list
+        add->num_articles = 1;
         art->author = str_dup(ch->newsfromname); // Dupe the author's name
         art->time_sent = current_time;
         art->next = NULL; // Only one article - so no ->next
@@ -499,22 +499,22 @@ void do_news_post(CHAR_DATA *ch, char *argument) {
         ch->newssubject = NULL; // Release more stuff
         free_string(ch->newsfromname);
         ch->newsfromname = NULL;
-        ch->thread = new; // Place ch's thread and art to point at the new message
+        ch->thread = add; // Place ch's thread and art to point at the new message
         ch->article = art;
         ch->articlenum = 1;
         send_to_char("New thread created successfully.\n\r", ch); // Hooray!
     } else { // This must be a reply as newssubject==NULL
         ARTICLE *art;
-        ARTICLE *new = new_article(); // Generate the new article
+        ARTICLE *add = new_article(); // Generate the new article
         for (art = ch->newsreply->articles; art->next; art = art->next)
             ; // Find last art (ch->newsreply is nonnull)
-        art->next = new; // Thread on article
-        new->next = NULL; // No more articles after this one
-        new->time_sent = current_time;
-        new->text = str_dup(buffer_string(ch->newsbuffer)); // Dup the body of the art
-        new->author = str_dup(ch->newsfromname);
+        art->next = add; // Thread on article
+        add->next = NULL; // No more articles after this one
+        add->time_sent = current_time;
+        add->text = str_dup(buffer_string(ch->newsbuffer)); // Dup the body of the art
+        add->author = str_dup(ch->newsfromname);
         ch->thread = ch->newsreply;
-        ch->article = new; // Point char at the message they've just created
+        ch->article = add; // Point char at the message they've just created
         ch->articlenum = ++ch->newsreply->num_articles; // Inc num of arts in this thread, and point char to this one
         buffer_destroy(ch->newsbuffer); // Free user's newsbuffer
         ch->newsbuffer = NULL;

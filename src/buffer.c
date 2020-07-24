@@ -22,21 +22,21 @@
 
 /* Creates a new buffer. */
 BUFFER *buffer_create(void) {
-    BUFFER *new = malloc(sizeof(BUFFER));
-    if (new) {
-        new->size = BUFFER_GRANULARITY;
-        new->buffer = malloc(BUFFER_GRANULARITY);
-        if (new->buffer) {
-            new->buffer[0] = '\0';
+    BUFFER *res = malloc(sizeof(BUFFER));
+    if (res) {
+        res->size = BUFFER_GRANULARITY;
+        res->buffer = malloc(BUFFER_GRANULARITY);
+        if (res->buffer) {
+            res->buffer[0] = '\0';
         } else {
-            free(new);
-            new = NULL;
+            free(res);
+            res = NULL;
         }
     }
-    if (!new) {
+    if (!res) {
         bug("Failed to create a new buffer.");
     }
-    return new;
+    return res;
 }
 
 /* Destroys the buffer. */
