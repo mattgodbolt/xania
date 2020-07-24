@@ -70,6 +70,9 @@ struct Channel {
     pid_t identPid{}; /* PID of look-up process */
     int identFd[2]{}; /* FD of look-up processes pipe (read on 0) */
     std::string authCharName; /* name of authorized character */
+
+    void newConnection(int fd, struct sockaddr_in address);
+    void closeConnection();
 };
 
 void SendConnectPacket(Channel &channel);
@@ -162,44 +165,54 @@ std::string get_masked_hostname(std::string_view hostname) {
     return fmt::format("{}*** [#{}]", hostname.substr(0, 6), djb2_hash(hostname));
 }
 
-/* Create a new connection */
-int NewConnection(int fd, struct sockaddr_in address) {
-    pid_t forkRet;
-
-    auto channelIter = std::find_if(begin(channels), end(channels), [](const Channel &c) { return c.fd == 0; });
-    if (channelIter == end(channels)) {
-        fdprintf(fd, "Xania is out of channels!\n\rTry again soon\n\r");
-        close(fd);
-        log_out("Rejected connection - out of channels");
-        return -1;
+void Channel::closeConnection() {
+    // Log the source IP but masked for privacy.
+    log_out("[%d] Closing connection to %s", id, get_masked_hostname(hostname).c_str());
+    fd = 0;
+    close(fd);
+    FD_CLR(fd, &ifds);
+    if (identPid) {
+        if (kill(identPid, 9) < 0) {
+            log_out("Couldn't kill child process (ident process has already exitted)");
+        }
     }
+    if (identFd[0]) {
+        if (identFd[0]) {
+            FD_CLR(identFd[0], &ifds);
+            close(identFd[0]);
+        }
+        if (identFd[1]) {
+            close(identFd[1]);
+        }
+    }
+}
 
-    auto &channel = *channelIter;
-    channel.id = static_cast<int32_t>(std::distance(begin(channels), channelIter));
-    channel.fd = fd;
-    channel.hostname = inet_ntoa(address.sin_addr);
-    channel.port = ntohs(address.sin_port);
-    channel.netaddr = ntohl(address.sin_addr.s_addr);
-    channel.buffer.clear();
-    channel.width = 80;
-    channel.height = 24;
-    channel.ansi = channel.gotTerm = false;
-    channel.echoing = true;
-    channel.firstReconnect = false;
-    channel.connected = false;
-    channel.authCharName.clear();
+void Channel::newConnection(int fd, struct sockaddr_in address) {
+    // One day I will be a constructor...
+    this->fd = fd;
+    hostname = inet_ntoa(address.sin_addr);
+    port = ntohs(address.sin_port);
+    netaddr = ntohl(address.sin_addr.s_addr);
+    buffer.clear();
+    width = 80;
+    height = 24;
+    ansi = gotTerm = false;
+    echoing = true;
+    firstReconnect = false;
+    connected = false;
+    authCharName.clear();
 
-    log_out("[%d] Incoming connection from %s on fd %d", channel.id, get_masked_hostname(channel.hostname).c_str(),
-            channel.fd);
+    log_out("[%d] Incoming connection from %s on fd %d", id, get_masked_hostname(hostname).c_str(),
+            fd);
 
     /* Start the state machine */
     IncomingData(fd, nullptr, 0);
 
     /* Fire off the query to the ident server */
-    if (pipe(channel.identFd) == -1) {
+    pid_t forkRet = -1;
+    if (pipe(identFd) == -1) {
         log_out("Pipe failed - next message (unable to fork) is due to this");
-        forkRet = -1;
-        channel.identFd[0] = channel.identFd[1] = 0;
+        identFd[0] = identFd[1] = 0;
     } else {
         forkRet = fork();
     }
@@ -207,11 +220,11 @@ int NewConnection(int fd, struct sockaddr_in address) {
     case 0:
         // Child process - go and do the lookup
         // First close the child's copy of the parent's fd
-        close(channel.identFd[0]);
-        log_out("ID: on %d", channel.identFd[1]);
-        channel.identFd[0] = 0;
-        ProcessIdent(address, channel.identFd[1]);
-        close(channel.identFd[1]);
+        close(identFd[0]);
+        log_out("ID: on %d", identFd[1]);
+        identFd[0] = 0;
+        ProcessIdent(address, identFd[1]);
+        close(identFd[1]);
         log_out("ID: exiting");
         exit(0);
         break;
@@ -219,19 +232,19 @@ int NewConnection(int fd, struct sockaddr_in address) {
         // Error - unable to fork()
         log_out("Unable to fork() an IdentD lookup process");
         // Close up the pipe
-        if (channel.identFd[0])
-            close(channel.identFd[0]);
-        if (channel.identFd[1])
-            close(channel.identFd[1]);
-        channel.identFd[0] = channel.identFd[1] = 0;
+        if (identFd[0])
+            close(identFd[0]);
+        if (identFd[1])
+            close(identFd[1]);
+        identFd[0] = identFd[1] = 0;
         break;
     default:
         // First close the parent's copy of the child's fd
-        close(channel.identFd[1]);
-        channel.identFd[1] = 0;
-        channel.identPid = forkRet;
-        FD_SET(channel.identFd[0], &ifds);
-        log_out("Forked ident process has PID %d on %d", forkRet, channel.identFd[0]);
+        close(identFd[1]);
+        identFd[1] = 0;
+        identPid = forkRet;
+        FD_SET(identFd[0], &ifds);
+        log_out("Forked ident process has PID %d on %d", forkRet, identFd[0]);
         break;
     }
 
@@ -242,8 +255,21 @@ int NewConnection(int fd, struct sockaddr_in address) {
         fdprintf(fd, "Xania is down at the moment - you will be connected as soon "
                      "as it is up again.\n\r");
 
-    SendConnectPacket(channel);
-    return channel.id;
+    SendConnectPacket(*this);
+}
+
+/* Create a new connection */
+int NewConnection(int fd, struct sockaddr_in address) {
+    auto channelIter = std::find_if(begin(channels), end(channels), [](const Channel &c) { return c.fd == 0; });
+    if (channelIter == end(channels)) {
+        fdprintf(fd, "Xania is out of channels!\n\rTry again soon\n\r");
+        close(fd);
+        log_out("Rejected connection - out of channels");
+        return -1;
+    }
+
+    channelIter->newConnection(fd, address);
+    return channelIter->id;
 }
 
 int HighestFd() {
@@ -257,7 +283,7 @@ int HighestFd() {
     return hFd;
 }
 
-int32_t FindChannel(int fd) {
+int32_t FindChannelId(int fd) {
     if (fd == 0) {
         log_out("Panic!  fd==0 in FindChannel!  Bailing out with -1");
         return -1;
@@ -268,31 +294,19 @@ int32_t FindChannel(int fd) {
     return -1;
 }
 
+Channel *FindChannel(int fd) {
+    if (auto channelId = FindChannelId(fd); channelId >= 0)
+        return &channels[channelId];
+    return nullptr;
+}
+
 void CloseConnection(int fd) {
-    int chan = FindChannel(fd);
-    if (chan == -1) {
+    auto channelPtr = FindChannel(fd);
+    if (!channelPtr) {
         log_out("Erk - unable to find channel for fd %d", fd);
         return;
     }
-    // Log the source IP but masked for privacy.
-    log_out("[%d] Closing connection to %s", chan, get_masked_hostname(channels[chan].hostname).c_str());
-    channels[chan].fd = 0;
-    close(fd);
-    FD_CLR(fd, &ifds);
-    if (channels[chan].identPid) {
-        if (kill(channels[chan].identPid, 9) < 0) {
-            log_out("Couldn't kill child process (ident process has already exitted)");
-        }
-    }
-    if (channels[chan].identFd[0]) {
-        if (channels[chan].identFd[0]) {
-            FD_CLR(channels[chan].identFd[0], &ifds);
-            close(channels[chan].identFd[0]);
-        }
-        if (channels[chan].identFd[1]) {
-            close(channels[chan].identFd[1]);
-        }
-    }
+    channelPtr->closeConnection();
 }
 
 /*********************************/
@@ -362,7 +376,7 @@ void IncomingIdentInfo(Channel &chan, int fd) {
 }
 
 bool IncomingData(int fd, const byte *buffer, int nBytes) {
-    int chan = FindChannel(fd);
+    int chan = FindChannelId(fd);
 
     if (chan == -1) {
         log_out("Oh dear - I got data on fd %d, but no channel!", fd);
@@ -601,7 +615,7 @@ void SendToMUD(const Packet &p, const void *payload = nullptr) {
  * and tells the MUD that the channel has closed
  */
 void AbortConnection(int fd) {
-    SendToMUD({PACKET_DISCONNECT, 0, FindChannel(fd), {}});
+    SendToMUD({PACKET_DISCONNECT, 0, FindChannelId(fd), {}});
     CloseConnection(fd);
 }
 
@@ -868,7 +882,7 @@ void ExecuteServerLoop(void) {
                     do {
                         nBytes = read(i, buf, sizeof(buf));
                         if (nBytes <= 0) {
-                            int32_t channelId = FindChannel(i);
+                            int32_t channelId = FindChannelId(i);
                             SendToMUD({PACKET_DISCONNECT, 0, channelId, {}});
                             if (nBytes < 0) {
                                 log_out("[%d] Received error %d (%s) on read - closing connection", channelId, errno,
