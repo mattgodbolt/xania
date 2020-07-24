@@ -80,7 +80,7 @@ struct Channel {
 };
 
 /* Global variables */
-Channel channel[CHANNEL_MAX];
+Channel channels[CHANNEL_MAX];
 int mudFd;
 pid_t child;
 int port = 9000;
@@ -112,7 +112,7 @@ __attribute__((format(printf, 2, 3))) bool cprintf(int chan, const char *format,
     va_start(args, format);
     len = vsnprintf(buffer, sizeof(buffer), format, args);
     va_end(args);
-    int numWritten = write(channel[chan].fd, buffer, len);
+    int numWritten = write(channels[chan].fd, buffer, len);
     return numWritten == len;
 }
 
@@ -127,8 +127,8 @@ __attribute__((format(printf, 1, 2))) void wall(const char *format, ...) {
     va_end(args);
 
     for (chan = 0; chan < CHANNEL_MAX; ++chan)
-        if (channel[chan].fd) {
-            int numWritten = write(channel[chan].fd, buffer, len);
+        if (channels[chan].fd) {
+            int numWritten = write(channels[chan].fd, buffer, len);
             (void)numWritten;
         }
 }
@@ -171,7 +171,7 @@ int NewConnection(int fd, struct sockaddr_in address) {
     pid_t forkRet;
 
     for (i = 0; i < CHANNEL_MAX; ++i) {
-        if (channel[i].fd == 0)
+        if (channels[i].fd == 0)
             break;
     }
     if (i == CHANNEL_MAX) {
@@ -181,31 +181,31 @@ int NewConnection(int fd, struct sockaddr_in address) {
         return -1;
     }
 
-    channel[i].fd = fd;
-    channel[i].hostname = inet_ntoa(address.sin_addr);
-    channel[i].port = ntohs(address.sin_port);
-    channel[i].netaddr = ntohl(address.sin_addr.s_addr);
-    channel[i].nBytes = 0;
-    channel[i].buffer = static_cast<byte *>(malloc(INCOMING_BUFFER_SIZE));
-    channel[i].width = 80;
-    channel[i].height = 24;
-    channel[i].ansi = channel[i].gotTerm = false;
-    channel[i].echoing = true;
-    channel[i].firstReconnect = false;
-    channel[i].connected = false;
-    channel[i].authCharName[0] = '\0'; // Initially unauthenticated
+    channels[i].fd = fd;
+    channels[i].hostname = inet_ntoa(address.sin_addr);
+    channels[i].port = ntohs(address.sin_port);
+    channels[i].netaddr = ntohl(address.sin_addr.s_addr);
+    channels[i].nBytes = 0;
+    channels[i].buffer = static_cast<byte *>(malloc(INCOMING_BUFFER_SIZE));
+    channels[i].width = 80;
+    channels[i].height = 24;
+    channels[i].ansi = channels[i].gotTerm = false;
+    channels[i].echoing = true;
+    channels[i].firstReconnect = false;
+    channels[i].connected = false;
+    channels[i].authCharName[0] = '\0'; // Initially unauthenticated
 
-    log_out("[%d] Incoming connection from %s on fd %d", i, get_masked_hostname(channel[i].hostname).c_str(),
-            channel[i].fd);
+    log_out("[%d] Incoming connection from %s on fd %d", i, get_masked_hostname(channels[i].hostname).c_str(),
+            channels[i].fd);
 
     /* Start the state machine */
     IncomingData(fd, NULL, 0);
 
     /* Fire off the query to the ident server */
-    if (pipe(channel[i].identFd) == -1) {
+    if (pipe(channels[i].identFd) == -1) {
         log_out("Pipe failed - next message (unable to fork) is due to this");
         forkRet = -1;
-        channel[i].identFd[0] = channel[i].identFd[1] = 0;
+        channels[i].identFd[0] = channels[i].identFd[1] = 0;
     } else {
         forkRet = fork();
     }
@@ -213,31 +213,31 @@ int NewConnection(int fd, struct sockaddr_in address) {
     case 0:
         // Child process - go and do the lookup
         // First close the child's copy of the parent's fd
-        close(channel[i].identFd[0]);
-        log_out("ID: on %d", channel[i].identFd[1]);
-        channel[i].identFd[0] = 0;
-        ProcessIdent(address, channel[i].identFd[1]);
-        close(channel[i].identFd[1]);
-        log_out("ID: exitting");
+        close(channels[i].identFd[0]);
+        log_out("ID: on %d", channels[i].identFd[1]);
+        channels[i].identFd[0] = 0;
+        ProcessIdent(address, channels[i].identFd[1]);
+        close(channels[i].identFd[1]);
+        log_out("ID: exiting");
         exit(0);
         break;
     case -1:
         // Error - unable to fork()
         log_out("Unable to fork() an IdentD lookup process");
         // Close up the pipe
-        if (channel[i].identFd[0])
-            close(channel[i].identFd[0]);
-        if (channel[i].identFd[1])
-            close(channel[i].identFd[1]);
-        channel[i].identFd[0] = channel[i].identFd[1] = 0;
+        if (channels[i].identFd[0])
+            close(channels[i].identFd[0]);
+        if (channels[i].identFd[1])
+            close(channels[i].identFd[1]);
+        channels[i].identFd[0] = channels[i].identFd[1] = 0;
         break;
     default:
         // First close the parent's copy of the child's fd
-        close(channel[i].identFd[1]);
-        channel[i].identFd[1] = 0;
-        channel[i].identPid = forkRet;
-        FD_SET(channel[i].identFd[0], &ifds);
-        log_out("Forked ident process has PID %d on %d", forkRet, channel[i].identFd[0]);
+        close(channels[i].identFd[1]);
+        channels[i].identFd[1] = 0;
+        channels[i].identPid = forkRet;
+        FD_SET(channels[i].identFd[0], &ifds);
+        log_out("Forked ident process has PID %d on %d", forkRet, channels[i].identFd[0]);
         break;
     }
 
@@ -256,10 +256,10 @@ int HighestFd() {
     int hFd = 0;
     int i;
     for (i = 0; i < CHANNEL_MAX; ++i) {
-        if (channel[i].fd > hFd)
-            hFd = channel[i].fd;
-        if (channel[i].fd && channel[i].identPid && channel[i].identFd[0] > hFd)
-            hFd = channel[i].identFd[0];
+        if (channels[i].fd > hFd)
+            hFd = channels[i].fd;
+        if (channels[i].fd && channels[i].identPid && channels[i].identFd[0] > hFd)
+            hFd = channels[i].identFd[0];
     }
     return hFd;
 }
@@ -271,7 +271,7 @@ int32_t FindChannel(int fd) {
         return -1;
     }
     for (i = 0; i < CHANNEL_MAX; ++i)
-        if (fd == channel[i].fd)
+        if (fd == channels[i].fd)
             return i;
     return -1;
 }
@@ -283,22 +283,22 @@ void CloseConnection(int fd) {
         return;
     }
     // Log the source IP but masked for privacy.
-    log_out("[%d] Closing connection to %s", chan, get_masked_hostname(channel[chan].hostname).c_str());
-    channel[chan].fd = 0;
+    log_out("[%d] Closing connection to %s", chan, get_masked_hostname(channels[chan].hostname).c_str());
+    channels[chan].fd = 0;
     close(fd);
     FD_CLR(fd, &ifds);
-    if (channel[chan].identPid) {
-        if (kill(channel[chan].identPid, 9) < 0) {
+    if (channels[chan].identPid) {
+        if (kill(channels[chan].identPid, 9) < 0) {
             log_out("Couldn't kill child process (ident process has already exitted)");
         }
     }
-    if (channel[chan].identFd[0]) {
-        if (channel[chan].identFd[0]) {
-            FD_CLR(channel[chan].identFd[0], &ifds);
-            close(channel[chan].identFd[0]);
+    if (channels[chan].identFd[0]) {
+        if (channels[chan].identFd[0]) {
+            FD_CLR(channels[chan].identFd[0], &ifds);
+            close(channels[chan].identFd[0]);
         }
-        if (channel[chan].identFd[1]) {
-            close(channel[chan].identFd[1]);
+        if (channels[chan].identFd[1]) {
+            close(channels[chan].identFd[1]);
         }
     }
 }
@@ -342,8 +342,8 @@ void IncomingIdentInfo(int chan, int fd) {
         log_out("[%d] IdentD pipe died on read (read returned %d)", chan, ret);
         FD_CLR(fd, &ifds);
         close(fd);
-        channel[chan].identFd[0] = channel[chan].identFd[1] = 0;
-        channel[chan].identPid = 0;
+        channels[chan].identFd[0] = channels[chan].identFd[1] = 0;
+        channels[chan].identPid = 0;
         FD_CLR(fd, &ifds);
         return;
     }
@@ -355,17 +355,17 @@ void IncomingIdentInfo(int chan, int fd) {
     buffer[numBytes] = '\0'; // ensure zero-termedness
     FD_CLR(fd, &ifds);
     close(fd);
-    channel[chan].identFd[0] = channel[chan].identFd[1] = 0;
-    channel[chan].identPid = 0;
+    channels[chan].identFd[0] = channels[chan].identFd[1] = 0;
+    channels[chan].identPid = 0;
 
     if (numRead != numBytes) {
         log_out("[%d] Partial read %d!=%d", chan, numRead, numBytes);
         return;
     }
 
-    channel[chan].hostname = buffer;
+    channels[chan].hostname = buffer;
     // Log the source IP but mask it for privacy.
-    log_out("[%d] %s", chan, get_masked_hostname(channel[chan].hostname).c_str());
+    log_out("[%d] %s", chan, get_masked_hostname(channels[chan].hostname).c_str());
     SendInfoPacket(chan);
 }
 
@@ -382,21 +382,21 @@ bool IncomingData(int fd, byte *buffer, int nBytes) {
         int nLeft, nRealBytes;
 
         /* Check for buffer overflow */
-        if ((nBytes + channel[chan].nBytes) > INCOMING_BUFFER_SIZE) {
+        if ((nBytes + channels[chan].nBytes) > INCOMING_BUFFER_SIZE) {
             const char *ovf = ">>> Too much incoming data at once - PUT A LID ON IT!!\n\r";
             if (write(fd, ovf, strlen(ovf)) != (ssize_t)strlen(ovf)) {
                 // don't care if this fails..
             }
-            channel[chan].nBytes = 0;
+            channels[chan].nBytes = 0;
             return false;
         }
         /* Add the data into the buffer */
-        memcpy(&channel[chan].buffer[channel[chan].nBytes], buffer, nBytes);
-        channel[chan].nBytes += nBytes;
+        memcpy(&channels[chan].buffer[channels[chan].nBytes], buffer, nBytes);
+        channels[chan].nBytes += nBytes;
 
         /* Scan through and remove telnet commands */
         nRealBytes = 0;
-        for (ptr = channel[chan].buffer, nLeft = channel[chan].nBytes; nLeft;) {
+        for (ptr = channels[chan].buffer, nLeft = channels[chan].nBytes; nLeft;) {
             /* telnet command? */
             if (*ptr == IAC) {
                 if (nLeft < 3) /* Is it too small to fit a whole command in? */
@@ -408,8 +408,8 @@ bool IncomingData(int fd, byte *buffer, int nBytes) {
                         // Check to see if we've already got the info
                         // Whoiseye's bloody DEC-TERM spams us multiply
                         // otherwise...
-                        if (!channel[chan].gotTerm) {
-                            channel[chan].gotTerm = true;
+                        if (!channels[chan].gotTerm) {
+                            channels[chan].gotTerm = true;
                             SendOpt(fd, *(ptr + 2));
                         }
                         break;
@@ -427,7 +427,7 @@ bool IncomingData(int fd, byte *buffer, int nBytes) {
                     nLeft -= 3;
                     break;
                 case DO:
-                    if (ptr[2] == TELOPT_ECHO && channel[chan].echoing == false) {
+                    if (ptr[2] == TELOPT_ECHO && channels[chan].echoing == false) {
                         SendCom(fd, WILL, TELOPT_ECHO);
                         memmove(ptr, ptr + 3, nLeft - 3);
                         nLeft -= 3;
@@ -469,12 +469,12 @@ bool IncomingData(int fd, byte *buffer, int nBytes) {
                     case TELOPT_TTYPE:
                         log_out("[%d] TTYPE = %s", chan, ptr + 4);
                         if (SupportsAnsi((const char *)ptr + 4))
-                            channel[chan].ansi = true;
+                            channels[chan].ansi = true;
                         break;
                     case TELOPT_NAWS:
                         log_out("[%d] NAWS = %dx%d", chan, ptr[4], ptr[6]);
-                        channel[chan].width = ptr[4];
-                        channel[chan].height = ptr[6];
+                        channels[chan].width = ptr[4];
+                        channels[chan].height = ptr[6];
                         break;
                     }
 
@@ -498,10 +498,10 @@ bool IncomingData(int fd, byte *buffer, int nBytes) {
             }
         }
         /* Now to update the buffer stats */
-        channel[chan].nBytes = nRealBytes;
+        channels[chan].nBytes = nRealBytes;
 
         /* Second pass - look for whole lines of text */
-        for (ptr = channel[chan].buffer, nLeft = channel[chan].nBytes; nLeft; ++ptr, --nLeft) {
+        for (ptr = channels[chan].buffer, nLeft = channels[chan].nBytes; nLeft; ++ptr, --nLeft) {
             char c;
             switch (*ptr) {
             case '\n':
@@ -509,14 +509,14 @@ bool IncomingData(int fd, byte *buffer, int nBytes) {
                 c = *ptr;
                 *ptr = '\0';
                 /* Send it to the MUD */
-                if (connected && channel[chan].connected) {
+                if (connected && channels[chan].connected) {
                     Packet p;
                     p.type = PACKET_MESSAGE;
                     p.channel = chan;
-                    p.nExtra = strlen((const char *)channel[chan].buffer) + 2;
+                    p.nExtra = strlen((const char *)channels[chan].buffer) + 2;
                     if (write(mudFd, &p, sizeof(p)) != sizeof(p))
                         return false;
-                    if (write(mudFd, channel[chan].buffer, p.nExtra - 2) != p.nExtra - 2)
+                    if (write(mudFd, channels[chan].buffer, p.nExtra - 2) != p.nExtra - 2)
                         return false;
                     if (write(mudFd, "\n\r", 2) != 2)
                         return false;
@@ -525,19 +525,19 @@ bool IncomingData(int fd, byte *buffer, int nBytes) {
                 }
                 /* Check for \n\r or \r\n */
                 if (nLeft > 1 && (*(ptr + 1) == '\r' || *(ptr + 1) == '\n') && *(ptr + 1) != c) {
-                    memmove(channel[chan].buffer, ptr + 2, nLeft - 2);
+                    memmove(channels[chan].buffer, ptr + 2, nLeft - 2);
                     nLeft--;
                 } else if (nLeft) {
-                    memmove(channel[chan].buffer, ptr + 1, nLeft - 1);
+                    memmove(channels[chan].buffer, ptr + 1, nLeft - 1);
                 } // else nLeft is zero, so we might as well avoid calling memmove(x,y,
                   // 0)
 
                 /* The +1 at the top of the loop resets ptr to buffer */
-                ptr = channel[chan].buffer - 1;
+                ptr = channels[chan].buffer - 1;
                 break;
             }
         }
-        channel[chan].nBytes = ptr - channel[chan].buffer;
+        channels[chan].nBytes = ptr - channels[chan].buffer;
     } else { /* Special case for initialisation */
         /* Send all options out */
         SendCom(fd, DO, TELOPT_TTYPE);
@@ -557,40 +557,28 @@ void IdentPipeHandler(int ignored) {
 }
 
 void ProcessIdent(struct sockaddr_in address, int outFd) {
-    char buf[1024 + 64];
-    struct hostent *ent;
-    int nBytes;
-    int i;
-    const char *hostName;
-
     /*
      * Firstly, and quite importantly, close all the descriptors we
      * don't need, so we don't keep open sockets past their useful
      * life.  This was a bug which meant ppl with firewalled auth
      * ports could keep other ppls connections open (nonresponding)
      */
-    for (i = 0; i < CHANNEL_MAX; ++i) {
-        if (channel[i].fd)
-            close(channel[i].fd);
-        if (channel[i].identFd[0])
-            close(channel[i].identFd[0]);
+    for (auto &channel : channels) {
+        if (channel.fd)
+            close(channel.fd);
+        if (channel.identFd[0])
+            close(channel.identFd[0]);
     }
 
-    /*
-     * Bail out on a PIPE - this means our parent has crashed
-     */
+    // Bail out on a PIPE - this means our parent has crashed
     signal(SIGPIPE, IdentPipeHandler);
 
-    ent = gethostbyaddr((char *)&address.sin_addr, sizeof(address.sin_addr), AF_INET);
+    auto *ent = gethostbyaddr((char *)&address.sin_addr, sizeof(address.sin_addr), AF_INET);
 
-    if (ent) {
-        hostName = ent->h_name;
-    } else {
-        hostName = inet_ntoa(address.sin_addr);
-    }
-    nBytes = snprintf(buf, sizeof(buf), "%s", hostName) + 1;
+    std::string hostName = ent ? ent->h_name : inet_ntoa(address.sin_addr);
+    int nBytes = static_cast<int>(hostName.size()) + 1;
     int header_written = write(outFd, &nBytes, sizeof(nBytes));
-    if (header_written != sizeof(nBytes) || write(outFd, buf, nBytes) != nBytes) {
+    if (header_written != sizeof(nBytes) || write(outFd, hostName.c_str(), nBytes) != nBytes) {
         log_out("ID: Unable to write to doorman - perhaps it crashed (%d, %s)", errno, strerror(errno));
     } else {
         // Log the source hostname but mask it for privacy.
@@ -627,29 +615,29 @@ void SendInfoPacket(int32_t channelId) {
     char buffer[4096];
     auto data = new (buffer) InfoData;
     Packet p{
-        PACKET_INFO, static_cast<uint32_t>(sizeof(InfoData) + channel[channelId].hostname.size() + 1), channelId, {}};
+        PACKET_INFO, static_cast<uint32_t>(sizeof(InfoData) + channels[channelId].hostname.size() + 1), channelId, {}};
 
-    data->port = channel[channelId].port;
-    data->netaddr = channel[channelId].netaddr;
-    data->ansi = channel[channelId].ansi;
-    strcpy(data->data, channel[channelId].hostname.c_str());
+    data->port = channels[channelId].port;
+    data->netaddr = channels[channelId].netaddr;
+    data->ansi = channels[channelId].ansi;
+    strcpy(data->data, channels[channelId].hostname.c_str());
     SendToMUD(p, buffer);
 }
 
 void SendConnectPacket(int32_t channelId) {
-    if (channel[channelId].connected) {
+    if (channels[channelId].connected) {
         log_out("[%d] Attempt to send connect packet for already-connected channel", channelId);
     } else if (connected && mudFd != -1) {
         // Have we already been authenticated?
-        if (channel[channelId].authCharName[0] != '\0') {
-            channel[channelId].connected = true;
+        if (channels[channelId].authCharName[0] != '\0') {
+            channels[channelId].connected = true;
             SendToMUD(
-                {PACKET_RECONNECT, static_cast<uint32_t>(strlen(channel[channelId].authCharName) + 1), channelId, {}},
-                channel[channelId].authCharName);
+                {PACKET_RECONNECT, static_cast<uint32_t>(strlen(channels[channelId].authCharName) + 1), channelId, {}},
+                channels[channelId].authCharName);
             SendInfoPacket(channelId);
-            log_out("[%d] Sent reconnect packet to MUD for %s", channelId, channel[channelId].authCharName);
+            log_out("[%d] Sent reconnect packet to MUD for %s", channelId, channels[channelId].authCharName);
         } else {
-            channel[channelId].connected = true;
+            channels[channelId].connected = true;
             SendToMUD({PACKET_CONNECT, 0, channelId, {}});
             SendInfoPacket(channelId);
             log_out("[%d] Sent connect packet to MUD", channelId);
@@ -669,8 +657,8 @@ void MudHasCrashed(int sig) {
     wall("\n\rDoorman has lost connection to Xania.\n\r");
 
     for (i = 0; i < CHANNEL_MAX; ++i)
-        if (channel[i].fd)
-            channel[i].connected = false;
+        if (channels[i].fd)
+            channels[i].connected = false;
 }
 
 /*
@@ -723,11 +711,11 @@ void TryToConnectToXania(void) {
         static const char *recon = "Attempting to reconnect to Xania";
         log_out("Connection attempt to MUD failed.");
         for (chanFirst = 0; chanFirst < CHANNEL_MAX; ++chanFirst) {
-            if (channel[chanFirst].fd && channel[chanFirst].firstReconnect == false) {
-                if (write(channel[chanFirst].fd, recon, strlen(recon)) != (ssize_t)strlen(recon)) {
+            if (channels[chanFirst].fd && channels[chanFirst].firstReconnect == false) {
+                if (write(channels[chanFirst].fd, recon, strlen(recon)) != (ssize_t)strlen(recon)) {
                     log_out("Unable to write to channel %d", chanFirst);
                 }
-                channel[chanFirst].firstReconnect = true;
+                channels[chanFirst].firstReconnect = true;
             }
         }
         wall(".");
@@ -769,28 +757,28 @@ void ProcessMUDMessage(int fd) {
         case PACKET_MESSAGE:
             /* A message from the MUD */
             if (p.channel >= 0) {
-                int bytes_written = write(channel[p.channel].fd, payload, p.nExtra);
+                int bytes_written = write(channels[p.channel].fd, payload, p.nExtra);
                 if (bytes_written <= 0) {
                     if (bytes_written < 0) {
                         log_out("[%d] Received error %d (%s) on write - closing connection", p.channel, errno,
                                 strerror(errno));
                     }
-                    AbortConnection(channel[p.channel].fd);
+                    AbortConnection(channels[p.channel].fd);
                 }
             }
             break;
         case PACKET_AUTHORIZED:
             /* A character has successfully logged in */
-            if (p.nExtra < sizeof(channel[p.channel].authCharName)) {
-                memcpy(channel[p.channel].authCharName, payload, p.nExtra);
-                log_out("[%d] Successfully authorized %s", p.channel, channel[p.channel].authCharName);
+            if (p.nExtra < sizeof(channels[p.channel].authCharName)) {
+                memcpy(channels[p.channel].authCharName, payload, p.nExtra);
+                log_out("[%d] Successfully authorized %s", p.channel, channels[p.channel].authCharName);
             } else {
                 log_out("[%d] Auth name too long!", p.channel);
             }
             break;
         case PACKET_DISCONNECT:
             /* Kill off a channel */
-            CloseConnection(channel[p.channel].fd);
+            CloseConnection(channels[p.channel].fd);
             break;
         case PACKET_INIT:
             /* Xania has initialised */
@@ -799,23 +787,23 @@ void ProcessMUDMessage(int fd) {
             /* Now try to connect everyone who has
             been waiting */
             for (i = 0; i < CHANNEL_MAX; ++i) {
-                if (channel[i].fd) {
+                if (channels[i].fd) {
                     SendConnectPacket(i);
-                    channel[i].firstReconnect = false;
+                    channels[i].firstReconnect = false;
                 }
             }
             break;
         case PACKET_ECHO_ON:
             /* Xania wants text to be echoed by the
                      client */
-            SendCom(channel[p.channel].fd, WONT, TELOPT_ECHO);
-            channel[p.channel].echoing = true;
+            SendCom(channels[p.channel].fd, WONT, TELOPT_ECHO);
+            channels[p.channel].echoing = true;
             break;
         case PACKET_ECHO_OFF:
             /* Xania wants text to be echoed by the
                      client */
-            SendCom(channel[p.channel].fd, WILL, TELOPT_ECHO);
-            channel[p.channel].echoing = false;
+            SendCom(channels[p.channel].fd, WILL, TELOPT_ECHO);
+            channels[p.channel].echoing = false;
             break;
         default: break;
         }
@@ -855,8 +843,8 @@ void ExecuteServerLoop(void) {
     if (mudFd > 0)
         FD_SET(mudFd, &exIfds);
     for (i = 0; i < CHANNEL_MAX; ++i) {
-        if (channel[i].fd)
-            FD_SET(channel[i].fd, &exIfds);
+        if (channels[i].fd)
+            FD_SET(channels[i].fd, &exIfds);
     }
 
     nFDs = select(maxFd + 1, &tempIfds, NULL, &exIfds, &timeOut);
@@ -887,7 +875,7 @@ void ExecuteServerLoop(void) {
                 /* It's a message from a user or ident - despatch it */
                 int chan;
                 for (chan = 0; chan < CHANNEL_MAX; ++chan) {
-                    if (channel[chan].fd && channel[chan].identPid && channel[chan].identFd[0] == i) {
+                    if (channels[chan].fd && channels[chan].identPid && channels[chan].identFd[0] == i) {
                         log_out("[%d on %d] Incoming IdentD info", chan, i);
                         IncomingIdentInfo(chan, i);
                         break;
@@ -938,20 +926,20 @@ void CheckForDeadIdents(void) {
             log_out("process %d died", waiter);
             // Find the corresponding channel, if still present
             for (chan = 0; chan < CHANNEL_MAX; ++chan) {
-                if (channel[chan].fd && channel[chan].identPid == waiter)
+                if (channels[chan].fd && channels[chan].identPid == waiter)
                     break;
             }
             if (chan != CHANNEL_MAX) {
                 // Did the process exit abnormally?
                 if (!(WIFEXITED(status))) {
                     log_out("Zombie reaper: process on channel %d died abnormally", chan);
-                    close(channel[chan].identFd[0]);
-                    close(channel[chan].identFd[1]);
-                    FD_CLR(channel[chan].identFd[0], &ifds);
-                    channel[chan].identPid = 0;
-                    channel[chan].identFd[0] = channel[chan].identFd[1] = 0;
+                    close(channels[chan].identFd[0]);
+                    close(channels[chan].identFd[1]);
+                    FD_CLR(channels[chan].identFd[0], &ifds);
+                    channels[chan].identPid = 0;
+                    channels[chan].identFd[0] = channels[chan].identFd[1] = 0;
                 } else {
-                    if (channel[chan].identFd[0] || channel[chan].identFd[1]) {
+                    if (channels[chan].identFd[0] || channels[chan].identFd[1]) {
                         log_out("Zombie reaper: A process died, and didn't necessarily "
                                 "close up after itself");
                     }
@@ -1021,7 +1009,7 @@ int main(int argc, char *argv[]) {
     /*
      * Initialise the channel array
      */
-    memset(channel, 0, sizeof(channel));
+    memset(channels, 0, sizeof(channels));
 
     /*
      * Bit of 'Hello Mum'
