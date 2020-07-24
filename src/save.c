@@ -112,7 +112,9 @@ void save_char_obj(CHAR_DATA *ch) {
     fclose(fp);
     /* move the file */
     snprintf(buf, sizeof(buf), "mv %s %s", PLAYER_TEMP, strsave);
-    system(buf);
+    if (system(buf) != 0) {
+        bug("Unable to move temporary player name %s!! save failed!", strsave);
+    }
     fpReserve = fopen(NULL_FILE, "r");
     return;
 }
@@ -534,7 +536,9 @@ bool load_char_obj(DESCRIPTOR_DATA *d, char *name) {
         if ((q = fopen(t2, "r")) == NULL) {
             fclose(q);
             snprintf(buf, sizeof(buf), "gzip -dfq %s", strsave);
-            system(buf);
+            if (system(buf) != 0) {
+                bug("Unable to decompress %s", strsave);
+            }
         }
     }
 
