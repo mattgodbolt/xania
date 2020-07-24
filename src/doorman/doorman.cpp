@@ -48,19 +48,18 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-static constexpr auto INCOMING_BUFFER_SIZE = 2048u;
+static constexpr auto MaxIncomingDataBufferSize = 2048u;
 static constexpr auto CONNECTION_WAIT_TIME = 10u;
 using byte = unsigned char;
 
-bool IncomingData(int fd, byte *buffer, int nBytes);
+bool IncomingData(int fd, const byte *buffer, int nBytes);
 void ProcessIdent(struct sockaddr_in address, int outFd);
 
 struct Channel {
-    int32_t id; // the channel id
+    int32_t id{}; // the channel id
     int fd{}; /* File descriptor of the channel */
     std::string hostname;
-    byte *buffer{}; /* Buffer of incoming data */
-    size_t nBytes{};
+    std::vector<byte> buffer;
     uint16_t port{};
     uint32_t netaddr{};
     int width{}, height{}; /* Width and height of terminal */
@@ -181,8 +180,7 @@ int NewConnection(int fd, struct sockaddr_in address) {
     channel.hostname = inet_ntoa(address.sin_addr);
     channel.port = ntohs(address.sin_port);
     channel.netaddr = ntohl(address.sin_addr.s_addr);
-    channel.nBytes = 0;
-    channel.buffer = static_cast<byte *>(malloc(INCOMING_BUFFER_SIZE));
+    channel.buffer.clear();
     channel.width = 80;
     channel.height = 24;
     channel.ansi = channel.gotTerm = false;
@@ -363,7 +361,7 @@ void IncomingIdentInfo(Channel &chan, int fd) {
     SendInfoPacket(chan);
 }
 
-bool IncomingData(int fd, byte *buffer, int nBytes) {
+bool IncomingData(int fd, const byte *buffer, int nBytes) {
     int chan = FindChannel(fd);
 
     if (chan == -1) {
@@ -372,25 +370,23 @@ bool IncomingData(int fd, byte *buffer, int nBytes) {
     }
 
     if (buffer) {
-        byte *ptr;
-        int nLeft, nRealBytes;
-
         /* Check for buffer overflow */
-        if ((nBytes + channels[chan].nBytes) > INCOMING_BUFFER_SIZE) {
+        if ((nBytes + channels[chan].buffer.size()) > MaxIncomingDataBufferSize) {
             const char *ovf = ">>> Too much incoming data at once - PUT A LID ON IT!!\n\r";
             if (write(fd, ovf, strlen(ovf)) != (ssize_t)strlen(ovf)) {
                 // don't care if this fails..
             }
-            channels[chan].nBytes = 0;
+            channels[chan].buffer.clear();
             return false;
         }
         /* Add the data into the buffer */
-        memcpy(&channels[chan].buffer[channels[chan].nBytes], buffer, nBytes);
-        channels[chan].nBytes += nBytes;
+        channels[chan].buffer.insert(channels[chan].buffer.end(), buffer, buffer + nBytes);
 
         /* Scan through and remove telnet commands */
-        nRealBytes = 0;
-        for (ptr = channels[chan].buffer, nLeft = channels[chan].nBytes; nLeft;) {
+        // TODO gsl::span ftw
+        size_t nRealBytes = 0;
+        size_t nLeft = channels[chan].buffer.size();
+        for (byte *ptr = channels[chan].buffer.data(); nLeft;) {
             /* telnet command? */
             if (*ptr == IAC) {
                 if (nLeft < 3) /* Is it too small to fit a whole command in? */
@@ -492,25 +488,29 @@ bool IncomingData(int fd, byte *buffer, int nBytes) {
             }
         }
         /* Now to update the buffer stats */
-        channels[chan].nBytes = nRealBytes;
+        channels[chan].buffer.resize(nRealBytes);
 
         /* Second pass - look for whole lines of text */
-        for (ptr = channels[chan].buffer, nLeft = channels[chan].nBytes; nLeft; ++ptr, --nLeft) {
+        nLeft = channels[chan].buffer.size();
+        byte *ptr;
+        for (ptr = channels[chan].buffer.data(); nLeft; ++ptr, --nLeft) {
             char c;
             switch (*ptr) {
             case '\n':
             case '\r':
                 c = *ptr;
+                // TODO this is terribly ghettish. don't need to memmove, and all that. ugh. But write tests first...
+                // then change...
                 *ptr = '\0';
                 /* Send it to the MUD */
                 if (connected && channels[chan].connected) {
                     Packet p;
                     p.type = PACKET_MESSAGE;
                     p.channel = chan;
-                    p.nExtra = strlen((const char *)channels[chan].buffer) + 2;
+                    p.nExtra = strlen((const char *)channels[chan].buffer.data()) + 2;
                     if (write(mudFd, &p, sizeof(p)) != sizeof(p))
                         return false;
-                    if (write(mudFd, channels[chan].buffer, p.nExtra - 2) != p.nExtra - 2)
+                    if (write(mudFd, channels[chan].buffer.data(), p.nExtra - 2) != p.nExtra - 2)
                         return false;
                     if (write(mudFd, "\n\r", 2) != 2)
                         return false;
@@ -519,19 +519,19 @@ bool IncomingData(int fd, byte *buffer, int nBytes) {
                 }
                 /* Check for \n\r or \r\n */
                 if (nLeft > 1 && (*(ptr + 1) == '\r' || *(ptr + 1) == '\n') && *(ptr + 1) != c) {
-                    memmove(channels[chan].buffer, ptr + 2, nLeft - 2);
+                    memmove(channels[chan].buffer.data(), ptr + 2, nLeft - 2);
                     nLeft--;
                 } else if (nLeft) {
-                    memmove(channels[chan].buffer, ptr + 1, nLeft - 1);
+                    memmove(channels[chan].buffer.data(), ptr + 1, nLeft - 1);
                 } // else nLeft is zero, so we might as well avoid calling memmove(x,y,
                   // 0)
 
                 /* The +1 at the top of the loop resets ptr to buffer */
-                ptr = channels[chan].buffer - 1;
+                ptr = channels[chan].buffer.data() - 1;
                 break;
             }
         }
-        channels[chan].nBytes = ptr - channels[chan].buffer;
+        channels[chan].buffer.resize(ptr - channels[chan].buffer.data());
     } else { /* Special case for initialisation */
         /* Send all options out */
         SendCom(fd, DO, TELOPT_TTYPE);
