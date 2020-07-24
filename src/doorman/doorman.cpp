@@ -32,21 +32,16 @@
 
 #include <arpa/inet.h>
 #include <arpa/telnet.h>
-#include <cctype>
 #include <cerrno>
-#include <csignal>
 #include <cstdarg>
 #include <cstddef>
 #include <cstdio>
 #include <cstdlib>
-#include <cstring>
-#include <fcntl.h>
 #include <getopt.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/resource.h>
 #include <sys/socket.h>
-#include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/un.h>
@@ -58,29 +53,33 @@ static constexpr auto CONNECTION_WAIT_TIME = 10u;
 using byte = unsigned char;
 
 bool IncomingData(int fd, byte *buffer, int nBytes);
-void SendConnectPacket(int channelId);
-void SendInfoPacket(int channelId);
 void ProcessIdent(struct sockaddr_in address, int outFd);
 
 struct Channel {
-    int fd; /* File descriptor of the channel */
+    int32_t id; // the channel id
+    int fd{}; /* File descriptor of the channel */
     std::string hostname;
-    byte *buffer; /* Buffer of incoming data */
-    size_t nBytes;
-    uint16_t port;
-    uint32_t netaddr;
-    int width, height; /* Width and height of terminal */
-    bool ansi, gotTerm;
-    bool echoing;
-    bool firstReconnect;
-    bool connected; /* Socket is ready to connect to Xania */
-    pid_t identPid; /* PID of look-up process */
-    int identFd[2]; /* FD of look-up processes pipe (read on 0) */
+    byte *buffer{}; /* Buffer of incoming data */
+    size_t nBytes{};
+    uint16_t port{};
+    uint32_t netaddr{};
+    int width{}, height{}; /* Width and height of terminal */
+    bool ansi{}, gotTerm{};
+    bool echoing{};
+    bool firstReconnect{};
+    bool connected{}; /* Socket is ready to connect to Xania */
+    pid_t identPid{}; /* PID of look-up process */
+    int identFd[2]{}; /* FD of look-up processes pipe (read on 0) */
     char authCharName[64]; /* name of authorized character */
 };
 
+void SendConnectPacket(Channel &channel);
+void SendInfoPacket(const Channel &channel);
+
 /* Global variables */
-Channel channels[CHANNEL_MAX];
+// todo: maybe eventually unordered_map<channel id, channel>
+static constexpr auto MaxChannels = 64;
+std::array<Channel, MaxChannels> channels;
 int mudFd;
 pid_t child;
 int port = 9000;
@@ -119,16 +118,15 @@ __attribute__((format(printf, 2, 3))) bool cprintf(int chan, const char *format,
 /* printf() to everyone */
 __attribute__((format(printf, 1, 2))) void wall(const char *format, ...) {
     char buffer[4096];
-    int len, chan;
 
     va_list args;
     va_start(args, format);
-    len = vsnprintf(buffer, sizeof(buffer), format, args);
+    int len = vsnprintf(buffer, sizeof(buffer), format, args);
     va_end(args);
 
-    for (chan = 0; chan < CHANNEL_MAX; ++chan)
-        if (channels[chan].fd) {
-            int numWritten = write(channels[chan].fd, buffer, len);
+    for (auto &chan : channels)
+        if (chan.fd) {
+            int numWritten = write(chan.fd, buffer, len);
             (void)numWritten;
         }
 }
@@ -167,45 +165,43 @@ std::string get_masked_hostname(std::string_view hostname) {
 
 /* Create a new connection */
 int NewConnection(int fd, struct sockaddr_in address) {
-    int i;
     pid_t forkRet;
 
-    for (i = 0; i < CHANNEL_MAX; ++i) {
-        if (channels[i].fd == 0)
-            break;
-    }
-    if (i == CHANNEL_MAX) {
+    auto channelIter = std::find_if(begin(channels), end(channels), [](const Channel &c) { return c.fd == 0; });
+    if (channelIter == end(channels)) {
         fdprintf(fd, "Xania is out of channels!\n\rTry again soon\n\r");
         close(fd);
         log_out("Rejected connection - out of channels");
         return -1;
     }
 
-    channels[i].fd = fd;
-    channels[i].hostname = inet_ntoa(address.sin_addr);
-    channels[i].port = ntohs(address.sin_port);
-    channels[i].netaddr = ntohl(address.sin_addr.s_addr);
-    channels[i].nBytes = 0;
-    channels[i].buffer = static_cast<byte *>(malloc(INCOMING_BUFFER_SIZE));
-    channels[i].width = 80;
-    channels[i].height = 24;
-    channels[i].ansi = channels[i].gotTerm = false;
-    channels[i].echoing = true;
-    channels[i].firstReconnect = false;
-    channels[i].connected = false;
-    channels[i].authCharName[0] = '\0'; // Initially unauthenticated
+    auto &channel = *channelIter;
+    channel.id = static_cast<int32_t>(std::distance(begin(channels), channelIter));
+    channel.fd = fd;
+    channel.hostname = inet_ntoa(address.sin_addr);
+    channel.port = ntohs(address.sin_port);
+    channel.netaddr = ntohl(address.sin_addr.s_addr);
+    channel.nBytes = 0;
+    channel.buffer = static_cast<byte *>(malloc(INCOMING_BUFFER_SIZE));
+    channel.width = 80;
+    channel.height = 24;
+    channel.ansi = channel.gotTerm = false;
+    channel.echoing = true;
+    channel.firstReconnect = false;
+    channel.connected = false;
+    channel.authCharName[0] = '\0'; // Initially unauthenticated
 
-    log_out("[%d] Incoming connection from %s on fd %d", i, get_masked_hostname(channels[i].hostname).c_str(),
-            channels[i].fd);
+    log_out("[%d] Incoming connection from %s on fd %d", channel.id, get_masked_hostname(channel.hostname).c_str(),
+            channel.fd);
 
     /* Start the state machine */
     IncomingData(fd, nullptr, 0);
 
     /* Fire off the query to the ident server */
-    if (pipe(channels[i].identFd) == -1) {
+    if (pipe(channel.identFd) == -1) {
         log_out("Pipe failed - next message (unable to fork) is due to this");
         forkRet = -1;
-        channels[i].identFd[0] = channels[i].identFd[1] = 0;
+        channel.identFd[0] = channel.identFd[1] = 0;
     } else {
         forkRet = fork();
     }
@@ -213,11 +209,11 @@ int NewConnection(int fd, struct sockaddr_in address) {
     case 0:
         // Child process - go and do the lookup
         // First close the child's copy of the parent's fd
-        close(channels[i].identFd[0]);
-        log_out("ID: on %d", channels[i].identFd[1]);
-        channels[i].identFd[0] = 0;
-        ProcessIdent(address, channels[i].identFd[1]);
-        close(channels[i].identFd[1]);
+        close(channel.identFd[0]);
+        log_out("ID: on %d", channel.identFd[1]);
+        channel.identFd[0] = 0;
+        ProcessIdent(address, channel.identFd[1]);
+        close(channel.identFd[1]);
         log_out("ID: exiting");
         exit(0);
         break;
@@ -225,19 +221,19 @@ int NewConnection(int fd, struct sockaddr_in address) {
         // Error - unable to fork()
         log_out("Unable to fork() an IdentD lookup process");
         // Close up the pipe
-        if (channels[i].identFd[0])
-            close(channels[i].identFd[0]);
-        if (channels[i].identFd[1])
-            close(channels[i].identFd[1]);
-        channels[i].identFd[0] = channels[i].identFd[1] = 0;
+        if (channel.identFd[0])
+            close(channel.identFd[0]);
+        if (channel.identFd[1])
+            close(channel.identFd[1]);
+        channel.identFd[0] = channel.identFd[1] = 0;
         break;
     default:
         // First close the parent's copy of the child's fd
-        close(channels[i].identFd[1]);
-        channels[i].identFd[1] = 0;
-        channels[i].identPid = forkRet;
-        FD_SET(channels[i].identFd[0], &ifds);
-        log_out("Forked ident process has PID %d on %d", forkRet, channels[i].identFd[0]);
+        close(channel.identFd[1]);
+        channel.identFd[1] = 0;
+        channel.identPid = forkRet;
+        FD_SET(channel.identFd[0], &ifds);
+        log_out("Forked ident process has PID %d on %d", forkRet, channel.identFd[0]);
         break;
     }
 
@@ -248,31 +244,29 @@ int NewConnection(int fd, struct sockaddr_in address) {
         fdprintf(fd, "Xania is down at the moment - you will be connected as soon "
                      "as it is up again.\n\r");
 
-    SendConnectPacket(i);
-    return i;
+    SendConnectPacket(channel);
+    return channel.id;
 }
 
 int HighestFd() {
     int hFd = 0;
-    int i;
-    for (i = 0; i < CHANNEL_MAX; ++i) {
-        if (channels[i].fd > hFd)
-            hFd = channels[i].fd;
-        if (channels[i].fd && channels[i].identPid && channels[i].identFd[0] > hFd)
-            hFd = channels[i].identFd[0];
+    for (auto &chan : channels) {
+        if (chan.fd > hFd)
+            hFd = chan.fd;
+        if (chan.fd && chan.identPid && chan.identFd[0] > hFd)
+            hFd = chan.identFd[0];
     }
     return hFd;
 }
 
 int32_t FindChannel(int fd) {
-    int i;
     if (fd == 0) {
         log_out("Panic!  fd==0 in FindChannel!  Bailing out with -1");
         return -1;
     }
-    for (i = 0; i < CHANNEL_MAX; ++i)
-        if (fd == channels[i].fd)
-            return i;
+    if (auto it = std::find_if(begin(channels), end(channels), [&](const Channel &chan) { return chan.fd == fd; });
+        it != end(channels))
+        return static_cast<int32_t>(std::distance(begin(channels), it));
     return -1;
 }
 
@@ -315,14 +309,14 @@ bool SupportsAnsi(const char *src) {
     return false;
 }
 
-bool SendCom(int fd, char a, char b) {
+bool SendCom(int fd, byte a, byte b) {
     byte buf[4];
     buf[0] = IAC;
     buf[1] = a;
     buf[2] = b;
     return write(fd, buf, 3) == 3;
 }
-bool SendOpt(int fd, char a) {
+bool SendOpt(int fd, byte a) {
     byte buf[6];
     buf[0] = IAC;
     buf[1] = SB;
@@ -333,17 +327,17 @@ bool SendOpt(int fd, char a) {
     return write(fd, buf, 6) == 6;
 }
 
-void IncomingIdentInfo(int chan, int fd) {
+void IncomingIdentInfo(Channel &chan, int fd) {
     // A response from the ident server
     int numBytes, ret;
     char buffer[1024];
     ret = read(fd, &numBytes, sizeof(numBytes));
     if (ret <= 0) {
-        log_out("[%d] IdentD pipe died on read (read returned %d)", chan, ret);
+        log_out("[%d] IdentD pipe died on read (read returned %d)", chan.id, ret);
         FD_CLR(fd, &ifds);
         close(fd);
-        channels[chan].identFd[0] = channels[chan].identFd[1] = 0;
-        channels[chan].identPid = 0;
+        chan.identFd[0] = chan.identFd[1] = 0;
+        chan.identPid = 0;
         FD_CLR(fd, &ifds);
         return;
     }
@@ -355,17 +349,17 @@ void IncomingIdentInfo(int chan, int fd) {
     buffer[numBytes] = '\0'; // ensure zero-termedness
     FD_CLR(fd, &ifds);
     close(fd);
-    channels[chan].identFd[0] = channels[chan].identFd[1] = 0;
-    channels[chan].identPid = 0;
+    chan.identFd[0] = chan.identFd[1] = 0;
+    chan.identPid = 0;
 
     if (numRead != numBytes) {
-        log_out("[%d] Partial read %d!=%d", chan, numRead, numBytes);
+        log_out("[%d] Partial read %d!=%d", chan.id, numRead, numBytes);
         return;
     }
 
-    channels[chan].hostname = buffer;
+    chan.hostname = buffer;
     // Log the source IP but mask it for privacy.
-    log_out("[%d] %s", chan, get_masked_hostname(channels[chan].hostname).c_str());
+    log_out("[%d] %s", chan.id, get_masked_hostname(chan.hostname).c_str());
     SendInfoPacket(chan);
 }
 
@@ -611,42 +605,39 @@ void AbortConnection(int fd) {
     CloseConnection(fd);
 }
 
-void SendInfoPacket(int32_t channelId) {
+void SendInfoPacket(const Channel &channel) {
     char buffer[4096];
     auto data = new (buffer) InfoData;
-    Packet p{
-        PACKET_INFO, static_cast<uint32_t>(sizeof(InfoData) + channels[channelId].hostname.size() + 1), channelId, {}};
+    Packet p{PACKET_INFO, static_cast<uint32_t>(sizeof(InfoData) + channel.hostname.size() + 1), channel.id, {}};
 
-    data->port = channels[channelId].port;
-    data->netaddr = channels[channelId].netaddr;
-    data->ansi = channels[channelId].ansi;
-    strcpy(data->data, channels[channelId].hostname.c_str());
+    data->port = channel.port;
+    data->netaddr = channel.netaddr;
+    data->ansi = channel.ansi;
+    strcpy(data->data, channel.hostname.c_str());
     SendToMUD(p, buffer);
 }
 
-void SendConnectPacket(int32_t channelId) {
-    if (channels[channelId].connected) {
-        log_out("[%d] Attempt to send connect packet for already-connected channel", channelId);
+void SendConnectPacket(Channel &channel) {
+    if (channel.connected) {
+        log_out("[%d] Attempt to send connect packet for already-connected channel", channel.id);
     } else if (connected && mudFd != -1) {
         // Have we already been authenticated?
-        if (channels[channelId].authCharName[0] != '\0') {
-            channels[channelId].connected = true;
-            SendToMUD(
-                {PACKET_RECONNECT, static_cast<uint32_t>(strlen(channels[channelId].authCharName) + 1), channelId, {}},
-                channels[channelId].authCharName);
-            SendInfoPacket(channelId);
-            log_out("[%d] Sent reconnect packet to MUD for %s", channelId, channels[channelId].authCharName);
+        if (channel.authCharName[0] != '\0') {
+            channel.connected = true;
+            SendToMUD({PACKET_RECONNECT, static_cast<uint32_t>(strlen(channel.authCharName) + 1), channel.id, {}},
+                      channel.authCharName);
+            SendInfoPacket(channel);
+            log_out("[%d] Sent reconnect packet to MUD for %s", channel.id, channel.authCharName);
         } else {
-            channels[channelId].connected = true;
-            SendToMUD({PACKET_CONNECT, 0, channelId, {}});
-            SendInfoPacket(channelId);
-            log_out("[%d] Sent connect packet to MUD", channelId);
+            channel.connected = true;
+            SendToMUD({PACKET_CONNECT, 0, channel.id, {}});
+            SendInfoPacket(channel);
+            log_out("[%d] Sent connect packet to MUD", channel.id);
         }
     }
 }
 
 void MudHasCrashed(int sig) {
-    int i;
     (void)sig;
     close(mudFd);
     FD_CLR(mudFd, &ifds);
@@ -656,16 +647,16 @@ void MudHasCrashed(int sig) {
 
     wall("\n\rDoorman has lost connection to Xania.\n\r");
 
-    for (i = 0; i < CHANNEL_MAX; ++i)
-        if (channels[i].fd)
-            channels[i].connected = false;
+    for (auto &chan : channels)
+        if (chan.fd)
+            chan.connected = false;
 }
 
 /*
  * Deal with new connections from outside
  */
-void ProcessNewConnection(void) {
-    struct sockaddr_in incoming;
+void ProcessNewConnection() {
+    sockaddr_in incoming{};
     socklen_t len = sizeof(incoming);
     int newFD;
 
@@ -681,8 +672,8 @@ void ProcessNewConnection(void) {
 /*
  * Attempt connection to the MUD
  */
-void TryToConnectToXania(void) {
-    struct sockaddr_un xaniaAddr;
+void TryToConnectToXania() {
+    sockaddr_un xaniaAddr{};
 
     lastConnected = time(nullptr);
 
@@ -707,15 +698,14 @@ void TryToConnectToXania(void) {
         wall("\n\rReconnected to Xania - Xania is still booting...\n\r");
         FD_SET(mudFd, &ifds);
     } else {
-        int chanFirst;
         static const char *recon = "Attempting to reconnect to Xania";
         log_out("Connection attempt to MUD failed.");
-        for (chanFirst = 0; chanFirst < CHANNEL_MAX; ++chanFirst) {
-            if (channels[chanFirst].fd && channels[chanFirst].firstReconnect == false) {
-                if (write(channels[chanFirst].fd, recon, strlen(recon)) != (ssize_t)strlen(recon)) {
-                    log_out("Unable to write to channel %d", chanFirst);
+        for (auto &chan : channels) {
+            if (chan.fd && !chan.firstReconnect) {
+                if (write(chan.fd, recon, strlen(recon)) != (ssize_t)strlen(recon)) {
+                    log_out("Unable to write to channel fd %d", chan.fd);
                 }
-                channels[chanFirst].firstReconnect = true;
+                chan.firstReconnect = true;
             }
         }
         wall(".");
@@ -731,7 +721,6 @@ void TryToConnectToXania(void) {
 void ProcessMUDMessage(int fd) {
     Packet p;
     int nBytes;
-    int i;
 
     nBytes = read(fd, (char *)&p, sizeof(Packet));
 
@@ -784,12 +773,11 @@ void ProcessMUDMessage(int fd) {
             /* Xania has initialised */
             waitingForInit = false;
             connected = true;
-            /* Now try to connect everyone who has
-            been waiting */
-            for (i = 0; i < CHANNEL_MAX; ++i) {
-                if (channels[i].fd) {
-                    SendConnectPacket(i);
-                    channels[i].firstReconnect = false;
+            // Now try to connect everyone who has been waiting
+            for (auto &chan : channels) {
+                if (chan.fd) {
+                    SendConnectPacket(chan);
+                    chan.firstReconnect = false;
                 }
             }
             break;
@@ -842,10 +830,9 @@ void ExecuteServerLoop(void) {
     FD_ZERO(&exIfds);
     if (mudFd > 0)
         FD_SET(mudFd, &exIfds);
-    for (i = 0; i < CHANNEL_MAX; ++i) {
-        if (channels[i].fd)
-            FD_SET(channels[i].fd, &exIfds);
-    }
+    for (auto &channel : channels)
+        if (channel.fd)
+            FD_SET(channel.fd, &exIfds);
 
     nFDs = select(maxFd + 1, &tempIfds, nullptr, &exIfds, &timeOut);
     if (nFDs == -1 && errno != EINTR) {
@@ -872,16 +859,14 @@ void ExecuteServerLoop(void) {
             } else if (i == mudFd) {
                 ProcessMUDMessage(i);
             } else {
-                /* It's a message from a user or ident - despatch it */
-                int chan;
-                for (chan = 0; chan < CHANNEL_MAX; ++chan) {
-                    if (channels[chan].fd && channels[chan].identPid && channels[chan].identFd[0] == i) {
-                        log_out("[%d on %d] Incoming IdentD info", chan, i);
-                        IncomingIdentInfo(chan, i);
-                        break;
-                    }
-                }
-                if (chan == CHANNEL_MAX) {
+                /* It's a message from a user or ident - dispatch it */
+                if (auto it = std::find_if(
+                        begin(channels), end(channels),
+                        [&](const Channel &chan) { return chan.fd && chan.identPid && chan.identFd[0] == i; });
+                    it != end(channels)) {
+                    log_out("[%d on %d] Incoming IdentD info", it->id, i);
+                    IncomingIdentInfo(*it, i);
+                } else {
                     int nBytes;
                     byte buf[256];
                     do {
@@ -910,7 +895,7 @@ void ExecuteServerLoop(void) {
 /*
  * Clean up any dead ident processes
  */
-void CheckForDeadIdents(void) {
+void CheckForDeadIdents() {
     pid_t waiter;
     int status;
 
@@ -920,26 +905,24 @@ void CheckForDeadIdents(void) {
             break; // Usually 'no child processes'
         }
         if (waiter) {
-            int chan;
             // Clear the zombie status
             waitpid(waiter, nullptr, 0);
             log_out("process %d died", waiter);
             // Find the corresponding channel, if still present
-            for (chan = 0; chan < CHANNEL_MAX; ++chan) {
-                if (channels[chan].fd && channels[chan].identPid == waiter)
-                    break;
-            }
-            if (chan != CHANNEL_MAX) {
+            if (auto chanIt = std::find_if(begin(channels), end(channels),
+                                           [&](const Channel &chan) { return chan.fd && chan.identPid == waiter; });
+                chanIt != end(channels)) {
+                auto &chan = *chanIt;
                 // Did the process exit abnormally?
                 if (!(WIFEXITED(status))) {
-                    log_out("Zombie reaper: process on channel %d died abnormally", chan);
-                    close(channels[chan].identFd[0]);
-                    close(channels[chan].identFd[1]);
-                    FD_CLR(channels[chan].identFd[0], &ifds);
-                    channels[chan].identPid = 0;
-                    channels[chan].identFd[0] = channels[chan].identFd[1] = 0;
+                    log_out("Zombie reaper: process on channel %d died abnormally", chan.id);
+                    close(chan.identFd[0]);
+                    close(chan.identFd[1]);
+                    FD_CLR(chan.identFd[0], &ifds);
+                    chan.identPid = 0;
+                    chan.identFd[0] = chan.identFd[1] = 0;
                 } else {
-                    if (channels[chan].identFd[0] || channels[chan].identFd[1]) {
+                    if (chan.identFd[0] || chan.identFd[1]) {
                         log_out("Zombie reaper: A process died, and didn't necessarily "
                                 "close up after itself");
                     }
@@ -1009,7 +992,8 @@ int main(int argc, char *argv[]) {
     /*
      * Initialise the channel array
      */
-    memset(channels, 0, sizeof(channels));
+    for (int32_t i = 0; i < static_cast<int32_t>(channels.size()); ++i)
+        channels[i].id = i;
 
     /*
      * Bit of 'Hello Mum'

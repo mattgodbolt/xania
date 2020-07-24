@@ -49,7 +49,6 @@ typedef struct tagInfoData {
 
 #define CHANNEL_BROADCAST (-1)
 #define CHANNEL_LOG (-2)
-#define CHANNEL_MAX (64)
 typedef struct tagPacket {
     PacketType type; /* Type of packet */
 
