@@ -2428,10 +2428,6 @@ void do_clanset(CHAR_DATA *ch, char *argument);
 
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998*/
 
-#ifdef DUNNO_STRSTR
-char *strstr args((const char *s1, const char *s2));
-#endif
-
 void do_mpstat(CHAR_DATA *ch, char *argument);
 
 void mprog_wordlist_check args((char *arg, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *object, void *vo, int type));
