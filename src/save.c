@@ -86,7 +86,7 @@ void save_char_obj(CHAR_DATA *ch) {
         fclose(fpReserve);
         snprintf(strsave, sizeof(strsave), "%s%s", GOD_DIR, capitalize(ch->name));
         if ((fp = fopen(strsave, "w")) == NULL) {
-            bug("Save_char_obj: fopen", 0);
+            bug("Save_char_obj: fopen");
             perror(strsave);
         }
 
@@ -98,7 +98,7 @@ void save_char_obj(CHAR_DATA *ch) {
     fclose(fpReserve);
     snprintf(strsave, sizeof(strsave), "%s%s", PLAYER_DIR, capitalize(ch->name));
     if ((fp = fopen(PLAYER_TEMP, "w")) == NULL) {
-        bug("Save_char_obj: fopen", 0);
+        bug("Save_char_obj: fopen");
         perror(strsave);
     } else {
         fwrite_char(ch, fp);
@@ -561,7 +561,7 @@ bool load_char_obj(DESCRIPTOR_DATA *d, char *name) {
             }
 
             if (letter != '#') {
-                bug("Load_char_obj: # not found.", 0);
+                bug("Load_char_obj: # not found.");
                 break;
             }
 
@@ -578,7 +578,7 @@ bool load_char_obj(DESCRIPTOR_DATA *d, char *name) {
             else if (!str_cmp(word, "END"))
                 break;
             else {
-                bug("Load_char_obj: bad section.", 0);
+                bug("Load_char_obj: bad section.");
                 break;
             }
         }
@@ -690,7 +690,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
                     int sn;
                     sn = skill_lookup(fread_word(fp));
                     if (sn < 0)
-                        bug("Fread_char: unknown skill.", 0);
+                        bug("Fread_char: unknown skill.");
                     else
                         paf->type = sn;
                 } else /* old form */
@@ -817,7 +817,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
                 /* gn    = group_lookup( fread_word( fp ) ); */
                 if (gn < 0) {
                     fprintf(stderr, "%s", temp);
-                    bug("Fread_char: unknown group. ", 0);
+                    bug("Fread_char: unknown group.");
                 } else
                     gn_add(ch, gn);
                 fMatch = TRUE;
@@ -948,7 +948,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
                 /* sn    = skill_lookup( fread_word( fp ) ); */
                 if (sn < 0) {
                     fprintf(stderr, "%s", temp);
-                    bug("Fread_char: unknown skill. ", 0);
+                    bug("Fread_char: unknown skill.");
                 } else
                     ch->pcdata->learned[sn] = value;
                 fMatch = TRUE;
@@ -994,7 +994,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         }
 
         if (!fMatch) {
-            bug("Fread_char: no match.", 0);
+            bug("Fread_char: no match.");
             fread_to_eol(fp);
         }
     }
@@ -1018,7 +1018,7 @@ void fread_pet(CHAR_DATA *ch, FILE *fp) {
         } else
             pet = create_mobile(get_mob_index(vnum));
     } else {
-        bug("Fread_pet: no vnum in file.", 0);
+        bug("Fread_pet: no vnum in file.");
         pet = create_mobile(get_mob_index(MOB_VNUM_FIDO));
     }
 
@@ -1064,7 +1064,7 @@ void fread_pet(CHAR_DATA *ch, FILE *fp) {
 
                 sn = skill_lookup(fread_word(fp));
                 if (sn < 0)
-                    bug("Fread_char: unknown skill.", 0);
+                    bug("Fread_char: unknown skill.");
                 else
                     paf->type = sn;
 
@@ -1150,7 +1150,7 @@ void fread_pet(CHAR_DATA *ch, FILE *fp) {
             break;
 
             if (!fMatch) {
-                bug("Fread_pet: no match.", 0);
+                bug("Fread_pet: no match.");
                 fread_to_eol(fp);
             }
         }
@@ -1237,7 +1237,7 @@ void fread_obj(CHAR_DATA *ch, FILE *fp) {
                     int sn;
                     sn = skill_lookup(fread_word(fp));
                     if (sn < 0)
-                        bug("Fread_obj: unknown skill.", 0);
+                        bug("Fread_obj: unknown skill.");
                     else
                         paf->type = sn;
                 } else /* old form */
@@ -1294,7 +1294,7 @@ void fread_obj(CHAR_DATA *ch, FILE *fp) {
 
             if (!str_cmp(word, "End")) {
                 if (!fNest || !fVnum || obj->pIndexData == NULL) {
-                    bug("Fread_obj: incomplete object.", 0);
+                    bug("Fread_obj: incomplete object.");
                     /*        free_string( obj->name        );
                               free_string( obj->description );
                               free_string( obj->short_descr );
@@ -1378,7 +1378,7 @@ void fread_obj(CHAR_DATA *ch, FILE *fp) {
                 if (iValue < 0 || iValue > 3) {
                     bug("Fread_obj: bad iValue %d.", iValue);
                 } else if (sn < 0) {
-                    bug("Fread_obj: unknown skill.", 0);
+                    bug("Fread_obj: unknown skill.");
                 } else {
                     obj->value[iValue] = sn;
                 }
@@ -1440,7 +1440,7 @@ void fread_obj(CHAR_DATA *ch, FILE *fp) {
         }
 
         if (!fMatch) {
-            bug("Fread_obj: no match.", 0);
+            bug("Fread_obj: no match.");
             fread_to_eol(fp);
         }
     }

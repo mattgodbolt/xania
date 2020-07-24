@@ -674,7 +674,6 @@ void do_finger(CHAR_DATA *ch, char *argument) {
 void read_char_info(FINGER_INFO *info) {
     FILE *fp;
     char strsave[MAX_INPUT_LENGTH];
-    char buf[MAX_STRING_LENGTH];
     char *word;
     char *line;
     bool fMatch;
@@ -736,7 +735,6 @@ void read_char_info(FINGER_INFO *info) {
 
         fclose(fp);
     } else {
-        snprintf(buf, sizeof(buf), "Could not open player file '%s' to extract info.", info->name);
-        bug(buf);
+        bug("Could not open player file '%s' to extract info.", info->name);
     }
 }

@@ -495,7 +495,7 @@ static void note_readfile(void) {
         note_link(note);
     }
     fclose(fp);
-    bug("Load_notes: bad key word.", 0);
+    bug("Load_notes: bad key word.");
     exit(1);
 }
 
@@ -503,7 +503,7 @@ void note_initialise(void) {
     note_readfile();
     trie = trie_create(1);
     if (!trie) {
-        bug("note_initialise: couldn't create trie.", 0);
+        bug("note_initialise: couldn't create trie.");
         exit(1);
     }
     trie_add(trie, "read", note_read, 0);

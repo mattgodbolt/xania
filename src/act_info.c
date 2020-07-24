@@ -2124,7 +2124,7 @@ void do_consider(CHAR_DATA *ch, char *argument) {
 void set_prompt(CHAR_DATA *ch, char *prompt) {
 
     if (IS_NPC(ch)) {
-        bug("Set_prompt: NPC.", 0);
+        bug("Set_prompt: NPC.");
         return;
     }
 
@@ -2137,7 +2137,7 @@ void set_title(CHAR_DATA *ch, char *title) {
     char buf[MAX_STRING_LENGTH];
 
     if (IS_NPC(ch)) {
-        bug("Set_title: NPC.", 0);
+        bug("Set_title: NPC.");
         return;
     }
 

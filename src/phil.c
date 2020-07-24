@@ -53,7 +53,7 @@ char *randomSocial() {
     case 6: return "howl";
     }
 
-    bug("in randomSocial() in phil.c : number_range outside of bounds!", 0);
+    bug("in randomSocial() in phil.c : number_range outside of bounds!");
     return NULL;
 }
 
@@ -188,7 +188,7 @@ bool spec_phil(CHAR_DATA *ch) {
 
     /* Check sleep state */
     if ((home = get_room_index(ROOM_VNUM_FORREYSPLACE)) == NULL) {
-        bug("Couldn't get Forrey's home index.", 0);
+        bug("Couldn't get Forrey's home index.");
         return FALSE;
     }
 

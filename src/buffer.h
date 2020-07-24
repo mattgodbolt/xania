@@ -38,7 +38,7 @@ void buffer_addline(BUFFER *buffer, const char *text);
 
 /* Adds a line of text to the buffer, formatted.
  * ONLY CALL IF YOU CONTROL 'text' - no user stuff at all should go into 'text' */
-void buffer_addline_fmt(BUFFER *buffer, const char *text, ...);
+void buffer_addline_fmt(BUFFER *buffer, const char *text, ...) __attribute__((format(printf, 2, 3)));
 
 /* Deletes a line from the buffer. */
 void buffer_removeline(BUFFER *buffer);

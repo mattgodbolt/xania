@@ -1292,7 +1292,7 @@ void update_pos(CHAR_DATA *victim) {
 void set_fighting(CHAR_DATA *ch, CHAR_DATA *victim) {
 
     if (ch->fighting != NULL) {
-        bug("Set_fighting: already fighting", 0);
+        bug("Set_fighting: already fighting");
         return;
     }
 
@@ -1540,7 +1540,7 @@ void group_gain(CHAR_DATA *ch, CHAR_DATA *victim) {
     }
 
     if (members == 0) {
-        bug("Group_gain: members.", members);
+        bug("Group_gain: members.");
         members = 1;
         group_levels = ch->level;
     }

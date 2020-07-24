@@ -691,7 +691,7 @@ void do_follow(CHAR_DATA *ch, char *argument) {
 
 void add_follower(CHAR_DATA *ch, CHAR_DATA *master) {
     if (ch->master != NULL) {
-        bug("Add_follower: non-null master.", 0);
+        bug("Add_follower: non-null master.");
         return;
     }
 
@@ -708,7 +708,7 @@ void add_follower(CHAR_DATA *ch, CHAR_DATA *master) {
 
 void stop_follower(CHAR_DATA *ch) {
     if (ch->master == NULL) {
-        bug("Stop_follower: null master.", 0);
+        bug("Stop_follower: null master.");
         return;
     }
 

@@ -466,7 +466,7 @@ void reset_char(CHAR_DATA *ch) {
 int get_trust(CHAR_DATA *ch) {
 
     if (ch == NULL) {
-        bug("ch == NULL in get_trust()", NULL);
+        bug("ch == NULL in get_trust()");
         return 0;
     }
 
@@ -741,7 +741,7 @@ void affect_to_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
  */
 void affect_remove(CHAR_DATA *ch, AFFECT_DATA *paf) {
     if (ch->affected == NULL) {
-        bug("Affect_remove: no affect.", 0);
+        bug("Affect_remove: no affect.");
         return;
     }
 
@@ -760,7 +760,7 @@ void affect_remove(CHAR_DATA *ch, AFFECT_DATA *paf) {
         }
 
         if (prev == NULL) {
-            bug("Affect_remove: cannot find paf.", 0);
+            bug("Affect_remove: cannot find paf.");
             return;
         }
     }
@@ -773,7 +773,7 @@ void affect_remove(CHAR_DATA *ch, AFFECT_DATA *paf) {
 
 void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
     if (obj->affected == NULL) {
-        bug("Affect_remove_object: no affect.", 0);
+        bug("Affect_remove_object: no affect.");
         return;
     }
 
@@ -793,7 +793,7 @@ void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
         }
 
         if (prev == NULL) {
-            bug("Affect_remove_object: cannot find paf.", 0);
+            bug("Affect_remove_object: cannot find paf.");
             return;
         }
     }
@@ -876,7 +876,7 @@ void char_from_room(CHAR_DATA *ch) {
     OBJ_DATA *obj;
 
     if (ch->in_room == NULL) {
-        bug("Char_from_room: NULL.", 0);
+        bug("Char_from_room: NULL.");
         return;
     }
 
@@ -900,7 +900,7 @@ void char_from_room(CHAR_DATA *ch) {
         }
 
         if (prev == NULL)
-            bug("Char_from_room: ch not found.", 0);
+            bug("Char_from_room: ch not found.");
     }
 
     /* MOBProgs - check to tell mobs we've left the room removed from HERE*/
@@ -918,7 +918,7 @@ void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
     OBJ_DATA *obj;
 
     if (pRoomIndex == NULL) {
-        bug("Char_to_room: NULL.", 0);
+        bug("Char_to_room: NULL.");
         return;
     }
 
@@ -1003,7 +1003,7 @@ void obj_from_char(OBJ_DATA *obj) {
     CHAR_DATA *ch;
 
     if ((ch = obj->carried_by) == NULL) {
-        bug("Obj_from_char: null ch.", 0);
+        bug("Obj_from_char: null ch.");
         return;
     }
 
@@ -1023,7 +1023,7 @@ void obj_from_char(OBJ_DATA *obj) {
         }
 
         if (prev == NULL)
-            bug("Obj_from_char: obj not in list.", 0);
+            bug("Obj_from_char: obj not in list.");
     }
 
     obj->carried_by = NULL;
@@ -1136,7 +1136,7 @@ void unequip_char(CHAR_DATA *ch, OBJ_DATA *obj) {
     int i;
 
     if (obj->wear_loc == WEAR_NONE) {
-        bug("Unequip_char: already unequipped.", 0);
+        bug("Unequip_char: already unequipped.");
         return;
     }
 
@@ -1179,7 +1179,7 @@ void obj_from_room(OBJ_DATA *obj) {
     ROOM_INDEX_DATA *in_room;
 
     if ((in_room = obj->in_room) == NULL) {
-        bug("obj_from_room: NULL.", 0);
+        bug("obj_from_room: NULL.");
         return;
     }
 
@@ -1196,7 +1196,7 @@ void obj_from_room(OBJ_DATA *obj) {
         }
 
         if (prev == NULL) {
-            bug("Obj_from_room: obj not found.", 0);
+            bug("Obj_from_room: obj not found.");
             return;
         }
     }
@@ -1258,7 +1258,7 @@ void obj_from_obj(OBJ_DATA *obj) {
     OBJ_DATA *obj_from;
 
     if ((obj_from = obj->in_obj) == NULL) {
-        bug("Obj_from_obj: null obj_from.", 0);
+        bug("Obj_from_obj: null obj_from.");
         return;
     }
 
@@ -1275,7 +1275,7 @@ void obj_from_obj(OBJ_DATA *obj) {
         }
 
         if (prev == NULL) {
-            bug("Obj_from_obj: obj not found.", 0);
+            bug("Obj_from_obj: obj not found.");
             return;
         }
     }
@@ -1378,7 +1378,7 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
     OBJ_DATA *obj_next;
 
     if (ch->in_room == NULL) {
-        bug("Extract_char: NULL.", 0);
+        bug("Extract_char: NULL.");
         return;
     }
 
@@ -1438,7 +1438,7 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
         }
 
         if (prev == NULL) {
-            bug("Extract_char: char not found.", 0);
+            bug("Extract_char: char not found.");
             return;
         }
     }

@@ -173,7 +173,7 @@ bool spec_DEATH(CHAR_DATA *ch) {
         return FALSE;
 
     if ((home = get_room_index(ROOM_VNUM_DEATH)) == NULL) {
-        bug("Couldn't get Death's home index.", 0);
+        bug("Couldn't get Death's home index.");
         return FALSE;
     }
 
