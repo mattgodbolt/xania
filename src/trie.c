@@ -179,12 +179,12 @@ static void add_leaf(node_t *node, const char *name, node_t *leaf) {
         if (child->type == tnode_twig) {
             add_leaf(child, name + 1, leaf);
         } else {
-            node_t *new = create_twignode(node->level + 1);
-            if (!new)
+            node_t *new_node = create_twignode(node->level + 1);
+            if (!new_node)
                 return;
-            insert_node(node, new, index);
-            add_leaf(new, child->data.leaf->name + new->level, child);
-            add_leaf(new, name + 1, leaf);
+            insert_node(node, new_node, index);
+            add_leaf(new_node, child->data.leaf->name + new_node->level, child);
+            add_leaf(new_node, name + 1, leaf);
         }
     } else {
         insert_node(node, leaf, index);
