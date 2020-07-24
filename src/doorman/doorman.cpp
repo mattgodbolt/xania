@@ -70,7 +70,7 @@ struct Channel {
     bool connected{}; /* Socket is ready to connect to Xania */
     pid_t identPid{}; /* PID of look-up process */
     int identFd[2]{}; /* FD of look-up processes pipe (read on 0) */
-    char authCharName[64]; /* name of authorized character */
+    std::string authCharName; /* name of authorized character */
 };
 
 void SendConnectPacket(Channel &channel);
@@ -189,7 +189,7 @@ int NewConnection(int fd, struct sockaddr_in address) {
     channel.echoing = true;
     channel.firstReconnect = false;
     channel.connected = false;
-    channel.authCharName[0] = '\0'; // Initially unauthenticated
+    channel.authCharName.clear();
 
     log_out("[%d] Incoming connection from %s on fd %d", channel.id, get_masked_hostname(channel.hostname).c_str(),
             channel.fd);
@@ -622,12 +622,12 @@ void SendConnectPacket(Channel &channel) {
         log_out("[%d] Attempt to send connect packet for already-connected channel", channel.id);
     } else if (connected && mudFd != -1) {
         // Have we already been authenticated?
-        if (channel.authCharName[0] != '\0') {
+        if (!channel.authCharName.empty()) {
             channel.connected = true;
-            SendToMUD({PACKET_RECONNECT, static_cast<uint32_t>(strlen(channel.authCharName) + 1), channel.id, {}},
-                      channel.authCharName);
+            SendToMUD({PACKET_RECONNECT, static_cast<uint32_t>(channel.authCharName.size() + 1), channel.id, {}},
+                      channel.authCharName.c_str());
             SendInfoPacket(channel);
-            log_out("[%d] Sent reconnect packet to MUD for %s", channel.id, channel.authCharName);
+            log_out("[%d] Sent reconnect packet to MUD for %s", channel.id, channel.authCharName.c_str());
         } else {
             channel.connected = true;
             SendToMUD({PACKET_CONNECT, 0, channel.id, {}});
@@ -758,12 +758,8 @@ void ProcessMUDMessage(int fd) {
             break;
         case PACKET_AUTHORIZED:
             /* A character has successfully logged in */
-            if (p.nExtra < sizeof(channels[p.channel].authCharName)) {
-                memcpy(channels[p.channel].authCharName, payload, p.nExtra);
-                log_out("[%d] Successfully authorized %s", p.channel, channels[p.channel].authCharName);
-            } else {
-                log_out("[%d] Auth name too long!", p.channel);
-            }
+            channels[p.channel].authCharName = std::string_view(payload, p.nExtra);
+            log_out("[%d] Successfully authorized %s", p.channel, channels[p.channel].authCharName.c_str());
             break;
         case PACKET_DISCONNECT:
             /* Kill off a channel */
