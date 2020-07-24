@@ -168,8 +168,8 @@ std::string get_masked_hostname(std::string_view hostname) {
 void Channel::closeConnection() {
     // Log the source IP but masked for privacy.
     log_out("[%d] Closing connection to %s", id, get_masked_hostname(hostname).c_str());
-    fd = 0;
     close(fd);
+    fd = 0;
     FD_CLR(fd, &ifds);
     if (identPid) {
         if (kill(identPid, 9) < 0) {
@@ -202,8 +202,7 @@ void Channel::newConnection(int fd, struct sockaddr_in address) {
     connected = false;
     authCharName.clear();
 
-    log_out("[%d] Incoming connection from %s on fd %d", id, get_masked_hostname(hostname).c_str(),
-            fd);
+    log_out("[%d] Incoming connection from %s on fd %d", id, get_masked_hostname(hostname).c_str(), fd);
 
     /* Start the state machine */
     IncomingData(fd, nullptr, 0);
