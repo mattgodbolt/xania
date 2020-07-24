@@ -41,7 +41,7 @@ void say_spell(CHAR_DATA *ch, int sn) {
 
     struct syl_type {
         char *old;
-        char *new;
+        char *new_t;
     };
 
     static const struct syl_type syl_table[] = {
@@ -59,7 +59,7 @@ void say_spell(CHAR_DATA *ch, int sn) {
     for (pName = skill_table[sn].name; *pName != '\0'; pName += length) {
         for (iSyl = 0; (length = strlen(syl_table[iSyl].old)) != 0; iSyl++) {
             if (!str_prefix(syl_table[iSyl].old, pName)) {
-                strcat(buf, syl_table[iSyl].new);
+                strcat(buf, syl_table[iSyl].new_t);
                 break;
             }
         }
