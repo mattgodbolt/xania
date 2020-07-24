@@ -25,19 +25,23 @@
 
 #include "doorman.h"
 #include "../merc.h"
+
+#include <algorithm>
+
 #include <arpa/inet.h>
 #include <arpa/telnet.h>
-#include <ctype.h>
-#include <errno.h>
+#include <cctype>
+#include <cerrno>
+#include <csignal>
+#include <cstdarg>
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <fcntl.h>
 #include <getopt.h>
 #include <netdb.h>
 #include <netinet/in.h>
-#include <signal.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <sys/resource.h>
 #include <sys/socket.h>
 #include <sys/stat.h>
@@ -47,22 +51,22 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-// Data is bloody well unsigned - I still maintain that char should be! ;)
-typedef unsigned char byte;
+static constexpr auto INCOMING_BUFFER_SIZE = 2048u;
+static constexpr auto CONNECTION_WAIT_TIME = 10u;
+using byte = unsigned char;
 
 bool IncomingData(int fd, byte *buffer, int nBytes);
 void SendConnectPacket(int i);
 void SendInfoPacket(int i);
-void ProcessIdent(struct sockaddr_in address, int resultFd);
+void ProcessIdent(struct sockaddr_in address, int outFd);
 
-typedef struct tagChannel {
+struct Channel {
     int fd; /* File descriptor of the channel */
-    int xaniaID; /* Xania's ID to this channel */
     char *hostname; /* Ptr to hostname */
     byte *buffer; /* Buffer of incoming data */
-    int nBytes;
-    short port;
-    long netaddr;
+    size_t nBytes;
+    uint16_t port;
+    uint32_t netaddr;
     int width, height; /* Width and height of terminal */
     bool ansi, gotTerm;
     bool echoing;
@@ -71,7 +75,7 @@ typedef struct tagChannel {
     pid_t identPid; /* PID of look-up process */
     int identFd[2]; /* FD of look-up processes pipe (read on 0) */
     char authCharName[64]; /* name of authorized character */
-} Channel;
+};
 
 /* Global variables */
 Channel channel[CHANNEL_MAX];
@@ -85,7 +89,7 @@ fd_set ifds;
 int debug = 0;
 
 /* printf() to an fd */
-__attribute__((format(printf, 2, 3))) bool fdprintf(int fd, char *format, ...) {
+__attribute__((format(printf, 2, 3))) bool fdprintf(int fd, const char *format, ...) {
     char buffer[4096];
     int len;
 
@@ -98,7 +102,7 @@ __attribute__((format(printf, 2, 3))) bool fdprintf(int fd, char *format, ...) {
 }
 
 /* printf() to a channel */
-__attribute__((format(printf, 2, 3))) bool cprintf(int chan, char *format, ...) {
+__attribute__((format(printf, 2, 3))) bool cprintf(int chan, const char *format, ...) {
     char buffer[4096];
     int len;
 
@@ -111,7 +115,7 @@ __attribute__((format(printf, 2, 3))) bool cprintf(int chan, char *format, ...) 
 }
 
 /* printf() to everyone */
-__attribute__((format(printf, 1, 2))) void wall(char *format, ...) {
+__attribute__((format(printf, 1, 2))) void wall(const char *format, ...) {
     char buffer[4096];
     int len, chan;
 
@@ -128,7 +132,7 @@ __attribute__((format(printf, 1, 2))) void wall(char *format, ...) {
 }
 
 /* log_out() replaces fprintf (stderr,...) */
-__attribute__((format(printf, 1, 2))) void log_out(char *format, ...) {
+__attribute__((format(printf, 1, 2))) void log_out(const char *format, ...) {
     char buffer[4096], *Time;
     time_t now;
 
@@ -158,7 +162,7 @@ unsigned long djb2_hash(const char *str) {
  * to spot users coming from the same IP.
  */
 char *get_masked_hostname(char *hostbuf, const char *hostname) {
-    snprintf(hostbuf, MAX_MASKED_HOSTNAME, "%.6s*** [#%ld]", hostname, djb2_hash(hostname));
+    snprintf(hostbuf, MAX_MASKED_HOSTNAME, "%.6s*** [#%lud]", hostname, djb2_hash(hostname));
     return hostbuf;
 }
 
@@ -184,7 +188,7 @@ int NewConnection(int fd, struct sockaddr_in address) {
     channel[i].port = ntohs(address.sin_port);
     channel[i].netaddr = ntohl(address.sin_addr.s_addr);
     channel[i].nBytes = 0;
-    channel[i].buffer = malloc(INCOMING_BUFFER_SIZE);
+    channel[i].buffer = static_cast<byte *>(malloc(INCOMING_BUFFER_SIZE));
     channel[i].width = 80;
     channel[i].height = 24;
     channel[i].ansi = channel[i].gotTerm = false;
@@ -863,9 +867,9 @@ void ExecuteServerLoop(void) {
      * Select on a copy of the input fds
      * Also find the highest set FD
      */
-    maxFd = MAX(listenSock, mudFd);
+    maxFd = std::max(listenSock, mudFd);
     highestClientFd = HighestFd();
-    maxFd = MAX(maxFd, highestClientFd);
+    maxFd = std::max(maxFd, highestClientFd);
 
     tempIfds = ifds;
     // Set up exIfds only for normal sockets and xania

@@ -97,16 +97,16 @@ int doormanDesc = 0;
 bool SendPacket(Packet *p, void *extra) {
     // TODO: do something rather than return here if there's a failure
     if (!doormanDesc)
-        return false;
+        return FALSE;
     int bytesRead = write(doormanDesc, (char *)p, sizeof(Packet));
     if (bytesRead != sizeof(Packet))
-        return false;
+        return FALSE;
     if (p->nExtra) {
         bytesRead = write(doormanDesc, extra, p->nExtra);
         if (bytesRead != sizeof(Packet))
-            return false;
+            return FALSE;
     }
-    return true;
+    return TRUE;
 }
 
 void SetEchoState(DESCRIPTOR_DATA *d, int on) {
