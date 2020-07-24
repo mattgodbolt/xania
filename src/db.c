@@ -801,7 +801,7 @@ void load_old_obj(FILE *fp) {
                 top_affect++;
             }
 
-            else if (letter == 'E') {
+            else if (letter == RESETS_EQUIP_OBJ_MOB) {
                 EXTRA_DESCR_DATA *ed;
 
                 ed = alloc_perm(sizeof(*ed));
@@ -901,10 +901,10 @@ void load_resets(FILE *fp) {
     for (;;) {
 
         char letter;
-        if ((letter = fread_letter(fp)) == 'S')
+        if ((letter = fread_letter(fp)) == RESETS_END_SECTION)
             break;
 
-        if (letter == '*') {
+        if (letter == RESETS_COMMENT) {
             fread_to_eol(fp);
             continue;
         }
@@ -916,9 +916,9 @@ void load_resets(FILE *fp) {
 
         pReset->arg2 = fread_number(fp);
 
-        pReset->arg3 = (letter == 'G' || letter == 'R') ? 0 : fread_number(fp);
+        pReset->arg3 = (letter == RESETS_GIVE_OBJ_MOB || letter == RESETS_RANDOMIZE_EXITS) ? 0 : fread_number(fp);
 
-        if (letter == 'P' || letter == 'M') {
+        if (letter == RESETS_PUT_OBJ_OBJ || letter == RESETS_MOB_IN_ROOM) {
             pReset->arg4 = fread_number(fp);
         } else
             pReset->arg4 = 0;
@@ -932,30 +932,30 @@ void load_resets(FILE *fp) {
             bug("Load_resets: bad command '%c'.", letter);
             exit(1);
             break;
-        case 'M':
+        case RESETS_MOB_IN_ROOM:
             if ((pRoomIndex = get_room_index(pReset->arg3))) {
                 new_reset(pRoomIndex, pReset);
                 iLastRoom = pReset->arg3;
             }
             break;
-        case 'O':
+        case RESETS_OBJ_IN_ROOM:
             if ((pRoomIndex = get_room_index(pReset->arg3))) {
                 new_reset(pRoomIndex, pReset);
                 iLastObj = pReset->arg3;
             }
             break;
-        case 'P':
+        case RESETS_PUT_OBJ_OBJ:
             if ((pRoomIndex = get_room_index(iLastObj)))
                 new_reset(pRoomIndex, pReset);
             break;
-        case 'G':
-        case 'E':
+        case RESETS_GIVE_OBJ_MOB:
+        case RESETS_EQUIP_OBJ_MOB:
             if ((pRoomIndex = get_room_index(iLastRoom))) {
                 new_reset(pRoomIndex, pReset);
                 iLastObj = iLastRoom;
             }
             break;
-        case 'D':
+        case RESETS_EXIT_FLAGS:
             pRoomIndex = get_room_index(pReset->arg1);
 
             if (pReset->arg2 < 0 || pReset->arg2 > 5 || !pRoomIndex || (pexit = pRoomIndex->exit[pReset->arg2]) == NULL
@@ -972,7 +972,7 @@ void load_resets(FILE *fp) {
             case 2: SET_BIT(pexit->rs_flags, EX_CLOSED | EX_LOCKED); break;
             }
             break;
-        case 'R':
+        case RESETS_RANDOMIZE_EXITS:
             if (pReset->arg2 < 0 || pReset->arg2 > 6) {
                 bug("Load_resets: 'R': bad exit %d.", pReset->arg2);
                 exit(1);
@@ -1018,7 +1018,7 @@ void validate_resets(void) {
                      * We're calling the index functions for the side effect.
                      */
                     switch (pReset->command) {
-                    case 'M':
+                    case RESETS_MOB_IN_ROOM:
                         if (!(get_mob_index(pReset->arg1))) {
                             Okay = FALSE;
                             snprintf(buf, sizeof(buf), "Get_mob_index: bad vnum %d in reset in room %d.", pReset->arg1,
@@ -1026,7 +1026,7 @@ void validate_resets(void) {
                             bug(buf, 0);
                         }
                         break;
-                    case 'O':
+                    case RESETS_OBJ_IN_ROOM:
                         temp_index = get_obj_index(pReset->arg1);
                         if (temp_index)
                             temp_index->reset_num++;
@@ -1037,7 +1037,7 @@ void validate_resets(void) {
                             bug(buf, 0);
                         }
                         break;
-                    case 'P':
+                    case RESETS_PUT_OBJ_OBJ:
                         temp_index = get_obj_index(pReset->arg1);
                         if (temp_index)
                             temp_index->reset_num++;
@@ -1048,8 +1048,8 @@ void validate_resets(void) {
                             bug(buf, 0);
                         }
                         break;
-                    case 'G':
-                    case 'E':
+                    case RESETS_GIVE_OBJ_MOB:
+                    case RESETS_EQUIP_OBJ_MOB:
                         temp_index = get_obj_index(pReset->arg1);
                         if (temp_index)
                             temp_index->reset_num++;
@@ -1060,8 +1060,8 @@ void validate_resets(void) {
                             bug(buf, 0);
                         }
                         break;
-                    case 'D':
-                    case 'R': break;
+                    case RESETS_EXIT_FLAGS:
+                    case RESETS_RANDOMIZE_EXITS: break;
                     }
 
                     if (!Okay) {
@@ -1368,7 +1368,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
         switch (pReset->command) {
         default: bug("Reset_room: bad command %c.", pReset->command); break;
 
-        case 'M':
+        case RESETS_MOB_IN_ROOM:
             if (!(pMobIndex = get_mob_index(pReset->arg1))) {
                 bug("Reset_room: 'M': bad vnum %d.", pReset->arg1);
                 continue;
@@ -1411,7 +1411,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
             last = TRUE;
             break;
 
-        case 'O':
+        case RESETS_OBJ_IN_ROOM:
             if (!(pObjIndex = get_obj_index(pReset->arg1))) {
                 bug("Reset_room: 'O': bad vnum %d.", pReset->arg1);
                 continue;
@@ -1432,7 +1432,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
             obj_to_room(pObj, pRoom);
             break;
 
-        case 'P':
+        case RESETS_PUT_OBJ_OBJ:
             if (!(pObjIndex = get_obj_index(pReset->arg1))) {
                 bug("Reset_room: 'P': bad vnum %d.", pReset->arg1);
                 continue;
@@ -1476,8 +1476,8 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
             last = TRUE;
             break;
 
-        case 'G':
-        case 'E':
+        case RESETS_GIVE_OBJ_MOB:
+        case RESETS_EQUIP_OBJ_MOB:
             if (!(pObjIndex = get_obj_index(pReset->arg1))) {
                 bug("Reset_room: 'E' or 'G': bad vnum %d.", pReset->arg1);
                 continue;
@@ -1547,14 +1547,14 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
             }
 
             obj_to_char(pObj, LastMob);
-            if (pReset->command == 'E')
+            if (pReset->command == RESETS_EQUIP_OBJ_MOB)
                 equip_char(LastMob, pObj, pReset->arg3);
             last = TRUE;
             break;
 
-        case 'D': break;
+        case RESETS_EXIT_FLAGS: break;
 
-        case 'R':
+        case RESETS_RANDOMIZE_EXITS:
 #ifdef notdef
             if (!(pRoomIndex = get_room_index(pReset->arg1))) {
                 bug("Reset_room: 'R': bad vnum %d.", pReset->arg1);
