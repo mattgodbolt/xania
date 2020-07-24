@@ -310,7 +310,7 @@ void boot_db(void) {
             for (;;) {
                 char *word;
                 if (fread_letter(fpArea) != '#') {
-                    bug("Boot_db: # not found.", 0);
+                    bug("Boot_db: # not found.");
                     exit(1);
                 }
 
@@ -345,7 +345,7 @@ void boot_db(void) {
                 else if (!str_cmp(word, "MOBPROGS"))
                     load_mobprogs(fpArea);
                 else {
-                    bug("Boot_db: bad section name.", 0);
+                    bug("Boot_db: bad section name.");
                     exit(1);
                 }
             }
@@ -356,7 +356,7 @@ void boot_db(void) {
         }
         fclose(fpList);
     }
-    bug("OLC: don't forget to fix #RESETS M <arg4>", 0);
+    bug("OLC: don't forget to fix #RESETS M <arg4>");
 
     /*
      * Fix up exits.
@@ -467,7 +467,7 @@ void load_old_mob(FILE *fp) {
 
         letter = fread_letter(fp);
         if (letter != '#') {
-            bug("Load_mobiles: # not found.", 0);
+            bug("Load_mobiles: # not found.");
             exit(1);
         }
 
@@ -583,7 +583,7 @@ void load_old_mob_race(FILE *fp) {
 
         letter = fread_letter(fp);
         if (letter != '#') {
-            bug("Load_mobiles: # not found.", 0);
+            bug("Load_mobiles: # not found.");
             exit(1);
         }
 
@@ -697,7 +697,7 @@ void load_old_obj(FILE *fp) {
 
         letter = fread_letter(fp);
         if (letter != '#') {
-            bug("Load_objects: # not found.", 0);
+            bug("Load_objects: # not found.");
             exit(1);
         }
 
@@ -871,7 +871,7 @@ void load_resets(FILE *fp) {
     int iLastObj = 0;
 
     if (area_last == NULL) {
-        bug("Load_resets: no #AREA seen yet.", 0);
+        bug("Load_resets: no #AREA seen yet.");
         exit(1);
     }
 
@@ -1061,7 +1061,7 @@ void load_rooms(FILE *fp) {
     ROOM_INDEX_DATA *pRoomIndex;
 
     if (area_last == NULL) {
-        bug("Load_resets: no #AREA seen yet.", 0);
+        bug("Load_resets: no #AREA seen yet.");
         exit(1);
     }
 
@@ -1073,7 +1073,7 @@ void load_rooms(FILE *fp) {
 
         letter = fread_letter(fp);
         if (letter != '#') {
-            bug("Load_rooms: # not found.", 0);
+            bug("Load_rooms: # not found.");
             exit(1);
         }
 
@@ -1583,7 +1583,7 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
     mobile_count++;
 
     if (pMobIndex == NULL) {
-        bug("Create_mobile: NULL pMobIndex.", 0);
+        bug("Create_mobile: NULL pMobIndex.");
         exit(1);
     }
 
@@ -1804,7 +1804,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex, int level) {
     OBJ_DATA *obj;
 
     if (pObjIndex == NULL) {
-        bug("Create_object: NULL pObjIndex.", 0);
+        bug("Create_object: NULL pObjIndex.");
         exit(1);
     }
 
@@ -2173,7 +2173,7 @@ int fread_number(FILE *fp) {
     }
 
     if (!isdigit(c)) {
-        bug("Fread_number: bad format.", 0);
+        bug("Fread_number: bad format.");
         exit(1);
     }
 
@@ -2229,7 +2229,7 @@ int fread_spnumber(FILE *fp) {
             spell_name = fread_string(fp);
         }
         if ((number = skill_lookup(spell_name)) <= 0) {
-            bug("Fread_spnumber: bad spell.", 0);
+            bug("Fread_spnumber: bad spell.");
             exit(1);
         }
         return skill_table[number].slot;
@@ -2312,7 +2312,7 @@ BUFFER *fread_string_tobuffer(FILE *fp) {
     BUFFER *buffer = buffer_create();
 
     if (buffer == NULL) {
-        bug("fread_string_tobuffer: Failed to create new buffer.", 0);
+        bug("fread_string_tobuffer: Failed to create new buffer.");
         return NULL;
     }
     do {
@@ -2324,7 +2324,7 @@ BUFFER *fread_string_tobuffer(FILE *fp) {
         default: index++; break;
 
         case EOF:
-            bug("fread_string_tobuffer: EOF found.", 0);
+            bug("fread_string_tobuffer: EOF found.");
             buffer_shrink(buffer);
             return buffer;
 
@@ -2344,7 +2344,7 @@ BUFFER *fread_string_tobuffer(FILE *fp) {
             return buffer;
         }
     }
-    bug("fread_string_tobuffer: String overflow - aborting read.", 0);
+    bug("fread_string_tobuffer: String overflow - aborting read.");
     buffer_shrink(buffer);
     return buffer;
 }
@@ -2379,7 +2379,7 @@ char *fread_string(FILE *fp) {
 
         case EOF:
             /* temp fix */
-            bug("Fread_string: EOF", 0);
+            bug("Fread_string: EOF");
             return NULL;
             /* exit( 1 ); */
             break;
@@ -2471,7 +2471,7 @@ char *fread_string_eol(FILE *fp) {
         default: break;
 
         case EOF:
-            bug("Fread_string_eol  EOF", 0);
+            bug("Fread_string_eol  EOF");
             exit(1);
             break;
 
@@ -2566,7 +2566,7 @@ char *fread_word(FILE *fp) {
         }
     }
 
-    bug("Fread_word: word too long.", 0);
+    bug("Fread_word: word too long.");
     exit(1);
     return NULL;
 }
@@ -3087,12 +3087,12 @@ void smash_tilde(char *str) {
  */
 bool str_cmp(const char *astr, const char *bstr) {
     if (astr == NULL) {
-        bug("Str_cmp: null astr.", 0);
+        bug("Str_cmp: null astr.");
         return TRUE;
     }
 
     if (bstr == NULL) {
-        bug("Str_cmp: null bstr.", 0);
+        bug("Str_cmp: null bstr.");
         return TRUE;
     }
 
@@ -3110,12 +3110,12 @@ bool str_cmp(const char *astr, const char *bstr) {
  */
 bool str_prefix(const char *astr, const char *bstr) {
     if (astr == NULL) {
-        bug("Strn_cmp: null astr.", 0);
+        bug("Strn_cmp: null astr.");
         return TRUE;
     }
 
     if (bstr == NULL) {
-        bug("Strn_cmp: null bstr.", 0);
+        bug("Strn_cmp: null bstr.");
         return TRUE;
     }
 
@@ -3273,11 +3273,11 @@ MPROG_DATA *mprog_file_read(char *f, MPROG_DATA *mprg, MOB_INDEX_DATA *pMobIndex
     switch (letter = fread_letter(progfile)) {
     case '>': break;
     case '|':
-        bug("empty mobprog file.", 0);
+        bug("empty mobprog file.");
         exit(1);
         break;
     default:
-        bug("in mobprog file syntax error.", 0);
+        bug("in mobprog file syntax error.");
         exit(1);
         break;
     }
@@ -3285,11 +3285,11 @@ MPROG_DATA *mprog_file_read(char *f, MPROG_DATA *mprg, MOB_INDEX_DATA *pMobIndex
         mprg2->type = mprog_name_to_type(fread_word(progfile));
         switch (mprg2->type) {
         case ERROR_PROG:
-            bug("mobprog file type error", 0);
+            bug("mobprog file type error");
             exit(1);
             break;
         case IN_FILE_PROG:
-            bug("mprog file contains a call to file.", 0);
+            bug("mprog file contains a call to file.");
             exit(1);
             break;
         default:
@@ -3304,7 +3304,7 @@ MPROG_DATA *mprog_file_read(char *f, MPROG_DATA *mprg, MOB_INDEX_DATA *pMobIndex
                 break;
             case '|': done = TRUE; break;
             default:
-                bug("in mobprog file syntax error.", 0);
+                bug("in mobprog file syntax error.");
                 exit(1);
                 break;
             }
@@ -3325,7 +3325,7 @@ void load_mobprogs(FILE *fp) {
     MPROG_DATA *working;
 
     if (area_last == NULL) {
-        bug("Load_mobprogs: no #AREA seen yet!", 0);
+        bug("Load_mobprogs: no #AREA seen yet!");
         exit(1);
     }
 

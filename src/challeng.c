@@ -601,10 +601,7 @@ static int check_duel_status(int f) {
     if (!flag)
         return 0;
     else {
-        char buf[128];
-
-        snprintf(buf, sizeof(buf), "check_duel_status: Name match failure. Code %d", flag);
-        bug(buf);
+        bug("check_duel_status: Name match failure. Code %d", flag);
     }
     if (f) {
         challenge_ticker = 1;

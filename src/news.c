@@ -302,7 +302,7 @@ void do_news_articles(CHAR_DATA *ch, char *argument) {
     }
     a = ch->thread->articles;
     buffer_addline_fmt(buffer, "Articles for thread '|W%s|w':\n\r", ch->thread->subject);
-    buffer_addline_fmt(buffer, "|r[|g Message# |r] |gAuthor       Date|w\n\r", ch);
+    buffer_addline_fmt(buffer, "|r[|g Message# |r] |gAuthor       Date|w\n\r");
     for (; a; a = a->next) {
         buffer_addline_fmt(buffer, "|r[ |Y%s |w%3d    |r]|w %-13s%s\r", has_read_before(ch, a->msg_id) ? " " : "*",
                            mesnum++, a->author, ctime((time_t *)&a->time_sent));

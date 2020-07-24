@@ -96,7 +96,7 @@ bool mprog_seval(char *lhs, char *opr, char *rhs) {
     if (!str_cmp(opr, "!/"))
         return (bool)(str_infix(rhs, lhs));
 
-    bug("Improper MOBprog operator\n\r", 0);
+    bug("Improper MOBprog operator '%s'", opr);
     return 0;
 }
 
@@ -119,7 +119,7 @@ bool mprog_veval(int lhs, char *opr, int rhs) {
     if (!str_cmp(opr, "|"))
         return (lhs | rhs);
 
-    bug("Improper MOBprog operator\n\r", 0);
+    bug("Improper MOBprog operator '%s'", opr);
     return 0;
 }
 

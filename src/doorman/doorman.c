@@ -85,7 +85,7 @@ fd_set ifds;
 int debug = 0;
 
 /* printf() to an fd */
-bool fdprintf(int fd, char *format, ...) {
+__attribute__((format(printf, 2, 3))) bool fdprintf(int fd, char *format, ...) {
     char buffer[4096];
     int len;
 
@@ -98,7 +98,7 @@ bool fdprintf(int fd, char *format, ...) {
 }
 
 /* printf() to a channel */
-bool cprintf(int chan, char *format, ...) {
+__attribute__((format(printf, 2, 3))) bool cprintf(int chan, char *format, ...) {
     char buffer[4096];
     int len;
 
@@ -111,7 +111,7 @@ bool cprintf(int chan, char *format, ...) {
 }
 
 /* printf() to everyone */
-void wall(char *format, ...) {
+__attribute__((format(printf, 1, 2))) void wall(char *format, ...) {
     char buffer[4096];
     int len, chan;
 
@@ -127,8 +127,8 @@ void wall(char *format, ...) {
         }
 }
 
-/* log_out() replaces fprintf (stder,...) */
-void log_out(char *format, ...) {
+/* log_out() replaces fprintf (stderr,...) */
+__attribute__((format(printf, 1, 2))) void log_out(char *format, ...) {
     char buffer[4096], *Time;
     time_t now;
 

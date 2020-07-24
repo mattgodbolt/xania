@@ -140,7 +140,7 @@ void load_mobiles(FILE *fp) {
     MOB_INDEX_DATA *pMobIndex;
 
     if (!area_last) { /* OLC */
-        bug("Load_mobiles: no #AREA seen yet!", 0);
+        bug("Load_mobiles: no #AREA seen yet!");
         exit(1);
     }
     for (;;) {
@@ -150,7 +150,7 @@ void load_mobiles(FILE *fp) {
 
         letter = fread_letter(fp);
         if (letter != '#') {
-            bug("Load_mobiles: # not found.", 0);
+            bug("Load_mobiles: # not found.");
             exit(1);
         }
 
@@ -266,7 +266,7 @@ void load_mobiles(FILE *fp) {
 
                     REMOVE_BIT(pMobIndex->parts, vector);
                 } else {
-                    bug("Flag remove: flag not found.", 0);
+                    bug("Flag remove: flag '%s' not found.", word);
                     exit(1);
                 }
             } else {
@@ -310,7 +310,7 @@ void load_objects(FILE *fp) {
     char temp; /* Used for Death's Wear Strings bit */
 
     if (!area_last) {
-        bug("Load_objects: no #AREA section found yet!", 0);
+        bug("Load_objects: no #AREA section found yet!");
         exit(1);
     }
 
@@ -321,7 +321,7 @@ void load_objects(FILE *fp) {
 
         letter = fread_letter(fp);
         if (letter != '#') {
-            bug("Load_objects: # not found.", 0);
+            bug("Load_objects: # not found.");
             exit(1);
         }
 

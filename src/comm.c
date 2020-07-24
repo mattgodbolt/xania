@@ -717,7 +717,7 @@ void close_socket(DESCRIPTOR_DATA *dclose) {
         if (d != NULL)
             d->next = dclose->next;
         else
-            bug("Close_socket: dclose not found.", 0);
+            bug("Close_socket: dclose not found.");
     }
 
     // If doorman didn't tell us to disconnect them,
@@ -953,7 +953,7 @@ void write_to_buffer(DESCRIPTOR_DATA *d, const char *txt, int length) {
         char *outbuf;
 
         if (d->outsize > 32000) {
-            bug("Buffer overflow. Closing.\n\r", 0);
+            bug("Buffer overflow. Closing.");
             close_socket(d);
             return;
         }
@@ -1876,7 +1876,7 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
     if (ch == NULL || ch->in_room == NULL)
         return;
     if (type == TO_GIVENROOM && givenRoom == NULL) {
-        bug("Act: null givenRoom with TO_GIVENROOM.", 0);
+        bug("Act: null givenRoom with TO_GIVENROOM.");
         return;
     }
 
@@ -1887,7 +1887,7 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
 
     if (type == TO_VICT) {
         if (vch == NULL) {
-            bug("Act: null vch with TO_VICT.", 0);
+            bug("Act: null vch with TO_VICT.");
             return;
         }
 

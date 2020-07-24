@@ -163,7 +163,7 @@ void wiznet_tick(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_TICK, "tick");
 void wiznet_initialise(void) {
     trie = trie_create(0);
     if (!trie) {
-        bug("wiznet_initialise: couldn't create trie.", 0);
+        bug("wiznet_initialise: couldn't create trie.");
         exit(1);
     }
     trie_add(trie, "on", wiznet_on, 0);

@@ -2077,7 +2077,7 @@ bool str_infix args((const char *astr, const char *bstr));
 bool str_suffix args((const char *astr, const char *bstr));
 char *capitalize args((const char *str));
 void append_file args((CHAR_DATA * ch, char *file, char *str));
-void bug args((const char *str, ...));
+void bug args((const char *str, ...)) __attribute__((format(printf, 1, 2)));
 void log_string args((const char *str));
 void log_new args((const char *str, int loglevel, int level));
 void tail_chain args((void));

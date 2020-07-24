@@ -1083,7 +1083,7 @@ void wear_obj(CHAR_DATA *ch, OBJ_DATA *obj, bool fReplace) {
             return;
         }
 
-        bug("Wear_obj: no free finger.", 0);
+        bug("Wear_obj: no free finger.");
         send_to_char("You already wear two rings.\n\r", ch);
         return;
     }
@@ -1111,7 +1111,7 @@ void wear_obj(CHAR_DATA *ch, OBJ_DATA *obj, bool fReplace) {
             return;
         }
 
-        bug("Wear_obj: no free neck.", 0);
+        bug("Wear_obj: no free neck.");
         send_to_char("You already wear two neck items.\n\r", ch);
         return;
     }
@@ -1227,7 +1227,7 @@ void wear_obj(CHAR_DATA *ch, OBJ_DATA *obj, bool fReplace) {
             return;
         }
 
-        bug("Wear_obj: no free wrist.", 0);
+        bug("Wear_obj: no free wrist.");
         send_to_char("You already wear two wrist items.\n\r", ch);
         return;
     }
