@@ -2166,7 +2166,7 @@ void show_prompt(DESCRIPTOR_DATA *d, char *prompt) {
 
         case 'z':
             if IS_IMMORTAL (ch) {
-                i = ch->in_room->area->name;
+                i = ch->in_room->area->areaname; // print the area name short form
             } else {
                 i = "|W ?? |p";
             }
