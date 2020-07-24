@@ -24,9 +24,11 @@
  */
 
 #include "doorman.h"
-#include "../merc.h"
+
+#include <fmt/format.h>
 
 #include <algorithm>
+#include <string>
 
 #include <arpa/inet.h>
 #include <arpa/telnet.h>
@@ -56,13 +58,13 @@ static constexpr auto CONNECTION_WAIT_TIME = 10u;
 using byte = unsigned char;
 
 bool IncomingData(int fd, byte *buffer, int nBytes);
-void SendConnectPacket(int i);
-void SendInfoPacket(int i);
+void SendConnectPacket(int channelId);
+void SendInfoPacket(int channelId);
 void ProcessIdent(struct sockaddr_in address, int outFd);
 
 struct Channel {
     int fd; /* File descriptor of the channel */
-    char *hostname; /* Ptr to hostname */
+    std::string hostname;
     byte *buffer; /* Buffer of incoming data */
     size_t nBytes;
     uint16_t port;
@@ -147,12 +149,10 @@ __attribute__((format(printf, 1, 2))) void log_out(const char *format, ...) {
     fprintf(stderr, "%d::%s %s\n", getpid(), Time, buffer);
 }
 
-unsigned long djb2_hash(const char *str) {
+unsigned long djb2_hash(std::string_view str) {
     unsigned long hash = 5381;
-    int c;
-    while ((c = *str++)) {
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-    }
+    for (auto c : str)
+        hash = hash * 33 + c;
     return hash;
 }
 
@@ -161,16 +161,14 @@ unsigned long djb2_hash(const char *str) {
  * and with a hashcode of the full hostname. This can be used by admins
  * to spot users coming from the same IP.
  */
-char *get_masked_hostname(char *hostbuf, const char *hostname) {
-    snprintf(hostbuf, MAX_MASKED_HOSTNAME, "%.6s*** [#%lud]", hostname, djb2_hash(hostname));
-    return hostbuf;
+std::string get_masked_hostname(std::string_view hostname) {
+    return fmt::format("{}*** [#{}]", hostname.substr(0, 6), djb2_hash(hostname));
 }
 
 /* Create a new connection */
 int NewConnection(int fd, struct sockaddr_in address) {
     int i;
     pid_t forkRet;
-    char hostbuf[MAX_MASKED_HOSTNAME];
 
     for (i = 0; i < CHANNEL_MAX; ++i) {
         if (channel[i].fd == 0)
@@ -184,7 +182,7 @@ int NewConnection(int fd, struct sockaddr_in address) {
     }
 
     channel[i].fd = fd;
-    channel[i].hostname = strdup(inet_ntoa(address.sin_addr));
+    channel[i].hostname = inet_ntoa(address.sin_addr);
     channel[i].port = ntohs(address.sin_port);
     channel[i].netaddr = ntohl(address.sin_addr.s_addr);
     channel[i].nBytes = 0;
@@ -197,7 +195,7 @@ int NewConnection(int fd, struct sockaddr_in address) {
     channel[i].connected = false;
     channel[i].authCharName[0] = '\0'; // Initially unauthenticated
 
-    log_out("[%d] Incoming connection from %s on fd %d", i, get_masked_hostname(hostbuf, channel[i].hostname),
+    log_out("[%d] Incoming connection from %s on fd %d", i, get_masked_hostname(channel[i].hostname).c_str(),
             channel[i].fd);
 
     /* Start the state machine */
@@ -254,7 +252,7 @@ int NewConnection(int fd, struct sockaddr_in address) {
     return i;
 }
 
-int HighestFd(void) {
+int HighestFd() {
     int hFd = 0;
     int i;
     for (i = 0; i < CHANNEL_MAX; ++i) {
@@ -266,7 +264,7 @@ int HighestFd(void) {
     return hFd;
 }
 
-int FindChannel(int fd) {
+int32_t FindChannel(int fd) {
     int i;
     if (fd == 0) {
         log_out("Panic!  fd==0 in FindChannel!  Bailing out with -1");
@@ -280,15 +278,12 @@ int FindChannel(int fd) {
 
 void CloseConnection(int fd) {
     int chan = FindChannel(fd);
-    char hostbuf[MAX_MASKED_HOSTNAME];
     if (chan == -1) {
         log_out("Erk - unable to find channel for fd %d", fd);
         return;
     }
     // Log the source IP but masked for privacy.
-    log_out("[%d] Closing connection to %s", chan, get_masked_hostname(hostbuf, channel[chan].hostname));
-    if (channel[chan].hostname)
-        free(channel[chan].hostname);
+    log_out("[%d] Closing connection to %s", chan, get_masked_hostname(channel[chan].hostname).c_str());
     channel[chan].fd = 0;
     close(fd);
     FD_CLR(fd, &ifds);
@@ -342,7 +337,6 @@ void IncomingIdentInfo(int chan, int fd) {
     // A response from the ident server
     int numBytes, ret;
     char buffer[1024];
-    char hostbuf[MAX_MASKED_HOSTNAME];
     ret = read(fd, &numBytes, sizeof(numBytes));
     if (ret <= 0) {
         log_out("[%d] IdentD pipe died on read (read returned %d)", chan, ret);
@@ -369,12 +363,9 @@ void IncomingIdentInfo(int chan, int fd) {
         return;
     }
 
-    // Free any previous data
-    if (channel[chan].hostname)
-        free(channel[chan].hostname);
-    channel[chan].hostname = strdup(buffer);
+    channel[chan].hostname = buffer;
     // Log the source IP but mask it for privacy.
-    log_out("[%d] %s", chan, get_masked_hostname(hostbuf, channel[chan].hostname));
+    log_out("[%d] %s", chan, get_masked_hostname(channel[chan].hostname).c_str());
     SendInfoPacket(chan);
 }
 
@@ -418,7 +409,7 @@ bool IncomingData(int fd, byte *buffer, int nBytes) {
                         // Whoiseye's bloody DEC-TERM spams us multiply
                         // otherwise...
                         if (!channel[chan].gotTerm) {
-                            channel[chan].gotTerm = TRUE;
+                            channel[chan].gotTerm = true;
                             SendOpt(fd, *(ptr + 2));
                         }
                         break;
@@ -602,22 +593,21 @@ void ProcessIdent(struct sockaddr_in address, int outFd) {
     if (header_written != sizeof(nBytes) || write(outFd, buf, nBytes) != nBytes) {
         log_out("ID: Unable to write to doorman - perhaps it crashed (%d, %s)", errno, strerror(errno));
     } else {
-        char hostbuf[MAX_MASKED_HOSTNAME];
         // Log the source hostname but mask it for privacy.
-        log_out("ID: Looked up %s", get_masked_hostname(hostbuf, hostName));
+        log_out("ID: Looked up %s", get_masked_hostname(hostName).c_str());
     }
 }
 
 /*********************************/
 
-void SendToMUD(Packet *p, void *payload) {
+void SendToMUD(const Packet &p, const void *payload = nullptr) {
     if (connected && mudFd != -1) {
-        if (write(mudFd, p, sizeof(Packet)) != sizeof(Packet)) {
+        if (write(mudFd, &p, sizeof(Packet)) != sizeof(Packet)) {
             perror("SendToMUD");
             exit(1);
         }
-        if (p->nExtra)
-            if (write(mudFd, payload, p->nExtra) != p->nExtra) {
+        if (p.nExtra)
+            if (write(mudFd, payload, p.nExtra) != p.nExtra) {
                 perror("SendToMUD");
                 exit(1);
             }
@@ -629,52 +619,40 @@ void SendToMUD(Packet *p, void *payload) {
  * and tells the MUD that the channel has closed
  */
 void AbortConnection(int fd) {
-    Packet p;
-    p.type = PACKET_DISCONNECT;
-    p.nExtra = 0;
-    p.channel = FindChannel(fd);
-    SendToMUD(&p, NULL);
+    SendToMUD({PACKET_DISCONNECT, 0, FindChannel(fd), {}});
     CloseConnection(fd);
 }
 
-void SendInfoPacket(int i) {
-    Packet p;
+void SendInfoPacket(int32_t channelId) {
     char buffer[4096];
-    InfoData *data = (InfoData *)buffer;
-    char *hostname = channel[i].hostname;
-    p.type = PACKET_INFO;
-    p.channel = i;
-    p.nExtra = sizeof(InfoData) + strlen(hostname) + 1;
+    auto data = new (buffer) InfoData;
+    Packet p{
+        PACKET_INFO, static_cast<uint32_t>(sizeof(InfoData) + channel[channelId].hostname.size() + 1), channelId, {}};
 
-    data->port = channel[i].port;
-    data->netaddr = channel[i].netaddr;
-    data->ansi = channel[i].ansi;
-    strcpy(data->data, hostname);
-    SendToMUD(&p, buffer);
+    data->port = channel[channelId].port;
+    data->netaddr = channel[channelId].netaddr;
+    data->ansi = channel[channelId].ansi;
+    strcpy(data->data, channel[channelId].hostname.c_str());
+    SendToMUD(p, buffer);
 }
 
-void SendConnectPacket(int i) {
-    Packet p;
-    if (channel[i].connected) {
-        log_out("[%d] Attempt to send connect packet for already-connected channel", i);
+void SendConnectPacket(int32_t channelId) {
+    if (channel[channelId].connected) {
+        log_out("[%d] Attempt to send connect packet for already-connected channel", channelId);
     } else if (connected && mudFd != -1) {
         // Have we already been authenticated?
-        if (channel[i].authCharName[0] != '\0') {
-            p.type = PACKET_RECONNECT;
-            p.nExtra = strlen(channel[i].authCharName) + 1;
-            p.channel = i;
-            channel[i].connected = true;
-            SendToMUD(&p, channel[i].authCharName);
-            SendInfoPacket(i);
-            log_out("[%d] Sent reconnect packet to MUD for %s", i, channel[i].authCharName);
+        if (channel[channelId].authCharName[0] != '\0') {
+            channel[channelId].connected = true;
+            SendToMUD(
+                {PACKET_RECONNECT, static_cast<uint32_t>(strlen(channel[channelId].authCharName) + 1), channelId, {}},
+                channel[channelId].authCharName);
+            SendInfoPacket(channelId);
+            log_out("[%d] Sent reconnect packet to MUD for %s", channelId, channel[channelId].authCharName);
         } else {
-            p.type = PACKET_CONNECT;
-            p.nExtra = 0;
-            p.channel = i;
-            channel[i].connected = true;
-            SendToMUD(&p, NULL);
-            SendInfoPacket(i);
-            log_out("[%d] Sent connect packet to MUD", i);
+            channel[channelId].connected = true;
+            SendToMUD({PACKET_CONNECT, 0, channelId, {}});
+            SendInfoPacket(channelId);
+            log_out("[%d] Sent connect packet to MUD", channelId);
         }
     }
 }
@@ -921,13 +899,10 @@ void ExecuteServerLoop(void) {
                     do {
                         nBytes = read(i, buf, sizeof(buf));
                         if (nBytes <= 0) {
-                            Packet p;
-                            p.type = PACKET_DISCONNECT;
-                            p.nExtra = 0;
-                            p.channel = FindChannel(i);
-                            SendToMUD(&p, NULL);
+                            int32_t channelId = FindChannel(i);
+                            SendToMUD({PACKET_DISCONNECT, 0, channelId, {}});
                             if (nBytes < 0) {
-                                log_out("[%d] Received error %d (%s) on read - closing connection", p.channel, errno,
+                                log_out("[%d] Received error %d (%s) on read - closing connection", channelId, errno,
                                         strerror(errno));
                             }
                             AbortConnection(i);
