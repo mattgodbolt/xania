@@ -1583,18 +1583,18 @@ struct exit_data {
     int orig_door; /* OLC */
 };
 
-/*
- * Reset commands:
- *   '*': comment
- *   'M': read a mobile
- *   'O': read an object
- *   'P': put object in object
- *   'G': give object to mobile
- *   'E': equip object to mobile
- *   'D': set state of door
- *   'R': randomize room exits
- *   'S': stop (end of list)
+/**
+ * Commands used in #RESETS section of area files
  */
+#define RESETS_MOB_IN_ROOM 'M' /* place mob in a room */
+#define RESETS_EQUIP_OBJ_MOB 'E' /* equip and item on a mobile */
+#define RESETS_GIVE_OBJ_MOB 'G' /* give an item to a mobile's inventory */
+#define RESETS_OBJ_IN_ROOM 'O' /* place a static object in a room */
+#define RESETS_PUT_OBJ_OBJ 'P' /* place a static object in another object */
+#define RESETS_EXIT_FLAGS 'D' /* set exit closed/locked flags */
+#define RESETS_RANDOMIZE_EXITS 'R' /* randomize room exits */
+#define RESETS_COMMENT '*' /* comment line */
+#define RESETS_END_SECTION 'S' /* end of the resets section */
 
 /*
  * Area-reset definition.
@@ -2270,10 +2270,6 @@ void do_clanset(CHAR_DATA *ch, char *argument);
  */
 
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998*/
-
-#ifdef DUNNO_STRSTR
-char *strstr args((const char *s1, const char *s2));
-#endif
 
 void do_mpstat(CHAR_DATA *ch, char *argument);
 
