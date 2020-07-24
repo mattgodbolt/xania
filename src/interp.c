@@ -40,7 +40,7 @@ static const char *bad_position_string[] = {"Lie still; you are DEAD.\n\r",
                                             "You are hurt far too bad for that.\n\r",
                                             "You are too stunned to do that.\n\r",
                                             "In your dreams, or what?\n\r",
-                                            "Nah... You feel too relaxed...\n\r",
+                                            "You're resting. Try standing up first!\n\r",
                                             "Better stand up first.\n\r",
                                             "No way!  You are still fighting!\n\r",
                                             "You're standing.\n\r"};
