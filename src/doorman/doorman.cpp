@@ -199,7 +199,7 @@ int NewConnection(int fd, struct sockaddr_in address) {
             channels[i].fd);
 
     /* Start the state machine */
-    IncomingData(fd, NULL, 0);
+    IncomingData(fd, nullptr, 0);
 
     /* Fire off the query to the ident server */
     if (pipe(channels[i].identFd) == -1) {
@@ -684,7 +684,7 @@ void ProcessNewConnection(void) {
 void TryToConnectToXania(void) {
     struct sockaddr_un xaniaAddr;
 
-    lastConnected = time(NULL);
+    lastConnected = time(nullptr);
 
     memset(&xaniaAddr, 0, sizeof(xaniaAddr));
     xaniaAddr.sun_family = PF_UNIX;
@@ -824,7 +824,7 @@ void ExecuteServerLoop(void) {
      * Firstly, if not already connected to Xania, attempt connection
      */
     if (!connected && !waitingForInit) {
-        if ((time(NULL) - lastConnected) >= CONNECTION_WAIT_TIME) {
+        if ((time(nullptr) - lastConnected) >= CONNECTION_WAIT_TIME) {
             TryToConnectToXania();
         }
     }
@@ -847,7 +847,7 @@ void ExecuteServerLoop(void) {
             FD_SET(channels[i].fd, &exIfds);
     }
 
-    nFDs = select(maxFd + 1, &tempIfds, NULL, &exIfds, &timeOut);
+    nFDs = select(maxFd + 1, &tempIfds, nullptr, &exIfds, &timeOut);
     if (nFDs == -1 && errno != EINTR) {
         log_out("Unable to select()!");
         perror("select");
@@ -922,7 +922,7 @@ void CheckForDeadIdents(void) {
         if (waiter) {
             int chan;
             // Clear the zombie status
-            waitpid(waiter, NULL, 0);
+            waitpid(waiter, nullptr, 0);
             log_out("process %d died", waiter);
             // Find the corresponding channel, if still present
             for (chan = 0; chan < CHANNEL_MAX; ++chan) {
@@ -951,7 +951,7 @@ void CheckForDeadIdents(void) {
 
 // Our luvverly options go here :
 struct option OurOptions[] = {
-    {"port", 1, NULL, 'p'}, {"debug", 0, &debug, 1}, {"help", 0, NULL, 'h'}, {NULL, 0, NULL, 0}};
+    {"port", 1, nullptr, 'p'}, {"debug", 0, &debug, 1}, {"help", 0, nullptr, 'h'}, {nullptr, 0, nullptr, 0}};
 
 void usage(void) {
     fprintf(stderr, "Usage: doorman [-h | --help] [-d | --debug] [-p | --port "
@@ -1033,7 +1033,7 @@ int main(int argc, char *argv[]) {
     /*
      * Create a tcp socket, bind and listen on it
      */
-    if (tcpProto == NULL) {
+    if (tcpProto == nullptr) {
         log_out("Unable to get TCP number!");
         exit(1);
     }
