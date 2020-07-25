@@ -18,8 +18,8 @@
 #include <sys/types.h>
 #include <time.h>
 
-DECLARE_DO_FUN(do_setinfo);
-DECLARE_DO_FUN(do_finger);
+void do_setinfo(CHAR_DATA *ch, char *arg);
+void do_finger(CHAR_DATA *ch, char *arg);
 void read_char_info(FINGER_INFO *info);
 
 #if defined(KEY)

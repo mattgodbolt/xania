@@ -17,15 +17,15 @@
 #include <time.h>
 
 /* command procedures needed */
-DECLARE_DO_FUN(do_look);
-DECLARE_DO_FUN(do_give);
+void do_look(CHAR_DATA *ch, char *arg);
+void do_give(CHAR_DATA *ch, char *arg);
+void do_recall(CHAR_DATA *, char *);
 
 /*
  * Local functions.
  */
-void say_spell args((CHAR_DATA * ch, int sn));
-void explode_bomb args((OBJ_DATA * bomb, CHAR_DATA *ch, CHAR_DATA *thrower));
-void do_recall args((CHAR_DATA *, char *));
+void say_spell(CHAR_DATA *ch, int sn);
+void explode_bomb(OBJ_DATA *bomb, CHAR_DATA *ch, CHAR_DATA *thrower);
 
 /*
  * Utter mystical words for an sn.

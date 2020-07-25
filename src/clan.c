@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-DECLARE_DO_FUN(do_afk);
+void do_afk(CHAR_DATA *ch, char *arg);
 
 /* User servicable bits... you will also need to change the NUM_CLANS in clan.h */
 

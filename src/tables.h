@@ -85,4 +85,4 @@ extern const struct flag_type mprog_flags[];
 
 /* Functions */
 
-bool is_stat args((const struct flag_type *flag_table));
+bool is_stat(const struct flag_type *flag_table);

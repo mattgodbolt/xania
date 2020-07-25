@@ -18,8 +18,8 @@
 #include <sys/types.h>
 #include <time.h>
 
-void mprog_read_programs args((FILE * fp, MOB_INDEX_DATA *pMobIndex));
-void assign_area_vnum args((int vnum)); /* OLC */
+void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex);
+void assign_area_vnum(int vnum); /* OLC */
 
 /* values for db2.c */
 struct social_type social_table[MAX_SOCIALS];
@@ -173,7 +173,7 @@ void load_mobiles(FILE *fp) {
         pMobIndex->player_name = fread_string(fp);
         pMobIndex->short_descr = fread_string(fp);
         // Kill off errant capitals - see load_object
-        DeCapitate(pMobIndex->short_descr);
+        tolower_articles(pMobIndex->short_descr);
         pMobIndex->long_descr = fread_string(fp);
         pMobIndex->description = fread_string(fp);
         pMobIndex->race = race_lookup(fread_string(fp));
@@ -348,7 +348,7 @@ void load_objects(FILE *fp) {
          * MG added - snarf short descrips to kill:
          * You hit The beastly fido
          */
-        DeCapitate(pObjIndex->short_descr);
+        tolower_articles(pObjIndex->short_descr);
         pObjIndex->description = fread_string(fp);
         if (strlen(pObjIndex->description) == 0) {
             bug("Load_objects: empty long description in object %d.", vnum);

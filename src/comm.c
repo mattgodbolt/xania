@@ -36,10 +36,12 @@
 #include "note.h"
 
 /* command procedures needed */
-DECLARE_DO_FUN(do_help);
-DECLARE_DO_FUN(do_look);
-DECLARE_DO_FUN(do_skills);
-DECLARE_DO_FUN(do_outfit);
+void do_help(CHAR_DATA *ch, char *arg);
+void do_look(CHAR_DATA *ch, char *arg);
+void do_skills(CHAR_DATA *ch, char *arg);
+void do_outfit(CHAR_DATA *ch, char *arg);
+void do_save(CHAR_DATA *ch, char *arg);
+
 void announce(char *, CHAR_DATA *ch);
 
 /* Added by Rohan - extern to player list for adding new players to it */
@@ -70,25 +72,23 @@ bool wizlock; /* Game is wizlocked    */
 bool newlock; /* Game is newlocked    */
 time_t current_time; /* time of this pulse */
 
-void game_loop_unix args((int control));
+void game_loop_unix(int control);
 int init_socket(const char *file);
-DESCRIPTOR_DATA *new_descriptor args((int control));
-bool read_from_descriptor args((DESCRIPTOR_DATA * d, char *text, int nRead));
-bool write_to_descriptor args((int desc, char *txt, int length));
+DESCRIPTOR_DATA *new_descriptor(int control);
+bool read_from_descriptor(DESCRIPTOR_DATA *d, char *text, int nRead);
+bool write_to_descriptor(int desc, char *txt, int length);
 
 /*
  * Other local functions (OS-independent).
  */
-bool check_parse_name args((char *name));
-bool check_reconnect args((DESCRIPTOR_DATA * d, char *name, bool fConn));
-bool check_playing args((DESCRIPTOR_DATA * d, char *name));
-void nanny args((DESCRIPTOR_DATA * d, char *argument));
-bool process_output args((DESCRIPTOR_DATA * d, bool fPrompt));
-void read_from_buffer args((DESCRIPTOR_DATA * d));
-void stop_idling args((CHAR_DATA * ch));
-void show_prompt args((DESCRIPTOR_DATA * d, char *prompt));
-
-DECLARE_DO_FUN(do_save);
+bool check_parse_name(char *name);
+bool check_reconnect(DESCRIPTOR_DATA *d, char *name, bool fConn);
+bool check_playing(DESCRIPTOR_DATA *d, char *name);
+void nanny(DESCRIPTOR_DATA *d, char *argument);
+bool process_output(DESCRIPTOR_DATA *d, bool fPrompt);
+void read_from_buffer(DESCRIPTOR_DATA *d);
+void stop_idling(CHAR_DATA *ch);
+void show_prompt(DESCRIPTOR_DATA *d, char *prompt);
 
 /* Handle to get to doorman */
 int doormanDesc = 0;
