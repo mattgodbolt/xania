@@ -2,7 +2,7 @@
 
 -1 'RACE HELP' 'RACE' 'RACES'~
 |RXania|w has the following races for player characters:
-  |CHuman|w    the standard race
+  |CHuman|w    powerful and versatile bipeds
   |GDwarf|w    good knights and priests, cost 5 creation points (cp)
   |BElf|w      good clerics and mages, cost 5 cp
   |WHalf-Elf|w a cross between human and elves, believe it or not! 15 cp
@@ -41,10 +41,10 @@ best fair talent as knights or priests. An elf barbarian would have a hard
 time.
 
 Elves resist charm spells most effectively, due to their magical nature.
-However, they are burned by the touch of iron, and so are barred from the
-use of iron or steel in their adventuring careers.  Elves are notoriously 
-hard to spot, and this is reflected by the fact that they recieve the sneak 
-and hidingskills automatically. They may see in the dark with infravision.
+However, they are burned by the touch of iron, so may experience pain when
+using iron requipment. Elves are notoriously hard to spot, and this is
+reflected by the fact that they recieve the sneak and hiding skills
+automatically. They may see in the dark with infravision.
 
 Elves begin with 5 creation points if uncustomised.
 ~
@@ -64,7 +64,8 @@ because humans are more of a challenge here!
 Half elves are an unusual combination of humans and elves, featuring the
 finest aspects of both. They are a little stronger than elves but are not
 quite as wise. Half-elves have the benefit of being able to see in the
-dark and sadly, are vulnerable to iron.
+dark. However, like elves, they are sensitive to iron and may experience
+pain when using iron equipment.
 
 Their attractive, light build means that they are naturally quite nimble
 and are renowned in combat for not being in the same place as their 
