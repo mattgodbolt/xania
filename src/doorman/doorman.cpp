@@ -53,8 +53,8 @@ static constexpr auto MaxIncomingDataBufferSize = 2048u;
 static constexpr auto CONNECTION_WAIT_TIME = 10u;
 using byte = unsigned char;
 
-bool IncomingData(int fd, const byte *buffer, int nBytes);
-void ProcessIdent(struct sockaddr_in address, int outFd);
+bool IncomingData(int fd, const byte *incoming_data, int nBytes);
+void AsyncHostnameLookup(struct sockaddr_in address, int outFd);
 
 struct Channel {
     int32_t id{}; // the channel id
@@ -74,10 +74,12 @@ struct Channel {
 
     void newConnection(int fd, struct sockaddr_in address);
     void closeConnection();
+    void sendInfoPacket() const;
+    void sendConnectPacket();
+    bool incomingData(const byte *incoming_data, int nBytes);
+    void incomingHostnameInfo();
+    void sendTelopts() const;
 };
-
-void SendConnectPacket(Channel &channel);
-void SendInfoPacket(const Channel &channel);
 
 /* Global variables */
 // todo: maybe eventually unordered_map<channel id, channel>
@@ -205,8 +207,8 @@ void Channel::newConnection(int fd, struct sockaddr_in address) {
 
     log_out("[%d] Incoming connection from %s on fd %d", id, get_masked_hostname(hostname).c_str(), fd);
 
-    /* Start the state machine */
-    IncomingData(fd, nullptr, 0);
+    /* Send all options out */
+    sendTelopts();
 
     /* Fire off the query to the ident server */
     pid_t forkRet = -1;
@@ -223,7 +225,7 @@ void Channel::newConnection(int fd, struct sockaddr_in address) {
         close(identFd[0]);
         log_out("ID: on %d", identFd[1]);
         identFd[0] = 0;
-        ProcessIdent(address, identFd[1]);
+        AsyncHostnameLookup(address, identFd[1]);
         close(identFd[1]);
         log_out("ID: exiting");
         exit(0);
@@ -244,7 +246,7 @@ void Channel::newConnection(int fd, struct sockaddr_in address) {
         identFd[1] = 0;
         identPid = forkRet;
         FD_SET(identFd[0], &ifds);
-        log_out("Forked ident process has PID %d on %d", forkRet, identFd[0]);
+        log_out("Forked hostname process has PID %d on %d", forkRet, identFd[0]);
         break;
     }
 
@@ -255,7 +257,7 @@ void Channel::newConnection(int fd, struct sockaddr_in address) {
         fdprintf(fd, "Xania is down at the moment - you will be connected as soon "
                      "as it is up again.\n\r");
 
-    SendConnectPacket(*this);
+    sendConnectPacket();
 }
 
 /* Create a new connection */
@@ -339,232 +341,216 @@ bool SendOpt(int fd, byte a) {
     return write(fd, buf, 6) == 6;
 }
 
-void IncomingIdentInfo(Channel &chan, int fd) {
+void Channel::incomingHostnameInfo() {
+    auto hostFd = identFd[0];
+    FD_CLR(hostFd, &ifds);
+    log_out("[%d on %d] Incoming IdentD info", id, hostFd);
     // A response from the ident server
-    int numBytes, ret;
-    char buffer[1024];
-    ret = read(fd, &numBytes, sizeof(numBytes));
+    size_t numBytes;
+    auto ret = read(hostFd, &numBytes, sizeof(numBytes));
     if (ret <= 0) {
-        log_out("[%d] IdentD pipe died on read (read returned %d)", chan.id, ret);
-        FD_CLR(fd, &ifds);
-        close(fd);
-        chan.identFd[0] = chan.identFd[1] = 0;
-        chan.identPid = 0;
-        FD_CLR(fd, &ifds);
+        log_out("[%d] IdentD pipe died on read (read returned %ld)", id, ret);
+        close(hostFd);
+        identFd[0] = identFd[1] = 0;
+        identPid = 0;
         return;
     }
     if (numBytes >= 1024) {
         log_out("Ident responded with >1k - possible spam attack");
         numBytes = 1023;
     }
-    int numRead = read(fd, buffer, numBytes);
-    buffer[numBytes] = '\0'; // ensure zero-termedness
-    FD_CLR(fd, &ifds);
-    close(fd);
-    chan.identFd[0] = chan.identFd[1] = 0;
-    chan.identPid = 0;
+    char host_buffer[1024];
+    auto numRead = read(hostFd, host_buffer, numBytes);
+    close(hostFd);
+    identFd[0] = identFd[1] = 0;
+    identPid = 0;
 
-    if (numRead != numBytes) {
-        log_out("[%d] Partial read %d!=%d", chan.id, numRead, numBytes);
+    if (numRead != static_cast<ssize_t>(numBytes)) {
+        log_out("[%d] Partial read %ld!=%ld", id, numRead, numBytes);
         return;
     }
-
-    chan.hostname = buffer;
+    hostname = std::string_view(host_buffer, numBytes);
     // Log the source IP but mask it for privacy.
-    log_out("[%d] %s", chan.id, get_masked_hostname(chan.hostname).c_str());
-    SendInfoPacket(chan);
+    log_out("[%d] %s", id, get_masked_hostname(hostname).c_str());
+    sendInfoPacket();
 }
 
-bool IncomingData(int fd, const byte *buffer, int nBytes) {
-    int chan = FindChannelId(fd);
+bool IncomingData(int fd, const byte *incoming_data, int nBytes) {
+    if (auto *channel = FindChannel(fd))
+        return channel->incomingData(incoming_data, nBytes);
+    log_out("Oh dear - I got data on fd %d, but no channel!", fd);
+    return false;
+}
 
-    if (chan == -1) {
-        log_out("Oh dear - I got data on fd %d, but no channel!", fd);
+bool Channel::incomingData(const byte *incoming_data, int nBytes) {
+    /* Check for buffer overflow */
+    if ((nBytes + buffer.size()) > MaxIncomingDataBufferSize) {
+        const char *ovf = ">>> Too much incoming data at once - PUT A LID ON IT!!\n\r";
+        if (write(fd, ovf, strlen(ovf)) != (ssize_t)strlen(ovf)) {
+            // don't care if this fails..
+        }
+        buffer.clear();
         return false;
     }
+    /* Add the data into the buffer */
+    buffer.insert(buffer.end(), incoming_data, incoming_data + nBytes);
 
-    if (buffer) {
-        /* Check for buffer overflow */
-        if ((nBytes + channels[chan].buffer.size()) > MaxIncomingDataBufferSize) {
-            const char *ovf = ">>> Too much incoming data at once - PUT A LID ON IT!!\n\r";
-            if (write(fd, ovf, strlen(ovf)) != (ssize_t)strlen(ovf)) {
-                // don't care if this fails..
-            }
-            channels[chan].buffer.clear();
-            return false;
-        }
-        /* Add the data into the buffer */
-        channels[chan].buffer.insert(channels[chan].buffer.end(), buffer, buffer + nBytes);
-
-        /* Scan through and remove telnet commands */
-        // TODO gsl::span ftw
-        size_t nRealBytes = 0;
-        size_t nLeft = channels[chan].buffer.size();
-        for (byte *ptr = channels[chan].buffer.data(); nLeft;) {
-            /* telnet command? */
-            if (*ptr == IAC) {
-                if (nLeft < 3) /* Is it too small to fit a whole command in? */
-                    break;
-                switch (*(ptr + 1)) {
-                case WILL:
-                    switch (*(ptr + 2)) {
-                    case TELOPT_TTYPE:
-                        // Check to see if we've already got the info
-                        // Whoiseye's bloody DEC-TERM spams us multiply
-                        // otherwise...
-                        if (!channels[chan].gotTerm) {
-                            channels[chan].gotTerm = true;
-                            SendOpt(fd, *(ptr + 2));
-                        }
-                        break;
-                    case TELOPT_NAWS:
-                        // Do nothing for NAWS
-                        break;
-                    default: SendCom(fd, DONT, *(ptr + 2)); break;
-                    }
-                    memmove(ptr, ptr + 3, nLeft - 3);
-                    nLeft -= 3;
-                    break;
-                case WONT:
-                    SendCom(fd, DONT, *(ptr + 2));
-                    memmove(ptr, ptr + 3, nLeft - 3);
-                    nLeft -= 3;
-                    break;
-                case DO:
-                    if (ptr[2] == TELOPT_ECHO && channels[chan].echoing == false) {
-                        SendCom(fd, WILL, TELOPT_ECHO);
-                        memmove(ptr, ptr + 3, nLeft - 3);
-                        nLeft -= 3;
-                    } else {
-                        SendCom(fd, WONT, *(ptr + 2));
-                        memmove(ptr, ptr + 3, nLeft - 3);
-                        nLeft -= 3;
+    /* Scan through and remove telnet commands */
+    // TODO gsl::span ftw
+    size_t nRealBytes = 0;
+    size_t nLeft = buffer.size();
+    for (byte *ptr = buffer.data(); nLeft;) {
+        /* telnet command? */
+        if (*ptr == IAC) {
+            if (nLeft < 3) /* Is it too small to fit a whole command in? */
+                break;
+            switch (*(ptr + 1)) {
+            case WILL:
+                switch (*(ptr + 2)) {
+                case TELOPT_TTYPE:
+                    // Check to see if we've already got the info
+                    // Whoiseye's bloody DEC-TERM spams us multiply
+                    // otherwise...
+                    if (!gotTerm) {
+                        gotTerm = true;
+                        SendOpt(fd, *(ptr + 2));
                     }
                     break;
-                case DONT:
+                case TELOPT_NAWS:
+                    // Do nothing for NAWS
+                    break;
+                default: SendCom(fd, DONT, *(ptr + 2)); break;
+                }
+                memmove(ptr, ptr + 3, nLeft - 3);
+                nLeft -= 3;
+                break;
+            case WONT:
+                SendCom(fd, DONT, *(ptr + 2));
+                memmove(ptr, ptr + 3, nLeft - 3);
+                nLeft -= 3;
+                break;
+            case DO:
+                if (ptr[2] == TELOPT_ECHO && echoing == false) {
+                    SendCom(fd, WILL, TELOPT_ECHO);
+                    memmove(ptr, ptr + 3, nLeft - 3);
+                    nLeft -= 3;
+                } else {
                     SendCom(fd, WONT, *(ptr + 2));
                     memmove(ptr, ptr + 3, nLeft - 3);
                     nLeft -= 3;
-                    break;
-                case SB: {
-                    char sbType;
-                    byte *eob, *p;
-                    /* Enough room for an SB command? */
-                    if (nLeft < 6) {
-                        nLeft = 0;
-                        break;
-                    }
-                    sbType = *(ptr + 2);
-                    //          sbWhat = *(ptr + 3);
-                    /* Now read up to the IAC SE */
-                    eob = ptr + nLeft - 1;
-                    for (p = ptr + 4; p < eob; ++p)
-                        if (*p == IAC && *(p + 1) == SE)
-                            break;
-                    /* Found IAC SE? */
-                    if (p == eob) {
-                        /* No: skip it all */
-                        nLeft = 0;
-                        break;
-                    }
-                    *p = '\0';
-                    /* Now to decide what to do with this new data */
-                    switch (sbType) {
-                    case TELOPT_TTYPE:
-                        log_out("[%d] TTYPE = %s", chan, ptr + 4);
-                        if (SupportsAnsi((const char *)ptr + 4))
-                            channels[chan].ansi = true;
-                        break;
-                    case TELOPT_NAWS:
-                        log_out("[%d] NAWS = %dx%d", chan, ptr[4], ptr[6]);
-                        channels[chan].width = ptr[4];
-                        channels[chan].height = ptr[6];
-                        break;
-                    }
-
-                    /* Remember eob is 1 byte behind the end of buffer */
-                    memmove(ptr, p + 2, nLeft - ((p + 2) - ptr));
-                    nLeft -= ((p + 2) - ptr);
-
+                }
+                break;
+            case DONT:
+                SendCom(fd, WONT, *(ptr + 2));
+                memmove(ptr, ptr + 3, nLeft - 3);
+                nLeft -= 3;
+                break;
+            case SB: {
+                char sbType;
+                byte *eob, *p;
+                /* Enough room for an SB command? */
+                if (nLeft < 6) {
+                    nLeft = 0;
                     break;
                 }
-
-                default:
-                    memmove(ptr, ptr + 2, nLeft - 2);
-                    nLeft -= 2;
+                sbType = *(ptr + 2);
+                //          sbWhat = *(ptr + 3);
+                /* Now read up to the IAC SE */
+                eob = ptr + nLeft - 1;
+                for (p = ptr + 4; p < eob; ++p)
+                    if (*p == IAC && *(p + 1) == SE)
+                        break;
+                /* Found IAC SE? */
+                if (p == eob) {
+                    /* No: skip it all */
+                    nLeft = 0;
+                    break;
+                }
+                *p = '\0';
+                /* Now to decide what to do with this new data */
+                switch (sbType) {
+                case TELOPT_TTYPE:
+                    log_out("[%d] TTYPE = %s", id, ptr + 4);
+                    if (SupportsAnsi((const char *)ptr + 4))
+                        ansi = true;
+                    break;
+                case TELOPT_NAWS:
+                    log_out("[%d] NAWS = %dx%d", id, ptr[4], ptr[6]);
+                    width = ptr[4];
+                    height = ptr[6];
                     break;
                 }
 
-            } else {
-                ptr++;
-                nRealBytes++;
-                nLeft--;
-            }
-        }
-        /* Now to update the buffer stats */
-        channels[chan].buffer.resize(nRealBytes);
+                /* Remember eob is 1 byte behind the end of buffer */
+                memmove(ptr, p + 2, nLeft - ((p + 2) - ptr));
+                nLeft -= ((p + 2) - ptr);
 
-        /* Second pass - look for whole lines of text */
-        nLeft = channels[chan].buffer.size();
-        byte *ptr;
-        for (ptr = channels[chan].buffer.data(); nLeft; ++ptr, --nLeft) {
-            char c;
-            switch (*ptr) {
-            case '\n':
-            case '\r':
-                c = *ptr;
-                // TODO this is terribly ghettish. don't need to memmove, and all that. ugh. But write tests first...
-                // then change...
-                *ptr = '\0';
-                /* Send it to the MUD */
-                if (connectedToXania && channels[chan].connected) {
-                    Packet p;
-                    p.type = PACKET_MESSAGE;
-                    p.channel = chan;
-                    p.nExtra = strlen((const char *)channels[chan].buffer.data()) + 2;
-                    if (write(mudFd, &p, sizeof(p)) != sizeof(p))
-                        return false;
-                    if (write(mudFd, channels[chan].buffer.data(), p.nExtra - 2) != p.nExtra - 2)
-                        return false;
-                    if (write(mudFd, "\n\r", 2) != 2)
-                        return false;
-                } else {
-                    // XXX NEED TO STORE DATA HERE
-                }
-                /* Check for \n\r or \r\n */
-                if (nLeft > 1 && (*(ptr + 1) == '\r' || *(ptr + 1) == '\n') && *(ptr + 1) != c) {
-                    memmove(channels[chan].buffer.data(), ptr + 2, nLeft - 2);
-                    nLeft--;
-                } else if (nLeft) {
-                    memmove(channels[chan].buffer.data(), ptr + 1, nLeft - 1);
-                } // else nLeft is zero, so we might as well avoid calling memmove(x,y,
-                  // 0)
-
-                /* The +1 at the top of the loop resets ptr to buffer */
-                ptr = channels[chan].buffer.data() - 1;
                 break;
             }
+
+            default:
+                memmove(ptr, ptr + 2, nLeft - 2);
+                nLeft -= 2;
+                break;
+            }
+
+        } else {
+            ptr++;
+            nRealBytes++;
+            nLeft--;
         }
-        channels[chan].buffer.resize(ptr - channels[chan].buffer.data());
-    } else { /* Special case for initialisation */
-        /* Send all options out */
-        SendCom(fd, DO, TELOPT_TTYPE);
-        SendCom(fd, DO, TELOPT_NAWS);
-        SendCom(fd, WONT, TELOPT_ECHO);
     }
+    /* Now to update the buffer stats */
+    buffer.resize(nRealBytes);
+
+    /* Second pass - look for whole lines of text */
+    nLeft = buffer.size();
+    byte *ptr;
+    for (ptr = buffer.data(); nLeft; ++ptr, --nLeft) {
+        char c;
+        switch (*ptr) {
+        case '\n':
+        case '\r':
+            c = *ptr;
+            // TODO this is terribly ghettish. don't need to memmove, and all that. ugh. But write tests first...
+            // then change...
+            *ptr = '\0';
+            /* Send it to the MUD */
+            if (connectedToXania && connected) {
+                Packet p;
+                p.type = PACKET_MESSAGE;
+                p.channel = id;
+                p.nExtra = strlen((const char *)buffer.data()) + 2;
+                if (write(mudFd, &p, sizeof(p)) != sizeof(p))
+                    return false;
+                if (write(mudFd, buffer.data(), p.nExtra - 2) != p.nExtra - 2)
+                    return false;
+                if (write(mudFd, "\n\r", 2) != 2)
+                    return false;
+            } else {
+                // XXX NEED TO STORE DATA HERE
+            }
+            /* Check for \n\r or \r\n */
+            if (nLeft > 1 && (*(ptr + 1) == '\r' || *(ptr + 1) == '\n') && *(ptr + 1) != c) {
+                memmove(buffer.data(), ptr + 2, nLeft - 2);
+                nLeft--;
+            } else if (nLeft) {
+                memmove(buffer.data(), ptr + 1, nLeft - 1);
+            } // else nLeft is zero, so we might as well avoid calling memmove(x,y,
+              // 0)
+
+            /* The +1 at the top of the loop resets ptr to buffer */
+            ptr = buffer.data() - 1;
+            break;
+        }
+    }
+    buffer.resize(ptr - buffer.data());
     return true;
 }
 
 /*********************************/
 
-/* The Ident Server */
-void IdentPipeHandler(int ignored) {
-    (void)ignored;
-    log_out("Ident server dying on a PIPE");
-    exit(1);
-}
-
-void ProcessIdent(struct sockaddr_in address, int outFd) {
+void AsyncHostnameLookup(struct sockaddr_in address, int outFd) {
     /*
      * Firstly, and quite importantly, close all the descriptors we
      * don't need, so we don't keep open sockets past their useful
@@ -579,19 +565,23 @@ void ProcessIdent(struct sockaddr_in address, int outFd) {
     }
 
     // Bail out on a PIPE - this means our parent has crashed
-    signal(SIGPIPE, IdentPipeHandler);
+    signal(SIGPIPE, [](int) {
+        log_out("hostname lookup process exiting on sigpipe");
+        exit(1);
+    });
 
     auto *ent = gethostbyaddr((char *)&address.sin_addr, sizeof(address.sin_addr), AF_INET);
 
     std::string hostName = ent ? ent->h_name : inet_ntoa(address.sin_addr);
-    int nBytes = static_cast<int>(hostName.size()) + 1;
-    int header_written = write(outFd, &nBytes, sizeof(nBytes));
-    if (header_written != sizeof(nBytes) || write(outFd, hostName.c_str(), nBytes) != nBytes) {
+    auto nBytes = hostName.size() + 1;
+    auto header_written = write(outFd, &nBytes, sizeof(nBytes));
+    if (header_written != sizeof(nBytes) || write(outFd, hostName.c_str(), nBytes) != static_cast<ssize_t>(nBytes)) {
         log_out("ID: Unable to write to doorman - perhaps it crashed (%d, %s)", errno, strerror(errno));
     } else {
         // Log the source hostname but mask it for privacy.
         log_out("ID: Looked up %s", get_masked_hostname(hostName).c_str());
     }
+    log_out("ooh %ld", nBytes);
 }
 
 /*********************************/
@@ -619,36 +609,41 @@ void AbortConnection(int fd) {
     CloseConnection(fd);
 }
 
-void SendInfoPacket(const Channel &channel) {
+void Channel::sendInfoPacket() const {
     char buffer[4096];
     auto data = new (buffer) InfoData;
-    Packet p{PACKET_INFO, static_cast<uint32_t>(sizeof(InfoData) + channel.hostname.size() + 1), channel.id, {}};
+    Packet p{PACKET_INFO, static_cast<uint32_t>(sizeof(InfoData) + hostname.size() + 1), id, {}};
 
-    data->port = channel.port;
-    data->netaddr = channel.netaddr;
-    data->ansi = channel.ansi;
-    strcpy(data->data, channel.hostname.c_str());
+    data->port = port;
+    data->netaddr = netaddr;
+    data->ansi = ansi;
+    strcpy(data->data, hostname.c_str());
     SendToMUD(p, buffer);
 }
 
-void SendConnectPacket(Channel &channel) {
-    if (channel.connected) {
-        log_out("[%d] Attempt to send connect packet for already-connected channel", channel.id);
+void Channel::sendConnectPacket() {
+    if (connected) {
+        log_out("[%d] Attempt to send connect packet for already-connected channel", id);
     } else if (connectedToXania && mudFd != -1) {
         // Have we already been authenticated?
-        if (!channel.authCharName.empty()) {
-            channel.connected = true;
-            SendToMUD({PACKET_RECONNECT, static_cast<uint32_t>(channel.authCharName.size() + 1), channel.id, {}},
-                      channel.authCharName.c_str());
-            SendInfoPacket(channel);
-            log_out("[%d] Sent reconnect packet to MUD for %s", channel.id, channel.authCharName.c_str());
+        if (!authCharName.empty()) {
+            connected = true;
+            SendToMUD({PACKET_RECONNECT, static_cast<uint32_t>(authCharName.size() + 1), id, {}}, authCharName.c_str());
+            sendInfoPacket();
+            log_out("[%d] Sent reconnect packet to MUD for %s", id, authCharName.c_str());
         } else {
-            channel.connected = true;
-            SendToMUD({PACKET_CONNECT, 0, channel.id, {}});
-            SendInfoPacket(channel);
-            log_out("[%d] Sent connect packet to MUD", channel.id);
+            connected = true;
+            SendToMUD({PACKET_CONNECT, 0, id, {}});
+            sendInfoPacket();
+            log_out("[%d] Sent connect packet to MUD", id);
         }
     }
+}
+
+void Channel::sendTelopts() const {
+    SendCom(fd, DO, TELOPT_TTYPE);
+    SendCom(fd, DO, TELOPT_NAWS);
+    SendCom(fd, WONT, TELOPT_ECHO);
 }
 
 void MudHasCrashed(int sig) {
@@ -786,7 +781,7 @@ void ProcessMUDMessage(int fd) {
             // Now try to connect everyone who has been waiting
             for (auto &chan : channels) {
                 if (chan.fd) {
-                    SendConnectPacket(chan);
+                    chan.sendConnectPacket();
                     chan.firstReconnect = false;
                 }
             }
@@ -874,8 +869,7 @@ void ExecuteServerLoop(void) {
                         begin(channels), end(channels),
                         [&](const Channel &chan) { return chan.fd && chan.identPid && chan.identFd[0] == i; });
                     it != end(channels)) {
-                    log_out("[%d on %d] Incoming IdentD info", it->id, i);
-                    IncomingIdentInfo(*it, i);
+                    it->incomingHostnameInfo();
                 } else {
                     int nBytes;
                     byte buf[256];
