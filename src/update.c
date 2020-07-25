@@ -220,9 +220,6 @@ int hit_gain(CHAR_DATA *ch) {
     if (IS_AFFECTED(ch, AFF_PLAGUE))
         gain /= 8;
 
-    if (IS_AFFECTED(ch, AFF_HASTE))
-        gain /= 2;
-
     if (IS_AFFECTED(ch, AFF_LETHARGY))
         gain *= 2;
     if (IS_AFFECTED(ch, AFF_REGENERATION))
@@ -271,9 +268,6 @@ int mana_gain(CHAR_DATA *ch) {
 
     if (IS_AFFECTED(ch, AFF_PLAGUE))
         gain /= 8;
-
-    if (IS_AFFECTED(ch, AFF_HASTE))
-        gain /= 2;
 
     if (IS_AFFECTED(ch, AFF_LETHARGY))
         gain *= 2;
