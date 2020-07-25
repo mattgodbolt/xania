@@ -85,7 +85,7 @@ std::array<Channel, MaxChannels> channels;
 int mudFd;
 pid_t child;
 int port = 9000;
-bool connected = false, waitingForInit = false;
+bool connectedToXania = false, waitingForInit = false;
 int listenSock;
 time_t lastConnected;
 fd_set ifds;
@@ -250,7 +250,7 @@ void Channel::newConnection(int fd, struct sockaddr_in address) {
     FD_SET(fd, &ifds);
 
     // Tell them if the mud is down
-    if (!connected)
+    if (!connectedToXania)
         fdprintf(fd, "Xania is down at the moment - you will be connected as soon "
                      "as it is up again.\n\r");
 
@@ -516,7 +516,7 @@ bool IncomingData(int fd, const byte *buffer, int nBytes) {
                 // then change...
                 *ptr = '\0';
                 /* Send it to the MUD */
-                if (connected && channels[chan].connected) {
+                if (connectedToXania && channels[chan].connected) {
                     Packet p;
                     p.type = PACKET_MESSAGE;
                     p.channel = chan;
@@ -596,7 +596,7 @@ void ProcessIdent(struct sockaddr_in address, int outFd) {
 /*********************************/
 
 void SendToMUD(const Packet &p, const void *payload = nullptr) {
-    if (connected && mudFd != -1) {
+    if (connectedToXania && mudFd != -1) {
         if (write(mudFd, &p, sizeof(Packet)) != sizeof(Packet)) {
             perror("SendToMUD");
             exit(1);
@@ -633,7 +633,7 @@ void SendInfoPacket(const Channel &channel) {
 void SendConnectPacket(Channel &channel) {
     if (channel.connected) {
         log_out("[%d] Attempt to send connect packet for already-connected channel", channel.id);
-    } else if (connected && mudFd != -1) {
+    } else if (connectedToXania && mudFd != -1) {
         // Have we already been authenticated?
         if (!channel.authCharName.empty()) {
             channel.connected = true;
@@ -655,7 +655,7 @@ void MudHasCrashed(int sig) {
     close(mudFd);
     FD_CLR(mudFd, &ifds);
     mudFd = -1;
-    connected = false;
+    connectedToXania = false;
     waitingForInit = false;
 
     wall("\n\rDoorman has lost connection to Xania.\n\r");
@@ -781,7 +781,7 @@ void ProcessMUDMessage(int fd) {
         case PACKET_INIT:
             /* Xania has initialised */
             waitingForInit = false;
-            connected = true;
+            connectedToXania = true;
             // Now try to connect everyone who has been waiting
             for (auto &chan : channels) {
                 if (chan.fd) {
@@ -820,7 +820,7 @@ void ExecuteServerLoop(void) {
     /*
      * Firstly, if not already connected to Xania, attempt connection
      */
-    if (!connected && !waitingForInit) {
+    if (!connectedToXania && !waitingForInit) {
         if ((time(nullptr) - lastConnected) >= CONNECTION_WAIT_TIME) {
             TryToConnectToXania();
         }
