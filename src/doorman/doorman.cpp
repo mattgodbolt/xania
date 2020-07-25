@@ -29,6 +29,7 @@
 
 #include <algorithm>
 #include <string>
+#include <vector>
 
 #include <arpa/inet.h>
 #include <arpa/telnet.h>
