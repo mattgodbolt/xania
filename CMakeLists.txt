@@ -16,6 +16,7 @@ include(${CMAKE_MAKE_CONFIG_FILE})
 
 set(CMAKE_CXX_STANDARD 17)
 add_compile_options(-Werror -Wall -Wextra)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address -fsanitize=undefined")
 
 include(scripts/conan.cmake)
 
