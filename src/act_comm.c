@@ -437,12 +437,6 @@ void do_typo(CHAR_DATA *ch, char *argument) {
     return;
 }
 
-void do_rent(CHAR_DATA *ch, char *argument) {
-    (void)argument;
-    send_to_char("|rThere is no rent here.  Just quit - |WXania|r saves for you.|w\n\r", ch);
-    return;
-}
-
 void do_qui(CHAR_DATA *ch, char *argument) {
     (void)argument;
     send_to_char("|cIf you want to |RQUIT|c, you have to spell it out.|w\n\r", ch);

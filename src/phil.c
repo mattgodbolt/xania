@@ -17,13 +17,13 @@
 #include <time.h>
 
 /* command procedures needed */
-DECLARE_DO_FUN(do_yell);
-DECLARE_DO_FUN(do_open);
-DECLARE_DO_FUN(do_close);
-DECLARE_DO_FUN(do_say);
-DECLARE_DO_FUN(do_sleep);
-DECLARE_DO_FUN(do_wake);
-DECLARE_DO_FUN(do_socials);
+void do_yell(CHAR_DATA *ch, char *arg);
+void do_open(CHAR_DATA *ch, char *arg);
+void do_close(CHAR_DATA *ch, char *arg);
+void do_say(CHAR_DATA *ch, char *arg);
+void do_sleep(CHAR_DATA *ch, char *arg);
+void do_wake(CHAR_DATA *ch, char *arg);
+void do_socials(CHAR_DATA *ch, char *arg);
 
 /* Note that Death's interest is less, since Phil is unlikely to like someone who keeps slaying him for pleasure ;-) */
 /* Note also the cludgy hack so that Phil doesn't become interested in himself and ignore other people around him who */

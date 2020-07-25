@@ -16,14 +16,16 @@
 #include <time.h>
 
 /* command procedures needed */
-DECLARE_DO_FUN(do_return);
+void do_return(CHAR_DATA *ch, char *arg);
+
+void spell_poison(int spell_num, int level, CHAR_DATA *ch, void *vo);
 
 AFFECT_DATA *affect_free = NULL;
 
 /*
  * Local functions.
  */
-void affect_modify args((CHAR_DATA * ch, AFFECT_DATA *paf, bool fAdd));
+void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd);
 
 struct guess_type {
     char *name;
@@ -1079,6 +1081,22 @@ OBJ_DATA *get_eq_char(CHAR_DATA *ch, int iWear) {
     return NULL;
 }
 
+/**
+ * If a character is vulnerable to the material of an object
+ * then poison them and inform the room. The poison effect doesn't
+ * stack with existing poison, that would be pretty nasty.
+ */
+void enforce_material_vulnerability(CHAR_DATA *ch, OBJ_DATA *obj) {
+    if (check_material_vulnerability(ch, obj) == 1) {
+        act("As you equip $p it burns you, causing you to shriek in pain!", ch, obj, NULL, TO_CHAR);
+        act("$n shrieks in pain!", ch, obj, NULL, TO_ROOM);
+        if (!IS_AFFECTED(ch, AFF_POISON)) {
+            int p_sn = skill_lookup("poison");
+            spell_poison(p_sn, ch->level, ch, ch);
+        }
+    }
+}
+
 /*
  * Equip a char with an obj.
  */
@@ -1103,14 +1121,7 @@ void equip_char(CHAR_DATA *ch, OBJ_DATA *obj, int iWear) {
         return;
     }
 
-    if ((check_material_vulnerability(ch, obj) == 1)) {
-        /* Bastard :> */
-        act("You shriek in pain and drop $p.", ch, obj, NULL, TO_CHAR);
-        act("$n shrieks in pain and drops $p.", ch, obj, NULL, TO_ROOM);
-        obj_from_char(obj);
-        obj_to_room(obj, ch->in_room);
-        return;
-    }
+    enforce_material_vulnerability(ch, obj);
 
     for (i = 0; i < 4; i++)
         ch->armor[i] -= apply_ac(obj, iWear, i);
@@ -2526,11 +2537,12 @@ void remove_extra(CHAR_DATA *ch, unsigned int flag) {
 
 /*
  * New: Kill off the errant capital letters that
- * have been creeping into our short descriptions
+ * have been creeping into the definite article of
+ * short descriptions of objects and rooms.
  * of late.  This routine de-capitalises anything
  * beginning with 'The ' or 'A ' or 'An '
  */
-void DeCapitate(char *string) {
+void tolower_articles(char *string) {
     if (!strncmp(string, "The ", 4) || !strncmp(string, "A ", 2) || !strncmp(string, "An ", 3))
         string[0] = tolower(string[0]);
 }

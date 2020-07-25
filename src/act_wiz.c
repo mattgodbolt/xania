@@ -22,33 +22,33 @@
 #include "flags.h" /* for the setting of flags blah blah blah :) */
 
 /* command procedures needed */
-DECLARE_DO_FUN(do_rstat);
-DECLARE_DO_FUN(do_mstat);
-DECLARE_DO_FUN(do_ostat);
-DECLARE_DO_FUN(do_rset);
-DECLARE_DO_FUN(do_mset);
-DECLARE_DO_FUN(do_oset);
-DECLARE_DO_FUN(do_sset);
-DECLARE_DO_FUN(do_mfind);
-DECLARE_DO_FUN(do_ofind);
-DECLARE_DO_FUN(do_slookup);
-DECLARE_DO_FUN(do_mload);
-DECLARE_DO_FUN(do_oload);
-DECLARE_DO_FUN(do_force);
-DECLARE_DO_FUN(do_quit);
-DECLARE_DO_FUN(do_save);
-DECLARE_DO_FUN(do_look);
-DECLARE_DO_FUN(do_stand);
-DECLARE_DO_FUN(do_maffects);
-DECLARE_DO_FUN(do_mspells);
-DECLARE_DO_FUN(do_mskills);
-DECLARE_DO_FUN(do_mpracs);
-DECLARE_DO_FUN(do_minfo);
+void do_rstat(CHAR_DATA *ch, char *arg);
+void do_mstat(CHAR_DATA *ch, char *arg);
+void do_ostat(CHAR_DATA *ch, char *arg);
+void do_rset(CHAR_DATA *ch, char *arg);
+void do_mset(CHAR_DATA *ch, char *arg);
+void do_oset(CHAR_DATA *ch, char *arg);
+void do_sset(CHAR_DATA *ch, char *arg);
+void do_mfind(CHAR_DATA *ch, char *arg);
+void do_ofind(CHAR_DATA *ch, char *arg);
+void do_slookup(CHAR_DATA *ch, char *arg);
+void do_mload(CHAR_DATA *ch, char *arg);
+void do_oload(CHAR_DATA *ch, char *arg);
+void do_force(CHAR_DATA *ch, char *arg);
+void do_quit(CHAR_DATA *ch, char *arg);
+void do_save(CHAR_DATA *ch, char *arg);
+void do_look(CHAR_DATA *ch, char *arg);
+void do_stand(CHAR_DATA *ch, char *arg);
+void do_maffects(CHAR_DATA *ch, char *arg);
+void do_mspells(CHAR_DATA *ch, char *arg);
+void do_mskills(CHAR_DATA *ch, char *arg);
+void do_mpracs(CHAR_DATA *ch, char *arg);
+void do_minfo(CHAR_DATA *ch, char *arg);
 
 /*
  * Local functions.
  */
-ROOM_INDEX_DATA *find_location args((CHAR_DATA * ch, char *arg));
+ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, char *arg);
 
 /* Permits or denies a player from playing the Mud from a PERMIT banned site */
 void do_permit(CHAR_DATA *ch, char *argument) {

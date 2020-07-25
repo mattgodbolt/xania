@@ -29,13 +29,13 @@
 BAN_DATA *ban_list;
 
 BAN_DATA *new_ban(void) {
-    BAN_DATA *new;
-    new = (BAN_DATA *)(malloc(sizeof(BAN_DATA)));
-    new->level = 0;
-    new->name = "";
-    new->next = NULL;
-    new->ban_flags = 0;
-    return new;
+    BAN_DATA *res;
+    res = (BAN_DATA *)(malloc(sizeof(BAN_DATA)));
+    res->level = 0;
+    res->name = "";
+    res->next = NULL;
+    res->ban_flags = 0;
+    return res;
 }
 
 void free_ban(BAN_DATA *foo) {

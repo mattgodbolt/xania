@@ -17,38 +17,38 @@
 #include <time.h>
 
 /* command procedures needed */
-DECLARE_DO_FUN(do_yell);
-DECLARE_DO_FUN(do_open);
-DECLARE_DO_FUN(do_close);
-DECLARE_DO_FUN(do_say);
+void do_yell(CHAR_DATA *ch, char *arg);
+void do_open(CHAR_DATA *ch, char *arg);
+void do_close(CHAR_DATA *ch, char *arg);
+void do_say(CHAR_DATA *ch, char *arg);
 
 /* The following special functions are available for mobiles. */
 /* Note that MOB special functions are called every 4 seconds. */
-DECLARE_SPEC_FUN(spec_breath_any);
-DECLARE_SPEC_FUN(spec_breath_acid);
-DECLARE_SPEC_FUN(spec_breath_fire);
-DECLARE_SPEC_FUN(spec_breath_frost);
-DECLARE_SPEC_FUN(spec_breath_gas);
-DECLARE_SPEC_FUN(spec_breath_lightning);
-DECLARE_SPEC_FUN(spec_cast_adept);
-DECLARE_SPEC_FUN(spec_cast_cleric);
-DECLARE_SPEC_FUN(spec_cast_judge);
-DECLARE_SPEC_FUN(spec_cast_mage);
-DECLARE_SPEC_FUN(spec_cast_undead);
-DECLARE_SPEC_FUN(spec_cast_bastard);
-DECLARE_SPEC_FUN(spec_executioner);
-DECLARE_SPEC_FUN(spec_fido);
-DECLARE_SPEC_FUN(spec_guard);
-DECLARE_SPEC_FUN(spec_janitor);
-DECLARE_SPEC_FUN(spec_mayor);
-DECLARE_SPEC_FUN(spec_poison);
-DECLARE_SPEC_FUN(spec_thief);
-DECLARE_SPEC_FUN(spec_puff);
-DECLARE_SPEC_FUN(spec_DEATH);
-DECLARE_SPEC_FUN(spec_greasy_joe);
-DECLARE_SPEC_FUN(spec_phil);
+bool spec_breath_any(CHAR_DATA *ch);
+bool spec_breath_acid(CHAR_DATA *ch);
+bool spec_breath_fire(CHAR_DATA *ch);
+bool spec_breath_frost(CHAR_DATA *ch);
+bool spec_breath_gas(CHAR_DATA *ch);
+bool spec_breath_lightning(CHAR_DATA *ch);
+bool spec_cast_adept(CHAR_DATA *ch);
+bool spec_cast_cleric(CHAR_DATA *ch);
+bool spec_cast_judge(CHAR_DATA *ch);
+bool spec_cast_mage(CHAR_DATA *ch);
+bool spec_cast_undead(CHAR_DATA *ch);
+bool spec_cast_bastard(CHAR_DATA *ch);
+bool spec_executioner(CHAR_DATA *ch);
+bool spec_fido(CHAR_DATA *ch);
+bool spec_guard(CHAR_DATA *ch);
+bool spec_janitor(CHAR_DATA *ch);
+bool spec_mayor(CHAR_DATA *ch);
+bool spec_poison(CHAR_DATA *ch);
+bool spec_thief(CHAR_DATA *ch);
+bool spec_puff(CHAR_DATA *ch);
+bool spec_DEATH(CHAR_DATA *ch);
+bool spec_greasy_joe(CHAR_DATA *ch);
+bool spec_phil(CHAR_DATA *ch);
 /* Given a name, return the appropriate spec fun. */
-SPEC_FUN *spec_lookup(const char *name) {
+SpecialFunc spec_lookup(const char *name) {
     if (!str_cmp(name, "spec_breath_any"))
         return spec_breath_any;
     if (!str_cmp(name, "spec_breath_acid"))

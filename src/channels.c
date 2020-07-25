@@ -17,7 +17,7 @@
 #include <string.h>
 #include <time.h>
 
-DECLARE_DO_FUN(do_afk);
+void do_afk(CHAR_DATA *ch, char *arg);
 
 extern void print_status(CHAR_DATA *ch, char *name, char *master_name, int state, int master_state);
 

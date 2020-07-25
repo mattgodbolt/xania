@@ -18,10 +18,10 @@
 #include <sys/types.h>
 #include <time.h>
 
-bool check_social args((CHAR_DATA * ch, char *command, char *argument));
+bool check_social(CHAR_DATA *ch, char *command, char *argument);
 
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-bool MP_Commands args((CHAR_DATA * ch));
+bool MP_Commands(CHAR_DATA *ch);
 
 /*
  * Command logging types.
@@ -47,7 +47,7 @@ static const char *bad_position_string[] = {"Lie still; you are DEAD.\n\r",
 
 typedef struct cmd_type {
     const char *name;
-    DO_FUN *do_fun;
+    CommandFunc do_fun;
     sh_int position;
     sh_int level;
     sh_int log;
@@ -58,7 +58,7 @@ typedef struct cmd_type {
 
 static void *cmd_trie;
 
-static void add_command(const char *name, DO_FUN *do_fun, sh_int position, sh_int level, sh_int log, bool show) {
+static void add_command(const char *name, CommandFunc do_fun, sh_int position, sh_int level, sh_int log, bool show) {
     cmd_type_t *cmd = malloc(sizeof(cmd_type_t));
     if (!cmd) {
         bug("Couldn't claim memory for new command \"%s\".", name);
@@ -282,7 +282,6 @@ void interp_initialise(void) {
     add_command("recall", do_recall, POS_FIGHTING, 0, LOG_NORMAL, 1);
     add_command("refuse", do_refuse, POS_STANDING, 0, LOG_NORMAL, 1);
     add_command("/", do_recall, POS_FIGHTING, 0, LOG_NORMAL, 0);
-    add_command("rent", do_rent, POS_DEAD, 0, LOG_NORMAL, 0);
     add_command("save", do_save, POS_DEAD, 0, LOG_NORMAL, 1);
     add_command("sleep", do_sleep, POS_SLEEPING, 0, LOG_NORMAL, 1);
     add_command("sneak", do_sneak, POS_STANDING, 0, LOG_NORMAL, 1);

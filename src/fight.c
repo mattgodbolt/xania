@@ -18,45 +18,47 @@
 #define MAX_DAMAGE_MESSAGE 32
 
 /* command procedures needed */
-DECLARE_DO_FUN(do_emote);
-DECLARE_DO_FUN(do_berserk);
-DECLARE_DO_FUN(do_bash);
-DECLARE_DO_FUN(do_trip);
-DECLARE_DO_FUN(do_dirt);
-DECLARE_DO_FUN(do_flee);
-DECLARE_DO_FUN(do_kick);
-DECLARE_DO_FUN(do_disarm);
-DECLARE_DO_FUN(do_get);
-DECLARE_DO_FUN(do_recall);
-DECLARE_DO_FUN(do_duel);
-DECLARE_DO_FUN(do_yell);
-DECLARE_DO_FUN(do_sacrifice);
-DECLARE_DO_FUN(do_transfer);
-DECLARE_SPELL_FUN(spell_poison);
-DECLARE_SPELL_FUN(spell_plague);
+void do_emote(CHAR_DATA *ch, char *argument);
+void do_berserk(CHAR_DATA *ch, char *argument);
+void do_bash(CHAR_DATA *ch, char *argument);
+void do_trip(CHAR_DATA *ch, char *argument);
+void do_dirt(CHAR_DATA *ch, char *argument);
+void do_flee(CHAR_DATA *ch, char *argument);
+void do_kick(CHAR_DATA *ch, char *argument);
+void do_disarm(CHAR_DATA *ch, char *argument);
+void do_get(CHAR_DATA *ch, char *argument);
+void do_recall(CHAR_DATA *ch, char *argument);
+void do_duel(CHAR_DATA *ch, char *argument);
+void do_yell(CHAR_DATA *ch, char *argument);
+void do_sacrifice(CHAR_DATA *ch, char *argument);
+void do_transfer(CHAR_DATA *ch, char *argument);
+void do_backstab(CHAR_DATA *ch, char *argument);
+void do_immtalk(CHAR_DATA *ch, char *argument);
+
+void spell_poison(int spell_num, int level, CHAR_DATA *ch, void *vo);
+void spell_plague(int spell_num, int level, CHAR_DATA *ch, void *vo);
+
 /*
  * Local functions.
  */
-void do_backstab args((CHAR_DATA * ch, char *argument));
-void check_assist args((CHAR_DATA * ch, CHAR_DATA *victim));
-bool check_dodge args((CHAR_DATA * ch, CHAR_DATA *victim));
-void check_killer args((CHAR_DATA * ch, CHAR_DATA *victim));
-bool check_parry args((CHAR_DATA * ch, CHAR_DATA *victim));
-bool check_shield_block args((CHAR_DATA * ch, CHAR_DATA *victim));
-void dam_message args((CHAR_DATA * ch, CHAR_DATA *victim, int dam, int dt, int dam_type, bool immune));
-void announce args((char *, CHAR_DATA *ch));
-void do_immtalk args((CHAR_DATA * ch, char *));
-void death_cry args((CHAR_DATA * ch));
-void group_gain args((CHAR_DATA * ch, CHAR_DATA *victim));
-int xp_compute args((CHAR_DATA * gch, CHAR_DATA *victim, int total_levels));
-bool is_safe args((CHAR_DATA * ch, CHAR_DATA *victim));
-void make_corpse args((CHAR_DATA * ch));
-void one_hit args((CHAR_DATA * ch, CHAR_DATA *victim, int dt));
-void mob_hit args((CHAR_DATA * ch, CHAR_DATA *victim, int dt));
-void raw_kill args((CHAR_DATA * victim));
-void set_fighting args((CHAR_DATA * ch, CHAR_DATA *victim));
-void disarm args((CHAR_DATA * ch, CHAR_DATA *victim));
-void lose_level args((CHAR_DATA * ch));
+void check_assist(CHAR_DATA *ch, CHAR_DATA *victim);
+bool check_dodge(CHAR_DATA *ch, CHAR_DATA *victim);
+void check_killer(CHAR_DATA *ch, CHAR_DATA *victim);
+bool check_parry(CHAR_DATA *ch, CHAR_DATA *victim);
+bool check_shield_block(CHAR_DATA *ch, CHAR_DATA *victim);
+void dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type, bool immune);
+void announce(char *, CHAR_DATA *ch);
+void death_cry(CHAR_DATA *ch);
+void group_gain(CHAR_DATA *ch, CHAR_DATA *victim);
+int xp_compute(CHAR_DATA *gch, CHAR_DATA *victim, int total_levels);
+bool is_safe(CHAR_DATA *ch, CHAR_DATA *victim);
+void make_corpse(CHAR_DATA *ch);
+void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt);
+void mob_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt);
+void raw_kill(CHAR_DATA *victim);
+void set_fighting(CHAR_DATA *ch, CHAR_DATA *victim);
+void disarm(CHAR_DATA *ch, CHAR_DATA *victim);
+void lose_level(CHAR_DATA *ch);
 
 /*extern void thrown_off( CHAR_DATA *ch, CHAR_DATA *pet);*/
 
@@ -1588,14 +1590,6 @@ void group_gain(CHAR_DATA *ch, CHAR_DATA *victim) {
                 act("$n is zapped by $p.", ch, obj, NULL, TO_ROOM);
                 obj_from_char(obj);
                 obj_to_room(obj, ch->in_room);
-            }
-            if ((check_material_vulnerability(ch, obj) == 1)) {
-                /* Bastard :> */
-                act("You shriek in pain and drop $p.", ch, obj, NULL, TO_CHAR);
-                act("$n shrieks in pain and drops $p.", ch, obj, NULL, TO_ROOM);
-                obj_from_char(obj);
-                obj_to_room(obj, ch->in_room);
-                return;
             }
         }
     }

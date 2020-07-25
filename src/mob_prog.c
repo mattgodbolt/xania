@@ -29,16 +29,15 @@
  * Local function prototypes
  */
 
-char *mprog_next_command args((char *clist));
-bool mprog_seval args((char *lhs, char *opr, char *rhs));
-bool mprog_veval args((int lhs, char *opr, int rhs));
-bool mprog_do_ifchck args((char *ifchck, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, CHAR_DATA *rndm));
-char *mprog_process_if args((char *ifchck, char *com_list, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo,
-                             CHAR_DATA *rndm));
-void mprog_translate args((char ch, char *t, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo,
-                           CHAR_DATA *rndm));
-void mprog_process_cmnd args((char *cmnd, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, CHAR_DATA *rndm));
-void mprog_driver args((char *com_list, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo));
+char *mprog_next_command(char *clist);
+bool mprog_seval(char *lhs, char *opr, char *rhs);
+bool mprog_veval(int lhs, char *opr, int rhs);
+bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, CHAR_DATA *rndm);
+char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo,
+                       CHAR_DATA *rndm);
+void mprog_translate(char ch, char *t, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, CHAR_DATA *rndm);
+void mprog_process_cmnd(char *cmnd, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, CHAR_DATA *rndm);
+void mprog_driver(char *com_list, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo);
 
 /***************************************************************************
  * Local function code and brief comments.

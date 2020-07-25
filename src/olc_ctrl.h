@@ -11,13 +11,6 @@
 
 #include "merc.h"
 
-/*
- * Okay - the defined functions we have are ...
- */
-
-DECLARE_DO_FUN(do_object);
-DECLARE_DO_FUN(do_clipboard);
-
 #define GET_HOLD 16385
 #define GET_WIELD 8193
 #define GET_BODY 9

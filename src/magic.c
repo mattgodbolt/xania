@@ -17,15 +17,15 @@
 #include <time.h>
 
 /* command procedures needed */
-DECLARE_DO_FUN(do_look);
-DECLARE_DO_FUN(do_give);
+void do_look(CHAR_DATA *ch, char *arg);
+void do_give(CHAR_DATA *ch, char *arg);
+void do_recall(CHAR_DATA *, char *);
 
 /*
  * Local functions.
  */
-void say_spell args((CHAR_DATA * ch, int sn));
-void explode_bomb args((OBJ_DATA * bomb, CHAR_DATA *ch, CHAR_DATA *thrower));
-void do_recall args((CHAR_DATA *, char *));
+void say_spell(CHAR_DATA *ch, int sn);
+void explode_bomb(OBJ_DATA *bomb, CHAR_DATA *ch, CHAR_DATA *thrower);
 
 /*
  * Utter mystical words for an sn.
@@ -41,7 +41,7 @@ void say_spell(CHAR_DATA *ch, int sn) {
 
     struct syl_type {
         char *old;
-        char *new;
+        char *new_t;
     };
 
     static const struct syl_type syl_table[] = {
@@ -59,7 +59,7 @@ void say_spell(CHAR_DATA *ch, int sn) {
     for (pName = skill_table[sn].name; *pName != '\0'; pName += length) {
         for (iSyl = 0; (length = strlen(syl_table[iSyl].old)) != 0; iSyl++) {
             if (!str_prefix(syl_table[iSyl].old, pName)) {
-                strcat(buf, syl_table[iSyl].new);
+                strcat(buf, syl_table[iSyl].new_t);
                 break;
             }
         }

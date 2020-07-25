@@ -1108,15 +1108,13 @@ VISIBLE cancels your hiding and sneaking, as well as any invisibility,
 making you visible again.
 ~
 
-0 QUIT RENT SAVE~
+0 QUIT SAVE~
 Syntax: QUIT
-Syntax: RENT ... not!
 Syntax: SAVE
 
 SAVE saves your character and object.  The game saves your character every
 15 minutes regardless, and is the preferred method of saving.  Typing save
 will block all other command for about 20 seconds, so use it sparingly.
-(90+ players all typing save every 30 seconds just generated too much lag)
 
 Some objects, such as keys and potions, may not be saved.
 
@@ -1130,10 +1128,6 @@ the habit of using QUIT without SAVE, and then you play some other mud that
 doesn't save before quitting, you're going to regret it.
 
 Objects which are greater than two levels above you will not be kept.
-
-There is |Wno RENT|w in this mud.  Just SAVE and QUIT whenever you want to leave.
-(If you didn't know, some muds require you to rent the equipment which
-you are carrying, before you leave.)
 ~
 
 0 RECALL /~

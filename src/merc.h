@@ -38,14 +38,18 @@
 extern "C" {
 #endif
 
-/*
- * Accommodate old non-Ansi compilers.
- * TODO(#20) death to this
+/**
+ * Function pointer for commands run by the interpreter, the do_ functions.
  */
-#define args(list) list
-#define DECLARE_DO_FUN(fun) DO_FUN fun
-#define DECLARE_SPEC_FUN(fun) SPEC_FUN fun
-#define DECLARE_SPELL_FUN(fun) SPELL_FUN fun
+typedef void (*CommandFunc)(CHAR_DATA *ch, char *argument);
+/**
+ * Function pointers for spells.
+ */
+typedef void (*SpellFunc)(int spell_num, int level, CHAR_DATA *ch, void *vo);
+/**
+ * Function pointer for NPC special behaviours.
+ */
+typedef bool (*SpecialFunc)(CHAR_DATA *ch);
 
 #define MAX_SIGNALS 16
 
@@ -99,13 +103,6 @@ typedef struct known_players KNOWN_PLAYERS;
 /* Merc22 MOBProgs */
 typedef struct mob_prog_data MPROG_DATA; /* MOBprogram */
 typedef struct mob_prog_act_list MPROG_ACT_LIST; /* MOBprogram */
-
-/*
- * Function types.
- */
-typedef void DO_FUN args((CHAR_DATA * ch, char *argument));
-typedef bool SPEC_FUN args((CHAR_DATA * ch));
-typedef void SPELL_FUN args((int sn, int level, CHAR_DATA *ch, void *vo));
 
 /*
  * String and memory management parameters.
@@ -1217,7 +1214,7 @@ extern const char *flagname_extra[];
  */
 struct mob_index_data {
     MOB_INDEX_DATA *next;
-    SPEC_FUN *spec_fun;
+    SpecialFunc spec_fun;
     SHOP_DATA *pShop;
     sh_int vnum;
     bool new_format;
@@ -1270,7 +1267,7 @@ struct char_data {
     CHAR_DATA *pet;
     CHAR_DATA *riding;
     CHAR_DATA *ridden_by;
-    SPEC_FUN *spec_fun;
+    SpecialFunc spec_fun;
     MOB_INDEX_DATA *pIndexData;
     DESCRIPTOR_DATA *desc;
     AFFECT_DATA *affected;
@@ -1705,7 +1702,7 @@ struct skill_type {
     sh_int skill_level[MAX_CLASS]; /* Level needed by class        */
     sh_int rating[MAX_CLASS]; /* How hard it is to learn      */
 
-    SPELL_FUN *spell_fun; /* Spell pointer (for spells)   */
+    SpellFunc spell_fun; /* Spell function pointer  */
     sh_int target; /* Legal targets                */
     sh_int minimum_position; /* Position for caster / user   */
     sh_int *pgsn; /* Pointer to associated gsn    */
@@ -1992,249 +1989,248 @@ extern int max_on;
 #define OD OBJ_DATA
 #define OID OBJ_INDEX_DATA
 #define RID ROOM_INDEX_DATA
-#define SF SPEC_FUN
 
 /* act_comm.c */
-void check_sex args((CHAR_DATA * ch));
-void add_follower args((CHAR_DATA * ch, CHAR_DATA *master));
-void stop_follower args((CHAR_DATA * ch));
-void nuke_pets args((CHAR_DATA * ch));
-void die_follower args((CHAR_DATA * ch));
-bool is_same_group args((CHAR_DATA * ach, CHAR_DATA *bch));
-void thrown_off args((CHAR_DATA * ch, CHAR_DATA *pet));
-void fallen_off_mount args((CHAR_DATA * ch));
+void check_sex(CHAR_DATA *ch);
+void add_follower(CHAR_DATA *ch, CHAR_DATA *master);
+void stop_follower(CHAR_DATA *ch);
+void nuke_pets(CHAR_DATA *ch);
+void die_follower(CHAR_DATA *ch);
+bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch);
+void thrown_off(CHAR_DATA *ch, CHAR_DATA *pet);
+void fallen_off_mount(CHAR_DATA *ch);
 /* act_info.c */
-void set_title args((CHAR_DATA * ch, char *title));
+void set_title(CHAR_DATA *ch, char *title);
 
 /* act_move.c */
-void move_char args((CHAR_DATA * ch, int door));
-void unride_char args((CHAR_DATA * ch, CHAR_DATA *pet));
-void do_enter args((CHAR_DATA * ch, char *argument));
+void move_char(CHAR_DATA *ch, int door);
+void unride_char(CHAR_DATA *ch, CHAR_DATA *pet);
+void do_enter(CHAR_DATA *ch, char *argument);
 /* act_obj.c */
-bool can_loot args((CHAR_DATA * ch, OBJ_DATA *obj));
-void get_obj args((CHAR_DATA * ch, OBJ_DATA *obj, OBJ_DATA *container));
+bool can_loot(CHAR_DATA *ch, OBJ_DATA *obj);
+void get_obj(CHAR_DATA *ch, OBJ_DATA *obj, OBJ_DATA *container);
 
 /* act_wiz.c */
 
 /* ban.c */
-void save_bans args((void));
-void load_bans args((void));
-bool check_ban args((char *site, int type));
-void ban_site args((CHAR_DATA * ch, char *site, bool fType));
+void save_bans(void);
+void load_bans(void);
+bool check_ban(char *site, int type);
+void ban_site(CHAR_DATA *ch, char *site, bool fType);
 
 /* comm.c */
 #define MAX_MASKED_HOSTNAME 64
 unsigned long djb2_hash(const char *str);
 char *get_masked_hostname(char *hostbuf, const char *hostname);
-void show_string args((struct descriptor_data * d, char *input));
-void close_socket args((DESCRIPTOR_DATA * dclose));
-void write_to_buffer args((DESCRIPTOR_DATA * d, const char *txt, int length));
-void send_to_char args((const char *txt, CHAR_DATA *ch));
-void page_to_char args((const char *txt, CHAR_DATA *ch));
-void act args((const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type));
-void act_new args((const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type, int min_pos));
+void show_string(struct descriptor_data *d, char *input);
+void close_socket(DESCRIPTOR_DATA *dclose);
+void write_to_buffer(DESCRIPTOR_DATA *d, const char *txt, int length);
+void send_to_char(const char *txt, CHAR_DATA *ch);
+void page_to_char(const char *txt, CHAR_DATA *ch);
+void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type);
+void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type, int min_pos);
 
 /* db.c */
-void boot_db args((void));
-void area_update args((void));
-CD *create_mobile args((MOB_INDEX_DATA * pMobIndex));
-void clone_mobile args((CHAR_DATA * parent, CHAR_DATA *clone));
-OD *create_object args((OBJ_INDEX_DATA * pObjIndex, int level));
-void clone_object args((OBJ_DATA * parent, OBJ_DATA *clone));
-void clear_char args((CHAR_DATA * ch));
-void free_char args((CHAR_DATA * ch));
-char *get_extra_descr args((const char *name, EXTRA_DESCR_DATA *ed));
-MID *get_mob_index args((int vnum));
-OID *get_obj_index args((int vnum));
-RID *get_room_index args((int vnum));
-char fread_letter args((FILE * fp));
-int fread_number args((FILE * fp));
-int fread_spnumber args((FILE * fp));
-long fread_flag args((FILE * fp));
+void boot_db(void);
+void area_update(void);
+CD *create_mobile(MOB_INDEX_DATA *pMobIndex);
+void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone);
+OD *create_object(OBJ_INDEX_DATA *pObjIndex, int level);
+void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
+void clear_char(CHAR_DATA *ch);
+void free_char(CHAR_DATA *ch);
+char *get_extra_descr(const char *name, EXTRA_DESCR_DATA *ed);
+MID *get_mob_index(int vnum);
+OID *get_obj_index(int vnum);
+RID *get_room_index(int vnum);
+char fread_letter(FILE *fp);
+int fread_number(FILE *fp);
+int fread_spnumber(FILE *fp);
+long fread_flag(FILE *fp);
 BUFFER *fread_string_tobuffer(FILE *fp);
-char *fread_string args((FILE * fp));
-char *fread_string_eol args((FILE * fp));
-void fread_to_eol args((FILE * fp));
-char *fread_word args((FILE * fp));
-long flag_convert args((char letter));
-void *alloc_mem args((int sMem));
-void *alloc_perm args((int sMem));
-void free_mem args((void *pMem, int sMem));
-char *str_dup args((const char *str));
-void free_string args((char *pstr));
-int number_fuzzy args((int number));
-int number_range args((int from, int to));
-int number_percent args((void));
-int number_door args((void));
-int number_bits args((int width));
-int number_mm args((void));
-int dice args((int number, int size));
-int interpolate args((int level, int value_00, int value_32));
-void smash_tilde args((char *str));
-bool str_cmp args((const char *astr, const char *bstr));
-bool str_prefix args((const char *astr, const char *bstr));
-bool str_infix args((const char *astr, const char *bstr));
-bool str_suffix args((const char *astr, const char *bstr));
-char *capitalize args((const char *str));
-void append_file args((CHAR_DATA * ch, char *file, char *str));
-void bug args((const char *str, ...)) __attribute__((format(printf, 1, 2)));
-void log_string args((const char *str));
-void log_new args((const char *str, int loglevel, int level));
-void tail_chain args((void));
+char *fread_string(FILE *fp);
+char *fread_string_eol(FILE *fp);
+void fread_to_eol(FILE *fp);
+char *fread_word(FILE *fp);
+long flag_convert(char letter);
+void *alloc_mem(int sMem);
+void *alloc_perm(int sMem);
+void free_mem(void *pMem, int sMem);
+char *str_dup(const char *str);
+void free_string(char *pstr);
+int number_fuzzy(int number);
+int number_range(int from, int to);
+int number_percent(void);
+int number_door(void);
+int number_bits(int width);
+int number_mm(void);
+int dice(int number, int size);
+int interpolate(int level, int value_00, int value_32);
+void smash_tilde(char *str);
+bool str_cmp(const char *astr, const char *bstr);
+bool str_prefix(const char *astr, const char *bstr);
+bool str_infix(const char *astr, const char *bstr);
+bool str_suffix(const char *astr, const char *bstr);
+char *capitalize(const char *str);
+void append_file(CHAR_DATA *ch, char *file, char *str);
+void bug(const char *str, ...) __attribute__((format(printf, 1, 2)));
+void log_string(const char *str);
+void log_new(const char *str, int loglevel, int level);
+void tail_chain(void);
 
 /* fight.c */
-bool is_safe args((CHAR_DATA * ch, CHAR_DATA *victim));
-bool is_safe_spell args((CHAR_DATA * ch, CHAR_DATA *victim, bool area));
-void violence_update args((void));
-void multi_hit args((CHAR_DATA * ch, CHAR_DATA *victim, int dt));
+bool is_safe(CHAR_DATA *ch, CHAR_DATA *victim);
+bool is_safe_spell(CHAR_DATA *ch, CHAR_DATA *victim, bool area);
+void violence_update(void);
+void multi_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt);
 #ifndef __cplusplus
-bool damage args((CHAR_DATA * ch, CHAR_DATA *victim, int dam, int dt, int class));
+bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int class);
 #else
-bool damage args((CHAR_DATA * ch, CHAR_DATA *victim, int dam, int dt, int _class));
+bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int _class);
 #endif
-void update_pos args((CHAR_DATA * victim));
-void stop_fighting args((CHAR_DATA * ch, bool fBoth));
-void do_chal_tick args((void));
-void do_chal_canc args((CHAR_DATA * ch));
-void do_room_check args((CHAR_DATA * ch));
-void do_flee_check args((CHAR_DATA * ch));
-void death_cry args((CHAR_DATA * ch));
+void update_pos(CHAR_DATA *victim);
+void stop_fighting(CHAR_DATA *ch, bool fBoth);
+void do_chal_tick(void);
+void do_chal_canc(CHAR_DATA *ch);
+void do_room_check(CHAR_DATA *ch);
+void do_flee_check(CHAR_DATA *ch);
+void death_cry(CHAR_DATA *ch);
 
 /* handler.c */
-int check_immune args((CHAR_DATA * ch, int dam_type));
-int material_lookup args((char *name));
-int material_guess args((char *name));
-int race_lookup args((const char *name));
-int class_lookup args((const char *name));
-bool is_old_mob args((CHAR_DATA * ch));
-int get_skill args((CHAR_DATA * ch, int sn));
-int get_weapon_sn args((CHAR_DATA * ch));
-int get_weapon_skill args((CHAR_DATA * ch, int sn));
-int get_age args((CHAR_DATA * ch));
-void reset_char args((CHAR_DATA * ch));
-int get_trust args((CHAR_DATA * ch));
-int get_curr_stat args((CHAR_DATA * ch, int stat));
-int get_max_train args((CHAR_DATA * ch, int stat));
-int can_carry_n args((CHAR_DATA * ch));
-int can_carry_w args((CHAR_DATA * ch));
-bool is_name args((char *str, char *namelist));
-void affect_to_char args((CHAR_DATA * ch, AFFECT_DATA *paf));
-void affect_to_obj args((OBJ_DATA * obj, AFFECT_DATA *paf));
-void affect_remove args((CHAR_DATA * ch, AFFECT_DATA *paf));
-void affect_remove_obj args((OBJ_DATA * obj, AFFECT_DATA *paf));
-void affect_strip args((CHAR_DATA * ch, int sn));
-bool is_affected args((CHAR_DATA * ch, int sn));
-AFFECT_DATA *find_affect args((CHAR_DATA * ch, int sn));
-void affect_join args((CHAR_DATA * ch, AFFECT_DATA *paf));
-void char_from_room args((CHAR_DATA * ch));
-void char_to_room args((CHAR_DATA * ch, ROOM_INDEX_DATA *pRoomIndex));
-void obj_to_char args((OBJ_DATA * obj, CHAR_DATA *ch));
-void obj_from_char args((OBJ_DATA * obj));
-int apply_ac args((OBJ_DATA * obj, int iWear, int type));
-OD *get_eq_char args((CHAR_DATA * ch, int iWear));
-void equip_char args((CHAR_DATA * ch, OBJ_DATA *obj, int iWear));
-void unequip_char args((CHAR_DATA * ch, OBJ_DATA *obj));
-int count_obj_list args((OBJ_INDEX_DATA * obj, OBJ_DATA *list));
-void obj_from_room args((OBJ_DATA * obj));
-void obj_to_room args((OBJ_DATA * obj, ROOM_INDEX_DATA *pRoomIndex));
-void obj_to_obj args((OBJ_DATA * obj, OBJ_DATA *obj_to));
-void obj_from_obj args((OBJ_DATA * obj));
-void extract_obj args((OBJ_DATA * obj));
-void extract_char args((CHAR_DATA * ch, bool fPull));
-bool is_set_extra args((CHAR_DATA * ch, unsigned int flag));
-void set_extra args((CHAR_DATA * ch, unsigned int flag));
-void remove_extra args((CHAR_DATA * ch, unsigned int flag));
+int check_immune(CHAR_DATA *ch, int dam_type);
+int material_lookup(char *name);
+int material_guess(char *name);
+int race_lookup(const char *name);
+int class_lookup(const char *name);
+bool is_old_mob(CHAR_DATA *ch);
+int get_skill(CHAR_DATA *ch, int sn);
+int get_weapon_sn(CHAR_DATA *ch);
+int get_weapon_skill(CHAR_DATA *ch, int sn);
+int get_age(CHAR_DATA *ch);
+void reset_char(CHAR_DATA *ch);
+int get_trust(CHAR_DATA *ch);
+int get_curr_stat(CHAR_DATA *ch, int stat);
+int get_max_train(CHAR_DATA *ch, int stat);
+int can_carry_n(CHAR_DATA *ch);
+int can_carry_w(CHAR_DATA *ch);
+bool is_name(char *str, char *namelist);
+void affect_to_char(CHAR_DATA *ch, AFFECT_DATA *paf);
+void affect_to_obj(OBJ_DATA *obj, AFFECT_DATA *paf);
+void affect_remove(CHAR_DATA *ch, AFFECT_DATA *paf);
+void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf);
+void affect_strip(CHAR_DATA *ch, int sn);
+bool is_affected(CHAR_DATA *ch, int sn);
+AFFECT_DATA *find_affect(CHAR_DATA *ch, int sn);
+void affect_join(CHAR_DATA *ch, AFFECT_DATA *paf);
+void char_from_room(CHAR_DATA *ch);
+void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex);
+void obj_to_char(OBJ_DATA *obj, CHAR_DATA *ch);
+void obj_from_char(OBJ_DATA *obj);
+int apply_ac(OBJ_DATA *obj, int iWear, int type);
+OD *get_eq_char(CHAR_DATA *ch, int iWear);
+void equip_char(CHAR_DATA *ch, OBJ_DATA *obj, int iWear);
+void unequip_char(CHAR_DATA *ch, OBJ_DATA *obj);
+int count_obj_list(OBJ_INDEX_DATA *obj, OBJ_DATA *list);
+void obj_from_room(OBJ_DATA *obj);
+void obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *pRoomIndex);
+void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to);
+void obj_from_obj(OBJ_DATA *obj);
+void extract_obj(OBJ_DATA *obj);
+void extract_char(CHAR_DATA *ch, bool fPull);
+bool is_set_extra(CHAR_DATA *ch, unsigned int flag);
+void set_extra(CHAR_DATA *ch, unsigned int flag);
+void remove_extra(CHAR_DATA *ch, unsigned int flag);
 
-bool is_switched args((CHAR_DATA * ch));
+bool is_switched(CHAR_DATA *ch);
 
 /* MRG added */
-bool check_sub_issue args((OBJ_DATA * obj, CHAR_DATA *ch));
+bool check_sub_issue(OBJ_DATA *obj, CHAR_DATA *ch);
 
-CD *get_char_room args((CHAR_DATA * ch, char *argument));
-CD *get_char_world args((CHAR_DATA * ch, char *argument));
-CD *get_mob_by_vnum args((sh_int vnum));
-OD *get_obj_type args((OBJ_INDEX_DATA * pObjIndexData));
-OD *get_obj_list args((CHAR_DATA * ch, char *argument, OBJ_DATA *list));
-OD *get_obj_carry args((CHAR_DATA * ch, char *argument));
-OD *get_obj_wear args((CHAR_DATA * ch, char *argument));
-OD *get_obj_here args((CHAR_DATA * ch, char *argument));
-OD *get_obj_world args((CHAR_DATA * ch, char *argument));
-OD *create_money args((int amount));
-int get_obj_number args((OBJ_DATA * obj));
-int get_obj_weight args((OBJ_DATA * obj));
-bool room_is_dark args((ROOM_INDEX_DATA * pRoomIndex));
-bool room_is_private args((ROOM_INDEX_DATA * pRoomIndex));
-bool can_see args((CHAR_DATA * ch, CHAR_DATA *victim));
-bool can_see_obj args((CHAR_DATA * ch, OBJ_DATA *obj));
-bool can_see_room args((CHAR_DATA * ch, ROOM_INDEX_DATA *pRoomIndex));
-bool can_drop_obj args((CHAR_DATA * ch, OBJ_DATA *obj));
-char *item_type_name args((OBJ_DATA * obj));
-char *item_index_type_name args((OBJ_INDEX_DATA * obj));
-char *affect_loc_name args((int location));
-char *affect_bit_name args((int vector));
-char *extra_bit_name args((int extra_flags));
-char *wear_bit_name args((int wear_flags));
-char *act_bit_name args((int act_flags));
-char *off_bit_name args((int off_flags));
-char *imm_bit_name args((int imm_flags));
-char *form_bit_name args((int form_flags));
-char *part_bit_name args((int part_flags));
-char *weapon_bit_name args((int weapon_flags));
-char *comm_bit_name args((int comm_flags));
-void DeCapitate(char *string);
+CD *get_char_room(CHAR_DATA *ch, char *argument);
+CD *get_char_world(CHAR_DATA *ch, char *argument);
+CD *get_mob_by_vnum(sh_int vnum);
+OD *get_obj_type(OBJ_INDEX_DATA *pObjIndexData);
+OD *get_obj_list(CHAR_DATA *ch, char *argument, OBJ_DATA *list);
+OD *get_obj_carry(CHAR_DATA *ch, char *argument);
+OD *get_obj_wear(CHAR_DATA *ch, char *argument);
+OD *get_obj_here(CHAR_DATA *ch, char *argument);
+OD *get_obj_world(CHAR_DATA *ch, char *argument);
+OD *create_money(int amount);
+int get_obj_number(OBJ_DATA *obj);
+int get_obj_weight(OBJ_DATA *obj);
+bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex);
+bool room_is_private(ROOM_INDEX_DATA *pRoomIndex);
+bool can_see(CHAR_DATA *ch, CHAR_DATA *victim);
+bool can_see_obj(CHAR_DATA *ch, OBJ_DATA *obj);
+bool can_see_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex);
+bool can_drop_obj(CHAR_DATA *ch, OBJ_DATA *obj);
+char *item_type_name(OBJ_DATA *obj);
+char *item_index_type_name(OBJ_INDEX_DATA *obj);
+char *affect_loc_name(int location);
+char *affect_bit_name(int vector);
+char *extra_bit_name(int extra_flags);
+char *wear_bit_name(int wear_flags);
+char *act_bit_name(int act_flags);
+char *off_bit_name(int off_flags);
+char *imm_bit_name(int imm_flags);
+char *form_bit_name(int form_flags);
+char *part_bit_name(int part_flags);
+char *weapon_bit_name(int weapon_flags);
+char *comm_bit_name(int comm_flags);
+void tolower_articles(char *string);
 
 /* info.c */
-void load_player_list args((void));
+void load_player_list(void);
 
 /* interp.c */
-void interpret args((CHAR_DATA * ch, char *argument));
-bool is_number args((char *arg));
-int number_argument args((char *argument, char *arg));
-char *one_argument args((char *argument, void *arg_first));
+void interpret(CHAR_DATA *ch, char *argument);
+bool is_number(char *arg);
+int number_argument(char *argument, char *arg);
+char *one_argument(char *argument, void *arg_first);
 
 /* magic.c */
 int mana_cost(CHAR_DATA *ch, int min_mana, int level);
-int skill_lookup args((const char *name));
-int slot_lookup args((int slot));
-bool saves_spell args((int level, CHAR_DATA *victim));
-void obj_cast_spell args((int sn, int level, CHAR_DATA *ch, CHAR_DATA *victim, OBJ_DATA *obj));
+int skill_lookup(const char *name);
+int slot_lookup(int slot);
+bool saves_spell(int level, CHAR_DATA *victim);
+void obj_cast_spell(int sn, int level, CHAR_DATA *ch, CHAR_DATA *victim, OBJ_DATA *obj);
 
 /* save.c */
-void save_char_obj args((CHAR_DATA * ch));
-bool load_char_obj args((DESCRIPTOR_DATA * d, char *name));
+void save_char_obj(CHAR_DATA *ch);
+bool load_char_obj(DESCRIPTOR_DATA *d, char *name);
 
 /* skills.c */
-bool parse_gen_groups args((CHAR_DATA * ch, char *argument));
-void list_group_costs args((CHAR_DATA * ch));
-void list_group_known args((CHAR_DATA * ch));
-unsigned int exp_per_level args((CHAR_DATA * ch, int points));
-void check_improve args((CHAR_DATA * ch, int sn, bool success, int multiplier));
-int group_lookup args((const char *name));
-void gn_add args((CHAR_DATA * ch, int gn));
-void gn_remove args((CHAR_DATA * ch, int gn));
-void group_add args((CHAR_DATA * ch, const char *name, bool deduct));
-void group_remove args((CHAR_DATA * ch, const char *name));
+bool parse_gen_groups(CHAR_DATA *ch, char *argument);
+void list_group_costs(CHAR_DATA *ch);
+void list_group_known(CHAR_DATA *ch);
+unsigned int exp_per_level(CHAR_DATA *ch, int points);
+void check_improve(CHAR_DATA *ch, int sn, bool success, int multiplier);
+int group_lookup(const char *name);
+void gn_add(CHAR_DATA *ch, int gn);
+void gn_remove(CHAR_DATA *ch, int gn);
+void group_add(CHAR_DATA *ch, const char *name, bool deduct);
+void group_remove(CHAR_DATA *ch, const char *name);
 
 /* special.c */
-SF *spec_lookup args((const char *name));
+SpecialFunc spec_lookup(const char *name);
 
 /* update.c */
-void advance_level args((CHAR_DATA * ch));
-void gain_exp args((CHAR_DATA * ch, int gain));
-void gain_condition args((CHAR_DATA * ch, int iCond, int value));
-void update_handler args((void));
-bool is_safe_sentient args((CHAR_DATA * ch, CHAR_DATA *wch));
+void advance_level(CHAR_DATA *ch);
+void gain_exp(CHAR_DATA *ch, int gain);
+void gain_condition(CHAR_DATA *ch, int iCond, int value);
+void update_handler(void);
+bool is_safe_sentient(CHAR_DATA *ch, CHAR_DATA *wch);
 
 /* web page functions */
-bool web_see args((CHAR_DATA * ch));
-void web_who args((void));
+bool web_see(CHAR_DATA *ch);
+void web_who(void);
 
 /* dbextras.c */
-int create_new_room args((int lower, int higher));
-int destroy_room args((int vnum));
-char *print_flags args((const int value));
+int create_new_room(int lower, int higher);
+int destroy_room(int vnum);
+char *print_flags(const int value);
 /* NB only use this is you *Really* have to */
-int save_whole_area args((char *area_name, char *filename));
+int save_whole_area(char *area_name, char *filename);
 /* Saves all rooms/mobs/resets/etc being edited */
 
 /* xania.c - a mishmash */
@@ -2273,18 +2269,18 @@ void do_clanset(CHAR_DATA *ch, char *argument);
 
 void do_mpstat(CHAR_DATA *ch, char *argument);
 
-void mprog_wordlist_check args((char *arg, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *object, void *vo, int type));
-void mprog_percent_check args((CHAR_DATA * mob, CHAR_DATA *actor, OBJ_DATA *object, void *vo, int type));
-void mprog_act_trigger args((char *buf, CHAR_DATA *mob, CHAR_DATA *ch, OBJ_DATA *obj, void *vo));
-void mprog_bribe_trigger args((CHAR_DATA * mob, CHAR_DATA *ch, int amount));
-void mprog_entry_trigger args((CHAR_DATA * mob));
-void mprog_give_trigger args((CHAR_DATA * mob, CHAR_DATA *ch, OBJ_DATA *obj));
-void mprog_greet_trigger args((CHAR_DATA * mob));
-void mprog_fight_trigger args((CHAR_DATA * mob, CHAR_DATA *ch));
-void mprog_hitprcnt_trigger args((CHAR_DATA * mob, CHAR_DATA *ch));
-void mprog_death_trigger args((CHAR_DATA * mob));
-void mprog_random_trigger args((CHAR_DATA * mob));
-void mprog_speech_trigger args((char *txt, CHAR_DATA *mob));
+void mprog_wordlist_check(char *arg, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *object, void *vo, int type);
+void mprog_percent_check(CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *object, void *vo, int type);
+void mprog_act_trigger(char *buf, CHAR_DATA *mob, CHAR_DATA *ch, OBJ_DATA *obj, void *vo);
+void mprog_bribe_trigger(CHAR_DATA *mob, CHAR_DATA *ch, int amount);
+void mprog_entry_trigger(CHAR_DATA *mob);
+void mprog_give_trigger(CHAR_DATA *mob, CHAR_DATA *ch, OBJ_DATA *obj);
+void mprog_greet_trigger(CHAR_DATA *mob);
+void mprog_fight_trigger(CHAR_DATA *mob, CHAR_DATA *ch);
+void mprog_hitprcnt_trigger(CHAR_DATA *mob, CHAR_DATA *ch);
+void mprog_death_trigger(CHAR_DATA *mob);
+void mprog_random_trigger(CHAR_DATA *mob);
+void mprog_speech_trigger(char *txt, CHAR_DATA *mob);
 
 /*****************************************************************************
  *                                   ILAB OLC                                *
@@ -2318,7 +2314,6 @@ void mprog_speech_trigger args((char *txt, CHAR_DATA *mob));
 #undef OD
 #undef OID
 #undef RID
-#undef SF
 
 #ifdef __cplusplus
 };

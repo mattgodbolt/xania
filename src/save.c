@@ -29,12 +29,12 @@ extern void char_ride(CHAR_DATA *ch, CHAR_DATA *pet);
 /*
  * Local functions.
  */
-void fwrite_char args((CHAR_DATA * ch, FILE *fp));
-void fwrite_obj args((CHAR_DATA * ch, OBJ_DATA *obj, FILE *fp, int iNest));
-void fwrite_pet args((CHAR_DATA * ch, CHAR_DATA *pet, FILE *fp));
-void fread_char args((CHAR_DATA * ch, FILE *fp));
-void fread_pet args((CHAR_DATA * ch, FILE *fp));
-void fread_obj args((CHAR_DATA * ch, FILE *fp));
+void fwrite_char(CHAR_DATA *ch, FILE *fp);
+void fwrite_obj(CHAR_DATA *ch, OBJ_DATA *obj, FILE *fp, int iNest);
+void fwrite_pet(CHAR_DATA *ch, CHAR_DATA *pet, FILE *fp);
+void fread_char(CHAR_DATA *ch, FILE *fp);
+void fread_pet(CHAR_DATA *ch, FILE *fp);
+void fread_obj(CHAR_DATA *ch, FILE *fp);
 
 char *extra_bit_string(CHAR_DATA *ch) {
     static char buf[MAX_STRING_LENGTH]; /* NB not re-entrant :) */

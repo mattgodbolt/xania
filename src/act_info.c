@@ -19,10 +19,10 @@
 #include <time.h>
 
 /* command procedures needed */
-DECLARE_DO_FUN(do_exits);
-DECLARE_DO_FUN(do_look);
-DECLARE_DO_FUN(do_help);
-DECLARE_DO_FUN(do_mstat);
+void do_exits(CHAR_DATA *ch, char *arg);
+void do_look(CHAR_DATA *ch, char *arg);
+void do_help(CHAR_DATA *ch, char *arg);
+void do_mstat(CHAR_DATA *ch, char *arg);
 void do_affected(CHAR_DATA *ch);
 
 char *const where_name[] = {"<used as light>     ", "<worn on finger>    ", "<worn on finger>    ",
@@ -38,15 +38,15 @@ int max_on = 0;
 /*
  * Local functions.
  */
-char *format_obj_to_char args((OBJ_DATA * obj, CHAR_DATA *ch, bool fShort));
-void show_list_to_char args((OBJ_DATA * list, CHAR_DATA *ch, bool fShort, bool fShowNothing));
-void show_char_to_char_0 args((CHAR_DATA * victim, CHAR_DATA *ch));
-void show_char_to_char_1 args((CHAR_DATA * victim, CHAR_DATA *ch));
-void show_char_to_char args((CHAR_DATA * list, CHAR_DATA *ch));
-bool check_blind args((CHAR_DATA * ch));
+char *format_obj_to_char(OBJ_DATA *obj, CHAR_DATA *ch, bool fShort);
+void show_list_to_char(OBJ_DATA *list, CHAR_DATA *ch, bool fShort, bool fShowNothing);
+void show_char_to_char_0(CHAR_DATA *victim, CHAR_DATA *ch);
+void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch);
+void show_char_to_char(CHAR_DATA *list, CHAR_DATA *ch);
+bool check_blind(CHAR_DATA *ch);
 
 /* Mg's funcy shun */
-void set_prompt args((CHAR_DATA * ch, char *prompt));
+void set_prompt(CHAR_DATA *ch, char *prompt);
 
 char *format_obj_to_char(OBJ_DATA *obj, CHAR_DATA *ch, bool fShort) {
     static char buf[MAX_STRING_LENGTH];
