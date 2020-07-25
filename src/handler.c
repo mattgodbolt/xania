@@ -16,14 +16,14 @@
 #include <time.h>
 
 /* command procedures needed */
-DECLARE_DO_FUN(do_return);
+void do_return(CHAR_DATA *ch, char *arg);
 
 AFFECT_DATA *affect_free = NULL;
 
 /*
  * Local functions.
  */
-void affect_modify args((CHAR_DATA * ch, AFFECT_DATA *paf, bool fAdd));
+void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd);
 
 struct guess_type {
     char *name;
@@ -2526,11 +2526,12 @@ void remove_extra(CHAR_DATA *ch, unsigned int flag) {
 
 /*
  * New: Kill off the errant capital letters that
- * have been creeping into our short descriptions
+ * have been creeping into the definite article of
+ * short descriptions of objects and rooms.
  * of late.  This routine de-capitalises anything
  * beginning with 'The ' or 'A ' or 'An '
  */
-void DeCapitate(char *string) {
+void tolower_articles(char *string) {
     if (!strncmp(string, "The ", 4) || !strncmp(string, "A ", 2) || !strncmp(string, "An ", 3))
         string[0] = tolower(string[0]);
 }

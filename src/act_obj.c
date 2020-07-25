@@ -16,23 +16,21 @@
 #include <sys/types.h>
 
 /* command procedures needed */
-DECLARE_DO_FUN(do_split);
-DECLARE_DO_FUN(do_yell);
-DECLARE_DO_FUN(do_say);
+void do_split(CHAR_DATA *ch, char *arg);
+void do_yell(CHAR_DATA *ch, char *arg);
+void do_say(CHAR_DATA *ch, char *arg);
 
 extern char *target_name; /* Included from magic.c */
 
 /*
  * Local functions.
  */
-#define CD CHAR_DATA
-bool remove_obj args((CHAR_DATA * ch, int iWear, bool fReplace));
-void wear_obj args((CHAR_DATA * ch, OBJ_DATA *obj, bool fReplace));
-CD *find_keeper args((CHAR_DATA * ch));
-int get_cost args((CHAR_DATA * keeper, OBJ_DATA *obj, bool fBuy));
-#undef CD
+bool remove_obj(CHAR_DATA *ch, int iWear, bool fReplace);
+void wear_obj(CHAR_DATA *ch, OBJ_DATA *obj, bool fReplace);
+CHAR_DATA *find_keeper(CHAR_DATA *ch);
+int get_cost(CHAR_DATA *keeper, OBJ_DATA *obj, bool fBuy);
 
-void explode_bomb args((OBJ_DATA * bomb, CHAR_DATA *ch, CHAR_DATA *thrower));
+void explode_bomb(OBJ_DATA *bomb, CHAR_DATA *ch, CHAR_DATA *thrower);
 
 /* RT part of the corpse looting code */
 

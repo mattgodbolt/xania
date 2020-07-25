@@ -608,7 +608,7 @@ void recurse_object_contents(FILE *fp, OBJ_DATA *obj) {
 /* IMPLEMENTOR NOTES :-
 
   (1) in int_create_room - update to cater for AAxxx areas.
-  (2) No materials or SPEC_FUNs catered for yet
+  (2) No materials or SpecialFunc catered for yet
   (3) Bombs need to be put in as do all new spells
   (4) Need to implement ..->pIndexData->count in editor to allow
       restrictions - ..->count must reflect MAXIMUM ALLOWABLE instances of

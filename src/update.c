@@ -8,16 +8,15 @@
 /*************************************************************************/
 
 #include "merc.h"
-#include "prog.h"
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
 #include <time.h>
 
 /* command procedures needed */
-DECLARE_DO_FUN(do_quit);
-DECLARE_DO_FUN(do_wear);
-DECLARE_DO_FUN(do_yell);
+void do_quit(CHAR_DATA *ch, char *arg);
+void do_wear(CHAR_DATA *ch, char *arg);
+void do_yell(CHAR_DATA *ch, char *arg);
 
 /* Few external functions */
 int get_max_stat(CHAR_DATA *ch, int stat);

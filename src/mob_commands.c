@@ -28,9 +28,9 @@
  * Local functions.
  */
 
-char *mprog_type_to_name args((int type));
-ROOM_INDEX_DATA *find_location args((CHAR_DATA * ch, char *arg));
-void do_transfer args((CHAR_DATA * ch, char *arg));
+char *mprog_type_to_name(int type);
+ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, char *arg);
+void do_transfer(CHAR_DATA *ch, char *arg);
 
 /* This routine transfers between alpha and numeric forms of the
  *  mob_prog bitvector types. It allows the words to show up in mpstat to

@@ -24,7 +24,7 @@
 #include <string.h>
 #include <sys/time.h>
 
-DECLARE_DO_FUN(_do_news);
+void _do_news(CHAR_DATA *ch, char *arg);
 
 /* Globals */
 THREAD *thread_free = NULL;

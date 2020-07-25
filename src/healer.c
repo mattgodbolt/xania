@@ -23,7 +23,7 @@ void do_heal(CHAR_DATA *ch, char *argument) {
     CHAR_DATA *mob;
     char arg[MAX_INPUT_LENGTH];
     int cost, sn;
-    SPELL_FUN *spell;
+    SpellFunc spell;
     char *words;
 
     /* check for healer */

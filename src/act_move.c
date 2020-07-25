@@ -15,9 +15,9 @@
 #include <sys/types.h>
 
 /* command procedures needed */
-DECLARE_DO_FUN(do_look);
-DECLARE_DO_FUN(do_recall);
-DECLARE_DO_FUN(do_stand);
+void do_look(CHAR_DATA *ch, char *arg);
+void do_recall(CHAR_DATA *ch, char *arg);
+void do_stand(CHAR_DATA *ch, char *arg);
 
 char *const dir_name[] = {"north", "east", "south", "west", "up", "down"};
 
@@ -28,8 +28,8 @@ const sh_int movement_loss[SECT_MAX] = {1, 2, 2, 3, 4, 6, 4, 1, 6, 10, 6};
 /*
  * Local functions.
  */
-int find_door args((CHAR_DATA * ch, char *arg));
-bool has_key args((CHAR_DATA * ch, int key));
+int find_door(CHAR_DATA *ch, char *arg);
+bool has_key(CHAR_DATA *ch, int key);
 
 void move_char(CHAR_DATA *ch, int door) {
     CHAR_DATA *fch;

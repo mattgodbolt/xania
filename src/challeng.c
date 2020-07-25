@@ -20,12 +20,11 @@
 #define NAME_SIZE 30
 
 /* Local function defs.  Created independantly in interp.h Uggh. */
-void do_challenge args((CHAR_DATA * ch, char *argument));
-void do_accept args((CHAR_DATA * ch, char *argument));
-void do_refuse args((CHAR_DATA * ch, char *argument));
-void do_chal_canc args((CHAR_DATA * ch));
-void do_cancel_chal args((CHAR_DATA * ch, char *argument));
-int do_check_chal args((CHAR_DATA * ch));
+void do_challenge(CHAR_DATA *ch, char *argument);
+void do_accept(CHAR_DATA *ch, char *argument);
+void do_chal_canc(CHAR_DATA *ch);
+void do_cancel_chal(CHAR_DATA *ch, char *argument);
+int do_check_chal(CHAR_DATA *ch);
 
 /* Private functions. */
 static int check_duel_status(int);

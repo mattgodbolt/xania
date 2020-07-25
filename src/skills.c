@@ -16,9 +16,9 @@
 #include <sys/types.h>
 
 /* command procedures needed */
-DECLARE_DO_FUN(do_groups);
-DECLARE_DO_FUN(do_help);
-DECLARE_DO_FUN(do_say);
+void do_groups(CHAR_DATA *ch, char *arg);
+void do_help(CHAR_DATA *ch, char *arg);
+void do_say(CHAR_DATA *ch, char *arg);
 
 /* used to get new skills */
 void do_gain(CHAR_DATA *ch, char *argument) {
