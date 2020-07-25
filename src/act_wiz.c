@@ -2918,7 +2918,7 @@ void do_mset(CHAR_DATA *ch, char *argument) {
             char buf[MAX_STRING_LENGTH];
 
             strcpy(buf, "Possible classes are: ");
-            for (class_num = 0; class_num < MAX_CLASS; class_num ++) {
+            for (class_num = 0; class_num < MAX_CLASS; class_num++) {
                 if (class_num > 0)
                     strcat(buf, " ");
                 strcat(buf, class_table[class_num].name);

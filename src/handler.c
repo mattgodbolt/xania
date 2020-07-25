@@ -94,7 +94,7 @@ int race_lookup(const char *name) {
 
 /* returns class number */
 int class_lookup(const char *name) {
-    for (int class_num = 0; class_num < MAX_CLASS; class_num ++) {
+    for (int class_num = 0; class_num < MAX_CLASS; class_num++) {
         if (LOWER(name[0]) == LOWER(class_table[class_num].name[0]) && !str_prefix(name, class_table[class_num].name))
             return class_num;
     }
