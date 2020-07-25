@@ -1532,7 +1532,6 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
         case RESETS_EXIT_FLAGS: break;
 
         case RESETS_RANDOMIZE_EXITS:
-#ifdef notdef
             if (!(pRoomIndex = get_room_index(pReset->arg1))) {
                 bug("Reset_room: 'R': bad vnum %d.", pReset->arg1);
                 continue;
@@ -1550,7 +1549,6 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
                     pRoomIndex->exit[d1] = pExit;
                 }
             }
-#endif
             break;
         }
     }
