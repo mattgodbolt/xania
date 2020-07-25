@@ -1739,7 +1739,7 @@ void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone) {
     clone->long_descr = str_dup(parent->long_descr);
     clone->description = str_dup(parent->description);
     clone->sex = parent->sex;
-    clone->class = parent->class;
+    clone->class_num = parent->class_num;
     clone->race = parent->race;
     clone->level = parent->level;
     clone->trust = 0;

@@ -577,26 +577,26 @@ bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *o
         switch (arg[1]) /* arg should be "$*" so just get the letter */
         {
         case 'i':
-            lhsvl = mob->class;
+            lhsvl = mob->class_num;
             rhsvl = atoi(val);
             return mprog_veval(lhsvl, opr, rhsvl);
         case 'n':
             if (actor) {
-                lhsvl = actor->class;
+                lhsvl = actor->class_num;
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
         case 't':
             if (vict) {
-                lhsvl = vict->class;
+                lhsvl = vict->class_num;
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
         case 'r':
             if (rndm) {
-                lhsvl = rndm->class;
+                lhsvl = rndm->class_num;
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else

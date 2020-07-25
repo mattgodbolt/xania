@@ -100,7 +100,7 @@ void do_mpstat(CHAR_DATA *ch, char *argument) {
     send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Lv: %d.  Class: %d.  Align: %d.   Gold: %ld.  Exp: %ld.\n\r", victim->level,
-             victim->class, victim->alignment, victim->gold, victim->exp);
+             victim->class_num, victim->alignment, victim->gold, victim->exp);
     send_to_char(buf, ch);
 
     for (mprg = victim->pIndexData->mobprogs; mprg != NULL; mprg = mprg->next) {

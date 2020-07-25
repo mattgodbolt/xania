@@ -467,8 +467,8 @@ void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
         else if (IS_SET(ch->act, ACT_MAGE))
             thac0_32 = 6;
     } else {
-        thac0_00 = class_table[ch->class].thac0_00;
-        thac0_32 = class_table[ch->class].thac0_32;
+        thac0_00 = class_table[ch->class_num].thac0_00;
+        thac0_32 = class_table[ch->class_num].thac0_32;
     }
 
     thac0 = interpolate(ch->level, thac0_00, thac0_32);

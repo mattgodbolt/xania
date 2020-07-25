@@ -1390,7 +1390,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
             return;
         }
 
-        ch->class = iClass;
+        ch->class_num = iClass;
         snprintf(log_buf, LOG_BUF_SIZE, "%s@%s new player.", ch->name, get_masked_hostname(hostbuf, d->host));
         log_string(log_buf);
         write_to_buffer(d, "\n\r", 2);
@@ -1416,7 +1416,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
         write_to_buffer(d, "\n\r", 0);
 
         group_add(ch, "rom basics", FALSE);
-        group_add(ch, class_table[ch->class].base_group, FALSE);
+        group_add(ch, class_table[ch->class_num].base_group, FALSE);
         ch->pcdata->learned[gsn_recall] = 50;
         write_to_buffer(d, "Do you wish to customize this character?\n\r", 0);
         write_to_buffer(d, "Customization takes time, but allows a wider range of skills and abilities.\n\r", 0);
@@ -1440,7 +1440,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
             break;
         case 'n':
         case 'N':
-            group_add(ch, class_table[ch->class].default_group, TRUE);
+            group_add(ch, class_table[ch->class_num].default_group, TRUE);
             write_to_buffer(d, "\n\r", 2);
             write_to_buffer(d, "Does your terminal support ANSI colour (Y/N/Return = as saved)?", 0);
             d->connected = CON_GET_ANSI;
@@ -1497,7 +1497,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
         if (ch->level == 0) {
 
             if (ch->race != race_lookup("dragon"))
-                ch->perm_stat[class_table[ch->class].attr_prime] += 3;
+                ch->perm_stat[class_table[ch->class_num].attr_prime] += 3;
 
             ch->level = 1;
             ch->exp = exp_per_level(ch, ch->pcdata->points);
@@ -1506,7 +1506,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
             ch->move = ch->max_move;
             ch->train = 3;
             ch->practice = 5;
-            snprintf(buf, sizeof(buf), "the %s", title_table[ch->class][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
+            snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
             set_title(ch, buf);
 
             do_outfit(ch, "");

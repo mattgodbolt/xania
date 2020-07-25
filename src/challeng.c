@@ -187,7 +187,7 @@ void do_accept(CHAR_DATA *ch, char *argument) {
     send_to_char(buf, challengee);
 
     snprintf(buf, sizeof(buf), "|c%s's stats are: level:%d class:%s race:%s alignment:%d.\n\r", challenger->name,
-             challenger->level, class_table[challenger->class].name, race_table[challenger->race].name,
+             challenger->level, class_table[challenger->class_num].name, race_table[challenger->race].name,
              challenger->alignment);
     send_to_char(buf, challengee);
     send_to_char("|cType |paccept |cor |grefuse.\n\r|w", challengee);

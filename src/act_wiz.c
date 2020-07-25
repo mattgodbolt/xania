@@ -110,7 +110,7 @@ void do_outfit(CHAR_DATA *ch, char *argument) {
     }
 
     if ((obj = get_eq_char(ch, WEAR_WIELD)) == NULL) {
-        obj = create_object(get_obj_index(class_table[ch->class].weapon), 0);
+        obj = create_object(get_obj_index(class_table[ch->class_num].weapon), 0);
         obj_to_char(obj, ch);
         equip_char(ch, obj, WEAR_WIELD);
     }
@@ -1400,7 +1400,7 @@ void do_mstat(CHAR_DATA *ch, char *argument) {
     send_to_char(buf, ch);
 
     bug_snprintf(buf, sizeof(buf), "Lv: %d  Class: %s  Align: %d  Gold: %ld  Exp: %ld\n\r", victim->level,
-                 IS_NPC(victim) ? "mobile" : class_table[victim->class].name, victim->alignment, victim->gold,
+                 IS_NPC(victim) ? "mobile" : class_table[victim->class_num].name, victim->alignment, victim->gold,
                  victim->exp);
     send_to_char(buf, ch);
 
@@ -2906,22 +2906,22 @@ void do_mset(CHAR_DATA *ch, char *argument) {
     }
 
     if (!str_prefix(arg2, "class")) {
-        int class;
+        int class_num;
 
         if (IS_NPC(victim)) {
             send_to_char("Mobiles have no class.\n\r", ch);
             return;
         }
 
-        class = class_lookup(arg3);
-        if (class == -1) {
+        class_num = class_lookup(arg3);
+        if (class_num == -1) {
             char buf[MAX_STRING_LENGTH];
 
             strcpy(buf, "Possible classes are: ");
-            for (class = 0; class < MAX_CLASS; class ++) {
-                if (class > 0)
+            for (class_num = 0; class_num < MAX_CLASS; class_num ++) {
+                if (class_num > 0)
                     strcat(buf, " ");
-                strcat(buf, class_table[class].name);
+                strcat(buf, class_table[class_num].name);
             }
             strcat(buf, ".\n\r");
 
@@ -2929,7 +2929,7 @@ void do_mset(CHAR_DATA *ch, char *argument) {
             return;
         }
 
-        victim->class = class;
+        victim->class_num = class_num;
         return;
     }
 

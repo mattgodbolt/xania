@@ -92,13 +92,10 @@ int race_lookup(const char *name) {
 
 /* returns class number */
 int class_lookup(const char *name) {
-    int class;
-
-    for (class = 0; class < MAX_CLASS; class ++) {
-        if (LOWER(name[0]) == LOWER(class_table[class].name[0]) && !str_prefix(name, class_table[class].name))
-            return class;
+    for (int class_num = 0; class_num < MAX_CLASS; class_num ++) {
+        if (LOWER(name[0]) == LOWER(class_table[class_num].name[0]) && !str_prefix(name, class_table[class_num].name))
+            return class_num;
     }
-
     return -1;
 }
 
@@ -498,7 +495,7 @@ int get_curr_stat(CHAR_DATA *ch, int stat) {
         max = pc_race_table[ch->race].max_stats[stat] + 4;
 
         /*     if (ch->race != race_lookup("dragon")) */
-        if (class_table[ch->class].attr_prime == stat)
+        if (class_table[ch->class_num].attr_prime == stat)
             max += 2;
 
         /*if ( ch->race == race_lookup("human"))
@@ -521,7 +518,7 @@ int get_max_stat(CHAR_DATA *ch, int stat) {
         max = pc_race_table[ch->race].max_stats[stat] + 4;
 
         /*if (ch->race != race_lookup("dragon"))*/
-        if (class_table[ch->class].attr_prime == stat)
+        if (class_table[ch->class_num].attr_prime == stat)
             max += 2;
 
         /*
@@ -543,7 +540,7 @@ int get_max_train(CHAR_DATA *ch, int stat) {
         return 25;
 
     max = pc_race_table[ch->race].max_stats[stat];
-    if (class_table[ch->class].attr_prime == stat)
+    if (class_table[ch->class_num].attr_prime == stat)
         /* if (ch->race == race_lookup("human"))
             max += 3;
          else*/

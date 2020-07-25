@@ -139,7 +139,7 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
         fprintf(fp, "Desc %s~\n", ch->description);
     fprintf(fp, "Race %s~\n", pc_race_table[ch->race].name);
     fprintf(fp, "Sex  %d\n", ch->sex);
-    fprintf(fp, "Cla  %d\n", ch->class);
+    fprintf(fp, "Cla  %d\n", ch->class_num);
     fprintf(fp, "Levl %d\n", ch->level);
     if ((ch->pcdata) && (ch->pcdata->pcclan)) {
         fprintf(fp, "Clan %d\n", (int)ch->pcdata->pcclan->clan->clanchar);
@@ -615,8 +615,8 @@ bool load_char_obj(DESCRIPTOR_DATA *d, char *name) {
     if (found && ch->version < 2) /* need to add the new skills */
     {
         group_add(ch, "rom basics", FALSE);
-        group_add(ch, class_table[ch->class].base_group, FALSE);
-        group_add(ch, class_table[ch->class].default_group, TRUE);
+        group_add(ch, class_table[ch->class_num].base_group, FALSE);
+        group_add(ch, class_table[ch->class_num].default_group, TRUE);
         ch->pcdata->learned[gsn_recall] = 50;
     }
 
@@ -752,8 +752,8 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
                 break;
             }
 
-            KEY("Class", ch->class, fread_number(fp));
-            KEY("Cla", ch->class, fread_number(fp));
+            KEY("Class", ch->class_num, fread_number(fp));
+            KEY("Cla", ch->class_num, fread_number(fp));
             if (!str_cmp(word, "CLevel")) {
                 if (ch->pcdata->pcclan) {
                     ch->pcdata->pcclan->clanlevel = fread_number(fp);
