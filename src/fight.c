@@ -1591,14 +1591,6 @@ void group_gain(CHAR_DATA *ch, CHAR_DATA *victim) {
                 obj_from_char(obj);
                 obj_to_room(obj, ch->in_room);
             }
-            if ((check_material_vulnerability(ch, obj) == 1)) {
-                /* Bastard :> */
-                act("You shriek in pain and drop $p.", ch, obj, NULL, TO_CHAR);
-                act("$n shrieks in pain and drops $p.", ch, obj, NULL, TO_ROOM);
-                obj_from_char(obj);
-                obj_to_room(obj, ch->in_room);
-                return;
-            }
         }
     }
 

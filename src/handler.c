@@ -18,6 +18,8 @@
 /* command procedures needed */
 void do_return(CHAR_DATA *ch, char *arg);
 
+void spell_poison(int spell_num, int level, CHAR_DATA *ch, void *vo);
+
 AFFECT_DATA *affect_free = NULL;
 
 /*
@@ -1076,6 +1078,22 @@ OBJ_DATA *get_eq_char(CHAR_DATA *ch, int iWear) {
     return NULL;
 }
 
+/**
+ * If a character is vulnerable to the material of an object
+ * then poison them and inform the room. The poison effect doesn't
+ * stack with existing poison, that would be pretty nasty.
+ */
+void enforce_material_vulnerability(CHAR_DATA *ch, OBJ_DATA *obj) {
+    if (check_material_vulnerability(ch, obj) == 1) {
+        act("As you equip $p it burns you, causing you to shriek in pain!", ch, obj, NULL, TO_CHAR);
+        act("$n shrieks in pain!", ch, obj, NULL, TO_ROOM);
+        if (!IS_AFFECTED(ch, AFF_POISON)) {
+            int p_sn = skill_lookup("poison");
+            spell_poison(p_sn, ch->level, ch, ch);
+        }
+    }
+}
+
 /*
  * Equip a char with an obj.
  */
@@ -1100,14 +1118,7 @@ void equip_char(CHAR_DATA *ch, OBJ_DATA *obj, int iWear) {
         return;
     }
 
-    if ((check_material_vulnerability(ch, obj) == 1)) {
-        /* Bastard :> */
-        act("You shriek in pain and drop $p.", ch, obj, NULL, TO_CHAR);
-        act("$n shrieks in pain and drops $p.", ch, obj, NULL, TO_ROOM);
-        obj_from_char(obj);
-        obj_to_room(obj, ch->in_room);
-        return;
-    }
+    enforce_material_vulnerability(ch, obj);
 
     for (i = 0; i < 4; i++)
         ch->armor[i] -= apply_ac(obj, iWear, i);
