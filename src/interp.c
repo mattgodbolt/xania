@@ -282,7 +282,6 @@ void interp_initialise(void) {
     add_command("recall", do_recall, POS_FIGHTING, 0, LOG_NORMAL, 1);
     add_command("refuse", do_refuse, POS_STANDING, 0, LOG_NORMAL, 1);
     add_command("/", do_recall, POS_FIGHTING, 0, LOG_NORMAL, 0);
-    add_command("rent", do_rent, POS_DEAD, 0, LOG_NORMAL, 0);
     add_command("save", do_save, POS_DEAD, 0, LOG_NORMAL, 1);
     add_command("sleep", do_sleep, POS_SLEEPING, 0, LOG_NORMAL, 1);
     add_command("sneak", do_sneak, POS_STANDING, 0, LOG_NORMAL, 1);

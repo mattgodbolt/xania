@@ -215,7 +215,6 @@ void do_recho(CHAR_DATA *ch, char *arg);
 void do_recite(CHAR_DATA *ch, char *arg);
 void do_refuse(CHAR_DATA *ch, char *arg);
 void do_remove(CHAR_DATA *ch, char *arg);
-void do_rent(CHAR_DATA *ch, char *arg);
 void do_reply(CHAR_DATA *ch, char *arg);
 void do_report(CHAR_DATA *ch, char *arg);
 void do_rescue(CHAR_DATA *ch, char *arg);
