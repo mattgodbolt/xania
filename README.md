@@ -20,8 +20,9 @@ downloaded and managed by the master `Makefile`.
 To build and run, type `make`:
 
 ```bash
-$ make
+$ make start
 ... lots of configuration nonsense here, downloads, cmake, and then compilation ...
+
 Starting Xania on port 9000}
 (cd src && ./mudmgr -s 9000)
 
@@ -36,14 +37,17 @@ All being well, telnet localhost 9000 to log in
 $
 ```
 
+
 The MUD is now running in the background, on port 9000. `telnet localhost 9000` should get you the logon prompt. Create
 a character, and log in...and have fun!
 
+If you want to build but not start it up, simply run `make`.
+
 By default a debuggable unoptimized build is run. Use `make BUILD_TYPE=release` to build the optimized version.
 
-### Stopping the MUD
+### Stopping and Restart the MUD
 
-To stop Xania, run `make stop`.
+To stop Xania, run `make stop`. To restart,  `make restart`.
 
 ### Creating an immortal account
 
@@ -74,7 +78,30 @@ will pick up on this and just use it. Command-line users can run `make reformat-
 `make check-format` to just see if everything's formatted as it should be. At some point we'll make this part of the CI
 process.
 
+### Tests
+
 There are some very early tests. To run the tests, use `make test`, or run them from your IDE.
+
+### Debugging Xania in GDB
+
+There's more than one way to do this, and one way is:  after building Xania you can run 
+it like so using a sub-shell in the `area` directory (use of `gdb` is optional):
+
+```bash
+$ (cd area && gdb ../install/bin/xania)
+(gdb) r   # to run
+```
+
+You can also attach to the running process using gdb -p.
+
+If you're relying on the default `make` targets to build & start things, the `mudmgr` manager script
+will automatically restart the `xania` process if you kill it, _unless_ you run `shutdown` from within the game
+as a level 100 character.
+
+This can be awkward if you're iterating on changes and want to have greater control.
+
+A solution is to not run `make start` at all, but instead, execute `./install/bin/doorman` and
+the xania executable directly in another terminal as described above.
 
 ### Going "live"
 

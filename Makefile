@@ -1,5 +1,5 @@
 .PHONY: default
-default: start
+default: install
 
 .PHONY: help
 help: # with thanks to Ben Rady
