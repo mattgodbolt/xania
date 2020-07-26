@@ -77,7 +77,7 @@ void say_spell(CHAR_DATA *ch, int sn) {
             send_to_char(buf3, rch);
         }
         if (rch != ch)
-            act(ch->class == rch->class ? buf : buf2, ch, NULL, rch, TO_VICT);
+            act(ch->class_num == rch->class_num ? buf : buf2, ch, NULL, rch, TO_VICT);
         if (!IS_NPC(rch) && rch->pcdata->colour) {
             snprintf(buf3, sizeof(buf3), "%c[0;37m", 27);
             send_to_char(buf3, rch);
@@ -197,7 +197,7 @@ void do_cast(CHAR_DATA *ch, char *argument) {
 
     if (!str_cmp(arg2, "explosive")) {
 
-        if (ch->class != 0) {
+        if (ch->class_num != 0) {
             send_to_char("You're more than likely gonna kill yourself!\n\r", ch);
             return;
         }
@@ -294,7 +294,7 @@ void do_cast(CHAR_DATA *ch, char *argument) {
     /* MG's scribing command ... */
     if (!str_cmp(arg2, "scribe") && (skill_table[sn].spell_fun != spell_null)) {
 
-        if ((ch->class != 0) && (ch->class != 1)) {
+        if ((ch->class_num != 0) && (ch->class_num != 1)) {
             send_to_char("You can't scribe! You can't read or write!\n\r", ch);
             return;
         }
@@ -365,7 +365,7 @@ void do_cast(CHAR_DATA *ch, char *argument) {
     /* MG's brewing command ... */
     if (!str_cmp(arg2, "brew") && (skill_table[sn].spell_fun != spell_null)) {
 
-        if ((ch->class != 0) && (ch->class != 1)) {
+        if ((ch->class_num != 0) && (ch->class_num != 1)) {
             send_to_char("You can't make potions! You don't know how!\n\r", ch);
             return;
         }

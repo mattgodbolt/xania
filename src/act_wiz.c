@@ -8,8 +8,10 @@
 /*************************************************************************/
 
 #include "db.h"
+#include "lookup.h"
 #include "magic.h"
 #include "merc.h"
+#include "tables.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,6 +22,8 @@
 #include "buffer.h"
 
 #include "flags.h" /* for the setting of flags blah blah blah :) */
+
+extern OBJ_INDEX_DATA *obj_index_hash[MAX_KEY_HASH];
 
 /* command procedures needed */
 void do_rstat(CHAR_DATA *ch, char *arg);
@@ -110,7 +114,7 @@ void do_outfit(CHAR_DATA *ch, char *argument) {
     }
 
     if ((obj = get_eq_char(ch, WEAR_WIELD)) == NULL) {
-        obj = create_object(get_obj_index(class_table[ch->class].weapon), 0);
+        obj = create_object(get_obj_index(class_table[ch->class_num].weapon), 0);
         obj_to_char(obj, ch);
         equip_char(ch, obj, WEAR_WIELD);
     }
@@ -1400,7 +1404,7 @@ void do_mstat(CHAR_DATA *ch, char *argument) {
     send_to_char(buf, ch);
 
     bug_snprintf(buf, sizeof(buf), "Lv: %d  Class: %s  Align: %d  Gold: %ld  Exp: %ld\n\r", victim->level,
-                 IS_NPC(victim) ? "mobile" : class_table[victim->class].name, victim->alignment, victim->gold,
+                 IS_NPC(victim) ? "mobile" : class_table[victim->class_num].name, victim->alignment, victim->gold,
                  victim->exp);
     send_to_char(buf, ch);
 
@@ -2667,6 +2671,115 @@ void do_coma(CHAR_DATA *ch, char *argument) {
     return;
 }
 
+bool osearch_is_valid_level_range(int min_level, int max_level) {
+    if (min_level > MAX_LEVEL || max_level > MAX_LEVEL || min_level > max_level || max_level - min_level > 10) {
+        return FALSE;
+    } else {
+        return TRUE;
+    }
+}
+
+char *osearch_list_item_types(char *buf) {
+    buf[0] = '\0';
+    for (int type = 0; item_table[type].name != NULL;) {
+        strcat(buf, item_table[type].name);
+        strcat(buf, " ");
+        if (++type % 7 == 0) {
+            strcat(buf, "\n\r        ");
+        }
+    }
+    strcat(buf, "\n\r");
+    return buf;
+}
+
+void osearch_display_syntax(CHAR_DATA *ch) {
+    char buf[MAX_STRING_LENGTH];
+    send_to_char("Syntax: osearch [min level] [max level] [item type] optional item name...\n\r", ch);
+    send_to_char("        Level range no greater than 10. Item types:\n\r        ", ch);
+    send_to_char(osearch_list_item_types(buf), ch);
+}
+
+bool osearch_is_item_in_level_range(const OBJ_INDEX_DATA *pIndexData, const int min_level, const int max_level) {
+    if (pIndexData == NULL) {
+        return FALSE;
+    }
+    return pIndexData->level >= min_level && pIndexData->level <= max_level;
+}
+
+bool osearch_is_item_type(const OBJ_INDEX_DATA *pIndexData, const sh_int item_type) {
+    if (pIndexData == NULL) {
+        return FALSE;
+    }
+    return pIndexData->item_type == item_type;
+}
+
+/**
+ * Searches the item database for items of the specified type, level range and
+ * optional name. Adds their item vnum, name, level and area name to a new buffer.
+ * Caller must release the buffer!
+ */
+BUFFER *osearch_find_items(const int min_level, const int max_level, const sh_int item_type, char *item_name) {
+    BUFFER *buffer = buffer_create();
+    for (int i = 0; i < MAX_KEY_HASH; i++) {
+        for (OBJ_INDEX_DATA *pIndexData = obj_index_hash[i]; pIndexData != NULL; pIndexData = pIndexData->next) {
+            if (!(osearch_is_item_in_level_range(pIndexData, min_level, max_level)
+                  && osearch_is_item_type(pIndexData, item_type))) {
+                continue;
+            }
+            if (item_name[0] != '\0' && !is_name(item_name, pIndexData->name)) {
+                continue;
+            }
+            buffer_addline_fmt(buffer, "%5d %-25.25s|w (%3d) %s\n\r", pIndexData->vnum, pIndexData->short_descr,
+                               pIndexData->level, pIndexData->area->filename);
+        }
+    }
+    return buffer;
+}
+
+/**
+ * osearch: an item search tool for immortals.
+ * It searches the item database not the object instances in world!
+ * You must provide min/max level range and an item type name.
+ * You can optionally filter on the leading part of the object name.
+ * As some items are level 0, specifing min level 0 is allowed.
+ */
+void do_osearch(CHAR_DATA *ch, char *argument) {
+    char min_level_str[MAX_INPUT_LENGTH];
+    char max_level_str[MAX_INPUT_LENGTH];
+    char item_type_str[MAX_INPUT_LENGTH];
+    char item_name[MAX_INPUT_LENGTH];
+    int min_level;
+    int max_level;
+    sh_int item_type;
+    BUFFER *buffer;
+    if (argument[0] == '\0') {
+        osearch_display_syntax(ch);
+        return;
+    }
+    argument = one_argument(argument, min_level_str);
+    argument = one_argument(argument, max_level_str);
+    argument = one_argument(argument, item_type_str);
+    argument = one_argument(argument, item_name);
+    if (min_level_str[0] == '\0' || max_level_str[0] == '\0' || item_type_str[0] == '\0' || !is_number(min_level_str)
+        || !is_number(max_level_str)) {
+        osearch_display_syntax(ch);
+        return;
+    }
+    min_level = atoi(min_level_str);
+    max_level = atoi(max_level_str);
+    if (!osearch_is_valid_level_range(min_level, max_level)) {
+        osearch_display_syntax(ch);
+        return;
+    }
+    item_type = item_lookup_strict(item_type_str);
+    if (item_type < 0) {
+        osearch_display_syntax(ch);
+        return;
+    }
+    buffer = osearch_find_items(min_level, max_level, item_type, item_name);
+    buffer_send(buffer, ch);
+}
+
 void do_slookup(CHAR_DATA *ch, char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
@@ -2906,22 +3019,22 @@ void do_mset(CHAR_DATA *ch, char *argument) {
     }
 
     if (!str_prefix(arg2, "class")) {
-        int class;
+        int class_num;
 
         if (IS_NPC(victim)) {
             send_to_char("Mobiles have no class.\n\r", ch);
             return;
         }
 
-        class = class_lookup(arg3);
-        if (class == -1) {
+        class_num = class_lookup(arg3);
+        if (class_num == -1) {
             char buf[MAX_STRING_LENGTH];
 
             strcpy(buf, "Possible classes are: ");
-            for (class = 0; class < MAX_CLASS; class ++) {
-                if (class > 0)
+            for (class_num = 0; class_num < MAX_CLASS; class_num++) {
+                if (class_num > 0)
                     strcat(buf, " ");
-                strcat(buf, class_table[class].name);
+                strcat(buf, class_table[class_num].name);
             }
             strcat(buf, ".\n\r");
 
@@ -2929,7 +3042,7 @@ void do_mset(CHAR_DATA *ch, char *argument) {
             return;
         }
 
-        victim->class = class;
+        victim->class_num = class_num;
         return;
     }
 

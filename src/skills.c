@@ -420,7 +420,7 @@ unsigned int exp_per_level(CHAR_DATA *ch, int points) {
     inc = 500;
 
     if (points < 40)
-        return 1000 * pc_race_table[ch->race].class_mult[ch->class] / 100;
+        return 1000 * pc_race_table[ch->race].class_mult[ch->class_num] / 100;
 
     /* processing */
     points -= 40;
@@ -436,7 +436,7 @@ unsigned int exp_per_level(CHAR_DATA *ch, int points) {
     }
 
     expl += points * inc / 10;
-    expl2 = expl * pc_race_table[ch->race].class_mult[ch->class] / 100;
+    expl2 = expl * pc_race_table[ch->race].class_mult[ch->class_num] / 100;
 
     if (expl2 > 65500)
         return 65500;

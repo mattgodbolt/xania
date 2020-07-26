@@ -51,19 +51,19 @@ void advance_level(CHAR_DATA *ch) {
 
     ch->pcdata->last_level = (ch->played + (int)(current_time - ch->logon)) / 3600;
 
-    snprintf(buf, sizeof(buf), "the %s", title_table[ch->class][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
+    snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
     set_title(ch, buf);
 
     add_hp = con_app[get_curr_stat(ch, STAT_CON)].hitp
-             + number_range(class_table[ch->class].hp_min, class_table[ch->class].hp_max);
+             + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);
 
     add_mana = number_range(
-        0, class_table[ch->class].fMana * class_table[ch->class].fMana
+        0, class_table[ch->class_num].fMana * class_table[ch->class_num].fMana
                * (UMAX(0, get_curr_stat(ch, STAT_WIS) - 15) + 2 * UMAX(0, get_curr_stat(ch, STAT_INT) - 15)));
 
     add_mana += 150;
     add_mana /= 300; /* =max (2*int+wis)/10 (10=mage.fMana)*/
-    add_mana += class_table[ch->class].fMana / 2;
+    add_mana += class_table[ch->class_num].fMana / 2;
     /* thanx oshea for mana alg.
        For mage (25,25) gives 5 5%,   6-14 10%,   15 5%
          cleric         gives 4 7.8%, 5- 9 15.6%, 10 9%
@@ -114,13 +114,13 @@ void lose_level(CHAR_DATA *ch) {
 
     ch->pcdata->last_level = (ch->played + (int)(current_time - ch->logon)) / 3600;
 
-    snprintf(buf, sizeof(buf), "the %s", title_table[ch->class][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
+    snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
     set_title(ch, buf);
 
     add_hp = con_app[get_max_stat(ch, STAT_CON)].hitp
-             + number_range(class_table[ch->class].hp_min, class_table[ch->class].hp_max);
+             + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);
     add_mana = (number_range(2, (2 * get_max_stat(ch, STAT_INT) + get_max_stat(ch, STAT_WIS)) / 5)
-                * class_table[ch->class].fMana)
+                * class_table[ch->class_num].fMana)
                / 10;
     add_move = number_range(1, (get_max_stat(ch, STAT_CON) + get_max_stat(ch, STAT_DEX)) / 6);
     add_prac = -(wis_app[get_max_stat(ch, STAT_WIS)].practice);
@@ -191,7 +191,7 @@ int hit_gain(CHAR_DATA *ch) {
 
     } else {
         gain = UMAX(3, get_curr_stat(ch, STAT_CON) - 3 + ch->level / 1.5);
-        gain += class_table[ch->class].hp_max - 7;
+        gain += class_table[ch->class_num].hp_max - 7;
         number = number_percent();
         if (number < get_skill_learned(ch, gsn_fast_healing)) {
             gain += number * gain / 100;
@@ -247,7 +247,7 @@ int mana_gain(CHAR_DATA *ch) {
             if (ch->mana < ch->max_mana)
                 check_improve(ch, gsn_meditation, TRUE, 8);
         }
-        gain = (gain * class_table[ch->class].fMana) / 6;
+        gain = (gain * class_table[ch->class_num].fMana) / 6;
 
         switch (ch->position) {
         case POS_SLEEPING: break;

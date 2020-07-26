@@ -1360,7 +1360,7 @@ void do_score(CHAR_DATA *ch, char *argument) {
 
     snprintf(buf, sizeof(buf), "Race: |W%s|w", race_table[ch->race].name);
     snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Class: |W%s|w\n\r",
-             IS_NPC(ch) ? "mobile" : class_table[ch->class].name);
+             IS_NPC(ch) ? "mobile" : class_table[ch->class_num].name);
     send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Sex: |W%s|w", ch->sex == 0 ? "sexless" : ch->sex == 1 ? "male" : "female");
@@ -1644,7 +1644,7 @@ void do_whois(CHAR_DATA *ch, char *argument) {
 
     for (d = descriptor_list; d != NULL; d = d->next) {
         CHAR_DATA *wch;
-        char const *class;
+        char const *class_name;
 
         if (d->connected != CON_PLAYING || !can_see(ch, d->character))
             continue;
@@ -1658,22 +1658,22 @@ void do_whois(CHAR_DATA *ch, char *argument) {
             found = TRUE;
 
             /* work out the printing */
-            class = class_table[wch->class].who_name;
+            class_name = class_table[wch->class_num].who_name;
             switch (wch->level) {
-            case MAX_LEVEL - 0: class = "|WIMP|w"; break;
-            case MAX_LEVEL - 1: class = "|YCRE|w"; break;
-            case MAX_LEVEL - 2: class = "|YSUP|w"; break;
-            case MAX_LEVEL - 3: class = "|GDEI|w"; break;
-            case MAX_LEVEL - 4: class = "|GGOD|w"; break;
-            case MAX_LEVEL - 5: class = "|gIMM|w"; break;
-            case MAX_LEVEL - 6: class = "|gDEM|w"; break;
-            case MAX_LEVEL - 7: class = "ANG"; break;
-            case MAX_LEVEL - 8: class = "AVA"; break;
+            case MAX_LEVEL - 0: class_name = "|WIMP|w"; break;
+            case MAX_LEVEL - 1: class_name = "|YCRE|w"; break;
+            case MAX_LEVEL - 2: class_name = "|YSUP|w"; break;
+            case MAX_LEVEL - 3: class_name = "|GDEI|w"; break;
+            case MAX_LEVEL - 4: class_name = "|GGOD|w"; break;
+            case MAX_LEVEL - 5: class_name = "|gIMM|w"; break;
+            case MAX_LEVEL - 6: class_name = "|gDEM|w"; break;
+            case MAX_LEVEL - 7: class_name = "ANG"; break;
+            case MAX_LEVEL - 8: class_name = "AVA"; break;
             }
 
             /* a little formatting */
             snprintf(buf, sizeof(buf), "[%2d %s %s] %s%s%s%s%s", wch->level,
-                     wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ", class,
+                     wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ", class_name,
                      (wch->pcdata->pcclan) ? (wch->pcdata->pcclan->clan->whoname) : "",
                      IS_SET(wch->act, PLR_KILLER) ? "(|RKILLER|w) " : "",
                      IS_SET(wch->act, PLR_THIEF) ? "(|RTHIEF|w) " : "", wch->name,
@@ -1803,7 +1803,7 @@ void do_who(CHAR_DATA *ch, char *argument) {
     output[0] = '\0';
     for (d = descriptor_list; d != NULL; d = d->next) {
         CHAR_DATA *wch;
-        char const *class;
+        char const *class_name;
 
         /*
          * Check for match against restrictions.
@@ -1818,7 +1818,7 @@ void do_who(CHAR_DATA *ch, char *argument) {
 
         wch = (d->original != NULL) ? d->original : d->character;
         if (wch->level < iLevelLower || wch->level > iLevelUpper || (fImmortalOnly && wch->level < LEVEL_HERO)
-            || (fClassRestrict && !rgfClass[wch->class]) || (fRaceRestrict && !rgfRace[wch->race]))
+            || (fClassRestrict && !rgfClass[wch->class_num]) || (fRaceRestrict && !rgfRace[wch->race]))
             continue;
         if (fClanRestrict) {
             int z, showthem = 0;
@@ -1837,18 +1837,18 @@ void do_who(CHAR_DATA *ch, char *argument) {
         /*
          * Figure out what to print for class.
          */
-        class = class_table[wch->class].who_name;
+        class_name = class_table[wch->class_num].who_name;
         switch (wch->level) {
         default: break; {
-            case MAX_LEVEL - 0: class = "|WIMP|w"; break;
-            case MAX_LEVEL - 1: class = "|YCRE|w"; break;
-            case MAX_LEVEL - 2: class = "|YSUP|w"; break;
-            case MAX_LEVEL - 3: class = "|GDEI|w"; break;
-            case MAX_LEVEL - 4: class = "|GGOD|w"; break;
-            case MAX_LEVEL - 5: class = "|gIMM|w"; break;
-            case MAX_LEVEL - 6: class = "|gDEM|w"; break;
-            case MAX_LEVEL - 7: class = "ANG"; break;
-            case MAX_LEVEL - 8: class = "AVA"; break;
+            case MAX_LEVEL - 0: class_name = "|WIMP|w"; break;
+            case MAX_LEVEL - 1: class_name = "|YCRE|w"; break;
+            case MAX_LEVEL - 2: class_name = "|YSUP|w"; break;
+            case MAX_LEVEL - 3: class_name = "|GDEI|w"; break;
+            case MAX_LEVEL - 4: class_name = "|GGOD|w"; break;
+            case MAX_LEVEL - 5: class_name = "|gIMM|w"; break;
+            case MAX_LEVEL - 6: class_name = "|gDEM|w"; break;
+            case MAX_LEVEL - 7: class_name = "ANG"; break;
+            case MAX_LEVEL - 8: class_name = "AVA"; break;
             }
         }
 
@@ -1856,7 +1856,7 @@ void do_who(CHAR_DATA *ch, char *argument) {
          * Format it up.
          */
         snprintf(buf, sizeof(buf), "[%3d %s %s] %s%s%s%s%s%s", wch->level,
-                 wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ", class,
+                 wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ", class_name,
                  IS_SET(wch->act, PLR_KILLER) ? "(|RKILLER|w) " : "", IS_SET(wch->act, PLR_THIEF) ? "(|RTHIEF|w) " : "",
                  IS_SET(wch->act, PLR_AFK) ? "(|cAFK|w) " : "",
                  (wch->pcdata->pcclan) ? (wch->pcdata->pcclan->clan->whoname) : "", wch->name,
@@ -2316,7 +2316,7 @@ void do_practice(CHAR_DATA *ch, char *argument) {
             return;
         }
 
-        adept = IS_NPC(ch) ? 100 : class_table[ch->class].skill_adept;
+        adept = IS_NPC(ch) ? 100 : class_table[ch->class_num].skill_adept;
 
         if (ch->pcdata->learned[sn] >= adept) // NOT get_skill_learned
         {

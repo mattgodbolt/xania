@@ -1285,11 +1285,7 @@ struct char_data {
     char *description;
     char *sentient_victim;
     sh_int sex;
-#ifdef __cplusplus
-    sh_int _class;
-#else
-    sh_int class;
-#endif
+    sh_int class_num;
     sh_int race;
     sh_int level;
     sh_int trust;

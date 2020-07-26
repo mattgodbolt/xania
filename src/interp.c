@@ -361,6 +361,7 @@ void interp_initialise(void) {
     add_command("coma", do_coma, POS_DEAD, IM, LOG_NORMAL, 1);
     add_command("owhere", do_owhere, POS_DEAD, IM, LOG_NORMAL, 1);
     /* =)) */
+    add_command("osearch", do_osearch, POS_DEAD, IM, LOG_NORMAL, 1);
     add_command("awaken", do_awaken, POS_DEAD, IM, LOG_NORMAL, 1);
     add_command("echo", do_recho, POS_DEAD, L6, LOG_ALWAYS, 1);
     add_command("return", do_return, POS_DEAD, L6, LOG_NORMAL, 1);

@@ -318,15 +318,15 @@ int get_skill_level(CHAR_DATA *ch, int gsn) {
 
     /* First we work out which level they'd get it at because of their class */
 
-    if (skill_table[gsn].rating[ch->class] > SKILL_UNATTAINABLE) {
+    if (skill_table[gsn].rating[ch->class_num] > SKILL_UNATTAINABLE) {
         /*  They *can* get it at level xxxx */
-        level = skill_table[gsn].skill_level[ch->class];
+        level = skill_table[gsn].skill_level[ch->class_num];
     }
-    if (skill_table[gsn].rating[ch->class] == SKILL_ATTAINABLE) {
+    if (skill_table[gsn].rating[ch->class_num] == SKILL_ATTAINABLE) {
         /*  They get it at level sixty */
         level = 60;
     }
-    if (skill_table[gsn].rating[ch->class] == SKILL_ASSASSIN) {
+    if (skill_table[gsn].rating[ch->class_num] == SKILL_ASSASSIN) {
         /*  It's an assassin thing */
         if (ch->pcdata->group_known[group_lookup("assassin")]) {
             /*  they have the group so they get the skill at level 30 */
@@ -359,7 +359,7 @@ int get_skill_difficulty(CHAR_DATA *ch, int gsn) {
     if (level > ch->level)
         return 0; /* as you're not high enough level */
 
-    hard = skill_table[gsn].rating[ch->class];
+    hard = skill_table[gsn].rating[ch->class_num];
     switch (hard) {
     case SKILL_UNATTAINABLE: return 0; /* this should never happen as get_skill_level does this */
     case SKILL_ATTAINABLE:
@@ -393,12 +393,12 @@ int get_skill_trains(CHAR_DATA *ch, int gsn) {
     if (skill_table[gsn].spell_fun != spell_null)
         return 0;
 
-    switch (skill_table[gsn].rating[ch->class]) {
+    switch (skill_table[gsn].rating[ch->class_num]) {
     case SKILL_UNATTAINABLE: return 0; /* shouldn't happen */
     case SKILL_ATTAINABLE: return 10; /* $-) */
     case SKILL_ASSASSIN: return 10;
     }
-    return (skill_table[gsn].rating[ch->class]);
+    return (skill_table[gsn].rating[ch->class_num]);
 }
 
 // New skill learned function - use instead of looking it up directly in the pcdata!!
@@ -426,22 +426,22 @@ int get_group_trains(CHAR_DATA *ch, int gsn) {
         /* can't show it */
         return 0;
 
-    switch (group_table[gsn].rating[ch->class]) {
+    switch (group_table[gsn].rating[ch->class_num]) {
     case 0: return 0;
     case -1: return 20; /* $-) */
     case -2:
     case -3: return 0;
     }
-    return (group_table[gsn].rating[ch->class]);
+    return (group_table[gsn].rating[ch->class_num]);
 }
 
 int get_group_level(CHAR_DATA *ch, int gsn) {
-    switch (group_table[gsn].rating[ch->class]) {
+    switch (group_table[gsn].rating[ch->class_num]) {
     case 0: return 0;
     case -1: return 60;
     case -2:
     case -3: return 0;
-    default: return (group_table[gsn].rating[ch->class]);
+    default: return (group_table[gsn].rating[ch->class_num]);
     }
 }
 
@@ -709,7 +709,7 @@ void web_who(void) {
         if (d->connected != CON_PLAYING || !web_see(wch))
             continue;
         fprintf(fp, "<TR><TD>%d</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD>\n", wch->level,
-                wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ", class_table[wch->class].name,
+                wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ", class_table[wch->class_num].name,
                 wch->name, wch->pcdata->title);
         count++;
     }

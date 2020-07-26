@@ -401,8 +401,8 @@ void do_pose(CHAR_DATA *ch, char *argument) {
     level = UMIN(ch->level, (int)(sizeof(pose_table) / sizeof(pose_table[0]) - 1));
     pose = number_range(0, level);
 
-    act(pose_table[pose].message[2 * ch->class + 0], ch, NULL, NULL, TO_CHAR);
-    act(pose_table[pose].message[2 * ch->class + 1], ch, NULL, NULL, TO_ROOM);
+    act(pose_table[pose].message[2 * ch->class_num + 0], ch, NULL, NULL, TO_CHAR);
+    act(pose_table[pose].message[2 * ch->class_num + 1], ch, NULL, NULL, TO_ROOM);
 
     return;
 }
@@ -854,8 +854,8 @@ void do_group(CHAR_DATA *ch, char *argument) {
         for (gch = char_list; gch != NULL; gch = gch->next) {
             if (is_same_group(gch, ch)) {
                 snprintf(buf, sizeof(buf), "[%2d %s] %-16s %4d/%4d hp %4d/%4d mana %4d/%4d mv %5ld xp\n\r", gch->level,
-                         IS_NPC(gch) ? "Mob" : class_table[gch->class].who_name, capitalize(PERS(gch, ch)), gch->hit,
-                         gch->max_hit, gch->mana, gch->max_mana, gch->move, gch->max_move, gch->exp);
+                         IS_NPC(gch) ? "Mob" : class_table[gch->class_num].who_name, capitalize(PERS(gch, ch)),
+                         gch->hit, gch->max_hit, gch->mana, gch->max_mana, gch->move, gch->max_move, gch->exp);
                 send_to_char(buf, ch);
             }
         }

@@ -1668,7 +1668,7 @@ stat prog will give you a listing of a mobprog.
 (see also goto, transfer)
 ~
 
-93 MWHERE~
+92 MWHERE~
 Syntax: mwhere <name>
 
 Mwhere shows you the locations of all mobiles with a particular name.
@@ -1678,13 +1678,24 @@ The name needs to be at least 2 characters long.
 If you want to see where all players are, don't specify a name.
 
 ~
-93 OWHERE~
+92 OWHERE~
 Syntax: owhere <object name>
 
 This will help you find objects! Place names inside single quotes if there
 is more than one word.
 ~
 
+92 OSEARCH~
+Syntax: osearch [min level] [max level] [item type] optional item name...
+
+This searches for items in the item database, not the object instances in world!
+You must provide min/max level range and an item type name.
+You can optionally filter on the leading part of the object name.
+As some items are level 0, specifing min level 0 is allowed.
+e.g.
+   osearch 5 10 weapon flail
+   osearch 5 10 light
+~
 
 95 PEACE~
 Syntax: peace
