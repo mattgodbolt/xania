@@ -661,7 +661,8 @@ void Channel::sendInfoPacket() const {
 }
 
 void Channel::sendConnectPacket() {
-    if (!fd_) return;
+    if (!fd_)
+        return;
     if (connected_) {
         log_out("[%d] Attempt to send connect packet for already-connected channel", id_);
     } else if (connectedToXania && mudFd != -1) {
