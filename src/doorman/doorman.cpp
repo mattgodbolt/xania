@@ -227,7 +227,7 @@ void Channel::on_reconnect_attempt() {
     if (!fd_)
         return;
     auto recon = "Attempting to reconnect to Xania"sv;
-    if (sent_reconnect_message_) {
+    if (!sent_reconnect_message_) {
         if (!send_to_client(recon.data(), recon.size()))
             log_out("Unable to write to channel fd %d", fd_);
         sent_reconnect_message_ = true;
