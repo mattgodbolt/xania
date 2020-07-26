@@ -186,6 +186,7 @@ void do_order(CHAR_DATA *ch, char *arg);
 void do_oset(CHAR_DATA *ch, char *arg);
 void do_ostat(CHAR_DATA *ch, char *arg);
 void do_owhere(CHAR_DATA *ch, char *arg);
+void do_osearch(CHAR_DATA *ch, char *arg);
 void do_outfit(CHAR_DATA *ch, char *arg);
 void do_pardon(CHAR_DATA *ch, char *arg);
 void do_password(CHAR_DATA *ch, char *arg);

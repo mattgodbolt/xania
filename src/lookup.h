@@ -30,5 +30,6 @@ int size_lookup(const char *name);
 int weapon_lookup(const char *name);
 int liq_lookup(const char *name);
 int item_lookup(const char *name);
+int item_lookup_strict(const char *name);
 int attack_lookup(const char *name);
 int weapon_type(const char *name);

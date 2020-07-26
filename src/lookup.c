@@ -198,22 +198,38 @@ int attack_lookup(const char *name) {
 
     return 0;
 }
-int item_lookup(const char *name) {
-    int type;
 
+int item_lookup_impl(const char *name) {
+    int type;
     for (type = 0; item_table[type].name != NULL; type++) {
         if (LOWER(name[0]) == LOWER(item_table[type].name[0]) && !str_prefix(name, item_table[type].name))
             return item_table[type].type;
     }
-
+    // Match on the item type number instead.
     type = numeric_lookup_check(name, type);
+    return type;
+}
+
+/**
+ * Lookup an item type by its type name or type number.
+ * Returns a default type if no match is found, which is a bug
+ * when this is being used while loading area or player files so
+ * it gets logged.
+ */
+int item_lookup(const char *name) {
+    int type = item_lookup_impl(name);
     if (type >= 0)
         return type;
-
     bug("Unknown item type '%s' - defaulting!", name);
-
     return item_table[0].type;
 }
+
+/**
+ * Lookup an item type by its type name or type number.
+ * This is stricter than item_lookup() as it doesn't fallback to a default type
+ * and will instead return -1 if no match is found.
+ */
+int item_lookup_strict(const char *name) { return item_lookup_impl(name); }
 
 int liq_lookup(const char *name) {
     int liq;
