@@ -29,6 +29,7 @@
 
 #include <algorithm>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include <arpa/inet.h>
@@ -49,6 +50,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+using namespace std::literals;
+
 static constexpr auto MaxIncomingDataBufferSize = 2048u;
 static constexpr auto CONNECTION_WAIT_TIME = 10u;
 using byte = unsigned char;
@@ -56,22 +59,23 @@ using byte = unsigned char;
 bool IncomingData(int fd, const byte *incoming_data, int nBytes);
 void AsyncHostnameLookup(struct sockaddr_in address, int outFd);
 
-struct Channel {
-    int32_t id{}; // the channel id
-    int fd{}; /* File descriptor of the channel */
-    std::string hostname;
-    std::vector<byte> buffer;
-    uint16_t port{};
-    uint32_t netaddr{};
-    int width{}, height{}; /* Width and height of terminal */
-    bool ansi{}, gotTerm{};
-    bool echoing{};
-    bool firstReconnect{};
-    bool connected{}; /* Socket is ready to connect to Xania */
-    pid_t identPid{}; /* PID of look-up process */
-    int identFd[2]{}; /* FD of look-up processes pipe (read on 0) */
-    std::string authCharName; /* name of authorized character */
+class Channel {
+    int32_t id_{}; // the channel id
+    int fd_{}; /* File descriptor of the channel */
+    std::string hostname_;
+    std::vector<byte> buffer_;
+    uint16_t port_{};
+    uint32_t netaddr_{};
+    int width_{}, height_{}; /* Width and height of terminal */
+    bool ansi_{}, got_term_{};
+    bool echoing_{};
+    bool sent_reconnect_message_{};
+    bool connected_{}; /* Socket is ready to connect to Xania */
+    pid_t host_lookup_pid_{}; /* PID of look-up process */
+    int host_lookup_fds_[2]{}; /* FD of look-up processes pipe (read on 0) */
+    std::string auth_char_name_; /* name of authorized character */
 
+public:
     void newConnection(int fd, struct sockaddr_in address);
     void closeConnection();
     void sendInfoPacket() const;
@@ -79,6 +83,43 @@ struct Channel {
     bool incomingData(const byte *incoming_data, int nBytes);
     void incomingHostnameInfo();
     void sendTelopts() const;
+
+    void on_auth(std::string_view name) { auth_char_name_ = name; }
+    [[nodiscard]] const std::string &authed_name() const { return auth_char_name_; }
+    void on_reconnect_attempt();
+    void mark_disconnected() { connected_ = false; }
+    bool send_to_client(const void *data, size_t length) const {
+        if (!fd_)
+            return false;
+        auto written = ::write(fd_, data, length);
+        // TODO close fd_? remove it? if errored?
+        return written == static_cast<ssize_t>(length);
+    }
+
+    [[nodiscard]] int highest_fd() const {
+        if (host_lookup_pid_)
+            return std::max(host_lookup_fds_[0], fd_);
+        else
+            return fd_;
+    }
+    // Intention here is to prevent direct access to the fd.
+    [[nodiscard]] bool has_fd(int fd) const { return fd == fd_; }
+    [[nodiscard]] bool is_closed() const { return fd_ == 0; }
+
+    void set_echo(bool echo);
+    void close();
+
+    void set_ex_fds(fd_set &exIfds) {
+        if (!fd_)
+            return;
+        FD_SET(fd_, &exIfds);
+    }
+
+    [[nodiscard]] bool is_hostname_fd(int fd) const { return fd_ && host_lookup_pid_ && host_lookup_fds_[0] == fd; }
+
+    [[nodiscard]] bool has_lookup_pid(pid_t pid) const { return fd_ && host_lookup_pid_ == pid; }
+    void on_lookup_died(int status);
+    void set_id(int32_t id);
 };
 
 /* Global variables */
@@ -94,6 +135,25 @@ time_t lastConnected;
 fd_set ifds;
 int debug = 0;
 
+bool SendCom(int fd, byte a, byte b) {
+    byte buf[4];
+    buf[0] = IAC;
+    buf[1] = a;
+    buf[2] = b;
+    return write(fd, buf, 3) == 3;
+}
+
+bool SendOpt(int fd, byte a) {
+    byte buf[6];
+    buf[0] = IAC;
+    buf[1] = SB;
+    buf[2] = a;
+    buf[3] = TELQUAL_SEND;
+    buf[4] = IAC;
+    buf[5] = SE;
+    return write(fd, buf, 6) == 6;
+}
+
 /* printf() to an fd */
 __attribute__((format(printf, 2, 3))) bool fdprintf(int fd, const char *format, ...) {
     char buffer[4096];
@@ -107,19 +167,6 @@ __attribute__((format(printf, 2, 3))) bool fdprintf(int fd, const char *format, 
     return numWritten == len;
 }
 
-/* printf() to a channel */
-__attribute__((format(printf, 2, 3))) bool cprintf(int chan, const char *format, ...) {
-    char buffer[4096];
-    int len;
-
-    va_list args;
-    va_start(args, format);
-    len = vsnprintf(buffer, sizeof(buffer), format, args);
-    va_end(args);
-    int numWritten = write(channels[chan].fd, buffer, len);
-    return numWritten == len;
-}
-
 /* printf() to everyone */
 __attribute__((format(printf, 1, 2))) void wall(const char *format, ...) {
     char buffer[4096];
@@ -130,10 +177,7 @@ __attribute__((format(printf, 1, 2))) void wall(const char *format, ...) {
     va_end(args);
 
     for (auto &chan : channels)
-        if (chan.fd) {
-            int numWritten = write(chan.fd, buffer, len);
-            (void)numWritten;
-        }
+        chan.send_to_client(buffer, len);
 }
 
 /* log_out() replaces fprintf (stderr,...) */
@@ -170,51 +214,74 @@ std::string get_masked_hostname(std::string_view hostname) {
 
 void Channel::closeConnection() {
     // Log the source IP but masked for privacy.
-    log_out("[%d] Closing connection to %s", id, get_masked_hostname(hostname).c_str());
-    close(fd);
-    fd = 0;
-    FD_CLR(fd, &ifds);
-    if (identPid) {
-        if (kill(identPid, 9) < 0) {
+    log_out("[%d] Closing connection to %s", id_, get_masked_hostname(hostname_).c_str());
+    close();
+}
+
+void Channel::set_echo(bool echo) {
+    SendCom(fd_, echo ? WONT : WILL, TELOPT_ECHO);
+    echoing_ = echo;
+}
+
+void Channel::on_reconnect_attempt() {
+    if (!fd_)
+        return;
+    auto recon = "Attempting to reconnect to Xania"sv;
+    if (sent_reconnect_message_) {
+        if (!send_to_client(recon.data(), recon.size()))
+            log_out("Unable to write to channel fd %d", fd_);
+        sent_reconnect_message_ = true;
+    }
+    send_to_client(".", 1);
+}
+
+void Channel::close() {
+    if (fd_) {
+        ::close(fd_);
+        FD_CLR(fd_, &ifds);
+    }
+    if (host_lookup_fds_[0]) {
+        ::close(host_lookup_fds_[0]);
+        FD_CLR(host_lookup_fds_[0], &ifds);
+    }
+    if (host_lookup_fds_[1]) {
+        ::close(host_lookup_fds_[1]);
+        FD_CLR(host_lookup_fds_[1], &ifds);
+    }
+    if (host_lookup_pid_) {
+        if (kill(host_lookup_pid_, 9) < 0) {
             log_out("Couldn't kill child process (ident process has already exitted)");
         }
+        host_lookup_pid_ = 0;
     }
-    if (identFd[0]) {
-        if (identFd[0]) {
-            FD_CLR(identFd[0], &ifds);
-            close(identFd[0]);
-        }
-        if (identFd[1]) {
-            close(identFd[1]);
-        }
-    }
+    fd_ = 0;
 }
 
 void Channel::newConnection(int fd, struct sockaddr_in address) {
     // One day I will be a constructor...
-    this->fd = fd;
-    hostname = inet_ntoa(address.sin_addr);
-    port = ntohs(address.sin_port);
-    netaddr = ntohl(address.sin_addr.s_addr);
-    buffer.clear();
-    width = 80;
-    height = 24;
-    ansi = gotTerm = false;
-    echoing = true;
-    firstReconnect = false;
-    connected = false;
-    authCharName.clear();
+    this->fd_ = fd;
+    hostname_ = inet_ntoa(address.sin_addr);
+    port_ = ntohs(address.sin_port);
+    netaddr_ = ntohl(address.sin_addr.s_addr);
+    buffer_.clear();
+    width_ = 80;
+    height_ = 24;
+    ansi_ = got_term_ = false;
+    echoing_ = true;
+    sent_reconnect_message_ = false;
+    connected_ = false;
+    auth_char_name_.clear();
 
-    log_out("[%d] Incoming connection from %s on fd %d", id, get_masked_hostname(hostname).c_str(), fd);
+    log_out("[%d] Incoming connection from %s on fd %d", id_, get_masked_hostname(hostname_).c_str(), fd);
 
     /* Send all options out */
     sendTelopts();
 
     /* Fire off the query to the ident server */
     pid_t forkRet = -1;
-    if (pipe(identFd) == -1) {
+    if (pipe(host_lookup_fds_) == -1) {
         log_out("Pipe failed - next message (unable to fork) is due to this");
-        identFd[0] = identFd[1] = 0;
+        host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
     } else {
         forkRet = fork();
     }
@@ -222,11 +289,11 @@ void Channel::newConnection(int fd, struct sockaddr_in address) {
     case 0:
         // Child process - go and do the lookup
         // First close the child's copy of the parent's fd
-        close(identFd[0]);
-        log_out("ID: on %d", identFd[1]);
-        identFd[0] = 0;
-        AsyncHostnameLookup(address, identFd[1]);
-        close(identFd[1]);
+        ::close(host_lookup_fds_[0]);
+        log_out("ID: on %d", host_lookup_fds_[1]);
+        host_lookup_fds_[0] = 0;
+        AsyncHostnameLookup(address, host_lookup_fds_[1]);
+        ::close(host_lookup_fds_[1]);
         log_out("ID: exiting");
         exit(0);
         break;
@@ -234,19 +301,19 @@ void Channel::newConnection(int fd, struct sockaddr_in address) {
         // Error - unable to fork()
         log_out("Unable to fork() an IdentD lookup process");
         // Close up the pipe
-        if (identFd[0])
-            close(identFd[0]);
-        if (identFd[1])
-            close(identFd[1]);
-        identFd[0] = identFd[1] = 0;
+        if (host_lookup_fds_[0])
+            ::close(host_lookup_fds_[0]);
+        if (host_lookup_fds_[1])
+            ::close(host_lookup_fds_[1]);
+        host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
         break;
     default:
         // First close the parent's copy of the child's fd
-        close(identFd[1]);
-        identFd[1] = 0;
-        identPid = forkRet;
-        FD_SET(identFd[0], &ifds);
-        log_out("Forked hostname process has PID %d on %d", forkRet, identFd[0]);
+        ::close(host_lookup_fds_[1]);
+        host_lookup_fds_[1] = 0;
+        host_lookup_pid_ = forkRet;
+        FD_SET(host_lookup_fds_[0], &ifds);
+        log_out("Forked hostname process has PID %d on %d", forkRet, host_lookup_fds_[0]);
         break;
     }
 
@@ -261,27 +328,22 @@ void Channel::newConnection(int fd, struct sockaddr_in address) {
 }
 
 /* Create a new connection */
-int NewConnection(int fd, struct sockaddr_in address) {
-    auto channelIter = std::find_if(begin(channels), end(channels), [](const Channel &c) { return c.fd == 0; });
+void NewConnection(int fd, sockaddr_in address) {
+    auto channelIter = std::find_if(begin(channels), end(channels), [](const Channel &c) { return c.is_closed(); });
     if (channelIter == end(channels)) {
         fdprintf(fd, "Xania is out of channels!\n\rTry again soon\n\r");
         close(fd);
         log_out("Rejected connection - out of channels");
-        return -1;
+        return;
     }
 
     channelIter->newConnection(fd, address);
-    return channelIter->id;
 }
 
 int HighestFd() {
     int hFd = 0;
-    for (auto &chan : channels) {
-        if (chan.fd > hFd)
-            hFd = chan.fd;
-        if (chan.fd && chan.identPid && chan.identFd[0] > hFd)
-            hFd = chan.identFd[0];
-    }
+    for (auto &chan : channels)
+        hFd = std::max(hFd, chan.highest_fd());
     return hFd;
 }
 
@@ -290,7 +352,7 @@ int32_t FindChannelId(int fd) {
         log_out("Panic!  fd==0 in FindChannel!  Bailing out with -1");
         return -1;
     }
-    if (auto it = std::find_if(begin(channels), end(channels), [&](const Channel &chan) { return chan.fd == fd; });
+    if (auto it = std::find_if(begin(channels), end(channels), [&](const Channel &chan) { return chan.has_fd(fd); });
         it != end(channels))
         return static_cast<int32_t>(std::distance(begin(channels), it));
     return -1;
@@ -323,36 +385,17 @@ bool SupportsAnsi(const char *src) {
     return false;
 }
 
-bool SendCom(int fd, byte a, byte b) {
-    byte buf[4];
-    buf[0] = IAC;
-    buf[1] = a;
-    buf[2] = b;
-    return write(fd, buf, 3) == 3;
-}
-bool SendOpt(int fd, byte a) {
-    byte buf[6];
-    buf[0] = IAC;
-    buf[1] = SB;
-    buf[2] = a;
-    buf[3] = TELQUAL_SEND;
-    buf[4] = IAC;
-    buf[5] = SE;
-    return write(fd, buf, 6) == 6;
-}
-
 void Channel::incomingHostnameInfo() {
-    auto hostFd = identFd[0];
-    FD_CLR(hostFd, &ifds);
-    log_out("[%d on %d] Incoming IdentD info", id, hostFd);
+    FD_CLR(host_lookup_fds_[0], &ifds);
+    log_out("[%d on %d] Incoming IdentD info", id_, host_lookup_fds_[0]);
     // A response from the ident server
     size_t numBytes;
-    auto ret = read(hostFd, &numBytes, sizeof(numBytes));
+    auto ret = read(host_lookup_fds_[0], &numBytes, sizeof(numBytes));
     if (ret <= 0) {
-        log_out("[%d] IdentD pipe died on read (read returned %ld)", id, ret);
-        close(hostFd);
-        identFd[0] = identFd[1] = 0;
-        identPid = 0;
+        log_out("[%d] IdentD pipe died on read (read returned %ld)", id_, ret);
+        ::close(host_lookup_fds_[0]);
+        host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
+        host_lookup_pid_ = 0;
         return;
     }
     if (numBytes >= 1024) {
@@ -360,18 +403,18 @@ void Channel::incomingHostnameInfo() {
         numBytes = 1023;
     }
     char host_buffer[1024];
-    auto numRead = read(hostFd, host_buffer, numBytes);
-    close(hostFd);
-    identFd[0] = identFd[1] = 0;
-    identPid = 0;
+    auto numRead = read(host_lookup_fds_[0], host_buffer, numBytes);
+    ::close(host_lookup_fds_[0]);
+    host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
+    host_lookup_pid_ = 0;
 
     if (numRead != static_cast<ssize_t>(numBytes)) {
-        log_out("[%d] Partial read %ld!=%ld", id, numRead, numBytes);
+        log_out("[%d] Partial read %ld!=%ld", id_, numRead, numBytes);
         return;
     }
-    hostname = std::string_view(host_buffer, numBytes);
+    hostname_ = std::string_view(host_buffer, numBytes);
     // Log the source IP but mask it for privacy.
-    log_out("[%d] %s", id, get_masked_hostname(hostname).c_str());
+    log_out("[%d] %s", id_, get_masked_hostname(hostname_).c_str());
     sendInfoPacket();
 }
 
@@ -384,22 +427,22 @@ bool IncomingData(int fd, const byte *incoming_data, int nBytes) {
 
 bool Channel::incomingData(const byte *incoming_data, int nBytes) {
     /* Check for buffer overflow */
-    if ((nBytes + buffer.size()) > MaxIncomingDataBufferSize) {
+    if ((nBytes + buffer_.size()) > MaxIncomingDataBufferSize) {
         const char *ovf = ">>> Too much incoming data at once - PUT A LID ON IT!!\n\r";
-        if (write(fd, ovf, strlen(ovf)) != (ssize_t)strlen(ovf)) {
+        if (write(fd_, ovf, strlen(ovf)) != (ssize_t)strlen(ovf)) {
             // don't care if this fails..
         }
-        buffer.clear();
+        buffer_.clear();
         return false;
     }
     /* Add the data into the buffer */
-    buffer.insert(buffer.end(), incoming_data, incoming_data + nBytes);
+    buffer_.insert(buffer_.end(), incoming_data, incoming_data + nBytes);
 
     /* Scan through and remove telnet commands */
     // TODO gsl::span ftw
     size_t nRealBytes = 0;
-    size_t nLeft = buffer.size();
-    for (byte *ptr = buffer.data(); nLeft;) {
+    size_t nLeft = buffer_.size();
+    for (byte *ptr = buffer_.data(); nLeft;) {
         /* telnet command? */
         if (*ptr == IAC) {
             if (nLeft < 3) /* Is it too small to fit a whole command in? */
@@ -411,37 +454,37 @@ bool Channel::incomingData(const byte *incoming_data, int nBytes) {
                     // Check to see if we've already got the info
                     // Whoiseye's bloody DEC-TERM spams us multiply
                     // otherwise...
-                    if (!gotTerm) {
-                        gotTerm = true;
-                        SendOpt(fd, *(ptr + 2));
+                    if (!got_term_) {
+                        got_term_ = true;
+                        SendOpt(fd_, *(ptr + 2));
                     }
                     break;
                 case TELOPT_NAWS:
                     // Do nothing for NAWS
                     break;
-                default: SendCom(fd, DONT, *(ptr + 2)); break;
+                default: SendCom(fd_, DONT, *(ptr + 2)); break;
                 }
                 memmove(ptr, ptr + 3, nLeft - 3);
                 nLeft -= 3;
                 break;
             case WONT:
-                SendCom(fd, DONT, *(ptr + 2));
+                SendCom(fd_, DONT, *(ptr + 2));
                 memmove(ptr, ptr + 3, nLeft - 3);
                 nLeft -= 3;
                 break;
             case DO:
-                if (ptr[2] == TELOPT_ECHO && echoing == false) {
-                    SendCom(fd, WILL, TELOPT_ECHO);
+                if (ptr[2] == TELOPT_ECHO && echoing_ == false) {
+                    SendCom(fd_, WILL, TELOPT_ECHO);
                     memmove(ptr, ptr + 3, nLeft - 3);
                     nLeft -= 3;
                 } else {
-                    SendCom(fd, WONT, *(ptr + 2));
+                    SendCom(fd_, WONT, *(ptr + 2));
                     memmove(ptr, ptr + 3, nLeft - 3);
                     nLeft -= 3;
                 }
                 break;
             case DONT:
-                SendCom(fd, WONT, *(ptr + 2));
+                SendCom(fd_, WONT, *(ptr + 2));
                 memmove(ptr, ptr + 3, nLeft - 3);
                 nLeft -= 3;
                 break;
@@ -470,14 +513,14 @@ bool Channel::incomingData(const byte *incoming_data, int nBytes) {
                 /* Now to decide what to do with this new data */
                 switch (sbType) {
                 case TELOPT_TTYPE:
-                    log_out("[%d] TTYPE = %s", id, ptr + 4);
+                    log_out("[%d] TTYPE = %s", id_, ptr + 4);
                     if (SupportsAnsi((const char *)ptr + 4))
-                        ansi = true;
+                        ansi_ = true;
                     break;
                 case TELOPT_NAWS:
-                    log_out("[%d] NAWS = %dx%d", id, ptr[4], ptr[6]);
-                    width = ptr[4];
-                    height = ptr[6];
+                    log_out("[%d] NAWS = %dx%d", id_, ptr[4], ptr[6]);
+                    width_ = ptr[4];
+                    height_ = ptr[6];
                     break;
                 }
 
@@ -501,12 +544,12 @@ bool Channel::incomingData(const byte *incoming_data, int nBytes) {
         }
     }
     /* Now to update the buffer stats */
-    buffer.resize(nRealBytes);
+    buffer_.resize(nRealBytes);
 
     /* Second pass - look for whole lines of text */
-    nLeft = buffer.size();
+    nLeft = buffer_.size();
     byte *ptr;
-    for (ptr = buffer.data(); nLeft; ++ptr, --nLeft) {
+    for (ptr = buffer_.data(); nLeft; ++ptr, --nLeft) {
         char c;
         switch (*ptr) {
         case '\n':
@@ -516,14 +559,14 @@ bool Channel::incomingData(const byte *incoming_data, int nBytes) {
             // then change...
             *ptr = '\0';
             /* Send it to the MUD */
-            if (connectedToXania && connected) {
+            if (connectedToXania && connected_) {
                 Packet p;
                 p.type = PACKET_MESSAGE;
-                p.channel = id;
-                p.nExtra = strlen((const char *)buffer.data()) + 2;
+                p.channel = id_;
+                p.nExtra = strlen((const char *)buffer_.data()) + 2;
                 if (write(mudFd, &p, sizeof(p)) != sizeof(p))
                     return false;
-                if (write(mudFd, buffer.data(), p.nExtra - 2) != p.nExtra - 2)
+                if (write(mudFd, buffer_.data(), p.nExtra - 2) != p.nExtra - 2)
                     return false;
                 if (write(mudFd, "\n\r", 2) != 2)
                     return false;
@@ -532,19 +575,19 @@ bool Channel::incomingData(const byte *incoming_data, int nBytes) {
             }
             /* Check for \n\r or \r\n */
             if (nLeft > 1 && (*(ptr + 1) == '\r' || *(ptr + 1) == '\n') && *(ptr + 1) != c) {
-                memmove(buffer.data(), ptr + 2, nLeft - 2);
+                memmove(buffer_.data(), ptr + 2, nLeft - 2);
                 nLeft--;
             } else if (nLeft) {
-                memmove(buffer.data(), ptr + 1, nLeft - 1);
+                memmove(buffer_.data(), ptr + 1, nLeft - 1);
             } // else nLeft is zero, so we might as well avoid calling memmove(x,y,
               // 0)
 
             /* The +1 at the top of the loop resets ptr to buffer */
-            ptr = buffer.data() - 1;
+            ptr = buffer_.data() - 1;
             break;
         }
     }
-    buffer.resize(ptr - buffer.data());
+    buffer_.resize(ptr - buffer_.data());
     return true;
 }
 
@@ -557,12 +600,8 @@ void AsyncHostnameLookup(struct sockaddr_in address, int outFd) {
      * life.  This was a bug which meant ppl with firewalled auth
      * ports could keep other ppls connections open (nonresponding)
      */
-    for (auto &channel : channels) {
-        if (channel.fd)
-            close(channel.fd);
-        if (channel.identFd[0])
-            close(channel.identFd[0]);
-    }
+    for (auto &channel : channels)
+        channel.close();
 
     // Bail out on a PIPE - this means our parent has crashed
     signal(SIGPIPE, [](int) {
@@ -612,39 +651,60 @@ void AbortConnection(int fd) {
 void Channel::sendInfoPacket() const {
     char buffer[4096];
     auto data = new (buffer) InfoData;
-    Packet p{PACKET_INFO, static_cast<uint32_t>(sizeof(InfoData) + hostname.size() + 1), id, {}};
+    Packet p{PACKET_INFO, static_cast<uint32_t>(sizeof(InfoData) + hostname_.size() + 1), id_, {}};
 
-    data->port = port;
-    data->netaddr = netaddr;
-    data->ansi = ansi;
-    strcpy(data->data, hostname.c_str());
+    data->port = port_;
+    data->netaddr = netaddr_;
+    data->ansi = ansi_;
+    strcpy(data->data, hostname_.c_str());
     SendToMUD(p, buffer);
 }
 
 void Channel::sendConnectPacket() {
-    if (connected) {
-        log_out("[%d] Attempt to send connect packet for already-connected channel", id);
+    if (!fd_) return;
+    if (connected_) {
+        log_out("[%d] Attempt to send connect packet for already-connected channel", id_);
     } else if (connectedToXania && mudFd != -1) {
         // Have we already been authenticated?
-        if (!authCharName.empty()) {
-            connected = true;
-            SendToMUD({PACKET_RECONNECT, static_cast<uint32_t>(authCharName.size() + 1), id, {}}, authCharName.c_str());
+        if (!auth_char_name_.empty()) {
+            connected_ = true;
+            SendToMUD({PACKET_RECONNECT, static_cast<uint32_t>(auth_char_name_.size() + 1), id_, {}},
+                      auth_char_name_.c_str());
             sendInfoPacket();
-            log_out("[%d] Sent reconnect packet to MUD for %s", id, authCharName.c_str());
+            log_out("[%d] Sent reconnect packet to MUD for %s", id_, auth_char_name_.c_str());
         } else {
-            connected = true;
-            SendToMUD({PACKET_CONNECT, 0, id, {}});
+            connected_ = true;
+            SendToMUD({PACKET_CONNECT, 0, id_, {}});
             sendInfoPacket();
-            log_out("[%d] Sent connect packet to MUD", id);
+            log_out("[%d] Sent connect packet to MUD", id_);
         }
+        sent_reconnect_message_ = false;
     }
 }
 
 void Channel::sendTelopts() const {
-    SendCom(fd, DO, TELOPT_TTYPE);
-    SendCom(fd, DO, TELOPT_NAWS);
-    SendCom(fd, WONT, TELOPT_ECHO);
+    SendCom(fd_, DO, TELOPT_TTYPE);
+    SendCom(fd_, DO, TELOPT_NAWS);
+    SendCom(fd_, WONT, TELOPT_ECHO);
 }
+
+void Channel::on_lookup_died(int status) {
+    // Did the process exit abnormally?
+    if (!(WIFEXITED(status))) {
+        log_out("Zombie reaper: process on channel %d died abnormally", id_);
+        ::close(host_lookup_fds_[0]);
+        ::close(host_lookup_fds_[1]);
+        FD_CLR(host_lookup_fds_[0], &ifds);
+        host_lookup_pid_ = 0;
+        host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
+    } else {
+        if (host_lookup_fds_[0] || host_lookup_fds_[1]) {
+            log_out("Zombie reaper: A process died, and didn't necessarily "
+                    "close up after itself");
+        }
+    }
+}
+void Channel::set_id(int32_t id) { id_ = id; }
 
 void MudHasCrashed(int sig) {
     (void)sig;
@@ -657,8 +717,7 @@ void MudHasCrashed(int sig) {
     wall("\n\rDoorman has lost connection to Xania.\n\r");
 
     for (auto &chan : channels)
-        if (chan.fd)
-            chan.connected = false;
+        chan.mark_disconnected();
 }
 
 /*
@@ -707,17 +766,9 @@ void TryToConnectToXania() {
         wall("\n\rReconnected to Xania - Xania is still booting...\n\r");
         FD_SET(mudFd, &ifds);
     } else {
-        static const char *recon = "Attempting to reconnect to Xania";
         log_out("Connection attempt to MUD failed.");
-        for (auto &chan : channels) {
-            if (chan.fd && !chan.firstReconnect) {
-                if (write(chan.fd, recon, strlen(recon)) != (ssize_t)strlen(recon)) {
-                    log_out("Unable to write to channel fd %d", chan.fd);
-                }
-                chan.firstReconnect = true;
-            }
-        }
-        wall(".");
+        for (auto &chan : channels)
+            chan.on_reconnect_attempt();
         log_out("Closing descriptor %d (mud)", mudFd);
         close(mudFd);
         mudFd = -1;
@@ -751,52 +802,40 @@ void ProcessMUDMessage(int fd) {
                 return;
             }
         }
+        auto &channel = channels[p.channel];
+
         switch (p.type) {
         case PACKET_MESSAGE:
             /* A message from the MUD */
-            if (p.channel >= 0) {
-                int bytes_written = write(channels[p.channel].fd, payload, p.nExtra);
-                if (bytes_written <= 0) {
-                    if (bytes_written < 0) {
-                        log_out("[%d] Received error %d (%s) on write - closing connection", p.channel, errno,
-                                strerror(errno));
-                    }
-                    AbortConnection(channels[p.channel].fd);
-                }
+            if (!channel.send_to_client(payload, p.nExtra)) {
+                log_out("[%d] Received error %d (%s) on write - closing connection", p.channel, errno, strerror(errno));
+                AbortConnection(fd);
             }
             break;
         case PACKET_AUTHORIZED:
             /* A character has successfully logged in */
-            channels[p.channel].authCharName = std::string_view(payload, p.nExtra);
-            log_out("[%d] Successfully authorized %s", p.channel, channels[p.channel].authCharName.c_str());
+            channel.on_auth(std::string_view(payload, p.nExtra));
+            log_out("[%d] Successfully authorized %s", p.channel, channels[p.channel].authed_name().c_str());
             break;
         case PACKET_DISCONNECT:
             /* Kill off a channel */
-            CloseConnection(channels[p.channel].fd);
+            channel.closeConnection();
             break;
         case PACKET_INIT:
             /* Xania has initialised */
             waitingForInit = false;
             connectedToXania = true;
             // Now try to connect everyone who has been waiting
-            for (auto &chan : channels) {
-                if (chan.fd) {
-                    chan.sendConnectPacket();
-                    chan.firstReconnect = false;
-                }
-            }
+            for (auto &chan : channels)
+                chan.sendConnectPacket();
             break;
         case PACKET_ECHO_ON:
-            /* Xania wants text to be echoed by the
-                     client */
-            SendCom(channels[p.channel].fd, WONT, TELOPT_ECHO);
-            channels[p.channel].echoing = true;
+            /* Xania wants text to be echoed by the client */
+            channel.set_echo(true);
             break;
         case PACKET_ECHO_OFF:
-            /* Xania wants text to be echoed by the
-                     client */
-            SendCom(channels[p.channel].fd, WILL, TELOPT_ECHO);
-            channels[p.channel].echoing = false;
+            /* Xania wants text to not be echoed by the client */
+            channel.set_echo(false);
             break;
         default: break;
         }
@@ -806,7 +845,7 @@ void ProcessMUDMessage(int fd) {
 /*
  * The main loop
  */
-void ExecuteServerLoop(void) {
+void ExecuteServerLoop() {
     struct timeval timeOut = {CONNECTION_WAIT_TIME, 0};
     int i;
     int nFDs, highestClientFd;
@@ -836,8 +875,7 @@ void ExecuteServerLoop(void) {
     if (mudFd > 0)
         FD_SET(mudFd, &exIfds);
     for (auto &channel : channels)
-        if (channel.fd)
-            FD_SET(channel.fd, &exIfds);
+        channel.set_ex_fds(exIfds);
 
     nFDs = select(maxFd + 1, &tempIfds, nullptr, &exIfds, &timeOut);
     if (nFDs == -1 && errno != EINTR) {
@@ -865,9 +903,8 @@ void ExecuteServerLoop(void) {
                 ProcessMUDMessage(i);
             } else {
                 /* It's a message from a user or ident - dispatch it */
-                if (auto it = std::find_if(
-                        begin(channels), end(channels),
-                        [&](const Channel &chan) { return chan.fd && chan.identPid && chan.identFd[0] == i; });
+                if (auto it = std::find_if(begin(channels), end(channels),
+                                           [&](const Channel &chan) { return chan.is_hostname_fd(i); });
                     it != end(channels)) {
                     it->incomingHostnameInfo();
                 } else {
@@ -896,10 +933,7 @@ void ExecuteServerLoop(void) {
     }
 }
 
-/*
- * Clean up any dead ident processes
- */
-void CheckForDeadIdents() {
+void CheckForDeadLookups() {
     pid_t waiter;
     int status;
 
@@ -914,23 +948,9 @@ void CheckForDeadIdents() {
             log_out("process %d died", waiter);
             // Find the corresponding channel, if still present
             if (auto chanIt = std::find_if(begin(channels), end(channels),
-                                           [&](const Channel &chan) { return chan.fd && chan.identPid == waiter; });
+                                           [&](const Channel &chan) { return chan.has_lookup_pid(waiter); });
                 chanIt != end(channels)) {
-                auto &chan = *chanIt;
-                // Did the process exit abnormally?
-                if (!(WIFEXITED(status))) {
-                    log_out("Zombie reaper: process on channel %d died abnormally", chan.id);
-                    close(chan.identFd[0]);
-                    close(chan.identFd[1]);
-                    FD_CLR(chan.identFd[0], &ifds);
-                    chan.identPid = 0;
-                    chan.identFd[0] = chan.identFd[1] = 0;
-                } else {
-                    if (chan.identFd[0] || chan.identFd[1]) {
-                        log_out("Zombie reaper: A process died, and didn't necessarily "
-                                "close up after itself");
-                    }
-                }
+                chanIt->on_lookup_died(status);
             }
         }
     } while (waiter);
@@ -997,7 +1017,7 @@ int main(int argc, char *argv[]) {
      * Initialise the channel array
      */
     for (int32_t i = 0; i < static_cast<int32_t>(channels.size()); ++i)
-        channels[i].id = i;
+        channels[i].set_id(i);
 
     /*
      * Bit of 'Hello Mum'
@@ -1081,6 +1101,6 @@ int main(int argc, char *argv[]) {
         // Do all the nitty-gritties
         ExecuteServerLoop();
         // Ensure we don't leave zombie processes hanging around
-        CheckForDeadIdents();
+        CheckForDeadLookups();
     }
 }
