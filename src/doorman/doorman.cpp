@@ -518,9 +518,9 @@ bool Channel::incomingData(const byte *incoming_data, int nBytes) {
                         ansi_ = true;
                     break;
                 case TELOPT_NAWS:
-                    log_out("[%d] NAWS = %dx%d", id_, ptr[4], ptr[6]);
                     width_ = ptr[4];
                     height_ = ptr[6];
+                    log_out("[%d] NAWS = %dx%d", id_, width_, height_);
                     break;
                 }
 
