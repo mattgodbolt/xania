@@ -316,7 +316,7 @@ You see a private chamber.
 0 -1 2217
 S
 #2217
-bedroom~
+Bedroom of the King~
 This is the personal room of the draconian king.  It is not empty.
 ~
 22 D 1
@@ -1524,6 +1524,15 @@ weapon 0 AN
 'mace' 3 6 'crush' 0
 18 12 3773 P
 
+#2287
+gem encrusted dagger~
+a gem encrusted dagger~
+A gem encrusted dagger is lying here.~
+silver~
+weapon 0 AN
+'dagger' 3 7 'pierce' 0
+20 10 1427 P
+
 #2299
 key gold tarnished~
 a tarnished gold key~
@@ -1532,6 +1541,7 @@ gold~
 key 0 A
 0 0 0 0 0
 45 1 9235 P
+
 
 #0
 
@@ -1650,7 +1660,7 @@ M 0 2243 1 2217 1  1   the Draconian Queen into bedroom
   
 E   1   2203   50     14     a dragon skin bracelet on left wrist          
 E   1   2204   50     13     a black silk belt around waist           
-E   1   2201   50     16     a silver dagger wielded                
+E   1   2287   20     16     gem encrusted dagger wielded  
 M 0 2227 5 2217 1  1   A human slave into bedroom
   
 M 0 2227 5 2217 1  1   A human slave into bedroom

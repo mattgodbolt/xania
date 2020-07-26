@@ -1119,8 +1119,8 @@ a hammer~
 There is a dwarven hammer laying here.~
 stone~
 weapon 0 AN
-'mace' 3 3 'crush' 0
-9 3 1888 P
+'mace' 4 5 'crush' 0
+20 3 1888 P
 
 #6505
 dwarven plate~
@@ -1415,7 +1415,7 @@ E   1   6508   10     16     dwarven club wielded
 M 0 6508 4 6543 1  1   the dwarven mine leader into Path in the mine
   
 E   1   6512   10      9     Dwarven gloves on hands               
-E   1   6508   10     16     dwarven club wielded                
+E   1   6509  10     16     axe wielded
 M 0 6510 4 6534 1  1   the dwarven peon into Hospital
   
 M 0 6510 4 6534 1  1   the dwarven peon into Hospital

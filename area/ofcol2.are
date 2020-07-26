@@ -3224,6 +3224,18 @@ container 0 A
 100 0 0 0 0
 30 10 6079 P
 
+#668
+golden talons~
+the Golden Talons~
+Huge golden talons are on the floor~
+gold~
+weapon GK AN
+'exotic' 6 6 'claw' 0
+36 20 4889 P
+A
+19      6
+
+
 #0
 
 #RESETS
@@ -3457,12 +3469,11 @@ M 0 630 3 688 1  1   a Dragonlord into The Hall of the DragonLords
 E   1    620   99      1     an Ofcol signet ring on left finger         
 E   1    654   99      5     a golden dragonscale torso on body                
 E   1    660   99     11     a golden dragonscale shield as shield              
-E   1    662   99     16     the Golden Claw wielded                
 E   1    659   99     10     golden dragonscale sleeves on arms                
 E   1    661   99     13     a golden dragonscale girth around waist           
 M 0 631 1 693 1  1   The Ancient Gold Dragon into The Dragon Chamber  
 E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    662   99     16     the Golden Claw wielded                
+E   1    668   99     16     the Golden Talons wielded
 E   1    663   99     17     the Gold Dragon Orb held                   
 M 0 632 2 693 1  1   an attendant of the dragon into The Dragon Chamber  
 E   1    620   99      1     an Ofcol signet ring on left finger         

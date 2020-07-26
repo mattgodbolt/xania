@@ -2670,7 +2670,7 @@ a visciously sharp axe featuring a skull pommel~
 An axe has been casually discarded.~
 adamantite~
 weapon 0 AN
-'axe' 3 7 'slice' D
+'axe' 3 5 'slice' D
 14 18 1050 P
 
 E
@@ -3121,7 +3121,7 @@ Part of a sword has been left here.
 adamantite~
 trash ABGI AO
 0 0 0 0 0
-25 15 0 R
+12 15 0 R
 E
 broken sword~
 At one time of day, this appears as if it was a very great sword. Sadly,
@@ -3136,7 +3136,7 @@ A shard of metal lies in the corner.~
 adamantite~
 trash ABGI AO
 0 0 0 0 0
-25 5 0 R
+12 5 0 R
 E
 tip shard~
 This shard of adamantite appears to be the end of a fine sword. It looks

@@ -836,9 +836,9 @@ The box looks like some kind of access device.
 ~
 
 #8006
-bashball bat~
-a bashball bat~
-A bashball bat is laying here.~
+splintered bashball bat~
+a splintered bashball bat~
+A splintered bashball bat is laying here.~
 wood~
 weapon 0 AN
 'mace' 2 3 'pound' 0
@@ -914,17 +914,16 @@ A
 3       1
 
 #8011
-judge club~
-a Judge's club~
-A Judge's club is resting here.~
+billy club~
+a billy club~
+A billy club is resting here.~
 wood~
 weapon 0 AN
 'mace' 5 4 'pound' 0
 20 3 4143 P
 E
-judge club~
-It is a standard Justice Hall issue club.  Many a Perp's
-head has been bashed with this baby.
+billy club~
+It's a short, chipped wooden club.
 ~
 A
 19      2
@@ -955,12 +954,80 @@ key card~
 It looks like it fits a slot somewhere.
 ~
 
+#8014
+polished bashball bat~
+a polished bashball bat~
+A polished bashball bat is laying here.~
+wood~
+weapon 0 AN
+'mace' 3 3 'pound' 0
+10 3 1106 P
+E
+bashball bat~
+This is the same type of bat used by the little spuggers
+to play bashball.
+~
+
+#8015
+bronze bashball bat~
+a bronze bashball bat~
+A bronze bashball bat is laying here.~
+bronze~
+weapon 0 AN
+'mace' 3 5 'pound' 0
+14 3 1306 P
+E
+bronze bashball bat~
+This is the same type of bat used by the little spuggers
+to play bashball.
+~
+
+#8016
+reinforced steel bashball bat~
+a reinforced steel bashball bat~
+A reinfored steel bashball bat is laying here.~
+steel~
+weapon 0 AN
+'mace' 3 6 'pound' 0
+19 3 1510 P
+E
+reinforced steel bashball bat~
+This is the same type of bat used by the little spuggers
+to play bashball.
+~
+#8017
+bracer devious deeds~
+a bracer of devious deeds~
+A dirty bracer has been discarded.~
+leather~
+armor 0 AL
+7 3 5 0 0
+28 1 1 W
+
+#8018
+judge club~
+a Judge's club~
+A Judge's club is resting here.~
+wood~
+weapon 0 AN
+'mace' 4 7 'pound' 0
+27 3 4443 P
+E
+judge club~
+It is a standard Justice Hall issue club.  Many a Perp's
+head has been bashed with this baby.
+~
+A
+19      3
+
+
+
 #0
 
 #RESETS
 M 0 8000 5 8004 1  1   a juve into Mahmount Allesh Megway
   
-E   0   8006   40     16     a bashball bat wielded                
+E   0   8006   40     16     a splintered bashball bat wielded
 M 0 8000 5 8004 1  1   a juve into Mahmount Allesh Megway
   
 E   0   8009   40     16     a knife wielded                
@@ -980,7 +1047,7 @@ E   0   8009   40     16     a knife wielded
 E   0   8001   40      7     a set of knee pads on legs                
 M 0 8001 5 8011 1  1   a punk into Davies Alley
   
-E   0   8006   40     16     a bashball bat wielded                
+E   0   8014   40     16     a polished bashball bat wielded
 M 0 8003 5 8013 1  1   a Citi-Def Militiaman into Ed Hilldreth Memorial Parkway 
   
 E   0   8001   40      7     a set of knee pads on legs                
@@ -1001,37 +1068,35 @@ M 0 8004 5 8005 1  1   a dunk into Mahmount Allesh Megway
   
 M 0 8005 5 8010 1  1   a tap into Junket Way
   
-E   0   8006   40     16     a bashball bat wielded                
+E   0   8015   40     16     a bronze bashball bat wielded
 M 0 8005 5 8017 1  1   a tap into Threep Lane
   
-E   0   8009   40     16     a knife wielded                
 M 0 8005 5 8019 1  1   a tap into Corner of Ed Hilldreth Mem. Prkwy and Threep Lane
   
 M 0 8006 5 8018 1  1   a rookie judge into Corner of Max Jaffa Blvd and Threep Way
   
-E   0   8011   40     16     a Judge's club wielded                
+E   0   8011   40     16     a billy club wielded
 M 0 8006 5 8012 1  1   a rookie judge into Max Jaffa Boulevard
   
-E   0   8011   40     16     a Judge's club wielded                
+E   0   8011   40     16     a billy club wielded
 M 0 8006 5 8025 1  1   a rookie judge into Ziggi Piggi's Home for the Semi-Stiff
   
-E   0   8011   40     16     a Judge's club wielded                
+E   0   8011   40     16     a billy club wielded
 M 0 8007 1 8027 1  1   Wallaby Gleep into Stockroom of Throt & Gleep's Megger Store
   
-E   0   8009   40     16     a knife wielded                
 G   0   8012   10            a vault key in inventory
 M 0 8009 1 8021 1  1   Ernie Ramirez into Pustule Palace Cafe
   
-E   0   8006   40     16     a bashball bat wielded                
+E   0   8016   40     16     a reinforced bashball bat wielded
 G   0   8002   10            a stooky gland in inventory
 G   0   8013    5            a key card in inventory
 M 0 8010 1 8007 1  1   Judge Eckersely into Corner of Ed Hilldreth Memorial Parkway and Megway
   
-E   0   8011   40     16     a Judge's club wielded                
+E   0   8018   40     16     a Judge's club wielded
 G   0   8003   20            a lawgiver in inventory
 M 0 8011 1 8009 1  1   Judge Beddows into Mahmount Allesh Megway
   
-E   0   8011   40     16     a Judge's club wielded                
+E   0   8018   40     16     a Judge's club wielded
 G   0   8003   20            a lawgiver in inventory
 M 0 8012 2 8011 1  1   a bite fighter into Davies Alley
   
@@ -1039,8 +1104,7 @@ M 0 8012 2 8011 1  1   a bite fighter into Davies Alley
   
 O   0   8004    1   8028  load the magnetically shielded safe into Throt & Gleep's Vault
 M 0 8008 1 8028 1  1   Pinkerton Throt into Throt & Gleep's Vault
-  
-E   0   8009   40     16     a knife wielded                
+E   0   8017   10     14     bracer
 G   0   8005   10            a code box in inventory
 P 0 8007 3 8004 1  1   Load the Vibroblade into the magnetically shielded safe
   

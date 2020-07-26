@@ -2448,7 +2448,7 @@ staff serpentine~
 a green serpentine staff~
 A green serpentine staff has been left here.~
 wood~
-staff FG AO
+staff G AO
 20 2 2 23 0
 20 12 4173 P
 
@@ -2821,6 +2821,17 @@ clapped eyes upon. The haft has been bound in thick, brown leather
 and it looks as if you'll need both hands to get a good grip.
 ~
 
+#5334
+cloak brown~
+a brown cloak~
+A beautiful brown cloak has been dropped by someone.~
+cloth~
+armor G AC
+7 7 7 0 0
+20 12 1800 P
+A
+13      4
+
 #0
 
 #RESETS
@@ -2843,7 +2854,7 @@ M 0 5300 1 5350 1  1   the baby beholder into The Temple of Thalos
 E   1   5243    9     17      held                   
 M 0 5307 1 5350 1  1   the priest of Thalos into The Temple of Thalos  
 E   1   5302    8     17     a green serpentine staff held                   
-E   1   5223   10      3      on neck                
+E   1   5334   10      3     brown cloak on neck
 M 0 5301 20 5300 1  1   the pet lamia into The Grand Gate of Thalos  
 E   1   5300   99      3     a lamia collar on neck                
 M 0 5301 20 5302 1  1   the pet lamia into Main Street  
@@ -3093,13 +3104,13 @@ M 0 5326 4 5372 1  1   a harmless snake into The holy grove
 M 0 5334 1 5384 1  1   the cityguard into Inside the East Gate of Midgaard  
 E   1   3365   99      0      as light               
 E   1   3364   99      1      on left finger         
-E   1   3350  199     16      wielded                
+E   1   3386  199     16      wielded                
 E   1   3353   99      5      on body                
 E   1   3354   99     11      as shield              
 M 0 5331 1 5381 1  1   the cityguard into Market Square  
 E   1   3365   99      0      as light               
 E   1   3364   99      1      on left finger         
-E   1   3350  199     16      wielded                
+E   1   3386  199     16      wielded                
 E   1   3353   99      5      on body                
 E   1   3355  199      4      on neck                
 M 0 5332 2 5380 1  1   the janitor into The Temple Square  

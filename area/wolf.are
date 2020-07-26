@@ -1219,7 +1219,7 @@ A shimmering key is here.~
 gold~
 key 0 A
 0 0 0 0 0
-95 1 0 P
+75 1 0 P
 #10085
 pet shop key steel~
 pet shop key~
@@ -1227,7 +1227,7 @@ A steel key is here.~
 steel~
 key 0 A
 0 0 0 0 0
-95 1 0 P
+70 1 0 P
 #10086
 sheriff's key silvery~
 the sheriff's key~
@@ -1235,7 +1235,7 @@ A silvery key shimmers here.~
 silver~
 key 0 A
 0 0 0 0 0
-95 1 0 P
+70 1 0 P
 #10087
 detect hidden potion~
 potion of detect hidden~
@@ -1417,8 +1417,8 @@ Wolf feet~
 Some furry footwear is here on the ground.~
 leather~
 armor G AG
-8 7 8 3 0
-45 5 2100 A
+6 7 6 2 0
+39 5 1800 A
 E
 wolf feet~
 These are the feet of a grey wandering wolf.
@@ -1434,7 +1434,7 @@ A belt made of wolf skin is here.~
 leather~
 armor G AL
 6 7 7 0 0
-45 5 900 A
+40 5 900 A
 E
 skin belt~
 This is a finely crafted belt made from the skin of a young wolf.
@@ -1448,7 +1448,7 @@ Some gauntlets made from the claws of a wolf are here.~
 leather~
 armor G AH
 6 5 7 3 0
-45 5 1200 A
+40 5 1200 A
 E
 claw gauntlets~
 A pair of wolf feet have been crafted into a beautiful pair of gauntlets.
@@ -1464,8 +1464,8 @@ Wolf coat~
 A complete coat of wolf fur lies upon the ground.~
 leather~
 armor G AK
-7 7 7 7 0
-45 10 1600 A
+9 9 9 5 0
+40 10 1600 A
 E
 wolf coat~
 The hide of a wolf elder has been formed into an exquisite coat of unyielding
@@ -1480,7 +1480,7 @@ An eye seems to follow you throughout the room, watching your every move.~
 glass~
 light G AO
 0 0 999 0 0
-60 5 2400 P
+42 5 2400 P
 E
 wolf eye~
 The eye of a wolf elder has been polished to stunning beauty.  It sees...

@@ -2342,7 +2342,7 @@ map olympus~
                       Mountain
 ~
 #3350
-sword standard merc~
+standard issue sword~
 a standard issue sword~
 You see a standard issue sword here.~
 steel~
@@ -2359,7 +2359,7 @@ A
 A
 19 1
 #3351
-dagger standard merc~
+standard issue dagger~
 a standard issue dagger~
 You see a standard issue dagger here.~
 steel~
@@ -2376,7 +2376,7 @@ A
 A
 19 1
 #3352
-mace standard merc~
+standard issue mace~
 a standard issue mace~
 You see a standard issue mace here.~
 steel~
@@ -2698,7 +2698,7 @@ A
 17 -2
 
 #3384
-flail silvery~
+shining silvery flail~
 a shining silvery flail~
 A shining silvery flail grabs your attention.~
 steel~
@@ -2709,7 +2709,7 @@ A
 17 1
 
 #3385
-stiletto dagger~
+sharpened stiletto dagger~
 a sharpened stiletto dagger~
 A sharp stiletto dagger gathers dust.~
 steel~
@@ -2718,6 +2718,32 @@ weapon 0 AN
 9 10 90 G
 A
 19 1
+#3386
+guardsman hefty blade~
+a guardsman blade~
+You see a hefty blade here.~
+steel~
+weapon G AN
+'sword' 3 4 'slash' 0
+12 5 140 P
+E
+guardsman hefty blade~
+You see a sword of superior craftsmanship. It looks like something a soldier 
+might use.
+~
+#3387
+officer blade~
+an officer's blade~
+You see a hefty blade here.~
+steel~
+weapon G AN
+'sword' 3 6 'slash' 0
+18 5 340 P
+E
+officer blade~
+You see a sword of superior craftsmanship. It looks like something a soldier 
+might use.
+~
 
 
 #0
@@ -6324,84 +6350,84 @@ D 0 3161 2 2      close and lock from other side
 M 0 3060 12 3004 1  1       Cityguard 1  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3386 -1 16    sword
 E 1 3353 -1 5     vest
 E 1 3355 -1 4     cloak
 *
 M 0 3060 12 3014 1  1       Cityguard 2  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3386 -1 16    sword
 E 1 3353 -1 5     vest
 E 1 3356 -1 6            helmet
 *
 M 0 3060 10 3017 1  1       Cityguard 3  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3386 -1 16    sword
 E 1 3353 -1 5     vest
 E 1 3357 -1 7            leggings
 *
 M 0 3060 10 3021 1  1       Cityguard 4  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3386 -1 16    sword
 E 1 3353 -1 5     vest
 E 1 3358 -1 8            boots
 *
 M 0 3060 12 3027 1  1       Cityguard 5  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3386 -1 16    sword
 E 1 3353 -1 5     vest
 E 1 3359 -1 9            gloves
 *
 M 0 3067 2 3041 1  1       Cityguard 1 at east gate  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3386 -1 16    sword
 E 1 3353 -1 5     vest
 E 1 3360 -1 10           sleeves
 *
 M 0 3067 2 3041 1  1       Cityguard 2 at east gate  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3386 -1 16    sword
 E 1 3353 -1 5     vest
 E 1 3354 -1 11           shield
 *
 M 0 3068 2 3040 1  1       Cityguard 1 at west gate  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3386 -1 16    sword
 E 1 3353 -1 5     vest
 E 1 3361 -1 12           cape
 *
 M 0 3068 2 3040 1  1       Cityguard 2 at west gate  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3386 -1 16    sword
 E 1 3353 -1 5     vest
 E 1 3362 -1 13           belt
 *
 M 0 3071 2 3255 1  1       Cityguard 1 at south gate  
 E 1 3365 -1 0           banner
 E 1 3364 -1 1           signet ring
-E 1 3350 -1 16          sword
+E 1 3386 -1 16          sword
 E 1 3353 -1 5           vest
 E 1 3361 -1 12           cape
 *
 M 0 3071 2 3255 1  1       Cityguard 2 at south gate  
 E 1 3365 -1 0           banner
 E 1 3364 -1 1           signet ring
-E 1 3350 -1 16          sword
+E 1 3386 -1 16          sword
 E 1 3353 -1 5           vest
 E 1 3362 -1 13           belt
 *
 M 0 3072 1 3262 1  1       Cityguard at north gate  
 E 1 3365 -1 0           banner
 E 1 3364 -1 1           signet ring
-E 1 3350 -1 16          sword
+E 1 3386 -1 16          sword
 E 1 3353 -1 5           vest
 E 1 3354 -1 11           shield
 *
@@ -6429,9 +6455,9 @@ M 0 3093 1 3032 1  1        Rottweiler in pet shop
 M 0 3094 1 3032 1  1        Wolf in pet shop  
 *
 M 0 3005 5 3027 1  1       thief at entrance to knight guild  
-E 1 3020 -1 16
+E 1 3351 -1 16
 M 0 3005 5 3128 1  1       thief on concourse  
-E 1 3020 -1 16
+E 1 3351 -1 16
 O 0 3135 10 1200  fountain at chat room
 O 0 3135 10 3005  fountain at temple
 O 0 3139 15 3008  letter at receptionist
@@ -6463,17 +6489,17 @@ M 0 3124 2 3113 1  1        Duck 1 in Park
 M 0 3124 2 3115 1  1        Duck 2 in Park  
 *
 M 0 3140 1 3142 1  1        Captain of the Guard in H.Q.  
-E 1 3350 -1 16          sword
+E 1 3387 -1 16          sword
 G 1 3122 2               Give Captain A wooden key to the desk.
 G 1 3137 2               Give Captain A steel key to the jail.
+M 0 3141 4 3142 1  1        Mad Guard in H.Q.
+E 1 3387 -1 16          sword
 M 0 3141 4 3142 1  1        Mad Guard in H.Q.  
-E 1 3350 -1 16          sword
+E 1 3387 -1 16          sword
 M 0 3141 4 3142 1  1        Mad Guard in H.Q.  
-E 1 3350 -1 16          sword
+E 1 3387 -1 16          sword
 M 0 3141 4 3142 1  1        Mad Guard in H.Q.  
-E 1 3350 -1 16          sword
-M 0 3141 4 3142 1  1        Mad Guard in H.Q.  
-E 1 3350 -1 16          sword
+E 1 3387 -1 16          sword
 *
 O 0 3130 1 3142       Load the desk
 P 1 3123 3 3130 1  1          Put brass key in desk  
@@ -6483,27 +6509,27 @@ P 1 3132 3 3131 1  1        Put money in safe
 M 0 3060 20 3111 1  1       Cityguard 1  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3386 -1 16    sword
 E 1 3353 -1 5     vest
 G 1 3120 8                 Has an iron key to Captain's Office
 *
 M 0 3060 20 3111 1  1       Cityguard 2  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3386 -1 16    sword
 E 1 3353 -1 5     vest
 E 1 3363 -1 15          bracer
 *
 M 0 3060 20 3111 1  1       Cityguard 3  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3386 -1 16    sword
 E 1 3353 -1 5     vest
 *
 M 0 3060 20 3111 1  1       Cityguard 4  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3386 -1 16    sword
 E 1 3353 -1 5     vest
 *
 M 0 3142 1 3137 1  1        Secretary at town hall  
@@ -6514,19 +6540,19 @@ E 1 3124 5 16         Mayor's sword
 M 0 3069 4 3138 1  1        Cityguard for the Mayor  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3387 -1 16    sword
 M 0 3069 4 3138 1  1        Cityguard for the Mayor  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3387 -1 16    sword
 M 0 3069 4 3138 1  1        Cityguard for the Mayor  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3387 -1 16    sword
 M 0 3069 4 3138 1  1        Cityguard for the Mayor  
 E 1 3365 -1 0     banner
 E 1 3364 -1 1     signet ring
-E 1 3350 -1 16    sword
+E 1 3387 -1 16    sword
 *
 M 0 3144 1 3120 1  1        Town Crier  
 *

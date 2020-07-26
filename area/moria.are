@@ -227,7 +227,7 @@ stand stand male 500
 0 0 huge 0
 #4100
 mage~
-the Mage~
+the mage~
 A small intelligent looking mage is standing here. It looks like he
 knows his way with magic. 
 ~
@@ -635,8 +635,8 @@ a war axe~
 A razor-sharp war axe rests on the ground.~
 steel~
 weapon 0 AN
-'axe' 1 8 'chop' 0
-6 7 200 P
+'axe' 3 4 'chop' 0
+11 7 200 P
 A
 19 1
 E
@@ -922,6 +922,17 @@ map moria third~
                        Maze*
                       (Map 2)
 ~
+
+#4156
+sharpened axe hand~
+a sharpened hand axe~
+A small hand axe lies forgotten on the floor.~
+iron~
+weapon 0 AN
+'axe' 2 4 'chop' 0
+6 5 50 G
+
+
 #0
 
 
@@ -2983,9 +2994,9 @@ E 1 3074 20 7		scale skirt
 M 0 4052 3 4056 1  1      a hobgoblin  
 E 1 3023 20 16		club
 M 0 4052 3 4065 1  1      a hobgoblin  
-E 1 3025 20 16		hand axe
+E 1 4156 20 16		sharpened hand axe
 M 0 4052 3 4059 1  1      a hobgoblin  
-E 1 3028 29 16		staff
+E 1 4156 29 16		sharpened hand axe
 *
 M 0 4053 2 4058 1  1      a snake  
 M 0 4053 2 4068 1  1      a snake  
@@ -3017,7 +3028,7 @@ O 0 4052 8 4071     plant a mushroom
 M 0 4100 1 4114 1  1     The mage  
 G 1 4102 4         	Scroll of identify.
 G 1 4155 9		map of third level
-E 1 3351 -1 16		standard issue dagger
+E 1 3385 -1 16		stiletto
 *
 M 0 4101 1 4122 1  1     The troll  
 E 1 4100 2 16         The blade
@@ -3070,10 +3081,10 @@ M 0 4156 1 4151 1  1     A mean troll
 E 1 4105 5 16		morning star
 *
 M 0 4157 2 4167 1  1     A mage  
-E 1 3351 -1 16          standard issue dagger
+E 1 3385 -1 16          stiletto
 M 0 4157 2 4167 1  1     Second mage  
 E 1 4151 3 17		staff of harming
-E 1 3351 -1 16          standard issue dagger
+E 1 3385 -1 16          standard issue dagger
 *
 M 0 4158 2 4162 1  1     A snake  
 M 0 4158 2 4169 1  1     A snake  
