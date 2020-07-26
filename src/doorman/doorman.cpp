@@ -24,6 +24,9 @@
  */
 
 #include "doorman.h"
+#include "Channel.hpp"
+#include "Xania.hpp"
+#include "doorman.hpp"
 
 #include <fmt/format.h>
 
@@ -32,8 +35,6 @@
 #include <string_view>
 #include <vector>
 
-#include <arpa/inet.h>
-#include <arpa/telnet.h>
 #include <cerrno>
 #include <cstdarg>
 #include <cstddef>
@@ -45,113 +46,18 @@
 #include <sys/resource.h>
 #include <sys/socket.h>
 #include <sys/time.h>
-#include <sys/types.h>
 #include <sys/un.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
-using namespace std::literals;
-
-static constexpr auto MaxIncomingDataBufferSize = 2048u;
-static constexpr auto CONNECTION_WAIT_TIME = 10u;
-using byte = unsigned char;
-
 bool IncomingData(int fd, const byte *incoming_data, int nBytes);
-void AsyncHostnameLookup(sockaddr_in address, int outFd);
-
-class Channel {
-    int32_t id_{}; // the channel id
-    int fd_{}; /* File descriptor of the channel */
-    std::string hostname_;
-    std::vector<byte> buffer_;
-    uint16_t port_{};
-    uint32_t netaddr_{};
-    int width_{}, height_{}; /* Width and height of terminal */
-    bool ansi_{}, got_term_{};
-    bool echoing_{};
-    bool sent_reconnect_message_{};
-    bool connected_{}; /* Socket is ready to connect to Xania */
-    pid_t host_lookup_pid_{}; /* PID of look-up process */
-    int host_lookup_fds_[2]{}; /* FD of look-up processes pipe (read on 0) */
-    std::string auth_char_name_; /* name of authorized character */
-
-public:
-    void newConnection(int fd, sockaddr_in address);
-    void closeConnection();
-    void sendInfoPacket() const;
-    void sendConnectPacket();
-    bool incomingData(const byte *incoming_data, int nBytes);
-    void incomingHostnameInfo();
-    void sendTelopts() const;
-
-    void on_auth(std::string_view name) { auth_char_name_ = name; }
-    [[nodiscard]] const std::string &authed_name() const { return auth_char_name_; }
-    void on_reconnect_attempt();
-    void mark_disconnected() { connected_ = false; }
-    bool send_to_client(const void *data, size_t length) const {
-        if (!fd_)
-            return false;
-        auto written = ::write(fd_, data, length);
-        // TODO close fd_? remove it? if errored?
-        return written == static_cast<ssize_t>(length);
-    }
-
-    // Intention here is to prevent direct access to the fd.
-    [[nodiscard]] bool has_fd(int fd) const { return fd == fd_; }
-    [[nodiscard]] bool is_closed() const { return fd_ == 0; }
-
-    void set_echo(bool echo);
-    void close();
-
-    [[nodiscard]] int set_fds(fd_set &input_fds, fd_set &exception_fds) {
-        if (!fd_)
-            return 0;
-        FD_SET(fd_, &exception_fds);
-        FD_SET(fd_, &input_fds);
-        if (host_lookup_pid_) {
-            FD_SET(host_lookup_fds_[0], &input_fds);
-            return std::max(host_lookup_fds_[0], fd_);
-        }
-        return fd_;
-    }
-
-    [[nodiscard]] bool is_hostname_fd(int fd) const { return fd_ && host_lookup_pid_ && host_lookup_fds_[0] == fd; }
-
-    [[nodiscard]] bool has_lookup_pid(pid_t pid) const { return fd_ && host_lookup_pid_ == pid; }
-    void on_lookup_died(int status);
-    void set_id(int32_t id);
-};
 
 /* Global variables */
-// todo: maybe eventually unordered_map<channel id, channel>
-static constexpr auto MaxChannels = 64;
-std::array<Channel, MaxChannels> channels;
-int mudFd;
+Xania mud;
 pid_t child;
-int port = 9000;
-bool connectedToXania = false, waitingForInit = false;
+int port = 9000; // TODO!
 int listenSock;
-time_t lastConnected;
 int debug = 0;
-
-bool SendCom(int fd, byte a, byte b) {
-    byte buf[4];
-    buf[0] = IAC;
-    buf[1] = a;
-    buf[2] = b;
-    return write(fd, buf, 3) == 3;
-}
-
-bool SendOpt(int fd, byte a) {
-    byte buf[6];
-    buf[0] = IAC;
-    buf[1] = SB;
-    buf[2] = a;
-    buf[3] = TELQUAL_SEND;
-    buf[4] = IAC;
-    buf[5] = SE;
-    return write(fd, buf, 6) == 6;
-}
 
 /* printf() to an fd */
 __attribute__((format(printf, 2, 3))) bool fdprintf(int fd, const char *format, ...) {
@@ -203,121 +109,11 @@ unsigned long djb2_hash(std::string_view str) {
 }
 
 /**
- * Writes into hostbuf the supplied hostname, masked for privacy
- * and with a hashcode of the full hostname. This can be used by admins
+ * Returns the hostname, masked for privacy and with a hashcode of the full hostname. This can be used by admins
  * to spot users coming from the same IP.
  */
 std::string get_masked_hostname(std::string_view hostname) {
     return fmt::format("{}*** [#{}]", hostname.substr(0, 6), djb2_hash(hostname));
-}
-
-void Channel::closeConnection() {
-    // Log the source IP but masked for privacy.
-    log_out("[%d] Closing connection to %s", id_, get_masked_hostname(hostname_).c_str());
-    close();
-}
-
-void Channel::set_echo(bool echo) {
-    SendCom(fd_, echo ? WONT : WILL, TELOPT_ECHO);
-    echoing_ = echo;
-}
-
-void Channel::on_reconnect_attempt() {
-    if (!fd_)
-        return;
-    auto recon = "Attempting to reconnect to Xania"sv;
-    if (!sent_reconnect_message_) {
-        if (!send_to_client(recon.data(), recon.size()))
-            log_out("Unable to write to channel fd %d", fd_);
-        sent_reconnect_message_ = true;
-    }
-    send_to_client(".", 1);
-}
-
-void Channel::close() {
-    if (fd_) {
-        ::close(fd_);
-    }
-    if (host_lookup_fds_[0]) {
-        ::close(host_lookup_fds_[0]);
-    }
-    if (host_lookup_fds_[1]) {
-        ::close(host_lookup_fds_[1]);
-    }
-    if (host_lookup_pid_) {
-        if (kill(host_lookup_pid_, 9) < 0) {
-            log_out("Couldn't kill child process (ident process has already exitted)");
-        }
-        host_lookup_pid_ = 0;
-    }
-    fd_ = 0;
-}
-
-void Channel::newConnection(int fd, sockaddr_in address) {
-    // One day I will be a constructor...
-    this->fd_ = fd;
-    hostname_ = inet_ntoa(address.sin_addr);
-    port_ = ntohs(address.sin_port);
-    netaddr_ = ntohl(address.sin_addr.s_addr);
-    buffer_.clear();
-    width_ = 80;
-    height_ = 24;
-    ansi_ = got_term_ = false;
-    echoing_ = true;
-    sent_reconnect_message_ = false;
-    connected_ = false;
-    auth_char_name_.clear();
-
-    log_out("[%d] Incoming connection from %s on fd %d", id_, get_masked_hostname(hostname_).c_str(), fd);
-
-    /* Send all options out */
-    sendTelopts();
-
-    /* Fire off the query to the ident server */
-    pid_t forkRet = -1;
-    if (pipe(host_lookup_fds_) == -1) {
-        log_out("Pipe failed - next message (unable to fork) is due to this");
-        host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
-    } else {
-        forkRet = fork();
-    }
-    switch (forkRet) {
-    case 0:
-        // Child process - go and do the lookup
-        // First close the child's copy of the parent's fd
-        ::close(host_lookup_fds_[0]);
-        log_out("ID: on %d", host_lookup_fds_[1]);
-        host_lookup_fds_[0] = 0;
-        AsyncHostnameLookup(address, host_lookup_fds_[1]);
-        ::close(host_lookup_fds_[1]);
-        log_out("ID: exiting");
-        exit(0);
-        break;
-    case -1:
-        // Error - unable to fork()
-        log_out("Unable to fork() an IdentD lookup process");
-        // Close up the pipe
-        if (host_lookup_fds_[0])
-            ::close(host_lookup_fds_[0]);
-        if (host_lookup_fds_[1])
-            ::close(host_lookup_fds_[1]);
-        host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
-        break;
-    default:
-        // First close the parent's copy of the child's fd
-        ::close(host_lookup_fds_[1]);
-        host_lookup_fds_[1] = 0;
-        host_lookup_pid_ = forkRet;
-        log_out("Forked hostname process has PID %d on %d", forkRet, host_lookup_fds_[0]);
-        break;
-    }
-
-    // Tell them if the mud is down
-    if (!connectedToXania)
-        fdprintf(fd, "Xania is down at the moment - you will be connected as soon "
-                     "as it is up again.\n\r");
-
-    sendConnectPacket();
 }
 
 /* Create a new connection */
@@ -350,59 +146,6 @@ Channel *FindChannel(int fd) {
     return nullptr;
 }
 
-void CloseConnection(int fd) {
-    auto channelPtr = FindChannel(fd);
-    if (!channelPtr) {
-        log_out("Erk - unable to find channel for fd %d", fd);
-        return;
-    }
-    channelPtr->closeConnection();
-}
-
-/*********************************/
-
-bool SupportsAnsi(const char *src) {
-    static const char *terms[] = {"xterm",      "xterm-colour", "xterm-color", "ansi",
-                                  "xterm-ansi", "vt100",        "vt102",       "vt220"};
-    size_t i;
-    for (i = 0; i < (sizeof(terms) / sizeof(terms[0])); ++i)
-        if (!strcasecmp(src, terms[i]))
-            return true;
-    return false;
-}
-
-void Channel::incomingHostnameInfo() {
-    log_out("[%d on %d] Incoming IdentD info", id_, host_lookup_fds_[0]);
-    // A response from the ident server
-    size_t numBytes;
-    auto ret = read(host_lookup_fds_[0], &numBytes, sizeof(numBytes));
-    if (ret <= 0) {
-        log_out("[%d] IdentD pipe died on read (read returned %ld)", id_, ret);
-        ::close(host_lookup_fds_[0]);
-        host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
-        host_lookup_pid_ = 0;
-        return;
-    }
-    if (numBytes >= 1024) {
-        log_out("Ident responded with >1k - possible spam attack");
-        numBytes = 1023;
-    }
-    char host_buffer[1024];
-    auto numRead = read(host_lookup_fds_[0], host_buffer, numBytes);
-    ::close(host_lookup_fds_[0]);
-    host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
-    host_lookup_pid_ = 0;
-
-    if (numRead != static_cast<ssize_t>(numBytes)) {
-        log_out("[%d] Partial read %ld!=%ld", id_, numRead, numBytes);
-        return;
-    }
-    hostname_ = std::string_view(host_buffer, numBytes);
-    // Log the source IP but mask it for privacy.
-    log_out("[%d] %s", id_, get_masked_hostname(hostname_).c_str());
-    sendInfoPacket();
-}
-
 bool IncomingData(int fd, const byte *incoming_data, int nBytes) {
     if (auto *channel = FindChannel(fd))
         return channel->incomingData(incoming_data, nBytes);
@@ -410,298 +153,23 @@ bool IncomingData(int fd, const byte *incoming_data, int nBytes) {
     return false;
 }
 
-bool Channel::incomingData(const byte *incoming_data, int nBytes) {
-    /* Check for buffer overflow */
-    if ((nBytes + buffer_.size()) > MaxIncomingDataBufferSize) {
-        const char *ovf = ">>> Too much incoming data at once - PUT A LID ON IT!!\n\r";
-        if (write(fd_, ovf, strlen(ovf)) != (ssize_t)strlen(ovf)) {
-            // don't care if this fails..
-        }
-        buffer_.clear();
-        return false;
-    }
-    /* Add the data into the buffer */
-    buffer_.insert(buffer_.end(), incoming_data, incoming_data + nBytes);
-
-    /* Scan through and remove telnet commands */
-    // TODO gsl::span ftw
-    size_t nRealBytes = 0;
-    size_t nLeft = buffer_.size();
-    for (byte *ptr = buffer_.data(); nLeft;) {
-        /* telnet command? */
-        if (*ptr == IAC) {
-            if (nLeft < 3) /* Is it too small to fit a whole command in? */
-                break;
-            switch (*(ptr + 1)) {
-            case WILL:
-                switch (*(ptr + 2)) {
-                case TELOPT_TTYPE:
-                    // Check to see if we've already got the info
-                    // Whoiseye's bloody DEC-TERM spams us multiply
-                    // otherwise...
-                    if (!got_term_) {
-                        got_term_ = true;
-                        SendOpt(fd_, *(ptr + 2));
-                    }
-                    break;
-                case TELOPT_NAWS:
-                    // Do nothing for NAWS
-                    break;
-                default: SendCom(fd_, DONT, *(ptr + 2)); break;
-                }
-                memmove(ptr, ptr + 3, nLeft - 3);
-                nLeft -= 3;
-                break;
-            case WONT:
-                SendCom(fd_, DONT, *(ptr + 2));
-                memmove(ptr, ptr + 3, nLeft - 3);
-                nLeft -= 3;
-                break;
-            case DO:
-                if (ptr[2] == TELOPT_ECHO && echoing_ == false) {
-                    SendCom(fd_, WILL, TELOPT_ECHO);
-                    memmove(ptr, ptr + 3, nLeft - 3);
-                    nLeft -= 3;
-                } else {
-                    SendCom(fd_, WONT, *(ptr + 2));
-                    memmove(ptr, ptr + 3, nLeft - 3);
-                    nLeft -= 3;
-                }
-                break;
-            case DONT:
-                SendCom(fd_, WONT, *(ptr + 2));
-                memmove(ptr, ptr + 3, nLeft - 3);
-                nLeft -= 3;
-                break;
-            case SB: {
-                char sbType;
-                byte *eob, *p;
-                /* Enough room for an SB command? */
-                if (nLeft < 6) {
-                    nLeft = 0;
-                    break;
-                }
-                sbType = *(ptr + 2);
-                //          sbWhat = *(ptr + 3);
-                /* Now read up to the IAC SE */
-                eob = ptr + nLeft - 1;
-                for (p = ptr + 4; p < eob; ++p)
-                    if (*p == IAC && *(p + 1) == SE)
-                        break;
-                /* Found IAC SE? */
-                if (p == eob) {
-                    /* No: skip it all */
-                    nLeft = 0;
-                    break;
-                }
-                *p = '\0';
-                /* Now to decide what to do with this new data */
-                switch (sbType) {
-                case TELOPT_TTYPE:
-                    log_out("[%d] TTYPE = %s", id_, ptr + 4);
-                    if (SupportsAnsi((const char *)ptr + 4))
-                        ansi_ = true;
-                    break;
-                case TELOPT_NAWS:
-                    width_ = ptr[4];
-                    height_ = ptr[6];
-                    log_out("[%d] NAWS = %dx%d", id_, width_, height_);
-                    break;
-                }
-
-                /* Remember eob is 1 byte behind the end of buffer */
-                memmove(ptr, p + 2, nLeft - ((p + 2) - ptr));
-                nLeft -= ((p + 2) - ptr);
-
-                break;
-            }
-
-            default:
-                memmove(ptr, ptr + 2, nLeft - 2);
-                nLeft -= 2;
-                break;
-            }
-
-        } else {
-            ptr++;
-            nRealBytes++;
-            nLeft--;
-        }
-    }
-    /* Now to update the buffer stats */
-    buffer_.resize(nRealBytes);
-
-    /* Second pass - look for whole lines of text */
-    nLeft = buffer_.size();
-    byte *ptr;
-    for (ptr = buffer_.data(); nLeft; ++ptr, --nLeft) {
-        char c;
-        switch (*ptr) {
-        case '\n':
-        case '\r':
-            c = *ptr;
-            // TODO this is terribly ghettish. don't need to memmove, and all that. ugh. But write tests first...
-            // then change...
-            *ptr = '\0';
-            /* Send it to the MUD */
-            if (connectedToXania && connected_) {
-                Packet p;
-                p.type = PACKET_MESSAGE;
-                p.channel = id_;
-                p.nExtra = strlen((const char *)buffer_.data()) + 2;
-                if (write(mudFd, &p, sizeof(p)) != sizeof(p))
-                    return false;
-                if (write(mudFd, buffer_.data(), p.nExtra - 2) != p.nExtra - 2)
-                    return false;
-                if (write(mudFd, "\n\r", 2) != 2)
-                    return false;
-            } else {
-                // XXX NEED TO STORE DATA HERE
-            }
-            /* Check for \n\r or \r\n */
-            if (nLeft > 1 && (*(ptr + 1) == '\r' || *(ptr + 1) == '\n') && *(ptr + 1) != c) {
-                memmove(buffer_.data(), ptr + 2, nLeft - 2);
-                nLeft--;
-            } else if (nLeft) {
-                memmove(buffer_.data(), ptr + 1, nLeft - 1);
-            } // else nLeft is zero, so we might as well avoid calling memmove(x,y,
-              // 0)
-
-            /* The +1 at the top of the loop resets ptr to buffer */
-            ptr = buffer_.data() - 1;
-            break;
-        }
-    }
-    buffer_.resize(ptr - buffer_.data());
-    return true;
-}
-
-/*********************************/
-
-void AsyncHostnameLookup(sockaddr_in address, int outFd) {
-    /*
-     * Firstly, and quite importantly, close all the descriptors we
-     * don't need, so we don't keep open sockets past their useful
-     * life.  This was a bug which meant ppl with firewalled auth
-     * ports could keep other ppls connections open (nonresponding)
-     */
-    for (auto &channel : channels)
-        channel.close();
-
-    // Bail out on a PIPE - this means our parent has crashed
-    signal(SIGPIPE, [](int) {
-        log_out("hostname lookup process exiting on sigpipe");
-        exit(1);
-    });
-
-    auto *ent = gethostbyaddr((char *)&address.sin_addr, sizeof(address.sin_addr), AF_INET);
-
-    std::string hostName = ent ? ent->h_name : inet_ntoa(address.sin_addr);
-    auto nBytes = hostName.size() + 1;
-    auto header_written = write(outFd, &nBytes, sizeof(nBytes));
-    if (header_written != sizeof(nBytes) || write(outFd, hostName.c_str(), nBytes) != static_cast<ssize_t>(nBytes)) {
-        log_out("ID: Unable to write to doorman - perhaps it crashed (%d, %s)", errno, strerror(errno));
-    } else {
-        // Log the source hostname but mask it for privacy.
-        log_out("ID: Looked up %s", get_masked_hostname(hostName).c_str());
-    }
-    log_out("ooh %ld", nBytes);
-}
-
-/*********************************/
-
-void SendToMUD(const Packet &p, const void *payload = nullptr) {
-    if (connectedToXania && mudFd != -1) {
-        if (write(mudFd, &p, sizeof(Packet)) != sizeof(Packet)) {
-            perror("SendToMUD");
-            exit(1);
-        }
-        if (p.nExtra)
-            if (write(mudFd, payload, p.nExtra) != p.nExtra) {
-                perror("SendToMUD");
-                exit(1);
-            }
-    }
-}
-
 /*
  * Aborts a connection - closes the socket
  * and tells the MUD that the channel has closed
  */
 void AbortConnection(int fd) {
-    SendToMUD({PACKET_DISCONNECT, 0, FindChannelId(fd), {}});
-    CloseConnection(fd);
-}
-
-void Channel::sendInfoPacket() const {
-    char buffer[4096];
-    auto data = new (buffer) InfoData;
-    Packet p{PACKET_INFO, static_cast<uint32_t>(sizeof(InfoData) + hostname_.size() + 1), id_, {}};
-
-    data->port = port_;
-    data->netaddr = netaddr_;
-    data->ansi = ansi_;
-    strcpy(data->data, hostname_.c_str());
-    SendToMUD(p, buffer);
-}
-
-void Channel::sendConnectPacket() {
-    if (!fd_)
+    auto channelPtr = FindChannel(fd);
+    if (!channelPtr) {
+        log_out("Erk - unable to find channel for fd %d", fd);
         return;
-    if (connected_) {
-        log_out("[%d] Attempt to send connect packet for already-connected channel", id_);
-    } else if (connectedToXania && mudFd != -1) {
-        // Have we already been authenticated?
-        if (!auth_char_name_.empty()) {
-            connected_ = true;
-            SendToMUD({PACKET_RECONNECT, static_cast<uint32_t>(auth_char_name_.size() + 1), id_, {}},
-                      auth_char_name_.c_str());
-            sendInfoPacket();
-            log_out("[%d] Sent reconnect packet to MUD for %s", id_, auth_char_name_.c_str());
-        } else {
-            connected_ = true;
-            SendToMUD({PACKET_CONNECT, 0, id_, {}});
-            sendInfoPacket();
-            log_out("[%d] Sent connect packet to MUD", id_);
-        }
-        sent_reconnect_message_ = false;
     }
+    mud.send_close_msg(*channelPtr);
+    channelPtr->closeConnection();
 }
-
-void Channel::sendTelopts() const {
-    SendCom(fd_, DO, TELOPT_TTYPE);
-    SendCom(fd_, DO, TELOPT_NAWS);
-    SendCom(fd_, WONT, TELOPT_ECHO);
-}
-
-void Channel::on_lookup_died(int status) {
-    // Did the process exit abnormally?
-    if (!(WIFEXITED(status))) {
-        log_out("Zombie reaper: process on channel %d died abnormally", id_);
-        ::close(host_lookup_fds_[0]);
-        ::close(host_lookup_fds_[1]);
-        host_lookup_pid_ = 0;
-        host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
-    } else {
-        if (host_lookup_fds_[0] || host_lookup_fds_[1]) {
-            log_out("Zombie reaper: A process died, and didn't necessarily "
-                    "close up after itself");
-        }
-    }
-}
-void Channel::set_id(int32_t id) { id_ = id; }
 
 void MudHasCrashed(int sig) {
     (void)sig;
-    close(mudFd);
-    mudFd = -1;
-    connectedToXania = false;
-    waitingForInit = false;
-
-    wall("\n\rDoorman has lost connection to Xania.\n\r");
-
-    for (auto &chan : channels)
-        chan.mark_disconnected();
+    mud.close();
 }
 
 /*
@@ -722,132 +190,25 @@ void ProcessNewConnection() {
 }
 
 /*
- * Attempt connection to the MUD
- */
-void TryToConnectToXania() {
-    sockaddr_un xaniaAddr{};
-
-    lastConnected = time(nullptr);
-
-    memset(&xaniaAddr, 0, sizeof(xaniaAddr));
-    xaniaAddr.sun_family = PF_UNIX;
-    snprintf(xaniaAddr.sun_path, sizeof(xaniaAddr.sun_path), XANIA_FILE, port,
-             getenv("USER") ? getenv("USER") : "unknown");
-
-    /*
-     * Create a socket for connection to Xania itself
-     */
-    mudFd = socket(PF_UNIX, SOCK_STREAM, 0);
-    if (mudFd < 0) {
-        log_out("Unable to create a socket to connect to Xania with!");
-        exit(1);
-    }
-    log_out("Descriptor %d is Xania", mudFd);
-
-    if (connect(mudFd, (sockaddr *)&xaniaAddr, sizeof(xaniaAddr)) >= 0) {
-        log_out("Connected to Xania");
-        waitingForInit = true;
-        wall("\n\rReconnected to Xania - Xania is still booting...\n\r");
-    } else {
-        log_out("Connection attempt to MUD failed.");
-        for (auto &chan : channels)
-            chan.on_reconnect_attempt();
-        log_out("Closing descriptor %d (mud)", mudFd);
-        close(mudFd);
-        mudFd = -1;
-    }
-}
-
-/*
- * Deal with a request from Xania
- */
-void ProcessMUDMessage(int fd) {
-    Packet p;
-    int nBytes;
-
-    nBytes = read(fd, (char *)&p, sizeof(Packet));
-
-    if (nBytes != sizeof(Packet)) {
-        log_out("doorman::Connection to MUD lost");
-        MudHasCrashed(0);
-    } else {
-        char payload[16384];
-        if (p.nExtra) {
-            if (p.nExtra > sizeof(payload)) {
-                log_out("payload too big: %d!", p.nExtra);
-                MudHasCrashed(0);
-                return;
-            }
-            int num_read = read(fd, payload, p.nExtra);
-            if (num_read != (int)p.nExtra) {
-                log_out("doorman::Connection to MUD lost");
-                MudHasCrashed(0);
-                return;
-            }
-        }
-        auto &channel = channels[p.channel];
-
-        switch (p.type) {
-        case PACKET_MESSAGE:
-            /* A message from the MUD */
-            if (!channel.send_to_client(payload, p.nExtra)) {
-                log_out("[%d] Received error %d (%s) on write - closing connection", p.channel, errno, strerror(errno));
-                AbortConnection(fd);
-            }
-            break;
-        case PACKET_AUTHORIZED:
-            /* A character has successfully logged in */
-            channel.on_auth(std::string_view(payload, p.nExtra));
-            log_out("[%d] Successfully authorized %s", p.channel, channels[p.channel].authed_name().c_str());
-            break;
-        case PACKET_DISCONNECT:
-            /* Kill off a channel */
-            channel.closeConnection();
-            break;
-        case PACKET_INIT:
-            /* Xania has initialised */
-            waitingForInit = false;
-            connectedToXania = true;
-            // Now try to connect everyone who has been waiting
-            for (auto &chan : channels)
-                chan.sendConnectPacket();
-            break;
-        case PACKET_ECHO_ON:
-            /* Xania wants text to be echoed by the client */
-            channel.set_echo(true);
-            break;
-        case PACKET_ECHO_OFF:
-            /* Xania wants text to not be echoed by the client */
-            channel.set_echo(false);
-            break;
-        default: break;
-        }
-    }
-}
-
-/*
  * The main loop
  */
 void ExecuteServerLoop() {
-    if (!connectedToXania && !waitingForInit) {
-        if ((time(nullptr) - lastConnected) >= CONNECTION_WAIT_TIME) {
-            TryToConnectToXania();
-        }
-    }
+    mud.poll();
 
     fd_set input_fds, exception_fds;
     FD_ZERO(&input_fds);
     FD_ZERO(&exception_fds);
     FD_SET(listenSock, &input_fds);
-    if (mudFd > 0) {
-        FD_SET(mudFd, &input_fds);
-        FD_SET(mudFd, &exception_fds);
+    int maxFd = listenSock;
+    if (mud.fd_ok()) {
+        FD_SET(mud.fd(), &input_fds);
+        FD_SET(mud.fd(), &exception_fds);
+        maxFd = std::max(maxFd, mud.fd());
     }
-    int maxFd = std::max(listenSock, mudFd);
     for (auto &channel : channels)
         maxFd = std::max(channel.set_fds(input_fds, exception_fds), maxFd);
 
-    timeval timeOut = {CONNECTION_WAIT_TIME, 0};
+    timeval timeOut = {1, 0}; // Wakes up once a second to do housekeeping
     int nFDs = select(maxFd + 1, &input_fds, nullptr, &exception_fds, &timeOut);
     if (nFDs == -1 && errno != EINTR) {
         log_out("Unable to select()!");
@@ -858,7 +219,7 @@ void ExecuteServerLoop() {
     if (nFDs <= 0)
         return;
     /* Has the MUD crashed out? */
-    if (mudFd != -1 && FD_ISSET(mudFd, &exception_fds)) {
+    if (mud.connected() && FD_ISSET(mud.fd(), &exception_fds)) {
         MudHasCrashed(0);
         return; /* Prevent falling into packet handling */
     }
@@ -870,8 +231,8 @@ void ExecuteServerLoop() {
             /* Is it the listening connection? */
             if (i == listenSock) {
                 ProcessNewConnection();
-            } else if (i == mudFd) {
-                ProcessMUDMessage(i);
+            } else if (i == mud.fd()) {
+                mud.process_mud_message();
             } else {
                 /* It's a message from a user or ident - dispatch it */
                 if (auto it = std::find_if(begin(channels), end(channels),
@@ -885,7 +246,6 @@ void ExecuteServerLoop() {
                         nBytes = read(i, buf, sizeof(buf));
                         if (nBytes <= 0) {
                             int32_t channelId = FindChannelId(i);
-                            SendToMUD({PACKET_DISCONNECT, 0, channelId, {}});
                             if (nBytes < 0) {
                                 log_out("[%d] Received error %d (%s) on read - closing connection", channelId, errno,
                                         strerror(errno));
@@ -916,7 +276,7 @@ void CheckForDeadLookups() {
         if (waiter) {
             // Clear the zombie status
             waitpid(waiter, nullptr, 0);
-            log_out("process %d died", waiter);
+            log_out("Lookup process %d died", waiter);
             // Find the corresponding channel, if still present
             if (auto chanIt = std::find_if(begin(channels), end(channels),
                                            [&](const Channel &chan) { return chan.has_lookup_pid(waiter); });
@@ -931,10 +291,7 @@ void CheckForDeadLookups() {
 option OurOptions[] = {
     {"port", 1, nullptr, 'p'}, {"debug", 0, &debug, 1}, {"help", 0, nullptr, 'h'}, {nullptr, 0, nullptr, 0}};
 
-void usage() {
-    fprintf(stderr, "Usage: doorman [-h | --help] [-d | --debug] [-p | --port "
-                    "port] [port]\n\r");
-}
+void usage() { fprintf(stderr, "Usage: doorman [-h | --help] [-d | --debug] [-p | --port port] [port]\n\r"); }
 
 // Here we go:
 
@@ -942,7 +299,7 @@ int main(int argc, char *argv[]) {
     protoent *tcpProto = getprotobyname("tcp");
     int yup = 1;
     linger linger = {1, 2}; // linger seconds
-    sockaddr_in sin;
+    sockaddr_in sin{};
 
     /*
      * Parse any arguments
@@ -1052,14 +409,6 @@ int main(int argc, char *argv[]) {
         log_out("Unable to listen!");
         exit(1);
     }
-
-    log_out("Bound to socket succesfully.");
-
-    /*
-     * Start the ball rolling
-     */
-    lastConnected = 0;
-    mudFd = -1;
 
     log_out("Doorman is ready to rock on port %d", port);
 
