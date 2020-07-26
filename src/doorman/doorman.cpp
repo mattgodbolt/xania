@@ -57,7 +57,7 @@ static constexpr auto CONNECTION_WAIT_TIME = 10u;
 using byte = unsigned char;
 
 bool IncomingData(int fd, const byte *incoming_data, int nBytes);
-void AsyncHostnameLookup(struct sockaddr_in address, int outFd);
+void AsyncHostnameLookup(sockaddr_in address, int outFd);
 
 class Channel {
     int32_t id_{}; // the channel id
@@ -76,7 +76,7 @@ class Channel {
     std::string auth_char_name_; /* name of authorized character */
 
 public:
-    void newConnection(int fd, struct sockaddr_in address);
+    void newConnection(int fd, sockaddr_in address);
     void closeConnection();
     void sendInfoPacket() const;
     void sendConnectPacket();
@@ -96,12 +96,6 @@ public:
         return written == static_cast<ssize_t>(length);
     }
 
-    [[nodiscard]] int highest_fd() const {
-        if (host_lookup_pid_)
-            return std::max(host_lookup_fds_[0], fd_);
-        else
-            return fd_;
-    }
     // Intention here is to prevent direct access to the fd.
     [[nodiscard]] bool has_fd(int fd) const { return fd == fd_; }
     [[nodiscard]] bool is_closed() const { return fd_ == 0; }
@@ -109,10 +103,16 @@ public:
     void set_echo(bool echo);
     void close();
 
-    void set_ex_fds(fd_set &exIfds) {
+    [[nodiscard]] int set_fds(fd_set &input_fds, fd_set &exception_fds) {
         if (!fd_)
-            return;
-        FD_SET(fd_, &exIfds);
+            return 0;
+        FD_SET(fd_, &exception_fds);
+        FD_SET(fd_, &input_fds);
+        if (host_lookup_pid_) {
+            FD_SET(host_lookup_fds_[0], &input_fds);
+            return std::max(host_lookup_fds_[0], fd_);
+        }
+        return fd_;
     }
 
     [[nodiscard]] bool is_hostname_fd(int fd) const { return fd_ && host_lookup_pid_ && host_lookup_fds_[0] == fd; }
@@ -132,7 +132,6 @@ int port = 9000;
 bool connectedToXania = false, waitingForInit = false;
 int listenSock;
 time_t lastConnected;
-fd_set ifds;
 int debug = 0;
 
 bool SendCom(int fd, byte a, byte b) {
@@ -238,15 +237,12 @@ void Channel::on_reconnect_attempt() {
 void Channel::close() {
     if (fd_) {
         ::close(fd_);
-        FD_CLR(fd_, &ifds);
     }
     if (host_lookup_fds_[0]) {
         ::close(host_lookup_fds_[0]);
-        FD_CLR(host_lookup_fds_[0], &ifds);
     }
     if (host_lookup_fds_[1]) {
         ::close(host_lookup_fds_[1]);
-        FD_CLR(host_lookup_fds_[1], &ifds);
     }
     if (host_lookup_pid_) {
         if (kill(host_lookup_pid_, 9) < 0) {
@@ -257,7 +253,7 @@ void Channel::close() {
     fd_ = 0;
 }
 
-void Channel::newConnection(int fd, struct sockaddr_in address) {
+void Channel::newConnection(int fd, sockaddr_in address) {
     // One day I will be a constructor...
     this->fd_ = fd;
     hostname_ = inet_ntoa(address.sin_addr);
@@ -312,12 +308,9 @@ void Channel::newConnection(int fd, struct sockaddr_in address) {
         ::close(host_lookup_fds_[1]);
         host_lookup_fds_[1] = 0;
         host_lookup_pid_ = forkRet;
-        FD_SET(host_lookup_fds_[0], &ifds);
         log_out("Forked hostname process has PID %d on %d", forkRet, host_lookup_fds_[0]);
         break;
     }
-
-    FD_SET(fd, &ifds);
 
     // Tell them if the mud is down
     if (!connectedToXania)
@@ -338,13 +331,6 @@ void NewConnection(int fd, sockaddr_in address) {
     }
 
     channelIter->newConnection(fd, address);
-}
-
-int HighestFd() {
-    int hFd = 0;
-    for (auto &chan : channels)
-        hFd = std::max(hFd, chan.highest_fd());
-    return hFd;
 }
 
 int32_t FindChannelId(int fd) {
@@ -386,7 +372,6 @@ bool SupportsAnsi(const char *src) {
 }
 
 void Channel::incomingHostnameInfo() {
-    FD_CLR(host_lookup_fds_[0], &ifds);
     log_out("[%d on %d] Incoming IdentD info", id_, host_lookup_fds_[0]);
     // A response from the ident server
     size_t numBytes;
@@ -593,7 +578,7 @@ bool Channel::incomingData(const byte *incoming_data, int nBytes) {
 
 /*********************************/
 
-void AsyncHostnameLookup(struct sockaddr_in address, int outFd) {
+void AsyncHostnameLookup(sockaddr_in address, int outFd) {
     /*
      * Firstly, and quite importantly, close all the descriptors we
      * don't need, so we don't keep open sockets past their useful
@@ -695,7 +680,6 @@ void Channel::on_lookup_died(int status) {
         log_out("Zombie reaper: process on channel %d died abnormally", id_);
         ::close(host_lookup_fds_[0]);
         ::close(host_lookup_fds_[1]);
-        FD_CLR(host_lookup_fds_[0], &ifds);
         host_lookup_pid_ = 0;
         host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
     } else {
@@ -710,7 +694,6 @@ void Channel::set_id(int32_t id) { id_ = id; }
 void MudHasCrashed(int sig) {
     (void)sig;
     close(mudFd);
-    FD_CLR(mudFd, &ifds);
     mudFd = -1;
     connectedToXania = false;
     waitingForInit = false;
@@ -729,7 +712,7 @@ void ProcessNewConnection() {
     socklen_t len = sizeof(incoming);
     int newFD;
 
-    newFD = accept(listenSock, (struct sockaddr *)&incoming, &len);
+    newFD = accept(listenSock, (sockaddr *)&incoming, &len);
     if (newFD == -1) {
         log_out("Unable to accept new connection!");
         perror("accept");
@@ -761,11 +744,10 @@ void TryToConnectToXania() {
     }
     log_out("Descriptor %d is Xania", mudFd);
 
-    if (connect(mudFd, (struct sockaddr *)&xaniaAddr, sizeof(xaniaAddr)) >= 0) {
+    if (connect(mudFd, (sockaddr *)&xaniaAddr, sizeof(xaniaAddr)) >= 0) {
         log_out("Connected to Xania");
         waitingForInit = true;
         wall("\n\rReconnected to Xania - Xania is still booting...\n\r");
-        FD_SET(mudFd, &ifds);
     } else {
         log_out("Connection attempt to MUD failed.");
         for (auto &chan : channels)
@@ -847,38 +829,26 @@ void ProcessMUDMessage(int fd) {
  * The main loop
  */
 void ExecuteServerLoop() {
-    struct timeval timeOut = {CONNECTION_WAIT_TIME, 0};
-    int i;
-    int nFDs, highestClientFd;
-    fd_set tempIfds, exIfds;
-    int maxFd;
-
-    /*
-     * Firstly, if not already connected to Xania, attempt connection
-     */
     if (!connectedToXania && !waitingForInit) {
         if ((time(nullptr) - lastConnected) >= CONNECTION_WAIT_TIME) {
             TryToConnectToXania();
         }
     }
 
-    /*
-     * Select on a copy of the input fds
-     * Also find the highest set FD
-     */
-    maxFd = std::max(listenSock, mudFd);
-    highestClientFd = HighestFd();
-    maxFd = std::max(maxFd, highestClientFd);
-
-    tempIfds = ifds;
-    // Set up exIfds only for normal sockets and xania
-    FD_ZERO(&exIfds);
-    if (mudFd > 0)
-        FD_SET(mudFd, &exIfds);
+    fd_set input_fds, exception_fds;
+    FD_ZERO(&input_fds);
+    FD_ZERO(&exception_fds);
+    FD_SET(listenSock, &input_fds);
+    if (mudFd > 0) {
+        FD_SET(mudFd, &input_fds);
+        FD_SET(mudFd, &exception_fds);
+    }
+    int maxFd = std::max(listenSock, mudFd);
     for (auto &channel : channels)
-        channel.set_ex_fds(exIfds);
+        maxFd = std::max(channel.set_fds(input_fds, exception_fds), maxFd);
 
-    nFDs = select(maxFd + 1, &tempIfds, nullptr, &exIfds, &timeOut);
+    timeval timeOut = {CONNECTION_WAIT_TIME, 0};
+    int nFDs = select(maxFd + 1, &input_fds, nullptr, &exception_fds, &timeOut);
     if (nFDs == -1 && errno != EINTR) {
         log_out("Unable to select()!");
         perror("select");
@@ -888,15 +858,15 @@ void ExecuteServerLoop() {
     if (nFDs <= 0)
         return;
     /* Has the MUD crashed out? */
-    if (mudFd != -1 && FD_ISSET(mudFd, &exIfds)) {
+    if (mudFd != -1 && FD_ISSET(mudFd, &exception_fds)) {
         MudHasCrashed(0);
         return; /* Prevent falling into packet handling */
     }
-    for (i = 0; i <= maxFd; ++i) {
+    for (int i = 0; i <= maxFd; ++i) {
         /* Kick out the freaky folks */
-        if (FD_ISSET(i, &exIfds)) {
+        if (FD_ISSET(i, &exception_fds)) {
             AbortConnection(i);
-        } else if (FD_ISSET(i, &tempIfds)) { // Pending incoming data
+        } else if (FD_ISSET(i, &input_fds)) { // Pending incoming data
             /* Is it the listening connection? */
             if (i == listenSock) {
                 ProcessNewConnection();
@@ -958,10 +928,10 @@ void CheckForDeadLookups() {
 }
 
 // Our luvverly options go here :
-struct option OurOptions[] = {
+option OurOptions[] = {
     {"port", 1, nullptr, 'p'}, {"debug", 0, &debug, 1}, {"help", 0, nullptr, 'h'}, {nullptr, 0, nullptr, 0}};
 
-void usage(void) {
+void usage() {
     fprintf(stderr, "Usage: doorman [-h | --help] [-d | --debug] [-p | --port "
                     "port] [port]\n\r");
 }
@@ -969,10 +939,10 @@ void usage(void) {
 // Here we go:
 
 int main(int argc, char *argv[]) {
-    struct protoent *tcpProto = getprotobyname("tcp");
+    protoent *tcpProto = getprotobyname("tcp");
     int yup = 1;
-    struct linger linger = {1, 2}; // linger seconds
-    struct sockaddr_in sin;
+    linger linger = {1, 2}; // linger seconds
+    sockaddr_in sin;
 
     /*
      * Parse any arguments
@@ -1030,7 +1000,7 @@ int main(int argc, char *argv[]) {
      * Turn on core dumping under debug
      */
     if (debug) {
-        struct rlimit coreLimit = {0, 16 * 1024 * 1024};
+        rlimit coreLimit = {0, 16 * 1024 * 1024};
         int ret;
         log_out("Debugging enabled - core limit set to 16Mb");
         ret = setrlimit(RLIMIT_CORE, &coreLimit);
@@ -1074,7 +1044,7 @@ int main(int argc, char *argv[]) {
     sin.sin_family = PF_INET;
     sin.sin_port = htons(port);
     sin.sin_addr.s_addr = htonl(INADDR_ANY);
-    if (bind(listenSock, (struct sockaddr *)&sin, sizeof(sin)) < 0) {
+    if (bind(listenSock, (sockaddr *)&sin, sizeof(sin)) < 0) {
         log_out("Unable to bind socket!");
         exit(1);
     }
@@ -1088,8 +1058,6 @@ int main(int argc, char *argv[]) {
     /*
      * Start the ball rolling
      */
-    FD_ZERO(&ifds);
-    FD_SET(listenSock, &ifds);
     lastConnected = 0;
     mudFd = -1;
 
