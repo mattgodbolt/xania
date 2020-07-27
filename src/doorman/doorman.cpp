@@ -169,8 +169,7 @@ void ProcessNewConnection() {
     try {
         auto newFd = Fd::accept(listenSock, reinterpret_cast<sockaddr *>(&incoming), &len);
         NewConnection(std::move(newFd), incoming);
-    }
-    catch (const std::runtime_error &re) {
+    } catch (const std::runtime_error &re) {
         log_out("Unable to accept new connection: %s", re.what());
     }
 }
@@ -372,8 +371,7 @@ int Main(int argc, char *argv[]) {
     sin.sin_family = PF_INET;
     sin.sin_port = htons(port);
     sin.sin_addr.s_addr = htonl(INADDR_ANY);
-    listenSock
-        .setsockopt(SOL_SOCKET, SO_REUSEADDR, static_cast<int>(1))
+    listenSock.setsockopt(SOL_SOCKET, SO_REUSEADDR, static_cast<int>(1))
         .setsockopt(SOL_SOCKET, SO_LINGER, linger{true, 2})
         .bind(sin)
         .listen(4);

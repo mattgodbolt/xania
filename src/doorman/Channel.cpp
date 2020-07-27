@@ -17,12 +17,12 @@ extern Xania mud; // TODO
 static constexpr auto MaxIncomingDataBufferSize = 2048u;
 
 static void SendCom(const Fd &fd, byte a, byte b) {
-    byte buf[] = { IAC, a, b };
+    byte buf[] = {IAC, a, b};
     fd.write(buf);
 }
 
 static void SendOpt(const Fd &fd, byte a) {
-    byte buf[] = {IAC, SB, a, TELQUAL_SEND, IAC, SE };
+    byte buf[] = {IAC, SB, a, TELQUAL_SEND, IAC, SE};
     fd.write(buf);
 }
 
