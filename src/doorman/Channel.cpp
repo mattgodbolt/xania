@@ -16,23 +16,14 @@ std::array<Channel, MaxChannels> channels;
 extern Xania mud; // TODO
 static constexpr auto MaxIncomingDataBufferSize = 2048u;
 
-static bool SendCom(int fd, byte a, byte b) {
-    byte buf[4];
-    buf[0] = IAC;
-    buf[1] = a;
-    buf[2] = b;
-    return write(fd, buf, 3) == 3;
+static void SendCom(const Fd &fd, byte a, byte b) {
+    byte buf[] = { IAC, a, b };
+    fd.write(buf);
 }
 
-static bool SendOpt(int fd, byte a) {
-    byte buf[6];
-    buf[0] = IAC;
-    buf[1] = SB;
-    buf[2] = a;
-    buf[3] = TELQUAL_SEND;
-    buf[4] = IAC;
-    buf[5] = SE;
-    return write(fd, buf, 6) == 6;
+static void SendOpt(const Fd &fd, byte a) {
+    byte buf[] = {IAC, SB, a, TELQUAL_SEND, IAC, SE };
+    fd.write(buf);
 }
 
 static void AsyncHostnameLookup(sockaddr_in address, int outFd) {
@@ -86,21 +77,17 @@ void Channel::set_echo(bool echo) {
 }
 
 void Channel::on_reconnect_attempt() {
-    if (!fd_)
+    if (!fd_.is_open())
         return;
-    auto recon = "Attempting to reconnect to Xania"sv;
     if (!sent_reconnect_message_) {
-        if (!send_to_client(recon.data(), recon.size()))
-            log_out("Unable to write to channel fd %d", fd_);
+        send_to_client("Attempting to reconnect to Xania"sv);
         sent_reconnect_message_ = true;
     }
     send_to_client(".", 1);
 }
 
 void Channel::close() {
-    if (fd_) {
-        ::close(fd_);
-    }
+    fd_.close();
     if (host_lookup_fds_[0]) {
         ::close(host_lookup_fds_[0]);
     }
@@ -113,12 +100,11 @@ void Channel::close() {
         }
         host_lookup_pid_ = 0;
     }
-    fd_ = 0;
 }
 
-void Channel::newConnection(int fd, sockaddr_in address) {
+void Channel::newConnection(Fd fd, sockaddr_in address) {
     // One day I will be a constructor...
-    this->fd_ = fd;
+    this->fd_ = std::move(fd);
     hostname_ = inet_ntoa(address.sin_addr);
     port_ = ntohs(address.sin_port);
     netaddr_ = ntohl(address.sin_addr.s_addr);
@@ -131,7 +117,7 @@ void Channel::newConnection(int fd, sockaddr_in address) {
     connected_ = false;
     auth_char_name_.clear();
 
-    log_out("[%d] Incoming connection from %s on fd %d", id_, get_masked_hostname(hostname_).c_str(), fd);
+    log_out("[%d] Incoming connection from %s on fd %d", id_, get_masked_hostname(hostname_).c_str(), fd_.number());
 
     /* Send all options out */
     sendTelopts();
@@ -192,10 +178,7 @@ void Channel::newConnection(int fd, sockaddr_in address) {
 bool Channel::incomingData(const byte *incoming_data, int nBytes) {
     /* Check for buffer overflow */
     if ((nBytes + buffer_.size()) > MaxIncomingDataBufferSize) {
-        const char *ovf = ">>> Too much incoming data at once - PUT A LID ON IT!!\n\r";
-        if (write(fd_, ovf, strlen(ovf)) != (ssize_t)strlen(ovf)) {
-            // don't care if this fails..
-        }
+        fd_.write(">>> Too much incoming data at once - PUT A LID ON IT!!\n\r"sv);
         buffer_.clear();
         return false;
     }
@@ -387,7 +370,7 @@ void Channel::sendInfoPacket() const {
 }
 
 void Channel::sendConnectPacket() {
-    if (!fd_)
+    if (!fd_.is_open())
         return;
     if (connected_) {
         log_out("[%d] Attempt to send connect packet for already-connected channel", id_);

@@ -50,27 +50,15 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+using namespace std::literals;
 bool IncomingData(int fd, const byte *incoming_data, int nBytes);
 
 /* Global variables */
 Xania mud;
 pid_t child;
 int port = 9000; // TODO!
-int listenSock;
+Fd listenSock;
 int debug = 0;
-
-/* printf() to an fd */
-__attribute__((format(printf, 2, 3))) bool fdprintf(int fd, const char *format, ...) {
-    char buffer[4096];
-    int len;
-
-    va_list args;
-    va_start(args, format);
-    len = vsnprintf(buffer, sizeof(buffer), format, args);
-    va_end(args);
-    int numWritten = write(fd, buffer, len);
-    return numWritten == len;
-}
 
 /* printf() to everyone */
 __attribute__((format(printf, 1, 2))) void wall(const char *format, ...) {
@@ -117,16 +105,16 @@ std::string get_masked_hostname(std::string_view hostname) {
 }
 
 /* Create a new connection */
-void NewConnection(int fd, sockaddr_in address) {
+void NewConnection(Fd fd, sockaddr_in address) {
     auto channelIter = std::find_if(begin(channels), end(channels), [](const Channel &c) { return c.is_closed(); });
     if (channelIter == end(channels)) {
-        fdprintf(fd, "Xania is out of channels!\n\rTry again soon\n\r");
-        close(fd);
+        fd.write("Xania is out of channels!\n\rTry again soon\n\r"sv);
+        fd.close();
         log_out("Rejected connection - out of channels");
         return;
     }
 
-    channelIter->newConnection(fd, address);
+    channelIter->newConnection(std::move(fd), address);
 }
 
 int32_t FindChannelId(int fd) {
@@ -178,15 +166,13 @@ void MudHasCrashed(int sig) {
 void ProcessNewConnection() {
     sockaddr_in incoming{};
     socklen_t len = sizeof(incoming);
-    int newFD;
-
-    newFD = accept(listenSock, (sockaddr *)&incoming, &len);
-    if (newFD == -1) {
-        log_out("Unable to accept new connection!");
-        perror("accept");
-        return;
+    try {
+        auto newFd = Fd::accept(listenSock, reinterpret_cast<sockaddr *>(&incoming), &len);
+        NewConnection(std::move(newFd), incoming);
     }
-    NewConnection(newFD, incoming);
+    catch (const std::runtime_error &re) {
+        log_out("Unable to accept new connection: %s", re.what());
+    }
 }
 
 /*
@@ -198,12 +184,12 @@ void ExecuteServerLoop() {
     fd_set input_fds, exception_fds;
     FD_ZERO(&input_fds);
     FD_ZERO(&exception_fds);
-    FD_SET(listenSock, &input_fds);
-    int maxFd = listenSock;
+    FD_SET(listenSock.number(), &input_fds);
+    int maxFd = listenSock.number();
     if (mud.fd_ok()) {
-        FD_SET(mud.fd(), &input_fds);
-        FD_SET(mud.fd(), &exception_fds);
-        maxFd = std::max(maxFd, mud.fd());
+        FD_SET(mud.fd().number(), &input_fds);
+        FD_SET(mud.fd().number(), &exception_fds);
+        maxFd = std::max(maxFd, mud.fd().number());
     }
     for (auto &channel : channels)
         maxFd = std::max(channel.set_fds(input_fds, exception_fds), maxFd);
@@ -219,7 +205,7 @@ void ExecuteServerLoop() {
     if (nFDs <= 0)
         return;
     /* Has the MUD crashed out? */
-    if (mud.connected() && FD_ISSET(mud.fd(), &exception_fds)) {
+    if (mud.connected() && FD_ISSET(mud.fd().number(), &exception_fds)) {
         MudHasCrashed(0);
         return; /* Prevent falling into packet handling */
     }
@@ -229,9 +215,9 @@ void ExecuteServerLoop() {
             AbortConnection(i);
         } else if (FD_ISSET(i, &input_fds)) { // Pending incoming data
             /* Is it the listening connection? */
-            if (i == listenSock) {
+            if (i == listenSock.number()) {
                 ProcessNewConnection();
-            } else if (i == mud.fd()) {
+            } else if (i == mud.fd().number()) {
                 mud.process_mud_message();
             } else {
                 /* It's a message from a user or ident - dispatch it */
@@ -295,10 +281,8 @@ void usage() { fprintf(stderr, "Usage: doorman [-h | --help] [-d | --debug] [-p 
 
 // Here we go:
 
-int main(int argc, char *argv[]) {
+int Main(int argc, char *argv[]) {
     protoent *tcpProto = getprotobyname("tcp");
-    int yup = 1;
-    linger linger = {1, 2}; // linger seconds
     sockaddr_in sin{};
 
     /*
@@ -373,11 +357,7 @@ int main(int argc, char *argv[]) {
         log_out("Unable to get TCP number!");
         exit(1);
     }
-    listenSock = socket(PF_INET, SOCK_STREAM, tcpProto->p_proto);
-    if (listenSock < 0) {
-        log_out("Unable to create a socket!");
-        exit(1);
-    }
+    listenSock = Fd::socket(PF_INET, SOCK_STREAM, tcpProto->p_proto);
 
     /*
      * Prevent crashing on SIGPIPE if the MUD goes down, or if a connection
@@ -388,27 +368,15 @@ int main(int argc, char *argv[]) {
     /*
      * Set up a few options
      */
-    if (setsockopt(listenSock, SOL_SOCKET, SO_REUSEADDR, &yup, sizeof(yup)) < 0) {
-        log_out("Unable to listen!");
-        exit(1);
-    }
-    if (setsockopt(listenSock, SOL_SOCKET, SO_LINGER, &linger, sizeof(linger)) < 0) {
-        log_out("Unable to listen!");
-        exit(1);
-    }
-
     memset(&sin, 0, sizeof(sin));
     sin.sin_family = PF_INET;
     sin.sin_port = htons(port);
     sin.sin_addr.s_addr = htonl(INADDR_ANY);
-    if (bind(listenSock, (sockaddr *)&sin, sizeof(sin)) < 0) {
-        log_out("Unable to bind socket!");
-        exit(1);
-    }
-    if (listen(listenSock, 4) < 0) {
-        log_out("Unable to listen!");
-        exit(1);
-    }
+    listenSock
+        .setsockopt(SOL_SOCKET, SO_REUSEADDR, static_cast<int>(1))
+        .setsockopt(SOL_SOCKET, SO_LINGER, linger{true, 2})
+        .bind(sin)
+        .listen(4);
 
     log_out("Doorman is ready to rock on port %d", port);
 
@@ -420,5 +388,14 @@ int main(int argc, char *argv[]) {
         ExecuteServerLoop();
         // Ensure we don't leave zombie processes hanging around
         CheckForDeadLookups();
+    }
+}
+
+int main(int argc, char *argv[]) {
+    try {
+        return Main(argc, argv);
+    } catch (const std::runtime_error &re) {
+        log_out("Uncaught exception: %s", re.what());
+        return 1;
     }
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "doorman.h"
+#include "Fd.hpp"
 
 #include <chrono>
 #include <string_view>
@@ -8,7 +9,7 @@
 class Channel;
 
 class Xania {
-    int fd_ = 0;
+    Fd fd_;
     enum class State { Disconnected, ConnectedAwaitingInit, Connected };
     State state_;
     std::chrono::system_clock::time_point last_connect_attempt_;
@@ -18,7 +19,7 @@ class Xania {
 public:
     [[nodiscard]] bool fd_ok() const { return state_ != State::Disconnected; }
     [[nodiscard]] bool connected() const { return state_ == State::Connected; }
-    [[nodiscard]] int fd() const { return fd_; }
+    [[nodiscard]] const Fd &fd() const { return fd_; }
 
     void poll();
 
