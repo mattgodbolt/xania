@@ -13,7 +13,7 @@ class Xania {
     Doorman &doorman_;
     Fd fd_;
     enum class State { Disconnected, ConnectedAwaitingInit, Connected };
-    State state_;
+    State state_{State::Disconnected};
     std::chrono::system_clock::time_point last_connect_attempt_;
 
     void try_connect();
