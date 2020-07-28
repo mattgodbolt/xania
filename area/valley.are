@@ -2817,6 +2817,19 @@ light GJK A
 A
 19      3
 
+#7825
+darkened quarterstaff staff~
+a darkened quarterstaff~
+A darkened quarterstaff is on the floor.~
+wood~
+weapon G AN
+'spear' 5 5 'crush' 0
+25 5 3298 P
+A
+19      2
+A
+3       2
+
 #0
 
 #RESETS
@@ -3005,7 +3018,7 @@ M 0 7810 1 7878 1  1   an old hermit into Inside the Small Shack
 M 0 7811 1 7881 1  1   Talemon into The Workroom
   
 E   1   7806   99      1     a gold ring on left finger         
-E   1   7807   99     16     a quarterstaff wielded                
+E   1   7825   99     16     a darkened quarterstaff wielded                
 E   1   7824   99      0     the Rod of Neutrality as light               
 M 0 7812 1 7882 1  1   the guardian daemon into The Storage Room
   

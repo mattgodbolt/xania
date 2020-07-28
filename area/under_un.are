@@ -15418,6 +15418,33 @@ money 0 A
 50000 0 0 0 0
 100 30 20331 P
 
+#16095
+shield large tower~
+a large tower shield~
+A large shield lies here.~
+steel~
+armor AG AJ
+7 7  7 0 0
+22 14 6158 P
+E
+shield large tower~
+A pure white shield with a gold cross emblazoned across it.
+~
+
+#16096
+fractured ancient sword~
+a fractured long sword~
+A long sword with a fractured blade has been left here.~
+octarine~
+weapon BG AN
+'sword' 6 7 'slash' 0
+42 10 4075 P
+A
+18      4
+A
+19      4
+
+
 #0
 
 #RESETS
@@ -15650,11 +15677,10 @@ E   1   3073   -1      6      on head
 E   1   3074   -1      7      on legs                
 E   1   3077   -1     10      on arms                
 E   1   9212   -1     14      on left wrist          
-E   1   2313   -1     11      as shield              
+E   1   16095   -1     11      as shield              
 E   1   2365   -1     16      wielded                
 M 0 16026 1 16245 1  1   Antryg into The Gemstone  
 E   1   1615   -1     14      on left wrist          
-E   1    633   -1      7      on legs                
 M 0 16027 7 16251 1  1   the gremlin into Twisting Passage  
 M 0 16027 7 16253 1  1   the gremlin into Chaotic Cluttered Room  
 M 0 16027 7 16254 1  1   the gremlin into Dark Chaotic Corridor  
@@ -15698,7 +15724,6 @@ E   1  16019    9     16     Very muddy branch wielded
 M 0 16031 7 16269 1  1   the jermlaine into The Old Office  
 E   1  16019    9     16     Very muddy branch wielded                
 M 0 16032 1 16298 1  1   the bodak into Audience Chamber  
-E   1   1604    4     16      wielded                
 E   1  16021    2     17     A black wand inlaid with gold symbols held                   
 E   1  16022    2     13     Girth of protection around waist           
 M 0 16033 1 16285 1  1   the mage into Small Well Furnished Chamber  
@@ -15718,7 +15743,7 @@ E   1  16025    4     16     A Huge Stone Mace wielded
 M 0 16035 4 16297 1  1   the stone golem into Audience Chamber  
 E   1  16025    4     16     A Huge Stone Mace wielded                
 M 0 16036 1 16282 1  1   Itreres into Guest Chamber  
-E   1   1704   -1     16      wielded                
+E   1   16096   -1     16      wielded                
 E   1   2009   -1      5      on body                
 E   1    623   -1      7      on legs                
 E   1  16026    2     11     Black Shield of Protection as shield              

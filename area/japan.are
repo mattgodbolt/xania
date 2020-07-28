@@ -489,8 +489,8 @@ a gardener's spade~
 A dirty spade is lying on the ground here.~
 iron~
 weapon 0 AN
-'spear' 4 15 'pierce' 0
-60 10 100 G
+'spear' 4 13 'pierce' 0
+55 10 100 G
 
 #1802
 katana sword~
@@ -498,8 +498,8 @@ Leonardo's Katana blade~
 An oriental style sword is lying on the ground.~
 steel~
 weapon B AN
-'sword' 8 10 'slash' D
-80 15 1000 G
+'sword' 8 8 'slash' D
+65 15 1000 G
 A 
 18 3
 A
@@ -511,8 +511,8 @@ Michaelangelo's numchucks~
 Some numchucks with slime on them are here.~
 stone~
 weapon B ANP
-'mace' 8 10 'pound' F
-80 15 1000 G
+'mace' 8 8 'pound' F
+65 15 1000 G
 A
 18 3
 A
@@ -524,8 +524,8 @@ Donatello's bokken~
 A long wooden pole has been dropped here.~
 wood~
 weapon B ANP
-'polearm' 8 10 'smash' F
-80 15 1000 G
+'polearm' 8 8 'smash' F
+65 15 1000 G
 A 
 18 3
 A
@@ -537,8 +537,8 @@ Raphael's sai~
 Someone has left their sai lying here~
 steel~
 weapon B AN
-'dagger' 8 10 'stab' 0
-80 15 1000 G
+'dagger' 8 8 'stab' 0
+65 15 1000 G
 A
 18 3
 A
@@ -646,8 +646,8 @@ black stiletto~
 The black ninja's weapon of choice has been left here.~
 steel~
 weapon 0 AN
-'dagger' 7 11 'pierce' 0
-78 5 800 G
+'dagger' 6 11 'pierce' 0
+68 5 800 G
 A
 19 3
 
@@ -3029,21 +3029,21 @@ M 0 1814 10 1880 1  1
 E 1 1813 -1 16
 *
 M 0 1815 8 1881 1  1   
-E 1 1814 -1 16
+E 1 1814 -1 16             Black stiletto
 M 0 1815 8 1881 1  1   
-E 1 1814 -1 16
+E 1 1814 -1 16             Black stiletto
 M 0 1815 8 1882 1  1   
-E 1 1814 -1 16
+E 1 1814 -1 16             Black stiletto
 M 0 1815 8 1883 1  1   
-E 1 1814 -1 16
+E 1 1814 -1 16             Black stiletto
 M 0 1815 8 1883 1  1   
-E 1 1814 -1 16
+E 1 1814 -1 16             Black stiletto
 M 0 1815 8 1884 1  1   
-E 1 1814 -1 16
+E 1 1814 -1 16             Black stiletto
 M 0 1815 8 1885 1  1   
-E 1 1814 -1 16
+E 1 1814 -1 16             Black stiletto
 M 0 1815 8 1885 1  1   
-E 1 1814 -1 16
+E 1 1814 -1 16             Black stiletto
 *
 M 0 1816 1 1886 1  1            Shadow Ninja  
 E 1 1815 -1 16

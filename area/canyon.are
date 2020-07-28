@@ -1835,15 +1835,6 @@ weapon 0 AN
 'mace' 2 2 'pound' 0
 3 16 627 P
 
-#9232
-stone axe~
-a stone axe~
-A strange axe hewn from stone lies here.~
-stone~
-weapon 0 AN
-'axe' 3 6 'blast' 0
-18 18 3673 P
-
 #9221
 lode load lodestone loadstone stone~
 a lodestone~
@@ -1961,6 +1952,25 @@ potion 0 AO
 15 29 0 0 0
 3 1 150 P
 
+#9232
+stone axe~
+a stone axe~
+A strange axe hewn from stone lies here.~
+stone~
+weapon 0 AN
+'axe' 3 6 'blast' 0
+18 18 3673 P
+
+#9233
+adamantite club~
+an adamantite club~
+A huge adamantite club lies on the ground.~
+adamantite~
+weapon 0 AN
+'mace' 3 5 'pound' 0
+15 16 927 P
+
+
 #0
 
 #RESETS
@@ -2014,7 +2024,7 @@ M 0 9206 9 9225 1  1   a medium elemental into Darkest Caves
 E   1   9219    7     17     elemental wand of lightning held                   
 M 0 9207 6 9218 1  1   a large elemental into The Floor of the Canyon  
 M 0 9207 6 9260 1  1   a large elemental into Air Chamber  
-E   1   9220   16     16     a stone club wielded                
+E   1   9233   16     16     adamantite club wielded
 M 0 9207 6 9242 1  1   a large elemental into The Burning Gardens  
 M 0 9207 6 9209 1  1   a large elemental into Elemental Gateway  
 M 0 9207 6 9218 1  1   a large elemental into The Floor of the Canyon  

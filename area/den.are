@@ -621,7 +621,7 @@ A brown, leather belt lies here, looking rather inconspicuous.~
 leather~
 armor ABK AL
 12 12 12 12 0
-60 15 30000 P
+60 15 3000 P
 E
 Brown Belt~
 A brown leather belt lies here, begging to be worn.
@@ -651,7 +651,7 @@ The feet of the Creature were chopped off when you killed him.~
 Leather~
 armor ABJ AG
 17 17 17 0 0 
-80 20 35000 P
+80 20 3500 P
 E
 Clawed Feet~
 These feet look extremely deadly, yet clumsy.
@@ -669,7 +669,7 @@ This looks just like a tooth on the beach...except it's a foot long!~
 stone~
 weapon JM AN
 'dagger' 10 9 'bite' D
-91 10 45000 P
+91 10 4500 P
 E
 Shark Tooth~
 This is a long, wicked-looking tooth...it's former owner must have been huge.
@@ -685,7 +685,7 @@ The huge lump from Igor's back lies on the ground here.~
 leather~
 armor J AD
 14 14 14 28 0
-70 20 40000 P
+70 20 4000 P
 E
 Hunchback Back~
 A huge misshapen lump of flesh, it appears to be Igor's famous feature.
@@ -702,7 +702,7 @@ A dusty manual lies on the ground here.~
 vellum~
 armor ABCEJ AO
 15 15 15 50 0
-90 25 100000 P
+80 25 8000 P
 E
 Manual Undead~
 A dusty book, this is the prized, and most powerful, possession of the Dr.
@@ -720,7 +720,7 @@ Man, Franky sure had some scrambled brains.~
 Leather~
 armor CJ AE
 20 20 20 0 0
-85 20 50000 P
+85 20 5000 P
 E
 Scrambled Brains~
 Yummy...good with toast.
@@ -736,7 +736,7 @@ A decaying arm lies on the ground here.~
 stone~
 weapon ABCEJ AN
 'flail' 10 8 'beating' 0
-80 15 40000 P
+80 15 4000 P
 E
 Decaying Arm~
 Man, you sure could flail away with this limb.
@@ -750,7 +750,7 @@ A cute little wand, like you had when you were a kid, lies here.~
 stone~
 weapon ABHM AN
 'exotic' 7 11 'suction' 0
-76 5 40000 P
+76 5 4000 P
 E
 Bubble Blower~
 This wand looks very powerful...and fun.
@@ -768,7 +768,7 @@ A pair of sturdy insectile wings float here.~
 leather~
 armor AB AI
 15 15 15 0 0
-80 1 40000 P
+80 1 4000 P
 E
 Wings~
 These wings look thin, yet powerful.
@@ -784,7 +784,7 @@ The claws of the giant dragon fell off in the tussle.~
 steel~
 armor ABJ AH
 15 15 15 0 0
-80 20 40000 P
+80 20 4000 P
 E
 Claws~
 These claws look sharp, but it will be hard to use a weapon with them on.
@@ -800,7 +800,7 @@ A dark cloud hangs in the air here.~
 stone~
 armor C AK
 16 16 16 0 0
-85 10 50000 P
+85 10 5000 P
 E
 Smoggy Aura~
 A murky, dirty cloud envelops your body, shielding you from harm.
@@ -816,7 +816,7 @@ A huge orb sits on the ground here, calling you to pick it up.~
 stone~
 armor ABJHM AO
 23 23 23 23 0
-90 25 100000 P
+90 25 8000 P
 E
 Orb Dragon Kings~
 This orb radiates an aura of power.  Why are you standing here looking at
@@ -846,7 +846,7 @@ There is a hairy skin lying here.~
 leather~
 armor ABH AD
 22 22 22 0 0
-90 10 40000 P
+90 10 4000 P
 E
 Hairy Chest~
 Is this Faramir's back?  No, it must be Kong's chest.
@@ -862,7 +862,7 @@ Medusa's head lies on the ground here.~
 leather~
 staff ABH AO
 70 10 10 66 0
-68 20 30000 P
+68 20 3000 P
 E
 Gorgon Head~
 The snake-covered head of Medusa is here.
@@ -875,7 +875,7 @@ A squishy ball of the blob's dead ectoplasm lies here.~
 pill~
 pill AB A
 90 502 511 8 0
-85 10 10000 P
+85 10 1000 P
 E
 Ball Ectoplasm~
 Man is this grisly...I wonder what he had for lunch.
@@ -887,7 +887,7 @@ All that is left of the mummy is a pile of rags.~
 cloth~
 armor EHJ AI
 13 13 13 0 0
-75 10 40000 P
+75 10 4000 P
 E
 Wrappings Rags~
 A mound of decaying wrappings lies here...damn they stink!
@@ -905,7 +905,7 @@ A dark cowl lies on the ground here.~
 leather~
 armor ABFHJM AC
 20 20 20 10 0
-85 20 60000 P
+85 20 6000 P
 E
 Cowl~
 A moth-eaten, smelly cowl lies here.  He must have eaten beans before he 
@@ -919,8 +919,8 @@ The Reaper's Scythe~
 An aura of death emanates from the scythe on the ground.~
 iron~
 weapon ABCEJ AN
-'polearm' 10 9 'beating' C
-90 15 40000 P
+'polearm' 9 9 'beating' C
+85 15 4000 P
 E
 Scythe~
 This scythe looks really deadly and poisonous.
@@ -936,7 +936,7 @@ All that is left of the Phantom is his mask.~
 leather~
 armor ABFHJ AE
 17 17 17 0 0
-75 15 40000 P
+75 15 4000 P
 E
 Ghostly Mask~
 This mask must have covered all of the scars on the Phantom.
@@ -953,7 +953,7 @@ A blue bracer lies here.~
 brass~
 armor ABCH AM
 17 17 17 0 0
-70 15 30000 P
+70 15 3000 P
 E
 Blue Bracer~
 The bracer of the blue mistress is now yours.
@@ -967,7 +967,7 @@ A white bracer lies here.~
 brass~
 armor ABCH AM
 17 17 17 0 0
-72 15 30000 P
+72 15 3000 P
 E
 White Bracer~
 The bracer of the white mistress is now yours.
@@ -982,7 +982,7 @@ The red bracer lies here.~
 brass~
 armor ABCH AM
 17 17 17 0 0
-75 15 30000 P
+75 15 3000 P
 E
 Red Bracer~
 The bracer of the red mistress is now yours.
@@ -997,7 +997,7 @@ The black bracer lies here.~
 brass~
 armor ABCH AM
 18 18 18 0 0
-80 15 40000 P
+80 15 4000 P
 E
 Black Bracer~
 The bracer of the black mistress is now yours.
@@ -1013,7 +1013,7 @@ The bane of Dracula lays here.~
 wood~
 weapon ABH AN
 'spear' 8 10 'stab' 0
-85 10 100000 P
+85 10 10000 P
 E
 Bloody Stake~
 You can feel an aura of power emanating from this piece of wood.
@@ -1026,7 +1026,7 @@ Poison drips from the fangs lying on the ground.~
 steel~
 weapon ABHMO AN
 'exotic' 10 9 'bite' C
-90 20 100000 P
+90 20 10000 P
 E
 Fangs Vampire~
 This set of teeth has evil energy seeping from it.
@@ -1043,7 +1043,7 @@ You can barely make out the outline of a dark cloak.~
 leather~
 armor ABEFHJ AK
 23 23 23 23 0
-91 20 100000 P
+91 20 10000 P
 E
 Cloak of Darkness~
 Man is it dark.
@@ -1078,7 +1078,7 @@ The head of Pinhead is lying here.~
 steel~
 armor ABEJ AE
 25 25 25 0 0
-91 20 100000 P
+91 20 10000 P
 E
 Pinhead Head~
 What more do you want?  It's Pinhead.
@@ -1095,7 +1095,7 @@ Lying here on the ground is your leg...better pick it up.~
 steel~
 weapon ABEHJ AN
 'axe' 8 12 'cleave' 0
-91 15 100000 P
+91 15 10000 P
 E
 Your Leg~
 Hey..it's your leg.  Better slap it back on.
@@ -1108,7 +1108,7 @@ Freddy Krueger's claw lies here....watch out.~
 adamantite~
 weapon ABFHM AN
 'exotic' 8 12 'slash' 0
-91 15 200000 P
+91 15 20000 P
 E
 Claw~
 This is it..the claw, man.  What more could you want?
@@ -1125,7 +1125,7 @@ A battered, bloody hockey mask lies here.~
 adamantite~
 armor ABFHM AE
 25 25 25 25 0
-91 25 150000 P
+91 25 15000 P
 E
 Hockey Mask~
 Hey, if you wear this maybe they'll play the cool music...
@@ -1145,7 +1145,7 @@ Man, is that a wicked looking machete.~
 adamantite~
 weapon ABHJM AN
 'sword' 8 12 'slice' 0
-91 15 250000 P
+91 15 25000 P
 E
 machete~
 This looks to be the wickedest weapon ever.  If I were you I wouldn't put
@@ -1163,7 +1163,7 @@ Ewww...there's a finger here...~
 steel~
 armor AB AB
 25 25 25 0 0
-91 5 200000 P
+91 5 20000 P
 E
 Mom Finger~
 This must be the source of Jason's power.  I wonder where her head is...hmm.
@@ -1180,7 +1180,7 @@ A bat wing lies here.~
 leather~
 staff AB AO
 80 15 15 56 0
-70 15 40000 P
+70 15 4000 P
 E
 Wing Bat~
 A bat wing lies here.
@@ -1204,7 +1204,7 @@ A frog's claw lies here.~
 leather~
 wand AB AO
 80 10 10 37 0
-70 30 30000 P
+70 30 3000 P
 E
 claw frog~
 A frog's claw lies here.

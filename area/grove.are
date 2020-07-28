@@ -906,18 +906,31 @@ pill 0 A
 5 0 43 33 0
 13 1 2604 P
 
+#8920
+staff oaken~
+a fine oaken staff~
+You see an oak staff on the floor.~
+~
+weapon K AN
+'spear' 5 4 'pound' 0
+20 5 2662 P
+E
+staff oaken~
+This oaken staff is very hefty but balanced.
+~
+
 #0
 
 #RESETS
 M 0 8900 1 8905 1  1   The Hierophant into The sacred glade
   
-E   1   8910   99     16     a wooden staff wielded                
+E   1   8920   99     16     oaken staff wielded
 E   1   8911   99      5     a brown robe on body                
 G   1   8919   99            some pinkish herbs in inventory
 G   1   8918   99            some orangish herbs in inventory
 M 0 8901 1 8901 1  1   The Hierophant into The holy grove
   
-E   1   8910   99     16     a wooden staff wielded                
+E   1   8920   99     16     oaken staff wielded
 E   1   8911   99      5     a brown robe on body                
 G   1   8913   99            some bluish herbs in inventory
 G   1   8915   99            some blackish herbs in inventory
