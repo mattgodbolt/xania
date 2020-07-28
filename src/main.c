@@ -1,6 +1,6 @@
 #include "merc.h"
 
-#include "doorman/doorman.h"
+#include "doorman/doorman_protocol.h"
 
 #include <signal.h>
 #include <stdlib.h>

@@ -30,7 +30,7 @@
 #include <unistd.h>
 
 #include "challeng.h"
-#include "doorman/doorman.h"
+#include "doorman/doorman_protocol.h"
 #include "merc.h"
 #include "news.h"
 #include "note.h"

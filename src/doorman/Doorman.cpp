@@ -1,187 +1,29 @@
-/*************************************************************************/
-/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
-/*  (C) 1995-2000 Xania Development Team                                    */
-/*  See the header to file: merc.h for original code copyrights          */
-/*                                                                       */
-/*  doorman.c                                                            */
-/*                                                                       */
-/*************************************************************************/
-
-/*
- * Doorman.c
- * Stand-alone 'doorman' for the MUD
- * Sits on port 9000, and relays connections through a named pipe
- * to the MUD itself, thus acting as a link between the MUD
- * and the player independant of the MUD state.
- * If the MUD crashes, or is rebooted, it should be able to maintain
- * connections, and reconnect automatically
- *
- * Terminal issues are resolved here now, which means ANSI-compliant terminals
- * should automatically enable colour, and word-wrapping is done by doorman
- * instead of the MUD, so if you have a wide display you can take advantage
- * of it.
- *
- */
-
-#include "doorman.h"
+#include "Doorman.hpp"
 #include "Channel.hpp"
 #include "Xania.hpp"
-#include "doorman.hpp"
-
-#include <fmt/format.h>
+#include "doorman_protocol.h"
 
 #include <algorithm>
-#include <string>
 #include <string_view>
 #include <vector>
 
 #include <cerrno>
-#include <cstdarg>
-#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
-#include <getopt.h>
-#include <netdb.h>
+#include <cstring>
 #include <netinet/in.h>
-#include <sys/resource.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <sys/un.h>
-#include <sys/wait.h>
-#include <unistd.h>
+#include <wait.h>
 
 using namespace std::literals;
-
-/* log_out() replaces fprintf (stderr,...) */
-__attribute__((format(printf, 1, 2))) void log_out(const char *format, ...) {
-    char buffer[4096], *Time;
-    time_t now;
-
-    va_list args;
-    va_start(args, format);
-    vsnprintf(buffer, sizeof(buffer), format, args);
-    va_end(args);
-
-    time(&now);
-    Time = ctime(&now);
-    Time[strlen(Time) - 1] = '\0'; // Kill the newline
-    fprintf(stderr, "%d::%s %s\n", getpid(), Time, buffer);
-}
-
-unsigned long djb2_hash(std::string_view str) {
-    unsigned long hash = 5381;
-    for (auto c : str)
-        hash = hash * 33 + c;
-    return hash;
-}
-
-/**
- * Returns the hostname, masked for privacy and with a hashcode of the full hostname. This can be used by admins
- * to spot users coming from the same IP.
- */
-std::string get_masked_hostname(std::string_view hostname) {
-    return fmt::format("{}*** [#{}]", hostname.substr(0, 6), djb2_hash(hostname));
-}
-
-void usage() { fprintf(stderr, "Usage: doorman [-h | --help] [-d | --debug] [-p | --port port] [port]\n\r"); }
-
-int Main(int argc, char *argv[]) {
-    int debug = 0;
-    int port = 9000;
-    option OurOptions[] = {
-        {"port", 1, nullptr, 'p'}, {"debug", 0, &debug, 1}, {"help", 0, nullptr, 'h'}, {nullptr, 0, nullptr, 0}};
-
-    /*
-     * Parse any arguments
-     */
-    port = 9000;
-    for (;;) {
-        int optType;
-        int index = 0;
-
-        optType = getopt_long(argc, argv, "dp:h", OurOptions, &index);
-        if (optType == -1)
-            break;
-        switch (optType) {
-        case 'p':
-            port = atoi(optarg);
-            if (port <= 0) {
-                fprintf(stderr, "Invalid port '%s'\n\r", optarg);
-                usage();
-                exit(1);
-            }
-            break;
-        case 'd': debug = 1; break;
-        case 'h':
-            usage();
-            exit(0);
-            break;
-        }
-    }
-
-    if (optind == (argc - 1)) {
-        port = atoi(argv[optind]);
-        if (port <= 0) {
-            fprintf(stderr, "Invalid port '%s'\n\r", argv[optind]);
-            usage();
-            exit(1);
-        }
-    } else if (optind < (argc - 1)) {
-        usage();
-        exit(1);
-    }
-
-    /*
-     * Turn on core dumping under debug
-     */
-    if (debug) {
-        rlimit coreLimit = {0, 16 * 1024 * 1024};
-        int ret;
-        log_out("Debugging enabled - core limit set to 16Mb");
-        ret = setrlimit(RLIMIT_CORE, &coreLimit);
-        if (ret < 0) {
-            log_out("Unable to set limit - %d ('%s')", errno, strerror(errno));
-        }
-    }
-
-    /*
-     * Prevent crashing on SIGPIPE if the MUD goes down, or if a connection
-     * goes funny
-     */
-    signal(SIGPIPE, SIG_IGN);
-
-    Doorman doorman(port);
-
-    /*
-     * Loop forever!
-     */
-    for (;;) {
-        doorman.poll();
-    }
-}
-
-int main(int argc, char *argv[]) {
-    try {
-        return Main(argc, argv);
-    } catch (const std::runtime_error &re) {
-        log_out("Uncaught exception: %s", re.what());
-        return 1;
-    }
-}
 
 Doorman::Doorman(int port) : port_(port), mud_(*this) {
     log_out("Attempting to bind to port %d", port);
     for (int32_t i = 0; i < static_cast<int32_t>(channels_.size()); ++i)
         channels_[i].initialise(*this, mud_, i);
 
-    protoent *tcpProto = getprotobyname("tcp");
-    sockaddr_in sin{};
-    if (tcpProto == nullptr) {
-        log_out("Unable to get TCP number!");
-        exit(1);
-    }
-    listenSock_ = Fd::socket(PF_INET, SOCK_STREAM, tcpProto->p_proto);
+    listenSock_ = Fd::socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
+    sockaddr_in sin{};
     memset(&sin, 0, sizeof(sin));
     sin.sin_family = PF_INET;
     sin.sin_port = htons(port);
@@ -292,6 +134,7 @@ void Doorman::socket_poll() {
         }
     }
 }
+
 void Doorman::accept_new_connection() {
     sockaddr_in incoming{};
     socklen_t len = sizeof(incoming);

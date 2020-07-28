@@ -1,8 +1,8 @@
 #include "Xania.hpp"
 
 #include "Channel.hpp"
-#include "Types.hpp"
-#include "doorman.hpp"
+#include "Doorman.hpp"
+#include "Misc.hpp"
 
 #include <chrono>
 #include <cstdio>
