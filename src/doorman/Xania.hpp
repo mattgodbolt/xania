@@ -26,7 +26,7 @@ public:
 
     void poll();
 
-    void SendToMUD(const Packet &p, const void *payload = nullptr);
+    void send_to_mud(const Packet &p, const void *payload = nullptr);
     void close();
 
     void process_mud_message();

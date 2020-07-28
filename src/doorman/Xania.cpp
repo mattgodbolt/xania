@@ -20,13 +20,13 @@ namespace {
 void *iovec_cast(const void *thing) { return const_cast<void *>(thing); }
 }
 
-void Xania::SendToMUD(const Packet &p, const void *payload) {
+void Xania::send_to_mud(const Packet &p, const void *payload) {
     if (!connected())
         return;
     const iovec vec[2] = {{iovec_cast(&p), sizeof(Packet)}, {iovec_cast(payload), p.nExtra}};
     // TODO writev? rephrase this whole thing?
     if (::writev(fd_.number(), vec, 2) != static_cast<ssize_t>(sizeof(Packet) + p.nExtra)) {
-        perror("SendToMUD");
+        perror("send_to_mud");
         exit(1);
     }
 }
@@ -108,7 +108,7 @@ void Xania::process_mud_message() {
             log_out("Xania has booted");
             state_ = State::Connected;
             // Now try to connect everyone who has been waiting
-            doorman_.for_each_channel([](Channel &chan) { chan.sendConnectPacket(); });
+            doorman_.for_each_channel([](Channel &chan) { chan.send_connect_packet(); });
             return;
         }
 
@@ -128,7 +128,7 @@ void Xania::process_mud_message() {
             } catch (const std::runtime_error &re) {
                 log_out("[%d] Received error '%s' on write - closing connection", p.channel, re.what());
                 send_close_msg(channel);
-                channel.closeConnection();
+                channel.close();
             }
             break;
         case PACKET_AUTHORIZED:
@@ -138,7 +138,7 @@ void Xania::process_mud_message() {
             break;
         case PACKET_DISCONNECT:
             /* Kill off a channel */
-            channel.closeConnection();
+            channel.close();
             break;
         case PACKET_ECHO_ON:
             /* Xania wants text to be echoed by the client */
@@ -157,7 +157,7 @@ void Xania::process_mud_message() {
     }
 }
 
-void Xania::send_close_msg(const Channel &channel) { SendToMUD({PACKET_DISCONNECT, 0, channel.id(), {}}); }
+void Xania::send_close_msg(const Channel &channel) { send_to_mud({PACKET_DISCONNECT, 0, channel.id(), {}}); }
 
 void Xania::on_client_message(const Channel &channel, std::string_view message) const {
     // There was a TODO to store messages in the original code if we weren't connected...probably unwise?
@@ -170,7 +170,7 @@ void Xania::on_client_message(const Channel &channel, std::string_view message) 
                     {iovec_cast(crlf.data()), crlf.size()}};
     // rephrase?
     if (::writev(fd_.number(), vec, 3) != static_cast<ssize_t>(sizeof(p) + message.size() + crlf.size())) {
-        perror("SendToMUD");
+        perror("send_to_mud");
         exit(1);
     }
 }

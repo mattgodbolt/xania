@@ -267,7 +267,7 @@ void Doorman::socket_poll() {
                 if (auto it = std::find_if(begin(channels_), end(channels_),
                                            [&](const Channel &chan) { return chan.is_hostname_fd(i); });
                     it != end(channels_)) {
-                    it->incomingHostnameInfo();
+                    it->on_host_info();
                 } else {
                     int nBytes;
                     byte buf[256];
@@ -307,7 +307,7 @@ void Doorman::accept_new_connection() {
             return;
         }
 
-        channelIter->newConnection(std::move(newFd), incoming);
+        channelIter->new_connection(std::move(newFd), incoming);
     } catch (const std::runtime_error &re) {
         log_out("Unable to accept new connection: %s", re.what());
     }
@@ -318,9 +318,9 @@ void Doorman::abort_connection(int fd) {
         log_out("Erk - unable to find channel for fd %d", fd);
         return;
     }
-    // Eventually when the channel knows about the mud this we can "just" closeConnection here.
+    // Eventually when the channel knows about the mud this we can "just" close_connection here.
     mud_.send_close_msg(*channelPtr);
-    channelPtr->closeConnection();
+    channelPtr->close();
 }
 
 int32_t Doorman::find_channel_id(int fd) const {
@@ -342,7 +342,7 @@ Channel *Doorman::find_channel(int fd) {
 
 void Doorman::on_incoming_data(int fd, gsl::span<const byte> data) {
     if (auto *channel = find_channel(fd))
-        channel->incomingData(data);
+        channel->on_data(data);
     else
         log_out("Oh dear - I got data on fd %d, but no channel!", fd);
 }
@@ -361,7 +361,7 @@ void Doorman::broadcast(std::string_view message) {
             chan.send_to_client(message);
         } catch (const std::runtime_error &re) {
             log_out("Error while broadcasting to %d: %s", chan.id(), re.what());
-            chan.closeConnection();
+            chan.close();
         }
     }
 }

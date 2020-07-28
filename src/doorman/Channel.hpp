@@ -37,16 +37,17 @@ class Channel {
         if (fd_.is_open())
             fd_.write(data, length);
     }
+    void send_info_packet() const;
+    void send_telopts() const;
+    void close_silently(); // used from the lookup thread.
 
 public:
     [[nodiscard]] int32_t id() const { return id_; }
-    void newConnection(Fd fd, sockaddr_in address);
-    void closeConnection();
-    void sendInfoPacket() const;
-    void sendConnectPacket();
-    bool incomingData(gsl::span<const byte> incoming_data);
-    void incomingHostnameInfo();
-    void sendTelopts() const;
+    void new_connection(Fd fd, sockaddr_in address);
+    void send_connect_packet();
+    bool on_data(gsl::span<const byte> incoming_data);
+    void on_host_info();
+    void close();
 
     void on_auth(std::string_view name) { auth_char_name_ = name; }
     [[nodiscard]] const std::string &authed_name() const { return auth_char_name_; }
@@ -60,7 +61,6 @@ public:
     [[nodiscard]] bool is_closed() const { return !fd_.is_open(); }
 
     void set_echo(bool echo);
-    void close();
 
     [[nodiscard]] int set_fds(fd_set &input_fds, fd_set &exception_fds) noexcept;
 

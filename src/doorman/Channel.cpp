@@ -31,7 +31,7 @@ void Channel::async_lookup_process(sockaddr_in address, Fd reply_fd) {
      * life.  This was a bug which meant ppl with firewalled auth
      * ports could keep other ppls connections open (nonresponding)
      */
-    doorman_->for_each_channel([](Channel &channel) { channel.close(); });
+    doorman_->for_each_channel([](Channel &channel) { channel.close_silently(); });
 
     // Bail out on a PIPE - this means our parent has crashed
     signal(SIGPIPE, [](int) {
@@ -64,12 +64,6 @@ static bool SupportsAnsi(const char *src) {
     return false;
 }
 
-void Channel::closeConnection() {
-    // Log the source IP but masked for privacy.
-    log_out("[%d] Closing connection to %s", id_, get_masked_hostname(hostname_).c_str());
-    close();
-}
-
 void Channel::set_echo(bool echo) {
     SendCom(fd_, echo ? WONT : WILL, TELOPT_ECHO);
     echoing_ = echo;
@@ -86,6 +80,12 @@ void Channel::on_reconnect_attempt() {
 }
 
 void Channel::close() {
+    // Log the source IP but masked for privacy.
+    log_out("[%d] Closing connection to %s", id_, get_masked_hostname(hostname_).c_str());
+    close_silently();
+}
+
+void Channel::close_silently() {
     fd_.close();
     host_lookup_fd_.close();
     if (host_lookup_pid_) {
@@ -95,7 +95,7 @@ void Channel::close() {
     }
 }
 
-void Channel::newConnection(Fd fd, sockaddr_in address) {
+void Channel::new_connection(Fd fd, sockaddr_in address) {
     // One day I will be a constructor...
     this->fd_ = std::move(fd);
     hostname_ = inet_ntoa(address.sin_addr);
@@ -113,14 +113,14 @@ void Channel::newConnection(Fd fd, sockaddr_in address) {
     log_out("[%d] Incoming connection from %s on fd %d", id_, get_masked_hostname(hostname_).c_str(), fd_.number());
 
     // Send all options out
-    sendTelopts();
+    send_telopts();
 
     // Tell them if the mud is down
     if (!mud_->connected()) {
         send_to_client("Xania is down at the moment - you will be connected as soon as it is up again.\n\r"sv);
     }
 
-    sendConnectPacket();
+    send_connect_packet();
 
     // Start the async hostname lookup process.
     int pipe_fds[2];
@@ -152,7 +152,7 @@ void Channel::newConnection(Fd fd, sockaddr_in address) {
     }
 }
 
-bool Channel::incomingData(gsl::span<const byte> incoming_data) {
+bool Channel::on_data(gsl::span<const byte> incoming_data) {
     /* Check for buffer overflow */
     if ((incoming_data.size() + buffer_.size()) > MaxIncomingDataBufferSize) {
         fd_.write(">>> Too much incoming data at once - PUT A LID ON IT!!\n\r"sv);
@@ -302,7 +302,7 @@ bool Channel::incomingData(gsl::span<const byte> incoming_data) {
     return true;
 }
 
-void Channel::incomingHostnameInfo() {
+void Channel::on_host_info() {
     log_out("[%d on %d] Incoming lookup info", id_, host_lookup_fd_.number());
     // Move out the fd, so we know however we exit from this point it will be closed.
     auto response_fd = std::move(host_lookup_fd_);
@@ -323,10 +323,10 @@ void Channel::incomingHostnameInfo() {
     }
     // Log the source IP but mask it for privacy.
     log_out("[%d] %s", id_, get_masked_hostname(hostname_).c_str());
-    sendInfoPacket();
+    send_info_packet();
 }
 
-void Channel::sendInfoPacket() const {
+void Channel::send_info_packet() const {
     char buffer[4096];
     auto data = new (buffer) InfoData;
     Packet p{PACKET_INFO, static_cast<uint32_t>(sizeof(InfoData) + hostname_.size() + 1), id_, {}};
@@ -335,10 +335,10 @@ void Channel::sendInfoPacket() const {
     data->netaddr = netaddr_;
     data->ansi = ansi_;
     strcpy(data->data, hostname_.c_str());
-    mud_->SendToMUD(p, buffer);
+    mud_->send_to_mud(p, buffer);
 }
 
-void Channel::sendConnectPacket() {
+void Channel::send_connect_packet() {
     if (!fd_.is_open())
         return;
     if (connected_) {
@@ -351,20 +351,20 @@ void Channel::sendConnectPacket() {
     // Have we already been authenticated?
     if (!auth_char_name_.empty()) {
         connected_ = true;
-        mud_->SendToMUD({PACKET_RECONNECT, static_cast<uint32_t>(auth_char_name_.size() + 1), id_, {}},
-                        auth_char_name_.c_str());
-        sendInfoPacket();
+        mud_->send_to_mud({PACKET_RECONNECT, static_cast<uint32_t>(auth_char_name_.size() + 1), id_, {}},
+                          auth_char_name_.c_str());
+        send_info_packet();
         log_out("[%d] Sent reconnect packet to MUD for %s", id_, auth_char_name_.c_str());
     } else {
         connected_ = true;
-        mud_->SendToMUD({PACKET_CONNECT, 0, id_, {}});
-        sendInfoPacket();
+        mud_->send_to_mud({PACKET_CONNECT, 0, id_, {}});
+        send_info_packet();
         log_out("[%d] Sent connect packet to MUD", id_);
     }
     sent_reconnect_message_ = false;
 }
 
-void Channel::sendTelopts() const {
+void Channel::send_telopts() const {
     SendCom(fd_, DO, TELOPT_TTYPE);
     SendCom(fd_, DO, TELOPT_NAWS);
     SendCom(fd_, WONT, TELOPT_ECHO);
