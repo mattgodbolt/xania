@@ -82,7 +82,7 @@ void Channel::on_reconnect_attempt() {
         send_to_client("Attempting to reconnect to Xania"sv);
         sent_reconnect_message_ = true;
     }
-    send_to_client(".", 1);
+    send_to_client("."sv);
 }
 
 void Channel::close() {
@@ -90,7 +90,7 @@ void Channel::close() {
     host_lookup_fd_.close();
     if (host_lookup_pid_) {
         if (::kill(host_lookup_pid_, 9) < 0)
-            log_out("Couldn't kill child process (ident process has already exited)");
+            log_out("Couldn't kill child process (lookup process has already exited)");
         host_lookup_pid_ = 0;
     }
 }
@@ -117,9 +117,7 @@ void Channel::newConnection(Fd fd, sockaddr_in address) {
 
     // Tell them if the mud is down
     if (!mud_->connected()) {
-        auto msg = "Xania is down at the moment - you will be connected as soon "
-                   "as it is up again.\n\r"sv;
-        send_to_client(msg.data(), msg.size());
+        send_to_client("Xania is down at the moment - you will be connected as soon as it is up again.\n\r"sv);
     }
 
     sendConnectPacket();
@@ -144,7 +142,7 @@ void Channel::newConnection(Fd fd, sockaddr_in address) {
     } break;
     case -1:
         // Error - unable to fork()
-        log_out("Unable to fork() an IdentD lookup process");
+        log_out("Unable to fork() a lookup process");
         break;
     default:
         host_lookup_fd_ = std::move(parent_fd);
@@ -305,21 +303,21 @@ bool Channel::incomingData(gsl::span<const byte> incoming_data) {
 }
 
 void Channel::incomingHostnameInfo() {
-    log_out("[%d on %d] Incoming IdentD info", id_, host_lookup_fd_.number());
+    log_out("[%d on %d] Incoming lookup info", id_, host_lookup_fd_.number());
     // Move out the fd, so we know however we exit from this point it will be closed.
     auto response_fd = std::move(host_lookup_fd_);
     try {
         auto numBytes = response_fd.read_all<size_t>();
         char host_buffer[1024];
         if (numBytes > sizeof(host_buffer)) {
-            log_out("Ident responded with > %lu bytes - possible spam attack", sizeof(host_buffer));
+            log_out("Lookup responded with > %lu bytes - possible spam attack", sizeof(host_buffer));
             numBytes = sizeof(host_buffer);
         }
         response_fd.read_all(host_buffer, numBytes);
         hostname_ = std::string_view(host_buffer, numBytes);
 
     } catch (const std::runtime_error &re) {
-        log_out("[%d] IdentD pipe died on read: %s", id_, re.what());
+        log_out("[%d] Lookup pipe died on read: %s", id_, re.what());
         host_lookup_pid_ = 0;
         return;
     }
@@ -390,4 +388,16 @@ void Channel::initialise(Doorman &doorman, Xania &xania, int32_t id) {
     doorman_ = &doorman;
     mud_ = &xania;
     id_ = id;
+}
+
+int Channel::set_fds(fd_set &input_fds, fd_set &exception_fds) noexcept {
+    if (!fd_.is_open())
+        return 0;
+    FD_SET(fd_.number(), &exception_fds);
+    FD_SET(fd_.number(), &input_fds);
+    if (host_lookup_fd_.is_open()) {
+        FD_SET(host_lookup_fd_.number(), &input_fds);
+        return std::max(host_lookup_fd_.number(), fd_.number());
+    }
+    return fd_.number();
 }
