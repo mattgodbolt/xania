@@ -211,6 +211,25 @@ throw		instinctive co-ordination, can be used with bombs
 for class defaults, check the classes themselves.
 ~
 
+-1 CLASSES~
+Player character classes in Xania:
+Mage:      Specialists in magic including combat, illusion, protection,
+           enchanting and more. Mages receive an intelligence bonus.
+
+Priest:    Specialists in healing, they also deal damage and cast protection
+           and utility spells. Priests receive a bonus to their wisdom.
+
+Knight:    The noble fighting class. Experts in weaponry and defensive techniques.
+           Knights gain a strength bonus.
+
+Barbarian: Hardened cut-throat warriors who use hand to hand combat
+           techniques in order to survive. Barbarians have great constitution.
+
+           At later levels, classes can learn spell groups that they don't start
+           out with by spending 'train' points.
+See:       help mage, help priest, help knight, help barbarian.
+~
+
 -1 MAGE 'MAGIC-USER' 'MAGE BASICS' 'MAGE DEFAULT'~
 Mages specialize in the casting of spells, offensive ones in particular.
 Mages have the highest-powered magic of any class, and are the only classes
@@ -271,10 +290,10 @@ Knights know less of the world than clerics or mages, but their direct
 combatative approach has a great tendency to work all of the time! Most knights
 would sneer at a passing mage, unable to believe that their fuzzy arcane
 methods would get them anywhere. However, knights do appreciate the 
-protective value of magic and most learn spells of this nature fairly early
-on in life. Best of all, knights simply LOVE marching round in expensive
-shiny armour, so they tend to spend most of their time searching the
-world for the best kit! Default Knight set up as follows:
+protective value of magic. Best of all, knights simply LOVE marching round
+in expensive shiny armour, so they tend to spend most of their time being
+chivalrous while searching the world for the best kit!
+Default Knight set up as follows:
 
 skills:
 weaponsmaster	perfect knowledge of the world's most common weapons
