@@ -24,7 +24,7 @@ static void SendOpt(const Fd &fd, byte a) {
     fd.write(buf);
 }
 
-void Channel::async_lookup_process(sockaddr_in address, int reply_fd) {
+void Channel::async_lookup_process(sockaddr_in address, Fd reply_fd) {
     /*
      * Firstly, and quite importantly, close all the descriptors we
      * don't need, so we don't keep open sockets past their useful
@@ -42,14 +42,16 @@ void Channel::async_lookup_process(sockaddr_in address, int reply_fd) {
     auto *ent = gethostbyaddr((char *)&address.sin_addr, sizeof(address.sin_addr), AF_INET);
 
     std::string hostName = ent ? ent->h_name : inet_ntoa(address.sin_addr);
-    auto nBytes = hostName.size() + 1;
-    auto header_written = write(reply_fd, &nBytes, sizeof(nBytes));
-    if (header_written != sizeof(nBytes) || write(reply_fd, hostName.c_str(), nBytes) != static_cast<ssize_t>(nBytes)) {
-        log_out("ID: Unable to write to doorman - perhaps it crashed (%d, %s)", errno, strerror(errno));
-    } else {
-        // Log the source hostname but mask it for privacy.
-        log_out("ID: Looked up %s", get_masked_hostname(hostName).c_str());
+    size_t nBytes = hostName.size() + 1;
+    try {
+        reply_fd.write(nBytes);
+        reply_fd.write(hostName.c_str(), nBytes);
+    } catch (const std::runtime_error &re) {
+        log_out("ID: Unable to write to doorman - perhaps it crashed: %s", re.what());
+        return;
     }
+    // Log the source hostname but mask it for privacy.
+    log_out("ID: Looked up %s", get_masked_hostname(hostName).c_str());
 }
 
 static bool SupportsAnsi(const char *src) {
@@ -85,16 +87,10 @@ void Channel::on_reconnect_attempt() {
 
 void Channel::close() {
     fd_.close();
-    if (host_lookup_fds_[0]) {
-        ::close(host_lookup_fds_[0]);
-    }
-    if (host_lookup_fds_[1]) {
-        ::close(host_lookup_fds_[1]);
-    }
+    host_lookup_fd_.close();
     if (host_lookup_pid_) {
-        if (::kill(host_lookup_pid_, 9) < 0) {
-            log_out("Couldn't kill child process (ident process has already exitted)");
-        }
+        if (::kill(host_lookup_pid_, 9) < 0)
+            log_out("Couldn't kill child process (ident process has already exited)");
         host_lookup_pid_ = 0;
     }
 }
@@ -116,51 +112,8 @@ void Channel::newConnection(Fd fd, sockaddr_in address) {
 
     log_out("[%d] Incoming connection from %s on fd %d", id_, get_masked_hostname(hostname_).c_str(), fd_.number());
 
-    /* Send all options out */
+    // Send all options out
     sendTelopts();
-
-    /* Fire off the query to the ident server */
-    pid_t forkRet = -1;
-    if (pipe(host_lookup_fds_) == -1) {
-        log_out("Pipe failed - next message (unable to fork) is due to this");
-        host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
-    } else {
-        log_out("Pipes %d<->%d", host_lookup_fds_[0], host_lookup_fds_[1]);
-        forkRet = fork();
-    }
-    switch (forkRet) {
-    case 0: {
-        // Child process - go and do the lookup
-        // First close the child's copy of the parent's fd
-        ::close(host_lookup_fds_[0]);
-        log_out("ID: doing lookup");
-        // TODO this is a terrible mess. the child wants to close all FDs...
-        // we probably don't need to store the child's FD at all.
-        auto child_fd = host_lookup_fds_[1];
-        host_lookup_fds_[1] = 0;
-        async_lookup_process(address, child_fd);
-        ::close(child_fd);
-        log_out("ID: exiting");
-        exit(0);
-    } break;
-    case -1:
-        // Error - unable to fork()
-        log_out("Unable to fork() an IdentD lookup process");
-        // Close up the pipe
-        if (host_lookup_fds_[0])
-            ::close(host_lookup_fds_[0]);
-        if (host_lookup_fds_[1])
-            ::close(host_lookup_fds_[1]);
-        host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
-        break;
-    default:
-        // First close the parent's copy of the child's fd
-        ::close(host_lookup_fds_[1]);
-        host_lookup_fds_[1] = 0;
-        host_lookup_pid_ = forkRet;
-        log_out("Forked hostname process has PID %d on %d", forkRet, host_lookup_fds_[0]);
-        break;
-    }
 
     // Tell them if the mud is down
     if (!mud_->connected()) {
@@ -170,6 +123,35 @@ void Channel::newConnection(Fd fd, sockaddr_in address) {
     }
 
     sendConnectPacket();
+
+    // Start the async hostname lookup process.
+    int pipe_fds[2];
+    if (pipe(pipe_fds) == -1) {
+        log_out("Pipe failed!");
+        return;
+    }
+    Fd parent_fd(pipe_fds[0]);
+    Fd child_fd(pipe_fds[1]);
+    log_out("Pipes %d<->%d", pipe_fds[0], pipe_fds[1]);
+    auto forkRet = fork();
+    switch (forkRet) {
+    case 0: {
+        // Child process - go and do the lookup
+        log_out("ID: doing lookup");
+        async_lookup_process(address, std::move(child_fd));
+        log_out("ID: exiting");
+        exit(0);
+    } break;
+    case -1:
+        // Error - unable to fork()
+        log_out("Unable to fork() an IdentD lookup process");
+        break;
+    default:
+        host_lookup_fd_ = std::move(parent_fd);
+        host_lookup_pid_ = forkRet;
+        log_out("Forked hostname process has PID %d on %d", forkRet, host_lookup_fd_.number());
+        break;
+    }
 }
 
 bool Channel::incomingData(gsl::span<const byte> incoming_data) {
@@ -323,32 +305,24 @@ bool Channel::incomingData(gsl::span<const byte> incoming_data) {
 }
 
 void Channel::incomingHostnameInfo() {
-    log_out("[%d on %d] Incoming IdentD info", id_, host_lookup_fds_[0]);
-    // A response from the ident server
-    size_t numBytes;
-    auto ret = read(host_lookup_fds_[0], &numBytes, sizeof(numBytes));
-    if (ret <= 0) {
-        log_out("[%d] IdentD pipe died on read (read returned %ld)", id_, ret);
-        ::close(host_lookup_fds_[0]);
-        host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
+    log_out("[%d on %d] Incoming IdentD info", id_, host_lookup_fd_.number());
+    // Move out the fd, so we know however we exit from this point it will be closed.
+    auto response_fd = std::move(host_lookup_fd_);
+    try {
+        auto numBytes = response_fd.read_all<size_t>();
+        char host_buffer[1024];
+        if (numBytes > sizeof(host_buffer)) {
+            log_out("Ident responded with > %lu bytes - possible spam attack", sizeof(host_buffer));
+            numBytes = sizeof(host_buffer);
+        }
+        response_fd.read_all(host_buffer, numBytes);
+        hostname_ = std::string_view(host_buffer, numBytes);
+
+    } catch (const std::runtime_error &re) {
+        log_out("[%d] IdentD pipe died on read: %s", id_, re.what());
         host_lookup_pid_ = 0;
         return;
     }
-    if (numBytes >= 1024) {
-        log_out("Ident responded with >1k - possible spam attack");
-        numBytes = 1023;
-    }
-    char host_buffer[1024];
-    auto numRead = read(host_lookup_fds_[0], host_buffer, numBytes);
-    ::close(host_lookup_fds_[0]);
-    host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
-    host_lookup_pid_ = 0;
-
-    if (numRead != static_cast<ssize_t>(numBytes)) {
-        log_out("[%d] Partial read %ld!=%ld", id_, numRead, numBytes);
-        return;
-    }
-    hostname_ = std::string_view(host_buffer, numBytes);
     // Log the source IP but mask it for privacy.
     log_out("[%d] %s", id_, get_masked_hostname(hostname_).c_str());
     sendInfoPacket();
@@ -402,17 +376,16 @@ void Channel::on_lookup_died(int status) {
     // Did the process exit abnormally?
     if (!(WIFEXITED(status))) {
         log_out("Zombie reaper: process on channel %d died abnormally", id_);
-        ::close(host_lookup_fds_[0]);
-        ::close(host_lookup_fds_[1]);
-        host_lookup_pid_ = 0;
-        host_lookup_fds_[0] = host_lookup_fds_[1] = 0;
     } else {
-        if (host_lookup_fds_[0] || host_lookup_fds_[1]) {
+        if (host_lookup_fd_.is_open()) {
             log_out("Zombie reaper: A process died, and didn't necessarily "
                     "close up after itself");
         }
     }
+    host_lookup_fd_.close();
+    host_lookup_pid_ = 0;
 }
+
 void Channel::initialise(Doorman &doorman, Xania &xania, int32_t id) {
     doorman_ = &doorman;
     mud_ = &xania;

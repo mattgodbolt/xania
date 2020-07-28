@@ -97,6 +97,22 @@ void Xania::process_mud_message() {
             fd_.read_all(payload.data(), p.nExtra);
         }
 
+        // Only the init packet has no channel; so we don't try and look it up.
+        if (p.type == PACKET_INIT) {
+            // Xania has initialised
+            if (state_ != State::ConnectedAwaitingInit) {
+                log_out("Got init packet when not expecting it!");
+                close();
+                return;
+            }
+            log_out("Xania has booted");
+            state_ = State::Connected;
+            // Now try to connect everyone who has been waiting
+            doorman_.for_each_channel([](Channel &chan) { chan.sendConnectPacket(); });
+            return;
+        }
+
+        // Any other message must be associated with a channel.
         auto channelPtr = doorman_.find_channel_by_id(p.channel);
         if (!channelPtr) {
             log_out("Couldn't find channel ID %d when receiving MUD message!", p.channel);
@@ -124,18 +140,6 @@ void Xania::process_mud_message() {
             /* Kill off a channel */
             channel.closeConnection();
             break;
-        case PACKET_INIT:
-            /* Xania has initialised */
-            if (state_ != State::ConnectedAwaitingInit) {
-                log_out("Got init packet when not expecting it!");
-                close();
-                return;
-            }
-            log_out("Xania has booted");
-            state_ = State::Connected;
-            // Now try to connect everyone who has been waiting
-            doorman_.for_each_channel([](Channel &chan) { chan.sendConnectPacket(); });
-            break;
         case PACKET_ECHO_ON:
             /* Xania wants text to be echoed by the client */
             channel.set_echo(true);
@@ -144,6 +148,7 @@ void Xania::process_mud_message() {
             /* Xania wants text to not be echoed by the client */
             channel.set_echo(false);
             break;
+        case PACKET_INIT:
         default: break;
         }
     } catch (const std::runtime_error &re) {

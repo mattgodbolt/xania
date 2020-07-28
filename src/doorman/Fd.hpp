@@ -36,14 +36,18 @@ public:
     void write(gsl::span<const char> span) const { write(span.data(), span.size_bytes()); }
     void write(gsl::span<const byte> span) const { write(span.data(), span.size_bytes()); }
     void write(const void *data, size_t length) const;
+    template <typename T>
+    void write(const T &t) const {
+        write(&t, sizeof(t));
+    }
 
-    template<typename T>
+    template <typename T>
     T read_all() const {
         T object;
         read_all(&object, sizeof(object));
         return object;
     }
-    template<typename T>
+    template <typename T>
     void read_all(T &object) const {
         read_all(&object, sizeof(object));
     }

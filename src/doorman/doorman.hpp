@@ -34,5 +34,6 @@ public:
     }
     void broadcast(std::string_view message);
 
-    int port() const { return port_; }
+    [[nodiscard]] int port() const { return port_; }
 };
+
