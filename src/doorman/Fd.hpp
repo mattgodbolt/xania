@@ -1,6 +1,6 @@
 #pragma once
 
-#include "doorman.hpp"
+#include "Types.hpp"
 
 #include <gsl/span>
 #include <sys/socket.h>
@@ -69,6 +69,6 @@ public:
     const Fd &connect(const sockaddr *address, socklen_t socklen) const;
     const Fd &listen(int backlog) const;
 
-    static Fd accept(const Fd &listenSock, sockaddr *address, socklen_t *socklen);
+    Fd accept(sockaddr *address, socklen_t *socklen) const;
     static Fd socket(int domain, int type, int protocol);
 };

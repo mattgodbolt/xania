@@ -1,5 +1,6 @@
 #include "Channel.hpp"
 
+#include "Types.hpp"
 #include "Xania.hpp"
 #include "doorman.hpp"
 
@@ -11,9 +12,6 @@
 
 using namespace std::literals;
 
-std::array<Channel, MaxChannels> channels;
-
-extern Xania mud; // TODO
 static constexpr auto MaxIncomingDataBufferSize = 2048u;
 
 static void SendCom(const Fd &fd, byte a, byte b) {
@@ -26,15 +24,14 @@ static void SendOpt(const Fd &fd, byte a) {
     fd.write(buf);
 }
 
-static void AsyncHostnameLookup(sockaddr_in address, int outFd) {
+void Channel::async_lookup_process(sockaddr_in address, int reply_fd) {
     /*
      * Firstly, and quite importantly, close all the descriptors we
      * don't need, so we don't keep open sockets past their useful
      * life.  This was a bug which meant ppl with firewalled auth
      * ports could keep other ppls connections open (nonresponding)
      */
-    for (auto &channel : channels)
-        channel.close();
+    doorman_->for_each_channel([](Channel &channel) { channel.close(); });
 
     // Bail out on a PIPE - this means our parent has crashed
     signal(SIGPIPE, [](int) {
@@ -46,8 +43,8 @@ static void AsyncHostnameLookup(sockaddr_in address, int outFd) {
 
     std::string hostName = ent ? ent->h_name : inet_ntoa(address.sin_addr);
     auto nBytes = hostName.size() + 1;
-    auto header_written = write(outFd, &nBytes, sizeof(nBytes));
-    if (header_written != sizeof(nBytes) || write(outFd, hostName.c_str(), nBytes) != static_cast<ssize_t>(nBytes)) {
+    auto header_written = write(reply_fd, &nBytes, sizeof(nBytes));
+    if (header_written != sizeof(nBytes) || write(reply_fd, hostName.c_str(), nBytes) != static_cast<ssize_t>(nBytes)) {
         log_out("ID: Unable to write to doorman - perhaps it crashed (%d, %s)", errno, strerror(errno));
     } else {
         // Log the source hostname but mask it for privacy.
@@ -141,7 +138,7 @@ void Channel::newConnection(Fd fd, sockaddr_in address) {
         // we probably don't need to store the child's FD at all.
         auto child_fd = host_lookup_fds_[1];
         host_lookup_fds_[1] = 0;
-        AsyncHostnameLookup(address, child_fd);
+        async_lookup_process(address, child_fd);
         ::close(child_fd);
         log_out("ID: exiting");
         exit(0);
@@ -166,7 +163,7 @@ void Channel::newConnection(Fd fd, sockaddr_in address) {
     }
 
     // Tell them if the mud is down
-    if (!mud.connected()) {
+    if (!mud_->connected()) {
         auto msg = "Xania is down at the moment - you will be connected as soon "
                    "as it is up again.\n\r"sv;
         send_to_client(msg.data(), msg.size());
@@ -175,15 +172,15 @@ void Channel::newConnection(Fd fd, sockaddr_in address) {
     sendConnectPacket();
 }
 
-bool Channel::incomingData(const byte *incoming_data, int nBytes) {
+bool Channel::incomingData(gsl::span<const byte> incoming_data) {
     /* Check for buffer overflow */
-    if ((nBytes + buffer_.size()) > MaxIncomingDataBufferSize) {
+    if ((incoming_data.size() + buffer_.size()) > MaxIncomingDataBufferSize) {
         fd_.write(">>> Too much incoming data at once - PUT A LID ON IT!!\n\r"sv);
         buffer_.clear();
         return false;
     }
     /* Add the data into the buffer */
-    buffer_.insert(buffer_.end(), incoming_data, incoming_data + nBytes);
+    buffer_.insert(buffer_.end(), incoming_data.begin(), incoming_data.end());
 
     /* Scan through and remove telnet commands */
     // TODO gsl::span ftw
@@ -305,7 +302,7 @@ bool Channel::incomingData(const byte *incoming_data, int nBytes) {
             // then change...
             c = *ptr; // legacy<-
             /* Send it to the MUD */
-            mud.on_client_message(
+            mud_->on_client_message(
                 *this, std::string_view(reinterpret_cast<const char *>(buffer_.data()), ptr - buffer_.data()));
             /* Check for \n\r or \r\n */
             if (nLeft > 1 && (*(ptr + 1) == '\r' || *(ptr + 1) == '\n') && *(ptr + 1) != c) {
@@ -366,7 +363,7 @@ void Channel::sendInfoPacket() const {
     data->netaddr = netaddr_;
     data->ansi = ansi_;
     strcpy(data->data, hostname_.c_str());
-    mud.SendToMUD(p, buffer);
+    mud_->SendToMUD(p, buffer);
 }
 
 void Channel::sendConnectPacket() {
@@ -376,19 +373,19 @@ void Channel::sendConnectPacket() {
         log_out("[%d] Attempt to send connect packet for already-connected channel", id_);
         return;
     }
-    if (!mud.connected())
+    if (!mud_->connected())
         return;
 
     // Have we already been authenticated?
     if (!auth_char_name_.empty()) {
         connected_ = true;
-        mud.SendToMUD({PACKET_RECONNECT, static_cast<uint32_t>(auth_char_name_.size() + 1), id_, {}},
-                      auth_char_name_.c_str());
+        mud_->SendToMUD({PACKET_RECONNECT, static_cast<uint32_t>(auth_char_name_.size() + 1), id_, {}},
+                        auth_char_name_.c_str());
         sendInfoPacket();
         log_out("[%d] Sent reconnect packet to MUD for %s", id_, auth_char_name_.c_str());
     } else {
         connected_ = true;
-        mud.SendToMUD({PACKET_CONNECT, 0, id_, {}});
+        mud_->SendToMUD({PACKET_CONNECT, 0, id_, {}});
         sendInfoPacket();
         log_out("[%d] Sent connect packet to MUD", id_);
     }
@@ -416,4 +413,8 @@ void Channel::on_lookup_died(int status) {
         }
     }
 }
-void Channel::set_id(int32_t id) { id_ = id; }
+void Channel::initialise(Doorman &doorman, Xania &xania, int32_t id) {
+    doorman_ = &doorman;
+    mud_ = &xania;
+    id_ = id;
+}

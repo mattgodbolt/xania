@@ -51,27 +51,6 @@
 #include <unistd.h>
 
 using namespace std::literals;
-bool IncomingData(int fd, const byte *incoming_data, int nBytes);
-
-/* Global variables */
-Xania mud;
-pid_t child;
-int port = 9000; // TODO!
-Fd listenSock;
-int debug = 0;
-
-/* printf() to everyone */
-__attribute__((format(printf, 1, 2))) void wall(const char *format, ...) {
-    char buffer[4096];
-
-    va_list args;
-    va_start(args, format);
-    int len = vsnprintf(buffer, sizeof(buffer), format, args);
-    va_end(args);
-
-    for (auto &chan : channels)
-        chan.send_to_client(buffer, len);
-}
 
 /* log_out() replaces fprintf (stderr,...) */
 __attribute__((format(printf, 1, 2))) void log_out(const char *format, ...) {
@@ -104,185 +83,13 @@ std::string get_masked_hostname(std::string_view hostname) {
     return fmt::format("{}*** [#{}]", hostname.substr(0, 6), djb2_hash(hostname));
 }
 
-/* Create a new connection */
-void NewConnection(Fd fd, sockaddr_in address) {
-    auto channelIter = std::find_if(begin(channels), end(channels), [](const Channel &c) { return c.is_closed(); });
-    if (channelIter == end(channels)) {
-        fd.write("Xania is out of channels!\n\rTry again soon\n\r"sv);
-        fd.close();
-        log_out("Rejected connection - out of channels");
-        return;
-    }
-
-    channelIter->newConnection(std::move(fd), address);
-}
-
-int32_t FindChannelId(int fd) {
-    if (fd == 0) {
-        log_out("Panic!  fd==0 in FindChannel!  Bailing out with -1");
-        return -1;
-    }
-    if (auto it = std::find_if(begin(channels), end(channels), [&](const Channel &chan) { return chan.has_fd(fd); });
-        it != end(channels))
-        return static_cast<int32_t>(std::distance(begin(channels), it));
-    return -1;
-}
-
-Channel *FindChannel(int fd) {
-    if (auto channelId = FindChannelId(fd); channelId >= 0)
-        return &channels[channelId];
-    return nullptr;
-}
-
-bool IncomingData(int fd, const byte *incoming_data, int nBytes) {
-    if (auto *channel = FindChannel(fd))
-        return channel->incomingData(incoming_data, nBytes);
-    log_out("Oh dear - I got data on fd %d, but no channel!", fd);
-    return false;
-}
-
-/*
- * Aborts a connection - closes the socket
- * and tells the MUD that the channel has closed
- */
-void AbortConnection(int fd) {
-    auto channelPtr = FindChannel(fd);
-    if (!channelPtr) {
-        log_out("Erk - unable to find channel for fd %d", fd);
-        return;
-    }
-    mud.send_close_msg(*channelPtr);
-    channelPtr->closeConnection();
-}
-
-void MudHasCrashed(int sig) {
-    (void)sig;
-    mud.close();
-}
-
-/*
- * Deal with new connections from outside
- */
-void ProcessNewConnection() {
-    sockaddr_in incoming{};
-    socklen_t len = sizeof(incoming);
-    try {
-        auto newFd = Fd::accept(listenSock, reinterpret_cast<sockaddr *>(&incoming), &len);
-        NewConnection(std::move(newFd), incoming);
-    } catch (const std::runtime_error &re) {
-        log_out("Unable to accept new connection: %s", re.what());
-    }
-}
-
-/*
- * The main loop
- */
-void ExecuteServerLoop() {
-    mud.poll();
-
-    fd_set input_fds, exception_fds;
-    FD_ZERO(&input_fds);
-    FD_ZERO(&exception_fds);
-    FD_SET(listenSock.number(), &input_fds);
-    int maxFd = listenSock.number();
-    if (mud.fd_ok()) {
-        FD_SET(mud.fd().number(), &input_fds);
-        FD_SET(mud.fd().number(), &exception_fds);
-        maxFd = std::max(maxFd, mud.fd().number());
-    }
-    for (auto &channel : channels)
-        maxFd = std::max(channel.set_fds(input_fds, exception_fds), maxFd);
-
-    timeval timeOut = {1, 0}; // Wakes up once a second to do housekeeping
-    int nFDs = select(maxFd + 1, &input_fds, nullptr, &exception_fds, &timeOut);
-    if (nFDs == -1 && errno != EINTR) {
-        log_out("Unable to select()!");
-        perror("select");
-        exit(1);
-    }
-    /* Anything happened in the last 10 seconds? */
-    if (nFDs <= 0)
-        return;
-    /* Has the MUD crashed out? */
-    if (mud.connected() && FD_ISSET(mud.fd().number(), &exception_fds)) {
-        MudHasCrashed(0);
-        return; /* Prevent falling into packet handling */
-    }
-    for (int i = 0; i <= maxFd; ++i) {
-        /* Kick out the freaky folks */
-        if (FD_ISSET(i, &exception_fds)) {
-            AbortConnection(i);
-        } else if (FD_ISSET(i, &input_fds)) { // Pending incoming data
-            /* Is it the listening connection? */
-            if (i == listenSock.number()) {
-                ProcessNewConnection();
-            } else if (i == mud.fd().number()) {
-                mud.process_mud_message();
-            } else {
-                /* It's a message from a user or ident - dispatch it */
-                if (auto it = std::find_if(begin(channels), end(channels),
-                                           [&](const Channel &chan) { return chan.is_hostname_fd(i); });
-                    it != end(channels)) {
-                    it->incomingHostnameInfo();
-                } else {
-                    int nBytes;
-                    byte buf[256];
-                    do {
-                        nBytes = read(i, buf, sizeof(buf));
-                        if (nBytes <= 0) {
-                            int32_t channelId = FindChannelId(i);
-                            if (nBytes < 0) {
-                                log_out("[%d] Received error %d (%s) on read - closing connection", channelId, errno,
-                                        strerror(errno));
-                            }
-                            AbortConnection(i);
-                        } else {
-                            if (nBytes > 0)
-                                IncomingData(i, buf, nBytes);
-                        }
-                        // See how many more bytes we can read
-                        nBytes = 0; // XXX Need to look this ioctl up
-                    } while (nBytes > 0);
-                }
-            }
-        }
-    }
-}
-
-void CheckForDeadLookups() {
-    pid_t waiter;
-    int status;
-
-    do {
-        waiter = waitpid(-1, &status, WNOHANG);
-        if (waiter == -1) {
-            break; // Usually 'no child processes'
-        }
-        if (waiter) {
-            // Clear the zombie status
-            waitpid(waiter, nullptr, 0);
-            log_out("Lookup process %d died", waiter);
-            // Find the corresponding channel, if still present
-            if (auto chanIt = std::find_if(begin(channels), end(channels),
-                                           [&](const Channel &chan) { return chan.has_lookup_pid(waiter); });
-                chanIt != end(channels)) {
-                chanIt->on_lookup_died(status);
-            }
-        }
-    } while (waiter);
-}
-
-// Our luvverly options go here :
-option OurOptions[] = {
-    {"port", 1, nullptr, 'p'}, {"debug", 0, &debug, 1}, {"help", 0, nullptr, 'h'}, {nullptr, 0, nullptr, 0}};
-
 void usage() { fprintf(stderr, "Usage: doorman [-h | --help] [-d | --debug] [-p | --port port] [port]\n\r"); }
 
-// Here we go:
-
 int Main(int argc, char *argv[]) {
-    protoent *tcpProto = getprotobyname("tcp");
-    sockaddr_in sin{};
+    int debug = 0;
+    int port = 9000;
+    option OurOptions[] = {
+        {"port", 1, nullptr, 'p'}, {"debug", 0, &debug, 1}, {"help", 0, nullptr, 'h'}, {nullptr, 0, nullptr, 0}};
 
     /*
      * Parse any arguments
@@ -325,18 +132,6 @@ int Main(int argc, char *argv[]) {
     }
 
     /*
-     * Initialise the channel array
-     */
-    for (int32_t i = 0; i < static_cast<int32_t>(channels.size()); ++i)
-        channels[i].set_id(i);
-
-    /*
-     * Bit of 'Hello Mum'
-     */
-    log_out("Doorman version 0.2 starting up");
-    log_out("Attempting to bind to port %d", port);
-
-    /*
      * Turn on core dumping under debug
      */
     if (debug) {
@@ -350,42 +145,18 @@ int Main(int argc, char *argv[]) {
     }
 
     /*
-     * Create a tcp socket, bind and listen on it
-     */
-    if (tcpProto == nullptr) {
-        log_out("Unable to get TCP number!");
-        exit(1);
-    }
-    listenSock = Fd::socket(PF_INET, SOCK_STREAM, tcpProto->p_proto);
-
-    /*
      * Prevent crashing on SIGPIPE if the MUD goes down, or if a connection
      * goes funny
      */
     signal(SIGPIPE, SIG_IGN);
 
-    /*
-     * Set up a few options
-     */
-    memset(&sin, 0, sizeof(sin));
-    sin.sin_family = PF_INET;
-    sin.sin_port = htons(port);
-    sin.sin_addr.s_addr = htonl(INADDR_ANY);
-    listenSock.setsockopt(SOL_SOCKET, SO_REUSEADDR, static_cast<int>(1))
-        .setsockopt(SOL_SOCKET, SO_LINGER, linger{true, 2})
-        .bind(sin)
-        .listen(4);
-
-    log_out("Doorman is ready to rock on port %d", port);
+    Doorman doorman(port);
 
     /*
      * Loop forever!
      */
     for (;;) {
-        // Do all the nitty-gritties
-        ExecuteServerLoop();
-        // Ensure we don't leave zombie processes hanging around
-        CheckForDeadLookups();
+        doorman.poll();
     }
 }
 
@@ -395,5 +166,202 @@ int main(int argc, char *argv[]) {
     } catch (const std::runtime_error &re) {
         log_out("Uncaught exception: %s", re.what());
         return 1;
+    }
+}
+
+Doorman::Doorman(int port) : port_(port), mud_(*this) {
+    log_out("Attempting to bind to port %d", port);
+    for (int32_t i = 0; i < static_cast<int32_t>(channels_.size()); ++i)
+        channels_[i].initialise(*this, mud_, i);
+
+    protoent *tcpProto = getprotobyname("tcp");
+    sockaddr_in sin{};
+    if (tcpProto == nullptr) {
+        log_out("Unable to get TCP number!");
+        exit(1);
+    }
+    listenSock_ = Fd::socket(PF_INET, SOCK_STREAM, tcpProto->p_proto);
+
+    memset(&sin, 0, sizeof(sin));
+    sin.sin_family = PF_INET;
+    sin.sin_port = htons(port);
+    sin.sin_addr.s_addr = htonl(INADDR_ANY);
+    listenSock_.setsockopt(SOL_SOCKET, SO_REUSEADDR, static_cast<int>(1))
+        .setsockopt(SOL_SOCKET, SO_LINGER, linger{true, 2})
+        .bind(sin)
+        .listen(4);
+
+    log_out("Doorman is ready to rock on port %d", port);
+}
+
+void Doorman::poll() {
+    mud_.poll();
+    socket_poll();
+    check_for_dead_lookups();
+}
+
+void Doorman::check_for_dead_lookups() {
+    pid_t waiter;
+    int status;
+
+    do {
+        waiter = waitpid(-1, &status, WNOHANG);
+        if (waiter == -1) {
+            break; // Usually 'no child processes'
+        }
+        if (waiter) {
+            // Clear the zombie status
+            waitpid(waiter, nullptr, 0);
+            log_out("Lookup process %d died", waiter);
+            // Find the corresponding channel, if still present
+            if (auto chanIt = std::find_if(begin(channels_), end(channels_),
+                                           [&](const Channel &chan) { return chan.has_lookup_pid(waiter); });
+                chanIt != end(channels_)) {
+                chanIt->on_lookup_died(status);
+            }
+        }
+    } while (waiter);
+}
+
+void Doorman::socket_poll() {
+    fd_set input_fds, exception_fds;
+    FD_ZERO(&input_fds);
+    FD_ZERO(&exception_fds);
+    FD_SET(listenSock_.number(), &input_fds);
+    int maxFd = listenSock_.number();
+    if (mud_.fd_ok()) {
+        FD_SET(mud_.fd().number(), &input_fds);
+        FD_SET(mud_.fd().number(), &exception_fds);
+        maxFd = std::max(maxFd, mud_.fd().number());
+    }
+    for (auto &channel : channels_)
+        maxFd = std::max(channel.set_fds(input_fds, exception_fds), maxFd);
+
+    timeval timeOut = {1, 0}; // Wakes up once a second to do housekeeping
+    int nFDs = select(maxFd + 1, &input_fds, nullptr, &exception_fds, &timeOut);
+    if (nFDs == -1 && errno != EINTR) {
+        log_out("Unable to select()!");
+        perror("select");
+        exit(1);
+    }
+    /* Anything happened in the last 10 seconds? */
+    if (nFDs <= 0)
+        return;
+    /* Has the MUD crashed out? */
+    if (mud_.connected() && FD_ISSET(mud_.fd().number(), &exception_fds)) {
+        mud_.close();
+        return; /* Prevent falling into packet handling */
+    }
+    for (int i = 0; i <= maxFd; ++i) {
+        /* Kick out the freaky folks */
+        if (FD_ISSET(i, &exception_fds)) {
+            abort_connection(i);
+        } else if (FD_ISSET(i, &input_fds)) { // Pending incoming data
+            /* Is it the listening connection? */
+            if (i == listenSock_.number()) {
+                accept_new_connection();
+            } else if (mud_.fd().is_open() && i == mud_.fd().number()) {
+                mud_.process_mud_message();
+            } else {
+                /* It's a message from a user or ident - dispatch it */
+                if (auto it = std::find_if(begin(channels_), end(channels_),
+                                           [&](const Channel &chan) { return chan.is_hostname_fd(i); });
+                    it != end(channels_)) {
+                    it->incomingHostnameInfo();
+                } else {
+                    int nBytes;
+                    byte buf[256];
+                    do {
+                        nBytes = read(i, buf, sizeof(buf));
+                        if (nBytes <= 0) {
+                            int32_t channelId = find_channel_id(i);
+                            if (nBytes < 0) {
+                                log_out("[%d] Received error %d (%s) on read - closing connection", channelId, errno,
+                                        strerror(errno));
+                            }
+                            abort_connection(i);
+                        } else {
+                            if (nBytes > 0)
+                                on_incoming_data(i, gsl::span<const byte>(buf, buf + nBytes));
+                        }
+                        // See how many more bytes we can read
+                        nBytes = 0; // XXX Need to look this ioctl up
+                    } while (nBytes > 0);
+                }
+            }
+        }
+    }
+}
+void Doorman::accept_new_connection() {
+    sockaddr_in incoming{};
+    socklen_t len = sizeof(incoming);
+    try {
+        auto newFd = listenSock_.accept(reinterpret_cast<sockaddr *>(&incoming), &len);
+
+        auto channelIter =
+            std::find_if(begin(channels_), end(channels_), [](const Channel &c) { return c.is_closed(); });
+        if (channelIter == end(channels_)) {
+            newFd.write("Xania is out of channels!\n\rTry again soon\n\r"sv);
+            newFd.close();
+            log_out("Rejected connection - out of channels");
+            return;
+        }
+
+        channelIter->newConnection(std::move(newFd), incoming);
+    } catch (const std::runtime_error &re) {
+        log_out("Unable to accept new connection: %s", re.what());
+    }
+}
+void Doorman::abort_connection(int fd) {
+    auto channelPtr = find_channel(fd);
+    if (!channelPtr) {
+        log_out("Erk - unable to find channel for fd %d", fd);
+        return;
+    }
+    // Eventually when the channel knows about the mud this we can "just" closeConnection here.
+    mud_.send_close_msg(*channelPtr);
+    channelPtr->closeConnection();
+}
+
+int32_t Doorman::find_channel_id(int fd) const {
+    if (fd == 0) {
+        log_out("Panic!  fd==0 in FindChannel!  Bailing out with -1");
+        return -1;
+    }
+    if (auto it = std::find_if(begin(channels_), end(channels_), [&](const Channel &chan) { return chan.has_fd(fd); });
+        it != end(channels_))
+        return static_cast<int32_t>(std::distance(begin(channels_), it));
+    return -1;
+}
+
+Channel *Doorman::find_channel(int fd) {
+    if (auto channelId = find_channel_id(fd); channelId >= 0)
+        return &channels_[channelId];
+    return nullptr;
+}
+
+void Doorman::on_incoming_data(int fd, gsl::span<const byte> data) {
+    if (auto *channel = find_channel(fd))
+        channel->incomingData(data);
+    else
+        log_out("Oh dear - I got data on fd %d, but no channel!", fd);
+}
+
+Channel *Doorman::find_channel_by_id(int32_t channel_id) {
+    if (channel_id >= 0 && channel_id < MaxChannels) {
+        auto &channel = channels_[channel_id];
+        if (!channel.is_closed())
+            return &channel;
+    }
+    return nullptr;
+}
+void Doorman::broadcast(std::string_view message) {
+    for (auto &chan : channels_) {
+        try {
+            chan.send_to_client(message);
+        } catch (const std::runtime_error &re) {
+            log_out("Error while broadcasting to %d: %s", chan.id(), re.what());
+            chan.closeConnection();
+        }
     }
 }

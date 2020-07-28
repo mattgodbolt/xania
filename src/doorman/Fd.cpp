@@ -14,10 +14,10 @@ void Fd::write(const void *data, size_t length) const {
         throw std::runtime_error("Truncated write to file descriptor {}"_format(fd_));
 }
 
-Fd Fd::accept(const Fd &listenSock, sockaddr *address, socklen_t *socklen) {
-    auto accepted_fd = ::accept(listenSock.fd_, address, socklen);
+Fd Fd::accept(sockaddr *address, socklen_t *socklen) const {
+    auto accepted_fd = ::accept(fd_, address, socklen);
     if (accepted_fd < 0)
-        throw fmt::system_error(errno, "Unable to accept from file descriptor {}", listenSock.fd_);
+        throw fmt::system_error(errno, "Unable to accept from file descriptor {}", fd_);
     return Fd(accepted_fd);
 }
 

@@ -7,8 +7,10 @@
 #include <string_view>
 
 class Channel;
+class Doorman;
 
 class Xania {
+    Doorman &doorman_;
     Fd fd_;
     enum class State { Disconnected, ConnectedAwaitingInit, Connected };
     State state_;
@@ -17,6 +19,7 @@ class Xania {
     void try_connect();
 
 public:
+    explicit Xania(Doorman &doorman) : doorman_(doorman) {}
     [[nodiscard]] bool fd_ok() const { return state_ != State::Disconnected; }
     [[nodiscard]] bool connected() const { return state_ == State::Connected; }
     [[nodiscard]] const Fd &fd() const { return fd_; }

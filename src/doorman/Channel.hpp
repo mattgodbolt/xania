@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Fd.hpp"
-#include "doorman.hpp"
+#include "Types.hpp"
 
 #include <cstdint>
 #include <gsl/span>
@@ -10,8 +10,13 @@
 #include <unistd.h>
 #include <vector>
 
+class Doorman;
+class Xania;
+
 class Channel {
     int32_t id_{}; // the channel id
+    Doorman *doorman_{};// one day you will be a reference
+    Xania *mud_{}; // one day you will be a reference
     Fd fd_;
     std::string hostname_;
     std::vector<byte> buffer_;
@@ -26,13 +31,15 @@ class Channel {
     int host_lookup_fds_[2]{}; /* FD of look-up processes pipe (read on 0) */
     std::string auth_char_name_; /* name of authorized character */
 
+    void async_lookup_process(sockaddr_in address, int reply_fd);
+
 public:
     [[nodiscard]] int32_t id() const { return id_; }
     void newConnection(Fd fd, sockaddr_in address);
     void closeConnection();
     void sendInfoPacket() const;
     void sendConnectPacket();
-    bool incomingData(const byte *incoming_data, int nBytes);
+    bool incomingData(gsl::span<const byte> incoming_data);
     void incomingHostnameInfo();
     void sendTelopts() const;
 
@@ -72,10 +79,5 @@ public:
 
     [[nodiscard]] bool has_lookup_pid(pid_t pid) const { return fd_.is_open() && host_lookup_pid_ == pid; }
     void on_lookup_died(int status);
-    void set_id(int32_t id);
+    void initialise(Doorman &doorman, Xania &xania, int32_t id);
 };
-
-// TODO this is dreadful
-#include <array>
-static constexpr auto MaxChannels = 64;
-extern std::array<Channel, MaxChannels> channels;
