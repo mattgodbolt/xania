@@ -953,6 +953,44 @@ A
 18 4
 A
 19 3
+#5831
+imperial blaster~
+an imperial blaster~
+An imperial blaster is on the ground.
+~
+steel~
+weapon 0 AN
+'exotic' 8 8 'blast' 0
+64 10 3500 P
+E
+imperial blaster~
+Completely black, and fashion of some very hard metal, this blaster
+appears to be a deadly weapon indeed.  The small sights on it allow for
+better aim, and its light weight allows it to be wielded easily with one
+hand
+~
+A
+18 4
+A
+19 4
+#5832
+custom blaster~
+a custom blaster~
+A custom blaster is on the ground.
+~
+steel~
+weapon 0 AN
+'exotic' 8 10 'blast' 0
+80 10 4300 P
+E
+custom blaster~
+Long and sleek, this isn't your father's standard blaster.
+~
+A
+18 5
+A
+19 5
+
 
 #0
  
@@ -2057,11 +2095,11 @@ M 0 5801 15 5806 1  1      storm trooper
   
 E 1 5801 20 6            helmet
 E 1 5805 20 5            plate
-E 1 5814 -1 16           blaster
+E 1 5831 -1 16           blaster
 M 0 5801 15 5808 1  1      storm trooper
   
 E 1 5805 20 5            plate
-E 1 5814 -1 16           blaster
+E 1 5831 -1 16           blaster
 M 0 5801 15 5816 1  1      storm trooper
   
 E 1 5801 20 6            helmet
@@ -2069,13 +2107,13 @@ E 1 5805 20 5            plate
 E 1 5802 20 7            leg plates
 E 1 5803 20 10           arm guards
 E 1 5804 20 8            boots
-E 1 5814 -1 16           blaster
+E 1 5831 -1 16           blaster
 M 0 5801 15 5814 1  1      storm trooper
   
 E 1 5805 20 5            plate
 E 1 5802 20 7            leg plates
 E 1 5803 20 10           arm guards
-E 1 5814 -1 16           blaster
+E 1 5831 -1 16           blaster
 M 0 5801 15 5818 1  1      storm trooper
   
 E 1 5801 20 6            helmet
@@ -2085,21 +2123,21 @@ E 1 5803 20 10           arm guards
 M 0 5801 15 5824 1  1      storm trooper
   
 E 1 5805 20 5            plate
-E 1 5814 -1 16           blaster
+E 1 5831 -1 16           blaster
 M 0 5801 15 5836 1  1      storm trooper
   
 E 1 5805 20 5            plate
-E 1 5814 -1 16           blaster
+E 1 5831 -1 16           blaster
 M 0 5801 15 5840 1  1      storm trooper
   
 E 1 5801 20 6            helmet
-E 1 5814 -1 16           blaster
+E 1 5831 -1 16           blaster
 M 0 5801 15 5845 1  1      storm trooper
   
-E 1 5814 -1 16           blaster
+E 1 5831 -1 16           blaster
 M 0 5801 15 5821 1  1      storm trooper
   
-E 1 5814 -1 16           blaster
+E 1 5831 -1 16           blaster
 *
 M 0 5802 10 5804 1  1      jawa
   
@@ -2212,22 +2250,22 @@ E 1 5814 -1 16           hand blaster
 M 0 5814 2 5844 1  1       mechanic
   
 E 1 5809 -1 13           utility belt
-E 1 5814 -1 16           blaster
+E 1 5832 -1 16           blaster
 M 0 5814 2 5845 1  1       mechanic
   
-E 1 5814 -1 16           blaster
+E 1 5832 -1 16           blaster
 *
 M 0 5816 3 5814 1  1       pilot
   
 G 1 5816 -1              map
-E 1 5814 -1 16           blaster
+E 1 5832 -1 16           blaster
 M 0 5816 3 5841 1  1       pilot
   
-E 1 5814 -1 16           blaster
+E 1 5832 -1 16           blaster
 *
 M 0 5818 1 5813 1  1       uncle owen
   
-E 1 5814 -1 16           blaster
+E 1 5832 -1 16           blaster
 *
 M 0 5820 1 5834 1  1       imperial spy
   
@@ -2256,14 +2294,14 @@ D 0 5838 3 1
 M 0 5801 15 5847 1  1      storm trooper
   
 E 1 5805 20 5            plate
-E 1 5814 -1 16           blaster
+E 1 5831 -1 16           blaster
 M 0 5801 15 5849 1  1      storm trooper
   
 E 1 5804 20 8            boots
-E 1 5814 -1 16           blaster
+E 1 5831 -1 16           blaster
 M 0 5801 15 5851 1  1      storm trooper
   
-E 1 5814 -1 16           blaster
+E 1 5831 -1 16           blaster
 M 0 5801 15 5854 1  1      storm trooper
   
 E 1 5801 20 6            helmet
@@ -2311,14 +2349,14 @@ E 1 5814 -1 16           hand blaster
 *
 M 0 5816 3 5850 1  1       pilot
   
-E 1 5814 -1 16           blaster
+E 1 5832 -1 16           blaster
 *
 M 0 5817 2 5855 1  1       drunk pilot
   
-E 1 5814 -1 16           blaster
+E 1 5831 -1 16           blaster
 M 0 5817 2 5853 1  1       drunk pilot
   
-E 1 5814 -1 16           blaster
+E 1 5831 -1 16           blaster
 *
 M 0 5819 1 5857 1  1       greedo
   
