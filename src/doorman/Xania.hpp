@@ -1,7 +1,7 @@
 #pragma once
 
-#include "doorman.h"
 #include "Fd.hpp"
+#include "doorman_protocol.h"
 
 #include <chrono>
 #include <string_view>
@@ -31,5 +31,5 @@ public:
 
     void process_mud_message();
     void send_close_msg(const Channel &channel);
-    void on_client_message(const Channel &channel, std::string_view message) const ;
+    void on_client_message(const Channel &channel, std::string_view message) const;
 };

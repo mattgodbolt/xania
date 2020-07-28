@@ -1,8 +1,8 @@
 #include "Channel.hpp"
 
-#include "Types.hpp"
+#include "Doorman.hpp"
+#include "Misc.hpp"
 #include "Xania.hpp"
-#include "doorman.hpp"
 
 #include <arpa/inet.h>
 #include <arpa/telnet.h>
