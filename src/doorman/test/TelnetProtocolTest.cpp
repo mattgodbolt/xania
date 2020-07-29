@@ -128,11 +128,10 @@ TEST_CASE("Telnet protocol", "[TelnetProtocol]") {
         REQUIRE_CALL(mock, send_bytes(match_bytes(bytes{IAC, WONT, TELOPT_BINARY})));
         REQUIRE_CALL(mock, send_bytes(match_bytes(bytes{IAC, DONT, TELOPT_ENCRYPT})));
         REQUIRE_CALL(mock, on_terminal_type("xterm", true));
-        // TODO this is actually broken... See bug #57
-        //        SECTION("Should handle IAC commands one byte at a time") {
-        //            for (auto x : data)
-        //                tp.add_data(gsl::span<const byte>(&x, 1));
-        //        }
+        SECTION("Should handle IAC commands one byte at a time") {
+            for (auto x : data)
+                tp.add_data(gsl::span<const byte>(&x, 1));
+        }
         SECTION("Should handle IAC commands not at the beginning of the buffer") {
             auto cruft = bytes{'H', 'e', 'l', 'l', 'o'};
             data.insert(data.begin(), begin(cruft), end(cruft));
@@ -257,4 +256,10 @@ From Marathon to Waterloo, in order categorical;)"));
             }
         }
     }
+
+    // TODO fix this...
+//    SECTION("Should handle complete lines followed by incomplete IAC sequences") {
+//        REQUIRE_CALL(mock, on_line("Hi"));
+//        tp.add_data(bytes{'H', 'i', '\n', IAC, SB});
+//    }
 }

@@ -28,6 +28,9 @@ private:
     void send_com(byte a, byte b);
     void send_opt(byte a);
 
+    size_t on_subcommand(gsl::span<const byte> command_sequence);
+    size_t on_command(gsl::span<const byte> command_sequence);
+
 public:
     explicit TelnetProtocol(Handler &handler) : handler_(handler) {}
 
