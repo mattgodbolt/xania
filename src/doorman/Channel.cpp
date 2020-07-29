@@ -25,13 +25,11 @@ static void SendOpt(const Fd &fd, byte a) {
 }
 
 void Channel::async_lookup_process(sockaddr_in address, Fd reply_fd) {
-    /*
-     * Firstly, and quite importantly, close all the descriptors we
-     * don't need, so we don't keep open sockets past their useful
-     * life.  This was a bug which meant ppl with firewalled auth
-     * ports could keep other ppls connections open (nonresponding)
-     */
-    doorman_->for_each_channel([](Channel &channel) { channel.close_silently(); });
+    // Firstly, and quite importantly, close all the descriptors we don't need, so we don't keep open sockets past their
+    // useful life.  This was a bug which meant ppl with firewalled auth ports could keep other ppls connections open
+    // (nonresponding).
+    doorman_.for_each_channel([](Channel &channel) { channel.close_silently(); });
+    mud_.invalidate_from_lookup_process();
 
     // Bail out on a PIPE - this means our parent has crashed
     signal(SIGPIPE, [](int) {
@@ -54,7 +52,7 @@ void Channel::async_lookup_process(sockaddr_in address, Fd reply_fd) {
     log_out("ID: Looked up %s", get_masked_hostname(hostName).c_str());
 }
 
-static bool SupportsAnsi(const char *src) {
+static bool supports_ansi(const char *src) {
     static const char *terms[] = {"xterm",      "xterm-colour", "xterm-color", "ansi",
                                   "xterm-ansi", "vt100",        "vt102",       "vt220"};
     size_t i;
@@ -82,6 +80,7 @@ void Channel::on_reconnect_attempt() {
 void Channel::close() {
     // Log the source IP but masked for privacy.
     log_out("[%d] Closing connection to %s", id_, get_masked_hostname(hostname_).c_str());
+    mud_.send_close_msg(*this);
     close_silently();
 }
 
@@ -93,30 +92,21 @@ void Channel::close_silently() {
             log_out("Couldn't kill child process (lookup process has already exited)");
         host_lookup_pid_ = 0;
     }
+    doorman_.schedule_remove(*this);
 }
 
-void Channel::new_connection(Fd fd, sockaddr_in address) {
-    // One day I will be a constructor...
-    this->fd_ = std::move(fd);
-    hostname_ = inet_ntoa(address.sin_addr);
-    port_ = ntohs(address.sin_port);
-    netaddr_ = ntohl(address.sin_addr.s_addr);
-    buffer_.clear();
-    width_ = 80;
-    height_ = 24;
-    ansi_ = got_term_ = false;
-    echoing_ = true;
-    sent_reconnect_message_ = false;
-    connected_ = false;
-    auth_char_name_.clear();
-
+Channel::Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockaddr_in &address)
+    : doorman_(doorman), mud_(xania), id_(id), fd_(std::move(fd)), hostname_(inet_ntoa(address.sin_addr)),
+      port_(ntohs(address.sin_port)), netaddr_(ntohl(address.sin_addr.s_addr)) {
     log_out("[%d] Incoming connection from %s on fd %d", id_, get_masked_hostname(hostname_).c_str(), fd_.number());
+
+    // TODO: consider what happens if this throws :/
 
     // Send all options out
     send_telopts();
 
     // Tell them if the mud is down
-    if (!mud_->connected()) {
+    if (!mud_.connected()) {
         send_to_client("Xania is down at the moment - you will be connected as soon as it is up again.\n\r"sv);
     }
 
@@ -238,7 +228,7 @@ bool Channel::on_data(gsl::span<const byte> incoming_data) {
                 switch (sbType) {
                 case TELOPT_TTYPE:
                     log_out("[%d] TTYPE = %s", id_, ptr + 4);
-                    if (SupportsAnsi((const char *)ptr + 4))
+                    if (supports_ansi((const char *)ptr + 4))
                         ansi_ = true;
                     break;
                 case TELOPT_NAWS:
@@ -282,7 +272,7 @@ bool Channel::on_data(gsl::span<const byte> incoming_data) {
             // then change...
             c = *ptr; // legacy<-
             /* Send it to the MUD */
-            mud_->on_client_message(
+            mud_.on_client_message(
                 *this, std::string_view(reinterpret_cast<const char *>(buffer_.data()), ptr - buffer_.data()));
             /* Check for \n\r or \r\n */
             if (nLeft > 1 && (*(ptr + 1) == '\r' || *(ptr + 1) == '\n') && *(ptr + 1) != c) {
@@ -335,7 +325,7 @@ void Channel::send_info_packet() const {
     data->netaddr = netaddr_;
     data->ansi = ansi_;
     strcpy(data->data, hostname_.c_str());
-    mud_->send_to_mud(p, buffer);
+    mud_.send_to_mud(p, buffer);
 }
 
 void Channel::send_connect_packet() {
@@ -345,19 +335,19 @@ void Channel::send_connect_packet() {
         log_out("[%d] Attempt to send connect packet for already-connected channel", id_);
         return;
     }
-    if (!mud_->connected())
+    if (!mud_.connected())
         return;
 
     // Have we already been authenticated?
     if (!auth_char_name_.empty()) {
         connected_ = true;
-        mud_->send_to_mud({PACKET_RECONNECT, static_cast<uint32_t>(auth_char_name_.size() + 1), id_, {}},
-                          auth_char_name_.c_str());
+        mud_.send_to_mud({PACKET_RECONNECT, static_cast<uint32_t>(auth_char_name_.size() + 1), id_, {}},
+                         auth_char_name_.c_str());
         send_info_packet();
         log_out("[%d] Sent reconnect packet to MUD for %s", id_, auth_char_name_.c_str());
     } else {
         connected_ = true;
-        mud_->send_to_mud({PACKET_CONNECT, 0, id_, {}});
+        mud_.send_to_mud({PACKET_CONNECT, 0, id_, {}});
         send_info_packet();
         log_out("[%d] Sent connect packet to MUD", id_);
     }
@@ -382,12 +372,6 @@ void Channel::on_lookup_died(int status) {
     }
     host_lookup_fd_.close();
     host_lookup_pid_ = 0;
-}
-
-void Channel::initialise(Doorman &doorman, Xania &xania, int32_t id) {
-    doorman_ = &doorman;
-    mud_ = &xania;
-    id_ = id;
 }
 
 int Channel::set_fds(fd_set &input_fds, fd_set &exception_fds) noexcept {

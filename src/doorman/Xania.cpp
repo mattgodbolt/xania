@@ -174,3 +174,8 @@ void Xania::on_client_message(const Channel &channel, std::string_view message) 
         exit(1);
     }
 }
+
+void Xania::invalidate_from_lookup_process() {
+    fd_.close();
+    state_ = State::Disconnected;
+}

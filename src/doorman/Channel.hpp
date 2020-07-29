@@ -14,22 +14,25 @@ class Doorman;
 class Xania;
 
 class Channel {
-    int32_t id_{}; // the channel id
-    Doorman *doorman_{}; // one day you will be a reference
-    Xania *mud_{}; // one day you will be a reference
+    Doorman &doorman_;
+    Xania &mud_;
+    int32_t id_;
     Fd fd_;
     std::string hostname_;
     std::vector<byte> buffer_;
-    uint16_t port_{};
-    uint32_t netaddr_{};
-    int width_{}, height_{}; /* Width and height of terminal */
-    bool ansi_{}, got_term_{};
-    bool echoing_{};
-    bool sent_reconnect_message_{};
-    bool connected_{}; /* Socket is ready to connect to Xania */
-    pid_t host_lookup_pid_{}; /* PID of look-up process */
+    uint16_t port_;
+    uint32_t netaddr_;
+    // Terminal size
+    int width_ = 80;
+    int height_ = 24;
+    bool ansi_ = false;
+    bool got_term_ = false;
+    bool echoing_ = true;
+    bool sent_reconnect_message_ = false;
+    bool connected_ = false; // We've sent a connect packet to the mud
+    pid_t host_lookup_pid_{}; // PID of look-up process
     Fd host_lookup_fd_; // Receive end of a pipe to the look-up process
-    std::string auth_char_name_; /* name of authorized character */
+    std::string auth_char_name_; // name of authorized character
 
     void async_lookup_process(sockaddr_in address, Fd reply_fd);
 
@@ -42,8 +45,14 @@ class Channel {
     void close_silently(); // used from the lookup thread.
 
 public:
+    explicit Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockaddr_in &address);
+
+    Channel(const Channel &) = delete;
+    Channel(Channel &&) = delete;
+    Channel &operator=(const Channel &) = delete;
+    Channel &operator=(Channel &&) = delete;
+
     [[nodiscard]] int32_t id() const { return id_; }
-    void new_connection(Fd fd, sockaddr_in address);
     void send_connect_packet();
     bool on_data(gsl::span<const byte> incoming_data);
     void on_host_info();
@@ -70,5 +79,4 @@ public:
 
     [[nodiscard]] bool has_lookup_pid(pid_t pid) const { return fd_.is_open() && host_lookup_pid_ == pid; }
     void on_lookup_died(int status);
-    void initialise(Doorman &doorman, Xania &xania, int32_t id);
 };

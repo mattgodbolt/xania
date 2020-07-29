@@ -18,9 +18,6 @@ using namespace std::literals;
 
 Doorman::Doorman(int port) : port_(port), mud_(*this) {
     log_out("Attempting to bind to port %d", port);
-    for (int32_t i = 0; i < static_cast<int32_t>(channels_.size()); ++i)
-        channels_[i].initialise(*this, mud_, i);
-
     listenSock_ = Fd::socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
     sockaddr_in sin{};
@@ -40,6 +37,18 @@ void Doorman::poll() {
     mud_.poll();
     socket_poll();
     check_for_dead_lookups();
+    remove_dead_channels();
+}
+
+void Doorman::remove_dead_channels() {
+    // As channels can get deleted while we're iterating over the master list of channels, we protect ourselves from the
+    // "delete this" problem by deferring their actual removal until we know that no calls to the Channel are on the
+    // call stack.
+    for (auto id : channels_to_remove_) {
+        log_out("Removed channel %d from master channel list", id);
+        channels_.erase(id);
+    }
+    channels_to_remove_.clear();
 }
 
 void Doorman::check_for_dead_lookups() {
@@ -56,10 +65,11 @@ void Doorman::check_for_dead_lookups() {
             waitpid(waiter, nullptr, 0);
             log_out("Lookup process %d died", waiter);
             // Find the corresponding channel, if still present
-            if (auto chanIt = std::find_if(begin(channels_), end(channels_),
-                                           [&](const Channel &chan) { return chan.has_lookup_pid(waiter); });
-                chanIt != end(channels_)) {
-                chanIt->on_lookup_died(status);
+            if (auto pair_it =
+                    std::find_if(begin(channels_), end(channels_),
+                                 [&](const auto &id_and_chan) { return id_and_chan.second.has_lookup_pid(waiter); });
+                pair_it != end(channels_)) {
+                pair_it->second.on_lookup_died(status);
             }
         }
     } while (waiter);
@@ -76,7 +86,7 @@ void Doorman::socket_poll() {
         FD_SET(mud_.fd().number(), &exception_fds);
         maxFd = std::max(maxFd, mud_.fd().number());
     }
-    for (auto &channel : channels_)
+    for (auto &[_, channel] : channels_)
         maxFd = std::max(channel.set_fds(input_fds, exception_fds), maxFd);
 
     timeval timeOut = {1, 0}; // Wakes up once a second to do housekeeping
@@ -97,7 +107,12 @@ void Doorman::socket_poll() {
     for (int i = 0; i <= maxFd; ++i) {
         /* Kick out the freaky folks */
         if (FD_ISSET(i, &exception_fds)) {
-            abort_connection(i);
+            auto *channel = find_channel_by_fd(i);
+            if (!channel) {
+                log_out("Erk! Unable to find channel for FD %d on exception!", i);
+                continue;
+            }
+            channel->close();
         } else if (FD_ISSET(i, &input_fds)) { // Pending incoming data
             /* Is it the listening connection? */
             if (i == listenSock_.number()) {
@@ -106,25 +121,30 @@ void Doorman::socket_poll() {
                 mud_.process_mud_message();
             } else {
                 /* It's a message from a user or ident - dispatch it */
-                if (auto it = std::find_if(begin(channels_), end(channels_),
-                                           [&](const Channel &chan) { return chan.is_hostname_fd(i); });
+                if (auto it =
+                        std::find_if(begin(channels_), end(channels_),
+                                     [&](const auto &id_and_chan) { return id_and_chan.second.is_hostname_fd(i); });
                     it != end(channels_)) {
-                    it->on_host_info();
+                    it->second.on_host_info();
                 } else {
+                    auto *channel = find_channel_by_fd(i);
+                    if (!channel) {
+                        log_out("Erk! Unable to find channel for FD %d!", i);
+                        continue;
+                    }
                     int nBytes;
                     byte buf[256];
                     do {
                         nBytes = read(i, buf, sizeof(buf));
                         if (nBytes <= 0) {
-                            int32_t channelId = find_channel_id(i);
                             if (nBytes < 0) {
-                                log_out("[%d] Received error %d (%s) on read - closing connection", channelId, errno,
-                                        strerror(errno));
+                                log_out("[%d] Received error %d (%s) on read - closing connection", channel->id(),
+                                        errno, strerror(errno));
                             }
-                            abort_connection(i);
+                            channel->close();
                         } else {
                             if (nBytes > 0)
-                                on_incoming_data(i, gsl::span<const byte>(buf, buf + nBytes));
+                                channel->on_data(gsl::span<const byte>(buf, buf + nBytes));
                         }
                         // See how many more bytes we can read
                         nBytes = 0; // XXX Need to look this ioctl up
@@ -141,70 +161,51 @@ void Doorman::accept_new_connection() {
     try {
         auto newFd = listenSock_.accept(reinterpret_cast<sockaddr *>(&incoming), &len);
 
-        auto channelIter =
-            std::find_if(begin(channels_), end(channels_), [](const Channel &c) { return c.is_closed(); });
-        if (channelIter == end(channels_)) {
+        if (channels_.size() == MaxChannels) {
             newFd.write("Xania is out of channels!\n\rTry again soon\n\r"sv);
-            newFd.close();
             log_out("Rejected connection - out of channels");
             return;
         }
 
-        channelIter->new_connection(std::move(newFd), incoming);
+        auto id = next_channel_id_++; // TODO after 2 billion we're in a bad place™ (UB for a
+        auto insert_rec = channels_.try_emplace(id, *this, mud_, id, std::move(newFd), incoming);
+        if (!insert_rec.second) {
+            // This should be impossible! If this happens we'll silently close the connection.
+            // TODO rethink this; either wrap and retry, but probably need a "ban list" of recently-recycyled IDs.
+            // A lot of sophistication for essentially a "after 2 billion connection attempts" problem.
+            log_out("Reused channel ID %d!", id);
+        }
     } catch (const std::runtime_error &re) {
         log_out("Unable to accept new connection: %s", re.what());
     }
 }
-void Doorman::abort_connection(int fd) {
-    auto channelPtr = find_channel(fd);
-    if (!channelPtr) {
-        log_out("Erk - unable to find channel for fd %d", fd);
-        return;
-    }
-    // Eventually when the channel knows about the mud this we can "just" close_connection here.
-    mud_.send_close_msg(*channelPtr);
-    channelPtr->close();
-}
 
-int32_t Doorman::find_channel_id(int fd) const {
+Channel *Doorman::find_channel_by_fd(int fd) {
     if (fd == 0) {
-        log_out("Panic!  fd==0 in FindChannel!  Bailing out with -1");
-        return -1;
+        log_out("Panic! fd==0 in find_channel_by_fd!  Bailing out with nullptr");
+        return nullptr;
     }
-    if (auto it = std::find_if(begin(channels_), end(channels_), [&](const Channel &chan) { return chan.has_fd(fd); });
+    // TODO not this. Either we go full epoll() or we have a map for this.
+    if (auto it = std::find_if(begin(channels_), end(channels_),
+                               [&](const auto &id_and_chan) { return id_and_chan.second.has_fd(fd); });
         it != end(channels_))
-        return static_cast<int32_t>(std::distance(begin(channels_), it));
-    return -1;
-}
-
-Channel *Doorman::find_channel(int fd) {
-    if (auto channelId = find_channel_id(fd); channelId >= 0)
-        return &channels_[channelId];
+        return &it->second;
     return nullptr;
-}
-
-void Doorman::on_incoming_data(int fd, gsl::span<const byte> data) {
-    if (auto *channel = find_channel(fd))
-        channel->on_data(data);
-    else
-        log_out("Oh dear - I got data on fd %d, but no channel!", fd);
 }
 
 Channel *Doorman::find_channel_by_id(int32_t channel_id) {
-    if (channel_id >= 0 && channel_id < MaxChannels) {
-        auto &channel = channels_[channel_id];
-        if (!channel.is_closed())
-            return &channel;
-    }
+    if (auto it = channels_.find(channel_id); it != channels_.end())
+        return &it->second;
     return nullptr;
 }
+
 void Doorman::broadcast(std::string_view message) {
-    for (auto &chan : channels_) {
+    for_each_channel([&](Channel &chan) {
         try {
             chan.send_to_client(message);
         } catch (const std::runtime_error &re) {
             log_out("Error while broadcasting to %d: %s", chan.id(), re.what());
             chan.close();
         }
-    }
+    });
 }

@@ -28,6 +28,7 @@ public:
 
     void send_to_mud(const Packet &p, const void *payload = nullptr);
     void close();
+    void invalidate_from_lookup_process();
 
     void process_mud_message();
     void send_close_msg(const Channel &channel);
