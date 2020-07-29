@@ -23,13 +23,16 @@ private:
     bool echoing_ = true;
     int width_ = 80;
     int height_ = 24;
-    bool ansi_{false};
+    bool ansi_ = false;
+    char previous_separator_ = 0;
 
     void send_com(byte a, byte b);
     void send_opt(byte a);
 
     size_t on_subcommand(gsl::span<const byte> command_sequence);
     size_t on_command(gsl::span<const byte> command_sequence);
+    gsl::span<const byte> interpret_iacs();
+    std::string_view find_whole_lines(std::string_view data);
 
 public:
     explicit TelnetProtocol(Handler &handler) : handler_(handler) {}

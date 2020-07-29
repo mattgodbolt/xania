@@ -24,11 +24,8 @@ void TelnetProtocol::send_opt(byte a) {
     handler_.send_bytes(buf);
 }
 
-void TelnetProtocol::add_data(gsl::span<const byte> data) {
-    buffer_.insert(buffer_.end(), data.begin(), data.end());
-
+gsl::span<const byte> TelnetProtocol::interpret_iacs() {
     auto starting_point = 0ul;
-    auto nLeft = buffer_.size();
     for (;;) {
         auto iac_it = std::find(std::next(buffer_.begin(), starting_point), buffer_.end(), IAC);
         if (iac_it == buffer_.end())
@@ -39,44 +36,49 @@ void TelnetProtocol::add_data(gsl::span<const byte> data) {
         auto num_consumed = on_command(iac_command);
         if (num_consumed == 0) {
             // If there wasn't enough data for the IAC command, then stop right now and do no further IAC processing: we
-            // must await more data to interpret the command. However, process the rest of the buffer up to the IAC
-            return; // TODO fix!
-            //            nLeft = starting_point;
-            //            break;
+            // must await more data to interpret the command. However, process the rest of the buffer up to the IAC.
+            return gsl::span<const byte>(buffer_).first(starting_point);
         }
         // Remove the command.
         buffer_.erase(std::next(buffer_.begin(), starting_point),
                       std::next(buffer_.begin(), starting_point) + num_consumed);
-        nLeft = buffer_.size();
     }
+    return buffer_;
+}
 
-    /* Second pass - look for whole lines of text */
-    byte *ptr;
-    for (ptr = buffer_.data(); nLeft; ++ptr, --nLeft) {
-        char c;
-        switch (*ptr) {
-        case '\n':
-        case '\r':
-            // TODO this is terribly ghettish. don't need to memmove, and all that. ugh. But write tests first...
-            // then change...
-            c = *ptr; // legacy<-
-            /* Send it to the MUD */
-            handler_.on_line(std::string_view(reinterpret_cast<const char *>(buffer_.data()), ptr - buffer_.data()));
-            /* Check for \n\r or \r\n */
-            if (nLeft > 1 && (*(ptr + 1) == '\r' || *(ptr + 1) == '\n') && *(ptr + 1) != c) {
-                memmove(buffer_.data(), ptr + 2, nLeft - 2);
-                nLeft--;
-            } else if (nLeft) {
-                memmove(buffer_.data(), ptr + 1, nLeft - 1);
-            } // else nLeft is zero, so we might as well avoid calling memmove(x,y,
-            // 0)
+void TelnetProtocol::add_data(gsl::span<const byte> data) {
+    buffer_.insert(buffer_.end(), data.begin(), data.end());
 
-            /* The +1 at the top of the loop resets ptr to buffer */
-            ptr = buffer_.data() - 1;
-            break;
+    auto span_to_scan = interpret_iacs();
+    if (span_to_scan.empty())
+        return;
+
+    auto as_string_view = std::string_view(reinterpret_cast<const char *>(span_to_scan.data()), span_to_scan.size());
+    auto remaining_data = find_whole_lines(as_string_view);
+
+    const auto num_consumed = as_string_view.size() - remaining_data.size();
+    buffer_.erase(buffer_.begin(), std::next(buffer_.begin(), num_consumed));
+}
+
+std::string_view TelnetProtocol::find_whole_lines(std::string_view data) {
+    while (!data.empty()) {
+        // Handle a \n\r or \r\n sequence; even if it crossed a buffer boundary.
+        if ((previous_separator_ == '\n' && data.front() == '\r')
+            || (previous_separator_ == '\r' && data.front() == '\n')) {
+            data.remove_prefix(1);
+            previous_separator_ = 0;
+            continue;
         }
+
+        auto cr_or_lf = data.find_first_of("\n\r");
+        if (cr_or_lf == std::string_view::npos)
+            break;
+
+        previous_separator_ = data[cr_or_lf];
+        handler_.on_line(data.substr(0, cr_or_lf));
+        data.remove_prefix(cr_or_lf + 1);
     }
-    buffer_.resize(ptr - buffer_.data());
+    return data;
 }
 
 void TelnetProtocol::set_echo(bool echo) {

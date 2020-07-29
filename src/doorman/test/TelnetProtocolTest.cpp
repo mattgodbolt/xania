@@ -51,6 +51,7 @@ TEST_CASE("Telnet protocol", "[TelnetProtocol]") {
         REQUIRE_CALL(mock, send_bytes(match_bytes(bytes{IAC, WILL, TELOPT_ECHO})));
         tp.set_echo(false);
     }
+
     SECTION("Should handle WILLs") {
         SECTION("handling terminal type") {
             {
@@ -65,14 +66,17 @@ TEST_CASE("Telnet protocol", "[TelnetProtocol]") {
             tp.add_data(bytes{IAC, WILL, TELOPT_BINARY});
         }
     }
+
     SECTION("Should handle WONTs by saying DONT") {
         REQUIRE_CALL(mock, send_bytes(match_bytes(bytes{IAC, WONT, TELOPT_BINARY})));
         tp.add_data(bytes{IAC, DONT, TELOPT_BINARY});
     }
+
     SECTION("Should handle DONTs by saying WONT") {
         REQUIRE_CALL(mock, send_bytes(match_bytes(bytes{IAC, DONT, TELOPT_BINARY})));
         tp.add_data(bytes{IAC, WONT, TELOPT_BINARY});
     }
+
     SECTION("Should handle DO") {
         // This is confusing as heck, but passes with the original implementation.
         SECTION("handling echo when we're echoing") {
@@ -92,6 +96,7 @@ TEST_CASE("Telnet protocol", "[TelnetProtocol]") {
             tp.add_data(bytes{IAC, DO, TELOPT_AUTHENTICATION});
         }
     }
+
     SECTION("Should handle sub options") {
         SECTION("terminal types") {
             SECTION("supporting ansi") {
@@ -118,9 +123,11 @@ TEST_CASE("Telnet protocol", "[TelnetProtocol]") {
         SECTION("ignore anything else") { tp.add_data(bytes{IAC, SB, TELOPT_BINARY, 0, 1, 2, 3, 4, 5, 6, 7, IAC, SE}); }
     }
 
-    // TODO handle IAC IAC, and byte at a time
+    SECTION("Should ignore any IAC,char seq") {
+        tp.add_data(bytes{IAC, '\n'});
+        tp.add_data(bytes{IAC, IAC}); // not actually compliant, but we don't care
+    }
 
-    SECTION("Should ignore any IAC,char seq") { tp.add_data(bytes{IAC, '\n'}); }
     SECTION("Should handle more complex situations") {
         auto data = bytes{
             IAC, DONT, TELOPT_BINARY, IAC, WONT, TELOPT_ENCRYPT, IAC, '\n', IAC, SB, TELOPT_TTYPE, TELQUAL_IS, 'x', 't',
@@ -182,47 +189,46 @@ TEST_CASE("Telnet protocol", "[TelnetProtocol]") {
                 REQUIRE_CALL(mock, on_line(""));
                 tp.add_data(wrap("\r\n"));
             }
-            // TODO this is actually broken... See bug #58
-            //            SECTION("Char at a time") {
-            //                SECTION("Newline return") {
-            //                    REQUIRE_CALL(mock, on_line(""));
-            //                    tp.add_data(wrap("\n"));
-            //                    tp.add_data(wrap("\r"));
-            //                }
-            //                SECTION("Return newline") {
-            //                    REQUIRE_CALL(mock, on_line(""));
-            //                    tp.add_data(wrap("\r"));
-            //                    tp.add_data(wrap("\n"));
-            //                }
-            //                SECTION("Two newlines") {
-            //                    REQUIRE_CALL(mock, on_line(""));
-            //                    REQUIRE_CALL(mock, on_line(""));
-            //                    tp.add_data(wrap("\n"));
-            //                    tp.add_data(wrap("\n"));
-            //                }
-            //                SECTION("Two returns") {
-            //                    REQUIRE_CALL(mock, on_line(""));
-            //                    REQUIRE_CALL(mock, on_line(""));
-            //                    tp.add_data(wrap("\r"));
-            //                    tp.add_data(wrap("\r"));
-            //                }
-            //                SECTION("Two CRLF") {
-            //                    REQUIRE_CALL(mock, on_line(""));
-            //                    REQUIRE_CALL(mock, on_line(""));
-            //                    tp.add_data(wrap("\r"));
-            //                    tp.add_data(wrap("\n"));
-            //                    tp.add_data(wrap("\r"));
-            //                    tp.add_data(wrap("\n"));
-            //                }
-            //                SECTION("Two LFCR") {
-            //                    REQUIRE_CALL(mock, on_line(""));
-            //                    REQUIRE_CALL(mock, on_line(""));
-            //                    tp.add_data(wrap("\n"));
-            //                    tp.add_data(wrap("\r"));
-            //                    tp.add_data(wrap("\n"));
-            //                    tp.add_data(wrap("\r"));
-            //                }
-            //            }
+            SECTION("Char at a time") {
+                SECTION("Newline return") {
+                    REQUIRE_CALL(mock, on_line(""));
+                    tp.add_data(wrap("\n"));
+                    tp.add_data(wrap("\r"));
+                }
+                SECTION("Return newline") {
+                    REQUIRE_CALL(mock, on_line(""));
+                    tp.add_data(wrap("\r"));
+                    tp.add_data(wrap("\n"));
+                }
+                SECTION("Two newlines") {
+                    REQUIRE_CALL(mock, on_line(""));
+                    REQUIRE_CALL(mock, on_line(""));
+                    tp.add_data(wrap("\n"));
+                    tp.add_data(wrap("\n"));
+                }
+                SECTION("Two returns") {
+                    REQUIRE_CALL(mock, on_line(""));
+                    REQUIRE_CALL(mock, on_line(""));
+                    tp.add_data(wrap("\r"));
+                    tp.add_data(wrap("\r"));
+                }
+                SECTION("Two CRLF") {
+                    REQUIRE_CALL(mock, on_line(""));
+                    REQUIRE_CALL(mock, on_line(""));
+                    tp.add_data(wrap("\r"));
+                    tp.add_data(wrap("\n"));
+                    tp.add_data(wrap("\r"));
+                    tp.add_data(wrap("\n"));
+                }
+                SECTION("Two LFCR") {
+                    REQUIRE_CALL(mock, on_line(""));
+                    REQUIRE_CALL(mock, on_line(""));
+                    tp.add_data(wrap("\n"));
+                    tp.add_data(wrap("\r"));
+                    tp.add_data(wrap("\n"));
+                    tp.add_data(wrap("\r"));
+                }
+            }
         }
 
         SECTION("Multiple lines with varying newlines") {
@@ -257,9 +263,8 @@ From Marathon to Waterloo, in order categorical;)"));
         }
     }
 
-    // TODO fix this...
-    //    SECTION("Should handle complete lines followed by incomplete IAC sequences") {
-    //        REQUIRE_CALL(mock, on_line("Hi"));
-    //        tp.add_data(bytes{'H', 'i', '\n', IAC, SB});
-    //    }
+    SECTION("Should handle complete lines followed by incomplete IAC sequences") {
+        REQUIRE_CALL(mock, on_line("Hi"));
+        tp.add_data(bytes{'H', 'i', '\n', IAC, SB});
+    }
 }
