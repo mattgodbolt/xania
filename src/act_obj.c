@@ -982,7 +982,7 @@ void do_eat(CHAR_DATA *ch, char *argument) {
 
             af.type = gsn_poison;
             af.level = number_fuzzy(obj->value[0]);
-            af.duration = 2 * obj->value[0];
+            af.duration = UMAX(1, obj->value[0]);
             af.location = APPLY_NONE;
             af.modifier = 0;
             af.bitvector = AFF_POISON;
