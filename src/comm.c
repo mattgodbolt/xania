@@ -1371,25 +1371,34 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
         default: write_to_buffer(d, "That's not a sex.\n\rWhat IS your sex? ", 0); return;
         }
 
-        strcpy(buf, "Select a class [");
+        strcpy(buf, "The following classes are available: ");
         for (iClass = 0; iClass < MAX_CLASS; iClass++) {
             if (iClass > 0)
                 strcat(buf, " ");
             strcat(buf, class_table[iClass].name);
         }
-        strcat(buf, "]: ");
+        strcat(buf, "\n\r");
         write_to_buffer(d, buf, 0);
+        write_to_buffer(d, "What is your class (help for more information)? ", 0);
         d->connected = CON_GET_NEW_CLASS;
         break;
 
     case CON_GET_NEW_CLASS:
+        one_argument(argument, arg);
+        if (!strcmp(arg, "help")) {
+            argument = one_argument(argument, arg);
+            if (argument[0] == '\0')
+                do_help(ch, "classes");
+            else
+                do_help(ch, argument);
+            write_to_buffer(d, "What is your class (help for more information)? ", 0);
+            break;
+        }
         iClass = class_lookup(argument);
-
         if (iClass == -1) {
             write_to_buffer(d, "That's not a class.\n\rWhat IS your class? ", 0);
             return;
         }
-
         ch->class_num = iClass;
         snprintf(log_buf, LOG_BUF_SIZE, "%s@%s new player.", ch->name, get_masked_hostname(hostbuf, d->host));
         log_string(log_buf);
