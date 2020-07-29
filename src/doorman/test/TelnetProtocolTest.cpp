@@ -110,11 +110,10 @@ TEST_CASE("Telnet protocol", "[TelnetProtocol]") {
                 REQUIRE_CALL(mock, on_terminal_size(80, 40));
                 tp.add_data(bytes{IAC, SB, TELOPT_NAWS, 0, 80, 0, 40, IAC, SE});
             }
-            // TODO: fix #59
-            //            SECTION("giant") {
-            //                REQUIRE_CALL(mock, on_terminal_size(0x1223, 0x4556));
-            //                tp.add_data(bytes{IAC, SB, TELOPT_NAWS, 0x12, 0x34, 0x45, 0x56, IAC, SE});
-            //            }
+            SECTION("giant") {
+                REQUIRE_CALL(mock, on_terminal_size(0x1234, 0x4556));
+                tp.add_data(bytes{IAC, SB, TELOPT_NAWS, 0x12, 0x34, 0x45, 0x56, IAC, SE});
+            }
         }
         SECTION("ignore anything else") { tp.add_data(bytes{IAC, SB, TELOPT_BINARY, 0, 1, 2, 3, 4, 5, 6, 7, IAC, SE}); }
     }

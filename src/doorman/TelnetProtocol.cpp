@@ -108,8 +108,8 @@ void TelnetProtocol::add_data(gsl::span<const byte> data) {
                     break;
                 }
                 case TELOPT_NAWS:
-                    width_ = ptr[4];
-                    height_ = ptr[6];
+                    width_ = (ptr[3] << 8u) | ptr[4];
+                    height_ = (ptr[5] << 8u) | ptr[6];
                     handler_.on_terminal_size(width_, height_);
                     break;
                 }
