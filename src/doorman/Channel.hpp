@@ -2,7 +2,7 @@
 
 #include "Fd.hpp"
 #include "Misc.hpp"
-#include "TelnetLineParser.hpp"
+#include "TelnetProtocol.hpp"
 
 #include <cstdint>
 #include <gsl/span>
@@ -14,13 +14,13 @@
 class Doorman;
 class Xania;
 
-class Channel : private TelnetLineParser::Handler {
+class Channel : private TelnetProtocol::Handler {
     Doorman &doorman_;
     Xania &mud_;
     int32_t id_;
     Fd fd_;
     std::string hostname_;
-    TelnetLineParser telnet_{*this};
+    TelnetProtocol telnet_{*this};
     uint16_t port_;
     uint32_t netaddr_;
     bool sent_reconnect_message_ = false;

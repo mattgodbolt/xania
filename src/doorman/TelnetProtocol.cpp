@@ -1,4 +1,4 @@
-#include "TelnetLineParser.hpp"
+#include "TelnetProtocol.hpp"
 
 #include <arpa/telnet.h>
 
@@ -14,17 +14,17 @@ static bool supports_ansi(const char *src) {
     return false;
 }
 
-void TelnetLineParser::send_com(byte a, byte b) {
+void TelnetProtocol::send_com(byte a, byte b) {
     const byte buf[] = {IAC, a, b};
     handler_.send_bytes(buf);
 }
 
-void TelnetLineParser::send_opt(byte a) {
+void TelnetProtocol::send_opt(byte a) {
     const byte buf[] = {IAC, SB, a, TELQUAL_SEND, IAC, SE};
     handler_.send_bytes(buf);
 }
 
-void TelnetLineParser::add_data(gsl::span<const byte> data) {
+void TelnetProtocol::add_data(gsl::span<const byte> data) {
     buffer_.insert(buffer_.end(), data.begin(), data.end());
 
     /* Scan through and remove telnet commands */
@@ -166,12 +166,12 @@ void TelnetLineParser::add_data(gsl::span<const byte> data) {
     buffer_.resize(ptr - buffer_.data());
 }
 
-void TelnetLineParser::set_echo(bool echo) {
+void TelnetProtocol::set_echo(bool echo) {
     send_com(echo ? WONT : WILL, TELOPT_ECHO);
     echoing_ = echo;
 }
 
-void TelnetLineParser::send_telopts() {
+void TelnetProtocol::send_telopts() {
     send_com(DO, TELOPT_TTYPE);
     send_com(DO, TELOPT_NAWS);
     send_com(WONT, TELOPT_ECHO);

@@ -6,7 +6,7 @@
 
 #include <vector>
 
-class TelnetLineParser {
+class TelnetProtocol {
 public:
     struct Handler {
         virtual ~Handler() = default;
@@ -29,7 +29,7 @@ private:
     void send_opt(byte a);
 
 public:
-    explicit TelnetLineParser(Handler &handler) : handler_(handler) {}
+    explicit TelnetProtocol(Handler &handler) : handler_(handler) {}
 
     [[nodiscard]] size_t buffered_data_size() const { return buffer_.size(); }
     void add_data(gsl::span<const byte> data);
