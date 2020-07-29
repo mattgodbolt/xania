@@ -258,8 +258,8 @@ From Marathon to Waterloo, in order categorical;)"));
     }
 
     // TODO fix this...
-//    SECTION("Should handle complete lines followed by incomplete IAC sequences") {
-//        REQUIRE_CALL(mock, on_line("Hi"));
-//        tp.add_data(bytes{'H', 'i', '\n', IAC, SB});
-//    }
+    //    SECTION("Should handle complete lines followed by incomplete IAC sequences") {
+    //        REQUIRE_CALL(mock, on_line("Hi"));
+    //        tp.add_data(bytes{'H', 'i', '\n', IAC, SB});
+    //    }
 }
