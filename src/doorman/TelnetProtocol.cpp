@@ -41,7 +41,7 @@ gsl::span<const byte> TelnetProtocol::interpret_iacs() {
         }
         // Remove the command.
         buffer_.erase(std::next(buffer_.begin(), starting_point),
-                      std::next(buffer_.begin(), starting_point) + num_consumed);
+                      std::next(buffer_.begin(), starting_point + num_consumed));
     }
     return buffer_;
 }
