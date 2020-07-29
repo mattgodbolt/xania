@@ -62,3 +62,10 @@ void Fd::read_all(void *data, size_t length) const {
     if (static_cast<size_t>(num_read) != length)
         throw std::runtime_error("Truncated read from file descriptor {}"_format(fd_));
 }
+
+size_t Fd::try_read_some(gsl::span<byte> span) const {
+    ssize_t num_bytes = ::read(fd_, span.data(), span.size());
+    if (num_bytes < 0)
+        throw fmt::system_error(errno, "Unable to read from {}", fd_);
+    return static_cast<size_t>(num_bytes);
+}

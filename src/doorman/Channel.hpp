@@ -43,6 +43,7 @@ class Channel {
     void send_info_packet() const;
     void send_telopts() const;
     void close_silently(); // used from the lookup thread.
+    void on_data(gsl::span<const byte> incoming_data);
 
 public:
     explicit Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockaddr_in &address);
@@ -54,7 +55,6 @@ public:
 
     [[nodiscard]] int32_t id() const { return id_; }
     void send_connect_packet();
-    bool on_data(gsl::span<const byte> incoming_data);
     void on_host_info();
     void close();
 
@@ -79,4 +79,5 @@ public:
 
     [[nodiscard]] bool has_lookup_pid(pid_t pid) const { return fd_.is_open() && host_lookup_pid_ == pid; }
     void on_lookup_died(int status);
+    void on_data_available();
 };

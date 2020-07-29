@@ -53,6 +53,8 @@ public:
     }
     void read_all(void *data, size_t length) const;
 
+    size_t try_read_some(gsl::span<byte> span) const;
+
     template <typename T>
     const Fd &setsockopt(int level, int optname, const T &optval) const {
         return setsockopt(level, optname, &optval, sizeof(optval));

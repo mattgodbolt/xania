@@ -14,12 +14,12 @@ using namespace std::literals;
 
 static constexpr auto MaxIncomingDataBufferSize = 2048u;
 
-static void SendCom(const Fd &fd, byte a, byte b) {
+static void send_com(const Fd &fd, byte a, byte b) {
     byte buf[] = {IAC, a, b};
     fd.write(buf);
 }
 
-static void SendOpt(const Fd &fd, byte a) {
+static void send_opt(const Fd &fd, byte a) {
     byte buf[] = {IAC, SB, a, TELQUAL_SEND, IAC, SE};
     fd.write(buf);
 }
@@ -63,7 +63,7 @@ static bool supports_ansi(const char *src) {
 }
 
 void Channel::set_echo(bool echo) {
-    SendCom(fd_, echo ? WONT : WILL, TELOPT_ECHO);
+    send_com(fd_, echo ? WONT : WILL, TELOPT_ECHO);
     echoing_ = echo;
 }
 
@@ -142,12 +142,13 @@ Channel::Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockad
     }
 }
 
-bool Channel::on_data(gsl::span<const byte> incoming_data) {
+void Channel::on_data(gsl::span<const byte> incoming_data) {
     /* Check for buffer overflow */
     if ((incoming_data.size() + buffer_.size()) > MaxIncomingDataBufferSize) {
         fd_.write(">>> Too much incoming data at once - PUT A LID ON IT!!\n\r"sv);
         buffer_.clear();
-        return false;
+        close();
+        return;
     }
     /* Add the data into the buffer */
     buffer_.insert(buffer_.end(), incoming_data.begin(), incoming_data.end());
@@ -170,35 +171,35 @@ bool Channel::on_data(gsl::span<const byte> incoming_data) {
                     // otherwise...
                     if (!got_term_) {
                         got_term_ = true;
-                        SendOpt(fd_, *(ptr + 2));
+                        send_opt(fd_, *(ptr + 2));
                     }
                     break;
                 case TELOPT_NAWS:
                     // Do nothing for NAWS
                     break;
-                default: SendCom(fd_, DONT, *(ptr + 2)); break;
+                default: send_com(fd_, DONT, *(ptr + 2)); break;
                 }
                 memmove(ptr, ptr + 3, nLeft - 3);
                 nLeft -= 3;
                 break;
             case WONT:
-                SendCom(fd_, DONT, *(ptr + 2));
+                send_com(fd_, DONT, *(ptr + 2));
                 memmove(ptr, ptr + 3, nLeft - 3);
                 nLeft -= 3;
                 break;
             case DO:
                 if (ptr[2] == TELOPT_ECHO && echoing_ == false) {
-                    SendCom(fd_, WILL, TELOPT_ECHO);
+                    send_com(fd_, WILL, TELOPT_ECHO);
                     memmove(ptr, ptr + 3, nLeft - 3);
                     nLeft -= 3;
                 } else {
-                    SendCom(fd_, WONT, *(ptr + 2));
+                    send_com(fd_, WONT, *(ptr + 2));
                     memmove(ptr, ptr + 3, nLeft - 3);
                     nLeft -= 3;
                 }
                 break;
             case DONT:
-                SendCom(fd_, WONT, *(ptr + 2));
+                send_com(fd_, WONT, *(ptr + 2));
                 memmove(ptr, ptr + 3, nLeft - 3);
                 nLeft -= 3;
                 break;
@@ -289,7 +290,6 @@ bool Channel::on_data(gsl::span<const byte> incoming_data) {
         }
     }
     buffer_.resize(ptr - buffer_.data());
-    return true;
 }
 
 void Channel::on_host_info() {
@@ -355,9 +355,9 @@ void Channel::send_connect_packet() {
 }
 
 void Channel::send_telopts() const {
-    SendCom(fd_, DO, TELOPT_TTYPE);
-    SendCom(fd_, DO, TELOPT_NAWS);
-    SendCom(fd_, WONT, TELOPT_ECHO);
+    send_com(fd_, DO, TELOPT_TTYPE);
+    send_com(fd_, DO, TELOPT_NAWS);
+    send_com(fd_, WONT, TELOPT_ECHO);
 }
 
 void Channel::on_lookup_died(int status) {
@@ -384,4 +384,25 @@ int Channel::set_fds(fd_set &input_fds, fd_set &exception_fds) noexcept {
         return std::max(host_lookup_fd_.number(), fd_.number());
     }
     return fd_.number();
+}
+
+void Channel::on_data_available() {
+    // This constant doesn't control how large the data sent to the MUD is; it's more a "fairness"
+    // indicator: per poll() we won't read more than from each socket. This prevents one chatty client
+    // from starving out the others. If a client gets particularly far ahead, then their TCP window
+    // will close up, and we want to provide them with that backpressure.
+    constexpr auto PerSocketReadSize = 1024;
+    byte buf[PerSocketReadSize];
+    try {
+        auto num_read = fd_.try_read_some(buf);
+        if (num_read == 0) {
+            log_out("[%d] Remote end closed connection", id_);
+            close();
+        } else {
+            on_data(gsl::span(buf, num_read));
+        }
+    } catch (const std::runtime_error &re) {
+        log_out("[%d] Error reading from connection, closing: %s", id_, re.what());
+        close();
+    }
 }

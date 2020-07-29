@@ -131,23 +131,7 @@ void Doorman::socket_poll() {
                         log_out("Erk! Unable to find channel for FD %d!", i);
                         continue;
                     }
-                    int nBytes;
-                    byte buf[256];
-                    do {
-                        nBytes = read(i, buf, sizeof(buf));
-                        if (nBytes <= 0) {
-                            if (nBytes < 0) {
-                                log_out("[%d] Received error %d (%s) on read - closing connection", channel->id(),
-                                        errno, strerror(errno));
-                            }
-                            channel->close();
-                        } else {
-                            if (nBytes > 0)
-                                channel->on_data(gsl::span<const byte>(buf, buf + nBytes));
-                        }
-                        // See how many more bytes we can read
-                        nBytes = 0; // XXX Need to look this ioctl up
-                    } while (nBytes > 0);
+                    channel->on_data_available();
                 }
             }
         }
