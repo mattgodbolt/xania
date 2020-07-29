@@ -28,10 +28,11 @@ public:
     void poll();
 
     [[nodiscard]] Channel *find_channel_by_id(int32_t channel_id);
+
     template <typename Func>
     void for_each_channel(Func func) {
-        for (auto &[_, chan] : channels_)
-            func(chan);
+        for (auto &id_and_chan : channels_)
+            func(id_and_chan.second);
     }
     void broadcast(std::string_view message);
 

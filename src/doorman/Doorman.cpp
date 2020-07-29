@@ -80,17 +80,16 @@ void Doorman::socket_poll() {
     FD_ZERO(&input_fds);
     FD_ZERO(&exception_fds);
     FD_SET(listenSock_.number(), &input_fds);
-    int maxFd = listenSock_.number();
+    int max_fd = listenSock_.number();
     if (mud_.fd_ok()) {
         FD_SET(mud_.fd().number(), &input_fds);
         FD_SET(mud_.fd().number(), &exception_fds);
-        maxFd = std::max(maxFd, mud_.fd().number());
+        max_fd = std::max(max_fd, mud_.fd().number());
     }
-    for (auto &[_, channel] : channels_)
-        maxFd = std::max(channel.set_fds(input_fds, exception_fds), maxFd);
+    for_each_channel([&](Channel &channel) { max_fd = std::max(channel.set_fds(input_fds, exception_fds), max_fd); });
 
     timeval timeOut = {1, 0}; // Wakes up once a second to do housekeeping
-    int nFDs = select(maxFd + 1, &input_fds, nullptr, &exception_fds, &timeOut);
+    int nFDs = select(max_fd + 1, &input_fds, nullptr, &exception_fds, &timeOut);
     if (nFDs == -1 && errno != EINTR) {
         log_out("Unable to select()!");
         perror("select");
@@ -104,7 +103,7 @@ void Doorman::socket_poll() {
         mud_.close();
         return; /* Prevent falling into packet handling */
     }
-    for (int i = 0; i <= maxFd; ++i) {
+    for (int i = 0; i <= max_fd; ++i) {
         /* Kick out the freaky folks */
         if (FD_ISSET(i, &exception_fds)) {
             auto *channel = find_channel_by_fd(i);
