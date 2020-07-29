@@ -9,6 +9,4 @@
  */
 std::string get_masked_hostname(std::string_view hostname);
 
-void log_out(const char *format, ...) __attribute__((format(printf, 1, 2)));
-
 using byte = unsigned char;

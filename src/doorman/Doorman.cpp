@@ -16,8 +16,8 @@
 
 using namespace std::literals;
 
-Doorman::Doorman(int port) : port_(port), mud_(*this) {
-    log_out("Attempting to bind to port %d", port);
+Doorman::Doorman(int port) : log_(logger_for("Doorman")), port_(port), mud_(*this) {
+    log_.info("Attempting to bind to port {}", port);
     listenSock_ = Fd::socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
     sockaddr_in sin{};
@@ -30,7 +30,7 @@ Doorman::Doorman(int port) : port_(port), mud_(*this) {
         .bind(sin)
         .listen(4);
 
-    log_out("Doorman is ready to rock on port %d", port);
+    log_.info("Doorman is ready to rock on port {}", port);
 }
 
 void Doorman::poll() {
@@ -45,7 +45,7 @@ void Doorman::remove_dead_channels() {
     // "delete this" problem by deferring their actual removal until we know that no calls to the Channel are on the
     // call stack.
     for (auto id : channels_to_remove_) {
-        log_out("Removed channel %d from master channel list", id);
+        log_.debug("Removed channel {} from master channel list", id);
         channels_.erase(id);
     }
     channels_to_remove_.clear();
@@ -63,7 +63,7 @@ void Doorman::check_for_dead_lookups() {
         if (waiter) {
             // Clear the zombie status
             waitpid(waiter, nullptr, 0);
-            log_out("Lookup process %d died", waiter);
+            log_.debug("Lookup process {} died", waiter);
             // Find the corresponding channel, if still present
             if (auto pair_it =
                     std::find_if(begin(channels_), end(channels_),
@@ -91,7 +91,7 @@ void Doorman::socket_poll() {
     timeval timeOut = {1, 0}; // Wakes up once a second to do housekeeping
     int nFDs = select(max_fd + 1, &input_fds, nullptr, &exception_fds, &timeOut);
     if (nFDs == -1 && errno != EINTR) {
-        log_out("Unable to select()!");
+        log_.error("Unable to select()!");
         perror("select");
         exit(1);
     }
@@ -108,7 +108,7 @@ void Doorman::socket_poll() {
         if (FD_ISSET(i, &exception_fds)) {
             auto *channel = find_channel_by_fd(i);
             if (!channel) {
-                log_out("Erk! Unable to find channel for FD %d on exception!", i);
+                log_.error("Erk! Unable to find channel for FD {} on exception!", i);
                 continue;
             }
             channel->close();
@@ -128,7 +128,7 @@ void Doorman::socket_poll() {
                 } else {
                     auto *channel = find_channel_by_fd(i);
                     if (!channel) {
-                        log_out("Erk! Unable to find channel for FD %d!", i);
+                        log_.error("Erk! Unable to find channel for FD {}!", i);
                         continue;
                     }
                     channel->on_data_available();
@@ -146,7 +146,7 @@ void Doorman::accept_new_connection() {
 
         if (channels_.size() == MaxChannels) {
             newFd.write("Xania is out of channels!\n\rTry again soon\n\r"sv);
-            log_out("Rejected connection - out of channels");
+            log_.warn("Rejected connection - out of channels");
             return;
         }
 
@@ -156,16 +156,16 @@ void Doorman::accept_new_connection() {
             // This should be impossible! If this happens we'll silently close the connection.
             // TODO rethink this; either wrap and retry, but probably need a "ban list" of recently-recycyled IDs.
             // A lot of sophistication for essentially a "after 2 billion connection attempts" problem.
-            log_out("Reused channel ID %d!", id);
+            log_.error("Reused channel ID {}!", id);
         }
     } catch (const std::runtime_error &re) {
-        log_out("Unable to accept new connection: %s", re.what());
+        log_.warn("Unable to accept new connection: {}", re.what());
     }
 }
 
 Channel *Doorman::find_channel_by_fd(int fd) {
     if (fd == 0) {
-        log_out("Panic! fd==0 in find_channel_by_fd!  Bailing out with nullptr");
+        log_.error("Panic! fd==0 in find_channel_by_fd!  Bailing out with nullptr");
         return nullptr;
     }
     // TODO not this. Either we go full epoll() or we have a map for this.
@@ -187,7 +187,7 @@ void Doorman::broadcast(std::string_view message) {
         try {
             chan.send_to_client(message);
         } catch (const std::runtime_error &re) {
-            log_out("Error while broadcasting to %d: %s", chan.id(), re.what());
+            log_.debug("Error while broadcasting to {}: {}", chan.id(), re.what());
             chan.close();
         }
     });

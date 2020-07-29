@@ -18,14 +18,16 @@
 #include "Doorman.hpp"
 #include "Xania.hpp"
 
-#include <csignal>
+#include "spdlog/spdlog.h"
+
 #include <fmt/format.h>
+
+#include <csignal>
 #include <getopt.h>
-#include <sys/resource.h>
 
 void usage() { fmt::print(stderr, "Usage: doorman [-h | --help] [-d | --debug] [-p | --port port] [port]\n"); }
 
-int Main(int argc, char *argv[]) {
+int Main(Logger &log, int argc, char *argv[]) {
     int debug = 0;
     int port = 9000;
     option options[] = {
@@ -46,7 +48,7 @@ int Main(int argc, char *argv[]) {
         case 'p':
             port = atoi(optarg);
             if (port <= 0) {
-                fprintf(stderr, "Invalid port '%s'\n\r", optarg);
+                log.error("Invalid port '{}'", optarg);
                 usage();
                 exit(1);
             }
@@ -62,7 +64,7 @@ int Main(int argc, char *argv[]) {
     if (optind == (argc - 1)) {
         port = atoi(argv[optind]);
         if (port <= 0) {
-            fprintf(stderr, "Invalid port '%s'\n\r", argv[optind]);
+            log.error("Invalid port '{}'", argv[optind]);
             usage();
             exit(1);
         }
@@ -71,17 +73,9 @@ int Main(int argc, char *argv[]) {
         exit(1);
     }
 
-    /*
-     * Turn on core dumping under debug
-     */
     if (debug) {
-        rlimit coreLimit = {0, 16 * 1024 * 1024};
-        int ret;
-        log_out("Debugging enabled - core limit set to 16Mb");
-        ret = setrlimit(RLIMIT_CORE, &coreLimit);
-        if (ret < 0) {
-            log_out("Unable to set limit - %d ('%s')", errno, strerror(errno));
-        }
+        log.info("Debugging logging enabled");
+        spdlog::set_level(spdlog::level::debug);
     }
 
     /*
@@ -101,10 +95,11 @@ int Main(int argc, char *argv[]) {
 }
 
 int main(int argc, char *argv[]) {
+    auto log = logger_for("main");
     try {
-        return Main(argc, argv);
+        return Main(log, argc, argv);
     } catch (const std::runtime_error &re) {
-        log_out("Uncaught exception: %s", re.what());
+        log.error("{}", re.what());
         return 1;
     }
 }

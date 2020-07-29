@@ -2,6 +2,7 @@
 
 #include "Channel.hpp"
 #include "Fd.hpp"
+#include "Logger.hpp"
 #include "Xania.hpp"
 
 #include <unordered_map>
@@ -10,6 +11,7 @@
 #include <gsl/span>
 
 class Doorman {
+    Logger log_;
     int port_;
     Xania mud_;
     Fd listenSock_;

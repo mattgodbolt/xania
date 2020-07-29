@@ -35,7 +35,7 @@ void Xania::try_connect() {
     last_connect_attempt_ = std::chrono::system_clock::now();
 
     fd_ = Fd::socket(PF_UNIX, SOCK_STREAM, 0);
-    log_out("Descriptor %d is Xania", fd_.number());
+    log_.debug("Descriptor {} is Xania", fd_.number());
 
     try {
         sockaddr_un xaniaAddr{};
@@ -44,20 +44,20 @@ void Xania::try_connect() {
                  getenv("USER") ? getenv("USER") : "unknown");
         fd_.connect(xaniaAddr);
     } catch (const std::runtime_error &re) {
-        log_out("Connection attempt to MUD failed: %s", re.what());
-        doorman_.for_each_channel([](Channel &chan) {
+        log_.warn("Connection attempt to MUD failed: {}", re.what());
+        doorman_.for_each_channel([&](Channel &chan) {
             try {
                 chan.on_reconnect_attempt();
             } catch (const std::runtime_error &re) {
-                log_out("[%d]: Unable to send reconnect message: %s", chan.id(), re.what());
+                log_.info("[{}]: Unable to send reconnect message: %{}", chan.id(), re.what());
             }
         });
-        log_out("Closing descriptor %d (mud)", fd_.number());
+        log_.debug("Closing descriptor {} (mud)", fd_.number());
         fd_.close();
         return;
     }
 
-    log_out("Connected to Xania; awaiting boot message");
+    log_.info("Connected to Xania; awaiting boot message");
     state_ = State::ConnectedAwaitingInit;
     doorman_.broadcast("\n\rReconnected to Xania - Xania is still booting...\n\r");
 }
@@ -89,7 +89,7 @@ void Xania::process_mud_message() {
         std::string payload;
         if (p.nExtra) {
             if (p.nExtra > MaxPayloadSize) {
-                log_out("payload too big: %d!", p.nExtra);
+                log_.error("MUD payload too big: {}!", p.nExtra);
                 close();
                 return;
             }
@@ -101,11 +101,11 @@ void Xania::process_mud_message() {
         if (p.type == PACKET_INIT) {
             // Xania has initialised
             if (state_ != State::ConnectedAwaitingInit) {
-                log_out("Got init packet when not expecting it!");
+                log_.error("Got init packet when not expecting it!");
                 close();
                 return;
             }
-            log_out("Xania has booted");
+            log_.info("Xania has booted");
             state_ = State::Connected;
             // Now try to connect everyone who has been waiting
             doorman_.for_each_channel([](Channel &chan) { chan.send_connect_packet(); });
@@ -115,7 +115,7 @@ void Xania::process_mud_message() {
         // Any other message must be associated with a channel.
         auto channelPtr = doorman_.find_channel_by_id(p.channel);
         if (!channelPtr) {
-            log_out("Couldn't find channel ID %d when receiving MUD message!", p.channel);
+            log_.error("Couldn't find channel ID {} when receiving MUD message!", p.channel);
             return;
         }
         auto &channel = *channelPtr;
@@ -126,7 +126,7 @@ void Xania::process_mud_message() {
             try {
                 channel.send_to_client(payload);
             } catch (const std::runtime_error &re) {
-                log_out("[%d] Received error '%s' on write - closing connection", p.channel, re.what());
+                log_.info("[{}] Received error '{}' on write - closing connection", p.channel, re.what());
                 send_close_msg(channel);
                 channel.close();
             }
@@ -134,7 +134,6 @@ void Xania::process_mud_message() {
         case PACKET_AUTHORIZED:
             /* A character has successfully logged in */
             channel.on_auth(payload);
-            log_out("[%d] Successfully authorized %s", p.channel, channel.authed_name().c_str());
             break;
         case PACKET_DISCONNECT:
             /* Kill off a channel */
@@ -152,7 +151,7 @@ void Xania::process_mud_message() {
         default: break;
         }
     } catch (const std::runtime_error &re) {
-        log_out("Connection to MUD lost: %s", re.what());
+        log_.warn("Connection to MUD lost: %s", re.what());
         close();
     }
 }
@@ -179,3 +178,5 @@ void Xania::invalidate_from_lookup_process() {
     fd_.close();
     state_ = State::Disconnected;
 }
+
+Xania::Xania(Doorman &doorman) : log_(logger_for("Xania")), doorman_(doorman) {}

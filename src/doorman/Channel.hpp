@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Fd.hpp"
+#include "Logger.hpp"
 #include "Misc.hpp"
 #include "TelnetProtocol.hpp"
 
@@ -15,6 +16,8 @@ class Doorman;
 class Xania;
 
 class Channel : private TelnetProtocol::Handler {
+    Logger log_;
+
     Doorman &doorman_;
     Xania &mud_;
     int32_t id_;
@@ -36,7 +39,6 @@ class Channel : private TelnetProtocol::Handler {
             fd_.write(data, length);
     }
     void send_info_packet() const;
-    void send_telopts() const;
     void close_silently(); // used from the lookup thread.
     void on_data(gsl::span<const byte> incoming_data);
     void send_bytes(gsl::span<const byte> data) override;
@@ -57,7 +59,7 @@ public:
     void on_host_info();
     void close();
 
-    void on_auth(std::string_view name) { auth_char_name_ = name; }
+    void on_auth(std::string_view name);
     [[nodiscard]] const std::string &authed_name() const { return auth_char_name_; }
     void on_reconnect_attempt();
     void mark_disconnected() noexcept { connected_ = false; }

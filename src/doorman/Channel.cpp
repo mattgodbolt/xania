@@ -21,10 +21,7 @@ void Channel::async_lookup_process(sockaddr_in address, Fd reply_fd) {
     mud_.invalidate_from_lookup_process();
 
     // Bail out on a PIPE - this means our parent has crashed
-    signal(SIGPIPE, [](int) {
-        log_out("hostname lookup process exiting on sigpipe");
-        exit(1);
-    });
+    signal(SIGPIPE, [](int) { exit(1); });
 
     auto *ent = gethostbyaddr((char *)&address.sin_addr, sizeof(address.sin_addr), AF_INET);
 
@@ -34,11 +31,11 @@ void Channel::async_lookup_process(sockaddr_in address, Fd reply_fd) {
         reply_fd.write(nBytes);
         reply_fd.write(hostName.c_str(), nBytes);
     } catch (const std::runtime_error &re) {
-        log_out("ID: Unable to write to doorman - perhaps it crashed: %s", re.what());
+        log_.warn("ID: Unable to write to doorman - perhaps it crashed: {}", re.what());
         return;
     }
     // Log the source hostname but mask it for privacy.
-    log_out("ID: Looked up %s", get_masked_hostname(hostName).c_str());
+    log_.debug("ID: Looked up {}", get_masked_hostname(hostName));
 }
 
 void Channel::set_echo(bool echo) { telnet_.set_echo(echo); }
@@ -55,7 +52,7 @@ void Channel::on_reconnect_attempt() {
 
 void Channel::close() {
     // Log the source IP but masked for privacy.
-    log_out("[%d] Closing connection to %s", id_, get_masked_hostname(hostname_).c_str());
+    log_.info("Closing connection to {}", get_masked_hostname(hostname_));
     mud_.send_close_msg(*this);
     close_silently();
 }
@@ -65,16 +62,16 @@ void Channel::close_silently() {
     host_lookup_fd_.close();
     if (host_lookup_pid_) {
         if (::kill(host_lookup_pid_, 9) < 0)
-            log_out("Couldn't kill child process (lookup process has already exited)");
+            log_.debug("Couldn't kill child process (lookup process has already exited)");
         host_lookup_pid_ = 0;
     }
     doorman_.schedule_remove(*this);
 }
 
 Channel::Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockaddr_in &address)
-    : doorman_(doorman), mud_(xania), id_(id), fd_(std::move(fd)), hostname_(inet_ntoa(address.sin_addr)),
-      port_(ntohs(address.sin_port)), netaddr_(ntohl(address.sin_addr.s_addr)) {
-    log_out("[%d] Incoming connection from %s on fd %d", id_, get_masked_hostname(hostname_).c_str(), fd_.number());
+    : log_(logger_for(fmt::format("Channel.{}", id))), doorman_(doorman), mud_(xania), id_(id), fd_(std::move(fd)),
+      hostname_(inet_ntoa(address.sin_addr)), port_(ntohs(address.sin_port)), netaddr_(ntohl(address.sin_addr.s_addr)) {
+    log_.info("Incoming connection from {} on fd {}", get_masked_hostname(hostname_), fd_.number());
 
     // TODO: consider what happens if this throws :/
 
@@ -91,40 +88,41 @@ Channel::Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockad
     // Start the async hostname lookup process.
     int pipe_fds[2];
     if (pipe(pipe_fds) == -1) {
-        log_out("Pipe failed!");
+        log_.error("Pipe failed!");
         return;
     }
     Fd parent_fd(pipe_fds[0]);
     Fd child_fd(pipe_fds[1]);
-    log_out("Pipes %d<->%d", pipe_fds[0], pipe_fds[1]);
+    log_.debug("Pipes {}<->{}", pipe_fds[0], pipe_fds[1]);
     auto forkRet = fork();
     switch (forkRet) {
     case 0: {
         // Child process - go and do the lookup
-        log_out("ID: doing lookup");
+        log_.debug("ID: doing lookup");
         async_lookup_process(address, std::move(child_fd));
-        log_out("ID: exiting");
+        log_.debug("ID: exiting");
         exit(0);
     } break;
     case -1:
         // Error - unable to fork()
-        log_out("Unable to fork() a lookup process");
+        log_.error("Unable to fork() a lookup process");
         break;
     default:
         host_lookup_fd_ = std::move(parent_fd);
         host_lookup_pid_ = forkRet;
-        log_out("Forked hostname process has PID %d on %d", forkRet, host_lookup_fd_.number());
+        log_.debug("Forked hostname process has PID {} on {}", forkRet, host_lookup_fd_.number());
         break;
     }
 }
 
 void Channel::on_data(gsl::span<const byte> incoming_data) {
-    /* Check for buffer overflow */
-    if ((incoming_data.size() + telnet_.buffered_data_size()) > MaxIncomingDataBufferSize) {
+    auto new_buf_size = incoming_data.size() + telnet_.buffered_data_size();
+    if (new_buf_size >= MaxIncomingDataBufferSize) {
+        log_.warn("Client sent too much data ({}>{})", new_buf_size, MaxIncomingDataBufferSize);
         try {
             fd_.write(">>> Too much incoming data at once - PUT A LID ON IT!!\n\r"sv);
         } catch (std::runtime_error &re) {
-            log_out("Ignoring error telling client to shut up");
+            log_.info("Ignoring error telling client to shut up");
         }
         close();
         return;
@@ -133,26 +131,26 @@ void Channel::on_data(gsl::span<const byte> incoming_data) {
 }
 
 void Channel::on_host_info() {
-    log_out("[%d on %d] Incoming lookup info", id_, host_lookup_fd_.number());
+    log_.debug("Incoming lookup info");
     // Move out the fd, so we know however we exit from this point it will be closed.
     auto response_fd = std::move(host_lookup_fd_);
     try {
-        auto numBytes = response_fd.read_all<size_t>();
+        auto num_bytes = response_fd.read_all<size_t>();
         char host_buffer[1024];
-        if (numBytes > sizeof(host_buffer)) {
-            log_out("Lookup responded with > %lu bytes - possible spam attack", sizeof(host_buffer));
-            numBytes = sizeof(host_buffer);
+        if (num_bytes > sizeof(host_buffer)) {
+            log_.warn("Lookup responded with {} bytes (>{})", num_bytes, sizeof(host_buffer));
+            num_bytes = sizeof(host_buffer);
         }
-        response_fd.read_all(host_buffer, numBytes);
-        hostname_ = std::string_view(host_buffer, numBytes);
+        response_fd.read_all(host_buffer, num_bytes);
+        hostname_ = std::string_view(host_buffer, num_bytes);
 
     } catch (const std::runtime_error &re) {
-        log_out("[%d] Lookup pipe died on read: %s", id_, re.what());
+        log_.warn("Lookup pipe died on read: {}", re.what());
         host_lookup_pid_ = 0;
         return;
     }
     // Log the source IP but mask it for privacy.
-    log_out("[%d] %s", id_, get_masked_hostname(hostname_).c_str());
+    log_.info("is {}", get_masked_hostname(hostname_));
     send_info_packet();
 }
 
@@ -172,7 +170,7 @@ void Channel::send_connect_packet() {
     if (!fd_.is_open())
         return;
     if (connected_) {
-        log_out("[%d] Attempt to send connect packet for already-connected channel", id_);
+        log_.warn("Attempt to send connect packet for already-connected channel");
         return;
     }
     if (!mud_.connected())
@@ -184,12 +182,12 @@ void Channel::send_connect_packet() {
         mud_.send_to_mud({PACKET_RECONNECT, static_cast<uint32_t>(auth_char_name_.size() + 1), id_, {}},
                          auth_char_name_.c_str());
         send_info_packet();
-        log_out("[%d] Sent reconnect packet to MUD for %s", id_, auth_char_name_.c_str());
+        log_.debug("Sent reconnect packet to MUD for {}", auth_char_name_);
     } else {
         connected_ = true;
         mud_.send_to_mud({PACKET_CONNECT, 0, id_, {}});
         send_info_packet();
-        log_out("[%d] Sent connect packet to MUD", id_);
+        log_.debug("Sent connect packet to MUD");
     }
     sent_reconnect_message_ = false;
 }
@@ -197,11 +195,10 @@ void Channel::send_connect_packet() {
 void Channel::on_lookup_died(int status) {
     // Did the process exit abnormally?
     if (!(WIFEXITED(status))) {
-        log_out("Zombie reaper: process on channel %d died abnormally", id_);
+        log_.warn("Zombie reaper: process on channel died abnormally");
     } else {
         if (host_lookup_fd_.is_open()) {
-            log_out("Zombie reaper: A process died, and didn't necessarily "
-                    "close up after itself");
+            log_.warn("Zombie reaper: A process died, and didn't necessarily close up after itself");
         }
     }
     host_lookup_fd_.close();
@@ -230,26 +227,33 @@ void Channel::on_data_available() {
     try {
         auto num_read = fd_.try_read_some(buf);
         if (num_read == 0) {
-            log_out("[%d] Remote end closed connection", id_);
+            log_.info("Remote end closed connection");
             close();
         } else {
             on_data(gsl::span(buf, num_read));
         }
     } catch (const std::runtime_error &re) {
-        log_out("[%d] Error reading from connection, closing: %s", id_, re.what());
+        log_.info("Error reading from connection, closing: {}", re.what());
         close();
     }
 }
+
 void Channel::send_bytes(gsl::span<const byte> data) { fd_.write(data); }
+
 void Channel::on_line(std::string_view line) { mud_.on_client_message(*this, line); }
 
 void Channel::on_terminal_size(int width, int height) {
     // TODO: we lie and say we wordwrap at this length...
-    log_out("[%d] NAWS = %dx%d", id_, width, height);
+    log_.debug("NAWS = {}x{}", id_, width, height);
 }
 
 void Channel::on_terminal_type(std::string_view type, bool ansi_supported) {
     std::string type_(type); // TODO unnecessary when we have proper logging
-    log_out("[%d] Terminal %s, supports ansi %s", id_, type_.c_str(), ansi_supported ? "true" : "false");
+    log_.debug("Terminal {}, supports ansi {}", type_, ansi_supported);
     send_info_packet();
+}
+
+void Channel::on_auth(std::string_view name) {
+    auth_char_name_ = name;
+    log_.info("Successfully authorized {}", auth_char_name_);
 }
