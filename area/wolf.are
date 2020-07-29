@@ -707,7 +707,7 @@ EFGIK ABCD 0 0
 stand stand male 0
 0 0 medium 0
 #10097
-warrior guildmaster~
+knight guildmaster~
 the guildmaster~
 Your guildmaster stands here.
 ~
@@ -722,12 +722,12 @@ ACEFHIK ABCD 0 0
 stand stand male 0
 0 0 medium 0
 #10098
-thief guildmaster~
+barbarian guildmaster~
 the guildmaster~
 Your guildmaster stands here.
 ~
-A man dressed in black is ready to train you. You might want to check your
-pockets before you leave.
+A man dressed in black leather armour is ready to train you. His muscles
+are bursting at the seams!
 ~
 elf~
 BJKSVbb DFH -500 0
@@ -1564,11 +1564,10 @@ You see a street continuing further into town.
 S
 #10054
 East Wolf Run Ave.~
-   You notice to the north is a doorway hidden in trees and brush, there is
-a thief wandering that way. You assume that it is the Thieves Guild. From   
-the south reeks a stench of ale and sickened drunks. You think to yourself
-what a combination, a Thieves Guild and a Pub. Wolf Run Ave. continues to
-the west and back to the east.
+   You notice to the north is a doorway hidden in trees and brush. You assume
+that it is the Barbarian's Guild. From the south reeks a stench of ale and 
+sickened drunks. You think to yourself what a combination, a bunch of barbarians
+and a Pub. Wolf Run Ave. continues to the west and back to the east.
 ~
 45 0 1
 D0
@@ -1782,13 +1781,12 @@ East Wolf Run Ave.
 0 -1 10052
 S
 #10062
-Entrance to the Thieves Guild~
+Entrance to the Barbarian Guild~
    After making your way through the brush covering the door you find yourself
-within the Thieves Guild. Many people here are cloaked and disguised. You 
-feel as if the walls are moving. Two men stand in the corner throwing daggers 
-at a marked wall. On the east side of the room you see men selling freshly 
-stolen goods to a man in a window. To the north you can see an older pauper 
-training young thieves to be in a courtyard.
+within the Barbarian Guild. Several rough looking gentlemen sit drinking around
+a stout wooden table. A burly female clad in a thick bearskin poncho winks at you
+as you walk past. Two other men stand in the corner throwing axes at a wooden pillar.
+To the north you can see a mighty figure training young warriors to be in a courtyard.
 ~
 45 0 1
 D0
@@ -2020,12 +2018,11 @@ door west~
 1 10085 10068
 S
 #10073
-Thieves Courtyard~
+Barbarian Courtyard~
    You are in a large courtyard designed very similar to a common side street.
-Young men stand here trying to learn the art of stealth and pickpocketry. You
-hear a voice from out of thin air "may i help you?" and suddenly a black
-cloaked figure appears before you. "I am the Master of Thieves. What may I
-teach you?"
+Young men stand here trying to learn the art of swinging battleaxes. You
+hear a voice bellow "You there!" and suddenly huge figure clad in black
+appears before you. "So you wish to learn our ways?"
 ~
 45 0 1
 D2
@@ -2095,8 +2092,8 @@ The dart room.
 0 -1 10085
 S
 #10079
-The Fighter's Guild~
-   You are within the entrance of the warrior's guild. Several stout men
+The Knight's Guild~
+   You are within the entrance of the knight's guild. Several stout men
 stand here discussing their past victories. You see two men in the eastern
 section of this area beating each other down to prove their worthiness to the
 others. In another corner several men are gathered around watching an arm 
@@ -2110,7 +2107,7 @@ East Wolf Run Ave.
 ~
 0 -1 10055
 D2
-The warrior's arena.
+The knight's arena.
 ~
 ~
 0 -1 10086
@@ -2223,10 +2220,10 @@ behind the board seems to have many more holes than the board itself though.
 ~
 S
 #10086
-Fighter's Guild Arena~
+Knight's Guild Arena~
    Here many warriors are gathered around an arena waiting to get their shot
 at each other. A large man stands alone in the center teaching these young
-ones the skills and tactics of the warrior. He looks at you and says "what 
+ones the skills and tactics of knighthood. He looks at you and says "what 
 would you like to learn my young pupil?"
 ~
 45 0 1
@@ -2921,9 +2918,9 @@ M 0 10095 1 10074 1  1  1        mage guildmaster
    
 M 0 10096 1 10074 1  1  1        cleric guildmaster
    
-M 0 10097 1 10086 1  1  1        warrior guildmaster
+M 0 10097 1 10086 1  1  1        knight guildmaster
    
-M 0 10098 1 10073 1  1  1        thief guildmaster
+M 0 10098 1 10073 1  1  1        barbarian guildmaster
    
 * Doors Resets
 D 0 10087 2 2       Lock Cell from outside
