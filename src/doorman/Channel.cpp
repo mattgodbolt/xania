@@ -5,7 +5,6 @@
 #include "Xania.hpp"
 
 #include <arpa/inet.h>
-#include <arpa/telnet.h>
 #include <csignal>
 #include <cstring>
 #include <netdb.h>
@@ -13,16 +12,6 @@
 using namespace std::literals;
 
 static constexpr auto MaxIncomingDataBufferSize = 2048u;
-
-static void send_com(const Fd &fd, byte a, byte b) {
-    byte buf[] = {IAC, a, b};
-    fd.write(buf);
-}
-
-static void send_opt(const Fd &fd, byte a) {
-    byte buf[] = {IAC, SB, a, TELQUAL_SEND, IAC, SE};
-    fd.write(buf);
-}
 
 void Channel::async_lookup_process(sockaddr_in address, Fd reply_fd) {
     // Firstly, and quite importantly, close all the descriptors we don't need, so we don't keep open sockets past their
@@ -52,20 +41,7 @@ void Channel::async_lookup_process(sockaddr_in address, Fd reply_fd) {
     log_out("ID: Looked up %s", get_masked_hostname(hostName).c_str());
 }
 
-static bool supports_ansi(const char *src) {
-    static const char *terms[] = {"xterm",      "xterm-colour", "xterm-color", "ansi",
-                                  "xterm-ansi", "vt100",        "vt102",       "vt220"};
-    size_t i;
-    for (i = 0; i < (sizeof(terms) / sizeof(terms[0])); ++i)
-        if (!strcasecmp(src, terms[i]))
-            return true;
-    return false;
-}
-
-void Channel::set_echo(bool echo) {
-    send_com(fd_, echo ? WONT : WILL, TELOPT_ECHO);
-    echoing_ = echo;
-}
+void Channel::set_echo(bool echo) { telnet_.set_echo(echo); }
 
 void Channel::on_reconnect_attempt() {
     if (!fd_.is_open())
@@ -103,7 +79,7 @@ Channel::Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockad
     // TODO: consider what happens if this throws :/
 
     // Send all options out
-    send_telopts();
+    telnet_.send_telopts();
 
     // Tell them if the mud is down
     if (!mud_.connected()) {
@@ -144,152 +120,16 @@ Channel::Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockad
 
 void Channel::on_data(gsl::span<const byte> incoming_data) {
     /* Check for buffer overflow */
-    if ((incoming_data.size() + buffer_.size()) > MaxIncomingDataBufferSize) {
-        fd_.write(">>> Too much incoming data at once - PUT A LID ON IT!!\n\r"sv);
-        buffer_.clear();
+    if ((incoming_data.size() + telnet_.buffered_data_size()) > MaxIncomingDataBufferSize) {
+        try {
+            fd_.write(">>> Too much incoming data at once - PUT A LID ON IT!!\n\r"sv);
+        } catch (std::runtime_error &re) {
+            log_out("Ignoring error telling client to shut up");
+        }
         close();
         return;
     }
-    /* Add the data into the buffer */
-    buffer_.insert(buffer_.end(), incoming_data.begin(), incoming_data.end());
-
-    /* Scan through and remove telnet commands */
-    // TODO gsl::span ftw
-    size_t nRealBytes = 0;
-    size_t nLeft = buffer_.size();
-    for (byte *ptr = buffer_.data(); nLeft;) {
-        /* telnet command? */
-        if (*ptr == IAC) {
-            if (nLeft < 3) /* Is it too small to fit a whole command in? */
-                break;
-            switch (*(ptr + 1)) {
-            case WILL:
-                switch (*(ptr + 2)) {
-                case TELOPT_TTYPE:
-                    // Check to see if we've already got the info
-                    // Whoiseye's bloody DEC-TERM spams us multiply
-                    // otherwise...
-                    if (!got_term_) {
-                        got_term_ = true;
-                        send_opt(fd_, *(ptr + 2));
-                    }
-                    break;
-                case TELOPT_NAWS:
-                    // Do nothing for NAWS
-                    break;
-                default: send_com(fd_, DONT, *(ptr + 2)); break;
-                }
-                memmove(ptr, ptr + 3, nLeft - 3);
-                nLeft -= 3;
-                break;
-            case WONT:
-                send_com(fd_, DONT, *(ptr + 2));
-                memmove(ptr, ptr + 3, nLeft - 3);
-                nLeft -= 3;
-                break;
-            case DO:
-                if (ptr[2] == TELOPT_ECHO && echoing_ == false) {
-                    send_com(fd_, WILL, TELOPT_ECHO);
-                    memmove(ptr, ptr + 3, nLeft - 3);
-                    nLeft -= 3;
-                } else {
-                    send_com(fd_, WONT, *(ptr + 2));
-                    memmove(ptr, ptr + 3, nLeft - 3);
-                    nLeft -= 3;
-                }
-                break;
-            case DONT:
-                send_com(fd_, WONT, *(ptr + 2));
-                memmove(ptr, ptr + 3, nLeft - 3);
-                nLeft -= 3;
-                break;
-            case SB: {
-                char sbType;
-                byte *eob, *p;
-                /* Enough room for an SB command? */
-                if (nLeft < 6) {
-                    nLeft = 0;
-                    break;
-                }
-                sbType = *(ptr + 2);
-                //          sbWhat = *(ptr + 3);
-                /* Now read up to the IAC SE */
-                eob = ptr + nLeft - 1;
-                for (p = ptr + 4; p < eob; ++p)
-                    if (*p == IAC && *(p + 1) == SE)
-                        break;
-                /* Found IAC SE? */
-                if (p == eob) {
-                    /* No: skip it all */
-                    nLeft = 0;
-                    break;
-                }
-                *p = '\0';
-                /* Now to decide what to do with this new data */
-                switch (sbType) {
-                case TELOPT_TTYPE:
-                    log_out("[%d] TTYPE = %s", id_, ptr + 4);
-                    if (supports_ansi((const char *)ptr + 4))
-                        ansi_ = true;
-                    break;
-                case TELOPT_NAWS:
-                    width_ = ptr[4];
-                    height_ = ptr[6];
-                    log_out("[%d] NAWS = %dx%d", id_, width_, height_);
-                    break;
-                }
-
-                /* Remember eob is 1 byte behind the end of buffer */
-                memmove(ptr, p + 2, nLeft - ((p + 2) - ptr));
-                nLeft -= ((p + 2) - ptr);
-
-                break;
-            }
-
-            default:
-                memmove(ptr, ptr + 2, nLeft - 2);
-                nLeft -= 2;
-                break;
-            }
-
-        } else {
-            ptr++;
-            nRealBytes++;
-            nLeft--;
-        }
-    }
-    /* Now to update the buffer stats */
-    buffer_.resize(nRealBytes);
-
-    /* Second pass - look for whole lines of text */
-    nLeft = buffer_.size();
-    byte *ptr;
-    for (ptr = buffer_.data(); nLeft; ++ptr, --nLeft) {
-        char c;
-        switch (*ptr) {
-        case '\n':
-        case '\r':
-            // TODO this is terribly ghettish. don't need to memmove, and all that. ugh. But write tests first...
-            // then change...
-            c = *ptr; // legacy<-
-            /* Send it to the MUD */
-            mud_.on_client_message(
-                *this, std::string_view(reinterpret_cast<const char *>(buffer_.data()), ptr - buffer_.data()));
-            /* Check for \n\r or \r\n */
-            if (nLeft > 1 && (*(ptr + 1) == '\r' || *(ptr + 1) == '\n') && *(ptr + 1) != c) {
-                memmove(buffer_.data(), ptr + 2, nLeft - 2);
-                nLeft--;
-            } else if (nLeft) {
-                memmove(buffer_.data(), ptr + 1, nLeft - 1);
-            } // else nLeft is zero, so we might as well avoid calling memmove(x,y,
-            // 0)
-
-            /* The +1 at the top of the loop resets ptr to buffer */
-            ptr = buffer_.data() - 1;
-            break;
-        }
-    }
-    buffer_.resize(ptr - buffer_.data());
+    telnet_.add_data(incoming_data);
 }
 
 void Channel::on_host_info() {
@@ -323,7 +163,7 @@ void Channel::send_info_packet() const {
 
     data->port = port_;
     data->netaddr = netaddr_;
-    data->ansi = ansi_;
+    data->ansi = telnet_.supports_ansi();
     strcpy(data->data, hostname_.c_str());
     mud_.send_to_mud(p, buffer);
 }
@@ -352,12 +192,6 @@ void Channel::send_connect_packet() {
         log_out("[%d] Sent connect packet to MUD", id_);
     }
     sent_reconnect_message_ = false;
-}
-
-void Channel::send_telopts() const {
-    send_com(fd_, DO, TELOPT_TTYPE);
-    send_com(fd_, DO, TELOPT_NAWS);
-    send_com(fd_, WONT, TELOPT_ECHO);
 }
 
 void Channel::on_lookup_died(int status) {
@@ -405,4 +239,17 @@ void Channel::on_data_available() {
         log_out("[%d] Error reading from connection, closing: %s", id_, re.what());
         close();
     }
+}
+void Channel::send_bytes(gsl::span<const byte> data) { fd_.write(data); }
+void Channel::on_line(std::string_view line) { mud_.on_client_message(*this, line); }
+
+void Channel::on_terminal_size(int width, int height) {
+    // TODO: we lie and say we wordwrap at this length...
+    log_out("[%d] NAWS = %dx%d", id_, width, height);
+}
+
+void Channel::on_terminal_type(std::string_view type, bool ansi_supported) {
+    std::string type_(type); // TODO unnecessary when we have proper logging
+    log_out("[%d] Terminal %s, supports ansi %s", id_, type_.c_str(), ansi_supported ? "true" : "false");
+    send_info_packet();
 }

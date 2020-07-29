@@ -2,6 +2,7 @@
 
 #include "Fd.hpp"
 #include "Misc.hpp"
+#include "TelnetLineParser.hpp"
 
 #include <cstdint>
 #include <gsl/span>
@@ -13,21 +14,15 @@
 class Doorman;
 class Xania;
 
-class Channel {
+class Channel : private TelnetLineParser::Handler {
     Doorman &doorman_;
     Xania &mud_;
     int32_t id_;
     Fd fd_;
     std::string hostname_;
-    std::vector<byte> buffer_;
+    TelnetLineParser telnet_{*this};
     uint16_t port_;
     uint32_t netaddr_;
-    // Terminal size
-    int width_ = 80;
-    int height_ = 24;
-    bool ansi_ = false;
-    bool got_term_ = false;
-    bool echoing_ = true;
     bool sent_reconnect_message_ = false;
     bool connected_ = false; // We've sent a connect packet to the mud
     pid_t host_lookup_pid_{}; // PID of look-up process
@@ -44,6 +39,10 @@ class Channel {
     void send_telopts() const;
     void close_silently(); // used from the lookup thread.
     void on_data(gsl::span<const byte> incoming_data);
+    void send_bytes(gsl::span<const byte> data) override;
+    void on_line(std::string_view line) override;
+    void on_terminal_size(int width, int height) override;
+    void on_terminal_type(std::string_view type, bool ansi_supported) override;
 
 public:
     explicit Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockaddr_in &address);
