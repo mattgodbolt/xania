@@ -582,7 +582,7 @@ noloot		permits or denies looting of your corpse
 Typing a command sets the action (except for autolist), typing it again removes
 it. 
 ~ 
--1 BRIEF COMPACT NOSUM NOFOL SHOWAFK NOLOOT~
+-1 BRIEF COMPACT NOSUM NOFOLLOW SHOWAFK NOLOOT~
 
 brief           activates and deactivates short descriptions
 compact         used to remove most 'empty' lines of text
