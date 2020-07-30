@@ -155,9 +155,15 @@ void Channel::on_host_info() {
 }
 
 void Channel::send_info_packet() const {
-    char buffer[4096];
+    size_t payload_size = sizeof(InfoData) + hostname_.size() + 1;
+    if (payload_size > PACKET_MAX_PAYLOAD_SIZE) {
+        log_.error("Dropping MUD info message as payload size was too big ({} > {})", payload_size,
+                   PACKET_MAX_PAYLOAD_SIZE);
+        return;
+    }
+    char buffer[PACKET_MAX_PAYLOAD_SIZE];
     auto data = new (buffer) InfoData;
-    Packet p{PACKET_INFO, static_cast<uint32_t>(sizeof(InfoData) + hostname_.size() + 1), id_, {}};
+    Packet p{PACKET_INFO, static_cast<uint32_t>(payload_size), id_, {}};
 
     data->port = port_;
     data->netaddr = netaddr_;

@@ -98,6 +98,11 @@ bool SendPacket(Packet *p, void *extra) {
     // TODO: do something rather than return here if there's a failure
     if (!doormanDesc)
         return FALSE;
+    if (p->nExtra > PACKET_MAX_PAYLOAD_SIZE) {
+        bug("MUD tried to send a doorman packet with payload size %d > %d! Dropping!", p->nExtra,
+            PACKET_MAX_PAYLOAD_SIZE);
+        return FALSE;
+    }
     int bytesRead = write(doormanDesc, (char *)p, sizeof(Packet));
     if (bytesRead != sizeof(Packet))
         return FALSE;
@@ -289,6 +294,16 @@ char *get_masked_hostname(char *hostbuf, const char *hostname) {
     return hostbuf;
 }
 
+void doorman_lost() {
+    log_string("Lost connection to doorman");
+    if (doormanDesc)
+        close(doormanDesc);
+    doormanDesc = 0;
+    /* Now to go through and disconnect all the characters */
+    while (descriptor_list)
+        close_socket(descriptor_list);
+}
+
 void game_loop_unix(int control) {
     static struct timeval null_time;
     struct timeval last_time;
@@ -345,23 +360,32 @@ void game_loop_unix(int control) {
         if (doormanDesc && FD_ISSET(doormanDesc, &in_set)) {
             do {
                 Packet p;
-                char buffer[4096 * 4];
+                char buffer[UMAX(PACKET_MAX_PAYLOAD_SIZE, 4096 * 4)];
                 int nBytes;
                 int ok;
 
                 nBytes = read(doormanDesc, (char *)&p, sizeof(p));
-                if (nBytes == 0) {
-                    log_string("Lost connection to doorman");
-                    doormanDesc = 0;
-                    /* Now to go through and disconnect all the characters */
-                    while (descriptor_list)
-                        close_socket(descriptor_list);
+                if (nBytes <= 0) {
+                    doorman_lost();
+                    break;
                 } else {
                     char logMes[18 * 1024];
-                    if (p.nExtra) {
-                        nBytes += read(doormanDesc, buffer, p.nExtra);
+                    if (p.nExtra > PACKET_MAX_PAYLOAD_SIZE) {
+                        bug("Doorman sent a too big packet! %d > %d: dropping", p.nExtra, PACKET_MAX_PAYLOAD_SIZE);
+                        return;
                     }
-                    // TODO check nBytes and blow up if we get partial messages from doorman
+                    if (p.nExtra) {
+                        ssize_t payload_read = read(doormanDesc, buffer, p.nExtra);
+                        if (payload_read <= 0) {
+                            doorman_lost();
+                            break;
+                        }
+                        nBytes += payload_read;
+                    }
+                    if ((size_t)nBytes != sizeof(Packet) + p.nExtra) {
+                        doorman_lost();
+                        break;
+                    }
                     switch (p.type) {
                     case PACKET_CONNECT:
                         snprintf(logMes, sizeof(logMes), "Incoming connection on channel %d.", p.channel);
@@ -487,71 +511,6 @@ void game_loop_unix(int control) {
                 d->incomm[0] = '\0';
             }
         }
-
-#if 0
-	  /*
-	   * Kick out the freaky folks.
-	   */
-	  for ( d = descriptor_list; d != NULL; d = d_next )
-	  {
-	       d_next = d->next;
-	       if ( FD_ISSET( d->descriptor, &exc_set ) )
-	       {
-		    FD_CLR( d->descriptor, &in_set  );
-		    FD_CLR( d->descriptor, &out_set );
-		    if ( d->character && d->character->level > 1)
-			 save_char_obj( d->character );
-		    d->outtop   = 0;
-		    close_socket( d );
-	       }
-	  }
-
-	  /*
-	   * Process input.
-	   */
-	  for ( d = descriptor_list; d != NULL; d = d_next )
-	  {
-	       d_next  = d->next;
-	       d->fcommand   = FALSE;
-
-	       if ( FD_ISSET( d->descriptor, &in_set ) )
-	       {
-		    if ( d->character != NULL )
-			 d->character->timer = 0;
-		    if ( !read_from_descriptor( d ) )
-		    {
-			 FD_CLR( d->descriptor, &out_set );
-			 if ( d->character != NULL && d->character->level > 1)
-			      save_char_obj( d->character );
-			 d->outtop  = 0;
-			 close_socket( d );
-			 continue;
-		    }
-	       }
-
-	       if ( d->character != NULL && d->character->wait > 0 )
-	       {
-		    --d->character->wait;
-		    continue;
-	       }
-
-	       read_from_buffer( d );
-	       if ( d->incomm[0] != '\0' )
-	       {
-		    d->fcommand = TRUE;
-		    stop_idling( d->character );
-
-		    if (d->showstr_point)
-			 show_string(d,d->incomm);
-		    else if ( d->connected == CON_PLAYING )
-			 interpret( d->character, d->incomm );
-		    else
-			 nanny( d, d->incomm );
-
-		    d->incomm[0]   = '\0';
-	       }
-	  }
-#endif
 
         /*
          * Autonomous game motion.

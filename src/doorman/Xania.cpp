@@ -23,6 +23,11 @@ void *iovec_cast(const void *thing) { return const_cast<void *>(thing); }
 void Xania::send_to_mud(const Packet &p, const void *payload) {
     if (!connected())
         return;
+    if (p.nExtra > PACKET_MAX_PAYLOAD_SIZE) {
+        log_.error("Dropping MUD packet of type {} as its payload is too long ({} > {})", p.type, p.nExtra,
+                   PACKET_MAX_PAYLOAD_SIZE);
+        return;
+    }
     const iovec vec[2] = {{iovec_cast(&p), sizeof(Packet)}, {iovec_cast(payload), p.nExtra}};
     // TODO writev? rephrase this whole thing?
     if (::writev(fd_.number(), vec, 2) != static_cast<ssize_t>(sizeof(Packet) + p.nExtra)) {
@@ -85,10 +90,9 @@ void Xania::close() {
 void Xania::process_mud_message() {
     try {
         auto p = fd_.read_all<Packet>();
-        static constexpr auto MaxPayloadSize = 16384u;
         std::string payload;
         if (p.nExtra) {
-            if (p.nExtra > MaxPayloadSize) {
+            if (p.nExtra > PACKET_MAX_PAYLOAD_SIZE) {
                 log_.error("MUD payload too big: {}!", p.nExtra);
                 close();
                 return;
@@ -151,7 +155,7 @@ void Xania::process_mud_message() {
         default: break;
         }
     } catch (const std::runtime_error &re) {
-        log_.warn("Connection to MUD lost: %s", re.what());
+        log_.warn("Connection to MUD lost: {}", re.what());
         close();
     }
 }

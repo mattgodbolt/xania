@@ -16,7 +16,7 @@ class Doorman;
 class Xania;
 
 class Channel : private TelnetProtocol::Handler {
-    Logger log_;
+    mutable Logger log_;
 
     Doorman &doorman_;
     Xania &mud_;
