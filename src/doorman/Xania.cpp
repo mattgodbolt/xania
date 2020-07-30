@@ -161,9 +161,4 @@ void Xania::on_client_message(const Channel &channel, std::string_view message) 
     fd_.write_many(p, message, "\n\r"sv);
 }
 
-void Xania::invalidate_from_lookup_process() {
-    fd_.close();
-    state_ = State::Disconnected;
-}
-
 Xania::Xania(Doorman &doorman) : log_(logger_for("Xania")), doorman_(doorman) {}

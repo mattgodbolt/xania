@@ -28,23 +28,20 @@ class Channel : private TelnetProtocol::Handler {
     uint32_t netaddr_;
     bool sent_reconnect_message_ = false;
     bool connected_ = false; // We've sent a connect packet to the mud
-    pid_t host_lookup_pid_{}; // PID of look-up process
-    Fd host_lookup_fd_; // Receive end of a pipe to the look-up process
     std::string auth_char_name_; // name of authorized character
-
-    void async_lookup_process(sockaddr_in address, Fd reply_fd);
 
     void send_to_client(const void *data, size_t length) const {
         if (fd_.is_open())
             fd_.write(data, length);
     }
     void send_info_packet() const;
-    void close_silently(); // used from the lookup thread.
     void on_data(gsl::span<const byte> incoming_data);
     void send_bytes(gsl::span<const byte> data) override;
     void on_line(std::string_view line) override;
     void on_terminal_size(int width, int height) override;
     void on_terminal_type(std::string_view type, bool ansi_supported) override;
+
+    std::string lookup(const sockaddr_in &address) const;
 
 public:
     explicit Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockaddr_in &address);
@@ -56,7 +53,6 @@ public:
 
     [[nodiscard]] int32_t id() const { return id_; }
     void send_connect_packet();
-    void on_host_info();
     void close();
 
     void on_auth(std::string_view name);
@@ -74,11 +70,5 @@ public:
 
     [[nodiscard]] int set_fds(fd_set &input_fds, fd_set &exception_fds) noexcept;
 
-    [[nodiscard]] bool is_hostname_fd(int fd) const {
-        return fd_.is_open() && host_lookup_fd_.is_open() && host_lookup_fd_.number() == fd;
-    }
-
-    [[nodiscard]] bool has_lookup_pid(pid_t pid) const { return fd_.is_open() && host_lookup_pid_ == pid; }
-    void on_lookup_died(int status);
     void on_data_available();
 };

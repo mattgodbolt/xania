@@ -8,8 +8,6 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include <gsl/span>
-
 class Doorman {
     Logger log_;
     int port_;
@@ -23,7 +21,6 @@ class Doorman {
     [[nodiscard]] Channel *find_channel_by_fd(int fd);
     void accept_new_connection();
     void socket_poll();
-    void check_for_dead_lookups();
 
 public:
     explicit Doorman(int port);

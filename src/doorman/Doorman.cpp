@@ -36,7 +36,6 @@ Doorman::Doorman(int port) : log_(logger_for("Doorman")), port_(port), mud_(*thi
 void Doorman::poll() {
     mud_.poll();
     socket_poll();
-    check_for_dead_lookups();
     remove_dead_channels();
 }
 
@@ -49,30 +48,6 @@ void Doorman::remove_dead_channels() {
         channels_.erase(id);
     }
     channels_to_remove_.clear();
-}
-
-void Doorman::check_for_dead_lookups() {
-    pid_t waiter;
-    int status;
-
-    do {
-        waiter = waitpid(-1, &status, WNOHANG);
-        if (waiter == -1) {
-            break; // Usually 'no child processes'
-        }
-        if (waiter) {
-            // Clear the zombie status
-            waitpid(waiter, nullptr, 0);
-            log_.debug("Lookup process {} died", waiter);
-            // Find the corresponding channel, if still present
-            if (auto pair_it =
-                    std::find_if(begin(channels_), end(channels_),
-                                 [&](const auto &id_and_chan) { return id_and_chan.second.has_lookup_pid(waiter); });
-                pair_it != end(channels_)) {
-                pair_it->second.on_lookup_died(status);
-            }
-        }
-    } while (waiter);
 }
 
 void Doorman::socket_poll() {
@@ -119,20 +94,12 @@ void Doorman::socket_poll() {
             } else if (mud_.fd().is_open() && i == mud_.fd().number()) {
                 mud_.process_mud_message();
             } else {
-                /* It's a message from a user or ident - dispatch it */
-                if (auto it =
-                        std::find_if(begin(channels_), end(channels_),
-                                     [&](const auto &id_and_chan) { return id_and_chan.second.is_hostname_fd(i); });
-                    it != end(channels_)) {
-                    it->second.on_host_info();
-                } else {
-                    auto *channel = find_channel_by_fd(i);
-                    if (!channel) {
-                        log_.error("Erk! Unable to find channel for FD {}!", i);
-                        continue;
-                    }
-                    channel->on_data_available();
+                auto *channel = find_channel_by_fd(i);
+                if (!channel) {
+                    log_.error("Erk! Unable to find channel for FD {}!", i);
+                    continue;
                 }
+                channel->on_data_available();
             }
         }
     }

@@ -4,7 +4,6 @@
 #include "Xania.hpp"
 
 #include <arpa/inet.h>
-#include <csignal>
 #include <cstring>
 #include <netdb.h>
 
@@ -29,29 +28,18 @@ std::string get_masked_hostname(std::string_view hostname) {
 
 }
 
-void Channel::async_lookup_process(sockaddr_in address, Fd reply_fd) {
-    // Firstly, and quite importantly, close all the descriptors we don't need, so we don't keep open sockets past their
-    // useful life.  This was a bug which meant ppl with firewalled auth ports could keep other ppls connections open
-    // (nonresponding).
-    doorman_.for_each_channel([](Channel &channel) { channel.close_silently(); });
-    mud_.invalidate_from_lookup_process();
-
-    // Bail out on a PIPE - this means our parent has crashed
-    signal(SIGPIPE, [](int) { exit(1); });
-
-    auto *ent = gethostbyaddr((char *)&address.sin_addr, sizeof(address.sin_addr), AF_INET);
-
-    std::string hostName = ent ? ent->h_name : inet_ntoa(address.sin_addr);
-    size_t nBytes = hostName.size() + 1;
-    try {
-        reply_fd.write(nBytes);
-        reply_fd.write(hostName.c_str(), nBytes);
-    } catch (const std::runtime_error &re) {
-        log_.warn("ID: Unable to write to doorman - perhaps it crashed: {}", re.what());
-        return;
+std::string Channel::lookup(const sockaddr_in &address) const {
+    char lookup_buffer[8192];
+    hostent ent{};
+    hostent *res{};
+    int host_errno{};
+    if (auto gh_errno = gethostbyaddr_r(&address.sin_addr, sizeof(address.sin_addr), AF_INET, &ent, lookup_buffer,
+                                        sizeof(lookup_buffer), &res, &host_errno)
+                        != 0) {
+        log_.warn("Unable to look up address: {}/{}", gh_errno, host_errno);
+        return inet_ntoa(address.sin_addr);
     }
-    // Log the source hostname but mask it for privacy.
-    log_.debug("ID: Looked up {}", get_masked_hostname(hostName));
+    return res->h_name;
 }
 
 void Channel::set_echo(bool echo) { telnet_.set_echo(echo); }
@@ -70,23 +58,14 @@ void Channel::close() {
     // Log the source IP but masked for privacy.
     log_.info("Closing connection to {}", get_masked_hostname(hostname_));
     mud_.send_close_msg(*this);
-    close_silently();
-}
-
-void Channel::close_silently() {
     fd_.close();
-    host_lookup_fd_.close();
-    if (host_lookup_pid_) {
-        if (::kill(host_lookup_pid_, 9) < 0)
-            log_.debug("Couldn't kill child process (lookup process has already exited)");
-        host_lookup_pid_ = 0;
-    }
     doorman_.schedule_remove(*this);
 }
 
 Channel::Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockaddr_in &address)
     : log_(logger_for(fmt::format("Channel.{}", id))), doorman_(doorman), mud_(xania), id_(id), fd_(std::move(fd)),
-      hostname_(inet_ntoa(address.sin_addr)), port_(ntohs(address.sin_port)), netaddr_(ntohl(address.sin_addr.s_addr)) {
+      port_(ntohs(address.sin_port)), netaddr_(ntohl(address.sin_addr.s_addr)) {
+    hostname_ = lookup(address);
     log_.info("Incoming connection from {} on fd {}", get_masked_hostname(hostname_), fd_.number());
 
     // Send all options out
@@ -98,35 +77,6 @@ Channel::Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockad
     }
 
     send_connect_packet();
-
-    // Start the async hostname lookup process.
-    int pipe_fds[2];
-    if (pipe(pipe_fds) == -1) {
-        log_.error("Pipe failed!");
-        return;
-    }
-    Fd parent_fd(pipe_fds[0]);
-    Fd child_fd(pipe_fds[1]);
-    log_.debug("Pipes {}<->{}", pipe_fds[0], pipe_fds[1]);
-    auto forkRet = fork();
-    switch (forkRet) {
-    case 0: {
-        // Child process - go and do the lookup
-        log_.debug("ID: doing lookup");
-        async_lookup_process(address, std::move(child_fd));
-        log_.debug("ID: exiting");
-        exit(0);
-    } break;
-    case -1:
-        // Error - unable to fork()
-        log_.error("Unable to fork() a lookup process");
-        break;
-    default:
-        host_lookup_fd_ = std::move(parent_fd);
-        host_lookup_pid_ = forkRet;
-        log_.debug("Forked hostname process has PID {} on {}", forkRet, host_lookup_fd_.number());
-        break;
-    }
 }
 
 void Channel::on_data(gsl::span<const byte> incoming_data) {
@@ -142,30 +92,6 @@ void Channel::on_data(gsl::span<const byte> incoming_data) {
         return;
     }
     telnet_.add_data(incoming_data);
-}
-
-void Channel::on_host_info() {
-    log_.debug("Incoming lookup info");
-    // Move out the fd, so we know however we exit from this point it will be closed.
-    auto response_fd = std::move(host_lookup_fd_);
-    try {
-        auto num_bytes = response_fd.read_all<size_t>();
-        char host_buffer[1024];
-        if (num_bytes > sizeof(host_buffer)) {
-            log_.warn("Lookup responded with {} bytes (>{})", num_bytes, sizeof(host_buffer));
-            num_bytes = sizeof(host_buffer);
-        }
-        response_fd.read_all(host_buffer, num_bytes);
-        hostname_ = std::string_view(host_buffer, num_bytes);
-
-    } catch (const std::runtime_error &re) {
-        log_.warn("Lookup pipe died on read: {}", re.what());
-        host_lookup_pid_ = 0;
-        return;
-    }
-    // Log the source IP but mask it for privacy.
-    log_.info("is {}", get_masked_hostname(hostname_));
-    send_info_packet();
 }
 
 void Channel::send_info_packet() const {
@@ -212,28 +138,11 @@ void Channel::send_connect_packet() {
     sent_reconnect_message_ = false;
 }
 
-void Channel::on_lookup_died(int status) {
-    // Did the process exit abnormally?
-    if (!(WIFEXITED(status))) {
-        log_.warn("Zombie reaper: process on channel died abnormally");
-    } else {
-        if (host_lookup_fd_.is_open()) {
-            log_.warn("Zombie reaper: A process died, and didn't necessarily close up after itself");
-        }
-    }
-    host_lookup_fd_.close();
-    host_lookup_pid_ = 0;
-}
-
 int Channel::set_fds(fd_set &input_fds, fd_set &exception_fds) noexcept {
     if (!fd_.is_open())
         return 0;
     FD_SET(fd_.number(), &exception_fds);
     FD_SET(fd_.number(), &input_fds);
-    if (host_lookup_fd_.is_open()) {
-        FD_SET(host_lookup_fd_.number(), &input_fds);
-        return std::max(host_lookup_fd_.number(), fd_.number());
-    }
     return fd_.number();
 }
 
