@@ -12,7 +12,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <netinet/in.h>
-#include <wait.h>
 
 using namespace std::literals;
 
