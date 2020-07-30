@@ -40,6 +40,7 @@ class Channel : private TelnetProtocol::Handler {
     void on_line(std::string_view line) override;
     void on_terminal_size(int width, int height) override;
     void on_terminal_type(std::string_view type, bool ansi_supported) override;
+    void on_data_available();
 
     std::string lookup(const sockaddr_in &address) const;
 
@@ -62,13 +63,10 @@ public:
     void send_to_client(gsl::span<const char> span) const { send_to_client(span.data(), span.size_bytes()); }
     void send_to_client(gsl::span<const byte> span) const { send_to_client(span.data(), span.size_bytes()); }
 
-    // Intention here is to prevent direct access to the fd.
-    [[nodiscard]] bool has_fd(int fd) const { return fd == fd_.number(); }
     [[nodiscard]] bool is_closed() const { return !fd_.is_open(); }
 
     void set_echo(bool echo);
 
     [[nodiscard]] int set_fds(fd_set &input_fds, fd_set &exception_fds) noexcept;
-
-    void on_data_available();
+    void check_fds(const fd_set &input_fds, const fd_set &exception_fds);
 };

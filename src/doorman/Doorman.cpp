@@ -70,39 +70,20 @@ void Doorman::socket_poll() {
         perror("select");
         exit(1);
     }
-    /* Anything happened in the last 10 seconds? */
     if (nFDs <= 0)
         return;
-    /* Has the MUD crashed out? */
-    if (mud_.connected() && FD_ISSET(mud_.fd().number(), &exception_fds)) {
+
+    // Mud handling.
+    if (FD_ISSET(mud_.fd().number(), &exception_fds)) {
+        log_.warn("Got exception from MUD file descriptor");
         mud_.close();
-        return; /* Prevent falling into packet handling */
-    }
-    for (int i = 0; i <= max_fd; ++i) {
-        /* Kick out the freaky folks */
-        if (FD_ISSET(i, &exception_fds)) {
-            auto *channel = find_channel_by_fd(i);
-            if (!channel) {
-                log_.error("Erk! Unable to find channel for FD {} on exception!", i);
-                continue;
-            }
-            channel->close();
-        } else if (FD_ISSET(i, &input_fds)) { // Pending incoming data
-            /* Is it the listening connection? */
-            if (i == listenSock_.number()) {
-                accept_new_connection();
-            } else if (mud_.fd().is_open() && i == mud_.fd().number()) {
-                mud_.process_mud_message();
-            } else {
-                auto *channel = find_channel_by_fd(i);
-                if (!channel) {
-                    log_.error("Erk! Unable to find channel for FD {}!", i);
-                    continue;
-                }
-                channel->on_data_available();
-            }
-        }
-    }
+    } else if (FD_ISSET(mud_.fd().number(), &input_fds))
+        mud_.process_mud_message();
+
+    if (FD_ISSET(listenSock_.number(), &input_fds))
+        accept_new_connection();
+
+    for_each_channel([&](Channel &channel) { channel.check_fds(input_fds, exception_fds); });
 }
 
 void Doorman::accept_new_connection() {
@@ -128,19 +109,6 @@ void Doorman::accept_new_connection() {
     } catch (const std::runtime_error &re) {
         log_.warn("Unable to accept new connection: {}", re.what());
     }
-}
-
-Channel *Doorman::find_channel_by_fd(int fd) {
-    if (fd == 0) {
-        log_.error("Panic! fd==0 in find_channel_by_fd!  Bailing out with nullptr");
-        return nullptr;
-    }
-    // TODO not this. Either we go full epoll() or we have a map for this.
-    if (auto it = std::find_if(begin(channels_), end(channels_),
-                               [&](const auto &id_and_chan) { return id_and_chan.second.has_fd(fd); });
-        it != end(channels_))
-        return &it->second;
-    return nullptr;
 }
 
 Channel *Doorman::find_channel_by_id(int32_t channel_id) {

@@ -186,3 +186,12 @@ void Channel::on_auth(std::string_view name) {
     auth_char_name_ = name;
     log_.info("Successfully authorized {}", auth_char_name_);
 }
+
+void Channel::check_fds(const fd_set &input_fds, const fd_set &exception_fds) {
+    if (!fd_.is_open())
+        return;
+    if (FD_ISSET(fd_.number(), &exception_fds))
+        close();
+    else if (FD_ISSET(fd_.number(), &input_fds))
+        on_data_available();
+}

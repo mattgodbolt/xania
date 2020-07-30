@@ -18,9 +18,9 @@ class Doorman {
     std::unordered_map<int32_t, Channel> channels_;
     std::unordered_set<int32_t> channels_to_remove_;
 
-    [[nodiscard]] Channel *find_channel_by_fd(int fd);
     void accept_new_connection();
     void socket_poll();
+    void remove_dead_channels();
 
 public:
     explicit Doorman(int port);
@@ -39,5 +39,4 @@ public:
 
     // Should only be called by the channel.
     bool schedule_remove(const Channel &channel) { return channels_to_remove_.insert(channel.id()).second; }
-    void remove_dead_channels();
 };
