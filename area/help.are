@@ -423,6 +423,8 @@ the old one dies you may purcahse a replacement.
 Pets will carry up to four items of equipment without complaining, and
 these items will be saved when you quit out!
 
+The 'order' command can be used to tell your pet to do things.
+
 The 'nofol' command can be used to leave your current pet behind.
 ~
 
