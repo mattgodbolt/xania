@@ -73,8 +73,6 @@ Channel::Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockad
       hostname_(inet_ntoa(address.sin_addr)), port_(ntohs(address.sin_port)), netaddr_(ntohl(address.sin_addr.s_addr)) {
     log_.info("Incoming connection from {} on fd {}", get_masked_hostname(hostname_), fd_.number());
 
-    // TODO: consider what happens if this throws :/
-
     // Send all options out
     telnet_.send_telopts();
 
