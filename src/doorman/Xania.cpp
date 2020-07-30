@@ -7,17 +7,11 @@
 #include <cstdio>
 #include <cstdlib>
 #include <sys/socket.h>
-#include <sys/uio.h>
 #include <sys/un.h>
-#include <unistd.h>
 
 using namespace std::literals;
 
 static constexpr auto time_between_retries = 10s;
-
-namespace {
-void *iovec_cast(const void *thing) { return const_cast<void *>(thing); }
-}
 
 void Xania::send_to_mud(const Packet &p, const void *payload) {
     if (!connected())
@@ -27,12 +21,10 @@ void Xania::send_to_mud(const Packet &p, const void *payload) {
                    PACKET_MAX_PAYLOAD_SIZE);
         return;
     }
-    const iovec vec[2] = {{iovec_cast(&p), sizeof(Packet)}, {iovec_cast(payload), p.nExtra}};
-    // TODO writev? rephrase this whole thing?
-    if (::writev(fd_.number(), vec, 2) != static_cast<ssize_t>(sizeof(Packet) + p.nExtra)) {
-        perror("send_to_mud");
-        exit(1);
-    }
+    if (p.nExtra)
+        fd_.write_many(p, gsl::span<const byte>(static_cast<const byte *>(payload), p.nExtra));
+    else
+        fd_.write(p);
 }
 
 void Xania::try_connect() {
@@ -166,15 +158,7 @@ void Xania::on_client_message(const Channel &channel, std::string_view message) 
     if (!connected())
         return;
     Packet p{PACKET_MESSAGE, static_cast<uint32_t>(message.size() + 2), channel.id(), {}};
-    static const auto crlf = "\n\r"sv;
-    iovec vec[3] = {{iovec_cast(&p), sizeof(p)},
-                    {iovec_cast(message.data()), message.size()},
-                    {iovec_cast(crlf.data()), crlf.size()}};
-    // rephrase?
-    if (::writev(fd_.number(), vec, 3) != static_cast<ssize_t>(sizeof(p) + message.size() + crlf.size())) {
-        perror("send_to_mud");
-        exit(1);
-    }
+    fd_.write_many(p, message, "\n\r"sv);
 }
 
 void Xania::invalidate_from_lookup_process() {

@@ -14,6 +14,21 @@ void Fd::write(const void *data, size_t length) const {
         throw std::runtime_error("Truncated write to file descriptor {}"_format(fd_));
 }
 
+void Fd::writev(gsl::span<const iovec> io_vecs) const {
+    if (!is_open())
+        throw std::runtime_error("Write called on invalid file descriptor");
+    auto num = ::writev(fd_, io_vecs.data(), io_vecs.size());
+    if (num < 0)
+        throw fmt::system_error(errno, "Unable to write to {}", fd_);
+
+    size_t length = 0;
+    for (auto &v : io_vecs)
+        length += v.iov_len;
+
+    if (static_cast<size_t>(num) != length)
+        throw std::runtime_error("Truncated write to file descriptor {}"_format(fd_));
+}
+
 Fd Fd::accept(sockaddr *address, socklen_t *socklen) const {
     auto accepted_fd = ::accept(fd_, address, socklen);
     if (accepted_fd < 0)

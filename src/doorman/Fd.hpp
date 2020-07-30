@@ -3,12 +3,33 @@
 #include "Byte.hpp"
 
 #include <gsl/span>
-#include <sys/socket.h>
-#include <unistd.h>
+
 #include <utility>
+
+#include <sys/socket.h>
+#include <sys/uio.h>
+#include <unistd.h>
 
 class Fd {
     int fd_;
+
+    void writev(gsl::span<const iovec> io_vecs) const;
+
+    static void *iovec_cast(const void *thing) { return const_cast<void *>(thing); }
+
+    template <typename T>
+    static iovec iovec_for(const T &some_object) {
+        static_assert(std::is_trivially_copyable_v<T>);
+        return {iovec_cast(&some_object), sizeof(some_object)};
+    }
+
+    static iovec iovec_for(gsl::span<const byte> bytes) { return {iovec_cast(bytes.data()), bytes.size_bytes()}; }
+    static iovec iovec_for(std::string_view string) { return {iovec_cast(string.data()), string.size()}; }
+
+    template <typename... Args>
+    static std::array<iovec, sizeof...(Args)> iovecs_for(Args &&... args) {
+        return {iovec_for(args)...};
+    }
 
 public:
     Fd() : fd_(-1) {}
@@ -40,6 +61,10 @@ public:
     void write(const T &t) const {
         write(&t, sizeof(t));
     }
+    template <typename... Args>
+    void write_many(Args &&... args) const {
+        writev(iovecs_for(std::forward<Args>(args)...));
+    }
 
     template <typename T>
     T read_all() const {
@@ -53,7 +78,7 @@ public:
     }
     void read_all(void *data, size_t length) const;
 
-    size_t try_read_some(gsl::span<byte> span) const;
+    [[nodiscard]] size_t try_read_some(gsl::span<byte> span) const;
 
     template <typename T>
     const Fd &setsockopt(int level, int optname, const T &optval) const {
