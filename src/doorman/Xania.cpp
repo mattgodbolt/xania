@@ -163,7 +163,7 @@ void Xania::process_mud_message() {
 void Xania::send_close_msg(const Channel &channel) { send_to_mud({PACKET_DISCONNECT, 0, channel.id(), {}}); }
 
 void Xania::on_client_message(const Channel &channel, std::string_view message) const {
-    // There was a TODO to store messages in the original code if we weren't connected...probably unwise?
+    // We drop messages here if there's nothing upstream. Probably for the best.
     if (!connected())
         return;
     Packet p{PACKET_MESSAGE, static_cast<uint32_t>(message.size() + 2), channel.id(), {}};
