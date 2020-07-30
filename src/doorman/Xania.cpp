@@ -132,6 +132,7 @@ void Xania::process_mud_message() {
             break;
         case PACKET_DISCONNECT:
             /* Kill off a channel */
+            channel.mark_disconnected();
             channel.close();
             break;
         case PACKET_ECHO_ON:

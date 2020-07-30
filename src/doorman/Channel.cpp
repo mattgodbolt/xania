@@ -57,7 +57,8 @@ void Channel::on_reconnect_attempt() {
 void Channel::close() {
     // Log the source IP but masked for privacy.
     log_.info("Closing connection to {}", get_masked_hostname(hostname_));
-    mud_.send_close_msg(*this);
+    if (connected_)
+        mud_.send_close_msg(*this);
     fd_.close();
     doorman_.schedule_remove(*this);
 }
