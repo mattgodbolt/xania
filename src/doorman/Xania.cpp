@@ -2,7 +2,6 @@
 
 #include "Channel.hpp"
 #include "Doorman.hpp"
-#include "Misc.hpp"
 
 #include <chrono>
 #include <cstdio>

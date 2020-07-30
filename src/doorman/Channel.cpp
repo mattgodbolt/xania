@@ -1,7 +1,6 @@
 #include "Channel.hpp"
 
 #include "Doorman.hpp"
-#include "Misc.hpp"
 #include "Xania.hpp"
 
 #include <arpa/inet.h>
@@ -12,6 +11,23 @@
 using namespace std::literals;
 
 static constexpr auto MaxIncomingDataBufferSize = 2048u;
+
+namespace {
+
+unsigned long djb2_hash(std::string_view str) {
+    unsigned long hash = 5381;
+    for (auto c : str)
+        hash = hash * 33 + c;
+    return hash;
+}
+
+// Returns the hostname, masked for privacy and with a hashcode of the full hostname. This can be used by admins to spot
+// users coming from the same IP.
+std::string get_masked_hostname(std::string_view hostname) {
+    return fmt::format("{}*** [#{}]", hostname.substr(0, 6), djb2_hash(hostname));
+}
+
+}
 
 void Channel::async_lookup_process(sockaddr_in address, Fd reply_fd) {
     // Firstly, and quite importantly, close all the descriptors we don't need, so we don't keep open sockets past their

@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Byte.hpp"
 #include "Fd.hpp"
 #include "Logger.hpp"
-#include "Misc.hpp"
 #include "TelnetProtocol.hpp"
 
 #include <cstdint>
