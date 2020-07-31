@@ -79,7 +79,6 @@ bool read_from_descriptor(DESCRIPTOR_DATA *d, char *text, int nRead);
 bool write_to_descriptor(int desc, char *txt, int length);
 void move_active_char_from_limbo(CHAR_DATA *ch);
 
-
 /*
  * Other local functions (OS-independent).
  */
@@ -1704,7 +1703,6 @@ bool check_playing(DESCRIPTOR_DATA *d, char *name) {
 
     return FALSE;
 }
-
 
 /*
  * Write to one char.
