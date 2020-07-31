@@ -16,9 +16,7 @@
  */
 
 #include "Doorman.hpp"
-#include "Xania.hpp"
-
-#include "spdlog/spdlog.h"
+#include "Logger.hpp"
 
 #include <fmt/format.h>
 
@@ -75,7 +73,7 @@ int Main(Logger &log, int argc, char *argv[]) {
 
     if (debug) {
         log.info("Debugging logging enabled");
-        spdlog::set_level(spdlog::level::debug);
+        set_log_level(spdlog::level::debug);
     }
 
     /*
