@@ -175,7 +175,7 @@ void Channel::on_line(std::string_view line) { mud_.on_client_message(*this, lin
 
 void Channel::on_terminal_size(int width, int height) {
     // TODO(#71): we lie and say we wordwrap at this length... perhaps we should?
-    log_.debug("NAWS = {}x{}", id_, width, height);
+    log_.debug("NAWS = {}x{}", width, height);
 }
 
 void Channel::on_terminal_type(std::string_view type, bool ansi_supported) {
