@@ -2,6 +2,7 @@
 
 #include "Channel.hpp"
 #include "Fd.hpp"
+#include "IdAllocator.hpp"
 #include "Logger.hpp"
 #include "Xania.hpp"
 
@@ -14,9 +15,9 @@ class Doorman {
     Xania mud_;
     Fd listenSock_;
     static constexpr auto MaxChannels = 64;
-    int32_t next_channel_id_{};
-    std::unordered_map<int32_t, Channel> channels_;
-    std::unordered_set<int32_t> channels_to_remove_;
+    IdAllocator id_allocator_;
+    std::unordered_map<uint32_t, Channel> channels_;
+    std::unordered_set<uint32_t> channels_to_remove_;
 
     void accept_new_connection();
     void socket_poll();
@@ -38,5 +39,7 @@ public:
     [[nodiscard]] int port() const { return port_; }
 
     // Should only be called by the channel.
-    bool schedule_remove(const Channel &channel) { return channels_to_remove_.insert(channel.id()).second; }
+    bool schedule_remove(const Channel &channel) {
+        return channels_to_remove_.insert(channel.reservation()->id()).second;
+    }
 };

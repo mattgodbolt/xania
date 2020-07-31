@@ -1,11 +1,13 @@
 #pragma once
 
 #include "Fd.hpp"
+#include "IdAllocator.hpp"
 #include "Logger.hpp"
 #include "doorman_protocol.h"
 
 #include <chrono>
 #include <string_view>
+#include <unordered_map>
 
 class Channel;
 class Doorman;
@@ -18,6 +20,7 @@ class Xania {
     enum class State { Disconnected, ConnectedAwaitingInit, Connected };
     State state_{State::Disconnected};
     std::chrono::system_clock::time_point last_connect_attempt_;
+    std::unordered_map<uint32_t, IdAllocator::Reservation> ids_known_to_mud_;
 
     void try_connect();
 
@@ -29,10 +32,13 @@ public:
 
     void poll();
 
-    void send_to_mud(const Packet &p, const void *payload = nullptr);
+    bool send_to_mud(const Packet &p, const void *payload = nullptr);
     void close();
 
     void process_mud_message();
+    void send_connect(const Channel &channel);
     void send_close_msg(const Channel &channel);
     void on_client_message(const Channel &channel, std::string_view message) const;
+    void handle_init();
+    void handle_channel_message(const Packet &p, const std::string &payload, Channel &channel);
 };

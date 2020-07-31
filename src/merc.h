@@ -29,6 +29,7 @@
 #include "clan.h"
 #include "news.h"
 #include <crypt.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -241,7 +242,7 @@ struct descriptor_data {
     CHAR_DATA *original;
     char *host;
     char *logintime;
-    sh_int descriptor;
+    uint32_t descriptor;
     int netaddr;
     sh_int connected;
     sh_int localport;

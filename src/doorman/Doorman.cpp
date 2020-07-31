@@ -97,13 +97,11 @@ void Doorman::accept_new_connection() {
             return;
         }
 
-        auto id = next_channel_id_++; // TODO after 2 billion we're in a bad place™ (UB for a
-        auto insert_rec = channels_.try_emplace(id, *this, mud_, id, std::move(newFd), incoming);
+        auto id = id_allocator_.reserve();
+        auto insert_rec = channels_.try_emplace(id->id(), *this, mud_, id, std::move(newFd), incoming);
         if (!insert_rec.second) {
             // This should be impossible! If this happens we'll silently close the connection.
-            // TODO rethink this; either wrap and retry, but probably need a "ban list" of recently-recycyled IDs.
-            // A lot of sophistication for essentially a "after 2 billion connection attempts" problem.
-            log_.error("Reused channel ID {}!", id);
+            log_.error("Reused channel ID {}!", id->id());
         }
     } catch (const std::runtime_error &re) {
         log_.warn("Unable to accept new connection: {}", re.what());
@@ -121,7 +119,7 @@ void Doorman::broadcast(std::string_view message) {
         try {
             chan.send_to_client(message);
         } catch (const std::runtime_error &re) {
-            log_.debug("Error while broadcasting to {}: {}", chan.id(), re.what());
+            log_.debug("Error while broadcasting to {}: {}", chan.reservation()->id(), re.what());
             chan.close();
         }
     });

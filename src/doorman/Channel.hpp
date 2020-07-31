@@ -2,6 +2,7 @@
 
 #include "Byte.hpp"
 #include "Fd.hpp"
+#include "IdAllocator.hpp"
 #include "Logger.hpp"
 #include "TelnetProtocol.hpp"
 
@@ -20,7 +21,7 @@ class Channel : private TelnetProtocol::Handler {
 
     Doorman &doorman_;
     Xania &mud_;
-    int32_t id_;
+    IdAllocator::Reservation id_;
     Fd fd_;
     std::string hostname_;
     TelnetProtocol telnet_{*this};
@@ -45,20 +46,21 @@ class Channel : private TelnetProtocol::Handler {
     std::string lookup(const sockaddr_in &address) const;
 
 public:
-    explicit Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockaddr_in &address);
+    explicit Channel(Doorman &doorman, Xania &xania, IdAllocator::Reservation id, Fd fd, const sockaddr_in &address);
 
     Channel(const Channel &) = delete;
     Channel(Channel &&) = delete;
     Channel &operator=(const Channel &) = delete;
     Channel &operator=(Channel &&) = delete;
 
-    [[nodiscard]] int32_t id() const { return id_; }
+    [[nodiscard]] const IdAllocator::Reservation &reservation() const { return id_; }
     void send_connect_packet();
     void close();
 
     void on_auth(std::string_view name);
     [[nodiscard]] const std::string &authed_name() const { return auth_char_name_; }
     void on_reconnect_attempt();
+    [[nodiscard]] bool is_connected() const noexcept { return connected_; }
     void mark_disconnected() noexcept { connected_ = false; }
     void send_to_client(gsl::span<const char> span) const { send_to_client(span.data(), span.size_bytes()); }
     void send_to_client(gsl::span<const byte> span) const { send_to_client(span.data(), span.size_bytes()); }

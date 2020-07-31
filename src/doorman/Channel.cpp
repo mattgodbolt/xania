@@ -63,9 +63,9 @@ void Channel::close() {
     doorman_.schedule_remove(*this);
 }
 
-Channel::Channel(Doorman &doorman, Xania &xania, int32_t id, Fd fd, const sockaddr_in &address)
-    : log_(logger_for(fmt::format("Channel.{}", id))), doorman_(doorman), mud_(xania), id_(id), fd_(std::move(fd)),
-      port_(ntohs(address.sin_port)), netaddr_(ntohl(address.sin_addr.s_addr)) {
+Channel::Channel(Doorman &doorman, Xania &xania, IdAllocator::Reservation id, Fd fd, const sockaddr_in &address)
+    : log_(logger_for(fmt::format("Channel.{}", id->id()))), doorman_(doorman), mud_(xania), id_(std::move(id)),
+      fd_(std::move(fd)), port_(ntohs(address.sin_port)), netaddr_(ntohl(address.sin_addr.s_addr)) {
     hostname_ = lookup(address);
     log_.info("Incoming connection from {} on fd {}", get_masked_hostname(hostname_), fd_.number());
 
@@ -104,7 +104,7 @@ void Channel::send_info_packet() const {
     }
     char buffer[PACKET_MAX_PAYLOAD_SIZE];
     auto data = new (buffer) InfoData;
-    Packet p{PACKET_INFO, static_cast<uint32_t>(payload_size), id_, {}};
+    Packet p{PACKET_INFO, static_cast<uint32_t>(payload_size), id_->id(), {}};
 
     data->port = port_;
     data->netaddr = netaddr_;
@@ -126,13 +126,13 @@ void Channel::send_connect_packet() {
     // Have we already been authenticated?
     if (!auth_char_name_.empty()) {
         connected_ = true;
-        mud_.send_to_mud({PACKET_RECONNECT, static_cast<uint32_t>(auth_char_name_.size() + 1), id_, {}},
+        mud_.send_to_mud({PACKET_RECONNECT, static_cast<uint32_t>(auth_char_name_.size() + 1), id_->id(), {}},
                          auth_char_name_.c_str());
         send_info_packet();
         log_.debug("Sent reconnect packet to MUD for {}", auth_char_name_);
     } else {
         connected_ = true;
-        mud_.send_to_mud({PACKET_CONNECT, 0, id_, {}});
+        mud_.send_connect(*this);
         send_info_packet();
         log_.debug("Sent connect packet to MUD");
     }

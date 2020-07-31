@@ -679,14 +679,15 @@ void close_socket(DESCRIPTOR_DATA *dclose) {
             bug("Close_socket: dclose not found.");
     }
 
-    // If doorman didn't tell us to disconnect them,
-    // then tell doorman to kill the connection
+    // If doorman didn't tell us to disconnect them, then tell doorman to kill the connection, else ack the disconnect.
     if (dclose->connected != CON_DISCONNECTING && dclose->connected != CON_DISCONNECTING_NP) {
         p.type = PACKET_DISCONNECT;
-        p.channel = dclose->descriptor;
-        p.nExtra = 0;
-        SendPacket(&p, NULL);
+    } else {
+        p.type = PACKET_DISCONNECT_ACK;
     }
+    p.channel = dclose->descriptor;
+    p.nExtra = 0;
+    SendPacket(&p, NULL);
 
     free_string(dclose->host);
     /* RT socket leak fix -- I hope */

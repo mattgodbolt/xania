@@ -30,10 +30,10 @@ typedef enum {
     PACKET_INIT, /* Sent on initialisation of the MUD/doorman */
     PACKET_CONNECT, /* Initiate a new channel */
     PACKET_DISCONNECT, /* Disconnect a channel */
+    PACKET_DISCONNECT_ACK, /* Confirm a channel is no longer in use */
     PACKET_RECONNECT, /* Sent on receipt of MUD init for each channel */
     PACKET_MESSAGE, /* Send a message to a channel */
     PACKET_INFO, /* Update socket information */
-    PACKET_SHUTDOWN, /* Notify of a MUD shutdown */
     PACKET_ECHO_ON, /* Turn echo on */
     PACKET_ECHO_OFF, /* Turn echo off */
     PACKET_AUTHORIZED, /* Character has been authorized */
@@ -52,7 +52,7 @@ typedef struct tagPacket {
     PacketType type; /* Type of packet */
 
     uint32_t nExtra; /* Number of extra bytes after the packet */
-    int32_t channel; /* The channel number */
+    uint32_t channel; /* The channel number */
     char data[0]; /* nExtra bytes live here onwards */
 } Packet;
 
