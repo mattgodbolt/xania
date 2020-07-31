@@ -552,7 +552,7 @@ void move_active_char_from_limbo(CHAR_DATA *ch) {
  * If a chars is idle, move it into the "limbo" room along with its pets.
  */
 void move_idle_char_to_limbo(CHAR_DATA *ch) {
-    if (++ch->timer >= 1) {
+    if (++ch->timer >= 12) {
         if (ch->was_in_room == NULL && ch->in_room != NULL) {
             ch->was_in_room = ch->in_room;
             if (ch->fighting != NULL)
