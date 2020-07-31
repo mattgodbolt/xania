@@ -16,7 +16,7 @@ TEST_CASE("Id allocator", "[IdAllocator]") {
             CHECK(ia.reserve()->id() < 100u);
         }
         SECTION("handing back the most recently used first") {
-            for (auto &r: reservations)
+            for (auto &r : reservations)
                 r.reset();
             CHECK(ia.reserve()->id() == 99u);
         }
