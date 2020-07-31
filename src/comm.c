@@ -77,6 +77,8 @@ int init_socket(const char *file);
 DESCRIPTOR_DATA *new_descriptor(int control);
 bool read_from_descriptor(DESCRIPTOR_DATA *d, char *text, int nRead);
 bool write_to_descriptor(int desc, char *txt, int length);
+void move_active_char_from_limbo(CHAR_DATA *ch);
+
 
 /*
  * Other local functions (OS-independent).
@@ -87,7 +89,6 @@ bool check_playing(DESCRIPTOR_DATA *d, char *name);
 void nanny(DESCRIPTOR_DATA *d, char *argument);
 bool process_output(DESCRIPTOR_DATA *d, bool fPrompt);
 void read_from_buffer(DESCRIPTOR_DATA *d);
-void stop_idling(CHAR_DATA *ch);
 void show_prompt(DESCRIPTOR_DATA *d, char *prompt);
 
 /* Handle to get to doorman */
@@ -475,7 +476,7 @@ void game_loop_unix(int control) {
             read_from_buffer(d);
             if (d->incomm[0] != '\0') {
                 d->fcommand = TRUE;
-                stop_idling(d->character);
+                move_active_char_from_limbo(d->character);
 
                 if (d->showstr_point)
                     show_string(d, d->incomm);
@@ -1704,18 +1705,6 @@ bool check_playing(DESCRIPTOR_DATA *d, char *name) {
     return FALSE;
 }
 
-void stop_idling(CHAR_DATA *ch) {
-    if (ch == NULL || ch->desc == NULL || ch->desc->connected != CON_PLAYING || ch->was_in_room == NULL
-        || ch->in_room != get_room_index(ROOM_VNUM_LIMBO))
-        return;
-
-    ch->timer = 0;
-    char_from_room(ch);
-    char_to_room(ch, ch->was_in_room);
-    ch->was_in_room = NULL;
-    act("$n has returned from the void.", ch, NULL, NULL, TO_ROOM);
-    return;
-}
 
 /*
  * Write to one char.
