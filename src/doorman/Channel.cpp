@@ -7,6 +7,7 @@
 #include <cstring>
 #include <netdb.h>
 
+using namespace fmt::literals;
 using namespace std::literals;
 
 static constexpr auto MaxIncomingDataBufferSize = 2048u;
@@ -23,7 +24,7 @@ unsigned long djb2_hash(std::string_view str) {
 // Returns the hostname, masked for privacy and with a hashcode of the full hostname. This can be used by admins to spot
 // users coming from the same IP.
 std::string get_masked_hostname(std::string_view hostname) {
-    return fmt::format("{}*** [#{}]", hostname.substr(0, 6), djb2_hash(hostname));
+    return "{}*** [#{}]"_format(hostname.substr(0, 6), djb2_hash(hostname));
 }
 
 }
@@ -64,7 +65,7 @@ void Channel::close() {
 }
 
 Channel::Channel(Doorman &doorman, Xania &xania, IdAllocator::Reservation id, Fd fd, const sockaddr_in &address)
-    : log_(logger_for(fmt::format("Channel.{}", id->id()))), doorman_(doorman), mud_(xania), id_(std::move(id)),
+    : log_(logger_for("Channel.{}"_format(id->id()))), doorman_(doorman), mud_(xania), id_(std::move(id)),
       fd_(std::move(fd)), port_(ntohs(address.sin_port)), netaddr_(ntohl(address.sin_addr.s_addr)) {
     hostname_ = lookup(address);
     log_.info("Incoming connection from {} on fd {}", get_masked_hostname(hostname_), fd_.number());
