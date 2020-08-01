@@ -15,6 +15,8 @@
 #ifndef _DOORMAN_H
 #define _DOORMAN_H
 
+#include <stdint.h>
+
 #ifndef MAX
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #endif
@@ -55,14 +57,12 @@ typedef struct tagInfoData {
     char data[0];
 } InfoData;
 
-#define CHANNEL_BROADCAST (-1)
-#define CHANNEL_LOG (-2)
 #define CHANNEL_MAX (64)
 typedef struct tagPacket {
     PacketType type; /* Type of packet */
 
-    unsigned int nExtra; /* Number of extra bytes after the packet */
-    int channel; /* The channel number */
+    uint32_t nExtra; /* Number of extra bytes after the packet */
+    uint32_t channel; /* The channel number */
     char data[0]; /* nExtra bytes live here onwards */
 } Packet;
 

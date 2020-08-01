@@ -39,7 +39,8 @@ void count_update(void);
 int count_updated = 0;
 
 /* used for saving */
-int save_number = 0;
+static const uint32_t save_every_n = 30u;
+uint32_t save_number = 0;
 
 /* Advancement stuff. */
 void advance_level(CHAR_DATA *ch) {
@@ -588,7 +589,7 @@ void char_update(void) {
     /* update save counter */
     save_number++;
 
-    if (save_number > 29)
+    if (save_number == save_every_n)
         save_number = 0;
 
     for (ch = char_list; ch != NULL; ch = ch_next) {
@@ -764,7 +765,7 @@ void char_update(void) {
     for (ch = char_list; ch != NULL; ch = ch_next) {
         ch_next = ch->next;
 
-        if (ch->desc != NULL && ch->desc->descriptor % 30 == save_number)
+        if (ch->desc != NULL && ch->desc->descriptor % save_every_n == save_number)
             save_char_obj(ch);
 
         if (ch == ch_quit)

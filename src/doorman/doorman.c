@@ -786,7 +786,7 @@ void ProcessMUDMessage(int fd) {
         switch (p.type) {
         case PACKET_MESSAGE:
             /* A message from the MUD */
-            if (p.channel >= 0) {
+            {
                 int bytes_written = write(channel[p.channel].fd, payload, p.nExtra);
                 if (bytes_written <= 0) {
                     if (bytes_written < 0) {
