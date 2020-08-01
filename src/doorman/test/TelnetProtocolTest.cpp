@@ -12,7 +12,7 @@ class MockHandler : public TelnetProtocol::Handler {
 public:
     MAKE_MOCK1(send_bytes, void(gsl::span<const byte>), override);
     MAKE_MOCK1(on_line, void(std::string_view), override);
-    MAKE_MOCK2(on_terminal_size, void(int, int), override);
+    MAKE_MOCK2(on_terminal_size, void(unsigned int, unsigned int), override);
     MAKE_MOCK2(on_terminal_type, void(std::string_view type, bool ansi_supported), override);
 };
 
