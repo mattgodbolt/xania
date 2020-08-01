@@ -1,6 +1,12 @@
 add_library(doorman_lib STATIC
-        Doorman.cpp Doorman.hpp Channel.cpp Channel.hpp Xania.cpp Xania.hpp Fd.hpp Fd.cpp
-        TelnetProtocol.cpp TelnetProtocol.hpp Logger.cpp Logger.hpp IdAllocator.cpp IdAllocator.hpp)
+        Byte.hpp
+        Channel.cpp Channel.hpp
+        Doorman.cpp Doorman.hpp
+        Fd.hpp Fd.cpp
+        IdAllocator.cpp IdAllocator.hpp
+        Logger.cpp Logger.hpp
+        TelnetProtocol.cpp TelnetProtocol.hpp
+        Xania.cpp Xania.hpp)
 target_link_libraries(doorman_lib CONAN_PKG::fmt CONAN_PKG::ms-gsl CONAN_PKG::spdlog)
 
 add_executable(doorman main.cpp)
