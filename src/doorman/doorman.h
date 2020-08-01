@@ -43,15 +43,14 @@ typedef enum {
     PACKET_RECONNECT, /* Sent on receipt of MUD init for each channel */
     PACKET_MESSAGE, /* Send a message to a channel */
     PACKET_INFO, /* Update socket information */
-    PACKET_SHUTDOWN, /* Notify of a MUD shutdown */
     PACKET_ECHO_ON, /* Turn echo on */
     PACKET_ECHO_OFF, /* Turn echo off */
     PACKET_AUTHORIZED, /* Character has been authorized */
 } PacketType;
 
 typedef struct tagInfoData {
-    short port; /* Their port number */
-    int netaddr; /* Their IP address */
+    uint16_t port; /* Their port number */
+    uint32_t netaddr; /* Their IP address */
     char ansi; /* ANSI-compliant terminal */
     /* Followed by hostname\0 */
     char data[0];
