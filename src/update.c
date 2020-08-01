@@ -39,7 +39,8 @@ void count_update(void);
 int count_updated = 0;
 
 /* used for saving */
-unsigned int save_number = 0;
+static const uint32_t save_every_n = 30u;
+uint32_t save_number = 0;
 
 /* Advancement stuff. */
 void advance_level(CHAR_DATA *ch) {
@@ -525,6 +526,56 @@ void weather_update(void) {
     }
 }
 
+/**
+ * If a char was idle and been sent to the limbo room and they send a command, return them to
+ * their previous room.
+ */
+void move_active_char_from_limbo(CHAR_DATA *ch) {
+    if (ch == NULL || ch->desc == NULL || ch->desc->connected != CON_PLAYING || ch->was_in_room == NULL
+        || ch->in_room != get_room_index(ROOM_VNUM_LIMBO))
+        return;
+
+    ch->timer = 0;
+    char_from_room(ch);
+    char_to_room(ch, ch->was_in_room);
+    ch->was_in_room = NULL;
+    act("$n has returned from the void.", ch, NULL, NULL, TO_ROOM);
+    if (ch->pet) { /* move pets too */
+        char_from_room(ch->pet);
+        char_to_room(ch->pet, ch->in_room);
+        ch->pet->was_in_room = NULL;
+        act("$n has returned from the void.", ch->pet, NULL, NULL, TO_ROOM);
+    }
+    return;
+}
+
+/**
+ * If a chars is idle, move it into the "limbo" room along with its pets.
+ */
+void move_idle_char_to_limbo(CHAR_DATA *ch) {
+    if (++ch->timer >= 12) {
+        if (ch->was_in_room == NULL && ch->in_room != NULL) {
+            ch->was_in_room = ch->in_room;
+            if (ch->fighting != NULL)
+                stop_fighting(ch, TRUE);
+            act("$n disappears into the void.", ch, NULL, NULL, TO_ROOM);
+            send_to_char("You disappear into the void.\n\r", ch);
+            if (ch->level > 1)
+                save_char_obj(ch);
+            char_from_room(ch);
+            char_to_room(ch, get_room_index(ROOM_VNUM_LIMBO));
+            if (ch->pet) { /* move pets too */
+                if (ch->pet->fighting)
+                    stop_fighting(ch->pet, TRUE);
+                act("$n flickers and phases out", ch->pet, NULL, NULL, TO_ROOM);
+                ch->pet->was_in_room = ch->pet->in_room;
+                char_from_room(ch->pet);
+                char_to_room(ch->pet, get_room_index(ROOM_VNUM_LIMBO));
+            }
+        }
+    }
+}
+
 /*
  * Update all chars, including mobs.
  */
@@ -538,7 +589,7 @@ void char_update(void) {
     /* update save counter */
     save_number++;
 
-    if (save_number > 29)
+    if (save_number == save_every_n)
         save_number = 0;
 
     for (ch = char_list; ch != NULL; ch = ch_next) {
@@ -586,29 +637,7 @@ void char_update(void) {
             if (IS_IMMORTAL(ch))
                 ch->timer = 0;
 
-            if (++ch->timer >= 12) {
-                if (ch->was_in_room == NULL && ch->in_room != NULL) {
-                    ch->was_in_room = ch->in_room;
-                    if (ch->fighting != NULL)
-                        stop_fighting(ch, TRUE);
-                    act("$n disappears into the void.", ch, NULL, NULL, TO_ROOM);
-                    send_to_char("You disappear into the void.\n\r", ch);
-                    if (ch->level > 1)
-                        save_char_obj(ch);
-                    char_from_room(ch);
-                    char_to_room(ch, get_room_index(ROOM_VNUM_LIMBO));
-                    if (ch->pet) /* move pets, too */
-                    {
-                        if (ch->pet->fighting)
-                            stop_fighting(ch->pet, TRUE);
-                        act("$n flickers and phases out", ch->pet, NULL, NULL, TO_ROOM);
-                        ch->pet->was_in_room = ch->pet->in_room;
-                        char_from_room(ch->pet);
-                        char_to_room(ch->pet, get_room_index(ROOM_VNUM_LIMBO));
-                    }
-                }
-            }
-
+            move_idle_char_to_limbo(ch);
             gain_condition(ch, COND_DRUNK, -1);
             gain_condition(ch, COND_FULL, -1);
             gain_condition(ch, COND_THIRST, -1);
@@ -736,7 +765,7 @@ void char_update(void) {
     for (ch = char_list; ch != NULL; ch = ch_next) {
         ch_next = ch->next;
 
-        if (ch->desc != NULL && ch->desc->descriptor % 30u == save_number)
+        if (ch->desc != NULL && ch->desc->descriptor % save_every_n == save_number)
             save_char_obj(ch);
 
         if (ch == ch_quit)

@@ -116,17 +116,13 @@ State thy name and enter the realm of Xania: ~
 Welcome to Xania! See 'help rules' and 'help commands'.
 
 [ Recent Gameplay Updates! ]
-July 25:
-- HP & mana regeneration rate increased (experimental!)
-- Elves and Half-Elves can use iron equipment, although they find
-  it...uncomfortable.
-July 22:
-- The armourer in Midgaard now stocks 'standard issue' weapons for level 3+!
-- The mudschool shopkeeper has restocked with bread!
-- The dervishes and worms guarding the entrance to Sands of Sorrow are now 
-  less angry about passers by.
-- The duration that the 'blindness' maladiction lasts has been reduced.
-
+July 31:
+- Pets no longer get lost in limbo if their owner goes away from their computer.
+- Pets that finish a fight automatically let their owners do the looting.
+- Barbarian and Knight guildmasters in Wolfe Point are back in business.
+- Players recover from food poisoning more quickly than before.
+- When creating a new character you can now read help on the various classes.
+- Many items have been adjusted to suit the NPCs that possess them.
 |g[Hit return to continue]|w
 ~ 
  
@@ -582,7 +578,7 @@ noloot		permits or denies looting of your corpse
 Typing a command sets the action (except for autolist), typing it again removes
 it. 
 ~ 
--1 BRIEF COMPACT NOSUM NOFOL SHOWAFK NOLOOT~
+-1 BRIEF COMPACT NOSUM NOFOLLOW SHOWAFK NOLOOT~
 
 brief           activates and deactivates short descriptions
 compact         used to remove most 'empty' lines of text

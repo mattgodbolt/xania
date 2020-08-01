@@ -633,6 +633,31 @@ void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
     return;
 }
 
+/**
+ * Loot a corpse and sacrifice it after something dies.
+ */
+void loot_and_sacrifice_corpse(CHAR_DATA *looter, CHAR_DATA *victim) {
+    OBJ_DATA *corpse;
+    if (!IS_NPC(looter) && IS_NPC(victim)) {
+        corpse = get_obj_list(looter, "corpse", looter->in_room->contents);
+        if (IS_SET(looter->act, PLR_AUTOLOOT) && corpse && corpse->contains) { /* exists and not empty */
+            do_get(looter, "all corpse");
+        }
+        if (IS_SET(looter->act, PLR_AUTOGOLD) && corpse && corpse->contains && /* exists and not empty */
+            !IS_SET(looter->act, PLR_AUTOLOOT)) {
+            do_get(looter, "gold corpse");
+        }
+        if (IS_SET(looter->act, PLR_AUTOSAC)) {
+            if (corpse && corpse->contains) {
+                return; /* leave if corpse has treasure */
+            } else {
+                do_sacrifice(looter, "corpse");
+            }
+        }
+    }
+    return;
+}
+
 /*
  * Inflict damage from a hit.
  */
@@ -640,7 +665,6 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
     int temp;
     CHAR_DATA *mob;
     CHAR_DATA *mob_next;
-    OBJ_DATA *corpse;
     OBJ_DATA *wield;
     AFFECT_DATA *octarineFire;
     bool immune;
@@ -895,26 +919,11 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
                 }
             }
         }
-        /* RT new auto commands */
-
-        if (!IS_NPC(ch) && IS_NPC(victim)) {
-            corpse = get_obj_list(ch, "corpse", ch->in_room->contents);
-
-            if (IS_SET(ch->act, PLR_AUTOLOOT) && corpse && corpse->contains) /* exists and not empty */
-                do_get(ch, "all corpse");
-
-            if (IS_SET(ch->act, PLR_AUTOGOLD) && corpse && corpse->contains && /* exists and not empty */
-                !IS_SET(ch->act, PLR_AUTOLOOT))
-                do_get(ch, "gold corpse");
-
-            if (IS_SET(ch->act, PLR_AUTOSAC)) {
-                if (IS_SET(ch->act, PLR_AUTOLOOT) && corpse && corpse->contains)
-                    return TRUE; /* leave if corpse has treasure */
-                else
-                    do_sacrifice(ch, "corpse");
-            }
-        }
-
+        /**
+         * If the final blow was a pet or charmed mob, its greedy master gets to autoloot.
+         */
+        CHAR_DATA *looter = ((IS_AFFECTED(ch, AFF_CHARM) && !IS_NPC(ch->master))) ? ch->master : ch;
+        loot_and_sacrifice_corpse(looter, victim);
         return TRUE;
     }
 
