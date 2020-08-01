@@ -93,7 +93,7 @@ void Xania::process_mud_message() {
                 return;
             }
             payload.resize(mud_packet.nExtra);
-            fd_.read_all(payload.data(), mud_packet.nExtra);
+            fd_.read_all(gsl::span<char>(payload));
         }
     } catch (const std::runtime_error &re) {
         log_.warn("Connection to MUD lost: {}", re.what());

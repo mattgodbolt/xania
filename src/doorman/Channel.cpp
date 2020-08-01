@@ -157,7 +157,7 @@ void Channel::on_data_available() {
     constexpr auto PerSocketReadSize = 1024;
     byte buf[PerSocketReadSize];
     try {
-        auto num_read = fd_.try_read_some(buf);
+        auto num_read = fd_.try_read_some(gsl::span<byte>(buf));
         if (num_read == 0) {
             log_.info("Remote end closed connection");
             close();
