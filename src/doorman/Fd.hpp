@@ -4,6 +4,7 @@
 
 #include <gsl/span>
 
+#include <type_traits>
 #include <utility>
 
 #include <sys/socket.h>
@@ -30,6 +31,8 @@ class Fd {
     static std::array<iovec, sizeof...(Args)> iovecs_for(Args &&... args) {
         return {iovec_for(args)...};
     }
+    void read_all(void *data, size_t length) const;
+    size_t try_read_some(void *data, size_t length) const;
 
 public:
     Fd() : fd_(-1) {}
@@ -59,6 +62,7 @@ public:
     void write(const void *data, size_t length) const;
     template <typename T>
     void write(const T &t) const {
+        static_assert(std::is_trivially_copyable_v<T>);
         write(&t, sizeof(t));
     }
     template <typename... Args>
@@ -68,17 +72,27 @@ public:
 
     template <typename T>
     T read_all() const {
+        static_assert(std::is_trivially_copyable_v<T>);
         T object;
         read_all(&object, sizeof(object));
         return object;
     }
     template <typename T>
     void read_all(T &object) const {
+        static_assert(std::is_trivially_copyable_v<T>);
         read_all(&object, sizeof(object));
     }
-    void read_all(void *data, size_t length) const;
+    template <typename T>
+    void read_all(gsl::span<T> span) {
+        static_assert(std::is_trivially_copyable_v<T>);
+        read_all(span.data(), span.size_bytes());
+    }
 
-    [[nodiscard]] size_t try_read_some(gsl::span<byte> span) const;
+    template <typename T>
+    [[nodiscard]] size_t try_read_some(gsl::span<T> span) const {
+        static_assert(std::is_trivially_copyable_v<T>);
+        return try_read_some(span.data(), span.size_bytes());
+    }
 
     template <typename T>
     const Fd &setsockopt(int level, int optname, const T &optval) const {
