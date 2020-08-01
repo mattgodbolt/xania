@@ -38,6 +38,9 @@ int main(int argc, char **argv) {
     current_time = (time_t)(now_time.tv_sec);
     strcpy(str_boot_time, ctime(&current_time));
 
+    snprintf(log_buf, LOG_BUF_SIZE, "Xania %s booting...", BUILD_FULL_VERSION);
+    log_string(log_buf);
+
     /*
      * Reserve one channel for our use.
      */
@@ -77,7 +80,7 @@ int main(int argc, char **argv) {
     if (printinfo)
         check_xania();
     load_tipfile(); /* tip wizard - Faramir 21 Sep 1998 */
-    snprintf(log_buf, LOG_BUF_SIZE, "Xania is ready to rock via %s.", file);
+    snprintf(log_buf, LOG_BUF_SIZE, "Xania version %s is ready to rock via %s.", BUILD_VERSION, file);
     log_string(log_buf);
     if (doormanDesc) {
         Packet pInit;

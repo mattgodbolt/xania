@@ -1,3 +1,8 @@
+set(BUILD_VERSION "(local build)" CACHE STRING "Build version (build number only)")
+set(BUILD_FULL_VERSION "(local build)" CACHE STRING "Full string of build version (with git info)")
+configure_file(version.h.in version.h @ONLY)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
 add_subdirectory(doorman)
 add_subdirectory(chat)
 add_subdirectory(test)
