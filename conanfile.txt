@@ -1,5 +1,7 @@
 [requires]
 Catch2/2.9.1@catchorg/stable
+fmt/7.0.1
+ms-gsl/3.0.1
 
 [generators]
 cmake
