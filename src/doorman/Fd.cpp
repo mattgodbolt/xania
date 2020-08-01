@@ -11,7 +11,7 @@ void Fd::write(const void *data, size_t length) const {
     if (num < 0)
         throw fmt::system_error(errno, "Unable to write to {}", fd_);
     if (static_cast<size_t>(num) != length)
-        throw std::runtime_error("Truncated write to file descriptor {}"_format(fd_));
+        throw std::runtime_error("Truncated write to file descriptor {} ({}/{})"_format(fd_, num, length));
 }
 
 void Fd::writev(gsl::span<const iovec> io_vecs) const {
@@ -26,7 +26,7 @@ void Fd::writev(gsl::span<const iovec> io_vecs) const {
         length += v.iov_len;
 
     if (static_cast<size_t>(num) != length)
-        throw std::runtime_error("Truncated write to file descriptor {}"_format(fd_));
+        throw std::runtime_error("Truncated write to file descriptor {} ({}/{})"_format(fd_, num, length));
 }
 
 Fd Fd::accept(sockaddr *address, socklen_t *socklen) const {
@@ -39,13 +39,14 @@ Fd Fd::accept(sockaddr *address, socklen_t *socklen) const {
 Fd Fd::socket(int domain, int type, int protocol) {
     int socket_fd = ::socket(domain, type, protocol);
     if (socket_fd < 0)
-        throw fmt::system_error(errno, "Unable to create a socket");
+        throw fmt::system_error(
+            errno, "Unable to create a socket (domain {}, type {}, protocol {})"_format(domain, type, protocol));
     return Fd(socket_fd);
 }
 
 const Fd &Fd::setsockopt(int level, int optname, const void *optval, socklen_t optlen) const {
     if (!is_open())
-        throw std::runtime_error("Setsockopt called on invalid file descriptor");
+        throw std::runtime_error("setsockopt called on invalid file descriptor");
 
     if (::setsockopt(fd_, level, optname, optval, optlen) < 0)
         throw fmt::system_error(errno, "Unable to set socket option {}:{}", level, optname);
@@ -53,6 +54,8 @@ const Fd &Fd::setsockopt(int level, int optname, const void *optval, socklen_t o
 }
 
 const Fd &Fd::bind(const sockaddr *address, socklen_t socklen) const {
+    // TODO: ideally would include the address in the error message but it's non-trivial to do this, and potentially
+    //  could cause cascading errors.
     if (::bind(fd_, address, socklen) < 0)
         throw fmt::system_error(errno, "Unable to bind to address");
     return *this;
@@ -65,6 +68,8 @@ const Fd &Fd::listen(int backlog) const {
 }
 
 const Fd &Fd::connect(const sockaddr *address, socklen_t socklen) const {
+    // TODO: ideally would include the address in the error message but it's non-trivial to do this, and potentially
+    //  could cause cascading errors.
     if (::connect(fd_, address, socklen) < 0)
         throw fmt::system_error(errno, "Unable to connect");
     return *this;
@@ -75,11 +80,11 @@ void Fd::read_all(void *data, size_t length) const {
     if (num_read < 0)
         throw fmt::system_error(errno, "Unable to read from {}", fd_);
     if (static_cast<size_t>(num_read) != length)
-        throw std::runtime_error("Truncated read from file descriptor {}"_format(fd_));
+        throw std::runtime_error("Truncated read from file descriptor {} ({}/{})"_format(fd_, num_read, length));
 }
 
-size_t Fd::try_read_some(gsl::span<byte> span) const {
-    ssize_t num_bytes = ::read(fd_, span.data(), span.size());
+size_t Fd::try_read_some(void *data, size_t length) const {
+    ssize_t num_bytes = ::read(fd_, data, length);
     if (num_bytes < 0)
         throw fmt::system_error(errno, "Unable to read from {}", fd_);
     return static_cast<size_t>(num_bytes);
