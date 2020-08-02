@@ -104,12 +104,12 @@ bool SendPacket(Packet *p, void *extra) {
             PACKET_MAX_PAYLOAD_SIZE);
         return FALSE;
     }
-    int bytesRead = write(doormanDesc, (char *)p, sizeof(Packet));
-    if (bytesRead != sizeof(Packet))
+    int bytes_written = write(doormanDesc, (char *)p, sizeof(Packet));
+    if (bytes_written != sizeof(Packet))
         return FALSE;
     if (p->nExtra) {
-        bytesRead = write(doormanDesc, extra, p->nExtra);
-        if (bytesRead != sizeof(Packet))
+        bytes_written = write(doormanDesc, extra, p->nExtra);
+        if (bytes_written != (ssize_t)(p->nExtra))
             return FALSE;
     }
     return TRUE;
@@ -829,9 +829,6 @@ bool process_output(DESCRIPTOR_DATA *d, bool fPrompt) {
         }
     }
 
-    /*
-     * OS-dependent output.
-     */
     if (!write_to_descriptor(d->descriptor, d->outbuf, d->outtop)) {
         d->outtop = 0;
         return FALSE;
@@ -888,29 +885,20 @@ void write_to_buffer(DESCRIPTOR_DATA *d, const char *txt, int length) {
 
 /*
  * Lowest level output function.
- * Write a block of text to the file descriptor.
- * If this gives errors on very long blocks (like 'ofind all'),
- *   try lowering the max block size.
  * MG> desc == channel for doorman
  */
 bool write_to_descriptor(int desc, char *txt, int length) {
-    int iStart;
-    int nWrite;
-    int nBlock;
-    Packet p;
-
     if (length <= 0)
         length = strlen(txt);
 
+    Packet p;
     p.type = PACKET_MESSAGE;
     p.channel = desc;
 
-    for (iStart = 0; iStart < length; iStart += nWrite) {
-        nBlock = UMIN(length - iStart, 4096);
-
-        p.nExtra = nBlock;
-        SendPacket(&p, txt + iStart);
-        nWrite = p.nExtra;
+    for (int iStart = 0; iStart < length; iStart += PACKET_MAX_PAYLOAD_SIZE) {
+        p.nExtra = UMIN(length - iStart, PACKET_MAX_PAYLOAD_SIZE);
+        if (!SendPacket(&p, txt + iStart))
+            return FALSE;
     }
 
     return TRUE;
