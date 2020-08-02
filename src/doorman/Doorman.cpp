@@ -98,7 +98,8 @@ void Doorman::accept_new_connection() {
         }
 
         auto id = id_allocator_.reserve();
-        auto insert_rec = channels_.try_emplace(id->id(), *this, mud_, id, std::move(newFd), incoming);
+        auto insert_rec =
+            channels_.emplace(id->id(), std::make_unique<Channel>(*this, mud_, id, std::move(newFd), incoming));
         if (!insert_rec.second) {
             // This should be impossible! If this happens we'll silently close the connection.
             log_.error("Reused channel ID {}!", id->id());
@@ -110,7 +111,7 @@ void Doorman::accept_new_connection() {
 
 Channel *Doorman::find_channel_by_id(int32_t channel_id) {
     if (auto it = channels_.find(channel_id); it != channels_.end())
-        return &it->second;
+        return it->second.get();
     return nullptr;
 }
 

@@ -6,6 +6,7 @@
 #include "Logger.hpp"
 #include "Xania.hpp"
 
+#include <memory>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -16,7 +17,7 @@ class Doorman {
     Fd listenSock_;
     static constexpr auto MaxChannels = 64;
     IdAllocator id_allocator_;
-    std::unordered_map<uint32_t, Channel> channels_;
+    std::unordered_map<uint32_t, std::unique_ptr<Channel>> channels_;
     std::unordered_set<uint32_t> channels_to_remove_;
 
     void accept_new_connection();
@@ -32,7 +33,7 @@ public:
     template <typename Func>
     void for_each_channel(Func func) {
         for (auto &id_and_chan : channels_)
-            func(id_and_chan.second);
+            func(*id_and_chan.second);
     }
     void broadcast(std::string_view message);
 
