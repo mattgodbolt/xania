@@ -12,25 +12,15 @@
  * the two
  */
 
-#ifndef _DOORMAN_H
-#define _DOORMAN_H
+#pragma once
 
 #include <stdint.h>
 
-#ifndef MAX
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 #define XANIA_FILE "/tmp/.xania-%d-%s"
-#define CONNECTION_WAIT_TIME 10
-
-// typedef enum { false = 0, true = 1 } bool;
-#ifndef true
-#define true 1
-#endif
-#ifndef false
-#define false 0
-#endif
 
 /*
  * A packet of data passing between the MUD and doorman
@@ -40,6 +30,7 @@ typedef enum {
     PACKET_INIT, /* Sent on initialisation of the MUD/doorman */
     PACKET_CONNECT, /* Initiate a new channel */
     PACKET_DISCONNECT, /* Disconnect a channel */
+    PACKET_DISCONNECT_ACK, /* Confirm a channel is no longer in use */
     PACKET_RECONNECT, /* Sent on receipt of MUD init for each channel */
     PACKET_MESSAGE, /* Send a message to a channel */
     PACKET_INFO, /* Update socket information */
@@ -51,12 +42,12 @@ typedef enum {
 typedef struct tagInfoData {
     uint16_t port; /* Their port number */
     uint32_t netaddr; /* Their IP address */
-    char ansi; /* ANSI-compliant terminal */
+    uint8_t ansi; /* ANSI-compliant terminal */
     /* Followed by hostname\0 */
     char data[0];
 } InfoData;
 
-#define CHANNEL_MAX (64)
+#define PACKET_MAX_PAYLOAD_SIZE 4096
 typedef struct tagPacket {
     PacketType type; /* Type of packet */
 
@@ -65,9 +56,6 @@ typedef struct tagPacket {
     char data[0]; /* nExtra bytes live here onwards */
 } Packet;
 
-/*
- * Buffer up to 2k of incoming data
- */
-#define INCOMING_BUFFER_SIZE (2048)
-
+#ifdef __cplusplus
+}
 #endif
