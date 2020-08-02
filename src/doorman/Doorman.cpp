@@ -72,12 +72,14 @@ void Doorman::socket_poll() {
     if (nFDs <= 0)
         return;
 
-    // Mud handling.
-    if (FD_ISSET(mud_.fd().number(), &exception_fds)) {
-        log_.warn("Got exception from MUD file descriptor");
-        mud_.close();
-    } else if (FD_ISSET(mud_.fd().number(), &input_fds))
-        mud_.process_mud_message();
+    if (mud_.fd_ok()) {
+        // Mud handling.
+        if (FD_ISSET(mud_.fd().number(), &exception_fds)) {
+            log_.warn("Got exception from MUD file descriptor");
+            mud_.close();
+        } else if (FD_ISSET(mud_.fd().number(), &input_fds))
+            mud_.process_mud_message();
+    }
 
     if (FD_ISSET(listenSock_.number(), &input_fds))
         accept_new_connection();
