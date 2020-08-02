@@ -1047,7 +1047,7 @@ int main(int argc, char *argv[]) {
     /*
      * Bit of 'Hello Mum'
      */
-    log_out("Doorman version 0.2 starting up");
+    log_out("Doorman version %s starting up", BUILD_VERSION);
     log_out("Attempting to bind to port %d", port);
 
     /*

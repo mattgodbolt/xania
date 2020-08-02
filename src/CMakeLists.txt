@@ -1,3 +1,6 @@
+configure_file(version.h.in version.h @ONLY)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
 add_subdirectory(doorman)
 add_subdirectory(chat)
 add_subdirectory(test)
