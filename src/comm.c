@@ -242,6 +242,7 @@ void game_loop_unix(int control) {
     sigset_t signals;
     sigemptyset(&signals);
     sigaddset(&signals, SIGTERM);
+    sigaddset(&signals, SIGINT);
     sigprocmask(SIG_BLOCK, &signals, NULL);
     int signal_fd = signalfd(-1, &signals, SFD_NONBLOCK);
     if (signal_fd < 0) {
@@ -284,7 +285,7 @@ void game_loop_unix(int control) {
                 bug("Unable to read signal info - treating as term");
                 info.ssi_signo = SIGTERM;
             }
-            if (info.ssi_signo == SIGTERM) {
+            if (info.ssi_signo == SIGTERM || info.ssi_signo == SIGINT) {
                 handle_signal_shutdown();
                 return;
             } else {
