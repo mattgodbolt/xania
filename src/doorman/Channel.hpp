@@ -39,7 +39,7 @@ class Channel : private TelnetProtocol::Handler {
     void on_data(gsl::span<const byte> incoming_data);
     void send_bytes(gsl::span<const byte> data) override;
     void on_line(std::string_view line) override;
-    void on_terminal_size(int width, int height) override;
+    void on_terminal_size(unsigned int width, unsigned int height) override;
     void on_terminal_type(std::string_view type, bool ansi_supported) override;
     void on_data_available();
 

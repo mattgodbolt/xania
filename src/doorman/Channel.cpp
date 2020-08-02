@@ -174,7 +174,7 @@ void Channel::send_bytes(gsl::span<const byte> data) { fd_.write(data); }
 
 void Channel::on_line(std::string_view line) { mud_.on_client_message(*this, line); }
 
-void Channel::on_terminal_size(int width, int height) {
+void Channel::on_terminal_size(unsigned int width, unsigned int height) {
     // TODO(#71): we lie and say we wordwrap at this length... perhaps we should?
     log_.debug("NAWS = {}x{}", width, height);
 }

@@ -17,6 +17,7 @@
 
 #include "Doorman.hpp"
 #include "Logger.hpp"
+#include "version.h"
 
 #include <fmt/format.h>
 
@@ -75,6 +76,8 @@ int Main(Logger &log, int argc, char *argv[]) {
         log.info("Debugging logging enabled");
         set_log_level(spdlog::level::debug);
     }
+
+    log.info("Doorman version {} starting up", BUILD_VERSION);
 
     /*
      * Prevent crashing on SIGPIPE if the MUD goes down, or if a connection

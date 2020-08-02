@@ -38,7 +38,12 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: configure
-        run: cmake -DCMAKE_BUILD_TYPE=Release -S . -B cmake-build-release
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_VERSION="$GITHUB_RUN_NUMBER" \
+            -DBUILD_COMMIT_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$GITHUB_SHA" \
+            -DBUILD_FULL_VERSION="$GITHUB_RUN_NUMBER $GITHUB_SHA on $GITHUB_REF" \
+            -S . -B cmake-build-release
       - name: build
         run: cmake --build cmake-build-release
       - name: package

@@ -6,8 +6,8 @@
 #include <cstring>
 
 static bool supports_ansi(const char *src) {
-    static const char *terms[] = {"xterm",      "xterm-colour", "xterm-color", "ansi",
-                                  "xterm-ansi", "vt100",        "vt102",       "vt220"};
+    static const char *terms[] = {"xterm", "xterm-colour", "xterm-color", "ansi",      "xterm-ansi",
+                                  "vt100", "vt102",        "vt220",       "terminator"};
     for (auto &term : terms)
         if (!strcasecmp(src, term))
             return true;
@@ -54,13 +54,13 @@ void TelnetProtocol::add_data(gsl::span<const byte> data) {
         return;
 
     auto as_string_view = std::string_view(reinterpret_cast<const char *>(span_to_scan.data()), span_to_scan.size());
-    auto remaining_data = find_whole_lines(as_string_view);
+    auto remaining_data = handle_whole_lines(as_string_view);
 
     const auto num_consumed = as_string_view.size() - remaining_data.size();
     buffer_.erase(buffer_.begin(), std::next(buffer_.begin(), num_consumed));
 }
 
-std::string_view TelnetProtocol::find_whole_lines(std::string_view data) {
+std::string_view TelnetProtocol::handle_whole_lines(std::string_view data) {
     while (!data.empty()) {
         // Handle a \n\r or \r\n sequence; even if it crossed a buffer boundary.
         if ((previous_separator_ == '\n' && data.front() == '\r')
@@ -99,7 +99,8 @@ static bool is_two_byte_command(byte b) {
 
 size_t TelnetProtocol::on_subcommand(gsl::span<const byte> command_sequence) {
     auto option_code = command_sequence[2];
-    auto body = command_sequence.subspan(3);
+    static constexpr auto outer_command_length = 3;
+    auto body = command_sequence.subspan(outer_command_length);
     const std::array<byte, 2> iac_se = {IAC, SE};
     auto iac_se_it = std::search(body.begin(), body.end(), iac_se.begin(), iac_se.end());
     if (iac_se_it == body.end())
@@ -116,14 +117,14 @@ size_t TelnetProtocol::on_subcommand(gsl::span<const byte> command_sequence) {
 
     case TELOPT_NAWS:
         if (body.size() >= 4) {
-            width_ = (body[0] << 8u) | body[1];
-            height_ = (body[2] << 8u) | body[3];
+            width_ = (static_cast<unsigned int>(body[0]) << 8u) | static_cast<unsigned int>(body[1]);
+            height_ = (static_cast<unsigned int>(body[2]) << 8u) | static_cast<unsigned int>(body[3]);
             handler_.on_terminal_size(width_, height_);
         }
         break;
     default: break;
     }
-    return body.size() + 3 + 2;
+    return outer_command_length + body.size() + iac_se.size();
 }
 
 size_t TelnetProtocol::on_command(gsl::span<const byte> command_sequence) {

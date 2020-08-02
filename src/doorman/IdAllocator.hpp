@@ -5,11 +5,15 @@
 #include <vector>
 
 class IdAllocator {
+public:
+    using IdType = uint32_t;
+
+private:
     class ReservationObj {
         IdAllocator &allocator_;
-        uint32_t id_;
+        IdType id_;
         friend IdAllocator;
-        ReservationObj(IdAllocator &allocator, uint32_t id) : allocator_(allocator), id_(id) {}
+        ReservationObj(IdAllocator &allocator, IdType id) : allocator_(allocator), id_(id) {}
 
     public:
         ~ReservationObj() { allocator_.release(id_); }
@@ -18,17 +22,17 @@ class IdAllocator {
         ReservationObj &operator=(const ReservationObj &) = delete;
         ReservationObj &operator=(ReservationObj &&) = delete;
 
-        [[nodiscard]] uint32_t id() const noexcept { return id_; }
+        [[nodiscard]] IdType id() const noexcept { return id_; }
     };
 
 public:
     using Reservation = std::shared_ptr<ReservationObj>;
 
 private:
-    uint32_t next_id_{};
-    std::vector<size_t> released_ids_;
+    IdType next_id_{};
+    std::vector<IdType> released_ids_;
 
-    void release(uint32_t id);
+    void release(IdType id);
 
 public:
     [[nodiscard]] Reservation reserve();

@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/signalfd.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/types.h>
@@ -122,57 +123,14 @@ void SetEchoState(DESCRIPTOR_DATA *d, int on) {
     SendPacket(&p, NULL);
 }
 
-/* This handler deals with catching SIGTERM calls - for instance if the
- * machine the MUD is running on is going down.
- * It tidies up and tells everyone what's going on
- */
-void sigterm(int signum) {
-    (void)signum;
-    CHAR_DATA *ch;
-
-    bug("The MUD has caught a SIGTERM - gracefully shutting down\n\r");
-    for (ch = char_list; ch; ch = ch->next) {
-        if (!IS_NPC(ch)) {
-            do_save(ch, "");
-            send_to_char("|R******************************************\n\r"
-                         "**  The machine up which |WXania|R runs is  **\n\r"
-                         "**  being shut down for maintainance.   **\n\r"
-                         "**  Your character has been saved, but  **\n\r"
-                         "**  the MUD will be down for a short    **\n\r"
-                         "**  time.  Sorry for any problems!      **\n\r"
-                         "******************************************|W\n\r",
-                         ch);
-            if (ch->desc && ch->desc->outtop > 0)
-                process_output(ch->desc, FALSE);
-        }
-    }
-    sleep(2);
-    exit(0);
-}
-
-/* where we're asked nicely to quit from the outside (mudmgr) */
-// TODO(#14): this is a catastrophe waiting to happen...
-void ext_shutdown(int signum) {
-    (void)signum;
-    char buf[MAX_STRING_LENGTH];
-    extern bool merc_down;
+/* where we're asked nicely to quit from the outside (mudmgr or OS) */
+void handle_signal_shutdown() {
     CHAR_DATA *vch;
     CHAR_DATA *vch_next;
-    FILE *fp;
     DESCRIPTOR_DATA *d, *d_next;
 
-    snprintf(buf, sizeof(buf), "Shutdown requested by operating system.");
+    log_string("Signal shutdown received");
 
-    fclose(fpReserve);
-    if ((fp = fopen(SHUTDOWN_FILE, "a")) == NULL) {
-        perror(SHUTDOWN_FILE);
-    } else {
-        fputs(buf, fp);
-        fclose(fp);
-    }
-
-    fpReserve = fopen(NULL_FILE, "r");
-    log_string(buf);
     /* ask everyone to save! */
     for (vch = char_list; vch != NULL; vch = vch_next) {
         vch_next = vch->next;
@@ -193,35 +151,6 @@ void ext_shutdown(int signum) {
         d_next = d->next;
         close_socket(d);
     }
-    sleep(2);
-    exit(0);
-}
-
-void panic(int signum) {
-
-    CHAR_DATA *ch;
-
-    /*  signal( signum, SIG_DFL ); restore  usual handler in case  we fall over
-                    trying to do this now - hopefully this won't
-                    happen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-    bug("OH SHIT!!!!!!!!!!!!!!!!!!  The MUD's crashed with sig %d\n\r", signum);
-    for (ch = char_list; ch; ch = ch->next) {
-        if (!IS_NPC(ch)) {
-            do_save(ch, "");
-            send_to_char("|R******************************************\n\r"
-                         "**  Xania has crashed - your character  **\n\r"
-                         "**  |WHAS|R been saved safely.  Xania       **\n\r"
-                         "**  will reboot shortly, we hope!       **\n\r"
-                         "**  |BThe X-Development Team|R apologizes   **\n\r"
-                         "**  for any inconvience! |G---\\--/-|R@      **\n\r"
-                         "******************************************|w\n\r",
-                         ch);
-            if (ch->desc && ch->desc->outtop > 0)
-                process_output(ch->desc, FALSE);
-        }
-    }
-    sleep(2);
-    exit(0);
 }
 
 int init_socket(const char *file) {
@@ -309,6 +238,17 @@ void game_loop_unix(int control) {
     struct timeval last_time;
 
     signal(SIGPIPE, SIG_IGN);
+
+    sigset_t signals;
+    sigemptyset(&signals);
+    sigaddset(&signals, SIGTERM);
+    sigprocmask(SIG_BLOCK, &signals, NULL);
+    int signal_fd = signalfd(-1, &signals, SFD_NONBLOCK);
+    if (signal_fd < 0) {
+        perror("signal_fd");
+        return;
+    }
+
     gettimeofday(&last_time, NULL);
     current_time = (time_t)last_time.tv_sec;
 
@@ -327,13 +267,29 @@ void game_loop_unix(int control) {
         FD_ZERO(&out_set);
         FD_ZERO(&exc_set);
         FD_SET(control, &in_set);
+        FD_SET(signal_fd, &in_set);
         if (doormanDesc)
             FD_SET(doormanDesc, &in_set);
         maxdesc = UMAX(control, doormanDesc);
+        maxdesc = UMAX(maxdesc, signal_fd);
 
         if (select(maxdesc + 1, &in_set, &out_set, &exc_set, &null_time) < 0) {
             perror("Game_loop: select: poll");
             exit(1);
+        }
+
+        if (FD_ISSET(signal_fd, &in_set)) {
+            struct signalfd_siginfo info;
+            if (read(signal_fd, &info, sizeof(info)) != sizeof(info)) {
+                bug("Unable to read signal info - treating as term");
+                info.ssi_signo = SIGTERM;
+            }
+            if (info.ssi_signo == SIGTERM) {
+                handle_signal_shutdown();
+                return;
+            } else {
+                bug("Unexpected signal %d: ignoring", info.ssi_signo);
+            }
         }
 
         /* If we don't have a connection from doorman, wait for one */
@@ -574,8 +530,6 @@ void game_loop_unix(int control) {
         gettimeofday(&last_time, NULL);
         current_time = (time_t)last_time.tv_sec;
     }
-
-    return;
 }
 
 DESCRIPTOR_DATA *new_descriptor(int channel) {
