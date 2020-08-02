@@ -921,7 +921,7 @@ Syntax: where
 Syntax: where <character>
 
 WHERE without an argument tells you the location of visible players in the same
-area as you are.
+area as you are. It also reports the location of your pet if it is in the same area.
 
 WHERE with an argument tells you the location of one character with that name
 within your area, including monsters.

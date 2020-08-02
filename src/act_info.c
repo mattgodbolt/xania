@@ -2045,10 +2045,11 @@ void do_where(CHAR_DATA *ch, char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        send_to_char("|cPlayers near you:|w\n\r", ch);
+        snprintf(buf, sizeof(buf), "|cYou are in %s\n\rPlayers near you:|w\n\r", ch->in_room->area->areaname);
+        send_to_char(buf, ch);
         found = FALSE;
         for (d = descriptor_list; d; d = d->next) {
-            if (d->connected == CON_PLAYING && (victim = d->character) != NULL && !IS_NPC(victim)
+            if (d->connected == CON_PLAYING && (victim = d->character) != NULL && !IS_NPC(victim) && victim != ch
                 && victim->in_room != NULL && victim->in_room->area == ch->in_room->area && can_see(ch, victim)) {
                 found = TRUE;
                 snprintf(buf, sizeof(buf), "|W%-28s|w %s\n\r", victim->name, victim->in_room->name);
@@ -2057,11 +2058,16 @@ void do_where(CHAR_DATA *ch, char *argument) {
         }
         if (!found)
             send_to_char("None\n\r", ch);
+        if (ch->pet && ch->pet->in_room->area == ch->in_room->area) {
+            snprintf(buf, sizeof(buf), "You sense that your pet is near %s.\n\r", ch->pet->in_room->name);
+            send_to_char(buf, ch);
+        }
     } else {
         found = FALSE;
         for (victim = char_list; victim != NULL; victim = victim->next) {
             if (victim->in_room != NULL && victim->in_room->area == ch->in_room->area && !IS_AFFECTED(victim, AFF_HIDE)
-                && !IS_AFFECTED(victim, AFF_SNEAK) && can_see(ch, victim) && is_name(arg, victim->name)) {
+                && !IS_AFFECTED(victim, AFF_SNEAK) && can_see(ch, victim) && victim != ch
+                && is_name(arg, victim->name)) {
                 found = TRUE;
                 snprintf(buf, sizeof(buf), "%-28s %s\n\r", PERS(victim, ch), victim->in_room->name);
                 send_to_char(buf, ch);
