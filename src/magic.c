@@ -1421,7 +1421,7 @@ void spell_curse(int sn, int level, CHAR_DATA *ch, void *vo) {
 
     af.type = sn;
     af.level = level;
-    af.duration = 2 * level;
+    af.duration = 3 + (level / 6);
     af.location = APPLY_HITROLL;
     af.modifier = -1 * (level / 8);
     af.bitvector = AFF_CURSE;
