@@ -3148,18 +3148,14 @@ D3
 0 -1 9674
 E
 plaque~
-The Holy Shrine of Allah
-
-
-                           (remember Allah is a god, I wouldn't attack him)
+This is the entrance to a place of worship. Peace to all who enter here.
 ~
 S
 #9666
-Shrine of Allah~
+Holy Shrine~
 As you step into this room you seem to leave the material plane. The
 walls here are decorated with beautiful, multi-colored tiles. There
-is a strange stillness about the air. You sense the presence of an
-almighty being.
+is a strange stillness about the air. Evidently this is a place of worship.
 ~
 95 D 0
 D2
@@ -5628,21 +5624,6 @@ FENU 0 0 0
 rest rest female 1014
 0 0 medium 0
 
-#9555
-allah~
-Allah~
-Allah is here.
-~
-You see the all-knowing Allah.
-~
-modron~
-BQRTUWXA DHU 1000 0
-32 16 1d1+1148 1d1+640 6d6+16 slash
--10 -10 -10 0
-FENU 0 0 0
-rest rest neutral 1640
-0 0 medium 0
-
 #9556
 mage guildguard~
 the guildguard~
@@ -7696,8 +7677,6 @@ M 0 9590 1 9661 1  1   the chef into Kitchen
 D   0   9661    0      1  Kitchen: Door north closed
 D   0   9663    2      1  Hall: Door south closed
 D   0   9665    0      0  Hall: Door north open
-M 0 9555 1 9666 1  1   Allah into Shrine of Allah  
-D   0   9666    2      0  Shrine of Allah: Door south open
 M 0 9544 20 9667 1  1   the vulture into Outside the Northern Gate of New Thalos  
 M 0 9544 20 9668 1  1   the vulture into Outside the Eastern Gate of New Thalos  
 M 0 9592 10 9668 1  1   the bodyguard into Outside the Eastern Gate of New Thalos  
