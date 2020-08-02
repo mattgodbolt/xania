@@ -2374,7 +2374,7 @@ a Footman's lance~
 There is a long wicked looking pole arm lying here.~
 steel~
 weapon 0 AN
-'spear' 2 3 'hit' 0
+'spear' 2 3 'pierce' 0
 7 20 1437 P
 E
 footmans lance~
