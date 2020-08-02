@@ -14,6 +14,10 @@ endif ()
 include(${CMAKE_MAKE_CONFIG_FILE})
 ####
 
+set(BUILD_VERSION "(local build)" CACHE STRING "Build version (build number only)")
+set(BUILD_FULL_VERSION "(local build)" CACHE STRING "Full string of build version (with git info)")
+set(BUILD_COMMIT_URL "https://this.is.a.local.build/1234" CACHE STRING "Full string of git URL to this build")
+
 set(CMAKE_CXX_STANDARD 17)
 add_compile_options(-Werror -Wall -Wextra)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address -fsanitize=undefined")
@@ -32,6 +36,6 @@ conan_cmake_run(CONANFILE conanfile.txt
 enable_testing()
 
 add_subdirectory(src)
+add_subdirectory(area)
 
-install(DIRECTORY area DESTINATION .)
 install(DIRECTORY html DESTINATION .)

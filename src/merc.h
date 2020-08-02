@@ -28,6 +28,7 @@
 
 #include "clan.h"
 #include "news.h"
+#include "version.h"
 #include <crypt.h>
 #include <stdint.h>
 #include <stdio.h>
