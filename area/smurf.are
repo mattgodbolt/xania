@@ -847,6 +847,29 @@ key 0 A
 2 0 0 0 0
 10 2 2060 P
 
+#110
+jewel box~
+a jewel box~
+A tiny jewel box sparkles on a shelf.
+~
+silver~
+container D 0
+200 15 107 0 0
+10 2000 1100 P
+E
+jewel box~
+The jewel box is made of silver plated panels and features
+inlaid gems. It seems to be affixed firmly to the shelf.
+~
+#111
+sparkling blue stone~
+a sparkling blue stone~
+A sparkling blue stone sits here.~
+stone~
+treasure G AO
+0 0 0 0 0
+9 10 2043 P
+
 #0
 
 #RESETS
@@ -886,7 +909,10 @@ G   1    105   10            a pink potion in inventory
 G   1    109    8            a small key in inventory
 M 0 111 1 128 1  1   Gargamel into Gargamel's Castle  
 E   1    106    8     17     a small wand held                   
-M 0 112 1 128 1  1   Azreal into Gargamel's Castle  
+M 0 112 1 128 1  1   Azreal into Gargamel's Castle
+O 0 110 1 129 # Jewellrey box
+P 1 111 1  110  3 1 # Put sparkling blue stone
+
 S
 #SPECIALS
 
