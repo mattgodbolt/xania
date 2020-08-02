@@ -121,7 +121,7 @@ sub processctl {
     return @pidlist;
   }
   if( $command == 1 ) {
-    kill( 'QUIT', @pidlist );    # use SIGQUIT, friendlier than a crash sig
+    kill( 'TERM', @pidlist );    # use SIGTERM, friendlier than a crash sig
   }
   # did we find any relevant PIDs??
   return scalar @pidlist;

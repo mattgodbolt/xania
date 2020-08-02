@@ -22,17 +22,6 @@ To build and run, type `make`:
 ```bash
 $ make start
 ... lots of configuration nonsense here, downloads, cmake, and then compilation ...
-
-Starting Xania on port 9000}
-(cd src && ./mudmgr -s 9000)
-
-Xania management script executed by "mgodbolt" on July-23-2020-22:52:11
-Nothing will happen if another mudmgr session is already
-running Xania. Use the -r option if you need to restart everything.
-Hmmm...doorman is down...
-better start it up then...
-Hmmm...Xania is down...
-better start it up then...
 All being well, telnet localhost 9000 to log in
 $
 ```
@@ -94,11 +83,8 @@ $ (cd area && gdb ../install/bin/xania)
 
 You can also attach to the running process using gdb -p.
 
-If you're relying on the default `make` targets to build & start things, the `mudmgr` manager script
-will automatically restart the `xania` process if you kill it, _unless_ you run `shutdown` from within the game
-as a level 100 character.
-
-This can be awkward if you're iterating on changes and want to have greater control.
+If you're relying on the default `make` targets to build & start things, the `reboot` command from within the MUD will
+not restart the processes.
 
 A solution is to not run `make start` at all, but instead, execute `./install/bin/doorman` and
 the xania executable directly in another terminal as described above.

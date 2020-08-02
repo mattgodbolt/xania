@@ -1,0 +1,6 @@
+#pragma once
+
+// NB this file is preprocessed by CMake
+
+#define BUILD_VERSION "@BUILD_VERSION@"
+#define BUILD_FULL_VERSION "@BUILD_FULL_VERSION@"
