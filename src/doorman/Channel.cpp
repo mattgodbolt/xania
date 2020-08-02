@@ -152,7 +152,6 @@ void Channel::on_data_available() {
     // This constant doesn't control how large the data sent to the MUD is; it's more a "fairness"
     // indicator: per poll() we won't read more than from each socket. This prevents one chatty client
     // from starving out the others. If a client gets particularly far ahead, then their TCP window
-    // from starving out the others. If a client gets particularly far ahead, then their TCP window
     // will close up, and we want to provide them with that backpressure.
     constexpr auto PerSocketReadSize = 1024;
     byte buf[PerSocketReadSize];
