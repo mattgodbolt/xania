@@ -728,8 +728,18 @@ void spell_blindness(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *victim = (CHAR_DATA *)vo;
     AFFECT_DATA af;
 
-    if (IS_AFFECTED(victim, AFF_BLIND) || saves_spell(level, victim))
+    if (IS_AFFECTED(victim, AFF_BLIND)) {
+        if (ch == victim) {
+            send_to_char("You are already blind.\n\r", ch);
+        } else {
+            act("$N is already blind.", ch, NULL, victim, TO_CHAR);
+        }
         return;
+    }
+    if (saves_spell(level, victim)) {
+        act("$n shakes off an attempt to blind $m.", victim, NULL, victim, TO_ROOM);
+        return;
+    }
 
     af.type = sn;
     af.level = level;
