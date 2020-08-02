@@ -40,9 +40,10 @@ build: $(BUILD_ROOT)/CMakeCache.txt  ## Build Xania source
 	$(CMAKE) --build $(BUILD_ROOT)
 
 # Grr older cmakes don't support --install and --prefix
-install: build
+install: build dirs
 	@mkdir -p $(INSTALL_DIR)
 	$(CMAKE) --build $(BUILD_ROOT) --target install
+	ln -sf $(CURDIR)/gods $(CURDIR)/player $(CURDIR)/log $(INSTALL_DIR)
 
 .PHONY: dirs
 dirs:
@@ -80,21 +81,22 @@ $(CLANG_FORMAT): $(CURL)
 
 .PHONY: start
 start: install dirs  ## Build and start Xania
-	@rm -f area/shutdown.txt
-	@echo "Starting Xania on port $(PORT)}"
-	(cd src && ./mudmgr -s $(PORT))
-	@sleep 3
+	@rm -f $(INSTALL_DIR)/area/shutdown.txt
+	(cd $(INSTALL_DIR)/area && ../bin/doorman) > $(CURDIR)/log/doorman.log 2>&1 &
+	@sleep 1
+	(cd $(INSTALL_DIR)/area && ../bin/xania) > $(CURDIR)/log/xania.log 2>&1 &
+	@sleep 5
 	@echo "All being well, telnet localhost $(PORT) to log in"
 
 .PHONY: stop
-stop: install dirs  ## Stop Xania
-	@echo "Stopping Xania"
-	(cd src && ./mudmgr -d)
+stop: dirs  ## Stop Xania
+	@echo "Stopping Xania..."
+	-killall --quiet --wait $(INSTALL_DIR)/bin/xania
+	@echo "Stopping doorman..."
+	-killall --quiet --wait $(INSTALL_DIR)/bin/doorman
 
 .PHONY: restart
-restart: install dirs  ## Restart Xania
-	@echo "Restarting Xania"
-	(cd src && ./mudmgr -r $(PORT))
+restart: stop start  ## Restart Xania
 
 # Grr older cmakes don't support -S -B
 $(BUILD_ROOT)/CMakeCache.txt:

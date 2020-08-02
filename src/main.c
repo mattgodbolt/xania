@@ -2,7 +2,6 @@
 
 #include "doorman/doorman.h"
 
-#include <signal.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
@@ -20,10 +19,7 @@ extern char str_boot_time[];
 extern int init_socket(const char *file);
 extern int doormanDesc;
 extern bool SendPacket(Packet *p, void *extra);
-extern void ext_shutdown(int signum);
-extern void panic(int signum);
 extern void game_loop_unix(int control);
-extern void sigterm(int signum);
 
 int main(int argc, char **argv) {
     struct timeval now_time;
@@ -88,22 +84,8 @@ int main(int argc, char **argv) {
         pInit.type = PACKET_INIT;
         SendPacket(&pInit, NULL);
     }
-    if (!debug) {
-        signal(SIGQUIT, ext_shutdown); /* external QUIT request (mudmgr)*/
-        signal(SIGSEGV, panic); /*     panic  handler    */
-        signal(SIGBUS, panic); /* another panic handler */
-        signal(SIGTERM, sigterm); /* catch terminate calls */
-    } else {
-        log_string("*** DEBUG MODE ON *** - no signal handlers installed.");
-    }
     game_loop_unix(control);
     close(control);
-    if (!debug) {
-        signal(SIGQUIT, ext_shutdown); /* external QUIT request (mudmgr)*/
-        signal(SIGSEGV, SIG_DFL);
-        signal(SIGBUS, SIG_DFL);
-        signal(SIGTERM, SIG_DFL);
-    }
 
     /*
      * That's all, folks.
