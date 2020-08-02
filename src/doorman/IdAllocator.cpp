@@ -7,7 +7,7 @@ static auto &logger() {
     return the_logger;
 }
 
-void IdAllocator::release(uint32_t id) {
+void IdAllocator::release(IdType id) {
     logger().debug("Releasing ID {}", id);
     released_ids_.push_back(id);
 }
