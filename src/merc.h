@@ -334,7 +334,7 @@ struct shop_data {
  * Per-class stuff.
  */
 
-#define MAX_GUILD 2
+#define MAX_GUILD 3
 #define MAX_STATS 5
 #define STAT_STR 0
 #define STAT_INT 1

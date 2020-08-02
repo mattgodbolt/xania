@@ -677,7 +677,7 @@ stand stand neutral 0
 #10095
 mage guildmaster~
 the guildmaster~
-Your guildmaster stands here.
+The mage guildmaster stands here.
 ~
 A young man waving his hands and casting magic is here ready to train you.
 He has grey hair and is wearing spectacles. He wears long purple robe that
@@ -693,7 +693,7 @@ stand stand male 0
 #10096
 cleric guildmaster~
 the guildmaster~
-Your guildmaster stands here.
+The cleric guildmaster stands here.
 ~
 An angelic looking man stands here ready to train you. He is surrounded by a
 golden aura. He waits patiently for your request and seems totally content
@@ -1548,9 +1548,14 @@ S
 East Wolf Run Ave.~
    From here you start to make out the buildings of the town. You can see many  
 people wandering about. They seem to be ignorant of what is going on around   
-them. 
+them. To the north stands a  holy shrine that only the most devout may visit.
 ~
 45 0 1
+D0
+The cleric's guild.
+~
+~
+0 -1 10114
 D1
 You see the end of Wolf Run Ave.
 ~
@@ -2736,6 +2741,20 @@ sign~
                                    BEWARE
 ~
 S
+#10114
+The Holy Shrine~
+   You stand within a small stone alcove. The walls are brown and bare, and appear to 
+have been carved by hand over many years. The only decoration is a simple bench.
+A holy man meditates next to it.
+~
+45 CD 1
+D2
+East Wolf Run Ave.
+~
+~
+0 -1 10053
+S
+
 #0
 
 #RESETS
@@ -2916,7 +2935,7 @@ M 0 10094 1 10100 1  1  1        wolf pups
    
 M 0 10095 1 10074 1  1  1        mage guildmaster
    
-M 0 10096 1 10074 1  1  1        cleric guildmaster
+M 0 10096 1 10114 1  1  1        cleric guildmaster
    
 M 0 10097 1 10086 1  1  1        knight guildmaster
    
