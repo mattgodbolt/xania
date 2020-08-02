@@ -2368,7 +2368,7 @@ void do_hailcorpse(CHAR_DATA *ch, char *argument) {
 
         if ((pexit = current_place->exit[direction]) == NULL || (current_place = pexit->u1.to_room) == NULL
             || !can_see_room(ch, pexit->u1.to_room))
-            break;
+            continue;
 
         for (current_obj = current_place->contents; current_obj != NULL; current_obj = current_obj->next_content) {
             if ((current_obj->item_type == ITEM_CORPSE_PC) && strstr(current_obj->short_descr, ch->name) != NULL) {
