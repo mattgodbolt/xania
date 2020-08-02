@@ -190,7 +190,7 @@ void show_char_to_char_0(CHAR_DATA *victim, CHAR_DATA *ch) {
     if (IS_AFFECTED(victim, AFF_PASS_DOOR))
         strcat(buf, "(|bTranslucent|w) ");
     if (IS_AFFECTED(victim, AFF_FAERIE_FIRE))
-        strcat(buf, "(|rPink Aura|w) ");
+        strcat(buf, "(|PPink Aura|w) ");
     if (IS_AFFECTED(victim, AFF_OCTARINE_FIRE))
         strcat(buf, "(|GOctarine Aura|w) ");
     if (IS_EVIL(victim) && IS_AFFECTED(ch, AFF_DETECT_EVIL))
