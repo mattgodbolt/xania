@@ -1,5 +1,8 @@
 add_library(doorman_lib STATIC
-        TelnetProtocol.cpp TelnetProtocol.hpp Fd.cpp Fd.hpp Byte.hpp)
+        IdAllocator.cpp IdAllocator.hpp
+        TelnetProtocol.cpp TelnetProtocol.hpp
+        Fd.cpp Fd.hpp
+        Byte.hpp)
 target_link_libraries(doorman_lib CONAN_PKG::fmt CONAN_PKG::ms-gsl)
 
 add_subdirectory(test)
