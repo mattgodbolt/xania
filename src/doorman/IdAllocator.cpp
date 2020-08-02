@@ -1,6 +1,6 @@
 #include "IdAllocator.hpp"
 
-void IdAllocator::release(uint32_t id) { released_ids_.push_back(id); }
+void IdAllocator::release(IdType id) { released_ids_.push_back(id); }
 
 IdAllocator::Reservation IdAllocator::reserve() {
     if (!released_ids_.empty()) {
