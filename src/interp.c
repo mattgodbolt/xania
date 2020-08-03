@@ -428,10 +428,7 @@ static char *apply_prefix(char *buf, CHAR_DATA *ch, char *command) {
         command++; /* skip the \ */
         return command;
     } else {
-        int prefix_len = strlen(pc_prefix);
-        memcpy(buf, pc_prefix, (prefix_len < MAX_INPUT_LENGTH) ? prefix_len : MAX_INPUT_LENGTH - 1);
-        memcpy(buf + prefix_len, command, MAX_INPUT_LENGTH - prefix_len);
-        buf[MAX_INPUT_LENGTH - 1] = '\0';
+        snprintf(buf, MAX_INPUT_LENGTH, "%s%s", pc_prefix, command);
         return buf;
     }
 }
@@ -445,7 +442,6 @@ void interpret(CHAR_DATA *ch, char *argument) {
     char command[MAX_INPUT_LENGTH];
     char logline[MAX_INPUT_LENGTH];
     const struct cmd_type *cmd;
-
     argument = apply_prefix(cmd_buf, ch, argument);
 
     /* Strip leading spaces. */
