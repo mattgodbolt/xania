@@ -955,7 +955,7 @@ void do_split(CHAR_DATA *ch, char *argument) {
     }
 
     if (members < 2) {
-        send_to_char("Just keep it all.\n\r", ch);
+        send_to_char("You'd share the gold if there was someone here to split it with!\n\r", ch);
         return;
     }
 
