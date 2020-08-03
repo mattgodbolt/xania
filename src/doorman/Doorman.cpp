@@ -1,5 +1,6 @@
 #include "Doorman.hpp"
 #include "Channel.hpp"
+#include "SeasocksToLogger.hpp"
 #include "Xania.hpp"
 #include "doorman_protocol.h"
 
@@ -15,7 +16,8 @@
 
 using namespace std::literals;
 
-Doorman::Doorman(int port) : log_(logger_for("Doorman")), port_(port), mud_(*this) {
+Doorman::Doorman(int port)
+    : log_(logger_for("Doorman")), port_(port), mud_(*this), web_server_(std::make_shared<SeasocksToLogger>()) {
     log_.info("Attempting to bind to port {}", port);
     listenSock_ = Fd::socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -29,7 +31,12 @@ Doorman::Doorman(int port) : log_(logger_for("Doorman")), port_(port), mud_(*thi
         .bind(sin)
         .listen(4);
 
-    log_.info("Doorman is ready to rock on port {}", port);
+    log_.info("Doorman is ready to accept telnet connections on port {}", port);
+
+    auto web_port = port + 1;
+    web_server_.setStaticPath("../html");
+    web_server_.startListening(web_port);
+    log_.info("Doorman is ready to accept web connections on port {}", web_port);
 }
 
 void Doorman::poll() {
@@ -54,7 +61,8 @@ void Doorman::socket_poll() {
     FD_ZERO(&input_fds);
     FD_ZERO(&exception_fds);
     FD_SET(listenSock_.number(), &input_fds);
-    int max_fd = listenSock_.number();
+    FD_SET(web_server_.fd(), &input_fds);
+    int max_fd = std::max(listenSock_.number(), web_server_.fd());
     if (mud_.fd_ok()) {
         FD_SET(mud_.fd().number(), &input_fds);
         FD_SET(mud_.fd().number(), &exception_fds);
@@ -83,6 +91,9 @@ void Doorman::socket_poll() {
 
     if (FD_ISSET(listenSock_.number(), &input_fds))
         accept_new_connection();
+
+    if (FD_ISSET(web_server_.fd(), &input_fds))
+        web_server_.poll(0);
 
     for_each_channel([&](Channel &channel) { channel.check_fds(input_fds, exception_fds); });
 }

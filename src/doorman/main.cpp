@@ -18,13 +18,16 @@
 #include "Doorman.hpp"
 #include "Logger.hpp"
 #include "version.h"
-
 #include <fmt/format.h>
 
 #include <csignal>
 #include <getopt.h>
 
-void usage() { fmt::print(stderr, "Usage: doorman [-h | --help] [-d | --debug] [-p | --port port] [port]\n"); }
+namespace {
+
+void usage() {
+    fmt::print(stderr, "Usage: doorman [-h | --help] [-d | --debug] [-p | --port port] [port]\n");
+}
 
 int Main(Logger &log, int argc, char *argv[]) {
     int debug = 0;
@@ -93,6 +96,8 @@ int Main(Logger &log, int argc, char *argv[]) {
     for (;;) {
         doorman.poll();
     }
+}
+
 }
 
 int main(int argc, char *argv[]) {

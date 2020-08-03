@@ -6,6 +6,7 @@
 #include "Logger.hpp"
 #include "Xania.hpp"
 
+#include <seasocks/Server.h>
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
@@ -15,6 +16,7 @@ class Doorman {
     int port_;
     Xania mud_;
     Fd listenSock_;
+    seasocks::Server web_server_;
     static constexpr auto MaxChannels = 64;
     IdAllocator id_allocator_;
     std::unordered_map<uint32_t, std::unique_ptr<Channel>> channels_;
