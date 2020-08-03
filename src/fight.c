@@ -636,9 +636,9 @@ void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
 /**
  * Loot a corpse and sacrifice it after something dies.
  */
-void loot_and_sacrifice_corpse(CHAR_DATA *looter, CHAR_DATA *victim) {
+void loot_and_sacrifice_corpse(CHAR_DATA *looter, CHAR_DATA *victim, sh_int victim_room_vnum) {
     OBJ_DATA *corpse;
-    if (!IS_NPC(looter) && IS_NPC(victim)) {
+    if (!IS_NPC(looter) && IS_NPC(victim) && looter->in_room->vnum == victim_room_vnum) {
         corpse = get_obj_list(looter, "corpse", looter->in_room->contents);
         if (IS_SET(looter->act, PLR_AUTOLOOT) && corpse && corpse->contains) { /* exists and not empty */
             do_get(looter, "all corpse");
@@ -668,6 +668,7 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
     OBJ_DATA *wield;
     AFFECT_DATA *octarineFire;
     bool immune;
+    sh_int victim_room_vnum;
 
     if (victim->position == POS_DEAD)
         return FALSE;
@@ -906,6 +907,7 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
                 do_immtalk(ch, log_buf);
             }
         }
+        victim_room_vnum = victim->in_room->vnum;
         raw_kill(victim);
 
         for (mob = char_list; mob != NULL; mob = mob_next) {
@@ -923,7 +925,7 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
          * If the final blow was a pet or charmed mob, its greedy master gets to autoloot.
          */
         CHAR_DATA *looter = ((IS_AFFECTED(ch, AFF_CHARM) && !IS_NPC(ch->master))) ? ch->master : ch;
-        loot_and_sacrifice_corpse(looter, victim);
+        loot_and_sacrifice_corpse(looter, victim, victim_room_vnum);
         return TRUE;
     }
 
