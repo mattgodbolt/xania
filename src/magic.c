@@ -2658,8 +2658,10 @@ void spell_faerie_fire(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *victim = (CHAR_DATA *)vo;
     AFFECT_DATA af;
 
-    if (IS_AFFECTED(victim, AFF_FAERIE_FIRE))
+    if (IS_AFFECTED(victim, AFF_FAERIE_FIRE)) {
+        act("$N is already surrounded by a pink outline.", ch, NULL, victim, TO_CHAR);
         return;
+    }
     af.type = sn;
     af.level = level;
     af.duration = level;
