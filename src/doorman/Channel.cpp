@@ -34,11 +34,17 @@ std::string Channel::lookup(const sockaddr_in &address) const {
     hostent ent{};
     hostent *res{};
     int host_errno{};
-    if (auto gh_errno = gethostbyaddr_r(&address.sin_addr, sizeof(address.sin_addr), AF_INET, &ent, lookup_buffer,
-                                        sizeof(lookup_buffer), &res, &host_errno)
-                        != 0) {
-        log_.warn("Unable to look up address: {}/{}", gh_errno, host_errno);
-        return inet_ntoa(address.sin_addr);
+    auto as_ip = std::string(inet_ntoa(address.sin_addr));
+    auto gh_errno = gethostbyaddr_r(&address.sin_addr, sizeof(address.sin_addr), AF_INET, &ent, lookup_buffer,
+                                    sizeof(lookup_buffer), &res, &host_errno);
+    if (gh_errno != 0) {
+        char error_buffer[1024];
+        log_.error("Error looking up address {} : {}", as_ip, strerror_r(gh_errno, error_buffer, sizeof(error_buffer)));
+        return as_ip;
+    }
+    if (host_errno != 0) {
+        log_.warn("DNS resolution failure looking up address {} : {}", as_ip, hstrerror(host_errno));
+        return as_ip;
     }
     return res->h_name;
 }
