@@ -42,7 +42,7 @@ void Xania::try_connect() {
         fd_.connect(xaniaAddr);
     } catch (const std::runtime_error &re) {
         log_.warn("Connection attempt to MUD failed: {}", re.what());
-        doorman_.for_each_channel([&](Channel &chan) {
+        doorman_.for_each_channel([&](ChannelBase &chan) {
             try {
                 chan.on_reconnect_attempt();
             } catch (const std::runtime_error &re) {
@@ -77,7 +77,7 @@ void Xania::close() {
     ids_known_to_mud_.clear();
 
     doorman_.broadcast("\n\rDoorman has lost connection to Xania.\n\r");
-    doorman_.for_each_channel([](Channel &chan) { chan.mark_disconnected(); });
+    doorman_.for_each_channel([](ChannelBase &chan) { chan.mark_disconnected(); });
 }
 
 void Xania::process_mud_message() {
@@ -115,7 +115,7 @@ void Xania::process_mud_message() {
     }
 }
 
-void Xania::handle_channel_message(const Packet &p, const std::string &payload, Channel &channel) {
+void Xania::handle_channel_message(const Packet &p, const std::string &payload, ChannelBase &channel) {
     switch (p.type) {
     case PACKET_MESSAGE:
         /* A message from the MUD */
@@ -159,14 +159,14 @@ void Xania::handle_init() {
     log_.info("Xania has booted");
     state_ = State::Connected;
     // Now try to connect everyone who has been waiting
-    doorman_.for_each_channel([](Channel &chan) { chan.send_connect_packet(); });
+    doorman_.for_each_channel([](ChannelBase &chan) { chan.send_connect_packet(); });
 }
 
-void Xania::send_close_msg(const Channel &channel) {
+void Xania::send_close_msg(const ChannelBase &channel) {
     send_to_mud({PACKET_DISCONNECT, 0, channel.reservation()->id(), {}});
 }
 
-void Xania::on_client_message(const Channel &channel, std::string_view message) const {
+void Xania::on_client_message(const ChannelBase &channel, std::string_view message) const {
     // We drop messages here if there's nothing upstream. Probably for the best.
     if (!connected())
         return;
@@ -176,7 +176,7 @@ void Xania::on_client_message(const Channel &channel, std::string_view message) 
 
 Xania::Xania(Doorman &doorman) : log_(logger_for("Xania")), doorman_(doorman) {}
 
-void Xania::send_connect(const Channel &channel) {
+void Xania::send_connect(const ChannelBase &channel) {
     auto id = channel.reservation();
     if (send_to_mud({PACKET_CONNECT, 0, id->id(), {}}))
         ids_known_to_mud_.emplace(id->id(), id);

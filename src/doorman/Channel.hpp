@@ -16,7 +16,20 @@
 class Doorman;
 class Xania;
 
-class Channel : private TelnetProtocol::Handler {
+class ChannelBase {
+public:
+    virtual ~ChannelBase() = default;
+    [[nodiscard]] virtual const IdAllocator::Reservation &reservation() const = 0;
+    virtual void send_to_client(std::string_view message) = 0;
+    virtual void set_echo(bool echo) = 0;
+    virtual void close() = 0;
+    virtual void on_auth(std::string_view name) = 0;
+    virtual void mark_disconnected() noexcept = 0;
+    virtual void on_reconnect_attempt() = 0;
+    virtual void send_connect_packet() = 0;
+};
+
+class Channel : private TelnetProtocol::Handler, public ChannelBase {
     mutable Logger log_;
 
     Doorman &doorman_;
@@ -53,21 +66,16 @@ public:
     Channel &operator=(const Channel &) = delete;
     Channel &operator=(Channel &&) = delete;
 
-    [[nodiscard]] const IdAllocator::Reservation &reservation() const { return id_; }
-    void send_connect_packet();
-    void close();
+    [[nodiscard]] const IdAllocator::Reservation &reservation() const override { return id_; }
+    void send_connect_packet() override;
+    void close() override;
 
-    void on_auth(std::string_view name);
-    [[nodiscard]] const std::string &authed_name() const { return auth_char_name_; }
-    void on_reconnect_attempt();
-    [[nodiscard]] bool is_connected() const noexcept { return connected_; }
-    void mark_disconnected() noexcept { connected_ = false; }
-    void send_to_client(gsl::span<const char> span) const { send_to_client(span.data(), span.size_bytes()); }
-    void send_to_client(gsl::span<const byte> span) const { send_to_client(span.data(), span.size_bytes()); }
+    void on_auth(std::string_view name) override;
+    void on_reconnect_attempt() override;
+    void mark_disconnected() noexcept override { connected_ = false; }
+    void send_to_client(std::string_view message) override { send_to_client(message.data(), message.size()); }
 
-    [[nodiscard]] bool is_closed() const { return !fd_.is_open(); }
-
-    void set_echo(bool echo);
+    void set_echo(bool echo) override;
 
     [[nodiscard]] int set_fds(fd_set &input_fds, fd_set &exception_fds) noexcept;
     void check_fds(const fd_set &input_fds, const fd_set &exception_fds);

@@ -9,7 +9,7 @@
 #include <string_view>
 #include <unordered_map>
 
-class Channel;
+class ChannelBase;
 class Doorman;
 
 class Xania {
@@ -36,9 +36,9 @@ public:
     void close();
 
     void process_mud_message();
-    void send_connect(const Channel &channel);
-    void send_close_msg(const Channel &channel);
-    void on_client_message(const Channel &channel, std::string_view message) const;
+    void send_connect(const ChannelBase &channel);
+    void send_close_msg(const ChannelBase &channel);
+    void on_client_message(const ChannelBase &channel, std::string_view message) const;
     void handle_init();
-    void handle_channel_message(const Packet &p, const std::string &payload, Channel &channel);
+    void handle_channel_message(const Packet &p, const std::string &payload, ChannelBase &channel);
 };

@@ -1,18 +1,52 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN">
+<!doctype HTML>
 
-<HTML>
-<HEAD>
-<TITLE>Xania MUD</TITLE>
-<META NAME="keywords" CONTENT="Xania MUD, Forrey, TheMoog, Faramir, Death,
-Wandera, Rohan, fighting, magic,  fantasy, adventure, Tolkien, DragonLance">
-<FRAMESET BORDER=0 FRAMESPACING=0 FRAMEBORDER=0 COLS="144,*">
-<FRAME NAME="left" SRC="./left_index.html" SCROLLING="auto" MARGINWIDTH="2" MARGINHEIGHT="1" FRAMEBORDER="no" BORDER="0" NORESIZE>
-<FRAMESET BORDER=0 FRAMESPACING=0 FRAMEBORDER=0 ROWS="103,*,117">
-<FRAME NAME="header" SRC="./header_index.html" SCROLLING="auto" MARGINWIDTH="2" MARGINHEIGHT="1" FRAMEBORDER="no" BORDER="0" NORESIZE>
-<FRAME NAME="body" SRC="./body_index.html" SCROLLING="auto" MARGINWIDTH="2" MARGINHEIGHT="1">
-<FRAME NAME="footer" SRC="./footer_defaultmasterborder.html" SCROLLING="auto" MARGINWIDTH="2" MARGINHEIGHT="1" FRAMEBORDER="no" BORDER="0" NORESIZE>
-</FRAMESET>
-</FRAMESET>
-</HEAD>
+<html>
+<head>
+    <title>Xania Multi User Dungeon</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@4.5.0/css/xterm.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xterm@4.5.0/lib/xterm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.3.0/lib/xterm-addon-fit.js"></script>
+    <style>
+    #terminal {
+        height: 1024px;
+    }
+    </style>
+</head>
 
-</HTML>
+<body>
+<div id="terminal"></div>
+<form id="input">
+    <input id="mud-input" type="text"><input id="submit" type="submit">
+</form>
+<script>
+    const term = new Terminal();
+    const fitAddon = new FitAddon.FitAddon();
+    term.loadAddon(fitAddon);
+    term.open(document.getElementById('terminal'));
+
+    document.getElementById('input').onsubmit = (e) => {
+        e.preventDefault();
+        const elem = document.getElementById('mud-input');
+        ws.send(elem.value);
+        elem.value = "";
+    };
+
+    const ws = new WebSocket('ws://' + document.location.host + '/mud');
+    ws.onopen = function () {
+        console.log('onopen');
+    };
+    ws.onclose = function () {
+        term.write('Lost connection.');
+        console.log('onclose');
+    };
+    ws.onmessage = function (message) {
+        term.write(message.data);
+    };
+    ws.onerror = function (error) {
+        term.write("ERROR: " + error);
+    };
+
+    fitAddon.fit();
+</script>
+</body>
+</html>

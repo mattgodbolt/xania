@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 #include <cerrno>
@@ -15,6 +16,112 @@
 #include <netinet/in.h>
 
 using namespace std::literals;
+using namespace fmt::literals;
+
+namespace {
+
+class WebSocketChannel : public ChannelBase {
+    Logger log_;
+    IdAllocator::Reservation id_;
+    seasocks::WebSocket &socket_;
+    Xania &mud_;
+    bool connected_ = false;
+    std::string hostname_;
+    std::string auth_char_name_;
+
+    void send_info_packet() {
+        // TODO duplication
+        size_t payload_size = sizeof(InfoData) + hostname_.size() + 1;
+        if (payload_size > PACKET_MAX_PAYLOAD_SIZE) {
+            log_.error("Dropping MUD info message as payload size was too big ({} > {})", payload_size,
+                       PACKET_MAX_PAYLOAD_SIZE);
+            return;
+        }
+        char buffer[PACKET_MAX_PAYLOAD_SIZE];
+        auto data = new (buffer) InfoData;
+        Packet p{PACKET_INFO, static_cast<uint32_t>(payload_size), id_->id(), {}};
+
+        data->port = htons(socket_.getRemoteAddress().sin_port);
+        data->netaddr = htonl(socket_.getRemoteAddress().sin_addr.s_addr);
+        data->ansi = true;
+        strcpy(data->data, hostname_.c_str());
+        mud_.send_to_mud(p, buffer);
+    }
+
+public:
+    WebSocketChannel(IdAllocator::Reservation id, seasocks::WebSocket *socket, Xania &mud)
+        : log_(logger_for("ws.{}"_format(id->id()))), id_(std::move(id)), socket_(*socket), mud_(mud) {
+
+        // TODO so much duplication.
+        if (!mud_.connected()) {
+            send_to_client("Xania is down at the moment - you will be connected as soon as it is up again.\n\r"sv);
+        }
+
+        send_connect_packet();
+        hostname_ = "TODO"; // lookups!
+    }
+
+    [[nodiscard]] const IdAllocator::Reservation &reservation() const override { return id_; }
+    void send_to_client(std::string_view message) override { socket_.send(std::string(message)); }
+    void set_echo(bool echo) override { (void)echo; }
+    void close() override { socket_.close(); }
+    void on_auth(std::string_view name) override { auth_char_name_ = name; }
+    void mark_disconnected() noexcept override { connected_ = false; }
+    void on_reconnect_attempt() override {}
+    void send_connect_packet() override {
+        if (connected_) {
+            log_.warn("Attempt to send connect packet for already-connected channel");
+            return;
+        }
+        if (!mud_.connected())
+            return;
+
+        // Have we already been authenticated?
+        if (!auth_char_name_.empty()) {
+            connected_ = true;
+            mud_.send_to_mud({PACKET_RECONNECT, static_cast<uint32_t>(auth_char_name_.size() + 1), id_->id(), {}},
+                             auth_char_name_.c_str());
+            send_info_packet();
+            log_.debug("Sent reconnect packet to MUD for {}", auth_char_name_);
+        } else {
+            connected_ = true;
+            mud_.send_connect(*this);
+            send_info_packet();
+            log_.debug("Sent connect packet to MUD");
+        }
+        //        sent_reconnect_message_ = false;
+    }
+    void on_data(std::string_view data) { mud_.on_client_message(*this, data); }
+};
+
+}
+
+class Doorman::MudWebsocketHandler : public seasocks::WebSocket::Handler {
+    Doorman &doorman_;
+
+    std::unordered_map<seasocks::WebSocket *, WebSocketChannel *> socket_to_channel_;
+
+public:
+    explicit MudWebsocketHandler(Doorman &doorman) : doorman_(doorman) {}
+
+    void onConnect(seasocks::WebSocket *connection) override {
+        auto id = doorman_.id_allocator_.reserve();
+        // TODO: check we're not over the number of channels....
+        auto insertRec =
+            doorman_.channels_.emplace(id->id(), std::make_unique<WebSocketChannel>(id, connection, doorman_.mud_));
+        socket_to_channel_.emplace(connection, static_cast<WebSocketChannel *>(insertRec.first->second.get()));
+    }
+    void onData(seasocks::WebSocket *connection, const char *string) override {
+        auto &ws_channel = *socket_to_channel_.at(connection);
+        ws_channel.on_data(string);
+    }
+    void onDisconnect(seasocks::WebSocket *connection) override {
+        // TODO prove this gets called even if close() is called by the MUD
+        auto &ws_channel = *socket_to_channel_.at(connection);
+        socket_to_channel_.erase(connection);
+        doorman_.schedule_remove(ws_channel);
+    }
+};
 
 Doorman::Doorman(int port)
     : log_(logger_for("Doorman")), port_(port), mud_(*this), web_server_(std::make_shared<SeasocksToLogger>()) {
@@ -35,6 +142,7 @@ Doorman::Doorman(int port)
 
     auto web_port = port + 1;
     web_server_.setStaticPath("../html");
+    web_server_.addWebSocketHandler("/mud", std::make_shared<MudWebsocketHandler>(*this));
     web_server_.startListening(web_port);
     log_.info("Doorman is ready to accept web connections on port {}", web_port);
 }
@@ -68,7 +176,12 @@ void Doorman::socket_poll() {
         FD_SET(mud_.fd().number(), &exception_fds);
         max_fd = std::max(max_fd, mud_.fd().number());
     }
-    for_each_channel([&](Channel &channel) { max_fd = std::max(channel.set_fds(input_fds, exception_fds), max_fd); });
+    for_each_channel([&](ChannelBase &channel) {
+        // OK HEINOUS HACK ALERT FOR NOW TODO NOT THIS AT ALL
+        auto *ch = dynamic_cast<Channel *>(&channel);
+        if (ch)
+            max_fd = std::max(ch->set_fds(input_fds, exception_fds), max_fd);
+    });
 
     timeval timeOut = {1, 0}; // Wakes up once a second to do housekeeping
     int nFDs = select(max_fd + 1, &input_fds, nullptr, &exception_fds, &timeOut);
@@ -95,7 +208,12 @@ void Doorman::socket_poll() {
     if (FD_ISSET(web_server_.fd(), &input_fds))
         web_server_.poll(0);
 
-    for_each_channel([&](Channel &channel) { channel.check_fds(input_fds, exception_fds); });
+    for_each_channel([&](ChannelBase &channel) {
+        // OK HEINOUS HACK ALERT FOR NOW TODO NOT THIS AT ALL
+        auto *ch = dynamic_cast<Channel *>(&channel);
+        if (ch)
+            ch->check_fds(input_fds, exception_fds);
+    });
 }
 
 void Doorman::accept_new_connection() {
@@ -122,14 +240,14 @@ void Doorman::accept_new_connection() {
     }
 }
 
-Channel *Doorman::find_channel_by_id(int32_t channel_id) {
+ChannelBase *Doorman::find_channel_by_id(int32_t channel_id) {
     if (auto it = channels_.find(channel_id); it != channels_.end())
         return it->second.get();
     return nullptr;
 }
 
 void Doorman::broadcast(std::string_view message) {
-    for_each_channel([&](Channel &chan) {
+    for_each_channel([&](ChannelBase &chan) {
         try {
             chan.send_to_client(message);
         } catch (const std::runtime_error &re) {
