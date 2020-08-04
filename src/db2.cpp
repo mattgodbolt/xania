@@ -165,7 +165,7 @@ void load_mobiles(FILE *fp) {
         }
         fBootDb = true;
 
-        pMobIndex = alloc_perm(sizeof(*pMobIndex));
+        pMobIndex = static_cast<MOB_INDEX_DATA *>(alloc_perm(sizeof(*pMobIndex)));
         pMobIndex->vnum = vnum;
         pMobIndex->area = area_last; /* OLC */
         pMobIndex->new_format = true;
@@ -336,7 +336,7 @@ void load_objects(FILE *fp) {
         }
         fBootDb = true;
 
-        pObjIndex = alloc_perm(sizeof(*pObjIndex));
+        pObjIndex = static_cast<OBJ_INDEX_DATA *>(alloc_perm(sizeof(*pObjIndex)));
         pObjIndex->vnum = vnum;
         pObjIndex->area = area_last; /* OLC */
         pObjIndex->new_format = true;
@@ -443,7 +443,7 @@ void load_objects(FILE *fp) {
             if (letter == 'A') {
                 AFFECT_DATA *paf;
 
-                paf = alloc_perm(sizeof(*paf));
+                paf = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf)));
                 paf->type = -1;
                 paf->level = pObjIndex->level;
                 paf->duration = -1;
@@ -458,7 +458,7 @@ void load_objects(FILE *fp) {
             else if (letter == 'E') {
                 EXTRA_DESCR_DATA *ed;
 
-                ed = alloc_perm(sizeof(*ed));
+                ed = static_cast<EXTRA_DESCR_DATA *>(alloc_perm(sizeof(*ed)));
                 ed->keyword = fread_string(fp);
                 ed->description = fread_string(fp);
                 ed->next = pObjIndex->extra_descr;
