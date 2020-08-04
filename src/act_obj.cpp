@@ -8,17 +8,12 @@
 /*************************************************************************/
 
 #include "buffer.h"
+#include "interp.h"
 #include "merc.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-#include <sys/types.h>
 
-/* command procedures needed */
-void do_split(CHAR_DATA *ch, char *arg);
-void do_yell(CHAR_DATA *ch, char *arg);
-void do_say(CHAR_DATA *ch, char *arg);
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 extern char *target_name; /* Included from magic.c */
 

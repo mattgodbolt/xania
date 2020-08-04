@@ -134,7 +134,7 @@ void announce(const char *buf, CHAR_DATA *ch) {
     }
 }
 
-void do_say(CHAR_DATA *ch, char *argument) {
+void do_say(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '\0') {
         send_to_char("|cSay what?\n\r|w", ch);
         return;

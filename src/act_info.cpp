@@ -20,7 +20,7 @@
 #include <sys/types.h>
 #include <time.h>
 
-char *const where_name[] = {"<used as light>     ", "<worn on finger>    ", "<worn on finger>    ",
+const char *where_name[] = {"<used as light>     ", "<worn on finger>    ", "<worn on finger>    ",
                             "<worn around neck>  ", "<worn around neck>  ", "<worn on body>      ",
                             "<worn on head>      ", "<worn on legs>      ", "<worn on feet>      ",
                             "<worn on hands>     ", "<worn on arms>      ", "<worn as shield>    ",
@@ -97,8 +97,8 @@ void show_list_to_char(OBJ_DATA *list, CHAR_DATA *ch, bool fShort, bool fShowNot
     count = 0;
     for (obj = list; obj != nullptr; obj = obj->next_content)
         count++;
-    prgpstrShow = alloc_mem(count * sizeof(char *));
-    prgnShow = alloc_mem(count * sizeof(int));
+    prgpstrShow = static_cast<char **>(alloc_mem(count * sizeof(char *)));
+    prgnShow = static_cast<int *>(alloc_mem(count * sizeof(int)));
     nShow = 0;
     buffer = buffer_create();
 
@@ -891,7 +891,7 @@ void do_nosummon(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_lore(CHAR_DATA *ch, OBJ_DATA *obj, char *pdesc) {
+void do_lore(CHAR_DATA *ch, OBJ_DATA *obj, const char *pdesc) {
     int sn = skill_lookup("identify");
 
     if (!IS_NPC(ch) && number_percent() > get_skill_learned(ch, skill_lookup("lore"))) {
@@ -1001,8 +1001,9 @@ void do_look(CHAR_DATA *ch, char *argument) {
             }
 
             snprintf(buf, sizeof(buf), "It's %s full of a %s liquid.\n\r",
-                     obj->value[1] < obj->value[0] / 4 ? "less than"
-                                                       : obj->value[1] < 3 * obj->value[0] / 4 ? "about" : "more than",
+                     obj->value[1] < obj->value[0] / 4       ? "less than"
+                     : obj->value[1] < 3 * obj->value[0] / 4 ? "about"
+                                                             : "more than",
                      liq_table[obj->value[2]].liq_color);
 
             send_to_char(buf, ch);
@@ -1187,7 +1188,7 @@ void do_examine(CHAR_DATA *ch, char *argument) {
 /*
  * Thanks to Zrin for auto-exit part.
  */
-void do_exits(CHAR_DATA *ch, char *argument) {
+void do_exits(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     EXIT_DATA *pexit;
     bool found;
@@ -1293,7 +1294,7 @@ const char *armour_desc[] = {"divinely armoured against", "almost invulnerable t
                              "armoured against",          "somewhat armoured against",  "slighty armoured against",
                              "barely protected from",     "defenseless against",        "hopelessly vulnerable to"};
 
-void describe_armour(CHAR_DATA *ch, int type, char *name) {
+void describe_armour(CHAR_DATA *ch, int type, const char *name) {
     char buf[MAX_STRING_LENGTH];
     int armour_index = (GET_AC(ch, type) + 120) / 20;
 
@@ -1477,9 +1478,9 @@ void do_affected(CHAR_DATA *ch, char *argument) {
     }
 }
 
-char *const day_name[] = {"the Moon", "the Bull", "Deception", "Thunder", "Freedom", "the Great Gods", "the Sun"};
+const char * day_name[] = {"the Moon", "the Bull", "Deception", "Thunder", "Freedom", "the Great Gods", "the Sun"};
 
-char *const month_name[] = {"Winter",
+const char * month_name[] = {"Winter",
                             "the Winter Wolf",
                             "the Frost Giant",
                             "the Old Forces",
@@ -1501,7 +1502,7 @@ void do_time(CHAR_DATA *ch, char *argument) {
     (void)argument;
     extern char str_boot_time[];
     char buf[MAX_STRING_LENGTH];
-    char *suf;
+    const char *suf;
     int day;
 
     day = time_info.day + 1;
@@ -1558,15 +1559,13 @@ void do_time(CHAR_DATA *ch, char *argument) {
         snprintf(buf, sizeof(buf), "Your local time is %s\n\r", buf2);
         send_to_char(buf, ch);
     }
-
-    return;
 }
 
-void do_weather(CHAR_DATA *ch, char *argument) {
+void do_weather(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
-    static char *const sky_look[4] = {"cloudless", "cloudy", "rainy", "lit by flashes of lightning"};
+    static const char * sky_look[4] = {"cloudless", "cloudy", "rainy", "lit by flashes of lightning"};
 
     if (!IS_OUTSIDE(ch)) {
         send_to_char("You can't see the weather indoors.\n\r", ch);
@@ -1576,10 +1575,9 @@ void do_weather(CHAR_DATA *ch, char *argument) {
     snprintf(buf, sizeof(buf), "The sky is %s and %s.\n\r", sky_look[weather_info.sky],
              weather_info.change >= 0 ? "a warm southerly breeze blows" : "a cold northern gust blows");
     send_to_char(buf, ch);
-    return;
 }
 
-void do_help(CHAR_DATA *ch, char *argument) {
+void do_help(CHAR_DATA *ch, const char *argument) {
     HELP_DATA *pHelp;
     char argall[MAX_INPUT_LENGTH], argone[MAX_INPUT_LENGTH];
 
@@ -1948,7 +1946,7 @@ void do_compare(CHAR_DATA *ch, char *argument) {
     OBJ_DATA *obj2;
     int value1;
     int value2;
-    char *msg;
+    const char *msg;
 
     argument = one_argument(argument, arg1);
     argument = one_argument(argument, arg2);
@@ -2072,14 +2070,12 @@ void do_where(CHAR_DATA *ch, char *argument) {
         if (!found)
             act("You didn't find any $T.", ch, nullptr, arg, TO_CHAR);
     }
-
-    return;
 }
 
 void do_consider(CHAR_DATA *ch, char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
-    char *msg;
+    const char *msg;
     int diff;
 
     one_argument(argument, arg);
@@ -2119,7 +2115,6 @@ void do_consider(CHAR_DATA *ch, char *argument) {
     act(msg, ch, nullptr, victim, TO_CHAR);
     if (ch->level >= LEVEL_CONSIDER)
         do_mstat(ch, argument);
-    return;
 }
 
 void set_prompt(CHAR_DATA *ch, char *prompt) {

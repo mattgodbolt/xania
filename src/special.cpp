@@ -9,18 +9,15 @@
 
 #include "magic.h"
 #include "merc.h"
+#include "interp.h"
 #include "phil.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <time.h>
 
-/* command procedures needed */
-void do_yell(CHAR_DATA *ch, char *arg);
-void do_open(CHAR_DATA *ch, char *arg);
-void do_close(CHAR_DATA *ch, char *arg);
-void do_say(CHAR_DATA *ch, char *arg);
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <sys/types.h>
+#include <ctime>
+
 
 /* The following special functions are available for mobiles. */
 /* Note that MOB special functions are called every 4 seconds. */

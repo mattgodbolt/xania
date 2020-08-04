@@ -7,18 +7,12 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "interp.h"
 #include "magic.h"
 #include "merc.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-#include <sys/types.h>
 
-/* command procedures needed */
-void do_groups(CHAR_DATA *ch, char *arg);
-void do_help(CHAR_DATA *ch, char *arg);
-void do_say(CHAR_DATA *ch, char *arg);
+#include <cstdio>
+#include <cstring>
 
 /* used to get new skills */
 void do_gain(CHAR_DATA *ch, char *argument) {

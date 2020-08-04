@@ -13,37 +13,30 @@
  */
 
 #include <arpa/telnet.h>
-#include <ctype.h>
-#include <errno.h>
+#include <cctype>
+#include <cerrno>
+#include <csignal>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 #include <fcntl.h>
 #include <netdb.h>
 #include <netinet/in.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <sys/signalfd.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/un.h>
-#include <time.h>
 #include <unistd.h>
 
 #include "challeng.h"
 #include "doorman/doorman_protocol.h"
+#include "interp.h"
 #include "merc.h"
 #include "news.h"
 #include "note.h"
 
-/* command procedures needed */
-void do_help(CHAR_DATA *ch, char *arg);
-void do_look(CHAR_DATA *ch, char *arg);
-void do_skills(CHAR_DATA *ch, char *arg);
-void do_outfit(CHAR_DATA *ch, char *arg);
-void do_save(CHAR_DATA *ch, char *arg);
-
-void announce(const char *buf, CHAR_DATA *ch);
 
 /* Added by Rohan - extern to player list for adding new players to it */
 extern KNOWN_PLAYERS *player_list;
