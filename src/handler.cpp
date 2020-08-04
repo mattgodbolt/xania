@@ -28,7 +28,7 @@ AFFECT_DATA *affect_free = nullptr;
 void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd);
 
 struct guess_type {
-    char *name;
+    const char *name;
     int material;
 };
 
@@ -598,7 +598,7 @@ bool is_name( const char *str, char *namelist )
 
 bool is_name(const char *str, const char *namelist) {
     char name[MAX_INPUT_LENGTH], part[MAX_INPUT_LENGTH];
-    char *list, *string;
+    const char *list, *string;
 
     string = str;
     /* we need ALL parts of string to match part of namelist */
@@ -692,8 +692,6 @@ void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd) {
             depth--;
         }
     }
-
-    return;
 }
 
 /*
@@ -703,7 +701,7 @@ void affect_to_char(CHAR_DATA *ch, AFFECT_DATA *paf) {
     AFFECT_DATA *paf_new;
 
     if (affect_free == nullptr) {
-        paf_new = alloc_perm(sizeof(*paf_new));
+        paf_new = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf_new)));
     } else {
         paf_new = affect_free;
         affect_free = affect_free->next;
@@ -714,7 +712,6 @@ void affect_to_char(CHAR_DATA *ch, AFFECT_DATA *paf) {
     ch->affected = paf_new;
 
     affect_modify(ch, paf_new, true);
-    return;
 }
 
 /* give an affect to an object */
@@ -722,7 +719,7 @@ void affect_to_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
     AFFECT_DATA *paf_new;
 
     if (affect_free == nullptr)
-        paf_new = alloc_perm(sizeof(*paf_new));
+        paf_new = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf_new)));
     else {
         paf_new = affect_free;
         affect_free = affect_free->next;
@@ -731,8 +728,6 @@ void affect_to_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
     *paf_new = *paf;
     paf_new->next = obj->affected;
     obj->affected = paf_new;
-
-    return;
 }
 
 /*
@@ -767,7 +762,6 @@ void affect_remove(CHAR_DATA *ch, AFFECT_DATA *paf) {
     paf->next = affect_free;
     affect_free = paf->next; /*  Modified by Death \/ as well */
     paf = nullptr; /*            ""                 */
-    return;
 }
 
 void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
@@ -800,7 +794,6 @@ void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
     paf->next = affect_free;
     affect_free = paf; /* modified from paf->next by TM */
     paf = nullptr; /* ""  Death */
-    return;
 }
 
 /*
@@ -815,8 +808,6 @@ void affect_strip(CHAR_DATA *ch, int sn) {
         if (paf->type == sn)
             affect_remove(ch, paf);
     }
-
-    return;
 }
 
 /*
@@ -865,7 +856,6 @@ void affect_join(CHAR_DATA *ch, AFFECT_DATA *paf) {
     }
 
     affect_to_char(ch, paf);
-    return;
 }
 
 /*
@@ -907,7 +897,6 @@ void char_from_room(CHAR_DATA *ch) {
     /*Challenge check!*/
     ch->in_room = nullptr;
     ch->next_in_room = nullptr;
-    return;
 }
 
 /*
@@ -978,8 +967,6 @@ void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
             }
         }
     }
-
-    return;
 }
 
 /*
@@ -1029,7 +1016,6 @@ void obj_from_char(OBJ_DATA *obj) {
     obj->next_content = nullptr;
     ch->carry_number -= get_obj_number(obj);
     ch->carry_weight -= get_obj_weight(obj);
-    return;
 }
 
 /*
@@ -1132,8 +1118,6 @@ void equip_char(CHAR_DATA *ch, OBJ_DATA *obj, int iWear) {
 
     if (obj->item_type == ITEM_LIGHT && obj->value[2] != 0 && ch->in_room != nullptr)
         ++ch->in_room->light;
-
-    return;
 }
 
 /*
@@ -1425,8 +1409,10 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
     if (IS_NPC(ch))
         --ch->pIndexData->count;
 
-    if (ch->desc != nullptr && ch->desc->original != nullptr)
-        do_return(ch, "");
+    if (ch->desc != nullptr && ch->desc->original != nullptr) {
+        char empty[] = "";
+        do_return(ch, empty);
+    }
 
     for (wch = char_list; wch != nullptr; wch = wch->next) {
         if (wch->reply == ch)
