@@ -23,9 +23,9 @@ set(CMAKE_CXX_STANDARD 17)
 # add_compile_options(-Werror -Wall -Wextra)
 add_compile_options(-Wall -Wextra -fpermissive)
 
-# TODO(Someone): Figure out why -fsanitize=address causes doorman+xania to crash on init when built with 'make'.
+# -static-libasan is required to prevent doorman+xania from crashing on startup (with some error about LD_PRELOAD)
+# when you build with 'make'.
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=leak -fsanitize=address -fsanitize=undefined -static-libasan")
-# set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=leak -fsanitize=undefined")
 
 include(scripts/conan.cmake)
 
