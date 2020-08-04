@@ -29,7 +29,7 @@ void read_char_info(FINGER_INFO *info);
 #define KEY(literal, field, value)                                                                                     \
     if (!str_cmp(word, literal)) {                                                                                     \
         field = value;                                                                                                 \
-        fMatch = TRUE;                                                                                                 \
+        fMatch = true;                                                                                                 \
         break;                                                                                                         \
     }
 
@@ -68,7 +68,7 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
     char arg[MAX_INPUT_LENGTH];
     char buf[MAX_STRING_LENGTH];
     FINGER_INFO *cur;
-    bool info_found = FALSE;
+    bool info_found = false;
     int update_show = 0;
     int update_hide = 0;
 
@@ -128,17 +128,17 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
             send_to_char(buf, ch);
             /* Update the info if it is in cache */
             cur = info_cache;
-            while (cur != NULL && info_found == FALSE) {
+            while (cur != NULL && info_found == false) {
                 if (!strcmp(cur->name, ch->name))
-                    info_found = TRUE;
+                    info_found = true;
                 else
                     cur = cur->next;
             }
-            if (info_found == TRUE) {
+            if (info_found == true) {
                 /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
                 free_string(cur->info_name);
                 cur->info_name = strdup(ch->pcdata->info_name);
-                cur->i_name = TRUE;
+                cur->i_name = true;
             }
         }
         return;
@@ -165,17 +165,17 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
             send_to_char(buf, ch);
             /* Update the info if it is in cache */
             cur = info_cache;
-            while (cur != NULL && info_found == FALSE) {
+            while (cur != NULL && info_found == false) {
                 if (!strcmp(cur->name, ch->name))
-                    info_found = TRUE;
+                    info_found = true;
                 else
                     cur = cur->next;
             }
-            if (info_found == TRUE) {
+            if (info_found == true) {
                 /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
                 free_string(cur->info_email);
                 cur->info_email = strdup(ch->pcdata->info_email);
-                cur->i_email = TRUE;
+                cur->i_email = true;
             }
         }
         return;
@@ -201,17 +201,17 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
             send_to_char(buf, ch);
             /* Update the info if it is in cache */
             cur = info_cache;
-            while (cur != NULL && info_found == FALSE) {
+            while (cur != NULL && info_found == false) {
                 if (!strcmp(cur->name, ch->name))
-                    info_found = TRUE;
+                    info_found = true;
                 else
                     cur = cur->next;
             }
-            if (info_found == TRUE) {
+            if (info_found == true) {
                 /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
                 free_string(cur->info_url);
                 cur->info_url = strdup(ch->pcdata->info_url);
-                cur->i_url = TRUE;
+                cur->i_url = true;
             }
         }
         return;
@@ -237,17 +237,17 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
             send_to_char(buf, ch);
             /* Update the info if it is in cache */
             cur = info_cache;
-            while (cur != NULL && info_found == FALSE) {
+            while (cur != NULL && info_found == false) {
                 if (!strcmp(cur->name, ch->name))
-                    info_found = TRUE;
+                    info_found = true;
                 else
                     cur = cur->next;
             }
-            if (info_found == TRUE) {
+            if (info_found == true) {
                 /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
                 free_string(cur->info_message);
                 cur->info_message = strdup(ch->pcdata->info_message);
-                cur->i_message = TRUE;
+                cur->i_message = true;
             }
         }
         return;
@@ -312,19 +312,19 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
             if (update_show != 0) {
                 /* Update the info if it is in cache */
                 cur = info_cache;
-                while (cur != NULL && info_found == FALSE) {
+                while (cur != NULL && info_found == false) {
                     if (!strcmp(cur->name, ch->name))
-                        info_found = TRUE;
+                        info_found = true;
                     else
                         cur = cur->next;
                 }
-                if (info_found == TRUE) {
+                if (info_found == true) {
                     /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
                     switch (update_show) {
-                    case EXTRA_INFO_NAME: cur->i_name = TRUE; break;
-                    case EXTRA_INFO_EMAIL: cur->i_email = TRUE; break;
-                    case EXTRA_INFO_URL: cur->i_url = TRUE; break;
-                    case EXTRA_INFO_MESSAGE: cur->i_message = TRUE; break;
+                    case EXTRA_INFO_NAME: cur->i_name = true; break;
+                    case EXTRA_INFO_EMAIL: cur->i_email = true; break;
+                    case EXTRA_INFO_URL: cur->i_url = true; break;
+                    case EXTRA_INFO_MESSAGE: cur->i_message = true; break;
                     }
                 }
             }
@@ -365,19 +365,19 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
             if (update_hide != 0) {
                 /* Update the info if it is in cache */
                 cur = info_cache;
-                while (cur != NULL && info_found == FALSE) {
+                while (cur != NULL && info_found == false) {
                     if (!strcmp(cur->name, ch->name))
-                        info_found = TRUE;
+                        info_found = true;
                     else
                         cur = cur->next;
                 }
-                if (info_found == TRUE) {
+                if (info_found == true) {
                     /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
                     switch (update_hide) {
-                    case EXTRA_INFO_NAME: cur->i_name = FALSE; break;
-                    case EXTRA_INFO_EMAIL: cur->i_email = FALSE; break;
-                    case EXTRA_INFO_URL: cur->i_url = FALSE; break;
-                    case EXTRA_INFO_MESSAGE: cur->i_message = FALSE; break;
+                    case EXTRA_INFO_NAME: cur->i_name = false; break;
+                    case EXTRA_INFO_EMAIL: cur->i_email = false; break;
+                    case EXTRA_INFO_URL: cur->i_url = false; break;
+                    case EXTRA_INFO_MESSAGE: cur->i_message = false; break;
                     }
                 }
                 return;
@@ -402,13 +402,13 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
         send_to_char("Your info details have been cleared.\n\r", ch);
         /* Do the same if in cache */
         cur = info_cache;
-        while (cur != NULL && info_found == FALSE) {
+        while (cur != NULL && info_found == false) {
             if (!strcmp(cur->name, ch->name))
-                info_found = TRUE;
+                info_found = true;
             else
                 cur = cur->next;
         }
-        if (info_found == TRUE) {
+        if (info_found == true) {
             /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
             free_string(cur->info_name);
             free_string(cur->info_email);
@@ -445,10 +445,10 @@ void do_finger(CHAR_DATA *ch, char *argument) {
     CHAR_DATA *victim = NULL;
     KNOWN_PLAYERS *cursor = player_list;
     FINGER_INFO *cur;
-    bool player_found = FALSE;
-    bool info_found = FALSE;
+    bool player_found = false;
+    bool info_found = false;
     CHAR_DATA *wch = char_list;
-    bool char_found = FALSE;
+    bool char_found = false;
 
     if (argument[0] == '\0' || !strcmp(ch->name, capitalize(argument))) {
         do_setinfo(ch, "");
@@ -468,37 +468,37 @@ void do_finger(CHAR_DATA *ch, char *argument) {
         /* Find out if char is logged on (irrespective of whether we can
            see that char or not - hence I don't use get_char_world, as
            it only returns chars we can see */
-        while (wch != NULL && char_found == FALSE) {
+        while (wch != NULL && char_found == false) {
             if (!strcmp(wch->name, argument))
-                char_found = TRUE;
+                char_found = true;
             else
                 wch = wch->next;
         }
 
-        if (char_found == TRUE)
+        if (char_found == true)
             victim = wch;
         else
             victim = NULL;
 
-        while (cursor != NULL && player_found == FALSE) {
+        while (cursor != NULL && player_found == false) {
             if (!strcmp(cursor->name, argument))
-                player_found = TRUE;
+                player_found = true;
             cursor = cursor->next;
         }
 
-        if (player_found == TRUE) {
+        if (player_found == true) {
             /* Player exists in player directory */
             /*	  send_to_char ("Player found.\n\r", ch);*/
             cur = info_cache;
 
-            while (cur != NULL && info_found == FALSE) {
+            while (cur != NULL && info_found == false) {
                 if (!strcmp(cur->name, argument))
-                    info_found = TRUE;
+                    info_found = true;
                 else
                     cur = cur->next;
             }
 
-            if (info_found == TRUE) {
+            if (info_found == true) {
                 /* Player info is in cache. Do nothing (I know, not very good
                    programming technique, but who cares :) */
                 /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
@@ -535,24 +535,24 @@ void do_finger(CHAR_DATA *ch, char *argument) {
                         cur->last_login_from = strdup(victim->desc->host);
 
                         if (is_set_extra(victim, EXTRA_INFO_NAME))
-                            cur->i_name = TRUE;
+                            cur->i_name = true;
                         else
-                            cur->i_name = FALSE;
+                            cur->i_name = false;
 
                         if (is_set_extra(victim, EXTRA_INFO_EMAIL))
-                            cur->i_email = TRUE;
+                            cur->i_email = true;
                         else
-                            cur->i_email = FALSE;
+                            cur->i_email = false;
 
                         if (is_set_extra(victim, EXTRA_INFO_URL))
-                            cur->i_url = TRUE;
+                            cur->i_url = true;
                         else
-                            cur->i_url = FALSE;
+                            cur->i_url = false;
 
                         if (is_set_extra(victim, EXTRA_INFO_MESSAGE))
-                            cur->i_message = TRUE;
+                            cur->i_message = true;
                         else
-                            cur->i_message = FALSE;
+                            cur->i_message = false;
                     }
                 } else {
                     /* Player is not logged in, so need to load it in.
@@ -661,7 +661,7 @@ void read_char_info(FINGER_INFO *info) {
             word = fread_word(fp);
             if (feof(fp))
                 return;
-            fMatch = FALSE;
+            fMatch = false;
 
             switch (UPPER(word[0])) {
             case 'E':
@@ -670,23 +670,23 @@ void read_char_info(FINGER_INFO *info) {
                 if (!str_cmp(word, "ExtraBits")) {
                     line = fread_string(fp);
                     if (line[EXTRA_INFO_NAME] == '1')
-                        info->i_name = TRUE;
+                        info->i_name = true;
                     else
-                        info->i_name = FALSE;
+                        info->i_name = false;
                     if (line[EXTRA_INFO_EMAIL] == '1')
-                        info->i_email = TRUE;
+                        info->i_email = true;
                     else
-                        info->i_email = FALSE;
+                        info->i_email = false;
                     if (line[EXTRA_INFO_URL] == '1')
-                        info->i_url = TRUE;
+                        info->i_url = true;
                     else
-                        info->i_url = FALSE;
+                        info->i_url = false;
                     if (line[EXTRA_INFO_MESSAGE] == '1')
-                        info->i_message = TRUE;
+                        info->i_message = true;
                     else
-                        info->i_message = FALSE;
+                        info->i_message = false;
                     fread_to_eol(fp);
-                    fMatch = TRUE;
+                    fMatch = true;
                     break;
                 }
                 break;

@@ -2850,7 +2850,7 @@ blue and seem to pulsate.
     int sn;
 
     if ( ch->position != POS_FIGHTING )
-        return FALSE;
+        return false;
 
 The go on, but you can't make much sense of them.  Obviously Ironhand
 was way beyond this mortal world and was involved in the workings of the
@@ -2906,7 +2906,7 @@ bool spec_kungfu_poison( CHAR_DATA *ch )
     if ( ch->position != POS_FIGHTING
     || ( victim = ch->fighting ) == NULL
     ||   number_percent( ) > 2 * ch->level )
-        return FALSE;
+        return false;
 
 And it goes on, but you can't make much sense of it.  Strahd is one of the
 true gods of merc, knowing enough to alter the very fabric of the mortal
@@ -3138,7 +3138,7 @@ The follow has been carefully written into the ground.
          int rnd_say;
 
     if ( ch->fighting != NULL )
-                return FALSE;
+                return false;
 
 And on the gibberish goes.  Below all of this, the following has been
 written.

@@ -99,21 +99,21 @@ int doormanDesc = 0;
 bool SendPacket(Packet *p, void *extra) {
     // TODO: do something rather than return here if there's a failure
     if (!doormanDesc)
-        return FALSE;
+        return false;
     if (p->nExtra > PACKET_MAX_PAYLOAD_SIZE) {
         bug("MUD tried to send a doorman packet with payload size %d > %d! Dropping!", p->nExtra,
             PACKET_MAX_PAYLOAD_SIZE);
-        return FALSE;
+        return false;
     }
     int bytes_written = write(doormanDesc, (char *)p, sizeof(Packet));
     if (bytes_written != sizeof(Packet))
-        return FALSE;
+        return false;
     if (p->nExtra) {
         bytes_written = write(doormanDesc, extra, p->nExtra);
         if (bytes_written != (ssize_t)(p->nExtra))
-            return FALSE;
+            return false;
     }
-    return TRUE;
+    return true;
 }
 
 void SetEchoState(DESCRIPTOR_DATA *d, int on) {
@@ -140,14 +140,14 @@ void handle_signal_shutdown() {
         // someone hasn't logged in but the mud is shut down
         if (!IS_NPC(vch) && vch->desc && vch->desc->connected == CON_PLAYING) {
             /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-            MOBtrigger = FALSE;
+            MOBtrigger = false;
             do_save(vch, "");
             send_to_char("|RXania has been asked to shutdown by the operating system.|w\n\r", vch);
             if (vch->desc && vch->desc->outtop > 0)
-                process_output(vch->desc, FALSE);
+                process_output(vch->desc, false);
         }
     }
-    merc_down = TRUE;
+    merc_down = true;
     for (d = descriptor_list; d != NULL; d = d_next) {
         d_next = d->next;
         close_socket(d);
@@ -448,7 +448,7 @@ void game_loop_unix(int control) {
          */
         for (d = descriptor_list; d; d = dNext) {
             dNext = d->next;
-            d->fcommand = FALSE;
+            d->fcommand = false;
             if (d->character && d->character->wait > 0)
                 --d->character->wait;
             /* Waitstate the character */
@@ -456,7 +456,7 @@ void game_loop_unix(int control) {
                 continue;
             read_from_buffer(d);
             if (d->incomm[0] != '\0') {
-                d->fcommand = TRUE;
+                d->fcommand = true;
                 move_active_char_from_limbo(d->character);
 
                 if (d->showstr_point)
@@ -484,7 +484,7 @@ void game_loop_unix(int control) {
                 d_next = d->next;
 
                 if ((d->fcommand || d->outtop > 0)) {
-                    if (!process_output(d, TRUE)) {
+                    if (!process_output(d, true)) {
                         if (d->character != NULL && d->character->level > 1)
                             save_char_obj(d->character);
                         d->outtop = 0;
@@ -584,7 +584,7 @@ void close_socket(DESCRIPTOR_DATA *dclose) {
     Packet p;
 
     if (dclose->outtop > 0)
-        process_output(dclose, FALSE);
+        process_output(dclose, false);
 
     if (dclose->snoop_by != NULL) {
         write_to_buffer(dclose->snoop_by, "Your victim has left the game.\n\r", 0);
@@ -659,7 +659,7 @@ bool read_from_descriptor(DESCRIPTOR_DATA *d, char *data, int nRead) {
 #if 0
    /* Hold horses if pending command already. */
    if ( d->incomm[0] != '\0' )
-      return TRUE;
+      return true;
 #endif
 
     /* Check for overflow. */
@@ -670,7 +670,7 @@ bool read_from_descriptor(DESCRIPTOR_DATA *d, char *data, int nRead) {
         log_string(log_buf);
         write_to_descriptor(d->descriptor, "\n\r*** PUT A LID ON IT!!! ***\n\r", 0);
         strcpy(d->incomm, "quit");
-        return FALSE;
+        return false;
     }
 
     /* Snarf input. */
@@ -678,7 +678,7 @@ bool read_from_descriptor(DESCRIPTOR_DATA *d, char *data, int nRead) {
     iStart += nRead;
 
     d->inbuf[iStart] = '\0';
-    return TRUE;
+    return true;
 }
 
 /*
@@ -817,7 +817,7 @@ bool process_output(DESCRIPTOR_DATA *d, bool fPrompt) {
      * Short-circuit if nothing to write.
      */
     if (d->outtop == 0)
-        return TRUE;
+        return true;
 
     /*
      * Snoop-o-rama.
@@ -833,10 +833,10 @@ bool process_output(DESCRIPTOR_DATA *d, bool fPrompt) {
 
     if (!write_to_descriptor(d->descriptor, d->outbuf, d->outtop)) {
         d->outtop = 0;
-        return FALSE;
+        return false;
     } else {
         d->outtop = 0;
-        return TRUE;
+        return true;
     }
 }
 
@@ -900,10 +900,10 @@ bool write_to_descriptor(int desc, char *txt, int length) {
     for (int iStart = 0; iStart < length; iStart += PACKET_MAX_PAYLOAD_SIZE) {
         p.nExtra = UMIN(length - iStart, PACKET_MAX_PAYLOAD_SIZE);
         if (!SendPacket(&p, txt + iStart))
-            return FALSE;
+            return false;
     }
 
-    return TRUE;
+    return true;
 }
 
 /*
@@ -974,8 +974,8 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
             return;
         }
 
-        if (check_reconnect(d, argument, FALSE)) {
-            fOld = TRUE;
+        if (check_reconnect(d, argument, false)) {
+            fOld = true;
         } else {
             if (wizlock && !IS_IMMORTAL(ch)) {
                 write_to_buffer(d, "The game is wizlocked.  Try again later - a reboot may be imminent.\n\r", 0);
@@ -1042,7 +1042,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
         if (check_playing(d, ch->name))
             return;
 
-        if (check_reconnect(d, ch->name, TRUE))
+        if (check_reconnect(d, ch->name, true))
             return;
 
         char hostbuf[MAX_MASKED_HOSTNAME];
@@ -1071,7 +1071,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
 
                 close_socket(d_old);
             }
-            if (check_reconnect(d, ch->name, TRUE))
+            if (check_reconnect(d, ch->name, true))
                 return;
             write_to_buffer(d, "Reconnect attempt failed.\n\rName: ", 0);
             if (d->character != NULL) {
@@ -1250,7 +1250,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
         for (i = 0; i < 5; i++) {
             if (pc_race_table[race].skills[i] == NULL)
                 break;
-            group_add(ch, pc_race_table[race].skills[i], FALSE);
+            group_add(ch, pc_race_table[race].skills[i], false);
         }
         /* add cost */
         ch->pcdata->points = pc_race_table[race].points;
@@ -1328,8 +1328,8 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
 
         write_to_buffer(d, "\n\r", 0);
 
-        group_add(ch, "rom basics", FALSE);
-        group_add(ch, class_table[ch->class_num].base_group, FALSE);
+        group_add(ch, "rom basics", false);
+        group_add(ch, class_table[ch->class_num].base_group, false);
         ch->pcdata->learned[gsn_recall] = 50;
         write_to_buffer(d, "Do you wish to customize this character?\n\r", 0);
         write_to_buffer(d, "Customization takes time, but allows a wider range of skills and abilities.\n\r", 0);
@@ -1353,7 +1353,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
             break;
         case 'n':
         case 'N':
-            group_add(ch, class_table[ch->class_num].default_group, TRUE);
+            group_add(ch, class_table[ch->class_num].default_group, true);
             write_to_buffer(d, "\n\r", 2);
             write_to_buffer(d, "Does your terminal support ANSI colour (Y/N/Return = as saved)?", 0);
             d->connected = CON_GET_ANSI;
@@ -1498,24 +1498,24 @@ bool check_parse_name(char *name) {
      * Reserved words.
      */
     if (is_name(name, "all auto immortal self someone something the you"))
-        return FALSE;
+        return false;
 
     if (!str_cmp(capitalize(name), "DEATH"))
-        return TRUE;
+        return true;
 
     /*    if (str_cmp(capitalize(name),"DEATH") && (!str_prefix("death",name)
         || !str_suffix("Death",name)))
-       return FALSE;*/
+       return false;*/
 
     /*
      * Length restrictions.
      */
 
     if (strlen(name) < 2)
-        return FALSE;
+        return false;
 
     if (strlen(name) > 12)
-        return FALSE;
+        return false;
 
     /*
      * Alphanumerics only.
@@ -1525,16 +1525,16 @@ bool check_parse_name(char *name) {
         char *pc;
         bool fIll;
 
-        fIll = TRUE;
+        fIll = true;
         for (pc = name; *pc != '\0'; pc++) {
             if (!isalpha(*pc))
-                return FALSE;
+                return false;
             if (LOWER(*pc) != 'i' && LOWER(*pc) != 'l')
-                fIll = FALSE;
+                fIll = false;
         }
 
         if (fIll)
-            return FALSE;
+            return false;
     }
 
     /*
@@ -1548,12 +1548,12 @@ bool check_parse_name(char *name) {
         for (iHash = 0; iHash < MAX_KEY_HASH; iHash++) {
             for (pMobIndex = mob_index_hash[iHash]; pMobIndex != NULL; pMobIndex = pMobIndex->next) {
                 if (is_name(name, pMobIndex->player_name))
-                    return FALSE;
+                    return false;
             }
         }
     }
 
-    return TRUE;
+    return true;
 }
 
 /*
@@ -1565,7 +1565,7 @@ bool check_reconnect(DESCRIPTOR_DATA *d, char *name, bool fConn) {
 
     for (ch = char_list; ch != NULL; ch = ch->next) {
         if (!IS_NPC(ch) && (!fConn || ch->desc == NULL) && !str_cmp(d->character->name, ch->name)) {
-            if (fConn == FALSE) {
+            if (fConn == false) {
                 free_string(d->character->pcdata->pwd);
                 d->character->pcdata->pwd = str_dup(ch->pcdata->pwd);
             } else {
@@ -1581,11 +1581,11 @@ bool check_reconnect(DESCRIPTOR_DATA *d, char *name, bool fConn) {
                         ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? get_trust(ch) : 0);
                 d->connected = CON_PLAYING;
             }
-            return TRUE;
+            return true;
         }
     }
 
-    return FALSE;
+    return false;
 }
 
 /*
@@ -1601,11 +1601,11 @@ bool check_playing(DESCRIPTOR_DATA *d, char *name) {
             write_to_buffer(d, "That character is already playing.\n\r", 0);
             write_to_buffer(d, "Do you wish to connect anyway (Y/N)?", 0);
             d->connected = CON_BREAK_CONNECT;
-            return TRUE;
+            return true;
         }
     }
 
-    return FALSE;
+    return false;
 }
 
 /*
@@ -1886,7 +1886,7 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
                 mprog_act_trigger(buf, to, ch, obj1, vch);
         }
     }
-    MOBtrigger = TRUE;
+    MOBtrigger = true;
 
     if (ch->in_room != NULL) {
         if ((type == TO_ROOM || type == TO_NOTVICT) && ch->in_room->vnum == CHAL_ROOM) {

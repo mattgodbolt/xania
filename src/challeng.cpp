@@ -40,8 +40,8 @@ static int imm_ready = 0;
 static int challenger_ready = 0;
 static int challengee_ready = 0;
 static int challenge_ticker;
-static bool challenge_active = FALSE;
-static bool challenge_fighting = FALSE;
+static bool challenge_active = false;
+static bool challenge_fighting = false;
 
 /* And now on with the code. */
 
@@ -127,8 +127,8 @@ void do_challenge(CHAR_DATA *ch, char *argument) {
     challenger = ch;
     /* Another bit of paranoia  -  Oshea */
     imm = NULL;
-    challenge_active = FALSE;
-    challenge_fighting = FALSE;
+    challenge_active = false;
+    challenge_fighting = false;
 
     snprintf(buf, sizeof(buf), "|cYou pray for the right to duel with %s.\n\r", challengee->name);
     send_to_char(buf, challenger);
@@ -278,7 +278,7 @@ void do_ready(CHAR_DATA *ch, char *argument) {
                          "so. (use cancel + challenger name)\n\r|w",
                          imm);
             challenge_ticker = 0;
-            challenge_active = TRUE;
+            challenge_active = true;
             return;
         }
     }
@@ -302,15 +302,15 @@ void do_chal_tick() {
                 send_to_char(buf, imm);
                 send_to_char(buf, challenger);
                 send_to_char(buf, challengee);
-                stop_fighting(challenger, TRUE);
-                stop_fighting(challengee, TRUE);
+                stop_fighting(challenger, true);
+                stop_fighting(challengee, true);
                 challenger = NULL;
                 challengee = NULL;
                 imm = NULL;
                 imm_ready = 0;
                 challenger_ready = 0;
                 challengee_ready = 0;
-                challenge_active = FALSE;
+                challenge_active = false;
                 return;
             }
             bug("do_chal_tick: either the imm, or challengee/r are null");
@@ -320,8 +320,8 @@ void do_chal_tick() {
             challengee_ready = 0;
             challenger = NULL;
             challengee = NULL;
-            challenge_active = FALSE;
-            challenge_fighting = FALSE;
+            challenge_active = false;
+            challenge_fighting = false;
             return;
         }
         snprintf(buf, sizeof(buf), "|CThere are %d ticks left before the challenge is cancelled.|w\n\r",
@@ -420,7 +420,7 @@ void do_duel(CHAR_DATA *ch, char *argument) {
     if ((ch == challenger && victim == challengee) || (ch == challengee && victim == challenger)) {
         if (ch->fighting != NULL || victim->fighting != NULL)
             return;
-        challenge_fighting = TRUE;
+        challenge_fighting = true;
         multi_hit(ch, victim, 100);
         return;
     }
@@ -483,8 +483,8 @@ int do_check_chal(CHAR_DATA *ch) {
     imm_ready = 0;
     challenger_ready = 0;
     challengee_ready = 0;
-    challenge_active = FALSE;
-    challenge_fighting = FALSE;
+    challenge_active = false;
+    challenge_fighting = false;
     challenge_ticker = 0;
     return 1;
 }
@@ -550,31 +550,31 @@ void do_flee_check(CHAR_DATA *ch) {
     imm_ready = 0;
     challenger_ready = 0;
     challengee_ready = 0;
-    challenge_fighting = FALSE;
-    challenge_active = FALSE;
+    challenge_fighting = false;
+    challenge_active = false;
     challenge_ticker = 0;
 }
 
 int fighting_duel(CHAR_DATA *ch, CHAR_DATA *victim) {
     if (!challenge_fighting)
-        return FALSE;
+        return false;
     if (ch->in_room->vnum != CHAL_ROOM)
-        return FALSE;
+        return false;
     if ((ch != challenger) && (ch != challengee))
-        return FALSE;
+        return false;
     if ((victim != challenger) && (victim != challengee))
-        return FALSE;
-    return TRUE;
+        return false;
+    return true;
 }
 
 int in_duel(CHAR_DATA *ch) {
     if (!challenge_fighting)
-        return FALSE;
+        return false;
     if (ch->in_room->vnum != CHAL_ROOM)
-        return FALSE;
+        return false;
     if ((ch != challenger) && (ch != challengee))
-        return FALSE;
-    return TRUE;
+        return false;
+    return true;
 }
 
 /* Checks to see that various things are correct.  Only input is

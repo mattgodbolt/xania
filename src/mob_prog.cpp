@@ -347,20 +347,20 @@ bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *o
         switch (arg[1]) /* arg should be "$*" so just get the letter */
         {
             // TheMoog changed here to get rid of warning
-        case 'i': return IS_AFFECTED(mob, AFF_CHARM) ? TRUE : FALSE;
+        case 'i': return IS_AFFECTED(mob, AFF_CHARM) ? true : false;
         case 'n':
             if (actor)
-                return IS_AFFECTED(actor, AFF_CHARM) ? TRUE : FALSE;
+                return IS_AFFECTED(actor, AFF_CHARM) ? true : false;
             else
                 return -1;
         case 't':
             if (vict)
-                return IS_AFFECTED(vict, AFF_CHARM) ? TRUE : FALSE;
+                return IS_AFFECTED(vict, AFF_CHARM) ? true : false;
             else
                 return -1;
         case 'r':
             if (rndm)
-                return IS_AFFECTED(rndm, AFF_CHARM) ? TRUE : FALSE;
+                return IS_AFFECTED(rndm, AFF_CHARM) ? true : false;
             else
                 return -1;
         default: bug("Mob: %d bad argument to 'ischarmed'", mob->pIndexData->vnum); return -1;
@@ -855,19 +855,19 @@ char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA *mob, CHAR_DATA *
     char buf[MAX_INPUT_LENGTH];
     char *morebuf = '\0';
     char *cmnd = '\0';
-    bool loopdone = FALSE;
-    bool flag = FALSE;
+    bool loopdone = false;
+    bool flag = false;
     int legal;
 
     /* check for trueness of the ifcheck */
     if ((legal = mprog_do_ifchck(ifchck, mob, actor, obj, vo, rndm))) {
         if (legal == 1)
-            flag = TRUE;
+            flag = true;
         else
             return NULL;
     }
 
-    while (loopdone == FALSE) { /*scan over any existing or statements */
+    while (loopdone == false) { /*scan over any existing or statements */
         cmnd = com_list;
         com_list = mprog_next_command(com_list);
         while (*cmnd == ' ')
@@ -880,12 +880,12 @@ char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA *mob, CHAR_DATA *
         if (!str_cmp(buf, "or")) {
             if ((legal = mprog_do_ifchck(morebuf, mob, actor, obj, vo, rndm))) {
                 if (legal == 1)
-                    flag = TRUE;
+                    flag = true;
                 else
                     return NULL;
             }
         } else
-            loopdone = TRUE;
+            loopdone = true;
     }
 
     if (flag)

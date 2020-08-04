@@ -163,7 +163,7 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
             if (vch->in_room == NULL)
                 continue;
             if (vch->in_room == ch->in_room) {
-                if (vch != ch && !is_safe_spell(ch, vch, TRUE) && (vch != victim)
+                if (vch != ch && !is_safe_spell(ch, vch, true) && (vch != victim)
                     && (check_immune(vch, DAM_MENTAL) != IS_IMMUNE))
                     tornado_mental(ch, victim, ch->level);
                 continue;
@@ -186,7 +186,7 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
                         next_person = current_person->next_in_room;
 
                         send_to_char("Suddenly, a gale of psychic energy blows through the room!\n\r", current_person);
-                        if (!is_safe_spell(ch, current_person, TRUE)
+                        if (!is_safe_spell(ch, current_person, true)
                             && (check_immune(current_person, DAM_MENTAL) != IS_IMMUNE))
                             tornado_mental(ch, current_person, ch->level);
 

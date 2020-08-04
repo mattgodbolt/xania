@@ -128,14 +128,14 @@ void move_char(CHAR_DATA *ch, int door) {
             /*
              * Look for a boat.
              */
-            found = FALSE;
+            found = false;
 
             if (IS_IMMORTAL(ch))
-                found = TRUE;
+                found = true;
 
             for (obj = ch->carrying; obj != NULL; obj = obj->next_content) {
                 if (obj->item_type == ITEM_BOAT) {
-                    found = TRUE;
+                    found = true;
                     break;
                 }
             }
@@ -314,14 +314,14 @@ void do_enter(CHAR_DATA *ch, char *argument) {
                             /*
                              * Look for a boat.
                              */
-                            found = FALSE;
+                            found = false;
 
                             if (IS_IMMORTAL(ch))
-                                found = TRUE;
+                                found = true;
 
                             for (obj = ch->carrying; obj != NULL; obj = obj->next_content) {
                                 if (obj->item_type == ITEM_BOAT) {
-                                    found = TRUE;
+                                    found = true;
                                     break;
                                 }
                             }
@@ -605,10 +605,10 @@ bool has_key(CHAR_DATA *ch, int key) {
 
     for (obj = ch->carrying; obj != NULL; obj = obj->next_content) {
         if (obj->pIndexData->vnum == key)
-            return TRUE;
+            return true;
     }
 
-    return FALSE;
+    return false;
 }
 
 void do_lock(CHAR_DATA *ch, char *argument) {
@@ -794,7 +794,7 @@ void do_pick(CHAR_DATA *ch, char *argument) {
 
     if (!IS_NPC(ch) && number_percent() > get_skill_learned(ch, gsn_pick_lock)) {
         send_to_char("You failed.\n\r", ch);
-        check_improve(ch, gsn_pick_lock, FALSE, 2);
+        check_improve(ch, gsn_pick_lock, false, 2);
         return;
     }
 
@@ -823,7 +823,7 @@ void do_pick(CHAR_DATA *ch, char *argument) {
 
         REMOVE_BIT(obj->value[1], CONT_LOCKED);
         send_to_char("*Click*\n\r", ch);
-        check_improve(ch, gsn_pick_lock, TRUE, 2);
+        check_improve(ch, gsn_pick_lock, true, 2);
         act("$n picks $p.", ch, obj, NULL, TO_ROOM);
         return;
     }
@@ -855,7 +855,7 @@ void do_pick(CHAR_DATA *ch, char *argument) {
         REMOVE_BIT(pexit->exit_info, EX_LOCKED);
         send_to_char("*Click*\n\r", ch);
         act("$n picks the $d.", ch, NULL, pexit->keyword, TO_ROOM);
-        check_improve(ch, gsn_pick_lock, TRUE, 2);
+        check_improve(ch, gsn_pick_lock, true, 2);
 
         /* pick the other side */
         if ((to_room = pexit->u1.to_room) != NULL && (pexit_rev = to_room->exit[rev_dir[door]]) != NULL
@@ -1043,7 +1043,7 @@ void do_sneak(CHAR_DATA *ch, char *argument) {
     affect_strip(ch, gsn_sneak);
 
     if (IS_NPC(ch) || number_percent() < get_skill_learned(ch, gsn_sneak)) {
-        check_improve(ch, gsn_sneak, TRUE, 3);
+        check_improve(ch, gsn_sneak, true, 3);
         af.type = gsn_sneak;
         af.level = ch->level;
         af.duration = ch->level;
@@ -1052,7 +1052,7 @@ void do_sneak(CHAR_DATA *ch, char *argument) {
         af.bitvector = AFF_SNEAK;
         affect_to_char(ch, &af);
     } else
-        check_improve(ch, gsn_sneak, FALSE, 3);
+        check_improve(ch, gsn_sneak, false, 3);
 
     return;
 }
@@ -1066,9 +1066,9 @@ void do_hide(CHAR_DATA *ch, char *argument) {
 
     if (IS_NPC(ch) || number_percent() < ch->pcdata->learned[gsn_hide]) {
         SET_BIT(ch->affected_by, AFF_HIDE);
-        check_improve(ch, gsn_hide, TRUE, 3);
+        check_improve(ch, gsn_hide, true, 3);
     } else
-        check_improve(ch, gsn_hide, FALSE, 3);
+        check_improve(ch, gsn_hide, false, 3);
 
     return;
 }
@@ -1151,7 +1151,7 @@ void do_recall(CHAR_DATA *ch, char *argument) {
             skill = get_skill_learned(ch, gsn_recall);
 
         if (number_percent() < 80 * skill / 100) {
-            check_improve(ch, gsn_recall, FALSE, 6);
+            check_improve(ch, gsn_recall, false, 6);
             WAIT_STATE(ch, 4);
             snprintf(buf, sizeof(buf), "You failed!.\n\r");
             send_to_char(buf, ch);
@@ -1160,10 +1160,10 @@ void do_recall(CHAR_DATA *ch, char *argument) {
 
         lose = (ch->desc != NULL) ? 25 : 50;
         gain_exp(ch, 0 - lose);
-        check_improve(ch, gsn_recall, TRUE, 4);
+        check_improve(ch, gsn_recall, true, 4);
         snprintf(buf, sizeof(buf), "You recall from combat!  You lose %d exps.\n\r", lose);
         send_to_char(buf, ch);
-        stop_fighting(ch, TRUE);
+        stop_fighting(ch, true);
     }
 
     ch->move /= 2;

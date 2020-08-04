@@ -155,9 +155,9 @@ bool olc_string_isalpha(CHAR_DATA *ch, char *string, int len) {
     int count;
     for (count = 0; count <= len; count++) {
         if (!isalpha(string[count]))
-            return FALSE;
+            return false;
     }
-    return TRUE;
+    return true;
 }
 
 void do_edit(CHAR_DATA *ch, char *argument) {
@@ -307,7 +307,7 @@ void olc_initialise(CHAR_DATA *ch) {
     new_olc_struct->room_vnums[1] = 0;
 
     ch->pcdata->olc = new_olc_struct;
-    olc_cleanstrings(ch, TRUE, TRUE, TRUE);
+    olc_cleanstrings(ch, true, true, true);
     return;
 }
 
@@ -387,15 +387,15 @@ char *olc_stripcolour(char *attack_type) {
         return attack_type;
 }
 
-bool olc_check_quest_list(CHAR_DATA *ch, char *argument) { return TRUE; }
+bool olc_check_quest_list(CHAR_DATA *ch, char *argument) { return true; }
 
 bool olc_user_authority(CHAR_DATA *ch) {
 
     if (!IS_NPC(ch)) {
         if (!str_prefix(ch->name, "Faramir"))
-            return TRUE;
+            return true;
     }
-    return FALSE;
+    return false;
 }
 
 /*

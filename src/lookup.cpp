@@ -57,7 +57,7 @@ int flag_value(const struct flag_type *flag_table, char *argument) {
     char word[MAX_INPUT_LENGTH];
     int bit;
     int marked = 0;
-    bool found = FALSE;
+    bool found = false;
 
     if (is_stat(flag_table)) {
         one_argument(argument, word);
@@ -79,7 +79,7 @@ int flag_value(const struct flag_type *flag_table, char *argument) {
 
         if ((bit = flag_lookup(word, flag_table)) != NO_FLAG) {
             SET_BIT(marked, bit);
-            found = TRUE;
+            found = true;
         }
     }
 

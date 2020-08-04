@@ -496,7 +496,7 @@ void do_transfer(CHAR_DATA *ch, char *argument) {
     }
 
     if (victim->fighting != NULL)
-        stop_fighting(victim, TRUE);
+        stop_fighting(victim, true);
     if (victim->riding != NULL)
         unride_char(victim, victim->riding);
     act("$n disappears in a mushroom cloud.", victim, NULL, NULL, TO_ROOM);
@@ -602,7 +602,7 @@ void do_goto(CHAR_DATA *ch, char *argument) {
     }
 
     if (ch->fighting != NULL)
-        stop_fighting(ch, TRUE);
+        stop_fighting(ch, true);
 
     for (rch = ch->in_room->people; rch != NULL; rch = rch->next_in_room) {
         if (get_trust(rch) >= ch->invis_level) {
@@ -1061,7 +1061,7 @@ void do_mskills(CHAR_DATA *ch, char *argument) {
     char skill_list[LEVEL_HERO][MAX_STRING_LENGTH];
     char skill_columns[LEVEL_HERO];
     int sn, lev;
-    bool found = FALSE;
+    bool found = false;
 
     one_argument(argument, arg);
 
@@ -1094,7 +1094,7 @@ void do_mskills(CHAR_DATA *ch, char *argument) {
         if (get_skill_level(victim, sn) < LEVEL_HERO && skill_table[sn].spell_fun == spell_null
             && victim->pcdata->learned[sn] > 0) // NOT get_skill_learned
         {
-            found = TRUE;
+            found = true;
             lev = get_skill_level(victim, sn);
             if (victim->level < lev)
                 bug_snprintf(buf, sizeof(buf), "%-18s  n/a      ", skill_table[sn].name);
@@ -1136,7 +1136,7 @@ void do_mspells(CHAR_DATA *ch, char *argument) {
     char spell_list[LEVEL_HERO][MAX_STRING_LENGTH];
     char spell_columns[LEVEL_HERO];
     int sn, lev, mana;
-    bool found = FALSE;
+    bool found = false;
 
     one_argument(argument, arg);
 
@@ -1169,7 +1169,7 @@ void do_mspells(CHAR_DATA *ch, char *argument) {
         if (get_skill_level(victim, sn) < LEVEL_HERO && skill_table[sn].spell_fun != spell_null
             && victim->pcdata->learned[sn] > 0) // NOT get_skill_learned
         {
-            found = TRUE;
+            found = true;
             lev = get_skill_level(victim, sn);
             if (victim->level < lev)
                 bug_snprintf(buf, sizeof(buf), "%-18s   n/a      ", skill_table[sn].name);
@@ -1576,8 +1576,8 @@ void do_mfind(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    fAll = FALSE; /* !str_cmp( arg, "all" ); */
-    found = FALSE;
+    fAll = false; /* !str_cmp( arg, "all" ); */
+    found = false;
     nMatch = 0;
 
     /*
@@ -1591,7 +1591,7 @@ void do_mfind(CHAR_DATA *ch, char *argument) {
         if ((pMobIndex = get_mob_index(vnum)) != NULL) {
             nMatch++;
             if (fAll || is_name(argument, pMobIndex->player_name)) {
-                found = TRUE;
+                found = true;
                 buffer_addline_fmt(buffer, "[%5d] %s\n\r", pMobIndex->vnum, pMobIndex->short_descr);
             }
         }
@@ -1618,8 +1618,8 @@ void do_ofind(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    fAll = FALSE; /* !str_cmp( arg, "all" ); */
-    found = FALSE;
+    fAll = false; /* !str_cmp( arg, "all" ); */
+    found = false;
     nMatch = 0;
 
     /*
@@ -1633,7 +1633,7 @@ void do_ofind(CHAR_DATA *ch, char *argument) {
         if ((pObjIndex = get_obj_index(vnum)) != NULL) {
             nMatch++;
             if (fAll || is_name(argument, pObjIndex->name)) {
-                found = TRUE;
+                found = true;
                 buffer_addline_fmt(buffer, "[%5d] %s\n\r", pObjIndex->vnum, pObjIndex->short_descr);
             }
         }
@@ -1647,29 +1647,29 @@ void do_ofind(CHAR_DATA *ch, char *argument) {
 void do_mwhere(CHAR_DATA *ch, char *argument) {
     CHAR_DATA *victim;
     bool found;
-    bool findPC = FALSE;
+    bool findPC = false;
     int number = 0;
     BUFFER *buffer;
 
     if (argument[0] == '\0') {
-        findPC = TRUE;
+        findPC = true;
     } else if (strlen(argument) < 2) {
         send_to_char("Please be more specific.\n\r", ch);
         return;
     }
 
-    found = FALSE;
+    found = false;
     number = 0;
     buffer = buffer_create();
 
     for (victim = char_list; victim != NULL; victim = victim->next) {
-        if ((IS_NPC(victim) && victim->in_room != NULL && is_name(argument, victim->name) && findPC == FALSE)
-            || (!IS_NPC(victim) && (findPC == TRUE) && can_see(ch, victim))) {
-            found = TRUE;
+        if ((IS_NPC(victim) && victim->in_room != NULL && is_name(argument, victim->name) && findPC == false)
+            || (!IS_NPC(victim) && (findPC == true) && can_see(ch, victim))) {
+            found = true;
             number++;
             buffer_addline_fmt(
-                buffer, "%3d [%5d] %-28.28s [%5d] %20.20s\n\r", number, (findPC == TRUE) ? 0 : victim->pIndexData->vnum,
-                (findPC == TRUE) ? victim->name : victim->short_descr, victim->in_room->vnum, victim->in_room->name);
+                buffer, "%3d [%5d] %-28.28s [%5d] %20.20s\n\r", number, (findPC == true) ? 0 : victim->pIndexData->vnum,
+                (findPC == true) ? victim->name : victim->short_descr, victim->in_room->vnum, victim->in_room->name);
         }
     }
     buffer_send(buffer, ch);
@@ -1695,7 +1695,7 @@ void do_reboot(CHAR_DATA *ch, char *argument) {
     }
     do_force(ch, "all save");
     do_save(ch, "");
-    merc_down = TRUE;
+    merc_down = true;
     // Unlike do_shutdown(), do_reboot() does not explicitly call close_socket()
     // for every connected player. That's because close_socket() actually
     // sends a PACKET_DISCONNECT to doorman, causing the client to get booted and
@@ -1724,7 +1724,7 @@ void do_shutdown(CHAR_DATA *ch, char *argument) {
     do_echo(ch, buf);
     do_force(ch, "all save");
     do_save(ch, "");
-    merc_down = TRUE;
+    merc_down = true;
     for (d = descriptor_list; d != NULL; d = d_next) {
         d_next = d->next;
         close_socket(d);
@@ -1861,8 +1861,8 @@ void do_return(CHAR_DATA *ch, char *argument) {
 bool obj_check(CHAR_DATA *ch, OBJ_DATA *obj) {
 
     if (obj->level > get_trust(ch))
-        return FALSE;
-    return TRUE;
+        return false;
+    return true;
 }
 
 /* for clone, to insure that cloning goes many levels deep */
@@ -2084,7 +2084,7 @@ void do_purge(CHAR_DATA *ch, char *argument) {
         for (victim = ch->in_room->people; victim != NULL; victim = vnext) {
             vnext = victim->next_in_room;
             if (IS_NPC(victim) && !IS_SET(victim->act, ACT_NOPURGE) && victim != ch /* safety precaution */)
-                extract_char(victim, TRUE);
+                extract_char(victim, true);
         }
 
         for (obj = ch->in_room->contents; obj != NULL; obj = obj_next) {
@@ -2122,7 +2122,7 @@ void do_purge(CHAR_DATA *ch, char *argument) {
         if (victim->level > 1)
             save_char_obj(victim);
         d = victim->desc;
-        extract_char(victim, TRUE);
+        extract_char(victim, true);
         if (d != NULL)
             close_socket(d);
 
@@ -2130,7 +2130,7 @@ void do_purge(CHAR_DATA *ch, char *argument) {
     }
 
     act("$n purges $N.", ch, NULL, victim, TO_NOTVICT);
-    extract_char(victim, TRUE);
+    extract_char(victim, true);
     return;
 }
 
@@ -2386,10 +2386,10 @@ void do_log(CHAR_DATA *ch, char *argument) {
 
     if (!str_cmp(arg, "all")) {
         if (fLogAll) {
-            fLogAll = FALSE;
+            fLogAll = false;
             send_to_char("Log ALL off.\n\r", ch);
         } else {
-            fLogAll = TRUE;
+            fLogAll = true;
             send_to_char("Log ALL on.\n\r", ch);
         }
         return;
@@ -2532,7 +2532,7 @@ void do_peace(CHAR_DATA *ch, char *argument) {
 
     for (rch = ch->in_room->people; rch != NULL; rch = rch->next_in_room) {
         if (rch->fighting != NULL)
-            stop_fighting(rch, TRUE);
+            stop_fighting(rch, true);
         if (IS_NPC(rch) && IS_SET(rch->act, ACT_AGGRESSIVE))
             REMOVE_BIT(rch->act, ACT_AGGRESSIVE);
         if (IS_NPC(rch) && (rch->sentient_victim)) {
@@ -2586,7 +2586,7 @@ void do_owhere(CHAR_DATA *ch, char *argument) {
     bool found;
     int number = 0;
 
-    found = FALSE;
+    found = false;
     number = 0;
 
     if (argument[0] == '\0') {
@@ -2604,7 +2604,7 @@ void do_owhere(CHAR_DATA *ch, char *argument) {
         if (!is_name(target_name, obj->name))
             continue;
 
-        found = TRUE;
+        found = true;
         number++;
 
         for (in_obj = obj; in_obj->in_obj != NULL; in_obj = in_obj->in_obj)
@@ -2673,9 +2673,9 @@ void do_coma(CHAR_DATA *ch, char *argument) {
 
 bool osearch_is_valid_level_range(int min_level, int max_level) {
     if (min_level > MAX_LEVEL || max_level > MAX_LEVEL || min_level > max_level || max_level - min_level > 10) {
-        return FALSE;
+        return false;
     } else {
-        return TRUE;
+        return true;
     }
 }
 
@@ -2701,14 +2701,14 @@ void osearch_display_syntax(CHAR_DATA *ch) {
 
 bool osearch_is_item_in_level_range(const OBJ_INDEX_DATA *pIndexData, const int min_level, const int max_level) {
     if (pIndexData == NULL) {
-        return FALSE;
+        return false;
     }
     return pIndexData->level >= min_level && pIndexData->level <= max_level;
 }
 
 bool osearch_is_item_type(const OBJ_INDEX_DATA *pIndexData, const sh_int item_type) {
     if (pIndexData == NULL) {
-        return FALSE;
+        return false;
     }
     return pIndexData->item_type == item_type;
 }
@@ -3631,7 +3631,7 @@ void do_force(CHAR_DATA *ch, char *argument) {
 
             if (!IS_NPC(vch) && get_trust(vch) < get_trust(ch)) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-                MOBtrigger = FALSE;
+                MOBtrigger = false;
                 act(buf, ch, NULL, vch, TO_VICT);
                 interpret(vch, argument);
             }
@@ -3650,7 +3650,7 @@ void do_force(CHAR_DATA *ch, char *argument) {
 
             if (!IS_NPC(vch) && get_trust(vch) < get_trust(ch) && vch->level < LEVEL_HERO) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-                MOBtrigger = FALSE;
+                MOBtrigger = false;
                 act(buf, ch, NULL, vch, TO_VICT);
                 interpret(vch, argument);
             }
@@ -3669,7 +3669,7 @@ void do_force(CHAR_DATA *ch, char *argument) {
 
             if (!IS_NPC(vch) && get_trust(vch) < get_trust(ch) && vch->level >= LEVEL_HERO) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-                MOBtrigger = FALSE;
+                MOBtrigger = false;
                 act(buf, ch, NULL, vch, TO_VICT);
                 interpret(vch, argument);
             }
@@ -3697,7 +3697,7 @@ void do_force(CHAR_DATA *ch, char *argument) {
             return;
         }
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-        MOBtrigger = FALSE;
+        MOBtrigger = false;
         act(buf, ch, NULL, victim, TO_VICT);
         interpret(victim, argument);
     }

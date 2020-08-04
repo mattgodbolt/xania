@@ -72,99 +72,99 @@ const struct race_type race_table[] = {
        form,    parts
         },
     */
-    {"unique", FALSE, 0, 0, 0, 0, 0, 0, G, A | D | F},
+    {"unique", false, 0, 0, 0, 0, 0, 0, G, A | D | F},
 
-    {"human", TRUE, 0, 0, 0, 0, 0, 0, A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},
+    {"human", true, 0, 0, 0, 0, 0, 0, A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},
 
-    {"hobbit", TRUE, 0, 0, 0, 0, 0, 0, A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},
+    {"hobbit", true, 0, 0, 0, 0, 0, 0, A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},
 
-    {"minotaur", TRUE, 0, 0, 0, 0, 0, 0, A | H | M | V, A | B | C | D | E | F | G | H | I | J | K | W},
+    {"minotaur", true, 0, 0, 0, 0, 0, 0, A | H | M | V, A | B | C | D | E | F | G | H | I | J | K | W},
 
-    {"elf", TRUE, 0, AFF_INFRARED, 0, 0, RES_CHARM, VULN_IRON, A | H | M | V,
+    {"elf", true, 0, AFF_INFRARED, 0, 0, RES_CHARM, VULN_IRON, A | H | M | V,
      A | B | C | D | E | F | G | H | I | J | K},
 
-    {"half-elf", TRUE, 0, AFF_INFRARED, 0, 0, 0, VULN_IRON, A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},
+    {"half-elf", true, 0, AFF_INFRARED, 0, 0, 0, VULN_IRON, A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},
 
-    {"dragon", TRUE, 0, 0, 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | K | P | U | V | X},
+    {"dragon", true, 0, 0, 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | K | P | U | V | X},
 
-    {"eagle", TRUE, 0, AFF_FLYING, 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | P | K | U},
+    {"eagle", true, 0, AFF_FLYING, 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | P | K | U},
 
-    {"orc", TRUE, 0, AFF_INFRARED, 0, 0, 0, 0, A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},
+    {"orc", true, 0, AFF_INFRARED, 0, 0, 0, 0, A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},
 
-    {"dwarf", TRUE, 0, AFF_INFRARED, 0, 0, RES_POISON | RES_DISEASE, VULN_DROWNING, A | H | M | V,
+    {"dwarf", true, 0, AFF_INFRARED, 0, 0, RES_POISON | RES_DISEASE, VULN_DROWNING, A | H | M | V,
      A | B | C | D | E | F | G | H | I | J | K},
 
-    {"wolf", TRUE, 0, 0, 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | K | Q | U | V},
+    {"wolf", true, 0, 0, 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | K | Q | U | V},
     /* commented out for the time being --Fara
        {
-       "wraith",               TRUE,
+       "wraith",               true,
        0,              AFF_INFRARED,              0,
        IMM_COLD,              0,              VULN_FIRE,
        A|H|M|V|cc,        A|C|D|E|F|G|H|I|J|K|L|U
     }
     ,*/
 
-    {"giant", FALSE, 0, 0, 0, 0, RES_FIRE | RES_COLD, VULN_MENTAL | VULN_LIGHTNING, A | H | M | V,
+    {"giant", false, 0, 0, 0, 0, RES_FIRE | RES_COLD, VULN_MENTAL | VULN_LIGHTNING, A | H | M | V,
      A | B | C | D | E | F | G | H | J | K},
 
-    {"bat", FALSE, 0, AFF_FLYING | AFF_DARK_VISION, OFF_DODGE | OFF_FAST, 0, 0, VULN_LIGHT, A | G | W,
+    {"bat", false, 0, AFF_FLYING | AFF_DARK_VISION, OFF_DODGE | OFF_FAST, 0, 0, VULN_LIGHT, A | G | W,
      A | C | D | E | F | H | J | K | P},
 
-    {"bear", FALSE, 0, 0, OFF_CRUSH | OFF_DISARM | OFF_BERSERK, 0, RES_BASH | RES_COLD, 0, A | G | V,
+    {"bear", false, 0, 0, OFF_CRUSH | OFF_DISARM | OFF_BERSERK, 0, RES_BASH | RES_COLD, 0, A | G | V,
      A | B | C | D | E | F | H | J | K | U | V},
 
-    {"cat", FALSE, 0, AFF_DARK_VISION, OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | V,
+    {"cat", false, 0, AFF_DARK_VISION, OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | V,
      A | C | D | E | F | H | J | K | Q | U | V},
 
-    {"centipede", FALSE, 0, AFF_DARK_VISION, 0, 0, RES_PIERCE | RES_COLD, VULN_BASH, O | Y /* insect, snake  */,
+    {"centipede", false, 0, AFF_DARK_VISION, 0, 0, RES_PIERCE | RES_COLD, VULN_BASH, O | Y /* insect, snake  */,
      A | F | Q | X},
 
-    {"dog", FALSE, 0, 0, OFF_FAST, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K | U | V},
+    {"dog", false, 0, 0, OFF_FAST, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K | U | V},
 
-    {"doll", FALSE, 0, 0, 0, IMM_MAGIC, RES_BASH | RES_LIGHT,
+    {"doll", false, 0, 0, 0, IMM_MAGIC, RES_BASH | RES_LIGHT,
      VULN_SLASH | VULN_FIRE | VULN_ACID | VULN_LIGHTNING | VULN_ENERGY, E | J | M | cc, A | B | C | G | H | K},
 
-    {"fido", FALSE, 0, 0, OFF_DODGE | ASSIST_RACE, 0, 0, VULN_MAGIC, B | G | V, A | C | D | E | F | H | J | K | Q | V},
+    {"fido", false, 0, 0, OFF_DODGE | ASSIST_RACE, 0, 0, VULN_MAGIC, B | G | V, A | C | D | E | F | H | J | K | Q | V},
 
-    {"fox", FALSE, 0, AFF_DARK_VISION, OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | V,
+    {"fox", false, 0, AFF_DARK_VISION, OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | V,
      A | C | D | E | F | H | J | K | Q | U | V},
 
-    {"goblin", FALSE, 0, AFF_INFRARED, 0, 0, RES_DISEASE, VULN_MAGIC, A | H | M | V,
+    {"goblin", false, 0, AFF_INFRARED, 0, 0, RES_DISEASE, VULN_MAGIC, A | H | M | V,
      A | B | C | D | E | F | G | H | I | J | K},
 
     {
-        "hobgoblin", FALSE, 0, AFF_INFRARED, 0, 0, RES_DISEASE | RES_POISON, 0, A | H | M | V,
+        "hobgoblin", false, 0, AFF_INFRARED, 0, 0, RES_DISEASE | RES_POISON, 0, A | H | M | V,
         A | B | C | D | E | F | G | H | I | J | K | Q /* includes a tail */
 
     },
 
-    {"kobold", FALSE, 0, AFF_INFRARED, 0, 0, RES_POISON, VULN_MAGIC, A | B | H | M | V,
+    {"kobold", false, 0, AFF_INFRARED, 0, 0, RES_POISON, VULN_MAGIC, A | B | H | M | V,
      A | B | C | D | E | F | G | H | I | J | K | Q},
 
-    {"lizard", FALSE, 0, 0, 0, 0, RES_POISON, VULN_COLD, A | G | X | cc, A | C | D | E | F | H | K | Q | V},
+    {"lizard", false, 0, 0, 0, 0, RES_POISON, VULN_COLD, A | G | X | cc, A | C | D | E | F | H | K | Q | V},
 
-    {"modron", FALSE, 0, AFF_INFRARED, ASSIST_RACE | ASSIST_ALIGN,
+    {"modron", false, 0, AFF_INFRARED, ASSIST_RACE | ASSIST_ALIGN,
      IMM_CHARM | IMM_DISEASE | IMM_MENTAL | IMM_HOLY | IMM_NEGATIVE, RES_FIRE | RES_COLD | RES_ACID, 0, H,
      A | B | C | G | H | J | K},
 
-    {"pig", FALSE, 0, 0, 0, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K},
+    {"pig", false, 0, 0, 0, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K},
 
-    {"rabbit", FALSE, 0, 0, OFF_DODGE | OFF_FAST, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K},
+    {"rabbit", false, 0, 0, OFF_DODGE | OFF_FAST, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K},
 
-    {"school monster", FALSE, ACT_NOALIGN, 0, 0, IMM_CHARM | IMM_SUMMON, 0, VULN_MAGIC, A | M | V,
+    {"school monster", false, ACT_NOALIGN, 0, 0, IMM_CHARM | IMM_SUMMON, 0, VULN_MAGIC, A | M | V,
      A | B | C | D | E | F | H | J | K | Q | U},
 
-    {"snake", FALSE, 0, 0, 0, 0, RES_POISON, VULN_COLD, A | G | R | X | Y | cc, A | D | E | F | K | L | Q | V | X},
+    {"snake", false, 0, 0, 0, 0, RES_POISON, VULN_COLD, A | G | R | X | Y | cc, A | D | E | F | K | L | Q | V | X},
 
-    {"song bird", FALSE, 0, AFF_FLYING, OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | W, A | C | D | E | F | H | K | P},
+    {"song bird", false, 0, AFF_FLYING, OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | W, A | C | D | E | F | H | K | P},
 
-    {"troll", FALSE, 0, AFF_REGENERATION | AFF_INFRARED | AFF_DETECT_HIDDEN, OFF_BERSERK, 0, RES_CHARM | RES_BASH,
+    {"troll", false, 0, AFF_REGENERATION | AFF_INFRARED | AFF_DETECT_HIDDEN, OFF_BERSERK, 0, RES_CHARM | RES_BASH,
      VULN_FIRE | VULN_ACID, B | M | V, A | B | C | D | E | F | G | H | I | J | K | U | V},
 
-    {"water fowl", FALSE, 0, AFF_SWIM | AFF_FLYING, 0, 0, RES_DROWNING, 0, A | G | W,
+    {"water fowl", false, 0, AFF_SWIM | AFF_FLYING, 0, 0, RES_DROWNING, 0, A | G | W,
      A | C | D | E | F | H | K | P | Q},
 
-    {"wyvern", FALSE, 0, AFF_FLYING | AFF_DETECT_INVIS | AFF_DETECT_HIDDEN, OFF_BASH | OFF_FAST | OFF_DODGE, IMM_POISON,
+    {"wyvern", false, 0, AFF_FLYING | AFF_DETECT_INVIS | AFF_DETECT_HIDDEN, OFF_BASH | OFF_FAST | OFF_DODGE, IMM_POISON,
      0, VULN_LIGHT, B | Z | cc, A | C | D | E | F | H | J | K | P | Q | V | X},
 
     {NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
@@ -330,33 +330,33 @@ const struct race_body_type race_body_table[MAX_BODY_PARTS] = {
     /*
       format:
       {       BODY_PART, "description", found in a pair?, location }  */
-    {PART_HEAD, "head", FALSE, 3, "$n's severed head plops on the ground.",
+    {PART_HEAD, "head", false, 3, "$n's severed head plops on the ground.",
      OBJ_VNUM_SEVERED_HEAD}, /* don't move from top of list */
-    {PART_ARMS, "arm", TRUE, 2, "$n's arm is sliced from $s dead body.", OBJ_VNUM_SLICED_ARM}, /* double */
+    {PART_ARMS, "arm", true, 2, "$n's arm is sliced from $s dead body.", OBJ_VNUM_SLICED_ARM}, /* double */
 
-    {PART_LEGS, "leg", TRUE, 1, "$n's leg is sliced from $s dead body.", OBJ_VNUM_SLICED_LEG}, /* double */
-    {PART_HEART, "chest", FALSE, 2, "$n's heart is torn from $s chest.", OBJ_VNUM_TORN_HEART},
+    {PART_LEGS, "leg", true, 1, "$n's leg is sliced from $s dead body.", OBJ_VNUM_SLICED_LEG}, /* double */
+    {PART_HEART, "chest", false, 2, "$n's heart is torn from $s chest.", OBJ_VNUM_TORN_HEART},
 
-    {PART_BRAINS, "head", FALSE, 3, "$n's head is shattered, and $s brains splash all over you.", OBJ_VNUM_BRAINS},
+    {PART_BRAINS, "head", false, 3, "$n's head is shattered, and $s brains splash all over you.", OBJ_VNUM_BRAINS},
 
-    {PART_GUTS, "midriff", FALSE, 2, "$n spills $s guts all over the floor.", OBJ_VNUM_GUTS},
+    {PART_GUTS, "midriff", false, 2, "$n spills $s guts all over the floor.", OBJ_VNUM_GUTS},
 
-    {PART_HANDS, "hand", TRUE, 2, 0, 0}, /* double */
-    {PART_FEET, "shin", TRUE, 1, 0, 0}, /* double. No feet! */
-    {PART_FINGERS, "hand", TRUE, 2, 0, 0}, /* double */
-    {PART_EAR, "head", FALSE, 3, "$n's severed head plops on the ground.", OBJ_VNUM_SEVERED_HEAD},
-    {PART_EYE, "head", FALSE, 3, "$n's severed head plops on the ground.", OBJ_VNUM_SEVERED_HEAD},
-    {PART_LONG_TONGUE, "tongue", FALSE, 3, "$n's severed head plops on the ground.", OBJ_VNUM_SEVERED_HEAD},
-    {PART_EYESTALKS, "eye stalks", FALSE, 2, 0, 0}, /* weird */
-    {PART_TENTACLES, "tentacles", FALSE, 2, 0, 0},
-    {PART_FINS, "fin", FALSE, 2, 0, 0},
-    {PART_WINGS, "wings", FALSE, 2, "$n's wing is sliced off and lands with a crunch.", OBJ_VNUM_SLICED_WING},
-    {PART_TAIL, "tail", FALSE, 1, 0, 0},
-    {PART_CLAWS, "claws", FALSE, 2, "$n's claw flies off and narrowly misses you.", OBJ_VNUM_SLICED_CLAW},
-    {PART_FANGS, "fangs", FALSE, 3, 0, 0},
-    {PART_HORNS, "horn", FALSE, 3, 0, 0},
-    {PART_SCALES, "scales", FALSE, 2, "$n's heart is torn from $s chest.", OBJ_VNUM_TORN_HEART},
-    {PART_TUSKS, "tusk", FALSE, 2, 0, 0}};
+    {PART_HANDS, "hand", true, 2, 0, 0}, /* double */
+    {PART_FEET, "shin", true, 1, 0, 0}, /* double. No feet! */
+    {PART_FINGERS, "hand", true, 2, 0, 0}, /* double */
+    {PART_EAR, "head", false, 3, "$n's severed head plops on the ground.", OBJ_VNUM_SEVERED_HEAD},
+    {PART_EYE, "head", false, 3, "$n's severed head plops on the ground.", OBJ_VNUM_SEVERED_HEAD},
+    {PART_LONG_TONGUE, "tongue", false, 3, "$n's severed head plops on the ground.", OBJ_VNUM_SEVERED_HEAD},
+    {PART_EYESTALKS, "eye stalks", false, 2, 0, 0}, /* weird */
+    {PART_TENTACLES, "tentacles", false, 2, 0, 0},
+    {PART_FINS, "fin", false, 2, 0, 0},
+    {PART_WINGS, "wings", false, 2, "$n's wing is sliced off and lands with a crunch.", OBJ_VNUM_SLICED_WING},
+    {PART_TAIL, "tail", false, 1, 0, 0},
+    {PART_CLAWS, "claws", false, 2, "$n's claw flies off and narrowly misses you.", OBJ_VNUM_SLICED_CLAW},
+    {PART_FANGS, "fangs", false, 3, 0, 0},
+    {PART_HORNS, "horn", false, 3, 0, 0},
+    {PART_SCALES, "scales", false, 2, "$n's heart is torn from $s chest.", OBJ_VNUM_TORN_HEART},
+    {PART_TUSKS, "tusk", false, 2, 0, 0}};
 
 /*
  * Class table.

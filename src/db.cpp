@@ -231,7 +231,7 @@ void boot_db(void) {
         exit(1);
     }
     top_string = string_space;
-    fBootDb = TRUE;
+    fBootDb = true;
 
     /* Init random number generator. */
     init_mm();
@@ -365,7 +365,7 @@ void boot_db(void) {
      * Load up the notes file.
      */
     fix_exits();
-    fBootDb = FALSE;
+    fBootDb = false;
     area_update();
     note_initialise();
     wiznet_initialise();
@@ -394,7 +394,7 @@ void load_area(FILE *fp) {
 
     pArea->age = 15;
     pArea->nplayer = 0;
-    pArea->empty = FALSE;
+    pArea->empty = false;
 
     if (area_first == NULL)
         area_first = pArea;
@@ -404,7 +404,7 @@ void load_area(FILE *fp) {
     }
     area_last = pArea;
     pArea->next = NULL;
-    area_header_found = TRUE;
+    area_header_found = true;
     top_area++;
 }
 
@@ -475,16 +475,16 @@ void load_old_mob(FILE *fp) {
         if (vnum == 0)
             break;
 
-        fBootDb = FALSE;
+        fBootDb = false;
         if (get_mob_index(vnum) != NULL) {
             bug("Load_mobiles: vnum %d duplicated.", vnum);
             exit(1);
         }
-        fBootDb = TRUE;
+        fBootDb = true;
 
         pMobIndex = alloc_perm(sizeof(*pMobIndex));
         pMobIndex->vnum = vnum;
-        pMobIndex->new_format = FALSE;
+        pMobIndex->new_format = false;
         pMobIndex->player_name = fread_string(fp);
         pMobIndex->short_descr = fread_string(fp);
         pMobIndex->long_descr = fread_string(fp);
@@ -591,16 +591,16 @@ void load_old_mob_race(FILE *fp) {
         if (vnum == 0)
             break;
 
-        fBootDb = FALSE;
+        fBootDb = false;
         if (get_mob_index(vnum) != NULL) {
             bug("Load_mobiles: vnum %d duplicated.", vnum);
             exit(1);
         }
-        fBootDb = TRUE;
+        fBootDb = true;
 
         pMobIndex = alloc_perm(sizeof(*pMobIndex));
         pMobIndex->vnum = vnum;
-        pMobIndex->new_format = FALSE;
+        pMobIndex->new_format = false;
         pMobIndex->player_name = fread_string(fp);
         pMobIndex->short_descr = fread_string(fp);
         pMobIndex->long_descr = fread_string(fp);
@@ -705,16 +705,16 @@ void load_old_obj(FILE *fp) {
         if (vnum == 0)
             break;
 
-        fBootDb = FALSE;
+        fBootDb = false;
         if (get_obj_index(vnum) != NULL) {
             bug("Load_objects: vnum %d duplicated.", vnum);
             exit(1);
         }
-        fBootDb = TRUE;
+        fBootDb = true;
 
         pObjIndex = alloc_perm(sizeof(*pObjIndex));
         pObjIndex->vnum = vnum;
-        pObjIndex->new_format = FALSE;
+        pObjIndex->new_format = false;
         pObjIndex->reset_num = 0;
         pObjIndex->name = fread_string(fp);
         pObjIndex->short_descr = fread_string(fp);
@@ -980,7 +980,7 @@ void validate_resets(void) {
     for (pArea = area_first; pArea != NULL; pArea = pArea->next) {
         for (vnum = pArea->lvnum; vnum <= pArea->uvnum; vnum++) {
             oldBoot = fBootDb;
-            fBootDb = FALSE;
+            fBootDb = false;
             pRoom = get_room_index(vnum);
             fBootDb = oldBoot;
 
@@ -988,7 +988,7 @@ void validate_resets(void) {
             if (pRoom) {
                 for (pReset = pRoom->reset_first; pReset; pReset = pReset_next) {
                     pReset_next = pReset->next;
-                    Okay = TRUE;
+                    Okay = true;
 
                     /*
                      * Validate parameters.
@@ -997,7 +997,7 @@ void validate_resets(void) {
                     switch (pReset->command) {
                     case RESETS_MOB_IN_ROOM:
                         if (!(get_mob_index(pReset->arg1))) {
-                            Okay = FALSE;
+                            Okay = false;
                             snprintf(buf, sizeof(buf), "Get_mob_index: bad vnum %d in reset in room %d.", pReset->arg1,
                                      pRoom->vnum);
                             bug(buf, 0);
@@ -1008,7 +1008,7 @@ void validate_resets(void) {
                         if (temp_index)
                             temp_index->reset_num++;
                         else {
-                            Okay = FALSE;
+                            Okay = false;
                             snprintf(buf, sizeof(buf), "Get_obj_index: bad vnum %d in reset in room %d.", pReset->arg1,
                                      pRoom->vnum);
                             bug(buf, 0);
@@ -1019,7 +1019,7 @@ void validate_resets(void) {
                         if (temp_index)
                             temp_index->reset_num++;
                         else {
-                            Okay = FALSE;
+                            Okay = false;
                             snprintf(buf, sizeof(buf), "Get_obj_index: bad vnum %d in reset in room %d.", pReset->arg1,
                                      pRoom->vnum);
                             bug(buf, 0);
@@ -1031,7 +1031,7 @@ void validate_resets(void) {
                         if (temp_index)
                             temp_index->reset_num++;
                         else {
-                            Okay = FALSE;
+                            Okay = false;
                             snprintf(buf, sizeof(buf), "Get_obj_index: bad vnum %d in reset in room %d.", pReset->arg1,
                                      pRoom->vnum);
                             bug(buf, 0);
@@ -1081,12 +1081,12 @@ void load_rooms(FILE *fp) {
         if (vnum == 0)
             break;
 
-        fBootDb = FALSE;
+        fBootDb = false;
         if (get_room_index(vnum) != NULL) {
             bug("Load_rooms: vnum %d duplicated.", vnum);
             exit(1);
         }
-        fBootDb = TRUE;
+        fBootDb = true;
 
         pRoomIndex = alloc_perm(sizeof(*pRoomIndex));
         pRoomIndex->people = NULL;
@@ -1245,13 +1245,13 @@ void fix_exits(void) {
         for (pRoomIndex = room_index_hash[iHash]; pRoomIndex != NULL; pRoomIndex = pRoomIndex->next) {
             bool fexit;
 
-            fexit = FALSE;
+            fexit = false;
             for (door = 0; door <= 5; door++) {
                 if ((pexit = pRoomIndex->exit[door]) != NULL) {
                     if (pexit->u1.vnum <= 0 || get_room_index(pexit->u1.vnum) == NULL)
                         pexit->u1.to_room = NULL;
                     else {
-                        fexit = TRUE;
+                        fexit = true;
                         pexit->u1.to_room = get_room_index(pexit->u1.vnum);
                     }
                 }
@@ -1299,7 +1299,7 @@ void area_update(void) {
             if (pRoomIndex != NULL && pArea == pRoomIndex->area)
                 pArea->age = 15 - 2;
             else if (pArea->nplayer == 0)
-                pArea->empty = TRUE;
+                pArea->empty = true;
         }
     }
 }
@@ -1322,7 +1322,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
         return;
 
     pMob = NULL;
-    last = FALSE;
+    last = false;
 
     for (iExit = 0; iExit < MAX_DIR; iExit++) {
         EXIT_DATA *pExit;
@@ -1351,7 +1351,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
                 continue;
             }
             if (pMobIndex->count >= pReset->arg2) {
-                last = FALSE;
+                last = false;
                 break;
             }
             count = 0;
@@ -1359,7 +1359,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
                 if (pMob->pIndexData == pMobIndex) {
                     count++;
                     if (count >= pReset->arg4) {
-                        last = FALSE;
+                        last = false;
                         break;
                     }
                 }
@@ -1385,7 +1385,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
 
             LastMob = pMob;
             level = URANGE(0, pMob->level - 2, LEVEL_HERO - 1);
-            last = TRUE;
+            last = true;
             break;
 
         case RESETS_OBJ_IN_ROOM:
@@ -1400,7 +1400,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
             }
 
             if (pRoom->area->nplayer > 0 || count_obj_list(pObjIndex, pRoom->contents) > 0) {
-                last = FALSE;
+                last = false;
                 break;
             }
 
@@ -1430,7 +1430,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
             if (pRoom->area->nplayer > 0 || (LastObj = get_obj_type(pObjToIndex)) == NULL
                 || (LastObj->in_room == NULL && !last) || (pObjIndex->count >= limit && number_range(0, 4) != 0)
                 || (count = count_obj_list(pObjIndex, LastObj->contains)) > pReset->arg4) {
-                last = FALSE;
+                last = false;
                 break;
             }
 
@@ -1450,7 +1450,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
             } else {
                 /* THIS SPACE INTENTIONALLY LEFT BLANK */
             }
-            last = TRUE;
+            last = true;
             break;
 
         case RESETS_GIVE_OBJ_MOB:
@@ -1465,7 +1465,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
 
             if (!LastMob) {
                 bug("Reset_room: 'E' or 'G': null mob for vnum %d.", pReset->arg1);
-                last = FALSE;
+                last = false;
                 break;
             }
 
@@ -1526,7 +1526,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
             obj_to_char(pObj, LastMob);
             if (pReset->command == RESETS_EQUIP_OBJ_MOB)
                 equip_char(LastMob, pObj, pReset->arg3);
-            last = TRUE;
+            last = true;
             break;
 
         case RESETS_EXIT_FLAGS: break;
@@ -1816,7 +1816,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex, int level) {
     *obj = obj_zero;
     obj->pIndexData = pObjIndex;
     obj->in_room = NULL;
-    obj->enchanted = FALSE;
+    obj->enchanted = false;
 
     if (pObjIndex->new_format)
         obj->level = pObjIndex->level;
@@ -2162,11 +2162,11 @@ int fread_number(FILE *fp) {
 
     number = 0;
 
-    sign = FALSE;
+    sign = false;
     if (c == '+') {
         c = getc(fp);
     } else if (c == '-') {
-        sign = TRUE;
+        sign = true;
         c = getc(fp);
     }
 
@@ -2206,11 +2206,11 @@ int fread_spnumber(FILE *fp) {
 
     number = 0;
 
-    sign = FALSE;
+    sign = false;
     if (c == '+') {
         c = getc(fp);
     } else if (c == '-') {
-        sign = TRUE;
+        sign = true;
         c = getc(fp);
     }
 
@@ -2438,10 +2438,10 @@ char *fread_string_eol(FILE *fp) {
     char *plast;
     char c;
 
-    if (char_special[EOF - EOF] != TRUE) {
-        char_special[EOF - EOF] = TRUE;
-        char_special['\n' - EOF] = TRUE;
-        char_special['\r' - EOF] = TRUE;
+    if (char_special[EOF - EOF] != true) {
+        char_special[EOF - EOF] = true;
+        char_special['\n' - EOF] = true;
+        char_special['\r' - EOF] = true;
     }
 
     plast = top_string + sizeof(char *);
@@ -3080,54 +3080,54 @@ void smash_tilde(char *str) {
 
 /*
  * Compare strings, case insensitive.
- * Return TRUE if different
+ * Return true if different
  *   (compatibility with historical functions).
  */
 bool str_cmp(const char *astr, const char *bstr) {
     if (astr == NULL) {
         bug("Str_cmp: null astr.");
-        return TRUE;
+        return true;
     }
 
     if (bstr == NULL) {
         bug("Str_cmp: null bstr.");
-        return TRUE;
+        return true;
     }
 
     for (; *astr || *bstr; astr++, bstr++) {
         if (LOWER(*astr) != LOWER(*bstr))
-            return TRUE;
+            return true;
     }
-    return FALSE;
+    return false;
 }
 
 /*
  * Compare strings, case insensitive, for prefix matching.
- * Return TRUE if astr not a prefix of bstr
+ * Return true if astr not a prefix of bstr
  *   (compatibility with historical functions).
  */
 bool str_prefix(const char *astr, const char *bstr) {
     if (astr == NULL) {
         bug("Strn_cmp: null astr.");
-        return TRUE;
+        return true;
     }
 
     if (bstr == NULL) {
         bug("Strn_cmp: null bstr.");
-        return TRUE;
+        return true;
     }
 
     for (; *astr; astr++, bstr++) {
         if (LOWER(*astr) != LOWER(*bstr))
-            return TRUE;
+            return true;
     }
 
-    return FALSE;
+    return false;
 }
 
 /*
  * Compare strings, case insensitive, for match anywhere.
- * Returns TRUE is astr not part of bstr.
+ * Returns true is astr not part of bstr.
  *   (compatibility with historical functions).
  */
 bool str_infix(const char *astr, const char *bstr) {
@@ -3137,21 +3137,21 @@ bool str_infix(const char *astr, const char *bstr) {
     char c0;
 
     if ((c0 = LOWER(astr[0])) == '\0')
-        return FALSE;
+        return false;
 
     sstr1 = strlen(astr);
     sstr2 = strlen(bstr);
 
     for (ichar = 0; ichar <= sstr2 - sstr1; ichar++) {
         if (c0 == LOWER(bstr[ichar]) && !str_prefix(astr, bstr + ichar))
-            return FALSE;
+            return false;
     }
-    return TRUE;
+    return true;
 }
 
 /*
  * Compare strings, case insensitive, for suffix matching.
- * Return TRUE if astr not a suffix of bstr
+ * Return true if astr not a suffix of bstr
  *   (compatibility with historical functions).
  */
 bool str_suffix(const char *astr, const char *bstr) {
@@ -3161,9 +3161,9 @@ bool str_suffix(const char *astr, const char *bstr) {
     sstr1 = strlen(astr);
     sstr2 = strlen(bstr);
     if (sstr1 <= sstr2 && !str_cmp(astr, bstr + sstr2 - sstr1))
-        return FALSE;
+        return false;
     else
-        return TRUE;
+        return true;
 }
 
 /*
@@ -3258,7 +3258,7 @@ MPROG_DATA *mprog_file_read(char *f, MPROG_DATA *mprg, MOB_INDEX_DATA *pMobIndex
     MPROG_DATA *mprg2;
     FILE *progfile;
     char letter;
-    bool done = FALSE;
+    bool done = false;
     char MOBProgfile[MAX_INPUT_LENGTH];
 
     snprintf(MOBProgfile, sizeof(MOBProgfile), "%s%s", MOB_DIR, f);
@@ -3300,7 +3300,7 @@ MPROG_DATA *mprog_file_read(char *f, MPROG_DATA *mprg, MOB_INDEX_DATA *pMobIndex
                 mprg2 = mprg2->next;
                 mprg2->next = NULL;
                 break;
-            case '|': done = TRUE; break;
+            case '|': done = true; break;
             default:
                 bug("in mobprog file syntax error.");
                 exit(1);
@@ -3366,7 +3366,7 @@ void load_mobprogs(FILE *fp) {
  */
 void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex) {
     MPROG_DATA *mprg;
-    bool done = FALSE;
+    bool done = false;
     char letter;
     if ((letter = fread_letter(fp)) != '>') {
         bug("Load_mobiles: vnum %d MOBPROG char", pMobIndex->vnum);
@@ -3393,7 +3393,7 @@ void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex) {
             case '|':
                 mprg->next = NULL;
                 fread_to_eol(fp);
-                done = TRUE;
+                done = true;
                 break;
             default:
                 bug("Load_mobiles: vnum %d bad MOBPROG.", pMobIndex->vnum);
@@ -3416,7 +3416,7 @@ void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex) {
             case '|':
                 mprg->next = NULL;
                 fread_to_eol(fp);
-                done = TRUE;
+                done = true;
                 break;
             default:
                 bug("Load_mobiles: vnum %d bad MOBPROG.", pMobIndex->vnum);

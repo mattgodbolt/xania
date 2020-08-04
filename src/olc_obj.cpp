@@ -218,15 +218,15 @@ bool olc_can_edit_obj(CHAR_DATA *ch, char *argument) {
 
     /* temporary */
 
-    return TRUE;
+    return true;
 
     vnum = atoi(argument);
 
     if (vnum < ch->pcdata->olc->obj_vnums[0] || vnum > ch->pcdata->olc->obj_vnums[1])
 
-        return FALSE;
+        return false;
 
-    return TRUE;
+    return true;
 }
 
 /*
@@ -241,15 +241,15 @@ bool olc_can_create_obj(CHAR_DATA *ch, char *argument) {
     int vnum = 0;
     vnum = atoi(argument);
     if ((get_obj_world(ch, argument)) != NULL)
-        return FALSE;
+        return false;
     if (vnum < ch->pcdata->olc->master_vnums[0] || vnum > ch->pcdata->olc->master_vnums[1])
-        return FALSE;
-    return TRUE;
+        return false;
+    return true;
 }
 
 /*
  * OK this is the big mamma object creation function. If the parameters
- * passed by the builder are not valid, it returns FALSE and the
+ * passed by the builder are not valid, it returns false and the
  * builders current_obj is not set. Otherwise, the object is built, put
  * into the linked list, one is given to the builder and that becomes
  * his current object. He can then modify as he pleases or use
@@ -269,7 +269,7 @@ bool olc_create_obj(CHAR_DATA *ch, int vnum, char *type, int level) {
     if (level > OLC_MAX_OBJECT_LEVEL || level < 1) {
         snprintf(buf, sizeof(buf), "OLC: object level must be between 1 and %d.\n\r", OLC_MAX_OBJECT_LEVEL);
         send_to_char(buf, ch);
-        return FALSE;
+        return false;
     }
     pObjIndex->level = level;
     if (!str_prefix(type, "armour"))
@@ -304,12 +304,12 @@ bool olc_create_obj(CHAR_DATA *ch, int vnum, char *type, int level) {
     if (typeRef == 0) {
         send_to_char("OLC: object types: armour container drink food fountain furniture light ...\n\r", ch);
         send_to_char("...  potion pill scroll staff treasure wand weapon\n\r", ch);
-        return FALSE;
+        return false;
     }
     pObjIndex = alloc_perm(sizeof(*pObjIndex));
     obj = alloc_perm(sizeof(*obj));
 
-    pObjIndex->new_format = TRUE;
+    pObjIndex->new_format = true;
     newobjs++;
 
     snprintf(buf2, sizeof(buf2), "new object %s", type);
@@ -493,7 +493,7 @@ bool olc_create_obj(CHAR_DATA *ch, int vnum, char *type, int level) {
     act(buf2, ch, NULL, NULL, TO_ROOM);
     snprintf(buf2, sizeof(buf2), "OLC: new %s created!\n\r", type);
     send_to_char(buf2, ch);
-    return TRUE;
+    return true;
 }
 
 /*
@@ -529,7 +529,7 @@ void olc_destroy_obj(CHAR_DATA *ch) {
 void olc_magical_obj(CHAR_DATA *ch, char *argument) {
 
     char command[MAX_INPUT_LENGTH], arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
-    bool q = FALSE, changed = FALSE;
+    bool q = false, changed = false;
     int count = 0, max_count = 0, initial = 0;
     OBJ_INDEX_DATA *tmp_obj;
 
@@ -556,7 +556,7 @@ void olc_magical_obj(CHAR_DATA *ch, char *argument) {
     argument = one_argument(argument, command);
 
     if (argument[0] == '\0')
-        q = TRUE;
+        q = true;
 
     if (!str_prefix(command, "spells")) {
         if (q) {
@@ -644,7 +644,7 @@ void olc_magical_obj(CHAR_DATA *ch, char *argument) {
             return;
         }
         if (initial > ((ch->pcdata->olc->current_obj->level - 6))) {
-            changed = TRUE;
+            changed = true;
             initial = (ch->pcdata->olc->current_obj->level);
         }
         ch->pcdata->olc->current_obj->value[0] = initial;
@@ -662,27 +662,27 @@ void olc_change_spells_obj(CHAR_DATA *ch, char *argument, int initial, int max_c
 
     char spell_na[MAX_INPUT_LENGTH], buf[MAX_STRING_LENGTH];
     int slot = 0, count = 0, val = 0;
-    bool limit = FALSE, found = FALSE, changed = FALSE, error = FALSE;
+    bool limit = false, found = false, changed = false, error = false;
     char *sp_list = argument;
 
     while (*sp_list && !limit) {
-        found = FALSE;
+        found = false;
         val = initial + count;
         sp_list = one_argument(sp_list, spell_na);
         slot = skill_lookup(spell_na);
         if (slot > 0) {
-            found = TRUE;
-            changed = TRUE;
+            found = true;
+            changed = true;
             ch->pcdata->olc->current_obj->value[val] = slot;
             slot = 0;
         }
         count++;
         if (!found) {
             snprintf(buf, sizeof(buf), "%s ", spell_na);
-            error = TRUE;
+            error = true;
         }
         if (max_count <= count)
-            limit = TRUE;
+            limit = true;
     }
     if (!changed)
         send_to_char("OLC: object was not modified.\n\r", ch);
@@ -704,7 +704,7 @@ void olc_material_obj(CHAR_DATA *ch, char *argument) {
 
     char text[MAX_STRING_LENGTH];
     int count = 0;
-    bool found = FALSE;
+    bool found = false;
 
     if (argument[0] == '?' || argument[0] == '\0') {
         olc_list_materials_obj(ch);
@@ -713,7 +713,7 @@ void olc_material_obj(CHAR_DATA *ch, char *argument) {
 
     for (count = 0; material_table[count].material_name != '\0'; count++) {
         if (olc_material_search_obj(ch, argument, count))
-            found = TRUE;
+            found = true;
     }
     if (found)
         return;
@@ -754,16 +754,16 @@ bool olc_material_search_obj(CHAR_DATA *ch, char *argument, int count) {
     if (!str_prefix(argument, material_table[count].material_name)) {
         if ((ch->pcdata->olc->current_obj->material == material_lookup(material_table[count].material_name))) {
             send_to_char("OLC: object is already that material type!\n\r", ch);
-            return TRUE;
+            return true;
         }
         ch->pcdata->olc->current_obj->material = count;
 
         snprintf(text, sizeof(text), "OLC: object: %s is now material %s.\n\r",
                  ch->pcdata->olc->current_obj->short_descr, material_table[count].material_name);
         send_to_char(text, ch);
-        return TRUE;
+        return true;
     }
-    return FALSE;
+    return false;
 }
 
 /*
@@ -773,7 +773,7 @@ bool olc_material_search_obj(CHAR_DATA *ch, char *argument, int count) {
 void olc_cost_obj(CHAR_DATA *ch, char *argument) {
 
     int amount = 0;
-    bool max = FALSE;
+    bool max = false;
 
     if (argument[0] == '?') {
         send_to_char("OLC: object cost <amount>\n\r", ch);
@@ -785,7 +785,7 @@ void olc_cost_obj(CHAR_DATA *ch, char *argument) {
         return;
     }
     if (!str_prefix(argument, "maximum"))
-        max = TRUE;
+        max = true;
     if (!is_number(argument) && !max) {
         send_to_char("Syntax: object cost <amount> (? for help)\n\r", ch);
         return;
@@ -903,7 +903,7 @@ void olc_attack_obj(CHAR_DATA *ch, char *argument) {
     BUFFER *buffer;
     char text[MAX_STRING_LENGTH];
     int count = 0, len = 0;
-    bool found = FALSE;
+    bool found = false;
 
     if (argument[0] == '\0') {
         send_to_char("Syntax: object weapon attack <attack name>\n\r", ch);
@@ -936,7 +936,7 @@ void olc_attack_obj(CHAR_DATA *ch, char *argument) {
     for (count = 1; (attack_table[count].name[0] != '$') && !found; count++) {
         if (!str_prefix(attack_table[count].name, argument)) {
             ch->pcdata->olc->current_obj->value[3] = count;
-            found = TRUE;
+            found = true;
             snprintf(text, sizeof(text), "OLC: attack type set to %s.\n\r", argument);
             send_to_char(text, ch);
             return;
@@ -1018,15 +1018,15 @@ bool olc_weapon_type_search_obj(CHAR_DATA *ch, char *weapon, int count) {
     if (!str_prefix(weapon, weapon_class_table[count])) {
         if (ch->pcdata->olc->current_obj->value[0] == count) {
             send_to_char("OLC: the weapon is already of that type!\n\r", ch);
-            return TRUE;
+            return true;
         }
         ch->pcdata->olc->current_obj->value[0] = count;
         send_to_char("OLC: weapon type set to ", ch);
         send_to_char((char *)weapon_class_table[count], ch);
         send_to_char(".\n\r", ch);
-        return TRUE;
+        return true;
     }
-    return FALSE;
+    return false;
 }
 
 /*
@@ -1234,7 +1234,7 @@ void olc_apply_obj(CHAR_DATA *ch, char *argument) {
 
     char arg1[MAX_INPUT_LENGTH], oper[1];
     int count = 0, amount = 0, aff_loc = 30;
-    bool found = FALSE;
+    bool found = false;
 
     if (argument[0] == '?' || argument[0] == '\0') {
         send_to_char("Syntax: object apply <+/-> <apply type> <amount>\n\r", ch);
@@ -1258,7 +1258,7 @@ void olc_apply_obj(CHAR_DATA *ch, char *argument) {
     for (count = 0; apply_lookup_table[count].name[0] != '$' && !found; count++) {
         if (!str_prefix(arg1, apply_lookup_table[count].name)) {
             aff_loc = apply_lookup_table[count].value;
-            found = TRUE;
+            found = true;
         }
         if (aff_loc == APPLY_NONE) {
             send_to_char("OLC: apply none?\n\r", ch);
@@ -1298,15 +1298,15 @@ bool olc_check_apply_range(CHAR_DATA *ch, int aff_loc, int amount) {
         snprintf(text, sizeof(text), "OLC: amount %d is below the minimum of %d for apply type '%s'.\n\r", amount,
                  apply_lookup_table[aff_loc].minimum, apply_lookup_table[aff_loc].name);
         send_to_char(text, ch);
-        return FALSE;
+        return false;
     }
     if (amount > (apply_lookup_table[aff_loc].maximum)) {
         snprintf(text, sizeof(text), "OLC: amount %d exceeds the maximum of %d for apply type '%s'.\n\r", amount,
                  apply_lookup_table[aff_loc].maximum, apply_lookup_table[aff_loc].name);
         send_to_char(text, ch);
-        return FALSE;
+        return false;
     }
-    return TRUE;
+    return true;
 }
 
 void olc_list_apply_table_obj(CHAR_DATA *ch) {
@@ -1314,12 +1314,12 @@ void olc_list_apply_table_obj(CHAR_DATA *ch) {
     BUFFER *buffer = new_buf();
     char text[MAX_STRING_LENGTH];
     int count = 0, len = 0;
-    bool end = FALSE;
+    bool end = false;
 
     while (!end) {
 
         if (!str_prefix(apply_lookup_table[count].name, "$")) {
-            end = TRUE;
+            end = true;
             continue;
         }
         if (!str_prefix(apply_lookup_table[count].name, "*")) {
@@ -1395,8 +1395,8 @@ void olc_display_obj_vars(CHAR_DATA *ch, int info, OBJ_INDEX_DATA *obj) {
     case OLC_V_MAGICAL:
         switch (obj->item_type) {
         case ITEM_STAFF:
-        case ITEM_WAND: olc_magical_listvals_obj(ch, obj, TRUE); break;
-        default: olc_magical_listvals_obj(ch, obj, FALSE);
+        case ITEM_WAND: olc_magical_listvals_obj(ch, obj, true); break;
+        default: olc_magical_listvals_obj(ch, obj, false);
         }
         return;
         break;
@@ -1504,7 +1504,7 @@ void olc_remove_affect_obj(CHAR_DATA *ch, int aff_loc) {
     AFFECT_DATA *paf = NULL, *paf_next = NULL;
     OBJ_INDEX_DATA *obj = ch->pcdata->olc->current_obj;
     char buf[MAX_STRING_LENGTH];
-    bool found = FALSE;
+    bool found = false;
     int count = 0;
 
     if (obj->affected == NULL) {
@@ -1518,11 +1518,11 @@ void olc_remove_affect_obj(CHAR_DATA *ch, int aff_loc) {
             paf->next = affect_free;
             affect_free = paf;
             paf = NULL;
-            found = TRUE;
+            found = true;
         }
         if (found)
             count++;
-        found = FALSE;
+        found = false;
     }
     if (count == 0) {
         send_to_char("OLC: object has no affects of that type.\n\r", ch);

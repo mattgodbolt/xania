@@ -33,7 +33,7 @@ bool MP_Commands(CHAR_DATA *ch);
 /*
  * Log-all switch.
  */
-bool fLogAll = FALSE;
+bool fLogAll = false;
 
 static const char *bad_position_string[] = {"Lie still; you are DEAD.\n\r",
                                             "You are hurt far too bad for that.\n\r",
@@ -535,16 +535,16 @@ bool check_social(CHAR_DATA *ch, char *command, char *argument) {
     const struct social_type *social;
 
     if (!(social = find_social(command)))
-        return FALSE;
+        return false;
 
     if (!IS_NPC(ch) && IS_SET(ch->comm, COMM_NOEMOTE)) {
         send_to_char("You are anti-social!\n\r", ch);
-        return TRUE;
+        return true;
     }
 
     if ((ch->position < POS_SLEEPING) || (ch->position == POS_SLEEPING && str_cmp(social->name, "snore"))) {
         send_to_char(bad_position_string[ch->position], ch);
-        return TRUE;
+        return true;
     }
 
     one_argument(argument, arg);
@@ -591,7 +591,7 @@ bool check_social(CHAR_DATA *ch, char *command, char *argument) {
         }
     }
 
-    return TRUE;
+    return true;
 }
 
 /*
@@ -599,17 +599,17 @@ bool check_social(CHAR_DATA *ch, char *command, char *argument) {
  */
 bool is_number(char *arg) {
     if (*arg == '\0')
-        return FALSE;
+        return false;
 
     if (*arg == '+' || *arg == '-')
         arg++;
 
     for (; *arg != '\0'; arg++) {
         if (!isdigit(*arg))
-            return FALSE;
+            return false;
     }
 
-    return TRUE;
+    return true;
 }
 
 /*
@@ -736,14 +736,14 @@ void do_wizhelp(CHAR_DATA *ch, char *argument) {
 }
 
 bool MP_Commands(CHAR_DATA *ch) /* Can MOBProged mobs
-                                   use mpcommands? TRUE if yes.
+                                   use mpcommands? true if yes.
                                    - Kahn */
 {
     if (is_switched(ch))
-        return FALSE;
+        return false;
 
     if (IS_NPC(ch) && ch->pIndexData->progtypes && !IS_AFFECTED(ch, AFF_CHARM))
-        return TRUE;
+        return true;
 
-    return FALSE;
+    return false;
 }

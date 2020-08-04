@@ -38,18 +38,18 @@ int note_count(CHAR_DATA *ch) {
 
 int is_note_to(struct char_data *ch, NOTE_DATA *note) {
     if (!str_cmp(ch->name, note->sender)) {
-        return TRUE;
+        return true;
     }
     if (is_name("all", note->to_list)) {
-        return TRUE;
+        return true;
     }
     if (IS_IMMORTAL(ch) && is_name("immortal", note->to_list)) {
-        return TRUE;
+        return true;
     }
     if (is_name(ch->name, note->to_list)) {
-        return TRUE;
+        return true;
     }
-    return FALSE;
+    return false;
 }
 
 static NOTE_DATA *create_note(void) {

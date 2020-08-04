@@ -59,13 +59,6 @@ typedef bool (*SpecialFunc)(CHAR_DATA *ch);
  * Short scalar types.
  * Diavolo reports AIX compiler has bugs with short types.
  */
-#if !defined(FALSE)
-#define FALSE 0
-#endif
-
-#if !defined(TRUE)
-#define TRUE 1
-#endif
 
 typedef short int sh_int;
 #ifndef __cplusplus

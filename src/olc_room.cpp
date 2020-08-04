@@ -181,15 +181,15 @@ bool olc_can_edit_room(CHAR_DATA *ch, char *argument) {
 
     /* temporary */
 
-    return TRUE;
+    return true;
 
     vnum = atoi(argument);
 
     if (vnum < ch->pcdata->olc->room_vnums[0] || vnum > ch->pcdata->olc->room_vnums[1])
 
-        return FALSE;
+        return false;
 
-    return TRUE;
+    return true;
 }
 
 /*
@@ -201,10 +201,10 @@ bool olc_can_create_room(CHAR_DATA *ch, char *argument) {
     int vnum = 0;
     vnum = atoi(argument);
     if ((get_room_index(vnum)) != NULL)
-        return FALSE;
+        return false;
     if (vnum < ch->pcdata->olc->master_vnums[0] || vnum > ch->pcdata->olc->master_vnums[1])
-        return FALSE;
-    return TRUE;
+        return false;
+    return true;
 }
 
 /*
@@ -333,7 +333,7 @@ bool olc_erase_room(int vnum) {
     EXTRA_DESCR_DATA *extras;
 
     if ((pRoomIndex = get_room_index(vnum)) == NULL)
-        return FALSE;
+        return false;
     iHash = vnum % MAX_KEY_HASH;
     prev = room_index_hash[iHash];
     if (prev == pRoomIndex) {
@@ -359,7 +359,7 @@ bool olc_erase_room(int vnum) {
         }
         pRoomIndex->extra_descr = NULL;
     }
-    return TRUE;
+    return true;
 }
 
 /*
@@ -528,13 +528,13 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
     int direction;
     char c;
     ROOM_INDEX_DATA *room_to;
-    bool connect = FALSE;
+    bool connect = false;
 
     argument = one_argument(argument, arg1);
     argument = one_argument(argument, arg2);
     c = arg1[0];
     if (c == '+') {
-        connect = TRUE;
+        connect = true;
         c = arg1[1];
     }
     switch (c) {
@@ -588,7 +588,7 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
             snprintf(buf, sizeof(buf), "OLC: the door to the %s requires no key now.\n\r", dir_name[direction]);
         }
         send_to_char(buf, ch);
-        if (connect == TRUE) {
+        if (connect == true) {
             if (ch->in_room == ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]]->u1.to_room) {
                 ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]]->key = key_vnum;
                 send_to_char("OLC: reverse exit also changed.\n\r", ch);
@@ -628,7 +628,7 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
         snprintf(buf, sizeof(buf), "OLC: changed exit type of the %s exit to '%s'.\n\r", dir_name[direction],
                  door_type);
         send_to_char(buf, ch);
-        if (connect == TRUE) {
+        if (connect == true) {
             if (ch->in_room == ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]]->u1.to_room) {
                 ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]]->exit_info = type;
                 send_to_char("OLC: reverse exit also changed.\n\r", ch);
@@ -648,7 +648,7 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
         ch->in_room->exit[direction]->description = str_dup(buffer);
         snprintf(buffer, sizeof(buffer), "OLC: description of %s exit changed.\n\r", dir_name[direction]);
         send_to_char(buffer, ch);
-        if (connect == TRUE)
+        if (connect == true)
             send_to_char("'+' ignored in this case.\n\r", ch);
     } else {
         if (!str_prefix(arg2, "keyword")) {
@@ -662,7 +662,7 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
             ch->in_room->exit[direction]->keyword = str_dup(argument);
             snprintf(buffer, sizeof(buffer), "OLC: keyword for exit to the %s changed.\n\r", dir_name[direction]);
             send_to_char(buffer, ch);
-            if (connect == TRUE) {
+            if (connect == true) {
                 if (ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]]->u1.to_room == ch->in_room) {
                     if (ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]]->keyword != NULL)
                         free_string(ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]]->keyword);
@@ -680,7 +680,7 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
                 }
                 snprintf(buf, sizeof(buf), "OLC: the %s exit has been destroyed.\n\r", dir_name[direction]);
                 send_to_char(buf, ch);
-                if (connect == TRUE) {
+                if (connect == true) {
                     /* Oogle check that there is *a* reverse exit */
                     if (ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]] != NULL) {
                         /* Check for reverse exit actually pointing back to the
@@ -728,7 +728,7 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
                 ch->in_room->exit[direction]->u1.to_room = room_to;
                 snprintf(buf, sizeof(buf), "OLC: exit created to the %s.\n\r", dir_name[direction]);
                 send_to_char(buf, ch);
-                if (connect == TRUE) {
+                if (connect == true) {
                     if (room_to->exit[rev_dir[direction]] == NULL) {
                         CHAR_DATA *wch = room_to->people;
                         char desc[MAX_STRING_LENGTH];

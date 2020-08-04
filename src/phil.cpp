@@ -58,7 +58,7 @@ char *randomSocial() {
 }
 
 /* do the right thing depending on the current state of sleepiness */
-/* returns TRUE if something happened, otherwise FALSE if everything's boring */
+/* returns true if something happened, otherwise false if everything's boring */
 bool doSleepActions(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
     int sleepFactor = sleepiness;
     int random;
@@ -67,24 +67,24 @@ bool doSleepActions(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
         sleepiness -= SLEEP_PT_ASLEEP;
         if (sleepFactor < WAKE_AT) {
             do_wake(ch, "\0");
-            return TRUE;
+            return true;
         }
         if (sleepFactor < STIR_AT) {
             random = number_percent();
             if (random > 97) {
                 act("$n stirs in $s sleep.", ch, NULL, NULL, TO_ROOM);
-                return TRUE;
+                return true;
             }
             if (random > 94) {
                 act("$n rolls over.", ch, NULL, NULL, TO_ROOM);
-                return TRUE;
+                return true;
             }
             if (random > 91) {
                 act("$n sniffles and scratches $s nose.", ch, NULL, NULL, TO_ROOM);
-                return TRUE;
+                return true;
             }
         }
-        return FALSE;
+        return false;
     }
     sleepiness += SLEEP_PT_AWAKE;
     random = number_percent();
@@ -98,20 +98,20 @@ bool doSleepActions(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
             char_to_room(ch, home);
             act("$n appears in a confused whirl of mist.", ch, NULL, NULL, TO_ROOM);
         }
-        return TRUE;
+        return true;
     }
     if (sleepFactor > YAWN_AT) {
         if (random > 97) {
             check_social(ch, "yawn", "\0");
-            return TRUE;
+            return true;
         }
         if (random > 94) {
             check_social(ch, "stretch", "\0");
-            return TRUE;
+            return true;
         }
     }
 
-    return FALSE;
+    return false;
 }
 
 /* does a random social on a randomly selected person in the current room */
@@ -146,7 +146,7 @@ int charInterest(CHAR_DATA *ch) {
         return 0;
 
     for (; listOffset < PEOPLEONLIST; listOffset++) {
-        if (is_name(nameList[listOffset], ch->name) == TRUE)
+        if (is_name(nameList[listOffset], ch->name) == true)
             return interestList[listOffset];
     }
 
@@ -156,7 +156,7 @@ int charInterest(CHAR_DATA *ch) {
 /* Check if there's a more interesting char in this room than has been found before */
 bool findInterestingChar(ROOM_INDEX_DATA *room, CHAR_DATA **follow, int *interest) {
     CHAR_DATA *current;
-    bool retVal = FALSE;
+    bool retVal = false;
     int currentInterest;
 
     for (current = room->people; current; current = current->next_in_room) {
@@ -164,7 +164,7 @@ bool findInterestingChar(ROOM_INDEX_DATA *room, CHAR_DATA **follow, int *interes
         if (currentInterest > *interest) {
             *follow = current;
             *interest = currentInterest;
-            retVal = TRUE;
+            retVal = true;
         }
     }
 
@@ -184,22 +184,22 @@ bool spec_phil(CHAR_DATA *ch) {
 
     /* Check fighting state */
     if (ch->position == POS_FIGHTING)
-        return FALSE;
+        return false;
 
     /* Check sleep state */
     if ((home = get_room_index(ROOM_VNUM_FORREYSPLACE)) == NULL) {
         bug("Couldn't get Forrey's home index.");
-        return FALSE;
+        return false;
     }
 
     /* Check general awakeness state */
     /* Return if something was done in the sleepactions routine */
     if (doSleepActions(ch, home))
-        return TRUE;
+        return true;
 
     /* If Phil is asleep, just end it there */
     if (ch->position == POS_SLEEPING)
-        return FALSE;
+        return false;
 
     /* Check for known people in this, and neighbouring, rooms */
     room = ch->in_room;
@@ -216,8 +216,8 @@ bool spec_phil(CHAR_DATA *ch) {
     /* Do a random social on someone in the room */
     if (number_percent() >= 99) {
         doRandomSocial(ch, home);
-        return TRUE;
+        return true;
     }
 
-    return FALSE;
+    return false;
 }

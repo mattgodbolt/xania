@@ -46,7 +46,7 @@ void free_ban(BAN_DATA *foo) {
 void save_bans(void) {
     BAN_DATA *pban;
     FILE *fp;
-    bool found = FALSE;
+    bool found = false;
 
     fclose(fpReserve);
     if ((fp = fopen(BAN_FILE, "w")) == NULL) {
@@ -55,7 +55,7 @@ void save_bans(void) {
 
     for (pban = ban_list; pban != NULL; pban = pban->next) {
         if (IS_SET(pban->ban_flags, BAN_PERMANENT)) {
-            found = TRUE;
+            found = true;
             fprintf(fp, "%s %d %s\n", pban->name, pban->level, print_flags(pban->ban_flags));
         }
     }
@@ -110,19 +110,19 @@ bool check_ban(char *site, int type) {
 
         if (IS_SET(pban->ban_flags, BAN_PREFIX) && IS_SET(pban->ban_flags, BAN_SUFFIX)
             && strstr(pban->name, host) != NULL)
-            return TRUE;
+            return true;
 
         if (IS_SET(pban->ban_flags, BAN_PREFIX) && !str_suffix(pban->name, host))
-            return TRUE;
+            return true;
 
         if (IS_SET(pban->ban_flags, BAN_SUFFIX) && !str_prefix(pban->name, host))
-            return TRUE;
+            return true;
 
         if (!IS_SET(pban->ban_flags, BAN_SUFFIX) && !IS_SET(pban->ban_flags, BAN_PREFIX) && !str_cmp(pban->name, host))
-            return TRUE;
+            return true;
     }
 
-    return FALSE;
+    return false;
 }
 
 void ban_site(CHAR_DATA *ch, char *argument, bool fPerm) {
@@ -132,7 +132,7 @@ void ban_site(CHAR_DATA *ch, char *argument, bool fPerm) {
     char *name;
     BUFFER *buffer;
     BAN_DATA *pban, *prev;
-    bool prefix = FALSE, suffix = FALSE;
+    bool prefix = false, suffix = false;
     int type;
 
     argument = one_argument(argument, arg1);
@@ -176,12 +176,12 @@ void ban_site(CHAR_DATA *ch, char *argument, bool fPerm) {
     name = arg1;
 
     if (name[0] == '*') {
-        prefix = TRUE;
+        prefix = true;
         name++;
     }
 
     if (name[strlen(name) - 1] == '*') {
-        suffix = TRUE;
+        suffix = true;
         name[strlen(name) - 1] = '\0';
     }
 
@@ -230,9 +230,9 @@ void ban_site(CHAR_DATA *ch, char *argument, bool fPerm) {
     return;
 }
 
-void do_ban(CHAR_DATA *ch, char *argument) { ban_site(ch, argument, FALSE); }
+void do_ban(CHAR_DATA *ch, char *argument) { ban_site(ch, argument, false); }
 
-void do_permban(CHAR_DATA *ch, char *argument) { ban_site(ch, argument, TRUE); }
+void do_permban(CHAR_DATA *ch, char *argument) { ban_site(ch, argument, true); }
 
 void do_allow(CHAR_DATA *ch, char *argument) {
     char arg[MAX_INPUT_LENGTH], *aargh = arg;

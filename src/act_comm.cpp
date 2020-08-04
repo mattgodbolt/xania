@@ -39,7 +39,7 @@ void do_delete(CHAR_DATA *ch, char *argument) {
     if (ch->pcdata->confirm_delete) {
         if (argument[0] != '\0') {
             send_to_char("Delete status removed.\n\r", ch);
-            ch->pcdata->confirm_delete = FALSE;
+            ch->pcdata->confirm_delete = false;
             return;
         } else {
             /* Added by Rohan - to delete the name out of player list if a player
@@ -115,7 +115,7 @@ void do_delete(CHAR_DATA *ch, char *argument) {
     send_to_char("Type delete again to confirm this command.\n\r", ch);
     send_to_char("WARNING: this command is irreversible.\n\r", ch);
     send_to_char("Typing delete with an argument will undo delete status.\n\r", ch);
-    ch->pcdata->confirm_delete = TRUE;
+    ch->pcdata->confirm_delete = true;
 }
 
 void announce(char *buf, CHAR_DATA *ch) {
@@ -447,7 +447,7 @@ void do_quit(CHAR_DATA *ch, char *argument) {
     (void)argument;
     DESCRIPTOR_DATA *d;
     FINGER_INFO *cur;
-    bool info_found = FALSE;
+    bool info_found = false;
 
     if (IS_NPC(ch))
         return;
@@ -480,13 +480,13 @@ void do_quit(CHAR_DATA *ch, char *argument) {
      */
     /* Rohan: if char's info is in cache, update login time and host */
     cur = info_cache;
-    while (cur != NULL && info_found == FALSE) {
+    while (cur != NULL && info_found == false) {
         if (!strcmp(cur->name, ch->name))
-            info_found = TRUE;
+            info_found = true;
         else
             cur = cur->next;
     }
-    if (info_found == TRUE) {
+    if (info_found == true) {
 
         cur->invis_level = ch->invis_level;
 
@@ -512,7 +512,7 @@ void do_quit(CHAR_DATA *ch, char *argument) {
     }
     save_char_obj(ch);
     d = ch->desc;
-    extract_char(ch, TRUE);
+    extract_char(ch, true);
     if (d != NULL)
         close_socket(d);
 
@@ -622,7 +622,7 @@ void fallen_off_mount(CHAR_DATA *ch) {
     ch->riding = NULL;
 
     affect_strip(ch, gsn_ride);
-    check_improve(ch, gsn_ride, FALSE, 3);
+    check_improve(ch, gsn_ride, false, 3);
 
     WAIT_STATE(ch, 2 * PULSE_VIOLENCE);
     ch->position = POS_RESTING;
@@ -739,7 +739,7 @@ void nuke_pets(CHAR_DATA *ch) {
 
         if (pet->in_room != NULL) {
             act("$N slowly fades away.", ch, NULL, pet, TO_NOTVICT);
-            extract_char(pet, TRUE);
+            extract_char(pet, true);
         }
     }
     ch->pet = NULL;
@@ -796,10 +796,10 @@ void do_order(CHAR_DATA *ch, char *argument) {
     }
 
     if (!str_cmp(arg, "all")) {
-        fAll = TRUE;
+        fAll = true;
         victim = NULL;
     } else {
-        fAll = FALSE;
+        fAll = false;
         if ((victim = get_char_room(ch, arg)) == NULL) {
             send_to_char("They aren't here.\n\r", ch);
             return;
@@ -816,12 +816,12 @@ void do_order(CHAR_DATA *ch, char *argument) {
         }
     }
 
-    found = FALSE;
+    found = false;
     for (och = ch->in_room->people; och != NULL; och = och_next) {
         och_next = och->next_in_room;
 
         if (IS_AFFECTED(och, AFF_CHARM) && och->master == ch && (fAll || och == victim)) {
-            found = TRUE;
+            found = true;
             snprintf(buf, sizeof(buf), "|W$n|w orders you to '%s'.", argument);
             act(buf, ch, NULL, och, TO_VICT);
             WAIT_STATE(ch, 2 * PULSE_VIOLENCE);

@@ -135,7 +135,7 @@ void do_mpasound(CHAR_DATA *ch, char *argument) {
         if ((pexit = was_in_room->exit[door]) != NULL && pexit->u1.to_room != NULL
             && pexit->u1.to_room != was_in_room) {
             ch->in_room = pexit->u1.to_room;
-            MOBtrigger = FALSE;
+            MOBtrigger = false;
             act(argument, ch, NULL, NULL, TO_ROOM);
         }
     }
@@ -408,7 +408,7 @@ void do_mppurge(CHAR_DATA *ch, char *argument) {
         for (victim = ch->in_room->people; victim != NULL; victim = vnext) {
             vnext = victim->next_in_room;
             if (IS_NPC(victim) && victim != ch)
-                extract_char(victim, TRUE);
+                extract_char(victim, true);
         }
 
         for (obj = ch->in_room->contents; obj != NULL; obj = obj_next) {
@@ -433,7 +433,7 @@ void do_mppurge(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    extract_char(victim, TRUE);
+    extract_char(victim, true);
     return;
 }
 
@@ -460,7 +460,7 @@ void do_mpgoto(CHAR_DATA *ch, char *argument) {
     }
 
     if (ch->fighting != NULL)
-        stop_fighting(ch, TRUE);
+        stop_fighting(ch, true);
 
     char_from_room(ch);
     char_to_room(ch, location);
@@ -575,7 +575,7 @@ void do_mptransfer(CHAR_DATA *ch, char *argument) {
     }
 
     if (victim->fighting != NULL)
-        stop_fighting(victim, TRUE);
+        stop_fighting(victim, true);
 
     char_from_room(victim);
     char_to_room(victim, location);

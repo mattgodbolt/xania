@@ -192,7 +192,7 @@ void do_spells(CHAR_DATA *ch, char *argument) {
     char spell_list[LEVEL_HERO][MAX_STRING_LENGTH];
     char spell_columns[LEVEL_HERO];
     int sn, lev, mana;
-    bool found = FALSE;
+    bool found = false;
     char buf[MAX_STRING_LENGTH];
 
     if (IS_NPC(ch))
@@ -211,7 +211,7 @@ void do_spells(CHAR_DATA *ch, char *argument) {
         if (get_skill_level(ch, sn) < LEVEL_HERO && skill_table[sn].spell_fun != spell_null
             && ch->pcdata->learned[sn] > 0) // NOT get_skill_learned
         {
-            found = TRUE;
+            found = true;
             lev = get_skill_level(ch, sn);
             if (ch->level < lev)
                 bug_snprintf(buf, sizeof(buf), "%-18s   n/a      ", skill_table[sn].name);
@@ -249,7 +249,7 @@ void do_skills(CHAR_DATA *ch, char *argument) {
     char skill_list[LEVEL_HERO][MAX_STRING_LENGTH];
     char skill_columns[LEVEL_HERO];
     int sn, lev;
-    bool found = FALSE;
+    bool found = false;
     char buf[MAX_STRING_LENGTH];
 
     if (IS_NPC(ch))
@@ -268,7 +268,7 @@ void do_skills(CHAR_DATA *ch, char *argument) {
         if (get_skill_level(ch, sn) < LEVEL_HERO && skill_table[sn].spell_fun == spell_null
             && ch->pcdata->learned[sn] > 0) // NOT get_skill_learned
         {
-            found = TRUE;
+            found = true;
             lev = get_skill_level(ch, sn);
             if (ch->level < lev)
                 bug_snprintf(buf, sizeof(buf), "%-18s  n/a      ", skill_table[sn].name);
@@ -451,53 +451,53 @@ bool parse_gen_groups(CHAR_DATA *ch, char *argument) {
     int gn, sn, i;
 
     if (argument[0] == '\0')
-        return FALSE;
+        return false;
 
     argument = one_argument(argument, arg);
 
     if (!str_prefix(arg, "help")) {
         if (argument[0] == '\0') {
             do_help(ch, "group help");
-            return TRUE;
+            return true;
         }
 
         do_help(ch, argument);
-        return TRUE;
+        return true;
     }
 
     if (!str_prefix(arg, "add")) {
         if (argument[0] == '\0') {
             send_to_char("You must provide a skill name.\n\r", ch);
-            return TRUE;
+            return true;
         }
 
         gn = group_lookup(argument);
         if (gn != -1) {
             if (ch->gen_data->group_chosen[gn] || ch->pcdata->group_known[gn]) {
                 send_to_char("You already know that group!\n\r", ch);
-                return TRUE;
+                return true;
             }
 
             if (get_group_trains(ch, gn) < 1) {
                 send_to_char("That group is not available.\n\r", ch);
-                return TRUE;
+                return true;
             }
 
             bug_snprintf(buf, sizeof(buf), "%s group added\n\r", group_table[gn].name);
             send_to_char(buf, ch);
-            ch->gen_data->group_chosen[gn] = TRUE;
+            ch->gen_data->group_chosen[gn] = true;
             ch->gen_data->points_chosen += get_group_trains(ch, gn);
             gn_add(ch, gn);
             if (ch->pcdata->points < 200)
                 ch->pcdata->points += get_group_trains(ch, gn);
-            return TRUE;
+            return true;
         }
 
         sn = skill_lookup(argument);
         if (sn != -1) {
             if (ch->gen_data->skill_chosen[sn] || ch->pcdata->learned[sn] > 0) {
                 send_to_char("You already know that skill!\n\r", ch);
-                return TRUE;
+                return true;
             }
 
             if (get_skill_level(ch, sn) < 0
@@ -508,32 +508,32 @@ bool parse_gen_groups(CHAR_DATA *ch, char *argument) {
                  */
                 || (get_skill_level(ch, sn) >= 60)) {
                 send_to_char("That skill is not available.\n\r", ch);
-                return TRUE;
+                return true;
             }
             bug_snprintf(buf, sizeof(buf), "%s skill added\n\r", skill_table[sn].name);
             send_to_char(buf, ch);
-            ch->gen_data->skill_chosen[sn] = TRUE;
+            ch->gen_data->skill_chosen[sn] = true;
             ch->gen_data->points_chosen += get_skill_trains(ch, sn);
             ch->pcdata->learned[sn] = 1;
             if (ch->pcdata->points < 200)
                 ch->pcdata->points += get_skill_trains(ch, sn);
-            return TRUE;
+            return true;
         }
 
         send_to_char("No skills or groups by that name...\n\r", ch);
-        return TRUE;
+        return true;
     }
 
     if (!strcmp(arg, "drop")) {
         if (argument[0] == '\0') {
             send_to_char("You must provide a skill to drop.\n\r", ch);
-            return TRUE;
+            return true;
         }
 
         gn = group_lookup(argument);
         if (gn != -1 && ch->gen_data->group_chosen[gn]) {
             send_to_char("Group dropped.\n\r", ch);
-            ch->gen_data->group_chosen[gn] = FALSE;
+            ch->gen_data->group_chosen[gn] = false;
             ch->gen_data->points_chosen -= get_group_trains(ch, gn);
             gn_remove(ch, gn);
             for (i = 0; i < MAX_GROUP; i++) {
@@ -541,44 +541,44 @@ bool parse_gen_groups(CHAR_DATA *ch, char *argument) {
                     gn_add(ch, gn);
             }
             ch->pcdata->points -= get_group_trains(ch, gn);
-            return TRUE;
+            return true;
         }
 
         sn = skill_lookup(argument);
         if (sn != -1 && ch->gen_data->skill_chosen[sn]) {
             send_to_char("Skill dropped.\n\r", ch);
-            ch->gen_data->skill_chosen[sn] = FALSE;
+            ch->gen_data->skill_chosen[sn] = false;
             ch->gen_data->points_chosen -= get_skill_trains(ch, sn);
             ch->pcdata->learned[sn] = 0; // NOT get_skill_learned
             ch->pcdata->points -= get_skill_trains(ch, sn);
-            return TRUE;
+            return true;
         }
 
         send_to_char("You haven't bought any such skill or group.\n\r", ch);
-        return TRUE;
+        return true;
     }
 
     if (!str_prefix(arg, "premise")) {
         do_help(ch, "premise");
-        return TRUE;
+        return true;
     }
 
     if (!str_prefix(arg, "list")) {
         list_group_costs(ch);
-        return TRUE;
+        return true;
     }
 
     if (!str_prefix(arg, "learned")) {
         list_group_chosen(ch);
-        return TRUE;
+        return true;
     }
 
     if (!str_prefix(arg, "info")) {
         do_groups(ch, argument);
-        return TRUE;
+        return true;
     }
 
-    return FALSE;
+    return false;
 }
 
 /* shows all groups, or the sub-members of a group */
@@ -708,11 +708,11 @@ int group_lookup(const char *name) {
 void gn_add(CHAR_DATA *ch, int gn) {
     int i;
 
-    ch->pcdata->group_known[gn] = TRUE;
+    ch->pcdata->group_known[gn] = true;
     for (i = 0; i < MAX_IN_GROUP; i++) {
         if (group_table[gn].spells[i] == NULL)
             break;
-        group_add(ch, group_table[gn].spells[i], FALSE);
+        group_add(ch, group_table[gn].spells[i], false);
     }
 }
 
@@ -720,7 +720,7 @@ void gn_add(CHAR_DATA *ch, int gn) {
 void gn_remove(CHAR_DATA *ch, int gn) {
     int i;
 
-    ch->pcdata->group_known[gn] = FALSE;
+    ch->pcdata->group_known[gn] = false;
 
     for (i = 0; i < MAX_IN_GROUP; i++) {
         if (group_table[gn].spells[i] == NULL)
@@ -753,8 +753,8 @@ void group_add(CHAR_DATA *ch, const char *name, bool deduct) {
     gn = group_lookup(name);
 
     if (gn != -1) {
-        if (ch->pcdata->group_known[gn] == FALSE) {
-            ch->pcdata->group_known[gn] = TRUE;
+        if (ch->pcdata->group_known[gn] == false) {
+            ch->pcdata->group_known[gn] = true;
             if (deduct)
                 ch->pcdata->points += get_group_trains(ch, gn);
         }
@@ -778,8 +778,8 @@ void group_remove(CHAR_DATA *ch, const char *name) {
 
     gn = group_lookup(name);
 
-    if (gn != -1 && ch->pcdata->group_known[gn] == TRUE) {
-        ch->pcdata->group_known[gn] = FALSE;
+    if (gn != -1 && ch->pcdata->group_known[gn] == true) {
+        ch->pcdata->group_known[gn] = false;
         gn_remove(ch, gn); /* be sure to call gn_add on all remaining groups */
     }
 }

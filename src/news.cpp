@@ -884,12 +884,12 @@ void _do_news(CHAR_DATA *ch, char *argument) {
 bool has_read_before(CHAR_DATA *ch, int mes_id) {
     MES_ID *m;
     if (IS_NPC(ch))
-        return TRUE;
+        return true;
     m = ch->mes_hash[mes_id % MES_HASH];
     for (; m; m = m->next)
         if (m->id == mes_id)
-            return TRUE;
-    return FALSE;
+            return true;
+    return false;
 }
 
 MES_ID *free_mes = NULL;
@@ -937,8 +937,8 @@ bool article_exists(int mes_id) {
     for (t = thread_head; t; t = t->next)
         for (a = t->articles; a; a = a->next)
             if (a->msg_id == mes_id)
-                return TRUE;
-    return FALSE;
+                return true;
+    return false;
 }
 
 /* Give the user some info on logging in */
@@ -951,12 +951,12 @@ void news_info(CHAR_DATA *ch) {
         if (!can_read_thread(ch, t))
             continue;
         numthreads++;
-        flag = FALSE;
+        flag = false;
         for (a = t->articles; a; a = a->next) {
             numarticles++;
             if (!has_read_before(ch, a->msg_id)) {
                 unreadarticles++;
-                flag = TRUE;
+                flag = true;
             }
         }
         if (flag)
@@ -1012,10 +1012,10 @@ void move_to_next_unread(CHAR_DATA *ch) {
     }
     /* Try again from the beginning, unless we really have finished all messages */
     ch->thread = NULL;
-    flag = FALSE;
+    flag = false;
     for (t = thread_head; t; t = t->next)
         if (num_unread(ch, t) != 0) {
-            flag = TRUE;
+            flag = true;
             break;
         }
     if (flag) {
@@ -1039,28 +1039,28 @@ int num_unread(CHAR_DATA *ch, THREAD *t) {
 bool can_read_thread(CHAR_DATA *ch, THREAD *t) {
     if (ch == NULL) {
         bug("NULL ch in can_read_thread");
-        return FALSE;
+        return false;
     }
     if (IS_NPC(ch))
-        return FALSE;
+        return false;
     if (IS_SET(t->flags, THREAD_DELETED) && (get_trust(ch) < SUPREME))
-        return FALSE;
+        return false;
     if (IS_SET(t->flags, THREAD_IMMORTAL_ONLY) && !IS_IMMORTAL(ch))
-        return FALSE;
+        return false;
     if (IS_SET(t->flags, THREAD_IMPLEMENTOR_ONLY) && (get_trust(ch) < IMPLEMENTOR))
-        return FALSE;
+        return false;
     if (IS_SET(t->flags, THREAD_CLAN_ONLY) && !IS_IMMORTAL(ch)
         && !(ch->pcdata->pcclan && (is_name(t->subject, ch->pcdata->pcclan->clan->name))))
-        return FALSE;
-    return TRUE;
+        return false;
+    return true;
 }
 
 bool can_write_thread(CHAR_DATA *ch, THREAD *t) {
     if (IS_NPC(ch))
-        return FALSE;
+        return false;
     if (IS_SET(t->flags, THREAD_DELETED))
-        return FALSE;
+        return false;
     if (IS_SET(t->flags, THREAD_READ_ONLY) && !IS_IMMORTAL(ch))
-        return FALSE;
-    return TRUE;
+        return false;
+    return true;
 }

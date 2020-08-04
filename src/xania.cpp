@@ -678,9 +678,9 @@ bool web_see(CHAR_DATA *ch) {
 
     if (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL) || IS_SET(ch->act, PLR_AFK)
         || IS_AFFECTED(ch, AFF_INVISIBLE) || IS_AFFECTED(ch, AFF_SNEAK) || IS_AFFECTED(ch, AFF_HIDE))
-        return FALSE;
+        return false;
     else
-        return TRUE;
+        return true;
 }
 
 void web_who(void) {
@@ -732,7 +732,7 @@ void load_tipfile(void) {
 
     if ((fp = fopen(TIPWIZARD_FILE, "r")) == NULL) {
         bug("Couldn't open tip file \'%s\' for reading", TIPWIZARD_FILE);
-        ignore_tips = TRUE;
+        ignore_tips = true;
         return;
     }
     for (;;) {
@@ -746,7 +746,7 @@ void load_tipfile(void) {
             fclose(fp);
             bug("Loaded %d tips", tipcount); /* not really a bug! */
             if (tipcount == 0)
-                ignore_tips = TRUE; /* don't bother polling the tip loop*/
+                ignore_tips = true; /* don't bother polling the tip loop*/
             tip_current = tip_top;
             return;
         }
@@ -777,7 +777,7 @@ void tip_players(void) {
         tip_current = tip_top; /* send us back to top of list */
 
     if (tip_top == NULL) { /* we didn't load a tip file so ignore */
-        ignore_tips = TRUE;
+        ignore_tips = true;
         return;
     }
     if (tip_current->tip == NULL) {

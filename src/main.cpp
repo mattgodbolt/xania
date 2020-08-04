@@ -8,9 +8,9 @@
 #include <unistd.h>
 
 /* SIGTRAP on/off */
-bool debug = FALSE;
+bool debug = false;
 /* check the mobs/objects */
-bool printinfo = FALSE;
+bool printinfo = false;
 
 extern char str_boot_time[];
 
@@ -53,10 +53,10 @@ int main(int argc, char **argv) {
         int num = 1;
         if (*argv[num] == '-') {
             num++;
-            debug = TRUE;
+            debug = true;
         } else if (*argv[num] == 'L') {
             num++;
-            printinfo = TRUE;
+            printinfo = true;
         } else if (is_number(argv[num])) {
             port = atoi(argv[num]);
         }

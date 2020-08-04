@@ -197,7 +197,7 @@ int hit_gain(CHAR_DATA *ch) {
         if (number < get_skill_learned(ch, gsn_fast_healing)) {
             gain += number * gain / 100;
             if (ch->hit < ch->max_hit)
-                check_improve(ch, gsn_fast_healing, TRUE, 8);
+                check_improve(ch, gsn_fast_healing, true, 8);
         }
 
         switch (ch->position) {
@@ -246,7 +246,7 @@ int mana_gain(CHAR_DATA *ch) {
         if (number < get_skill_learned(ch, gsn_meditation)) {
             gain += number * gain / 100;
             if (ch->mana < ch->max_mana)
-                check_improve(ch, gsn_meditation, TRUE, 8);
+                check_improve(ch, gsn_meditation, true, 8);
         }
         gain = (gain * class_table[ch->class_num].fMana) / 6;
 
@@ -557,7 +557,7 @@ void move_idle_char_to_limbo(CHAR_DATA *ch) {
         if (ch->was_in_room == NULL && ch->in_room != NULL) {
             ch->was_in_room = ch->in_room;
             if (ch->fighting != NULL)
-                stop_fighting(ch, TRUE);
+                stop_fighting(ch, true);
             act("$n disappears into the void.", ch, NULL, NULL, TO_ROOM);
             send_to_char("You disappear into the void.\n\r", ch);
             if (ch->level > 1)
@@ -566,7 +566,7 @@ void move_idle_char_to_limbo(CHAR_DATA *ch) {
             char_to_room(ch, get_room_index(ROOM_VNUM_LIMBO));
             if (ch->pet) { /* move pets too */
                 if (ch->pet->fighting)
-                    stop_fighting(ch->pet, TRUE);
+                    stop_fighting(ch->pet, true);
                 act("$n flickers and phases out", ch->pet, NULL, NULL, TO_ROOM);
                 ch->pet->was_in_room = ch->pet->in_room;
                 char_from_room(ch->pet);
@@ -685,7 +685,7 @@ void char_update(void) {
         if (IS_NPC(ch) && ch->pIndexData->vnum == MOB_VNUM_ZOMBIE) {
             if (number_percent() > 90) {
                 act("$n fits violently before decaying in to a pile of dust.", ch, NULL, NULL, TO_ROOM);
-                extract_char(ch, TRUE);
+                extract_char(ch, true);
                 continue;
             }
         }
@@ -916,7 +916,7 @@ void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
     CHAR_DATA *victim;
     int count;
     char buf[MAX_STRING_LENGTH];
-    bool shout = FALSE;
+    bool shout = false;
 
     if (IS_SET(ch->act, ACT_SENTIENT) && ch->fighting == NULL && !IS_AFFECTED(ch, AFF_CALM) && IS_AWAKE(ch)
         && !IS_AFFECTED(ch, AFF_CHARM) && can_see(ch, wch)) {
@@ -929,7 +929,7 @@ void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
                 return;
             snprintf(buf, sizeof(buf), "|WAha! I never forget a face, prepare to die %s!!!|w", wch->name);
             if (IS_SET(ch->comm, COMM_NOSHOUT)) {
-                shout = TRUE;
+                shout = true;
                 REMOVE_BIT(ch->comm, COMM_NOSHOUT);
             }
             do_yell(ch, buf);
@@ -977,14 +977,14 @@ void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
 bool is_safe_sentient(CHAR_DATA *ch, CHAR_DATA *wch) {
 
     char buf[MAX_STRING_LENGTH];
-    bool shout = FALSE;
+    bool shout = false;
 
     if (ch->in_room == NULL)
-        return FALSE;
+        return false;
     if (IS_SET(ch->in_room->room_flags, ROOM_SAFE)) {
         snprintf(buf, sizeof(buf), "|WIf it weren't for the law, you'd be dead meat %s!!!|w", wch->name);
         if (IS_SET(ch->comm, COMM_NOSHOUT)) {
-            shout = TRUE;
+            shout = true;
             REMOVE_BIT(ch->comm, COMM_NOSHOUT);
         }
         do_yell(ch, buf);
@@ -992,9 +992,9 @@ bool is_safe_sentient(CHAR_DATA *ch, CHAR_DATA *wch) {
             SET_BIT(ch->comm, COMM_NOSHOUT);
         free_string(ch->sentient_victim);
         ch->sentient_victim = str_dup("");
-        return TRUE;
+        return true;
     }
-    return FALSE;
+    return false;
 }
 
 /* This function resets the player count everyday */
@@ -1063,7 +1063,7 @@ void update_handler(void) {
         web_who();
 
         /* tip wizard */
-        if (ignore_tips == FALSE) /* once every two ticks */
+        if (ignore_tips == false) /* once every two ticks */
             tip_players();
     }
 
