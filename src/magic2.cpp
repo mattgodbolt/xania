@@ -32,7 +32,7 @@ void tornado_teleport(CHAR_DATA *ch, CHAR_DATA *victim) {
 
     for (;;) {
         pRoomIndex = get_room_index(number_range(0, 65535));
-        if (pRoomIndex != NULL)
+        if (pRoomIndex != nullptr)
             if (can_see_room(ch, pRoomIndex) && !IS_SET(pRoomIndex->room_flags, ROOM_PRIVATE)
                 && !IS_SET(pRoomIndex->room_flags, ROOM_SOLITARY))
                 break;
@@ -41,17 +41,18 @@ void tornado_teleport(CHAR_DATA *ch, CHAR_DATA *victim) {
     if (victim != ch)
         send_to_char("You are sucked helplessly into the tornado....\n\r", victim);
 
-    act("$n is consumed by the tornado and vanishes!", victim, NULL, NULL, TO_ROOM);
+    act("$n is consumed by the tornado and vanishes!", victim, nullptr, nullptr, TO_ROOM);
     char_from_room(victim);
     char_to_room(victim, pRoomIndex);
     send_to_char("...you appear to have been blown to another part of Xania!", victim);
 
     if (!ch->riding) {
-        act("$n is blown into the room by a sudden blast of wind.", victim, NULL, NULL, TO_ROOM);
+        act("$n is blown into the room by a sudden blast of wind.", victim, nullptr, nullptr, TO_ROOM);
     } else {
-        act("$n is blown into the room by a blast of wind, about 5 feet off the ground!", victim, NULL, NULL, TO_ROOM);
-        act("$n falls to the ground with a thud!", victim, NULL, NULL, TO_ROOM);
-        act("You fall to the ground with a thud!", victim, NULL, NULL, TO_CHAR);
+        act("$n is blown into the room by a blast of wind, about 5 feet off the ground!", victim, nullptr, nullptr,
+            TO_ROOM);
+        act("$n falls to the ground with a thud!", victim, nullptr, nullptr, TO_ROOM);
+        act("You fall to the ground with a thud!", victim, nullptr, nullptr, TO_CHAR);
         fallen_off_mount(ch);
     } /* end ride check */
     do_look(victim, "auto");
@@ -128,39 +129,39 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
     }
 
     if (check_immune(victim, DAM_MENTAL) == IS_IMMUNE) {
-        act("The great mental fortitude of $N deflects your psychic blast!", ch, NULL, victim, TO_CHAR);
+        act("The great mental fortitude of $N deflects your psychic blast!", ch, nullptr, victim, TO_CHAR);
         act("$n attempts to unleash a psychic blast upon $N, but $s efforts backfire with\n\rcatastrophic effects!", ch,
-            NULL, victim, TO_NOTVICT);
-        act("$n attempts to unleash a psychic blast upon you, but your mental fortitude\n\rdeflects it.", ch, NULL,
+            nullptr, victim, TO_NOTVICT);
+        act("$n attempts to unleash a psychic blast upon you, but your mental fortitude\n\rdeflects it.", ch, nullptr,
             victim, TO_VICT);
 
         /* HIT THE BASTARD! */
         tornado_dam(victim, ch, ch->level);
         tornado_mental(victim, ch, ch->level);
         send_to_char("You feel sick and disorientated.\n\r", ch);
-        act("$n is knocked to the ground and stunned.", ch, NULL, victim, TO_ROOM);
+        act("$n is knocked to the ground and stunned.", ch, nullptr, victim, TO_ROOM);
         return;
     } else {
-        act("You summon all of your psychic powers and unleash them upon $N!", ch, NULL, victim, TO_CHAR);
+        act("You summon all of your psychic powers and unleash them upon $N!", ch, nullptr, victim, TO_CHAR);
 
-        act("You detect a surge of psychic energy as $n unleashes his will upon $N!", ch, NULL, victim, TO_NOTVICT);
+        act("You detect a surge of psychic energy as $n unleashes his will upon $N!", ch, nullptr, victim, TO_NOTVICT);
 
-        act("A terrifying grimace appears on $n's face as $s unleashes a powerful psychic\n\rblast upon you!", ch, NULL,
-            victim, TO_VICT);
+        act("A terrifying grimace appears on $n's face as $s unleashes a powerful psychic\n\rblast upon you!", ch,
+            nullptr, victim, TO_VICT);
 
         tornado_dam(ch, victim, ch->level);
         tornado_mental(ch, victim, ch->level);
         send_to_char("Your mighty blast spirals out of control, forming a towering tornado of psychic energy!\n\r", ch);
-        act("$n's psychic blast spirals into a |Rhuge|w tornado of energy!", ch, NULL, victim, TO_ROOM);
+        act("$n's psychic blast spirals into a |Rhuge|w tornado of energy!", ch, nullptr, victim, TO_ROOM);
 
         if (!IS_SET(victim->act, ACT_AGGRESSIVE)) {
             if (number_percent() > 75)
                 tornado_teleport(ch, victim);
         }
 
-        for (vch = char_list; vch != NULL; vch = vch_next) {
+        for (vch = char_list; vch != nullptr; vch = vch_next) {
             vch_next = vch->next;
-            if (vch->in_room == NULL)
+            if (vch->in_room == nullptr)
                 continue;
             if (vch->in_room == ch->in_room) {
                 if (vch != ch && !is_safe_spell(ch, vch, true) && (vch != victim)
@@ -178,11 +179,11 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
 
             pexit = ch->in_room->exit[direction];
 
-            if (pexit != NULL) {
+            if (pexit != nullptr) {
                 room = pexit->u1.to_room;
-                if (room != NULL) {
+                if (room != nullptr) {
 
-                    for (current_person = room->people; current_person != NULL; current_person = next_person) {
+                    for (current_person = room->people; current_person != nullptr; current_person = next_person) {
                         next_person = current_person->next_in_room;
 
                         send_to_char("Suddenly, a gale of psychic energy blows through the room!\n\r", current_person);
@@ -227,7 +228,7 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
 //    float zScale;
 //
 //    zIndex = get_mob_index (MOB_VNUM_ZOMBIE);
-//    if (zIndex == NULL) {
+//    if (zIndex == nullptr) {
 // bug ("Unable to find a zombie mob in spell_raise_dead!");
 // send_to_char ("Urk!  Something terrible has happened!\n\r", ch);
 // return;
@@ -265,7 +266,7 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
  * Do some sparks and fizzes XXX
  */
 //      act ("$n calls upon black magic to raise the dead!\n\rThe $p comes to life as a zombie!",
-//   ch, victim, NULL, TO_ROOM);
+//   ch, victim, nullptr, TO_ROOM);
 //    send_to_char ("You disturb the slumber of a corpse!\n\r", ch);
 //
 /* and now make this zombie a member of the group */
@@ -281,8 +282,8 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
 //    af.modifier  = 0;
 //    af.bitvector = AFF_CHARM;
 //    affect_to_char( zombie, &af );
-//    act( "Isn't $n just so nice?", ch, NULL, victim, TO_VICT );
-//    act("$N gazes at you through blood-chilling eye sockets.",ch,NULL,zombie,TO_CHAR);
+//    act( "Isn't $n just so nice?", ch, nullptr, victim, TO_VICT );
+//    act("$N gazes at you through blood-chilling eye sockets.",ch,nullptr,zombie,TO_CHAR);
 //
 /*
  * Equip the zombie with the corpse contents

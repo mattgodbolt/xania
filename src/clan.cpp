@@ -66,11 +66,11 @@ void do_clantalk(CHAR_DATA *ch, char *argument) {
         if (ch->desc->original)
             OrigClan = ch->desc->original->pcdata->pcclan;
         else
-            OrigClan = NULL;
+            OrigClan = nullptr;
     } else
         OrigClan = ch->pcdata->pcclan;
 
-    if (OrigClan == NULL) {
+    if (OrigClan == nullptr) {
         send_to_char("You are not a member of a clan.\n\r", ch);
         return; /* Disallow mortal PC's with no clan */
     } /* if ch->pcclan */
@@ -113,7 +113,7 @@ void do_clantalk(CHAR_DATA *ch, char *argument) {
     }
 
     if (IS_SET(ch->act, PLR_AFK))
-        do_afk(ch, NULL);
+        do_afk(ch, nullptr);
 
     if (!OrigClan->channelflags) {
         OrigClan->channelflags ^= CLANCHANNEL_ON;
@@ -146,21 +146,21 @@ void do_noclanchan(CHAR_DATA *ch, char *argument) {
         return;
 
     if ((get_trust(ch) > (MAX_LEVEL - 5))
-        || ((ch->pcdata->pcclan != NULL) && (ch->pcdata->pcclan->clanlevel > CLAN_HERO))) {
+        || ((ch->pcdata->pcclan != nullptr) && (ch->pcdata->pcclan->clanlevel > CLAN_HERO))) {
     } else {
         send_to_char("Huh?\n\r", ch);
         return;
     }
 
     victim = get_char_world(ch, argument);
-    if ((victim == NULL) || IS_NPC(victim)) {
+    if ((victim == nullptr) || IS_NPC(victim)) {
         send_to_char("They're not here.\n\r", ch);
         return;
     } /* If can't find victim */
 
     /* Check if victim is same clan, and not higher status */
 
-    if ((victim->pcdata->pcclan == NULL) /* If the victim is not in any clan */
+    if ((victim->pcdata->pcclan == nullptr) /* If the victim is not in any clan */
         || (victim->pcdata->pcclan->clan->clanchar != ch->pcdata->pcclan->clan->clanchar) /* or in a different clan */
         || (victim->pcdata->pcclan->clanlevel > ch->pcdata->pcclan->clanlevel)) /* or they're a higher rank */
     {
@@ -201,7 +201,7 @@ void do_member(CHAR_DATA *ch, char *argument) {
     if (IS_NPC(ch))
         return;
 
-    if ((ch->pcdata->pcclan == NULL) || (ch->pcdata->pcclan->clanlevel < CLAN_LEADER)) {
+    if ((ch->pcdata->pcclan == nullptr) || (ch->pcdata->pcclan->clanlevel < CLAN_LEADER)) {
         send_to_char("Huh?\n\r", ch); /* Cheesy cheat */
         return;
     } /* If not priveledged enough */
@@ -213,7 +213,7 @@ void do_member(CHAR_DATA *ch, char *argument) {
     }
 
     victim = get_char_room(ch, argument);
-    if ((victim == NULL) || IS_NPC(victim)) {
+    if ((victim == nullptr) || IS_NPC(victim)) {
         send_to_char("You can't see them here.\n\r", ch);
         return;
     }
@@ -252,7 +252,7 @@ void do_member(CHAR_DATA *ch, char *argument) {
         newpcclan->channelflags = CLANCHANNEL_ON;
         victim->pcdata->pcclan = newpcclan; /* dan-ar! */
         snprintf(buf, sizeof(buf), "%s welcomes %s to the %s", ch->name, victim->name, ch->pcdata->pcclan->clan->name);
-        act(buf, ch, NULL, victim, TO_NOTVICT);
+        act(buf, ch, nullptr, victim, TO_NOTVICT);
         snprintf(buf, sizeof(buf), "You have become %s of the %s.\n\r",
                  ch->pcdata->pcclan->clan->levelname[CLAN_MEMBER], ch->pcdata->pcclan->clan->name);
         send_to_char(buf, victim);
@@ -261,16 +261,16 @@ void do_member(CHAR_DATA *ch, char *argument) {
         send_to_char(buf, ch);
     } else { /* End adding member */
         /* Removing a person from a clan */
-        if ((victim->pcdata->pcclan == NULL)
+        if ((victim->pcdata->pcclan == nullptr)
             || (victim->pcdata->pcclan->clan->clanchar != ch->pcdata->pcclan->clan->clanchar)) {
             snprintf(buf, sizeof(buf), "%s is not a member of your clan.\n\r", victim->name);
             send_to_char(buf, ch);
             return;
         } /* If not in clan */
         free_mem(victim->pcdata->pcclan, sizeof(PCCLAN));
-        victim->pcdata->pcclan = NULL;
+        victim->pcdata->pcclan = nullptr;
         snprintf(buf, sizeof(buf), "%s removes %s from the %s", ch->name, victim->name, ch->pcdata->pcclan->clan->name);
-        act(buf, ch, NULL, victim, TO_NOTVICT);
+        act(buf, ch, nullptr, victim, TO_NOTVICT);
         snprintf(buf, sizeof(buf), "You have been discharged from the %s.\n\r", ch->pcdata->pcclan->clan->name);
         send_to_char(buf, victim);
         snprintf(buf, sizeof(buf), "You remove %s from the %s.\n\r", victim->name, ch->pcdata->pcclan->clan->name);
@@ -287,13 +287,13 @@ void mote(CHAR_DATA *ch, char *argument, int add) {
     if (IS_NPC(ch))
         return;
 
-    if ((ch->pcdata->pcclan == NULL) || (ch->pcdata->pcclan->clanlevel < CLAN_LEADER)) {
+    if ((ch->pcdata->pcclan == nullptr) || (ch->pcdata->pcclan->clanlevel < CLAN_LEADER)) {
         send_to_char("Huh?\n\r", ch); /* Cheesy cheat */
         return;
     } /* If not priveledged enough */
 
     victim = get_char_room(ch, argument);
-    if (victim == NULL) {
+    if (victim == nullptr) {
         send_to_char("You can't see them here.\n\r", ch);
         return;
     } /* can see? */
@@ -303,7 +303,7 @@ void mote(CHAR_DATA *ch, char *argument, int add) {
         return;
     }
 
-    if ((victim->pcdata->pcclan == NULL)
+    if ((victim->pcdata->pcclan == nullptr)
         || (victim->pcdata->pcclan->clan->clanchar != ch->pcdata->pcclan->clan->clanchar)) {
         send_to_char("You don't have authority to promote or demote them.\n\r", ch);
         return;
@@ -324,7 +324,7 @@ void mote(CHAR_DATA *ch, char *argument, int add) {
     snprintf(buf, sizeof(buf), "$n is now %s of the %s.",
              victim->pcdata->pcclan->clan->levelname[victim->pcdata->pcclan->clanlevel],
              victim->pcdata->pcclan->clan->name);
-    act(buf, victim, NULL, NULL, TO_ROOM);
+    act(buf, victim, nullptr, nullptr, TO_ROOM);
     snprintf(buf, sizeof(buf), "You are now %s of the %s.\n\r",
              victim->pcdata->pcclan->clan->levelname[victim->pcdata->pcclan->clanlevel],
              victim->pcdata->pcclan->clan->name);
@@ -397,7 +397,7 @@ void do_clanset(CHAR_DATA *ch, char *argument) {
         }
 
         victim = get_char_world(ch, arg1);
-        if ((victim == NULL) || (IS_NPC(victim))) {
+        if ((victim == nullptr) || (IS_NPC(victim))) {
             send_to_char("They're not here.\n\r", ch);
             return;
         }
@@ -453,7 +453,7 @@ void do_clanset(CHAR_DATA *ch, char *argument) {
             /* Removing a person from a clan */
 
         case '-': {
-            if ((victim->pcdata->pcclan == NULL)) {
+            if ((victim->pcdata->pcclan == nullptr)) {
                 snprintf(buf, sizeof(buf), "%s is not a member of a clan.\n\r", victim->name);
                 send_to_char(buf, ch);
                 return;
@@ -461,7 +461,7 @@ void do_clanset(CHAR_DATA *ch, char *argument) {
             strcpy(buf2, victim->pcdata->pcclan->clan->name);
 
             free_mem(victim->pcdata->pcclan, sizeof(PCCLAN));
-            victim->pcdata->pcclan = NULL;
+            victim->pcdata->pcclan = nullptr;
             snprintf(buf, sizeof(buf), "You remove %s from the %s.\n\r", victim->name, buf2);
             send_to_char(buf, ch);
             return;
@@ -477,7 +477,7 @@ void do_clanset(CHAR_DATA *ch, char *argument) {
             return;
         }
         victim = get_char_world(ch, arg1);
-        if ((victim == NULL) || (IS_NPC(victim))) {
+        if ((victim == nullptr) || (IS_NPC(victim))) {
             send_to_char("They're not here.\n\r", ch);
             return;
         }
@@ -487,7 +487,7 @@ void do_clanset(CHAR_DATA *ch, char *argument) {
             return;
         }
 
-        if (victim->pcdata->pcclan == NULL) {
+        if (victim->pcdata->pcclan == nullptr) {
             snprintf(buf, sizeof(buf), "%s is not in a clan.\n\r", victim->name);
             send_to_char(buf, ch);
             return;

@@ -133,7 +133,7 @@ int numeric_lookup_check(const char *name, int max) {
 int position_lookup(const char *name) {
     int pos;
 
-    for (pos = 0; position_table[pos].name != NULL; pos++) {
+    for (pos = 0; position_table[pos].name != nullptr; pos++) {
         if (LOWER(name[0]) == LOWER(position_table[pos].name[0]) && !str_prefix(name, position_table[pos].name))
             return pos;
     }
@@ -152,7 +152,7 @@ int position_lookup(const char *name) {
 int sex_lookup(const char *name) {
     int sex;
 
-    for (sex = 0; sex_table[sex].name != NULL; sex++) {
+    for (sex = 0; sex_table[sex].name != nullptr; sex++) {
         if (LOWER(name[0]) == LOWER(sex_table[sex].name[0]) && !str_prefix(name, sex_table[sex].name))
             return sex_table[sex].sex;
     }
@@ -168,7 +168,7 @@ int sex_lookup(const char *name) {
 int size_lookup(const char *name) {
     int size;
 
-    for (size = 0; size_table[size].name != NULL; size++) {
+    for (size = 0; size_table[size].name != nullptr; size++) {
         if (LOWER(name[0]) == LOWER(size_table[size].name[0]) && !str_prefix(name, size_table[size].name))
             return size;
     }
@@ -185,7 +185,7 @@ int size_lookup(const char *name) {
 int attack_lookup(const char *name) {
     int att;
 
-    for (att = 0; attack_table[att].name != NULL; att++) {
+    for (att = 0; attack_table[att].name != nullptr; att++) {
         if (LOWER(name[0]) == LOWER(attack_table[att].name[0]) && !str_prefix(name, attack_table[att].name))
             return att;
     }
@@ -201,7 +201,7 @@ int attack_lookup(const char *name) {
 
 int item_lookup_impl(const char *name) {
     int type;
-    for (type = 0; item_table[type].name != NULL; type++) {
+    for (type = 0; item_table[type].name != nullptr; type++) {
         if (LOWER(name[0]) == LOWER(item_table[type].name[0]) && !str_prefix(name, item_table[type].name))
             return item_table[type].type;
     }
@@ -234,7 +234,7 @@ int item_lookup_strict(const char *name) { return item_lookup_impl(name); }
 int liq_lookup(const char *name) {
     int liq;
 
-    for (liq = 0; liq_table[liq].liq_name != NULL; liq++) {
+    for (liq = 0; liq_table[liq].liq_name != nullptr; liq++) {
         if (LOWER(name[0]) == LOWER(liq_table[liq].liq_name[0]) && !str_prefix(name, liq_table[liq].liq_name))
             return liq;
     }
@@ -251,7 +251,7 @@ int liq_lookup(const char *name) {
 int weapon_lookup(const char *name) {
     int type;
 
-    for (type = 0; weapon_table[type].name != NULL; type++) {
+    for (type = 0; weapon_table[type].name != nullptr; type++) {
         if (LOWER(name[0]) == LOWER(weapon_table[type].name[0]) && !str_prefix(name, weapon_table[type].name))
             return type;
     }
@@ -272,7 +272,7 @@ int skill_lookup(const char *name) {
     int sn;
 
     for (sn = 0; sn < MAX_SKILL; sn++) {
-        if (skill_table[sn].name == NULL)
+        if (skill_table[sn].name == nullptr)
             break;
         if (LOWER(name[0]) == LOWER(skill_table[sn].name[0]) && !str_prefix(name, skill_table[sn].name))
             return sn;
@@ -310,7 +310,7 @@ int slot_lookup(int slot) {
 int weapon_type(const char *name) {
     int type;
 
-    for (type = 0; weapon_table[type].name != NULL; type++) {
+    for (type = 0; weapon_table[type].name != nullptr; type++) {
         if (LOWER(name[0]) == LOWER(weapon_table[type].name[0]) && !str_prefix(name, weapon_table[type].name))
             return weapon_table[type].type;
     }

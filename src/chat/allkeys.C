@@ -7,16 +7,16 @@
 
 akeynode *allkeys::addkey() {
     akeynode *newone;
-    if ((newone = new akeynode) == NULL) {
+    if ((newone = new akeynode) == nullptr) {
 #ifdef CHECKMEM
         puts("out of mem in allkeys::addkey()");
 #endif
-        return NULL;
+        return nullptr;
     }
-    if (top != NULL)
+    if (top != nullptr)
         top->next = newone;
     current = top = newone;
-    top->next = NULL;
+    top->next = nullptr;
     if (numkeys == 0)
         first = top;
     numkeys++;
@@ -26,7 +26,7 @@ akeynode *allkeys::addkey() {
 akeynode *allkeys::reset() { return (current = first); }
 
 akeynode *allkeys::advance() {
-    if (current != NULL) {
+    if (current != nullptr) {
         current = current->next;
     } else {
 #ifdef DEBUG
@@ -37,10 +37,10 @@ akeynode *allkeys::advance() {
 }
 
 allkeys::~allkeys() {
-    if (first != NULL) {
+    if (first != nullptr) {
         reset();
         /*		do{
                                 delete current;
-                                }while(advance()!=NULL); */
+                                }while(advance()!=nullptr); */
     }
 }

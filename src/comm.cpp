@@ -121,7 +121,7 @@ void SetEchoState(DESCRIPTOR_DATA *d, int on) {
     p.type = on ? PACKET_ECHO_ON : PACKET_ECHO_OFF;
     p.channel = d->descriptor;
     p.nExtra = 0;
-    SendPacket(&p, NULL);
+    SendPacket(&p, nullptr);
 }
 
 /* where we're asked nicely to quit from the outside (mudmgr or OS) */
@@ -133,7 +133,7 @@ void handle_signal_shutdown() {
     log_string("Signal shutdown received");
 
     /* ask everyone to save! */
-    for (vch = char_list; vch != NULL; vch = vch_next) {
+    for (vch = char_list; vch != nullptr; vch = vch_next) {
         vch_next = vch->next;
 
         // vch->d->c check added by TM to avoid crashes when
@@ -148,7 +148,7 @@ void handle_signal_shutdown() {
         }
     }
     merc_down = true;
-    for (d = descriptor_list; d != NULL; d = d_next) {
+    for (d = descriptor_list; d != nullptr; d = d_next) {
         d_next = d->next;
         close_socket(d);
     }
@@ -244,14 +244,14 @@ void game_loop_unix(int control) {
     sigemptyset(&signals);
     sigaddset(&signals, SIGTERM);
     sigaddset(&signals, SIGINT);
-    sigprocmask(SIG_BLOCK, &signals, NULL);
+    sigprocmask(SIG_BLOCK, &signals, nullptr);
     int signal_fd = signalfd(-1, &signals, SFD_NONBLOCK);
     if (signal_fd < 0) {
         perror("signal_fd");
         return;
     }
 
-    gettimeofday(&last_time, NULL);
+    gettimeofday(&last_time, nullptr);
     current_time = (time_t)last_time.tv_sec;
 
     /* Main loop */
@@ -310,7 +310,7 @@ void game_loop_unix(int control) {
                 log_string("Doorman has connected.");
                 pInit.nExtra = pInit.channel = 0;
                 pInit.type = PACKET_INIT;
-                SendPacket(&pInit, NULL);
+                SendPacket(&pInit, nullptr);
             }
         }
 
@@ -424,7 +424,7 @@ void game_loop_unix(int control) {
                         for (d = descriptor_list; d; d = d->next) {
                             if (d->descriptor == p.channel) {
                                 ok = 1;
-                                if (d->character != NULL)
+                                if (d->character != nullptr)
                                     d->character->timer = 0;
                                 read_from_descriptor(d, buffer, p.nExtra);
                             }
@@ -480,12 +480,12 @@ void game_loop_unix(int control) {
          */
         if (doormanDesc) {
             DESCRIPTOR_DATA *d;
-            for (d = descriptor_list; d != NULL; d = d_next) {
+            for (d = descriptor_list; d != nullptr; d = d_next) {
                 d_next = d->next;
 
                 if ((d->fcommand || d->outtop > 0)) {
                     if (!process_output(d, true)) {
-                        if (d->character != NULL && d->character->level > 1)
+                        if (d->character != nullptr && d->character->level > 1)
                             save_char_obj(d->character);
                         d->outtop = 0;
                         close_socket(d);
@@ -504,7 +504,7 @@ void game_loop_unix(int control) {
             long secDelta;
             long usecDelta;
 
-            gettimeofday(&now_time, NULL);
+            gettimeofday(&now_time, nullptr);
             usecDelta = ((int)last_time.tv_usec) - ((int)now_time.tv_usec) + 1000000 / PULSE_PER_SECOND;
             secDelta = ((int)last_time.tv_sec) - ((int)now_time.tv_sec);
             while (usecDelta < 0) {
@@ -522,14 +522,14 @@ void game_loop_unix(int control) {
 
                 stall_time.tv_usec = usecDelta;
                 stall_time.tv_sec = secDelta;
-                if (select(0, NULL, NULL, NULL, &stall_time) < 0) {
+                if (select(0, nullptr, nullptr, nullptr, &stall_time) < 0) {
                     perror("Game_loop: select: stall");
                     exit(1);
                 }
             }
         }
 
-        gettimeofday(&last_time, NULL);
+        gettimeofday(&last_time, nullptr);
         current_time = (time_t)last_time.tv_sec;
     }
 }
@@ -541,7 +541,7 @@ DESCRIPTOR_DATA *new_descriptor(int channel) {
     /*
      * Cons a new descriptor.
      */
-    if (descriptor_free == NULL) {
+    if (descriptor_free == nullptr) {
         dnew = alloc_perm(sizeof(*dnew));
     } else {
         dnew = descriptor_free;
@@ -551,8 +551,8 @@ DESCRIPTOR_DATA *new_descriptor(int channel) {
     *dnew = d_zero;
     dnew->descriptor = channel;
     dnew->connected = CON_GET_NAME;
-    dnew->showstr_head = NULL;
-    dnew->showstr_point = NULL;
+    dnew->showstr_head = nullptr;
+    dnew->showstr_point = nullptr;
     dnew->outsize = 2000;
     dnew->outbuf = alloc_mem(dnew->outsize);
     dnew->logintime = str_dup((char *)ctime(&current_time));
@@ -586,27 +586,27 @@ void close_socket(DESCRIPTOR_DATA *dclose) {
     if (dclose->outtop > 0)
         process_output(dclose, false);
 
-    if (dclose->snoop_by != NULL) {
+    if (dclose->snoop_by != nullptr) {
         write_to_buffer(dclose->snoop_by, "Your victim has left the game.\n\r", 0);
     }
 
     {
         DESCRIPTOR_DATA *d;
 
-        for (d = descriptor_list; d != NULL; d = d->next) {
+        for (d = descriptor_list; d != nullptr; d = d->next) {
             if (d->snoop_by == dclose)
-                d->snoop_by = NULL;
+                d->snoop_by = nullptr;
         }
     }
 
-    if ((ch = dclose->character) != NULL) {
+    if ((ch = dclose->character) != nullptr) {
         do_chal_canc(ch);
         snprintf(log_buf, LOG_BUF_SIZE, "Closing link to %s.", ch->name);
         log_new(log_buf, EXTRA_WIZNET_DEBUG,
                 (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)) ? get_trust(ch) : 0);
         if (dclose->connected == CON_PLAYING || dclose->connected == CON_DISCONNECTING) {
-            act("$n has lost $s link.", ch, NULL, NULL, TO_ROOM);
-            ch->desc = NULL;
+            act("$n has lost $s link.", ch, nullptr, nullptr, TO_ROOM);
+            ch->desc = nullptr;
         } else {
             free_char(dclose->original ? dclose->original : dclose->character);
         }
@@ -629,7 +629,7 @@ void close_socket(DESCRIPTOR_DATA *dclose) {
 
         for (d = descriptor_list; d && d->next != dclose; d = d->next)
             ;
-        if (d != NULL)
+        if (d != nullptr)
             d->next = dclose->next;
         else
             bug("Close_socket: dclose not found.");
@@ -643,7 +643,7 @@ void close_socket(DESCRIPTOR_DATA *dclose) {
     }
     p.channel = dclose->descriptor;
     p.nExtra = 0;
-    SendPacket(&p, NULL);
+    SendPacket(&p, nullptr);
 
     free_string(dclose->host);
     /* RT socket leak fix -- I hope */
@@ -767,7 +767,7 @@ bool process_output(DESCRIPTOR_DATA *d, bool fPrompt) {
         ch = d->character;
 
         /* battle prompt */
-        if ((victim = ch->fighting) != NULL) {
+        if ((victim = ch->fighting) != nullptr) {
             int percent;
             char wound[100];
             char buf[MAX_STRING_LENGTH];
@@ -822,8 +822,8 @@ bool process_output(DESCRIPTOR_DATA *d, bool fPrompt) {
     /*
      * Snoop-o-rama.
      */
-    if (d->snoop_by != NULL) {
-        if (d->character != NULL) {
+    if (d->snoop_by != nullptr) {
+        if (d->character != nullptr) {
             write_to_buffer(d->snoop_by, d->character->name, 0);
 
             write_to_buffer(d->snoop_by, "> ", 2);
@@ -955,7 +955,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
         /*      for ( ch = char_list ; ch ; ch=ch->next ) {
                  if ( !IS_NPC(ch) &&
                  (!str_cmp(ch->name,argument)) &&
-                 (ch->desc != NULL) ) {
+                 (ch->desc != nullptr) ) {
                     write_to_buffer( d, "Illegal name, try another.\n\rName: ", 0 );
                     return;
                  }
@@ -1061,9 +1061,9 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
         switch (*argument) {
         case 'y':
         case 'Y':
-            for (d_old = descriptor_list; d_old != NULL; d_old = d_next) {
+            for (d_old = descriptor_list; d_old != nullptr; d_old = d_next) {
                 d_next = d_old->next;
-                if (d_old == d || d_old->character == NULL)
+                if (d_old == d || d_old->character == nullptr)
                     continue;
 
                 if (str_cmp(ch->name, d_old->character->name))
@@ -1074,9 +1074,9 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
             if (check_reconnect(d, ch->name, true))
                 return;
             write_to_buffer(d, "Reconnect attempt failed.\n\rName: ", 0);
-            if (d->character != NULL) {
+            if (d->character != nullptr) {
                 free_char(d->character);
-                d->character = NULL;
+                d->character = nullptr;
             }
             d->connected = CON_GET_NAME;
             break;
@@ -1084,9 +1084,9 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
         case 'n':
         case 'N':
             write_to_buffer(d, "Name: ", 0);
-            if (d->character != NULL) {
+            if (d->character != nullptr) {
                 free_char(d->character);
-                d->character = NULL;
+                d->character = nullptr;
             }
             d->connected = CON_GET_NAME;
             break;
@@ -1110,7 +1110,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
         case 'N':
             write_to_buffer(d, "Ack! Amateurs! Try typing it in properly: ", 0);
             free_char(d->character);
-            d->character = NULL;
+            d->character = nullptr;
             d->connected = CON_GET_NAME;
             break;
 
@@ -1195,7 +1195,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
 
         SetEchoState(d, 1);
         write_to_buffer(d, "The following races are available:\n\r  ", 0);
-        for (race = 1; race_table[race].name != NULL; race++) {
+        for (race = 1; race_table[race].name != nullptr; race++) {
             if (!race_table[race].pc_race)
                 break;
             write_to_buffer(d, race_table[race].name, 0);
@@ -1224,7 +1224,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
         if (race == 0 || !race_table[race].pc_race) {
             write_to_buffer(d, "That is not a valid race.\n\r", 0);
             write_to_buffer(d, "The following races are available:\n\r  ", 0);
-            for (race = 1; race_table[race].name != NULL; race++) {
+            for (race = 1; race_table[race].name != nullptr; race++) {
                 if (!race_table[race].pc_race)
                     break;
                 write_to_buffer(d, race_table[race].name, 0);
@@ -1248,7 +1248,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
 
         /* add skills */
         for (i = 0; i < 5; i++) {
-            if (pc_race_table[race].skills[i] == NULL)
+            if (pc_race_table[race].skills[i] == nullptr)
                 break;
             group_add(ch, pc_race_table[race].skills[i], false);
         }
@@ -1442,7 +1442,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
             /* turn on the newbie's tips */
             set_extra(ch, EXTRA_TIP_WIZARD);
 
-        } else if (ch->in_room != NULL) {
+        } else if (ch->in_room != nullptr) {
             char_to_room(ch, ch->in_room);
         } else if (IS_IMMORTAL(ch)) {
             char_to_room(ch, get_room_index(ROOM_VNUM_CHAT));
@@ -1452,13 +1452,13 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
 
         snprintf(log_buf, LOG_BUF_SIZE, "|W### |P%s|W has entered the game.|w", ch->name);
         announce(log_buf, ch);
-        act("|P$n|W has entered the game.", ch, NULL, NULL, TO_ROOM);
+        act("|P$n|W has entered the game.", ch, nullptr, nullptr, TO_ROOM);
         do_look(ch, "auto");
 
         /* Rohan: code to increase the player count if needed - it was only
            updated if a player did count */
         count = 0;
-        for (de = descriptor_list; de != NULL; de = de->next)
+        for (de = descriptor_list; de != nullptr; de = de->next)
             if (de->connected == CON_PLAYING)
                 count++;
         max_on = UMAX(count, max_on);
@@ -1470,9 +1470,9 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
             ch->gold -= (ch->gold - 250000) / 2;
         }
 
-        if (ch->pet != NULL) {
+        if (ch->pet != nullptr) {
             char_to_room(ch->pet, ch->in_room);
-            act("|P$n|W has entered the game.", ch->pet, NULL, NULL, TO_ROOM);
+            act("|P$n|W has entered the game.", ch->pet, nullptr, nullptr, TO_ROOM);
         }
 
         /* check notes */
@@ -1546,7 +1546,7 @@ bool check_parse_name(char *name) {
         int iHash;
 
         for (iHash = 0; iHash < MAX_KEY_HASH; iHash++) {
-            for (pMobIndex = mob_index_hash[iHash]; pMobIndex != NULL; pMobIndex = pMobIndex->next) {
+            for (pMobIndex = mob_index_hash[iHash]; pMobIndex != nullptr; pMobIndex = pMobIndex->next) {
                 if (is_name(name, pMobIndex->player_name))
                     return false;
             }
@@ -1563,8 +1563,8 @@ bool check_reconnect(DESCRIPTOR_DATA *d, char *name, bool fConn) {
     (void)name;
     CHAR_DATA *ch;
 
-    for (ch = char_list; ch != NULL; ch = ch->next) {
-        if (!IS_NPC(ch) && (!fConn || ch->desc == NULL) && !str_cmp(d->character->name, ch->name)) {
+    for (ch = char_list; ch != nullptr; ch = ch->next) {
+        if (!IS_NPC(ch) && (!fConn || ch->desc == nullptr) && !str_cmp(d->character->name, ch->name)) {
             if (fConn == false) {
                 free_string(d->character->pcdata->pwd);
                 d->character->pcdata->pwd = str_dup(ch->pcdata->pwd);
@@ -1575,7 +1575,7 @@ bool check_reconnect(DESCRIPTOR_DATA *d, char *name, bool fConn) {
                 ch->desc = d;
                 ch->timer = 0;
                 send_to_char("Reconnecting.\n\r", ch);
-                act("$n has reconnected.", ch, NULL, NULL, TO_ROOM);
+                act("$n has reconnected.", ch, nullptr, nullptr, TO_ROOM);
                 snprintf(log_buf, LOG_BUF_SIZE, "%s@%s reconnected.", ch->name, get_masked_hostname(hostbuf, d->host));
                 log_new(log_buf, EXTRA_WIZNET_DEBUG,
                         ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? get_trust(ch) : 0);
@@ -1595,7 +1595,7 @@ bool check_playing(DESCRIPTOR_DATA *d, char *name) {
     DESCRIPTOR_DATA *dold;
 
     for (dold = descriptor_list; dold; dold = dold->next) {
-        if (dold != d && dold->character != NULL && dold->connected != CON_GET_NAME
+        if (dold != d && dold->character != nullptr && dold->connected != CON_GET_NAME
             && dold->connected != CON_GET_OLD_PASSWORD
             && !str_cmp(name, dold->original ? dold->original->name : dold->character->name)) {
             write_to_buffer(d, "That character is already playing.\n\r", 0);
@@ -1618,10 +1618,10 @@ void send_to_char(const char *txt, CHAR_DATA *ch) {
     const char *p;
     char *bufptr;
 
-    if (txt != NULL && ch->desc != NULL) {
+    if (txt != nullptr && ch->desc != nullptr) {
         if (!IS_NPC(ch) && (ch->pcdata->colour))
             colour = 1;
-        if (IS_NPC(ch) && (ch->desc->original != NULL) /* paranoia factor */
+        if (IS_NPC(ch) && (ch->desc->original != nullptr) /* paranoia factor */
             && (ch->desc->original->pcdata->colour))
             colour = 1;
 
@@ -1685,7 +1685,7 @@ void send_to_char(const char *txt, CHAR_DATA *ch) {
  * Send a page to one char.
  */
 void page_to_char(const char *txt, CHAR_DATA *ch) {
-    if (txt == NULL || ch->desc == NULL)
+    if (txt == nullptr || ch->desc == nullptr)
         return;
 
     ch->desc->showstr_head = alloc_mem(strlen(txt) + 1);
@@ -1769,13 +1769,13 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
     buf[0] = '\0';
 
     /* Discard null and zero-length messages. */
-    if (format == NULL || format[0] == '\0')
+    if (format == nullptr || format[0] == '\0')
         return;
 
     /* discard null rooms and chars */
-    if (ch == NULL || ch->in_room == NULL)
+    if (ch == nullptr || ch->in_room == nullptr)
         return;
-    if (type == TO_GIVENROOM && givenRoom == NULL) {
+    if (type == TO_GIVENROOM && givenRoom == nullptr) {
         bug("Act: null givenRoom with TO_GIVENROOM.");
         return;
     }
@@ -1786,19 +1786,19 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
         to = ch->in_room->people;
 
     if (type == TO_VICT) {
-        if (vch == NULL) {
+        if (vch == nullptr) {
             bug("Act: null vch with TO_VICT.");
             return;
         }
 
-        if (vch->in_room == NULL)
+        if (vch->in_room == nullptr)
             return;
 
         to = vch->in_room->people;
     }
 
-    for (; to != NULL; to = to->next_in_room) {
-        if (to->desc == NULL || to->position < min_pos)
+    for (; to != nullptr; to = to->next_in_room) {
+        if (to->desc == nullptr || to->position < min_pos)
             continue;
 
         if (type == TO_CHAR && to != ch)
@@ -1821,7 +1821,7 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
             }
             ++str;
 
-            if (arg2 == NULL && *str >= 'A' && *str <= 'Z') {
+            if (arg2 == nullptr && *str >= 'A' && *str <= 'Z') {
                 bug("Act: missing arg2 for code %d.", *str);
                 i = " <@@@> ";
             } else {
@@ -1847,7 +1847,7 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
                 case 'P': i = can_see_obj(to, obj2) ? obj2->short_descr : "something"; break;
 
                 case 'd':
-                    if (arg2 == NULL || ((char *)arg2)[0] == '\0') {
+                    if (arg2 == nullptr || ((char *)arg2)[0] == '\0') {
                         i = "door";
                     } else {
                         one_argument((char *)arg2, fname);
@@ -1888,12 +1888,12 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
     }
     MOBtrigger = true;
 
-    if (ch->in_room != NULL) {
+    if (ch->in_room != nullptr) {
         if ((type == TO_ROOM || type == TO_NOTVICT) && ch->in_room->vnum == CHAL_ROOM) {
             DESCRIPTOR_DATA *d;
 
-            for (d = descriptor_list; d != NULL; d = d->next) {
-                if (d->character != NULL && d->character->in_room != NULL && d->character->in_room->vnum == 1222
+            for (d = descriptor_list; d != nullptr; d = d->next) {
+                if (d->character != nullptr && d->character->in_room != nullptr && d->character->in_room->vnum == 1222
                     && IS_AWAKE(d->character))
                     send_to_char(buf, d->character);
             }
@@ -1907,7 +1907,7 @@ void show_prompt(DESCRIPTOR_DATA *d, char *prompt) {
     char buf[256]; /* this is actually sent to the ch */
     char buf2[64];
     CHAR_DATA *ch;
-    CHAR_DATA *ch_prefix = NULL; /* Needed for prefix in prompt with switched MOB */
+    CHAR_DATA *ch_prefix = nullptr; /* Needed for prefix in prompt with switched MOB */
     char *point;
     char *str;
     char *i;
@@ -1927,7 +1927,7 @@ void show_prompt(DESCRIPTOR_DATA *d, char *prompt) {
     } else
         ch_prefix = ch;
 
-    if (prompt == NULL || prompt[0] == '\0') {
+    if (prompt == nullptr || prompt[0] == '\0') {
         snprintf(buf, sizeof(buf), "<%d/%dhp %d/%dm %dmv> |w", ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move);
         *(buf + strlen(buf)) = '\0';
         send_to_char(buf, ch);

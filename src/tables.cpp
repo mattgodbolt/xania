@@ -87,12 +87,12 @@ const struct position_type position_table[] = {{"dead", "dead"},           {"mor
                                                {"incapacitated", "incap"}, {"stunned", "stun"},
                                                {"sleeping", "sleep"},      {"resting", "rest"},
                                                {"sitting", "sit"},         {"fighting", "fight"},
-                                               {"standing", "stand"},      {NULL, NULL}};
+                                               {"standing", "stand"},      {nullptr, nullptr}};
 
 /* for sex */
 // TM> fixed to allow some areas to load in properly
 const struct sex_type sex_table[] = {{"none", 0}, {"neither", 0}, {"neutral", 0}, {"either", 0},
-                                     {"male", 1}, {"female", 2},  {NULL}};
+                                     {"male", 1}, {"female", 2},  {nullptr}};
 
 /* for sizes */
 const struct size_type size_table[] = {{"tiny"},
@@ -103,7 +103,7 @@ const struct size_type size_table[] = {{"tiny"},
                                            "huge",
                                        },
                                        {"giant"},
-                                       {NULL}};
+                                       {nullptr}};
 
 const struct flag_type act_flags[] = {{"npc", ACT_IS_NPC, false},
                                       {"sentinel", ACT_SENTINEL, true},
@@ -733,16 +733,16 @@ const struct item_type item_table[] = {{ITEM_LIGHT, "light"},
                                        {ITEM_MAP, "map"},
                                        {ITEM_PORTAL, "portal"},
                                        {ITEM_BOMB, "bomb"},
-                                       {0, NULL}};
+                                       {0, nullptr}};
 
 const struct weapon_type weapon_table[] = {{"sword", OBJ_VNUM_SCHOOL_SWORD, WEAPON_SWORD, &gsn_sword},
                                            {"mace", OBJ_VNUM_SCHOOL_MACE, WEAPON_MACE, &gsn_mace},
                                            {"dagger", OBJ_VNUM_SCHOOL_DAGGER, WEAPON_DAGGER, &gsn_dagger},
                                            {"axe", OBJ_VNUM_SCHOOL_AXE, WEAPON_AXE, &gsn_axe},
 
-                                           {"exotic", OBJ_VNUM_SCHOOL_SWORD, WEAPON_EXOTIC, NULL},
+                                           {"exotic", OBJ_VNUM_SCHOOL_SWORD, WEAPON_EXOTIC, nullptr},
                                            {"spear", OBJ_VNUM_SCHOOL_MACE, WEAPON_SPEAR, &gsn_spear},
                                            {"flail", OBJ_VNUM_SCHOOL_DAGGER, WEAPON_FLAIL, &gsn_flail},
                                            {"whip", OBJ_VNUM_SCHOOL_AXE, WEAPON_WHIP, &gsn_whip},
                                            {"polearm", OBJ_VNUM_SCHOOL_AXE, WEAPON_POLEARM, &gsn_polearm},
-                                           {NULL, 0, 0, NULL}};
+                                           {nullptr, 0, 0, nullptr}};

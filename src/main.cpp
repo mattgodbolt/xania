@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     /*
      * Init time.
      */
-    gettimeofday(&now_time, NULL);
+    gettimeofday(&now_time, nullptr);
     current_time = (time_t)(now_time.tv_sec);
     strcpy(str_boot_time, ctime(&current_time));
 
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
     /*
      * Reserve one channel for our use.
      */
-    if ((fpReserve = fopen(NULL_FILE, "r")) == NULL) {
+    if ((fpReserve = fopen(NULL_FILE, "r")) == nullptr) {
         perror(NULL_FILE);
         exit(1);
     }
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
         Packet pInit;
         pInit.nExtra = pInit.channel = 0;
         pInit.type = PACKET_INIT;
-        SendPacket(&pInit, NULL);
+        SendPacket(&pInit, nullptr);
     }
     game_loop_unix(control);
     close(control);

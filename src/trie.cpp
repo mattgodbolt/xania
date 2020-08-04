@@ -45,7 +45,7 @@ struct leaf {
 /* checks for the given string within the given node. */
 static leaf_t *lookup_string(node_t *node, const char *name, int max_level) {
     if (!node) {
-        return NULL;
+        return nullptr;
     }
     if (node->type == tnode_twig) {
         int i;
@@ -72,7 +72,7 @@ static leaf_t *lookup_string(node_t *node, const char *name, int max_level) {
             return leaf;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 /* looks up a given string within the trie. */
@@ -80,7 +80,7 @@ void *trie_get(void *trie, const char *name, int max_level) {
     trie_t *current = (trie_t *)trie;
 
     if (!current->allow_zerolength && !name[0]) {
-        return NULL;
+        return nullptr;
     }
 
     leaf_t *leaf = lookup_string(current->topnode, name, max_level);
@@ -90,11 +90,11 @@ void *trie_get(void *trie, const char *name, int max_level) {
                     "SERIOUS BUG!  User of level %d almost ran command "
                     "\"%s\", which is level %d.\n",
                     max_level, leaf->name, leaf->level);
-            return NULL;
+            return nullptr;
         }
         return leaf->value;
     }
-    return NULL;
+    return nullptr;
 }
 
 /* destroys the given leaf. */
@@ -130,7 +130,7 @@ static node_t *create_twignode(int level) {
         node->data.children = calloc(NUM_CHILDREN, sizeof(node_t *));
         if (!node->data.children) {
             free(node);
-            return NULL;
+            return nullptr;
         }
     }
     return node;
@@ -152,7 +152,7 @@ static node_t *create_leafnode(const char *name, void *value, int level) {
     }
     free(node);
     free(leaf);
-    return NULL;
+    return nullptr;
 }
 
 /* inserts the given child into the given node. */
@@ -169,7 +169,7 @@ static void add_leaf(node_t *node, const char *name, node_t *leaf) {
     int index = (int)(isalpha(name[0]) ? (name[0] | 0x20) : name[0]);
     node_t *child = children[index];
 
-    if (children[0] == NULL) {
+    if (children[0] == nullptr) {
         insert_node(node, leaf, 0);
     }
 
@@ -211,13 +211,13 @@ void trie_addlist(void *trie, trielist_t *list, int num) {
 void *trie_create(int allow_zerolength) {
     trie_t *trie = malloc(sizeof(trie_t));
     if (!trie) {
-        return NULL;
+        return nullptr;
     }
     trie->allow_zerolength = allow_zerolength;
     trie->topnode = create_twignode(0);
     if (!trie->topnode) {
         free(trie);
-        return NULL;
+        return nullptr;
     }
     return trie;
 }

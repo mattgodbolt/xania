@@ -34,8 +34,8 @@ void read_char_info(FINGER_INFO *info);
     }
 
 /* For finger info */
-FINGER_INFO *info_cache = NULL;
-KNOWN_PLAYERS *player_list = NULL;
+FINGER_INFO *info_cache = nullptr;
+KNOWN_PLAYERS *player_list = nullptr;
 
 void load_player_list() {
     /* Procedure roughly nicked from emacs info :) */
@@ -43,17 +43,17 @@ void load_player_list() {
     DIR *dp;
     struct dirent *ep;
     dp = opendir("../player");
-    if (dp != NULL) {
+    if (dp != nullptr) {
         while ((ep = (readdir(dp)))) {
-            if (player_list == NULL) {
+            if (player_list == nullptr) {
                 player_list = alloc_mem(sizeof(KNOWN_PLAYERS));
-                player_list->next = NULL;
+                player_list->next = nullptr;
                 player_list->name = str_dup(ep->d_name);
                 current_pos = player_list;
             } else {
                 current_pos->next = alloc_mem(sizeof(KNOWN_PLAYERS));
                 current_pos = current_pos->next;
-                current_pos->next = NULL;
+                current_pos->next = nullptr;
                 current_pos->name = str_dup(ep->d_name);
             }
         }
@@ -87,6 +87,115 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
 
     smash_tilde(arg);
 
+    if (!strcmp(arg, "name")) {
+        if (argument[0] == '\0') {
+            if (is_set_extra(ch, EXTRA_INFO_NAME)) {
+                if (ch->pcdata->info_name[0] == '\0')
+                    snprintf(buf, sizeof(buf), "Your real name is currently not set.\n\r");
+                else
+                    snprintf(buf, sizeof(buf), "Your real name is currently set as: %s.\n\r", ch->pcdata->info_name);
+            } else
+                snprintf(buf, sizeof(buf), "Your name is currently being withheld.\n\r");
+            send_to_char(buf, ch);
+        } else {
+            free_string(ch->pcdata->info_name);
+            if (strlen(argument) > 45)
+                argument[45] = '\0';
+            ch->pcdata->info_name = strdup(argument);
+            snprintf(buf, sizeof(buf), "Your real name has been set to: %s.\n\r", ch->pcdata->info_name);
+            set_extra(ch, EXTRA_INFO_NAME);
+            send_to_char(buf, ch);
+            /* Update the info if it is in cache */
+            cur = info_cache;
+            while (cur != nullptr && info_found == false) {
+                if (!strcmp(cur->name, ch->name))
+                    info_found = true;
+                else
+                    cur = cur->next;
+            }
+            if (info_found == true) {
+                /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
+                free_string(cur->info_name);
+                cur->info_name = strdup(ch->pcdata->info_name);
+                cur->i_name = true;
+            }
+        }
+        return;
+    }
+
+    if (!strcmp(arg, "email")) {
+        if (argument[0] == '\0') {
+            if (is_set_extra(ch, EXTRA_INFO_EMAIL)) {
+                if (ch->pcdata->info_email[0] == '\0')
+                    snprintf(buf, sizeof(buf), "Your email address is currently not set.\n\r");
+                else
+                    snprintf(buf, sizeof(buf), "Your email address is currently set as: %s.\n\r",
+                             ch->pcdata->info_email);
+            } else
+                snprintf(buf, sizeof(buf), "Your email address is currently being withheld.\n\r");
+            send_to_char(buf, ch);
+        } else {
+            free_string(ch->pcdata->info_email);
+            if (strlen(argument) > 45)
+                argument[45] = '\0';
+            ch->pcdata->info_email = strdup(argument);
+            snprintf(buf, sizeof(buf), "Your email address has been set to: %s.\n\r", ch->pcdata->info_email);
+            set_extra(ch, EXTRA_INFO_EMAIL);
+            send_to_char(buf, ch);
+            /* Update the info if it is in cache */
+            cur = info_cache;
+            while (cur != nullptr && info_found == false) {
+                if (!strcmp(cur->name, ch->name))
+                    info_found = true;
+                else
+                    cur = cur->next;
+            }
+            if (info_found == true) {
+                /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
+                free_string(cur->info_email);
+                cur->info_email = strdup(ch->pcdata->info_email);
+                cur->i_email = true;
+            }
+        }
+        return;
+    }
+
+    if (!strcmp(arg, "url")) {
+        if (argument[0] == '\0') {
+            if (is_set_extra(ch, EXTRA_INFO_URL)) {
+                if (ch->pcdata->info_url[0] == '\0')
+                    snprintf(buf, sizeof(buf), "Your URL address is currently not set.\n\r");
+                else
+                    snprintf(buf, sizeof(buf), "Your URL address is currently set as: %s.\n\r", ch->pcdata->info_url);
+            } else
+                snprintf(buf, sizeof(buf), "Your URL address is currently being withheld.\n\r");
+            send_to_char(buf, ch);
+        } else {
+            free_string(ch->pcdata->info_url);
+            if (strlen(argument) > 45)
+                argument[45] = '\0';
+            ch->pcdata->info_url = strdup(argument);
+            snprintf(buf, sizeof(buf), "Your URL address has been set to: %s.\n\r", ch->pcdata->info_url);
+            set_extra(ch, EXTRA_INFO_URL);
+            send_to_char(buf, ch);
+            /* Update the info if it is in cache */
+            cur = info_cache;
+            while (cur != nullptr && info_found == false) {
+                if (!strcmp(cur->name, ch->name))
+                    info_found = true;
+                else
+                    cur = cur->next;
+            }
+            if (info_found == true) {
+                /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
+                free_string(cur->info_url);
+                cur->info_url = strdup(ch->pcdata->info_url);
+                cur->i_url = true;
+            }
+        }
+        return;
+    }
+
     if (!strcmp(arg, "message")) {
         if (argument[0] == '\0') {
             if (is_set_extra(ch, EXTRA_INFO_MESSAGE)) {
@@ -107,7 +216,7 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
             send_to_char(buf, ch);
             /* Update the info if it is in cache */
             cur = info_cache;
-            while (cur != NULL && info_found == false) {
+            while (cur != nullptr && info_found == false) {
                 if (!strcmp(cur->name, ch->name))
                     info_found = true;
                 else
@@ -143,7 +252,7 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
             if (update_show != 0) {
                 /* Update the info if it is in cache */
                 cur = info_cache;
-                while (cur != NULL && info_found == false) {
+                while (cur != nullptr && info_found == false) {
                     if (!strcmp(cur->name, ch->name))
                         info_found = true;
                     else
@@ -174,7 +283,7 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
             if (update_hide != 0) {
                 /* Update the info if it is in cache */
                 cur = info_cache;
-                while (cur != NULL && info_found == false) {
+                while (cur != nullptr && info_found == false) {
                     if (!strcmp(cur->name, ch->name))
                         info_found = true;
                     else
@@ -201,7 +310,7 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
         send_to_char("Your info details have been cleared.\n\r", ch);
         /* Do the same if in cache */
         cur = info_cache;
-        while (cur != NULL && info_found == false) {
+        while (cur != nullptr && info_found == false) {
             if (!strcmp(cur->name, ch->name))
                 info_found = true;
             else
@@ -232,7 +341,7 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
 
 void do_finger(CHAR_DATA *ch, char *argument) {
     char buf[MAX_STRING_LENGTH];
-    CHAR_DATA *victim = NULL;
+    CHAR_DATA *victim = nullptr;
     KNOWN_PLAYERS *cursor = player_list;
     FINGER_INFO *cur;
     bool player_found = false;
@@ -250,7 +359,7 @@ void do_finger(CHAR_DATA *ch, char *argument) {
         victim = get_char_world(ch, argument);
 
         /* Notice DEATH hack here!!! */
-        if (victim != NULL && IS_NPC(victim) && strcmp(argument, "Death")) {
+        if (victim != nullptr && IS_NPC(victim) && strcmp(argument, "Death")) {
             send_to_char("Mobs don't have very interesting information to give to you.\n\r", ch);
             return;
         }
@@ -258,7 +367,7 @@ void do_finger(CHAR_DATA *ch, char *argument) {
         /* Find out if char is logged on (irrespective of whether we can
            see that char or not - hence I don't use get_char_world, as
            it only returns chars we can see */
-        while (wch != NULL && char_found == false) {
+        while (wch != nullptr && char_found == false) {
             if (!strcmp(wch->name, argument))
                 char_found = true;
             else
@@ -268,9 +377,9 @@ void do_finger(CHAR_DATA *ch, char *argument) {
         if (char_found == true)
             victim = wch;
         else
-            victim = NULL;
+            victim = nullptr;
 
-        while (cursor != NULL && player_found == false) {
+        while (cursor != nullptr && player_found == false) {
             if (!strcmp(cursor->name, argument))
                 player_found = true;
             cursor = cursor->next;
@@ -281,7 +390,7 @@ void do_finger(CHAR_DATA *ch, char *argument) {
             /*	  send_to_char ("Player found.\n\r", ch);*/
             cur = info_cache;
 
-            while (cur != NULL && info_found == false) {
+            while (cur != nullptr && info_found == false) {
                 if (!strcmp(cur->name, argument))
                     info_found = true;
                 else
@@ -300,8 +409,8 @@ void do_finger(CHAR_DATA *ch, char *argument) {
                 cur->next = info_cache;
                 info_cache = cur;
 
-                if (victim != NULL && !IS_NPC(victim)) {
-                    if (victim->desc == NULL) {
+                if (victim != nullptr && !IS_NPC(victim)) {
+                    if (victim->desc == nullptr) {
                         /* Character is switched???? Load from file as
                            it crashes otherwise - can it be changed? */
                         /*log_string ("Desc is null.");*/
@@ -348,7 +457,7 @@ void do_finger(CHAR_DATA *ch, char *argument) {
             /* This is the tricky bit - should the player login time be seen
                by this player or not? */
 
-            if (victim != NULL && victim->desc != NULL && !IS_NPC(victim)) {
+            if (victim != nullptr && victim->desc != nullptr && !IS_NPC(victim)) {
 
                 /* Player is currently logged in */
                 if (victim->invis_level > ch->level && get_trust(ch) < 96) {
@@ -421,7 +530,7 @@ void read_char_info(FINGER_INFO *info) {
     bool fMatch;
 
     snprintf(strsave, sizeof(strsave), "%s%s", PLAYER_DIR, info->name);
-    if ((fp = fopen(strsave, "r")) != NULL) {
+    if ((fp = fopen(strsave, "r")) != nullptr) {
         /*      log_string ("Player file open");*/
         for (;;) {
             word = fread_word(fp);

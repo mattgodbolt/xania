@@ -30,7 +30,7 @@ BUFFER *buffer_create(void) {
             res->buffer[0] = '\0';
         } else {
             free(res);
-            res = NULL;
+            res = nullptr;
         }
     }
     if (!res) {
@@ -55,7 +55,7 @@ static void buffer_addline_internal(BUFFER *buffer, const char *text, int linele
     if ((linelen + buflen + 1) > buffer->size) {
         int needed = (linelen + buflen + 1 + BUFFER_GRANULARITY) & ~(BUFFER_GRANULARITY - 1);
         char *newtext = (char *)realloc(buffer->buffer, needed);
-        if (newtext == NULL) {
+        if (newtext == nullptr) {
             bug("Failed to realloc buffer to %d in add_buf.", needed);
         } else {
             buffer->buffer = newtext;
@@ -86,7 +86,7 @@ void buffer_removeline(BUFFER *buffer) {
     char *text = buffer->buffer;
     char *lastline;
 
-    if (text == NULL || strlen(text) == 0) {
+    if (text == nullptr || strlen(text) == 0) {
         return;
     }
     lastline = strrchr(text, '\n');

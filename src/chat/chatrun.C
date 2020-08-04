@@ -40,6 +40,6 @@ int main(int argc, char **args) {
     gets(talker);
     printf("Enter your name:");
     gets(yourname);
-    while (fgets(s, 80, stdin) != NULL)
+    while (fgets(s, 80, stdin) != nullptr)
         puts(chatter.process(talker, s, yourname));
 }

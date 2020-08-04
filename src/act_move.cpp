@@ -46,7 +46,7 @@ void move_char(CHAR_DATA *ch, int door) {
     }
 
     in_room = ch->in_room;
-    if ((pexit = in_room->exit[door]) == NULL || (to_room = pexit->u1.to_room) == NULL
+    if ((pexit = in_room->exit[door]) == nullptr || (to_room = pexit->u1.to_room) == nullptr
         || !can_see_room(ch, pexit->u1.to_room)) {
         send_to_char("Alas, you cannot go that way.\n\r", ch);
         return;
@@ -54,24 +54,24 @@ void move_char(CHAR_DATA *ch, int door) {
 
     if (IS_SET(pexit->exit_info, EX_CLOSED) && !IS_IMMORTAL(ch)) {
         if (IS_SET(pexit->exit_info, EX_PASSPROOF) && IS_AFFECTED(ch, AFF_PASS_DOOR)) {
-            act("The $d is protected from trespass by a magical barrier.", ch, NULL, pexit->keyword, TO_CHAR);
+            act("The $d is protected from trespass by a magical barrier.", ch, nullptr, pexit->keyword, TO_CHAR);
             return;
         } else {
             if (!IS_AFFECTED(ch, AFF_PASS_DOOR)) {
-                act("The $d is closed.", ch, NULL, pexit->keyword, TO_CHAR);
+                act("The $d is closed.", ch, nullptr, pexit->keyword, TO_CHAR);
                 return;
             }
         }
     }
 
     if (IS_SET(pexit->exit_info, EX_CLOSED) && IS_AFFECTED(ch, AFF_PASS_DOOR)
-        && !(IS_SET(pexit->exit_info, EX_PASSPROOF)) && ch->riding != NULL
+        && !(IS_SET(pexit->exit_info, EX_PASSPROOF)) && ch->riding != nullptr
         && !(IS_AFFECTED(ch->riding, AFF_PASS_DOOR))) {
         send_to_char("Your mount cannot travel through solid objects.\n\r", ch);
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CHARM) && ch->master != NULL && in_room == ch->master->in_room) {
+    if (IS_AFFECTED(ch, AFF_CHARM) && ch->master != nullptr && in_room == ch->master->in_room) {
         send_to_char("What?  And leave your beloved master?\n\r", ch);
         return;
     }
@@ -100,7 +100,7 @@ void move_char(CHAR_DATA *ch, int door) {
             for (iClan = 0; iClan < NUM_CLANS; iClan++) {
 
                 if (to_room->vnum == clantable[iClan].entrance_vnum) {
-                    if ((ch->pcdata->pcclan == NULL) || ch->pcdata->pcclan->clan != &clantable[iClan]) {
+                    if ((ch->pcdata->pcclan == nullptr) || ch->pcdata->pcclan->clan != &clantable[iClan]) {
                         snprintf(buf, sizeof(buf), "Only members of the %s may enter there.\n\r",
                                  clantable[iClan].name);
 
@@ -114,14 +114,14 @@ void move_char(CHAR_DATA *ch, int door) {
 
         if (in_room->sector_type == SECT_AIR || to_room->sector_type == SECT_AIR) {
             if ((!IS_AFFECTED(ch, AFF_FLYING) && !IS_IMMORTAL(ch))
-                && !(ch->riding != NULL && IS_AFFECTED(ch->riding, AFF_FLYING))) {
+                && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))) {
                 send_to_char("You can't fly.\n\r", ch);
                 return;
             }
         }
 
         if ((in_room->sector_type == SECT_WATER_NOSWIM || to_room->sector_type == SECT_WATER_NOSWIM)
-            && !IS_AFFECTED(ch, AFF_FLYING) && !(ch->riding != NULL && IS_AFFECTED(ch->riding, AFF_FLYING))) {
+            && !IS_AFFECTED(ch, AFF_FLYING) && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))) {
             OBJ_DATA *obj;
             bool found;
 
@@ -133,7 +133,7 @@ void move_char(CHAR_DATA *ch, int door) {
             if (IS_IMMORTAL(ch))
                 found = true;
 
-            for (obj = ch->carrying; obj != NULL; obj = obj->next_content) {
+            for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
                 if (obj->item_type == ITEM_BOAT) {
                     found = true;
                     break;
@@ -150,7 +150,7 @@ void move_char(CHAR_DATA *ch, int door) {
 
         move /= 2; /* i.e. the average */
 
-        if (ch->riding == NULL) {
+        if (ch->riding == nullptr) {
             if (ch->move < move) {
                 send_to_char("You are too exhausted.\n\r", ch);
                 return;
@@ -161,7 +161,7 @@ void move_char(CHAR_DATA *ch, int door) {
         } else {
             move /= 2; /* Horses are better at moving ... well probably */
             if (ch->riding->move < move) {
-                act("$N is too exhausted to carry you further.", ch, NULL, ch->riding, TO_CHAR);
+                act("$N is too exhausted to carry you further.", ch, nullptr, ch->riding, TO_CHAR);
                 return;
             }
             WAIT_STATE(ch->riding, 1);
@@ -170,7 +170,7 @@ void move_char(CHAR_DATA *ch, int door) {
     }
 
     /* Check to see if mount is about to leave you behind */
-    if (ch->ridden_by != NULL) {
+    if (ch->ridden_by != nullptr) {
         if (ch->ridden_by->in_room != to_room) {
             /* Oh dear ... */
             /* MrG - shouldn't happen - this is the paranoia code */
@@ -178,11 +178,11 @@ void move_char(CHAR_DATA *ch, int door) {
         }
     }
 
-    if (!(IS_AFFECTED(ch, AFF_SNEAK) && (ch->riding != NULL))
+    if (!(IS_AFFECTED(ch, AFF_SNEAK) && (ch->riding != nullptr))
         && (IS_NPC(ch) || !IS_SET(ch->act, PLR_WIZINVIS) || !IS_SET(ch->act, PLR_PROWL))) {
-        if (ch->ridden_by == NULL) {
-            if (ch->riding == NULL) {
-                act("$n leaves $T.", ch, NULL, dir_name[door], TO_ROOM);
+        if (ch->ridden_by == nullptr) {
+            if (ch->riding == nullptr) {
+                act("$n leaves $T.", ch, nullptr, dir_name[door], TO_ROOM);
             } else {
                 act("$n rides $t on $N.", ch, dir_name[door], ch->riding, TO_ROOM);
                 act("You ride $t on $N.", ch, dir_name[door], ch->riding, TO_CHAR);
@@ -194,11 +194,11 @@ void move_char(CHAR_DATA *ch, int door) {
     char_to_room(ch, to_room);
 
     if (!IS_AFFECTED(ch, AFF_SNEAK) && (IS_NPC(ch) || !IS_SET(ch->act, PLR_WIZINVIS) || !IS_SET(ch->act, PLR_PROWL))) {
-        if (ch->ridden_by == NULL) {
-            if (ch->riding == NULL) {
-                act("$n has arrived.", ch, NULL, NULL, TO_ROOM);
+        if (ch->ridden_by == nullptr) {
+            if (ch->riding == nullptr) {
+                act("$n has arrived.", ch, nullptr, nullptr, TO_ROOM);
             } else {
-                act("$n has arrived, riding $N.", ch, NULL, ch->riding, TO_ROOM);
+                act("$n has arrived, riding $N.", ch, nullptr, ch->riding, TO_ROOM);
             }
         }
     }
@@ -208,7 +208,7 @@ void move_char(CHAR_DATA *ch, int door) {
     if (in_room == to_room) /* no circular follows */
         return;
 
-    for (fch = in_room->people; fch != NULL; fch = fch_next) {
+    for (fch = in_room->people; fch != nullptr; fch = fch_next) {
         fch_next = fch->next_in_room;
 
         if (fch->master == ch && IS_AFFECTED(fch, AFF_CHARM) && fch->position < POS_STANDING)
@@ -217,12 +217,12 @@ void move_char(CHAR_DATA *ch, int door) {
         if (fch->master == ch && fch->position == POS_STANDING) {
 
             if (IS_SET(ch->in_room->room_flags, ROOM_LAW) && (IS_NPC(fch) && IS_SET(fch->act, ACT_AGGRESSIVE))) {
-                act("$N may not enter here.", ch, NULL, fch, TO_CHAR);
-                act("You aren't allowed to go there.", fch, NULL, NULL, TO_CHAR);
+                act("$N may not enter here.", ch, nullptr, fch, TO_CHAR);
+                act("You aren't allowed to go there.", fch, nullptr, nullptr, TO_CHAR);
                 return;
             }
 
-            act("You follow $N.", fch, NULL, ch, TO_CHAR);
+            act("You follow $N.", fch, nullptr, ch, TO_CHAR);
             move_char(fch, door);
         }
     }
@@ -256,7 +256,7 @@ void do_enter(CHAR_DATA *ch, char *argument) {
                     to_room = obj->destination;
 
                     /* handle dangling portals, not that they should ever exist*/
-                    if (to_room == NULL) {
+                    if (to_room == nullptr) {
                         send_to_char("That portal is highly unstable and is likely to get you killed!", ch);
                         return;
                     }
@@ -285,7 +285,8 @@ void do_enter(CHAR_DATA *ch, char *argument) {
                         if (!IS_IMMORTAL(ch)) {
                             for (iClan = 0; iClan < NUM_CLANS; iClan++) {
                                 if (to_room->vnum == clantable[iClan].entrance_vnum) {
-                                    if ((ch->pcdata->pcclan == NULL) || ch->pcdata->pcclan->clan != &clantable[iClan]) {
+                                    if ((ch->pcdata->pcclan == nullptr)
+                                        || ch->pcdata->pcclan->clan != &clantable[iClan]) {
                                         snprintf(buf, sizeof(buf), "Only members of the %s may enter there.\n\r",
                                                  clantable[iClan].name);
 
@@ -299,7 +300,7 @@ void do_enter(CHAR_DATA *ch, char *argument) {
 
                         if (in_room->sector_type == SECT_AIR || to_room->sector_type == SECT_AIR) {
                             if ((!IS_AFFECTED(ch, AFF_FLYING) && !IS_IMMORTAL(ch))
-                                && !(ch->riding != NULL && IS_AFFECTED(ch->riding, AFF_FLYING))) {
+                                && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))) {
                                 send_to_char("You can't fly.\n\r", ch);
                                 return;
                             }
@@ -307,7 +308,7 @@ void do_enter(CHAR_DATA *ch, char *argument) {
 
                         if ((in_room->sector_type == SECT_WATER_NOSWIM || to_room->sector_type == SECT_WATER_NOSWIM)
                             && !IS_AFFECTED(ch, AFF_FLYING)
-                            && !(ch->riding != NULL && IS_AFFECTED(ch->riding, AFF_FLYING))) {
+                            && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))) {
                             OBJ_DATA *obj;
                             bool found;
 
@@ -319,7 +320,7 @@ void do_enter(CHAR_DATA *ch, char *argument) {
                             if (IS_IMMORTAL(ch))
                                 found = true;
 
-                            for (obj = ch->carrying; obj != NULL; obj = obj->next_content) {
+                            for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
                                 if (obj->item_type == ITEM_BOAT) {
                                     found = true;
                                     break;
@@ -331,17 +332,17 @@ void do_enter(CHAR_DATA *ch, char *argument) {
                             }
                         }
                     }
-                    act("$n steps through a portal and vanishes.", ch, NULL, NULL, TO_ROOM);
+                    act("$n steps through a portal and vanishes.", ch, nullptr, nullptr, TO_ROOM);
                     send_to_char("You step through a portal and vanish.\n\r", ch);
                     char_from_room(ch);
                     char_to_room(ch, obj->destination);
-                    act("$n has arrived through a portal.", ch, NULL, NULL, TO_ROOM);
+                    act("$n has arrived through a portal.", ch, nullptr, nullptr, TO_ROOM);
                     do_look(ch, "auto");
 
                     if (in_room == to_room) /* no circular follows */
                         return;
 
-                    for (fch = in_room->people; fch != NULL; fch = fch_next) {
+                    for (fch = in_room->people; fch != nullptr; fch = fch_next) {
                         fch_next = fch->next_in_room;
 
                         if (fch->master == ch && IS_AFFECTED(fch, AFF_CHARM) && fch->position < POS_STANDING)
@@ -351,12 +352,12 @@ void do_enter(CHAR_DATA *ch, char *argument) {
 
                             if (IS_SET(ch->in_room->room_flags, ROOM_LAW)
                                 && (IS_NPC(fch) && IS_SET(fch->act, ACT_AGGRESSIVE))) {
-                                act("You can't bring $N into the city.", ch, NULL, fch, TO_CHAR);
-                                act("You aren't allowed in the city.", fch, NULL, NULL, TO_CHAR);
+                                act("You can't bring $N into the city.", ch, nullptr, fch, TO_CHAR);
+                                act("You aren't allowed in the city.", fch, nullptr, nullptr, TO_CHAR);
                                 continue;
                             }
 
-                            act("You follow $N.", fch, NULL, ch, TO_CHAR);
+                            act("You follow $N.", fch, nullptr, ch, TO_CHAR);
                             fch->in_room->light++; /* allows follower in dark to enter */
                             do_enter(fch, argument);
                             in_room->light--;
@@ -445,16 +446,16 @@ int find_door(CHAR_DATA *ch, char *arg) {
         door = 5;
     else {
         for (door = 0; door <= 5; door++) {
-            if ((pexit = ch->in_room->exit[door]) != NULL && IS_SET(pexit->exit_info, EX_ISDOOR)
-                && pexit->keyword != NULL && is_name(arg, pexit->keyword))
+            if ((pexit = ch->in_room->exit[door]) != nullptr && IS_SET(pexit->exit_info, EX_ISDOOR)
+                && pexit->keyword != nullptr && is_name(arg, pexit->keyword))
                 return door;
         }
-        act("I see no $T here.", ch, NULL, arg, TO_CHAR);
+        act("I see no $T here.", ch, nullptr, arg, TO_CHAR);
         return -1;
     }
 
-    if ((pexit = ch->in_room->exit[door]) == NULL) {
-        act("I see no door $T here.", ch, NULL, arg, TO_CHAR);
+    if ((pexit = ch->in_room->exit[door]) == nullptr) {
+        act("I see no door $T here.", ch, nullptr, arg, TO_CHAR);
         return -1;
     }
 
@@ -478,7 +479,7 @@ void do_open(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((obj = get_obj_here(ch, arg)) != NULL) {
+    if ((obj = get_obj_here(ch, arg)) != nullptr) {
         /* 'open object' */
         if (obj->item_type != ITEM_CONTAINER) {
             send_to_char("That's not a container.\n\r", ch);
@@ -499,7 +500,7 @@ void do_open(CHAR_DATA *ch, char *argument) {
 
         REMOVE_BIT(obj->value[1], CONT_CLOSED);
         send_to_char("Ok.\n\r", ch);
-        act("$n opens $p.", ch, obj, NULL, TO_ROOM);
+        act("$n opens $p.", ch, obj, nullptr, TO_ROOM);
         return;
     }
 
@@ -520,17 +521,17 @@ void do_open(CHAR_DATA *ch, char *argument) {
         }
 
         REMOVE_BIT(pexit->exit_info, EX_CLOSED);
-        act("$n opens the $d.", ch, NULL, pexit->keyword, TO_ROOM);
+        act("$n opens the $d.", ch, nullptr, pexit->keyword, TO_ROOM);
         send_to_char("Ok.\n\r", ch);
 
         /* open the other side */
-        if ((to_room = pexit->u1.to_room) != NULL && (pexit_rev = to_room->exit[rev_dir[door]]) != NULL
+        if ((to_room = pexit->u1.to_room) != nullptr && (pexit_rev = to_room->exit[rev_dir[door]]) != nullptr
             && pexit_rev->u1.to_room == ch->in_room) {
             CHAR_DATA *rch;
 
             REMOVE_BIT(pexit_rev->exit_info, EX_CLOSED);
-            for (rch = to_room->people; rch != NULL; rch = rch->next_in_room)
-                act("The $d opens.", rch, NULL, pexit_rev->keyword, TO_CHAR);
+            for (rch = to_room->people; rch != nullptr; rch = rch->next_in_room)
+                act("The $d opens.", rch, nullptr, pexit_rev->keyword, TO_CHAR);
         }
     }
 
@@ -549,7 +550,7 @@ void do_close(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((obj = get_obj_here(ch, arg)) != NULL) {
+    if ((obj = get_obj_here(ch, arg)) != nullptr) {
         /* 'close object' */
         if (obj->item_type != ITEM_CONTAINER) {
             send_to_char("That's not a container.\n\r", ch);
@@ -566,7 +567,7 @@ void do_close(CHAR_DATA *ch, char *argument) {
 
         SET_BIT(obj->value[1], CONT_CLOSED);
         send_to_char("Ok.\n\r", ch);
-        act("$n closes $p.", ch, obj, NULL, TO_ROOM);
+        act("$n closes $p.", ch, obj, nullptr, TO_ROOM);
         return;
     }
 
@@ -583,17 +584,17 @@ void do_close(CHAR_DATA *ch, char *argument) {
         }
 
         SET_BIT(pexit->exit_info, EX_CLOSED);
-        act("$n closes the $d.", ch, NULL, pexit->keyword, TO_ROOM);
+        act("$n closes the $d.", ch, nullptr, pexit->keyword, TO_ROOM);
         send_to_char("Ok.\n\r", ch);
 
         /* close the other side */
-        if ((to_room = pexit->u1.to_room) != NULL && (pexit_rev = to_room->exit[rev_dir[door]]) != 0
+        if ((to_room = pexit->u1.to_room) != nullptr && (pexit_rev = to_room->exit[rev_dir[door]]) != 0
             && pexit_rev->u1.to_room == ch->in_room) {
             CHAR_DATA *rch;
 
             SET_BIT(pexit_rev->exit_info, EX_CLOSED);
-            for (rch = to_room->people; rch != NULL; rch = rch->next_in_room)
-                act("The $d closes.", rch, NULL, pexit_rev->keyword, TO_CHAR);
+            for (rch = to_room->people; rch != nullptr; rch = rch->next_in_room)
+                act("The $d closes.", rch, nullptr, pexit_rev->keyword, TO_CHAR);
         }
     }
 
@@ -603,7 +604,7 @@ void do_close(CHAR_DATA *ch, char *argument) {
 bool has_key(CHAR_DATA *ch, int key) {
     OBJ_DATA *obj;
 
-    for (obj = ch->carrying; obj != NULL; obj = obj->next_content) {
+    for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
         if (obj->pIndexData->vnum == key)
             return true;
     }
@@ -623,7 +624,7 @@ void do_lock(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((obj = get_obj_here(ch, arg)) != NULL) {
+    if ((obj = get_obj_here(ch, arg)) != nullptr) {
         /* 'lock object' */
         if (obj->item_type != ITEM_CONTAINER) {
             send_to_char("That's not a container.\n\r", ch);
@@ -648,7 +649,7 @@ void do_lock(CHAR_DATA *ch, char *argument) {
 
         SET_BIT(obj->value[1], CONT_LOCKED);
         send_to_char("*Click*\n\r", ch);
-        act("$n locks $p.", ch, obj, NULL, TO_ROOM);
+        act("$n locks $p.", ch, obj, nullptr, TO_ROOM);
         return;
     }
 
@@ -678,10 +679,10 @@ void do_lock(CHAR_DATA *ch, char *argument) {
 
         SET_BIT(pexit->exit_info, EX_LOCKED);
         send_to_char("*Click*\n\r", ch);
-        act("$n locks the $d.", ch, NULL, pexit->keyword, TO_ROOM);
+        act("$n locks the $d.", ch, nullptr, pexit->keyword, TO_ROOM);
 
         /* lock the other side */
-        if ((to_room = pexit->u1.to_room) != NULL && (pexit_rev = to_room->exit[rev_dir[door]]) != 0
+        if ((to_room = pexit->u1.to_room) != nullptr && (pexit_rev = to_room->exit[rev_dir[door]]) != 0
             && pexit_rev->u1.to_room == ch->in_room) {
             SET_BIT(pexit_rev->exit_info, EX_LOCKED);
         }
@@ -702,7 +703,7 @@ void do_unlock(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((obj = get_obj_here(ch, arg)) != NULL) {
+    if ((obj = get_obj_here(ch, arg)) != nullptr) {
         /* 'unlock object' */
         if (obj->item_type != ITEM_CONTAINER) {
             send_to_char("That's not a container.\n\r", ch);
@@ -727,7 +728,7 @@ void do_unlock(CHAR_DATA *ch, char *argument) {
 
         REMOVE_BIT(obj->value[1], CONT_LOCKED);
         send_to_char("*Click*\n\r", ch);
-        act("$n unlocks $p.", ch, obj, NULL, TO_ROOM);
+        act("$n unlocks $p.", ch, obj, nullptr, TO_ROOM);
         return;
     }
 
@@ -757,10 +758,10 @@ void do_unlock(CHAR_DATA *ch, char *argument) {
 
         REMOVE_BIT(pexit->exit_info, EX_LOCKED);
         send_to_char("*Click*\n\r", ch);
-        act("$n unlocks the $d.", ch, NULL, pexit->keyword, TO_ROOM);
+        act("$n unlocks the $d.", ch, nullptr, pexit->keyword, TO_ROOM);
 
         /* unlock the other side */
-        if ((to_room = pexit->u1.to_room) != NULL && (pexit_rev = to_room->exit[rev_dir[door]]) != NULL
+        if ((to_room = pexit->u1.to_room) != nullptr && (pexit_rev = to_room->exit[rev_dir[door]]) != nullptr
             && pexit_rev->u1.to_room == ch->in_room) {
             REMOVE_BIT(pexit_rev->exit_info, EX_LOCKED);
         }
@@ -787,7 +788,7 @@ void do_pick(CHAR_DATA *ch, char *argument) {
     /* look for guards */
     for (gch = ch->in_room->people; gch; gch = gch->next_in_room) {
         if (IS_NPC(gch) && IS_AWAKE(gch) && ch->level + 5 < gch->level) {
-            act("$N is standing too close to the lock.", ch, NULL, gch, TO_CHAR);
+            act("$N is standing too close to the lock.", ch, nullptr, gch, TO_CHAR);
             return;
         }
     }
@@ -798,7 +799,7 @@ void do_pick(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((obj = get_obj_here(ch, arg)) != NULL) {
+    if ((obj = get_obj_here(ch, arg)) != nullptr) {
         /* 'pick object' */
         if (obj->item_type != ITEM_CONTAINER) {
             send_to_char("That's not a container.\n\r", ch);
@@ -824,7 +825,7 @@ void do_pick(CHAR_DATA *ch, char *argument) {
         REMOVE_BIT(obj->value[1], CONT_LOCKED);
         send_to_char("*Click*\n\r", ch);
         check_improve(ch, gsn_pick_lock, true, 2);
-        act("$n picks $p.", ch, obj, NULL, TO_ROOM);
+        act("$n picks $p.", ch, obj, nullptr, TO_ROOM);
         return;
     }
 
@@ -854,11 +855,11 @@ void do_pick(CHAR_DATA *ch, char *argument) {
 
         REMOVE_BIT(pexit->exit_info, EX_LOCKED);
         send_to_char("*Click*\n\r", ch);
-        act("$n picks the $d.", ch, NULL, pexit->keyword, TO_ROOM);
+        act("$n picks the $d.", ch, nullptr, pexit->keyword, TO_ROOM);
         check_improve(ch, gsn_pick_lock, true, 2);
 
         /* pick the other side */
-        if ((to_room = pexit->u1.to_room) != NULL && (pexit_rev = to_room->exit[rev_dir[door]]) != NULL
+        if ((to_room = pexit->u1.to_room) != nullptr && (pexit_rev = to_room->exit[rev_dir[door]]) != nullptr
             && pexit_rev->u1.to_room == ch->in_room) {
             REMOVE_BIT(pexit_rev->exit_info, EX_LOCKED);
         }
@@ -870,7 +871,7 @@ void do_pick(CHAR_DATA *ch, char *argument) {
 void do_stand(CHAR_DATA *ch, char *argument) {
     (void)argument;
 
-    if (ch->riding != NULL) {
+    if (ch->riding != nullptr) {
         unride_char(ch, ch->riding);
         return;
     }
@@ -883,14 +884,14 @@ void do_stand(CHAR_DATA *ch, char *argument) {
         }
 
         send_to_char("You wake and stand up.\n\r", ch);
-        act("$n wakes and stands up.", ch, NULL, NULL, TO_ROOM);
+        act("$n wakes and stands up.", ch, nullptr, nullptr, TO_ROOM);
         ch->position = POS_STANDING;
         break;
 
     case POS_RESTING:
     case POS_SITTING:
         send_to_char("You stand up.\n\r", ch);
-        act("$n stands up.", ch, NULL, NULL, TO_ROOM);
+        act("$n stands up.", ch, nullptr, nullptr, TO_ROOM);
         ch->position = POS_STANDING;
         break;
 
@@ -905,7 +906,7 @@ void do_stand(CHAR_DATA *ch, char *argument) {
 void do_rest(CHAR_DATA *ch, char *argument) {
     (void)argument;
 
-    if (ch->riding != NULL) {
+    if (ch->riding != nullptr) {
         send_to_char("You cannot rest - the saddle is too uncomfortable!\n\r", ch);
         return;
     }
@@ -913,7 +914,7 @@ void do_rest(CHAR_DATA *ch, char *argument) {
     switch (ch->position) {
     case POS_SLEEPING:
         send_to_char("You wake up and start resting.\n\r", ch);
-        act("$n wakes up and starts resting.", ch, NULL, NULL, TO_ROOM);
+        act("$n wakes up and starts resting.", ch, nullptr, nullptr, TO_ROOM);
         ch->position = POS_RESTING;
         break;
 
@@ -921,13 +922,13 @@ void do_rest(CHAR_DATA *ch, char *argument) {
 
     case POS_STANDING:
         send_to_char("You rest.\n\r", ch);
-        act("$n sits down and rests.", ch, NULL, NULL, TO_ROOM);
+        act("$n sits down and rests.", ch, nullptr, nullptr, TO_ROOM);
         ch->position = POS_RESTING;
         break;
 
     case POS_SITTING:
         send_to_char("You rest.\n\r", ch);
-        act("$n rests.", ch, NULL, NULL, TO_ROOM);
+        act("$n rests.", ch, nullptr, nullptr, TO_ROOM);
         ch->position = POS_RESTING;
         break;
 
@@ -940,7 +941,7 @@ void do_rest(CHAR_DATA *ch, char *argument) {
 void do_sit(CHAR_DATA *ch, char *argument) {
     (void)argument;
 
-    if (ch->riding != NULL) {
+    if (ch->riding != nullptr) {
         send_to_char("You're already sitting in a saddle!", ch);
         return;
     }
@@ -948,7 +949,7 @@ void do_sit(CHAR_DATA *ch, char *argument) {
     switch (ch->position) {
     case POS_SLEEPING:
         send_to_char("You wake up.\n\r", ch);
-        act("$n wakes and sits up.\n\r", ch, NULL, NULL, TO_ROOM);
+        act("$n wakes and sits up.\n\r", ch, nullptr, nullptr, TO_ROOM);
         ch->position = POS_SITTING;
         break;
     case POS_RESTING:
@@ -959,7 +960,7 @@ void do_sit(CHAR_DATA *ch, char *argument) {
     case POS_FIGHTING: send_to_char("Maybe you should finish this fight first?\n\r", ch); break;
     case POS_STANDING:
         send_to_char("You sit down.\n\r", ch);
-        act("$n sits down on the ground.\n\r", ch, NULL, NULL, TO_ROOM);
+        act("$n sits down on the ground.\n\r", ch, nullptr, nullptr, TO_ROOM);
         ch->position = POS_SITTING;
         break;
     }
@@ -969,7 +970,7 @@ void do_sit(CHAR_DATA *ch, char *argument) {
 void do_sleep(CHAR_DATA *ch, char *argument) {
     (void)argument;
 
-    if (ch->riding != NULL) {
+    if (ch->riding != nullptr) {
         send_to_char("You can't sleep - it's too uncomfortable in the saddle!\n\r", ch);
         return;
     }
@@ -981,7 +982,7 @@ void do_sleep(CHAR_DATA *ch, char *argument) {
     case POS_SITTING:
     case POS_STANDING:
         send_to_char("You go to sleep.\n\r", ch);
-        act("$n goes to sleep.", ch, NULL, NULL, TO_ROOM);
+        act("$n goes to sleep.", ch, nullptr, nullptr, TO_ROOM);
         ch->position = POS_SLEEPING;
         break;
 
@@ -1014,24 +1015,24 @@ void do_wake(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((victim = get_char_room(ch, arg)) == NULL) {
+    if ((victim = get_char_room(ch, arg)) == nullptr) {
         send_to_char("They aren't here.\n\r", ch);
         return;
     }
 
     if (IS_AWAKE(victim)) {
-        act("$N is already awake.", ch, NULL, victim, TO_CHAR);
+        act("$N is already awake.", ch, nullptr, victim, TO_CHAR);
         return;
     }
 
     if (IS_AFFECTED(victim, AFF_SLEEP)) {
-        act("You can't wake $M!", ch, NULL, victim, TO_CHAR);
+        act("You can't wake $M!", ch, nullptr, victim, TO_CHAR);
         return;
     }
 
     victim->position = POS_STANDING;
-    act("You wake $M.", ch, NULL, victim, TO_CHAR);
-    act("$n wakes you.", ch, NULL, victim, TO_VICT);
+    act("You wake $M.", ch, nullptr, victim, TO_CHAR);
+    act("$n wakes you.", ch, nullptr, victim, TO_VICT);
     return;
 }
 
@@ -1107,7 +1108,7 @@ void do_recall(CHAR_DATA *ch, char *argument) {
 
     if (!str_cmp(argument, "clan")) {
         if (IS_SET(ch->act, ACT_PET)) {
-            if (ch->master != NULL) {
+            if (ch->master != nullptr) {
                 if (ch->master->pcdata->pcclan)
                     vnum = ch->master->pcdata->pcclan->clan->recall_vnum;
                 else
@@ -1126,7 +1127,7 @@ void do_recall(CHAR_DATA *ch, char *argument) {
         vnum = ROOM_VNUM_TEMPLE;
     }
 
-    if ((location = get_room_index(vnum)) == NULL) {
+    if ((location = get_room_index(vnum)) == nullptr) {
         send_to_char("You are completely lost.\n\r", ch);
         return;
     }
@@ -1142,7 +1143,7 @@ void do_recall(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((victim = ch->fighting) != NULL) {
+    if ((victim = ch->fighting) != nullptr) {
         int lose, skill;
 
         if (IS_NPC(ch))
@@ -1158,7 +1159,7 @@ void do_recall(CHAR_DATA *ch, char *argument) {
             return;
         }
 
-        lose = (ch->desc != NULL) ? 25 : 50;
+        lose = (ch->desc != nullptr) ? 25 : 50;
         gain_exp(ch, 0 - lose);
         check_improve(ch, gsn_recall, true, 4);
         snprintf(buf, sizeof(buf), "You recall from combat!  You lose %d exps.\n\r", lose);
@@ -1168,21 +1169,21 @@ void do_recall(CHAR_DATA *ch, char *argument) {
 
     ch->move /= 2;
     if (!IS_SET(ch->act, PLR_WIZINVIS))
-        act("$n disappears.", ch, NULL, NULL, TO_ROOM);
+        act("$n disappears.", ch, nullptr, nullptr, TO_ROOM);
     char_from_room(ch);
     char_to_room(ch, location);
     if (!IS_SET(ch->act, PLR_WIZINVIS))
-        act("$n appears in the room.", ch, NULL, NULL, TO_ROOM);
+        act("$n appears in the room.", ch, nullptr, nullptr, TO_ROOM);
 
     do_look(ch, "auto");
 
     if (IS_NPC(ch) && ch->ridden_by) {
-        act("$n falls to the ground.", ch->ridden_by, NULL, NULL, TO_ROOM);
-        act("You fall to the ground.", ch->ridden_by, NULL, NULL, TO_CHAR);
+        act("$n falls to the ground.", ch->ridden_by, nullptr, nullptr, TO_ROOM);
+        act("You fall to the ground.", ch->ridden_by, nullptr, nullptr, TO_CHAR);
         fallen_off_mount(ch->ridden_by);
     }
 
-    if (ch->pet != NULL)
+    if (ch->pet != nullptr)
         do_recall(ch->pet, argument);
 
     return;
@@ -1192,7 +1193,7 @@ void do_train(CHAR_DATA *ch, char *argument) {
     char buf[MAX_STRING_LENGTH];
     CHAR_DATA *mob;
     sh_int stat = -1;
-    char *pOutput = NULL;
+    char *pOutput = nullptr;
     int cost;
 
     if (IS_NPC(ch))
@@ -1206,7 +1207,7 @@ void do_train(CHAR_DATA *ch, char *argument) {
             break;
     }
 
-    if (mob == NULL) {
+    if (mob == nullptr) {
         send_to_char("You can't do that here.\n\r", ch);
         return;
     }
@@ -1281,7 +1282,7 @@ void do_train(CHAR_DATA *ch, char *argument) {
             /*
              * This message dedicated to Jordan ... you big stud!
              */
-            act("You have nothing left to train, you $T!", ch, NULL,
+            act("You have nothing left to train, you $T!", ch, nullptr,
                 ch->sex == SEX_MALE ? "big stud" : ch->sex == SEX_FEMALE ? "hot babe" : "wild thing", TO_CHAR);
         }
 
@@ -1298,8 +1299,8 @@ void do_train(CHAR_DATA *ch, char *argument) {
         ch->pcdata->perm_hit += 10;
         ch->max_hit += 10;
         ch->hit += 10;
-        act("|WYour durability increases!|w", ch, NULL, NULL, TO_CHAR);
-        act("|W$n's durability increases!|w", ch, NULL, NULL, TO_ROOM);
+        act("|WYour durability increases!|w", ch, nullptr, nullptr, TO_CHAR);
+        act("|W$n's durability increases!|w", ch, nullptr, nullptr, TO_ROOM);
         return;
     }
 
@@ -1313,13 +1314,13 @@ void do_train(CHAR_DATA *ch, char *argument) {
         ch->pcdata->perm_mana += 10;
         ch->max_mana += 10;
         ch->mana += 10;
-        act("|WYour power increases!|w", ch, NULL, NULL, TO_CHAR);
-        act("|W$n's power increases!|w", ch, NULL, NULL, TO_ROOM);
+        act("|WYour power increases!|w", ch, nullptr, nullptr, TO_CHAR);
+        act("|W$n's power increases!|w", ch, nullptr, nullptr, TO_ROOM);
         return;
     }
 
     if (ch->perm_stat[stat] >= get_max_train(ch, stat)) {
-        act("Your $T is already at maximum.", ch, NULL, pOutput, TO_CHAR);
+        act("Your $T is already at maximum.", ch, nullptr, pOutput, TO_CHAR);
         return;
     }
 
@@ -1331,7 +1332,7 @@ void do_train(CHAR_DATA *ch, char *argument) {
     ch->train -= cost;
 
     ch->perm_stat[stat] += 1;
-    act("|WYour $T increases!|w", ch, NULL, pOutput, TO_CHAR);
-    act("|W$n's $T increases!|w", ch, NULL, pOutput, TO_ROOM);
+    act("|WYour $T increases!|w", ch, nullptr, pOutput, TO_CHAR);
+    act("|W$n's $T increases!|w", ch, nullptr, pOutput, TO_ROOM);
     return;
 }

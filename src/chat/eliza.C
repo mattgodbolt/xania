@@ -18,7 +18,7 @@ bool eliza::addname(char *n, int d) // add one name and number
             if (n[i] == '_')
                 n[i] = ' ';
         //    printf("found person '%s' at %d \n",n,d);
-        return thenames[numnames++].set(n, d) != NULL;
+        return thenames[numnames++].set(n, d) != nullptr;
     }
     return false;
 }
@@ -30,10 +30,10 @@ int namecompare(const void *a, const void *b) {
 void eliza::sortnames() { qsort((char *)thenames, numnames, sizeof(eliza::nametype), namecompare); }
 int eliza::getname(char *n) {
     nametype finder;
-    if (finder.set(n, 0) == NULL)
+    if (finder.set(n, 0) == nullptr)
         return 0;
     nametype *nt = (nametype *)bsearch((char *)&finder, (char *)thenames, numnames, sizeof(nametype), namecompare);
-    if (nt == NULL)
+    if (nt == nullptr)
         return 0;
     return nt->dbase;
 }
@@ -201,10 +201,10 @@ void eliza::addrest(char *replied, char *talker, const char *rep, char *target, 
     *point++ = '\0';
 }
 
-// nothing can be NULL!!!
+// nothing can be nullptr!!!
 const char *eliza::processdbase(char *talker, char *message, char *target, int dbase) {
     static char replied[repsize];
-    const char *rep = NULL;
+    const char *rep = nullptr;
 
     if (dbase < 0 || dbase > numdbases)
         return "dbase error in processnumber";
@@ -219,7 +219,7 @@ const char *eliza::processdbase(char *talker, char *message, char *target, int d
     int overflow = 10; // runtime check so we dont have circular cont jumps
     do {
         thekeys[dbase].reset();
-        while (thekeys[dbase].curr() != NULL) {
+        while (thekeys[dbase].curr() != nullptr) {
             int i = 0, rest = 0;
             if (match(thekeys[dbase].curr()->key.getlogic(), message, i, rest)) {
                 rep = thekeys[dbase].curr()->key.getrndreply();
@@ -246,7 +246,7 @@ bool eliza::loaddata(char file[], char recurflag) {
 
     FILE *data;
     char str[MAXSIZE];
-    if ((data = fopen(file, "rt")) == NULL) {
+    if ((data = fopen(file, "rt")) == nullptr) {
 #ifdef DEBUG
         puts("File error!");
 #endif
@@ -254,7 +254,7 @@ bool eliza::loaddata(char file[], char recurflag) {
     }
     int linecount = 0;
 
-    while (fgets(str, MAXSIZE - 1, data) != NULL) {
+    while (fgets(str, MAXSIZE - 1, data) != nullptr) {
         linecount++;
 #ifdef DEBUG
         puts(str);

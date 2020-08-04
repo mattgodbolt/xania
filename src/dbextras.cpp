@@ -153,25 +153,25 @@ int create_new_room(int lower, int higher) {
     ROOM_INDEX_DATA *pRoomIndex;
 
     for (vnum = lower; vnum <= higher; vnum++) {
-        if (get_room_index(vnum) == NULL)
+        if (get_room_index(vnum) == nullptr)
             break;
     }
-    if (get_room_index(vnum) != NULL)
+    if (get_room_index(vnum) != nullptr)
         return 0;
 
     pRoomIndex = alloc_perm(sizeof(*pRoomIndex));
-    pRoomIndex->people = NULL;
-    pRoomIndex->contents = NULL;
-    pRoomIndex->extra_descr = NULL;
+    pRoomIndex->people = nullptr;
+    pRoomIndex->contents = nullptr;
+    pRoomIndex->extra_descr = nullptr;
     pRoomIndex->area = area_last;
     pRoomIndex->vnum = vnum;
-    pRoomIndex->name = NULL;
-    pRoomIndex->description = NULL;
+    pRoomIndex->name = nullptr;
+    pRoomIndex->description = nullptr;
     pRoomIndex->room_flags = 0;
     pRoomIndex->sector_type = 0;
     pRoomIndex->light = 0;
     for (door = 0; door <= 5; door++)
-        pRoomIndex->exit[door] = NULL;
+        pRoomIndex->exit[door] = nullptr;
 
     iHash = vnum % MAX_KEY_HASH;
     pRoomIndex->next = room_index_hash[iHash];
@@ -188,7 +188,7 @@ int destroy_room(int vnum) {
     ROOM_INDEX_DATA *prev;
     EXTRA_DESCR_DATA *extras;
 
-    if ((pRoomIndex = get_room_index(vnum)) == NULL)
+    if ((pRoomIndex = get_room_index(vnum)) == nullptr)
         return 0;
 
     iHash = vnum % MAX_KEY_HASH;
@@ -202,20 +202,20 @@ int destroy_room(int vnum) {
                 break;
             }
         }
-        if (prev == NULL) {
+        if (prev == nullptr) {
             return 0;
         }
     }
-    pRoomIndex->next = NULL;
+    pRoomIndex->next = nullptr;
     free_string(pRoomIndex->name);
     free_string(pRoomIndex->description);
 
-    if (pRoomIndex->extra_descr != NULL) {
-        for (extras = pRoomIndex->extra_descr; extras != NULL; extras = extras->next) {
+    if (pRoomIndex->extra_descr != nullptr) {
+        for (extras = pRoomIndex->extra_descr; extras != nullptr; extras = extras->next) {
             free_string(extras->keyword);
             free_string(extras->description);
         }
-        pRoomIndex->extra_descr = NULL;
+        pRoomIndex->extra_descr = nullptr;
     }
 
     return 1;
@@ -238,7 +238,7 @@ void find_limits(AREA_DATA *area, int *lower, int *higher) {
     char buf[10], *ptr;
 
     for (; room_vnum < 32768; room_vnum++) {
-        if ((room = get_room_index(room_vnum)) != NULL) {
+        if ((room = get_room_index(room_vnum)) != nullptr) {
             if (room->area == area) {
                 snprintf(buf, sizeof(buf), "%d", room_vnum);
                 for (ptr = (buf + 2); *ptr; ptr++)
@@ -278,7 +278,7 @@ int save_whole_area(char *area_name, char *filename) {
 
     find_limits(save_area, &lower, &higher);
 
-    if ((fp = fopen(filename, "w")) == NULL)
+    if ((fp = fopen(filename, "w")) == nullptr)
         return 0;
 
     /*
@@ -303,7 +303,7 @@ int save_whole_area(char *area_name, char *filename) {
 
     for (vnum = lower; vnum <= higher; vnum++) {
 
-        if ((pRoomIndex = get_room_index(vnum)) == NULL)
+        if ((pRoomIndex = get_room_index(vnum)) == nullptr)
             continue;
 
         fprintf(fp, "#%d\n", vnum); /* Write the VNUM being processed */
@@ -318,7 +318,7 @@ int save_whole_area(char *area_name, char *filename) {
 
         for (door = 0; door <= 5; door++) {
 
-            if ((pExitData = pRoomIndex->exit[door]) == NULL)
+            if ((pExitData = pRoomIndex->exit[door]) == nullptr)
                 continue;
 
             switch ((pExitData->exit_info & (EX_ISDOOR | EX_PICKPROOF))) {
@@ -338,7 +338,7 @@ int save_whole_area(char *area_name, char *filename) {
          *  Scan through the linked list of extra descriptions and write these in also
          */
 
-        for (extra = pRoomIndex->extra_descr; extra != NULL; extra = extra->next) {
+        for (extra = pRoomIndex->extra_descr; extra != nullptr; extra = extra->next) {
             fprintf(fp, "E\n");
             fstring(fp, extra->keyword);
             fstring(fp, extra->description);
@@ -362,7 +362,7 @@ int save_whole_area(char *area_name, char *filename) {
 
     for (vnum = lower; vnum <= higher; vnum++) {
 
-        if ((pObjIndex = get_obj_index(vnum)) == NULL)
+        if ((pObjIndex = get_obj_index(vnum)) == nullptr)
             continue;
 
         fprintf(fp, "#%d\n", vnum);
@@ -412,7 +412,7 @@ int save_whole_area(char *area_name, char *filename) {
          *  Follow linked list of affects on the object
          */
 
-        for (paf = pObjIndex->affected; paf != NULL; paf = paf->next) {
+        for (paf = pObjIndex->affected; paf != nullptr; paf = paf->next) {
             fprintf(fp, "A\n");
             fprintf(fp, "%d %d\n", paf->location, paf->modifier);
         }
@@ -421,7 +421,7 @@ int save_whole_area(char *area_name, char *filename) {
          * and now the extra descriptions
          */
 
-        for (extra = pObjIndex->extra_descr; extra != NULL; extra = extra->next) {
+        for (extra = pObjIndex->extra_descr; extra != nullptr; extra = extra->next) {
             fprintf(fp, "E\n");
             fstring(fp, extra->keyword);
             fstring(fp, extra->description);
@@ -437,7 +437,7 @@ int save_whole_area(char *area_name, char *filename) {
 
     for (vnum = lower; vnum <= higher; vnum++) {
 
-        if ((pMobIndex = get_mob_index(vnum)) == NULL)
+        if ((pMobIndex = get_mob_index(vnum)) == nullptr)
             continue;
 
         fprintf(fp, "#%d\n", vnum);
@@ -493,7 +493,7 @@ int save_whole_area(char *area_name, char *filename) {
      *  equip it accordingly
      */
 
-    for (ch = char_list; ch != NULL; ch = ch->next) {
+    for (ch = char_list; ch != nullptr; ch = ch->next) {
 
         if (!IS_NPC(ch))
             continue; /* should only happen with IMMs but you never know :-) */
@@ -514,7 +514,7 @@ int save_whole_area(char *area_name, char *filename) {
          * accordingly :
          */
 
-        for (obj = ch->carrying; obj != NULL; obj = obj->next_content) {
+        for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
 
             if (obj->wear_loc == WEAR_NONE) {
                 /* G <number> <object-vnum> <limit-number> */
@@ -531,9 +531,9 @@ int save_whole_area(char *area_name, char *filename) {
     }
 
     fprintf(fp, "* #OBJECTS section:\n");
-    for (obj = object_list; obj != NULL; obj = obj->next) {
+    for (obj = object_list; obj != nullptr; obj = obj->next) {
 
-        if ((pRoomIndex = obj->in_room) == NULL)
+        if ((pRoomIndex = obj->in_room) == nullptr)
             continue;
         if ((obj->in_room->area != save_area))
             continue;
@@ -558,12 +558,12 @@ int save_whole_area(char *area_name, char *filename) {
 
     for (vnum = lower; vnum <= higher; vnum++) {
 
-        if ((pRoomIndex = get_room_index(vnum)) == NULL)
+        if ((pRoomIndex = get_room_index(vnum)) == nullptr)
             continue;
 
         for (door = 0; door <= 5; door++) {
 
-            if (pRoomIndex->exit[door] == NULL)
+            if (pRoomIndex->exit[door] == nullptr)
                 continue;
 
             locks = 0;
@@ -592,15 +592,15 @@ void recurse_object_contents(FILE *fp, OBJ_DATA *obj) {
 
     OBJ_DATA *inside;
 
-    if (obj->contains == NULL)
+    if (obj->contains == nullptr)
         return;
 
-    for (inside = obj->contains; inside != NULL; inside = inside->next_content) {
+    for (inside = obj->contains; inside != nullptr; inside = inside->next_content) {
 
         fprintf(fp, "P 1 %d %d %d		%s in %s\n", inside->pIndexData->vnum, inside->pIndexData->count,
                 obj->pIndexData->vnum, inside->short_descr, inside->short_descr);
 
-        if (obj->contains != NULL)
+        if (obj->contains != nullptr)
             recurse_object_contents(fp, inside); /* recursion !!! */
     }
 }
@@ -626,7 +626,7 @@ int _delete_obj(int vnum) {
     OBJ_INDEX_DATA *pObjIndex;
     EXTRA_DESCR_DATA *extras;
 
-    if ((pObjIndex = get_obj_index(vnum)) == NULL)
+    if ((pObjIndex = get_obj_index(vnum)) == nullptr)
         return 0;
 
     iHash = vnum % MAX_KEY_HASH;
@@ -640,22 +640,22 @@ int _delete_obj(int vnum) {
                 break;
             }
         }
-        if (prev == NULL) {
+        if (prev == nullptr) {
             return 0;
         }
     }
-    pObjIndex->next = NULL;
+    pObjIndex->next = nullptr;
     free_string(pObjIndex->name);
     free_string(pObjIndex->short_descr);
     free_string(pObjIndex->description);
 
-    if (pObjIndex->extra_descr != NULL) {
-        for (extras = pObjIndex->extra_descr; extras != NULL; extras = extras->next) {
+    if (pObjIndex->extra_descr != nullptr) {
+        for (extras = pObjIndex->extra_descr; extras != nullptr; extras = extras->next) {
 
             free_string(extras->keyword);
             free_string(extras->description);
         }
-        pObjIndex->extra_descr = NULL;
+        pObjIndex->extra_descr = nullptr;
     }
 
     return 1;

@@ -73,7 +73,7 @@ void do_mpstat(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((victim = get_char_world(ch, arg)) == NULL) {
+    if ((victim = get_char_world(ch, arg)) == nullptr) {
         send_to_char("They aren't here.\n\r", ch);
         return;
     }
@@ -103,7 +103,7 @@ void do_mpstat(CHAR_DATA *ch, char *argument) {
              victim->class_num, victim->alignment, victim->gold, victim->exp);
     send_to_char(buf, ch);
 
-    for (mprg = victim->pIndexData->mobprogs; mprg != NULL; mprg = mprg->next) {
+    for (mprg = victim->pIndexData->mobprogs; mprg != nullptr; mprg = mprg->next) {
         snprintf(buf, sizeof(buf), ">%s %s\n\r%s\n\r", mprog_type_to_name(mprg->type), mprg->arglist, mprg->comlist);
         send_to_char(buf, ch);
     }
@@ -132,11 +132,11 @@ void do_mpasound(CHAR_DATA *ch, char *argument) {
     for (door = 0; door <= 5; door++) {
         EXIT_DATA *pexit;
 
-        if ((pexit = was_in_room->exit[door]) != NULL && pexit->u1.to_room != NULL
+        if ((pexit = was_in_room->exit[door]) != nullptr && pexit->u1.to_room != nullptr
             && pexit->u1.to_room != was_in_room) {
             ch->in_room = pexit->u1.to_room;
             MOBtrigger = false;
-            act(argument, ch, NULL, NULL, TO_ROOM);
+            act(argument, ch, nullptr, nullptr, TO_ROOM);
         }
     }
 
@@ -162,7 +162,7 @@ void do_mpkill(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((victim = get_char_room(ch, arg)) == NULL) {
+    if ((victim = get_char_room(ch, arg)) == nullptr) {
         bug("MpKill - Victim not in room from vnum %d.", ch->pIndexData->vnum);
         return;
     }
@@ -208,16 +208,16 @@ void do_mpjunk(CHAR_DATA *ch, char *argument) {
     }
 
     if (str_cmp(arg, "all") && str_prefix("all.", arg)) {
-        if ((obj = get_obj_wear(ch, arg)) != NULL) {
+        if ((obj = get_obj_wear(ch, arg)) != nullptr) {
             unequip_char(ch, obj);
             extract_obj(obj);
             return;
         }
-        if ((obj = get_obj_carry(ch, arg)) == NULL)
+        if ((obj = get_obj_carry(ch, arg)) == nullptr)
             return;
         extract_obj(obj);
     } else
-        for (obj = ch->carrying; obj != NULL; obj = obj_next) {
+        for (obj = ch->carrying; obj != nullptr; obj = obj_next) {
             obj_next = obj->next_content;
             if (arg[3] == '\0' || is_name(&arg[4], obj->name)) {
                 if (obj->wear_loc != WEAR_NONE)
@@ -252,7 +252,7 @@ void do_mpechoaround(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    act(argument, ch, NULL, victim, TO_NOTVICT);
+    act(argument, ch, nullptr, victim, TO_NOTVICT);
     return;
 }
 
@@ -279,7 +279,7 @@ void do_mpechoat(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    act(argument, ch, NULL, victim, TO_VICT);
+    act(argument, ch, nullptr, victim, TO_VICT);
     return;
 }
 
@@ -296,7 +296,7 @@ void do_mpecho(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    act(argument, ch, NULL, NULL, TO_ROOM);
+    act(argument, ch, nullptr, nullptr, TO_ROOM);
     return;
 }
 
@@ -321,7 +321,7 @@ void do_mpmload(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((pMobIndex = get_mob_index(atoi(arg))) == NULL) {
+    if ((pMobIndex = get_mob_index(atoi(arg))) == nullptr) {
         bug("Mpmload - Bad mob vnum from vnum %d.", ch->pIndexData->vnum);
         return;
     }
@@ -368,7 +368,7 @@ void do_mpoload(CHAR_DATA *ch, char *argument) {
         }
     }
 
-    if ((pObjIndex = get_obj_index(atoi(arg1))) == NULL) {
+    if ((pObjIndex = get_obj_index(atoi(arg1))) == nullptr) {
         bug("Mpoload - Bad vnum arg from vnum %d.", ch->pIndexData->vnum);
         return;
     }
@@ -405,13 +405,13 @@ void do_mppurge(CHAR_DATA *ch, char *argument) {
         CHAR_DATA *vnext;
         OBJ_DATA *obj_next;
 
-        for (victim = ch->in_room->people; victim != NULL; victim = vnext) {
+        for (victim = ch->in_room->people; victim != nullptr; victim = vnext) {
             vnext = victim->next_in_room;
             if (IS_NPC(victim) && victim != ch)
                 extract_char(victim, true);
         }
 
-        for (obj = ch->in_room->contents; obj != NULL; obj = obj_next) {
+        for (obj = ch->in_room->contents; obj != nullptr; obj = obj_next) {
             obj_next = obj->next_content;
             extract_obj(obj);
         }
@@ -419,7 +419,7 @@ void do_mppurge(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((victim = get_char_room(ch, arg)) == NULL) {
+    if ((victim = get_char_room(ch, arg)) == nullptr) {
         if ((obj = get_obj_here(ch, arg))) {
             extract_obj(obj);
         } else {
@@ -454,12 +454,12 @@ void do_mpgoto(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((location = find_location(ch, arg)) == NULL) {
+    if ((location = find_location(ch, arg)) == nullptr) {
         bug("Mpgoto - No such location from vnum %d.", ch->pIndexData->vnum);
         return;
     }
 
-    if (ch->fighting != NULL)
+    if (ch->fighting != nullptr)
         stop_fighting(ch, true);
 
     char_from_room(ch);
@@ -488,7 +488,7 @@ void do_mpat(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((location = find_location(ch, arg)) == NULL) {
+    if ((location = find_location(ch, arg)) == nullptr) {
         bug("Mpat - No such location from vnum %d.", ch->pIndexData->vnum);
         return;
     }
@@ -502,7 +502,7 @@ void do_mpat(CHAR_DATA *ch, char *argument) {
      * See if 'ch' still exists before continuing!
      * Handles 'at XXXX quit' case.
      */
-    for (wch = char_list; wch != NULL; wch = wch->next) {
+    for (wch = char_list; wch != nullptr; wch = wch->next) {
         if (wch == ch) {
             char_from_room(ch);
             char_to_room(ch, original);
@@ -536,8 +536,8 @@ void do_mptransfer(CHAR_DATA *ch, char *argument) {
     }
 
     if (!str_cmp(arg1, "all")) {
-        for (d = descriptor_list; d != NULL; d = d->next) {
-            if (d->connected == CON_PLAYING && d->character != ch && d->character->in_room != NULL
+        for (d = descriptor_list; d != nullptr; d = d->next) {
+            if (d->connected == CON_PLAYING && d->character != ch && d->character->in_room != nullptr
                 && can_see(ch, d->character)) {
                 char buf[MAX_STRING_LENGTH];
                 snprintf(buf, sizeof(buf), "%s %s", d->character->name, arg2);
@@ -553,7 +553,7 @@ void do_mptransfer(CHAR_DATA *ch, char *argument) {
     if (arg2[0] == '\0') {
         location = ch->in_room;
     } else {
-        if ((location = find_location(ch, arg2)) == NULL) {
+        if ((location = find_location(ch, arg2)) == nullptr) {
             bug("Mptransfer - No such location from vnum %d.", ch->pIndexData->vnum);
             return;
         }
@@ -564,17 +564,17 @@ void do_mptransfer(CHAR_DATA *ch, char *argument) {
         }
     }
 
-    if ((victim = get_char_world(ch, arg1)) == NULL) {
+    if ((victim = get_char_world(ch, arg1)) == nullptr) {
         bug("Mptransfer - No such person from vnum %d.", ch->pIndexData->vnum);
         return;
     }
 
-    if (victim->in_room == NULL) {
+    if (victim->in_room == nullptr) {
         bug("Mptransfer - Victim in Limbo from vnum %d.", ch->pIndexData->vnum);
         return;
     }
 
-    if (victim->fighting != NULL)
+    if (victim->fighting != nullptr)
         stop_fighting(victim, true);
 
     char_from_room(victim);
@@ -605,7 +605,7 @@ void do_mpforce(CHAR_DATA *ch, char *argument) {
         CHAR_DATA *vch;
         CHAR_DATA *vch_next;
 
-        for (vch = char_list; vch != NULL; vch = vch_next) {
+        for (vch = char_list; vch != nullptr; vch = vch_next) {
             vch_next = vch->next;
 
             if (vch->in_room == ch->in_room && get_trust(vch) < get_trust(ch) && can_see(ch, vch)) {
@@ -615,7 +615,7 @@ void do_mpforce(CHAR_DATA *ch, char *argument) {
     } else {
         CHAR_DATA *victim;
 
-        if ((victim = get_char_room(ch, arg)) == NULL) {
+        if ((victim = get_char_room(ch, arg)) == nullptr) {
             bug("Mpforce - No such victim from vnum %d.", ch->pIndexData->vnum);
             return;
         }

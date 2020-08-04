@@ -39,29 +39,29 @@ const char *akey::getrndreply() {
 }
 
 akey::akey() {
-    logic = NULL;
-    replys = NULL;
+    logic = nullptr;
+    replys = nullptr;
     numreplys = totalwates = 0;
 #ifdef TEST
     // puts("constructor akey()");
 #endif
 }
 
-int akey::addlogic(char *logicstr) { return (logic = strdup(logicstr)) != NULL; }
+int akey::addlogic(char *logicstr) { return (logic = strdup(logicstr)) != nullptr; }
 
 int akey::addreply(int w, char *r) {
 #ifdef CHECKMEM
     static int called = 0;
     called++;
 #endif
-    if (replys == NULL) { // replys first time allocated
-        if ((replys = (reply *)malloc((numreplys + 1) * sizeof(reply))) == NULL) {
+    if (replys == nullptr) { // replys first time allocated
+        if ((replys = (reply *)malloc((numreplys + 1) * sizeof(reply))) == nullptr) {
 #ifdef CHECKMEM
             printf("realloc error in addreply in call %d\n", called);
 #endif
             return 0;
         }
-    } else if ((replys = (reply *)realloc(replys, (numreplys + 1) * sizeof(reply))) == NULL) {
+    } else if ((replys = (reply *)realloc(replys, (numreplys + 1) * sizeof(reply))) == nullptr) {
 #ifdef CHECKMEM
         printf("realloc error in addreply in call %d\n", called);
 #endif
@@ -69,7 +69,7 @@ int akey::addreply(int w, char *r) {
     }
     totalwates += w;
     replys[numreplys].wate = w;
-    if ((replys[numreplys].sent = strdup(r)) == NULL) {
+    if ((replys[numreplys].sent = strdup(r)) == nullptr) {
 #ifdef CHECKMEM
         puts("out of mem for strdup in addreply");
 #endif
@@ -83,7 +83,7 @@ int akey::addreply(int w, char *r) {
 }
 
 akey::~akey(){
-    /*  if(logic!=NULL) free(logic);
+    /*  if(logic!=nullptr) free(logic);
 
       for(int i=0;i<(numreplys-1);i++)
         {

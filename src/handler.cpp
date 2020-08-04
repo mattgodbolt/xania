@@ -20,7 +20,7 @@ void do_return(CHAR_DATA *ch, char *arg);
 
 void spell_poison(int spell_num, int level, CHAR_DATA *ch, void *vo);
 
-AFFECT_DATA *affect_free = NULL;
+AFFECT_DATA *affect_free = nullptr;
 
 /*
  * Local functions.
@@ -51,17 +51,17 @@ const struct guess_type material_guess_table[] = {{"armor", MATERIAL_STEEL},    
                                                   {"longsword", MATERIAL_STEEL}, {"bracelet", MATERIAL_SILVER},
                                                   {"girdle", MATERIAL_CLOTH},    {"rod", MATERIAL_WOOD},
                                                   {"scale", MATERIAL_LEATHER},   {"arrow", MATERIAL_WOOD},
-                                                  {"bow", MATERIAL_WOOD},        {NULL, 0}};
+                                                  {"bow", MATERIAL_WOOD},        {nullptr, 0}};
 
 int material_guess(char *name) {
     int type = MATERIAL_DEFAULT;
     int count;
 
-    for (count = 0; material_guess_table[count].name != NULL; count++) {
+    for (count = 0; material_guess_table[count].name != nullptr; count++) {
         if (is_name(material_guess_table[count].name, name))
             type = material_guess_table[count].material;
     }
-    for (count = 0; material_table[count].material_name != NULL; count++) {
+    for (count = 0; material_table[count].material_name != nullptr; count++) {
         if (is_name(material_table[count].material_name, name))
             type = count;
     }
@@ -73,7 +73,7 @@ int material_guess(char *name) {
 int material_lookup(char *name) {
     int material = MATERIAL_DEFAULT;
     int count = 0;
-    for (; material_table[count].material_name != NULL; count++) {
+    for (; material_table[count].material_name != nullptr; count++) {
         if (is_name(material_table[count].material_name, name))
             material = count;
     }
@@ -84,7 +84,7 @@ int material_lookup(char *name) {
 int race_lookup(const char *name) {
     int race;
 
-    for (race = 0; race_table[race].name != NULL; race++) {
+    for (race = 0; race_table[race].name != nullptr; race++) {
         if (LOWER(name[0]) == LOWER(race_table[race].name[0]) && !str_prefix(name, race_table[race].name))
             return race;
     }
@@ -163,7 +163,7 @@ int check_immune(CHAR_DATA *ch, int dam_type) {
 
 /* checks mob format */
 bool is_old_mob(CHAR_DATA *ch) {
-    if (ch->pIndexData == NULL)
+    if (ch->pIndexData == nullptr)
         return false;
     else if (ch->pIndexData->new_format)
         return false;
@@ -243,7 +243,7 @@ int get_weapon_sn(CHAR_DATA *ch) {
     int sn;
 
     wield = get_eq_char(ch, WEAR_WIELD);
-    if (wield == NULL || wield->item_type != ITEM_WEAPON)
+    if (wield == nullptr || wield->item_type != ITEM_WEAPON)
         sn = gsn_hand_to_hand;
     else
         switch (wield->value[0]) {
@@ -298,10 +298,10 @@ void reset_char(CHAR_DATA *ch) {
         /* do a FULL reset */
         for (loc = 0; loc < MAX_WEAR; loc++) {
             obj = get_eq_char(ch, loc);
-            if (obj == NULL)
+            if (obj == nullptr)
                 continue;
             if (!obj->enchanted)
-                for (af = obj->pIndexData->affected; af != NULL; af = af->next) {
+                for (af = obj->pIndexData->affected; af != nullptr; af = af->next) {
                     mod = af->modifier;
                     switch (af->location) {
                     case APPLY_SEX:
@@ -315,7 +315,7 @@ void reset_char(CHAR_DATA *ch) {
                     }
                 }
 
-            for (af = obj->affected; af != NULL; af = af->next) {
+            for (af = obj->affected; af != nullptr; af = af->next) {
                 mod = af->modifier;
                 switch (af->location) {
                 case APPLY_SEX: ch->sex -= mod; break;
@@ -359,13 +359,13 @@ void reset_char(CHAR_DATA *ch) {
     /* now start adding back the effects */
     for (loc = 0; loc < MAX_WEAR; loc++) {
         obj = get_eq_char(ch, loc);
-        if (obj == NULL)
+        if (obj == nullptr)
             continue;
         for (i = 0; i < 4; i++)
             ch->armor[i] -= apply_ac(obj, loc, i);
 
         if (!obj->enchanted)
-            for (af = obj->pIndexData->affected; af != NULL; af = af->next) {
+            for (af = obj->pIndexData->affected; af != nullptr; af = af->next) {
                 mod = af->modifier;
                 switch (af->location) {
                 case APPLY_STR: ch->mod_stat[STAT_STR] += mod; break;
@@ -394,7 +394,7 @@ void reset_char(CHAR_DATA *ch) {
                 }
             }
 
-        for (af = obj->affected; af != NULL; af = af->next) {
+        for (af = obj->affected; af != nullptr; af = af->next) {
             mod = af->modifier;
             switch (af->location) {
             case APPLY_STR: ch->mod_stat[STAT_STR] += mod; break;
@@ -425,7 +425,7 @@ void reset_char(CHAR_DATA *ch) {
     }
 
     /* now add back spell effects */
-    for (af = ch->affected; af != NULL; af = af->next) {
+    for (af = ch->affected; af != nullptr; af = af->next) {
         mod = af->modifier;
         switch (af->location) {
         case APPLY_STR: ch->mod_stat[STAT_STR] += mod; break;
@@ -464,12 +464,12 @@ void reset_char(CHAR_DATA *ch) {
  */
 int get_trust(CHAR_DATA *ch) {
 
-    if (ch == NULL) {
-        bug("ch == NULL in get_trust()");
+    if (ch == nullptr) {
+        bug("ch == nullptr in get_trust()");
         return 0;
     }
 
-    if (ch->desc != NULL && ch->desc->original != NULL)
+    if (ch->desc != nullptr && ch->desc->original != nullptr)
         ch = ch->desc->original;
 
     if (ch->trust != 0)
@@ -679,14 +679,14 @@ void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd) {
      * Check for weapon wielding.
      * Guard against recursion (for weapons with affects).
      */
-    if (!IS_NPC(ch) && (wield = get_eq_char(ch, WEAR_WIELD)) != NULL
+    if (!IS_NPC(ch) && (wield = get_eq_char(ch, WEAR_WIELD)) != nullptr
         && get_obj_weight(wield) > str_app[get_curr_stat(ch, STAT_STR)].wield) {
         static int depth;
 
         if (depth == 0) {
             depth++;
-            act("You drop $p.", ch, wield, NULL, TO_CHAR);
-            act("$n drops $p.", ch, wield, NULL, TO_ROOM);
+            act("You drop $p.", ch, wield, nullptr, TO_CHAR);
+            act("$n drops $p.", ch, wield, nullptr, TO_ROOM);
             obj_from_char(wield);
             obj_to_room(wield, ch->in_room);
             depth--;
@@ -702,7 +702,7 @@ void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd) {
 void affect_to_char(CHAR_DATA *ch, AFFECT_DATA *paf) {
     AFFECT_DATA *paf_new;
 
-    if (affect_free == NULL) {
+    if (affect_free == nullptr) {
         paf_new = alloc_perm(sizeof(*paf_new));
     } else {
         paf_new = affect_free;
@@ -721,7 +721,7 @@ void affect_to_char(CHAR_DATA *ch, AFFECT_DATA *paf) {
 void affect_to_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
     AFFECT_DATA *paf_new;
 
-    if (affect_free == NULL)
+    if (affect_free == nullptr)
         paf_new = alloc_perm(sizeof(*paf_new));
     else {
         paf_new = affect_free;
@@ -739,7 +739,7 @@ void affect_to_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
  * Remove an affect from a char.
  */
 void affect_remove(CHAR_DATA *ch, AFFECT_DATA *paf) {
-    if (ch->affected == NULL) {
+    if (ch->affected == nullptr) {
         bug("Affect_remove: no affect.");
         return;
     }
@@ -751,14 +751,14 @@ void affect_remove(CHAR_DATA *ch, AFFECT_DATA *paf) {
     } else {
         AFFECT_DATA *prev;
 
-        for (prev = ch->affected; prev != NULL; prev = prev->next) {
+        for (prev = ch->affected; prev != nullptr; prev = prev->next) {
             if (prev->next == paf) {
                 prev->next = paf->next;
                 break;
             }
         }
 
-        if (prev == NULL) {
+        if (prev == nullptr) {
             bug("Affect_remove: cannot find paf.");
             return;
         }
@@ -766,17 +766,17 @@ void affect_remove(CHAR_DATA *ch, AFFECT_DATA *paf) {
 
     paf->next = affect_free;
     affect_free = paf->next; /*  Modified by Death \/ as well */
-    paf = NULL; /*            ""                 */
+    paf = nullptr; /*            ""                 */
     return;
 }
 
 void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
-    if (obj->affected == NULL) {
+    if (obj->affected == nullptr) {
         bug("Affect_remove_object: no affect.");
         return;
     }
 
-    if (obj->carried_by != NULL && obj->wear_loc != -1)
+    if (obj->carried_by != nullptr && obj->wear_loc != -1)
         affect_modify(obj->carried_by, paf, false);
 
     if (paf == obj->affected) {
@@ -784,14 +784,14 @@ void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
     } else {
         AFFECT_DATA *prev;
 
-        for (prev = obj->affected; prev != NULL; prev = prev->next) {
+        for (prev = obj->affected; prev != nullptr; prev = prev->next) {
             if (prev->next == paf) {
                 prev->next = paf->next;
                 break;
             }
         }
 
-        if (prev == NULL) {
+        if (prev == nullptr) {
             bug("Affect_remove_object: cannot find paf.");
             return;
         }
@@ -799,7 +799,7 @@ void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
 
     paf->next = affect_free;
     affect_free = paf; /* modified from paf->next by TM */
-    paf = NULL; /* ""  Death */
+    paf = nullptr; /* ""  Death */
     return;
 }
 
@@ -810,7 +810,7 @@ void affect_strip(CHAR_DATA *ch, int sn) {
     AFFECT_DATA *paf;
     AFFECT_DATA *paf_next;
 
-    for (paf = ch->affected; paf != NULL; paf = paf_next) {
+    for (paf = ch->affected; paf != nullptr; paf = paf_next) {
         paf_next = paf->next;
         if (paf->type == sn)
             affect_remove(ch, paf);
@@ -825,7 +825,7 @@ void affect_strip(CHAR_DATA *ch, int sn) {
 bool is_affected(CHAR_DATA *ch, int sn) {
     AFFECT_DATA *paf;
 
-    for (paf = ch->affected; paf != NULL; paf = paf->next) {
+    for (paf = ch->affected; paf != nullptr; paf = paf->next) {
         if (paf->type == sn)
             return true;
     }
@@ -835,17 +835,17 @@ bool is_affected(CHAR_DATA *ch, int sn) {
 
 /*
  * Returns the AFFECT_DATA * structure for a char
- * return NULL if the char isn't affected
+ * return nullptr if the char isn't affected
  */
 AFFECT_DATA *find_affect(CHAR_DATA *ch, int sn) {
     AFFECT_DATA *paf;
 
-    for (paf = ch->affected; paf != NULL; paf = paf->next) {
+    for (paf = ch->affected; paf != nullptr; paf = paf->next) {
         if (paf->type == sn)
             return paf;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /*
@@ -854,7 +854,7 @@ AFFECT_DATA *find_affect(CHAR_DATA *ch, int sn) {
 void affect_join(CHAR_DATA *ch, AFFECT_DATA *paf) {
     AFFECT_DATA *paf_old;
 
-    for (paf_old = ch->affected; paf_old != NULL; paf_old = paf_old->next) {
+    for (paf_old = ch->affected; paf_old != nullptr; paf_old = paf_old->next) {
         if (paf_old->type == paf->type) {
             paf->level = (paf->level + paf_old->level) / 2;
             paf->duration += paf_old->duration;
@@ -874,15 +874,15 @@ void affect_join(CHAR_DATA *ch, AFFECT_DATA *paf) {
 void char_from_room(CHAR_DATA *ch) {
     OBJ_DATA *obj;
 
-    if (ch->in_room == NULL) {
-        bug("Char_from_room: NULL.");
+    if (ch->in_room == nullptr) {
+        bug("Char_from_room: nullptr.");
         return;
     }
 
     if (!IS_NPC(ch))
         --ch->in_room->area->nplayer;
 
-    if ((obj = get_eq_char(ch, WEAR_LIGHT)) != NULL && obj->item_type == ITEM_LIGHT && obj->value[2] != 0
+    if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->item_type == ITEM_LIGHT && obj->value[2] != 0
         && ch->in_room->light > 0)
         --ch->in_room->light;
 
@@ -898,15 +898,15 @@ void char_from_room(CHAR_DATA *ch) {
             }
         }
 
-        if (prev == NULL)
+        if (prev == nullptr)
             bug("Char_from_room: ch not found.");
     }
 
     /* MOBProgs - check to tell mobs we've left the room removed from HERE*/
 
     /*Challenge check!*/
-    ch->in_room = NULL;
-    ch->next_in_room = NULL;
+    ch->in_room = nullptr;
+    ch->next_in_room = nullptr;
     return;
 }
 
@@ -916,8 +916,8 @@ void char_from_room(CHAR_DATA *ch) {
 void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
     OBJ_DATA *obj;
 
-    if (pRoomIndex == NULL) {
-        bug("Char_to_room: NULL.");
+    if (pRoomIndex == nullptr) {
+        bug("Char_to_room: nullptr.");
         return;
     }
 
@@ -933,7 +933,7 @@ void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
         ++ch->in_room->area->nplayer;
     }
 
-    if ((obj = get_eq_char(ch, WEAR_LIGHT)) != NULL && obj->item_type == ITEM_LIGHT && obj->value[2] != 0)
+    if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->item_type == ITEM_LIGHT && obj->value[2] != 0)
         ++ch->in_room->light;
 
     if (IS_AFFECTED(ch, AFF_PLAGUE)) {
@@ -941,12 +941,12 @@ void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
         CHAR_DATA *vch;
         int save;
 
-        for (af = ch->affected; af != NULL; af = af->next) {
+        for (af = ch->affected; af != nullptr; af = af->next) {
             if (af->type == gsn_plague)
                 break;
         }
 
-        if (af == NULL) {
+        if (af == nullptr) {
             REMOVE_BIT(ch->affected_by, AFF_PLAGUE);
             return;
         }
@@ -961,7 +961,7 @@ void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
         plague.modifier = -5;
         plague.bitvector = AFF_PLAGUE;
 
-        for (vch = ch->in_room->people; vch != NULL; vch = vch->next_in_room) {
+        for (vch = ch->in_room->people; vch != nullptr; vch = vch->next_in_room) {
             switch (check_immune(vch, DAM_DISEASE)) {
             case (IS_NORMAL): save = af->level - 4; break;
             case (IS_IMMUNE): save = 0; break;
@@ -973,7 +973,7 @@ void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
             if (save != 0 && !saves_spell(save, vch) && !IS_IMMORTAL(vch) && !IS_AFFECTED(vch, AFF_PLAGUE)
                 && number_bits(6) == 0) {
                 send_to_char("You feel hot and feverish.\n\r", vch);
-                act("$n shivers and looks very ill.", vch, NULL, NULL, TO_ROOM);
+                act("$n shivers and looks very ill.", vch, nullptr, nullptr, TO_ROOM);
                 affect_join(vch, &plague);
             }
         }
@@ -989,8 +989,8 @@ void obj_to_char(OBJ_DATA *obj, CHAR_DATA *ch) {
     obj->next_content = ch->carrying;
     ch->carrying = obj;
     obj->carried_by = ch;
-    obj->in_room = NULL;
-    obj->in_obj = NULL;
+    obj->in_room = nullptr;
+    obj->in_obj = nullptr;
     ch->carry_number += get_obj_number(obj);
     ch->carry_weight += get_obj_weight(obj);
 }
@@ -1001,7 +1001,7 @@ void obj_to_char(OBJ_DATA *obj, CHAR_DATA *ch) {
 void obj_from_char(OBJ_DATA *obj) {
     CHAR_DATA *ch;
 
-    if ((ch = obj->carried_by) == NULL) {
+    if ((ch = obj->carried_by) == nullptr) {
         bug("Obj_from_char: null ch.");
         return;
     }
@@ -1014,19 +1014,19 @@ void obj_from_char(OBJ_DATA *obj) {
     } else {
         OBJ_DATA *prev;
 
-        for (prev = ch->carrying; prev != NULL; prev = prev->next_content) {
+        for (prev = ch->carrying; prev != nullptr; prev = prev->next_content) {
             if (prev->next_content == obj) {
                 prev->next_content = obj->next_content;
                 break;
             }
         }
 
-        if (prev == NULL)
+        if (prev == nullptr)
             bug("Obj_from_char: obj not in list.");
     }
 
-    obj->carried_by = NULL;
-    obj->next_content = NULL;
+    obj->carried_by = nullptr;
+    obj->next_content = nullptr;
     ch->carry_number -= get_obj_number(obj);
     ch->carry_weight -= get_obj_weight(obj);
     return;
@@ -1067,15 +1067,15 @@ int apply_ac(OBJ_DATA *obj, int iWear, int type) {
 OBJ_DATA *get_eq_char(CHAR_DATA *ch, int iWear) {
     OBJ_DATA *obj;
 
-    if (ch == NULL)
-        return NULL;
+    if (ch == nullptr)
+        return nullptr;
 
-    for (obj = ch->carrying; obj != NULL; obj = obj->next_content) {
+    for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
         if (obj->wear_loc == iWear)
             return obj;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /**
@@ -1085,8 +1085,8 @@ OBJ_DATA *get_eq_char(CHAR_DATA *ch, int iWear) {
  */
 void enforce_material_vulnerability(CHAR_DATA *ch, OBJ_DATA *obj) {
     if (check_material_vulnerability(ch, obj) == 1) {
-        act("As you equip $p it burns you, causing you to shriek in pain!", ch, obj, NULL, TO_CHAR);
-        act("$n shrieks in pain!", ch, obj, NULL, TO_ROOM);
+        act("As you equip $p it burns you, causing you to shriek in pain!", ch, obj, nullptr, TO_CHAR);
+        act("$n shrieks in pain!", ch, obj, nullptr, TO_ROOM);
         if (!IS_AFFECTED(ch, AFF_POISON)) {
             int p_sn = skill_lookup("poison");
             spell_poison(p_sn, ch->level, ch, ch);
@@ -1101,7 +1101,7 @@ void equip_char(CHAR_DATA *ch, OBJ_DATA *obj, int iWear) {
     AFFECT_DATA *paf;
     int i;
 
-    if (get_eq_char(ch, iWear) != NULL) {
+    if (get_eq_char(ch, iWear) != nullptr) {
         bug("Equip_char: already equipped (%d).", iWear);
         return;
     }
@@ -1111,8 +1111,8 @@ void equip_char(CHAR_DATA *ch, OBJ_DATA *obj, int iWear) {
         /*
          * Thanks to Morgenes for the bug fix here!
          */
-        act("You are zapped by $p and drop it.", ch, obj, NULL, TO_CHAR);
-        act("$n is zapped by $p and drops it.", ch, obj, NULL, TO_ROOM);
+        act("You are zapped by $p and drop it.", ch, obj, nullptr, TO_CHAR);
+        act("$n is zapped by $p and drops it.", ch, obj, nullptr, TO_ROOM);
         obj_from_char(obj);
         obj_to_room(obj, ch->in_room);
         return;
@@ -1125,12 +1125,12 @@ void equip_char(CHAR_DATA *ch, OBJ_DATA *obj, int iWear) {
     obj->wear_loc = iWear;
 
     if (!obj->enchanted)
-        for (paf = obj->pIndexData->affected; paf != NULL; paf = paf->next)
+        for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next)
             affect_modify(ch, paf, true);
-    for (paf = obj->affected; paf != NULL; paf = paf->next)
+    for (paf = obj->affected; paf != nullptr; paf = paf->next)
         affect_modify(ch, paf, true);
 
-    if (obj->item_type == ITEM_LIGHT && obj->value[2] != 0 && ch->in_room != NULL)
+    if (obj->item_type == ITEM_LIGHT && obj->value[2] != 0 && ch->in_room != nullptr)
         ++ch->in_room->light;
 
     return;
@@ -1153,12 +1153,12 @@ void unequip_char(CHAR_DATA *ch, OBJ_DATA *obj) {
     obj->wear_loc = -1;
 
     if (!obj->enchanted)
-        for (paf = obj->pIndexData->affected; paf != NULL; paf = paf->next)
+        for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next)
             affect_modify(ch, paf, false);
-    for (paf = obj->affected; paf != NULL; paf = paf->next)
+    for (paf = obj->affected; paf != nullptr; paf = paf->next)
         affect_modify(ch, paf, false);
 
-    if (obj->item_type == ITEM_LIGHT && obj->value[2] != 0 && ch->in_room != NULL && ch->in_room->light > 0)
+    if (obj->item_type == ITEM_LIGHT && obj->value[2] != 0 && ch->in_room != nullptr && ch->in_room->light > 0)
         --ch->in_room->light;
 
     return;
@@ -1172,7 +1172,7 @@ int count_obj_list(OBJ_INDEX_DATA *pObjIndex, OBJ_DATA *list) {
     int nMatch;
 
     nMatch = 0;
-    for (obj = list; obj != NULL; obj = obj->next_content) {
+    for (obj = list; obj != nullptr; obj = obj->next_content) {
         if (obj->pIndexData == pObjIndex)
             nMatch++;
     }
@@ -1186,8 +1186,8 @@ int count_obj_list(OBJ_INDEX_DATA *pObjIndex, OBJ_DATA *list) {
 void obj_from_room(OBJ_DATA *obj) {
     ROOM_INDEX_DATA *in_room;
 
-    if ((in_room = obj->in_room) == NULL) {
-        bug("obj_from_room: NULL.");
+    if ((in_room = obj->in_room) == nullptr) {
+        bug("obj_from_room: nullptr.");
         return;
     }
 
@@ -1203,14 +1203,14 @@ void obj_from_room(OBJ_DATA *obj) {
             }
         }
 
-        if (prev == NULL) {
+        if (prev == nullptr) {
             bug("Obj_from_room: obj not found.");
             return;
         }
     }
 
-    obj->in_room = NULL;
-    obj->next_content = NULL;
+    obj->in_room = nullptr;
+    obj->next_content = nullptr;
     return;
 }
 
@@ -1218,8 +1218,8 @@ bool check_sub_issue(OBJ_DATA *obj, CHAR_DATA *ch) {
     int vnum;
     vnum = obj->pIndexData->vnum;
     if (((vnum >= 3700) && (vnum <= 3713)) || (vnum == 3716) || (vnum == 3717)) {
-        act("$n drops the $p. It disappears in a puff of acrid smoke.", ch, obj, NULL, TO_ROOM);
-        act("$p disappears in a puff of acrid smoke.", ch, obj, NULL, TO_CHAR);
+        act("$n drops the $p. It disappears in a puff of acrid smoke.", ch, obj, nullptr, TO_ROOM);
+        act("$p disappears in a puff of acrid smoke.", ch, obj, nullptr, TO_CHAR);
         return true;
     }
     return false;
@@ -1232,8 +1232,8 @@ void obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *pRoomIndex) {
     obj->next_content = pRoomIndex->contents;
     pRoomIndex->contents = obj;
     obj->in_room = pRoomIndex;
-    obj->carried_by = NULL;
-    obj->in_obj = NULL;
+    obj->carried_by = nullptr;
+    obj->in_obj = nullptr;
     return;
 }
 
@@ -1244,13 +1244,13 @@ void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to) {
     obj->next_content = obj_to->contains;
     obj_to->contains = obj;
     obj->in_obj = obj_to;
-    obj->in_room = NULL;
-    obj->carried_by = NULL;
+    obj->in_room = nullptr;
+    obj->carried_by = nullptr;
     if (obj_to->pIndexData->vnum == OBJ_VNUM_PIT)
         obj->cost = 0;
 
-    for (; obj_to != NULL; obj_to = obj_to->in_obj) {
-        if (obj_to->carried_by != NULL) {
+    for (; obj_to != nullptr; obj_to = obj_to->in_obj) {
+        if (obj_to->carried_by != nullptr) {
             obj_to->carried_by->carry_number += get_obj_number(obj);
             obj_to->carried_by->carry_weight += get_obj_weight(obj);
         }
@@ -1265,7 +1265,7 @@ void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to) {
 void obj_from_obj(OBJ_DATA *obj) {
     OBJ_DATA *obj_from;
 
-    if ((obj_from = obj->in_obj) == NULL) {
+    if ((obj_from = obj->in_obj) == nullptr) {
         bug("Obj_from_obj: null obj_from.");
         return;
     }
@@ -1282,17 +1282,17 @@ void obj_from_obj(OBJ_DATA *obj) {
             }
         }
 
-        if (prev == NULL) {
+        if (prev == nullptr) {
             bug("Obj_from_obj: obj not found.");
             return;
         }
     }
 
-    obj->next_content = NULL;
-    obj->in_obj = NULL;
+    obj->next_content = nullptr;
+    obj->in_obj = nullptr;
 
-    for (; obj_from != NULL; obj_from = obj_from->in_obj) {
-        if (obj_from->carried_by != NULL) {
+    for (; obj_from != nullptr; obj_from = obj_from->in_obj) {
+        if (obj_from->carried_by != nullptr) {
             obj_from->carried_by->carry_number -= get_obj_number(obj);
             obj_from->carried_by->carry_weight -= get_obj_weight(obj);
         }
@@ -1308,11 +1308,11 @@ void extract_obj(OBJ_DATA *obj) {
     OBJ_DATA *obj_content;
     OBJ_DATA *obj_next;
 
-    if (obj->in_room != NULL)
+    if (obj->in_room != nullptr)
         obj_from_room(obj);
-    else if (obj->carried_by != NULL)
+    else if (obj->carried_by != nullptr)
         obj_from_char(obj);
-    else if (obj->in_obj != NULL)
+    else if (obj->in_obj != nullptr)
         obj_from_obj(obj);
 
     for (obj_content = obj->contains; obj_content; obj_content = obj_next) {
@@ -1325,14 +1325,14 @@ void extract_obj(OBJ_DATA *obj) {
     } else {
         OBJ_DATA *prev;
 
-        for (prev = object_list; prev != NULL; prev = prev->next) {
+        for (prev = object_list; prev != nullptr; prev = prev->next) {
             if (prev->next == obj) {
                 prev->next = obj->next;
                 break;
             }
         }
 
-        if (prev == NULL) {
+        if (prev == nullptr) {
             bug("Extract_obj: obj %d not found.", obj->pIndexData->vnum);
             return;
         }
@@ -1342,7 +1342,7 @@ void extract_obj(OBJ_DATA *obj) {
         AFFECT_DATA *paf;
         AFFECT_DATA *paf_next;
 
-        for (paf = obj->affected; paf != NULL; paf = paf_next) {
+        for (paf = obj->affected; paf != nullptr; paf = paf_next) {
             paf_next = paf->next;
             paf->next = affect_free;
             affect_free = paf;
@@ -1353,7 +1353,7 @@ void extract_obj(OBJ_DATA *obj) {
         EXTRA_DESCR_DATA *ed;
         EXTRA_DESCR_DATA *ed_next;
 
-        for (ed = obj->extra_descr; ed != NULL; ed = ed_next) {
+        for (ed = obj->extra_descr; ed != nullptr; ed = ed_next) {
             ed_next = ed->next;
             free_string(ed->description);
             free_string(ed->keyword);
@@ -1370,7 +1370,7 @@ void extract_obj(OBJ_DATA *obj) {
     --obj->pIndexData->count;
     obj->next = obj_free;
     obj_free = obj;
-    obj->affected = NULL;
+    obj->affected = nullptr;
 
     return;
 }
@@ -1385,15 +1385,15 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
     OBJ_DATA *obj;
     OBJ_DATA *obj_next;
 
-    if (ch->in_room == NULL) {
-        bug("Extract_char: NULL.");
+    if (ch->in_room == nullptr) {
+        bug("Extract_char: nullptr.");
         return;
     }
 
     nuke_pets(ch);
-    ch->pet = NULL; /* just in case */
+    ch->pet = nullptr; /* just in case */
 
-    if (ch->ridden_by != NULL) {
+    if (ch->ridden_by != nullptr) {
         thrown_off(ch->ridden_by, ch);
     }
 
@@ -1403,7 +1403,7 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
 
     stop_fighting(ch, true);
 
-    for (obj = ch->carrying; obj != NULL; obj = obj_next) {
+    for (obj = ch->carrying; obj != nullptr; obj = obj_next) {
         obj_next = obj->next_content;
         extract_obj(obj);
     }
@@ -1425,12 +1425,12 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
     if (IS_NPC(ch))
         --ch->pIndexData->count;
 
-    if (ch->desc != NULL && ch->desc->original != NULL)
+    if (ch->desc != nullptr && ch->desc->original != nullptr)
         do_return(ch, "");
 
-    for (wch = char_list; wch != NULL; wch = wch->next) {
+    for (wch = char_list; wch != nullptr; wch = wch->next) {
         if (wch->reply == ch)
-            wch->reply = NULL;
+            wch->reply = nullptr;
     }
 
     if (ch == char_list) {
@@ -1438,21 +1438,21 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
     } else {
         CHAR_DATA *prev;
 
-        for (prev = char_list; prev != NULL; prev = prev->next) {
+        for (prev = char_list; prev != nullptr; prev = prev->next) {
             if (prev->next == ch) {
                 prev->next = ch->next;
                 break;
             }
         }
 
-        if (prev == NULL) {
+        if (prev == nullptr) {
             bug("Extract_char: char not found.");
             return;
         }
     }
 
     if (ch->desc)
-        ch->desc->character = NULL;
+        ch->desc->character = nullptr;
     free_char(ch);
     return;
 }
@@ -1470,14 +1470,14 @@ CHAR_DATA *get_char_room(CHAR_DATA *ch, char *argument) {
     count = 0;
     if (!str_cmp(arg, "self"))
         return ch;
-    for (rch = ch->in_room->people; rch != NULL; rch = rch->next_in_room) {
+    for (rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
         if (!can_see(ch, rch) || !is_name(arg, rch->name))
             continue;
         if (++count == number)
             return rch;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /*
@@ -1489,19 +1489,19 @@ CHAR_DATA *get_char_world(CHAR_DATA *ch, char *argument) {
     int number;
     int count;
 
-    if ((wch = get_char_room(ch, argument)) != NULL)
+    if ((wch = get_char_room(ch, argument)) != nullptr)
         return wch;
 
     number = number_argument(argument, arg);
     count = 0;
-    for (wch = char_list; wch != NULL; wch = wch->next) {
-        if (wch->in_room == NULL || !can_see(ch, wch) || !is_name(arg, wch->name))
+    for (wch = char_list; wch != nullptr; wch = wch->next) {
+        if (wch->in_room == nullptr || !can_see(ch, wch) || !is_name(arg, wch->name))
             continue;
         if (++count == number)
             return wch;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /* find a MOB by vnum in the world, returning its CHAR_DATA * */
@@ -1513,7 +1513,7 @@ CHAR_DATA *get_mob_by_vnum(sh_int vnum) {
             if (current->pIndexData->vnum == vnum)
                 return current;
 
-    return NULL;
+    return nullptr;
 }
 
 /*
@@ -1523,12 +1523,12 @@ CHAR_DATA *get_mob_by_vnum(sh_int vnum) {
 OBJ_DATA *get_obj_type(OBJ_INDEX_DATA *pObjIndex) {
     OBJ_DATA *obj;
 
-    for (obj = object_list; obj != NULL; obj = obj->next) {
+    for (obj = object_list; obj != nullptr; obj = obj->next) {
         if (obj->pIndexData == pObjIndex)
             return obj;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /*
@@ -1542,14 +1542,14 @@ OBJ_DATA *get_obj_list(CHAR_DATA *ch, char *argument, OBJ_DATA *list) {
 
     number = number_argument(argument, arg);
     count = 0;
-    for (obj = list; obj != NULL; obj = obj->next_content) {
+    for (obj = list; obj != nullptr; obj = obj->next_content) {
         if (can_see_obj(ch, obj) && is_name(arg, obj->name)) {
             if (++count == number)
                 return obj;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /*
@@ -1563,14 +1563,14 @@ OBJ_DATA *get_obj_carry(CHAR_DATA *ch, char *argument) {
 
     number = number_argument(argument, arg);
     count = 0;
-    for (obj = ch->carrying; obj != NULL; obj = obj->next_content) {
+    for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
         if (obj->wear_loc == WEAR_NONE && (can_see_obj(ch, obj)) && is_name(arg, obj->name)) {
             if (++count == number)
                 return obj;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /*
@@ -1584,14 +1584,14 @@ OBJ_DATA *get_obj_wear(CHAR_DATA *ch, char *argument) {
 
     number = number_argument(argument, arg);
     count = 0;
-    for (obj = ch->carrying; obj != NULL; obj = obj->next_content) {
+    for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
         if (obj->wear_loc != WEAR_NONE && can_see_obj(ch, obj) && is_name(arg, obj->name)) {
             if (++count == number)
                 return obj;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /*
@@ -1601,16 +1601,16 @@ OBJ_DATA *get_obj_here(CHAR_DATA *ch, char *argument) {
     OBJ_DATA *obj;
 
     obj = get_obj_list(ch, argument, ch->in_room->contents);
-    if (obj != NULL)
+    if (obj != nullptr)
         return obj;
 
-    if ((obj = get_obj_carry(ch, argument)) != NULL)
+    if ((obj = get_obj_carry(ch, argument)) != nullptr)
         return obj;
 
-    if ((obj = get_obj_wear(ch, argument)) != NULL)
+    if ((obj = get_obj_wear(ch, argument)) != nullptr)
         return obj;
 
-    return NULL;
+    return nullptr;
 }
 
 /* Written by Wandera & Death */
@@ -1619,12 +1619,12 @@ OBJ_DATA *get_object(sh_int vnum) {
     OBJ_INDEX_DATA *pObjIndex;
 
     pObjIndex = get_obj_index(vnum);
-    if (pObjIndex != NULL) {
+    if (pObjIndex != nullptr) {
         obj = create_object(pObjIndex, 1);
         return obj;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /*
@@ -1636,19 +1636,19 @@ OBJ_DATA *get_obj_world(CHAR_DATA *ch, char *argument) {
     int number;
     int count;
 
-    if ((obj = get_obj_here(ch, argument)) != NULL)
+    if ((obj = get_obj_here(ch, argument)) != nullptr)
         return obj;
 
     number = number_argument(argument, arg);
     count = 0;
-    for (obj = object_list; obj != NULL; obj = obj->next) {
+    for (obj = object_list; obj != nullptr; obj = obj->next) {
         if (can_see_obj(ch, obj) && is_name(arg, obj->name)) {
             if (++count == number)
                 return obj;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /*
@@ -1689,7 +1689,7 @@ int get_obj_number(OBJ_DATA *obj) {
     else
         number = 1;
 
-    for (obj = obj->contains; obj != NULL; obj = obj->next_content)
+    for (obj = obj->contains; obj != nullptr; obj = obj->next_content)
         number += get_obj_number(obj);
 
     return number;
@@ -1702,7 +1702,7 @@ int get_obj_weight(OBJ_DATA *obj) {
     int weight;
 
     weight = obj->weight;
-    for (obj = obj->contains; obj != NULL; obj = obj->next_content)
+    for (obj = obj->contains; obj != nullptr; obj = obj->next_content)
         weight += get_obj_weight(obj);
 
     return weight;
@@ -1735,7 +1735,7 @@ bool room_is_private(ROOM_INDEX_DATA *pRoomIndex) {
     int count;
 
     count = 0;
-    for (rch = pRoomIndex->people; rch != NULL; rch = rch->next_in_room)
+    for (rch = pRoomIndex->people; rch != nullptr; rch = rch->next_in_room)
         count++;
 
     if (IS_SET(pRoomIndex->room_flags, ROOM_PRIVATE) && count >= 2)
@@ -1774,8 +1774,8 @@ bool can_see(CHAR_DATA *ch, CHAR_DATA *victim) {
 
     /* without this block, poor code involving descriptors would
        crash the mud - Fara 13/8/96 */
-    if (victim == NULL) {
-        bug("can_see: victim is NULL");
+    if (victim == nullptr) {
+        bug("can_see: victim is nullptr");
         return false;
     }
 
@@ -1803,7 +1803,7 @@ bool can_see(CHAR_DATA *ch, CHAR_DATA *victim) {
         return false;
 
     /* sneaking */
-    if (IS_AFFECTED(victim, AFF_SNEAK) && !IS_AFFECTED(ch, AFF_DETECT_HIDDEN) && victim->fighting == NULL
+    if (IS_AFFECTED(victim, AFF_SNEAK) && !IS_AFFECTED(ch, AFF_DETECT_HIDDEN) && victim->fighting == nullptr
         && (IS_NPC(ch) ? !IS_NPC(victim) : IS_NPC(victim))) {
         int chance;
         chance = get_skill(victim, gsn_sneak);
@@ -1815,7 +1815,7 @@ bool can_see(CHAR_DATA *ch, CHAR_DATA *victim) {
             return false;
     }
 
-    if (IS_AFFECTED(victim, AFF_HIDE) && !IS_AFFECTED(ch, AFF_DETECT_HIDDEN) && victim->fighting == NULL
+    if (IS_AFFECTED(victim, AFF_HIDE) && !IS_AFFECTED(ch, AFF_DETECT_HIDDEN) && victim->fighting == nullptr
         && (IS_NPC(ch) ? !IS_NPC(victim) : IS_NPC(victim)))
         return false;
 
@@ -2548,7 +2548,7 @@ bool is_switched(CHAR_DATA *ch) {
     if (!IS_NPC(ch))
         return false;
 
-    if (ch->desc == NULL)
+    if (ch->desc == nullptr)
         return false;
 
     return true;
