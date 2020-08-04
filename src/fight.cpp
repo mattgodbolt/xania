@@ -47,7 +47,7 @@ void check_killer(CHAR_DATA *ch, CHAR_DATA *victim);
 bool check_parry(CHAR_DATA *ch, CHAR_DATA *victim);
 bool check_shield_block(CHAR_DATA *ch, CHAR_DATA *victim);
 void dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type, bool immune);
-void announce(char *, CHAR_DATA *ch);
+void announce(const char *buf, CHAR_DATA *ch);
 void death_cry(CHAR_DATA *ch);
 void group_gain(CHAR_DATA *ch, CHAR_DATA *victim);
 int xp_compute(CHAR_DATA *gch, CHAR_DATA *victim, int total_levels);

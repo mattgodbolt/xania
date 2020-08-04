@@ -1,6 +1,6 @@
 #pragma once
 
 void startchat(const char *);
-char *dochat(char *, char *, char *);
-void chatperform(CHAR_DATA *ch, CHAR_DATA *victim, char *msg);
-void chatperformtoroom(char *txt, CHAR_DATA *ch);
+char *dochat(const char *talker, const char *msg, const char *target);
+void chatperform(CHAR_DATA *ch, CHAR_DATA *victim, const char *msg);
+void chatperformtoroom(const char *text, CHAR_DATA *ch);

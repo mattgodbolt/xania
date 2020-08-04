@@ -31,4 +31,4 @@ void startchat(const char *filename) {
     chatter.loaddata(filename);
 }
 
-const char *dochat(char *talker, char *msg, char *target) { return chatter.process(talker, msg, target); }
+const char *dochat(const char *talker, const char *msg, const char *target) { return chatter.process(talker, msg, target); }

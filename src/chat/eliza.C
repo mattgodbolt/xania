@@ -89,7 +89,7 @@ bool eliza::addbunch(char *names, int dbase) {
 
 // This tries more exhaustively to find a name out of the database
 // for example if 'Bobby Jo' fails, it will try Bobby then Jo.
-int eliza::getanyname(char *n) {
+int eliza::getanyname(const char *n) {
     int dbase = getname(n);
     if (dbase == 0) {
         char aword[MAXSIZE + 3];

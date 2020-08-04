@@ -663,6 +663,34 @@ const char *one_argument(const char *argument, char *arg_first) {
 
     return argument;
 }
+// TODO(MRG) this duplication is beyond heinous. BUT I want to ensure no new functionality but try and move towards
+// const-correctness and this seems the easiest path.
+char *one_argument(char *argument, char *arg_first) {
+    char cEnd;
+
+    while (isspace(*argument))
+        argument++;
+
+    cEnd = ' ';
+    if (*argument == '\'' || *argument == '"')
+        cEnd = *argument++;
+
+    while ((*argument != '\0') && (*argument != '\n')) {
+        if (*argument == cEnd) {
+            argument++;
+            break;
+        }
+        *arg_first = LOWER(*argument);
+        arg_first++;
+        argument++;
+    }
+    *arg_first = '\0';
+
+    while (isspace(*argument))
+        argument++;
+
+    return argument;
+}
 
 /* Columniser and new do_wizhelp, do_commands to cope with trie-based command
  * tables -- Forrey, Sun Mar 19 21:43:10 CET 2000

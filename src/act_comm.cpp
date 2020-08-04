@@ -95,7 +95,8 @@ void do_delete(CHAR_DATA *ch, char *argument) {
                 log_string("Info cache was empty.");
 
             snprintf(strsave, sizeof(strsave), "%s%s", PLAYER_DIR, capitalize(ch->name));
-            do_quit(ch, "");
+            char empty[] = "";
+            do_quit(ch, empty);
             unlink(strsave);
             return;
         }
@@ -112,7 +113,7 @@ void do_delete(CHAR_DATA *ch, char *argument) {
     ch->pcdata->confirm_delete = true;
 }
 
-void announce(char *buf, CHAR_DATA *ch) {
+void announce(const char *buf, CHAR_DATA *ch) {
     DESCRIPTOR_DATA *d;
 
     if (descriptor_list == nullptr)
@@ -183,7 +184,7 @@ void do_afk(CHAR_DATA *ch, char *argument) {
     }
 }
 
-static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, char *text) {
+static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
     char buf[MAX_STRING_LENGTH];
 
     if (IS_SET(ch->act, PLR_AFK))
@@ -230,9 +231,9 @@ void do_tell(CHAR_DATA *ch, char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
 
-    argument = one_argument(argument, arg);
+    const char *message = one_argument(argument, arg);
 
-    if (arg[0] == '\0' || argument[0] == '\0') {
+    if (arg[0] == '\0' || message[0] == '\0') {
         send_to_char("|cTell whom what?|w\n\r", ch);
         return;
     }
@@ -241,7 +242,7 @@ void do_tell(CHAR_DATA *ch, char *argument) {
     if (victim && // added :)
         IS_NPC(victim) && victim->in_room != ch->in_room)
         victim = nullptr;
-    tell_to(ch, victim, argument);
+    tell_to(ch, victim, message);
 }
 
 void do_reply(CHAR_DATA *ch, char *argument) { tell_to(ch, ch->reply, argument); }
@@ -292,7 +293,7 @@ void do_emote(CHAR_DATA *ch, char *argument) {
  * All the posing stuff.
  */
 struct pose_table_type {
-    char *message[2 * MAX_CLASS];
+    const char *message[2 * MAX_CLASS];
 };
 
 const struct pose_table_type pose_table[] = {
@@ -408,7 +409,6 @@ void do_bug(CHAR_DATA *ch, char *argument) {
     }
     append_file(ch, BUG_FILE, argument);
     send_to_char("|RBug logged! If you're lucky it may even get fixed!|w\n\r", ch);
-    return;
 }
 
 void do_idea(CHAR_DATA *ch, char *argument) {
@@ -418,7 +418,6 @@ void do_idea(CHAR_DATA *ch, char *argument) {
     }
     append_file(ch, IDEA_FILE, argument);
     send_to_char("|WIdea logged. This is |RNOT|W an identify command.|w\n\r", ch);
-    return;
 }
 
 void do_typo(CHAR_DATA *ch, char *argument) {
@@ -428,13 +427,11 @@ void do_typo(CHAR_DATA *ch, char *argument) {
     }
     append_file(ch, TYPO_FILE, argument);
     send_to_char("|WTypo logged. One day we'll fix it, or buy a spellchecker.|w\n\r", ch);
-    return;
 }
 
 void do_qui(CHAR_DATA *ch, char *argument) {
     (void)argument;
     send_to_char("|cIf you want to |RQUIT|c, you have to spell it out.|w\n\r", ch);
-    return;
 }
 
 void do_quit(CHAR_DATA *ch, char *argument) {
@@ -674,7 +671,6 @@ void do_follow(CHAR_DATA *ch, char *argument) {
         stop_follower(ch);
 
     add_follower(ch, victim);
-    return;
 }
 
 void add_follower(CHAR_DATA *ch, CHAR_DATA *master) {
@@ -690,8 +686,6 @@ void add_follower(CHAR_DATA *ch, CHAR_DATA *master) {
         act("$n now follows you.", ch, nullptr, master, TO_VICT);
 
     act("You now follow $N.", ch, nullptr, master, TO_CHAR);
-
-    return;
 }
 
 void stop_follower(CHAR_DATA *ch) {
@@ -718,7 +712,6 @@ void stop_follower(CHAR_DATA *ch) {
 
     ch->master = nullptr;
     ch->leader = nullptr;
-    return;
 }
 
 /* nukes charmed monsters and pets */
@@ -737,8 +730,6 @@ void nuke_pets(CHAR_DATA *ch) {
         }
     }
     ch->pet = nullptr;
-
-    return;
 }
 
 void die_follower(CHAR_DATA *ch) {
@@ -758,8 +749,6 @@ void die_follower(CHAR_DATA *ch) {
         if (fch->leader == ch)
             fch->leader = fch;
     }
-
-    return;
 }
 
 void do_order(CHAR_DATA *ch, char *argument) {
@@ -771,15 +760,15 @@ void do_order(CHAR_DATA *ch, char *argument) {
     bool found;
     bool fAll;
 
-    argument = one_argument(argument, arg);
-    one_argument(argument, arg2);
+    auto *command_remainder = one_argument(argument, arg);
+    one_argument(command_remainder, arg2);
 
     if (!str_cmp(arg2, "delete")) {
         send_to_char("That will NOT be done.\n\r", ch);
         return;
     }
 
-    if (arg[0] == '\0' || argument[0] == '\0') {
+    if (arg[0] == '\0' || command_remainder[0] == '\0') {
         send_to_char("Order whom to do what?\n\r", ch);
         return;
     }
@@ -816,10 +805,11 @@ void do_order(CHAR_DATA *ch, char *argument) {
 
         if (IS_AFFECTED(och, AFF_CHARM) && och->master == ch && (fAll || och == victim)) {
             found = true;
-            snprintf(buf, sizeof(buf), "|W$n|w orders you to '%s'.", argument);
+            snprintf(buf, sizeof(buf), "|W$n|w orders you to '%s'.", command_remainder);
             act(buf, ch, nullptr, och, TO_VICT);
             WAIT_STATE(ch, 2 * PULSE_VIOLENCE);
-            interpret(och, argument);
+            // We know this points into the remainder of "argument"
+            interpret(och, command_remainder);
         }
     }
 
@@ -827,7 +817,6 @@ void do_order(CHAR_DATA *ch, char *argument) {
         send_to_char("Ok.\n\r", ch);
     else
         send_to_char("You have no followers here.\n\r", ch);
-    return;
 }
 
 void do_group(CHAR_DATA *ch, char *argument) {
@@ -903,7 +892,6 @@ void do_group(CHAR_DATA *ch, char *argument) {
     act("$N joins $n's group.", ch, nullptr, victim, TO_NOTVICT);
     act("You join $n's group.", ch, nullptr, victim, TO_VICT);
     act("$N joins your group.", ch, nullptr, victim, TO_CHAR);
-    return;
 }
 
 /*
@@ -975,8 +963,6 @@ void do_split(CHAR_DATA *ch, char *argument) {
             gch->gold += share;
         }
     }
-
-    return;
 }
 
 void do_gtell(CHAR_DATA *ch, char *argument) {
@@ -1003,8 +989,6 @@ void do_gtell(CHAR_DATA *ch, char *argument) {
         if (is_same_group(gch, ch) && (gch != ch))
             send_to_char(buf, gch);
     }
-
-    return;
 }
 
 /*
@@ -1022,7 +1006,7 @@ bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch) {
 }
 
 /* The Eliza-functions */
-void chatperform(CHAR_DATA *ch, CHAR_DATA *victim, char *msg) {
+void chatperform(CHAR_DATA *ch, CHAR_DATA *victim, const char *msg) {
     char *reply;
     if (!IS_NPC(ch) || (victim != nullptr && IS_NPC(victim)))
         return; /* failsafe */
@@ -1044,7 +1028,7 @@ void chatperform(CHAR_DATA *ch, CHAR_DATA *victim, char *msg) {
     }
 }
 
-void chatperformtoroom(char *text, CHAR_DATA *ch) {
+void chatperformtoroom(const char *text, CHAR_DATA *ch) {
     CHAR_DATA *vch;
     if (IS_NPC(ch))
         return;
@@ -1054,5 +1038,4 @@ void chatperformtoroom(char *text, CHAR_DATA *ch) {
             if (number_percent() > 66) /* less spammy - Fara */
                 chatperform(vch, ch, text);
         }
-    return;
 }

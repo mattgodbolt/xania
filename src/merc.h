@@ -2053,7 +2053,7 @@ bool str_prefix(const char *astr, const char *bstr);
 bool str_infix(const char *astr, const char *bstr);
 bool str_suffix(const char *astr, const char *bstr);
 char *capitalize(const char *str);
-void append_file(CHAR_DATA *ch, char *file, char *str);
+void append_file(CHAR_DATA *ch, const char *file, const char *str);
 void bug(const char *str, ...) __attribute__((format(printf, 1, 2)));
 void log_string(const char *str);
 void log_new(const char *str, int loglevel, int level);
@@ -2164,6 +2164,7 @@ void interpret(CHAR_DATA *ch, char *argument);
 bool is_number(char *arg);
 int number_argument(char *argument, char *arg);
 const char *one_argument(const char *argument, char *arg_first);
+char *one_argument(char *argument, char *arg_first); // TODO(MRG) get rid of this as soon as we can.
 
 /* magic.c */
 int mana_cost(CHAR_DATA *ch, int min_mana, int level);

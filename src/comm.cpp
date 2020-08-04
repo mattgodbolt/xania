@@ -43,7 +43,7 @@ void do_skills(CHAR_DATA *ch, char *arg);
 void do_outfit(CHAR_DATA *ch, char *arg);
 void do_save(CHAR_DATA *ch, char *arg);
 
-void announce(char *, CHAR_DATA *ch);
+void announce(const char *buf, CHAR_DATA *ch);
 
 /* Added by Rohan - extern to player list for adding new players to it */
 extern KNOWN_PLAYERS *player_list;

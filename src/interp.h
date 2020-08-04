@@ -182,7 +182,7 @@ extern void do_notell(CHAR_DATA *ch, char *arg);
 extern void do_ofind(CHAR_DATA *ch, char *arg);
 extern void do_oload(CHAR_DATA *ch, char *arg);
 extern void do_open(CHAR_DATA *ch, char *arg);
-extern void do_order(CHAR_DATA *ch, char *arg);
+extern void do_order(CHAR_DATA *ch, char *argument);
 extern void do_oset(CHAR_DATA *ch, char *arg);
 extern void do_ostat(CHAR_DATA *ch, char *arg);
 extern void do_owhere(CHAR_DATA *ch, char *arg);
@@ -262,7 +262,7 @@ extern void do_steal(CHAR_DATA *ch, char *arg);
 extern void do_story(CHAR_DATA *ch, char *arg);
 extern void do_string(CHAR_DATA *ch, char *arg);
 extern void do_switch(CHAR_DATA *ch, char *arg);
-extern void do_tell(CHAR_DATA *ch, char *arg);
+extern void do_tell(CHAR_DATA *ch, char *argument);
 extern void do_time(CHAR_DATA *ch, char *arg);
 extern void do_tipwizard(CHAR_DATA *ch, char *arg);
 extern void do_tips(CHAR_DATA *ch, char *arg);
@@ -310,7 +310,7 @@ extern void do_clanset(CHAR_DATA *ch, char *arg);
 /* end of clan stuff */
 
 /* Misc stuff */
-extern void announce(char *, CHAR_DATA *ch);
+extern void announce(const char *buf, CHAR_DATA *ch);
 bool check_social(CHAR_DATA *ch, char *command, char *arg);
 
 /* OLC */

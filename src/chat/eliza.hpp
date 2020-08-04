@@ -45,7 +45,7 @@ protected:
   bool addbunch(char*, int); //add more then one name to some number
   void sortnames();
   int getname(char*);     //only tries once to find a name
-  int getanyname(char*);  //more exhaustive search to find name
+  int getanyname(const char*n);  //more exhaustive search to find name
 
 public:
   void reducespaces(char *);
@@ -54,8 +54,8 @@ public:
 public:
     bool loaddata(const char *, char recurflag = 0);
     const char *processdbase(char *talker, char *message, char *target, int dbase);
-    const char* process(char* talker,char* message,char* target)    {
-#ifdef USE_EX_SEARCH	
+    const char* process(const char *talker,const char *message,const char *target)    {
+#ifdef USE_EX_SEARCH
     return processdbase(talker,message,target,getanyname(talker));
 #else
     return processdbase(talker,message,target,getname(talker));

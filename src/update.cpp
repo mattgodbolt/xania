@@ -32,7 +32,7 @@ void weather_update();
 void char_update();
 void obj_update();
 void aggr_update();
-void announce(char *, CHAR_DATA *ch);
+void announce(const char *buf, CHAR_DATA *ch);
 
 /* Added by Rohan to reset the count every day */
 void count_update();
