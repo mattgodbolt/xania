@@ -908,7 +908,7 @@ void do_lore(CHAR_DATA *ch, OBJ_DATA *obj, const char *pdesc) {
     }
 }
 
-void do_look(CHAR_DATA *ch, char *argument) {
+void do_look(CHAR_DATA *ch, const char *arg) {
     char buf[MAX_STRING_LENGTH];
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
@@ -943,8 +943,8 @@ void do_look(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
+    arg = one_argument(arg, arg1);
+    arg = one_argument(arg, arg2);
     number = number_argument(arg1, arg3);
     count = 0;
 

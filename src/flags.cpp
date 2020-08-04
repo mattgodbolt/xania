@@ -10,22 +10,20 @@
 #include "flags.h"
 #include "buffer.h"
 #include "merc.h"
-#include <ctype.h>
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <time.h>
 
-void display_flags(char *format, CHAR_DATA *ch, int current_val) {
+#include <cctype>
+#include <cstdlib>
+#include <cstring>
+
+void display_flags(const char *format, CHAR_DATA *ch, unsigned long current_val) {
     char buf[MAX_STRING_LENGTH];
-    char *src, *dest, *ptr;
+    const char *src;
+    char *dest;
+    const char *ptr;
     BUFFER *buffer;
     int chars;
     if (current_val) {
-        int bit;
+        unsigned long bit;
         ptr = format;
         buffer = buffer_create();
         buffer_addline(buffer, "|C");
@@ -36,7 +34,7 @@ void display_flags(char *format, CHAR_DATA *ch, int current_val) {
             for (; *src && !isspace(*src);)
                 *dest++ = *src++;
             *dest = '\0';
-            if (IS_SET(current_val, (1 << bit)) && *buf != '*') {
+            if (IS_SET(current_val, (1u << bit)) && *buf != '*') {
                 int num;
                 char *bufptr = buf;
                 if (isdigit(*buf)) {
@@ -73,11 +71,12 @@ void display_flags(char *format, CHAR_DATA *ch, int current_val) {
     }
 }
 
-int flag_bit(char *format, char *flag, int level) {
+unsigned long flag_bit(const char *format, const char *flag, int level) {
     char buf[MAX_INPUT_LENGTH];
     char buf2[MAX_INPUT_LENGTH];
-    char *src = flag, *dest = buf;
-    char *ptr = format;
+    const char *src = flag;
+    char *dest = buf;
+    const char *ptr = format;
     int bit = 0;
 
     for (; *src && !isspace(*src);)
@@ -109,27 +108,29 @@ int flag_bit(char *format, char *flag, int level) {
     return INVALID_BIT;
 }
 
-long flag_set(char *format, char *arg, long current_val, CHAR_DATA *ch) {
-    long retval = current_val;
+unsigned long flag_set(const char *format, const char *arg, unsigned long current_val, CHAR_DATA *ch) {
+    auto retval = current_val;
     if (arg[0] == '\0') {
         display_flags(format, ch, (int)current_val);
         send_to_char("Allowed flags are:\n\r", ch);
         display_flags(format, ch, -1);
         return current_val;
     }
+    enum class BitOp { Toggle, Set, Clear };
+
     for (;;) {
-        int bit, flag = 0;
+        auto flag = BitOp::Toggle;
         switch (*arg) {
         case '+':
-            flag = 1;
+            flag = BitOp::Set;
             arg++;
             break;
         case '-':
-            flag = 2;
+            flag = BitOp::Clear;
             arg++;
             break;
         }
-        bit = flag_bit(format, arg, get_trust(ch));
+        auto bit = flag_bit(format, arg, get_trust(ch));
         if (bit == INVALID_BIT) {
             display_flags(format, ch, (int)current_val);
             send_to_char("Allowed flags are:\n\r", ch);
@@ -137,9 +138,9 @@ long flag_set(char *format, char *arg, long current_val, CHAR_DATA *ch) {
             return current_val;
         }
         switch (flag) {
-        case 0: /* toggle */ retval ^= (1 << bit); break;
-        case 1: /* set */ retval |= (1 << bit); break;
-        case 2: /* clear */ retval &= ~(1 << bit); break;
+        case BitOp::Toggle: retval ^= (1u << bit); break;
+        case BitOp::Set: retval |= (1u << bit); break;
+        case BitOp::Clear: retval &= ~(1u << bit); break;
         }
         while (*arg && !isspace(*arg))
             arg++;

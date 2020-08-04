@@ -58,6 +58,7 @@ typedef bool (*SpecialFunc)(CHAR_DATA *ch);
  */
 
 typedef short int sh_int;
+typedef unsigned short int ush_int;
 
 /* Buffer structure */
 typedef struct _BUFFER BUFFER;
@@ -999,10 +1000,6 @@ static inline constexpr auto ff = BIT(31);
 #define ROOM_LAW (S)
 #define ROOM_SAVEOBJ (T) /*OLC?*/
 
-#define ROOM_FLAGS                                                                                                     \
-    "dark * nomob indoors * * * * * private safe solitary petshop norecall 100imponly 92godonly "                      \
-    "heroonly newbieonly law"
-
 /*
  * Directions.
  * Used in #ROOMS.
@@ -1500,7 +1497,7 @@ struct obj_index_data {
     sh_int material;
     sh_int item_type;
     int extra_flags;
-    sh_int wear_flags;
+    ush_int wear_flags;
     char *wear_string;
     sh_int level;
     sh_int condition;

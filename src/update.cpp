@@ -14,7 +14,7 @@
 #include <time.h>
 
 /* command procedures needed */
-void do_quit(CHAR_DATA *ch, char *arg);
+void do_quit(CHAR_DATA *ch, const char *arg);
 void do_wear(CHAR_DATA *ch, char *arg);
 void do_yell(CHAR_DATA *ch, char *arg);
 
@@ -784,7 +784,7 @@ void obj_update() {
 
     for (obj = object_list; obj != nullptr; obj = obj_next) {
         CHAR_DATA *rch;
-        char *message;
+        const char *message;
 
         obj_next = obj->next;
 

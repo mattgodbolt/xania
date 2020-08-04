@@ -21,7 +21,7 @@
 #include <time.h>
 
 /* command procedures needed */
-void do_look(CHAR_DATA *ch, char *arg);
+void do_look(CHAR_DATA *ch, const char *arg);
 
 /* Faramir's rather devious tornado spell....watch out for players who
  * use this to annoy others! :)

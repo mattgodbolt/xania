@@ -15,7 +15,7 @@
 #include <cstdlib>
 #include <cstring>
 
-extern char *target_name; /* Included from magic.c */
+extern const char *target_name; /* Included from magic.c */
 
 /*
  * Local functions.
@@ -920,11 +920,9 @@ void do_drink(CHAR_DATA *ch, char *argument) {
         obj->value[1] -= amount;
         break;
     }
-
-    return;
 }
 
-void do_eat(CHAR_DATA *ch, char *argument) {
+void do_eat(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
 
@@ -972,7 +970,7 @@ void do_eat(CHAR_DATA *ch, char *argument) {
             /* The shit was poisoned! */
             AFFECT_DATA af;
 
-            act("|r$n chokes and gags.|w", ch, 0, 0, TO_ROOM);
+            act("|r$n chokes and gags.|w", ch, nullptr, nullptr, TO_ROOM);
             send_to_char("|RYou choke and gag.|w\n\r", ch);
 
             af.type = gsn_poison;
@@ -994,7 +992,6 @@ void do_eat(CHAR_DATA *ch, char *argument) {
     }
 
     extract_obj(obj);
-    return;
 }
 
 /*

@@ -16,7 +16,7 @@
 #include <time.h>
 
 /* command procedures needed */
-void do_quit(CHAR_DATA *ch, char *argument);
+void do_quit(CHAR_DATA *ch, const char *arg);
 
 /* Rohan's info stuff - extern to Player list */
 extern KNOWN_PLAYERS *player_list;
@@ -95,8 +95,7 @@ void do_delete(CHAR_DATA *ch, char *argument) {
                 log_string("Info cache was empty.");
 
             snprintf(strsave, sizeof(strsave), "%s%s", PLAYER_DIR, capitalize(ch->name));
-            char empty[] = "";
-            do_quit(ch, empty);
+            do_quit(ch, "");
             unlink(strsave);
             return;
         }
@@ -434,8 +433,8 @@ void do_qui(CHAR_DATA *ch, char *argument) {
     send_to_char("|cIf you want to |RQUIT|c, you have to spell it out.|w\n\r", ch);
 }
 
-void do_quit(CHAR_DATA *ch, char *argument) {
-    (void)argument;
+void do_quit(CHAR_DATA *ch, const char *arg) {
+    (void)arg;
     DESCRIPTOR_DATA *d;
     FINGER_INFO *cur;
     bool info_found = false;
@@ -510,8 +509,8 @@ void do_quit(CHAR_DATA *ch, char *argument) {
     return;
 }
 
-void do_save(CHAR_DATA *ch, char *argument) {
-    (void)argument;
+void do_save(CHAR_DATA *ch, const char *arg) {
+    (void)arg;
     if (IS_NPC(ch))
         return;
 

@@ -16,7 +16,7 @@
 #include <sys/types.h>
 
 /* command procedures needed */
-void do_look(CHAR_DATA *ch, char *arg);
+void do_look(CHAR_DATA *ch, const char *arg);
 void do_recall(CHAR_DATA *ch, char *arg);
 void do_stand(CHAR_DATA *ch, char *arg);
 

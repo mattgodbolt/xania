@@ -7,47 +7,30 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "buffer.h"
 #include "db.h"
+#include "flags.h"
+#include "interp.h"
 #include "lookup.h"
 #include "magic.h"
 #include "merc.h"
 #include "tables.h"
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <sys/time.h>
 #include <sys/types.h>
 
-#include "buffer.h"
+static const char ROOM_FLAGS[] = "dark * nomob indoors * * * * * private safe solitary petshop norecall 100imponly "
+                                 "92godonly heroonly newbieonly law";
 
-#include "flags.h" /* for the setting of flags blah blah blah :) */
-
-extern OBJ_INDEX_DATA *obj_index_hash[MAX_KEY_HASH];
-
-/* command procedures needed */
-void do_rstat(CHAR_DATA *ch, char *arg);
-void do_mstat(CHAR_DATA *ch, char *arg);
-void do_ostat(CHAR_DATA *ch, char *arg);
-void do_rset(CHAR_DATA *ch, char *arg);
-void do_mset(CHAR_DATA *ch, char *arg);
-void do_oset(CHAR_DATA *ch, char *arg);
-void do_sset(CHAR_DATA *ch, char *arg);
-void do_mfind(CHAR_DATA *ch, char *arg);
-void do_ofind(CHAR_DATA *ch, char *arg);
-void do_slookup(CHAR_DATA *ch, char *arg);
-void do_mload(CHAR_DATA *ch, char *arg);
-void do_oload(CHAR_DATA *ch, char *arg);
-void do_force(CHAR_DATA *ch, char *arg);
-void do_quit(CHAR_DATA *ch, char *arg);
-void do_save(CHAR_DATA *ch, char *arg);
-void do_look(CHAR_DATA *ch, char *arg);
-void do_stand(CHAR_DATA *ch, char *arg);
-void do_maffects(CHAR_DATA *ch, char *arg);
-void do_mspells(CHAR_DATA *ch, char *arg);
-void do_mskills(CHAR_DATA *ch, char *arg);
-void do_mpracs(CHAR_DATA *ch, char *arg);
-void do_minfo(CHAR_DATA *ch, char *arg);
+void do_mskills(CHAR_DATA *ch, const char *argument);
+void do_maffects(CHAR_DATA *ch, const char *argument);
+void do_mpracs(CHAR_DATA *ch, const char *argument);
+void do_minfo(CHAR_DATA *ch, const char *argument);
+void do_mspells(CHAR_DATA *ch, const char *argument);
 
 /*
  * Local functions.
@@ -509,7 +492,7 @@ void do_transfer(CHAR_DATA *ch, char *argument) {
     send_to_char("Ok.\n\r", ch);
 }
 
-void do_wizlock(CHAR_DATA *ch, char *argument) {
+void do_wizlock(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     extern bool wizlock;
     wizlock = !wizlock;
@@ -518,13 +501,11 @@ void do_wizlock(CHAR_DATA *ch, char *argument) {
         send_to_char("Game wizlocked.\n\r", ch);
     else
         send_to_char("Game un-wizlocked.\n\r", ch);
-
-    return;
 }
 
 /* RT anti-newbie code */
 
-void do_newlock(CHAR_DATA *ch, char *argument) {
+void do_newlock(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     extern bool newlock;
     newlock = !newlock;
@@ -533,8 +514,6 @@ void do_newlock(CHAR_DATA *ch, char *argument) {
         send_to_char("New characters have been locked out.\n\r", ch);
     else
         send_to_char("Newlock removed.\n\r", ch);
-
-    return;
 }
 
 void do_at(CHAR_DATA *ch, char *argument) {
@@ -887,11 +866,13 @@ void do_ostat(CHAR_DATA *ch, char *argument) {
                  obj->condition, obj->timer);
     send_to_char(buf, ch);
 
-    bug_snprintf(
-        buf, sizeof(buf), "In room: %d  In object: %s  Carried by: %s  Wear_loc: %d\n\r",
-        obj->in_room == nullptr ? 0 : obj->in_room->vnum, obj->in_obj == nullptr ? "(none)" : obj->in_obj->short_descr,
-        obj->carried_by == nullptr ? "(none)" : can_see(ch, obj->carried_by) ? obj->carried_by->name : "someone",
-        obj->wear_loc);
+    bug_snprintf(buf, sizeof(buf), "In room: %d  In object: %s  Carried by: %s  Wear_loc: %d\n\r",
+                 obj->in_room == nullptr ? 0 : obj->in_room->vnum,
+                 obj->in_obj == nullptr ? "(none)" : obj->in_obj->short_descr,
+                 obj->carried_by == nullptr     ? "(none)"
+                 : can_see(ch, obj->carried_by) ? obj->carried_by->name
+                                                : "someone",
+                 obj->wear_loc);
     send_to_char(buf, ch);
 
     bug_snprintf(buf, sizeof(buf), "Values: %d %d %d %d %d\n\r", obj->value[0], obj->value[1], obj->value[2],
@@ -1054,7 +1035,7 @@ void do_ostat(CHAR_DATA *ch, char *argument) {
     return;
 }
 
-void do_mskills(CHAR_DATA *ch, char *argument) {
+void do_mskills(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
@@ -1129,7 +1110,7 @@ void do_mskills(CHAR_DATA *ch, char *argument) {
 }
 
 /* Corrected 28/8/96 by Oshea to give correct list of spell costs. */
-void do_mspells(CHAR_DATA *ch, char *argument) {
+void do_mspells(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
@@ -1200,11 +1181,9 @@ void do_mspells(CHAR_DATA *ch, char *argument) {
         if (spell_list[lev][0] != '\0')
             send_to_char(spell_list[lev], ch);
     send_to_char("\n\r", ch);
-
-    return;
 }
 
-void do_maffects(CHAR_DATA *ch, char *argument) {
+void do_maffects(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
@@ -1248,12 +1227,10 @@ void do_maffects(CHAR_DATA *ch, char *argument) {
     } else {
         send_to_char("Nothing.\n\r", ch);
     }
-
-    return;
 }
 
 /* Corrected 28/8/96 by Oshea to give correct list of spells/skills. */
-void do_mpracs(CHAR_DATA *ch, char *argument) {
+void do_mpracs(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
@@ -1302,7 +1279,7 @@ void do_mpracs(CHAR_DATA *ch, char *argument) {
 }
 
 /* Correct on 28/8/96 by Oshea to give correct cp's */
-void do_minfo(CHAR_DATA *ch, char *argument) {
+void do_minfo(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
@@ -1381,7 +1358,9 @@ void do_mstat(CHAR_DATA *ch, char *argument) {
     bug_snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
                  IS_NPC(victim) ? victim->pIndexData->vnum : 0,
                  IS_NPC(victim) ? victim->pIndexData->new_format ? "new" : "old" : "pc", race_table[victim->race].name,
-                 victim->sex == SEX_MALE ? "male" : victim->sex == SEX_FEMALE ? "female" : "neutral",
+                 victim->sex == SEX_MALE     ? "male"
+                 : victim->sex == SEX_FEMALE ? "female"
+                                             : "neutral",
                  victim->in_room == nullptr ? 0 : victim->in_room->vnum);
     send_to_char(buf, ch);
 
@@ -3565,7 +3544,9 @@ void do_sockets(CHAR_DATA *ch, char *argument) {
             count++;
             bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %8u %2d] %s@%s\n\r", d->descriptor,
                          (d->localport & 0xffff), d->connected,
-                         d->original ? d->original->name : d->character ? d->character->name : "(none)",
+                         d->original    ? d->original->name
+                         : d->character ? d->character->name
+                                        : "(none)",
                          get_masked_hostname(hostbuf, d->host));
         } else if (d->character == nullptr && get_trust(ch) == MAX_LEVEL) {
             /*

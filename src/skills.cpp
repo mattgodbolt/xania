@@ -238,7 +238,7 @@ void do_spells(CHAR_DATA *ch, char *argument) {
     send_to_char("\n\r", ch);
 }
 
-void do_skills(CHAR_DATA *ch, char *argument) {
+void do_skills(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char skill_list[LEVEL_HERO][MAX_STRING_LENGTH];
     char skill_columns[LEVEL_HERO];

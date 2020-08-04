@@ -17,7 +17,7 @@
 #include <time.h>
 
 /* command procedures needed */
-void do_look(CHAR_DATA *ch, char *arg);
+void do_look(CHAR_DATA *ch, const char *arg);
 void do_give(CHAR_DATA *ch, char *arg);
 void do_recall(CHAR_DATA *, char *);
 
@@ -148,9 +148,9 @@ int mana_cost(CHAR_DATA *ch, int min_mana, int level) {
 /*
  * The kludgy global is for spells who want more stuff from command line.
  */
-char *target_name;
+const char *target_name;
 
-void do_cast(CHAR_DATA *ch, char *argument) {
+void do_cast(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
