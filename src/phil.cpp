@@ -16,7 +16,6 @@
 #include <sys/types.h>
 #include <time.h>
 
-
 /* Note that Death's interest is less, since Phil is unlikely to like someone who keeps slaying him for pleasure ;-) */
 /* Note also the cludgy hack so that Phil doesn't become interested in himself and ignore other people around him who */
 /* don't have a special interest. */

@@ -7,17 +7,16 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "interp.h"
 #include "magic.h"
 #include "merc.h"
-#include "interp.h"
 #include "phil.h"
 
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <sys/types.h>
 #include <ctime>
-
+#include <sys/types.h>
 
 /* The following special functions are available for mobiles. */
 /* Note that MOB special functions are called every 4 seconds. */

@@ -866,13 +866,11 @@ void do_ostat(CHAR_DATA *ch, char *argument) {
                  obj->condition, obj->timer);
     send_to_char(buf, ch);
 
-    bug_snprintf(buf, sizeof(buf), "In room: %d  In object: %s  Carried by: %s  Wear_loc: %d\n\r",
-                 obj->in_room == nullptr ? 0 : obj->in_room->vnum,
-                 obj->in_obj == nullptr ? "(none)" : obj->in_obj->short_descr,
-                 obj->carried_by == nullptr     ? "(none)"
-                 : can_see(ch, obj->carried_by) ? obj->carried_by->name
-                                                : "someone",
-                 obj->wear_loc);
+    bug_snprintf(
+        buf, sizeof(buf), "In room: %d  In object: %s  Carried by: %s  Wear_loc: %d\n\r",
+        obj->in_room == nullptr ? 0 : obj->in_room->vnum, obj->in_obj == nullptr ? "(none)" : obj->in_obj->short_descr,
+        obj->carried_by == nullptr ? "(none)" : can_see(ch, obj->carried_by) ? obj->carried_by->name : "someone",
+        obj->wear_loc);
     send_to_char(buf, ch);
 
     bug_snprintf(buf, sizeof(buf), "Values: %d %d %d %d %d\n\r", obj->value[0], obj->value[1], obj->value[2],
@@ -1358,9 +1356,7 @@ void do_mstat(CHAR_DATA *ch, char *argument) {
     bug_snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
                  IS_NPC(victim) ? victim->pIndexData->vnum : 0,
                  IS_NPC(victim) ? victim->pIndexData->new_format ? "new" : "old" : "pc", race_table[victim->race].name,
-                 victim->sex == SEX_MALE     ? "male"
-                 : victim->sex == SEX_FEMALE ? "female"
-                                             : "neutral",
+                 victim->sex == SEX_MALE ? "male" : victim->sex == SEX_FEMALE ? "female" : "neutral",
                  victim->in_room == nullptr ? 0 : victim->in_room->vnum);
     send_to_char(buf, ch);
 
@@ -3544,9 +3540,7 @@ void do_sockets(CHAR_DATA *ch, char *argument) {
             count++;
             bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %8u %2d] %s@%s\n\r", d->descriptor,
                          (d->localport & 0xffff), d->connected,
-                         d->original    ? d->original->name
-                         : d->character ? d->character->name
-                                        : "(none)",
+                         d->original ? d->original->name : d->character ? d->character->name : "(none)",
                          get_masked_hostname(hostbuf, d->host));
         } else if (d->character == nullptr && get_trust(ch) == MAX_LEVEL) {
             /*

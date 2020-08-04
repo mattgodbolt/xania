@@ -1001,9 +1001,8 @@ void do_look(CHAR_DATA *ch, const char *arg) {
             }
 
             snprintf(buf, sizeof(buf), "It's %s full of a %s liquid.\n\r",
-                     obj->value[1] < obj->value[0] / 4       ? "less than"
-                     : obj->value[1] < 3 * obj->value[0] / 4 ? "about"
-                                                             : "more than",
+                     obj->value[1] < obj->value[0] / 4 ? "less than"
+                                                       : obj->value[1] < 3 * obj->value[0] / 4 ? "about" : "more than",
                      liq_table[obj->value[2]].liq_color);
 
             send_to_char(buf, ch);
@@ -1478,9 +1477,9 @@ void do_affected(CHAR_DATA *ch, char *argument) {
     }
 }
 
-const char * day_name[] = {"the Moon", "the Bull", "Deception", "Thunder", "Freedom", "the Great Gods", "the Sun"};
+const char *day_name[] = {"the Moon", "the Bull", "Deception", "Thunder", "Freedom", "the Great Gods", "the Sun"};
 
-const char * month_name[] = {"Winter",
+const char *month_name[] = {"Winter",
                             "the Winter Wolf",
                             "the Frost Giant",
                             "the Old Forces",
@@ -1565,7 +1564,7 @@ void do_weather(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
-    static const char * sky_look[4] = {"cloudless", "cloudy", "rainy", "lit by flashes of lightning"};
+    static const char *sky_look[4] = {"cloudless", "cloudy", "rainy", "lit by flashes of lightning"};
 
     if (!IS_OUTSIDE(ch)) {
         send_to_char("You can't see the weather indoors.\n\r", ch);

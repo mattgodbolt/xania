@@ -37,7 +37,6 @@
 #include "news.h"
 #include "note.h"
 
-
 /* Added by Rohan - extern to player list for adding new players to it */
 extern KNOWN_PLAYERS *player_list;
 
