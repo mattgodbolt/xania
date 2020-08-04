@@ -9,8 +9,8 @@
 
 #include "buffer.h"
 #include "db.h"
-#include "merc.h"
 #include "interp.h"
+#include "merc.h"
 #include "olc_room.h"
 #include <ctype.h>
 #include <stdio.h>

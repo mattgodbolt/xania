@@ -125,8 +125,7 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
 
     if (!strcmp(arg, "show")) {
         if (argument[0] == '\0') {
-            send_to_char(
-                "You must supply one of the following arguments to 'setinfo show':\n\r    message\n\r", ch);
+            send_to_char("You must supply one of the following arguments to 'setinfo show':\n\r    message\n\r", ch);
             return;
         } else {
             if (!strcmp(argument, "message")) {
@@ -157,16 +156,14 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
                     }
                 }
             }
-            send_to_char(
-                "You must supply one of the following arguments to 'setinfo show':\n\r    message\n\r", ch);
+            send_to_char("You must supply one of the following arguments to 'setinfo show':\n\r    message\n\r", ch);
             return;
         }
     }
 
     if (!strcmp(arg, "hide")) {
         if (argument[0] == '\0') {
-            send_to_char(
-                "You must supply one of the following arguments to 'setinfo hide':\n\r    message\n\r", ch);
+            send_to_char("You must supply one of the following arguments to 'setinfo hide':\n\r    message\n\r", ch);
             return;
         } else {
             if (!strcmp(argument, "message")) {
@@ -191,9 +188,8 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
                 }
                 return;
             } else {
-                send_to_char(
-                    "You must supply one of the following arguments to 'setinfo hide':\n\r    message\n\r",
-                    ch);
+                send_to_char("You must supply one of the following arguments to 'setinfo hide':\n\r    message\n\r",
+                             ch);
                 return;
             }
         }

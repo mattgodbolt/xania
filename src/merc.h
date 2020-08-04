@@ -1097,7 +1097,7 @@ struct kill_data {
 
 // Some bits no longer used here. Be aware there *could* be legacy player files where
 // these bits are enabled so consider that if you decide to repurpose them. And
-// maybe write some migration code to force it off on login if the new feature 
+// maybe write some migration code to force it off on login if the new feature
 // is sensitive to the bit.
 #define EXTRA_UNUSED_1 9
 #define EXTRA_UNUSED_2 10
