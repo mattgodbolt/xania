@@ -571,31 +571,6 @@ void do_finger(CHAR_DATA *ch, char *argument) {
                 }
             }
 
-            /* Give the char the info */
-            if (cur->info_name[0] == '\0')
-                snprintf(buf, sizeof(buf), "Real name: Not set.\n\r");
-            else if (cur->i_name)
-                snprintf(buf, sizeof(buf), "Real name: %s.\n\r", cur->info_name);
-            else
-                snprintf(buf, sizeof(buf), "Real name: Withheld.\n\r");
-            send_to_char(buf, ch);
-
-            if (cur->info_email[0] == '\0')
-                snprintf(buf, sizeof(buf), "Email: Not set.\n\r");
-            else if (cur->i_email)
-                snprintf(buf, sizeof(buf), "Email: %s\n\r", cur->info_email);
-            else
-                snprintf(buf, sizeof(buf), "Email: Withheld.\n\r");
-            send_to_char(buf, ch);
-
-            if (cur->info_url[0] == '\0')
-                snprintf(buf, sizeof(buf), "URL: Not set.\n\r");
-            else if (cur->i_url)
-                snprintf(buf, sizeof(buf), "URL: %s\n\r", cur->info_url);
-            else
-                snprintf(buf, sizeof(buf), "URL: Withheld.\n\r");
-            send_to_char(buf, ch);
-
             if (cur->info_message[0] == '\0')
                 snprintf(buf, sizeof(buf), "Message: Not set.\n\r");
             else if (cur->i_message)
@@ -617,16 +592,17 @@ void do_finger(CHAR_DATA *ch, char *argument) {
                              victim->name);
                     send_to_char(buf, ch);
                 } else {
-
                     snprintf(buf, sizeof(buf), "%s is currently roaming the hills of Xania!\n\r", victim->name);
                     send_to_char(buf, ch);
                     if (get_trust(ch) >= 96) {
                         if (victim->desc->host[0] == '\0')
                             snprintf(buf, sizeof(buf),
                                      "It is impossible to determine where %s last logged in from.\n\r", victim->name);
-                        else
+                        else {
+                            char hostbuf[MAX_MASKED_HOSTNAME];
                             snprintf(buf, sizeof(buf), "%s is currently logged in from %s.\n\r", cur->name,
-                                     victim->desc->host);
+                                     get_masked_hostname(hostbuf, victim->desc->host));
+                        }
                         send_to_char(buf, ch);
                     }
                 }
