@@ -70,9 +70,6 @@ void do_delete(CHAR_DATA *ch, char *argument) {
             if (cur != NULL && !(strcmp(cur->name, ch->name))) {
                 info_cache = info_cache->next;
                 free_string(cur->name);
-                free_string(cur->info_name);
-                free_string(cur->info_email);
-                free_string(cur->info_url);
                 free_string(cur->info_message);
                 free_string(cur->last_login_at);
                 free_string(cur->last_login_from);
@@ -86,9 +83,6 @@ void do_delete(CHAR_DATA *ch, char *argument) {
                     tmp = cur->next;
                     cur->next = cur->next->next;
                     free_string(tmp->name);
-                    free_string(tmp->info_name);
-                    free_string(tmp->info_email);
-                    free_string(tmp->info_url);
                     free_string(tmp->info_message);
                     free_string(tmp->last_login_at);
                     free_string(tmp->last_login_from);
@@ -495,8 +489,8 @@ void do_quit(CHAR_DATA *ch, char *argument) {
             free_string(cur->last_login_from);
             free_string(cur->last_login_at);
 
-            cur->last_login_at = strdup(ch->desc->logintime);
-            cur->last_login_from = strdup(ch->desc->host);
+            cur->last_login_at = str_dup(ch->desc->logintime);
+            cur->last_login_from = str_dup(ch->desc->host);
         } else {
             char *strtime;
 
@@ -507,7 +501,7 @@ void do_quit(CHAR_DATA *ch, char *argument) {
             strtime = ctime(&current_time);
             strtime[strlen(strtime) - 1] = '\0';
 
-            cur->last_login_at = strdup(strtime);
+            cur->last_login_at = str_dup(strtime);
         }
     }
     save_char_obj(ch);

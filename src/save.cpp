@@ -207,10 +207,7 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
         fprintf(fp, "LLev %d\n", ch->pcdata->last_level);
         fprintf(fp, "HMVP %d %d %d\n", ch->pcdata->perm_hit, ch->pcdata->perm_mana, ch->pcdata->perm_move);
         /* Rohan: Save info data */
-        fprintf(fp, "Info_name %s~\n", ch->pcdata->info_name);
-        fprintf(fp, "Info_email %s~\n", ch->pcdata->info_email);
         fprintf(fp, "Info_message %s~\n", ch->pcdata->info_message);
-        fprintf(fp, "Info_url %s~\n", ch->pcdata->info_url);
         if (ch->desc) {
             fprintf(fp, "LastLoginFrom %s~\n", get_masked_hostname(hostbuf, ch->desc->host));
             fprintf(fp, "LastLoginAt %s~\n", ch->desc->logintime);
@@ -505,10 +502,7 @@ bool load_char_obj(DESCRIPTOR_DATA *d, char *name) {
     ch->pcdata->title = str_dup("");
     ch->pcdata->prompt = str_dup("");
     ch->pcdata->afk = str_dup("");
-    ch->pcdata->info_name = str_dup("");
-    ch->pcdata->info_email = str_dup("");
     ch->pcdata->info_message = str_dup("");
-    ch->pcdata->info_url = str_dup("");
     ch->pcdata->colour = 0;
     for (stat = 0; stat < MAX_STATS; stat++)
         ch->perm_stat[stat] = 13;
@@ -853,10 +847,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         case 'I':
             KEY("InvisLevel", ch->invis_level, fread_number(fp));
             KEY("Invi", ch->invis_level, fread_number(fp));
-            KEY("Info_name", ch->pcdata->info_name, fread_string(fp));
-            KEY("Info_email", ch->pcdata->info_email, fread_string(fp));
             KEY("Info_message", ch->pcdata->info_message, fread_string(fp));
-            KEY("Info_url", ch->pcdata->info_url, fread_string(fp));
             break;
 
         case 'L':

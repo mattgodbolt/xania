@@ -3012,7 +3012,8 @@ const struct materials_type material_table[] = {
     {82, "platinum"}, {40, "pearl"},   {65, "mithril"},    {100, "octarine"}, {0, NULL}};
 
 /*
- * Extra flag names
+ * Extra flag names.
+ * The info_ flags are unused, except info_mes.
  */
 
 const char *flagname_extra[64] = {

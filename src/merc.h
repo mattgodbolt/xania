@@ -1095,11 +1095,16 @@ struct kill_data {
 #define EXTRA_PERMIT 5
 #define EXTRA_WIZNET_TICK 6
 
-/* Rohan: Extra bits that toggle info detail */
-#define EXTRA_INFO_NAME 9
-#define EXTRA_INFO_EMAIL 10
+// Some bits no longer used here. Be aware there *could* be legacy player files where
+// these bits are enabled so consider that if you decide to repurpose them. And
+// maybe write some migration code to force it off on login if the new feature 
+// is sensitive to the bit.
+#define EXTRA_UNUSED_1 9
+#define EXTRA_UNUSED_2 10
+
 #define EXTRA_INFO_MESSAGE 11
-#define EXTRA_INFO_URL 12
+
+#define EXTRA_UNUSED_3 12
 
 #define EXTRA_TIP_WIZARD 14
 #define EXTRA_TIP_OLC 15 /* reserved for advanced/olc users */
@@ -1410,10 +1415,7 @@ struct pc_data {
     char *prompt;
     char *afk;
     char *prefix;
-    char *info_name;
-    char *info_email;
     char *info_message;
-    char *info_url;
     sh_int houroffset;
     sh_int minoffset;
     sh_int perm_hit;
@@ -1445,16 +1447,10 @@ struct gen_data {
 struct finger_info {
     FINGER_INFO *next;
     char *name;
-    char *info_name;
-    char *info_email;
-    char *info_url;
     char *info_message;
     char *last_login_at;
     char *last_login_from;
     sh_int invis_level;
-    bool i_name;
-    bool i_email;
-    bool i_url;
     bool i_message;
 };
 

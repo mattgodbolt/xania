@@ -234,8 +234,7 @@ Xania is hibernating at the moment, sorry!
 0 FINGER~
 Usage: finger <character name>
 
-This command shows information about a character, like his/her real name,
-email address, home page address and a message. In addition, if you have
+This command shows information about a character. In addition, if you have
 the privilege to do so, you will be shown the last time that this character
 was logged into Xania. This is mostly useful to immortals and to clan
 leaders to track whether players have been logged in or not.
@@ -1435,27 +1434,22 @@ room flags, use 'set obj <obj> extra ?' or similar.
 ~
 
 0 SETINFO~
-This command is used to set information about yourself. Other characters can
-see this information when they use the finger command with your character name.
+This command can be used to store a message that other characters can
+see using the 'finger' command even if you are logged out.
 
 The usage is as follows:
 setinfo			Shows the current settings.
-setinfo name <Name>	Sets the name field to 'Name'.
-setinfo email <Email>	Sets the email field to 'Email'.
-setinfo url <URL>	Sets the url field to 'URL'.
-setinfo message <Mes>	Sets the mesage field to <Mes>.
-setinfo show name||email||url||message
-			Makes the respective field showable to other
+setinfo message <Mes>	Sets the message field to <Mes>.
+setinfo show message
+			Makes the 'message' field visible to other
 			characters when they view your information.
-setinfo hide name||email||url||message
-			Hides the information contained in the field when
+setinfo hide message
+			Hides the 'message' field when
 			characters view your information.
 setinfo clear		Clears all the fields.
 
-When you set a field, it is automatically made showable to other players.
-Fields have a maximum length of 45 charaters. If you go above this, the
-field will be cut short. Please be sensible about the contents of the
-fields.
+When you set the message, it is automatically visible to other players.
+Please be sensible about the contents of the message.
 ~
 
 98 FLAGS~

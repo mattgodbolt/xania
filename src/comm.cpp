@@ -1434,7 +1434,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
 
             /* Rohan: New player logged in, need to add name to player list */
             temp_known_player = alloc_mem(sizeof(KNOWN_PLAYERS));
-            temp_known_player->name = strdup(ch->name);
+            temp_known_player->name = str_dup(ch->name);
             temp_known_player->next = player_list;
             player_list = temp_known_player;
             /* hack to let the newbie know about the tipwizard */

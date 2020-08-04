@@ -48,13 +48,13 @@ void load_player_list() {
             if (player_list == NULL) {
                 player_list = alloc_mem(sizeof(KNOWN_PLAYERS));
                 player_list->next = NULL;
-                player_list->name = strdup(ep->d_name);
+                player_list->name = str_dup(ep->d_name);
                 current_pos = player_list;
             } else {
                 current_pos->next = alloc_mem(sizeof(KNOWN_PLAYERS));
                 current_pos = current_pos->next;
                 current_pos->next = NULL;
-                current_pos->name = strdup(ep->d_name);
+                current_pos->name = str_dup(ep->d_name);
             }
         }
         closedir(dp);
@@ -74,27 +74,6 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
 
     if (argument[0] == '\0') {
         send_to_char("These are your current info settings:\n\r", ch);
-        if (ch->pcdata->info_name[0] == '\0')
-            snprintf(buf, sizeof(buf), "Real name: Not set.\n\r");
-        else if (is_set_extra(ch, EXTRA_INFO_NAME))
-            snprintf(buf, sizeof(buf), "Real name: %s.\n\r", ch->pcdata->info_name);
-        else
-            snprintf(buf, sizeof(buf), "Real name: Withheld.\n\r");
-        send_to_char(buf, ch);
-        if (ch->pcdata->info_email[0] == '\0')
-            snprintf(buf, sizeof(buf), "Email: Not set.\n\r");
-        else if (is_set_extra(ch, EXTRA_INFO_EMAIL))
-            snprintf(buf, sizeof(buf), "Email: %s\n\r", ch->pcdata->info_email);
-        else
-            snprintf(buf, sizeof(buf), "Email: Withheld.\n\r");
-        send_to_char(buf, ch);
-        if (ch->pcdata->info_url[0] == '\0')
-            snprintf(buf, sizeof(buf), "URL: Not set.\n\r");
-        else if (is_set_extra(ch, EXTRA_INFO_URL))
-            snprintf(buf, sizeof(buf), "URL: %s\n\r", ch->pcdata->info_url);
-        else
-            snprintf(buf, sizeof(buf), "URL: Withheld.\n\r");
-        send_to_char(buf, ch);
         if (ch->pcdata->info_message[0] == '\0')
             snprintf(buf, sizeof(buf), "Message: Not set.\n\r");
         else if (is_set_extra(ch, EXTRA_INFO_MESSAGE))
@@ -107,115 +86,6 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
     argument = one_argument(argument, arg);
 
     smash_tilde(arg);
-
-    if (!strcmp(arg, "name")) {
-        if (argument[0] == '\0') {
-            if (is_set_extra(ch, EXTRA_INFO_NAME)) {
-                if (ch->pcdata->info_name[0] == '\0')
-                    snprintf(buf, sizeof(buf), "Your real name is currently not set.\n\r");
-                else
-                    snprintf(buf, sizeof(buf), "Your real name is currently set as: %s.\n\r", ch->pcdata->info_name);
-            } else
-                snprintf(buf, sizeof(buf), "Your name is currently being withheld.\n\r");
-            send_to_char(buf, ch);
-        } else {
-            free_string(ch->pcdata->info_name);
-            if (strlen(argument) > 45)
-                argument[45] = '\0';
-            ch->pcdata->info_name = strdup(argument);
-            snprintf(buf, sizeof(buf), "Your real name has been set to: %s.\n\r", ch->pcdata->info_name);
-            set_extra(ch, EXTRA_INFO_NAME);
-            send_to_char(buf, ch);
-            /* Update the info if it is in cache */
-            cur = info_cache;
-            while (cur != NULL && info_found == false) {
-                if (!strcmp(cur->name, ch->name))
-                    info_found = true;
-                else
-                    cur = cur->next;
-            }
-            if (info_found == true) {
-                /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
-                free_string(cur->info_name);
-                cur->info_name = strdup(ch->pcdata->info_name);
-                cur->i_name = true;
-            }
-        }
-        return;
-    }
-
-    if (!strcmp(arg, "email")) {
-        if (argument[0] == '\0') {
-            if (is_set_extra(ch, EXTRA_INFO_EMAIL)) {
-                if (ch->pcdata->info_email[0] == '\0')
-                    snprintf(buf, sizeof(buf), "Your email address is currently not set.\n\r");
-                else
-                    snprintf(buf, sizeof(buf), "Your email address is currently set as: %s.\n\r",
-                             ch->pcdata->info_email);
-            } else
-                snprintf(buf, sizeof(buf), "Your email address is currently being withheld.\n\r");
-            send_to_char(buf, ch);
-        } else {
-            free_string(ch->pcdata->info_email);
-            if (strlen(argument) > 45)
-                argument[45] = '\0';
-            ch->pcdata->info_email = strdup(argument);
-            snprintf(buf, sizeof(buf), "Your email address has been set to: %s.\n\r", ch->pcdata->info_email);
-            set_extra(ch, EXTRA_INFO_EMAIL);
-            send_to_char(buf, ch);
-            /* Update the info if it is in cache */
-            cur = info_cache;
-            while (cur != NULL && info_found == false) {
-                if (!strcmp(cur->name, ch->name))
-                    info_found = true;
-                else
-                    cur = cur->next;
-            }
-            if (info_found == true) {
-                /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
-                free_string(cur->info_email);
-                cur->info_email = strdup(ch->pcdata->info_email);
-                cur->i_email = true;
-            }
-        }
-        return;
-    }
-
-    if (!strcmp(arg, "url")) {
-        if (argument[0] == '\0') {
-            if (is_set_extra(ch, EXTRA_INFO_URL)) {
-                if (ch->pcdata->info_url[0] == '\0')
-                    snprintf(buf, sizeof(buf), "Your URL address is currently not set.\n\r");
-                else
-                    snprintf(buf, sizeof(buf), "Your URL address is currently set as: %s.\n\r", ch->pcdata->info_url);
-            } else
-                snprintf(buf, sizeof(buf), "Your URL address is currently being withheld.\n\r");
-            send_to_char(buf, ch);
-        } else {
-            free_string(ch->pcdata->info_url);
-            if (strlen(argument) > 45)
-                argument[45] = '\0';
-            ch->pcdata->info_url = strdup(argument);
-            snprintf(buf, sizeof(buf), "Your URL address has been set to: %s.\n\r", ch->pcdata->info_url);
-            set_extra(ch, EXTRA_INFO_URL);
-            send_to_char(buf, ch);
-            /* Update the info if it is in cache */
-            cur = info_cache;
-            while (cur != NULL && info_found == false) {
-                if (!strcmp(cur->name, ch->name))
-                    info_found = true;
-                else
-                    cur = cur->next;
-            }
-            if (info_found == true) {
-                /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
-                free_string(cur->info_url);
-                cur->info_url = strdup(ch->pcdata->info_url);
-                cur->i_url = true;
-            }
-        }
-        return;
-    }
 
     if (!strcmp(arg, "message")) {
         if (argument[0] == '\0') {
@@ -231,7 +101,7 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
             free_string(ch->pcdata->info_message);
             if (strlen(argument) > 45)
                 argument[45] = '\0';
-            ch->pcdata->info_message = strdup(argument);
+            ch->pcdata->info_message = str_dup(argument);
             snprintf(buf, sizeof(buf), "Your message has been set to: %s.\n\r", ch->pcdata->info_message);
             set_extra(ch, EXTRA_INFO_MESSAGE);
             send_to_char(buf, ch);
@@ -246,7 +116,7 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
             if (info_found == true) {
                 /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
                 free_string(cur->info_message);
-                cur->info_message = strdup(ch->pcdata->info_message);
+                cur->info_message = str_dup(ch->pcdata->info_message);
                 cur->i_message = true;
             }
         }
@@ -256,47 +126,9 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
     if (!strcmp(arg, "show")) {
         if (argument[0] == '\0') {
             send_to_char(
-                "You must supply one of the following arguments to 'setinfo show':\n\rname email url message\n\r", ch);
+                "You must supply one of the following arguments to 'setinfo show':\n\r    message\n\r", ch);
             return;
         } else {
-            if (!strcmp(argument, "name")) {
-                if (ch->pcdata->info_name[0] == '\0')
-                    send_to_char("Your name must be set in order for it to be read by other players.\n\rUse 'setinfo "
-                                 "name <your name>'.\n\r",
-                                 ch);
-                else {
-                    set_extra(ch, EXTRA_INFO_NAME);
-                    send_to_char("Players will now be able to read your real name when looking at your info.\n\r", ch);
-                    update_show = EXTRA_INFO_NAME;
-                }
-                return;
-            }
-            if (!strcmp(argument, "email")) {
-                if (ch->pcdata->info_email[0] == '\0')
-                    send_to_char("Your email address must be set in order for it to be read by other players.\n\rUse "
-                                 "'setinfo email <your email address>'.\n\r",
-                                 ch);
-                else {
-                    set_extra(ch, EXTRA_INFO_EMAIL);
-                    send_to_char("Players will now be able to read your email address when looking at your info.\n\r",
-                                 ch);
-                    update_show = EXTRA_INFO_EMAIL;
-                }
-                return;
-            }
-            if (!strcmp(argument, "url")) {
-                if (ch->pcdata->info_url[0] == '\0')
-                    send_to_char("Your URL address must be set in order for it to be read by other players.\n\rUse "
-                                 "'setinfo url <your URL address>'.\n\r",
-                                 ch);
-                else {
-                    set_extra(ch, EXTRA_INFO_URL);
-                    send_to_char("Players will now be able to read your URL address when looking at your info.\n\r",
-                                 ch);
-                    update_show = EXTRA_INFO_URL;
-                }
-                return;
-            }
             if (!strcmp(argument, "message")) {
                 if (ch->pcdata->info_message[0] == '\0')
                     send_to_char("Your message must be set in order for it to be read by other players.\n\rUse "
@@ -321,15 +153,12 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
                 if (info_found == true) {
                     /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
                     switch (update_show) {
-                    case EXTRA_INFO_NAME: cur->i_name = true; break;
-                    case EXTRA_INFO_EMAIL: cur->i_email = true; break;
-                    case EXTRA_INFO_URL: cur->i_url = true; break;
                     case EXTRA_INFO_MESSAGE: cur->i_message = true; break;
                     }
                 }
             }
             send_to_char(
-                "You must supply one of the following arguments to 'setinfo show':\n\rname email url message\n\r", ch);
+                "You must supply one of the following arguments to 'setinfo show':\n\r    message\n\r", ch);
             return;
         }
     }
@@ -337,26 +166,9 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
     if (!strcmp(arg, "hide")) {
         if (argument[0] == '\0') {
             send_to_char(
-                "You must supply one of the following arguments to 'setinfo hide':\n\rname email url message\n\r", ch);
+                "You must supply one of the following arguments to 'setinfo hide':\n\r    message\n\r", ch);
             return;
         } else {
-            if (!strcmp(argument, "name")) {
-                remove_extra(ch, EXTRA_INFO_NAME);
-                send_to_char("Players will now not be able to read your real name when looking at your info.\n\r", ch);
-                update_hide = EXTRA_INFO_NAME;
-            }
-            if (!strcmp(argument, "email")) {
-                remove_extra(ch, EXTRA_INFO_EMAIL);
-                send_to_char(
-                    "Players will now not be able to read your email address when looking at your\n\rinfo.\n\r", ch);
-                update_hide = EXTRA_INFO_EMAIL;
-            }
-            if (!strcmp(argument, "url")) {
-                remove_extra(ch, EXTRA_INFO_URL);
-                send_to_char("Players will now not be able to read your URL address when looking at your\n\rinfo.\n\r",
-                             ch);
-                update_hide = EXTRA_INFO_URL;
-            }
             if (!strcmp(argument, "message")) {
                 remove_extra(ch, EXTRA_INFO_MESSAGE);
                 send_to_char("Players will now not be able to read your message when looking at your info.\n\r", ch);
@@ -374,16 +186,13 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
                 if (info_found == true) {
                     /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
                     switch (update_hide) {
-                    case EXTRA_INFO_NAME: cur->i_name = false; break;
-                    case EXTRA_INFO_EMAIL: cur->i_email = false; break;
-                    case EXTRA_INFO_URL: cur->i_url = false; break;
                     case EXTRA_INFO_MESSAGE: cur->i_message = false; break;
                     }
                 }
                 return;
             } else {
                 send_to_char(
-                    "You must supply one of the following arguments to 'setinfo hide':\n\rname email url message\n\r",
+                    "You must supply one of the following arguments to 'setinfo hide':\n\r    message\n\r",
                     ch);
                 return;
             }
@@ -391,14 +200,8 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
     }
 
     if (!strcmp(arg, "clear")) {
-        free_string(ch->pcdata->info_name);
-        free_string(ch->pcdata->info_email);
-        free_string(ch->pcdata->info_url);
         free_string(ch->pcdata->info_message);
-        ch->pcdata->info_name = strdup("");
-        ch->pcdata->info_email = strdup("");
-        ch->pcdata->info_url = strdup("");
-        ch->pcdata->info_message = strdup("");
+        ch->pcdata->info_message = str_dup("");
         send_to_char("Your info details have been cleared.\n\r", ch);
         /* Do the same if in cache */
         cur = info_cache;
@@ -410,26 +213,17 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
         }
         if (info_found == true) {
             /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
-            free_string(cur->info_name);
-            free_string(cur->info_email);
-            free_string(cur->info_url);
             free_string(cur->info_message);
-            cur->info_name = strdup("");
-            cur->info_email = strdup("");
-            cur->info_url = strdup("");
-            cur->info_message = strdup("");
+            cur->info_message = str_dup("");
         }
         return;
     }
     send_to_char("Usage:\n\r", ch);
     send_to_char("setinfo                    Show your current info settings.\n\r", ch);
-    send_to_char("setinfo name [Name]        Show/set the name field.\n\r", ch);
-    send_to_char("setinfo email [Email]      Show/set the email field.\n\r", ch);
-    send_to_char("setinfo url [URL]          Show/set the url field.\n\r", ch);
     send_to_char("setinfo message [Message]  Show/set the message field.\n\r", ch);
-    send_to_char("setinfo show name||email||url||message\n\r", ch);
+    send_to_char("setinfo show message\n\r", ch);
     send_to_char("Set the field as readable by other players when looking at your info.\n\r", ch);
-    send_to_char("setinfo hide name||email||url||message\n\r", ch);
+    send_to_char("setinfo hide message\n\r", ch);
     send_to_char("Set the field as non-readable by other players when looking at your info.\n\r", ch);
     send_to_char("setinfo clear              Clear all the fields.\n\r", ch);
 }
@@ -506,7 +300,7 @@ void do_finger(CHAR_DATA *ch, char *argument) {
                 /* Player info not in cache, proceed to put it in there */
                 /*send_to_char ("Player info is not in cache.\n\r", ch);*/
                 cur = alloc_mem(sizeof(FINGER_INFO));
-                cur->name = strdup(argument);
+                cur->name = str_dup(argument);
                 cur->next = info_cache;
                 info_cache = cur;
 
@@ -515,39 +309,18 @@ void do_finger(CHAR_DATA *ch, char *argument) {
                         /* Character is switched???? Load from file as
                            it crashes otherwise - can it be changed? */
                         /*log_string ("Desc is null.");*/
-                        cur->info_name = strdup("");
-                        cur->info_email = strdup("");
-                        cur->info_url = strdup("");
-                        cur->info_message = strdup("");
-                        cur->last_login_from = strdup("");
-                        cur->last_login_at = strdup("");
+                        cur->info_message = str_dup("");
+                        cur->last_login_from = str_dup("");
+                        cur->last_login_at = str_dup("");
                         read_char_info(cur);
                     } else {
                         /* Player is currently logged in, so get info from loaded
                            char and put it in cache */
                         /*send_to_char ("Player is currently logged in.\n\r", ch);*/
-                        cur->info_name = strdup(victim->pcdata->info_name);
-                        cur->info_email = strdup(victim->pcdata->info_email);
-                        cur->info_url = strdup(victim->pcdata->info_url);
-                        cur->info_message = strdup(victim->pcdata->info_message);
+                        cur->info_message = str_dup(victim->pcdata->info_message);
                         cur->invis_level = victim->invis_level;
-                        cur->last_login_at = strdup(victim->desc->logintime);
-                        cur->last_login_from = strdup(victim->desc->host);
-
-                        if (is_set_extra(victim, EXTRA_INFO_NAME))
-                            cur->i_name = true;
-                        else
-                            cur->i_name = false;
-
-                        if (is_set_extra(victim, EXTRA_INFO_EMAIL))
-                            cur->i_email = true;
-                        else
-                            cur->i_email = false;
-
-                        if (is_set_extra(victim, EXTRA_INFO_URL))
-                            cur->i_url = true;
-                        else
-                            cur->i_url = false;
+                        cur->last_login_at = str_dup(victim->desc->logintime);
+                        cur->last_login_from = str_dup(victim->desc->host);
 
                         if (is_set_extra(victim, EXTRA_INFO_MESSAGE))
                             cur->i_message = true;
@@ -561,12 +334,9 @@ void do_finger(CHAR_DATA *ch, char *argument) {
                        I didn't do this) */
                     /*send_to_char ("Player is not currently logged in.\n\r", ch);*/
 
-                    cur->info_name = strdup("");
-                    cur->info_email = strdup("");
-                    cur->info_url = strdup("");
-                    cur->info_message = strdup("");
-                    cur->last_login_from = strdup("");
-                    cur->last_login_at = strdup("");
+                    cur->info_message = str_dup("");
+                    cur->last_login_from = str_dup("");
+                    cur->last_login_at = str_dup("");
                     read_char_info(cur);
                 }
             }
@@ -669,18 +439,6 @@ void read_char_info(FINGER_INFO *info) {
                     return;
                 if (!str_cmp(word, "ExtraBits")) {
                     line = fread_string(fp);
-                    if (line[EXTRA_INFO_NAME] == '1')
-                        info->i_name = true;
-                    else
-                        info->i_name = false;
-                    if (line[EXTRA_INFO_EMAIL] == '1')
-                        info->i_email = true;
-                    else
-                        info->i_email = false;
-                    if (line[EXTRA_INFO_URL] == '1')
-                        info->i_url = true;
-                    else
-                        info->i_url = false;
                     if (line[EXTRA_INFO_MESSAGE] == '1')
                         info->i_message = true;
                     else
@@ -694,10 +452,7 @@ void read_char_info(FINGER_INFO *info) {
             case 'I':
                 KEY("InvisLevel", info->invis_level, fread_number(fp));
                 KEY("Invi", info->invis_level, fread_number(fp));
-                KEY("Info_name", info->info_name, fread_string(fp));
-                KEY("Info_email", info->info_email, fread_string(fp));
                 KEY("Info_message", info->info_message, fread_string(fp));
-                KEY("Info_url", info->info_url, fread_string(fp));
                 break;
             case 'L':
                 KEY("LastLoginFrom", info->last_login_from, fread_string(fp));
