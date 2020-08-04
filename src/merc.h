@@ -2160,7 +2160,7 @@ void load_player_list();
 
 /* interp.c */
 void interpret(CHAR_DATA *ch, char *argument);
-bool is_number(char *arg);
+bool is_number(const char *arg);
 int number_argument(char *argument, char *arg);
 const char *one_argument(const char *argument, char *arg_first);
 char *one_argument(char *argument, char *arg_first); // TODO(MRG) get rid of this as soon as we can.
