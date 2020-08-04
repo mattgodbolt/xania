@@ -436,45 +436,47 @@ struct kill_data {
 
 /* RT ASCII conversions -- used so we can have letters in this file */
 
-#define A 1
-#define B 2
-#define C 4
-#define D 8
-#define E 16
-#define F 32
-#define G 64
-#define H 128
+static constexpr unsigned int BIT(unsigned int bit) { return 1u << bit; }
+static inline constexpr auto A = BIT(0);
+static inline constexpr auto B = BIT(1);
+static inline constexpr auto C = BIT(2);
+static inline constexpr auto D = BIT(3);
+static inline constexpr auto E = BIT(4);
+static inline constexpr auto F = BIT(5);
+static inline constexpr auto G = BIT(6);
+static inline constexpr auto H = BIT(7);
 
-#define I 256
-#define J 512
-#define K 1024
-#define L 2048
-#define M 4096
-#define N 8192
-#define O 16384
-#define P 32768
+static inline constexpr auto I = BIT(8);
+static inline constexpr auto J = BIT(9);
+static inline constexpr auto K = BIT(10);
+static inline constexpr auto L = BIT(11);
+static inline constexpr auto M = BIT(12);
+static inline constexpr auto N = BIT(13);
+static inline constexpr auto O = BIT(14);
+static inline constexpr auto P = BIT(15);
 
-#define Q 65536
-#define R 131072
-#define S 262144
-#define T 524288
-#define U 1048576
-#define V 2097152
-#define W 4194304
-#define X 8388608
+static inline constexpr auto Q = BIT(16);
+static inline constexpr auto R = BIT(17);
+static inline constexpr auto S = BIT(18);
+static inline constexpr auto T = BIT(19);
+static inline constexpr auto U = BIT(20);
+static inline constexpr auto V = BIT(21);
+static inline constexpr auto W = BIT(22);
+static inline constexpr auto X = BIT(23);
 
-#define Y 16777216
-#define Z 33554432
-#define aa 67108864 /* doubled due to conflicts */
-#define bb 134217728
-#define cc 268435456
-#define dd 536870912
-#define ee 1073741824
-#define ff (1 << 31)
+static inline constexpr auto Y = BIT(24);
+static inline constexpr auto Z = BIT(25);
+static inline constexpr auto aa = BIT(26);
+static inline constexpr auto bb = BIT(27);
+static inline constexpr auto cc = BIT(28);
+static inline constexpr auto dd = BIT(29);
+static inline constexpr auto ee = BIT(30);
+static inline constexpr auto ff = BIT(31);
 
 /*
  * ACT bits for mobs.
  * Used in #MOBILES.
+ * TODO make an actual class to hold bits like this.
  */
 #define ACT_IS_NPC (A) /* Auto set for mobs    */
 #define ACT_SENTINEL (B) /* Stays in one room    */
@@ -1296,14 +1298,14 @@ struct char_data {
     sh_int move;
     sh_int max_move;
     long gold;
-    unsigned long exp;
-    long act;
-    long comm; /* RT added to pad the vector */
-    long imm_flags;
-    long res_flags;
-    long vuln_flags;
+    long exp;
+    unsigned long act;
+    unsigned long comm; /* RT added to pad the vector */
+    unsigned long imm_flags;
+    unsigned long res_flags;
+    unsigned long vuln_flags;
     sh_int invis_level;
-    int affected_by;
+    unsigned int affected_by;
     sh_int position;
     sh_int practice;
     sh_int train;
@@ -1319,13 +1321,13 @@ struct char_data {
     sh_int perm_stat[MAX_STATS];
     sh_int mod_stat[MAX_STATS];
     /* parts stuff */
-    long form;
-    long parts;
+    unsigned long form;
+    unsigned long parts;
     sh_int size;
     sh_int material;
     unsigned long hit_location; /* for verbose combat sequences */
     /* mobile stuff */
-    long off_flags;
+    unsigned long off_flags;
     sh_int damage[3];
     sh_int dam_type;
     sh_int start_pos;
