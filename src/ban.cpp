@@ -33,7 +33,7 @@ BAN_DATA *new_ban(void) {
     res = (BAN_DATA *)(malloc(sizeof(BAN_DATA)));
     res->level = 0;
     res->name = "";
-    res->next = NULL;
+    res->next = nullptr;
     res->ban_flags = 0;
     return res;
 }
@@ -49,11 +49,11 @@ void save_bans(void) {
     bool found = false;
 
     fclose(fpReserve);
-    if ((fp = fopen(BAN_FILE, "w")) == NULL) {
+    if ((fp = fopen(BAN_FILE, "w")) == nullptr) {
         perror(BAN_FILE);
     }
 
-    for (pban = ban_list; pban != NULL; pban = pban->next) {
+    for (pban = ban_list; pban != nullptr; pban = pban->next) {
         if (IS_SET(pban->ban_flags, BAN_PERMANENT)) {
             found = true;
             fprintf(fp, "%s %d %s\n", pban->name, pban->level, print_flags(pban->ban_flags));
@@ -70,10 +70,10 @@ void load_bans(void) {
     FILE *fp;
     BAN_DATA *ban_last;
 
-    if ((fp = fopen(BAN_FILE, "r")) == NULL)
+    if ((fp = fopen(BAN_FILE, "r")) == nullptr)
         return;
 
-    ban_last = NULL;
+    ban_last = nullptr;
     for (;;) {
         BAN_DATA *pban;
         if (feof(fp)) {
@@ -86,10 +86,10 @@ void load_bans(void) {
         pban->name = str_dup(fread_word(fp));
         pban->level = fread_number(fp);
         pban->ban_flags = fread_flag(fp);
-        pban->next = NULL;
+        pban->next = nullptr;
         fread_to_eol(fp);
 
-        if (ban_list == NULL)
+        if (ban_list == nullptr)
             ban_list = pban;
         else
             ban_last->next = pban;
@@ -104,12 +104,12 @@ bool check_ban(char *site, int type) {
     strcpy(host, capitalize(site));
     host[0] = LOWER(host[0]);
 
-    for (pban = ban_list; pban != NULL; pban = pban->next) {
+    for (pban = ban_list; pban != nullptr; pban = pban->next) {
         if (!IS_SET(pban->ban_flags, type))
             continue;
 
         if (IS_SET(pban->ban_flags, BAN_PREFIX) && IS_SET(pban->ban_flags, BAN_SUFFIX)
-            && strstr(pban->name, host) != NULL)
+            && strstr(pban->name, host) != nullptr)
             return true;
 
         if (IS_SET(pban->ban_flags, BAN_PREFIX) && !str_suffix(pban->name, host))
@@ -139,14 +139,14 @@ void ban_site(CHAR_DATA *ch, char *argument, bool fPerm) {
     argument = one_argument(argument, arg2);
 
     if (arg1[0] == '\0') {
-        if (ban_list == NULL) {
+        if (ban_list == nullptr) {
             send_to_char("No sites banned at this time.\n\r", ch);
             return;
         }
         buffer = buffer_create();
 
         buffer_addline(buffer, "Banned sites       Level  Type     Status\n\r");
-        for (pban = ban_list; pban != NULL; pban = pban->next) {
+        for (pban = ban_list; pban != nullptr; pban = pban->next) {
             snprintf(buf, sizeof(buf), "%s%s%s", IS_SET(pban->ban_flags, BAN_PREFIX) ? "*" : "", pban->name,
                      IS_SET(pban->ban_flags, BAN_SUFFIX) ? "*" : "");
             buffer_addline_fmt(
@@ -190,14 +190,14 @@ void ban_site(CHAR_DATA *ch, char *argument, bool fPerm) {
         return;
     }
 
-    prev = NULL;
-    for (pban = ban_list; pban != NULL; prev = pban, pban = pban->next) {
+    prev = nullptr;
+    for (pban = ban_list; pban != nullptr; prev = pban, pban = pban->next) {
         if (!str_cmp(name, pban->name)) {
             if (pban->level > get_trust(ch)) {
                 send_to_char("That ban was set by a higher power.\n\r", ch);
                 return;
             } else {
-                if (prev == NULL)
+                if (prev == nullptr)
                     ban_list = pban->next;
                 else
                     prev->next = pban->next;
@@ -253,14 +253,14 @@ void do_allow(CHAR_DATA *ch, char *argument) {
     if (aargh[strlen(aargh)] == '*')
         aargh[strlen(aargh)] = '\0';
 
-    prev = NULL;
-    for (curr = ban_list; curr != NULL; prev = curr, curr = curr->next) {
+    prev = nullptr;
+    for (curr = ban_list; curr != nullptr; prev = curr, curr = curr->next) {
         if (!str_cmp(aargh, curr->name)) {
             if (curr->level > get_trust(ch)) {
                 send_to_char("You are not powerful enough to lift that ban.\n\r", ch);
                 return;
             }
-            if (prev == NULL)
+            if (prev == nullptr)
                 ban_list = ban_list->next;
             else
                 prev->next = curr->next;

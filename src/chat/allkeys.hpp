@@ -8,7 +8,7 @@
 #include "chatmain.hpp"
 #include "akey.hpp"
 
-#include <stdlib.h> //for NULL
+#include <stdlib.h> //for nullptr
 
 
 struct akeynode
@@ -27,7 +27,7 @@ protected:
 public:
   enum {contnotset=-1};
   int contdbase; //signifies which datbase to use if this one fell thru
-  allkeys() { current=first=top=NULL; numkeys=0; contdbase=contnotset;}
+  allkeys() { current=first=top=nullptr; numkeys=0; contdbase=contnotset;}
   akeynode* curr() {return current;}
   akeynode* addkey();
   akeynode* reset();

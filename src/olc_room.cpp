@@ -46,9 +46,9 @@ void do_room(CHAR_DATA *ch, char *argument) {
         return;
     }
     /* shouldn't EVER happen, but oh well...*/
-    if ((is_set_extra(ch, EXTRA_OLC_ROOM)) && ch->in_room == NULL) {
-        bug("do_room: OLC: error! player %s is in OLC_ROOM mode, but room is NULL\n\r", ch->name);
-        send_to_char("OLC: error! Your current room is NULL. Consult an IMP now!\n\r", ch);
+    if ((is_set_extra(ch, EXTRA_OLC_ROOM)) && ch->in_room == nullptr) {
+        bug("do_room: OLC: error! player %s is in OLC_ROOM mode, but room is nullptr\n\r", ch->name);
+        send_to_char("OLC: error! Your current room is nullptr. Consult an IMP now!\n\r", ch);
         return;
     }
 
@@ -133,9 +133,9 @@ void olc_edit_room(CHAR_DATA *ch, char *argument) {
         return;
     }
     /* just in fubing case ..*/
-    if (ch->in_room == NULL) {
-        bug("olc_edit_obj: OLC: error! player %s is in OLC_ROOM mode, but room is NULL\n\r", ch->name);
-        send_to_char("OLC: error! your current room is NULL, consult an IMP immediately.\n\r", ch);
+    if (ch->in_room == nullptr) {
+        bug("olc_edit_obj: OLC: error! player %s is in OLC_ROOM mode, but room is nullptr\n\r", ch->name);
+        send_to_char("OLC: error! your current room is nullptr, consult an IMP immediately.\n\r", ch);
         return;
     }
     argument = one_argument(argument, command);
@@ -200,7 +200,7 @@ bool olc_can_create_room(CHAR_DATA *ch, char *argument) {
 
     int vnum = 0;
     vnum = atoi(argument);
-    if ((get_room_index(vnum)) != NULL)
+    if ((get_room_index(vnum)) != nullptr)
         return false;
     if (vnum < ch->pcdata->olc->master_vnums[0] || vnum > ch->pcdata->olc->master_vnums[1])
         return false;
@@ -224,7 +224,7 @@ void olc_create_room(CHAR_DATA *ch, int vnum) {
         bug(buf);
         return;
     }
-    if ((pRoomIndex = get_room_index(vnum)) == NULL) {
+    if ((pRoomIndex = get_room_index(vnum)) == nullptr) {
         snprintf(buf, sizeof(buf), "char: %s room: %d", ch->name, vnum);
         bug("OLC: error: olc_create_room new room lost!");
         bug(buf);
@@ -251,22 +251,22 @@ int olc_make_new_room(int vnum) {
     int door, iHash;
     ROOM_INDEX_DATA *pRoomIndex;
 
-    if (get_room_index(vnum) != NULL)
+    if (get_room_index(vnum) != nullptr)
         return 0;
 
     pRoomIndex = alloc_perm(sizeof(*pRoomIndex));
-    pRoomIndex->people = NULL;
-    pRoomIndex->contents = NULL;
-    pRoomIndex->extra_descr = NULL;
+    pRoomIndex->people = nullptr;
+    pRoomIndex->contents = nullptr;
+    pRoomIndex->extra_descr = nullptr;
     pRoomIndex->area = area_last;
     pRoomIndex->vnum = vnum;
-    pRoomIndex->name = NULL;
-    pRoomIndex->description = NULL;
+    pRoomIndex->name = nullptr;
+    pRoomIndex->description = nullptr;
     pRoomIndex->room_flags = 0;
     pRoomIndex->sector_type = 0;
     pRoomIndex->light = 0;
     for (door = 0; door <= 5; door++)
-        pRoomIndex->exit[door] = NULL;
+        pRoomIndex->exit[door] = nullptr;
 
     iHash = vnum % MAX_KEY_HASH;
     pRoomIndex->next = room_index_hash[iHash];
@@ -286,7 +286,7 @@ void olc_destroy_room(CHAR_DATA *ch, char *argument) {
     int num;
 
     num = atoi(argument);
-    if ((room = get_room_index(num)) == NULL) {
+    if ((room = get_room_index(num)) == nullptr) {
         snprintf(buf, sizeof(buf), "char: %s room: %d", ch->name, num);
         bug("OLC: error: olc_destroy_room could not find room!");
         bug(buf);
@@ -297,7 +297,7 @@ void olc_destroy_room(CHAR_DATA *ch, char *argument) {
         send_to_char("OLC: you do not have permission to destroy that room.\n\r", ch);
         return;
     }
-    if (room->people != NULL) {
+    if (room->people != nullptr) {
         CHAR_DATA *rch;
         send_to_char("OLC: room is not empty.\n\r", ch);
         for (rch = room->people; rch; rch = rch->next_in_room) {
@@ -332,7 +332,7 @@ bool olc_erase_room(int vnum) {
     ROOM_INDEX_DATA *prev;
     EXTRA_DESCR_DATA *extras;
 
-    if ((pRoomIndex = get_room_index(vnum)) == NULL)
+    if ((pRoomIndex = get_room_index(vnum)) == nullptr)
         return false;
     iHash = vnum % MAX_KEY_HASH;
     prev = room_index_hash[iHash];
@@ -345,19 +345,19 @@ bool olc_erase_room(int vnum) {
                 break;
             }
         }
-        if (prev == NULL)
+        if (prev == nullptr)
             return 0;
     }
-    pRoomIndex->next = NULL;
+    pRoomIndex->next = nullptr;
     free_string(pRoomIndex->name);
     free_string(pRoomIndex->description);
 
-    if (pRoomIndex->extra_descr != NULL) {
-        for (extras = pRoomIndex->extra_descr; extras != NULL; extras = extras->next) {
+    if (pRoomIndex->extra_descr != nullptr) {
+        for (extras = pRoomIndex->extra_descr; extras != nullptr; extras = extras->next) {
             free_string(extras->keyword);
             free_string(extras->description);
         }
-        pRoomIndex->extra_descr = NULL;
+        pRoomIndex->extra_descr = nullptr;
     }
     return true;
 }
@@ -403,7 +403,7 @@ void olc_room_string_name(CHAR_DATA *ch, char *argument) {
     }
     if (!str_prefix(argument, "clipboard")) {
         argument = ch->clipboard;
-        if (argument == NULL) {
+        if (argument == nullptr) {
             send_to_char("OLC: your clipboard is empty.\n\r", ch);
             return;
         }
@@ -420,7 +420,7 @@ void olc_room_string_name(CHAR_DATA *ch, char *argument) {
 
 void olc_room_string_description(CHAR_DATA *ch, char *argument) {
 
-    if (ch->clipboard == NULL) {
+    if (ch->clipboard == nullptr) {
         send_to_char("OLC: your clipboard is empty.\n\r", ch);
         return;
     }
@@ -459,7 +459,7 @@ void olc_room_string_extras(CHAR_DATA *ch, char *argument) {
             return;
         }
         if (!str_prefix(argument, "clipboard")) {
-            if (ch->clipboard == NULL) {
+            if (ch->clipboard == nullptr) {
                 send_to_char("OLC: your clipboard is empty.\n\r", ch);
                 return;
             }
@@ -468,7 +468,7 @@ void olc_room_string_extras(CHAR_DATA *ch, char *argument) {
             snprintf(buf, sizeof(buf), "%s\n\r", argument);
             argument = buf;
         }
-        if (extra_descr_free == NULL) {
+        if (extra_descr_free == nullptr) {
             extras = alloc_perm(sizeof(*extras));
         } else {
             extras = extra_descr_free;
@@ -491,10 +491,10 @@ void olc_room_string_extras(CHAR_DATA *ch, char *argument) {
             send_to_char("Syntax: room string extras remove '<keyword(s)>'\n\r", ch);
             return;
         }
-        prev = NULL;
+        prev = nullptr;
         for (extras = ch->in_room->extra_descr; extras; extras = extras->next) {
             if (is_name(keyword, extras->keyword)) {
-                if (prev == NULL) { /* Then we've matched with the first entry of
+                if (prev == nullptr) { /* Then we've matched with the first entry of
                                        the linked list */
                     ch->in_room->extra_descr = extras->next;
                 } else { /* prev points to the previous element in the list, so */
@@ -556,10 +556,10 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
         return;
     }
     if (!str_prefix(arg2, "key")) {
-        OBJ_DATA *obj = NULL;
+        OBJ_DATA *obj = nullptr;
         int key_vnum;
         char buf[MAX_STRING_LENGTH];
-        if (ch->in_room->exit[direction] == NULL) {
+        if (ch->in_room->exit[direction] == nullptr) {
             send_to_char("OLC: there is no exit in that direction!\n\r", ch);
             return;
         }
@@ -567,7 +567,7 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
             key_vnum = -1;
         } else {
             one_argument(argument, buf);
-            if ((obj = get_obj_carry(ch, buf)) == NULL) {
+            if ((obj = get_obj_carry(ch, buf)) == nullptr) {
                 send_to_char("Syntax: room exit {+}[n||s||e||w||u||d] key [none||object in your inventory]\n\r", ch);
                 return;
             }
@@ -600,7 +600,7 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
         int type = -1;
         char *door_type = "";
         char buf[MAX_STRING_LENGTH];
-        if (ch->in_room->exit[direction] == NULL) {
+        if (ch->in_room->exit[direction] == nullptr) {
             send_to_char("OLC: there is no exit in that direction!\n\r", ch);
             return;
         }
@@ -639,11 +639,11 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
     } else if (!str_prefix(arg2, "description")) {
         char buffer[MAX_STRING_LENGTH];
         snprintf(buffer, sizeof(buffer), "%s\n\r", argument);
-        if (ch->in_room->exit[direction] == NULL) {
+        if (ch->in_room->exit[direction] == nullptr) {
             send_to_char("OLC: there is no exit in that direction!\n\r", ch);
             return;
         }
-        if (ch->in_room->exit[direction]->description != NULL)
+        if (ch->in_room->exit[direction]->description != nullptr)
             free_string(ch->in_room->exit[direction]->description);
         ch->in_room->exit[direction]->description = str_dup(buffer);
         snprintf(buffer, sizeof(buffer), "OLC: description of %s exit changed.\n\r", dir_name[direction]);
@@ -653,18 +653,18 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
     } else {
         if (!str_prefix(arg2, "keyword")) {
             char buffer[MAX_STRING_LENGTH];
-            if (ch->in_room->exit[direction] == NULL) {
+            if (ch->in_room->exit[direction] == nullptr) {
                 send_to_char("OLC: there is no exit in that direction!\n\r", ch);
                 return;
             }
-            if (ch->in_room->exit[direction]->keyword != NULL)
+            if (ch->in_room->exit[direction]->keyword != nullptr)
                 free_string(ch->in_room->exit[direction]->keyword);
             ch->in_room->exit[direction]->keyword = str_dup(argument);
             snprintf(buffer, sizeof(buffer), "OLC: keyword for exit to the %s changed.\n\r", dir_name[direction]);
             send_to_char(buffer, ch);
             if (connect == true) {
                 if (ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]]->u1.to_room == ch->in_room) {
-                    if (ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]]->keyword != NULL)
+                    if (ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]]->keyword != nullptr)
                         free_string(ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]]->keyword);
                     ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]]->keyword = str_dup(argument);
                     send_to_char("OLC: reverse keyword also changed.\n\r", ch);
@@ -674,7 +674,7 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
             }
         } else {
             if (!str_prefix(arg2, "close")) {
-                if (ch->in_room->exit[direction] == NULL) {
+                if (ch->in_room->exit[direction] == nullptr) {
                     send_to_char("OLC: there is no exit in that direction.\n\r", ch);
                     return;
                 }
@@ -682,14 +682,14 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
                 send_to_char(buf, ch);
                 if (connect == true) {
                     /* Oogle check that there is *a* reverse exit */
-                    if (ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]] != NULL) {
+                    if (ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]] != nullptr) {
                         /* Check for reverse exit actually pointing back to the
                            room you're in
                            */
                         if (ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]]->u1.to_room
                             == ch->in_room) {
                             CHAR_DATA *wch = ch->in_room->exit[direction]->u1.to_room->people;
-                            ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]] = NULL;
+                            ch->in_room->exit[direction]->u1.to_room->exit[rev_dir[direction]] = nullptr;
                             send_to_char("OLC: reverse exit also destroyed!\n\r", ch);
                             snprintf(buf, sizeof(buf), "The exit to the %s disappears in a mushroom cloud!\n\r",
                                      dir_name[rev_dir[direction]]);
@@ -702,18 +702,18 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
                         send_to_char("OLC: no reverse exit to delete!\n\r", ch);
                     }
                 }
-                ch->in_room->exit[direction] = NULL;
+                ch->in_room->exit[direction] = nullptr;
                 snprintf(buf, sizeof(buf), "$n has destroyed the %s exit forever!", dir_name[direction]);
-                act(buf, ch, NULL, NULL, TO_ROOM);
+                act(buf, ch, nullptr, nullptr, TO_ROOM);
                 return;
             } else {
                 char desc[MAX_STRING_LENGTH];
-                if ((room_to = get_room_index(atoi(arg2))) == NULL) {
+                if ((room_to = get_room_index(atoi(arg2))) == nullptr) {
                     send_to_char("OLC: vnum does not exist as far as I can tell.\n\r", ch);
                     return;
                 }
                 snprintf(desc, sizeof(desc), "%s\n\r", room_to->name);
-                if (ch->in_room->exit[direction] == NULL) {
+                if (ch->in_room->exit[direction] == nullptr) {
                     EXIT_DATA *pExitData;
                     pExitData = (EXIT_DATA *)alloc_perm(sizeof(*pExitData));
                     pExitData->exit_info = 0;
@@ -722,14 +722,14 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
                     pExitData->description = str_dup("");
                     ch->in_room->exit[direction] = pExitData;
                 }
-                if (ch->in_room->exit[direction]->description != NULL)
+                if (ch->in_room->exit[direction]->description != nullptr)
                     free_string(ch->in_room->exit[direction]->description);
                 ch->in_room->exit[direction]->description = str_dup(desc);
                 ch->in_room->exit[direction]->u1.to_room = room_to;
                 snprintf(buf, sizeof(buf), "OLC: exit created to the %s.\n\r", dir_name[direction]);
                 send_to_char(buf, ch);
                 if (connect == true) {
-                    if (room_to->exit[rev_dir[direction]] == NULL) {
+                    if (room_to->exit[rev_dir[direction]] == nullptr) {
                         CHAR_DATA *wch = room_to->people;
                         char desc[MAX_STRING_LENGTH];
                         EXIT_DATA *pExitData;
@@ -756,7 +756,7 @@ void room_edit_exit(CHAR_DATA *ch, char *argument) {
 
                 snprintf(buf, sizeof(buf), "$n calls forth mighty powers and creates a new exit to the %s!",
                          dir_name[direction]);
-                act(buf, ch, NULL, NULL, TO_ROOM);
+                act(buf, ch, nullptr, nullptr, TO_ROOM);
                 return;
             }
         }
@@ -774,7 +774,7 @@ void olc_display_room_vars(CHAR_DATA *ch, int info) {
 
     switch (info) {
     case OLC_R_EXTRAS:
-        if (ch->in_room->extra_descr != NULL) {
+        if (ch->in_room->extra_descr != nullptr) {
             send_to_char("INFO: current room extended descriptions...", ch);
             for (extras = ch->in_room->extra_descr; extras; extras = extras->next) {
                 snprintf(buf, sizeof(buf), "Keyword(s): '%s'\n\r", extras->keyword);

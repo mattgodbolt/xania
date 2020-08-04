@@ -191,7 +191,7 @@ void do_immworth(CHAR_DATA *ch, char *argument) {
     int worth, shouldbe;
     char buf[MAX_STRING_LENGTH];
 
-    if ((obj = get_obj_world(ch, argument)) == NULL) {
+    if ((obj = get_obj_world(ch, argument)) == nullptr) {
         send_to_char("Nothing like that in Xania.\n\r", ch);
         return;
     }
@@ -228,7 +228,7 @@ void set_prefix(CHAR_DATA *ch, char *prefix) {
 
 /* do_prefix added 19-05-97 PCFN */
 void do_prefix(CHAR_DATA *ch, char *argument) {
-    CHAR_DATA *ch_prefix = NULL;
+    CHAR_DATA *ch_prefix = nullptr;
     char ch_buffer[MAX_STRING_LENGTH];
 
     if (strlen(argument) > (MAX_STRING_LENGTH - 1))
@@ -243,9 +243,9 @@ void do_prefix(CHAR_DATA *ch, char *argument) {
         ch_prefix = ch;
 
     /* ch_prefix is the character, or the character who is switched into the MOB
-       otherwise it's NULL */
+       otherwise it's nullptr */
 
-    if (ch_prefix == NULL)
+    if (ch_prefix == nullptr)
         return;
 
     smash_tilde(argument);
@@ -269,7 +269,7 @@ void do_prefix(CHAR_DATA *ch, char *argument) {
 
 /* do_timezone added PCFN 24-05-97 */
 void do_timezone(CHAR_DATA *ch, char *argument) {
-    CHAR_DATA *ch_owner = NULL;
+    CHAR_DATA *ch_owner = nullptr;
     char buf[64];
 
     if (IS_NPC(ch)) {
@@ -308,7 +308,7 @@ int get_skill_level(CHAR_DATA *ch, int gsn) {
     if (IS_NPC(ch)) {
 
         if (ch->desc) { /* Is this a switched IMM? */
-            if ((ch = ch->desc->original) == NULL) {
+            if ((ch = ch->desc->original) == nullptr) {
                 return 1;
             }
         } else { /* A genuine NPC */
@@ -337,7 +337,7 @@ int get_skill_level(CHAR_DATA *ch, int gsn) {
 
     /* Check stuff because of race */
     for (bonus = 0; bonus < 5; bonus++) {
-        if (pc_race_table[ch->race].skills[bonus] != NULL) {
+        if (pc_race_table[ch->race].skills[bonus] != nullptr) {
             /* they have a bonus skill or group */
             if (skill_lookup(pc_race_table[ch->race].skills[bonus]) == gsn) {
                 /* ie we have a race-specific skill!! */
@@ -371,7 +371,7 @@ int get_skill_difficulty(CHAR_DATA *ch, int gsn) {
     }
     /* Check for race skills */
     for (bonus = 0; bonus < 5; bonus++) {
-        if (pc_race_table[ch->race].skills[bonus] != NULL) {
+        if (pc_race_table[ch->race].skills[bonus] != nullptr) {
             /* they have a bonus skill or group */
             if (skill_lookup(pc_race_table[ch->race].skills[bonus]) == gsn) {
                 /* ie we have a race-specific skill!! */
@@ -514,33 +514,33 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
         }
     }
 
-    if (obj == NULL) { /* Oh dear */
+    if (obj == nullptr) { /* Oh dear */
         bug("spell_reincarnate: Couldn't find corpse!");
         return;
     }
 
     /* Tell people what happened */
-    act("$n summons mighty powers and reanimates $s.", ch, NULL, obj, TO_ROOM);
-    act("You summon mighty powers and reanimate $s.", ch, NULL, obj, TO_CHAR);
+    act("$n summons mighty powers and reanimates $s.", ch, nullptr, obj, TO_ROOM);
+    act("You summon mighty powers and reanimate $s.", ch, nullptr, obj, TO_CHAR);
 
     /* Can we re-animate this corpse? Include check for a non-empty PC corpse */
 
     chance = URANGE(1, (50 + ((ch->level - obj->pIndexData->level) * 3)), 99);
 
     if ((number_percent() > chance) || /* if random failed */
-        ((obj->pIndexData->item_type == ITEM_CORPSE_PC) && (obj->contains != NULL)))
+        ((obj->pIndexData->item_type == ITEM_CORPSE_PC) && (obj->contains != nullptr)))
     /* if non-empty PC corpse */ {
-        act("$s stands, then falls over again - lifeless.", ch, NULL, obj, TO_ROOM);
-        act("$s stands, then falls over again - lifeless.", ch, NULL, obj, TO_CHAR);
+        act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, TO_ROOM);
+        act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, TO_CHAR);
         return;
     } else {
         char buf[MAX_STRING_LENGTH];
         CHAR_DATA *animated;
 
-        act("$s stands up.", ch, NULL, obj, TO_ROOM);
-        act("$s stands up.", ch, NULL, obj, TO_CHAR);
+        act("$s stands up.", ch, nullptr, obj, TO_ROOM);
+        act("$s stands up.", ch, nullptr, obj, TO_CHAR);
         animated = create_mobile(get_mob_index(MOB_VNUM_ZOMBIE));
-        if (animated == NULL) {
+        if (animated == nullptr) {
             bug("spell_reincarnate: Couldn't find corpse vnum!");
             return;
         }
@@ -549,7 +549,7 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
         char_to_room(animated, ch->in_room);
         /* Give the zombie the kit that was in the corpse */
         animated->carrying = obj->contains;
-        obj->contains = NULL;
+        obj->contains = nullptr;
         /* Give the zombie its correct name and stuff */
         snprintf(buf, sizeof(buf), animated->description, obj->description);
         free_string(animated->long_descr);
@@ -588,7 +588,7 @@ void do_smite(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((victim = get_char_room(ch, argument)) == NULL) {
+    if ((victim = get_char_room(ch, argument)) == nullptr) {
         send_to_char("They aren't here.\n\r", ch);
         return;
     } /* Not (visibly) present in room! */
@@ -605,8 +605,8 @@ void do_smite(CHAR_DATA *ch, char *argument) {
     if (get_trust(victim) > get_trust(ch)) {
 
         send_to_char("You failed.\n\rUmmm...beware of retaliation!\n\r", ch);
-        act("$n attempted to smite $N!", ch, NULL, victim, TO_NOTVICT);
-        act("$n attempted to smite you!", ch, NULL, victim, TO_VICT);
+        act("$n attempted to smite $N!", ch, nullptr, victim, TO_NOTVICT);
+        act("$n attempted to smite you!", ch, nullptr, victim, TO_VICT);
         return;
     }
     /* Immortals cannot smite those with a
@@ -633,12 +633,12 @@ void do_smite(CHAR_DATA *ch, char *argument) {
 
     do_help(victim, smitestring);
     act("|WThe wrath of the Gods has fallen upon you!\n\rYou are blown helplessly from your feet and are stunned!|w",
-        ch, NULL, victim, TO_VICT);
+        ch, nullptr, victim, TO_VICT);
 
-    if ((obj = get_eq_char(victim, WEAR_WIELD)) == NULL) {
-        act("|R$n has been cast down by the power of $N!|w", victim, NULL, ch, TO_NOTVICT);
+    if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr) {
+        act("|R$n has been cast down by the power of $N!|w", victim, nullptr, ch, TO_NOTVICT);
     } else {
-        act("|R$n has been cast down by the power of $N!\n\rTheir weapon is sent flying!|w", victim, NULL, ch,
+        act("|R$n has been cast down by the power of $N!\n\rTheir weapon is sent flying!|w", victim, nullptr, ch,
             TO_NOTVICT);
     }
 
@@ -658,14 +658,14 @@ void do_smite(CHAR_DATA *ch, char *argument) {
                                             and disarm them regardless of whether
                                             they have talon or a noremove weapon */
 
-    if ((obj = get_eq_char(victim, WEAR_WIELD)) == NULL) {
+    if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr) {
         return;
     } /* can't be disarmed if no weapon */
     else {
         obj_from_char(obj);
         obj_to_room(obj, victim->in_room);
         if (IS_NPC(victim) && victim->wait == 0 && can_see_obj(victim, obj))
-            get_obj(victim, obj, NULL);
+            get_obj(victim, obj, nullptr);
     } /* disarms them, and NPCs will collect
               their weapon if they can see it.
               Ta-daa, smite compleeeeeet. Ouch. */
@@ -689,7 +689,7 @@ void web_who(void) {
     DESCRIPTOR_DATA *d;
     int count = 0;
 
-    if ((fp = fopen(WEB_WHO_FILE, "w")) == NULL) {
+    if ((fp = fopen(WEB_WHO_FILE, "w")) == nullptr) {
         bug("web_who: couldn't open %s for writing!", WEB_WHO_FILE);
         return;
     }
@@ -701,10 +701,10 @@ void web_who(void) {
     );
     fprintf(fp, "<b><TR><TD>Level</TD> <TD>Race</TD> <TD>Class</TD>  <TD>Who</TD></TR></b>\n");
 
-    for (d = descriptor_list; d != NULL; d = d->next) {
+    for (d = descriptor_list; d != nullptr; d = d->next) {
         CHAR_DATA *wch;
 
-        wch = (d->original != NULL) ? d->original : d->character;
+        wch = (d->original != nullptr) ? d->original : d->character;
 
         if (d->connected != CON_PLAYING || !web_see(wch))
             continue;
@@ -724,20 +724,20 @@ void web_who(void) {
 
 void load_tipfile(void) {
 
-    FILE *fp = NULL;
+    FILE *fp = nullptr;
     int tipcount = 0;
-    TIP_TYPE *ptt = NULL;
+    TIP_TYPE *ptt = nullptr;
 
-    tip_top = tip_current = NULL; /* initialise globals */
+    tip_top = tip_current = nullptr; /* initialise globals */
 
-    if ((fp = fopen(TIPWIZARD_FILE, "r")) == NULL) {
+    if ((fp = fopen(TIPWIZARD_FILE, "r")) == nullptr) {
         bug("Couldn't open tip file \'%s\' for reading", TIPWIZARD_FILE);
         ignore_tips = true;
         return;
     }
     for (;;) {
         char c;
-        ptt = NULL;
+        ptt = nullptr;
 
         while (isspace(c = getc(fp)))
             ;
@@ -751,10 +751,10 @@ void load_tipfile(void) {
             return;
         }
         ptt = (TIP_TYPE *)malloc(sizeof(TIP_TYPE));
-        ptt->next = NULL;
+        ptt->next = nullptr;
         ptt->tip = fread_string(fp);
 
-        if (tip_top == NULL) {
+        if (tip_top == nullptr) {
             tip_top = ptt;
             tip_current = tip_top;
         } else
@@ -773,14 +773,14 @@ void tip_players(void) {
 
     /* check the tip wizard list first ... */
 
-    if (tip_current == NULL)
+    if (tip_current == nullptr)
         tip_current = tip_top; /* send us back to top of list */
 
-    if (tip_top == NULL) { /* we didn't load a tip file so ignore */
+    if (tip_top == nullptr) { /* we didn't load a tip file so ignore */
         ignore_tips = true;
         return;
     }
-    if (tip_current->tip == NULL) {
+    if (tip_current->tip == nullptr) {
         tip_current = tip_current->next;
         return;
     }
@@ -789,10 +789,10 @@ void tip_players(void) {
         return;
     }
     snprintf(buf, sizeof(buf), "|WTip: %s|w\n\r", tip_current->tip);
-    for (d = descriptor_list; d != NULL; d = d->next) {
+    for (d = descriptor_list; d != nullptr; d = d->next) {
         CHAR_DATA *ch;
 
-        ch = (d->original != NULL) ? d->original : d->character;
+        ch = (d->original != nullptr) ? d->original : d->character;
 
         if (d->connected != CON_PLAYING)
             continue;

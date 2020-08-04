@@ -28,7 +28,7 @@ typedef void(note_fn_t)(CHAR_DATA *, char *);
 int note_count(CHAR_DATA *ch) {
     NOTE_DATA *note;
     int notes = 0;
-    for (note = note_first; note != NULL; note = note->next) {
+    for (note = note_first; note != nullptr; note = note->next) {
         if (is_note_to(ch, note) && str_cmp(ch->name, note->sender) && note->date_stamp > ch->last_note) {
             notes++;
         }
@@ -57,7 +57,7 @@ static NOTE_DATA *create_note(void) {
     note->text = buffer_create();
     if (!note->text) {
         free(note);
-        note = NULL;
+        note = nullptr;
     }
     return note;
 }
@@ -92,7 +92,7 @@ static void destroy_note(NOTE_DATA *note) {
 }
 
 static void note_link(NOTE_DATA *note) {
-    note->next = NULL;
+    note->next = nullptr;
     note->prev = note_last;
     if (note_last) {
         note_last->next = note;
@@ -112,7 +112,7 @@ static NOTE_DATA *lookup_note(int index, CHAR_DATA *ch) {
             }
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 static NOTE_DATA *lookup_note_date(int date, CHAR_DATA *ch, int *index) {
@@ -128,7 +128,7 @@ static NOTE_DATA *lookup_note_date(int date, CHAR_DATA *ch, int *index) {
             count++;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 static NOTE_DATA *ensure_note(CHAR_DATA *ch) {
@@ -138,7 +138,7 @@ static NOTE_DATA *ensure_note(CHAR_DATA *ch) {
             ch->pnote->sender = str_dup(ch->name);
             if (!ch->pnote->sender) {
                 free(ch->pnote);
-                ch->pnote = NULL;
+                ch->pnote = nullptr;
             }
         }
     }
@@ -159,7 +159,7 @@ static void save_notes(void) {
     NOTE_DATA *note;
 
     if ((file = fopen(NOTE_FILE, "w"))) {
-        for (note = note_first; note != NULL; note = note->next) {
+        for (note = note_first; note != nullptr; note = note->next) {
             save_note(file, note);
         }
         fclose(file);
@@ -186,7 +186,7 @@ static void note_list(CHAR_DATA *ch, char *argument) {
 }
 
 static void note_read(CHAR_DATA *ch, char *argument) {
-    NOTE_DATA *note = NULL;
+    NOTE_DATA *note = nullptr;
     int note_index;
 
     if (argument[0] == '\0' || !str_prefix(argument, "next")) {
@@ -270,7 +270,7 @@ static void note_clear(CHAR_DATA *ch, char *argument) {
     (void)argument;
     if (ch->pnote) {
         destroy_note(ch->pnote);
-        ch->pnote = NULL;
+        ch->pnote = nullptr;
     }
     send_to_char("Ok.\n\r", ch);
 }
@@ -314,11 +314,11 @@ static void note_post(CHAR_DATA *ch, char *argument) {
     note->date = str_dup(strtime);
     note->date_stamp = current_time;
 
-    ch->pnote = NULL;
+    ch->pnote = nullptr;
     buffer_shrink(note->text);
     note_link(note);
 
-    if ((fp = fopen(NOTE_FILE, "a")) == NULL) {
+    if ((fp = fopen(NOTE_FILE, "a")) == nullptr) {
         perror(NOTE_FILE);
     } else {
         save_note(fp, note);
@@ -331,7 +331,7 @@ static void note_post(CHAR_DATA *ch, char *argument) {
 void note_announce(CHAR_DATA *chsender, NOTE_DATA *note) {
     DESCRIPTOR_DATA *d;
 
-    if (note == NULL) {
+    if (note == nullptr) {
         log_string("note_announce() note is null");
         return;
     }
@@ -443,7 +443,7 @@ void do_note(CHAR_DATA *ch, char *argument) {
 static void note_readfile(void) {
     FILE *fp;
 
-    if ((fp = fopen(NOTE_FILE, "r")) == NULL) {
+    if ((fp = fopen(NOTE_FILE, "r")) == nullptr) {
         return;
     }
     for (;;) {

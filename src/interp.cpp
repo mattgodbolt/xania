@@ -406,7 +406,7 @@ static const struct cmd_type *find_command(CHAR_DATA *ch, char *command, int tru
 }
 
 static char *apply_prefix(char *buf, CHAR_DATA *ch, char *command) {
-    char *pc_prefix = NULL;
+    char *pc_prefix = nullptr;
 
     /* Unswitched MOBs don't have prefixes.  If we're switched, get the player's prefix. */
     if (IS_NPC(ch)) {
@@ -500,7 +500,7 @@ void interpret(CHAR_DATA *ch, char *argument) {
         log_new(log_buf, (cmd->level >= 91) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT, level);
     }
 
-    if (ch->desc != NULL && ch->desc->snoop_by != NULL) {
+    if (ch->desc != nullptr && ch->desc->snoop_by != nullptr) {
         write_to_buffer(ch->desc->snoop_by, "% ", 2);
         write_to_buffer(ch->desc->snoop_by, logline, 0);
         write_to_buffer(ch->desc->snoop_by, "\n\r", 2);
@@ -526,7 +526,7 @@ static const struct social_type *find_social(char *name) {
             return social_table + cmd;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 bool check_social(CHAR_DATA *ch, char *command, char *argument) {
@@ -548,22 +548,22 @@ bool check_social(CHAR_DATA *ch, char *command, char *argument) {
     }
 
     one_argument(argument, arg);
-    victim = NULL;
+    victim = nullptr;
     if (arg[0] == '\0') {
-        act(social->others_no_arg, ch, NULL, victim, TO_ROOM);
-        act(social->char_no_arg, ch, NULL, victim, TO_CHAR);
-    } else if ((victim = get_char_room(ch, arg)) == NULL) {
+        act(social->others_no_arg, ch, nullptr, victim, TO_ROOM);
+        act(social->char_no_arg, ch, nullptr, victim, TO_CHAR);
+    } else if ((victim = get_char_room(ch, arg)) == nullptr) {
         send_to_char("They aren't here.\n\r", ch);
     } else if (victim == ch) {
-        act(social->others_auto, ch, NULL, victim, TO_ROOM);
-        act(social->char_auto, ch, NULL, victim, TO_CHAR);
+        act(social->others_auto, ch, nullptr, victim, TO_ROOM);
+        act(social->char_auto, ch, nullptr, victim, TO_CHAR);
     } else {
-        act(social->others_found, ch, NULL, victim, TO_NOTVICT);
-        act(social->char_found, ch, NULL, victim, TO_CHAR);
-        act(social->vict_found, ch, NULL, victim, TO_VICT);
+        act(social->others_found, ch, nullptr, victim, TO_NOTVICT);
+        act(social->char_found, ch, nullptr, victim, TO_CHAR);
+        act(social->vict_found, ch, nullptr, victim, TO_VICT);
 
         if (!IS_NPC(ch) && IS_NPC(victim) && !IS_AFFECTED(victim, AFF_CHARM) && IS_AWAKE(victim)
-            && victim->desc == NULL) {
+            && victim->desc == nullptr) {
             switch (number_bits(4)) {
             case 0:
             case 1:
@@ -574,18 +574,18 @@ bool check_social(CHAR_DATA *ch, char *command, char *argument) {
             case 6:
             case 7:
             case 8:
-                act(social->others_found, victim, NULL, ch, TO_NOTVICT);
-                act(social->char_found, victim, NULL, ch, TO_CHAR);
-                act(social->vict_found, victim, NULL, ch, TO_VICT);
+                act(social->others_found, victim, nullptr, ch, TO_NOTVICT);
+                act(social->char_found, victim, nullptr, ch, TO_CHAR);
+                act(social->vict_found, victim, nullptr, ch, TO_VICT);
                 break;
 
             case 9:
             case 10:
             case 11:
             case 12:
-                act("$n slaps $N.", victim, NULL, ch, TO_NOTVICT);
-                act("You slap $N.", victim, NULL, ch, TO_CHAR);
-                act("$n slaps you.", victim, NULL, ch, TO_VICT);
+                act("$n slaps $N.", victim, nullptr, ch, TO_NOTVICT);
+                act("You slap $N.", victim, nullptr, ch, TO_CHAR);
+                act("$n slaps you.", victim, nullptr, ch, TO_VICT);
                 break;
             }
         }

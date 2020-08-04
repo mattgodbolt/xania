@@ -347,10 +347,10 @@ void mobile_update(void) {
     int door;
 
     /* Examine all mobs. */
-    for (ch = char_list; ch != NULL; ch = ch_next) {
+    for (ch = char_list; ch != nullptr; ch = ch_next) {
         ch_next = ch->next;
 
-        if (!IS_NPC(ch) || ch->in_room == NULL || IS_AFFECTED(ch, AFF_CHARM))
+        if (!IS_NPC(ch) || ch->in_room == nullptr || IS_AFFECTED(ch, AFF_CHARM))
             continue;
 
         if (ch->in_room->area->empty && !IS_SET(ch->act, ACT_UPDATE_ALWAYS))
@@ -377,7 +377,7 @@ void mobile_update(void) {
                 continue;
         }
         /* Scavenge */
-        if (IS_SET(ch->act, ACT_SCAVENGER) && ch->in_room->contents != NULL && number_bits(6) == 0) {
+        if (IS_SET(ch->act, ACT_SCAVENGER) && ch->in_room->contents != nullptr && number_bits(6) == 0) {
             OBJ_DATA *obj;
             OBJ_DATA *obj_best;
             int max;
@@ -394,14 +394,14 @@ void mobile_update(void) {
             if (obj_best) {
                 obj_from_room(obj_best);
                 obj_to_char(obj_best, ch);
-                act("$n gets $p.", ch, obj_best, NULL, TO_ROOM);
+                act("$n gets $p.", ch, obj_best, nullptr, TO_ROOM);
                 do_wear(ch, "all");
             }
         }
 
         /* Wander */
         if (!IS_SET(ch->act, ACT_SENTINEL) && number_bits(4) == 0 && (door = number_bits(5)) <= 5
-            && (pexit = ch->in_room->exit[door]) != NULL && pexit->u1.to_room != NULL
+            && (pexit = ch->in_room->exit[door]) != nullptr && pexit->u1.to_room != nullptr
             && !IS_SET(pexit->exit_info, EX_CLOSED) && !IS_SET(pexit->u1.to_room->room_flags, ROOM_NO_MOB)
             && (!IS_SET(ch->act, ACT_STAY_AREA) || pexit->u1.to_room->area == ch->in_room->area)) {
             move_char(ch, door);
@@ -519,7 +519,7 @@ void weather_update(void) {
     }
 
     if (buf[0] != '\0') {
-        for (d = descriptor_list; d != NULL; d = d->next) {
+        for (d = descriptor_list; d != nullptr; d = d->next) {
             if (d->connected == CON_PLAYING && IS_OUTSIDE(d->character) && IS_AWAKE(d->character))
                 send_to_char(buf, d->character);
         }
@@ -531,20 +531,20 @@ void weather_update(void) {
  * their previous room.
  */
 void move_active_char_from_limbo(CHAR_DATA *ch) {
-    if (ch == NULL || ch->desc == NULL || ch->desc->connected != CON_PLAYING || ch->was_in_room == NULL
+    if (ch == nullptr || ch->desc == nullptr || ch->desc->connected != CON_PLAYING || ch->was_in_room == nullptr
         || ch->in_room != get_room_index(ROOM_VNUM_LIMBO))
         return;
 
     ch->timer = 0;
     char_from_room(ch);
     char_to_room(ch, ch->was_in_room);
-    ch->was_in_room = NULL;
-    act("$n has returned from the void.", ch, NULL, NULL, TO_ROOM);
+    ch->was_in_room = nullptr;
+    act("$n has returned from the void.", ch, nullptr, nullptr, TO_ROOM);
     if (ch->pet) { /* move pets too */
         char_from_room(ch->pet);
         char_to_room(ch->pet, ch->in_room);
-        ch->pet->was_in_room = NULL;
-        act("$n has returned from the void.", ch->pet, NULL, NULL, TO_ROOM);
+        ch->pet->was_in_room = nullptr;
+        act("$n has returned from the void.", ch->pet, nullptr, nullptr, TO_ROOM);
     }
     return;
 }
@@ -554,11 +554,11 @@ void move_active_char_from_limbo(CHAR_DATA *ch) {
  */
 void move_idle_char_to_limbo(CHAR_DATA *ch) {
     if (++ch->timer >= 12) {
-        if (ch->was_in_room == NULL && ch->in_room != NULL) {
+        if (ch->was_in_room == nullptr && ch->in_room != nullptr) {
             ch->was_in_room = ch->in_room;
-            if (ch->fighting != NULL)
+            if (ch->fighting != nullptr)
                 stop_fighting(ch, true);
-            act("$n disappears into the void.", ch, NULL, NULL, TO_ROOM);
+            act("$n disappears into the void.", ch, nullptr, nullptr, TO_ROOM);
             send_to_char("You disappear into the void.\n\r", ch);
             if (ch->level > 1)
                 save_char_obj(ch);
@@ -567,7 +567,7 @@ void move_idle_char_to_limbo(CHAR_DATA *ch) {
             if (ch->pet) { /* move pets too */
                 if (ch->pet->fighting)
                     stop_fighting(ch->pet, true);
-                act("$n flickers and phases out", ch->pet, NULL, NULL, TO_ROOM);
+                act("$n flickers and phases out", ch->pet, nullptr, nullptr, TO_ROOM);
                 ch->pet->was_in_room = ch->pet->in_room;
                 char_from_room(ch->pet);
                 char_to_room(ch->pet, get_room_index(ROOM_VNUM_LIMBO));
@@ -584,7 +584,7 @@ void char_update(void) {
     CHAR_DATA *ch_next;
     CHAR_DATA *ch_quit;
 
-    ch_quit = NULL;
+    ch_quit = nullptr;
 
     /* update save counter */
     save_number++;
@@ -592,7 +592,7 @@ void char_update(void) {
     if (save_number == save_every_n)
         save_number = 0;
 
-    for (ch = char_list; ch != NULL; ch = ch_next) {
+    for (ch = char_list; ch != nullptr; ch = ch_next) {
         AFFECT_DATA *paf;
         AFFECT_DATA *paf_next;
 
@@ -624,14 +624,14 @@ void char_update(void) {
         if (!IS_NPC(ch) && ch->level < LEVEL_IMMORTAL) {
             OBJ_DATA *obj;
 
-            if ((obj = get_eq_char(ch, WEAR_LIGHT)) != NULL && obj->item_type == ITEM_LIGHT && obj->value[2] > 0) {
-                if (--obj->value[2] == 0 && ch->in_room != NULL) {
+            if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->item_type == ITEM_LIGHT && obj->value[2] > 0) {
+                if (--obj->value[2] == 0 && ch->in_room != nullptr) {
                     --ch->in_room->light;
-                    act("$p goes out.", ch, obj, NULL, TO_ROOM);
-                    act("$p flickers and goes out.", ch, obj, NULL, TO_CHAR);
+                    act("$p goes out.", ch, obj, nullptr, TO_ROOM);
+                    act("$p flickers and goes out.", ch, obj, nullptr, TO_CHAR);
                     extract_obj(obj);
-                } else if (obj->value[2] <= 5 && ch->in_room != NULL)
-                    act("$p flickers.", ch, obj, NULL, TO_CHAR);
+                } else if (obj->value[2] <= 5 && ch->in_room != nullptr)
+                    act("$p flickers.", ch, obj, nullptr, TO_CHAR);
             }
 
             if (IS_IMMORTAL(ch))
@@ -643,7 +643,7 @@ void char_update(void) {
             gain_condition(ch, COND_THIRST, -1);
         }
 
-        for (paf = ch->affected; paf != NULL; paf = paf_next) {
+        for (paf = ch->affected; paf != nullptr; paf = paf_next) {
             paf_next = paf->next;
             if (paf->duration > 0) {
                 paf->duration--;
@@ -652,7 +652,7 @@ void char_update(void) {
             } else if (paf->duration < 0)
                 ;
             else {
-                if (paf_next == NULL || paf_next->type != paf->type || paf_next->duration > 0) {
+                if (paf_next == nullptr || paf_next->type != paf->type || paf_next->duration > 0) {
                     if (paf->type > 0 && skill_table[paf->type].msg_off) {
                         send_to_char(skill_table[paf->type].msg_off, ch);
                         send_to_char("\n\r", ch);
@@ -662,7 +662,7 @@ void char_update(void) {
                                               || paf->type == skill_lookup("frenzy"))
                                               {
                                                   wield = get_eq_char(ch, WEAR_WIELD);
-                                                  if ( (wield !=NULL)
+                                                  if ( (wield !=nullptr)
                                                   && (wield->item_type == ITEM_WEAPON)
                                                   && (IS_SET(wield->value[4], WEAPON_FLAMING)) )
                                                   {
@@ -684,7 +684,7 @@ void char_update(void) {
            and randomly decay them */
         if (IS_NPC(ch) && ch->pIndexData->vnum == MOB_VNUM_ZOMBIE) {
             if (number_percent() > 90) {
-                act("$n fits violently before decaying in to a pile of dust.", ch, NULL, NULL, TO_ROOM);
+                act("$n fits violently before decaying in to a pile of dust.", ch, nullptr, nullptr, TO_ROOM);
                 extract_char(ch, true);
                 continue;
             }
@@ -696,22 +696,22 @@ void char_update(void) {
          *   as it may be lethal damage (on NPC).
          */
 
-        if (is_affected(ch, gsn_plague) && ch != NULL) {
+        if (is_affected(ch, gsn_plague) && ch != nullptr) {
             AFFECT_DATA *af, plague;
             CHAR_DATA *vch;
             int save, dam;
 
-            if (ch->in_room == NULL)
+            if (ch->in_room == nullptr)
                 return;
 
-            act("$n writhes in agony as plague sores erupt from $s skin.", ch, NULL, NULL, TO_ROOM);
+            act("$n writhes in agony as plague sores erupt from $s skin.", ch, nullptr, nullptr, TO_ROOM);
             send_to_char("You writhe in agony from the plague.\n\r", ch);
-            for (af = ch->affected; af != NULL; af = af->next) {
+            for (af = ch->affected; af != nullptr; af = af->next) {
                 if (af->type == gsn_plague)
                     break;
             }
 
-            if (af == NULL) {
+            if (af == nullptr) {
                 REMOVE_BIT(ch->affected_by, AFF_PLAGUE);
                 return;
             }
@@ -726,7 +726,7 @@ void char_update(void) {
             plague.modifier = -5;
             plague.bitvector = AFF_PLAGUE;
 
-            for (vch = ch->in_room->people; vch != NULL; vch = vch->next_in_room) {
+            for (vch = ch->in_room->people; vch != nullptr; vch = vch->next_in_room) {
                 switch (check_immune(vch, DAM_DISEASE)) {
                 case (IS_NORMAL): save = af->level - 4; break;
                 case (IS_IMMUNE): save = 0; break;
@@ -738,7 +738,7 @@ void char_update(void) {
                 if (save != 0 && !saves_spell(save, vch) && !IS_IMMORTAL(vch) && !IS_AFFECTED(vch, AFF_PLAGUE)
                     && number_bits(4) == 0) {
                     send_to_char("You feel hot and feverish.\n\r", vch);
-                    act("$n shivers and looks very ill.", vch, NULL, NULL, TO_ROOM);
+                    act("$n shivers and looks very ill.", vch, nullptr, nullptr, TO_ROOM);
                     affect_join(vch, &plague);
                 }
             }
@@ -747,8 +747,8 @@ void char_update(void) {
             ch->mana -= dam;
             ch->move -= dam;
             damage(ch, ch, dam, gsn_plague, DAM_DISEASE);
-        } else if (IS_AFFECTED(ch, AFF_POISON) && ch != NULL) {
-            act("$n shivers and suffers.", ch, NULL, NULL, TO_ROOM);
+        } else if (IS_AFFECTED(ch, AFF_POISON) && ch != nullptr) {
+            act("$n shivers and suffers.", ch, nullptr, nullptr, TO_ROOM);
             send_to_char("You shiver and suffer.\n\r", ch);
             damage(ch, ch, 2, gsn_poison, DAM_POISON);
         } else if (ch->position == POS_INCAP && number_range(0, 1) == 0) {
@@ -762,10 +762,10 @@ void char_update(void) {
      * Autosave and autoquit.
      * Check that these chars still exist.
      */
-    for (ch = char_list; ch != NULL; ch = ch_next) {
+    for (ch = char_list; ch != nullptr; ch = ch_next) {
         ch_next = ch->next;
 
-        if (ch->desc != NULL && ch->desc->descriptor % save_every_n == save_number)
+        if (ch->desc != nullptr && ch->desc->descriptor % save_every_n == save_number)
             save_char_obj(ch);
 
         if (ch == ch_quit)
@@ -782,14 +782,14 @@ void obj_update(void) {
     OBJ_DATA *obj_next;
     AFFECT_DATA *paf, *paf_next;
 
-    for (obj = object_list; obj != NULL; obj = obj_next) {
+    for (obj = object_list; obj != nullptr; obj = obj_next) {
         CHAR_DATA *rch;
         char *message;
 
         obj_next = obj->next;
 
         /* go through affects and decrement */
-        for (paf = obj->affected; paf != NULL; paf = paf_next) {
+        for (paf = obj->affected; paf != nullptr; paf = paf_next) {
             paf_next = paf->next;
             if (paf->duration > 0) {
                 paf->duration--;
@@ -798,9 +798,9 @@ void obj_update(void) {
             } else if (paf->duration < 0)
                 ;
             else {
-                if (paf_next == NULL || paf_next->type != paf->type || paf_next->duration > 0) {
+                if (paf_next == nullptr || paf_next->type != paf->type || paf_next->duration > 0) {
                     if (paf->type > 0 && skill_table[paf->type].msg_off) {
-                        act_new(skill_table[paf->type].msg_off, obj->carried_by, obj, NULL, POS_SLEEPING, TO_CHAR);
+                        act_new(skill_table[paf->type].msg_off, obj->carried_by, obj, nullptr, POS_SLEEPING, TO_CHAR);
                     }
                 }
 
@@ -821,22 +821,22 @@ void obj_update(void) {
         case ITEM_PORTAL: message = "$p shimmers and fades away."; break;
         }
 
-        if (obj->carried_by != NULL) {
-            if (IS_NPC(obj->carried_by) && obj->carried_by->pIndexData->pShop != NULL)
+        if (obj->carried_by != nullptr) {
+            if (IS_NPC(obj->carried_by) && obj->carried_by->pIndexData->pShop != nullptr)
                 obj->carried_by->gold += obj->cost;
             else
-                act(message, obj->carried_by, obj, NULL, TO_CHAR);
-        } else if (obj->in_room != NULL && (rch = obj->in_room->people) != NULL) {
+                act(message, obj->carried_by, obj, nullptr, TO_CHAR);
+        } else if (obj->in_room != nullptr && (rch = obj->in_room->people) != nullptr) {
             if (!(obj->in_obj && obj->in_obj->pIndexData->vnum == OBJ_VNUM_PIT && !CAN_WEAR(obj->in_obj, ITEM_TAKE))) {
-                act(message, rch, obj, NULL, TO_ROOM);
-                act(message, rch, obj, NULL, TO_CHAR);
+                act(message, rch, obj, nullptr, TO_ROOM);
+                act(message, rch, obj, nullptr, TO_CHAR);
             }
         }
 
         if (obj->item_type == ITEM_CORPSE_PC && obj->contains) { /* save the contents */
             OBJ_DATA *t_obj, *next_obj;
 
-            for (t_obj = obj->contains; t_obj != NULL; t_obj = next_obj) {
+            for (t_obj = obj->contains; t_obj != nullptr; t_obj = next_obj) {
                 next_obj = t_obj->next_content;
                 obj_from_obj(t_obj);
 
@@ -846,7 +846,7 @@ void obj_update(void) {
                 if (obj->carried_by) /* carried */
                     obj_to_char(t_obj, obj->carried_by);
 
-                if (obj->in_room == NULL) /* destroy it */
+                if (obj->in_room == nullptr) /* destroy it */
                     extract_obj(t_obj);
 
                 else /* to a room */
@@ -879,29 +879,29 @@ void aggr_update(void) {
     CHAR_DATA *ch;
     CHAR_DATA *ch_next;
 
-    for (wch = char_list; wch != NULL; wch = wch_next) {
+    for (wch = char_list; wch != nullptr; wch = wch_next) {
         wch_next = wch->next;
 
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         /* MOBProgram ACT_PROG trigger */
         if (IS_NPC(wch) && wch->mpactnum > 0 && wch->in_room->area->nplayer > 0) {
             MPROG_ACT_LIST *tmp_act, *tmp2_act;
-            for (tmp_act = wch->mpact; tmp_act != NULL; tmp_act = tmp_act->next) {
+            for (tmp_act = wch->mpact; tmp_act != nullptr; tmp_act = tmp_act->next) {
                 mprog_wordlist_check(tmp_act->buf, wch, tmp_act->ch, tmp_act->obj, tmp_act->vo, ACT_PROG);
                 free_string(tmp_act->buf);
             }
-            for (tmp_act = wch->mpact; tmp_act != NULL; tmp_act = tmp2_act) {
+            for (tmp_act = wch->mpact; tmp_act != nullptr; tmp_act = tmp2_act) {
                 tmp2_act = tmp_act->next;
                 free_mem(tmp_act, sizeof(MPROG_ACT_LIST));
             }
             wch->mpactnum = 0;
-            wch->mpact = NULL;
+            wch->mpact = nullptr;
         }
 
-        if (IS_NPC(wch) || wch->level >= LEVEL_IMMORTAL || wch->in_room == NULL || wch->in_room->area->empty)
+        if (IS_NPC(wch) || wch->level >= LEVEL_IMMORTAL || wch->in_room == nullptr || wch->in_room->area->empty)
             continue;
 
-        for (ch = wch->in_room->people; ch != NULL; ch = ch_next) {
+        for (ch = wch->in_room->people; ch != nullptr; ch = ch_next) {
 
             ch_next = ch->next_in_room;
             if (IS_NPC(ch))
@@ -918,13 +918,13 @@ void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
     char buf[MAX_STRING_LENGTH];
     bool shout = false;
 
-    if (IS_SET(ch->act, ACT_SENTIENT) && ch->fighting == NULL && !IS_AFFECTED(ch, AFF_CALM) && IS_AWAKE(ch)
+    if (IS_SET(ch->act, ACT_SENTIENT) && ch->fighting == nullptr && !IS_AFFECTED(ch, AFF_CALM) && IS_AWAKE(ch)
         && !IS_AFFECTED(ch, AFF_CHARM) && can_see(ch, wch)) {
         if (ch->hit == ch->max_hit && ch->mana == ch->max_mana) {
             free_string(ch->sentient_victim);
             ch->sentient_victim = str_dup("");
         }
-        if ((ch->sentient_victim != NULL) && (!str_cmp(wch->name, ch->sentient_victim))) {
+        if ((ch->sentient_victim != nullptr) && (!str_cmp(wch->name, ch->sentient_victim))) {
             if (is_safe_sentient(ch, wch))
                 return;
             snprintf(buf, sizeof(buf), "|WAha! I never forget a face, prepare to die %s!!!|w", wch->name);
@@ -939,7 +939,7 @@ void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
         }
     }
     if (IS_SET(ch->act, ACT_AGGRESSIVE) && !IS_SET(ch->in_room->room_flags, ROOM_SAFE) && !IS_AFFECTED(ch, AFF_CALM)
-        && (ch->fighting == NULL) // Changed by Moog
+        && (ch->fighting == nullptr) // Changed by Moog
         && !IS_AFFECTED(ch, AFF_CHARM) && IS_AWAKE(ch) && !(IS_SET(ch->act, ACT_WIMPY) && IS_AWAKE(wch))
         && can_see(ch, wch) && !number_bits(1) == 0) {
 
@@ -950,8 +950,8 @@ void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
          */
 
         count = 0;
-        victim = NULL;
-        for (vch = wch->in_room->people; vch != NULL; vch = vch_next) {
+        victim = nullptr;
+        for (vch = wch->in_room->people; vch != nullptr; vch = vch_next) {
             vch_next = vch->next_in_room;
 
             if (!IS_NPC(vch) && vch->level < LEVEL_IMMORTAL && ch->level >= vch->level - 5
@@ -962,7 +962,7 @@ void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
             }
         }
 
-        if (victim != NULL)
+        if (victim != nullptr)
             multi_hit(ch, victim, TYPE_UNDEFINED);
     }
 }
@@ -979,7 +979,7 @@ bool is_safe_sentient(CHAR_DATA *ch, CHAR_DATA *wch) {
     char buf[MAX_STRING_LENGTH];
     bool shout = false;
 
-    if (ch->in_room == NULL)
+    if (ch->in_room == nullptr)
         return false;
     if (IS_SET(ch->in_room->room_flags, ROOM_SAFE)) {
         snprintf(buf, sizeof(buf), "|WIf it weren't for the law, you'd be dead meat %s!!!|w", wch->name);

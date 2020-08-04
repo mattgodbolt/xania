@@ -26,7 +26,7 @@ public:
     int dbase;
 
     char* set(char* n,int d) { name=strdup(n); dbase=d; return name; }
-    nametype() { name=NULL; dbase=0; }
+    nametype() { name=nullptr; dbase=0; }
     ~nametype() { if(name) free(name); }
   };
   static char* trim(char str[]);

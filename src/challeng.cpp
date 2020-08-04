@@ -30,9 +30,9 @@ int do_check_chal(CHAR_DATA *ch);
 static int check_duel_status(int);
 
 /* Challenge variables.  Lets make them local to this file. */
-static CHAR_DATA *challenger = NULL;
-static CHAR_DATA *challengee = NULL;
-static CHAR_DATA *imm = NULL;
+static CHAR_DATA *challenger = nullptr;
+static CHAR_DATA *challengee = nullptr;
+static CHAR_DATA *imm = nullptr;
 static char imm_name[NAME_SIZE + 1];
 static char challenger_name[NAME_SIZE + 1];
 static char challengee_name[NAME_SIZE + 1];
@@ -67,7 +67,7 @@ void do_challenge(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if ((victim = get_char_world(ch, arg)) == NULL) {
+    if ((victim = get_char_world(ch, arg)) == nullptr) {
         send_to_char("|cThat player does not exist!|w\n\r", ch);
         return;
     }
@@ -77,18 +77,18 @@ void do_challenge(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if (victim->desc == NULL && !IS_NPC(victim)) {
-        act("|W$N|c seems to have misplaced $S link...try again later.|w", ch, NULL, victim, TO_CHAR);
+    if (victim->desc == nullptr && !IS_NPC(victim)) {
+        act("|W$N|c seems to have misplaced $S link...try again later.|w", ch, nullptr, victim, TO_CHAR);
         return;
     }
 
-    if (ch->leader != NULL) { /* This might need to be checked.  It
+    if (ch->leader != nullptr) { /* This might need to be checked.  It
                                  is set when you are grouped as well! */
         send_to_char("|cYou cannot challenge with pets or charmed mobs.|w\n\r", ch->leader);
         return;
     }
 
-    if (ch->desc->original != NULL || victim->desc->original != NULL) {
+    if (ch->desc->original != nullptr || victim->desc->original != nullptr) {
         send_to_char("|cYou cannot challenge with switched mobs.|w\n\r", ch);
         return;
     }
@@ -118,7 +118,7 @@ void do_challenge(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if (challenger != NULL) {
+    if (challenger != nullptr) {
         send_to_char("|cSorry, a challenge is about to, or is taking place. Please try again later.|w\n\r", ch);
         return;
     }
@@ -126,7 +126,7 @@ void do_challenge(CHAR_DATA *ch, char *argument) {
     challengee = victim;
     challenger = ch;
     /* Another bit of paranoia  -  Oshea */
-    imm = NULL;
+    imm = nullptr;
     challenge_active = false;
     challenge_fighting = false;
 
@@ -143,17 +143,17 @@ void do_accept(CHAR_DATA *ch, char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
-    if ((challenger == NULL) || (((challengee != ch) || (imm == NULL)) && (ch->level <= 91))) {
+    if ((challenger == nullptr) || (((challengee != ch) || (imm == nullptr)) && (ch->level <= 91))) {
         send_to_char("|cSorry, there is no challenge for you to accept.|w\n\r", ch);
         return;
     }
 
-    if (ch->level < 95 && imm == NULL) {
+    if (ch->level < 95 && imm == nullptr) {
         send_to_char("|cYou have to be level 95 or higher to control a challenge.|w\n\r", ch);
         return;
     }
 
-    if (imm != NULL && imm != ch) {
+    if (imm != nullptr && imm != ch) {
         if (ch->level > 94) {
             send_to_char("|cSorry, an imm has already accepted to control the challenge.|w\n\r", ch);
             return;
@@ -175,7 +175,7 @@ void do_accept(CHAR_DATA *ch, char *argument) {
              challengee->name);
     send_to_char(buf, ch);
 
-    if (imm == NULL) {
+    if (imm == nullptr) {
         snprintf(buf, sizeof(buf),
                  "|g%s|c has accepted to control the challenge. Now waiting to see\nif |g%s|c will accept your "
                  "challenge.|w\n\r",
@@ -204,7 +204,7 @@ void do_refuse(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if (ch == challengee && imm != NULL) {
+    if (ch == challengee && imm != nullptr) {
         snprintf(buf, sizeof(buf), "|cYou have refused to fight to the death with %s.|w\n\r", challenger->name);
         send_to_char(buf, ch);
 
@@ -215,9 +215,9 @@ void do_refuse(CHAR_DATA *ch, char *argument) {
         snprintf(buf, sizeof(buf), "|c%s has refused to fight to the death with you.|w\n\r", challengee->name);
         send_to_char(buf, challenger);
 
-        challenger = NULL;
-        challengee = NULL;
-        imm = NULL;
+        challenger = nullptr;
+        challengee = nullptr;
+        imm = nullptr;
         challenge_ticker = 0;
         return;
     }
@@ -294,7 +294,7 @@ void do_chal_tick() {
     else {
         challenge_ticker--;
         if (challenge_ticker == 0) {
-            if (imm != NULL && challenger != NULL && challengee != NULL) {
+            if (imm != nullptr && challenger != nullptr && challengee != nullptr) {
                 /* Update this at some point to make it more friendly. End
                    duel silently less often. */
                 snprintf(buf, sizeof(buf), "|cThe challenge has been cancelled.|w\n\r");
@@ -304,9 +304,9 @@ void do_chal_tick() {
                 send_to_char(buf, challengee);
                 stop_fighting(challenger, true);
                 stop_fighting(challengee, true);
-                challenger = NULL;
-                challengee = NULL;
-                imm = NULL;
+                challenger = nullptr;
+                challengee = nullptr;
+                imm = nullptr;
                 imm_ready = 0;
                 challenger_ready = 0;
                 challengee_ready = 0;
@@ -314,21 +314,21 @@ void do_chal_tick() {
                 return;
             }
             bug("do_chal_tick: either the imm, or challengee/r are null");
-            imm = NULL;
+            imm = nullptr;
             imm_ready = 0;
             challenger_ready = 0;
             challengee_ready = 0;
-            challenger = NULL;
-            challengee = NULL;
+            challenger = nullptr;
+            challengee = nullptr;
             challenge_active = false;
             challenge_fighting = false;
             return;
         }
         snprintf(buf, sizeof(buf), "|CThere are %d ticks left before the challenge is cancelled.|w\n\r",
                  challenge_ticker);
-        if (imm != NULL)
+        if (imm != nullptr)
             send_to_char(buf, imm);
-        if (imm != NULL && imm_ready != 0)
+        if (imm != nullptr && imm_ready != 0)
             send_to_char(buf, challengee);
         /* Don't want to only tell chellenger when control has been
            accepted.  Warn him if he is on. Need to change this to check
@@ -349,7 +349,7 @@ void do_chal_canc(CHAR_DATA *ch) {
         return;
 
     snprintf(buf, sizeof(buf), "|c%s has either quit or lost their link.|w\n\r", ch->name);
-    if (imm != NULL && get_char_world(ch, imm_name))
+    if (imm != nullptr && get_char_world(ch, imm_name))
         send_to_char(buf, imm);
     if (get_char_world(ch, challenger_name))
         send_to_char(buf, challenger);
@@ -418,7 +418,7 @@ void do_duel(CHAR_DATA *ch, char *argument) {
     }
 
     if ((ch == challenger && victim == challengee) || (ch == challengee && victim == challenger)) {
-        if (ch->fighting != NULL || victim->fighting != NULL)
+        if (ch->fighting != nullptr || victim->fighting != nullptr)
             return;
         challenge_fighting = true;
         multi_hit(ch, victim, 100);
@@ -436,7 +436,7 @@ int do_check_chal(CHAR_DATA *ch) {
        better error correction later if we discover a problem. */
     check_duel_status(0);
 
-    if (ch == NULL)
+    if (ch == nullptr)
         return 0;
 
     if (ch != challenger && ch != challengee)
@@ -449,7 +449,7 @@ int do_check_chal(CHAR_DATA *ch) {
 
     raw_kill(ch);
     snprintf(buf, sizeof(buf), "%s 3054", ch->name);
-    if (imm == NULL) {
+    if (imm == nullptr) {
         bug("do_check_chal: crash potential here guys, challengee/r is being killed...");
         return 0;
     }
@@ -477,9 +477,9 @@ int do_check_chal(CHAR_DATA *ch) {
 
     send_to_char("|cChallenge over. Challenge variables reset. New challenge can now be initiated.|w\n\r", imm);
 
-    challenger = NULL;
-    challengee = NULL;
-    imm = NULL;
+    challenger = nullptr;
+    challengee = nullptr;
+    imm = nullptr;
     imm_ready = 0;
     challenger_ready = 0;
     challengee_ready = 0;
@@ -508,7 +508,7 @@ void do_flee_check(CHAR_DATA *ch) {
        possibly. */
     check_duel_status(0);
 
-    if (challenger == NULL || challengee == NULL)
+    if (challenger == nullptr || challengee == nullptr)
         return;
 
     if (ch != challenger && ch != challengee)
@@ -544,9 +544,9 @@ void do_flee_check(CHAR_DATA *ch) {
 
     send_to_char("|cChallenge over. Challenge variables reset. New challenge can now be initiated.|w\n\r", imm);
 
-    challenger = NULL;
-    challengee = NULL;
-    imm = NULL;
+    challenger = nullptr;
+    challengee = nullptr;
+    imm = nullptr;
     imm_ready = 0;
     challenger_ready = 0;
     challengee_ready = 0;
@@ -582,17 +582,17 @@ int in_duel(CHAR_DATA *ch) {
 static int check_duel_status(int f) {
     int flag = 0;
 
-    if (challenger != NULL) {
+    if (challenger != nullptr) {
         if (strncmp(challenger->name, challenger_name, NAME_SIZE))
             flag = 1;
     }
 
-    if (challengee != NULL) {
+    if (challengee != nullptr) {
         if (strncmp(challengee->name, challengee_name, NAME_SIZE))
             flag += 2;
     }
 
-    if (imm != NULL) {
+    if (imm != nullptr) {
         if (strncmp(imm->name, imm_name, NAME_SIZE))
             flag = +4;
     }

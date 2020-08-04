@@ -31,11 +31,11 @@ void do_gain(CHAR_DATA *ch, char *argument) {
         return;
 
     /* find a trainer */
-    for (trainer = ch->in_room->people; trainer != NULL; trainer = trainer->next_in_room)
+    for (trainer = ch->in_room->people; trainer != nullptr; trainer = trainer->next_in_room)
         if (IS_NPC(trainer) && IS_SET(trainer->act, ACT_GAIN))
             break;
 
-    if (trainer == NULL || !can_see(ch, trainer)) {
+    if (trainer == nullptr || !can_see(ch, trainer)) {
         send_to_char("You can't do that here.\n\r", ch);
         return;
     }
@@ -57,7 +57,7 @@ void do_gain(CHAR_DATA *ch, char *argument) {
         send_to_char(buf, ch);
 
         for (gn = 0; gn < MAX_GROUP; gn++) {
-            if (group_table[gn].name == NULL)
+            if (group_table[gn].name == nullptr)
                 break;
 
             if (!ch->pcdata->group_known[gn] && ((i = get_group_trains(ch, gn)) != 0)) {
@@ -79,7 +79,7 @@ void do_gain(CHAR_DATA *ch, char *argument) {
         send_to_char(buf, ch);
 
         for (sn = 0; sn < MAX_SKILL; sn++) {
-            if (skill_table[sn].name == NULL)
+            if (skill_table[sn].name == nullptr)
                 break;
 
             if (!ch->pcdata->learned[sn] // NOT get_skill_learned
@@ -97,11 +97,11 @@ void do_gain(CHAR_DATA *ch, char *argument) {
 
     if (!str_prefix(arg, "convert")) {
         if (ch->practice < 10) {
-            act("$N tells you 'You are not yet ready.'", ch, NULL, trainer, TO_CHAR);
+            act("$N tells you 'You are not yet ready.'", ch, nullptr, trainer, TO_CHAR);
             return;
         }
 
-        act("$N helps you apply your practice to training", ch, NULL, trainer, TO_CHAR);
+        act("$N helps you apply your practice to training", ch, nullptr, trainer, TO_CHAR);
         ch->practice -= 10;
         ch->train += 1;
         return;
@@ -109,16 +109,16 @@ void do_gain(CHAR_DATA *ch, char *argument) {
 
     if (!str_prefix(arg, "points")) {
         if (ch->train < 2) {
-            act("$N tells you 'You are not yet ready.'", ch, NULL, trainer, TO_CHAR);
+            act("$N tells you 'You are not yet ready.'", ch, nullptr, trainer, TO_CHAR);
             return;
         }
 
         if (ch->pcdata->points <= 40) {
-            act("$N tells you 'There would be no point in that.'", ch, NULL, trainer, TO_CHAR);
+            act("$N tells you 'There would be no point in that.'", ch, nullptr, trainer, TO_CHAR);
             return;
         }
 
-        act("$N trains you, and you feel more at ease with your skills.", ch, NULL, trainer, TO_CHAR);
+        act("$N trains you, and you feel more at ease with your skills.", ch, nullptr, trainer, TO_CHAR);
 
         ch->train -= 2;
         ch->pcdata->points -= 1;
@@ -131,17 +131,17 @@ void do_gain(CHAR_DATA *ch, char *argument) {
     gn = group_lookup(argument);
     if (gn > 0) {
         if (ch->pcdata->group_known[gn]) {
-            act("$N tells you 'You already know that group!'", ch, NULL, trainer, TO_CHAR);
+            act("$N tells you 'You already know that group!'", ch, nullptr, trainer, TO_CHAR);
             return;
         }
 
         if ((i = get_group_trains(ch, gn)) == 0) {
-            act("$N tells you 'That group is beyond your powers.'", ch, NULL, trainer, TO_CHAR);
+            act("$N tells you 'That group is beyond your powers.'", ch, nullptr, trainer, TO_CHAR);
             return;
         }
 
         if (ch->train < i) {
-            act("$N tells you 'You are not yet ready for that group.'", ch, NULL, trainer, TO_CHAR);
+            act("$N tells you 'You are not yet ready for that group.'", ch, nullptr, trainer, TO_CHAR);
             return;
         }
 
@@ -155,23 +155,23 @@ void do_gain(CHAR_DATA *ch, char *argument) {
     sn = skill_lookup(argument);
     if (sn > -1) {
         if (skill_table[sn].spell_fun != spell_null) {
-            act("$N tells you 'You must learn the full group.'", ch, NULL, trainer, TO_CHAR);
+            act("$N tells you 'You must learn the full group.'", ch, nullptr, trainer, TO_CHAR);
             return;
         }
 
         if (ch->pcdata->learned[sn]) // NOT get_skill_learned
         {
-            act("$N tells you 'You already know that skill!'", ch, NULL, trainer, TO_CHAR);
+            act("$N tells you 'You already know that skill!'", ch, nullptr, trainer, TO_CHAR);
             return;
         }
 
         if ((i = get_skill_trains(ch, sn)) == 0) {
-            act("$N tells you 'That skill is beyond your powers.'", ch, NULL, trainer, TO_CHAR);
+            act("$N tells you 'That skill is beyond your powers.'", ch, nullptr, trainer, TO_CHAR);
             return;
         }
 
         if (ch->train < i) {
-            act("$N tells you 'You are not yet ready for that skill.'", ch, NULL, trainer, TO_CHAR);
+            act("$N tells you 'You are not yet ready for that skill.'", ch, nullptr, trainer, TO_CHAR);
             return;
         }
 
@@ -182,7 +182,7 @@ void do_gain(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    act("$N tells you 'I do not understand...'", ch, NULL, trainer, TO_CHAR);
+    act("$N tells you 'I do not understand...'", ch, nullptr, trainer, TO_CHAR);
 }
 
 /* R Spells and skills show the players spells (or skills) */
@@ -205,7 +205,7 @@ void do_spells(CHAR_DATA *ch, char *argument) {
     }
 
     for (sn = 0; sn < MAX_SKILL; sn++) {
-        if (skill_table[sn].name == NULL)
+        if (skill_table[sn].name == nullptr)
             break;
 
         if (get_skill_level(ch, sn) < LEVEL_HERO && skill_table[sn].spell_fun != spell_null
@@ -262,7 +262,7 @@ void do_skills(CHAR_DATA *ch, char *argument) {
     }
 
     for (sn = 0; sn < MAX_SKILL; sn++) {
-        if (skill_table[sn].name == NULL)
+        if (skill_table[sn].name == nullptr)
             break;
 
         if (get_skill_level(ch, sn) < LEVEL_HERO && skill_table[sn].spell_fun == spell_null
@@ -313,7 +313,7 @@ void list_group_costs(CHAR_DATA *ch) {
     send_to_char(buf, ch);
 
     for (gn = 0; gn < MAX_GROUP; gn++) {
-        if (group_table[gn].name == NULL)
+        if (group_table[gn].name == nullptr)
             break;
 
         if (!ch->gen_data->group_chosen[gn] && !ch->pcdata->group_known[gn] && (get_group_trains(ch, gn) > 0)) {
@@ -333,7 +333,7 @@ void list_group_costs(CHAR_DATA *ch) {
     send_to_char(buf, ch);
 
     for (sn = 0; sn < MAX_SKILL; sn++) {
-        if (skill_table[sn].name == NULL)
+        if (skill_table[sn].name == nullptr)
             break;
 
         if (!ch->gen_data->skill_chosen[sn] && ch->pcdata->learned[sn] == 0 // NOT get_skill_learned
@@ -368,7 +368,7 @@ void list_group_chosen(CHAR_DATA *ch) {
     send_to_char(buf, ch);
 
     for (gn = 0; gn < MAX_GROUP; gn++) {
-        if (group_table[gn].name == NULL)
+        if (group_table[gn].name == nullptr)
             break;
 
         if (ch->gen_data->group_chosen[gn] && get_group_trains(ch, gn) > 0) {
@@ -388,7 +388,7 @@ void list_group_chosen(CHAR_DATA *ch) {
     send_to_char(buf, ch);
 
     for (sn = 0; sn < MAX_SKILL; sn++) {
-        if (skill_table[sn].name == NULL)
+        if (skill_table[sn].name == nullptr)
             break;
 
         if (ch->gen_data->skill_chosen[sn] && get_skill_level(ch, sn) > 0) {
@@ -594,7 +594,7 @@ void do_groups(CHAR_DATA *ch, char *argument) {
     if (argument[0] == '\0') { /* show all groups */
 
         for (gn = 0; gn < MAX_GROUP; gn++) {
-            if (group_table[gn].name == NULL)
+            if (group_table[gn].name == nullptr)
                 break;
             if (ch->pcdata->group_known[gn]) {
                 bug_snprintf(buf, sizeof(buf), "%-20s ", group_table[gn].name);
@@ -613,7 +613,7 @@ void do_groups(CHAR_DATA *ch, char *argument) {
     if (!str_cmp(argument, "all")) /* show all groups */
     {
         for (gn = 0; gn < MAX_GROUP; gn++) {
-            if (group_table[gn].name == NULL)
+            if (group_table[gn].name == nullptr)
                 break;
             bug_snprintf(buf, sizeof(buf), "%-20s ", group_table[gn].name);
             send_to_char(buf, ch);
@@ -634,7 +634,7 @@ void do_groups(CHAR_DATA *ch, char *argument) {
     }
 
     for (sn = 0; sn < MAX_IN_GROUP; sn++) {
-        if (group_table[gn].spells[sn] == NULL)
+        if (group_table[gn].spells[sn] == nullptr)
             break;
         bug_snprintf(buf, sizeof(buf), "%-20s ", group_table[gn].spells[sn]);
         send_to_char(buf, ch);
@@ -695,7 +695,7 @@ int group_lookup(const char *name) {
     int gn;
 
     for (gn = 0; gn < MAX_GROUP; gn++) {
-        if (group_table[gn].name == NULL)
+        if (group_table[gn].name == nullptr)
             break;
         if (LOWER(name[0]) == LOWER(group_table[gn].name[0]) && !str_prefix(name, group_table[gn].name))
             return gn;
@@ -710,7 +710,7 @@ void gn_add(CHAR_DATA *ch, int gn) {
 
     ch->pcdata->group_known[gn] = true;
     for (i = 0; i < MAX_IN_GROUP; i++) {
-        if (group_table[gn].spells[i] == NULL)
+        if (group_table[gn].spells[i] == nullptr)
             break;
         group_add(ch, group_table[gn].spells[i], false);
     }
@@ -723,7 +723,7 @@ void gn_remove(CHAR_DATA *ch, int gn) {
     ch->pcdata->group_known[gn] = false;
 
     for (i = 0; i < MAX_IN_GROUP; i++) {
-        if (group_table[gn].spells[i] == NULL)
+        if (group_table[gn].spells[i] == nullptr)
             break;
         group_remove(ch, group_table[gn].spells[i]);
     }

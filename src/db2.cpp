@@ -31,14 +31,14 @@ void load_socials(FILE *fp) {
         struct social_type social;
         char *temp;
         /* clear social */
-        social.char_no_arg = NULL;
-        social.others_no_arg = NULL;
-        social.char_found = NULL;
-        social.others_found = NULL;
-        social.vict_found = NULL;
-        social.char_not_found = NULL;
-        social.char_auto = NULL;
-        social.others_auto = NULL;
+        social.char_no_arg = nullptr;
+        social.others_no_arg = nullptr;
+        social.char_found = nullptr;
+        social.others_found = nullptr;
+        social.vict_found = nullptr;
+        social.char_not_found = nullptr;
+        social.char_auto = nullptr;
+        social.others_auto = nullptr;
 
         temp = fread_word(fp);
         if (!strcmp(temp, "#0"))
@@ -49,7 +49,7 @@ void load_socials(FILE *fp) {
 
         temp = fread_string_eol(fp);
         if (!strcmp(temp, "$"))
-            social.char_no_arg = NULL;
+            social.char_no_arg = nullptr;
         else if (!strcmp(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
@@ -59,7 +59,7 @@ void load_socials(FILE *fp) {
 
         temp = fread_string_eol(fp);
         if (!strcmp(temp, "$"))
-            social.others_no_arg = NULL;
+            social.others_no_arg = nullptr;
         else if (!strcmp(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
@@ -69,7 +69,7 @@ void load_socials(FILE *fp) {
 
         temp = fread_string_eol(fp);
         if (!strcmp(temp, "$"))
-            social.char_found = NULL;
+            social.char_found = nullptr;
         else if (!strcmp(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
@@ -79,7 +79,7 @@ void load_socials(FILE *fp) {
 
         temp = fread_string_eol(fp);
         if (!strcmp(temp, "$"))
-            social.others_found = NULL;
+            social.others_found = nullptr;
         else if (!strcmp(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
@@ -89,7 +89,7 @@ void load_socials(FILE *fp) {
 
         temp = fread_string_eol(fp);
         if (!strcmp(temp, "$"))
-            social.vict_found = NULL;
+            social.vict_found = nullptr;
         else if (!strcmp(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
@@ -99,7 +99,7 @@ void load_socials(FILE *fp) {
 
         temp = fread_string_eol(fp);
         if (!strcmp(temp, "$"))
-            social.char_not_found = NULL;
+            social.char_not_found = nullptr;
         else if (!strcmp(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
@@ -109,7 +109,7 @@ void load_socials(FILE *fp) {
 
         temp = fread_string_eol(fp);
         if (!strcmp(temp, "$"))
-            social.char_auto = NULL;
+            social.char_auto = nullptr;
         else if (!strcmp(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
@@ -119,7 +119,7 @@ void load_socials(FILE *fp) {
 
         temp = fread_string_eol(fp);
         if (!strcmp(temp, "$"))
-            social.others_auto = NULL;
+            social.others_auto = nullptr;
         else if (!strcmp(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
@@ -159,7 +159,7 @@ void load_mobiles(FILE *fp) {
             break;
 
         fBootDb = false;
-        if (get_mob_index(vnum) != NULL) {
+        if (get_mob_index(vnum) != nullptr) {
             bug("Load_mobiles: vnum %d duplicated.", vnum);
             exit(1);
         }
@@ -183,7 +183,7 @@ void load_mobiles(FILE *fp) {
 
         pMobIndex->act = fread_flag(fp) | ACT_IS_NPC | race_table[pMobIndex->race].act;
         pMobIndex->affected_by = fread_flag(fp) | race_table[pMobIndex->race].aff;
-        pMobIndex->pShop = NULL;
+        pMobIndex->pShop = nullptr;
         pMobIndex->alignment = fread_number(fp);
 
         pMobIndex->group = fread_number(fp);
@@ -330,7 +330,7 @@ void load_objects(FILE *fp) {
             break;
 
         fBootDb = false;
-        if (get_obj_index(vnum) != NULL) {
+        if (get_obj_index(vnum) != nullptr) {
             bug("Load_objects: vnum %d duplicated.", vnum);
             exit(1);
         }
@@ -364,7 +364,7 @@ void load_objects(FILE *fp) {
         if (temp == ',') {
             pObjIndex->wear_string = fread_string(fp);
         } else {
-            pObjIndex->wear_string = NULL;
+            pObjIndex->wear_string = nullptr;
             ungetc(temp, fp);
         }
 

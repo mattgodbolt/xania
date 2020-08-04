@@ -13,7 +13,7 @@ class Mob {
 private:
     CHAR_DATA *theChar; // Wrappered character
 public:
-    Mob() { theChar = NULL; }
+    Mob() { theChar = nullptr; }
     virtual ~Mob();
 
     Mob(CHAR_DATA *cData);
@@ -23,7 +23,7 @@ public:
     char *FromWorld(Mob &whosLooking, char *argument);
 
     // Checking the validity of a mob
-    inline bool Valid() const { return (theChar != NULL); }
+    inline bool Valid() const { return (theChar != nullptr); }
 
     // Sending messages to a mobile
     Mob &operator<<(const char *string);

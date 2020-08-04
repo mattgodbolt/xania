@@ -23,7 +23,7 @@ int main(void) {
     // r [read]
     // r [read] -> e [read]
     // r [read] -> e [read] -> a [read]
-    // r [read] -> e [read] -> a [read] -> d [read] -> NULL
+    // r [read] -> e [read] -> a [read] -> d [read] -> nullptr
     //                                              |
     //												+> y [ready]
     trie_add(trie, "read", "read", 1);
@@ -31,7 +31,7 @@ int main(void) {
 
     trie_dump(trie, "trietest.out");
 
-    trie_enumerate(trie, 0, 2, fn, NULL);
+    trie_enumerate(trie, 0, 2, fn, nullptr);
 
     /*
     printstring(trie, "foo", 1);

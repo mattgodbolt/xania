@@ -17,7 +17,7 @@ const char eliza_title[] = "chat by Christopher Busch  Copyright (c)1993";
 const char eliza_version[] = "version 1.0.0";
 
 #ifdef UNIX
-void randomize() { srand((int)time(NULL)); }
+void randomize() { srand((int)time(nullptr)); }
 
 int random(int x) { return rand() % x; }
 

@@ -107,13 +107,13 @@ bool dragon(CHAR_DATA *ch, char *spell_name) {
     if (ch->position != POS_FIGHTING)
         return false;
 
-    for (victim = ch->in_room->people; victim != NULL; victim = v_next) {
+    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
         if (victim->fighting == ch && number_bits(2) == 0)
             break;
     }
 
-    if (victim == NULL)
+    if (victim == nullptr)
         return false;
 
     if ((sn = skill_lookup(spell_name)) < 0)
@@ -155,7 +155,7 @@ bool spec_breath_gas(CHAR_DATA *ch) {
 
     if ((sn = skill_lookup("gas breath")) < 0)
         return false;
-    (*skill_table[sn].spell_fun)(sn, ch->level, ch, NULL);
+    (*skill_table[sn].spell_fun)(sn, ch->level, ch, nullptr);
     return true;
 }
 
@@ -164,7 +164,7 @@ bool spec_breath_lightning(CHAR_DATA *ch) { return dragon(ch, "lightning breath"
 bool spec_DEATH(CHAR_DATA *ch) {
     CHAR_DATA *victim;
     CHAR_DATA *v_next;
-    CHAR_DATA *lowest_person = NULL;
+    CHAR_DATA *lowest_person = nullptr;
     CHAR_DATA *phil;
     ROOM_INDEX_DATA *home; /* Death's house */
     int lowest_percent = 15; /* Lowest percentage of hp Death gates to */
@@ -172,12 +172,12 @@ bool spec_DEATH(CHAR_DATA *ch) {
     if (ch->position < POS_STANDING)
         return false;
 
-    if ((home = get_room_index(ROOM_VNUM_DEATH)) == NULL) {
+    if ((home = get_room_index(ROOM_VNUM_DEATH)) == nullptr) {
         bug("Couldn't get Death's home index.");
         return false;
     }
 
-    for (victim = char_list; victim != NULL; victim = v_next) {
+    for (victim = char_list; victim != nullptr; victim = v_next) {
         v_next = victim->next;
         if ((((victim->hit * 100) / victim->max_hit) < lowest_percent) && (!IS_NPC(victim))) {
             lowest_percent = ((victim->hit * 100) / victim->max_hit);
@@ -192,30 +192,30 @@ bool spec_DEATH(CHAR_DATA *ch) {
         lowest_person = phil;
     /* end */
 
-    if (lowest_person == NULL) {
+    if (lowest_person == nullptr) {
         if ((number_percent() > 30) || (ch->in_room == home))
             return false;
-        act("$n disappears through a gate in search of more souls.", ch, NULL, NULL, TO_ROOM);
+        act("$n disappears through a gate in search of more souls.", ch, nullptr, nullptr, TO_ROOM);
         char_from_room(ch);
         char_to_room(ch, home);
-        act("$n returns home in search of a nice cup of tea.", ch, NULL, NULL, TO_ROOM);
+        act("$n returns home in search of a nice cup of tea.", ch, nullptr, nullptr, TO_ROOM);
         return true;
     }
 
     if ((lowest_person->in_room != ch->in_room) && (lowest_person->position == POS_FIGHTING)) {
-        act("$n disappears through a gate seeking to usher souls elsewhere.", ch, NULL, NULL, TO_ROOM);
+        act("$n disappears through a gate seeking to usher souls elsewhere.", ch, nullptr, nullptr, TO_ROOM);
         char_from_room(ch);
         char_to_room(ch, lowest_person->in_room);
-        act("There is a shimmering light and $n appears through a gate.", ch, NULL, NULL, TO_ROOM);
+        act("There is a shimmering light and $n appears through a gate.", ch, nullptr, nullptr, TO_ROOM);
         /* Check if Phil needs rescuing */
         if (lowest_person == phil) {
-            act("$n tuts loudly at $N.", ch, NULL, phil, TO_ROOM);
-            act("$n picks $N up by the scruff of the neck, and disappears through a gate.", ch, NULL, phil, TO_ROOM);
+            act("$n tuts loudly at $N.", ch, nullptr, phil, TO_ROOM);
+            act("$n picks $N up by the scruff of the neck, and disappears through a gate.", ch, nullptr, phil, TO_ROOM);
             char_from_room(ch);
             char_from_room(phil);
             char_to_room(ch, home);
             char_to_room(phil, home);
-            act("$n appears through a gate holding a frightened-looking meerkat.", ch, NULL, NULL, TO_ROOM);
+            act("$n appears through a gate holding a frightened-looking meerkat.", ch, nullptr, nullptr, TO_ROOM);
         }
         return true;
     }
@@ -228,26 +228,28 @@ bool spec_DEATH(CHAR_DATA *ch) {
     /* End sanity test ... the less bugs the better, eh? */
 
     if ((lowest_person->position != POS_FIGHTING) && (number_percent() > 60)) {
-        act("$n sighs as another soul slips through his fingers.", ch, NULL, NULL, TO_ROOM);
-        act("$n disappears through a gate to seek souls elsewhere.", ch, NULL, NULL, TO_ROOM);
+        act("$n sighs as another soul slips through his fingers.", ch, nullptr, nullptr, TO_ROOM);
+        act("$n disappears through a gate to seek souls elsewhere.", ch, nullptr, nullptr, TO_ROOM);
         char_from_room(ch);
         char_to_room(ch, home);
-        act("$n returns home after a hard day's work.", ch, NULL, NULL, TO_ROOM);
+        act("$n returns home after a hard day's work.", ch, nullptr, nullptr, TO_ROOM);
     }
 
     switch (number_bits(4)) {
     default: return false;
-    case 0: act("$n starts sharpening his scythe.", ch, NULL, NULL, TO_ROOM); return true;
-    case 1: act("$n reaches into his long robe and pulls out an hourglass.", ch, NULL, NULL, TO_ROOM); return true;
-    case 2: act("$n says, YOUR TIME IS UP SOON, MORTAL.", ch, NULL, NULL, TO_ROOM); return true;
+    case 0: act("$n starts sharpening his scythe.", ch, nullptr, nullptr, TO_ROOM); return true;
+    case 1:
+        act("$n reaches into his long robe and pulls out an hourglass.", ch, nullptr, nullptr, TO_ROOM);
+        return true;
+    case 2: act("$n says, YOUR TIME IS UP SOON, MORTAL.", ch, nullptr, nullptr, TO_ROOM); return true;
     case 3:
-        act("$n watches the last few grains of sand trickle through an hourglass.", ch, NULL, NULL, TO_ROOM);
+        act("$n watches the last few grains of sand trickle through an hourglass.", ch, nullptr, nullptr, TO_ROOM);
         return true;
     case 4:
-        act("$N is tapped on the shoulder by a bony finger.", ch, NULL, lowest_person, TO_NOTVICT);
-        act("You are tapped on the shoulder by a bony finger.", ch, NULL, lowest_person, TO_VICT);
+        act("$N is tapped on the shoulder by a bony finger.", ch, nullptr, lowest_person, TO_NOTVICT);
+        act("You are tapped on the shoulder by a bony finger.", ch, nullptr, lowest_person, TO_VICT);
         return true;
-    case 5: act("$n drums his bony fingers on the top of his scythe.", ch, NULL, NULL, TO_ROOM); return true;
+    case 5: act("$n drums his bony fingers on the top of his scythe.", ch, nullptr, nullptr, TO_ROOM); return true;
     }
 }
 
@@ -258,43 +260,43 @@ bool spec_cast_adept(CHAR_DATA *ch) {
     if (!IS_AWAKE(ch))
         return false;
 
-    for (victim = ch->in_room->people; victim != NULL; victim = v_next) {
+    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
         if (victim != ch && can_see(ch, victim) && number_bits(1) == 0 && !IS_NPC(victim) && victim->level < 11)
             break;
     }
 
-    if (victim == NULL)
+    if (victim == nullptr)
         return false;
 
     switch (number_bits(4)) {
     case 0:
-        act("$n utters the word 'abrazak'.", ch, NULL, NULL, TO_ROOM);
+        act("$n utters the word 'abrazak'.", ch, nullptr, nullptr, TO_ROOM);
         spell_armor(skill_lookup("armor"), (ch->level / 4), ch, victim);
         return true;
 
     case 1:
-        act("$n utters the word 'fido'.", ch, NULL, NULL, TO_ROOM);
+        act("$n utters the word 'fido'.", ch, nullptr, nullptr, TO_ROOM);
         spell_bless(skill_lookup("bless"), (ch->level / 4), ch, victim);
         return true;
 
     case 2:
-        act("$n utters the word 'judicandus noselacri'.", ch, NULL, NULL, TO_ROOM);
+        act("$n utters the word 'judicandus noselacri'.", ch, nullptr, nullptr, TO_ROOM);
         spell_cure_blindness(skill_lookup("cure blindness"), ch->level, ch, victim);
         return true;
 
     case 3:
-        act("$n utters the word 'judicandus dies'.", ch, NULL, NULL, TO_ROOM);
+        act("$n utters the word 'judicandus dies'.", ch, nullptr, nullptr, TO_ROOM);
         spell_cure_light(skill_lookup("cure light"), ch->level, ch, victim);
         return true;
 
     case 4:
-        act("$n utters the words 'judicandus sausabru'.", ch, NULL, NULL, TO_ROOM);
+        act("$n utters the words 'judicandus sausabru'.", ch, nullptr, nullptr, TO_ROOM);
         spell_cure_poison(skill_lookup("cure poison"), ch->level, ch, victim);
         return true;
 
     case 5:
-        act("$n utters the words 'candusima'.", ch, NULL, NULL, TO_ROOM);
+        act("$n utters the words 'candusima'.", ch, nullptr, nullptr, TO_ROOM);
         spell_refresh(skill_lookup("refresh"), ch->level, ch, victim);
         return true;
     }
@@ -311,13 +313,13 @@ bool spec_cast_cleric(CHAR_DATA *ch) {
     if (ch->position != POS_FIGHTING)
         return false;
 
-    for (victim = ch->in_room->people; victim != NULL; victim = v_next) {
+    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
         if (victim->fighting == ch && number_bits(2) == 0)
             break;
     }
 
-    if (victim == NULL)
+    if (victim == nullptr)
         return false;
 
     for (;;) {
@@ -395,13 +397,13 @@ bool spec_cast_judge(CHAR_DATA *ch) {
     if (ch->position != POS_FIGHTING)
         return false;
 
-    for (victim = ch->in_room->people; victim != NULL; victim = v_next) {
+    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
         if (victim->fighting == ch && number_bits(2) == 0)
             break;
     }
 
-    if (victim == NULL)
+    if (victim == nullptr)
         return false;
 
     spell = "high explosive";
@@ -420,13 +422,13 @@ bool spec_cast_mage(CHAR_DATA *ch) {
     if (ch->position != POS_FIGHTING)
         return false;
 
-    for (victim = ch->in_room->people; victim != NULL; victim = v_next) {
+    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
         if (victim->fighting == ch && number_bits(2) == 0)
             break;
     }
 
-    if (victim == NULL)
+    if (victim == nullptr)
         return false;
 
     for (;;) {
@@ -502,13 +504,13 @@ bool spec_cast_undead(CHAR_DATA *ch) {
     if (ch->position != POS_FIGHTING)
         return false;
 
-    for (victim = ch->in_room->people; victim != NULL; victim = v_next) {
+    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
         if (victim->fighting == ch && number_bits(2) == 0)
             break;
     }
 
-    if (victim == NULL)
+    if (victim == nullptr)
         return false;
 
     for (;;) {
@@ -592,13 +594,13 @@ bool spec_cast_bastard(CHAR_DATA *ch) {
     if (ch->position != POS_FIGHTING)
         return false;
 
-    for (victim = ch->in_room->people; victim != NULL; victim = v_next) {
+    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
         if (victim->fighting == ch && number_bits(2) == 0)
             break;
     }
 
-    if (victim == NULL)
+    if (victim == nullptr)
         return false;
 
     for (;;) {
@@ -658,11 +660,11 @@ bool spec_executioner(CHAR_DATA *ch) {
     CHAR_DATA *v_next;
     char *crime;
 
-    if (!IS_AWAKE(ch) || ch->fighting != NULL)
+    if (!IS_AWAKE(ch) || ch->fighting != nullptr)
         return false;
 
     crime = "";
-    for (victim = ch->in_room->people; victim != NULL; victim = v_next) {
+    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
 
         if (!IS_NPC(victim) && IS_SET(victim->act, PLR_KILLER)) {
@@ -676,7 +678,7 @@ bool spec_executioner(CHAR_DATA *ch) {
         }
     }
 
-    if (victim == NULL)
+    if (victim == nullptr)
         return false;
 
     snprintf(buf, sizeof(buf), "%s is a %s!  PROTECT THE INNOCENT!  MORE BLOOOOD!!!", victim->name, crime);
@@ -717,19 +719,19 @@ bool spec_puff(CHAR_DATA *ch) {
     if (!IS_AWAKE(ch))
         return false;
 
-    victim = NULL;
+    victim = nullptr;
 
     /* Here's Furey's aggress routine, with some surgery done to it.
          All it does is pick a potential victim for a social.
          (Thank you, Furey-- I screwed this up many times until I
          learned of your way of doing it)                      */
 
-    for (wch = char_list; wch != NULL; wch = wch_next) {
+    for (wch = char_list; wch != nullptr; wch = wch_next) {
         wch_next = wch->next;
-        if (IS_NPC(wch) || wch->in_room == NULL)
+        if (IS_NPC(wch) || wch->in_room == nullptr)
             continue;
 
-        for (nch = wch->in_room->people; nch != NULL; nch = ch_next) {
+        for (nch = wch->in_room->people; nch != nullptr; nch = ch_next) {
             int count;
 
             ch_next = nch->next_in_room;
@@ -742,8 +744,8 @@ bool spec_puff(CHAR_DATA *ch) {
              *   giving each 'vch' an equal chance of selection.
              */
             count = 0;
-            victim = NULL;
-            for (vch = wch->in_room->people; vch != NULL; vch = vch_next) {
+            victim = nullptr;
+            for (vch = wch->in_room->people; vch != nullptr; vch = vch_next) {
                 vch_next = vch->next_in_room;
 
                 if (!IS_NPC(vch)) {
@@ -753,7 +755,7 @@ bool spec_puff(CHAR_DATA *ch) {
                 }
             }
 
-            if (victim == NULL)
+            if (victim == nullptr)
                 return false;
         }
     }
@@ -775,19 +777,19 @@ bool spec_puff(CHAR_DATA *ch) {
         snprintf(buf, sizeof(buf), "Did you know that I'm written in C?");
         do_say(ch, buf);
     } else if (silliness <= 75) {
-        act(social_table[rnd_social].others_no_arg, ch, NULL, NULL, TO_ROOM);
-        act(social_table[rnd_social].char_no_arg, ch, NULL, NULL, TO_CHAR);
+        act(social_table[rnd_social].others_no_arg, ch, nullptr, nullptr, TO_ROOM);
+        act(social_table[rnd_social].char_no_arg, ch, nullptr, nullptr, TO_CHAR);
     } else if (silliness <= 85) {
         if ((!pc_found) || (victim != ch->in_room->people))
             return false;
-        act(social_table[rnd_social].others_found, ch, NULL, victim, TO_NOTVICT);
-        act(social_table[rnd_social].char_found, ch, NULL, victim, TO_CHAR);
-        act(social_table[rnd_social].vict_found, ch, NULL, victim, TO_VICT);
+        act(social_table[rnd_social].others_found, ch, nullptr, victim, TO_NOTVICT);
+        act(social_table[rnd_social].char_found, ch, nullptr, victim, TO_CHAR);
+        act(social_table[rnd_social].vict_found, ch, nullptr, victim, TO_VICT);
     }
 
     else if (silliness <= 97) {
-        act("For a moment, $n flickers and phases.", ch, NULL, NULL, TO_ROOM);
-        act("For a moment, you flicker and phase.", ch, NULL, NULL, TO_CHAR);
+        act("For a moment, $n flickers and phases.", ch, nullptr, nullptr, TO_ROOM);
+        act("For a moment, you flicker and phase.", ch, nullptr, nullptr, TO_CHAR);
     }
 
     /* The Fractal Dragon sometimes teleports herself around, to check out
@@ -800,10 +802,10 @@ bool spec_puff(CHAR_DATA *ch) {
 
     else {
         if (ch->position < POS_FIGHTING) {
-            act("For a moment, $n seems lucid...", ch, NULL, NULL, TO_ROOM);
-            act("   ...but then $e returns to $s contemplations once again.", ch, NULL, NULL, TO_ROOM);
-            act("For a moment, the world's mathematical beauty is lost to you!", ch, NULL, NULL, TO_CHAR);
-            act("   ...but joy! yet another novel phenomenon seizes your attention.", ch, NULL, NULL, TO_CHAR);
+            act("For a moment, $n seems lucid...", ch, nullptr, nullptr, TO_ROOM);
+            act("   ...but then $e returns to $s contemplations once again.", ch, nullptr, nullptr, TO_ROOM);
+            act("For a moment, the world's mathematical beauty is lost to you!", ch, nullptr, nullptr, TO_CHAR);
+            act("   ...but joy! yet another novel phenomenon seizes your attention.", ch, nullptr, nullptr, TO_CHAR);
             return true;
         }
         if ((sn = skill_lookup("teleport")) < 0)
@@ -819,13 +821,13 @@ bool spec_puff(CHAR_DATA *ch) {
     if (ch->position != POS_FIGHTING)
         return false;
 
-    for (victim = ch->in_room->people; victim != NULL; victim = v_next) {
+    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
         if (victim->fighting == ch && number_bits(2) == 0)
             break;
     }
 
-    if (victim == NULL)
+    if (victim == nullptr)
         return false;
 
     if ((sn = skill_lookup("teleport")) < 0)
@@ -843,12 +845,12 @@ bool spec_fido(CHAR_DATA *ch) {
     if (!IS_AWAKE(ch))
         return false;
 
-    for (corpse = ch->in_room->contents; corpse != NULL; corpse = c_next) {
+    for (corpse = ch->in_room->contents; corpse != nullptr; corpse = c_next) {
         c_next = corpse->next_content;
         if (corpse->item_type != ITEM_CORPSE_NPC)
             continue;
 
-        act("$n savagely devours a corpse.", ch, NULL, NULL, TO_ROOM);
+        act("$n savagely devours a corpse.", ch, nullptr, nullptr, TO_ROOM);
         for (obj = corpse->contains; obj; obj = obj_next) {
             obj_next = obj->next_content;
             obj_from_obj(obj);
@@ -869,14 +871,14 @@ bool spec_guard(CHAR_DATA *ch) {
     char *crime;
     int max_evil;
 
-    if (!IS_AWAKE(ch) || ch->fighting != NULL)
+    if (!IS_AWAKE(ch) || ch->fighting != nullptr)
         return false;
 
     max_evil = 300;
-    ech = NULL;
+    ech = nullptr;
     crime = "";
 
-    for (victim = ch->in_room->people; victim != NULL; victim = v_next) {
+    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
 
         if (!IS_NPC(victim) && IS_SET(victim->act, PLR_KILLER)) {
@@ -889,21 +891,21 @@ bool spec_guard(CHAR_DATA *ch) {
             break;
         }
 
-        if (victim->fighting != NULL && victim->fighting != ch && victim->alignment < max_evil) {
+        if (victim->fighting != nullptr && victim->fighting != ch && victim->alignment < max_evil) {
             max_evil = victim->alignment;
             ech = victim;
         }
     }
 
-    if (victim != NULL) {
+    if (victim != nullptr) {
         snprintf(buf, sizeof(buf), "%s is a %s!  PROTECT THE INNOCENT!!  BANZAI!!", victim->name, crime);
         do_yell(ch, buf);
         multi_hit(ch, victim, TYPE_UNDEFINED);
         return true;
     }
 
-    if (ech != NULL) {
-        act("$n screams 'PROTECT THE INNOCENT!!  BANZAI!!", ch, NULL, NULL, TO_ROOM);
+    if (ech != nullptr) {
+        act("$n screams 'PROTECT THE INNOCENT!!  BANZAI!!", ch, nullptr, nullptr, TO_ROOM);
         multi_hit(ch, ech, TYPE_UNDEFINED);
         return true;
     }
@@ -918,12 +920,12 @@ bool spec_janitor(CHAR_DATA *ch) {
     if (!IS_AWAKE(ch))
         return false;
 
-    for (trash = ch->in_room->contents; trash != NULL; trash = trash_next) {
+    for (trash = ch->in_room->contents; trash != nullptr; trash = trash_next) {
         trash_next = trash->next_content;
         if (!IS_SET(trash->wear_flags, ITEM_TAKE) || !can_loot(ch, trash))
             continue;
         if (trash->item_type == ITEM_DRINK_CON || trash->item_type == ITEM_TRASH || trash->cost < 10) {
-            act("$n picks up some trash.", ch, NULL, NULL, TO_ROOM);
+            act("$n picks up some trash.", ch, nullptr, nullptr, TO_ROOM);
             obj_from_room(trash);
             obj_to_char(trash, ch);
             return true;
@@ -956,7 +958,7 @@ bool spec_mayor(CHAR_DATA *ch) {
         }
     }
 
-    if (ch->fighting != NULL)
+    if (ch->fighting != nullptr)
         return spec_cast_cleric(ch);
     if (!move || ch->position < POS_SLEEPING)
         return false;
@@ -969,25 +971,25 @@ bool spec_mayor(CHAR_DATA *ch) {
 
     case 'W':
         ch->position = POS_STANDING;
-        act("$n awakens and groans loudly.", ch, NULL, NULL, TO_ROOM);
+        act("$n awakens and groans loudly.", ch, nullptr, nullptr, TO_ROOM);
         break;
 
     case 'S':
         ch->position = POS_SLEEPING;
-        act("$n lies down and falls asleep.", ch, NULL, NULL, TO_ROOM);
+        act("$n lies down and falls asleep.", ch, nullptr, nullptr, TO_ROOM);
         break;
 
-    case 'a': act("$n says 'Hello Honey!'", ch, NULL, NULL, TO_ROOM); break;
+    case 'a': act("$n says 'Hello Honey!'", ch, nullptr, nullptr, TO_ROOM); break;
 
-    case 'b': act("$n says 'What a view!  I must do something about that dump!'", ch, NULL, NULL, TO_ROOM); break;
+    case 'b': act("$n says 'What a view!  I must do something about that dump!'", ch, nullptr, nullptr, TO_ROOM); break;
 
-    case 'c': act("$n says 'Vandals!  Youngsters have no respect for anything!'", ch, NULL, NULL, TO_ROOM); break;
+    case 'c': act("$n says 'Vandals!  Youngsters have no respect for anything!'", ch, nullptr, nullptr, TO_ROOM); break;
 
-    case 'd': act("$n says 'Good day, citizens!'", ch, NULL, NULL, TO_ROOM); break;
+    case 'd': act("$n says 'Good day, citizens!'", ch, nullptr, nullptr, TO_ROOM); break;
 
-    case 'e': act("$n says 'I hereby declare the city of Midgaard open!'", ch, NULL, NULL, TO_ROOM); break;
+    case 'e': act("$n says 'I hereby declare the city of Midgaard open!'", ch, nullptr, nullptr, TO_ROOM); break;
 
-    case 'E': act("$n says 'I hereby declare the city of Midgaard closed!'", ch, NULL, NULL, TO_ROOM); break;
+    case 'E': act("$n says 'I hereby declare the city of Midgaard closed!'", ch, nullptr, nullptr, TO_ROOM); break;
 
     case 'O':
         /*	do_unlock( ch, "gate" ); */
@@ -1009,12 +1011,12 @@ bool spec_mayor(CHAR_DATA *ch) {
 bool spec_poison(CHAR_DATA *ch) {
     CHAR_DATA *victim;
 
-    if (ch->position != POS_FIGHTING || (victim = ch->fighting) == NULL || number_percent() > 2 * ch->level)
+    if (ch->position != POS_FIGHTING || (victim = ch->fighting) == nullptr || number_percent() > 2 * ch->level)
         return false;
 
-    act("You bite $N!", ch, NULL, victim, TO_CHAR);
-    act("$n bites $N!", ch, NULL, victim, TO_NOTVICT);
-    act("$n bites you!", ch, NULL, victim, TO_VICT);
+    act("You bite $N!", ch, nullptr, victim, TO_CHAR);
+    act("$n bites $N!", ch, nullptr, victim, TO_NOTVICT);
+    act("$n bites you!", ch, nullptr, victim, TO_VICT);
     spell_poison(gsn_poison, ch->level, ch, victim);
     return true;
 }
@@ -1027,15 +1029,15 @@ bool spec_thief(CHAR_DATA *ch) {
     if (ch->position != POS_STANDING)
         return false;
 
-    for (victim = ch->in_room->people; victim != NULL; victim = v_next) {
+    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
 
         if (IS_NPC(victim) || victim->level >= LEVEL_IMMORTAL || number_bits(5) != 0 || !can_see(ch, victim))
             continue;
 
         if (IS_AWAKE(victim) && number_range(0, ch->level) == 0) {
-            act("You discover $n's hands in your wallet!", ch, NULL, victim, TO_VICT);
-            act("$N discovers $n's hands in $S wallet!", ch, NULL, victim, TO_NOTVICT);
+            act("You discover $n's hands in your wallet!", ch, nullptr, victim, TO_VICT);
+            act("$N discovers $n's hands in $S wallet!", ch, nullptr, victim, TO_NOTVICT);
             return true;
         } else {
             gold = victim->gold * UMIN(number_range(1, 15), ch->level) / 100;

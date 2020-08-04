@@ -54,7 +54,7 @@ char *randomSocial() {
     }
 
     bug("in randomSocial() in phil.c : number_range outside of bounds!");
-    return NULL;
+    return nullptr;
 }
 
 /* do the right thing depending on the current state of sleepiness */
@@ -72,15 +72,15 @@ bool doSleepActions(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
         if (sleepFactor < STIR_AT) {
             random = number_percent();
             if (random > 97) {
-                act("$n stirs in $s sleep.", ch, NULL, NULL, TO_ROOM);
+                act("$n stirs in $s sleep.", ch, nullptr, nullptr, TO_ROOM);
                 return true;
             }
             if (random > 94) {
-                act("$n rolls over.", ch, NULL, NULL, TO_ROOM);
+                act("$n rolls over.", ch, nullptr, nullptr, TO_ROOM);
                 return true;
             }
             if (random > 91) {
-                act("$n sniffles and scratches $s nose.", ch, NULL, NULL, TO_ROOM);
+                act("$n sniffles and scratches $s nose.", ch, nullptr, nullptr, TO_ROOM);
                 return true;
             }
         }
@@ -92,11 +92,11 @@ bool doSleepActions(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
         if (ch->in_room == home) {
             do_sleep(ch, 0);
         } else {
-            act("$n tiredly waves $s hands in a complicated pattern and is gone.", ch, NULL, NULL, TO_ROOM);
-            act("You transport yourself back home.", ch, NULL, NULL, TO_CHAR);
+            act("$n tiredly waves $s hands in a complicated pattern and is gone.", ch, nullptr, nullptr, TO_ROOM);
+            act("You transport yourself back home.", ch, nullptr, nullptr, TO_CHAR);
             char_from_room(ch);
             char_to_room(ch, home);
-            act("$n appears in a confused whirl of mist.", ch, NULL, NULL, TO_ROOM);
+            act("$n appears in a confused whirl of mist.", ch, nullptr, nullptr, TO_ROOM);
         }
         return true;
     }
@@ -137,12 +137,12 @@ void doRandomSocial(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
 
 /* Find the amount of interest Phil will show in the given character, by looking up the */
 /* character's name and its associated interest number on the table */
-/* Defaults:  ch=NULL: 0  ch=<unknown>: 1 */
+/* Defaults:  ch=nullptr: 0  ch=<unknown>: 1 */
 /* Unknown characters are marginally more interesting than nothing */
 int charInterest(CHAR_DATA *ch) {
     int listOffset = 0;
 
-    if (ch == NULL)
+    if (ch == nullptr)
         return 0;
 
     for (; listOffset < PEOPLEONLIST; listOffset++) {
@@ -176,7 +176,7 @@ bool findInterestingChar(ROOM_INDEX_DATA *room, CHAR_DATA **follow, int *interes
 bool spec_phil(CHAR_DATA *ch) {
     ROOM_INDEX_DATA *home;
     ROOM_INDEX_DATA *room;
-    CHAR_DATA *follow = NULL;
+    CHAR_DATA *follow = nullptr;
     sh_int exit = 0;
     sh_int takeExit = 0;
     EXIT_DATA *exitData;
@@ -187,7 +187,7 @@ bool spec_phil(CHAR_DATA *ch) {
         return false;
 
     /* Check sleep state */
-    if ((home = get_room_index(ROOM_VNUM_FORREYSPLACE)) == NULL) {
+    if ((home = get_room_index(ROOM_VNUM_FORREYSPLACE)) == nullptr) {
         bug("Couldn't get Forrey's home index.");
         return false;
     }
@@ -205,11 +205,11 @@ bool spec_phil(CHAR_DATA *ch) {
     room = ch->in_room;
     findInterestingChar(room, &follow, &interest);
     for (; exit < 6; exit++) {
-        if ((exitData = room->exit[exit]) != NULL)
+        if ((exitData = room->exit[exit]) != nullptr)
             if (findInterestingChar(exitData->u1.to_room, &follow, &interest))
                 takeExit = exit;
     }
-    if (follow != NULL && (follow->in_room != room) && (ch->position == POS_STANDING)) {
+    if (follow != nullptr && (follow->in_room != room) && (ch->position == POS_STANDING)) {
         move_char(ch, takeExit);
     }
 

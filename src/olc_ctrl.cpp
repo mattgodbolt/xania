@@ -101,7 +101,7 @@ void do_security(CHAR_DATA *ch, char *argument) {
         return;
     }
     player = (get_char_world(ch, p));
-    if (player == NULL) {
+    if (player == nullptr) {
         send_to_char("They're not here.\n\r", ch);
         return;
     }
@@ -118,12 +118,12 @@ void do_security(CHAR_DATA *ch, char *argument) {
         send_to_char("Only implementors have security access level 5.\n\r", ch);
         return;
     }
-    if ((player->pcdata->olc == NULL) && security == 0) {
+    if ((player->pcdata->olc == nullptr) && security == 0) {
         snprintf(buf, sizeof(buf), "OLC: %s already has no security access!\n\r", player->name);
         send_to_char(buf, ch);
         return;
     }
-    if ((player->pcdata->olc == NULL) && security > 0)
+    if ((player->pcdata->olc == nullptr) && security > 0)
         olc_initialise(ch);
 
     if ((player->pcdata->olc->security == OLC_SECURITY_NONE) && security == 0) {
@@ -166,7 +166,7 @@ void do_edit(CHAR_DATA *ch, char *argument) {
 
     char filename[FNAME_LEN], areaname[MAX_INPUT_LENGTH], buf[MAX_STRING_LENGTH];
 
-    if ((ch->pcdata->olc == NULL) || (ch->pcdata->olc->security == OLC_SECURITY_NONE)) {
+    if ((ch->pcdata->olc == nullptr) || (ch->pcdata->olc->security == OLC_SECURITY_NONE)) {
         send_to_char("Huh?\n\r", ch);
         return;
     }
@@ -358,7 +358,7 @@ void olc_slookup_obj(CHAR_DATA *ch) {
     buffer = new_buf();
     send_to_char("Spells available.\n\r", ch);
     for (sn = 0; sn < MAX_SKILL; sn++) {
-        if (skill_table[sn].name == NULL)
+        if (skill_table[sn].name == nullptr)
             continue;
         if (skill_table[sn].slot == 0) /* don't print skills! they only */
             continue; /* need to know all the spells   */
@@ -406,7 +406,7 @@ bool olc_user_authority(CHAR_DATA *ch) {
 void clip_add(CHAR_DATA *ch, char *mes) {
 
     char old_mes_buf[2 * MAX_STRING_LENGTH], *old_mes;
-    if (ch->clipboard == NULL) {
+    if (ch->clipboard == nullptr) {
         old_mes = strcpy(old_mes_buf, mes);
     } else {
         if ((strlen(ch->clipboard) + strlen(mes)) >= (2 * MAX_STRING_LENGTH)) {
@@ -425,14 +425,14 @@ void clip_add(CHAR_DATA *ch, char *mes) {
 void clip_sub(CHAR_DATA *ch) {
 
     char old_mes_buf[MAX_STRING_LENGTH], *old, *newline, *previous;
-    if (ch->clipboard == NULL) {
+    if (ch->clipboard == nullptr) {
         send_to_char("OLC: your clipboard is already clear.\n\r", ch);
         return;
     }
     old = newline = previous = old_mes_buf;
     strcpy(old_mes_buf, ch->clipboard);
     free_string(ch->clipboard);
-    ch->clipboard = NULL;
+    ch->clipboard = nullptr;
     for (; *old; old++) {
         if (*old == '\n') {
             previous = newline;
@@ -475,7 +475,7 @@ void do_clipboard(CHAR_DATA *ch, char *argument) {
         if (ch->clipboard) {
             send_to_char("OLC: clipboard cleared.\n\r", ch);
             free_string(ch->clipboard);
-            ch->clipboard = NULL;
+            ch->clipboard = nullptr;
         } else {
             send_to_char("OLC: you have no clipboard to erase!\n\r", ch);
         }

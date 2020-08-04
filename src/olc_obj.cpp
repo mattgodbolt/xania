@@ -48,9 +48,9 @@ void do_object(CHAR_DATA *ch, char *argument) {
         send_to_char("OLC: sorry, only Faramir can use OLC commands atm.\n\r", ch);
         return;
     }
-    if ((is_set_extra(ch, EXTRA_OLC_OBJ)) && ch->pcdata->olc->current_obj == NULL) {
-        bug("do_object: OLC: error! player %s is in OLC_OBJ mode, but obj is NULL\n\r", ch->name);
-        send_to_char("OLC: error! Your current object is NULL. Consult an IMP now!\n\r", ch);
+    if ((is_set_extra(ch, EXTRA_OLC_OBJ)) && ch->pcdata->olc->current_obj == nullptr) {
+        bug("do_object: OLC: error! player %s is in OLC_OBJ mode, but obj is nullptr\n\r", ch->name);
+        send_to_char("OLC: error! Your current object is nullptr. Consult an IMP now!\n\r", ch);
         return;
     }
 
@@ -138,9 +138,9 @@ void olc_edit_obj(CHAR_DATA *ch, char *argument) {
         send_to_char("control:      destroy end undo\n\r", ch);
         return;
     }
-    if (ch->pcdata->olc->current_obj == NULL) {
-        bug("olc_edit_obj: OLC: error! player %s is in OLC_OBJ mode, but obj is NULL\n\r", ch->name);
-        send_to_char("OLC: error! your current object is NULL, consult an IMP immediately.\n\r", ch);
+    if (ch->pcdata->olc->current_obj == nullptr) {
+        bug("olc_edit_obj: OLC: error! player %s is in OLC_OBJ mode, but obj is nullptr\n\r", ch->name);
+        send_to_char("OLC: error! your current object is nullptr, consult an IMP immediately.\n\r", ch);
         return;
     }
     argument = one_argument(argument, command);
@@ -240,7 +240,7 @@ bool olc_can_create_obj(CHAR_DATA *ch, char *argument) {
 
     int vnum = 0;
     vnum = atoi(argument);
-    if ((get_obj_world(ch, argument)) != NULL)
+    if ((get_obj_world(ch, argument)) != nullptr)
         return false;
     if (vnum < ch->pcdata->olc->master_vnums[0] || vnum > ch->pcdata->olc->master_vnums[1])
         return false;
@@ -472,7 +472,7 @@ bool olc_create_obj(CHAR_DATA *ch, int vnum, char *type, int level) {
     }
     pObjIndex->item_type = typeRef;
     pObjIndex->extra_flags = 0;
-    pObjIndex->wear_string = NULL;
+    pObjIndex->wear_string = nullptr;
 
     switch (typeRef) {
     case ITEM_TREASURE: pObjIndex->cost = (level * 300); break;
@@ -490,7 +490,7 @@ bool olc_create_obj(CHAR_DATA *ch, int vnum, char *type, int level) {
     /* defines the 'undo' version of the obj */
 
     snprintf(buf2, sizeof(buf2), "$n has created a new %s!", type);
-    act(buf2, ch, NULL, NULL, TO_ROOM);
+    act(buf2, ch, nullptr, nullptr, TO_ROOM);
     snprintf(buf2, sizeof(buf2), "OLC: new %s created!\n\r", type);
     send_to_char(buf2, ch);
     return true;
@@ -503,11 +503,11 @@ bool olc_create_obj(CHAR_DATA *ch, int vnum, char *type, int level) {
 void olc_destroy_obj(CHAR_DATA *ch) {
 
     char buf[MAX_STRING_LENGTH];
-    OBJ_DATA *obj = NULL, *in_obj, *next_obj;
+    OBJ_DATA *obj = nullptr, *in_obj, *next_obj;
     int count = 0;
 
-    for (obj = object_list; obj != NULL; obj = next_obj) {
-        for (in_obj = obj; in_obj->in_obj != NULL; in_obj = in_obj->in_obj)
+    for (obj = object_list; obj != nullptr; obj = next_obj) {
+        for (in_obj = obj; in_obj->in_obj != nullptr; in_obj = in_obj->in_obj)
             ;
         next_obj = obj->next;
         if ((ch->pcdata->olc->current_obj->vnum) == in_obj->pIndexData->vnum) {
@@ -1100,14 +1100,14 @@ void olc_string_name_obj(CHAR_DATA *ch, char *argument) {
         send_to_char("Syntax: object string name [clipboard||string]\n\r", ch);
         return;
     }
-    if (argument[0] == '\0' && ch->clipboard == NULL) {
+    if (argument[0] == '\0' && ch->clipboard == nullptr) {
         send_to_char("OLC:    string the name to what?\n\r", ch);
         send_to_char("Syntax: object string name [clipboard||string]\n\r", ch);
         return;
     }
     if (!str_prefix(argument, "clipboard")) {
         argument = ch->clipboard;
-        if (argument == NULL) {
+        if (argument == nullptr) {
             send_to_char("OLC: you have no clipboard!\n\r", ch);
             return;
         }
@@ -1131,14 +1131,14 @@ void olc_string_short_obj(CHAR_DATA *ch, char *argument) {
         send_to_char("Syntax: object string short [clipboard||string]\n\r", ch);
         return;
     }
-    if (argument[0] == '\0' && ch->clipboard == NULL) {
+    if (argument[0] == '\0' && ch->clipboard == nullptr) {
         send_to_char("OLC:    string the short name to what?\n\r", ch);
         send_to_char("Syntax: object string short [clipboard||string]\n\r", ch);
         return;
     }
     if (!str_prefix(argument, "clipboard")) {
         argument = ch->clipboard;
-        if (argument == NULL) {
+        if (argument == nullptr) {
             send_to_char("OLC: you have no clipboard!\n\r", ch);
             return;
         }
@@ -1161,7 +1161,7 @@ void olc_string_long_obj(CHAR_DATA *ch, char *argument) {
         send_to_char("Syntax: object string long [clipboard||string]\n\r", ch);
         return;
     }
-    if (argument[0] == '\0' && ch->clipboard == NULL) {
+    if (argument[0] == '\0' && ch->clipboard == nullptr) {
         send_to_char("OLC:    string the long description to what?\n\r", ch);
         send_to_char("Syntax: object string long [clipboard||string]\n\r", ch);
         return;
@@ -1169,7 +1169,7 @@ void olc_string_long_obj(CHAR_DATA *ch, char *argument) {
     if (!str_prefix(argument, "clipboard")) {
 
         argument = ch->clipboard;
-        if (argument == NULL) {
+        if (argument == nullptr) {
             send_to_char("OLC: you have no clipboard!\n\r", ch);
             return;
         }
@@ -1193,25 +1193,25 @@ void olc_string_extd_obj(CHAR_DATA *ch, char *argument) {
         send_to_char("Syntax: object string extended <keyword> clipboard\n\r", ch);
         return;
     }
-    if (argument[0] == '\0' && ch->clipboard == NULL) {
+    if (argument[0] == '\0' && ch->clipboard == nullptr) {
         send_to_char("OLC:    string the extended description to the clipboard?\n\r", ch);
         send_to_char("Syntax: object string extended <keyword> clipboard\n\r", ch);
         return;
     }
     argument = one_argument(argument, key);
 
-    if (ch->clipboard == NULL) {
+    if (ch->clipboard == nullptr) {
         send_to_char("OLC: you have no clipboard!\n\r", ch);
         return;
     }
     if (!str_prefix(argument, "clipboard")) {
         argument = ch->clipboard;
-        if (argument == NULL) {
+        if (argument == nullptr) {
             send_to_char("OLC: you have no clipboard!\n\r", ch);
             return;
         }
     }
-    if (extra_descr_free == NULL) {
+    if (extra_descr_free == nullptr) {
         extras = alloc_perm(sizeof(*extras));
     } else {
         extras = extra_descr_free;
@@ -1357,9 +1357,9 @@ void olc_display_obj_vars(CHAR_DATA *ch, int info, OBJ_INDEX_DATA *obj) {
     char text[MAX_STRING_LENGTH];
     EXTRA_DESCR_DATA *ptr;
 
-    if (obj == NULL) {
-        send_to_char("OLC: error! NULL object INFO request!\n\r", ch);
-        bug("OLC: error! NULL object INFO request: ch = %s.", ch->name);
+    if (obj == nullptr) {
+        send_to_char("OLC: error! nullptr object INFO request!\n\r", ch);
+        bug("OLC: error! nullptr object INFO request: ch = %s.", ch->name);
         return;
     }
     switch (info) {
@@ -1372,12 +1372,12 @@ void olc_display_obj_vars(CHAR_DATA *ch, int info, OBJ_INDEX_DATA *obj) {
         return;
         break;
     case OLC_V_APPLY:
-        if (obj->affected == NULL) {
+        if (obj->affected == nullptr) {
             send_to_char("INFO: current affects: none.\n\r", ch);
             return;
         }
         buffer = new_buf();
-        for (paf = obj->affected; paf != NULL; paf = paf->next) {
+        for (paf = obj->affected; paf != nullptr; paf = paf->next) {
             add_buf(buffer, apply_lookup_table[paf->location].name);
             add_buf(buffer, ": ");
             add_buf(buffer, "%d\n\r", paf->modifier);
@@ -1409,11 +1409,11 @@ void olc_display_obj_vars(CHAR_DATA *ch, int info, OBJ_INDEX_DATA *obj) {
         snprintf(text, sizeof(text), "Long:  %s\n\r", obj->description);
         send_to_char(text, ch);
         ptr = obj->extra_descr;
-        if (ptr == NULL) {
+        if (ptr == nullptr) {
             send_to_char("Extra: (none)\n\r", ch);
             return;
         }
-        for (ptr; ptr != NULL; ptr = ptr->next) {
+        for (ptr; ptr != nullptr; ptr = ptr->next) {
             snprintf(text, sizeof(text), "Extra description, using keyword(s): %s\n\r%s\n\r", ptr->keyword,
                      ptr->description);
             send_to_char(text, ch);
@@ -1471,14 +1471,14 @@ void olc_add_affect_obj(CHAR_DATA *ch, int aff_loc, int amount) {
     AFFECT_DATA *paf;
     OBJ_INDEX_DATA *obj = ch->pcdata->olc->current_obj;
 
-    for (; obj->affected != NULL; obj->affected = obj->affected->next) {
+    for (; obj->affected != nullptr; obj->affected = obj->affected->next) {
         if (obj->affected->location == aff_loc) {
             send_to_char("OLC: object already has an affect of that type.\n\r", ch);
             send_to_char("     use object apply - to remove it first.\n\r", ch);
             return;
         }
     }
-    if (affect_free == NULL)
+    if (affect_free == nullptr)
         paf = alloc_perm(sizeof(*paf));
     else {
         paf = affect_free;
@@ -1501,23 +1501,23 @@ void olc_add_affect_obj(CHAR_DATA *ch, int aff_loc, int amount) {
 
 void olc_remove_affect_obj(CHAR_DATA *ch, int aff_loc) {
 
-    AFFECT_DATA *paf = NULL, *paf_next = NULL;
+    AFFECT_DATA *paf = nullptr, *paf_next = nullptr;
     OBJ_INDEX_DATA *obj = ch->pcdata->olc->current_obj;
     char buf[MAX_STRING_LENGTH];
     bool found = false;
     int count = 0;
 
-    if (obj->affected == NULL) {
+    if (obj->affected == nullptr) {
         send_to_char("OLC: this object has no affects.\n\r", ch);
         return;
     }
     paf = obj->affected;
-    for (paf; paf != NULL; paf = paf_next) {
+    for (paf; paf != nullptr; paf = paf_next) {
         paf_next = paf->next;
         if (paf->location == aff_loc) {
             paf->next = affect_free;
             affect_free = paf;
-            paf = NULL;
+            paf = nullptr;
             found = true;
         }
         if (found)

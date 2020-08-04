@@ -32,7 +32,7 @@ void do_heal(CHAR_DATA *ch, char *argument) {
             break;
     }
 
-    if (mob == NULL) {
+    if (mob == nullptr) {
         send_to_char("You can't do that here.\n\r", ch);
         return;
     }
@@ -41,7 +41,7 @@ void do_heal(CHAR_DATA *ch, char *argument) {
 
     if (arg[0] == '\0') {
         /* display price list */
-        act("$N says 'I offer the following spells:'", ch, NULL, mob, TO_CHAR);
+        act("$N says 'I offer the following spells:'", ch, nullptr, mob, TO_CHAR);
         send_to_char("  light: cure light wounds      1000 gold\n\r", ch);
         send_to_char("  serious: cure serious wounds  1600 gold\n\r", ch);
         send_to_char("  critic: cure critical wounds  2500 gold\n\r", ch);
@@ -121,17 +121,17 @@ void do_heal(CHAR_DATA *ch, char *argument) {
         break;
 
     case 'm':
-        spell = NULL;
+        spell = nullptr;
         sn = -1;
         words = "energizer";
         cost = 1000;
         break;
 
-    default: act("$N says 'Type 'heal' for a list of spells.'", ch, NULL, mob, TO_CHAR); return;
+    default: act("$N says 'Type 'heal' for a list of spells.'", ch, nullptr, mob, TO_CHAR); return;
     }
 
     if (cost > ch->gold) {
-        act("$N says 'You do not have enough gold for my services.'", ch, NULL, mob, TO_CHAR);
+        act("$N says 'You do not have enough gold for my services.'", ch, nullptr, mob, TO_CHAR);
         return;
     }
 
@@ -139,9 +139,9 @@ void do_heal(CHAR_DATA *ch, char *argument) {
 
     ch->gold -= cost;
     mob->gold += cost;
-    act("$n utters the words '$T'.", mob, NULL, words, TO_ROOM);
+    act("$n utters the words '$T'.", mob, nullptr, words, TO_ROOM);
 
-    if (spell == NULL) /* restore mana trap...kinda hackish */
+    if (spell == nullptr) /* restore mana trap...kinda hackish */
     {
         ch->mana += dice(2, 8) + mob->level / 4;
         ch->mana = UMIN(ch->mana, ch->max_mana);

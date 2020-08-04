@@ -27,9 +27,9 @@
 void _do_news(CHAR_DATA *ch, char *arg);
 
 /* Globals */
-THREAD *thread_free = NULL;
-ARTICLE *article_free = NULL;
-THREAD *thread_head = NULL;
+THREAD *thread_free = nullptr;
+ARTICLE *article_free = nullptr;
+THREAD *thread_head = nullptr;
 
 int cur_msg_id; // Current message ID - must be completely unique across whole Mud
 static char *news_name = "news"; // The name of the command being used - either 'news' or 'mail' to
@@ -44,9 +44,9 @@ THREAD *new_thread(void) {
     } else {
         res = (THREAD *)alloc_perm(sizeof(THREAD));
     }
-    res->next = NULL;
-    res->articles = NULL;
-    res->subject = NULL;
+    res->next = nullptr;
+    res->articles = nullptr;
+    res->subject = nullptr;
     res->num_articles = 0;
     res->expiry = DEFAULT_EXPIRY;
     res->flags = 0;
@@ -77,9 +77,9 @@ ARTICLE *new_article(void) {
     } else {
         res = (ARTICLE *)alloc_perm(sizeof(ARTICLE));
     }
-    res->next = NULL;
-    res->author = NULL;
-    res->text = NULL;
+    res->next = nullptr;
+    res->author = nullptr;
+    res->text = nullptr;
     res->msg_id = cur_msg_id++; // Give the message id to this article, and increment it
     return res;
 }
@@ -101,7 +101,7 @@ void save_news(void) {
     THREAD *thread;
 
     fclose(fpReserve);
-    if ((fp = fopen(NEWS_FILE, "w")) == NULL) {
+    if ((fp = fopen(NEWS_FILE, "w")) == nullptr) {
         fpReserve = fopen(NULL_FILE, "r");
         bug("Aaargh!  Couldn't write to note file"); // This should never happen.  I hope
         return;
@@ -117,7 +117,7 @@ void save_news(void) {
             fprintf(fp, "author %s~\ntime %d\nmsgid %d\n%s~\n", art->author, art->time_sent, art->msg_id, art->text);
     }
 
-    if (thread_head == NULL) // If we didn't save anything, then delete the otherwise
+    if (thread_head == nullptr) // If we didn't save anything, then delete the otherwise
         unlink(NEWS_FILE); // empty file
 
     fclose(fp);
@@ -128,11 +128,11 @@ void save_news(void) {
 /* Load in the news */
 void load_news(void) {
     FILE *fp;
-    THREAD *last_thread = NULL;
+    THREAD *last_thread = nullptr;
 
     cur_msg_id = 0; /* Failsafe */
 
-    if ((fp = fopen(NEWS_FILE, "r")) == NULL)
+    if ((fp = fopen(NEWS_FILE, "r")) == nullptr)
         return;
 
     cur_msg_id = fread_number(fp); // Read in the message id
@@ -141,7 +141,7 @@ void load_news(void) {
     for (;;) {
         int c;
         THREAD *thread;
-        ARTICLE *last_article = NULL;
+        ARTICLE *last_article = nullptr;
 
         if (feof(fp)) {
             fclose(fp);
@@ -163,7 +163,7 @@ void load_news(void) {
         thread->flags = fread_number(fp);
         thread->expiry = fread_number(fp);
         thread->subject = str_dup(fread_string(fp));
-        thread->articles = NULL; /* Paranoia */
+        thread->articles = nullptr; /* Paranoia */
         thread->num_articles = 0; // NB at this point the thread is not linked onto the
                                   // global linked list
 
@@ -202,7 +202,7 @@ void load_news(void) {
                 free_article(article);
             } else {
                 thread->num_articles++;
-                if (thread->articles == NULL)
+                if (thread->articles == nullptr)
                     thread->articles = article;
                 if (last_article)
                     last_article->next = article;
@@ -212,7 +212,7 @@ void load_news(void) {
         if (thread->num_articles == 0) { /* Blank thread */
             free_thread(thread);
         } else { /* Not a blank thread */
-            if (thread_head == NULL)
+            if (thread_head == nullptr)
                 thread_head = thread; // If this is the first thread, then point the head of
                                       // the linked list onto this one
             if (last_thread)
@@ -240,20 +240,20 @@ void do_mail(CHAR_DATA *ch, char *argument) {
 void do_news_next(CHAR_DATA *ch, char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
-    if (ch->thread == NULL) { // The user has already 'fallen off' the end of the
-                              // linked list - so check for any more unread threads
+    if (ch->thread == nullptr) { // The user has already 'fallen off' the end of the
+        // linked list - so check for any more unread threads
         ch->thread = thread_head; // Put user to top of linked list
-        ch->article = (ch->thread) ? ch->thread->articles : NULL; // Set up article appropriately
+        ch->article = (ch->thread) ? ch->thread->articles : nullptr; // Set up article appropriately
         move_to_next_unread(ch);
-        if (ch->thread == NULL) { // Still no news to read?
+        if (ch->thread == nullptr) { // Still no news to read?
             snprintf(buf, sizeof(buf), "You have no more %s to read.\n\r", news_name);
             send_to_char(buf, ch);
             return;
         }
     }
-    if (ch->article == NULL) { // Has the user read all of the articles in this thread?
+    if (ch->article == nullptr) { // Has the user read all of the articles in this thread?
         move_to_next_unread(ch);
-        if (ch->thread == NULL) {
+        if (ch->thread == nullptr) {
             send_to_char("No more articles or threads.\n\r", ch); // No more threads
             return;
         }
@@ -296,7 +296,7 @@ void do_news_articles(CHAR_DATA *ch, char *argument) {
     ARTICLE *a;
     int mesnum = 1;
 
-    if (ch->thread == NULL) {
+    if (ch->thread == nullptr) {
         send_to_char("You have no thread currently selected.\n\r", ch);
         return;
     }
@@ -318,7 +318,7 @@ void do_news_read(CHAR_DATA *ch, char *argument) {
     int mesnum, current;
     ARTICLE *art;
     one_argument(argument, num);
-    if (ch->thread == NULL) {
+    if (ch->thread == nullptr) {
         send_to_char("You have no thread currently selected.\n\r", ch);
         return;
     }
@@ -329,7 +329,7 @@ void do_news_read(CHAR_DATA *ch, char *argument) {
     current = 1;
     for (art = ch->thread->articles; art && (mesnum != current++); art = art->next)
         ; // Step through
-    if (art == NULL) { // Didn't find the message
+    if (art == nullptr) { // Didn't find the message
         snprintf(num, sizeof(num), "Couldn't find message number %d in current thread.\n\r", mesnum);
         send_to_char(num, ch);
         return;
@@ -357,7 +357,7 @@ void do_news_thread(CHAR_DATA *ch, char *argument) {
             break;
         current++;
     }
-    if (t == NULL) {
+    if (t == nullptr) {
         snprintf(num, sizeof(num), "Couldn't find thread %d.\n\r", threadnum);
         send_to_char(num, ch);
         return;
@@ -378,7 +378,7 @@ void do_news_skip(CHAR_DATA *ch, char *argument) {
             ch->thread = ch->thread->next;
         } while (ch->thread && !can_read_thread(ch, ch->thread));
     }
-    if (ch->thread == NULL) { // Either the user was at the end, or is now
+    if (ch->thread == nullptr) { // Either the user was at the end, or is now
         send_to_char("No more threads.\n\r", ch);
         return;
     }
@@ -412,7 +412,7 @@ void do_news_compose(CHAR_DATA *ch, char *argument) {
 void do_news_reply(CHAR_DATA *ch, char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
-    if (ch->thread == NULL) {
+    if (ch->thread == nullptr) {
         send_to_char("You have no thread selected to reply to.\n\r", ch);
         return;
     }
@@ -421,7 +421,7 @@ void do_news_reply(CHAR_DATA *ch, char *argument) {
         send_to_char(buf, ch);
         return;
     }
-    if (ch->thread == NULL) {
+    if (ch->thread == nullptr) {
         send_to_char("You have no thread currently selected.\n\r", ch);
         return;
     }
@@ -440,21 +440,21 @@ void do_news_reply(CHAR_DATA *ch, char *argument) {
 /* Clear the currently-being-prepared message */
 void do_news_clear(CHAR_DATA *ch, char *argument) {
     (void)argument;
-    if (ch->newsbuffer == NULL) {
+    if (ch->newsbuffer == nullptr) {
         char buf[MAX_STRING_LENGTH];
         snprintf(buf, sizeof(buf), "You aren't composing a %s message.\n\r", news_name);
         send_to_char(buf, ch);
         return;
     }
     buffer_destroy(ch->newsbuffer); // Free all the memory that may have been alloced
-    ch->newsbuffer = NULL;
+    ch->newsbuffer = nullptr;
     if (ch->newssubject) {
         free_string(ch->newssubject);
-        ch->newssubject = NULL;
+        ch->newssubject = nullptr;
     }
     if (ch->newsfromname) {
         free_string(ch->newsfromname);
-        ch->newsfromname = NULL;
+        ch->newsfromname = nullptr;
     }
     send_to_char("Message cleared.\n\r", ch);
 }
@@ -462,7 +462,7 @@ void do_news_clear(CHAR_DATA *ch, char *argument) {
 /* Actually post an article and thread into the linked list of articles/and or create a new thread */
 void do_news_post(CHAR_DATA *ch, char *argument) {
     (void)argument;
-    if (ch->newsbuffer == NULL) { // Is the user actually composing a message?
+    if (ch->newsbuffer == nullptr) { // Is the user actually composing a message?
         char buf[MAX_STRING_LENGTH];
         snprintf(buf, sizeof(buf), "You aren't composing a %s message.\n\r", news_name);
         send_to_char(buf, ch);
@@ -472,18 +472,18 @@ void do_news_post(CHAR_DATA *ch, char *argument) {
         send_to_char("No body of article to post!\n\r", ch);
         return;
     }
-    if (ch->newssubject) { // If subject is non-NULL then it must be a new thread we are creating
+    if (ch->newssubject) { // If subject is non-nullptr then it must be a new thread we are creating
         THREAD *add = new_thread();
         THREAD *t = thread_head;
         ARTICLE *art;
-        if (t == NULL) { // If there are no threads at all - then this is the first one
+        if (t == nullptr) { // If there are no threads at all - then this is the first one
             thread_head = add;
-            add->next = NULL;
+            add->next = nullptr;
         } else {
             for (; t->next; t = t->next)
                 ; // Skip to one-before end of linked list
             t->next = add; // Chain onto list here
-            add->next = NULL;
+            add->next = nullptr;
         }
         add->subject = str_dup(ch->newssubject); // Dup the subject for this thread's subject
         art = new_article(); // Create a new article
@@ -491,25 +491,25 @@ void do_news_post(CHAR_DATA *ch, char *argument) {
         add->num_articles = 1;
         art->author = str_dup(ch->newsfromname); // Dupe the author's name
         art->time_sent = current_time;
-        art->next = NULL; // Only one article - so no ->next
+        art->next = nullptr; // Only one article - so no ->next
         art->text = str_dup(buffer_string(ch->newsbuffer)); // Dup the body of the article
         buffer_destroy(ch->newsbuffer); // Remove the ch's news buffer
-        ch->newsbuffer = NULL; // Make NULL so ch can write a new message
+        ch->newsbuffer = nullptr; // Make nullptr so ch can write a new message
         free_string(ch->newssubject);
-        ch->newssubject = NULL; // Release more stuff
+        ch->newssubject = nullptr; // Release more stuff
         free_string(ch->newsfromname);
-        ch->newsfromname = NULL;
+        ch->newsfromname = nullptr;
         ch->thread = add; // Place ch's thread and art to point at the new message
         ch->article = art;
         ch->articlenum = 1;
         send_to_char("New thread created successfully.\n\r", ch); // Hooray!
-    } else { // This must be a reply as newssubject==NULL
+    } else { // This must be a reply as newssubject==nullptr
         ARTICLE *art;
         ARTICLE *add = new_article(); // Generate the new article
         for (art = ch->newsreply->articles; art->next; art = art->next)
             ; // Find last art (ch->newsreply is nonnull)
         art->next = add; // Thread on article
-        add->next = NULL; // No more articles after this one
+        add->next = nullptr; // No more articles after this one
         add->time_sent = current_time;
         add->text = str_dup(buffer_string(ch->newsbuffer)); // Dup the body of the art
         add->author = str_dup(ch->newsfromname);
@@ -517,9 +517,9 @@ void do_news_post(CHAR_DATA *ch, char *argument) {
         ch->article = add; // Point char at the message they've just created
         ch->articlenum = ++ch->newsreply->num_articles; // Inc num of arts in this thread, and point char to this one
         buffer_destroy(ch->newsbuffer); // Free user's newsbuffer
-        ch->newsbuffer = NULL;
+        ch->newsbuffer = nullptr;
         free_string(ch->newsfromname);
-        ch->newsfromname = NULL;
+        ch->newsfromname = nullptr;
         send_to_char("Thread replied to ok.\n\r", ch);
     }
     save_news(); // Commit the changes to the news database
@@ -527,7 +527,7 @@ void do_news_post(CHAR_DATA *ch, char *argument) {
 
 /* Add a line to the message being edited */
 void do_news_plus(CHAR_DATA *ch, char *argument) {
-    if (ch->newsbuffer == NULL) { // Are they composing a message?
+    if (ch->newsbuffer == nullptr) { // Are they composing a message?
         char buf[MAX_STRING_LENGTH];
         snprintf(buf, sizeof(buf), "You aren't composing a %s message.\n\r", news_name);
         send_to_char(buf, ch);
@@ -542,7 +542,7 @@ void do_news_plus(CHAR_DATA *ch, char *argument) {
 /* Remove a line from the message */
 void do_news_minus(CHAR_DATA *ch, char *argument) {
     (void)argument;
-    if (ch->newsbuffer == NULL) {
+    if (ch->newsbuffer == nullptr) {
         char buf[MAX_STRING_LENGTH];
         snprintf(buf, sizeof(buf), "You aren't composing a %s message.\n\r", news_name);
         send_to_char(buf, ch);
@@ -555,7 +555,7 @@ void do_news_minus(CHAR_DATA *ch, char *argument) {
 /* Show the text being edited */
 void do_news_show(CHAR_DATA *ch, char *argument) {
     (void)argument;
-    if (ch->newsbuffer == NULL) {
+    if (ch->newsbuffer == nullptr) {
         char buf[MAX_STRING_LENGTH];
         snprintf(buf, sizeof(buf), "You aren't composing a %s message.\n\r", news_name);
         send_to_char(buf, ch);
@@ -570,7 +570,7 @@ void do_news_show(CHAR_DATA *ch, char *argument) {
 void do_news_catchup(CHAR_DATA *ch, char *argument) {
     (void)argument;
     ARTICLE *a;
-    if (ch->thread == NULL) {
+    if (ch->thread == nullptr) {
         send_to_char("You have no thread selected.\n\r", ch);
         return;
     }
@@ -584,7 +584,7 @@ void do_news_catchup(CHAR_DATA *ch, char *argument) {
 void do_news_uncatchup(CHAR_DATA *ch, char *argument) {
     (void)argument;
     ARTICLE *a;
-    if (ch->thread == NULL) {
+    if (ch->thread == nullptr) {
         send_to_char("You have no thread selected.\n\r", ch);
         return;
     }
@@ -602,7 +602,7 @@ void do_news_delete(CHAR_DATA *ch, char *argument) {
     DESCRIPTOR_DATA *d;
     THREAD *chthread;
     int n;
-    if (ch->thread == NULL) { // Check to see if char has a thread sleceted
+    if (ch->thread == nullptr) { // Check to see if char has a thread sleceted
         send_to_char("You have no thread currently selected.\n\r", ch);
         return;
     }
@@ -614,7 +614,7 @@ void do_news_delete(CHAR_DATA *ch, char *argument) {
     }
     for (art = ch->thread->articles, n = 1; art && n != artnum; art = art->next, n++)
         ; // Find the article
-    if (art == NULL) { // Did we find the article?
+    if (art == nullptr) { // Did we find the article?
         send_to_char("Article not found.\n\r", ch);
         return;
     }
@@ -630,7 +630,7 @@ void do_news_delete(CHAR_DATA *ch, char *argument) {
         CHAR_DATA *person;
         if (d->connected == CON_PLAYING) {
             person = d->original ? d->original : d->character; // Find the corresponding person assoc'd with d
-            if ((person != NULL) && // Do they exist?
+            if ((person != nullptr) && // Do they exist?
                 (person->article == art)) // Are they looking at this article?
                 move_to_next_unread(person); // If so - move them on
         }
@@ -644,7 +644,7 @@ void do_news_delete(CHAR_DATA *ch, char *argument) {
             if (a->next == art)
                 break;
         }
-        if (a->next == NULL) {
+        if (a->next == nullptr) {
             bug("Article not found in news delete");
         } else {
             a->next = a->next->next;
@@ -657,9 +657,9 @@ void do_news_delete(CHAR_DATA *ch, char *argument) {
             CHAR_DATA *person;
             if (d->connected == CON_PLAYING) {
                 person = d->original ? d->original : d->character; // Find the corresponding person assoc'd with d
-                if ((person != NULL) && // Do they exist?
+                if ((person != nullptr) && // Do they exist?
                     (person->thread == chthread)) { // Are they looking at this thread?
-                    person->article = NULL;
+                    person->article = nullptr;
                     move_to_next_unread(person); // If so - move them on to next thread
                 }
             }
@@ -685,7 +685,7 @@ void do_news_delete(CHAR_DATA *ch, char *argument) {
 /* Set flags on a news thread */
 void do_news_flags(CHAR_DATA *ch, char *argument) {
     int flags;
-    if (ch->thread == NULL) {
+    if (ch->thread == nullptr) {
         send_to_char("You have no thread currently selected.\n\r", ch);
         return;
     }
@@ -705,7 +705,7 @@ void do_news_from(CHAR_DATA *ch, char *argument) {
         send_to_char(buf, ch);
         return;
     }
-    if (ch->newsbuffer == NULL) {
+    if (ch->newsbuffer == nullptr) {
         send_to_char("You are not writing a message.\n\r", ch);
         return;
     }
@@ -717,7 +717,7 @@ void do_news_from(CHAR_DATA *ch, char *argument) {
 /* Set the article expiry of the thread */
 void do_news_expiry(CHAR_DATA *ch, char *argument) {
     char buf[MAX_STRING_LENGTH];
-    if (ch->thread == NULL) {
+    if (ch->thread == nullptr) {
         send_to_char("You have no thread currently selected.\n\r", ch);
         return;
     }
@@ -892,7 +892,7 @@ bool has_read_before(CHAR_DATA *ch, int mes_id) {
     return false;
 }
 
-MES_ID *free_mes = NULL;
+MES_ID *free_mes = nullptr;
 
 void mark_as_read(CHAR_DATA *ch, int mes_id) {
     MES_ID *m;
@@ -979,20 +979,20 @@ void move_to_next_unread(CHAR_DATA *ch) {
     if (IS_NPC(ch))
         return;
     t = ch->thread;
-    if (t == NULL)
+    if (t == nullptr)
         return;
     start_a = ch->article;
-    if (start_a == NULL) { // End of this thread?
+    if (start_a == nullptr) { // End of this thread?
         t = t->next; // move on
     }
-    if (t == NULL) {
-        ch->thread = NULL;
+    if (t == nullptr) {
+        ch->thread = nullptr;
         return;
     }
 
     for (; t; t = t->next) {
         if (!can_read_thread(ch, t)) { // Can we read this thread at all?
-            start_a = NULL;
+            start_a = nullptr;
             ch->articlenum = 1; // If not - reset start_a and skip to next thread
             continue;
         }
@@ -1007,11 +1007,11 @@ void move_to_next_unread(CHAR_DATA *ch) {
                 return;
             }
         }
-        start_a = NULL;
+        start_a = nullptr;
         ch->articlenum = 1;
     }
     /* Try again from the beginning, unless we really have finished all messages */
-    ch->thread = NULL;
+    ch->thread = nullptr;
     flag = false;
     for (t = thread_head; t; t = t->next)
         if (num_unread(ch, t) != 0) {
@@ -1037,8 +1037,8 @@ int num_unread(CHAR_DATA *ch, THREAD *t) {
 }
 
 bool can_read_thread(CHAR_DATA *ch, THREAD *t) {
-    if (ch == NULL) {
-        bug("NULL ch in can_read_thread");
+    if (ch == nullptr) {
+        bug("nullptr ch in can_read_thread");
         return false;
     }
     if (IS_NPC(ch))
