@@ -52,7 +52,7 @@ int is_note_to(struct char_data *ch, NOTE_DATA *note) {
     return false;
 }
 
-static NOTE_DATA *create_note(void) {
+static NOTE_DATA *create_note() {
     NOTE_DATA *note = calloc(1, sizeof(NOTE_DATA));
     note->text = buffer_create();
     if (!note->text) {
@@ -154,7 +154,7 @@ static void save_note(FILE *file, NOTE_DATA *note) {
     fprintf(file, "Text\n%s~\n", note->text ? buffer_string(note->text) : "");
 }
 
-static void save_notes(void) {
+static void save_notes() {
     FILE *file;
     NOTE_DATA *note;
 
@@ -440,7 +440,7 @@ void do_note(CHAR_DATA *ch, char *argument) {
     }
 }
 
-static void note_readfile(void) {
+static void note_readfile() {
     FILE *fp;
 
     if ((fp = fopen(NOTE_FILE, "r")) == nullptr) {
@@ -499,7 +499,7 @@ static void note_readfile(void) {
     exit(1);
 }
 
-void note_initialise(void) {
+void note_initialise() {
     note_readfile();
     trie = trie_create(1);
     if (!trie) {

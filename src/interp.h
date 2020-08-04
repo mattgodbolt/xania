@@ -24,7 +24,7 @@
 #define IM LEVEL_IMMORTAL /* angel */
 #define HE LEVEL_HERO /* hero */
 
-extern void interp_initialise(void);
+extern void interp_initialise();
 
 /*
  * Command functions.

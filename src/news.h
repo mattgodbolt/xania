@@ -64,12 +64,12 @@ extern THREAD *thread_free;
 extern ARTICLE *article_free;
 
 /* Function prototypes */
-THREAD *new_thread(void);
+THREAD *new_thread();
 void free_thread(THREAD *thread);
-ARTICLE *new_article(void);
+ARTICLE *new_article();
 void free_article(ARTICLE *article);
-void read_news(void);
-void save_news(void);
+void read_news();
+void save_news();
 bool has_read_before(CHAR_DATA *ch, int mes_id);
 void mark_as_read(CHAR_DATA *ch, int mes_id);
 void mark_as_unread(CHAR_DATA *ch, int mes_id);

@@ -160,7 +160,7 @@ void wiznet_immortal(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_IMM, "immo
 
 void wiznet_tick(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_TICK, "tick"); }
 
-void wiznet_initialise(void) {
+void wiznet_initialise() {
     trie = trie_create(0);
     if (!trie) {
         bug("wiznet_initialise: couldn't create trie.");

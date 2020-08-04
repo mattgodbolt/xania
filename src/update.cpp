@@ -27,15 +27,15 @@ int get_max_stat(CHAR_DATA *ch, int stat);
 int hit_gain(CHAR_DATA *ch);
 int mana_gain(CHAR_DATA *ch);
 int move_gain(CHAR_DATA *ch);
-void mobile_update(void);
-void weather_update(void);
-void char_update(void);
-void obj_update(void);
-void aggr_update(void);
+void mobile_update();
+void weather_update();
+void char_update();
+void obj_update();
+void aggr_update();
 void announce(char *, CHAR_DATA *ch);
 
 /* Added by Rohan to reset the count every day */
-void count_update(void);
+void count_update();
 int count_updated = 0;
 
 /* used for saving */
@@ -340,7 +340,7 @@ void gain_condition(CHAR_DATA *ch, int iCond, int value) {
  * This function takes 25% to 35% of ALL Merc cpu time.
  * -- Furey
  */
-void mobile_update(void) {
+void mobile_update() {
     CHAR_DATA *ch;
     CHAR_DATA *ch_next;
     EXIT_DATA *pexit;
@@ -412,7 +412,7 @@ void mobile_update(void) {
 /*
  * Update the weather.
  */
-void weather_update(void) {
+void weather_update() {
     char buf[MAX_STRING_LENGTH];
     DESCRIPTOR_DATA *d;
     int diff;
@@ -579,7 +579,7 @@ void move_idle_char_to_limbo(CHAR_DATA *ch) {
 /*
  * Update all chars, including mobs.
  */
-void char_update(void) {
+void char_update() {
     CHAR_DATA *ch;
     CHAR_DATA *ch_next;
     CHAR_DATA *ch_quit;
@@ -777,7 +777,7 @@ void char_update(void) {
  * Update all objs.
  * This function is performance sensitive.
  */
-void obj_update(void) {
+void obj_update() {
     OBJ_DATA *obj;
     OBJ_DATA *obj_next;
     AFFECT_DATA *paf, *paf_next;
@@ -873,7 +873,7 @@ void obj_update(void) {
  * -- Furey
  */
 void do_aggressive_sentient(CHAR_DATA *, CHAR_DATA *);
-void aggr_update(void) {
+void aggr_update() {
     CHAR_DATA *wch;
     CHAR_DATA *wch_next;
     CHAR_DATA *ch;
@@ -998,7 +998,7 @@ bool is_safe_sentient(CHAR_DATA *ch, CHAR_DATA *wch) {
 }
 
 /* This function resets the player count everyday */
-void count_update(void) {
+void count_update() {
     struct tm *cur_time;
     int current_day;
     cur_time = localtime(&current_time);
@@ -1027,7 +1027,7 @@ void count_update(void) {
  * Random times to defeat tick-timing clients and players.
  */
 
-void update_handler(void) {
+void update_handler() {
     static int pulse_area;
     static int pulse_mobile;
     static int pulse_violence;

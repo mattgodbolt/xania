@@ -74,7 +74,7 @@ static void add_command(const char *name, CommandFunc do_fun, sh_int position, s
     trie_add(cmd_trie, name, cmd, level);
 }
 
-void interp_initialise(void) {
+void interp_initialise() {
     cmd_trie = trie_create(0);
     if (!cmd_trie) {
         bug("note_initialise: couldn't create trie.");

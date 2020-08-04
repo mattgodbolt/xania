@@ -25,8 +25,8 @@
 extern int getrlimit(int resource, struct rlimit *rlp);
 
 /* Externally referenced functions. */
-void load_news(void);
-void wiznet_initialise(void);
+void load_news();
+void wiznet_initialise();
 
 /*
  * Globals.
@@ -183,7 +183,7 @@ static bool area_header_found;
 void copy_areaname(char *dest) { strcpy(dest, strArea); }
 
 /* Local booting procedures. */
-void init_mm(void);
+void init_mm();
 void load_area(FILE *fp);
 void load_helps(FILE *fp);
 void load_old_mob(FILE *fp);
@@ -196,7 +196,7 @@ void load_objects(FILE *fp);
 
 void load_resets(FILE *fp);
 void new_reset(ROOM_INDEX_DATA *, RESET_DATA *);
-void validate_resets(void);
+void validate_resets();
 void assign_area_vnum(int vnum);
 
 void load_rooms(FILE *fp);
@@ -205,7 +205,7 @@ void load_shops(FILE *fp);
 void load_socials(FILE *fp);
 void load_specials(FILE *fp);
 
-void fix_exits(void);
+void fix_exits();
 
 void reset_area(AREA_DATA *pArea);
 
@@ -220,7 +220,7 @@ void maxfilelimit() {
 }
 
 /* Big mama top level function. */
-void boot_db(void) {
+void boot_db() {
 
     /* open file fix */
     maxfilelimit();
@@ -968,7 +968,7 @@ void load_resets(FILE *fp) {
     return;
 }
 
-void validate_resets(void) {
+void validate_resets() {
     AREA_DATA *pArea;
     OBJ_INDEX_DATA *temp_index;
     ROOM_INDEX_DATA *pRoom;
@@ -1231,7 +1231,7 @@ void load_specials(FILE *fp) {
  * Has to be done after all rooms are read in.
  * Check for bad reverse exits.
  */
-void fix_exits(void) {
+void fix_exits() {
     extern const sh_int rev_dir[];
     char buf[MAX_STRING_LENGTH];
     ROOM_INDEX_DATA *pRoomIndex;
@@ -1278,7 +1278,7 @@ void fix_exits(void) {
 }
 
 /* Repopulate areas periodically. */
-void area_update(void) {
+void area_update() {
     AREA_DATA *pArea;
 
     for (pArea = area_first; pArea != nullptr; pArea = pArea->next) {
@@ -2974,7 +2974,7 @@ int number_range(int from, int to) {
 /*
  * Generate a percentile roll.
  */
-int number_percent(void) {
+int number_percent() {
     int percent;
 
     while ((percent = number_mm() & (128 - 1)) > 99)
@@ -2986,7 +2986,7 @@ int number_percent(void) {
 /*
  * Generate a random door.
  */
-int number_door(void) {
+int number_door() {
     int door;
 
     while ((door = number_mm() & (8 - 1)) > 5)
@@ -3022,7 +3022,7 @@ void init_mm() {
     return;
 }
 
-int number_mm(void) {
+int number_mm() {
     int *piState;
     int iState1;
     int iState2;
@@ -3212,7 +3212,7 @@ void append_file(CHAR_DATA *ch, char *file, char *str) {
  *
  * -- Furey
  */
-void tail_chain(void) { return; }
+void tail_chain() { return; }
 
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
 

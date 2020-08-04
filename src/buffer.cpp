@@ -21,7 +21,7 @@
 #define BUFFER_GRANULARITY 4096 /* Must be a power of 2. */
 
 /* Creates a new buffer. */
-BUFFER *buffer_create(void) {
+BUFFER *buffer_create() {
     BUFFER *res = malloc(sizeof(BUFFER));
     if (res) {
         res->size = BUFFER_GRANULARITY;

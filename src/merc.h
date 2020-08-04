@@ -1993,8 +1993,8 @@ void get_obj(CHAR_DATA *ch, OBJ_DATA *obj, OBJ_DATA *container);
 /* act_wiz.c */
 
 /* ban.c */
-void save_bans(void);
-void load_bans(void);
+void save_bans();
+void load_bans();
 bool check_ban(char *site, int type);
 void ban_site(CHAR_DATA *ch, char *site, bool fType);
 
@@ -2011,8 +2011,8 @@ void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, 
 void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type, int min_pos);
 
 /* db.c */
-void boot_db(void);
-void area_update(void);
+void boot_db();
+void area_update();
 CD *create_mobile(MOB_INDEX_DATA *pMobIndex);
 void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone);
 OD *create_object(OBJ_INDEX_DATA *pObjIndex, int level);
@@ -2040,10 +2040,10 @@ char *str_dup(const char *str);
 void free_string(char *pstr);
 int number_fuzzy(int number);
 int number_range(int from, int to);
-int number_percent(void);
-int number_door(void);
+int number_percent();
+int number_door();
 int number_bits(int width);
-int number_mm(void);
+int number_mm();
 int dice(int number, int size);
 int interpolate(int level, int value_00, int value_32);
 void smash_tilde(char *str);
@@ -2056,17 +2056,17 @@ void append_file(CHAR_DATA *ch, char *file, char *str);
 void bug(const char *str, ...) __attribute__((format(printf, 1, 2)));
 void log_string(const char *str);
 void log_new(const char *str, int loglevel, int level);
-void tail_chain(void);
+void tail_chain();
 
 /* fight.c */
 bool is_safe(CHAR_DATA *ch, CHAR_DATA *victim);
 bool is_safe_spell(CHAR_DATA *ch, CHAR_DATA *victim, bool area);
-void violence_update(void);
+void violence_update();
 void multi_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt);
 bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int _class);
 void update_pos(CHAR_DATA *victim);
 void stop_fighting(CHAR_DATA *ch, bool fBoth);
-void do_chal_tick(void);
+void do_chal_tick();
 void do_chal_canc(CHAR_DATA *ch);
 void do_room_check(CHAR_DATA *ch);
 void do_flee_check(CHAR_DATA *ch);
@@ -2156,7 +2156,7 @@ const char *comm_bit_name(int comm_flags);
 void tolower_articles(char *string);
 
 /* info.c */
-void load_player_list(void);
+void load_player_list();
 
 /* interp.c */
 void interpret(CHAR_DATA *ch, char *argument);
@@ -2194,12 +2194,12 @@ SpecialFunc spec_lookup(const char *name);
 void advance_level(CHAR_DATA *ch);
 void gain_exp(CHAR_DATA *ch, int gain);
 void gain_condition(CHAR_DATA *ch, int iCond, int value);
-void update_handler(void);
+void update_handler();
 bool is_safe_sentient(CHAR_DATA *ch, CHAR_DATA *wch);
 
 /* web page functions */
 bool web_see(CHAR_DATA *ch);
-void web_who(void);
+void web_who();
 
 /* dbextras.c */
 int create_new_room(int lower, int higher);
@@ -2210,7 +2210,7 @@ int save_whole_area(char *area_name, char *filename);
 /* Saves all rooms/mobs/resets/etc being edited */
 
 /* xania.c - a mishmash */
-void check_xania(void);
+void check_xania();
 int get_skill_level(CHAR_DATA *ch, int gsn);
 int get_skill_difficulty(CHAR_DATA *ch, int gsn);
 int get_skill_trains(CHAR_DATA *ch, int gsn);
@@ -2219,8 +2219,8 @@ int get_group_level(CHAR_DATA *ch, int gsn);
 int check_material_vulnerability(CHAR_DATA *ch, OBJ_DATA *object);
 int get_skill_learned(CHAR_DATA *ch, int gsn);
 
-void load_tipfile(void); /* tip wizard - Faramir 21 Sep 1998 */
-void tip_players(void);
+void load_tipfile(); /* tip wizard - Faramir 21 Sep 1998 */
+void tip_players();
 
 extern bool ignore_tips;
 extern TIP_TYPE *tip_top; /* top of list (humour!) */

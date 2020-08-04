@@ -48,7 +48,7 @@ void announce(char *, CHAR_DATA *ch);
 /* Added by Rohan - extern to player list for adding new players to it */
 extern KNOWN_PLAYERS *player_list;
 
-/* extern void identd_lookup(void);  ......commented out due to sock leaks */
+/* extern void identd_lookup();  ......commented out due to sock leaks */
 
 char str_boot_time[MAX_INPUT_LENGTH];
 

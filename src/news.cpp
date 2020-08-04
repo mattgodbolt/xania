@@ -36,7 +36,7 @@ static char *news_name = "news"; // The name of the command being used - either 
                                  // allow players with speed-walkers access to the news commands
 
 /* Create a new, blank thread, not chained onto the global linked list */
-THREAD *new_thread(void) {
+THREAD *new_thread() {
     THREAD *res;
     if (thread_free) {
         res = thread_free;
@@ -69,7 +69,7 @@ void free_thread(THREAD *thread) {
 }
 
 /* Create a new, blank article - UPDATES cur_msg_id */
-ARTICLE *new_article(void) {
+ARTICLE *new_article() {
     ARTICLE *res;
     if (article_free) {
         res = article_free;
@@ -95,7 +95,7 @@ void free_article(ARTICLE *article) {
 }
 
 /* Save the list of news */
-void save_news(void) {
+void save_news() {
     FILE *fp;
     ARTICLE *art;
     THREAD *thread;
@@ -126,7 +126,7 @@ void save_news(void) {
 }
 
 /* Load in the news */
-void load_news(void) {
+void load_news() {
     FILE *fp;
     THREAD *last_thread = nullptr;
 

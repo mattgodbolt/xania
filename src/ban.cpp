@@ -28,7 +28,7 @@
 
 BAN_DATA *ban_list;
 
-BAN_DATA *new_ban(void) {
+BAN_DATA *new_ban() {
     BAN_DATA *res;
     res = (BAN_DATA *)(malloc(sizeof(BAN_DATA)));
     res->level = 0;
@@ -43,7 +43,7 @@ void free_ban(BAN_DATA *foo) {
     free(foo);
 }
 
-void save_bans(void) {
+void save_bans() {
     BAN_DATA *pban;
     FILE *fp;
     bool found = false;
@@ -66,7 +66,7 @@ void save_bans(void) {
         unlink(BAN_FILE);
 }
 
-void load_bans(void) {
+void load_bans() {
     FILE *fp;
     BAN_DATA *ban_last;
 

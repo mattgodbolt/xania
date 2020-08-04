@@ -14,7 +14,7 @@
 #define NOTE_FILE "notes.txt" /* For 'notes'                  */
 
 void do_note(struct char_data *ch, char *argument);
-void note_initialise(void);
+void note_initialise();
 int note_count(struct char_data *ch);
 int is_note_to(struct char_data *ch, NOTE_DATA *note);
 void note_announce(CHAR_DATA *chsender, NOTE_DATA *note);

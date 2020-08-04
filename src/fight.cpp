@@ -66,7 +66,7 @@ void lose_level(CHAR_DATA *ch);
  * Control the fights going on.
  * Called periodically by update_handler.
  */
-void violence_update(void) {
+void violence_update() {
     CHAR_DATA *ch;
     CHAR_DATA *ch_next;
     CHAR_DATA *victim;

@@ -157,7 +157,7 @@ void report_mobile(MOB_INDEX_DATA *mob) {
 
 /* check_xania - check all of Xania and report those things that aren't what they should be */
 
-void check_xania(void) {
+void check_xania() {
     OBJ_DATA *object;
     CHAR_DATA *mobile;
 
@@ -683,7 +683,7 @@ bool web_see(CHAR_DATA *ch) {
         return true;
 }
 
-void web_who(void) {
+void web_who() {
 
     FILE *fp;
     DESCRIPTOR_DATA *d;
@@ -722,7 +722,7 @@ void web_who(void) {
     return;
 }
 
-void load_tipfile(void) {
+void load_tipfile() {
 
     FILE *fp = nullptr;
     int tipcount = 0;
@@ -766,7 +766,7 @@ void load_tipfile(void) {
     return;
 }
 
-void tip_players(void) {
+void tip_players() {
 
     DESCRIPTOR_DATA *d;
     char buf[MAX_STRING_LENGTH];

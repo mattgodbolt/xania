@@ -9,7 +9,7 @@ static void printstring(void *trie, char *name, int lev) {
 
 static void fn(const char *name, int level, void *data, void *metadata) { printf("fn> %s\n", name); }
 
-int main(void) {
+int main() {
     void *trie = trie_create(0);
     /*
             trie_add(trie, "foo", "Foo", 1);
