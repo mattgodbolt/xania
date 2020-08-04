@@ -33,12 +33,22 @@ TEST_CASE("Interpreter tests") {
                 CHECK(number_argument(str, buf) == 1);
                 CHECK(buf == "first"sv);
             }
+            SECTION("negative") {
+                char str[] = "-1.wtf";
+                CHECK(number_argument(str, buf) == -1);
+                CHECK(buf == "wtf"sv);
+            }
             SECTION("22") {
                 char str[] = "22.twentysecond";
                 CHECK(number_argument(str, buf) == 22);
                 CHECK(buf == "twentysecond"sv);
                 SECTION("and the original string is left untouched") { CHECK(str == "22.twentysecond"sv); }
             }
+        }
+        SECTION("garbage non-numbers") {
+            char str[] = "spider.pig";
+            CHECK(number_argument(str, buf) == 0);
+            CHECK(buf == "pig"sv);
         }
     }
 }
