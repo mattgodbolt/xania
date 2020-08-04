@@ -322,7 +322,7 @@ const struct dam_string_type dam_string_table[] = {
     {120, {"ERADICATE", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
 
     {120, /* leave last item in list null */
-     {'\0', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}};
+     {NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}};
 
 /* used to determine the damage message in fight.c */
 

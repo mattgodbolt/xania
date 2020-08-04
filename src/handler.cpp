@@ -1866,7 +1866,7 @@ bool can_drop_obj(CHAR_DATA *ch, OBJ_DATA *obj) {
 /*
  * Return ascii name of an item type.
  */
-char *item_type_name(OBJ_DATA *obj) {
+const char *item_type_name(OBJ_DATA *obj) {
     switch (obj->item_type) {
     case ITEM_LIGHT: return "light";
     case ITEM_SCROLL: return "scroll";
@@ -1900,7 +1900,7 @@ char *item_type_name(OBJ_DATA *obj) {
 /*
  * Return ascii name of an object index
  */
-char *item_index_type_name(OBJ_INDEX_DATA *obj) {
+const char *item_index_type_name(OBJ_INDEX_DATA *obj) {
     switch (obj->item_type) {
     case ITEM_LIGHT: return "light";
     case ITEM_SCROLL: return "scroll";
@@ -1934,7 +1934,7 @@ char *item_index_type_name(OBJ_INDEX_DATA *obj) {
 /*
  * Return ascii name of an affect location.
  */
-char *affect_loc_name(int location) {
+const char *affect_loc_name(int location) {
     switch (location) {
     case APPLY_NONE: return "none";
     case APPLY_STR: return "strength";
@@ -1968,7 +1968,7 @@ char *affect_loc_name(int location) {
 /*
  * Return ascii name of an affect bit vector.
  */
-char *affect_bit_name(int vector) {
+const char *affect_bit_name(int vector) {
     static char buf[512];
 
     buf[0] = '\0';
@@ -2036,7 +2036,7 @@ char *affect_bit_name(int vector) {
 /*
  * Return ascii name of extra flags vector.
  */
-char *extra_bit_name(int extra_flags) {
+const char *extra_bit_name(int extra_flags) {
     static char buf[512];
 
     buf[0] = '\0';
@@ -2082,7 +2082,7 @@ char *extra_bit_name(int extra_flags) {
 }
 
 /* return ascii name of an act vector */
-char *act_bit_name(int act_flags) {
+const char *act_bit_name(int act_flags) {
     static char buf[512];
 
     buf[0] = '\0';
@@ -2181,7 +2181,7 @@ char *act_bit_name(int act_flags) {
     return (buf[0] != '\0') ? buf + 1 : "none";
 }
 
-char *comm_bit_name(int comm_flags) {
+const char *comm_bit_name(int comm_flags) {
     static char buf[512];
 
     buf[0] = '\0';
@@ -2232,7 +2232,7 @@ char *comm_bit_name(int comm_flags) {
     return (buf[0] != '\0') ? buf + 1 : "none";
 }
 
-char *imm_bit_name(int imm_flags) {
+const char *imm_bit_name(int imm_flags) {
     static char buf[512];
 
     buf[0] = '\0';
@@ -2285,7 +2285,7 @@ char *imm_bit_name(int imm_flags) {
     return (buf[0] != '\0') ? buf + 1 : "none";
 }
 
-char *wear_bit_name(int wear_flags) {
+const char *wear_bit_name(int wear_flags) {
     static char buf[512];
 
     buf[0] = '\0';
@@ -2323,7 +2323,7 @@ char *wear_bit_name(int wear_flags) {
     return (buf[0] != '\0') ? buf + 1 : "none";
 }
 
-char *form_bit_name(int form_flags) {
+const char *form_bit_name(int form_flags) {
     static char buf[512];
 
     buf[0] = '\0';
@@ -2383,7 +2383,7 @@ char *form_bit_name(int form_flags) {
     return (buf[0] != '\0') ? buf + 1 : "none";
 }
 
-char *part_bit_name(int part_flags) {
+const char *part_bit_name(int part_flags) {
     static char buf[512];
 
     buf[0] = '\0';
@@ -2433,7 +2433,7 @@ char *part_bit_name(int part_flags) {
     return (buf[0] != '\0') ? buf + 1 : "none";
 }
 
-char *weapon_bit_name(int weapon_flags) {
+const char *weapon_bit_name(int weapon_flags) {
     static char buf[512];
 
     buf[0] = '\0';
@@ -2461,7 +2461,7 @@ char *weapon_bit_name(int weapon_flags) {
     return (buf[0] != '\0') ? buf + 1 : "none";
 }
 
-char *off_bit_name(int off_flags) {
+const char *off_bit_name(int off_flags) {
     static char buf[512];
 
     buf[0] = '\0';

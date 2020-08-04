@@ -5,61 +5,61 @@ add_subdirectory(doorman)
 add_subdirectory(chat)
 add_subdirectory(test)
 add_library(xania_lib STATIC
-        act_comm.c
-        act_info.c
-        act_move.c
-        act_obj.c
-        act_wiz.c
-        ban.c
-        buffer.c
+        act_comm.cpp
+        act_info.cpp
+        act_move.cpp
+        act_obj.cpp
+        act_wiz.cpp
+        ban.cpp
+        buffer.cpp
         buffer.h
-        challeng.c
+        challeng.cpp
         challeng.h
-        channels.c
-        clan.c
+        channels.cpp
+        clan.cpp
         clan.h
-        comm.c
-        const.c
-        db2.c
-        db.c
+        comm.cpp
+        const.cpp
+        db2.cpp
+        db.cpp
         db.h
-        fight.c
-        flags.c
+        fight.cpp
+        flags.cpp
         flags.h
-        handler.c
-        healer.c
-        info.c
-        interp.c
+        handler.cpp
+        healer.cpp
+        info.cpp
+        interp.cpp
         interp.h
-        lookup.c
+        lookup.cpp
         lookup.h
-        magic2.c
-        magic.c
+        magic2.cpp
+        magic.cpp
         magic.h
         merc.h
-        mob_commands.c
-        mob_prog.c
-        news.c
+        mob_commands.cpp
+        mob_prog.cpp
+        news.cpp
         news.h
-        note.c
+        note.cpp
         note.h
-        phil.c
+        phil.cpp
         phil.h
-        save.c
-        skills.c
-        special.c
-        tables.c
+        save.cpp
+        skills.cpp
+        special.cpp
+        tables.cpp
         tables.h
-        trie.c
+        trie.cpp
         trie.h
-        update.c
-        wiznet.c
-        xania.c
+        update.cpp
+        wiznet.cpp
+        xania.cpp
         Wrapper.cpp
         )
 target_link_libraries(xania_lib crypt chat)
 
-add_executable(xania main.c)
+add_executable(xania main.cpp)
 target_link_libraries(xania xania_lib)
 
 install(TARGETS xania RUNTIME DESTINATION bin)

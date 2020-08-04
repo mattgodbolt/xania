@@ -74,7 +74,7 @@ char *Mob::FromWorld(Mob &whosRoom, char *argument) {
 // test code
 /////////////////////////////////////////////////
 
-extern "C" void do_cpptest(CHAR_DATA *ch, char *argument) {
+void do_cpptest(CHAR_DATA *ch, char *argument) {
     Mob user(ch);
 
     Mob mobInRoom;

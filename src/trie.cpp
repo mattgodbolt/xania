@@ -25,9 +25,11 @@ struct trie {
     node_t *topnode;
 };
 
+enum node_type { tnode_twig, tnode_leaf };
+
 struct node {
     int level;
-    enum { tnode_twig, tnode_leaf } type;
+    node_type type;
     union {
         node_t **children;
         leaf_t *leaf;

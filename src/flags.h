@@ -18,8 +18,8 @@ typedef struct char_data CHAR_DATA;
  *	  current value of flag
  *	  the character attempting to modify the flag
  */
-long flag_set(char *template, char *arg, long current_val, CHAR_DATA *ch);
+long flag_set(char *format, char *arg, long current_val, CHAR_DATA *ch);
 /*
  * Display the current flags
  */
-void display_flags(char *template, CHAR_DATA *ch, int current_val);
+void display_flags(char *format, CHAR_DATA *ch, int current_val);

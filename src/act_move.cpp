@@ -9,6 +9,7 @@
 
 #include "challeng.h"
 #include "merc.h"
+#include "olc_room.h"
 #include <stdio.h>
 #include <string.h>
 #include <sys/time.h>

@@ -10,6 +10,8 @@
 #include "buffer.h"
 #include "db.h"
 #include "merc.h"
+#include "interp.h"
+#include "olc_room.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,13 +19,6 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <time.h>
-
-/* command procedures needed */
-void do_exits(CHAR_DATA *ch, char *arg);
-void do_look(CHAR_DATA *ch, char *arg);
-void do_help(CHAR_DATA *ch, char *arg);
-void do_mstat(CHAR_DATA *ch, char *arg);
-void do_affected(CHAR_DATA *ch);
 
 char *const where_name[] = {"<used as light>     ", "<worn on finger>    ", "<worn on finger>    ",
                             "<worn around neck>  ", "<worn around neck>  ", "<worn on body>      ",
@@ -1193,7 +1188,6 @@ void do_examine(CHAR_DATA *ch, char *argument) {
  * Thanks to Zrin for auto-exit part.
  */
 void do_exits(CHAR_DATA *ch, char *argument) {
-    extern char *const dir_name[];
     char buf[MAX_STRING_LENGTH];
     EXIT_DATA *pexit;
     bool found;
@@ -1442,11 +1436,12 @@ void do_score(CHAR_DATA *ch, char *argument) {
 
     if (IS_SET(ch->comm, COMM_AFFECT)) {
         send_to_char("\n\r", ch);
-        do_affected(ch);
+        do_affected(ch, NULL);
     }
 }
 
-void do_affected(CHAR_DATA *ch) {
+void do_affected(CHAR_DATA *ch, char *argument) {
+    (void)argument;
     char buf[MAX_STRING_LENGTH];
     AFFECT_DATA *paf;
     int flag = 0;
@@ -2469,7 +2464,6 @@ void do_password(CHAR_DATA *ch, char *argument) {
 
 void do_scan(CHAR_DATA *ch, char *argument) {
     (void)argument;
-    extern char *const dir_name[];
     ROOM_INDEX_DATA *current_place;
     CHAR_DATA *current_person;
     CHAR_DATA *next_person;

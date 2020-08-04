@@ -1375,7 +1375,7 @@ struct mob_prog_data {
     char *comlist;
 };
 
-bool MOBtrigger;
+extern bool MOBtrigger;
 
 #define ERROR_PROG -1
 #define IN_FILE_PROG 0
@@ -2162,19 +2162,19 @@ bool can_see(CHAR_DATA *ch, CHAR_DATA *victim);
 bool can_see_obj(CHAR_DATA *ch, OBJ_DATA *obj);
 bool can_see_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex);
 bool can_drop_obj(CHAR_DATA *ch, OBJ_DATA *obj);
-char *item_type_name(OBJ_DATA *obj);
-char *item_index_type_name(OBJ_INDEX_DATA *obj);
-char *affect_loc_name(int location);
-char *affect_bit_name(int vector);
-char *extra_bit_name(int extra_flags);
-char *wear_bit_name(int wear_flags);
-char *act_bit_name(int act_flags);
-char *off_bit_name(int off_flags);
-char *imm_bit_name(int imm_flags);
-char *form_bit_name(int form_flags);
-char *part_bit_name(int part_flags);
-char *weapon_bit_name(int weapon_flags);
-char *comm_bit_name(int comm_flags);
+const char *item_type_name(OBJ_DATA *obj);
+const char *item_index_type_name(OBJ_INDEX_DATA *obj);
+const char *affect_loc_name(int location);
+const char *affect_bit_name(int vector);
+const char *extra_bit_name(int extra_flags);
+const char *wear_bit_name(int wear_flags);
+const char *act_bit_name(int act_flags);
+const char *off_bit_name(int off_flags);
+const char *imm_bit_name(int imm_flags);
+const char *form_bit_name(int form_flags);
+const char *part_bit_name(int part_flags);
+const char *weapon_bit_name(int weapon_flags);
+const char *comm_bit_name(int comm_flags);
 void tolower_articles(char *string);
 
 /* info.c */

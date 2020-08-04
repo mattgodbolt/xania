@@ -56,9 +56,9 @@ char str_boot_time[MAX_INPUT_LENGTH];
  * Socket and TCP/IP stuff.
  */
 
-const char echo_off_str[] = {IAC, WILL, TELOPT_ECHO, '\0'};
-const char echo_on_str[] = {IAC, WONT, TELOPT_ECHO, '\0'};
-const char go_ahead_str[] = {IAC, GA, '\0'};
+const char echo_off_str[] = {char(IAC), char(WILL), char(TELOPT_ECHO), '\0'};
+const char echo_on_str[] = {char(IAC), char(WONT), char(TELOPT_ECHO), '\0'};
+const char go_ahead_str[] = {char(IAC), char(GA), '\0'};
 
 /*
  * Global variables.
@@ -72,6 +72,7 @@ bool merc_down; /* Shutdown       */
 bool wizlock; /* Game is wizlocked    */
 bool newlock; /* Game is newlocked    */
 time_t current_time; /* time of this pulse */
+bool MOBtrigger;
 
 void game_loop_unix(int control);
 int init_socket(const char *file);
