@@ -637,9 +637,8 @@ int number_argument(char *argument, char *arg) {
  * Pick off one argument from a string and return the rest.
  * Understands quotes.
  */
-char *one_argument(char *argument, void *arg_f) {
+const char *one_argument(const char *argument, char *arg_first) {
     char cEnd;
-    char *arg_first = (char *)arg_f;
 
     while (isspace(*argument))
         argument++;

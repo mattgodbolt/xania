@@ -206,7 +206,7 @@ void do_member(CHAR_DATA *ch, char *argument) {
         return;
     } /* If not priveledged enough */
 
-    argument = one_argument(argument, &buf2); /* Get the command */
+    argument = one_argument(argument, buf2); /* Get the command */
     if (buf2[0] != '+' && buf2[0] != '-') {
         send_to_char("Usage:\n\r       member + <character name>\n\r       member - <character name>\n\r", ch);
         return;

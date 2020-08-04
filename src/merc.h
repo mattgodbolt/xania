@@ -38,6 +38,7 @@
 
 /**
  * Function pointer for commands run by the interpreter, the do_ functions.
+ * argument is modified (currently) by some of the text processing routines.
  */
 typedef void (*CommandFunc)(CHAR_DATA *ch, char *argument);
 /**
@@ -1597,9 +1598,9 @@ struct area_data {
     sh_int nplayer;
     bool empty;
 
-    char *areaname; /* OLC */
-    char *filename; /* OLC */
-    char *builders; /* OLC - Listing of builders */
+    const char *areaname; /* OLC */
+    const char *filename; /* OLC */
+    const char *builders; /* OLC - Listing of builders */
     int security; /* OLC - Value 0-infinity  */
     int lvnum; /* OLC - Lower vnum */
     int uvnum; /* OLC - Upper vnum */
@@ -1689,14 +1690,14 @@ struct skill_type {
     sh_int slot; /* Slot for #OBJECT loading     */
     sh_int min_mana; /* Minimum mana used            */
     sh_int beats; /* Waiting time after use       */
-    char *noun_damage; /* Damage message               */
-    char *msg_off; /* Wear off message             */
+    const char *noun_damage; /* Damage message               */
+    const char *msg_off; /* Wear off message             */
 };
 
 struct group_type {
     char *name;
     sh_int rating[MAX_CLASS];
-    char *spells[MAX_IN_GROUP];
+    const char *spells[MAX_IN_GROUP];
 };
 
 /*
@@ -1833,14 +1834,14 @@ extern sh_int gsn_bless;
  */
 struct social_type {
     char name[20];
-    char *char_no_arg;
-    char *others_no_arg;
-    char *char_found;
-    char *others_found;
-    char *vict_found;
-    char *char_not_found;
-    char *char_auto;
-    char *others_auto;
+    const char *char_no_arg;
+    const char *others_no_arg;
+    const char *char_found;
+    const char *others_found;
+    const char *vict_found;
+    const char *char_not_found;
+    const char *char_auto;
+    const char *others_auto;
 };
 
 /*
@@ -1867,7 +1868,7 @@ extern struct social_type social_table[MAX_SOCIALS];
 extern char *const title_table[MAX_CLASS][MAX_LEVEL + 1][2];
 
 struct flag_type {
-    char *name;
+    const char *name;
     int bit;
     bool settable;
 };
@@ -2089,7 +2090,7 @@ int get_curr_stat(CHAR_DATA *ch, int stat);
 int get_max_train(CHAR_DATA *ch, int stat);
 int can_carry_n(CHAR_DATA *ch);
 int can_carry_w(CHAR_DATA *ch);
-bool is_name(char *str, char *namelist);
+bool is_name(const char *str, const char *namelist);
 void affect_to_char(CHAR_DATA *ch, AFFECT_DATA *paf);
 void affect_to_obj(OBJ_DATA *obj, AFFECT_DATA *paf);
 void affect_remove(CHAR_DATA *ch, AFFECT_DATA *paf);
@@ -2162,7 +2163,7 @@ void load_player_list();
 void interpret(CHAR_DATA *ch, char *argument);
 bool is_number(char *arg);
 int number_argument(char *argument, char *arg);
-char *one_argument(char *argument, void *arg_first);
+const char *one_argument(const char *argument, char *arg_first);
 
 /* magic.c */
 int mana_cost(CHAR_DATA *ch, int min_mana, int level);

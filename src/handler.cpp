@@ -596,7 +596,7 @@ bool is_name( const char *str, char *namelist )
 }
 */
 
-bool is_name(char *str, char *namelist) {
+bool is_name(const char *str, const char *namelist) {
     char name[MAX_INPUT_LENGTH], part[MAX_INPUT_LENGTH];
     char *list, *string;
 

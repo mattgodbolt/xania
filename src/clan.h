@@ -26,17 +26,17 @@
 /* CLAN is for an entire clan */
 
 typedef struct _clan {
-    char *name;
-    char *whoname;
-    char clanchar;
-    char *levelname[CLAN_MAX + 1];
+    const char *name;
+    const char *whoname;
+    const char clanchar;
+    const char *levelname[CLAN_MAX + 1];
     int recall_vnum;
     int entrance_vnum;
 } CLAN;
 
 /* PCCLAN is a structure all PC's in clans have */
 typedef struct _pcclan {
-    CLAN *clan;
+    const CLAN *clan;
     int clanlevel;
     int channelflags;
 } PCCLAN;

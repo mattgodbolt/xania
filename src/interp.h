@@ -44,7 +44,7 @@ extern void do_allege(CHAR_DATA *ch, char *arg);
 extern void do_allow(CHAR_DATA *ch, char *arg);
 extern void do_announce(CHAR_DATA *ch, char *arg);
 extern void do_answer(CHAR_DATA *ch, char *arg);
-extern void do_areas(CHAR_DATA *ch, char *arg);
+extern void do_areas(CHAR_DATA *ch, const char *arg);
 extern void do_at(CHAR_DATA *ch, char *arg);
 extern void do_auction(CHAR_DATA *ch, char *arg);
 extern void do_autoaffect(CHAR_DATA *ch, char *arg);

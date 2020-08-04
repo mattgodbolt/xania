@@ -226,7 +226,7 @@ void boot_db() {
     maxfilelimit();
 
     /* Init some data space stuff. */
-    if ((string_space = calloc(1, MAX_STRING)) == nullptr) {
+    if ((string_space = static_cast<char *>(calloc(1, MAX_STRING))) == nullptr) {
         bug("Boot_db: can't alloc %d string space.", MAX_STRING);
         exit(1);
     }
@@ -377,7 +377,7 @@ void boot_db() {
 void load_area(FILE *fp) {
     AREA_DATA *pArea;
 
-    pArea = alloc_perm(sizeof(*pArea));
+    pArea = static_cast<AREA_DATA *>(alloc_perm(sizeof(*pArea)));
 
     fread_string(fp); /* OLC - filename */
     pArea->areaname = fread_string(fp); /* OLC - area name */
@@ -426,7 +426,7 @@ void load_helps(FILE *fp) {
     HELP_DATA *pHelp;
 
     for (;;) {
-        pHelp = alloc_perm(sizeof(*pHelp));
+        pHelp = static_cast<HELP_DATA *>(alloc_perm(sizeof(*pHelp)));
 
         if (area_header_found)
             pHelp->area = area_last ? area_last : nullptr; /* OLC */
@@ -482,7 +482,7 @@ void load_old_mob(FILE *fp) {
         }
         fBootDb = true;
 
-        pMobIndex = alloc_perm(sizeof(*pMobIndex));
+        pMobIndex = static_cast<MOB_INDEX_DATA *>(alloc_perm(sizeof(*pMobIndex)));
         pMobIndex->vnum = vnum;
         pMobIndex->new_format = false;
         pMobIndex->player_name = fread_string(fp);
@@ -598,7 +598,7 @@ void load_old_mob_race(FILE *fp) {
         }
         fBootDb = true;
 
-        pMobIndex = alloc_perm(sizeof(*pMobIndex));
+        pMobIndex = static_cast<MOB_INDEX_DATA *>(alloc_perm(sizeof(*pMobIndex)));
         pMobIndex->vnum = vnum;
         pMobIndex->new_format = false;
         pMobIndex->player_name = fread_string(fp);
@@ -712,7 +712,7 @@ void load_old_obj(FILE *fp) {
         }
         fBootDb = true;
 
-        pObjIndex = alloc_perm(sizeof(*pObjIndex));
+        pObjIndex = static_cast<OBJ_INDEX_DATA *>(alloc_perm(sizeof(*pObjIndex)));
         pObjIndex->vnum = vnum;
         pObjIndex->new_format = false;
         pObjIndex->reset_num = 0;
@@ -766,7 +766,7 @@ void load_old_obj(FILE *fp) {
             if (letter == 'A') {
                 AFFECT_DATA *paf;
 
-                paf = alloc_perm(sizeof(*paf));
+                paf = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf)));
                 paf->type = -1;
                 paf->level = 20; /* RT temp fix */
                 paf->duration = -1;
@@ -781,7 +781,7 @@ void load_old_obj(FILE *fp) {
             else if (letter == RESETS_EQUIP_OBJ_MOB) {
                 EXTRA_DESCR_DATA *ed;
 
-                ed = alloc_perm(sizeof(*ed));
+                ed = static_cast<EXTRA_DESCR_DATA *>(alloc_perm(sizeof(*ed)));
                 ed->keyword = fread_string(fp);
                 ed->description = fread_string(fp);
                 ed->next = pObjIndex->extra_descr;
@@ -886,7 +886,7 @@ void load_resets(FILE *fp) {
             continue;
         }
 
-        pReset = alloc_perm(sizeof(*pReset));
+        pReset = static_cast<RESET_DATA *>(alloc_perm(sizeof(*pReset)));
         pReset->command = letter;
         /* if_flag */ fread_number(fp);
         pReset->arg1 = fread_number(fp);
@@ -1088,7 +1088,7 @@ void load_rooms(FILE *fp) {
         }
         fBootDb = true;
 
-        pRoomIndex = alloc_perm(sizeof(*pRoomIndex));
+        pRoomIndex = static_cast<ROOM_INDEX_DATA *>(alloc_perm(sizeof(*pRoomIndex)));
         pRoomIndex->people = nullptr;
         pRoomIndex->contents = nullptr;
         pRoomIndex->extra_descr = nullptr;
@@ -1122,7 +1122,7 @@ void load_rooms(FILE *fp) {
                     exit(1);
                 }
 
-                pexit = alloc_perm(sizeof(*pexit));
+                pexit = static_cast<EXIT_DATA *>(alloc_perm(sizeof(*pexit)));
                 pexit->description = fread_string(fp);
                 pexit->keyword = fread_string(fp);
                 pexit->exit_info = 0;
@@ -1147,7 +1147,7 @@ void load_rooms(FILE *fp) {
             } else if (letter == 'E') {
                 EXTRA_DESCR_DATA *ed;
 
-                ed = alloc_perm(sizeof(*ed));
+                ed = static_cast<EXTRA_DESCR_DATA *>(alloc_perm(sizeof(*ed)));
                 ed->keyword = fread_string(fp);
                 ed->description = fread_string(fp);
                 ed->next = pRoomIndex->extra_descr;
@@ -1174,7 +1174,7 @@ void load_shops(FILE *fp) {
         MOB_INDEX_DATA *pMobIndex;
         int iTrade;
 
-        pShop = alloc_perm(sizeof(*pShop));
+        pShop = static_cast<SHOP_DATA *>(alloc_perm(sizeof(*pShop)));
         pShop->keeper = fread_number(fp);
         if (pShop->keeper == 0)
             break;
@@ -1586,7 +1586,7 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
     }
 
     if (char_free == nullptr) {
-        mob = alloc_perm(sizeof(*mob));
+        mob = static_cast<CHAR_DATA *>(alloc_perm(sizeof(*mob)));
     } else {
         mob = char_free;
         char_free = char_free->next;
@@ -1807,7 +1807,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex, int level) {
     }
 
     if (obj_free == nullptr) {
-        obj = alloc_perm(sizeof(*obj));
+        obj = static_cast<OBJ_DATA *>(alloc_perm(sizeof(*obj)));
     } else {
         obj = obj_free;
         obj_free = obj_free->next;
@@ -2639,7 +2639,7 @@ void *alloc_perm(int sMem) {
 
     if (pMemPerm == nullptr || iMemPerm + sMem > MAX_PERM_BLOCK) {
         iMemPerm = 0;
-        if ((pMemPerm = calloc(1, MAX_PERM_BLOCK)) == nullptr) {
+        if ((pMemPerm = static_cast<char *>(calloc(1, MAX_PERM_BLOCK))) == nullptr) {
             perror("Alloc_perm");
             exit(1);
         }
@@ -2665,7 +2665,7 @@ char *str_dup(const char *str) {
     if (str >= string_space && str < top_string)
         return (char *)str;
 
-    str_new = alloc_mem(strlen(str) + 1);
+    str_new = static_cast<char *>(alloc_mem(strlen(str) + 1));
     strcpy(str_new, str);
     return str_new;
 }
@@ -2684,7 +2684,7 @@ void free_string(char *pstr) {
 }
 
 // Now takes parameters (TM was 'ere 10/00)
-void do_areas(CHAR_DATA *ch, char *argument) {
+void do_areas(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH], cmdBuf[MAX_STRING_LENGTH];
     const char *pArea1rating, *pArea2rating;
     AREA_DATA *pArea1;
