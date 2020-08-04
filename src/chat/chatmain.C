@@ -25,7 +25,7 @@ int random(int x) { return rand() % x; }
 
 eliza chatter;
 
-void startchat(char *filename) {
+void startchat(const char *filename) {
     char buf[] = "";
     chatter.reducespaces(buf);
     chatter.loaddata(filename);

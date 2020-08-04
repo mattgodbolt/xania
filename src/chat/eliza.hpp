@@ -52,11 +52,9 @@ public:
   void addrest(char* replied, char* talker,
 		       const char* rep, char* target,char* rest);
 public:
-
-
-  bool loaddata(char*,char recurflag=0);
-  const char* processdbase(char* talker,char* message,char* target,int dbase);
-  const char* process(char* talker,char* message,char* target)    {
+    bool loaddata(const char *, char recurflag = 0);
+    const char *processdbase(char *talker, char *message, char *target, int dbase);
+    const char* process(char* talker,char* message,char* target)    {
 #ifdef USE_EX_SEARCH	
     return processdbase(talker,message,target,getanyname(talker));
 #else

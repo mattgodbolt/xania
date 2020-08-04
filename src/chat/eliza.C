@@ -239,7 +239,7 @@ const char *eliza::processdbase(char *talker, char *message, char *target, int d
     return replied;
 }
 
-bool eliza::loaddata(char file[], char recurflag) {
+bool eliza::loaddata(const char file[], char recurflag) {
     // NOTE!!!! numdbases is the count of dbases!!!
     if (numdbases >= maxdbases)
         return false;
