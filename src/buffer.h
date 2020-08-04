@@ -10,10 +10,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef struct char_data CHAR_DATA;
 
 typedef struct _BUFFER {
@@ -48,7 +44,3 @@ void buffer_shrink(BUFFER *buffer);
 
 /* Pages the buffer to the given char, and then destroys the buffer. */
 void buffer_send(BUFFER *buffer, CHAR_DATA *ch);
-
-#ifdef __cplusplus
-}
-#endif

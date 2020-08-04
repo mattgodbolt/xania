@@ -36,10 +36,6 @@
 #include <time.h>
 #include <unistd.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * Function pointer for commands run by the interpreter, the do_ functions.
  */
@@ -2298,10 +2294,6 @@ void mprog_speech_trigger(char *txt, CHAR_DATA *mob);
 #undef OD
 #undef OID
 #undef RID
-
-#ifdef __cplusplus
-};
-#endif
 
 #include "chat/chatlink.h"
 
