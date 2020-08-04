@@ -61,9 +61,6 @@ typedef bool (*SpecialFunc)(CHAR_DATA *ch);
  */
 
 typedef short int sh_int;
-#ifndef __cplusplus
-typedef unsigned char bool;
-#endif
 
 /* Buffer structure */
 typedef struct _BUFFER BUFFER;
@@ -2074,11 +2071,7 @@ bool is_safe(CHAR_DATA *ch, CHAR_DATA *victim);
 bool is_safe_spell(CHAR_DATA *ch, CHAR_DATA *victim, bool area);
 void violence_update(void);
 void multi_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt);
-#ifndef __cplusplus
-bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int class);
-#else
 bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int _class);
-#endif
 void update_pos(CHAR_DATA *victim);
 void stop_fighting(CHAR_DATA *ch, bool fBoth);
 void do_chal_tick(void);

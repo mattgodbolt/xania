@@ -12,9 +12,6 @@
 /* Structures for news - mostly self-explanatory */
 
 // TODO extract and make this not terrible. taken from merc.h
-#ifndef __cplusplus
-typedef unsigned char bool;
-#endif
 typedef struct char_data CHAR_DATA;
 
 extern int cur_msg_id;
