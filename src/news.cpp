@@ -33,8 +33,8 @@ ARTICLE *article_free = nullptr;
 THREAD *thread_head = nullptr;
 
 int cur_msg_id; // Current message ID - must be completely unique across whole Mud
-static char *news_name = "news"; // The name of the command being used - either 'news' or 'mail' to
-                                 // allow players with speed-walkers access to the news commands
+static const char *news_name = "news"; // The name of the command being used - either 'news' or 'mail' to
+                                       // allow players with speed-walkers access to the news commands
 
 /* Create a new, blank thread, not chained onto the global linked list */
 THREAD *new_thread() {
@@ -238,7 +238,7 @@ void do_mail(CHAR_DATA *ch, char *argument) {
 /* ------------- The actual 'do' routines -------------- */
 
 /* Find the next item of news to read */
-void do_news_next(CHAR_DATA *ch, char *argument) {
+void do_news_next(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
     if (ch->thread == nullptr) { // The user has already 'fallen off' the end of the
