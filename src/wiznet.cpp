@@ -104,7 +104,7 @@ void print_status(CHAR_DATA *ch, const char *name, const char *master_name, int 
     send_to_char(buff, ch);
 }
 
-static void print_wiznet_statusline(CHAR_DATA *ch, char *name, int state) {
+static void print_wiznet_statusline(CHAR_DATA *ch, const char *name, int state) {
     print_status(ch, name, "wiznet is off", state, is_set_extra(ch, EXTRA_WIZNET_ON));
 }
 
@@ -134,7 +134,7 @@ void wiznet_off(CHAR_DATA *ch) {
     send_to_char("|cWIZNET is now |rOFF|c.|w\n\r", ch);
 }
 
-static void toggle_wizchan(CHAR_DATA *ch, int flag, char *name) {
+static void toggle_wizchan(CHAR_DATA *ch, int flag, const char *name) {
     char buf[MAX_STRING_LENGTH];
 
     if (is_set_extra(ch, flag)) {
@@ -164,13 +164,13 @@ void wiznet_initialise() {
         bug("wiznet_initialise: couldn't create trie.");
         exit(1);
     }
-    trie_add(trie, "on", wiznet_on, 0);
-    trie_add(trie, "off", wiznet_off, 0);
-    trie_add(trie, "bug", wiznet_bug, 0);
-    trie_add(trie, "debug", wiznet_debug, 0);
-    trie_add(trie, "mortal", wiznet_mortal, 0);
-    trie_add(trie, "immortal", wiznet_immortal, 0);
-    trie_add(trie, "tick", wiznet_tick, 0);
+    trie_add(trie, "on", (void *)wiznet_on, 0);
+    trie_add(trie, "off", (void *)wiznet_off, 0);
+    trie_add(trie, "bug", (void *)wiznet_bug, 0);
+    trie_add(trie, "debug", (void *)wiznet_debug, 0);
+    trie_add(trie, "mortal", (void *)wiznet_mortal, 0);
+    trie_add(trie, "immortal", (void *)wiznet_immortal, 0);
+    trie_add(trie, "tick", (void *)wiznet_tick, 0);
 }
 
 void do_wiznet(CHAR_DATA *ch, char *argument) {
@@ -179,7 +179,7 @@ void do_wiznet(CHAR_DATA *ch, char *argument) {
 
     argument = one_argument(argument, arg);
 
-    wiznet_fn = trie_get(trie, arg, 0);
+    wiznet_fn = (wiznet_fn_t *)trie_get(trie, arg, 0);
     if (wiznet_fn) {
         wiznet_fn(ch);
     } else {
