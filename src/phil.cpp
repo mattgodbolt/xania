@@ -20,8 +20,8 @@
 /* Note also the cludgy hack so that Phil doesn't become interested in himself and ignore other people around him who */
 /* don't have a special interest. */
 #define PEOPLEONLIST 6
-char *nameList[] = {"Forrey", "Faramir", "TheMoog", "Death", "Luxor", "Phil"};
-int interestList[] = {1000, 900, 900, 850, 900, 0};
+const char *nameList[] = {"Forrey", "Faramir", "TheMoog", "Death", "Luxor", "Phil"};
+const int interestList[] = {1000, 900, 900, 850, 900, 0};
 
 /* Internal data for calculating what to do at any particular point in time. */
 int sleepiness = 500;
@@ -34,7 +34,7 @@ int boredness = 500;
 #define SLEEP_PT_ASLEEP 10
 #define SLEEP_PT_AWAKE 3
 
-char *randomSocial() {
+const char *randomSocial() {
     switch (number_range(1, 6)) {
     case 1: return "gack";
     case 2: return "gibber";
@@ -57,7 +57,7 @@ bool doSleepActions(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
     if (ch->position == POS_SLEEPING) {
         sleepiness -= SLEEP_PT_ASLEEP;
         if (sleepFactor < WAKE_AT) {
-            do_wake(ch, "\0");
+            do_wake(ch, "");
             return true;
         }
         if (sleepFactor < STIR_AT) {
@@ -93,11 +93,11 @@ bool doSleepActions(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
     }
     if (sleepFactor > YAWN_AT) {
         if (random > 97) {
-            check_social(ch, "yawn", "\0");
+            check_social(ch, "yawn", "");
             return true;
         }
         if (random > 94) {
-            check_social(ch, "stretch", "\0");
+            check_social(ch, "stretch", "");
             return true;
         }
     }

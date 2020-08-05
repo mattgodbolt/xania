@@ -277,7 +277,7 @@ extern void do_up(CHAR_DATA *ch, char *arg);
 extern void do_value(CHAR_DATA *ch, char *arg);
 extern void do_visible(CHAR_DATA *ch, char *arg);
 extern void do_vnum(CHAR_DATA *ch, char *arg);
-extern void do_wake(CHAR_DATA *ch, char *arg);
+extern void do_wake(CHAR_DATA *ch, const char *arg);
 extern void do_wear(CHAR_DATA *ch, char *arg);
 extern void do_weather(CHAR_DATA *ch, const char *argument);
 extern void do_west(CHAR_DATA *ch, char *arg);
@@ -311,7 +311,7 @@ extern void do_clanset(CHAR_DATA *ch, char *arg);
 
 /* Misc stuff */
 extern void announce(const char *buf, CHAR_DATA *ch);
-bool check_social(CHAR_DATA *ch, char *command, char *arg);
+bool check_social(CHAR_DATA *ch, const char *command, const char *arg);
 
 /* OLC */
 

@@ -19,8 +19,6 @@
 #include <sys/types.h>
 #include <time.h>
 
-bool check_social(CHAR_DATA *ch, char *command, char *argument);
-
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
 bool MP_Commands(CHAR_DATA *ch);
 
@@ -519,7 +517,7 @@ void interpret(CHAR_DATA *ch, char *argument) {
     tail_chain();
 }
 
-static const struct social_type *find_social(char *name) {
+static const struct social_type *find_social(const char *name) {
     int cmd;
 
     for (cmd = 0; social_table[cmd].name[0] != '\0'; cmd++) {
@@ -530,7 +528,7 @@ static const struct social_type *find_social(char *name) {
     return nullptr;
 }
 
-bool check_social(CHAR_DATA *ch, char *command, char *argument) {
+bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     const struct social_type *social;
