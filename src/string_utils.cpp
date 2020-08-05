@@ -63,9 +63,7 @@ std::string smash_tilde(std::string_view str) {
 }
 
 std::string skip_whitespace(std::string_view str) {
-    while (!str.empty() && isspace(str.front()))
-        str.remove_prefix(1);
-    return std::string(str);
+    return std::string(std::find_if(str.begin(), str.end(), [](auto ch) { return !std::isspace(ch); }), str.end());
 }
 
 std::string remove_last_line(std::string_view str) {

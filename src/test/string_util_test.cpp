@@ -66,6 +66,11 @@ TEST_CASE("Interpreter tests") {
             CHECK(skip_whitespace("   bad ger") == "bad ger");
             CHECK(skip_whitespace(" \t\nbadger") == "badger");
         }
+        SECTION("should work with entirely whitespace") {
+            CHECK(skip_whitespace("   ") == "");
+            CHECK(skip_whitespace(" \n\n\r") == "");
+            CHECK(skip_whitespace("\t\t") == "");
+        }
     }
 
     SECTION("smashes tildes") {
