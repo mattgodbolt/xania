@@ -71,7 +71,7 @@ extern void do_cast(CHAR_DATA *ch, const char *argument);
 extern void do_challenge(CHAR_DATA *ch, char *arg);
 extern void do_cancel_chal(CHAR_DATA *ch, char *arg);
 extern void do_changes(CHAR_DATA *ch, char *arg);
-extern void do_channels(CHAR_DATA *ch, char *arg);
+extern void do_channels(CHAR_DATA *ch, const char *argument);
 /*void  do_clipboard(CHAR_DATA* ch, char* arg); */
 extern void do_clone(CHAR_DATA *ch, char *arg);
 extern void do_close(CHAR_DATA *ch, char *arg);

@@ -32,7 +32,7 @@ BAN_DATA *new_ban() {
     BAN_DATA *res;
     res = (BAN_DATA *)(malloc(sizeof(BAN_DATA)));
     res->level = 0;
-    res->name = "";
+    res->name = nullptr;
     res->next = nullptr;
     res->ban_flags = 0;
     return res;

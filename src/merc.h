@@ -264,7 +264,7 @@ struct str_app_type {
 
 struct materials_type {
     sh_int magical_resilience;
-    char *material_name;
+    const char *material_name;
 };
 
 struct int_app_type {
@@ -332,7 +332,7 @@ struct shop_data {
 #define STAT_CON 4
 
 struct class_type {
-    char *name; /* the full name of the class */
+    const char *name; /* the full name of the class */
     char who_name[4]; /* Three-letter name for 'who'  */
     sh_int attr_prime; /* Prime attribute              */
     sh_int weapon; /* First weapon                 */
@@ -343,55 +343,53 @@ struct class_type {
     sh_int hp_min; /* Min hp gained on leveling    */
     sh_int hp_max; /* Max hp gained on leveling    */
     sh_int fMana; /* Class gains mana on level    */
-    char *base_group; /* base skills gained           */
-    char *default_group; /* default skills gained        */
+    const char *base_group; /* base skills gained           */
+    const char *default_group; /* default skills gained        */
 };
 
 struct attack_type {
-    char *name; /* message in the area file */
-    char *noun; /* message in the mud */
+    const char *name; /* message in the area file */
+    const char *noun; /* message in the mud */
     int damage; /* damage class */
 };
 
 #define MAX_DAM 18 /* this should really be down below with dam types*/
 
 struct dam_string_type {
-
     int amount; /* the amount of damage inflicted */
     /* followed by the nice groovy descriptions */
-    char *dam_types[MAX_DAM];
+    const char *dam_types[MAX_DAM];
 };
 
 struct race_body_type {
-
-    long part_flag; /* one of the PART_* */
-    char *name; /* verbose string */
+    unsigned long part_flag; /* one of the PART_* */
+    const char *name; /* verbose string */
     bool pair; /* do we normally find a pair of these? e.g. arm*/
     sh_int pos; /* lower = 1, middle = 2, upper = 3 */
-    char *spill_msg; /* msg when victim killed */
+    const char *spill_msg; /* msg when victim killed */
     int obj_vnum; /* object to deposit when dead */
 };
 
 struct race_type {
-    char *name; /* call name of the race */
+    const char *name; /* call name of the race */
     bool pc_race; /* can be chosen by pcs */
-    long act; /* act bits for the race */
-    long aff; /* aff bits for the race */
-    long off; /* off bits for the race */
-    long imm; /* imm bits for the race */
-    long res; /* res bits for the race */
-    long vuln; /* vuln bits for the race */
-    long form; /* default form flag for the race */
-    long parts; /* default parts for the race */
+    unsigned long act; /* act bits for the race */
+    unsigned long aff; /* aff bits for the race */
+    unsigned long off; /* off bits for the race */
+    unsigned long imm; /* imm bits for the race */
+    unsigned long res; /* res bits for the race */
+    unsigned long vuln; /* vuln bits for the race */
+    unsigned long form; /* default form flag for the race */
+    unsigned long parts; /* default parts for the race */
 };
 
 struct pc_race_type /* additional data for pc races */
 {
-    char *name; /* MUST be in race_type */
+    const char *name; /* MUST be in race_type */
     char who_name[6];
     sh_int points; /* cost in points of the race */
     sh_int class_mult[MAX_CLASS]; /* exp multiplier for class, * 100 */
-    char *skills[5]; /* bonus skills for the race */
+    const char *skills[5]; /* bonus skills for the race */
     sh_int stats[MAX_STATS]; /* starting stats */
     sh_int max_stats[MAX_STATS]; /* maximum stats */
     sh_int size; /* aff bits for the race */
@@ -1468,8 +1466,8 @@ struct known_players {
 #define LIQ_MAX 17
 
 struct liq_type {
-    char *liq_name;
-    char *liq_color;
+    const char *liq_name;
+    const char *liq_color;
     sh_int liq_affect[3];
 };
 
@@ -1611,8 +1609,7 @@ struct area_data {
 /* tip wizard type - Faramir Sep 21 1998 */
 
 typedef struct _tip_type {
-
-    char *tip;
+    const char *tip;
     struct _tip_type *next;
 } TIP_TYPE;
 
@@ -1679,7 +1676,7 @@ struct note_data {
  * Skills include spells as a particular case.
  */
 struct skill_type {
-    char *name; /* Name of skill                */
+    const char *name; /* Name of skill                */
     sh_int skill_level[MAX_CLASS]; /* Level needed by class        */
     sh_int rating[MAX_CLASS]; /* How hard it is to learn      */
 
@@ -1695,7 +1692,7 @@ struct skill_type {
 };
 
 struct group_type {
-    char *name;
+    const char *name;
     sh_int rating[MAX_CLASS];
     const char *spells[MAX_IN_GROUP];
 };
@@ -1865,7 +1862,7 @@ extern const struct liq_type liq_table[LIQ_MAX + 1];
 extern const struct skill_type skill_table[MAX_SKILL];
 extern const struct group_type group_table[MAX_GROUP];
 extern struct social_type social_table[MAX_SOCIALS];
-extern char *const title_table[MAX_CLASS][MAX_LEVEL + 1][2];
+extern const char *title_table[MAX_CLASS][MAX_LEVEL + 1][2];
 
 struct flag_type {
     const char *name;

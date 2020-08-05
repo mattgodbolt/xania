@@ -420,7 +420,7 @@ const struct class_type class_table[MAX_CLASS] = {{"mage",
 /*
  * Titles.
  */
-char *const title_table[MAX_CLASS][MAX_LEVEL + 1][2] = {{{"Man", "Woman"},
+const char *title_table[MAX_CLASS][MAX_LEVEL + 1][2] = {{{"Man", "Woman"},
 
                                                          {"Apprentice of Magic", "Apprentice of Magic"},
                                                          {"Apprentice of Magic", "Apprentice of Magic"},
@@ -1001,7 +1001,7 @@ const struct liq_type liq_table[] = {{"water", "clear", {0, 1, 10}}, /*  0 */
                                      {"red wine", "red", {5, 2, 5}}
                                      /* 16 */
                                      ,
-                                     {0}};
+                                     {nullptr, nullptr}};
 
 /*
  * The skill and spell table.

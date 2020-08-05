@@ -84,7 +84,7 @@ void log_new(const char *str, int loglevel, int level) {
     }
 }
 
-void print_status(CHAR_DATA *ch, char *name, char *master_name, int state, int master_state) {
+void print_status(CHAR_DATA *ch, const char *name, const char *master_name, int state, int master_state) {
     char buff[MAX_STRING_LENGTH];
     const size_t prefix_len = 16;
 

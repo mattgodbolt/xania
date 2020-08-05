@@ -7,13 +7,10 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "interp.h"
 #include "merc.h"
+#include <cstdio>
 #include <memory.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/time.h>
-
-void do_afk(CHAR_DATA *ch, char *arg);
 
 /* User servicable bits... you will also need to change the NUM_CLANS in clan.h */
 

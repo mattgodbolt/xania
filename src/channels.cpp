@@ -7,25 +7,18 @@
 /*                                                                       */
 /*************************************************************************/
 
-/* initial: 742 lines long */
-/* final: 246 lines long */
-
+#include "interp.h"
 #include "merc.h"
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
 
-void do_afk(CHAR_DATA *ch, char *arg);
+#include <cstdio>
 
-extern void print_status(CHAR_DATA *ch, char *name, char *master_name, int state, int master_state);
+extern void print_status(CHAR_DATA *ch, const char *name, const char *master_name, int state, int master_state);
 
-static void print_channel_status(CHAR_DATA *ch, char *chan, int reference, int flag) {
+static void print_channel_status(CHAR_DATA *ch, const char *chan, unsigned long reference, unsigned long flag) {
     print_status(ch, chan, "OFF due to quiet mode", !IS_SET(reference, flag), !IS_SET(ch->comm, COMM_QUIET));
 }
 
-void do_channels(CHAR_DATA *ch, char *argument) {
+void do_channels(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     PCCLAN *OrigClan;
 
