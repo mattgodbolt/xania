@@ -9,8 +9,8 @@
 
 #include "magic.h"
 #include "challeng.h"
-#include "merc.h"
 #include "interp.h"
+#include "merc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -49,7 +49,7 @@ void say_spell(CHAR_DATA *ch, int sn) {
         {"w", "x"},        {"x", "n"},        {"y", "l"},       {"z", "k"},        {"", ""}};
 
     buf[0] = '\0';
-    for (const char* pName = skill_table[sn].name; *pName != '\0'; pName += length) {
+    for (const char *pName = skill_table[sn].name; *pName != '\0'; pName += length) {
         for (int iSyl = 0; (length = strlen(syl_table[iSyl].old)) != 0; iSyl++) {
             if (!str_prefix(syl_table[iSyl].old, pName)) {
                 strcat(buf, syl_table[iSyl].new_t);
@@ -2022,7 +2022,7 @@ void spell_enchant_armor(int sn, int level, CHAR_DATA *ch, void *vo) {
 
         for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
             if (affect_free == nullptr)
-                af_new = (AFFECT_DATA*)alloc_perm(sizeof(*af_new));
+                af_new = (AFFECT_DATA *)alloc_perm(sizeof(*af_new));
             else {
                 af_new = affect_free;
                 affect_free = affect_free->next;
@@ -2073,7 +2073,7 @@ void spell_enchant_armor(int sn, int level, CHAR_DATA *ch, void *vo) {
     } else /* add a new affect */
     {
         if (affect_free == nullptr)
-            paf = (AFFECT_DATA*)alloc_perm(sizeof(*paf));
+            paf = (AFFECT_DATA *)alloc_perm(sizeof(*paf));
         else {
             paf = affect_free;
             affect_free = affect_free->next;
@@ -2228,7 +2228,7 @@ void spell_enchant_weapon(int sn, int level, CHAR_DATA *ch, void *vo) {
 
         for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
             if (affect_free == nullptr)
-                af_new = (AFFECT_DATA*)alloc_perm(sizeof(*af_new));
+                af_new = (AFFECT_DATA *)alloc_perm(sizeof(*af_new));
             else {
                 af_new = affect_free;
                 affect_free = affect_free->next;
@@ -2281,7 +2281,7 @@ void spell_enchant_weapon(int sn, int level, CHAR_DATA *ch, void *vo) {
     } else /* add a new affect */
     {
         if (affect_free == nullptr)
-            paf = (AFFECT_DATA*)alloc_perm(sizeof(*paf));
+            paf = (AFFECT_DATA *)alloc_perm(sizeof(*paf));
         else {
             paf = affect_free;
             affect_free = affect_free->next;
@@ -2310,7 +2310,7 @@ void spell_enchant_weapon(int sn, int level, CHAR_DATA *ch, void *vo) {
     } else /* add a new affect */
     {
         if (affect_free == nullptr)
-            paf = (AFFECT_DATA*)alloc_perm(sizeof(*paf));
+            paf = (AFFECT_DATA *)alloc_perm(sizeof(*paf));
         else {
             paf = affect_free;
             affect_free = affect_free->next;

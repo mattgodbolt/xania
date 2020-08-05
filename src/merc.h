@@ -2152,7 +2152,7 @@ void tolower_articles(char *string);
 void load_player_list();
 
 /* interp.c */
-void interpret(CHAR_DATA *ch, char *argument);
+void interpret(CHAR_DATA *ch, const char *argument);
 const char *one_argument(const char *argument, char *arg_first);
 char *one_argument(char *argument, char *arg_first); // TODO(MRG) get rid of this as soon as we can.
 

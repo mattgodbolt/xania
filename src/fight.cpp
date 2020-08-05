@@ -8,8 +8,8 @@
 /*************************************************************************/
 
 #include "challeng.h"
-#include "merc.h"
 #include "interp.h"
+#include "merc.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
