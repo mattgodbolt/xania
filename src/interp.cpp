@@ -11,23 +11,18 @@
 #include "merc.h"
 #include "note.h"
 #include "trie.h"
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string_view>
-#include <sys/types.h>
-#include <time.h>
+
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <functional>
+#include <utility>
 
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
 bool MP_Commands(CHAR_DATA *ch);
 
-/*
- * Command logging types.
- */
-#define LOG_NORMAL 0
-#define LOG_ALWAYS 1
-#define LOG_NEVER 2
+enum class CommandLogLevel { Normal, Always, Never };
 
 /*
  * Log-all switch.
@@ -44,33 +39,29 @@ static const char *bad_position_string[] = {"Lie still; you are DEAD.\n\r",
                                             "No way!  You are still fighting!\n\r",
                                             "You're standing.\n\r"};
 
-typedef struct cmd_type {
+// Function object for commands run by the interpreter, the do_ functions.
+// argument is modified (currently) by some of the text processing routines. TODO make into a const.
+using CommandFunc = std::function<void(CHAR_DATA *ch, char *argument)>;
+
+struct CommandInfo {
     const char *name;
     CommandFunc do_fun;
     sh_int position;
     sh_int level;
-    sh_int log;
+    CommandLogLevel log;
     bool show;
-} cmd_type_t;
+    CommandInfo(const char *name, CommandFunc do_fun, sh_int position, sh_int level, CommandLogLevel log, bool show)
+        : name(name), do_fun(std::move(do_fun)), position(position), level(level), log(log), show(show) {}
+};
 
 /* Trie-based version of command table -- Forrey, Sun Mar 19 21:43:10 CET 2000 */
 
 static void *cmd_trie;
 
-static void add_command(const char *name, CommandFunc do_fun, sh_int position, sh_int level, sh_int log, bool show) {
-    cmd_type_t *cmd = malloc(sizeof(cmd_type_t));
-    if (!cmd) {
-        bug("Couldn't claim memory for new command \"%s\".", name);
-        exit(1);
-    }
-    cmd->name = name;
-    cmd->do_fun = do_fun;
-    cmd->position = position;
-    cmd->level = level;
-    cmd->log = log;
-    cmd->show = show;
-
-    trie_add(cmd_trie, name, cmd, level);
+static void add_command(const char *name, CommandFunc do_fun, sh_int position = POS_DEAD, sh_int level = 0,
+                        CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
+    // TODO: avoid the naked new here. Make trie templatized?
+    trie_add(cmd_trie, name, new CommandInfo(name, std::move(do_fun), position, level, log, show), level);
 }
 
 void interp_initialise() {
@@ -81,327 +72,327 @@ void interp_initialise() {
     }
 
     /* Common movement commands. */
-    add_command("north", do_north, POS_STANDING, 0, LOG_NEVER, 0);
-    add_command("east", do_east, POS_STANDING, 0, LOG_NEVER, 0);
-    add_command("south", do_south, POS_STANDING, 0, LOG_NEVER, 0);
-    add_command("west", do_west, POS_STANDING, 0, LOG_NEVER, 0);
-    add_command("up", do_up, POS_STANDING, 0, LOG_NEVER, 0);
-    add_command("down", do_down, POS_STANDING, 0, LOG_NEVER, 0);
+    add_command("north", do_north, POS_STANDING, 0, CommandLogLevel::Never, false);
+    add_command("east", do_east, POS_STANDING, 0, CommandLogLevel::Never, false);
+    add_command("south", do_south, POS_STANDING, 0, CommandLogLevel::Never, false);
+    add_command("west", do_west, POS_STANDING, 0, CommandLogLevel::Never, false);
+    add_command("up", do_up, POS_STANDING, 0, CommandLogLevel::Never, false);
+    add_command("down", do_down, POS_STANDING, 0, CommandLogLevel::Never, false);
 
     /* Common other commands.
      * Placed here so one and two letter abbreviations work.
      */
-    add_command("at", do_at, POS_DEAD, L6, LOG_NORMAL, 1);
-    add_command("auction", do_auction, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("buy", do_buy, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("cast", do_cast, POS_FIGHTING, 0, LOG_NORMAL, 1);
-    add_command("channels", do_channels, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("exits", do_exits, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("get", do_get, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("goto", do_goto, POS_DEAD, L8, LOG_NORMAL, 1);
-    add_command("group", do_group, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("hit", do_kill, POS_FIGHTING, 0, LOG_NORMAL, 0);
-    add_command("inventory", do_inventory, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("kill", do_kill, POS_FIGHTING, 0, LOG_NORMAL, 1);
-    add_command("look", do_look, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("music", do_music, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("order", do_order, POS_RESTING, 0, LOG_ALWAYS, 1);
-    add_command("peek", do_peek, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("practice", do_practice, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("rest", do_rest, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("score", do_score, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("scan", do_scan, POS_FIGHTING, 0, LOG_NORMAL, 1);
-    add_command("sit", do_sit, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("sockets", do_sockets, POS_DEAD, L4, LOG_NORMAL, 1);
-    add_command("stand", do_stand, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("tell", do_tell, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("wield", do_wear, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("wizhelp", do_wizhelp, POS_DEAD, HE, LOG_NORMAL, 1);
-    add_command("wiznet", do_wiznet, POS_DEAD, L8, LOG_NORMAL, 1);
+    add_command("at", do_at, POS_DEAD, L6);
+    add_command("auction", do_auction, POS_SLEEPING);
+    add_command("buy", do_buy, POS_RESTING);
+    add_command("cast", do_cast, POS_FIGHTING);
+    add_command("channels", do_channels);
+    add_command("exits", do_exits, POS_RESTING);
+    add_command("get", do_get, POS_RESTING);
+    add_command("goto", do_goto, POS_DEAD, L8);
+    add_command("group", do_group, POS_SLEEPING);
+    add_command("hit", do_kill, POS_FIGHTING, 0, CommandLogLevel::Normal, false);
+    add_command("inventory", do_inventory);
+    add_command("kill", do_kill, POS_FIGHTING);
+    add_command("look", do_look, POS_RESTING);
+    add_command("music", do_music, POS_SLEEPING);
+    add_command("order", do_order, POS_RESTING, 0, CommandLogLevel::Always);
+    add_command("peek", do_peek, POS_RESTING);
+    add_command("practice", do_practice, POS_SLEEPING);
+    add_command("rest", do_rest, POS_SLEEPING);
+    add_command("score", do_score);
+    add_command("scan", do_scan, POS_FIGHTING);
+    add_command("sit", do_sit, POS_SLEEPING);
+    add_command("sockets", do_sockets, POS_DEAD, L4);
+    add_command("stand", do_stand, POS_SLEEPING);
+    add_command("tell", do_tell);
+    add_command("wield", do_wear, POS_RESTING);
+    add_command("wizhelp", do_wizhelp, POS_DEAD, HE);
+    add_command("wiznet", do_wiznet, POS_DEAD, L8);
 
     /* Informational commands. */
-    add_command("affect", do_affected, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("areas", do_areas, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("alist", do_alist, POS_DEAD, 1, LOG_NORMAL, 1);
-    add_command("bug", do_bug, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("changes", do_changes, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("commands", do_commands, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("compare", do_compare, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("consider", do_consider, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("count", do_count, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("credits", do_credits, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("equipment", do_equipment, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("examine", do_examine, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("finger", do_finger, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("help", do_help, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("idea", do_idea, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("info", do_groups, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("motd", do_motd, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("read", do_read, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("report", do_report, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("rules", do_rules, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("skills", do_skills, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("socials", do_socials, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("spells", do_spells, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("story", do_story, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("time", do_time, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("timezone", do_timezone, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("tipwizard", do_tipwizard, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("tips", do_tipwizard, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("typo", do_typo, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("weather", do_weather, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("who", do_who, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("whois", do_whois, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("wizlist", do_wizlist, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("worth", do_worth, POS_SLEEPING, 0, LOG_NORMAL, 1);
+    add_command("affect", do_affected);
+    add_command("areas", do_areas);
+    add_command("alist", do_alist, POS_DEAD);
+    add_command("bug", do_bug);
+    add_command("changes", do_changes);
+    add_command("commands", do_commands);
+    add_command("compare", do_compare, POS_RESTING);
+    add_command("consider", do_consider, POS_RESTING);
+    add_command("count", do_count, POS_SLEEPING);
+    add_command("credits", do_credits);
+    add_command("equipment", do_equipment);
+    add_command("examine", do_examine, POS_RESTING);
+    add_command("finger", do_finger);
+    add_command("help", do_help);
+    add_command("idea", do_idea);
+    add_command("info", do_groups, POS_SLEEPING);
+    add_command("motd", do_motd);
+    add_command("read", do_read, POS_RESTING);
+    add_command("report", do_report, POS_RESTING);
+    add_command("rules", do_rules);
+    add_command("skills", do_skills);
+    add_command("socials", do_socials);
+    add_command("spells", do_spells);
+    add_command("story", do_story);
+    add_command("time", do_time);
+    add_command("timezone", do_timezone);
+    add_command("tipwizard", do_tipwizard);
+    add_command("tips", do_tipwizard);
+    add_command("typo", do_typo);
+    add_command("weather", do_weather, POS_RESTING);
+    add_command("who", do_who);
+    add_command("whois", do_whois);
+    add_command("wizlist", do_wizlist);
+    add_command("worth", do_worth, POS_SLEEPING);
 
     /* Configuration commands. */
-    add_command("afk", do_afk, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("autolist", do_autolist, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("autoaffect", do_autoaffect, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("autoassist", do_autoassist, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("autoexit", do_autoexit, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("autogold", do_autogold, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("autoloot", do_autoloot, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("autopeek", do_autopeek, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("autosac", do_autosac, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("autosplit", do_autosplit, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("brief", do_brief, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("color", do_colour, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("colour", do_colour, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("combine", do_combine, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("compact", do_compact, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("description", do_description, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("delet", do_delet, POS_DEAD, 0, LOG_ALWAYS, 0);
-    add_command("delete", do_delete, POS_DEAD, 0, LOG_ALWAYS, 1);
-    add_command("nofollow", do_nofollow, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("noloot", do_noloot, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("nosummon", do_nosummon, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("outfit", do_outfit, POS_RESTING, 0, LOG_ALWAYS, 1);
-    add_command("password", do_password, POS_DEAD, 0, LOG_NEVER, 1);
-    add_command("prefix", do_prefix, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("prompt", do_prompt, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("scroll", do_scroll, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("showdefence", do_showdefence, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("showafk", do_showafk, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("title", do_title, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("wimpy", do_wimpy, POS_DEAD, 0, LOG_NORMAL, 1);
+    add_command("afk", do_afk);
+    add_command("autolist", do_autolist);
+    add_command("autoaffect", do_autoaffect);
+    add_command("autoassist", do_autoassist);
+    add_command("autoexit", do_autoexit);
+    add_command("autogold", do_autogold);
+    add_command("autoloot", do_autoloot);
+    add_command("autopeek", do_autopeek);
+    add_command("autosac", do_autosac);
+    add_command("autosplit", do_autosplit);
+    add_command("brief", do_brief);
+    add_command("color", do_colour);
+    add_command("colour", do_colour);
+    add_command("combine", do_combine);
+    add_command("compact", do_compact);
+    add_command("description", do_description);
+    add_command("delet", do_delet, POS_DEAD, 0, CommandLogLevel::Always, false);
+    add_command("delete", do_delete, POS_DEAD, 0, CommandLogLevel::Always);
+    add_command("nofollow", do_nofollow);
+    add_command("noloot", do_noloot);
+    add_command("nosummon", do_nosummon);
+    add_command("outfit", do_outfit, POS_RESTING, 0, CommandLogLevel::Always);
+    add_command("password", do_password, POS_DEAD, 0, CommandLogLevel::Never);
+    add_command("prefix", do_prefix);
+    add_command("prompt", do_prompt);
+    add_command("scroll", do_scroll);
+    add_command("showdefence", do_showdefence);
+    add_command("showafk", do_showafk);
+    add_command("title", do_title);
+    add_command("wimpy", do_wimpy);
 
     /* Communication commands. */
-    add_command("allege", do_allege, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("announce", do_announce, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("answer", do_answer, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("emote", do_emote, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command(".", do_gossip, POS_SLEEPING, 0, LOG_NORMAL, 0);
-    add_command("gossip", do_gossip, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command(",", do_emote, POS_RESTING, 0, LOG_NORMAL, 0);
-    add_command("gratz", do_gratz, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("gtell", do_gtell, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command(";", do_gtell, POS_DEAD, 0, LOG_NORMAL, 0);
-    add_command("note", do_note, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("news", do_news, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("mail", do_mail, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("philosophise", do_philosophise, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("pose", do_pose, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("question", do_question, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("quiet", do_quiet, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("qwest", do_qwest, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("reply", do_reply, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("say", do_say, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("'", do_say, POS_RESTING, 0, LOG_NORMAL, 0);
-    add_command("shout", do_shout, POS_RESTING, 3, LOG_NORMAL, 1);
-    add_command("yell", do_yell, POS_RESTING, 0, LOG_NORMAL, 1);
+    add_command("allege", do_allege, POS_SLEEPING);
+    add_command("announce", do_announce, POS_SLEEPING);
+    add_command("answer", do_answer, POS_SLEEPING);
+    add_command("emote", do_emote, POS_RESTING);
+    add_command(".", do_gossip, POS_SLEEPING, 0, CommandLogLevel::Normal, false);
+    add_command("gossip", do_gossip, POS_SLEEPING);
+    add_command(",", do_emote, POS_RESTING, 0, CommandLogLevel::Normal, false);
+    add_command("gratz", do_gratz, POS_SLEEPING);
+    add_command("gtell", do_gtell);
+    add_command(";", do_gtell, POS_DEAD, 0, CommandLogLevel::Normal, false);
+    add_command("note", do_note, POS_SLEEPING);
+    add_command("news", do_news, POS_SLEEPING);
+    add_command("mail", do_mail, POS_SLEEPING);
+    add_command("philosophise", do_philosophise, POS_SLEEPING);
+    add_command("pose", do_pose, POS_RESTING);
+    add_command("question", do_question, POS_SLEEPING);
+    add_command("quiet", do_quiet, POS_SLEEPING);
+    add_command("qwest", do_qwest, POS_SLEEPING);
+    add_command("reply", do_reply);
+    add_command("say", do_say, POS_RESTING);
+    add_command("'", do_say, POS_RESTING, 0, CommandLogLevel::Normal, false);
+    add_command("shout", do_shout, POS_RESTING, 3);
+    add_command("yell", do_yell, POS_RESTING);
 
     /* Object manipulation commands. */
-    add_command("brandish", do_brandish, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("close", do_close, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("donate", do_donate, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("drink", do_drink, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("drop", do_drop, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("eat", do_eat, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("fill", do_fill, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("pour", do_pour, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("give", do_give, POS_RESTING, 0, LOG_NORMAL, 1);
+    add_command("brandish", do_brandish, POS_RESTING);
+    add_command("close", do_close, POS_RESTING);
+    add_command("donate", do_donate, POS_RESTING);
+    add_command("drink", do_drink, POS_RESTING);
+    add_command("drop", do_drop, POS_RESTING);
+    add_command("eat", do_eat, POS_RESTING);
+    add_command("fill", do_fill, POS_RESTING);
+    add_command("pour", do_pour, POS_RESTING);
+    add_command("give", do_give, POS_RESTING);
     /* hailcorpse and shortcut */
-    add_command("hailcorpse", do_hailcorpse, POS_STANDING, 0, LOG_NORMAL, 1);
-    add_command("hc", do_hailcorpse, POS_STANDING, 0, LOG_NORMAL, 1);
-    add_command("heal", do_heal, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("hold", do_wear, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("list", do_list, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("lock", do_lock, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("open", do_open, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("pick", do_pick, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("put", do_put, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("quaff", do_quaff, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("recite", do_recite, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("remove", do_remove, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("sell", do_sell, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("take", do_get, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("throw", do_throw, POS_STANDING, 0, LOG_NORMAL, 1);
-    add_command("sacrifice", do_sacrifice, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("junk", do_sacrifice, POS_RESTING, 0, LOG_NORMAL, 0);
-    add_command("tap", do_sacrifice, POS_RESTING, 0, LOG_NORMAL, 0);
-    add_command("unlock", do_unlock, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("value", do_value, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("wear", do_wear, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("zap", do_zap, POS_RESTING, 0, LOG_NORMAL, 1);
+    add_command("hailcorpse", do_hailcorpse, POS_STANDING);
+    add_command("hc", do_hailcorpse, POS_STANDING);
+    add_command("heal", do_heal, POS_RESTING);
+    add_command("hold", do_wear, POS_RESTING);
+    add_command("list", do_list, POS_RESTING);
+    add_command("lock", do_lock, POS_RESTING);
+    add_command("open", do_open, POS_RESTING);
+    add_command("pick", do_pick, POS_RESTING);
+    add_command("put", do_put, POS_RESTING);
+    add_command("quaff", do_quaff, POS_RESTING);
+    add_command("recite", do_recite, POS_RESTING);
+    add_command("remove", do_remove, POS_RESTING);
+    add_command("sell", do_sell, POS_RESTING);
+    add_command("take", do_get, POS_RESTING);
+    add_command("throw", do_throw, POS_STANDING);
+    add_command("sacrifice", do_sacrifice, POS_RESTING);
+    add_command("junk", do_sacrifice, POS_RESTING, 0, CommandLogLevel::Normal, false);
+    add_command("tap", do_sacrifice, POS_RESTING, 0, CommandLogLevel::Normal, false);
+    add_command("unlock", do_unlock, POS_RESTING);
+    add_command("value", do_value, POS_RESTING);
+    add_command("wear", do_wear, POS_RESTING);
+    add_command("zap", do_zap, POS_RESTING);
     /* Wandera's little baby. */
-    add_command("sharpen", do_sharpen, POS_STANDING, 0, LOG_NORMAL, 1);
+    add_command("sharpen", do_sharpen, POS_STANDING);
     /* Combat commands. */
-    add_command("backstab", do_backstab, POS_STANDING, 0, LOG_NORMAL, 1);
-    add_command("bash", do_bash, POS_FIGHTING, 0, LOG_NORMAL, 1);
-    add_command("bs", do_backstab, POS_STANDING, 0, LOG_NORMAL, 0);
-    add_command("berserk", do_berserk, POS_FIGHTING, 0, LOG_NORMAL, 1);
-    add_command("dirt", do_dirt, POS_FIGHTING, 0, LOG_NORMAL, 1);
-    add_command("disarm", do_disarm, POS_FIGHTING, 0, LOG_NORMAL, 1);
-    add_command("flee", do_flee, POS_FIGHTING, 0, LOG_NORMAL, 1);
-    add_command("kick", do_kick, POS_FIGHTING, 0, LOG_NORMAL, 1);
+    add_command("backstab", do_backstab, POS_STANDING);
+    add_command("bash", do_bash, POS_FIGHTING);
+    add_command("bs", do_backstab, POS_STANDING, 0, CommandLogLevel::Normal, false);
+    add_command("berserk", do_berserk, POS_FIGHTING);
+    add_command("dirt", do_dirt, POS_FIGHTING);
+    add_command("disarm", do_disarm, POS_FIGHTING);
+    add_command("flee", do_flee, POS_FIGHTING);
+    add_command("kick", do_kick, POS_FIGHTING);
     /* TheMoog's command. */
-    add_command("headbutt", do_headbutt, POS_FIGHTING, 0, LOG_NORMAL, 1);
+    add_command("headbutt", do_headbutt, POS_FIGHTING);
     /* $-) */
-    add_command("murde", do_murde, POS_FIGHTING, IM, LOG_NORMAL, 0);
-    add_command("murder", do_murder, POS_FIGHTING, IM, LOG_ALWAYS, 1);
-    add_command("rescue", do_rescue, POS_FIGHTING, 0, LOG_NORMAL, 0);
-    add_command("trip", do_trip, POS_FIGHTING, 0, LOG_NORMAL, 1);
+    add_command("murde", do_murde, POS_FIGHTING, IM, CommandLogLevel::Normal, false);
+    add_command("murder", do_murder, POS_FIGHTING, IM, CommandLogLevel::Always);
+    add_command("rescue", do_rescue, POS_FIGHTING, 0, CommandLogLevel::Normal, false);
+    add_command("trip", do_trip, POS_FIGHTING);
 
     /* Miscellaneous commands. */
     /* Rohan's bit of wizadry! */
-    add_command("accept", do_accept, POS_STANDING, 0, LOG_NORMAL, 1);
-    add_command("cancel", do_cancel_chal, POS_STANDING, 0, LOG_NORMAL, 1);
-    add_command("challenge", do_challenge, POS_STANDING, 0, LOG_NORMAL, 1);
-    add_command("duel", do_duel, POS_STANDING, 0, LOG_NORMAL, 1);
-    add_command("follow", do_follow, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("gain", do_gain, POS_STANDING, 0, LOG_NORMAL, 1);
-    add_command("groups", do_groups, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("hide", do_hide, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("enter", do_enter, POS_STANDING, 0, LOG_NEVER, 0);
-    add_command("qui", do_qui, POS_DEAD, 0, LOG_NORMAL, 0);
-    add_command("quit", do_quit, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("ready", do_ready, POS_STANDING, 0, LOG_NORMAL, 1);
-    add_command("recall", do_recall, POS_FIGHTING, 0, LOG_NORMAL, 1);
-    add_command("refuse", do_refuse, POS_STANDING, 0, LOG_NORMAL, 1);
-    add_command("/", do_recall, POS_FIGHTING, 0, LOG_NORMAL, 0);
-    add_command("save", do_save, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("sleep", do_sleep, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("sneak", do_sneak, POS_STANDING, 0, LOG_NORMAL, 1);
-    add_command("split", do_split, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("steal", do_steal, POS_STANDING, 0, LOG_NORMAL, 1);
-    add_command("train", do_train, POS_RESTING, 0, LOG_NORMAL, 1);
-    add_command("visible", do_visible, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("wake", do_wake, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("where", do_where, POS_RESTING, 0, LOG_NORMAL, 1);
+    add_command("accept", do_accept, POS_STANDING);
+    add_command("cancel", do_cancel_chal, POS_STANDING);
+    add_command("challenge", do_challenge, POS_STANDING);
+    add_command("duel", do_duel, POS_STANDING);
+    add_command("follow", do_follow, POS_RESTING);
+    add_command("gain", do_gain, POS_STANDING);
+    add_command("groups", do_groups, POS_SLEEPING);
+    add_command("hide", do_hide, POS_RESTING);
+    add_command("enter", do_enter, POS_STANDING, 0, CommandLogLevel::Never, false);
+    add_command("qui", do_qui, POS_DEAD, 0, CommandLogLevel::Normal, false);
+    add_command("quit", do_quit);
+    add_command("ready", do_ready, POS_STANDING);
+    add_command("recall", do_recall, POS_FIGHTING);
+    add_command("refuse", do_refuse, POS_STANDING);
+    add_command("/", do_recall, POS_FIGHTING, 0, CommandLogLevel::Normal, false);
+    add_command("save", do_save);
+    add_command("sleep", do_sleep, POS_SLEEPING);
+    add_command("sneak", do_sneak, POS_STANDING);
+    add_command("split", do_split, POS_RESTING);
+    add_command("steal", do_steal, POS_STANDING);
+    add_command("train", do_train, POS_RESTING);
+    add_command("visible", do_visible, POS_SLEEPING);
+    add_command("wake", do_wake, POS_SLEEPING);
+    add_command("where", do_where, POS_RESTING);
 
     /* Riding skill */
-    add_command("ride", do_ride, POS_FIGHTING, 0, LOG_NORMAL, 1);
-    add_command("mount", do_ride, POS_FIGHTING, 0, LOG_NORMAL, 1);
-    add_command("dismount", do_dismount, POS_FIGHTING, 0, LOG_NORMAL, 1);
+    add_command("ride", do_ride, POS_FIGHTING);
+    add_command("mount", do_ride, POS_FIGHTING);
+    add_command("dismount", do_dismount, POS_FIGHTING);
 
     /* Clan commands */
-    add_command("member", do_member, POS_STANDING, 0, LOG_ALWAYS, 1);
-    add_command("promote", do_promote, POS_STANDING, 0, LOG_ALWAYS, 1);
-    add_command("demote", do_demote, POS_STANDING, 0, LOG_ALWAYS, 1);
-    add_command("noclanchan", do_noclanchan, POS_SLEEPING, 0, LOG_ALWAYS, 1);
-    add_command("clanwho", do_clanwho, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command("clantalk", do_clantalk, POS_SLEEPING, 0, LOG_NORMAL, 1);
-    add_command(">", do_clantalk, POS_SLEEPING, 0, LOG_NORMAL, 1);
+    add_command("member", do_member, POS_STANDING, 0, CommandLogLevel::Always);
+    add_command("promote", do_promote, POS_STANDING, 0, CommandLogLevel::Always);
+    add_command("demote", do_demote, POS_STANDING, 0, CommandLogLevel::Always);
+    add_command("noclanchan", do_noclanchan, POS_SLEEPING, 0, CommandLogLevel::Always);
+    add_command("clanwho", do_clanwho, POS_SLEEPING);
+    add_command("clantalk", do_clantalk, POS_SLEEPING);
+    add_command(">", do_clantalk, POS_SLEEPING);
 
     /* clan power for immortals .... */
-    add_command("clanset", do_clanset, POS_SLEEPING, L4, LOG_ALWAYS, 1);
+    add_command("clanset", do_clanset, POS_SLEEPING, L4, CommandLogLevel::Always);
 
     /* Immortal commands. */
-    add_command("advance", do_advance, POS_DEAD, ML, LOG_ALWAYS, 1);
-    add_command("dump", do_dump, POS_DEAD, ML, LOG_ALWAYS, 0);
-    add_command("trust", do_trust, POS_DEAD, ML, LOG_ALWAYS, 1);
-    add_command("sacname", do_sacname, POS_DEAD, ML, LOG_ALWAYS, 1);
-    /*"clipboard", do_clipboard, POS_DEAD, ML, LOG_NORMAL, 1)*/
-    /*"edit", do_edit, POS_DEAD, ML, LOG_ALWAYS, 1)*/
-    /*"security", do_security, POS_DEAD, ML, LOG_ALWAYS, 1)*/
-    /*"mobile", do_mobile, POS_DEAD, ML, LOG_ALWAYS, 1)*/
-    /*"object", do_object, POS_DEAD, L1, LOG_ALWAYS, 1)*/
+    add_command("advance", do_advance, POS_DEAD, ML, CommandLogLevel::Always);
+    add_command("dump", do_dump, POS_DEAD, ML, CommandLogLevel::Always, false);
+    add_command("trust", do_trust, POS_DEAD, ML, CommandLogLevel::Always);
+    add_command("sacname", do_sacname, POS_DEAD, ML, CommandLogLevel::Always);
+    /*"clipboard", do_clipboard, POS_DEAD, ML, CommandLogLevel::Normal, 1)*/
+    /*"edit", do_edit, POS_DEAD, ML, CommandLogLevel::Always, 1)*/
+    /*"security", do_security, POS_DEAD, ML, CommandLogLevel::Always, 1)*/
+    /*"mobile", do_mobile, POS_DEAD, ML, CommandLogLevel::Always, 1)*/
+    /*"object", do_object, POS_DEAD, L1, CommandLogLevel::Always, 1)*/
 
-    add_command("allow", do_allow, POS_DEAD, L2, LOG_ALWAYS, 1);
-    add_command("ban", do_ban, POS_DEAD, L2, LOG_ALWAYS, 1);
-    add_command("permban", do_permban, POS_DEAD, L2, LOG_ALWAYS, 1);
-    add_command("permit", do_permit, POS_DEAD, L2, LOG_ALWAYS, 1);
-    add_command("deny", do_deny, POS_DEAD, L1, LOG_ALWAYS, 1);
-    add_command("disconnect", do_disconnect, POS_DEAD, L3, LOG_ALWAYS, 1);
-    add_command("freeze", do_freeze, POS_DEAD, L3, LOG_ALWAYS, 1);
-    add_command("reboo", do_reboo, POS_DEAD, L1, LOG_NORMAL, 0);
-    add_command("reboot", do_reboot, POS_DEAD, L1, LOG_ALWAYS, 1);
-    add_command("set", do_set, POS_DEAD, L2, LOG_ALWAYS, 1);
-    add_command("setinfo", do_setinfo, POS_DEAD, 0, LOG_NORMAL, 1);
-    add_command("shutdow", do_shutdow, POS_DEAD, L1, LOG_NORMAL, 0);
-    add_command("shutdown", do_shutdown, POS_DEAD, L1, LOG_ALWAYS, 1);
-    add_command("wizlock", do_wizlock, POS_DEAD, L2, LOG_ALWAYS, 1);
-    add_command("force", do_force, POS_DEAD, L7, LOG_ALWAYS, 1);
-    add_command("load", do_load, POS_DEAD, L4, LOG_ALWAYS, 1);
-    add_command("newlock", do_newlock, POS_DEAD, L4, LOG_ALWAYS, 1);
-    add_command("nochannels", do_nochannels, POS_DEAD, L6, LOG_ALWAYS, 1);
-    add_command("noemote", do_noemote, POS_DEAD, L6, LOG_ALWAYS, 1);
-    add_command("notell", do_notell, POS_DEAD, L6, LOG_ALWAYS, 1);
-    add_command("pecho", do_pecho, POS_DEAD, L4, LOG_ALWAYS, 1);
-    add_command("pardon", do_pardon, POS_DEAD, L3, LOG_ALWAYS, 1);
-    add_command("purge", do_purge, POS_DEAD, L4, LOG_ALWAYS, 1);
-    add_command("restore", do_restore, POS_DEAD, L4, LOG_ALWAYS, 1);
-    add_command("sla", do_sla, POS_DEAD, L3, LOG_NORMAL, 0);
-    add_command("slay", do_slay, POS_DEAD, L3, LOG_ALWAYS, 1);
-    add_command("teleport", do_transfer, POS_DEAD, L5, LOG_ALWAYS, 1);
-    add_command("transfer", do_transfer, POS_DEAD, L5, LOG_ALWAYS, 1);
-    add_command("poofin", do_bamfin, POS_DEAD, L8, LOG_NORMAL, 1);
-    add_command("poofout", do_bamfout, POS_DEAD, L8, LOG_NORMAL, 1);
-    add_command("gecho", do_echo, POS_DEAD, L4, LOG_ALWAYS, 1);
-    add_command("holylight", do_holylight, POS_DEAD, IM, LOG_NORMAL, 1);
-    add_command("invis", do_invis, POS_DEAD, IM, LOG_NORMAL, 0);
-    add_command("log", do_log, POS_DEAD, L1, LOG_ALWAYS, 1);
-    add_command("memory", do_memory, POS_DEAD, IM, LOG_NORMAL, 1);
-    add_command("mwhere", do_mwhere, POS_DEAD, IM, LOG_NORMAL, 1);
-    add_command("peace", do_peace, POS_DEAD, L5, LOG_NORMAL, 1);
+    add_command("allow", do_allow, POS_DEAD, L2, CommandLogLevel::Always);
+    add_command("ban", do_ban, POS_DEAD, L2, CommandLogLevel::Always);
+    add_command("permban", do_permban, POS_DEAD, L2, CommandLogLevel::Always);
+    add_command("permit", do_permit, POS_DEAD, L2, CommandLogLevel::Always);
+    add_command("deny", do_deny, POS_DEAD, L1, CommandLogLevel::Always);
+    add_command("disconnect", do_disconnect, POS_DEAD, L3, CommandLogLevel::Always);
+    add_command("freeze", do_freeze, POS_DEAD, L3, CommandLogLevel::Always);
+    add_command("reboo", do_reboo, POS_DEAD, L1, CommandLogLevel::Normal, false);
+    add_command("reboot", do_reboot, POS_DEAD, L1, CommandLogLevel::Always);
+    add_command("set", do_set, POS_DEAD, L2, CommandLogLevel::Always);
+    add_command("setinfo", do_setinfo);
+    add_command("shutdow", do_shutdow, POS_DEAD, L1, CommandLogLevel::Normal, false);
+    add_command("shutdown", do_shutdown, POS_DEAD, L1, CommandLogLevel::Always);
+    add_command("wizlock", do_wizlock, POS_DEAD, L2, CommandLogLevel::Always);
+    add_command("force", do_force, POS_DEAD, L7, CommandLogLevel::Always);
+    add_command("load", do_load, POS_DEAD, L4, CommandLogLevel::Always);
+    add_command("newlock", do_newlock, POS_DEAD, L4, CommandLogLevel::Always);
+    add_command("nochannels", do_nochannels, POS_DEAD, L6, CommandLogLevel::Always);
+    add_command("noemote", do_noemote, POS_DEAD, L6, CommandLogLevel::Always);
+    add_command("notell", do_notell, POS_DEAD, L6, CommandLogLevel::Always);
+    add_command("pecho", do_pecho, POS_DEAD, L4, CommandLogLevel::Always);
+    add_command("pardon", do_pardon, POS_DEAD, L3, CommandLogLevel::Always);
+    add_command("purge", do_purge, POS_DEAD, L4, CommandLogLevel::Always);
+    add_command("restore", do_restore, POS_DEAD, L4, CommandLogLevel::Always);
+    add_command("sla", do_sla, POS_DEAD, L3, CommandLogLevel::Normal, false);
+    add_command("slay", do_slay, POS_DEAD, L3, CommandLogLevel::Always);
+    add_command("teleport", do_transfer, POS_DEAD, L5, CommandLogLevel::Always);
+    add_command("transfer", do_transfer, POS_DEAD, L5, CommandLogLevel::Always);
+    add_command("poofin", do_bamfin, POS_DEAD, L8);
+    add_command("poofout", do_bamfout, POS_DEAD, L8);
+    add_command("gecho", do_echo, POS_DEAD, L4, CommandLogLevel::Always);
+    add_command("holylight", do_holylight, POS_DEAD, IM);
+    add_command("invis", do_invis, POS_DEAD, IM, CommandLogLevel::Normal, false);
+    add_command("log", do_log, POS_DEAD, L1, CommandLogLevel::Always);
+    add_command("memory", do_memory, POS_DEAD, IM);
+    add_command("mwhere", do_mwhere, POS_DEAD, IM);
+    add_command("peace", do_peace, POS_DEAD, L5);
     /* Death's commands */
-    add_command("coma", do_coma, POS_DEAD, IM, LOG_NORMAL, 1);
-    add_command("owhere", do_owhere, POS_DEAD, IM, LOG_NORMAL, 1);
+    add_command("coma", do_coma, POS_DEAD, IM);
+    add_command("owhere", do_owhere, POS_DEAD, IM);
     /* =)) */
-    add_command("osearch", do_osearch, POS_DEAD, IM, LOG_NORMAL, 1);
-    add_command("awaken", do_awaken, POS_DEAD, IM, LOG_NORMAL, 1);
-    add_command("echo", do_recho, POS_DEAD, L6, LOG_ALWAYS, 1);
-    add_command("return", do_return, POS_DEAD, L6, LOG_NORMAL, 1);
-    add_command("smit", do_smit, POS_STANDING, L7, LOG_NORMAL, 1);
-    add_command("smite", do_smite, POS_STANDING, L7, LOG_NORMAL, 1);
-    add_command("snoop", do_snoop, POS_DEAD, L5, LOG_ALWAYS, 1);
-    add_command("stat", do_stat, POS_DEAD, IM, LOG_NORMAL, 1);
-    add_command("string", do_string, POS_DEAD, L5, LOG_ALWAYS, 1);
-    add_command("switch", do_switch, POS_DEAD, L6, LOG_ALWAYS, 1);
-    add_command("wizinvis", do_invis, POS_DEAD, IM, LOG_NORMAL, 1);
-    add_command("zecho", do_zecho, POS_DEAD, L6, LOG_ALWAYS, 1);
-    add_command("prowl", do_prowl, POS_DEAD, IM, LOG_NORMAL, 1);
-    add_command("vnum", do_vnum, POS_DEAD, L4, LOG_NORMAL, 1);
-    add_command("clone", do_clone, POS_DEAD, L5, LOG_ALWAYS, 1);
-    add_command("immworth", do_immworth, POS_DEAD, L3, LOG_NORMAL, 1);
-    add_command("immtalk", do_immtalk, POS_DEAD, IM, LOG_NORMAL, 1);
-    add_command("imotd", do_imotd, POS_DEAD, IM, LOG_NORMAL, 1);
-    add_command(":", do_immtalk, POS_DEAD, IM, LOG_NORMAL, 0);
+    add_command("osearch", do_osearch, POS_DEAD, IM);
+    add_command("awaken", do_awaken, POS_DEAD, IM);
+    add_command("echo", do_recho, POS_DEAD, L6, CommandLogLevel::Always);
+    add_command("return", do_return, POS_DEAD, L6);
+    add_command("smit", do_smit, POS_STANDING, L7);
+    add_command("smite", do_smite, POS_STANDING, L7);
+    add_command("snoop", do_snoop, POS_DEAD, L5, CommandLogLevel::Always);
+    add_command("stat", do_stat, POS_DEAD, IM);
+    add_command("string", do_string, POS_DEAD, L5, CommandLogLevel::Always);
+    add_command("switch", do_switch, POS_DEAD, L6, CommandLogLevel::Always);
+    add_command("wizinvis", do_invis, POS_DEAD, IM);
+    add_command("zecho", do_zecho, POS_DEAD, L6, CommandLogLevel::Always);
+    add_command("prowl", do_prowl, POS_DEAD, IM);
+    add_command("vnum", do_vnum, POS_DEAD, L4);
+    add_command("clone", do_clone, POS_DEAD, L5, CommandLogLevel::Always);
+    add_command("immworth", do_immworth, POS_DEAD, L3);
+    add_command("immtalk", do_immtalk, POS_DEAD, IM);
+    add_command("imotd", do_imotd, POS_DEAD, IM);
+    add_command(":", do_immtalk, POS_DEAD, IM, CommandLogLevel::Normal, false);
 
     /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
     /* MOBprogram commands. */
-    add_command("mpasound", do_mpasound, POS_DEAD, MAX_LEVEL_MPROG, LOG_NORMAL, 0);
-    add_command("mpjunk", do_mpjunk, POS_DEAD, MAX_LEVEL_MPROG, LOG_NORMAL, 0);
-    add_command("mpecho", do_mpecho, POS_DEAD, MAX_LEVEL_MPROG, LOG_NORMAL, 0);
-    add_command("mpechoat", do_mpechoat, POS_DEAD, MAX_LEVEL_MPROG, LOG_NORMAL, 0);
-    add_command("mpechoaround", do_mpechoaround, POS_DEAD, MAX_LEVEL_MPROG, LOG_NORMAL, 0);
-    add_command("mpkill", do_mpkill, POS_DEAD, MAX_LEVEL_MPROG, LOG_NORMAL, 0);
-    add_command("mpmload", do_mpmload, POS_DEAD, MAX_LEVEL_MPROG, LOG_NORMAL, 0);
-    add_command("mpoload", do_mpoload, POS_DEAD, MAX_LEVEL_MPROG, LOG_NORMAL, 0);
-    add_command("mppurge", do_mppurge, POS_DEAD, MAX_LEVEL_MPROG, LOG_NORMAL, 0);
-    add_command("mpgoto", do_mpgoto, POS_DEAD, MAX_LEVEL_MPROG, LOG_NORMAL, 0);
-    add_command("mpat", do_mpat, POS_DEAD, MAX_LEVEL_MPROG, LOG_NORMAL, 0);
-    add_command("mptransfer", do_mptransfer, POS_DEAD, MAX_LEVEL_MPROG, LOG_NORMAL, 0);
-    add_command("mpforce", do_mpforce, POS_DEAD, MAX_LEVEL_MPROG, LOG_NORMAL, 0);
+    add_command("mpasound", do_mpasound, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
+    add_command("mpjunk", do_mpjunk, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
+    add_command("mpecho", do_mpecho, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
+    add_command("mpechoat", do_mpechoat, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
+    add_command("mpechoaround", do_mpechoaround, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
+    add_command("mpkill", do_mpkill, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
+    add_command("mpmload", do_mpmload, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
+    add_command("mpoload", do_mpoload, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
+    add_command("mppurge", do_mppurge, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
+    add_command("mpgoto", do_mpgoto, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
+    add_command("mpat", do_mpat, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
+    add_command("mptransfer", do_mptransfer, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
+    add_command("mpforce", do_mpforce, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
     // Moog's CPP wrapper test command
-    add_command("cpptest", do_cpptest, POS_DEAD, ML, LOG_NORMAL, 1);
+    add_command("cpptest", do_cpptest, POS_DEAD, ML);
 }
 
-static const struct cmd_type *find_command(CHAR_DATA *ch, char *command, int trust) {
+static const CommandInfo *find_command(CHAR_DATA *ch, const char *command, int trust) {
     (void)ch;
-    return trie_get(cmd_trie, command, trust);
+    return static_cast<const CommandInfo *>(trie_get(cmd_trie, command, trust));
 }
 
 static char *apply_prefix(char *buf, CHAR_DATA *ch, char *command) {
@@ -440,7 +431,6 @@ void interpret(CHAR_DATA *ch, char *argument) {
     char cmd_buf[MAX_INPUT_LENGTH];
     char command[MAX_INPUT_LENGTH];
     char logline[MAX_INPUT_LENGTH];
-    const struct cmd_type *cmd;
     argument = apply_prefix(cmd_buf, ch, argument);
 
     /* Strip leading spaces. */
@@ -474,7 +464,7 @@ void interpret(CHAR_DATA *ch, char *argument) {
     }
 
     /* Look for command in command table. */
-    cmd = find_command(ch, command, get_trust(ch));
+    auto *cmd = find_command(ch, command, get_trust(ch));
 
     /* Look for command in socials table. */
     if (!cmd) {
@@ -484,10 +474,10 @@ void interpret(CHAR_DATA *ch, char *argument) {
     }
 
     /* Log and snoop. */
-    if (cmd->log == LOG_NEVER)
+    if (cmd->log == CommandLogLevel::Never)
         strcpy(logline, "");
 
-    if ((!IS_NPC(ch) && IS_SET(ch->act, PLR_LOG)) || fLogAll || cmd->log == LOG_ALWAYS) {
+    if ((!IS_NPC(ch) && IS_SET(ch->act, PLR_LOG)) || fLogAll || cmd->log == CommandLogLevel::Always) {
         int level = (cmd->level >= 91) ? (cmd->level) : 0;
         if (!IS_NPC(ch) && (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)))
             level = UMAX(level, get_trust(ch));
@@ -512,7 +502,7 @@ void interpret(CHAR_DATA *ch, char *argument) {
     }
 
     /* Dispatch the command. */
-    (*cmd->do_fun)(ch, argument);
+    cmd->do_fun(ch, argument);
 
     tail_chain();
 }
@@ -665,11 +655,11 @@ typedef struct columniser {
 
 static void command_enumerator(const char *name, int lev, void *value, void *metadata) {
     (void)lev;
-    columniser_t *col = (columniser_t *)metadata;
+    auto *col = static_cast<columniser_t *>(metadata);
     int buf_len = strlen(col->buf);
     int name_len = strlen(name);
     int start_pos;
-    cmd_type_t *cmd = (cmd_type_t *)value;
+    auto *cmd = static_cast<const CommandInfo *>(value);
 
     if (!cmd->show)
         return;
@@ -691,7 +681,7 @@ static void command_enumerator(const char *name, int lev, void *value, void *met
     memcpy(col->buf + start_pos, name, name_len + 1);
 }
 
-void do_commands(CHAR_DATA *ch, char *argument) {
+void do_commands(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     columniser_t col;
 
@@ -707,7 +697,7 @@ void do_commands(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_wizhelp(CHAR_DATA *ch, char *argument) {
+void do_wizhelp(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     columniser_t col;
 

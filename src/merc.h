@@ -29,19 +29,15 @@
 #include "clan.h"
 #include "news.h"
 #include "version.h"
+
 #include <crypt.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
 #include <unistd.h>
 #include <utility>
 
-/**
- * Function pointer for commands run by the interpreter, the do_ functions.
- * argument is modified (currently) by some of the text processing routines.
- */
-typedef void (*CommandFunc)(CHAR_DATA *ch, char *argument);
 /**
  * Function pointers for spells.
  */
