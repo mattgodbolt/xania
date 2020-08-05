@@ -120,8 +120,6 @@ void get_obj(CHAR_DATA *ch, OBJ_DATA *obj, OBJ_DATA *container) {
     } else {
         obj_to_char(obj, ch);
     }
-
-    return;
 }
 
 void do_get(CHAR_DATA *ch, char *argument) {
@@ -235,8 +233,6 @@ void do_get(CHAR_DATA *ch, char *argument) {
             }
         }
     }
-
-    return;
 }
 
 void do_put(CHAR_DATA *ch, char *argument) {
@@ -333,8 +329,6 @@ void do_put(CHAR_DATA *ch, char *argument) {
             }
         }
     }
-
-    return;
 }
 
 void do_donate(CHAR_DATA *ch, char *argument) {
@@ -423,8 +417,6 @@ void do_donate(CHAR_DATA *ch, char *argument) {
             }
         }
     }
-
-    return;
 }
 
 void do_drop(CHAR_DATA *ch, char *argument) {
@@ -523,8 +515,6 @@ void do_drop(CHAR_DATA *ch, char *argument) {
                 act("You are not carrying any $T.", ch, nullptr, &arg[4], TO_CHAR);
         }
     }
-
-    return;
 }
 
 void do_give(CHAR_DATA *ch, char *argument) {
@@ -643,8 +633,6 @@ void do_give(CHAR_DATA *ch, char *argument) {
     act("You give $p to $N.", ch, obj, victim, TO_CHAR);
 
     mprog_give_trigger(victim, ch, obj);
-
-    return;
 }
 
 /*
@@ -779,7 +767,6 @@ void do_pour(CHAR_DATA *ch, char *argument) {
     snprintf(buf, sizeof(buf), "%s pours liquid into your container.\n\r",
              IS_NPC(victim) ? victim->short_descr : victim->name);
     send_to_char(buf, victim);
-    return;
 }
 
 void do_fill(CHAR_DATA *ch, char *argument) {
@@ -831,7 +818,6 @@ void do_fill(CHAR_DATA *ch, char *argument) {
     act("You fill $p.", ch, obj, nullptr, TO_CHAR);
     obj->value[2] = 0;
     obj->value[1] = obj->value[0];
-    return;
 }
 
 void do_drink(CHAR_DATA *ch, char *argument) {
@@ -1304,8 +1290,6 @@ void wear_obj(CHAR_DATA *ch, OBJ_DATA *obj, bool fReplace) {
 
     if (fReplace)
         send_to_char("You can't wear, wield, or hold that.\n\r", ch);
-
-    return;
 }
 
 void do_wear(CHAR_DATA *ch, char *argument) {
@@ -1336,8 +1320,6 @@ void do_wear(CHAR_DATA *ch, char *argument) {
 
         wear_obj(ch, obj, true);
     }
-
-    return;
 }
 
 void do_remove(CHAR_DATA *ch, char *argument) {
@@ -1357,7 +1339,6 @@ void do_remove(CHAR_DATA *ch, char *argument) {
     }
 
     remove_obj(ch, obj->wear_loc, true);
-    return;
 }
 
 void do_sacrifice(CHAR_DATA *ch, char *argument) {
@@ -1435,7 +1416,6 @@ void do_sacrifice(CHAR_DATA *ch, char *argument) {
     snprintf(buf, sizeof(buf), "$n sacrifices $p to %s.", deity_name);
     act(buf, ch, obj, nullptr, TO_ROOM);
     extract_obj(obj);
-    return;
 }
 
 void do_quaff(CHAR_DATA *ch, char *argument) {
@@ -1473,7 +1453,6 @@ void do_quaff(CHAR_DATA *ch, char *argument) {
     obj_cast_spell(obj->value[3], obj->value[0], ch, ch, nullptr);
 
     extract_obj(obj);
-    return;
 }
 
 void do_recite(CHAR_DATA *ch, char *argument) {
@@ -1532,7 +1511,6 @@ void do_recite(CHAR_DATA *ch, char *argument) {
     }
 
     extract_obj(scroll);
-    return;
 }
 
 void do_brandish(CHAR_DATA *ch, char *argument) {
@@ -1607,8 +1585,6 @@ void do_brandish(CHAR_DATA *ch, char *argument) {
         act("Your $p blazes bright and is gone.", ch, staff, nullptr, TO_CHAR);
         extract_obj(staff);
     }
-
-    return;
 }
 
 /*
@@ -1709,8 +1685,6 @@ void do_zap(CHAR_DATA *ch, char *argument) {
         act("Your $p explodes into fragments.", ch, wand, nullptr, TO_CHAR);
         extract_obj(wand);
     }
-
-    return;
 }
 
 void do_steal(CHAR_DATA *ch, char *argument) {
@@ -1825,7 +1799,6 @@ void do_steal(CHAR_DATA *ch, char *argument) {
     obj_from_char(obj);
     obj_to_char(obj, ch);
     check_improve(ch, gsn_steal, true, 2);
-    return;
 }
 
 /*
@@ -2212,8 +2185,6 @@ void do_sell(CHAR_DATA *ch, char *argument) {
         obj->timer = number_range(200, 400);
         obj_to_char(obj, keeper);
     }
-
-    return;
 }
 
 void do_value(CHAR_DATA *ch, char *argument) {
@@ -2257,8 +2228,6 @@ void do_value(CHAR_DATA *ch, char *argument) {
     snprintf(buf, sizeof(buf), "$n tells you 'I'll give you %d gold coins for $p'.", cost);
     act(buf, keeper, obj, ch, TO_VICT);
     ch->reply = keeper;
-
-    return;
 }
 
 void do_throw(CHAR_DATA *ch, char *argument) {
@@ -2316,7 +2285,6 @@ void do_throw(CHAR_DATA *ch, char *argument) {
         }
     }
     multi_hit(ch, victim, TYPE_UNDEFINED);
-    return;
 }
 
 /* hailcorpse for getting out of sticky situations ooeer --Fara */

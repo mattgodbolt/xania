@@ -499,7 +499,6 @@ void do_clanset(CHAR_DATA *ch, char *argument) {
     }
 
     send_to_char("Syntax: clanset {+/-}  <player> <clan>\n\r        clanset leader <player>\n\r", ch);
-    return;
 }
 
 /*

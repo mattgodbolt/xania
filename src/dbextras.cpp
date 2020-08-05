@@ -253,7 +253,6 @@ void find_limits(AREA_DATA *area, int *lower, int *higher) {
     }
     *lower = 0;
     *higher = 0;
-    return;
 }
 
 int save_whole_area(char *area_name, char *filename) {

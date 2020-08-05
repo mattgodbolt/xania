@@ -1144,8 +1144,6 @@ void unequip_char(CHAR_DATA *ch, OBJ_DATA *obj) {
 
     if (obj->item_type == ITEM_LIGHT && obj->value[2] != 0 && ch->in_room != nullptr && ch->in_room->light > 0)
         --ch->in_room->light;
-
-    return;
 }
 
 /*
@@ -1195,7 +1193,6 @@ void obj_from_room(OBJ_DATA *obj) {
 
     obj->in_room = nullptr;
     obj->next_content = nullptr;
-    return;
 }
 
 bool check_sub_issue(OBJ_DATA *obj, CHAR_DATA *ch) {
@@ -1218,7 +1215,6 @@ void obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *pRoomIndex) {
     obj->in_room = pRoomIndex;
     obj->carried_by = nullptr;
     obj->in_obj = nullptr;
-    return;
 }
 
 /*
@@ -1239,8 +1235,6 @@ void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to) {
             obj_to->carried_by->carry_weight += get_obj_weight(obj);
         }
     }
-
-    return;
 }
 
 /*
@@ -1281,8 +1275,6 @@ void obj_from_obj(OBJ_DATA *obj) {
             obj_from->carried_by->carry_weight -= get_obj_weight(obj);
         }
     }
-
-    return;
 }
 
 /*
@@ -1355,8 +1347,6 @@ void extract_obj(OBJ_DATA *obj) {
     obj->next = obj_free;
     obj_free = obj;
     obj->affected = nullptr;
-
-    return;
 }
 
 /* extern void thrown_off(CHAR_DATA *ch, CHAR_DATA *pet); */
@@ -1440,7 +1430,6 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
     if (ch->desc)
         ch->desc->character = nullptr;
     free_char(ch);
-    return;
 }
 
 /*

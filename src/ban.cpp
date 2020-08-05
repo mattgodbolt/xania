@@ -227,7 +227,6 @@ void ban_site(CHAR_DATA *ch, char *argument, bool fPerm) {
              IS_SET(pban->ban_flags, BAN_PREFIX) ? "*" : "", pban->name,
              IS_SET(pban->ban_flags, BAN_SUFFIX) ? "*" : "");
     send_to_char(buf, ch);
-    return;
 }
 
 void do_ban(CHAR_DATA *ch, char *argument) { ban_site(ch, argument, false); }
@@ -275,5 +274,4 @@ void do_allow(CHAR_DATA *ch, char *argument) {
     }
 
     send_to_char("That site is not banned.\n\r", ch);
-    return;
 }

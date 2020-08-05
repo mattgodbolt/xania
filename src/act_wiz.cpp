@@ -137,8 +137,6 @@ void do_nochannels(CHAR_DATA *ch, char *argument) {
         send_to_char("The gods have revoked your channel priviliges.\n\r", victim);
         send_to_char("NOCHANNELS set.\n\r", ch);
     }
-
-    return;
 }
 
 void do_bamfin(CHAR_DATA *ch, char *argument) {
@@ -164,7 +162,6 @@ void do_bamfin(CHAR_DATA *ch, char *argument) {
         bug_snprintf(buf, sizeof(buf), "Your poofin is now %s\n\r", ch->pcdata->bamfin);
         send_to_char(buf, ch);
     }
-    return;
 }
 
 void do_bamfout(CHAR_DATA *ch, char *argument) {
@@ -190,7 +187,6 @@ void do_bamfout(CHAR_DATA *ch, char *argument) {
         bug_snprintf(buf, sizeof(buf), "Your poofout is now %s\n\r", ch->pcdata->bamfout);
         send_to_char(buf, ch);
     }
-    return;
 }
 
 void do_deny(CHAR_DATA *ch, char *argument) {
@@ -223,8 +219,6 @@ void do_deny(CHAR_DATA *ch, char *argument) {
     send_to_char("OK.\n\r", ch);
     save_char_obj(victim);
     do_quit(victim, "");
-
-    return;
 }
 
 void do_disconnect(CHAR_DATA *ch, char *argument) {
@@ -316,7 +310,6 @@ void do_pardon(CHAR_DATA *ch, char *argument) {
     }
 
     send_to_char("Syntax: pardon <character> <killer|thief>.\n\r", ch);
-    return;
 }
 
 void do_echo(CHAR_DATA *ch, char *argument) {
@@ -335,8 +328,6 @@ void do_echo(CHAR_DATA *ch, char *argument) {
             send_to_char("\n\r", d->character);
         }
     }
-
-    return;
 }
 
 void do_recho(CHAR_DATA *ch, char *argument) {
@@ -356,8 +347,6 @@ void do_recho(CHAR_DATA *ch, char *argument) {
             send_to_char("\n\r", d->character);
         }
     }
-
-    return;
 }
 
 void do_zecho(CHAR_DATA *ch, char *argument) {
@@ -557,8 +546,6 @@ void do_at(CHAR_DATA *ch, char *argument) {
             break;
         }
     }
-
-    return;
 }
 
 void do_goto(CHAR_DATA *ch, char *argument) {
@@ -609,7 +596,6 @@ void do_goto(CHAR_DATA *ch, char *argument) {
     }
 
     do_look(ch, "auto");
-    return;
 }
 
 /* RT to replace the 3 stat commands */
@@ -770,8 +756,6 @@ void do_rstat(CHAR_DATA *ch, char *argument) {
             send_to_char(buf, ch);
         }
     }
-
-    return;
 }
 
 void do_ostat(CHAR_DATA *ch, char *argument) {
@@ -1029,8 +1013,6 @@ void do_ostat(CHAR_DATA *ch, char *argument) {
                          paf->modifier, paf->level);
             send_to_char(buf, ch);
         }
-
-    return;
 }
 
 void do_mskills(CHAR_DATA *ch, const char *argument) {
@@ -1103,8 +1085,6 @@ void do_mskills(CHAR_DATA *ch, const char *argument) {
         if (skill_list[lev][0] != '\0')
             send_to_char(skill_list[lev], ch);
     send_to_char("\n\r", ch);
-
-    return;
 }
 
 /* Corrected 28/8/96 by Oshea to give correct list of spell costs. */
@@ -1272,8 +1252,6 @@ void do_mpracs(CHAR_DATA *ch, const char *argument) {
 
     bug_snprintf(buf, sizeof(buf), "They have %d practice sessions left.\n\r", victim->practice);
     send_to_char(buf, ch);
-
-    return;
 }
 
 /* Correct on 28/8/96 by Oshea to give correct cp's */
@@ -1319,7 +1297,6 @@ void do_minfo(CHAR_DATA *ch, const char *argument) {
     bug_snprintf(buf, sizeof(buf), "Creation points: %d\n\r", victim->pcdata->points);
 
     send_to_char(buf, ch);
-    return;
 }
 
 void do_mstat(CHAR_DATA *ch, char *argument) {
@@ -1497,7 +1474,6 @@ void do_mstat(CHAR_DATA *ch, char *argument) {
         send_to_char(buf, ch);
     }
     send_to_char("\n\r", ch);
-    return;
 }
 
 /* ofind and mfind replaced with vnum, vnum skill also added */
@@ -1656,7 +1632,6 @@ void do_mwhere(CHAR_DATA *ch, char *argument) {
 void do_reboo(CHAR_DATA *ch, char *argument) {
     (void)argument;
     send_to_char("If you want to REBOOT, spell it out.\n\r", ch);
-    return;
 }
 
 void do_reboot(CHAR_DATA *ch, char *argument) {
@@ -1677,13 +1652,11 @@ void do_reboot(CHAR_DATA *ch, char *argument) {
     // that's not the desired behaviour. Instead, setting the merc_down flag will
     // cause the main process to terminate while doorman holds onto the client's
     // connection and then reconnect them to the mud once it's back up.
-    return;
 }
 
 void do_shutdow(CHAR_DATA *ch, char *argument) {
     (void)argument;
     send_to_char("If you want to SHUTDOWN, spell it out.\n\r", ch);
-    return;
 }
 
 void do_shutdown(CHAR_DATA *ch, char *argument) {
@@ -1704,7 +1677,6 @@ void do_shutdown(CHAR_DATA *ch, char *argument) {
         d_next = d->next;
         close_socket(d);
     }
-    return;
 }
 
 void do_snoop(CHAR_DATA *ch, char *argument) {
@@ -1759,7 +1731,6 @@ void do_snoop(CHAR_DATA *ch, char *argument) {
 
     victim->desc->snoop_by = ch->desc;
     send_to_char("Ok.\n\r", ch);
-    return;
 }
 
 void do_switch(CHAR_DATA *ch, char *argument) {
@@ -1809,7 +1780,6 @@ void do_switch(CHAR_DATA *ch, char *argument) {
     victim->comm = ch->comm;
     victim->lines = ch->lines;
     send_to_char("Ok.\n\r", victim);
-    return;
 }
 
 void do_return(CHAR_DATA *ch, char *argument) {
@@ -1827,7 +1797,6 @@ void do_return(CHAR_DATA *ch, char *argument) {
     ch->desc->original = nullptr;
     ch->desc->character->desc = ch->desc;
     ch->desc = nullptr;
-    return;
 }
 
 /* trust levels for load and clone */
@@ -1995,7 +1964,6 @@ void do_mload(CHAR_DATA *ch, char *argument) {
     char_to_room(victim, ch->in_room);
     act("$n has created $N!", ch, nullptr, victim, TO_ROOM);
     send_to_char("Ok.\n\r", ch);
-    return;
 }
 
 void do_oload(CHAR_DATA *ch, char *argument) {
@@ -2039,7 +2007,6 @@ void do_oload(CHAR_DATA *ch, char *argument) {
         obj_to_room(obj, ch->in_room);
     act("$n has created $p!", ch, obj, nullptr, TO_ROOM);
     send_to_char("Ok.\n\r", ch);
-    return;
 }
 
 void do_purge(CHAR_DATA *ch, char *argument) {
@@ -2106,7 +2073,6 @@ void do_purge(CHAR_DATA *ch, char *argument) {
 
     act("$n purges $N.", ch, nullptr, victim, TO_NOTVICT);
     extract_char(victim, true);
-    return;
 }
 
 void do_advance(CHAR_DATA *ch, char *argument) {
@@ -2186,7 +2152,6 @@ void do_advance(CHAR_DATA *ch, char *argument) {
         victim->trust = 0;
         save_char_obj(victim);
     }
-    return;
 }
 
 void do_trust(CHAR_DATA *ch, char *argument) {
@@ -2231,7 +2196,6 @@ void do_trust(CHAR_DATA *ch, char *argument) {
     }
 
     victim->trust = level;
-    return;
 }
 
 void do_restore(CHAR_DATA *ch, char *argument) {
@@ -2304,7 +2268,6 @@ void do_restore(CHAR_DATA *ch, char *argument) {
     update_pos(victim);
     act("$n has restored you.", ch, nullptr, victim, TO_VICT);
     send_to_char("Ok.\n\r", ch);
-    return;
 }
 
 void do_freeze(CHAR_DATA *ch, char *argument) {
@@ -2344,8 +2307,6 @@ void do_freeze(CHAR_DATA *ch, char *argument) {
     }
 
     save_char_obj(victim);
-
-    return;
 }
 
 void do_log(CHAR_DATA *ch, char *argument) {
@@ -2390,8 +2351,6 @@ void do_log(CHAR_DATA *ch, char *argument) {
         SET_BIT(victim->act, PLR_LOG);
         send_to_char("LOG set.\n\r", ch);
     }
-
-    return;
 }
 
 void do_noemote(CHAR_DATA *ch, char *argument) {
@@ -2424,8 +2383,6 @@ void do_noemote(CHAR_DATA *ch, char *argument) {
         send_to_char("You can't emote!\n\r", victim);
         send_to_char("NOEMOTE set.\n\r", ch);
     }
-
-    return;
 }
 
 void do_noshout(CHAR_DATA *ch, char *argument) {
@@ -2463,8 +2420,6 @@ void do_noshout(CHAR_DATA *ch, char *argument) {
         send_to_char("You can't shout!\n\r", victim);
         send_to_char("NOSHOUT set.\n\r", ch);
     }
-
-    return;
 }
 
 void do_notell(CHAR_DATA *ch, char *argument) {
@@ -2497,8 +2452,6 @@ void do_notell(CHAR_DATA *ch, char *argument) {
         send_to_char("You can't tell!\n\r", victim);
         send_to_char("NOTELL set.\n\r", ch);
     }
-
-    return;
 }
 
 void do_peace(CHAR_DATA *ch, char *argument) {
@@ -2517,7 +2470,6 @@ void do_peace(CHAR_DATA *ch, char *argument) {
     }
 
     send_to_char("Ok.\n\r", ch);
-    return;
 }
 
 void do_awaken(CHAR_DATA *ch, char *argument) {
@@ -2549,8 +2501,6 @@ void do_awaken(CHAR_DATA *ch, char *argument) {
     victim->position = POS_STANDING;
 
     act_new("$n gives $t a kick, and wakes them up.", ch, victim->short_descr, nullptr, TO_ROOM, POS_RESTING);
-
-    return;
 }
 
 void do_owhere(CHAR_DATA *ch, char *argument) {
@@ -2642,8 +2592,6 @@ void do_coma(CHAR_DATA *ch, char *argument) {
         act("$n goes to sleep.", victim, nullptr, nullptr, TO_ROOM);
         victim->position = POS_SLEEPING;
     }
-
-    return;
 }
 
 bool osearch_is_valid_level_range(int min_level, int max_level) {
@@ -2784,8 +2732,6 @@ void do_slookup(CHAR_DATA *ch, char *argument) {
                      skill_table[sn].name);
         send_to_char(buf, ch);
     }
-
-    return;
 }
 
 /* RT set replaces sset, mset, oset, and rset */
@@ -2887,8 +2833,6 @@ void do_sset(CHAR_DATA *ch, char *argument) {
     } else {
         victim->pcdata->learned[sn] = value;
     }
-
-    return;
 }
 
 void do_mset(CHAR_DATA *ch, char *argument) {
@@ -3201,7 +3145,6 @@ void do_mset(CHAR_DATA *ch, char *argument) {
      * Generate usage message.
      */
     do_mset(ch, "");
-    return;
 }
 
 void do_string(CHAR_DATA *ch, char *argument) {
@@ -3462,7 +3405,6 @@ void do_oset(CHAR_DATA *ch, char *argument) {
      * Generate usage message.
      */
     do_oset(ch, "");
-    return;
 }
 
 void do_rset(CHAR_DATA *ch, char *argument) {
@@ -3518,7 +3460,6 @@ void do_rset(CHAR_DATA *ch, char *argument) {
      * Generate usage message.
      */
     do_rset(ch, "");
-    return;
 }
 
 void do_sockets(CHAR_DATA *ch, char *argument) {
@@ -3560,7 +3501,6 @@ void do_sockets(CHAR_DATA *ch, char *argument) {
     bug_snprintf(buf2, sizeof(buf2), "%d user%s\n\r", count, count == 1 ? "" : "s");
     strcat(buf, buf2);
     page_to_char(buf, ch);
-    return;
 }
 
 /*
@@ -3678,7 +3618,6 @@ void do_force(CHAR_DATA *ch, char *argument) {
     }
 
     send_to_char("Ok.\n\r", ch);
-    return;
 }
 
 /*
@@ -3731,8 +3670,6 @@ void do_invis(CHAR_DATA *ch, char *argument) {
             send_to_char("You slowly vanish into thin air.\n\r", ch);
         }
     }
-
-    return;
 }
 
 void do_prowl(CHAR_DATA *ch, char *argument) {
@@ -3816,8 +3753,6 @@ void do_holylight(CHAR_DATA *ch, char *argument) {
         SET_BIT(ch->act, PLR_HOLYLIGHT);
         send_to_char("Holy light mode on.\n\r", ch);
     }
-
-    return;
 }
 
 void do_sacname(CHAR_DATA *ch, char *argument) {

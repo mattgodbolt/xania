@@ -418,7 +418,6 @@ void assign_area_vnum(int vnum) {
         else
             area_last->uvnum = vnum;
     }
-    return;
 }
 
 /* Snarf a help section. */
@@ -677,8 +676,6 @@ void load_old_mob_race(FILE *fp) {
         top_mob_index++;
         kill_table[URANGE(0, pMobIndex->level, MAX_LEVEL - 1)].number++;
     }
-
-    return;
 }
 
 /*
@@ -830,8 +827,6 @@ void load_old_obj(FILE *fp) {
         obj_index_hash[iHash] = pObjIndex;
         top_obj_index++;
     }
-
-    return;
 }
 
 /* New ROM-2.4 + OLC aware RESET code
@@ -860,7 +855,6 @@ void new_reset(ROOM_INDEX_DATA *pR, RESET_DATA *pReset) {
     }
 
     top_reset++;
-    return;
 }
 
 void load_resets(FILE *fp) {
@@ -964,8 +958,6 @@ void load_resets(FILE *fp) {
         pReset->next = nullptr;
         top_reset++;
     }
-
-    return;
 }
 
 void validate_resets() {
@@ -1552,8 +1544,6 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
             break;
         }
     }
-
-    return;
 }
 
 /* OLC
@@ -1567,8 +1557,6 @@ void reset_area(AREA_DATA *pArea) {
         if ((pRoom = get_room_index(vnum)))
             reset_room(pRoom);
     }
-
-    return;
 }
 
 /*
@@ -2009,7 +1997,6 @@ void clear_char(CHAR_DATA *ch) {
     }
     for (i = 0; i < MES_HASH; i++)
         ch->mes_hash[i] = nullptr;
-    return;
 }
 
 /*
@@ -2061,7 +2048,6 @@ void free_char(CHAR_DATA *ch) {
 
     ch->next = char_free;
     char_free = ch;
-    return;
 }
 
 /*
@@ -2531,7 +2517,6 @@ void fread_to_eol(FILE *fp) {
     } while (c == '\n' || c == '\r');
 
     ungetc(c, fp);
-    return;
 }
 
 /*
@@ -2616,8 +2601,6 @@ void free_mem(void *pMem, int sMem) {
 
     *((void **)pMem) = rgFreeList[iList];
     rgFreeList[iList] = pMem;
-
-    return;
 }
 
 /*
@@ -2680,7 +2663,6 @@ void free_string(char *pstr) {
         return;
 
     free_mem(pstr, strlen(pstr) + 1);
-    return;
 }
 
 // Now takes parameters (TM was 'ere 10/00)
@@ -2798,8 +2780,6 @@ void do_memory(CHAR_DATA *ch, char *argument) {
 
     snprintf(buf, sizeof(buf), "Perms   %5d blocks  of %7d bytes.\n\r", nAllocPerm, sAllocPerm);
     send_to_char(buf, ch);
-
-    return;
 }
 
 void do_dump(CHAR_DATA *ch, char *argument) {
@@ -3019,7 +2999,6 @@ void init_mm() {
     for (iState = 2; iState < 55; iState++) {
         piState[iState] = (piState[iState - 1] + piState[iState - 2]) & ((1 << 30) - 1);
     }
-    return;
 }
 
 int number_mm() {
@@ -3074,8 +3053,6 @@ void smash_tilde(char *str) {
         if (*str == '~')
             *str = '-';
     }
-
-    return;
 }
 
 /*

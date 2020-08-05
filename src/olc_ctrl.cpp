@@ -147,7 +147,6 @@ void do_security(CHAR_DATA *ch, char *argument) {
         send_to_char(" given.\n\r", ch);
         player->pcdata->olc->security = security;
     }
-    return;
 }
 
 bool olc_string_isalpha(CHAR_DATA *ch, char *string, int len) {
@@ -262,7 +261,6 @@ void do_edit(CHAR_DATA *ch, char *argument) {
     }
     send_to_char("OLC:    unrecognised edit command.\n\r", ch);
     send_to_char("Syntax: edit [current||new||quest] {filename} {'areaname'}\n\r", ch);
-    return;
 }
 
 /*
@@ -308,7 +306,6 @@ void olc_initialise(CHAR_DATA *ch) {
 
     ch->pcdata->olc = new_olc_struct;
     olc_cleanstrings(ch, true, true, true);
-    return;
 }
 
 void olc_cleanstrings(CHAR_DATA *ch, bool fObj, bool fMob, bool fRoom) {
@@ -346,7 +343,6 @@ void olc_cleanstrings(CHAR_DATA *ch, bool fObj, bool fMob, bool fRoom) {
         ch->pcdata->olc->room_template->extra_descr->keyword = &str_empty[0];
         ch->pcdata->olc->room_template->extra_descr->description = &str_empty[0];
     }
-    return;
 }
 
 void olc_slookup_obj(CHAR_DATA *ch) {
@@ -372,7 +368,6 @@ void olc_slookup_obj(CHAR_DATA *ch) {
         add_buf(buffer, text);
     }
     buf_to_char(buffer, ch);
-    return;
 }
 
 char *olc_stripcolour(char *attack_type) {
@@ -445,7 +440,6 @@ void clip_sub(CHAR_DATA *ch) {
         ch->clipboard = str_dup(old_mes_buf);
     }
     send_to_char("Ok.\n\r", ch);
-    return;
 }
 
 void do_clipboard(CHAR_DATA *ch, char *argument) {
@@ -489,5 +483,4 @@ void do_clipboard(CHAR_DATA *ch, char *argument) {
         return;
     }
     send_to_char("Syntax: clipboard [+||-||show||clear||fromdesc] ...", ch);
-    return;
 }

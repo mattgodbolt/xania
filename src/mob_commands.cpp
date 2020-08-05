@@ -107,8 +107,6 @@ void do_mpstat(CHAR_DATA *ch, char *argument) {
         snprintf(buf, sizeof(buf), ">%s %s\n\r%s\n\r", mprog_type_to_name(mprg->type), mprg->arglist, mprg->comlist);
         send_to_char(buf, ch);
     }
-
-    return;
 }
 
 /* prints the argument to all the rooms aroud the mobile */
@@ -141,7 +139,6 @@ void do_mpasound(CHAR_DATA *ch, char *argument) {
     }
 
     ch->in_room = was_in_room;
-    return;
 }
 
 /* lets the mobile kill any player or mobile without murder*/
@@ -183,7 +180,6 @@ void do_mpkill(CHAR_DATA *ch, char *argument) {
     }
 
     multi_hit(ch, victim, TYPE_UNDEFINED);
-    return;
 }
 
 /* lets the mobile destroy an object in its inventory
@@ -225,8 +221,6 @@ void do_mpjunk(CHAR_DATA *ch, char *argument) {
                 extract_obj(obj);
             }
         }
-
-    return;
 }
 
 /* prints the message to everyone in the room other than the mob and victim */
@@ -253,7 +247,6 @@ void do_mpechoaround(CHAR_DATA *ch, char *argument) {
     }
 
     act(argument, ch, nullptr, victim, TO_NOTVICT);
-    return;
 }
 
 /* prints the message to only the victim */
@@ -280,7 +273,6 @@ void do_mpechoat(CHAR_DATA *ch, char *argument) {
     }
 
     act(argument, ch, nullptr, victim, TO_VICT);
-    return;
 }
 
 /* prints the message to the room at large */
@@ -297,7 +289,6 @@ void do_mpecho(CHAR_DATA *ch, char *argument) {
     }
 
     act(argument, ch, nullptr, nullptr, TO_ROOM);
-    return;
 }
 
 /* lets the mobile load an item or mobile.  All items
@@ -328,7 +319,6 @@ void do_mpmload(CHAR_DATA *ch, char *argument) {
 
     victim = create_mobile(pMobIndex);
     char_to_room(victim, ch->in_room);
-    return;
 }
 
 void do_mpoload(CHAR_DATA *ch, char *argument) {
@@ -379,8 +369,6 @@ void do_mpoload(CHAR_DATA *ch, char *argument) {
     } else {
         obj_to_room(obj, ch->in_room);
     }
-
-    return;
 }
 
 /* lets the mobile purge all objects and other npcs in the room,
@@ -434,7 +422,6 @@ void do_mppurge(CHAR_DATA *ch, char *argument) {
     }
 
     extract_char(victim, true);
-    return;
 }
 
 /* lets the mobile goto any location it wishes that is not private */
@@ -464,8 +451,6 @@ void do_mpgoto(CHAR_DATA *ch, char *argument) {
 
     char_from_room(ch);
     char_to_room(ch, location);
-
-    return;
 }
 
 /* lets the mobile do a command at another location. Very useful */
@@ -509,8 +494,6 @@ void do_mpat(CHAR_DATA *ch, char *argument) {
             break;
         }
     }
-
-    return;
 }
 
 /* lets the mobile transfer people.  the all argument transfers
@@ -579,8 +562,6 @@ void do_mptransfer(CHAR_DATA *ch, char *argument) {
 
     char_from_room(victim);
     char_to_room(victim, location);
-
-    return;
 }
 
 /* lets the mobile force someone to do something.  must be mortal level
@@ -627,6 +608,4 @@ void do_mpforce(CHAR_DATA *ch, char *argument) {
 
         interpret(victim, argument);
     }
-
-    return;
 }

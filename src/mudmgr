@@ -421,9 +421,7 @@ sub analyze_log {
       }
     }
     close( logfh);
-  }
-  return;
-}
+  }}
 
 
 sub analyze_player {
@@ -444,9 +442,7 @@ sub analyze_player {
   if( time() - $mtime <= $analysisinterval ) {
 
     $numrecentplr++;
-  }
-  return;
-}
+  }}
 
 
 # do_analyze_logs

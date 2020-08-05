@@ -1188,8 +1188,6 @@ void mprog_translate(char ch, char *t, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DAT
 
     default: bug("Mob: %d bad $var", mob->pIndexData->vnum); break;
     }
-
-    return;
 }
 
 /* This procedure simply copies the cmnd to a buffer while expanding
@@ -1220,8 +1218,6 @@ void mprog_process_cmnd(char *cmnd, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *
     }
     *point = '\0';
     interpret(mob, buf);
-
-    return;
 }
 
 /* The main focus of the MOBprograms.  This routine is called
@@ -1264,8 +1260,6 @@ void mprog_driver(char *com_list, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *ob
         cmnd = command_list;
         command_list = mprog_next_command(command_list);
     }
-
-    return;
 }
 
 /***************************************************************************
@@ -1319,8 +1313,6 @@ void mprog_wordlist_check(char *arg, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA 
                             dupl = start + 1;
             }
         }
-
-    return;
 }
 
 void mprog_percent_check(CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, int type) {
@@ -1332,8 +1324,6 @@ void mprog_percent_check(CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *
             if (type != GREET_PROG && type != ALL_GREET_PROG)
                 break;
         }
-
-    return;
 }
 
 /* The triggers.. These are really basic, and since most appear only
@@ -1362,7 +1352,6 @@ void mprog_act_trigger(char *buf, CHAR_DATA *mob, CHAR_DATA *ch, OBJ_DATA *obj, 
         mob->mpact->vo = vo;
         mob->mpactnum++;
     }
-    return;
 }
 
 void mprog_bribe_trigger(CHAR_DATA *mob, CHAR_DATA *ch, int amount) {
@@ -1378,8 +1367,6 @@ void mprog_bribe_trigger(CHAR_DATA *mob, CHAR_DATA *ch, int amount) {
                 break;
             }
     }
-
-    return;
 }
 
 void mprog_death_trigger(CHAR_DATA *mob) {
@@ -1387,24 +1374,18 @@ void mprog_death_trigger(CHAR_DATA *mob) {
     if (IS_NPC(mob) && (mob->pIndexData->progtypes & DEATH_PROG)) {
         mprog_percent_check(mob, nullptr, nullptr, nullptr, DEATH_PROG);
     }
-
-    return;
 }
 
 void mprog_entry_trigger(CHAR_DATA *mob) {
 
     if (IS_NPC(mob) && (mob->pIndexData->progtypes & ENTRY_PROG))
         mprog_percent_check(mob, nullptr, nullptr, nullptr, ENTRY_PROG);
-
-    return;
 }
 
 void mprog_fight_trigger(CHAR_DATA *mob, CHAR_DATA *ch) {
 
     if (IS_NPC(mob) && (mob->pIndexData->progtypes & FIGHT_PROG))
         mprog_percent_check(mob, ch, nullptr, nullptr, FIGHT_PROG);
-
-    return;
 }
 
 void mprog_give_trigger(CHAR_DATA *mob, CHAR_DATA *ch, OBJ_DATA *obj) {
@@ -1420,8 +1401,6 @@ void mprog_give_trigger(CHAR_DATA *mob, CHAR_DATA *ch, OBJ_DATA *obj) {
                 break;
             }
         }
-
-    return;
 }
 
 void mprog_greet_trigger(CHAR_DATA *mob) {
@@ -1435,8 +1414,6 @@ void mprog_greet_trigger(CHAR_DATA *mob) {
         else if (IS_NPC(vmob) && (vmob->fighting == nullptr) && IS_AWAKE(vmob)
                  && (vmob->pIndexData->progtypes & ALL_GREET_PROG))
             mprog_percent_check(vmob, mob, nullptr, nullptr, ALL_GREET_PROG);
-
-    return;
 }
 
 void mprog_hitprcnt_trigger(CHAR_DATA *mob, CHAR_DATA *ch) {
@@ -1449,16 +1426,12 @@ void mprog_hitprcnt_trigger(CHAR_DATA *mob, CHAR_DATA *ch) {
                 mprog_driver(mprg->comlist, mob, ch, nullptr, nullptr);
                 break;
             }
-
-    return;
 }
 
 void mprog_random_trigger(CHAR_DATA *mob) {
 
     if (mob->pIndexData->progtypes & RAND_PROG)
         mprog_percent_check(mob, nullptr, nullptr, nullptr, RAND_PROG);
-
-    return;
 }
 
 void mprog_speech_trigger(const char *txt, CHAR_DATA *mob) {
@@ -1468,6 +1441,4 @@ void mprog_speech_trigger(const char *txt, CHAR_DATA *mob) {
     for (vmob = mob->in_room->people; vmob != nullptr; vmob = vmob->next_in_room)
         if (IS_NPC(vmob) && (vmob->pIndexData->progtypes & SPEECH_PROG))
             mprog_wordlist_check(txt, vmob, mob, nullptr, nullptr, SPEECH_PROG);
-
-    return;
 }

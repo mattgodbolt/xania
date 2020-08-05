@@ -55,8 +55,6 @@ void bug(const char *str, ...) {
     vsnprintf(buf + strlen(buf), sizeof(buf), str, arglist);
     va_end(arglist); /* TM added */
     log_new(buf, EXTRA_WIZNET_BUG, 0); /* TM added */
-
-    return;
 }
 
 /* Writes a string to the log. */

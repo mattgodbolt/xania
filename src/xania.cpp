@@ -151,8 +151,6 @@ void report_mobile(MOB_INDEX_DATA *mob) {
 
     if ((mob->hit[DICE_NUMBER] + mob->hit[DICE_BONUS]) < (mob->level * 30))
         mobbug("has too few health points", mob);
-
-    return;
 }
 
 /* check_xania - check all of Xania and report those things that aren't what they should be */
@@ -212,7 +210,6 @@ void do_immworth(CHAR_DATA *ch, char *argument) {
                  obj->pIndexData->short_descr, worth, shouldbe);
     }
     send_to_char(buf, ch);
-    return;
 }
 
 void set_prefix(CHAR_DATA *ch, char *prefix) {
@@ -222,8 +219,6 @@ void set_prefix(CHAR_DATA *ch, char *prefix) {
 
     free_string(ch->pcdata->prefix);
     ch->pcdata->prefix = str_dup(buf);
-
-    return;
 }
 
 /* do_prefix added 19-05-97 PCFN */
@@ -263,8 +258,6 @@ void do_prefix(CHAR_DATA *ch, char *argument) {
         snprintf(ch_buffer, sizeof(ch_buffer), "Prefix set to \"%s\"\n\r", ch_prefix->pcdata->prefix);
 
     send_to_char(ch_buffer, ch);
-
-    return;
 }
 
 /* do_timezone added PCFN 24-05-97 */
@@ -294,8 +287,6 @@ void do_timezone(CHAR_DATA *ch, char *argument) {
                  ch_owner->pcdata->minoffset);
         send_to_char(buf, ch_owner);
     }
-
-    return;
 }
 
 /********************************************************************************************/
@@ -571,7 +562,6 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
 void do_smit(CHAR_DATA *ch, char *argument) {
     (void)argument;
     send_to_char("If you wish to smite someone, then SPELL it out!\n\r", ch);
-    return;
 }
 
 void do_smite(CHAR_DATA *ch, char *argument) {
@@ -669,7 +659,6 @@ void do_smite(CHAR_DATA *ch, char *argument) {
     } /* disarms them, and NPCs will collect
               their weapon if they can see it.
               Ta-daa, smite compleeeeeet. Ouch. */
-    return;
 }
 
 /* web related functions */
@@ -719,7 +708,6 @@ void web_who() {
             count);
 
     fclose(fp);
-    return;
 }
 
 void load_tipfile() {
@@ -762,72 +750,67 @@ void load_tipfile() {
         tip_current = ptt;
         tipcount++;
     }
-    /* now set the current tip to the top of the list ready for use*/
-    return;
-}
+    /* now set the current tip to the top of the list ready for use*/}
 
-void tip_players() {
+    void tip_players() {
 
-    DESCRIPTOR_DATA *d;
-    char buf[MAX_STRING_LENGTH];
+        DESCRIPTOR_DATA *d;
+        char buf[MAX_STRING_LENGTH];
 
-    /* check the tip wizard list first ... */
+        /* check the tip wizard list first ... */
 
-    if (tip_current == nullptr)
-        tip_current = tip_top; /* send us back to top of list */
+        if (tip_current == nullptr)
+            tip_current = tip_top; /* send us back to top of list */
 
-    if (tip_top == nullptr) { /* we didn't load a tip file so ignore */
-        ignore_tips = true;
-        return;
-    }
-    if (tip_current->tip == nullptr) {
-        tip_current = tip_current->next;
-        return;
-    }
-    if (strlen(tip_current->tip) == 0) {
-        tip_current = tip_current->next;
-        return;
-    }
-    snprintf(buf, sizeof(buf), "|WTip: %s|w\n\r", tip_current->tip);
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        CHAR_DATA *ch;
-
-        ch = (d->original != nullptr) ? d->original : d->character;
-
-        if (d->connected != CON_PLAYING)
-            continue;
-
-        if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
-            send_to_char(buf, ch);
+        if (tip_top == nullptr) { /* we didn't load a tip file so ignore */
+            ignore_tips = true;
+            return;
         }
+        if (tip_current->tip == nullptr) {
+            tip_current = tip_current->next;
+            return;
+        }
+        if (strlen(tip_current->tip) == 0) {
+            tip_current = tip_current->next;
+            return;
+        }
+        snprintf(buf, sizeof(buf), "|WTip: %s|w\n\r", tip_current->tip);
+        for (d = descriptor_list; d != nullptr; d = d->next) {
+            CHAR_DATA *ch;
+
+            ch = (d->original != nullptr) ? d->original : d->character;
+
+            if (d->connected != CON_PLAYING)
+                continue;
+
+            if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
+                send_to_char(buf, ch);
+            }
+        }
+        tip_current = tip_current->next;
     }
-    tip_current = tip_current->next;
 
-    return;
-}
+    void do_tipwizard(CHAR_DATA *ch, char *arg) {
 
-void do_tipwizard(CHAR_DATA *ch, char *arg) {
-
-    if (arg[0] == '\0') {
-        if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
-            remove_extra(ch, EXTRA_TIP_WIZARD);
-            send_to_char("Tipwizard deactivated.\n\r", ch);
-        } else {
+        if (arg[0] == '\0') {
+            if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
+                remove_extra(ch, EXTRA_TIP_WIZARD);
+                send_to_char("Tipwizard deactivated.\n\r", ch);
+            } else {
+                set_extra(ch, EXTRA_TIP_WIZARD);
+                send_to_char("Tipwizard activated!\n\r", ch);
+            }
+            return;
+        }
+        if (!strcmp(arg, "on")) {
             set_extra(ch, EXTRA_TIP_WIZARD);
             send_to_char("Tipwizard activated!\n\r", ch);
+            return;
         }
-        return;
+        if (!strcmp(arg, "off")) {
+            remove_extra(ch, EXTRA_TIP_WIZARD);
+            send_to_char("Tipwizard deactivated.\n\r", ch);
+            return;
+        }
+        send_to_char("Syntax: tipwizard {on/off}\n\r", ch);
     }
-    if (!strcmp(arg, "on")) {
-        set_extra(ch, EXTRA_TIP_WIZARD);
-        send_to_char("Tipwizard activated!\n\r", ch);
-        return;
-    }
-    if (!strcmp(arg, "off")) {
-        remove_extra(ch, EXTRA_TIP_WIZARD);
-        send_to_char("Tipwizard deactivated.\n\r", ch);
-        return;
-    }
-    send_to_char("Syntax: tipwizard {on/off}\n\r", ch);
-    return;
-}

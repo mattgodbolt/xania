@@ -10,6 +10,7 @@
 #include "challeng.h"
 #include "interp.h"
 #include "merc.h"
+#include "olc_room.h"
 
 #include <cstdio>
 #include <cstring>
@@ -377,7 +378,6 @@ void do_north(CHAR_DATA *ch, char *argument) {
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, DIR_NORTH);
-    return;
 }
 
 void do_east(CHAR_DATA *ch, char *argument) {
@@ -385,7 +385,6 @@ void do_east(CHAR_DATA *ch, char *argument) {
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, DIR_EAST);
-    return;
 }
 
 void do_south(CHAR_DATA *ch, char *argument) {
@@ -393,7 +392,6 @@ void do_south(CHAR_DATA *ch, char *argument) {
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, DIR_SOUTH);
-    return;
 }
 
 void do_west(CHAR_DATA *ch, char *argument) {
@@ -401,7 +399,6 @@ void do_west(CHAR_DATA *ch, char *argument) {
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, DIR_WEST);
-    return;
 }
 
 void do_up(CHAR_DATA *ch, char *argument) {
@@ -409,7 +406,6 @@ void do_up(CHAR_DATA *ch, char *argument) {
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, DIR_UP);
-    return;
 }
 
 void do_down(CHAR_DATA *ch, char *argument) {
@@ -417,7 +413,6 @@ void do_down(CHAR_DATA *ch, char *argument) {
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, DIR_DOWN);
-    return;
 }
 
 int find_door(CHAR_DATA *ch, char *arg) {
@@ -526,8 +521,6 @@ void do_open(CHAR_DATA *ch, char *argument) {
                 act("The $d opens.", rch, nullptr, pexit_rev->keyword, TO_CHAR);
         }
     }
-
-    return;
 }
 
 void do_close(CHAR_DATA *ch, char *argument) {
@@ -589,8 +582,6 @@ void do_close(CHAR_DATA *ch, char *argument) {
                 act("The $d closes.", rch, nullptr, pexit_rev->keyword, TO_CHAR);
         }
     }
-
-    return;
 }
 
 bool has_key(CHAR_DATA *ch, int key) {
@@ -679,8 +670,6 @@ void do_lock(CHAR_DATA *ch, char *argument) {
             SET_BIT(pexit_rev->exit_info, EX_LOCKED);
         }
     }
-
-    return;
 }
 
 void do_unlock(CHAR_DATA *ch, char *argument) {
@@ -758,8 +747,6 @@ void do_unlock(CHAR_DATA *ch, char *argument) {
             REMOVE_BIT(pexit_rev->exit_info, EX_LOCKED);
         }
     }
-
-    return;
 }
 
 void do_pick(CHAR_DATA *ch, char *argument) {
@@ -856,8 +843,6 @@ void do_pick(CHAR_DATA *ch, char *argument) {
             REMOVE_BIT(pexit_rev->exit_info, EX_LOCKED);
         }
     }
-
-    return;
 }
 
 void do_stand(CHAR_DATA *ch, const char *arg) {
@@ -891,8 +876,6 @@ void do_stand(CHAR_DATA *ch, const char *arg) {
 
     case POS_FIGHTING: send_to_char("You are already fighting!\n\r", ch); break;
     }
-
-    return;
 }
 
 void do_rest(CHAR_DATA *ch, char *argument) {
@@ -926,8 +909,6 @@ void do_rest(CHAR_DATA *ch, char *argument) {
 
     case POS_FIGHTING: send_to_char("You are already fighting!\n\r", ch); break;
     }
-
-    return;
 }
 
 void do_sit(CHAR_DATA *ch, char *argument) {
@@ -956,7 +937,6 @@ void do_sit(CHAR_DATA *ch, char *argument) {
         ch->position = POS_SITTING;
         break;
     }
-    return;
 }
 
 void do_sleep(CHAR_DATA *ch, char *argument) {
@@ -980,8 +960,6 @@ void do_sleep(CHAR_DATA *ch, char *argument) {
 
     case POS_FIGHTING: send_to_char("You are already fighting!\n\r", ch); break;
     }
-
-    return;
 }
 
 void do_wake(CHAR_DATA *ch, char *argument) {
@@ -1025,7 +1003,6 @@ void do_wake(CHAR_DATA *ch, char *argument) {
     victim->position = POS_STANDING;
     act("You wake $M.", ch, nullptr, victim, TO_CHAR);
     act("$n wakes you.", ch, nullptr, victim, TO_VICT);
-    return;
 }
 
 void do_sneak(CHAR_DATA *ch, char *argument) {
@@ -1046,8 +1023,6 @@ void do_sneak(CHAR_DATA *ch, char *argument) {
         affect_to_char(ch, &af);
     } else
         check_improve(ch, gsn_sneak, false, 3);
-
-    return;
 }
 
 void do_hide(CHAR_DATA *ch, char *argument) {
@@ -1062,8 +1037,6 @@ void do_hide(CHAR_DATA *ch, char *argument) {
         check_improve(ch, gsn_hide, true, 3);
     } else
         check_improve(ch, gsn_hide, false, 3);
-
-    return;
 }
 
 /*
@@ -1078,7 +1051,6 @@ void do_visible(CHAR_DATA *ch, char *argument) {
     REMOVE_BIT(ch->affected_by, AFF_INVISIBLE);
     REMOVE_BIT(ch->affected_by, AFF_SNEAK);
     send_to_char("Ok.\n\r", ch);
-    return;
 }
 
 void do_recall(CHAR_DATA *ch, char *argument) {
@@ -1177,8 +1149,6 @@ void do_recall(CHAR_DATA *ch, char *argument) {
 
     if (ch->pet != nullptr)
         do_recall(ch->pet, argument);
-
-    return;
 }
 
 void do_train(CHAR_DATA *ch, const char *argument) {

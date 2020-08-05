@@ -738,7 +738,6 @@ void read_from_buffer(DESCRIPTOR_DATA *d) {
         i++;
     for (j = 0; (d->inbuf[j] = d->inbuf[i + j]) != '\0'; j++)
         ;
-    return;
 }
 
 /*
@@ -874,7 +873,6 @@ void write_to_buffer(DESCRIPTOR_DATA *d, const char *txt, int length) {
      */
     strncpy(d->outbuf + d->outtop, txt, length);
     d->outtop += length;
-    return;
 }
 
 /*
@@ -1478,8 +1476,6 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
         news_info(ch);
         break;
     }
-
-    return;
 }
 
 /*
@@ -1670,7 +1666,6 @@ void send_to_char(const char *txt, CHAR_DATA *ch) {
         *bufptr = '\0';
         write_to_buffer(ch->desc, buf, strlen(buf));
     }
-    return;
 }
 
 /*
@@ -1729,7 +1724,6 @@ void show_string(struct descriptor_data *d, char *input) {
             return;
         }
     }
-    return;
 }
 
 /* quick sex fixer */
@@ -1891,8 +1885,6 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
             }
         }
     }
-
-    return;
 }
 
 void show_prompt(DESCRIPTOR_DATA *d, char *prompt) {

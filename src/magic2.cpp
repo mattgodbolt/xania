@@ -56,7 +56,6 @@ void tornado_teleport(CHAR_DATA *ch, CHAR_DATA *victim) {
         fallen_off_mount(ch);
     } /* end ride check */
     do_look(victim, "auto");
-    return;
 }
 
 void tornado_dam(CHAR_DATA *ch, CHAR_DATA *victim, int level) {
@@ -65,7 +64,6 @@ void tornado_dam(CHAR_DATA *ch, CHAR_DATA *victim, int level) {
 
     dam = dice(level, 20);
     damage(ch, victim, dam, sn, DAM_MENTAL);
-    return;
 }
 
 void tornado_mental(CHAR_DATA *ch, CHAR_DATA *victim, int level) {
@@ -89,8 +87,6 @@ void tornado_mental(CHAR_DATA *ch, CHAR_DATA *victim, int level) {
     affect_to_char(victim, &af);
     WAIT_STATE(ch, PULSE_VIOLENCE * 2);
     victim->position = POS_RESTING;
-
-    return;
 }
 
 void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
@@ -196,7 +192,6 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
             }
         } /* closes main loop for each direction */
     }
-    return;
 }
 
 /* commented out for time being --Fara  */

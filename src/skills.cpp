@@ -346,7 +346,6 @@ void list_group_costs(CHAR_DATA *ch) {
     send_to_char(buf, ch);
     bug_snprintf(buf, sizeof(buf), "Experience per level: %u\n\r", exp_per_level(ch, ch->gen_data->points_chosen));
     send_to_char(buf, ch);
-    return;
 }
 
 void list_group_chosen(CHAR_DATA *ch) {
@@ -400,7 +399,6 @@ void list_group_chosen(CHAR_DATA *ch) {
     send_to_char(buf, ch);
     bug_snprintf(buf, sizeof(buf), "Experience per level: %u\n\r", exp_per_level(ch, ch->gen_data->points_chosen));
     send_to_char(buf, ch);
-    return;
 }
 
 unsigned int exp_per_level(CHAR_DATA *ch, int points) {

@@ -114,7 +114,6 @@ void olc_parse_room(CHAR_DATA *ch, char *argument) {
         }
     }
     send_to_char("Syntax: room <vnum> {add}\n\r", ch);
-    return;
 }
 
 /*
@@ -168,7 +167,6 @@ void olc_edit_room(CHAR_DATA *ch, char *argument) {
         return;
     }
     send_to_char("OLC: unrecognised room command: room ? to list.\n\r", ch);
-    return;
 }
 
 /*
@@ -239,7 +237,6 @@ void olc_create_room(CHAR_DATA *ch, int vnum) {
     pRoomIndex->description = str_dup(buf);
     snprintf(buf, sizeof(buf), "Room %d created OK.\n\r", newvnum);
     send_to_char(buf, ch);
-    return;
 }
 
 /*
@@ -319,7 +316,6 @@ void olc_destroy_room(CHAR_DATA *ch, char *argument) {
         return;
     }
     send_to_char("OLC: room destroyed.\n\r", ch);
-    return;
 }
 
 /*
@@ -390,7 +386,6 @@ void olc_string_room(CHAR_DATA *ch, char *argument) {
     }
     send_to_char("OLC:    unrecognised room string command.\n\r", ch);
     send_to_char("        room string ? to list", ch);
-    return;
 }
 
 void olc_room_string_name(CHAR_DATA *ch, char *argument) {
@@ -514,7 +509,6 @@ void olc_room_string_extras(CHAR_DATA *ch, char *argument) {
     }
     send_to_char("OLC: unrecognised room string extras command.\n\r", ch);
     send_to_char("     room string extras ? to list", ch);
-    return;
 }
 
 /*

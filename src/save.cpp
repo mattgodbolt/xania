@@ -116,7 +116,6 @@ void save_char_obj(CHAR_DATA *ch) {
         bug("Unable to move temporary player name %s!! save failed!", strsave);
     }
     fpReserve = fopen(NULL_FILE, "r");
-    return;
 }
 
 /*
@@ -258,7 +257,6 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
     }
 
     fprintf(fp, "End\n\n");
-    return;
 }
 
 /* write a pet */
@@ -323,7 +321,6 @@ void fwrite_pet(CHAR_DATA *ch, CHAR_DATA *pet, FILE *fp) {
         fwrite_obj(pet, pet->carrying, fp, 0);
 
     fprintf(fp, "End\n");
-    return;
 }
 
 /*
@@ -429,8 +426,6 @@ void fwrite_obj(CHAR_DATA *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
 
     if (obj->contains != nullptr)
         fwrite_obj(ch, obj->contains, fp, iNest + 1);
-
-    return;
 }
 
 /*

@@ -546,7 +546,6 @@ void move_active_char_from_limbo(CHAR_DATA *ch) {
         ch->pet->was_in_room = nullptr;
         act("$n has returned from the void.", ch->pet, nullptr, nullptr, TO_ROOM);
     }
-    return;
 }
 
 /**

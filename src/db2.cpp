@@ -130,7 +130,6 @@ void load_socials(FILE *fp) {
         social_table[social_count] = social;
         social_count++;
     }
-    return;
 }
 
 /*
@@ -298,8 +297,6 @@ void load_mobiles(FILE *fp) {
         assign_area_vnum(vnum); /* OLC */
         kill_table[URANGE(0, pMobIndex->level, MAX_LEVEL - 1)].number++;
     }
-
-    return;
 }
 
 /*
@@ -498,8 +495,6 @@ void load_objects(FILE *fp) {
         top_vnum_obj = top_vnum_obj < vnum ? vnum : top_vnum_obj; /* OLC */
         assign_area_vnum(vnum); /* OLC */
     }
-
-    return;
 }
 
 char *print_flags(const int value) {

@@ -122,7 +122,6 @@ void olc_parse_obj(CHAR_DATA *ch, char *argument) {
         }
     }
     send_to_char("Syntax: object <vnum> {add <type> <level>}\n\r", ch);
-    return;
 }
 
 void olc_edit_obj(CHAR_DATA *ch, char *argument) {
@@ -201,7 +200,6 @@ void olc_edit_obj(CHAR_DATA *ch, char *argument) {
         return;
     }
     send_to_char("OLC: unrecognised object command: object ? to list.\n\r", ch);
-    return;
 }
 
 /*
@@ -523,7 +521,6 @@ void olc_destroy_obj(CHAR_DATA *ch) {
     snprintf(buf, sizeof(buf), "OLC: %d instances of object vnum %d destroyed!\n\r", count,
              ch->pcdata->olc->current_obj->vnum);
     send_to_char(buf, ch);
-    return;
 }
 
 void olc_magical_obj(CHAR_DATA *ch, char *argument) {
@@ -655,7 +652,6 @@ void olc_magical_obj(CHAR_DATA *ch, char *argument) {
     }
     send_to_char("OLC: unrecognised object magical command.\n\r", ch);
     send_to_char("OLC: object magical ? (to list)\n\r", ch);
-    return;
 }
 
 void olc_change_spells_obj(CHAR_DATA *ch, char *argument, int initial, int max_count) {
@@ -693,7 +689,6 @@ void olc_change_spells_obj(CHAR_DATA *ch, char *argument, int initial, int max_c
     }
     if (changed)
         send_to_char("OLC: object spells have been modified.\n\r", ch);
-    return;
 }
 
 /*
@@ -721,7 +716,6 @@ void olc_material_obj(CHAR_DATA *ch, char *argument) {
     snprintf(text, sizeof(text), "OLC: %s is not a valid material type.\n\r", argument);
     send_to_char(text, ch);
     send_to_char("     object material (to list types available)\n\r", ch);
-    return;
 }
 
 void olc_list_materials_obj(CHAR_DATA *ch) {
@@ -744,7 +738,6 @@ void olc_list_materials_obj(CHAR_DATA *ch) {
     buf_to_char(buffer, ch);
     send_to_char("\n\rOLC: object material <material type>\n\r", ch);
     olc_display_obj_vars(ch, OLC_V_MATERIAL, ch->pcdata->olc->current_obj);
-    return;
 }
 
 bool olc_material_search_obj(CHAR_DATA *ch, char *argument, int count) {
@@ -813,7 +806,6 @@ void olc_cost_obj(CHAR_DATA *ch, char *argument) {
             ch->pcdata->olc->current_obj->cost = UMIN(amount, (ch->pcdata->olc->current_obj->level * 200));
     }
     send_to_char("OLC: object cost changed.\n\r", ch);
-    return;
 }
 
 /*
@@ -832,7 +824,6 @@ void olc_flag_obj(CHAR_DATA *ch, char *argument) {
     send_to_char("OLC: current extra flags are: \n\r", ch);
     ch->pcdata->olc->current_obj->extra_flags =
         flag_set(ITEM_EXTRA_FLAGS, argument, ch->pcdata->olc->current_obj->extra_flags, ch);
-    return;
 }
 
 /*
@@ -852,7 +843,6 @@ void olc_wear_obj(CHAR_DATA *ch, char *argument) {
     send_to_char("OLC: current wear flags are: \n\r", ch);
     ch->pcdata->olc->current_obj->wear_flags =
         flag_set(ITEM_WEAR_FLAGS, argument, ch->pcdata->olc->current_obj->wear_flags, ch);
-    return;
 }
 
 /*
@@ -895,7 +885,6 @@ void olc_weapon_obj(CHAR_DATA *ch, char *argument) {
     }
     send_to_char("OLC: unrecognised object weapon command.\n\r", ch);
     send_to_char("     object weapon ? (for help)\n\r", ch);
-    return;
 }
 
 void olc_attack_obj(CHAR_DATA *ch, char *argument) {
@@ -966,7 +955,6 @@ void olc_weapon_flags_obj(CHAR_DATA *ch, char *argument) {
     send_to_char("OLC: current weapon flags are: \n\r", ch);
     ch->pcdata->olc->current_obj->value[4] =
         flag_set(WEAPON_TYPE_FLAGS, argument, ch->pcdata->olc->current_obj->value[4], ch);
-    return;
 }
 
 /*
@@ -1010,7 +998,6 @@ void olc_weapon_type_obj(CHAR_DATA *ch, char *argument) {
     send_to_char(argument, ch);
     send_to_char(" |wnot recognised.\n\r", ch);
     send_to_char("     object weapon type (for help)\n\r", ch);
-    return;
 }
 
 bool olc_weapon_type_search_obj(CHAR_DATA *ch, char *weapon, int count) {
@@ -1052,7 +1039,6 @@ void olc_weight_obj(CHAR_DATA *ch, char *argument) {
         amount = 1;
     ch->pcdata->olc->current_obj->weight = UMIN(amount, (ch->pcdata->olc->current_obj->level * 2));
     send_to_char("OLC: weight set.\n\r", ch);
-    return;
 }
 
 void olc_string_obj(CHAR_DATA *ch, char *argument) {
@@ -1089,7 +1075,6 @@ void olc_string_obj(CHAR_DATA *ch, char *argument) {
     }
     send_to_char("OLC: unrecognised object string command.\n\r", ch);
     send_to_char("     object string ? to list.\n\r", ch);
-    return;
 }
 
 void olc_string_name_obj(CHAR_DATA *ch, char *argument) {
@@ -1120,7 +1105,6 @@ void olc_string_name_obj(CHAR_DATA *ch, char *argument) {
     free_string(ch->pcdata->olc->current_obj->name);
     ch->pcdata->olc->current_obj->name = str_dup(buf);
     send_to_char("OLC: name changed.\n\r", ch);
-    return;
 }
 
 void olc_string_short_obj(CHAR_DATA *ch, char *argument) {
@@ -1150,7 +1134,6 @@ void olc_string_short_obj(CHAR_DATA *ch, char *argument) {
     free_string(ch->pcdata->olc->current_obj->short_descr);
     ch->pcdata->olc->current_obj->short_descr = str_dup(buf);
     send_to_char("OLC: short name changed.\n\r", ch);
-    return;
 }
 
 void olc_string_long_obj(CHAR_DATA *ch, char *argument) {
@@ -1181,7 +1164,6 @@ void olc_string_long_obj(CHAR_DATA *ch, char *argument) {
     free_string(ch->pcdata->olc->current_obj->description);
     ch->pcdata->olc->current_obj->description = str_dup(buf);
     send_to_char("OLC: long description changed.\n\r", ch);
-    return;
 }
 
 void olc_string_extd_obj(CHAR_DATA *ch, char *argument) {
@@ -1222,7 +1204,6 @@ void olc_string_extd_obj(CHAR_DATA *ch, char *argument) {
     extras->next = ch->pcdata->olc->current_obj->extra_descr;
     ch->pcdata->olc->current_obj->extra_descr = extras;
     send_to_char("OLC: extra description added ok.\n\r", ch);
-    return;
 }
 
 /*
@@ -1340,7 +1321,6 @@ void olc_list_apply_table_obj(CHAR_DATA *ch) {
 
     buf_to_char(buffer, ch);
     send_to_char("\n\rOLC: select apply type from this list.\n\r", ch);
-    return;
 }
 
 /*
@@ -1463,7 +1443,6 @@ void olc_magical_listvals_obj(CHAR_DATA *ch, OBJ_INDEX_DATA *obj, bool stf_wnd) 
              skill_table[obj->value[1]].name, skill_table[obj->value[2]].name, skill_table[obj->value[3]].name);
     send_to_char("INFO: current status: \n\r", ch);
     send_to_char(text, ch);
-    return;
 }
 
 void olc_add_affect_obj(CHAR_DATA *ch, int aff_loc, int amount) {
@@ -1495,8 +1474,6 @@ void olc_add_affect_obj(CHAR_DATA *ch, int aff_loc, int amount) {
     top_affect++;
     ch->pcdata->olc->current_obj = obj;
     send_to_char("OLC: object affect applied.\n\r", ch);
-
-    return;
 }
 
 void olc_remove_affect_obj(CHAR_DATA *ch, int aff_loc) {
@@ -1531,5 +1508,4 @@ void olc_remove_affect_obj(CHAR_DATA *ch, int aff_loc) {
     ch->pcdata->olc->current_obj = obj;
     snprintf(buf, sizeof(buf), "OLC: %d affects stripped.\n\r", count);
     send_to_char(buf, ch);
-    return;
 }

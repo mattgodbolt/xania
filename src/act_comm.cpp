@@ -397,8 +397,6 @@ void do_pose(CHAR_DATA *ch, char *argument) {
 
     act(pose_table[pose].message[2 * ch->class_num + 0], ch, nullptr, nullptr, TO_CHAR);
     act(pose_table[pose].message[2 * ch->class_num + 1], ch, nullptr, nullptr, TO_ROOM);
-
-    return;
 }
 
 void do_bug(CHAR_DATA *ch, char *argument) {
@@ -505,8 +503,6 @@ void do_quit(CHAR_DATA *ch, const char *arg) {
     extract_char(ch, true);
     if (d != nullptr)
         close_socket(d);
-
-    return;
 }
 
 void do_save(CHAR_DATA *ch, const char *arg) {
@@ -517,7 +513,6 @@ void do_save(CHAR_DATA *ch, const char *arg) {
     save_char_obj(ch);
     send_to_char("|cTo Save is wisdom, but don't forget |WXania|c does it automagically!|w\n\r", ch);
     WAIT_STATE(ch, 5 * PULSE_VIOLENCE);
-    return;
 }
 
 void char_ride(CHAR_DATA *ch, CHAR_DATA *pet);
