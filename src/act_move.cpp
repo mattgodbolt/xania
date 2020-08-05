@@ -8,19 +8,13 @@
 /*************************************************************************/
 
 #include "challeng.h"
+#include "interp.h"
 #include "merc.h"
-#include "olc_room.h"
-#include <stdio.h>
-#include <string.h>
-#include <sys/time.h>
-#include <sys/types.h>
 
-/* command procedures needed */
-void do_look(CHAR_DATA *ch, const char *arg);
-void do_recall(CHAR_DATA *ch, char *arg);
-void do_stand(CHAR_DATA *ch, char *arg);
+#include <cstdio>
+#include <cstring>
 
-char *const dir_name[] = {"north", "east", "south", "west", "up", "down"};
+const char *dir_name[] = {"north", "east", "south", "west", "up", "down"};
 
 const sh_int rev_dir[] = {2, 3, 0, 1, 5, 4};
 
@@ -231,8 +225,6 @@ void move_char(CHAR_DATA *ch, int door) {
 
     mprog_entry_trigger(ch);
     mprog_greet_trigger(ch);
-
-    return;
 }
 
 void do_enter(CHAR_DATA *ch, char *argument) {
@@ -868,8 +860,8 @@ void do_pick(CHAR_DATA *ch, char *argument) {
     return;
 }
 
-void do_stand(CHAR_DATA *ch, char *argument) {
-    (void)argument;
+void do_stand(CHAR_DATA *ch, const char *arg) {
+    (void)arg;
 
     if (ch->riding != nullptr) {
         unride_char(ch, ch->riding);
@@ -1189,11 +1181,11 @@ void do_recall(CHAR_DATA *ch, char *argument) {
     return;
 }
 
-void do_train(CHAR_DATA *ch, char *argument) {
+void do_train(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     CHAR_DATA *mob;
     sh_int stat = -1;
-    char *pOutput = nullptr;
+    const char *pOutput = nullptr;
     int cost;
 
     if (IS_NPC(ch))
@@ -1334,5 +1326,4 @@ void do_train(CHAR_DATA *ch, char *argument) {
     ch->perm_stat[stat] += 1;
     act("|WYour $T increases!|w", ch, nullptr, pOutput, TO_CHAR);
     act("|W$n's $T increases!|w", ch, nullptr, pOutput, TO_ROOM);
-    return;
 }

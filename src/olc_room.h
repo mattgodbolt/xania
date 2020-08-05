@@ -11,7 +11,7 @@
 
 #include "merc.h"
 
-extern char *const dir_name[];
+extern const char *dir_name[];
 extern sh_int const rev_dir[];
 extern AREA_DATA *area_first;
 extern AREA_DATA *area_last;
