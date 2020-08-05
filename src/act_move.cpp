@@ -1054,7 +1054,7 @@ void do_visible(CHAR_DATA *ch, char *argument) {
     send_to_char("Ok.\n\r", ch);
 }
 
-void do_recall(CHAR_DATA *ch, char *argument) {
+void do_recall(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     CHAR_DATA *victim;
     ROOM_INDEX_DATA *location;

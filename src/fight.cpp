@@ -9,6 +9,7 @@
 
 #include "challeng.h"
 #include "merc.h"
+#include "interp.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
@@ -16,24 +17,6 @@
 #include <time.h>
 
 #define MAX_DAMAGE_MESSAGE 32
-
-/* command procedures needed */
-void do_emote(CHAR_DATA *ch, char *argument);
-void do_berserk(CHAR_DATA *ch, char *argument);
-void do_bash(CHAR_DATA *ch, char *argument);
-void do_trip(CHAR_DATA *ch, char *argument);
-void do_dirt(CHAR_DATA *ch, char *argument);
-void do_flee(CHAR_DATA *ch, char *argument);
-void do_kick(CHAR_DATA *ch, char *argument);
-void do_disarm(CHAR_DATA *ch, char *argument);
-void do_get(CHAR_DATA *ch, char *argument);
-void do_recall(CHAR_DATA *ch, char *argument);
-void do_duel(CHAR_DATA *ch, char *argument);
-void do_yell(CHAR_DATA *ch, char *argument);
-void do_sacrifice(CHAR_DATA *ch, char *argument);
-void do_transfer(CHAR_DATA *ch, char *argument);
-void do_backstab(CHAR_DATA *ch, char *argument);
-void do_immtalk(CHAR_DATA *ch, char *argument);
 
 void spell_poison(int spell_num, int level, CHAR_DATA *ch, void *vo);
 void spell_plague(int spell_num, int level, CHAR_DATA *ch, void *vo);

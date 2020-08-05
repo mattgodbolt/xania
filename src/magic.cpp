@@ -10,16 +10,12 @@
 #include "magic.h"
 #include "challeng.h"
 #include "merc.h"
+#include "interp.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <time.h>
-
-/* command procedures needed */
-void do_look(CHAR_DATA *ch, const char *arg);
-void do_give(CHAR_DATA *ch, char *arg);
-void do_recall(CHAR_DATA *, char *);
 
 /*
  * Local functions.
@@ -34,14 +30,11 @@ void say_spell(CHAR_DATA *ch, int sn) {
     char buf[MAX_STRING_LENGTH];
     char buf2[MAX_STRING_LENGTH * 2];
     char buf3[MAX_STRING_LENGTH];
-    CHAR_DATA *rch;
-    char *pName;
-    int iSyl;
     int length;
 
     struct syl_type {
-        char *old;
-        char *new_t;
+        const char *old;
+        const char *new_t;
     };
 
     static const struct syl_type syl_table[] = {
@@ -56,8 +49,8 @@ void say_spell(CHAR_DATA *ch, int sn) {
         {"w", "x"},        {"x", "n"},        {"y", "l"},       {"z", "k"},        {"", ""}};
 
     buf[0] = '\0';
-    for (pName = skill_table[sn].name; *pName != '\0'; pName += length) {
-        for (iSyl = 0; (length = strlen(syl_table[iSyl].old)) != 0; iSyl++) {
+    for (const char* pName = skill_table[sn].name; *pName != '\0'; pName += length) {
+        for (int iSyl = 0; (length = strlen(syl_table[iSyl].old)) != 0; iSyl++) {
             if (!str_prefix(syl_table[iSyl].old, pName)) {
                 strcat(buf, syl_table[iSyl].new_t);
                 break;
@@ -71,7 +64,7 @@ void say_spell(CHAR_DATA *ch, int sn) {
     snprintf(buf2, sizeof(buf2), "$n utters the words, '%s'.", buf);
     snprintf(buf, sizeof(buf), "$n utters the words, '%s'.", skill_table[sn].name);
 
-    for (rch = ch->in_room->people; rch; rch = rch->next_in_room) {
+    for (CHAR_DATA *rch = ch->in_room->people; rch; rch = rch->next_in_room) {
         if (!IS_NPC(rch) && rch->pcdata->colour) {
             snprintf(buf3, sizeof(buf3), "%c[0;33m", 27);
             send_to_char(buf3, rch);
@@ -2029,7 +2022,7 @@ void spell_enchant_armor(int sn, int level, CHAR_DATA *ch, void *vo) {
 
         for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
             if (affect_free == nullptr)
-                af_new = alloc_perm(sizeof(*af_new));
+                af_new = (AFFECT_DATA*)alloc_perm(sizeof(*af_new));
             else {
                 af_new = affect_free;
                 affect_free = affect_free->next;
@@ -2080,7 +2073,7 @@ void spell_enchant_armor(int sn, int level, CHAR_DATA *ch, void *vo) {
     } else /* add a new affect */
     {
         if (affect_free == nullptr)
-            paf = alloc_perm(sizeof(*paf));
+            paf = (AFFECT_DATA*)alloc_perm(sizeof(*paf));
         else {
             paf = affect_free;
             affect_free = affect_free->next;
@@ -2235,7 +2228,7 @@ void spell_enchant_weapon(int sn, int level, CHAR_DATA *ch, void *vo) {
 
         for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
             if (affect_free == nullptr)
-                af_new = alloc_perm(sizeof(*af_new));
+                af_new = (AFFECT_DATA*)alloc_perm(sizeof(*af_new));
             else {
                 af_new = affect_free;
                 affect_free = affect_free->next;
@@ -2288,7 +2281,7 @@ void spell_enchant_weapon(int sn, int level, CHAR_DATA *ch, void *vo) {
     } else /* add a new affect */
     {
         if (affect_free == nullptr)
-            paf = alloc_perm(sizeof(*paf));
+            paf = (AFFECT_DATA*)alloc_perm(sizeof(*paf));
         else {
             paf = affect_free;
             affect_free = affect_free->next;
@@ -2317,7 +2310,7 @@ void spell_enchant_weapon(int sn, int level, CHAR_DATA *ch, void *vo) {
     } else /* add a new affect */
     {
         if (affect_free == nullptr)
-            paf = alloc_perm(sizeof(*paf));
+            paf = (AFFECT_DATA*)alloc_perm(sizeof(*paf));
         else {
             paf = affect_free;
             affect_free = affect_free->next;
@@ -3161,7 +3154,7 @@ void spell_know_alignment(int sn, int level, CHAR_DATA *ch, void *vo) {
     (void)sn;
     (void)level;
     CHAR_DATA *victim = (CHAR_DATA *)vo;
-    char *msg;
+    const char *msg;
     int ap;
 
     ap = victim->alignment;
@@ -3921,7 +3914,7 @@ void spell_fire_breath(int sn, int level, CHAR_DATA *ch, void *vo) {
 
     if (number_percent() < 2 * level && !saves_spell(level, victim) && ch->in_room->vnum != CHAL_ROOM) {
         for (obj_lose = victim->carrying; obj_lose != nullptr; obj_lose = obj_next) {
-            char *msg;
+            const char *msg;
 
             obj_next = obj_lose->next_content;
             if (number_bits(2) != 0)
@@ -3977,12 +3970,10 @@ void spell_frost_breath(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *victim = (CHAR_DATA *)vo;
     OBJ_DATA *obj_lose;
     OBJ_DATA *obj_next;
-    int dam;
-    int hpch;
 
     if (number_percent() < 2 * level && !saves_spell(level, victim) && ch->in_room->vnum != CHAL_ROOM) {
         for (obj_lose = victim->carrying; obj_lose != nullptr; obj_lose = obj_next) {
-            char *msg;
+            const char *msg;
 
             obj_next = obj_lose->next_content;
             if (number_bits(2) != 0)
@@ -3999,10 +3990,10 @@ void spell_frost_breath(int sn, int level, CHAR_DATA *ch, void *vo) {
         }
     }
 
-    hpch = UMAX(10, ch->hit);
+    int hpch = UMAX(10, ch->hit);
     if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && !IS_NPC(ch))
         hpch = 1000;
-    dam = number_range(hpch / 20 + 1, hpch / 10);
+    int dam = number_range(hpch / 20 + 1, hpch / 10);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, sn, DAM_COLD);

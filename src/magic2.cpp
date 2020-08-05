@@ -14,14 +14,12 @@
 #include "challeng.h"
 #include "magic.h"
 #include "merc.h"
+#include "interp.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <time.h>
-
-/* command procedures needed */
-void do_look(CHAR_DATA *ch, const char *arg);
 
 /* Faramir's rather devious tornado spell....watch out for players who
  * use this to annoy others! :)

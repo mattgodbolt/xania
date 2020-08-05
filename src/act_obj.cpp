@@ -518,7 +518,7 @@ void do_drop(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_give(CHAR_DATA *ch, char *argument) {
+void do_give(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     char buf[MAX_STRING_LENGTH];
