@@ -246,7 +246,7 @@ void do_tell(CHAR_DATA *ch, char *argument) {
 
 void do_reply(CHAR_DATA *ch, char *argument) { tell_to(ch, ch->reply, argument); }
 
-void do_yell(CHAR_DATA *ch, char *argument) {
+void do_yell(CHAR_DATA *ch, const char *argument) {
     DESCRIPTOR_DATA *d;
 
     if (IS_SET(ch->comm, COMM_NOSHOUT)) {

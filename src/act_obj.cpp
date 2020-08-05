@@ -1293,7 +1293,7 @@ void wear_obj(CHAR_DATA *ch, OBJ_DATA *obj, bool fReplace) {
         send_to_char("You can't wear, wield, or hold that.\n\r", ch);
 }
 
-void do_wear(CHAR_DATA *ch, char *argument) {
+void do_wear(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
 

@@ -7,16 +7,12 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "interp.h"
 #include "merc.h"
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
 #include <time.h>
-
-/* command procedures needed */
-void do_quit(CHAR_DATA *ch, const char *arg);
-void do_wear(CHAR_DATA *ch, char *arg);
-void do_yell(CHAR_DATA *ch, char *arg);
 
 /* Few external functions */
 int get_max_stat(CHAR_DATA *ch, int stat);
@@ -163,7 +159,7 @@ void gain_exp(CHAR_DATA *ch, int gain) {
     ch->exp = UMAX(exp_per_level(ch, ch->pcdata->points), ch->exp + gain);
     if (gain >= 0) {
         while ((ch->level < LEVEL_HERO)
-               && ((ch->exp) >= (unsigned long)((int)exp_per_level(ch, ch->pcdata->points) * ((int)ch->level + 1)))) {
+               && ((ch->exp) >= ((int)exp_per_level(ch, ch->pcdata->points) * (ch->level + 1)))) {
             send_to_char("|WYou raise a level!!|w\n\r", ch);
             ch->level += 1;
             advance_level(ch);
