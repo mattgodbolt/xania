@@ -22,10 +22,10 @@
 
 /* Creates a new buffer. */
 BUFFER *buffer_create() {
-    BUFFER *res = malloc(sizeof(BUFFER));
+    BUFFER *res = (BUFFER *)malloc(sizeof(BUFFER));
     if (res) {
         res->size = BUFFER_GRANULARITY;
-        res->buffer = malloc(BUFFER_GRANULARITY);
+        res->buffer = (char *)malloc(BUFFER_GRANULARITY);
         if (res->buffer) {
             res->buffer[0] = '\0';
         } else {
@@ -104,7 +104,7 @@ void buffer_removeline(BUFFER *buffer) {
 /* Shrinks the buffer to the smallest size which can still contain its text. */
 void buffer_shrink(BUFFER *buffer) {
     int new_size = strlen(buffer->buffer) + 1;
-    char *newbuf = realloc(buffer->buffer, new_size);
+    char *newbuf = (char *)realloc(buffer->buffer, new_size);
     if (newbuf) {
         buffer->buffer = newbuf;
         buffer->size = new_size;
