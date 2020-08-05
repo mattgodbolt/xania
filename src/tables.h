@@ -21,25 +21,25 @@
 #include "merc.h"
 
 struct position_type {
-    char *name;
-    char *short_name;
+    const char *name;
+    const char *short_name;
 };
 
 struct sex_type {
-    char *name;
+    const char *name;
     int sex;
 };
 
 struct size_type {
-    char *name;
+    const char *name;
 };
 
 struct item_type {
     int type;
-    char *name;
+    const char *name;
 };
 struct weapon_type {
-    char *name;
+    const char *name;
     sh_int vnum;
     sh_int type;
     sh_int *gsn;
@@ -53,36 +53,3 @@ extern const struct size_type size_table[];
 /* items */
 extern const struct item_type item_table[];
 extern const struct weapon_type weapon_table[];
-
-/* flag tables */
-extern const struct flag_type act_flags[];
-extern const struct flag_type plr_flags[];
-extern const struct flag_type affect_flags[];
-extern const struct flag_type off_flags[];
-extern const struct flag_type imm_flags[];
-extern const struct flag_type res_flags[];
-extern const struct flag_type vuln_flags[];
-extern const struct flag_type form_flags[];
-extern const struct flag_type part_flags[];
-extern const struct flag_type comm_flags[];
-extern const struct flag_type extra_flags[];
-extern const struct flag_type wear_flags[];
-extern const struct flag_type weapon_flags[];
-extern const struct flag_type container_flags[];
-extern const struct flag_type portal_flags[];
-extern const struct flag_type room_flags[];
-extern const struct flag_type exit_flags[];
-/* Grim: doubly defined!?
-extern	const	struct	flag_type	room_flags[];
- */
-extern const struct flag_type weapontype_flags[];
-extern const struct flag_type gate_flags[];
-extern const struct flag_type furniture_flags[];
-extern const struct flag_type mprog_flags[];
-
-/* Enumerated tables */
-/*extern	const	struct	enum_type	sector_type[];*/
-
-/* Functions */
-
-bool is_stat(const struct flag_type *flag_table);

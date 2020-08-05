@@ -1875,8 +1875,6 @@ extern const struct flag_type sector_flags[];
 extern const struct flag_type type_flags[];
 extern const struct flag_type extra_flags[];
 extern const struct flag_type wear_flags[];
-extern const struct flag_type act_flags[];
-extern const struct flag_type affect_flags[];
 extern const struct flag_type apply_flags[];
 extern const struct flag_type wear_loc_strings[];
 extern const struct flag_type wear_loc_flags[];
