@@ -74,7 +74,7 @@ extern void do_changes(CHAR_DATA *ch, char *arg);
 extern void do_channels(CHAR_DATA *ch, const char *argument);
 /*void  do_clipboard(CHAR_DATA* ch, char* arg); */
 extern void do_clone(CHAR_DATA *ch, char *arg);
-extern void do_close(CHAR_DATA *ch, char *arg);
+extern void do_close(CHAR_DATA *ch, const char *arg);
 extern void do_colour(CHAR_DATA *ch, char *arg);
 extern void do_coma(CHAR_DATA *ch, char *arg);
 extern void do_commands(CHAR_DATA *ch, char *arg);
@@ -181,7 +181,7 @@ extern void do_nosummon(CHAR_DATA *ch, char *arg);
 extern void do_notell(CHAR_DATA *ch, char *arg);
 extern void do_ofind(CHAR_DATA *ch, char *arg);
 extern void do_oload(CHAR_DATA *ch, char *arg);
-extern void do_open(CHAR_DATA *ch, char *arg);
+extern void do_open(CHAR_DATA *ch, const char *arg);
 extern void do_order(CHAR_DATA *ch, char *argument);
 extern void do_oset(CHAR_DATA *ch, char *arg);
 extern void do_ostat(CHAR_DATA *ch, char *arg);

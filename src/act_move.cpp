@@ -455,7 +455,7 @@ int find_door(CHAR_DATA *ch, char *arg) {
     return door;
 }
 
-void do_open(CHAR_DATA *ch, char *argument) {
+void do_open(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     int door;
@@ -524,7 +524,7 @@ void do_open(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_close(CHAR_DATA *ch, char *argument) {
+void do_close(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     int door;

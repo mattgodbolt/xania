@@ -95,7 +95,7 @@ SpecialFunc spec_lookup(const char *name) {
 }
 
 /* Core procedure for dragons. */
-bool dragon(CHAR_DATA *ch, char *spell_name) {
+bool dragon(CHAR_DATA *ch, const char *spell_name) {
     CHAR_DATA *victim;
     CHAR_DATA *v_next;
     int sn;
@@ -303,7 +303,7 @@ bool spec_cast_adept(CHAR_DATA *ch) {
 bool spec_cast_cleric(CHAR_DATA *ch) {
     CHAR_DATA *victim;
     CHAR_DATA *v_next;
-    char *spell;
+    const char *spell;
     int sn;
 
     if (ch->position != POS_FIGHTING)
@@ -387,7 +387,7 @@ bool spec_greasy_joe(CHAR_DATA *ch) {
 bool spec_cast_judge(CHAR_DATA *ch) {
     CHAR_DATA *victim;
     CHAR_DATA *v_next;
-    char *spell;
+    const char *spell;
     int sn;
 
     if (ch->position != POS_FIGHTING)
@@ -412,7 +412,7 @@ bool spec_cast_judge(CHAR_DATA *ch) {
 bool spec_cast_mage(CHAR_DATA *ch) {
     CHAR_DATA *victim;
     CHAR_DATA *v_next;
-    char *spell;
+    const char *spell;
     int sn;
 
     if (ch->position != POS_FIGHTING)
@@ -494,7 +494,7 @@ bool spec_cast_mage(CHAR_DATA *ch) {
 bool spec_cast_undead(CHAR_DATA *ch) {
     CHAR_DATA *victim;
     CHAR_DATA *v_next;
-    char *spell;
+    const char *spell;
     int sn;
 
     if (ch->position != POS_FIGHTING)
@@ -584,7 +584,7 @@ bool spec_cast_undead(CHAR_DATA *ch) {
 bool spec_cast_bastard(CHAR_DATA *ch) {
     CHAR_DATA *victim;
     CHAR_DATA *v_next;
-    char *spell;
+    const char *spell;
     int sn;
 
     if (ch->position != POS_FIGHTING)
@@ -654,7 +654,7 @@ bool spec_executioner(CHAR_DATA *ch) {
     char buf[MAX_STRING_LENGTH];
     CHAR_DATA *victim;
     CHAR_DATA *v_next;
-    char *crime;
+    const char *crime;
 
     if (!IS_AWAKE(ch) || ch->fighting != nullptr)
         return false;
@@ -864,7 +864,7 @@ bool spec_guard(CHAR_DATA *ch) {
     CHAR_DATA *victim;
     CHAR_DATA *v_next;
     CHAR_DATA *ech;
-    char *crime;
+    const char *crime;
     int max_evil;
 
     if (!IS_AWAKE(ch) || ch->fighting != nullptr)
