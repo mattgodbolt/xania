@@ -3045,17 +3045,6 @@ int dice(int number, int size) {
 int interpolate(int level, int value_00, int value_32) { return value_00 + level * (value_32 - value_00) / 32; }
 
 /*
- * Removes the tildes from a string.
- * Used for player-entered strings that go into disk files.
- */
-void smash_tilde(char *str) {
-    for (; *str != '\0'; str++) {
-        if (*str == '~')
-            *str = '-';
-    }
-}
-
-/*
  * Compare strings, case insensitive.
  * Return true if different
  *   (compatibility with historical functions).

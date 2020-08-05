@@ -9,11 +9,11 @@
 
 #include "buffer.h"
 #include "merc.h"
-#include <ctype.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
-#include <time.h>
+#include "string_utils.hpp"
+
+#include <cctype>
+#include <cstdio>
+#include <cstring>
 
 /* command procedures needed */
 void do_return(CHAR_DATA *ch, char *arg);
@@ -1435,7 +1435,7 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
 /*
  * Find a char in the room.
  */
-CHAR_DATA *get_char_room(CHAR_DATA *ch, char *argument) {
+CHAR_DATA *get_char_room(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *rch;
     int number;
@@ -1458,7 +1458,7 @@ CHAR_DATA *get_char_room(CHAR_DATA *ch, char *argument) {
 /*
  * Find a char in the world.
  */
-CHAR_DATA *get_char_world(CHAR_DATA *ch, char *argument) {
+CHAR_DATA *get_char_world(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *wch;
     int number;

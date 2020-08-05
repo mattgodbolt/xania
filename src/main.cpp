@@ -1,9 +1,10 @@
 #include "merc.h"
 
 #include "doorman/doorman_protocol.h"
+#include "string_utils.hpp"
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <sys/time.h>
 #include <unistd.h>
 
@@ -22,14 +23,11 @@ extern bool SendPacket(Packet *p, void *extra);
 extern void game_loop_unix(int control);
 
 int main(int argc, char **argv) {
-    struct timeval now_time;
-    char file[256];
-    int port;
-    int control;
 
     /*
      * Init time.
      */
+    timeval now_time{};
     gettimeofday(&now_time, nullptr);
     current_time = (time_t)(now_time.tv_sec);
     strcpy(str_boot_time, ctime(&current_time));
@@ -48,7 +46,7 @@ int main(int argc, char **argv) {
     /*
      * Get the UNIX domain file
      */
-    port = 9000;
+    int port = 9000;
     if (argc > 1) {
         int num = 1;
         if (*argv[num] == '-') {
@@ -61,13 +59,14 @@ int main(int argc, char **argv) {
             port = atoi(argv[num]);
         }
     }
+    char file[256];
     snprintf(file, sizeof(file), XANIA_FILE, port, getenv("USER") ? getenv("USER") : "unknown");
 
     /*
      * Run the game.
      */
 
-    control = init_socket(file);
+    int control = init_socket(file);
     boot_db();
     load_bans();
     /* Rohan: Load player list into memory */
@@ -92,5 +91,4 @@ int main(int argc, char **argv) {
      */
     log_string("Normal termination of game.");
     exit(0);
-    return 0;
 }

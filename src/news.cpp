@@ -19,9 +19,10 @@
 #include "buffer.h"
 #include "flags.h"
 #include "merc.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "string_utils.hpp"
+
+#include <cstdio>
+#include <cstdlib>
 #include <sys/time.h>
 
 void _do_news(CHAR_DATA *ch, char *arg);
@@ -388,7 +389,7 @@ void do_news_skip(CHAR_DATA *ch, char *argument) {
 }
 
 /* Begin a new thread, given the subject */
-void do_news_compose(CHAR_DATA *ch, char *argument) {
+void do_news_compose(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     if (ch->newsbuffer) {
         snprintf(buf, sizeof(buf), "You are already composing a %s message!\n\r", news_name);
@@ -400,9 +401,9 @@ void do_news_compose(CHAR_DATA *ch, char *argument) {
         send_to_char(buf, ch);
         return;
     }
-    smash_tilde(argument);
+    auto subject = smash_tilde(argument);
     ch->newsbuffer = buffer_create();
-    ch->newssubject = str_dup(argument);
+    ch->newssubject = str_dup(subject.c_str()); // TODO this hurts
     ch->newsfromname = str_dup(ch->name);
     snprintf(buf, sizeof(buf), "Composing new %s thread with subject '%s'\n\r", news_name, argument);
     send_to_char(buf, ch);
@@ -526,21 +527,21 @@ void do_news_post(CHAR_DATA *ch, char *argument) {
 }
 
 /* Add a line to the message being edited */
-void do_news_plus(CHAR_DATA *ch, char *argument) {
+void do_news_plus(CHAR_DATA *ch, const char *argument) {
     if (ch->newsbuffer == nullptr) { // Are they composing a message?
         char buf[MAX_STRING_LENGTH];
         snprintf(buf, sizeof(buf), "You aren't composing a %s message.\n\r", news_name);
         send_to_char(buf, ch);
         return;
     }
-    smash_tilde(argument); // Kill those tildes
-    buffer_addline(ch->newsbuffer, argument); // Add the line...
+    auto line = smash_tilde(argument); // Kill those tildes
+    buffer_addline(ch->newsbuffer, line.c_str()); // Add the line...
     buffer_addline(ch->newsbuffer, "\n\r"); // ... and a \n\r
     send_to_char("Ok.\n\r", ch);
 }
 
 /* Remove a line from the message */
-void do_news_minus(CHAR_DATA *ch, char *argument) {
+void do_news_minus(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->newsbuffer == nullptr) {
         char buf[MAX_STRING_LENGTH];
@@ -553,7 +554,7 @@ void do_news_minus(CHAR_DATA *ch, char *argument) {
 }
 
 /* Show the text being edited */
-void do_news_show(CHAR_DATA *ch, char *argument) {
+void do_news_show(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->newsbuffer == nullptr) {
         char buf[MAX_STRING_LENGTH];
@@ -567,7 +568,7 @@ void do_news_show(CHAR_DATA *ch, char *argument) {
 }
 
 /* Mark all articles as read */
-void do_news_catchup(CHAR_DATA *ch, char *argument) {
+void do_news_catchup(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     ARTICLE *a;
     if (ch->thread == nullptr) {
@@ -581,7 +582,7 @@ void do_news_catchup(CHAR_DATA *ch, char *argument) {
 }
 
 /* Mark all articles as unread */
-void do_news_uncatchup(CHAR_DATA *ch, char *argument) {
+void do_news_uncatchup(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     ARTICLE *a;
     if (ch->thread == nullptr) {

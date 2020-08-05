@@ -12,12 +12,14 @@
 #include "interp.h"
 #include "magic.h"
 #include "merc.h"
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "string_utils.hpp"
+
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 #include <sys/types.h>
-#include <time.h>
 
 /*
  * KLUDGEMONGER III, Revenge of Kludgie, the Malicious Code Murderer...
@@ -212,22 +214,20 @@ void do_immworth(CHAR_DATA *ch, char *argument) {
     send_to_char(buf, ch);
 }
 
-void set_prefix(CHAR_DATA *ch, char *prefix) {
-    char buf[MAX_STRING_LENGTH];
-
-    strcpy(buf, prefix);
-
+void set_prefix(CHAR_DATA *ch, const char *prefix) {
     free_string(ch->pcdata->prefix);
-    ch->pcdata->prefix = str_dup(buf);
+    ch->pcdata->prefix = str_dup(prefix);
 }
 
 /* do_prefix added 19-05-97 PCFN */
-void do_prefix(CHAR_DATA *ch, char *argument) {
+void do_prefix(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *ch_prefix = nullptr;
     char ch_buffer[MAX_STRING_LENGTH];
 
-    if (strlen(argument) > (MAX_STRING_LENGTH - 1))
-        argument[MAX_STRING_LENGTH - 1] = '\0';
+    auto prefix = smash_tilde(argument);
+
+    if (prefix.length() > (MAX_STRING_LENGTH - 1))
+        prefix.resize(MAX_STRING_LENGTH - 1);
 
     if (IS_NPC(ch)) {
         if (ch->desc->original)
@@ -243,9 +243,7 @@ void do_prefix(CHAR_DATA *ch, char *argument) {
     if (ch_prefix == nullptr)
         return;
 
-    smash_tilde(argument);
-
-    if (argument[0] == '\0') {
+    if (prefix.empty()) {
         if (ch_prefix->pcdata->prefix[0] == '\0') {
             snprintf(ch_buffer, sizeof(ch_buffer), "No prefix to remove.\n\r");
         } else {
@@ -253,7 +251,7 @@ void do_prefix(CHAR_DATA *ch, char *argument) {
         }
     }
 
-    set_prefix(ch_prefix, argument);
+    set_prefix(ch_prefix, prefix.c_str());
     if (ch_prefix->pcdata->prefix[0] != '\0')
         snprintf(ch_buffer, sizeof(ch_buffer), "Prefix set to \"%s\"\n\r", ch_prefix->pcdata->prefix);
 

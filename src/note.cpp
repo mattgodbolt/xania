@@ -10,12 +10,14 @@
 #include "note.h"
 #include "buffer.h"
 #include "merc.h"
+#include "string_utils.hpp"
 #include "trie.h"
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 
 static NOTE_DATA *note_first;
 static NOTE_DATA *note_last;

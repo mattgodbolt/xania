@@ -9,14 +9,16 @@
 
 #include "buffer.h"
 #include "merc.h"
-#include <ctype.h>
+#include "string_utils.hpp"
+
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 #include <dirent.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <time.h>
 
 void do_setinfo(CHAR_DATA *ch, char *arg);
 void do_finger(CHAR_DATA *ch, char *arg);
@@ -85,7 +87,8 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
     }
     argument = one_argument(argument, arg);
 
-    smash_tilde(arg);
+    // TODO hacky but can be improved once we stringify more stuff
+    strcpy(arg, smash_tilde(arg).c_str());
 
     if (!strcmp(arg, "message")) {
         if (argument[0] == '\0') {

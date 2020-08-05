@@ -11,6 +11,7 @@
 #include "interp.h"
 #include "merc.h"
 #include "olc_room.h"
+#include "string_utils.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -228,7 +229,7 @@ void move_char(CHAR_DATA *ch, int door) {
     mprog_greet_trigger(ch);
 }
 
-void do_enter(CHAR_DATA *ch, char *argument) {
+void do_enter(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     ROOM_INDEX_DATA *to_room, *in_room;

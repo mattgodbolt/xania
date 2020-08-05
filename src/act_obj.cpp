@@ -10,6 +10,7 @@
 #include "buffer.h"
 #include "interp.h"
 #include "merc.h"
+#include "string_utils.hpp"
 
 #include <cstdio>
 #include <cstdlib>

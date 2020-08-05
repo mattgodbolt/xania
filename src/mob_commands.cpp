@@ -19,16 +19,15 @@
  ***************************************************************************/
 
 #include "merc.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
+#include "string_utils.hpp"
+
+#include <cstdio>
+#include <cstdlib>
 
 /*
  * Local functions.
  */
 
-char *mprog_type_to_name(int type);
 ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, char *arg);
 void do_transfer(CHAR_DATA *ch, char *arg);
 
@@ -37,7 +36,7 @@ void do_transfer(CHAR_DATA *ch, char *arg);
  *  make it just a hair bit easier to see what a mob should be doing.
  */
 
-char *mprog_type_to_name(int type) {
+const char *mprog_type_to_name(int type) {
     switch (type) {
     case IN_FILE_PROG: return "in_file_prog";
     case ACT_PROG: return "act_prog";

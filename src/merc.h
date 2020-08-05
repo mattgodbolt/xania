@@ -1981,12 +1981,12 @@ bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch);
 void thrown_off(CHAR_DATA *ch, CHAR_DATA *pet);
 void fallen_off_mount(CHAR_DATA *ch);
 /* act_info.c */
-void set_title(CHAR_DATA *ch, char *title);
+void set_title(CHAR_DATA *ch, const char *title);
 
 /* act_move.c */
 void move_char(CHAR_DATA *ch, int door);
 void unride_char(CHAR_DATA *ch, CHAR_DATA *pet);
-void do_enter(CHAR_DATA *ch, char *argument);
+void do_enter(CHAR_DATA *ch, const char *argument);
 /* act_obj.c */
 bool can_loot(CHAR_DATA *ch, OBJ_DATA *obj);
 void get_obj(CHAR_DATA *ch, OBJ_DATA *obj, OBJ_DATA *container);
@@ -2047,7 +2047,6 @@ int number_bits(int width);
 int number_mm();
 int dice(int number, int size);
 int interpolate(int level, int value_00, int value_32);
-void smash_tilde(char *str);
 bool str_cmp(const char *astr, const char *bstr);
 bool str_prefix(const char *astr, const char *bstr);
 bool str_infix(const char *astr, const char *bstr);
@@ -2123,8 +2122,8 @@ bool is_switched(CHAR_DATA *ch);
 /* MRG added */
 bool check_sub_issue(OBJ_DATA *obj, CHAR_DATA *ch);
 
-CD *get_char_room(CHAR_DATA *ch, char *argument);
-CD *get_char_world(CHAR_DATA *ch, char *argument);
+CD *get_char_room(CHAR_DATA *ch, const char *argument);
+CD *get_char_world(CHAR_DATA *ch, const char *argument);
 CD *get_mob_by_vnum(sh_int vnum);
 OD *get_obj_type(OBJ_INDEX_DATA *pObjIndexData);
 OD *get_obj_list(CHAR_DATA *ch, char *argument, OBJ_DATA *list);
@@ -2161,9 +2160,6 @@ void load_player_list();
 
 /* interp.c */
 void interpret(CHAR_DATA *ch, char *argument);
-bool is_number(const char *arg);
-int number_argument(const char *argument, char *arg);
-std::pair<int, const char *> number_argument(const char *argument);
 const char *one_argument(const char *argument, char *arg_first);
 char *one_argument(char *argument, char *arg_first); // TODO(MRG) get rid of this as soon as we can.
 

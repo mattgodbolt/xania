@@ -1,5 +1,6 @@
-#include "interp.h"
+#include "string_utils.hpp"
 
+#include "merc.h" // TODO remove once we test just the pair<> version
 #include <catch2/catch.hpp>
 
 #include <string_view>
@@ -21,6 +22,7 @@ TEST_CASE("Interpreter tests") {
     }
 
     SECTION("should split numbers and arguments") {
+        // TODO check pair version
         char buf[MAX_STRING_LENGTH];
         SECTION("with just a name") {
             char str[] = "object";

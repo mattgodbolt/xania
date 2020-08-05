@@ -56,7 +56,7 @@ add_library(xania_lib STATIC
         wiznet.cpp
         xania.cpp
         Wrapper.cpp
-        )
+        string_utils.cpp string_utils.hpp)
 target_link_libraries(xania_lib crypt chat)
 
 add_executable(xania main.cpp)

@@ -14,6 +14,7 @@
 #include "lookup.h"
 #include "magic.h"
 #include "merc.h"
+#include "string_utils.hpp"
 #include "tables.h"
 
 #include <cctype>
@@ -139,57 +140,57 @@ void do_nochannels(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_bamfin(CHAR_DATA *ch, char *argument) {
+void do_bamfin(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
 
     if (!IS_NPC(ch)) {
-        smash_tilde(argument);
+        auto bamfin = smash_tilde(argument);
 
-        if (argument[0] == '\0') {
+        if (bamfin.empty()) {
             bug_snprintf(buf, sizeof(buf), "Your poofin is %s\n\r", ch->pcdata->bamfin);
             send_to_char(buf, ch);
             return;
         }
 
-        if (strstr(argument, ch->name) == nullptr) {
+        if (strstr(bamfin.c_str(), ch->name) == nullptr) {
             send_to_char("You must include your name.\n\r", ch);
             return;
         }
 
         free_string(ch->pcdata->bamfin);
-        ch->pcdata->bamfin = str_dup(argument);
+        ch->pcdata->bamfin = str_dup(bamfin.c_str()); // TODO sadness
 
         bug_snprintf(buf, sizeof(buf), "Your poofin is now %s\n\r", ch->pcdata->bamfin);
         send_to_char(buf, ch);
     }
 }
 
-void do_bamfout(CHAR_DATA *ch, char *argument) {
+void do_bamfout(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
 
     if (!IS_NPC(ch)) {
-        smash_tilde(argument);
+        auto bamfout = smash_tilde(argument);
 
-        if (argument[0] == '\0') {
+        if (bamfout.empty()) {
             bug_snprintf(buf, sizeof(buf), "Your poofout is %s\n\r", ch->pcdata->bamfout);
             send_to_char(buf, ch);
             return;
         }
 
-        if (strstr(argument, ch->name) == nullptr) {
+        if (strstr(bamfout.c_str(), ch->name) == nullptr) {
             send_to_char("You must include your name.\n\r", ch);
             return;
         }
 
         free_string(ch->pcdata->bamfout);
-        ch->pcdata->bamfout = str_dup(argument);
+        ch->pcdata->bamfout = str_dup(bamfout.c_str()); // TODO sadness
 
         bug_snprintf(buf, sizeof(buf), "Your poofout is now %s\n\r", ch->pcdata->bamfout);
         send_to_char(buf, ch);
     }
 }
 
-void do_deny(CHAR_DATA *ch, char *argument) {
+void do_deny(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
 
@@ -2843,7 +2844,7 @@ void do_mset(CHAR_DATA *ch, char *argument) {
     CHAR_DATA *victim;
     int value;
 
-    smash_tilde(argument);
+    strcpy(argument, smash_tilde(argument).c_str()); // TODO dreadful  to minimize changes during refactor
     argument = one_argument(argument, arg1);
     argument = one_argument(argument, arg2);
     strcpy(arg3, argument);
@@ -3155,7 +3156,7 @@ void do_string(CHAR_DATA *ch, char *argument) {
     CHAR_DATA *victim;
     OBJ_DATA *obj;
 
-    smash_tilde(argument);
+    strcpy(argument, smash_tilde(argument).c_str()); // TODO dreadful  to minimize changes during refactor
     argument = one_argument(argument, type);
     argument = one_argument(argument, arg1);
     argument = one_argument(argument, arg2);
@@ -3306,7 +3307,7 @@ void do_oset(CHAR_DATA *ch, char *argument) {
     OBJ_DATA *obj;
     int value;
 
-    smash_tilde(argument);
+    strcpy(argument, smash_tilde(argument).c_str()); // TODO dreadful  to minimize changes during refactor
     argument = one_argument(argument, arg1);
     argument = one_argument(argument, arg2);
     strcpy(arg3, argument);
@@ -3414,7 +3415,7 @@ void do_rset(CHAR_DATA *ch, char *argument) {
     ROOM_INDEX_DATA *location;
     int value;
 
-    smash_tilde(argument);
+    strcpy(argument, smash_tilde(argument).c_str()); // TODO dreadful  to minimize changes during refactor
     argument = one_argument(argument, arg1);
     argument = one_argument(argument, arg2);
     strcpy(arg3, argument);

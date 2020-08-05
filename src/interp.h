@@ -58,8 +58,8 @@ extern void do_autosac(CHAR_DATA *ch, char *arg);
 extern void do_autosplit(CHAR_DATA *ch, char *arg);
 extern void do_awaken(CHAR_DATA *ch, char *arg);
 extern void do_backstab(CHAR_DATA *ch, char *arg);
-extern void do_bamfin(CHAR_DATA *ch, char *arg);
-extern void do_bamfout(CHAR_DATA *ch, char *arg);
+extern void do_bamfin(CHAR_DATA *ch, const char *argument);
+extern void do_bamfout(CHAR_DATA *ch, const char *argument);
 extern void do_ban(CHAR_DATA *ch, char *arg);
 extern void do_bash(CHAR_DATA *ch, char *arg);
 extern void do_berserk(CHAR_DATA *ch, char *arg);
@@ -87,7 +87,7 @@ extern void do_credits(CHAR_DATA *ch, char *arg);
 extern void do_deaf(CHAR_DATA *ch, char *arg);
 extern void do_delet(CHAR_DATA *ch, char *arg);
 extern void do_delete(CHAR_DATA *ch, char *arg);
-extern void do_deny(CHAR_DATA *ch, char *arg);
+extern void do_deny(CHAR_DATA *ch, const char *argument);
 extern void do_description(CHAR_DATA *ch, char *arg);
 extern void do_dirt(CHAR_DATA *ch, char *arg);
 extern void do_disarm(CHAR_DATA *ch, char *arg);
@@ -202,7 +202,7 @@ extern void do_purge(CHAR_DATA *ch, char *arg);
 extern void do_put(CHAR_DATA *ch, char *arg);
 extern void do_quaff(CHAR_DATA *ch, char *arg);
 extern void do_question(CHAR_DATA *ch, char *arg);
-extern void do_enter(CHAR_DATA *ch, char *arg);
+extern void do_enter(CHAR_DATA *ch, const char *argument);
 extern void do_qui(CHAR_DATA *ch, char *arg);
 extern void do_quiet(CHAR_DATA *ch, char *arg);
 extern void do_quit(CHAR_DATA *ch, const char *arg);
@@ -295,7 +295,7 @@ extern void do_yell(CHAR_DATA *ch, char *arg);
 extern void do_zap(CHAR_DATA *ch, char *arg);
 extern void do_zecho(CHAR_DATA *ch, char *arg);
 extern void do_throw(CHAR_DATA *ch, char *arg);
-extern void do_prefix(CHAR_DATA *ch, char *arg); /* 'prefix' added PCFN 19-05-97 */
+extern void do_prefix(CHAR_DATA *ch, const char *argument); /* 'prefix' added PCFN 19-05-97 */
 extern void do_timezone(CHAR_DATA *ch, char *arg); /* 'timezone' added PCFN 24-05-97 */
 extern void do_donate(CHAR_DATA *ch, char *arg); /* 'donate' added PCFN 01.06.97 */
 

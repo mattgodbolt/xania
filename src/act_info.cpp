@@ -12,13 +12,13 @@
 #include "interp.h"
 #include "merc.h"
 #include "olc_room.h"
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "string_utils.hpp"
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 #include <sys/time.h>
-#include <sys/types.h>
-#include <time.h>
 
 const char *where_name[] = {"<used as light>     ", "<worn on finger>    ", "<worn on finger>    ",
                             "<worn around neck>  ", "<worn around neck>  ", "<worn on body>      ",
@@ -2105,7 +2105,7 @@ void set_prompt(CHAR_DATA *ch, char *prompt) {
     ch->pcdata->prompt = str_dup(prompt);
 }
 
-void set_title(CHAR_DATA *ch, char *title) {
+void set_title(CHAR_DATA *ch, const char *title) {
     char buf[MAX_STRING_LENGTH];
 
     if (IS_NPC(ch)) {
@@ -2136,8 +2136,8 @@ void do_title(CHAR_DATA *ch, char *argument) {
     if (strlen(argument) > 45)
         argument[45] = '\0';
 
-    smash_tilde(argument);
-    set_title(ch, argument);
+    auto smashed = smash_tilde(argument);
+    set_title(ch, smashed.c_str());
     send_to_char("Ok.\n\r", ch);
 }
 
