@@ -103,9 +103,13 @@ $(BUILD_ROOT)/CMakeCache.txt:
 	@mkdir -p $(BUILD_ROOT)
 	cd $(BUILD_ROOT) && $(CMAKE) .. $(CMAKE_GENERATOR_FLAGS) -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
 
-.PHONY: clean
-clean:  ## Clean up everything
+.PHONY: distclean
+distclean:  ## Clean up everything
 	rm -rf cmake-build-* $(TOOLS_DIR) $(INSTALL_DIR)
+
+.PHONY: clean
+clean:  ## Clean up built stuff.
+	rm -rf cmake-build-* $(INSTALL_DIR)
 
 .PHONY: reformat-code
 reformat-code: $(CLANG_FORMAT)  ## Reformat all the code to conform to the clang-tidy settings
