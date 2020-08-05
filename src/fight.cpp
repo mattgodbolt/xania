@@ -1788,7 +1788,7 @@ void dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type
     char *ptr = body_part;
     const char *damstr_ptr = nullptr;
     char damltr_ptr = '\0';
-    char *plural;
+    const char *plural;
     sh_int b, c, d, prob, size_diff;
     long part_flag = 0;
     char punct;
@@ -2073,7 +2073,7 @@ void disarm(CHAR_DATA *ch, CHAR_DATA *victim) {
     }
 }
 
-void do_berserk(CHAR_DATA *ch, char *argument) {
+void do_berserk(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     int chance, hp_percent;
     /*    OBJ_DATA *wield = get_eq_char( ch, WEAR_WIELD );*/
@@ -2160,7 +2160,7 @@ void do_berserk(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_bash(CHAR_DATA *ch, char *argument) {
+void do_bash(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     int chance;
@@ -2270,7 +2270,7 @@ void do_bash(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_dirt(CHAR_DATA *ch, char *argument) {
+void do_dirt(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     int chance;
@@ -2387,7 +2387,7 @@ void do_dirt(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_trip(CHAR_DATA *ch, char *argument) {
+void do_trip(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     int chance;
@@ -2662,7 +2662,7 @@ void do_backstab(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_flee(CHAR_DATA *ch, char *argument) {
+void do_flee(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     ROOM_INDEX_DATA *was_in;
     ROOM_INDEX_DATA *now_in;
@@ -2916,7 +2916,7 @@ void do_sharpen(CHAR_DATA *ch, char *argument) {
     check_improve(ch, gsn_sharpen, true, 5);
 }
 
-void do_kick(CHAR_DATA *ch, char *argument) {
+void do_kick(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
 
@@ -2959,7 +2959,7 @@ void do_kick(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_disarm(CHAR_DATA *ch, char *argument) {
+void do_disarm(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     CHAR_DATA *victim;
     OBJ_DATA *obj;

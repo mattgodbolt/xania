@@ -1509,7 +1509,7 @@ OBJ_DATA *get_obj_type(OBJ_INDEX_DATA *pObjIndex) {
 /*
  * Find an obj in a list.
  */
-OBJ_DATA *get_obj_list(CHAR_DATA *ch, char *argument, OBJ_DATA *list) {
+OBJ_DATA *get_obj_list(CHAR_DATA *ch, const char *argument, OBJ_DATA *list) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     int number;

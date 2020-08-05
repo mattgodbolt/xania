@@ -623,7 +623,7 @@ void unride_char(CHAR_DATA *ch, CHAR_DATA *pet) {
     affect_strip(ch, gsn_ride);
 }
 
-void do_follow(CHAR_DATA *ch, char *argument) {
+void do_follow(CHAR_DATA *ch, const char *argument) {
     /* RT changed to allow unlimited following and follow the NOFOLLOW rules */
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;

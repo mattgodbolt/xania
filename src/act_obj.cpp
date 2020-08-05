@@ -123,7 +123,7 @@ void get_obj(CHAR_DATA *ch, OBJ_DATA *obj, OBJ_DATA *container) {
     }
 }
 
-void do_get(CHAR_DATA *ch, char *argument) {
+void do_get(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
@@ -1342,7 +1342,7 @@ void do_remove(CHAR_DATA *ch, char *argument) {
     remove_obj(ch, obj->wear_loc, true);
 }
 
-void do_sacrifice(CHAR_DATA *ch, char *argument) {
+void do_sacrifice(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     char buf[MAX_STRING_LENGTH];
     OBJ_DATA *obj;

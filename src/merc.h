@@ -2119,7 +2119,7 @@ CD *get_char_room(CHAR_DATA *ch, const char *argument);
 CD *get_char_world(CHAR_DATA *ch, const char *argument);
 CD *get_mob_by_vnum(sh_int vnum);
 OD *get_obj_type(OBJ_INDEX_DATA *pObjIndexData);
-OD *get_obj_list(CHAR_DATA *ch, char *argument, OBJ_DATA *list);
+OD *get_obj_list(CHAR_DATA *ch, const char *argument, OBJ_DATA *list);
 OD *get_obj_carry(CHAR_DATA *ch, char *argument);
 OD *get_obj_wear(CHAR_DATA *ch, char *argument);
 OD *get_obj_here(CHAR_DATA *ch, char *argument);
