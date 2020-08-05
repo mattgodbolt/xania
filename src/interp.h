@@ -233,7 +233,7 @@ extern void do_score(CHAR_DATA *ch, char *arg);
 extern void do_scroll(CHAR_DATA *ch, char *arg);
 extern void do_sell(CHAR_DATA *ch, char *arg);
 extern void do_set(CHAR_DATA *ch, const char *arg);
-extern void do_setinfo(CHAR_DATA *ch, char *arg);
+extern void do_setinfo(CHAR_DATA *ch, const char *arg);
 extern void do_shout(CHAR_DATA *ch, const char *arg);
 extern void do_showafk(CHAR_DATA *ch, char *arg);
 extern void do_showdefence(CHAR_DATA *ch, char *arg);
