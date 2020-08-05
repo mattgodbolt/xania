@@ -118,7 +118,7 @@ extern void do_gossip(CHAR_DATA *ch, const char *arg);
 extern void do_goto(CHAR_DATA *ch, char *arg);
 extern void do_gratz(CHAR_DATA *ch, const char *arg);
 extern void do_group(CHAR_DATA *ch, char *arg);
-extern void do_groups(CHAR_DATA *ch, char *arg);
+extern void do_groups(CHAR_DATA *ch, const char *arg);
 extern void do_gtell(CHAR_DATA *ch, char *arg);
 extern void do_hailcorpse(CHAR_DATA *ch, char *arg);
 extern void do_headbutt(CHAR_DATA *ch, char *arg);

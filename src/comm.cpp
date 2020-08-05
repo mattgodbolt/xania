@@ -23,6 +23,7 @@
 #include <fcntl.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <string>
 #include <sys/signalfd.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -76,10 +77,10 @@ void move_active_char_from_limbo(CHAR_DATA *ch);
 /*
  * Other local functions (OS-independent).
  */
-bool check_parse_name(char *name);
-bool check_reconnect(DESCRIPTOR_DATA *d, char *name, bool fConn);
+bool check_parse_name(const char *name);
+bool check_reconnect(DESCRIPTOR_DATA *d, bool fConn);
 bool check_playing(DESCRIPTOR_DATA *d, char *name);
-void nanny(DESCRIPTOR_DATA *d, char *argument);
+void nanny(DESCRIPTOR_DATA *d, const char *argument);
 bool process_output(DESCRIPTOR_DATA *d, bool fPrompt);
 void read_from_buffer(DESCRIPTOR_DATA *d);
 void show_prompt(DESCRIPTOR_DATA *d, char *prompt);
@@ -900,7 +901,7 @@ bool write_to_descriptor(int desc, const char *txt, int length) {
 /*
  * Deal with sockets that haven't logged in yet.
  */
-void nanny(DESCRIPTOR_DATA *d, char *argument) {
+void nanny(DESCRIPTOR_DATA *d, const char *argument) {
     DESCRIPTOR_DATA *d_old, *d_next;
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
@@ -929,14 +930,16 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
         close_socket(d);
         return;
 
-    case CON_GET_NAME:
+        case CON_GET_NAME:
+          {
         if (argument[0] == '\0') {
             close_socket(d);
             return;
         }
-
-        argument[0] = UPPER(argument[0]);
-        if (!check_parse_name(argument)) {
+        // Take a copy of the character's proposed name, so we can forcibly upper-case its first letter.
+        std::string char_name(argument);
+        char_name[0] = toupper(char_name[0]);
+        if (!check_parse_name(char_name.c_str())) {
             write_to_buffer(d, "Illegal name, try another.\n\rName: ", 0);
             return;
         }
@@ -952,12 +955,12 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
                  }
                  } */
 
-        fOld = load_char_obj(d, argument);
+        fOld = load_char_obj(d, char_name.c_str());
         ch = d->character;
 
         if (IS_SET(ch->act, PLR_DENY)) {
             char hostbuf[MAX_MASKED_HOSTNAME];
-            snprintf(log_buf, LOG_BUF_SIZE, "Denying access to %s@%s.", argument,
+            snprintf(log_buf, LOG_BUF_SIZE, "Denying access to %s@%s.", char_name.c_str(),
                      get_masked_hostname(hostbuf, d->host));
             log_string(log_buf);
             write_to_buffer(d, "You are denied access.\n\r", 0);
@@ -965,7 +968,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
             return;
         }
 
-        if (check_reconnect(d, argument, false)) {
+        if (check_reconnect(d, false)) {
             fOld = true;
         } else {
             if (wizlock && !IS_IMMORTAL(ch)) {
@@ -997,10 +1000,11 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
                 return;
             }
 
-            snprintf(buf, sizeof(buf), "Did I hear that right -  '%s' (Y/N)? ", argument);
+            snprintf(buf, sizeof(buf), "Did I hear that right -  '%s' (Y/N)? ", char_name.c_str());
             write_to_buffer(d, buf, 0);
             d->connected = CON_CONFIRM_NEW_NAME;
             return;
+          }
         }
         break;
 
@@ -1033,7 +1037,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
         if (check_playing(d, ch->name))
             return;
 
-        if (check_reconnect(d, ch->name, true))
+        if (check_reconnect(d, true))
             return;
 
         char hostbuf[MAX_MASKED_HOSTNAME];
@@ -1062,7 +1066,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
 
                 close_socket(d_old);
             }
-            if (check_reconnect(d, ch->name, true))
+            if (check_reconnect(d, true))
                 return;
             write_to_buffer(d, "Reconnect attempt failed.\n\rName: ", 0);
             if (d->character != nullptr) {
@@ -1482,7 +1486,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
 /*
  * Parse a name for acceptability.
  */
-bool check_parse_name(char *name) {
+bool check_parse_name(const char *name) {
     /*
      * Reserved words.
      */
@@ -1511,14 +1515,13 @@ bool check_parse_name(char *name) {
      * Lock out IllIll twits.
      */
     {
-        char *pc;
         bool fIll;
 
         fIll = true;
-        for (pc = name; *pc != '\0'; pc++) {
+        for (const char* pc = name; *pc != '\0'; pc++) {
             if (!isalpha(*pc))
                 return false;
-            if (LOWER(*pc) != 'i' && LOWER(*pc) != 'l')
+            if (tolower(*pc) != 'i' && tolower(*pc) != 'l')
                 fIll = false;
         }
 
@@ -1548,8 +1551,7 @@ bool check_parse_name(char *name) {
 /*
  * Look for link-dead player to reconnect.
  */
-bool check_reconnect(DESCRIPTOR_DATA *d, char *name, bool fConn) {
-    (void)name;
+bool check_reconnect(DESCRIPTOR_DATA *d, bool fConn) {
     CHAR_DATA *ch;
 
     for (ch = char_list; ch != nullptr; ch = ch->next) {

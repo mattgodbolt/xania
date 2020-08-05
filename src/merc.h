@@ -2164,10 +2164,10 @@ void obj_cast_spell(int sn, int level, CHAR_DATA *ch, CHAR_DATA *victim, OBJ_DAT
 
 /* save.c */
 void save_char_obj(CHAR_DATA *ch);
-bool load_char_obj(DESCRIPTOR_DATA *d, char *name);
+bool load_char_obj(DESCRIPTOR_DATA *d, const char *name);
 
 /* skills.c */
-bool parse_gen_groups(CHAR_DATA *ch, char *argument);
+bool parse_gen_groups(CHAR_DATA *ch, const char *argument);
 void list_group_costs(CHAR_DATA *ch);
 void list_group_known(CHAR_DATA *ch);
 unsigned int exp_per_level(CHAR_DATA *ch, int points);

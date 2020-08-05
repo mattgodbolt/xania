@@ -431,7 +431,7 @@ void fwrite_obj(CHAR_DATA *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
 /*
  * Load a char and inventory into a new ch structure.
  */
-bool load_char_obj(DESCRIPTOR_DATA *d, char *name) {
+bool load_char_obj(DESCRIPTOR_DATA *d, const char *name) {
     static PC_DATA pcdata_zero;
     char strsave[MAX_INPUT_LENGTH];
     char buf[MAX_STRING_LENGTH * 2];

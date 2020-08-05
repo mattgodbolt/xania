@@ -437,7 +437,7 @@ unsigned int exp_per_level(CHAR_DATA *ch, int points) {
 }
 
 /* this procedure handles the input parsing for the skill generator */
-bool parse_gen_groups(CHAR_DATA *ch, char *argument) {
+bool parse_gen_groups(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     char buf[100];
     int gn, sn, i;
@@ -574,7 +574,7 @@ bool parse_gen_groups(CHAR_DATA *ch, char *argument) {
 }
 
 /* shows all groups, or the sub-members of a group */
-void do_groups(CHAR_DATA *ch, char *argument) {
+void do_groups(CHAR_DATA *ch, const char *argument) {
     char buf[100];
     int gn, sn, col;
 
