@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <cstring>
 
+using namespace std::literals;
+
 namespace {
 
 int from_chars(std::string_view sv) {
@@ -24,9 +26,6 @@ int from_chars(std::string_view sv) {
 
 }
 
-/*
- * Return true if an argument is completely numeric.
- */
 bool is_number(const char *arg) {
     if (*arg == '\0')
         return false;
@@ -42,7 +41,6 @@ bool is_number(const char *arg) {
     return true;
 }
 
-// Given a string like 14.foo, return 14 and 'foo'.
 std::pair<int, const char *> number_argument(const char *argument) {
     std::string_view sv(argument);
     if (auto dot = sv.find_first_of('.'); dot != std::string_view::npos)
@@ -62,4 +60,24 @@ std::string smash_tilde(std::string_view str) {
     result.reserve(str.size());
     std::transform(begin(str), end(str), std::back_inserter(result), [](char c) { return c == '~' ? '-' : c; });
     return result;
+}
+
+std::string skip_whitespace(std::string_view str) {
+    while (!str.empty() && isspace(str.front()))
+        str.remove_prefix(1);
+    return std::string(str);
+}
+
+std::string remove_last_line(std::string_view str) {
+    static constexpr auto line_ending = "\n\r"sv;
+    // If long enough to have a crlf...
+    if (str.length() > line_ending.size()) {
+        // If it ends with CRLF, ignore that in looking for a previous line.
+        if (str.substr(str.length() - line_ending.size()) == line_ending)
+            str.remove_suffix(2);
+        if (auto last_crlf = str.rfind(line_ending); last_crlf != std::string_view::npos)
+            return std::string(str.substr(0, last_crlf + line_ending.size()));
+    }
+    // Else, no crlf at all, return empty.
+    return "";
 }

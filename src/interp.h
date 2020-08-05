@@ -88,7 +88,7 @@ extern void do_deaf(CHAR_DATA *ch, char *arg);
 extern void do_delet(CHAR_DATA *ch, char *arg);
 extern void do_delete(CHAR_DATA *ch, char *arg);
 extern void do_deny(CHAR_DATA *ch, const char *argument);
-extern void do_description(CHAR_DATA *ch, char *arg);
+extern void do_description(CHAR_DATA *ch, const char *argument);
 extern void do_dirt(CHAR_DATA *ch, char *arg);
 extern void do_disarm(CHAR_DATA *ch, char *arg);
 extern void do_disconnect(CHAR_DATA *ch, char *arg);

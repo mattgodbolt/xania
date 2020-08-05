@@ -53,4 +53,47 @@ TEST_CASE("Interpreter tests") {
             CHECK(buf == "pig"sv);
         }
     }
+
+    SECTION("skips whitespace") {
+        SECTION("should not skip non-whitespace") {
+            CHECK(skip_whitespace("") == "");
+            CHECK(skip_whitespace("monkey") == "monkey");
+            CHECK(skip_whitespace("monkey  ") == "monkey  ");
+        }
+        SECTION("should skip actual whitespace") {
+            CHECK(skip_whitespace("   badger") == "badger");
+            CHECK(skip_whitespace("   badger  ") == "badger  ");
+            CHECK(skip_whitespace("   bad ger") == "bad ger");
+            CHECK(skip_whitespace(" \t\nbadger") == "badger");
+        }
+    }
+
+    SECTION("smashes tildes") {
+        CHECK(smash_tilde("moose") == "moose");
+        CHECK(smash_tilde("m~~se") == "m--se");
+    }
+
+    SECTION("removes last lines") {
+        SECTION("should preserve empty line") { CHECK(remove_last_line("") == ""); }
+        SECTION("should trim tiny non-terminated") {
+            CHECK(remove_last_line("a") == "");
+            CHECK(remove_last_line("ab") == "");
+            CHECK(remove_last_line("abc") == "");
+        }
+        SECTION("should trim tiny terrminated") {
+            CHECK(remove_last_line("\n\r") == "");
+            CHECK(remove_last_line("\n\r\n\r") == "\n\r");
+            CHECK(remove_last_line("a\n\r") == "");
+        }
+        SECTION("should trim long non-terminated") { CHECK(remove_last_line("This is a longer line") == ""); }
+        SECTION("should trim single line") { CHECK(remove_last_line("This is a single line\n\r") == ""); }
+        SECTION("should trim last complete line") {
+            CHECK(remove_last_line("This is a line\n\rThis is the second line\n\rAnd the last\n\r")
+                  == "This is a line\n\rThis is the second line\n\r");
+        }
+        SECTION("should trim partial last line") {
+            CHECK(remove_last_line("This is a line\n\rThis is the second line\n\rAnd I didn't finish the newline")
+                  == "This is a line\n\rThis is the second line\n\r");
+        }
+    }
 }

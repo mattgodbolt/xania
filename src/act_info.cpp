@@ -41,7 +41,7 @@ void show_char_to_char(CHAR_DATA *list, CHAR_DATA *ch);
 bool check_blind(CHAR_DATA *ch);
 
 /* Mg's funcy shun */
-void set_prompt(CHAR_DATA *ch, char *prompt);
+void set_prompt(CHAR_DATA *ch, const char *prompt);
 
 char *format_obj_to_char(OBJ_DATA *obj, CHAR_DATA *ch, bool fShort) {
     static char buf[MAX_STRING_LENGTH];
@@ -816,8 +816,7 @@ void do_prompt(CHAR_DATA *ch, char *argument) {
     }
 
     /* okay that was the old stuff */
-    smash_tilde(argument);
-    set_prompt(ch, argument);
+    set_prompt(ch, smash_tilde(argument).c_str());
     send_to_char("Ok - prompt set.\n\r", ch);
     SET_BIT(ch->comm, COMM_PROMPT);
 }
@@ -2094,8 +2093,7 @@ void do_consider(CHAR_DATA *ch, char *argument) {
         do_mstat(ch, argument);
 }
 
-void set_prompt(CHAR_DATA *ch, char *prompt) {
-
+void set_prompt(CHAR_DATA *ch, const char *prompt) {
     if (IS_NPC(ch)) {
         bug("Set_prompt: NPC.");
         return;
@@ -2133,74 +2131,36 @@ void do_title(CHAR_DATA *ch, char *argument) {
         return;
     }
 
-    if (strlen(argument) > 45)
-        argument[45] = '\0';
+    auto new_title = smash_tilde(argument);
+    if (new_title.length() > 45)
+        new_title.resize(45);
 
-    auto smashed = smash_tilde(argument);
-    set_title(ch, smashed.c_str());
+    set_title(ch, new_title.c_str());
     send_to_char("Ok.\n\r", ch);
 }
 
-void do_description(CHAR_DATA *ch, char *argument) {
-    char buf[MAX_STRING_LENGTH];
+void do_description(CHAR_DATA *ch, const char *argument) {
+    auto desc_line = smash_tilde(argument);
 
-    if (argument[0] != '\0') {
-        buf[0] = '\0';
-        smash_tilde(argument);
-        if (argument[0] == '+') {
-            if (ch->description != nullptr)
-                strcat(buf, ch->description);
-            argument++;
-            while (isspace(*argument))
-                argument++;
-        }
-        if (!str_cmp(argument, "-")) {
-            int counter;
-            int length;
-
-            if (ch->description == nullptr) {
+    if (!desc_line.empty()) {
+        std::string description = ch->description ? ch->description : "";
+        if (desc_line.front() == '+') {
+            description += skip_whitespace(desc_line.substr(1)) + "\n\r";
+        } else if (desc_line == "-") {
+            if (description.empty()) {
                 send_to_char("You have no description.\n\r", ch);
                 return;
             }
-            strcpy(buf, ch->description);
-            length = strlen(buf);
-            if (length <= 1) {
-                send_to_char("There is no body of text to delete.\n\r", ch);
-                return;
-            }
-            if (length == 2) {
-                free_string(ch->description);
-                ch->description = str_dup("");
-                send_to_char("Ok.\n\r", ch);
-                return;
-            }
-
-            for (counter = length - 3; counter >= 0; counter--) {
-                if (counter == 0) {
-                    free_string(ch->description);
-                    ch->description = str_dup("");
-                    send_to_char("Ok.\n\r", ch);
-                    return;
-                }
-                if (buf[counter] == '\n') {
-                    free_string(ch->description);
-                    buf[counter + 2] = '\0';
-                    ch->description = str_dup(buf);
-                    send_to_char("Ok.\n\r", ch);
-                    return;
-                }
-            }
+            description = remove_last_line(description);
+        } else {
+            description = desc_line + "\n\r";
         }
-
-        if (strlen(buf) + strlen(argument) >= MAX_STRING_LENGTH - 2) {
+        if (description.size() >= MAX_STRING_LENGTH - 2) {
             send_to_char("Description too long.\n\r", ch);
             return;
         }
-
-        strcat(buf, argument);
-        strcat(buf, "\n\r");
         free_string(ch->description);
-        ch->description = str_dup(buf);
+        ch->description = str_dup(description.c_str());
     }
 
     send_to_char("Your description is:\n\r", ch);

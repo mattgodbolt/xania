@@ -19,9 +19,9 @@ set(BUILD_FULL_VERSION "(local build)" CACHE STRING "Full string of build versio
 set(BUILD_COMMIT_URL "https://this.is.a.local.build/1234" CACHE STRING "Full string of git URL to this build")
 
 set(CMAKE_CXX_STANDARD 17)
-# TODO(Forrey): Fix all the warnings in the old C code, and then re-enable -Werror.
+# TODO(Forrey): Fix all the warnings in the old C code, and then re-enable -Werror. MRG; added some selectively back temporarily
 # add_compile_options(-Werror -Wall -Wextra)
-add_compile_options(-Wall -Wextra -fpermissive)
+add_compile_options(-Wall -Wextra -fpermissive -Werror=unused-result)
 
 # -static-libasan is required to prevent doorman+xania from crashing on startup (with some error about LD_PRELOAD)
 # when you build with 'make'.

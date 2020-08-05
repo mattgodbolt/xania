@@ -1972,8 +1972,7 @@ void do_buy(CHAR_DATA *ch, char *argument) {
         if (arg[0] != '\0') {
             snprintf(buf, sizeof(buf), "%s %s", pet->name, arg);
             free_string(pet->name);
-            pet->name = str_dup(buf);
-            smash_tilde(pet->name);
+            pet->name = str_dup(smash_tilde(buf).c_str());
         }
 
         snprintf(buf, sizeof(buf), "%sA neck tag says 'I belong to %s'.\n\r", pet->description, ch->name);

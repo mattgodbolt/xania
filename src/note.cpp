@@ -24,7 +24,7 @@ static NOTE_DATA *note_last;
 
 static void *trie;
 
-typedef void(note_fn_t)(CHAR_DATA *, char *);
+typedef void(note_fn_t)(CHAR_DATA *, const char *);
 
 /* returns the number of unread notes for the given user. */
 int note_count(CHAR_DATA *ch) {
@@ -55,7 +55,7 @@ int is_note_to(struct char_data *ch, NOTE_DATA *note) {
 }
 
 static NOTE_DATA *create_note() {
-    NOTE_DATA *note = calloc(1, sizeof(NOTE_DATA));
+    NOTE_DATA *note = static_cast<NOTE_DATA *>(calloc(1, sizeof(NOTE_DATA)));
     note->text = buffer_create();
     if (!note->text) {
         free(note);
@@ -170,7 +170,7 @@ static void save_notes() {
     }
 }
 
-static void note_list(CHAR_DATA *ch, char *argument) {
+static void note_list(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
     int num = 0;
@@ -187,7 +187,7 @@ static void note_list(CHAR_DATA *ch, char *argument) {
     }
 }
 
-static void note_read(CHAR_DATA *ch, char *argument) {
+static void note_read(CHAR_DATA *ch, const char *argument) {
     NOTE_DATA *note = nullptr;
     int note_index;
 
@@ -220,7 +220,7 @@ static void note_read(CHAR_DATA *ch, char *argument) {
     }
 }
 
-static void note_addline(CHAR_DATA *ch, char *argument) {
+static void note_addline(CHAR_DATA *ch, const char *argument) {
     NOTE_DATA *note = ensure_note(ch);
     if (!note) {
         send_to_char("Failed to create new note.\n\r", ch);
@@ -230,7 +230,7 @@ static void note_addline(CHAR_DATA *ch, char *argument) {
     send_to_char("Ok.\n\r", ch);
 }
 
-static void note_removeline(CHAR_DATA *ch, char *argument) {
+static void note_removeline(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     NOTE_DATA *note = ch->pnote;
     if (!note || !note->text) {
@@ -241,7 +241,7 @@ static void note_removeline(CHAR_DATA *ch, char *argument) {
     send_to_char("Ok.\n\r", ch);
 }
 
-static void note_subject(CHAR_DATA *ch, char *argument) {
+static void note_subject(CHAR_DATA *ch, const char *argument) {
     NOTE_DATA *note = ensure_note(ch);
     if (note) {
         if (note->subject) {
@@ -254,7 +254,7 @@ static void note_subject(CHAR_DATA *ch, char *argument) {
     }
 }
 
-static void note_to(CHAR_DATA *ch, char *argument) {
+static void note_to(CHAR_DATA *ch, const char *argument) {
     NOTE_DATA *note = ensure_note(ch);
 
     if (note) {
@@ -268,7 +268,7 @@ static void note_to(CHAR_DATA *ch, char *argument) {
     }
 }
 
-static void note_clear(CHAR_DATA *ch, char *argument) {
+static void note_clear(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->pnote) {
         destroy_note(ch->pnote);
@@ -277,7 +277,7 @@ static void note_clear(CHAR_DATA *ch, char *argument) {
     send_to_char("Ok.\n\r", ch);
 }
 
-static void note_show(CHAR_DATA *ch, char *argument) {
+static void note_show(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
     NOTE_DATA *note = ch->pnote;
@@ -293,7 +293,7 @@ static void note_show(CHAR_DATA *ch, char *argument) {
     send_to_char("|w", ch);
 }
 
-static void note_post(CHAR_DATA *ch, char *argument) {
+static void note_post(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     NOTE_DATA *note = ch->pnote;
     FILE *fp;
@@ -391,7 +391,7 @@ static void note_remove(CHAR_DATA *ch, NOTE_DATA *note) {
     save_notes();
 }
 
-static void note_removecmd(CHAR_DATA *ch, char *argument) {
+static void note_removecmd(CHAR_DATA *ch, const char *argument) {
     NOTE_DATA *note;
 
     if (!is_number(argument)) {
@@ -407,7 +407,7 @@ static void note_removecmd(CHAR_DATA *ch, char *argument) {
     }
 }
 
-static void note_delete(CHAR_DATA *ch, char *argument) {
+static void note_delete(CHAR_DATA *ch, const char *argument) {
     NOTE_DATA *note;
 
     if (!is_number(argument)) {
@@ -424,19 +424,18 @@ static void note_delete(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_note(CHAR_DATA *ch, char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    note_fn_t *note_fn;
-
+void do_note(CHAR_DATA *ch, const char *argument) {
     if (IS_NPC(ch)) {
         return;
     }
-    argument = one_argument(argument, arg);
-    smash_tilde(argument);
+    char arg[MAX_INPUT_LENGTH];
+    auto note_remainder = smash_tilde(one_argument(argument, arg));
 
-    note_fn = trie_get(trie, arg[0] ? arg : "read", get_trust(ch));
+    // TODO: can't use C++ cast here as this is basically invalid. will probably go if we kill the tries, or at least
+    // make them type safe.
+    auto note_fn = (note_fn_t *)(trie_get(trie, arg[0] ? arg : "read", get_trust(ch)));
     if (note_fn) {
-        note_fn(ch, argument);
+        note_fn(ch, note_remainder.c_str());
     } else {
         send_to_char("Huh?  Type 'help note' for usage.\n\r", ch);
     }
@@ -508,16 +507,17 @@ void note_initialise() {
         bug("note_initialise: couldn't create trie.");
         exit(1);
     }
-    trie_add(trie, "read", note_read, 0);
-    trie_add(trie, "list", note_list, 0);
-    trie_add(trie, "+", note_addline, 0);
-    trie_add(trie, "-", note_removeline, 0);
-    trie_add(trie, "subject", note_subject, 0);
-    trie_add(trie, "to", note_to, 0);
-    trie_add(trie, "clear", note_clear, 0);
-    trie_add(trie, "show", note_show, 0);
-    trie_add(trie, "post", note_post, 0);
-    trie_add(trie, "send", note_post, 0);
-    trie_add(trie, "remove", note_removecmd, 0);
-    trie_add(trie, "delete", note_delete, MAX_LEVEL - 2);
+    // TODO: again these need C-style casts because they're basically not allowed...
+    trie_add(trie, "read", (void *)&note_read, 0);
+    trie_add(trie, "list", (void *)&note_list, 0);
+    trie_add(trie, "+", (void *)&note_addline, 0);
+    trie_add(trie, "-", (void *)&note_removeline, 0);
+    trie_add(trie, "subject", (void *)&note_subject, 0);
+    trie_add(trie, "to", (void *)&note_to, 0);
+    trie_add(trie, "clear", (void *)&note_clear, 0);
+    trie_add(trie, "show", (void *)&note_show, 0);
+    trie_add(trie, "post", (void *)&note_post, 0);
+    trie_add(trie, "send", (void *)&note_post, 0);
+    trie_add(trie, "remove", (void *)&note_removecmd, 0);
+    trie_add(trie, "delete", (void *)&note_delete, MAX_LEVEL - 2);
 }
