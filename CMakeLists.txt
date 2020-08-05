@@ -37,6 +37,8 @@ conan_cmake_run(CONANFILE conanfile.txt
         BASIC_SETUP CMAKE_TARGETS
         BUILD missing)
 
+set(CMAKE_INSTALL_MESSAGE NEVER) # prevent logging installation messages
+
 enable_testing()
 
 add_subdirectory(src)
