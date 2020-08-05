@@ -24,7 +24,7 @@ void do_heal(CHAR_DATA *ch, char *argument) {
     char arg[MAX_INPUT_LENGTH];
     int cost, sn;
     SpellFunc spell;
-    char *words;
+    const char *words;
 
     /* check for healer */
     for (mob = ch->in_room->people; mob; mob = mob->next_in_room) {
