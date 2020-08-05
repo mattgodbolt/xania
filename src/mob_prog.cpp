@@ -853,8 +853,8 @@ bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *o
 char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo,
                        CHAR_DATA *rndm) {
     char buf[MAX_INPUT_LENGTH];
-    char *morebuf = '\0';
-    char *cmnd = '\0';
+    char *morebuf = nullptr;
+    char *cmnd = nullptr;
     bool loopdone = false;
     bool flag = false;
     int legal;
@@ -1005,9 +1005,9 @@ char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA *mob, CHAR_DATA *
  * but this would require a lot of small changes all over the code.
  */
 void mprog_translate(char ch, char *t, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, CHAR_DATA *rndm) {
-    static char *he_she[] = {"it", "he", "she"};
-    static char *him_her[] = {"it", "him", "her"};
-    static char *his_her[] = {"its", "his", "her"};
+    static const char *he_she[] = {"it", "he", "she"};
+    static const char *him_her[] = {"it", "him", "her"};
+    static const char *his_her[] = {"its", "his", "her"};
     CHAR_DATA *vict = (CHAR_DATA *)vo;
     OBJ_DATA *v_obj = (OBJ_DATA *)vo;
 
@@ -1270,7 +1270,7 @@ void mprog_driver(char *com_list, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *ob
  *  on a certain percent, or trigger on a keyword or word phrase.
  *  To see how this works, look at the various trigger routines..
  */
-void mprog_wordlist_check(char *arg, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, int type) {
+void mprog_wordlist_check(const char *arg, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, int type) {
 
     char temp1[MAX_STRING_LENGTH];
     char temp2[MAX_INPUT_LENGTH];
@@ -1339,7 +1339,7 @@ void mprog_act_trigger(char *buf, CHAR_DATA *mob, CHAR_DATA *ch, OBJ_DATA *obj, 
     MPROG_ACT_LIST *tmp_act;
 
     if (IS_NPC(mob) && (mob->pIndexData->progtypes & ACT_PROG)) {
-        tmp_act = alloc_mem(sizeof(MPROG_ACT_LIST));
+        tmp_act = (MPROG_ACT_LIST *)alloc_mem(sizeof(MPROG_ACT_LIST));
         if (mob->mpactnum > 0)
             tmp_act->next = mob->mpact->next;
         else
