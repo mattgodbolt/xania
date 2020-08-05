@@ -20,7 +20,6 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
-void do_setinfo(CHAR_DATA *ch, char *arg);
 void do_finger(CHAR_DATA *ch, char *arg);
 void read_char_info(FINGER_INFO *info);
 
@@ -48,12 +47,12 @@ void load_player_list() {
     if (dp != nullptr) {
         while ((ep = (readdir(dp)))) {
             if (player_list == nullptr) {
-                player_list = alloc_mem(sizeof(KNOWN_PLAYERS));
+                player_list = static_cast<KNOWN_PLAYERS *>(alloc_mem(sizeof(KNOWN_PLAYERS)));
                 player_list->next = nullptr;
                 player_list->name = str_dup(ep->d_name);
                 current_pos = player_list;
             } else {
-                current_pos->next = alloc_mem(sizeof(KNOWN_PLAYERS));
+                current_pos->next = static_cast<KNOWN_PLAYERS *>(alloc_mem(sizeof(KNOWN_PLAYERS)));
                 current_pos = current_pos->next;
                 current_pos->next = nullptr;
                 current_pos->name = str_dup(ep->d_name);
@@ -66,13 +65,14 @@ void load_player_list() {
 }
 
 /* Rohan's setinfo function */
-void do_setinfo(CHAR_DATA *ch, char *argument) {
+void do_setinfo(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     char buf[MAX_STRING_LENGTH];
     FINGER_INFO *cur;
     bool info_found = false;
     int update_show = 0;
     int update_hide = 0;
+    char smash_tilded[MAX_INPUT_LENGTH];
 
     if (argument[0] == '\0') {
         send_to_char("These are your current info settings:\n\r", ch);
@@ -85,13 +85,12 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
         send_to_char(buf, ch);
         return;
     }
-    argument = one_argument(argument, arg);
-
-    // TODO hacky but can be improved once we stringify more stuff
-    strcpy(arg, smash_tilde(arg).c_str());
+    strncpy(smash_tilded, smash_tilde(argument).c_str(), MAX_INPUT_LENGTH); // TODO to minimize changes during refactor
+    auto *args = smash_tilded;
+    args = one_argument(args, arg);
 
     if (!strcmp(arg, "message")) {
-        if (argument[0] == '\0') {
+        if (args[0] == '\0') {
             if (is_set_extra(ch, EXTRA_INFO_MESSAGE)) {
                 if (ch->pcdata->info_message[0] == '\0')
                     snprintf(buf, sizeof(buf), "Your message is currently not set.\n\r");
@@ -102,9 +101,9 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
             send_to_char(buf, ch);
         } else {
             free_string(ch->pcdata->info_message);
-            if (strlen(argument) > 45)
-                argument[45] = '\0';
-            ch->pcdata->info_message = str_dup(argument);
+            if (strlen(args) > 45)
+                args[45] = '\0';
+            ch->pcdata->info_message = str_dup(args);
             snprintf(buf, sizeof(buf), "Your message has been set to: %s.\n\r", ch->pcdata->info_message);
             set_extra(ch, EXTRA_INFO_MESSAGE);
             send_to_char(buf, ch);
@@ -127,11 +126,11 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
     }
 
     if (!strcmp(arg, "show")) {
-        if (argument[0] == '\0') {
+        if (args[0] == '\0') {
             send_to_char("You must supply one of the following arguments to 'setinfo show':\n\r    message\n\r", ch);
             return;
         } else {
-            if (!strcmp(argument, "message")) {
+            if (!strcmp(args, "message")) {
                 if (ch->pcdata->info_message[0] == '\0')
                     send_to_char("Your message must be set in order for it to be read by other players.\n\rUse "
                                  "'setinfo message <your message>'.\n\r",
@@ -165,11 +164,11 @@ void do_setinfo(CHAR_DATA *ch, char *argument) {
     }
 
     if (!strcmp(arg, "hide")) {
-        if (argument[0] == '\0') {
+        if (args[0] == '\0') {
             send_to_char("You must supply one of the following arguments to 'setinfo hide':\n\r    message\n\r", ch);
             return;
         } else {
-            if (!strcmp(argument, "message")) {
+            if (!strcmp(args, "message")) {
                 remove_extra(ch, EXTRA_INFO_MESSAGE);
                 send_to_char("Players will now not be able to read your message when looking at your info.\n\r", ch);
                 update_hide = EXTRA_INFO_MESSAGE;
@@ -298,7 +297,7 @@ void do_finger(CHAR_DATA *ch, char *argument) {
             } else {
                 /* Player info not in cache, proceed to put it in there */
                 /*send_to_char ("Player info is not in cache.\n\r", ch);*/
-                cur = alloc_mem(sizeof(FINGER_INFO));
+                cur = static_cast<FINGER_INFO *>(alloc_mem(sizeof(FINGER_INFO)));
                 cur->name = str_dup(argument);
                 cur->next = info_cache;
                 info_cache = cur;
