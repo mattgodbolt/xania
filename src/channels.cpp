@@ -74,7 +74,7 @@ void do_channels(CHAR_DATA *ch, const char *argument) {
         send_to_char("You cannot show emotions.\n\r", ch);
 }
 
-static void toggle_channel(CHAR_DATA *ch, int chan_flag, char *chan_name) {
+static void toggle_channel(CHAR_DATA *ch, int chan_flag, const char *chan_name) {
     char buf[MAX_STRING_LENGTH];
 
     if (IS_SET(ch->comm, chan_flag)) {
@@ -88,7 +88,7 @@ static void toggle_channel(CHAR_DATA *ch, int chan_flag, char *chan_name) {
     send_to_char(buf, ch);
 }
 
-void do_quiet(CHAR_DATA *ch, char *argument) {
+void do_quiet(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_QUIET)) {
         send_to_char("Quiet mode removed.\n\r", ch);
@@ -99,7 +99,7 @@ void do_quiet(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void channel_command(CHAR_DATA *ch, char *argument, int chan_flag, char *chan_name, char *desc_self, char *desc_other) {
+void channel_command(CHAR_DATA *ch, const char *argument, int chan_flag, const char *chan_name, const char *desc_self, const char *desc_other) {
     char buf[MAX_STRING_LENGTH];
 
     if (argument[0] == '\0') {
@@ -134,14 +134,14 @@ void channel_command(CHAR_DATA *ch, char *argument, int chan_flag, char *chan_na
     }
 }
 
-void do_announce(CHAR_DATA *ch, char *argument) {
+void do_announce(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     toggle_channel(ch, COMM_NOANNOUNCE, "Announce");
 }
 
-void do_immtalk(CHAR_DATA *ch, char *argument) {
+void do_immtalk(CHAR_DATA *ch, const char *argument) {
     DESCRIPTOR_DATA *d;
-    char *format = "|W$n: |c$t|w";
+    const char *format = "|W$n: |c$t|w";
 
     if (argument[0] == '\0') {
         toggle_channel(ch, COMM_NOWIZ, "Immortal");
@@ -162,43 +162,43 @@ void do_immtalk(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_gossip(CHAR_DATA *ch, char *argument) {
+void do_gossip(CHAR_DATA *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOGOSSIP, "Gossip", "|gYou gossip '%s|g'|w\n\r", "|g$n gossips '$t|g'|w");
 }
 
-void do_auction(CHAR_DATA *ch, char *argument) {
+void do_auction(CHAR_DATA *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOAUCTION, "Auction", "You auction '%s|w'\n\r", "$n auctions '$t|w'");
 }
 
-void do_music(CHAR_DATA *ch, char *argument) {
+void do_music(CHAR_DATA *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOMUSIC, "Music", "|PYou MUSIC: '%s|P'|w\n\r", "|P$n MUSIC: '$t|P'|w");
 }
 
-void do_question(CHAR_DATA *ch, char *argument) {
+void do_question(CHAR_DATA *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOQUESTION, "Q/A", "|GYou question '%s|G'|w\n\r", "|G$n questions '$t|G'|w");
 }
 
-void do_answer(CHAR_DATA *ch, char *argument) {
+void do_answer(CHAR_DATA *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOQUESTION, "Q/A", "|GYou answer '%s|G'|w\n\r", "|G$n answers '$t|G'|w");
 }
 
-void do_gratz(CHAR_DATA *ch, char *argument) {
+void do_gratz(CHAR_DATA *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOGRATZ, "Gratz", "|yYou gratz '%s|y'|w\n\r", "|y$n gratzes '$t|y'|w");
 }
 
-void do_allege(CHAR_DATA *ch, char *argument) {
+void do_allege(CHAR_DATA *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOALLEGE, "Allege", "|pYou allege '%s|p'|w\n\r", "|p$n alleges '$t|p'|w");
 }
 
-void do_philosophise(CHAR_DATA *ch, char *argument) {
+void do_philosophise(CHAR_DATA *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOPHILOSOPHISE, "Philosophise", "|WYou philosophise '%s|W'|w\n\r",
                     "|W$n philosophises '$t|W'|w");
 }
 
-void do_qwest(CHAR_DATA *ch, char *argument) {
+void do_qwest(CHAR_DATA *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOQWEST, "Qwest", "|YYou qwest '%s|Y'|w\n\r", "|Y$n qwests '$t|Y'|w");
 }
 
-void do_shout(CHAR_DATA *ch, char *argument) {
+void do_shout(CHAR_DATA *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOSHOUT, "Shout", "|WYou shout '%s|W'|w\n\r", "|W$n shouts '$t|W'|w");
 }
