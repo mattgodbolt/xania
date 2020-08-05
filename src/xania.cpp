@@ -750,67 +750,68 @@ void load_tipfile() {
         tip_current = ptt;
         tipcount++;
     }
-    /* now set the current tip to the top of the list ready for use*/}
+    /* now set the current tip to the top of the list ready for use*/
+}
 
-    void tip_players() {
+void tip_players() {
 
-        DESCRIPTOR_DATA *d;
-        char buf[MAX_STRING_LENGTH];
+    DESCRIPTOR_DATA *d;
+    char buf[MAX_STRING_LENGTH];
 
-        /* check the tip wizard list first ... */
+    /* check the tip wizard list first ... */
 
-        if (tip_current == nullptr)
-            tip_current = tip_top; /* send us back to top of list */
+    if (tip_current == nullptr)
+        tip_current = tip_top; /* send us back to top of list */
 
-        if (tip_top == nullptr) { /* we didn't load a tip file so ignore */
-            ignore_tips = true;
-            return;
-        }
-        if (tip_current->tip == nullptr) {
-            tip_current = tip_current->next;
-            return;
-        }
-        if (strlen(tip_current->tip) == 0) {
-            tip_current = tip_current->next;
-            return;
-        }
-        snprintf(buf, sizeof(buf), "|WTip: %s|w\n\r", tip_current->tip);
-        for (d = descriptor_list; d != nullptr; d = d->next) {
-            CHAR_DATA *ch;
-
-            ch = (d->original != nullptr) ? d->original : d->character;
-
-            if (d->connected != CON_PLAYING)
-                continue;
-
-            if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
-                send_to_char(buf, ch);
-            }
-        }
-        tip_current = tip_current->next;
+    if (tip_top == nullptr) { /* we didn't load a tip file so ignore */
+        ignore_tips = true;
+        return;
     }
+    if (tip_current->tip == nullptr) {
+        tip_current = tip_current->next;
+        return;
+    }
+    if (strlen(tip_current->tip) == 0) {
+        tip_current = tip_current->next;
+        return;
+    }
+    snprintf(buf, sizeof(buf), "|WTip: %s|w\n\r", tip_current->tip);
+    for (d = descriptor_list; d != nullptr; d = d->next) {
+        CHAR_DATA *ch;
 
-    void do_tipwizard(CHAR_DATA *ch, char *arg) {
+        ch = (d->original != nullptr) ? d->original : d->character;
 
-        if (arg[0] == '\0') {
-            if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
-                remove_extra(ch, EXTRA_TIP_WIZARD);
-                send_to_char("Tipwizard deactivated.\n\r", ch);
-            } else {
-                set_extra(ch, EXTRA_TIP_WIZARD);
-                send_to_char("Tipwizard activated!\n\r", ch);
-            }
-            return;
+        if (d->connected != CON_PLAYING)
+            continue;
+
+        if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
+            send_to_char(buf, ch);
         }
-        if (!strcmp(arg, "on")) {
-            set_extra(ch, EXTRA_TIP_WIZARD);
-            send_to_char("Tipwizard activated!\n\r", ch);
-            return;
-        }
-        if (!strcmp(arg, "off")) {
+    }
+    tip_current = tip_current->next;
+}
+
+void do_tipwizard(CHAR_DATA *ch, char *arg) {
+
+    if (arg[0] == '\0') {
+        if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
             remove_extra(ch, EXTRA_TIP_WIZARD);
             send_to_char("Tipwizard deactivated.\n\r", ch);
-            return;
+        } else {
+            set_extra(ch, EXTRA_TIP_WIZARD);
+            send_to_char("Tipwizard activated!\n\r", ch);
         }
-        send_to_char("Syntax: tipwizard {on/off}\n\r", ch);
+        return;
     }
+    if (!strcmp(arg, "on")) {
+        set_extra(ch, EXTRA_TIP_WIZARD);
+        send_to_char("Tipwizard activated!\n\r", ch);
+        return;
+    }
+    if (!strcmp(arg, "off")) {
+        remove_extra(ch, EXTRA_TIP_WIZARD);
+        send_to_char("Tipwizard deactivated.\n\r", ch);
+        return;
+    }
+    send_to_char("Syntax: tipwizard {on/off}\n\r", ch);
+}
