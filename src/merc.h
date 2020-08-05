@@ -2259,7 +2259,7 @@ void mprog_fight_trigger(CHAR_DATA *mob, CHAR_DATA *ch);
 void mprog_hitprcnt_trigger(CHAR_DATA *mob, CHAR_DATA *ch);
 void mprog_death_trigger(CHAR_DATA *mob);
 void mprog_random_trigger(CHAR_DATA *mob);
-void mprog_speech_trigger(char *txt, CHAR_DATA *mob);
+void mprog_speech_trigger(const char *txt, CHAR_DATA *mob);
 
 /*****************************************************************************
  *                                   ILAB OLC                                *

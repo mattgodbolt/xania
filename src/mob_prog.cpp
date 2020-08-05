@@ -1461,7 +1461,7 @@ void mprog_random_trigger(CHAR_DATA *mob) {
     return;
 }
 
-void mprog_speech_trigger(char *txt, CHAR_DATA *mob) {
+void mprog_speech_trigger(const char *txt, CHAR_DATA *mob) {
 
     CHAR_DATA *vmob;
 
