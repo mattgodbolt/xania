@@ -1919,7 +1919,7 @@ void do_clone(CHAR_DATA *ch, char *argument) {
 
 /* RT to replace the two load commands */
 
-void do_load(CHAR_DATA *ch, char *argument) {
+void do_load(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
 
     argument = one_argument(argument, arg);
@@ -1944,7 +1944,7 @@ void do_load(CHAR_DATA *ch, char *argument) {
     do_load(ch, "");
 }
 
-void do_mload(CHAR_DATA *ch, char *argument) {
+void do_mload(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     MOB_INDEX_DATA *pMobIndex;
     CHAR_DATA *victim;
@@ -1967,7 +1967,7 @@ void do_mload(CHAR_DATA *ch, char *argument) {
     send_to_char("Ok.\n\r", ch);
 }
 
-void do_oload(CHAR_DATA *ch, char *argument) {
+void do_oload(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
     OBJ_INDEX_DATA *pObjIndex;
     OBJ_DATA *obj;
@@ -2010,7 +2010,7 @@ void do_oload(CHAR_DATA *ch, char *argument) {
     send_to_char("Ok.\n\r", ch);
 }
 
-void do_purge(CHAR_DATA *ch, char *argument) {
+void do_purge(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     char buf[100];
     CHAR_DATA *victim;
@@ -2076,7 +2076,7 @@ void do_purge(CHAR_DATA *ch, char *argument) {
     extract_char(victim, true);
 }
 
-void do_advance(CHAR_DATA *ch, char *argument) {
+void do_advance(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
@@ -2737,7 +2737,7 @@ void do_slookup(CHAR_DATA *ch, char *argument) {
 
 /* RT set replaces sset, mset, oset, and rset */
 
-void do_set(CHAR_DATA *ch, char *argument) {
+void do_set(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
 
     argument = one_argument(argument, arg);
@@ -2774,7 +2774,7 @@ void do_set(CHAR_DATA *ch, char *argument) {
     do_set(ch, "");
 }
 
-void do_sset(CHAR_DATA *ch, char *argument) {
+void do_sset(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     char arg3[MAX_INPUT_LENGTH];
@@ -2836,7 +2836,7 @@ void do_sset(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_mset(CHAR_DATA *ch, char *argument) {
+void do_mset(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     char arg3[MAX_INPUT_LENGTH];
@@ -2844,10 +2844,12 @@ void do_mset(CHAR_DATA *ch, char *argument) {
     CHAR_DATA *victim;
     int value;
 
-    strcpy(argument, smash_tilde(argument).c_str()); // TODO dreadful  to minimize changes during refactor
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-    strcpy(arg3, argument);
+    char smash_tilded[MAX_INPUT_LENGTH];
+    strncpy(smash_tilded, smash_tilde(argument).c_str(), MAX_INPUT_LENGTH); // TODO to minimize changes during refactor
+    auto *args = smash_tilded;
+    args = one_argument(args, arg1);
+    args = one_argument(args, arg2);
+    strcpy(arg3, args);
 
     if (arg1[0] == '\0' || arg2[0] == '\0' || arg3[0] == '\0') {
         send_to_char("Syntax:\n\r", ch);
@@ -3148,7 +3150,7 @@ void do_mset(CHAR_DATA *ch, char *argument) {
     do_mset(ch, "");
 }
 
-void do_string(CHAR_DATA *ch, char *argument) {
+void do_string(CHAR_DATA *ch, const char *argument) {
     char type[MAX_INPUT_LENGTH];
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
@@ -3156,11 +3158,13 @@ void do_string(CHAR_DATA *ch, char *argument) {
     CHAR_DATA *victim;
     OBJ_DATA *obj;
 
-    strcpy(argument, smash_tilde(argument).c_str()); // TODO dreadful  to minimize changes during refactor
-    argument = one_argument(argument, type);
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-    strcpy(arg3, argument);
+    char smash_tilded[MAX_INPUT_LENGTH];
+    strncpy(smash_tilded, smash_tilde(argument).c_str(), MAX_INPUT_LENGTH); // TODO to minimize changes during refactor
+    auto *args = smash_tilded;
+    args = one_argument(args, type);
+    args = one_argument(args, arg1);
+    args = one_argument(args, arg2);
+    strcpy(arg3, args);
 
     if (type[0] == '\0' || arg1[0] == '\0' || arg2[0] == '\0' || arg3[0] == '\0') {
         send_to_char("Syntax:\n\r", ch);
@@ -3273,23 +3277,23 @@ void do_string(CHAR_DATA *ch, char *argument) {
         if (!str_prefix(arg2, "ed") || !str_prefix(arg2, "extended")) {
             EXTRA_DESCR_DATA *ed;
 
-            argument = one_argument(argument, arg3);
-            if (argument == nullptr) {
+            args = one_argument(args, arg3);
+            if (args == nullptr) {
                 send_to_char("Syntax: oset <object> ed <keyword> <string>\n\r", ch);
                 return;
             }
 
-            strcat(argument, "\n\r");
+            strcat(args, "\n\r");
 
             if (extra_descr_free == nullptr) {
-                ed = alloc_perm(sizeof(*ed));
+                ed = static_cast<EXTRA_DESCR_DATA *>(alloc_perm(sizeof(*ed)));
             } else {
                 ed = extra_descr_free;
                 extra_descr_free = ed->next;
             }
 
             ed->keyword = str_dup(arg3);
-            ed->description = str_dup(argument);
+            ed->description = str_dup(args);
             ed->next = obj->extra_descr;
             obj->extra_descr = ed;
             return;
@@ -3300,17 +3304,19 @@ void do_string(CHAR_DATA *ch, char *argument) {
     do_string(ch, "");
 }
 
-void do_oset(CHAR_DATA *ch, char *argument) {
+void do_oset(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     char arg3[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     int value;
 
-    strcpy(argument, smash_tilde(argument).c_str()); // TODO dreadful  to minimize changes during refactor
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-    strcpy(arg3, argument);
+    char smash_tilded[MAX_INPUT_LENGTH];
+    strncpy(smash_tilded, smash_tilde(argument).c_str(), MAX_INPUT_LENGTH); // TODO to minimize changes during refactor
+    auto *args = smash_tilded;
+    args = one_argument(args, arg1);
+    args = one_argument(args, arg2);
+    strcpy(arg3, args);
 
     if (arg1[0] == '\0' || arg2[0] == '\0' || arg3[0] == '\0') {
         send_to_char("Syntax:\n\r", ch);
@@ -3408,17 +3414,19 @@ void do_oset(CHAR_DATA *ch, char *argument) {
     do_oset(ch, "");
 }
 
-void do_rset(CHAR_DATA *ch, char *argument) {
+void do_rset(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     char arg3[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
     int value;
 
-    strcpy(argument, smash_tilde(argument).c_str()); // TODO dreadful  to minimize changes during refactor
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-    strcpy(arg3, argument);
+    char smash_tilded[MAX_INPUT_LENGTH];
+    strncpy(smash_tilded, smash_tilde(argument).c_str(), MAX_INPUT_LENGTH); // TODO to minimize changes during refactor
+    auto *args = smash_tilded;
+    args = one_argument(args, arg1);
+    args = one_argument(args, arg2);
+    strcpy(arg3, args);
 
     if (arg1[0] == '\0' || arg2[0] == '\0' || arg3[0] == '\0') {
         send_to_char("Syntax:\n\r", ch);
@@ -3507,7 +3515,7 @@ void do_sockets(CHAR_DATA *ch, char *argument) {
 /*
  * Thanks to Grodyn for pointing out bugs in this function.
  */
-void do_force(CHAR_DATA *ch, char *argument) {
+void do_force(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];

@@ -12,9 +12,9 @@
  */
 
 #include "challeng.h"
+#include "interp.h"
 #include "magic.h"
 #include "merc.h"
-#include "interp.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

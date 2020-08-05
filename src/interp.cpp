@@ -395,7 +395,7 @@ static const CommandInfo *find_command(CHAR_DATA *ch, const char *command, int t
     return static_cast<const CommandInfo *>(trie_get(cmd_trie, command, trust));
 }
 
-static char *apply_prefix(char *buf, CHAR_DATA *ch, char *command) {
+static const char *apply_prefix(char *buf, CHAR_DATA *ch, const char *command) {
     char *pc_prefix = nullptr;
 
     /* Unswitched MOBs don't have prefixes.  If we're switched, get the player's prefix. */
@@ -427,7 +427,7 @@ static char *apply_prefix(char *buf, CHAR_DATA *ch, char *command) {
  * The main entry point for executing commands.
  * Can be recursively called from 'at', 'order', 'force'.
  */
-void interpret(CHAR_DATA *ch, char *argument) {
+void interpret(CHAR_DATA *ch, const char *argument) {
     char cmd_buf[MAX_INPUT_LENGTH];
     char command[MAX_INPUT_LENGTH];
     char logline[MAX_INPUT_LENGTH];
@@ -502,7 +502,13 @@ void interpret(CHAR_DATA *ch, char *argument) {
     }
 
     /* Dispatch the command. */
-    cmd->do_fun(ch, argument);
+    {
+        // TODO: because do_fun expects a mutable char* (at least right now), make argument mutable in this dreadful
+        // way. Eventually we'll pass a std::string or similar through and this will all go away.
+        char mutable_argument[MAX_INPUT_LENGTH];
+        strcpy(mutable_argument, argument);
+        cmd->do_fun(ch, mutable_argument);
+    }
 
     tail_chain();
 }
