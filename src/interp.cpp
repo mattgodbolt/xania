@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <string_view>
 #include <sys/types.h>
 #include <time.h>
 
@@ -612,25 +613,38 @@ bool is_number(const char *arg) {
     return true;
 }
 
+int from_chars(std::string_view sv) {
+    if (sv.empty())
+        return 0;
+    bool is_neg = sv.front() == '-';
+    if (sv.front() == '-' || sv.front() == '+')
+        sv.remove_prefix(1);
+    if (sv.empty())
+        return 0;
+    unsigned long long intermediate = 0;
+    for (auto c : sv) {
+        if (!isdigit(c))
+            return 0;
+        intermediate = intermediate * 10u + (c - '0');
+    }
+    return static_cast<int>(intermediate) * (is_neg ? -1 : 1);
+}
+
 /*
  * Given a string like 14.foo, return 14 and 'foo'
  */
-int number_argument(char *argument, char *arg) {
-    char *pdot;
-    int number;
+std::pair<int, const char *> number_argument(const char *argument) {
+    std::string_view sv(argument);
+    if (auto dot = sv.find_first_of('.'); dot != std::string_view::npos)
+        return {from_chars(sv.substr(0, dot)), sv.substr(dot + 1).data()};
+    return {1, argument};
+}
 
-    for (pdot = argument; *pdot != '\0'; pdot++) {
-        if (*pdot == '.') {
-            *pdot = '\0';
-            number = atoi(argument);
-            *pdot = '.';
-            strcpy(arg, pdot + 1);
-            return number;
-        }
-    }
-
-    strcpy(arg, argument);
-    return 1;
+int number_argument(const char *argument, char *arg) {
+    // LEGACY FUNCTION TODO: remove
+    auto &&[number, remainder] = number_argument(argument);
+    strcpy(arg, remainder);
+    return number;
 }
 
 /*
