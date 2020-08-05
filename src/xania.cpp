@@ -35,13 +35,13 @@ TIP_TYPE *tip_current;
    object in points.  If boot is non-zero it will also 'BUG' these, along with any other things
    that could be wrong with the object */
 
-void objectbug(char *str, OBJ_INDEX_DATA *obj) {
+void objectbug(const char *str, OBJ_INDEX_DATA *obj) {
     char buf[MAX_STRING_LENGTH + 64];
     snprintf(buf, sizeof(buf), "obj> %s (#%d): %s", obj->short_descr, obj->vnum, str);
     log_string(buf);
 }
 
-void mobbug(char *str, MOB_INDEX_DATA *mob) {
+void mobbug(const char *str, MOB_INDEX_DATA *mob) {
     char buf[MAX_STRING_LENGTH];
     snprintf(buf, sizeof(buf), "mob> %s (#%d): %s", mob->short_descr, mob->vnum, str);
     log_string(buf);
@@ -438,7 +438,7 @@ int get_group_level(CHAR_DATA *ch, int gsn) {
 
 /*****************************************
  ******************************************************************/
-int is_made_of(OBJ_DATA *obj, char *material);
+int is_made_of(OBJ_DATA *obj, const char *material);
 
 int check_material_vulnerability(CHAR_DATA *ch, OBJ_DATA *object) {
 
@@ -459,7 +459,7 @@ int check_material_vulnerability(CHAR_DATA *ch, OBJ_DATA *object) {
     return 0;
 }
 
-int is_made_of(OBJ_DATA *obj, char *material) {
+int is_made_of(OBJ_DATA *obj, const char *material) {
     if (!str_cmp(material_table[obj->pIndexData->material].material_name, material))
         return 1;
     return 0;
@@ -557,16 +557,16 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
     }
 }
 
-void do_smit(CHAR_DATA *ch, char *argument) {
+void do_smit(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     send_to_char("If you wish to smite someone, then SPELL it out!\n\r", ch);
 }
 
-void do_smite(CHAR_DATA *ch, char *argument) {
+void do_smite(CHAR_DATA *ch, const char *argument) {
     /* Power of the Immortals! By Faramir
                                  Don't use this too much, it hurts :) */
 
-    char *smitestring;
+    const char *smitestring;
     char smitebuf[MAX_STRING_LENGTH];
     CHAR_DATA *victim;
     OBJ_DATA *obj;
