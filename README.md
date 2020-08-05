@@ -98,9 +98,7 @@ out ideas for the deployment, check out the `infra/` directory. It's a bit wild 
 # License
 
 See the [LICENSE](LICENSE) file for more details, but this code is built on and
-extends code from [MadROM](http://mad-rom.org/), which built and extended on
-[Rom2.3](http://web.archive.org/web/20000818050433/http://www.hypercube.org/tess/rom/) code. At
-least, to the best of the Xania administrators I contacted, this is the case.
+extends code from  [Rom2.4](http://web.archive.org/web/20000818050433/http://www.hypercube.org/tess/rom/) code.
 
 Xania's log on banner contains a lot of the required info. As you may not wish
 to log in, it is:
@@ -108,12 +106,12 @@ to log in, it is:
 ```
 .   .... NO! ...                  ... MNO! ...
 .... MNO!! ...................... MNNOO! ..    /    \    /    \
-.... MMNO! ......................... MNNOO!!   \     \  /     / 
-.. MNOONNOO!   MMMMMMMMMMPPPOII!   MNNO!!!!     \     \/     / 
-.. !O! NNO! MMMMMMMMMMMMMPPPOOOII!! NO! ...      \          /  A N I A 
-  ...... ! MMMMMMMMMMMMMPPPPOOOOIII! ! ...       /    /\    \  
+.... MMNO! ......................... MNNOO!!   \     \  /     /
+.. MNOONNOO!   MMMMMMMMMMPPPOII!   MNNO!!!!     \     \/     /
+.. !O! NNO! MMMMMMMMMMMMMPPPOOOII!! NO! ...      \          /  A N I A
+  ...... ! MMMMMMMMMMMMMPPPPOOOOIII! ! ...       /    /\    \
  ........ MMMMMMMMMMMMPPPPPOOOOOOII!! .....     /    /  \    \
- ........ MMMMMOOOOOOPPPPPPPPOOOOMII! ...      /    /    \    \  
+ ........ MMMMMOOOOOOPPPPPPPPOOOOMII! ...      /    /    \    \
   ....... MMMMM..    OPPMMP    .,OMI! ....     \   /      \   /
    ...... MMMM::   o.,OPMP,.o   ::I!! ... 
        .... NNM:::.,,OOPM!P,.::::!! ....    ...where it is recognised that 
@@ -121,14 +119,40 @@ to log in, it is:
        ... MMMMMNNNNOO:!!:!!IPPPPOO! ....  longevity and considerable kudos.
          .. MMMMMNNOOMMNNIIIPPPOO!! ......
         ...... MMMONNMMNNNIIIOO!..........
-     ....... MN MOMMMNNNIIIIIO! OO .......... DikuMUD by Hans Staerfeldt  
+     ....... MN MOMMMNNNIIIIIO! OO .......... DikuMUD by Hans Staerfeldt
   ......... MNO! IiiiiiiiiiiiI OOOO ......... Katja Nyboe, Tom Madsen, Michael
  ..... NNN.MNO! . O!!!!!!!!!O . OONO NO! .... Seifert, and Sebastian Hammer.
  .... MNNNNNO! ...OOOOOOOOOOO .  MMNNON!..... Based on MERC 2.2 code
- ...... MNNNNO! .. PPPPPPPPP .. MMNON!....... by Hatchet, Furey, and Kahn,   
+ ...... MNNNNO! .. PPPPPPPPP .. MMNON!....... by Hatchet, Furey, and Kahn,
     ...... OO! ................. ON! .......  ROM 2.4 (C) 1993-96 Russ Taylor
        ................................       MUDdled by the Xanian Immortals
 ```
 
 I (@mattgodbolt) believe the code is free to open source, but of course if you
 have any issues don't hesitate to contact me.
+
+## Thanks to
+
+The Xania implementors were avid players of [MadROM](http://madrom.net/), and were inspired to get the ROM code and
+start hacking on their own MUD. In particular thanks to Etaine, Ozymandius, Neuromancer, Amiga and Crash. Sorry if we
+forgot someone!
+
+In the MUD itself, the thanks read:
+
+```
+Xania was created by The Moog, Death, Faramir, Rohan  and Wandera,
+five bold Gods who saw fit to create a new world where
+peace and happiness would reign. Sadly, (due to  sheer incompetence)
+they made a nasty mistake somewhere along the line, and an infestation
+of evil spread chaotically throughout  the realm. Thus, this place is
+no longer safe and it is up to you, bold adventurer, to face up to the
+prospect of meeting an untimely demise!
+
+A special thank you to the original immortals and heroes who contributed
+to Xania's success, you can see their names using the 'wizlist' command.
+
+And it goes without saying, Xania would have been nothing without the base
+code and areas that shipped with Rivers of Mud (ROM), its sister mud, MadROM,
+and before that, DikuMUD and MERC. We owe a debt of gratitude to the original
+developers and zonesmiths.
+```

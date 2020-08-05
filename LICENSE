@@ -1,6 +1,6 @@
-This code is subject to several licenses, being a derived work of MadROM, itself
-a derived work of ROM2.4. Any Xania MUD specific code is subject to the BSD
-license, but all derived works must adhere to the licenses of ROM and Merc.
+This code is subject to several licenses, being a derived work of ROM2.4.
+Any Xania MUD specific code is subject to the BSD license, but all derived
+works must adhere to the licenses of ROM and Merc.
 
 The parts specific to Xania MUD (email matt@godbolt.org for details) are:
 
@@ -27,15 +27,11 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
---------------------------
-
-This code is based in part, on MadROM source. See http://mad-rom.org/
 
 --------------------------
 
-Parts of this code are from Russ Taylor's "Rivers Of Mud" rom source, which
-contains this license: (this from the ROM2.4 source; we believe we derived from
-ROM2.3).
+Parts of this code are from Russ Taylor's "Rivers Of Mud" version 2.4 source,
+which contains this license:
 
 In compiling this code, you have agreed to the following restrictions on
 any operating version of ROM code:
