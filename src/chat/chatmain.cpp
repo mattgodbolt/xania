@@ -3,9 +3,9 @@
 // Chris Busch (c) 1993
 // please see chat.doc
 
+#include "chatmain.hpp"
 #include "akey.hpp"
 #include "allkeys.hpp"
-#include "chatmain.hpp"
 #include "eliza.hpp"
 #include <stdio.h>
 #include <stdlib.h>
