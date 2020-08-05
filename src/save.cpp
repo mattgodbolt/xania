@@ -441,7 +441,7 @@ bool load_char_obj(DESCRIPTOR_DATA *d, const char *name) {
     int stat;
 
     if (char_free == nullptr) {
-        ch = alloc_perm(sizeof(*ch));
+        ch = static_cast<CHAR_DATA *>(alloc_perm(sizeof(*ch)));
     } else {
         ch = char_free;
         char_free = char_free->next;
@@ -449,7 +449,7 @@ bool load_char_obj(DESCRIPTOR_DATA *d, const char *name) {
     clear_char(ch);
 
     if (pcdata_free == nullptr) {
-        ch->pcdata = alloc_perm(sizeof(*ch->pcdata));
+        ch->pcdata = static_cast<PC_DATA *>(alloc_perm(sizeof(*ch->pcdata)));
     } else {
         ch->pcdata = pcdata_free;
         pcdata_free = pcdata_free->next;
@@ -629,7 +629,7 @@ bool load_char_obj(DESCRIPTOR_DATA *d, const char *name) {
 
 void fread_char(CHAR_DATA *ch, FILE *fp) {
     char buf[MAX_STRING_LENGTH];
-    char *word;
+    const char *word;
     bool fMatch;
 
     for (;;) {
@@ -669,7 +669,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
                 AFFECT_DATA *paf;
 
                 if (affect_free == nullptr) {
-                    paf = alloc_perm(sizeof(*paf));
+                    paf = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf)));
                 } else {
                     paf = affect_free;
                     affect_free = affect_free->next;
@@ -988,7 +988,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
 
 /* load a pet from the forgotten reaches */
 void fread_pet(CHAR_DATA *ch, FILE *fp) {
-    char *word;
+    const char *word;
     CHAR_DATA *pet;
     bool fMatch;
 
@@ -1042,7 +1042,7 @@ void fread_pet(CHAR_DATA *ch, FILE *fp) {
                 int sn;
 
                 if (affect_free == nullptr)
-                    paf = alloc_perm(sizeof(*paf));
+                    paf = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf)));
                 else {
                     paf = affect_free;
                     affect_free = affect_free->next;
@@ -1146,7 +1146,7 @@ void fread_pet(CHAR_DATA *ch, FILE *fp) {
 void fread_obj(CHAR_DATA *ch, FILE *fp) {
     static OBJ_DATA obj_zero;
     OBJ_DATA *obj;
-    char *word;
+    const char *word;
     int iNest;
     bool fMatch;
     bool fNest;
@@ -1178,7 +1178,7 @@ void fread_obj(CHAR_DATA *ch, FILE *fp) {
     if (obj == nullptr) /* either not found or old style */
     {
         if (obj_free == nullptr) {
-            obj = alloc_perm(sizeof(*obj));
+            obj = static_cast<OBJ_DATA *>(alloc_perm(sizeof(*obj)));
         } else {
             obj = obj_free;
             obj_free = obj_free->next;
@@ -1213,7 +1213,7 @@ void fread_obj(CHAR_DATA *ch, FILE *fp) {
                 AFFECT_DATA *paf;
 
                 if (affect_free == nullptr) {
-                    paf = alloc_perm(sizeof(*paf));
+                    paf = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf)));
                 } else {
                     paf = affect_free;
                     affect_free = affect_free->next;
@@ -1265,7 +1265,7 @@ void fread_obj(CHAR_DATA *ch, FILE *fp) {
                 EXTRA_DESCR_DATA *ed;
 
                 if (extra_descr_free == nullptr) {
-                    ed = alloc_perm(sizeof(*ed));
+                    ed = static_cast<EXTRA_DESCR_DATA *>(alloc_perm(sizeof(*ed)));
                 } else {
                     ed = extra_descr_free;
                     extra_descr_free = extra_descr_free->next;

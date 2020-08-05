@@ -1212,8 +1212,8 @@ struct mob_index_data {
     char *short_descr;
     char *long_descr;
     char *description;
-    long act;
-    long affected_by;
+    unsigned long act;
+    unsigned long affected_by;
     sh_int alignment;
     sh_int group; /* rom-2.4 style mob groupings */
     sh_int level;
