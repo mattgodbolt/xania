@@ -99,7 +99,8 @@ void do_quiet(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void channel_command(CHAR_DATA *ch, const char *argument, int chan_flag, const char *chan_name, const char *desc_self, const char *desc_other) {
+void channel_command(CHAR_DATA *ch, const char *argument, int chan_flag, const char *chan_name, const char *desc_self,
+                     const char *desc_other) {
     char buf[MAX_STRING_LENGTH];
 
     if (argument[0] == '\0') {

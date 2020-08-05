@@ -548,7 +548,7 @@ DESCRIPTOR_DATA *new_descriptor(int channel) {
     dnew->showstr_head = nullptr;
     dnew->showstr_point = nullptr;
     dnew->outsize = 2000;
-    dnew->outbuf = (char*) alloc_mem(dnew->outsize);
+    dnew->outbuf = (char *)alloc_mem(dnew->outsize);
     dnew->logintime = str_dup((char *)ctime(&current_time));
 
     dnew->host = str_dup("(unknown)");
@@ -930,8 +930,7 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
         close_socket(d);
         return;
 
-        case CON_GET_NAME:
-          {
+    case CON_GET_NAME: {
         if (argument[0] == '\0') {
             close_socket(d);
             return;
@@ -1004,9 +1003,8 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
             write_to_buffer(d, buf, 0);
             d->connected = CON_CONFIRM_NEW_NAME;
             return;
-          }
         }
-        break;
+    } break;
 
     case CON_GET_OLD_PASSWORD:
         write_to_buffer(d, "\n\r", 2);
@@ -1518,7 +1516,7 @@ bool check_parse_name(const char *name) {
         bool fIll;
 
         fIll = true;
-        for (const char* pc = name; *pc != '\0'; pc++) {
+        for (const char *pc = name; *pc != '\0'; pc++) {
             if (!isalpha(*pc))
                 return false;
             if (tolower(*pc) != 'i' && tolower(*pc) != 'l')
@@ -1678,7 +1676,7 @@ void page_to_char(const char *txt, CHAR_DATA *ch) {
     if (txt == nullptr || ch->desc == nullptr)
         return;
 
-    ch->desc->showstr_head = (char *) alloc_mem(strlen(txt) + 1);
+    ch->desc->showstr_head = (char *)alloc_mem(strlen(txt) + 1);
     strcpy(ch->desc->showstr_head, txt);
     ch->desc->showstr_point = ch->desc->showstr_head;
     show_string(ch->desc, "");
