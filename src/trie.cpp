@@ -48,19 +48,17 @@ static leaf_t *lookup_string(node_t *node, const char *name, int max_level) {
         return nullptr;
     }
     if (node->type == tnode_twig) {
-        int i;
-        void *result;
         node_t **children = node->data.children;
 
         if (name[0]) {
             int index = (int)(isalpha(name[0]) ? (name[0] | 0x20) : name[0]);
-            result = lookup_string(children[index], name + 1, max_level);
+            leaf_t *result = lookup_string(children[index], name + 1, max_level);
             if (result) {
                 return result;
             }
         } else {
-            for (i = 0; i < NUM_CHILDREN; i++) {
-                result = lookup_string(children[i], name, max_level);
+            for (int i = 0; i < NUM_CHILDREN; i++) {
+                leaf_t *result = lookup_string(children[i], name, max_level);
                 if (result) {
                     return result;
                 }
@@ -123,11 +121,11 @@ void trie_destroy(void *trie) {
 
 /* creates a new twig node. */
 static node_t *create_twignode(int level) {
-    node_t *node = malloc(sizeof(node_t));
+    node_t *node = (node_t *)malloc(sizeof(node_t));
     if (node) {
         node->level = level;
         node->type = tnode_twig;
-        node->data.children = calloc(NUM_CHILDREN, sizeof(node_t *));
+        node->data.children = (node_t **)calloc(NUM_CHILDREN, sizeof(node_t *));
         if (!node->data.children) {
             free(node);
             return nullptr;
@@ -138,8 +136,8 @@ static node_t *create_twignode(int level) {
 
 /* creates a new leaf node. */
 static node_t *create_leafnode(const char *name, void *value, int level) {
-    node_t *node = malloc(sizeof(node_t));
-    leaf_t *leaf = malloc(sizeof(leaf_t));
+    node_t *node = (node_t *)malloc(sizeof(node_t));
+    leaf_t *leaf = (leaf_t *)malloc(sizeof(leaf_t));
 
     if (leaf && node) {
         leaf->name = name;
@@ -209,7 +207,7 @@ void trie_addlist(void *trie, trielist_t *list, int num) {
 
 /* creates a new trie with the given options. */
 void *trie_create(int allow_zerolength) {
-    trie_t *trie = malloc(sizeof(trie_t));
+    trie_t *trie = (trie_t *)malloc(sizeof(trie_t));
     if (!trie) {
         return nullptr;
     }
