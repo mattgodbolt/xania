@@ -70,7 +70,7 @@ void game_loop_unix(int control);
 int init_socket(const char *file);
 DESCRIPTOR_DATA *new_descriptor(int control);
 bool read_from_descriptor(DESCRIPTOR_DATA *d, char *text, int nRead);
-bool write_to_descriptor(int desc, char *txt, int length);
+bool write_to_descriptor(int desc, const char *txt, int length);
 void move_active_char_from_limbo(CHAR_DATA *ch);
 
 /*
@@ -83,12 +83,13 @@ void nanny(DESCRIPTOR_DATA *d, char *argument);
 bool process_output(DESCRIPTOR_DATA *d, bool fPrompt);
 void read_from_buffer(DESCRIPTOR_DATA *d);
 void show_prompt(DESCRIPTOR_DATA *d, char *prompt);
+void show_string(struct descriptor_data *d, const char *input);
 
 /* Handle to get to doorman */
 int doormanDesc = 0;
 
 /* Send a packet to doorman */
-bool SendPacket(Packet *p, void *extra) {
+bool SendPacket(Packet *p, const void *extra) {
     // TODO: do something rather than return here if there's a failure
     if (!doormanDesc)
         return false;
@@ -534,7 +535,7 @@ DESCRIPTOR_DATA *new_descriptor(int channel) {
      * Cons a new descriptor.
      */
     if (descriptor_free == nullptr) {
-        dnew = alloc_perm(sizeof(*dnew));
+        dnew = (DESCRIPTOR_DATA *)alloc_perm(sizeof(*dnew));
     } else {
         dnew = descriptor_free;
         descriptor_free = descriptor_free->next;
@@ -546,7 +547,7 @@ DESCRIPTOR_DATA *new_descriptor(int channel) {
     dnew->showstr_head = nullptr;
     dnew->showstr_point = nullptr;
     dnew->outsize = 2000;
-    dnew->outbuf = alloc_mem(dnew->outsize);
+    dnew->outbuf = (char*) alloc_mem(dnew->outsize);
     dnew->logintime = str_dup((char *)ctime(&current_time));
 
     dnew->host = str_dup("(unknown)");
@@ -861,7 +862,7 @@ void write_to_buffer(DESCRIPTOR_DATA *d, const char *txt, int length) {
             close_socket(d);
             return;
         }
-        outbuf = alloc_mem(2 * d->outsize);
+        outbuf = (char *)alloc_mem(2 * d->outsize);
         strncpy(outbuf, d->outbuf, d->outtop);
         free_mem(d->outbuf, d->outsize);
         d->outbuf = outbuf;
@@ -879,7 +880,7 @@ void write_to_buffer(DESCRIPTOR_DATA *d, const char *txt, int length) {
  * Lowest level output function.
  * MG> desc == channel for doorman
  */
-bool write_to_descriptor(int desc, char *txt, int length) {
+bool write_to_descriptor(int desc, const char *txt, int length) {
     if (length <= 0)
         length = strlen(txt);
 
@@ -1332,7 +1333,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
         switch (argument[0]) {
         case 'y':
         case 'Y':
-            ch->gen_data = alloc_perm(sizeof(*ch->gen_data));
+            ch->gen_data = (GEN_DATA *)alloc_perm(sizeof(*ch->gen_data));
             ch->gen_data->points_chosen = ch->pcdata->points;
             do_help(ch, "group header");
             list_group_costs(ch);
@@ -1423,7 +1424,7 @@ void nanny(DESCRIPTOR_DATA *d, char *argument) {
             send_to_char("\n\r", ch);
 
             /* Rohan: New player logged in, need to add name to player list */
-            temp_known_player = alloc_mem(sizeof(KNOWN_PLAYERS));
+            temp_known_player = (KNOWN_PLAYERS *)alloc_mem(sizeof(KNOWN_PLAYERS));
             temp_known_player->name = str_dup(ch->name);
             temp_known_player->next = player_list;
             player_list = temp_known_player;
@@ -1675,17 +1676,17 @@ void page_to_char(const char *txt, CHAR_DATA *ch) {
     if (txt == nullptr || ch->desc == nullptr)
         return;
 
-    ch->desc->showstr_head = alloc_mem(strlen(txt) + 1);
+    ch->desc->showstr_head = (char *) alloc_mem(strlen(txt) + 1);
     strcpy(ch->desc->showstr_head, txt);
     ch->desc->showstr_point = ch->desc->showstr_head;
     show_string(ch->desc, "");
 }
 
 /* string pager */
-void show_string(struct descriptor_data *d, char *input) {
+void show_string(struct descriptor_data *d, const char *input) {
     char buffer[4 * MAX_STRING_LENGTH];
     char buf[MAX_INPUT_LENGTH];
-    register char *scan, *chk;
+    char *scan, *chk;
     int lines = 0, toggle = 1;
     int show_lines;
 
@@ -1738,9 +1739,9 @@ void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, 
 }
 
 void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type, int min_pos) {
-    static char *const he_she[] = {"it", "he", "she"};
-    static char *const him_her[] = {"it", "him", "her"};
-    static char *const his_her[] = {"its", "his", "her"};
+    static const char *const he_she[] = {"it", "he", "she"};
+    static const char *const him_her[] = {"it", "him", "her"};
+    static const char *const his_her[] = {"its", "his", "her"};
 
     char buf[MAX_STRING_LENGTH];
     char fname[MAX_INPUT_LENGTH];
@@ -1894,7 +1895,7 @@ void show_prompt(DESCRIPTOR_DATA *d, char *prompt) {
     CHAR_DATA *ch_prefix = nullptr; /* Needed for prefix in prompt with switched MOB */
     char *point;
     char *str;
-    char *i;
+    const char *i;
     int bufspace = 255; /* Counter of space left in buf[] */
 
     ch = d->character;
@@ -2080,9 +2081,10 @@ void show_prompt(DESCRIPTOR_DATA *d, char *prompt) {
                 if (ch_time->tm_hour < 0)
                     ch_time->tm_hour += 24;
 
-                strftime(i = buf2, 63, "%H:%M:%S", ch_time);
+                strftime(buf2, 63, "%H:%M:%S", ch_time);
             } else
-                strftime(i = buf2, 63, "%H:%M:%S", localtime(&ch_timet));
+                strftime(buf2, 63, "%H:%M:%S", localtime(&ch_timet));
+            i = buf2;
         } break;
         }
 

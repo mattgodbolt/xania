@@ -1996,7 +1996,6 @@ void ban_site(CHAR_DATA *ch, char *site, bool fType);
 #define MAX_MASKED_HOSTNAME 64
 unsigned long djb2_hash(const char *str);
 char *get_masked_hostname(char *hostbuf, const char *hostname);
-void show_string(struct descriptor_data *d, char *input);
 void close_socket(DESCRIPTOR_DATA *dclose);
 void write_to_buffer(DESCRIPTOR_DATA *d, const char *txt, int length);
 void send_to_char(const char *txt, CHAR_DATA *ch);

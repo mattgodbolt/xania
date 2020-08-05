@@ -66,7 +66,7 @@ void do_permit(CHAR_DATA *ch, char *argument) {
 }
 
 /* equips a character */
-void do_outfit(CHAR_DATA *ch, char *argument) {
+void do_outfit(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     OBJ_DATA *obj;
     char buf[MAX_STRING_LENGTH];

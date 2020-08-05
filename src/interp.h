@@ -187,7 +187,7 @@ extern void do_oset(CHAR_DATA *ch, const char *argument);
 extern void do_ostat(CHAR_DATA *ch, char *arg);
 extern void do_owhere(CHAR_DATA *ch, char *arg);
 extern void do_osearch(CHAR_DATA *ch, char *arg);
-extern void do_outfit(CHAR_DATA *ch, char *arg);
+extern void do_outfit(CHAR_DATA *ch, const char *arg);
 extern void do_pardon(CHAR_DATA *ch, char *arg);
 extern void do_password(CHAR_DATA *ch, char *arg);
 extern void do_peace(CHAR_DATA *ch, char *arg);
