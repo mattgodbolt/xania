@@ -19,7 +19,7 @@ SMTP_PASS=$(aws ssm get-parameter --name /admin/smtp_pass | jq -r .Parameter.Val
 cat >/etc/ssmtp/ssmtp.conf <<EOF
 root=postmaster
 mailhub=email-smtp.us-east-1.amazonaws.com
-hostname=compiler-explorer.com
+hostname=xania.org
 FromLineOverride=NO
 AuthUser=AKIAJZWPG4D3SSK45LJA
 AuthPass=${SMTP_PASS}
@@ -27,7 +27,6 @@ UseTLS=YES
 UseSTARTTLS=YES
 EOF
 cat >/etc/ssmtp/revaliases <<EOF
-xania:mud@xania.org:email-smtp.us-east-1.amazonaws.com
 EOF
 
 chmod 640 /etc/ssmtp/*
