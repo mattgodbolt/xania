@@ -2845,7 +2845,7 @@ void do_mset(CHAR_DATA *ch, const char *argument) {
     int value;
 
     char smash_tilded[MAX_INPUT_LENGTH];
-    strncpy(smash_tilded, smash_tilde(argument).c_str(), MAX_INPUT_LENGTH); // TODO to minimize changes during refactor
+    strncpy(smash_tilded, smash_tilde(argument).c_str(), MAX_INPUT_LENGTH-1); // TODO to minimize changes during refactor
     auto *args = smash_tilded;
     args = one_argument(args, arg1);
     args = one_argument(args, arg2);
@@ -3312,7 +3312,7 @@ void do_oset(CHAR_DATA *ch, const char *argument) {
     int value;
 
     char smash_tilded[MAX_INPUT_LENGTH];
-    strncpy(smash_tilded, smash_tilde(argument).c_str(), MAX_INPUT_LENGTH); // TODO to minimize changes during refactor
+    strncpy(smash_tilded, smash_tilde(argument).c_str(), MAX_INPUT_LENGTH-1); // TODO to minimize changes during refactor
     auto *args = smash_tilded;
     args = one_argument(args, arg1);
     args = one_argument(args, arg2);
@@ -3422,7 +3422,7 @@ void do_rset(CHAR_DATA *ch, const char *argument) {
     int value;
 
     char smash_tilded[MAX_INPUT_LENGTH];
-    strncpy(smash_tilded, smash_tilde(argument).c_str(), MAX_INPUT_LENGTH); // TODO to minimize changes during refactor
+    strncpy(smash_tilded, smash_tilde(argument).c_str(), MAX_INPUT_LENGTH-1); // TODO to minimize changes during refactor
     auto *args = smash_tilded;
     args = one_argument(args, arg1);
     args = one_argument(args, arg2);
