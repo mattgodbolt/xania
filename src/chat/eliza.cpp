@@ -39,7 +39,7 @@ int eliza::getname(const char *n) {
 }
 
 char *eliza::reducespaces(char *outbuf, const char *m) {
-    strncpy(outbuf, m, MAXSIZE);
+    strncpy(outbuf, m, MAXSIZE-1);
     int len = strlen(outbuf), space = outbuf[0] < ' ', count = 0;
     for (int i = 0; i < len; i++) {
         if (!space || m[i] > ' ') {
