@@ -85,7 +85,8 @@ void do_setinfo(CHAR_DATA *ch, const char *argument) {
         send_to_char(buf, ch);
         return;
     }
-    strncpy(smash_tilded, smash_tilde(argument).c_str(), MAX_INPUT_LENGTH); // TODO to minimize changes during refactor
+    strncpy(smash_tilded, smash_tilde(argument).c_str(),
+            MAX_INPUT_LENGTH - 1); // TODO to minimize changes during refactor
     auto *args = smash_tilded;
     args = one_argument(args, arg);
 
