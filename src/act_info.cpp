@@ -1425,7 +1425,7 @@ void do_score(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_affected(CHAR_DATA *ch, char *argument) {
+void do_affected(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
     AFFECT_DATA *paf;

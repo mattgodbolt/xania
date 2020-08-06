@@ -2879,7 +2879,7 @@ void do_headbutt(CHAR_DATA *ch, char *argument) {
 
 /* Wandera's little baby is just slipping in here */
 /**/
-void do_sharpen(CHAR_DATA *ch, char *argument) {
+void do_sharpen(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     OBJ_DATA *weapon;
     int chance;

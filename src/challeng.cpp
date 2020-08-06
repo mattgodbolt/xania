@@ -132,7 +132,7 @@ void do_challenge(CHAR_DATA *ch, char *argument) {
     challenge_ticker = 4;
 }
 
-void do_accept(CHAR_DATA *ch, char *argument) {
+void do_accept(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 

@@ -146,7 +146,7 @@ void do_say(CHAR_DATA *ch, const char *argument) {
     mprog_speech_trigger(argument, ch);
 }
 
-void do_afk(CHAR_DATA *ch, char *argument) {
+void do_afk(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
 
     if (IS_NPC(ch) || IS_SET(ch->comm, COMM_NOCHANNELS))
@@ -162,13 +162,12 @@ void do_afk(CHAR_DATA *ch, char *argument) {
     } else {
         free_string(ch->pcdata->afk);
 
-        if (strlen(argument) > 45)
-            argument[45] = '\0';
-
         if (argument[0] == '\0')
             ch->pcdata->afk = str_dup("afk");
-        else
-            ch->pcdata->afk = str_dup(argument);
+        else {
+            strncpy(buf, argument, 45);
+            ch->pcdata->afk = str_dup(buf);
+        }
 
         snprintf(buf, sizeof(buf), "|cYou notify the mud that you are %s|c.|w", ch->pcdata->afk);
         act_new(buf, ch, nullptr, nullptr, TO_CHAR, POS_DEAD);
@@ -518,7 +517,7 @@ void do_save(CHAR_DATA *ch, const char *arg) {
 void char_ride(CHAR_DATA *ch, CHAR_DATA *pet);
 void unride_char(CHAR_DATA *ch, CHAR_DATA *pet);
 
-void do_ride(CHAR_DATA *ch, char *argument) {
+void do_ride(CHAR_DATA *ch, const char *argument) {
 
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *ridee;
@@ -575,7 +574,7 @@ void char_ride(CHAR_DATA *ch, CHAR_DATA *ridee) {
     affect_to_char(ch, &af);
 }
 
-void do_dismount(CHAR_DATA *ch, char *argument) {
+void do_dismount(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_NPC(ch))
         return;

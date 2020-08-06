@@ -39,7 +39,7 @@ void do_mspells(CHAR_DATA *ch, const char *argument);
 ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, char *arg);
 
 /* Permits or denies a player from playing the Mud from a PERMIT banned site */
-void do_permit(CHAR_DATA *ch, char *argument) {
+void do_permit(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *victim;
     char buf[MAX_STRING_LENGTH];
     int flag = 1;
@@ -506,7 +506,7 @@ void do_newlock(CHAR_DATA *ch, const char *argument) {
         send_to_char("Newlock removed.\n\r", ch);
 }
 
-void do_at(CHAR_DATA *ch, char *argument) {
+void do_at(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
     ROOM_INDEX_DATA *original;
@@ -3685,7 +3685,7 @@ void do_invis(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_prowl(CHAR_DATA *ch, char *argument) {
+void do_prowl(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_STRING_LENGTH];
     int level = 0;
 

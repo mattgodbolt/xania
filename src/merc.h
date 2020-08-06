@@ -1972,7 +1972,7 @@ void get_obj(CHAR_DATA *ch, OBJ_DATA *obj, OBJ_DATA *container);
 void save_bans();
 void load_bans();
 bool check_ban(char *site, int type);
-void ban_site(CHAR_DATA *ch, char *site, bool fType);
+void ban_site(CHAR_DATA *ch, const char *site, bool fType);
 
 /* comm.c */
 #define MAX_MASKED_HOSTNAME 64

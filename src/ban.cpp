@@ -127,7 +127,7 @@ bool check_ban(char *site, int type) {
     return false;
 }
 
-void ban_site(CHAR_DATA *ch, char *argument, bool fPerm) {
+void ban_site(CHAR_DATA *ch, const char *argument, bool fPerm) {
     char buf[MAX_STRING_LENGTH];
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
@@ -231,11 +231,11 @@ void ban_site(CHAR_DATA *ch, char *argument, bool fPerm) {
     send_to_char(buf, ch);
 }
 
-void do_ban(CHAR_DATA *ch, char *argument) { ban_site(ch, argument, false); }
+void do_ban(CHAR_DATA *ch, const char *argument) { ban_site(ch, argument, false); }
 
-void do_permban(CHAR_DATA *ch, char *argument) { ban_site(ch, argument, true); }
+void do_permban(CHAR_DATA *ch, const char *argument) { ban_site(ch, argument, true); }
 
-void do_allow(CHAR_DATA *ch, char *argument) {
+void do_allow(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH], *aargh = arg;
     char buf[MAX_STRING_LENGTH];
     BAN_DATA *prev;
