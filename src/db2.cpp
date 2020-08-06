@@ -19,7 +19,7 @@
 #include <time.h>
 
 void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex);
-void assign_area_vnum(int vnum); /* OLC */
+void assign_area_vnum(int vnum);
 
 /* values for db2.c */
 struct social_type social_table[MAX_SOCIALS];
@@ -138,7 +138,7 @@ void load_socials(FILE *fp) {
 void load_mobiles(FILE *fp) {
     MOB_INDEX_DATA *pMobIndex;
 
-    if (!area_last) { /* OLC */
+    if (!area_last) {
         bug("Load_mobiles: no #AREA seen yet!");
         exit(1);
     }
@@ -166,7 +166,7 @@ void load_mobiles(FILE *fp) {
 
         pMobIndex = static_cast<MOB_INDEX_DATA *>(alloc_perm(sizeof(*pMobIndex)));
         pMobIndex->vnum = vnum;
-        pMobIndex->area = area_last; /* OLC */
+        pMobIndex->area = area_last;
         pMobIndex->new_format = true;
         newmobs++;
         pMobIndex->player_name = fread_string(fp);
@@ -293,8 +293,8 @@ void load_mobiles(FILE *fp) {
         pMobIndex->next = mob_index_hash[iHash];
         mob_index_hash[iHash] = pMobIndex;
         top_mob_index++;
-        top_vnum_mob = top_vnum_mob < vnum ? vnum : top_vnum_mob; /* OLC */
-        assign_area_vnum(vnum); /* OLC */
+        top_vnum_mob = top_vnum_mob < vnum ? vnum : top_vnum_mob;
+        assign_area_vnum(vnum);
         kill_table[URANGE(0, pMobIndex->level, MAX_LEVEL - 1)].number++;
     }
 }
@@ -335,7 +335,7 @@ void load_objects(FILE *fp) {
 
         pObjIndex = static_cast<OBJ_INDEX_DATA *>(alloc_perm(sizeof(*pObjIndex)));
         pObjIndex->vnum = vnum;
-        pObjIndex->area = area_last; /* OLC */
+        pObjIndex->area = area_last;
         pObjIndex->new_format = true;
         pObjIndex->reset_num = 0;
         newobjs++;
@@ -492,8 +492,8 @@ void load_objects(FILE *fp) {
         pObjIndex->next = obj_index_hash[iHash];
         obj_index_hash[iHash] = pObjIndex;
         top_obj_index++;
-        top_vnum_obj = top_vnum_obj < vnum ? vnum : top_vnum_obj; /* OLC */
-        assign_area_vnum(vnum); /* OLC */
+        top_vnum_obj = top_vnum_obj < vnum ? vnum : top_vnum_obj;
+        assign_area_vnum(vnum);
     }
 }
 

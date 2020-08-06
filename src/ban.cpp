@@ -26,6 +26,8 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
+char *print_flags(const int value);
+
 BAN_DATA *ban_list;
 
 BAN_DATA *new_ban() {

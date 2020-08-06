@@ -113,7 +113,7 @@ void interp_initialise() {
     /* Informational commands. */
     add_command("affect", do_affected);
     add_command("areas", do_areas);
-    add_command("alist", do_alist, POS_DEAD);
+    add_command("alist", do_alist, POS_DEAD, L8);
     add_command("bug", do_bug);
     add_command("changes", do_changes);
     add_command("commands", do_commands);
@@ -304,12 +304,6 @@ void interp_initialise() {
     add_command("dump", do_dump, POS_DEAD, ML, CommandLogLevel::Always, false);
     add_command("trust", do_trust, POS_DEAD, ML, CommandLogLevel::Always);
     add_command("sacname", do_sacname, POS_DEAD, ML, CommandLogLevel::Always);
-    /*"clipboard", do_clipboard, POS_DEAD, ML, CommandLogLevel::Normal, 1)*/
-    /*"edit", do_edit, POS_DEAD, ML, CommandLogLevel::Always, 1)*/
-    /*"security", do_security, POS_DEAD, ML, CommandLogLevel::Always, 1)*/
-    /*"mobile", do_mobile, POS_DEAD, ML, CommandLogLevel::Always, 1)*/
-    /*"object", do_object, POS_DEAD, L1, CommandLogLevel::Always, 1)*/
-
     add_command("allow", do_allow, POS_DEAD, L2, CommandLogLevel::Always);
     add_command("ban", do_ban, POS_DEAD, L2, CommandLogLevel::Always);
     add_command("permban", do_permban, POS_DEAD, L2, CommandLogLevel::Always);

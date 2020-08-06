@@ -142,9 +142,9 @@ int top_shop;
 int mobile_count = 0;
 int newmobs = 0;
 int newobjs = 0;
-int top_vnum_room; /* OLC */
-int top_vnum_mob; /* OLC */
-int top_vnum_obj; /* OLC */
+int top_vnum_room;
+int top_vnum_mob;
+int top_vnum_obj;
 
 /*
  * Merc-2.2 MOBprogram locals - Faramir 31/8/1998
@@ -191,8 +191,6 @@ void load_old_mob_race(FILE *fp);
 void load_mobiles(FILE *fp);
 void load_old_obj(FILE *fp);
 void load_objects(FILE *fp);
-
-/* New ROM-2.4, OLC aware reset code */
 
 void load_resets(FILE *fp);
 void new_reset(ROOM_INDEX_DATA *, RESET_DATA *);
@@ -356,8 +354,6 @@ void boot_db() {
         }
         fclose(fpList);
     }
-    bug("OLC: don't forget to fix #RESETS M <arg4>");
-
     /*
      * Fix up exits.
      * Declare db booting over.
@@ -379,18 +375,16 @@ void load_area(FILE *fp) {
 
     pArea = static_cast<AREA_DATA *>(alloc_perm(sizeof(*pArea)));
 
-    fread_string(fp); /* OLC - filename */
-    pArea->areaname = fread_string(fp); /* OLC - area name */
-    pArea->name = fread_string(fp); /* credits */
+    fread_string(fp); /* filename */
+    pArea->areaname = fread_string(fp);
+    pArea->name = fread_string(fp);
 
     pArea->lvnum = fread_number(fp);
-    pArea->uvnum = fread_number(fp); /* OLC vnums */
+    pArea->uvnum = fread_number(fp);
 
     pArea->area_flags = AREA_LOADING;
-    pArea->security = 1;
-    pArea->builders = str_dup("None");
     pArea->vnum = top_area;
-    pArea->filename = str_dup(strArea); /* OLC */
+    pArea->filename = str_dup(strArea);
 
     pArea->age = 15;
     pArea->nplayer = 0;
@@ -408,7 +402,7 @@ void load_area(FILE *fp) {
     top_area++;
 }
 
-/* Sets vnum range for area using OLC protection features. */
+/* Sets vnum range for area when loading its constituent mobs/objects/rooms */
 void assign_area_vnum(int vnum) {
     if (area_last->lvnum == 0 || area_last->uvnum == 0)
         area_last->lvnum = area_last->uvnum = vnum;
@@ -428,7 +422,7 @@ void load_helps(FILE *fp) {
         pHelp = static_cast<HELP_DATA *>(alloc_perm(sizeof(*pHelp)));
 
         if (area_header_found)
-            pHelp->area = area_last ? area_last : nullptr; /* OLC */
+            pHelp->area = area_last ? area_last : nullptr;
         else
             pHelp->area = nullptr;
 
@@ -829,13 +823,8 @@ void load_old_obj(FILE *fp) {
     }
 }
 
-/* New ROM-2.4 + OLC aware RESET code
- *
- */
-
 /*
- * Adds a reset to a room.  OLC
- * Similar to add_reset in olc.c
+ * Adds a reset to a room.
  */
 void new_reset(ROOM_INDEX_DATA *pR, RESET_DATA *pReset) {
     RESET_DATA *pr;
@@ -935,8 +924,7 @@ void load_resets(FILE *fp) {
                 exit(1);
             }
 
-            switch (pReset->arg3) /* OLC 1.1b */
-            {
+            switch (pReset->arg3) {
             default: bug("Load_resets: 'D': bad 'locks': %d.", pReset->arg3);
             case 0: break;
             case 1: SET_BIT(pexit->rs_flags, EX_CLOSED); break;
@@ -1039,7 +1027,7 @@ void validate_resets() {
                             pReset_last->next = pReset_next;
                         else
                             pRoom->reset_first = pReset_next;
-                        /*	free_reset_data(pReset); OLC TO BE ADDED SOON */
+                        /*	free_reset_data(pReset); TODO: This is old code, figure out if it's needed... */
                     } else
                         pReset_last = pReset;
                 }
@@ -1127,7 +1115,7 @@ void load_rooms(FILE *fp) {
                 switch (locks) {
 
                     /* the following statements assign rs_flags, replacing
-                            exit_info which is what used to get set.  OLC */
+                            exit_info which is what used to get set. */
                 case 1: pexit->rs_flags = EX_ISDOOR; break;
                 case 2: pexit->rs_flags = EX_ISDOOR | EX_PICKPROOF; break;
                 case 3: pexit->rs_flags = EX_ISDOOR | EX_PASSPROOF; break;
@@ -1296,8 +1284,8 @@ void area_update() {
     }
 }
 
-/* OLC
- * Reset one room.  Called by reset_area and olc.
+/*
+ * Reset one room.  Called by reset_area.
  */
 void reset_room(ROOM_INDEX_DATA *pRoom) {
     extern const sh_int rev_dir[];
@@ -1435,12 +1423,10 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
             }
 
             /*
-             * Ensure that the container gets reset.	OLC 1.1b
+             * Ensure that the container gets reset.
              */
             if (LastObj->item_type == ITEM_CONTAINER) {
                 LastObj->value[1] = LastObj->pIndexData->value[1];
-            } else {
-                /* THIS SPACE INTENTIONALLY LEFT BLANK */
             }
             last = true;
             break;
@@ -1546,7 +1532,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
     }
 }
 
-/* OLC
+/*
  * Reset one area.
  */
 void reset_area(AREA_DATA *pArea) {
@@ -1583,10 +1569,10 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
     clear_char(mob);
     mob->pIndexData = pMobIndex;
 
-    mob->name = str_dup(pMobIndex->player_name); /* OLC */
-    mob->short_descr = str_dup(pMobIndex->short_descr); /* OLC */
-    mob->long_descr = str_dup(pMobIndex->long_descr); /* OLC */
-    mob->description = str_dup(pMobIndex->description); /* OLC */
+    mob->name = str_dup(pMobIndex->player_name);
+    mob->short_descr = str_dup(pMobIndex->short_descr);
+    mob->long_descr = str_dup(pMobIndex->long_descr);
+    mob->description = str_dup(pMobIndex->description);
     mob->spec_fun = pMobIndex->spec_fun;
 
     if (pMobIndex->new_format)
@@ -1812,9 +1798,9 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex, int level) {
         obj->level = UMAX(0, level);
     obj->wear_loc = -1;
 
-    obj->name = str_dup(pObjIndex->name); /* OLC */
-    obj->short_descr = str_dup(pObjIndex->short_descr); /* OLC */
-    obj->description = str_dup(pObjIndex->description); /* OLC */
+    obj->name = str_dup(pObjIndex->name);
+    obj->short_descr = str_dup(pObjIndex->short_descr);
+    obj->description = str_dup(pObjIndex->description);
     obj->material = pObjIndex->material;
     obj->item_type = pObjIndex->item_type;
     obj->extra_flags = pObjIndex->extra_flags;
@@ -3323,7 +3309,6 @@ void load_mobprogs(FILE *fp) {
             working->next = nullptr;
             fread_to_eol(fp);
             break;
-            /* OLC FIX ME */
         }
     }
 }

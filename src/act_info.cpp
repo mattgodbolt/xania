@@ -11,7 +11,6 @@
 #include "db.h"
 #include "interp.h"
 #include "merc.h"
-#include "olc_room.h"
 #include "string_utils.hpp"
 #include <cctype>
 #include <cstdio>
@@ -19,6 +18,8 @@
 #include <cstring>
 #include <ctime>
 #include <sys/time.h>
+
+extern const char *dir_name[];
 
 const char *where_name[] = {"<used as light>     ", "<worn on finger>    ", "<worn on finger>    ",
                             "<worn around neck>  ", "<worn around neck>  ", "<worn on body>      ",
@@ -2437,20 +2438,19 @@ void do_scan(CHAR_DATA *ch, char *argument) {
 }
 
 /*
- * OLC:  alist to list all areas
+ * alist to list all areas
  */
 
-void do_alist(CHAR_DATA *ch, char *argument) {
+void do_alist(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     AREA_DATA *pArea;
     BUFFER *buffer = buffer_create();
 
-    buffer_addline_fmt(buffer, "%3s %-29s %-5s-%5s %-10s %3s %-10s\n\r", "Num", "Area Name", "Lvnum", "Uvnum",
-                       "Filename", "Sec", "Builders");
+    buffer_addline_fmt(buffer, "%3s %-29s %-5s-%5s %-10s\n\r", "Num", "Area Name", "Lvnum", "Uvnum", "Filename");
 
     for (pArea = area_first; pArea; pArea = pArea->next) {
-        buffer_addline_fmt(buffer, "%3d %-29.29s %-5d-%5d %-12.12s %d %-10.10s\n\r", pArea->vnum, pArea->areaname,
-                           pArea->lvnum, pArea->uvnum, pArea->filename, pArea->security, pArea->builders);
+        buffer_addline_fmt(buffer, "%3d %-29.29s %-5d-%5d %-12.12s\n\r", pArea->vnum, pArea->areaname, pArea->lvnum,
+                           pArea->uvnum, pArea->filename);
     }
     buffer_send(buffer, ch);
 }

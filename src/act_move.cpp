@@ -10,7 +10,6 @@
 #include "challeng.h"
 #include "interp.h"
 #include "merc.h"
-#include "olc_room.h"
 #include "string_utils.hpp"
 
 #include <cstdio>

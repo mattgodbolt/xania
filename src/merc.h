@@ -242,10 +242,6 @@ struct descriptor_data {
     int outtop;
     char *showstr_head;
     char *showstr_point;
-
-    void *pEdit; /* OLC */
-    char **pString; /* OLC */
-    int editor; /* OLC */
 };
 
 /*
@@ -886,8 +882,6 @@ static inline constexpr auto ff = BIT(31);
 #define ITEM_HOLD (O)
 #define ITEM_TWO_HANDS (P)
 
-/* OLC uses these */
-
 #define ITEM_WEAR_FLAGS "take finger neck body head legs feet hands arms shield about waist wrist wield hold twohands"
 
 /* weapon class */
@@ -912,10 +906,6 @@ static inline constexpr auto ff = BIT(31);
 #define WEAPON_PLAGUED (I)
 #define WEAPON_LIGHTNING (J)
 #define WEAPON_ACID (K)
-
-/* OLC uses these */
-
-#define WEAPON_TYPE_FLAGS "flaming frost * sharp * twohands poison plague lightning acid"
 
 /*
  * Apply types (for affects).
@@ -946,10 +936,6 @@ static inline constexpr auto ff = BIT(31);
 #define APPLY_SAVING_PETRI 22
 #define APPLY_SAVING_BREATH 23
 #define APPLY_SAVING_SPELL 24
-
-/* --- OLC, leave this one as the last item, and increment if new ones added */
-
-#define APPLY_MAX 25
 
 /*
  * Values for containers (value[1]).
@@ -993,7 +979,6 @@ static inline constexpr auto ff = BIT(31);
 #define ROOM_HEROES_ONLY (Q)
 #define ROOM_NEWBIES_ONLY (R)
 #define ROOM_LAW (S)
-#define ROOM_SAVEOBJ (T) /*OLC?*/
 
 /*
  * Directions.
@@ -1102,7 +1087,7 @@ static inline constexpr auto ff = BIT(31);
 #define EXTRA_UNUSED_3 12
 
 #define EXTRA_TIP_WIZARD 14
-#define EXTRA_TIP_OLC 15 /* reserved for advanced/olc users */
+#define EXTRA_TIP_UNUSED_4 15
 #define EXTRA_TIP_ADVANCED 16
 
 extern const char *flagname_extra[];
@@ -1239,7 +1224,7 @@ struct mob_index_data {
     MPROG_DATA *mobprogs; /* Used by MOBprogram */
     int progtypes; /* Used by MOBprogram */
 
-    AREA_DATA *area; /* OLC */
+    AREA_DATA *area;
 };
 
 /*
@@ -1426,8 +1411,6 @@ struct pc_data {
     bool confirm_delete;
     bool colour;
     PCCLAN *pcclan;
-
-    int security; /* OLC */
 };
 
 /* Data for generating characters -- only used during generation */
@@ -1501,7 +1484,7 @@ struct obj_index_data {
     int cost;
     int value[5];
 
-    AREA_DATA *area; /* OLC */
+    AREA_DATA *area;
 };
 
 /*
@@ -1550,9 +1533,9 @@ struct exit_data {
     char *keyword;
     char *description;
 
-    EXIT_DATA *next; /* OLC */
-    int rs_flags; /* OLC */
-    int orig_door; /* OLC */
+    EXIT_DATA *next;
+    int rs_flags;
+    int orig_door;
 };
 
 /**
@@ -1592,14 +1575,12 @@ struct area_data {
     sh_int nplayer;
     bool empty;
 
-    const char *areaname; /* OLC */
-    const char *filename; /* OLC */
-    const char *builders; /* OLC - Listing of builders */
-    int security; /* OLC - Value 0-infinity  */
-    int lvnum; /* OLC - Lower vnum */
-    int uvnum; /* OLC - Upper vnum */
-    int vnum; /* OLC - Area vnum  */
-    int area_flags; /* OLC */
+    const char *areaname;
+    const char *filename;
+    int lvnum;
+    int uvnum;
+    int vnum;
+    int area_flags;
 };
 
 /* tip wizard type - Faramir Sep 21 1998 */
@@ -1626,7 +1607,7 @@ struct room_index_data {
     sh_int light;
     sh_int sector_type;
 
-    RESET_DATA *reset_first; /* OLC */
+    RESET_DATA *reset_first;
     RESET_DATA *reset_last;
 };
 
@@ -1881,6 +1862,9 @@ extern const struct flag_type wear_loc_flags[];
 extern const struct flag_type weapon_flags[];
 extern const struct flag_type container_flags[];
 extern const struct flag_type liquid_flags[];
+
+extern const sh_int rev_dir[];
+extern const char *dir_name[];
 
 /*
  * Global variables.
@@ -2190,14 +2174,6 @@ bool is_safe_sentient(CHAR_DATA *ch, CHAR_DATA *wch);
 bool web_see(CHAR_DATA *ch);
 void web_who();
 
-/* dbextras.c */
-int create_new_room(int lower, int higher);
-int destroy_room(int vnum);
-char *print_flags(const int value);
-/* NB only use this is you *Really* have to */
-int save_whole_area(char *area_name, char *filename);
-/* Saves all rooms/mobs/resets/etc being edited */
-
 /* xania.c - a mishmash */
 void check_xania();
 int get_skill_level(CHAR_DATA *ch, int gsn);
@@ -2247,10 +2223,6 @@ void mprog_death_trigger(CHAR_DATA *mob);
 void mprog_random_trigger(CHAR_DATA *mob);
 void mprog_speech_trigger(const char *txt, CHAR_DATA *mob);
 
-/*****************************************************************************
- *                                   ILAB OLC                                *
- *****************************************************************************/
-
 /*
  * Object defined in limbo.are
  * Used in save.c to load objects that don't exist.
@@ -2261,15 +2233,7 @@ void mprog_speech_trigger(const char *txt, CHAR_DATA *mob);
  * Area flags.
  */
 #define AREA_NONE 0
-#define AREA_CHANGED 1 /* Area has been modified. */
-#define AREA_ADDED 2 /* Area has been added to. */
 #define AREA_LOADING 4 /* Used for counting in db.c */
-#define AREA_VERBOSE 8 /* ???? */
-#define AREA_DELETE 16 /* These area's won't be saved in the list */
-#define AREA_UNFINISHED 32 /* Area is not finished yet. */
-#define AREA_PKZONE 64 /* Player killing is alowed in this zone */
-#define AREA_CONQUEST 128 /* Can this area be conqquered? */
-#define AREA_ARENA 256 /* Player kan pk eachother without losing anything */
 
 #define MAX_DIR 6
 #define NO_FLAG -99 /* Must not be used in flags or stats. */

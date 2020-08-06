@@ -40,6 +40,7 @@ extern void do_accept(CHAR_DATA *ch, char *arg);
 extern void do_advance(CHAR_DATA *ch, const char *argument);
 extern void do_affected(CHAR_DATA *ch, char *arg);
 extern void do_afk(CHAR_DATA *ch, char *arg);
+extern void do_alist(CHAR_DATA *ch, const char *arg);
 extern void do_allege(CHAR_DATA *ch, const char *arg);
 extern void do_allow(CHAR_DATA *ch, char *arg);
 extern void do_announce(CHAR_DATA *ch, const char *arg);
@@ -312,17 +313,5 @@ extern void do_clanset(CHAR_DATA *ch, char *arg);
 /* Misc stuff */
 extern void announce(const char *buf, CHAR_DATA *ch);
 bool check_social(CHAR_DATA *ch, const char *command, const char *arg);
-
-/* OLC */
-
-extern void do_aedit(CHAR_DATA *ch, char *arg); /* OLC 1.1b */
-extern void do_redit(CHAR_DATA *ch, char *arg); /* OLC 1.1b */
-extern void do_oedit(CHAR_DATA *ch, char *arg); /* OLC 1.1b */
-extern void do_medit(CHAR_DATA *ch, char *arg); /* OLC 1.1b */
-extern void do_mpedit(CHAR_DATA *ch, char *arg);
-extern void do_hedit(CHAR_DATA *ch, char *arg);
-extern void do_asave(CHAR_DATA *ch, char *arg);
-extern void do_alist(CHAR_DATA *ch, char *arg);
-extern void do_resets(CHAR_DATA *ch, char *arg);
 
 extern void do_cpptest(CHAR_DATA *ch, char *arg);

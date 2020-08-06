@@ -2138,16 +2138,6 @@ const char *act_bit_name(int act_flags) {
             strcat(buf, " no_follow");
         if (act_flags & PLR_FREEZE)
             strcat(buf, " frozen");
-        /*
-         *    --- OLC
-
-              if (act_flags & PLR_OLC_OBJ       ) strcat(buf, " obj_olc" );
-              if (act_flags & PLR_OLC_MOB       ) strcat(buf, " mob_olc" );
-              if (act_flags & PLR_OLC_ROOM      ) strcat(buf, " room_olc");
-
-         *    --- END OLC
-         */
-
         if (act_flags & PLR_THIEF)
             strcat(buf, " thief");
         if (act_flags & PLR_KILLER)

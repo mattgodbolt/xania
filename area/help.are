@@ -2471,11 +2471,9 @@ Syntax:
 
 
 0 ALIST~
-Xania on-line creation utilities.
-
 Syntax:  alist
 
-This command lists all areas and related information.
+This command lists all areas, their vnum ranges and area file names.
 ~
 
 0 TIPWIZARD TIPS~

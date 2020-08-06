@@ -22,9 +22,9 @@ extern int top_obj_index;
 extern int top_affect;
 extern int top_ed;
 
-extern int top_vnum_room; /* OLC */
-extern int top_vnum_mob; /* OLC */
-extern int top_vnum_obj; /* OLC */
+extern int top_vnum_room;
+extern int top_vnum_mob;
+extern int top_vnum_obj;
 extern AREA_DATA *area_first;
 extern AREA_DATA *area_last;
 
