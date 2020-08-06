@@ -198,13 +198,6 @@ void trie_add(void *trie, const char *name, void *value, int level) {
     add_leaf(((trie_t *)trie)->topnode, name, leaf);
 }
 
-/* adds a list of entries to the given trie. */
-void trie_addlist(void *trie, trielist_t *list, int num) {
-    for (int i = 0; i < num; i++) {
-        trie_add(trie, list[i].name, list[i].value, list[i].level);
-    }
-}
-
 /* creates a new trie with the given options. */
 void *trie_create(int allow_zerolength) {
     trie_t *trie = (trie_t *)malloc(sizeof(trie_t));
