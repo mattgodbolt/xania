@@ -25,7 +25,7 @@ public:
     char* name;
     int dbase;
 
-    char* set(char* n,int d) { name=strdup(n); dbase=d; return name; }
+    char* set(const char* n,int d) { name=strdup(n); dbase=d; return name; }
     nametype() { name=nullptr; dbase=0; }
     ~nametype() { if(name) free(name); }
   };
@@ -44,16 +44,16 @@ protected:
   bool addname(char*,int);  //add one name and number
   bool addbunch(char*, int); //add more then one name to some number
   void sortnames();
-  int getname(char*);     //only tries once to find a name
+  int getname(const char*);     //only tries once to find a name
   int getanyname(const char*n);  //more exhaustive search to find name
 
 public:
-  void reducespaces(char *);
-  void addrest(char* replied, char* talker,
-		       const char* rep, char* target,char* rest);
+  char *reducespaces(char* outbuf, const char *);
+  void addrest(char* replied, const char* talker,
+		       const char* rep, const char* target,char* rest);
 public:
     bool loaddata(const char *, char recurflag = 0);
-    const char *processdbase(char *talker, char *message, char *target, int dbase);
+    const char *processdbase(const char *talker, const char *message, const char *target, int dbase);
     const char* process(const char *talker,const char *message,const char *target)    {
 #ifdef USE_EX_SEARCH
     return processdbase(talker,message,target,getanyname(talker));

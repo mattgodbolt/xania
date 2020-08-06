@@ -28,7 +28,7 @@ int namecompare(const void *a, const void *b) {
 }
 
 void eliza::sortnames() { qsort((char *)thenames, numnames, sizeof(eliza::nametype), namecompare); }
-int eliza::getname(char *n) {
+int eliza::getname(const char *n) {
     nametype finder;
     if (finder.set(n, 0) == nullptr)
         return 0;
@@ -38,21 +38,23 @@ int eliza::getname(char *n) {
     return nt->dbase;
 }
 
-void eliza::reducespaces(char *m) {
-    int len = strlen(m), space = m[0] < ' ', count = 0;
+char *eliza::reducespaces(char *outbuf, const char *m) {
+    strncpy(outbuf, m, MAXSIZE);
+    int len = strlen(outbuf), space = outbuf[0] < ' ', count = 0;
     for (int i = 0; i < len; i++) {
         if (!space || m[i] > ' ') {
-            m[count] = (m[i] < ' ' ? ' ' : m[i]);
+            outbuf[count] = (outbuf[i] < ' ' ? ' ' : outbuf[i]);
             count++;
         }
-        space = m[i] < ' ';
+        space = outbuf[i] < ' ';
     }
     if (count)
-        m[count] = '\0';
+        outbuf[count] = '\0';
+    return outbuf;
 }
 
 // Gets a word out of a string.
-int fggetword(char *&input, char *outword, char &outother) // 0 if done
+int fggetword(const char *&input, char *outword, char &outother) // 0 if done
 {
     outword[0] = 0;
     char *outword0 = outword;
@@ -79,7 +81,7 @@ int fggetword(char *&input, char *outword, char &outother) // 0 if done
 bool eliza::addbunch(char *names, int dbase) {
     char aword[MAXSIZE + 3];
     char otherch;
-    char *theinput = names;
+    const char *theinput = names;
     while (fggetword(theinput, aword, otherch)) {
         if (addname(aword, dbase) == false)
             return false;
@@ -94,7 +96,7 @@ int eliza::getanyname(const char *n) {
     if (dbase == 0) {
         char aword[MAXSIZE + 3];
         char otherch;
-        char *theinput = n;
+        const char *theinput = n;
         while (fggetword(theinput, aword, otherch)) {
             dbase = getname(aword);
             if (dbase != 0)
@@ -125,7 +127,7 @@ void fixgrammer(char s[]) {
     newsent[0] = '\0';
 
     char aword[MAXSIZE + 3];
-    char *theinput;
+    const char *theinput;
     theinput = s;
     char otherch;
     char ministr[] = " ";
@@ -143,9 +145,9 @@ void fixgrammer(char s[]) {
 }
 
 // enables $variable translation
-void eliza::addrest(char *replied, char *talker, const char *rep, char *target, char *rest) {
+void eliza::addrest(char *replied, const char *talker, const char *rep, const char *target, char *rest) {
     trim(rest);
-    char *i;
+    const char *i;
     char *point = replied;
     const char *str = rep;
     char *toofar = replied + repsize - 1;
@@ -202,9 +204,10 @@ void eliza::addrest(char *replied, char *talker, const char *rep, char *target, 
 }
 
 // nothing can be nullptr!!!
-const char *eliza::processdbase(char *talker, char *message, char *target, int dbase) {
+const char *eliza::processdbase(const char *talker, const char *message, const char *target, int dbase) {
     static char replied[repsize];
     const char *rep = nullptr;
+    char msgbuf[MAXSIZE];
 
     if (dbase < 0 || dbase > numdbases)
         return "dbase error in processnumber";
@@ -214,18 +217,18 @@ const char *eliza::processdbase(char *talker, char *message, char *target, int d
 
     strcpy(replied, "I dont really know much about that, say more.");
 
-    reducespaces(message);
-    trim(message);
+    reducespaces(msgbuf, message);
+    trim(msgbuf);
     int overflow = 10; // runtime check so we dont have circular cont jumps
     do {
         thekeys[dbase].reset();
         while (thekeys[dbase].curr() != nullptr) {
             int i = 0, rest = 0;
-            if (match(thekeys[dbase].curr()->key.getlogic(), message, i, rest)) {
+            if (match(thekeys[dbase].curr()->key.getlogic(), msgbuf, i, rest)) {
                 rep = thekeys[dbase].curr()->key.getrndreply();
-                fixgrammer(&message[rest]);
-                addrest(replied, talker, rep, target, &message[rest]);
-                reducespaces(replied);
+                fixgrammer(&msgbuf[rest]);
+                addrest(replied, talker, rep, target, &msgbuf[rest]);
+                // TODO reducespaces(replied);
                 return replied;
             }
             thekeys[dbase].advance();
