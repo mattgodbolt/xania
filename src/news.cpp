@@ -16,6 +16,7 @@
  */
 
 #include "news.h"
+#include "Descriptor.hpp"
 #include "buffer.h"
 #include "flags.h"
 #include "merc.h"
@@ -25,7 +26,7 @@
 #include <cstdlib>
 #include <sys/time.h>
 
-void _do_news(CHAR_DATA *ch, char *arg);
+void _do_news(CHAR_DATA *ch, const char *arg);
 
 /* Globals */
 THREAD *thread_free = nullptr;
@@ -224,13 +225,13 @@ void load_news() {
 }
 
 /* The user command 'news' */
-void do_news(CHAR_DATA *ch, char *argument) {
+void do_news(CHAR_DATA *ch, const char *argument) {
     news_name = "news"; // Set the news_name to be the same command as that the
                         // user used, as not to confuse them later on
     _do_news(ch, argument);
 }
 
-void do_mail(CHAR_DATA *ch, char *argument) {
+void do_mail(CHAR_DATA *ch, const char *argument) {
     news_name = "mail"; // Same as above
     _do_news(ch, argument);
 }
@@ -270,7 +271,7 @@ void do_news_next(CHAR_DATA *ch, const char *argument) {
 }
 
 /* Display a formatted list of the threads */
-void do_news_list(CHAR_DATA *ch, char *argument) {
+void do_news_list(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     BUFFER *buffer = buffer_create();
     THREAD *t = thread_head;
@@ -291,7 +292,7 @@ void do_news_list(CHAR_DATA *ch, char *argument) {
 }
 
 /* Send a formatted list of articles in the user's current thread */
-void do_news_articles(CHAR_DATA *ch, char *argument) {
+void do_news_articles(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     BUFFER *buffer = buffer_create();
     ARTICLE *a;
@@ -314,7 +315,7 @@ void do_news_articles(CHAR_DATA *ch, char *argument) {
 }
 
 /* Read a specific article within a thread */
-void do_news_read(CHAR_DATA *ch, char *argument) {
+void do_news_read(CHAR_DATA *ch, const char *argument) {
     char num[MAX_INPUT_LENGTH];
     int mesnum, current;
     ARTICLE *art;
@@ -341,7 +342,7 @@ void do_news_read(CHAR_DATA *ch, char *argument) {
 }
 
 /* Allow the user to select a thread */
-void do_news_thread(CHAR_DATA *ch, char *argument) {
+void do_news_thread(CHAR_DATA *ch, const char *argument) {
     char num[MAX_INPUT_LENGTH];
     int threadnum, current;
     THREAD *t;
@@ -372,7 +373,7 @@ void do_news_thread(CHAR_DATA *ch, char *argument) {
 }
 
 /* Skip to next unread thread - leaving all messages in this thread unread */
-void do_news_skip(CHAR_DATA *ch, char *argument) {
+void do_news_skip(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->thread) { // If the user isn't already at the end - move them on
         do {
@@ -410,7 +411,7 @@ void do_news_compose(CHAR_DATA *ch, const char *argument) {
 }
 
 /* Reply to an existing thread */
-void do_news_reply(CHAR_DATA *ch, char *argument) {
+void do_news_reply(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
     if (ch->thread == nullptr) {
@@ -439,7 +440,7 @@ void do_news_reply(CHAR_DATA *ch, char *argument) {
 }
 
 /* Clear the currently-being-prepared message */
-void do_news_clear(CHAR_DATA *ch, char *argument) {
+void do_news_clear(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->newsbuffer == nullptr) {
         char buf[MAX_STRING_LENGTH];
@@ -461,7 +462,7 @@ void do_news_clear(CHAR_DATA *ch, char *argument) {
 }
 
 /* Actually post an article and thread into the linked list of articles/and or create a new thread */
-void do_news_post(CHAR_DATA *ch, char *argument) {
+void do_news_post(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->newsbuffer == nullptr) { // Is the user actually composing a message?
         char buf[MAX_STRING_LENGTH];
@@ -597,10 +598,10 @@ void do_news_uncatchup(CHAR_DATA *ch, const char *argument) {
 
 /* Delete an article within a thread
  * Be careful to make sure nobody has hanging pointer refs */
-void do_news_delete(CHAR_DATA *ch, char *argument) {
+void do_news_delete(CHAR_DATA *ch, const char *argument) {
     int artnum;
     ARTICLE *art;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     THREAD *chthread;
     int n;
     if (ch->thread == nullptr) { // Check to see if char has a thread sleceted
@@ -629,7 +630,7 @@ void do_news_delete(CHAR_DATA *ch, char *argument) {
     /* Check to see if anyone is 'reading' this message currently, if so move them on to the next */
     for (d = descriptor_list; d; d = d->next) {
         CHAR_DATA *person;
-        if (d->connected == CON_PLAYING) {
+        if (d->is_playing()) {
             person = d->original ? d->original : d->character; // Find the corresponding person assoc'd with d
             if ((person != nullptr) && // Do they exist?
                 (person->article == art)) // Are they looking at this article?
@@ -656,7 +657,7 @@ void do_news_delete(CHAR_DATA *ch, char *argument) {
         /* Check to see if anyone is 'reading' this thread */
         for (d = descriptor_list; d; d = d->next) {
             CHAR_DATA *person;
-            if (d->connected == CON_PLAYING) {
+            if (d->is_playing()) {
                 person = d->original ? d->original : d->character; // Find the corresponding person assoc'd with d
                 if ((person != nullptr) && // Do they exist?
                     (person->thread == chthread)) { // Are they looking at this thread?
@@ -684,7 +685,7 @@ void do_news_delete(CHAR_DATA *ch, char *argument) {
 }
 
 /* Set flags on a news thread */
-void do_news_flags(CHAR_DATA *ch, char *argument) {
+void do_news_flags(CHAR_DATA *ch, const char *argument) {
     int flags;
     if (ch->thread == nullptr) {
         send_to_char("You have no thread currently selected.\n\r", ch);
@@ -699,7 +700,7 @@ void do_news_flags(CHAR_DATA *ch, char *argument) {
 }
 
 /* Masquerade as another person */
-void do_news_from(CHAR_DATA *ch, char *argument) {
+void do_news_from(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '\0') {
         char buf[MAX_STRING_LENGTH];
         snprintf(buf, sizeof(buf), "Usage: %s from <pseudonym>.\n\r", news_name);
@@ -716,7 +717,7 @@ void do_news_from(CHAR_DATA *ch, char *argument) {
 }
 
 /* Set the article expiry of the thread */
-void do_news_expiry(CHAR_DATA *ch, char *argument) {
+void do_news_expiry(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     if (ch->thread == nullptr) {
         send_to_char("You have no thread currently selected.\n\r", ch);
@@ -743,7 +744,7 @@ void do_news_expiry(CHAR_DATA *ch, char *argument) {
 }
 
 /* The actual news or mail command itself - basically a big dispatcher */
-void _do_news(CHAR_DATA *ch, char *argument) {
+void _do_news(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
 
     if (IS_NPC(ch))

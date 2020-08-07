@@ -12,6 +12,8 @@
  * We only support linux these days...so we stopped pretending...
  */
 
+#include "comm.hpp"
+#include "Descriptor.hpp"
 #include <arpa/telnet.h>
 #include <cctype>
 #include <cerrno>
@@ -37,6 +39,7 @@
 #include "merc.h"
 #include "news.h"
 #include "note.h"
+#include "string_utils.hpp"
 
 /* Added by Rohan - extern to player list for adding new players to it */
 extern KNOWN_PLAYERS *player_list;
@@ -56,9 +59,8 @@ const char go_ahead_str[] = {char(IAC), char(GA), '\0'};
 /*
  * Global variables.
  */
-DESCRIPTOR_DATA *descriptor_free; /* Free list for descriptors  */
-DESCRIPTOR_DATA *descriptor_list; /* All open descriptors    */
-DESCRIPTOR_DATA *d_next; /* Next descriptor in loop */
+Descriptor *descriptor_list; /* All open descriptors    */
+Descriptor *d_next; /* Next descriptor in loop */
 FILE *fpReserve; /* Reserved file handle    */
 bool god; /* All new chars are gods! */
 bool merc_down; /* Shutdown       */
@@ -69,22 +71,20 @@ bool MOBtrigger;
 
 void game_loop_unix(int control);
 int init_socket(const char *file);
-DESCRIPTOR_DATA *new_descriptor(int control);
-bool read_from_descriptor(DESCRIPTOR_DATA *d, char *text, int nRead);
-bool write_to_descriptor(int desc, const char *txt, int length);
+Descriptor *new_descriptor(int control);
+bool read_from_descriptor(Descriptor *d, char *text, int nRead);
 void move_active_char_from_limbo(CHAR_DATA *ch);
 
 /*
  * Other local functions (OS-independent).
  */
 bool check_parse_name(const char *name);
-bool check_reconnect(DESCRIPTOR_DATA *d, bool fConn);
-bool check_playing(DESCRIPTOR_DATA *d, char *name);
-void nanny(DESCRIPTOR_DATA *d, const char *argument);
-bool process_output(DESCRIPTOR_DATA *d, bool fPrompt);
-void read_from_buffer(DESCRIPTOR_DATA *d);
-void show_prompt(DESCRIPTOR_DATA *d, char *prompt);
-void show_string(struct descriptor_data *d, const char *input);
+bool check_reconnect(Descriptor *d, bool fConn);
+bool check_playing(Descriptor *d, char *name);
+void nanny(Descriptor *d, const char *argument);
+bool process_output(Descriptor *d, bool fPrompt);
+void show_prompt(Descriptor *d, char *prompt);
+void show_string(Descriptor *d, const char *input);
 
 /* Handle to get to doorman */
 int doormanDesc = 0;
@@ -110,7 +110,7 @@ bool SendPacket(Packet *p, const void *extra) {
     return true;
 }
 
-void SetEchoState(DESCRIPTOR_DATA *d, int on) {
+void SetEchoState(Descriptor *d, int on) {
     Packet p;
     p.type = on ? PACKET_ECHO_ON : PACKET_ECHO_OFF;
     p.channel = d->descriptor;
@@ -122,7 +122,7 @@ void SetEchoState(DESCRIPTOR_DATA *d, int on) {
 void handle_signal_shutdown() {
     CHAR_DATA *vch;
     CHAR_DATA *vch_next;
-    DESCRIPTOR_DATA *d, *d_next;
+    Descriptor *d, *d_next;
 
     log_string("Signal shutdown received");
 
@@ -132,7 +132,7 @@ void handle_signal_shutdown() {
 
         // vch->d->c check added by TM to avoid crashes when
         // someone hasn't logged in but the mud is shut down
-        if (!IS_NPC(vch) && vch->desc && vch->desc->connected == CON_PLAYING) {
+        if (!IS_NPC(vch) && vch->desc && vch->desc->is_playing()) {
             /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
             MOBtrigger = false;
             do_save(vch, "");
@@ -254,7 +254,7 @@ void game_loop_unix(int control) {
         fd_set out_set;
         fd_set exc_set;
         int maxdesc;
-        DESCRIPTOR_DATA *d, *dNext;
+        Descriptor *d, *dNext;
 
         /*
          * Poll all active descriptors.
@@ -345,7 +345,7 @@ void game_loop_unix(int control) {
                         new_descriptor(p.channel);
                         break;
                     case PACKET_RECONNECT: {
-                        DESCRIPTOR_DATA *d;
+                        Descriptor *d;
                         snprintf(logMes, sizeof(logMes), "Incoming reconnection on channel %d for %s.", p.channel,
                                  buffer);
                         log_string(logMes);
@@ -357,8 +357,8 @@ void game_loop_unix(int control) {
                         write_to_buffer(d, "\n\r", 2);
 
                         // Paranoid :
-                        if (d->connected == CON_GET_OLD_PASSWORD) {
-                            d->connected = CON_CIRCUMVENT_PASSWORD;
+                        if (d->connected == DescriptorState::GetOldPassword) {
+                            d->connected = DescriptorState::CircumventPassword;
                             // log in
                             nanny(d, "");
                             // accept ANSIness
@@ -375,10 +375,10 @@ void game_loop_unix(int control) {
                                 if (d->character && d->character->level > 1)
                                     save_char_obj(d->character);
                                 d->outtop = 0;
-                                if (d->connected == CON_PLAYING)
-                                    d->connected = CON_DISCONNECTING;
+                                if (d->is_playing())
+                                    d->connected = DescriptorState::Disconnecting;
                                 else
-                                    d->connected = CON_DISCONNECTING_NP;
+                                    d->connected = DescriptorState::DisconnectingNp;
                                 close_socket(d);
                                 break;
                             }
@@ -448,19 +448,20 @@ void game_loop_unix(int control) {
             /* Waitstate the character */
             if (d->character && d->character->wait)
                 continue;
-            read_from_buffer(d);
-            if (d->incomm[0] != '\0') {
+
+            if (auto incomm = d->pop_incomm()) {
                 d->fcommand = true;
                 move_active_char_from_limbo(d->character);
 
+                // It's possible that 'd' will be deleted as a result of any of the following operations. Be very
+                // careful.
                 if (d->showstr_point)
-                    show_string(d, d->incomm);
-                else if (d->connected == CON_PLAYING)
-                    interpret(d->character, d->incomm);
+                    show_string(d, incomm->c_str());
+                else if (d->is_playing())
+                    interpret(d->character, incomm->c_str());
                 else
-                    nanny(d, d->incomm);
-
-                d->incomm[0] = '\0';
+                    nanny(d, incomm->c_str());
+                // 'd' may be invalid, do no further work on it.
             }
         }
 
@@ -473,7 +474,7 @@ void game_loop_unix(int control) {
          * Output.
          */
         if (doormanDesc) {
-            DESCRIPTOR_DATA *d;
+            Descriptor *d;
             for (d = descriptor_list; d != nullptr; d = d_next) {
                 d_next = d->next;
 
@@ -528,30 +529,8 @@ void game_loop_unix(int control) {
     }
 }
 
-DESCRIPTOR_DATA *new_descriptor(int channel) {
-    static DESCRIPTOR_DATA d_zero;
-    DESCRIPTOR_DATA *dnew;
-
-    /*
-     * Cons a new descriptor.
-     */
-    if (descriptor_free == nullptr) {
-        dnew = (DESCRIPTOR_DATA *)alloc_perm(sizeof(*dnew));
-    } else {
-        dnew = descriptor_free;
-        descriptor_free = descriptor_free->next;
-    }
-
-    *dnew = d_zero;
-    dnew->descriptor = channel;
-    dnew->connected = CON_GET_NAME;
-    dnew->showstr_head = nullptr;
-    dnew->showstr_point = nullptr;
-    dnew->outsize = 2000;
-    dnew->outbuf = (char *)alloc_mem(dnew->outsize);
-    dnew->logintime = str_dup((char *)ctime(&current_time));
-
-    dnew->host = str_dup("(unknown)");
+Descriptor *new_descriptor(int channel) {
+    auto *dnew = new Descriptor(channel);
 
     /*
      * Init descriptor data.
@@ -573,7 +552,7 @@ DESCRIPTOR_DATA *new_descriptor(int channel) {
     return dnew;
 }
 
-void close_socket(DESCRIPTOR_DATA *dclose) {
+void close_socket(Descriptor *dclose) {
     CHAR_DATA *ch;
     Packet p;
 
@@ -585,7 +564,7 @@ void close_socket(DESCRIPTOR_DATA *dclose) {
     }
 
     {
-        DESCRIPTOR_DATA *d;
+        Descriptor *d;
 
         for (d = descriptor_list; d != nullptr; d = d->next) {
             if (d->snoop_by == dclose)
@@ -598,7 +577,7 @@ void close_socket(DESCRIPTOR_DATA *dclose) {
         snprintf(log_buf, LOG_BUF_SIZE, "Closing link to %s.", ch->name);
         log_new(log_buf, EXTRA_WIZNET_DEBUG,
                 (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)) ? get_trust(ch) : 0);
-        if (dclose->connected == CON_PLAYING || dclose->connected == CON_DISCONNECTING) {
+        if (dclose->is_playing() || dclose->connected == DescriptorState::Disconnecting) {
             act("$n has lost $s link.", ch, nullptr, nullptr, TO_ROOM);
             ch->desc = nullptr;
         } else {
@@ -619,7 +598,7 @@ void close_socket(DESCRIPTOR_DATA *dclose) {
     if (dclose == descriptor_list) {
         descriptor_list = descriptor_list->next;
     } else {
-        DESCRIPTOR_DATA *d;
+        Descriptor *d;
 
         for (d = descriptor_list; d && d->next != dclose; d = d->next)
             ;
@@ -630,7 +609,7 @@ void close_socket(DESCRIPTOR_DATA *dclose) {
     }
 
     // If doorman didn't tell us to disconnect them, then tell doorman to kill the connection, else ack the disconnect.
-    if (dclose->connected != CON_DISCONNECTING && dclose->connected != CON_DISCONNECTING_NP) {
+    if (dclose->connected != DescriptorState::Disconnecting && dclose->connected != DescriptorState::DisconnectingNp) {
         p.type = PACKET_DISCONNECT;
     } else {
         p.type = PACKET_DISCONNECT_ACK;
@@ -639,113 +618,29 @@ void close_socket(DESCRIPTOR_DATA *dclose) {
     p.nExtra = 0;
     SendPacket(&p, nullptr);
 
-    free_string(dclose->host);
-    /* RT socket leak fix -- I hope */
-    free_mem(dclose->outbuf, dclose->outsize);
-    /*    free_string(dclose->showstr_head); */
-    dclose->next = descriptor_free;
-    descriptor_free = dclose;
+    // TODO: ideally no naked news/deletes. One day.
+    delete dclose;
 }
 
-bool read_from_descriptor(DESCRIPTOR_DATA *d, char *data, int nRead) {
-    int iStart;
-
-#if 0
-   /* Hold horses if pending command already. */
-   if ( d->incomm[0] != '\0' )
-      return true;
-#endif
-
-    /* Check for overflow. */
-    iStart = strlen(d->inbuf);
-    if (iStart >= (int)sizeof(d->inbuf) - 10) {
+bool read_from_descriptor(Descriptor *d, char *data, int nRead) {
+    if (d->is_input_full()) {
         char hostbuf[MAX_MASKED_HOSTNAME];
         snprintf(log_buf, LOG_BUF_SIZE, "%s input overflow!", get_masked_hostname(hostbuf, d->host));
         log_string(log_buf);
-        write_to_descriptor(d->descriptor, "\n\r*** PUT A LID ON IT!!! ***\n\r", 0);
-        strcpy(d->incomm, "quit");
+        d->write("\n\r*** PUT A LID ON IT!!! ***\n\r");
+        d->clear_input();
+        d->add_command("quit");
         return false;
     }
 
-    /* Snarf input. */
-    memcpy(d->inbuf + iStart, data, nRead);
-    iStart += nRead;
-
-    d->inbuf[iStart] = '\0';
+    d->add_command(std::string_view(data, nRead));
     return true;
-}
-
-/*
- * Transfer one line from input buffer to input line.
- */
-void read_from_buffer(DESCRIPTOR_DATA *d) {
-    int i, j, k;
-
-    /*
-     * Hold horses if pending command already.
-     */
-    if (d->incomm[0] != '\0')
-        return;
-
-    /*
-     * Look for at least one new line.
-     */
-    for (i = 0; d->inbuf[i] != '\n' && d->inbuf[i] != '\r'; i++) {
-        if (d->inbuf[i] == '\0')
-            return;
-    }
-
-    /*
-     * Canonical input processing.
-     */
-    for (i = 0, k = 0; d->inbuf[i] != '\n' && d->inbuf[i] != '\r'; i++) {
-        if (k >= MAX_INPUT_LENGTH - 2) {
-            write_to_descriptor(d->descriptor, "Line too long.\n\r", 0);
-
-            /* skip the rest of the line */
-            for (; d->inbuf[i] != '\0'; i++) {
-                if (d->inbuf[i] == '\n' || d->inbuf[i] == '\r')
-                    break;
-            }
-            d->inbuf[i] = '\n';
-            d->inbuf[i + 1] = '\0';
-            break;
-        }
-
-        if (d->inbuf[i] == '\b' && k > 0)
-            --k;
-        else if (isascii(d->inbuf[i]) && isprint(d->inbuf[i]))
-            d->incomm[k++] = d->inbuf[i];
-    }
-
-    /*
-     * Finish off the line.
-     */
-    if (k == 0)
-        d->incomm[k++] = ' ';
-    d->incomm[k] = '\0';
-
-    /*
-     * Do '!' substitution.
-     */
-    if (d->incomm[0] == '!')
-        strcpy(d->incomm, d->inlast);
-    else
-        strcpy(d->inlast, d->incomm);
-
-    /*
-     * Shift the input buffer.
-     */
-    while (d->inbuf[i] == '\n' || d->inbuf[i] == '\r')
-        i++;
-    for (j = 0; (d->inbuf[j] = d->inbuf[i + j]) != '\0'; j++)
-        ;
 }
 
 /*
  * Low level output function.
  */
-bool process_output(DESCRIPTOR_DATA *d, bool fPrompt) {
+bool process_output(Descriptor *d, bool fPrompt) {
     extern bool merc_down;
 
     /*
@@ -753,7 +648,7 @@ bool process_output(DESCRIPTOR_DATA *d, bool fPrompt) {
      */
     if (!merc_down && d->showstr_point)
         write_to_buffer(d, "[Hit Return to continue]\n\r", 0);
-    else if (fPrompt && !merc_down && d->connected == CON_PLAYING) {
+    else if (fPrompt && !merc_down && d->is_playing()) {
         CHAR_DATA *ch;
         CHAR_DATA *victim;
 
@@ -824,7 +719,7 @@ bool process_output(DESCRIPTOR_DATA *d, bool fPrompt) {
         }
     }
 
-    if (!write_to_descriptor(d->descriptor, d->outbuf, d->outtop)) {
+    if (!d->write(std::string_view(d->outbuf, d->outtop))) {
         d->outtop = 0;
         return false;
     } else {
@@ -836,7 +731,7 @@ bool process_output(DESCRIPTOR_DATA *d, bool fPrompt) {
 /*
  * Append onto an output buffer.
  */
-void write_to_buffer(DESCRIPTOR_DATA *d, const char *txt, int length) {
+void write_to_buffer(Descriptor *d, const char *txt, int length) {
     /*
      * Find length in case caller didn't.
      */
@@ -878,31 +773,10 @@ void write_to_buffer(DESCRIPTOR_DATA *d, const char *txt, int length) {
 }
 
 /*
- * Lowest level output function.
- * MG> desc == channel for doorman
- */
-bool write_to_descriptor(int desc, const char *txt, int length) {
-    if (length <= 0)
-        length = strlen(txt);
-
-    Packet p;
-    p.type = PACKET_MESSAGE;
-    p.channel = desc;
-
-    for (int iStart = 0; iStart < length; iStart += PACKET_MAX_PAYLOAD_SIZE) {
-        p.nExtra = UMIN(length - iStart, PACKET_MAX_PAYLOAD_SIZE);
-        if (!SendPacket(&p, txt + iStart))
-            return false;
-    }
-
-    return true;
-}
-
-/*
  * Deal with sockets that haven't logged in yet.
  */
-void nanny(DESCRIPTOR_DATA *d, const char *argument) {
-    DESCRIPTOR_DATA *d_old, *d_next;
+void nanny(Descriptor *d, const char *argument) {
+    Descriptor *d_old, *d_next;
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *ch;
@@ -916,7 +790,7 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
     KNOWN_PLAYERS *temp_known_player;
     /* Rohan: 2 variables needed to increase player count */
     int count;
-    DESCRIPTOR_DATA *de;
+    Descriptor *de;
 
     while (isspace(*argument))
         argument++;
@@ -926,11 +800,11 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
     switch (d->connected) {
 
     default:
-        bug("Nanny: bad d->connected %d.", d->connected);
+        bug("Nanny: bad d->connected %d.", static_cast<int>(d->connected));
         close_socket(d);
         return;
 
-    case CON_GET_NAME: {
+    case DescriptorState::GetName: {
         if (argument[0] == '\0') {
             close_socket(d);
             return;
@@ -981,7 +855,7 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
             /* Old player */
             write_to_buffer(d, "Password: ", 0);
             SetEchoState(d, 0);
-            d->connected = CON_GET_OLD_PASSWORD;
+            d->connected = DescriptorState::GetOldPassword;
             return;
         } else {
             /* New player */
@@ -1001,12 +875,12 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
 
             snprintf(buf, sizeof(buf), "Did I hear that right -  '%s' (Y/N)? ", char_name.c_str());
             write_to_buffer(d, buf, 0);
-            d->connected = CON_CONFIRM_NEW_NAME;
+            d->connected = DescriptorState::ConfirmNewName;
             return;
         }
     } break;
 
-    case CON_GET_OLD_PASSWORD:
+    case DescriptorState::GetOldPassword:
         write_to_buffer(d, "\n\r", 2);
 
         // TODO crypt can return null if if fails (e.g. password is truncated).
@@ -1017,7 +891,7 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
             return;
         }
         // falls through
-    case CON_CIRCUMVENT_PASSWORD:
+    case DescriptorState::CircumventPassword:
         if (ch->pcdata->pwd[0] == 0) {
             write_to_buffer(d, "Oopsie! Null password!\n\r", 0);
             write_to_buffer(d, "Unless some IMM has been fiddling, then this is a bug!\n\r", 0);
@@ -1044,13 +918,14 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
                 ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? get_trust(ch) : 0);
 
         write_to_buffer(d, "Does your terminal support ANSI colour (Y/N/Return = as saved)?", 0);
-        d->connected = (d->connected == CON_CIRCUMVENT_PASSWORD) ? CON_READ_MOTD : CON_GET_ANSI;
+        d->connected = (d->connected == DescriptorState::CircumventPassword) ? DescriptorState::ReadMotd
+                                                                             : DescriptorState::GetAnsi;
 
         break;
 
         /* RT code for breaking link */
 
-    case CON_BREAK_CONNECT:
+    case DescriptorState::BreakConnect:
         switch (*argument) {
         case 'y':
         case 'Y':
@@ -1071,7 +946,7 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
                 free_char(d->character);
                 d->character = nullptr;
             }
-            d->connected = CON_GET_NAME;
+            d->connected = DescriptorState::GetName;
             break;
 
         case 'n':
@@ -1081,14 +956,14 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
                 free_char(d->character);
                 d->character = nullptr;
             }
-            d->connected = CON_GET_NAME;
+            d->connected = DescriptorState::GetName;
             break;
 
         default: write_to_buffer(d, "Please type Y or N? ", 0); break;
         }
         break;
 
-    case CON_CONFIRM_NEW_NAME:
+    case DescriptorState::ConfirmNewName:
         switch (*argument) {
         case 'y':
         case 'Y':
@@ -1096,7 +971,7 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
                      "Welcome new character, to Xania.\n\rThink of a password for %s: ", (char *)ch->name);
             SetEchoState(d, 0);
             write_to_buffer(d, buf, 0);
-            d->connected = CON_GET_NEW_PASSWORD;
+            d->connected = DescriptorState::GetNewPassword;
             break;
 
         case 'n':
@@ -1104,24 +979,24 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
             write_to_buffer(d, "Ack! Amateurs! Try typing it in properly: ", 0);
             free_char(d->character);
             d->character = nullptr;
-            d->connected = CON_GET_NAME;
+            d->connected = DescriptorState::GetName;
             break;
 
         default: write_to_buffer(d, "It's quite simple - type Yes or No: ", 0); break;
         }
         break;
 
-    case CON_GET_ANSI:
+    case DescriptorState::GetAnsi:
         if (argument[0] == '\0') {
             if (ch->pcdata->colour) {
                 send_to_char("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!\n\r", ch);
             }
             if (IS_HERO(ch)) {
                 do_help(ch, "imotd");
-                d->connected = CON_READ_IMOTD;
+                d->connected = DescriptorState::ReadIMotd;
             } else {
                 do_help(ch, "motd");
-                d->connected = CON_READ_MOTD;
+                d->connected = DescriptorState::ReadMotd;
             }
         } else {
             switch (*argument) {
@@ -1131,10 +1006,10 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
                 send_to_char("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!\n\r", ch);
                 if (IS_HERO(ch)) {
                     do_help(ch, "imotd");
-                    d->connected = CON_READ_IMOTD;
+                    d->connected = DescriptorState::ReadIMotd;
                 } else {
                     do_help(ch, "motd");
-                    d->connected = CON_READ_MOTD;
+                    d->connected = DescriptorState::ReadMotd;
                 }
                 break;
 
@@ -1143,10 +1018,10 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
                 ch->pcdata->colour = 0;
                 if (IS_HERO(ch)) {
                     do_help(ch, "imotd");
-                    d->connected = CON_READ_IMOTD;
+                    d->connected = DescriptorState::ReadIMotd;
                 } else {
                     do_help(ch, "motd");
-                    d->connected = CON_READ_MOTD;
+                    d->connected = DescriptorState::ReadMotd;
                 }
                 break;
 
@@ -1155,7 +1030,7 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
         }
         break;
 
-    case CON_GET_NEW_PASSWORD:
+    case DescriptorState::GetNewPassword:
         write_to_buffer(d, "\n\r", 2);
 
         if (strlen(argument) < 5) {
@@ -1174,15 +1049,15 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
         free_string(ch->pcdata->pwd);
         ch->pcdata->pwd = str_dup(pwdnew);
         write_to_buffer(d, "Please retype password: ", 0);
-        d->connected = CON_CONFIRM_NEW_PASSWORD;
+        d->connected = DescriptorState::ConfirmNewPassword;
         break;
 
-    case CON_CONFIRM_NEW_PASSWORD:
+    case DescriptorState::ConfirmNewPassword:
         write_to_buffer(d, "\n\r", 2);
 
         if (strcmp(crypt(argument, ch->pcdata->pwd), ch->pcdata->pwd)) {
             write_to_buffer(d, "You could try typing the same thing in twice...\n\rRetype password: ", 0);
-            d->connected = CON_GET_NEW_PASSWORD;
+            d->connected = DescriptorState::GetNewPassword;
             return;
         }
 
@@ -1196,10 +1071,10 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
         }
         write_to_buffer(d, "\n\r", 0);
         write_to_buffer(d, "What is your race (help for more information)? ", 0);
-        d->connected = CON_GET_NEW_RACE;
+        d->connected = DescriptorState::GetNewRace;
         break;
 
-    case CON_GET_NEW_RACE:
+    case DescriptorState::GetNewRace:
         one_argument(argument, arg);
 
         if (!strcmp(arg, "help")) {
@@ -1250,10 +1125,10 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
         ch->size = pc_race_table[race].size;
 
         write_to_buffer(d, "What is your sex (M/F)? ", 0);
-        d->connected = CON_GET_NEW_SEX;
+        d->connected = DescriptorState::GetNewSex;
         break;
 
-    case CON_GET_NEW_SEX:
+    case DescriptorState::GetNewSex:
         switch (argument[0]) {
         case 'm':
         case 'M':
@@ -1277,10 +1152,10 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
         strcat(buf, "\n\r");
         write_to_buffer(d, buf, 0);
         write_to_buffer(d, "What is your class (help for more information)? ", 0);
-        d->connected = CON_GET_NEW_CLASS;
+        d->connected = DescriptorState::GetNewClass;
         break;
 
-    case CON_GET_NEW_CLASS:
+    case DescriptorState::GetNewClass:
         one_argument(argument, arg);
         if (!strcmp(arg, "help")) {
             argument = one_argument(argument, arg);
@@ -1302,10 +1177,10 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
         write_to_buffer(d, "\n\r", 2);
         write_to_buffer(d, "You may be good, neutral, or evil.\n\r", 0);
         write_to_buffer(d, "Which alignment (G/N/E)? ", 0);
-        d->connected = CON_GET_ALIGNMENT;
+        d->connected = DescriptorState::GetAlignment;
         break;
 
-    case CON_GET_ALIGNMENT:
+    case DescriptorState::GetAlignment:
         switch (argument[0]) {
         case 'g':
         case 'G': ch->alignment = 750; break;
@@ -1327,10 +1202,10 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
         write_to_buffer(d, "Do you wish to customize this character?\n\r", 0);
         write_to_buffer(d, "Customization takes time, but allows a wider range of skills and abilities.\n\r", 0);
         write_to_buffer(d, "Customize (Y/N)? ", 0);
-        d->connected = CON_DEFAULT_CHOICE;
+        d->connected = DescriptorState::DefaultChoice;
         break;
 
-    case CON_DEFAULT_CHOICE:
+    case DescriptorState::DefaultChoice:
         write_to_buffer(d, "\n\r", 2);
         switch (argument[0]) {
         case 'y':
@@ -1342,21 +1217,21 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
             write_to_buffer(d, "You already have the following skills:\n\r", 0);
             do_skills(ch, "");
             do_help(ch, "menu choice");
-            d->connected = CON_GEN_GROUPS;
+            d->connected = DescriptorState::GenGroups;
             break;
         case 'n':
         case 'N':
             group_add(ch, class_table[ch->class_num].default_group, true);
             write_to_buffer(d, "\n\r", 2);
             write_to_buffer(d, "Does your terminal support ANSI colour (Y/N/Return = as saved)?", 0);
-            d->connected = CON_GET_ANSI;
+            d->connected = DescriptorState::GetAnsi;
 
             break;
         default: write_to_buffer(d, "Please answer (Y/N)? ", 0); return;
         }
         break;
 
-    case CON_GEN_GROUPS:
+    case DescriptorState::GenGroups:
         send_to_char("\n\r", ch);
         if (!str_cmp(argument, "done")) {
             snprintf(buf, sizeof(buf), "Creation points: %d\n\r", ch->pcdata->points);
@@ -1367,7 +1242,7 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
             send_to_char(buf, ch);
             write_to_buffer(d, "\n\r", 2);
             write_to_buffer(d, "Does your terminal support ANSI colour (Y/N/Return = as saved)?", 0);
-            d->connected = CON_GET_ANSI;
+            d->connected = DescriptorState::GetAnsi;
 
             break;
         }
@@ -1378,17 +1253,17 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
         do_help(ch, "menu choice");
         break;
 
-    case CON_READ_IMOTD:
+    case DescriptorState::ReadIMotd:
         write_to_buffer(d, "\n\r", 2);
         do_help(ch, "motd");
-        d->connected = CON_READ_MOTD;
+        d->connected = DescriptorState::ReadMotd;
         break;
 
-    case CON_READ_MOTD:
+    case DescriptorState::ReadMotd:
         write_to_buffer(d, "\n\rWelcome to Xania.  May your stay be eventful.\n\r", 0);
         ch->next = char_list;
         char_list = ch;
-        d->connected = CON_PLAYING;
+        d->connected = DescriptorState::Playing;
         reset_char(ch);
 
         /* Moog: tell doorman we logged in OK */
@@ -1452,7 +1327,7 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
            updated if a player did count */
         count = 0;
         for (de = descriptor_list; de != nullptr; de = de->next)
-            if (de->connected == CON_PLAYING)
+            if (de->is_playing())
                 count++;
         max_on = UMAX(count, max_on);
 
@@ -1549,7 +1424,7 @@ bool check_parse_name(const char *name) {
 /*
  * Look for link-dead player to reconnect.
  */
-bool check_reconnect(DESCRIPTOR_DATA *d, bool fConn) {
+bool check_reconnect(Descriptor *d, bool fConn) {
     CHAR_DATA *ch;
 
     for (ch = char_list; ch != nullptr; ch = ch->next) {
@@ -1568,7 +1443,7 @@ bool check_reconnect(DESCRIPTOR_DATA *d, bool fConn) {
                 snprintf(log_buf, LOG_BUF_SIZE, "%s@%s reconnected.", ch->name, get_masked_hostname(hostbuf, d->host));
                 log_new(log_buf, EXTRA_WIZNET_DEBUG,
                         ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? get_trust(ch) : 0);
-                d->connected = CON_PLAYING;
+                d->connected = DescriptorState::Playing;
             }
             return true;
         }
@@ -1580,16 +1455,16 @@ bool check_reconnect(DESCRIPTOR_DATA *d, bool fConn) {
 /*
  * Check if already playing.
  */
-bool check_playing(DESCRIPTOR_DATA *d, char *name) {
-    DESCRIPTOR_DATA *dold;
+bool check_playing(Descriptor *d, char *name) {
+    Descriptor *dold;
 
     for (dold = descriptor_list; dold; dold = dold->next) {
-        if (dold != d && dold->character != nullptr && dold->connected != CON_GET_NAME
-            && dold->connected != CON_GET_OLD_PASSWORD
+        if (dold != d && dold->character != nullptr && dold->connected != DescriptorState::GetName
+            && dold->connected != DescriptorState::GetOldPassword
             && !str_cmp(name, dold->original ? dold->original->name : dold->character->name)) {
             write_to_buffer(d, "That character is already playing.\n\r", 0);
             write_to_buffer(d, "Do you wish to connect anyway (Y/N)?", 0);
-            d->connected = CON_BREAK_CONNECT;
+            d->connected = DescriptorState::BreakConnect;
             return true;
         }
     }
@@ -1683,7 +1558,7 @@ void page_to_char(const char *txt, CHAR_DATA *ch) {
 }
 
 /* string pager */
-void show_string(struct descriptor_data *d, const char *input) {
+void show_string(Descriptor *d, const char *input) {
     char buffer[4 * MAX_STRING_LENGTH];
     char buf[MAX_INPUT_LENGTH];
     char *scan, *chk;
@@ -1877,7 +1752,7 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
 
     if (ch->in_room != nullptr) {
         if ((type == TO_ROOM || type == TO_NOTVICT) && ch->in_room->vnum == CHAL_ROOM) {
-            DESCRIPTOR_DATA *d;
+            Descriptor *d;
 
             for (d = descriptor_list; d != nullptr; d = d->next) {
                 if (d->character != nullptr && d->character->in_room != nullptr && d->character->in_room->vnum == 1222
@@ -1888,7 +1763,7 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
     }
 }
 
-void show_prompt(DESCRIPTOR_DATA *d, char *prompt) {
+void show_prompt(Descriptor *d, char *prompt) {
     char buf[256]; /* this is actually sent to the ch */
     char buf2[64];
     CHAR_DATA *ch;

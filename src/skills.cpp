@@ -15,7 +15,7 @@
 #include <cstring>
 
 /* used to get new skills */
-void do_gain(CHAR_DATA *ch, char *argument) {
+void do_gain(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *trainer;
@@ -181,7 +181,7 @@ void do_gain(CHAR_DATA *ch, char *argument) {
 
 /* R Spells and skills show the players spells (or skills) */
 
-void do_spells(CHAR_DATA *ch, char *argument) {
+void do_spells(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char spell_list[LEVEL_HERO][MAX_STRING_LENGTH];
     char spell_columns[LEVEL_HERO];

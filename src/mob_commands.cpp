@@ -18,6 +18,7 @@
  *  such installation can be found in INSTALL.  Enjoy........    N'Atas-Ha *
  ***************************************************************************/
 
+#include "Descriptor.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
 
@@ -28,8 +29,8 @@
  * Local functions.
  */
 
-ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, char *arg);
-void do_transfer(CHAR_DATA *ch, char *arg);
+ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, const char *arg);
+void do_transfer(CHAR_DATA *ch, const char *arg);
 
 /* This routine transfers between alpha and numeric forms of the
  *  mob_prog bitvector types. It allows the words to show up in mpstat to
@@ -59,7 +60,7 @@ const char *mprog_type_to_name(int type) {
  * show the MOBprograms which are set.
  */
 
-void do_mpstat(CHAR_DATA *ch, char *argument) {
+void do_mpstat(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     MPROG_DATA *mprg;
@@ -110,7 +111,7 @@ void do_mpstat(CHAR_DATA *ch, char *argument) {
 
 /* prints the argument to all the rooms aroud the mobile */
 
-void do_mpasound(CHAR_DATA *ch, char *argument) {
+void do_mpasound(CHAR_DATA *ch, const char *argument) {
 
     ROOM_INDEX_DATA *was_in_room;
     int door;
@@ -142,7 +143,7 @@ void do_mpasound(CHAR_DATA *ch, char *argument) {
 
 /* lets the mobile kill any player or mobile without murder*/
 
-void do_mpkill(CHAR_DATA *ch, char *argument) {
+void do_mpkill(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
 
@@ -185,7 +186,7 @@ void do_mpkill(CHAR_DATA *ch, char *argument) {
    it can also destroy a worn object and it can destroy
    items using all.xxxxx or just plain all of them */
 
-void do_mpjunk(CHAR_DATA *ch, char *argument) {
+void do_mpjunk(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     OBJ_DATA *obj_next;
@@ -224,7 +225,7 @@ void do_mpjunk(CHAR_DATA *ch, char *argument) {
 
 /* prints the message to everyone in the room other than the mob and victim */
 
-void do_mpechoaround(CHAR_DATA *ch, char *argument) {
+void do_mpechoaround(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
 
@@ -250,7 +251,7 @@ void do_mpechoaround(CHAR_DATA *ch, char *argument) {
 
 /* prints the message to only the victim */
 
-void do_mpechoat(CHAR_DATA *ch, char *argument) {
+void do_mpechoat(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
 
@@ -276,7 +277,7 @@ void do_mpechoat(CHAR_DATA *ch, char *argument) {
 
 /* prints the message to the room at large */
 
-void do_mpecho(CHAR_DATA *ch, char *argument) {
+void do_mpecho(CHAR_DATA *ch, const char *argument) {
     if (!IS_NPC(ch)) {
         send_to_char("Huh?\n\r", ch);
         return;
@@ -294,7 +295,7 @@ void do_mpecho(CHAR_DATA *ch, char *argument) {
 are loaded into inventory.  you can specify a level with
 the load object portion as well. */
 
-void do_mpmload(CHAR_DATA *ch, char *argument) {
+void do_mpmload(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     MOB_INDEX_DATA *pMobIndex;
     CHAR_DATA *victim;
@@ -320,7 +321,7 @@ void do_mpmload(CHAR_DATA *ch, char *argument) {
     char_to_room(victim, ch->in_room);
 }
 
-void do_mpoload(CHAR_DATA *ch, char *argument) {
+void do_mpoload(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     OBJ_INDEX_DATA *pObjIndex;
@@ -375,7 +376,7 @@ void do_mpoload(CHAR_DATA *ch, char *argument) {
    itself, but this had best be the last command in the MOBprogram
    otherwise ugly stuff will happen */
 
-void do_mppurge(CHAR_DATA *ch, char *argument) {
+void do_mppurge(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     OBJ_DATA *obj;
@@ -425,7 +426,7 @@ void do_mppurge(CHAR_DATA *ch, char *argument) {
 
 /* lets the mobile goto any location it wishes that is not private */
 
-void do_mpgoto(CHAR_DATA *ch, char *argument) {
+void do_mpgoto(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
 
@@ -454,7 +455,7 @@ void do_mpgoto(CHAR_DATA *ch, char *argument) {
 
 /* lets the mobile do a command at another location. Very useful */
 
-void do_mpat(CHAR_DATA *ch, char *argument) {
+void do_mpat(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
     ROOM_INDEX_DATA *original;
@@ -498,11 +499,11 @@ void do_mpat(CHAR_DATA *ch, char *argument) {
 /* lets the mobile transfer people.  the all argument transfers
    everyone in the current room to the specified location */
 
-void do_mptransfer(CHAR_DATA *ch, char *argument) {
+void do_mptransfer(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     CHAR_DATA *victim;
 
     if (!IS_NPC(ch)) {
@@ -519,7 +520,7 @@ void do_mptransfer(CHAR_DATA *ch, char *argument) {
 
     if (!str_cmp(arg1, "all")) {
         for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->connected == CON_PLAYING && d->character != ch && d->character->in_room != nullptr
+            if (d->is_playing() && d->character != ch && d->character->in_room != nullptr
                 && can_see(ch, d->character)) {
                 char buf[MAX_STRING_LENGTH];
                 snprintf(buf, sizeof(buf), "%s %s", d->character->name, arg2);
@@ -566,7 +567,7 @@ void do_mptransfer(CHAR_DATA *ch, char *argument) {
 /* lets the mobile force someone to do something.  must be mortal level
    and the all argument only affects those in the room with the mobile */
 
-void do_mpforce(CHAR_DATA *ch, char *argument) {
+void do_mpforce(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
 
     if (!IS_NPC(ch)) {

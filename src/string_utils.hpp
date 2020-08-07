@@ -10,6 +10,9 @@
 // Trims off the last line of a string (terminated with \n\r).
 [[nodiscard]] std::string remove_last_line(std::string_view str);
 
+// Sanitizes user input: removes non-printing characters and applies "\b" backspaces
+[[nodiscard]] std::string sanitise_input(std::string_view str);
+
 // Return true if an argument is completely numeric.
 [[nodiscard]] bool is_number(const char *arg);
 

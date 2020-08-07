@@ -67,7 +67,7 @@ typedef struct affect_data AFFECT_DATA;
 typedef struct area_data AREA_DATA;
 typedef struct ban_data BAN_DATA;
 typedef struct char_data CHAR_DATA;
-typedef struct descriptor_data DESCRIPTOR_DATA;
+struct Descriptor;
 typedef struct exit_data EXIT_DATA;
 typedef struct extra_descr_data EXTRA_DESCR_DATA;
 typedef struct help_data HELP_DATA;
@@ -192,56 +192,6 @@ struct weather_data {
     int change;
     int sky;
     int sunlight;
-};
-
-/*
- * Connected state for a channel.
- */
-#define CON_PLAYING 0
-#define CON_GET_NAME 1
-#define CON_GET_OLD_PASSWORD 2
-#define CON_CONFIRM_NEW_NAME 3
-#define CON_GET_NEW_PASSWORD 4
-#define CON_CONFIRM_NEW_PASSWORD 5
-#define CON_GET_NEW_RACE 6
-#define CON_GET_NEW_SEX 7
-#define CON_GET_NEW_CLASS 8
-#define CON_GET_ALIGNMENT 9
-#define CON_DEFAULT_CHOICE 10
-#define CON_GEN_GROUPS 11
-#define CON_PICK_WEAPON 12
-#define CON_READ_IMOTD 13
-#define CON_READ_MOTD 14
-#define CON_BREAK_CONNECT 15
-#define CON_GET_ANSI 16
-#define CON_CIRCUMVENT_PASSWORD 18 // used by doorman
-#define CON_DISCONNECTING 254 // disconnecting having been playing
-#define CON_DISCONNECTING_NP 255 // disconnecting before playing
-
-/*
- * Descriptor (channel) structure.
- */
-struct descriptor_data {
-    DESCRIPTOR_DATA *next;
-    DESCRIPTOR_DATA *snoop_by;
-    CHAR_DATA *character;
-    CHAR_DATA *original;
-    char *host;
-    char *logintime;
-    uint32_t descriptor;
-    int netaddr;
-    sh_int connected;
-    sh_int localport;
-    bool fcommand;
-    char inbuf[4 * MAX_INPUT_LENGTH];
-    char incomm[MAX_INPUT_LENGTH];
-    char inlast[MAX_INPUT_LENGTH];
-    int repeat;
-    char *outbuf;
-    int outsize;
-    int outtop;
-    char *showstr_head;
-    char *showstr_point;
 };
 
 /*
@@ -1242,7 +1192,7 @@ struct char_data {
     CHAR_DATA *ridden_by;
     SpecialFunc spec_fun;
     MOB_INDEX_DATA *pIndexData;
-    DESCRIPTOR_DATA *desc;
+    Descriptor *desc;
     AFFECT_DATA *affected;
     NOTE_DATA *pnote;
     OBJ_DATA *carrying;
@@ -1874,7 +1824,7 @@ extern SHOP_DATA *shop_first;
 
 extern BAN_DATA *ban_list;
 extern CHAR_DATA *char_list;
-extern DESCRIPTOR_DATA *descriptor_list;
+extern Descriptor *descriptor_list;
 extern OBJ_DATA *object_list;
 
 extern AFFECT_DATA *affect_free;
@@ -1882,7 +1832,6 @@ extern AFFECT_DATA *affect_free;
 extern BAN_DATA *ban_free;
 
 extern CHAR_DATA *char_free;
-extern DESCRIPTOR_DATA *descriptor_free;
 extern EXTRA_DESCR_DATA *extra_descr_free;
 extern OBJ_DATA *obj_free;
 extern PC_DATA *pcdata_free;
@@ -1978,8 +1927,8 @@ void ban_site(CHAR_DATA *ch, const char *site, bool fType);
 #define MAX_MASKED_HOSTNAME 64
 unsigned long djb2_hash(const char *str);
 char *get_masked_hostname(char *hostbuf, const char *hostname);
-void close_socket(DESCRIPTOR_DATA *dclose);
-void write_to_buffer(DESCRIPTOR_DATA *d, const char *txt, int length);
+void close_socket(Descriptor *dclose);
+void write_to_buffer(Descriptor *d, const char *txt, int length);
 void send_to_char(const char *txt, CHAR_DATA *ch);
 void page_to_char(const char *txt, CHAR_DATA *ch);
 void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type);
@@ -2101,10 +2050,10 @@ CD *get_char_world(CHAR_DATA *ch, const char *argument);
 CD *get_mob_by_vnum(sh_int vnum);
 OD *get_obj_type(OBJ_INDEX_DATA *pObjIndexData);
 OD *get_obj_list(CHAR_DATA *ch, const char *argument, OBJ_DATA *list);
-OD *get_obj_carry(CHAR_DATA *ch, char *argument);
-OD *get_obj_wear(CHAR_DATA *ch, char *argument);
-OD *get_obj_here(CHAR_DATA *ch, char *argument);
-OD *get_obj_world(CHAR_DATA *ch, char *argument);
+OD *get_obj_carry(CHAR_DATA *ch, const char *argument);
+OD *get_obj_wear(CHAR_DATA *ch, const char *argument);
+OD *get_obj_here(CHAR_DATA *ch, const char *argument);
+OD *get_obj_world(CHAR_DATA *ch, const char *argument);
 OD *create_money(int amount);
 int get_obj_number(OBJ_DATA *obj);
 int get_obj_weight(OBJ_DATA *obj);
@@ -2146,7 +2095,7 @@ void obj_cast_spell(int sn, int level, CHAR_DATA *ch, CHAR_DATA *victim, OBJ_DAT
 
 /* save.c */
 void save_char_obj(CHAR_DATA *ch);
-bool load_char_obj(DESCRIPTOR_DATA *d, const char *name);
+bool load_char_obj(Descriptor *d, const char *name);
 
 /* skills.c */
 bool parse_gen_groups(CHAR_DATA *ch, const char *argument);
@@ -2190,21 +2139,6 @@ void tip_players();
 extern bool ignore_tips;
 extern TIP_TYPE *tip_top; /* top of list (humour!) */
 extern TIP_TYPE *tip_current;
-
-/* clan functions */
-
-void do_clantalk(CHAR_DATA *ch, char *argument);
-void do_noclanchan(CHAR_DATA *ch, char *argument);
-void do_member(CHAR_DATA *ch, char *argument);
-void mote(CHAR_DATA *ch, char *argument, int add);
-void do_promote(CHAR_DATA *ch, char *argument);
-void do_demote(CHAR_DATA *ch, char *argument);
-void do_clanwho(CHAR_DATA *ch, char *argument);
-void do_clanset(CHAR_DATA *ch, char *argument);
-
-/*
- * end clan section. Faramir 25/6/1996
- */
 
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998*/
 

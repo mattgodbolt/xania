@@ -373,42 +373,42 @@ void do_enter(CHAR_DATA *ch, const char *argument) {
     send_to_char("You can't see that here.\n\r", ch);
 }
 
-void do_north(CHAR_DATA *ch, char *argument) {
+void do_north(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, DIR_NORTH);
 }
 
-void do_east(CHAR_DATA *ch, char *argument) {
+void do_east(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, DIR_EAST);
 }
 
-void do_south(CHAR_DATA *ch, char *argument) {
+void do_south(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, DIR_SOUTH);
 }
 
-void do_west(CHAR_DATA *ch, char *argument) {
+void do_west(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, DIR_WEST);
 }
 
-void do_up(CHAR_DATA *ch, char *argument) {
+void do_up(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, DIR_UP);
 }
 
-void do_down(CHAR_DATA *ch, char *argument) {
+void do_down(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
@@ -595,7 +595,7 @@ bool has_key(CHAR_DATA *ch, int key) {
     return false;
 }
 
-void do_lock(CHAR_DATA *ch, char *argument) {
+void do_lock(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     int door;
@@ -672,7 +672,7 @@ void do_lock(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_unlock(CHAR_DATA *ch, char *argument) {
+void do_unlock(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     int door;
@@ -749,7 +749,7 @@ void do_unlock(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_pick(CHAR_DATA *ch, char *argument) {
+void do_pick(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *gch;
     OBJ_DATA *obj;
@@ -878,7 +878,7 @@ void do_stand(CHAR_DATA *ch, const char *arg) {
     }
 }
 
-void do_rest(CHAR_DATA *ch, char *argument) {
+void do_rest(CHAR_DATA *ch, const char *argument) {
     (void)argument;
 
     if (ch->riding != nullptr) {
@@ -911,7 +911,7 @@ void do_rest(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_sit(CHAR_DATA *ch, char *argument) {
+void do_sit(CHAR_DATA *ch, const char *argument) {
     (void)argument;
 
     if (ch->riding != nullptr) {
@@ -939,7 +939,7 @@ void do_sit(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_sleep(CHAR_DATA *ch, char *argument) {
+void do_sleep(CHAR_DATA *ch, const char *argument) {
     (void)argument;
 
     if (ch->riding != nullptr) {
@@ -1005,7 +1005,7 @@ void do_wake(CHAR_DATA *ch, const char *argument) {
     act("$n wakes you.", ch, nullptr, victim, TO_VICT);
 }
 
-void do_sneak(CHAR_DATA *ch, char *argument) {
+void do_sneak(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     AFFECT_DATA af;
 
@@ -1025,7 +1025,7 @@ void do_sneak(CHAR_DATA *ch, char *argument) {
         check_improve(ch, gsn_sneak, false, 3);
 }
 
-void do_hide(CHAR_DATA *ch, char *argument) {
+void do_hide(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     send_to_char("You attempt to hide.\n\r", ch);
 
@@ -1042,7 +1042,7 @@ void do_hide(CHAR_DATA *ch, char *argument) {
 /*
  * Contributed by Alander.
  */
-void do_visible(CHAR_DATA *ch, char *argument) {
+void do_visible(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     affect_strip(ch, gsn_invis);
     affect_strip(ch, gsn_mass_invis);

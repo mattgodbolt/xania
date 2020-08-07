@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Descriptor.hpp"
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -64,7 +65,7 @@ void log_string(const char *str) { log_new(str, EXTRA_WIZNET_DEBUG, 0); }
 void log_new(const char *str, int loglevel, int level) {
     char *strtime;
     char buf[MAX_STRING_LENGTH];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     strtime = ctime(&current_time);
     strtime[strlen(strtime) - 1] = '\0';
@@ -77,7 +78,7 @@ void log_new(const char *str, int loglevel, int level) {
 
     for (d = descriptor_list; d; d = d->next) {
         CHAR_DATA *ch = d->original ? d->original : d->character;
-        if ((d->connected != CON_PLAYING) || (ch == nullptr) || (IS_NPC(ch)) || !is_set_extra(ch, EXTRA_WIZNET_ON)
+        if ((!d->is_playing()) || (ch == nullptr) || (IS_NPC(ch)) || !is_set_extra(ch, EXTRA_WIZNET_ON)
             || !is_set_extra(ch, loglevel) || (get_trust(ch) < level))
             continue;
         send_to_char(buf, d->character);
@@ -173,7 +174,7 @@ void wiznet_initialise() {
     trie_add(trie, "tick", (void *)wiznet_tick, 0);
 }
 
-void do_wiznet(CHAR_DATA *ch, char *argument) {
+void do_wiznet(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     wiznet_fn_t *wiznet_fn;
 

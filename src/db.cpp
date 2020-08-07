@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "db.h"
+#include "Descriptor.hpp"
 #include "buffer.h"
 #include "interp.h"
 #include "merc.h"
@@ -2731,7 +2732,7 @@ void do_areas(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_memory(CHAR_DATA *ch, char *argument) {
+void do_memory(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
@@ -2768,7 +2769,7 @@ void do_memory(CHAR_DATA *ch, char *argument) {
     send_to_char(buf, ch);
 }
 
-void do_dump(CHAR_DATA *ch, char *argument) {
+void do_dump(CHAR_DATA *ch, const char *argument) {
     (void)ch;
     (void)argument;
     int count, count2, num_pcs, aff_count;
@@ -2779,7 +2780,7 @@ void do_dump(CHAR_DATA *ch, char *argument) {
     OBJ_INDEX_DATA *pObjIndex;
     ROOM_INDEX_DATA *room;
     EXIT_DATA *exit;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     AFFECT_DATA *af;
     FILE *fp;
     int vnum, nMatch = 0;
@@ -2822,14 +2823,10 @@ void do_dump(CHAR_DATA *ch, char *argument) {
 
     /* descriptors */
     count = 0;
-    count2 = 0;
     for (d = descriptor_list; d != nullptr; d = d->next)
         count++;
-    for (d = descriptor_free; d != nullptr; d = d->next)
-        count2++;
 
-    fprintf(fp, "Descs	%4d (%8ld bytes), %2d free (%ld bytes)\n", count, count * (sizeof(*d)), count2,
-            count2 * (sizeof(*d)));
+    fprintf(fp, "Descs	%4d (%8ld bytes)\n", count, count * (sizeof(*d)));
 
     /* object prototypes */
     for (vnum = 0; nMatch < top_obj_index; vnum++)

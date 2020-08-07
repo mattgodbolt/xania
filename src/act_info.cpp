@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Descriptor.hpp"
 #include "buffer.h"
 #include "db.h"
 #include "interp.h"
@@ -329,7 +330,7 @@ void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch) {
     }
 }
 
-void do_peek(CHAR_DATA *ch, char *argument) {
+void do_peek(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *victim;
     char arg1[MAX_INPUT_LENGTH];
 
@@ -413,7 +414,7 @@ bool check_blind(CHAR_DATA *ch) {
 }
 
 /* changes your scroll */
-void do_scroll(CHAR_DATA *ch, char *argument) {
+void do_scroll(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     char buf[100];
     int lines;
@@ -459,7 +460,7 @@ void do_scroll(CHAR_DATA *ch, char *argument) {
 }
 
 /* RT does socials */
-void do_socials(CHAR_DATA *ch, char *argument) {
+void do_socials(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
     int iSocial;
@@ -480,32 +481,32 @@ void do_socials(CHAR_DATA *ch, char *argument) {
 
 /* RT Commands to replace news, motd, imotd, etc from ROM */
 
-void do_motd(CHAR_DATA *ch, char *argument) {
+void do_motd(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     do_help(ch, "motd");
 }
 
-void do_imotd(CHAR_DATA *ch, char *argument) {
+void do_imotd(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     do_help(ch, "imotd");
 }
 
-void do_rules(CHAR_DATA *ch, char *argument) {
+void do_rules(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     do_help(ch, "rules");
 }
 
-void do_story(CHAR_DATA *ch, char *argument) {
+void do_story(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     do_help(ch, "story");
 }
 
-void do_changes(CHAR_DATA *ch, char *argument) {
+void do_changes(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     do_help(ch, "changes");
 }
 
-void do_wizlist(CHAR_DATA *ch, char *argument) {
+void do_wizlist(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     do_help(ch, "wizlist");
 }
@@ -513,7 +514,7 @@ void do_wizlist(CHAR_DATA *ch, char *argument) {
 /* RT this following section holds all the auto commands from ROM, as well as
    replacements for config */
 
-void do_autolist(CHAR_DATA *ch, char *argument) {
+void do_autolist(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     /* lists most player flags */
     if (IS_NPC(ch))
@@ -624,7 +625,7 @@ void do_autolist(CHAR_DATA *ch, char *argument) {
         send_to_char("Shield blocks, parries, and dodges are not being shown.\n\r", ch);
 }
 
-void do_autoaffect(CHAR_DATA *ch, char *argument) {
+void do_autoaffect(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_NPC(ch))
         return;
@@ -637,7 +638,7 @@ void do_autoaffect(CHAR_DATA *ch, char *argument) {
         SET_BIT(ch->comm, COMM_AFFECT);
     }
 }
-void do_autoassist(CHAR_DATA *ch, char *argument) {
+void do_autoassist(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_NPC(ch))
         return;
@@ -651,7 +652,7 @@ void do_autoassist(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_autoexit(CHAR_DATA *ch, char *argument) {
+void do_autoexit(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_NPC(ch))
         return;
@@ -665,7 +666,7 @@ void do_autoexit(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_autogold(CHAR_DATA *ch, char *argument) {
+void do_autogold(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_NPC(ch))
         return;
@@ -679,7 +680,7 @@ void do_autogold(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_autoloot(CHAR_DATA *ch, char *argument) {
+void do_autoloot(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_NPC(ch))
         return;
@@ -693,7 +694,7 @@ void do_autoloot(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_autopeek(CHAR_DATA *ch, char *argument) {
+void do_autopeek(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_NPC(ch))
         return;
@@ -707,7 +708,7 @@ void do_autopeek(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_autosac(CHAR_DATA *ch, char *argument) {
+void do_autosac(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_NPC(ch))
         return;
@@ -721,7 +722,7 @@ void do_autosac(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_autosplit(CHAR_DATA *ch, char *argument) {
+void do_autosplit(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_NPC(ch))
         return;
@@ -735,7 +736,7 @@ void do_autosplit(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_brief(CHAR_DATA *ch, char *argument) {
+void do_brief(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_BRIEF)) {
         send_to_char("Full descriptions activated.\n\r", ch);
@@ -746,7 +747,7 @@ void do_brief(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_colour(CHAR_DATA *ch, char *argument) {
+void do_colour(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if IS_NPC (ch)
         return;
@@ -761,7 +762,7 @@ void do_colour(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_showafk(CHAR_DATA *ch, char *argument) {
+void do_showafk(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_SHOWAFK)) {
         send_to_char("Messages sent to you will now not be shown when afk.\n\r", ch);
@@ -771,7 +772,7 @@ void do_showafk(CHAR_DATA *ch, char *argument) {
         SET_BIT(ch->comm, COMM_SHOWAFK);
     }
 }
-void do_showdefence(CHAR_DATA *ch, char *argument) {
+void do_showdefence(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_SHOWDEFENCE)) {
         send_to_char("Shield blocks, parries and dodges will not be shown during combat.\n\r", ch);
@@ -782,7 +783,7 @@ void do_showdefence(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_compact(CHAR_DATA *ch, char *argument) {
+void do_compact(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_COMPACT)) {
         send_to_char("Compact mode removed.\n\r", ch);
@@ -793,7 +794,7 @@ void do_compact(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_prompt(CHAR_DATA *ch, char *argument) {
+void do_prompt(CHAR_DATA *ch, const char *argument) {
 
     /* PCFN 24-05-97  Oh dear - it seems that you can't set prompt while switched
        into a MOB.  Let's change that.... */
@@ -822,7 +823,7 @@ void do_prompt(CHAR_DATA *ch, char *argument) {
     SET_BIT(ch->comm, COMM_PROMPT);
 }
 
-void do_combine(CHAR_DATA *ch, char *argument) {
+void do_combine(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_COMBINE)) {
         send_to_char("Long inventory selected.\n\r", ch);
@@ -833,7 +834,7 @@ void do_combine(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_noloot(CHAR_DATA *ch, char *argument) {
+void do_noloot(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_NPC(ch))
         return;
@@ -847,7 +848,7 @@ void do_noloot(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_nofollow(CHAR_DATA *ch, char *argument) {
+void do_nofollow(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_NPC(ch))
         return;
@@ -862,7 +863,7 @@ void do_nofollow(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_nosummon(CHAR_DATA *ch, char *argument) {
+void do_nosummon(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_NPC(ch)) {
         if (IS_SET(ch->imm_flags, IMM_SUMMON)) {
@@ -1141,9 +1142,9 @@ void do_look(CHAR_DATA *ch, const char *arg) {
 }
 
 /* RT added back for the hell of it */
-void do_read(CHAR_DATA *ch, char *argument) { do_look(ch, argument); }
+void do_read(CHAR_DATA *ch, const char *argument) { do_look(ch, argument); }
 
-void do_examine(CHAR_DATA *ch, char *argument) {
+void do_examine(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
@@ -1224,7 +1225,7 @@ void do_exits(CHAR_DATA *ch, const char *argument) {
         } */
 }
 
-void do_worth(CHAR_DATA *ch, char *argument) {
+void do_worth(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
@@ -1322,7 +1323,7 @@ const char *get_align_description(int align) {
     return align_descriptions[index];
 }
 
-void do_score(CHAR_DATA *ch, char *argument) {
+void do_score(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
@@ -1482,7 +1483,7 @@ const char *month_name[] = {"Winter",
                             "the Ancient Darkness",
                             "the Great Evil"};
 
-void do_time(CHAR_DATA *ch, char *argument) {
+void do_time(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     extern char str_boot_time[];
     char buf[MAX_STRING_LENGTH];
@@ -1602,11 +1603,11 @@ void do_help(CHAR_DATA *ch, const char *argument) {
 }
 
 /* whois command */
-void do_whois(CHAR_DATA *ch, char *argument) {
+void do_whois(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     char output[MAX_STRING_LENGTH];
     char buf[MAX_STRING_LENGTH];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     bool found = false;
 
     one_argument(argument, arg);
@@ -1622,7 +1623,7 @@ void do_whois(CHAR_DATA *ch, char *argument) {
         CHAR_DATA *wch;
         char const *class_name;
 
-        if (d->connected != CON_PLAYING || !can_see(ch, d->character))
+        if (!d->is_playing() || !can_see(ch, d->character))
             continue;
 
         wch = (d->original != nullptr) ? d->original : d->character;
@@ -1678,11 +1679,11 @@ void do_whois(CHAR_DATA *ch, char *argument) {
 /*
  * New 'who' command originally by Alander of Rivers of Mud.
  */
-void do_who(CHAR_DATA *ch, char *argument) {
+void do_who(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char buf2[MAX_STRING_LENGTH];
     char output[4 * MAX_STRING_LENGTH];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     int iClass;
     int iRace;
     int iClan;
@@ -1785,7 +1786,7 @@ void do_who(CHAR_DATA *ch, char *argument) {
          * Check for match against restrictions.
          * Don't use trust as that exposes trusted mortals.
          */
-        if (d->connected != CON_PLAYING || !can_see(ch, d->character))
+        if (!d->is_playing() || !can_see(ch, d->character))
             continue;
         /* added Faramir 13/8/96 because switched imms were visible to all*/
         if (d->original != nullptr)
@@ -1855,16 +1856,16 @@ void do_who(CHAR_DATA *ch, char *argument) {
     page_to_char(output, ch);
 }
 
-void do_count(CHAR_DATA *ch, char *argument) {
+void do_count(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     int count;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     char buf[MAX_STRING_LENGTH];
 
     count = 0;
 
     for (d = descriptor_list; d != nullptr; d = d->next)
-        if (d->connected == CON_PLAYING && can_see(ch, d->character))
+        if (d->is_playing() && can_see(ch, d->character))
             count++;
 
     max_on = UMAX(count, max_on);
@@ -1877,13 +1878,13 @@ void do_count(CHAR_DATA *ch, char *argument) {
     send_to_char(buf, ch);
 }
 
-void do_inventory(CHAR_DATA *ch, char *argument) {
+void do_inventory(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     send_to_char("You are carrying:\n\r", ch);
     show_list_to_char(ch->carrying, ch, true, true);
 }
 
-void do_equipment(CHAR_DATA *ch, char *argument) {
+void do_equipment(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     OBJ_DATA *obj;
     int iWear;
@@ -1918,7 +1919,7 @@ void do_equipment(CHAR_DATA *ch, char *argument) {
         send_to_char("Nothing.\n\r", ch);
 }
 
-void do_compare(CHAR_DATA *ch, char *argument) {
+void do_compare(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     OBJ_DATA *obj1;
@@ -2000,16 +2001,16 @@ void do_compare(CHAR_DATA *ch, char *argument) {
     act(msg, ch, obj1, obj2, TO_CHAR);
 }
 
-void do_credits(CHAR_DATA *ch, char *argument) {
+void do_credits(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     do_help(ch, "diku");
 }
 
-void do_where(CHAR_DATA *ch, char *argument) {
+void do_where(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     bool found;
 
     one_argument(argument, arg);
@@ -2019,7 +2020,7 @@ void do_where(CHAR_DATA *ch, char *argument) {
         send_to_char(buf, ch);
         found = false;
         for (d = descriptor_list; d; d = d->next) {
-            if (d->connected == CON_PLAYING && (victim = d->character) != nullptr && !IS_NPC(victim) && victim != ch
+            if (d->is_playing() && (victim = d->character) != nullptr && !IS_NPC(victim) && victim != ch
                 && victim->in_room != nullptr && victim->in_room->area == ch->in_room->area && can_see(ch, victim)) {
                 found = true;
                 snprintf(buf, sizeof(buf), "|W%-28s|w %s\n\r", victim->name, victim->in_room->name);
@@ -2049,7 +2050,7 @@ void do_where(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_consider(CHAR_DATA *ch, char *argument) {
+void do_consider(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     const char *msg;
@@ -2123,7 +2124,7 @@ void set_title(CHAR_DATA *ch, const char *title) {
     ch->pcdata->title = str_dup(buf);
 }
 
-void do_title(CHAR_DATA *ch, char *argument) {
+void do_title(CHAR_DATA *ch, const char *argument) {
     if (IS_NPC(ch))
         return;
 
@@ -2168,7 +2169,7 @@ void do_description(CHAR_DATA *ch, const char *argument) {
     send_to_char(ch->description ? ch->description : "(None).\n\r", ch);
 }
 
-void do_report(CHAR_DATA *ch, char *argument) {
+void do_report(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_INPUT_LENGTH];
 
@@ -2183,7 +2184,7 @@ void do_report(CHAR_DATA *ch, char *argument) {
     act(buf, ch, nullptr, nullptr, TO_ROOM);
 }
 
-void do_practice(CHAR_DATA *ch, char *argument) {
+void do_practice(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     int sn;
 
@@ -2274,7 +2275,7 @@ void do_practice(CHAR_DATA *ch, char *argument) {
 /*
  * 'Wimpy' originally by Dionysos.
  */
-void do_wimpy(CHAR_DATA *ch, char *argument) {
+void do_wimpy(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     int wimpy;
@@ -2301,7 +2302,7 @@ void do_wimpy(CHAR_DATA *ch, char *argument) {
     send_to_char(buf, ch);
 }
 
-void do_password(CHAR_DATA *ch, char *argument) {
+void do_password(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     char *pArg;
@@ -2387,7 +2388,7 @@ void do_password(CHAR_DATA *ch, char *argument) {
 
 /* MrG Scan command */
 
-void do_scan(CHAR_DATA *ch, char *argument) {
+void do_scan(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     ROOM_INDEX_DATA *current_place;
     CHAR_DATA *current_person;

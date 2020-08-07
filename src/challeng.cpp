@@ -7,6 +7,7 @@
 /*              Wandera. Revised by Oshea 26/8/96                        */
 /*************************************************************************/
 
+#include "Descriptor.hpp"
 #include "merc.h"
 #include <stdio.h>
 #include <string.h>
@@ -38,7 +39,7 @@ static bool challenge_fighting = false;
 
 /* And now on with the code. */
 
-void do_challenge(CHAR_DATA *ch, char *argument) {
+void do_challenge(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     CHAR_DATA *victim;
     char arg[MAX_INPUT_LENGTH];
@@ -188,7 +189,7 @@ void do_accept(CHAR_DATA *ch, const char *argument) {
     strncpy(imm_name, imm->name, NAME_SIZE);
 }
 
-void do_refuse(CHAR_DATA *ch, char *argument) {
+void do_refuse(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
@@ -223,7 +224,7 @@ void do_refuse(CHAR_DATA *ch, char *argument) {
     send_to_char("You can't withdraw from control once you have accepted it.\n\r", ch);
 }
 
-void do_ready(CHAR_DATA *ch, char *argument) {
+void do_ready(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
@@ -352,7 +353,7 @@ void do_chal_canc(CHAR_DATA *ch) {
     do_chal_tick();
 }
 
-void do_cancel_chal(CHAR_DATA *ch, char *argument) {
+void do_cancel_chal(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     one_argument(argument, arg);
@@ -381,7 +382,7 @@ void do_cancel_chal(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_duel(CHAR_DATA *ch, char *argument) {
+void do_duel(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     one_argument(argument, arg);

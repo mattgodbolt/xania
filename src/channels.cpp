@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Descriptor.hpp"
 #include "interp.h"
 #include "merc.h"
 
@@ -106,7 +107,7 @@ void channel_command(CHAR_DATA *ch, const char *argument, int chan_flag, const c
     if (argument[0] == '\0') {
         toggle_channel(ch, chan_flag, chan_name);
     } else {
-        DESCRIPTOR_DATA *d;
+        Descriptor *d;
 
         if (IS_SET(ch->comm, COMM_QUIET)) {
             send_to_char("You must turn off quiet mode first.\n\r", ch);
@@ -127,7 +128,7 @@ void channel_command(CHAR_DATA *ch, const char *argument, int chan_flag, const c
 
             victim = d->original ? d->original : d->character;
 
-            if (d->connected == CON_PLAYING && d->character != ch && !IS_SET(victim->comm, chan_flag)
+            if (d->is_playing() && d->character != ch && !IS_SET(victim->comm, chan_flag)
                 && !IS_SET(victim->comm, COMM_QUIET)) {
                 act_new(desc_other, ch, argument, d->character, TO_VICT, POS_DEAD);
             }
@@ -141,7 +142,7 @@ void do_announce(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_immtalk(CHAR_DATA *ch, const char *argument) {
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     const char *format = "|W$n: |c$t|w";
 
     if (argument[0] == '\0') {
@@ -157,7 +158,7 @@ void do_immtalk(CHAR_DATA *ch, const char *argument) {
     if (get_trust(ch) >= 91)
         act_new(format, ch, argument, nullptr, TO_CHAR, POS_DEAD);
     for (d = descriptor_list; d != nullptr; d = d->next) {
-        if (d->connected == CON_PLAYING && IS_IMMORTAL(d->character) && !IS_SET(d->character->comm, COMM_NOWIZ)) {
+        if (d->is_playing() && IS_IMMORTAL(d->character) && !IS_SET(d->character->comm, COMM_NOWIZ)) {
             act_new(format, ch, argument, d->character, TO_VICT, POS_DEAD);
         }
     }

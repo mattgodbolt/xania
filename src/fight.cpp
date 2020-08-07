@@ -2488,7 +2488,7 @@ void do_trip(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_kill(CHAR_DATA *ch, char *argument) {
+void do_kill(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
 
@@ -2540,12 +2540,12 @@ void do_kill(CHAR_DATA *ch, char *argument) {
     multi_hit(ch, victim, TYPE_UNDEFINED);
 }
 
-void do_murde(CHAR_DATA *ch, char *argument) {
+void do_murde(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     send_to_char("If you want to MURDER, spell it out.\n\r", ch);
 }
 
-void do_murder(CHAR_DATA *ch, char *argument) {
+void do_murder(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
@@ -2598,7 +2598,7 @@ void do_murder(CHAR_DATA *ch, char *argument) {
     multi_hit(ch, victim, TYPE_UNDEFINED);
 }
 
-void do_backstab(CHAR_DATA *ch, char *argument) {
+void do_backstab(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     OBJ_DATA *obj;
@@ -2714,7 +2714,7 @@ void do_flee(CHAR_DATA *ch, const char *argument) {
     send_to_char("PANIC! You couldn't escape!\n\r", ch);
 }
 
-void do_rescue(CHAR_DATA *ch, char *argument) {
+void do_rescue(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     CHAR_DATA *fch;
@@ -2787,7 +2787,7 @@ void do_rescue(CHAR_DATA *ch, char *argument) {
 /* !!!! */
 /* ok now the code....yes you did get to it eventually..*/
 
-void do_headbutt(CHAR_DATA *ch, char *argument) {
+void do_headbutt(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     AFFECT_DATA af;
@@ -3031,12 +3031,12 @@ void do_disarm(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_sla(CHAR_DATA *ch, char *argument) {
+void do_sla(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     send_to_char("If you want to SLAY, spell it out.\n\r", ch);
 }
 
-void do_slay(CHAR_DATA *ch, char *argument) {
+void do_slay(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *victim;
     char arg[MAX_INPUT_LENGTH];
 
