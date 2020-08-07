@@ -449,7 +449,7 @@ void game_loop_unix(int control) {
             if (d->character && d->character->wait)
                 continue;
 
-            if (auto incomm = d->pop_incomm(); incomm) {
+            if (auto incomm = d->pop_incomm()) {
                 d->fcommand = true;
                 move_active_char_from_limbo(d->character);
 
