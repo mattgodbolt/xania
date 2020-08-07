@@ -6,7 +6,7 @@
 #include <string_view>
 using namespace std::literals;
 
-TEST_CASE("Interpreter tests") {
+TEST_CASE("string_util tests") {
     SECTION("should determine numbers") {
         CHECK(is_number("0"));
         CHECK(is_number("123"));
@@ -108,7 +108,8 @@ TEST_CASE("Interpreter tests") {
             CHECK(sanitise_input("  I am a fish  ") == "  I am a fish  ");
         }
         SECTION("strips trailing CRLF") { CHECK(sanitise_input("Some string   \r\n") == "Some string   "); }
-        SECTION("converts empty strings to a single space") { CHECK(sanitise_input("") == " "); }
+        SECTION("handles empty strings") { CHECK(sanitise_input("") == ""); }
+        SECTION("handles empty strings that are just non-printing") { CHECK(sanitise_input("\n\r\t") == ""); }
         SECTION("removes non-printing") { CHECK(sanitise_input("arg\tl\u00ffe") == "argle"); }
         SECTION("removes backspaces") { CHECK(sanitise_input("TheMa\boog sucks\b\b\b\b\b\b") == "TheMoog"); }
         SECTION("removes backspaces after non-printing") { CHECK(sanitise_input("Oops\xff\b!") == "Oops!"); }

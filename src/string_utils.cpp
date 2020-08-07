@@ -93,13 +93,10 @@ std::string sanitise_input(std::string_view str) {
             result.push_back(c);
         }
     }
+
+    // Remove non-printing, non-ascii characters. This awkward erase(remove_if,,,) idiom is a uniquely C++ mess.
     result.erase(std::remove_if(result.begin(), result.end(), [](char c) { return !isascii(c) || !isprint(c); }),
                  result.end());
-
-    // Empty strings are replaced with a single space. This is to discriminate between no command pending and the user
-    // hitting empty. TODO: can later use optional<string> to encode this in Descriptor.
-    if (result.empty())
-        result = " ";
 
     return result;
 }
