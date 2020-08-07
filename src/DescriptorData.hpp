@@ -29,9 +29,9 @@
 /*
  * Descriptor (channel) structure.
  */
-struct DESCRIPTOR_DATA {
-    DESCRIPTOR_DATA *next;
-    DESCRIPTOR_DATA *snoop_by;
+struct Descriptor {
+    Descriptor *next;
+    Descriptor *snoop_by;
     CHAR_DATA *character;
     CHAR_DATA *original;
     char *host;

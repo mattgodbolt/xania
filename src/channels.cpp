@@ -107,7 +107,7 @@ void channel_command(CHAR_DATA *ch, const char *argument, int chan_flag, const c
     if (argument[0] == '\0') {
         toggle_channel(ch, chan_flag, chan_name);
     } else {
-        DESCRIPTOR_DATA *d;
+        Descriptor *d;
 
         if (IS_SET(ch->comm, COMM_QUIET)) {
             send_to_char("You must turn off quiet mode first.\n\r", ch);
@@ -142,7 +142,7 @@ void do_announce(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_immtalk(CHAR_DATA *ch, const char *argument) {
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     const char *format = "|W$n: |c$t|w";
 
     if (argument[0] == '\0') {

@@ -67,7 +67,7 @@ typedef struct affect_data AFFECT_DATA;
 typedef struct area_data AREA_DATA;
 typedef struct ban_data BAN_DATA;
 typedef struct char_data CHAR_DATA;
-struct DESCRIPTOR_DATA;
+struct Descriptor;
 typedef struct exit_data EXIT_DATA;
 typedef struct extra_descr_data EXTRA_DESCR_DATA;
 typedef struct help_data HELP_DATA;
@@ -1192,7 +1192,7 @@ struct char_data {
     CHAR_DATA *ridden_by;
     SpecialFunc spec_fun;
     MOB_INDEX_DATA *pIndexData;
-    DESCRIPTOR_DATA *desc;
+    Descriptor *desc;
     AFFECT_DATA *affected;
     NOTE_DATA *pnote;
     OBJ_DATA *carrying;
@@ -1824,7 +1824,7 @@ extern SHOP_DATA *shop_first;
 
 extern BAN_DATA *ban_list;
 extern CHAR_DATA *char_list;
-extern DESCRIPTOR_DATA *descriptor_list;
+extern Descriptor *descriptor_list;
 extern OBJ_DATA *object_list;
 
 extern AFFECT_DATA *affect_free;
@@ -1832,7 +1832,7 @@ extern AFFECT_DATA *affect_free;
 extern BAN_DATA *ban_free;
 
 extern CHAR_DATA *char_free;
-extern DESCRIPTOR_DATA *descriptor_free;
+extern Descriptor *descriptor_free;
 extern EXTRA_DESCR_DATA *extra_descr_free;
 extern OBJ_DATA *obj_free;
 extern PC_DATA *pcdata_free;
@@ -1928,8 +1928,8 @@ void ban_site(CHAR_DATA *ch, const char *site, bool fType);
 #define MAX_MASKED_HOSTNAME 64
 unsigned long djb2_hash(const char *str);
 char *get_masked_hostname(char *hostbuf, const char *hostname);
-void close_socket(DESCRIPTOR_DATA *dclose);
-void write_to_buffer(DESCRIPTOR_DATA *d, const char *txt, int length);
+void close_socket(Descriptor *dclose);
+void write_to_buffer(Descriptor *d, const char *txt, int length);
 void send_to_char(const char *txt, CHAR_DATA *ch);
 void page_to_char(const char *txt, CHAR_DATA *ch);
 void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type);
@@ -2096,7 +2096,7 @@ void obj_cast_spell(int sn, int level, CHAR_DATA *ch, CHAR_DATA *victim, OBJ_DAT
 
 /* save.c */
 void save_char_obj(CHAR_DATA *ch);
-bool load_char_obj(DESCRIPTOR_DATA *d, const char *name);
+bool load_char_obj(Descriptor *d, const char *name);
 
 /* skills.c */
 bool parse_gen_groups(CHAR_DATA *ch, const char *argument);

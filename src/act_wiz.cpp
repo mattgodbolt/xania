@@ -225,7 +225,7 @@ void do_deny(CHAR_DATA *ch, const char *argument) {
 
 void do_disconnect(CHAR_DATA *ch, char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     CHAR_DATA *victim;
 
     one_argument(argument, arg);
@@ -315,7 +315,7 @@ void do_pardon(CHAR_DATA *ch, char *argument) {
 }
 
 void do_echo(CHAR_DATA *ch, char *argument) {
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     if (argument[0] == '\0') {
         send_to_char("Global echo what?\n\r", ch);
@@ -333,7 +333,7 @@ void do_echo(CHAR_DATA *ch, char *argument) {
 }
 
 void do_recho(CHAR_DATA *ch, char *argument) {
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     if (argument[0] == '\0') {
         send_to_char("Local echo what?\n\r", ch);
@@ -352,7 +352,7 @@ void do_recho(CHAR_DATA *ch, char *argument) {
 }
 
 void do_zecho(CHAR_DATA *ch, char *argument) {
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     if (argument[0] == '\0') {
         send_to_char("Zone echo what?\n\r", ch);
@@ -419,7 +419,7 @@ void do_transfer(CHAR_DATA *ch, char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     CHAR_DATA *victim;
 
     argument = one_argument(argument, arg1);
@@ -1665,7 +1665,7 @@ void do_shutdown(CHAR_DATA *ch, char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
     extern bool merc_down;
-    DESCRIPTOR_DATA *d, *d_next;
+    Descriptor *d, *d_next;
 
     bug_snprintf(buf, sizeof(buf), "Shutdown by %s.", ch->name);
     append_file(ch, SHUTDOWN_FILE, buf);
@@ -1683,7 +1683,7 @@ void do_shutdown(CHAR_DATA *ch, char *argument) {
 
 void do_snoop(CHAR_DATA *ch, char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     CHAR_DATA *victim;
 
     one_argument(argument, arg);
@@ -2016,7 +2016,7 @@ void do_purge(CHAR_DATA *ch, const char *argument) {
     char buf[100];
     CHAR_DATA *victim;
     OBJ_DATA *obj;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     one_argument(argument, arg);
 
@@ -2204,7 +2204,7 @@ void do_restore(CHAR_DATA *ch, char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     CHAR_DATA *vch;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     one_argument(argument, arg);
     if (arg[0] == '\0' || !str_cmp(arg, "room")) {
@@ -3481,7 +3481,7 @@ void do_sockets(CHAR_DATA *ch, char *argument) {
     char buf2[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     char hostbuf[MAX_MASKED_HOSTNAME];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     int count;
 
     count = 0;

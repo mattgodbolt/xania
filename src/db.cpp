@@ -2780,7 +2780,7 @@ void do_dump(CHAR_DATA *ch, char *argument) {
     OBJ_INDEX_DATA *pObjIndex;
     ROOM_INDEX_DATA *room;
     EXIT_DATA *exit;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     AFFECT_DATA *af;
     FILE *fp;
     int vnum, nMatch = 0;

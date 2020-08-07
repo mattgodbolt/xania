@@ -57,7 +57,7 @@ void do_clantalk(CHAR_DATA *ch, char *argument) {
 
     char buf[MAX_STRING_LENGTH];
     int candoit = 0;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     PCCLAN *OrigClan;
 
     if (IS_NPC(ch)) {
@@ -335,7 +335,7 @@ void do_demote(CHAR_DATA *ch, char *argument) { mote(ch, argument, -1); }
 
 void do_clanwho(CHAR_DATA *ch, char *argument) {
     (void)argument;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     CHAR_DATA *wch;
     char buf[MAX_STRING_LENGTH];
 

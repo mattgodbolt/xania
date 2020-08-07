@@ -114,7 +114,7 @@ void do_delete(CHAR_DATA *ch, char *argument) {
 }
 
 void announce(const char *buf, CHAR_DATA *ch) {
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     if (descriptor_list == nullptr)
         return;
@@ -247,7 +247,7 @@ void do_tell(CHAR_DATA *ch, char *argument) {
 void do_reply(CHAR_DATA *ch, char *argument) { tell_to(ch, ch->reply, argument); }
 
 void do_yell(CHAR_DATA *ch, const char *argument) {
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     if (IS_SET(ch->comm, COMM_NOSHOUT)) {
         send_to_char("|cYou can't yell.|w\n\r", ch);
@@ -433,7 +433,7 @@ void do_qui(CHAR_DATA *ch, char *argument) {
 
 void do_quit(CHAR_DATA *ch, const char *arg) {
     (void)arg;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     FINGER_INFO *cur;
     bool info_found = false;
 

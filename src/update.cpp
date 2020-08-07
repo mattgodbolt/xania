@@ -411,7 +411,7 @@ void mobile_update() {
  */
 void weather_update() {
     char buf[MAX_STRING_LENGTH];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     int diff;
 
     buf[0] = '\0';

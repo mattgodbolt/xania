@@ -1607,7 +1607,7 @@ void do_whois(CHAR_DATA *ch, char *argument) {
     char arg[MAX_INPUT_LENGTH];
     char output[MAX_STRING_LENGTH];
     char buf[MAX_STRING_LENGTH];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     bool found = false;
 
     one_argument(argument, arg);
@@ -1683,7 +1683,7 @@ void do_who(CHAR_DATA *ch, char *argument) {
     char buf[MAX_STRING_LENGTH];
     char buf2[MAX_STRING_LENGTH];
     char output[4 * MAX_STRING_LENGTH];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     int iClass;
     int iRace;
     int iClan;
@@ -1859,7 +1859,7 @@ void do_who(CHAR_DATA *ch, char *argument) {
 void do_count(CHAR_DATA *ch, char *argument) {
     (void)argument;
     int count;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     char buf[MAX_STRING_LENGTH];
 
     count = 0;
@@ -2010,7 +2010,7 @@ void do_where(CHAR_DATA *ch, char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     bool found;
 
     one_argument(argument, arg);

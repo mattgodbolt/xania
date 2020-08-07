@@ -65,7 +65,7 @@ void log_string(const char *str) { log_new(str, EXTRA_WIZNET_DEBUG, 0); }
 void log_new(const char *str, int loglevel, int level) {
     char *strtime;
     char buf[MAX_STRING_LENGTH];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     strtime = ctime(&current_time);
     strtime[strlen(strtime) - 1] = '\0';

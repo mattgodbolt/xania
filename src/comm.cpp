@@ -57,9 +57,9 @@ const char go_ahead_str[] = {char(IAC), char(GA), '\0'};
 /*
  * Global variables.
  */
-DESCRIPTOR_DATA *descriptor_free; /* Free list for descriptors  */
-DESCRIPTOR_DATA *descriptor_list; /* All open descriptors    */
-DESCRIPTOR_DATA *d_next; /* Next descriptor in loop */
+Descriptor *descriptor_free; /* Free list for descriptors  */
+Descriptor *descriptor_list; /* All open descriptors    */
+Descriptor *d_next; /* Next descriptor in loop */
 FILE *fpReserve; /* Reserved file handle    */
 bool god; /* All new chars are gods! */
 bool merc_down; /* Shutdown       */
@@ -70,8 +70,8 @@ bool MOBtrigger;
 
 void game_loop_unix(int control);
 int init_socket(const char *file);
-DESCRIPTOR_DATA *new_descriptor(int control);
-bool read_from_descriptor(DESCRIPTOR_DATA *d, char *text, int nRead);
+Descriptor *new_descriptor(int control);
+bool read_from_descriptor(Descriptor *d, char *text, int nRead);
 bool write_to_descriptor(int desc, const char *txt, int length);
 void move_active_char_from_limbo(CHAR_DATA *ch);
 
@@ -79,13 +79,13 @@ void move_active_char_from_limbo(CHAR_DATA *ch);
  * Other local functions (OS-independent).
  */
 bool check_parse_name(const char *name);
-bool check_reconnect(DESCRIPTOR_DATA *d, bool fConn);
-bool check_playing(DESCRIPTOR_DATA *d, char *name);
-void nanny(DESCRIPTOR_DATA *d, const char *argument);
-bool process_output(DESCRIPTOR_DATA *d, bool fPrompt);
-void read_from_buffer(DESCRIPTOR_DATA *d);
-void show_prompt(DESCRIPTOR_DATA *d, char *prompt);
-void show_string(DESCRIPTOR_DATA *d, const char *input);
+bool check_reconnect(Descriptor *d, bool fConn);
+bool check_playing(Descriptor *d, char *name);
+void nanny(Descriptor *d, const char *argument);
+bool process_output(Descriptor *d, bool fPrompt);
+void read_from_buffer(Descriptor *d);
+void show_prompt(Descriptor *d, char *prompt);
+void show_string(Descriptor *d, const char *input);
 
 /* Handle to get to doorman */
 int doormanDesc = 0;
@@ -111,7 +111,7 @@ bool SendPacket(Packet *p, const void *extra) {
     return true;
 }
 
-void SetEchoState(DESCRIPTOR_DATA *d, int on) {
+void SetEchoState(Descriptor *d, int on) {
     Packet p;
     p.type = on ? PACKET_ECHO_ON : PACKET_ECHO_OFF;
     p.channel = d->descriptor;
@@ -123,7 +123,7 @@ void SetEchoState(DESCRIPTOR_DATA *d, int on) {
 void handle_signal_shutdown() {
     CHAR_DATA *vch;
     CHAR_DATA *vch_next;
-    DESCRIPTOR_DATA *d, *d_next;
+    Descriptor *d, *d_next;
 
     log_string("Signal shutdown received");
 
@@ -255,7 +255,7 @@ void game_loop_unix(int control) {
         fd_set out_set;
         fd_set exc_set;
         int maxdesc;
-        DESCRIPTOR_DATA *d, *dNext;
+        Descriptor *d, *dNext;
 
         /*
          * Poll all active descriptors.
@@ -346,7 +346,7 @@ void game_loop_unix(int control) {
                         new_descriptor(p.channel);
                         break;
                     case PACKET_RECONNECT: {
-                        DESCRIPTOR_DATA *d;
+                        Descriptor *d;
                         snprintf(logMes, sizeof(logMes), "Incoming reconnection on channel %d for %s.", p.channel,
                                  buffer);
                         log_string(logMes);
@@ -474,7 +474,7 @@ void game_loop_unix(int control) {
          * Output.
          */
         if (doormanDesc) {
-            DESCRIPTOR_DATA *d;
+            Descriptor *d;
             for (d = descriptor_list; d != nullptr; d = d_next) {
                 d_next = d->next;
 
@@ -529,15 +529,15 @@ void game_loop_unix(int control) {
     }
 }
 
-DESCRIPTOR_DATA *new_descriptor(int channel) {
-    static DESCRIPTOR_DATA d_zero;
-    DESCRIPTOR_DATA *dnew;
+Descriptor *new_descriptor(int channel) {
+    static Descriptor d_zero;
+    Descriptor *dnew;
 
     /*
      * Cons a new descriptor.
      */
     if (descriptor_free == nullptr) {
-        dnew = (DESCRIPTOR_DATA *)alloc_perm(sizeof(*dnew));
+        dnew = (Descriptor *)alloc_perm(sizeof(*dnew));
     } else {
         dnew = descriptor_free;
         descriptor_free = descriptor_free->next;
@@ -574,7 +574,7 @@ DESCRIPTOR_DATA *new_descriptor(int channel) {
     return dnew;
 }
 
-void close_socket(DESCRIPTOR_DATA *dclose) {
+void close_socket(Descriptor *dclose) {
     CHAR_DATA *ch;
     Packet p;
 
@@ -586,7 +586,7 @@ void close_socket(DESCRIPTOR_DATA *dclose) {
     }
 
     {
-        DESCRIPTOR_DATA *d;
+        Descriptor *d;
 
         for (d = descriptor_list; d != nullptr; d = d->next) {
             if (d->snoop_by == dclose)
@@ -620,7 +620,7 @@ void close_socket(DESCRIPTOR_DATA *dclose) {
     if (dclose == descriptor_list) {
         descriptor_list = descriptor_list->next;
     } else {
-        DESCRIPTOR_DATA *d;
+        Descriptor *d;
 
         for (d = descriptor_list; d && d->next != dclose; d = d->next)
             ;
@@ -648,7 +648,7 @@ void close_socket(DESCRIPTOR_DATA *dclose) {
     descriptor_free = dclose;
 }
 
-bool read_from_descriptor(DESCRIPTOR_DATA *d, char *data, int nRead) {
+bool read_from_descriptor(Descriptor *d, char *data, int nRead) {
     int iStart;
 
 #if 0
@@ -679,7 +679,7 @@ bool read_from_descriptor(DESCRIPTOR_DATA *d, char *data, int nRead) {
 /*
  * Transfer one line from input buffer to input line.
  */
-void read_from_buffer(DESCRIPTOR_DATA *d) {
+void read_from_buffer(Descriptor *d) {
     int i, j, k;
 
     /*
@@ -746,7 +746,7 @@ void read_from_buffer(DESCRIPTOR_DATA *d) {
 /*
  * Low level output function.
  */
-bool process_output(DESCRIPTOR_DATA *d, bool fPrompt) {
+bool process_output(Descriptor *d, bool fPrompt) {
     extern bool merc_down;
 
     /*
@@ -837,7 +837,7 @@ bool process_output(DESCRIPTOR_DATA *d, bool fPrompt) {
 /*
  * Append onto an output buffer.
  */
-void write_to_buffer(DESCRIPTOR_DATA *d, const char *txt, int length) {
+void write_to_buffer(Descriptor *d, const char *txt, int length) {
     /*
      * Find length in case caller didn't.
      */
@@ -902,8 +902,8 @@ bool write_to_descriptor(int desc, const char *txt, int length) {
 /*
  * Deal with sockets that haven't logged in yet.
  */
-void nanny(DESCRIPTOR_DATA *d, const char *argument) {
-    DESCRIPTOR_DATA *d_old, *d_next;
+void nanny(Descriptor *d, const char *argument) {
+    Descriptor *d_old, *d_next;
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *ch;
@@ -917,7 +917,7 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument) {
     KNOWN_PLAYERS *temp_known_player;
     /* Rohan: 2 variables needed to increase player count */
     int count;
-    DESCRIPTOR_DATA *de;
+    Descriptor *de;
 
     while (isspace(*argument))
         argument++;
@@ -1550,7 +1550,7 @@ bool check_parse_name(const char *name) {
 /*
  * Look for link-dead player to reconnect.
  */
-bool check_reconnect(DESCRIPTOR_DATA *d, bool fConn) {
+bool check_reconnect(Descriptor *d, bool fConn) {
     CHAR_DATA *ch;
 
     for (ch = char_list; ch != nullptr; ch = ch->next) {
@@ -1581,8 +1581,8 @@ bool check_reconnect(DESCRIPTOR_DATA *d, bool fConn) {
 /*
  * Check if already playing.
  */
-bool check_playing(DESCRIPTOR_DATA *d, char *name) {
-    DESCRIPTOR_DATA *dold;
+bool check_playing(Descriptor *d, char *name) {
+    Descriptor *dold;
 
     for (dold = descriptor_list; dold; dold = dold->next) {
         if (dold != d && dold->character != nullptr && dold->connected != CON_GET_NAME
@@ -1684,7 +1684,7 @@ void page_to_char(const char *txt, CHAR_DATA *ch) {
 }
 
 /* string pager */
-void show_string(DESCRIPTOR_DATA *d, const char *input) {
+void show_string(Descriptor *d, const char *input) {
     char buffer[4 * MAX_STRING_LENGTH];
     char buf[MAX_INPUT_LENGTH];
     char *scan, *chk;
@@ -1878,7 +1878,7 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
 
     if (ch->in_room != nullptr) {
         if ((type == TO_ROOM || type == TO_NOTVICT) && ch->in_room->vnum == CHAL_ROOM) {
-            DESCRIPTOR_DATA *d;
+            Descriptor *d;
 
             for (d = descriptor_list; d != nullptr; d = d->next) {
                 if (d->character != nullptr && d->character->in_room != nullptr && d->character->in_room->vnum == 1222
@@ -1889,7 +1889,7 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
     }
 }
 
-void show_prompt(DESCRIPTOR_DATA *d, char *prompt) {
+void show_prompt(Descriptor *d, char *prompt) {
     char buf[256]; /* this is actually sent to the ch */
     char buf2[64];
     CHAR_DATA *ch;

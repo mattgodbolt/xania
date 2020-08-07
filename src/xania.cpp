@@ -674,7 +674,7 @@ bool web_see(CHAR_DATA *ch) {
 void web_who() {
 
     FILE *fp;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     int count = 0;
 
     if ((fp = fopen(WEB_WHO_FILE, "w")) == nullptr) {
@@ -754,7 +754,7 @@ void load_tipfile() {
 
 void tip_players() {
 
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     char buf[MAX_STRING_LENGTH];
 
     /* check the tip wizard list first ... */

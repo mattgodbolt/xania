@@ -332,7 +332,7 @@ static void note_post(CHAR_DATA *ch, const char *argument) {
 }
 
 void note_announce(CHAR_DATA *chsender, NOTE_DATA *note) {
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     if (note == nullptr) {
         log_string("note_announce() note is null");

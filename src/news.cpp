@@ -601,7 +601,7 @@ void do_news_uncatchup(CHAR_DATA *ch, const char *argument) {
 void do_news_delete(CHAR_DATA *ch, char *argument) {
     int artnum;
     ARTICLE *art;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     THREAD *chthread;
     int n;
     if (ch->thread == nullptr) { // Check to see if char has a thread sleceted
