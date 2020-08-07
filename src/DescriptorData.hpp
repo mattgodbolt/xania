@@ -3,26 +3,30 @@
 #include "merc.h"
 
 // Connected state for a descriptor.
-#define CON_PLAYING 0
-#define CON_GET_NAME 1
-#define CON_GET_OLD_PASSWORD 2
-#define CON_CONFIRM_NEW_NAME 3
-#define CON_GET_NEW_PASSWORD 4
-#define CON_CONFIRM_NEW_PASSWORD 5
-#define CON_GET_NEW_RACE 6
-#define CON_GET_NEW_SEX 7
-#define CON_GET_NEW_CLASS 8
-#define CON_GET_ALIGNMENT 9
-#define CON_DEFAULT_CHOICE 10
-#define CON_GEN_GROUPS 11
-#define CON_PICK_WEAPON 12
-#define CON_READ_IMOTD 13
-#define CON_READ_MOTD 14
-#define CON_BREAK_CONNECT 15
-#define CON_GET_ANSI 16
-#define CON_CIRCUMVENT_PASSWORD 18 // used by doorman
-#define CON_DISCONNECTING 254 // disconnecting having been playing
-#define CON_DISCONNECTING_NP 255 // disconnecting before playing
+enum class DescriptorState {
+    Playing = 0,
+    GetName = 1,
+    GetOldPassword = 2,
+    ConfirmNewName = 3,
+    GetNewPassword = 4,
+    ConfirmNewPassword = 5,
+    GetNewRace = 6,
+    GetNewSex = 7,
+    GetNewClass = 8,
+    GetAlignment = 9,
+    DefaultChoice = 10,
+    GenGroups = 11,
+    ReadIMotd = 13,
+    ReadMotd = 14,
+    BreakConnect = 15,
+    GetAnsi = 16,
+    CircumventPassword = 18, // used by doorman
+    Disconnecting = 254, // disconnecting having been playing
+    DisconnectingNp = 255, // disconnecting before playing
+};
+
+const char *short_name_of(DescriptorState state);
+const char *name_of(DescriptorState state);
 
 /*
  * Descriptor (channel) structure.
@@ -36,8 +40,8 @@ struct Descriptor {
     char *logintime;
     uint32_t descriptor;
     int netaddr;
-    sh_int connected;
-    sh_int localport;
+    DescriptorState connected;
+    uint16_t localport;
     bool fcommand;
     char inbuf[4 * MAX_INPUT_LENGTH];
     char incomm[MAX_INPUT_LENGTH];
@@ -49,5 +53,5 @@ struct Descriptor {
     char *showstr_head;
     char *showstr_point;
 
-    [[nodiscard]] bool is_playing() const noexcept { return connected == CON_PLAYING; }
+    [[nodiscard]] bool is_playing() const noexcept { return connected == DescriptorState::Playing; }
 };
