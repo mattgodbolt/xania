@@ -8,7 +8,7 @@
 /*************************************************************************/
 
 #include "db.h"
-#include "DescriptorData.hpp"
+#include "Descriptor.hpp"
 #include "buffer.h"
 #include "interp.h"
 #include "merc.h"

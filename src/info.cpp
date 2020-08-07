@@ -7,7 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
-#include "DescriptorData.hpp"
+#include "Descriptor.hpp"
 #include "buffer.h"
 #include "merc.h"
 #include "string_utils.hpp"

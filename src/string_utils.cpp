@@ -96,7 +96,8 @@ std::string sanitise_input(std::string_view str) {
     result.erase(std::remove_if(result.begin(), result.end(), [](char c) { return !isascii(c) || !isprint(c); }),
                  result.end());
 
-    // TODO: is this needed? The original code had it but it seems FUDdish to me...(mrg)
+    // Empty strings are replaced with a single space. This is to discriminate between no command pending and the user
+    // hitting empty. TODO: can later use optional<string> to encode this in Descriptor.
     if (result.empty())
         result = " ";
 

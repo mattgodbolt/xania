@@ -39,6 +39,9 @@ const char *name_of(DescriptorState state);
 struct Descriptor {
     static constexpr size_t MaxInbufBacklog = 50u;
     std::list<std::string> pending_commands_;
+    std::string last_command_;
+
+    [[nodiscard]] std::optional<std::string> pop_raw();
 
 public:
     Descriptor *next{};
@@ -52,8 +55,6 @@ public:
     DescriptorState connected{DescriptorState::GetName};
     uint16_t localport{};
     bool fcommand{};
-    char incomm[MAX_INPUT_LENGTH]{};
-    char inlast[MAX_INPUT_LENGTH]{};
     int repeat{};
     char *outbuf{};
     int outsize{2000};
@@ -63,9 +64,12 @@ public:
 
     explicit Descriptor(uint32_t descriptor);
     ~Descriptor();
+
     [[nodiscard]] bool is_playing() const noexcept { return connected == DescriptorState::Playing; }
     [[nodiscard]] bool is_input_full() const noexcept { return pending_commands_.size() >= MaxInbufBacklog; }
     void clear_input() { pending_commands_.clear(); }
     void add_command(std::string_view command) { pending_commands_.emplace_back(command); }
-    [[nodiscard]] std::optional<std::string> pop_pending();
+    [[nodiscard]] std::optional<std::string> pop_incomm();
+
+    bool write(std::string_view text) const;
 };

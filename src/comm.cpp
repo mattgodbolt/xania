@@ -12,7 +12,8 @@
  * We only support linux these days...so we stopped pretending...
  */
 
-#include "DescriptorData.hpp"
+#include "comm.hpp"
+#include "Descriptor.hpp"
 #include <arpa/telnet.h>
 #include <cctype>
 #include <cerrno>
@@ -72,7 +73,6 @@ void game_loop_unix(int control);
 int init_socket(const char *file);
 Descriptor *new_descriptor(int control);
 bool read_from_descriptor(Descriptor *d, char *text, int nRead);
-bool write_to_descriptor(int desc, const char *txt, int length);
 void move_active_char_from_limbo(CHAR_DATA *ch);
 
 /*
@@ -83,7 +83,6 @@ bool check_reconnect(Descriptor *d, bool fConn);
 bool check_playing(Descriptor *d, char *name);
 void nanny(Descriptor *d, const char *argument);
 bool process_output(Descriptor *d, bool fPrompt);
-void read_from_buffer(Descriptor *d);
 void show_prompt(Descriptor *d, char *prompt);
 void show_string(Descriptor *d, const char *input);
 
@@ -449,25 +448,19 @@ void game_loop_unix(int control) {
             /* Waitstate the character */
             if (d->character && d->character->wait)
                 continue;
-            read_from_buffer(d);
-            if (d->incomm[0] != '\0') {
+
+            if (auto incomm = d->pop_incomm(); incomm) {
                 d->fcommand = true;
                 move_active_char_from_limbo(d->character);
 
-                // It's possible that 'd' will be deleted as a result of any of the following operations. So, we take
-                // a copy of its data here, then clear the incomm.
-                // Right now, conservatively assume downstream users expect MAX_INPUT_LENGTH sized buffer. TODO replace
-                // with std::string or equivalent as soon as we can. Ideally, once d->incomm is a std:string, this
-                // becomes a move operation.
-                char incomm_buf[MAX_STRING_LENGTH];
-                strncpy(incomm_buf, d->incomm, MAX_STRING_LENGTH);
-                d->incomm[0] = '\0';
+                // It's possible that 'd' will be deleted as a result of any of the following operations. Be very
+                // careful.
                 if (d->showstr_point)
-                    show_string(d, incomm_buf);
+                    show_string(d, incomm->c_str());
                 else if (d->is_playing())
-                    interpret(d->character, incomm_buf);
+                    interpret(d->character, incomm->c_str());
                 else
-                    nanny(d, incomm_buf);
+                    nanny(d, incomm->c_str());
                 // 'd' may be invalid, do no further work on it.
             }
         }
@@ -634,7 +627,7 @@ bool read_from_descriptor(Descriptor *d, char *data, int nRead) {
         char hostbuf[MAX_MASKED_HOSTNAME];
         snprintf(log_buf, LOG_BUF_SIZE, "%s input overflow!", get_masked_hostname(hostbuf, d->host));
         log_string(log_buf);
-        write_to_descriptor(d->descriptor, "\n\r*** PUT A LID ON IT!!! ***\n\r", 0);
+        d->write("\n\r*** PUT A LID ON IT!!! ***\n\r");
         d->clear_input();
         d->add_command("quit");
         return false;
@@ -642,35 +635,6 @@ bool read_from_descriptor(Descriptor *d, char *data, int nRead) {
 
     d->add_command(std::string_view(data, nRead));
     return true;
-}
-
-/*
- * Transfer one line from input buffer to input line.
- */
-void read_from_buffer(Descriptor *d) {
-    // Hold horses if pending command already.
-    if (d->incomm[0] != '\0')
-        return;
-
-    auto maybe_next = d->pop_pending();
-    if (!maybe_next)
-        return;
-
-    // Handle any backspace characters, newlines, or non-printing characters.
-    auto next_line = sanitise_input(*maybe_next);
-
-    if (next_line.size() > MAX_INPUT_LENGTH - 1) {
-        write_to_descriptor(d->descriptor, "Line too long.\n\r", 0);
-        read_from_buffer(d); // recurse to cheesily look for the next line.
-        return;
-    }
-    strncpy(d->incomm, next_line.c_str(), sizeof(d->incomm));
-
-    // Do '!' substitution.
-    if (d->incomm[0] == '!')
-        strcpy(d->incomm, d->inlast);
-    else
-        strcpy(d->inlast, d->incomm);
 }
 
 /*
@@ -755,7 +719,7 @@ bool process_output(Descriptor *d, bool fPrompt) {
         }
     }
 
-    if (!write_to_descriptor(d->descriptor, d->outbuf, d->outtop)) {
+    if (!d->write(std::string_view(d->outbuf, d->outtop))) {
         d->outtop = 0;
         return false;
     } else {
@@ -806,27 +770,6 @@ void write_to_buffer(Descriptor *d, const char *txt, int length) {
      */
     strncpy(d->outbuf + d->outtop, txt, length);
     d->outtop += length;
-}
-
-/*
- * Lowest level output function.
- * MG> desc == channel for doorman
- */
-bool write_to_descriptor(int desc, const char *txt, int length) {
-    if (length <= 0)
-        length = strlen(txt);
-
-    Packet p;
-    p.type = PACKET_MESSAGE;
-    p.channel = desc;
-
-    for (int iStart = 0; iStart < length; iStart += PACKET_MAX_PAYLOAD_SIZE) {
-        p.nExtra = UMIN(length - iStart, PACKET_MAX_PAYLOAD_SIZE);
-        if (!SendPacket(&p, txt + iStart))
-            return false;
-    }
-
-    return true;
 }
 
 /*

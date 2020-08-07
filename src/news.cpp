@@ -16,7 +16,7 @@
  */
 
 #include "news.h"
-#include "DescriptorData.hpp"
+#include "Descriptor.hpp"
 #include "buffer.h"
 #include "flags.h"
 #include "merc.h"
