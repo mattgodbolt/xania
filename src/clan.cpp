@@ -53,7 +53,7 @@ const CLAN clantable[NUM_CLANS] = {
 
 /* End user servicable bits */
 
-void do_clantalk(CHAR_DATA *ch, char *argument) {
+void do_clantalk(CHAR_DATA *ch, const char *argument) {
 
     char buf[MAX_STRING_LENGTH];
     int candoit = 0;
@@ -135,7 +135,7 @@ void do_clantalk(CHAR_DATA *ch, char *argument) {
 
 } /* do_clanchannel */
 
-void do_noclanchan(CHAR_DATA *ch, char *argument) {
+void do_noclanchan(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     CHAR_DATA *victim;
 
@@ -188,7 +188,7 @@ void do_noclanchan(CHAR_DATA *ch, char *argument) {
     send_to_char(buf, victim);
 } /* do_noclanchan */
 
-void do_member(CHAR_DATA *ch, char *argument) {
+void do_member(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char buf2[MAX_STRING_LENGTH];
     PCCLAN *newpcclan;
@@ -276,7 +276,7 @@ void do_member(CHAR_DATA *ch, char *argument) {
     } /* ..else */
 } /* do_member */
 
-void mote(CHAR_DATA *ch, char *argument, int add) {
+void mote(CHAR_DATA *ch, const char *argument, int add) {
     char buf[MAX_STRING_LENGTH];
     CHAR_DATA *victim;
 
@@ -329,11 +329,11 @@ void mote(CHAR_DATA *ch, char *argument, int add) {
     send_to_char(buf, victim);
 } /* c'est le end */
 
-void do_promote(CHAR_DATA *ch, char *argument) { mote(ch, argument, 1); }
+void do_promote(CHAR_DATA *ch, const char *argument) { mote(ch, argument, 1); }
 
-void do_demote(CHAR_DATA *ch, char *argument) { mote(ch, argument, -1); }
+void do_demote(CHAR_DATA *ch, const char *argument) { mote(ch, argument, -1); }
 
-void do_clanwho(CHAR_DATA *ch, char *argument) {
+void do_clanwho(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     Descriptor *d;
     CHAR_DATA *wch;
@@ -366,7 +366,7 @@ void do_clanwho(CHAR_DATA *ch, char *argument) {
  *  Oh well, this one _had_ to be put in some time. Faramir.
  */
 
-void do_clanset(CHAR_DATA *ch, char *argument) {
+void do_clanset(CHAR_DATA *ch, const char *argument) {
 
     char buf[MAX_STRING_LENGTH * 2];
     char buf2[MAX_STRING_LENGTH];

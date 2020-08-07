@@ -174,7 +174,7 @@ void wiznet_initialise() {
     trie_add(trie, "tick", (void *)wiznet_tick, 0);
 }
 
-void do_wiznet(CHAR_DATA *ch, char *argument) {
+void do_wiznet(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     wiznet_fn_t *wiznet_fn;
 

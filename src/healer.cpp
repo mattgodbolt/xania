@@ -19,7 +19,7 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
-void do_heal(CHAR_DATA *ch, char *argument) {
+void do_heal(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *mob;
     char arg[MAX_INPUT_LENGTH];
     int cost, sn;

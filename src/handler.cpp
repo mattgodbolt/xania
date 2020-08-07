@@ -17,7 +17,7 @@
 #include <cstring>
 
 /* command procedures needed */
-void do_return(CHAR_DATA *ch, char *arg);
+void do_return(CHAR_DATA *ch, const char *arg);
 
 void spell_poison(int spell_num, int level, CHAR_DATA *ch, void *vo);
 
@@ -1531,7 +1531,7 @@ OBJ_DATA *get_obj_list(CHAR_DATA *ch, const char *argument, OBJ_DATA *list) {
 /*
  * Find an obj in player's inventory.
  */
-OBJ_DATA *get_obj_carry(CHAR_DATA *ch, char *argument) {
+OBJ_DATA *get_obj_carry(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     int number;
@@ -1552,7 +1552,7 @@ OBJ_DATA *get_obj_carry(CHAR_DATA *ch, char *argument) {
 /*
  * Find an obj in player's equipment.
  */
-OBJ_DATA *get_obj_wear(CHAR_DATA *ch, char *argument) {
+OBJ_DATA *get_obj_wear(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     int number;
@@ -1573,7 +1573,7 @@ OBJ_DATA *get_obj_wear(CHAR_DATA *ch, char *argument) {
 /*
  * Find an obj in the room or in inventory.
  */
-OBJ_DATA *get_obj_here(CHAR_DATA *ch, char *argument) {
+OBJ_DATA *get_obj_here(CHAR_DATA *ch, const char *argument) {
     OBJ_DATA *obj;
 
     obj = get_obj_list(ch, argument, ch->in_room->contents);
@@ -1606,7 +1606,7 @@ OBJ_DATA *get_object(sh_int vnum) {
 /*
  * Find an obj in the world.
  */
-OBJ_DATA *get_obj_world(CHAR_DATA *ch, char *argument) {
+OBJ_DATA *get_obj_world(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     int number;

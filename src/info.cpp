@@ -234,7 +234,7 @@ void do_setinfo(CHAR_DATA *ch, const char *argument) {
 /* Shows info on player as set by setinfo, plus datestamp as to
    when char was last logged on */
 
-void do_finger(CHAR_DATA *ch, char *argument) {
+void do_finger(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     CHAR_DATA *victim = nullptr;
     KNOWN_PLAYERS *cursor = player_list;

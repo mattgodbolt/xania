@@ -23,12 +23,12 @@ void do_quit(CHAR_DATA *ch, const char *arg);
 extern KNOWN_PLAYERS *player_list;
 extern FINGER_INFO *info_cache;
 
-void do_delet(CHAR_DATA *ch, char *argument) {
+void do_delet(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     send_to_char("You must type the full command to delete yourself.\n\r", ch);
 }
 
-void do_delete(CHAR_DATA *ch, char *argument) {
+void do_delete(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char strsave[MAX_INPUT_LENGTH];
     KNOWN_PLAYERS *cursor, *temp;
@@ -226,7 +226,7 @@ static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
     }
 }
 
-void do_tell(CHAR_DATA *ch, char *argument) {
+void do_tell(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
 
@@ -244,7 +244,7 @@ void do_tell(CHAR_DATA *ch, char *argument) {
     tell_to(ch, victim, message);
 }
 
-void do_reply(CHAR_DATA *ch, char *argument) { tell_to(ch, ch->reply, argument); }
+void do_reply(CHAR_DATA *ch, const char *argument) { tell_to(ch, ch->reply, argument); }
 
 void do_yell(CHAR_DATA *ch, const char *argument) {
     Descriptor *d;
@@ -271,7 +271,7 @@ void do_yell(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_emote(CHAR_DATA *ch, char *argument) {
+void do_emote(CHAR_DATA *ch, const char *argument) {
     if (!IS_NPC(ch) && IS_SET(ch->comm, COMM_NOEMOTE)) {
         send_to_char("|cYou can't show your emotions.|w\n\r", ch);
 
@@ -384,7 +384,7 @@ const struct pose_table_type pose_table[] = {
       "$n flutters $s eyelids and accidentally slays a passing daemon.", "Atlas asks you to relieve him.",
       "Atlas asks $n to relieve him."}}};
 
-void do_pose(CHAR_DATA *ch, char *argument) {
+void do_pose(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     int level;
     int pose;
@@ -399,7 +399,7 @@ void do_pose(CHAR_DATA *ch, char *argument) {
     act(pose_table[pose].message[2 * ch->class_num + 1], ch, nullptr, nullptr, TO_ROOM);
 }
 
-void do_bug(CHAR_DATA *ch, char *argument) {
+void do_bug(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '\0') {
         send_to_char("Please provide a brief description of the bug!\n\r", ch);
         return;
@@ -408,7 +408,7 @@ void do_bug(CHAR_DATA *ch, char *argument) {
     send_to_char("|RBug logged! If you're lucky it may even get fixed!|w\n\r", ch);
 }
 
-void do_idea(CHAR_DATA *ch, char *argument) {
+void do_idea(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '\0') {
         send_to_char("Please provide a brief description of your idea!\n\r", ch);
         return;
@@ -417,7 +417,7 @@ void do_idea(CHAR_DATA *ch, char *argument) {
     send_to_char("|WIdea logged. This is |RNOT|W an identify command.|w\n\r", ch);
 }
 
-void do_typo(CHAR_DATA *ch, char *argument) {
+void do_typo(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '\0') {
         send_to_char("A typo you say? Tell us where!\n\r", ch);
         return;
@@ -426,7 +426,7 @@ void do_typo(CHAR_DATA *ch, char *argument) {
     send_to_char("|WTypo logged. One day we'll fix it, or buy a spellchecker.|w\n\r", ch);
 }
 
-void do_qui(CHAR_DATA *ch, char *argument) {
+void do_qui(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     send_to_char("|cIf you want to |RQUIT|c, you have to spell it out.|w\n\r", ch);
 }
@@ -745,7 +745,7 @@ void die_follower(CHAR_DATA *ch) {
     }
 }
 
-void do_order(CHAR_DATA *ch, char *argument) {
+void do_order(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
@@ -813,7 +813,7 @@ void do_order(CHAR_DATA *ch, char *argument) {
         send_to_char("You have no followers here.\n\r", ch);
 }
 
-void do_group(CHAR_DATA *ch, char *argument) {
+void do_group(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
@@ -891,7 +891,7 @@ void do_group(CHAR_DATA *ch, char *argument) {
 /*
  * 'Split' originally by Gnort, God of Chaos.
  */
-void do_split(CHAR_DATA *ch, char *argument) {
+void do_split(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *gch;
@@ -959,7 +959,7 @@ void do_split(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_gtell(CHAR_DATA *ch, char *argument) {
+void do_gtell(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     CHAR_DATA *gch;
 

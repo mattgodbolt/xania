@@ -56,7 +56,6 @@ add_library(xania_lib STATIC
         wiznet.cpp
         xania.cpp
         Descriptor.cpp Descriptor.hpp
-        Wrapper.cpp
         string_utils.cpp string_utils.hpp)
 target_link_libraries(xania_lib crypt chat)
 

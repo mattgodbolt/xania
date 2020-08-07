@@ -381,8 +381,6 @@ void interp_initialise() {
     add_command("mpat", do_mpat, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
     add_command("mptransfer", do_mptransfer, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
     add_command("mpforce", do_mpforce, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
-    // Moog's CPP wrapper test command
-    add_command("cpptest", do_cpptest, POS_DEAD, ML);
 }
 
 static const CommandInfo *find_command(CHAR_DATA *ch, const char *command, int trust) {

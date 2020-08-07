@@ -236,7 +236,7 @@ void do_get(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_put(CHAR_DATA *ch, char *argument) {
+void do_put(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     OBJ_DATA *container;
@@ -332,7 +332,7 @@ void do_put(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_donate(CHAR_DATA *ch, char *argument) {
+void do_donate(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *pit;
     OBJ_DATA *obj;
@@ -420,7 +420,7 @@ void do_donate(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_drop(CHAR_DATA *ch, char *argument) {
+void do_drop(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     OBJ_DATA *obj_next;
@@ -640,7 +640,7 @@ void do_give(CHAR_DATA *ch, const char *argument) {
  *  pour for Xania, Faramir 30/6/96
  */
 
-void do_pour(CHAR_DATA *ch, char *argument) {
+void do_pour(CHAR_DATA *ch, const char *argument) {
 
     char arg1[MAX_INPUT_LENGTH];
     char buf[MAX_STRING_LENGTH];
@@ -770,7 +770,7 @@ void do_pour(CHAR_DATA *ch, char *argument) {
     send_to_char(buf, victim);
 }
 
-void do_fill(CHAR_DATA *ch, char *argument) {
+void do_fill(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     OBJ_DATA *fountain;
@@ -821,7 +821,7 @@ void do_fill(CHAR_DATA *ch, char *argument) {
     obj->value[1] = obj->value[0];
 }
 
-void do_drink(CHAR_DATA *ch, char *argument) {
+void do_drink(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     int amount;
@@ -1323,7 +1323,7 @@ void do_wear(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_remove(CHAR_DATA *ch, char *argument) {
+void do_remove(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
 
@@ -1419,7 +1419,7 @@ void do_sacrifice(CHAR_DATA *ch, const char *argument) {
     extract_obj(obj);
 }
 
-void do_quaff(CHAR_DATA *ch, char *argument) {
+void do_quaff(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
 
@@ -1456,7 +1456,7 @@ void do_quaff(CHAR_DATA *ch, char *argument) {
     extract_obj(obj);
 }
 
-void do_recite(CHAR_DATA *ch, char *argument) {
+void do_recite(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
@@ -1514,7 +1514,7 @@ void do_recite(CHAR_DATA *ch, char *argument) {
     extract_obj(scroll);
 }
 
-void do_brandish(CHAR_DATA *ch, char *argument) {
+void do_brandish(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     CHAR_DATA *vch;
     CHAR_DATA *vch_next;
@@ -1593,7 +1593,7 @@ void do_brandish(CHAR_DATA *ch, char *argument) {
  * eg. being able to kill mobs far away with a wand of acid blast.
  */
 
-void do_zap(CHAR_DATA *ch, char *argument) {
+void do_zap(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     char buf[MAX_STRING_LENGTH];
     CHAR_DATA *victim;
@@ -1688,7 +1688,7 @@ void do_zap(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_steal(CHAR_DATA *ch, char *argument) {
+void do_steal(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
@@ -1897,7 +1897,7 @@ int get_cost(CHAR_DATA *keeper, OBJ_DATA *obj, bool fBuy) {
     return cost;
 }
 
-void do_buy(CHAR_DATA *ch, char *argument) {
+void do_buy(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     int cost, roll;
 
@@ -2052,7 +2052,7 @@ void do_buy(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_list(CHAR_DATA *ch, char *argument) {
+void do_list(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
 
     if (IS_SET(ch->in_room->room_flags, ROOM_PET_SHOP)) {
@@ -2117,7 +2117,7 @@ void do_list(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_sell(CHAR_DATA *ch, char *argument) {
+void do_sell(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *keeper;
@@ -2187,7 +2187,7 @@ void do_sell(CHAR_DATA *ch, char *argument) {
     }
 }
 
-void do_value(CHAR_DATA *ch, char *argument) {
+void do_value(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *keeper;
@@ -2230,7 +2230,7 @@ void do_value(CHAR_DATA *ch, char *argument) {
     ch->reply = keeper;
 }
 
-void do_throw(CHAR_DATA *ch, char *argument) {
+void do_throw(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     OBJ_DATA *bomb;
@@ -2289,7 +2289,7 @@ void do_throw(CHAR_DATA *ch, char *argument) {
 
 /* hailcorpse for getting out of sticky situations ooeer --Fara */
 
-void do_hailcorpse(CHAR_DATA *ch, char *argument) {
+void do_hailcorpse(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     ROOM_INDEX_DATA *current_place;
     EXIT_DATA *pexit;

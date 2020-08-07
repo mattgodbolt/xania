@@ -2050,10 +2050,10 @@ CD *get_char_world(CHAR_DATA *ch, const char *argument);
 CD *get_mob_by_vnum(sh_int vnum);
 OD *get_obj_type(OBJ_INDEX_DATA *pObjIndexData);
 OD *get_obj_list(CHAR_DATA *ch, const char *argument, OBJ_DATA *list);
-OD *get_obj_carry(CHAR_DATA *ch, char *argument);
-OD *get_obj_wear(CHAR_DATA *ch, char *argument);
-OD *get_obj_here(CHAR_DATA *ch, char *argument);
-OD *get_obj_world(CHAR_DATA *ch, char *argument);
+OD *get_obj_carry(CHAR_DATA *ch, const char *argument);
+OD *get_obj_wear(CHAR_DATA *ch, const char *argument);
+OD *get_obj_here(CHAR_DATA *ch, const char *argument);
+OD *get_obj_world(CHAR_DATA *ch, const char *argument);
 OD *create_money(int amount);
 int get_obj_number(OBJ_DATA *obj);
 int get_obj_weight(OBJ_DATA *obj);
@@ -2139,21 +2139,6 @@ void tip_players();
 extern bool ignore_tips;
 extern TIP_TYPE *tip_top; /* top of list (humour!) */
 extern TIP_TYPE *tip_current;
-
-/* clan functions */
-
-void do_clantalk(CHAR_DATA *ch, char *argument);
-void do_noclanchan(CHAR_DATA *ch, char *argument);
-void do_member(CHAR_DATA *ch, char *argument);
-void mote(CHAR_DATA *ch, char *argument, int add);
-void do_promote(CHAR_DATA *ch, char *argument);
-void do_demote(CHAR_DATA *ch, char *argument);
-void do_clanwho(CHAR_DATA *ch, char *argument);
-void do_clanset(CHAR_DATA *ch, char *argument);
-
-/*
- * end clan section. Faramir 25/6/1996
- */
 
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998*/
 

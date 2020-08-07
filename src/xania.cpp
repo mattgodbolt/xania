@@ -187,7 +187,7 @@ void check_xania() {
     bug("mob> **********************************************************************");
 }
 
-void do_immworth(CHAR_DATA *ch, char *argument) {
+void do_immworth(CHAR_DATA *ch, const char *argument) {
     OBJ_DATA *obj;
     int worth, shouldbe;
     char buf[MAX_STRING_LENGTH];
@@ -260,7 +260,7 @@ void do_prefix(CHAR_DATA *ch, const char *argument) {
 }
 
 /* do_timezone added PCFN 24-05-97 */
-void do_timezone(CHAR_DATA *ch, char *argument) {
+void do_timezone(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *ch_owner = nullptr;
     char buf[64];
 
@@ -790,7 +790,7 @@ void tip_players() {
     tip_current = tip_current->next;
 }
 
-void do_tipwizard(CHAR_DATA *ch, char *arg) {
+void do_tipwizard(CHAR_DATA *ch, const char *arg) {
 
     if (arg[0] == '\0') {
         if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
