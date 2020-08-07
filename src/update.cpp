@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "DescriptorData.hpp"
 #include "interp.h"
 #include "merc.h"
 #include <stdio.h>

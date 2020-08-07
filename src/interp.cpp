@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "interp.h"
+#include "DescriptorData.hpp"
 #include "merc.h"
 #include "note.h"
 #include "trie.h"

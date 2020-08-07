@@ -12,6 +12,7 @@
  * We only support linux these days...so we stopped pretending...
  */
 
+#include "DescriptorData.hpp"
 #include <arpa/telnet.h>
 #include <cctype>
 #include <cerrno>
@@ -84,7 +85,7 @@ void nanny(DESCRIPTOR_DATA *d, const char *argument);
 bool process_output(DESCRIPTOR_DATA *d, bool fPrompt);
 void read_from_buffer(DESCRIPTOR_DATA *d);
 void show_prompt(DESCRIPTOR_DATA *d, char *prompt);
-void show_string(struct descriptor_data *d, const char *input);
+void show_string(DESCRIPTOR_DATA *d, const char *input);
 
 /* Handle to get to doorman */
 int doormanDesc = 0;
@@ -1683,7 +1684,7 @@ void page_to_char(const char *txt, CHAR_DATA *ch) {
 }
 
 /* string pager */
-void show_string(struct descriptor_data *d, const char *input) {
+void show_string(DESCRIPTOR_DATA *d, const char *input) {
     char buffer[4 * MAX_STRING_LENGTH];
     char buf[MAX_INPUT_LENGTH];
     char *scan, *chk;

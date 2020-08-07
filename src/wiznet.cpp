@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "DescriptorData.hpp"
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>

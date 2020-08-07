@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "DescriptorData.hpp"
 #include "buffer.h"
 #include "db.h"
 #include "flags.h"

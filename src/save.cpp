@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "DescriptorData.hpp"
 #include "merc.h"
 #include "news.h"
 #include <ctype.h>

@@ -18,6 +18,7 @@
  *  such installation can be found in INSTALL.  Enjoy........    N'Atas-Ha *
  ***************************************************************************/
 
+#include "DescriptorData.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
 
