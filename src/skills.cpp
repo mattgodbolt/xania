@@ -95,7 +95,7 @@ void do_gain(CHAR_DATA *ch, char *argument) {
             return;
         }
 
-        act("$N helps you apply your practice to training", ch, nullptr, trainer, TO_CHAR);
+        act("$N helps you apply your practice to training.", ch, nullptr, trainer, TO_CHAR);
         ch->practice -= 10;
         ch->train += 1;
         return;
@@ -141,7 +141,7 @@ void do_gain(CHAR_DATA *ch, char *argument) {
 
         /* add the group */
         gn_add(ch, gn);
-        act("$N trains you in the art of $t", ch, group_table[gn].name, trainer, TO_CHAR);
+        act("$N trains you in the art of $t.", ch, group_table[gn].name, trainer, TO_CHAR);
         ch->train -= i;
         return;
     }
