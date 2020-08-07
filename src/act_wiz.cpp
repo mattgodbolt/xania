@@ -3480,7 +3480,6 @@ void do_sockets(CHAR_DATA *ch, const char *argument) {
     char buf[2 * MAX_STRING_LENGTH];
     char buf2[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    char hostbuf[MAX_MASKED_HOSTNAME];
     Descriptor *d;
     int count;
 
@@ -3496,7 +3495,7 @@ void do_sockets(CHAR_DATA *ch, const char *argument) {
             bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5u %5s] %s@%s\n\r", d->descriptor, d->localport,
                          short_name_of(d->connected),
                          d->original ? d->original->name : d->character ? d->character->name : "(none)",
-                         get_masked_hostname(hostbuf, d->host));
+                         d->host().c_str());
         } else if (d->character == nullptr && get_trust(ch) == MAX_LEVEL) {
             /*
              * New: log even connections that haven't logged in yet
@@ -3504,7 +3503,7 @@ void do_sockets(CHAR_DATA *ch, const char *argument) {
              */
             count++;
             bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5u %5s] (unknown)@%s\n\r", d->descriptor, d->localport,
-                         short_name_of(d->connected), get_masked_hostname(hostbuf, d->host));
+                         short_name_of(d->connected), d->host().c_str());
         }
     }
     if (count == 0) {

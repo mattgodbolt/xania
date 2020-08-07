@@ -56,8 +56,9 @@ add_library(xania_lib STATIC
         wiznet.cpp
         xania.cpp
         Descriptor.cpp Descriptor.hpp
-        string_utils.cpp string_utils.hpp)
-target_link_libraries(xania_lib crypt chat)
+        string_utils.cpp string_utils.hpp
+        info.hpp)
+target_link_libraries(xania_lib crypt chat CONAN_PKG::fmt)
 
 add_executable(xania main.cpp)
 target_link_libraries(xania xania_lib)

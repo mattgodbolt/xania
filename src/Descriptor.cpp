@@ -3,6 +3,9 @@
 #include "comm.hpp"
 #include "string_utils.hpp"
 
+#include <fmt/format.h>
+using namespace fmt::literals;
+
 // Up to 5 characters
 const char *short_name_of(DescriptorState state) {
     switch (state) {
@@ -57,12 +60,10 @@ const char *name_of(DescriptorState state) {
 Descriptor::Descriptor(uint32_t descriptor) {
     this->descriptor = descriptor;
     outbuf = (char *)alloc_mem(outsize);
-    logintime = str_dup((char *)ctime(&current_time));
-    host = str_dup("(unknown)");
+    login_time_ = ctime(&current_time);
 }
 
 Descriptor::~Descriptor() {
-    free_string(host);
     /* RT socket leak fix -- I hope */
     free_mem(outbuf, outsize);
     /*    free_string(dclose->showstr_head); */
@@ -110,4 +111,27 @@ bool Descriptor::write(std::string_view text) const {
         text = text.substr(p.nExtra);
     }
     return true;
+}
+
+namespace {
+
+// TODO duplicated with doorman! we should share implementation
+unsigned long djb2_hash(std::string_view str) {
+    unsigned long hash = 5381;
+    for (auto c : str)
+        hash = hash * 33 + c;
+    return hash;
+}
+
+// Returns the hostname, masked for privacy and with a hashcode of the full hostname. This can be used by admins to spot
+// users coming from the same IP.
+std::string get_masked_hostname(std::string_view hostname) {
+    return "{}*** [#{}]"_format(hostname.substr(0, 6), djb2_hash(hostname));
+}
+
+}
+
+void Descriptor::raw_full_hostname(std::string_view raw_full_hostname) {
+    raw_host_ = raw_full_hostname;
+    redacted_host_ = get_masked_hostname(raw_host_);
 }

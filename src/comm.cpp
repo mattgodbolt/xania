@@ -196,28 +196,6 @@ int init_socket(const char *file) {
     return fd;
 }
 
-/**
- * Calculate a hash of a string.
- */
-unsigned long djb2_hash(const char *str) {
-    unsigned long hash = 5381;
-    int c;
-    while ((c = *str++)) {
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-    }
-    return hash;
-}
-
-/**
- * Writes into hostbuf the supplied hostname, masked for privacy
- * and with a hashcode of the full hostname. This can be used by admins
- * to spot users coming from the same IP.
- */
-char *get_masked_hostname(char *hostbuf, const char *hostname) {
-    snprintf(hostbuf, MAX_MASKED_HOSTNAME, "%.6s*** [#%ld]", hostname, djb2_hash(hostname));
-    return hostbuf;
-}
-
 void doorman_lost() {
     log_string("Lost connection to doorman");
     if (doormanDesc)
@@ -391,12 +369,11 @@ void game_loop_unix(int control) {
                         ok = 0;
                         for (d = descriptor_list; d; d = d->next) {
                             if (d->descriptor == p.channel) {
-                                InfoData *data = (InfoData *)buffer;
+                                auto *data = reinterpret_cast<const InfoData *>(buffer);
                                 ok = 1;
                                 d->netaddr = data->netaddr;
                                 d->localport = data->port;
-                                free_string(d->host);
-                                d->host = str_dup(data->data);
+                                d->raw_full_hostname(data->data);
                                 break;
                             }
                         }
@@ -404,9 +381,8 @@ void game_loop_unix(int control) {
                             snprintf(logMes, sizeof(logMes), "Unable to associate info with a descriptor (%d)",
                                      p.channel);
                         } else {
-                            char hostbuf[MAX_MASKED_HOSTNAME];
                             snprintf(logMes, sizeof(logMes), "Info from doorman: %d is %s", p.channel,
-                                     get_masked_hostname(hostbuf, d->host));
+                                     d->host().c_str());
                         }
                         log_string(logMes);
                         break;
@@ -624,8 +600,7 @@ void close_socket(Descriptor *dclose) {
 
 bool read_from_descriptor(Descriptor *d, char *data, int nRead) {
     if (d->is_input_full()) {
-        char hostbuf[MAX_MASKED_HOSTNAME];
-        snprintf(log_buf, LOG_BUF_SIZE, "%s input overflow!", get_masked_hostname(hostbuf, d->host));
+        snprintf(log_buf, LOG_BUF_SIZE, "%s input overflow!", d->host().c_str());
         log_string(log_buf);
         d->write("\n\r*** PUT A LID ON IT!!! ***\n\r");
         d->clear_input();
@@ -832,9 +807,7 @@ void nanny(Descriptor *d, const char *argument) {
         ch = d->character;
 
         if (IS_SET(ch->act, PLR_DENY)) {
-            char hostbuf[MAX_MASKED_HOSTNAME];
-            snprintf(log_buf, LOG_BUF_SIZE, "Denying access to %s@%s.", char_name.c_str(),
-                     get_masked_hostname(hostbuf, d->host));
+            snprintf(log_buf, LOG_BUF_SIZE, "Denying access to %s@%s.", char_name.c_str(), d->host().c_str());
             log_string(log_buf);
             write_to_buffer(d, "You are denied access.\n\r", 0);
             close_socket(d);
@@ -865,8 +838,9 @@ void nanny(Descriptor *d, const char *argument) {
                 return;
             }
 
-            /* Check for a newban on player's site */
-            if (check_ban(d->host, BAN_NEWBIES) || check_ban(d->host, BAN_PERMIT)) {
+            // Check for a newban on player's site. This is the one time we use the full host name.
+            if (check_ban(d->raw_full_hostname().c_str(), BAN_NEWBIES)
+                || check_ban(d->raw_full_hostname().c_str(), BAN_PERMIT)) {
                 write_to_buffer(d, "Your site has been banned.  Only existing players from your site may connect.\n\r",
                                 0);
                 close_socket(d);
@@ -900,7 +874,8 @@ void nanny(Descriptor *d, const char *argument) {
 
         SetEchoState(d, 1);
 
-        if (check_ban(d->host, BAN_PERMIT) && (!is_set_extra(ch, EXTRA_PERMIT))) {
+        // This is the one time we use the full host name.
+        if (check_ban(d->raw_full_hostname().c_str(), BAN_PERMIT) && (!is_set_extra(ch, EXTRA_PERMIT))) {
             write_to_buffer(d, "Your site has been banned.  Sorry.\n\r", 0);
             close_socket(d);
             return;
@@ -912,8 +887,7 @@ void nanny(Descriptor *d, const char *argument) {
         if (check_reconnect(d, true))
             return;
 
-        char hostbuf[MAX_MASKED_HOSTNAME];
-        snprintf(log_buf, LOG_BUF_SIZE, "%s@%s has connected.", ch->name, get_masked_hostname(hostbuf, d->host));
+        snprintf(log_buf, LOG_BUF_SIZE, "%s@%s has connected.", ch->name, d->host().c_str());
         log_new(log_buf, EXTRA_WIZNET_DEBUG,
                 ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? get_trust(ch) : 0);
 
@@ -1172,7 +1146,7 @@ void nanny(Descriptor *d, const char *argument) {
             return;
         }
         ch->class_num = iClass;
-        snprintf(log_buf, LOG_BUF_SIZE, "%s@%s new player.", ch->name, get_masked_hostname(hostbuf, d->host));
+        snprintf(log_buf, LOG_BUF_SIZE, "%s@%s new player.", ch->name, d->host().c_str());
         log_string(log_buf);
         write_to_buffer(d, "\n\r", 2);
         write_to_buffer(d, "You may be good, neutral, or evil.\n\r", 0);
@@ -1433,14 +1407,13 @@ bool check_reconnect(Descriptor *d, bool fConn) {
                 free_string(d->character->pcdata->pwd);
                 d->character->pcdata->pwd = str_dup(ch->pcdata->pwd);
             } else {
-                char hostbuf[MAX_MASKED_HOSTNAME];
                 free_char(d->character);
                 d->character = ch;
                 ch->desc = d;
                 ch->timer = 0;
                 send_to_char("Reconnecting.\n\r", ch);
                 act("$n has reconnected.", ch, nullptr, nullptr, TO_ROOM);
-                snprintf(log_buf, LOG_BUF_SIZE, "%s@%s reconnected.", ch->name, get_masked_hostname(hostbuf, d->host));
+                snprintf(log_buf, LOG_BUF_SIZE, "%s@%s reconnected.", ch->name, d->host().c_str());
                 log_new(log_buf, EXTRA_WIZNET_DEBUG,
                         ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? get_trust(ch) : 0);
                 d->connected = DescriptorState::Playing;

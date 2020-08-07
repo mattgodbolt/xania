@@ -40,6 +40,9 @@ struct Descriptor {
     static constexpr size_t MaxInbufBacklog = 50u;
     std::list<std::string> pending_commands_;
     std::string last_command_;
+    std::string raw_host_{"unknown"};
+    std::string redacted_host_{"unknown"};
+    std::string login_time_{};
 
     [[nodiscard]] std::optional<std::string> pop_raw();
 
@@ -48,8 +51,6 @@ public:
     Descriptor *snoop_by{};
     CHAR_DATA *character{};
     CHAR_DATA *original{};
-    char *host{};
-    char *logintime{};
     uint32_t descriptor{};
     uint32_t netaddr{};
     DescriptorState connected{DescriptorState::GetName};
@@ -72,4 +73,11 @@ public:
     [[nodiscard]] std::optional<std::string> pop_incomm();
 
     bool write(std::string_view text) const;
+
+    // deliberately named long and annoying to dissuade use! Go use host to get the safe version.
+    [[nodiscard]] const std::string &raw_full_hostname() const noexcept { return raw_host_; }
+    void raw_full_hostname(std::string_view raw_full_hostname);
+
+    [[nodiscard]] const std::string &host() const noexcept { return redacted_host_; }
+    [[nodiscard]] const std::string &login_time() const noexcept { return login_time_; }
 };
