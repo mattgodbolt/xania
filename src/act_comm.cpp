@@ -127,7 +127,7 @@ void announce(const char *buf, CHAR_DATA *ch) {
 
         victim = d->original ? d->original : d->character;
 
-        if (d->connected == CON_PLAYING && d->character != ch && victim && can_see(victim, ch)
+        if (d->is_playing() && d->character != ch && victim && can_see(victim, ch)
             && !IS_SET(victim->comm, COMM_NOANNOUNCE) && !IS_SET(victim->comm, COMM_QUIET)) {
             act_new(buf, victim, nullptr, ch, TO_CHAR, POS_DEAD);
         }
@@ -264,7 +264,7 @@ void do_yell(CHAR_DATA *ch, const char *argument) {
 
     act("|WYou yell '$t|W'|w", ch, argument, nullptr, TO_CHAR);
     for (d = descriptor_list; d != nullptr; d = d->next) {
-        if (d->connected == CON_PLAYING && d->character != ch && d->character->in_room != nullptr
+        if (d->is_playing() && d->character != ch && d->character->in_room != nullptr
             && d->character->in_room->area == ch->in_room->area && !IS_SET(d->character->comm, COMM_QUIET)) {
             act("|W$n yells '$t|W'|w", ch, argument, d->character, TO_VICT);
         }

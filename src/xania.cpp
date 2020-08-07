@@ -694,7 +694,7 @@ void web_who() {
 
         wch = (d->original != nullptr) ? d->original : d->character;
 
-        if (d->connected != CON_PLAYING || !web_see(wch))
+        if (!d->is_playing() || !web_see(wch))
             continue;
         fprintf(fp, "<TR><TD>%d</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD>\n", wch->level,
                 wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ", class_table[wch->class_num].name,
@@ -780,7 +780,7 @@ void tip_players() {
 
         ch = (d->original != nullptr) ? d->original : d->character;
 
-        if (d->connected != CON_PLAYING)
+        if (!d->is_playing())
             continue;
 
         if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {

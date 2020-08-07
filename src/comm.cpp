@@ -133,7 +133,7 @@ void handle_signal_shutdown() {
 
         // vch->d->c check added by TM to avoid crashes when
         // someone hasn't logged in but the mud is shut down
-        if (!IS_NPC(vch) && vch->desc && vch->desc->connected == CON_PLAYING) {
+        if (!IS_NPC(vch) && vch->desc && vch->desc->is_playing()) {
             /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
             MOBtrigger = false;
             do_save(vch, "");
@@ -376,7 +376,7 @@ void game_loop_unix(int control) {
                                 if (d->character && d->character->level > 1)
                                     save_char_obj(d->character);
                                 d->outtop = 0;
-                                if (d->connected == CON_PLAYING)
+                                if (d->is_playing())
                                     d->connected = CON_DISCONNECTING;
                                 else
                                     d->connected = CON_DISCONNECTING_NP;
@@ -456,7 +456,7 @@ void game_loop_unix(int control) {
 
                 if (d->showstr_point)
                     show_string(d, d->incomm);
-                else if (d->connected == CON_PLAYING)
+                else if (d->is_playing())
                     interpret(d->character, d->incomm);
                 else
                     nanny(d, d->incomm);
@@ -599,7 +599,7 @@ void close_socket(Descriptor *dclose) {
         snprintf(log_buf, LOG_BUF_SIZE, "Closing link to %s.", ch->name);
         log_new(log_buf, EXTRA_WIZNET_DEBUG,
                 (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)) ? get_trust(ch) : 0);
-        if (dclose->connected == CON_PLAYING || dclose->connected == CON_DISCONNECTING) {
+        if (dclose->is_playing() || dclose->connected == CON_DISCONNECTING) {
             act("$n has lost $s link.", ch, nullptr, nullptr, TO_ROOM);
             ch->desc = nullptr;
         } else {
@@ -754,7 +754,7 @@ bool process_output(Descriptor *d, bool fPrompt) {
      */
     if (!merc_down && d->showstr_point)
         write_to_buffer(d, "[Hit Return to continue]\n\r", 0);
-    else if (fPrompt && !merc_down && d->connected == CON_PLAYING) {
+    else if (fPrompt && !merc_down && d->is_playing()) {
         CHAR_DATA *ch;
         CHAR_DATA *victim;
 
@@ -1453,7 +1453,7 @@ void nanny(Descriptor *d, const char *argument) {
            updated if a player did count */
         count = 0;
         for (de = descriptor_list; de != nullptr; de = de->next)
-            if (de->connected == CON_PLAYING)
+            if (de->is_playing())
                 count++;
         max_on = UMAX(count, max_on);
 

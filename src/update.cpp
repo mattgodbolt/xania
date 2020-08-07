@@ -517,7 +517,7 @@ void weather_update() {
 
     if (buf[0] != '\0') {
         for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->connected == CON_PLAYING && IS_OUTSIDE(d->character) && IS_AWAKE(d->character))
+            if (d->is_playing() && IS_OUTSIDE(d->character) && IS_AWAKE(d->character))
                 send_to_char(buf, d->character);
         }
     }
@@ -528,7 +528,7 @@ void weather_update() {
  * their previous room.
  */
 void move_active_char_from_limbo(CHAR_DATA *ch) {
-    if (ch == nullptr || ch->desc == nullptr || ch->desc->connected != CON_PLAYING || ch->was_in_room == nullptr
+    if (ch == nullptr || ch->desc == nullptr || !ch->desc->is_playing() || ch->was_in_room == nullptr
         || ch->in_room != get_room_index(ROOM_VNUM_LIMBO))
         return;
 

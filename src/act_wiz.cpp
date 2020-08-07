@@ -323,7 +323,7 @@ void do_echo(CHAR_DATA *ch, char *argument) {
     }
 
     for (d = descriptor_list; d; d = d->next) {
-        if (d->connected == CON_PLAYING) {
+        if (d->is_playing()) {
             if (get_trust(d->character) >= get_trust(ch))
                 send_to_char("global> ", d->character);
             send_to_char(argument, d->character);
@@ -342,7 +342,7 @@ void do_recho(CHAR_DATA *ch, char *argument) {
     }
 
     for (d = descriptor_list; d; d = d->next) {
-        if (d->connected == CON_PLAYING && d->character->in_room == ch->in_room) {
+        if (d->is_playing() && d->character->in_room == ch->in_room) {
             if (get_trust(d->character) >= get_trust(ch) && ch->in_room->vnum != 1222)
                 send_to_char("local> ", d->character);
             send_to_char(argument, d->character);
@@ -360,7 +360,7 @@ void do_zecho(CHAR_DATA *ch, char *argument) {
     }
 
     for (d = descriptor_list; d; d = d->next) {
-        if (d->connected == CON_PLAYING && d->character->in_room != nullptr && ch->in_room != nullptr
+        if (d->is_playing() && d->character->in_room != nullptr && ch->in_room != nullptr
             && d->character->in_room->area == ch->in_room->area) {
             if (get_trust(d->character) >= get_trust(ch))
                 send_to_char("zone> ", d->character);
@@ -432,7 +432,7 @@ void do_transfer(CHAR_DATA *ch, char *argument) {
 
     if (!str_cmp(arg1, "all")) {
         for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->connected == CON_PLAYING && d->character != ch && d->character->in_room != nullptr
+            if (d->is_playing() && d->character != ch && d->character->in_room != nullptr
                 && can_see(ch, d->character)) {
                 char buf[MAX_STRING_LENGTH];
                 bug_snprintf(buf, sizeof(buf), "%s %s", d->character->name, arg2);

@@ -124,7 +124,7 @@ void do_clantalk(CHAR_DATA *ch, char *argument) {
         CHAR_DATA *vix;
         vix = d->original ? d->original : d->character;
 
-        if ((d->connected == CON_PLAYING) && (vix->pcdata->pcclan)
+        if ((d->is_playing()) && (vix->pcdata->pcclan)
             && (vix->pcdata->pcclan->clan->clanchar == OrigClan->clan->clanchar)
             && (vix->pcdata->pcclan->channelflags & CLANCHANNEL_ON) && !IS_SET(vix->comm, COMM_QUIET)
             /* || they're an IMM snooping the channels */) {
@@ -350,7 +350,7 @@ void do_clanwho(CHAR_DATA *ch, char *argument) {
     send_to_char("|gCharacter name     |c|||g Clan level|w\n\r", ch);
     send_to_char("|c-------------------+-------------------------------|w\n\r", ch);
     for (d = descriptor_list; d; d = d->next) {
-        if (d->connected == CON_PLAYING) {
+        if (d->is_playing()) {
             wch = (d->original) ? (d->original) : d->character;
             if ((can_see(ch, wch)) && (wch->pcdata->pcclan)
                 && (wch->pcdata->pcclan->clan->clanchar == ch->pcdata->pcclan->clan->clanchar)) {

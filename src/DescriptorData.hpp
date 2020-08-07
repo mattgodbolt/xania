@@ -2,9 +2,7 @@
 
 #include "merc.h"
 
-/*
- * Connected state for a channel.
- */
+// Connected state for a descriptor.
 #define CON_PLAYING 0
 #define CON_GET_NAME 1
 #define CON_GET_OLD_PASSWORD 2
@@ -50,4 +48,6 @@ struct Descriptor {
     int outtop;
     char *showstr_head;
     char *showstr_point;
+
+    [[nodiscard]] bool is_playing() const noexcept { return connected == CON_PLAYING; }
 };

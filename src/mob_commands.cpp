@@ -520,7 +520,7 @@ void do_mptransfer(CHAR_DATA *ch, char *argument) {
 
     if (!str_cmp(arg1, "all")) {
         for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->connected == CON_PLAYING && d->character != ch && d->character->in_room != nullptr
+            if (d->is_playing() && d->character != ch && d->character->in_room != nullptr
                 && can_see(ch, d->character)) {
                 char buf[MAX_STRING_LENGTH];
                 snprintf(buf, sizeof(buf), "%s %s", d->character->name, arg2);

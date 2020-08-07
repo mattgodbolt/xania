@@ -78,7 +78,7 @@ void log_new(const char *str, int loglevel, int level) {
 
     for (d = descriptor_list; d; d = d->next) {
         CHAR_DATA *ch = d->original ? d->original : d->character;
-        if ((d->connected != CON_PLAYING) || (ch == nullptr) || (IS_NPC(ch)) || !is_set_extra(ch, EXTRA_WIZNET_ON)
+        if ((!d->is_playing()) || (ch == nullptr) || (IS_NPC(ch)) || !is_set_extra(ch, EXTRA_WIZNET_ON)
             || !is_set_extra(ch, loglevel) || (get_trust(ch) < level))
             continue;
         send_to_char(buf, d->character);

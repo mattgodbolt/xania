@@ -1623,7 +1623,7 @@ void do_whois(CHAR_DATA *ch, char *argument) {
         CHAR_DATA *wch;
         char const *class_name;
 
-        if (d->connected != CON_PLAYING || !can_see(ch, d->character))
+        if (!d->is_playing() || !can_see(ch, d->character))
             continue;
 
         wch = (d->original != nullptr) ? d->original : d->character;
@@ -1786,7 +1786,7 @@ void do_who(CHAR_DATA *ch, char *argument) {
          * Check for match against restrictions.
          * Don't use trust as that exposes trusted mortals.
          */
-        if (d->connected != CON_PLAYING || !can_see(ch, d->character))
+        if (!d->is_playing() || !can_see(ch, d->character))
             continue;
         /* added Faramir 13/8/96 because switched imms were visible to all*/
         if (d->original != nullptr)
@@ -1865,7 +1865,7 @@ void do_count(CHAR_DATA *ch, char *argument) {
     count = 0;
 
     for (d = descriptor_list; d != nullptr; d = d->next)
-        if (d->connected == CON_PLAYING && can_see(ch, d->character))
+        if (d->is_playing() && can_see(ch, d->character))
             count++;
 
     max_on = UMAX(count, max_on);
@@ -2020,7 +2020,7 @@ void do_where(CHAR_DATA *ch, char *argument) {
         send_to_char(buf, ch);
         found = false;
         for (d = descriptor_list; d; d = d->next) {
-            if (d->connected == CON_PLAYING && (victim = d->character) != nullptr && !IS_NPC(victim) && victim != ch
+            if (d->is_playing() && (victim = d->character) != nullptr && !IS_NPC(victim) && victim != ch
                 && victim->in_room != nullptr && victim->in_room->area == ch->in_room->area && can_see(ch, victim)) {
                 found = true;
                 snprintf(buf, sizeof(buf), "|W%-28s|w %s\n\r", victim->name, victim->in_room->name);

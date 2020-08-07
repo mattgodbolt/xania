@@ -630,7 +630,7 @@ void do_news_delete(CHAR_DATA *ch, char *argument) {
     /* Check to see if anyone is 'reading' this message currently, if so move them on to the next */
     for (d = descriptor_list; d; d = d->next) {
         CHAR_DATA *person;
-        if (d->connected == CON_PLAYING) {
+        if (d->is_playing()) {
             person = d->original ? d->original : d->character; // Find the corresponding person assoc'd with d
             if ((person != nullptr) && // Do they exist?
                 (person->article == art)) // Are they looking at this article?
@@ -657,7 +657,7 @@ void do_news_delete(CHAR_DATA *ch, char *argument) {
         /* Check to see if anyone is 'reading' this thread */
         for (d = descriptor_list; d; d = d->next) {
             CHAR_DATA *person;
-            if (d->connected == CON_PLAYING) {
+            if (d->is_playing()) {
                 person = d->original ? d->original : d->character; // Find the corresponding person assoc'd with d
                 if ((person != nullptr) && // Do they exist?
                     (person->thread == chthread)) { // Are they looking at this thread?
