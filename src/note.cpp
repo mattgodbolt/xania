@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "note.h"
+#include "Descriptor.hpp"
 #include "buffer.h"
 #include "merc.h"
 #include "string_utils.hpp"
@@ -331,7 +332,7 @@ static void note_post(CHAR_DATA *ch, const char *argument) {
 }
 
 void note_announce(CHAR_DATA *chsender, NOTE_DATA *note) {
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     if (note == nullptr) {
         log_string("note_announce() note is null");
@@ -340,7 +341,7 @@ void note_announce(CHAR_DATA *chsender, NOTE_DATA *note) {
     for (d = descriptor_list; d; d = d->next) {
         CHAR_DATA *chtarg;
         chtarg = d->original ? d->original : d->character;
-        if (d->connected == CON_PLAYING && d->character != chsender && chtarg && !IS_SET(chtarg->comm, COMM_NOANNOUNCE)
+        if (d->is_playing() && d->character != chsender && chtarg && !IS_SET(chtarg->comm, COMM_NOANNOUNCE)
             && !IS_SET(chtarg->comm, COMM_QUIET) && is_note_to(chtarg, note)) {
             send_to_char("The Spirit of Hermes announces the arrival of a new note.\n\r", chtarg);
         }

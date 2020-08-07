@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Descriptor.hpp"
 #include "buffer.h"
 #include "db.h"
 #include "interp.h"
@@ -1606,7 +1607,7 @@ void do_whois(CHAR_DATA *ch, char *argument) {
     char arg[MAX_INPUT_LENGTH];
     char output[MAX_STRING_LENGTH];
     char buf[MAX_STRING_LENGTH];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     bool found = false;
 
     one_argument(argument, arg);
@@ -1622,7 +1623,7 @@ void do_whois(CHAR_DATA *ch, char *argument) {
         CHAR_DATA *wch;
         char const *class_name;
 
-        if (d->connected != CON_PLAYING || !can_see(ch, d->character))
+        if (!d->is_playing() || !can_see(ch, d->character))
             continue;
 
         wch = (d->original != nullptr) ? d->original : d->character;
@@ -1682,7 +1683,7 @@ void do_who(CHAR_DATA *ch, char *argument) {
     char buf[MAX_STRING_LENGTH];
     char buf2[MAX_STRING_LENGTH];
     char output[4 * MAX_STRING_LENGTH];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     int iClass;
     int iRace;
     int iClan;
@@ -1785,7 +1786,7 @@ void do_who(CHAR_DATA *ch, char *argument) {
          * Check for match against restrictions.
          * Don't use trust as that exposes trusted mortals.
          */
-        if (d->connected != CON_PLAYING || !can_see(ch, d->character))
+        if (!d->is_playing() || !can_see(ch, d->character))
             continue;
         /* added Faramir 13/8/96 because switched imms were visible to all*/
         if (d->original != nullptr)
@@ -1858,13 +1859,13 @@ void do_who(CHAR_DATA *ch, char *argument) {
 void do_count(CHAR_DATA *ch, char *argument) {
     (void)argument;
     int count;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     char buf[MAX_STRING_LENGTH];
 
     count = 0;
 
     for (d = descriptor_list; d != nullptr; d = d->next)
-        if (d->connected == CON_PLAYING && can_see(ch, d->character))
+        if (d->is_playing() && can_see(ch, d->character))
             count++;
 
     max_on = UMAX(count, max_on);
@@ -2009,7 +2010,7 @@ void do_where(CHAR_DATA *ch, char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     bool found;
 
     one_argument(argument, arg);
@@ -2019,7 +2020,7 @@ void do_where(CHAR_DATA *ch, char *argument) {
         send_to_char(buf, ch);
         found = false;
         for (d = descriptor_list; d; d = d->next) {
-            if (d->connected == CON_PLAYING && (victim = d->character) != nullptr && !IS_NPC(victim) && victim != ch
+            if (d->is_playing() && (victim = d->character) != nullptr && !IS_NPC(victim) && victim != ch
                 && victim->in_room != nullptr && victim->in_room->area == ch->in_room->area && can_see(ch, victim)) {
                 found = true;
                 snprintf(buf, sizeof(buf), "|W%-28s|w %s\n\r", victim->name, victim->in_room->name);

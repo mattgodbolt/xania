@@ -18,6 +18,7 @@
  *  such installation can be found in INSTALL.  Enjoy........    N'Atas-Ha *
  ***************************************************************************/
 
+#include "Descriptor.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
 
@@ -502,7 +503,7 @@ void do_mptransfer(CHAR_DATA *ch, char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     CHAR_DATA *victim;
 
     if (!IS_NPC(ch)) {
@@ -519,7 +520,7 @@ void do_mptransfer(CHAR_DATA *ch, char *argument) {
 
     if (!str_cmp(arg1, "all")) {
         for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->connected == CON_PLAYING && d->character != ch && d->character->in_room != nullptr
+            if (d->is_playing() && d->character != ch && d->character->in_room != nullptr
                 && can_see(ch, d->character)) {
                 char buf[MAX_STRING_LENGTH];
                 snprintf(buf, sizeof(buf), "%s %s", d->character->name, arg2);

@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Descriptor.hpp"
 #include "merc.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -113,7 +114,7 @@ void do_delete(CHAR_DATA *ch, char *argument) {
 }
 
 void announce(const char *buf, CHAR_DATA *ch) {
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     if (descriptor_list == nullptr)
         return;
@@ -126,7 +127,7 @@ void announce(const char *buf, CHAR_DATA *ch) {
 
         victim = d->original ? d->original : d->character;
 
-        if (d->connected == CON_PLAYING && d->character != ch && victim && can_see(victim, ch)
+        if (d->is_playing() && d->character != ch && victim && can_see(victim, ch)
             && !IS_SET(victim->comm, COMM_NOANNOUNCE) && !IS_SET(victim->comm, COMM_QUIET)) {
             act_new(buf, victim, nullptr, ch, TO_CHAR, POS_DEAD);
         }
@@ -246,7 +247,7 @@ void do_tell(CHAR_DATA *ch, char *argument) {
 void do_reply(CHAR_DATA *ch, char *argument) { tell_to(ch, ch->reply, argument); }
 
 void do_yell(CHAR_DATA *ch, const char *argument) {
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     if (IS_SET(ch->comm, COMM_NOSHOUT)) {
         send_to_char("|cYou can't yell.|w\n\r", ch);
@@ -263,7 +264,7 @@ void do_yell(CHAR_DATA *ch, const char *argument) {
 
     act("|WYou yell '$t|W'|w", ch, argument, nullptr, TO_CHAR);
     for (d = descriptor_list; d != nullptr; d = d->next) {
-        if (d->connected == CON_PLAYING && d->character != ch && d->character->in_room != nullptr
+        if (d->is_playing() && d->character != ch && d->character->in_room != nullptr
             && d->character->in_room->area == ch->in_room->area && !IS_SET(d->character->comm, COMM_QUIET)) {
             act("|W$n yells '$t|W'|w", ch, argument, d->character, TO_VICT);
         }
@@ -432,7 +433,7 @@ void do_qui(CHAR_DATA *ch, char *argument) {
 
 void do_quit(CHAR_DATA *ch, const char *arg) {
     (void)arg;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     FINGER_INFO *cur;
     bool info_found = false;
 

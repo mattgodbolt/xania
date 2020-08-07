@@ -16,6 +16,7 @@
  */
 
 #include "news.h"
+#include "Descriptor.hpp"
 #include "buffer.h"
 #include "flags.h"
 #include "merc.h"
@@ -600,7 +601,7 @@ void do_news_uncatchup(CHAR_DATA *ch, const char *argument) {
 void do_news_delete(CHAR_DATA *ch, char *argument) {
     int artnum;
     ARTICLE *art;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     THREAD *chthread;
     int n;
     if (ch->thread == nullptr) { // Check to see if char has a thread sleceted
@@ -629,7 +630,7 @@ void do_news_delete(CHAR_DATA *ch, char *argument) {
     /* Check to see if anyone is 'reading' this message currently, if so move them on to the next */
     for (d = descriptor_list; d; d = d->next) {
         CHAR_DATA *person;
-        if (d->connected == CON_PLAYING) {
+        if (d->is_playing()) {
             person = d->original ? d->original : d->character; // Find the corresponding person assoc'd with d
             if ((person != nullptr) && // Do they exist?
                 (person->article == art)) // Are they looking at this article?
@@ -656,7 +657,7 @@ void do_news_delete(CHAR_DATA *ch, char *argument) {
         /* Check to see if anyone is 'reading' this thread */
         for (d = descriptor_list; d; d = d->next) {
             CHAR_DATA *person;
-            if (d->connected == CON_PLAYING) {
+            if (d->is_playing()) {
                 person = d->original ? d->original : d->character; // Find the corresponding person assoc'd with d
                 if ((person != nullptr) && // Do they exist?
                     (person->thread == chthread)) { // Are they looking at this thread?

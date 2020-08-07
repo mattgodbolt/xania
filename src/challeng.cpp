@@ -7,6 +7,7 @@
 /*              Wandera. Revised by Oshea 26/8/96                        */
 /*************************************************************************/
 
+#include "Descriptor.hpp"
 #include "merc.h"
 #include <stdio.h>
 #include <string.h>

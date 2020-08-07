@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Descriptor.hpp"
 #include "interp.h"
 #include "merc.h"
 #include <cstdio>
@@ -56,7 +57,7 @@ void do_clantalk(CHAR_DATA *ch, char *argument) {
 
     char buf[MAX_STRING_LENGTH];
     int candoit = 0;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     PCCLAN *OrigClan;
 
     if (IS_NPC(ch)) {
@@ -123,7 +124,7 @@ void do_clantalk(CHAR_DATA *ch, char *argument) {
         CHAR_DATA *vix;
         vix = d->original ? d->original : d->character;
 
-        if ((d->connected == CON_PLAYING) && (vix->pcdata->pcclan)
+        if ((d->is_playing()) && (vix->pcdata->pcclan)
             && (vix->pcdata->pcclan->clan->clanchar == OrigClan->clan->clanchar)
             && (vix->pcdata->pcclan->channelflags & CLANCHANNEL_ON) && !IS_SET(vix->comm, COMM_QUIET)
             /* || they're an IMM snooping the channels */) {
@@ -334,7 +335,7 @@ void do_demote(CHAR_DATA *ch, char *argument) { mote(ch, argument, -1); }
 
 void do_clanwho(CHAR_DATA *ch, char *argument) {
     (void)argument;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     CHAR_DATA *wch;
     char buf[MAX_STRING_LENGTH];
 
@@ -349,7 +350,7 @@ void do_clanwho(CHAR_DATA *ch, char *argument) {
     send_to_char("|gCharacter name     |c|||g Clan level|w\n\r", ch);
     send_to_char("|c-------------------+-------------------------------|w\n\r", ch);
     for (d = descriptor_list; d; d = d->next) {
-        if (d->connected == CON_PLAYING) {
+        if (d->is_playing()) {
             wch = (d->original) ? (d->original) : d->character;
             if ((can_see(ch, wch)) && (wch->pcdata->pcclan)
                 && (wch->pcdata->pcclan->clan->clanchar == ch->pcdata->pcclan->clan->clanchar)) {

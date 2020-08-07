@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Descriptor.hpp"
 #include "buffer.h"
 #include "db.h"
 #include "flags.h"
@@ -224,7 +225,7 @@ void do_deny(CHAR_DATA *ch, const char *argument) {
 
 void do_disconnect(CHAR_DATA *ch, char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     CHAR_DATA *victim;
 
     one_argument(argument, arg);
@@ -314,7 +315,7 @@ void do_pardon(CHAR_DATA *ch, char *argument) {
 }
 
 void do_echo(CHAR_DATA *ch, char *argument) {
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     if (argument[0] == '\0') {
         send_to_char("Global echo what?\n\r", ch);
@@ -322,7 +323,7 @@ void do_echo(CHAR_DATA *ch, char *argument) {
     }
 
     for (d = descriptor_list; d; d = d->next) {
-        if (d->connected == CON_PLAYING) {
+        if (d->is_playing()) {
             if (get_trust(d->character) >= get_trust(ch))
                 send_to_char("global> ", d->character);
             send_to_char(argument, d->character);
@@ -332,7 +333,7 @@ void do_echo(CHAR_DATA *ch, char *argument) {
 }
 
 void do_recho(CHAR_DATA *ch, char *argument) {
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     if (argument[0] == '\0') {
         send_to_char("Local echo what?\n\r", ch);
@@ -341,7 +342,7 @@ void do_recho(CHAR_DATA *ch, char *argument) {
     }
 
     for (d = descriptor_list; d; d = d->next) {
-        if (d->connected == CON_PLAYING && d->character->in_room == ch->in_room) {
+        if (d->is_playing() && d->character->in_room == ch->in_room) {
             if (get_trust(d->character) >= get_trust(ch) && ch->in_room->vnum != 1222)
                 send_to_char("local> ", d->character);
             send_to_char(argument, d->character);
@@ -351,7 +352,7 @@ void do_recho(CHAR_DATA *ch, char *argument) {
 }
 
 void do_zecho(CHAR_DATA *ch, char *argument) {
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     if (argument[0] == '\0') {
         send_to_char("Zone echo what?\n\r", ch);
@@ -359,7 +360,7 @@ void do_zecho(CHAR_DATA *ch, char *argument) {
     }
 
     for (d = descriptor_list; d; d = d->next) {
-        if (d->connected == CON_PLAYING && d->character->in_room != nullptr && ch->in_room != nullptr
+        if (d->is_playing() && d->character->in_room != nullptr && ch->in_room != nullptr
             && d->character->in_room->area == ch->in_room->area) {
             if (get_trust(d->character) >= get_trust(ch))
                 send_to_char("zone> ", d->character);
@@ -418,7 +419,7 @@ void do_transfer(CHAR_DATA *ch, char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     CHAR_DATA *victim;
 
     argument = one_argument(argument, arg1);
@@ -431,7 +432,7 @@ void do_transfer(CHAR_DATA *ch, char *argument) {
 
     if (!str_cmp(arg1, "all")) {
         for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->connected == CON_PLAYING && d->character != ch && d->character->in_room != nullptr
+            if (d->is_playing() && d->character != ch && d->character->in_room != nullptr
                 && can_see(ch, d->character)) {
                 char buf[MAX_STRING_LENGTH];
                 bug_snprintf(buf, sizeof(buf), "%s %s", d->character->name, arg2);
@@ -1664,7 +1665,7 @@ void do_shutdown(CHAR_DATA *ch, char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
     extern bool merc_down;
-    DESCRIPTOR_DATA *d, *d_next;
+    Descriptor *d, *d_next;
 
     bug_snprintf(buf, sizeof(buf), "Shutdown by %s.", ch->name);
     append_file(ch, SHUTDOWN_FILE, buf);
@@ -1682,7 +1683,7 @@ void do_shutdown(CHAR_DATA *ch, char *argument) {
 
 void do_snoop(CHAR_DATA *ch, char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     CHAR_DATA *victim;
 
     one_argument(argument, arg);
@@ -2015,7 +2016,7 @@ void do_purge(CHAR_DATA *ch, const char *argument) {
     char buf[100];
     CHAR_DATA *victim;
     OBJ_DATA *obj;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     one_argument(argument, arg);
 
@@ -2203,7 +2204,7 @@ void do_restore(CHAR_DATA *ch, char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     CHAR_DATA *vch;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
 
     one_argument(argument, arg);
     if (arg[0] == '\0' || !str_cmp(arg, "room")) {
@@ -3480,7 +3481,7 @@ void do_sockets(CHAR_DATA *ch, char *argument) {
     char buf2[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     char hostbuf[MAX_MASKED_HOSTNAME];
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     int count;
 
     count = 0;
@@ -3492,8 +3493,8 @@ void do_sockets(CHAR_DATA *ch, char *argument) {
             && (arg[0] == '\0' || is_name(arg, d->character->name)
                 || (d->original && is_name(arg, d->original->name)))) {
             count++;
-            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %8u %2d] %s@%s\n\r", d->descriptor,
-                         (d->localport & 0xffff), d->connected,
+            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5u %5s] %s@%s\n\r", d->descriptor, d->localport,
+                         short_name_of(d->connected),
                          d->original ? d->original->name : d->character ? d->character->name : "(none)",
                          get_masked_hostname(hostbuf, d->host));
         } else if (d->character == nullptr && get_trust(ch) == MAX_LEVEL) {
@@ -3502,8 +3503,8 @@ void do_sockets(CHAR_DATA *ch, char *argument) {
              * Level 100s only, mind
              */
             count++;
-            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %8u %2d] (unknown)@%s\n\r", d->descriptor,
-                         (d->localport & 0xffff), d->connected, get_masked_hostname(hostbuf, d->host));
+            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5u %5s] (unknown)@%s\n\r", d->descriptor, d->localport,
+                         short_name_of(d->connected), get_masked_hostname(hostbuf, d->host));
         }
     }
     if (count == 0) {

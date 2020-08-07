@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Descriptor.hpp"
 #include "buffer.h"
 #include "db.h"
 #include "interp.h"
@@ -673,7 +674,7 @@ bool web_see(CHAR_DATA *ch) {
 void web_who() {
 
     FILE *fp;
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     int count = 0;
 
     if ((fp = fopen(WEB_WHO_FILE, "w")) == nullptr) {
@@ -693,7 +694,7 @@ void web_who() {
 
         wch = (d->original != nullptr) ? d->original : d->character;
 
-        if (d->connected != CON_PLAYING || !web_see(wch))
+        if (!d->is_playing() || !web_see(wch))
             continue;
         fprintf(fp, "<TR><TD>%d</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD>\n", wch->level,
                 wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ", class_table[wch->class_num].name,
@@ -753,7 +754,7 @@ void load_tipfile() {
 
 void tip_players() {
 
-    DESCRIPTOR_DATA *d;
+    Descriptor *d;
     char buf[MAX_STRING_LENGTH];
 
     /* check the tip wizard list first ... */
@@ -779,7 +780,7 @@ void tip_players() {
 
         ch = (d->original != nullptr) ? d->original : d->character;
 
-        if (d->connected != CON_PLAYING)
+        if (!d->is_playing())
             continue;
 
         if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {

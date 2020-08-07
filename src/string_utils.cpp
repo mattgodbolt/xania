@@ -79,3 +79,24 @@ std::string remove_last_line(std::string_view str) {
     // Else, no crlf at all, return empty.
     return "";
 }
+
+std::string sanitise_input(std::string_view str) {
+    std::string result;
+    result.reserve(str.size());
+    // Copy to result, applying any backspaces (\b) as we go. We don't combine this with dropping non-printing else
+    // users typing, then deleting bad chars get confusing results.
+    for (auto c : str) {
+        if (c == '\b') {
+            if (!result.empty())
+                result.pop_back();
+        } else {
+            result.push_back(c);
+        }
+    }
+
+    // Remove non-printing, non-ascii characters. This awkward erase(remove_if,,,) idiom is a uniquely C++ mess.
+    result.erase(std::remove_if(result.begin(), result.end(), [](char c) { return !isascii(c) || !isprint(c); }),
+                 result.end());
+
+    return result;
+}
