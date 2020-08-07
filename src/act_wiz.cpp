@@ -2424,7 +2424,7 @@ void do_noshout(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_notell(CHAR_DATA *ch, const  char *argument) {
+void do_notell(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
 
