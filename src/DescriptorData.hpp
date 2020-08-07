@@ -2,6 +2,11 @@
 
 #include "merc.h"
 
+#include <list>
+#include <optional>
+#include <string>
+#include <string_view>
+
 // Connected state for a descriptor.
 enum class DescriptorState {
     Playing = 0,
@@ -32,6 +37,10 @@ const char *name_of(DescriptorState state);
  * Descriptor (channel) structure.
  */
 struct Descriptor {
+    static constexpr size_t MaxInbufBacklog = 50u;
+    std::list<std::string> pending_commands_;
+
+public:
     Descriptor *next{};
     Descriptor *snoop_by{};
     CHAR_DATA *character{};
@@ -43,7 +52,6 @@ struct Descriptor {
     DescriptorState connected{DescriptorState::GetName};
     uint16_t localport{};
     bool fcommand{};
-    char inbuf[4 * MAX_INPUT_LENGTH]{};
     char incomm[MAX_INPUT_LENGTH]{};
     char inlast[MAX_INPUT_LENGTH]{};
     int repeat{};
@@ -56,4 +64,8 @@ struct Descriptor {
     explicit Descriptor(uint32_t descriptor);
     ~Descriptor();
     [[nodiscard]] bool is_playing() const noexcept { return connected == DescriptorState::Playing; }
+    [[nodiscard]] bool is_input_full() const noexcept { return pending_commands_.size() >= MaxInbufBacklog; }
+    void clear_input() { pending_commands_.clear(); }
+    void add_command(std::string_view command) { pending_commands_.emplace_back(command); }
+    [[nodiscard]] std::optional<std::string> pop_pending();
 };

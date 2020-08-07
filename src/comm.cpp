@@ -38,6 +38,7 @@
 #include "merc.h"
 #include "news.h"
 #include "note.h"
+#include "string_utils.hpp"
 
 /* Added by Rohan - extern to player list for adding new players to it */
 extern KNOWN_PLAYERS *player_list;
@@ -629,30 +630,17 @@ void close_socket(Descriptor *dclose) {
 }
 
 bool read_from_descriptor(Descriptor *d, char *data, int nRead) {
-    int iStart;
-
-#if 0
-   /* Hold horses if pending command already. */
-   if ( d->incomm[0] != '\0' )
-      return true;
-#endif
-
-    /* Check for overflow. */
-    iStart = strlen(d->inbuf);
-    if (iStart >= (int)sizeof(d->inbuf) - 10) {
+    if (d->is_input_full()) {
         char hostbuf[MAX_MASKED_HOSTNAME];
         snprintf(log_buf, LOG_BUF_SIZE, "%s input overflow!", get_masked_hostname(hostbuf, d->host));
         log_string(log_buf);
         write_to_descriptor(d->descriptor, "\n\r*** PUT A LID ON IT!!! ***\n\r", 0);
-        strcpy(d->incomm, "quit");
+        d->clear_input();
+        d->add_command("quit");
         return false;
     }
 
-    /* Snarf input. */
-    memcpy(d->inbuf + iStart, data, nRead);
-    iStart += nRead;
-
-    d->inbuf[iStart] = '\0';
+    d->add_command(std::string_view(data, nRead));
     return true;
 }
 
@@ -660,67 +648,29 @@ bool read_from_descriptor(Descriptor *d, char *data, int nRead) {
  * Transfer one line from input buffer to input line.
  */
 void read_from_buffer(Descriptor *d) {
-    int i, j, k;
-
-    /*
-     * Hold horses if pending command already.
-     */
+    // Hold horses if pending command already.
     if (d->incomm[0] != '\0')
         return;
 
-    /*
-     * Look for at least one new line.
-     */
-    for (i = 0; d->inbuf[i] != '\n' && d->inbuf[i] != '\r'; i++) {
-        if (d->inbuf[i] == '\0')
-            return;
+    auto maybe_next = d->pop_pending();
+    if (!maybe_next)
+        return;
+
+    // Handle any backspace characters, newlines, or non-printing characters.
+    auto next_line = sanitise_input(*maybe_next);
+
+    if (next_line.size() > MAX_INPUT_LENGTH - 1) {
+        write_to_descriptor(d->descriptor, "Line too long.\n\r", 0);
+        read_from_buffer(d); // recurse to cheesily look for the next line.
+        return;
     }
+    strncpy(d->incomm, next_line.c_str(), sizeof(d->incomm));
 
-    /*
-     * Canonical input processing.
-     */
-    for (i = 0, k = 0; d->inbuf[i] != '\n' && d->inbuf[i] != '\r'; i++) {
-        if (k >= MAX_INPUT_LENGTH - 2) {
-            write_to_descriptor(d->descriptor, "Line too long.\n\r", 0);
-
-            /* skip the rest of the line */
-            for (; d->inbuf[i] != '\0'; i++) {
-                if (d->inbuf[i] == '\n' || d->inbuf[i] == '\r')
-                    break;
-            }
-            d->inbuf[i] = '\n';
-            d->inbuf[i + 1] = '\0';
-            break;
-        }
-
-        if (d->inbuf[i] == '\b' && k > 0)
-            --k;
-        else if (isascii(d->inbuf[i]) && isprint(d->inbuf[i]))
-            d->incomm[k++] = d->inbuf[i];
-    }
-
-    /*
-     * Finish off the line.
-     */
-    if (k == 0)
-        d->incomm[k++] = ' ';
-    d->incomm[k] = '\0';
-
-    /*
-     * Do '!' substitution.
-     */
+    // Do '!' substitution.
     if (d->incomm[0] == '!')
         strcpy(d->incomm, d->inlast);
     else
         strcpy(d->inlast, d->incomm);
-
-    /*
-     * Shift the input buffer.
-     */
-    while (d->inbuf[i] == '\n' || d->inbuf[i] == '\r')
-        i++;
-    for (j = 0; (d->inbuf[j] = d->inbuf[i + j]) != '\0'; j++)
-        ;
 }
 
 /*

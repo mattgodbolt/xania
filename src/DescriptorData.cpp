@@ -64,3 +64,11 @@ Descriptor::~Descriptor() {
     free_mem(outbuf, outsize);
     /*    free_string(dclose->showstr_head); */
 }
+
+std::optional<std::string> Descriptor::pop_pending() {
+    if (pending_commands_.empty())
+        return std::nullopt;
+    auto result = std::move(pending_commands_.front());
+    pending_commands_.pop_front();
+    return result;
+}
