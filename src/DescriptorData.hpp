@@ -32,26 +32,28 @@ const char *name_of(DescriptorState state);
  * Descriptor (channel) structure.
  */
 struct Descriptor {
-    Descriptor *next;
-    Descriptor *snoop_by;
-    CHAR_DATA *character;
-    CHAR_DATA *original;
-    char *host;
-    char *logintime;
-    uint32_t descriptor;
-    int netaddr;
-    DescriptorState connected;
-    uint16_t localport;
-    bool fcommand;
-    char inbuf[4 * MAX_INPUT_LENGTH];
-    char incomm[MAX_INPUT_LENGTH];
-    char inlast[MAX_INPUT_LENGTH];
-    int repeat;
-    char *outbuf;
-    int outsize;
-    int outtop;
-    char *showstr_head;
-    char *showstr_point;
+    Descriptor *next{};
+    Descriptor *snoop_by{};
+    CHAR_DATA *character{};
+    CHAR_DATA *original{};
+    char *host{};
+    char *logintime{};
+    uint32_t descriptor{};
+    uint32_t netaddr{};
+    DescriptorState connected{DescriptorState::GetName};
+    uint16_t localport{};
+    bool fcommand{};
+    char inbuf[4 * MAX_INPUT_LENGTH]{};
+    char incomm[MAX_INPUT_LENGTH]{};
+    char inlast[MAX_INPUT_LENGTH]{};
+    int repeat{};
+    char *outbuf{};
+    int outsize{2000};
+    int outtop{};
+    char *showstr_head{};
+    char *showstr_point{};
 
+    explicit Descriptor(uint32_t descriptor);
+    ~Descriptor();
     [[nodiscard]] bool is_playing() const noexcept { return connected == DescriptorState::Playing; }
 };

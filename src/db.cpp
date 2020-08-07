@@ -2823,14 +2823,10 @@ void do_dump(CHAR_DATA *ch, char *argument) {
 
     /* descriptors */
     count = 0;
-    count2 = 0;
     for (d = descriptor_list; d != nullptr; d = d->next)
         count++;
-    for (d = descriptor_free; d != nullptr; d = d->next)
-        count2++;
 
-    fprintf(fp, "Descs	%4d (%8ld bytes), %2d free (%ld bytes)\n", count, count * (sizeof(*d)), count2,
-            count2 * (sizeof(*d)));
+    fprintf(fp, "Descs	%4d (%8ld bytes)\n", count, count * (sizeof(*d)));
 
     /* object prototypes */
     for (vnum = 0; nMatch < top_obj_index; vnum++)

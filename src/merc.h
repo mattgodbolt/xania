@@ -1832,7 +1832,6 @@ extern AFFECT_DATA *affect_free;
 extern BAN_DATA *ban_free;
 
 extern CHAR_DATA *char_free;
-extern Descriptor *descriptor_free;
 extern EXTRA_DESCR_DATA *extra_descr_free;
 extern OBJ_DATA *obj_free;
 extern PC_DATA *pcdata_free;

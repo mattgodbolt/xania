@@ -57,7 +57,6 @@ const char go_ahead_str[] = {char(IAC), char(GA), '\0'};
 /*
  * Global variables.
  */
-Descriptor *descriptor_free; /* Free list for descriptors  */
 Descriptor *descriptor_list; /* All open descriptors    */
 Descriptor *d_next; /* Next descriptor in loop */
 FILE *fpReserve; /* Reserved file handle    */
@@ -454,14 +453,21 @@ void game_loop_unix(int control) {
                 d->fcommand = true;
                 move_active_char_from_limbo(d->character);
 
-                if (d->showstr_point)
-                    show_string(d, d->incomm);
-                else if (d->is_playing())
-                    interpret(d->character, d->incomm);
-                else
-                    nanny(d, d->incomm);
-
+                // It's possible that 'd' will be deleted as a result of any of the following operations. So, we take
+                // a copy of its data here, then clear the incomm.
+                // Right now, conservatively assume downstream users expect MAX_INPUT_LENGTH sized buffer. TODO replace
+                // with std::string or equivalent as soon as we can. Ideally, once d->incomm is a std:string, this
+                // becomes a move operation.
+                char incomm_buf[MAX_STRING_LENGTH];
+                strncpy(incomm_buf, d->incomm, MAX_STRING_LENGTH);
                 d->incomm[0] = '\0';
+                if (d->showstr_point)
+                    show_string(d, incomm_buf);
+                else if (d->is_playing())
+                    interpret(d->character, incomm_buf);
+                else
+                    nanny(d, incomm_buf);
+                // 'd' may be invalid, do no further work on it.
             }
         }
 
@@ -530,29 +536,7 @@ void game_loop_unix(int control) {
 }
 
 Descriptor *new_descriptor(int channel) {
-    static Descriptor d_zero;
-    Descriptor *dnew;
-
-    /*
-     * Cons a new descriptor.
-     */
-    if (descriptor_free == nullptr) {
-        dnew = (Descriptor *)alloc_perm(sizeof(*dnew));
-    } else {
-        dnew = descriptor_free;
-        descriptor_free = descriptor_free->next;
-    }
-
-    *dnew = d_zero;
-    dnew->descriptor = channel;
-    dnew->connected = DescriptorState::GetName;
-    dnew->showstr_head = nullptr;
-    dnew->showstr_point = nullptr;
-    dnew->outsize = 2000;
-    dnew->outbuf = (char *)alloc_mem(dnew->outsize);
-    dnew->logintime = str_dup((char *)ctime(&current_time));
-
-    dnew->host = str_dup("(unknown)");
+    auto *dnew = new Descriptor(channel);
 
     /*
      * Init descriptor data.
@@ -640,12 +624,8 @@ void close_socket(Descriptor *dclose) {
     p.nExtra = 0;
     SendPacket(&p, nullptr);
 
-    free_string(dclose->host);
-    /* RT socket leak fix -- I hope */
-    free_mem(dclose->outbuf, dclose->outsize);
-    /*    free_string(dclose->showstr_head); */
-    dclose->next = descriptor_free;
-    descriptor_free = dclose;
+    // TODO: ideally no naked news/deletes. One day.
+    delete dclose;
 }
 
 bool read_from_descriptor(Descriptor *d, char *data, int nRead) {

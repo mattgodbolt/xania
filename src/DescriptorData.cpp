@@ -50,3 +50,17 @@ const char *name_of(DescriptorState state) {
     }
     return "Unknown";
 }
+
+Descriptor::Descriptor(uint32_t descriptor) {
+    this->descriptor = descriptor;
+    outbuf = (char *)alloc_mem(outsize);
+    logintime = str_dup((char *)ctime(&current_time));
+    host = str_dup("(unknown)");
+}
+
+Descriptor::~Descriptor() {
+    free_string(host);
+    /* RT socket leak fix -- I hope */
+    free_mem(outbuf, outsize);
+    /*    free_string(dclose->showstr_head); */
+}
