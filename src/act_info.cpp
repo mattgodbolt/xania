@@ -1275,7 +1275,7 @@ const char *position_desc[] = {"dead",    "mortally wounded", "incapacitated", "
 
 const char *armour_desc[] = {"divinely armoured against", "almost invulnerable to",     "superbly armoured against",
                              "heavily armoured against",  "very well-armoured against", "well-armoured against",
-                             "armoured against",          "somewhat armoured against",  "slighty armoured against",
+                             "armoured against",          "somewhat armoured against",  "slightly armoured against",
                              "barely protected from",     "defenseless against",        "hopelessly vulnerable to"};
 
 void describe_armour(CHAR_DATA *ch, int type, const char *name) {
