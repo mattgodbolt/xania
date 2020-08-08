@@ -1683,10 +1683,16 @@ void do_shutdown(CHAR_DATA *ch, const char *argument) {
 
 void do_snoop(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    Descriptor *d;
     CHAR_DATA *victim;
 
     one_argument(argument, arg);
+
+    if (ch->desc == nullptr) {
+        // MRG old code was split-brained about checking this. Seems like nothing would have worked if ch->desc was
+        // actually null, so bugging out here.
+        bug("null ch->desc in do_snoop");
+        return;
+    }
 
     if (arg[0] == '\0') {
         send_to_char("Snoop whom?\n\r", ch);
@@ -1698,22 +1704,14 @@ void do_snoop(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (victim->desc == nullptr) {
+    if (!victim->desc) {
         send_to_char("No descriptor to snoop.\n\r", ch);
         return;
     }
 
     if (victim == ch) {
         send_to_char("Cancelling all snoops.\n\r", ch);
-        for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->snoop_by == ch->desc)
-                d->snoop_by = nullptr;
-        }
-        return;
-    }
-
-    if (victim->desc->snoop_by != nullptr) {
-        send_to_char("Busy already.\n\r", ch);
+        ch->desc->stop_snooping();
         return;
     }
 
@@ -1722,16 +1720,11 @@ void do_snoop(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (ch->desc != nullptr) {
-        for (d = ch->desc->snoop_by; d != nullptr; d = d->snoop_by) {
-            if (d->character == victim || d->original == victim) {
-                send_to_char("No snoop loops.\n\r", ch);
-                return;
-            }
-        }
+    if (!ch->desc->try_start_snooping(*victim->desc)) {
+        send_to_char("No snoop loops.\n\r", ch);
+        return;
     }
 
-    victim->desc->snoop_by = ch->desc;
     send_to_char("Ok.\n\r", ch);
 }
 

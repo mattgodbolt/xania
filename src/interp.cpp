@@ -467,6 +467,7 @@ void interpret(CHAR_DATA *ch, const char *argument) {
     if (!cmd) {
         if (!check_social(ch, command, argument))
             send_to_char("Huh?\n\r", ch);
+        // Return beforfe logging. This is to prevent accidentally logging a typo'd "never log" command.
         return;
     }
 
@@ -486,9 +487,8 @@ void interpret(CHAR_DATA *ch, const char *argument) {
         log_new(log_buf, (cmd->level >= 91) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT, level);
     }
 
-    if (ch->desc != nullptr && ch->desc->snoop_by != nullptr) {
-        ch->desc->snoop_by->write("% {}\n\r"_format(logline));
-    }
+    if (ch->desc)
+        ch->desc->note_input(ch->name, logline);
 
     /* Character not in position for command? */
     if (ch->position < cmd->position) {

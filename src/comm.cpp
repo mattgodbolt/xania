@@ -534,18 +534,7 @@ void close_socket(Descriptor *dclose) {
     if (dclose->has_buffered_output())
         process_output(dclose, false);
 
-    if (dclose->snoop_by != nullptr) {
-        dclose->snoop_by->write("Your victim has left the game.\n\r");
-    }
-
-    {
-        Descriptor *d;
-
-        for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->snoop_by == dclose)
-                d->snoop_by = nullptr;
-        }
-    }
+    dclose->close();
 
     if ((ch = dclose->character) != nullptr) {
         do_chal_canc(ch);

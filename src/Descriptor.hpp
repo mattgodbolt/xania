@@ -6,6 +6,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <unordered_set>
 
 // Connected state for a descriptor.
 enum class DescriptorState {
@@ -45,12 +46,13 @@ class Descriptor {
     std::string login_time_;
     std::string outbuf_;
     std::list<std::string> page_outbuf_;
+    std::unordered_set<Descriptor *> snoop_by_;
+    std::unordered_set<Descriptor *> snooping_;
 
     [[nodiscard]] std::optional<std::string> pop_raw();
 
 public:
     Descriptor *next{};
-    Descriptor *snoop_by{};
     CHAR_DATA *character{};
     CHAR_DATA *original{};
     uint32_t netaddr{};
@@ -59,6 +61,7 @@ public:
     bool fcommand{};
 
     explicit Descriptor(uint32_t descriptor);
+    ~Descriptor();
 
     [[nodiscard]] bool is_playing() const noexcept { return connected == DescriptorState::Playing; }
     [[nodiscard]] bool is_input_full() const noexcept { return pending_commands_.size() >= MaxInbufBacklog; }
@@ -89,5 +92,13 @@ public:
 
     [[nodiscard]] bool flush_output() noexcept;
 
+    // Fails for reasons of snoop loops.
+    [[nodiscard]] bool try_start_snooping(Descriptor &other);
+    void stop_snooping(Descriptor &other);
+    void stop_snooping();
+
+    void close() noexcept;
+
     [[nodiscard]] uint32_t channel() const noexcept { return channel_; }
+    void note_input(std::string_view char_name, std::string_view input);
 };
