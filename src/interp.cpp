@@ -467,7 +467,7 @@ void interpret(CHAR_DATA *ch, const char *argument) {
     if (!cmd) {
         if (!check_social(ch, command, argument))
             send_to_char("Huh?\n\r", ch);
-        // Return beforfe logging. This is to prevent accidentally logging a typo'd "never log" command.
+        // Return before logging. This is to prevent accidentally logging a typo'd "never log" command.
         return;
     }
 
