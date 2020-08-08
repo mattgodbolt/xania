@@ -42,4 +42,3 @@ Container split_lines(std::string_view input) {
 // Returns true iff the second string is a prefix of the first (or the two strings are
 // identical).
 [[nodiscard]] bool has_prefix(std::string_view haystack, std::string_view needle);
-  
