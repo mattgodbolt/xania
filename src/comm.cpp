@@ -71,7 +71,7 @@ bool MOBtrigger;
 
 void game_loop_unix(int control);
 int init_socket(const char *file);
-Descriptor *new_descriptor(int control);
+Descriptor *new_descriptor(int channel);
 bool read_from_descriptor(Descriptor *d, char *text, int nRead);
 void move_active_char_from_limbo(CHAR_DATA *ch);
 
@@ -84,7 +84,6 @@ bool check_playing(Descriptor *d, char *name);
 void nanny(Descriptor *d, const char *argument);
 bool process_output(Descriptor *d, bool fPrompt);
 void show_prompt(Descriptor *d, char *prompt);
-void show_string(Descriptor *d, const char *input);
 
 /* Handle to get to doorman */
 int doormanDesc = 0;
@@ -431,8 +430,8 @@ void game_loop_unix(int control) {
 
                 // It's possible that 'd' will be deleted as a result of any of the following operations. Be very
                 // careful.
-                if (d->showstr_point)
-                    show_string(d, incomm->c_str());
+                if (d->is_paging())
+                    d->show_next_page(*incomm);
                 else if (d->is_playing())
                     interpret(d->character, incomm->c_str());
                 else
@@ -621,7 +620,7 @@ bool process_output(Descriptor *d, bool fPrompt) {
     /*
      * Bust a prompt.
      */
-    if (!merc_down && d->showstr_point)
+    if (!merc_down && d->is_paging())
         d->write("[Hit Return to continue]\n\r");
     else if (fPrompt && !merc_down && d->is_playing()) {
         CHAR_DATA *ch;
@@ -1455,54 +1454,7 @@ void page_to_char(const char *txt, CHAR_DATA *ch) {
     if (txt == nullptr || ch->desc == nullptr)
         return;
 
-    ch->desc->showstr_head = (char *)alloc_mem(strlen(txt) + 1);
-    strcpy(ch->desc->showstr_head, txt);
-    ch->desc->showstr_point = ch->desc->showstr_head;
-    show_string(ch->desc, "");
-}
-
-/* string pager */
-void show_string(Descriptor *d, const char *input) {
-    char buffer[4 * MAX_STRING_LENGTH];
-    char buf[MAX_INPUT_LENGTH];
-    char *scan, *chk;
-    int lines = 0, toggle = 1;
-    int show_lines;
-
-    one_argument(input, buf);
-    if (buf[0] != '\0') {
-        if (d->showstr_head) {
-            free_string(d->showstr_head);
-            d->showstr_head = 0;
-        }
-        d->showstr_point = 0;
-        return;
-    }
-
-    if (d->character)
-        show_lines = d->character->lines;
-    else
-        show_lines = 0;
-
-    for (scan = buffer;; scan++, d->showstr_point++) {
-        if (((*scan = *d->showstr_point) == '\n' || *scan == '\r') && (toggle = -toggle) < 0)
-            lines++;
-
-        else if (!*scan || (show_lines > 0 && lines >= show_lines)) {
-            *scan = '\0';
-            send_to_char(buffer, d->character);
-            for (chk = d->showstr_point; isspace(*chk); chk++)
-                /* nothing */;
-            if (!*chk) {
-                if (d->showstr_head) {
-                    free_string(d->showstr_head);
-                    d->showstr_head = 0;
-                }
-                d->showstr_point = 0;
-            }
-            return;
-        }
-    }
+    ch->desc->page_to(txt);
 }
 
 /* quick sex fixer */

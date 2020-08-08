@@ -114,4 +114,27 @@ TEST_CASE("string_util tests") {
         SECTION("removes backspaces") { CHECK(sanitise_input("TheMa\boog sucks\b\b\b\b\b\b") == "TheMoog"); }
         SECTION("removes backspaces after non-printing") { CHECK(sanitise_input("Oops\xff\b!") == "Oops!"); }
     }
+
+    SECTION("should split lines") {
+        using vs = std::vector<std::string>;
+        SECTION("empty should be a single empty line") { CHECK(split_lines<vs>("") == vs{""}); }
+        SECTION("handles a single unterminated line") { CHECK(split_lines<vs>("a string") == vs{"a string"}); }
+        SECTION("handles a line then unterminated line") { CHECK(split_lines<vs>("one\ntwo") == vs{"one", "two"}); }
+        SECTION("splits lines with LF") { CHECK(split_lines<vs>("first\nsecond\n") == vs{"first", "second"}); }
+        SECTION("splits lines with CR") { CHECK(split_lines<vs>("first\rsecond\r") == vs{"first", "second"}); }
+        SECTION("splits lines with LFCR") { CHECK(split_lines<vs>("first\n\rsecond\n\r") == vs{"first", "second"}); }
+        SECTION("splits lines with CRLF") { CHECK(split_lines<vs>("first\r\nsecond\r\n") == vs{"first", "second"}); }
+        SECTION("splits blank lines with LF") {
+            CHECK(split_lines<vs>("first\n\nthird\n") == vs{"first", "", "third"});
+        }
+        SECTION("splits blank lines with CR") {
+            CHECK(split_lines<vs>("first\r\rthird\r") == vs{"first", "", "third"});
+        }
+        SECTION("splits blank lines with LFCR") {
+            CHECK(split_lines<vs>("first\n\r\n\rthird\n\r") == vs{"first", "", "third"});
+        }
+        SECTION("splits blank lines with CRLF") {
+            CHECK(split_lines<vs>("first\r\n\r\nthird\r\n") == vs{"first", "", "third"});
+        }
+    }
 }

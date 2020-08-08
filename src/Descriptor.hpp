@@ -43,6 +43,7 @@ class Descriptor {
     std::string masked_host_{"unknown"};
     std::string login_time_;
     std::string outbuf_;
+    std::list<std::string> page_outbuf_;
 
     [[nodiscard]] std::optional<std::string> pop_raw();
 
@@ -56,11 +57,8 @@ public:
     DescriptorState connected{DescriptorState::GetName};
     uint16_t localport{};
     bool fcommand{};
-    char *showstr_head{};
-    char *showstr_point{};
 
     explicit Descriptor(uint32_t descriptor);
-    ~Descriptor();
 
     [[nodiscard]] bool is_playing() const noexcept { return connected == DescriptorState::Playing; }
     [[nodiscard]] bool is_input_full() const noexcept { return pending_commands_.size() >= MaxInbufBacklog; }
@@ -76,6 +74,11 @@ public:
     void write(std::string_view message) noexcept;
     [[nodiscard]] bool has_buffered_output() const noexcept { return !outbuf_.empty(); }
     void clear_output_buffer() noexcept { outbuf_.clear(); }
+
+    // Send a page of text to a descriptor. Sending a page replaces any previous page.
+    void page_to(std::string_view page) noexcept;
+    [[nodiscard]] bool is_paging() const noexcept { return !page_outbuf_.empty(); }
+    void show_next_page(std::string_view input) noexcept;
 
     // deliberately named long and annoying to dissuade use! Go use host to get the safe version.
     [[nodiscard]] const std::string &raw_full_hostname() const noexcept { return raw_host_; }

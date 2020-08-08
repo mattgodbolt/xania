@@ -34,9 +34,6 @@ const char *short_name_of(DescriptorState state) {
 
 Descriptor::Descriptor(uint32_t descriptor) : login_time_(ctime(&current_time)), descriptor(descriptor) {}
 
-Descriptor::~Descriptor() { /*    free_string(dclose->showstr_head); */
-}
-
 std::optional<std::string> Descriptor::pop_raw() {
     if (pending_commands_.empty())
         return std::nullopt;
@@ -132,4 +129,25 @@ void Descriptor::write(std::string_view message) noexcept {
     }
 
     outbuf_ += message;
+}
+
+void Descriptor::page_to(std::string_view page) noexcept {
+    page_outbuf_ = split_lines<decltype(page_outbuf_)>(page);
+    // Drop the last line if it's purely whitespace.
+    if (!page_outbuf_.empty() && skip_whitespace(page_outbuf_.back()).empty())
+        page_outbuf_.pop_back();
+    show_next_page("");
+}
+
+void Descriptor::show_next_page(std::string_view input) noexcept {
+    // Any non-empty input cancels pagination, as does having no associated character to send to.
+    if (!skip_whitespace(input).empty() || !character) {
+        page_outbuf_.clear();
+        return;
+    }
+
+    for (auto line = 0; !page_outbuf_.empty() && line < character->lines; ++line) {
+        send_to_char((page_outbuf_.front() + "\r\n").c_str(), character);
+        page_outbuf_.pop_front();
+    }
 }

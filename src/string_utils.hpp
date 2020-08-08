@@ -1,7 +1,10 @@
 #pragma once
 
+#include <list>
 #include <string>
 #include <string_view>
+
+#include "string_utils_impl.hpp"
 
 // Replace all tildes with dashes. Useful til we revamp the player files...
 [[nodiscard]] std::string smash_tilde(std::string_view str);
@@ -19,3 +22,16 @@
 // Given a string like 14.foo, return 14 and 'foo'.
 [[nodiscard]] int number_argument(const char *argument, char *arg); // <- deprecated
 [[nodiscard]] std::pair<int, const char *> number_argument(const char *argument);
+
+// Iterate over lines in a string. `for (auto line : line_iter(...)) { ... }`
+inline auto line_iter(std::string_view sv) { return impl::LineSplitter{sv}; }
+
+// Collect the individual lines of text into a container. Templatized on the storage type, so you can pick whether the
+// container returns references to the original string (e.g. vector<string_view>) or copies (vector<string>).
+template <typename Container>
+Container split_lines(std::string_view input) {
+    Container result;
+    for (auto sv : line_iter(input))
+        result.emplace_back(sv);
+    return result;
+}
