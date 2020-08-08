@@ -37,6 +37,7 @@ const char *short_name_of(DescriptorState state);
  */
 class Descriptor {
     static constexpr size_t MaxInbufBacklog = 50u;
+    uint32_t channel_{};
     std::list<std::string> pending_commands_;
     std::string last_command_;
     std::string raw_host_{"unknown"};
@@ -52,7 +53,6 @@ public:
     Descriptor *snoop_by{};
     CHAR_DATA *character{};
     CHAR_DATA *original{};
-    uint32_t descriptor{};
     uint32_t netaddr{};
     DescriptorState connected{DescriptorState::GetName};
     uint16_t localport{};
@@ -88,4 +88,6 @@ public:
     [[nodiscard]] const std::string &login_time() const noexcept { return login_time_; }
 
     [[nodiscard]] bool flush_output() noexcept;
+
+    [[nodiscard]] uint32_t channel() const noexcept { return channel_; }
 };

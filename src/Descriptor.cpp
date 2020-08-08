@@ -32,7 +32,7 @@ const char *short_name_of(DescriptorState state) {
     return "<UNK>";
 }
 
-Descriptor::Descriptor(uint32_t descriptor) : login_time_(ctime(&current_time)), descriptor(descriptor) {}
+Descriptor::Descriptor(uint32_t descriptor) : channel_(descriptor), login_time_(ctime(&current_time)) {}
 
 std::optional<std::string> Descriptor::pop_raw() {
     if (pending_commands_.empty())
@@ -67,7 +67,7 @@ std::optional<std::string> Descriptor::pop_incomm() {
 bool Descriptor::write_direct(std::string_view text) const {
     Packet p;
     p.type = PACKET_MESSAGE;
-    p.channel = descriptor;
+    p.channel = channel_;
 
     while (!text.empty()) {
         p.nExtra = std::min<uint32_t>(text.length(), PACKET_MAX_PAYLOAD_SIZE);

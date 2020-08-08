@@ -3492,7 +3492,7 @@ void do_sockets(CHAR_DATA *ch, const char *argument) {
             && (arg[0] == '\0' || is_name(arg, d->character->name)
                 || (d->original && is_name(arg, d->original->name)))) {
             count++;
-            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5u %5s] %s@%s\n\r", d->descriptor, d->localport,
+            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5u %5s] %s@%s\n\r", d->channel(), d->localport,
                          short_name_of(d->connected),
                          d->original ? d->original->name : d->character ? d->character->name : "(none)",
                          d->host().c_str());
@@ -3502,7 +3502,7 @@ void do_sockets(CHAR_DATA *ch, const char *argument) {
              * Level 100s only, mind
              */
             count++;
-            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5u %5s] (unknown)@%s\n\r", d->descriptor, d->localport,
+            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5u %5s] (unknown)@%s\n\r", d->channel(), d->localport,
                          short_name_of(d->connected), d->host().c_str());
         }
     }

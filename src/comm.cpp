@@ -112,7 +112,7 @@ bool SendPacket(Packet *p, const void *extra) {
 void SetEchoState(Descriptor *d, int on) {
     Packet p;
     p.type = on ? PACKET_ECHO_ON : PACKET_ECHO_OFF;
-    p.channel = d->descriptor;
+    p.channel = d->channel();
     p.nExtra = 0;
     SendPacket(&p, nullptr);
 }
@@ -348,7 +348,7 @@ void game_loop_unix(int control) {
                          * Find the descriptor associated with the channel and close it
                          */
                         for (d = descriptor_list; d; d = d->next) {
-                            if (d->descriptor == p.channel) {
+                            if (d->channel() == p.channel) {
                                 if (d->character && d->character->level > 1)
                                     save_char_obj(d->character);
                                 d->clear_output_buffer();
@@ -367,7 +367,7 @@ void game_loop_unix(int control) {
                          */
                         ok = 0;
                         for (d = descriptor_list; d; d = d->next) {
-                            if (d->descriptor == p.channel) {
+                            if (d->channel() == p.channel) {
                                 auto *data = reinterpret_cast<const InfoData *>(buffer);
                                 ok = 1;
                                 d->netaddr = data->netaddr;
@@ -391,7 +391,7 @@ void game_loop_unix(int control) {
                          */
                         ok = 0;
                         for (d = descriptor_list; d; d = d->next) {
-                            if (d->descriptor == p.channel) {
+                            if (d->channel() == p.channel) {
                                 ok = 1;
                                 if (d->character != nullptr)
                                     d->character->timer = 0;
@@ -563,7 +563,7 @@ void close_socket(Descriptor *dclose) {
          * New code: debug connections that haven't logged in properly
          * ...at least for level 100s
          */
-        snprintf(log_buf, LOG_BUF_SIZE, "Closing link to descriptor %d.", dclose->descriptor);
+        snprintf(log_buf, LOG_BUF_SIZE, "Closing link to channel %d.", dclose->channel());
         log_new(log_buf, EXTRA_WIZNET_DEBUG, 100);
     }
 
@@ -589,7 +589,7 @@ void close_socket(Descriptor *dclose) {
     } else {
         p.type = PACKET_DISCONNECT_ACK;
     }
-    p.channel = dclose->descriptor;
+    p.channel = dclose->channel();
     p.nExtra = 0;
     SendPacket(&p, nullptr);
 
@@ -1174,7 +1174,7 @@ void nanny(Descriptor *d, const char *argument) {
         {
             Packet p;
             p.type = PACKET_AUTHORIZED;
-            p.channel = d->descriptor;
+            p.channel = d->channel();
             p.nExtra = strlen(ch->name) + 1;
             SendPacket(&p, ch->name);
         }
