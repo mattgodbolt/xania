@@ -1889,16 +1889,6 @@ extern int max_on;
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
 #define MOB_DIR ""
 
-/*
- * Our function prototypes.
- * One big lump ... this is every function in Merc.
- */
-#define CD CHAR_DATA
-#define MID MOB_INDEX_DATA
-#define OD OBJ_DATA
-#define OID OBJ_INDEX_DATA
-#define RID ROOM_INDEX_DATA
-
 /* act_comm.c */
 void check_sex(CHAR_DATA *ch);
 void add_follower(CHAR_DATA *ch, CHAR_DATA *master);
@@ -1941,16 +1931,16 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
 /* db.c */
 void boot_db();
 void area_update();
-CD *create_mobile(MOB_INDEX_DATA *pMobIndex);
+CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex);
 void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone);
-OD *create_object(OBJ_INDEX_DATA *pObjIndex, int level);
+OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex, int level);
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
 void clear_char(CHAR_DATA *ch);
 void free_char(CHAR_DATA *ch);
 char *get_extra_descr(const char *name, EXTRA_DESCR_DATA *ed);
-MID *get_mob_index(int vnum);
-OID *get_obj_index(int vnum);
-RID *get_room_index(int vnum);
+MOB_INDEX_DATA *get_mob_index(int vnum);
+OBJ_INDEX_DATA *get_obj_index(int vnum);
+ROOM_INDEX_DATA *get_room_index(int vnum);
 char fread_letter(FILE *fp);
 int fread_number(FILE *fp);
 int fread_spnumber(FILE *fp);
@@ -2030,7 +2020,7 @@ void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex);
 void obj_to_char(OBJ_DATA *obj, CHAR_DATA *ch);
 void obj_from_char(OBJ_DATA *obj);
 int apply_ac(OBJ_DATA *obj, int iWear, int type);
-OD *get_eq_char(CHAR_DATA *ch, int iWear);
+OBJ_DATA *get_eq_char(CHAR_DATA *ch, int iWear);
 void equip_char(CHAR_DATA *ch, OBJ_DATA *obj, int iWear);
 void unequip_char(CHAR_DATA *ch, OBJ_DATA *obj);
 int count_obj_list(OBJ_INDEX_DATA *obj, OBJ_DATA *list);
@@ -2049,16 +2039,16 @@ bool is_switched(CHAR_DATA *ch);
 /* MRG added */
 bool check_sub_issue(OBJ_DATA *obj, CHAR_DATA *ch);
 
-CD *get_char_room(CHAR_DATA *ch, const char *argument);
-CD *get_char_world(CHAR_DATA *ch, const char *argument);
-CD *get_mob_by_vnum(sh_int vnum);
-OD *get_obj_type(OBJ_INDEX_DATA *pObjIndexData);
-OD *get_obj_list(CHAR_DATA *ch, const char *argument, OBJ_DATA *list);
-OD *get_obj_carry(CHAR_DATA *ch, const char *argument);
-OD *get_obj_wear(CHAR_DATA *ch, const char *argument);
-OD *get_obj_here(CHAR_DATA *ch, const char *argument);
-OD *get_obj_world(CHAR_DATA *ch, const char *argument);
-OD *create_money(int amount);
+CHAR_DATA *get_char_room(CHAR_DATA *ch, const char *argument);
+CHAR_DATA *get_char_world(CHAR_DATA *ch, const char *argument);
+CHAR_DATA *get_mob_by_vnum(sh_int vnum);
+OBJ_DATA *get_obj_type(OBJ_INDEX_DATA *pObjIndexData);
+OBJ_DATA *get_obj_list(CHAR_DATA *ch, const char *argument, OBJ_DATA *list);
+OBJ_DATA *get_obj_carry(CHAR_DATA *ch, const char *argument);
+OBJ_DATA *get_obj_wear(CHAR_DATA *ch, const char *argument);
+OBJ_DATA *get_obj_here(CHAR_DATA *ch, const char *argument);
+OBJ_DATA *get_obj_world(CHAR_DATA *ch, const char *argument);
+OBJ_DATA *create_money(int amount);
 int get_obj_number(OBJ_DATA *obj);
 int get_obj_weight(OBJ_DATA *obj);
 bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex);
@@ -2175,12 +2165,6 @@ void mprog_speech_trigger(const char *txt, CHAR_DATA *mob);
 
 #define MAX_DIR 6
 #define NO_FLAG -99 /* Must not be used in flags or stats. */
-
-#undef CD
-#undef MID
-#undef OD
-#undef OID
-#undef RID
 
 #include "chat/chatlink.h"
 
