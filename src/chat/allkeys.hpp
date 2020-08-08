@@ -1,23 +1,13 @@
-
-//allkeys.hpp
-
-
-#ifndef ALLKEYS_HPP
-#define ALLKEYS_HPP
+#pragma once
 
 #include "chatmain.hpp"
 #include "akey.hpp"
-
-#include <stdlib.h> //for nullptr
-
 
 struct akeynode
 {
   akey key;
   akeynode *next;
 };
-
-
 
 class allkeys
 {
@@ -34,5 +24,3 @@ public:
   akeynode* advance();
   ~allkeys();
 };
-
-#endif

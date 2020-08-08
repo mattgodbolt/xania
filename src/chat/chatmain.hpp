@@ -1,52 +1,11 @@
-
-//chatmain.hpp
 //chris busch
-
-#ifndef CHATMAIN_HPP
-#define CHATMAIN_HPP
-
-//set to DEBUG for debugging
-//set to TEST for testing
-//set to CHECKMEM for checking memory
-
-#define DEBUGoff
-#define TESToff			
-#define CHECKMEM
-
-
-
-//dont define UNIX if using msdos.
-#define UNIX
+#pragma once
 
 //maximum size of an input string.
 #define MAXSIZE 100
 
-//enum bool {false,true};
-#define BOOL int
-#define false 0
-#define true 1
-#ifndef nullptr
-	#define nullptr 0
-#endif
-
-#ifdef UNIX
-	void randomize();
-	int random(int);
-#endif
-
+void randomize();
+int random(int);
 
 extern const char eliza_title[];
 extern const char eliza_version[];
-
-
-
-#endif //CHATMAIN_HPP
-
-
-
-
-
-
-
-
-

@@ -1,13 +1,8 @@
-
-//akey.hpp
 //chris busch
 
-#ifndef AKEY_HPP
-#define AKEY_HPP
+#pragma once
 
 #include "chatmain.hpp"
-
-//#define REDUCEWATES //in muds you dont want this.
 
 struct reply
 {
@@ -30,8 +25,4 @@ class akey
 		int addreply(int,char *);
 		reply& getreply(int num) {return replys[num];}
 		const char* getrndreply();
-		~akey();
 };
-
-
-#endif

@@ -1,11 +1,10 @@
 
 //eliza.hpp
 //chris busch (c) copyright 1995 all rights reserved
+#pragma once
 
-#ifndef ELIZA_HPP
-#define ELIZA_HPP
-
-#include <string.h>
+#include <cstring>
+#include <cstdlib>
 #include "chatmain.hpp"
 #include "allkeys.hpp"
 
@@ -65,8 +64,4 @@ public:
   eliza() { numdbases=0; numnames=0; char de[] = "default"; addname(de,0); }
 
 };
-
-#endif 
-
-
 

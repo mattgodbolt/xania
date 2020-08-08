@@ -3,11 +3,11 @@
 //(c) 1993 all rights reserved.
 // eliza.cpp
 
-#include <ctype.h>
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <search.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include "eliza.hpp"
 
@@ -65,7 +65,6 @@ int fggetword(const char *&input, char *outword, char &outother) // 0 if done
         *outword = curchar;
         outword++;
         input++;
-        //                printf(",%c;",*input); //debug
         curchar = *input;
     }
     if (*input != '\0')
@@ -133,10 +132,6 @@ void fixgrammer(char s[]) {
     char ministr[] = " ";
 
     while (fggetword(theinput, aword, otherch)) {
-#ifdef DEBUG
-        printf(">%s'%s' : '%s' , %d\n", newsent, theinput, aword, otherch);
-#endif
-
         ministr[0] = otherch;
         strcat(newsent, substit(aword));
         strcat(newsent, ministr);
@@ -250,38 +245,24 @@ bool eliza::loaddata(const char file[], char recurflag) {
     FILE *data;
     char str[MAXSIZE];
     if ((data = fopen(file, "rt")) == nullptr) {
-#ifdef DEBUG
-        puts("File error!");
-#endif
         return false;
     }
     int linecount = 0;
 
     while (fgets(str, MAXSIZE - 1, data) != nullptr) {
         linecount++;
-#ifdef DEBUG
-        puts(str);
-#endif
         trim(str);
         if (strlen(str) > 0) {
             if (str[0] >= '1' && str[0] <= '9') {
                 thekeys[numdbases].curr()->key.addreply(str[0] - '0', &(str[1]));
-#ifdef DEBUG
-                // puts("reply found");
-#endif
             } else
                 switch (str[0]) {
                 case '\0': break;
-                case '(': thekeys[numdbases].addkey(); thekeys[numdbases].curr()->key.addlogic(str);
-#ifdef DEBUG
-                    // puts("logic found");
-#endif
+                case '(':
+                    thekeys[numdbases].addkey();
+                    thekeys[numdbases].curr()->key.addlogic(str);
                     break;
-                case '#':
-#ifdef DEBUG
-                    puts("rem");
-#endif
-                    break;
+                case '#': break;
                 case '"': fprintf(stderr, "%s\n", &str[1]); break;
                 case '\'': fprintf(stdout, "%s\n", &str[1]); break;
                 case '>': // add another database
@@ -342,11 +323,7 @@ int eliza::doop(char op, int a, int b) {
     case '&': return a && b;
     case '|': return a || b;
     case '~': return a && !b;
-    default:
-#ifdef DEBUG
-        printf("Errored Op! %c\n", op);
-#endif
-        return 0;
+    default: return 0;
     }
 }
 
@@ -372,9 +349,6 @@ int eliza::strpos(char *s, char *sub) {
         if (space) {
             for (a = 0; a < lnsub && (lowcase(s[i + a]) == sub[a]); a++)
                 ;
-#ifdef DEBUG
-                // printf("hey %d r:%d",a,i+a);
-#endif
             if (a == lnsub)
                 return (i + a);
         }
@@ -399,19 +373,12 @@ int eliza::match(char s[], char m[], int &in, int &rest) {
     char ph[MAXSIZE];
     int len = 0;
     ph[0] = 0;
-#ifdef DEBUG
-    // puts(s);
-    // puts(m);
-#endif
     while (s[in] != '(')
         in++;
     in++;
     for (; in < l; in++) {
         switch (s[in]) {
         case '(':
-#ifdef DEBUG
-            // printf("in %d into...\n",in);
-#endif
             a = match(s, m, in, rest);
             if (op == '\0')
                 res = a;
@@ -422,9 +389,6 @@ int eliza::match(char s[], char m[], int &in, int &rest) {
         case '|': encounterop op = '|'; break;
         case '~': encounterop op = '~'; break;
         case ')':
-#ifdef DEBUG
-            // printf("p:'%s'\n",ph);
-#endif
             trim(ph);
             if (strlen(ph)) {
                 a = strpos(m, ph);
