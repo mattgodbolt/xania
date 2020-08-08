@@ -21,7 +21,7 @@ CONDA_INSTALLER=$(TOOLS_DIR)/conda-$(CONDA_VERSION)/installer.sh
 CONDA:=$(CONDA_ROOT)/bin/conda
 PIP:=$(CONDA_ROOT)/bin/pip
 CONAN:=$(CONDA_ROOT)/bin/conan
-SOURCE_FILES:=$(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name \*.C -o -name *.hpp | grep -v src/chat) # TODO: format eliza too
+SOURCE_FILES:=$(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name \*.C -o -name *.hpp)
 
 ifeq ($(shell which ninja),)
 CMAKE_GENERATOR_FLAGS?=

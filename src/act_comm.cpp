@@ -941,24 +941,28 @@ bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch) {
     return ach == bch;
 }
 
-/* The Eliza-functions */
-void chatperform(CHAR_DATA *ch, CHAR_DATA *victim, const char *msg) {
-    char *reply;
-    if (!IS_NPC(ch) || (victim != nullptr && IS_NPC(victim)))
+/**
+ * Trigger the Eliza chat engine. Can cause an NPC to say something back to the player.
+ * to_npc: the NPC that received the chat/social message.
+ * from_player: the player that sent it.
+ */
+void chatperform(CHAR_DATA *to_npc, CHAR_DATA *from_player, const char *msg) {
+    char response_buf[MaxChatReplyLength];
+    if (!IS_NPC(to_npc) || (from_player != nullptr && IS_NPC(from_player)))
         return; /* failsafe */
-    reply = dochat(ch->name, msg, victim ? victim->name : "you");
+    const char *reply = dochat(response_buf, from_player ? from_player->name : "you", msg, to_npc->name);
     if (reply) {
         switch (reply[0]) {
         case '\0': break;
-        case '"': /* say message */ do_say(ch, reply + 1); break;
-        case ':': /* do emote */ do_emote(ch, reply + 1); break;
-        case '!': /* do command */ interpret(ch, reply + 1); break;
+        case '"': /* say message */ do_say(to_npc, reply + 1); break;
+        case ':': /* do emote */ do_emote(to_npc, reply + 1); break;
+        case '!': /* do command */ interpret(to_npc, reply + 1); break;
         default: /* say or tell */
-            if (victim == nullptr) {
-                do_say(ch, reply);
+            if (from_player == nullptr) {
+                do_say(to_npc, reply);
             } else {
-                act("$N tells you '$t'.", victim, reply, ch, TO_CHAR);
-                victim->reply = ch;
+                act("$N tells you '$t'.", from_player, reply, to_npc, TO_CHAR);
+                from_player->reply = to_npc;
             }
         }
     }

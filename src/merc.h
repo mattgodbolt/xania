@@ -2163,6 +2163,7 @@ void mprog_speech_trigger(const char *txt, CHAR_DATA *mob);
 #define MAX_DIR 6
 #define NO_FLAG -99 /* Must not be used in flags or stats. */
 
+#include "chat/chatconstants.hpp"
 #include "chat/chatlink.h"
 
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
