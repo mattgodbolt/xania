@@ -35,3 +35,11 @@ Container split_lines(std::string_view input) {
         result.emplace_back(sv);
     return result;
 }
+
+// Returns the string, lower-cased.
+[[nodiscard]] std::string lower_case(std::string_view str);
+
+// Returns true iff the second string is a prefix of the first (or the two strings are
+// identical).
+[[nodiscard]] bool has_prefix(std::string_view haystack, std::string_view needle);
+  

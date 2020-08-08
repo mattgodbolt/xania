@@ -137,4 +137,19 @@ TEST_CASE("string_util tests") {
             CHECK(split_lines<vs>("first\r\n\r\nthird\r\n") == vs{"first", "", "third"});
         }
     }
+
+    SECTION("lower_case") {
+        SECTION("already lower") { CHECK(lower_case("already lowercase") == "already lowercase"); }
+        SECTION("all upper") { CHECK(lower_case("I AM SHOUTY") == "i am shouty"); }
+        SECTION("mixture") { CHECK(lower_case("I am A LITTLE shouty") == "i am a little shouty"); }
+        SECTION("non-letters") { CHECK(lower_case("G0RD0N'5 AL111111V3!!!!!!") == "g0rd0n'5 al111111v3!!!!!!"); }
+    }
+
+    SECTION("has_prefix") {
+        SECTION("prefix") { CHECK(has_prefix("boolean", "bool")); }
+        SECTION("full match") { CHECK(has_prefix("integer", "integer")); }
+        SECTION("suffix") { CHECK(!has_prefix("float", "at")); }
+        SECTION("gibberish") { CHECK(!has_prefix("boson", "fermion")); }
+        SECTION("needle larger than haystack") { CHECK(!has_prefix("bool", "boolean")); }
+    }
 }

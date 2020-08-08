@@ -55,6 +55,7 @@ add_library(xania_lib STATIC
         update.cpp
         wiznet.cpp
         xania.cpp
+        CommandSet.hpp
         Descriptor.cpp Descriptor.hpp
         string_utils.cpp string_utils.hpp string_utils_impl.hpp
         info.hpp WrappedFd.cpp WrappedFd.hpp)
