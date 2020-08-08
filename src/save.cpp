@@ -125,7 +125,6 @@ void save_char_obj(CHAR_DATA *ch) {
 void fwrite_char(CHAR_DATA *ch, FILE *fp) {
     AFFECT_DATA *paf;
     int sn, gn;
-    char hostbuf[MAX_MASKED_HOSTNAME];
 
     fprintf(fp, "#%s\n", IS_NPC(ch) ? "MOB" : "PLAYER");
 
@@ -209,8 +208,8 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
         /* Rohan: Save info data */
         fprintf(fp, "Info_message %s~\n", ch->pcdata->info_message);
         if (ch->desc) {
-            fprintf(fp, "LastLoginFrom %s~\n", get_masked_hostname(hostbuf, ch->desc->host));
-            fprintf(fp, "LastLoginAt %s~\n", ch->desc->logintime);
+            fprintf(fp, "LastLoginFrom %s~\n", ch->desc->host().c_str());
+            fprintf(fp, "LastLoginAt %s~\n", ch->desc->login_time().c_str());
         }
 
         /* save prefix PCFN 19-05-97 */

@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "info.hpp"
 #include "merc.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,7 +22,6 @@ void do_quit(CHAR_DATA *ch, const char *arg);
 
 /* Rohan's info stuff - extern to Player list */
 extern KNOWN_PLAYERS *player_list;
-extern FINGER_INFO *info_cache;
 
 void do_delet(CHAR_DATA *ch, const char *argument) {
     (void)argument;
@@ -32,7 +32,6 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char strsave[MAX_INPUT_LENGTH];
     KNOWN_PLAYERS *cursor, *temp;
-    FINGER_INFO *cur, *tmp;
 
     if (IS_NPC(ch))
         return;
@@ -53,7 +52,7 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
                 free_mem(cursor, sizeof(KNOWN_PLAYERS));
                 /*	     log_string ("Player name removed from player list.");*/
             } else if (cursor != nullptr) {
-                while (cursor->next != nullptr && (strcmp(cursor->next->name, ch->name)))
+                while (cursor->next != nullptr && cursor->next->name != ch->name)
                     cursor = cursor->next;
                 if (cursor->next != nullptr) {
                     temp = cursor->next;
@@ -67,33 +66,7 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
                 bug("Player list was empty. Not good.");
             /* Added by Rohan - to delete the cached info, if it has been
              cached of course! */
-            cur = info_cache;
-            if (cur != nullptr && !(strcmp(cur->name, ch->name))) {
-                info_cache = info_cache->next;
-                free_string(cur->name);
-                free_string(cur->info_message);
-                free_string(cur->last_login_at);
-                free_string(cur->last_login_from);
-                free_mem(cur, sizeof(FINGER_INFO));
-                /*  log_string ("Player info removed from info cache1.");*/
-            } else if (cur != nullptr) {
-                while (cur->next != nullptr && (strcmp(cur->next->name, ch->name))) {
-                    cur = cur->next;
-                }
-                if (cur->next != nullptr) {
-                    tmp = cur->next;
-                    cur->next = cur->next->next;
-                    free_string(tmp->name);
-                    free_string(tmp->info_message);
-                    free_string(tmp->last_login_at);
-                    free_string(tmp->last_login_from);
-                    free_mem(tmp, sizeof(FINGER_INFO));
-                    /*		 log_string ("Player info removed from info cache2.");*/
-                }
-                /*	     else
-                          log_string ("Deleted player info was not in info cache.");*/
-            } else
-                log_string("Info cache was empty.");
+            remove_info_for_player(ch->name);
 
             snprintf(strsave, sizeof(strsave), "%s%s", PLAYER_DIR, capitalize(ch->name));
             do_quit(ch, "");
@@ -434,8 +407,6 @@ void do_qui(CHAR_DATA *ch, const char *argument) {
 void do_quit(CHAR_DATA *ch, const char *arg) {
     (void)arg;
     Descriptor *d;
-    FINGER_INFO *cur;
-    bool info_found = false;
 
     if (IS_NPC(ch))
         return;
@@ -467,37 +438,8 @@ void do_quit(CHAR_DATA *ch, const char *arg) {
      * After extract_char the ch is no longer valid!
      */
     /* Rohan: if char's info is in cache, update login time and host */
-    cur = info_cache;
-    while (cur != nullptr && info_found == false) {
-        if (!strcmp(cur->name, ch->name))
-            info_found = true;
-        else
-            cur = cur->next;
-    }
-    if (info_found == true) {
+    update_info_cache(ch);
 
-        cur->invis_level = ch->invis_level;
-
-        /* Make sure player isn't link dead. */
-        if (ch->desc != nullptr) {
-            free_string(cur->last_login_from);
-            free_string(cur->last_login_at);
-
-            cur->last_login_at = str_dup(ch->desc->logintime);
-            cur->last_login_from = str_dup(ch->desc->host);
-        } else {
-            char *strtime;
-
-            /* If link dead, we need to grab as much
-               info as possible. Death.*/
-            free_string(cur->last_login_at);
-
-            strtime = ctime(&current_time);
-            strtime[strlen(strtime) - 1] = '\0';
-
-            cur->last_login_at = str_dup(strtime);
-        }
-    }
     save_char_obj(ch);
     d = ch->desc;
     extract_char(ch, true);
