@@ -9,16 +9,14 @@
 template <typename T>
 class CommandSet {
 public:
-    CommandSet() {}
-
     // add a command called 'name' with a value, which is available to characters
     // at level 'level' or above.
-    void add(const std::string &name_in, T value, int level) {
+    void add(const std::string &name_in, T &&value, int level) {
         auto name = lower_case(name_in);
-        commands_[name] = std::make_pair(value, level);
+        commands_.try_emplace(name, std::move(value), level);
     }
 
-    std::optional<const T> get(const std::string &name_in, int level) const {
+    std::optional<T> get(const std::string &name_in, int level) const {
         auto name = lower_case(name_in);
         // lower_bound gets the lowest item whose key is great than or equal to name.
         for (auto it = commands_.lower_bound(name); it != commands_.end(); it++) {
@@ -39,14 +37,19 @@ public:
         return std::nullopt;
     }
 
-    void enumerate(int min_level, int max_level,
-                   std::function<void(const std::string &name, const T value, int level)> fn) const {
+    void enumerate(std::function<void(const std::string &name, T value, int level)> fn) const {
         for (auto it = commands_.begin(); it != commands_.end(); it++) {
-            auto level = it->second.second;
-            if (level < min_level || level > max_level)
-                continue;
-            fn(it->first, it->second.first, level);
+            fn(it->first, it->second.first, it->second.second);
         }
+    }
+
+    std::function<void(const std::string &name, T value, int level)>
+    level_restrict(int min_level, int max_level,
+                   std::function<void(const std::string &name, T value, int level)> fn) const {
+        return [min_level, max_level, fn](const std::string &name, T value, int level) {
+            if (level >= min_level && level <= max_level)
+                fn(name, value, level);
+        };
     }
 
 private:

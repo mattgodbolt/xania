@@ -10,9 +10,9 @@ namespace {
 template <typename T>
 std::string enumerate_str(const CommandSet<T> &cs, int min_level, int max_level) {
     std::ostringstream result;
-    cs.enumerate(min_level, max_level, [&result](const std::string &name, const T value, int level) {
+    cs.enumerate(cs.level_restrict(min_level, max_level, [&result](const std::string &name, const T value, int level) {
         result << name << "=" << value << "@" << level << " ";
-    });
+    }));
     return result.str();
 }
 
