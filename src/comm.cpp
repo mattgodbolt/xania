@@ -329,10 +329,10 @@ void game_loop_unix(int control) {
                         log_string(logMes);
                         d = new_descriptor(p.channel);
                         // Login name
-                        write_to_buffer(d, buffer, 0);
-                        write_to_buffer(d, "\n\r", 2);
+                        d->write(buffer);
+                        d->write("\n\r");
                         nanny(d, buffer);
-                        write_to_buffer(d, "\n\r", 2);
+                        d->write("\n\r");
 
                         // Paranoid :
                         if (d->connected == DescriptorState::GetOldPassword) {
@@ -340,7 +340,7 @@ void game_loop_unix(int control) {
                             // log in
                             nanny(d, "");
                             // accept ANSIness
-                            write_to_buffer(d, "\n\r", 2);
+                            d->write("\n\r");
                             nanny(d, "");
                         }
                     } break;
@@ -520,9 +520,9 @@ Descriptor *new_descriptor(int channel) {
     {
         extern char *help_greeting;
         if (help_greeting[0] == '.')
-            write_to_buffer(dnew, help_greeting + 1, 0);
+            dnew->write(help_greeting + 1);
         else
-            write_to_buffer(dnew, help_greeting, 0);
+            dnew->write(help_greeting);
     }
 
     return dnew;
@@ -536,7 +536,7 @@ void close_socket(Descriptor *dclose) {
         process_output(dclose, false);
 
     if (dclose->snoop_by != nullptr) {
-        write_to_buffer(dclose->snoop_by, "Your victim has left the game.\n\r", 0);
+        dclose->snoop_by->write("Your victim has left the game.\n\r");
     }
 
     {
@@ -622,7 +622,7 @@ bool process_output(Descriptor *d, bool fPrompt) {
      * Bust a prompt.
      */
     if (!merc_down && d->showstr_point)
-        write_to_buffer(d, "[Hit Return to continue]\n\r", 0);
+        d->write("[Hit Return to continue]\n\r");
     else if (fPrompt && !merc_down && d->is_playing()) {
         CHAR_DATA *ch;
         CHAR_DATA *victim;
@@ -659,12 +659,12 @@ bool process_output(Descriptor *d, bool fPrompt) {
 
             snprintf(buf, sizeof(buf), "%s %s \n\r", IS_NPC(victim) ? victim->short_descr : victim->name, wound);
             buf[0] = UPPER(buf[0]);
-            write_to_buffer(d, buf, 0);
+            d->write(buf);
         }
 
         ch = d->original ? d->original : d->character;
         if (!IS_SET(ch->comm, COMM_COMPACT))
-            write_to_buffer(d, "\n\r", 2);
+            d->write("\n\r");
 
         if (IS_SET(ch->comm, COMM_PROMPT)) {
             /* get the prompt for the character in question */
@@ -673,17 +673,10 @@ bool process_output(Descriptor *d, bool fPrompt) {
         }
 
         if (IS_SET(ch->comm, COMM_TELNET_GA))
-            write_to_buffer(d, go_ahead_str, 0);
+            d->write(go_ahead_str);
     }
 
     return d->flush_output();
-}
-
-/*
- * Append onto an output buffer.
- */
-void write_to_buffer(Descriptor *d, const char *txt, int length) {
-    d->write(std::string_view(txt, length)); // TODO remove this and make direct calls
 }
 
 /*
@@ -727,7 +720,7 @@ void nanny(Descriptor *d, const char *argument) {
         std::string char_name(argument);
         char_name[0] = toupper(char_name[0]);
         if (!check_parse_name(char_name.c_str())) {
-            write_to_buffer(d, "Illegal name, try another.\n\rName: ", 0);
+            d->write("Illegal name, try another.\n\rName: ");
             return;
         }
 
@@ -748,7 +741,7 @@ void nanny(Descriptor *d, const char *argument) {
         if (IS_SET(ch->act, PLR_DENY)) {
             snprintf(log_buf, LOG_BUF_SIZE, "Denying access to %s@%s.", char_name.c_str(), d->host().c_str());
             log_string(log_buf);
-            write_to_buffer(d, "You are denied access.\n\r", 0);
+            d->write("You are denied access.\n\r");
             close_socket(d);
             return;
         }
@@ -757,7 +750,7 @@ void nanny(Descriptor *d, const char *argument) {
             fOld = true;
         } else {
             if (wizlock && !IS_IMMORTAL(ch)) {
-                write_to_buffer(d, "The game is wizlocked.  Try again later - a reboot may be imminent.\n\r", 0);
+                d->write("The game is wizlocked.  Try again later - a reboot may be imminent.\n\r");
                 close_socket(d);
                 return;
             }
@@ -765,14 +758,14 @@ void nanny(Descriptor *d, const char *argument) {
 
         if (fOld) {
             /* Old player */
-            write_to_buffer(d, "Password: ", 0);
+            d->write("Password: ");
             SetEchoState(d, 0);
             d->connected = DescriptorState::GetOldPassword;
             return;
         } else {
             /* New player */
             if (newlock) {
-                write_to_buffer(d, "The game is newlocked.  Try again later - a reboot may be imminent.\n\r", 0);
+                d->write("The game is newlocked.  Try again later - a reboot may be imminent.\n\r");
                 close_socket(d);
                 return;
             }
@@ -780,42 +773,41 @@ void nanny(Descriptor *d, const char *argument) {
             // Check for a newban on player's site. This is the one time we use the full host name.
             if (check_ban(d->raw_full_hostname().c_str(), BAN_NEWBIES)
                 || check_ban(d->raw_full_hostname().c_str(), BAN_PERMIT)) {
-                write_to_buffer(d, "Your site has been banned.  Only existing players from your site may connect.\n\r",
-                                0);
+                d->write("Your site has been banned.  Only existing players from your site may connect.\n\r");
                 close_socket(d);
                 return;
             }
 
             snprintf(buf, sizeof(buf), "Did I hear that right -  '%s' (Y/N)? ", char_name.c_str());
-            write_to_buffer(d, buf, 0);
+            d->write(buf);
             d->connected = DescriptorState::ConfirmNewName;
             return;
         }
     } break;
 
     case DescriptorState::GetOldPassword:
-        write_to_buffer(d, "\n\r", 2);
+        d->write("\n\r");
 
         // TODO crypt can return null if if fails (e.g. password is truncated).
         // for now we just pwd[0], which lets us reset passwords.
         if (ch->pcdata->pwd[0] && strcmp(crypt(argument, ch->pcdata->pwd), ch->pcdata->pwd)) {
-            write_to_buffer(d, "Our survey said <Crude buzzer noise>.\n\rWrong password.\n\r", 0);
+            d->write("Our survey said <Crude buzzer noise>.\n\rWrong password.\n\r");
             close_socket(d);
             return;
         }
         // falls through
     case DescriptorState::CircumventPassword:
         if (ch->pcdata->pwd[0] == 0) {
-            write_to_buffer(d, "Oopsie! Null password!\n\r", 0);
-            write_to_buffer(d, "Unless some IMM has been fiddling, then this is a bug!\n\r", 0);
-            write_to_buffer(d, "Type 'password null <new password>' to fix.\n\r", 0);
+            d->write("Oopsie! Null password!\n\r");
+            d->write("Unless some IMM has been fiddling, then this is a bug!\n\r");
+            d->write("Type 'password null <new password>' to fix.\n\r");
         }
 
         SetEchoState(d, 1);
 
         // This is the one time we use the full host name.
         if (check_ban(d->raw_full_hostname().c_str(), BAN_PERMIT) && (!is_set_extra(ch, EXTRA_PERMIT))) {
-            write_to_buffer(d, "Your site has been banned.  Sorry.\n\r", 0);
+            d->write("Your site has been banned.  Sorry.\n\r");
             close_socket(d);
             return;
         }
@@ -830,7 +822,7 @@ void nanny(Descriptor *d, const char *argument) {
         log_new(log_buf, EXTRA_WIZNET_DEBUG,
                 ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? get_trust(ch) : 0);
 
-        write_to_buffer(d, "Does your terminal support ANSI colour (Y/N/Return = as saved)?", 0);
+        d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
         d->connected = (d->connected == DescriptorState::CircumventPassword) ? DescriptorState::ReadMotd
                                                                              : DescriptorState::GetAnsi;
 
@@ -854,7 +846,7 @@ void nanny(Descriptor *d, const char *argument) {
             }
             if (check_reconnect(d, true))
                 return;
-            write_to_buffer(d, "Reconnect attempt failed.\n\rName: ", 0);
+            d->write("Reconnect attempt failed.\n\rName: ");
             if (d->character != nullptr) {
                 free_char(d->character);
                 d->character = nullptr;
@@ -864,7 +856,7 @@ void nanny(Descriptor *d, const char *argument) {
 
         case 'n':
         case 'N':
-            write_to_buffer(d, "Name: ", 0);
+            d->write("Name: ");
             if (d->character != nullptr) {
                 free_char(d->character);
                 d->character = nullptr;
@@ -872,7 +864,7 @@ void nanny(Descriptor *d, const char *argument) {
             d->connected = DescriptorState::GetName;
             break;
 
-        default: write_to_buffer(d, "Please type Y or N? ", 0); break;
+        default: d->write("Please type Y or N? "); break;
         }
         break;
 
@@ -883,19 +875,19 @@ void nanny(Descriptor *d, const char *argument) {
             snprintf(buf, sizeof(buf),
                      "Welcome new character, to Xania.\n\rThink of a password for %s: ", (char *)ch->name);
             SetEchoState(d, 0);
-            write_to_buffer(d, buf, 0);
+            d->write(buf);
             d->connected = DescriptorState::GetNewPassword;
             break;
 
         case 'n':
         case 'N':
-            write_to_buffer(d, "Ack! Amateurs! Try typing it in properly: ", 0);
+            d->write("Ack! Amateurs! Try typing it in properly: ");
             free_char(d->character);
             d->character = nullptr;
             d->connected = DescriptorState::GetName;
             break;
 
-        default: write_to_buffer(d, "It's quite simple - type Yes or No: ", 0); break;
+        default: d->write("It's quite simple - type Yes or No: "); break;
         }
         break;
 
@@ -938,52 +930,52 @@ void nanny(Descriptor *d, const char *argument) {
                 }
                 break;
 
-            default: write_to_buffer(d, "Please type Yes or No press return: ", 0); break;
+            default: d->write("Please type Yes or No press return: "); break;
             }
         }
         break;
 
     case DescriptorState::GetNewPassword:
-        write_to_buffer(d, "\n\r", 2);
+        d->write("\n\r");
 
         if (strlen(argument) < 5) {
-            write_to_buffer(d, "Password must be at least five characters long.\n\rPassword: ", 0);
+            d->write("Password must be at least five characters long.\n\rPassword: ");
             return;
         }
 
         pwdnew = crypt(argument, ch->name);
         for (p = pwdnew; *p != '\0'; p++) {
             if (*p == '~') {
-                write_to_buffer(d, "New password not acceptable, try again.\n\rPassword: ", 0);
+                d->write("New password not acceptable, try again.\n\rPassword: ");
                 return;
             }
         }
 
         free_string(ch->pcdata->pwd);
         ch->pcdata->pwd = str_dup(pwdnew);
-        write_to_buffer(d, "Please retype password: ", 0);
+        d->write("Please retype password: ");
         d->connected = DescriptorState::ConfirmNewPassword;
         break;
 
     case DescriptorState::ConfirmNewPassword:
-        write_to_buffer(d, "\n\r", 2);
+        d->write("\n\r");
 
         if (strcmp(crypt(argument, ch->pcdata->pwd), ch->pcdata->pwd)) {
-            write_to_buffer(d, "You could try typing the same thing in twice...\n\rRetype password: ", 0);
+            d->write("You could try typing the same thing in twice...\n\rRetype password: ");
             d->connected = DescriptorState::GetNewPassword;
             return;
         }
 
         SetEchoState(d, 1);
-        write_to_buffer(d, "The following races are available:\n\r  ", 0);
+        d->write("The following races are available:\n\r  ");
         for (race = 1; race_table[race].name != nullptr; race++) {
             if (!race_table[race].pc_race)
                 break;
-            write_to_buffer(d, race_table[race].name, 0);
-            write_to_buffer(d, " ", 1);
+            d->write(race_table[race].name);
+            d->write(" ");
         }
-        write_to_buffer(d, "\n\r", 0);
-        write_to_buffer(d, "What is your race (help for more information)? ", 0);
+        d->write("\n\r");
+        d->write("What is your race (help for more information)? ");
         d->connected = DescriptorState::GetNewRace;
         break;
 
@@ -996,23 +988,23 @@ void nanny(Descriptor *d, const char *argument) {
                 do_help(ch, "race help");
             else
                 do_help(ch, argument);
-            write_to_buffer(d, "What is your race (help for more information)? ", 0);
+            d->write("What is your race (help for more information)? ");
             break;
         }
 
         race = race_lookup(argument);
 
         if (race == 0 || !race_table[race].pc_race) {
-            write_to_buffer(d, "That is not a valid race.\n\r", 0);
-            write_to_buffer(d, "The following races are available:\n\r  ", 0);
+            d->write("That is not a valid race.\n\r");
+            d->write("The following races are available:\n\r  ");
             for (race = 1; race_table[race].name != nullptr; race++) {
                 if (!race_table[race].pc_race)
                     break;
-                write_to_buffer(d, race_table[race].name, 0);
-                write_to_buffer(d, " ", 1);
+                d->write(race_table[race].name);
+                d->write(" ");
             }
-            write_to_buffer(d, "\n\r", 0);
-            write_to_buffer(d, "What is your race? (help for more information) ", 0);
+            d->write("\n\r");
+            d->write("What is your race? (help for more information) ");
             break;
         }
 
@@ -1037,7 +1029,7 @@ void nanny(Descriptor *d, const char *argument) {
         ch->pcdata->points = pc_race_table[race].points;
         ch->size = pc_race_table[race].size;
 
-        write_to_buffer(d, "What is your sex (M/F)? ", 0);
+        d->write("What is your sex (M/F)? ");
         d->connected = DescriptorState::GetNewSex;
         break;
 
@@ -1053,7 +1045,7 @@ void nanny(Descriptor *d, const char *argument) {
             ch->sex = SEX_FEMALE;
             ch->pcdata->true_sex = SEX_FEMALE;
             break;
-        default: write_to_buffer(d, "That's not a sex.\n\rWhat IS your sex? ", 0); return;
+        default: d->write("That's not a sex.\n\rWhat IS your sex? "); return;
         }
 
         strcpy(buf, "The following classes are available: ");
@@ -1063,8 +1055,8 @@ void nanny(Descriptor *d, const char *argument) {
             strcat(buf, class_table[iClass].name);
         }
         strcat(buf, "\n\r");
-        write_to_buffer(d, buf, 0);
-        write_to_buffer(d, "What is your class (help for more information)? ", 0);
+        d->write(buf);
+        d->write("What is your class (help for more information)? ");
         d->connected = DescriptorState::GetNewClass;
         break;
 
@@ -1076,20 +1068,20 @@ void nanny(Descriptor *d, const char *argument) {
                 do_help(ch, "classes");
             else
                 do_help(ch, argument);
-            write_to_buffer(d, "What is your class (help for more information)? ", 0);
+            d->write("What is your class (help for more information)? ");
             break;
         }
         iClass = class_lookup(argument);
         if (iClass == -1) {
-            write_to_buffer(d, "That's not a class.\n\rWhat IS your class? ", 0);
+            d->write("That's not a class.\n\rWhat IS your class? ");
             return;
         }
         ch->class_num = iClass;
         snprintf(log_buf, LOG_BUF_SIZE, "%s@%s new player.", ch->name, d->host().c_str());
         log_string(log_buf);
-        write_to_buffer(d, "\n\r", 2);
-        write_to_buffer(d, "You may be good, neutral, or evil.\n\r", 0);
-        write_to_buffer(d, "Which alignment (G/N/E)? ", 0);
+        d->write("\n\r");
+        d->write("You may be good, neutral, or evil.\n\r");
+        d->write("Which alignment (G/N/E)? ");
         d->connected = DescriptorState::GetAlignment;
         break;
 
@@ -1102,24 +1094,24 @@ void nanny(Descriptor *d, const char *argument) {
         case 'e':
         case 'E': ch->alignment = -750; break;
         default:
-            write_to_buffer(d, "That's not a valid alignment.\n\r", 0);
-            write_to_buffer(d, "Which alignment (G/N/E)? ", 0);
+            d->write("That's not a valid alignment.\n\r");
+            d->write("Which alignment (G/N/E)? ");
             return;
         }
 
-        write_to_buffer(d, "\n\r", 0);
+        d->write("\n\r");
 
         group_add(ch, "rom basics", false);
         group_add(ch, class_table[ch->class_num].base_group, false);
         ch->pcdata->learned[gsn_recall] = 50;
-        write_to_buffer(d, "Do you wish to customize this character?\n\r", 0);
-        write_to_buffer(d, "Customization takes time, but allows a wider range of skills and abilities.\n\r", 0);
-        write_to_buffer(d, "Customize (Y/N)? ", 0);
+        d->write("Do you wish to customize this character?\n\r");
+        d->write("Customization takes time, but allows a wider range of skills and abilities.\n\r");
+        d->write("Customize (Y/N)? ");
         d->connected = DescriptorState::DefaultChoice;
         break;
 
     case DescriptorState::DefaultChoice:
-        write_to_buffer(d, "\n\r", 2);
+        d->write("\n\r");
         switch (argument[0]) {
         case 'y':
         case 'Y':
@@ -1127,7 +1119,7 @@ void nanny(Descriptor *d, const char *argument) {
             ch->gen_data->points_chosen = ch->pcdata->points;
             do_help(ch, "group header");
             list_group_costs(ch);
-            write_to_buffer(d, "You already have the following skills:\n\r", 0);
+            d->write("You already have the following skills:\n\r");
             do_skills(ch, "");
             do_help(ch, "menu choice");
             d->connected = DescriptorState::GenGroups;
@@ -1135,12 +1127,12 @@ void nanny(Descriptor *d, const char *argument) {
         case 'n':
         case 'N':
             group_add(ch, class_table[ch->class_num].default_group, true);
-            write_to_buffer(d, "\n\r", 2);
-            write_to_buffer(d, "Does your terminal support ANSI colour (Y/N/Return = as saved)?", 0);
+            d->write("\n\r");
+            d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
             d->connected = DescriptorState::GetAnsi;
 
             break;
-        default: write_to_buffer(d, "Please answer (Y/N)? ", 0); return;
+        default: d->write("Please answer (Y/N)? "); return;
         }
         break;
 
@@ -1153,8 +1145,8 @@ void nanny(Descriptor *d, const char *argument) {
             if (ch->pcdata->points < 40)
                 ch->train = (40 - ch->pcdata->points + 1) / 2;
             send_to_char(buf, ch);
-            write_to_buffer(d, "\n\r", 2);
-            write_to_buffer(d, "Does your terminal support ANSI colour (Y/N/Return = as saved)?", 0);
+            d->write("\n\r");
+            d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
             d->connected = DescriptorState::GetAnsi;
 
             break;
@@ -1167,13 +1159,13 @@ void nanny(Descriptor *d, const char *argument) {
         break;
 
     case DescriptorState::ReadIMotd:
-        write_to_buffer(d, "\n\r", 2);
+        d->write("\n\r");
         do_help(ch, "motd");
         d->connected = DescriptorState::ReadMotd;
         break;
 
     case DescriptorState::ReadMotd:
-        write_to_buffer(d, "\n\rWelcome to Xania.  May your stay be eventful.\n\r", 0);
+        d->write("\n\rWelcome to Xania.  May your stay be eventful.\n\r");
         ch->next = char_list;
         char_list = ch;
         d->connected = DescriptorState::Playing;
@@ -1374,8 +1366,8 @@ bool check_playing(Descriptor *d, char *name) {
         if (dold != d && dold->character != nullptr && dold->connected != DescriptorState::GetName
             && dold->connected != DescriptorState::GetOldPassword
             && !str_cmp(name, dold->original ? dold->original->name : dold->character->name)) {
-            write_to_buffer(d, "That character is already playing.\n\r", 0);
-            write_to_buffer(d, "Do you wish to connect anyway (Y/N)?", 0);
+            d->write("That character is already playing.\n\r");
+            d->write("Do you wish to connect anyway (Y/N)?");
             d->connected = DescriptorState::BreakConnect;
             return true;
         }
@@ -1452,7 +1444,7 @@ void send_to_char(const char *txt, CHAR_DATA *ch) {
             }
         }
         *bufptr = '\0';
-        write_to_buffer(ch->desc, buf, strlen(buf));
+        ch->desc->write(buf);
     }
 }
 
@@ -1498,7 +1490,6 @@ void show_string(Descriptor *d, const char *input) {
 
         else if (!*scan || (show_lines > 0 && lines >= show_lines)) {
             *scan = '\0';
-            /*     write_to_buffer(d,buffer,strlen(buffer));*/
             send_to_char(buffer, d->character);
             for (chk = d->showstr_point; isspace(*chk); chk++)
                 /* nothing */;
@@ -1650,7 +1641,6 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
 
         /*        buf[0]   = UPPER(buf[0]); */
 
-        /*      write_to_buffer( to->desc, buf, point - buf ); used to be this */
         if ((type == TO_ROOM && to == ch) || (type == TO_NOTVICT && (to == ch || to == vch))) {
             /* Ignore them */
         } else {

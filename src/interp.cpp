@@ -13,12 +13,16 @@
 #include "note.h"
 #include "trie.h"
 
+#include <fmt/format.h>
+
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <functional>
 #include <utility>
+
+using namespace fmt::literals;
 
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
 bool MP_Commands(CHAR_DATA *ch);
@@ -483,9 +487,7 @@ void interpret(CHAR_DATA *ch, const char *argument) {
     }
 
     if (ch->desc != nullptr && ch->desc->snoop_by != nullptr) {
-        write_to_buffer(ch->desc->snoop_by, "% ", 2);
-        write_to_buffer(ch->desc->snoop_by, logline, 0);
-        write_to_buffer(ch->desc->snoop_by, "\n\r", 2);
+        ch->desc->snoop_by->write("% {}\n\r"_format(logline));
     }
 
     /* Character not in position for command? */

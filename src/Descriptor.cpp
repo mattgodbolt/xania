@@ -34,7 +34,8 @@ const char *short_name_of(DescriptorState state) {
 
 Descriptor::Descriptor(uint32_t descriptor) : login_time_(ctime(&current_time)), descriptor(descriptor) {}
 
-Descriptor::~Descriptor() { /*    free_string(dclose->showstr_head); */ }
+Descriptor::~Descriptor() { /*    free_string(dclose->showstr_head); */
+}
 
 std::optional<std::string> Descriptor::pop_raw() {
     if (pending_commands_.empty())

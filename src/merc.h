@@ -1921,7 +1921,6 @@ void ban_site(CHAR_DATA *ch, const char *site, bool fType);
 unsigned long djb2_hash(const char *str);
 char *get_masked_hostname(char *hostbuf, const char *hostname);
 void close_socket(Descriptor *dclose);
-void write_to_buffer(Descriptor *d, const char *txt, int length);
 void send_to_char(const char *txt, CHAR_DATA *ch);
 void page_to_char(const char *txt, CHAR_DATA *ch);
 void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type);
