@@ -31,7 +31,6 @@ enum class DescriptorState {
 };
 
 const char *short_name_of(DescriptorState state);
-const char *name_of(DescriptorState state);
 
 /*
  * Descriptor (channel) structure.

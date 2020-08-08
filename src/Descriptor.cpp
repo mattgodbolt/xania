@@ -32,35 +32,8 @@ const char *short_name_of(DescriptorState state) {
     return "<UNK>";
 }
 
-const char *name_of(DescriptorState state) {
-    switch (state) {
-    case DescriptorState::Playing: return "Playing";
-    case DescriptorState::GetName: return "GetName";
-    case DescriptorState::GetOldPassword: return "GetOldPassword";
-    case DescriptorState::ConfirmNewName: return "ConfirmNewName";
-    case DescriptorState::GetNewPassword: return "GetNewPassword";
-    case DescriptorState::ConfirmNewPassword: return "ConfirmNewPassword";
-    case DescriptorState::GetNewRace: return "GetNewRace";
-    case DescriptorState::GetNewSex: return "GetNewSex";
-    case DescriptorState::GetNewClass: return "GetNewClass";
-    case DescriptorState::GetAlignment: return "GetAlignment";
-    case DescriptorState::DefaultChoice: return "DefaultChoice";
-    case DescriptorState::GenGroups: return "GenGroups";
-    case DescriptorState::ReadIMotd: return "ReadIMotd";
-    case DescriptorState::ReadMotd: return "ReadMotd";
-    case DescriptorState::BreakConnect: return "BreakConnect";
-    case DescriptorState::GetAnsi: return "GetAnsi";
-    case DescriptorState::CircumventPassword: return "CircumventPassword";
-    case DescriptorState::Disconnecting: return "Disconnecting";
-    case DescriptorState::DisconnectingNp: return "DisconnectingNp";
-    }
-    return "Unknown";
-}
-
-Descriptor::Descriptor(uint32_t descriptor) {
-    this->descriptor = descriptor;
+Descriptor::Descriptor(uint32_t descriptor) : login_time_(ctime(&current_time)), descriptor(descriptor) {
     outbuf = (char *)alloc_mem(outsize);
-    login_time_ = ctime(&current_time);
 }
 
 Descriptor::~Descriptor() {
