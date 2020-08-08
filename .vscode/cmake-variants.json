@@ -1,0 +1,12 @@
+{
+    "buildType": {
+        "default": "debug",
+        "choices": {
+            "debug": {
+                "short": "debug",
+                "long": "Emit debug info",
+                "buildType": "debug"
+            }
+        }
+    }
+}
