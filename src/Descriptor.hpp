@@ -35,7 +35,7 @@ const char *short_name_of(DescriptorState state);
 /*
  * Descriptor (channel) structure.
  */
-struct Descriptor {
+class Descriptor {
     static constexpr size_t MaxInbufBacklog = 50u;
     std::list<std::string> pending_commands_;
     std::string last_command_;
@@ -56,7 +56,6 @@ public:
     DescriptorState connected{DescriptorState::GetName};
     uint16_t localport{};
     bool fcommand{};
-    int repeat{};
     char *showstr_head{};
     char *showstr_point{};
 

@@ -68,7 +68,7 @@ typedef struct affect_data AFFECT_DATA;
 typedef struct area_data AREA_DATA;
 typedef struct ban_data BAN_DATA;
 typedef struct char_data CHAR_DATA;
-struct Descriptor;
+class Descriptor;
 typedef struct exit_data EXIT_DATA;
 typedef struct extra_descr_data EXTRA_DESCR_DATA;
 typedef struct help_data HELP_DATA;
@@ -1919,7 +1919,6 @@ void ban_site(CHAR_DATA *ch, const char *site, bool fType);
 /* comm.c */
 #define MAX_MASKED_HOSTNAME 64
 unsigned long djb2_hash(const char *str);
-char *get_masked_hostname(char *hostbuf, const char *hostname);
 void close_socket(Descriptor *dclose);
 void send_to_char(const char *txt, CHAR_DATA *ch);
 void page_to_char(const char *txt, CHAR_DATA *ch);
