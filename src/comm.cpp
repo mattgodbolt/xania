@@ -137,7 +137,7 @@ void handle_signal_shutdown() {
             MOBtrigger = false;
             do_save(vch, "");
             send_to_char("|RXania has been asked to shutdown by the operating system.|w\n\r", vch);
-            if (vch->desc && vch->desc->outtop > 0)
+            if (vch->desc && vch->desc->has_buffered_output())
                 process_output(vch->desc, false);
         }
     }
@@ -352,7 +352,7 @@ void game_loop_unix(int control) {
                             if (d->descriptor == p.channel) {
                                 if (d->character && d->character->level > 1)
                                     save_char_obj(d->character);
-                                d->outtop = 0;
+                                d->clear_output_buffer();
                                 if (d->is_playing())
                                     d->connected = DescriptorState::Disconnecting;
                                 else
@@ -454,11 +454,11 @@ void game_loop_unix(int control) {
             for (d = descriptor_list; d != nullptr; d = d_next) {
                 d_next = d->next;
 
-                if ((d->fcommand || d->outtop > 0)) {
+                if ((d->fcommand || d->has_buffered_output())) {
                     if (!process_output(d, true)) {
                         if (d->character != nullptr && d->character->level > 1)
                             save_char_obj(d->character);
-                        d->outtop = 0;
+                        d->clear_output_buffer();
                         close_socket(d);
                     }
                 }
@@ -532,7 +532,7 @@ void close_socket(Descriptor *dclose) {
     CHAR_DATA *ch;
     Packet p;
 
-    if (dclose->outtop > 0)
+    if (dclose->has_buffered_output())
         process_output(dclose, false);
 
     if (dclose->snoop_by != nullptr) {
@@ -602,7 +602,7 @@ bool read_from_descriptor(Descriptor *d, char *data, int nRead) {
     if (d->is_input_full()) {
         snprintf(log_buf, LOG_BUF_SIZE, "%s input overflow!", d->host().c_str());
         log_string(log_buf);
-        d->write("\n\r*** PUT A LID ON IT!!! ***\n\r");
+        d->write_direct("\n\r*** PUT A LID ON IT!!! ***\n\r");
         d->clear_input();
         d->add_command("quit");
         return false;
@@ -676,75 +676,14 @@ bool process_output(Descriptor *d, bool fPrompt) {
             write_to_buffer(d, go_ahead_str, 0);
     }
 
-    /*
-     * Short-circuit if nothing to write.
-     */
-    if (d->outtop == 0)
-        return true;
-
-    /*
-     * Snoop-o-rama.
-     */
-    if (d->snoop_by != nullptr) {
-        if (d->character != nullptr) {
-            write_to_buffer(d->snoop_by, d->character->name, 0);
-
-            write_to_buffer(d->snoop_by, "> ", 2);
-            write_to_buffer(d->snoop_by, d->outbuf, d->outtop);
-        }
-    }
-
-    if (!d->write(std::string_view(d->outbuf, d->outtop))) {
-        d->outtop = 0;
-        return false;
-    } else {
-        d->outtop = 0;
-        return true;
-    }
+    return d->flush_output();
 }
 
 /*
  * Append onto an output buffer.
  */
 void write_to_buffer(Descriptor *d, const char *txt, int length) {
-    /*
-     * Find length in case caller didn't.
-     */
-    if (length <= 0)
-        length = strlen(txt);
-
-    /*
-     * Initial \n\r if needed.
-     */
-    if (d->outtop == 0 && !d->fcommand) {
-        d->outbuf[0] = '\n';
-        d->outbuf[1] = '\r';
-        d->outtop = 2;
-    }
-
-    /*
-     * Expand the buffer as needed.
-     */
-    while (d->outtop + length >= d->outsize) {
-        char *outbuf;
-
-        if (d->outsize > 32000) {
-            bug("Buffer overflow. Closing.");
-            close_socket(d);
-            return;
-        }
-        outbuf = (char *)alloc_mem(2 * d->outsize);
-        strncpy(outbuf, d->outbuf, d->outtop);
-        free_mem(d->outbuf, d->outsize);
-        d->outbuf = outbuf;
-        d->outsize *= 2;
-    }
-
-    /*
-     * Copy.
-     */
-    strncpy(d->outbuf + d->outtop, txt, length);
-    d->outtop += length;
+    d->write(std::string_view(txt, length)); // TODO remove this and make direct calls
 }
 
 /*

@@ -41,7 +41,8 @@ struct Descriptor {
     std::string last_command_;
     std::string raw_host_{"unknown"};
     std::string masked_host_{"unknown"};
-    std::string login_time_{};
+    std::string login_time_;
+    std::string outbuf_;
 
     [[nodiscard]] std::optional<std::string> pop_raw();
 
@@ -56,9 +57,6 @@ public:
     uint16_t localport{};
     bool fcommand{};
     int repeat{};
-    char *outbuf{};
-    int outsize{2000};
-    int outtop{};
     char *showstr_head{};
     char *showstr_point{};
 
@@ -71,7 +69,14 @@ public:
     void add_command(std::string_view command) { pending_commands_.emplace_back(command); }
     [[nodiscard]] std::optional<std::string> pop_incomm();
 
-    bool write(std::string_view text) const;
+    // Writes directly to a socket. May fail
+    bool write_direct(std::string_view text) const;
+
+    static constexpr auto MaxOutputBufSize = 32000u;
+    // Buffers output to be processed later. If the max output size is exceeded, the descriptor is closed.
+    void write(std::string_view message) noexcept;
+    [[nodiscard]] bool has_buffered_output() const noexcept { return !outbuf_.empty(); }
+    void clear_output_buffer() noexcept { outbuf_.clear(); }
 
     // deliberately named long and annoying to dissuade use! Go use host to get the safe version.
     [[nodiscard]] const std::string &raw_full_hostname() const noexcept { return raw_host_; }
@@ -79,4 +84,6 @@ public:
 
     [[nodiscard]] const std::string &host() const noexcept { return masked_host_; }
     [[nodiscard]] const std::string &login_time() const noexcept { return login_time_; }
+
+    [[nodiscard]] bool flush_output() noexcept;
 };

@@ -32,15 +32,9 @@ const char *short_name_of(DescriptorState state) {
     return "<UNK>";
 }
 
-Descriptor::Descriptor(uint32_t descriptor) : login_time_(ctime(&current_time)), descriptor(descriptor) {
-    outbuf = (char *)alloc_mem(outsize);
-}
+Descriptor::Descriptor(uint32_t descriptor) : login_time_(ctime(&current_time)), descriptor(descriptor) {}
 
-Descriptor::~Descriptor() {
-    /* RT socket leak fix -- I hope */
-    free_mem(outbuf, outsize);
-    /*    free_string(dclose->showstr_head); */
-}
+Descriptor::~Descriptor() { /*    free_string(dclose->showstr_head); */ }
 
 std::optional<std::string> Descriptor::pop_raw() {
     if (pending_commands_.empty())
@@ -59,7 +53,7 @@ std::optional<std::string> Descriptor::pop_incomm() {
     auto next_line = sanitise_input(*maybe_next);
 
     if (next_line.size() > MAX_INPUT_LENGTH - 1) {
-        write("Line too long.\n\r");
+        write_direct("Line too long.\n\r");
         return {};
     }
 
@@ -72,7 +66,7 @@ std::optional<std::string> Descriptor::pop_incomm() {
     }
 }
 
-bool Descriptor::write(std::string_view text) const {
+bool Descriptor::write_direct(std::string_view text) const {
     Packet p;
     p.type = PACKET_MESSAGE;
     p.channel = descriptor;
@@ -107,4 +101,34 @@ std::string get_masked_hostname(std::string_view hostname) {
 void Descriptor::raw_full_hostname(std::string_view raw_full_hostname) {
     raw_host_ = raw_full_hostname;
     masked_host_ = get_masked_hostname(raw_host_);
+}
+
+bool Descriptor::flush_output() noexcept {
+    if (outbuf_.empty())
+        return true;
+
+    if (snoop_by && character) {
+        snoop_by->write(character->name);
+        snoop_by->write("> ");
+        snoop_by->write(outbuf_);
+    }
+
+    auto result = write_direct(outbuf_);
+    outbuf_.clear();
+    return result;
+}
+
+void Descriptor::write(std::string_view message) noexcept {
+    // Initial \n\r if needed.
+    if (outbuf_.empty() && !fcommand)
+        outbuf_ += "\n\r";
+
+    if (outbuf_.size() + message.size() > MaxOutputBufSize) {
+        bug("Buffer overflow. Closing.");
+        outbuf_.clear(); // Prevent a possible loop where close_socket() might write some last few things to the socket.
+        close_socket(this); // NB a bit hairy, amounts to a `delete this;` The only thing safe to do is return.
+        return;
+    }
+
+    outbuf_ += message;
 }
