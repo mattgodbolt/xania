@@ -85,8 +85,7 @@ typedef struct room_index_data ROOM_INDEX_DATA;
 typedef struct shop_data SHOP_DATA;
 typedef struct time_info_data TIME_INFO_DATA;
 typedef struct weather_data WEATHER_DATA;
-/* Rohan's finger caching struct */
-typedef struct known_players KNOWN_PLAYERS;
+typedef struct known_players KNOWN_PLAYERS; // TODO(#108) remove if unused.
 /* Merc22 MOBProgs */
 typedef struct mob_prog_data MPROG_DATA; /* MOBprogram */
 typedef struct mob_prog_act_list MPROG_ACT_LIST; /* MOBprogram */

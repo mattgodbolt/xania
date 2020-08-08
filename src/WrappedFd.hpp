@@ -27,5 +27,5 @@ public:
     operator bool() const noexcept { return fd_ != nullptr; }
     operator FILE *() const noexcept { return fd_; }
 
-    static WrappedFd open_text(const std::string &filename) { return WrappedFd(fopen(filename.c_str(), "r")); }
+    static WrappedFd open(const std::string &filename) { return WrappedFd(fopen(filename.c_str(), "r")); }
 };

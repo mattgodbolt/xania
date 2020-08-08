@@ -133,5 +133,5 @@ std::string get_masked_hostname(std::string_view hostname) {
 
 void Descriptor::raw_full_hostname(std::string_view raw_full_hostname) {
     raw_host_ = raw_full_hostname;
-    redacted_host_ = get_masked_hostname(raw_host_);
+    masked_host_ = get_masked_hostname(raw_host_);
 }

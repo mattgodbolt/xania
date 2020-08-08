@@ -40,10 +40,21 @@ FingerInfo read_char_info(std::string_view player_name);
 
 // For finger info.
 namespace {
+
 // Annoyingly C++ means this doesn't work all that well for string_view lookups. We have to construct a std::string
 // and search by that. I really don't think that's an issue in this case.
 std::unordered_map<std::string, FingerInfo> info_cache;
+
+FingerInfo *search_info_cache(std::string_view name) {
+    if (auto find_it = info_cache.find(std::string(name)); find_it != info_cache.end())
+        return &find_it->second;
+    return nullptr;
 }
+FingerInfo *search_info_cache(const CHAR_DATA *ch) { return search_info_cache(ch->name); }
+
+}
+
+// TODO(#108) is this used?
 KNOWN_PLAYERS *player_list = nullptr;
 
 void load_player_list() {
@@ -70,16 +81,6 @@ void load_player_list() {
         log_string("Player list loaded.");
     } else
         bug("Couldn't open the player directory for reading file entries.");
-}
-
-namespace {
-FingerInfo *search_info_cache(std::string_view name) {
-    if (auto find_it = info_cache.find(std::string(name)); find_it != info_cache.end())
-        return &find_it->second;
-    return nullptr;
-}
-FingerInfo *search_info_cache(const CHAR_DATA *ch) { return search_info_cache(ch->name); }
-
 }
 
 /* Rohan's setinfo function */
@@ -380,7 +381,7 @@ void update_info_cache(CHAR_DATA *ch) {
 
 FingerInfo read_char_info(std::string_view player_name) {
     FingerInfo info(player_name);
-    if (auto fp = WrappedFd::open_text("{}{}"_format(PLAYER_DIR, player_name))) {
+    if (auto fp = WrappedFd::open("{}{}"_format(PLAYER_DIR, player_name))) {
         for (;;) {
             const char *word = fread_word(fp);
             if (feof(fp))
