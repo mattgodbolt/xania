@@ -9,20 +9,17 @@
 
 #include "info.hpp"
 #include "Descriptor.hpp"
+#include "WrappedFd.hpp"
 #include "buffer.h"
 #include "merc.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
 
-#include <cctype>
 #include <cstdio>
-#include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <dirent.h>
-#include <sys/time.h>
-#include <sys/types.h>
 #include <unordered_map>
 
 using namespace fmt::literals;
@@ -54,7 +51,7 @@ void load_player_list() {
     KNOWN_PLAYERS *current_pos = player_list;
     DIR *dp;
     struct dirent *ep;
-    dp = opendir("../player");
+    dp = opendir(PLAYER_DIR);
     if (dp != nullptr) {
         while ((ep = (readdir(dp)))) {
             if (player_list == nullptr) {
@@ -381,54 +378,21 @@ void update_info_cache(CHAR_DATA *ch) {
     }
 }
 
-namespace {
-// TODO graduate to a general class if proved useful...
-class WrappedFd {
-    FILE *fd_;
-
-    void close() {
-        if (fd_)
-            fclose(fd_);
-        fd_ = nullptr;
-    }
-
-public:
-    explicit WrappedFd(FILE *fd) : fd_(fd) {}
-    WrappedFd(const WrappedFd &) = delete;
-    WrappedFd &operator=(const WrappedFd &) = delete;
-    WrappedFd(WrappedFd &&other) noexcept : fd_(std::exchange(other.fd_, nullptr)) {}
-    WrappedFd &operator=(WrappedFd &&other) noexcept {
-        close();
-        fd_ = std::exchange(other.fd_, nullptr);
-        return *this;
-    }
-    ~WrappedFd() { close(); }
-    operator bool() const noexcept { return fd_ != nullptr; }
-    operator FILE *() const noexcept { return fd_; }
-};
-}
-
 FingerInfo read_char_info(std::string_view player_name) {
-    char *word;
-    char *line;
-    bool fMatch;
-
-    auto strsave = "{}{}"_format(PLAYER_DIR, player_name);
     FingerInfo info(player_name);
-    if (auto fp = WrappedFd(fopen(strsave.c_str(), "r"))) {
-        /*      log_string ("Player file open");*/
+    if (auto fp = WrappedFd::open_text("{}{}"_format(PLAYER_DIR, player_name))) {
         for (;;) {
-            word = fread_word(fp);
+            const char *word = fread_word(fp);
             if (feof(fp))
                 break;
-            fMatch = false;
+            bool fMatch = false;
 
             switch (UPPER(word[0])) {
             case 'E':
                 if (!strcmp("End", word))
                     return info;
                 if (!str_cmp(word, "ExtraBits")) {
-                    line = fread_string(fp);
+                    const char *line = fread_string(fp);
                     info.i_message = line[EXTRA_INFO_MESSAGE] == '1';
                     fread_to_eol(fp);
                     fMatch = true;
