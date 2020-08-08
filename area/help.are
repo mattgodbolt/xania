@@ -665,6 +665,7 @@ note - 		: removes last line from note
 note clear	: erase a note in progress
 note show	: shows the note you are working on
 note post	: posts a new note. This MUST be done to post a note.
+note send	: synonym for 'note post'.
 
 When you log in, you will be informed if there are unread notes waiting. Type
 note read to scroll through them one at a time.

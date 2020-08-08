@@ -8,24 +8,25 @@
 /*************************************************************************/
 
 #include "note.h"
+#include "CommandSet.hpp"
 #include "Descriptor.hpp"
 #include "buffer.h"
 #include "merc.h"
 #include "string_utils.hpp"
-#include "trie.h"
 
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <functional>
+#include <memory>
 
 static NOTE_DATA *note_first;
 static NOTE_DATA *note_last;
 
-static void *trie;
-
-typedef void(note_fn_t)(CHAR_DATA *, const char *);
+typedef std::function<void(CHAR_DATA *ch, const char *arg)> note_fn;
+static std::unique_ptr<CommandSet<note_fn>> sub_commands;
 
 /* returns the number of unread notes for the given user. */
 int note_count(CHAR_DATA *ch) {
@@ -432,11 +433,9 @@ void do_note(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     auto note_remainder = smash_tilde(one_argument(argument, arg));
 
-    // TODO: can't use C++ cast here as this is basically invalid. will probably go if we kill the tries, or at least
-    // make them type safe.
-    auto note_fn = (note_fn_t *)(trie_get(trie, arg[0] ? arg : "read", get_trust(ch)));
-    if (note_fn) {
-        note_fn(ch, note_remainder.c_str());
+    auto note_fn = sub_commands->get(arg[0] ? arg : "read", get_trust(ch));
+    if (note_fn.has_value()) {
+        (*note_fn)(ch, note_remainder.c_str());
     } else {
         send_to_char("Huh?  Type 'help note' for usage.\n\r", ch);
     }
@@ -503,22 +502,17 @@ static void note_readfile() {
 
 void note_initialise() {
     note_readfile();
-    trie = trie_create(1);
-    if (!trie) {
-        bug("note_initialise: couldn't create trie.");
-        exit(1);
-    }
-    // TODO: again these need C-style casts because they're basically not allowed...
-    trie_add(trie, "read", (void *)&note_read, 0);
-    trie_add(trie, "list", (void *)&note_list, 0);
-    trie_add(trie, "+", (void *)&note_addline, 0);
-    trie_add(trie, "-", (void *)&note_removeline, 0);
-    trie_add(trie, "subject", (void *)&note_subject, 0);
-    trie_add(trie, "to", (void *)&note_to, 0);
-    trie_add(trie, "clear", (void *)&note_clear, 0);
-    trie_add(trie, "show", (void *)&note_show, 0);
-    trie_add(trie, "post", (void *)&note_post, 0);
-    trie_add(trie, "send", (void *)&note_post, 0);
-    trie_add(trie, "remove", (void *)&note_removecmd, 0);
-    trie_add(trie, "delete", (void *)&note_delete, MAX_LEVEL - 2);
+    sub_commands = std::make_unique<CommandSet<note_fn>>();
+    sub_commands->add("read", note_read, 0);
+    sub_commands->add("list", note_list, 0);
+    sub_commands->add("+", note_addline, 0);
+    sub_commands->add("-", note_removeline, 0);
+    sub_commands->add("subject", note_subject, 0);
+    sub_commands->add("to", note_to, 0);
+    sub_commands->add("clear", note_clear, 0);
+    sub_commands->add("show", note_show, 0);
+    sub_commands->add("post", note_post, 0);
+    sub_commands->add("send", note_post, 0);
+    sub_commands->add("remove", note_removecmd, 0);
+    sub_commands->add("delete", note_delete, MAX_LEVEL - 2);
 }

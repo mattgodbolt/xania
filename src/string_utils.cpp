@@ -120,3 +120,22 @@ impl::LineSplitter::Iter impl::LineSplitter::Iter::operator++() noexcept {
     *this = Iter(rest_, false);
     return prev;
 }
+
+std::string lower_case(std::string_view str) {
+    std::string result;
+    result.reserve(str.size());
+    for (auto c : str) {
+        result.push_back(tolower(c));
+    }
+    return result;
+}
+
+bool has_prefix(std::string_view haystack, std::string_view needle) {
+    if (needle.size() > haystack.size())
+        return false;
+    for (size_t i = 0; i < needle.size(); i++) {
+        if (needle[i] != haystack[i])
+            return false;
+    }
+    return true;
+}
