@@ -5,6 +5,8 @@
 #include <sstream>
 #include <string_view>
 
+namespace {
+
 template <typename T>
 std::string enumerate_str(const CommandSet<T> &cs, int min_level, int max_level) {
     std::ostringstream result;
@@ -14,11 +16,13 @@ std::string enumerate_str(const CommandSet<T> &cs, int min_level, int max_level)
     return result.str();
 }
 
+} // namespace
+
 TEST_CASE("CommandSet tests") {
     SECTION("empty") {
         CommandSet<int> cs;
-        CHECK(cs.get("nothing", 1).has_value() == false);
-        CHECK(enumerate_str(cs, 0, 100) == "");
+        CHECK(!cs.get("nothing", 1).has_value());
+        CHECK(enumerate_str(cs, 0, 100).empty());
     }
     SECTION("level limits") {
         CommandSet<std::string> cs;
@@ -43,13 +47,13 @@ TEST_CASE("CommandSet tests") {
         }
         CHECK(cs.get("kick", 0).value() == "foot");
 
-        CHECK(cs.get("punch", 4).has_value() == false);
+        CHECK(!cs.get("punch", 4).has_value());
         CHECK(cs.get("punch", 5).value() == "fist");
 
         CHECK(cs.get("smit", 80).value() == "*blush*");
         CHECK(cs.get("smit", 92).value() == "spell it out");
         CHECK(cs.get("smite", 92).value() == "godlike power");
-        CHECK(cs.get("smite", 91).has_value() == false);
+        CHECK(!cs.get("smite", 91).has_value());
     }
     SECTION("case insensitive") {
         CommandSet<std::string> cs;

@@ -133,9 +133,5 @@ std::string lower_case(std::string_view str) {
 bool has_prefix(std::string_view haystack, std::string_view needle) {
     if (needle.size() > haystack.size())
         return false;
-    for (size_t i = 0; i < needle.size(); i++) {
-        if (needle[i] != haystack[i])
-            return false;
-    }
-    return true;
+    return needle == haystack.substr(0, needle.size());
 }

@@ -25,8 +25,8 @@
 static NOTE_DATA *note_first;
 static NOTE_DATA *note_last;
 
-typedef std::function<void(CHAR_DATA *ch, const char *arg)> note_fn;
-static std::unique_ptr<CommandSet<note_fn>> sub_commands;
+using note_fn = std::function<void(CHAR_DATA *ch, const char *arg)>;
+static CommandSet<note_fn> sub_commands;
 
 /* returns the number of unread notes for the given user. */
 int note_count(CHAR_DATA *ch) {
@@ -433,7 +433,7 @@ void do_note(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     auto note_remainder = smash_tilde(one_argument(argument, arg));
 
-    auto note_fn = sub_commands->get(arg[0] ? arg : "read", get_trust(ch));
+    auto note_fn = sub_commands.get(arg[0] ? arg : "read", get_trust(ch));
     if (note_fn.has_value()) {
         (*note_fn)(ch, note_remainder.c_str());
     } else {
@@ -502,17 +502,16 @@ static void note_readfile() {
 
 void note_initialise() {
     note_readfile();
-    sub_commands = std::make_unique<CommandSet<note_fn>>();
-    sub_commands->add("read", note_read, 0);
-    sub_commands->add("list", note_list, 0);
-    sub_commands->add("+", note_addline, 0);
-    sub_commands->add("-", note_removeline, 0);
-    sub_commands->add("subject", note_subject, 0);
-    sub_commands->add("to", note_to, 0);
-    sub_commands->add("clear", note_clear, 0);
-    sub_commands->add("show", note_show, 0);
-    sub_commands->add("post", note_post, 0);
-    sub_commands->add("send", note_post, 0);
-    sub_commands->add("remove", note_removecmd, 0);
-    sub_commands->add("delete", note_delete, MAX_LEVEL - 2);
+    sub_commands.add("read", note_read, 0);
+    sub_commands.add("list", note_list, 0);
+    sub_commands.add("+", note_addline, 0);
+    sub_commands.add("-", note_removeline, 0);
+    sub_commands.add("subject", note_subject, 0);
+    sub_commands.add("to", note_to, 0);
+    sub_commands.add("clear", note_clear, 0);
+    sub_commands.add("show", note_show, 0);
+    sub_commands.add("post", note_post, 0);
+    sub_commands.add("send", note_post, 0);
+    sub_commands.add("remove", note_removecmd, 0);
+    sub_commands.add("delete", note_delete, MAX_LEVEL - 2);
 }

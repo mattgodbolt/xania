@@ -146,10 +146,10 @@ TEST_CASE("string_util tests") {
     }
 
     SECTION("has_prefix") {
-        SECTION("prefix") { CHECK(has_prefix("boolean", "bool") == true); }
-        SECTION("full match") { CHECK(has_prefix("integer", "integer") == true); }
-        SECTION("suffix") { CHECK(has_prefix("float", "at") == false); }
-        SECTION("gibberish") { CHECK(has_prefix("boson", "fermion") == false); }
-        SECTION("needle larger than haystack") { CHECK(has_prefix("bool", "boolean") == false); }
+        SECTION("prefix") { CHECK(has_prefix("boolean", "bool")); }
+        SECTION("full match") { CHECK(has_prefix("integer", "integer")); }
+        SECTION("suffix") { CHECK(!has_prefix("float", "at")); }
+        SECTION("gibberish") { CHECK(!has_prefix("boson", "fermion")); }
+        SECTION("needle larger than haystack") { CHECK(!has_prefix("bool", "boolean")); }
     }
 }
