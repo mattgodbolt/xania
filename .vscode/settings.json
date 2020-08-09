@@ -21,9 +21,6 @@
         "string_view": "cpp",
         "utility": "cpp",
         "typeinfo": "cpp",
-        "eliza.C": "cpp",
-        "akey.C": "cpp",
-        "chatrun.C": "cpp",
         "span": "cpp",
         "cstring": "c"
     },
