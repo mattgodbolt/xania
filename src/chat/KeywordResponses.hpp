@@ -2,6 +2,9 @@
 
 #pragma once
 
+#include <string>
+#include <vector>
+
 namespace chat {
 
 /**
@@ -9,8 +12,9 @@ namespace chat {
  * determining a random response to a keyword from the user.
  */
 struct WeightedResponse {
-    int weight_;
-    char *message_;
+    const int weight_;
+    const std::string message_;
+    explicit WeightedResponse(int weight, std::string_view message) : weight_(weight), message_(message) {}
 };
 
 /**
@@ -24,15 +28,14 @@ class KeywordResponses {
 public:
     int add_keywords(char *);
     const char *get_keywords() const { return keywords_; }
-    int add_response(int weight, char *response_message);
-    WeightedResponse &get_response(int num) const { return responses_[num]; }
+    void add_response(int weight, char *response_message);
+    const WeightedResponse &get_response(int num) const { return responses_[num]; }
     const char *get_random_response() const;
 
 private:
     const char *keywords_{};
-    int num_responses_{};
     int total_weight_{};
-    WeightedResponse *responses_{};
+    std::vector<WeightedResponse> responses_;
 };
 
 }
