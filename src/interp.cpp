@@ -495,9 +495,7 @@ void interpret(CHAR_DATA *ch, const char *argument) {
 }
 
 static const struct social_type *find_social(const char *name) {
-    int cmd;
-
-    for (cmd = 0; social_table[cmd].name[0] != '\0'; cmd++) {
+    for (int cmd = 0; social_table[cmd].name[0] != '\0'; cmd++) {
         if (name[0] == social_table[cmd].name[0] && !str_prefix(name, social_table[cmd].name)) {
             return social_table + cmd;
         }
@@ -507,7 +505,6 @@ static const struct social_type *find_social(const char *name) {
 
 bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
     const struct social_type *social;
 
     if (!(social = find_social(command)))
@@ -524,7 +521,7 @@ bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
     }
 
     one_argument(argument, arg);
-    victim = nullptr;
+    CHAR_DATA *victim = nullptr;
     if (arg[0] == '\0') {
         act(social->others_no_arg, ch, nullptr, victim, TO_ROOM);
         act(social->char_no_arg, ch, nullptr, victim, TO_CHAR);
@@ -575,12 +572,10 @@ bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
  * Understands quotes.
  */
 const char *one_argument(const char *argument, char *arg_first) {
-    char cEnd;
-
     while (isspace(*argument))
         argument++;
 
-    cEnd = ' ';
+    char cEnd = ' ';
     if (*argument == '\'' || *argument == '"')
         cEnd = *argument++;
 
@@ -603,12 +598,10 @@ const char *one_argument(const char *argument, char *arg_first) {
 // TODO(MRG) this duplication is beyond heinous. BUT I want to ensure no new functionality but try and move towards
 // const-correctness and this seems the easiest path.
 char *one_argument(char *argument, char *arg_first) {
-    char cEnd;
-
     while (isspace(*argument))
         argument++;
 
-    cEnd = ' ';
+    char cEnd = ' ';
     if (*argument == '\'' || *argument == '"')
         cEnd = *argument++;
 
