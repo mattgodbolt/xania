@@ -17,6 +17,9 @@
 #include <sys/types.h>
 #include <time.h>
 
+#include "chat/chatconstants.hpp"
+#include "chat/chatlink.h"
+
 /* command procedures needed */
 void do_quit(CHAR_DATA *ch, const char *arg);
 
