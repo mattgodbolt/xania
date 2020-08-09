@@ -3147,22 +3147,6 @@ void append_file(CHAR_DATA *ch, const char *file, const char *str) {
     }
 }
 
-/*
- * This function is here to aid in debugging.
- * If the last expression in a function is another function call,
- *   gcc likes to generate a JMP instead of a CALL.
- * This is called "tail chaining."
- * It hoses the debugger call stack for that call.
- * So I make this the last call in certain critical functions,
- *   where I really need the call stack to be right for debugging!
- *
- * If you don't understand this, then LEAVE IT ALONE.
- * Don't remove any calls to tail_chain anywhere.
- *
- * -- Furey
- */
-void tail_chain() { return; }
-
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
 
 /*

@@ -1064,5 +1064,4 @@ void update_handler() {
     }
 
     aggr_update();
-    tail_chain();
 }

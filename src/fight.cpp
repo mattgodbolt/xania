@@ -490,7 +490,6 @@ void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
     if (diceroll == 0 || (diceroll != 19 && diceroll < thac0 - victim_ac)) {
         /* Miss. */
         damage(ch, victim, 0, dt, dam_type);
-        tail_chain();
         return;
     }
 
@@ -591,7 +590,8 @@ void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
         dam = 1000;
 
     damage(ch, victim, dam, dt, dam_type);
-
+    
+    // TODO(Forrey): Look at this.
     if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON))
         if ((IS_SET(wield->value[4], WEAPON_POISONED)) && (!IS_AFFECTED(victim, AFF_POISON))) {
             if (number_percent() > 75) {
@@ -607,8 +607,6 @@ void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
                 spell_plague(p_sn, wield->level, ch, victim);
             }
         }
-
-    tail_chain();
 }
 
 /**
@@ -962,8 +960,6 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
             check_improve(victim, gsn_ride, true, 4);
         }
     }
-
-    tail_chain();
     return true;
 }
 

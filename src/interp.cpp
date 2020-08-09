@@ -490,8 +490,6 @@ void interpret(CHAR_DATA *ch, const char *argument) {
         strcpy(mutable_argument, argument);
         cmd->do_fun(ch, mutable_argument);
     }
-
-    tail_chain();
 }
 
 static const struct social_type *find_social(const char *name) {

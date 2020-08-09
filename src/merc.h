@@ -1970,7 +1970,6 @@ void append_file(CHAR_DATA *ch, const char *file, const char *str);
 void bug(const char *str, ...) __attribute__((format(printf, 1, 2)));
 void log_string(const char *str);
 void log_new(const char *str, int loglevel, int level);
-void tail_chain();
 
 /* fight.c */
 bool is_safe(CHAR_DATA *ch, CHAR_DATA *victim);
