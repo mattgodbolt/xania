@@ -6,6 +6,11 @@
 #include <string>
 #include <utility>
 
+// TODO(Forrey): The previous trie implementation actually *did* preserve the order in
+// which items were added, such that given a set of commands which match some prefix,
+// the first-added one would take precedence (not the first alphabetically).
+// As such, there's currently a bug whereby "l" (normal command set) will match "list"
+// rather than "look". Fix this!
 template <typename T>
 class CommandSet {
 public:
