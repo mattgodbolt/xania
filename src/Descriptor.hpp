@@ -1,13 +1,13 @@
 #pragma once
 
-#include "merc.h"
-
 #include <cstdint>
 #include <list>
 #include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_set>
+
+struct CHAR_DATA;
 
 // Connected state for a descriptor.
 enum class DescriptorState {

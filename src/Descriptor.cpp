@@ -1,9 +1,11 @@
 #include "Descriptor.hpp"
 
 #include "comm.hpp"
+#include "merc.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+
 using namespace fmt::literals;
 
 // Up to 5 characters
