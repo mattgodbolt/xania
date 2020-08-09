@@ -40,8 +40,8 @@ void do_channels(CHAR_DATA *ch, const char *argument) {
 
     /* Determine if the player is in a clan, and find which one */
     if (IS_NPC(ch)) {
-        if (ch->desc->original != nullptr)
-            OrigClan = ch->desc->original->pcdata->pcclan;
+        if (ch->desc->original() != nullptr)
+            OrigClan = ch->desc->original()->pcdata->pcclan;
         else
             OrigClan = nullptr;
     } else
@@ -126,11 +126,11 @@ void channel_command(CHAR_DATA *ch, const char *argument, int chan_flag, const c
         for (d = descriptor_list; d != nullptr; d = d->next) {
             CHAR_DATA *victim;
 
-            victim = d->original ? d->original : d->character;
+            victim = d->person();
 
-            if (d->is_playing() && d->character != ch && !IS_SET(victim->comm, chan_flag)
+            if (d->is_playing() && d->character() != ch && !IS_SET(victim->comm, chan_flag)
                 && !IS_SET(victim->comm, COMM_QUIET)) {
-                act_new(desc_other, ch, argument, d->character, TO_VICT, POS_DEAD);
+                act_new(desc_other, ch, argument, d->character(), TO_VICT, POS_DEAD);
             }
         }
     }
@@ -158,8 +158,8 @@ void do_immtalk(CHAR_DATA *ch, const char *argument) {
     if (get_trust(ch) >= 91)
         act_new(format, ch, argument, nullptr, TO_CHAR, POS_DEAD);
     for (d = descriptor_list; d != nullptr; d = d->next) {
-        if (d->is_playing() && IS_IMMORTAL(d->character) && !IS_SET(d->character->comm, COMM_NOWIZ)) {
-            act_new(format, ch, argument, d->character, TO_VICT, POS_DEAD);
+        if (d->is_playing() && IS_IMMORTAL(d->character()) && !IS_SET(d->character()->comm, COMM_NOWIZ)) {
+            act_new(format, ch, argument, d->character(), TO_VICT, POS_DEAD);
         }
     }
 }

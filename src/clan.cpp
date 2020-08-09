@@ -61,8 +61,8 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
     PCCLAN *OrigClan;
 
     if (IS_NPC(ch)) {
-        if (ch->desc->original)
-            OrigClan = ch->desc->original->pcdata->pcclan;
+        if (ch->desc->original())
+            OrigClan = ch->desc->original()->pcdata->pcclan;
         else
             OrigClan = nullptr;
     } else
@@ -89,10 +89,9 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
     /* Next check to see if a CLAN_HERO or CLAN_LEADER is on first */
 
     for (d = descriptor_list; (d && !candoit); d = d->next) {
-        CHAR_DATA *vix;
-        vix = d->original ? d->original : d->character;
+        CHAR_DATA *vix = d->person();
 
-        if (vix && d->character && vix->pcdata->pcclan
+        if (vix && d->character() && vix->pcdata->pcclan
             && (vix->pcdata->pcclan->clan->clanchar == OrigClan->clan->clanchar)
             && (vix->pcdata->pcclan->clanlevel >= CLAN_HERO) && !IS_SET(vix->comm, COMM_QUIET))
             candoit = 1; /* Yeah we can do it! */
@@ -122,14 +121,14 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
     /* Right here we go - tell all members of the clan the message */
     for (d = descriptor_list; d; d = d->next) {
         CHAR_DATA *vix;
-        vix = d->original ? d->original : d->character;
+        vix = d->person();
 
         if ((d->is_playing()) && (vix->pcdata->pcclan)
             && (vix->pcdata->pcclan->clan->clanchar == OrigClan->clan->clanchar)
             && (vix->pcdata->pcclan->channelflags & CLANCHANNEL_ON) && !IS_SET(vix->comm, COMM_QUIET)
             /* || they're an IMM snooping the channels */) {
-            snprintf(buf, sizeof(buf), "|G<%s> %s|w\n\r", can_see(d->character, ch) ? ch->name : "Someone", argument);
-            send_to_char(buf, d->character);
+            snprintf(buf, sizeof(buf), "|G<%s> %s|w\n\r", can_see(d->character(), ch) ? ch->name : "Someone", argument);
+            send_to_char(buf, d->character());
         } /* If they can see the message */
     } /* for all descriptors */
 
@@ -336,7 +335,6 @@ void do_demote(CHAR_DATA *ch, const char *argument) { mote(ch, argument, -1); }
 void do_clanwho(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     Descriptor *d;
-    CHAR_DATA *wch;
     char buf[MAX_STRING_LENGTH];
 
     if (IS_NPC(ch))
@@ -351,7 +349,7 @@ void do_clanwho(CHAR_DATA *ch, const char *argument) {
     send_to_char("|c-------------------+-------------------------------|w\n\r", ch);
     for (d = descriptor_list; d; d = d->next) {
         if (d->is_playing()) {
-            wch = (d->original) ? (d->original) : d->character;
+            auto wch = d->person();
             if ((can_see(ch, wch)) && (wch->pcdata->pcclan)
                 && (wch->pcdata->pcclan->clan->clanchar == ch->pcdata->pcclan->clan->clanchar)) {
                 snprintf(buf, sizeof(buf), "%-19s|c|||w %s\n\r", wch->name,

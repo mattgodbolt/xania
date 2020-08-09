@@ -631,7 +631,7 @@ void do_news_delete(CHAR_DATA *ch, const char *argument) {
     for (d = descriptor_list; d; d = d->next) {
         CHAR_DATA *person;
         if (d->is_playing()) {
-            person = d->original ? d->original : d->character; // Find the corresponding person assoc'd with d
+            person = d->person(); // Find the corresponding person assoc'd with d
             if ((person != nullptr) && // Do they exist?
                 (person->article == art)) // Are they looking at this article?
                 move_to_next_unread(person); // If so - move them on
@@ -658,7 +658,7 @@ void do_news_delete(CHAR_DATA *ch, const char *argument) {
         for (d = descriptor_list; d; d = d->next) {
             CHAR_DATA *person;
             if (d->is_playing()) {
-                person = d->original ? d->original : d->character; // Find the corresponding person assoc'd with d
+                person = d->person(); // Find the corresponding person assoc'd with d
                 if ((person != nullptr) && // Do they exist?
                     (person->thread == chthread)) { // Are they looking at this thread?
                     person->article = nullptr;

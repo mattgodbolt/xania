@@ -77,11 +77,11 @@ void log_new(const char *str, int loglevel, int level) {
         level = UMAX(level, 96); /* Prevent non-SOCK ppl finding out sin_addrs */
 
     for (d = descriptor_list; d; d = d->next) {
-        CHAR_DATA *ch = d->original ? d->original : d->character;
+        CHAR_DATA *ch = d->person();
         if ((!d->is_playing()) || (ch == nullptr) || (IS_NPC(ch)) || !is_set_extra(ch, EXTRA_WIZNET_ON)
             || !is_set_extra(ch, loglevel) || (get_trust(ch) < level))
             continue;
-        send_to_char(buf, d->character);
+        send_to_char(buf, d->character());
     }
 }
 
