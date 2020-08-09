@@ -23,13 +23,13 @@ struct WeightedResponse {
 class KeywordResponses {
 public:
     int add_keywords(char *);
-    char *get_keywords() { return keywords_; }
+    const char *get_keywords() const { return keywords_; }
     int add_response(int weight, char *response_message);
-    WeightedResponse &get_response(int num) { return responses_[num]; }
-    const char *get_random_response();
+    WeightedResponse &get_response(int num) const { return responses_[num]; }
+    const char *get_random_response() const;
 
 private:
-    char *keywords_{};
+    const char *keywords_{};
     int num_responses_{};
     int total_weight_{};
     WeightedResponse *responses_{};

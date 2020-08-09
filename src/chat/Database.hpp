@@ -31,10 +31,10 @@ class Database {
 public:
     int linked_database_num;
     Database() : linked_database_num(NoDatabaseLink) {}
-    Record *current_record() { return current_; }
-    Record *add_record();
-    Record *reset();
-    Record *next_record();
+    [[nodiscard]] Record *current_record() { return current_; }
+    void add_record();
+    void reset();
+    void next_record();
     ~Database();
 
 private:

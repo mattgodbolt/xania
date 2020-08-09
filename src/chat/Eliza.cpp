@@ -372,7 +372,7 @@ int Eliza::strpos(char *input_msg, char *current_db_keyword) {
     }                                                                                                                  \
     current_db_keyword_len = current_db_keyword[0] = 0;
 
-int Eliza::match(char db_keywords[], char input_msg[], uint &db_keywords_pos, uint &remaining_input_pos) {
+int Eliza::match(const char db_keywords[], char input_msg[], uint &db_keywords_pos, uint &remaining_input_pos) {
     auto db_keywords_len = strlen(db_keywords);
     // Records the match result through a sequence of logical expressions (e.g. (foo|bar|baz)
     int progressive_match_result = 1;

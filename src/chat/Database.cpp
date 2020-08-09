@@ -5,11 +5,8 @@
 
 namespace chat {
 
-Record *Database::add_record() {
-    Record *record;
-    if ((record = new Record) == nullptr) {
-        return nullptr;
-    }
+void Database::add_record() {
+    Record *record = new Record;
     if (top_ != nullptr)
         top_->next_ = record;
     current_ = top_ = record;
@@ -17,20 +14,18 @@ Record *Database::add_record() {
     if (record_count_ == 0)
         first_ = top_;
     record_count_++;
-    return current_;
 }
 
-Record *Database::reset() { return (current_ = first_); }
+void Database::reset() { current_ = first_; }
 
-Record *Database::next_record() {
-    if (current_ != nullptr) {
+void Database::next_record() {
+    if (current_) {
         current_ = current_->next_;
     }
-    return current_;
 }
 
 Database::~Database() {
-    if (first_ != nullptr) {
+    if (first_) {
         reset();
     }
 }
