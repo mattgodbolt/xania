@@ -29,8 +29,8 @@ TEST_CASE("CommandSet tests") {
         cs.add("kick", "foot", 0);
         cs.add("punch", "fist", 5);
         cs.add("disembowel", "spade", 4);
-        cs.add("smite", "godlike power", 92);
         cs.add("smit", "spell it out", 92);
+        cs.add("smite", "godlike power", 92);
         cs.add("smitten", "*blush*", 1);
 
         SECTION("low level enumerate") {
@@ -86,5 +86,14 @@ TEST_CASE("CommandSet tests") {
         CHECK(cs.get("sh", 0) == "demonstrate");
         CHECK(cs.get("su", 0) == "citizen");
         CHECK(cs.get("s", 0) == "post");
+    }
+    // If several commands match the requested prefix, it's vital that the first one added
+    // is the one we pick. If we just pick the first alphabetically, we end up with weird
+    // annoying bugs, like "l" matching first "list", whereas everyone expects "look".
+    SECTION("look first") {
+        CommandSet<std::string> cs;
+        cs.add("look", "with your eyes", 0);
+        cs.add("list", "with a notepad", 0);
+        CHECK(cs.get("l", 0) == "with your eyes");
     }
 }
