@@ -2,6 +2,7 @@
 
 #include "merc.h"
 
+#include <cstdint>
 #include <list>
 #include <optional>
 #include <string>
@@ -48,6 +49,8 @@ class Descriptor {
     std::list<std::string> page_outbuf_;
     std::unordered_set<Descriptor *> snoop_by_;
     std::unordered_set<Descriptor *> snooping_;
+    uint32_t netaddr_{};
+    uint16_t port_{};
 
     [[nodiscard]] std::optional<std::string> pop_raw();
 
@@ -55,9 +58,7 @@ public:
     Descriptor *next{};
     CHAR_DATA *character{};
     CHAR_DATA *original{};
-    uint32_t netaddr{};
     DescriptorState connected{DescriptorState::GetName};
-    uint16_t localport{};
     bool fcommand{};
 
     explicit Descriptor(uint32_t descriptor);
@@ -85,7 +86,7 @@ public:
 
     // deliberately named long and annoying to dissuade use! Go use host to get the safe version.
     [[nodiscard]] const std::string &raw_full_hostname() const noexcept { return raw_host_; }
-    void raw_full_hostname(std::string_view raw_full_hostname);
+    void set_endpoint(uint32_t netaddr, uint16_t port, std::string_view raw_full_hostname);
 
     [[nodiscard]] const std::string &host() const noexcept { return masked_host_; }
     [[nodiscard]] const std::string &login_time() const noexcept { return login_time_; }

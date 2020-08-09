@@ -101,7 +101,9 @@ std::string get_masked_hostname(std::string_view hostname) {
 
 }
 
-void Descriptor::raw_full_hostname(std::string_view raw_full_hostname) {
+void Descriptor::set_endpoint(uint32_t netaddr, uint16_t port, std::string_view raw_full_hostname) {
+    netaddr_ = netaddr;
+    port_ = port;
     raw_host_ = raw_full_hostname;
     masked_host_ = get_masked_hostname(raw_host_);
 }

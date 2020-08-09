@@ -1389,9 +1389,8 @@ Syntax: sockets
 	sockets <name>
 
 SOCKETS reports all of the visible users connected to the server, including
-users in the process of logging in.  The two numbers inside brackets are the
-channel number and the 'connected' state.  The 'connected' states are listed in
-merc.h: 0 is CON_PLAYING; non-zero values are various states of logging in.
+users in the process of logging in.  The number inside brackets is the
+channel number, and the short string indicates the 'connected' state.
 
 The output also displays the masked source IP address of the client, along with
 a unique number generated from that address. This enables you to spot characters

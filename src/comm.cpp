@@ -368,11 +368,9 @@ void game_loop_unix(int control) {
                         ok = 0;
                         for (d = descriptor_list; d; d = d->next) {
                             if (d->channel() == p.channel) {
-                                auto *data = reinterpret_cast<const InfoData *>(buffer);
                                 ok = 1;
-                                d->netaddr = data->netaddr;
-                                d->localport = data->port;
-                                d->raw_full_hostname(data->data);
+                                auto *data = reinterpret_cast<const InfoData *>(buffer);
+                                d->set_endpoint(data->netaddr, data->port, data->data);
                                 break;
                             }
                         }
