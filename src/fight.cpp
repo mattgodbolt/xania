@@ -590,16 +590,17 @@ void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
         dam = 1000;
 
     damage(ch, victim, dam, dt, dam_type);
-    
-    if (wield == nullptr || wield->item_type != ITEM_WEAPON) return;
-    
+
+    if (wield == nullptr || wield->item_type != ITEM_WEAPON)
+        return;
+
     if ((IS_SET(wield->value[4], WEAPON_POISONED)) && (!IS_AFFECTED(victim, AFF_POISON))) {
         if (number_percent() > 75) {
             int p_sn = skill_lookup("poison");
             spell_poison(p_sn, wield->level, ch, victim);
         }
     }
-    
+
     if ((IS_SET(wield->value[4], WEAPON_PLAGUED)) && (!IS_AFFECTED(victim, AFF_PLAGUE))) {
         if (number_percent() > 75) {
             int p_sn = skill_lookup("plague");
