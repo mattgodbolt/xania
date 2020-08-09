@@ -3485,9 +3485,9 @@ void do_sockets(CHAR_DATA *ch, const char *argument) {
             && (arg[0] == '\0' || is_name(arg, d->character->name)
                 || (d->original && is_name(arg, d->original->name)))) {
             count++;
-            bug_snprintf(
-                buf + strlen(buf), sizeof(buf), "[%3d %5s] %s@%s\n\r", d->channel(), short_name_of(d->connected),
-                d->original ? d->original->name : d->character ? d->character->name : "(none)", d->host().c_str());
+            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5s] %s@%s\n\r", d->channel(), short_name_of(d->state()),
+                         d->original ? d->original->name : d->character ? d->character->name : "(none)",
+                         d->host().c_str());
         } else if (d->character == nullptr && get_trust(ch) == MAX_LEVEL) {
             /*
              * New: log even connections that haven't logged in yet
@@ -3495,7 +3495,7 @@ void do_sockets(CHAR_DATA *ch, const char *argument) {
              */
             count++;
             bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5s] (unknown)@%s\n\r", d->channel(),
-                         short_name_of(d->connected), d->host().c_str());
+                         short_name_of(d->state()), d->host().c_str());
         }
     }
     if (count == 0) {

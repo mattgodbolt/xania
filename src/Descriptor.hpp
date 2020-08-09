@@ -52,6 +52,7 @@ class Descriptor {
     uint32_t netaddr_{};
     uint16_t port_{};
     bool processing_command_{};
+    DescriptorState state_{DescriptorState::GetName};
 
     [[nodiscard]] std::optional<std::string> pop_raw();
 
@@ -59,12 +60,14 @@ public:
     Descriptor *next{};
     CHAR_DATA *character{};
     CHAR_DATA *original{};
-    DescriptorState connected{DescriptorState::GetName};
 
     explicit Descriptor(uint32_t descriptor);
     ~Descriptor();
 
-    [[nodiscard]] bool is_playing() const noexcept { return connected == DescriptorState::Playing; }
+    void state(DescriptorState state) noexcept { state_ = state; }
+    [[nodiscard]] DescriptorState state() const noexcept { return state_; }
+    [[nodiscard]] bool is_playing() const noexcept { return state_ == DescriptorState::Playing; }
+
     [[nodiscard]] bool is_input_full() const noexcept { return pending_commands_.size() >= MaxInbufBacklog; }
     void clear_input() { pending_commands_.clear(); }
     void add_command(std::string_view command) { pending_commands_.emplace_back(command); }
