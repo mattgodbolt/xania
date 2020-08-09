@@ -11,8 +11,7 @@
 
 /* Structures for news - mostly self-explanatory */
 
-// TODO extract and make this not terrible. taken from merc.h
-typedef struct char_data CHAR_DATA;
+struct CHAR_DATA;
 
 extern int cur_msg_id;
 

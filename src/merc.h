@@ -67,7 +67,7 @@ typedef struct _BUFFER BUFFER;
 typedef struct affect_data AFFECT_DATA;
 typedef struct area_data AREA_DATA;
 typedef struct ban_data BAN_DATA;
-typedef struct char_data CHAR_DATA;
+struct CHAR_DATA;
 class Descriptor;
 typedef struct exit_data EXIT_DATA;
 typedef struct extra_descr_data EXTRA_DESCR_DATA;
@@ -1179,7 +1179,7 @@ struct mob_index_data {
 /*
  * One character (PC or NPC).
  */
-struct char_data {
+struct CHAR_DATA {
     CHAR_DATA *next;
     CHAR_DATA *next_in_room;
     CHAR_DATA *master;

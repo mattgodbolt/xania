@@ -9,7 +9,7 @@
 
 #pragma once
 
-typedef struct char_data CHAR_DATA;
+struct CHAR_DATA;
 
 static constexpr auto INVALID_BIT = static_cast<unsigned long>(-1);
 

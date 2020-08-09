@@ -40,7 +40,7 @@ int note_count(CHAR_DATA *ch) {
     return notes;
 }
 
-int is_note_to(struct char_data *ch, NOTE_DATA *note) {
+int is_note_to(CHAR_DATA *ch, NOTE_DATA *note) {
     if (!str_cmp(ch->name, note->sender)) {
         return true;
     }
