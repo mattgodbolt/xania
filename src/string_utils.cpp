@@ -1,9 +1,12 @@
 #include "string_utils.hpp"
 
+#include <fmt/format.h>
+
 #include <algorithm>
 #include <cstring>
 
 using namespace std::literals;
+using namespace fmt::literals;
 
 namespace {
 
@@ -134,4 +137,45 @@ bool has_prefix(std::string_view haystack, std::string_view needle) {
     if (needle.size() > haystack.size())
         return false;
     return needle == haystack.substr(0, needle.size());
+}
+
+std::string decode_colour(bool ansi_enabled, char char_code) {
+    char sendcolour;
+    switch (char_code) {
+    case 'r':
+    case 'R': sendcolour = '1'; break;
+    case 'g':
+    case 'G': sendcolour = '2'; break;
+    case 'y':
+    case 'Y': sendcolour = '3'; break;
+    case 'b':
+    case 'B': sendcolour = '4'; break;
+    case 'm':
+    case 'p':
+    case 'M':
+    case 'P': sendcolour = '5'; break;
+    case 'c':
+    case 'C': sendcolour = '6'; break;
+    case 'w':
+    case 'W': sendcolour = '7'; break;
+    case '|': return "|";
+    default: return std::string(1, char_code);
+    }
+    if (ansi_enabled)
+        return "\033[{};3{}m"_format(char_code >= 'a' ? '0' : '1', sendcolour);
+    return "";
+}
+
+std::string colourise_mud_string(bool use_ansi, std::string_view txt) {
+    std::string buf;
+    bool prev_was_pipe = false;
+    for (auto c : txt) {
+        if (std::exchange(prev_was_pipe, false))
+            buf += decode_colour(use_ansi, c);
+        else if (c == '|')
+            prev_was_pipe = true;
+        else
+            buf.push_back(c);
+    }
+    return buf;
 }

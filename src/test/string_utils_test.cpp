@@ -152,4 +152,33 @@ TEST_CASE("string_util tests") {
         SECTION("gibberish") { CHECK(!has_prefix("boson", "fermion")); }
         SECTION("needle larger than haystack") { CHECK(!has_prefix("bool", "boolean")); }
     }
+
+    SECTION("colourisation") {
+        SECTION("should handle normal text") {
+            CHECK(colourise_mud_string(false, "A normal piece of text") == "A normal piece of text");
+            CHECK(colourise_mud_string(true, "A normal piece of text") == "A normal piece of text");
+        }
+        SECTION("should handle empty text") {
+            CHECK(colourise_mud_string(false, "") == "");
+            CHECK(colourise_mud_string(true, "") == "");
+        }
+        SECTION("should handle control codes") {
+            CHECK(colourise_mud_string(false, "|Rred|Ggreen|Bblue|rred|ggreen|bblue") == "redgreenblueredgreenblue");
+            CHECK(colourise_mud_string(true, "|Rred|Ggreen|Bblue|rred|ggreen|bblue")
+                  == "\033[1;31mred\033[1;32mgreen\033[1;34mblue"
+                     "\033[0;31mred\033[0;32mgreen\033[0;34mblue");
+        }
+        SECTION("should handle trailing pipes") {
+            CHECK(colourise_mud_string(false, "oh no|") == "oh no");
+            CHECK(colourise_mud_string(true, "oh no|") == "oh no");
+        }
+        SECTION("should escape pipes") {
+            CHECK(colourise_mud_string(false, "||") == "|");
+            CHECK(colourise_mud_string(true, "||") == "|");
+        }
+        SECTION("Should ignore unknowns") {
+            CHECK(colourise_mud_string(false, "|z") == "z");
+            CHECK(colourise_mud_string(true, "|z") == "z");
+        }
+    }
 }

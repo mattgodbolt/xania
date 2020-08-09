@@ -14,6 +14,14 @@
 
 #include "comm.hpp"
 #include "Descriptor.hpp"
+#include "challeng.h"
+#include "doorman/doorman_protocol.h"
+#include "interp.h"
+#include "merc.h"
+#include "news.h"
+#include "note.h"
+#include "string_utils.hpp"
+
 #include <arpa/telnet.h>
 #include <cctype>
 #include <cerrno>
@@ -32,14 +40,6 @@
 #include <sys/types.h>
 #include <sys/un.h>
 #include <unistd.h>
-
-#include "challeng.h"
-#include "doorman/doorman_protocol.h"
-#include "interp.h"
-#include "merc.h"
-#include "news.h"
-#include "note.h"
-#include "string_utils.hpp"
 
 /* Added by Rohan - extern to player list for adding new players to it */
 extern KNOWN_PLAYERS *player_list;
@@ -1363,76 +1363,15 @@ bool check_playing(Descriptor *d, char *name) {
     return false;
 }
 
-/*
- * Write to one char.
- */
-void send_to_char(const char *txt, CHAR_DATA *ch) {
-    int colour = 0;
-    char sendcolour, temp;
-    char buf[MAX_STRING_LENGTH];
-    const char *p;
-    char *bufptr;
+// Write to one char.
+void send_to_char(std::string_view txt, CHAR_DATA *ch) {
+    if (txt.empty() || ch->desc == nullptr)
+        return;
+    auto colour = (!IS_NPC(ch) && (ch->pcdata->colour))
+                  || ((IS_NPC(ch) && (ch->desc->original != nullptr) /* paranoia factor */
+                       && (ch->desc->original->pcdata->colour)));
 
-    if (txt != nullptr && ch->desc != nullptr) {
-        if (!IS_NPC(ch) && (ch->pcdata->colour))
-            colour = 1;
-        if (IS_NPC(ch) && (ch->desc->original != nullptr) /* paranoia factor */
-            && (ch->desc->original->pcdata->colour))
-            colour = 1;
-
-        for (p = txt, bufptr = buf; *p != 0;) {
-            if (*p == '|') {
-                p++;
-                switch (*p) {
-                case 'r':
-                case 'R': sendcolour = '1'; break;
-                case 'g':
-                case 'G': sendcolour = '2'; break;
-                case 'y':
-                case 'Y': sendcolour = '3'; break;
-                case 'b':
-                case 'B': sendcolour = '4'; break;
-                case 'm':
-                case 'p':
-                case 'M':
-                case 'P': sendcolour = '5'; break;
-                case 'c':
-                case 'C': sendcolour = '6'; break;
-                default: sendcolour = 'z'; break;
-                case 'w':
-                case 'W': sendcolour = '7'; break;
-                case '|':
-                    sendcolour = 'z';
-                    p++; /* to move pointer on */
-                    break;
-                }
-                if (sendcolour == 'z') {
-                    *bufptr++ = '|';
-                    continue;
-                }
-                temp = *p;
-                p++;
-                if (colour) {
-                    *bufptr++ = 27;
-                    *bufptr++ = '[';
-                    if (temp >= 'a') {
-                        *bufptr++ = '0';
-                    } else {
-                        *bufptr++ = '1';
-                    }
-                    *bufptr++ = ';';
-                    *bufptr++ = '3';
-                    *bufptr++ = sendcolour;
-                    *bufptr++ = 'm';
-                }
-
-            } else {
-                *bufptr++ = *p++;
-            }
-        }
-        *bufptr = '\0';
-        ch->desc->write(buf);
-    }
+    ch->desc->write(colourise_mud_string(colour, txt));
 }
 
 /*
