@@ -35,6 +35,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
+#include <string>
 #include <unistd.h>
 #include <utility>
 
@@ -66,8 +67,8 @@ typedef struct _BUFFER BUFFER;
 typedef struct affect_data AFFECT_DATA;
 typedef struct area_data AREA_DATA;
 typedef struct ban_data BAN_DATA;
-typedef struct char_data CHAR_DATA;
-struct Descriptor;
+struct CHAR_DATA;
+class Descriptor;
 typedef struct exit_data EXIT_DATA;
 typedef struct extra_descr_data EXTRA_DESCR_DATA;
 typedef struct help_data HELP_DATA;
@@ -84,9 +85,7 @@ typedef struct room_index_data ROOM_INDEX_DATA;
 typedef struct shop_data SHOP_DATA;
 typedef struct time_info_data TIME_INFO_DATA;
 typedef struct weather_data WEATHER_DATA;
-/* Rohan's finger caching struct */
-typedef struct finger_info FINGER_INFO;
-typedef struct known_players KNOWN_PLAYERS;
+typedef struct known_players KNOWN_PLAYERS; // TODO(#108) remove if unused.
 /* Merc22 MOBProgs */
 typedef struct mob_prog_data MPROG_DATA; /* MOBprogram */
 typedef struct mob_prog_act_list MPROG_ACT_LIST; /* MOBprogram */
@@ -1180,7 +1179,7 @@ struct mob_index_data {
 /*
  * One character (PC or NPC).
  */
-struct char_data {
+struct CHAR_DATA {
     CHAR_DATA *next;
     CHAR_DATA *next_in_room;
     CHAR_DATA *master;
@@ -1372,14 +1371,18 @@ struct gen_data {
 };
 
 /* Rohan's finger_info structure to cache all char's info data */
-struct finger_info {
-    FINGER_INFO *next;
-    char *name;
-    char *info_message;
-    char *last_login_at;
-    char *last_login_from;
-    sh_int invis_level;
-    bool i_message;
+struct FingerInfo {
+    std::string name;
+    std::string info_message;
+    std::string last_login_at;
+    std::string last_login_from;
+    sh_int invis_level{};
+    bool i_message{};
+    explicit FingerInfo(std::string_view name) : name(name) {}
+    FingerInfo(std::string_view name, std::string_view info_message, std::string_view last_login_at,
+               std::string_view last_login_from, sh_int invis_level, bool i_message)
+        : name(name), info_message(info_message), last_login_at(last_login_at), last_login_from(last_login_from),
+          invis_level(invis_level), i_message(i_message) {}
 };
 
 /* We also need a list of all known players: Rohan */
@@ -1910,15 +1913,13 @@ void get_obj(CHAR_DATA *ch, OBJ_DATA *obj, OBJ_DATA *container);
 /* ban.c */
 void save_bans();
 void load_bans();
-bool check_ban(char *site, int type);
+bool check_ban(const char *site, int type);
 void ban_site(CHAR_DATA *ch, const char *site, bool fType);
 
 /* comm.c */
 #define MAX_MASKED_HOSTNAME 64
 unsigned long djb2_hash(const char *str);
-char *get_masked_hostname(char *hostbuf, const char *hostname);
 void close_socket(Descriptor *dclose);
-void write_to_buffer(Descriptor *d, const char *txt, int length);
 void send_to_char(const char *txt, CHAR_DATA *ch);
 void page_to_char(const char *txt, CHAR_DATA *ch);
 void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type);

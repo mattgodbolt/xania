@@ -50,14 +50,14 @@ add_library(xania_lib STATIC
         special.cpp
         tables.cpp
         tables.h
-        trie.cpp
-        trie.h
         update.cpp
         wiznet.cpp
         xania.cpp
+        CommandSet.hpp
         Descriptor.cpp Descriptor.hpp
-        string_utils.cpp string_utils.hpp)
-target_link_libraries(xania_lib crypt chat)
+        string_utils.cpp string_utils.hpp string_utils_impl.hpp
+        info.hpp WrappedFd.cpp WrappedFd.hpp)
+target_link_libraries(xania_lib crypt chat CONAN_PKG::fmt)
 
 add_executable(xania main.cpp)
 target_link_libraries(xania xania_lib)

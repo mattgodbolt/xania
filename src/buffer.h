@@ -10,7 +10,7 @@
 
 #pragma once
 
-typedef struct char_data CHAR_DATA;
+struct CHAR_DATA;
 
 typedef struct _BUFFER {
     int size;

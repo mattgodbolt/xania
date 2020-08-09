@@ -1683,10 +1683,16 @@ void do_shutdown(CHAR_DATA *ch, const char *argument) {
 
 void do_snoop(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    Descriptor *d;
     CHAR_DATA *victim;
 
     one_argument(argument, arg);
+
+    if (ch->desc == nullptr) {
+        // MRG old code was split-brained about checking this. Seems like nothing would have worked if ch->desc was
+        // actually null, so bugging out here.
+        bug("null ch->desc in do_snoop");
+        return;
+    }
 
     if (arg[0] == '\0') {
         send_to_char("Snoop whom?\n\r", ch);
@@ -1698,22 +1704,14 @@ void do_snoop(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (victim->desc == nullptr) {
+    if (!victim->desc) {
         send_to_char("No descriptor to snoop.\n\r", ch);
         return;
     }
 
     if (victim == ch) {
         send_to_char("Cancelling all snoops.\n\r", ch);
-        for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->snoop_by == ch->desc)
-                d->snoop_by = nullptr;
-        }
-        return;
-    }
-
-    if (victim->desc->snoop_by != nullptr) {
-        send_to_char("Busy already.\n\r", ch);
+        ch->desc->stop_snooping();
         return;
     }
 
@@ -1722,16 +1720,11 @@ void do_snoop(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (ch->desc != nullptr) {
-        for (d = ch->desc->snoop_by; d != nullptr; d = d->snoop_by) {
-            if (d->character == victim || d->original == victim) {
-                send_to_char("No snoop loops.\n\r", ch);
-                return;
-            }
-        }
+    if (!ch->desc->try_start_snooping(*victim->desc)) {
+        send_to_char("No snoop loops.\n\r", ch);
+        return;
     }
 
-    victim->desc->snoop_by = ch->desc;
     send_to_char("Ok.\n\r", ch);
 }
 
@@ -3480,7 +3473,6 @@ void do_sockets(CHAR_DATA *ch, const char *argument) {
     char buf[2 * MAX_STRING_LENGTH];
     char buf2[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    char hostbuf[MAX_MASKED_HOSTNAME];
     Descriptor *d;
     int count;
 
@@ -3493,18 +3485,17 @@ void do_sockets(CHAR_DATA *ch, const char *argument) {
             && (arg[0] == '\0' || is_name(arg, d->character->name)
                 || (d->original && is_name(arg, d->original->name)))) {
             count++;
-            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5u %5s] %s@%s\n\r", d->descriptor, d->localport,
-                         short_name_of(d->connected),
+            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5s] %s@%s\n\r", d->channel(), short_name_of(d->state()),
                          d->original ? d->original->name : d->character ? d->character->name : "(none)",
-                         get_masked_hostname(hostbuf, d->host));
+                         d->host().c_str());
         } else if (d->character == nullptr && get_trust(ch) == MAX_LEVEL) {
             /*
              * New: log even connections that haven't logged in yet
              * Level 100s only, mind
              */
             count++;
-            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5u %5s] (unknown)@%s\n\r", d->descriptor, d->localport,
-                         short_name_of(d->connected), get_masked_hostname(hostbuf, d->host));
+            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5s] (unknown)@%s\n\r", d->channel(),
+                         short_name_of(d->state()), d->host().c_str());
         }
     }
     if (count == 0) {

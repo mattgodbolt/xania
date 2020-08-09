@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "CommandSet.hpp"
 #include "Descriptor.hpp"
 #include <ctype.h>
 #include <stdarg.h>
@@ -17,7 +18,6 @@
 #include <time.h>
 
 #include "merc.h"
-#include "trie.h"
 
 extern FILE *fpArea;
 
@@ -121,9 +121,8 @@ static void print_wiznet_status(CHAR_DATA *ch) {
     print_status(ch, "wiznet", "", is_set_extra(ch, EXTRA_WIZNET_ON), 1);
 }
 
-typedef void(wiznet_fn_t)(CHAR_DATA *);
-
-static void *trie;
+using wiznet_fn = std::function<void(CHAR_DATA *ch)>;
+static CommandSet<wiznet_fn> wiznet_commands;
 
 void wiznet_on(CHAR_DATA *ch) {
     set_extra(ch, EXTRA_WIZNET_ON);
@@ -160,29 +159,22 @@ void wiznet_immortal(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_IMM, "immo
 void wiznet_tick(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_TICK, "tick"); }
 
 void wiznet_initialise() {
-    trie = trie_create(0);
-    if (!trie) {
-        bug("wiznet_initialise: couldn't create trie.");
-        exit(1);
-    }
-    trie_add(trie, "on", (void *)wiznet_on, 0);
-    trie_add(trie, "off", (void *)wiznet_off, 0);
-    trie_add(trie, "bug", (void *)wiznet_bug, 0);
-    trie_add(trie, "debug", (void *)wiznet_debug, 0);
-    trie_add(trie, "mortal", (void *)wiznet_mortal, 0);
-    trie_add(trie, "immortal", (void *)wiznet_immortal, 0);
-    trie_add(trie, "tick", (void *)wiznet_tick, 0);
+    wiznet_commands.add("on", wiznet_on, 0);
+    wiznet_commands.add("off", wiznet_off, 0);
+    wiznet_commands.add("bug", wiznet_bug, 0);
+    wiznet_commands.add("debug", wiznet_debug, 0);
+    wiznet_commands.add("mortal", wiznet_mortal, 0);
+    wiznet_commands.add("immortal", wiznet_immortal, 0);
+    wiznet_commands.add("tick", wiznet_tick, 0);
 }
 
 void do_wiznet(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    wiznet_fn_t *wiznet_fn;
-
     argument = one_argument(argument, arg);
 
-    wiznet_fn = (wiznet_fn_t *)trie_get(trie, arg, 0);
-    if (wiznet_fn) {
-        wiznet_fn(ch);
+    auto wiznet_fn = wiznet_commands.get(arg, 0);
+    if (wiznet_fn.has_value()) {
+        (*wiznet_fn)(ch);
     } else {
         print_wiznet_status(ch);
     }

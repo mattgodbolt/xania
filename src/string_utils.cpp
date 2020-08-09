@@ -100,3 +100,38 @@ std::string sanitise_input(std::string_view str) {
 
     return result;
 }
+
+impl::LineSplitter::Iter::Iter(std::string_view text, bool first) {
+    // Handles all cases of `\n`, `\r`, `\r\n` and `\n\r`.
+    if (auto cr_or_lf = text.find_first_of("\r\n"); cr_or_lf != std::string_view::npos) {
+        line_ = text.substr(0, cr_or_lf);
+        rest_ = text.substr(cr_or_lf + 1);
+        // Fix up the "other" pair of a crlf or lfcr pair.
+        if (!rest_.empty() && rest_[0] != text[cr_or_lf] && (rest_[0] == '\n' || rest_[0] == '\r'))
+            rest_.remove_prefix(1);
+    } else {
+        line_ = text;
+    }
+    at_end_ = line_.empty() && rest_.empty() && !first;
+}
+
+impl::LineSplitter::Iter impl::LineSplitter::Iter::operator++() noexcept {
+    auto prev = *this;
+    *this = Iter(rest_, false);
+    return prev;
+}
+
+std::string lower_case(std::string_view str) {
+    std::string result;
+    result.reserve(str.size());
+    for (auto c : str) {
+        result.push_back(tolower(c));
+    }
+    return result;
+}
+
+bool has_prefix(std::string_view haystack, std::string_view needle) {
+    if (needle.size() > haystack.size())
+        return false;
+    return needle == haystack.substr(0, needle.size());
+}

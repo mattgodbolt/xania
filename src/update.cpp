@@ -761,7 +761,7 @@ void char_update() {
     for (ch = char_list; ch != nullptr; ch = ch_next) {
         ch_next = ch->next;
 
-        if (ch->desc != nullptr && ch->desc->descriptor % save_every_n == save_number)
+        if (ch->desc != nullptr && ch->desc->channel() % save_every_n == save_number)
             save_char_obj(ch);
 
         if (ch == ch_quit)

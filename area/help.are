@@ -665,6 +665,7 @@ note - 		: removes last line from note
 note clear	: erase a note in progress
 note show	: shows the note you are working on
 note post	: posts a new note. This MUST be done to post a note.
+note send	: synonym for 'note post'.
 
 When you log in, you will be informed if there are unread notes waiting. Type
 note read to scroll through them one at a time.
@@ -1388,9 +1389,8 @@ Syntax: sockets
 	sockets <name>
 
 SOCKETS reports all of the visible users connected to the server, including
-users in the process of logging in.  The two numbers inside brackets are the
-channel number and the 'connected' state.  The 'connected' states are listed in
-merc.h: 0 is CON_PLAYING; non-zero values are various states of logging in.
+users in the process of logging in.  The number inside brackets is the
+channel number, and the short string indicates the 'connected' state.
 
 The output also displays the masked source IP address of the client, along with
 a unique number generated from that address. This enables you to spot characters

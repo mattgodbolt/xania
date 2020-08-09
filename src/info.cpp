@@ -7,22 +7,25 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "info.hpp"
 #include "Descriptor.hpp"
+#include "WrappedFd.hpp"
 #include "buffer.h"
 #include "merc.h"
 #include "string_utils.hpp"
 
-#include <cctype>
+#include <fmt/format.h>
+
 #include <cstdio>
-#include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <dirent.h>
-#include <sys/time.h>
-#include <sys/types.h>
+#include <unordered_map>
+
+using namespace fmt::literals;
 
 void do_finger(CHAR_DATA *ch, char *arg);
-void read_char_info(FINGER_INFO *info);
+FingerInfo read_char_info(std::string_view player_name);
 
 #if defined(KEY)
 #undef KEY
@@ -35,8 +38,23 @@ void read_char_info(FINGER_INFO *info);
         break;                                                                                                         \
     }
 
-/* For finger info */
-FINGER_INFO *info_cache = nullptr;
+// For finger info.
+namespace {
+
+// Annoyingly C++ means this doesn't work all that well for string_view lookups. We have to construct a std::string
+// and search by that. I really don't think that's an issue in this case.
+std::unordered_map<std::string, FingerInfo> info_cache;
+
+FingerInfo *search_info_cache(std::string_view name) {
+    if (auto find_it = info_cache.find(std::string(name)); find_it != info_cache.end())
+        return &find_it->second;
+    return nullptr;
+}
+FingerInfo *search_info_cache(const CHAR_DATA *ch) { return search_info_cache(ch->name); }
+
+}
+
+// TODO(#108) is this used?
 KNOWN_PLAYERS *player_list = nullptr;
 
 void load_player_list() {
@@ -44,7 +62,7 @@ void load_player_list() {
     KNOWN_PLAYERS *current_pos = player_list;
     DIR *dp;
     struct dirent *ep;
-    dp = opendir("../player");
+    dp = opendir(PLAYER_DIR);
     if (dp != nullptr) {
         while ((ep = (readdir(dp)))) {
             if (player_list == nullptr) {
@@ -69,8 +87,6 @@ void load_player_list() {
 void do_setinfo(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     char buf[MAX_STRING_LENGTH];
-    FINGER_INFO *cur;
-    bool info_found = false;
     int update_show = 0;
     int update_hide = 0;
     char smash_tilded[MAX_INPUT_LENGTH];
@@ -110,17 +126,9 @@ void do_setinfo(CHAR_DATA *ch, const char *argument) {
             set_extra(ch, EXTRA_INFO_MESSAGE);
             send_to_char(buf, ch);
             /* Update the info if it is in cache */
-            cur = info_cache;
-            while (cur != nullptr && info_found == false) {
-                if (!strcmp(cur->name, ch->name))
-                    info_found = true;
-                else
-                    cur = cur->next;
-            }
-            if (info_found == true) {
+            if (auto cur = search_info_cache(ch)) {
                 /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
-                free_string(cur->info_message);
-                cur->info_message = str_dup(ch->pcdata->info_message);
+                cur->info_message = ch->pcdata->info_message;
                 cur->i_message = true;
             }
         }
@@ -144,16 +152,9 @@ void do_setinfo(CHAR_DATA *ch, const char *argument) {
                 }
                 return;
             }
-            if (update_show != 0) {
+            if (update_show != 0) { // TODO IDE COMPLAINS THIS IS UNREACHABLE
                 /* Update the info if it is in cache */
-                cur = info_cache;
-                while (cur != nullptr && info_found == false) {
-                    if (!strcmp(cur->name, ch->name))
-                        info_found = true;
-                    else
-                        cur = cur->next;
-                }
-                if (info_found == true) {
+                if (auto cur = search_info_cache(ch)) {
                     /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
                     switch (update_show) {
                     case EXTRA_INFO_MESSAGE: cur->i_message = true; break;
@@ -177,14 +178,7 @@ void do_setinfo(CHAR_DATA *ch, const char *argument) {
             }
             if (update_hide != 0) {
                 /* Update the info if it is in cache */
-                cur = info_cache;
-                while (cur != nullptr && info_found == false) {
-                    if (!strcmp(cur->name, ch->name))
-                        info_found = true;
-                    else
-                        cur = cur->next;
-                }
-                if (info_found == true) {
+                if (auto cur = search_info_cache(ch)) {
                     /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
                     switch (update_hide) {
                     case EXTRA_INFO_MESSAGE: cur->i_message = false; break;
@@ -204,17 +198,9 @@ void do_setinfo(CHAR_DATA *ch, const char *argument) {
         ch->pcdata->info_message = str_dup("");
         send_to_char("Your info details have been cleared.\n\r", ch);
         /* Do the same if in cache */
-        cur = info_cache;
-        while (cur != nullptr && info_found == false) {
-            if (!strcmp(cur->name, ch->name))
-                info_found = true;
-            else
-                cur = cur->next;
-        }
-        if (info_found == true) {
+        if (auto cur = search_info_cache(ch)) {
             /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
-            free_string(cur->info_message);
-            cur->info_message = str_dup("");
+            cur->info_message.clear();
         }
         return;
     }
@@ -238,9 +224,7 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     CHAR_DATA *victim = nullptr;
     KNOWN_PLAYERS *cursor = player_list;
-    FINGER_INFO *cur;
     bool player_found = false;
-    bool info_found = false;
     CHAR_DATA *wch = char_list;
     bool char_found = false;
 
@@ -283,68 +267,26 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
         if (player_found == true) {
             /* Player exists in player directory */
             /*	  send_to_char ("Player found.\n\r", ch);*/
-            cur = info_cache;
-
-            while (cur != nullptr && info_found == false) {
-                if (!strcmp(cur->name, argument))
-                    info_found = true;
-                else
-                    cur = cur->next;
-            }
-
-            if (info_found == true) {
-                /* Player info is in cache. Do nothing (I know, not very good
-                   programming technique, but who cares :) */
-                /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
-            } else {
+            const FingerInfo *cur = search_info_cache(argument);
+            if (!cur) {
                 /* Player info not in cache, proceed to put it in there */
                 /*send_to_char ("Player info is not in cache.\n\r", ch);*/
-                cur = static_cast<FINGER_INFO *>(alloc_mem(sizeof(FINGER_INFO)));
-                cur->name = str_dup(argument);
-                cur->next = info_cache;
-                info_cache = cur;
-
-                if (victim != nullptr && !IS_NPC(victim)) {
-                    if (victim->desc == nullptr) {
-                        /* Character is switched???? Load from file as
-                           it crashes otherwise - can it be changed? */
-                        /*log_string ("Desc is null.");*/
-                        cur->info_message = str_dup("");
-                        cur->last_login_from = str_dup("");
-                        cur->last_login_at = str_dup("");
-                        read_char_info(cur);
-                    } else {
-                        /* Player is currently logged in, so get info from loaded
-                           char and put it in cache */
-                        /*send_to_char ("Player is currently logged in.\n\r", ch);*/
-                        cur->info_message = str_dup(victim->pcdata->info_message);
-                        cur->invis_level = victim->invis_level;
-                        cur->last_login_at = str_dup(victim->desc->logintime);
-                        cur->last_login_from = str_dup(victim->desc->host);
-
-                        if (is_set_extra(victim, EXTRA_INFO_MESSAGE))
-                            cur->i_message = true;
-                        else
-                            cur->i_message = false;
-                    }
+                if (victim && !IS_NPC(victim) && victim->desc) {
+                    cur = &info_cache
+                               .emplace(argument,
+                                        FingerInfo(victim->name, victim->pcdata->info_message,
+                                                   victim->desc->login_time(), victim->desc->host(),
+                                                   victim->invis_level, is_set_extra(victim, EXTRA_INFO_MESSAGE)))
+                               .first->second;
                 } else {
-                    /* Player is not logged in, so need to load it in.
-                       initialise everything to nothing first to avoid
-                       null pointers (because I had several crashes if
-                       I didn't do this) */
-                    /*send_to_char ("Player is not currently logged in.\n\r", ch);*/
-
-                    cur->info_message = str_dup("");
-                    cur->last_login_from = str_dup("");
-                    cur->last_login_at = str_dup("");
-                    read_char_info(cur);
+                    cur = &info_cache.emplace(argument, read_char_info(argument)).first->second;
                 }
             }
 
-            if (cur->info_message[0] == '\0')
+            if (cur->info_message.empty())
                 snprintf(buf, sizeof(buf), "Message: Not set.\n\r");
             else if (cur->i_message)
-                snprintf(buf, sizeof(buf), "Message: %s\n\r", cur->info_message);
+                snprintf(buf, sizeof(buf), "Message: %s\n\r", cur->info_message.c_str());
             else
                 snprintf(buf, sizeof(buf), "Message: Withheld.\n\r");
             send_to_char(buf, ch);
@@ -365,13 +307,12 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
                     snprintf(buf, sizeof(buf), "%s is currently roaming the hills of Xania!\n\r", victim->name);
                     send_to_char(buf, ch);
                     if (get_trust(ch) >= 96) {
-                        if (victim->desc->host[0] == '\0')
+                        if (victim->desc->host().empty())
                             snprintf(buf, sizeof(buf),
                                      "It is impossible to determine where %s last logged in from.\n\r", victim->name);
                         else {
-                            char hostbuf[MAX_MASKED_HOSTNAME];
-                            snprintf(buf, sizeof(buf), "%s is currently logged in from %s.\n\r", cur->name,
-                                     get_masked_hostname(hostbuf, victim->desc->host));
+                            snprintf(buf, sizeof(buf), "%s is currently logged in from %s.\n\r", cur->name.c_str(),
+                                     victim->desc->host().c_str());
                         }
                         send_to_char(buf, ch);
                     }
@@ -382,7 +323,7 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
 
                     snprintf(buf, sizeof(buf),
                              "It is impossible to determine the last time that %s roamed\n\rthe hills of Xania.\n\r",
-                             cur->name);
+                             cur->name.c_str());
                     send_to_char(buf, ch);
                 } else {
 
@@ -390,20 +331,21 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
                         snprintf(
                             buf, sizeof(buf),
                             "It is impossible to determine the last time that %s roamed\n\rthe hills of Xania.\n\r",
-                            cur->name);
+                            cur->name.c_str());
                     else
-                        snprintf(buf, sizeof(buf), "%s last roamed the hills of Xania on %s", cur->name,
-                                 cur->last_login_at);
+                        snprintf(buf, sizeof(buf), "%s last roamed the hills of Xania on %s", cur->name.c_str(),
+                                 cur->last_login_at.c_str());
 
                     send_to_char(buf, ch);
 
                     if (get_trust(ch) >= 96) {
                         if (cur->last_login_from[0] == '\0')
                             snprintf(buf, sizeof(buf),
-                                     "It is impossible to determine where %s last logged in from.\n\r", cur->name);
+                                     "It is impossible to determine where %s last logged in from.\n\r",
+                                     cur->name.c_str());
                         else
-                            snprintf(buf, sizeof(buf), "%s last logged in from %s.\n\r", cur->name,
-                                     cur->last_login_from);
+                            snprintf(buf, sizeof(buf), "%s last logged in from %s.\n\r", cur->name.c_str(),
+                                     cur->last_login_from.c_str());
 
                         send_to_char(buf, ch);
                     }
@@ -417,32 +359,42 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void read_char_info(FINGER_INFO *info) {
-    FILE *fp;
-    char strsave[MAX_INPUT_LENGTH];
-    char *word;
-    char *line;
-    bool fMatch;
+void remove_info_for_player(std::string_view player_name) { info_cache.erase(std::string(player_name)); }
+void update_info_cache(CHAR_DATA *ch) {
+    if (auto cur = search_info_cache(ch)) {
+        cur->invis_level = ch->invis_level;
 
-    snprintf(strsave, sizeof(strsave), "%s%s", PLAYER_DIR, info->name);
-    if ((fp = fopen(strsave, "r")) != nullptr) {
-        /*      log_string ("Player file open");*/
+        /* Make sure player isn't link dead. */
+        if (ch->desc != nullptr) {
+            cur->last_login_at = ch->desc->login_time();
+            cur->last_login_from = ch->desc->host();
+        } else {
+            /* If link dead, we need to grab as much
+               info as possible. Death.*/
+            char *strtime = ctime(&current_time);
+            strtime[strlen(strtime) - 1] = '\0';
+
+            cur->last_login_at = strtime;
+        }
+    }
+}
+
+FingerInfo read_char_info(std::string_view player_name) {
+    FingerInfo info(player_name);
+    if (auto fp = WrappedFd::open("{}{}"_format(PLAYER_DIR, player_name))) {
         for (;;) {
-            word = fread_word(fp);
+            const char *word = fread_word(fp);
             if (feof(fp))
-                return;
-            fMatch = false;
+                break;
+            bool fMatch = false;
 
             switch (UPPER(word[0])) {
             case 'E':
                 if (!strcmp("End", word))
-                    return;
+                    return info;
                 if (!str_cmp(word, "ExtraBits")) {
-                    line = fread_string(fp);
-                    if (line[EXTRA_INFO_MESSAGE] == '1')
-                        info->i_message = true;
-                    else
-                        info->i_message = false;
+                    const char *line = fread_string(fp);
+                    info.i_message = line[EXTRA_INFO_MESSAGE] == '1';
                     fread_to_eol(fp);
                     fMatch = true;
                     break;
@@ -450,22 +402,22 @@ void read_char_info(FINGER_INFO *info) {
                 break;
 
             case 'I':
-                KEY("InvisLevel", info->invis_level, fread_number(fp));
-                KEY("Invi", info->invis_level, fread_number(fp));
-                KEY("Info_message", info->info_message, fread_string(fp));
+                KEY("InvisLevel", info.invis_level, fread_number(fp));
+                KEY("Invi", info.invis_level, fread_number(fp));
+                KEY("Info_message", info.info_message, fread_string(fp));
                 break;
             case 'L':
-                KEY("LastLoginFrom", info->last_login_from, fread_string(fp));
-                KEY("LastLoginAt", info->last_login_at, fread_string(fp));
+                KEY("LastLoginFrom", info.last_login_from, fread_string(fp));
+                KEY("LastLoginAt", info.last_login_at, fread_string(fp));
                 break;
+            case 'N': KEY("Name", info.name, fread_string(fp)); break;
             }
             if (!fMatch) {
                 fread_to_eol(fp);
             }
         }
-
-        fclose(fp);
     } else {
-        bug("Could not open player file '%s' to extract info.", info->name);
+        bug("Could not open player file '%s' to extract info.", info.name.c_str());
     }
+    return info;
 }

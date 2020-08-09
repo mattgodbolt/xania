@@ -2,10 +2,12 @@
 
 #include "merc.h"
 
+#include <cstdint>
 #include <list>
 #include <optional>
 #include <string>
 #include <string_view>
+#include <unordered_set>
 
 // Connected state for a descriptor.
 enum class DescriptorState {
@@ -31,45 +33,79 @@ enum class DescriptorState {
 };
 
 const char *short_name_of(DescriptorState state);
-const char *name_of(DescriptorState state);
 
 /*
  * Descriptor (channel) structure.
  */
-struct Descriptor {
+class Descriptor {
     static constexpr size_t MaxInbufBacklog = 50u;
+    uint32_t channel_{};
     std::list<std::string> pending_commands_;
     std::string last_command_;
+    std::string raw_host_{"unknown"};
+    std::string masked_host_{"unknown"};
+    std::string login_time_;
+    std::string outbuf_;
+    std::list<std::string> page_outbuf_;
+    std::unordered_set<Descriptor *> snoop_by_;
+    std::unordered_set<Descriptor *> snooping_;
+    uint32_t netaddr_{};
+    uint16_t port_{};
+    bool processing_command_{};
+    DescriptorState state_{DescriptorState::GetName};
 
     [[nodiscard]] std::optional<std::string> pop_raw();
 
 public:
     Descriptor *next{};
-    Descriptor *snoop_by{};
     CHAR_DATA *character{};
     CHAR_DATA *original{};
-    char *host{};
-    char *logintime{};
-    uint32_t descriptor{};
-    uint32_t netaddr{};
-    DescriptorState connected{DescriptorState::GetName};
-    uint16_t localport{};
-    bool fcommand{};
-    int repeat{};
-    char *outbuf{};
-    int outsize{2000};
-    int outtop{};
-    char *showstr_head{};
-    char *showstr_point{};
 
     explicit Descriptor(uint32_t descriptor);
     ~Descriptor();
 
-    [[nodiscard]] bool is_playing() const noexcept { return connected == DescriptorState::Playing; }
+    void state(DescriptorState state) noexcept { state_ = state; }
+    [[nodiscard]] DescriptorState state() const noexcept { return state_; }
+    [[nodiscard]] bool is_playing() const noexcept { return state_ == DescriptorState::Playing; }
+
     [[nodiscard]] bool is_input_full() const noexcept { return pending_commands_.size() >= MaxInbufBacklog; }
     void clear_input() { pending_commands_.clear(); }
     void add_command(std::string_view command) { pending_commands_.emplace_back(command); }
     [[nodiscard]] std::optional<std::string> pop_incomm();
 
-    bool write(std::string_view text) const;
+    // Writes directly to a socket. May fail
+    bool write_direct(std::string_view text) const;
+
+    static constexpr auto MaxOutputBufSize = 32000u;
+    // Buffers output to be processed later. If the max output size is exceeded, the descriptor is closed.
+    void write(std::string_view message) noexcept;
+    [[nodiscard]] bool has_buffered_output() const noexcept { return !outbuf_.empty(); }
+    void clear_output_buffer() noexcept { outbuf_.clear(); }
+
+    // Send a page of text to a descriptor. Sending a page replaces any previous page.
+    void page_to(std::string_view page) noexcept;
+    [[nodiscard]] bool is_paging() const noexcept { return !page_outbuf_.empty(); }
+    void show_next_page(std::string_view input) noexcept;
+
+    // deliberately named long and annoying to dissuade use! Go use host to get the safe version.
+    [[nodiscard]] const std::string &raw_full_hostname() const noexcept { return raw_host_; }
+    void set_endpoint(uint32_t netaddr, uint16_t port, std::string_view raw_full_hostname);
+
+    [[nodiscard]] const std::string &host() const noexcept { return masked_host_; }
+    [[nodiscard]] const std::string &login_time() const noexcept { return login_time_; }
+
+    [[nodiscard]] bool flush_output() noexcept;
+
+    // Fails for reasons of snoop loops.
+    [[nodiscard]] bool try_start_snooping(Descriptor &other);
+    void stop_snooping(Descriptor &other);
+    void stop_snooping();
+
+    void close() noexcept;
+
+    [[nodiscard]] uint32_t channel() const noexcept { return channel_; }
+    void note_input(std::string_view char_name, std::string_view input);
+
+    void processing_command(bool is_processing) noexcept { processing_command_ = is_processing; }
+    [[nodiscard]] bool processing_command() const noexcept { return processing_command_; }
 };
