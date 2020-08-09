@@ -34,6 +34,11 @@ const char *short_name_of(DescriptorState state) {
 
 Descriptor::Descriptor(uint32_t descriptor) : channel_(descriptor), login_time_(ctime(&current_time)) {}
 
+Descriptor::~Descriptor() {
+    // Ensure we don't have anything pointing back at us. No messages here in case this is during shutdown.
+    stop_snooping();
+}
+
 std::optional<std::string> Descriptor::pop_raw() {
     if (pending_commands_.empty())
         return std::nullopt;
@@ -105,10 +110,12 @@ bool Descriptor::flush_output() noexcept {
     if (outbuf_.empty())
         return true;
 
-    if (snoop_by && character) {
-        snoop_by->write(character->name);
-        snoop_by->write("> ");
-        snoop_by->write(outbuf_);
+    if (character) {
+        for (auto *snooper : snoop_by_) {
+            snooper->write(character->name);
+            snooper->write("> ");
+            snooper->write(outbuf_);
+        }
     }
 
     auto result = write_direct(outbuf_);
@@ -150,4 +157,54 @@ void Descriptor::show_next_page(std::string_view input) noexcept {
         send_to_char((page_outbuf_.front() + "\r\n").c_str(), character);
         page_outbuf_.pop_front();
     }
+}
+
+bool Descriptor::try_start_snooping(Descriptor &other) {
+    // If already snooping, early out (to prevent us complaining it's a "snoop loop".
+    if (snooping_.count(&other) == 1)
+        return true;
+
+    struct SnoopLoopChecker {
+        std::unordered_set<Descriptor *> already_seen;
+        explicit SnoopLoopChecker(Descriptor *d) { already_seen.emplace(d); }
+        bool snoops(Descriptor *d) {
+            if (!already_seen.emplace(d).second)
+                return true; // if we didn't add a new entry to the set, we hit a duplicate!
+            return std::any_of(begin(d->snooping_), end(d->snooping_), [&](auto d) { return snoops(d); });
+        }
+    };
+    SnoopLoopChecker slc(this);
+    if (slc.snoops(&other))
+        return false;
+
+    other.snoop_by_.emplace(this);
+    snooping_.emplace(&other);
+    return true;
+}
+
+void Descriptor::stop_snooping(Descriptor &other) {
+    other.snoop_by_.erase(this);
+    snooping_.erase(&other);
+}
+
+void Descriptor::stop_snooping() {
+    while (!snooping_.empty())
+        stop_snooping(**snooping_.begin());
+}
+
+void Descriptor::close() noexcept {
+    while (!snoop_by_.empty()) {
+        auto &snooper = *snoop_by_.begin();
+        snooper->write("Your victim ({}) has left the game.\n\r"_format(character ? character->name : "unknown"));
+        snooper->stop_snooping(*this);
+    }
+    stop_snooping();
+}
+
+void Descriptor::note_input(std::string_view char_name, std::string_view input) {
+    if (snoop_by_.empty())
+        return;
+    auto snooped_msg = "{}% {}\n\r"_format(char_name, input);
+    for (auto *snooper : snoop_by_)
+        snooper->write(snooped_msg);
 }
