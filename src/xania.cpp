@@ -231,8 +231,8 @@ void do_prefix(CHAR_DATA *ch, const char *argument) {
         prefix.resize(MAX_STRING_LENGTH - 1);
 
     if (IS_NPC(ch)) {
-        if (ch->desc->original)
-            ch_prefix = ch->desc->original;
+        if (ch->desc->original())
+            ch_prefix = ch->desc->original();
         else
             return;
     } else
@@ -265,8 +265,8 @@ void do_timezone(CHAR_DATA *ch, const char *argument) {
     char buf[64];
 
     if (IS_NPC(ch)) {
-        if (ch->desc->original)
-            ch_owner = ch->desc->original;
+        if (ch->desc->original())
+            ch_owner = ch->desc->original();
         else
             return;
     } else
@@ -298,7 +298,7 @@ int get_skill_level(CHAR_DATA *ch, int gsn) {
     if (IS_NPC(ch)) {
 
         if (ch->desc) { /* Is this a switched IMM? */
-            if ((ch = ch->desc->original) == nullptr) {
+            if ((ch = ch->desc->original()) == nullptr) {
                 return 1;
             }
         } else { /* A genuine NPC */
@@ -690,10 +690,7 @@ void web_who() {
     fprintf(fp, "<b><TR><TD>Level</TD> <TD>Race</TD> <TD>Class</TD>  <TD>Who</TD></TR></b>\n");
 
     for (d = descriptor_list; d != nullptr; d = d->next) {
-        CHAR_DATA *wch;
-
-        wch = (d->original != nullptr) ? d->original : d->character;
-
+        auto wch = d->person();
         if (!d->is_playing() || !web_see(wch))
             continue;
         fprintf(fp, "<TR><TD>%d</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD>\n", wch->level,
@@ -776,13 +773,10 @@ void tip_players() {
     }
     snprintf(buf, sizeof(buf), "|WTip: %s|w\n\r", tip_current->tip);
     for (d = descriptor_list; d != nullptr; d = d->next) {
-        CHAR_DATA *ch;
-
-        ch = (d->original != nullptr) ? d->original : d->character;
-
         if (!d->is_playing())
             continue;
 
+        CHAR_DATA *ch = d->person();
         if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
             send_to_char(buf, ch);
         }

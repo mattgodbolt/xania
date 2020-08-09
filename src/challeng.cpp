@@ -82,7 +82,7 @@ void do_challenge(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (ch->desc->original != nullptr || victim->desc->original != nullptr) {
+    if (ch->desc->is_switched() || victim->desc->is_switched()) {
         send_to_char("|cYou cannot challenge with switched mobs.|w\n\r", ch);
         return;
     }

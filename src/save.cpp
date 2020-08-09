@@ -79,8 +79,8 @@ void save_char_obj(CHAR_DATA *ch) {
     if (IS_NPC(ch))
         return;
 
-    if (ch->desc != nullptr && ch->desc->original != nullptr)
-        ch = ch->desc->original;
+    if (ch->desc != nullptr && ch->desc->is_switched())
+        ch = ch->desc->original();
 
     /* create god log */
     if (IS_IMMORTAL(ch) || ch->level >= LEVEL_IMMORTAL) {
@@ -456,7 +456,7 @@ bool load_char_obj(Descriptor *d, const char *name) {
     }
     *ch->pcdata = pcdata_zero;
 
-    d->character = ch;
+    d->character(ch);
     ch->desc = d;
     ch->name = str_dup(name);
     ch->version = 0;

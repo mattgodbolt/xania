@@ -383,8 +383,8 @@ static const char *apply_prefix(char *buf, CHAR_DATA *ch, const char *command) {
 
     /* Unswitched MOBs don't have prefixes.  If we're switched, get the player's prefix. */
     if (IS_NPC(ch)) {
-        if (ch->desc && ch->desc->original)
-            pc_prefix = ch->desc->original->pcdata->prefix;
+        if (ch->desc && ch->desc->original())
+            pc_prefix = ch->desc->original()->pcdata->prefix;
         else
             return command;
     } else
@@ -465,8 +465,8 @@ void interpret(CHAR_DATA *ch, const char *argument) {
         int level = (cmd->level >= 91) ? (cmd->level) : 0;
         if (!IS_NPC(ch) && (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)))
             level = UMAX(level, get_trust(ch));
-        if (IS_NPC(ch) && ch->desc && ch->desc->original) {
-            snprintf(log_buf, LOG_BUF_SIZE, "Log %s (as '%s'): %s", ch->desc->original->name, ch->name, logline);
+        if (IS_NPC(ch) && ch->desc && ch->desc->original()) {
+            snprintf(log_buf, LOG_BUF_SIZE, "Log %s (as '%s'): %s", ch->desc->original()->name, ch->name, logline);
         } else {
             snprintf(log_buf, LOG_BUF_SIZE, "Log %s: %s", ch->name, logline);
         }

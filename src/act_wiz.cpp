@@ -237,7 +237,7 @@ void do_disconnect(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '+') {
         argument++;
         for (d = descriptor_list; d; d = d->next) {
-            if (d->character && !str_cmp(d->character->name, argument)) {
+            if (d->character() && !str_cmp(d->character()->name, argument)) {
                 close_socket(d);
                 send_to_char("Ok.\n\r", ch);
                 return;
@@ -324,10 +324,10 @@ void do_echo(CHAR_DATA *ch, const char *argument) {
 
     for (d = descriptor_list; d; d = d->next) {
         if (d->is_playing()) {
-            if (get_trust(d->character) >= get_trust(ch))
-                send_to_char("global> ", d->character);
-            send_to_char(argument, d->character);
-            send_to_char("\n\r", d->character);
+            if (get_trust(d->character()) >= get_trust(ch))
+                send_to_char("global> ", d->character());
+            send_to_char(argument, d->character());
+            send_to_char("\n\r", d->character());
         }
     }
 }
@@ -342,11 +342,11 @@ void do_recho(CHAR_DATA *ch, const char *argument) {
     }
 
     for (d = descriptor_list; d; d = d->next) {
-        if (d->is_playing() && d->character->in_room == ch->in_room) {
-            if (get_trust(d->character) >= get_trust(ch) && ch->in_room->vnum != 1222)
-                send_to_char("local> ", d->character);
-            send_to_char(argument, d->character);
-            send_to_char("\n\r", d->character);
+        if (d->is_playing() && d->character()->in_room == ch->in_room) {
+            if (get_trust(d->character()) >= get_trust(ch) && ch->in_room->vnum != 1222)
+                send_to_char("local> ", d->character());
+            send_to_char(argument, d->character());
+            send_to_char("\n\r", d->character());
         }
     }
 }
@@ -360,12 +360,12 @@ void do_zecho(CHAR_DATA *ch, const char *argument) {
     }
 
     for (d = descriptor_list; d; d = d->next) {
-        if (d->is_playing() && d->character->in_room != nullptr && ch->in_room != nullptr
-            && d->character->in_room->area == ch->in_room->area) {
-            if (get_trust(d->character) >= get_trust(ch))
-                send_to_char("zone> ", d->character);
-            send_to_char(argument, d->character);
-            send_to_char("\n\r", d->character);
+        if (d->is_playing() && d->character()->in_room != nullptr && ch->in_room != nullptr
+            && d->character()->in_room->area == ch->in_room->area) {
+            if (get_trust(d->character()) >= get_trust(ch))
+                send_to_char("zone> ", d->character());
+            send_to_char(argument, d->character());
+            send_to_char("\n\r", d->character());
         }
     }
 }
@@ -432,10 +432,10 @@ void do_transfer(CHAR_DATA *ch, const char *argument) {
 
     if (!str_cmp(arg1, "all")) {
         for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->is_playing() && d->character != ch && d->character->in_room != nullptr
-                && can_see(ch, d->character)) {
+            if (d->is_playing() && d->character() != ch && d->character()->in_room != nullptr
+                && can_see(ch, d->character())) {
                 char buf[MAX_STRING_LENGTH];
-                bug_snprintf(buf, sizeof(buf), "%s %s", d->character->name, arg2);
+                bug_snprintf(buf, sizeof(buf), "%s %s", d->character()->name, arg2);
                 do_transfer(ch, buf);
             }
         }
@@ -1742,7 +1742,7 @@ void do_switch(CHAR_DATA *ch, const char *argument) {
     if (ch->desc == nullptr)
         return;
 
-    if (ch->desc->original != nullptr) {
+    if (ch->desc->is_switched()) {
         send_to_char("You are already switched.\n\r", ch);
         return;
     }
@@ -1767,10 +1767,7 @@ void do_switch(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    ch->desc->character = victim;
-    ch->desc->original = ch;
-    victim->desc = ch->desc;
-    ch->desc = nullptr;
+    ch->desc->do_switch(victim);
     /* change communications to match */
     victim->comm = ch->comm;
     victim->lines = ch->lines;
@@ -1782,16 +1779,13 @@ void do_return(CHAR_DATA *ch, const char *argument) {
     if (ch->desc == nullptr)
         return;
 
-    if (ch->desc->original == nullptr) {
+    if (!ch->desc->is_switched()) {
         send_to_char("You aren't switched.\n\r", ch);
         return;
     }
 
     send_to_char("You return to your original body.\n\r", ch);
-    ch->desc->character = ch->desc->original;
-    ch->desc->original = nullptr;
-    ch->desc->character->desc = ch->desc;
-    ch->desc = nullptr;
+    ch->desc->do_return();
 }
 
 /* trust levels for load and clone */
@@ -2225,7 +2219,7 @@ void do_restore(CHAR_DATA *ch, const char *argument) {
         /* cure all */
 
         for (d = descriptor_list; d != nullptr; d = d->next) {
-            victim = d->character;
+            victim = d->character();
 
             if (victim == nullptr || IS_NPC(victim))
                 continue;
@@ -3481,14 +3475,13 @@ void do_sockets(CHAR_DATA *ch, const char *argument) {
 
     one_argument(argument, arg);
     for (d = descriptor_list; d != nullptr; d = d->next) {
-        if (d->character != nullptr && can_see(ch, d->character)
-            && (arg[0] == '\0' || is_name(arg, d->character->name)
-                || (d->original && is_name(arg, d->original->name)))) {
+        if (d->character() != nullptr && can_see(ch, d->character())
+            && (arg[0] == '\0' || is_name(arg, d->character()->name)
+                || (d->original() && is_name(arg, d->original()->name)))) {
             count++;
             bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5s] %s@%s\n\r", d->channel(), short_name_of(d->state()),
-                         d->original ? d->original->name : d->character ? d->character->name : "(none)",
-                         d->host().c_str());
-        } else if (d->character == nullptr && get_trust(ch) == MAX_LEVEL) {
+                         d->person() ? d->person()->name : "(none)", d->host().c_str());
+        } else if (!d->character() && get_trust(ch) == MAX_LEVEL) {
             /*
              * New: log even connections that haven't logged in yet
              * Level 100s only, mind

@@ -800,8 +800,8 @@ void do_prompt(CHAR_DATA *ch, const char *argument) {
        into a MOB.  Let's change that.... */
 
     if (IS_NPC(ch)) {
-        if (ch->desc->original)
-            ch = ch->desc->original;
+        if (ch->desc->is_switched())
+            ch = ch->desc->original();
         else
             return;
     }
@@ -1512,8 +1512,8 @@ void do_time(CHAR_DATA *ch, const char *argument) {
     send_to_char(buf, ch);
 
     if (IS_NPC(ch)) {
-        if (ch->desc->original)
-            ch = ch->desc->original;
+        if (ch->desc->is_switched())
+            ch = ch->desc->original();
         else
             return;
     }
@@ -1620,13 +1620,12 @@ void do_whois(CHAR_DATA *ch, const char *argument) {
     output[0] = '\0';
 
     for (d = descriptor_list; d != nullptr; d = d->next) {
-        CHAR_DATA *wch;
         char const *class_name;
 
-        if (!d->is_playing() || !can_see(ch, d->character))
+        if (!d->is_playing() || !can_see(ch, d->character()))
             continue;
 
-        wch = (d->original != nullptr) ? d->original : d->character;
+        auto *wch = d->person();
 
         if (!can_see(ch, wch))
             continue;
@@ -1786,14 +1785,14 @@ void do_who(CHAR_DATA *ch, const char *argument) {
          * Check for match against restrictions.
          * Don't use trust as that exposes trusted mortals.
          */
-        if (!d->is_playing() || !can_see(ch, d->character))
+        if (!d->is_playing() || !can_see(ch, d->character()))
             continue;
         /* added Faramir 13/8/96 because switched imms were visible to all*/
-        if (d->original != nullptr)
-            if (!can_see(ch, d->original))
+        if (d->is_switched())
+            if (!can_see(ch, d->original()))
                 continue;
 
-        wch = (d->original != nullptr) ? d->original : d->character;
+        wch = d->person();
         if (wch->level < iLevelLower || wch->level > iLevelUpper || (fImmortalOnly && wch->level < LEVEL_HERO)
             || (fClassRestrict && !rgfClass[wch->class_num]) || (fRaceRestrict && !rgfRace[wch->race]))
             continue;
@@ -1865,7 +1864,7 @@ void do_count(CHAR_DATA *ch, const char *argument) {
     count = 0;
 
     for (d = descriptor_list; d != nullptr; d = d->next)
-        if (d->is_playing() && can_see(ch, d->character))
+        if (d->is_playing() && can_see(ch, d->character()))
             count++;
 
     max_on = UMAX(count, max_on);
@@ -2020,7 +2019,7 @@ void do_where(CHAR_DATA *ch, const char *argument) {
         send_to_char(buf, ch);
         found = false;
         for (d = descriptor_list; d; d = d->next) {
-            if (d->is_playing() && (victim = d->character) != nullptr && !IS_NPC(victim) && victim != ch
+            if (d->is_playing() && (victim = d->character()) != nullptr && !IS_NPC(victim) && victim != ch
                 && victim->in_room != nullptr && victim->in_room->area == ch->in_room->area && can_see(ch, victim)) {
                 found = true;
                 snprintf(buf, sizeof(buf), "|W%-28s|w %s\n\r", victim->name, victim->in_room->name);
