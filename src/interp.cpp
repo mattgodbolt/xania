@@ -8,10 +8,10 @@
 /*************************************************************************/
 
 #include "interp.h"
+#include "CommandSet.hpp"
 #include "Descriptor.hpp"
 #include "merc.h"
 #include "note.h"
-#include "trie.h"
 
 #include <fmt/format.h>
 
@@ -59,23 +59,14 @@ struct CommandInfo {
         : name(name), do_fun(std::move(do_fun)), position(position), level(level), log(log), show(show) {}
 };
 
-/* Trie-based version of command table -- Forrey, Sun Mar 19 21:43:10 CET 2000 */
-
-static void *cmd_trie;
+static CommandSet<CommandInfo> commands;
 
 static void add_command(const char *name, CommandFunc do_fun, sh_int position = POS_DEAD, sh_int level = 0,
                         CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
-    // TODO: avoid the naked new here. Make trie templatized?
-    trie_add(cmd_trie, name, new CommandInfo(name, std::move(do_fun), position, level, log, show), level);
+    commands.add(name, CommandInfo(name, std::move(do_fun), position, level, log, show), level);
 }
 
 void interp_initialise() {
-    cmd_trie = trie_create(0);
-    if (!cmd_trie) {
-        bug("note_initialise: couldn't create trie.");
-        exit(1);
-    }
-
     /* Common movement commands. */
     add_command("north", do_north, POS_STANDING, 0, CommandLogLevel::Never, false);
     add_command("east", do_east, POS_STANDING, 0, CommandLogLevel::Never, false);
@@ -387,11 +378,6 @@ void interp_initialise() {
     add_command("mpforce", do_mpforce, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
 }
 
-static const CommandInfo *find_command(CHAR_DATA *ch, const char *command, int trust) {
-    (void)ch;
-    return static_cast<const CommandInfo *>(trie_get(cmd_trie, command, trust));
-}
-
 static const char *apply_prefix(char *buf, CHAR_DATA *ch, const char *command) {
     char *pc_prefix = nullptr;
 
@@ -461,10 +447,10 @@ void interpret(CHAR_DATA *ch, const char *argument) {
     }
 
     /* Look for command in command table. */
-    auto *cmd = find_command(ch, command, get_trust(ch));
+    auto cmd = commands.get(command, get_trust(ch));
 
     /* Look for command in socials table. */
-    if (!cmd) {
+    if (!cmd.has_value()) {
         if (!check_social(ch, command, argument))
             send_to_char("Huh?\n\r", ch);
         return;
@@ -643,55 +629,53 @@ char *one_argument(char *argument, char *arg_first) {
     return argument;
 }
 
-/* Columniser and new do_wizhelp, do_commands to cope with trie-based command
- * tables -- Forrey, Sun Mar 19 21:43:10 CET 2000
- */
+struct Columniser {
+public:
+    explicit Columniser(CHAR_DATA *ch) : ch(ch) { buf[0] = '\0'; }
 
-typedef struct columniser {
-    CHAR_DATA *ch;
-    char buf[MAX_STRING_LENGTH];
-    int col_width;
-    int max_width;
-} columniser_t;
-
-static void command_enumerator(const char *name, int lev, void *value, void *metadata) {
-    (void)lev;
-    auto *col = static_cast<columniser_t *>(metadata);
-    int buf_len = strlen(col->buf);
-    int name_len = strlen(name);
-    int start_pos;
-    auto *cmd = static_cast<const CommandInfo *>(value);
-
-    if (!cmd->show)
-        return;
-
-    if (col->buf[0] == '\0')
-        start_pos = 0;
-    else
-        start_pos = ((buf_len + col->col_width) / col->col_width) * col->col_width;
-
-    if (start_pos + name_len > col->max_width) {
-        strcat(col->buf, "\n\r");
-        send_to_char(col->buf, col->ch);
-        col->buf[0] = '\0';
-        start_pos = buf_len = 0;
+    std::function<void(const std::string &name, CommandInfo info, int level)> visitor() {
+        return [this](const std::string &name, CommandInfo info, int level) {
+            (void)level;
+            visit_command(name, info);
+        };
     }
 
-    if (start_pos > buf_len)
-        memset(col->buf + buf_len, ' ', start_pos - buf_len);
-    memcpy(col->buf + start_pos, name, name_len + 1);
-}
+    void visit_command(const std::string &name, CommandInfo info) {
+        int buf_len = strlen(buf);
+        int name_len = name.size();
+        int start_pos;
+
+        if (!info.show)
+            return;
+
+        if (buf[0] == '\0')
+            start_pos = 0;
+        else
+            start_pos = ((buf_len + col_width) / col_width) * col_width;
+
+        if (start_pos + name_len > max_width) {
+            strcat(buf, "\n\r");
+            send_to_char(buf, ch);
+            buf[0] = '\0';
+            start_pos = buf_len = 0;
+        }
+
+        if (start_pos > buf_len)
+            memset(buf + buf_len, ' ', start_pos - buf_len);
+        memcpy(buf + start_pos, name.c_str(), name_len + 1);
+    }
+
+    CHAR_DATA *ch;
+    char buf[MAX_STRING_LENGTH];
+    int col_width = 12;
+    int max_width = 72;
+};
 
 void do_commands(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    columniser_t col;
-
-    col.ch = ch;
-    col.buf[0] = '\0';
-    col.col_width = 12;
-    col.max_width = 72;
-    trie_enumerate(cmd_trie, 0, (get_trust(ch) < LEVEL_HERO) ? get_trust(ch) : (LEVEL_HERO - 1), command_enumerator,
-                   &col);
+    Columniser col(ch);
+    auto max_level = (get_trust(ch) < LEVEL_HERO) ? get_trust(ch) : (LEVEL_HERO - 1);
+    commands.enumerate(commands.level_restrict(0, max_level, col.visitor()));
     if (col.buf[0] != '\0') {
         strcat(col.buf, "\n\r");
         send_to_char(col.buf, ch);
@@ -700,13 +684,8 @@ void do_commands(CHAR_DATA *ch, const char *argument) {
 
 void do_wizhelp(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    columniser_t col;
-
-    col.ch = ch;
-    col.buf[0] = '\0';
-    col.col_width = 12;
-    col.max_width = 72;
-    trie_enumerate(cmd_trie, LEVEL_HERO, get_trust(ch), command_enumerator, &col);
+    Columniser col(ch);
+    commands.enumerate(commands.level_restrict(LEVEL_HERO, get_trust(ch), col.visitor()));
     if (col.buf[0] != '\0') {
         strcat(col.buf, "\n\r");
         send_to_char(col.buf, ch);

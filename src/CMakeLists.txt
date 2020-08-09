@@ -50,8 +50,6 @@ add_library(xania_lib STATIC
         special.cpp
         tables.cpp
         tables.h
-        trie.cpp
-        trie.h
         update.cpp
         wiznet.cpp
         xania.cpp
