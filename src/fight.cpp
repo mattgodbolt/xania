@@ -591,22 +591,21 @@ void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
 
     damage(ch, victim, dam, dt, dam_type);
     
-    // TODO(Forrey): Look at this.
-    if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON))
-        if ((IS_SET(wield->value[4], WEAPON_POISONED)) && (!IS_AFFECTED(victim, AFF_POISON))) {
-            if (number_percent() > 75) {
-                int p_sn = skill_lookup("poison");
-                spell_poison(p_sn, wield->level, ch, victim);
-            }
+    if (wield == nullptr || wield->item_type != ITEM_WEAPON) return;
+    
+    if ((IS_SET(wield->value[4], WEAPON_POISONED)) && (!IS_AFFECTED(victim, AFF_POISON))) {
+        if (number_percent() > 75) {
+            int p_sn = skill_lookup("poison");
+            spell_poison(p_sn, wield->level, ch, victim);
         }
-
-    if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON))
-        if ((IS_SET(wield->value[4], WEAPON_PLAGUED)) && (!IS_AFFECTED(victim, AFF_PLAGUE))) {
-            if (number_percent() > 75) {
-                int p_sn = skill_lookup("plague");
-                spell_plague(p_sn, wield->level, ch, victim);
-            }
+    }
+    
+    if ((IS_SET(wield->value[4], WEAPON_PLAGUED)) && (!IS_AFFECTED(victim, AFF_PLAGUE))) {
+        if (number_percent() > 75) {
+            int p_sn = skill_lookup("plague");
+            spell_plague(p_sn, wield->level, ch, victim);
         }
+    }
 }
 
 /**
