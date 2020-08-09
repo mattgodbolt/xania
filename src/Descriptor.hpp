@@ -51,6 +51,7 @@ class Descriptor {
     std::unordered_set<Descriptor *> snooping_;
     uint32_t netaddr_{};
     uint16_t port_{};
+    bool processing_command_{};
 
     [[nodiscard]] std::optional<std::string> pop_raw();
 
@@ -59,7 +60,6 @@ public:
     CHAR_DATA *character{};
     CHAR_DATA *original{};
     DescriptorState connected{DescriptorState::GetName};
-    bool fcommand{};
 
     explicit Descriptor(uint32_t descriptor);
     ~Descriptor();
@@ -102,4 +102,7 @@ public:
 
     [[nodiscard]] uint32_t channel() const noexcept { return channel_; }
     void note_input(std::string_view char_name, std::string_view input);
+
+    void processing_command(bool is_processing) noexcept { processing_command_ = is_processing; }
+    [[nodiscard]] bool processing_command() const noexcept { return processing_command_; }
 };

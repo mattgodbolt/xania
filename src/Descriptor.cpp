@@ -127,7 +127,7 @@ bool Descriptor::flush_output() noexcept {
 
 void Descriptor::write(std::string_view message) noexcept {
     // Initial \n\r if needed.
-    if (outbuf_.empty() && !fcommand)
+    if (outbuf_.empty() && !processing_command_)
         outbuf_ += "\n\r";
 
     if (outbuf_.size() + message.size() > MaxOutputBufSize) {

@@ -413,9 +413,10 @@ void game_loop_unix(int control) {
         /*
          * De-waitstate characters and process pending input
          */
+        std::unordered_set<Descriptor *> handled_input;
         for (d = descriptor_list; d; d = dNext) {
             dNext = d->next;
-            d->fcommand = false;
+            d->processing_command(false);
             if (d->character && d->character->wait > 0)
                 --d->character->wait;
             /* Waitstate the character */
@@ -423,7 +424,7 @@ void game_loop_unix(int control) {
                 continue;
 
             if (auto incomm = d->pop_incomm()) {
-                d->fcommand = true;
+                d->processing_command(true);
                 move_active_char_from_limbo(d->character);
 
                 // It's possible that 'd' will be deleted as a result of any of the following operations. Be very
@@ -451,7 +452,7 @@ void game_loop_unix(int control) {
             for (d = descriptor_list; d != nullptr; d = d_next) {
                 d_next = d->next;
 
-                if ((d->fcommand || d->has_buffered_output())) {
+                if (d->processing_command() || d->has_buffered_output()) {
                     if (!process_output(d, true)) {
                         if (d->character != nullptr && d->character->level > 1)
                             save_char_obj(d->character);
