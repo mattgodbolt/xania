@@ -1,9 +1,11 @@
 #include "Descriptor.hpp"
 
 #include "comm.hpp"
+#include "merc.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+
 using namespace fmt::literals;
 
 // Up to 5 characters
@@ -112,9 +114,9 @@ bool Descriptor::flush_output() noexcept {
     if (outbuf_.empty())
         return true;
 
-    if (character) {
+    if (character_) {
         for (auto *snooper : snoop_by_) {
-            snooper->write(character->name);
+            snooper->write(character_->name);
             snooper->write("> ");
             snooper->write(outbuf_);
         }
@@ -150,13 +152,13 @@ void Descriptor::page_to(std::string_view page) noexcept {
 
 void Descriptor::show_next_page(std::string_view input) noexcept {
     // Any non-empty input cancels pagination, as does having no associated character to send to.
-    if (!skip_whitespace(input).empty() || !character) {
+    if (!skip_whitespace(input).empty() || !character_) {
         page_outbuf_.clear();
         return;
     }
 
-    for (auto line = 0; !page_outbuf_.empty() && line < character->lines; ++line) {
-        send_to_char((page_outbuf_.front() + "\r\n").c_str(), character);
+    for (auto line = 0; !page_outbuf_.empty() && line < character_->lines; ++line) {
+        send_to_char((page_outbuf_.front() + "\r\n").c_str(), character_);
         page_outbuf_.pop_front();
     }
 }
@@ -197,7 +199,7 @@ void Descriptor::stop_snooping() {
 void Descriptor::close() noexcept {
     while (!snoop_by_.empty()) {
         auto &snooper = *snoop_by_.begin();
-        snooper->write("Your victim ({}) has left the game.\n\r"_format(character ? character->name : "unknown"));
+        snooper->write("Your victim ({}) has left the game.\n\r"_format(character_ ? character_->name : "unknown"));
         snooper->stop_snooping(*this);
     }
     stop_snooping();
@@ -209,4 +211,22 @@ void Descriptor::note_input(std::string_view char_name, std::string_view input) 
     auto snooped_msg = "{}% {}\n\r"_format(char_name, input);
     for (auto *snooper : snoop_by_)
         snooper->write(snooped_msg);
+}
+
+void Descriptor::do_switch(CHAR_DATA *victim) {
+    if (is_switched())
+        throw std::runtime_error("Cannot switch if already switched");
+    original_ = character_;
+    character_ = victim;
+    victim->desc = this;
+    original_->desc = nullptr;
+}
+
+void Descriptor::do_return() {
+    if (!is_switched())
+        return;
+    character_->desc = nullptr;
+    original_->desc = this;
+    character_ = original_;
+    original_ = nullptr;
 }

@@ -42,3 +42,6 @@ Container split_lines(std::string_view input) {
 // Returns true iff the second string is a prefix of the first (or the two strings are
 // identical).
 [[nodiscard]] bool has_prefix(std::string_view haystack, std::string_view needle);
+
+// Colourises (or strips out, if use_ansi is false) the strange pipe-delimited text format we use for colour.
+[[nodiscard]] std::string colourise_mud_string(bool use_ansi, std::string_view txt);

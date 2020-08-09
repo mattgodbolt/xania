@@ -470,8 +470,8 @@ int get_trust(CHAR_DATA *ch) {
         return 0;
     }
 
-    if (ch->desc != nullptr && ch->desc->original != nullptr)
-        ch = ch->desc->original;
+    if (ch->desc != nullptr && ch->desc->is_switched())
+        ch = ch->desc->original();
 
     if (ch->trust != 0)
         return ch->trust;
@@ -1400,9 +1400,8 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
     if (IS_NPC(ch))
         --ch->pIndexData->count;
 
-    if (ch->desc != nullptr && ch->desc->original != nullptr) {
-        char empty[] = "";
-        do_return(ch, empty);
+    if (ch->desc != nullptr && ch->desc->is_switched()) {
+        do_return(ch, "");
     }
 
     for (wch = char_list; wch != nullptr; wch = wch->next) {
@@ -1429,7 +1428,7 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
     }
 
     if (ch->desc)
-        ch->desc->character = nullptr;
+        ch->desc->character(nullptr);
     free_char(ch);
 }
 

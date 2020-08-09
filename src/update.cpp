@@ -517,8 +517,8 @@ void weather_update() {
 
     if (buf[0] != '\0') {
         for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->is_playing() && IS_OUTSIDE(d->character) && IS_AWAKE(d->character))
-                send_to_char(buf, d->character);
+            if (d->is_playing() && IS_OUTSIDE(d->character()) && IS_AWAKE(d->character()))
+                send_to_char(buf, d->character());
         }
     }
 }

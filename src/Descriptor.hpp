@@ -1,13 +1,13 @@
 #pragma once
 
-#include "merc.h"
-
 #include <cstdint>
 #include <list>
 #include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_set>
+
+struct CHAR_DATA;
 
 // Connected state for a descriptor.
 enum class DescriptorState {
@@ -53,13 +53,13 @@ class Descriptor {
     uint16_t port_{};
     bool processing_command_{};
     DescriptorState state_{DescriptorState::GetName};
+    CHAR_DATA *character_{};
+    CHAR_DATA *original_{};
 
     [[nodiscard]] std::optional<std::string> pop_raw();
 
 public:
     Descriptor *next{};
-    CHAR_DATA *character{};
-    CHAR_DATA *original{};
 
     explicit Descriptor(uint32_t descriptor);
     ~Descriptor();
@@ -108,4 +108,15 @@ public:
 
     void processing_command(bool is_processing) noexcept { processing_command_ = is_processing; }
     [[nodiscard]] bool processing_command() const noexcept { return processing_command_; }
+
+    [[nodiscard]] CHAR_DATA *character() const noexcept { return character_; }
+    void character(CHAR_DATA *character) noexcept { character_ = character; }
+    [[nodiscard]] CHAR_DATA *original() const noexcept { return original_; }
+    // do_ prefix because switch is a C keyword
+    void do_switch(CHAR_DATA *victim);
+    // do_ prefix because return is a C keyword
+    void do_return();
+    // Return the real-life "person" player character behind this descriptor.
+    [[nodiscard]] CHAR_DATA *person() const noexcept { return original_ ? original_ : character_; }
+    [[nodiscard]] bool is_switched() const noexcept { return original_ != nullptr; }
 };

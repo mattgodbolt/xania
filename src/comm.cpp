@@ -14,6 +14,14 @@
 
 #include "comm.hpp"
 #include "Descriptor.hpp"
+#include "challeng.h"
+#include "doorman/doorman_protocol.h"
+#include "interp.h"
+#include "merc.h"
+#include "news.h"
+#include "note.h"
+#include "string_utils.hpp"
+
 #include <arpa/telnet.h>
 #include <cctype>
 #include <cerrno>
@@ -32,14 +40,6 @@
 #include <sys/types.h>
 #include <sys/un.h>
 #include <unistd.h>
-
-#include "challeng.h"
-#include "doorman/doorman_protocol.h"
-#include "interp.h"
-#include "merc.h"
-#include "news.h"
-#include "note.h"
-#include "string_utils.hpp"
 
 /* Added by Rohan - extern to player list for adding new players to it */
 extern KNOWN_PLAYERS *player_list;
@@ -349,8 +349,8 @@ void game_loop_unix(int control) {
                          */
                         for (d = descriptor_list; d; d = d->next) {
                             if (d->channel() == p.channel) {
-                                if (d->character && d->character->level > 1)
-                                    save_char_obj(d->character);
+                                if (d->character() && d->character()->level > 1)
+                                    save_char_obj(d->character());
                                 d->clear_output_buffer();
                                 if (d->is_playing())
                                     d->state(DescriptorState::Disconnecting);
@@ -391,8 +391,8 @@ void game_loop_unix(int control) {
                         for (d = descriptor_list; d; d = d->next) {
                             if (d->channel() == p.channel) {
                                 ok = 1;
-                                if (d->character != nullptr)
-                                    d->character->timer = 0;
+                                if (d->character() != nullptr)
+                                    d->character()->timer = 0;
                                 read_from_descriptor(d, buffer, p.nExtra);
                             }
                         }
@@ -417,22 +417,23 @@ void game_loop_unix(int control) {
         for (d = descriptor_list; d; d = dNext) {
             dNext = d->next;
             d->processing_command(false);
-            if (d->character && d->character->wait > 0)
-                --d->character->wait;
+            auto *character = d->character();
+            if (character && character->wait > 0)
+                --character->wait;
             /* Waitstate the character */
-            if (d->character && d->character->wait)
+            if (character && character->wait)
                 continue;
 
             if (auto incomm = d->pop_incomm()) {
                 d->processing_command(true);
-                move_active_char_from_limbo(d->character);
+                move_active_char_from_limbo(character);
 
                 // It's possible that 'd' will be deleted as a result of any of the following operations. Be very
                 // careful.
                 if (d->is_paging())
                     d->show_next_page(*incomm);
                 else if (d->is_playing())
-                    interpret(d->character, incomm->c_str());
+                    interpret(character, incomm->c_str());
                 else
                     nanny(d, incomm->c_str());
                 // 'd' may be invalid, do no further work on it.
@@ -454,8 +455,8 @@ void game_loop_unix(int control) {
 
                 if (d->processing_command() || d->has_buffered_output()) {
                     if (!process_output(d, true)) {
-                        if (d->character != nullptr && d->character->level > 1)
-                            save_char_obj(d->character);
+                        if (d->character() != nullptr && d->character()->level > 1)
+                            save_char_obj(d->character());
                         d->clear_output_buffer();
                         close_socket(d);
                     }
@@ -535,7 +536,7 @@ void close_socket(Descriptor *dclose) {
 
     dclose->close();
 
-    if ((ch = dclose->character) != nullptr) {
+    if ((ch = dclose->character()) != nullptr) {
         do_chal_canc(ch);
         snprintf(log_buf, LOG_BUF_SIZE, "Closing link to %s.", ch->name);
         log_new(log_buf, EXTRA_WIZNET_DEBUG,
@@ -544,7 +545,7 @@ void close_socket(Descriptor *dclose) {
             act("$n has lost $s link.", ch, nullptr, nullptr, TO_ROOM);
             ch->desc = nullptr;
         } else {
-            free_char(dclose->original ? dclose->original : dclose->character);
+            free_char(dclose->person());
         }
     } else {
         /*
@@ -614,7 +615,7 @@ bool process_output(Descriptor *d, bool fPrompt) {
         CHAR_DATA *ch;
         CHAR_DATA *victim;
 
-        ch = d->character;
+        ch = d->character();
 
         /* battle prompt */
         if ((victim = ch->fighting) != nullptr) {
@@ -649,7 +650,7 @@ bool process_output(Descriptor *d, bool fPrompt) {
             d->write(buf);
         }
 
-        ch = d->original ? d->original : d->character;
+        ch = d->person();
         if (!IS_SET(ch->comm, COMM_COMPACT))
             d->write("\n\r");
 
@@ -689,7 +690,7 @@ void nanny(Descriptor *d, const char *argument) {
     while (isspace(*argument))
         argument++;
 
-    ch = d->character;
+    ch = d->character();
 
     switch (d->state()) {
 
@@ -723,7 +724,7 @@ void nanny(Descriptor *d, const char *argument) {
                  } */
 
         fOld = load_char_obj(d, char_name.c_str());
-        ch = d->character;
+        ch = d->character();
 
         if (IS_SET(ch->act, PLR_DENY)) {
             snprintf(log_buf, LOG_BUF_SIZE, "Denying access to %s@%s.", char_name.c_str(), d->host().c_str());
@@ -823,10 +824,10 @@ void nanny(Descriptor *d, const char *argument) {
         case 'Y':
             for (d_old = descriptor_list; d_old != nullptr; d_old = d_next) {
                 d_next = d_old->next;
-                if (d_old == d || d_old->character == nullptr)
+                if (d_old == d || d_old->character() == nullptr)
                     continue;
 
-                if (str_cmp(ch->name, d_old->character->name))
+                if (str_cmp(ch->name, d_old->character()->name))
                     continue;
 
                 close_socket(d_old);
@@ -834,9 +835,9 @@ void nanny(Descriptor *d, const char *argument) {
             if (check_reconnect(d, true))
                 return;
             d->write("Reconnect attempt failed.\n\rName: ");
-            if (d->character != nullptr) {
-                free_char(d->character);
-                d->character = nullptr;
+            if (d->character()) {
+                free_char(d->character());
+                d->character(nullptr);
             }
             d->state(DescriptorState::GetName);
             break;
@@ -844,9 +845,9 @@ void nanny(Descriptor *d, const char *argument) {
         case 'n':
         case 'N':
             d->write("Name: ");
-            if (d->character != nullptr) {
-                free_char(d->character);
-                d->character = nullptr;
+            if (d->character()) {
+                free_char(d->character());
+                d->character(nullptr);
             }
             d->state(DescriptorState::GetName);
             break;
@@ -869,8 +870,8 @@ void nanny(Descriptor *d, const char *argument) {
         case 'n':
         case 'N':
             d->write("Ack! Amateurs! Try typing it in properly: ");
-            free_char(d->character);
-            d->character = nullptr;
+            free_char(d->character());
+            d->character(nullptr);
             d->state(DescriptorState::GetName);
             break;
 
@@ -894,7 +895,7 @@ void nanny(Descriptor *d, const char *argument) {
             switch (*argument) {
             case 'y':
             case 'Y':
-                ch->pcdata->colour = 1;
+                ch->pcdata->colour = true;
                 send_to_char("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!\n\r", ch);
                 if (IS_HERO(ch)) {
                     do_help(ch, "imotd");
@@ -907,7 +908,7 @@ void nanny(Descriptor *d, const char *argument) {
 
             case 'n':
             case 'N':
-                ch->pcdata->colour = 0;
+                ch->pcdata->colour = false;
                 if (IS_HERO(ch)) {
                     do_help(ch, "imotd");
                     d->state(DescriptorState::ReadIMotd);
@@ -1320,13 +1321,13 @@ bool check_reconnect(Descriptor *d, bool fConn) {
     CHAR_DATA *ch;
 
     for (ch = char_list; ch != nullptr; ch = ch->next) {
-        if (!IS_NPC(ch) && (!fConn || ch->desc == nullptr) && !str_cmp(d->character->name, ch->name)) {
+        if (!IS_NPC(ch) && (!fConn || ch->desc == nullptr) && !str_cmp(d->character()->name, ch->name)) {
             if (fConn == false) {
-                free_string(d->character->pcdata->pwd);
-                d->character->pcdata->pwd = str_dup(ch->pcdata->pwd);
+                free_string(d->character()->pcdata->pwd);
+                d->character()->pcdata->pwd = str_dup(ch->pcdata->pwd);
             } else {
-                free_char(d->character);
-                d->character = ch;
+                free_char(d->character());
+                d->character(ch);
                 ch->desc = d;
                 ch->timer = 0;
                 send_to_char("Reconnecting.\n\r", ch);
@@ -1350,9 +1351,8 @@ bool check_playing(Descriptor *d, char *name) {
     Descriptor *dold;
 
     for (dold = descriptor_list; dold; dold = dold->next) {
-        if (dold != d && dold->character != nullptr && dold->state() != DescriptorState::GetName
-            && dold->state() != DescriptorState::GetOldPassword
-            && !str_cmp(name, dold->original ? dold->original->name : dold->character->name)) {
+        if (dold != d && dold->character() != nullptr && dold->state() != DescriptorState::GetName
+            && dold->state() != DescriptorState::GetOldPassword && !str_cmp(name, dold->person()->name)) {
             d->write("That character is already playing.\n\r");
             d->write("Do you wish to connect anyway (Y/N)?");
             d->state(DescriptorState::BreakConnect);
@@ -1363,76 +1363,12 @@ bool check_playing(Descriptor *d, char *name) {
     return false;
 }
 
-/*
- * Write to one char.
- */
-void send_to_char(const char *txt, CHAR_DATA *ch) {
-    int colour = 0;
-    char sendcolour, temp;
-    char buf[MAX_STRING_LENGTH];
-    const char *p;
-    char *bufptr;
+// Write to one char.
+void send_to_char(std::string_view txt, CHAR_DATA *ch) {
+    if (txt.empty() || ch->desc == nullptr || !ch->desc->person())
+        return;
 
-    if (txt != nullptr && ch->desc != nullptr) {
-        if (!IS_NPC(ch) && (ch->pcdata->colour))
-            colour = 1;
-        if (IS_NPC(ch) && (ch->desc->original != nullptr) /* paranoia factor */
-            && (ch->desc->original->pcdata->colour))
-            colour = 1;
-
-        for (p = txt, bufptr = buf; *p != 0;) {
-            if (*p == '|') {
-                p++;
-                switch (*p) {
-                case 'r':
-                case 'R': sendcolour = '1'; break;
-                case 'g':
-                case 'G': sendcolour = '2'; break;
-                case 'y':
-                case 'Y': sendcolour = '3'; break;
-                case 'b':
-                case 'B': sendcolour = '4'; break;
-                case 'm':
-                case 'p':
-                case 'M':
-                case 'P': sendcolour = '5'; break;
-                case 'c':
-                case 'C': sendcolour = '6'; break;
-                default: sendcolour = 'z'; break;
-                case 'w':
-                case 'W': sendcolour = '7'; break;
-                case '|':
-                    sendcolour = 'z';
-                    p++; /* to move pointer on */
-                    break;
-                }
-                if (sendcolour == 'z') {
-                    *bufptr++ = '|';
-                    continue;
-                }
-                temp = *p;
-                p++;
-                if (colour) {
-                    *bufptr++ = 27;
-                    *bufptr++ = '[';
-                    if (temp >= 'a') {
-                        *bufptr++ = '0';
-                    } else {
-                        *bufptr++ = '1';
-                    }
-                    *bufptr++ = ';';
-                    *bufptr++ = '3';
-                    *bufptr++ = sendcolour;
-                    *bufptr++ = 'm';
-                }
-
-            } else {
-                *bufptr++ = *p++;
-            }
-        }
-        *bufptr = '\0';
-        ch->desc->write(buf);
-    }
+    ch->desc->write(colourise_mud_string(ch->desc->person()->pcdata->colour, txt));
 }
 
 /*
@@ -1597,9 +1533,9 @@ void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *ar
             Descriptor *d;
 
             for (d = descriptor_list; d != nullptr; d = d->next) {
-                if (d->character != nullptr && d->character->in_room != nullptr && d->character->in_room->vnum == 1222
-                    && IS_AWAKE(d->character))
-                    send_to_char(buf, d->character);
+                if (d->character() && d->character()->in_room != nullptr && d->character()->in_room->vnum == 1222
+                    && IS_AWAKE(d->character()))
+                    send_to_char(buf, d->character());
             }
         }
     }
@@ -1615,7 +1551,7 @@ void show_prompt(Descriptor *d, char *prompt) {
     const char *i;
     int bufspace = 255; /* Counter of space left in buf[] */
 
-    ch = d->character;
+    ch = d->character();
     /*
      * Discard null and zero-length prompts.
      */
@@ -1624,8 +1560,8 @@ void show_prompt(Descriptor *d, char *prompt) {
         send_to_char("|p", ch);
 
     if (IS_NPC(ch)) {
-        if (ch->desc->original)
-            ch_prefix = ch->desc->original;
+        if (ch->desc->original())
+            ch_prefix = ch->desc->original();
     } else
         ch_prefix = ch;
 
