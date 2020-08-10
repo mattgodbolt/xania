@@ -670,60 +670,6 @@ note send	: synonym for 'note post'.
 When you log in, you will be informed if there are unread notes waiting. Type
 note read to scroll through them one at a time.
 ~
-0 NEWS BULLETIN BOARD~
-A facility new to Xania is the news system.  This system replaces the very
-messy notes as a medium for discussion on the Mud.  Instead of many notes to
-'all' about facilities, you can now post to the news base, which works in a
-very similar way to USENET news on the Internet.  News is organised into
-threads, which are like notes which have been grouped under a single
-category.  Each 'note' within a thread is known as an article.
-Using the news system is fairly self-explanatory :
-
-|WReading news:|w
-news next         : Show the next unread article in your current thread.  If
-                    there are no more articles in the thread, note next will
-                    automatically move onto the next unread thread
-news read <num>   : Reads a specific article from within the current thread
-news list         : Lists all of the threads, and their subjects
-news thread <num> : Selects thread <num> as the current thread
-news articles     : Shows a list of the articles within the current thread
-news delete <num> : Deletes an article in the current thread, provided
-                    you wrote the article
-news skip         : Skip to the next thread, ignoring any articles left
-                    in the current thread
-news catchup      : Marks the whole currently selected thread as read
-news uncatchup    : Marks the whole currently selected thread as unread
-
-|WStarting a new thread:|w
-news compose <subject> : Compose a new thread with the given subject
-
-|WReplying to the currently selected thread:|w
-news reply        : Replies to the currently selected thread
-
-|WEditing your composition:|w
-news + <line>     : Add <line> to your current composition
-news -            : Remove a line from your composition
-news show         : Display your composition
-news post         : Complete your composition and add it into the news base
-news clear        : Abandon your composition
-
-For those people using clients that expand 'news' into north, east, west and
-south, you may use the synonym 'mail'
-~
-0 MAIL~
-The mail command is a synonym for news, and has exactly the same syntax.  It
-is purely for people who's MUD clients expand the 'news' command into the
-directional commands 'north, east, west, south'
-
-See help |cnews|w.
-~
-92 IMMNEWS~
-In addition to the mortal news commands, IMMs have a few more facilities :
-news flags <flaglist>  : Changes the flags on the current thread.  To get
-                         a list of possible flags, omit the <flaglist>
-news expiry (98+ only) : Sets the expiry time (in days) of a thread
-news from   (98+ only) : Sets the 'from' field of a message
-~
 0 SCAN~
 Scan is a useful command which permits you to look around to locate any
 nearby mobs or players. It gets better as your level increases.
