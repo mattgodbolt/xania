@@ -282,7 +282,7 @@ void do_timezone(CHAR_DATA *ch, const char *argument) {
         }
     } else {
         sscanf(argument, "%d:%d", (int *)&(ch_owner->pcdata->houroffset), (int *)&(ch_owner->pcdata->minoffset));
-        snprintf(buf, sizeof(buf), "Time will now be displayed %d:%2d from GMT\n\r", ch_owner->pcdata->houroffset,
+        snprintf(buf, sizeof(buf), "Time will now be displayed %d:%02d from GMT\n\r", ch_owner->pcdata->houroffset,
                  ch_owner->pcdata->minoffset);
         send_to_char(buf, ch_owner);
     }
