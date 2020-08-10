@@ -26,7 +26,6 @@
 extern int getrlimit(int resource, struct rlimit *rlp);
 
 /* Externally referenced functions. */
-void load_news();
 void wiznet_initialise();
 
 /*
@@ -367,7 +366,6 @@ void boot_db() {
     note_initialise();
     wiznet_initialise();
     interp_initialise();
-    load_news();
 }
 
 /* Snarf an 'area' header line. */
@@ -1982,8 +1980,6 @@ void clear_char(CHAR_DATA *ch) {
         ch->perm_stat[i] = 13;
         ch->mod_stat[i] = 0;
     }
-    for (i = 0; i < MES_HASH; i++)
-        ch->mes_hash[i] = nullptr;
 }
 
 /*
@@ -2015,11 +2011,6 @@ void free_char(CHAR_DATA *ch) {
 
     if (ch->clipboard)
         free_string(ch->clipboard);
-
-    if (ch->newsbuffer)
-        buffer_destroy(ch->newsbuffer);
-    if (ch->newssubject)
-        free_string(ch->newssubject);
 
     if (ch->pcdata != nullptr) {
         free_string(ch->pcdata->pwd);

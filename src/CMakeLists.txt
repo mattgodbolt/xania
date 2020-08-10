@@ -39,8 +39,6 @@ add_library(xania_lib STATIC
         merc.h
         mob_commands.cpp
         mob_prog.cpp
-        news.cpp
-        news.h
         note.cpp
         note.h
         phil.cpp

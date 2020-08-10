@@ -27,7 +27,6 @@
 #pragma once
 
 #include "clan.h"
-#include "news.h"
 #include "version.h"
 
 #include <crypt.h>
@@ -38,6 +37,8 @@
 #include <string>
 #include <unistd.h>
 #include <utility>
+
+struct CHAR_DATA;
 
 /**
  * Function pointers for spells.
@@ -1261,15 +1262,6 @@ struct CHAR_DATA {
 
     char *clipboard;
     unsigned long extra_flags[(MAX_EXTRA_FLAGS / 32) + 1];
-    /* News stuff */
-    THREAD *thread;
-    ARTICLE *article;
-    int articlenum;
-    BUFFER *newsbuffer;
-    char *newssubject;
-    char *newsfromname;
-    THREAD *newsreply;
-    MES_ID *mes_hash[MES_HASH];
 
     MPROG_ACT_LIST *mpact; /* Used by MOBprogram */
     int mpactnum; /* Used by MOBprogram */

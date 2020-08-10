@@ -18,7 +18,6 @@
 #include "doorman/doorman_protocol.h"
 #include "interp.h"
 #include "merc.h"
-#include "news.h"
 #include "note.h"
 #include "string_utils.hpp"
 
@@ -1243,8 +1242,6 @@ void nanny(Descriptor *d, const char *argument) {
             snprintf(buf, sizeof(buf), "\n\rYou have %d new note%s waiting.\n\r", notes, (notes == 1) ? "" : "s");
             send_to_char(buf, ch);
         }
-        move_to_next_unread(ch);
-        news_info(ch);
         break;
     }
 }

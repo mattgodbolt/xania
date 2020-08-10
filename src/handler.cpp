@@ -1390,13 +1390,6 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
         return;
     }
 
-    if (ch->newsfromname)
-        free_string(ch->newsfromname);
-    if (ch->newsbuffer)
-        buffer_destroy(ch->newsbuffer);
-    if (ch->newssubject)
-        free_string(ch->newssubject);
-
     if (IS_NPC(ch))
         --ch->pIndexData->count;
 

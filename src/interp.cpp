@@ -186,8 +186,6 @@ void interp_initialise() {
     add_command("gtell", do_gtell);
     add_command(";", do_gtell, POS_DEAD, 0, CommandLogLevel::Normal, false);
     add_command("note", do_note, POS_SLEEPING);
-    add_command("news", do_news, POS_SLEEPING);
-    add_command("mail", do_mail, POS_SLEEPING);
     add_command("philosophise", do_philosophise, POS_SLEEPING);
     add_command("pose", do_pose, POS_RESTING);
     add_command("question", do_question, POS_SLEEPING);

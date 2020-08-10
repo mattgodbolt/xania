@@ -9,7 +9,6 @@
 
 #include "Descriptor.hpp"
 #include "merc.h"
-#include "news.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
@@ -244,18 +243,6 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
         fprintf(fp, "AffD '%s' %3d %3d %3d %3d %10d\n", skill_table[paf->type].name, paf->level, paf->duration,
                 paf->modifier, paf->location, paf->bitvector);
     }
-
-    {
-        THREAD *t;
-        ARTICLE *a;
-        fprintf(fp, "NewsRead ");
-        for (t = thread_head; t; t = t->next)
-            for (a = t->articles; a; a = a->next)
-                if (has_read_before(ch, a->msg_id))
-                    fprintf(fp, "%d ", a->msg_id);
-        fprintf(fp, "\n");
-    }
-
     fprintf(fp, "End\n\n");
 }
 
@@ -476,16 +463,6 @@ bool load_char_obj(Descriptor *d, const char *name) {
     ch->riding = nullptr;
     ch->ridden_by = nullptr;
     ch->saving_throw = 0;
-    ch->thread = thread_head;
-    if (ch->thread) {
-        ch->article = thread_head->articles;
-    } else {
-        ch->article = nullptr;
-    }
-    ch->articlenum = 1;
-    ch->newsbuffer = nullptr;
-    ch->newsreply = nullptr;
-    ch->newssubject = nullptr;
     /* prefix added 19-05-97 PCFN  */
     ch->pcdata->prefix = str_dup("");
     ch->pcdata->pcclan = (PCCLAN *)0;
@@ -862,25 +839,6 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         case 'N':
             KEY("Name", ch->name, fread_string(fp));
             KEY("Note", ch->last_note, fread_number(fp));
-            if (!str_cmp(word, "NewsRead")) {
-                int c;
-                char buf[MAX_STRING_LENGTH];
-                fMatch = true;
-                for (;;) {
-                    do {
-                        c = getc(fp);
-                    } while (c == ' ');
-                    if (c == '\n')
-                        break;
-                    ungetc(c, fp);
-                    strcpy(buf, fread_word(fp));
-                    if (strlen(buf) == 0)
-                        break;
-                    c = atoi(buf);
-                    if (article_exists(c))
-                        mark_as_read(ch, c);
-                }
-            }
             break;
 
         case 'P':
