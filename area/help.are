@@ -1548,7 +1548,8 @@ god level.
 
 93 HOLYLIGHT INVIS PROWL~
 Syntax: holylight
-	winvis <level>
+	invis <level>
+	wizinvis <level>
         prowl <level>
 
 Holylight is a toggle that allows you to see (almost) every character and
