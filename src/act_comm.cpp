@@ -106,7 +106,7 @@ void announce(const char *buf, CHAR_DATA *ch) {
 
         if (d->is_playing() && d->character() != ch && victim && can_see(victim, ch)
             && !IS_SET(victim->comm, COMM_NOANNOUNCE) && !IS_SET(victim->comm, COMM_QUIET)) {
-            act_new(buf, victim, nullptr, ch, TO_CHAR, POS_DEAD);
+            act(buf, victim, nullptr, ch, TO_CHAR, POS_DEAD);
         }
     }
 }
@@ -133,8 +133,8 @@ void do_afk(CHAR_DATA *ch, const char *argument) {
     if (IS_SET(ch->act, PLR_AFK) && (argument == nullptr || strlen(argument) == 0)) {
         send_to_char("|cYour keyboard welcomes you back!|w\n\r", ch);
         send_to_char("|cYou are no longer marked as being afk.|w\n\r", ch);
-        act_new("|W$n's|w keyboard has welcomed $m back!", ch, nullptr, nullptr, TO_ROOM, POS_DEAD);
-        act_new("|W$n|w is no longer afk.", ch, nullptr, nullptr, TO_ROOM, POS_DEAD);
+        act("|W$n's|w keyboard has welcomed $m back!", ch, nullptr, nullptr, TO_ROOM, POS_DEAD);
+        act("|W$n|w is no longer afk.", ch, nullptr, nullptr, TO_ROOM, POS_DEAD);
         announce("|W###|w (|cAFK|w) $N has returned to $S keyboard.", ch);
         REMOVE_BIT(ch->act, PLR_AFK);
     } else {
@@ -148,10 +148,10 @@ void do_afk(CHAR_DATA *ch, const char *argument) {
         }
 
         snprintf(buf, sizeof(buf), "|cYou notify the mud that you are %s|c.|w", ch->pcdata->afk);
-        act_new(buf, ch, nullptr, nullptr, TO_CHAR, POS_DEAD);
+        act(buf, ch, nullptr, nullptr, TO_CHAR, POS_DEAD);
 
         snprintf(buf, sizeof(buf), "|W$n|w is %s|w.", ch->pcdata->afk);
-        act_new(buf, ch, nullptr, nullptr, TO_ROOM, POS_DEAD);
+        act(buf, ch, nullptr, nullptr, TO_ROOM, POS_DEAD);
 
         snprintf(buf, sizeof(buf), "|W###|w (|cAFK|w) $N is %s|w.", ch->pcdata->afk);
         announce(buf, ch);
@@ -183,21 +183,21 @@ static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
 
     } else if (IS_SET(victim->act, PLR_AFK) && !IS_NPC(victim)) {
         snprintf(buf, sizeof(buf), "|W$N|c is %s.|w", victim->pcdata->afk);
-        act_new(buf, ch, nullptr, victim, TO_CHAR, POS_DEAD);
+        act(buf, ch, nullptr, victim, TO_CHAR, POS_DEAD);
         if (IS_SET(victim->comm, COMM_SHOWAFK)) {
             char *strtime;
             strtime = ctime(&current_time);
             strtime[strlen(strtime) - 1] = '\0';
             snprintf(buf, sizeof(buf), "|c%cAFK|C: At %s, $n told you '%s|C'.|w", 7, strtime, text);
-            act_new(buf, ch, nullptr, victim, TO_VICT, POS_DEAD);
+            act(buf, ch, nullptr, victim, TO_VICT, POS_DEAD);
             snprintf(buf, sizeof(buf), "|cYour message was logged onto $S screen.|w");
-            act_new(buf, ch, nullptr, victim, TO_CHAR, POS_DEAD);
+            act(buf, ch, nullptr, victim, TO_CHAR, POS_DEAD);
             victim->reply = ch;
         }
 
     } else {
-        act_new("|CYou tell $N '$t|C'|w", ch, text, victim, TO_CHAR, POS_DEAD);
-        act_new("|C$n tells you '$t|C'|w", ch, text, victim, TO_VICT, POS_DEAD);
+        act("|CYou tell $N '$t|C'|w", ch, text, victim, TO_CHAR, POS_DEAD);
+        act("|C$n tells you '$t|C'|w", ch, text, victim, TO_VICT, POS_DEAD);
         victim->reply = ch;
         chatperform(victim, ch, text);
     }

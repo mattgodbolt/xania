@@ -1385,11 +1385,10 @@ void fix_sex(CHAR_DATA *ch) {
 }
 
 void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type) {
-    /* to be compatible with older code */
-    act_new(format, ch, arg1, arg2, type, POS_RESTING);
+    act(format, ch, arg1, arg2, type, POS_RESTING);
 }
 
-void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type, int min_pos) {
+void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type, int min_pos) {
     static const char *const he_she[] = {"it", "he", "she"};
     static const char *const him_her[] = {"it", "him", "her"};
     static const char *const his_her[] = {"its", "his", "her"};

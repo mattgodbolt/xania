@@ -2490,7 +2490,7 @@ void do_awaken(CHAR_DATA *ch, const char *argument) {
     REMOVE_BIT(victim->affected_by, AFF_SLEEP);
     victim->position = POS_STANDING;
 
-    act_new("$n gives $t a kick, and wakes them up.", ch, victim->short_descr, nullptr, TO_ROOM, POS_RESTING);
+    act("$n gives $t a kick, and wakes them up.", ch, victim->short_descr, nullptr, TO_ROOM, POS_RESTING);
 }
 
 void do_owhere(CHAR_DATA *ch, const char *argument) {

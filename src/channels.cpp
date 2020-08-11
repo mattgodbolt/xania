@@ -131,7 +131,7 @@ void channel_command(CHAR_DATA *ch, const char *argument, int chan_flag, const c
 
             if (d->is_playing() && d->character() != ch && !IS_SET(victim->comm, chan_flag)
                 && !IS_SET(victim->comm, COMM_QUIET)) {
-                act_new(desc_other, ch, argument, d->character(), TO_VICT, POS_DEAD);
+                act(desc_other, ch, argument, d->character(), TO_VICT, POS_DEAD);
             }
         }
     }
@@ -157,10 +157,10 @@ void do_immtalk(CHAR_DATA *ch, const char *argument) {
         format = "|w(|cAFK|w)|W $n: |c$t|w";
 
     if (get_trust(ch) >= 91)
-        act_new(format, ch, argument, nullptr, TO_CHAR, POS_DEAD);
+        act(format, ch, argument, nullptr, TO_CHAR, POS_DEAD);
     for (d = descriptor_list; d != nullptr; d = d->next) {
         if (d->is_playing() && IS_IMMORTAL(d->character()) && !IS_SET(d->character()->comm, COMM_NOWIZ)) {
-            act_new(format, ch, argument, d->character(), TO_VICT, POS_DEAD);
+            act(format, ch, argument, d->character(), TO_VICT, POS_DEAD);
         }
     }
 }

@@ -797,7 +797,7 @@ void obj_update() {
             else {
                 if (paf_next == nullptr || paf_next->type != paf->type || paf_next->duration > 0) {
                     if (paf->type > 0 && skill_table[paf->type].msg_off) {
-                        act_new(skill_table[paf->type].msg_off, obj->carried_by, obj, nullptr, POS_SLEEPING, TO_CHAR);
+                        act(skill_table[paf->type].msg_off, obj->carried_by, obj, nullptr, POS_SLEEPING, TO_CHAR);
                     }
                 }
 
