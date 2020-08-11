@@ -182,17 +182,14 @@ const char *Eliza::handle_player_message(char *response_buf, const char *player_
     trim(msgbuf);
     int overflow = 10; // runtime check so we dont have circular database links
     do {
-        databases_[dbnum].reset();
-        while (databases_[dbnum].current_record()) {
+        for (auto &keyword_response : databases_[dbnum].keyword_responses()) {
             uint db_keywords_pos = 0, remaining_input_pos = 0;
-            if (match(databases_[dbnum].current_record()->keyword_responses.get_keywords(), msgbuf, db_keywords_pos,
-                      remaining_input_pos)) {
-                auto &response = databases_[dbnum].current_record()->keyword_responses.get_random_response();
+            if (match(keyword_response.get_keywords(), msgbuf, db_keywords_pos, remaining_input_pos)) {
+                auto &response = keyword_response.get_random_response();
                 swap_pronouns_and_possessives(&msgbuf[remaining_input_pos]);
                 expand_variables(response_buf, npc_name, response, player_name, &msgbuf[remaining_input_pos]);
                 return response_buf;
             }
-            databases_[dbnum].next_record();
         }
         dbnum = databases_[dbnum].linked_database_num;
         overflow--;
@@ -219,13 +216,14 @@ bool Eliza::load_databases(const char *file, char recurflag) {
         trim(str);
         if (strlen(str) > 0) {
             if (str[0] >= '1' && str[0] <= '9') {
-                databases_[num_databases_].current_record()->keyword_responses.add_response(str[0] - '0', &(str[1]));
+                // Add a new WeightedResponse to the current KeywordResponses entry.
+                databases_[num_databases_].keyword_responses().back().add_response(str[0] - '0', &(str[1]));
             } else
                 switch (str[0]) {
                 case '\0': break;
                 case '(':
-                    databases_[num_databases_].add_record();
-                    databases_[num_databases_].current_record()->keyword_responses.add_keywords(str);
+                    // Add a new KeywordResponses object to the current database with the keywords we just parsed.
+                    databases_[num_databases_].keyword_responses().emplace_back(str);
                     break;
                 case '#': break;
                 case '"': fprintf(stderr, "%s\n", &str[1]); break;

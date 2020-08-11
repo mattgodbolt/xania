@@ -1,1 +1,1 @@
-add_library(chat KeywordResponses.cpp KeywordResponses.hpp Database.cpp Database.hpp chatmain.cpp Eliza.cpp Eliza.hpp)
+add_library(chat KeywordResponses.cpp KeywordResponses.hpp Database.hpp chatmain.cpp Eliza.cpp Eliza.hpp)

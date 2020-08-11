@@ -26,15 +26,15 @@ struct WeightedResponse {
  */
 class KeywordResponses {
 public:
-    int add_keywords(char *);
-    const char *get_keywords() const { return keywords_; }
+    explicit KeywordResponses(std::string_view keywords) : keywords_(keywords) {}
+    const char *get_keywords() const { return keywords_.c_str(); } // TODO use string
     void add_response(int weight, char *response_message);
     const WeightedResponse &get_response(int num) const { return responses_[num]; }
     const std::string &get_random_response() const;
 
 private:
     inline static const std::string default_response_ = "Mmm, sounds interesting...";
-    const char *keywords_{};
+    const std::string keywords_{};
     int total_weight_{};
     std::vector<WeightedResponse> responses_;
 };

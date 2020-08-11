@@ -26,8 +26,6 @@ const std::string &KeywordResponses::get_random_response() const {
     return default_response_;
 }
 
-int KeywordResponses::add_keywords(char *keyword) { return (keywords_ = strdup(keyword)) != nullptr; }
-
 void KeywordResponses::add_response(int weight, char *response_message) {
     total_weight_ += weight;
     responses_.emplace_back(weight, response_message);
