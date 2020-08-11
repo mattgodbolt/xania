@@ -14,17 +14,16 @@ int random(int x) { return rand() % x; }
 
 }
 
-const char *KeywordResponses::get_random_response() const {
-    const char *defaultmsg = "Mmm, sounds interesting...";
+const std::string &KeywordResponses::get_random_response() const {
     if (total_weight_ == 0)
-        return defaultmsg;
+        return default_response_;
     int rnd_num = random(total_weight_), total = 0;
     for (size_t i = 0; i < responses_.size(); i++) {
         if ((total += (responses_[i].weight_)) > rnd_num) {
-            return responses_[i].message_.c_str();
+            return responses_[i].message_;
         }
     }
-    return defaultmsg;
+    return default_response_;
 }
 
 int KeywordResponses::add_keywords(char *keyword) { return (keywords_ = strdup(keyword)) != nullptr; }

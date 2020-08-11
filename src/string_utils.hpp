@@ -8,6 +8,8 @@
 
 // Replace all tildes with dashes. Useful til we revamp the player files...
 [[nodiscard]] std::string smash_tilde(std::string_view str);
+// Replaces all instances of from with to. Returns a copy of message.
+[[nodiscard]] std::string replace_strings(std::string message, std::string_view from_str, std::string_view to_str);
 // Skips whitespace, returning a new string.
 [[nodiscard]] std::string skip_whitespace(std::string_view str);
 // Trims off the last line of a string (terminated with \n\r).

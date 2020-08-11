@@ -9,6 +9,7 @@
 #include <cstring>
 #include <search.h>
 
+#include "../string_utils.hpp"
 #include "Database.hpp"
 #include "Eliza.hpp"
 #include "chatconstants.hpp"
@@ -131,84 +132,41 @@ char *Eliza::swap_term(char *in) {
 }
 
 void Eliza::swap_pronouns_and_possessives(char s[]) {
-    char newsent[MaxInputLength + 20];
-    newsent[0] = '\0';
+    char buf[MaxInputLength + 20];
+    buf[0] = '\0';
 
-    char aword[MaxInputLength + 3];
+    char next_word[MaxInputLength + 3];
     const char *theinput = s;
     char otherch;
-    char ministr[] = " ";
+    char separator[] = " ";
 
-    while (get_word(theinput, aword, otherch)) {
-        ministr[0] = otherch;
-        strcat(newsent, swap_term(aword));
-        strcat(newsent, ministr);
+    while (get_word(theinput, next_word, otherch)) {
+        separator[0] = otherch;
+        strcat(buf, swap_term(next_word));
+        strcat(buf, separator);
     }
-    strcpy(s, newsent);
+    strcpy(s, buf);
 }
 
 // enables $variable translation
-void Eliza::expand_variables(char *response_buf, const char *talker, const char *rep, const char *target, char *rest) {
+void Eliza::expand_variables(char *response_buf, const char *npc_name, const std::string &response,
+                             const char *player_name, char *rest) {
     trim(rest);
-    const char *i;
-    char *point = response_buf;
-    const char *str = rep;
-    char *toofar = response_buf + MaxChatReplyLength - 1;
-    while (*str != '\0') {
-        if (*str != '$') {
-            *point++ = *str++;
-            if (point == toofar) {
-                *point = '\0';
-                return;
-            }
-            continue;
-        }
-        ++str;
-        switch (*str) /*add $Variable commands here*/
-        {
-        case 'n': i = talker; break;
-        case 't': i = target; break;
-        case 'r': i = rest; break;
-        case '$': {
-            static char str[] = "$";
-            i = str;
-            break;
-        }
-        case 0: continue;
-        case 'A': // dont change THIS - Chris Busch  //author
-            i = (char *)eliza_title;
-            break;
-        case 'V': // dont change THIS!   //Version
-            i = (char *)eliza_version;
-            break;
-        case 'C': { // dont change this!  //Compile time
-            static char buf[1024];
-            snprintf(buf, sizeof(buf), "%s %s", __DATE__, __TIME__);
-            i = buf;
-            break;
-        }
-        default: {
-            static char undef[] = "$UNDEFINED";
-            i = undef;
-            break;
-        }
-        }
-        ++str;
-        while ((*point = *i) != '\0') {
-            ++point;
-            ++i;
-            if (point == toofar) {
-                *point = '\0';
-                return;
-            }
-        }
-    }
-    *point++ = '\0';
+    std::string updated = replace_strings(response, "$t", player_name);
+    updated = replace_strings(updated, "$n", npc_name);
+    updated = replace_strings(updated, "$$", "$");
+    updated = replace_strings(updated, "$r", rest);
+    updated = replace_strings(updated, "$A", eliza_title);
+    updated = replace_strings(updated, "$V", eliza_version);
+    updated = replace_strings(updated, "$C", compile_time_);
+    // Until response_buf can be replaced with string, limit its length to the response buffer size.
+    std::string truncated = updated.substr(0, MaxChatReplyLength - 1);
+    updated.copy(response_buf, truncated.size(), 0);
+    response_buf[truncated.size()] = '\0';
 }
 
 const char *Eliza::handle_player_message(char *response_buf, const char *player_name, const char *message,
                                          const char *npc_name) {
-    const char *rep = nullptr;
     char msgbuf[MaxInputLength];
 
     auto dbnum = get_database_num_by_partial_name(npc_name);
@@ -229,9 +187,9 @@ const char *Eliza::handle_player_message(char *response_buf, const char *player_
             uint db_keywords_pos = 0, remaining_input_pos = 0;
             if (match(databases_[dbnum].current_record()->keyword_responses.get_keywords(), msgbuf, db_keywords_pos,
                       remaining_input_pos)) {
-                rep = databases_[dbnum].current_record()->keyword_responses.get_random_response();
+                auto &response = databases_[dbnum].current_record()->keyword_responses.get_random_response();
                 swap_pronouns_and_possessives(&msgbuf[remaining_input_pos]);
-                expand_variables(response_buf, npc_name, rep, player_name, &msgbuf[remaining_input_pos]);
+                expand_variables(response_buf, npc_name, response, player_name, &msgbuf[remaining_input_pos]);
                 return response_buf;
             }
             databases_[dbnum].next_record();

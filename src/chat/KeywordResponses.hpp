@@ -30,9 +30,10 @@ public:
     const char *get_keywords() const { return keywords_; }
     void add_response(int weight, char *response_message);
     const WeightedResponse &get_response(int num) const { return responses_[num]; }
-    const char *get_random_response() const;
+    const std::string &get_random_response() const;
 
 private:
+    inline static const std::string default_response_ = "Mmm, sounds interesting...";
     const char *keywords_{};
     int total_weight_{};
     std::vector<WeightedResponse> responses_;

@@ -65,6 +65,18 @@ std::string smash_tilde(std::string_view str) {
     return result;
 }
 
+std::string replace_strings(std::string message, std::string_view from_str, std::string_view to_str) {
+    if (from_str.empty()) {
+        return message;
+    }
+    size_t pos = 0;
+    while ((pos = message.find(from_str, pos)) != std::string::npos) {
+        message.replace(pos, from_str.length(), to_str);
+        pos += to_str.length();
+    }
+    return message;
+}
+
 std::string skip_whitespace(std::string_view str) {
     return std::string(std::find_if(str.begin(), str.end(), [](auto ch) { return !std::isspace(ch); }), str.end());
 }

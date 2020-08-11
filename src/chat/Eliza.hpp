@@ -34,7 +34,7 @@ public:
         }
     };
 
-    Eliza() {
+    Eliza() : compile_time_{__DATE__ " " __TIME__} {
         char de[] = "default";
         register_database_name(de, 0);
     }
@@ -55,6 +55,7 @@ private:
     unsigned int num_names_{};
     Database databases_[MaxDatabases];
     NamedDatabase named_databases_[MaxNamedDatabases];
+    const std::string compile_time_;
 
     int get_word(const char *&input, char *outword, char &outother);
     char *trim(char str[]);
@@ -68,7 +69,8 @@ private:
     int get_database_num_by_exact_name(const char *);
     int get_database_num_by_partial_name(const char *n);
     char *reduce_spaces(char *outbuf, const char *);
-    void expand_variables(char *replied, const char *talker, const char *rep, const char *target, char *rest);
+    void expand_variables(char *response_buf, const char *npc_name, const std::string &response,
+                          const char *player_name, char *rest);
     char *swap_term(char *in);
     void swap_pronouns_and_possessives(char s[]);
     static int compare_database_name(const void *a, const void *b);

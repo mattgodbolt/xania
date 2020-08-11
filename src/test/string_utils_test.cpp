@@ -78,6 +78,25 @@ TEST_CASE("string_util tests") {
         CHECK(smash_tilde("m~~se") == "m--se");
     }
 
+    SECTION("replace strings") {
+        SECTION("should ignore empty from_str") { CHECK(replace_strings("$t", "", "world") == "$t"); }
+        SECTION("should replace from_str with to_str") {
+            CHECK(replace_strings("$t", "$t", "world") == "world");
+            CHECK(replace_strings("Hello $t", "$t", "world") == "Hello world");
+            CHECK(replace_strings("Hello $t$t", "$t", "world") == "Hello worldworld");
+            CHECK(replace_strings("Hello $t$t ", "$t", "world") == "Hello worldworld ");
+        }
+        SECTION("should replace with empty to_str") {
+            CHECK(replace_strings("$t", "$t", "") == "");
+            CHECK(replace_strings("Hello $t", "$t", "") == "Hello ");
+        }
+        SECTION("should not modify unmatched parts") {
+            CHECK(replace_strings("$t", "$u", "world") == "$t");
+            CHECK(replace_strings("Hello $t", "$u", "world") == "Hello $t");
+            CHECK(replace_strings("Hello $ t $t", "$t", "world") == "Hello $ t world");
+        }
+    }
+
     SECTION("removes last lines") {
         SECTION("should preserve empty line") { CHECK(remove_last_line("") == ""); }
         SECTION("should trim tiny non-terminated") {
