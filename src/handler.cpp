@@ -162,15 +162,6 @@ int check_immune(CHAR_DATA *ch, int dam_type) {
     return immune;
 }
 
-/* checks mob format */
-bool is_old_mob(CHAR_DATA *ch) {
-    if (ch->pIndexData == nullptr)
-        return false;
-    else if (ch->pIndexData->new_format)
-        return false;
-    return true;
-}
-
 /* for returning skill information */
 int get_skill(CHAR_DATA *ch, int sn) {
     int skill;

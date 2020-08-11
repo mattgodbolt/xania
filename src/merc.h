@@ -1303,27 +1303,6 @@ extern bool MOBtrigger;
 #define GIVE_PROG 512
 #define BRIBE_PROG 1024
 
-#if 0
-/* generic structure to describe how Phil the Meerkat feels about different people */
-typedef struct phil_knows PHIL_KNOWS;
-
-struct phil_knows
-{
-	PHIL_KNOWS	*next;
-	char		 name[13];		/* name of person it knows */
-	
-};
-
-/* data which only Phil the Meerkat has - AI shit */
-struct phil_data
-{
-	int			 tiredness;
-	int			 boredness;
-	int			 happiness;
-	PHIL_KNOWS	*firstAcquaintance;
-};
-#endif
-
 /*
  * Data which only PC's have.
  */
@@ -1480,7 +1459,6 @@ struct exit_data {
 
     EXIT_DATA *next;
     int rs_flags;
-    int orig_door;
 };
 
 /**
@@ -1758,7 +1736,6 @@ struct social_type {
     const char *char_found;
     const char *others_found;
     const char *vict_found;
-    const char *char_not_found;
     const char *char_auto;
     const char *others_auto;
 };
@@ -1792,21 +1769,12 @@ struct flag_type {
     bool settable;
 };
 
-extern const struct flag_type area_flags[];
 extern const struct flag_type sex_flags[];
-extern const struct flag_type exit_flags[];
 extern const struct flag_type door_resets[];
 extern const struct flag_type room_flags[];
 extern const struct flag_type sector_flags[];
-extern const struct flag_type type_flags[];
 extern const struct flag_type extra_flags[];
 extern const struct flag_type wear_flags[];
-extern const struct flag_type apply_flags[];
-extern const struct flag_type wear_loc_strings[];
-extern const struct flag_type wear_loc_flags[];
-extern const struct flag_type weapon_flags[];
-extern const struct flag_type container_flags[];
-extern const struct flag_type liquid_flags[];
 
 extern const sh_int rev_dir[];
 extern const char *dir_name[];
@@ -1824,14 +1792,11 @@ extern OBJ_DATA *object_list;
 
 extern AFFECT_DATA *affect_free;
 
-extern BAN_DATA *ban_free;
-
 extern CHAR_DATA *char_free;
 extern EXTRA_DESCR_DATA *extra_descr_free;
 extern OBJ_DATA *obj_free;
 extern PC_DATA *pcdata_free;
 
-extern char bug_buf[];
 extern time_t current_time;
 extern bool fLogAll;
 extern FILE *fpReserve;
@@ -1983,7 +1948,6 @@ int material_lookup(char *name);
 int material_guess(char *name);
 int race_lookup(const char *name);
 int class_lookup(const char *name);
-bool is_old_mob(CHAR_DATA *ch);
 int get_skill(CHAR_DATA *ch, int sn);
 int get_weapon_sn(CHAR_DATA *ch);
 int get_weapon_skill(CHAR_DATA *ch, int sn);
@@ -2082,7 +2046,6 @@ bool load_char_obj(Descriptor *d, const char *name);
 /* skills.c */
 bool parse_gen_groups(CHAR_DATA *ch, const char *argument);
 void list_group_costs(CHAR_DATA *ch);
-void list_group_known(CHAR_DATA *ch);
 unsigned int exp_per_level(CHAR_DATA *ch, int points);
 void check_improve(CHAR_DATA *ch, int sn, bool success, int multiplier);
 int group_lookup(const char *name);

@@ -36,7 +36,6 @@ void load_socials(FILE *fp) {
         social.char_found = nullptr;
         social.others_found = nullptr;
         social.vict_found = nullptr;
-        social.char_not_found = nullptr;
         social.char_auto = nullptr;
         social.others_auto = nullptr;
 
@@ -98,14 +97,14 @@ void load_socials(FILE *fp) {
             social.vict_found = temp;
 
         temp = fread_string_eol(fp);
-        if (!strcmp(temp, "$"))
-            social.char_not_found = nullptr;
-        else if (!strcmp(temp, "#")) {
+        // MRG char_not_found wasn't used anywhere
+        if (!strcmp(temp, "$")) {
+            /*social.char_not_found = nullptr*/;
+        } else if (!strcmp(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
             continue;
-        } else
-            social.char_not_found = temp;
+        }
 
         temp = fread_string_eol(fp);
         if (!strcmp(temp, "$"))
