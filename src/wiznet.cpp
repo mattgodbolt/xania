@@ -17,6 +17,7 @@
 #include <sys/types.h>
 #include <time.h>
 
+#include "comm.hpp"
 #include "merc.h"
 
 extern FILE *fpArea;

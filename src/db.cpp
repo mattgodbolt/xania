@@ -10,6 +10,7 @@
 #include "db.h"
 #include "Descriptor.hpp"
 #include "buffer.h"
+#include "comm.hpp"
 #include "interp.h"
 #include "merc.h"
 #include "note.h"

@@ -1787,7 +1787,6 @@ extern SHOP_DATA *shop_first;
 
 extern BAN_DATA *ban_list;
 extern CHAR_DATA *char_list;
-extern Descriptor *descriptor_list;
 extern OBJ_DATA *object_list;
 
 extern AFFECT_DATA *affect_free;

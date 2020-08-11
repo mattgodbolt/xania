@@ -19,6 +19,7 @@
 
 #include "chat/chatconstants.hpp"
 #include "chat/chatlink.h"
+#include "comm.hpp"
 
 /* command procedures needed */
 void do_quit(CHAR_DATA *ch, const char *arg);

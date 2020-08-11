@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "Descriptor.hpp"
+#include "comm.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
 

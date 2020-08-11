@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "comm.hpp"
 #include "interp.h"
 #include "merc.h"
 #include <stdio.h>

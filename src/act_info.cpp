@@ -9,6 +9,7 @@
 
 #include "Descriptor.hpp"
 #include "buffer.h"
+#include "comm.hpp"
 #include "db.h"
 #include "interp.h"
 #include "merc.h"

@@ -9,6 +9,7 @@
 
 #include "Descriptor.hpp"
 #include "buffer.h"
+#include "comm.hpp"
 #include "db.h"
 #include "flags.h"
 #include "interp.h"
