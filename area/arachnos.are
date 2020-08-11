@@ -7,9 +7,9 @@ Arachnos~
 #ROOMS
 #6200
 On the spider web~
-You are balancing carefully on the giant sticky threads that holds the giant
-web in place.  To the south leads a strand to a cave-like structure made from
-many layers of a spider web.  Another silky strand continues to the north.
+You are balancing carefully on the giant sticky threads that hold the massive
+web in place.  To the South, a strand leads to a cave-like structure made from
+many layers of spider web.  Another silky strand continues to the North.
 ~
 61 AD 6
 D0
@@ -27,9 +27,9 @@ The immense spider web moves softly.
 S
 #6201
 On the spider web~
-You are balancing carefully on the giant sticky threads that holds the giant
-web in place.  To the north leads a strand to a cave-like structure made from
-many layers of a spider web.
+You are balancing carefully on the giant sticky threads that hold the massive
+web in place.  To the North, a strand leads to a cave-like structure made from
+many layers of spider web.
 ~
 61 AD 6
 D0
@@ -43,9 +43,9 @@ The immense spider web moves softly.
 S
 #6202
 On the spider web~
-You are balancing carefully on the giant sticky threads that holds the giant
-web in place.  To the east leads a strand to a cave-like structure made from
-many layers of a spider web.
+You are balancing carefully on the giant sticky threads that hold the massive
+web in place.  To the East, a strand leads to a cave-like structure made from
+many layers of spider web.
 ~
 61 AD 6
 D1
@@ -59,9 +59,8 @@ The immense spider web moves softly.
 S
 #6203
 On the spider web~
-You are balancing carefully on the giant sticky threads that holds the giant
-web in place. A single silky strand lead to the south, while another leads
-off into the northern direction.
+You are balancing carefully on the giant sticky threads that hold the massive
+web in place. A single silky strand leads to the South, another to the North.
 ~
 61 AD 6
 D0
@@ -80,10 +79,10 @@ S
 #6301
 Webbed Entrance~
 Sticky, sticky, sticky!  The ground is cluttered with leaves, decayed
-remains of webbed crickets, beetle, rats, dogs (?), and even humans.
+remains of enwebbed crickets, beetle, rats, dogs (?), and even humans.
 You begin to wonder about what lies ahead.  The air is damp here,
 and even the little light that shines through the canopy seems
-absorbed into the webbing.
+absorbed by the webbing.
 ~
 63 C 1
 D0
@@ -99,8 +98,8 @@ S
 Webby Passage~
 You find that footing here is very good, almost too good.  The
 limbs are coated with cobwebs and seem unusually strong for tree
-branches.  Paths lead in four directions.  The eastward path goes
-down a bit.
+branches.  Paths lead in four directions.  The Eastward path slopes
+gently downward.
 ~
 63 0 2
 D0
@@ -124,7 +123,7 @@ S
 Wasp Hive~
 Drones scuttle about in this room.  The cells on the walls
 are honeycomb in shape and many of the maggots and wasps you see
-have fang-marks on there bodies.  You sense some order in their markings.
+have fang-marks on their bodies.  You sense some order in their markings.
 ~
 63 0 2
 D1
@@ -146,8 +145,8 @@ S
 #6305
 Beneath the Busy Path~
 You hear the sounds of crawling arachnids above.  The rhythms of
-the footsteps suggest a primitive order in there movement.  The light
-seems brighter upwards.
+their footsteps suggest a primitive order in their movement.  The light
+looks to be brighter higher up.
 ~
 63 0 2
 D3
@@ -162,7 +161,7 @@ S
 #6306
 On the Busy Path~
 Spiders, spiders, everywhere!  It is almost ant-like in efficiency
-with one big difference.  The spiders here are carrying ant-corpses,
+with one big difference: the spiders here are carrying ant-corpses,
 as well as rats, wolves, and humans.
 ~
 63 0 2
@@ -178,7 +177,7 @@ S
 #6307
 On the Busy Path~
 Spiders, spiders, everywhere!  It is almost ant-like in efficiency
-with one big difference.  The spiders here are carrying ant-corpses,
+with one big difference: the spiders here are carrying ant-corpses,
 as well as cats, wolves, and humans.
 ~
 63 0 2
@@ -194,7 +193,7 @@ S
 #6308
 On the Busy Path~
 Spiders, spiders, everywhere!  It is almost ant-like in efficiency
-with one big difference.  The spiders here are carrying ant-corpses,
+with one big difference: the spiders here are carrying ant-corpses,
 as well as cats, dogs, and humans.
 ~
 63 0 2
@@ -291,7 +290,7 @@ S
 #6320
 The Webless Path~
 Strange.  No webbing here.  In fact, no sounds whatsoever.
-The path continues northward, where you find that you may have to
+The path continues Northward, where you find that you may have to
 tightrope your way across a ravine.
 ~
 63 0 2
@@ -651,7 +650,7 @@ S
 A Link in the Ethereal Web~
 This is another link in the ethereal web.  Various creatures
 seem to get caught (or hypnotized) by its sticky strands.  To
-the north you sense the heavy breathing of a fiery animal.
+the North you sense the heavy breathing of a fiery animal.
 ~
 63 0 2
 D0
@@ -683,8 +682,8 @@ S
 A Link in the Ethereal Web~
 This is another link in the ethereal web.  Various creatures
 seem to get caught (or hypnotized) by its sticky strands.  A single
-spider line lies to the north, while ghastly seemings are due
-southward.  The grim entrance of Arachnos' Lair is downward.
+spider line lies to the North, while ghastly seemings are due
+Southward.  The grim entrance of Arachnos' Lair is downward.
 ~
 63 0 2
 D0
@@ -792,7 +791,7 @@ S
 The Single Spider Line~
 A single spider line supports you once more.  As you look
 across the ether you seen a single shack up ahead with a light in
-the window.  You sense a great evil coming from the east and feel
+the window.  You sense a great evil coming from the East and feel
 inclined to go back on the ethereal web and take your chances there.
 ~
 63 0 2
@@ -823,7 +822,7 @@ S
 #6373
 The Hermit's Corner~
 Here you see evidence of a vagrant's abode.  The shack is to the
-east, if you dare enter it.  You get the sneaking feeling you should
+East, if you dare enter it.  You get the sneaking feeling you should
 go back now.  The skies above you darken and roar with the laughter
 of thunder.
 ~
@@ -933,7 +932,7 @@ dragon Yevaud~
 Yevaud~
 Yevaud the Usurper of Xania is here, grinning evilly at you.
 ~
-Old, scaly, but still with a lot of bite in him left.
+Old, scaly, but still with a lot of bite left in him.
 ~
 unique~
 ABCGL D -1000 0
