@@ -15,6 +15,7 @@
 #include <time.h>
 
 #include "challeng.h"
+#include "comm.hpp"
 #include "interp.h"
 
 /* Some local DEFINES to keep things general. */

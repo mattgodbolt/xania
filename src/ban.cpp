@@ -19,6 +19,7 @@
 /*************************************************************************/
 
 #include "buffer.h"
+#include "comm.hpp"
 #include "merc.h"
 #include <stdio.h>
 #include <stdlib.h>

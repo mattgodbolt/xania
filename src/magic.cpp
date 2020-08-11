@@ -9,6 +9,7 @@
 
 #include "magic.h"
 #include "challeng.h"
+#include "comm.hpp"
 #include "interp.h"
 #include "merc.h"
 #include <stdio.h>

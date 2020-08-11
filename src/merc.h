@@ -1872,15 +1872,6 @@ void load_bans();
 bool check_ban(const char *site, int type);
 void ban_site(CHAR_DATA *ch, const char *site, bool fType);
 
-/* comm.c */
-#define MAX_MASKED_HOSTNAME 64
-unsigned long djb2_hash(const char *str);
-void close_socket(Descriptor *dclose);
-void send_to_char(std::string_view txt, CHAR_DATA *ch);
-void page_to_char(const char *txt, CHAR_DATA *ch);
-void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type);
-void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type, int min_pos);
-
 /* db.c */
 void boot_db();
 void area_update();

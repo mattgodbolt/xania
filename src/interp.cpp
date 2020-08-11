@@ -10,6 +10,7 @@
 #include "interp.h"
 #include "CommandSet.hpp"
 #include "Descriptor.hpp"
+#include "comm.hpp"
 #include "merc.h"
 #include "note.h"
 

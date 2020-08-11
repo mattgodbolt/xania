@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "comm.hpp"
 #include "interp.h"
 #include "magic.h"
 #include "merc.h"
