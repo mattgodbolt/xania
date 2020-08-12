@@ -41,6 +41,7 @@
 #include <sys/un.h>
 #include <unistd.h>
 
+using namespace std::literals;
 using namespace fmt::literals;
 
 /* Added by Rohan - extern to player list for adding new players to it */
@@ -1387,12 +1388,32 @@ void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type)
 
 namespace {
 
+std::string_view pronouns(std::string_view format, const CHAR_DATA *ch, const std::array<std::string_view, 3> &text) {
+    if (!ch) {
+        bug("%s", "Act: null ch in pronouns with format '{}'"_format(format).c_str());
+        return text[0];
+    }
+    switch (ch->sex) {
+    case 0: return text[0];
+    case 1: return text[1];
+    case 2: return text[2];
+    }
+    bug("%s", "Act: bad sex {} in pronouns with format '{}'"_format(ch->sex, format).c_str());
+    return text[0];
+}
+
+std::string_view he_she(std::string_view format, const CHAR_DATA *ch) {
+    return pronouns(format, ch, {"it"sv, "he"sv, "she"sv});
+}
+std::string_view him_her(std::string_view format, const CHAR_DATA *ch) {
+    return pronouns(format, ch, {"it"sv, "him"sv, "her"sv});
+}
+std::string_view his_her(std::string_view format, const CHAR_DATA *ch) {
+    return pronouns(format, ch, {"its"sv, "his"sv, "her"sv});
+}
+
 std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, const CHAR_DATA *to,
                        const CHAR_DATA *vch) {
-    static const char *const he_she[] = {"it", "he", "she"};
-    static const char *const him_her[] = {"it", "him", "her"};
-    static const char *const his_her[] = {"its", "his", "her"};
-
     std::string buf;
 
     bool prev_was_dollar = false;
@@ -1408,41 +1429,39 @@ std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg
         }
 
         if (std::holds_alternative<nullptr_t>(arg2) && c >= 'A' && c <= 'Z') {
-            bug("Act: missing arg2 for code %d.", c);
+            bug("%s", "Act: missing arg2 for code {} in format '{}'"_format(c, format).c_str());
             continue;
         }
 
         switch (c) {
         default:
-            bug("Act: bad code %d.", c);
+            bug("%s", "Act: bad code {} in format '{}'"_format(c, format).c_str());
             break;
             /* Thx alex for 't' idea */
-        case 't': {
+        case 't':
             if (auto arg1_as_string_ptr = std::get_if<std::string_view>(&arg1)) {
                 buf += *arg1_as_string_ptr;
             } else {
                 bug("%s", "$t passed but arg1 was not a string in '{}'"_format(format).c_str());
             }
             break;
-        }
-        case 'T': {
+        case 'T':
             if (auto arg2_as_string_ptr = std::get_if<std::string_view>(&arg2)) {
                 buf += *arg2_as_string_ptr;
             } else {
                 bug("%s", "$T passed but arg2 was not a string in '{}'"_format(format).c_str());
             }
             break;
-        }
         case 'n': buf += pers(ch, to); break;
         case 'N': buf += pers(vch, to); break;
-        case 'e': buf += he_she[URANGE(0, ch->sex, 2)]; break;
-        case 'E': buf += he_she[URANGE(0, vch->sex, 2)]; break;
-        case 'm': buf += him_her[URANGE(0, ch->sex, 2)]; break;
-        case 'M': buf += him_her[URANGE(0, vch->sex, 2)]; break;
-        case 's': buf += his_her[URANGE(0, ch->sex, 2)]; break;
-        case 'S': buf += his_her[URANGE(0, vch->sex, 2)]; break;
+        case 'e': buf += he_she(format, ch); break;
+        case 'E': buf += he_she(format, vch); break;
+        case 'm': buf += him_her(format, ch); break;
+        case 'M': buf += him_her(format, vch); break;
+        case 's': buf += his_her(format, ch); break;
+        case 'S': buf += his_her(format, vch); break;
 
-        case 'p': {
+        case 'p':
             if (auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1)) {
                 auto &obj1 = *arg1_as_obj_ptr;
                 buf += can_see_obj(to, obj1) ? obj1->short_descr : "something";
@@ -1451,9 +1470,8 @@ std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg
                 buf += "something";
             }
             break;
-        }
 
-        case 'P': {
+        case 'P':
             if (auto arg2_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg2)) {
                 auto &obj2 = *arg2_as_obj_ptr;
                 buf += can_see_obj(to, obj2) ? obj2->short_descr : "something";
@@ -1462,9 +1480,8 @@ std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg
                 buf += "something";
             }
             break;
-        }
 
-        case 'd': {
+        case 'd':
             if (auto arg2_as_string_ptr = std::get_if<std::string_view>(&arg2);
                 arg2_as_string_ptr != nullptr && (*arg2_as_string_ptr)[0] != '\0') {
                 std::string arg2_as_string(*arg2_as_string_ptr); // TODO: once one_argument is not so sucky, change this
@@ -1475,7 +1492,6 @@ std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg
                 buf += "door";
             }
             break;
-        }
         }
     }
 
