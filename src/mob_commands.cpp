@@ -135,7 +135,7 @@ void do_mpasound(CHAR_DATA *ch, const char *argument) {
             && pexit->u1.to_room != was_in_room) {
             ch->in_room = pexit->u1.to_room;
             MOBtrigger = false;
-            act(argument, ch, nullptr, nullptr, To::Room);
+            act(argument, ch);
         }
     }
 
@@ -289,7 +289,7 @@ void do_mpecho(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    act(argument, ch, nullptr, nullptr, To::Room);
+    act(argument, ch);
 }
 
 /* lets the mobile load an item or mobile.  All items

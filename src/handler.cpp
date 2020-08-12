@@ -164,7 +164,7 @@ int check_immune(CHAR_DATA *ch, int dam_type) {
 }
 
 /* for returning skill information */
-int get_skill(CHAR_DATA *ch, int sn) {
+int get_skill(const CHAR_DATA *ch, int sn) {
     int skill;
 
     if (sn == -1) /* shorthand for level based skills */
@@ -455,7 +455,7 @@ void reset_char(CHAR_DATA *ch) {
 /*
  * Retrieve a character's trusted level for permission checking.
  */
-int get_trust(CHAR_DATA *ch) {
+int get_trust(const CHAR_DATA *ch) {
 
     if (ch == nullptr) {
         bug("ch == nullptr in get_trust()");
@@ -477,10 +477,10 @@ int get_trust(CHAR_DATA *ch) {
 /*
  * Retrieve a character's age.
  */
-int get_age(CHAR_DATA *ch) { return 17 + (ch->played + (int)(current_time - ch->logon)) / 72000; }
+int get_age(const CHAR_DATA *ch) { return 17 + (ch->played + (int)(current_time - ch->logon)) / 72000; }
 
 /* command for retrieving stats */
-int get_curr_stat(CHAR_DATA *ch, int stat) {
+int get_curr_stat(const CHAR_DATA *ch, int stat) {
     int max;
 
     if (IS_NPC(ch) || ch->level > LEVEL_IMMORTAL)
@@ -806,7 +806,7 @@ void affect_strip(CHAR_DATA *ch, int sn) {
 /*
  * Return true if a char is affected by a spell.
  */
-bool is_affected(CHAR_DATA *ch, int sn) {
+bool is_affected(const CHAR_DATA *ch, int sn) {
     AFFECT_DATA *paf;
 
     for (paf = ch->affected; paf != nullptr; paf = paf->next) {
@@ -955,7 +955,7 @@ void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
             if (save != 0 && !saves_spell(save, vch) && !IS_IMMORTAL(vch) && !IS_AFFECTED(vch, AFF_PLAGUE)
                 && number_bits(6) == 0) {
                 send_to_char("You feel hot and feverish.\n\r", vch);
-                act("$n shivers and looks very ill.", vch, nullptr, nullptr, To::Room);
+                act("$n shivers and looks very ill.", vch);
                 affect_join(vch, &plague);
             }
         }
@@ -1730,7 +1730,7 @@ bool can_see_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
 /*
  * True if char can see victim.
  */
-bool can_see(CHAR_DATA *ch, CHAR_DATA *victim) {
+bool can_see(const CHAR_DATA *ch, const CHAR_DATA *victim) {
 
     /* without this block, poor code involving descriptors would
        crash the mud - Fara 13/8/96 */
@@ -1785,7 +1785,7 @@ bool can_see(CHAR_DATA *ch, CHAR_DATA *victim) {
 /*
  * True if char can see obj.
  */
-bool can_see_obj(CHAR_DATA *ch, OBJ_DATA *obj) {
+bool can_see_obj(const CHAR_DATA *ch, const OBJ_DATA *obj) {
     if (!IS_NPC(ch) && IS_SET(ch->act, PLR_HOLYLIGHT))
         return true;
 

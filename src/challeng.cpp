@@ -174,7 +174,7 @@ void do_accept(CHAR_DATA *ch, const char *argument) {
         snprintf(buf, sizeof(buf),
                  "|g%s|c has accepted to control the challenge. Now waiting to see\nif |g%s|c will accept your "
                  "challenge.|w\n\r",
-                 PERS(ch, challenger), challengee->name);
+                 pers(ch, challenger), challengee->name);
         send_to_char(buf, challenger);
     }
 

@@ -179,7 +179,7 @@ static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
         act("|W$N|c seems to have misplaced $S link...try again later.|w", ch, nullptr, victim, To::Char);
 
     } else if (IS_SET(victim->comm, COMM_QUIET) && !IS_IMMORTAL(ch)) {
-        act("|W$E|c is not receiving replies.|w", ch, 0, victim, To::Char);
+        act("|W$E|c is not receiving replies.|w", ch, nullptr, victim, To::Char);
 
     } else if (IS_SET(victim->act, PLR_AFK) && !IS_NPC(victim)) {
         snprintf(buf, sizeof(buf), "|W$N|c is %s.|w", victim->pcdata->afk);
@@ -373,7 +373,7 @@ void do_pose(CHAR_DATA *ch, const char *argument) {
     pose = number_range(0, level);
 
     act(pose_table[pose].message[2 * ch->class_num + 0], ch, nullptr, nullptr, To::Char);
-    act(pose_table[pose].message[2 * ch->class_num + 1], ch, nullptr, nullptr, To::Room);
+    act(pose_table[pose].message[2 * ch->class_num + 1], ch);
 }
 
 void do_bug(CHAR_DATA *ch, const char *argument) {
@@ -432,7 +432,7 @@ void do_quit(CHAR_DATA *ch, const char *arg) {
     }
     do_chal_canc(ch);
     send_to_char("|WYou quit reality for the game.|w\n\r", ch);
-    act("|W$n has left reality for the game.|w", ch, nullptr, nullptr, To::Room);
+    act("|W$n has left reality for the game.|w", ch);
     snprintf(log_buf, LOG_BUF_SIZE, "%s has quit.", ch->name);
     log_string(log_buf);
     snprintf(log_buf, LOG_BUF_SIZE, "|W### |P%s|W departs, seeking another reality.|w", ch->name);
@@ -771,13 +771,13 @@ void do_group(CHAR_DATA *ch, const char *argument) {
         CHAR_DATA *leader;
 
         leader = (ch->leader != nullptr) ? ch->leader : ch;
-        snprintf(buf, sizeof(buf), "%s's group:\n\r", PERS(leader, ch));
+        snprintf(buf, sizeof(buf), "%s's group:\n\r", pers(leader, ch));
         send_to_char(buf, ch);
 
         for (gch = char_list; gch != nullptr; gch = gch->next) {
             if (is_same_group(gch, ch)) {
                 snprintf(buf, sizeof(buf), "[%2d %s] %-16s %4d/%4d hp %4d/%4d mana %4d/%4d mv %5ld xp\n\r", gch->level,
-                         IS_NPC(gch) ? "Mob" : class_table[gch->class_num].who_name, capitalize(PERS(gch, ch)),
+                         IS_NPC(gch) ? "Mob" : class_table[gch->class_num].who_name, capitalize(pers(gch, ch)),
                          gch->hit, gch->max_hit, gch->mana, gch->max_mana, gch->move, gch->max_move, gch->exp);
                 send_to_char(buf, ch);
             }

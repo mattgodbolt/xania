@@ -192,7 +192,7 @@ void move_char(CHAR_DATA *ch, int door) {
     if (!IS_AFFECTED(ch, AFF_SNEAK) && (IS_NPC(ch) || !IS_SET(ch->act, PLR_WIZINVIS) || !IS_SET(ch->act, PLR_PROWL))) {
         if (ch->ridden_by == nullptr) {
             if (ch->riding == nullptr) {
-                act("$n has arrived.", ch, nullptr, nullptr, To::Room);
+                act("$n has arrived.", ch);
             } else {
                 act("$n has arrived, riding $N.", ch, nullptr, ch->riding, To::Room);
             }
@@ -326,11 +326,11 @@ void do_enter(CHAR_DATA *ch, const char *argument) {
                             }
                         }
                     }
-                    act("$n steps through a portal and vanishes.", ch, nullptr, nullptr, To::Room);
+                    act("$n steps through a portal and vanishes.", ch);
                     send_to_char("You step through a portal and vanish.\n\r", ch);
                     char_from_room(ch);
                     char_to_room(ch, obj->destination);
-                    act("$n has arrived through a portal.", ch, nullptr, nullptr, To::Room);
+                    act("$n has arrived through a portal.", ch);
                     do_look(ch, "auto");
 
                     if (in_room == to_room) /* no circular follows */
@@ -862,14 +862,14 @@ void do_stand(CHAR_DATA *ch, const char *arg) {
         }
 
         send_to_char("You wake and stand up.\n\r", ch);
-        act("$n wakes and stands up.", ch, nullptr, nullptr, To::Room);
+        act("$n wakes and stands up.", ch);
         ch->position = POS_STANDING;
         break;
 
     case POS_RESTING:
     case POS_SITTING:
         send_to_char("You stand up.\n\r", ch);
-        act("$n stands up.", ch, nullptr, nullptr, To::Room);
+        act("$n stands up.", ch);
         ch->position = POS_STANDING;
         break;
 
@@ -890,7 +890,7 @@ void do_rest(CHAR_DATA *ch, const char *argument) {
     switch (ch->position) {
     case POS_SLEEPING:
         send_to_char("You wake up and start resting.\n\r", ch);
-        act("$n wakes up and starts resting.", ch, nullptr, nullptr, To::Room);
+        act("$n wakes up and starts resting.", ch);
         ch->position = POS_RESTING;
         break;
 
@@ -898,13 +898,13 @@ void do_rest(CHAR_DATA *ch, const char *argument) {
 
     case POS_STANDING:
         send_to_char("You rest.\n\r", ch);
-        act("$n sits down and rests.", ch, nullptr, nullptr, To::Room);
+        act("$n sits down and rests.", ch);
         ch->position = POS_RESTING;
         break;
 
     case POS_SITTING:
         send_to_char("You rest.\n\r", ch);
-        act("$n rests.", ch, nullptr, nullptr, To::Room);
+        act("$n rests.", ch);
         ch->position = POS_RESTING;
         break;
 
@@ -923,7 +923,7 @@ void do_sit(CHAR_DATA *ch, const char *argument) {
     switch (ch->position) {
     case POS_SLEEPING:
         send_to_char("You wake up.\n\r", ch);
-        act("$n wakes and sits up.\n\r", ch, nullptr, nullptr, To::Room);
+        act("$n wakes and sits up.\n\r", ch);
         ch->position = POS_SITTING;
         break;
     case POS_RESTING:
@@ -934,7 +934,7 @@ void do_sit(CHAR_DATA *ch, const char *argument) {
     case POS_FIGHTING: send_to_char("Maybe you should finish this fight first?\n\r", ch); break;
     case POS_STANDING:
         send_to_char("You sit down.\n\r", ch);
-        act("$n sits down on the ground.\n\r", ch, nullptr, nullptr, To::Room);
+        act("$n sits down on the ground.\n\r", ch);
         ch->position = POS_SITTING;
         break;
     }
@@ -955,7 +955,7 @@ void do_sleep(CHAR_DATA *ch, const char *argument) {
     case POS_SITTING:
     case POS_STANDING:
         send_to_char("You go to sleep.\n\r", ch);
-        act("$n goes to sleep.", ch, nullptr, nullptr, To::Room);
+        act("$n goes to sleep.", ch);
         ch->position = POS_SLEEPING;
         break;
 
@@ -1069,7 +1069,7 @@ void do_recall(CHAR_DATA *ch, const char *argument) {
     /* if (ch->invis_level < HERO) */
 
     if (!IS_SET(ch->act, PLR_WIZINVIS))
-        act("$n prays for transportation!", ch, 0, 0, To::Room);
+        act("$n prays for transportation!", ch);
 
     if (!str_cmp(argument, "clan")) {
         if (IS_SET(ch->act, ACT_PET)) {
@@ -1134,16 +1134,16 @@ void do_recall(CHAR_DATA *ch, const char *argument) {
 
     ch->move /= 2;
     if (!IS_SET(ch->act, PLR_WIZINVIS))
-        act("$n disappears.", ch, nullptr, nullptr, To::Room);
+        act("$n disappears.", ch);
     char_from_room(ch);
     char_to_room(ch, location);
     if (!IS_SET(ch->act, PLR_WIZINVIS))
-        act("$n appears in the room.", ch, nullptr, nullptr, To::Room);
+        act("$n appears in the room.", ch);
 
     do_look(ch, "auto");
 
     if (IS_NPC(ch) && ch->ridden_by) {
-        act("$n falls to the ground.", ch->ridden_by, nullptr, nullptr, To::Room);
+        act("$n falls to the ground.", ch->ridden_by);
         act("You fall to the ground.", ch->ridden_by, nullptr, nullptr, To::Char);
         fallen_off_mount(ch->ridden_by);
     }
@@ -1263,7 +1263,7 @@ void do_train(CHAR_DATA *ch, const char *argument) {
         ch->max_hit += 10;
         ch->hit += 10;
         act("|WYour durability increases!|w", ch, nullptr, nullptr, To::Char);
-        act("|W$n's durability increases!|w", ch, nullptr, nullptr, To::Room);
+        act("|W$n's durability increases!|w", ch);
         return;
     }
 
@@ -1278,7 +1278,7 @@ void do_train(CHAR_DATA *ch, const char *argument) {
         ch->max_mana += 10;
         ch->mana += 10;
         act("|WYour power increases!|w", ch, nullptr, nullptr, To::Char);
-        act("|W$n's power increases!|w", ch, nullptr, nullptr, To::Room);
+        act("|W$n's power increases!|w", ch);
         return;
     }
 

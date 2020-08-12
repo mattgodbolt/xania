@@ -322,7 +322,7 @@ void mote(CHAR_DATA *ch, const char *argument, int add) {
     snprintf(buf, sizeof(buf), "$n is now %s of the %s.",
              victim->pcdata->pcclan->clan->levelname[victim->pcdata->pcclan->clanlevel],
              victim->pcdata->pcclan->clan->name);
-    act(buf, victim, nullptr, nullptr, To::Room);
+    act(buf, victim);
     snprintf(buf, sizeof(buf), "You are now %s of the %s.\n\r",
              victim->pcdata->pcclan->clan->levelname[victim->pcdata->pcclan->clanlevel],
              victim->pcdata->pcclan->clan->name);

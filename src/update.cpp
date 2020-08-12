@@ -537,12 +537,12 @@ void move_active_char_from_limbo(CHAR_DATA *ch) {
     char_from_room(ch);
     char_to_room(ch, ch->was_in_room);
     ch->was_in_room = nullptr;
-    act("$n has returned from the void.", ch, nullptr, nullptr, To::Room);
+    act("$n has returned from the void.", ch);
     if (ch->pet) { /* move pets too */
         char_from_room(ch->pet);
         char_to_room(ch->pet, ch->in_room);
         ch->pet->was_in_room = nullptr;
-        act("$n has returned from the void.", ch->pet, nullptr, nullptr, To::Room);
+        act("$n has returned from the void.", ch->pet);
     }
 }
 
@@ -555,7 +555,7 @@ void move_idle_char_to_limbo(CHAR_DATA *ch) {
             ch->was_in_room = ch->in_room;
             if (ch->fighting != nullptr)
                 stop_fighting(ch, true);
-            act("$n disappears into the void.", ch, nullptr, nullptr, To::Room);
+            act("$n disappears into the void.", ch);
             send_to_char("You disappear into the void.\n\r", ch);
             if (ch->level > 1)
                 save_char_obj(ch);
@@ -564,7 +564,7 @@ void move_idle_char_to_limbo(CHAR_DATA *ch) {
             if (ch->pet) { /* move pets too */
                 if (ch->pet->fighting)
                     stop_fighting(ch->pet, true);
-                act("$n flickers and phases out", ch->pet, nullptr, nullptr, To::Room);
+                act("$n flickers and phases out", ch->pet);
                 ch->pet->was_in_room = ch->pet->in_room;
                 char_from_room(ch->pet);
                 char_to_room(ch->pet, get_room_index(ROOM_VNUM_LIMBO));
@@ -681,7 +681,7 @@ void char_update() {
            and randomly decay them */
         if (IS_NPC(ch) && ch->pIndexData->vnum == MOB_VNUM_ZOMBIE) {
             if (number_percent() > 90) {
-                act("$n fits violently before decaying in to a pile of dust.", ch, nullptr, nullptr, To::Room);
+                act("$n fits violently before decaying in to a pile of dust.", ch);
                 extract_char(ch, true);
                 continue;
             }
@@ -701,7 +701,7 @@ void char_update() {
             if (ch->in_room == nullptr)
                 return;
 
-            act("$n writhes in agony as plague sores erupt from $s skin.", ch, nullptr, nullptr, To::Room);
+            act("$n writhes in agony as plague sores erupt from $s skin.", ch);
             send_to_char("You writhe in agony from the plague.\n\r", ch);
             for (af = ch->affected; af != nullptr; af = af->next) {
                 if (af->type == gsn_plague)
@@ -735,7 +735,7 @@ void char_update() {
                 if (save != 0 && !saves_spell(save, vch) && !IS_IMMORTAL(vch) && !IS_AFFECTED(vch, AFF_PLAGUE)
                     && number_bits(4) == 0) {
                     send_to_char("You feel hot and feverish.\n\r", vch);
-                    act("$n shivers and looks very ill.", vch, nullptr, nullptr, To::Room);
+                    act("$n shivers and looks very ill.", vch);
                     affect_join(vch, &plague);
                 }
             }
@@ -745,7 +745,7 @@ void char_update() {
             ch->move -= dam;
             damage(ch, ch, dam, gsn_plague, DAM_DISEASE);
         } else if (IS_AFFECTED(ch, AFF_POISON) && ch != nullptr) {
-            act("$n shivers and suffers.", ch, nullptr, nullptr, To::Room);
+            act("$n shivers and suffers.", ch);
             send_to_char("You shiver and suffer.\n\r", ch);
             damage(ch, ch, 2, gsn_poison, DAM_POISON);
         } else if (ch->position == POS_INCAP && number_range(0, 1) == 0) {

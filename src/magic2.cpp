@@ -40,17 +40,17 @@ void tornado_teleport(CHAR_DATA *ch, CHAR_DATA *victim) {
     if (victim != ch)
         send_to_char("You are sucked helplessly into the tornado....\n\r", victim);
 
-    act("$n is consumed by the tornado and vanishes!", victim, nullptr, nullptr, To::Room);
+    act("$n is consumed by the tornado and vanishes!", victim);
     char_from_room(victim);
     char_to_room(victim, pRoomIndex);
     send_to_char("...you appear to have been blown to another part of Xania!", victim);
 
     if (!ch->riding) {
-        act("$n is blown into the room by a sudden blast of wind.", victim, nullptr, nullptr, To::Room);
+        act("$n is blown into the room by a sudden blast of wind.", victim);
     } else {
         act("$n is blown into the room by a blast of wind, about 5 feet off the ground!", victim, nullptr, nullptr,
             To::Room);
-        act("$n falls to the ground with a thud!", victim, nullptr, nullptr, To::Room);
+        act("$n falls to the ground with a thud!", victim);
         act("You fall to the ground with a thud!", victim, nullptr, nullptr, To::Char);
         fallen_off_mount(ch);
     } /* end ride check */

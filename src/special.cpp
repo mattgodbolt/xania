@@ -192,18 +192,18 @@ bool spec_DEATH(CHAR_DATA *ch) {
     if (lowest_person == nullptr) {
         if ((number_percent() > 30) || (ch->in_room == home))
             return false;
-        act("$n disappears through a gate in search of more souls.", ch, nullptr, nullptr, To::Room);
+        act("$n disappears through a gate in search of more souls.", ch);
         char_from_room(ch);
         char_to_room(ch, home);
-        act("$n returns home in search of a nice cup of tea.", ch, nullptr, nullptr, To::Room);
+        act("$n returns home in search of a nice cup of tea.", ch);
         return true;
     }
 
     if ((lowest_person->in_room != ch->in_room) && (lowest_person->position == POS_FIGHTING)) {
-        act("$n disappears through a gate seeking to usher souls elsewhere.", ch, nullptr, nullptr, To::Room);
+        act("$n disappears through a gate seeking to usher souls elsewhere.", ch);
         char_from_room(ch);
         char_to_room(ch, lowest_person->in_room);
-        act("There is a shimmering light and $n appears through a gate.", ch, nullptr, nullptr, To::Room);
+        act("There is a shimmering light and $n appears through a gate.", ch);
         /* Check if Phil needs rescuing */
         if (lowest_person == phil) {
             act("$n tuts loudly at $N.", ch, nullptr, phil, To::Room);
@@ -213,7 +213,7 @@ bool spec_DEATH(CHAR_DATA *ch) {
             char_from_room(phil);
             char_to_room(ch, home);
             char_to_room(phil, home);
-            act("$n appears through a gate holding a frightened-looking meerkat.", ch, nullptr, nullptr, To::Room);
+            act("$n appears through a gate holding a frightened-looking meerkat.", ch);
         }
         return true;
     }
@@ -226,28 +226,24 @@ bool spec_DEATH(CHAR_DATA *ch) {
     /* End sanity test ... the less bugs the better, eh? */
 
     if ((lowest_person->position != POS_FIGHTING) && (number_percent() > 60)) {
-        act("$n sighs as another soul slips through his fingers.", ch, nullptr, nullptr, To::Room);
-        act("$n disappears through a gate to seek souls elsewhere.", ch, nullptr, nullptr, To::Room);
+        act("$n sighs as another soul slips through his fingers.", ch);
+        act("$n disappears through a gate to seek souls elsewhere.", ch);
         char_from_room(ch);
         char_to_room(ch, home);
-        act("$n returns home after a hard day's work.", ch, nullptr, nullptr, To::Room);
+        act("$n returns home after a hard day's work.", ch);
     }
 
     switch (number_bits(4)) {
     default: return false;
-    case 0: act("$n starts sharpening his scythe.", ch, nullptr, nullptr, To::Room); return true;
-    case 1:
-        act("$n reaches into his long robe and pulls out an hourglass.", ch, nullptr, nullptr, To::Room);
-        return true;
-    case 2: act("$n says, YOUR TIME IS UP SOON, MORTAL.", ch, nullptr, nullptr, To::Room); return true;
-    case 3:
-        act("$n watches the last few grains of sand trickle through an hourglass.", ch, nullptr, nullptr, To::Room);
-        return true;
+    case 0: act("$n starts sharpening his scythe.", ch); return true;
+    case 1: act("$n reaches into his long robe and pulls out an hourglass.", ch); return true;
+    case 2: act("$n says, YOUR TIME IS UP SOON, MORTAL.", ch); return true;
+    case 3: act("$n watches the last few grains of sand trickle through an hourglass.", ch); return true;
     case 4:
         act("$N is tapped on the shoulder by a bony finger.", ch, nullptr, lowest_person, To::NotVict);
         act("You are tapped on the shoulder by a bony finger.", ch, nullptr, lowest_person, To::Vict);
         return true;
-    case 5: act("$n drums his bony fingers on the top of his scythe.", ch, nullptr, nullptr, To::Room); return true;
+    case 5: act("$n drums his bony fingers on the top of his scythe.", ch); return true;
     }
 }
 
@@ -269,32 +265,32 @@ bool spec_cast_adept(CHAR_DATA *ch) {
 
     switch (number_bits(4)) {
     case 0:
-        act("$n utters the word 'abrazak'.", ch, nullptr, nullptr, To::Room);
+        act("$n utters the word 'abrazak'.", ch);
         spell_armor(skill_lookup("armor"), (ch->level / 4), ch, victim);
         return true;
 
     case 1:
-        act("$n utters the word 'fido'.", ch, nullptr, nullptr, To::Room);
+        act("$n utters the word 'fido'.", ch);
         spell_bless(skill_lookup("bless"), (ch->level / 4), ch, victim);
         return true;
 
     case 2:
-        act("$n utters the word 'judicandus noselacri'.", ch, nullptr, nullptr, To::Room);
+        act("$n utters the word 'judicandus noselacri'.", ch);
         spell_cure_blindness(skill_lookup("cure blindness"), ch->level, ch, victim);
         return true;
 
     case 3:
-        act("$n utters the word 'judicandus dies'.", ch, nullptr, nullptr, To::Room);
+        act("$n utters the word 'judicandus dies'.", ch);
         spell_cure_light(skill_lookup("cure light"), ch->level, ch, victim);
         return true;
 
     case 4:
-        act("$n utters the words 'judicandus sausabru'.", ch, nullptr, nullptr, To::Room);
+        act("$n utters the words 'judicandus sausabru'.", ch);
         spell_cure_poison(skill_lookup("cure poison"), ch->level, ch, victim);
         return true;
 
     case 5:
-        act("$n utters the words 'candusima'.", ch, nullptr, nullptr, To::Room);
+        act("$n utters the words 'candusima'.", ch);
         spell_refresh(skill_lookup("refresh"), ch->level, ch, victim);
         return true;
     }
@@ -775,7 +771,7 @@ bool spec_puff(CHAR_DATA *ch) {
         snprintf(buf, sizeof(buf), "Did you know that I'm written in C?");
         do_say(ch, buf);
     } else if (silliness <= 75) {
-        act(social_table[rnd_social].others_no_arg, ch, nullptr, nullptr, To::Room);
+        act(social_table[rnd_social].others_no_arg, ch);
         act(social_table[rnd_social].char_no_arg, ch, nullptr, nullptr, To::Char);
     } else if (silliness <= 85) {
         if ((!pc_found) || (victim != ch->in_room->people))
@@ -786,7 +782,7 @@ bool spec_puff(CHAR_DATA *ch) {
     }
 
     else if (silliness <= 97) {
-        act("For a moment, $n flickers and phases.", ch, nullptr, nullptr, To::Room);
+        act("For a moment, $n flickers and phases.", ch);
         act("For a moment, you flicker and phase.", ch, nullptr, nullptr, To::Char);
     }
 
@@ -800,8 +796,8 @@ bool spec_puff(CHAR_DATA *ch) {
 
     else {
         if (ch->position < POS_FIGHTING) {
-            act("For a moment, $n seems lucid...", ch, nullptr, nullptr, To::Room);
-            act("   ...but then $e returns to $s contemplations once again.", ch, nullptr, nullptr, To::Room);
+            act("For a moment, $n seems lucid...", ch);
+            act("   ...but then $e returns to $s contemplations once again.", ch);
             act("For a moment, the world's mathematical beauty is lost to you!", ch, nullptr, nullptr, To::Char);
             act("   ...but joy! yet another novel phenomenon seizes your attention.", ch, nullptr, nullptr, To::Char);
             return true;
@@ -848,7 +844,7 @@ bool spec_fido(CHAR_DATA *ch) {
         if (corpse->item_type != ITEM_CORPSE_NPC)
             continue;
 
-        act("$n savagely devours a corpse.", ch, nullptr, nullptr, To::Room);
+        act("$n savagely devours a corpse.", ch);
         for (obj = corpse->contains; obj; obj = obj_next) {
             obj_next = obj->next_content;
             obj_from_obj(obj);
@@ -903,7 +899,7 @@ bool spec_guard(CHAR_DATA *ch) {
     }
 
     if (ech != nullptr) {
-        act("$n screams 'PROTECT THE INNOCENT!!  BANZAI!!", ch, nullptr, nullptr, To::Room);
+        act("$n screams 'PROTECT THE INNOCENT!!  BANZAI!!", ch);
         multi_hit(ch, ech, TYPE_UNDEFINED);
         return true;
     }
@@ -923,7 +919,7 @@ bool spec_janitor(CHAR_DATA *ch) {
         if (!IS_SET(trash->wear_flags, ITEM_TAKE) || !can_loot(ch, trash))
             continue;
         if (trash->item_type == ITEM_DRINK_CON || trash->item_type == ITEM_TRASH || trash->cost < 10) {
-            act("$n picks up some trash.", ch, nullptr, nullptr, To::Room);
+            act("$n picks up some trash.", ch);
             obj_from_room(trash);
             obj_to_char(trash, ch);
             return true;
@@ -969,29 +965,25 @@ bool spec_mayor(CHAR_DATA *ch) {
 
     case 'W':
         ch->position = POS_STANDING;
-        act("$n awakens and groans loudly.", ch, nullptr, nullptr, To::Room);
+        act("$n awakens and groans loudly.", ch);
         break;
 
     case 'S':
         ch->position = POS_SLEEPING;
-        act("$n lies down and falls asleep.", ch, nullptr, nullptr, To::Room);
+        act("$n lies down and falls asleep.", ch);
         break;
 
-    case 'a': act("$n says 'Hello Honey!'", ch, nullptr, nullptr, To::Room); break;
+    case 'a': act("$n says 'Hello Honey!'", ch); break;
 
-    case 'b':
-        act("$n says 'What a view!  I must do something about that dump!'", ch, nullptr, nullptr, To::Room);
-        break;
+    case 'b': act("$n says 'What a view!  I must do something about that dump!'", ch); break;
 
-    case 'c':
-        act("$n says 'Vandals!  Youngsters have no respect for anything!'", ch, nullptr, nullptr, To::Room);
-        break;
+    case 'c': act("$n says 'Vandals!  Youngsters have no respect for anything!'", ch); break;
 
-    case 'd': act("$n says 'Good day, citizens!'", ch, nullptr, nullptr, To::Room); break;
+    case 'd': act("$n says 'Good day, citizens!'", ch); break;
 
-    case 'e': act("$n says 'I hereby declare the city of Midgaard open!'", ch, nullptr, nullptr, To::Room); break;
+    case 'e': act("$n says 'I hereby declare the city of Midgaard open!'", ch); break;
 
-    case 'E': act("$n says 'I hereby declare the city of Midgaard closed!'", ch, nullptr, nullptr, To::Room); break;
+    case 'E': act("$n says 'I hereby declare the city of Midgaard closed!'", ch); break;
 
     case 'O':
         /*	do_unlock( ch, "gate" ); */

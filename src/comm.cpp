@@ -541,7 +541,7 @@ void close_socket(Descriptor *dclose) {
         log_new(log_buf, EXTRA_WIZNET_DEBUG,
                 (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)) ? get_trust(ch) : 0);
         if (dclose->is_playing() || dclose->state() == DescriptorState::Disconnecting) {
-            act("$n has lost $s link.", ch, nullptr, nullptr, To::Room);
+            act("$n has lost $s link.", ch);
             ch->desc = nullptr;
         } else {
             free_char(dclose->person());
@@ -1212,7 +1212,7 @@ void nanny(Descriptor *d, const char *argument) {
 
         snprintf(log_buf, LOG_BUF_SIZE, "|W### |P%s|W has entered the game.|w", ch->name);
         announce(log_buf, ch);
-        act("|P$n|W has entered the game.", ch, nullptr, nullptr, To::Room);
+        act("|P$n|W has entered the game.", ch);
         do_look(ch, "auto");
 
         /* Rohan: code to increase the player count if needed - it was only
@@ -1232,7 +1232,7 @@ void nanny(Descriptor *d, const char *argument) {
 
         if (ch->pet != nullptr) {
             char_to_room(ch->pet, ch->in_room);
-            act("|P$n|W has entered the game.", ch->pet, nullptr, nullptr, To::Room);
+            act("|P$n|W has entered the game.", ch->pet);
         }
 
         /* check notes */
@@ -1328,7 +1328,7 @@ bool check_reconnect(Descriptor *d, bool fConn) {
                 ch->desc = d;
                 ch->timer = 0;
                 send_to_char("Reconnecting.\n\r", ch);
-                act("$n has reconnected.", ch, nullptr, nullptr, To::Room);
+                act("$n has reconnected.", ch);
                 snprintf(log_buf, LOG_BUF_SIZE, "%s@%s reconnected.", ch->name, d->host().c_str());
                 log_new(log_buf, EXTRA_WIZNET_DEBUG,
                         ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? get_trust(ch) : 0);
@@ -1361,7 +1361,7 @@ bool check_playing(Descriptor *d, char *name) {
 }
 
 // Write to one char.
-void send_to_char(std::string_view txt, CHAR_DATA *ch) {
+void send_to_char(std::string_view txt, const CHAR_DATA *ch) {
     if (txt.empty() || ch->desc == nullptr || !ch->desc->person())
         return;
 
@@ -1378,28 +1378,20 @@ void page_to_char(const char *txt, CHAR_DATA *ch) {
     ch->desc->page_to(txt);
 }
 
-/* quick sex fixer */
-void fix_sex(CHAR_DATA *ch) {
-    if (ch->sex < 0 || ch->sex > 2)
-        ch->sex = IS_NPC(ch) ? 0 : ch->pcdata->true_sex;
-}
-
-void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, To type) {
+void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type) {
     act(format, ch, arg1, arg2, type, POS_RESTING);
 }
 
-void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, To type, int min_pos) {
+void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type, int min_pos) {
     static const char *const he_she[] = {"it", "he", "she"};
     static const char *const him_her[] = {"it", "him", "her"};
     static const char *const his_her[] = {"its", "his", "her"};
 
     char buf[MAX_STRING_LENGTH];
     char fname[MAX_INPUT_LENGTH];
-    CHAR_DATA *to;
-    CHAR_DATA *vch = (CHAR_DATA *)arg2;
-    OBJ_DATA *obj1 = (OBJ_DATA *)arg1;
-    OBJ_DATA *obj2 = (OBJ_DATA *)arg2;
-    ROOM_INDEX_DATA *givenRoom = (ROOM_INDEX_DATA *)arg2; /* in case To::GivenRoom is used */
+    CHAR_DATA *to; // begrudgingly mutable because mobprogs...
+    const CHAR_DATA *vch{};
+
     const char *str;
     const char *i;
     char *point;
@@ -1412,26 +1404,31 @@ void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, 
     /* discard null rooms and chars */
     if (ch == nullptr || ch->in_room == nullptr)
         return;
-    if (type == To::GivenRoom && givenRoom == nullptr) {
-        bug("Act: null givenRoom with To::GivenRoom.");
-        return;
+    switch (type) {
+    case To::GivenRoom: {
+        auto arg2_as_room_ptr = std::get_if<const ROOM_INDEX_DATA *>(&arg2);
+        if (!arg2_as_room_ptr) {
+            bug("Act: null room with To::GivenRoom.");
+            return;
+        }
+        to = (*arg2_as_room_ptr)->people;
+        break;
     }
+    case To::Vict: {
+        auto arg2_as_char_ptr = std::get_if<const CHAR_DATA *>(&arg2);
 
-    if (type == To::GivenRoom)
-        to = givenRoom->people;
-    else
-        to = ch->in_room->people;
-
-    if (type == To::Vict) {
-        if (vch == nullptr) {
+        if (arg2_as_char_ptr == nullptr || *arg2_as_char_ptr == nullptr) {
             bug("Act: null vch with To::Vict.");
             return;
         }
-
+        vch = *arg2_as_char_ptr;
         if (vch->in_room == nullptr)
             return;
 
         to = vch->in_room->people;
+        break;
+    }
+    default: to = ch->in_room->people; break;
     }
 
     for (; to != nullptr; to = to->next_in_room) {
@@ -1458,7 +1455,7 @@ void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, 
             }
             ++str;
 
-            if (arg2 == nullptr && *str >= 'A' && *str <= 'Z') {
+            if (std::holds_alternative<nullptr_t>(arg2) && *str >= 'A' && *str <= 'Z') {
                 bug("Act: missing arg2 for code %d.", *str);
                 i = " <@@@> ";
             } else {
@@ -1468,10 +1465,26 @@ void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, 
                     i = " <@@@> ";
                     break;
                     /* Thx alex for 't' idea */
-                case 't': i = (char *)arg1; break;
-                case 'T': i = (char *)arg2; break;
-                case 'n': i = PERS(ch, to); break;
-                case 'N': i = PERS(vch, to); break;
+                case 't': {
+                    if (auto arg1_as_string_ptr = std::get_if<const char *>(&arg1)) {
+                        i = *arg1_as_string_ptr;
+                    } else {
+                        bug("$t passed but arg1 was not a string in '%s'", format);
+                        i = "<@@@>";
+                    }
+                    break;
+                }
+                case 'T': {
+                    if (auto arg2_as_string_ptr = std::get_if<const char *>(&arg2)) {
+                        i = *arg2_as_string_ptr;
+                    } else {
+                        bug("$T passed but arg2 was not a string in '%s'", format);
+                        i = "<@@@>";
+                    }
+                    break;
+                }
+                case 'n': i = pers(ch, to); break;
+                case 'N': i = pers(vch, to); break;
                 case 'e': i = he_she[URANGE(0, ch->sex, 2)]; break;
                 case 'E': i = he_she[URANGE(0, vch->sex, 2)]; break;
                 case 'm': i = him_her[URANGE(0, ch->sex, 2)]; break;
@@ -1479,18 +1492,38 @@ void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, 
                 case 's': i = his_her[URANGE(0, ch->sex, 2)]; break;
                 case 'S': i = his_her[URANGE(0, vch->sex, 2)]; break;
 
-                case 'p': i = can_see_obj(to, obj1) ? obj1->short_descr : "something"; break;
-
-                case 'P': i = can_see_obj(to, obj2) ? obj2->short_descr : "something"; break;
-
-                case 'd':
-                    if (arg2 == nullptr || ((char *)arg2)[0] == '\0') {
-                        i = "door";
+                case 'p': {
+                    if (auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1)) {
+                        auto &obj1 = *arg1_as_obj_ptr;
+                        i = can_see_obj(to, obj1) ? obj1->short_descr : "something";
                     } else {
-                        one_argument((char *)arg2, fname);
-                        i = fname;
+                        bug("$p passed but arg1 was not an object in '%s'", format);
+                        i = "something";
                     }
                     break;
+                }
+
+                case 'P': {
+                    if (auto arg2_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg2)) {
+                        auto &obj2 = *arg2_as_obj_ptr;
+                        i = can_see_obj(to, obj2) ? obj2->short_descr : "something";
+                    } else {
+                        bug("$p passed but arg2 was not an object in '%s'", format);
+                        i = "something";
+                    }
+                    break;
+                }
+
+                case 'd': {
+                    if (auto arg2_as_string_ptr = std::get_if<const char *>(&arg2);
+                        arg2_as_string_ptr != nullptr && (*arg2_as_string_ptr)[0] != '\0') {
+                        one_argument(*arg2_as_string_ptr, fname);
+                        i = fname;
+                    } else {
+                        i = "door";
+                    }
+                    break;
+                }
                 }
             }
 
@@ -1518,8 +1551,10 @@ void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, 
         } else {
             send_to_char(buf, to);
             /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-            if (MOBtrigger)
-                mprog_act_trigger(buf, to, ch, obj1, vch);
+            if (MOBtrigger) {
+                auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1);
+                mprog_act_trigger(buf, to, ch, arg1_as_obj_ptr ? *arg1_as_obj_ptr : nullptr, vch);
+            }
         }
     }
     MOBtrigger = true;

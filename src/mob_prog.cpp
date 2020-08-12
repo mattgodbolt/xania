@@ -32,12 +32,15 @@
 char *mprog_next_command(char *clist);
 bool mprog_seval(char *lhs, char *opr, char *rhs);
 bool mprog_veval(int lhs, char *opr, int rhs);
-bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, CHAR_DATA *rndm);
-char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo,
-                       CHAR_DATA *rndm);
-void mprog_translate(char ch, char *t, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, CHAR_DATA *rndm);
-void mprog_process_cmnd(char *cmnd, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, CHAR_DATA *rndm);
-void mprog_driver(char *com_list, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo);
+bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj, const void *vo,
+                     CHAR_DATA *rndm);
+char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj,
+                       const void *vo, CHAR_DATA *rndm);
+void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj, const void *vo,
+                     CHAR_DATA *rndm);
+void mprog_process_cmnd(char *cmnd, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj, const void *vo,
+                        CHAR_DATA *rndm);
+void mprog_driver(char *com_list, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj, const void *vo);
 
 /***************************************************************************
  * Local function code and brief comments.
@@ -132,14 +135,15 @@ bool mprog_veval(int lhs, char *opr, int rhs) {
  * to reduce the redundancy of the mammoth if statement list.
  * If there are errors, then return -1 otherwise return boolean 1,0
  */
-bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, CHAR_DATA *rndm) {
+bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj, const void *vo,
+                     CHAR_DATA *rndm) {
 
     char buf[MAX_INPUT_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     char opr[MAX_INPUT_LENGTH];
     char val[MAX_INPUT_LENGTH];
-    CHAR_DATA *vict = (CHAR_DATA *)vo;
-    OBJ_DATA *v_obj = (OBJ_DATA *)vo;
+    auto *vict = (const CHAR_DATA *)vo;
+    auto *v_obj = (const OBJ_DATA *)vo;
     char *bufpt = buf;
     char *argpt = arg;
     char *oprpt = opr;
@@ -850,8 +854,8 @@ bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *o
  * in theory, but it is 'guaranteed' to work on syntactically correct
  * MOBprograms, so if the mud crashes here, check the mob carefully!
  */
-char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo,
-                       CHAR_DATA *rndm) {
+char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj,
+                       const void *vo, CHAR_DATA *rndm) {
     char buf[MAX_INPUT_LENGTH];
     char *morebuf = nullptr;
     char *cmnd = nullptr;
@@ -1004,12 +1008,13 @@ char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA *mob, CHAR_DATA *
  * would be to change act() so that vo becomes vict & v_obj.
  * but this would require a lot of small changes all over the code.
  */
-void mprog_translate(char ch, char *t, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, CHAR_DATA *rndm) {
+void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj, const void *vo,
+                     CHAR_DATA *rndm) {
     static const char *he_she[] = {"it", "he", "she"};
     static const char *him_her[] = {"it", "him", "her"};
     static const char *his_her[] = {"its", "his", "her"};
-    CHAR_DATA *vict = (CHAR_DATA *)vo;
-    OBJ_DATA *v_obj = (OBJ_DATA *)vo;
+    auto *vict = (const CHAR_DATA *)vo;
+    auto *v_obj = (const OBJ_DATA *)vo;
 
     *t = '\0';
     switch (ch) {
@@ -1194,7 +1199,8 @@ void mprog_translate(char ch, char *t, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DAT
  * any variables by calling the translate procedure.  The observant
  * code scrutinizer will notice that this is taken from act()
  */
-void mprog_process_cmnd(char *cmnd, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, CHAR_DATA *rndm) {
+void mprog_process_cmnd(char *cmnd, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj, const void *vo,
+                        CHAR_DATA *rndm) {
     char buf[MAX_INPUT_LENGTH];
     char tmp[MAX_INPUT_LENGTH];
     char *str;
@@ -1225,7 +1231,7 @@ void mprog_process_cmnd(char *cmnd, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *
  *  the command list and figuring out what to do. However, like all
  *  complex procedures, everything is farmed out to the other guys.
  */
-void mprog_driver(char *com_list, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo) {
+void mprog_driver(char *com_list, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj, const void *vo) {
 
     char tmpcmndlst[MAX_STRING_LENGTH];
     char buf[MAX_INPUT_LENGTH];
@@ -1270,7 +1276,8 @@ void mprog_driver(char *com_list, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *ob
  *  on a certain percent, or trigger on a keyword or word phrase.
  *  To see how this works, look at the various trigger routines..
  */
-void mprog_wordlist_check(const char *arg, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *vo, int type) {
+void mprog_wordlist_check(const char *arg, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj, const void *vo,
+                          int type) {
 
     char temp1[MAX_STRING_LENGTH];
     char temp2[MAX_INPUT_LENGTH];
@@ -1334,7 +1341,7 @@ void mprog_percent_check(CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *obj, void *
  * make sure you remember to modify the variable names to the ones in the
  * trigger calls.
  */
-void mprog_act_trigger(char *buf, CHAR_DATA *mob, CHAR_DATA *ch, OBJ_DATA *obj, void *vo) {
+void mprog_act_trigger(char *buf, CHAR_DATA *mob, const CHAR_DATA *ch, const OBJ_DATA *obj, const void *vo) {
 
     MPROG_ACT_LIST *tmp_act;
 

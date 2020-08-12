@@ -212,7 +212,7 @@ void show_char_to_char_0(CHAR_DATA *victim, CHAR_DATA *ch) {
         return;
     }
 
-    strcat(buf, PERS(victim, ch));
+    strcat(buf, pers(victim, ch));
     if (!IS_NPC(victim) && !IS_SET(ch->comm, COMM_BRIEF))
         strcat(buf, victim->pcdata->title);
 
@@ -241,7 +241,7 @@ void show_char_to_char_0(CHAR_DATA *victim, CHAR_DATA *ch) {
         else if (victim->fighting == ch)
             strcat(buf, "|RYOU!|w");
         else if (victim->in_room == victim->fighting->in_room) {
-            strcat(buf, PERS(victim->fighting, ch));
+            strcat(buf, pers(victim->fighting, ch));
             strcat(buf, ".");
         } else
             strcat(buf, "somone who left??");
@@ -263,7 +263,7 @@ void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch) {
 
     if (can_see(victim, ch)) {
         if (ch == victim)
-            act("$n looks at $mself.", ch, nullptr, nullptr, To::Room);
+            act("$n looks at $mself.", ch);
         else {
             act("$n looks at you.", ch, nullptr, victim, To::Vict);
             act("$n looks at $N.", ch, nullptr, victim, To::NotVict);
@@ -281,7 +281,7 @@ void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch) {
     else
         percent = -1;
 
-    strcpy(buf, PERS(victim, ch));
+    strcpy(buf, pers(victim, ch));
 
     if (percent >= 100)
         strcat(buf, " is in excellent condition.\n\r");
@@ -2040,7 +2040,7 @@ void do_where(CHAR_DATA *ch, const char *argument) {
                 && !IS_AFFECTED(victim, AFF_HIDE) && !IS_AFFECTED(victim, AFF_SNEAK) && can_see(ch, victim)
                 && victim != ch && is_name(arg, victim->name)) {
                 found = true;
-                snprintf(buf, sizeof(buf), "%-28s %s\n\r", PERS(victim, ch), victim->in_room->name);
+                snprintf(buf, sizeof(buf), "%-28s %s\n\r", pers(victim, ch), victim->in_room->name);
                 send_to_char(buf, ch);
                 break;
             }
@@ -2181,7 +2181,7 @@ void do_report(CHAR_DATA *ch, const char *argument) {
     snprintf(buf, sizeof(buf), "$n says 'I have %d/%d hp %d/%d mana %d/%d mv %d xp.'", ch->hit, ch->max_hit, ch->mana,
              ch->max_mana, ch->move, ch->max_move, (int)ch->exp);
 
-    act(buf, ch, nullptr, nullptr, To::Room);
+    act(buf, ch);
 }
 
 void do_practice(CHAR_DATA *ch, const char *argument) {

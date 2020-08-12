@@ -474,10 +474,10 @@ void do_transfer(CHAR_DATA *ch, const char *argument) {
         stop_fighting(victim, true);
     if (victim->riding != nullptr)
         unride_char(victim, victim->riding);
-    act("$n disappears in a mushroom cloud.", victim, nullptr, nullptr, To::Room);
+    act("$n disappears in a mushroom cloud.", victim);
     char_from_room(victim);
     char_to_room(victim, location);
-    act("$n arrives from a puff of smoke.", victim, nullptr, nullptr, To::Room);
+    act("$n arrives from a puff of smoke.", victim);
     if (ch != victim)
         act("$n has transferred you.", ch, nullptr, victim, To::Vict);
     do_look(victim, "auto");
@@ -2025,7 +2025,7 @@ void do_purge(CHAR_DATA *ch, const char *argument) {
                 extract_obj(obj);
         }
 
-        act("$n purges the room!", ch, nullptr, nullptr, To::Room);
+        act("$n purges the room!", ch);
         send_to_char("Ok.\n\r", ch);
         return;
     }
@@ -2049,7 +2049,7 @@ void do_purge(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        act("$n disintegrates $N.", ch, 0, victim, To::NotVict);
+        act("$n disintegrates $N.", ch, nullptr, victim, To::NotVict);
 
         if (victim->level > 1)
             save_char_obj(victim);
@@ -2527,7 +2527,7 @@ void do_owhere(CHAR_DATA *ch, const char *argument) {
 
         if (in_obj->carried_by != nullptr) {
             buffer_addline_fmt(buffer, "%3d %-25.25s carried by %-20.20s in room %d\n\r", number, obj->short_descr,
-                               PERS(in_obj->carried_by, ch), in_obj->carried_by->in_room->vnum);
+                               pers(in_obj->carried_by, ch), in_obj->carried_by->in_room->vnum);
         } else if (in_obj->in_room != nullptr) {
             buffer_addline_fmt(buffer, "%3d %-25.25s in %-30.30s [%d]\n\r", number, obj->short_descr,
                                in_obj->in_room->name, in_obj->in_room->vnum);
@@ -2579,7 +2579,7 @@ void do_coma(CHAR_DATA *ch, const char *argument) {
 
     if (IS_AWAKE(victim)) {
         send_to_char("You feel very sleepy ..... zzzzzz.\n\r", victim);
-        act("$n goes to sleep.", victim, nullptr, nullptr, To::Room);
+        act("$n goes to sleep.", victim);
         victim->position = POS_SLEEPING;
     }
 }
@@ -3638,14 +3638,14 @@ void do_invis(CHAR_DATA *ch, const char *argument) {
         if (IS_SET(ch->act, PLR_WIZINVIS)) {
             REMOVE_BIT(ch->act, PLR_WIZINVIS);
             ch->invis_level = 0;
-            act("$n slowly fades into existence.", ch, nullptr, nullptr, To::Room);
+            act("$n slowly fades into existence.", ch);
             send_to_char("You slowly fade back into existence.\n\r", ch);
         } else {
             SET_BIT(ch->act, PLR_WIZINVIS);
             if (IS_SET(ch->act, PLR_PROWL))
                 REMOVE_BIT(ch->act, PLR_PROWL);
             ch->invis_level = get_trust(ch);
-            act("$n slowly fades into thin air.", ch, nullptr, nullptr, To::Room);
+            act("$n slowly fades into thin air.", ch);
             send_to_char("You slowly vanish into thin air.\n\r", ch);
             if (ch->pet != nullptr) {
                 SET_BIT(ch->pet->act, PLR_WIZINVIS);
@@ -3665,7 +3665,7 @@ void do_invis(CHAR_DATA *ch, const char *argument) {
             ch->reply = nullptr;
             SET_BIT(ch->act, PLR_WIZINVIS);
             ch->invis_level = level;
-            act("$n slowly fades into thin air.", ch, nullptr, nullptr, To::Room);
+            act("$n slowly fades into thin air.", ch);
             send_to_char("You slowly vanish into thin air.\n\r", ch);
         }
     }
@@ -3700,7 +3700,7 @@ void do_prowl(CHAR_DATA *ch, const char *argument) {
                 ch->pet->invis_level = get_trust(ch);
                 SET_BIT(ch->pet->act, PLR_PROWL);
             }
-            act("$n slowly fades into thin air.", ch, nullptr, nullptr, To::Room);
+            act("$n slowly fades into thin air.", ch);
             send_to_char("You slowly vanish into thin air.\n\r", ch);
             REMOVE_BIT(ch->act, PLR_WIZINVIS);
             if (ch->pet != nullptr)
@@ -3731,7 +3731,7 @@ void do_prowl(CHAR_DATA *ch, const char *argument) {
             SET_BIT(ch->pet->act, PLR_PROWL);
             ch->pet->invis_level = level;
         }
-        act("$n slowly fades into thin air.", ch, nullptr, nullptr, To::Room);
+        act("$n slowly fades into thin air.", ch);
         send_to_char("You slowly vanish into thin air.\n\r", ch);
         REMOVE_BIT(ch->act, PLR_WIZINVIS);
         if (ch->pet != nullptr)

@@ -469,7 +469,7 @@ void do_drop(CHAR_DATA *ch, const char *argument) {
         }
 
         obj_to_room(create_money(amount), ch->in_room);
-        act("$n drops some gold.", ch, nullptr, nullptr, To::Room);
+        act("$n drops some gold.", ch);
         send_to_char("OK.\n\r", ch);
         return;
     }
@@ -894,7 +894,7 @@ void do_drink(CHAR_DATA *ch, const char *argument) {
             /* The shit was poisoned ! */
             AFFECT_DATA af;
 
-            act("$n chokes and gags.", ch, nullptr, nullptr, To::Room);
+            act("$n chokes and gags.", ch);
             send_to_char("You choke and gag.\n\r", ch);
             af.type = gsn_poison;
             af.level = number_fuzzy(amount);
@@ -958,7 +958,7 @@ void do_eat(CHAR_DATA *ch, const char *argument) {
             /* The shit was poisoned! */
             AFFECT_DATA af;
 
-            act("|r$n chokes and gags.|w", ch, nullptr, nullptr, To::Room);
+            act("|r$n chokes and gags.|w", ch);
             send_to_char("|RYou choke and gag.|w\n\r", ch);
 
             af.type = gsn_poison;
@@ -1358,7 +1358,7 @@ void do_sacrifice(CHAR_DATA *ch, const char *argument) {
 
     if (arg[0] == '\0' || !str_cmp(arg, ch->name)) {
         snprintf(buf, sizeof(buf), "$n offers $mself to %s, who graciously declines.", deity_name);
-        act(buf, ch, nullptr, nullptr, To::Room);
+        act(buf, ch);
         snprintf(buf, sizeof(buf), "%s appreciates your offer and may accept it later.\n\r", deity_name);
         send_to_char(buf, ch);
         return;
@@ -1379,7 +1379,7 @@ void do_sacrifice(CHAR_DATA *ch, const char *argument) {
     }
 
     if (!CAN_WEAR(obj, ITEM_TAKE)) {
-        act("$p is not an acceptable sacrifice.", ch, obj, 0, To::Char);
+        act("$p is not an acceptable sacrifice.", ch, obj, nullptr, To::Char);
         return;
     }
 
@@ -1544,7 +1544,7 @@ void do_brandish(CHAR_DATA *ch, const char *argument) {
         act("|WYou brandish $p.|w", ch, staff, nullptr, To::Char);
         if (ch->level < staff->level || number_percent() >= 20 + get_skill(ch, gsn_staves) * 4 / 5) {
             act("|WYou fail to invoke $p.|w", ch, staff, nullptr, To::Char);
-            act("|W...and nothing happens.|w", ch, nullptr, nullptr, To::Room);
+            act("|W...and nothing happens.|w", ch);
             check_improve(ch, gsn_staves, false, 2);
         }
 
@@ -1645,7 +1645,7 @@ void do_zap(CHAR_DATA *ch, const char *argument) {
             else
                 snprintf(buf, sizeof(buf), "You attempt to zap someone.....");
             act(buf, ch, nullptr, nullptr, To::Char);
-            act("$n attempts to zap something....", ch, nullptr, nullptr, To::Room);
+            act("$n attempts to zap something....", ch);
             send_to_char("...but the |cgrand Iscarian magi|w outlawed interplanar combat millenia ago!\n\r", ch);
             act("$n appears to have been foiled by the law, and looks slightly annoyed!", ch, nullptr, nullptr,
                 To::Room);
@@ -2316,7 +2316,7 @@ void do_hailcorpse(CHAR_DATA *ch, const char *argument) {
     /* first thing is to check the ch room to see if it's already here */
     for (current_obj = ch->in_room->contents; current_obj != nullptr; current_obj = current_obj->next_content) {
         if ((current_obj->item_type == ITEM_CORPSE_PC) && strstr(current_obj->short_descr, ch->name) != nullptr) {
-            act("$n's corpse glows momentarily!", ch, nullptr, nullptr, To::Room);
+            act("$n's corpse glows momentarily!", ch);
             send_to_char("Your corpse appears to be in the room already!\n\r", ch);
             return;
         }
@@ -2342,11 +2342,11 @@ void do_hailcorpse(CHAR_DATA *ch, const char *argument) {
     if (foundit) {
         obj_from_room(current_obj);
         obj_to_room(current_obj, ch->in_room);
-        act("The corpse of $n materialises and floats gently before you!", ch, nullptr, nullptr, To::Room);
+        act("The corpse of $n materialises and floats gently before you!", ch);
         act("Your corpse materialises through a dark portal and floats to your feet!", ch, nullptr, nullptr, To::Char);
         return;
     } else {
-        act("$n's prayers for assistance are ignored by the Gods.", ch, nullptr, nullptr, To::Room);
+        act("$n's prayers for assistance are ignored by the Gods.", ch);
         act("Your prayers for assistance are ignored. Your corpse cannot be found.", ch, nullptr, nullptr, To::Char);
     }
 }

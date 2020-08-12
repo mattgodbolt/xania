@@ -93,7 +93,7 @@ void check_assist(CHAR_DATA *ch, CHAR_DATA *victim) {
             if (!IS_NPC(ch) && IS_NPC(rch) && IS_SET(rch->off_flags, ASSIST_PLAYERS)
                 && rch->level + 6 > victim->level) {
                 // moog: copied from do_emote:
-                act("|W$n screams and attacks!|w", rch, nullptr, nullptr, To::Room);
+                act("|W$n screams and attacks!|w", rch);
                 act("|W$n screams and attacks!|w", rch, nullptr, nullptr, To::Char);
                 multi_hit(rch, victim, TYPE_UNDEFINED);
                 continue;
@@ -142,7 +142,7 @@ void check_assist(CHAR_DATA *ch, CHAR_DATA *victim) {
 
                     if (target != nullptr) {
                         // moog: copied from do_emote:
-                        act("|W$n screams and attacks!|w", rch, nullptr, nullptr, To::Room);
+                        act("|W$n screams and attacks!|w", rch);
                         act("|W$n screams and attacks!|w", rch, nullptr, nullptr, To::Char);
                         multi_hit(rch, target, TYPE_UNDEFINED);
                     }
@@ -728,7 +728,7 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
         affect_strip(ch, gsn_invis);
         affect_strip(ch, gsn_mass_invis);
         REMOVE_BIT(ch->affected_by, AFF_INVISIBLE);
-        act("$n fades into existence.", ch, nullptr, nullptr, To::Room);
+        act("$n fades into existence.", ch);
     }
 
     /*
@@ -791,22 +791,22 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
 
     switch (victim->position) {
     case POS_MORTAL:
-        act("|r$n is mortally wounded, and will die soon, if not aided.|w", victim, nullptr, nullptr, To::Room);
+        act("|r$n is mortally wounded, and will die soon, if not aided.|w", victim);
         send_to_char("|rYou are mortally wounded, and will die soon, if not aided.|w\n\r", victim);
         break;
 
     case POS_INCAP:
-        act("|r$n is incapacitated and will slowly die, if not aided.|w", victim, nullptr, nullptr, To::Room);
+        act("|r$n is incapacitated and will slowly die, if not aided.|w", victim);
         send_to_char("|rYou are incapacitated and will slowly die, if not aided.|w\n\r", victim);
         break;
 
     case POS_STUNNED:
-        act("|r$n is stunned, but will probably recover.|w", victim, nullptr, nullptr, To::Room);
+        act("|r$n is stunned, but will probably recover.|w", victim);
         send_to_char("|rYou are stunned, but will probably recover.|w\n\r", victim);
         break;
 
     case POS_DEAD:
-        act("|R$n is DEAD!!|w", victim, 0, 0, To::Room);
+        act("|R$n is DEAD!!|w", victim);
         send_to_char("|RYou have been KILLED!!|w\n\r\n\r", victim);
         break;
 
@@ -1405,7 +1405,7 @@ void death_cry(CHAR_DATA *ch) {
     default: msg = "$n hits the ground ... DEAD."; break;
     }
 
-    act(msg, ch, nullptr, nullptr, To::Room);
+    act(msg, ch);
 
     if (vnum != 0) {
         char buf[MAX_STRING_LENGTH];
@@ -1446,7 +1446,7 @@ void death_cry(CHAR_DATA *ch) {
         if ((pexit = was_in_room->exit[door]) != nullptr && pexit->u1.to_room != nullptr
             && pexit->u1.to_room != was_in_room) {
             ch->in_room = pexit->u1.to_room;
-            act(msg, ch, nullptr, nullptr, To::Room);
+            act(msg, ch);
         }
     }
     ch->in_room = was_in_room;
@@ -2030,7 +2030,7 @@ void dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type
     }
 
     if (ch == victim) {
-        act(buf1, ch, nullptr, nullptr, To::Room);
+        act(buf1, ch);
         act(buf2, ch, nullptr, nullptr, To::Char);
     } else {
         act(buf1, ch, nullptr, victim, To::NotVict);
@@ -2120,7 +2120,7 @@ void do_berserk(CHAR_DATA *ch, const char *argument) {
         ch->hit = UMIN(ch->hit, ch->max_hit);
 
         send_to_char("|RYour pulse races as you are consumed by rage!|w\n\r", ch);
-        act("$n gets a wild look in $s eyes.", ch, nullptr, nullptr, To::Room);
+        act("$n gets a wild look in $s eyes.", ch);
         check_improve(ch, gsn_berserk, true, 2);
 
         af.type = gsn_berserk;
@@ -2363,7 +2363,7 @@ void do_dirt(CHAR_DATA *ch, const char *argument) {
     /* now the attack */
     if (number_percent() < chance) {
         AFFECT_DATA af;
-        act("$n is blinded by the dirt in $s eyes!", victim, nullptr, nullptr, To::Room);
+        act("$n is blinded by the dirt in $s eyes!", victim);
         damage(ch, victim, number_range(2, 5), gsn_dirt, DAM_NONE);
         send_to_char("You can't see a thing!\n\r", victim);
         check_improve(ch, gsn_dirt, true, 2);
@@ -2436,7 +2436,7 @@ void do_trip(CHAR_DATA *ch, const char *argument) {
     if (victim == ch) {
         send_to_char("You fall flat on your face!\n\r", ch);
         WAIT_STATE(ch, 2 * skill_table[gsn_trip].beats);
-        act("$n trips over $s own feet!", ch, nullptr, nullptr, To::Room);
+        act("$n trips over $s own feet!", ch);
         return;
     }
 
@@ -2695,7 +2695,7 @@ void do_flee(CHAR_DATA *ch, const char *argument) {
         ch->in_room = was_in;
         if (ch->ridden_by != nullptr)
             thrown_off(ch->ridden_by, ch);
-        act("$n has fled!", ch, nullptr, nullptr, To::Room);
+        act("$n has fled!", ch);
         ch->in_room = now_in;
 
         if (!IS_NPC(ch)) {
@@ -2853,7 +2853,7 @@ void do_headbutt(CHAR_DATA *ch, const char *argument) {
 
             chance = chance - ch->level + victim->level;
             if ((chance < 5) || !IS_AFFECTED(victim, AFF_BLIND)) {
-                act("$n is blinded by the blood running into $s eyes!", victim, nullptr, nullptr, To::Room);
+                act("$n is blinded by the blood running into $s eyes!", victim);
                 send_to_char("Blood runs into your eyes - you can't see!\n\r", victim);
 
                 af.type = gsn_headbutt;

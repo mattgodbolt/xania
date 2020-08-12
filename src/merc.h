@@ -1265,9 +1265,9 @@ struct CHAR_DATA {
 struct mob_prog_act_list {
     MPROG_ACT_LIST *next;
     char *buf;
-    CHAR_DATA *ch;
-    OBJ_DATA *obj;
-    void *vo;
+    const CHAR_DATA *ch;
+    const OBJ_DATA *obj;
+    const void *vo;
 };
 
 struct mob_prog_data {
@@ -1713,11 +1713,6 @@ extern sh_int gsn_bless;
 #define IS_WEAPON_STAT(obj, stat) (IS_SET((obj)->value[4], (stat)))
 
 /*
- * Description macros.
- */
-#define PERS(ch, looker) (can_see(looker, (ch)) ? (IS_NPC(ch) ? (ch)->short_descr : (ch)->name) : "someone")
-
-/*
  * Structure for a social in the socials table.
  */
 struct social_type {
@@ -1929,13 +1924,13 @@ int material_lookup(char *name);
 int material_guess(char *name);
 int race_lookup(const char *name);
 int class_lookup(const char *name);
-int get_skill(CHAR_DATA *ch, int sn);
+int get_skill(const CHAR_DATA *ch, int sn);
 int get_weapon_sn(CHAR_DATA *ch);
 int get_weapon_skill(CHAR_DATA *ch, int sn);
-int get_age(CHAR_DATA *ch);
+int get_age(const CHAR_DATA *ch);
 void reset_char(CHAR_DATA *ch);
-int get_trust(CHAR_DATA *ch);
-int get_curr_stat(CHAR_DATA *ch, int stat);
+int get_trust(const CHAR_DATA *ch);
+int get_curr_stat(const CHAR_DATA *ch, int stat);
 int get_max_train(CHAR_DATA *ch, int stat);
 int can_carry_n(CHAR_DATA *ch);
 int can_carry_w(CHAR_DATA *ch);
@@ -1945,7 +1940,7 @@ void affect_to_obj(OBJ_DATA *obj, AFFECT_DATA *paf);
 void affect_remove(CHAR_DATA *ch, AFFECT_DATA *paf);
 void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf);
 void affect_strip(CHAR_DATA *ch, int sn);
-bool is_affected(CHAR_DATA *ch, int sn);
+bool is_affected(const CHAR_DATA *ch, int sn);
 AFFECT_DATA *find_affect(CHAR_DATA *ch, int sn);
 void affect_join(CHAR_DATA *ch, AFFECT_DATA *paf);
 void char_from_room(CHAR_DATA *ch);
@@ -1986,8 +1981,11 @@ int get_obj_number(OBJ_DATA *obj);
 int get_obj_weight(OBJ_DATA *obj);
 bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex);
 bool room_is_private(ROOM_INDEX_DATA *pRoomIndex);
-bool can_see(CHAR_DATA *ch, CHAR_DATA *victim);
-bool can_see_obj(CHAR_DATA *ch, OBJ_DATA *obj);
+bool can_see(const CHAR_DATA *ch, const CHAR_DATA *victim);
+inline const char *pers(const CHAR_DATA *ch, const CHAR_DATA *looker) {
+    return can_see(looker, ch) ? (IS_NPC(ch) ? ch->short_descr : ch->name) : "someone";
+}
+bool can_see_obj(const CHAR_DATA *ch, const OBJ_DATA *obj);
 bool can_see_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex);
 bool can_drop_obj(CHAR_DATA *ch, OBJ_DATA *obj);
 const char *item_type_name(OBJ_DATA *obj);
@@ -2051,7 +2049,7 @@ void web_who();
 
 /* xania.c - a mishmash */
 void check_xania();
-int get_skill_level(CHAR_DATA *ch, int gsn);
+int get_skill_level(const CHAR_DATA *ch, int gsn);
 int get_skill_difficulty(CHAR_DATA *ch, int gsn);
 int get_skill_trains(CHAR_DATA *ch, int gsn);
 int get_group_trains(CHAR_DATA *ch, int gsn);
@@ -2070,9 +2068,10 @@ extern TIP_TYPE *tip_current;
 
 void do_mpstat(CHAR_DATA *ch, char *argument);
 
-void mprog_wordlist_check(const char *arg, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *object, void *vo, int type);
+void mprog_wordlist_check(const char *arg, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj, const void *vo,
+                          int type);
 void mprog_percent_check(CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *object, void *vo, int type);
-void mprog_act_trigger(char *buf, CHAR_DATA *mob, CHAR_DATA *ch, OBJ_DATA *obj, void *vo);
+void mprog_act_trigger(char *buf, CHAR_DATA *mob, const CHAR_DATA *ch, const OBJ_DATA *obj, const void *vo);
 void mprog_bribe_trigger(CHAR_DATA *mob, CHAR_DATA *ch, int amount);
 void mprog_entry_trigger(CHAR_DATA *mob);
 void mprog_give_trigger(CHAR_DATA *mob, CHAR_DATA *ch, OBJ_DATA *obj);

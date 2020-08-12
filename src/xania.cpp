@@ -293,7 +293,7 @@ void do_timezone(CHAR_DATA *ch, const char *argument) {
 
 /*****************************************
  ******************************************************************/
-int get_skill_level(CHAR_DATA *ch, int gsn) {
+int get_skill_level(const CHAR_DATA *ch, int gsn) {
     int level = 0, bonus;
 
     if (IS_NPC(ch)) {
