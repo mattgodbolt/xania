@@ -938,7 +938,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         }
 
         if (!fMatch) {
-            bug("Fread_char: no match.");
+            bug("Fread_char: no match: %s", word);
             fread_to_eol(fp);
         }
     }
