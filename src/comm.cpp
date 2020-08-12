@@ -75,6 +75,7 @@ bool MOBtrigger;
 void game_loop_unix(int control);
 int init_socket(const char *file);
 Descriptor *new_descriptor(int channel);
+void reap_closed_sockets();
 bool read_from_descriptor(Descriptor *d, char *text, int nRead);
 void move_active_char_from_limbo(CHAR_DATA *ch);
 
@@ -234,7 +235,6 @@ void game_loop_unix(int control) {
         fd_set out_set;
         fd_set exc_set;
         int maxdesc;
-        Descriptor *d, *dNext;
 
         /*
          * Poll all active descriptors.
@@ -325,11 +325,10 @@ void game_loop_unix(int control) {
                         new_descriptor(p.channel);
                         break;
                     case PACKET_RECONNECT: {
-                        Descriptor *d;
                         snprintf(logMes, sizeof(logMes), "Incoming reconnection on channel %d for %s.", p.channel,
                                  buffer);
                         log_string(logMes);
-                        d = new_descriptor(p.channel);
+                        auto *d = new_descriptor(p.channel);
                         // Login name
                         d->write(buffer);
                         d->write("\n\r");
@@ -350,7 +349,7 @@ void game_loop_unix(int control) {
                         /*
                          * Find the descriptor associated with the channel and close it
                          */
-                        for (d = descriptor_list; d; d = d->next) {
+                        for (auto *d = descriptor_list; d; d = d->next) {
                             if (d->channel() == p.channel) {
                                 if (d->character() && d->character()->level > 1)
                                     save_char_obj(d->character());
@@ -364,34 +363,35 @@ void game_loop_unix(int control) {
                             }
                         }
                         break;
-                    case PACKET_INFO:
+                    case PACKET_INFO: {
                         /*
                          * Find the descriptor associated with the channel
                          */
-                        ok = 0;
-                        for (d = descriptor_list; d; d = d->next) {
+                        Descriptor *found{};
+                        for (auto *d = descriptor_list; d; d = d->next) {
                             if (d->channel() == p.channel) {
-                                ok = 1;
+                                found = d;
                                 auto *data = reinterpret_cast<const InfoData *>(buffer);
                                 d->set_endpoint(data->netaddr, data->port, data->data);
                                 break;
                             }
                         }
-                        if (!ok) {
+                        if (!found) {
                             snprintf(logMes, sizeof(logMes), "Unable to associate info with a descriptor (%d)",
                                      p.channel);
                         } else {
                             snprintf(logMes, sizeof(logMes), "Info from doorman: %d is %s", p.channel,
-                                     d->host().c_str());
+                                     found->host().c_str());
                         }
                         log_string(logMes);
                         break;
+                    }
                     case PACKET_MESSAGE:
                         /*
                          * Find the descriptor associated with the channel
                          */
                         ok = 0;
-                        for (d = descriptor_list; d; d = d->next) {
+                        for (auto *d = descriptor_list; d; d = d->next) {
                             if (d->channel() == p.channel) {
                                 ok = 1;
                                 if (d->character() != nullptr)
@@ -417,8 +417,7 @@ void game_loop_unix(int control) {
          * De-waitstate characters and process pending input
          */
         std::unordered_set<Descriptor *> handled_input;
-        for (d = descriptor_list; d; d = dNext) {
-            dNext = d->next;
+        for (auto *d = descriptor_list; d; d = d->next) {
             d->processing_command(false);
             auto *character = d->character();
             if (character && character->wait > 0)
@@ -439,9 +438,11 @@ void game_loop_unix(int control) {
                     interpret(character, incomm->c_str());
                 else
                     nanny(d, incomm->c_str());
-                // 'd' may be invalid, do no further work on it.
             }
         }
+
+        // Reap any sockets that got closed as a result of input processing or nannying.
+        reap_closed_sockets();
 
         /*
          * Autonomous game motion.
@@ -452,10 +453,7 @@ void game_loop_unix(int control) {
          * Output.
          */
         if (doormanDesc) {
-            Descriptor *d;
-            for (d = descriptor_list; d != nullptr; d = d_next) {
-                d_next = d->next;
-
+            for (auto *d = descriptor_list; d != nullptr; d = d->next) {
                 if (d->processing_command() || d->has_buffered_output()) {
                     if (!process_output(d, true)) {
                         if (d->character() != nullptr && d->character()->level > 1)
@@ -465,6 +463,8 @@ void game_loop_unix(int control) {
                     }
                 }
             }
+            // Reap any sockets that got closed as a result of output handling.
+            reap_closed_sockets();
         }
 
         /*
@@ -530,63 +530,21 @@ Descriptor *new_descriptor(int channel) {
     return dnew;
 }
 
-void close_socket(Descriptor *dclose) {
-    CHAR_DATA *ch;
-    Packet p;
+void close_socket(Descriptor *dclose) { dclose->close(); }
 
-    if (dclose->has_buffered_output())
-        process_output(dclose, false);
-
-    dclose->close();
-
-    if ((ch = dclose->character()) != nullptr) {
-        do_chal_canc(ch);
-        snprintf(log_buf, LOG_BUF_SIZE, "Closing link to %s.", ch->name);
-        log_new(log_buf, EXTRA_WIZNET_DEBUG,
-                (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)) ? get_trust(ch) : 0);
-        if (dclose->is_playing() || dclose->state() == DescriptorState::Disconnecting) {
-            act("$n has lost $s link.", ch);
-            ch->desc = nullptr;
+void reap_closed_sockets() {
+    Descriptor *dnext;
+    Descriptor **dprev = &descriptor_list;
+    for (auto *desc = descriptor_list; desc; desc = dnext) {
+        dnext = desc->next;
+        if (desc->closed()) {
+            *dprev = dnext;
+            // TODO: ideally no naked news/deletes. One day.
+            delete desc;
         } else {
-            free_char(dclose->person());
+            dprev = &desc->next;
         }
-    } else {
-        /*
-         * New code: debug connections that haven't logged in properly
-         * ...at least for level 100s
-         */
-        snprintf(log_buf, LOG_BUF_SIZE, "Closing link to channel %d.", dclose->channel());
-        log_new(log_buf, EXTRA_WIZNET_DEBUG, 100);
     }
-
-    if (d_next == dclose)
-        d_next = d_next->next;
-
-    if (dclose == descriptor_list) {
-        descriptor_list = descriptor_list->next;
-    } else {
-        Descriptor *d;
-
-        for (d = descriptor_list; d && d->next != dclose; d = d->next)
-            ;
-        if (d != nullptr)
-            d->next = dclose->next;
-        else
-            bug("Close_socket: dclose not found.");
-    }
-
-    // If doorman didn't tell us to disconnect them, then tell doorman to kill the connection, else ack the disconnect.
-    if (dclose->state() != DescriptorState::Disconnecting && dclose->state() != DescriptorState::DisconnectingNp) {
-        p.type = PACKET_DISCONNECT;
-    } else {
-        p.type = PACKET_DISCONNECT_ACK;
-    }
-    p.channel = dclose->channel();
-    p.nExtra = 0;
-    SendPacket(&p, nullptr);
-
-    // TODO: ideally no naked news/deletes. One day.
-    delete dclose;
 }
 
 bool read_from_descriptor(Descriptor *d, char *data, int nRead) {

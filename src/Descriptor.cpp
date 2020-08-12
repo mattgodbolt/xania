@@ -30,6 +30,7 @@ const char *short_name_of(DescriptorState state) {
     case DescriptorState::CircumventPassword: return "CPass";
     case DescriptorState::Disconnecting: return "Disc";
     case DescriptorState::DisconnectingNp: return "DiscN";
+    case DescriptorState::Closed: return "Closd";
     }
     return "<UNK>";
 }
@@ -72,6 +73,9 @@ std::optional<std::string> Descriptor::pop_incomm() {
 }
 
 bool Descriptor::write_direct(std::string_view text) const {
+    if (closed())
+        return false;
+
     Packet p;
     p.type = PACKET_MESSAGE;
     p.channel = channel_;
@@ -111,7 +115,7 @@ void Descriptor::set_endpoint(uint32_t netaddr, uint16_t port, std::string_view 
 }
 
 bool Descriptor::flush_output() noexcept {
-    if (outbuf_.empty())
+    if (outbuf_.empty() || closed())
         return true;
 
     if (character_) {
@@ -128,6 +132,8 @@ bool Descriptor::flush_output() noexcept {
 }
 
 void Descriptor::write(std::string_view message) noexcept {
+    if (closed())
+        return;
     // Initial \n\r if needed.
     if (outbuf_.empty() && !processing_command_)
         outbuf_ += "\n\r";
@@ -135,7 +141,7 @@ void Descriptor::write(std::string_view message) noexcept {
     if (outbuf_.size() + message.size() > MaxOutputBufSize) {
         bug("Buffer overflow. Closing.");
         outbuf_.clear(); // Prevent a possible loop where close_socket() might write some last few things to the socket.
-        close_socket(this); // NB a bit hairy, amounts to a `delete this;` The only thing safe to do is return.
+        close();
         return;
     }
 
@@ -143,6 +149,9 @@ void Descriptor::write(std::string_view message) noexcept {
 }
 
 void Descriptor::page_to(std::string_view page) noexcept {
+    if (closed())
+        return;
+
     page_outbuf_ = split_lines<decltype(page_outbuf_)>(page);
     // Drop the last line if it's purely whitespace.
     if (!page_outbuf_.empty() && skip_whitespace(page_outbuf_.back()).empty())
@@ -164,6 +173,9 @@ void Descriptor::show_next_page(std::string_view input) noexcept {
 }
 
 bool Descriptor::try_start_snooping(Descriptor &other) {
+    if (closed() || other.closed())
+        return false;
+
     // If already snooping, early out (to prevent us complaining it's a "snoop loop".
     if (snooping_.count(&other) == 1)
         return true;
@@ -197,12 +209,46 @@ void Descriptor::stop_snooping() {
 }
 
 void Descriptor::close() noexcept {
+    if (closed())
+        return;
+
+    (void)flush_output();
     while (!snoop_by_.empty()) {
         auto &snooper = *snoop_by_.begin();
         snooper->write("Your victim ({}) has left the game.\n\r"_format(character_ ? character_->name : "unknown"));
         snooper->stop_snooping(*this);
     }
     stop_snooping();
+
+    if (character_) {
+        do_chal_canc(character_);
+        log_new("Closing link to {}."_format(character_->name).c_str(), EXTRA_WIZNET_DEBUG,
+                (IS_SET(character_->act, PLR_WIZINVIS) || IS_SET(character_->act, PLR_PROWL)) ? get_trust(character_)
+                                                                                              : 0);
+        if (is_playing() || state_ == DescriptorState::Disconnecting) {
+            act("$n has lost $s link.", character_);
+            character_->desc = nullptr;
+        } else {
+            free_char(person());
+        }
+        character_ = nullptr;
+        original_ = nullptr;
+    } else {
+        log_new("Closing link to channel {}."_format(channel_).c_str(), EXTRA_WIZNET_DEBUG, 100);
+    }
+
+    // If doorman didn't tell us to disconnect them, then tell doorman to kill the connection, else ack the disconnect.
+    Packet p;
+    if (state_ != DescriptorState::Disconnecting && state_ != DescriptorState::DisconnectingNp) {
+        p.type = PACKET_DISCONNECT;
+    } else {
+        p.type = PACKET_DISCONNECT_ACK;
+    }
+    p.channel = channel_;
+    p.nExtra = 0;
+    SendPacket(&p, nullptr);
+
+    state_ = DescriptorState::Closed;
 }
 
 void Descriptor::note_input(std::string_view char_name, std::string_view input) {
@@ -214,6 +260,9 @@ void Descriptor::note_input(std::string_view char_name, std::string_view input) 
 }
 
 void Descriptor::do_switch(CHAR_DATA *victim) {
+    if (closed())
+        return;
+
     if (is_switched())
         throw std::runtime_error("Cannot switch if already switched");
     original_ = character_;
@@ -223,7 +272,7 @@ void Descriptor::do_switch(CHAR_DATA *victim) {
 }
 
 void Descriptor::do_return() {
-    if (!is_switched())
+    if (!is_switched() || closed())
         return;
     character_->desc = nullptr;
     original_->desc = this;

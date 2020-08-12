@@ -30,6 +30,7 @@ enum class DescriptorState {
     CircumventPassword = 18, // used by doorman
     Disconnecting = 254, // disconnecting having been playing
     DisconnectingNp = 255, // disconnecting before playing
+    Closed = 256 // closed
 };
 
 const char *short_name_of(DescriptorState state);
@@ -101,6 +102,7 @@ public:
     void stop_snooping(Descriptor &other);
     void stop_snooping();
 
+    [[nodiscard]] bool closed() const noexcept { return state_ == DescriptorState::Closed; }
     void close() noexcept;
 
     [[nodiscard]] uint32_t channel() const noexcept { return channel_; }
