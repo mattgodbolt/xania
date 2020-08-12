@@ -1486,8 +1486,10 @@ std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg
             continue;
         if (c == '|')
             skip_next = true;
-        c = UPPER(c);
-        break;
+        else {
+            c = UPPER(c);
+            break;
+        }
     }
 
     return buf + "\n\r";
