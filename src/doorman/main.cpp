@@ -25,9 +25,7 @@
 
 namespace {
 
-void usage() {
-    fmt::print(stderr, "Usage: doorman [-h | --help] [-d | --debug] [-p | --port port] [port]\n");
-}
+void usage() { fmt::print(stderr, "Usage: doorman [-h | --help] [-d | --debug] [-p | --port port] [port]\n"); }
 
 int Main(Logger &log, int argc, char *argv[]) {
     int debug = 0;

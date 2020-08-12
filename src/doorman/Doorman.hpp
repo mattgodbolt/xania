@@ -6,8 +6,8 @@
 #include "Logger.hpp"
 #include "Xania.hpp"
 
-#include <seasocks/Server.h>
 #include <memory>
+#include <seasocks/Server.h>
 #include <unordered_map>
 #include <unordered_set>
 
