@@ -27,9 +27,8 @@ struct WeightedResponse {
 class KeywordResponses {
 public:
     explicit KeywordResponses(std::string_view keywords) : keywords_(keywords) {}
-    const char *get_keywords() const { return keywords_.c_str(); } // TODO use string
+    std::string_view get_keywords() const { return keywords_; }
     void add_response(int weight, char *response_message);
-    const WeightedResponse &get_response(int num) const { return responses_[num]; }
     const std::string &get_random_response() const;
 
 private:

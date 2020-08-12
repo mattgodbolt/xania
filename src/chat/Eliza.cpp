@@ -183,8 +183,10 @@ const char *Eliza::handle_player_message(char *response_buf, const char *player_
     int overflow = 10; // runtime check so we dont have circular database links
     do {
         for (auto &keyword_response : databases_[dbnum].keyword_responses()) {
-            uint db_keywords_pos = 0, remaining_input_pos = 0;
-            if (match(keyword_response.get_keywords(), msgbuf, db_keywords_pos, remaining_input_pos)) {
+            auto keywords = keyword_response.get_keywords();
+            std::string_view::iterator it = keywords.begin();
+            uint remaining_input_pos = 0;
+            if (match(keywords, msgbuf, it, remaining_input_pos)) {
                 auto &response = keyword_response.get_random_response();
                 swap_pronouns_and_possessives(&msgbuf[remaining_input_pos]);
                 expand_variables(response_buf, npc_name, response, player_name, &msgbuf[remaining_input_pos]);
@@ -328,8 +330,8 @@ int Eliza::strpos(char *input_msg, char *current_db_keyword) {
     }                                                                                                                  \
     current_db_keyword_len = current_db_keyword[0] = 0;
 
-int Eliza::match(const char db_keywords[], char input_msg[], uint &db_keywords_pos, uint &remaining_input_pos) {
-    auto db_keywords_len = strlen(db_keywords);
+int Eliza::match(std::string_view db_keywords, char input_msg[], std::string_view::iterator &it,
+                 uint &remaining_input_pos) {
     // Records the match result through a sequence of logical expressions (e.g. (foo|bar|baz)
     int progressive_match_result = 1;
     // Records the index into input_msg that the current_db_keyword was matched at, if it was matched,
@@ -337,18 +339,14 @@ int Eliza::match(const char db_keywords[], char input_msg[], uint &db_keywords_p
     int next_match_pos;
     int logical_operator = '\0';
     char current_db_keyword[MaxInputLength];
-    // db_keyword is split on ( ) & | and ~
+    // db_keywords is split on ( ) & | and ~
     // and this var stores a copy of the current token from it.
     current_db_keyword[0] = 0;
     size_t current_db_keyword_len = 0;
-
-    while (db_keywords[db_keywords_pos] != '(')
-        db_keywords_pos++;
-    db_keywords_pos++;
-    for (; db_keywords_pos < db_keywords_len; db_keywords_pos++) {
-        switch (db_keywords[db_keywords_pos]) {
+    for (; it != db_keywords.end(); it++) {
+        switch (*it) {
         case '(':
-            next_match_pos = match(db_keywords, input_msg, db_keywords_pos, remaining_input_pos);
+            next_match_pos = match(db_keywords, input_msg, ++it, remaining_input_pos);
             if (logical_operator == '\0')
                 progressive_match_result = next_match_pos;
             else
@@ -368,9 +366,7 @@ int Eliza::match(const char db_keywords[], char input_msg[], uint &db_keywords_p
                 return progressive_match_result;
 
             break;
-        default:
-            current_db_keyword[current_db_keyword_len++] = db_keywords[db_keywords_pos];
-            current_db_keyword[current_db_keyword_len] = '\0';
+        default: current_db_keyword[current_db_keyword_len++] = *it; current_db_keyword[current_db_keyword_len] = '\0';
         }
     }
     return progressive_match_result;

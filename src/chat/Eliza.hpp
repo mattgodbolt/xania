@@ -61,7 +61,8 @@ private:
     char *trim(char str[]);
     bool eval_operator(const char op, const int a, const int b);
     int strpos(char *s, char *sub);
-    int match(const char db_keyword[], char input_msg[], uint &db_keyword_pos, uint &remaining_input_pos);
+    int match(std::string_view db_keywords, char input_msg[], std::string_view::iterator &it,
+              uint &remaining_input_pos);
 
     bool register_database_name(char *name, int dbnum);
     bool register_database_names(char *names, int dbnum);
