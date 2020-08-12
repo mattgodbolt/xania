@@ -16,18 +16,18 @@ The following files are included with this distribution.
 
 Makefile
 README
-akey.C
+akey.cpp
 akey.hpp
-allkeys.C
+allkeys.cpp
 allkeys.hpp
 chat					#this file will be made by make
 chat.database.example
 chat.doc
-chatmain.C
+chatmain.cpp
 chatmain.hpp
 chatwithme
 demo
-eliza.C
+eliza.cpp
 eliza.hpp
 test.data
 

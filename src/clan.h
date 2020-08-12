@@ -9,36 +9,34 @@
 
 #pragma once
 
-/* Change this for new clans */
-#define NUM_CLANS 4
+// Change this for new clans
+constexpr inline auto NUM_CLANS = 4;
 
-/* Bits in the clan channelflags */
-#define CLANCHANNEL_ON 1
-#define CLANCHANNEL_NOCHANNED 2
+// Bits in the clan channelflags
+constexpr inline auto CLANCHANNEL_ON = 1u;
+constexpr inline auto CLANCHANNEL_NOCHANNED = 2u;
 
-/* OK the real guts */
+// OK the real guts
+constexpr inline auto CLAN_MAX = 4;
+constexpr inline auto CLAN_MEMBER = 0;
+constexpr inline auto CLAN_HERO = CLAN_MAX - 1;
+constexpr inline auto CLAN_LEADER = CLAN_MAX;
 
-#define CLAN_MAX 4
-#define CLAN_MEMBER 0
-#define CLAN_HERO CLAN_MAX - 1
-#define CLAN_LEADER CLAN_MAX
-
-/* CLAN is for an entire clan */
-
-typedef struct _clan {
-    char *name;
-    char *whoname;
-    char clanchar;
-    char *levelname[CLAN_MAX + 1];
+// CLAN is for an entire clan
+struct CLAN {
+    const char *name;
+    const char *whoname;
+    const char clanchar;
+    const char *levelname[CLAN_MAX + 1];
     int recall_vnum;
     int entrance_vnum;
-} CLAN;
+};
 
-/* PCCLAN is a structure all PC's in clans have */
-typedef struct _pcclan {
-    CLAN *clan;
+// PCCLAN is a structure all PC's in clans have
+struct PCCLAN {
+    const CLAN *clan;
     int clanlevel;
-    int channelflags;
-} PCCLAN;
+    unsigned int channelflags;
+};
 
 extern const CLAN clantable[NUM_CLANS];

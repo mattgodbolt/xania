@@ -27,23 +27,19 @@
 #pragma once
 
 #include "clan.h"
-#include "news.h"
 #include "version.h"
+
 #include <crypt.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <string>
 #include <unistd.h>
+#include <utility>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+struct CHAR_DATA;
 
-/**
- * Function pointer for commands run by the interpreter, the do_ functions.
- */
-typedef void (*CommandFunc)(CHAR_DATA *ch, char *argument);
 /**
  * Function pointers for spells.
  */
@@ -59,18 +55,9 @@ typedef bool (*SpecialFunc)(CHAR_DATA *ch);
  * Short scalar types.
  * Diavolo reports AIX compiler has bugs with short types.
  */
-#if !defined(FALSE)
-#define FALSE 0
-#endif
-
-#if !defined(TRUE)
-#define TRUE 1
-#endif
 
 typedef short int sh_int;
-#ifndef __cplusplus
-typedef unsigned char bool;
-#endif
+typedef unsigned short int ush_int;
 
 /* Buffer structure */
 typedef struct _BUFFER BUFFER;
@@ -81,8 +68,8 @@ typedef struct _BUFFER BUFFER;
 typedef struct affect_data AFFECT_DATA;
 typedef struct area_data AREA_DATA;
 typedef struct ban_data BAN_DATA;
-typedef struct char_data CHAR_DATA;
-typedef struct descriptor_data DESCRIPTOR_DATA;
+struct CHAR_DATA;
+class Descriptor;
 typedef struct exit_data EXIT_DATA;
 typedef struct extra_descr_data EXTRA_DESCR_DATA;
 typedef struct help_data HELP_DATA;
@@ -99,9 +86,7 @@ typedef struct room_index_data ROOM_INDEX_DATA;
 typedef struct shop_data SHOP_DATA;
 typedef struct time_info_data TIME_INFO_DATA;
 typedef struct weather_data WEATHER_DATA;
-/* Rohan's finger caching struct */
-typedef struct finger_info FINGER_INFO;
-typedef struct known_players KNOWN_PLAYERS;
+typedef struct known_players KNOWN_PLAYERS; // TODO(#108) remove if unused.
 /* Merc22 MOBProgs */
 typedef struct mob_prog_data MPROG_DATA; /* MOBprogram */
 typedef struct mob_prog_act_list MPROG_ACT_LIST; /* MOBprogram */
@@ -210,60 +195,6 @@ struct weather_data {
 };
 
 /*
- * Connected state for a channel.
- */
-#define CON_PLAYING 0
-#define CON_GET_NAME 1
-#define CON_GET_OLD_PASSWORD 2
-#define CON_CONFIRM_NEW_NAME 3
-#define CON_GET_NEW_PASSWORD 4
-#define CON_CONFIRM_NEW_PASSWORD 5
-#define CON_GET_NEW_RACE 6
-#define CON_GET_NEW_SEX 7
-#define CON_GET_NEW_CLASS 8
-#define CON_GET_ALIGNMENT 9
-#define CON_DEFAULT_CHOICE 10
-#define CON_GEN_GROUPS 11
-#define CON_PICK_WEAPON 12
-#define CON_READ_IMOTD 13
-#define CON_READ_MOTD 14
-#define CON_BREAK_CONNECT 15
-#define CON_GET_ANSI 16
-#define CON_CIRCUMVENT_PASSWORD 18 // used by doorman
-#define CON_DISCONNECTING 254 // disconnecting having been playing
-#define CON_DISCONNECTING_NP 255 // disconnecting before playing
-
-/*
- * Descriptor (channel) structure.
- */
-struct descriptor_data {
-    DESCRIPTOR_DATA *next;
-    DESCRIPTOR_DATA *snoop_by;
-    CHAR_DATA *character;
-    CHAR_DATA *original;
-    char *host;
-    char *logintime;
-    uint32_t descriptor;
-    int netaddr;
-    sh_int connected;
-    sh_int localport;
-    bool fcommand;
-    char inbuf[4 * MAX_INPUT_LENGTH];
-    char incomm[MAX_INPUT_LENGTH];
-    char inlast[MAX_INPUT_LENGTH];
-    int repeat;
-    char *outbuf;
-    int outsize;
-    int outtop;
-    char *showstr_head;
-    char *showstr_point;
-
-    void *pEdit; /* OLC */
-    char **pString; /* OLC */
-    int editor; /* OLC */
-};
-
-/*
  * Attribute bonus structures.
  */
 struct str_app_type {
@@ -275,7 +206,7 @@ struct str_app_type {
 
 struct materials_type {
     sh_int magical_resilience;
-    char *material_name;
+    const char *material_name;
 };
 
 struct int_app_type {
@@ -294,15 +225,6 @@ struct con_app_type {
     sh_int hitp;
     sh_int shock;
 };
-
-/*
- * TO types for act.
- */
-#define TO_ROOM 0
-#define TO_NOTVICT 1
-#define TO_VICT 2
-#define TO_CHAR 3
-#define TO_GIVENROOM 4
 
 /*
  * Help table types.
@@ -343,7 +265,7 @@ struct shop_data {
 #define STAT_CON 4
 
 struct class_type {
-    char *name; /* the full name of the class */
+    const char *name; /* the full name of the class */
     char who_name[4]; /* Three-letter name for 'who'  */
     sh_int attr_prime; /* Prime attribute              */
     sh_int weapon; /* First weapon                 */
@@ -354,55 +276,53 @@ struct class_type {
     sh_int hp_min; /* Min hp gained on leveling    */
     sh_int hp_max; /* Max hp gained on leveling    */
     sh_int fMana; /* Class gains mana on level    */
-    char *base_group; /* base skills gained           */
-    char *default_group; /* default skills gained        */
+    const char *base_group; /* base skills gained           */
+    const char *default_group; /* default skills gained        */
 };
 
 struct attack_type {
-    char *name; /* message in the area file */
-    char *noun; /* message in the mud */
+    const char *name; /* message in the area file */
+    const char *noun; /* message in the mud */
     int damage; /* damage class */
 };
 
 #define MAX_DAM 18 /* this should really be down below with dam types*/
 
 struct dam_string_type {
-
     int amount; /* the amount of damage inflicted */
     /* followed by the nice groovy descriptions */
-    char *dam_types[MAX_DAM];
+    const char *dam_types[MAX_DAM];
 };
 
 struct race_body_type {
-
-    long part_flag; /* one of the PART_* */
-    char *name; /* verbose string */
+    unsigned long part_flag; /* one of the PART_* */
+    const char *name; /* verbose string */
     bool pair; /* do we normally find a pair of these? e.g. arm*/
     sh_int pos; /* lower = 1, middle = 2, upper = 3 */
-    char *spill_msg; /* msg when victim killed */
+    const char *spill_msg; /* msg when victim killed */
     int obj_vnum; /* object to deposit when dead */
 };
 
 struct race_type {
-    char *name; /* call name of the race */
+    const char *name; /* call name of the race */
     bool pc_race; /* can be chosen by pcs */
-    long act; /* act bits for the race */
-    long aff; /* aff bits for the race */
-    long off; /* off bits for the race */
-    long imm; /* imm bits for the race */
-    long res; /* res bits for the race */
-    long vuln; /* vuln bits for the race */
-    long form; /* default form flag for the race */
-    long parts; /* default parts for the race */
+    unsigned long act; /* act bits for the race */
+    unsigned long aff; /* aff bits for the race */
+    unsigned long off; /* off bits for the race */
+    unsigned long imm; /* imm bits for the race */
+    unsigned long res; /* res bits for the race */
+    unsigned long vuln; /* vuln bits for the race */
+    unsigned long form; /* default form flag for the race */
+    unsigned long parts; /* default parts for the race */
 };
 
 struct pc_race_type /* additional data for pc races */
 {
-    char *name; /* MUST be in race_type */
+    const char *name; /* MUST be in race_type */
     char who_name[6];
     sh_int points; /* cost in points of the race */
     sh_int class_mult[MAX_CLASS]; /* exp multiplier for class, * 100 */
-    char *skills[5]; /* bonus skills for the race */
+    const char *skills[5]; /* bonus skills for the race */
     sh_int stats[MAX_STATS]; /* starting stats */
     sh_int max_stats[MAX_STATS]; /* maximum stats */
     sh_int size; /* aff bits for the race */
@@ -449,45 +369,47 @@ struct kill_data {
 
 /* RT ASCII conversions -- used so we can have letters in this file */
 
-#define A 1
-#define B 2
-#define C 4
-#define D 8
-#define E 16
-#define F 32
-#define G 64
-#define H 128
+static constexpr unsigned int BIT(unsigned int bit) { return 1u << bit; }
+static inline constexpr auto A = BIT(0);
+static inline constexpr auto B = BIT(1);
+static inline constexpr auto C = BIT(2);
+static inline constexpr auto D = BIT(3);
+static inline constexpr auto E = BIT(4);
+static inline constexpr auto F = BIT(5);
+static inline constexpr auto G = BIT(6);
+static inline constexpr auto H = BIT(7);
 
-#define I 256
-#define J 512
-#define K 1024
-#define L 2048
-#define M 4096
-#define N 8192
-#define O 16384
-#define P 32768
+static inline constexpr auto I = BIT(8);
+static inline constexpr auto J = BIT(9);
+static inline constexpr auto K = BIT(10);
+static inline constexpr auto L = BIT(11);
+static inline constexpr auto M = BIT(12);
+static inline constexpr auto N = BIT(13);
+static inline constexpr auto O = BIT(14);
+static inline constexpr auto P = BIT(15);
 
-#define Q 65536
-#define R 131072
-#define S 262144
-#define T 524288
-#define U 1048576
-#define V 2097152
-#define W 4194304
-#define X 8388608
+static inline constexpr auto Q = BIT(16);
+static inline constexpr auto R = BIT(17);
+static inline constexpr auto S = BIT(18);
+static inline constexpr auto T = BIT(19);
+static inline constexpr auto U = BIT(20);
+static inline constexpr auto V = BIT(21);
+static inline constexpr auto W = BIT(22);
+static inline constexpr auto X = BIT(23);
 
-#define Y 16777216
-#define Z 33554432
-#define aa 67108864 /* doubled due to conflicts */
-#define bb 134217728
-#define cc 268435456
-#define dd 536870912
-#define ee 1073741824
-#define ff (1 << 31)
+static inline constexpr auto Y = BIT(24);
+static inline constexpr auto Z = BIT(25);
+static inline constexpr auto aa = BIT(26);
+static inline constexpr auto bb = BIT(27);
+static inline constexpr auto cc = BIT(28);
+static inline constexpr auto dd = BIT(29);
+static inline constexpr auto ee = BIT(30);
+static inline constexpr auto ff = BIT(31);
 
 /*
  * ACT bits for mobs.
  * Used in #MOBILES.
+ * TODO make an actual class to hold bits like this.
  */
 #define ACT_IS_NPC (A) /* Auto set for mobs    */
 #define ACT_SENTINEL (B) /* Stays in one room    */
@@ -901,8 +823,6 @@ struct kill_data {
 #define ITEM_HOLD (O)
 #define ITEM_TWO_HANDS (P)
 
-/* OLC uses these */
-
 #define ITEM_WEAR_FLAGS "take finger neck body head legs feet hands arms shield about waist wrist wield hold twohands"
 
 /* weapon class */
@@ -927,10 +847,6 @@ struct kill_data {
 #define WEAPON_PLAGUED (I)
 #define WEAPON_LIGHTNING (J)
 #define WEAPON_ACID (K)
-
-/* OLC uses these */
-
-#define WEAPON_TYPE_FLAGS "flaming frost * sharp * twohands poison plague lightning acid"
 
 /*
  * Apply types (for affects).
@@ -961,10 +877,6 @@ struct kill_data {
 #define APPLY_SAVING_PETRI 22
 #define APPLY_SAVING_BREATH 23
 #define APPLY_SAVING_SPELL 24
-
-/* --- OLC, leave this one as the last item, and increment if new ones added */
-
-#define APPLY_MAX 25
 
 /*
  * Values for containers (value[1]).
@@ -1008,11 +920,6 @@ struct kill_data {
 #define ROOM_HEROES_ONLY (Q)
 #define ROOM_NEWBIES_ONLY (R)
 #define ROOM_LAW (S)
-#define ROOM_SAVEOBJ (T) /*OLC?*/
-
-#define ROOM_FLAGS                                                                                                     \
-    "dark * nomob indoors * * * * * private safe solitary petshop norecall 100imponly 92godonly "                      \
-    "heroonly newbieonly law"
 
 /*
  * Directions.
@@ -1109,14 +1016,19 @@ struct kill_data {
 #define EXTRA_PERMIT 5
 #define EXTRA_WIZNET_TICK 6
 
-/* Rohan: Extra bits that toggle info detail */
-#define EXTRA_INFO_NAME 9
-#define EXTRA_INFO_EMAIL 10
+// Some bits no longer used here. Be aware there *could* be legacy player files where
+// these bits are enabled so consider that if you decide to repurpose them. And
+// maybe write some migration code to force it off on login if the new feature
+// is sensitive to the bit.
+#define EXTRA_UNUSED_1 9
+#define EXTRA_UNUSED_2 10
+
 #define EXTRA_INFO_MESSAGE 11
-#define EXTRA_INFO_URL 12
+
+#define EXTRA_UNUSED_3 12
 
 #define EXTRA_TIP_WIZARD 14
-#define EXTRA_TIP_OLC 15 /* reserved for advanced/olc users */
+#define EXTRA_TIP_UNUSED_4 15
 #define EXTRA_TIP_ADVANCED 16
 
 extern const char *flagname_extra[];
@@ -1226,8 +1138,8 @@ struct mob_index_data {
     char *short_descr;
     char *long_descr;
     char *description;
-    long act;
-    long affected_by;
+    unsigned long act;
+    unsigned long affected_by;
     sh_int alignment;
     sh_int group; /* rom-2.4 style mob groupings */
     sh_int level;
@@ -1253,13 +1165,13 @@ struct mob_index_data {
     MPROG_DATA *mobprogs; /* Used by MOBprogram */
     int progtypes; /* Used by MOBprogram */
 
-    AREA_DATA *area; /* OLC */
+    AREA_DATA *area;
 };
 
 /*
  * One character (PC or NPC).
  */
-struct char_data {
+struct CHAR_DATA {
     CHAR_DATA *next;
     CHAR_DATA *next_in_room;
     CHAR_DATA *master;
@@ -1271,7 +1183,7 @@ struct char_data {
     CHAR_DATA *ridden_by;
     SpecialFunc spec_fun;
     MOB_INDEX_DATA *pIndexData;
-    DESCRIPTOR_DATA *desc;
+    Descriptor *desc;
     AFFECT_DATA *affected;
     NOTE_DATA *pnote;
     OBJ_DATA *carrying;
@@ -1304,14 +1216,14 @@ struct char_data {
     sh_int move;
     sh_int max_move;
     long gold;
-    unsigned long exp;
-    long act;
-    long comm; /* RT added to pad the vector */
-    long imm_flags;
-    long res_flags;
-    long vuln_flags;
+    long exp;
+    unsigned long act;
+    unsigned long comm; /* RT added to pad the vector */
+    unsigned long imm_flags;
+    unsigned long res_flags;
+    unsigned long vuln_flags;
     sh_int invis_level;
-    int affected_by;
+    unsigned int affected_by;
     sh_int position;
     sh_int practice;
     sh_int train;
@@ -1327,13 +1239,13 @@ struct char_data {
     sh_int perm_stat[MAX_STATS];
     sh_int mod_stat[MAX_STATS];
     /* parts stuff */
-    long form;
-    long parts;
+    unsigned long form;
+    unsigned long parts;
     sh_int size;
     sh_int material;
     unsigned long hit_location; /* for verbose combat sequences */
     /* mobile stuff */
-    long off_flags;
+    unsigned long off_flags;
     sh_int damage[3];
     sh_int dam_type;
     sh_int start_pos;
@@ -1341,15 +1253,6 @@ struct char_data {
 
     char *clipboard;
     unsigned long extra_flags[(MAX_EXTRA_FLAGS / 32) + 1];
-    /* News stuff */
-    THREAD *thread;
-    ARTICLE *article;
-    int articlenum;
-    BUFFER *newsbuffer;
-    char *newssubject;
-    char *newsfromname;
-    THREAD *newsreply;
-    MES_ID *mes_hash[MES_HASH];
 
     MPROG_ACT_LIST *mpact; /* Used by MOBprogram */
     int mpactnum; /* Used by MOBprogram */
@@ -1362,9 +1265,9 @@ struct char_data {
 struct mob_prog_act_list {
     MPROG_ACT_LIST *next;
     char *buf;
-    CHAR_DATA *ch;
-    OBJ_DATA *obj;
-    void *vo;
+    const CHAR_DATA *ch;
+    const OBJ_DATA *obj;
+    const void *vo;
 };
 
 struct mob_prog_data {
@@ -1375,7 +1278,7 @@ struct mob_prog_data {
     char *comlist;
 };
 
-bool MOBtrigger;
+extern bool MOBtrigger;
 
 #define ERROR_PROG -1
 #define IN_FILE_PROG 0
@@ -1391,27 +1294,6 @@ bool MOBtrigger;
 #define GIVE_PROG 512
 #define BRIBE_PROG 1024
 
-#if 0
-/* generic structure to describe how Phil the Meerkat feels about different people */
-typedef struct phil_knows PHIL_KNOWS;
-
-struct phil_knows
-{
-	PHIL_KNOWS	*next;
-	char		 name[13];		/* name of person it knows */
-	
-};
-
-/* data which only Phil the Meerkat has - AI shit */
-struct phil_data
-{
-	int			 tiredness;
-	int			 boredness;
-	int			 happiness;
-	PHIL_KNOWS	*firstAcquaintance;
-};
-#endif
-
 /*
  * Data which only PC's have.
  */
@@ -1424,10 +1306,7 @@ struct pc_data {
     char *prompt;
     char *afk;
     char *prefix;
-    char *info_name;
-    char *info_email;
     char *info_message;
-    char *info_url;
     sh_int houroffset;
     sh_int minoffset;
     sh_int perm_hit;
@@ -1443,8 +1322,6 @@ struct pc_data {
     bool confirm_delete;
     bool colour;
     PCCLAN *pcclan;
-
-    int security; /* OLC */
 };
 
 /* Data for generating characters -- only used during generation */
@@ -1456,20 +1333,18 @@ struct gen_data {
 };
 
 /* Rohan's finger_info structure to cache all char's info data */
-struct finger_info {
-    FINGER_INFO *next;
-    char *name;
-    char *info_name;
-    char *info_email;
-    char *info_url;
-    char *info_message;
-    char *last_login_at;
-    char *last_login_from;
-    sh_int invis_level;
-    bool i_name;
-    bool i_email;
-    bool i_url;
-    bool i_message;
+struct FingerInfo {
+    std::string name;
+    std::string info_message;
+    std::string last_login_at;
+    std::string last_login_from;
+    sh_int invis_level{};
+    bool i_message{};
+    explicit FingerInfo(std::string_view name) : name(name) {}
+    FingerInfo(std::string_view name, std::string_view info_message, std::string_view last_login_at,
+               std::string_view last_login_from, sh_int invis_level, bool i_message)
+        : name(name), info_message(info_message), last_login_at(last_login_at), last_login_from(last_login_from),
+          invis_level(invis_level), i_message(i_message) {}
 };
 
 /* We also need a list of all known players: Rohan */
@@ -1485,8 +1360,8 @@ struct known_players {
 #define LIQ_MAX 17
 
 struct liq_type {
-    char *liq_name;
-    char *liq_color;
+    const char *liq_name;
+    const char *liq_color;
     sh_int liq_affect[3];
 };
 
@@ -1515,7 +1390,7 @@ struct obj_index_data {
     sh_int material;
     sh_int item_type;
     int extra_flags;
-    sh_int wear_flags;
+    ush_int wear_flags;
     char *wear_string;
     sh_int level;
     sh_int condition;
@@ -1524,7 +1399,7 @@ struct obj_index_data {
     int cost;
     int value[5];
 
-    AREA_DATA *area; /* OLC */
+    AREA_DATA *area;
 };
 
 /*
@@ -1573,9 +1448,8 @@ struct exit_data {
     char *keyword;
     char *description;
 
-    EXIT_DATA *next; /* OLC */
-    int rs_flags; /* OLC */
-    int orig_door; /* OLC */
+    EXIT_DATA *next;
+    int rs_flags;
 };
 
 /**
@@ -1615,21 +1489,18 @@ struct area_data {
     sh_int nplayer;
     bool empty;
 
-    char *areaname; /* OLC */
-    char *filename; /* OLC */
-    char *builders; /* OLC - Listing of builders */
-    int security; /* OLC - Value 0-infinity  */
-    int lvnum; /* OLC - Lower vnum */
-    int uvnum; /* OLC - Upper vnum */
-    int vnum; /* OLC - Area vnum  */
-    int area_flags; /* OLC */
+    const char *areaname;
+    const char *filename;
+    int lvnum;
+    int uvnum;
+    int vnum;
+    int area_flags;
 };
 
 /* tip wizard type - Faramir Sep 21 1998 */
 
 typedef struct _tip_type {
-
-    char *tip;
+    const char *tip;
     struct _tip_type *next;
 } TIP_TYPE;
 
@@ -1650,7 +1521,7 @@ struct room_index_data {
     sh_int light;
     sh_int sector_type;
 
-    RESET_DATA *reset_first; /* OLC */
+    RESET_DATA *reset_first;
     RESET_DATA *reset_last;
 };
 
@@ -1696,7 +1567,7 @@ struct note_data {
  * Skills include spells as a particular case.
  */
 struct skill_type {
-    char *name; /* Name of skill                */
+    const char *name; /* Name of skill                */
     sh_int skill_level[MAX_CLASS]; /* Level needed by class        */
     sh_int rating[MAX_CLASS]; /* How hard it is to learn      */
 
@@ -1707,14 +1578,14 @@ struct skill_type {
     sh_int slot; /* Slot for #OBJECT loading     */
     sh_int min_mana; /* Minimum mana used            */
     sh_int beats; /* Waiting time after use       */
-    char *noun_damage; /* Damage message               */
-    char *msg_off; /* Wear off message             */
+    const char *noun_damage; /* Damage message               */
+    const char *msg_off; /* Wear off message             */
 };
 
 struct group_type {
-    char *name;
+    const char *name;
     sh_int rating[MAX_CLASS];
-    char *spells[MAX_IN_GROUP];
+    const char *spells[MAX_IN_GROUP];
 };
 
 /*
@@ -1842,23 +1713,17 @@ extern sh_int gsn_bless;
 #define IS_WEAPON_STAT(obj, stat) (IS_SET((obj)->value[4], (stat)))
 
 /*
- * Description macros.
- */
-#define PERS(ch, looker) (can_see(looker, (ch)) ? (IS_NPC(ch) ? (ch)->short_descr : (ch)->name) : "someone")
-
-/*
  * Structure for a social in the socials table.
  */
 struct social_type {
     char name[20];
-    char *char_no_arg;
-    char *others_no_arg;
-    char *char_found;
-    char *others_found;
-    char *vict_found;
-    char *char_not_found;
-    char *char_auto;
-    char *others_auto;
+    const char *char_no_arg;
+    const char *others_no_arg;
+    const char *char_found;
+    const char *others_found;
+    const char *vict_found;
+    const char *char_auto;
+    const char *others_auto;
 };
 
 /*
@@ -1882,31 +1747,23 @@ extern const struct liq_type liq_table[LIQ_MAX + 1];
 extern const struct skill_type skill_table[MAX_SKILL];
 extern const struct group_type group_table[MAX_GROUP];
 extern struct social_type social_table[MAX_SOCIALS];
-extern char *const title_table[MAX_CLASS][MAX_LEVEL + 1][2];
+extern const char *title_table[MAX_CLASS][MAX_LEVEL + 1][2];
 
 struct flag_type {
-    char *name;
+    const char *name;
     int bit;
     bool settable;
 };
 
-extern const struct flag_type area_flags[];
 extern const struct flag_type sex_flags[];
-extern const struct flag_type exit_flags[];
 extern const struct flag_type door_resets[];
 extern const struct flag_type room_flags[];
 extern const struct flag_type sector_flags[];
-extern const struct flag_type type_flags[];
 extern const struct flag_type extra_flags[];
 extern const struct flag_type wear_flags[];
-extern const struct flag_type act_flags[];
-extern const struct flag_type affect_flags[];
-extern const struct flag_type apply_flags[];
-extern const struct flag_type wear_loc_strings[];
-extern const struct flag_type wear_loc_flags[];
-extern const struct flag_type weapon_flags[];
-extern const struct flag_type container_flags[];
-extern const struct flag_type liquid_flags[];
+
+extern const sh_int rev_dir[];
+extern const char *dir_name[];
 
 /*
  * Global variables.
@@ -1916,20 +1773,15 @@ extern SHOP_DATA *shop_first;
 
 extern BAN_DATA *ban_list;
 extern CHAR_DATA *char_list;
-extern DESCRIPTOR_DATA *descriptor_list;
 extern OBJ_DATA *object_list;
 
 extern AFFECT_DATA *affect_free;
 
-extern BAN_DATA *ban_free;
-
 extern CHAR_DATA *char_free;
-extern DESCRIPTOR_DATA *descriptor_free;
 extern EXTRA_DESCR_DATA *extra_descr_free;
 extern OBJ_DATA *obj_free;
 extern PC_DATA *pcdata_free;
 
-extern char bug_buf[];
 extern time_t current_time;
 extern bool fLogAll;
 extern FILE *fpReserve;
@@ -1978,16 +1830,6 @@ extern int max_on;
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
 #define MOB_DIR ""
 
-/*
- * Our function prototypes.
- * One big lump ... this is every function in Merc.
- */
-#define CD CHAR_DATA
-#define MID MOB_INDEX_DATA
-#define OD OBJ_DATA
-#define OID OBJ_INDEX_DATA
-#define RID ROOM_INDEX_DATA
-
 /* act_comm.c */
 void check_sex(CHAR_DATA *ch);
 void add_follower(CHAR_DATA *ch, CHAR_DATA *master);
@@ -1998,12 +1840,12 @@ bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch);
 void thrown_off(CHAR_DATA *ch, CHAR_DATA *pet);
 void fallen_off_mount(CHAR_DATA *ch);
 /* act_info.c */
-void set_title(CHAR_DATA *ch, char *title);
+void set_title(CHAR_DATA *ch, const char *title);
 
 /* act_move.c */
 void move_char(CHAR_DATA *ch, int door);
 void unride_char(CHAR_DATA *ch, CHAR_DATA *pet);
-void do_enter(CHAR_DATA *ch, char *argument);
+void do_enter(CHAR_DATA *ch, const char *argument);
 /* act_obj.c */
 bool can_loot(CHAR_DATA *ch, OBJ_DATA *obj);
 void get_obj(CHAR_DATA *ch, OBJ_DATA *obj, OBJ_DATA *container);
@@ -2011,36 +1853,24 @@ void get_obj(CHAR_DATA *ch, OBJ_DATA *obj, OBJ_DATA *container);
 /* act_wiz.c */
 
 /* ban.c */
-void save_bans(void);
-void load_bans(void);
-bool check_ban(char *site, int type);
-void ban_site(CHAR_DATA *ch, char *site, bool fType);
-
-/* comm.c */
-#define MAX_MASKED_HOSTNAME 64
-unsigned long djb2_hash(const char *str);
-char *get_masked_hostname(char *hostbuf, const char *hostname);
-void show_string(struct descriptor_data *d, char *input);
-void close_socket(DESCRIPTOR_DATA *dclose);
-void write_to_buffer(DESCRIPTOR_DATA *d, const char *txt, int length);
-void send_to_char(const char *txt, CHAR_DATA *ch);
-void page_to_char(const char *txt, CHAR_DATA *ch);
-void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type);
-void act_new(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type, int min_pos);
+void save_bans();
+void load_bans();
+bool check_ban(const char *site, int type);
+void ban_site(CHAR_DATA *ch, const char *site, bool fType);
 
 /* db.c */
-void boot_db(void);
-void area_update(void);
-CD *create_mobile(MOB_INDEX_DATA *pMobIndex);
+void boot_db();
+void area_update();
+CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex);
 void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone);
-OD *create_object(OBJ_INDEX_DATA *pObjIndex, int level);
+OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex, int level);
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
 void clear_char(CHAR_DATA *ch);
 void free_char(CHAR_DATA *ch);
 char *get_extra_descr(const char *name, EXTRA_DESCR_DATA *ed);
-MID *get_mob_index(int vnum);
-OID *get_obj_index(int vnum);
-RID *get_room_index(int vnum);
+MOB_INDEX_DATA *get_mob_index(int vnum);
+OBJ_INDEX_DATA *get_obj_index(int vnum);
+ROOM_INDEX_DATA *get_room_index(int vnum);
 char fread_letter(FILE *fp);
 int fread_number(FILE *fp);
 int fread_spnumber(FILE *fp);
@@ -2058,37 +1888,31 @@ char *str_dup(const char *str);
 void free_string(char *pstr);
 int number_fuzzy(int number);
 int number_range(int from, int to);
-int number_percent(void);
-int number_door(void);
+int number_percent();
+int number_door();
 int number_bits(int width);
-int number_mm(void);
+int number_mm();
 int dice(int number, int size);
 int interpolate(int level, int value_00, int value_32);
-void smash_tilde(char *str);
 bool str_cmp(const char *astr, const char *bstr);
 bool str_prefix(const char *astr, const char *bstr);
 bool str_infix(const char *astr, const char *bstr);
 bool str_suffix(const char *astr, const char *bstr);
 char *capitalize(const char *str);
-void append_file(CHAR_DATA *ch, char *file, char *str);
+void append_file(CHAR_DATA *ch, const char *file, const char *str);
 void bug(const char *str, ...) __attribute__((format(printf, 1, 2)));
 void log_string(const char *str);
 void log_new(const char *str, int loglevel, int level);
-void tail_chain(void);
 
 /* fight.c */
 bool is_safe(CHAR_DATA *ch, CHAR_DATA *victim);
 bool is_safe_spell(CHAR_DATA *ch, CHAR_DATA *victim, bool area);
-void violence_update(void);
+void violence_update();
 void multi_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt);
-#ifndef __cplusplus
-bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int class);
-#else
 bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int _class);
-#endif
 void update_pos(CHAR_DATA *victim);
 void stop_fighting(CHAR_DATA *ch, bool fBoth);
-void do_chal_tick(void);
+void do_chal_tick();
 void do_chal_canc(CHAR_DATA *ch);
 void do_room_check(CHAR_DATA *ch);
 void do_flee_check(CHAR_DATA *ch);
@@ -2100,24 +1924,23 @@ int material_lookup(char *name);
 int material_guess(char *name);
 int race_lookup(const char *name);
 int class_lookup(const char *name);
-bool is_old_mob(CHAR_DATA *ch);
-int get_skill(CHAR_DATA *ch, int sn);
+int get_skill(const CHAR_DATA *ch, int sn);
 int get_weapon_sn(CHAR_DATA *ch);
 int get_weapon_skill(CHAR_DATA *ch, int sn);
-int get_age(CHAR_DATA *ch);
+int get_age(const CHAR_DATA *ch);
 void reset_char(CHAR_DATA *ch);
-int get_trust(CHAR_DATA *ch);
-int get_curr_stat(CHAR_DATA *ch, int stat);
+int get_trust(const CHAR_DATA *ch);
+int get_curr_stat(const CHAR_DATA *ch, int stat);
 int get_max_train(CHAR_DATA *ch, int stat);
 int can_carry_n(CHAR_DATA *ch);
 int can_carry_w(CHAR_DATA *ch);
-bool is_name(char *str, char *namelist);
+bool is_name(const char *str, const char *namelist);
 void affect_to_char(CHAR_DATA *ch, AFFECT_DATA *paf);
 void affect_to_obj(OBJ_DATA *obj, AFFECT_DATA *paf);
 void affect_remove(CHAR_DATA *ch, AFFECT_DATA *paf);
 void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf);
 void affect_strip(CHAR_DATA *ch, int sn);
-bool is_affected(CHAR_DATA *ch, int sn);
+bool is_affected(const CHAR_DATA *ch, int sn);
 AFFECT_DATA *find_affect(CHAR_DATA *ch, int sn);
 void affect_join(CHAR_DATA *ch, AFFECT_DATA *paf);
 void char_from_room(CHAR_DATA *ch);
@@ -2125,7 +1948,7 @@ void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex);
 void obj_to_char(OBJ_DATA *obj, CHAR_DATA *ch);
 void obj_from_char(OBJ_DATA *obj);
 int apply_ac(OBJ_DATA *obj, int iWear, int type);
-OD *get_eq_char(CHAR_DATA *ch, int iWear);
+OBJ_DATA *get_eq_char(CHAR_DATA *ch, int iWear);
 void equip_char(CHAR_DATA *ch, OBJ_DATA *obj, int iWear);
 void unequip_char(CHAR_DATA *ch, OBJ_DATA *obj);
 int count_obj_list(OBJ_INDEX_DATA *obj, OBJ_DATA *list);
@@ -2144,47 +1967,49 @@ bool is_switched(CHAR_DATA *ch);
 /* MRG added */
 bool check_sub_issue(OBJ_DATA *obj, CHAR_DATA *ch);
 
-CD *get_char_room(CHAR_DATA *ch, char *argument);
-CD *get_char_world(CHAR_DATA *ch, char *argument);
-CD *get_mob_by_vnum(sh_int vnum);
-OD *get_obj_type(OBJ_INDEX_DATA *pObjIndexData);
-OD *get_obj_list(CHAR_DATA *ch, char *argument, OBJ_DATA *list);
-OD *get_obj_carry(CHAR_DATA *ch, char *argument);
-OD *get_obj_wear(CHAR_DATA *ch, char *argument);
-OD *get_obj_here(CHAR_DATA *ch, char *argument);
-OD *get_obj_world(CHAR_DATA *ch, char *argument);
-OD *create_money(int amount);
+CHAR_DATA *get_char_room(CHAR_DATA *ch, const char *argument);
+CHAR_DATA *get_char_world(CHAR_DATA *ch, const char *argument);
+CHAR_DATA *get_mob_by_vnum(sh_int vnum);
+OBJ_DATA *get_obj_type(OBJ_INDEX_DATA *pObjIndexData);
+OBJ_DATA *get_obj_list(CHAR_DATA *ch, const char *argument, OBJ_DATA *list);
+OBJ_DATA *get_obj_carry(CHAR_DATA *ch, const char *argument);
+OBJ_DATA *get_obj_wear(CHAR_DATA *ch, const char *argument);
+OBJ_DATA *get_obj_here(CHAR_DATA *ch, const char *argument);
+OBJ_DATA *get_obj_world(CHAR_DATA *ch, const char *argument);
+OBJ_DATA *create_money(int amount);
 int get_obj_number(OBJ_DATA *obj);
 int get_obj_weight(OBJ_DATA *obj);
 bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex);
 bool room_is_private(ROOM_INDEX_DATA *pRoomIndex);
-bool can_see(CHAR_DATA *ch, CHAR_DATA *victim);
-bool can_see_obj(CHAR_DATA *ch, OBJ_DATA *obj);
+bool can_see(const CHAR_DATA *ch, const CHAR_DATA *victim);
+inline const char *pers(const CHAR_DATA *ch, const CHAR_DATA *looker) {
+    return can_see(looker, ch) ? (IS_NPC(ch) ? ch->short_descr : ch->name) : "someone";
+}
+bool can_see_obj(const CHAR_DATA *ch, const OBJ_DATA *obj);
 bool can_see_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex);
 bool can_drop_obj(CHAR_DATA *ch, OBJ_DATA *obj);
-char *item_type_name(OBJ_DATA *obj);
-char *item_index_type_name(OBJ_INDEX_DATA *obj);
-char *affect_loc_name(int location);
-char *affect_bit_name(int vector);
-char *extra_bit_name(int extra_flags);
-char *wear_bit_name(int wear_flags);
-char *act_bit_name(int act_flags);
-char *off_bit_name(int off_flags);
-char *imm_bit_name(int imm_flags);
-char *form_bit_name(int form_flags);
-char *part_bit_name(int part_flags);
-char *weapon_bit_name(int weapon_flags);
-char *comm_bit_name(int comm_flags);
+const char *item_type_name(OBJ_DATA *obj);
+const char *item_index_type_name(OBJ_INDEX_DATA *obj);
+const char *affect_loc_name(int location);
+const char *affect_bit_name(int vector);
+const char *extra_bit_name(int extra_flags);
+const char *wear_bit_name(int wear_flags);
+const char *act_bit_name(int act_flags);
+const char *off_bit_name(int off_flags);
+const char *imm_bit_name(int imm_flags);
+const char *form_bit_name(int form_flags);
+const char *part_bit_name(int part_flags);
+const char *weapon_bit_name(int weapon_flags);
+const char *comm_bit_name(int comm_flags);
 void tolower_articles(char *string);
 
 /* info.c */
-void load_player_list(void);
+void load_player_list();
 
 /* interp.c */
-void interpret(CHAR_DATA *ch, char *argument);
-bool is_number(char *arg);
-int number_argument(char *argument, char *arg);
-char *one_argument(char *argument, void *arg_first);
+void interpret(CHAR_DATA *ch, const char *argument);
+const char *one_argument(const char *argument, char *arg_first);
+char *one_argument(char *argument, char *arg_first); // TODO(MRG) get rid of this as soon as we can.
 
 /* magic.c */
 int mana_cost(CHAR_DATA *ch, int min_mana, int level);
@@ -2195,12 +2020,11 @@ void obj_cast_spell(int sn, int level, CHAR_DATA *ch, CHAR_DATA *victim, OBJ_DAT
 
 /* save.c */
 void save_char_obj(CHAR_DATA *ch);
-bool load_char_obj(DESCRIPTOR_DATA *d, char *name);
+bool load_char_obj(Descriptor *d, const char *name);
 
 /* skills.c */
-bool parse_gen_groups(CHAR_DATA *ch, char *argument);
+bool parse_gen_groups(CHAR_DATA *ch, const char *argument);
 void list_group_costs(CHAR_DATA *ch);
-void list_group_known(CHAR_DATA *ch);
 unsigned int exp_per_level(CHAR_DATA *ch, int points);
 void check_improve(CHAR_DATA *ch, int sn, bool success, int multiplier);
 int group_lookup(const char *name);
@@ -2216,24 +2040,16 @@ SpecialFunc spec_lookup(const char *name);
 void advance_level(CHAR_DATA *ch);
 void gain_exp(CHAR_DATA *ch, int gain);
 void gain_condition(CHAR_DATA *ch, int iCond, int value);
-void update_handler(void);
+void update_handler();
 bool is_safe_sentient(CHAR_DATA *ch, CHAR_DATA *wch);
 
 /* web page functions */
 bool web_see(CHAR_DATA *ch);
-void web_who(void);
-
-/* dbextras.c */
-int create_new_room(int lower, int higher);
-int destroy_room(int vnum);
-char *print_flags(const int value);
-/* NB only use this is you *Really* have to */
-int save_whole_area(char *area_name, char *filename);
-/* Saves all rooms/mobs/resets/etc being edited */
+void web_who();
 
 /* xania.c - a mishmash */
-void check_xania(void);
-int get_skill_level(CHAR_DATA *ch, int gsn);
+void check_xania();
+int get_skill_level(const CHAR_DATA *ch, int gsn);
 int get_skill_difficulty(CHAR_DATA *ch, int gsn);
 int get_skill_trains(CHAR_DATA *ch, int gsn);
 int get_group_trains(CHAR_DATA *ch, int gsn);
@@ -2241,35 +2057,21 @@ int get_group_level(CHAR_DATA *ch, int gsn);
 int check_material_vulnerability(CHAR_DATA *ch, OBJ_DATA *object);
 int get_skill_learned(CHAR_DATA *ch, int gsn);
 
-void load_tipfile(void); /* tip wizard - Faramir 21 Sep 1998 */
-void tip_players(void);
+void load_tipfile(); /* tip wizard - Faramir 21 Sep 1998 */
+void tip_players();
 
 extern bool ignore_tips;
 extern TIP_TYPE *tip_top; /* top of list (humour!) */
 extern TIP_TYPE *tip_current;
 
-/* clan functions */
-
-void do_clantalk(CHAR_DATA *ch, char *argument);
-void do_noclanchan(CHAR_DATA *ch, char *argument);
-void do_member(CHAR_DATA *ch, char *argument);
-void mote(CHAR_DATA *ch, char *argument, int add);
-void do_promote(CHAR_DATA *ch, char *argument);
-void do_demote(CHAR_DATA *ch, char *argument);
-void do_clanwho(CHAR_DATA *ch, char *argument);
-void do_clanset(CHAR_DATA *ch, char *argument);
-
-/*
- * end clan section. Faramir 25/6/1996
- */
-
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998*/
 
 void do_mpstat(CHAR_DATA *ch, char *argument);
 
-void mprog_wordlist_check(char *arg, CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *object, void *vo, int type);
+void mprog_wordlist_check(const char *arg, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj, const void *vo,
+                          int type);
 void mprog_percent_check(CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *object, void *vo, int type);
-void mprog_act_trigger(char *buf, CHAR_DATA *mob, CHAR_DATA *ch, OBJ_DATA *obj, void *vo);
+void mprog_act_trigger(const char *buf, CHAR_DATA *mob, const CHAR_DATA *ch, const OBJ_DATA *obj, const void *vo);
 void mprog_bribe_trigger(CHAR_DATA *mob, CHAR_DATA *ch, int amount);
 void mprog_entry_trigger(CHAR_DATA *mob);
 void mprog_give_trigger(CHAR_DATA *mob, CHAR_DATA *ch, OBJ_DATA *obj);
@@ -2278,11 +2080,7 @@ void mprog_fight_trigger(CHAR_DATA *mob, CHAR_DATA *ch);
 void mprog_hitprcnt_trigger(CHAR_DATA *mob, CHAR_DATA *ch);
 void mprog_death_trigger(CHAR_DATA *mob);
 void mprog_random_trigger(CHAR_DATA *mob);
-void mprog_speech_trigger(char *txt, CHAR_DATA *mob);
-
-/*****************************************************************************
- *                                   ILAB OLC                                *
- *****************************************************************************/
+void mprog_speech_trigger(const char *txt, CHAR_DATA *mob);
 
 /*
  * Object defined in limbo.are
@@ -2294,30 +2092,10 @@ void mprog_speech_trigger(char *txt, CHAR_DATA *mob);
  * Area flags.
  */
 #define AREA_NONE 0
-#define AREA_CHANGED 1 /* Area has been modified. */
-#define AREA_ADDED 2 /* Area has been added to. */
 #define AREA_LOADING 4 /* Used for counting in db.c */
-#define AREA_VERBOSE 8 /* ???? */
-#define AREA_DELETE 16 /* These area's won't be saved in the list */
-#define AREA_UNFINISHED 32 /* Area is not finished yet. */
-#define AREA_PKZONE 64 /* Player killing is alowed in this zone */
-#define AREA_CONQUEST 128 /* Can this area be conqquered? */
-#define AREA_ARENA 256 /* Player kan pk eachother without losing anything */
 
 #define MAX_DIR 6
 #define NO_FLAG -99 /* Must not be used in flags or stats. */
-
-#undef CD
-#undef MID
-#undef OD
-#undef OID
-#undef RID
-
-#ifdef __cplusplus
-};
-#endif
-
-#include "chat/chatlink.h"
 
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
 #define MACRO_STRINGIFY_(s) #s

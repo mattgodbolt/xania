@@ -9,17 +9,17 @@
 
 #pragma once
 
-typedef struct char_data CHAR_DATA;
+struct CHAR_DATA;
 
-#define INVALID_BIT (-1)
+static constexpr auto INVALID_BIT = static_cast<unsigned long>(-1);
 
 /* Takes: a template string of the form 'flag flag flag', or '*' for no flag,
  *	  ptr to a string of the form '+flagname -flagname flagname' to set, clear toggle in that article
  *	  current value of flag
  *	  the character attempting to modify the flag
  */
-long flag_set(char *template, char *arg, long current_val, CHAR_DATA *ch);
+unsigned long flag_set(const char *format, const char *arg, unsigned long current_val, CHAR_DATA *ch);
 /*
  * Display the current flags
  */
-void display_flags(char *template, CHAR_DATA *ch, int current_val);
+void display_flags(const char *format, CHAR_DATA *ch, unsigned long current_val);

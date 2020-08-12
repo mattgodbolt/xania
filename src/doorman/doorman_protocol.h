@@ -16,10 +16,6 @@
 
 #include <stdint.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define XANIA_FILE "/tmp/.xania-%d-%s"
 
 /*
@@ -55,7 +51,3 @@ typedef struct tagPacket {
     uint32_t channel; /* The channel number */
     char data[0]; /* nExtra bytes live here onwards */
 } Packet;
-
-#ifdef __cplusplus
-}
-#endif

@@ -234,8 +234,7 @@ Xania is hibernating at the moment, sorry!
 0 FINGER~
 Usage: finger <character name>
 
-This command shows information about a character, like his/her real name,
-email address, home page address and a message. In addition, if you have
+This command shows information about a character. In addition, if you have
 the privilege to do so, you will be shown the last time that this character
 was logged into Xania. This is mostly useful to immortals and to clan
 leaders to track whether players have been logged in or not.
@@ -666,63 +665,10 @@ note - 		: removes last line from note
 note clear	: erase a note in progress
 note show	: shows the note you are working on
 note post	: posts a new note. This MUST be done to post a note.
+note send	: synonym for 'note post'.
 
 When you log in, you will be informed if there are unread notes waiting. Type
 note read to scroll through them one at a time.
-~
-0 NEWS BULLETIN BOARD~
-A facility new to Xania is the news system.  This system replaces the very
-messy notes as a medium for discussion on the Mud.  Instead of many notes to
-'all' about facilities, you can now post to the news base, which works in a
-very similar way to USENET news on the Internet.  News is organised into
-threads, which are like notes which have been grouped under a single
-category.  Each 'note' within a thread is known as an article.
-Using the news system is fairly self-explanatory :
-
-|WReading news:|w
-news next         : Show the next unread article in your current thread.  If
-                    there are no more articles in the thread, note next will
-                    automatically move onto the next unread thread
-news read <num>   : Reads a specific article from within the current thread
-news list         : Lists all of the threads, and their subjects
-news thread <num> : Selects thread <num> as the current thread
-news articles     : Shows a list of the articles within the current thread
-news delete <num> : Deletes an article in the current thread, provided
-                    you wrote the article
-news skip         : Skip to the next thread, ignoring any articles left
-                    in the current thread
-news catchup      : Marks the whole currently selected thread as read
-news uncatchup    : Marks the whole currently selected thread as unread
-
-|WStarting a new thread:|w
-news compose <subject> : Compose a new thread with the given subject
-
-|WReplying to the currently selected thread:|w
-news reply        : Replies to the currently selected thread
-
-|WEditing your composition:|w
-news + <line>     : Add <line> to your current composition
-news -            : Remove a line from your composition
-news show         : Display your composition
-news post         : Complete your composition and add it into the news base
-news clear        : Abandon your composition
-
-For those people using clients that expand 'news' into north, east, west and
-south, you may use the synonym 'mail'
-~
-0 MAIL~
-The mail command is a synonym for news, and has exactly the same syntax.  It
-is purely for people who's MUD clients expand the 'news' command into the
-directional commands 'north, east, west, south'
-
-See help |cnews|w.
-~
-92 IMMNEWS~
-In addition to the mortal news commands, IMMs have a few more facilities :
-news flags <flaglist>  : Changes the flags on the current thread.  To get
-                         a list of possible flags, omit the <flaglist>
-news expiry (98+ only) : Sets the expiry time (in days) of a thread
-news from   (98+ only) : Sets the 'from' field of a message
 ~
 0 SCAN~
 Scan is a useful command which permits you to look around to locate any
@@ -1389,9 +1335,8 @@ Syntax: sockets
 	sockets <name>
 
 SOCKETS reports all of the visible users connected to the server, including
-users in the process of logging in.  The two numbers inside brackets are the
-channel number and the 'connected' state.  The 'connected' states are listed in
-merc.h: 0 is CON_PLAYING; non-zero values are various states of logging in.
+users in the process of logging in.  The number inside brackets is the
+channel number, and the short string indicates the 'connected' state.
 
 The output also displays the masked source IP address of the client, along with
 a unique number generated from that address. This enables you to spot characters
@@ -1435,27 +1380,22 @@ room flags, use 'set obj <obj> extra ?' or similar.
 ~
 
 0 SETINFO~
-This command is used to set information about yourself. Other characters can
-see this information when they use the finger command with your character name.
+This command can be used to store a message that other characters can
+see using the 'finger' command even if you are logged out.
 
 The usage is as follows:
 setinfo			Shows the current settings.
-setinfo name <Name>	Sets the name field to 'Name'.
-setinfo email <Email>	Sets the email field to 'Email'.
-setinfo url <URL>	Sets the url field to 'URL'.
-setinfo message <Mes>	Sets the mesage field to <Mes>.
-setinfo show name||email||url||message
-			Makes the respective field showable to other
+setinfo message <Mes>	Sets the message field to <Mes>.
+setinfo show message
+			Makes the 'message' field visible to other
 			characters when they view your information.
-setinfo hide name||email||url||message
-			Hides the information contained in the field when
+setinfo hide message
+			Hides the 'message' field when
 			characters view your information.
 setinfo clear		Clears all the fields.
 
-When you set a field, it is automatically made showable to other players.
-Fields have a maximum length of 45 charaters. If you go above this, the
-field will be cut short. Please be sensible about the contents of the
-fields.
+When you set the message, it is automatically visible to other players.
+Please be sensible about the contents of the message.
 ~
 
 98 FLAGS~
@@ -1608,7 +1548,8 @@ god level.
 
 93 HOLYLIGHT INVIS PROWL~
 Syntax: holylight
-	winvis <level>
+	invis <level>
+	wizinvis <level>
         prowl <level>
 
 Holylight is a toggle that allows you to see (almost) every character and
@@ -2477,11 +2418,9 @@ Syntax:
 
 
 0 ALIST~
-Xania on-line creation utilities.
-
 Syntax:  alist
 
-This command lists all areas and related information.
+This command lists all areas, their vnum ranges and area file names.
 ~
 
 0 TIPWIZARD TIPS~

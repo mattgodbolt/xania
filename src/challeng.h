@@ -10,12 +10,12 @@
 #pragma once
 #include "merc.h"
 
-/* To keep things general. */
+#define CHAL_VIEWING_GALLERY 1222
 #define CHAL_ROOM 30011
 #define CHAL_PREP 30012
 
 int fighting_duel(CHAR_DATA *ch, CHAR_DATA *victim);
 int in_duel(CHAR_DATA *ch);
-void do_chal_tick(void);
+void do_chal_tick();
 int do_check_chal(CHAR_DATA *ch);
 void raw_kill(CHAR_DATA *victim);

@@ -20,8 +20,10 @@ set(BUILD_COMMIT_URL "https://this.is.a.local.build/1234" CACHE STRING "Full str
 
 set(CMAKE_CXX_STANDARD 17)
 add_compile_options(-Werror -Wall -Wextra)
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=leak -fsanitize=address -fsanitize=undefined")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=leak -fsanitize=address -fsanitize=undefined")
+
+# -static-libasan is required to prevent doorman+xania from crashing on startup (with some error about LD_PRELOAD)
+# when you build with 'make'.
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=leak -fsanitize=address -fsanitize=undefined -static-libasan")
 
 include(scripts/conan.cmake)
 
@@ -32,6 +34,8 @@ conan_add_remote(NAME bincrafters INDEX 1
 conan_cmake_run(CONANFILE conanfile.txt
         BASIC_SETUP CMAKE_TARGETS
         BUILD missing)
+
+set(CMAKE_INSTALL_MESSAGE NEVER) # prevent logging installation messages
 
 enable_testing()
 

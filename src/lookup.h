@@ -20,14 +20,10 @@
 
 #include "merc.h"
 
-int flag_lookup(const char *name, const struct flag_type *flag_table);
-int flag_value(const struct flag_type *flag_table, char *argument);
-char *flag_string(const struct flag_type *flag_table, int bits);
 int position_lookup(const char *name);
 int sex_lookup(const char *name);
 int size_lookup(const char *name);
 
-int weapon_lookup(const char *name);
 int liq_lookup(const char *name);
 int item_lookup(const char *name);
 int item_lookup_strict(const char *name);

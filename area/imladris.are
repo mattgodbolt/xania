@@ -2699,8 +2699,8 @@ away.
 ~
 
 #12013
-silk neglige~
-a lavender coloured silk neglige~
+silk negligee~
+a lavender coloured silk negligee~
 A pile of silk has been crumpled up on the ground.~
 vellum~
 armor I AK
@@ -3406,7 +3406,7 @@ E 1 12011 3 16		axe
 E 1 12010 4 14		bracer
 
 M 0 12006 1 12073 1  1        princess  
-E 1 12013 3 12          neglige
+E 1 12013 3 12          negligee
 E 1 12012 3 17          phial
 
 M 0 12007 1 12004 1  1        warrior  

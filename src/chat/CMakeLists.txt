@@ -1,1 +1,1 @@
-add_library(chat akey.C akey.hpp allkeys.C allkeys.hpp chatmain.C chatmain.hpp eliza.C eliza.hpp)
+add_library(chat KeywordResponses.cpp KeywordResponses.hpp Database.hpp chatmain.cpp Eliza.cpp Eliza.hpp)
