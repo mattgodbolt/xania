@@ -30,6 +30,7 @@
 #include <cstring>
 #include <ctime>
 #include <fcntl.h>
+#include <fmt/format.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <string>
@@ -39,6 +40,8 @@
 #include <sys/types.h>
 #include <sys/un.h>
 #include <unistd.h>
+
+using namespace fmt::literals;
 
 /* Added by Rohan - extern to player list for adding new players to it */
 extern KNOWN_PLAYERS *player_list;
@@ -1378,32 +1381,127 @@ void page_to_char(const char *txt, CHAR_DATA *ch) {
     ch->desc->page_to(txt);
 }
 
-void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type) {
+void act(std::string_view format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type) {
     act(format, ch, arg1, arg2, type, POS_RESTING);
 }
 
-void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type, int min_pos) {
+namespace {
+
+std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, const CHAR_DATA *to,
+                       const CHAR_DATA *vch) {
     static const char *const he_she[] = {"it", "he", "she"};
     static const char *const him_her[] = {"it", "him", "her"};
     static const char *const his_her[] = {"its", "his", "her"};
 
-    char buf[MAX_STRING_LENGTH];
-    char fname[MAX_INPUT_LENGTH];
+    std::string buf;
+
+    bool prev_was_dollar = false;
+    for (auto c : format) {
+        if (!std::exchange(prev_was_dollar, false)) {
+            if (c != '$') {
+                prev_was_dollar = false;
+                buf.push_back(c);
+            } else {
+                prev_was_dollar = true;
+            }
+            continue;
+        }
+
+        if (std::holds_alternative<nullptr_t>(arg2) && c >= 'A' && c <= 'Z') {
+            bug("Act: missing arg2 for code %d.", c);
+            continue;
+        }
+
+        switch (c) {
+        default:
+            bug("Act: bad code %d.", c);
+            break;
+            /* Thx alex for 't' idea */
+        case 't': {
+            if (auto arg1_as_string_ptr = std::get_if<std::string_view>(&arg1)) {
+                buf += *arg1_as_string_ptr;
+            } else {
+                bug("%s", "$t passed but arg1 was not a string in '{}'"_format(format).c_str());
+            }
+            break;
+        }
+        case 'T': {
+            if (auto arg2_as_string_ptr = std::get_if<std::string_view>(&arg2)) {
+                buf += *arg2_as_string_ptr;
+            } else {
+                bug("%s", "$T passed but arg2 was not a string in '{}'"_format(format).c_str());
+            }
+            break;
+        }
+        case 'n': buf += pers(ch, to); break;
+        case 'N': buf += pers(vch, to); break;
+        case 'e': buf += he_she[URANGE(0, ch->sex, 2)]; break;
+        case 'E': buf += he_she[URANGE(0, vch->sex, 2)]; break;
+        case 'm': buf += him_her[URANGE(0, ch->sex, 2)]; break;
+        case 'M': buf += him_her[URANGE(0, vch->sex, 2)]; break;
+        case 's': buf += his_her[URANGE(0, ch->sex, 2)]; break;
+        case 'S': buf += his_her[URANGE(0, vch->sex, 2)]; break;
+
+        case 'p': {
+            if (auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1)) {
+                auto &obj1 = *arg1_as_obj_ptr;
+                buf += can_see_obj(to, obj1) ? obj1->short_descr : "something";
+            } else {
+                bug("%s", "$p passed but arg1 was not an object in '{}'"_format(format).c_str());
+                buf += "something";
+            }
+            break;
+        }
+
+        case 'P': {
+            if (auto arg2_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg2)) {
+                auto &obj2 = *arg2_as_obj_ptr;
+                buf += can_see_obj(to, obj2) ? obj2->short_descr : "something";
+            } else {
+                bug("%s", "$p passed but arg2 was not an object in '{}'"_format(format).c_str());
+                buf += "something";
+            }
+            break;
+        }
+
+        case 'd': {
+            if (auto arg2_as_string_ptr = std::get_if<std::string_view>(&arg2);
+                arg2_as_string_ptr != nullptr && (*arg2_as_string_ptr)[0] != '\0') {
+                std::string arg2_as_string(*arg2_as_string_ptr); // TODO: once one_argument is not so sucky, change this
+                char fname[MAX_INPUT_LENGTH];
+                one_argument(arg2_as_string.c_str(), fname);
+                buf += fname;
+            } else {
+                buf += "door";
+            }
+            break;
+        }
+        }
+    }
+
+    // Uppercase the first non-colour-sequence letter.
+    bool skip_next{false};
+    for (auto &c : buf) {
+        if (skip_next)
+            continue;
+        if (c == '|')
+            skip_next = true;
+        c = UPPER(c);
+        break;
+    }
+
+    return buf + "\n\r";
+}
+
+}
+
+void act(std::string_view format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type, int min_pos) {
+    if (format.empty() || !ch || !ch->in_room)
+        return;
+
+    const CHAR_DATA *vch = std::get_if<const CHAR_DATA *>(&arg2) ? *std::get_if<const CHAR_DATA *>(&arg2) : nullptr;
+
     CHAR_DATA *to; // begrudgingly mutable because mobprogs...
-    const CHAR_DATA *vch{};
-
-    const char *str;
-    const char *i;
-    char *point;
-    buf[0] = '\0';
-
-    /* Discard null and zero-length messages. */
-    if (format == nullptr || format[0] == '\0')
-        return;
-
-    /* discard null rooms and chars */
-    if (ch == nullptr || ch->in_room == nullptr)
-        return;
     switch (type) {
     case To::GivenRoom: {
         auto arg2_as_room_ptr = std::get_if<const ROOM_INDEX_DATA *>(&arg2);
@@ -1415,13 +1513,10 @@ void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type,
         break;
     }
     case To::Vict: {
-        auto arg2_as_char_ptr = std::get_if<const CHAR_DATA *>(&arg2);
-
-        if (arg2_as_char_ptr == nullptr || *arg2_as_char_ptr == nullptr) {
-            bug("Act: null vch with To::Vict.");
+        if (vch == nullptr) {
+            bug("%s", "Act: null or incorrect type of vch with To::Vict with format '{}'"_format(format).c_str());
             return;
         }
-        vch = *arg2_as_char_ptr;
         if (vch->in_room == nullptr)
             return;
 
@@ -1434,7 +1529,7 @@ void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type,
     for (; to != nullptr; to = to->next_in_room) {
         if (to->desc == nullptr || to->position < min_pos)
             continue;
-
+        // TODO: this is a heinous mass of complex logic. Untangle...
         if (type == To::Char && to != ch)
             continue;
         if (type == To::Vict && (to != vch || to == ch))
@@ -1445,128 +1540,26 @@ void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type,
             continue;
         if (type == To::NotVict && (to == ch || to == vch) && ch->in_room->vnum != CHAL_ROOM)
             continue;
+        if ((type == To::Room && to == ch) || (type == To::NotVict && (to == ch || to == vch)))
+            continue;
 
-        point = buf;
-        str = format;
-        while (*str != '\0') {
-            if (*str != '$') {
-                *point++ = *str++;
-                continue;
-            }
-            ++str;
-
-            if (std::holds_alternative<nullptr_t>(arg2) && *str >= 'A' && *str <= 'Z') {
-                bug("Act: missing arg2 for code %d.", *str);
-                i = " <@@@> ";
-            } else {
-                switch (*str) {
-                default:
-                    bug("Act: bad code %d.", *str);
-                    i = " <@@@> ";
-                    break;
-                    /* Thx alex for 't' idea */
-                case 't': {
-                    if (auto arg1_as_string_ptr = std::get_if<const char *>(&arg1)) {
-                        i = *arg1_as_string_ptr;
-                    } else {
-                        bug("$t passed but arg1 was not a string in '%s'", format);
-                        i = "<@@@>";
-                    }
-                    break;
-                }
-                case 'T': {
-                    if (auto arg2_as_string_ptr = std::get_if<const char *>(&arg2)) {
-                        i = *arg2_as_string_ptr;
-                    } else {
-                        bug("$T passed but arg2 was not a string in '%s'", format);
-                        i = "<@@@>";
-                    }
-                    break;
-                }
-                case 'n': i = pers(ch, to); break;
-                case 'N': i = pers(vch, to); break;
-                case 'e': i = he_she[URANGE(0, ch->sex, 2)]; break;
-                case 'E': i = he_she[URANGE(0, vch->sex, 2)]; break;
-                case 'm': i = him_her[URANGE(0, ch->sex, 2)]; break;
-                case 'M': i = him_her[URANGE(0, vch->sex, 2)]; break;
-                case 's': i = his_her[URANGE(0, ch->sex, 2)]; break;
-                case 'S': i = his_her[URANGE(0, vch->sex, 2)]; break;
-
-                case 'p': {
-                    if (auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1)) {
-                        auto &obj1 = *arg1_as_obj_ptr;
-                        i = can_see_obj(to, obj1) ? obj1->short_descr : "something";
-                    } else {
-                        bug("$p passed but arg1 was not an object in '%s'", format);
-                        i = "something";
-                    }
-                    break;
-                }
-
-                case 'P': {
-                    if (auto arg2_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg2)) {
-                        auto &obj2 = *arg2_as_obj_ptr;
-                        i = can_see_obj(to, obj2) ? obj2->short_descr : "something";
-                    } else {
-                        bug("$p passed but arg2 was not an object in '%s'", format);
-                        i = "something";
-                    }
-                    break;
-                }
-
-                case 'd': {
-                    if (auto arg2_as_string_ptr = std::get_if<const char *>(&arg2);
-                        arg2_as_string_ptr != nullptr && (*arg2_as_string_ptr)[0] != '\0') {
-                        one_argument(*arg2_as_string_ptr, fname);
-                        i = fname;
-                    } else {
-                        i = "door";
-                    }
-                    break;
-                }
-                }
-            }
-
-            ++str;
-            while ((*point = *i) != '\0')
-                ++point, ++i;
-        }
-
-        *point++ = '\n';
-        *point++ = '\r';
-        *point++ = '\0'; /* Added by TM */
-        for (point = buf; *point != 0; point++) {
-            if (*point == '|') {
-                point++;
-            } else {
-                *point = UPPER(*point);
-                break;
-            }
-        }
-
-        /*        buf[0]   = UPPER(buf[0]); */
-
-        if ((type == To::Room && to == ch) || (type == To::NotVict && (to == ch || to == vch))) {
-            /* Ignore them */
-        } else {
-            send_to_char(buf, to);
-            /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-            if (MOBtrigger) {
-                auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1);
-                mprog_act_trigger(buf, to, ch, arg1_as_obj_ptr ? *arg1_as_obj_ptr : nullptr, vch);
-            }
+        auto formatted = format_act(format, ch, arg1, arg2, to, vch);
+        send_to_char(formatted, to);
+        /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
+        if (MOBtrigger) {
+            auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1);
+            mprog_act_trigger(formatted.c_str(), to, ch, arg1_as_obj_ptr ? *arg1_as_obj_ptr : nullptr, vch);
         }
     }
     MOBtrigger = true;
 
-    if (ch->in_room != nullptr) {
-        if ((type == To::Room || type == To::NotVict) && ch->in_room->vnum == CHAL_ROOM) {
-            Descriptor *d;
-
-            for (d = descriptor_list; d != nullptr; d = d->next) {
-                if (d->character() && d->character()->in_room != nullptr && d->character()->in_room->vnum == 1222
-                    && IS_AWAKE(d->character()))
-                    send_to_char(buf, d->character());
+    if ((type == To::Room || type == To::NotVict) && ch->in_room->vnum == CHAL_ROOM) {
+        // MRG: with reference to bug #124 I made a change to reformat with each person in the challenge room
+        // gallery as the "to". I don't know if this is right or not.
+        for (auto *d = descriptor_list; d != nullptr; d = d->next) {
+            if (d->character() && d->character()->in_room != nullptr
+                && d->character()->in_room->vnum == CHAL_VIEWING_GALLERY && IS_AWAKE(d->character())) {
+                send_to_char(format_act(format, ch, arg1, arg2, d->character(), vch), d->character());
             }
         }
     }

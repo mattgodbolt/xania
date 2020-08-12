@@ -2071,7 +2071,7 @@ void do_mpstat(CHAR_DATA *ch, char *argument);
 void mprog_wordlist_check(const char *arg, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj, const void *vo,
                           int type);
 void mprog_percent_check(CHAR_DATA *mob, CHAR_DATA *actor, OBJ_DATA *object, void *vo, int type);
-void mprog_act_trigger(char *buf, CHAR_DATA *mob, const CHAR_DATA *ch, const OBJ_DATA *obj, const void *vo);
+void mprog_act_trigger(const char *buf, CHAR_DATA *mob, const CHAR_DATA *ch, const OBJ_DATA *obj, const void *vo);
 void mprog_bribe_trigger(CHAR_DATA *mob, CHAR_DATA *ch, int amount);
 void mprog_entry_trigger(CHAR_DATA *mob);
 void mprog_give_trigger(CHAR_DATA *mob, CHAR_DATA *ch, OBJ_DATA *obj);

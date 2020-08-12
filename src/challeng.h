@@ -10,7 +10,7 @@
 #pragma once
 #include "merc.h"
 
-/* To keep things general. */
+#define CHAL_VIEWING_GALLERY 1222
 #define CHAL_ROOM 30011
 #define CHAL_PREP 30012
 
