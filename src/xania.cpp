@@ -511,8 +511,8 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
     }
 
     /* Tell people what happened */
-    act("$n summons mighty powers and reanimates $s.", ch, nullptr, obj, TO_ROOM);
-    act("You summon mighty powers and reanimate $s.", ch, nullptr, obj, TO_CHAR);
+    act("$n summons mighty powers and reanimates $s.", ch, nullptr, obj, To::Room);
+    act("You summon mighty powers and reanimate $s.", ch, nullptr, obj, To::Char);
 
     /* Can we re-animate this corpse? Include check for a non-empty PC corpse */
 
@@ -521,15 +521,15 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
     if ((number_percent() > chance) || /* if random failed */
         ((obj->pIndexData->item_type == ITEM_CORPSE_PC) && (obj->contains != nullptr)))
     /* if non-empty PC corpse */ {
-        act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, TO_ROOM);
-        act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, TO_CHAR);
+        act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, To::Room);
+        act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, To::Char);
         return;
     } else {
         char buf[MAX_STRING_LENGTH];
         CHAR_DATA *animated;
 
-        act("$s stands up.", ch, nullptr, obj, TO_ROOM);
-        act("$s stands up.", ch, nullptr, obj, TO_CHAR);
+        act("$s stands up.", ch, nullptr, obj, To::Room);
+        act("$s stands up.", ch, nullptr, obj, To::Char);
         animated = create_mobile(get_mob_index(MOB_VNUM_ZOMBIE));
         if (animated == nullptr) {
             bug("spell_reincarnate: Couldn't find corpse vnum!");
@@ -595,8 +595,8 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
     if (get_trust(victim) > get_trust(ch)) {
 
         send_to_char("You failed.\n\rUmmm...beware of retaliation!\n\r", ch);
-        act("$n attempted to smite $N!", ch, nullptr, victim, TO_NOTVICT);
-        act("$n attempted to smite you!", ch, nullptr, victim, TO_VICT);
+        act("$n attempted to smite $N!", ch, nullptr, victim, To::NotVict);
+        act("$n attempted to smite you!", ch, nullptr, victim, To::Vict);
         return;
     }
     /* Immortals cannot smite those with a
@@ -623,13 +623,13 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
 
     do_help(victim, smitestring);
     act("|WThe wrath of the Gods has fallen upon you!\n\rYou are blown helplessly from your feet and are stunned!|w",
-        ch, nullptr, victim, TO_VICT);
+        ch, nullptr, victim, To::Vict);
 
     if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr) {
-        act("|R$n has been cast down by the power of $N!|w", victim, nullptr, ch, TO_NOTVICT);
+        act("|R$n has been cast down by the power of $N!|w", victim, nullptr, ch, To::NotVict);
     } else {
         act("|R$n has been cast down by the power of $N!\n\rTheir weapon is sent flying!|w", victim, nullptr, ch,
-            TO_NOTVICT);
+            To::NotVict);
     }
 
     /* tells others that the victim has

@@ -520,17 +520,17 @@ bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
     one_argument(argument, arg);
     CHAR_DATA *victim = nullptr;
     if (arg[0] == '\0') {
-        act(social->others_no_arg, ch, nullptr, victim, TO_ROOM);
-        act(social->char_no_arg, ch, nullptr, victim, TO_CHAR);
+        act(social->others_no_arg, ch, nullptr, victim, To::Room);
+        act(social->char_no_arg, ch, nullptr, victim, To::Char);
     } else if ((victim = get_char_room(ch, arg)) == nullptr) {
         send_to_char("They aren't here.\n\r", ch);
     } else if (victim == ch) {
-        act(social->others_auto, ch, nullptr, victim, TO_ROOM);
-        act(social->char_auto, ch, nullptr, victim, TO_CHAR);
+        act(social->others_auto, ch, nullptr, victim, To::Room);
+        act(social->char_auto, ch, nullptr, victim, To::Char);
     } else {
-        act(social->others_found, ch, nullptr, victim, TO_NOTVICT);
-        act(social->char_found, ch, nullptr, victim, TO_CHAR);
-        act(social->vict_found, ch, nullptr, victim, TO_VICT);
+        act(social->others_found, ch, nullptr, victim, To::NotVict);
+        act(social->char_found, ch, nullptr, victim, To::Char);
+        act(social->vict_found, ch, nullptr, victim, To::Vict);
 
         if (!IS_NPC(ch) && IS_NPC(victim) && !IS_AFFECTED(victim, AFF_CHARM) && IS_AWAKE(victim)
             && victim->desc == nullptr) {
@@ -544,18 +544,18 @@ bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
             case 6:
             case 7:
             case 8:
-                act(social->others_found, victim, nullptr, ch, TO_NOTVICT);
-                act(social->char_found, victim, nullptr, ch, TO_CHAR);
-                act(social->vict_found, victim, nullptr, ch, TO_VICT);
+                act(social->others_found, victim, nullptr, ch, To::NotVict);
+                act(social->char_found, victim, nullptr, ch, To::Char);
+                act(social->vict_found, victim, nullptr, ch, To::Vict);
                 break;
 
             case 9:
             case 10:
             case 11:
             case 12:
-                act("$n slaps $N.", victim, nullptr, ch, TO_NOTVICT);
-                act("You slap $N.", victim, nullptr, ch, TO_CHAR);
-                act("$n slaps you.", victim, nullptr, ch, TO_VICT);
+                act("$n slaps $N.", victim, nullptr, ch, To::NotVict);
+                act("You slap $N.", victim, nullptr, ch, To::Char);
+                act("$n slaps you.", victim, nullptr, ch, To::Vict);
                 break;
             }
         }

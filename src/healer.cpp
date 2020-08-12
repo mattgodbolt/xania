@@ -42,7 +42,7 @@ void do_heal(CHAR_DATA *ch, const char *argument) {
 
     if (arg[0] == '\0') {
         /* display price list */
-        act("$N says 'I offer the following spells:'", ch, nullptr, mob, TO_CHAR);
+        act("$N says 'I offer the following spells:'", ch, nullptr, mob, To::Char);
         send_to_char("  light: cure light wounds      1000 gold\n\r", ch);
         send_to_char("  serious: cure serious wounds  1600 gold\n\r", ch);
         send_to_char("  critic: cure critical wounds  2500 gold\n\r", ch);
@@ -128,11 +128,11 @@ void do_heal(CHAR_DATA *ch, const char *argument) {
         cost = 1000;
         break;
 
-    default: act("$N says 'Type 'heal' for a list of spells.'", ch, nullptr, mob, TO_CHAR); return;
+    default: act("$N says 'Type 'heal' for a list of spells.'", ch, nullptr, mob, To::Char); return;
     }
 
     if (cost > ch->gold) {
-        act("$N says 'You do not have enough gold for my services.'", ch, nullptr, mob, TO_CHAR);
+        act("$N says 'You do not have enough gold for my services.'", ch, nullptr, mob, To::Char);
         return;
     }
 
@@ -140,7 +140,7 @@ void do_heal(CHAR_DATA *ch, const char *argument) {
 
     ch->gold -= cost;
     mob->gold += cost;
-    act("$n utters the words '$T'.", mob, nullptr, words, TO_ROOM);
+    act("$n utters the words '$T'.", mob, nullptr, words, To::Room);
 
     if (spell == nullptr) /* restore mana trap...kinda hackish */
     {

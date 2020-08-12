@@ -250,7 +250,7 @@ void do_member(CHAR_DATA *ch, const char *argument) {
         newpcclan->channelflags = CLANCHANNEL_ON;
         victim->pcdata->pcclan = newpcclan; /* dan-ar! */
         snprintf(buf, sizeof(buf), "%s welcomes %s to the %s", ch->name, victim->name, ch->pcdata->pcclan->clan->name);
-        act(buf, ch, nullptr, victim, TO_NOTVICT);
+        act(buf, ch, nullptr, victim, To::NotVict);
         snprintf(buf, sizeof(buf), "You have become %s of the %s.\n\r",
                  ch->pcdata->pcclan->clan->levelname[CLAN_MEMBER], ch->pcdata->pcclan->clan->name);
         send_to_char(buf, victim);
@@ -268,7 +268,7 @@ void do_member(CHAR_DATA *ch, const char *argument) {
         free_mem(victim->pcdata->pcclan, sizeof(PCCLAN));
         victim->pcdata->pcclan = nullptr;
         snprintf(buf, sizeof(buf), "%s removes %s from the %s", ch->name, victim->name, ch->pcdata->pcclan->clan->name);
-        act(buf, ch, nullptr, victim, TO_NOTVICT);
+        act(buf, ch, nullptr, victim, To::NotVict);
         snprintf(buf, sizeof(buf), "You have been discharged from the %s.\n\r", ch->pcdata->pcclan->clan->name);
         send_to_char(buf, victim);
         snprintf(buf, sizeof(buf), "You remove %s from the %s.\n\r", victim->name, ch->pcdata->pcclan->clan->name);
@@ -322,7 +322,7 @@ void mote(CHAR_DATA *ch, const char *argument, int add) {
     snprintf(buf, sizeof(buf), "$n is now %s of the %s.",
              victim->pcdata->pcclan->clan->levelname[victim->pcdata->pcclan->clanlevel],
              victim->pcdata->pcclan->clan->name);
-    act(buf, victim, nullptr, nullptr, TO_ROOM);
+    act(buf, victim, nullptr, nullptr, To::Room);
     snprintf(buf, sizeof(buf), "You are now %s of the %s.\n\r",
              victim->pcdata->pcclan->clan->levelname[victim->pcdata->pcclan->clanlevel],
              victim->pcdata->pcclan->clan->name);

@@ -135,7 +135,7 @@ void do_mpasound(CHAR_DATA *ch, const char *argument) {
             && pexit->u1.to_room != was_in_room) {
             ch->in_room = pexit->u1.to_room;
             MOBtrigger = false;
-            act(argument, ch, nullptr, nullptr, TO_ROOM);
+            act(argument, ch, nullptr, nullptr, To::Room);
         }
     }
 
@@ -247,7 +247,7 @@ void do_mpechoaround(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    act(argument, ch, nullptr, victim, TO_NOTVICT);
+    act(argument, ch, nullptr, victim, To::NotVict);
 }
 
 /* prints the message to only the victim */
@@ -273,7 +273,7 @@ void do_mpechoat(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    act(argument, ch, nullptr, victim, TO_VICT);
+    act(argument, ch, nullptr, victim, To::Vict);
 }
 
 /* prints the message to the room at large */
@@ -289,7 +289,7 @@ void do_mpecho(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    act(argument, ch, nullptr, nullptr, TO_ROOM);
+    act(argument, ch, nullptr, nullptr, To::Room);
 }
 
 /* lets the mobile load an item or mobile.  All items

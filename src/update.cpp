@@ -392,7 +392,7 @@ void mobile_update() {
             if (obj_best) {
                 obj_from_room(obj_best);
                 obj_to_char(obj_best, ch);
-                act("$n gets $p.", ch, obj_best, nullptr, TO_ROOM);
+                act("$n gets $p.", ch, obj_best, nullptr, To::Room);
                 do_wear(ch, "all");
             }
         }
@@ -537,12 +537,12 @@ void move_active_char_from_limbo(CHAR_DATA *ch) {
     char_from_room(ch);
     char_to_room(ch, ch->was_in_room);
     ch->was_in_room = nullptr;
-    act("$n has returned from the void.", ch, nullptr, nullptr, TO_ROOM);
+    act("$n has returned from the void.", ch, nullptr, nullptr, To::Room);
     if (ch->pet) { /* move pets too */
         char_from_room(ch->pet);
         char_to_room(ch->pet, ch->in_room);
         ch->pet->was_in_room = nullptr;
-        act("$n has returned from the void.", ch->pet, nullptr, nullptr, TO_ROOM);
+        act("$n has returned from the void.", ch->pet, nullptr, nullptr, To::Room);
     }
 }
 
@@ -555,7 +555,7 @@ void move_idle_char_to_limbo(CHAR_DATA *ch) {
             ch->was_in_room = ch->in_room;
             if (ch->fighting != nullptr)
                 stop_fighting(ch, true);
-            act("$n disappears into the void.", ch, nullptr, nullptr, TO_ROOM);
+            act("$n disappears into the void.", ch, nullptr, nullptr, To::Room);
             send_to_char("You disappear into the void.\n\r", ch);
             if (ch->level > 1)
                 save_char_obj(ch);
@@ -564,7 +564,7 @@ void move_idle_char_to_limbo(CHAR_DATA *ch) {
             if (ch->pet) { /* move pets too */
                 if (ch->pet->fighting)
                     stop_fighting(ch->pet, true);
-                act("$n flickers and phases out", ch->pet, nullptr, nullptr, TO_ROOM);
+                act("$n flickers and phases out", ch->pet, nullptr, nullptr, To::Room);
                 ch->pet->was_in_room = ch->pet->in_room;
                 char_from_room(ch->pet);
                 char_to_room(ch->pet, get_room_index(ROOM_VNUM_LIMBO));
@@ -624,11 +624,11 @@ void char_update() {
             if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->item_type == ITEM_LIGHT && obj->value[2] > 0) {
                 if (--obj->value[2] == 0 && ch->in_room != nullptr) {
                     --ch->in_room->light;
-                    act("$p goes out.", ch, obj, nullptr, TO_ROOM);
-                    act("$p flickers and goes out.", ch, obj, nullptr, TO_CHAR);
+                    act("$p goes out.", ch, obj, nullptr, To::Room);
+                    act("$p flickers and goes out.", ch, obj, nullptr, To::Char);
                     extract_obj(obj);
                 } else if (obj->value[2] <= 5 && ch->in_room != nullptr)
-                    act("$p flickers.", ch, obj, nullptr, TO_CHAR);
+                    act("$p flickers.", ch, obj, nullptr, To::Char);
             }
 
             if (IS_IMMORTAL(ch))
@@ -681,7 +681,7 @@ void char_update() {
            and randomly decay them */
         if (IS_NPC(ch) && ch->pIndexData->vnum == MOB_VNUM_ZOMBIE) {
             if (number_percent() > 90) {
-                act("$n fits violently before decaying in to a pile of dust.", ch, nullptr, nullptr, TO_ROOM);
+                act("$n fits violently before decaying in to a pile of dust.", ch, nullptr, nullptr, To::Room);
                 extract_char(ch, true);
                 continue;
             }
@@ -701,7 +701,7 @@ void char_update() {
             if (ch->in_room == nullptr)
                 return;
 
-            act("$n writhes in agony as plague sores erupt from $s skin.", ch, nullptr, nullptr, TO_ROOM);
+            act("$n writhes in agony as plague sores erupt from $s skin.", ch, nullptr, nullptr, To::Room);
             send_to_char("You writhe in agony from the plague.\n\r", ch);
             for (af = ch->affected; af != nullptr; af = af->next) {
                 if (af->type == gsn_plague)
@@ -735,7 +735,7 @@ void char_update() {
                 if (save != 0 && !saves_spell(save, vch) && !IS_IMMORTAL(vch) && !IS_AFFECTED(vch, AFF_PLAGUE)
                     && number_bits(4) == 0) {
                     send_to_char("You feel hot and feverish.\n\r", vch);
-                    act("$n shivers and looks very ill.", vch, nullptr, nullptr, TO_ROOM);
+                    act("$n shivers and looks very ill.", vch, nullptr, nullptr, To::Room);
                     affect_join(vch, &plague);
                 }
             }
@@ -745,7 +745,7 @@ void char_update() {
             ch->move -= dam;
             damage(ch, ch, dam, gsn_plague, DAM_DISEASE);
         } else if (IS_AFFECTED(ch, AFF_POISON) && ch != nullptr) {
-            act("$n shivers and suffers.", ch, nullptr, nullptr, TO_ROOM);
+            act("$n shivers and suffers.", ch, nullptr, nullptr, To::Room);
             send_to_char("You shiver and suffer.\n\r", ch);
             damage(ch, ch, 2, gsn_poison, DAM_POISON);
         } else if (ch->position == POS_INCAP && number_range(0, 1) == 0) {
@@ -797,7 +797,7 @@ void obj_update() {
             else {
                 if (paf_next == nullptr || paf_next->type != paf->type || paf_next->duration > 0) {
                     if (paf->type > 0 && skill_table[paf->type].msg_off) {
-                        act(skill_table[paf->type].msg_off, obj->carried_by, obj, nullptr, POS_SLEEPING, TO_CHAR);
+                        act(skill_table[paf->type].msg_off, obj->carried_by, obj, nullptr, To::Char, POS_SLEEPING);
                     }
                 }
 
@@ -822,11 +822,11 @@ void obj_update() {
             if (IS_NPC(obj->carried_by) && obj->carried_by->pIndexData->pShop != nullptr)
                 obj->carried_by->gold += obj->cost;
             else
-                act(message, obj->carried_by, obj, nullptr, TO_CHAR);
+                act(message, obj->carried_by, obj, nullptr, To::Char);
         } else if (obj->in_room != nullptr && (rch = obj->in_room->people) != nullptr) {
             if (!(obj->in_obj && obj->in_obj->pIndexData->vnum == OBJ_VNUM_PIT && !CAN_WEAR(obj->in_obj, ITEM_TAKE))) {
-                act(message, rch, obj, nullptr, TO_ROOM);
-                act(message, rch, obj, nullptr, TO_CHAR);
+                act(message, rch, obj, nullptr, To::Room);
+                act(message, rch, obj, nullptr, To::Char);
             }
         }
 

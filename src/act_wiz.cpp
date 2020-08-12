@@ -253,7 +253,7 @@ void do_disconnect(CHAR_DATA *ch, const char *argument) {
         }
 
         if (victim->desc == nullptr) {
-            act("$N doesn't have a descriptor.", ch, nullptr, victim, TO_CHAR);
+            act("$N doesn't have a descriptor.", ch, nullptr, victim, To::Char);
             return;
         }
 
@@ -474,12 +474,12 @@ void do_transfer(CHAR_DATA *ch, const char *argument) {
         stop_fighting(victim, true);
     if (victim->riding != nullptr)
         unride_char(victim, victim->riding);
-    act("$n disappears in a mushroom cloud.", victim, nullptr, nullptr, TO_ROOM);
+    act("$n disappears in a mushroom cloud.", victim, nullptr, nullptr, To::Room);
     char_from_room(victim);
     char_to_room(victim, location);
-    act("$n arrives from a puff of smoke.", victim, nullptr, nullptr, TO_ROOM);
+    act("$n arrives from a puff of smoke.", victim, nullptr, nullptr, To::Room);
     if (ch != victim)
-        act("$n has transferred you.", ch, nullptr, victim, TO_VICT);
+        act("$n has transferred you.", ch, nullptr, victim, To::Vict);
     do_look(victim, "auto");
     send_to_char("Ok.\n\r", ch);
 }
@@ -576,9 +576,9 @@ void do_goto(CHAR_DATA *ch, const char *argument) {
     for (rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
         if (get_trust(rch) >= ch->invis_level) {
             if (ch->pcdata != nullptr && ch->pcdata->bamfout[0] != '\0')
-                act("$t", ch, ch->pcdata->bamfout, rch, TO_VICT);
+                act("$t", ch, ch->pcdata->bamfout, rch, To::Vict);
             else
-                act("$n leaves in a swirling mist.", ch, nullptr, rch, TO_VICT);
+                act("$n leaves in a swirling mist.", ch, nullptr, rch, To::Vict);
         }
     }
 
@@ -592,9 +592,9 @@ void do_goto(CHAR_DATA *ch, const char *argument) {
     for (rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
         if (get_trust(rch) >= ch->invis_level) {
             if (ch->pcdata != nullptr && ch->pcdata->bamfin[0] != '\0')
-                act("$t", ch, ch->pcdata->bamfin, rch, TO_VICT);
+                act("$t", ch, ch->pcdata->bamfin, rch, To::Vict);
             else
-                act("$n appears in a swirling mist.", ch, nullptr, rch, TO_VICT);
+                act("$n appears in a swirling mist.", ch, nullptr, rch, To::Vict);
         }
     }
 
@@ -1629,7 +1629,7 @@ void do_mwhere(CHAR_DATA *ch, const char *argument) {
     buffer_send(buffer, ch);
 
     if (!found)
-        act("You didn't find any $T.", ch, nullptr, argument, TO_CHAR);
+        act("You didn't find any $T.", ch, nullptr, argument, To::Char);
 }
 
 void do_reboo(CHAR_DATA *ch, const char *argument) {
@@ -1868,8 +1868,8 @@ void do_clone(CHAR_DATA *ch, const char *argument) {
             obj_to_room(clone, ch->in_room);
         recursive_clone(ch, obj, clone);
 
-        act("$n has created $p.", ch, clone, nullptr, TO_ROOM);
-        act("You clone $p.", ch, clone, nullptr, TO_CHAR);
+        act("$n has created $p.", ch, clone, nullptr, To::Room);
+        act("You clone $p.", ch, clone, nullptr, To::Char);
         return;
     } else if (mob != nullptr) {
         CHAR_DATA *clone;
@@ -1900,8 +1900,8 @@ void do_clone(CHAR_DATA *ch, const char *argument) {
             }
         }
         char_to_room(clone, ch->in_room);
-        act("$n has created $N.", ch, nullptr, clone, TO_ROOM);
-        act("You clone $N.", ch, nullptr, clone, TO_CHAR);
+        act("$n has created $N.", ch, nullptr, clone, To::Room);
+        act("You clone $N.", ch, nullptr, clone, To::Char);
         return;
     }
 }
@@ -1952,7 +1952,7 @@ void do_mload(CHAR_DATA *ch, const char *argument) {
 
     victim = create_mobile(pMobIndex);
     char_to_room(victim, ch->in_room);
-    act("$n has created $N!", ch, nullptr, victim, TO_ROOM);
+    act("$n has created $N!", ch, nullptr, victim, To::Room);
     send_to_char("Ok.\n\r", ch);
 }
 
@@ -1995,7 +1995,7 @@ void do_oload(CHAR_DATA *ch, const char *argument) {
         obj_to_char(obj, ch);
     else
         obj_to_room(obj, ch->in_room);
-    act("$n has created $p!", ch, obj, nullptr, TO_ROOM);
+    act("$n has created $p!", ch, obj, nullptr, To::Room);
     send_to_char("Ok.\n\r", ch);
 }
 
@@ -2025,7 +2025,7 @@ void do_purge(CHAR_DATA *ch, const char *argument) {
                 extract_obj(obj);
         }
 
-        act("$n purges the room!", ch, nullptr, nullptr, TO_ROOM);
+        act("$n purges the room!", ch, nullptr, nullptr, To::Room);
         send_to_char("Ok.\n\r", ch);
         return;
     }
@@ -2049,7 +2049,7 @@ void do_purge(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        act("$n disintegrates $N.", ch, 0, victim, TO_NOTVICT);
+        act("$n disintegrates $N.", ch, 0, victim, To::NotVict);
 
         if (victim->level > 1)
             save_char_obj(victim);
@@ -2061,7 +2061,7 @@ void do_purge(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    act("$n purges $N.", ch, nullptr, victim, TO_NOTVICT);
+    act("$n purges $N.", ch, nullptr, victim, To::NotVict);
     extract_char(victim, true);
 }
 
@@ -2209,7 +2209,7 @@ void do_restore(CHAR_DATA *ch, const char *argument) {
             vch->mana = vch->max_mana;
             vch->move = vch->max_move;
             update_pos(vch);
-            act("$n has restored you.", ch, nullptr, vch, TO_VICT);
+            act("$n has restored you.", ch, nullptr, vch, To::Vict);
         }
 
         send_to_char("Room restored.\n\r", ch);
@@ -2236,7 +2236,7 @@ void do_restore(CHAR_DATA *ch, const char *argument) {
             victim->move = victim->max_move;
             update_pos(victim);
             if (victim->in_room != nullptr)
-                act("$n has restored you.", ch, nullptr, victim, TO_VICT);
+                act("$n has restored you.", ch, nullptr, victim, To::Vict);
         }
         send_to_char("All active players restored.\n\r", ch);
         return;
@@ -2256,7 +2256,7 @@ void do_restore(CHAR_DATA *ch, const char *argument) {
     victim->mana = victim->max_mana;
     victim->move = victim->max_move;
     update_pos(victim);
-    act("$n has restored you.", ch, nullptr, victim, TO_VICT);
+    act("$n has restored you.", ch, nullptr, victim, To::Vict);
     send_to_char("Ok.\n\r", ch);
 }
 
@@ -2490,7 +2490,7 @@ void do_awaken(CHAR_DATA *ch, const char *argument) {
     REMOVE_BIT(victim->affected_by, AFF_SLEEP);
     victim->position = POS_STANDING;
 
-    act("$n gives $t a kick, and wakes them up.", ch, victim->short_descr, nullptr, TO_ROOM, POS_RESTING);
+    act("$n gives $t a kick, and wakes them up.", ch, victim->short_descr, nullptr, To::Room, POS_RESTING);
 }
 
 void do_owhere(CHAR_DATA *ch, const char *argument) {
@@ -2579,7 +2579,7 @@ void do_coma(CHAR_DATA *ch, const char *argument) {
 
     if (IS_AWAKE(victim)) {
         send_to_char("You feel very sleepy ..... zzzzzz.\n\r", victim);
-        act("$n goes to sleep.", victim, nullptr, nullptr, TO_ROOM);
+        act("$n goes to sleep.", victim, nullptr, nullptr, To::Room);
         victim->position = POS_SLEEPING;
     }
 }
@@ -3546,7 +3546,7 @@ void do_force(CHAR_DATA *ch, const char *argument) {
             if (!IS_NPC(vch) && get_trust(vch) < get_trust(ch)) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;
-                act(buf, ch, nullptr, vch, TO_VICT);
+                act(buf, ch, nullptr, vch, To::Vict);
                 interpret(vch, argument);
             }
         }
@@ -3565,7 +3565,7 @@ void do_force(CHAR_DATA *ch, const char *argument) {
             if (!IS_NPC(vch) && get_trust(vch) < get_trust(ch) && vch->level < LEVEL_HERO) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;
-                act(buf, ch, nullptr, vch, TO_VICT);
+                act(buf, ch, nullptr, vch, To::Vict);
                 interpret(vch, argument);
             }
         }
@@ -3584,7 +3584,7 @@ void do_force(CHAR_DATA *ch, const char *argument) {
             if (!IS_NPC(vch) && get_trust(vch) < get_trust(ch) && vch->level >= LEVEL_HERO) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;
-                act(buf, ch, nullptr, vch, TO_VICT);
+                act(buf, ch, nullptr, vch, To::Vict);
                 interpret(vch, argument);
             }
         }
@@ -3612,7 +3612,7 @@ void do_force(CHAR_DATA *ch, const char *argument) {
         }
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         MOBtrigger = false;
-        act(buf, ch, nullptr, victim, TO_VICT);
+        act(buf, ch, nullptr, victim, To::Vict);
         interpret(victim, argument);
     }
 
@@ -3638,14 +3638,14 @@ void do_invis(CHAR_DATA *ch, const char *argument) {
         if (IS_SET(ch->act, PLR_WIZINVIS)) {
             REMOVE_BIT(ch->act, PLR_WIZINVIS);
             ch->invis_level = 0;
-            act("$n slowly fades into existence.", ch, nullptr, nullptr, TO_ROOM);
+            act("$n slowly fades into existence.", ch, nullptr, nullptr, To::Room);
             send_to_char("You slowly fade back into existence.\n\r", ch);
         } else {
             SET_BIT(ch->act, PLR_WIZINVIS);
             if (IS_SET(ch->act, PLR_PROWL))
                 REMOVE_BIT(ch->act, PLR_PROWL);
             ch->invis_level = get_trust(ch);
-            act("$n slowly fades into thin air.", ch, nullptr, nullptr, TO_ROOM);
+            act("$n slowly fades into thin air.", ch, nullptr, nullptr, To::Room);
             send_to_char("You slowly vanish into thin air.\n\r", ch);
             if (ch->pet != nullptr) {
                 SET_BIT(ch->pet->act, PLR_WIZINVIS);
@@ -3665,7 +3665,7 @@ void do_invis(CHAR_DATA *ch, const char *argument) {
             ch->reply = nullptr;
             SET_BIT(ch->act, PLR_WIZINVIS);
             ch->invis_level = level;
-            act("$n slowly fades into thin air.", ch, nullptr, nullptr, TO_ROOM);
+            act("$n slowly fades into thin air.", ch, nullptr, nullptr, To::Room);
             send_to_char("You slowly vanish into thin air.\n\r", ch);
         }
     }
@@ -3700,7 +3700,7 @@ void do_prowl(CHAR_DATA *ch, const char *argument) {
                 ch->pet->invis_level = get_trust(ch);
                 SET_BIT(ch->pet->act, PLR_PROWL);
             }
-            act("$n slowly fades into thin air.", ch, nullptr, nullptr, TO_ROOM);
+            act("$n slowly fades into thin air.", ch, nullptr, nullptr, To::Room);
             send_to_char("You slowly vanish into thin air.\n\r", ch);
             REMOVE_BIT(ch->act, PLR_WIZINVIS);
             if (ch->pet != nullptr)
@@ -3731,7 +3731,7 @@ void do_prowl(CHAR_DATA *ch, const char *argument) {
             SET_BIT(ch->pet->act, PLR_PROWL);
             ch->pet->invis_level = level;
         }
-        act("$n slowly fades into thin air.", ch, nullptr, nullptr, TO_ROOM);
+        act("$n slowly fades into thin air.", ch, nullptr, nullptr, To::Room);
         send_to_char("You slowly vanish into thin air.\n\r", ch);
         REMOVE_BIT(ch->act, PLR_WIZINVIS);
         if (ch->pet != nullptr)

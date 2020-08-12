@@ -541,7 +541,7 @@ void close_socket(Descriptor *dclose) {
         log_new(log_buf, EXTRA_WIZNET_DEBUG,
                 (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)) ? get_trust(ch) : 0);
         if (dclose->is_playing() || dclose->state() == DescriptorState::Disconnecting) {
-            act("$n has lost $s link.", ch, nullptr, nullptr, TO_ROOM);
+            act("$n has lost $s link.", ch, nullptr, nullptr, To::Room);
             ch->desc = nullptr;
         } else {
             free_char(dclose->person());
@@ -1212,7 +1212,7 @@ void nanny(Descriptor *d, const char *argument) {
 
         snprintf(log_buf, LOG_BUF_SIZE, "|W### |P%s|W has entered the game.|w", ch->name);
         announce(log_buf, ch);
-        act("|P$n|W has entered the game.", ch, nullptr, nullptr, TO_ROOM);
+        act("|P$n|W has entered the game.", ch, nullptr, nullptr, To::Room);
         do_look(ch, "auto");
 
         /* Rohan: code to increase the player count if needed - it was only
@@ -1232,7 +1232,7 @@ void nanny(Descriptor *d, const char *argument) {
 
         if (ch->pet != nullptr) {
             char_to_room(ch->pet, ch->in_room);
-            act("|P$n|W has entered the game.", ch->pet, nullptr, nullptr, TO_ROOM);
+            act("|P$n|W has entered the game.", ch->pet, nullptr, nullptr, To::Room);
         }
 
         /* check notes */
@@ -1328,7 +1328,7 @@ bool check_reconnect(Descriptor *d, bool fConn) {
                 ch->desc = d;
                 ch->timer = 0;
                 send_to_char("Reconnecting.\n\r", ch);
-                act("$n has reconnected.", ch, nullptr, nullptr, TO_ROOM);
+                act("$n has reconnected.", ch, nullptr, nullptr, To::Room);
                 snprintf(log_buf, LOG_BUF_SIZE, "%s@%s reconnected.", ch->name, d->host().c_str());
                 log_new(log_buf, EXTRA_WIZNET_DEBUG,
                         ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? get_trust(ch) : 0);
@@ -1384,11 +1384,11 @@ void fix_sex(CHAR_DATA *ch) {
         ch->sex = IS_NPC(ch) ? 0 : ch->pcdata->true_sex;
 }
 
-void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type) {
+void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, To type) {
     act(format, ch, arg1, arg2, type, POS_RESTING);
 }
 
-void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type, int min_pos) {
+void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, To type, int min_pos) {
     static const char *const he_she[] = {"it", "he", "she"};
     static const char *const him_her[] = {"it", "him", "her"};
     static const char *const his_her[] = {"its", "his", "her"};
@@ -1399,7 +1399,7 @@ void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, 
     CHAR_DATA *vch = (CHAR_DATA *)arg2;
     OBJ_DATA *obj1 = (OBJ_DATA *)arg1;
     OBJ_DATA *obj2 = (OBJ_DATA *)arg2;
-    ROOM_INDEX_DATA *givenRoom = (ROOM_INDEX_DATA *)arg2; /* in case TO_GIVENROOM is used */
+    ROOM_INDEX_DATA *givenRoom = (ROOM_INDEX_DATA *)arg2; /* in case To::GivenRoom is used */
     const char *str;
     const char *i;
     char *point;
@@ -1412,19 +1412,19 @@ void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, 
     /* discard null rooms and chars */
     if (ch == nullptr || ch->in_room == nullptr)
         return;
-    if (type == TO_GIVENROOM && givenRoom == nullptr) {
-        bug("Act: null givenRoom with TO_GIVENROOM.");
+    if (type == To::GivenRoom && givenRoom == nullptr) {
+        bug("Act: null givenRoom with To::GivenRoom.");
         return;
     }
 
-    if (type == TO_GIVENROOM)
+    if (type == To::GivenRoom)
         to = givenRoom->people;
     else
         to = ch->in_room->people;
 
-    if (type == TO_VICT) {
+    if (type == To::Vict) {
         if (vch == nullptr) {
-            bug("Act: null vch with TO_VICT.");
+            bug("Act: null vch with To::Vict.");
             return;
         }
 
@@ -1438,15 +1438,15 @@ void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, 
         if (to->desc == nullptr || to->position < min_pos)
             continue;
 
-        if (type == TO_CHAR && to != ch)
+        if (type == To::Char && to != ch)
             continue;
-        if (type == TO_VICT && (to != vch || to == ch))
+        if (type == To::Vict && (to != vch || to == ch))
             continue;
-        if (type == TO_ROOM && to == ch && ch->in_room->vnum != CHAL_ROOM)
+        if (type == To::Room && to == ch && ch->in_room->vnum != CHAL_ROOM)
             continue;
-        if (type == TO_GIVENROOM && to == ch && ch->in_room->vnum != CHAL_ROOM)
+        if (type == To::GivenRoom && to == ch && ch->in_room->vnum != CHAL_ROOM)
             continue;
-        if (type == TO_NOTVICT && (to == ch || to == vch) && ch->in_room->vnum != CHAL_ROOM)
+        if (type == To::NotVict && (to == ch || to == vch) && ch->in_room->vnum != CHAL_ROOM)
             continue;
 
         point = buf;
@@ -1513,7 +1513,7 @@ void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, 
 
         /*        buf[0]   = UPPER(buf[0]); */
 
-        if ((type == TO_ROOM && to == ch) || (type == TO_NOTVICT && (to == ch || to == vch))) {
+        if ((type == To::Room && to == ch) || (type == To::NotVict && (to == ch || to == vch))) {
             /* Ignore them */
         } else {
             send_to_char(buf, to);
@@ -1525,7 +1525,7 @@ void act(const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, 
     MOBtrigger = true;
 
     if (ch->in_room != nullptr) {
-        if ((type == TO_ROOM || type == TO_NOTVICT) && ch->in_room->vnum == CHAL_ROOM) {
+        if ((type == To::Room || type == To::NotVict) && ch->in_room->vnum == CHAL_ROOM) {
             Descriptor *d;
 
             for (d = descriptor_list; d != nullptr; d = d->next) {

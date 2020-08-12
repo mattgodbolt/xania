@@ -263,17 +263,17 @@ void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch) {
 
     if (can_see(victim, ch)) {
         if (ch == victim)
-            act("$n looks at $mself.", ch, nullptr, nullptr, TO_ROOM);
+            act("$n looks at $mself.", ch, nullptr, nullptr, To::Room);
         else {
-            act("$n looks at you.", ch, nullptr, victim, TO_VICT);
-            act("$n looks at $N.", ch, nullptr, victim, TO_NOTVICT);
+            act("$n looks at you.", ch, nullptr, victim, To::Vict);
+            act("$n looks at $N.", ch, nullptr, victim, To::NotVict);
         }
     }
 
     if (victim->description[0] != '\0') {
         send_to_char(victim->description, ch);
     } else {
-        act("You see nothing special about $M.", ch, nullptr, victim, TO_CHAR);
+        act("You see nothing special about $M.", ch, nullptr, victim, To::Char);
     }
 
     if (victim->max_hit > 0)
@@ -308,7 +308,7 @@ void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch) {
         if ((obj = get_eq_char(victim, iWear)) != nullptr && can_see_obj(ch, obj)) {
             if (!found) {
                 send_to_char("\n\r", ch);
-                act("$N is using:", ch, nullptr, victim, TO_CHAR);
+                act("$N is using:", ch, nullptr, victim, To::Char);
                 found = true;
             }
             if (obj->wear_string != nullptr) {
@@ -1010,7 +1010,7 @@ void do_look(CHAR_DATA *ch, const char *arg) {
                 break;
             }
 
-            act("$p contains:", ch, obj, nullptr, TO_CHAR);
+            act("$p contains:", ch, obj, nullptr, To::Char);
             show_list_to_char(obj->contains, ch, true, true);
             break;
         }
@@ -1135,9 +1135,9 @@ void do_look(CHAR_DATA *ch, const char *arg) {
 
     if (pexit->keyword != nullptr && pexit->keyword[0] != '\0' && pexit->keyword[0] != ' ') {
         if (IS_SET(pexit->exit_info, EX_CLOSED)) {
-            act("The $d is closed.", ch, nullptr, pexit->keyword, TO_CHAR);
+            act("The $d is closed.", ch, nullptr, pexit->keyword, To::Char);
         } else if (IS_SET(pexit->exit_info, EX_ISDOOR)) {
-            act("The $d is open.", ch, nullptr, pexit->keyword, TO_CHAR);
+            act("The $d is open.", ch, nullptr, pexit->keyword, To::Char);
         }
     }
 }
@@ -1998,7 +1998,7 @@ void do_compare(CHAR_DATA *ch, const char *argument) {
             msg = "$p looks worse than $P.";
     }
 
-    act(msg, ch, obj1, obj2, TO_CHAR);
+    act(msg, ch, obj1, obj2, To::Char);
 }
 
 void do_credits(CHAR_DATA *ch, const char *argument) {
@@ -2046,7 +2046,7 @@ void do_where(CHAR_DATA *ch, const char *argument) {
             }
         }
         if (!found)
-            act("You didn't find any $T.", ch, nullptr, arg, TO_CHAR);
+            act("You didn't find any $T.", ch, nullptr, arg, To::Char);
     }
 }
 
@@ -2090,7 +2090,7 @@ void do_consider(CHAR_DATA *ch, const char *argument) {
     else
         msg = "|RDeath will thank you for your gift.|w";
 
-    act(msg, ch, nullptr, victim, TO_CHAR);
+    act(msg, ch, nullptr, victim, To::Char);
     if (ch->level >= LEVEL_CONSIDER)
         do_mstat(ch, argument);
 }
@@ -2181,7 +2181,7 @@ void do_report(CHAR_DATA *ch, const char *argument) {
     snprintf(buf, sizeof(buf), "$n says 'I have %d/%d hp %d/%d mana %d/%d mv %d xp.'", ch->hit, ch->max_hit, ch->mana,
              ch->max_mana, ch->move, ch->max_move, (int)ch->exp);
 
-    act(buf, ch, nullptr, nullptr, TO_ROOM);
+    act(buf, ch, nullptr, nullptr, To::Room);
 }
 
 void do_practice(CHAR_DATA *ch, const char *argument) {
@@ -2261,12 +2261,12 @@ void do_practice(CHAR_DATA *ch, const char *argument) {
             }
             if (ch->pcdata->learned[sn] < adept) // NOT get_skill_learned
             {
-                act("You practice $T.", ch, nullptr, skill_table[sn].name, TO_CHAR);
-                act("$n practices $T.", ch, nullptr, skill_table[sn].name, TO_ROOM);
+                act("You practice $T.", ch, nullptr, skill_table[sn].name, To::Char);
+                act("$n practices $T.", ch, nullptr, skill_table[sn].name, To::Room);
             } else {
                 ch->pcdata->learned[sn] = adept;
-                act("You are now learned at $T.", ch, nullptr, skill_table[sn].name, TO_CHAR);
-                act("$n is now learned at $T.", ch, nullptr, skill_table[sn].name, TO_ROOM);
+                act("You are now learned at $T.", ch, nullptr, skill_table[sn].name, To::Char);
+                act("$n is now learned at $T.", ch, nullptr, skill_table[sn].name, To::Room);
             }
         }
     }

@@ -92,11 +92,11 @@ void do_gain(CHAR_DATA *ch, const char *argument) {
 
     if (!str_prefix(arg, "convert")) {
         if (ch->practice < 10) {
-            act("$N tells you 'You are not yet ready.'", ch, nullptr, trainer, TO_CHAR);
+            act("$N tells you 'You are not yet ready.'", ch, nullptr, trainer, To::Char);
             return;
         }
 
-        act("$N helps you apply your practice to training.", ch, nullptr, trainer, TO_CHAR);
+        act("$N helps you apply your practice to training.", ch, nullptr, trainer, To::Char);
         ch->practice -= 10;
         ch->train += 1;
         return;
@@ -104,16 +104,16 @@ void do_gain(CHAR_DATA *ch, const char *argument) {
 
     if (!str_prefix(arg, "points")) {
         if (ch->train < 2) {
-            act("$N tells you 'You are not yet ready.'", ch, nullptr, trainer, TO_CHAR);
+            act("$N tells you 'You are not yet ready.'", ch, nullptr, trainer, To::Char);
             return;
         }
 
         if (ch->pcdata->points <= 40) {
-            act("$N tells you 'There would be no point in that.'", ch, nullptr, trainer, TO_CHAR);
+            act("$N tells you 'There would be no point in that.'", ch, nullptr, trainer, To::Char);
             return;
         }
 
-        act("$N trains you, and you feel more at ease with your skills.", ch, nullptr, trainer, TO_CHAR);
+        act("$N trains you, and you feel more at ease with your skills.", ch, nullptr, trainer, To::Char);
 
         ch->train -= 2;
         ch->pcdata->points -= 1;
@@ -126,23 +126,23 @@ void do_gain(CHAR_DATA *ch, const char *argument) {
     gn = group_lookup(argument);
     if (gn > 0) {
         if (ch->pcdata->group_known[gn]) {
-            act("$N tells you 'You already know that group!'", ch, nullptr, trainer, TO_CHAR);
+            act("$N tells you 'You already know that group!'", ch, nullptr, trainer, To::Char);
             return;
         }
 
         if ((i = get_group_trains(ch, gn)) == 0) {
-            act("$N tells you 'That group is beyond your powers.'", ch, nullptr, trainer, TO_CHAR);
+            act("$N tells you 'That group is beyond your powers.'", ch, nullptr, trainer, To::Char);
             return;
         }
 
         if (ch->train < i) {
-            act("$N tells you 'You are not yet ready for that group.'", ch, nullptr, trainer, TO_CHAR);
+            act("$N tells you 'You are not yet ready for that group.'", ch, nullptr, trainer, To::Char);
             return;
         }
 
         /* add the group */
         gn_add(ch, gn);
-        act("$N trains you in the art of $t.", ch, group_table[gn].name, trainer, TO_CHAR);
+        act("$N trains you in the art of $t.", ch, group_table[gn].name, trainer, To::Char);
         ch->train -= i;
         return;
     }
@@ -150,34 +150,34 @@ void do_gain(CHAR_DATA *ch, const char *argument) {
     sn = skill_lookup(argument);
     if (sn > -1) {
         if (skill_table[sn].spell_fun != spell_null) {
-            act("$N tells you 'You must learn the full group.'", ch, nullptr, trainer, TO_CHAR);
+            act("$N tells you 'You must learn the full group.'", ch, nullptr, trainer, To::Char);
             return;
         }
 
         if (ch->pcdata->learned[sn]) // NOT get_skill_learned
         {
-            act("$N tells you 'You already know that skill!'", ch, nullptr, trainer, TO_CHAR);
+            act("$N tells you 'You already know that skill!'", ch, nullptr, trainer, To::Char);
             return;
         }
 
         if ((i = get_skill_trains(ch, sn)) == 0) {
-            act("$N tells you 'That skill is beyond your powers.'", ch, nullptr, trainer, TO_CHAR);
+            act("$N tells you 'That skill is beyond your powers.'", ch, nullptr, trainer, To::Char);
             return;
         }
 
         if (ch->train < i) {
-            act("$N tells you 'You are not yet ready for that skill.'", ch, nullptr, trainer, TO_CHAR);
+            act("$N tells you 'You are not yet ready for that skill.'", ch, nullptr, trainer, To::Char);
             return;
         }
 
         /* add the skill */
         ch->pcdata->learned[sn] = 1;
-        act("$N trains you in the art of $t", ch, skill_table[sn].name, trainer, TO_CHAR);
+        act("$N trains you in the art of $t", ch, skill_table[sn].name, trainer, To::Char);
         ch->train -= i;
         return;
     }
 
-    act("$N tells you 'I do not understand...'", ch, nullptr, trainer, TO_CHAR);
+    act("$N tells you 'I do not understand...'", ch, nullptr, trainer, To::Char);
 }
 
 /* R Spells and skills show the players spells (or skills) */

@@ -106,7 +106,7 @@ void announce(const char *buf, CHAR_DATA *ch) {
 
         if (d->is_playing() && d->character() != ch && victim && can_see(victim, ch)
             && !IS_SET(victim->comm, COMM_NOANNOUNCE) && !IS_SET(victim->comm, COMM_QUIET)) {
-            act(buf, victim, nullptr, ch, TO_CHAR, POS_DEAD);
+            act(buf, victim, nullptr, ch, To::Char, POS_DEAD);
         }
     }
 }
@@ -117,8 +117,8 @@ void do_say(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    act("$n|w says '$T|w'", ch, nullptr, argument, TO_ROOM);
-    act("You say '$T|w'", ch, nullptr, argument, TO_CHAR);
+    act("$n|w says '$T|w'", ch, nullptr, argument, To::Room);
+    act("You say '$T|w'", ch, nullptr, argument, To::Char);
     chatperformtoroom(argument, ch);
     /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
     mprog_speech_trigger(argument, ch);
@@ -133,8 +133,8 @@ void do_afk(CHAR_DATA *ch, const char *argument) {
     if (IS_SET(ch->act, PLR_AFK) && (argument == nullptr || strlen(argument) == 0)) {
         send_to_char("|cYour keyboard welcomes you back!|w\n\r", ch);
         send_to_char("|cYou are no longer marked as being afk.|w\n\r", ch);
-        act("|W$n's|w keyboard has welcomed $m back!", ch, nullptr, nullptr, TO_ROOM, POS_DEAD);
-        act("|W$n|w is no longer afk.", ch, nullptr, nullptr, TO_ROOM, POS_DEAD);
+        act("|W$n's|w keyboard has welcomed $m back!", ch, nullptr, nullptr, To::Room, POS_DEAD);
+        act("|W$n|w is no longer afk.", ch, nullptr, nullptr, To::Room, POS_DEAD);
         announce("|W###|w (|cAFK|w) $N has returned to $S keyboard.", ch);
         REMOVE_BIT(ch->act, PLR_AFK);
     } else {
@@ -148,10 +148,10 @@ void do_afk(CHAR_DATA *ch, const char *argument) {
         }
 
         snprintf(buf, sizeof(buf), "|cYou notify the mud that you are %s|c.|w", ch->pcdata->afk);
-        act(buf, ch, nullptr, nullptr, TO_CHAR, POS_DEAD);
+        act(buf, ch, nullptr, nullptr, To::Char, POS_DEAD);
 
         snprintf(buf, sizeof(buf), "|W$n|w is %s|w.", ch->pcdata->afk);
-        act(buf, ch, nullptr, nullptr, TO_ROOM, POS_DEAD);
+        act(buf, ch, nullptr, nullptr, To::Room, POS_DEAD);
 
         snprintf(buf, sizeof(buf), "|W###|w (|cAFK|w) $N is %s|w.", ch->pcdata->afk);
         announce(buf, ch);
@@ -176,28 +176,28 @@ static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
         send_to_char("|cYou must turn off quiet mode first.|w\n\r", ch);
 
     } else if (victim->desc == nullptr && !IS_NPC(victim)) {
-        act("|W$N|c seems to have misplaced $S link...try again later.|w", ch, nullptr, victim, TO_CHAR);
+        act("|W$N|c seems to have misplaced $S link...try again later.|w", ch, nullptr, victim, To::Char);
 
     } else if (IS_SET(victim->comm, COMM_QUIET) && !IS_IMMORTAL(ch)) {
-        act("|W$E|c is not receiving replies.|w", ch, 0, victim, TO_CHAR);
+        act("|W$E|c is not receiving replies.|w", ch, 0, victim, To::Char);
 
     } else if (IS_SET(victim->act, PLR_AFK) && !IS_NPC(victim)) {
         snprintf(buf, sizeof(buf), "|W$N|c is %s.|w", victim->pcdata->afk);
-        act(buf, ch, nullptr, victim, TO_CHAR, POS_DEAD);
+        act(buf, ch, nullptr, victim, To::Char, POS_DEAD);
         if (IS_SET(victim->comm, COMM_SHOWAFK)) {
             char *strtime;
             strtime = ctime(&current_time);
             strtime[strlen(strtime) - 1] = '\0';
             snprintf(buf, sizeof(buf), "|c%cAFK|C: At %s, $n told you '%s|C'.|w", 7, strtime, text);
-            act(buf, ch, nullptr, victim, TO_VICT, POS_DEAD);
+            act(buf, ch, nullptr, victim, To::Vict, POS_DEAD);
             snprintf(buf, sizeof(buf), "|cYour message was logged onto $S screen.|w");
-            act(buf, ch, nullptr, victim, TO_CHAR, POS_DEAD);
+            act(buf, ch, nullptr, victim, To::Char, POS_DEAD);
             victim->reply = ch;
         }
 
     } else {
-        act("|CYou tell $N '$t|C'|w", ch, text, victim, TO_CHAR, POS_DEAD);
-        act("|C$n tells you '$t|C'|w", ch, text, victim, TO_VICT, POS_DEAD);
+        act("|CYou tell $N '$t|C'|w", ch, text, victim, To::Char, POS_DEAD);
+        act("|C$n tells you '$t|C'|w", ch, text, victim, To::Vict, POS_DEAD);
         victim->reply = ch;
         chatperform(victim, ch, text);
     }
@@ -239,11 +239,11 @@ void do_yell(CHAR_DATA *ch, const char *argument) {
     if (IS_SET(ch->act, PLR_AFK))
         do_afk(ch, nullptr);
 
-    act("|WYou yell '$t|W'|w", ch, argument, nullptr, TO_CHAR);
+    act("|WYou yell '$t|W'|w", ch, argument, nullptr, To::Char);
     for (d = descriptor_list; d != nullptr; d = d->next) {
         if (d->is_playing() && d->character() != ch && d->character()->in_room != nullptr
             && d->character()->in_room->area == ch->in_room->area && !IS_SET(d->character()->comm, COMM_QUIET)) {
-            act("|W$n yells '$t|W'|w", ch, argument, d->character(), TO_VICT);
+            act("|W$n yells '$t|W'|w", ch, argument, d->character(), To::Vict);
         }
     }
 }
@@ -259,8 +259,8 @@ void do_emote(CHAR_DATA *ch, const char *argument) {
         if (IS_SET(ch->act, PLR_AFK))
             do_afk(ch, nullptr);
 
-        act("$n $T", ch, nullptr, argument, TO_ROOM);
-        act("$n $T", ch, nullptr, argument, TO_CHAR);
+        act("$n $T", ch, nullptr, argument, To::Room);
+        act("$n $T", ch, nullptr, argument, To::Char);
         chatperformtoroom(argument, ch);
     }
 }
@@ -372,8 +372,8 @@ void do_pose(CHAR_DATA *ch, const char *argument) {
     level = UMIN(ch->level, (int)(sizeof(pose_table) / sizeof(pose_table[0]) - 1));
     pose = number_range(0, level);
 
-    act(pose_table[pose].message[2 * ch->class_num + 0], ch, nullptr, nullptr, TO_CHAR);
-    act(pose_table[pose].message[2 * ch->class_num + 1], ch, nullptr, nullptr, TO_ROOM);
+    act(pose_table[pose].message[2 * ch->class_num + 0], ch, nullptr, nullptr, To::Char);
+    act(pose_table[pose].message[2 * ch->class_num + 1], ch, nullptr, nullptr, To::Room);
 }
 
 void do_bug(CHAR_DATA *ch, const char *argument) {
@@ -432,7 +432,7 @@ void do_quit(CHAR_DATA *ch, const char *arg) {
     }
     do_chal_canc(ch);
     send_to_char("|WYou quit reality for the game.|w\n\r", ch);
-    act("|W$n has left reality for the game.|w", ch, nullptr, nullptr, TO_ROOM);
+    act("|W$n has left reality for the game.|w", ch, nullptr, nullptr, To::Room);
     snprintf(log_buf, LOG_BUF_SIZE, "%s has quit.", ch->name);
     log_string(log_buf);
     snprintf(log_buf, LOG_BUF_SIZE, "|W### |P%s|W departs, seeking another reality.|w", ch->name);
@@ -494,7 +494,7 @@ void do_ride(CHAR_DATA *ch, const char *argument) {
     }
 
     if ((!IS_SET(ridee->act, ACT_CAN_BE_RIDDEN)) || (ridee->master != ch)) {
-        act("You can't ride $N!", ch, nullptr, ridee, TO_CHAR);
+        act("You can't ride $N!", ch, nullptr, ridee, To::Char);
         return;
     }
 
@@ -504,8 +504,8 @@ void do_ride(CHAR_DATA *ch, const char *argument) {
 void char_ride(CHAR_DATA *ch, CHAR_DATA *ridee) {
     AFFECT_DATA af;
 
-    act("You leap gracefully onto $N.", ch, nullptr, ridee, TO_CHAR);
-    act("$n swings up gracefully onto the back of $N.", ch, nullptr, ridee, TO_ROOM);
+    act("You leap gracefully onto $N.", ch, nullptr, ridee, To::Char);
+    act("$n swings up gracefully onto the back of $N.", ch, nullptr, ridee, To::Room);
     ch->riding = ridee;
     ridee->ridden_by = ch;
 
@@ -539,8 +539,8 @@ void do_dismount(CHAR_DATA *ch, const char *argument) {
 }
 
 void thrown_off(CHAR_DATA *ch, CHAR_DATA *pet) {
-    act("|RYou are flung from $N!|w", ch, nullptr, pet, TO_CHAR);
-    act("$n is flung from $N!", ch, nullptr, pet, TO_ROOM);
+    act("|RYou are flung from $N!|w", ch, nullptr, pet, To::Char);
+    act("$n is flung from $N!", ch, nullptr, pet, To::Room);
     fallen_off_mount(ch);
 }
 
@@ -561,8 +561,8 @@ void fallen_off_mount(CHAR_DATA *ch) {
 }
 
 void unride_char(CHAR_DATA *ch, CHAR_DATA *pet) {
-    act("You swing your leg over and dismount $N.", ch, nullptr, pet, TO_CHAR);
-    act("$n smoothly dismounts $N.", ch, nullptr, pet, TO_ROOM);
+    act("You swing your leg over and dismount $N.", ch, nullptr, pet, To::Char);
+    act("$n smoothly dismounts $N.", ch, nullptr, pet, To::Room);
     pet->ridden_by = nullptr;
     ch->riding = nullptr;
 
@@ -587,7 +587,7 @@ void do_follow(CHAR_DATA *ch, const char *argument) {
     }
 
     if (IS_AFFECTED(ch, AFF_CHARM) && ch->master != nullptr) {
-        act("But you'd rather follow $N!", ch, nullptr, ch->master, TO_CHAR);
+        act("But you'd rather follow $N!", ch, nullptr, ch->master, To::Char);
         return;
     }
 
@@ -601,7 +601,7 @@ void do_follow(CHAR_DATA *ch, const char *argument) {
     }
 
     if (!IS_NPC(victim) && IS_SET(victim->act, PLR_NOFOLLOW) && !IS_IMMORTAL(ch)) {
-        act("$N doesn't seem to want any followers.\n\r", ch, nullptr, victim, TO_CHAR);
+        act("$N doesn't seem to want any followers.\n\r", ch, nullptr, victim, To::Char);
         return;
     }
 
@@ -623,9 +623,9 @@ void add_follower(CHAR_DATA *ch, CHAR_DATA *master) {
     ch->leader = nullptr;
 
     if (can_see(master, ch))
-        act("$n now follows you.", ch, nullptr, master, TO_VICT);
+        act("$n now follows you.", ch, nullptr, master, To::Vict);
 
-    act("You now follow $N.", ch, nullptr, master, TO_CHAR);
+    act("You now follow $N.", ch, nullptr, master, To::Char);
 }
 
 void stop_follower(CHAR_DATA *ch) {
@@ -640,8 +640,8 @@ void stop_follower(CHAR_DATA *ch) {
     }
 
     if (can_see(ch->master, ch) && ch->in_room != nullptr) {
-        act("$n stops following you.", ch, nullptr, ch->master, TO_VICT);
-        act("You stop following $N.", ch, nullptr, ch->master, TO_CHAR);
+        act("$n stops following you.", ch, nullptr, ch->master, To::Vict);
+        act("You stop following $N.", ch, nullptr, ch->master, To::Char);
     }
     if (ch->master->pet == ch) {
         if (ch->master->riding == ch) {
@@ -665,7 +665,7 @@ void nuke_pets(CHAR_DATA *ch) {
         }
 
         if (pet->in_room != nullptr) {
-            act("$N slowly fades away.", ch, nullptr, pet, TO_NOTVICT);
+            act("$N slowly fades away.", ch, nullptr, pet, To::NotVict);
             extract_char(pet, true);
         }
     }
@@ -746,7 +746,7 @@ void do_order(CHAR_DATA *ch, const char *argument) {
         if (IS_AFFECTED(och, AFF_CHARM) && och->master == ch && (fAll || och == victim)) {
             found = true;
             snprintf(buf, sizeof(buf), "|W$n|w orders you to '%s'.", command_remainder);
-            act(buf, ch, nullptr, och, TO_VICT);
+            act(buf, ch, nullptr, och, To::Vict);
             WAIT_STATE(ch, 2 * PULSE_VIOLENCE);
             // We know this points into the remainder of "argument"
             interpret(och, command_remainder);
@@ -796,7 +796,7 @@ void do_group(CHAR_DATA *ch, const char *argument) {
     }
 
     if (victim->master != ch && ch != victim) {
-        act("|W$N|w isn't following you.", ch, nullptr, victim, TO_CHAR);
+        act("|W$N|w isn't following you.", ch, nullptr, victim, To::Char);
         return;
     }
 
@@ -806,32 +806,32 @@ void do_group(CHAR_DATA *ch, const char *argument) {
     }
 
     if (IS_AFFECTED(ch, AFF_CHARM)) {
-        act("You like your master too much to leave $m!", ch, nullptr, victim, TO_VICT);
+        act("You like your master too much to leave $m!", ch, nullptr, victim, To::Vict);
         return;
     }
 
     if (is_same_group(victim, ch) && ch != victim) {
         victim->leader = nullptr;
-        act("$n removes $N from $s group.", ch, nullptr, victim, TO_NOTVICT);
-        act("$n removes you from $s group.", ch, nullptr, victim, TO_VICT);
-        act("You remove $N from your group.", ch, nullptr, victim, TO_CHAR);
+        act("$n removes $N from $s group.", ch, nullptr, victim, To::NotVict);
+        act("$n removes you from $s group.", ch, nullptr, victim, To::Vict);
+        act("You remove $N from your group.", ch, nullptr, victim, To::Char);
         return;
     }
     /*
         if ( ch->level - victim->level < -8
         ||   ch->level - victim->level >  8 )
         {
-         act( "$N cannot join $n's group.",     ch, nullptr, victim, TO_NOTVICT );
-         act( "You cannot join $n's group.",    ch, nullptr, victim, TO_VICT    );
-         act( "$N cannot join your group.",     ch, nullptr, victim, TO_CHAR    );
+         act( "$N cannot join $n's group.",     ch, nullptr, victim, To::NotVict );
+         act( "You cannot join $n's group.",    ch, nullptr, victim, To::Vict    );
+         act( "$N cannot join your group.",     ch, nullptr, victim, To::Char    );
          return;
         }
     */
 
     victim->leader = ch;
-    act("$N joins $n's group.", ch, nullptr, victim, TO_NOTVICT);
-    act("You join $n's group.", ch, nullptr, victim, TO_VICT);
-    act("$N joins your group.", ch, nullptr, victim, TO_CHAR);
+    act("$N joins $n's group.", ch, nullptr, victim, To::NotVict);
+    act("You join $n's group.", ch, nullptr, victim, To::Vict);
+    act("$N joins your group.", ch, nullptr, victim, To::Char);
 }
 
 /*
@@ -899,7 +899,7 @@ void do_split(CHAR_DATA *ch, const char *argument) {
 
     for (gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
         if (gch != ch && is_same_group(gch, ch) && !IS_AFFECTED(gch, AFF_CHARM)) {
-            act(buf, ch, nullptr, gch, TO_VICT);
+            act(buf, ch, nullptr, gch, To::Vict);
             gch->gold += share;
         }
     }
@@ -965,7 +965,7 @@ void chatperform(CHAR_DATA *to_npc, CHAR_DATA *from_player, const char *msg) {
             if (from_player == nullptr) {
                 do_say(to_npc, reply);
             } else {
-                act("$N tells you '$t'.", from_player, reply, to_npc, TO_CHAR);
+                act("$N tells you '$t'.", from_player, reply, to_npc, To::Char);
                 from_player->reply = to_npc;
             }
         }

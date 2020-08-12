@@ -73,7 +73,7 @@ void do_challenge(CHAR_DATA *ch, const char *argument) {
     }
 
     if (victim->desc == nullptr && !IS_NPC(victim)) {
-        act("|W$N|c seems to have misplaced $S link...try again later.|w", ch, nullptr, victim, TO_CHAR);
+        act("|W$N|c seems to have misplaced $S link...try again later.|w", ch, nullptr, victim, To::Char);
         return;
     }
 

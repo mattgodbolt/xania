@@ -227,15 +227,6 @@ struct con_app_type {
 };
 
 /*
- * TO types for act.
- */
-#define TO_ROOM 0
-#define TO_NOTVICT 1
-#define TO_VICT 2
-#define TO_CHAR 3
-#define TO_GIVENROOM 4
-
-/*
  * Help table types.
  */
 struct help_data {

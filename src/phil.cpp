@@ -64,15 +64,15 @@ bool doSleepActions(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
         if (sleepFactor < STIR_AT) {
             random = number_percent();
             if (random > 97) {
-                act("$n stirs in $s sleep.", ch, nullptr, nullptr, TO_ROOM);
+                act("$n stirs in $s sleep.", ch, nullptr, nullptr, To::Room);
                 return true;
             }
             if (random > 94) {
-                act("$n rolls over.", ch, nullptr, nullptr, TO_ROOM);
+                act("$n rolls over.", ch, nullptr, nullptr, To::Room);
                 return true;
             }
             if (random > 91) {
-                act("$n sniffles and scratches $s nose.", ch, nullptr, nullptr, TO_ROOM);
+                act("$n sniffles and scratches $s nose.", ch, nullptr, nullptr, To::Room);
                 return true;
             }
         }
@@ -84,11 +84,11 @@ bool doSleepActions(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
         if (ch->in_room == home) {
             do_sleep(ch, 0);
         } else {
-            act("$n tiredly waves $s hands in a complicated pattern and is gone.", ch, nullptr, nullptr, TO_ROOM);
-            act("You transport yourself back home.", ch, nullptr, nullptr, TO_CHAR);
+            act("$n tiredly waves $s hands in a complicated pattern and is gone.", ch, nullptr, nullptr, To::Room);
+            act("You transport yourself back home.", ch, nullptr, nullptr, To::Char);
             char_from_room(ch);
             char_to_room(ch, home);
-            act("$n appears in a confused whirl of mist.", ch, nullptr, nullptr, TO_ROOM);
+            act("$n appears in a confused whirl of mist.", ch, nullptr, nullptr, To::Room);
         }
         return true;
     }

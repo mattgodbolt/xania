@@ -678,8 +678,8 @@ void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd) {
 
         if (depth == 0) {
             depth++;
-            act("You drop $p.", ch, wield, nullptr, TO_CHAR);
-            act("$n drops $p.", ch, wield, nullptr, TO_ROOM);
+            act("You drop $p.", ch, wield, nullptr, To::Char);
+            act("$n drops $p.", ch, wield, nullptr, To::Room);
             obj_from_char(wield);
             obj_to_room(wield, ch->in_room);
             depth--;
@@ -955,7 +955,7 @@ void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
             if (save != 0 && !saves_spell(save, vch) && !IS_IMMORTAL(vch) && !IS_AFFECTED(vch, AFF_PLAGUE)
                 && number_bits(6) == 0) {
                 send_to_char("You feel hot and feverish.\n\r", vch);
-                act("$n shivers and looks very ill.", vch, nullptr, nullptr, TO_ROOM);
+                act("$n shivers and looks very ill.", vch, nullptr, nullptr, To::Room);
                 affect_join(vch, &plague);
             }
         }
@@ -1064,8 +1064,8 @@ OBJ_DATA *get_eq_char(CHAR_DATA *ch, int iWear) {
  */
 void enforce_material_vulnerability(CHAR_DATA *ch, OBJ_DATA *obj) {
     if (check_material_vulnerability(ch, obj) == 1) {
-        act("As you equip $p it burns you, causing you to shriek in pain!", ch, obj, nullptr, TO_CHAR);
-        act("$n shrieks in pain!", ch, obj, nullptr, TO_ROOM);
+        act("As you equip $p it burns you, causing you to shriek in pain!", ch, obj, nullptr, To::Char);
+        act("$n shrieks in pain!", ch, obj, nullptr, To::Room);
         if (!IS_AFFECTED(ch, AFF_POISON)) {
             int p_sn = skill_lookup("poison");
             spell_poison(p_sn, ch->level, ch, ch);
@@ -1090,8 +1090,8 @@ void equip_char(CHAR_DATA *ch, OBJ_DATA *obj, int iWear) {
         /*
          * Thanks to Morgenes for the bug fix here!
          */
-        act("You are zapped by $p and drop it.", ch, obj, nullptr, TO_CHAR);
-        act("$n is zapped by $p and drops it.", ch, obj, nullptr, TO_ROOM);
+        act("You are zapped by $p and drop it.", ch, obj, nullptr, To::Char);
+        act("$n is zapped by $p and drops it.", ch, obj, nullptr, To::Room);
         obj_from_char(obj);
         obj_to_room(obj, ch->in_room);
         return;
@@ -1192,8 +1192,8 @@ bool check_sub_issue(OBJ_DATA *obj, CHAR_DATA *ch) {
     int vnum;
     vnum = obj->pIndexData->vnum;
     if (((vnum >= 3700) && (vnum <= 3713)) || (vnum == 3716) || (vnum == 3717)) {
-        act("$n drops the $p. It disappears in a puff of acrid smoke.", ch, obj, nullptr, TO_ROOM);
-        act("$p disappears in a puff of acrid smoke.", ch, obj, nullptr, TO_CHAR);
+        act("$n drops the $p. It disappears in a puff of acrid smoke.", ch, obj, nullptr, To::Room);
+        act("$p disappears in a puff of acrid smoke.", ch, obj, nullptr, To::Char);
         return true;
     }
     return false;
