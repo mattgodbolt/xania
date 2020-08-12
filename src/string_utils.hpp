@@ -12,6 +12,8 @@
 [[nodiscard]] std::string replace_strings(std::string message, std::string_view from_str, std::string_view to_str);
 // Skips whitespace, returning a new string.
 [[nodiscard]] std::string skip_whitespace(std::string_view str);
+// Skips leading and trailing whitespace, and compacts intermediate spaces down to a single space.
+[[nodiscard]] std::string reduce_spaces(std::string_view str);
 // Trims off the last line of a string (terminated with \n\r).
 [[nodiscard]] std::string remove_last_line(std::string_view str);
 

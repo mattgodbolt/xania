@@ -73,6 +73,31 @@ TEST_CASE("string_util tests") {
         }
     }
 
+    SECTION("reduce spaces") {
+        SECTION("no spaces") {
+            CHECK(reduce_spaces("") == "");
+            CHECK(reduce_spaces("dog") == "dog");
+        }
+        SECTION("all spaces") {
+            CHECK(reduce_spaces(" ") == "");
+            CHECK(reduce_spaces("  ") == "");
+            CHECK(reduce_spaces("\t ") == "");
+        }
+        SECTION("skip leading space") {
+            CHECK(reduce_spaces("   dog") == "dog");
+            CHECK(reduce_spaces(" \tcat") == "cat");
+        }
+        SECTION("reduce interstitial spaces") {
+            CHECK(reduce_spaces("dog  cat") == "dog cat");
+            CHECK(reduce_spaces("cat\t\tdog") == "cat dog");
+        }
+        SECTION("skip trailing spaces") {
+            CHECK(reduce_spaces("dog  ") == "dog");
+            CHECK(reduce_spaces("cat   ") == "cat");
+            CHECK(reduce_spaces(" t   ") == "t");
+        }
+    }
+
     SECTION("smashes tildes") {
         CHECK(smash_tilde("moose") == "moose");
         CHECK(smash_tilde("m~~se") == "m--se");

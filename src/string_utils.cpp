@@ -81,6 +81,25 @@ std::string skip_whitespace(std::string_view str) {
     return std::string(std::find_if(str.begin(), str.end(), [](auto ch) { return !std::isspace(ch); }), str.end());
 }
 
+std::string reduce_spaces(std::string_view str) {
+    bool previous_was_space{false};
+    bool past_leading_spaces{false};
+    std::string result;
+    result.reserve(str.size());
+    for (auto c : str) {
+        if (std::isspace(c)) {
+            previous_was_space = true;
+        } else {
+            if (std::exchange(previous_was_space, false) && past_leading_spaces) {
+                result.push_back(' ');
+            }
+            result.push_back(c);
+            past_leading_spaces = true;
+        }
+    }
+    return result;
+}
+
 std::string remove_last_line(std::string_view str) {
     static constexpr auto line_ending = "\n\r"sv;
     // If long enough to have a crlf...
