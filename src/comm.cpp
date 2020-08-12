@@ -1495,20 +1495,7 @@ std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg
         }
     }
 
-    // Uppercase the first non-colour-sequence letter.
-    bool skip_next{false};
-    for (auto &c : buf) {
-        if (skip_next)
-            continue;
-        if (c == '|')
-            skip_next = true;
-        else {
-            c = UPPER(c);
-            break;
-        }
-    }
-
-    return buf + "\n\r";
+    return upper_first_character(buf) + "\n\r";
 }
 
 bool act_to_person(const CHAR_DATA *person, int min_pos) {

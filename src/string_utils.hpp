@@ -47,3 +47,6 @@ Container split_lines(std::string_view input) {
 
 // Colourises (or strips out, if use_ansi is false) the strange pipe-delimited text format we use for colour.
 [[nodiscard]] std::string colourise_mud_string(bool use_ansi, std::string_view txt);
+
+// Upper-cases the first character, taking into account things like `|Rthe goblin is DEAD!!`
+[[nodiscard]] std::string upper_first_character(std::string_view sv);

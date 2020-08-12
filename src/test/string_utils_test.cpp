@@ -164,6 +164,17 @@ TEST_CASE("string_util tests") {
         SECTION("non-letters") { CHECK(lower_case("G0RD0N'5 AL111111V3!!!!!!") == "g0rd0n'5 al111111v3!!!!!!"); }
     }
 
+    SECTION("upper case first char") {
+        SECTION("should handle empty") { CHECK(upper_first_character("") == ""); }
+        SECTION("should handle already upper") { CHECK(upper_first_character("Hello") == "Hello"); }
+        SECTION("should handle already upper") { CHECK(upper_first_character("|rHello") == "|rHello"); }
+        SECTION("should upper case") { CHECK(upper_first_character("hello") == "Hello"); }
+        SECTION("should ignore colour sequences") { CHECK(upper_first_character("|whello") == "|wHello"); }
+        SECTION("should ignore multiple colour sequences") {
+            CHECK(upper_first_character("|w|r|ghello") == "|w|r|gHello");
+        }
+    }
+
     SECTION("has_prefix") {
         SECTION("prefix") { CHECK(has_prefix("boolean", "bool")); }
         SECTION("full match") { CHECK(has_prefix("integer", "integer")); }

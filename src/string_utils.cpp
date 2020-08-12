@@ -191,3 +191,20 @@ std::string colourise_mud_string(bool use_ansi, std::string_view txt) {
     }
     return buf;
 }
+
+std::string upper_first_character(std::string_view sv) {
+    std::string result(sv);
+    // Uppercase the first non-colour-sequence letter.
+    bool skip_next{false};
+    for (auto &c : result) {
+        if (std::exchange(skip_next, false))
+            continue;
+        if (c == '|')
+            skip_next = true;
+        else {
+            c = toupper(c);
+            break;
+        }
+    }
+    return result;
+}
