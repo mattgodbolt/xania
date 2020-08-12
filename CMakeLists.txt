@@ -41,6 +41,5 @@ enable_testing()
 
 add_subdirectory(src)
 add_subdirectory(area)
-add_subdirectory(ext/seasocks-1.4.3)
 
 install(DIRECTORY html DESTINATION .)

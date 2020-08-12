@@ -7,7 +7,7 @@ add_library(doorman_lib STATIC
         Logger.cpp Logger.hpp
         TelnetProtocol.cpp TelnetProtocol.hpp
         Xania.cpp Xania.hpp SeasocksToLogger.hpp)
-target_link_libraries(doorman_lib CONAN_PKG::fmt CONAN_PKG::ms-gsl CONAN_PKG::spdlog seasocks)
+target_link_libraries(doorman_lib CONAN_PKG::fmt CONAN_PKG::ms-gsl CONAN_PKG::spdlog CONAN_PKG::seasocks)
 
 add_executable(doorman main.cpp)
 target_link_libraries(doorman doorman_lib)
