@@ -1498,7 +1498,7 @@ std::vector<const CHAR_DATA *> collect_folks(const CHAR_DATA *ch, const CHAR_DAT
             bug("Act: null or incorrect type of vch");
             return {};
         }
-        if (vch->in_room == nullptr || ch == vch || ch->in_room != vch->in_room || !act_to_person(vch, min_pos))
+        if (vch->in_room == nullptr || ch == vch || !act_to_person(vch, min_pos))
             return {};
 
         return {vch};
