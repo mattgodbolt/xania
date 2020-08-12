@@ -660,6 +660,10 @@ void nanny(Descriptor *d, const char *argument) {
         close_socket(d);
         return;
 
+    case DescriptorState::Closed:
+        // Do nothing if the descriptor is already closed.
+        return;
+
     case DescriptorState::GetName: {
         if (argument[0] == '\0') {
             close_socket(d);
