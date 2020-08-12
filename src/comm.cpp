@@ -1381,7 +1381,7 @@ void page_to_char(const char *txt, CHAR_DATA *ch) {
     ch->desc->page_to(txt);
 }
 
-void act(std::string_view format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type) {
+void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type) {
     act(format, ch, arg1, arg2, type, POS_RESTING);
 }
 
@@ -1495,8 +1495,10 @@ std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg
 
 }
 
-void act(std::string_view format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type, int min_pos) {
-    if (format.empty() || !ch || !ch->in_room)
+void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type, int min_pos) {
+    // Socials and puff use null here as a "don't do this". If you're tempted to turn format into a string_view, beware,
+    // that causes a segfault.
+    if (format == nullptr || format[0] == 0 || !ch || !ch->in_room)
         return;
 
     const CHAR_DATA *vch = std::get_if<const CHAR_DATA *>(&arg2) ? *std::get_if<const CHAR_DATA *>(&arg2) : nullptr;
