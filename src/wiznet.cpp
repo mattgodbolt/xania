@@ -9,16 +9,21 @@
 
 #include "CommandSet.hpp"
 #include "Descriptor.hpp"
-#include <ctype.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
+#include <fmt/format.h>
+
+#include <cctype>
+#include <cstdarg>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 #include <sys/types.h>
-#include <time.h>
 
 #include "comm.hpp"
 #include "merc.h"
+
+using namespace fmt::literals;
 
 extern FILE *fpArea;
 
@@ -60,29 +65,25 @@ void bug(const char *str, ...) {
 }
 
 /* Writes a string to the log. */
-void log_string(const char *str) { log_new(str, EXTRA_WIZNET_DEBUG, 0); }
+void log_string(std::string_view str) { log_new(str, EXTRA_WIZNET_DEBUG, 0); }
 
 /* New log - takes a level and broadcasts to IMMs on WIZNET */
-void log_new(const char *str, int loglevel, int level) {
-    char *strtime;
-    char buf[MAX_STRING_LENGTH];
-    Descriptor *d;
-
-    strtime = ctime(&current_time);
-    strtime[strlen(strtime) - 1] = '\0';
-    fprintf(stderr, "%s :: %s\n", strtime, str); /* Prints to the log */
-
-    snprintf(buf, sizeof(buf), "|GWIZNET:|g %s|w\n\r", str); /* Prepare the Wiznet message */
+void log_new(std::string_view str, int loglevel, int level) {
+    std::string_view time = ctime(&current_time);
+    time.remove_suffix(1);
+    // One day use spdlog here?
+    fmt::print(stderr, "{} :: {}\n", time, str);
 
     if (loglevel == EXTRA_WIZNET_DEBUG)
         level = UMAX(level, 96); /* Prevent non-SOCK ppl finding out sin_addrs */
 
-    for (d = descriptor_list; d; d = d->next) {
+    auto wiznet_msg = "|GWIZNET:|g {}|w\n\r"_format(str);
+    for (auto *d = descriptor_list; d; d = d->next) {
         CHAR_DATA *ch = d->person();
         if ((!d->is_playing()) || (ch == nullptr) || (IS_NPC(ch)) || !is_set_extra(ch, EXTRA_WIZNET_ON)
             || !is_set_extra(ch, loglevel) || (get_trust(ch) < level))
             continue;
-        send_to_char(buf, d->character());
+        send_to_char(wiznet_msg, d->character());
     }
 }
 

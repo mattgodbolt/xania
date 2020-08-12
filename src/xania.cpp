@@ -16,12 +16,16 @@
 #include "merc.h"
 #include "string_utils.hpp"
 
+#include <fmt/format.h>
+
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <sys/types.h>
+
+using namespace fmt::literals;
 
 /*
  * KLUDGEMONGER III, Revenge of Kludgie, the Malicious Code Murderer...
@@ -38,15 +42,11 @@ TIP_TYPE *tip_current;
    that could be wrong with the object */
 
 void objectbug(const char *str, OBJ_INDEX_DATA *obj) {
-    char buf[MAX_STRING_LENGTH + 64];
-    snprintf(buf, sizeof(buf), "obj> %s (#%d): %s", obj->short_descr, obj->vnum, str);
-    log_string(buf);
+    log_string("obj> {} (#{}): {}"_format(obj->short_descr, obj->vnum, str));
 }
 
 void mobbug(const char *str, MOB_INDEX_DATA *mob) {
-    char buf[MAX_STRING_LENGTH];
-    snprintf(buf, sizeof(buf), "mob> %s (#%d): %s", mob->short_descr, mob->vnum, str);
-    log_string(buf);
+    log_string("mob> {} (#{}): {}"_format(mob->short_descr, mob->vnum, str));
 }
 
 int report_object(OBJ_DATA *object, int boot) {
@@ -729,7 +729,7 @@ void load_tipfile() {
         ungetc(c, fp);
         if (feof(fp)) {
             fclose(fp);
-            bug("Loaded %d tips", tipcount); /* not really a bug! */
+            log_string("Loaded {} tips"_format(tipcount));
             if (tipcount == 0)
                 ignore_tips = true; /* don't bother polling the tip loop*/
             tip_current = tip_top;
