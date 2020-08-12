@@ -1495,14 +1495,18 @@ std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg
     return buf + "\n\r";
 }
 
+bool act_to_person(const CHAR_DATA *person, int min_pos) {
+    // Ignore folks with no descriptor, or below minimum position.
+    return person->desc != nullptr && person->position >= min_pos;
+}
+
 std::vector<const CHAR_DATA *> folks_in_room(const ROOM_INDEX_DATA *room, const CHAR_DATA *ch, const CHAR_DATA *vch,
                                              const To &type, int min_pos) {
     std::vector<const CHAR_DATA *> result;
     for (auto *person = room->people; person; person = person->next_in_room) {
-        // Ignore folks with no descriptor, or below minimum position.
-        if (person->desc == nullptr || person->position < min_pos)
+        if (!act_to_person(person, min_pos))
             continue;
-        // Never consider the character themselves (they're handled explicitly by the To::Char clause above.
+        // Never consider the character themselves (they're handled explicitly elsewhere).
         if (person == ch)
             continue;
         // Ignore the victim if necessary.
@@ -1518,16 +1522,18 @@ std::vector<const CHAR_DATA *> collect_folks(const CHAR_DATA *ch, const CHAR_DAT
     const ROOM_INDEX_DATA *room{};
 
     switch (type) {
-    case To::Char: return {ch};
+    case To::Char:
+        if (act_to_person(ch, min_pos))
+            return {ch};
+        else
+            return {};
 
     case To::Vict:
         if (vch == nullptr) {
             bug("Act: null or incorrect type of vch");
             return {};
         }
-        if (vch->in_room == nullptr)
-            return {};
-        if (ch == vch || ch->in_room != vch->in_room)
+        if (vch->in_room == nullptr || ch == vch || ch->in_room != vch->in_room || !act_to_person(vch, min_pos))
             return {};
 
         return {vch};
