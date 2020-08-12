@@ -82,7 +82,7 @@ bool Descriptor::write_direct(std::string_view text) const {
 
     while (!text.empty()) {
         p.nExtra = std::min<uint32_t>(text.length(), PACKET_MAX_PAYLOAD_SIZE);
-        if (!SendPacket(&p, text.data()))
+        if (!send_to_doorman(&p, text.data()))
             return false;
         text = text.substr(p.nExtra);
     }
@@ -246,7 +246,7 @@ void Descriptor::close() noexcept {
     }
     p.channel = channel_;
     p.nExtra = 0;
-    SendPacket(&p, nullptr);
+    send_to_doorman(&p, nullptr);
 
     state_ = DescriptorState::Closed;
 }

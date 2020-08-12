@@ -20,7 +20,7 @@ extern char str_boot_time[];
 // and/or the guts of "main" below should be extracted
 extern int init_socket(const char *file);
 extern int doormanDesc;
-extern bool SendPacket(Packet *p, const void *extra);
+extern bool send_to_doorman(const Packet *p, const void *extra);
 extern void game_loop_unix(int control);
 
 int main(int argc, char **argv) {
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
         Packet pInit;
         pInit.nExtra = pInit.channel = 0;
         pInit.type = PACKET_INIT;
-        SendPacket(&pInit, nullptr);
+        send_to_doorman(&pInit, nullptr);
     }
     game_loop_unix(control);
     close(control);

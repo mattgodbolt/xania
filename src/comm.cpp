@@ -93,7 +93,7 @@ void show_prompt(Descriptor *d, char *prompt);
 int doormanDesc = 0;
 
 /* Send a packet to doorman */
-bool SendPacket(Packet *p, const void *extra) {
+bool send_to_doorman(const Packet *p, const void *extra) {
     // TODO: do something rather than return here if there's a failure
     if (!doormanDesc)
         return false;
@@ -118,7 +118,7 @@ void SetEchoState(Descriptor *d, int on) {
     p.type = on ? PACKET_ECHO_ON : PACKET_ECHO_OFF;
     p.channel = d->channel();
     p.nExtra = 0;
-    SendPacket(&p, nullptr);
+    send_to_doorman(&p, nullptr);
 }
 
 /* where we're asked nicely to quit from the outside (mudmgr or OS) */
@@ -280,11 +280,11 @@ void game_loop_unix(int control) {
                 perror("doorman: accept");
                 doormanDesc = 0;
             } else {
-                Packet pInit;
                 log_string("Doorman has connected.");
+                Packet pInit;
                 pInit.nExtra = pInit.channel = 0;
                 pInit.type = PACKET_INIT;
-                SendPacket(&pInit, nullptr);
+                send_to_doorman(&pInit, nullptr);
             }
         }
 
@@ -1130,7 +1130,7 @@ void nanny(Descriptor *d, const char *argument) {
             p.type = PACKET_AUTHORIZED;
             p.channel = d->channel();
             p.nExtra = strlen(ch->name) + 1;
-            SendPacket(&p, ch->name);
+            send_to_doorman(&p, ch->name);
         }
 
         if (ch->level == 0) {
