@@ -1495,6 +1495,69 @@ std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg
     return buf + "\n\r";
 }
 
+std::vector<const CHAR_DATA *> folks_in_room(const ROOM_INDEX_DATA *room, const CHAR_DATA *ch, const CHAR_DATA *vch,
+                                             const To &type, int min_pos) {
+    std::vector<const CHAR_DATA *> result;
+    for (auto *person = room->people; person; person = person->next_in_room) {
+        // Ignore folks with no descriptor, or below minimum position.
+        if (person->desc == nullptr || person->position < min_pos)
+            continue;
+        // Never consider the character themselves (they're handled explicitly by the To::Char clause above.
+        if (person == ch)
+            continue;
+        // Ignore the victim if necessary.
+        if (type == To::NotVict && person == vch)
+            continue;
+        result.emplace_back(person);
+    }
+    return result;
+}
+
+std::vector<const CHAR_DATA *> collect_folks(const CHAR_DATA *ch, const CHAR_DATA *vch, Act2Arg arg2, To type,
+                                             int min_pos) {
+    const ROOM_INDEX_DATA *room{};
+
+    switch (type) {
+    case To::Char: return {ch};
+
+    case To::Vict:
+        if (vch == nullptr) {
+            bug("Act: null or incorrect type of vch");
+            return {};
+        }
+        if (vch->in_room == nullptr)
+            return {};
+        if (ch == vch || ch->in_room != vch->in_room)
+            return {};
+
+        return {vch};
+
+    case To::GivenRoom:
+        if (auto arg2_as_room_ptr = std::get_if<const ROOM_INDEX_DATA *>(&arg2)) {
+            room = *arg2_as_room_ptr;
+        } else {
+            bug("Act: null room with To::GivenRoom.");
+            return {};
+        }
+        break;
+
+    case To::Room:
+    case To::NotVict: room = ch->in_room; break;
+    }
+
+    auto result = folks_in_room(room, ch, vch, type, min_pos);
+
+    // If we're sending messages to the challenge room...
+    if (room->vnum == CHAL_ROOM) {
+        // also include all the folks in the viewing gallery with the appropriate position. We assume the victim
+        // is not somehow in the viewing gallery.
+        auto viewing = folks_in_room(get_room_index(CHAL_VIEWING_GALLERY), ch, vch, type, min_pos);
+        result.insert(result.end(), viewing.begin(), viewing.end());
+    }
+
+    return result;
+}
+
 }
 
 void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type, int min_pos) {
@@ -1505,68 +1568,18 @@ void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type,
 
     const CHAR_DATA *vch = std::get_if<const CHAR_DATA *>(&arg2) ? *std::get_if<const CHAR_DATA *>(&arg2) : nullptr;
 
-    CHAR_DATA *to; // begrudgingly mutable because mobprogs...
-    switch (type) {
-    case To::GivenRoom: {
-        auto arg2_as_room_ptr = std::get_if<const ROOM_INDEX_DATA *>(&arg2);
-        if (!arg2_as_room_ptr) {
-            bug("Act: null room with To::GivenRoom.");
-            return;
-        }
-        to = (*arg2_as_room_ptr)->people;
-        break;
-    }
-    case To::Vict: {
-        if (vch == nullptr) {
-            bug("%s", "Act: null or incorrect type of vch with To::Vict with format '{}'"_format(format).c_str());
-            return;
-        }
-        if (vch->in_room == nullptr)
-            return;
-
-        to = vch->in_room->people;
-        break;
-    }
-    default: to = ch->in_room->people; break;
-    }
-
-    for (; to != nullptr; to = to->next_in_room) {
-        if (to->desc == nullptr || to->position < min_pos)
-            continue;
-        // TODO: this is a heinous mass of complex logic. Untangle...
-        if (type == To::Char && to != ch)
-            continue;
-        if (type == To::Vict && (to != vch || to == ch))
-            continue;
-        if (type == To::Room && to == ch && ch->in_room->vnum != CHAL_ROOM)
-            continue;
-        if (type == To::GivenRoom && to == ch && ch->in_room->vnum != CHAL_ROOM)
-            continue;
-        if (type == To::NotVict && (to == ch || to == vch) && ch->in_room->vnum != CHAL_ROOM)
-            continue;
-        if ((type == To::Room && to == ch) || (type == To::NotVict && (to == ch || to == vch)))
-            continue;
-
+    for (auto *to : collect_folks(ch, vch, arg2, type, min_pos)) {
         auto formatted = format_act(format, ch, arg1, arg2, to, vch);
         send_to_char(formatted, to);
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         if (MOBtrigger) {
             auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1);
-            mprog_act_trigger(formatted.c_str(), to, ch, arg1_as_obj_ptr ? *arg1_as_obj_ptr : nullptr, vch);
+            // TODO: heinous const_cast here. Safe, but annoying and worth unpicking deeper down.
+            mprog_act_trigger(formatted.c_str(), const_cast<CHAR_DATA *>(to), ch,
+                              arg1_as_obj_ptr ? *arg1_as_obj_ptr : nullptr, vch);
         }
     }
     MOBtrigger = true;
-
-    if ((type == To::Room || type == To::NotVict) && ch->in_room->vnum == CHAL_ROOM) {
-        // MRG: with reference to bug #124 I made a change to reformat with each person in the challenge room
-        // gallery as the "to". I don't know if this is right or not.
-        for (auto *d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->character() && d->character()->in_room != nullptr
-                && d->character()->in_room->vnum == CHAL_VIEWING_GALLERY && IS_AWAKE(d->character())) {
-                send_to_char(format_act(format, ch, arg1, arg2, d->character(), vch), d->character());
-            }
-        }
-    }
 }
 
 void show_prompt(Descriptor *d, char *prompt) {
