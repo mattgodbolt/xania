@@ -1,7 +1,7 @@
 #include "merc.h"
 
 #include "chat/chatlink.h"
-#include "doorman/doorman_protocol.h"
+#include "common/doorman_protocol.h"
 #include "string_utils.hpp"
 
 #include <cstdlib>

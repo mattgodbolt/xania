@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Byte.hpp"
+#include "common/Byte.hpp"
 
 #include <gsl/span>
 

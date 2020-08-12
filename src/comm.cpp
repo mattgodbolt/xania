@@ -15,7 +15,7 @@
 #include "comm.hpp"
 #include "Descriptor.hpp"
 #include "challeng.h"
-#include "doorman/doorman_protocol.h"
+#include "common/doorman_protocol.h"
 #include "interp.h"
 #include "merc.h"
 #include "note.h"

@@ -1,6 +1,7 @@
 #include "Descriptor.hpp"
 
 #include "comm.hpp"
+#include "common/mask_hostname.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
 
@@ -87,24 +88,6 @@ bool Descriptor::write_direct(std::string_view text) const {
         text = text.substr(p.nExtra);
     }
     return true;
-}
-
-namespace {
-
-// TODO duplicated with doorman! we should share implementation
-unsigned long djb2_hash(std::string_view str) {
-    unsigned long hash = 5381;
-    for (auto c : str)
-        hash = hash * 33 + c;
-    return hash;
-}
-
-// Returns the hostname, masked for privacy and with a hashcode of the full hostname. This can be used by admins to spot
-// users coming from the same IP.
-std::string get_masked_hostname(std::string_view hostname) {
-    return "{}*** [#{}]"_format(hostname.substr(0, 6), djb2_hash(hostname));
-}
-
 }
 
 void Descriptor::set_endpoint(uint32_t netaddr, uint16_t port, std::string_view raw_full_hostname) {

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Byte.hpp"
-#include "Fd.hpp"
 #include "IdAllocator.hpp"
 #include "Logger.hpp"
 #include "TelnetProtocol.hpp"
+#include "common/Byte.hpp"
+#include "common/Fd.hpp"
 
 #include <cstdint>
 #include <gsl/span>

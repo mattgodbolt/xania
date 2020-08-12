@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Descriptor.hpp"
-#include "doorman/doorman_protocol.h"
+#include "common/doorman_protocol.h"
 
 #include <cstddef>
 #include <string_view>
