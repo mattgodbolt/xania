@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Descriptor.hpp"
+#include "common/Fd.hpp"
 #include "common/doorman_protocol.h"
 
 #include <cstddef>
@@ -10,6 +11,9 @@
 struct CHAR_DATA;
 typedef struct obj_data OBJ_DATA;
 typedef struct room_index_data ROOM_INDEX_DATA;
+
+void game_loop_unix(Fd control);
+Fd init_socket(const char *file);
 
 void close_socket(Descriptor *dclose);
 void send_to_char(std::string_view txt, const CHAR_DATA *ch);

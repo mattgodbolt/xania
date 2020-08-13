@@ -15,6 +15,7 @@
 #include "comm.hpp"
 #include "Descriptor.hpp"
 #include "challeng.h"
+#include "common/Fd.hpp"
 #include "common/doorman_protocol.h"
 #include "interp.h"
 #include "merc.h"
@@ -52,14 +53,6 @@ extern KNOWN_PLAYERS *player_list;
 char str_boot_time[MAX_INPUT_LENGTH];
 
 /*
- * Socket and TCP/IP stuff.
- */
-
-const char echo_off_str[] = {char(IAC), char(WILL), char(TELOPT_ECHO), '\0'};
-const char echo_on_str[] = {char(IAC), char(WONT), char(TELOPT_ECHO), '\0'};
-const char go_ahead_str[] = {char(IAC), char(GA), '\0'};
-
-/*
  * Global variables.
  */
 Descriptor *descriptor_list; /* All open descriptors    */
@@ -72,11 +65,9 @@ bool newlock; /* Game is newlocked    */
 time_t current_time; /* time of this pulse */
 bool MOBtrigger;
 
-void game_loop_unix(int control);
-int init_socket(const char *file);
 Descriptor *new_descriptor(int channel);
 void reap_closed_sockets();
-bool read_from_descriptor(Descriptor *d, char *text, int nRead);
+bool read_from_descriptor(Descriptor *d, std::string_view data);
 void move_active_char_from_limbo(CHAR_DATA *ch);
 
 /*
@@ -90,25 +81,26 @@ bool process_output(Descriptor *d, bool fPrompt);
 void show_prompt(Descriptor *d, char *prompt);
 
 /* Handle to get to doorman */
-int doormanDesc = 0;
+Fd doormanDesc;
 
 /* Send a packet to doorman */
 bool send_to_doorman(const Packet *p, const void *extra) {
     // TODO: do something rather than return here if there's a failure
-    if (!doormanDesc)
+    if (!doormanDesc.is_open())
         return false;
     if (p->nExtra > PACKET_MAX_PAYLOAD_SIZE) {
         bug("MUD tried to send a doorman packet with payload size %d > %d! Dropping!", p->nExtra,
             PACKET_MAX_PAYLOAD_SIZE);
         return false;
     }
-    int bytes_written = write(doormanDesc, (char *)p, sizeof(Packet));
-    if (bytes_written != sizeof(Packet))
+    try {
+        if (p->nExtra)
+            doormanDesc.write_many(*p, gsl::span<const byte>(static_cast<const byte *>(extra), p->nExtra));
+        else
+            doormanDesc.write(*p);
+    } catch (const std::runtime_error &re) {
+        bug("%s", "Unable to write to doorman: {}"_format(re.what()).c_str());
         return false;
-    if (p->nExtra) {
-        bytes_written = write(doormanDesc, extra, p->nExtra);
-        if (bytes_written != (ssize_t)(p->nExtra))
-            return false;
     }
     return true;
 }
@@ -151,49 +143,24 @@ void handle_signal_shutdown() {
     }
 }
 
-int init_socket(const char *file) {
-    static struct sockaddr_un sa_zero;
-    struct sockaddr_un sa;
-    int x = 1;
-    int fd;
-    socklen_t size;
-
+Fd init_socket(const char *file) {
     unlink(file);
 
-    if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
-        perror("Init_socket: socket");
-        exit(1);
-    }
-
-    if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (char *)&x, sizeof(x)) < 0) {
-        perror("Init_socket: SO_REUSEADDR");
-        close(fd);
-        exit(1);
-    }
-
-    sa = sa_zero;
-    sa.sun_family = AF_UNIX;
-    strcpy(sa.sun_path, file);
-
-    if (bind(fd, (struct sockaddr *)&sa, sizeof(sa)) < 0) {
-        perror("Init socket: bind");
-        close(fd);
-        exit(1);
-    }
-
-    if (listen(fd, 3) < 0) {
-        perror("Init socket: listen");
-        close(fd);
-        exit(1);
-    }
+    auto fd = Fd::socket(PF_UNIX, SOCK_STREAM, 0);
+    sockaddr_un xaniaAddr{};
+    strncpy(xaniaAddr.sun_path, file, sizeof(xaniaAddr.sun_path));
+    xaniaAddr.sun_family = PF_UNIX;
+    int enabled = 1;
+    fd.setsockopt(SOL_SOCKET, SO_REUSEADDR, &enabled, sizeof(enabled)).bind(xaniaAddr).listen(3);
 
     log_string("Waiting for doorman...");
-    size = sizeof(sa);
-    if ((doormanDesc = accept(fd, (struct sockaddr *)&sa, &size)) < 0) {
-        log_string("Unable to accept doorman...booting anyway");
-        doormanDesc = 0;
-    } else {
+    try {
+        sockaddr_un dont_care{};
+        socklen_t dont_care_len{sizeof(sockaddr_in)};
+        doormanDesc = fd.accept(reinterpret_cast<sockaddr *>(&dont_care), &dont_care_len);
         log_string("Doorman has connected - proceeding with boot-up");
+    } catch (const std::system_error &e) {
+        log_string("Unable to accept doorman...booting anyway");
     }
 
     return fd;
@@ -201,17 +168,101 @@ int init_socket(const char *file) {
 
 void doorman_lost() {
     log_string("Lost connection to doorman");
-    if (doormanDesc)
-        close(doormanDesc);
-    doormanDesc = 0;
+    doormanDesc.close();
     /* Now to go through and disconnect all the characters */
     for (auto *desc = descriptor_list; desc; desc = desc->next)
         close_socket(descriptor_list);
 }
 
-void game_loop_unix(int control) {
-    static struct timeval null_time;
-    struct timeval last_time;
+void handle_doorman_packet(const Packet &p, std::string_view buffer) {
+    switch (p.type) {
+    case PACKET_CONNECT:
+        log_string("Incoming connection on channel {}."_format(p.channel));
+        new_descriptor(p.channel);
+        break;
+    case PACKET_RECONNECT: {
+        log_string("Incoming reconnection on channel {} for {}."_format(p.channel, buffer));
+        auto *d = new_descriptor(p.channel);
+        // Login name
+        d->write(buffer);
+        d->write("\n\r");
+        std::string nannyable(buffer);
+        nanny(d, nannyable.c_str()); // TODO one day string_viewify
+        d->write("\n\r");
+
+        // Paranoid :
+        if (d->state() == DescriptorState::GetOldPassword) {
+            d->state(DescriptorState::CircumventPassword);
+            // log in
+            nanny(d, "");
+            // accept ANSIness
+            d->write("\n\r");
+            nanny(d, "");
+        }
+    } break;
+    case PACKET_DISCONNECT:
+        /*
+         * Find the descriptor associated with the channel and close it
+         */
+        for (auto *d = descriptor_list; d; d = d->next) {
+            if (d->channel() == p.channel) {
+                if (d->character() && d->character()->level > 1)
+                    save_char_obj(d->character());
+                d->clear_output_buffer();
+                if (d->is_playing())
+                    d->state(DescriptorState::Disconnecting);
+                else
+                    d->state(DescriptorState::DisconnectingNp);
+                close_socket(d);
+                break;
+            }
+        }
+        break;
+    case PACKET_INFO: {
+        /*
+         * Find the descriptor associated with the channel
+         */
+        Descriptor *found{};
+        for (auto *d = descriptor_list; d; d = d->next) {
+            if (d->channel() == p.channel) {
+                found = d;
+                auto *data = reinterpret_cast<const InfoData *>(buffer.data());
+                d->set_endpoint(data->netaddr, data->port, data->data);
+                break;
+            }
+        }
+        if (!found) {
+            log_string("Unable to associate info with a descriptor ({})"_format(p.channel));
+        } else {
+            log_string("Info from doorman: {} is {}"_format(p.channel, found->host()));
+        }
+        break;
+    }
+    case PACKET_MESSAGE:
+        /*
+         * Find the descriptor associated with the channel
+         */
+        {
+            bool ok = false;
+            for (auto *d = descriptor_list; d; d = d->next) {
+                if (d->channel() == p.channel) {
+                    ok = true;
+                    if (d->character() != nullptr)
+                        d->character()->timer = 0;
+                    read_from_descriptor(d, buffer);
+                }
+            }
+            if (!ok) {
+                log_string("Unable to associate message with a descriptor ({})"_format(p.channel));
+            }
+        }
+        break;
+    default: break;
+    }
+}
+
+void game_loop_unix(Fd control) {
+    static timeval null_time;
 
     signal(SIGPIPE, SIG_IGN);
 
@@ -226,6 +277,7 @@ void game_loop_unix(int control) {
         return;
     }
 
+    timeval last_time{};
     gettimeofday(&last_time, nullptr);
     current_time = (time_t)last_time.tv_sec;
 
@@ -242,12 +294,14 @@ void game_loop_unix(int control) {
         FD_ZERO(&in_set);
         FD_ZERO(&out_set);
         FD_ZERO(&exc_set);
-        FD_SET(control, &in_set);
+        FD_SET(control.number(), &in_set);
         FD_SET(signal_fd, &in_set);
-        if (doormanDesc)
-            FD_SET(doormanDesc, &in_set);
-        maxdesc = UMAX(control, doormanDesc);
-        maxdesc = UMAX(maxdesc, signal_fd);
+        if (doormanDesc.is_open()) {
+            FD_SET(doormanDesc.number(), &in_set);
+            maxdesc = std::max(control.number(), doormanDesc.number());
+        } else
+            maxdesc = control.number();
+        maxdesc = std::max(maxdesc, signal_fd);
 
         if (select(maxdesc + 1, &in_set, &out_set, &exc_set, &null_time) < 0) {
             perror("Game_loop: select: poll");
@@ -269,148 +323,48 @@ void game_loop_unix(int control) {
         }
 
         /* If we don't have a connection from doorman, wait for one */
-        if (doormanDesc == 0) {
-            struct sockaddr_un sock;
-            socklen_t size;
-
+        if (!doormanDesc.is_open()) {
             log_string("Waiting for doorman...");
-            size = sizeof(sock);
-            getsockname(control, (struct sockaddr *)&sock, &size);
-            if ((doormanDesc = accept(control, (struct sockaddr *)&sock, &size)) < 0) {
-                perror("doorman: accept");
-                doormanDesc = 0;
-            } else {
+
+            try {
+                sockaddr_un dont_care{};
+                socklen_t dont_care_len{sizeof(sockaddr_in)};
+                doormanDesc = control.accept(reinterpret_cast<sockaddr *>(&dont_care), &dont_care_len);
                 log_string("Doorman has connected.");
                 Packet pInit;
                 pInit.nExtra = pInit.channel = 0;
                 pInit.type = PACKET_INIT;
                 send_to_doorman(&pInit, nullptr);
+            } catch (const std::runtime_error &re) {
+                bug("%s", "Unable to accept doorman connection: {}"_format(re.what()).c_str());
             }
         }
 
         /* Process doorman input, if any */
-        if (doormanDesc && FD_ISSET(doormanDesc, &in_set)) {
+        if (doormanDesc.is_open() && FD_ISSET(doormanDesc.number(), &in_set)) {
+            Packet p{};
+            std::string payload;
             do {
-                Packet p;
-                char buffer[UMAX(PACKET_MAX_PAYLOAD_SIZE, 4096 * 4)];
-                int nBytes;
-                int ok;
-
-                nBytes = read(doormanDesc, (char *)&p, sizeof(p));
-                if (nBytes <= 0) {
-                    doorman_lost();
-                    break;
-                } else {
-                    char logMes[18 * 1024];
-                    if (p.nExtra > PACKET_MAX_PAYLOAD_SIZE) {
-                        bug("Doorman sent a too big packet! %d > %d: dropping", p.nExtra, PACKET_MAX_PAYLOAD_SIZE);
-                        return;
-                    }
+                try {
+                    p = doormanDesc.read_all<Packet>();
                     if (p.nExtra) {
-                        ssize_t payload_read = read(doormanDesc, buffer, p.nExtra);
-                        if (payload_read <= 0) {
+                        if (p.nExtra > PACKET_MAX_PAYLOAD_SIZE) {
+                            bug("Doorman sent a too big packet! %d > %d: dropping", p.nExtra, PACKET_MAX_PAYLOAD_SIZE);
                             doorman_lost();
                             break;
                         }
-                        nBytes += payload_read;
+                        payload.resize(p.nExtra);
+                        doormanDesc.read_all(gsl::span<char>(payload));
                     }
-                    if ((size_t)nBytes != sizeof(Packet) + p.nExtra) {
-                        doorman_lost();
-                        break;
-                    }
-                    switch (p.type) {
-                    case PACKET_CONNECT:
-                        snprintf(logMes, sizeof(logMes), "Incoming connection on channel %d.", p.channel);
-                        log_string(logMes);
-                        new_descriptor(p.channel);
-                        break;
-                    case PACKET_RECONNECT: {
-                        snprintf(logMes, sizeof(logMes), "Incoming reconnection on channel %d for %s.", p.channel,
-                                 buffer);
-                        log_string(logMes);
-                        auto *d = new_descriptor(p.channel);
-                        // Login name
-                        d->write(buffer);
-                        d->write("\n\r");
-                        nanny(d, buffer);
-                        d->write("\n\r");
-
-                        // Paranoid :
-                        if (d->state() == DescriptorState::GetOldPassword) {
-                            d->state(DescriptorState::CircumventPassword);
-                            // log in
-                            nanny(d, "");
-                            // accept ANSIness
-                            d->write("\n\r");
-                            nanny(d, "");
-                        }
-                    } break;
-                    case PACKET_DISCONNECT:
-                        /*
-                         * Find the descriptor associated with the channel and close it
-                         */
-                        for (auto *d = descriptor_list; d; d = d->next) {
-                            if (d->channel() == p.channel) {
-                                if (d->character() && d->character()->level > 1)
-                                    save_char_obj(d->character());
-                                d->clear_output_buffer();
-                                if (d->is_playing())
-                                    d->state(DescriptorState::Disconnecting);
-                                else
-                                    d->state(DescriptorState::DisconnectingNp);
-                                close_socket(d);
-                                break;
-                            }
-                        }
-                        break;
-                    case PACKET_INFO: {
-                        /*
-                         * Find the descriptor associated with the channel
-                         */
-                        Descriptor *found{};
-                        for (auto *d = descriptor_list; d; d = d->next) {
-                            if (d->channel() == p.channel) {
-                                found = d;
-                                auto *data = reinterpret_cast<const InfoData *>(buffer);
-                                d->set_endpoint(data->netaddr, data->port, data->data);
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            snprintf(logMes, sizeof(logMes), "Unable to associate info with a descriptor (%d)",
-                                     p.channel);
-                        } else {
-                            snprintf(logMes, sizeof(logMes), "Info from doorman: %d is %s", p.channel,
-                                     found->host().c_str());
-                        }
-                        log_string(logMes);
-                        break;
-                    }
-                    case PACKET_MESSAGE:
-                        /*
-                         * Find the descriptor associated with the channel
-                         */
-                        ok = 0;
-                        for (auto *d = descriptor_list; d; d = d->next) {
-                            if (d->channel() == p.channel) {
-                                ok = 1;
-                                if (d->character() != nullptr)
-                                    d->character()->timer = 0;
-                                read_from_descriptor(d, buffer, p.nExtra);
-                            }
-                        }
-                        if (!ok) {
-                            snprintf(logMes, sizeof(logMes), "Unable to associate message with a descriptor (%d)",
-                                     p.channel);
-                            log_string(logMes);
-                        }
-                        break;
-                    default: break;
-                    }
+                } catch (const std::runtime_error &re) {
+                    bug("%s", "Unable to read doorman packet: {}"_format(re.what()).c_str());
+                    doorman_lost();
+                    break;
                 }
+                handle_doorman_packet(p, payload);
                 /* Reselect to see if there is more data */
                 select(maxdesc + 1, &in_set, &out_set, &exc_set, &null_time);
-            } while FD_ISSET(doormanDesc, &in_set);
+            } while FD_ISSET(doormanDesc.number(), &in_set);
         }
 
         /*
@@ -452,7 +406,7 @@ void game_loop_unix(int control) {
         /*
          * Output.
          */
-        if (doormanDesc) {
+        if (doormanDesc.is_open()) {
             for (auto *d = descriptor_list; d != nullptr; d = d->next) {
                 if (d->processing_command() || d->has_buffered_output()) {
                     if (!process_output(d, true)) {
@@ -491,8 +445,7 @@ void game_loop_unix(int control) {
             }
 
             if (secDelta > 0 || (secDelta == 0 && usecDelta > 0)) {
-                struct timeval stall_time;
-
+                timeval stall_time;
                 stall_time.tv_usec = usecDelta;
                 stall_time.tv_sec = secDelta;
                 if (select(0, nullptr, nullptr, nullptr, &stall_time) < 0) {
@@ -547,7 +500,7 @@ void reap_closed_sockets() {
     }
 }
 
-bool read_from_descriptor(Descriptor *d, char *data, int nRead) {
+bool read_from_descriptor(Descriptor *d, std::string_view data) {
     if (d->is_input_full()) {
         snprintf(log_buf, LOG_BUF_SIZE, "%s input overflow!", d->host().c_str());
         log_string(log_buf);
@@ -557,7 +510,7 @@ bool read_from_descriptor(Descriptor *d, char *data, int nRead) {
         return false;
     }
 
-    d->add_command(std::string_view(data, nRead));
+    d->add_command(data);
     return true;
 }
 
@@ -620,9 +573,6 @@ bool process_output(Descriptor *d, bool fPrompt) {
 
             show_prompt(d, ch->pcdata->prompt);
         }
-
-        if (IS_SET(ch->comm, COMM_TELNET_GA))
-            d->write(go_ahead_str);
     }
 
     return d->flush_output();

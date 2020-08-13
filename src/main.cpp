@@ -1,6 +1,7 @@
 #include "merc.h"
 
 #include "chat/chatlink.h"
+#include "comm.hpp"
 #include "common/doorman_protocol.h"
 #include "string_utils.hpp"
 
@@ -15,13 +16,6 @@ bool debug = false;
 bool printinfo = false;
 
 extern char str_boot_time[];
-
-// TODO this pile of things should probably be moved out into a separate file
-// and/or the guts of "main" below should be extracted
-extern int init_socket(const char *file);
-extern int doormanDesc;
-extern bool send_to_doorman(const Packet *p, const void *extra);
-extern void game_loop_unix(int control);
 
 int main(int argc, char **argv) {
 
@@ -67,7 +61,7 @@ int main(int argc, char **argv) {
      * Run the game.
      */
 
-    int control = init_socket(file);
+    auto control = init_socket(file);
     boot_db();
     load_bans();
     /* Rohan: Load player list into memory */
@@ -78,14 +72,13 @@ int main(int argc, char **argv) {
     load_tipfile(); /* tip wizard - Faramir 21 Sep 1998 */
     snprintf(log_buf, LOG_BUF_SIZE, "Xania version %s is ready to rock via %s.", BUILD_VERSION, file);
     log_string(log_buf);
-    if (doormanDesc) {
-        Packet pInit;
-        pInit.nExtra = pInit.channel = 0;
-        pInit.type = PACKET_INIT;
-        send_to_doorman(&pInit, nullptr);
-    }
-    game_loop_unix(control);
-    close(control);
+
+    Packet pInit;
+    pInit.nExtra = pInit.channel = 0;
+    pInit.type = PACKET_INIT;
+    send_to_doorman(&pInit, nullptr);
+
+    game_loop_unix(std::move(control));
 
     /*
      * That's all, folks.

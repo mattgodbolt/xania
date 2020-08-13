@@ -1107,7 +1107,7 @@ extern const char *flagname_extra[];
 #define COMM_BRIEF (M)
 #define COMM_PROMPT (N)
 #define COMM_COMBINE (O)
-#define COMM_TELNET_GA (P)
+//#define COMM_TELNET_GA (P) -- no longer used, probably should be retired after a pfile sweep
 #define COMM_SHOWAFK (Q)
 #define COMM_SHOWDEFENCE (R)
 #define COMM_AFFECT (Y)
