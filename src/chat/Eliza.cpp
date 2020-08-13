@@ -88,21 +88,6 @@ int Eliza::get_database_num_by_partial_name(const char *n) {
     return dbnum;
 }
 
-char *Eliza::reduce_spaces(char *outbuf, const char *m) {
-    strncpy(outbuf, m, MaxInputLength - 1);
-    int len = strlen(outbuf), space = outbuf[0] < ' ', count = 0;
-    for (int i = 0; i < len; i++) {
-        if (!space || m[i] > ' ') {
-            outbuf[count] = (outbuf[i] < ' ' ? ' ' : outbuf[i]);
-            count++;
-        }
-        space = outbuf[i] < ' ';
-    }
-    if (count)
-        outbuf[count] = '\0';
-    return outbuf;
-}
-
 /**
  * Registers all of the words in 'names' with the specified database number.
  */
@@ -165,21 +150,17 @@ void Eliza::expand_variables(char *response_buf, const char *npc_name, const std
     response_buf[truncated.size()] = '\0';
 }
 
-const char *Eliza::handle_player_message(char *response_buf, const char *player_name, const char *message,
+const char *Eliza::handle_player_message(char *response_buf, const char *player_name, std::string_view message,
                                          const char *npc_name) {
-    char msgbuf[MaxInputLength];
-
     auto dbnum = get_database_num_by_partial_name(npc_name);
     if (dbnum < 0 || dbnum > num_databases_)
         return "invalid database number";
 
-    if (strlen(message) > MaxInputLength)
+    if (message.size() > MaxInputLength)
         return "You talk too much.";
 
     strcpy(response_buf, "I dont really know much about that, say more.");
-
-    reduce_spaces(msgbuf, message);
-    trim(msgbuf);
+    std::string msgbuf = reduce_spaces(message);
     int overflow = 10; // runtime check so we dont have circular database links
     do {
         for (auto &keyword_response : databases_[dbnum].keyword_responses()) {
@@ -291,17 +272,17 @@ bool Eliza::eval_operator(const char op, const int a, const int b) {
     }
 }
 
-int Eliza::strpos(char *input_msg, char *current_db_keyword) {
-    auto input_msg_len = strlen(input_msg);
+int Eliza::strpos(std::string_view input_msg, char *current_db_keyword) {
+    auto input_msg_len = input_msg.size();
     auto keyword_len = strlen(current_db_keyword);
     size_t a;
     int run;
     int space = 1;
     if (current_db_keyword[0] == '=') { // = exact equality operator
-        return strcasecmp(&current_db_keyword[1], input_msg) ? 0 : input_msg_len;
+        return strcasecmp(&current_db_keyword[1], input_msg.data()) ? 0 : input_msg_len;
     }
     if (current_db_keyword[0] == '^') { // match start operator
-        return strncasecmp(&current_db_keyword[1], input_msg, keyword_len - 1) ? 0 : input_msg_len;
+        return strncasecmp(&current_db_keyword[1], input_msg.data(), keyword_len - 1) ? 0 : input_msg_len;
     }
     if (keyword_len > input_msg_len)
         return 0;
@@ -330,7 +311,7 @@ int Eliza::strpos(char *input_msg, char *current_db_keyword) {
     }                                                                                                                  \
     current_db_keyword_len = current_db_keyword[0] = 0;
 
-int Eliza::match(std::string_view db_keywords, char input_msg[], std::string_view::iterator &it,
+int Eliza::match(std::string_view db_keywords, std::string_view input_msg, std::string_view::iterator &it,
                  uint &remaining_input_pos) {
     // Records the match result through a sequence of logical expressions (e.g. (foo|bar|baz)
     int progressive_match_result = 1;

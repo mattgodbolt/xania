@@ -47,7 +47,7 @@ public:
      * then pseudo-randomly selecting a response from the responses and sending it back to the player.
      * It also expands $variables found in the response.
      */
-    const char *handle_player_message(char *response_buf, const char *player_name, const char *message,
+    const char *handle_player_message(char *response_buf, const char *player_name, std::string_view message,
                                       const char *npc_name);
 
 private:
@@ -60,8 +60,8 @@ private:
     int get_word(const char *&input, char *outword, char &outother);
     char *trim(char str[]);
     bool eval_operator(const char op, const int a, const int b);
-    int strpos(char *s, char *sub);
-    int match(std::string_view db_keywords, char input_msg[], std::string_view::iterator &it,
+    int strpos(std::string_view input_msg, char *sub);
+    int match(std::string_view db_keywords, std::string_view input_msg, std::string_view::iterator &it,
               uint &remaining_input_pos);
 
     bool register_database_name(char *name, int dbnum);
@@ -69,7 +69,6 @@ private:
     void sort_databases_by_name();
     int get_database_num_by_exact_name(const char *);
     int get_database_num_by_partial_name(const char *n);
-    char *reduce_spaces(char *outbuf, const char *);
     void expand_variables(char *response_buf, const char *npc_name, const std::string &response,
                           const char *player_name, char *rest);
     char *swap_term(char *in);
