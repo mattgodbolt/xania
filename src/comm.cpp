@@ -148,7 +148,7 @@ Fd init_socket(const char *file) {
 
     auto fd = Fd::socket(PF_UNIX, SOCK_STREAM, 0);
     sockaddr_un xaniaAddr{};
-    strncpy(xaniaAddr.sun_path, file, sizeof(xaniaAddr.sun_path));
+    strncpy(xaniaAddr.sun_path, file, sizeof(xaniaAddr.sun_path) - 1);
     xaniaAddr.sun_family = PF_UNIX;
     int enabled = 1;
     fd.setsockopt(SOL_SOCKET, SO_REUSEADDR, &enabled, sizeof(enabled)).bind(xaniaAddr).listen(3);
