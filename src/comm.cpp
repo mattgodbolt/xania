@@ -205,7 +205,7 @@ void doorman_lost() {
         close(doormanDesc);
     doormanDesc = 0;
     /* Now to go through and disconnect all the characters */
-    while (descriptor_list)
+    for (auto *desc = descriptor_list; desc; desc = desc->next)
         close_socket(descriptor_list);
 }
 
