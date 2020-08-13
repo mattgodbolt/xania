@@ -28,17 +28,6 @@ using namespace fmt::literals;
 void do_finger(CHAR_DATA *ch, char *arg);
 FingerInfo read_char_info(std::string_view player_name);
 
-#if defined(KEY)
-#undef KEY
-#endif
-
-#define KEY(literal, field, value)                                                                                     \
-    if (!str_cmp(word, literal)) {                                                                                     \
-        field = value;                                                                                                 \
-        fMatch = true;                                                                                                 \
-        break;                                                                                                         \
-    }
-
 // For finger info.
 namespace {
 
@@ -384,36 +373,26 @@ FingerInfo read_char_info(std::string_view player_name) {
     FingerInfo info(player_name);
     if (auto fp = WrappedFd::open("{}{}"_format(PLAYER_DIR, player_name))) {
         for (;;) {
-            const char *word = fread_word(fp);
+            const std::string word = lower_case(fread_word(fp));
             if (feof(fp))
                 break;
-            bool fMatch = false;
-
-            switch (UPPER(word[0])) {
-            case 'E':
-                if (!strcmp("End", word))
-                    return info;
-                if (!str_cmp(word, "ExtraBits")) {
-                    const char *line = fread_string(fp);
-                    info.i_message = line[EXTRA_INFO_MESSAGE] == '1';
-                    fread_to_eol(fp);
-                    fMatch = true;
-                    break;
-                }
-                break;
-
-            case 'I':
-                KEY("InvisLevel", info.invis_level, fread_number(fp));
-                KEY("Invi", info.invis_level, fread_number(fp));
-                KEY("Info_message", info.info_message, fread_string(fp));
-                break;
-            case 'L':
-                KEY("LastLoginFrom", info.last_login_from, fread_string(fp));
-                KEY("LastLoginAt", info.last_login_at, fread_string(fp));
-                break;
-            case 'N': KEY("Name", info.name, fread_string(fp)); break;
-            }
-            if (!fMatch) {
+            if (word == "end") {
+                return info;
+            } else if (word == "extrabits") {
+                const char *line = fread_string(fp);
+                info.i_message = line[EXTRA_INFO_MESSAGE] == '1';
+                fread_to_eol(fp);
+            } else if (word == "invislevel" || word == "invis") {
+                info.invis_level = fread_number(fp);
+            } else if (word == "info_message") {
+                info.info_message = fread_string(fp);
+            } else if (word == "lastloginfrom") {
+                info.last_login_from = fread_string(fp);
+            } else if (word == "lastloginat") {
+                info.last_login_at = fread_string(fp);
+            } else if (word == "name") {
+                info.name = fread_string(fp);
+            } else {
                 fread_to_eol(fp);
             }
         }
