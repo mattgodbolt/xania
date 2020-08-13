@@ -60,9 +60,11 @@ private:
     int get_word(const char *&input, char *outword, char &outother);
     char *trim(char str[]);
     bool eval_operator(const char op, const int a, const int b);
-    int strpos(std::string_view input_msg, char *sub);
+    int strpos(std::string_view input_msg, std::string_view current_db_keyword);
     int match(std::string_view db_keywords, std::string_view input_msg, std::string_view::iterator &it,
               uint &remaining_input_pos);
+    void handle_operator(std::string_view input_msg, std::string_view current_db_keyword, const char logical_operator,
+                         int &progressive_match_result, int &next_match_pos, uint &remaining_input_pos);
 
     bool register_database_name(char *name, int dbnum);
     bool register_database_names(char *names, int dbnum);
