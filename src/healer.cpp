@@ -46,13 +46,13 @@ void do_heal(CHAR_DATA *ch, const char *argument) {
         send_to_char("  light: cure light wounds      1000 gold\n\r", ch);
         send_to_char("  serious: cure serious wounds  1600 gold\n\r", ch);
         send_to_char("  critic: cure critical wounds  2500 gold\n\r", ch);
-        send_to_char("  heal: healing spell	      5000 gold\n\r", ch);
+        send_to_char("  heal: healing spell           5000 gold\n\r", ch);
         send_to_char("  blind: cure blindness         2000 gold\n\r", ch);
         send_to_char("  disease: cure disease         1500 gold\n\r", ch);
-        send_to_char("  poison:  cure poison	      2500 gold\n\r", ch);
-        send_to_char("  uncurse: remove curse	      5000 gold\n\r", ch);
+        send_to_char("  poison:  cure poison          2500 gold\n\r", ch);
+        send_to_char("  uncurse: remove curse         5000 gold\n\r", ch);
         send_to_char("  refresh: restore movement      500 gold\n\r", ch);
-        send_to_char("  mana:  restore mana	      1000 gold\n\r", ch);
+        send_to_char("  mana:  restore mana           1000 gold\n\r", ch);
         send_to_char(" Type heal <type> to be healed.\n\r", ch);
         return;
     }

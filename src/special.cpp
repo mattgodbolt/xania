@@ -986,13 +986,13 @@ bool spec_mayor(CHAR_DATA *ch) {
     case 'E': act("$n says 'I hereby declare the city of Midgaard closed!'", ch); break;
 
     case 'O':
-        /*	do_unlock( ch, "gate" ); */
+        /* do_unlock( ch, "gate" ); */
         do_open(ch, "gate");
         break;
 
     case 'C':
         do_close(ch, "gate");
-        /*	do_lock( ch, "gate" ); */
+        /* do_lock( ch, "gate" ); */
         break;
 
     case '.': move = false; break;

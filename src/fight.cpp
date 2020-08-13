@@ -2139,7 +2139,7 @@ void do_berserk(CHAR_DATA *ch, const char *argument) {
         af.location = APPLY_AC;
         affect_to_char(ch, &af);
 
-        /*	if ( (wield !=nullptr) && (wield->item_type == ITEM_WEAPON) &&
+        /* if ( (wield !=nullptr) && (wield->item_type == ITEM_WEAPON) &&
               (IS_SET(wield->value[4], WEAPON_FLAMING)))
             {
               send_to_char("Your great energy causes your weapon to burst into

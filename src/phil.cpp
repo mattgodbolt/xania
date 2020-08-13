@@ -1,10 +1,10 @@
 /************************************************************************/
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                     */
-/*  (C) 1995-2000 Xania Development Team                                   */
+/*  (C) 1995-2000 Xania Development Team                                */
 /*  See the header to file: merc.h for original code copyrights         */
 /*                                                                      */
-/*  phil.c:  special functions for Phil the meerkat						*/
-/*																		*/
+/*  phil.c:  special functions for Phil the meerkat                     */
+/*                                                                      */
 /************************************************************************/
 
 #include "comm.hpp"
@@ -20,9 +20,9 @@
 /* Note that Death's interest is less, since Phil is unlikely to like someone who keeps slaying him for pleasure ;-) */
 /* Note also the cludgy hack so that Phil doesn't become interested in himself and ignore other people around him who */
 /* don't have a special interest. */
-#define PEOPLEONLIST 6
 const char *nameList[] = {"Forrey", "Faramir", "TheMoog", "Death", "Luxor", "Phil"};
 const int interestList[] = {1000, 900, 900, 850, 900, 0};
+#define PEOPLEONLIST int(sizeof(nameList) / sizeof(nameList[0]))
 
 /* Internal data for calculating what to do at any particular point in time. */
 int sleepiness = 500;

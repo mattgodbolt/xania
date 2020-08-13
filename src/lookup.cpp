@@ -7,13 +7,13 @@
 /*                                                                       */
 /*************************************************************************/
 /***************************************************************************
- *	ROM 2.4 is copyright 1993-1996 Russ Taylor			   *
- *	ROM has been brought to you by the ROM consortium		   *
- *	    Russ Taylor (rtaylor@pacinfo.com)				   *
- *	    Gabrielle Taylor (gtaylor@pacinfo.com)			   *
- *	    Brian Moore (rom@rom.efn.org)				   *
- *	By using this code, you have agreed to follow the terms of the	   *
- *	ROM license, in the file Rom24/doc/rom.license			   *
+ * ROM 2.4 is copyright 1993-1996 Russ Taylor
+ * ROM has been brought to you by the ROM consortium
+ *     Russ Taylor (rtaylor@pacinfo.com)
+ *     Gabrielle Taylor (gtaylor@pacinfo.com)
+ *     Brian Moore (rom@rom.efn.org)
+ * By using this code, you have agreed to follow the terms of the
+ * ROM license, in the file Rom24/doc/rom.license
  ***************************************************************************/
 
 #include "merc.h"

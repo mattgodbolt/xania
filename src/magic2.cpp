@@ -204,7 +204,7 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
 //
 //  if (IS_SET(ch->in_room->room_flags , ROOM_LAW)) {
 //  send_to_char( "Raising the dead is not permitted here.\n\r"
-//	  , ch);
+//   , ch);
 //  return;
 //}
 //
@@ -242,14 +242,14 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
 //    char_to_room (zombie, ch->in_room);
 //
 //    zombie->level = zLevel;
-//    zombie->hit 	*= zScale;
-//    zombie->max_hit	*= zScale;
-//      zombie->mana	*= zScale;
-//    zombie->max_mana	*= zScale;
-//    zombie->move	*= zScale;
-//    zombie->max_move	*= zScale;
-//    zombie->hitroll	*= zScale;
-//    zombie->damroll	*= zScale;
+//    zombie->hit *= zScale;
+//    zombie->max_hit *= zScale;
+//    zombie->mana *= zScale;
+//    zombie->max_mana *= zScale;
+//    zombie->move *= zScale;
+//    zombie->max_move *= zScale;
+//    zombie->hitroll *= zScale;
+//    zombie->damroll *= zScale;
 //
 //    for (i = 0; i < 4; ++i)
 // zombie->armor[i] *= zScale;

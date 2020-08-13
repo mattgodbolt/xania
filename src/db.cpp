@@ -1027,7 +1027,7 @@ void validate_resets() {
                             pReset_last->next = pReset_next;
                         else
                             pRoom->reset_first = pReset_next;
-                        /*	free_reset_data(pReset); TODO: This is old code, figure out if it's needed... */
+                        /* free_reset_data(pReset); TODO: This is old code, figure out if it's needed... */
                     } else
                         pReset_last = pReset;
                 }

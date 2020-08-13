@@ -276,7 +276,7 @@ void do_put(CHAR_DATA *ch, const char *argument) {
     }
 
     if (str_cmp(arg1, "all") && str_prefix("all.", arg1)) {
-        /*	put obj container' */
+        /* put obj container' */
         if ((obj = get_obj_carry(ch, arg1)) == nullptr) {
             send_to_char("You do not have that item.\n\r", ch);
             return;

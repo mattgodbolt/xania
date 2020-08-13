@@ -267,7 +267,7 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
 
         if (player_found == true) {
             /* Player exists in player directory */
-            /*	  send_to_char ("Player found.\n\r", ch);*/
+            /*   send_to_char ("Player found.\n\r", ch);*/
             const FingerInfo *cur = search_info_cache(argument);
             if (!cur) {
                 /* Player info not in cache, proceed to put it in there */

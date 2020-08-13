@@ -54,7 +54,7 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
                 player_list = player_list->next;
                 free_string(cursor->name);
                 free_mem(cursor, sizeof(KNOWN_PLAYERS));
-                /*	     log_string ("Player name removed from player list.");*/
+                /*     log_string ("Player name removed from player list.");*/
             } else if (cursor != nullptr) {
                 while (cursor->next != nullptr && cursor->next->name != ch->name)
                     cursor = cursor->next;
@@ -63,7 +63,7 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
                     cursor->next = cursor->next->next;
                     free_string(temp->name);
                     free_mem(temp, sizeof(KNOWN_PLAYERS));
-                    /*		 log_string ("Player name removed from player list.");*/
+                    /* log_string ("Player name removed from player list.");*/
                 } else
                     bug("Deleted player was not in player list.");
             } else
