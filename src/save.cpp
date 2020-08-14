@@ -9,6 +9,7 @@
 
 #include "Descriptor.hpp"
 #include "merc.h"
+#include "string_utils.hpp"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
@@ -605,341 +606,221 @@ bool load_char_obj(Descriptor *d, const char *name) {
     }
 
 void fread_char(CHAR_DATA *ch, FILE *fp) {
-    char buf[MAX_STRING_LENGTH];
-    const char *word;
-    bool fMatch;
-
     for (;;) {
-        word = feof(fp) ? "End" : fread_word(fp);
-        fMatch = false;
-
-        switch (UPPER(word[0])) {
-        case '*':
-            fMatch = true;
+        const std::string word = lower_case(feof(fp) ? "end" : fread_word(fp));
+        if (word.empty() || word[0] == '*') {
             fread_to_eol(fp);
-            break;
+        } else if (word == "act") {
+            ch->act = fread_number(fp);
+        } else if (word == "affectedby" || word == "afby") {
+            ch->affected_by = fread_number(fp);
+        } else if (word == "afk") {
+            ch->pcdata->afk = fread_string(fp);
+        } else if (word == "alignment" || word == "align") {
+            ch->alignment = fread_number(fp);
+        } else if (word == "armor" || word == "ac") {
+            fread_to_eol(fp);
+        } else if (word == "acs") {
+            for (int i = 0; i < 4; i++) {
+                ch->armor[i] = fread_number(fp);
+            }
+        } else if (word == "affect" || word == "aff" || word == "affd") {
+            AFFECT_DATA *paf;
 
-        case 'A':
-            KEY("Act", ch->act, fread_number(fp));
-            KEY("AffectedBy", ch->affected_by, fread_number(fp));
-            KEY("AfBy", ch->affected_by, fread_number(fp));
-            KEY("Afk", ch->pcdata->afk, fread_string(fp));
-            KEY("Alignment", ch->alignment, fread_number(fp));
-            KEY("Alig", ch->alignment, fread_number(fp));
-
-            if (!str_cmp(word, "AC") || !str_cmp(word, "Armor")) {
-                fread_to_eol(fp);
-                fMatch = true;
-                break;
+            if (affect_free == nullptr) {
+                paf = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf)));
+            } else {
+                paf = affect_free;
+                affect_free = affect_free->next;
             }
 
-            if (!str_cmp(word, "ACs")) {
-                int i;
-
-                for (i = 0; i < 4; i++)
-                    ch->armor[i] = fread_number(fp);
-                fMatch = true;
-                break;
-            }
-
-            if (!str_cmp(word, "Affect") || !str_cmp(word, "Aff") || !str_cmp(word, "AffD")) {
-                AFFECT_DATA *paf;
-
-                if (affect_free == nullptr) {
-                    paf = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf)));
-                } else {
-                    paf = affect_free;
-                    affect_free = affect_free->next;
-                }
-
-                if (!str_cmp(word, "AffD")) {
-                    int sn;
-                    sn = skill_lookup(fread_word(fp));
-                    if (sn < 0)
-                        bug("Fread_char: unknown skill.");
-                    else
-                        paf->type = sn;
-                } else /* old form */
-                    paf->type = fread_number(fp);
-                if (ch->version == 0)
-                    paf->level = ch->level;
+            // Ick.
+            if (word == "affd") {
+                int sn;
+                sn = skill_lookup(fread_word(fp));
+                if (sn < 0)
+                    bug("Fread_char: unknown skill.");
                 else
-                    paf->level = fread_number(fp);
-                paf->duration = fread_number(fp);
-                paf->modifier = fread_number(fp);
-                paf->location = fread_number(fp);
-                paf->bitvector = fread_number(fp);
-                paf->next = ch->affected;
-                ch->affected = paf;
-                fMatch = true;
-                break;
+                    paf->type = sn;
+            } else /* old form */
+                paf->type = fread_number(fp);
+            if (ch->version == 0)
+                paf->level = ch->level;
+            else
+                paf->level = fread_number(fp);
+            paf->duration = fread_number(fp);
+            paf->modifier = fread_number(fp);
+            paf->location = fread_number(fp);
+            paf->bitvector = fread_number(fp);
+            paf->next = ch->affected;
+            ch->affected = paf;
+        } else if (word == "attrmod" || word == "amod") {
+            for (int stat = 0; stat < MAX_STATS; stat++) {
+                ch->mod_stat[stat] = fread_number(fp);
             }
-
-            if (!str_cmp(word, "AttrMod") || !str_cmp(word, "AMod")) {
-                int stat;
-                for (stat = 0; stat < MAX_STATS; stat++)
-                    ch->mod_stat[stat] = fread_number(fp);
-                fMatch = true;
-                break;
+        } else if (word == "attrperm" || word == "attr") {
+            for (int stat = 0; stat < MAX_STATS; stat++) {
+                ch->perm_stat[stat] = fread_number(fp);
             }
-
-            if (!str_cmp(word, "AttrPerm") || !str_cmp(word, "Attr")) {
-                int stat;
-
-                for (stat = 0; stat < MAX_STATS; stat++)
-                    ch->perm_stat[stat] = fread_number(fp);
-                fMatch = true;
-                break;
-            }
-            break;
-
-        case 'B':
-            KEY("Bamfin", ch->pcdata->bamfin, fread_string(fp));
-            KEY("Bamfout", ch->pcdata->bamfout, fread_string(fp));
-            KEY("Bin", ch->pcdata->bamfin, fread_string(fp));
-            KEY("Bout", ch->pcdata->bamfout, fread_string(fp));
-            break;
-
-        case 'C':
-            if (!str_cmp(word, "Clan")) {
-                int clannum = fread_number(fp);
-                int count;
-                PCCLAN *newpcclan;
-                for (count = 0; count < NUM_CLANS; count++) {
-                    if (clantable[count].clanchar == (char)clannum) {
-                        newpcclan = (PCCLAN *)alloc_mem(sizeof(*newpcclan));
-                        newpcclan->clan = (CLAN *)&clantable[count];
-                        newpcclan->clanlevel = CLAN_MEMBER;
-                        newpcclan->channelflags = CLANCHANNEL_ON;
-                        ch->pcdata->pcclan = newpcclan;
-                    }
+        } else if (word == "bamfin" || word == "bin") {
+            ch->pcdata->bamfin = fread_string(fp);
+        } else if (word == "bamfout" || word == "bout") {
+            ch->pcdata->bamfout = fread_string(fp);
+        } else if (word == "clan") {
+            const int clannum = fread_number(fp);
+            for (int count = 0; count < NUM_CLANS; count++) {
+                if (clantable[count].clanchar == (char)clannum) {
+                    PCCLAN *newpcclan = (PCCLAN *)alloc_mem(sizeof(*newpcclan));
+                    newpcclan->clan = (CLAN *)&clantable[count];
+                    newpcclan->clanlevel = CLAN_MEMBER;
+                    newpcclan->channelflags = CLANCHANNEL_ON;
+                    ch->pcdata->pcclan = newpcclan;
                 }
-                fMatch = true;
-                break;
             }
-
-            KEY("Class", ch->class_num, fread_number(fp));
-            KEY("Cla", ch->class_num, fread_number(fp));
-            if (!str_cmp(word, "CLevel")) {
-                if (ch->pcdata->pcclan) {
-                    ch->pcdata->pcclan->clanlevel = fread_number(fp);
-                } else {
-                    bug("fread_char: CLAN level with no clan");
-                    fread_to_eol(fp);
-                }
-                fMatch = true;
-                break;
-            }
-            if (!str_cmp(word, "CCFlags")) {
-                if (ch->pcdata->pcclan) {
-                    ch->pcdata->pcclan->channelflags = fread_number(fp);
-                } else {
-                    bug("fread_char: CLAN channelflags with no clan");
-                    fread_to_eol(fp);
-                }
-                fMatch = true;
-                break;
-            }
-
-            if (!str_cmp(word, "Condition") || !str_cmp(word, "Cond")) {
-                ch->pcdata->condition[0] = fread_number(fp);
-                ch->pcdata->condition[1] = fread_number(fp);
-                ch->pcdata->condition[2] = fread_number(fp);
-                fMatch = true;
-                break;
-            }
-            KEY("Colo", ch->pcdata->colour, fread_number(fp));
-            KEY("Comm", ch->comm, fread_number(fp));
-
-            break;
-
-        case 'D':
-            KEY("Damroll", ch->damroll, fread_number(fp));
-            KEY("Dam", ch->damroll, fread_number(fp));
-            KEY("Description", ch->description, fread_string(fp));
-            KEY("Desc", ch->description, fread_string(fp));
-            break;
-
-        case 'E':
-            if (!str_cmp(word, "End"))
-                return;
-            KEY("Exp", ch->exp, fread_number(fp));
-            if (!str_cmp(word, "ExtraBits")) {
-                set_bits_from_pfile(ch, fp);
+        } else if (word == "class" || word == "cla") {
+            ch->class_num = fread_number(fp);
+        } else if (word == "clevel") {
+            if (ch->pcdata->pcclan) {
+                ch->pcdata->pcclan->clanlevel = fread_number(fp);
+            } else {
+                bug("fread_char: CLAN level with no clan");
                 fread_to_eol(fp);
-                fMatch = true;
-                break;
             }
-            break;
-
-        case 'G':
-            KEY("Gold", ch->gold, fread_number(fp));
-            if (!str_cmp(word, "Group") || !str_cmp(word, "Gr")) {
-                int gn;
-                char *temp;
-
-                temp = fread_word(fp);
-                gn = group_lookup(temp);
-                /* gn    = group_lookup( fread_word( fp ) ); */
-                if (gn < 0) {
-                    fprintf(stderr, "%s", temp);
-                    bug("Fread_char: unknown group.");
-                } else
-                    gn_add(ch, gn);
-                fMatch = true;
+        } else if (word == "ccflags") {
+            if (ch->pcdata->pcclan) {
+                ch->pcdata->pcclan->channelflags = fread_number(fp);
+            } else {
+                bug("fread_char: CLAN channelflags with no clan");
+                fread_to_eol(fp);
             }
-            break;
-
-        case 'H':
-            KEY("Hitroll", ch->hitroll, fread_number(fp));
-            KEY("Hit", ch->hitroll, fread_number(fp));
-            KEY("HourOffset", ch->pcdata->houroffset, fread_number(fp));
-
-            if (!str_cmp(word, "HpManaMove") || !str_cmp(word, "HMV")) {
-                ch->hit = fread_number(fp);
-                ch->max_hit = fread_number(fp);
-                ch->mana = fread_number(fp);
-                ch->max_mana = fread_number(fp);
-                ch->move = fread_number(fp);
-                ch->max_move = fread_number(fp);
-                fMatch = true;
-                break;
+        } else if (word == "condition" || word == "cond") {
+            // TODO: look at this - is there some constant for the number 3?
+            ch->pcdata->condition[0] = fread_number(fp);
+            ch->pcdata->condition[1] = fread_number(fp);
+            ch->pcdata->condition[2] = fread_number(fp);
+        } else if (word == "colo") {
+            ch->pcdata->colour = fread_number(fp);
+        } else if (word == "comm") {
+            ch->comm = fread_number(fp);
+        } else if (word == "damroll" || word == "dam") {
+            ch->damroll = fread_number(fp);
+        } else if (word == "description" || word == "desc") {
+            ch->description = fread_string(fp);
+        } else if (word == "end") {
+            return;
+        } else if (word == "exp") {
+            ch->exp = fread_number(fp);
+        } else if (word == "extrabits") {
+            set_bits_from_pfile(ch, fp);
+            fread_to_eol(fp);
+        } else if (word == "gold") {
+            ch->gold = fread_number(fp);
+        } else if (word == "group" || word == "gr") {
+            char *temp = fread_word(fp);
+            int gn = group_lookup(temp);
+            if (gn < 0) {
+                fprintf(stderr, "%s", temp);
+                bug("Fread_char: unknown group.");
+            } else {
+                gn_add(ch, gn);
             }
-
-            if (!str_cmp(word, "HpManaMovePerm") || !str_cmp(word, "HMVP")) {
-                ch->pcdata->perm_hit = fread_number(fp);
-                ch->pcdata->perm_mana = fread_number(fp);
-                ch->pcdata->perm_move = fread_number(fp);
-                fMatch = true;
-                break;
-            }
-
-            break;
-
-        case 'I':
-            KEY("InvisLevel", ch->invis_level, fread_number(fp));
-            KEY("Invi", ch->invis_level, fread_number(fp));
-            KEY("Info_message", ch->pcdata->info_message, fread_string(fp));
-            break;
-
-        case 'L':
-            KEY("LastLevel", ch->pcdata->last_level, fread_number(fp));
-            KEY("LLev", ch->pcdata->last_level, fread_number(fp));
-            KEY("Level", ch->level, fread_number(fp));
-            KEY("Lev", ch->level, fread_number(fp));
-            KEY("Levl", ch->level, fread_number(fp));
-            KEY("LongDescr", ch->long_descr, fread_string(fp));
-            KEY("LnD", ch->long_descr, fread_string(fp));
-            KEY("LastLoginFrom", login_from, fread_string(fp));
-            KEY("LastLoginAt", login_at, fread_string(fp));
-            break;
-
-        case 'M': KEY("MinOffset", ch->pcdata->minoffset, fread_number(fp)); break;
-
-        case 'N':
-            KEY("Name", ch->name, fread_string(fp));
-            KEY("Note", ch->last_note, fread_number(fp));
-            break;
-
-        case 'P':
-            KEY("Password", ch->pcdata->pwd, fread_string(fp));
-            KEY("Pass", ch->pcdata->pwd, fread_string(fp));
-            KEY("Played", ch->played, fread_number(fp));
-            KEY("Plyd", ch->played, fread_number(fp));
-            KEY("Points", ch->pcdata->points, fread_number(fp));
-            KEY("Pnts", ch->pcdata->points, fread_number(fp));
-            KEY("Position", ch->position, fread_number(fp));
-            KEY("Pos", ch->position, fread_number(fp));
-            KEY("Practice", ch->practice, fread_number(fp));
-            KEY("Prac", ch->practice, fread_number(fp));
-            KEY("Prompt", ch->pcdata->prompt, fread_string(fp));
-            KEY("Prmt", ch->pcdata->prompt, fread_string(fp));
-            KEY("Prefix", ch->pcdata->prefix, fread_string(fp));
-            break;
-
-        case 'R':
-            KEY("Race", ch->race, race_lookup(fread_string(fp)));
-
-            if (!str_cmp(word, "Room")) {
-                ch->in_room = get_room_index(fread_number(fp));
-                if (ch->in_room == nullptr)
-                    ch->in_room = get_room_index(ROOM_VNUM_LIMBO);
-                fMatch = true;
-                break;
-            }
-
-            break;
-
-        case 'S':
-            KEY("SavingThrow", ch->saving_throw, fread_number(fp));
-            KEY("Save", ch->saving_throw, fread_number(fp));
-            KEY("Scro", ch->lines, fread_number(fp));
-            /* kludge to avoid memory bug */
+        } else if (word == "hitroll" || word == "hit") {
+            ch->hitroll = fread_number(fp);
+        } else if (word == "houroffset") {
+            ch->pcdata->houroffset = fread_number(fp);
+        } else if (word == "hpmanamove" || word == "hmv") {
+            ch->hit = fread_number(fp);
+            ch->max_hit = fread_number(fp);
+            ch->mana = fread_number(fp);
+            ch->max_mana = fread_number(fp);
+            ch->move = fread_number(fp);
+            ch->max_move = fread_number(fp);
+        } else if (word == "hpmanamoveperm" || word == "hmvp") {
+            ch->pcdata->perm_hit = fread_number(fp);
+            ch->pcdata->perm_mana = fread_number(fp);
+            ch->pcdata->perm_move = fread_number(fp);
+        } else if (word == "invislevel" || word == "invi") {
+            ch->invis_level = fread_number(fp);
+        } else if (word == "info_message") {
+            ch->pcdata->info_message = fread_string(fp);
+        } else if (word == "lastlevel" || word == "llev") {
+            ch->pcdata->last_level = fread_number(fp);
+        } else if (word == "level" || word == "lev" || word == "levl") {
+            ch->level = fread_number(fp);
+        } else if (word == "longdescr" || word == "lnd") {
+            ch->long_descr = fread_string(fp);
+        } else if (word == "lastloginfrom") {
+            login_from = fread_string(fp);
+        } else if (word == "lastloginat") {
+            login_at = fread_string(fp);
+        } else if (word == "minoffset") {
+            ch->pcdata->minoffset = fread_number(fp);
+        } else if (word == "name") {
+            ch->name = fread_string(fp);
+        } else if (word == "note") {
+            ch->last_note = fread_number(fp);
+        } else if (word == "password" || word == "pass") {
+            ch->pcdata->pwd = fread_string(fp);
+        } else if (word == "played" || word == "plyd") {
+            ch->played = fread_number(fp);
+        } else if (word == "points" || word == "pnts") {
+            ch->pcdata->points = fread_number(fp);
+        } else if (word == "position" || word == "pos") {
+            ch->position = fread_number(fp);
+        } else if (word == "practice" || word == "prac") {
+            ch->practice = fread_number(fp);
+        } else if (word == "prompt" || word == "prmt") {
+            ch->pcdata->prompt = fread_string(fp);
+        } else if (word == "prefix") {
+            ch->pcdata->prefix = fread_string(fp);
+        } else if (word == "race") {
+            ch->race = race_lookup(fread_string(fp));
+        } else if (word == "room") {
+            ch->in_room = get_room_index(fread_number(fp));
+            if (ch->in_room == nullptr)
+                ch->in_room = get_room_index(ROOM_VNUM_LIMBO);
+        } else if (word == "savingthrow" || word == "save") {
+            ch->saving_throw = fread_number(fp);
+        } else if (word == "scro") {
+            ch->lines = fread_number(fp);
+            // kludge to avoid memory bug
             if (ch->lines == 0 || ch->lines > 52)
                 ch->lines = 52;
-            KEY("Sex", ch->sex, fread_number(fp));
-            KEY("ShortDescr", ch->short_descr, fread_string(fp));
-            KEY("ShD", ch->short_descr, fread_string(fp));
-
-            if (!str_cmp(word, "Skill") || !str_cmp(word, "Sk")) {
-                int sn;
-                int value;
-                char *temp;
-
-                value = fread_number(fp);
-                temp = fread_word(fp);
-                sn = skill_lookup(temp);
-                /* sn    = skill_lookup( fread_word( fp ) ); */
-                if (sn < 0) {
-                    fprintf(stderr, "%s", temp);
-                    bug("Fread_char: unknown skill.");
-                } else
-                    ch->pcdata->learned[sn] = value;
-                fMatch = true;
+        } else if (word == "sex") {
+            ch->sex = fread_number(fp);
+        } else if (word == "shortdescr" || word == "shd") {
+            ch->short_descr = fread_string(fp);
+        } else if (word == "skill" || word == "sk") {
+            const int value = fread_number(fp);
+            const char *temp = fread_word(fp);
+            const int sn = skill_lookup(temp);
+            if (sn < 0) {
+                fprintf(stderr, "%s", temp);
+                bug("Fread_char: unknown skill.");
+            } else
+                ch->pcdata->learned[sn] = value;
+        } else if (word == "truesex" || word == "tsex") {
+            ch->pcdata->true_sex = fread_number(fp);
+        } else if (word == "trai") {
+            ch->train = fread_number(fp);
+        } else if (word == "trust" || word == "tru") {
+            ch->trust = fread_number(fp);
+        } else if (word == "title" || word == "titl") {
+            ch->pcdata->title = fread_string(fp);
+            // TODO: this is quite horrible.
+            if (ch->pcdata->title[0] != '.' && ch->pcdata->title[0] != ',' && ch->pcdata->title[0] != '!'
+                && ch->pcdata->title[0] != '?') {
+                char buf[MAX_STRING_LENGTH];
+                snprintf(buf, sizeof(buf), " %s", ch->pcdata->title);
+                free_string(ch->pcdata->title);
+                ch->pcdata->title = str_dup(buf);
             }
-
-            break;
-
-        case 'T':
-            KEY("TrueSex", ch->pcdata->true_sex, fread_number(fp));
-            KEY("TSex", ch->pcdata->true_sex, fread_number(fp));
-            KEY("Trai", ch->train, fread_number(fp));
-            KEY("Trust", ch->trust, fread_number(fp));
-            KEY("Tru", ch->trust, fread_number(fp));
-
-            if (!str_cmp(word, "Title") || !str_cmp(word, "Titl")) {
-                ch->pcdata->title = fread_string(fp);
-                if (ch->pcdata->title[0] != '.' && ch->pcdata->title[0] != ',' && ch->pcdata->title[0] != '!'
-                    && ch->pcdata->title[0] != '?') {
-                    snprintf(buf, sizeof(buf), " %s", ch->pcdata->title);
-                    free_string(ch->pcdata->title);
-                    ch->pcdata->title = str_dup(buf);
-                }
-                fMatch = true;
-                break;
-            }
-
-            break;
-
-        case 'V':
-            KEY("Version", ch->version, fread_number(fp));
-            KEY("Vers", ch->version, fread_number(fp));
-            if (!str_cmp(word, "Vnum")) {
-                ch->pIndexData = get_mob_index(fread_number(fp));
-                fMatch = true;
-                break;
-            }
-            break;
-
-        case 'W':
-            KEY("Wimpy", ch->wimpy, fread_number(fp));
-            KEY("Wimp", ch->wimpy, fread_number(fp));
-            break;
-        }
-
-        if (!fMatch) {
-            bug("Fread_char: no match: %s", word);
-            fread_to_eol(fp);
+        } else if (word == "version" || word == "vers") {
+            ch->version = fread_number(fp);
+        } else if (word == "vnum") {
+            ch->pIndexData = get_mob_index(fread_number(fp));
+        } else if (word == "wimpy" || word == "wimp") {
+            ch->wimpy = fread_number(fp);
         }
     }
 }
