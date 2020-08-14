@@ -272,9 +272,9 @@ bool Eliza::eval_operator(const char op, const int a, const int b) {
     }
 }
 
-int Eliza::strpos(std::string_view input_msg, char *current_db_keyword) {
+int Eliza::strpos(std::string_view input_msg, std::string_view current_db_keyword) {
     auto input_msg_len = input_msg.size();
-    auto keyword_len = strlen(current_db_keyword);
+    auto keyword_len = current_db_keyword.size();
     size_t a;
     int run;
     int space = 1;
@@ -301,29 +301,17 @@ int Eliza::strpos(std::string_view input_msg, char *current_db_keyword) {
     return 0;
 }
 
-#define handle_operator                                                                                                \
-    trim(current_db_keyword);                                                                                          \
-    if (strlen(current_db_keyword)) {                                                                                  \
-        next_match_pos = strpos(input_msg, current_db_keyword);                                                        \
-        if (next_match_pos > 0)                                                                                        \
-            remaining_input_pos = next_match_pos;                                                                      \
-        progressive_match_result = eval_operator(logical_operator, progressive_match_result, next_match_pos);          \
-    }                                                                                                                  \
-    current_db_keyword_len = current_db_keyword[0] = 0;
-
 int Eliza::match(std::string_view db_keywords, std::string_view input_msg, std::string_view::iterator &it,
                  uint &remaining_input_pos) {
     // Records the match result through a sequence of logical expressions (e.g. (foo|bar|baz)
-    int progressive_match_result = 1;
+    int progressive_match_result = 0;
     // Records the index into input_msg that the current_db_keyword was matched at, if it was matched,
     // or zero if it didn't match.
-    int next_match_pos;
-    int logical_operator = '\0';
-    char current_db_keyword[MaxInputLength];
+    int next_match_pos = 0;
+    char logical_operator = 0;
     // db_keywords is split on ( ) & | and ~
-    // and this var stores a copy of the current token from it.
-    current_db_keyword[0] = 0;
-    size_t current_db_keyword_len = 0;
+    // and current_db_keyword var stores a copy of the current token from it.
+    std::string current_db_keyword{};
     for (; it != db_keywords.end(); it++) {
         switch (*it) {
         case '(':
@@ -333,12 +321,36 @@ int Eliza::match(std::string_view db_keywords, std::string_view input_msg, std::
             else
                 progressive_match_result = eval_operator(logical_operator, progressive_match_result, next_match_pos);
             break;
-        case '&': handle_operator logical_operator = '&'; break;
-        case '|': handle_operator logical_operator = '|'; break;
-        case '~': handle_operator logical_operator = '~'; break;
+        case '&': {
+            logical_operator = '&';
+            current_db_keyword = reduce_spaces(current_db_keyword);
+            handle_operator(input_msg, current_db_keyword, logical_operator, progressive_match_result, next_match_pos,
+                            remaining_input_pos);
+            current_db_keyword.clear();
+            break;
+        }
+        case '|': {
+            logical_operator = '|';
+            current_db_keyword = reduce_spaces(current_db_keyword);
+            handle_operator(input_msg, current_db_keyword, logical_operator, progressive_match_result, next_match_pos,
+                            remaining_input_pos);
+            current_db_keyword.clear();
+            break;
+        }
+        case '~': {
+            logical_operator = '~';
+            handle_operator(input_msg, current_db_keyword, logical_operator, progressive_match_result, next_match_pos,
+                            remaining_input_pos);
+            current_db_keyword.clear();
+            break;
+        }
         case ')':
-            trim(current_db_keyword);
-            if (strlen(current_db_keyword)) {
+            current_db_keyword = reduce_spaces(current_db_keyword);
+            if (!current_db_keyword.empty()) {
+                // If we encountered no logic in the current db_keywords at this level of recursion
+                // and hit a closing paren, set this to 1 as it will be anded with the result of strpos()
+                if (logical_operator == 0)
+                    progressive_match_result = 1;
                 next_match_pos = strpos(input_msg, current_db_keyword);
                 if (next_match_pos > 0)
                     remaining_input_pos = next_match_pos;
@@ -347,8 +359,19 @@ int Eliza::match(std::string_view db_keywords, std::string_view input_msg, std::
                 return progressive_match_result;
 
             break;
-        default: current_db_keyword[current_db_keyword_len++] = *it; current_db_keyword[current_db_keyword_len] = '\0';
+        default: current_db_keyword.push_back(*it);
         }
     }
     return progressive_match_result;
+}
+
+void Eliza::handle_operator(std::string_view input_msg, std::string_view current_db_keyword,
+                            const char logical_operator, int &progressive_match_result, int &next_match_pos,
+                            uint &remaining_input_pos) {
+    if (!current_db_keyword.empty()) {
+        next_match_pos = strpos(input_msg, current_db_keyword);
+        if (next_match_pos > 0)
+            remaining_input_pos = next_match_pos;
+        progressive_match_result = eval_operator(logical_operator, progressive_match_result, next_match_pos);
+    }
 }
