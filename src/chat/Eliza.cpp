@@ -156,10 +156,10 @@ const char *Eliza::find_match(char *response_buf, const char *player_name, std::
             return response_buf;
         }
     }
-    if (--overflow <= 0 || database.linked_database_num == NoDatabaseLink) {
+    if (--overflow <= 0 || !database.linked_database()) {
         return response_buf;
     } else {
-        Database &next_database = databases_[database.linked_database_num];
+        Database &next_database = *database.linked_database();
         return find_match(response_buf, player_name, msgbuf, npc_name, next_database, overflow);
     }
 }
@@ -206,7 +206,7 @@ bool Eliza::load_databases(const char *file) {
                         printf("including inline '%s' failed at %d!\n", str + 1, linecount);
                     break;
                 case '@': // link the current database to an earlier database to reuse its entries.
-                    if (databases_[current_db_num].linked_database_num == NoDatabaseLink) {
+                    if (!databases_[current_db_num].linked_database()) {
                         trim(str + 1);
                         add_database_link(str + 1, current_db_num, linecount);
                     } else {
@@ -228,7 +228,7 @@ int Eliza::start_new_database(std::string_view str, const int linecount) {
             printf("& database num already exists! %d on line %d\n", lookup_db_num, linecount);
             return -1;
         }
-        databases_[lookup_db_num] = Database{};
+        databases_[lookup_db_num];
         return lookup_db_num;
     }
     printf("@ invalid database number %s on line %d\n", str.data(), linecount);
@@ -238,8 +238,9 @@ int Eliza::start_new_database(std::string_view str, const int linecount) {
 void Eliza::add_database_link(std::string_view str, const int current_db_num, const int linecount) {
     if (is_number(str.data())) {
         int lookup_db_num = atoi(str.data());
-        if (databases_.find(lookup_db_num) != databases_.end()) {
-            databases_[current_db_num].linked_database_num = lookup_db_num;
+        auto entry = databases_.find(lookup_db_num);
+        if (entry != databases_.end()) {
+            databases_[current_db_num].linked_database(&entry->second);
         } else {
             printf("@ database could not be found: %d on line %d\n", lookup_db_num, linecount);
         }
