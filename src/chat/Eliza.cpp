@@ -47,7 +47,7 @@ int Eliza::get_word(const char *&input, char *outword, char &outother) {
  * If no database is found it returns 0 which is the database containing
  * all the default keyword responses.
  */
-int Eliza::get_database_num_by_name(std::string names) {
+Database &Eliza::get_database_by_name(std::string names) {
     std::string::size_type pos = 0, last = 0;
     while ((pos = names.find(" ", last)) != std::string::npos) {
         std::string name(lower_case(names.substr(last, pos - last)));
@@ -57,10 +57,10 @@ int Eliza::get_database_num_by_name(std::string names) {
         last = ++pos;
     }
     std::string name(lower_case(names.substr(last, names.size() - pos)));
-    auto entry = named_databases_.find(names);
+    auto entry = named_databases_.find(name);
     if (entry != named_databases_.end())
         return entry->second;
-    return 0;
+    return databases_[0]; // Default database
 }
 
 /**
@@ -70,15 +70,16 @@ void Eliza::register_database_names(std::string_view names, const int dbnum) {
     // Split on space and register each word to the same db number.
     // The individual words registered are used when searching for a database
     // by words in an NPC name.
+    Database &database = databases_[dbnum];
     std::string::size_type pos = 0, last = 0;
     while ((pos = names.find(" ", pos)) != std::string::npos) {
         std::string name(lower_case(names.substr(last, pos - last)));
-        named_databases_[name] = dbnum;
+        named_databases_.insert({name, database});
         last = ++pos;
     }
     std::string name(lower_case(names.substr(last, names.size() - pos)));
     if (!name.empty())
-        named_databases_[name] = dbnum;
+        named_databases_.insert({name, database});
 }
 
 char *Eliza::swap_term(char *in) {
@@ -132,35 +133,35 @@ void Eliza::expand_variables(char *response_buf, std::string_view npc_name, cons
 const char *Eliza::handle_player_message(char *response_buf, const char *player_name, std::string_view message,
                                          std::string_view npc_name) {
     std::string npc_name_str(npc_name);
-    auto dbnum = get_database_num_by_name(npc_name_str);
-    if (dbnum < 0)
-        return "invalid database number";
-
+    auto &database = get_database_by_name(npc_name_str);
     if (message.size() > MaxInputLength)
         return "You talk too much.";
 
     strcpy(response_buf, "I dont really know much about that, say more.");
     std::string msgbuf = reduce_spaces(message);
     int overflow = 10; // runtime check so we dont have circular database links
-    do {
-        for (auto &keyword_response : databases_[dbnum].keyword_responses()) {
-            auto keywords = keyword_response.get_keywords();
-            std::string_view::iterator it = keywords.begin();
-            uint remaining_input_pos = 0;
-            if (match(keywords, msgbuf, it, remaining_input_pos)) {
-                auto &response = keyword_response.get_random_response();
-                swap_pronouns_and_possessives(&msgbuf[remaining_input_pos]);
-                expand_variables(response_buf, npc_name, response, player_name, &msgbuf[remaining_input_pos]);
-                return response_buf;
-            }
+    return find_match(response_buf, player_name, msgbuf, npc_name, database, overflow);
+}
+
+const char *Eliza::find_match(char *response_buf, const char *player_name, std::string &msgbuf,
+                              std::string_view npc_name, Database &database, int &overflow) {
+    for (auto &keyword_response : database.keyword_responses()) {
+        auto keywords = keyword_response.get_keywords();
+        std::string_view::iterator it = keywords.begin();
+        uint remaining_input_pos = 0;
+        if (match(keywords, msgbuf, it, remaining_input_pos)) {
+            auto &response = keyword_response.get_random_response();
+            swap_pronouns_and_possessives(&msgbuf[remaining_input_pos]);
+            expand_variables(response_buf, npc_name, response, player_name, &msgbuf[remaining_input_pos]);
+            return response_buf;
         }
-        dbnum = databases_[dbnum].linked_database_num;
-        overflow--;
-    } while (dbnum >= 0 && overflow > 0);
-    if (overflow <= 0) {
-        return "potential circular cont (@) jump in databases";
     }
-    return response_buf;
+    if (--overflow <= 0 || database.linked_database_num == NoDatabaseLink) {
+        return response_buf;
+    } else {
+        Database &next_database = databases_[database.linked_database_num];
+        return find_match(response_buf, player_name, msgbuf, npc_name, next_database, overflow);
+    }
 }
 
 bool Eliza::load_databases(const char *file) {
