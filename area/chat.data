@@ -20,15 +20,15 @@
 #        "       output to stderr
 #        '       output to stdout
 #        >       start of named database, there can be more than one name
-#                 to a database '> dragon red_dragon'  The _ here is treated
-#                 as a space in the name.
+#                 to a database '> dragon red dragon' 
 #        %       include another file inline Ex: %talk.data
 #	 @       adds a continue jump to link to the database. Ex: @dog
 #                 will make a continue link to the dog database.  Use @default
 #                 to link to the default database. Only 1 @ per database.
 #                 @ cannot do forward links!!!
 #                 @ is more memory efficient than % but less flexible.
-#                 You must avoid circularities with @. 
+#                 You must avoid circularities with @.
+#                 The name in @ must use the exact database name you want to link to.
 #  response operators:
 #        1-9     weights are the numerals. First column only. Mandatory.
 #        "       Issue response as "say".   Muds and 2nd column only. Optional.
@@ -2409,9 +2409,8 @@
 #Chris Busch 
 #start of named databases
 
-# fido_dog is the name 'fido dog' internally
-#names should not be case dependant :)
->dog fido beastly fido_dog
+#names are case insensitive
+>dog fido beastly
 
 (good dog| good boy)
 9bow bow
@@ -2487,9 +2486,9 @@
 @default
 
 ######
->papa_smurf smurf 
+>smurf
 
-(smurf|smurfette)
+(smurf)
 9"Its so smurfy to be smurfy!
 2"We are share and share alike
 2Where is Smurfette? I miss her.
@@ -2511,7 +2510,6 @@
 
 ###remember NO forward continue links
 #and only one link per database with no cycles.
-@smurf
 
 >healer cleric doctor
 
@@ -2620,7 +2618,7 @@
 2:is ignoring you.
 9
 
->mud_general
+>mud general
 (how are you)
 9"I'm fine, how are you $t?
 
@@ -2635,7 +2633,7 @@
 ()
 9
 
->frank_bruno
+>frank bruno
 
 (hello |hi |hiya |greetings |all right)
 9!highfive $t
@@ -2708,7 +2706,7 @@
 9"Your physique could do with some toning, $t
 
 
-@mud_general
+@mud general
 
 
 

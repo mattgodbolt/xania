@@ -3,8 +3,8 @@
 #pragma once
 
 #include "Database.hpp"
-#include <cstdlib>
 #include <cstring>
+#include <unordered_map>
 
 constexpr inline auto MaxDatabases = 100;
 constexpr inline auto MaxNamedDatabases = 200;
@@ -14,30 +14,7 @@ namespace chat {
 
 class Eliza {
 public:
-    /**
-     * When loading the chat database file, this is used to map the name of a mob
-     * to the index number of a database that contains the keywords that it will
-     * recognise and the list of responses it can use.
-     */
-    struct NamedDatabase {
-        char *name{};
-        int database_num{};
-
-        char *set(const char *a_name, int dbnum) {
-            name = strdup(a_name);
-            database_num = dbnum;
-            return name;
-        }
-        ~NamedDatabase() {
-            if (name)
-                free(name);
-        }
-    };
-
-    Eliza() : compile_time_{__DATE__ " " __TIME__} {
-        char de[] = "default";
-        register_database_name(de, 0);
-    }
+    Eliza() : compile_time_{__DATE__ " " __TIME__} { register_database_names("default", 0); }
 
     bool load_databases(const char *, char recurflag = 0);
     /**
@@ -48,13 +25,13 @@ public:
      * It also expands $variables found in the response.
      */
     const char *handle_player_message(char *response_buf, const char *player_name, std::string_view message,
-                                      const char *npc_name);
+                                      std::string_view npc_name);
 
 private:
     int num_databases_{};
     unsigned int num_names_{};
     Database databases_[MaxDatabases];
-    NamedDatabase named_databases_[MaxNamedDatabases];
+    std::unordered_map<std::string, int> named_databases_;
     const std::string compile_time_;
 
     int get_word(const char *&input, char *outword, char &outother);
@@ -66,16 +43,13 @@ private:
     void handle_operator(std::string_view input_msg, std::string_view current_db_keyword, const char logical_operator,
                          int &progressive_match_result, int &next_match_pos, uint &remaining_input_pos);
 
-    bool register_database_name(char *name, int dbnum);
-    bool register_database_names(char *names, int dbnum);
-    void sort_databases_by_name();
-    int get_database_num_by_exact_name(const char *);
-    int get_database_num_by_partial_name(const char *n);
-    void expand_variables(char *response_buf, const char *npc_name, const std::string &response,
+    void register_database_names(std::string_view names, int dbnum);
+    int get_database_num_by_exact_name(std::string name);
+    int get_database_num_by_partial_name(std::string names);
+    void expand_variables(char *response_buf, std::string_view npc_name, const std::string &response,
                           const char *player_name, char *rest);
     char *swap_term(char *in);
     void swap_pronouns_and_possessives(char s[]);
-    static int compare_database_name(const void *a, const void *b);
 };
 
 }

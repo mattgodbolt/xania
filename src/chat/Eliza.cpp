@@ -5,7 +5,6 @@
 
 #include <cctype>
 #include <cstdio>
-#include <cstdlib>
 #include <cstring>
 #include <search.h>
 
@@ -41,65 +40,62 @@ int Eliza::get_word(const char *&input, char *outword, char &outother) {
         return 0;
     return 1;
 }
-
-bool Eliza::register_database_name(char *name, int dbnum) {
-    if (num_names_ < MaxNamedDatabases) {
-        for (int i = strlen(name) - 1; i >= 0; i--)
-            if (name[i] == '_')
-                name[i] = ' ';
-        return named_databases_[num_names_++].set(name, dbnum) != nullptr;
+/**
+ * Find the number of a database using its exact name
+ * as declared in the database file. Returns -1
+ * if no match was found. This is used when bootstrapping
+ * the chain of databases. Database links defined usng @
+ * must refer to a database using its full database name.
+ */
+int Eliza::get_database_num_by_exact_name(std::string name) {
+    auto entry = named_databases_.find(name);
+    if (entry != named_databases_.end())
+        return entry->second;
+    return -1;
+}
+/**
+ * Find the number of a database from a given name by splitting
+ * it on spaces and looking for each word.
+ * If no database is found it returns 0 which is the database containing
+ * all the default keyword responses.
+ */
+int Eliza::get_database_num_by_partial_name(std::string names) {
+    std::string::size_type pos = 0, last = 0;
+    while ((pos = names.find(" ", last)) != std::string::npos) {
+        std::string name(lower_case(names.substr(last, pos - last)));
+        auto entry = named_databases_.find(name);
+        if (entry != named_databases_.end())
+            return entry->second;
+        last = ++pos;
     }
-    return false;
-}
-
-int Eliza::compare_database_name(const void *a, const void *b) {
-    return strcasecmp(((Eliza::NamedDatabase *)a)->name, ((Eliza::NamedDatabase *)b)->name);
-}
-
-void Eliza::sort_databases_by_name() {
-    qsort((char *)named_databases_, num_names_, sizeof(Eliza::NamedDatabase), compare_database_name);
-}
-
-int Eliza::get_database_num_by_exact_name(const char *n) {
-    NamedDatabase finder;
-    if (finder.set(n, 0) == nullptr)
-        return 0;
-    NamedDatabase *found = (NamedDatabase *)bsearch((char *)&finder, (char *)named_databases_, num_names_,
-                                                    sizeof(NamedDatabase), compare_database_name);
-    if (found == nullptr)
-        return 0;
-    return found->database_num;
-}
-
-// This tries more exhaustively to find the number of the database from a given name
-// for example if 'Bobby Jo' fails, it will try Bobby then Jo.
-int Eliza::get_database_num_by_partial_name(const char *n) {
-    int dbnum = get_database_num_by_exact_name(n);
-    if (dbnum == 0) {
-        char aword[MaxInputLength + 3];
-        char otherch;
-        const char *theinput = n;
-        while (get_word(theinput, aword, otherch)) {
-            dbnum = get_database_num_by_exact_name(aword);
-            if (dbnum != 0)
-                return dbnum;
-        }
-    }
-    return dbnum;
+    std::string name(lower_case(names.substr(last, names.size() - pos)));
+    auto entry = named_databases_.find(names);
+    if (entry != named_databases_.end())
+        return entry->second;
+    return 0;
 }
 
 /**
- * Registers all of the words in 'names' with the specified database number.
+ * Registers all of the words in 'names' with the specified database number,
+ * as well as the full name. The full name is used when resolving
+ * linked databases using @ in the data file.
  */
-bool Eliza::register_database_names(char *names, int dbnum) {
-    char name[MaxInputLength + 3];
-    char otherch;
-    const char *theinput = names;
-    while (get_word(theinput, name, otherch)) {
-        if (register_database_name(name, dbnum) == false)
-            return false;
+void Eliza::register_database_names(std::string_view names, int dbnum) {
+    // First store the full database name. Multiple words may be separated by space.
+    std::string fullname = lower_case(std::string(names));
+    named_databases_[fullname] = dbnum;
+    // Next split on _ and register each word to the same db number.
+    // The individual words registered are used when searching for a database
+    // by words in an NPC name.
+    std::string::size_type pos = 0, last = 0;
+    while ((pos = names.find(" ", pos)) != std::string::npos) {
+        std::string name(lower_case(names.substr(last, pos - last)));
+        named_databases_[name] = dbnum;
+        last = ++pos;
     }
-    return true;
+    std::string name(lower_case(names.substr(last, names.size() - pos)));
+    if (!name.empty())
+        named_databases_[name] = dbnum;
 }
 
 char *Eliza::swap_term(char *in) {
@@ -134,7 +130,7 @@ void Eliza::swap_pronouns_and_possessives(char s[]) {
 }
 
 // enables $variable translation
-void Eliza::expand_variables(char *response_buf, const char *npc_name, const std::string &response,
+void Eliza::expand_variables(char *response_buf, std::string_view npc_name, const std::string &response,
                              const char *player_name, char *rest) {
     trim(rest);
     std::string updated = replace_strings(response, "$t", player_name);
@@ -151,9 +147,10 @@ void Eliza::expand_variables(char *response_buf, const char *npc_name, const std
 }
 
 const char *Eliza::handle_player_message(char *response_buf, const char *player_name, std::string_view message,
-                                         const char *npc_name) {
-    auto dbnum = get_database_num_by_partial_name(npc_name);
-    if (dbnum < 0 || dbnum > num_databases_)
+                                         std::string_view npc_name) {
+    std::string npc_name_str(npc_name);
+    auto dbnum = get_database_num_by_partial_name(npc_name_str);
+    if (dbnum < 0)
         return "invalid database number";
 
     if (message.size() > MaxInputLength)
@@ -216,9 +213,7 @@ bool Eliza::load_databases(const char *file, char recurflag) {
                         num_databases_++;
                     else
                         fputs("response database is full. numdbases>maxdbases", stderr);
-                    if (!register_database_names(&str[1], num_databases_)) {
-                        puts("name database is full.");
-                    }
+                    register_database_names(&str[1], num_databases_);
                     break;
                 case '%': // include another file inline
                     trim(str + 1);
@@ -228,11 +223,12 @@ bool Eliza::load_databases(const char *file, char recurflag) {
                 case '@': // link the current database to an earlier database to reuse its entries.
                     if (databases_[num_databases_].linked_database_num == NoDatabaseLink) {
                         trim(str + 1);
-                        for (char *i = str + 1; *i != 0; i++)
-                            if (*i == '_')
-                                *i = ' ';
-                        sort_databases_by_name();
-                        int linked_db_num = get_database_num_by_exact_name(str + 1);
+                        std::string linked_db_name = std::string(str + 1);
+                        int linked_db_num = get_database_num_by_exact_name(linked_db_name);
+                        if (linked_db_num < 0) {
+                            printf(" @ database could not be found: %s on line %d\n", linked_db_name.c_str(),
+                                   linecount);
+                        }
                         databases_[num_databases_].linked_database_num = linked_db_num;
                     } else
                         printf(" @ database already linked %d at %d\n", num_databases_, linecount);
@@ -244,7 +240,6 @@ bool Eliza::load_databases(const char *file, char recurflag) {
     fclose(data);
     if (!recurflag) {
         num_databases_++;
-        sort_databases_by_name();
     }
     return true;
 }
