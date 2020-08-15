@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KeywordResponses.hpp"
+#include <string_view>
 #include <vector>
 
 namespace chat {
@@ -17,16 +18,28 @@ namespace chat {
 class Database {
 public:
     Database() = default;
-    Database(const Database &) = delete;
-    Database(Database &&) = delete;
-    Database &operator=(const Database &) = delete;
-    Database &operator=(Database &) = delete;
+    explicit Database(std::vector<KeywordResponses> &keyword_responses, Database *linked_database)
+        : compile_time_{__DATE__ " " __TIME__}, keyword_responses_(std::move(keyword_responses)),
+          linked_database_(linked_database) {}
 
-    std::vector<KeywordResponses> &keyword_responses() { return keyword_responses_; }
-    [[nodiscard]] Database *linked_database() { return linked_database_; }
-    void linked_database(Database *linked_database) noexcept { linked_database_ = linked_database; }
+    char *find_match(char *response_buf, const char *player_name, std::string &msgbuf, std::string_view npc_name,
+                     int &overflow);
 
 private:
+    const std::string compile_time_;
+
+    int match(std::string_view db_keywords, std::string_view input_msg, std::string_view::iterator &it,
+              uint &remaining_input_pos);
+
+    void expand_variables(char *response_buf, std::string_view npc_name, const std::string &response,
+                          const char *player_name, char *rest);
+    int strpos(std::string_view input_msg, std::string_view current_db_keyword);
+    char *swap_term(char *in);
+    void swap_pronouns_and_possessives(char s[]);
+    bool eval_operator(const char op, const int a, const int b);
+    void handle_operator(std::string_view input_msg, std::string_view current_db_keyword, const char logical_operator,
+                         int &progressive_match_result, int &next_match_pos, uint &remaining_input_pos);
+
     std::vector<KeywordResponses> keyword_responses_;
     // An optional non-owning pointer to this database's linked database.
     Database *linked_database_;

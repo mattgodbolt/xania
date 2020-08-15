@@ -17,16 +17,14 @@
 #        =       exact match  This must match the input string entirely.
 #  pass 1 scan operators:
 #        #       remark
-#        &       database number, denoting start of a new database.
+#        &<num>  start a new database section.
+#        $       complete the current database. Required before starting a new database section.
 #        "       output to stderr
-#        '       output to stdout
 #        >       keywords when looking up a database based on NPC names 
-#        %       include another file inline Ex: %talk.data
 #	     @       adds a link to a database identified by number. Ex: @1
 #                 will make a continue link to database 1.  Use @0
 #                 to link to the default database. Only 1 @ per database.
 #                 @ cannot do forward links!!!
-#                 @ is more memory efficient than % but less flexible.
 #                 You must avoid circularities with @.
 #  response operators:
 #        1-9     weights are the numerals. First column only. Mandatory.
@@ -2404,7 +2402,7 @@
 4If you could change something in your life, what would it be?
 1You don't make any sense at all
 
-
+$
 
 ####################################################
 #Chris Busch 
@@ -2454,6 +2452,8 @@
 1:whines sofly to itself.
 9
 
+$
+
 ############
 &3
 >cat kitten lion
@@ -2465,6 +2465,8 @@
 (bad)
 8:hisses.
 
+$
+
 &4
 >pig boar
 
@@ -2474,6 +2476,8 @@
 #matches anything and then says nothing
 ()
 9
+
+$
 
 #############
 &5
@@ -2491,6 +2495,8 @@
 ###The doll doy database will now continue to the default database
 @0
 
+$
+
 ######
 &6
 >smurf
@@ -2504,8 +2510,9 @@
 9"smurfy!
 5"Where are my berries?
 
-
 @0
+
+$
 
 &7
 >smurfette
@@ -2516,8 +2523,7 @@
 4Let's pretend you are Papa smurf!
 8!giggle
 
-###remember NO forward continue links
-#and only one link per database with no cycles.
+$
 
 &8
 >healer cleric doctor
@@ -2551,19 +2557,8 @@
 #This will continue the healer database into default
 @0
 
+$
 
-#Uncommented the below would include a file
-#%Somefile.data
-#That would be useful for very common phrases that should be in all databases.
-
-#Remember the @ continue jump uses less memory than % including but you are
-#limited to one @ per database.
-
-
-######################
-#Please add your NPC data below here
-#
-#
 # For the more stupid creatures in Xania
 # Reasonably coherent, but not intelligent
 &9
@@ -2628,6 +2623,8 @@
 2:is ignoring you.
 9
 
+$
+
 &10
 >mud general
 (how are you)
@@ -2643,6 +2640,8 @@
 
 ()
 9
+
+$
 
 &11
 >frank bruno
@@ -2718,3 +2717,5 @@
 9"Your physique could do with some toning, $t
 
 @10
+
+$

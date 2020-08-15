@@ -28,7 +28,7 @@ class KeywordResponses {
 public:
     explicit KeywordResponses(std::string_view keywords) : keywords_(keywords) {}
     std::string_view get_keywords() const { return keywords_; }
-    void add_response(int weight, char *response_message);
+    void add_response(int weight, std::string_view response_message);
     const std::string &get_random_response() const;
 
 private:
