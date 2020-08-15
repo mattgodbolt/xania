@@ -40,26 +40,14 @@ int Eliza::get_word(const char *&input, char *outword, char &outother) {
         return 0;
     return 1;
 }
-/**
- * Find the number of a database using its exact name
- * as declared in the database file. Returns -1
- * if no match was found. This is used when bootstrapping
- * the chain of databases. Database links defined usng @
- * must refer to a database using its full database name.
- */
-int Eliza::get_database_num_by_exact_name(std::string name) {
-    auto entry = named_databases_.find(name);
-    if (entry != named_databases_.end())
-        return entry->second;
-    return -1;
-}
+
 /**
  * Find the number of a database from a given name by splitting
  * it on spaces and looking for each word.
  * If no database is found it returns 0 which is the database containing
  * all the default keyword responses.
  */
-int Eliza::get_database_num_by_partial_name(std::string names) {
+int Eliza::get_database_num_by_name(std::string names) {
     std::string::size_type pos = 0, last = 0;
     while ((pos = names.find(" ", last)) != std::string::npos) {
         std::string name(lower_case(names.substr(last, pos - last)));
@@ -76,15 +64,10 @@ int Eliza::get_database_num_by_partial_name(std::string names) {
 }
 
 /**
- * Registers all of the words in 'names' with the specified database number,
- * as well as the full name. The full name is used when resolving
- * linked databases using @ in the data file.
+ * Registers all of the words in 'names' with the specified database number.
  */
-void Eliza::register_database_names(std::string_view names, int dbnum) {
-    // First store the full database name. Multiple words may be separated by space.
-    std::string fullname = lower_case(std::string(names));
-    named_databases_[fullname] = dbnum;
-    // Next split on _ and register each word to the same db number.
+void Eliza::register_database_names(std::string_view names, const int dbnum) {
+    // Split on space and register each word to the same db number.
     // The individual words registered are used when searching for a database
     // by words in an NPC name.
     std::string::size_type pos = 0, last = 0;
@@ -149,7 +132,7 @@ void Eliza::expand_variables(char *response_buf, std::string_view npc_name, cons
 const char *Eliza::handle_player_message(char *response_buf, const char *player_name, std::string_view message,
                                          std::string_view npc_name) {
     std::string npc_name_str(npc_name);
-    auto dbnum = get_database_num_by_partial_name(npc_name_str);
+    auto dbnum = get_database_num_by_name(npc_name_str);
     if (dbnum < 0)
         return "invalid database number";
 
@@ -180,16 +163,14 @@ const char *Eliza::handle_player_message(char *response_buf, const char *player_
     return response_buf;
 }
 
-bool Eliza::load_databases(const char *file, char recurflag) {
-    if (num_databases_ >= MaxDatabases)
-        return false;
-
+bool Eliza::load_databases(const char *file) {
     FILE *data;
     char str[MaxInputLength];
     if ((data = fopen(file, "rt")) == nullptr) {
         return false;
     }
     int linecount = 0;
+    int current_db_num = 0;
 
     while (fgets(str, MaxInputLength - 1, data) != nullptr) {
         linecount++;
@@ -197,51 +178,73 @@ bool Eliza::load_databases(const char *file, char recurflag) {
         if (strlen(str) > 0) {
             if (str[0] >= '1' && str[0] <= '9') {
                 // Add a new WeightedResponse to the current KeywordResponses entry.
-                databases_[num_databases_].keyword_responses().back().add_response(str[0] - '0', &(str[1]));
+                databases_[current_db_num].keyword_responses().back().add_response(str[0] - '0', &(str[1]));
             } else
                 switch (str[0]) {
                 case '\0': break;
                 case '(':
                     // Add a new KeywordResponses object to the current database with the keywords we just parsed.
-                    databases_[num_databases_].keyword_responses().emplace_back(str);
+                    databases_[current_db_num].keyword_responses().emplace_back(str);
                     break;
                 case '#': break;
                 case '"': fprintf(stderr, "%s\n", &str[1]); break;
                 case '\'': fprintf(stdout, "%s\n", &str[1]); break;
-                case '>': // add another database
-                    if (num_databases_ < MaxDatabases - 1)
-                        num_databases_++;
-                    else
-                        fputs("response database is full. numdbases>maxdbases", stderr);
-                    register_database_names(&str[1], num_databases_);
+                case '&': // start a new databsae
+                    trim(str + 1);
+                    current_db_num = start_new_database(str + 1, linecount);
+                    if (current_db_num < 0) {
+                        exit(1);
+                    }
+                    break;
+                case '>': // add keywords to the current database
+                    register_database_names(&str[1], current_db_num);
                     break;
                 case '%': // include another file inline
                     trim(str + 1);
-                    if (!load_databases(str + 1, 1)) // recurflag set
+                    if (!load_databases(str + 1))
                         printf("including inline '%s' failed at %d!\n", str + 1, linecount);
                     break;
                 case '@': // link the current database to an earlier database to reuse its entries.
-                    if (databases_[num_databases_].linked_database_num == NoDatabaseLink) {
+                    if (databases_[current_db_num].linked_database_num == NoDatabaseLink) {
                         trim(str + 1);
-                        std::string linked_db_name = std::string(str + 1);
-                        int linked_db_num = get_database_num_by_exact_name(linked_db_name);
-                        if (linked_db_num < 0) {
-                            printf(" @ database could not be found: %s on line %d\n", linked_db_name.c_str(),
-                                   linecount);
-                        }
-                        databases_[num_databases_].linked_database_num = linked_db_num;
-                    } else
-                        printf(" @ database already linked %d at %d\n", num_databases_, linecount);
+                        add_database_link(str + 1, current_db_num, linecount);
+                    } else {
+                        printf("@ database already linked %d at %d\n", current_db_num, linecount);
+                    }
                     break;
                 default: printf("extraneous line: '%s' at %d\n", str, linecount);
                 }
         }
     }
     fclose(data);
-    if (!recurflag) {
-        num_databases_++;
-    }
     return true;
+}
+
+int Eliza::start_new_database(std::string_view str, const int linecount) {
+    if (is_number(str.data())) {
+        int lookup_db_num = atoi(str.data());
+        if (databases_.find(lookup_db_num) != databases_.end()) {
+            printf("& database num already exists! %d on line %d\n", lookup_db_num, linecount);
+            return -1;
+        }
+        databases_[lookup_db_num] = Database{};
+        return lookup_db_num;
+    }
+    printf("@ invalid database number %s on line %d\n", str.data(), linecount);
+    return -1;
+}
+
+void Eliza::add_database_link(std::string_view str, const int current_db_num, const int linecount) {
+    if (is_number(str.data())) {
+        int lookup_db_num = atoi(str.data());
+        if (databases_.find(lookup_db_num) != databases_.end()) {
+            databases_[current_db_num].linked_database_num = lookup_db_num;
+        } else {
+            printf("@ database could not be found: %d on line %d\n", lookup_db_num, linecount);
+        }
+    } else {
+        printf("@ invalid database link number %s on line %d\n", str.data(), linecount);
+    }
 }
 
 char *Eliza::trim(char str[]) {

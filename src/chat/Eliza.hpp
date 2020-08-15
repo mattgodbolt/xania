@@ -6,8 +6,6 @@
 #include <cstring>
 #include <unordered_map>
 
-constexpr inline auto MaxDatabases = 100;
-constexpr inline auto MaxNamedDatabases = 200;
 constexpr inline auto MaxInputLength = 100;
 
 namespace chat {
@@ -16,7 +14,7 @@ class Eliza {
 public:
     Eliza() : compile_time_{__DATE__ " " __TIME__} { register_database_names("default", 0); }
 
-    bool load_databases(const char *, char recurflag = 0);
+    bool load_databases(const char *);
     /**
      * Handle a message from a player to a talkative NPC. This works
      * by accessing the database associated with the npc_name then looking up
@@ -28,9 +26,8 @@ public:
                                       std::string_view npc_name);
 
 private:
-    int num_databases_{};
     unsigned int num_names_{};
-    Database databases_[MaxDatabases];
+    std::unordered_map<int, Database> databases_;
     std::unordered_map<std::string, int> named_databases_;
     const std::string compile_time_;
 
@@ -43,9 +40,10 @@ private:
     void handle_operator(std::string_view input_msg, std::string_view current_db_keyword, const char logical_operator,
                          int &progressive_match_result, int &next_match_pos, uint &remaining_input_pos);
 
-    void register_database_names(std::string_view names, int dbnum);
-    int get_database_num_by_exact_name(std::string name);
-    int get_database_num_by_partial_name(std::string names);
+    [[nodiscard]] int start_new_database(std::string_view str, const int linecount);
+    void add_database_link(std::string_view str, const int current_db_num, const int linecount);
+    void register_database_names(std::string_view names, const int dbnum);
+    [[nodiscard]] int get_database_num_by_name(std::string names);
     void expand_variables(char *response_buf, std::string_view npc_name, const std::string &response,
                           const char *player_name, char *rest);
     char *swap_term(char *in);

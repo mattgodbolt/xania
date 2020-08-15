@@ -17,18 +17,17 @@
 #        =       exact match  This must match the input string entirely.
 #  pass 1 scan operators:
 #        #       remark
+#        &       database number, denoting start of a new database.
 #        "       output to stderr
 #        '       output to stdout
-#        >       start of named database, there can be more than one name
-#                 to a database '> dragon red dragon' 
+#        >       keywords when looking up a database based on NPC names 
 #        %       include another file inline Ex: %talk.data
-#	 @       adds a continue jump to link to the database. Ex: @dog
-#                 will make a continue link to the dog database.  Use @default
+#	     @       adds a link to a database identified by number. Ex: @1
+#                 will make a continue link to database 1.  Use @0
 #                 to link to the default database. Only 1 @ per database.
 #                 @ cannot do forward links!!!
 #                 @ is more memory efficient than % but less flexible.
 #                 You must avoid circularities with @.
-#                 The name in @ must use the exact database name you want to link to.
 #  response operators:
 #        1-9     weights are the numerals. First column only. Mandatory.
 #        "       Issue response as "say".   Muds and 2nd column only. Optional.
@@ -76,6 +75,8 @@
 
 #START OF DEFAULT DATABASE.  
 #This first bunch of data before the first > is the default database
+
+&0
 
 ######DONT CHANGE THE FOLLOWING
 (who wrote this program)
@@ -2407,7 +2408,9 @@
 
 ####################################################
 #Chris Busch 
-#start of named databases
+#start of additional databases
+
+&1
 
 #names are case insensitive
 >dog fido beastly
@@ -2452,6 +2455,7 @@
 9
 
 ############
+&3
 >cat kitten lion
 
 (good cat|cute|hi|hello)
@@ -2461,6 +2465,7 @@
 (bad)
 8:hisses.
 
+&4
 >pig boar
 
 (pig|boar|hi|hello)
@@ -2471,6 +2476,7 @@
 9
 
 #############
+&5
 >doll toy
 
 (hi|hello)
@@ -2483,9 +2489,10 @@
 4I hate you.
 
 ###The doll doy database will now continue to the default database
-@default
+@0
 
 ######
+&6
 >smurf
 
 (smurf)
@@ -2498,8 +2505,9 @@
 5"Where are my berries?
 
 
-@default
+@0
 
+&7
 >smurfette
 
 (hi|hello)
@@ -2511,6 +2519,7 @@
 ###remember NO forward continue links
 #and only one link per database with no cycles.
 
+&8
 >healer cleric doctor
 
 (hi|hello)
@@ -2540,7 +2549,7 @@
 
 
 #This will continue the healer database into default
-@default
+@0
 
 
 #Uncommented the below would include a file
@@ -2557,6 +2566,7 @@
 #
 # For the more stupid creatures in Xania
 # Reasonably coherent, but not intelligent
+&9
 >goblin orc troll minotaur
 
 (kill you)
@@ -2618,6 +2628,7 @@
 2:is ignoring you.
 9
 
+&10
 >mud general
 (how are you)
 9"I'm fine, how are you $t?
@@ -2633,6 +2644,7 @@
 ()
 9
 
+&11
 >frank bruno
 
 (hello |hi |hiya |greetings |all right)
@@ -2705,20 +2717,4 @@
 9"I oil my muscles regularly, you know
 9"Your physique could do with some toning, $t
 
-
-@mud general
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->
+@10
