@@ -26,7 +26,6 @@ public:
                                       std::string_view npc_name);
 
 private:
-    unsigned int num_names_{};
     std::unordered_map<int, Database> databases_;
     std::unordered_map<std::string, Database &> named_databases_;
     const std::string compile_time_;
