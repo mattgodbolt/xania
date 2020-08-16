@@ -18,7 +18,7 @@ public:
     WeatherData() = default; // TODO remove once we get rid of the global.
     explicit WeatherData(const TimeInfoData &tid);
 
-    std::string update(const TimeInfoData &tid);
+    void update(const TimeInfoData &tid);
 
     void control(int delta) { change_ += delta; }
 
@@ -26,6 +26,7 @@ public:
     [[nodiscard]] bool is_dark() const { return sunlight_ == Sun::Set || sunlight_ == Sun::Dark; }
 
     [[nodiscard]] std::string describe() const noexcept;
+    [[nodiscard]] std::string describe_change(const WeatherData &before) const noexcept;
 
 private:
     [[nodiscard]] int pressure_direction(const TimeInfoData &tid) const;

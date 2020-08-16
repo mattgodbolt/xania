@@ -17,12 +17,16 @@
 #include "merc.h"
 #include "string_utils.hpp"
 
+#include <fmt/format.h>
+
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <sys/time.h>
+
+using namespace fmt::literals;
 
 extern const char *dir_name[];
 
@@ -1467,53 +1471,14 @@ void do_affected(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-const char *day_name[] = {"the Moon", "the Bull", "Deception", "Thunder", "Freedom", "the Great Gods", "the Sun"};
-
-const char *month_name[] = {"Winter",
-                            "the Winter Wolf",
-                            "the Frost Giant",
-                            "the Old Forces",
-                            "the Grand Struggle",
-                            "the Spring",
-                            "Nature",
-                            "Futility",
-                            "the Dragon",
-                            "the Sun",
-                            "the Heat",
-                            "the Battle",
-                            "the Dark Shades",
-                            "the Shadows",
-                            "the Long Shadows",
-                            "the Ancient Darkness",
-                            "the Great Evil"};
-
 void do_time(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     extern char str_boot_time[];
     char buf[MAX_STRING_LENGTH];
-    const char *suf;
-    int day;
 
-    day = time_info.day() + 1;
-
-    if (day > 4 && day < 20)
-        suf = "th";
-    else if (day % 10 == 1)
-        suf = "st";
-    else if (day % 10 == 2)
-        suf = "nd";
-    else if (day % 10 == 3)
-        suf = "rd";
-    else
-        suf = "th";
-
-    snprintf(buf, sizeof(buf),
-             "It is %d o'clock %s, Day of %s, %d%s the Month of %s.\n\rXania started up at %s\rThe system time is %s\r",
-
-             (time_info.hour() % 12 == 0) ? 12 : time_info.hour() % 12, time_info.hour() >= 12 ? "pm" : "am",
-             day_name[day % 7], day, suf, month_name[time_info.month()], str_boot_time, (char *)ctime(&current_time));
-
-    send_to_char(buf, ch);
+    send_to_char("{}\n\rXania started up at {}\n\rThe system time is {}\n\r"_format(time_info.describe(), str_boot_time,
+                                                                                    ctime(&current_time)),
+                 ch);
 
     if (IS_NPC(ch)) {
         if (ch->desc->is_switched())

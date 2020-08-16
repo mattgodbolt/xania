@@ -1212,9 +1212,10 @@ void spell_control_weather(int sn, int level, CHAR_DATA *ch, void *vo) {
         weather_info.control(dice(level / 3, 4));
     else if (!str_cmp(target_name, "worse"))
         weather_info.control(-dice(level / 3, 4));
-    else
+    else {
         send_to_char("Do you want it to get better or worse?\n\r", ch);
-
+        return;
+    }
     send_to_char("Ok.\n\r", ch);
 }
 

@@ -413,14 +413,11 @@ void mobile_update() {
  * Update the weather.
  */
 void weather_update() {
-
     time_info.advance();
+    auto weather_before = weather_info;
+    weather_info.update(time_info);
 
-    /*
-     * Weather change.
-     */
-    auto update_msg = weather_info.update(time_info);
-    if (!update_msg.empty()) {
+    if (auto update_msg = weather_info.describe_change(weather_before); !update_msg.empty()) {
         for (auto *d = descriptor_list; d != nullptr; d = d->next) {
             if (d->is_playing() && IS_OUTSIDE(d->character()) && IS_AWAKE(d->character()))
                 send_to_char(update_msg, d->character());
