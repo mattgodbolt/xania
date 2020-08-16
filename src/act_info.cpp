@@ -1343,8 +1343,8 @@ void do_score(CHAR_DATA *ch, const char *argument) {
     else
         snprintf(buf, sizeof(buf), "Level: |W%d|w (trust |W%d|w)", ch->level, get_trust(ch));
     using namespace std::chrono;
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Age: |W%d|w years (|W%d|w hours)\n\r", get_age(ch),
-             ((int)(duration_cast<hours>(ch->total_played()).count())));
+    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Age: |W%d|w years (|W%ld|w hours)\n\r", get_age(ch),
+             duration_cast<hours>(ch->total_played()).count());
     send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Race: |W%s|w", race_table[ch->race].name);
@@ -1476,7 +1476,8 @@ void do_time(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
-    send_to_char("{}\n\rXania started up at {}Z\n\rThe system time is {}Z\n\r"_format(
+    // TODO(#134) this whole thing should use the user's TZ.
+    send_to_char("{}\n\rXania started up at {}Z.\n\rThe system time is {}Z.\n\r"_format(
                      time_info.describe(), secs_only(boot_time), secs_only(current_time)),
                  ch);
 

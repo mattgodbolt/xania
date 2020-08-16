@@ -1396,9 +1396,8 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
 
     if (!IS_NPC(victim)) {
         using namespace std::chrono;
-        bug_snprintf(buf, sizeof(buf), "Age: %d  Played: %d  Last Level: %d  Timer: %d\n\r", get_age(victim),
-                     (int)(duration_cast<seconds>(victim->total_played()).count()) / 3600, victim->pcdata->last_level,
-                     victim->timer);
+        bug_snprintf(buf, sizeof(buf), "Age: %d  Played: %ld  Last Level: %d  Timer: %d\n\r", get_age(victim),
+                     duration_cast<hours>(victim->total_played()).count(), victim->pcdata->last_level, victim->timer);
         send_to_char(buf, ch);
     }
 

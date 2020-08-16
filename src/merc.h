@@ -85,8 +85,6 @@ typedef struct gen_data GEN_DATA;
 typedef struct reset_data RESET_DATA;
 typedef struct room_index_data ROOM_INDEX_DATA;
 typedef struct shop_data SHOP_DATA;
-typedef struct TimeInfoData TIME_INFO_DATA;
-typedef struct WeatherData WEATHER_DATA;
 typedef struct known_players KNOWN_PLAYERS; // TODO(#108) remove if unused.
 /* Merc22 MOBProgs */
 typedef struct mob_prog_data MPROG_DATA; /* MOBprogram */
