@@ -66,7 +66,7 @@
 # $r is a variable.  It means rest of sentence after the match.
 #Variables only appear in weighted reponse clauses.
 #Weighted clauses are '9This is a clause', with 9 being the weight.
-# $n is the characters name
+# $n is the non player characters name
 # $t is the targets name (the person who being replied to)
 # $$ is equal to $
 
@@ -224,7 +224,7 @@
 9:giggles, and says 'Don't flatter yourself, $t!'
 9!slap $t
 1:giggles - they're getting kind of horny. $n undresses.
-9:looks tired, I'm tired of kissing $n.
+9:looks tired, I'm tired of kissing $t.
 
 ( please )
 9Please what ?
@@ -562,8 +562,8 @@
 
 (my hurts )
 9If your $r offends thee, pluck it out!
-9:offers to rub $n's $r
-9I suggest you ake two aspirins and go to bed
+9:offers to rub $t's $r
+9I suggest you take two aspirins and go to bed
 
 (my father )
 9Tell me something about your father

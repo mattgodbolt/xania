@@ -190,12 +190,29 @@ std::string Database::swap_pronouns_and_possessives(std::string &msgbuf) const {
 // enables $variable translation
 std::string Database::expand_variables(std::string_view npc_name, const std::string &response,
                                        std::string_view player_name, std::string &remaining_input) const {
-    std::string updated = replace_strings(response, "$t", player_name);
-    updated = replace_strings(updated, "$n", npc_name);
-    updated = replace_strings(updated, "$$", "$");
-    updated = replace_strings(updated, "$r", remaining_input);
-    updated = replace_strings(updated, "$A", eliza_title);
-    updated = replace_strings(updated, "$V", help_version_);
-    updated = replace_strings(updated, "$C", compile_time_);
+    std::string updated{};
+    bool last_dollar{false};
+    for (auto &c : response) {
+        if (c == '$') {
+            last_dollar = true;
+        } else {
+            if (std::exchange(last_dollar, false)) {
+                switch (c) {
+                case 't': updated.append(player_name); break;
+                case 'n': updated.append(npc_name); break;
+                case '$': updated.push_back(c); break;
+                case 'r': updated.append(remaining_input); break;
+                case 'A': updated.append(eliza_title); break;
+                case 'V': updated.append(help_version_); break;
+                case 'C': updated.append(compile_time_); break;
+                default:
+                    // ignore unrecognized $variables
+                    break;
+                }
+            } else {
+                updated.push_back(c);
+            }
+        }
+    }
     return updated;
 }
