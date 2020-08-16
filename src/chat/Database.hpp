@@ -9,6 +9,7 @@
 
 #include "KeywordResponses.hpp"
 #include <string_view>
+#include <unordered_map>
 #include <vector>
 
 namespace chat {
@@ -28,6 +29,12 @@ public:
     explicit Database(std::vector<KeywordResponses> &keyword_responses, Database *linked_database)
         : keyword_responses_(std::move(keyword_responses)), linked_database_(linked_database) {}
 
+    /**
+     * The main entry point for interrogating a Database: this attempts to match
+     * keywords found in msgbuf and find a pseudo-random response. If no response
+     * is found, it'll walk the chain of linked Databases. If there's no response
+     * then a default response is returned.
+     */
     [[nodiscard]] std::string find_response(std::string_view player_name, std::string &msgbuf,
                                             std::string_view npc_name, int &overflow) const;
 
@@ -36,10 +43,10 @@ private:
               uint &remaining_input_pos) const;
 
     std::string expand_variables(std::string_view npc_name, const std::string &response, std::string_view player_name,
-                                 char *rest) const;
+                                 std::string &remaining_input) const;
     int strpos(std::string_view input_msg, std::string_view current_db_keyword) const;
-    char *swap_term(char *in) const;
-    void swap_pronouns_and_possessives(char s[]) const;
+    std::string_view swap_term(std::string &in) const;
+    std::string swap_pronouns_and_possessives(std::string &msgbuf) const;
     bool eval_operator(const char op, const int a, const int b) const;
     void handle_operator(std::string_view input_msg, std::string_view current_db_keyword, const char logical_operator,
                          int &progressive_match_result, int &next_match_pos, uint &remaining_input_pos) const;
@@ -47,6 +54,14 @@ private:
     const std::vector<KeywordResponses> keyword_responses_;
     // An optional non-owning pointer to this database's linked database.
     const Database *linked_database_;
+
+    // A map of words: if a key is found in the "remaining" input message, it will be swapped
+    // out with a replacement. Note that only those responses in the database containing $r
+    // actually echo back the user's input including any swapped words.
+    // Keys are intentionally lower case as we match on a lower case input
+    inline static const std::unordered_map<std::string, std::string> pronoun_and_possessives_{
+        {"am", "are"},          {"i", "you"}, {"mine", "yours"}, {"my", "your"}, {"me", "you"},
+        {"myself", "yourself"}, {"you", "I"}, {"yours", "mine"}, {"your", "my"}, {"yourself", "myself"}};
 
     inline static const std::string compile_time_{__DATE__ " " __TIME__};
     inline static const std::string help_version_{"The version number can be seen using 'help version'."};

@@ -14,15 +14,17 @@
 using namespace chat;
 
 std::string Database::find_response(std::string_view player_name, std::string &msgbuf, std::string_view npc_name,
-                                 int &overflow) const {
+                                    int &overflow) const {
     for (auto &keyword_response : keyword_responses_) {
         auto keywords = keyword_response.get_keywords();
         std::string_view::iterator it = keywords.begin();
         uint remaining_input_pos = 0;
         if (match(keywords, msgbuf, it, remaining_input_pos)) {
+            // At this point we've found a match so we're free to copy & modify the original message.
             auto &response = keyword_response.get_random_response();
-            swap_pronouns_and_possessives(&msgbuf[remaining_input_pos]);
-            return expand_variables(npc_name, response, player_name, &msgbuf[remaining_input_pos]);
+            std::string remaining_input = skip_whitespace(msgbuf.substr(remaining_input_pos));
+            std::string rewritten_input = swap_pronouns_and_possessives(remaining_input);
+            return expand_variables(npc_name, response, player_name, rewritten_input);
         }
     }
     if (--overflow <= 0 || !linked_database_) {
@@ -147,45 +149,51 @@ void Database::handle_operator(std::string_view input_msg, std::string_view curr
     }
 }
 
-char *Database::swap_term(char *in) const {
-    static const char pairs[][10] = {"am", "are", "I", "you", "mine", "yours", "my", "your", "me", "you", "myself",
-                                     "yourself",
-                                     // swapped order:
-                                     "you", "I", "yours", "mine", "your", "my", "yourself", "myself", "", ""};
-
-    for (int i = 0; pairs[i * 2][0] != '\0'; i++) {
-        if (strcasecmp(in, pairs[i * 2]) == 0) {
-            return (char *)pairs[i * 2 + 1];
-        }
+std::string_view Database::swap_term(std::string &msgbuf) const {
+    auto it = pronoun_and_possessives_.find(msgbuf);
+    if (it != pronoun_and_possessives_.end()) {
+        return it->second;
+    } else {
+        return msgbuf;
     }
-    return in;
 }
 
-void Database::swap_pronouns_and_possessives(char s[]) const {
-    char buf[MaxInputLength + 20];
-    buf[0] = '\0';
-
-    char next_word[MaxInputLength + 3];
-    const char *theinput = s;
-    char otherch;
-    char separator[] = " ";
-
-    while (get_word(theinput, next_word, otherch)) {
-        separator[0] = otherch;
-        strcat(buf, swap_term(next_word));
-        strcat(buf, separator);
+/**
+ * Walk the characters and append any non-alpha characters to the result string. As
+ * soon as it encounters an alpha char, accumulate it in 'word' then attempt to swap
+ * the word for its grammatical alternative. It's crude but for basic sentences it works.
+ */
+std::string Database::swap_pronouns_and_possessives(std::string &msgbuf) const {
+    std::string result{};
+    result.reserve(msgbuf.size());
+    std::string word{};
+    bool in_word{false};
+    for (auto &c : msgbuf) {
+        if (std::isalpha(c)) {
+            in_word = true;
+            word.push_back(c);
+        } else {
+            if (std::exchange(in_word, false)) {
+                result.append(swap_term(word));
+                word.clear();
+            }
+            result.push_back(c);
+        }
     }
-    strcpy(s, buf);
+    // Process the final word if there was one at the very end.
+    if (in_word) {
+        result.append(swap_term(word));
+    }
+    return result;
 }
 
 // enables $variable translation
 std::string Database::expand_variables(std::string_view npc_name, const std::string &response,
-                                       std::string_view player_name, char *rest) const {
-    trim(rest);
+                                       std::string_view player_name, std::string &remaining_input) const {
     std::string updated = replace_strings(response, "$t", player_name);
     updated = replace_strings(updated, "$n", npc_name);
     updated = replace_strings(updated, "$$", "$");
-    updated = replace_strings(updated, "$r", rest);
+    updated = replace_strings(updated, "$r", remaining_input);
     updated = replace_strings(updated, "$A", eliza_title);
     updated = replace_strings(updated, "$V", help_version_);
     updated = replace_strings(updated, "$C", compile_time_);
