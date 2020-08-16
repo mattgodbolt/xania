@@ -11,6 +11,8 @@ using namespace fmt::literals;
 
 TimeInfoData time_info;
 
+Time boot_time = std::chrono::system_clock::now();
+
 void TimeInfoData::advance() {
     if (++hour_ < 24)
         return;
@@ -26,8 +28,8 @@ void TimeInfoData::advance() {
     year_++;
 }
 
-TimeInfoData::TimeInfoData(time_t now) {
-    auto lhour = static_cast<int>((now - 650336715) / (PULSE_TICK / PULSE_PER_SECOND));
+TimeInfoData::TimeInfoData(Time now) {
+    auto lhour = static_cast<int>((Clock::to_time_t(now) - 650336715) / (PULSE_TICK / PULSE_PER_SECOND));
     hour_ = lhour % 24;
     auto lday = lhour / 24;
     day_ = lday % 35;

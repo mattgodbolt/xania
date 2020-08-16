@@ -15,8 +15,6 @@ bool debug = false;
 /* check the mobs/objects */
 bool printinfo = false;
 
-extern char str_boot_time[];
-
 int main(int argc, char **argv) {
 
     /*
@@ -25,7 +23,6 @@ int main(int argc, char **argv) {
     timeval now_time{};
     gettimeofday(&now_time, nullptr);
     current_time = (time_t)(now_time.tv_sec);
-    strcpy(str_boot_time, ctime(&current_time));
 
     snprintf(log_buf, LOG_BUF_SIZE, "Xania %s booting...", BUILD_FULL_VERSION);
     log_string(log_buf);

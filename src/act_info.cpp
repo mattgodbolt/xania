@@ -1473,11 +1473,11 @@ void do_affected(CHAR_DATA *ch, const char *argument) {
 
 void do_time(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    extern char str_boot_time[];
     char buf[MAX_STRING_LENGTH];
 
-    send_to_char("{}\n\rXania started up at {}\n\rThe system time is {}\n\r"_format(time_info.describe(), str_boot_time,
-                                                                                    ctime(&current_time)),
+    send_to_char("{}\n\rXania started up at {}Z\n\rThe system time is {}Z\n\r"_format(
+                     time_info.describe(), date::floor<std::chrono::seconds>(boot_time),
+                     date::floor<std::chrono::seconds>(Clock::from_time_t(current_time))),
                  ch);
 
     if (IS_NPC(ch)) {
@@ -1487,6 +1487,7 @@ void do_time(CHAR_DATA *ch, const char *argument) {
             return;
     }
 
+    // TODO(#95) now we have an actual time library we can replace this with a timezone and format accordingly.
     if (ch->pcdata->houroffset || ch->pcdata->minoffset) {
         time_t ch_timet;
         char buf2[32];

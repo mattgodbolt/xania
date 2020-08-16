@@ -59,7 +59,8 @@ add_library(xania_lib STATIC
         info.hpp
         TimeInfoData.cpp TimeInfoData.hpp
         WeatherData.cpp WeatherData.hpp
-        WrappedFd.cpp WrappedFd.hpp nth.hpp nth.cpp)
+        WrappedFd.cpp WrappedFd.hpp
+        nth.hpp nth.cpp)
 target_link_libraries(xania_lib xania_common crypt chat CONAN_PKG::fmt)
 
 add_executable(xania main.cpp)

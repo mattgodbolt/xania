@@ -1,5 +1,7 @@
 #pragma once
 
+#include "common/Time.hpp"
+
 #include <ctime>
 #include <string>
 
@@ -11,7 +13,7 @@ class TimeInfoData {
 
 public:
     TimeInfoData() = default; // TODO: remove when we get rid of the global
-    explicit TimeInfoData(time_t now);
+    explicit TimeInfoData(Time now);
 
     [[nodiscard]] int hour() const noexcept { return hour_; }
     [[nodiscard]] int day() const noexcept { return day_; }
@@ -25,3 +27,4 @@ public:
 };
 
 extern TimeInfoData time_info;
+extern Time boot_time;

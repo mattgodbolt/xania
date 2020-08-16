@@ -236,7 +236,7 @@ void boot_db() {
     init_mm();
 
     // Set time and weather.
-    time_info = TimeInfoData(current_time);
+    time_info = TimeInfoData(Clock::now());
     weather_info = WeatherData(time_info);
 
     /* Assign gsn's for skills which have them. */

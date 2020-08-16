@@ -50,8 +50,6 @@ extern KNOWN_PLAYERS *player_list;
 
 /* extern void identd_lookup();  ......commented out due to sock leaks */
 
-char str_boot_time[MAX_INPUT_LENGTH];
-
 /*
  * Global variables.
  */
