@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TimeInfoData.hpp"
+
 #include <string>
 
 class WeatherData {

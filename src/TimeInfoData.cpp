@@ -9,9 +9,10 @@
 
 using namespace fmt::literals;
 
+// Hateful globals.
 TimeInfoData time_info;
-
 const Time boot_time = std::chrono::system_clock::now();
+Time current_time = std::chrono::system_clock::now();
 
 void TimeInfoData::advance() {
     if (++hour_ < 24)
