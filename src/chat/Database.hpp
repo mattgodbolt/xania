@@ -28,8 +28,8 @@ public:
     explicit Database(std::vector<KeywordResponses> &keyword_responses, Database *linked_database)
         : keyword_responses_(std::move(keyword_responses)), linked_database_(linked_database) {}
 
-    [[nodiscard]] std::string find_match(std::string_view player_name, std::string &msgbuf, std::string_view npc_name,
-                                         int &overflow) const;
+    [[nodiscard]] std::string find_response(std::string_view player_name, std::string &msgbuf,
+                                            std::string_view npc_name, int &overflow) const;
 
 private:
     int match(std::string_view db_keywords, std::string_view input_msg, std::string_view::iterator &it,
@@ -51,7 +51,8 @@ private:
     inline static const std::string compile_time_{__DATE__ " " __TIME__};
     inline static const std::string help_version_{"The version number can be seen using 'help version'."};
     inline static const std::string default_response_{"I dont really know much about that, say more."};
-    inline static const std::string eliza_title{"Originally by Christopher Busch  Copyright (c)1993. Rewritten by the Xania team."};
+    inline static const std::string eliza_title{
+        "Originally by Christopher Busch  Copyright (c)1993. Rewritten by the Xania team."};
 };
 
 }

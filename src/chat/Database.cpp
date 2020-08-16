@@ -13,7 +13,7 @@
 
 using namespace chat;
 
-std::string Database::find_match(std::string_view player_name, std::string &msgbuf, std::string_view npc_name,
+std::string Database::find_response(std::string_view player_name, std::string &msgbuf, std::string_view npc_name,
                                  int &overflow) const {
     for (auto &keyword_response : keyword_responses_) {
         auto keywords = keyword_response.get_keywords();
@@ -29,7 +29,7 @@ std::string Database::find_match(std::string_view player_name, std::string &msgb
         return default_response_;
     } else {
         const Database &next_database = *linked_database_;
-        return next_database.find_match(player_name, msgbuf, npc_name, overflow);
+        return next_database.find_response(player_name, msgbuf, npc_name, overflow);
     }
 }
 

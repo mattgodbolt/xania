@@ -27,7 +27,7 @@ std::string Eliza::handle_player_message(std::string_view player_name, std::stri
 
     std::string msgbuf = reduce_spaces(message);
     int overflow = 10; // runtime check so we dont have circular database links
-    return database.find_match(player_name, msgbuf, npc_name, overflow);
+    return database.find_response(player_name, msgbuf, npc_name, overflow);
 }
 
 /**
