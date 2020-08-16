@@ -1,5 +1,11 @@
 
-// chris busch (c) copyright 1995 all rights reserved
+/*************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
+/*  (C) 1995-2020 Xania Development Team                                 */
+/*  See the header to file: merc.h for original code copyrights          */
+/*  Chat bot originally written by Chris Busch in 1993-5, this file is a */
+/*  reimplementation of that work.                                       */
+/*************************************************************************/
 #pragma once
 
 #include "Database.hpp"
@@ -26,8 +32,8 @@ private:
     std::unordered_map<std::string, Database &> named_databases_;
 
     void ensure_database_open(const int current_db_num, const int line_count);
-    [[nodiscard]] int parse_new_database_num(std::string_view str, const int linecount);
-    Database *parse_database_link(std::string_view str, const int linecount);
+    [[nodiscard]] int parse_new_database_num(std::string_view str, const int line_count);
+    Database *parse_database_link(std::string_view str, const int line_count);
     void register_database_names(std::string &names, Database &database);
     [[nodiscard]] Database &get_database_by_name(std::string names);
 };

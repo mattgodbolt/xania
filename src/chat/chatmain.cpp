@@ -1,5 +1,10 @@
-// Chris Busch (c) 1993
-// please see chat.doc
+/*************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
+/*  (C) 1995-2020 Xania Development Team                                 */
+/*  See the header to file: merc.h for original code copyrights          */
+/*  Chat bot originally written by Chris Busch in 1993-5, this file is a */
+/*  reimplementation of that work.                                       */
+/*************************************************************************/
 #include "Eliza.hpp"
 
 using namespace chat;

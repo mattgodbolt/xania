@@ -1,3 +1,10 @@
+/*************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
+/*  (C) 1995-2020 Xania Development Team                                 */
+/*  See the header to file: merc.h for original code copyrights          */
+/*  Chat bot originally written by Chris Busch in 1993-5, this file is a */
+/*  reimplementation of that work.                                       */
+/*************************************************************************/
 #pragma once
 
 #include "KeywordResponses.hpp"
@@ -21,8 +28,8 @@ public:
     explicit Database(std::vector<KeywordResponses> &keyword_responses, Database *linked_database)
         : keyword_responses_(std::move(keyword_responses)), linked_database_(linked_database) {}
 
-    std::string find_match(std::string_view player_name, std::string &msgbuf, std::string_view npc_name,
-                           int &overflow) const;
+    [[nodiscard]] std::string find_match(std::string_view player_name, std::string &msgbuf, std::string_view npc_name,
+                                         int &overflow) const;
 
 private:
     int match(std::string_view db_keywords, std::string_view input_msg, std::string_view::iterator &it,
@@ -42,10 +49,9 @@ private:
     const Database *linked_database_;
 
     inline static const std::string compile_time_{__DATE__ " " __TIME__};
+    inline static const std::string help_version_{"The version number can be seen using 'help version'."};
     inline static const std::string default_response_{"I dont really know much about that, say more."};
-    /////YOU MAY NOT change the next 2 lines.
-    inline static const std::string eliza_title{"chat by Christopher Busch  Copyright (c)1993"};
-    inline static const std::string eliza_version{"version 1.0.0"};
+    inline static const std::string eliza_title{"Originally by Christopher Busch  Copyright (c)1993. Rewritten by the Xania team."};
 };
 
 }

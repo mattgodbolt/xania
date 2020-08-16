@@ -1,3 +1,10 @@
+/*************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
+/*  (C) 1995-2020 Xania Development Team                                 */
+/*  See the header to file: merc.h for original code copyrights          */
+/*  Chat bot originally written by Chris Busch in 1993-5, this file is a */
+/*  reimplementation of that work.                                       */
+/*************************************************************************/
 #include "Database.hpp"
 #include "../string_utils.hpp"
 #include "chatconstants.hpp"
@@ -180,7 +187,7 @@ std::string Database::expand_variables(std::string_view npc_name, const std::str
     updated = replace_strings(updated, "$$", "$");
     updated = replace_strings(updated, "$r", rest);
     updated = replace_strings(updated, "$A", eliza_title);
-    updated = replace_strings(updated, "$V", eliza_version);
+    updated = replace_strings(updated, "$V", help_version_);
     updated = replace_strings(updated, "$C", compile_time_);
     return updated;
 }
