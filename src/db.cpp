@@ -9,6 +9,8 @@
 
 #include "db.h"
 #include "Descriptor.hpp"
+#include "TimeInfoData.hpp"
+#include "Weather.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "interp.h"
@@ -49,8 +51,6 @@ char *help_greeting;
 char log_buf[LOG_BUF_SIZE];
 KILL_DATA kill_table[MAX_LEVEL];
 OBJ_DATA *object_list;
-TIME_INFO_DATA time_info;
-WEATHER_DATA weather_info;
 
 sh_int gsn_backstab;
 sh_int gsn_dodge;
@@ -235,45 +235,9 @@ void boot_db() {
     /* Init random number generator. */
     init_mm();
 
-    /* Set time and weather. */
-    {
-        long lhour, lday, lmonth;
-
-        lhour = (current_time - 650336715) / (PULSE_TICK / PULSE_PER_SECOND);
-        time_info.hour = lhour % 24;
-        lday = lhour / 24;
-        time_info.day = lday % 35;
-        lmonth = lday / 35;
-        time_info.month = lmonth % 17;
-        time_info.year = lmonth / 17;
-
-        if (time_info.hour < 5)
-            weather_info.sunlight = SUN_DARK;
-        else if (time_info.hour < 6)
-            weather_info.sunlight = SUN_RISE;
-        else if (time_info.hour < 19)
-            weather_info.sunlight = SUN_LIGHT;
-        else if (time_info.hour < 20)
-            weather_info.sunlight = SUN_SET;
-        else
-            weather_info.sunlight = SUN_DARK;
-
-        weather_info.change = 0;
-        weather_info.mmhg = 960;
-        if (time_info.month >= 7 && time_info.month <= 12)
-            weather_info.mmhg += number_range(1, 50);
-        else
-            weather_info.mmhg += number_range(1, 80);
-
-        if (weather_info.mmhg <= 980)
-            weather_info.sky = SKY_LIGHTNING;
-        else if (weather_info.mmhg <= 1000)
-            weather_info.sky = SKY_RAINING;
-        else if (weather_info.mmhg <= 1020)
-            weather_info.sky = SKY_CLOUDY;
-        else
-            weather_info.sky = SKY_CLOUDLESS;
-    }
+    // Set time and weather.
+    time_info = time_info_data(current_time);
+    weather_info = weather_data(time_info);
 
     /* Assign gsn's for skills which have them. */
     {

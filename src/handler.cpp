@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "Weather.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "merc.h"
@@ -1681,7 +1682,7 @@ bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex) {
     if (pRoomIndex->sector_type == SECT_INSIDE || pRoomIndex->sector_type == SECT_CITY)
         return false;
 
-    if (weather_info.sunlight == SUN_SET || weather_info.sunlight == SUN_DARK)
+    if (weather_info.is_dark())
         return true;
 
     return false;

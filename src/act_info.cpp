@@ -8,12 +8,15 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "TimeInfoData.hpp"
+#include "Weather.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "db.h"
 #include "interp.h"
 #include "merc.h"
 #include "string_utils.hpp"
+
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>

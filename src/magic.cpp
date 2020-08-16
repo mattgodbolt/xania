@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "magic.h"
+#include "Weather.hpp"
 #include "challeng.h"
 #include "comm.hpp"
 #include "interp.h"
@@ -745,7 +746,7 @@ void spell_call_lightning(int sn, int level, CHAR_DATA *ch, void *vo) {
         return;
     }
 
-    if (weather_info.sky < SKY_RAINING) {
+    if (!weather_info.is_raining()) {
         send_to_char("You need bad weather.\n\r", ch);
         return;
     }
