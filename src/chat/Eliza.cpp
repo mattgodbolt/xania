@@ -16,11 +16,23 @@
 
 using namespace chat;
 
+const char *Eliza::handle_player_message(char *response_buf, std::string_view player_name, std::string_view message,
+                                         std::string_view npc_name) {
+    if (message.size() > MaxInputLength)
+        return "You talk too much.";
+    std::string npc_name_str(npc_name);
+    auto &database = get_database_by_name(npc_name_str);
+
+    strcpy(response_buf, "I dont really know much about that, say more.");
+    std::string msgbuf = reduce_spaces(message);
+    int overflow = 10; // runtime check so we dont have circular database links
+    return database.find_match(response_buf, player_name, msgbuf, npc_name, overflow);
+}
+
 /**
  * Find the number of a database from a given name by splitting
  * it on spaces and looking for each word.
- * If no database is found it returns 0 which is the database containing
- * all the default keyword responses.
+ * If no database is found it returns the default database.
  */
 Database &Eliza::get_database_by_name(std::string names) {
     std::string::size_type pos = 0, last = 0;
@@ -54,18 +66,6 @@ void Eliza::register_database_names(std::string &names, Database &database) {
     std::string name(lower_case(names.substr(last, names.size() - pos)));
     if (!name.empty())
         named_databases_.emplace(name, database);
-}
-const char *Eliza::handle_player_message(char *response_buf, const char *player_name, std::string_view message,
-                                         std::string_view npc_name) {
-    if (message.size() > MaxInputLength)
-        return "You talk too much.";
-    std::string npc_name_str(npc_name);
-    auto &database = get_database_by_name(npc_name_str);
-
-    strcpy(response_buf, "I dont really know much about that, say more.");
-    std::string msgbuf = reduce_spaces(message);
-    int overflow = 10; // runtime check so we dont have circular database links
-    return database.find_match(response_buf, player_name, msgbuf, npc_name, overflow);
 }
 
 void Eliza::ensure_database_open(const int current_db_num, const int line_count) {
@@ -149,11 +149,11 @@ bool Eliza::load_databases(const char *file) {
     return true;
 }
 
-int Eliza::parse_new_database_num(std::string_view str, const int linecount) {
+int Eliza::parse_new_database_num(std::string_view str, const int line_count) {
     if (is_number(str.data())) {
         auto db_num = atoi(str.data());
         if (databases_.find(db_num) != databases_.end()) {
-            printf("& database num already exists! %d on line %d\n", db_num, linecount);
+            printf("& database num already exists! %d on line %d\n", db_num, line_count);
             return -1;
         }
         return db_num;
@@ -161,16 +161,16 @@ int Eliza::parse_new_database_num(std::string_view str, const int linecount) {
     return -1;
 }
 
-Database *Eliza::parse_database_link(std::string_view str, const int linecount) {
+Database *Eliza::parse_database_link(std::string_view str, const int line_count) {
     if (is_number(str.data())) {
         auto db_num = atoi(str.data());
         auto entry = databases_.find(db_num);
         if (entry != databases_.end()) {
             return &entry->second;
         }
-        printf("@ database could not be found: %d on line %d\n", db_num, linecount);
+        printf("@ database could not be found: %d on line %d\n", db_num, line_count);
         return nullptr;
     }
-    printf("@ invalid database link number %s on line %d\n", str.data(), linecount);
+    printf("@ invalid database link number %s on line %d\n", str.data(), line_count);
     return nullptr;
 }

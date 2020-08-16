@@ -19,7 +19,7 @@ public:
      * then pseudo-randomly selecting a response from the responses and sending it back to the player.
      * It also expands $variables found in the response.
      */
-    const char *handle_player_message(char *response_buf, const char *player_name, std::string_view message,
+    const char *handle_player_message(char *response_buf, std::string_view player_name, std::string_view message,
                                       std::string_view npc_name);
 
 private:

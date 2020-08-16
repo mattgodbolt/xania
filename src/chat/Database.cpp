@@ -6,12 +6,8 @@
 
 using namespace chat;
 
-/////YOU MAY NOT change the next 2 lines.
-const char eliza_title[] = "chat by Christopher Busch  Copyright (c)1993";
-const char eliza_version[] = "version 1.0.0";
-
-char *Database::find_match(char *response_buf, const char *player_name, std::string &msgbuf, std::string_view npc_name,
-                           int &overflow) {
+char *Database::find_match(char *response_buf, std::string_view player_name, std::string &msgbuf, std::string_view npc_name,
+                           int &overflow) const {
     for (auto &keyword_response : keyword_responses_) {
         auto keywords = keyword_response.get_keywords();
         std::string_view::iterator it = keywords.begin();
@@ -26,12 +22,12 @@ char *Database::find_match(char *response_buf, const char *player_name, std::str
     if (--overflow <= 0 || !linked_database_) {
         return response_buf;
     } else {
-        Database &next_database = *linked_database_;
+        const Database &next_database = *linked_database_;
         return next_database.find_match(response_buf, player_name, msgbuf, npc_name, overflow);
     }
 }
 
-bool Database::eval_operator(const char op, const int a, const int b) {
+bool Database::eval_operator(const char op, const int a, const int b) const {
     switch (op) {
     case '\0':
     case '&': return a && b;
@@ -41,7 +37,7 @@ bool Database::eval_operator(const char op, const int a, const int b) {
     }
 }
 
-int Database::strpos(std::string_view input_msg, std::string_view current_db_keyword) {
+int Database::strpos(std::string_view input_msg, std::string_view current_db_keyword) const {
     auto input_msg_len = input_msg.size();
     auto keyword_len = current_db_keyword.size();
     size_t a;
@@ -71,7 +67,7 @@ int Database::strpos(std::string_view input_msg, std::string_view current_db_key
 }
 
 int Database::match(std::string_view db_keywords, std::string_view input_msg, std::string_view::iterator &it,
-                    uint &remaining_input_pos) {
+                    uint &remaining_input_pos) const {
     // Records the match result through a sequence of logical expressions (e.g. (foo|bar|baz)
     int progressive_match_result = 0;
     // Records the index into input_msg that the current_db_keyword was matched at, if it was matched,
@@ -136,7 +132,7 @@ int Database::match(std::string_view db_keywords, std::string_view input_msg, st
 
 void Database::handle_operator(std::string_view input_msg, std::string_view current_db_keyword,
                                const char logical_operator, int &progressive_match_result, int &next_match_pos,
-                               uint &remaining_input_pos) {
+                               uint &remaining_input_pos) const {
     if (!current_db_keyword.empty()) {
         next_match_pos = strpos(input_msg, current_db_keyword);
         if (next_match_pos > 0)
@@ -145,7 +141,7 @@ void Database::handle_operator(std::string_view input_msg, std::string_view curr
     }
 }
 
-char *Database::swap_term(char *in) {
+char *Database::swap_term(char *in) const {
     static const char pairs[][10] = {"am", "are", "I", "you", "mine", "yours", "my", "your", "me", "you", "myself",
                                      "yourself",
                                      // swapped order:
@@ -159,7 +155,7 @@ char *Database::swap_term(char *in) {
     return in;
 }
 
-void Database::swap_pronouns_and_possessives(char s[]) {
+void Database::swap_pronouns_and_possessives(char s[]) const {
     char buf[MaxInputLength + 20];
     buf[0] = '\0';
 
@@ -178,7 +174,7 @@ void Database::swap_pronouns_and_possessives(char s[]) {
 
 // enables $variable translation
 void Database::expand_variables(char *response_buf, std::string_view npc_name, const std::string &response,
-                                const char *player_name, char *rest) {
+                                std::string_view player_name, char *rest) const {
     trim(rest);
     std::string updated = replace_strings(response, "$t", player_name);
     updated = replace_strings(updated, "$n", npc_name);
