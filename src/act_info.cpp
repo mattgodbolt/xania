@@ -9,7 +9,7 @@
 
 #include "Descriptor.hpp"
 #include "TimeInfoData.hpp"
-#include "Weather.hpp"
+#include "WeatherData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "db.h"
@@ -1494,7 +1494,7 @@ void do_time(CHAR_DATA *ch, const char *argument) {
     const char *suf;
     int day;
 
-    day = time_info.day + 1;
+    day = time_info.day() + 1;
 
     if (day > 4 && day < 20)
         suf = "th";
@@ -1510,8 +1510,8 @@ void do_time(CHAR_DATA *ch, const char *argument) {
     snprintf(buf, sizeof(buf),
              "It is %d o'clock %s, Day of %s, %d%s the Month of %s.\n\rXania started up at %s\rThe system time is %s\r",
 
-             (time_info.hour % 12 == 0) ? 12 : time_info.hour % 12, time_info.hour >= 12 ? "pm" : "am",
-             day_name[day % 7], day, suf, month_name[time_info.month], str_boot_time, (char *)ctime(&current_time));
+             (time_info.hour() % 12 == 0) ? 12 : time_info.hour() % 12, time_info.hour() >= 12 ? "pm" : "am",
+             day_name[day % 7], day, suf, month_name[time_info.month()], str_boot_time, (char *)ctime(&current_time));
 
     send_to_char(buf, ch);
 
@@ -1552,18 +1552,12 @@ void do_time(CHAR_DATA *ch, const char *argument) {
 
 void do_weather(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    char buf[MAX_STRING_LENGTH];
-
-    static const char *sky_look[4] = {"cloudless", "cloudy", "rainy", "lit by flashes of lightning"};
-
     if (!IS_OUTSIDE(ch)) {
         send_to_char("You can't see the weather indoors.\n\r", ch);
         return;
     }
 
-    snprintf(buf, sizeof(buf), "The sky is %s and %s.\n\r", sky_look[weather_info.sky],
-             weather_info.change >= 0 ? "a warm southerly breeze blows" : "a cold northern gust blows");
-    send_to_char(buf, ch);
+    send_to_char(weather_info.describe() + "\n\r", ch);
 }
 
 void do_help(CHAR_DATA *ch, const char *argument) {

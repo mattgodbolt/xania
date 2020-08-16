@@ -10,7 +10,7 @@
 #include "db.h"
 #include "Descriptor.hpp"
 #include "TimeInfoData.hpp"
-#include "Weather.hpp"
+#include "WeatherData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "interp.h"
@@ -236,8 +236,8 @@ void boot_db() {
     init_mm();
 
     // Set time and weather.
-    time_info = time_info_data(current_time);
-    weather_info = weather_data(time_info);
+    time_info = TimeInfoData(current_time);
+    weather_info = WeatherData(time_info);
 
     /* Assign gsn's for skills which have them. */
     {

@@ -2,16 +2,21 @@
 
 #include <ctime>
 
-struct time_info_data {
-    int hour{};
-    int day{};
-    int month{};
-    int year{};
+class TimeInfoData {
+    int hour_{};
+    int day_{};
+    int month_{};
+    int year_{};
 
-    time_info_data() = default; // TODO: remove when we get rid of the global
-    explicit time_info_data(time_t now);
+public:
+    TimeInfoData() = default; // TODO: remove when we get rid of the global
+    explicit TimeInfoData(time_t now);
+
+    [[nodiscard]] int hour() const noexcept { return hour_; }
+    [[nodiscard]] int day() const noexcept { return day_; }
+    [[nodiscard]] int month() const noexcept { return month_; }
 
     void advance();
 };
 
-extern time_info_data time_info;
+extern TimeInfoData time_info;

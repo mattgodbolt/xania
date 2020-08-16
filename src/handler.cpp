@@ -8,7 +8,7 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
-#include "Weather.hpp"
+#include "WeatherData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "merc.h"

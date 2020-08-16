@@ -8,7 +8,7 @@
 /*************************************************************************/
 
 #include "magic.h"
-#include "Weather.hpp"
+#include "WeatherData.hpp"
 #include "challeng.h"
 #include "comm.hpp"
 #include "interp.h"
@@ -1209,9 +1209,9 @@ void spell_control_weather(int sn, int level, CHAR_DATA *ch, void *vo) {
     (void)sn;
     (void)vo;
     if (!str_cmp(target_name, "better"))
-        weather_info.change += dice(level / 3, 4);
+        weather_info.control(dice(level / 3, 4));
     else if (!str_cmp(target_name, "worse"))
-        weather_info.change -= dice(level / 3, 4);
+        weather_info.control(-dice(level / 3, 4));
     else
         send_to_char("Do you want it to get better or worse?\n\r", ch);
 
@@ -1252,7 +1252,7 @@ void spell_create_water(int sn, int level, CHAR_DATA *ch, void *vo) {
         return;
     }
 
-    int water = UMIN(level * (weather_info.sky >= SKY_RAINING ? 4 : 2), obj->value[0] - obj->value[1]);
+    int water = UMIN(level * (weather_info.is_raining() ? 4 : 2), obj->value[0] - obj->value[1]);
 
     if (water > 0) {
         obj->value[2] = LIQ_WATER;

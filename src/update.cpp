@@ -9,7 +9,7 @@
 
 #include "Descriptor.hpp"
 #include "TimeInfoData.hpp"
-#include "Weather.hpp"
+#include "WeatherData.hpp"
 #include "comm.hpp"
 #include "interp.h"
 #include "merc.h"
@@ -413,39 +413,17 @@ void mobile_update() {
  * Update the weather.
  */
 void weather_update() {
-    std::string buf;
 
     time_info.advance();
-    switch (time_info.hour) {
-    case 5:
-        weather_info.sunlight = SUN_LIGHT;
-        buf = "The day has begun.\n\r";
-        break;
-
-    case 6:
-        weather_info.sunlight = SUN_RISE;
-        buf = "The sun rises in the east.\n\r";
-        break;
-
-    case 19:
-        weather_info.sunlight = SUN_SET;
-        buf = "The sun slowly disappears in the west.\n\r";
-        break;
-
-    case 20:
-        weather_info.sunlight = SUN_DARK;
-        buf = "The night has begun.\n\r";
-        break;
-    }
 
     /*
      * Weather change.
      */
-    buf += weather_info.update(time_info);
-    if (!buf.empty()) {
+    auto update_msg = weather_info.update(time_info);
+    if (!update_msg.empty()) {
         for (auto *d = descriptor_list; d != nullptr; d = d->next) {
             if (d->is_playing() && IS_OUTSIDE(d->character()) && IS_AWAKE(d->character()))
-                send_to_char(buf, d->character());
+                send_to_char(update_msg, d->character());
         }
     }
 }
