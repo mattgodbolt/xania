@@ -1917,15 +1917,13 @@ void clear_char(CHAR_DATA *ch) {
     static CHAR_DATA ch_zero;
     int i;
 
-    memset(ch, 0, sizeof(CHAR_DATA)); /* Added by TM */
-
     *ch = ch_zero;
     ch->name = &str_empty[0];
     ch->short_descr = &str_empty[0];
     ch->long_descr = &str_empty[0];
     ch->description = &str_empty[0];
     ch->logon = current_time;
-    ch->last_note = 0;
+    ch->last_note = Time::min();
     ch->lines = PAGELEN;
     for (i = 0; i < 4; i++)
         ch->armor[i] = 100;
@@ -2933,7 +2931,7 @@ void init_mm() {
     piState[-2] = 55 - 55;
     piState[-1] = 55 - 24;
 
-    piState[0] = ((int)current_time) & ((1 << 30) - 1);
+    piState[0] = ((int)Clock::to_time_t(current_time)) & ((1 << 30) - 1);
     piState[1] = 1;
     for (iState = 2; iState < 55; iState++) {
         piState[iState] = (piState[iState - 1] + piState[iState - 2]) & ((1 << 30) - 1);

@@ -27,4 +27,5 @@ public:
 };
 
 extern TimeInfoData time_info;
-extern Time boot_time;
+extern const Time boot_time;
+extern Time current_time;

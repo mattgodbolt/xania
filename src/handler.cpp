@@ -323,7 +323,8 @@ void reset_char(CHAR_DATA *ch) {
         ch->pcdata->perm_hit = ch->max_hit;
         ch->pcdata->perm_mana = ch->max_mana;
         ch->pcdata->perm_move = ch->max_move;
-        ch->pcdata->last_level = ch->played / 3600;
+        using namespace std::chrono;
+        ch->pcdata->last_level = (int)duration_cast<hours>(ch->played).count();
         if (ch->pcdata->true_sex < 0 || ch->pcdata->true_sex > 2) {
             if (ch->sex > 0 && ch->sex < 3)
                 ch->pcdata->true_sex = ch->sex;
@@ -478,7 +479,10 @@ int get_trust(const CHAR_DATA *ch) {
 /*
  * Retrieve a character's age.
  */
-int get_age(const CHAR_DATA *ch) { return 17 + (ch->played + (int)(current_time - ch->logon)) / 72000; }
+int get_age(const CHAR_DATA *ch) {
+    using namespace std::chrono;
+    return 17 + duration_cast<hours>(ch->total_played()).count() / 20;
+}
 
 /* command for retrieving stats */
 int get_curr_stat(const CHAR_DATA *ch, int stat) {

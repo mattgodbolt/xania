@@ -50,7 +50,8 @@ void advance_level(CHAR_DATA *ch) {
     int add_move;
     int add_prac;
 
-    ch->pcdata->last_level = (ch->played + (int)(current_time - ch->logon)) / 3600;
+    using namespace std::chrono;
+    ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
 
     snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
     set_title(ch, buf);
@@ -113,7 +114,8 @@ void lose_level(CHAR_DATA *ch) {
     int add_move;
     int add_prac;
 
-    ch->pcdata->last_level = (ch->played + (int)(current_time - ch->logon)) / 3600;
+    using namespace std::chrono;
+    ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
 
     snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
     set_title(ch, buf);
@@ -895,11 +897,12 @@ bool is_safe_sentient(CHAR_DATA *ch, CHAR_DATA *wch) {
     return false;
 }
 
-/* This function resets the player count everyday */
+/* This function resets the player count every day */
 void count_update() {
     struct tm *cur_time;
     int current_day;
-    cur_time = localtime(&current_time);
+    auto as_tt = Clock::to_time_t(current_time);
+    cur_time = localtime(&as_tt);
     current_day = cur_time->tm_mday;
     /* Initialise count_updated if this first time called */
     if (count_updated == 0) {

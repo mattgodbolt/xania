@@ -1342,8 +1342,9 @@ void do_score(CHAR_DATA *ch, const char *argument) {
         snprintf(buf, sizeof(buf), "Level: |W%d|w", ch->level);
     else
         snprintf(buf, sizeof(buf), "Level: |W%d|w (trust |W%d|w)", ch->level, get_trust(ch));
+    using namespace std::chrono;
     snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Age: |W%d|w years (|W%d|w hours)\n\r", get_age(ch),
-             (ch->played + (int)(current_time - ch->logon)) / 3600);
+             ((int)(duration_cast<hours>(ch->total_played()).count())));
     send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Race: |W%s|w", race_table[ch->race].name);
@@ -1476,8 +1477,7 @@ void do_time(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
 
     send_to_char("{}\n\rXania started up at {}Z\n\rThe system time is {}Z\n\r"_format(
-                     time_info.describe(), date::floor<std::chrono::seconds>(boot_time),
-                     date::floor<std::chrono::seconds>(Clock::from_time_t(current_time))),
+                     time_info.describe(), secs_only(boot_time), secs_only(current_time)),
                  ch);
 
     if (IS_NPC(ch)) {

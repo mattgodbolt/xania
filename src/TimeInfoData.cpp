@@ -11,7 +11,7 @@ using namespace fmt::literals;
 
 TimeInfoData time_info;
 
-Time boot_time = std::chrono::system_clock::now();
+const Time boot_time = std::chrono::system_clock::now();
 
 void TimeInfoData::advance() {
     if (++hour_ < 24)
@@ -64,3 +64,6 @@ std::string TimeInfoData::describe() const noexcept {
         (hour_ % 12 == 0) ? 12 : hour_ % 12, hour_ >= 12 ? "pm" : "am", day_name[day_ % day_name.size()], nth(day_ + 1),
         month_name[month_]);
 }
+
+// TODO move elsewhere once we break char_data into a class
+Seconds CHAR_DATA::total_played() const { return std::chrono::duration_cast<Seconds>(current_time - logon + played); }

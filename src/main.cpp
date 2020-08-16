@@ -1,7 +1,9 @@
 #include "merc.h"
 
+#include "TimeInfoData.hpp"
 #include "chat/chatlink.h"
 #include "comm.hpp"
+#include "common/Time.hpp"
 #include "common/doorman_protocol.h"
 #include "string_utils.hpp"
 
@@ -16,13 +18,8 @@ bool debug = false;
 bool printinfo = false;
 
 int main(int argc, char **argv) {
-
-    /*
-     * Init time.
-     */
-    timeval now_time{};
-    gettimeofday(&now_time, nullptr);
-    current_time = (time_t)(now_time.tv_sec);
+    // Init time.
+    current_time = Clock::now();
 
     snprintf(log_buf, LOG_BUF_SIZE, "Xania %s booting...", BUILD_FULL_VERSION);
     log_string(log_buf);

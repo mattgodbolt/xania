@@ -29,6 +29,7 @@
 #include "clan.h"
 #include "version.h"
 
+#include <common/Time.hpp>
 #include <crypt.h>
 #include <cstdint>
 #include <cstdio>
@@ -1176,10 +1177,10 @@ struct CHAR_DATA {
     sh_int race;
     sh_int level;
     sh_int trust;
-    int played;
+    Seconds played;
     int lines; /* for the pager */
-    time_t logon;
-    time_t last_note;
+    Time logon;
+    Time last_note;
     sh_int timer;
     sh_int wait;
     sh_int hit;
@@ -1229,6 +1230,8 @@ struct CHAR_DATA {
 
     MPROG_ACT_LIST *mpact; /* Used by MOBprogram */
     int mpactnum; /* Used by MOBprogram */
+
+    Seconds total_played() const;
 };
 
 /*
@@ -1507,7 +1510,7 @@ struct note_data {
     char *to_list;
     char *subject;
     BUFFER *text;
-    time_t date_stamp;
+    Time date_stamp;
 };
 
 /*
@@ -1755,7 +1758,6 @@ extern EXTRA_DESCR_DATA *extra_descr_free;
 extern OBJ_DATA *obj_free;
 extern PC_DATA *pcdata_free;
 
-extern time_t current_time;
 extern bool fLogAll;
 extern FILE *fpReserve;
 extern KILL_DATA kill_table[];
