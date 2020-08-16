@@ -21,15 +21,15 @@ public:
     explicit Database(std::vector<KeywordResponses> &keyword_responses, Database *linked_database)
         : keyword_responses_(std::move(keyword_responses)), linked_database_(linked_database) {}
 
-    char *find_match(char *response_buf, std::string_view player_name, std::string &msgbuf, std::string_view npc_name,
-                     int &overflow) const;
+    std::string find_match(std::string_view player_name, std::string &msgbuf, std::string_view npc_name,
+                           int &overflow) const;
 
 private:
     int match(std::string_view db_keywords, std::string_view input_msg, std::string_view::iterator &it,
               uint &remaining_input_pos) const;
 
-    void expand_variables(char *response_buf, std::string_view npc_name, const std::string &response,
-                          std::string_view player_name, char *rest) const;
+    std::string expand_variables(std::string_view npc_name, const std::string &response, std::string_view player_name,
+                                 char *rest) const;
     int strpos(std::string_view input_msg, std::string_view current_db_keyword) const;
     char *swap_term(char *in) const;
     void swap_pronouns_and_possessives(char s[]) const;
@@ -42,6 +42,7 @@ private:
     const Database *linked_database_;
 
     inline static const std::string compile_time_{__DATE__ " " __TIME__};
+    inline static const std::string default_response_{"I dont really know much about that, say more."};
     /////YOU MAY NOT change the next 2 lines.
     inline static const std::string eliza_title{"chat by Christopher Busch  Copyright (c)1993"};
     inline static const std::string eliza_version{"version 1.0.0"};

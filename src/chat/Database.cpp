@@ -6,8 +6,8 @@
 
 using namespace chat;
 
-char *Database::find_match(char *response_buf, std::string_view player_name, std::string &msgbuf, std::string_view npc_name,
-                           int &overflow) const {
+std::string Database::find_match(std::string_view player_name, std::string &msgbuf, std::string_view npc_name,
+                                 int &overflow) const {
     for (auto &keyword_response : keyword_responses_) {
         auto keywords = keyword_response.get_keywords();
         std::string_view::iterator it = keywords.begin();
@@ -15,15 +15,14 @@ char *Database::find_match(char *response_buf, std::string_view player_name, std
         if (match(keywords, msgbuf, it, remaining_input_pos)) {
             auto &response = keyword_response.get_random_response();
             swap_pronouns_and_possessives(&msgbuf[remaining_input_pos]);
-            expand_variables(response_buf, npc_name, response, player_name, &msgbuf[remaining_input_pos]);
-            return response_buf;
+            return expand_variables(npc_name, response, player_name, &msgbuf[remaining_input_pos]);
         }
     }
     if (--overflow <= 0 || !linked_database_) {
-        return response_buf;
+        return default_response_;
     } else {
         const Database &next_database = *linked_database_;
-        return next_database.find_match(response_buf, player_name, msgbuf, npc_name, overflow);
+        return next_database.find_match(player_name, msgbuf, npc_name, overflow);
     }
 }
 
@@ -173,8 +172,8 @@ void Database::swap_pronouns_and_possessives(char s[]) const {
 }
 
 // enables $variable translation
-void Database::expand_variables(char *response_buf, std::string_view npc_name, const std::string &response,
-                                std::string_view player_name, char *rest) const {
+std::string Database::expand_variables(std::string_view npc_name, const std::string &response,
+                                       std::string_view player_name, char *rest) const {
     trim(rest);
     std::string updated = replace_strings(response, "$t", player_name);
     updated = replace_strings(updated, "$n", npc_name);
@@ -183,8 +182,5 @@ void Database::expand_variables(char *response_buf, std::string_view npc_name, c
     updated = replace_strings(updated, "$A", eliza_title);
     updated = replace_strings(updated, "$V", eliza_version);
     updated = replace_strings(updated, "$C", compile_time_);
-    // Until response_buf can be replaced with string, limit its length to the response buffer size.
-    std::string truncated = updated.substr(0, MaxChatReplyLength - 1);
-    updated.copy(response_buf, truncated.size(), 0);
-    response_buf[truncated.size()] = '\0';
+    return updated;
 }

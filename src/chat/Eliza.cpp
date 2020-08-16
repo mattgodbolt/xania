@@ -16,17 +16,16 @@
 
 using namespace chat;
 
-const char *Eliza::handle_player_message(char *response_buf, std::string_view player_name, std::string_view message,
+std::string Eliza::handle_player_message(std::string_view player_name, std::string_view message,
                                          std::string_view npc_name) {
     if (message.size() > MaxInputLength)
         return "You talk too much.";
     std::string npc_name_str(npc_name);
     auto &database = get_database_by_name(npc_name_str);
 
-    strcpy(response_buf, "I dont really know much about that, say more.");
     std::string msgbuf = reduce_spaces(message);
     int overflow = 10; // runtime check so we dont have circular database links
-    return database.find_match(response_buf, player_name, msgbuf, npc_name, overflow);
+    return database.find_match(player_name, msgbuf, npc_name, overflow);
 }
 
 /**

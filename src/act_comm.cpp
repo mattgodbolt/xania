@@ -17,7 +17,6 @@
 #include <sys/types.h>
 #include <time.h>
 
-#include "chat/chatconstants.hpp"
 #include "chat/chatlink.h"
 #include "comm.hpp"
 
@@ -951,23 +950,20 @@ bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch) {
  * from_player: the player that sent it.
  */
 void chatperform(CHAR_DATA *to_npc, CHAR_DATA *from_player, const char *msg) {
-    char response_buf[MaxChatReplyLength];
     if (!IS_NPC(to_npc) || (from_player != nullptr && IS_NPC(from_player)))
         return; /* failsafe */
-    const char *reply = dochat(response_buf, from_player ? from_player->name : "you", msg, to_npc->name);
-    if (reply) {
-        switch (reply[0]) {
-        case '\0': break;
-        case '"': /* say message */ do_say(to_npc, reply + 1); break;
-        case ':': /* do emote */ do_emote(to_npc, reply + 1); break;
-        case '!': /* do command */ interpret(to_npc, reply + 1); break;
-        default: /* say or tell */
-            if (from_player == nullptr) {
-                do_say(to_npc, reply);
-            } else {
-                act("$N tells you '$t'.", from_player, reply, to_npc, To::Char);
-                from_player->reply = to_npc;
-            }
+    std::string reply = dochat(from_player ? from_player->name : "you", msg, to_npc->name);
+    switch (reply[0]) {
+    case '\0': break;
+    case '"': /* say message */ do_say(to_npc, reply.substr(1).c_str()); break;
+    case ':': /* do emote */ do_emote(to_npc, reply.substr(1).c_str()); break;
+    case '!': /* do command */ interpret(to_npc, reply.substr(1).c_str()); break;
+    default: /* say or tell */
+        if (from_player == nullptr) {
+            do_say(to_npc, reply.c_str());
+        } else {
+            act("$N tells you '$t'.", from_player, reply, to_npc, To::Char);
+            from_player->reply = to_npc;
         }
     }
 }
