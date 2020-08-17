@@ -61,14 +61,14 @@ TimeInfoData::TimeInfoData(Time now) {
     using namespace std::chrono;
     // The epoch here, August 11, 1990 1:05:15 AM, is derived from the 650336715 in the original source.
     static constexpr auto DikuEpoch = sys_days(1990_y / August / 11_d) + 1h + 5min + 15s;
-    const auto lhour =
+    const auto hours_since_epoch =
         static_cast<int>(duration_cast<seconds>(now - DikuEpoch).count() / (PULSE_TICK / PULSE_PER_SECOND));
-    hour_ = lhour % HoursPerDay;
-    const auto lday = lhour / HoursPerDay;
-    day_ = lday % 35;
-    const auto lmonth = lday / DaysPerMonth;
-    month_ = lmonth % MonthsPerYear;
-    year_ = lmonth / MonthsPerYear;
+    hour_ = hours_since_epoch % HoursPerDay;
+    const auto days_since_epoch = hours_since_epoch / HoursPerDay;
+    day_ = days_since_epoch % 35;
+    const auto months_since_epoch = days_since_epoch / DaysPerMonth;
+    month_ = months_since_epoch % MonthsPerYear;
+    year_ = months_since_epoch / MonthsPerYear;
 }
 
 std::string TimeInfoData::describe() const noexcept {
