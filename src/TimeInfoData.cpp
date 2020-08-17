@@ -14,53 +14,64 @@ TimeInfoData time_info;
 const Time boot_time = std::chrono::system_clock::now();
 Time current_time = std::chrono::system_clock::now();
 
+namespace {
+constexpr std::array<std::string_view, TimeInfoData::DaysPerWeek> day_name{
+    "the Moon", "the Bull", "Deception", "Thunder", "Freedom", "the Great Gods", "the Sun"};
+
+constexpr std::array<std::string_view, TimeInfoData::MonthsPerYear> month_name{"Winter",
+                                                                               "the Winter Wolf",
+                                                                               "the Frost Giant",
+                                                                               "the Old Forces",
+                                                                               "the Grand Struggle",
+                                                                               "the Spring",
+                                                                               "Nature",
+                                                                               "Futility",
+                                                                               "the Dragon",
+                                                                               "the Sun",
+                                                                               "the Heat",
+                                                                               "the Battle",
+                                                                               "the Dark Shades",
+                                                                               "the Shadows",
+                                                                               "the Long Shadows",
+                                                                               "the Ancient Darkness",
+                                                                               "the Great Evil"};
+
+}
+
+TimeInfoData::TimeInfoData(int hour, int day, int month, int year)
+    : hour_(hour), day_(day), month_(month), year_(year) {}
+
 void TimeInfoData::advance() {
-    if (++hour_ < 24)
+    if (++hour_ < HoursPerDay)
         return;
     hour_ = 0;
 
-    if (++day_ < 35)
+    if (++day_ < DaysPerMonth)
         return;
     day_ = 0;
 
-    if (++month_ < 16)
+    if (++month_ < MonthsPerYear)
         return;
     month_ = 0;
     year_++;
 }
 
 TimeInfoData::TimeInfoData(Time now) {
-    auto lhour = static_cast<int>((Clock::to_time_t(now) - 650336715) / (PULSE_TICK / PULSE_PER_SECOND));
-    hour_ = lhour % 24;
-    auto lday = lhour / 24;
+    using namespace date;
+    using namespace std::chrono;
+    // The epoch here, August 11, 1990 1:05:15 AM, is derived from the 650336715 in the original source.
+    static constexpr auto DikuEpoch = sys_days(1990_y / August / 11_d) + 1h + 5min + 15s;
+    const auto lhour =
+        static_cast<int>(duration_cast<seconds>(now - DikuEpoch).count() / (PULSE_TICK / PULSE_PER_SECOND));
+    hour_ = lhour % HoursPerDay;
+    const auto lday = lhour / HoursPerDay;
     day_ = lday % 35;
-    auto lmonth = lday / 35;
-    month_ = lmonth % 17;
-    year_ = lmonth / 17;
+    const auto lmonth = lday / DaysPerMonth;
+    month_ = lmonth % MonthsPerYear;
+    year_ = lmonth / MonthsPerYear;
 }
 
 std::string TimeInfoData::describe() const noexcept {
-    std::array<std::string_view, 7> day_name{"the Moon", "the Bull",       "Deception", "Thunder",
-                                             "Freedom",  "the Great Gods", "the Sun"};
-
-    std::array<std::string_view, 17> month_name{"Winter",
-                                                "the Winter Wolf",
-                                                "the Frost Giant",
-                                                "the Old Forces",
-                                                "the Grand Struggle",
-                                                "the Spring",
-                                                "Nature",
-                                                "Futility",
-                                                "the Dragon",
-                                                "the Sun",
-                                                "the Heat",
-                                                "the Battle",
-                                                "the Dark Shades",
-                                                "the Shadows",
-                                                "the Long Shadows",
-                                                "the Ancient Darkness",
-                                                "the Great Evil"};
-
     return "It is {} o'clock {}, Day of {}, {} the Month of {}."_format(
         (hour_ % 12 == 0) ? 12 : hour_ % 12, hour_ >= 12 ? "pm" : "am", day_name[day_ % day_name.size()], nth(day_ + 1),
         month_name[month_]);

@@ -220,8 +220,8 @@ struct shop_data {
     sh_int buy_type[MAX_TRADE]; /* Item types shop will buy     */
     sh_int profit_buy; /* Cost multiplier for buying   */
     sh_int profit_sell; /* Cost multiplier for selling  */
-    sh_int open_hour; /* First opening hour           */
-    sh_int close_hour; /* First closing hour           */
+    unsigned int open_hour; /* First opening hour           */
+    unsigned int close_hour; /* First closing hour           */
 };
 
 /*
