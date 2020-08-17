@@ -12,4 +12,7 @@ TEST_CASE("nth formatting") {
     CHECK(fmt::to_string(nth(999)) == "999th");
     CHECK(fmt::to_string(nth(0)) == "0th");
     CHECK(fmt::to_string(nth(-1)) == "-1st");
+    CHECK(fmt::to_string(nth(113)) == "113th");
+    CHECK(fmt::to_string(nth(1001)) == "1001st");
+    CHECK(fmt::to_string(nth(10000004)) == "10000004th");
 }
