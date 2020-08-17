@@ -18,6 +18,7 @@ private:
 public:
     WeatherData() = default; // TODO remove once we get rid of the global.
     explicit WeatherData(const TimeInfoData &tid);
+    WeatherData(Sky sky, Sun sunlight) : sky_(sky), sunlight_(sunlight) {}
 
     void update(const TimeInfoData &tid);
 

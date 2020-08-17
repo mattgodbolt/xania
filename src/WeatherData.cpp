@@ -30,11 +30,11 @@ std::string_view change_for(WeatherData::Sun sunlight) {
 }
 
 WeatherData::Sun sun_from_time(const TimeInfoData &tid) {
-    if (tid.hour() >= 6) {
-        if (tid.hour() == 6)
-            return WeatherData::Sun::Rise;
-        if (tid.hour() < 19)
+    if (tid.hour() >= 5) {
+        if (tid.hour() == 5)
             return WeatherData::Sun::Light;
+        if (tid.hour() < 19)
+            return WeatherData::Sun::Rise;
         if (tid.hour() < 20)
             return WeatherData::Sun::Set;
     }
@@ -93,11 +93,7 @@ void WeatherData::update(const TimeInfoData &tid) {
 
 WeatherData::WeatherData(const TimeInfoData &tid) : sunlight_(sun_from_time(tid)) {
     change_ = 0;
-    mmhg_ = 960;
-    if (tid.month() >= 7 && tid.month() <= 12)
-        mmhg_ += number_range(1, 50);
-    else
-        mmhg_ += number_range(1, 80);
+    mmhg_ = 960 + number_range(1, tid.is_autumnal() ? 50 : 80);
 
     if (mmhg_ <= 980)
         sky_ = Sky::Lightning;
@@ -115,7 +111,7 @@ std::string WeatherData::describe() const noexcept {
 }
 
 std::string WeatherData::describe_change(const WeatherData &before) const noexcept {
-    std::string change = (before.sunlight_ != sunlight_) ? std::string(change_for(sunlight_)) + "\n\r" : "";
+    std::string change = before.sunlight_ != sunlight_ ? std::string(change_for(sunlight_)) + "\n\r" : "";
     switch (sky_) {
     case Sky::Cloudy:
         if (before.sky_ == Sky::Cloudless)

@@ -26,6 +26,7 @@ public:
     [[nodiscard]] unsigned int year() const noexcept { return year_; }
 
     [[nodiscard]] bool is_summer() const noexcept { return month_ >= 9 && month_ <= 16; }
+    [[nodiscard]] bool is_autumnal() const noexcept { return month_ >= 7 && month_ <= 12; }
 
     [[nodiscard]] std::string describe() const noexcept;
 
