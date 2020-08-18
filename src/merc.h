@@ -29,6 +29,7 @@
 #include "clan.h"
 #include "version.h"
 
+#include <common/Time.hpp>
 #include <crypt.h>
 #include <cstdint>
 #include <cstdio>
@@ -84,8 +85,6 @@ typedef struct gen_data GEN_DATA;
 typedef struct reset_data RESET_DATA;
 typedef struct room_index_data ROOM_INDEX_DATA;
 typedef struct shop_data SHOP_DATA;
-typedef struct time_info_data TIME_INFO_DATA;
-typedef struct weather_data WEATHER_DATA;
 typedef struct known_players KNOWN_PLAYERS; // TODO(#108) remove if unused.
 /* Merc22 MOBProgs */
 typedef struct mob_prog_data MPROG_DATA; /* MOBprogram */
@@ -168,33 +167,6 @@ struct ban_data {
 #define ATTACK_TABLE_INDEX_ACID_WASH 31
 
 /*
- * Time and weather stuff.
- */
-#define SUN_DARK 0
-#define SUN_RISE 1
-#define SUN_LIGHT 2
-#define SUN_SET 3
-
-#define SKY_CLOUDLESS 0
-#define SKY_CLOUDY 1
-#define SKY_RAINING 2
-#define SKY_LIGHTNING 3
-
-struct time_info_data {
-    int hour;
-    int day;
-    int month;
-    int year;
-};
-
-struct weather_data {
-    int mmhg;
-    int change;
-    int sky;
-    int sunlight;
-};
-
-/*
  * Attribute bonus structures.
  */
 struct str_app_type {
@@ -248,8 +220,8 @@ struct shop_data {
     sh_int buy_type[MAX_TRADE]; /* Item types shop will buy     */
     sh_int profit_buy; /* Cost multiplier for buying   */
     sh_int profit_sell; /* Cost multiplier for selling  */
-    sh_int open_hour; /* First opening hour           */
-    sh_int close_hour; /* First closing hour           */
+    unsigned int open_hour; /* First opening hour           */
+    unsigned int close_hour; /* First closing hour           */
 };
 
 /*
@@ -1203,10 +1175,10 @@ struct CHAR_DATA {
     sh_int race;
     sh_int level;
     sh_int trust;
-    int played;
+    Seconds played;
     int lines; /* for the pager */
-    time_t logon;
-    time_t last_note;
+    Time logon;
+    Time last_note;
     sh_int timer;
     sh_int wait;
     sh_int hit;
@@ -1256,6 +1228,8 @@ struct CHAR_DATA {
 
     MPROG_ACT_LIST *mpact; /* Used by MOBprogram */
     int mpactnum; /* Used by MOBprogram */
+
+    Seconds total_played() const;
 };
 
 /*
@@ -1534,7 +1508,7 @@ struct note_data {
     char *to_list;
     char *subject;
     BUFFER *text;
-    time_t date_stamp;
+    Time date_stamp;
 };
 
 /*
@@ -1782,13 +1756,10 @@ extern EXTRA_DESCR_DATA *extra_descr_free;
 extern OBJ_DATA *obj_free;
 extern PC_DATA *pcdata_free;
 
-extern time_t current_time;
 extern bool fLogAll;
 extern FILE *fpReserve;
 extern KILL_DATA kill_table[];
 extern char log_buf[];
-extern TIME_INFO_DATA time_info;
-extern WEATHER_DATA weather_info;
 
 /* Moog added stuff */
 extern char deity_name_area[256];

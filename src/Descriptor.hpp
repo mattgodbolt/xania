@@ -1,5 +1,7 @@
 #pragma once
 
+#include "common/Time.hpp"
+
 #include <cstdint>
 #include <list>
 #include <optional>
@@ -45,7 +47,7 @@ class Descriptor {
     std::string last_command_;
     std::string raw_host_{"unknown"};
     std::string masked_host_{"unknown"};
-    std::string login_time_;
+    Time login_time_;
     std::string outbuf_;
     std::list<std::string> page_outbuf_;
     std::unordered_set<Descriptor *> snoop_by_;
@@ -98,7 +100,7 @@ public:
     void set_endpoint(uint32_t netaddr, uint16_t port, std::string_view raw_full_hostname);
 
     [[nodiscard]] const std::string &host() const noexcept { return masked_host_; }
-    [[nodiscard]] const std::string &login_time() const noexcept { return login_time_; }
+    [[nodiscard]] std::string login_time() const noexcept;
 
     [[nodiscard]] bool flush_output() noexcept;
 

@@ -5,11 +5,8 @@
 /*  Chat bot originally written by Chris Busch in 1993-5, this file is a */
 /*  reimplementation of that work.                                       */
 /*************************************************************************/
-#include <cctype>
-#include <cstdio>
-#include <cstring>
 #include <fmt/format.h>
-#include <search.h>
+#include <fstream>
 
 #include "../string_utils.hpp"
 #include "Database.hpp"
@@ -80,9 +77,9 @@ void Eliza::ensure_database_open(const int current_db_num, const int line_count)
 }
 
 bool Eliza::load_databases(const char *file) {
-    FILE *data;
-    char line_buf[MaxInputLength];
-    if ((data = fopen(file, "rt")) == nullptr) {
+    std::ifstream fs(file);
+    if (!fs.is_open()) {
+        log_string("Could not open chat database {}"_format(file));
         return false;
     }
     int line_count = 0;
@@ -90,10 +87,10 @@ bool Eliza::load_databases(const char *file) {
     std::string current_database_names{};
     std::vector<KeywordResponses> current_keyword_responses{};
     Database *current_linked_database{nullptr};
-
-    while (fgets(line_buf, MaxInputLength - 1, data) != nullptr) {
+    std::string line{};
+    while (std::getline(fs, line)) {
         line_count++;
-        std::string line = trim(line_buf);
+        line = trim(line);
         if (!line.empty()) {
             if (line[0] >= '1' && line[0] <= '9') {
                 ensure_database_open(current_db_num, line_count);
@@ -148,7 +145,6 @@ bool Eliza::load_databases(const char *file) {
                 }
         }
     }
-    fclose(data);
     return true;
 }
 

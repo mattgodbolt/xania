@@ -8,18 +8,20 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
-#include "info.hpp"
-#include "merc.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <time.h>
-
 #include "DescriptorList.hpp"
+#include "TimeInfoData.hpp"
 #include "chat/chatlink.h"
 #include "comm.hpp"
+#include "info.hpp"
+#include "merc.h"
+
+#include <fmt/format.h>
+
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
+using namespace fmt::literals;
 
 /* command procedures needed */
 void do_quit(CHAR_DATA *ch, const char *arg);
@@ -175,13 +177,10 @@ static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
         snprintf(buf, sizeof(buf), "|W$N|c is %s.|w", victim->pcdata->afk);
         act(buf, ch, nullptr, victim, To::Char, POS_DEAD);
         if (IS_SET(victim->comm, COMM_SHOWAFK)) {
-            char *strtime;
-            strtime = ctime(&current_time);
-            strtime[strlen(strtime) - 1] = '\0';
-            snprintf(buf, sizeof(buf), "|c%cAFK|C: At %s, $n told you '%s|C'.|w", 7, strtime, text);
-            act(buf, ch, nullptr, victim, To::Vict, POS_DEAD);
-            snprintf(buf, sizeof(buf), "|cYour message was logged onto $S screen.|w");
-            act(buf, ch, nullptr, victim, To::Char, POS_DEAD);
+            // TODO(#134) use the victim's timezone info.
+            act("|c\007AFK|C: At {}, $n told you '{}|C'.|w"_format(secs_only(current_time), text).c_str(), ch, nullptr,
+                victim, To::Vict, POS_DEAD);
+            act("|cYour message was logged onto $S screen.|w", ch, nullptr, victim, To::Char, POS_DEAD);
             victim->reply = ch;
         }
 

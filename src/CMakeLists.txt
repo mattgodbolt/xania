@@ -57,7 +57,10 @@ add_library(xania_lib STATIC
         Descriptor.cpp Descriptor.hpp
         string_utils.cpp string_utils.hpp string_utils_impl.hpp
         info.hpp
+        TimeInfoData.cpp TimeInfoData.hpp
+        WeatherData.cpp WeatherData.hpp
         WrappedFd.cpp WrappedFd.hpp
+        nth.hpp nth.cpp
         DescriptorList.hpp DescriptorList.cpp)
 target_link_libraries(xania_lib xania_common crypt chat CONAN_PKG::fmt CONAN_PKG::range-v3)
 

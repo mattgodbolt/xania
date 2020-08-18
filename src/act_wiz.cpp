@@ -9,6 +9,7 @@
 
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
+#include "TimeInfoData.hpp"
 #include "buffer.h"
 #include "challeng.h"
 #include "comm.hpp"
@@ -1387,9 +1388,9 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
     send_to_char(buf, ch);
 
     if (!IS_NPC(victim)) {
-        bug_snprintf(buf, sizeof(buf), "Age: %d  Played: %d  Last Level: %d  Timer: %d\n\r", get_age(victim),
-                     (int)(victim->played + current_time - victim->logon) / 3600, victim->pcdata->last_level,
-                     victim->timer);
+        using namespace std::chrono;
+        bug_snprintf(buf, sizeof(buf), "Age: %d  Played: %ld  Last Level: %d  Timer: %d\n\r", get_age(victim),
+                     duration_cast<hours>(victim->total_played()).count(), victim->pcdata->last_level, victim->timer);
         send_to_char(buf, ch);
     }
 
@@ -3119,7 +3120,7 @@ void do_mset(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        victim->played = (value * 3600);
+        victim->played = std::chrono::hours(value);
         return;
     }
 

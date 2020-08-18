@@ -1,5 +1,6 @@
 #include "Descriptor.hpp"
 
+#include "TimeInfoData.hpp"
 #include "comm.hpp"
 #include "common/mask_hostname.hpp"
 #include "merc.h"
@@ -36,7 +37,7 @@ const char *short_name_of(DescriptorState state) {
     return "<UNK>";
 }
 
-Descriptor::Descriptor(uint32_t descriptor) : channel_(descriptor), login_time_(ctime(&current_time)) {}
+Descriptor::Descriptor(uint32_t descriptor) : channel_(descriptor), login_time_(current_time) {}
 
 Descriptor::~Descriptor() {
     // Ensure we don't have anything pointing back at us. No messages here in case this is during shutdown.
@@ -262,3 +263,5 @@ void Descriptor::do_return() {
     character_ = original_;
     original_ = nullptr;
 }
+
+std::string Descriptor::login_time() const noexcept { return "{}"_format(secs_only(login_time_)); }

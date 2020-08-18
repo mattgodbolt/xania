@@ -40,7 +40,7 @@ build: $(BUILD_ROOT)/CMakeCache.txt  ## Build Xania source
 	$(CMAKE) --build $(BUILD_ROOT)
 
 # Grr older cmakes don't support --install and --prefix
-install: build dirs
+install: build dirs  ## Install to 'install' (overridable with INSTALL_DIR)
 	@mkdir -p $(INSTALL_DIR)
 	$(CMAKE) --build $(BUILD_ROOT) --target install
 	ln -sf $(CURDIR)/gods $(CURDIR)/player $(CURDIR)/log $(INSTALL_DIR)

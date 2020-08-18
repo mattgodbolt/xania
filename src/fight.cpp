@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "TimeInfoData.hpp"
 #include "challeng.h"
 #include "comm.hpp"
 #include "interp.h"
@@ -1756,7 +1757,8 @@ int xp_compute(CHAR_DATA *gch, CHAR_DATA *victim, int total_levels) {
 
     /* compute quarter-hours per level */
 
-    time_per_level = 4 * (gch->played + (int)(current_time - gch->logon)) / 3600 / base_level;
+    using namespace std::chrono;
+    time_per_level = 4 * duration_cast<hours>(gch->total_played()).count() / base_level;
 
     /* ensure minimum of 6 quarts (1.5 hours) per level */
     time_per_level = URANGE(2, time_per_level, 6);
