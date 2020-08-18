@@ -17,13 +17,13 @@
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+#include <range/v3/iterator/operations.hpp>
 
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <iterator>
 #include <sys/time.h>
 
 using namespace fmt::literals;
@@ -1850,8 +1850,7 @@ void do_who(CHAR_DATA *ch, const char *argument) {
 
 void do_count(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    auto filtered_for_visibility = descriptors().all_visible_to(ch);
-    auto count = static_cast<size_t>(std::distance(filtered_for_visibility.begin(), filtered_for_visibility.end()));
+    auto count = static_cast<size_t>(ranges::distance(descriptors().all_visible_to(ch)));
     max_on = std::max(count, max_on);
 
     if (max_on == count)

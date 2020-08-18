@@ -3474,7 +3474,7 @@ void do_sockets(CHAR_DATA *ch, const char *argument) {
         }
         if (name) {
             count++;
-            buf += "[{:3} {:5}] {}@{}\n\r"_format(d.channel(), short_name_of(d.state()), name, d.host().c_str());
+            buf += "[{:3} {:>5}] {}@{}\n\r"_format(d.channel(), short_name_of(d.state()), name, d.host().c_str());
         }
     }
     if (count == 0) {

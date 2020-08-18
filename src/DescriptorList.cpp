@@ -1,14 +1,13 @@
 #include "DescriptorList.hpp"
 
-#include <vector>
-
 void DescriptorList::reap_closed() {
-    std::vector<uint32_t> dead_channels;
-    for (auto &pr : descriptors_)
-        if (pr.second.is_closed())
-            dead_channels.emplace_back(pr.first);
-    for (auto chan : dead_channels)
-        descriptors_.erase(chan);
+    // In C++20 we get map::erase_if. For now, we copy paste from cppreference.
+    for (auto it = descriptors_.begin(), last = descriptors_.end(); it != last;) {
+        if (it->second.is_closed())
+            it = descriptors_.erase(it);
+        else
+            ++it;
+    }
 }
 
 Descriptor *DescriptorList::create(uint32_t channel_id) {

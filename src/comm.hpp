@@ -5,7 +5,6 @@
 #include "common/doorman_protocol.h"
 
 #include <cstddef>
-#include <list>
 #include <string_view>
 #include <variant>
 
@@ -18,7 +17,6 @@ Fd init_socket(const char *file);
 
 void send_to_char(std::string_view txt, const CHAR_DATA *ch);
 void page_to_char(const char *txt, CHAR_DATA *ch);
-void page_to_char(std::string_view txt, CHAR_DATA *ch);
 
 /*
  * TO types for act.

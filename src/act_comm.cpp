@@ -94,13 +94,10 @@ void announce(const char *buf, CHAR_DATA *ch) {
     if (ch->in_room == nullptr)
         return; /* special case on creation */
 
-    for (auto &d : descriptors().playing()) {
+    for (auto &d : descriptors().all_who_can_see(ch)) {
         auto *victim = d.person();
-
-        if (d.character() != ch && can_see(victim, ch) && !IS_SET(victim->comm, COMM_NOANNOUNCE)
-            && !IS_SET(victim->comm, COMM_QUIET)) {
+        if (!IS_SET(victim->comm, COMM_NOANNOUNCE) && !IS_SET(victim->comm, COMM_QUIET))
             act(buf, victim, nullptr, ch, To::Char, POS_DEAD);
-        }
     }
 }
 

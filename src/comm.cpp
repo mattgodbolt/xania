@@ -1074,8 +1074,7 @@ void nanny(Descriptor *d, const char *argument) {
 
         /* Rohan: code to increase the player count if needed - it was only
            updated if a player did count */
-        auto all = descriptors().all();
-        max_on = std::max(static_cast<size_t>(std::distance(all.begin(), all.end())), max_on);
+        max_on = std::max(static_cast<size_t>(ranges::distance(descriptors().all())), max_on);
 
         if (ch->gold > 250000 && !IS_IMMORTAL(ch)) {
             snprintf(buf, sizeof(buf), "You are taxed %ld gold to pay for the Mayor's bar.\n\r",
