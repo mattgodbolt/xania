@@ -55,21 +55,12 @@ const CLAN clantable[NUM_CLANS] = {
 /* End user servicable bits */
 
 void do_clantalk(CHAR_DATA *ch, const char *argument) {
-
     char buf[MAX_STRING_LENGTH];
     int candoit = 0;
     Descriptor *d;
-    PCCLAN *OrigClan;
 
-    if (IS_NPC(ch)) {
-        if (ch->desc->original())
-            OrigClan = ch->desc->original()->pcdata->pcclan;
-        else
-            OrigClan = nullptr;
-    } else
-        OrigClan = ch->pcdata->pcclan;
-
-    if (OrigClan == nullptr) {
+    auto *orig_clan = ch->desc->person() ? ch->desc->person()->pcdata->pcclan : nullptr;
+    if (orig_clan == nullptr) {
         send_to_char("You are not a member of a clan.\n\r", ch);
         return; /* Disallow mortal PC's with no clan */
     } /* if ch->pcclan */
@@ -79,10 +70,11 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (argument[0] == '\0' || !OrigClan->channelflags) {
+    if (argument[0] == '\0' || !orig_clan->channelflags) {
         /* They want to turn it on/off */
-        OrigClan->channelflags ^= CLANCHANNEL_ON;
-        snprintf(buf, sizeof(buf), "Clan channel now %s\n\r", (OrigClan->channelflags & CLANCHANNEL_ON) ? "on" : "off");
+        orig_clan->channelflags ^= CLANCHANNEL_ON;
+        snprintf(buf, sizeof(buf), "Clan channel now %s\n\r",
+                 (orig_clan->channelflags & CLANCHANNEL_ON) ? "on" : "off");
         send_to_char(buf, ch);
         return;
     }
@@ -93,7 +85,7 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
         CHAR_DATA *vix = d->person();
 
         if (vix && d->character() && vix->pcdata->pcclan
-            && (vix->pcdata->pcclan->clan->clanchar == OrigClan->clan->clanchar)
+            && (vix->pcdata->pcclan->clan->clanchar == orig_clan->clan->clanchar)
             && (vix->pcdata->pcclan->clanlevel >= CLAN_HERO) && !IS_SET(vix->comm, COMM_QUIET))
             candoit = 1; /* Yeah we can do it! */
     } /* for all descriptors */
@@ -105,17 +97,18 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (OrigClan->channelflags & CLANCHANNEL_NOCHANNED) {
-        send_to_char("Your clan channel priviledges have been revoked!\n\r", ch);
+    if (orig_clan->channelflags & CLANCHANNEL_NOCHANNED) {
+        send_to_char("Your clan channel privileges have been revoked!\n\r", ch);
         return;
     }
 
     if (IS_SET(ch->act, PLR_AFK))
         do_afk(ch, nullptr);
 
-    if (!OrigClan->channelflags) {
-        OrigClan->channelflags ^= CLANCHANNEL_ON;
-        snprintf(buf, sizeof(buf), "Clan channel now %s\n\r", (OrigClan->channelflags & CLANCHANNEL_ON) ? "on" : "off");
+    if (!orig_clan->channelflags) {
+        orig_clan->channelflags ^= CLANCHANNEL_ON;
+        snprintf(buf, sizeof(buf), "Clan channel now %s\n\r",
+                 (orig_clan->channelflags & CLANCHANNEL_ON) ? "on" : "off");
         send_to_char(buf, ch);
     }
 
@@ -125,7 +118,7 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
         vix = d->person();
 
         if ((d->is_playing()) && (vix->pcdata->pcclan)
-            && (vix->pcdata->pcclan->clan->clanchar == OrigClan->clan->clanchar)
+            && (vix->pcdata->pcclan->clan->clanchar == orig_clan->clan->clanchar)
             && (vix->pcdata->pcclan->channelflags & CLANCHANNEL_ON) && !IS_SET(vix->comm, COMM_QUIET)
             /* || they're an IMM snooping the channels */) {
             snprintf(buf, sizeof(buf), "|G<%s> %s|w\n\r", can_see(d->character(), ch) ? ch->name : "Someone", argument);
@@ -177,12 +170,12 @@ void do_noclanchan(CHAR_DATA *ch, const char *argument) {
     victim->pcdata->pcclan->channelflags ^= CLANCHANNEL_NOCHANNED; /* Change the victim's flags */
 
     /* Tell the char how things went */
-    snprintf(buf, sizeof(buf), "You have %sed %s's clan channel priviledges.\n\r",
+    snprintf(buf, sizeof(buf), "You have %sed %s's clan channel privileges.\n\r",
              (victim->pcdata->pcclan->channelflags & CLANCHANNEL_NOCHANNED) ? "revok" : "reinstat", victim->name);
     send_to_char(buf, ch);
 
     /* Inform the hapless victim */
-    snprintf(buf, sizeof(buf), "%s has %sed your clan channel priviledges.\n\r", ch->name,
+    snprintf(buf, sizeof(buf), "%s has %sed your clan channel privileges.\n\r", ch->name,
              (victim->pcdata->pcclan->channelflags & CLANCHANNEL_NOCHANNED) ? "revok" : "reinstat");
     buf[0] = UPPER(buf[0]);
     send_to_char(buf, victim);
@@ -202,7 +195,7 @@ void do_member(CHAR_DATA *ch, const char *argument) {
     if ((ch->pcdata->pcclan == nullptr) || (ch->pcdata->pcclan->clanlevel < CLAN_LEADER)) {
         send_to_char("Huh?\n\r", ch); /* Cheesy cheat */
         return;
-    } /* If not priveledged enough */
+    } /* If not priveleged enough */
 
     argument = one_argument(argument, buf2); /* Get the command */
     if (buf2[0] != '+' && buf2[0] != '-') {
@@ -288,7 +281,7 @@ void mote(CHAR_DATA *ch, const char *argument, int add) {
     if ((ch->pcdata->pcclan == nullptr) || (ch->pcdata->pcclan->clanlevel < CLAN_LEADER)) {
         send_to_char("Huh?\n\r", ch); /* Cheesy cheat */
         return;
-    } /* If not priveledged enough */
+    } /* If not priveleged enough */
 
     victim = get_char_room(ch, argument);
     if (victim == nullptr) {

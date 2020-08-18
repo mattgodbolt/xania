@@ -93,46 +93,46 @@ typedef struct mob_prog_act_list MPROG_ACT_LIST; /* MOBprogram */
 /*
  * String and memory management parameters.
  */
-#define MAX_KEY_HASH 1024
-#define MAX_STRING_LENGTH 4096
-#define MAX_INPUT_LENGTH 256
-#define PAGELEN 22
-#define LOG_BUF_SIZE 2 * MAX_INPUT_LENGTH
+static inline constexpr auto MAX_KEY_HASH = 1024;
+static inline constexpr auto MAX_STRING_LENGTH = 4096;
+static inline constexpr auto MAX_INPUT_LENGTH = 256;
+static inline constexpr auto PAGELEN = 22;
+static inline constexpr auto LOG_BUF_SIZE = 2 * MAX_INPUT_LENGTH;
 
 /*
  * Game parameters.
  * Increase the max'es if you add more of something.
  * Adjust the pulse numbers to suit yourself.
  */
-#define MAX_SOCIALS 256
-#define MAX_SKILL 150
-#define MAX_GROUP 30
-#define MAX_IN_GROUP 15
-#define MAX_CLASS 4
-#define MAX_PC_RACE 12
-#define MAX_LEVEL 100
+static inline constexpr auto MAX_SOCIALS = 256;
+static inline constexpr auto MAX_SKILL = 150;
+static inline constexpr auto MAX_GROUP = 30;
+static inline constexpr auto MAX_IN_GROUP = 15;
+static inline constexpr auto MAX_CLASS = 4;
+static inline constexpr auto MAX_PC_RACE = 12;
+static inline constexpr auto MAX_LEVEL = 100;
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-#define MAX_LEVEL_MPROG (MAX_LEVEL + 1)
-#define LEVEL_HERO (MAX_LEVEL - 9)
-#define LEVEL_IMMORTAL (MAX_LEVEL - 8)
-#define LEVEL_CONSIDER 80
+static inline constexpr auto MAX_LEVEL_MPROG = MAX_LEVEL + 1;
+static inline constexpr auto LEVEL_HERO = MAX_LEVEL - 9;
+static inline constexpr auto LEVEL_IMMORTAL = MAX_LEVEL - 8;
+static inline constexpr auto LEVEL_CONSIDER = 80;
 
-#define PULSE_PER_SECOND 4
-#define PULSE_VIOLENCE (3 * PULSE_PER_SECOND)
-#define PULSE_MOBILE (4 * PULSE_PER_SECOND)
-#define PULSE_TICK (30 * PULSE_PER_SECOND)
-#define PULSE_AREA (60 * PULSE_PER_SECOND)
+static inline constexpr auto PULSE_PER_SECOND = 4;
+static inline constexpr auto PULSE_VIOLENCE = 3 * PULSE_PER_SECOND;
+static inline constexpr auto PULSE_MOBILE = 4 * PULSE_PER_SECOND;
+static inline constexpr auto PULSE_TICK = 30 * PULSE_PER_SECOND;
+static inline constexpr auto PULSE_AREA = 60 * PULSE_PER_SECOND;
 
-#define IMPLEMENTOR MAX_LEVEL
-#define CREATOR (MAX_LEVEL - 1)
-#define SUPREME (MAX_LEVEL - 2)
-#define DEITY (MAX_LEVEL - 3)
-#define GOD (MAX_LEVEL - 4)
-#define IMMORTAL (MAX_LEVEL - 5)
-#define DEMI (MAX_LEVEL - 6)
-#define ANGEL (MAX_LEVEL - 7)
-#define AVATAR (MAX_LEVEL - 8)
-#define HERO LEVEL_HERO
+static inline constexpr auto IMPLEMENTOR = MAX_LEVEL;
+static inline constexpr auto CREATOR = MAX_LEVEL - 1;
+static inline constexpr auto SUPREME = MAX_LEVEL - 2;
+static inline constexpr auto DEITY = MAX_LEVEL - 3;
+static inline constexpr auto GOD = MAX_LEVEL - 4;
+static inline constexpr auto IMMORTAL = MAX_LEVEL - 5;
+static inline constexpr auto DEMI = MAX_LEVEL - 6;
+static inline constexpr auto ANGEL = MAX_LEVEL - 7;
+static inline constexpr auto AVATAR = MAX_LEVEL - 8;
+static inline constexpr auto HERO = LEVEL_HERO;
 
 /*
  * Site ban structure.

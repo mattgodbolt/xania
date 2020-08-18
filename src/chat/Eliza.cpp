@@ -8,15 +8,18 @@
 #include <cctype>
 #include <cstdio>
 #include <cstring>
+#include <fmt/format.h>
 #include <search.h>
 
 #include "../string_utils.hpp"
 #include "Database.hpp"
 #include "Eliza.hpp"
 #include "chatconstants.hpp"
-#include "utils.hpp"
 
 using namespace chat;
+using namespace fmt::literals;
+
+extern void log_string(std::string_view str);
 
 std::string Eliza::handle_player_message(std::string_view player_name, std::string_view message,
                                          std::string_view npc_name) {
@@ -71,14 +74,14 @@ void Eliza::register_database_names(std::string &names, Database &database) {
 
 void Eliza::ensure_database_open(const int current_db_num, const int line_count) {
     if (current_db_num < 0) {
-        printf("no database is being loaded at %d\n", line_count);
+        log_string("no database is being loaded at #{}"_format(line_count));
         exit(1);
     }
 }
 
 bool Eliza::load_databases(const char *file) {
     FILE *data;
-    char str[MaxInputLength];
+    char line_buf[MaxInputLength];
     if ((data = fopen(file, "rt")) == nullptr) {
         return false;
     }
@@ -88,24 +91,24 @@ bool Eliza::load_databases(const char *file) {
     std::vector<KeywordResponses> current_keyword_responses{};
     Database *current_linked_database{nullptr};
 
-    while (fgets(str, MaxInputLength - 1, data) != nullptr) {
+    while (fgets(line_buf, MaxInputLength - 1, data) != nullptr) {
         line_count++;
-        trim(str);
-        if (strlen(str) > 0) {
-            if (str[0] >= '1' && str[0] <= '9') {
+        std::string line = trim(line_buf);
+        if (!line.empty()) {
+            if (line[0] >= '1' && line[0] <= '9') {
                 ensure_database_open(current_db_num, line_count);
                 // Add a new WeightedResponse to the current KeywordResponses entry.
-                current_keyword_responses.back().add_response(str[0] - '0', &(str[1]));
+                current_keyword_responses.back().add_response(line[0] - '0', line.substr(1));
             } else
-                switch (str[0]) {
+                switch (line[0]) {
                 case '\0': break;
                 case '(':
                     ensure_database_open(current_db_num, line_count);
                     // Add a new KeywordResponses object to the current keyword_responses.
-                    current_keyword_responses.emplace_back(str);
+                    current_keyword_responses.emplace_back(line);
                     break;
                 case '#': break;
-                case '"': fprintf(stderr, "%s\n", &str[1]); break;
+                case '"': log_string("{}"_format(line.substr(1))); break;
                 case '$':
                     // Complete the current database by emplacing a new Database in the map
                     // and moving the locals into it.
@@ -116,14 +119,13 @@ bool Eliza::load_databases(const char *file) {
                     current_linked_database = nullptr;
                     break;
                 case '&': // Start a new database.
-                    trim(str + 1);
                     if (current_db_num >= 0) {
-                        printf("& another database is being loaded at %d\n", line_count);
+                        log_string("& another database is being loaded at #{}"_format(line_count));
                         exit(1);
                     }
-                    current_db_num = parse_new_database_num(str + 1, line_count);
+                    current_db_num = parse_new_database_num(line.substr(1), line_count);
                     if (current_db_num < 0) {
-                        printf("& bad database number %s at %d\n", str + 1, line_count);
+                        log_string("& bad database number {} at #{}"_format(line.substr(1), line_count));
                         exit(1);
                     }
                     break;
@@ -131,18 +133,18 @@ bool Eliza::load_databases(const char *file) {
                     // Store a copy of the words that will trigger use of the current database,
                     // these are parsed and associated to the database in the completion stage.
                     ensure_database_open(current_db_num, line_count);
-                    current_database_names = &str[1];
+                    current_database_names = line.substr(1);
                     break;
                 case '@': // link the current database to an earlier database to reuse its entries.
                     ensure_database_open(current_db_num, line_count);
                     if (current_linked_database == nullptr) {
-                        trim(str + 1);
-                        current_linked_database = parse_database_link(str + 1, line_count);
+                        current_linked_database = parse_database_link(line.substr(1), line_count);
                     } else {
-                        printf("@ database %d already has a database link at %d\n", current_db_num, line_count);
+                        log_string(
+                            "@ database #{} already has a database link at #{}"_format(current_db_num, line_count));
                     }
                     break;
-                default: printf("extraneous line: '%s' at %d\n", str, line_count);
+                default: log_string("extraneous line: {} at #{}"_format(line, line_count));
                 }
         }
     }
@@ -154,7 +156,7 @@ int Eliza::parse_new_database_num(std::string_view str, const int line_count) {
     if (is_number(str.data())) {
         auto db_num = atoi(str.data());
         if (databases_.find(db_num) != databases_.end()) {
-            printf("& database num already exists! %d on line %d\n", db_num, line_count);
+            log_string("& database num already exists! #{} on line #{}"_format(db_num, line_count));
             return -1;
         }
         return db_num;
@@ -169,9 +171,9 @@ Database *Eliza::parse_database_link(std::string_view str, const int line_count)
         if (entry != databases_.end()) {
             return &entry->second;
         }
-        printf("@ database could not be found: %d on line %d\n", db_num, line_count);
+        log_string("@ database could not be found: #{} on line #{}"_format(db_num, line_count));
         return nullptr;
     }
-    printf("@ invalid database link number %s on line %d\n", str.data(), line_count);
+    log_string("@ invalid database link number {} on line #{}"_format(str, line_count));
     return nullptr;
 }

@@ -54,22 +54,40 @@ TEST_CASE("string_util tests") {
         }
     }
 
-    SECTION("skips whitespace") {
-        SECTION("should not skip non-whitespace") {
-            CHECK(skip_whitespace("") == "");
-            CHECK(skip_whitespace("monkey") == "monkey");
-            CHECK(skip_whitespace("monkey  ") == "monkey  ");
+    SECTION("trims leading whitespace") {
+        SECTION("should not trim non-whitespace") {
+            CHECK(ltrim("") == "");
+            CHECK(ltrim("monkey") == "monkey");
+            CHECK(ltrim("monkey  ") == "monkey  ");
         }
-        SECTION("should skip actual whitespace") {
-            CHECK(skip_whitespace("   badger") == "badger");
-            CHECK(skip_whitespace("   badger  ") == "badger  ");
-            CHECK(skip_whitespace("   bad ger") == "bad ger");
-            CHECK(skip_whitespace(" \t\nbadger") == "badger");
+        SECTION("should trim actual whitespace") {
+            CHECK(ltrim("   badger") == "badger");
+            CHECK(ltrim("   badger  ") == "badger  ");
+            CHECK(ltrim("   bad ger") == "bad ger");
+            CHECK(ltrim(" \t\nbadger") == "badger");
         }
         SECTION("should work with entirely whitespace") {
-            CHECK(skip_whitespace("   ") == "");
-            CHECK(skip_whitespace(" \n\n\r") == "");
-            CHECK(skip_whitespace("\t\t") == "");
+            CHECK(ltrim("   ") == "");
+            CHECK(ltrim(" \n\n\r") == "");
+            CHECK(ltrim("\t\t") == "");
+        }
+    }
+
+    SECTION("trims leading and trailing whitespace") {
+        SECTION("should not trim non-whitespace") {
+            CHECK(trim("") == "");
+            CHECK(trim("monkey") == "monkey");
+        }
+        SECTION("should trim actual whitespace") {
+            CHECK(trim("   badger") == "badger");
+            CHECK(trim("   badger  ") == "badger");
+            CHECK(trim("   bad ger ") == "bad ger");
+            CHECK(trim(" \t\nbadger\t\n") == "badger");
+        }
+        SECTION("should work with entirely whitespace") {
+            CHECK(trim("   ") == "");
+            CHECK(trim(" \n\n\r") == "");
+            CHECK(trim("\t\t") == "");
         }
     }
 

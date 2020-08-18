@@ -457,7 +457,7 @@ void reap_closed_sockets() {
     Descriptor **dprev = &descriptor_list;
     for (auto *desc = descriptor_list; desc; desc = dnext) {
         dnext = desc->next;
-        if (desc->closed()) {
+        if (desc->is_closed()) {
             *dprev = dnext;
             // TODO: ideally no naked news/deletes. One day.
             delete desc;
