@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "db.h"
@@ -675,7 +676,6 @@ bool web_see(CHAR_DATA *ch) {
 void web_who() {
 
     FILE *fp;
-    Descriptor *d;
     int count = 0;
 
     if ((fp = fopen(WEB_WHO_FILE, "w")) == nullptr) {
@@ -690,14 +690,14 @@ void web_who() {
     );
     fprintf(fp, "<b><TR><TD>Level</TD> <TD>Race</TD> <TD>Class</TD>  <TD>Who</TD></TR></b>\n");
 
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        auto wch = d->person();
-        if (!d->is_playing() || !web_see(wch))
-            continue;
-        fprintf(fp, "<TR><TD>%d</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD>\n", wch->level,
-                wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ", class_table[wch->class_num].name,
-                wch->name, wch->pcdata->title);
-        count++;
+    for (auto &d : descriptors().playing()) {
+        auto wch = d.person();
+        if (web_see(wch)) {
+            fprintf(fp, "<TR><TD>%d</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD>\n", wch->level,
+                    wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ",
+                    class_table[wch->class_num].name, wch->name, wch->pcdata->title);
+            count++;
+        }
     }
     fprintf(fp,
             "</TABLE>"
@@ -751,10 +751,6 @@ void load_tipfile() {
 }
 
 void tip_players() {
-
-    Descriptor *d;
-    char buf[MAX_STRING_LENGTH];
-
     /* check the tip wizard list first ... */
 
     if (tip_current == nullptr)
@@ -772,15 +768,11 @@ void tip_players() {
         tip_current = tip_current->next;
         return;
     }
-    snprintf(buf, sizeof(buf), "|WTip: %s|w\n\r", tip_current->tip);
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        if (!d->is_playing())
-            continue;
-
-        CHAR_DATA *ch = d->person();
-        if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
-            send_to_char(buf, ch);
-        }
+    auto tip = "|WTip: {}|w\n\r"_format(tip_current->tip);
+    for (auto &d : descriptors().playing()) {
+        CHAR_DATA *ch = d.person();
+        if (is_set_extra(ch, EXTRA_TIP_WIZARD))
+            send_to_char(tip, ch);
     }
     tip_current = tip_current->next;
 }

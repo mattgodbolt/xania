@@ -8,8 +8,10 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
 #include "buffer.h"
+#include "challeng.h"
 #include "comm.hpp"
 #include "db.h"
 #include "flags.h"
@@ -20,12 +22,16 @@
 #include "string_utils.hpp"
 #include "tables.h"
 
+#include <fmt/format.h>
+
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <sys/time.h>
 #include <sys/types.h>
+
+using namespace fmt::literals;
 
 static const char ROOM_FLAGS[] = "dark * nomob indoors * * * * * private safe solitary petshop norecall 100imponly "
                                  "92godonly heroonly newbieonly law";
@@ -134,11 +140,11 @@ void do_nochannels(CHAR_DATA *ch, const char *argument) {
 
     if (IS_SET(victim->comm, COMM_NOCHANNELS)) {
         REMOVE_BIT(victim->comm, COMM_NOCHANNELS);
-        send_to_char("The gods have restored your channel priviliges.\n\r", victim);
+        send_to_char("The gods have restored your channel privileges.\n\r", victim);
         send_to_char("NOCHANNELS removed.\n\r", ch);
     } else {
         SET_BIT(victim->comm, COMM_NOCHANNELS);
-        send_to_char("The gods have revoked your channel priviliges.\n\r", victim);
+        send_to_char("The gods have revoked your channel privileges.\n\r", victim);
         send_to_char("NOCHANNELS set.\n\r", ch);
     }
 }
@@ -227,7 +233,6 @@ void do_deny(CHAR_DATA *ch, const char *argument) {
 
 void do_disconnect(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    Descriptor *d;
     CHAR_DATA *victim;
 
     one_argument(argument, arg);
@@ -238,9 +243,9 @@ void do_disconnect(CHAR_DATA *ch, const char *argument) {
 
     if (argument[0] == '+') {
         argument++;
-        for (d = descriptor_list; d; d = d->next) {
-            if (d->character() && !str_cmp(d->character()->name, argument)) {
-                close_socket(d);
+        for (auto &d : descriptors().all()) {
+            if (d.character() && !str_cmp(d.character()->name, argument)) {
+                d.close();
                 send_to_char("Ok.\n\r", ch);
                 return;
             }
@@ -258,9 +263,9 @@ void do_disconnect(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d == victim->desc) {
-                close_socket(d);
+        for (auto &d : descriptors().all()) {
+            if (&d == victim->desc) {
+                d.close();
                 send_to_char("Ok.\n\r", ch);
                 return;
             }
@@ -317,57 +322,47 @@ void do_pardon(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_echo(CHAR_DATA *ch, const char *argument) {
-    Descriptor *d;
-
     if (argument[0] == '\0') {
         send_to_char("Global echo what?\n\r", ch);
         return;
     }
 
-    for (d = descriptor_list; d; d = d->next) {
-        if (d->is_playing()) {
-            if (get_trust(d->character()) >= get_trust(ch))
-                send_to_char("global> ", d->character());
-            send_to_char(argument, d->character());
-            send_to_char("\n\r", d->character());
-        }
+    for (auto &d : descriptors().playing()) {
+        auto *victim = d.character();
+        send_to_char("{}{}\n\r"_format(get_trust(victim) >= get_trust(ch) ? "global> " : "", argument), victim);
     }
 }
 
 void do_recho(CHAR_DATA *ch, const char *argument) {
-    Descriptor *d;
-
     if (argument[0] == '\0') {
         send_to_char("Local echo what?\n\r", ch);
 
         return;
     }
 
-    for (d = descriptor_list; d; d = d->next) {
-        if (d->is_playing() && d->character()->in_room == ch->in_room) {
-            if (get_trust(d->character()) >= get_trust(ch) && ch->in_room->vnum != 1222)
-                send_to_char("local> ", d->character());
-            send_to_char(argument, d->character());
-            send_to_char("\n\r", d->character());
+    for (auto &d : descriptors().playing()) {
+        auto *victim = d.character();
+        if (victim->in_room == ch->in_room) {
+            send_to_char(
+                "{}{}\n\r"_format(
+                    get_trust(victim) >= get_trust(ch) && ch->in_room->vnum != CHAL_VIEWING_GALLERY ? "local> " : "",
+                    argument),
+                victim);
         }
     }
 }
 
 void do_zecho(CHAR_DATA *ch, const char *argument) {
-    Descriptor *d;
-
     if (argument[0] == '\0') {
         send_to_char("Zone echo what?\n\r", ch);
         return;
     }
 
-    for (d = descriptor_list; d; d = d->next) {
-        if (d->is_playing() && d->character()->in_room != nullptr && ch->in_room != nullptr
-            && d->character()->in_room->area == ch->in_room->area) {
-            if (get_trust(d->character()) >= get_trust(ch))
-                send_to_char("zone> ", d->character());
-            send_to_char(argument, d->character());
-            send_to_char("\n\r", d->character());
+    for (auto &d : descriptors().playing()) {
+        auto *victim = d.character();
+        if (d.character()->in_room != nullptr && ch->in_room != nullptr
+            && d.character()->in_room->area == ch->in_room->area) {
+            send_to_char("{}{}\n\r"_format(get_trust(victim) >= get_trust(ch) ? "zone> " : "", argument), victim);
         }
     }
 }
@@ -421,7 +416,6 @@ void do_transfer(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
-    Descriptor *d;
     CHAR_DATA *victim;
 
     argument = one_argument(argument, arg1);
@@ -433,11 +427,10 @@ void do_transfer(CHAR_DATA *ch, const char *argument) {
     }
 
     if (!str_cmp(arg1, "all")) {
-        for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->is_playing() && d->character() != ch && d->character()->in_room != nullptr
-                && can_see(ch, d->character())) {
+        for (auto &d : descriptors().all_visible_to(ch)) {
+            if (d.character()->in_room != nullptr) {
                 char buf[MAX_STRING_LENGTH];
-                bug_snprintf(buf, sizeof(buf), "%s %s", d->character()->name, arg2);
+                bug_snprintf(buf, sizeof(buf), "%s %s", d.character()->name, arg2);
                 do_transfer(ch, buf);
             }
         }
@@ -1667,7 +1660,6 @@ void do_shutdown(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
     extern bool merc_down;
-    Descriptor *d, *d_next;
 
     bug_snprintf(buf, sizeof(buf), "Shutdown by %s.", ch->name);
     append_file(ch, SHUTDOWN_FILE, buf);
@@ -1677,10 +1669,8 @@ void do_shutdown(CHAR_DATA *ch, const char *argument) {
     do_force(ch, "all save");
     do_save(ch, "");
     merc_down = true;
-    for (d = descriptor_list; d != nullptr; d = d_next) {
-        d_next = d->next;
-        close_socket(d);
-    }
+    for (auto &d : descriptors().all())
+        d.close();
 }
 
 void do_snoop(CHAR_DATA *ch, const char *argument) {
@@ -2057,7 +2047,7 @@ void do_purge(CHAR_DATA *ch, const char *argument) {
         d = victim->desc;
         extract_char(victim, true);
         if (d != nullptr)
-            close_socket(d);
+            d->close();
 
         return;
     }
@@ -2193,7 +2183,6 @@ void do_restore(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
     CHAR_DATA *vch;
-    Descriptor *d;
 
     one_argument(argument, arg);
     if (arg[0] == '\0' || !str_cmp(arg, "room")) {
@@ -2220,10 +2209,10 @@ void do_restore(CHAR_DATA *ch, const char *argument) {
     if (get_trust(ch) >= MAX_LEVEL && !str_cmp(arg, "all")) {
         /* cure all */
 
-        for (d = descriptor_list; d != nullptr; d = d->next) {
-            victim = d->character();
+        for (auto &d : descriptors().playing()) {
+            victim = d.character();
 
-            if (victim == nullptr || IS_NPC(victim))
+            if (IS_NPC(victim))
                 continue;
 
             affect_strip(victim, gsn_plague);
@@ -3466,31 +3455,27 @@ void do_rset(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_sockets(CHAR_DATA *ch, const char *argument) {
-    char buf[2 * MAX_STRING_LENGTH];
-    char buf2[MAX_STRING_LENGTH];
+    std::string buf;
     char arg[MAX_INPUT_LENGTH];
-    Descriptor *d;
-    int count;
-
-    count = 0;
-    buf[0] = '\0';
+    int count = 0;
 
     one_argument(argument, arg);
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        if (d->character() != nullptr && can_see(ch, d->character())
-            && (arg[0] == '\0' || is_name(arg, d->character()->name)
-                || (d->original() && is_name(arg, d->original()->name)))) {
+    const auto view_all = arg[0] == '\0';
+    for (auto &d : descriptors().all()) {
+        const char *name = nullptr;
+        if (auto *victim = d.character()) {
+            if (!can_see(ch, victim))
+                continue;
+            if (view_all || is_name(arg, d.character()->name) || is_name(arg, d.person()->name))
+                name = d.person()->name;
+        } else if (get_trust(ch) == MAX_LEVEL) {
+            // log even connections that haven't logged in yet
+            // Level 100s only, mind
+            name = "(unknown)";
+        }
+        if (name) {
             count++;
-            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5s] %s@%s\n\r", d->channel(), short_name_of(d->state()),
-                         d->person() ? d->person()->name : "(none)", d->host().c_str());
-        } else if (!d->character() && get_trust(ch) == MAX_LEVEL) {
-            /*
-             * New: log even connections that haven't logged in yet
-             * Level 100s only, mind
-             */
-            count++;
-            bug_snprintf(buf + strlen(buf), sizeof(buf), "[%3d %5s] (unknown)@%s\n\r", d->channel(),
-                         short_name_of(d->state()), d->host().c_str());
+            buf += "[{:3} {:>5}] {}@{}\n\r"_format(d.channel(), short_name_of(d.state()), name, d.host());
         }
     }
     if (count == 0) {
@@ -3498,9 +3483,8 @@ void do_sockets(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    bug_snprintf(buf2, sizeof(buf2), "%d user%s\n\r", count, count == 1 ? "" : "s");
-    strcat(buf, buf2);
-    page_to_char(buf, ch);
+    buf += "{} user{}\n\r"_format(count, count == 1 ? "" : "s");
+    ch->desc->page_to(buf);
 }
 
 /*

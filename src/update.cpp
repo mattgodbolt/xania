@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
 #include "WeatherData.hpp"
 #include "comm.hpp"
@@ -420,9 +421,9 @@ void weather_update() {
     weather_info.update(time_info);
 
     if (auto update_msg = weather_info.describe_change(weather_before); !update_msg.empty()) {
-        for (auto *d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->is_playing() && IS_OUTSIDE(d->character()) && IS_AWAKE(d->character()))
-                send_to_char(update_msg, d->character());
+        for (auto &d : descriptors().playing()) {
+            if (IS_OUTSIDE(d.character()) && IS_AWAKE(d.character()))
+                send_to_char(update_msg, d.character());
         }
     }
 }

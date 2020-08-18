@@ -1766,7 +1766,7 @@ extern char deity_name_area[256];
 extern char *deity_name;
 
 /* Added by Rohan, to try to make count work properly */
-extern int max_on;
+extern size_t max_on;
 
 /*
  * Data files used by the server.

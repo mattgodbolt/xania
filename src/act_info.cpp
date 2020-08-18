@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
 #include "WeatherData.hpp"
 #include "buffer.h"
@@ -18,6 +19,7 @@
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+#include <range/v3/iterator/operations.hpp>
 
 #include <cctype>
 #include <cstdio>
@@ -28,8 +30,6 @@
 
 using namespace fmt::literals;
 
-extern const char *dir_name[];
-
 const char *where_name[] = {"<used as light>     ", "<worn on finger>    ", "<worn on finger>    ",
                             "<worn around neck>  ", "<worn around neck>  ", "<worn on body>      ",
                             "<worn on head>      ", "<worn on legs>      ", "<worn on feet>      ",
@@ -38,7 +38,7 @@ const char *where_name[] = {"<used as light>     ", "<worn on finger>    ", "<wo
                             "<worn around wrist> ", "<wielded>           ", "<held>              "};
 
 /* for do_count */
-int max_on = 0;
+size_t max_on = 0;
 
 /*
  * Local functions.
@@ -1572,7 +1572,6 @@ void do_whois(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     char output[MAX_STRING_LENGTH];
     char buf[MAX_STRING_LENGTH];
-    Descriptor *d;
     bool found = false;
 
     one_argument(argument, arg);
@@ -1584,14 +1583,11 @@ void do_whois(CHAR_DATA *ch, const char *argument) {
 
     output[0] = '\0';
 
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        char const *class_name;
+    for (auto &d : descriptors().all_visible_to(ch)) {
 
-        if (!d->is_playing() || !can_see(ch, d->character()))
-            continue;
+        auto *wch = d.person();
 
-        auto *wch = d->person();
-
+        // TODO: can or should this be part of all_visible_to?
         if (!can_see(ch, wch))
             continue;
 
@@ -1599,7 +1595,7 @@ void do_whois(CHAR_DATA *ch, const char *argument) {
             found = true;
 
             /* work out the printing */
-            class_name = class_table[wch->class_num].who_name;
+            const auto *class_name = class_table[wch->class_num].who_name;
             switch (wch->level) {
             case MAX_LEVEL - 0: class_name = "|WIMP|w"; break;
             case MAX_LEVEL - 1: class_name = "|YCRE|w"; break;
@@ -1647,7 +1643,6 @@ void do_who(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char buf2[MAX_STRING_LENGTH];
     char output[4 * MAX_STRING_LENGTH];
-    Descriptor *d;
     int iClass;
     int iRace;
     int iClan;
@@ -1742,22 +1737,14 @@ void do_who(CHAR_DATA *ch, const char *argument) {
     nMatch = 0;
     buf[0] = '\0';
     output[0] = '\0';
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        CHAR_DATA *wch;
-        char const *class_name;
-
-        /*
-         * Check for match against restrictions.
-         * Don't use trust as that exposes trusted mortals.
-         */
-        if (!d->is_playing() || !can_see(ch, d->character()))
+    for (auto &d : descriptors().all_visible_to(ch)) {
+        // Check for match against restrictions.
+        // Don't use trust as that exposes trusted mortals.
+        // added Faramir 13/8/96 because switched imms were visible to all
+        if (!can_see(ch, d.person()))
             continue;
-        /* added Faramir 13/8/96 because switched imms were visible to all*/
-        if (d->is_switched())
-            if (!can_see(ch, d->original()))
-                continue;
 
-        wch = d->person();
+        auto *wch = d.person();
         if (wch->level < iLevelLower || wch->level > iLevelUpper || (fImmortalOnly && wch->level < LEVEL_HERO)
             || (fClassRestrict && !rgfClass[wch->class_num]) || (fRaceRestrict && !rgfRace[wch->race]))
             continue;
@@ -1778,7 +1765,7 @@ void do_who(CHAR_DATA *ch, const char *argument) {
         /*
          * Figure out what to print for class.
          */
-        class_name = class_table[wch->class_num].who_name;
+        const auto *class_name = class_table[wch->class_num].who_name;
         switch (wch->level) {
         default: break; {
             case MAX_LEVEL - 0: class_name = "|WIMP|w"; break;
@@ -1822,24 +1809,13 @@ void do_who(CHAR_DATA *ch, const char *argument) {
 
 void do_count(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    int count;
-    Descriptor *d;
-    char buf[MAX_STRING_LENGTH];
-
-    count = 0;
-
-    for (d = descriptor_list; d != nullptr; d = d->next)
-        if (d->is_playing() && can_see(ch, d->character()))
-            count++;
-
-    max_on = UMAX(count, max_on);
+    auto count = static_cast<size_t>(ranges::distance(descriptors().all_visible_to(ch)));
+    max_on = std::max(count, max_on);
 
     if (max_on == count)
-        snprintf(buf, sizeof(buf), "There are %d characters on, the most so far today.\n\r", count);
+        send_to_char("There are {} characters on, the most so far today.\n\r"_format(count), ch);
     else
-        snprintf(buf, sizeof(buf), "There are %d characters on, the most on today was %d.\n\r", count, max_on);
-
-    send_to_char(buf, ch);
+        send_to_char("There are {} characters on, the most on today was {}.\n\r"_format(count, max_on), ch);
 }
 
 void do_inventory(CHAR_DATA *ch, const char *argument) {
@@ -1973,19 +1949,15 @@ void do_credits(CHAR_DATA *ch, const char *argument) {
 void do_where(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
-    Descriptor *d;
-    bool found;
 
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        snprintf(buf, sizeof(buf), "|cYou are in %s\n\rPlayers near you:|w\n\r", ch->in_room->area->areaname);
-        send_to_char(buf, ch);
-        found = false;
-        for (d = descriptor_list; d; d = d->next) {
-            if (d->is_playing() && (victim = d->character()) != nullptr && !IS_NPC(victim) && victim != ch
-                && victim->in_room != nullptr && victim->in_room->area == ch->in_room->area && can_see(ch, victim)) {
+        send_to_char("|cYou are in {}\n\rPlayers near you:|w\n\r"_format(ch->in_room->area->areaname), ch);
+        auto found = false;
+        for (auto &d : descriptors().all_visible_to(ch)) {
+            auto *victim = d.character();
+            if (!IS_NPC(victim) && victim->in_room != nullptr && victim->in_room->area == ch->in_room->area) {
                 found = true;
                 snprintf(buf, sizeof(buf), "|W%-28s|w %s\n\r", victim->name, victim->in_room->name);
                 send_to_char(buf, ch);
@@ -1994,12 +1966,11 @@ void do_where(CHAR_DATA *ch, const char *argument) {
         if (!found)
             send_to_char("None\n\r", ch);
         if (ch->pet && ch->pet->in_room->area == ch->in_room->area) {
-            snprintf(buf, sizeof(buf), "You sense that your pet is near %s.\n\r", ch->pet->in_room->name);
-            send_to_char(buf, ch);
+            send_to_char("You sense that your pet is near {}.\n\r"_format(ch->pet->in_room->name), ch);
         }
     } else {
-        found = false;
-        for (victim = char_list; victim != nullptr; victim = victim->next) {
+        auto found = false;
+        for (auto *victim = char_list; victim != nullptr; victim = victim->next) {
             if (victim->in_room != nullptr && victim->in_room->area == ch->in_room->area
                 && !IS_AFFECTED(victim, AFF_HIDE) && !IS_AFFECTED(victim, AFF_SNEAK) && can_see(ch, victim)
                 && victim != ch && is_name(arg, victim->name)) {

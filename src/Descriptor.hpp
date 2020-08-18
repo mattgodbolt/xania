@@ -62,10 +62,15 @@ class Descriptor {
     [[nodiscard]] std::optional<std::string> pop_raw();
 
 public:
-    Descriptor *next{};
-
     explicit Descriptor(uint32_t descriptor);
     ~Descriptor();
+
+    // Descriptors are referenced everywhere; prevent accidental copying or moving that would invalidate others'
+    // references.
+    Descriptor(const Descriptor &) = delete;
+    Descriptor &operator=(const Descriptor &) = delete;
+    Descriptor(Descriptor &&) = delete;
+    Descriptor &operator=(Descriptor &&) = delete;
 
     void state(DescriptorState state) noexcept { state_ = state; }
     [[nodiscard]] DescriptorState state() const noexcept { return state_; }

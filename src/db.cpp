@@ -9,6 +9,7 @@
 
 #include "db.h"
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
 #include "WeatherData.hpp"
 #include "buffer.h"
@@ -16,17 +17,18 @@
 #include "interp.h"
 #include "merc.h"
 #include "note.h"
+
+#include <range/v3/iterator/operations.hpp>
+
+#include <cstdarg>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <ctype.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <sys/resource.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <time.h>
-
-extern int getrlimit(int resource, struct rlimit *rlp);
 
 /* Externally referenced functions. */
 void wiznet_initialise();
@@ -2776,9 +2778,7 @@ void do_dump(CHAR_DATA *ch, const char *argument) {
             count * (sizeof(*pc)));
 
     /* descriptors */
-    count = 0;
-    for (d = descriptor_list; d != nullptr; d = d->next)
-        count++;
+    count = static_cast<int>(ranges::distance(descriptors().all()));
 
     fprintf(fp, "Descs	%4d (%8ld bytes)\n", count, count * (sizeof(*d)));
 

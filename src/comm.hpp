@@ -15,7 +15,6 @@ typedef struct room_index_data ROOM_INDEX_DATA;
 void game_loop_unix(Fd control);
 Fd init_socket(const char *file);
 
-void close_socket(Descriptor *dclose);
 void send_to_char(std::string_view txt, const CHAR_DATA *ch);
 void page_to_char(const char *txt, CHAR_DATA *ch);
 
@@ -31,5 +30,3 @@ void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type,
 inline void act(const char *format, CHAR_DATA *ch, To type = To::Room) { act(format, ch, nullptr, nullptr, type); }
 
 bool send_to_doorman(const Packet *p, const void *extra);
-
-extern Descriptor *descriptor_list;
