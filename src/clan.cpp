@@ -87,11 +87,11 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
     auto playing = descriptors().playing();
     if (ranges::find_if(playing,
                         [&](const Descriptor &d) {
-                            const auto *vix = d.person();
-                            const auto *pcclan = vix->pcdata->pcclan;
+                            const auto *victim = d.person();
+                            const auto *pcclan = victim->pcdata->pcclan;
 
                             return pcclan && pcclan->clan->clanchar == orig_clan->clan->clanchar
-                                   && pcclan->clanlevel >= CLAN_HERO && !IS_SET(vix->comm, COMM_QUIET);
+                                   && pcclan->clanlevel >= CLAN_HERO && !IS_SET(victim->comm, COMM_QUIET);
                         })
         == playing.end()) {
         send_to_char("Your clan lacks the necessary broadcast nexus, causing your vain telepathy to\n\r"
@@ -117,10 +117,10 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
 
     /* Right here we go - tell all members of the clan the message */
     for (auto &d : descriptors().playing()) {
-        auto *vix = d.person();
-        const auto *pcclan = vix->pcdata->pcclan;
+        auto *victim = d.person();
+        const auto *pcclan = victim->pcdata->pcclan;
         if (pcclan && pcclan->clan->clanchar == orig_clan->clan->clanchar && pcclan->channelflags & CLANCHANNEL_ON
-            && !IS_SET(vix->comm, COMM_QUIET)
+            && !IS_SET(victim->comm, COMM_QUIET)
             /* || they're an IMM snooping the channels */) {
             snprintf(buf, sizeof(buf), "|G<%s> %s|w\n\r", can_see(d.character(), ch) ? ch->name : "Someone", argument);
             send_to_char(buf, d.character());
