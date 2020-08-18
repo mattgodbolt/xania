@@ -8,18 +8,25 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "TimeInfoData.hpp"
+#include "WeatherData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "db.h"
 #include "interp.h"
 #include "merc.h"
 #include "string_utils.hpp"
+
+#include <fmt/format.h>
+
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <sys/time.h>
+
+using namespace fmt::literals;
 
 extern const char *dir_name[];
 
@@ -1335,8 +1342,9 @@ void do_score(CHAR_DATA *ch, const char *argument) {
         snprintf(buf, sizeof(buf), "Level: |W%d|w", ch->level);
     else
         snprintf(buf, sizeof(buf), "Level: |W%d|w (trust |W%d|w)", ch->level, get_trust(ch));
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Age: |W%d|w years (|W%d|w hours)\n\r", get_age(ch),
-             (ch->played + (int)(current_time - ch->logon)) / 3600);
+    using namespace std::chrono;
+    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Age: |W%d|w years (|W%ld|w hours)\n\r", get_age(ch),
+             duration_cast<hours>(ch->total_played()).count());
     send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Race: |W%s|w", race_table[ch->race].name);
@@ -1464,53 +1472,14 @@ void do_affected(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-const char *day_name[] = {"the Moon", "the Bull", "Deception", "Thunder", "Freedom", "the Great Gods", "the Sun"};
-
-const char *month_name[] = {"Winter",
-                            "the Winter Wolf",
-                            "the Frost Giant",
-                            "the Old Forces",
-                            "the Grand Struggle",
-                            "the Spring",
-                            "Nature",
-                            "Futility",
-                            "the Dragon",
-                            "the Sun",
-                            "the Heat",
-                            "the Battle",
-                            "the Dark Shades",
-                            "the Shadows",
-                            "the Long Shadows",
-                            "the Ancient Darkness",
-                            "the Great Evil"};
-
 void do_time(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    extern char str_boot_time[];
     char buf[MAX_STRING_LENGTH];
-    const char *suf;
-    int day;
 
-    day = time_info.day + 1;
-
-    if (day > 4 && day < 20)
-        suf = "th";
-    else if (day % 10 == 1)
-        suf = "st";
-    else if (day % 10 == 2)
-        suf = "nd";
-    else if (day % 10 == 3)
-        suf = "rd";
-    else
-        suf = "th";
-
-    snprintf(buf, sizeof(buf),
-             "It is %d o'clock %s, Day of %s, %d%s the Month of %s.\n\rXania started up at %s\rThe system time is %s\r",
-
-             (time_info.hour % 12 == 0) ? 12 : time_info.hour % 12, time_info.hour >= 12 ? "pm" : "am",
-             day_name[day % 7], day, suf, month_name[time_info.month], str_boot_time, (char *)ctime(&current_time));
-
-    send_to_char(buf, ch);
+    // TODO(#134) this whole thing should use the user's TZ.
+    send_to_char("{}\n\rXania started up at {}Z.\n\rThe system time is {}Z.\n\r"_format(
+                     time_info.describe(), secs_only(boot_time), secs_only(current_time)),
+                 ch);
 
     if (IS_NPC(ch)) {
         if (ch->desc->is_switched())
@@ -1519,6 +1488,7 @@ void do_time(CHAR_DATA *ch, const char *argument) {
             return;
     }
 
+    // TODO(#95) now we have an actual time library we can replace this with a timezone and format accordingly.
     if (ch->pcdata->houroffset || ch->pcdata->minoffset) {
         time_t ch_timet;
         char buf2[32];
@@ -1549,18 +1519,12 @@ void do_time(CHAR_DATA *ch, const char *argument) {
 
 void do_weather(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    char buf[MAX_STRING_LENGTH];
-
-    static const char *sky_look[4] = {"cloudless", "cloudy", "rainy", "lit by flashes of lightning"};
-
     if (!IS_OUTSIDE(ch)) {
         send_to_char("You can't see the weather indoors.\n\r", ch);
         return;
     }
 
-    snprintf(buf, sizeof(buf), "The sky is %s and %s.\n\r", sky_look[weather_info.sky],
-             weather_info.change >= 0 ? "a warm southerly breeze blows" : "a cold northern gust blows");
-    send_to_char(buf, ch);
+    send_to_char(weather_info.describe() + "\n\r", ch);
 }
 
 void do_help(CHAR_DATA *ch, const char *argument) {

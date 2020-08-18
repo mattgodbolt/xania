@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "TimeInfoData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "interp.h"
@@ -1842,12 +1843,12 @@ CHAR_DATA *find_keeper(CHAR_DATA *ch) {
     /*
      * Shop hours.
      */
-    if (time_info.hour < pShop->open_hour) {
+    if (time_info.hour() < pShop->open_hour) {
         do_say(keeper, "Sorry, I am closed. Come back later.");
         return nullptr;
     }
 
-    if (time_info.hour > pShop->close_hour) {
+    if (time_info.hour() > pShop->close_hour) {
         do_say(keeper, "Sorry, I am closed. Come back tomorrow.");
         return nullptr;
     }

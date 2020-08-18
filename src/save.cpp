@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "TimeInfoData.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
 #include <ctype.h>
@@ -147,8 +148,9 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
     }
     if (ch->trust != 0)
         fprintf(fp, "Tru  %d\n", ch->trust);
-    fprintf(fp, "Plyd %d\n", ch->played + (int)(current_time - ch->logon));
-    fprintf(fp, "Note %d\n", (int)ch->last_note);
+    using namespace std::chrono;
+    fprintf(fp, "Plyd %d\n", (int)duration_cast<seconds>(ch->total_played()).count());
+    fprintf(fp, "Note %d\n", (int)Clock::to_time_t(ch->last_note));
     fprintf(fp, "Scro %d\n", ch->lines);
     fprintf(fp, "Room %d\n",
             (ch->in_room == get_room_index(ROOM_VNUM_LIMBO) && ch->was_in_room != nullptr)
@@ -758,11 +760,11 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         } else if (word == "name") {
             ch->name = fread_string(fp);
         } else if (word == "note") {
-            ch->last_note = fread_number(fp);
+            ch->last_note = Clock::from_time_t(fread_number(fp));
         } else if (word == "password" || word == "pass") {
             ch->pcdata->pwd = fread_string(fp);
         } else if (word == "played" || word == "plyd") {
-            ch->played = fread_number(fp);
+            ch->played = Seconds(fread_number(fp));
         } else if (word == "points" || word == "pnts") {
             ch->pcdata->points = fread_number(fp);
         } else if (word == "position" || word == "pos") {

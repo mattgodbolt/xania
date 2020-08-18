@@ -9,6 +9,8 @@
 
 #include "db.h"
 #include "Descriptor.hpp"
+#include "TimeInfoData.hpp"
+#include "WeatherData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "interp.h"
@@ -49,8 +51,6 @@ char *help_greeting;
 char log_buf[LOG_BUF_SIZE];
 KILL_DATA kill_table[MAX_LEVEL];
 OBJ_DATA *object_list;
-TIME_INFO_DATA time_info;
-WEATHER_DATA weather_info;
 
 sh_int gsn_backstab;
 sh_int gsn_dodge;
@@ -235,45 +235,9 @@ void boot_db() {
     /* Init random number generator. */
     init_mm();
 
-    /* Set time and weather. */
-    {
-        long lhour, lday, lmonth;
-
-        lhour = (current_time - 650336715) / (PULSE_TICK / PULSE_PER_SECOND);
-        time_info.hour = lhour % 24;
-        lday = lhour / 24;
-        time_info.day = lday % 35;
-        lmonth = lday / 35;
-        time_info.month = lmonth % 17;
-        time_info.year = lmonth / 17;
-
-        if (time_info.hour < 5)
-            weather_info.sunlight = SUN_DARK;
-        else if (time_info.hour < 6)
-            weather_info.sunlight = SUN_RISE;
-        else if (time_info.hour < 19)
-            weather_info.sunlight = SUN_LIGHT;
-        else if (time_info.hour < 20)
-            weather_info.sunlight = SUN_SET;
-        else
-            weather_info.sunlight = SUN_DARK;
-
-        weather_info.change = 0;
-        weather_info.mmhg = 960;
-        if (time_info.month >= 7 && time_info.month <= 12)
-            weather_info.mmhg += number_range(1, 50);
-        else
-            weather_info.mmhg += number_range(1, 80);
-
-        if (weather_info.mmhg <= 980)
-            weather_info.sky = SKY_LIGHTNING;
-        else if (weather_info.mmhg <= 1000)
-            weather_info.sky = SKY_RAINING;
-        else if (weather_info.mmhg <= 1020)
-            weather_info.sky = SKY_CLOUDY;
-        else
-            weather_info.sky = SKY_CLOUDLESS;
-    }
+    // Set time and weather.
+    time_info = TimeInfoData(Clock::now());
+    weather_info = WeatherData(time_info);
 
     /* Assign gsn's for skills which have them. */
     {
@@ -1953,15 +1917,13 @@ void clear_char(CHAR_DATA *ch) {
     static CHAR_DATA ch_zero;
     int i;
 
-    memset(ch, 0, sizeof(CHAR_DATA)); /* Added by TM */
-
     *ch = ch_zero;
     ch->name = &str_empty[0];
     ch->short_descr = &str_empty[0];
     ch->long_descr = &str_empty[0];
     ch->description = &str_empty[0];
     ch->logon = current_time;
-    ch->last_note = 0;
+    ch->last_note = Time::min();
     ch->lines = PAGELEN;
     for (i = 0; i < 4; i++)
         ch->armor[i] = 100;
@@ -2969,7 +2931,7 @@ void init_mm() {
     piState[-2] = 55 - 55;
     piState[-1] = 55 - 24;
 
-    piState[0] = ((int)current_time) & ((1 << 30) - 1);
+    piState[0] = ((int)Clock::to_time_t(current_time)) & ((1 << 30) - 1);
     piState[1] = 1;
     for (iState = 2; iState < 55; iState++) {
         piState[iState] = (piState[iState - 1] + piState[iState - 2]) & ((1 << 30) - 1);

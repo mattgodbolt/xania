@@ -14,6 +14,7 @@
 
 #include "comm.hpp"
 #include "Descriptor.hpp"
+#include "TimeInfoData.hpp"
 #include "challeng.h"
 #include "common/Fd.hpp"
 #include "common/doorman_protocol.h"
@@ -40,6 +41,7 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/un.h>
+#include <thread>
 #include <unistd.h>
 
 using namespace std::literals;
@@ -49,8 +51,6 @@ using namespace fmt::literals;
 extern KNOWN_PLAYERS *player_list;
 
 /* extern void identd_lookup();  ......commented out due to sock leaks */
-
-char str_boot_time[MAX_INPUT_LENGTH];
 
 /*
  * Global variables.
@@ -62,7 +62,6 @@ bool god; /* All new chars are gods! */
 bool merc_down; /* Shutdown       */
 bool wizlock; /* Game is wizlocked    */
 bool newlock; /* Game is newlocked    */
-time_t current_time; /* time of this pulse */
 bool MOBtrigger;
 
 Descriptor *new_descriptor(int channel);
@@ -277,12 +276,10 @@ void game_loop_unix(Fd control) {
         return;
     }
 
-    timeval last_time{};
-    gettimeofday(&last_time, nullptr);
-    current_time = (time_t)last_time.tv_sec;
-
     /* Main loop */
     while (!merc_down) {
+        current_time = Clock::now();
+
         fd_set in_set;
         fd_set out_set;
         fd_set exc_set;
@@ -421,42 +418,12 @@ void game_loop_unix(Fd control) {
             reap_closed_sockets();
         }
 
-        /*
-         * Synchronize to a clock.
-         * Sleep( last_time + 1/PULSE_PER_SECOND - now ).
-         * Careful here of signed versus unsigned arithmetic.
-         */
-        {
-            struct timeval now_time;
-            long secDelta;
-            long usecDelta;
-
-            gettimeofday(&now_time, nullptr);
-            usecDelta = ((int)last_time.tv_usec) - ((int)now_time.tv_usec) + 1000000 / PULSE_PER_SECOND;
-            secDelta = ((int)last_time.tv_sec) - ((int)now_time.tv_sec);
-            while (usecDelta < 0) {
-                usecDelta += 1000000;
-                secDelta -= 1;
-            }
-
-            while (usecDelta >= 1000000) {
-                usecDelta -= 1000000;
-                secDelta += 1;
-            }
-
-            if (secDelta > 0 || (secDelta == 0 && usecDelta > 0)) {
-                timeval stall_time;
-                stall_time.tv_usec = usecDelta;
-                stall_time.tv_sec = secDelta;
-                if (select(0, nullptr, nullptr, nullptr, &stall_time) < 0) {
-                    perror("Game_loop: select: stall");
-                    exit(1);
-                }
-            }
-        }
-
-        gettimeofday(&last_time, nullptr);
-        current_time = (time_t)last_time.tv_sec;
+        // Synchronize to a clock.
+        using namespace std::chrono;
+        using namespace std::literals;
+        constexpr auto nanos_per_pulse = duration_cast<nanoseconds>(1s) / PULSE_PER_SECOND;
+        auto next_pulse = current_time + nanos_per_pulse;
+        std::this_thread::sleep_until(next_pulse);
     }
 }
 
