@@ -102,7 +102,7 @@ public:
     void stop_snooping(Descriptor &other);
     void stop_snooping();
 
-    [[nodiscard]] bool closed() const noexcept { return state_ == DescriptorState::Closed; }
+    [[nodiscard]] bool is_closed() const noexcept { return state_ == DescriptorState::Closed; }
     void close() noexcept;
 
     [[nodiscard]] uint32_t channel() const noexcept { return channel_; }
