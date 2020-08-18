@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
 #include "comm.hpp"
 #include "interp.h"
 #include "merc.h"
@@ -412,7 +413,6 @@ void mobile_update() {
  */
 void weather_update() {
     char buf[MAX_STRING_LENGTH];
-    Descriptor *d;
     int diff;
 
     buf[0] = '\0';
@@ -517,9 +517,9 @@ void weather_update() {
     }
 
     if (buf[0] != '\0') {
-        for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->is_playing() && IS_OUTSIDE(d->character()) && IS_AWAKE(d->character()))
-                send_to_char(buf, d->character());
+        for (auto &d : descriptors().playing()) {
+            if (IS_OUTSIDE(d.character()) && IS_AWAKE(d.character()))
+                send_to_char(buf, d.character());
         }
     }
 }

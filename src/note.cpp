@@ -10,6 +10,7 @@
 #include "note.h"
 #include "CommandSet.hpp"
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "merc.h"
@@ -334,17 +335,13 @@ static void note_post(CHAR_DATA *ch, const char *argument) {
 }
 
 void note_announce(CHAR_DATA *chsender, NOTE_DATA *note) {
-    Descriptor *d;
-
     if (note == nullptr) {
         log_string("note_announce() note is null");
         return;
     }
-    for (d = descriptor_list; d; d = d->next) {
-        CHAR_DATA *chtarg;
-        chtarg = d->person();
-        if (d->is_playing() && d->character() != chsender && chtarg && !IS_SET(chtarg->comm, COMM_NOANNOUNCE)
-            && !IS_SET(chtarg->comm, COMM_QUIET) && is_note_to(chtarg, note)) {
+    for (auto &d : descriptors().all_but(chsender)) {
+        auto *chtarg = d.person();
+        if (!IS_SET(chtarg->comm, COMM_NOANNOUNCE) && !IS_SET(chtarg->comm, COMM_QUIET) && is_note_to(chtarg, note)) {
             send_to_char("The Spirit of Hermes announces the arrival of a new note.\n\r", chtarg);
         }
     }

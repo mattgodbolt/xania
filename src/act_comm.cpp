@@ -17,6 +17,7 @@
 #include <sys/types.h>
 #include <time.h>
 
+#include "DescriptorList.hpp"
 #include "chat/chatlink.h"
 #include "comm.hpp"
 
@@ -90,21 +91,14 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
 }
 
 void announce(const char *buf, CHAR_DATA *ch) {
-    Descriptor *d;
-
-    if (descriptor_list == nullptr)
-        return;
-
     if (ch->in_room == nullptr)
         return; /* special case on creation */
 
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        CHAR_DATA *victim;
+    for (auto &d : descriptors().playing()) {
+        auto *victim = d.person();
 
-        victim = d->person();
-
-        if (d->is_playing() && d->character() != ch && victim && can_see(victim, ch)
-            && !IS_SET(victim->comm, COMM_NOANNOUNCE) && !IS_SET(victim->comm, COMM_QUIET)) {
+        if (d.character() != ch && can_see(victim, ch) && !IS_SET(victim->comm, COMM_NOANNOUNCE)
+            && !IS_SET(victim->comm, COMM_QUIET)) {
             act(buf, victim, nullptr, ch, To::Char, POS_DEAD);
         }
     }
@@ -223,8 +217,6 @@ void do_tell(CHAR_DATA *ch, const char *argument) {
 void do_reply(CHAR_DATA *ch, const char *argument) { tell_to(ch, ch->reply, argument); }
 
 void do_yell(CHAR_DATA *ch, const char *argument) {
-    Descriptor *d;
-
     if (IS_SET(ch->comm, COMM_NOSHOUT)) {
         send_to_char("|cYou can't yell.|w\n\r", ch);
         return;
@@ -239,10 +231,10 @@ void do_yell(CHAR_DATA *ch, const char *argument) {
         do_afk(ch, nullptr);
 
     act("|WYou yell '$t|W'|w", ch, argument, nullptr, To::Char);
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        if (d->is_playing() && d->character() != ch && d->character()->in_room != nullptr
-            && d->character()->in_room->area == ch->in_room->area && !IS_SET(d->character()->comm, COMM_QUIET)) {
-            act("|W$n yells '$t|W'|w", ch, argument, d->character(), To::Vict);
+    for (auto &d : descriptors().all()) {
+        if (d.character() != ch && d.character()->in_room != nullptr
+            && d.character()->in_room->area == ch->in_room->area && !IS_SET(d.character()->comm, COMM_QUIET)) {
+            act("|W$n yells '$t|W'|w", ch, argument, d.character(), To::Vict);
         }
     }
 }
@@ -447,7 +439,7 @@ void do_quit(CHAR_DATA *ch, const char *arg) {
     d = ch->desc;
     extract_char(ch, true);
     if (d != nullptr)
-        close_socket(d);
+        d->close();
 }
 
 void do_save(CHAR_DATA *ch, const char *arg) {

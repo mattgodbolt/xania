@@ -14,6 +14,7 @@
 
 #include "comm.hpp"
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
 #include "challeng.h"
 #include "common/Fd.hpp"
 #include "common/doorman_protocol.h"
@@ -55,8 +56,8 @@ char str_boot_time[MAX_INPUT_LENGTH];
 /*
  * Global variables.
  */
-Descriptor *descriptor_list; /* All open descriptors    */
-Descriptor *d_next; /* Next descriptor in loop */
+DescriptorList the_descriptors;
+DescriptorList &descriptors() { return the_descriptors; }
 FILE *fpReserve; /* Reserved file handle    */
 bool god; /* All new chars are gods! */
 bool merc_down; /* Shutdown       */
@@ -65,8 +66,6 @@ bool newlock; /* Game is newlocked    */
 time_t current_time; /* time of this pulse */
 bool MOBtrigger;
 
-Descriptor *new_descriptor(int channel);
-void reap_closed_sockets();
 bool read_from_descriptor(Descriptor *d, std::string_view data);
 void move_active_char_from_limbo(CHAR_DATA *ch);
 
@@ -113,11 +112,18 @@ void SetEchoState(Descriptor *d, int on) {
     send_to_doorman(&p, nullptr);
 }
 
+void greet(Descriptor &d) {
+    extern char *help_greeting;
+    if (help_greeting[0] == '.')
+        d.write(help_greeting + 1);
+    else
+        d.write(help_greeting);
+}
+
 /* where we're asked nicely to quit from the outside (mudmgr or OS) */
 void handle_signal_shutdown() {
     CHAR_DATA *vch;
     CHAR_DATA *vch_next;
-    Descriptor *d, *d_next;
 
     log_string("Signal shutdown received");
 
@@ -137,10 +143,8 @@ void handle_signal_shutdown() {
         }
     }
     merc_down = true;
-    for (d = descriptor_list; d != nullptr; d = d_next) {
-        d_next = d->next;
-        close_socket(d);
-    }
+    for (auto &d : descriptors().all())
+        d.close();
 }
 
 Fd init_socket(const char *file) {
@@ -170,91 +174,74 @@ void doorman_lost() {
     log_string("Lost connection to doorman");
     doormanDesc.close();
     /* Now to go through and disconnect all the characters */
-    for (auto *desc = descriptor_list; desc; desc = desc->next)
-        close_socket(descriptor_list);
+    for (auto &d : descriptors().all())
+        d.close();
 }
 
 void handle_doorman_packet(const Packet &p, std::string_view buffer) {
     switch (p.type) {
     case PACKET_CONNECT:
         log_string("Incoming connection on channel {}."_format(p.channel));
-        new_descriptor(p.channel);
-        break;
-    case PACKET_RECONNECT: {
-        log_string("Incoming reconnection on channel {} for {}."_format(p.channel, buffer));
-        auto *d = new_descriptor(p.channel);
-        // Login name
-        d->write(buffer);
-        d->write("\n\r");
-        std::string nannyable(buffer);
-        nanny(d, nannyable.c_str()); // TODO one day string_viewify
-        d->write("\n\r");
-
-        // Paranoid :
-        if (d->state() == DescriptorState::GetOldPassword) {
-            d->state(DescriptorState::CircumventPassword);
-            // log in
-            nanny(d, "");
-            // accept ANSIness
-            d->write("\n\r");
-            nanny(d, "");
-        }
-    } break;
-    case PACKET_DISCONNECT:
-        /*
-         * Find the descriptor associated with the channel and close it
-         */
-        for (auto *d = descriptor_list; d; d = d->next) {
-            if (d->channel() == p.channel) {
-                if (d->character() && d->character()->level > 1)
-                    save_char_obj(d->character());
-                d->clear_output_buffer();
-                if (d->is_playing())
-                    d->state(DescriptorState::Disconnecting);
-                else
-                    d->state(DescriptorState::DisconnectingNp);
-                close_socket(d);
-                break;
-            }
-        }
-        break;
-    case PACKET_INFO: {
-        /*
-         * Find the descriptor associated with the channel
-         */
-        Descriptor *found{};
-        for (auto *d = descriptor_list; d; d = d->next) {
-            if (d->channel() == p.channel) {
-                found = d;
-                auto *data = reinterpret_cast<const InfoData *>(buffer.data());
-                d->set_endpoint(data->netaddr, data->port, data->data);
-                break;
-            }
-        }
-        if (!found) {
-            log_string("Unable to associate info with a descriptor ({})"_format(p.channel));
+        if (auto *d = descriptors().create(p.channel)) {
+            greet(*d);
         } else {
-            log_string("Info from doorman: {} is {}"_format(p.channel, found->host()));
+            log_string("Duplicate channel {} on connect!"_format(p.channel));
         }
         break;
-    }
+    case PACKET_RECONNECT:
+        log_string("Incoming reconnection on channel {} for {}."_format(p.channel, buffer));
+        if (auto *d = descriptors().create(p.channel)) {
+            greet(*d);
+            // Login name
+            d->write("{}\n\r"_format(buffer));
+            std::string nannyable(buffer);
+            nanny(d, nannyable.c_str()); // TODO one day string_viewify
+            d->write("\n\r");
+
+            // Paranoid :
+            if (d->state() == DescriptorState::GetOldPassword) {
+                d->state(DescriptorState::CircumventPassword);
+                // log in
+                nanny(d, "");
+                // accept ANSIness
+                d->write("\n\r");
+                nanny(d, "");
+            }
+        } else {
+            log_string("Duplicate channel {} on reconnect!"_format(p.channel));
+        }
+        break;
+    case PACKET_DISCONNECT:
+        if (auto *d = descriptors().find_by_channel(p.channel)) {
+            if (d->character() && d->character()->level > 1)
+                save_char_obj(d->character());
+            d->clear_output_buffer();
+            if (d->is_playing())
+                d->state(DescriptorState::Disconnecting);
+            else
+                d->state(DescriptorState::DisconnectingNp);
+            d->close();
+        } else {
+            log_string("Unable to find channel to close ({})"_format(p.channel));
+        }
+        break;
+    case PACKET_INFO:
+        if (auto *d = descriptors().find_by_channel(p.channel)) {
+            auto *data = reinterpret_cast<const InfoData *>(buffer.data());
+            d->set_endpoint(data->netaddr, data->port, data->data);
+            log_string("Info from doorman: {} is {}"_format(p.channel, d->host()));
+        } else {
+            log_string("Unable to associate info with a descriptor ({})"_format(p.channel));
+        }
+        break;
+
     case PACKET_MESSAGE:
-        /*
-         * Find the descriptor associated with the channel
-         */
-        {
-            bool ok = false;
-            for (auto *d = descriptor_list; d; d = d->next) {
-                if (d->channel() == p.channel) {
-                    ok = true;
-                    if (d->character() != nullptr)
-                        d->character()->timer = 0;
-                    read_from_descriptor(d, buffer);
-                }
-            }
-            if (!ok) {
-                log_string("Unable to associate message with a descriptor ({})"_format(p.channel));
-            }
+        if (auto *d = descriptors().find_by_channel(p.channel)) {
+            if (d->character() != nullptr)
+                d->character()->timer = 0;
+            read_from_descriptor(d, buffer);
+        } else {
+            log_string("Unable to associate message with a descriptor ({})"_format(p.channel));
         }
         break;
     default: break;
@@ -370,33 +357,32 @@ void game_loop_unix(Fd control) {
         /*
          * De-waitstate characters and process pending input
          */
-        std::unordered_set<Descriptor *> handled_input;
-        for (auto *d = descriptor_list; d; d = d->next) {
-            d->processing_command(false);
-            auto *character = d->character();
+        for (auto &d : descriptors().all()) {
+            d.processing_command(false);
+            auto *character = d.character();
             if (character && character->wait > 0)
                 --character->wait;
             /* Waitstate the character */
             if (character && character->wait)
                 continue;
 
-            if (auto incomm = d->pop_incomm()) {
-                d->processing_command(true);
+            if (auto incomm = d.pop_incomm()) {
+                d.processing_command(true);
                 move_active_char_from_limbo(character);
 
                 // It's possible that 'd' will be deleted as a result of any of the following operations. Be very
                 // careful.
-                if (d->is_paging())
-                    d->show_next_page(*incomm);
-                else if (d->is_playing())
+                if (d.is_paging())
+                    d.show_next_page(*incomm);
+                else if (d.is_playing())
                     interpret(character, incomm->c_str());
                 else
-                    nanny(d, incomm->c_str());
+                    nanny(&d, incomm->c_str());
             }
         }
 
         // Reap any sockets that got closed as a result of input processing or nannying.
-        reap_closed_sockets();
+        descriptors().reap_closed();
 
         /*
          * Autonomous game motion.
@@ -407,18 +393,18 @@ void game_loop_unix(Fd control) {
          * Output.
          */
         if (doormanDesc.is_open()) {
-            for (auto *d = descriptor_list; d != nullptr; d = d->next) {
-                if (d->processing_command() || d->has_buffered_output()) {
-                    if (!process_output(d, true)) {
-                        if (d->character() != nullptr && d->character()->level > 1)
-                            save_char_obj(d->character());
-                        d->clear_output_buffer();
-                        close_socket(d);
+            for (auto &d : descriptors().all()) {
+                if (d.processing_command() || d.has_buffered_output()) {
+                    if (!process_output(&d, true)) {
+                        if (d.character() != nullptr && d.character()->level > 1)
+                            save_char_obj(d.character());
+                        d.clear_output_buffer();
+                        d.close();
                     }
                 }
             }
             // Reap any sockets that got closed as a result of output handling.
-            reap_closed_sockets();
+            descriptors().reap_closed();
         }
 
         /*
@@ -457,46 +443,6 @@ void game_loop_unix(Fd control) {
 
         gettimeofday(&last_time, nullptr);
         current_time = (time_t)last_time.tv_sec;
-    }
-}
-
-Descriptor *new_descriptor(int channel) {
-    auto *dnew = new Descriptor(channel);
-
-    /*
-     * Init descriptor data.
-     */
-    dnew->next = descriptor_list;
-    descriptor_list = dnew;
-
-    /*
-     * Send the greeting.
-     */
-    {
-        extern char *help_greeting;
-        if (help_greeting[0] == '.')
-            dnew->write(help_greeting + 1);
-        else
-            dnew->write(help_greeting);
-    }
-
-    return dnew;
-}
-
-void close_socket(Descriptor *dclose) { dclose->close(); }
-
-void reap_closed_sockets() {
-    Descriptor *dnext;
-    Descriptor **dprev = &descriptor_list;
-    for (auto *desc = descriptor_list; desc; desc = dnext) {
-        dnext = desc->next;
-        if (desc->closed()) {
-            *dprev = dnext;
-            // TODO: ideally no naked news/deletes. One day.
-            delete desc;
-        } else {
-            dprev = &desc->next;
-        }
     }
 }
 
@@ -582,7 +528,6 @@ bool process_output(Descriptor *d, bool fPrompt) {
  * Deal with sockets that haven't logged in yet.
  */
 void nanny(Descriptor *d, const char *argument) {
-    Descriptor *d_old, *d_next;
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *ch;
@@ -594,9 +539,6 @@ void nanny(Descriptor *d, const char *argument) {
     int notes;
     bool fOld;
     KNOWN_PLAYERS *temp_known_player;
-    /* Rohan: 2 variables needed to increase player count */
-    int count;
-    Descriptor *de;
 
     while (isspace(*argument))
         argument++;
@@ -607,7 +549,7 @@ void nanny(Descriptor *d, const char *argument) {
 
     default:
         bug("Nanny: bad d->state() %d.", static_cast<int>(d->state()));
-        close_socket(d);
+        d->close();
         return;
 
     case DescriptorState::Closed:
@@ -616,7 +558,7 @@ void nanny(Descriptor *d, const char *argument) {
 
     case DescriptorState::GetName: {
         if (argument[0] == '\0') {
-            close_socket(d);
+            d->close();
             return;
         }
         // Take a copy of the character's proposed name, so we can forcibly upper-case its first letter.
@@ -645,7 +587,7 @@ void nanny(Descriptor *d, const char *argument) {
             snprintf(log_buf, LOG_BUF_SIZE, "Denying access to %s@%s.", char_name.c_str(), d->host().c_str());
             log_string(log_buf);
             d->write("You are denied access.\n\r");
-            close_socket(d);
+            d->close();
             return;
         }
 
@@ -654,7 +596,7 @@ void nanny(Descriptor *d, const char *argument) {
         } else {
             if (wizlock && !IS_IMMORTAL(ch)) {
                 d->write("The game is wizlocked.  Try again later - a reboot may be imminent.\n\r");
-                close_socket(d);
+                d->close();
                 return;
             }
         }
@@ -669,7 +611,7 @@ void nanny(Descriptor *d, const char *argument) {
             /* New player */
             if (newlock) {
                 d->write("The game is newlocked.  Try again later - a reboot may be imminent.\n\r");
-                close_socket(d);
+                d->close();
                 return;
             }
 
@@ -677,7 +619,7 @@ void nanny(Descriptor *d, const char *argument) {
             if (check_ban(d->raw_full_hostname().c_str(), BAN_NEWBIES)
                 || check_ban(d->raw_full_hostname().c_str(), BAN_PERMIT)) {
                 d->write("Your site has been banned.  Only existing players from your site may connect.\n\r");
-                close_socket(d);
+                d->close();
                 return;
             }
 
@@ -695,7 +637,7 @@ void nanny(Descriptor *d, const char *argument) {
         // for now we just pwd[0], which lets us reset passwords.
         if (ch->pcdata->pwd[0] && strcmp(crypt(argument, ch->pcdata->pwd), ch->pcdata->pwd)) {
             d->write("Our survey said <Crude buzzer noise>.\n\rWrong password.\n\r");
-            close_socket(d);
+            d->close();
             return;
         }
         // falls through
@@ -711,7 +653,7 @@ void nanny(Descriptor *d, const char *argument) {
         // This is the one time we use the full host name.
         if (check_ban(d->raw_full_hostname().c_str(), BAN_PERMIT) && (!is_set_extra(ch, EXTRA_PERMIT))) {
             d->write("Your site has been banned.  Sorry.\n\r");
-            close_socket(d);
+            d->close();
             return;
         }
 
@@ -737,15 +679,14 @@ void nanny(Descriptor *d, const char *argument) {
         switch (*argument) {
         case 'y':
         case 'Y':
-            for (d_old = descriptor_list; d_old != nullptr; d_old = d_next) {
-                d_next = d_old->next;
-                if (d_old == d || d_old->character() == nullptr)
+            for (auto &d_old : descriptors().all()) {
+                if (&d_old == d || d_old.character() == nullptr)
                     continue;
 
-                if (str_cmp(ch->name, d_old->character()->name))
+                if (str_cmp(ch->name, d_old.character()->name))
                     continue;
 
-                close_socket(d_old);
+                d_old.close();
             }
             if (check_reconnect(d, true))
                 return;
@@ -1133,11 +1074,8 @@ void nanny(Descriptor *d, const char *argument) {
 
         /* Rohan: code to increase the player count if needed - it was only
            updated if a player did count */
-        count = 0;
-        for (de = descriptor_list; de != nullptr; de = de->next)
-            if (de->is_playing())
-                count++;
-        max_on = UMAX(count, max_on);
+        auto all = descriptors().all();
+        max_on = std::max(static_cast<size_t>(std::distance(all.begin(), all.end())), max_on);
 
         if (ch->gold > 250000 && !IS_IMMORTAL(ch)) {
             snprintf(buf, sizeof(buf), "You are taxed %ld gold to pay for the Mayor's bar.\n\r",
@@ -1261,11 +1199,9 @@ bool check_reconnect(Descriptor *d, bool fConn) {
  * Check if already playing.
  */
 bool check_playing(Descriptor *d, char *name) {
-    Descriptor *dold;
-
-    for (dold = descriptor_list; dold; dold = dold->next) {
-        if (dold != d && dold->character() != nullptr && dold->state() != DescriptorState::GetName
-            && dold->state() != DescriptorState::GetOldPassword && !str_cmp(name, dold->person()->name)) {
+    for (auto &dold : descriptors().all()) {
+        if (&dold != d && dold.character() != nullptr && dold.state() != DescriptorState::GetName
+            && dold.state() != DescriptorState::GetOldPassword && !str_cmp(name, dold.person()->name)) {
             d->write("That character is already playing.\n\r");
             d->write("Do you wish to connect anyway (Y/N)?");
             d->state(DescriptorState::BreakConnect);
@@ -1290,7 +1226,6 @@ void send_to_char(std::string_view txt, const CHAR_DATA *ch) {
 void page_to_char(const char *txt, CHAR_DATA *ch) {
     if (txt == nullptr || ch->desc == nullptr)
         return;
-
     ch->desc->page_to(txt);
 }
 

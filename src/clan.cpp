@@ -8,9 +8,14 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
 #include "comm.hpp"
 #include "interp.h"
 #include "merc.h"
+
+#include <range/v3/algorithm/find_if.hpp>
+
+#include <algorithm>
 #include <cstdio>
 #include <memory.h>
 
@@ -56,8 +61,6 @@ const CLAN clantable[NUM_CLANS] = {
 
 void do_clantalk(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
-    int candoit = 0;
-    Descriptor *d;
 
     auto *orig_clan = ch->desc->person() ? ch->desc->person()->pcdata->pcclan : nullptr;
     if (orig_clan == nullptr) {
@@ -81,18 +84,18 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
 
     /* Next check to see if a CLAN_HERO or CLAN_LEADER is on first */
 
-    for (d = descriptor_list; (d && !candoit); d = d->next) {
-        CHAR_DATA *vix = d->person();
+    auto playing = descriptors().playing();
+    if (ranges::find_if(playing,
+                        [&](const Descriptor &d) {
+                            const auto *vix = d.person();
+                            const auto *pcclan = vix->pcdata->pcclan;
 
-        if (vix && d->character() && vix->pcdata->pcclan
-            && (vix->pcdata->pcclan->clan->clanchar == orig_clan->clan->clanchar)
-            && (vix->pcdata->pcclan->clanlevel >= CLAN_HERO) && !IS_SET(vix->comm, COMM_QUIET))
-            candoit = 1; /* Yeah we can do it! */
-    } /* for all descriptors */
-
-    if (!candoit) {
-        send_to_char("Your clan lacks the necessary broadcast nexus, causing your vain telepathy to\n\rbe lost upon "
-                     "the winds.\n\r",
+                            return pcclan && pcclan->clan->clanchar == orig_clan->clan->clanchar
+                                   && pcclan->clanlevel >= CLAN_HERO && !IS_SET(vix->comm, COMM_QUIET);
+                        })
+        == playing.end()) {
+        send_to_char("Your clan lacks the necessary broadcast nexus, causing your vain telepathy to\n\r"
+                     "be lost upon the winds.\n\r",
                      ch);
         return;
     }
@@ -113,16 +116,14 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
     }
 
     /* Right here we go - tell all members of the clan the message */
-    for (d = descriptor_list; d; d = d->next) {
-        CHAR_DATA *vix;
-        vix = d->person();
-
-        if ((d->is_playing()) && (vix->pcdata->pcclan)
-            && (vix->pcdata->pcclan->clan->clanchar == orig_clan->clan->clanchar)
-            && (vix->pcdata->pcclan->channelflags & CLANCHANNEL_ON) && !IS_SET(vix->comm, COMM_QUIET)
+    for (auto &d : descriptors().playing()) {
+        auto *vix = d.person();
+        const auto *pcclan = vix->pcdata->pcclan;
+        if (pcclan && pcclan->clan->clanchar == orig_clan->clan->clanchar && pcclan->channelflags & CLANCHANNEL_ON
+            && !IS_SET(vix->comm, COMM_QUIET)
             /* || they're an IMM snooping the channels */) {
-            snprintf(buf, sizeof(buf), "|G<%s> %s|w\n\r", can_see(d->character(), ch) ? ch->name : "Someone", argument);
-            send_to_char(buf, d->character());
+            snprintf(buf, sizeof(buf), "|G<%s> %s|w\n\r", can_see(d.character(), ch) ? ch->name : "Someone", argument);
+            send_to_char(buf, d.character());
         } /* If they can see the message */
     } /* for all descriptors */
 
@@ -328,7 +329,6 @@ void do_demote(CHAR_DATA *ch, const char *argument) { mote(ch, argument, -1); }
 
 void do_clanwho(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    Descriptor *d;
     char buf[MAX_STRING_LENGTH];
 
     if (IS_NPC(ch))
@@ -341,15 +341,12 @@ void do_clanwho(CHAR_DATA *ch, const char *argument) {
 
     send_to_char("|gCharacter name     |c|||g Clan level|w\n\r", ch);
     send_to_char("|c-------------------+-------------------------------|w\n\r", ch);
-    for (d = descriptor_list; d; d = d->next) {
-        if (d->is_playing()) {
-            auto wch = d->person();
-            if ((can_see(ch, wch)) && (wch->pcdata->pcclan)
-                && (wch->pcdata->pcclan->clan->clanchar == ch->pcdata->pcclan->clan->clanchar)) {
-                snprintf(buf, sizeof(buf), "%-19s|c|||w %s\n\r", wch->name,
-                         wch->pcdata->pcclan->clan->levelname[wch->pcdata->pcclan->clanlevel]);
-                send_to_char(buf, ch);
-            }
+    for (auto &d : descriptors().all_visible_to(ch)) {
+        auto *wch = d.person();
+        auto *pcclan = wch->pcdata->pcclan;
+        if (pcclan && pcclan->clan->clanchar == ch->pcdata->pcclan->clan->clanchar) {
+            snprintf(buf, sizeof(buf), "%-19s|c|||w %s\n\r", wch->name, pcclan->clan->levelname[pcclan->clanlevel]);
+            send_to_char(buf, ch);
         }
     }
 }

@@ -9,6 +9,7 @@
 
 #include "db.h"
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "interp.h"
@@ -2814,9 +2815,8 @@ void do_dump(CHAR_DATA *ch, const char *argument) {
             count * (sizeof(*pc)));
 
     /* descriptors */
-    count = 0;
-    for (d = descriptor_list; d != nullptr; d = d->next)
-        count++;
+    auto all = descriptors().all();
+    count = static_cast<int>(std::distance(all.begin(), all.end()));
 
     fprintf(fp, "Descs	%4d (%8ld bytes)\n", count, count * (sizeof(*d)));
 
