@@ -9,21 +9,29 @@
 
 #include "interp.h"
 #include "CommandSet.hpp"
-#include "Descriptor.hpp"
 #include "comm.hpp"
 #include "merc.h"
 #include "note.h"
 
-#include <fmt/format.h>
-
 #include <cctype>
 #include <cstdio>
-#include <cstdlib>
 #include <cstring>
 #include <functional>
 #include <utility>
 
-using namespace fmt::literals;
+namespace {
+inline constexpr auto ML = MAX_LEVEL; /* implementor */
+inline constexpr auto L1 = MAX_LEVEL - 1; /* creator */
+inline constexpr auto L2 = MAX_LEVEL - 2; /* supreme being */
+inline constexpr auto L3 = MAX_LEVEL - 3; /* deity */
+inline constexpr auto L4 = MAX_LEVEL - 4; /* god */
+inline constexpr auto L5 = MAX_LEVEL - 5; /* immortal */
+inline constexpr auto L6 = MAX_LEVEL - 6; /* demigod */
+inline constexpr auto L7 = MAX_LEVEL - 7; /* angel */
+inline constexpr auto L8 = MAX_LEVEL - 8; /* avatar */
+inline constexpr auto IM = LEVEL_IMMORTAL; /* angel */
+inline constexpr auto HE = LEVEL_HERO; /* hero */
+}
 
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
 bool MP_Commands(CHAR_DATA *ch);
