@@ -2123,7 +2123,7 @@ void do_description(CHAR_DATA *ch, const char *argument) {
     if (!desc_line.empty()) {
         std::string description = ch->description ? ch->description : "";
         if (desc_line.front() == '+') {
-            description += skip_whitespace(desc_line.substr(1)) + "\n\r";
+            description += ltrim(desc_line.substr(1)) + "\n\r";
         } else if (desc_line == "-") {
             if (description.empty()) {
                 send_to_char("You have no description.\n\r", ch);

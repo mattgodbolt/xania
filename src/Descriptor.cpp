@@ -137,14 +137,14 @@ void Descriptor::page_to(std::string_view page) noexcept {
 
     page_outbuf_ = split_lines<decltype(page_outbuf_)>(page);
     // Drop the last line if it's purely whitespace.
-    if (!page_outbuf_.empty() && skip_whitespace(page_outbuf_.back()).empty())
+    if (!page_outbuf_.empty() && ltrim(page_outbuf_.back()).empty())
         page_outbuf_.pop_back();
     show_next_page("");
 }
 
 void Descriptor::show_next_page(std::string_view input) noexcept {
     // Any non-empty input cancels pagination, as does having no associated character to send to.
-    if (!skip_whitespace(input).empty() || !character_) {
+    if (!ltrim(input).empty() || !character_) {
         page_outbuf_.clear();
         return;
     }
