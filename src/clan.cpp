@@ -106,7 +106,7 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
     }
 
     if (OrigClan->channelflags & CLANCHANNEL_NOCHANNED) {
-        send_to_char("Your clan channel priviledges have been revoked!\n\r", ch);
+        send_to_char("Your clan channel privileges have been revoked!\n\r", ch);
         return;
     }
 
@@ -177,12 +177,12 @@ void do_noclanchan(CHAR_DATA *ch, const char *argument) {
     victim->pcdata->pcclan->channelflags ^= CLANCHANNEL_NOCHANNED; /* Change the victim's flags */
 
     /* Tell the char how things went */
-    snprintf(buf, sizeof(buf), "You have %sed %s's clan channel priviledges.\n\r",
+    snprintf(buf, sizeof(buf), "You have %sed %s's clan channel privileges.\n\r",
              (victim->pcdata->pcclan->channelflags & CLANCHANNEL_NOCHANNED) ? "revok" : "reinstat", victim->name);
     send_to_char(buf, ch);
 
     /* Inform the hapless victim */
-    snprintf(buf, sizeof(buf), "%s has %sed your clan channel priviledges.\n\r", ch->name,
+    snprintf(buf, sizeof(buf), "%s has %sed your clan channel privileges.\n\r", ch->name,
              (victim->pcdata->pcclan->channelflags & CLANCHANNEL_NOCHANNED) ? "revok" : "reinstat");
     buf[0] = UPPER(buf[0]);
     send_to_char(buf, victim);
