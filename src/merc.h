@@ -1117,30 +1117,29 @@ extern bool MOBtrigger;
  * Data which only PC's have.
  */
 struct PC_DATA {
-    PC_DATA *next;
-    char *pwd;
-    char *bamfin;
-    char *bamfout;
-    char *title;
-    char *prompt;
-    char *afk;
-    char *prefix;
-    char *info_message;
-    sh_int houroffset;
-    sh_int minoffset;
-    sh_int perm_hit;
-    sh_int perm_mana;
-    sh_int perm_move;
-    sh_int true_sex;
+    char *pwd{};
+    char *bamfin{};
+    char *bamfout{};
+    std::string title;
+    char *prompt{};
+    char *afk{};
+    char *prefix{};
+    char *info_message{};
+    sh_int houroffset{};
+    sh_int minoffset{};
+    sh_int perm_hit{};
+    sh_int perm_mana{};
+    sh_int perm_move{};
+    sh_int true_sex{};
 
-    int last_level;
-    sh_int condition[3];
-    sh_int learned[MAX_SKILL];
-    bool group_known[MAX_GROUP];
-    sh_int points;
-    bool confirm_delete;
-    bool colour;
-    PCCLAN *pcclan;
+    int last_level{};
+    sh_int condition[3]{};
+    sh_int learned[MAX_SKILL]{};
+    bool group_known[MAX_GROUP]{};
+    sh_int points{};
+    bool confirm_delete{};
+    bool colour{};
+    PCCLAN *pcclan{};
 };
 
 /* Data for generating characters -- only used during generation */
@@ -1587,7 +1586,6 @@ extern AFFECT_DATA *affect_free;
 extern CHAR_DATA *char_free;
 extern EXTRA_DESCR_DATA *extra_descr_free;
 extern OBJ_DATA *obj_free;
-extern PC_DATA *pcdata_free;
 
 extern bool fLogAll;
 extern FILE *fpReserve;
@@ -1643,8 +1641,6 @@ void die_follower(CHAR_DATA *ch);
 bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch);
 void thrown_off(CHAR_DATA *ch, CHAR_DATA *pet);
 void fallen_off_mount(CHAR_DATA *ch);
-/* act_info.c */
-void set_title(CHAR_DATA *ch, const char *title);
 
 /* act_move.c */
 void move_char(CHAR_DATA *ch, int door);
@@ -1681,6 +1677,7 @@ int fread_spnumber(FILE *fp);
 long fread_flag(FILE *fp);
 BUFFER *fread_string_tobuffer(FILE *fp);
 char *fread_string(FILE *fp);
+std::string fread_stdstring(FILE *fp);
 char *fread_string_eol(FILE *fp);
 void fread_to_eol(FILE *fp);
 char *fread_word(FILE *fp);

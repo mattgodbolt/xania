@@ -15,10 +15,14 @@
 #include "interp.h"
 #include "merc.h"
 
+#include <fmt/format.h>
+
 #include <cstdio>
 #include <cstring>
 #include <ctime>
 #include <sys/types.h>
+
+using namespace fmt::literals;
 
 /*
  * Local functions.
@@ -51,8 +55,7 @@ void advance_level(CHAR_DATA *ch) {
     using namespace std::chrono;
     ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
 
-    snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
-    set_title(ch, buf);
+    ch->set_title("the {}"_format(title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]));
 
     add_hp = con_app[get_curr_stat(ch, Stat::Con)].hitp
              + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);
@@ -115,8 +118,7 @@ void lose_level(CHAR_DATA *ch) {
     using namespace std::chrono;
     ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
 
-    snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
-    set_title(ch, buf);
+    ch->set_title("the {}"_format(title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]));
 
     add_hp = con_app[ch->max_stat(Stat::Con)].hitp
              + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);

@@ -1038,7 +1038,7 @@ void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, c
                 } else {
                     strcpy(t, actor->name);
                     strcat(t, " ");
-                    strcat(t, actor->pcdata->title);
+                    strcat(t, actor->pcdata->title.c_str());
                 }
             } else
                 strcpy(t, "someone");
@@ -1062,7 +1062,7 @@ void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, c
                 } else {
                     strcpy(t, vict->name);
                     strcat(t, " ");
-                    strcat(t, vict->pcdata->title);
+                    strcat(t, vict->pcdata->title.c_str());
                 }
             } else {
                 strcpy(t, "someone");
@@ -1087,7 +1087,7 @@ void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, c
                 } else {
                     strcpy(t, rndm->name);
                     strcat(t, " ");
-                    strcat(t, rndm->pcdata->title);
+                    strcat(t, rndm->pcdata->title.c_str());
                 }
             } else
                 strcpy(t, "someone");

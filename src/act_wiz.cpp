@@ -3187,7 +3187,7 @@ void do_string(CHAR_DATA *ch, const char *argument) {
                 return;
             }
 
-            set_title(victim, arg3);
+            victim->set_title(arg3);
             return;
         }
 

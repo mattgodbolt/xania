@@ -1002,8 +1002,7 @@ void nanny(Descriptor *d, const char *argument) {
             ch->move = ch->max_move;
             ch->train = 3;
             ch->practice = 5;
-            snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
-            set_title(ch, buf);
+            ch->send_to("the {}"_format(title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]));
 
             do_outfit(ch, "");
             obj_to_char(create_object(get_obj_index(OBJ_VNUM_MAP), 0), ch);
@@ -1183,9 +1182,8 @@ void send_to_char(std::string_view txt, const CHAR_DATA *ch) { ch->send_to(txt);
  * Send a page to one char.
  */
 void page_to_char(const char *txt, CHAR_DATA *ch) {
-    if (txt == nullptr || ch->desc == nullptr)
-        return;
-    ch->desc->page_to(txt);
+    if (txt)
+        ch->page_to(txt);
 }
 
 void act(const char *format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type) {

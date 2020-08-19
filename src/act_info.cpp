@@ -28,6 +28,7 @@
 #include <ctime>
 #include <sys/time.h>
 
+using namespace std::literals;
 using namespace fmt::literals;
 
 const char *where_name[] = {"<used as light>     ", "<worn on finger>    ", "<worn on finger>    ",
@@ -178,86 +179,80 @@ void show_list_to_char(OBJ_DATA *list, CHAR_DATA *ch, bool fShort, bool fShowNot
 }
 
 void show_char_to_char_0(CHAR_DATA *victim, CHAR_DATA *ch) {
-    char buf[MAX_STRING_LENGTH];
-
-    buf[0] = '\0';
+    std::string buf;
 
     if (IS_AFFECTED(victim, AFF_INVISIBLE))
-        strcat(buf, "(|WInvis|w) ");
+        buf += "(|WInvis|w) ";
     if (!IS_NPC(victim) && IS_SET(victim->act, PLR_WIZINVIS))
-        strcat(buf, "(|RWizi|w) ");
+        buf += "(|RWizi|w) ";
     if (!IS_NPC(victim) && IS_SET(victim->act, PLR_PROWL))
-        strcat(buf, "(|RProwl|w) ");
+        buf += "(|RProwl|w) ";
     if (IS_AFFECTED(victim, AFF_HIDE))
-        strcat(buf, "(|WHide|w) ");
+        buf += "(|WHide|w) ";
     if (IS_AFFECTED(victim, AFF_CHARM))
-        strcat(buf, "(|yCharmed|w) ");
+        buf += "(|yCharmed|w) ";
     if (IS_AFFECTED(victim, AFF_PASS_DOOR))
-        strcat(buf, "(|bTranslucent|w) ");
+        buf += "(|bTranslucent|w) ";
     if (IS_AFFECTED(victim, AFF_FAERIE_FIRE))
-        strcat(buf, "(|PPink Aura|w) ");
+        buf += "(|PPink Aura|w) ";
     if (IS_AFFECTED(victim, AFF_OCTARINE_FIRE))
-        strcat(buf, "(|GOctarine Aura|w) ");
+        buf += "(|GOctarine Aura|w) ";
     if (IS_EVIL(victim) && IS_AFFECTED(ch, AFF_DETECT_EVIL))
-        strcat(buf, "(|rRed Aura|w) ");
+        buf += "(|rRed Aura|w) ";
     if (IS_AFFECTED(victim, AFF_SANCTUARY))
-        strcat(buf, "(|WWhite Aura|w) ");
+        buf += "(|WWhite Aura|w) ";
     if (!IS_NPC(victim) && IS_SET(victim->act, PLR_KILLER))
-        strcat(buf, "(|RKILLER|w) ");
+        buf += "(|RKILLER|w) ";
     if (!IS_NPC(victim) && IS_SET(victim->act, PLR_THIEF))
-        strcat(buf, "(|RTHIEF|w) ");
+        buf += "(|RTHIEF|w) ";
 
     if (is_affected(ch, gsn_bless)) {
         if (IS_SET(victim->act, ACT_UNDEAD)) {
-            strcat(buf, "(|bUndead|w) ");
+            buf += "(|bUndead|w) ";
         }
     }
 
     if (victim->position == victim->start_pos && victim->long_descr[0] != '\0') {
-        strcat(buf, victim->long_descr);
-        send_to_char(buf, ch);
+        buf += victim->long_descr;
+        ch->send_to(buf);
         return;
     }
 
-    strcat(buf, pers(victim, ch));
+    buf += pers(victim, ch);
     if (!IS_NPC(victim) && !IS_SET(ch->comm, COMM_BRIEF))
-        strcat(buf, victim->pcdata->title);
+        buf += victim->pcdata->title;
 
     switch (victim->position) {
-    case POS_DEAD: strcat(buf, " is |RDEAD|w!!"); break;
-    case POS_MORTAL: strcat(buf, " is |Rmortally wounded.|w"); break;
-    case POS_INCAP: strcat(buf, " is |rincapacitated.|w"); break;
-    case POS_STUNNED: strcat(buf, " is |rlying here stunned.|w"); break;
-    case POS_SLEEPING: strcat(buf, " is sleeping here."); break;
-    case POS_RESTING: strcat(buf, " is resting here."); break;
-    case POS_SITTING: strcat(buf, " is sitting here."); break;
+    case POS_DEAD: buf += " is |RDEAD|w!!"; break;
+    case POS_MORTAL: buf += " is |Rmortally wounded.|w"; break;
+    case POS_INCAP: buf += " is |rincapacitated.|w"; break;
+    case POS_STUNNED: buf += " is |rlying here stunned.|w"; break;
+    case POS_SLEEPING: buf += " is sleeping here."; break;
+    case POS_RESTING: buf += " is resting here."; break;
+    case POS_SITTING: buf += " is sitting here."; break;
     case POS_STANDING:
         if (victim->riding != nullptr) {
-            /*       strcat( buf, " is here, riding %s.", victim->riding->name);*/
-            strcat(buf, " is here, riding ");
-            strcat(buf, victim->riding->name);
-            strcat(buf, ".");
+            buf += " is here, riding {}."_format(victim->riding->name);
         } else {
-            strcat(buf, " is here.");
+            buf += " is here.";
         }
         break;
     case POS_FIGHTING:
-        strcat(buf, " is here, fighting ");
+        buf += " is here, fighting ";
         if (victim->fighting == nullptr)
-            strcat(buf, "thin air??");
+            buf += "thin air??";
         else if (victim->fighting == ch)
-            strcat(buf, "|RYOU!|w");
+            buf += "|RYOU!|w";
         else if (victim->in_room == victim->fighting->in_room) {
-            strcat(buf, pers(victim->fighting, ch));
-            strcat(buf, ".");
+            buf += "{}."_format(pers(victim->fighting, ch));
         } else
-            strcat(buf, "somone who left??");
+            buf += "somone who left??";
         break;
     }
 
-    strcat(buf, "\n\r");
+    buf += "\n\r";
     buf[0] = UPPER(buf[0]);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
 }
 
 void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch) {
@@ -1335,8 +1330,7 @@ void do_score(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
-    snprintf(buf, sizeof(buf), "|wYou are: |W%s%s|w.\n\r", ch->name, IS_NPC(ch) ? "" : ch->pcdata->title);
-    send_to_char(buf, ch);
+    ch->send_to("|wYou are: |W{}{}|w.\n\r"_format(ch->name, IS_NPC(ch) ? "" : ch->pcdata->title));
 
     if (get_trust(ch) == ch->level)
         snprintf(buf, sizeof(buf), "Level: |W%d|w", ch->level);
@@ -1567,11 +1561,45 @@ void do_help(CHAR_DATA *ch, const char *argument) {
     send_to_char("No help on that word.\n\r", ch);
 }
 
+namespace {
+
+std::string_view who_class_name_of(const CHAR_DATA &wch) {
+    switch (wch.level) {
+    case MAX_LEVEL - 0: return "|WIMP|w"sv; break;
+    case MAX_LEVEL - 1: return "|YCRE|w"sv; break;
+    case MAX_LEVEL - 2: return "|YSUP|w"sv; break;
+    case MAX_LEVEL - 3: return "|GDEI|w"sv; break;
+    case MAX_LEVEL - 4: return "|GGOD|w"sv; break;
+    case MAX_LEVEL - 5: return "|gIMM|w"sv; break;
+    case MAX_LEVEL - 6: return "|gDEM|w"sv; break;
+    case MAX_LEVEL - 7: return "ANG"sv; break;
+    case MAX_LEVEL - 8: return "AVA"sv; break;
+    }
+    return class_table[wch.class_num].who_name;
+}
+
+std::string_view who_race_name_of(const CHAR_DATA &wch) {
+    return wch.race < MAX_PC_RACE ? pc_race_table[wch.race].who_name : "     "sv;
+}
+
+std::string_view who_clan_name_of(const CHAR_DATA &wch) {
+    return wch.pcdata->pcclan ? wch.pcdata->pcclan->clan->whoname : ""sv;
+}
+
+std::string who_line_for(const CHAR_DATA &to, const CHAR_DATA &wch) {
+    return "[{:2} {} {}] {}{}{}{}{}{}|w{}{}\n\r"_format(
+        wch.level, who_race_name_of(wch), who_class_name_of(wch), who_clan_name_of(wch),
+        IS_SET(wch.act, PLR_KILLER) ? "(|RKILLER|w) " : "", IS_SET(wch.act, PLR_THIEF) ? "(|RTHIEF|w) " : "",
+        IS_SET(wch.act, PLR_AFK) ? "(|cAFK|w) " : "", wch.name, wch.is_pc() ? wch.pcdata->title : "",
+        wch.is_wizinvis() && to.is_immortal() ? " |g(Wizi at level {})|w"_format(wch.invis_level) : "",
+        wch.is_prowlinvis() && to.is_immortal() ? " |g(Prowl level {})|w"_format(wch.invis_level) : "");
+}
+
+}
+
 /* whois command */
 void do_whois(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    char output[MAX_STRING_LENGTH];
-    char buf[MAX_STRING_LENGTH];
     bool found = false;
 
     one_argument(argument, arg);
@@ -1581,50 +1609,16 @@ void do_whois(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    output[0] = '\0';
-
+    std::string output;
     for (auto &d : descriptors().all_visible_to(*ch)) {
-
         auto *wch = d.person();
-
         // TODO: can or should this be part of all_visible_to?
         if (!can_see(ch, wch))
             continue;
 
         if (!str_prefix(arg, wch->name)) {
             found = true;
-
-            /* work out the printing */
-            const auto *class_name = class_table[wch->class_num].who_name;
-            switch (wch->level) {
-            case MAX_LEVEL - 0: class_name = "|WIMP|w"; break;
-            case MAX_LEVEL - 1: class_name = "|YCRE|w"; break;
-            case MAX_LEVEL - 2: class_name = "|YSUP|w"; break;
-            case MAX_LEVEL - 3: class_name = "|GDEI|w"; break;
-            case MAX_LEVEL - 4: class_name = "|GGOD|w"; break;
-            case MAX_LEVEL - 5: class_name = "|gIMM|w"; break;
-            case MAX_LEVEL - 6: class_name = "|gDEM|w"; break;
-            case MAX_LEVEL - 7: class_name = "ANG"; break;
-            case MAX_LEVEL - 8: class_name = "AVA"; break;
-            }
-
-            /* a little formatting */
-            snprintf(buf, sizeof(buf), "[%2d %s %s] %s%s%s%s%s", wch->level,
-                     wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ", class_name,
-                     (wch->pcdata->pcclan) ? (wch->pcdata->pcclan->clan->whoname) : "",
-                     IS_SET(wch->act, PLR_KILLER) ? "(|RKILLER|w) " : "",
-                     IS_SET(wch->act, PLR_THIEF) ? "(|RTHIEF|w) " : "", wch->name,
-                     IS_NPC(wch) ? "" : wch->pcdata->title);
-            strcat(output, buf);
-            if (IS_SET(wch->act, PLR_WIZINVIS) && (get_trust(ch) >= LEVEL_IMMORTAL)) {
-                snprintf(buf, sizeof(buf), " |g(Wizi at level %d)|w", wch->invis_level);
-                strcat(output, buf);
-            }
-            if (IS_SET(wch->act, PLR_PROWL) && (get_trust(ch) >= LEVEL_IMMORTAL)) {
-                snprintf(buf, sizeof(buf), " |g(Prowl level %d)|w", wch->invis_level);
-                strcat(output, buf);
-            }
-            strcat(output, "\n\r");
+            output += who_line_for(*ch, *wch);
         }
     }
 
@@ -1633,16 +1627,13 @@ void do_whois(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    page_to_char(output, ch);
+    ch->page_to(output);
 }
 
 /*
  * New 'who' command originally by Alander of Rivers of Mud.
  */
 void do_who(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-    char buf2[MAX_STRING_LENGTH];
-    char output[4 * MAX_STRING_LENGTH];
     int iClass;
     int iRace;
     int iClan;
@@ -1735,8 +1726,7 @@ void do_who(CHAR_DATA *ch, const char *argument) {
      * Now show matching chars.
      */
     nMatch = 0;
-    buf[0] = '\0';
-    output[0] = '\0';
+    std::string output;
     for (auto &d : descriptors().all_visible_to(*ch)) {
         // Check for match against restrictions.
         // Don't use trust as that exposes trusted mortals.
@@ -1762,49 +1752,11 @@ void do_who(CHAR_DATA *ch, const char *argument) {
 
         nMatch++;
 
-        /*
-         * Figure out what to print for class.
-         */
-        const auto *class_name = class_table[wch->class_num].who_name;
-        switch (wch->level) {
-        default: break; {
-            case MAX_LEVEL - 0: class_name = "|WIMP|w"; break;
-            case MAX_LEVEL - 1: class_name = "|YCRE|w"; break;
-            case MAX_LEVEL - 2: class_name = "|YSUP|w"; break;
-            case MAX_LEVEL - 3: class_name = "|GDEI|w"; break;
-            case MAX_LEVEL - 4: class_name = "|GGOD|w"; break;
-            case MAX_LEVEL - 5: class_name = "|gIMM|w"; break;
-            case MAX_LEVEL - 6: class_name = "|gDEM|w"; break;
-            case MAX_LEVEL - 7: class_name = "ANG"; break;
-            case MAX_LEVEL - 8: class_name = "AVA"; break;
-            }
-        }
-
-        /*
-         * Format it up.
-         */
-        snprintf(buf, sizeof(buf), "[%3d %s %s] %s%s%s%s%s%s", wch->level,
-                 wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ", class_name,
-                 IS_SET(wch->act, PLR_KILLER) ? "(|RKILLER|w) " : "", IS_SET(wch->act, PLR_THIEF) ? "(|RTHIEF|w) " : "",
-                 IS_SET(wch->act, PLR_AFK) ? "(|cAFK|w) " : "",
-                 (wch->pcdata->pcclan) ? (wch->pcdata->pcclan->clan->whoname) : "", wch->name,
-                 IS_NPC(wch) ? "" : wch->pcdata->title);
-        strcat(buf, "|w\0");
-        strcat(output, buf);
-        if (IS_SET(wch->act, PLR_WIZINVIS) && (get_trust(ch) >= LEVEL_IMMORTAL)) {
-            snprintf(buf, sizeof(buf), " |g(Wizi at level %d)|w", wch->invis_level);
-            strcat(output, buf);
-        }
-        if (IS_SET(wch->act, PLR_PROWL) && (get_trust(ch) >= LEVEL_IMMORTAL)) {
-            snprintf(buf, sizeof(buf), " |g(Prowl level %d)|w", wch->invis_level);
-            strcat(output, buf);
-        }
-        strcat(output, "\n\r");
+        output += who_line_for(*ch, *wch);
     }
 
-    snprintf(buf2, sizeof(buf2), "\n\rPlayers found: %d\n\r", nMatch);
-    strcat(output, buf2);
-    page_to_char(output, ch);
+    output += "\n\rPlayers found: {}\n\r"_format(nMatch);
+    ch->page_to(output);
 }
 
 void do_count(CHAR_DATA *ch, const char *argument) {
@@ -2040,25 +1992,6 @@ void set_prompt(CHAR_DATA *ch, const char *prompt) {
     ch->pcdata->prompt = str_dup(prompt);
 }
 
-void set_title(CHAR_DATA *ch, const char *title) {
-    char buf[MAX_STRING_LENGTH];
-
-    if (IS_NPC(ch)) {
-        bug("Set_title: NPC.");
-        return;
-    }
-
-    if (title[0] != '.' && title[0] != ',' && title[0] != '!' && title[0] != '?') {
-        buf[0] = ' ';
-        strcpy(buf + 1, title);
-    } else {
-        strcpy(buf, title);
-    }
-
-    free_string(ch->pcdata->title);
-    ch->pcdata->title = str_dup(buf);
-}
-
 void do_title(CHAR_DATA *ch, const char *argument) {
     if (IS_NPC(ch))
         return;
@@ -2072,7 +2005,7 @@ void do_title(CHAR_DATA *ch, const char *argument) {
     if (new_title.length() > 45)
         new_title.resize(45);
 
-    set_title(ch, new_title.c_str());
+    ch->set_title(new_title);
     send_to_char("Ok.\n\r", ch);
 }
 

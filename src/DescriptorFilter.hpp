@@ -16,10 +16,12 @@ struct DescriptorFilter {
         return ranges::views::filter([&ch](const Descriptor &d) { return d.character() != &ch; });
     }
     static auto visible_to(const CHAR_DATA &ch) {
-        return ranges::views::filter([ch](const Descriptor &d) { return d.character() && ch.can_see(*d.character()); });
+        return ranges::views::filter(
+            [&ch](const Descriptor &d) { return d.character() && ch.can_see(*d.character()); });
     }
     static auto can_see(const CHAR_DATA &ch) {
-        return ranges::views::filter([ch](const Descriptor &d) { return d.character() && d.character()->can_see(ch); });
+        return ranges::views::filter(
+            [&ch](const Descriptor &d) { return d.character() && d.character()->can_see(ch); });
     }
     static auto same_area(const CHAR_DATA &ch) {
         auto area = ch.in_room->area;

@@ -695,7 +695,7 @@ void web_who() {
         if (web_see(wch)) {
             fprintf(fp, "<TR><TD>%d</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD>\n", wch->level,
                     wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ",
-                    class_table[wch->class_num].name, wch->name, wch->pcdata->title);
+                    class_table[wch->class_num].name, wch->name, wch->pcdata->title.c_str());
             count++;
         }
     }

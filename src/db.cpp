@@ -46,7 +46,6 @@ SHOP_DATA *shop_last;
 CHAR_DATA *char_free;
 EXTRA_DESCR_DATA *extra_descr_free = nullptr;
 OBJ_DATA *obj_free;
-PC_DATA *pcdata_free;
 
 char bug_buf[2 * MAX_INPUT_LENGTH];
 CHAR_DATA *char_list;
@@ -1913,10 +1912,9 @@ void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
  * Clear a new character.
  */
 void clear_char(CHAR_DATA *ch) {
-    static CHAR_DATA ch_zero;
     int i;
 
-    *ch = ch_zero;
+    *ch = CHAR_DATA();
     ch->name = &str_empty[0];
     ch->short_descr = &str_empty[0];
     ch->long_descr = &str_empty[0];
@@ -1972,16 +1970,14 @@ void free_char(CHAR_DATA *ch) {
     if (ch->clipboard)
         free_string(ch->clipboard);
 
-    if (ch->pcdata != nullptr) {
+    if (ch->pcdata) {
         free_string(ch->pcdata->pwd);
         free_string(ch->pcdata->bamfin);
         free_string(ch->pcdata->bamfout);
-        free_string(ch->pcdata->title);
         free_string(ch->pcdata->prefix); /* PCFN added */
         if (ch->pcdata->pcclan)
             free_mem(ch->pcdata->pcclan, sizeof(*(ch->pcdata->pcclan)));
-        ch->pcdata->next = pcdata_free;
-        pcdata_free = ch->pcdata;
+        ch->pcdata.reset();
     }
 
     ch->next = char_free;
@@ -2355,6 +2351,14 @@ char *fread_string(FILE *fp) {
             }
         }
     }
+}
+
+std::string fread_stdstring(FILE *fp) {
+    // Temporary hack until we can rephrase all this loading stuff.
+    auto str = fread_string(fp);
+    std::string result(str);
+    free_string(str);
+    return result;
 }
 
 char *fread_string_eol(FILE *fp) {
@@ -2765,12 +2769,7 @@ void do_dump(CHAR_DATA *ch, const char *argument) {
             count2 * (sizeof(*fch)));
 
     /* pcdata */
-    count = 0;
-    for (pc = pcdata_free; pc != nullptr; pc = pc->next)
-        count++;
-
-    fprintf(fp, "Pcdata	%4d (%8ld bytes), %2d free (%ld bytes)\n", num_pcs, num_pcs * (sizeof(*pc)), count,
-            count * (sizeof(*pc)));
+    fprintf(fp, "Pcdata	%4d (%8ld bytes)\n", num_pcs, num_pcs * (sizeof(*pc)));
 
     /* descriptors */
     count = static_cast<int>(ranges::distance(descriptors().all()));

@@ -95,7 +95,7 @@ void save_char_obj(CHAR_DATA *ch) {
             perror(strsave);
         }
 
-        fprintf(fp, "Lev %2d Trust %2d  %s%s\n", ch->level, get_trust(ch), ch->name, ch->pcdata->title);
+        fprintf(fp, "Lev %2d Trust %2d  %s%s\n", ch->level, get_trust(ch), ch->name, ch->pcdata->title.c_str());
         fclose(fp);
         fpReserve = fopen(NULL_FILE, "r");
     }
@@ -202,7 +202,7 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
             fprintf(fp, "Bin  %s~\n", ch->pcdata->bamfin);
         if (ch->pcdata->bamfout[0] != '\0')
             fprintf(fp, "Bout %s~\n", ch->pcdata->bamfout);
-        fprintf(fp, "Titl %s~\n", ch->pcdata->title);
+        fprintf(fp, "Titl %s~\n", ch->pcdata->title.c_str());
         fprintf(fp, "Afk %s~\n", ch->pcdata->afk);
         fprintf(fp, "Colo %d\n", ch->pcdata->colour);
         fprintf(fp, "Prmt %s~\n", ch->pcdata->prompt);
@@ -425,7 +425,6 @@ void fwrite_obj(CHAR_DATA *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
  * Load a char and inventory into a new ch structure.
  */
 bool load_char_obj(Descriptor *d, const char *name) {
-    static PC_DATA pcdata_zero;
     char strsave[MAX_INPUT_LENGTH];
     char buf[MAX_STRING_LENGTH * 2];
     CHAR_DATA *ch;
@@ -440,13 +439,7 @@ bool load_char_obj(Descriptor *d, const char *name) {
     }
     clear_char(ch);
 
-    if (pcdata_free == nullptr) {
-        ch->pcdata = static_cast<PC_DATA *>(alloc_perm(sizeof(*ch->pcdata)));
-    } else {
-        ch->pcdata = pcdata_free;
-        pcdata_free = pcdata_free->next;
-    }
-    *ch->pcdata = pcdata_zero;
+    ch->pcdata = std::make_unique<PC_DATA>();
 
     d->character(ch);
     ch->desc = d;
@@ -807,15 +800,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         } else if (word == "trust" || word == "tru") {
             ch->trust = fread_number(fp);
         } else if (word == "title" || word == "titl") {
-            ch->pcdata->title = fread_string(fp);
-            // TODO: this is quite horrible.
-            if (ch->pcdata->title[0] != '.' && ch->pcdata->title[0] != ',' && ch->pcdata->title[0] != '!'
-                && ch->pcdata->title[0] != '?') {
-                char buf[MAX_STRING_LENGTH];
-                snprintf(buf, sizeof(buf), " %s", ch->pcdata->title);
-                free_string(ch->pcdata->title);
-                ch->pcdata->title = str_dup(buf);
-            }
+            ch->set_title(fread_stdstring(fp));
         } else if (word == "version" || word == "vers") {
             ch->version = fread_number(fp);
         } else if (word == "vnum") {

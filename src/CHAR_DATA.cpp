@@ -4,6 +4,10 @@
 #include "merc.h"
 #include "string_utils.hpp"
 
+#include <fmt/format.h>
+
+using namespace fmt::literals;
+
 Seconds CHAR_DATA::total_played() const { return std::chrono::duration_cast<Seconds>(current_time - logon + played); }
 
 bool CHAR_DATA::is_npc() const { return IS_SET(act, ACT_IS_NPC); }
@@ -19,12 +23,14 @@ bool CHAR_DATA::is_berserk() const { return IS_SET(affected_by, AFF_BERSERK); }
 bool CHAR_DATA::has_detect_hidden() const { return IS_SET(affected_by, AFF_DETECT_HIDDEN); }
 bool CHAR_DATA::has_holylight() const { return is_pc() && IS_SET(act, PLR_HOLYLIGHT); }
 
+bool CHAR_DATA::is_wizinvis() const { return is_pc() && IS_SET(act, PLR_WIZINVIS); }
 bool CHAR_DATA::is_wizinvis_to(const CHAR_DATA &victim) const {
-    return is_pc() && IS_SET(act, PLR_WIZINVIS) && victim.get_trust() < invis_level;
+    return is_wizinvis() && victim.get_trust() < invis_level;
 }
 
+bool CHAR_DATA::is_prowlinvis() const { return is_pc() && IS_SET(act, PLR_PROWL); }
 bool CHAR_DATA::is_prowlinvis_to(const CHAR_DATA &victim) const {
-    return is_pc() && IS_SET(act, PLR_PROWL) && in_room != victim.in_room && victim.get_trust() < invis_level;
+    return is_prowlinvis() && in_room != victim.in_room && victim.get_trust() < invis_level;
 }
 
 bool CHAR_DATA::is_immortal() const { return get_trust() >= LEVEL_IMMORTAL; }
@@ -177,4 +183,21 @@ int CHAR_DATA::get_skill(int skill_number) const {
         skill -= 10;
 
     return URANGE(0, skill, 100);
+}
+
+void CHAR_DATA::set_title(std::string title) {
+    if (is_npc()) {
+        bug("set_title: NPC.");
+        return;
+    }
+
+    if (!title.empty() && !ispunct(title[0]))
+        pcdata->title = " {}"_format(title);
+    else
+        pcdata->title = std::move(title);
+}
+
+void CHAR_DATA::page_to(std::string_view txt) const {
+    if (desc)
+        desc->page_to(txt);
 }
