@@ -7,7 +7,6 @@
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/transform.hpp>
 
-#include <cassert>
 #include <unordered_map>
 
 class DescriptorList {
@@ -27,18 +26,15 @@ public:
     [[nodiscard]] auto playing() const noexcept { return all() | DescriptorFilter::playing(); }
 
     // Return all descriptors for playing characters, skipping the given character.
-    [[nodiscard]] auto all_but(const CHAR_DATA *ch) const noexcept {
-        assert(ch);
-        return playing() | DescriptorFilter::except(*ch);
-    }
-    // Return all descriptors for playing characters who are visible to the given character.
-    [[nodiscard]] auto all_visible_to(const CHAR_DATA *ch) const noexcept {
-        assert(ch);
-        return all_but(ch) | DescriptorFilter::visible_to(*ch);
+    [[nodiscard]] auto all_but(const CHAR_DATA &ch) const noexcept { return playing() | DescriptorFilter::except(ch); }
+    // Return all descriptors for playing characters who are visible to the given character, including the character
+    // themselves.
+    [[nodiscard]] auto all_visible_to(const CHAR_DATA &ch) const noexcept {
+        return all() | DescriptorFilter::visible_to(ch);
     }
     // Return all descriptors for playing characters who can see the given character.
-    [[nodiscard]] auto all_who_can_see(const CHAR_DATA *ch) const noexcept {
-        return all_but(ch) | DescriptorFilter::can_see(*ch);
+    [[nodiscard]] auto all_who_can_see(const CHAR_DATA &ch) const noexcept {
+        return all_but(ch) | DescriptorFilter::can_see(ch);
     }
 
     // Try and find a descriptor by channel id.

@@ -341,7 +341,7 @@ void do_clanwho(CHAR_DATA *ch, const char *argument) {
 
     send_to_char("|gCharacter name     |c|||g Clan level|w\n\r", ch);
     send_to_char("|c-------------------+-------------------------------|w\n\r", ch);
-    for (auto &d : descriptors().all_visible_to(ch)) {
+    for (auto &d : descriptors().all_visible_to(*ch)) {
         auto *wch = d.person();
         auto *pcclan = wch->pcdata->pcclan;
         if (pcclan && pcclan->clan->clanchar == ch->pcdata->pcclan->clan->clanchar) {

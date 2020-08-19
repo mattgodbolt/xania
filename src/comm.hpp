@@ -25,8 +25,10 @@ enum class To { Room, NotVict, Vict, Char, GivenRoom };
 
 using Act1Arg = std::variant<nullptr_t, const OBJ_DATA *, std::string_view>;
 using Act2Arg = std::variant<nullptr_t, const OBJ_DATA *, std::string_view, const CHAR_DATA *, const ROOM_INDEX_DATA *>;
-void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type);
-void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type, int min_pos);
-inline void act(const char *format, CHAR_DATA *ch, To type = To::Room) { act(format, ch, nullptr, nullptr, type); }
+void act(const char *format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type);
+void act(const char *format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type, int min_pos);
+inline void act(const char *format, const CHAR_DATA *ch, To type = To::Room) {
+    act(format, ch, nullptr, nullptr, type);
+}
 
 bool send_to_doorman(const Packet *p, const void *extra);

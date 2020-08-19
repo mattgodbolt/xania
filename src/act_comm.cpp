@@ -96,10 +96,9 @@ void announce(const char *buf, CHAR_DATA *ch) {
     if (ch->in_room == nullptr)
         return; /* special case on creation */
 
-    for (auto &d : descriptors().all_who_can_see(ch)) {
-        auto *victim = d.person();
-        if (!IS_SET(victim->comm, COMM_NOANNOUNCE) && !IS_SET(victim->comm, COMM_QUIET))
-            act(buf, victim, nullptr, ch, To::Char, POS_DEAD);
+    for (auto &victim : descriptors().all_who_can_see(*ch) | DescriptorFilter::to_person()) {
+        if (!IS_SET(victim.comm, COMM_NOANNOUNCE) && !IS_SET(victim.comm, COMM_QUIET))
+            act(buf, &victim, nullptr, ch, To::Char, POS_DEAD);
     }
 }
 
@@ -227,9 +226,10 @@ void do_yell(CHAR_DATA *ch, const char *argument) {
         do_afk(ch, nullptr);
 
     act("|WYou yell '$t|W'|w", ch, argument, nullptr, To::Char);
-    for (auto &d : descriptors().all_but(ch) | DescriptorFilter::same_area(*ch)) {
-        if (!IS_SET(d.character()->comm, COMM_QUIET)) {
-            act("|W$n yells '$t|W'|w", ch, argument, d.character(), To::Vict);
+    for (auto &victim :
+         descriptors().all_but(*ch) | DescriptorFilter::same_area(*ch) | DescriptorFilter::to_character()) {
+        if (!IS_SET(victim.comm, COMM_QUIET)) {
+            act("|W$n yells '$t|W'|w", ch, argument, &victim, To::Vict);
         }
     }
 }

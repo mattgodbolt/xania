@@ -35,4 +35,7 @@ struct DescriptorFilter {
     static auto to_character() {
         return ranges::views::transform([](const Descriptor &d) -> const CHAR_DATA & { return *d.character(); });
     }
+    static auto to_person() {
+        return ranges::views::transform([](const Descriptor &d) -> const CHAR_DATA & { return *d.person(); });
+    }
 };

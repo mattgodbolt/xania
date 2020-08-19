@@ -123,7 +123,7 @@ void channel_command(CHAR_DATA *ch, const char *argument, unsigned long chan_fla
 
         snprintf(buf, sizeof(buf), desc_self, argument);
         send_to_char(buf, ch);
-        for (auto &d : descriptors().all_but(ch)) {
+        for (auto &d : descriptors().all_but(*ch)) {
             auto *victim = d.person();
             if (!IS_SET(victim->comm, chan_flag) && !IS_SET(victim->comm, COMM_QUIET)) {
                 act(desc_other, ch, argument, d.character(), To::Vict, POS_DEAD);

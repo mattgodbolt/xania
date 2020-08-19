@@ -31,5 +31,5 @@ struct CHAR_DATA;
 void do_note(CHAR_DATA *ch, const char *argument);
 void note_initialise();
 int note_count(CHAR_DATA *ch);
-int is_note_to(CHAR_DATA *ch, NOTE_DATA *note);
+int is_note_to(const CHAR_DATA *ch, const NOTE_DATA *note);
 void note_announce(CHAR_DATA *chsender, NOTE_DATA *note);

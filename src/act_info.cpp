@@ -1583,7 +1583,7 @@ void do_whois(CHAR_DATA *ch, const char *argument) {
 
     output[0] = '\0';
 
-    for (auto &d : descriptors().all_visible_to(ch)) {
+    for (auto &d : descriptors().all_visible_to(*ch)) {
 
         auto *wch = d.person();
 
@@ -1737,7 +1737,7 @@ void do_who(CHAR_DATA *ch, const char *argument) {
     nMatch = 0;
     buf[0] = '\0';
     output[0] = '\0';
-    for (auto &d : descriptors().all_visible_to(ch)) {
+    for (auto &d : descriptors().all_visible_to(*ch)) {
         // Check for match against restrictions.
         // Don't use trust as that exposes trusted mortals.
         // added Faramir 13/8/96 because switched imms were visible to all
@@ -1809,7 +1809,7 @@ void do_who(CHAR_DATA *ch, const char *argument) {
 
 void do_count(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    auto count = static_cast<size_t>(ranges::distance(descriptors().all_visible_to(ch)));
+    auto count = static_cast<size_t>(ranges::distance(descriptors().all_visible_to(*ch)));
     max_on = std::max(count, max_on);
 
     if (max_on == count)
@@ -1955,11 +1955,11 @@ void do_where(CHAR_DATA *ch, const char *argument) {
     if (arg[0] == '\0') {
         send_to_char("|cYou are in {}\n\rPlayers near you:|w\n\r"_format(ch->in_room->area->areaname), ch);
         auto found = false;
-        for (auto &d : descriptors().all_visible_to(ch)) {
-            auto *victim = d.character();
-            if (!IS_NPC(victim) && victim->in_room != nullptr && victim->in_room->area == ch->in_room->area) {
+        for (auto &victim : descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch)
+                                | DescriptorFilter::same_area(*ch) | DescriptorFilter::to_character()) {
+            if (victim.is_pc()) {
                 found = true;
-                snprintf(buf, sizeof(buf), "|W%-28s|w %s\n\r", victim->name, victim->in_room->name);
+                snprintf(buf, sizeof(buf), "|W%-28s|w %s\n\r", victim.name, victim.in_room->name);
                 send_to_char(buf, ch);
             }
         }

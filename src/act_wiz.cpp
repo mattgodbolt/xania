@@ -402,7 +402,6 @@ void do_transfer(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
-    CHAR_DATA *victim;
 
     argument = one_argument(argument, arg1);
     argument = one_argument(argument, arg2);
@@ -413,10 +412,11 @@ void do_transfer(CHAR_DATA *ch, const char *argument) {
     }
 
     if (!str_cmp(arg1, "all")) {
-        for (auto &d : descriptors().all_visible_to(ch)) {
-            if (d.character()->in_room != nullptr) {
+        for (auto &victim :
+             descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch) | DescriptorFilter::to_character()) {
+            if (victim.in_room != nullptr) {
                 char buf[MAX_STRING_LENGTH];
-                bug_snprintf(buf, sizeof(buf), "%s %s", d.character()->name, arg2);
+                bug_snprintf(buf, sizeof(buf), "%s %s", victim.name, arg2);
                 do_transfer(ch, buf);
             }
         }
@@ -440,6 +440,7 @@ void do_transfer(CHAR_DATA *ch, const char *argument) {
         }
     }
 
+    CHAR_DATA *victim;
     if ((victim = get_char_world(ch, arg1)) == nullptr) {
         send_to_char("They aren't here.\n\r", ch);
         return;
