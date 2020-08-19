@@ -21,9 +21,10 @@ public:
         return descriptors_ | ranges::views::transform([](auto &pr) -> Descriptor & { return pr.second; });
     }
 
-    // Return all descriptors for characters in the "playing" state.
+    // Return all descriptors for characters in the "playing" state. Accounts for the rare case where a quitting player
+    // is briefly "playing" but has no "person" behind the descriptor.
     [[nodiscard]] auto playing() const noexcept {
-        return all() | ranges::views::filter([](const Descriptor &d) { return d.is_playing(); });
+        return all() | ranges::views::filter([](const Descriptor &d) { return d.is_playing() && d.person(); });
     }
 
     // Return all descriptors for playing characters, skipping the given character.
