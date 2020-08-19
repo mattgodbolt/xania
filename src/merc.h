@@ -26,13 +26,14 @@
 
 #pragma once
 
+#include "CHAR_DATA.hpp"
+#include "Stats.hpp"
+#include "Types.hpp"
 #include "clan.h"
 #include "common/Time.hpp"
 #include "version.h"
 
-#include <array>
 #include <crypt.h>
-#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
@@ -40,56 +41,28 @@
 #include <unistd.h>
 #include <utility>
 
-struct CHAR_DATA;
-
-/**
- * Function pointers for spells.
- */
-typedef void (*SpellFunc)(int spell_num, int level, CHAR_DATA *ch, void *vo);
-/**
- * Function pointer for NPC special behaviours.
- */
-typedef bool (*SpecialFunc)(CHAR_DATA *ch);
-
-#define MAX_SIGNALS 16
-
-/*
- * Short scalar types.
- * Diavolo reports AIX compiler has bugs with short types.
- */
-
-typedef short int sh_int;
-typedef unsigned short int ush_int;
-
 /* Buffer structure */
 typedef struct _BUFFER BUFFER;
 
 /*
  * Structure types.
  */
-typedef struct affect_data AFFECT_DATA;
 typedef struct area_data AREA_DATA;
 typedef struct ban_data BAN_DATA;
-struct CHAR_DATA;
 class Descriptor;
 typedef struct exit_data EXIT_DATA;
 typedef struct extra_descr_data EXTRA_DESCR_DATA;
 typedef struct help_data HELP_DATA;
 typedef struct kill_data KILL_DATA;
-typedef struct mob_index_data MOB_INDEX_DATA;
-typedef struct note_data NOTE_DATA;
-typedef struct obj_data OBJ_DATA;
+struct OBJ_DATA;
 typedef struct obj_index_data OBJ_INDEX_DATA;
-typedef struct pc_data PC_DATA;
 typedef struct program PROGRAM;
-typedef struct gen_data GEN_DATA;
 typedef struct reset_data RESET_DATA;
-typedef struct room_index_data ROOM_INDEX_DATA;
+struct ROOM_INDEX_DATA;
 typedef struct shop_data SHOP_DATA;
 typedef struct known_players KNOWN_PLAYERS; // TODO(#108) remove if unused.
 /* Merc22 MOBProgs */
 typedef struct mob_prog_data MPROG_DATA; /* MOBprogram */
-typedef struct mob_prog_act_list MPROG_ACT_LIST; /* MOBprogram */
 
 /*
  * String and memory management parameters.
@@ -229,30 +202,6 @@ struct shop_data {
  * Per-class stuff.
  */
 
-static constexpr inline auto MAX_GUILD = 3;
-enum class Stat {
-    // Order is important: this is the order these are specified in the pfiles and area files.
-    Str = 0,
-    Int = 1,
-    Wis = 2,
-    Dex = 3,
-    Con = 4
-};
-static constexpr inline auto MAX_STATS = 5;
-
-class Stats {
-    std::array<sh_int, MAX_STATS> stats_{};
-
-public:
-    Stats() = default;
-    Stats(sh_int strength, sh_int intelligence, sh_int wisdom, sh_int dexterity, sh_int constitution)
-        : stats_{{strength, intelligence, wisdom, dexterity, constitution}} {}
-    sh_int &operator[](Stat stat) { return stats_[static_cast<size_t>(stat)]; }
-    sh_int operator[](Stat stat) const { return stats_[static_cast<size_t>(stat)]; }
-    friend auto begin(Stats &stat) { return stat.stats_.begin(); }
-    friend auto end(Stats &stat) { return stat.stats_.end(); }
-};
-
 struct class_type {
     const char *name; /* the full name of the class */
     char who_name[4]; /* Three-letter name for 'who'  */
@@ -322,7 +271,7 @@ struct pc_race_type /* additional data for pc races */
 /*
  * An affect.
  */
-struct affect_data {
+struct AFFECT_DATA {
     AFFECT_DATA *next;
     sh_int type;
     sh_int level;
@@ -994,35 +943,6 @@ static inline constexpr auto ff = BIT(31);
  ***************************************************************************/
 
 /*
- * Extra flags
- */
-#define MAX_EXTRA_FLAGS 64
-#define EXTRA_WIZNET_ON 0
-#define EXTRA_WIZNET_DEBUG 1
-#define EXTRA_WIZNET_MORT 2
-#define EXTRA_WIZNET_IMM 3
-#define EXTRA_WIZNET_BUG 4
-#define EXTRA_PERMIT 5
-#define EXTRA_WIZNET_TICK 6
-
-// Some bits no longer used here. Be aware there *could* be legacy player files where
-// these bits are enabled so consider that if you decide to repurpose them. And
-// maybe write some migration code to force it off on login if the new feature
-// is sensitive to the bit.
-#define EXTRA_UNUSED_1 9
-#define EXTRA_UNUSED_2 10
-
-#define EXTRA_INFO_MESSAGE 11
-
-#define EXTRA_UNUSED_3 12
-
-#define EXTRA_TIP_WIZARD 14
-#define EXTRA_TIP_UNUSED_4 15
-#define EXTRA_TIP_ADVANCED 16
-
-extern const char *flagname_extra[];
-
-/*
  * Conditions.
  */
 #define COND_DRUNK 0
@@ -1115,7 +1035,7 @@ extern const char *flagname_extra[];
  * Prototype for a mob.
  * This is the in-memory version of #MOBILES.
  */
-struct mob_index_data {
+struct MOB_INDEX_DATA {
     MOB_INDEX_DATA *next;
     SpecialFunc spec_fun;
     SHOP_DATA *pShop;
@@ -1158,102 +1078,10 @@ struct mob_index_data {
 };
 
 /*
- * One character (PC or NPC).
- */
-struct CHAR_DATA {
-    CHAR_DATA *next;
-    CHAR_DATA *next_in_room;
-    CHAR_DATA *master;
-    CHAR_DATA *leader;
-    CHAR_DATA *fighting;
-    CHAR_DATA *reply;
-    CHAR_DATA *pet;
-    CHAR_DATA *riding;
-    CHAR_DATA *ridden_by;
-    SpecialFunc spec_fun;
-    MOB_INDEX_DATA *pIndexData;
-    Descriptor *desc;
-    AFFECT_DATA *affected;
-    NOTE_DATA *pnote;
-    OBJ_DATA *carrying;
-    ROOM_INDEX_DATA *in_room;
-    ROOM_INDEX_DATA *was_in_room;
-    PC_DATA *pcdata;
-    GEN_DATA *gen_data;
-    char *name;
-
-    sh_int version;
-    char *short_descr;
-    char *long_descr;
-    char *description;
-    char *sentient_victim;
-    sh_int sex;
-    sh_int class_num;
-    sh_int race;
-    sh_int level;
-    sh_int trust;
-    Seconds played;
-    int lines; /* for the pager */
-    Time logon;
-    Time last_note;
-    sh_int timer;
-    sh_int wait;
-    sh_int hit;
-    sh_int max_hit;
-    sh_int mana;
-    sh_int max_mana;
-    sh_int move;
-    sh_int max_move;
-    long gold;
-    long exp;
-    unsigned long act;
-    unsigned long comm; /* RT added to pad the vector */
-    unsigned long imm_flags;
-    unsigned long res_flags;
-    unsigned long vuln_flags;
-    sh_int invis_level;
-    unsigned int affected_by;
-    sh_int position;
-    sh_int practice;
-    sh_int train;
-    sh_int carry_weight;
-    sh_int carry_number;
-    sh_int saving_throw;
-    sh_int alignment;
-    sh_int hitroll;
-    sh_int damroll;
-    sh_int armor[4];
-    sh_int wimpy;
-    /* stats */
-    Stats perm_stat;
-    Stats mod_stat;
-    /* parts stuff */
-    unsigned long form;
-    unsigned long parts;
-    sh_int size;
-    sh_int material;
-    unsigned long hit_location; /* for verbose combat sequences */
-    /* mobile stuff */
-    unsigned long off_flags;
-    sh_int damage[3];
-    sh_int dam_type;
-    sh_int start_pos;
-    sh_int default_pos;
-
-    char *clipboard;
-    unsigned long extra_flags[(MAX_EXTRA_FLAGS / 32) + 1];
-
-    MPROG_ACT_LIST *mpact; /* Used by MOBprogram */
-    int mpactnum; /* Used by MOBprogram */
-
-    Seconds total_played() const;
-};
-
-/*
  * MOBprogram block
  */
 
-struct mob_prog_act_list {
+struct MPROG_ACT_LIST {
     MPROG_ACT_LIST *next;
     char *buf;
     const CHAR_DATA *ch;
@@ -1288,7 +1116,7 @@ extern bool MOBtrigger;
 /*
  * Data which only PC's have.
  */
-struct pc_data {
+struct PC_DATA {
     PC_DATA *next;
     char *pwd;
     char *bamfin;
@@ -1316,7 +1144,7 @@ struct pc_data {
 };
 
 /* Data for generating characters -- only used during generation */
-struct gen_data {
+struct GEN_DATA {
     GEN_DATA *next;
     bool skill_chosen[MAX_SKILL];
     bool group_chosen[MAX_GROUP];
@@ -1396,7 +1224,7 @@ struct obj_index_data {
 /*
  * One object.
  */
-struct obj_data {
+struct OBJ_DATA {
     OBJ_DATA *next;
     OBJ_DATA *next_content;
     OBJ_DATA *contains;
@@ -1498,7 +1326,7 @@ typedef struct _tip_type {
 /*
  * Room type.
  */
-struct room_index_data {
+struct ROOM_INDEX_DATA {
     ROOM_INDEX_DATA *next;
     CHAR_DATA *people;
     OBJ_DATA *contents;
@@ -1514,18 +1342,6 @@ struct room_index_data {
 
     RESET_DATA *reset_first;
     RESET_DATA *reset_last;
-};
-
-/* Data structure for notes. */
-struct note_data {
-    NOTE_DATA *next;
-    NOTE_DATA *prev;
-    char *sender;
-    char *date;
-    char *to_list;
-    char *subject;
-    BUFFER *text;
-    Time date_stamp;
 };
 
 /*

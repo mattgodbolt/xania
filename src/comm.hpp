@@ -9,8 +9,8 @@
 #include <variant>
 
 struct CHAR_DATA;
-typedef struct obj_data OBJ_DATA;
-typedef struct room_index_data ROOM_INDEX_DATA;
+struct OBJ_DATA;
+struct ROOM_INDEX_DATA;
 
 void game_loop_unix(Fd control);
 Fd init_socket(const char *file);

@@ -61,7 +61,11 @@ add_library(xania_lib STATIC
         WeatherData.cpp WeatherData.hpp
         WrappedFd.cpp WrappedFd.hpp
         nth.hpp nth.cpp
-        DescriptorList.hpp DescriptorList.cpp)
+        DescriptorList.hpp DescriptorList.cpp
+        CHAR_DATA.cpp CHAR_DATA.hpp
+        Types.hpp
+        Stats.hpp
+        ExtraFlags.hpp)
 target_link_libraries(xania_lib xania_common crypt chat CONAN_PKG::fmt CONAN_PKG::range-v3)
 
 add_executable(xania main.cpp)
