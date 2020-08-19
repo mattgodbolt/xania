@@ -73,21 +73,24 @@ bool CHAR_DATA::can_see(const CHAR_DATA &victim) const {
     if (victim.is_invisible() && !has_detect_invis())
         return false;
 
-    // Sneaking.
-    if (victim.is_sneaking() && !has_detect_invis() && !victim.fighting && is_npc() ? victim.is_pc()
-                                                                                    : victim.is_npc()) {
-        auto chance = victim.get_skill(gsn_sneak);
-        chance += curr_stat(Stat::Dex) * 3 / 2;
-        chance -= curr_stat(Stat::Int) * 2;
-        chance += level - victim.level * 3 / 2;
+    // Sneak and hide work only for PCs sneaking/hiding against NPCs and vice versa, and for when the victim is not in a
+    // fight.
+    if (!victim.fighting && victim.is_npc() != is_npc()) {
 
-        if (number_percent() < chance)
+        if (victim.is_sneaking() && !has_detect_invis()) {
+            // Sneak is skill based.
+            auto chance = victim.get_skill(gsn_sneak);
+            chance += curr_stat(Stat::Dex) * 3 / 2;
+            chance -= curr_stat(Stat::Int) * 2;
+            chance += level - victim.level * 3 / 2;
+
+            if (number_percent() < chance)
+                return false;
+        }
+
+        if (victim.is_hiding() && !has_detect_hidden())
             return false;
     }
-
-    // Hiding.
-    if (victim.is_hiding() && !has_detect_hidden() && !victim.fighting && is_npc() ? victim.is_pc() : victim.is_npc())
-        return false;
 
     return true;
 }
