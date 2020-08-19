@@ -1177,13 +1177,7 @@ bool check_playing(Descriptor *d, char *name) {
     return false;
 }
 
-// Write to one char.
-void send_to_char(std::string_view txt, const CHAR_DATA *ch) {
-    if (txt.empty() || ch->desc == nullptr || !ch->desc->person())
-        return;
-
-    ch->desc->write(colourise_mud_string(ch->desc->person()->pcdata->colour, txt));
-}
+void send_to_char(std::string_view txt, const CHAR_DATA *ch) { ch->send_to(txt); }
 
 /*
  * Send a page to one char.

@@ -20,9 +20,6 @@
 #include <ctime>
 #include <sys/types.h>
 
-/* Few external functions */
-int get_max_stat(CHAR_DATA *ch, Stat stat);
-
 /*
  * Local functions.
  */
@@ -121,13 +118,13 @@ void lose_level(CHAR_DATA *ch) {
     snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
     set_title(ch, buf);
 
-    add_hp = con_app[get_max_stat(ch, Stat::Con)].hitp
+    add_hp = con_app[ch->max_stat(Stat::Con)].hitp
              + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);
-    add_mana = (number_range(2, (2 * get_max_stat(ch, Stat::Int) + get_max_stat(ch, Stat::Wis)) / 5)
+    add_mana = (number_range(2, (2 * ch->max_stat(Stat::Int) + ch->max_stat(Stat::Wis)) / 5)
                 * class_table[ch->class_num].fMana)
                / 10;
-    add_move = number_range(1, (get_max_stat(ch, Stat::Con) + get_max_stat(ch, Stat::Dex)) / 6);
-    add_prac = -(wis_app[get_max_stat(ch, Stat::Wis)].practice);
+    add_move = number_range(1, (ch->max_stat(Stat::Con) + ch->max_stat(Stat::Dex)) / 6);
+    add_prac = -(wis_app[ch->max_stat(Stat::Wis)].practice);
 
     add_hp = add_hp * 9 / 10;
     add_mana = add_mana * 9 / 10;

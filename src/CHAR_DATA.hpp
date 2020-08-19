@@ -104,4 +104,42 @@ struct CHAR_DATA {
     int mpactnum; /* Used by MOBprogram */
 
     [[nodiscard]] Seconds total_played() const;
+
+    // True if char can see victim.
+    [[nodiscard]] bool can_see(const CHAR_DATA &victim) const;
+
+    [[nodiscard]] bool is_npc() const;
+    [[nodiscard]] bool is_pc() const { return !is_npc(); }
+    [[nodiscard]] bool is_blind() const;
+    [[nodiscard]] bool is_warrior() const;
+    [[nodiscard]] bool is_thief() const;
+    [[nodiscard]] bool is_invisible() const;
+    [[nodiscard]] bool is_sneaking() const;
+    [[nodiscard]] bool is_hiding() const;
+    [[nodiscard]] bool is_berserk() const;
+    [[nodiscard]] bool has_detect_invis() const;
+    [[nodiscard]] bool has_detect_hidden() const;
+    [[nodiscard]] bool has_infrared() const;
+
+    [[nodiscard]] bool is_wizinvis_to(const CHAR_DATA &victim) const;
+    [[nodiscard]] bool is_prowlinvis_to(const CHAR_DATA &victim) const;
+
+    // Retrieve a character's trusted level for permission checking.
+    [[nodiscard]] int get_trust() const;
+
+    [[nodiscard]] bool has_holylight() const;
+    [[nodiscard]] bool is_immortal() const;
+
+    // Return a character's skill at the given skill number
+    [[nodiscard]] int get_skill(int skill_number) const;
+
+    // Get current and maximum stats.
+    [[nodiscard]] sh_int curr_stat(Stat stat) const;
+    [[nodiscard]] sh_int max_stat(Stat stat) const;
+
+    // Return true if a char is affected by a spell.
+    [[nodiscard]] bool is_affected_by(int skill_number) const;
+
+    // Send text to this character's uesr (if they have one).
+    void send_to(std::string_view txt) const;
 };

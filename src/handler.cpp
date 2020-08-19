@@ -167,70 +167,7 @@ int check_immune(CHAR_DATA *ch, int dam_type) {
 }
 
 /* for returning skill information */
-int get_skill(const CHAR_DATA *ch, int sn) {
-    int skill;
-
-    if (sn == -1) /* shorthand for level based skills */
-    {
-        skill = ch->level * 5 / 2;
-    }
-
-    else if (sn < -1 || sn > MAX_SKILL) {
-        bug("Bad sn %d in get_skill.", sn);
-        skill = 0;
-    }
-
-    else if (!IS_NPC(ch)) {
-        if (ch->level < get_skill_level(ch, sn))
-            skill = 0;
-        else
-            skill = ch->pcdata->learned[sn];
-    }
-
-    else /* mobiles */
-    {
-
-        if (sn == gsn_sneak)
-            skill = ch->level * 2 + 20;
-
-        if (sn == gsn_second_attack && (IS_SET(ch->act, ACT_WARRIOR) || IS_SET(ch->act, ACT_THIEF)))
-            skill = 10 + 3 * ch->level;
-
-        else if (sn == gsn_third_attack && IS_SET(ch->act, ACT_WARRIOR))
-            skill = 4 * ch->level - 40;
-
-        else if (sn == gsn_hand_to_hand)
-            skill = 40 + 2 * ch->level;
-
-        else if (sn == gsn_trip && IS_SET(ch->off_flags, OFF_TRIP))
-            skill = 10 + 3 * ch->level;
-
-        else if (sn == gsn_bash && IS_SET(ch->off_flags, OFF_BASH))
-            skill = 10 + 3 * ch->level;
-
-        else if (sn == gsn_disarm
-                 && (IS_SET(ch->off_flags, OFF_DISARM) || IS_SET(ch->act, ACT_WARRIOR) || IS_SET(ch->act, ACT_THIEF)))
-            skill = 20 + 3 * ch->level;
-
-        else if (sn == gsn_berserk && IS_SET(ch->off_flags, OFF_BERSERK))
-            skill = 3 * ch->level;
-
-        else if (sn == gsn_sword || sn == gsn_dagger || sn == gsn_spear || sn == gsn_mace || sn == gsn_axe
-                 || sn == gsn_flail || sn == gsn_whip || sn == gsn_polearm)
-            skill = 40 + 5 * ch->level / 2;
-
-        else
-            skill = 0;
-    }
-
-    if (IS_AFFECTED(ch, AFF_BERSERK))
-        skill -= ch->level / 2;
-
-    if (is_affected(ch, gsn_insanity))
-        skill -= 10;
-
-    return URANGE(0, skill, 100);
-}
+int get_skill(const CHAR_DATA *ch, int sn) { return ch->get_skill(sn); }
 
 /* for returning weapon information */
 int get_weapon_sn(CHAR_DATA *ch) {
@@ -454,26 +391,13 @@ void reset_char(CHAR_DATA *ch) {
         ch->sex = ch->pcdata->true_sex;
 }
 
-/*
- * Retrieve a character's trusted level for permission checking.
- */
+// TODO remove me
 int get_trust(const CHAR_DATA *ch) {
-
     if (ch == nullptr) {
         bug("ch == nullptr in get_trust()");
         return 0;
     }
-
-    if (ch->desc != nullptr && ch->desc->is_switched())
-        ch = ch->desc->original();
-
-    if (ch->trust != 0)
-        return ch->trust;
-
-    if (IS_NPC(ch) && ch->level >= LEVEL_HERO)
-        return LEVEL_HERO - 1;
-    else
-        return ch->level;
+    return ch->get_trust();
 }
 
 /*
@@ -485,52 +409,7 @@ int get_age(const CHAR_DATA *ch) {
 }
 
 /* command for retrieving stats */
-int get_curr_stat(const CHAR_DATA *ch, Stat stat) {
-    int max;
-
-    if (IS_NPC(ch) || ch->level > LEVEL_IMMORTAL)
-        max = 25;
-
-    else {
-        max = pc_race_table[ch->race].max_stats[stat] + 4;
-
-        /*     if (ch->race != race_lookup("dragon")) */
-        if (class_table[ch->class_num].attr_prime == stat)
-            max += 2;
-
-        /*if ( ch->race == race_lookup("human"))
-        max += 1;*/
-
-        max = UMIN(max, 25);
-    }
-
-    return URANGE(3, ch->perm_stat[stat] + ch->mod_stat[stat], max);
-}
-
-/* Written by DEATH, because he's KEWl */
-int get_max_stat(CHAR_DATA *ch, Stat stat) {
-    int max;
-
-    if (IS_NPC(ch) || ch->level > LEVEL_IMMORTAL)
-        max = 25;
-
-    else {
-        max = pc_race_table[ch->race].max_stats[stat] + 4;
-
-        /*if (ch->race != race_lookup("dragon"))*/
-        if (class_table[ch->class_num].attr_prime == stat)
-            max += 2;
-
-        /*
-          if ( ch->race == race_lookup("human"))
-          max += 1;
-         */
-
-        max = UMIN(max, 25);
-    }
-
-    return max;
-}
+int get_curr_stat(const CHAR_DATA *ch, Stat stat) { return ch->curr_stat(stat); }
 
 /* command for returning max training score */
 int get_max_train(CHAR_DATA *ch, Stat stat) {
@@ -808,19 +687,7 @@ void affect_strip(CHAR_DATA *ch, int sn) {
     }
 }
 
-/*
- * Return true if a char is affected by a spell.
- */
-bool is_affected(const CHAR_DATA *ch, int sn) {
-    AFFECT_DATA *paf;
-
-    for (paf = ch->affected; paf != nullptr; paf = paf->next) {
-        if (paf->type == sn)
-            return true;
-    }
-
-    return false;
-}
+bool is_affected(const CHAR_DATA *ch, int sn) { return ch->is_affected_by(sn); }
 
 /*
  * Returns the AFFECT_DATA * structure for a char
@@ -1732,59 +1599,15 @@ bool can_see_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
     return true;
 }
 
-/*
- * True if char can see victim.
- */
 bool can_see(const CHAR_DATA *ch, const CHAR_DATA *victim) {
-
     /* without this block, poor code involving descriptors would
        crash the mud - Fara 13/8/96 */
+    // MRG notes, not seen in any logs thus far, candidate for deletion.
     if (victim == nullptr) {
         bug("can_see: victim is nullptr");
         return false;
     }
-
-    /* RT changed so that WIZ_INVIS has levels */
-    if (ch == victim)
-        return true;
-
-    if (!IS_NPC(victim) && IS_SET(victim->act, PLR_WIZINVIS) && get_trust(ch) < victim->invis_level)
-        return false;
-
-    if (!IS_NPC(victim) && IS_SET(victim->act, PLR_PROWL) && ch->in_room != victim->in_room
-        && get_trust(ch) < victim->invis_level) /* paranoia check */
-        return false;
-
-    if ((!IS_NPC(ch) && IS_SET(ch->act, PLR_HOLYLIGHT)) || (IS_NPC(ch) && IS_IMMORTAL(ch)))
-        return true;
-
-    if (IS_AFFECTED(ch, AFF_BLIND))
-        return false;
-
-    if (room_is_dark(ch->in_room) && !IS_AFFECTED(ch, AFF_INFRARED))
-        return false;
-
-    if (IS_AFFECTED(victim, AFF_INVISIBLE) && !IS_AFFECTED(ch, AFF_DETECT_INVIS))
-        return false;
-
-    /* sneaking */
-    if (IS_AFFECTED(victim, AFF_SNEAK) && !IS_AFFECTED(ch, AFF_DETECT_HIDDEN) && victim->fighting == nullptr
-        && (IS_NPC(ch) ? !IS_NPC(victim) : IS_NPC(victim))) {
-        int chance;
-        chance = get_skill(victim, gsn_sneak);
-        chance += get_curr_stat(ch, Stat::Dex) * 3 / 2;
-        chance -= get_curr_stat(ch, Stat::Int) * 2;
-        chance += ch->level - victim->level * 3 / 2;
-
-        if (number_percent() < chance)
-            return false;
-    }
-
-    if (IS_AFFECTED(victim, AFF_HIDE) && !IS_AFFECTED(ch, AFF_DETECT_HIDDEN) && victim->fighting == nullptr
-        && (IS_NPC(ch) ? !IS_NPC(victim) : IS_NPC(victim)))
-        return false;
-
-    return true;
+    return ch->can_see(*victim);
 }
 
 /*
