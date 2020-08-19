@@ -55,9 +55,6 @@ Database &Eliza::get_database_by_name(std::string names) {
  * Registers all of the words in 'names' with the specified Database reference.
  */
 void Eliza::register_database_names(std::string &names, Database &database) {
-    // Split on space and register each word to the database.
-    // The individual words used when searching for a database
-    // by words in an NPC name.
     std::string::size_type pos = 0, last = 0;
     while ((pos = names.find(" ", pos)) != std::string::npos) {
         std::string name(lower_case(names.substr(last, pos - last)));
@@ -94,14 +91,12 @@ bool Eliza::load_databases(const char *file) {
         if (!line.empty()) {
             if (line[0] >= '1' && line[0] <= '9') {
                 ensure_database_open(current_db_num, line_count);
-                // Add a new WeightedResponse to the current KeywordResponses entry.
                 current_keyword_responses.back().add_response(line[0] - '0', line.substr(1));
             } else
                 switch (line[0]) {
                 case '\0': break;
                 case '(':
                     ensure_database_open(current_db_num, line_count);
-                    // Add a new KeywordResponses object to the current keyword_responses.
                     current_keyword_responses.emplace_back(line);
                     break;
                 case '#': break;

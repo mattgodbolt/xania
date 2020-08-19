@@ -44,33 +44,36 @@ bool Database::eval_operator(const char op, const int a, const int b) const {
     }
 }
 
+/**
+ *  Finds the end position within input_msg that current_db_keyword ends at, with case insensitive matching.
+ * If the db keyword starts with = then the input_msg must be an exact match (again, case insensitive).
+ * If the db keyword start with ^ then the input_msg must begin with the db keyword.
+ * Returns the position at which the remainder of input_msg begins, or 0 if no match was found.
+ * The remainder is used in some response messages to echo back the rest of the user's input using the $r variable.
+ * Although this could go into string_utils, it's pretty specialized so keeping it here for the time being.
+ */
 int Database::strpos(std::string_view input_msg, std::string_view current_db_keyword) const {
     auto input_msg_len = input_msg.size();
     auto keyword_len = current_db_keyword.size();
-    size_t a;
-    int run;
-    int space = 1;
+    std::string input_lower = lower_case(input_msg);
     if (current_db_keyword[0] == '=') { // = exact equality operator
-        return strcasecmp(&current_db_keyword[1], input_msg.data()) ? 0 : input_msg_len;
+        return current_db_keyword.substr(1) == input_lower
+                   ? input_msg_len
+                   : 0; // strcasecmp(&current_db_keyword[1], input_msg.data()) ? 0 : input_msg_len;
     }
     if (current_db_keyword[0] == '^') { // match start operator
-        return strncasecmp(&current_db_keyword[1], input_msg.data(), keyword_len - 1) ? 0 : input_msg_len;
+        auto pos = input_lower.rfind(current_db_keyword.substr(1), 0);
+        if (pos == 0) {
+            return input_msg_len;
+        } else {
+            return 0;
+        }
     }
+
     if (keyword_len > input_msg_len)
         return 0;
-
-    run = input_msg_len - keyword_len;
-    for (int i = 0; i <= run; i++) {
-        if (space) {
-            for (a = 0; a < keyword_len && (tolower(input_msg[i + a]) == current_db_keyword[a]); a++)
-                ;
-            if (a == keyword_len)
-                return (i + a);
-        }
-        space = input_msg[i] == ' ';
-    }
-
-    return 0;
+    auto pos = input_lower.find(current_db_keyword);
+    return pos == std::string::npos ? 0 : keyword_len;
 }
 
 int Database::match(std::string_view db_keywords, std::string_view input_msg, std::string_view::iterator &it,
