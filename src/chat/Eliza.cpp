@@ -73,8 +73,8 @@ void Eliza::ensure_database_open(const int current_db_num, const int line_count)
     }
 }
 
-bool Eliza::load_databases(const char *file) {
-    std::ifstream fs(file);
+bool Eliza::load_databases(std::string_view file) {
+    std::ifstream fs(file.data());
     if (!fs.is_open()) {
         log_string("Could not open chat database {}"_format(file));
         return false;

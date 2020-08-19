@@ -7,12 +7,13 @@
 /*************************************************************************/
 #include "Database.hpp"
 #include "../string_utils.hpp"
+#include "chat_utils.hpp"
 #include "chatconstants.hpp"
 #include <cstring>
 
 using namespace chat;
 
-std::string Database::find_response(std::string_view player_name, std::string &msgbuf, std::string_view npc_name,
+std::string Database::find_response(std::string_view player_name, const std::string &msgbuf, std::string_view npc_name,
                                     int &overflow) const {
     for (auto &keyword_response : keyword_responses_) {
         auto keywords = keyword_response.get_keywords();
@@ -44,38 +45,6 @@ bool Database::eval_operator(const char op, const int a, const int b) const {
     }
 }
 
-/**
- *  Finds the end position within input_msg that current_db_keyword ends at, with case insensitive matching.
- * If the db keyword starts with = then the input_msg must be an exact match (again, case insensitive).
- * If the db keyword start with ^ then the input_msg must begin with the db keyword.
- * Returns the position at which the remainder of input_msg begins, or 0 if no match was found.
- * The remainder is used in some response messages to echo back the rest of the user's input using the $r variable.
- * Although this could go into string_utils, it's pretty specialized so keeping it here for the time being.
- */
-int Database::strpos(std::string_view input_msg, std::string_view current_db_keyword) const {
-    auto input_msg_len = input_msg.size();
-    auto keyword_len = current_db_keyword.size();
-    std::string input_lower = lower_case(input_msg);
-    if (current_db_keyword[0] == '=') { // = exact equality operator
-        return current_db_keyword.substr(1) == input_lower
-                   ? input_msg_len
-                   : 0; // strcasecmp(&current_db_keyword[1], input_msg.data()) ? 0 : input_msg_len;
-    }
-    if (current_db_keyword[0] == '^') { // match start operator
-        auto pos = input_lower.rfind(current_db_keyword.substr(1), 0);
-        if (pos == 0) {
-            return input_msg_len;
-        } else {
-            return 0;
-        }
-    }
-
-    if (keyword_len > input_msg_len)
-        return 0;
-    auto pos = input_lower.find(current_db_keyword);
-    return pos == std::string::npos ? 0 : keyword_len;
-}
-
 int Database::match(std::string_view db_keywords, std::string_view input_msg, std::string_view::iterator &it,
                     uint &remaining_input_pos) const {
     // Records the match result through a sequence of logical expressions (e.g. (foo|bar|baz)
@@ -91,12 +60,14 @@ int Database::match(std::string_view db_keywords, std::string_view input_msg, st
         switch (*it) {
         case '(':
             next_match_pos = match(db_keywords, input_msg, ++it, remaining_input_pos);
-            if (logical_operator == '\0')
+            if (logical_operator == 0)
                 progressive_match_result = next_match_pos;
             else
                 progressive_match_result = eval_operator(logical_operator, progressive_match_result, next_match_pos);
             break;
         case '&': {
+            if (logical_operator == 0)
+                progressive_match_result = 1;
             logical_operator = '&';
             current_db_keyword = reduce_spaces(current_db_keyword);
             handle_operator(input_msg, current_db_keyword, logical_operator, progressive_match_result, next_match_pos,
@@ -147,46 +118,8 @@ void Database::handle_operator(std::string_view input_msg, std::string_view curr
         next_match_pos = strpos(input_msg, current_db_keyword);
         if (next_match_pos > 0)
             remaining_input_pos = next_match_pos;
-        progressive_match_result = eval_operator(logical_operator, progressive_match_result, next_match_pos);
+        progressive_match_result = eval_operator(logical_operator, next_match_pos, progressive_match_result);
     }
-}
-
-std::string_view Database::swap_term(std::string &msgbuf) const {
-    auto it = pronoun_and_possessives_.find(msgbuf);
-    if (it != pronoun_and_possessives_.end()) {
-        return it->second;
-    } else {
-        return msgbuf;
-    }
-}
-
-/**
- * Walk the characters and append any non-alpha characters to the result string. As
- * soon as it encounters an alpha char, accumulate it in 'word' then attempt to swap
- * the word for its grammatical alternative. It's crude but for basic sentences it works.
- */
-std::string Database::swap_pronouns_and_possessives(std::string &msgbuf) const {
-    std::string result{};
-    result.reserve(msgbuf.size());
-    std::string word{};
-    bool in_word{false};
-    for (auto &c : msgbuf) {
-        if (std::isalpha(c)) {
-            in_word = true;
-            word.push_back(c);
-        } else {
-            if (std::exchange(in_word, false)) {
-                result.append(swap_term(word));
-                word.clear();
-            }
-            result.push_back(c);
-        }
-    }
-    // Process the final word if there was one at the very end.
-    if (in_word) {
-        result.append(swap_term(word));
-    }
-    return result;
 }
 
 // enables $variable translation
@@ -195,7 +128,7 @@ std::string Database::expand_variables(std::string_view npc_name, const std::str
     std::string updated{};
     bool last_dollar{false};
     for (auto &c : response) {
-        if (c == '$') {
+        if (c == '$' && !last_dollar) {
             last_dollar = true;
         } else {
             if (std::exchange(last_dollar, false)) {
