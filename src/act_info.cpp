@@ -1389,16 +1389,16 @@ void do_score(CHAR_DATA *ch, const char *argument) {
     }
     send_to_char("\n\r", ch);
 
-    snprintf(buf, sizeof(buf), "Strength: %d (|W%d|w)", ch->perm_stat[STAT_STR], get_curr_stat(ch, STAT_STR));
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Intelligence: %d (|W%d|w)", ch->perm_stat[STAT_INT],
-             get_curr_stat(ch, STAT_INT));
-    snprintf(next_column(buf, 2 * SC_COLWIDTH), sizeof(buf), "Wisdom: %d (|W%d|w)\n\r", ch->perm_stat[STAT_WIS],
-             get_curr_stat(ch, STAT_WIS));
+    snprintf(buf, sizeof(buf), "Strength: %d (|W%d|w)", ch->perm_stat[Stat::Str], get_curr_stat(ch, Stat::Str));
+    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Intelligence: %d (|W%d|w)", ch->perm_stat[Stat::Int],
+             get_curr_stat(ch, Stat::Int));
+    snprintf(next_column(buf, 2 * SC_COLWIDTH), sizeof(buf), "Wisdom: %d (|W%d|w)\n\r", ch->perm_stat[Stat::Wis],
+             get_curr_stat(ch, Stat::Wis));
     send_to_char(buf, ch);
 
-    snprintf(buf, sizeof(buf), "Dexterity: %d (|W%d|w)", ch->perm_stat[STAT_DEX], get_curr_stat(ch, STAT_DEX));
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Constitution: %d (|W%d|w)\n\r", ch->perm_stat[STAT_CON],
-             get_curr_stat(ch, STAT_CON));
+    snprintf(buf, sizeof(buf), "Dexterity: %d (|W%d|w)", ch->perm_stat[Stat::Dex], get_curr_stat(ch, Stat::Dex));
+    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Constitution: %d (|W%d|w)\n\r", ch->perm_stat[Stat::Con],
+             get_curr_stat(ch, Stat::Con));
     send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Practices: |W%d|w", ch->practice);
@@ -2190,9 +2190,9 @@ void do_practice(CHAR_DATA *ch, const char *argument) {
         } else {
             ch->practice--;
             if (get_skill_trains(ch, sn) < 0) {
-                ch->pcdata->learned[sn] += int_app[get_curr_stat(ch, STAT_INT)].learn / 4;
+                ch->pcdata->learned[sn] += int_app[get_curr_stat(ch, Stat::Int)].learn / 4;
             } else {
-                ch->pcdata->learned[sn] += int_app[get_curr_stat(ch, STAT_INT)].learn / get_skill_difficulty(ch, sn);
+                ch->pcdata->learned[sn] += int_app[get_curr_stat(ch, Stat::Int)].learn / get_skill_difficulty(ch, sn);
             }
             if (ch->pcdata->learned[sn] < adept) // NOT get_skill_learned
             {

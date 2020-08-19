@@ -1155,7 +1155,7 @@ void do_recall(CHAR_DATA *ch, const char *argument) {
 void do_train(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     CHAR_DATA *mob;
-    sh_int stat = -1;
+    Stat stat = Stat::Str;
     const char *pOutput = nullptr;
     int cost;
 
@@ -1184,37 +1184,37 @@ void do_train(CHAR_DATA *ch, const char *argument) {
     cost = 1;
 
     if (!str_cmp(argument, "str")) {
-        if (class_table[ch->class_num].attr_prime == STAT_STR)
+        if (class_table[ch->class_num].attr_prime == Stat::Str)
             cost = 1;
-        stat = STAT_STR;
+        stat = Stat::Str;
         pOutput = "strength";
     }
 
     else if (!str_cmp(argument, "int")) {
-        if (class_table[ch->class_num].attr_prime == STAT_INT)
+        if (class_table[ch->class_num].attr_prime == Stat::Int)
             cost = 1;
-        stat = STAT_INT;
+        stat = Stat::Int;
         pOutput = "intelligence";
     }
 
     else if (!str_cmp(argument, "wis")) {
-        if (class_table[ch->class_num].attr_prime == STAT_WIS)
+        if (class_table[ch->class_num].attr_prime == Stat::Wis)
             cost = 1;
-        stat = STAT_WIS;
+        stat = Stat::Wis;
         pOutput = "wisdom";
     }
 
     else if (!str_cmp(argument, "dex")) {
-        if (class_table[ch->class_num].attr_prime == STAT_DEX)
+        if (class_table[ch->class_num].attr_prime == Stat::Dex)
             cost = 1;
-        stat = STAT_DEX;
+        stat = Stat::Dex;
         pOutput = "dexterity";
     }
 
     else if (!str_cmp(argument, "con")) {
-        if (class_table[ch->class_num].attr_prime == STAT_CON)
+        if (class_table[ch->class_num].attr_prime == Stat::Con)
             cost = 1;
-        stat = STAT_CON;
+        stat = Stat::Con;
         pOutput = "constitution";
     }
 
@@ -1226,15 +1226,15 @@ void do_train(CHAR_DATA *ch, const char *argument) {
 
     else {
         strcpy(buf, "You can train:");
-        if (ch->perm_stat[STAT_STR] < get_max_train(ch, STAT_STR))
+        if (ch->perm_stat[Stat::Str] < get_max_train(ch, Stat::Str))
             strcat(buf, " str");
-        if (ch->perm_stat[STAT_INT] < get_max_train(ch, STAT_INT))
+        if (ch->perm_stat[Stat::Int] < get_max_train(ch, Stat::Int))
             strcat(buf, " int");
-        if (ch->perm_stat[STAT_WIS] < get_max_train(ch, STAT_WIS))
+        if (ch->perm_stat[Stat::Wis] < get_max_train(ch, Stat::Wis))
             strcat(buf, " wis");
-        if (ch->perm_stat[STAT_DEX] < get_max_train(ch, STAT_DEX))
+        if (ch->perm_stat[Stat::Dex] < get_max_train(ch, Stat::Dex))
             strcat(buf, " dex");
-        if (ch->perm_stat[STAT_CON] < get_max_train(ch, STAT_CON))
+        if (ch->perm_stat[Stat::Con] < get_max_train(ch, Stat::Con))
             strcat(buf, " con");
         strcat(buf, " hp mana");
 

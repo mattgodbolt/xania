@@ -14,6 +14,8 @@
 #include "merc.h"
 #include "string_utils.hpp"
 
+#include <range/v3/algorithm/fill.hpp>
+
 #include <cctype>
 #include <cstdio>
 #include <cstring>
@@ -279,7 +281,7 @@ int get_weapon_skill(CHAR_DATA *ch, int sn) {
 
 /* used to de-screw characters */
 void reset_char(CHAR_DATA *ch) {
-    int loc, mod, stat;
+    int loc, mod;
     OBJ_DATA *obj;
     AFFECT_DATA *af;
     int i;
@@ -334,8 +336,7 @@ void reset_char(CHAR_DATA *ch) {
     }
 
     /* now restore the character to his/her true condition */
-    for (stat = 0; stat < MAX_STATS; stat++)
-        ch->mod_stat[stat] = 0;
+    ranges::fill(ch->mod_stat, 0);
 
     if (ch->pcdata->true_sex < 0 || ch->pcdata->true_sex > 2)
         ch->pcdata->true_sex = 0;
@@ -363,11 +364,11 @@ void reset_char(CHAR_DATA *ch) {
             for (af = obj->pIndexData->affected; af != nullptr; af = af->next) {
                 mod = af->modifier;
                 switch (af->location) {
-                case APPLY_STR: ch->mod_stat[STAT_STR] += mod; break;
-                case APPLY_DEX: ch->mod_stat[STAT_DEX] += mod; break;
-                case APPLY_INT: ch->mod_stat[STAT_INT] += mod; break;
-                case APPLY_WIS: ch->mod_stat[STAT_WIS] += mod; break;
-                case APPLY_CON: ch->mod_stat[STAT_CON] += mod; break;
+                case APPLY_STR: ch->mod_stat[Stat::Str] += mod; break;
+                case APPLY_DEX: ch->mod_stat[Stat::Dex] += mod; break;
+                case APPLY_INT: ch->mod_stat[Stat::Int] += mod; break;
+                case APPLY_WIS: ch->mod_stat[Stat::Wis] += mod; break;
+                case APPLY_CON: ch->mod_stat[Stat::Con] += mod; break;
 
                 case APPLY_SEX: ch->sex += mod; break;
                 case APPLY_MANA: ch->max_mana += mod; break;
@@ -392,11 +393,11 @@ void reset_char(CHAR_DATA *ch) {
         for (af = obj->affected; af != nullptr; af = af->next) {
             mod = af->modifier;
             switch (af->location) {
-            case APPLY_STR: ch->mod_stat[STAT_STR] += mod; break;
-            case APPLY_DEX: ch->mod_stat[STAT_DEX] += mod; break;
-            case APPLY_INT: ch->mod_stat[STAT_INT] += mod; break;
-            case APPLY_WIS: ch->mod_stat[STAT_WIS] += mod; break;
-            case APPLY_CON: ch->mod_stat[STAT_CON] += mod; break;
+            case APPLY_STR: ch->mod_stat[Stat::Str] += mod; break;
+            case APPLY_DEX: ch->mod_stat[Stat::Dex] += mod; break;
+            case APPLY_INT: ch->mod_stat[Stat::Int] += mod; break;
+            case APPLY_WIS: ch->mod_stat[Stat::Wis] += mod; break;
+            case APPLY_CON: ch->mod_stat[Stat::Con] += mod; break;
 
             case APPLY_SEX: ch->sex += mod; break;
             case APPLY_MANA: ch->max_mana += mod; break;
@@ -423,11 +424,11 @@ void reset_char(CHAR_DATA *ch) {
     for (af = ch->affected; af != nullptr; af = af->next) {
         mod = af->modifier;
         switch (af->location) {
-        case APPLY_STR: ch->mod_stat[STAT_STR] += mod; break;
-        case APPLY_DEX: ch->mod_stat[STAT_DEX] += mod; break;
-        case APPLY_INT: ch->mod_stat[STAT_INT] += mod; break;
-        case APPLY_WIS: ch->mod_stat[STAT_WIS] += mod; break;
-        case APPLY_CON: ch->mod_stat[STAT_CON] += mod; break;
+        case APPLY_STR: ch->mod_stat[Stat::Str] += mod; break;
+        case APPLY_DEX: ch->mod_stat[Stat::Dex] += mod; break;
+        case APPLY_INT: ch->mod_stat[Stat::Int] += mod; break;
+        case APPLY_WIS: ch->mod_stat[Stat::Wis] += mod; break;
+        case APPLY_CON: ch->mod_stat[Stat::Con] += mod; break;
 
         case APPLY_SEX: ch->sex += mod; break;
         case APPLY_MANA: ch->max_mana += mod; break;
@@ -485,7 +486,7 @@ int get_age(const CHAR_DATA *ch) {
 }
 
 /* command for retrieving stats */
-int get_curr_stat(const CHAR_DATA *ch, int stat) {
+int get_curr_stat(const CHAR_DATA *ch, Stat stat) {
     int max;
 
     if (IS_NPC(ch) || ch->level > LEVEL_IMMORTAL)
@@ -508,7 +509,7 @@ int get_curr_stat(const CHAR_DATA *ch, int stat) {
 }
 
 /* Written by DEATH, because he's KEWl */
-int get_max_stat(CHAR_DATA *ch, int stat) {
+int get_max_stat(CHAR_DATA *ch, Stat stat) {
     int max;
 
     if (IS_NPC(ch) || ch->level > LEVEL_IMMORTAL)
@@ -533,7 +534,7 @@ int get_max_stat(CHAR_DATA *ch, int stat) {
 }
 
 /* command for returning max training score */
-int get_max_train(CHAR_DATA *ch, int stat) {
+int get_max_train(CHAR_DATA *ch, Stat stat) {
     int max;
 
     if (IS_NPC(ch) || ch->level > LEVEL_IMMORTAL)
@@ -559,7 +560,7 @@ int can_carry_n(CHAR_DATA *ch) {
     if (IS_NPC(ch) && IS_SET(ch->act, ACT_PET))
         return 4;
 
-    return MAX_WEAR + 2 * get_curr_stat(ch, STAT_DEX) + ch->level;
+    return MAX_WEAR + 2 * get_curr_stat(ch, Stat::Dex) + ch->level;
 }
 
 /*
@@ -572,7 +573,7 @@ int can_carry_w(CHAR_DATA *ch) {
     if (IS_NPC(ch) && IS_SET(ch->act, ACT_PET))
         return 1000;
 
-    return str_app[get_curr_stat(ch, STAT_STR)].carry + ch->level * 5 / 2;
+    return str_app[get_curr_stat(ch, Stat::Str)].carry + ch->level * 5 / 2;
 }
 
 /*
@@ -644,11 +645,11 @@ void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd) {
     default: bug("Affect_modify: unknown location %d.", paf->location); return;
 
     case APPLY_NONE: break;
-    case APPLY_STR: ch->mod_stat[STAT_STR] += mod; break;
-    case APPLY_DEX: ch->mod_stat[STAT_DEX] += mod; break;
-    case APPLY_INT: ch->mod_stat[STAT_INT] += mod; break;
-    case APPLY_WIS: ch->mod_stat[STAT_WIS] += mod; break;
-    case APPLY_CON: ch->mod_stat[STAT_CON] += mod; break;
+    case APPLY_STR: ch->mod_stat[Stat::Str] += mod; break;
+    case APPLY_DEX: ch->mod_stat[Stat::Dex] += mod; break;
+    case APPLY_INT: ch->mod_stat[Stat::Int] += mod; break;
+    case APPLY_WIS: ch->mod_stat[Stat::Wis] += mod; break;
+    case APPLY_CON: ch->mod_stat[Stat::Con] += mod; break;
     case APPLY_SEX: ch->sex += mod; break;
     case APPLY_CLASS: break;
     case APPLY_LEVEL: break;
@@ -678,7 +679,7 @@ void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd) {
      * Guard against recursion (for weapons with affects).
      */
     if (!IS_NPC(ch) && (wield = get_eq_char(ch, WEAR_WIELD)) != nullptr
-        && get_obj_weight(wield) > str_app[get_curr_stat(ch, STAT_STR)].wield) {
+        && get_obj_weight(wield) > str_app[get_curr_stat(ch, Stat::Str)].wield) {
         static int depth;
 
         if (depth == 0) {
@@ -1772,8 +1773,8 @@ bool can_see(const CHAR_DATA *ch, const CHAR_DATA *victim) {
         && (IS_NPC(ch) ? !IS_NPC(victim) : IS_NPC(victim))) {
         int chance;
         chance = get_skill(victim, gsn_sneak);
-        chance += get_curr_stat(ch, STAT_DEX) * 3 / 2;
-        chance -= get_curr_stat(ch, STAT_INT) * 2;
+        chance += get_curr_stat(ch, Stat::Dex) * 3 / 2;
+        chance -= get_curr_stat(ch, Stat::Int) * 2;
         chance += ch->level - victim->level * 3 / 2;
 
         if (number_percent() < chance)

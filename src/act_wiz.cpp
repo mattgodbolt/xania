@@ -1341,10 +1341,10 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
     }
 
     bug_snprintf(buf, sizeof(buf), "Str: %d(%d)  Int: %d(%d)  Wis: %d(%d)  Dex: %d(%d)  Con: %d(%d)\n\r",
-                 victim->perm_stat[STAT_STR], get_curr_stat(victim, STAT_STR), victim->perm_stat[STAT_INT],
-                 get_curr_stat(victim, STAT_INT), victim->perm_stat[STAT_WIS], get_curr_stat(victim, STAT_WIS),
-                 victim->perm_stat[STAT_DEX], get_curr_stat(victim, STAT_DEX), victim->perm_stat[STAT_CON],
-                 get_curr_stat(victim, STAT_CON));
+                 victim->perm_stat[Stat::Str], get_curr_stat(victim, Stat::Str), victim->perm_stat[Stat::Int],
+                 get_curr_stat(victim, Stat::Int), victim->perm_stat[Stat::Wis], get_curr_stat(victim, Stat::Wis),
+                 victim->perm_stat[Stat::Dex], get_curr_stat(victim, Stat::Dex), victim->perm_stat[Stat::Con],
+                 get_curr_stat(victim, Stat::Con));
     send_to_char(buf, ch);
 
     bug_snprintf(buf, sizeof(buf), "Hp: %d/%d  Mana: %d/%d  Move: %d/%d  Practices: %d\n\r", victim->hit,
@@ -2855,57 +2855,57 @@ void do_mset(CHAR_DATA *ch, const char *argument) {
      * Set something.
      */
     if (!str_cmp(arg2, "str")) {
-        if (value < 3 || value > get_max_train(victim, STAT_STR)) {
-            bug_snprintf(buf, sizeof(buf), "Strength range is 3 to %d\n\r.", get_max_train(victim, STAT_STR));
+        if (value < 3 || value > get_max_train(victim, Stat::Str)) {
+            bug_snprintf(buf, sizeof(buf), "Strength range is 3 to %d\n\r.", get_max_train(victim, Stat::Str));
             send_to_char(buf, ch);
             return;
         }
 
-        victim->perm_stat[STAT_STR] = value;
+        victim->perm_stat[Stat::Str] = value;
         return;
     }
 
     if (!str_cmp(arg2, "int")) {
-        if (value < 3 || value > get_max_train(victim, STAT_INT)) {
-            bug_snprintf(buf, sizeof(buf), "Intelligence range is 3 to %d.\n\r", get_max_train(victim, STAT_INT));
+        if (value < 3 || value > get_max_train(victim, Stat::Int)) {
+            bug_snprintf(buf, sizeof(buf), "Intelligence range is 3 to %d.\n\r", get_max_train(victim, Stat::Int));
             send_to_char(buf, ch);
             return;
         }
 
-        victim->perm_stat[STAT_INT] = value;
+        victim->perm_stat[Stat::Int] = value;
         return;
     }
 
     if (!str_cmp(arg2, "wis")) {
-        if (value < 3 || value > get_max_train(victim, STAT_WIS)) {
-            bug_snprintf(buf, sizeof(buf), "Wisdom range is 3 to %d.\n\r", get_max_train(victim, STAT_WIS));
+        if (value < 3 || value > get_max_train(victim, Stat::Wis)) {
+            bug_snprintf(buf, sizeof(buf), "Wisdom range is 3 to %d.\n\r", get_max_train(victim, Stat::Wis));
             send_to_char(buf, ch);
             return;
         }
 
-        victim->perm_stat[STAT_WIS] = value;
+        victim->perm_stat[Stat::Wis] = value;
         return;
     }
 
     if (!str_cmp(arg2, "dex")) {
-        if (value < 3 || value > get_max_train(victim, STAT_DEX)) {
-            bug_snprintf(buf, sizeof(buf), "Dexterity ranges is 3 to %d.\n\r", get_max_train(victim, STAT_DEX));
+        if (value < 3 || value > get_max_train(victim, Stat::Dex)) {
+            bug_snprintf(buf, sizeof(buf), "Dexterity ranges is 3 to %d.\n\r", get_max_train(victim, Stat::Dex));
             send_to_char(buf, ch);
             return;
         }
 
-        victim->perm_stat[STAT_DEX] = value;
+        victim->perm_stat[Stat::Dex] = value;
         return;
     }
 
     if (!str_cmp(arg2, "con")) {
-        if (value < 3 || value > get_max_train(victim, STAT_CON)) {
-            bug_snprintf(buf, sizeof(buf), "Constitution range is 3 to %d.\n\r", get_max_train(victim, STAT_CON));
+        if (value < 3 || value > get_max_train(victim, Stat::Con)) {
+            bug_snprintf(buf, sizeof(buf), "Constitution range is 3 to %d.\n\r", get_max_train(victim, Stat::Con));
             send_to_char(buf, ch);
             return;
         }
 
-        victim->perm_stat[STAT_CON] = value;
+        victim->perm_stat[Stat::Con] = value;
         return;
     }
 

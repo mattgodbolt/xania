@@ -18,6 +18,7 @@
 #include "merc.h"
 #include "note.h"
 
+#include <range/v3/algorithm/fill.hpp>
 #include <range/v3/iterator/operations.hpp>
 
 #include <cstdarg>
@@ -1582,38 +1583,37 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
 
         /* computed on the spot */
 
-        for (i = 0; i < MAX_STATS; i++)
-            mob->perm_stat[i] = UMIN(25, 11 + mob->level / 4);
+        ranges::fill(mob->perm_stat, UMIN(25, 11 + mob->level / 4));
 
         if (IS_SET(mob->act, ACT_WARRIOR)) {
-            mob->perm_stat[STAT_STR] += 3;
-            mob->perm_stat[STAT_INT] -= 1;
-            mob->perm_stat[STAT_CON] += 2;
+            mob->perm_stat[Stat::Str] += 3;
+            mob->perm_stat[Stat::Int] -= 1;
+            mob->perm_stat[Stat::Con] += 2;
         }
 
         if (IS_SET(mob->act, ACT_THIEF)) {
-            mob->perm_stat[STAT_DEX] += 3;
-            mob->perm_stat[STAT_INT] += 1;
-            mob->perm_stat[STAT_WIS] -= 1;
+            mob->perm_stat[Stat::Dex] += 3;
+            mob->perm_stat[Stat::Int] += 1;
+            mob->perm_stat[Stat::Wis] -= 1;
         }
 
         if (IS_SET(mob->act, ACT_CLERIC)) {
-            mob->perm_stat[STAT_WIS] += 3;
-            mob->perm_stat[STAT_DEX] -= 1;
-            mob->perm_stat[STAT_STR] += 1;
+            mob->perm_stat[Stat::Wis] += 3;
+            mob->perm_stat[Stat::Dex] -= 1;
+            mob->perm_stat[Stat::Str] += 1;
         }
 
         if (IS_SET(mob->act, ACT_MAGE)) {
-            mob->perm_stat[STAT_INT] += 3;
-            mob->perm_stat[STAT_STR] -= 1;
-            mob->perm_stat[STAT_DEX] += 1;
+            mob->perm_stat[Stat::Int] += 3;
+            mob->perm_stat[Stat::Str] -= 1;
+            mob->perm_stat[Stat::Dex] += 1;
         }
 
         if (IS_SET(mob->off_flags, OFF_FAST))
-            mob->perm_stat[STAT_DEX] += 2;
+            mob->perm_stat[Stat::Dex] += 2;
 
-        mob->perm_stat[STAT_STR] += mob->size - SIZE_MEDIUM;
-        mob->perm_stat[STAT_CON] += (mob->size - SIZE_MEDIUM) / 2;
+        mob->perm_stat[Stat::Str] += mob->size - SIZE_MEDIUM;
+        mob->perm_stat[Stat::Con] += (mob->size - SIZE_MEDIUM) / 2;
     } else /* read in old format and convert */
     {
         mob->act = pMobIndex->act | ACT_WARRIOR;
@@ -1649,8 +1649,7 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
         mob->size = SIZE_MEDIUM;
         mob->material = 0;
 
-        for (i = 0; i < MAX_STATS; i++)
-            mob->perm_stat[i] = 11 + mob->level / 4;
+        ranges::fill(mob->perm_stat, 11 + mob->level / 4);
     }
 
     mob->position = mob->start_pos;
@@ -1719,10 +1718,8 @@ void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone) {
     for (i = 0; i < 4; i++)
         clone->armor[i] = parent->armor[i];
 
-    for (i = 0; i < MAX_STATS; i++) {
-        clone->perm_stat[i] = parent->perm_stat[i];
-        clone->mod_stat[i] = parent->mod_stat[i];
-    }
+    clone->perm_stat = parent->perm_stat;
+    clone->mod_stat = parent->mod_stat;
 
     for (i = 0; i < 3; i++)
         clone->damage[i] = parent->damage[i];
@@ -1941,10 +1938,8 @@ void clear_char(CHAR_DATA *ch) {
     ch->riding = nullptr;
     ch->ridden_by = nullptr;
     ch->clipboard = nullptr;
-    for (i = 0; i < MAX_STATS; i++) {
-        ch->perm_stat[i] = 13;
-        ch->mod_stat[i] = 0;
-    }
+    ranges::fill(ch->perm_stat, 13);
+    ranges::fill(ch->mod_stat, 0);
 }
 
 /*

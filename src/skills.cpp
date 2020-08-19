@@ -651,7 +651,7 @@ void check_improve(CHAR_DATA *ch, int sn, bool success, int multiplier) {
 
     how_good = get_skill_difficulty(ch, sn);
     /* check to see if the character has a chance to learn */
-    chance = 10 * int_app[get_curr_stat(ch, STAT_INT)].learn;
+    chance = 10 * int_app[get_curr_stat(ch, Stat::Int)].learn;
     chance /= (multiplier * how_good * 4);
     chance += ch->level;
 

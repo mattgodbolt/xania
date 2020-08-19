@@ -241,7 +241,7 @@ void do_cast(CHAR_DATA *ch, const char *argument) {
                         break;
                 }
                 if ((pos == 5) || // If we've run out of spaces in the bomb
-                    (number_percent() > (get_curr_stat(ch, STAT_INT) * 4)) || // test against int
+                    (number_percent() > (get_curr_stat(ch, Stat::Int) * 4)) || // test against int
                     (number_percent() < bomb_chance[pos])) { // test against the number of spells in the bomb
                     act("You try to add another spell to your bomb but it can't take anymore!!!", ch, nullptr, nullptr,
                         To::Char);

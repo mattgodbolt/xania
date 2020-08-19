@@ -14,13 +14,14 @@
 #include "comm.hpp"
 #include "interp.h"
 #include "merc.h"
-#include <stdio.h>
-#include <string.h>
+
+#include <cstdio>
+#include <cstring>
+#include <ctime>
 #include <sys/types.h>
-#include <time.h>
 
 /* Few external functions */
-int get_max_stat(CHAR_DATA *ch, int stat);
+int get_max_stat(CHAR_DATA *ch, Stat stat);
 
 /*
  * Local functions.
@@ -33,7 +34,6 @@ void weather_update();
 void char_update();
 void obj_update();
 void aggr_update();
-void announce(const char *buf, CHAR_DATA *ch);
 
 /* Added by Rohan to reset the count every day */
 void count_update();
@@ -57,12 +57,12 @@ void advance_level(CHAR_DATA *ch) {
     snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
     set_title(ch, buf);
 
-    add_hp = con_app[get_curr_stat(ch, STAT_CON)].hitp
+    add_hp = con_app[get_curr_stat(ch, Stat::Con)].hitp
              + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);
 
     add_mana = number_range(
         0, class_table[ch->class_num].fMana * class_table[ch->class_num].fMana
-               * (UMAX(0, get_curr_stat(ch, STAT_WIS) - 15) + 2 * UMAX(0, get_curr_stat(ch, STAT_INT) - 15)));
+               * (UMAX(0, get_curr_stat(ch, Stat::Wis) - 15) + 2 * UMAX(0, get_curr_stat(ch, Stat::Int) - 15)));
 
     add_mana += 150;
     add_mana /= 300; /* =max (2*int+wis)/10 (10=mage.fMana)*/
@@ -80,8 +80,8 @@ void advance_level(CHAR_DATA *ch) {
 
     /* End of new section. */
 
-    add_move = number_range(1, (get_curr_stat(ch, STAT_CON) + get_curr_stat(ch, STAT_DEX)) / 6);
-    add_prac = wis_app[get_curr_stat(ch, STAT_WIS)].practice;
+    add_move = number_range(1, (get_curr_stat(ch, Stat::Con) + get_curr_stat(ch, Stat::Dex)) / 6);
+    add_prac = wis_app[get_curr_stat(ch, Stat::Wis)].practice;
 
     add_hp = UMAX(1, add_hp * 9 / 10);
     add_move = UMAX(6, add_move * 9 / 10);
@@ -121,13 +121,13 @@ void lose_level(CHAR_DATA *ch) {
     snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
     set_title(ch, buf);
 
-    add_hp = con_app[get_max_stat(ch, STAT_CON)].hitp
+    add_hp = con_app[get_max_stat(ch, Stat::Con)].hitp
              + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);
-    add_mana = (number_range(2, (2 * get_max_stat(ch, STAT_INT) + get_max_stat(ch, STAT_WIS)) / 5)
+    add_mana = (number_range(2, (2 * get_max_stat(ch, Stat::Int) + get_max_stat(ch, Stat::Wis)) / 5)
                 * class_table[ch->class_num].fMana)
                / 10;
-    add_move = number_range(1, (get_max_stat(ch, STAT_CON) + get_max_stat(ch, STAT_DEX)) / 6);
-    add_prac = -(wis_app[get_max_stat(ch, STAT_WIS)].practice);
+    add_move = number_range(1, (get_max_stat(ch, Stat::Con) + get_max_stat(ch, Stat::Dex)) / 6);
+    add_prac = -(wis_app[get_max_stat(ch, Stat::Wis)].practice);
 
     add_hp = add_hp * 9 / 10;
     add_mana = add_mana * 9 / 10;
@@ -194,7 +194,7 @@ int hit_gain(CHAR_DATA *ch) {
         }
 
     } else {
-        gain = UMAX(3, get_curr_stat(ch, STAT_CON) - 3 + ch->level / 1.5);
+        gain = UMAX(3, get_curr_stat(ch, Stat::Con) - 3 + ch->level / 1.5);
         gain += class_table[ch->class_num].hp_max - 7;
         number = number_percent();
         if (number < get_skill_learned(ch, gsn_fast_healing)) {
@@ -244,7 +244,7 @@ int mana_gain(CHAR_DATA *ch) {
         case POS_FIGHTING: gain /= 3; break;
         }
     } else {
-        gain = (get_curr_stat(ch, STAT_WIS) + get_curr_stat(ch, STAT_INT) + ch->level) / 2;
+        gain = (get_curr_stat(ch, Stat::Wis) + get_curr_stat(ch, Stat::Int) + ch->level) / 2;
         number = number_percent();
         if (number < get_skill_learned(ch, gsn_meditation)) {
             gain += number * gain / 100;
@@ -287,8 +287,8 @@ int move_gain(CHAR_DATA *ch) {
         gain = UMAX(15, ch->level);
 
         switch (ch->position) {
-        case POS_SLEEPING: gain += get_curr_stat(ch, STAT_DEX); break;
-        case POS_RESTING: gain += get_curr_stat(ch, STAT_DEX) / 2; break;
+        case POS_SLEEPING: gain += get_curr_stat(ch, Stat::Dex); break;
+        case POS_RESTING: gain += get_curr_stat(ch, Stat::Dex) / 2; break;
         }
 
         if (ch->pcdata->condition[COND_FULL] == 0)

@@ -27,9 +27,10 @@
 #pragma once
 
 #include "clan.h"
+#include "common/Time.hpp"
 #include "version.h"
 
-#include <common/Time.hpp>
+#include <array>
 #include <crypt.h>
 #include <cstdint>
 #include <cstdio>
@@ -228,18 +229,34 @@ struct shop_data {
  * Per-class stuff.
  */
 
-#define MAX_GUILD 3
-#define MAX_STATS 5
-#define STAT_STR 0
-#define STAT_INT 1
-#define STAT_WIS 2
-#define STAT_DEX 3
-#define STAT_CON 4
+static constexpr inline auto MAX_GUILD = 3;
+enum class Stat {
+    // Order is important: this is the order these are specified in the pfiles and area files.
+    Str = 0,
+    Int = 1,
+    Wis = 2,
+    Dex = 3,
+    Con = 4
+};
+static constexpr inline auto MAX_STATS = 5;
+
+class Stats {
+    std::array<sh_int, MAX_STATS> stats_{};
+
+public:
+    Stats() = default;
+    Stats(sh_int strength, sh_int intelligence, sh_int wisdom, sh_int dexterity, sh_int constitution)
+        : stats_{{strength, intelligence, wisdom, dexterity, constitution}} {}
+    sh_int &operator[](Stat stat) { return stats_[static_cast<size_t>(stat)]; }
+    sh_int operator[](Stat stat) const { return stats_[static_cast<size_t>(stat)]; }
+    friend auto begin(Stats &stat) { return stat.stats_.begin(); }
+    friend auto end(Stats &stat) { return stat.stats_.end(); }
+};
 
 struct class_type {
     const char *name; /* the full name of the class */
     char who_name[4]; /* Three-letter name for 'who'  */
-    sh_int attr_prime; /* Prime attribute              */
+    Stat attr_prime; /* Prime attribute              */
     sh_int weapon; /* First weapon                 */
     sh_int guild[MAX_GUILD]; /* Vnum of guild rooms          */
     sh_int skill_adept; /* Maximum skill level          */
@@ -295,8 +312,8 @@ struct pc_race_type /* additional data for pc races */
     sh_int points; /* cost in points of the race */
     sh_int class_mult[MAX_CLASS]; /* exp multiplier for class, * 100 */
     const char *skills[5]; /* bonus skills for the race */
-    sh_int stats[MAX_STATS]; /* starting stats */
-    sh_int max_stats[MAX_STATS]; /* maximum stats */
+    Stats stats; /* starting stats */
+    Stats max_stats; /* maximum stats */
     sh_int size; /* aff bits for the race */
 };
 
@@ -1208,8 +1225,8 @@ struct CHAR_DATA {
     sh_int armor[4];
     sh_int wimpy;
     /* stats */
-    sh_int perm_stat[MAX_STATS];
-    sh_int mod_stat[MAX_STATS];
+    Stats perm_stat;
+    Stats mod_stat;
     /* parts stuff */
     unsigned long form;
     unsigned long parts;
@@ -1670,10 +1687,10 @@ extern sh_int gsn_bless;
 #define IS_NEUTRAL(ch) (!IS_GOOD(ch) && !IS_EVIL(ch))
 
 #define IS_AWAKE(ch) (ch->position > POS_SLEEPING)
-#define GET_AC(ch, type) ((ch)->armor[type] + (IS_AWAKE(ch) ? dex_app[get_curr_stat(ch, STAT_DEX)].defensive : 0))
+#define GET_AC(ch, type) ((ch)->armor[type] + (IS_AWAKE(ch) ? dex_app[get_curr_stat(ch, Stat::Dex)].defensive : 0))
 
-#define GET_HITROLL(ch) ((ch)->hitroll + str_app[get_curr_stat(ch, STAT_STR)].tohit)
-#define GET_DAMROLL(ch) ((ch)->damroll + str_app[get_curr_stat(ch, STAT_STR)].todam)
+#define GET_HITROLL(ch) ((ch)->hitroll + str_app[get_curr_stat(ch, Stat::Str)].tohit)
+#define GET_DAMROLL(ch) ((ch)->damroll + str_app[get_curr_stat(ch, Stat::Str)].todam)
 
 #define IS_OUTSIDE(ch) (!IS_SET((ch)->in_room->room_flags, ROOM_INDOORS))
 
@@ -1901,8 +1918,8 @@ int get_weapon_skill(CHAR_DATA *ch, int sn);
 int get_age(const CHAR_DATA *ch);
 void reset_char(CHAR_DATA *ch);
 int get_trust(const CHAR_DATA *ch);
-int get_curr_stat(const CHAR_DATA *ch, int stat);
-int get_max_train(CHAR_DATA *ch, int stat);
+int get_curr_stat(const CHAR_DATA *ch, Stat stat);
+int get_max_train(CHAR_DATA *ch, Stat stat);
 int can_carry_n(CHAR_DATA *ch);
 int can_carry_w(CHAR_DATA *ch);
 bool is_name(const char *str, const char *namelist);

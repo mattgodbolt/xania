@@ -500,11 +500,11 @@ void char_ride(CHAR_DATA *ch, CHAR_DATA *ridee) {
     af.level = ridee->level;
     af.duration = -1;
     af.location = APPLY_DAMROLL;
-    af.modifier = (ridee->level / 10) + (get_curr_stat(ridee, STAT_DEX) / 8);
+    af.modifier = (ridee->level / 10) + (get_curr_stat(ridee, Stat::Dex) / 8);
     af.bitvector = 0;
     affect_to_char(ch, &af);
     af.location = APPLY_HITROLL;
-    af.modifier = -(((ridee->level / 10) + (get_curr_stat(ridee, STAT_DEX) / 8)) / 4);
+    af.modifier = -(((ridee->level / 10) + (get_curr_stat(ridee, Stat::Dex) / 8)) / 4);
     affect_to_char(ch, &af);
 }
 
