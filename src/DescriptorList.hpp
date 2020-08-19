@@ -1,11 +1,13 @@
 #pragma once
 
 #include "Descriptor.hpp"
+#include "DescriptorFilter.hpp"
 #include "merc.h"
 
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/transform.hpp>
 
+#include <cassert>
 #include <unordered_map>
 
 class DescriptorList {
@@ -21,23 +23,22 @@ public:
         return descriptors_ | ranges::views::transform([](auto &pr) -> Descriptor & { return pr.second; });
     }
 
-    // Return all descriptors for characters in the "playing" state. Accounts for the rare case where a quitting player
-    // is briefly "playing" but has no "person" behind the descriptor.
-    [[nodiscard]] auto playing() const noexcept {
-        return all() | ranges::views::filter([](const Descriptor &d) { return d.is_playing() && d.person(); });
-    }
+    // Return all descriptors for characters in the "playing" state.
+    [[nodiscard]] auto playing() const noexcept { return all() | DescriptorFilter::playing(); }
 
     // Return all descriptors for playing characters, skipping the given character.
     [[nodiscard]] auto all_but(const CHAR_DATA *ch) const noexcept {
-        return playing() | ranges::views::filter([ch](const Descriptor &d) { return d.character() != ch; });
+        assert(ch);
+        return playing() | DescriptorFilter::except(*ch);
     }
     // Return all descriptors for playing characters who are visible to the given character.
     [[nodiscard]] auto all_visible_to(const CHAR_DATA *ch) const noexcept {
-        return all_but(ch) | ranges::views::filter([ch](const Descriptor &d) { return can_see(ch, d.character()); });
+        assert(ch);
+        return all_but(ch) | DescriptorFilter::visible_to(*ch);
     }
     // Return all descriptors for playing characters who can see the given character.
     [[nodiscard]] auto all_who_can_see(const CHAR_DATA *ch) const noexcept {
-        return all_but(ch) | ranges::views::filter([ch](const Descriptor &d) { return can_see(d.character(), ch); });
+        return all_but(ch) | DescriptorFilter::can_see(*ch);
     }
 
     // Try and find a descriptor by channel id.

@@ -323,47 +323,36 @@ void do_pardon(CHAR_DATA *ch, const char *argument) {
 
 void do_echo(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '\0') {
-        send_to_char("Global echo what?\n\r", ch);
+        ch->send_to("Global echo what?\n\r");
         return;
     }
 
-    for (auto &d : descriptors().playing()) {
-        auto *victim = d.character();
-        send_to_char("{}{}\n\r"_format(get_trust(victim) >= get_trust(ch) ? "global> " : "", argument), victim);
+    for (auto &victim : descriptors().playing() | DescriptorFilter::to_character()) {
+        victim.send_to("{}{}\n\r"_format(victim.get_trust() >= ch->get_trust() ? "global> " : "", argument));
     }
 }
 
 void do_recho(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '\0') {
-        send_to_char("Local echo what?\n\r", ch);
-
+        ch->send_to("Local echo what?\n\r");
         return;
     }
 
-    for (auto &d : descriptors().playing()) {
-        auto *victim = d.character();
-        if (victim->in_room == ch->in_room) {
-            send_to_char(
-                "{}{}\n\r"_format(
-                    get_trust(victim) >= get_trust(ch) && ch->in_room->vnum != CHAL_VIEWING_GALLERY ? "local> " : "",
-                    argument),
-                victim);
-        }
+    for (auto &victim : descriptors().playing() | DescriptorFilter::same_room(*ch) | DescriptorFilter::to_character()) {
+        victim.send_to("{}{}\n\r"_format(
+            victim.get_trust() >= ch->get_trust() && ch->in_room->vnum != CHAL_VIEWING_GALLERY ? "local> " : "",
+            argument));
     }
 }
 
 void do_zecho(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '\0') {
-        send_to_char("Zone echo what?\n\r", ch);
+        ch->send_to("Zone echo what?\n\r");
         return;
     }
 
-    for (auto &d : descriptors().playing()) {
-        auto *victim = d.character();
-        if (d.character()->in_room != nullptr && ch->in_room != nullptr
-            && d.character()->in_room->area == ch->in_room->area) {
-            send_to_char("{}{}\n\r"_format(get_trust(victim) >= get_trust(ch) ? "zone> " : "", argument), victim);
-        }
+    for (auto &victim : descriptors().playing() | DescriptorFilter::same_area(*ch) | DescriptorFilter::to_character()) {
+        victim.send_to("{}{}\n\r"_format(victim.get_trust() >= ch->get_trust() ? "zone> " : "", argument));
     }
 }
 
@@ -374,23 +363,20 @@ void do_pecho(CHAR_DATA *ch, const char *argument) {
     argument = one_argument(argument, arg);
 
     if (argument[0] == '\0' || arg[0] == '\0') {
-        send_to_char("Personal echo what?\n\r", ch);
+        ch->send_to("Personal echo what?\n\r");
         return;
     }
 
     if ((victim = get_char_world(ch, arg)) == nullptr) {
-        send_to_char("Target not found.\n\r", ch);
+        ch->send_to("Target not found.\n\r");
         return;
     }
 
-    if (get_trust(victim) >= get_trust(ch) && get_trust(ch) != MAX_LEVEL)
-        send_to_char("personal> ", victim);
+    if (victim->get_trust() >= ch->get_trust() && ch->get_trust() != MAX_LEVEL)
+        victim->send_to("personal> ");
 
-    send_to_char(argument, victim);
-    send_to_char("\n\r", victim);
-    send_to_char("personal> ", ch);
-    send_to_char(argument, ch);
-    send_to_char("\n\r", ch);
+    victim->send_to("{}\n\r"_format(argument));
+    ch->send_to("personal> {}\n\r"_format(argument));
 }
 
 ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, const char *arg) {

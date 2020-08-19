@@ -227,9 +227,8 @@ void do_yell(CHAR_DATA *ch, const char *argument) {
         do_afk(ch, nullptr);
 
     act("|WYou yell '$t|W'|w", ch, argument, nullptr, To::Char);
-    for (auto &d : descriptors().all()) {
-        if (d.character() != ch && d.character()->in_room != nullptr
-            && d.character()->in_room->area == ch->in_room->area && !IS_SET(d.character()->comm, COMM_QUIET)) {
+    for (auto &d : descriptors().all_but(ch) | DescriptorFilter::same_area(*ch)) {
+        if (!IS_SET(d.character()->comm, COMM_QUIET)) {
             act("|W$n yells '$t|W'|w", ch, argument, d.character(), To::Vict);
         }
     }

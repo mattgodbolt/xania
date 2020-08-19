@@ -62,6 +62,7 @@ add_library(xania_lib STATIC
         WrappedFd.cpp WrappedFd.hpp
         nth.hpp nth.cpp
         DescriptorList.hpp DescriptorList.cpp
+        DescriptorFilter.hpp
         CHAR_DATA.cpp CHAR_DATA.hpp
         Types.hpp
         Stats.hpp
