@@ -397,14 +397,14 @@ static const char *apply_prefix(char *buf, CHAR_DATA *ch, const char *command) {
         auto &pc_data = player->pcdata;
         if (command[0] == '\\') {
             if (command[1] == '\\') {
-                send_to_char(pc_data->prefix ? "(prefix removed)\n\r" : "(no prefix to remove)\n\r", ch);
-                pc_data->prefix[0] = '\0';
+                send_to_char(!pc_data->prefix.empty() ? "(prefix removed)\n\r" : "(no prefix to remove)\n\r", ch);
+                pc_data->prefix.clear();
                 command++; /* skip the \ */
             }
             command++; /* skip the \ */
             return command;
         } else {
-            snprintf(buf, MAX_INPUT_LENGTH, "%s%s", pc_data->prefix, command);
+            snprintf(buf, MAX_INPUT_LENGTH, "%s%s", pc_data->prefix.c_str(), command);
             return buf;
         }
     }

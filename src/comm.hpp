@@ -32,3 +32,4 @@ inline void act(const char *format, const CHAR_DATA *ch, To type = To::Room) {
 }
 
 bool send_to_doorman(const Packet *p, const void *extra);
+std::string format_prompt(const CHAR_DATA &ch, std::string_view prompt);

@@ -21,8 +21,7 @@
 
 /* User servicable bits... you will also need to change the NUM_CLANS in clan.h */
 
-const CLAN clantable[NUM_CLANS] = {
-
+const std::array<CLAN, NUM_CLANS> clantable = {{
     {
         "Keepers of the Lore",
         "|p(Lore)|w ",
@@ -55,18 +54,18 @@ const CLAN clantable[NUM_CLANS] = {
      30004,
      0} /* OES */
 
-}; /* end clantable */
+}}; /* end clantable */
 
 /* End user servicable bits */
 
 void do_clantalk(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
 
-    auto *orig_clan = ch->desc->person() ? ch->desc->person()->pcdata->pcclan : nullptr;
+    auto *orig_clan = ch->desc->person() ? ch->desc->person()->pc_clan() : nullptr;
     if (orig_clan == nullptr) {
         send_to_char("You are not a member of a clan.\n\r", ch);
         return; /* Disallow mortal PC's with no clan */
-    } /* if ch->pcclan */
+    }
 
     if (IS_SET(ch->comm, COMM_QUIET)) {
         send_to_char("You must remove quiet mode first.\n\r", ch);
@@ -88,7 +87,7 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
     if (ranges::find_if(playing,
                         [&](const Descriptor &d) {
                             const auto *victim = d.person();
-                            const auto *pcclan = victim->pcdata->pcclan;
+                            const auto *pcclan = victim->pc_clan();
 
                             return pcclan && pcclan->clan->clanchar == orig_clan->clan->clanchar
                                    && pcclan->clanlevel >= CLAN_HERO && !IS_SET(victim->comm, COMM_QUIET);
@@ -118,7 +117,7 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
     /* Right here we go - tell all members of the clan the message */
     for (auto &d : descriptors().playing()) {
         auto *victim = d.person();
-        const auto *pcclan = victim->pcdata->pcclan;
+        const auto *pcclan = victim->pc_clan();
         if (pcclan && pcclan->clan->clanchar == orig_clan->clan->clanchar && pcclan->channelflags & CLANCHANNEL_ON
             && !IS_SET(victim->comm, COMM_QUIET)
             /* || they're an IMM snooping the channels */) {
@@ -137,8 +136,7 @@ void do_noclanchan(CHAR_DATA *ch, const char *argument) {
     if (IS_NPC(ch))
         return;
 
-    if ((get_trust(ch) > (MAX_LEVEL - 5))
-        || ((ch->pcdata->pcclan != nullptr) && (ch->pcdata->pcclan->clanlevel > CLAN_HERO))) {
+    if ((get_trust(ch) > (MAX_LEVEL - 5)) || ((ch->pc_clan() != nullptr) && (ch->pc_clan()->clanlevel > CLAN_HERO))) {
     } else {
         send_to_char("Huh?\n\r", ch);
         return;
@@ -152,9 +150,10 @@ void do_noclanchan(CHAR_DATA *ch, const char *argument) {
 
     /* Check if victim is same clan, and not higher status */
 
-    if ((victim->pcdata->pcclan == nullptr) /* If the victim is not in any clan */
-        || (victim->pcdata->pcclan->clan->clanchar != ch->pcdata->pcclan->clan->clanchar) /* or in a different clan */
-        || (victim->pcdata->pcclan->clanlevel > ch->pcdata->pcclan->clanlevel)) /* or they're a higher rank */
+    auto *victim_pcclan = victim->pc_clan();
+    if ((victim_pcclan == nullptr) /* If the victim is not in any clan */
+        || (victim_pcclan->clan->clanchar != ch->clan()->clanchar) /* or in a different clan */
+        || (victim_pcclan->clanlevel > ch->pc_clan()->clanlevel)) /* or they're a higher rank */
     {
         snprintf(buf, sizeof(buf), "You can't noclanchan %s!\n\r", victim->name);
         send_to_char(buf, ch);
@@ -168,16 +167,16 @@ void do_noclanchan(CHAR_DATA *ch, const char *argument) {
 
     /* If we get here everything is ok */
 
-    victim->pcdata->pcclan->channelflags ^= CLANCHANNEL_NOCHANNED; /* Change the victim's flags */
+    victim_pcclan->channelflags ^= CLANCHANNEL_NOCHANNED; /* Change the victim's flags */
 
     /* Tell the char how things went */
     snprintf(buf, sizeof(buf), "You have %sed %s's clan channel privileges.\n\r",
-             (victim->pcdata->pcclan->channelflags & CLANCHANNEL_NOCHANNED) ? "revok" : "reinstat", victim->name);
+             victim_pcclan->channelflags & CLANCHANNEL_NOCHANNED ? "revok" : "reinstat", victim->name);
     send_to_char(buf, ch);
 
     /* Inform the hapless victim */
     snprintf(buf, sizeof(buf), "%s has %sed your clan channel privileges.\n\r", ch->name,
-             (victim->pcdata->pcclan->channelflags & CLANCHANNEL_NOCHANNED) ? "revok" : "reinstat");
+             victim_pcclan->channelflags & CLANCHANNEL_NOCHANNED ? "revok" : "reinstat");
     buf[0] = UPPER(buf[0]);
     send_to_char(buf, victim);
 } /* do_noclanchan */
@@ -185,7 +184,6 @@ void do_noclanchan(CHAR_DATA *ch, const char *argument) {
 void do_member(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char buf2[MAX_STRING_LENGTH];
-    PCCLAN *newpcclan;
     CHAR_DATA *victim;
 
     /* Check for ability to member */
@@ -193,10 +191,10 @@ void do_member(CHAR_DATA *ch, const char *argument) {
     if (IS_NPC(ch))
         return;
 
-    if ((ch->pcdata->pcclan == nullptr) || (ch->pcdata->pcclan->clanlevel < CLAN_LEADER)) {
+    if (!ch->pc_clan() || ch->pc_clan()->clanlevel < CLAN_LEADER) {
         send_to_char("Huh?\n\r", ch); /* Cheesy cheat */
         return;
-    } /* If not priveleged enough */
+    } /* If not privileged enough */
 
     argument = one_argument(argument, buf2); /* Get the command */
     if (buf2[0] != '+' && buf2[0] != '-') {
@@ -221,51 +219,44 @@ void do_member(CHAR_DATA *ch, const char *argument) {
 
     if (buf2[0] == '+') {
         /* Adding a new member of the clan */
-        if (victim->pcdata->pcclan) { /* The person is *already* in a clan */
-            if (victim->pcdata->pcclan->clan->clanchar == ch->pcdata->pcclan->clan->clanchar) {
-                /* Leader is trying to 'member +' a person who is already a memeber of their
+        if (victim->clan()) { /* The person is *already* in a clan */
+            if (victim->clan()->clanchar == ch->clan()->clanchar) {
+                /* Leader is trying to 'member +' a person who is already a member of their
                            clan.  They're probably trying to promote the person in question */
                 snprintf(buf, sizeof(buf),
                          "%s is already a member of the %s.\n\rUse 'promote' to promote characters.\n\r", victim->name,
-                         ch->pcdata->pcclan->clan->name);
+                         ch->clan()->name);
                 send_to_char(buf, ch);
                 return;
             } else {
                 /* In another clan ! */
                 snprintf(buf, sizeof(buf), "%s is a member of the %s.\n\rThey must leave that clan first.\n\r",
-                         victim->name, ch->pcdata->pcclan->clan->name);
+                         victim->name, ch->clan()->name);
                 send_to_char(buf, ch);
                 return;
             } /* in your clan? */
         } /* if victim already in a clan */
-        newpcclan = (PCCLAN *)alloc_mem(sizeof(PCCLAN));
-        newpcclan->clan = ch->pcdata->pcclan->clan;
-        newpcclan->clanlevel = CLAN_MEMBER;
-        newpcclan->channelflags = CLANCHANNEL_ON;
-        victim->pcdata->pcclan = newpcclan; /* dan-ar! */
-        snprintf(buf, sizeof(buf), "%s welcomes %s to the %s", ch->name, victim->name, ch->pcdata->pcclan->clan->name);
+        victim->pcdata->pcclan.emplace(PCCLAN{ch->clan()});
+        snprintf(buf, sizeof(buf), "%s welcomes %s to the %s", ch->name, victim->name, ch->clan()->name);
         act(buf, ch, nullptr, victim, To::NotVict);
-        snprintf(buf, sizeof(buf), "You have become %s of the %s.\n\r",
-                 ch->pcdata->pcclan->clan->levelname[CLAN_MEMBER], ch->pcdata->pcclan->clan->name);
+        snprintf(buf, sizeof(buf), "You have become %s of the %s.\n\r", ch->pc_clan()->level_name(), ch->clan()->name);
         send_to_char(buf, victim);
-        snprintf(buf, sizeof(buf), "You welcome %s as %s of the %s.\n\r", victim->name,
-                 ch->pcdata->pcclan->clan->levelname[CLAN_MEMBER], ch->pcdata->pcclan->clan->name);
+        snprintf(buf, sizeof(buf), "You welcome %s as %s of the %s.\n\r", victim->name, ch->pc_clan()->level_name(),
+                 ch->clan()->name);
         send_to_char(buf, ch);
     } else { /* End adding member */
         /* Removing a person from a clan */
-        if ((victim->pcdata->pcclan == nullptr)
-            || (victim->pcdata->pcclan->clan->clanchar != ch->pcdata->pcclan->clan->clanchar)) {
+        if (victim->clan() == nullptr || victim->clan()->clanchar != ch->clan()->clanchar) {
             snprintf(buf, sizeof(buf), "%s is not a member of your clan.\n\r", victim->name);
             send_to_char(buf, ch);
             return;
         } /* If not in clan */
-        free_mem(victim->pcdata->pcclan, sizeof(PCCLAN));
-        victim->pcdata->pcclan = nullptr;
-        snprintf(buf, sizeof(buf), "%s removes %s from the %s", ch->name, victim->name, ch->pcdata->pcclan->clan->name);
+        victim->pcdata->pcclan.reset();
+        snprintf(buf, sizeof(buf), "%s removes %s from the %s", ch->name, victim->name, ch->clan()->name);
         act(buf, ch, nullptr, victim, To::NotVict);
-        snprintf(buf, sizeof(buf), "You have been discharged from the %s.\n\r", ch->pcdata->pcclan->clan->name);
+        snprintf(buf, sizeof(buf), "You have been discharged from the %s.\n\r", ch->clan()->name);
         send_to_char(buf, victim);
-        snprintf(buf, sizeof(buf), "You remove %s from the %s.\n\r", victim->name, ch->pcdata->pcclan->clan->name);
+        snprintf(buf, sizeof(buf), "You remove %s from the %s.\n\r", victim->name, ch->clan()->name);
         send_to_char(buf, ch);
     } /* ..else */
 } /* do_member */
@@ -279,10 +270,10 @@ void mote(CHAR_DATA *ch, const char *argument, int add) {
     if (IS_NPC(ch))
         return;
 
-    if ((ch->pcdata->pcclan == nullptr) || (ch->pcdata->pcclan->clanlevel < CLAN_LEADER)) {
+    if (!ch->pc_clan() || ch->pc_clan()->clanlevel < CLAN_LEADER) {
         send_to_char("Huh?\n\r", ch); /* Cheesy cheat */
         return;
-    } /* If not priveleged enough */
+    } /* If not privileged enough */
 
     victim = get_char_room(ch, argument);
     if (victim == nullptr) {
@@ -295,31 +286,26 @@ void mote(CHAR_DATA *ch, const char *argument, int add) {
         return;
     }
 
-    if ((victim->pcdata->pcclan == nullptr)
-        || (victim->pcdata->pcclan->clan->clanchar != ch->pcdata->pcclan->clan->clanchar)) {
+    if (!victim->pc_clan() || victim->clan()->clanchar != ch->clan()->clanchar) {
         send_to_char("You don't have authority to promote or demote them.\n\r", ch);
         return;
     }
 
     /* Idiot-proofing */
-    if ((victim->pcdata->pcclan->clanlevel + add) > CLAN_HERO) {
+    if ((victim->pc_clan()->clanlevel + add) > CLAN_HERO) {
         snprintf(buf, sizeof(buf), "You cannot make %s into another leader.\n\r", victim->name);
         send_to_char(buf, ch);
         return;
     }
-    if ((victim->pcdata->pcclan->clanlevel + add) < CLAN_MEMBER) {
+    if ((victim->pc_clan()->clanlevel + add) < CLAN_MEMBER) {
         send_to_char("You can't demote below member status.\n\r", ch);
         return;
     }
 
     victim->pcdata->pcclan->clanlevel += add;
-    snprintf(buf, sizeof(buf), "$n is now %s of the %s.",
-             victim->pcdata->pcclan->clan->levelname[victim->pcdata->pcclan->clanlevel],
-             victim->pcdata->pcclan->clan->name);
+    snprintf(buf, sizeof(buf), "$n is now %s of the %s.", victim->pc_clan()->level_name(), victim->clan()->name);
     act(buf, victim);
-    snprintf(buf, sizeof(buf), "You are now %s of the %s.\n\r",
-             victim->pcdata->pcclan->clan->levelname[victim->pcdata->pcclan->clanlevel],
-             victim->pcdata->pcclan->clan->name);
+    snprintf(buf, sizeof(buf), "You are now %s of the %s.\n\r", victim->pc_clan()->level_name(), victim->clan()->name);
     send_to_char(buf, victim);
 } /* c'est le end */
 
@@ -334,7 +320,7 @@ void do_clanwho(CHAR_DATA *ch, const char *argument) {
     if (IS_NPC(ch))
         return;
 
-    if (!ch->pcdata->pcclan) {
+    if (!ch->clan()) {
         send_to_char("You have no clan.\n\r", ch);
         return;
     }
@@ -343,9 +329,8 @@ void do_clanwho(CHAR_DATA *ch, const char *argument) {
     send_to_char("|c-------------------+-------------------------------|w\n\r", ch);
     for (auto &d : descriptors().all_visible_to(*ch)) {
         auto *wch = d.person();
-        auto *pcclan = wch->pcdata->pcclan;
-        if (pcclan && pcclan->clan->clanchar == ch->pcdata->pcclan->clan->clanchar) {
-            snprintf(buf, sizeof(buf), "%-19s|c|||w %s\n\r", wch->name, pcclan->clan->levelname[pcclan->clanlevel]);
+        if (wch->clan() && wch->clan()->clanchar == ch->clan()->clanchar) {
+            snprintf(buf, sizeof(buf), "%-19s|c|||w %s\n\r", wch->name, wch->pc_clan()->level_name());
             send_to_char(buf, ch);
         }
     }
@@ -356,15 +341,10 @@ void do_clanwho(CHAR_DATA *ch, const char *argument) {
  */
 
 void do_clanset(CHAR_DATA *ch, const char *argument) {
-
     char buf[MAX_STRING_LENGTH * 2];
-    char buf2[MAX_STRING_LENGTH];
     char arg1[MAX_INPUT_LENGTH];
     char marker;
-    int iClan;
-    int count = 0; /* Stops erroneous warning */
     CHAR_DATA *victim;
-    PCCLAN *newpcclan;
 
     argument = one_argument(argument, arg1);
 
@@ -394,6 +374,7 @@ void do_clanset(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
+        const CLAN *clan_to_add_to{};
         if (marker == '+') {
 
             argument = one_argument(argument, arg1);
@@ -403,13 +384,12 @@ void do_clanset(CHAR_DATA *ch, const char *argument) {
                 return;
             }
 
-            iClan = -1;
-            for (count = 0; count < NUM_CLANS; count++)
-                if (is_name(arg1, clantable[count].name)) {
-                    iClan = count;
+            for (auto &clan : clantable)
+                if (is_name(arg1, clan.name)) {
+                    clan_to_add_to = &clan;
                     break;
                 }
-            if ((iClan == -1) || (!str_prefix(arg1, "Implementor") && get_trust(ch) < IMPLEMENTOR)) {
+            if (!clan_to_add_to || (!str_prefix(arg1, "Implementor") && ch->get_trust() < IMPLEMENTOR)) {
                 send_to_char("That is not a valid clan name.\n\r", ch);
                 send_to_char("Do 'help clanlist' to see those available.\n\r", ch);
                 return;
@@ -419,19 +399,15 @@ void do_clanset(CHAR_DATA *ch, const char *argument) {
 
         case '+': { /* make someone a member of a clan */
 
-            if (victim->pcdata->pcclan) {
+            if (victim->clan()) {
                 snprintf(buf, sizeof(buf), "%s is already in a clan.\n\r", victim->name);
                 send_to_char(buf, ch);
                 return;
             }
 
-            newpcclan = (PCCLAN *)alloc_mem(sizeof(PCCLAN));
-            newpcclan->clan = (CLAN *)&clantable[count];
-            newpcclan->clanlevel = CLAN_MEMBER;
-            newpcclan->channelflags = CLANCHANNEL_ON;
-            victim->pcdata->pcclan = newpcclan;
-            snprintf(buf, sizeof(buf), "You set %s as %s of the %s.\n\r", victim->name,
-                     victim->pcdata->pcclan->clan->levelname[CLAN_MEMBER], victim->pcdata->pcclan->clan->name);
+            victim->pcdata->pcclan.emplace(PCCLAN{clan_to_add_to});
+            snprintf(buf, sizeof(buf), "You set %s as %s of the %s.\n\r", victim->name, victim->pc_clan()->level_name(),
+                     victim->clan()->name);
             send_to_char(buf, ch);
             return;
             break;
@@ -440,16 +416,14 @@ void do_clanset(CHAR_DATA *ch, const char *argument) {
             /* Removing a person from a clan */
 
         case '-': {
-            if ((victim->pcdata->pcclan == nullptr)) {
+            if (!victim->clan()) {
                 snprintf(buf, sizeof(buf), "%s is not a member of a clan.\n\r", victim->name);
                 send_to_char(buf, ch);
                 return;
             }
-            strcpy(buf2, victim->pcdata->pcclan->clan->name);
-
-            free_mem(victim->pcdata->pcclan, sizeof(PCCLAN));
-            victim->pcdata->pcclan = nullptr;
-            snprintf(buf, sizeof(buf), "You remove %s from the %s.\n\r", victim->name, buf2);
+            auto clan_name = victim->clan()->name;
+            victim->pcdata->pcclan.reset();
+            snprintf(buf, sizeof(buf), "You remove %s from the %s.\n\r", victim->name, clan_name);
             send_to_char(buf, ch);
             return;
         }
@@ -474,7 +448,7 @@ void do_clanset(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        if (victim->pcdata->pcclan == nullptr) {
+        if (!victim->clan()) {
             snprintf(buf, sizeof(buf), "%s is not in a clan.\n\r", victim->name);
             send_to_char(buf, ch);
             return;

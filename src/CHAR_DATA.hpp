@@ -2,6 +2,7 @@
 
 #include "Descriptor.hpp"
 #include "ExtraFlags.hpp"
+#include "PC_DATA.hpp"
 #include "Stats.hpp"
 #include "Types.hpp"
 
@@ -12,7 +13,6 @@ struct MOB_INDEX_DATA;
 struct NOTE_DATA;
 struct OBJ_DATA;
 struct ROOM_INDEX_DATA;
-struct PC_DATA;
 struct GEN_DATA;
 struct MPROG_ACT_LIST;
 
@@ -152,6 +152,12 @@ struct CHAR_DATA {
 
     // Return true if a char is affected by a spell.
     [[nodiscard]] bool is_affected_by(int skill_number) const;
+
+    // Return a pointer to the character's overall clan if they have one.
+    [[nodiscard]] const CLAN *clan() const;
+    // Return a pointer to the character's individual clan membership info, if they have one.
+    [[nodiscard]] PCCLAN *pc_clan();
+    [[nodiscard]] const PCCLAN *pc_clan() const;
 
     // Send text to this character's user (if they have one).
     void send_to(std::string_view txt) const;

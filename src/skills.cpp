@@ -402,7 +402,7 @@ void list_group_chosen(CHAR_DATA *ch) {
     send_to_char(buf, ch);
 }
 
-unsigned int exp_per_level(CHAR_DATA *ch, int points) {
+unsigned int exp_per_level(const CHAR_DATA *ch, int points) {
     unsigned int expl, inc;
     unsigned int expl2;
 

@@ -13,17 +13,20 @@
 #include "interp.h"
 #include "merc.h"
 
+#include <fmt/format.h>
+
 #include <cstdio>
 
-extern void print_status(CHAR_DATA *ch, const char *name, const char *master_name, int state, int master_state);
+using namespace fmt::literals;
 
-static void print_channel_status(CHAR_DATA *ch, const char *chan, unsigned long reference, unsigned long flag) {
+extern void print_status(const CHAR_DATA *ch, const char *name, const char *master_name, int state, int master_state);
+
+static void print_channel_status(const CHAR_DATA *ch, const char *chan, unsigned long reference, unsigned long flag) {
     print_status(ch, chan, "OFF due to quiet mode", !IS_SET(reference, flag), !IS_SET(ch->comm, COMM_QUIET));
 }
 
-void do_channels(CHAR_DATA *ch, const char *argument) {
+void do_channels(const CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    PCCLAN *OrigClan;
 
     /* lists all channels and their status */
     send_to_char("|Wchannel         status|w\n\r", ch);
@@ -40,11 +43,9 @@ void do_channels(CHAR_DATA *ch, const char *argument) {
     print_channel_status(ch, "qwest", ch->comm, COMM_NOQWEST);
     print_channel_status(ch, "shout", ch->comm, COMM_NOSHOUT);
 
-    /* Determine if the player is in a clan, and find which one */
-    OrigClan = ch->player() ? ch->player()->pcdata->pcclan : nullptr;
-
-    if (OrigClan) {
-        print_channel_status(ch, "clan channel", (OrigClan->channelflags) ^ CLANCHANNEL_ON, CLANCHANNEL_ON);
+    // Determine if the player is in a clan, and find which one.
+    if (const auto *pc_clan = ch->player() ? ch->player()->pc_clan() : nullptr) {
+        print_channel_status(ch, "clan channel", pc_clan->channelflags ^ CLANCHANNEL_ON, CLANCHANNEL_ON);
     }
 
     if (IS_IMMORTAL(ch))
@@ -53,22 +54,20 @@ void do_channels(CHAR_DATA *ch, const char *argument) {
     print_status(ch, "quiet mode", "", IS_SET(ch->comm, COMM_QUIET), 1);
 
     if (ch->lines != PAGELEN) {
-        char buf[100];
         if (ch->lines) {
-            snprintf(buf, sizeof(buf), "You display %d lines of scroll.\n\r", ch->lines + 2);
-            send_to_char(buf, ch);
+            ch->send_to("You display %d lines of scroll.\n\r"_format(ch->lines + 2));
         } else
-            send_to_char("Scroll buffering is off.\n\r", ch);
+            ch->send_to("Scroll buffering is off.\n\r");
     }
 
     if (IS_SET(ch->comm, COMM_NOTELL))
-        send_to_char("You cannot use tell.\n\r", ch);
+        ch->send_to("You cannot use tell.\n\r");
 
     if (IS_SET(ch->comm, COMM_NOCHANNELS))
-        send_to_char("You cannot use channels.\n\r", ch);
+        ch->send_to("You cannot use channels.\n\r");
 
     if (IS_SET(ch->comm, COMM_NOEMOTE))
-        send_to_char("You cannot show emotions.\n\r", ch);
+        ch->send_to("You cannot show emotions.\n\r");
 }
 
 static void toggle_channel(CHAR_DATA *ch, unsigned long chan_flag, const char *chan_name) {

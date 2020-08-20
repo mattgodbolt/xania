@@ -59,7 +59,7 @@ extern void do_cast(CHAR_DATA *ch, const char *argument);
 extern void do_challenge(CHAR_DATA *ch, const char *arg);
 extern void do_cancel_chal(CHAR_DATA *ch, const char *arg);
 extern void do_changes(CHAR_DATA *ch, const char *arg);
-extern void do_channels(CHAR_DATA *ch, const char *argument);
+extern void do_channels(const CHAR_DATA *ch, const char *argument);
 extern void do_clone(CHAR_DATA *ch, const char *arg);
 extern void do_close(CHAR_DATA *ch, const char *arg);
 extern void do_colour(CHAR_DATA *ch, const char *arg);
@@ -291,5 +291,5 @@ extern void do_clanset(CHAR_DATA *ch, const char *arg);
 /* end of clan stuff */
 
 /* Misc stuff */
-extern void announce(const char *buf, CHAR_DATA *ch);
+extern void announce(const char *buf, const CHAR_DATA *ch);
 bool check_social(CHAR_DATA *ch, const char *command, const char *arg);

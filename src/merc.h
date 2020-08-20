@@ -27,6 +27,7 @@
 #pragma once
 
 #include "CHAR_DATA.hpp"
+#include "Constants.hpp"
 #include "Stats.hpp"
 #include "Types.hpp"
 #include "clan.h"
@@ -63,50 +64,6 @@ typedef struct shop_data SHOP_DATA;
 typedef struct known_players KNOWN_PLAYERS; // TODO(#108) remove if unused.
 /* Merc22 MOBProgs */
 typedef struct mob_prog_data MPROG_DATA; /* MOBprogram */
-
-/*
- * String and memory management parameters.
- */
-static inline constexpr auto MAX_KEY_HASH = 1024;
-static inline constexpr auto MAX_STRING_LENGTH = 4096;
-static inline constexpr auto MAX_INPUT_LENGTH = 256;
-static inline constexpr auto PAGELEN = 22;
-static inline constexpr auto LOG_BUF_SIZE = 2 * MAX_INPUT_LENGTH;
-
-/*
- * Game parameters.
- * Increase the max'es if you add more of something.
- * Adjust the pulse numbers to suit yourself.
- */
-static inline constexpr auto MAX_SOCIALS = 256;
-static inline constexpr auto MAX_SKILL = 150;
-static inline constexpr auto MAX_GROUP = 30;
-static inline constexpr auto MAX_IN_GROUP = 15;
-static inline constexpr auto MAX_CLASS = 4;
-static inline constexpr auto MAX_PC_RACE = 12;
-static inline constexpr auto MAX_LEVEL = 100;
-/* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-static inline constexpr auto MAX_LEVEL_MPROG = MAX_LEVEL + 1;
-static inline constexpr auto LEVEL_HERO = MAX_LEVEL - 9;
-static inline constexpr auto LEVEL_IMMORTAL = MAX_LEVEL - 8;
-static inline constexpr auto LEVEL_CONSIDER = 80;
-
-static inline constexpr auto PULSE_PER_SECOND = 4;
-static inline constexpr auto PULSE_VIOLENCE = 3 * PULSE_PER_SECOND;
-static inline constexpr auto PULSE_MOBILE = 4 * PULSE_PER_SECOND;
-static inline constexpr auto PULSE_TICK = 30 * PULSE_PER_SECOND;
-static inline constexpr auto PULSE_AREA = 60 * PULSE_PER_SECOND;
-
-static inline constexpr auto IMPLEMENTOR = MAX_LEVEL;
-static inline constexpr auto CREATOR = MAX_LEVEL - 1;
-static inline constexpr auto SUPREME = MAX_LEVEL - 2;
-static inline constexpr auto DEITY = MAX_LEVEL - 3;
-static inline constexpr auto GOD = MAX_LEVEL - 4;
-static inline constexpr auto IMMORTAL = MAX_LEVEL - 5;
-static inline constexpr auto DEMI = MAX_LEVEL - 6;
-static inline constexpr auto ANGEL = MAX_LEVEL - 7;
-static inline constexpr auto AVATAR = MAX_LEVEL - 8;
-static inline constexpr auto HERO = LEVEL_HERO;
 
 /*
  * Site ban structure.
@@ -1112,35 +1069,6 @@ extern bool MOBtrigger;
 #define GIVE_PROG 512
 #define BRIBE_PROG 1024
 
-/*
- * Data which only PC's have.
- */
-struct PC_DATA {
-    char *pwd{};
-    char *bamfin{};
-    char *bamfout{};
-    std::string title;
-    char *prompt{};
-    char *afk{};
-    char *prefix{};
-    char *info_message{};
-    sh_int houroffset{};
-    sh_int minoffset{};
-    sh_int perm_hit{};
-    sh_int perm_mana{};
-    sh_int perm_move{};
-    sh_int true_sex{};
-
-    int last_level{};
-    sh_int condition[3]{};
-    sh_int learned[MAX_SKILL]{};
-    bool group_known[MAX_GROUP]{};
-    sh_int points{};
-    bool confirm_delete{};
-    bool colour{};
-    PCCLAN *pcclan{};
-};
-
 /* Data for generating characters -- only used during generation */
 struct GEN_DATA {
     GEN_DATA *next;
@@ -1824,7 +1752,7 @@ bool load_char_obj(Descriptor *d, const char *name);
 /* skills.c */
 bool parse_gen_groups(CHAR_DATA *ch, const char *argument);
 void list_group_costs(CHAR_DATA *ch);
-unsigned int exp_per_level(CHAR_DATA *ch, int points);
+unsigned int exp_per_level(const CHAR_DATA *ch, int points);
 void check_improve(CHAR_DATA *ch, int sn, bool success, int multiplier);
 int group_lookup(const char *name);
 void gn_add(CHAR_DATA *ch, int gn);

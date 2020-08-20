@@ -77,20 +77,18 @@ void load_player_list() {
 /* Rohan's setinfo function */
 void do_setinfo(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    char buf[MAX_STRING_LENGTH];
     int update_show = 0;
     int update_hide = 0;
     char smash_tilded[MAX_INPUT_LENGTH];
 
     if (argument[0] == '\0') {
-        send_to_char("These are your current info settings:\n\r", ch);
-        if (ch->pcdata->info_message[0] == '\0')
-            snprintf(buf, sizeof(buf), "Message: Not set.\n\r");
+        ch->send_to("These are your current info settings:\n\r");
+        if (ch->pcdata->info_message.empty())
+            ch->send_to("Message: Not set.\n\r");
         else if (is_set_extra(ch, EXTRA_INFO_MESSAGE))
-            snprintf(buf, sizeof(buf), "Message: %s\n\r", ch->pcdata->info_message);
+            ch->send_to("Message: {}.\n\r"_format(ch->pcdata->info_message));
         else
-            snprintf(buf, sizeof(buf), "Message: Withheld.\n\r");
-        send_to_char(buf, ch);
+            ch->send_to("Message: Withheld.\n\r");
         return;
     }
     strncpy(smash_tilded, smash_tilde(argument).c_str(),
@@ -101,21 +99,18 @@ void do_setinfo(CHAR_DATA *ch, const char *argument) {
     if (!strcmp(arg, "message")) {
         if (args[0] == '\0') {
             if (is_set_extra(ch, EXTRA_INFO_MESSAGE)) {
-                if (ch->pcdata->info_message[0] == '\0')
-                    snprintf(buf, sizeof(buf), "Your message is currently not set.\n\r");
+                if (ch->pcdata->info_message.empty())
+                    ch->send_to("Your message is currently not set.\n\r");
                 else
-                    snprintf(buf, sizeof(buf), "Your message is currently set as: %s.\n\r", ch->pcdata->info_message);
+                    ch->send_to("Your message is currently set as: {}.\n\r"_format(ch->pcdata->info_message));
             } else
-                snprintf(buf, sizeof(buf), "Your message is currently being withheld.\n\r");
-            send_to_char(buf, ch);
+                ch->send_to("Your message is currently being withheld.\n\r");
         } else {
-            free_string(ch->pcdata->info_message);
             if (strlen(args) > 45)
                 args[45] = '\0';
-            ch->pcdata->info_message = str_dup(args);
-            snprintf(buf, sizeof(buf), "Your message has been set to: %s.\n\r", ch->pcdata->info_message);
+            ch->pcdata->info_message = args;
             set_extra(ch, EXTRA_INFO_MESSAGE);
-            send_to_char(buf, ch);
+            ch->send_to("Your message has been set to: {}.\n\r"_format(ch->pcdata->info_message));
             /* Update the info if it is in cache */
             if (auto cur = search_info_cache(ch)) {
                 /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
@@ -185,8 +180,7 @@ void do_setinfo(CHAR_DATA *ch, const char *argument) {
     }
 
     if (!strcmp(arg, "clear")) {
-        free_string(ch->pcdata->info_message);
-        ch->pcdata->info_message = str_dup("");
+        ch->pcdata->info_message.clear();
         send_to_char("Your info details have been cleared.\n\r", ch);
         /* Do the same if in cache */
         if (auto cur = search_info_cache(ch)) {

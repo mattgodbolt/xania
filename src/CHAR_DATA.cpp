@@ -201,3 +201,8 @@ void CHAR_DATA::page_to(std::string_view txt) const {
     if (desc)
         desc->page_to(txt);
 }
+
+PCCLAN *CHAR_DATA::pc_clan() { return is_pc() && pcdata->pcclan ? &pcdata->pcclan.value() : nullptr; }
+const PCCLAN *CHAR_DATA::pc_clan() const { return is_pc() && pcdata->pcclan ? &pcdata->pcclan.value() : nullptr; }
+
+const CLAN *CHAR_DATA::clan() const { return pc_clan() ? pc_clan()->clan : nullptr; }
