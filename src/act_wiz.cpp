@@ -150,7 +150,7 @@ void do_nochannels(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_bamfin(CHAR_DATA *ch, const char *argument) {
-    if (!ch->is_pc())
+    if (ch = ch->player(); !ch)
         return;
     auto bamfin = smash_tilde(argument);
 
@@ -169,7 +169,7 @@ void do_bamfin(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_bamfout(CHAR_DATA *ch, const char *argument) {
-    if (!ch->is_pc())
+    if (ch = ch->player(); !ch)
         return;
     auto bamfout = smash_tilde(argument);
 
@@ -521,14 +521,12 @@ void do_at(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_goto(CHAR_DATA *ch, const char *argument) {
-    ROOM_INDEX_DATA *location;
-    CHAR_DATA *rch;
-
     if (argument[0] == '\0') {
         send_to_char("Goto where?\n\r", ch);
         return;
     }
 
+    ROOM_INDEX_DATA *location;
     if ((location = find_location(ch, argument)) == nullptr) {
         send_to_char("No such location.\n\r", ch);
         return;
@@ -542,7 +540,8 @@ void do_goto(CHAR_DATA *ch, const char *argument) {
     if (ch->fighting != nullptr)
         stop_fighting(ch, true);
 
-    for (rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
+    // We don't user ch->player()'s bamfin/bamfout to avoid exposing which IMM is controlling a switched mob.
+    for (auto *rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
         if (get_trust(rch) >= ch->invis_level) {
             if (ch->pcdata != nullptr && !ch->pcdata->bamfout.empty())
                 act("$t", ch, ch->pcdata->bamfout, rch, To::Vict);
@@ -558,7 +557,7 @@ void do_goto(CHAR_DATA *ch, const char *argument) {
         char_to_room(ch->pet, location);
     }
 
-    for (rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
+    for (auto *rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
         if (get_trust(rch) >= ch->invis_level) {
             if (ch->pcdata != nullptr && !ch->pcdata->bamfin.empty())
                 act("$t", ch, ch->pcdata->bamfin, rch, To::Vict);
