@@ -132,6 +132,14 @@ struct CHAR_DATA {
     // Retrieve a character's trusted level for permission checking.
     [[nodiscard]] int get_trust() const;
 
+    // Returns the PC character controlling this character,or nullptr if not controlled by a pc.
+    // That is:
+    // * For a player: return this
+    // * For an NPC controlled by a switched IMM, return that IMM
+    // * For a normal NPC, return null.
+    [[nodiscard]] const CHAR_DATA *player() const { return desc ? desc->person() : nullptr; }
+    [[nodiscard]] CHAR_DATA *player() { return desc ? desc->person() : nullptr; }
+
     [[nodiscard]] bool has_holylight() const;
     [[nodiscard]] bool is_immortal() const;
 

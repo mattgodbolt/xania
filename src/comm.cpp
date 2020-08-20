@@ -1399,7 +1399,6 @@ void show_prompt(Descriptor *d, char *prompt) {
     char buf[256]; /* this is actually sent to the ch */
     char buf2[64];
     CHAR_DATA *ch;
-    CHAR_DATA *ch_prefix = nullptr; /* Needed for prefix in prompt with switched MOB */
     char *point;
     char *str;
     const char *i;
@@ -1413,11 +1412,7 @@ void show_prompt(Descriptor *d, char *prompt) {
     if (!IS_NPC(ch) && (ch->pcdata->colour))
         send_to_char("|p", ch);
 
-    if (IS_NPC(ch)) {
-        if (ch->desc->original())
-            ch_prefix = ch->desc->original();
-    } else
-        ch_prefix = ch;
+    auto ch_prefix = ch->player();
 
     if (prompt == nullptr || prompt[0] == '\0') {
         snprintf(buf, sizeof(buf), "<%d/%dhp %d/%dm %dmv> |w", ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move);

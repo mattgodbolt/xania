@@ -224,69 +224,43 @@ void set_prefix(CHAR_DATA *ch, const char *prefix) {
 
 /* do_prefix added 19-05-97 PCFN */
 void do_prefix(CHAR_DATA *ch, const char *argument) {
-    CHAR_DATA *ch_prefix = nullptr;
-    char ch_buffer[MAX_STRING_LENGTH];
+    if (ch = ch->player(); !ch)
+        return;
 
     auto prefix = smash_tilde(argument);
-
     if (prefix.length() > (MAX_STRING_LENGTH - 1))
         prefix.resize(MAX_STRING_LENGTH - 1);
 
-    if (IS_NPC(ch)) {
-        if (ch->desc->original())
-            ch_prefix = ch->desc->original();
-        else
-            return;
-    } else
-        ch_prefix = ch;
-
-    /* ch_prefix is the character, or the character who is switched into the MOB
-       otherwise it's nullptr */
-
-    if (ch_prefix == nullptr)
-        return;
-
     if (prefix.empty()) {
-        if (ch_prefix->pcdata->prefix[0] == '\0') {
-            snprintf(ch_buffer, sizeof(ch_buffer), "No prefix to remove.\n\r");
+        if (ch->pcdata->prefix[0] == '\0') {
+            ch->send_to("No prefix to remove.\n\r");
         } else {
-            snprintf(ch_buffer, sizeof(ch_buffer), "Prefix removed.\n\r");
+            ch->send_to("Prefix removed.\n\r");
         }
+        return;
     }
 
-    set_prefix(ch_prefix, prefix.c_str());
-    if (ch_prefix->pcdata->prefix[0] != '\0')
-        snprintf(ch_buffer, sizeof(ch_buffer), "Prefix set to \"%s\"\n\r", ch_prefix->pcdata->prefix);
-
-    send_to_char(ch_buffer, ch);
+    set_prefix(ch, prefix.c_str());
+    ch->send_to("Prefix set to \"{}\".\n\r"_format(ch->pcdata->prefix));
 }
 
 /* do_timezone added PCFN 24-05-97 */
 void do_timezone(CHAR_DATA *ch, const char *argument) {
-    CHAR_DATA *ch_owner = nullptr;
-    char buf[64];
-
-    if (IS_NPC(ch)) {
-        if (ch->desc->original())
-            ch_owner = ch->desc->original();
-        else
-            return;
-    } else
-        ch_owner = ch;
+    if (ch = ch->player(); !ch)
+        return;
 
     if (argument[0] == '\0') {
-        if (ch_owner->pcdata->minoffset == 0 && ch_owner->pcdata->houroffset == 0)
-            send_to_char("British time is already being used\n\r", ch_owner);
+        if (ch->pcdata->minoffset == 0 && ch->pcdata->houroffset == 0)
+            ch->send_to("British time is already being used\n\r");
         else {
-            send_to_char("British time will be used\n\r", ch_owner);
-            ch_owner->pcdata->minoffset = 0;
-            ch_owner->pcdata->houroffset = 0;
+            ch->send_to("British time will be used\n\r");
+            ch->pcdata->minoffset = 0;
+            ch->pcdata->houroffset = 0;
         }
     } else {
-        sscanf(argument, "%d:%d", (int *)&(ch_owner->pcdata->houroffset), (int *)&(ch_owner->pcdata->minoffset));
-        snprintf(buf, sizeof(buf), "Time will now be displayed %d:%02d from GMT\n\r", ch_owner->pcdata->houroffset,
-                 ch_owner->pcdata->minoffset);
-        send_to_char(buf, ch_owner);
+        sscanf(argument, "%hd:%hd", &ch->pcdata->houroffset, &ch->pcdata->minoffset);
+        ch->send_to(
+            "Time will now be displayed %d:%02d from GMT\n\r"_format(ch->pcdata->houroffset, ch->pcdata->minoffset));
     }
 }
 
@@ -297,16 +271,8 @@ void do_timezone(CHAR_DATA *ch, const char *argument) {
 int get_skill_level(const CHAR_DATA *ch, int gsn) {
     int level = 0, bonus;
 
-    if (IS_NPC(ch)) {
-
-        if (ch->desc) { /* Is this a switched IMM? */
-            if ((ch = ch->desc->original()) == nullptr) {
-                return 1;
-            }
-        } else { /* A genuine NPC */
-            return 1;
-        }
-    }
+    if (ch = ch->player(); !ch)
+        return 1;
 
     /* First we work out which level they'd get it at because of their class */
 
