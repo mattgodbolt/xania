@@ -217,11 +217,6 @@ void do_immworth(CHAR_DATA *ch, const char *argument) {
     send_to_char(buf, ch);
 }
 
-void set_prefix(CHAR_DATA *ch, const char *prefix) {
-    free_string(ch->pcdata->prefix);
-    ch->pcdata->prefix = str_dup(prefix);
-}
-
 /* do_prefix added 19-05-97 PCFN */
 void do_prefix(CHAR_DATA *ch, const char *argument) {
     if (ch = ch->player(); !ch)
@@ -232,16 +227,16 @@ void do_prefix(CHAR_DATA *ch, const char *argument) {
         prefix.resize(MAX_STRING_LENGTH - 1);
 
     if (prefix.empty()) {
-        if (ch->pcdata->prefix[0] == '\0') {
+        if (ch->pcdata->prefix.empty()) {
             ch->send_to("No prefix to remove.\n\r");
         } else {
             ch->send_to("Prefix removed.\n\r");
+            ch->pcdata->prefix.clear();
         }
-        return;
+    } else {
+        ch->pcdata->prefix = prefix;
+        ch->send_to("Prefix set to \"{}\"\n\r"_format(ch->pcdata->prefix));
     }
-
-    set_prefix(ch, prefix.c_str());
-    ch->send_to("Prefix set to \"{}\".\n\r"_format(ch->pcdata->prefix));
 }
 
 /* do_timezone added PCFN 24-05-97 */

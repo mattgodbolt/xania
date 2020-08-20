@@ -66,7 +66,9 @@ add_library(xania_lib STATIC
         CHAR_DATA.cpp CHAR_DATA.hpp
         Types.hpp
         Stats.hpp
-        ExtraFlags.hpp)
+        ExtraFlags.hpp
+        PC_DATA.hpp
+        Constants.hpp)
 target_link_libraries(xania_lib xania_common crypt chat CONAN_PKG::fmt CONAN_PKG::range-v3)
 
 add_executable(xania main.cpp)

@@ -13,8 +13,12 @@
 #include "merc.h"
 #include "string_utils.hpp"
 
+#include <fmt/format.h>
+
 #include <cstdio>
 #include <cstring>
+
+using namespace fmt::literals;
 
 const char *dir_name[] = {"north", "east", "south", "west", "up", "down"};
 
@@ -34,7 +38,6 @@ void move_char(CHAR_DATA *ch, int door) {
     ROOM_INDEX_DATA *in_room;
     ROOM_INDEX_DATA *to_room;
     EXIT_DATA *pexit;
-    char buf[MAX_STRING_LENGTH];
 
     if (door < 0 || door > 5) {
         bug("Do_move: bad door %d.", door);
@@ -78,7 +81,7 @@ void move_char(CHAR_DATA *ch, int door) {
     }
 
     if (!IS_NPC(ch)) {
-        int iClass, iGuild, iClan;
+        int iClass, iGuild;
         int move;
 
         for (iClass = 0; iClass < MAX_CLASS; iClass++) {
@@ -93,17 +96,10 @@ void move_char(CHAR_DATA *ch, int door) {
         /* added Faramir 25/6/96 to stop non-clan members walking into room */
 
         if (!IS_IMMORTAL(ch)) {
-            for (iClan = 0; iClan < NUM_CLANS; iClan++) {
-
-                if (to_room->vnum == clantable[iClan].entrance_vnum) {
-                    if ((ch->pcdata->pcclan == nullptr) || ch->pcdata->pcclan->clan != &clantable[iClan]) {
-                        snprintf(buf, sizeof(buf), "Only members of the %s may enter there.\n\r",
-                                 clantable[iClan].name);
-
-                        send_to_char(buf, ch);
-
-                        return;
-                    }
+            for (auto &clan : clantable) {
+                if (to_room->vnum == clan.entrance_vnum && ch->clan() != &clan) {
+                    ch->send_to("Only members of the {} may enter there.\n\r"_format(clan.name));
+                    return;
                 }
             }
         }
@@ -235,7 +231,6 @@ void do_enter(CHAR_DATA *ch, const char *argument) {
     ROOM_INDEX_DATA *to_room, *in_room;
     CHAR_DATA *fch;
     CHAR_DATA *fch_next;
-    char buf[MAX_STRING_LENGTH];
     int count = 0, number = number_argument(argument, arg);
     if (ch->riding) {
         send_to_char("Before entering a portal you must dismount.\n\r", ch);
@@ -266,7 +261,7 @@ void do_enter(CHAR_DATA *ch, const char *argument) {
                     }
 
                     if (!IS_NPC(ch)) {
-                        int iClass, iGuild, iClan;
+                        int iClass, iGuild;
                         for (iClass = 0; iClass < MAX_CLASS; iClass++) {
                             for (iGuild = 0; iGuild < MAX_GUILD; iGuild++) {
                                 if (iClass != ch->class_num && to_room->vnum == class_table[iClass].guild[iGuild]) {
@@ -277,17 +272,10 @@ void do_enter(CHAR_DATA *ch, const char *argument) {
                         }
 
                         if (!IS_IMMORTAL(ch)) {
-                            for (iClan = 0; iClan < NUM_CLANS; iClan++) {
-                                if (to_room->vnum == clantable[iClan].entrance_vnum) {
-                                    if ((ch->pcdata->pcclan == nullptr)
-                                        || ch->pcdata->pcclan->clan != &clantable[iClan]) {
-                                        snprintf(buf, sizeof(buf), "Only members of the %s may enter there.\n\r",
-                                                 clantable[iClan].name);
-
-                                        send_to_char(buf, ch);
-
-                                        return;
-                                    }
+                            for (auto &clan : clantable) {
+                                if (to_room->vnum == clan.entrance_vnum && ch->clan() != &clan) {
+                                    ch->send_to("Only members of the {} may enter there.\n\r"_format(clan.name));
+                                    return;
                                 }
                             }
                         }
@@ -1074,15 +1062,15 @@ void do_recall(CHAR_DATA *ch, const char *argument) {
     if (!str_cmp(argument, "clan")) {
         if (IS_SET(ch->act, ACT_PET)) {
             if (ch->master != nullptr) {
-                if (ch->master->pcdata->pcclan)
-                    vnum = ch->master->pcdata->pcclan->clan->recall_vnum;
+                if (ch->master->clan())
+                    vnum = ch->master->clan()->recall_vnum;
                 else
                     return;
             } else
                 return;
         } else {
-            if (ch->pcdata->pcclan) {
-                vnum = ch->pcdata->pcclan->clan->recall_vnum;
+            if (ch->clan()) {
+                vnum = ch->clan()->recall_vnum;
             } else {
                 send_to_char("You're not a member of a clan.\n\r", ch);
                 return;

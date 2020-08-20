@@ -150,53 +150,41 @@ void do_nochannels(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_bamfin(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
+    if (ch = ch->player(); !ch)
+        return;
+    auto bamfin = smash_tilde(argument);
 
-    if (!IS_NPC(ch)) {
-        auto bamfin = smash_tilde(argument);
-
-        if (bamfin.empty()) {
-            bug_snprintf(buf, sizeof(buf), "Your poofin is %s\n\r", ch->pcdata->bamfin);
-            send_to_char(buf, ch);
-            return;
-        }
-
-        if (strstr(bamfin.c_str(), ch->name) == nullptr) {
-            send_to_char("You must include your name.\n\r", ch);
-            return;
-        }
-
-        free_string(ch->pcdata->bamfin);
-        ch->pcdata->bamfin = str_dup(bamfin.c_str()); // TODO sadness
-
-        bug_snprintf(buf, sizeof(buf), "Your poofin is now %s\n\r", ch->pcdata->bamfin);
-        send_to_char(buf, ch);
+    if (bamfin.empty()) {
+        ch->send_to("Your poofin is {}\n\r"_format(ch->pcdata->bamfin));
+        return;
     }
+
+    if (strstr(bamfin.c_str(), ch->name) == nullptr) {
+        ch->send_to("You must include your name.\n\r");
+        return;
+    }
+
+    ch->pcdata->bamfin = bamfin;
+    ch->send_to("Your poofin is now {}\n\r"_format(ch->pcdata->bamfin));
 }
 
 void do_bamfout(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
+    if (ch = ch->player(); !ch)
+        return;
+    auto bamfout = smash_tilde(argument);
 
-    if (!IS_NPC(ch)) {
-        auto bamfout = smash_tilde(argument);
-
-        if (bamfout.empty()) {
-            bug_snprintf(buf, sizeof(buf), "Your poofout is %s\n\r", ch->pcdata->bamfout);
-            send_to_char(buf, ch);
-            return;
-        }
-
-        if (strstr(bamfout.c_str(), ch->name) == nullptr) {
-            send_to_char("You must include your name.\n\r", ch);
-            return;
-        }
-
-        free_string(ch->pcdata->bamfout);
-        ch->pcdata->bamfout = str_dup(bamfout.c_str()); // TODO sadness
-
-        bug_snprintf(buf, sizeof(buf), "Your poofout is now %s\n\r", ch->pcdata->bamfout);
-        send_to_char(buf, ch);
+    if (bamfout.empty()) {
+        ch->send_to("Your poofout is {}\n\r"_format(ch->pcdata->bamfout));
+        return;
     }
+
+    if (strstr(bamfout.c_str(), ch->name) == nullptr) {
+        ch->send_to("You must include your name.\n\r");
+        return;
+    }
+
+    ch->pcdata->bamfout = bamfout;
+    ch->send_to("Your poofout is now {}\n\r"_format(ch->pcdata->bamfout));
 }
 
 void do_deny(CHAR_DATA *ch, const char *argument) {
@@ -533,14 +521,12 @@ void do_at(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_goto(CHAR_DATA *ch, const char *argument) {
-    ROOM_INDEX_DATA *location;
-    CHAR_DATA *rch;
-
     if (argument[0] == '\0') {
         send_to_char("Goto where?\n\r", ch);
         return;
     }
 
+    ROOM_INDEX_DATA *location;
     if ((location = find_location(ch, argument)) == nullptr) {
         send_to_char("No such location.\n\r", ch);
         return;
@@ -554,9 +540,10 @@ void do_goto(CHAR_DATA *ch, const char *argument) {
     if (ch->fighting != nullptr)
         stop_fighting(ch, true);
 
-    for (rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
+    // We don't user ch->player()'s bamfin/bamfout to avoid exposing which IMM is controlling a switched mob.
+    for (auto *rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
         if (get_trust(rch) >= ch->invis_level) {
-            if (ch->pcdata != nullptr && ch->pcdata->bamfout[0] != '\0')
+            if (ch->pcdata != nullptr && !ch->pcdata->bamfout.empty())
                 act("$t", ch, ch->pcdata->bamfout, rch, To::Vict);
             else
                 act("$n leaves in a swirling mist.", ch, nullptr, rch, To::Vict);
@@ -570,9 +557,9 @@ void do_goto(CHAR_DATA *ch, const char *argument) {
         char_to_room(ch->pet, location);
     }
 
-    for (rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
+    for (auto *rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
         if (get_trust(rch) >= ch->invis_level) {
-            if (ch->pcdata != nullptr && ch->pcdata->bamfin[0] != '\0')
+            if (ch->pcdata != nullptr && !ch->pcdata->bamfin.empty())
                 act("$t", ch, ch->pcdata->bamfin, rch, To::Vict);
             else
                 act("$n appears in a swirling mist.", ch, nullptr, rch, To::Vict);
@@ -1303,10 +1290,8 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
     }
 
     bug_snprintf(buf, sizeof(buf), "Name: %s     Clan: %s     Rank: %s.\n\r", victim->name,
-                 (!IS_NPC(victim) && victim->pcdata->pcclan) ? victim->pcdata->pcclan->clan->name : "(none)",
-                 (!IS_NPC(victim) && victim->pcdata->pcclan)
-                     ? victim->pcdata->pcclan->clan->levelname[victim->pcdata->pcclan->clanlevel]
-                     : "(none)");
+                 victim->clan() ? victim->clan()->name : "(none)",
+                 victim->pc_clan() ? victim->pc_clan()->level_name() : "(none)");
     send_to_char(buf, ch);
 
     bug_snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
