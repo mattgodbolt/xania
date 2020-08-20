@@ -4,7 +4,6 @@
 
 #include <array>
 
-static constexpr inline auto MAX_GUILD = 3;
 enum class Stat {
     // Order is important: this is the order these are specified in the pfiles and area files.
     Str = 0,

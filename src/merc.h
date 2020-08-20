@@ -201,7 +201,7 @@ struct shop_data {
 /*
  * Per-class stuff.
  */
-
+static constexpr inline auto MAX_GUILD = 3;
 struct class_type {
     const char *name; /* the full name of the class */
     char who_name[4]; /* Three-letter name for 'who'  */
