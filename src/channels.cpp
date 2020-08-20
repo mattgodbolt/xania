@@ -41,13 +41,7 @@ void do_channels(CHAR_DATA *ch, const char *argument) {
     print_channel_status(ch, "shout", ch->comm, COMM_NOSHOUT);
 
     /* Determine if the player is in a clan, and find which one */
-    if (IS_NPC(ch)) {
-        if (ch->desc->original() != nullptr)
-            OrigClan = ch->desc->original()->pcdata->pcclan;
-        else
-            OrigClan = nullptr;
-    } else
-        OrigClan = ch->pcdata->pcclan;
+    OrigClan = ch->player() ? ch->player()->pcdata->pcclan : nullptr;
 
     if (OrigClan) {
         print_channel_status(ch, "clan channel", (OrigClan->channelflags) ^ CLANCHANNEL_ON, CLANCHANNEL_ON);

@@ -80,11 +80,8 @@ void save_char_obj(CHAR_DATA *ch) {
     char buf[MAX_STRING_LENGTH];
     FILE *fp;
 
-    if (IS_NPC(ch))
+    if (ch = ch->player(); !ch)
         return;
-
-    if (ch->desc != nullptr && ch->desc->is_switched())
-        ch = ch->desc->original();
 
     /* create god log */
     if (IS_IMMORTAL(ch) || ch->level >= LEVEL_IMMORTAL) {
