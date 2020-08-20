@@ -86,28 +86,28 @@ void do_outfit(CHAR_DATA *ch, const char *argument) {
     }
 
     if ((obj = get_eq_char(ch, WEAR_LIGHT)) == nullptr) {
-        obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_BANNER), 0);
+        obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_BANNER));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, WEAR_LIGHT);
     }
 
     if ((obj = get_eq_char(ch, WEAR_BODY)) == nullptr) {
-        obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_VEST), 0);
+        obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_VEST));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, WEAR_BODY);
     }
 
     if ((obj = get_eq_char(ch, WEAR_SHIELD)) == nullptr) {
-        obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_SHIELD), 0);
+        obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_SHIELD));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, WEAR_SHIELD);
     }
 
     if ((obj = get_eq_char(ch, WEAR_WIELD)) == nullptr) {
-        obj = create_object(get_obj_index(class_table[ch->class_num].weapon), 0);
+        obj = create_object(get_obj_index(class_table[ch->class_num].weapon));
         obj_to_char(obj, ch);
         equip_char(ch, obj, WEAR_WIELD);
     }
@@ -1778,7 +1778,7 @@ void recursive_clone(CHAR_DATA *ch, OBJ_DATA *obj, OBJ_DATA *clone) {
 
     for (c_obj = obj->contains; c_obj != nullptr; c_obj = c_obj->next_content) {
         if (obj_check(ch, c_obj)) {
-            t_obj = create_object(c_obj->pIndexData, 0);
+            t_obj = create_object(c_obj->pIndexData);
             clone_object(c_obj, t_obj);
             obj_to_obj(t_obj, clone);
             recursive_clone(ch, c_obj, t_obj);
@@ -1833,7 +1833,7 @@ void do_clone(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        clone = create_object(obj->pIndexData, 0);
+        clone = create_object(obj->pIndexData);
         clone_object(obj, clone);
         if (obj->carried_by != nullptr)
             obj_to_char(clone, ch);
@@ -1865,7 +1865,7 @@ void do_clone(CHAR_DATA *ch, const char *argument) {
 
         for (obj = mob->carrying; obj != nullptr; obj = obj->next_content) {
             if (obj_check(ch, obj)) {
-                new_obj = create_object(obj->pIndexData, 0);
+                new_obj = create_object(obj->pIndexData);
                 clone_object(obj, new_obj);
                 recursive_clone(ch, obj, new_obj);
                 obj_to_char(new_obj, clone);
@@ -1933,29 +1933,13 @@ void do_oload(CHAR_DATA *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
     OBJ_INDEX_DATA *pObjIndex;
     OBJ_DATA *obj;
-    int level;
 
     argument = one_argument(argument, arg1);
     one_argument(argument, arg2);
 
     if (arg1[0] == '\0' || !is_number(arg1)) {
-        send_to_char("Syntax: load obj <vnum> <level>.\n\r", ch);
+        send_to_char("Syntax: load obj <vnum>.\n\r", ch);
         return;
-    }
-
-    level = get_trust(ch); /* default */
-
-    if (arg2[0] != '\0') /* load with a level */
-    {
-        if (!is_number(arg2)) {
-            send_to_char("Syntax: oload <vnum> <level>.\n\r", ch);
-            return;
-        }
-        level = atoi(arg2);
-        if (level < 0 || level > get_trust(ch)) {
-            send_to_char("Level must be be between 0 and your level.\n\r", ch);
-            return;
-        }
     }
 
     if ((pObjIndex = get_obj_index(atoi(arg1))) == nullptr) {
@@ -1963,7 +1947,7 @@ void do_oload(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    obj = create_object(pObjIndex, level);
+    obj = create_object(pObjIndex);
     if (CAN_WEAR(obj, ITEM_TAKE))
         obj_to_char(obj, ch);
     else

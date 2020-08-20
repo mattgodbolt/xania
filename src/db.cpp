@@ -862,7 +862,6 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
     CHAR_DATA *LastMob = nullptr;
     OBJ_DATA *LastObj = nullptr;
     int iExit;
-    int level = 0;
     bool last;
 
     if (!pRoom)
@@ -931,7 +930,6 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
             char_to_room(pMob, pRoom);
 
             LastMob = pMob;
-            level = URANGE(0, pMob->level - 2, LEVEL_HERO - 1);
             last = true;
             break;
 
@@ -951,7 +949,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
                 break;
             }
 
-            pObj = create_object(pObjIndex, number_fuzzy(level));
+            pObj = create_object(pObjIndex);
             pObj->cost = 0;
             obj_to_room(pObj, pRoom);
             break;
@@ -982,7 +980,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
             }
 
             while (count < pReset->arg4) {
-                pObj = create_object(pObjIndex, number_fuzzy(LastObj->level));
+                pObj = create_object(pObjIndex);
                 obj_to_obj(pObj, LastObj);
                 count++;
                 if (pObjIndex->count >= limit)
@@ -1016,7 +1014,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
 
             if (LastMob->pIndexData->pShop) /* Shop-keeper? */
             {
-                pObj = create_object(pObjIndex, 0); // 0 = obj level
+                pObj = create_object(pObjIndex);
                 SET_BIT(pObj->extra_flags, ITEM_INVENTORY);
             }
 
@@ -1029,7 +1027,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
                     limit = pReset->arg2;
 
                 if (pObjIndex->count < limit || number_range(0, 4) == 0) {
-                    pObj = create_object(pObjIndex, UMIN(number_fuzzy(level), LEVEL_HERO - 1));
+                    pObj = create_object(pObjIndex);
 #ifdef notdef /* Hack for object levels */
                     /* error message if it is too high */
                     if (pObj->level > LastMob->level + 3
@@ -1269,10 +1267,7 @@ void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone) {
  * TheMoog 1/10/2k : fixes up portal objects - value[0] of a portal
  * if non-zero is looked up and then destination set accordingly.
  */
-// TODO(Forrey): 'level' is ignored. Remove it from all callers, which always
-// pass in 0 anyway.
-OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex, int level) {
-    level = level;
+OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
     static OBJ_DATA obj_zero;
     OBJ_DATA *obj;
 

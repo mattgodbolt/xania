@@ -255,7 +255,7 @@ void do_cast(CHAR_DATA *ch, const char *argument) {
                 act("You carefully add another spell to your bomb.", ch, nullptr, nullptr, To::Char);
 
             } else {
-                bomb = create_object(get_obj_index(OBJ_VNUM_BOMB), 0);
+                bomb = create_object(get_obj_index(OBJ_VNUM_BOMB));
                 bomb->level = ch->level;
                 bomb->value[0] = ch->level;
                 bomb->value[1] = sn;
@@ -321,7 +321,7 @@ void do_cast(CHAR_DATA *ch, const char *argument) {
             ch->mana -= (mana * 2);
             ch->gold -= (mana * 100);
 
-            scroll = create_object(get_obj_index(OBJ_VNUM_SCROLL), 0);
+            scroll = create_object(get_obj_index(OBJ_VNUM_SCROLL));
             scroll->level = ch->level;
             scroll->value[0] = ch->level;
             scroll->value[1] = sn;
@@ -392,7 +392,7 @@ void do_cast(CHAR_DATA *ch, const char *argument) {
             ch->mana -= (mana * 2);
             ch->gold -= (mana * 100);
 
-            potion = create_object(get_obj_index(OBJ_VNUM_POTION), 0);
+            potion = create_object(get_obj_index(OBJ_VNUM_POTION));
             potion->level = ch->level;
             potion->value[0] = ch->level;
             potion->value[1] = sn;
@@ -1199,7 +1199,7 @@ void spell_continual_light(int sn, int level, CHAR_DATA *ch, void *vo) {
     (void)vo;
     OBJ_DATA *light;
 
-    light = create_object(get_obj_index(OBJ_VNUM_LIGHT_BALL), 0);
+    light = create_object(get_obj_index(OBJ_VNUM_LIGHT_BALL));
     obj_to_room(light, ch->in_room);
     act("$n twiddles $s thumbs and $p appears.", ch, light, nullptr, To::Room);
     act("You twiddle your thumbs and $p appears.", ch, light, nullptr, To::Char);
@@ -1222,7 +1222,7 @@ void spell_control_weather(int sn, int level, CHAR_DATA *ch, void *vo) {
 void spell_create_food(int sn, int level, CHAR_DATA *ch, void *vo) {
     (void)sn;
     (void)vo;
-    OBJ_DATA *mushroom = create_object(get_obj_index(OBJ_VNUM_MUSHROOM), 0);
+    OBJ_DATA *mushroom = create_object(get_obj_index(OBJ_VNUM_MUSHROOM));
     mushroom->value[0] = 5 + level;
     obj_to_room(mushroom, ch->in_room);
     act("$p suddenly appears.", ch, mushroom, nullptr, To::Room);
@@ -1232,7 +1232,7 @@ void spell_create_food(int sn, int level, CHAR_DATA *ch, void *vo) {
 void spell_create_spring(int sn, int level, CHAR_DATA *ch, void *vo) {
     (void)sn;
     (void)vo;
-    OBJ_DATA *spring = create_object(get_obj_index(OBJ_VNUM_SPRING), 0);
+    OBJ_DATA *spring = create_object(get_obj_index(OBJ_VNUM_SPRING));
     spring->timer = level;
     obj_to_room(spring, ch->in_room);
     act("$p flows from the ground.", ch, spring, nullptr, To::Room);
@@ -3302,7 +3302,7 @@ void spell_portal(int sn, int level, CHAR_DATA *ch, void *vo) {
         send_to_char("You cannot portal from this room.\n\r", ch);
         return;
     }
-    portal = create_object(get_obj_index(OBJ_VNUM_PORTAL), 0);
+    portal = create_object(get_obj_index(OBJ_VNUM_PORTAL));
     portal->timer = (ch->level / 10);
     portal->destination = victim->in_room;
 
@@ -3314,7 +3314,7 @@ void spell_portal(int sn, int level, CHAR_DATA *ch, void *vo) {
     obj_to_room(portal, ch->in_room);
 
     /* Create second portal */
-    portal = create_object(get_obj_index(OBJ_VNUM_PORTAL), 0);
+    portal = create_object(get_obj_index(OBJ_VNUM_PORTAL));
     portal->timer = (ch->level / 10);
     portal->destination = ch->in_room;
 

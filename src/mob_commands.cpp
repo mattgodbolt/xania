@@ -328,7 +328,6 @@ void do_mpoload(CHAR_DATA *ch, const char *argument) {
     char arg2[MAX_INPUT_LENGTH];
     OBJ_INDEX_DATA *pObjIndex;
     OBJ_DATA *obj;
-    int level;
 
     if (!IS_NPC(ch)) {
         send_to_char("Huh?\n\r", ch);
@@ -343,29 +342,12 @@ void do_mpoload(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (arg2[0] == '\0') {
-        level = get_trust(ch);
-    } else {
-        /*
-         * New feature from Alander.
-         */
-        if (!is_number(arg2)) {
-            bug("Mpoload - Bad syntax from vnum %d.", ch->pIndexData->vnum);
-            return;
-        }
-        level = atoi(arg2);
-        if (level < 0 || level > get_trust(ch)) {
-            bug("Mpoload - Bad level from vnum %d.", ch->pIndexData->vnum);
-            return;
-        }
-    }
-
     if ((pObjIndex = get_obj_index(atoi(arg1))) == nullptr) {
         bug("Mpoload - Bad vnum arg from vnum %d.", ch->pIndexData->vnum);
         return;
     }
 
-    obj = create_object(pObjIndex, level);
+    obj = create_object(pObjIndex);
     if (CAN_WEAR(obj, ITEM_TAKE)) {
         obj_to_char(obj, ch);
     } else {

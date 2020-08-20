@@ -1005,7 +1005,7 @@ void nanny(Descriptor *d, const char *argument) {
             ch->send_to("the {}"_format(title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]));
 
             do_outfit(ch, "");
-            obj_to_char(create_object(get_obj_index(OBJ_VNUM_MAP), 0), ch);
+            obj_to_char(create_object(get_obj_index(OBJ_VNUM_MAP)), ch);
 
             ch->pcdata->learned[get_weapon_sn(ch)] = 40;
 

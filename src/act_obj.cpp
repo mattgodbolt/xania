@@ -2041,7 +2041,7 @@ void do_buy(CHAR_DATA *ch, const char *argument) {
         keeper->gold += cost;
 
         if (IS_SET(obj->extra_flags, ITEM_INVENTORY))
-            obj = create_object(obj->pIndexData, obj->level);
+            obj = create_object(obj->pIndexData);
         else
             obj_from_char(obj);
 

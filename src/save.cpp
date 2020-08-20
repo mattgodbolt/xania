@@ -985,7 +985,7 @@ void fread_obj(CHAR_DATA *ch, FILE *fp) {
         if (get_obj_index(vnum) == nullptr) {
             bug("Fread_obj: bad vnum %d.", vnum);
         } else {
-            obj = create_object(get_obj_index(vnum), -1);
+            obj = create_object(get_obj_index(vnum));
             new_format = true;
         }
     }
@@ -1116,7 +1116,7 @@ void fread_obj(CHAR_DATA *ch, FILE *fp) {
                         wear = obj->wear_loc;
                         extract_obj(obj);
 
-                        obj = create_object(obj->pIndexData, 0);
+                        obj = create_object(obj->pIndexData);
                         obj->wear_loc = wear;
                     }
                     if (iNest == 0 || rgObjNest[iNest] == nullptr)

@@ -1661,7 +1661,7 @@ void boot_db();
 void area_update();
 CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex);
 void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone);
-OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex, int level);
+OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex);
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
 void clear_char(CHAR_DATA *ch);
 void free_char(CHAR_DATA *ch);

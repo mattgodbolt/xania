@@ -1447,15 +1447,9 @@ OBJ_DATA *get_obj_here(CHAR_DATA *ch, const char *argument) {
 
 /* Written by Wandera & Death */
 OBJ_DATA *get_object(sh_int vnum) {
-    OBJ_DATA *obj;
-    OBJ_INDEX_DATA *pObjIndex;
-
-    pObjIndex = get_obj_index(vnum);
-    if (pObjIndex != nullptr) {
-        obj = create_object(pObjIndex, 1);
-        return obj;
+    if (OBJ_INDEX_DATA *pObjIndex = get_obj_index(vnum); pObjIndex != nullptr) {
+        return create_object(pObjIndex);
     }
-
     return nullptr;
 }
 
@@ -1496,9 +1490,9 @@ OBJ_DATA *create_money(int amount) {
     }
 
     if (amount == 1) {
-        obj = create_object(get_obj_index(OBJ_VNUM_MONEY_ONE), 0);
+        obj = create_object(get_obj_index(OBJ_VNUM_MONEY_ONE));
     } else {
-        obj = create_object(get_obj_index(OBJ_VNUM_MONEY_SOME), 0);
+        obj = create_object(get_obj_index(OBJ_VNUM_MONEY_SOME));
         snprintf(buf, sizeof(buf), obj->short_descr, amount);
         free_string(obj->short_descr);
         obj->short_descr = str_dup(buf);

@@ -1296,7 +1296,7 @@ void make_corpse(CHAR_DATA *ch) {
 
     if (IS_NPC(ch)) {
         name = ch->short_descr;
-        corpse = create_object(get_obj_index(OBJ_VNUM_CORPSE_NPC), 0);
+        corpse = create_object(get_obj_index(OBJ_VNUM_CORPSE_NPC));
         corpse->timer = number_range(3, 6);
         if (ch->gold > 0) {
             obj_to_obj(create_money(ch->gold), corpse);
@@ -1305,7 +1305,7 @@ void make_corpse(CHAR_DATA *ch) {
         corpse->cost = 0;
     } else {
         name = ch->name;
-        corpse = create_object(get_obj_index(OBJ_VNUM_CORPSE_PC), 0);
+        corpse = create_object(get_obj_index(OBJ_VNUM_CORPSE_PC));
         corpse->timer = number_range(25, 40);
         REMOVE_BIT(ch->act, PLR_CANLOOT);
         if (!IS_SET(ch->act, PLR_KILLER) && !IS_SET(ch->act, PLR_THIEF))
@@ -1393,7 +1393,7 @@ void death_cry(CHAR_DATA *ch) {
         char *name;
 
         name = IS_NPC(ch) ? ch->short_descr : ch->name;
-        obj = create_object(get_obj_index(vnum), 1);
+        obj = create_object(get_obj_index(vnum));
         obj->timer = number_range(4, 7);
 
         snprintf(buf, sizeof(buf), obj->short_descr, name);
