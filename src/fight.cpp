@@ -499,22 +499,14 @@ void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
      * Hit.
      * Calc damage.
      */
-    if (IS_NPC(ch) && (!ch->pIndexData->new_format || wield == nullptr))
-        if (!ch->pIndexData->new_format) {
-            dam = number_range(ch->level / 2, ch->level * 3 / 2);
-            if (wield != nullptr)
-                dam += dam / 2;
-        } else
-            dam = dice(ch->damage[DICE_NUMBER], ch->damage[DICE_TYPE]);
+    if (IS_NPC(ch) && wield == nullptr)
+        dam = dice(ch->damage[DICE_NUMBER], ch->damage[DICE_TYPE]);
 
     else {
         if (sn != -1)
             check_improve(ch, sn, true, 5);
         if (wield != nullptr) {
-            if (wield->pIndexData->new_format)
-                dam = dice(wield->value[1], wield->value[2]) * skill / 100;
-            else
-                dam = number_range(wield->value[1] * skill / 100, wield->value[2] * skill / 100);
+            dam = dice(wield->value[1], wield->value[2]) * skill / 100;
 
             /* Sharp weapon flag implemented by Wandera */
             if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON) && !self_hitting)
@@ -529,28 +521,15 @@ void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
             /* If weapon is vorpal the change of damage being *4  */
             if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON)) {
                 if (IS_SET(wield->value[4], WEAPON_VORPAL)) {
-                    if (wield->pIndexData->new_format) {
-                        if (dam == (1 + wield->value[2]) * wield->value[1] / 2) {
-                            dam *= 4;
-                            bug("one_hit:QUAD_DAM with %s [%d] by %s", wield->name, wield->pIndexData->vnum, ch->name);
-                            act("With a blood curdling scream you leap forward swinging\n\ryour weapon in a great arc.",
-                                ch, nullptr, victim, To::Char);
-                            act("$n screams and leaps forwards swinging $s weapon in a great arc.", ch, nullptr, victim,
-                                To::NotVict);
-                            act("$n screams and leaps towards you swinging $s weapon in a great arc.", ch, nullptr,
-                                victim, To::Vict);
-                        }
-                    } else {
-                        if (dam == (wield->value[1] + wield->value[2]) / 2) {
-                            dam *= 4;
-                            send_to_char(
-                                "With a blood curdling scream you leap forward swinging your weapon in a great    arc.",
-                                ch);
-                            act("$n screams and leaps forwards swinging his weapon in a great arc.", ch, nullptr,
-                                victim, To::Room);
-                            act("$n screams and leaps towards you swinging his weapon in a great arc.", ch, nullptr,
-                                victim, To::Vict);
-                        }
+                    if (dam == (1 + wield->value[2]) * wield->value[1] / 2) {
+                        dam *= 4;
+                        bug("one_hit:QUAD_DAM with %s [%d] by %s", wield->name, wield->pIndexData->vnum, ch->name);
+                        act("With a blood curdling scream you leap forward swinging\n\ryour weapon in a great arc.", ch,
+                            nullptr, victim, To::Char);
+                        act("$n screams and leaps forwards swinging $s weapon in a great arc.", ch, nullptr, victim,
+                            To::NotVict);
+                        act("$n screams and leaps towards you swinging $s weapon in a great arc.", ch, nullptr, victim,
+                            To::Vict);
                     }
                 }
             }

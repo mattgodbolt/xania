@@ -1016,32 +1016,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
 
             if (LastMob->pIndexData->pShop) /* Shop-keeper? */
             {
-                int olevel = 0, i, j;
-
-                if (!pObjIndex->new_format)
-                    switch (pObjIndex->item_type) {
-                    case ITEM_PILL:
-                    case ITEM_POTION:
-                    case ITEM_SCROLL:
-                        olevel = 53;
-                        for (i = 1; i < 5; i++) {
-                            if (pObjIndex->value[i] > 0) {
-                                for (j = 0; j < MAX_CLASS; j++) {
-                                    olevel = UMIN(olevel, skill_table[pObjIndex->value[i]].skill_level[j]);
-                                }
-                            }
-                        }
-
-                        olevel = UMAX(0, (olevel * 3 / 4) - 2);
-                        break;
-                    case ITEM_WAND: olevel = number_range(10, 20); break;
-                    case ITEM_STAFF: olevel = number_range(15, 25); break;
-                    case ITEM_ARMOR: olevel = number_range(5, 15); break;
-                    case ITEM_WEAPON: olevel = number_range(5, 15); break;
-                    case ITEM_TREASURE: olevel = number_range(10, 20); break;
-                    }
-
-                pObj = create_object(pObjIndex, olevel);
+                pObj = create_object(pObjIndex, 0); // 0 = obj level
                 SET_BIT(pObj->extra_flags, ITEM_INVENTORY);
             }
 
@@ -1142,115 +1117,75 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
     mob->description = str_dup(pMobIndex->description);
     mob->spec_fun = pMobIndex->spec_fun;
 
-    if (pMobIndex->new_format)
-    /* load in new style */
-    {
-        /* read from prototype */
-        mob->act = pMobIndex->act;
-        mob->comm = COMM_NOCHANNELS | COMM_NOSHOUT | COMM_NOTELL;
-        mob->affected_by = pMobIndex->affected_by;
-        mob->alignment = pMobIndex->alignment;
-        mob->level = pMobIndex->level;
-        mob->hitroll = pMobIndex->hitroll;
-        mob->damroll = pMobIndex->damage[DICE_BONUS];
-        mob->max_hit = dice(pMobIndex->hit[DICE_NUMBER], pMobIndex->hit[DICE_TYPE]) + pMobIndex->hit[DICE_BONUS];
-        mob->hit = mob->max_hit;
-        mob->max_mana = dice(pMobIndex->mana[DICE_NUMBER], pMobIndex->mana[DICE_TYPE]) + pMobIndex->mana[DICE_BONUS];
-        mob->mana = mob->max_mana;
-        mob->damage[DICE_NUMBER] = pMobIndex->damage[DICE_NUMBER];
-        mob->damage[DICE_TYPE] = pMobIndex->damage[DICE_TYPE];
-        mob->dam_type = pMobIndex->dam_type;
-        for (i = 0; i < 4; i++)
-            mob->armor[i] = pMobIndex->ac[i];
-        mob->off_flags = pMobIndex->off_flags;
-        mob->imm_flags = pMobIndex->imm_flags;
-        mob->res_flags = pMobIndex->res_flags;
-        mob->vuln_flags = pMobIndex->vuln_flags;
-        mob->start_pos = pMobIndex->start_pos;
-        mob->default_pos = pMobIndex->default_pos;
-        mob->sex = pMobIndex->sex;
-        if (mob->sex == 3) /* random sex */
-            mob->sex = number_range(1, 2);
-        mob->race = pMobIndex->race;
-        if (pMobIndex->gold == 0)
-            mob->gold = 0;
-        else
-            mob->gold = number_range(pMobIndex->gold / 2, pMobIndex->gold * 3 / 2);
-        mob->form = pMobIndex->form;
-        mob->parts = pMobIndex->parts;
-        mob->size = pMobIndex->size;
-        mob->material = pMobIndex->material;
+    /* read from prototype */
+    mob->act = pMobIndex->act;
+    mob->comm = COMM_NOCHANNELS | COMM_NOSHOUT | COMM_NOTELL;
+    mob->affected_by = pMobIndex->affected_by;
+    mob->alignment = pMobIndex->alignment;
+    mob->level = pMobIndex->level;
+    mob->hitroll = pMobIndex->hitroll;
+    mob->damroll = pMobIndex->damage[DICE_BONUS];
+    mob->max_hit = dice(pMobIndex->hit[DICE_NUMBER], pMobIndex->hit[DICE_TYPE]) + pMobIndex->hit[DICE_BONUS];
+    mob->hit = mob->max_hit;
+    mob->max_mana = dice(pMobIndex->mana[DICE_NUMBER], pMobIndex->mana[DICE_TYPE]) + pMobIndex->mana[DICE_BONUS];
+    mob->mana = mob->max_mana;
+    mob->damage[DICE_NUMBER] = pMobIndex->damage[DICE_NUMBER];
+    mob->damage[DICE_TYPE] = pMobIndex->damage[DICE_TYPE];
+    mob->dam_type = pMobIndex->dam_type;
+    for (i = 0; i < 4; i++)
+        mob->armor[i] = pMobIndex->ac[i];
+    mob->off_flags = pMobIndex->off_flags;
+    mob->imm_flags = pMobIndex->imm_flags;
+    mob->res_flags = pMobIndex->res_flags;
+    mob->vuln_flags = pMobIndex->vuln_flags;
+    mob->start_pos = pMobIndex->start_pos;
+    mob->default_pos = pMobIndex->default_pos;
+    mob->sex = pMobIndex->sex;
+    if (mob->sex == 3) /* random sex */
+        mob->sex = number_range(1, 2);
+    mob->race = pMobIndex->race;
+    if (pMobIndex->gold == 0)
+        mob->gold = 0;
+    else
+        mob->gold = number_range(pMobIndex->gold / 2, pMobIndex->gold * 3 / 2);
+    mob->form = pMobIndex->form;
+    mob->parts = pMobIndex->parts;
+    mob->size = pMobIndex->size;
+    mob->material = pMobIndex->material;
 
-        /* computed on the spot */
+    /* computed on the spot */
 
-        ranges::fill(mob->perm_stat, UMIN(25, 11 + mob->level / 4));
+    ranges::fill(mob->perm_stat, UMIN(25, 11 + mob->level / 4));
 
-        if (IS_SET(mob->act, ACT_WARRIOR)) {
-            mob->perm_stat[Stat::Str] += 3;
-            mob->perm_stat[Stat::Int] -= 1;
-            mob->perm_stat[Stat::Con] += 2;
-        }
-
-        if (IS_SET(mob->act, ACT_THIEF)) {
-            mob->perm_stat[Stat::Dex] += 3;
-            mob->perm_stat[Stat::Int] += 1;
-            mob->perm_stat[Stat::Wis] -= 1;
-        }
-
-        if (IS_SET(mob->act, ACT_CLERIC)) {
-            mob->perm_stat[Stat::Wis] += 3;
-            mob->perm_stat[Stat::Dex] -= 1;
-            mob->perm_stat[Stat::Str] += 1;
-        }
-
-        if (IS_SET(mob->act, ACT_MAGE)) {
-            mob->perm_stat[Stat::Int] += 3;
-            mob->perm_stat[Stat::Str] -= 1;
-            mob->perm_stat[Stat::Dex] += 1;
-        }
-
-        if (IS_SET(mob->off_flags, OFF_FAST))
-            mob->perm_stat[Stat::Dex] += 2;
-
-        mob->perm_stat[Stat::Str] += mob->size - SIZE_MEDIUM;
-        mob->perm_stat[Stat::Con] += (mob->size - SIZE_MEDIUM) / 2;
-    } else /* read in old format and convert */
-    {
-        mob->act = pMobIndex->act | ACT_WARRIOR;
-        mob->affected_by = pMobIndex->affected_by;
-        mob->alignment = pMobIndex->alignment;
-        mob->level = pMobIndex->level;
-        mob->hitroll = pMobIndex->hitroll + (pMobIndex->level / 3);
-        mob->damroll = pMobIndex->level / 2;
-        mob->max_hit = mob->level * 8 + number_range(mob->level * mob->level / 4, mob->level * mob->level);
-        mob->max_hit *= .9;
-        mob->hit = mob->max_hit;
-        mob->max_mana = 100 + dice(mob->level, 10);
-        mob->mana = mob->max_mana;
-        switch (number_range(1, 3)) {
-        case (1): mob->dam_type = 3; break; /* slash */
-        case (2): mob->dam_type = 7; break; /* pound */
-        case (3): mob->dam_type = 11; break; /* pierce */
-        }
-        for (i = 0; i < 3; i++)
-            mob->armor[i] = interpolate(mob->level, 100, -100);
-        mob->armor[3] = interpolate(mob->level, 100, 0);
-        mob->race = pMobIndex->race;
-        mob->off_flags = pMobIndex->off_flags;
-        mob->imm_flags = pMobIndex->imm_flags;
-        mob->res_flags = pMobIndex->res_flags;
-        mob->vuln_flags = pMobIndex->vuln_flags;
-        mob->start_pos = pMobIndex->start_pos;
-        mob->default_pos = pMobIndex->default_pos;
-        mob->sex = pMobIndex->sex;
-        mob->gold = pMobIndex->gold / 100;
-        mob->form = pMobIndex->form;
-        mob->parts = pMobIndex->parts;
-        mob->size = SIZE_MEDIUM;
-        mob->material = 0;
-
-        ranges::fill(mob->perm_stat, 11 + mob->level / 4);
+    if (IS_SET(mob->act, ACT_WARRIOR)) {
+        mob->perm_stat[Stat::Str] += 3;
+        mob->perm_stat[Stat::Int] -= 1;
+        mob->perm_stat[Stat::Con] += 2;
     }
+
+    if (IS_SET(mob->act, ACT_THIEF)) {
+        mob->perm_stat[Stat::Dex] += 3;
+        mob->perm_stat[Stat::Int] += 1;
+        mob->perm_stat[Stat::Wis] -= 1;
+    }
+
+    if (IS_SET(mob->act, ACT_CLERIC)) {
+        mob->perm_stat[Stat::Wis] += 3;
+        mob->perm_stat[Stat::Dex] -= 1;
+        mob->perm_stat[Stat::Str] += 1;
+    }
+
+    if (IS_SET(mob->act, ACT_MAGE)) {
+        mob->perm_stat[Stat::Int] += 3;
+        mob->perm_stat[Stat::Str] -= 1;
+        mob->perm_stat[Stat::Dex] += 1;
+    }
+
+    if (IS_SET(mob->off_flags, OFF_FAST))
+        mob->perm_stat[Stat::Dex] += 2;
+
+    mob->perm_stat[Stat::Str] += mob->size - SIZE_MEDIUM;
+    mob->perm_stat[Stat::Con] += (mob->size - SIZE_MEDIUM) / 2;
 
     mob->position = mob->start_pos;
 
@@ -1334,7 +1269,10 @@ void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone) {
  * TheMoog 1/10/2k : fixes up portal objects - value[0] of a portal
  * if non-zero is looked up and then destination set accordingly.
  */
+// TODO(Forrey): 'level' is ignored. Remove it from all callers, which always
+// pass in 0 anyway.
 OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex, int level) {
+    level = level;
     static OBJ_DATA obj_zero;
     OBJ_DATA *obj;
 
@@ -1354,11 +1292,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex, int level) {
     obj->pIndexData = pObjIndex;
     obj->in_room = nullptr;
     obj->enchanted = false;
-
-    if (pObjIndex->new_format)
-        obj->level = pObjIndex->level;
-    else
-        obj->level = UMAX(0, level);
+    obj->level = pObjIndex->level;
     obj->wear_loc = -1;
 
     obj->name = str_dup(pObjIndex->name);
@@ -1375,11 +1309,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex, int level) {
     obj->value[3] = pObjIndex->value[3];
     obj->value[4] = pObjIndex->value[4];
     obj->weight = pObjIndex->weight;
-
-    if (level == -1 || pObjIndex->new_format)
-        obj->cost = pObjIndex->cost;
-    else
-        obj->cost = number_fuzzy(10) * number_fuzzy(level) * number_fuzzy(level);
+    obj->cost = pObjIndex->cost;
 
     /*
      * Mess with object properties.
@@ -1416,44 +1346,12 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex, int level) {
         break;
 
     case ITEM_SCROLL:
-        if (level != -1 && !pObjIndex->new_format)
-            obj->value[0] = number_fuzzy(obj->value[0]);
-        break;
-
     case ITEM_WAND:
     case ITEM_STAFF:
-        if (level != -1 && !pObjIndex->new_format) {
-            obj->value[0] = number_fuzzy(obj->value[0]);
-            obj->value[1] = number_fuzzy(obj->value[1]);
-            obj->value[2] = obj->value[1];
-        }
-        break;
-
     case ITEM_WEAPON:
-        if (level != -1 && !pObjIndex->new_format) {
-            obj->value[1] = number_fuzzy(number_fuzzy(1 * level / 4 + 2));
-            obj->value[2] = number_fuzzy(number_fuzzy(3 * level / 4 + 6));
-        }
-        break;
-
-    case ITEM_ARMOR:
-        if (level != -1 && !pObjIndex->new_format) {
-            obj->value[0] = number_fuzzy(level / 5 + 3);
-            obj->value[1] = number_fuzzy(level / 5 + 3);
-            obj->value[2] = number_fuzzy(level / 5 + 3);
-        }
-        break;
-
     case ITEM_POTION:
     case ITEM_PILL:
-        if (level != -1 && !pObjIndex->new_format)
-            obj->value[0] = number_fuzzy(number_fuzzy(obj->value[0]));
-        break;
-
-    case ITEM_MONEY:
-        if (!pObjIndex->new_format)
-            obj->value[0] = obj->cost;
-        break;
+    case ITEM_MONEY: break;
     }
 
     obj->next = object_list;

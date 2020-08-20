@@ -177,7 +177,6 @@ void load_mobiles(FILE *fp) {
         pMobIndex = static_cast<MOB_INDEX_DATA *>(alloc_perm(sizeof(*pMobIndex)));
         pMobIndex->vnum = vnum;
         pMobIndex->area = area_last;
-        pMobIndex->new_format = true;
         newmobs++;
         pMobIndex->player_name = fread_string(fp);
         pMobIndex->short_descr = fread_string(fp);
@@ -346,7 +345,6 @@ void load_objects(FILE *fp) {
         pObjIndex = static_cast<OBJ_INDEX_DATA *>(alloc_perm(sizeof(*pObjIndex)));
         pObjIndex->vnum = vnum;
         pObjIndex->area = area_last;
-        pObjIndex->new_format = true;
         pObjIndex->reset_num = 0;
         newobjs++;
         pObjIndex->name = fread_string(fp);

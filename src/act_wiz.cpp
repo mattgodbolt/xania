@@ -774,8 +774,7 @@ void do_ostat(CHAR_DATA *ch, const char *argument) {
         bug_snprintf(buf, sizeof(buf), "Name(s): %s\n\r", pObjIndex->name);
         send_to_char(buf, ch);
 
-        bug_snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Type: %s\n\r", pObjIndex->vnum,
-                     pObjIndex->new_format ? "new" : "old", item_index_type_name(pObjIndex));
+        bug_snprintf(buf, sizeof(buf), "Vnum: %d  Type: %s\n\r", pObjIndex->vnum, item_index_type_name(pObjIndex));
         send_to_char(buf, ch);
 
         bug_snprintf(buf, sizeof(buf), "Short description: %s\n\rLong description: %s\n\r", pObjIndex->short_descr,
@@ -811,8 +810,8 @@ void do_ostat(CHAR_DATA *ch, const char *argument) {
     bug_snprintf(buf, sizeof(buf), "Name(s): %s\n\r", obj->name);
     send_to_char(buf, ch);
 
-    bug_snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Type: %s  Resets: %d\n\r", obj->pIndexData->vnum,
-                 obj->pIndexData->new_format ? "new" : "old", item_type_name(obj), obj->pIndexData->reset_num);
+    bug_snprintf(buf, sizeof(buf), "Vnum: %d  Type: %s  Resets: %d\n\r", obj->pIndexData->vnum, item_type_name(obj),
+                 obj->pIndexData->reset_num);
     send_to_char(buf, ch);
 
     bug_snprintf(buf, sizeof(buf), "Short description: %s\n\rLong description: %s\n\r", obj->short_descr,
@@ -910,12 +909,8 @@ void do_ostat(CHAR_DATA *ch, const char *argument) {
         case (WEAPON_POLEARM): send_to_char("polearm\n\r", ch); break;
         default: send_to_char("unknown\n\r", ch); break;
         }
-        if (obj->pIndexData->new_format)
-            bug_snprintf(buf, sizeof(buf), "Damage is %dd%d (average %d)\n\r", obj->value[1], obj->value[2],
-                         (1 + obj->value[2]) * obj->value[1] / 2);
-        else
-            bug_snprintf(buf, sizeof(buf), "Damage is %d to %d (average %d)\n\r", obj->value[1], obj->value[2],
-                         (obj->value[1] + obj->value[2]) / 2);
+        bug_snprintf(buf, sizeof(buf), "Damage is %dd%d (average %d)\n\r", obj->value[1], obj->value[2],
+                     (1 + obj->value[2]) * obj->value[1] / 2);
         send_to_char(buf, ch);
 
         if (obj->value[4]) /* weapon flags */
@@ -1315,8 +1310,8 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
     send_to_char(buf, ch);
 
     bug_snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
-                 IS_NPC(victim) ? victim->pIndexData->vnum : 0,
-                 IS_NPC(victim) ? victim->pIndexData->new_format ? "new" : "old" : "pc", race_table[victim->race].name,
+                 IS_NPC(victim) ? victim->pIndexData->vnum : 0, IS_NPC(victim) ? ".are" : "pc",
+                 race_table[victim->race].name,
                  victim->sex == SEX_MALE ? "male" : victim->sex == SEX_FEMALE ? "female" : "neutral",
                  victim->in_room == nullptr ? 0 : victim->in_room->vnum);
     send_to_char(buf, ch);
@@ -1352,7 +1347,7 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
                  GET_DAMROLL(victim), victim->saving_throw, victim->position, victim->wimpy);
     send_to_char(buf, ch);
 
-    if (IS_NPC(victim) && victim->pIndexData->new_format) {
+    if (IS_NPC(victim)) {
         bug_snprintf(buf, sizeof(buf), "Damage: %dd%d  Message:  %s\n\r", victim->damage[DICE_NUMBER],
                      victim->damage[DICE_TYPE], attack_table[victim->dam_type].noun);
         send_to_char(buf, ch);

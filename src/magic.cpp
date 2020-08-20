@@ -2985,12 +2985,8 @@ void spell_identify(int sn, int level, CHAR_DATA *ch, void *vo) {
                 send_to_char(" lightning", ch);
             send_to_char(".\n\r", ch);
         }
-        if (obj->pIndexData->new_format)
-            snprintf(buf, sizeof(buf), "Damage is %dd%d (average %d).\n\r", obj->value[1], obj->value[2],
-                     (1 + obj->value[2]) * obj->value[1] / 2);
-        else
-            snprintf(buf, sizeof(buf), "Damage is %d to %d (average %d).\n\r", obj->value[1], obj->value[2],
-                     (obj->value[1] + obj->value[2]) / 2);
+        snprintf(buf, sizeof(buf), "Damage is %dd%d (average %d).\n\r", obj->value[1], obj->value[2],
+                 (1 + obj->value[2]) * obj->value[1] / 2);
         send_to_char(buf, ch);
         break;
 
