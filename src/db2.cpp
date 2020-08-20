@@ -19,7 +19,18 @@
 #include <time.h>
 
 void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex);
-void assign_area_vnum(int vnum);
+
+/* Sets vnum range for area when loading its constituent mobs/objects/rooms */
+void assign_area_vnum(int vnum) {
+    if (area_last->lvnum == 0 || area_last->uvnum == 0)
+        area_last->lvnum = area_last->uvnum = vnum;
+    if (vnum != URANGE(area_last->lvnum, vnum, area_last->uvnum)) {
+        if (vnum < area_last->lvnum)
+            area_last->lvnum = vnum;
+        else
+            area_last->uvnum = vnum;
+    }
+}
 
 /* values for db2.c */
 struct social_type social_table[MAX_SOCIALS];

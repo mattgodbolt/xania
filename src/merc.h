@@ -1131,6 +1131,7 @@ struct mob_index_data {
     SpecialFunc spec_fun;
     SHOP_DATA *pShop;
     sh_int vnum;
+    // new_format is *ALWAYS* true. Clean up code.
     bool new_format;
     sh_int count;
     sh_int killed;
@@ -1381,6 +1382,7 @@ struct obj_index_data {
     OBJ_INDEX_DATA *next;
     EXTRA_DESCR_DATA *extra_descr;
     AFFECT_DATA *affected;
+    // new_format is *ALWAYS* true. Clean up code.
     bool new_format;
     char *name;
     char *short_descr;
