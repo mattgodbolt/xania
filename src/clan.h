@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include <array>
+
 // Change this for new clans
 constexpr inline auto NUM_CLANS = 4;
 
@@ -34,9 +36,10 @@ struct CLAN {
 
 // PCCLAN is a structure all PC's in clans have
 struct PCCLAN {
-    const CLAN *clan;
-    int clanlevel;
-    unsigned int channelflags;
+    const CLAN *clan{};
+    int clanlevel{CLAN_MEMBER};
+    unsigned int channelflags{CLANCHANNEL_ON};
+    const char *level_name() const { return clan->levelname[clanlevel]; }
 };
 
-extern const CLAN clantable[NUM_CLANS];
+extern const std::array<CLAN, NUM_CLANS> clantable;

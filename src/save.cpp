@@ -144,10 +144,10 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
     fprintf(fp, "Sex  %d\n", ch->sex);
     fprintf(fp, "Cla  %d\n", ch->class_num);
     fprintf(fp, "Levl %d\n", ch->level);
-    if ((ch->pcdata) && (ch->pcdata->pcclan)) {
-        fprintf(fp, "Clan %d\n", (int)ch->pcdata->pcclan->clan->clanchar);
-        fprintf(fp, "CLevel %d\n", ch->pcdata->pcclan->clanlevel);
-        fprintf(fp, "CCFlags %d\n", ch->pcdata->pcclan->channelflags);
+    if (auto *pc_clan = ch->pc_clan()) {
+        fprintf(fp, "Clan %d\n", (int)pc_clan->clan->clanchar);
+        fprintf(fp, "CLevel %d\n", pc_clan->clanlevel);
+        fprintf(fp, "CCFlags %d\n", pc_clan->channelflags);
     }
     if (ch->trust != 0)
         fprintf(fp, "Tru  %d\n", ch->trust);
@@ -197,28 +197,28 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
     if (IS_NPC(ch)) {
         fprintf(fp, "Vnum %d\n", ch->pIndexData->vnum);
     } else {
-        fprintf(fp, "Pass %s~\n", ch->pcdata->pwd);
-        if (ch->pcdata->bamfin[0] != '\0')
-            fprintf(fp, "Bin  %s~\n", ch->pcdata->bamfin);
-        if (ch->pcdata->bamfout[0] != '\0')
-            fprintf(fp, "Bout %s~\n", ch->pcdata->bamfout);
+        fprintf(fp, "Pass %s~\n", ch->pcdata->pwd.c_str());
+        if (!ch->pcdata->bamfin.empty())
+            fprintf(fp, "Bin  %s~\n", ch->pcdata->bamfin.c_str());
+        if (!ch->pcdata->bamfout.empty())
+            fprintf(fp, "Bout %s~\n", ch->pcdata->bamfout.c_str());
         fprintf(fp, "Titl %s~\n", ch->pcdata->title.c_str());
-        fprintf(fp, "Afk %s~\n", ch->pcdata->afk);
+        fprintf(fp, "Afk %s~\n", ch->pcdata->afk.c_str());
         fprintf(fp, "Colo %d\n", ch->pcdata->colour);
-        fprintf(fp, "Prmt %s~\n", ch->pcdata->prompt);
+        fprintf(fp, "Prmt %s~\n", ch->pcdata->prompt.c_str());
         fprintf(fp, "Pnts %d\n", ch->pcdata->points);
         fprintf(fp, "TSex %d\n", ch->pcdata->true_sex);
         fprintf(fp, "LLev %d\n", ch->pcdata->last_level);
         fprintf(fp, "HMVP %d %d %d\n", ch->pcdata->perm_hit, ch->pcdata->perm_mana, ch->pcdata->perm_move);
         /* Rohan: Save info data */
-        fprintf(fp, "Info_message %s~\n", ch->pcdata->info_message);
+        fprintf(fp, "Info_message %s~\n", ch->pcdata->info_message.c_str());
         if (ch->desc) {
             fprintf(fp, "LastLoginFrom %s~\n", ch->desc->host().c_str());
             fprintf(fp, "LastLoginAt %s~\n", ch->desc->login_time().c_str());
         }
 
         /* save prefix PCFN 19-05-97 */
-        fprintf(fp, "Prefix %s~\n", ch->pcdata->prefix);
+        fprintf(fp, "Prefix %s~\n", ch->pcdata->prefix.c_str());
 
         /* Save time ;-)  PCFN 24-05-97 */
         fprintf(fp, "HourOffset %d\n", ch->pcdata->houroffset);
@@ -461,30 +461,7 @@ bool load_char_obj(Descriptor *d, const char *name) {
     ch->riding = nullptr;
     ch->ridden_by = nullptr;
     ch->saving_throw = 0;
-    /* prefix added 19-05-97 PCFN  */
-    ch->pcdata->prefix = str_dup("");
-    ch->pcdata->pcclan = (PCCLAN *)0;
-    ch->pcdata->points = 0;
-    ch->pcdata->confirm_delete = false;
-    ch->pcdata->pwd = str_dup("");
-    ch->pcdata->bamfin = str_dup("");
-    ch->pcdata->bamfout = str_dup("");
-    ch->pcdata->title = str_dup("");
-    ch->pcdata->prompt = str_dup("");
-    ch->pcdata->afk = str_dup("");
-    ch->pcdata->info_message = str_dup("");
-    ch->pcdata->colour = false;
     ranges::fill(ch->perm_stat, 13);
-    ch->pcdata->perm_hit = 0;
-    ch->pcdata->perm_mana = 0;
-    ch->pcdata->perm_move = 0;
-    ch->pcdata->true_sex = 0;
-    ch->pcdata->last_level = 0;
-    ch->pcdata->minoffset = 0;
-    ch->pcdata->houroffset = 0;
-    ch->pcdata->condition[COND_THIRST] = 48;
-
-    ch->pcdata->condition[COND_FULL] = 48;
 
     found = false;
     fclose(fpReserve);
@@ -611,7 +588,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         } else if (word == "affectedby" || word == "afby") {
             ch->affected_by = fread_number(fp);
         } else if (word == "afk") {
-            ch->pcdata->afk = fread_string(fp);
+            ch->pcdata->afk = fread_stdstring(fp);
         } else if (word == "alignment" || word == "align") {
             ch->alignment = fread_number(fp);
         } else if (word == "armor" || word == "ac") {
@@ -657,32 +634,33 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
             for (auto &stat : ch->perm_stat)
                 stat = fread_number(fp);
         } else if (word == "bamfin" || word == "bin") {
-            ch->pcdata->bamfin = fread_string(fp);
+            ch->pcdata->bamfin = fread_stdstring(fp);
         } else if (word == "bamfout" || word == "bout") {
-            ch->pcdata->bamfout = fread_string(fp);
+            ch->pcdata->bamfout = fread_stdstring(fp);
         } else if (word == "clan") {
-            const int clannum = fread_number(fp);
-            for (int count = 0; count < NUM_CLANS; count++) {
-                if (clantable[count].clanchar == (char)clannum) {
-                    PCCLAN *newpcclan = (PCCLAN *)alloc_mem(sizeof(*newpcclan));
-                    newpcclan->clan = (CLAN *)&clantable[count];
-                    newpcclan->clanlevel = CLAN_MEMBER;
-                    newpcclan->channelflags = CLANCHANNEL_ON;
-                    ch->pcdata->pcclan = newpcclan;
+            const auto clan_char = fread_number(fp);
+            bool found = false;
+            for (auto &clan : clantable) {
+                if (clan.clanchar == clan_char) {
+                    ch->pcdata->pcclan.emplace(PCCLAN{&clan});
+                    found = true;
                 }
+            }
+            if (!found) {
+                bug("Unable to find clan '%c'", clan_char);
             }
         } else if (word == "class" || word == "cla") {
             ch->class_num = fread_number(fp);
         } else if (word == "clevel") {
-            if (ch->pcdata->pcclan) {
-                ch->pcdata->pcclan->clanlevel = fread_number(fp);
+            if (ch->pc_clan()) {
+                ch->pc_clan()->clanlevel = fread_number(fp);
             } else {
                 bug("fread_char: CLAN level with no clan");
                 fread_to_eol(fp);
             }
         } else if (word == "ccflags") {
-            if (ch->pcdata->pcclan) {
-                ch->pcdata->pcclan->channelflags = fread_number(fp);
+            if (ch->pc_clan()) {
+                ch->pc_clan()->channelflags = fread_number(fp);
             } else {
                 bug("fread_char: CLAN channelflags with no clan");
                 fread_to_eol(fp);
@@ -736,7 +714,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         } else if (word == "invislevel" || word == "invi") {
             ch->invis_level = fread_number(fp);
         } else if (word == "info_message") {
-            ch->pcdata->info_message = fread_string(fp);
+            ch->pcdata->info_message = fread_stdstring(fp);
         } else if (word == "lastlevel" || word == "llev") {
             ch->pcdata->last_level = fread_number(fp);
         } else if (word == "level" || word == "lev" || word == "levl") {
@@ -754,7 +732,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         } else if (word == "note") {
             ch->last_note = Clock::from_time_t(fread_number(fp));
         } else if (word == "password" || word == "pass") {
-            ch->pcdata->pwd = fread_string(fp);
+            ch->pcdata->pwd = fread_stdstring(fp);
         } else if (word == "played" || word == "plyd") {
             ch->played = Seconds(fread_number(fp));
         } else if (word == "points" || word == "pnts") {
@@ -764,9 +742,9 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         } else if (word == "practice" || word == "prac") {
             ch->practice = fread_number(fp);
         } else if (word == "prompt" || word == "prmt") {
-            ch->pcdata->prompt = fread_string(fp);
+            ch->pcdata->prompt = fread_stdstring(fp);
         } else if (word == "prefix") {
-            ch->pcdata->prefix = fread_string(fp);
+            ch->pcdata->prefix = fread_stdstring(fp);
         } else if (word == "race") {
             ch->race = race_lookup(fread_string(fp));
         } else if (word == "room") {

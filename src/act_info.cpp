@@ -1582,9 +1582,7 @@ std::string_view who_race_name_of(const CHAR_DATA &wch) {
     return wch.race < MAX_PC_RACE ? pc_race_table[wch.race].who_name : "     "sv;
 }
 
-std::string_view who_clan_name_of(const CHAR_DATA &wch) {
-    return wch.pcdata->pcclan ? wch.pcdata->pcclan->clan->whoname : ""sv;
-}
+std::string_view who_clan_name_of(const CHAR_DATA &wch) { return wch.clan() ? wch.clan()->whoname : ""sv; }
 
 std::string who_line_for(const CHAR_DATA &to, const CHAR_DATA &wch) {
     return "[{:2} {} {}] {}{}{}{}{}{}|w{}{}\n\r"_format(
@@ -1636,15 +1634,13 @@ void do_whois(CHAR_DATA *ch, const char *argument) {
 void do_who(CHAR_DATA *ch, const char *argument) {
     int iClass;
     int iRace;
-    int iClan;
     int iLevelLower;
     int iLevelUpper;
     int nNumber;
     int nMatch;
-    int n;
     bool rgfClass[MAX_CLASS];
     bool rgfRace[MAX_PC_RACE];
-    bool rgfClan[NUM_CLANS];
+    std::unordered_set<const CLAN *> rgfClan;
     bool fClassRestrict;
     bool fRaceRestrict;
     bool fClanRestrict;
@@ -1664,8 +1660,6 @@ void do_who(CHAR_DATA *ch, const char *argument) {
         rgfClass[iClass] = false;
     for (iRace = 0; iRace < MAX_PC_RACE; iRace++)
         rgfRace[iRace] = false;
-    for (iClan = 0; iClan < NUM_CLANS; iClan++)
-        rgfClan[iClan] = false;
 
     /*
      * Parse arguments.
@@ -1696,19 +1690,20 @@ void do_who(CHAR_DATA *ch, const char *argument) {
                     iRace = race_lookup(arg);
                     if (iRace == 0 || iRace >= MAX_PC_RACE) {
                         /* Check if clan exists */
-                        iClan = -1;
-                        for (n = 0; n < NUM_CLANS; n++)
-                            if (is_name(arg, clantable[n].name))
-                                iClan = n;
+                        const CLAN *clan_ptr = nullptr; // TODO this could be much better phrased
+                        for (auto &clan : clantable) {
+                            if (is_name(arg, clan.name))
+                                clan_ptr = &clan;
+                        }
                         /* Check for NO match on clans */
-                        if (iClan == -1) {
+                        if (!clan_ptr) {
                             send_to_char("That's not a valid race, class, or clan.\n\r", ch);
                             return;
                         } else
                         /* It DID match! */
                         {
                             fClanRestrict = true;
-                            rgfClan[iClan] = true;
+                            rgfClan.emplace(clan_ptr);
                         }
                     } else {
                         fRaceRestrict = true;
@@ -1739,14 +1734,7 @@ void do_who(CHAR_DATA *ch, const char *argument) {
             || (fClassRestrict && !rgfClass[wch->class_num]) || (fRaceRestrict && !rgfRace[wch->race]))
             continue;
         if (fClanRestrict) {
-            int z, showthem = 0;
-            if (!wch->pcdata->pcclan)
-                continue;
-            for (z = 0; z < NUM_CLANS; z++) {
-                if (rgfClan[z] && (clantable[z].clanchar == wch->pcdata->pcclan->clan->clanchar))
-                    showthem = 1;
-            }
-            if (!showthem)
+            if (!wch->clan() || rgfClan.count(wch->clan()) == 0)
                 continue;
         }
 
@@ -1987,9 +1975,7 @@ void set_prompt(CHAR_DATA *ch, const char *prompt) {
         bug("Set_prompt: NPC.");
         return;
     }
-
-    free_string(ch->pcdata->prompt);
-    ch->pcdata->prompt = str_dup(prompt);
+    ch->pcdata->prompt = prompt;
 }
 
 void do_title(CHAR_DATA *ch, const char *argument) {
@@ -2224,7 +2210,7 @@ void do_password(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if ((strlen(ch->pcdata->pwd) > 0) && strcmp(crypt(arg1, ch->pcdata->pwd), ch->pcdata->pwd)) {
+    if (!ch->pcdata->pwd.empty() && strcmp(crypt(arg1, ch->pcdata->pwd.c_str()), ch->pcdata->pwd.c_str())) {
         WAIT_STATE(ch, 40);
         send_to_char("Wrong password.  Wait 10 seconds.\n\r", ch);
         return;
@@ -2246,8 +2232,7 @@ void do_password(CHAR_DATA *ch, const char *argument) {
         }
     }
 
-    free_string(ch->pcdata->pwd);
-    ch->pcdata->pwd = str_dup(pwdnew);
+    ch->pcdata->pwd = pwdnew;
     save_char_obj(ch);
     send_to_char("Ok.\n\r", ch);
 }

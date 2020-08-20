@@ -1970,15 +1970,7 @@ void free_char(CHAR_DATA *ch) {
     if (ch->clipboard)
         free_string(ch->clipboard);
 
-    if (ch->pcdata) {
-        free_string(ch->pcdata->pwd);
-        free_string(ch->pcdata->bamfin);
-        free_string(ch->pcdata->bamfout);
-        free_string(ch->pcdata->prefix); /* PCFN added */
-        if (ch->pcdata->pcclan)
-            free_mem(ch->pcdata->pcclan, sizeof(*(ch->pcdata->pcclan)));
-        ch->pcdata.reset();
-    }
+    ch->pcdata.reset();
 
     ch->next = char_free;
     char_free = ch;

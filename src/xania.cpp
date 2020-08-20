@@ -217,15 +217,9 @@ void do_immworth(CHAR_DATA *ch, const char *argument) {
     send_to_char(buf, ch);
 }
 
-void set_prefix(CHAR_DATA *ch, const char *prefix) {
-    free_string(ch->pcdata->prefix);
-    ch->pcdata->prefix = str_dup(prefix);
-}
-
 /* do_prefix added 19-05-97 PCFN */
 void do_prefix(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *ch_prefix = nullptr;
-    char ch_buffer[MAX_STRING_LENGTH];
 
     auto prefix = smash_tilde(argument);
 
@@ -247,18 +241,16 @@ void do_prefix(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (prefix.empty()) {
-        if (ch_prefix->pcdata->prefix[0] == '\0') {
-            snprintf(ch_buffer, sizeof(ch_buffer), "No prefix to remove.\n\r");
+        if (ch_prefix->pcdata->prefix.empty()) {
+            ch->send_to("No prefix to remove.\n\r");
         } else {
-            snprintf(ch_buffer, sizeof(ch_buffer), "Prefix removed.\n\r");
+            ch->send_to("Prefix removed.\n\r");
+            ch_prefix->pcdata->prefix.clear();
         }
+    } else {
+        ch_prefix->pcdata->prefix = prefix;
+        ch->send_to("Prefix set to \"{}\"\n\r"_format(ch_prefix->pcdata->prefix));
     }
-
-    set_prefix(ch_prefix, prefix.c_str());
-    if (ch_prefix->pcdata->prefix[0] != '\0')
-        snprintf(ch_buffer, sizeof(ch_buffer), "Prefix set to \"%s\"\n\r", ch_prefix->pcdata->prefix);
-
-    send_to_char(ch_buffer, ch);
 }
 
 /* do_timezone added PCFN 24-05-97 */

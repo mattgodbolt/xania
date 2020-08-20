@@ -92,7 +92,7 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
     ch->pcdata->confirm_delete = true;
 }
 
-void announce(const char *buf, CHAR_DATA *ch) {
+void announce(const char *buf, const CHAR_DATA *ch) {
     if (ch->in_room == nullptr)
         return; /* special case on creation */
 
@@ -129,22 +129,21 @@ void do_afk(CHAR_DATA *ch, const char *argument) {
         announce("|W###|w (|cAFK|w) $N has returned to $S keyboard.", ch);
         REMOVE_BIT(ch->act, PLR_AFK);
     } else {
-        free_string(ch->pcdata->afk);
-
         if (argument[0] == '\0')
-            ch->pcdata->afk = str_dup("afk");
+            ch->pcdata->afk = "afk";
         else {
             strncpy(buf, argument, 45);
-            ch->pcdata->afk = str_dup(buf);
+            ch->pcdata->afk = buf;
         }
 
-        snprintf(buf, sizeof(buf), "|cYou notify the mud that you are %s|c.|w", ch->pcdata->afk);
+        // TODO(#148): when act() is taught to handle string_view...get rid of buff and this c_str().
+        snprintf(buf, sizeof(buf), "|cYou notify the mud that you are %s|c.|w", ch->pcdata->afk.c_str());
         act(buf, ch, nullptr, nullptr, To::Char, POS_DEAD);
 
-        snprintf(buf, sizeof(buf), "|W$n|w is %s|w.", ch->pcdata->afk);
+        snprintf(buf, sizeof(buf), "|W$n|w is %s|w.", ch->pcdata->afk.c_str());
         act(buf, ch, nullptr, nullptr, To::Room, POS_DEAD);
 
-        snprintf(buf, sizeof(buf), "|W###|w (|cAFK|w) $N is %s|w.", ch->pcdata->afk);
+        snprintf(buf, sizeof(buf), "|W###|w (|cAFK|w) $N is %s|w.", ch->pcdata->afk.c_str());
         announce(buf, ch);
 
         SET_BIT(ch->act, PLR_AFK);
@@ -173,7 +172,7 @@ static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
         act("|W$E|c is not receiving replies.|w", ch, nullptr, victim, To::Char);
 
     } else if (IS_SET(victim->act, PLR_AFK) && !IS_NPC(victim)) {
-        snprintf(buf, sizeof(buf), "|W$N|c is %s.|w", victim->pcdata->afk);
+        snprintf(buf, sizeof(buf), "|W$N|c is %s.|w", victim->pcdata->afk.c_str());
         act(buf, ch, nullptr, victim, To::Char, POS_DEAD);
         if (IS_SET(victim->comm, COMM_SHOWAFK)) {
             // TODO(#134) use the victim's timezone info.

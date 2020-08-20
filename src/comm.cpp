@@ -76,7 +76,7 @@ bool check_reconnect(Descriptor *d, bool fConn);
 bool check_playing(Descriptor *d, char *name);
 void nanny(Descriptor *d, const char *argument);
 bool process_output(Descriptor *d, bool fPrompt);
-void show_prompt(Descriptor *d, char *prompt);
+void show_prompt(Descriptor *d, std::string_view prompt);
 
 /* Handle to get to doorman */
 Fd doormanDesc;
@@ -602,14 +602,14 @@ void nanny(Descriptor *d, const char *argument) {
 
         // TODO crypt can return null if if fails (e.g. password is truncated).
         // for now we just pwd[0], which lets us reset passwords.
-        if (ch->pcdata->pwd[0] && strcmp(crypt(argument, ch->pcdata->pwd), ch->pcdata->pwd)) {
+        if (!ch->pcdata->pwd.empty() && strcmp(crypt(argument, ch->pcdata->pwd.c_str()), ch->pcdata->pwd.c_str())) {
             d->write("Our survey said <Crude buzzer noise>.\n\rWrong password.\n\r");
             d->close();
             return;
         }
         // falls through
     case DescriptorState::CircumventPassword:
-        if (ch->pcdata->pwd[0] == 0) {
+        if (ch->pcdata->pwd.empty()) {
             d->write("Oopsie! Null password!\n\r");
             d->write("Unless some IMM has been fiddling, then this is a bug!\n\r");
             d->write("Type 'password null <new password>' to fix.\n\r");
@@ -762,8 +762,7 @@ void nanny(Descriptor *d, const char *argument) {
             }
         }
 
-        free_string(ch->pcdata->pwd);
-        ch->pcdata->pwd = str_dup(pwdnew);
+        ch->pcdata->pwd = pwdnew;
         d->write("Please retype password: ");
         d->state(DescriptorState::ConfirmNewPassword);
         break;
@@ -771,7 +770,7 @@ void nanny(Descriptor *d, const char *argument) {
     case DescriptorState::ConfirmNewPassword:
         d->write("\n\r");
 
-        if (strcmp(crypt(argument, ch->pcdata->pwd), ch->pcdata->pwd)) {
+        if (strcmp(crypt(argument, ch->pcdata->pwd.c_str()), ch->pcdata->pwd.c_str())) {
             d->write("You could try typing the same thing in twice...\n\rRetype password: ");
             d->state(DescriptorState::GetNewPassword);
             return;
@@ -1138,8 +1137,7 @@ bool check_reconnect(Descriptor *d, bool fConn) {
     for (ch = char_list; ch != nullptr; ch = ch->next) {
         if (!IS_NPC(ch) && (!fConn || ch->desc == nullptr) && !str_cmp(d->character()->name, ch->name)) {
             if (fConn == false) {
-                free_string(d->character()->pcdata->pwd);
-                d->character()->pcdata->pwd = str_dup(ch->pcdata->pwd);
+                d->character()->pcdata->pwd = ch->pcdata->pwd;
             } else {
                 free_char(d->character());
                 d->character(ch);
@@ -1395,222 +1393,147 @@ void act(const char *format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To
     MOBtrigger = true;
 }
 
-void show_prompt(Descriptor *d, char *prompt) {
-    char buf[256]; /* this is actually sent to the ch */
-    char buf2[64];
-    CHAR_DATA *ch;
-    CHAR_DATA *ch_prefix = nullptr; /* Needed for prefix in prompt with switched MOB */
-    char *point;
-    char *str;
-    const char *i;
-    int bufspace = 255; /* Counter of space left in buf[] */
+namespace {
 
-    ch = d->character();
-    /*
-     * Discard null and zero-length prompts.
-     */
-
-    if (!IS_NPC(ch) && (ch->pcdata->colour))
-        send_to_char("|p", ch);
-
-    if (IS_NPC(ch)) {
-        if (ch->desc->original())
-            ch_prefix = ch->desc->original();
+const CHAR_DATA *prefix_char(const CHAR_DATA &ch) {
+    // TODO: this seems ridiculously complicated. I think PCFN's stuff overthought it, as only the prefix and timzone
+    // stuff uses this.
+    if (ch.is_npc()) {
+        if (ch.desc->original())
+            return ch.desc->original();
     } else
-        ch_prefix = ch;
+        return &ch;
+    return nullptr;
+}
 
-    if (prompt == nullptr || prompt[0] == '\0') {
-        snprintf(buf, sizeof(buf), "<%d/%dhp %d/%dm %dmv> |w", ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move);
-        *(buf + strlen(buf)) = '\0';
-        send_to_char(buf, ch);
-        return;
-    }
-
-    point = buf;
-    buf[0] = '\0';
-    str = prompt; /* zero-terminated raw prompt macro */
-    while ((*str != '\0') && (bufspace >= 0)) {
-        float tmp, loop;
-        char bar[256];
-
-        if (*str != '%') {
-            if (bufspace-- > 0) {
-                *point++ = *str;
-                *point = '\0';
-            }
-            str++;
-            continue;
-        }
-        ++str;
-
-        switch (*str) {
-        default: i = "|W ?? |p"; break;
-
-        case 'B':
-            buf2[0] = '\0';
-            bar[0] = '\0';
-            strcpy(bar, "|g||");
-
-            tmp = (float)ch->hit / (float)(ch->max_hit / 10.0);
-            for (loop = 0.0; loop < 10.0; loop++) {
-                if (loop > tmp) {
-                    bar[2] = ' ';
-                    bar[3] = '\0';
+std::string format_one_prompt_part(char c, const CHAR_DATA &ch) {
+    auto ch_prefix = prefix_char(ch);
+    switch (c) {
+    case '%': return "%";
+    case 'B': {
+        std::string bar;
+        constexpr auto NumGradations = 10u;
+        auto num_full = static_cast<float>(NumGradations * ch.hit) / ch.max_hit;
+        char prev_colour = 0;
+        for (auto loop = 0u; loop < NumGradations; ++loop) {
+            auto fullness = num_full - loop;
+            if (fullness <= 0.25f)
+                bar += ' ';
+            else {
+                char colour = 'g';
+                if (loop < NumGradations / 3)
+                    colour = 'r';
+                else if (loop < (2 * NumGradations) / 3)
+                    colour = 'y';
+                if (colour != prev_colour) {
+                    bar = bar + '|' + colour;
+                    prev_colour = colour;
                 }
-                if (loop <= 10.0)
-                    bar[1] = 'g';
-                if (loop < 6.0)
-                    bar[1] = 'y';
-                if (loop < 3.0)
-                    bar[1] = 'r';
-                i = buf2;
-                strcat(buf2, bar);
+                if (fullness <= 0.5f)
+                    bar += ".";
+                else if (fullness < 1.f)
+                    bar += ":";
+                else
+                    bar += "||";
             }
-            strcat(buf2, "|p");
-
-            break;
-        case 'h':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%d", ch->hit);
-            break;
-        case 'H':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%d", ch->max_hit);
-            break;
-        case 'm':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%d", ch->mana);
-            break;
-        case 'M':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%d", ch->max_mana);
-            break;
-        case 'g':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%ld", ch->gold);
-            break;
-        case 'x':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%ld",
-                     (long int)(((long int)(ch->level + 1) * (long int)(exp_per_level(ch, ch->pcdata->points))
-                                 - (long int)(ch->exp))));
-            break;
-        case 'v':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%d", ch->move);
-            break;
-        case 'V':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%d", ch->max_move);
-            break;
-        case 'a':
-            i = buf2;
-            if (get_trust(ch) >= 10) {
-                snprintf(buf2, sizeof(buf2), "%d", ch->alignment);
-            } else {
-                snprintf(buf2, sizeof(buf2), "??");
-            }
-            break;
-        case 'X':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%ld", ch->exp);
-            break;
-            /* PCFN 20-05-97 prefix */
-        case 'p':
-            if (ch_prefix) {
-                i = ch_prefix->pcdata->prefix;
-            } else {
-                i = "\0";
-            }
-            break;
-            /* end */
-        case 'r':
-            if (IS_IMMORTAL(ch)) {
-                i = ch->in_room->name;
-            } else {
-                i = "|W ?? |p";
-            }
-
-            break;
-        case 'W':
-            if IS_IMMORTAL (ch) {
-                i = (IS_SET(ch->act, PLR_WIZINVIS)) ? "|R*W*|p" : "-w-";
-            } else {
-                i = "|W ?? |p";
-            }
-            break;
-            /* Can be changed easily for tribes/clans etc. */
-        case 'P':
-            if (IS_IMMORTAL(ch)) {
-                i = (IS_SET(ch->act, PLR_PROWL)) ? "|R*P*|p" : "-p-";
-            } else {
-                i = "|W ?? |p";
-            }
-            break;
-        case 'R':
-            if IS_IMMORTAL (ch) {
-                i = buf2;
-                snprintf(buf2, sizeof(buf2), "%d", ch->in_room->vnum);
-            } else {
-                i = "|W ?? |p";
-            }
-            break;
-
-        case 'z':
-            if IS_IMMORTAL (ch) {
-                i = ch->in_room->area->areaname; // print the area name short form
-            } else {
-                i = "|W ?? |p";
-            }
-            break;
-
-        case 'n': i = "\n\r"; break;
-
-        case 't': {
-            time_t ch_timet;
-
-            ch_timet = time(0);
-
-            if (ch_prefix->pcdata->houroffset || ch_prefix->pcdata->minoffset) {
-                struct tm *ch_time;
-
-                ch_time = gmtime(&ch_timet);
-                ch_time->tm_min += ch_prefix->pcdata->minoffset;
-                ch_time->tm_hour += ch_prefix->pcdata->houroffset;
-
-                ch_time->tm_hour -= (ch_time->tm_min / 60);
-                ch_time->tm_min = (ch_time->tm_min % 60);
-                if (ch_time->tm_min < 0) {
-                    ch_time->tm_min += 60;
-                    ch_time->tm_hour -= 1;
-                }
-                ch_time->tm_hour = (ch_time->tm_hour % 24);
-                if (ch_time->tm_hour < 0)
-                    ch_time->tm_hour += 24;
-
-                strftime(buf2, 63, "%H:%M:%S", ch_time);
-            } else
-                strftime(buf2, 63, "%H:%M:%S", localtime(&ch_timet));
-            i = buf2;
-        } break;
         }
-
-        ++str;
-        strncpy(point, i, bufspace - 1);
-        if ((int)strlen(i) > (bufspace - 1))
-            point[bufspace - 1] = '\0';
-        point += strlen(i);
-        if ((bufspace -= strlen(i)) <= 0)
-            break;
-
-        /*      while ( ( *point = *i ) != '\0' )
-                 ++point, ++i;*/
+        return bar + "|p";
     }
 
-    if (bufspace > 0) {
-        strncpy(point, "|w", bufspace - 1);
-        point[bufspace - 1] = '\0';
+    case 'h': return "{}"_format(ch.hit);
+    case 'H': return "{}"_format(ch.max_hit);
+    case 'm': return "{}"_format(ch.mana);
+    case 'M': return "{}"_format(ch.max_mana);
+    case 'g': return "{}"_format(ch.gold);
+    case 'x':
+        return "{}"_format((long int)(((long int)(ch.level + 1) * (long int)(exp_per_level(&ch, ch.pcdata->points))
+                                       - (long int)(ch.exp))));
+    case 'v': return "{}"_format(ch.move);
+    case 'V': return "{}"_format(ch.max_move);
+    case 'a':
+        if (ch.get_trust() > 10)
+            return "{}"_format(ch.max_move);
+        else
+            return "??";
+    case 'X': return "{}"_format(ch.exp);
+    case 'p':
+        if (ch_prefix)
+            return ch_prefix->pcdata->prefix;
+        return "";
+    case 'r':
+        if (ch.is_immortal())
+            return ch.in_room->name;
+        break;
+    case 'W':
+        if (ch.is_immortal())
+            return ch.is_wizinvis() ? "|R*W*|p" : "-w-";
+        break;
+        /* Can be changed easily for tribes/clans etc. */
+    case 'P':
+        if (ch.is_immortal())
+            return ch.is_prowlinvis() ? "|R*P*|p" : "-p-";
+        break;
+    case 'R':
+        if (ch.is_immortal())
+            return "{}"_format(ch.in_room->vnum);
+        break;
+    case 'z':
+        if (ch.is_immortal())
+            return ch.in_room->area->areaname;
+        break;
+    case 'n': return "\n\r";
+    case 't': {
+        // TODO fix up as part of the timezone stuff
+        time_t ch_timet = Clock::to_time_t(current_time);
+        char time_buf[MAX_STRING_LENGTH];
+        if (ch_prefix->pcdata->houroffset || ch_prefix->pcdata->minoffset) {
+            auto *ch_time = gmtime(&ch_timet);
+            ch_time->tm_min += ch_prefix->pcdata->minoffset;
+            ch_time->tm_hour += ch_prefix->pcdata->houroffset;
+
+            ch_time->tm_hour -= (ch_time->tm_min / 60);
+            ch_time->tm_min = (ch_time->tm_min % 60);
+            if (ch_time->tm_min < 0) {
+                ch_time->tm_min += 60;
+                ch_time->tm_hour -= 1;
+            }
+            ch_time->tm_hour = (ch_time->tm_hour % 24);
+            if (ch_time->tm_hour < 0)
+                ch_time->tm_hour += 24;
+
+            strftime(time_buf, sizeof(time_buf), "%H:%M:%S", ch_time);
+        } else
+            strftime(time_buf, sizeof(time_buf), "%H:%M:%S", localtime(&ch_timet));
+        return time_buf;
+    } break;
+    default: break;
     }
 
-    send_to_char(buf, ch);
+    return "|W ?? |p";
+}
+
+}
+
+std::string format_prompt(const CHAR_DATA &ch, std::string_view prompt) {
+    if (prompt.empty()) {
+        return "|p<{}/{}hp {}/{}m {}mv> |w"_format(ch.hit, ch.max_hit, ch.mana, ch.max_mana, ch.move);
+    }
+
+    bool prev_was_escape = false;
+    std::string buf = "|p";
+    for (auto c : prompt) {
+        if (std::exchange(prev_was_escape, false)) {
+            buf += format_one_prompt_part(c, ch);
+        } else if (c == '%')
+            prev_was_escape = true;
+        else
+            buf += c;
+    }
+    return buf + "|w";
+}
+
+void show_prompt(Descriptor *d, std::string_view prompt) {
+    auto *ch = d->character();
+
+    ch->send_to(format_prompt(*ch, prompt));
 }
