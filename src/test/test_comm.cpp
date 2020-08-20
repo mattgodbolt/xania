@@ -22,15 +22,22 @@ TEST_CASE("prompt formatting") {
         SECTION("full") {
             ch.hit = 10;
             ch.max_hit = ch.hit;
-            // ten gradations, we expect 3 pipes of red, 3 of yellow, then four of green. Pipes are doubled up
-            //                                   red   3 pipe  ylw   3 pipe   grn  4 pipes    rest
+            // With ten gradations, we expect 3 pipes of red, 3 of yellow, then four of green. Pipes are doubled up to
+            // escape them.
             CHECK(format_prompt(ch, "%B> ")
+                  // red
                   == "|p|r"
+                     // 3 pipes
                      "||||||"
+                     // yellow
                      "|y"
+                     // 3 pipes
                      "||||||"
+                     // green
                      "|g"
+                     // 4 pipes
                      "||||||||"
+                     // rest
                      "|p> |w");
         }
         SECTION("25%") {
