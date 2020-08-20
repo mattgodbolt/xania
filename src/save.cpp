@@ -336,8 +336,6 @@ void fwrite_obj(CHAR_DATA *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
 
     fprintf(fp, "#O\n");
     fprintf(fp, "Vnum %d\n", obj->pIndexData->vnum);
-    if (!obj->pIndexData->new_format)
-        fprintf(fp, "Oldstyle\n");
     if (obj->enchanted)
         fprintf(fp, "Enchanted\n");
     fprintf(fp, "Nest %d\n", iNest);
@@ -1090,11 +1088,6 @@ void fread_obj(CHAR_DATA *ch, FILE *fp) {
                         object_list = obj;
                         obj->pIndexData->count++;
                     }
-
-                    if (!obj->pIndexData->new_format && obj->item_type == ITEM_ARMOR && obj->value[1] == 0) {
-                        obj->value[1] = obj->value[0];
-                        obj->value[2] = obj->value[0];
-                    }
                     if (make_new) {
                         int wear;
 
@@ -1139,8 +1132,11 @@ void fread_obj(CHAR_DATA *ch, FILE *fp) {
             break;
 
         case 'O':
+            // TODO(Forrey): I don't believe 'Oldstyle' can be used any more.
+            // Figure out whether this can ever happen, and if not, remove this
+            // code and the 'make_new' handling.
             if (!str_cmp(word, "Oldstyle")) {
-                if (obj->pIndexData != nullptr && obj->pIndexData->new_format)
+                if (obj->pIndexData != nullptr)
                     make_new = true;
                 fMatch = true;
             }
