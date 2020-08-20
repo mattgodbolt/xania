@@ -43,17 +43,8 @@ void do_channels(const CHAR_DATA *ch, const char *argument) {
     print_channel_status(ch, "qwest", ch->comm, COMM_NOQWEST);
     print_channel_status(ch, "shout", ch->comm, COMM_NOSHOUT);
 
-    /* Determine if the player is in a clan, and find which one */
-    const PCCLAN *pc_clan; // TODO, like the prefix stuff, this seems overcomplex.
-    if (IS_NPC(ch)) {
-        if (ch->desc->original() != nullptr)
-            pc_clan = ch->desc->original()->pc_clan();
-        else
-            pc_clan = nullptr;
-    } else
-        pc_clan = ch->pc_clan();
-
-    if (pc_clan) {
+    // Determine if the player is in a clan, and find which one.
+    if (const auto *pc_clan = ch->player() ? ch->player()->pc_clan() : nullptr) {
         print_channel_status(ch, "clan channel", pc_clan->channelflags ^ CLANCHANNEL_ON, CLANCHANNEL_ON);
     }
 

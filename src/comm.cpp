@@ -1395,19 +1395,7 @@ void act(const char *format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To
 
 namespace {
 
-const CHAR_DATA *prefix_char(const CHAR_DATA &ch) {
-    // TODO: this seems ridiculously complicated. I think PCFN's stuff overthought it, as only the prefix and timzone
-    // stuff uses this.
-    if (ch.is_npc()) {
-        if (ch.desc->original())
-            return ch.desc->original();
-    } else
-        return &ch;
-    return nullptr;
-}
-
 std::string format_one_prompt_part(char c, const CHAR_DATA &ch) {
-    auto ch_prefix = prefix_char(ch);
     switch (c) {
     case '%': return "%";
     case 'B': {
@@ -1457,8 +1445,8 @@ std::string format_one_prompt_part(char c, const CHAR_DATA &ch) {
             return "??";
     case 'X': return "{}"_format(ch.exp);
     case 'p':
-        if (ch_prefix)
-            return ch_prefix->pcdata->prefix;
+        if (ch.player())
+            return ch.player()->pcdata->prefix;
         return "";
     case 'r':
         if (ch.is_immortal())
@@ -1484,12 +1472,12 @@ std::string format_one_prompt_part(char c, const CHAR_DATA &ch) {
     case 'n': return "\n\r";
     case 't': {
         // TODO fix up as part of the timezone stuff
-        time_t ch_timet = Clock::to_time_t(current_time);
+        auto ch_timet = Clock::to_time_t(current_time);
         char time_buf[MAX_STRING_LENGTH];
-        if (ch_prefix->pcdata->houroffset || ch_prefix->pcdata->minoffset) {
+        if (ch.player() && (ch.player()->pcdata->houroffset || ch.player()->pcdata->minoffset)) {
             auto *ch_time = gmtime(&ch_timet);
-            ch_time->tm_min += ch_prefix->pcdata->minoffset;
-            ch_time->tm_hour += ch_prefix->pcdata->houroffset;
+            ch_time->tm_min += ch.player()->pcdata->minoffset;
+            ch_time->tm_hour += ch.player()->pcdata->houroffset;
 
             ch_time->tm_hour -= (ch_time->tm_min / 60);
             ch_time->tm_min = (ch_time->tm_min % 60);

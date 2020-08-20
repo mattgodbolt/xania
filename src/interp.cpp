@@ -386,30 +386,27 @@ void interp_initialise() {
 }
 
 static const char *apply_prefix(char *buf, CHAR_DATA *ch, const char *command) {
-    std::string *pc_prefix = nullptr; // TODO this is a mess
-
-    /* Unswitched MOBs don't have prefixes.  If we're switched, get the player's prefix. */
-    if (IS_NPC(ch)) {
-        if (ch->desc && ch->desc->original())
-            pc_prefix = &ch->desc->original()->pcdata->prefix;
-        else
-            return command;
-    } else
-        pc_prefix = &ch->pcdata->prefix;
+    // Unswitched MOBs don't have prefixes.  If we're switched, get the player's prefix.
+    auto player = ch->player();
+    if (!player)
+        return command;
 
     if (0 == strcmp(command, "prefix")) {
         return command;
-    } else if (command[0] == '\\') {
-        if (command[1] == '\\') {
-            send_to_char(pc_prefix->empty() ? "(prefix removed)\n\r" : "(no prefix to remove)\n\r", ch);
-            pc_prefix->clear();
-            command++; /* skip the \ */
-        }
-        command++; /* skip the \ */
-        return command;
     } else {
-        snprintf(buf, MAX_INPUT_LENGTH, "%s%s", pc_prefix->c_str(), command);
-        return buf;
+        auto &pc_data = player->pcdata;
+        if (command[0] == '\\') {
+            if (command[1] == '\\') {
+                send_to_char(!pc_data->prefix.empty() ? "(prefix removed)\n\r" : "(no prefix to remove)\n\r", ch);
+                pc_data->prefix.clear();
+                command++; /* skip the \ */
+            }
+            command++; /* skip the \ */
+            return command;
+        } else {
+            snprintf(buf, MAX_INPUT_LENGTH, "%s%s", pc_data->prefix.c_str(), command);
+            return buf;
+        }
     }
 }
 

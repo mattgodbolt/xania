@@ -801,13 +801,8 @@ void do_prompt(CHAR_DATA *ch, const char *argument) {
 
     /* PCFN 24-05-97  Oh dear - it seems that you can't set prompt while switched
        into a MOB.  Let's change that.... */
-
-    if (IS_NPC(ch)) {
-        if (ch->desc->is_switched())
-            ch = ch->desc->original();
-        else
-            return;
-    }
+    if (ch = ch->player(); !ch)
+        return;
 
     if (str_cmp(argument, "off") == 0) {
         send_to_char("You will no longer see prompts.\n\r", ch);
@@ -1475,12 +1470,8 @@ void do_time(CHAR_DATA *ch, const char *argument) {
                      time_info.describe(), secs_only(boot_time), secs_only(current_time)),
                  ch);
 
-    if (IS_NPC(ch)) {
-        if (ch->desc->is_switched())
-            ch = ch->desc->original();
-        else
-            return;
-    }
+    if (ch = ch->player(); !ch)
+        return;
 
     // TODO(#95) now we have an actual time library we can replace this with a timezone and format accordingly.
     if (ch->pcdata->houroffset || ch->pcdata->minoffset) {
