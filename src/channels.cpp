@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
 #include "comm.hpp"
 #include "interp.h"
 #include "merc.h"
@@ -40,13 +41,7 @@ void do_channels(CHAR_DATA *ch, const char *argument) {
     print_channel_status(ch, "shout", ch->comm, COMM_NOSHOUT);
 
     /* Determine if the player is in a clan, and find which one */
-    if (IS_NPC(ch)) {
-        if (ch->desc->original() != nullptr)
-            OrigClan = ch->desc->original()->pcdata->pcclan;
-        else
-            OrigClan = nullptr;
-    } else
-        OrigClan = ch->pcdata->pcclan;
+    OrigClan = ch->player() ? ch->player()->pcdata->pcclan : nullptr;
 
     if (OrigClan) {
         print_channel_status(ch, "clan channel", (OrigClan->channelflags) ^ CLANCHANNEL_ON, CLANCHANNEL_ON);
@@ -76,7 +71,7 @@ void do_channels(CHAR_DATA *ch, const char *argument) {
         send_to_char("You cannot show emotions.\n\r", ch);
 }
 
-static void toggle_channel(CHAR_DATA *ch, int chan_flag, const char *chan_name) {
+static void toggle_channel(CHAR_DATA *ch, unsigned long chan_flag, const char *chan_name) {
     char buf[MAX_STRING_LENGTH];
 
     if (IS_SET(ch->comm, chan_flag)) {
@@ -101,21 +96,19 @@ void do_quiet(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void channel_command(CHAR_DATA *ch, const char *argument, int chan_flag, const char *chan_name, const char *desc_self,
-                     const char *desc_other) {
+void channel_command(CHAR_DATA *ch, const char *argument, unsigned long chan_flag, const char *chan_name,
+                     const char *desc_self, const char *desc_other) {
     char buf[MAX_STRING_LENGTH];
 
     if (argument[0] == '\0') {
         toggle_channel(ch, chan_flag, chan_name);
     } else {
-        Descriptor *d;
-
         if (IS_SET(ch->comm, COMM_QUIET)) {
             send_to_char("You must turn off quiet mode first.\n\r", ch);
             return;
         }
         if (IS_SET(ch->comm, COMM_NOCHANNELS)) {
-            send_to_char("The gods have revoked your channel priviliges.\n\r", ch);
+            send_to_char("The gods have revoked your channel privileges.\n\r", ch);
             return;
         }
         if (IS_SET(ch->act, PLR_AFK))
@@ -124,14 +117,10 @@ void channel_command(CHAR_DATA *ch, const char *argument, int chan_flag, const c
 
         snprintf(buf, sizeof(buf), desc_self, argument);
         send_to_char(buf, ch);
-        for (d = descriptor_list; d != nullptr; d = d->next) {
-            CHAR_DATA *victim;
-
-            victim = d->person();
-
-            if (d->is_playing() && d->character() != ch && !IS_SET(victim->comm, chan_flag)
-                && !IS_SET(victim->comm, COMM_QUIET)) {
-                act(desc_other, ch, argument, d->character(), To::Vict, POS_DEAD);
+        for (auto &d : descriptors().all_but(*ch)) {
+            auto *victim = d.person();
+            if (!IS_SET(victim->comm, chan_flag) && !IS_SET(victim->comm, COMM_QUIET)) {
+                act(desc_other, ch, argument, d.character(), To::Vict, POS_DEAD);
             }
         }
     }
@@ -143,7 +132,6 @@ void do_announce(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_immtalk(CHAR_DATA *ch, const char *argument) {
-    Descriptor *d;
     const char *format = "|W$n: |c$t|w";
 
     if (argument[0] == '\0') {
@@ -158,9 +146,9 @@ void do_immtalk(CHAR_DATA *ch, const char *argument) {
 
     if (get_trust(ch) >= 91)
         act(format, ch, argument, nullptr, To::Char, POS_DEAD);
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        if (d->is_playing() && IS_IMMORTAL(d->character()) && !IS_SET(d->character()->comm, COMM_NOWIZ)) {
-            act(format, ch, argument, d->character(), To::Vict, POS_DEAD);
+    for (auto &d : descriptors().playing()) {
+        if (IS_IMMORTAL(d.character()) && !IS_SET(d.character()->comm, COMM_NOWIZ)) {
+            act(format, ch, argument, d.character(), To::Vict, POS_DEAD);
         }
     }
 }

@@ -1,45 +1,21 @@
 
-// chris busch (c) copyright 1995 all rights reserved
+/*************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
+/*  (C) 1995-2020 Xania Development Team                                 */
+/*  See the header to file: merc.h for original code copyrights          */
+/*  Chat bot originally written by Chris Busch in 1993-5, this file is a */
+/*  reimplementation of that work.                                       */
+/*************************************************************************/
 #pragma once
 
 #include "Database.hpp"
-#include <cstdlib>
-#include <cstring>
-
-constexpr inline auto MaxDatabases = 100;
-constexpr inline auto MaxNamedDatabases = 200;
-constexpr inline auto MaxInputLength = 100;
+#include <unordered_map>
 
 namespace chat {
 
 class Eliza {
 public:
-    /**
-     * When loading the chat database file, this is used to map the name of a mob
-     * to the index number of a database that contains the keywords that it will
-     * recognise and the list of responses it can use.
-     */
-    struct NamedDatabase {
-        char *name{};
-        int database_num{};
-
-        char *set(const char *a_name, int dbnum) {
-            name = strdup(a_name);
-            database_num = dbnum;
-            return name;
-        }
-        ~NamedDatabase() {
-            if (name)
-                free(name);
-        }
-    };
-
-    Eliza() : compile_time_{__DATE__ " " __TIME__} {
-        char de[] = "default";
-        register_database_name(de, 0);
-    }
-
-    bool load_databases(const char *, char recurflag = 0);
+    bool load_databases(const char *);
     /**
      * Handle a message from a player to a talkative NPC. This works
      * by accessing the database associated with the npc_name then looking up
@@ -47,35 +23,18 @@ public:
      * then pseudo-randomly selecting a response from the responses and sending it back to the player.
      * It also expands $variables found in the response.
      */
-    const char *handle_player_message(char *response_buf, const char *player_name, std::string_view message,
-                                      const char *npc_name);
+    [[nodiscard]] std::string handle_player_message(std::string_view player_name, std::string_view message,
+                                                    std::string_view npc_name);
 
 private:
-    int num_databases_{};
-    unsigned int num_names_{};
-    Database databases_[MaxDatabases];
-    NamedDatabase named_databases_[MaxNamedDatabases];
-    const std::string compile_time_;
+    std::unordered_map<int, Database> databases_;
+    std::unordered_map<std::string, Database &> named_databases_;
 
-    int get_word(const char *&input, char *outword, char &outother);
-    char *trim(char str[]);
-    bool eval_operator(const char op, const int a, const int b);
-    int strpos(std::string_view input_msg, std::string_view current_db_keyword);
-    int match(std::string_view db_keywords, std::string_view input_msg, std::string_view::iterator &it,
-              uint &remaining_input_pos);
-    void handle_operator(std::string_view input_msg, std::string_view current_db_keyword, const char logical_operator,
-                         int &progressive_match_result, int &next_match_pos, uint &remaining_input_pos);
-
-    bool register_database_name(char *name, int dbnum);
-    bool register_database_names(char *names, int dbnum);
-    void sort_databases_by_name();
-    int get_database_num_by_exact_name(const char *);
-    int get_database_num_by_partial_name(const char *n);
-    void expand_variables(char *response_buf, const char *npc_name, const std::string &response,
-                          const char *player_name, char *rest);
-    char *swap_term(char *in);
-    void swap_pronouns_and_possessives(char s[]);
-    static int compare_database_name(const void *a, const void *b);
+    void ensure_database_open(const int current_db_num, const int line_count);
+    [[nodiscard]] int parse_new_database_num(std::string_view str, const int line_count);
+    Database *parse_database_link(std::string_view str, const int line_count);
+    void register_database_names(std::string &names, Database &database);
+    [[nodiscard]] Database &get_database_by_name(std::string names);
 };
 
 }

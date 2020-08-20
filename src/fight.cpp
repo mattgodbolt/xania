@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "TimeInfoData.hpp"
 #include "challeng.h"
 #include "comm.hpp"
 #include "interp.h"
@@ -1228,10 +1229,10 @@ bool check_dodge(CHAR_DATA *ch, CHAR_DATA *victim) {
 
     /* added Faramir so dexterity actually influences like it says
      * in the help file! Thanx to Oshea for noticing */
-    ddex = ((get_curr_stat(victim, STAT_DEX) - (get_curr_stat(ch, STAT_DEX))) * 3);
+    ddex = ((get_curr_stat(victim, Stat::Dex) - (get_curr_stat(ch, Stat::Dex))) * 3);
 
     chance += ddex;
-    chance += (get_curr_stat(victim, STAT_DEX) / 2);
+    chance += (get_curr_stat(victim, Stat::Dex) / 2);
 
     if (number_percent() >= chance + victim->level - ch->level)
         return false;
@@ -1756,7 +1757,8 @@ int xp_compute(CHAR_DATA *gch, CHAR_DATA *victim, int total_levels) {
 
     /* compute quarter-hours per level */
 
-    time_per_level = 4 * (gch->played + (int)(current_time - gch->logon)) / 3600 / base_level;
+    using namespace std::chrono;
+    time_per_level = 4 * duration_cast<hours>(gch->total_played()).count() / base_level;
 
     /* ensure minimum of 6 quarts (1.5 hours) per level */
     time_per_level = URANGE(2, time_per_level, 6);
@@ -2223,8 +2225,8 @@ void do_bash(CHAR_DATA *ch, const char *argument) {
         chance += (ch->size - victim->size) * 10;
 
     /* stats */
-    chance += get_curr_stat(ch, STAT_STR);
-    chance -= get_curr_stat(victim, STAT_DEX) * 4 / 3;
+    chance += get_curr_stat(ch, Stat::Str);
+    chance -= get_curr_stat(victim, Stat::Dex) * 4 / 3;
 
     /* speed */
     if (IS_SET(ch->off_flags, OFF_FAST) || IS_AFFECTED(ch, AFF_HASTE))
@@ -2324,8 +2326,8 @@ void do_dirt(CHAR_DATA *ch, const char *argument) {
     /* modifiers */
 
     /* dexterity */
-    chance += get_curr_stat(ch, STAT_DEX);
-    chance -= 2 * get_curr_stat(victim, STAT_DEX);
+    chance += get_curr_stat(ch, Stat::Dex);
+    chance -= 2 * get_curr_stat(victim, Stat::Dex);
 
     /* speed  */
     if (IS_SET(ch->off_flags, OFF_FAST) || IS_AFFECTED(ch, AFF_HASTE))
@@ -2452,8 +2454,8 @@ void do_trip(CHAR_DATA *ch, const char *argument) {
         chance += (ch->size - victim->size) * 10; /* bigger = harder to trip */
 
     /* dex */
-    chance += get_curr_stat(ch, STAT_DEX);
-    chance -= get_curr_stat(victim, STAT_DEX) * 3 / 2;
+    chance += get_curr_stat(ch, Stat::Dex);
+    chance -= get_curr_stat(victim, Stat::Dex) * 3 / 2;
 
     /* speed */
     if (IS_SET(ch->off_flags, OFF_FAST) || IS_AFFECTED(ch, AFF_HASTE))
@@ -3008,8 +3010,8 @@ void do_disarm(CHAR_DATA *ch, const char *argument) {
     chance += (ch_vict_weapon / 2 - vict_weapon) / 2;
 
     /* dex vs. strength */
-    chance += get_curr_stat(ch, STAT_DEX);
-    chance -= 2 * get_curr_stat(victim, STAT_STR);
+    chance += get_curr_stat(ch, Stat::Dex);
+    chance -= 2 * get_curr_stat(victim, Stat::Str);
 
     /* level */
     chance += (ch->level - victim->level) * 2;

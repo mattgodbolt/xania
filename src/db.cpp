@@ -9,22 +9,27 @@
 
 #include "db.h"
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
+#include "TimeInfoData.hpp"
+#include "WeatherData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "interp.h"
 #include "merc.h"
 #include "note.h"
+
+#include <range/v3/algorithm/fill.hpp>
+#include <range/v3/iterator/operations.hpp>
+
+#include <cstdarg>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <ctype.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <sys/resource.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <time.h>
-
-extern int getrlimit(int resource, struct rlimit *rlp);
 
 /* Externally referenced functions. */
 void wiznet_initialise();
@@ -41,7 +46,6 @@ SHOP_DATA *shop_last;
 CHAR_DATA *char_free;
 EXTRA_DESCR_DATA *extra_descr_free = nullptr;
 OBJ_DATA *obj_free;
-PC_DATA *pcdata_free;
 
 char bug_buf[2 * MAX_INPUT_LENGTH];
 CHAR_DATA *char_list;
@@ -49,8 +53,6 @@ char *help_greeting;
 char log_buf[LOG_BUF_SIZE];
 KILL_DATA kill_table[MAX_LEVEL];
 OBJ_DATA *object_list;
-TIME_INFO_DATA time_info;
-WEATHER_DATA weather_info;
 
 sh_int gsn_backstab;
 sh_int gsn_dodge;
@@ -231,45 +233,9 @@ void boot_db() {
     /* Init random number generator. */
     init_mm();
 
-    /* Set time and weather. */
-    {
-        long lhour, lday, lmonth;
-
-        lhour = (current_time - 650336715) / (PULSE_TICK / PULSE_PER_SECOND);
-        time_info.hour = lhour % 24;
-        lday = lhour / 24;
-        time_info.day = lday % 35;
-        lmonth = lday / 35;
-        time_info.month = lmonth % 17;
-        time_info.year = lmonth / 17;
-
-        if (time_info.hour < 5)
-            weather_info.sunlight = SUN_DARK;
-        else if (time_info.hour < 6)
-            weather_info.sunlight = SUN_RISE;
-        else if (time_info.hour < 19)
-            weather_info.sunlight = SUN_LIGHT;
-        else if (time_info.hour < 20)
-            weather_info.sunlight = SUN_SET;
-        else
-            weather_info.sunlight = SUN_DARK;
-
-        weather_info.change = 0;
-        weather_info.mmhg = 960;
-        if (time_info.month >= 7 && time_info.month <= 12)
-            weather_info.mmhg += number_range(1, 50);
-        else
-            weather_info.mmhg += number_range(1, 80);
-
-        if (weather_info.mmhg <= 980)
-            weather_info.sky = SKY_LIGHTNING;
-        else if (weather_info.mmhg <= 1000)
-            weather_info.sky = SKY_RAINING;
-        else if (weather_info.mmhg <= 1020)
-            weather_info.sky = SKY_CLOUDY;
-        else
-            weather_info.sky = SKY_CLOUDLESS;
-    }
+    // Set time and weather.
+    time_info = TimeInfoData(Clock::now());
+    weather_info = WeatherData(time_info);
 
     /* Assign gsn's for skills which have them. */
     {
@@ -1217,38 +1183,37 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
 
         /* computed on the spot */
 
-        for (i = 0; i < MAX_STATS; i++)
-            mob->perm_stat[i] = UMIN(25, 11 + mob->level / 4);
+        ranges::fill(mob->perm_stat, UMIN(25, 11 + mob->level / 4));
 
         if (IS_SET(mob->act, ACT_WARRIOR)) {
-            mob->perm_stat[STAT_STR] += 3;
-            mob->perm_stat[STAT_INT] -= 1;
-            mob->perm_stat[STAT_CON] += 2;
+            mob->perm_stat[Stat::Str] += 3;
+            mob->perm_stat[Stat::Int] -= 1;
+            mob->perm_stat[Stat::Con] += 2;
         }
 
         if (IS_SET(mob->act, ACT_THIEF)) {
-            mob->perm_stat[STAT_DEX] += 3;
-            mob->perm_stat[STAT_INT] += 1;
-            mob->perm_stat[STAT_WIS] -= 1;
+            mob->perm_stat[Stat::Dex] += 3;
+            mob->perm_stat[Stat::Int] += 1;
+            mob->perm_stat[Stat::Wis] -= 1;
         }
 
         if (IS_SET(mob->act, ACT_CLERIC)) {
-            mob->perm_stat[STAT_WIS] += 3;
-            mob->perm_stat[STAT_DEX] -= 1;
-            mob->perm_stat[STAT_STR] += 1;
+            mob->perm_stat[Stat::Wis] += 3;
+            mob->perm_stat[Stat::Dex] -= 1;
+            mob->perm_stat[Stat::Str] += 1;
         }
 
         if (IS_SET(mob->act, ACT_MAGE)) {
-            mob->perm_stat[STAT_INT] += 3;
-            mob->perm_stat[STAT_STR] -= 1;
-            mob->perm_stat[STAT_DEX] += 1;
+            mob->perm_stat[Stat::Int] += 3;
+            mob->perm_stat[Stat::Str] -= 1;
+            mob->perm_stat[Stat::Dex] += 1;
         }
 
         if (IS_SET(mob->off_flags, OFF_FAST))
-            mob->perm_stat[STAT_DEX] += 2;
+            mob->perm_stat[Stat::Dex] += 2;
 
-        mob->perm_stat[STAT_STR] += mob->size - SIZE_MEDIUM;
-        mob->perm_stat[STAT_CON] += (mob->size - SIZE_MEDIUM) / 2;
+        mob->perm_stat[Stat::Str] += mob->size - SIZE_MEDIUM;
+        mob->perm_stat[Stat::Con] += (mob->size - SIZE_MEDIUM) / 2;
     } else /* read in old format and convert */
     {
         mob->act = pMobIndex->act | ACT_WARRIOR;
@@ -1284,8 +1249,7 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
         mob->size = SIZE_MEDIUM;
         mob->material = 0;
 
-        for (i = 0; i < MAX_STATS; i++)
-            mob->perm_stat[i] = 11 + mob->level / 4;
+        ranges::fill(mob->perm_stat, 11 + mob->level / 4);
     }
 
     mob->position = mob->start_pos;
@@ -1354,10 +1318,8 @@ void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone) {
     for (i = 0; i < 4; i++)
         clone->armor[i] = parent->armor[i];
 
-    for (i = 0; i < MAX_STATS; i++) {
-        clone->perm_stat[i] = parent->perm_stat[i];
-        clone->mod_stat[i] = parent->mod_stat[i];
-    }
+    clone->perm_stat = parent->perm_stat;
+    clone->mod_stat = parent->mod_stat;
 
     for (i = 0; i < 3; i++)
         clone->damage[i] = parent->damage[i];
@@ -1551,18 +1513,15 @@ void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
  * Clear a new character.
  */
 void clear_char(CHAR_DATA *ch) {
-    static CHAR_DATA ch_zero;
     int i;
 
-    memset(ch, 0, sizeof(CHAR_DATA)); /* Added by TM */
-
-    *ch = ch_zero;
+    *ch = CHAR_DATA();
     ch->name = &str_empty[0];
     ch->short_descr = &str_empty[0];
     ch->long_descr = &str_empty[0];
     ch->description = &str_empty[0];
     ch->logon = current_time;
-    ch->last_note = 0;
+    ch->last_note = Time::min();
     ch->lines = PAGELEN;
     for (i = 0; i < 4; i++)
         ch->armor[i] = 100;
@@ -1578,10 +1537,8 @@ void clear_char(CHAR_DATA *ch) {
     ch->riding = nullptr;
     ch->ridden_by = nullptr;
     ch->clipboard = nullptr;
-    for (i = 0; i < MAX_STATS; i++) {
-        ch->perm_stat[i] = 13;
-        ch->mod_stat[i] = 0;
-    }
+    ranges::fill(ch->perm_stat, 13);
+    ranges::fill(ch->mod_stat, 0);
 }
 
 /*
@@ -1614,16 +1571,14 @@ void free_char(CHAR_DATA *ch) {
     if (ch->clipboard)
         free_string(ch->clipboard);
 
-    if (ch->pcdata != nullptr) {
+    if (ch->pcdata) {
         free_string(ch->pcdata->pwd);
         free_string(ch->pcdata->bamfin);
         free_string(ch->pcdata->bamfout);
-        free_string(ch->pcdata->title);
         free_string(ch->pcdata->prefix); /* PCFN added */
         if (ch->pcdata->pcclan)
             free_mem(ch->pcdata->pcclan, sizeof(*(ch->pcdata->pcclan)));
-        ch->pcdata->next = pcdata_free;
-        pcdata_free = ch->pcdata;
+        ch->pcdata.reset();
     }
 
     ch->next = char_free;
@@ -1997,6 +1952,14 @@ char *fread_string(FILE *fp) {
             }
         }
     }
+}
+
+std::string fread_stdstring(FILE *fp) {
+    // Temporary hack until we can rephrase all this loading stuff.
+    auto str = fread_string(fp);
+    std::string result(str);
+    free_string(str);
+    return result;
 }
 
 char *fread_string_eol(FILE *fp) {
@@ -2407,17 +2370,10 @@ void do_dump(CHAR_DATA *ch, const char *argument) {
             count2 * (sizeof(*fch)));
 
     /* pcdata */
-    count = 0;
-    for (pc = pcdata_free; pc != nullptr; pc = pc->next)
-        count++;
-
-    fprintf(fp, "Pcdata	%4d (%8ld bytes), %2d free (%ld bytes)\n", num_pcs, num_pcs * (sizeof(*pc)), count,
-            count * (sizeof(*pc)));
+    fprintf(fp, "Pcdata	%4d (%8ld bytes)\n", num_pcs, num_pcs * (sizeof(*pc)));
 
     /* descriptors */
-    count = 0;
-    for (d = descriptor_list; d != nullptr; d = d->next)
-        count++;
+    count = static_cast<int>(ranges::distance(descriptors().all()));
 
     fprintf(fp, "Descs	%4d (%8ld bytes)\n", count, count * (sizeof(*d)));
 
@@ -2570,7 +2526,7 @@ void init_mm() {
     piState[-2] = 55 - 55;
     piState[-1] = 55 - 24;
 
-    piState[0] = ((int)current_time) & ((1 << 30) - 1);
+    piState[0] = ((int)Clock::to_time_t(current_time)) & ((1 << 30) - 1);
     piState[1] = 1;
     for (iState = 2; iState < 55; iState++) {
         piState[iState] = (piState[iState - 1] + piState[iState - 2]) & ((1 << 30) - 1);

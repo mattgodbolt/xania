@@ -17,18 +17,15 @@
 #        =       exact match  This must match the input string entirely.
 #  pass 1 scan operators:
 #        #       remark
+#        &<num>  start a new database section.
+#        $       complete the current database. Required before starting a new database section.
 #        "       output to stderr
-#        '       output to stdout
-#        >       start of named database, there can be more than one name
-#                 to a database '> dragon red_dragon'  The _ here is treated
-#                 as a space in the name.
-#        %       include another file inline Ex: %talk.data
-#	 @       adds a continue jump to link to the database. Ex: @dog
-#                 will make a continue link to the dog database.  Use @default
+#        >       keywords when looking up a database based on NPC names 
+#	     @       adds a link to a database identified by number. Ex: @1
+#                 will make a continue link to database 1.  Use @0
 #                 to link to the default database. Only 1 @ per database.
 #                 @ cannot do forward links!!!
-#                 @ is more memory efficient than % but less flexible.
-#                 You must avoid circularities with @. 
+#                 You must avoid circularities with @.
 #  response operators:
 #        1-9     weights are the numerals. First column only. Mandatory.
 #        "       Issue response as "say".   Muds and 2nd column only. Optional.
@@ -69,13 +66,15 @@
 # $r is a variable.  It means rest of sentence after the match.
 #Variables only appear in weighted reponse clauses.
 #Weighted clauses are '9This is a clause', with 9 being the weight.
-# $n is the characters name
+# $n is the non player characters name
 # $t is the targets name (the person who being replied to)
 # $$ is equal to $
 
 
 #START OF DEFAULT DATABASE.  
 #This first bunch of data before the first > is the default database
+
+&0
 
 ######DONT CHANGE THE FOLLOWING
 (who wrote this program)
@@ -86,7 +85,7 @@
 (please murder)
 9To murder $r would be terrible.
 3Why would you want me to kill $r?
-2How much $$ will you give me?
+2How much will you pay me?
 
 (please kill)
 8No way!
@@ -225,7 +224,7 @@
 9:giggles, and says 'Don't flatter yourself, $t!'
 9!slap $t
 1:giggles - they're getting kind of horny. $n undresses.
-9:looks tired, I'm tired of kissing $n.
+9:looks tired, I'm tired of kissing $t.
 
 ( please )
 9Please what ?
@@ -563,8 +562,8 @@
 
 (my hurts )
 9If your $r offends thee, pluck it out!
-9:offers to rub $n's $r
-9I suggest you ake two aspirins and go to bed
+9:offers to rub $t's $r
+9I suggest you take two aspirins and go to bed
 
 (my father )
 9Tell me something about your father
@@ -2403,15 +2402,16 @@
 4If you could change something in your life, what would it be?
 1You don't make any sense at all
 
-
+$
 
 ####################################################
 #Chris Busch 
-#start of named databases
+#start of additional databases
 
-# fido_dog is the name 'fido dog' internally
-#names should not be case dependant :)
->dog fido beastly fido_dog
+&1
+
+#names are case insensitive
+>dog fido beastly
 
 (good dog| good boy)
 9bow bow
@@ -2452,7 +2452,10 @@
 1:whines sofly to itself.
 9
 
+$
+
 ############
+&3
 >cat kitten lion
 
 (good cat|cute|hi|hello)
@@ -2462,6 +2465,9 @@
 (bad)
 8:hisses.
 
+$
+
+&4
 >pig boar
 
 (pig|boar|hi|hello)
@@ -2471,7 +2477,10 @@
 ()
 9
 
+$
+
 #############
+&5
 >doll toy
 
 (hi|hello)
@@ -2484,12 +2493,15 @@
 4I hate you.
 
 ###The doll doy database will now continue to the default database
-@default
+@0
+
+$
 
 ######
->papa_smurf smurf 
+&6
+>smurf
 
-(smurf|smurfette)
+(smurf)
 9"Its so smurfy to be smurfy!
 2"We are share and share alike
 2Where is Smurfette? I miss her.
@@ -2498,9 +2510,11 @@
 9"smurfy!
 5"Where are my berries?
 
+@0
 
-@default
+$
 
+&7
 >smurfette
 
 (hi|hello)
@@ -2509,10 +2523,9 @@
 4Let's pretend you are Papa smurf!
 8!giggle
 
-###remember NO forward continue links
-#and only one link per database with no cycles.
-@smurf
+$
 
+&8
 >healer cleric doctor
 
 (hi|hello)
@@ -2542,23 +2555,13 @@
 
 
 #This will continue the healer database into default
-@default
+@0
 
+$
 
-#Uncommented the below would include a file
-#%Somefile.data
-#That would be useful for very common phrases that should be in all databases.
-
-#Remember the @ continue jump uses less memory than % including but you are
-#limited to one @ per database.
-
-
-######################
-#Please add your NPC data below here
-#
-#
 # For the more stupid creatures in Xania
 # Reasonably coherent, but not intelligent
+&9
 >goblin orc troll minotaur
 
 (kill you)
@@ -2620,7 +2623,10 @@
 2:is ignoring you.
 9
 
->mud_general
+$
+
+&10
+>mud general
 (how are you)
 9"I'm fine, how are you $t?
 
@@ -2635,7 +2641,10 @@
 ()
 9
 
->frank_bruno
+$
+
+&11
+>frank bruno
 
 (hello |hi |hiya |greetings |all right)
 9!highfive $t
@@ -2707,20 +2716,6 @@
 9"I oil my muscles regularly, you know
 9"Your physique could do with some toning, $t
 
+@10
 
-@mud_general
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->
+$

@@ -9,6 +9,7 @@
 
 #include "info.hpp"
 #include "Descriptor.hpp"
+#include "TimeInfoData.hpp"
 #include "WrappedFd.hpp"
 #include "buffer.h"
 #include "comm.hpp"
@@ -361,10 +362,7 @@ void update_info_cache(CHAR_DATA *ch) {
         } else {
             /* If link dead, we need to grab as much
                info as possible. Death.*/
-            char *strtime = ctime(&current_time);
-            strtime[strlen(strtime) - 1] = '\0';
-
-            cur->last_login_at = strtime;
+            cur->last_login_at = "{}"_format(secs_only(current_time));
         }
     }
 }

@@ -26,11 +26,14 @@
 
 #pragma once
 
+#include "CHAR_DATA.hpp"
+#include "Stats.hpp"
+#include "Types.hpp"
 #include "clan.h"
+#include "common/Time.hpp"
 #include "version.h"
 
 #include <crypt.h>
-#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
@@ -38,102 +41,72 @@
 #include <unistd.h>
 #include <utility>
 
-struct CHAR_DATA;
-
-/**
- * Function pointers for spells.
- */
-typedef void (*SpellFunc)(int spell_num, int level, CHAR_DATA *ch, void *vo);
-/**
- * Function pointer for NPC special behaviours.
- */
-typedef bool (*SpecialFunc)(CHAR_DATA *ch);
-
-#define MAX_SIGNALS 16
-
-/*
- * Short scalar types.
- * Diavolo reports AIX compiler has bugs with short types.
- */
-
-typedef short int sh_int;
-typedef unsigned short int ush_int;
-
 /* Buffer structure */
 typedef struct _BUFFER BUFFER;
 
 /*
  * Structure types.
  */
-typedef struct affect_data AFFECT_DATA;
 typedef struct area_data AREA_DATA;
 typedef struct ban_data BAN_DATA;
-struct CHAR_DATA;
 class Descriptor;
 typedef struct exit_data EXIT_DATA;
 typedef struct extra_descr_data EXTRA_DESCR_DATA;
 typedef struct help_data HELP_DATA;
 typedef struct kill_data KILL_DATA;
-typedef struct mob_index_data MOB_INDEX_DATA;
-typedef struct note_data NOTE_DATA;
-typedef struct obj_data OBJ_DATA;
+struct OBJ_DATA;
 typedef struct obj_index_data OBJ_INDEX_DATA;
-typedef struct pc_data PC_DATA;
 typedef struct program PROGRAM;
-typedef struct gen_data GEN_DATA;
 typedef struct reset_data RESET_DATA;
-typedef struct room_index_data ROOM_INDEX_DATA;
+struct ROOM_INDEX_DATA;
 typedef struct shop_data SHOP_DATA;
-typedef struct time_info_data TIME_INFO_DATA;
-typedef struct weather_data WEATHER_DATA;
 typedef struct known_players KNOWN_PLAYERS; // TODO(#108) remove if unused.
 /* Merc22 MOBProgs */
 typedef struct mob_prog_data MPROG_DATA; /* MOBprogram */
-typedef struct mob_prog_act_list MPROG_ACT_LIST; /* MOBprogram */
 
 /*
  * String and memory management parameters.
  */
-#define MAX_KEY_HASH 1024
-#define MAX_STRING_LENGTH 4096
-#define MAX_INPUT_LENGTH 256
-#define PAGELEN 22
-#define LOG_BUF_SIZE 2 * MAX_INPUT_LENGTH
+static inline constexpr auto MAX_KEY_HASH = 1024;
+static inline constexpr auto MAX_STRING_LENGTH = 4096;
+static inline constexpr auto MAX_INPUT_LENGTH = 256;
+static inline constexpr auto PAGELEN = 22;
+static inline constexpr auto LOG_BUF_SIZE = 2 * MAX_INPUT_LENGTH;
 
 /*
  * Game parameters.
  * Increase the max'es if you add more of something.
  * Adjust the pulse numbers to suit yourself.
  */
-#define MAX_SOCIALS 256
-#define MAX_SKILL 150
-#define MAX_GROUP 30
-#define MAX_IN_GROUP 15
-#define MAX_CLASS 4
-#define MAX_PC_RACE 12
-#define MAX_LEVEL 100
+static inline constexpr auto MAX_SOCIALS = 256;
+static inline constexpr auto MAX_SKILL = 150;
+static inline constexpr auto MAX_GROUP = 30;
+static inline constexpr auto MAX_IN_GROUP = 15;
+static inline constexpr auto MAX_CLASS = 4;
+static inline constexpr auto MAX_PC_RACE = 12;
+static inline constexpr auto MAX_LEVEL = 100;
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-#define MAX_LEVEL_MPROG (MAX_LEVEL + 1)
-#define LEVEL_HERO (MAX_LEVEL - 9)
-#define LEVEL_IMMORTAL (MAX_LEVEL - 8)
-#define LEVEL_CONSIDER 80
+static inline constexpr auto MAX_LEVEL_MPROG = MAX_LEVEL + 1;
+static inline constexpr auto LEVEL_HERO = MAX_LEVEL - 9;
+static inline constexpr auto LEVEL_IMMORTAL = MAX_LEVEL - 8;
+static inline constexpr auto LEVEL_CONSIDER = 80;
 
-#define PULSE_PER_SECOND 4
-#define PULSE_VIOLENCE (3 * PULSE_PER_SECOND)
-#define PULSE_MOBILE (4 * PULSE_PER_SECOND)
-#define PULSE_TICK (30 * PULSE_PER_SECOND)
-#define PULSE_AREA (60 * PULSE_PER_SECOND)
+static inline constexpr auto PULSE_PER_SECOND = 4;
+static inline constexpr auto PULSE_VIOLENCE = 3 * PULSE_PER_SECOND;
+static inline constexpr auto PULSE_MOBILE = 4 * PULSE_PER_SECOND;
+static inline constexpr auto PULSE_TICK = 30 * PULSE_PER_SECOND;
+static inline constexpr auto PULSE_AREA = 60 * PULSE_PER_SECOND;
 
-#define IMPLEMENTOR MAX_LEVEL
-#define CREATOR (MAX_LEVEL - 1)
-#define SUPREME (MAX_LEVEL - 2)
-#define DEITY (MAX_LEVEL - 3)
-#define GOD (MAX_LEVEL - 4)
-#define IMMORTAL (MAX_LEVEL - 5)
-#define DEMI (MAX_LEVEL - 6)
-#define ANGEL (MAX_LEVEL - 7)
-#define AVATAR (MAX_LEVEL - 8)
-#define HERO LEVEL_HERO
+static inline constexpr auto IMPLEMENTOR = MAX_LEVEL;
+static inline constexpr auto CREATOR = MAX_LEVEL - 1;
+static inline constexpr auto SUPREME = MAX_LEVEL - 2;
+static inline constexpr auto DEITY = MAX_LEVEL - 3;
+static inline constexpr auto GOD = MAX_LEVEL - 4;
+static inline constexpr auto IMMORTAL = MAX_LEVEL - 5;
+static inline constexpr auto DEMI = MAX_LEVEL - 6;
+static inline constexpr auto ANGEL = MAX_LEVEL - 7;
+static inline constexpr auto AVATAR = MAX_LEVEL - 8;
+static inline constexpr auto HERO = LEVEL_HERO;
 
 /*
  * Site ban structure.
@@ -166,33 +139,6 @@ struct ban_data {
  */
 #define ATTACK_TABLE_INDEX_TAME_LIGHTNING 28
 #define ATTACK_TABLE_INDEX_ACID_WASH 31
-
-/*
- * Time and weather stuff.
- */
-#define SUN_DARK 0
-#define SUN_RISE 1
-#define SUN_LIGHT 2
-#define SUN_SET 3
-
-#define SKY_CLOUDLESS 0
-#define SKY_CLOUDY 1
-#define SKY_RAINING 2
-#define SKY_LIGHTNING 3
-
-struct time_info_data {
-    int hour;
-    int day;
-    int month;
-    int year;
-};
-
-struct weather_data {
-    int mmhg;
-    int change;
-    int sky;
-    int sunlight;
-};
 
 /*
  * Attribute bonus structures.
@@ -248,26 +194,18 @@ struct shop_data {
     sh_int buy_type[MAX_TRADE]; /* Item types shop will buy     */
     sh_int profit_buy; /* Cost multiplier for buying   */
     sh_int profit_sell; /* Cost multiplier for selling  */
-    sh_int open_hour; /* First opening hour           */
-    sh_int close_hour; /* First closing hour           */
+    unsigned int open_hour; /* First opening hour           */
+    unsigned int close_hour; /* First closing hour           */
 };
 
 /*
  * Per-class stuff.
  */
-
-#define MAX_GUILD 3
-#define MAX_STATS 5
-#define STAT_STR 0
-#define STAT_INT 1
-#define STAT_WIS 2
-#define STAT_DEX 3
-#define STAT_CON 4
-
+static constexpr inline auto MAX_GUILD = 3;
 struct class_type {
     const char *name; /* the full name of the class */
     char who_name[4]; /* Three-letter name for 'who'  */
-    sh_int attr_prime; /* Prime attribute              */
+    Stat attr_prime; /* Prime attribute              */
     sh_int weapon; /* First weapon                 */
     sh_int guild[MAX_GUILD]; /* Vnum of guild rooms          */
     sh_int skill_adept; /* Maximum skill level          */
@@ -323,8 +261,8 @@ struct pc_race_type /* additional data for pc races */
     sh_int points; /* cost in points of the race */
     sh_int class_mult[MAX_CLASS]; /* exp multiplier for class, * 100 */
     const char *skills[5]; /* bonus skills for the race */
-    sh_int stats[MAX_STATS]; /* starting stats */
-    sh_int max_stats[MAX_STATS]; /* maximum stats */
+    Stats stats; /* starting stats */
+    Stats max_stats; /* maximum stats */
     sh_int size; /* aff bits for the race */
 };
 
@@ -333,7 +271,7 @@ struct pc_race_type /* additional data for pc races */
 /*
  * An affect.
  */
-struct affect_data {
+struct AFFECT_DATA {
     AFFECT_DATA *next;
     sh_int type;
     sh_int level;
@@ -1005,35 +943,6 @@ static inline constexpr auto ff = BIT(31);
  ***************************************************************************/
 
 /*
- * Extra flags
- */
-#define MAX_EXTRA_FLAGS 64
-#define EXTRA_WIZNET_ON 0
-#define EXTRA_WIZNET_DEBUG 1
-#define EXTRA_WIZNET_MORT 2
-#define EXTRA_WIZNET_IMM 3
-#define EXTRA_WIZNET_BUG 4
-#define EXTRA_PERMIT 5
-#define EXTRA_WIZNET_TICK 6
-
-// Some bits no longer used here. Be aware there *could* be legacy player files where
-// these bits are enabled so consider that if you decide to repurpose them. And
-// maybe write some migration code to force it off on login if the new feature
-// is sensitive to the bit.
-#define EXTRA_UNUSED_1 9
-#define EXTRA_UNUSED_2 10
-
-#define EXTRA_INFO_MESSAGE 11
-
-#define EXTRA_UNUSED_3 12
-
-#define EXTRA_TIP_WIZARD 14
-#define EXTRA_TIP_UNUSED_4 15
-#define EXTRA_TIP_ADVANCED 16
-
-extern const char *flagname_extra[];
-
-/*
  * Conditions.
  */
 #define COND_DRUNK 0
@@ -1126,7 +1035,7 @@ extern const char *flagname_extra[];
  * Prototype for a mob.
  * This is the in-memory version of #MOBILES.
  */
-struct mob_index_data {
+struct MOB_INDEX_DATA {
     MOB_INDEX_DATA *next;
     SpecialFunc spec_fun;
     SHOP_DATA *pShop;
@@ -1170,100 +1079,10 @@ struct mob_index_data {
 };
 
 /*
- * One character (PC or NPC).
- */
-struct CHAR_DATA {
-    CHAR_DATA *next;
-    CHAR_DATA *next_in_room;
-    CHAR_DATA *master;
-    CHAR_DATA *leader;
-    CHAR_DATA *fighting;
-    CHAR_DATA *reply;
-    CHAR_DATA *pet;
-    CHAR_DATA *riding;
-    CHAR_DATA *ridden_by;
-    SpecialFunc spec_fun;
-    MOB_INDEX_DATA *pIndexData;
-    Descriptor *desc;
-    AFFECT_DATA *affected;
-    NOTE_DATA *pnote;
-    OBJ_DATA *carrying;
-    ROOM_INDEX_DATA *in_room;
-    ROOM_INDEX_DATA *was_in_room;
-    PC_DATA *pcdata;
-    GEN_DATA *gen_data;
-    char *name;
-
-    sh_int version;
-    char *short_descr;
-    char *long_descr;
-    char *description;
-    char *sentient_victim;
-    sh_int sex;
-    sh_int class_num;
-    sh_int race;
-    sh_int level;
-    sh_int trust;
-    int played;
-    int lines; /* for the pager */
-    time_t logon;
-    time_t last_note;
-    sh_int timer;
-    sh_int wait;
-    sh_int hit;
-    sh_int max_hit;
-    sh_int mana;
-    sh_int max_mana;
-    sh_int move;
-    sh_int max_move;
-    long gold;
-    long exp;
-    unsigned long act;
-    unsigned long comm; /* RT added to pad the vector */
-    unsigned long imm_flags;
-    unsigned long res_flags;
-    unsigned long vuln_flags;
-    sh_int invis_level;
-    unsigned int affected_by;
-    sh_int position;
-    sh_int practice;
-    sh_int train;
-    sh_int carry_weight;
-    sh_int carry_number;
-    sh_int saving_throw;
-    sh_int alignment;
-    sh_int hitroll;
-    sh_int damroll;
-    sh_int armor[4];
-    sh_int wimpy;
-    /* stats */
-    sh_int perm_stat[MAX_STATS];
-    sh_int mod_stat[MAX_STATS];
-    /* parts stuff */
-    unsigned long form;
-    unsigned long parts;
-    sh_int size;
-    sh_int material;
-    unsigned long hit_location; /* for verbose combat sequences */
-    /* mobile stuff */
-    unsigned long off_flags;
-    sh_int damage[3];
-    sh_int dam_type;
-    sh_int start_pos;
-    sh_int default_pos;
-
-    char *clipboard;
-    unsigned long extra_flags[(MAX_EXTRA_FLAGS / 32) + 1];
-
-    MPROG_ACT_LIST *mpact; /* Used by MOBprogram */
-    int mpactnum; /* Used by MOBprogram */
-};
-
-/*
  * MOBprogram block
  */
 
-struct mob_prog_act_list {
+struct MPROG_ACT_LIST {
     MPROG_ACT_LIST *next;
     char *buf;
     const CHAR_DATA *ch;
@@ -1298,35 +1117,34 @@ extern bool MOBtrigger;
 /*
  * Data which only PC's have.
  */
-struct pc_data {
-    PC_DATA *next;
-    char *pwd;
-    char *bamfin;
-    char *bamfout;
-    char *title;
-    char *prompt;
-    char *afk;
-    char *prefix;
-    char *info_message;
-    sh_int houroffset;
-    sh_int minoffset;
-    sh_int perm_hit;
-    sh_int perm_mana;
-    sh_int perm_move;
-    sh_int true_sex;
+struct PC_DATA {
+    char *pwd{};
+    char *bamfin{};
+    char *bamfout{};
+    std::string title;
+    char *prompt{};
+    char *afk{};
+    char *prefix{};
+    char *info_message{};
+    sh_int houroffset{};
+    sh_int minoffset{};
+    sh_int perm_hit{};
+    sh_int perm_mana{};
+    sh_int perm_move{};
+    sh_int true_sex{};
 
-    int last_level;
-    sh_int condition[3];
-    sh_int learned[MAX_SKILL];
-    bool group_known[MAX_GROUP];
-    sh_int points;
-    bool confirm_delete;
-    bool colour;
-    PCCLAN *pcclan;
+    int last_level{};
+    sh_int condition[3]{};
+    sh_int learned[MAX_SKILL]{};
+    bool group_known[MAX_GROUP]{};
+    sh_int points{};
+    bool confirm_delete{};
+    bool colour{};
+    PCCLAN *pcclan{};
 };
 
 /* Data for generating characters -- only used during generation */
-struct gen_data {
+struct GEN_DATA {
     GEN_DATA *next;
     bool skill_chosen[MAX_SKILL];
     bool group_chosen[MAX_GROUP];
@@ -1407,7 +1225,7 @@ struct obj_index_data {
 /*
  * One object.
  */
-struct obj_data {
+struct OBJ_DATA {
     OBJ_DATA *next;
     OBJ_DATA *next_content;
     OBJ_DATA *contains;
@@ -1509,7 +1327,7 @@ typedef struct _tip_type {
 /*
  * Room type.
  */
-struct room_index_data {
+struct ROOM_INDEX_DATA {
     ROOM_INDEX_DATA *next;
     CHAR_DATA *people;
     OBJ_DATA *contents;
@@ -1525,18 +1343,6 @@ struct room_index_data {
 
     RESET_DATA *reset_first;
     RESET_DATA *reset_last;
-};
-
-/* Data structure for notes. */
-struct note_data {
-    NOTE_DATA *next;
-    NOTE_DATA *prev;
-    char *sender;
-    char *date;
-    char *to_list;
-    char *subject;
-    BUFFER *text;
-    time_t date_stamp;
 };
 
 /*
@@ -1685,8 +1491,8 @@ extern sh_int gsn_bless;
 /*
  * Character macros.
  */
-#define IS_NPC(ch) (IS_SET((ch)->act, ACT_IS_NPC))
-#define IS_IMMORTAL(ch) (get_trust(ch) >= LEVEL_IMMORTAL)
+#define IS_NPC(ch) (ch->is_npc())
+#define IS_IMMORTAL(ch) (ch->is_immortal())
 #define IS_HERO(ch) (get_trust(ch) >= LEVEL_HERO)
 #define IS_TRUSTED(ch, level) (get_trust((ch)) >= (level))
 #define IS_AFFECTED(ch, sn) (IS_SET((ch)->affected_by, (sn)))
@@ -1698,10 +1504,10 @@ extern sh_int gsn_bless;
 #define IS_NEUTRAL(ch) (!IS_GOOD(ch) && !IS_EVIL(ch))
 
 #define IS_AWAKE(ch) (ch->position > POS_SLEEPING)
-#define GET_AC(ch, type) ((ch)->armor[type] + (IS_AWAKE(ch) ? dex_app[get_curr_stat(ch, STAT_DEX)].defensive : 0))
+#define GET_AC(ch, type) ((ch)->armor[type] + (IS_AWAKE(ch) ? dex_app[get_curr_stat(ch, Stat::Dex)].defensive : 0))
 
-#define GET_HITROLL(ch) ((ch)->hitroll + str_app[get_curr_stat(ch, STAT_STR)].tohit)
-#define GET_DAMROLL(ch) ((ch)->damroll + str_app[get_curr_stat(ch, STAT_STR)].todam)
+#define GET_HITROLL(ch) ((ch)->hitroll + str_app[get_curr_stat(ch, Stat::Str)].tohit)
+#define GET_DAMROLL(ch) ((ch)->damroll + str_app[get_curr_stat(ch, Stat::Str)].todam)
 
 #define IS_OUTSIDE(ch) (!IS_SET((ch)->in_room->room_flags, ROOM_INDOORS))
 
@@ -1782,22 +1588,18 @@ extern AFFECT_DATA *affect_free;
 extern CHAR_DATA *char_free;
 extern EXTRA_DESCR_DATA *extra_descr_free;
 extern OBJ_DATA *obj_free;
-extern PC_DATA *pcdata_free;
 
-extern time_t current_time;
 extern bool fLogAll;
 extern FILE *fpReserve;
 extern KILL_DATA kill_table[];
 extern char log_buf[];
-extern TIME_INFO_DATA time_info;
-extern WEATHER_DATA weather_info;
 
 /* Moog added stuff */
 extern char deity_name_area[256];
 extern char *deity_name;
 
 /* Added by Rohan, to try to make count work properly */
-extern int max_on;
+extern size_t max_on;
 
 /*
  * Data files used by the server.
@@ -1841,8 +1643,6 @@ void die_follower(CHAR_DATA *ch);
 bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch);
 void thrown_off(CHAR_DATA *ch, CHAR_DATA *pet);
 void fallen_off_mount(CHAR_DATA *ch);
-/* act_info.c */
-void set_title(CHAR_DATA *ch, const char *title);
 
 /* act_move.c */
 void move_char(CHAR_DATA *ch, int door);
@@ -1879,6 +1679,7 @@ int fread_spnumber(FILE *fp);
 long fread_flag(FILE *fp);
 BUFFER *fread_string_tobuffer(FILE *fp);
 char *fread_string(FILE *fp);
+std::string fread_stdstring(FILE *fp);
 char *fread_string_eol(FILE *fp);
 void fread_to_eol(FILE *fp);
 char *fread_word(FILE *fp);
@@ -1932,8 +1733,8 @@ int get_weapon_skill(CHAR_DATA *ch, int sn);
 int get_age(const CHAR_DATA *ch);
 void reset_char(CHAR_DATA *ch);
 int get_trust(const CHAR_DATA *ch);
-int get_curr_stat(const CHAR_DATA *ch, int stat);
-int get_max_train(CHAR_DATA *ch, int stat);
+int get_curr_stat(const CHAR_DATA *ch, Stat stat);
+int get_max_train(CHAR_DATA *ch, Stat stat);
 int can_carry_n(CHAR_DATA *ch);
 int can_carry_w(CHAR_DATA *ch);
 bool is_name(const char *str, const char *namelist);

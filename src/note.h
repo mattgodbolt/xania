@@ -9,13 +9,27 @@
 
 #pragma once
 
+#include "buffer.h"
+#include "common/Time.hpp"
+
+/* Data structure for notes. */
+struct NOTE_DATA {
+    NOTE_DATA *next;
+    NOTE_DATA *prev;
+    char *sender;
+    char *date;
+    char *to_list;
+    char *subject;
+    BUFFER *text;
+    Time date_stamp;
+};
+
 struct CHAR_DATA;
-typedef struct note_data NOTE_DATA;
 
 #define NOTE_FILE "notes.txt" /* For 'notes'                  */
 
 void do_note(CHAR_DATA *ch, const char *argument);
 void note_initialise();
 int note_count(CHAR_DATA *ch);
-int is_note_to(CHAR_DATA *ch, NOTE_DATA *note);
+int is_note_to(const CHAR_DATA *ch, const NOTE_DATA *note);
 void note_announce(CHAR_DATA *chsender, NOTE_DATA *note);

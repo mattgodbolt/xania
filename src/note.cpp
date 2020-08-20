@@ -10,10 +10,14 @@
 #include "note.h"
 #include "CommandSet.hpp"
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
+#include "TimeInfoData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
+
+#include <fmt/format.h>
 
 #include <cctype>
 #include <cstdio>
@@ -22,6 +26,8 @@
 #include <ctime>
 #include <functional>
 #include <memory>
+
+using namespace fmt::literals;
 
 static NOTE_DATA *note_first;
 static NOTE_DATA *note_last;
@@ -41,7 +47,7 @@ int note_count(CHAR_DATA *ch) {
     return notes;
 }
 
-int is_note_to(CHAR_DATA *ch, NOTE_DATA *note) {
+int is_note_to(const CHAR_DATA *ch, const NOTE_DATA *note) {
     if (!str_cmp(ch->name, note->sender)) {
         return true;
     }
@@ -120,7 +126,7 @@ static NOTE_DATA *lookup_note(int index, CHAR_DATA *ch) {
     return nullptr;
 }
 
-static NOTE_DATA *lookup_note_date(int date, CHAR_DATA *ch, int *index) {
+static NOTE_DATA *lookup_note_date(Time date, CHAR_DATA *ch, int *index) {
     NOTE_DATA *note;
     int count = 0;
 
@@ -153,7 +159,7 @@ static NOTE_DATA *ensure_note(CHAR_DATA *ch) {
 static void save_note(FILE *file, NOTE_DATA *note) {
     fprintf(file, "Sender %s~\n", note->sender);
     fprintf(file, "Date %s~\n", note->date);
-    fprintf(file, "Stamp %d\n", (int)note->date_stamp);
+    fprintf(file, "Stamp %d\n", (int)Clock::to_time_t(note->date_stamp));
     fprintf(file, "To %s~\n", note->to_list);
     fprintf(file, "Subject %s~\n", note->subject);
     fprintf(file, "Text\n%s~\n", note->text ? buffer_string(note->text) : "");
@@ -300,7 +306,6 @@ static void note_post(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     NOTE_DATA *note = ch->pnote;
     FILE *fp;
-    char *strtime;
 
     if (!note) {
         send_to_char("You have no note in progress.\n\r", ch);
@@ -314,9 +319,7 @@ static void note_post(CHAR_DATA *ch, const char *argument) {
         send_to_char("You need to provide a subject.\n\r", ch);
         return;
     }
-    strtime = ctime(&current_time);
-    strtime[strlen(strtime) - 1] = '\0';
-    note->date = str_dup(strtime);
+    note->date = str_dup("{}"_format(secs_only(current_time)).c_str()); // TODO remove when stringified
     note->date_stamp = current_time;
 
     ch->pnote = nullptr;
@@ -334,18 +337,13 @@ static void note_post(CHAR_DATA *ch, const char *argument) {
 }
 
 void note_announce(CHAR_DATA *chsender, NOTE_DATA *note) {
-    Descriptor *d;
-
     if (note == nullptr) {
         log_string("note_announce() note is null");
         return;
     }
-    for (d = descriptor_list; d; d = d->next) {
-        CHAR_DATA *chtarg;
-        chtarg = d->person();
-        if (d->is_playing() && d->character() != chsender && chtarg && !IS_SET(chtarg->comm, COMM_NOANNOUNCE)
-            && !IS_SET(chtarg->comm, COMM_QUIET) && is_note_to(chtarg, note)) {
-            send_to_char("The Spirit of Hermes announces the arrival of a new note.\n\r", chtarg);
+    for (auto &chtarg : descriptors().all_but(*chsender) | DescriptorFilter::to_person()) {
+        if (!IS_SET(chtarg.comm, COMM_NOANNOUNCE) && !IS_SET(chtarg.comm, COMM_QUIET) && is_note_to(&chtarg, note)) {
+            chtarg.send_to("The Spirit of Hermes announces the arrival of a new note.\n\r");
         }
     }
 }
@@ -476,7 +474,7 @@ static void note_readfile() {
 
         if (str_cmp(fread_word(fp), "stamp"))
             break;
-        note->date_stamp = fread_number(fp);
+        note->date_stamp = Clock::from_time_t(fread_number(fp));
 
         if (str_cmp(fread_word(fp), "to"))
             break;
@@ -490,7 +488,7 @@ static void note_readfile() {
             break;
         note->text = fread_string_tobuffer(fp);
 
-        if (note->date_stamp < current_time - (14 * 24 * 60 * 60) /* 2 wks */) {
+        if (note->date_stamp < current_time - date::weeks(2)) {
             destroy_note(note);
             continue;
         }

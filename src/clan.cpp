@@ -8,9 +8,14 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
 #include "comm.hpp"
 #include "interp.h"
 #include "merc.h"
+
+#include <range/v3/algorithm/find_if.hpp>
+
+#include <algorithm>
 #include <cstdio>
 #include <memory.h>
 
@@ -55,21 +60,10 @@ const CLAN clantable[NUM_CLANS] = {
 /* End user servicable bits */
 
 void do_clantalk(CHAR_DATA *ch, const char *argument) {
-
     char buf[MAX_STRING_LENGTH];
-    int candoit = 0;
-    Descriptor *d;
-    PCCLAN *OrigClan;
 
-    if (IS_NPC(ch)) {
-        if (ch->desc->original())
-            OrigClan = ch->desc->original()->pcdata->pcclan;
-        else
-            OrigClan = nullptr;
-    } else
-        OrigClan = ch->pcdata->pcclan;
-
-    if (OrigClan == nullptr) {
+    auto *orig_clan = ch->desc->person() ? ch->desc->person()->pcdata->pcclan : nullptr;
+    if (orig_clan == nullptr) {
         send_to_char("You are not a member of a clan.\n\r", ch);
         return; /* Disallow mortal PC's with no clan */
     } /* if ch->pcclan */
@@ -79,57 +73,57 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (argument[0] == '\0' || !OrigClan->channelflags) {
+    if (argument[0] == '\0' || !orig_clan->channelflags) {
         /* They want to turn it on/off */
-        OrigClan->channelflags ^= CLANCHANNEL_ON;
-        snprintf(buf, sizeof(buf), "Clan channel now %s\n\r", (OrigClan->channelflags & CLANCHANNEL_ON) ? "on" : "off");
+        orig_clan->channelflags ^= CLANCHANNEL_ON;
+        snprintf(buf, sizeof(buf), "Clan channel now %s\n\r",
+                 (orig_clan->channelflags & CLANCHANNEL_ON) ? "on" : "off");
         send_to_char(buf, ch);
         return;
     }
 
     /* Next check to see if a CLAN_HERO or CLAN_LEADER is on first */
 
-    for (d = descriptor_list; (d && !candoit); d = d->next) {
-        CHAR_DATA *vix = d->person();
+    auto playing = descriptors().playing();
+    if (ranges::find_if(playing,
+                        [&](const Descriptor &d) {
+                            const auto *victim = d.person();
+                            const auto *pcclan = victim->pcdata->pcclan;
 
-        if (vix && d->character() && vix->pcdata->pcclan
-            && (vix->pcdata->pcclan->clan->clanchar == OrigClan->clan->clanchar)
-            && (vix->pcdata->pcclan->clanlevel >= CLAN_HERO) && !IS_SET(vix->comm, COMM_QUIET))
-            candoit = 1; /* Yeah we can do it! */
-    } /* for all descriptors */
-
-    if (!candoit) {
-        send_to_char("Your clan lacks the necessary broadcast nexus, causing your vain telepathy to\n\rbe lost upon "
-                     "the winds.\n\r",
+                            return pcclan && pcclan->clan->clanchar == orig_clan->clan->clanchar
+                                   && pcclan->clanlevel >= CLAN_HERO && !IS_SET(victim->comm, COMM_QUIET);
+                        })
+        == playing.end()) {
+        send_to_char("Your clan lacks the necessary broadcast nexus, causing your vain telepathy to\n\r"
+                     "be lost upon the winds.\n\r",
                      ch);
         return;
     }
 
-    if (OrigClan->channelflags & CLANCHANNEL_NOCHANNED) {
-        send_to_char("Your clan channel priviledges have been revoked!\n\r", ch);
+    if (orig_clan->channelflags & CLANCHANNEL_NOCHANNED) {
+        send_to_char("Your clan channel privileges have been revoked!\n\r", ch);
         return;
     }
 
     if (IS_SET(ch->act, PLR_AFK))
         do_afk(ch, nullptr);
 
-    if (!OrigClan->channelflags) {
-        OrigClan->channelflags ^= CLANCHANNEL_ON;
-        snprintf(buf, sizeof(buf), "Clan channel now %s\n\r", (OrigClan->channelflags & CLANCHANNEL_ON) ? "on" : "off");
+    if (!orig_clan->channelflags) {
+        orig_clan->channelflags ^= CLANCHANNEL_ON;
+        snprintf(buf, sizeof(buf), "Clan channel now %s\n\r",
+                 (orig_clan->channelflags & CLANCHANNEL_ON) ? "on" : "off");
         send_to_char(buf, ch);
     }
 
     /* Right here we go - tell all members of the clan the message */
-    for (d = descriptor_list; d; d = d->next) {
-        CHAR_DATA *vix;
-        vix = d->person();
-
-        if ((d->is_playing()) && (vix->pcdata->pcclan)
-            && (vix->pcdata->pcclan->clan->clanchar == OrigClan->clan->clanchar)
-            && (vix->pcdata->pcclan->channelflags & CLANCHANNEL_ON) && !IS_SET(vix->comm, COMM_QUIET)
+    for (auto &d : descriptors().playing()) {
+        auto *victim = d.person();
+        const auto *pcclan = victim->pcdata->pcclan;
+        if (pcclan && pcclan->clan->clanchar == orig_clan->clan->clanchar && pcclan->channelflags & CLANCHANNEL_ON
+            && !IS_SET(victim->comm, COMM_QUIET)
             /* || they're an IMM snooping the channels */) {
-            snprintf(buf, sizeof(buf), "|G<%s> %s|w\n\r", can_see(d->character(), ch) ? ch->name : "Someone", argument);
-            send_to_char(buf, d->character());
+            snprintf(buf, sizeof(buf), "|G<%s> %s|w\n\r", can_see(d.character(), ch) ? ch->name : "Someone", argument);
+            send_to_char(buf, d.character());
         } /* If they can see the message */
     } /* for all descriptors */
 
@@ -177,12 +171,12 @@ void do_noclanchan(CHAR_DATA *ch, const char *argument) {
     victim->pcdata->pcclan->channelflags ^= CLANCHANNEL_NOCHANNED; /* Change the victim's flags */
 
     /* Tell the char how things went */
-    snprintf(buf, sizeof(buf), "You have %sed %s's clan channel priviledges.\n\r",
+    snprintf(buf, sizeof(buf), "You have %sed %s's clan channel privileges.\n\r",
              (victim->pcdata->pcclan->channelflags & CLANCHANNEL_NOCHANNED) ? "revok" : "reinstat", victim->name);
     send_to_char(buf, ch);
 
     /* Inform the hapless victim */
-    snprintf(buf, sizeof(buf), "%s has %sed your clan channel priviledges.\n\r", ch->name,
+    snprintf(buf, sizeof(buf), "%s has %sed your clan channel privileges.\n\r", ch->name,
              (victim->pcdata->pcclan->channelflags & CLANCHANNEL_NOCHANNED) ? "revok" : "reinstat");
     buf[0] = UPPER(buf[0]);
     send_to_char(buf, victim);
@@ -202,7 +196,7 @@ void do_member(CHAR_DATA *ch, const char *argument) {
     if ((ch->pcdata->pcclan == nullptr) || (ch->pcdata->pcclan->clanlevel < CLAN_LEADER)) {
         send_to_char("Huh?\n\r", ch); /* Cheesy cheat */
         return;
-    } /* If not priveledged enough */
+    } /* If not priveleged enough */
 
     argument = one_argument(argument, buf2); /* Get the command */
     if (buf2[0] != '+' && buf2[0] != '-') {
@@ -288,7 +282,7 @@ void mote(CHAR_DATA *ch, const char *argument, int add) {
     if ((ch->pcdata->pcclan == nullptr) || (ch->pcdata->pcclan->clanlevel < CLAN_LEADER)) {
         send_to_char("Huh?\n\r", ch); /* Cheesy cheat */
         return;
-    } /* If not priveledged enough */
+    } /* If not priveleged enough */
 
     victim = get_char_room(ch, argument);
     if (victim == nullptr) {
@@ -335,7 +329,6 @@ void do_demote(CHAR_DATA *ch, const char *argument) { mote(ch, argument, -1); }
 
 void do_clanwho(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    Descriptor *d;
     char buf[MAX_STRING_LENGTH];
 
     if (IS_NPC(ch))
@@ -348,15 +341,12 @@ void do_clanwho(CHAR_DATA *ch, const char *argument) {
 
     send_to_char("|gCharacter name     |c|||g Clan level|w\n\r", ch);
     send_to_char("|c-------------------+-------------------------------|w\n\r", ch);
-    for (d = descriptor_list; d; d = d->next) {
-        if (d->is_playing()) {
-            auto wch = d->person();
-            if ((can_see(ch, wch)) && (wch->pcdata->pcclan)
-                && (wch->pcdata->pcclan->clan->clanchar == ch->pcdata->pcclan->clan->clanchar)) {
-                snprintf(buf, sizeof(buf), "%-19s|c|||w %s\n\r", wch->name,
-                         wch->pcdata->pcclan->clan->levelname[wch->pcdata->pcclan->clanlevel]);
-                send_to_char(buf, ch);
-            }
+    for (auto &d : descriptors().all_visible_to(*ch)) {
+        auto *wch = d.person();
+        auto *pcclan = wch->pcdata->pcclan;
+        if (pcclan && pcclan->clan->clanchar == ch->pcdata->pcclan->clan->clanchar) {
+            snprintf(buf, sizeof(buf), "%-19s|c|||w %s\n\r", wch->name, pcclan->clan->levelname[pcclan->clanlevel]);
+            send_to_char(buf, ch);
         }
     }
 }

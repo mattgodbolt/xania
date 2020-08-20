@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "TimeInfoData.hpp"
 #include "comm.hpp"
 #include "interp.h"
 #include "magic.h"
@@ -939,13 +940,13 @@ bool spec_mayor(CHAR_DATA *ch) {
     static bool move;
 
     if (!move) {
-        if (time_info.hour == 6) {
+        if (time_info.hour() == 6) {
             path = open_path;
             move = true;
             pos = 0;
         }
 
-        if (time_info.hour == 20) {
+        if (time_info.hour() == 20) {
             path = close_path;
             move = true;
             pos = 0;

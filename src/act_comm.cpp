@@ -8,18 +8,20 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
-#include "info.hpp"
-#include "merc.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <time.h>
-
-#include "chat/chatconstants.hpp"
+#include "DescriptorList.hpp"
+#include "TimeInfoData.hpp"
 #include "chat/chatlink.h"
 #include "comm.hpp"
+#include "info.hpp"
+#include "merc.h"
+
+#include <fmt/format.h>
+
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
+using namespace fmt::literals;
 
 /* command procedures needed */
 void do_quit(CHAR_DATA *ch, const char *arg);
@@ -91,23 +93,12 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
 }
 
 void announce(const char *buf, CHAR_DATA *ch) {
-    Descriptor *d;
-
-    if (descriptor_list == nullptr)
-        return;
-
     if (ch->in_room == nullptr)
         return; /* special case on creation */
 
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        CHAR_DATA *victim;
-
-        victim = d->person();
-
-        if (d->is_playing() && d->character() != ch && victim && can_see(victim, ch)
-            && !IS_SET(victim->comm, COMM_NOANNOUNCE) && !IS_SET(victim->comm, COMM_QUIET)) {
-            act(buf, victim, nullptr, ch, To::Char, POS_DEAD);
-        }
+    for (auto &victim : descriptors().all_who_can_see(*ch) | DescriptorFilter::to_person()) {
+        if (!IS_SET(victim.comm, COMM_NOANNOUNCE) && !IS_SET(victim.comm, COMM_QUIET))
+            act(buf, &victim, nullptr, ch, To::Char, POS_DEAD);
     }
 }
 
@@ -185,13 +176,10 @@ static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
         snprintf(buf, sizeof(buf), "|W$N|c is %s.|w", victim->pcdata->afk);
         act(buf, ch, nullptr, victim, To::Char, POS_DEAD);
         if (IS_SET(victim->comm, COMM_SHOWAFK)) {
-            char *strtime;
-            strtime = ctime(&current_time);
-            strtime[strlen(strtime) - 1] = '\0';
-            snprintf(buf, sizeof(buf), "|c%cAFK|C: At %s, $n told you '%s|C'.|w", 7, strtime, text);
-            act(buf, ch, nullptr, victim, To::Vict, POS_DEAD);
-            snprintf(buf, sizeof(buf), "|cYour message was logged onto $S screen.|w");
-            act(buf, ch, nullptr, victim, To::Char, POS_DEAD);
+            // TODO(#134) use the victim's timezone info.
+            act("|c\007AFK|C: At {}, $n told you '{}|C'.|w"_format(secs_only(current_time), text).c_str(), ch, nullptr,
+                victim, To::Vict, POS_DEAD);
+            act("|cYour message was logged onto $S screen.|w", ch, nullptr, victim, To::Char, POS_DEAD);
             victim->reply = ch;
         }
 
@@ -224,8 +212,6 @@ void do_tell(CHAR_DATA *ch, const char *argument) {
 void do_reply(CHAR_DATA *ch, const char *argument) { tell_to(ch, ch->reply, argument); }
 
 void do_yell(CHAR_DATA *ch, const char *argument) {
-    Descriptor *d;
-
     if (IS_SET(ch->comm, COMM_NOSHOUT)) {
         send_to_char("|cYou can't yell.|w\n\r", ch);
         return;
@@ -240,10 +226,10 @@ void do_yell(CHAR_DATA *ch, const char *argument) {
         do_afk(ch, nullptr);
 
     act("|WYou yell '$t|W'|w", ch, argument, nullptr, To::Char);
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        if (d->is_playing() && d->character() != ch && d->character()->in_room != nullptr
-            && d->character()->in_room->area == ch->in_room->area && !IS_SET(d->character()->comm, COMM_QUIET)) {
-            act("|W$n yells '$t|W'|w", ch, argument, d->character(), To::Vict);
+    for (auto &victim :
+         descriptors().all_but(*ch) | DescriptorFilter::same_area(*ch) | DescriptorFilter::to_character()) {
+        if (!IS_SET(victim.comm, COMM_QUIET)) {
+            act("|W$n yells '$t|W'|w", ch, argument, &victim, To::Vict);
         }
     }
 }
@@ -448,7 +434,7 @@ void do_quit(CHAR_DATA *ch, const char *arg) {
     d = ch->desc;
     extract_char(ch, true);
     if (d != nullptr)
-        close_socket(d);
+        d->close();
 }
 
 void do_save(CHAR_DATA *ch, const char *arg) {
@@ -513,11 +499,11 @@ void char_ride(CHAR_DATA *ch, CHAR_DATA *ridee) {
     af.level = ridee->level;
     af.duration = -1;
     af.location = APPLY_DAMROLL;
-    af.modifier = (ridee->level / 10) + (get_curr_stat(ridee, STAT_DEX) / 8);
+    af.modifier = (ridee->level / 10) + (get_curr_stat(ridee, Stat::Dex) / 8);
     af.bitvector = 0;
     affect_to_char(ch, &af);
     af.location = APPLY_HITROLL;
-    af.modifier = -(((ridee->level / 10) + (get_curr_stat(ridee, STAT_DEX) / 8)) / 4);
+    af.modifier = -(((ridee->level / 10) + (get_curr_stat(ridee, Stat::Dex) / 8)) / 4);
     affect_to_char(ch, &af);
 }
 
@@ -951,23 +937,20 @@ bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch) {
  * from_player: the player that sent it.
  */
 void chatperform(CHAR_DATA *to_npc, CHAR_DATA *from_player, const char *msg) {
-    char response_buf[MaxChatReplyLength];
     if (!IS_NPC(to_npc) || (from_player != nullptr && IS_NPC(from_player)))
         return; /* failsafe */
-    const char *reply = dochat(response_buf, from_player ? from_player->name : "you", msg, to_npc->name);
-    if (reply) {
-        switch (reply[0]) {
-        case '\0': break;
-        case '"': /* say message */ do_say(to_npc, reply + 1); break;
-        case ':': /* do emote */ do_emote(to_npc, reply + 1); break;
-        case '!': /* do command */ interpret(to_npc, reply + 1); break;
-        default: /* say or tell */
-            if (from_player == nullptr) {
-                do_say(to_npc, reply);
-            } else {
-                act("$N tells you '$t'.", from_player, reply, to_npc, To::Char);
-                from_player->reply = to_npc;
-            }
+    std::string reply = dochat(from_player ? from_player->name : "you", msg, to_npc->name);
+    switch (reply[0]) {
+    case '\0': break;
+    case '"': /* say message */ do_say(to_npc, reply.substr(1).c_str()); break;
+    case ':': /* do emote */ do_emote(to_npc, reply.substr(1).c_str()); break;
+    case '!': /* do command */ interpret(to_npc, reply.substr(1).c_str()); break;
+    default: /* say or tell */
+        if (from_player == nullptr) {
+            do_say(to_npc, reply.c_str());
+        } else {
+            act("$N tells you '$t'.", from_player, reply, to_npc, To::Char);
+            from_player->reply = to_npc;
         }
     }
 }

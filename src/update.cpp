@@ -8,16 +8,21 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
+#include "TimeInfoData.hpp"
+#include "WeatherData.hpp"
 #include "comm.hpp"
 #include "interp.h"
 #include "merc.h"
-#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
-#include <time.h>
 
-/* Few external functions */
-int get_max_stat(CHAR_DATA *ch, int stat);
+#include <fmt/format.h>
+
+#include <cstdio>
+#include <cstring>
+#include <ctime>
+#include <sys/types.h>
+
+using namespace fmt::literals;
 
 /*
  * Local functions.
@@ -30,7 +35,6 @@ void weather_update();
 void char_update();
 void obj_update();
 void aggr_update();
-void announce(const char *buf, CHAR_DATA *ch);
 
 /* Added by Rohan to reset the count every day */
 void count_update();
@@ -48,17 +52,17 @@ void advance_level(CHAR_DATA *ch) {
     int add_move;
     int add_prac;
 
-    ch->pcdata->last_level = (ch->played + (int)(current_time - ch->logon)) / 3600;
+    using namespace std::chrono;
+    ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
 
-    snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
-    set_title(ch, buf);
+    ch->set_title("the {}"_format(title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]));
 
-    add_hp = con_app[get_curr_stat(ch, STAT_CON)].hitp
+    add_hp = con_app[get_curr_stat(ch, Stat::Con)].hitp
              + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);
 
     add_mana = number_range(
         0, class_table[ch->class_num].fMana * class_table[ch->class_num].fMana
-               * (UMAX(0, get_curr_stat(ch, STAT_WIS) - 15) + 2 * UMAX(0, get_curr_stat(ch, STAT_INT) - 15)));
+               * (UMAX(0, get_curr_stat(ch, Stat::Wis) - 15) + 2 * UMAX(0, get_curr_stat(ch, Stat::Int) - 15)));
 
     add_mana += 150;
     add_mana /= 300; /* =max (2*int+wis)/10 (10=mage.fMana)*/
@@ -76,8 +80,8 @@ void advance_level(CHAR_DATA *ch) {
 
     /* End of new section. */
 
-    add_move = number_range(1, (get_curr_stat(ch, STAT_CON) + get_curr_stat(ch, STAT_DEX)) / 6);
-    add_prac = wis_app[get_curr_stat(ch, STAT_WIS)].practice;
+    add_move = number_range(1, (get_curr_stat(ch, Stat::Con) + get_curr_stat(ch, Stat::Dex)) / 6);
+    add_prac = wis_app[get_curr_stat(ch, Stat::Wis)].practice;
 
     add_hp = UMAX(1, add_hp * 9 / 10);
     add_move = UMAX(6, add_move * 9 / 10);
@@ -111,18 +115,18 @@ void lose_level(CHAR_DATA *ch) {
     int add_move;
     int add_prac;
 
-    ch->pcdata->last_level = (ch->played + (int)(current_time - ch->logon)) / 3600;
+    using namespace std::chrono;
+    ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
 
-    snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
-    set_title(ch, buf);
+    ch->set_title("the {}"_format(title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]));
 
-    add_hp = con_app[get_max_stat(ch, STAT_CON)].hitp
+    add_hp = con_app[ch->max_stat(Stat::Con)].hitp
              + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);
-    add_mana = (number_range(2, (2 * get_max_stat(ch, STAT_INT) + get_max_stat(ch, STAT_WIS)) / 5)
+    add_mana = (number_range(2, (2 * ch->max_stat(Stat::Int) + ch->max_stat(Stat::Wis)) / 5)
                 * class_table[ch->class_num].fMana)
                / 10;
-    add_move = number_range(1, (get_max_stat(ch, STAT_CON) + get_max_stat(ch, STAT_DEX)) / 6);
-    add_prac = -(wis_app[get_max_stat(ch, STAT_WIS)].practice);
+    add_move = number_range(1, (ch->max_stat(Stat::Con) + ch->max_stat(Stat::Dex)) / 6);
+    add_prac = -(wis_app[ch->max_stat(Stat::Wis)].practice);
 
     add_hp = add_hp * 9 / 10;
     add_mana = add_mana * 9 / 10;
@@ -189,7 +193,7 @@ int hit_gain(CHAR_DATA *ch) {
         }
 
     } else {
-        gain = UMAX(3, get_curr_stat(ch, STAT_CON) - 3 + ch->level / 1.5);
+        gain = UMAX(3, get_curr_stat(ch, Stat::Con) - 3 + ch->level / 1.5);
         gain += class_table[ch->class_num].hp_max - 7;
         number = number_percent();
         if (number < get_skill_learned(ch, gsn_fast_healing)) {
@@ -239,7 +243,7 @@ int mana_gain(CHAR_DATA *ch) {
         case POS_FIGHTING: gain /= 3; break;
         }
     } else {
-        gain = (get_curr_stat(ch, STAT_WIS) + get_curr_stat(ch, STAT_INT) + ch->level) / 2;
+        gain = (get_curr_stat(ch, Stat::Wis) + get_curr_stat(ch, Stat::Int) + ch->level) / 2;
         number = number_percent();
         if (number < get_skill_learned(ch, gsn_meditation)) {
             gain += number * gain / 100;
@@ -282,8 +286,8 @@ int move_gain(CHAR_DATA *ch) {
         gain = UMAX(15, ch->level);
 
         switch (ch->position) {
-        case POS_SLEEPING: gain += get_curr_stat(ch, STAT_DEX); break;
-        case POS_RESTING: gain += get_curr_stat(ch, STAT_DEX) / 2; break;
+        case POS_SLEEPING: gain += get_curr_stat(ch, Stat::Dex); break;
+        case POS_RESTING: gain += get_curr_stat(ch, Stat::Dex) / 2; break;
         }
 
         if (ch->pcdata->condition[COND_FULL] == 0)
@@ -411,115 +415,14 @@ void mobile_update() {
  * Update the weather.
  */
 void weather_update() {
-    char buf[MAX_STRING_LENGTH];
-    Descriptor *d;
-    int diff;
+    time_info.advance();
+    auto weather_before = weather_info;
+    weather_info.update(time_info);
 
-    buf[0] = '\0';
-
-    switch (++time_info.hour) {
-    case 5:
-        weather_info.sunlight = SUN_LIGHT;
-        strcat(buf, "The day has begun.\n\r");
-        break;
-
-    case 6:
-        weather_info.sunlight = SUN_RISE;
-        strcat(buf, "The sun rises in the east.\n\r");
-        break;
-
-    case 19:
-        weather_info.sunlight = SUN_SET;
-        strcat(buf, "The sun slowly disappears in the west.\n\r");
-        break;
-
-    case 20:
-        weather_info.sunlight = SUN_DARK;
-        strcat(buf, "The night has begun.\n\r");
-        break;
-
-    case 24:
-        time_info.hour = 0;
-        time_info.day++;
-        break;
-    }
-
-    if (time_info.day >= 35) {
-        time_info.day = 0;
-        time_info.month++;
-    }
-
-    if (time_info.month >= 17) {
-        time_info.month = 0;
-        time_info.year++;
-    }
-
-    /*
-     * Weather change.
-     */
-    if (time_info.month >= 9 && time_info.month <= 16)
-        diff = weather_info.mmhg > 985 ? -2 : 2;
-    else
-        diff = weather_info.mmhg > 1015 ? -2 : 2;
-
-    weather_info.change += diff * dice(1, 4) + dice(2, 6) - dice(2, 6);
-    weather_info.change = UMAX(weather_info.change, -12);
-    weather_info.change = UMIN(weather_info.change, 12);
-
-    weather_info.mmhg += weather_info.change;
-    weather_info.mmhg = UMAX(weather_info.mmhg, 960);
-    weather_info.mmhg = UMIN(weather_info.mmhg, 1040);
-
-    switch (weather_info.sky) {
-    default:
-        bug("Weather_update: bad sky %d.", weather_info.sky);
-        weather_info.sky = SKY_CLOUDLESS;
-        break;
-
-    case SKY_CLOUDLESS:
-        if (weather_info.mmhg < 990 || (weather_info.mmhg < 1010 && number_bits(2) == 0)) {
-            strcat(buf, "The sky is getting cloudy.\n\r");
-            weather_info.sky = SKY_CLOUDY;
-        }
-        break;
-
-    case SKY_CLOUDY:
-        if (weather_info.mmhg < 970 || (weather_info.mmhg < 990 && number_bits(2) == 0)) {
-            strcat(buf, "It starts to rain.\n\r");
-            weather_info.sky = SKY_RAINING;
-        }
-
-        if (weather_info.mmhg > 1030 && number_bits(2) == 0) {
-            strcat(buf, "The clouds disappear.\n\r");
-            weather_info.sky = SKY_CLOUDLESS;
-        }
-        break;
-
-    case SKY_RAINING:
-        if (weather_info.mmhg < 970 && number_bits(2) == 0) {
-            strcat(buf, "Lightning flashes in the sky.\n\r");
-            weather_info.sky = SKY_LIGHTNING;
-        }
-
-        if (weather_info.mmhg > 1030 || (weather_info.mmhg > 1010 && number_bits(2) == 0)) {
-            strcat(buf, "The rain stopped.\n\r");
-            weather_info.sky = SKY_CLOUDY;
-        }
-        break;
-
-    case SKY_LIGHTNING:
-        if (weather_info.mmhg > 1010 || (weather_info.mmhg > 990 && number_bits(2) == 0)) {
-            strcat(buf, "The lightning has stopped.\n\r");
-            weather_info.sky = SKY_RAINING;
-            break;
-        }
-        break;
-    }
-
-    if (buf[0] != '\0') {
-        for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->is_playing() && IS_OUTSIDE(d->character()) && IS_AWAKE(d->character()))
-                send_to_char(buf, d->character());
+    if (auto update_msg = weather_info.describe_change(weather_before); !update_msg.empty()) {
+        for (auto &d : descriptors().playing()) {
+            if (IS_OUTSIDE(d.character()) && IS_AWAKE(d.character()))
+                send_to_char(update_msg, d.character());
         }
     }
 }
@@ -994,11 +897,12 @@ bool is_safe_sentient(CHAR_DATA *ch, CHAR_DATA *wch) {
     return false;
 }
 
-/* This function resets the player count everyday */
+/* This function resets the player count every day */
 void count_update() {
     struct tm *cur_time;
     int current_day;
-    cur_time = localtime(&current_time);
+    auto as_tt = Clock::to_time_t(current_time);
+    cur_time = localtime(&as_tt);
     current_day = cur_time->tm_mday;
     /* Initialise count_updated if this first time called */
     if (count_updated == 0) {

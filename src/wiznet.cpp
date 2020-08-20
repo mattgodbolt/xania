@@ -20,6 +20,7 @@
 #include <ctime>
 #include <sys/types.h>
 
+#include "DescriptorList.hpp"
 #include "comm.hpp"
 #include "merc.h"
 
@@ -69,21 +70,18 @@ void log_string(std::string_view str) { log_new(str, EXTRA_WIZNET_DEBUG, 0); }
 
 /* New log - takes a level and broadcasts to IMMs on WIZNET */
 void log_new(std::string_view str, int loglevel, int level) {
-    std::string_view time = ctime(&current_time);
-    time.remove_suffix(1);
     // One day use spdlog here?
-    fmt::print(stderr, "{} :: {}\n", time, str);
+    fmt::print(stderr, "{} :: {}\n", Clock::now(), str);
 
     if (loglevel == EXTRA_WIZNET_DEBUG)
         level = UMAX(level, 96); /* Prevent non-SOCK ppl finding out sin_addrs */
 
     auto wiznet_msg = "|GWIZNET:|g {}|w\n\r"_format(str);
-    for (auto *d = descriptor_list; d; d = d->next) {
-        CHAR_DATA *ch = d->person();
-        if ((!d->is_playing()) || (ch == nullptr) || (IS_NPC(ch)) || !is_set_extra(ch, EXTRA_WIZNET_ON)
-            || !is_set_extra(ch, loglevel) || (get_trust(ch) < level))
+    for (auto &d : descriptors().playing()) {
+        CHAR_DATA *ch = d.person();
+        if (IS_NPC(ch) || !is_set_extra(ch, EXTRA_WIZNET_ON) || !is_set_extra(ch, loglevel) || (get_trust(ch) < level))
             continue;
-        send_to_char(wiznet_msg, d->character());
+        send_to_char(wiznet_msg, d.character());
     }
 }
 

@@ -4,6 +4,8 @@ fmt/7.0.1
 ms-gsl/3.0.1
 trompeloeil/v38@rollbear/stable
 spdlog/1.7.0
+date/2.4.1
+range-v3/0.11.0
 
 [generators]
 cmake

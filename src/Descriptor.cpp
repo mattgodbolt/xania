@@ -1,5 +1,6 @@
 #include "Descriptor.hpp"
 
+#include "TimeInfoData.hpp"
 #include "comm.hpp"
 #include "common/mask_hostname.hpp"
 #include "merc.h"
@@ -36,7 +37,7 @@ const char *short_name_of(DescriptorState state) {
     return "<UNK>";
 }
 
-Descriptor::Descriptor(uint32_t descriptor) : channel_(descriptor), login_time_(ctime(&current_time)) {}
+Descriptor::Descriptor(uint32_t descriptor) : channel_(descriptor), login_time_(current_time) {}
 
 Descriptor::~Descriptor() {
     // Ensure we don't have anything pointing back at us. No messages here in case this is during shutdown.
@@ -74,7 +75,7 @@ std::optional<std::string> Descriptor::pop_incomm() {
 }
 
 bool Descriptor::write_direct(std::string_view text) const {
-    if (closed())
+    if (is_closed())
         return false;
 
     Packet p;
@@ -98,7 +99,7 @@ void Descriptor::set_endpoint(uint32_t netaddr, uint16_t port, std::string_view 
 }
 
 bool Descriptor::flush_output() noexcept {
-    if (outbuf_.empty() || closed())
+    if (outbuf_.empty() || is_closed())
         return true;
 
     if (character_) {
@@ -115,7 +116,7 @@ bool Descriptor::flush_output() noexcept {
 }
 
 void Descriptor::write(std::string_view message) noexcept {
-    if (closed())
+    if (is_closed())
         return;
     // Initial \n\r if needed.
     if (outbuf_.empty() && !processing_command_)
@@ -123,7 +124,7 @@ void Descriptor::write(std::string_view message) noexcept {
 
     if (outbuf_.size() + message.size() > MaxOutputBufSize) {
         bug("Buffer overflow. Closing.");
-        outbuf_.clear(); // Prevent a possible loop where close_socket() might write some last few things to the socket.
+        outbuf_.clear(); // Prevent a possible loop where close() might write some last few things to the socket.
         close();
         return;
     }
@@ -132,19 +133,19 @@ void Descriptor::write(std::string_view message) noexcept {
 }
 
 void Descriptor::page_to(std::string_view page) noexcept {
-    if (closed())
+    if (is_closed())
         return;
 
     page_outbuf_ = split_lines<decltype(page_outbuf_)>(page);
     // Drop the last line if it's purely whitespace.
-    if (!page_outbuf_.empty() && skip_whitespace(page_outbuf_.back()).empty())
+    if (!page_outbuf_.empty() && ltrim(page_outbuf_.back()).empty())
         page_outbuf_.pop_back();
     show_next_page("");
 }
 
 void Descriptor::show_next_page(std::string_view input) noexcept {
     // Any non-empty input cancels pagination, as does having no associated character to send to.
-    if (!skip_whitespace(input).empty() || !character_) {
+    if (!ltrim(input).empty() || !character_) {
         page_outbuf_.clear();
         return;
     }
@@ -156,7 +157,7 @@ void Descriptor::show_next_page(std::string_view input) noexcept {
 }
 
 bool Descriptor::try_start_snooping(Descriptor &other) {
-    if (closed() || other.closed())
+    if (is_closed() || other.is_closed())
         return false;
 
     // If already snooping, early out (to prevent us complaining it's a "snoop loop".
@@ -192,7 +193,7 @@ void Descriptor::stop_snooping() {
 }
 
 void Descriptor::close() noexcept {
-    if (closed())
+    if (is_closed())
         return;
 
     (void)flush_output();
@@ -243,7 +244,7 @@ void Descriptor::note_input(std::string_view char_name, std::string_view input) 
 }
 
 void Descriptor::do_switch(CHAR_DATA *victim) {
-    if (closed())
+    if (is_closed())
         return;
 
     if (is_switched())
@@ -255,10 +256,12 @@ void Descriptor::do_switch(CHAR_DATA *victim) {
 }
 
 void Descriptor::do_return() {
-    if (!is_switched() || closed())
+    if (!is_switched() || is_closed())
         return;
     character_->desc = nullptr;
     original_->desc = this;
     character_ = original_;
     original_ = nullptr;
 }
+
+std::string Descriptor::login_time() const noexcept { return "{}"_format(secs_only(login_time_)); }

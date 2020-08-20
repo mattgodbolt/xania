@@ -8,12 +8,19 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
+#include "TimeInfoData.hpp"
+#include "WeatherData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "db.h"
 #include "interp.h"
 #include "merc.h"
 #include "string_utils.hpp"
+
+#include <fmt/format.h>
+#include <range/v3/iterator/operations.hpp>
+
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
@@ -21,7 +28,8 @@
 #include <ctime>
 #include <sys/time.h>
 
-extern const char *dir_name[];
+using namespace std::literals;
+using namespace fmt::literals;
 
 const char *where_name[] = {"<used as light>     ", "<worn on finger>    ", "<worn on finger>    ",
                             "<worn around neck>  ", "<worn around neck>  ", "<worn on body>      ",
@@ -31,7 +39,7 @@ const char *where_name[] = {"<used as light>     ", "<worn on finger>    ", "<wo
                             "<worn around wrist> ", "<wielded>           ", "<held>              "};
 
 /* for do_count */
-int max_on = 0;
+size_t max_on = 0;
 
 /*
  * Local functions.
@@ -171,86 +179,80 @@ void show_list_to_char(OBJ_DATA *list, CHAR_DATA *ch, bool fShort, bool fShowNot
 }
 
 void show_char_to_char_0(CHAR_DATA *victim, CHAR_DATA *ch) {
-    char buf[MAX_STRING_LENGTH];
-
-    buf[0] = '\0';
+    std::string buf;
 
     if (IS_AFFECTED(victim, AFF_INVISIBLE))
-        strcat(buf, "(|WInvis|w) ");
+        buf += "(|WInvis|w) ";
     if (!IS_NPC(victim) && IS_SET(victim->act, PLR_WIZINVIS))
-        strcat(buf, "(|RWizi|w) ");
+        buf += "(|RWizi|w) ";
     if (!IS_NPC(victim) && IS_SET(victim->act, PLR_PROWL))
-        strcat(buf, "(|RProwl|w) ");
+        buf += "(|RProwl|w) ";
     if (IS_AFFECTED(victim, AFF_HIDE))
-        strcat(buf, "(|WHide|w) ");
+        buf += "(|WHide|w) ";
     if (IS_AFFECTED(victim, AFF_CHARM))
-        strcat(buf, "(|yCharmed|w) ");
+        buf += "(|yCharmed|w) ";
     if (IS_AFFECTED(victim, AFF_PASS_DOOR))
-        strcat(buf, "(|bTranslucent|w) ");
+        buf += "(|bTranslucent|w) ";
     if (IS_AFFECTED(victim, AFF_FAERIE_FIRE))
-        strcat(buf, "(|PPink Aura|w) ");
+        buf += "(|PPink Aura|w) ";
     if (IS_AFFECTED(victim, AFF_OCTARINE_FIRE))
-        strcat(buf, "(|GOctarine Aura|w) ");
+        buf += "(|GOctarine Aura|w) ";
     if (IS_EVIL(victim) && IS_AFFECTED(ch, AFF_DETECT_EVIL))
-        strcat(buf, "(|rRed Aura|w) ");
+        buf += "(|rRed Aura|w) ";
     if (IS_AFFECTED(victim, AFF_SANCTUARY))
-        strcat(buf, "(|WWhite Aura|w) ");
+        buf += "(|WWhite Aura|w) ";
     if (!IS_NPC(victim) && IS_SET(victim->act, PLR_KILLER))
-        strcat(buf, "(|RKILLER|w) ");
+        buf += "(|RKILLER|w) ";
     if (!IS_NPC(victim) && IS_SET(victim->act, PLR_THIEF))
-        strcat(buf, "(|RTHIEF|w) ");
+        buf += "(|RTHIEF|w) ";
 
     if (is_affected(ch, gsn_bless)) {
         if (IS_SET(victim->act, ACT_UNDEAD)) {
-            strcat(buf, "(|bUndead|w) ");
+            buf += "(|bUndead|w) ";
         }
     }
 
     if (victim->position == victim->start_pos && victim->long_descr[0] != '\0') {
-        strcat(buf, victim->long_descr);
-        send_to_char(buf, ch);
+        buf += victim->long_descr;
+        ch->send_to(buf);
         return;
     }
 
-    strcat(buf, pers(victim, ch));
+    buf += pers(victim, ch);
     if (!IS_NPC(victim) && !IS_SET(ch->comm, COMM_BRIEF))
-        strcat(buf, victim->pcdata->title);
+        buf += victim->pcdata->title;
 
     switch (victim->position) {
-    case POS_DEAD: strcat(buf, " is |RDEAD|w!!"); break;
-    case POS_MORTAL: strcat(buf, " is |Rmortally wounded.|w"); break;
-    case POS_INCAP: strcat(buf, " is |rincapacitated.|w"); break;
-    case POS_STUNNED: strcat(buf, " is |rlying here stunned.|w"); break;
-    case POS_SLEEPING: strcat(buf, " is sleeping here."); break;
-    case POS_RESTING: strcat(buf, " is resting here."); break;
-    case POS_SITTING: strcat(buf, " is sitting here."); break;
+    case POS_DEAD: buf += " is |RDEAD|w!!"; break;
+    case POS_MORTAL: buf += " is |Rmortally wounded.|w"; break;
+    case POS_INCAP: buf += " is |rincapacitated.|w"; break;
+    case POS_STUNNED: buf += " is |rlying here stunned.|w"; break;
+    case POS_SLEEPING: buf += " is sleeping here."; break;
+    case POS_RESTING: buf += " is resting here."; break;
+    case POS_SITTING: buf += " is sitting here."; break;
     case POS_STANDING:
         if (victim->riding != nullptr) {
-            /*       strcat( buf, " is here, riding %s.", victim->riding->name);*/
-            strcat(buf, " is here, riding ");
-            strcat(buf, victim->riding->name);
-            strcat(buf, ".");
+            buf += " is here, riding {}."_format(victim->riding->name);
         } else {
-            strcat(buf, " is here.");
+            buf += " is here.";
         }
         break;
     case POS_FIGHTING:
-        strcat(buf, " is here, fighting ");
+        buf += " is here, fighting ";
         if (victim->fighting == nullptr)
-            strcat(buf, "thin air??");
+            buf += "thin air??";
         else if (victim->fighting == ch)
-            strcat(buf, "|RYOU!|w");
+            buf += "|RYOU!|w";
         else if (victim->in_room == victim->fighting->in_room) {
-            strcat(buf, pers(victim->fighting, ch));
-            strcat(buf, ".");
+            buf += "{}."_format(pers(victim->fighting, ch));
         } else
-            strcat(buf, "somone who left??");
+            buf += "somone who left??";
         break;
     }
 
-    strcat(buf, "\n\r");
+    buf += "\n\r";
     buf[0] = UPPER(buf[0]);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
 }
 
 void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch) {
@@ -799,13 +801,8 @@ void do_prompt(CHAR_DATA *ch, const char *argument) {
 
     /* PCFN 24-05-97  Oh dear - it seems that you can't set prompt while switched
        into a MOB.  Let's change that.... */
-
-    if (IS_NPC(ch)) {
-        if (ch->desc->is_switched())
-            ch = ch->desc->original();
-        else
-            return;
-    }
+    if (ch = ch->player(); !ch)
+        return;
 
     if (str_cmp(argument, "off") == 0) {
         send_to_char("You will no longer see prompts.\n\r", ch);
@@ -1328,15 +1325,15 @@ void do_score(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
-    snprintf(buf, sizeof(buf), "|wYou are: |W%s%s|w.\n\r", ch->name, IS_NPC(ch) ? "" : ch->pcdata->title);
-    send_to_char(buf, ch);
+    ch->send_to("|wYou are: |W{}{}|w.\n\r"_format(ch->name, IS_NPC(ch) ? "" : ch->pcdata->title));
 
     if (get_trust(ch) == ch->level)
         snprintf(buf, sizeof(buf), "Level: |W%d|w", ch->level);
     else
         snprintf(buf, sizeof(buf), "Level: |W%d|w (trust |W%d|w)", ch->level, get_trust(ch));
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Age: |W%d|w years (|W%d|w hours)\n\r", get_age(ch),
-             (ch->played + (int)(current_time - ch->logon)) / 3600);
+    using namespace std::chrono;
+    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Age: |W%d|w years (|W%ld|w hours)\n\r", get_age(ch),
+             duration_cast<hours>(ch->total_played()).count());
     send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Race: |W%s|w", race_table[ch->race].name);
@@ -1381,16 +1378,16 @@ void do_score(CHAR_DATA *ch, const char *argument) {
     }
     send_to_char("\n\r", ch);
 
-    snprintf(buf, sizeof(buf), "Strength: %d (|W%d|w)", ch->perm_stat[STAT_STR], get_curr_stat(ch, STAT_STR));
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Intelligence: %d (|W%d|w)", ch->perm_stat[STAT_INT],
-             get_curr_stat(ch, STAT_INT));
-    snprintf(next_column(buf, 2 * SC_COLWIDTH), sizeof(buf), "Wisdom: %d (|W%d|w)\n\r", ch->perm_stat[STAT_WIS],
-             get_curr_stat(ch, STAT_WIS));
+    snprintf(buf, sizeof(buf), "Strength: %d (|W%d|w)", ch->perm_stat[Stat::Str], get_curr_stat(ch, Stat::Str));
+    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Intelligence: %d (|W%d|w)", ch->perm_stat[Stat::Int],
+             get_curr_stat(ch, Stat::Int));
+    snprintf(next_column(buf, 2 * SC_COLWIDTH), sizeof(buf), "Wisdom: %d (|W%d|w)\n\r", ch->perm_stat[Stat::Wis],
+             get_curr_stat(ch, Stat::Wis));
     send_to_char(buf, ch);
 
-    snprintf(buf, sizeof(buf), "Dexterity: %d (|W%d|w)", ch->perm_stat[STAT_DEX], get_curr_stat(ch, STAT_DEX));
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Constitution: %d (|W%d|w)\n\r", ch->perm_stat[STAT_CON],
-             get_curr_stat(ch, STAT_CON));
+    snprintf(buf, sizeof(buf), "Dexterity: %d (|W%d|w)", ch->perm_stat[Stat::Dex], get_curr_stat(ch, Stat::Dex));
+    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Constitution: %d (|W%d|w)\n\r", ch->perm_stat[Stat::Con],
+             get_curr_stat(ch, Stat::Con));
     send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Practices: |W%d|w", ch->practice);
@@ -1464,61 +1461,19 @@ void do_affected(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-const char *day_name[] = {"the Moon", "the Bull", "Deception", "Thunder", "Freedom", "the Great Gods", "the Sun"};
-
-const char *month_name[] = {"Winter",
-                            "the Winter Wolf",
-                            "the Frost Giant",
-                            "the Old Forces",
-                            "the Grand Struggle",
-                            "the Spring",
-                            "Nature",
-                            "Futility",
-                            "the Dragon",
-                            "the Sun",
-                            "the Heat",
-                            "the Battle",
-                            "the Dark Shades",
-                            "the Shadows",
-                            "the Long Shadows",
-                            "the Ancient Darkness",
-                            "the Great Evil"};
-
 void do_time(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    extern char str_boot_time[];
     char buf[MAX_STRING_LENGTH];
-    const char *suf;
-    int day;
 
-    day = time_info.day + 1;
+    // TODO(#134) this whole thing should use the user's TZ.
+    send_to_char("{}\n\rXania started up at {}Z.\n\rThe system time is {}Z.\n\r"_format(
+                     time_info.describe(), secs_only(boot_time), secs_only(current_time)),
+                 ch);
 
-    if (day > 4 && day < 20)
-        suf = "th";
-    else if (day % 10 == 1)
-        suf = "st";
-    else if (day % 10 == 2)
-        suf = "nd";
-    else if (day % 10 == 3)
-        suf = "rd";
-    else
-        suf = "th";
+    if (ch = ch->player(); !ch)
+        return;
 
-    snprintf(buf, sizeof(buf),
-             "It is %d o'clock %s, Day of %s, %d%s the Month of %s.\n\rXania started up at %s\rThe system time is %s\r",
-
-             (time_info.hour % 12 == 0) ? 12 : time_info.hour % 12, time_info.hour >= 12 ? "pm" : "am",
-             day_name[day % 7], day, suf, month_name[time_info.month], str_boot_time, (char *)ctime(&current_time));
-
-    send_to_char(buf, ch);
-
-    if (IS_NPC(ch)) {
-        if (ch->desc->is_switched())
-            ch = ch->desc->original();
-        else
-            return;
-    }
-
+    // TODO(#95) now we have an actual time library we can replace this with a timezone and format accordingly.
     if (ch->pcdata->houroffset || ch->pcdata->minoffset) {
         time_t ch_timet;
         char buf2[32];
@@ -1549,18 +1504,12 @@ void do_time(CHAR_DATA *ch, const char *argument) {
 
 void do_weather(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    char buf[MAX_STRING_LENGTH];
-
-    static const char *sky_look[4] = {"cloudless", "cloudy", "rainy", "lit by flashes of lightning"};
-
     if (!IS_OUTSIDE(ch)) {
         send_to_char("You can't see the weather indoors.\n\r", ch);
         return;
     }
 
-    snprintf(buf, sizeof(buf), "The sky is %s and %s.\n\r", sky_look[weather_info.sky],
-             weather_info.change >= 0 ? "a warm southerly breeze blows" : "a cold northern gust blows");
-    send_to_char(buf, ch);
+    send_to_char(weather_info.describe() + "\n\r", ch);
 }
 
 void do_help(CHAR_DATA *ch, const char *argument) {
@@ -1603,12 +1552,45 @@ void do_help(CHAR_DATA *ch, const char *argument) {
     send_to_char("No help on that word.\n\r", ch);
 }
 
+namespace {
+
+std::string_view who_class_name_of(const CHAR_DATA &wch) {
+    switch (wch.level) {
+    case MAX_LEVEL - 0: return "|WIMP|w"sv; break;
+    case MAX_LEVEL - 1: return "|YCRE|w"sv; break;
+    case MAX_LEVEL - 2: return "|YSUP|w"sv; break;
+    case MAX_LEVEL - 3: return "|GDEI|w"sv; break;
+    case MAX_LEVEL - 4: return "|GGOD|w"sv; break;
+    case MAX_LEVEL - 5: return "|gIMM|w"sv; break;
+    case MAX_LEVEL - 6: return "|gDEM|w"sv; break;
+    case MAX_LEVEL - 7: return "ANG"sv; break;
+    case MAX_LEVEL - 8: return "AVA"sv; break;
+    }
+    return class_table[wch.class_num].who_name;
+}
+
+std::string_view who_race_name_of(const CHAR_DATA &wch) {
+    return wch.race < MAX_PC_RACE ? pc_race_table[wch.race].who_name : "     "sv;
+}
+
+std::string_view who_clan_name_of(const CHAR_DATA &wch) {
+    return wch.pcdata->pcclan ? wch.pcdata->pcclan->clan->whoname : ""sv;
+}
+
+std::string who_line_for(const CHAR_DATA &to, const CHAR_DATA &wch) {
+    return "[{:2} {} {}] {}{}{}{}{}{}|w{}{}\n\r"_format(
+        wch.level, who_race_name_of(wch), who_class_name_of(wch), who_clan_name_of(wch),
+        IS_SET(wch.act, PLR_KILLER) ? "(|RKILLER|w) " : "", IS_SET(wch.act, PLR_THIEF) ? "(|RTHIEF|w) " : "",
+        IS_SET(wch.act, PLR_AFK) ? "(|cAFK|w) " : "", wch.name, wch.is_pc() ? wch.pcdata->title : "",
+        wch.is_wizinvis() && to.is_immortal() ? " |g(Wizi at level {})|w"_format(wch.invis_level) : "",
+        wch.is_prowlinvis() && to.is_immortal() ? " |g(Prowl level {})|w"_format(wch.invis_level) : "");
+}
+
+}
+
 /* whois command */
 void do_whois(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    char output[MAX_STRING_LENGTH];
-    char buf[MAX_STRING_LENGTH];
-    Descriptor *d;
     bool found = false;
 
     one_argument(argument, arg);
@@ -1618,53 +1600,16 @@ void do_whois(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    output[0] = '\0';
-
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        char const *class_name;
-
-        if (!d->is_playing() || !can_see(ch, d->character()))
-            continue;
-
-        auto *wch = d->person();
-
+    std::string output;
+    for (auto &d : descriptors().all_visible_to(*ch)) {
+        auto *wch = d.person();
+        // TODO: can or should this be part of all_visible_to?
         if (!can_see(ch, wch))
             continue;
 
         if (!str_prefix(arg, wch->name)) {
             found = true;
-
-            /* work out the printing */
-            class_name = class_table[wch->class_num].who_name;
-            switch (wch->level) {
-            case MAX_LEVEL - 0: class_name = "|WIMP|w"; break;
-            case MAX_LEVEL - 1: class_name = "|YCRE|w"; break;
-            case MAX_LEVEL - 2: class_name = "|YSUP|w"; break;
-            case MAX_LEVEL - 3: class_name = "|GDEI|w"; break;
-            case MAX_LEVEL - 4: class_name = "|GGOD|w"; break;
-            case MAX_LEVEL - 5: class_name = "|gIMM|w"; break;
-            case MAX_LEVEL - 6: class_name = "|gDEM|w"; break;
-            case MAX_LEVEL - 7: class_name = "ANG"; break;
-            case MAX_LEVEL - 8: class_name = "AVA"; break;
-            }
-
-            /* a little formatting */
-            snprintf(buf, sizeof(buf), "[%2d %s %s] %s%s%s%s%s", wch->level,
-                     wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ", class_name,
-                     (wch->pcdata->pcclan) ? (wch->pcdata->pcclan->clan->whoname) : "",
-                     IS_SET(wch->act, PLR_KILLER) ? "(|RKILLER|w) " : "",
-                     IS_SET(wch->act, PLR_THIEF) ? "(|RTHIEF|w) " : "", wch->name,
-                     IS_NPC(wch) ? "" : wch->pcdata->title);
-            strcat(output, buf);
-            if (IS_SET(wch->act, PLR_WIZINVIS) && (get_trust(ch) >= LEVEL_IMMORTAL)) {
-                snprintf(buf, sizeof(buf), " |g(Wizi at level %d)|w", wch->invis_level);
-                strcat(output, buf);
-            }
-            if (IS_SET(wch->act, PLR_PROWL) && (get_trust(ch) >= LEVEL_IMMORTAL)) {
-                snprintf(buf, sizeof(buf), " |g(Prowl level %d)|w", wch->invis_level);
-                strcat(output, buf);
-            }
-            strcat(output, "\n\r");
+            output += who_line_for(*ch, *wch);
         }
     }
 
@@ -1673,17 +1618,13 @@ void do_whois(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    page_to_char(output, ch);
+    ch->page_to(output);
 }
 
 /*
  * New 'who' command originally by Alander of Rivers of Mud.
  */
 void do_who(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-    char buf2[MAX_STRING_LENGTH];
-    char output[4 * MAX_STRING_LENGTH];
-    Descriptor *d;
     int iClass;
     int iRace;
     int iClan;
@@ -1776,24 +1717,15 @@ void do_who(CHAR_DATA *ch, const char *argument) {
      * Now show matching chars.
      */
     nMatch = 0;
-    buf[0] = '\0';
-    output[0] = '\0';
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        CHAR_DATA *wch;
-        char const *class_name;
-
-        /*
-         * Check for match against restrictions.
-         * Don't use trust as that exposes trusted mortals.
-         */
-        if (!d->is_playing() || !can_see(ch, d->character()))
+    std::string output;
+    for (auto &d : descriptors().all_visible_to(*ch)) {
+        // Check for match against restrictions.
+        // Don't use trust as that exposes trusted mortals.
+        // added Faramir 13/8/96 because switched imms were visible to all
+        if (!can_see(ch, d.person()))
             continue;
-        /* added Faramir 13/8/96 because switched imms were visible to all*/
-        if (d->is_switched())
-            if (!can_see(ch, d->original()))
-                continue;
 
-        wch = d->person();
+        auto *wch = d.person();
         if (wch->level < iLevelLower || wch->level > iLevelUpper || (fImmortalOnly && wch->level < LEVEL_HERO)
             || (fClassRestrict && !rgfClass[wch->class_num]) || (fRaceRestrict && !rgfRace[wch->race]))
             continue;
@@ -1811,71 +1743,22 @@ void do_who(CHAR_DATA *ch, const char *argument) {
 
         nMatch++;
 
-        /*
-         * Figure out what to print for class.
-         */
-        class_name = class_table[wch->class_num].who_name;
-        switch (wch->level) {
-        default: break; {
-            case MAX_LEVEL - 0: class_name = "|WIMP|w"; break;
-            case MAX_LEVEL - 1: class_name = "|YCRE|w"; break;
-            case MAX_LEVEL - 2: class_name = "|YSUP|w"; break;
-            case MAX_LEVEL - 3: class_name = "|GDEI|w"; break;
-            case MAX_LEVEL - 4: class_name = "|GGOD|w"; break;
-            case MAX_LEVEL - 5: class_name = "|gIMM|w"; break;
-            case MAX_LEVEL - 6: class_name = "|gDEM|w"; break;
-            case MAX_LEVEL - 7: class_name = "ANG"; break;
-            case MAX_LEVEL - 8: class_name = "AVA"; break;
-            }
-        }
-
-        /*
-         * Format it up.
-         */
-        snprintf(buf, sizeof(buf), "[%3d %s %s] %s%s%s%s%s%s", wch->level,
-                 wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ", class_name,
-                 IS_SET(wch->act, PLR_KILLER) ? "(|RKILLER|w) " : "", IS_SET(wch->act, PLR_THIEF) ? "(|RTHIEF|w) " : "",
-                 IS_SET(wch->act, PLR_AFK) ? "(|cAFK|w) " : "",
-                 (wch->pcdata->pcclan) ? (wch->pcdata->pcclan->clan->whoname) : "", wch->name,
-                 IS_NPC(wch) ? "" : wch->pcdata->title);
-        strcat(buf, "|w\0");
-        strcat(output, buf);
-        if (IS_SET(wch->act, PLR_WIZINVIS) && (get_trust(ch) >= LEVEL_IMMORTAL)) {
-            snprintf(buf, sizeof(buf), " |g(Wizi at level %d)|w", wch->invis_level);
-            strcat(output, buf);
-        }
-        if (IS_SET(wch->act, PLR_PROWL) && (get_trust(ch) >= LEVEL_IMMORTAL)) {
-            snprintf(buf, sizeof(buf), " |g(Prowl level %d)|w", wch->invis_level);
-            strcat(output, buf);
-        }
-        strcat(output, "\n\r");
+        output += who_line_for(*ch, *wch);
     }
 
-    snprintf(buf2, sizeof(buf2), "\n\rPlayers found: %d\n\r", nMatch);
-    strcat(output, buf2);
-    page_to_char(output, ch);
+    output += "\n\rPlayers found: {}\n\r"_format(nMatch);
+    ch->page_to(output);
 }
 
 void do_count(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    int count;
-    Descriptor *d;
-    char buf[MAX_STRING_LENGTH];
-
-    count = 0;
-
-    for (d = descriptor_list; d != nullptr; d = d->next)
-        if (d->is_playing() && can_see(ch, d->character()))
-            count++;
-
-    max_on = UMAX(count, max_on);
+    auto count = static_cast<size_t>(ranges::distance(descriptors().all_visible_to(*ch)));
+    max_on = std::max(count, max_on);
 
     if (max_on == count)
-        snprintf(buf, sizeof(buf), "There are %d characters on, the most so far today.\n\r", count);
+        send_to_char("There are {} characters on, the most so far today.\n\r"_format(count), ch);
     else
-        snprintf(buf, sizeof(buf), "There are %d characters on, the most on today was %d.\n\r", count, max_on);
-
-    send_to_char(buf, ch);
+        send_to_char("There are {} characters on, the most on today was {}.\n\r"_format(count, max_on), ch);
 }
 
 void do_inventory(CHAR_DATA *ch, const char *argument) {
@@ -2009,33 +1892,28 @@ void do_credits(CHAR_DATA *ch, const char *argument) {
 void do_where(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
-    Descriptor *d;
-    bool found;
 
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        snprintf(buf, sizeof(buf), "|cYou are in %s\n\rPlayers near you:|w\n\r", ch->in_room->area->areaname);
-        send_to_char(buf, ch);
-        found = false;
-        for (d = descriptor_list; d; d = d->next) {
-            if (d->is_playing() && (victim = d->character()) != nullptr && !IS_NPC(victim) && victim != ch
-                && victim->in_room != nullptr && victim->in_room->area == ch->in_room->area && can_see(ch, victim)) {
+        send_to_char("|cYou are in {}\n\rPlayers near you:|w\n\r"_format(ch->in_room->area->areaname), ch);
+        auto found = false;
+        for (auto &victim : descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch)
+                                | DescriptorFilter::same_area(*ch) | DescriptorFilter::to_character()) {
+            if (victim.is_pc()) {
                 found = true;
-                snprintf(buf, sizeof(buf), "|W%-28s|w %s\n\r", victim->name, victim->in_room->name);
+                snprintf(buf, sizeof(buf), "|W%-28s|w %s\n\r", victim.name, victim.in_room->name);
                 send_to_char(buf, ch);
             }
         }
         if (!found)
             send_to_char("None\n\r", ch);
         if (ch->pet && ch->pet->in_room->area == ch->in_room->area) {
-            snprintf(buf, sizeof(buf), "You sense that your pet is near %s.\n\r", ch->pet->in_room->name);
-            send_to_char(buf, ch);
+            send_to_char("You sense that your pet is near {}.\n\r"_format(ch->pet->in_room->name), ch);
         }
     } else {
-        found = false;
-        for (victim = char_list; victim != nullptr; victim = victim->next) {
+        auto found = false;
+        for (auto *victim = char_list; victim != nullptr; victim = victim->next) {
             if (victim->in_room != nullptr && victim->in_room->area == ch->in_room->area
                 && !IS_AFFECTED(victim, AFF_HIDE) && !IS_AFFECTED(victim, AFF_SNEAK) && can_see(ch, victim)
                 && victim != ch && is_name(arg, victim->name)) {
@@ -2105,25 +1983,6 @@ void set_prompt(CHAR_DATA *ch, const char *prompt) {
     ch->pcdata->prompt = str_dup(prompt);
 }
 
-void set_title(CHAR_DATA *ch, const char *title) {
-    char buf[MAX_STRING_LENGTH];
-
-    if (IS_NPC(ch)) {
-        bug("Set_title: NPC.");
-        return;
-    }
-
-    if (title[0] != '.' && title[0] != ',' && title[0] != '!' && title[0] != '?') {
-        buf[0] = ' ';
-        strcpy(buf + 1, title);
-    } else {
-        strcpy(buf, title);
-    }
-
-    free_string(ch->pcdata->title);
-    ch->pcdata->title = str_dup(buf);
-}
-
 void do_title(CHAR_DATA *ch, const char *argument) {
     if (IS_NPC(ch))
         return;
@@ -2137,7 +1996,7 @@ void do_title(CHAR_DATA *ch, const char *argument) {
     if (new_title.length() > 45)
         new_title.resize(45);
 
-    set_title(ch, new_title.c_str());
+    ch->set_title(new_title);
     send_to_char("Ok.\n\r", ch);
 }
 
@@ -2147,7 +2006,7 @@ void do_description(CHAR_DATA *ch, const char *argument) {
     if (!desc_line.empty()) {
         std::string description = ch->description ? ch->description : "";
         if (desc_line.front() == '+') {
-            description += skip_whitespace(desc_line.substr(1)) + "\n\r";
+            description += ltrim(desc_line.substr(1)) + "\n\r";
         } else if (desc_line == "-") {
             if (description.empty()) {
                 send_to_char("You have no description.\n\r", ch);
@@ -2255,9 +2114,9 @@ void do_practice(CHAR_DATA *ch, const char *argument) {
         } else {
             ch->practice--;
             if (get_skill_trains(ch, sn) < 0) {
-                ch->pcdata->learned[sn] += int_app[get_curr_stat(ch, STAT_INT)].learn / 4;
+                ch->pcdata->learned[sn] += int_app[get_curr_stat(ch, Stat::Int)].learn / 4;
             } else {
-                ch->pcdata->learned[sn] += int_app[get_curr_stat(ch, STAT_INT)].learn / get_skill_difficulty(ch, sn);
+                ch->pcdata->learned[sn] += int_app[get_curr_stat(ch, Stat::Int)].learn / get_skill_difficulty(ch, sn);
             }
             if (ch->pcdata->learned[sn] < adept) // NOT get_skill_learned
             {

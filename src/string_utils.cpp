@@ -77,8 +77,18 @@ std::string replace_strings(std::string message, std::string_view from_str, std:
     return message;
 }
 
-std::string skip_whitespace(std::string_view str) {
+std::string ltrim(std::string_view str) {
     return std::string(std::find_if(str.begin(), str.end(), [](auto ch) { return !std::isspace(ch); }), str.end());
+}
+
+std::string trim(std::string_view str) {
+    std::string t = ltrim(str);
+    auto rit = std::find_if(t.rbegin(), t.rend(), [](auto ch) { return !std::isspace(ch); });
+    if (rit != t.rend()) {
+        return std::string(t.begin(), rit.base());
+    } else {
+        return t;
+    }
 }
 
 std::string reduce_spaces(std::string_view str) {

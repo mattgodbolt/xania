@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "TimeInfoData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "interp.h"
@@ -1236,7 +1237,7 @@ void wear_obj(CHAR_DATA *ch, OBJ_DATA *obj, bool fReplace) {
         if (!remove_obj(ch, WEAR_WIELD, fReplace))
             return;
 
-        if (!IS_NPC(ch) && get_obj_weight(obj) > str_app[get_curr_stat(ch, STAT_STR)].wield) {
+        if (!IS_NPC(ch) && get_obj_weight(obj) > str_app[get_curr_stat(ch, Stat::Str)].wield) {
             send_to_char("It is too heavy for you to wield.\n\r", ch);
             return;
         }
@@ -1842,12 +1843,12 @@ CHAR_DATA *find_keeper(CHAR_DATA *ch) {
     /*
      * Shop hours.
      */
-    if (time_info.hour < pShop->open_hour) {
+    if (time_info.hour() < pShop->open_hour) {
         do_say(keeper, "Sorry, I am closed. Come back later.");
         return nullptr;
     }
 
-    if (time_info.hour > pShop->close_hour) {
+    if (time_info.hour() > pShop->close_hour) {
         do_say(keeper, "Sorry, I am closed. Come back tomorrow.");
         return nullptr;
     }

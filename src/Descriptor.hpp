@@ -1,5 +1,7 @@
 #pragma once
 
+#include "common/Time.hpp"
+
 #include <cstdint>
 #include <list>
 #include <optional>
@@ -45,7 +47,7 @@ class Descriptor {
     std::string last_command_;
     std::string raw_host_{"unknown"};
     std::string masked_host_{"unknown"};
-    std::string login_time_;
+    Time login_time_;
     std::string outbuf_;
     std::list<std::string> page_outbuf_;
     std::unordered_set<Descriptor *> snoop_by_;
@@ -60,10 +62,15 @@ class Descriptor {
     [[nodiscard]] std::optional<std::string> pop_raw();
 
 public:
-    Descriptor *next{};
-
     explicit Descriptor(uint32_t descriptor);
     ~Descriptor();
+
+    // Descriptors are referenced everywhere; prevent accidental copying or moving that would invalidate others'
+    // references.
+    Descriptor(const Descriptor &) = delete;
+    Descriptor &operator=(const Descriptor &) = delete;
+    Descriptor(Descriptor &&) = delete;
+    Descriptor &operator=(Descriptor &&) = delete;
 
     void state(DescriptorState state) noexcept { state_ = state; }
     [[nodiscard]] DescriptorState state() const noexcept { return state_; }
@@ -93,7 +100,7 @@ public:
     void set_endpoint(uint32_t netaddr, uint16_t port, std::string_view raw_full_hostname);
 
     [[nodiscard]] const std::string &host() const noexcept { return masked_host_; }
-    [[nodiscard]] const std::string &login_time() const noexcept { return login_time_; }
+    [[nodiscard]] std::string login_time() const noexcept;
 
     [[nodiscard]] bool flush_output() noexcept;
 
@@ -102,7 +109,7 @@ public:
     void stop_snooping(Descriptor &other);
     void stop_snooping();
 
-    [[nodiscard]] bool closed() const noexcept { return state_ == DescriptorState::Closed; }
+    [[nodiscard]] bool is_closed() const noexcept { return state_ == DescriptorState::Closed; }
     void close() noexcept;
 
     [[nodiscard]] uint32_t channel() const noexcept { return channel_; }

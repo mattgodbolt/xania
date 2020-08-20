@@ -8,10 +8,13 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "WeatherData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
+
+#include <range/v3/algorithm/fill.hpp>
 
 #include <cctype>
 #include <cstdio>
@@ -164,71 +167,7 @@ int check_immune(CHAR_DATA *ch, int dam_type) {
 }
 
 /* for returning skill information */
-int get_skill(const CHAR_DATA *ch, int sn) {
-    int skill;
-
-    if (sn == -1) /* shorthand for level based skills */
-    {
-        skill = ch->level * 5 / 2;
-    }
-
-    else if (sn < -1 || sn > MAX_SKILL) {
-        bug("Bad sn %d in get_skill.", sn);
-        skill = 0;
-    }
-
-    else if (!IS_NPC(ch)) {
-        if (ch->level < get_skill_level(ch, sn))
-            skill = 0;
-        else
-            skill = ch->pcdata->learned[sn];
-    }
-
-    else /* mobiles */
-    {
-
-        if (sn == gsn_sneak)
-            skill = ch->level * 2 + 20;
-
-        if (sn == gsn_second_attack && (IS_SET(ch->act, ACT_WARRIOR) || IS_SET(ch->act, ACT_THIEF)))
-            skill = 10 + 3 * ch->level;
-
-        else if (sn == gsn_third_attack && IS_SET(ch->act, ACT_WARRIOR))
-            skill = 4 * ch->level - 40;
-
-        else if (sn == gsn_hand_to_hand)
-            skill = 40 + 2 * ch->level;
-
-        else if (sn == gsn_trip && IS_SET(ch->off_flags, OFF_TRIP))
-            skill = 10 + 3 * ch->level;
-
-        else if (sn == gsn_bash && IS_SET(ch->off_flags, OFF_BASH))
-            skill = 10 + 3 * ch->level;
-
-        else if (sn == gsn_disarm
-                 && (IS_SET(ch->off_flags, OFF_DISARM) || IS_SET(ch->off_flags, ACT_WARRIOR)
-                     || IS_SET(ch->off_flags, ACT_THIEF)))
-            skill = 20 + 3 * ch->level;
-
-        else if (sn == gsn_berserk && IS_SET(ch->off_flags, OFF_BERSERK))
-            skill = 3 * ch->level;
-
-        else if (sn == gsn_sword || sn == gsn_dagger || sn == gsn_spear || sn == gsn_mace || sn == gsn_axe
-                 || sn == gsn_flail || sn == gsn_whip || sn == gsn_polearm)
-            skill = 40 + 5 * ch->level / 2;
-
-        else
-            skill = 0;
-    }
-
-    if (IS_AFFECTED(ch, AFF_BERSERK))
-        skill -= ch->level / 2;
-
-    if (is_affected(ch, gsn_insanity))
-        skill -= 10;
-
-    return URANGE(0, skill, 100);
-}
+int get_skill(const CHAR_DATA *ch, int sn) { return ch->get_skill(sn); }
 
 /* for returning weapon information */
 int get_weapon_sn(CHAR_DATA *ch) {
@@ -278,7 +217,7 @@ int get_weapon_skill(CHAR_DATA *ch, int sn) {
 
 /* used to de-screw characters */
 void reset_char(CHAR_DATA *ch) {
-    int loc, mod, stat;
+    int loc, mod;
     OBJ_DATA *obj;
     AFFECT_DATA *af;
     int i;
@@ -322,7 +261,8 @@ void reset_char(CHAR_DATA *ch) {
         ch->pcdata->perm_hit = ch->max_hit;
         ch->pcdata->perm_mana = ch->max_mana;
         ch->pcdata->perm_move = ch->max_move;
-        ch->pcdata->last_level = ch->played / 3600;
+        using namespace std::chrono;
+        ch->pcdata->last_level = (int)duration_cast<hours>(ch->played).count();
         if (ch->pcdata->true_sex < 0 || ch->pcdata->true_sex > 2) {
             if (ch->sex > 0 && ch->sex < 3)
                 ch->pcdata->true_sex = ch->sex;
@@ -332,8 +272,7 @@ void reset_char(CHAR_DATA *ch) {
     }
 
     /* now restore the character to his/her true condition */
-    for (stat = 0; stat < MAX_STATS; stat++)
-        ch->mod_stat[stat] = 0;
+    ranges::fill(ch->mod_stat, 0);
 
     if (ch->pcdata->true_sex < 0 || ch->pcdata->true_sex > 2)
         ch->pcdata->true_sex = 0;
@@ -361,11 +300,11 @@ void reset_char(CHAR_DATA *ch) {
             for (af = obj->pIndexData->affected; af != nullptr; af = af->next) {
                 mod = af->modifier;
                 switch (af->location) {
-                case APPLY_STR: ch->mod_stat[STAT_STR] += mod; break;
-                case APPLY_DEX: ch->mod_stat[STAT_DEX] += mod; break;
-                case APPLY_INT: ch->mod_stat[STAT_INT] += mod; break;
-                case APPLY_WIS: ch->mod_stat[STAT_WIS] += mod; break;
-                case APPLY_CON: ch->mod_stat[STAT_CON] += mod; break;
+                case APPLY_STR: ch->mod_stat[Stat::Str] += mod; break;
+                case APPLY_DEX: ch->mod_stat[Stat::Dex] += mod; break;
+                case APPLY_INT: ch->mod_stat[Stat::Int] += mod; break;
+                case APPLY_WIS: ch->mod_stat[Stat::Wis] += mod; break;
+                case APPLY_CON: ch->mod_stat[Stat::Con] += mod; break;
 
                 case APPLY_SEX: ch->sex += mod; break;
                 case APPLY_MANA: ch->max_mana += mod; break;
@@ -390,11 +329,11 @@ void reset_char(CHAR_DATA *ch) {
         for (af = obj->affected; af != nullptr; af = af->next) {
             mod = af->modifier;
             switch (af->location) {
-            case APPLY_STR: ch->mod_stat[STAT_STR] += mod; break;
-            case APPLY_DEX: ch->mod_stat[STAT_DEX] += mod; break;
-            case APPLY_INT: ch->mod_stat[STAT_INT] += mod; break;
-            case APPLY_WIS: ch->mod_stat[STAT_WIS] += mod; break;
-            case APPLY_CON: ch->mod_stat[STAT_CON] += mod; break;
+            case APPLY_STR: ch->mod_stat[Stat::Str] += mod; break;
+            case APPLY_DEX: ch->mod_stat[Stat::Dex] += mod; break;
+            case APPLY_INT: ch->mod_stat[Stat::Int] += mod; break;
+            case APPLY_WIS: ch->mod_stat[Stat::Wis] += mod; break;
+            case APPLY_CON: ch->mod_stat[Stat::Con] += mod; break;
 
             case APPLY_SEX: ch->sex += mod; break;
             case APPLY_MANA: ch->max_mana += mod; break;
@@ -421,11 +360,11 @@ void reset_char(CHAR_DATA *ch) {
     for (af = ch->affected; af != nullptr; af = af->next) {
         mod = af->modifier;
         switch (af->location) {
-        case APPLY_STR: ch->mod_stat[STAT_STR] += mod; break;
-        case APPLY_DEX: ch->mod_stat[STAT_DEX] += mod; break;
-        case APPLY_INT: ch->mod_stat[STAT_INT] += mod; break;
-        case APPLY_WIS: ch->mod_stat[STAT_WIS] += mod; break;
-        case APPLY_CON: ch->mod_stat[STAT_CON] += mod; break;
+        case APPLY_STR: ch->mod_stat[Stat::Str] += mod; break;
+        case APPLY_DEX: ch->mod_stat[Stat::Dex] += mod; break;
+        case APPLY_INT: ch->mod_stat[Stat::Int] += mod; break;
+        case APPLY_WIS: ch->mod_stat[Stat::Wis] += mod; break;
+        case APPLY_CON: ch->mod_stat[Stat::Con] += mod; break;
 
         case APPLY_SEX: ch->sex += mod; break;
         case APPLY_MANA: ch->max_mana += mod; break;
@@ -452,83 +391,28 @@ void reset_char(CHAR_DATA *ch) {
         ch->sex = ch->pcdata->true_sex;
 }
 
-/*
- * Retrieve a character's trusted level for permission checking.
- */
+// TODO remove me
 int get_trust(const CHAR_DATA *ch) {
-
     if (ch == nullptr) {
         bug("ch == nullptr in get_trust()");
         return 0;
     }
-
-    if (ch->desc != nullptr && ch->desc->is_switched())
-        ch = ch->desc->original();
-
-    if (ch->trust != 0)
-        return ch->trust;
-
-    if (IS_NPC(ch) && ch->level >= LEVEL_HERO)
-        return LEVEL_HERO - 1;
-    else
-        return ch->level;
+    return ch->get_trust();
 }
 
 /*
  * Retrieve a character's age.
  */
-int get_age(const CHAR_DATA *ch) { return 17 + (ch->played + (int)(current_time - ch->logon)) / 72000; }
+int get_age(const CHAR_DATA *ch) {
+    using namespace std::chrono;
+    return 17 + duration_cast<hours>(ch->total_played()).count() / 20;
+}
 
 /* command for retrieving stats */
-int get_curr_stat(const CHAR_DATA *ch, int stat) {
-    int max;
-
-    if (IS_NPC(ch) || ch->level > LEVEL_IMMORTAL)
-        max = 25;
-
-    else {
-        max = pc_race_table[ch->race].max_stats[stat] + 4;
-
-        /*     if (ch->race != race_lookup("dragon")) */
-        if (class_table[ch->class_num].attr_prime == stat)
-            max += 2;
-
-        /*if ( ch->race == race_lookup("human"))
-        max += 1;*/
-
-        max = UMIN(max, 25);
-    }
-
-    return URANGE(3, ch->perm_stat[stat] + ch->mod_stat[stat], max);
-}
-
-/* Written by DEATH, because he's KEWl */
-int get_max_stat(CHAR_DATA *ch, int stat) {
-    int max;
-
-    if (IS_NPC(ch) || ch->level > LEVEL_IMMORTAL)
-        max = 25;
-
-    else {
-        max = pc_race_table[ch->race].max_stats[stat] + 4;
-
-        /*if (ch->race != race_lookup("dragon"))*/
-        if (class_table[ch->class_num].attr_prime == stat)
-            max += 2;
-
-        /*
-          if ( ch->race == race_lookup("human"))
-          max += 1;
-         */
-
-        max = UMIN(max, 25);
-    }
-
-    return max;
-}
+int get_curr_stat(const CHAR_DATA *ch, Stat stat) { return ch->curr_stat(stat); }
 
 /* command for returning max training score */
-int get_max_train(CHAR_DATA *ch, int stat) {
+int get_max_train(CHAR_DATA *ch, Stat stat) {
     int max;
 
     if (IS_NPC(ch) || ch->level > LEVEL_IMMORTAL)
@@ -554,7 +438,7 @@ int can_carry_n(CHAR_DATA *ch) {
     if (IS_NPC(ch) && IS_SET(ch->act, ACT_PET))
         return 4;
 
-    return MAX_WEAR + 2 * get_curr_stat(ch, STAT_DEX) + ch->level;
+    return MAX_WEAR + 2 * get_curr_stat(ch, Stat::Dex) + ch->level;
 }
 
 /*
@@ -567,7 +451,7 @@ int can_carry_w(CHAR_DATA *ch) {
     if (IS_NPC(ch) && IS_SET(ch->act, ACT_PET))
         return 1000;
 
-    return str_app[get_curr_stat(ch, STAT_STR)].carry + ch->level * 5 / 2;
+    return str_app[get_curr_stat(ch, Stat::Str)].carry + ch->level * 5 / 2;
 }
 
 /*
@@ -639,11 +523,11 @@ void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd) {
     default: bug("Affect_modify: unknown location %d.", paf->location); return;
 
     case APPLY_NONE: break;
-    case APPLY_STR: ch->mod_stat[STAT_STR] += mod; break;
-    case APPLY_DEX: ch->mod_stat[STAT_DEX] += mod; break;
-    case APPLY_INT: ch->mod_stat[STAT_INT] += mod; break;
-    case APPLY_WIS: ch->mod_stat[STAT_WIS] += mod; break;
-    case APPLY_CON: ch->mod_stat[STAT_CON] += mod; break;
+    case APPLY_STR: ch->mod_stat[Stat::Str] += mod; break;
+    case APPLY_DEX: ch->mod_stat[Stat::Dex] += mod; break;
+    case APPLY_INT: ch->mod_stat[Stat::Int] += mod; break;
+    case APPLY_WIS: ch->mod_stat[Stat::Wis] += mod; break;
+    case APPLY_CON: ch->mod_stat[Stat::Con] += mod; break;
     case APPLY_SEX: ch->sex += mod; break;
     case APPLY_CLASS: break;
     case APPLY_LEVEL: break;
@@ -673,7 +557,7 @@ void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd) {
      * Guard against recursion (for weapons with affects).
      */
     if (!IS_NPC(ch) && (wield = get_eq_char(ch, WEAR_WIELD)) != nullptr
-        && get_obj_weight(wield) > str_app[get_curr_stat(ch, STAT_STR)].wield) {
+        && get_obj_weight(wield) > str_app[get_curr_stat(ch, Stat::Str)].wield) {
         static int depth;
 
         if (depth == 0) {
@@ -803,19 +687,7 @@ void affect_strip(CHAR_DATA *ch, int sn) {
     }
 }
 
-/*
- * Return true if a char is affected by a spell.
- */
-bool is_affected(const CHAR_DATA *ch, int sn) {
-    AFFECT_DATA *paf;
-
-    for (paf = ch->affected; paf != nullptr; paf = paf->next) {
-        if (paf->type == sn)
-            return true;
-    }
-
-    return false;
-}
+bool is_affected(const CHAR_DATA *ch, int sn) { return ch->is_affected_by(sn); }
 
 /*
  * Returns the AFFECT_DATA * structure for a char
@@ -1681,7 +1553,7 @@ bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex) {
     if (pRoomIndex->sector_type == SECT_INSIDE || pRoomIndex->sector_type == SECT_CITY)
         return false;
 
-    if (weather_info.sunlight == SUN_SET || weather_info.sunlight == SUN_DARK)
+    if (weather_info.is_dark())
         return true;
 
     return false;
@@ -1727,59 +1599,15 @@ bool can_see_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
     return true;
 }
 
-/*
- * True if char can see victim.
- */
 bool can_see(const CHAR_DATA *ch, const CHAR_DATA *victim) {
-
     /* without this block, poor code involving descriptors would
        crash the mud - Fara 13/8/96 */
+    // MRG notes, not seen in any logs thus far, candidate for deletion.
     if (victim == nullptr) {
         bug("can_see: victim is nullptr");
         return false;
     }
-
-    /* RT changed so that WIZ_INVIS has levels */
-    if (ch == victim)
-        return true;
-
-    if (!IS_NPC(victim) && IS_SET(victim->act, PLR_WIZINVIS) && get_trust(ch) < victim->invis_level)
-        return false;
-
-    if (!IS_NPC(victim) && IS_SET(victim->act, PLR_PROWL) && ch->in_room != victim->in_room
-        && get_trust(ch) < victim->invis_level) /* paranoia check */
-        return false;
-
-    if ((!IS_NPC(ch) && IS_SET(ch->act, PLR_HOLYLIGHT)) || (IS_NPC(ch) && IS_IMMORTAL(ch)))
-        return true;
-
-    if (IS_AFFECTED(ch, AFF_BLIND))
-        return false;
-
-    if (room_is_dark(ch->in_room) && !IS_AFFECTED(ch, AFF_INFRARED))
-        return false;
-
-    if (IS_AFFECTED(victim, AFF_INVISIBLE) && !IS_AFFECTED(ch, AFF_DETECT_INVIS))
-        return false;
-
-    /* sneaking */
-    if (IS_AFFECTED(victim, AFF_SNEAK) && !IS_AFFECTED(ch, AFF_DETECT_HIDDEN) && victim->fighting == nullptr
-        && (IS_NPC(ch) ? !IS_NPC(victim) : IS_NPC(victim))) {
-        int chance;
-        chance = get_skill(victim, gsn_sneak);
-        chance += get_curr_stat(ch, STAT_DEX) * 3 / 2;
-        chance -= get_curr_stat(ch, STAT_INT) * 2;
-        chance += ch->level - victim->level * 3 / 2;
-
-        if (number_percent() < chance)
-            return false;
-    }
-
-    if (IS_AFFECTED(victim, AFF_HIDE) && !IS_AFFECTED(ch, AFF_DETECT_HIDDEN) && victim->fighting == nullptr
-        && (IS_NPC(ch) ? !IS_NPC(victim) : IS_NPC(victim)))
-        return false;
-
-    return true;
+    return ch->can_see(*victim);
 }
 
 /*

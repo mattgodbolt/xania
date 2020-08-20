@@ -9,21 +9,29 @@
 
 #include "interp.h"
 #include "CommandSet.hpp"
-#include "Descriptor.hpp"
 #include "comm.hpp"
 #include "merc.h"
 #include "note.h"
 
-#include <fmt/format.h>
-
 #include <cctype>
 #include <cstdio>
-#include <cstdlib>
 #include <cstring>
 #include <functional>
 #include <utility>
 
-using namespace fmt::literals;
+namespace {
+inline constexpr auto ML = MAX_LEVEL; /* implementor */
+inline constexpr auto L1 = MAX_LEVEL - 1; /* creator */
+inline constexpr auto L2 = MAX_LEVEL - 2; /* supreme being */
+inline constexpr auto L3 = MAX_LEVEL - 3; /* deity */
+inline constexpr auto L4 = MAX_LEVEL - 4; /* god */
+inline constexpr auto L5 = MAX_LEVEL - 5; /* immortal */
+inline constexpr auto L6 = MAX_LEVEL - 6; /* demigod */
+inline constexpr auto L7 = MAX_LEVEL - 7; /* angel */
+inline constexpr auto L8 = MAX_LEVEL - 8; /* avatar */
+inline constexpr auto IM = LEVEL_IMMORTAL; /* angel */
+inline constexpr auto HE = LEVEL_HERO; /* hero */
+}
 
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
 bool MP_Commands(CHAR_DATA *ch);
@@ -378,30 +386,27 @@ void interp_initialise() {
 }
 
 static const char *apply_prefix(char *buf, CHAR_DATA *ch, const char *command) {
-    char *pc_prefix = nullptr;
-
-    /* Unswitched MOBs don't have prefixes.  If we're switched, get the player's prefix. */
-    if (IS_NPC(ch)) {
-        if (ch->desc && ch->desc->original())
-            pc_prefix = ch->desc->original()->pcdata->prefix;
-        else
-            return command;
-    } else
-        pc_prefix = ch->pcdata->prefix;
+    // Unswitched MOBs don't have prefixes.  If we're switched, get the player's prefix.
+    auto player = ch->player();
+    if (!player)
+        return command;
 
     if (0 == strcmp(command, "prefix")) {
         return command;
-    } else if (command[0] == '\\') {
-        if (command[1] == '\\') {
-            send_to_char(pc_prefix[0] ? "(prefix removed)\n\r" : "(no prefix to remove)\n\r", ch);
-            pc_prefix[0] = '\0';
-            command++; /* skip the \ */
-        }
-        command++; /* skip the \ */
-        return command;
     } else {
-        snprintf(buf, MAX_INPUT_LENGTH, "%s%s", pc_prefix, command);
-        return buf;
+        auto &pc_data = player->pcdata;
+        if (command[0] == '\\') {
+            if (command[1] == '\\') {
+                send_to_char(pc_data->prefix ? "(prefix removed)\n\r" : "(no prefix to remove)\n\r", ch);
+                pc_data->prefix[0] = '\0';
+                command++; /* skip the \ */
+            }
+            command++; /* skip the \ */
+            return command;
+        } else {
+            snprintf(buf, MAX_INPUT_LENGTH, "%s%s", pc_data->prefix, command);
+            return buf;
+        }
     }
 }
 

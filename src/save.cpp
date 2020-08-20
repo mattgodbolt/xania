@@ -8,13 +8,17 @@
 /*************************************************************************/
 
 #include "Descriptor.hpp"
+#include "TimeInfoData.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
-#include <ctype.h>
-#include <stdio.h>
-#include <string.h>
+
+#include <range/v3/algorithm/fill.hpp>
+
+#include <cctype>
+#include <cstdio>
+#include <cstring>
+#include <ctime>
 #include <sys/types.h>
-#include <time.h>
 
 char *login_from;
 char *login_at;
@@ -76,11 +80,8 @@ void save_char_obj(CHAR_DATA *ch) {
     char buf[MAX_STRING_LENGTH];
     FILE *fp;
 
-    if (IS_NPC(ch))
+    if (ch = ch->player(); !ch)
         return;
-
-    if (ch->desc != nullptr && ch->desc->is_switched())
-        ch = ch->desc->original();
 
     /* create god log */
     if (IS_IMMORTAL(ch) || ch->level >= LEVEL_IMMORTAL) {
@@ -91,7 +92,7 @@ void save_char_obj(CHAR_DATA *ch) {
             perror(strsave);
         }
 
-        fprintf(fp, "Lev %2d Trust %2d  %s%s\n", ch->level, get_trust(ch), ch->name, ch->pcdata->title);
+        fprintf(fp, "Lev %2d Trust %2d  %s%s\n", ch->level, get_trust(ch), ch->name, ch->pcdata->title.c_str());
         fclose(fp);
         fpReserve = fopen(NULL_FILE, "r");
     }
@@ -147,8 +148,9 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
     }
     if (ch->trust != 0)
         fprintf(fp, "Tru  %d\n", ch->trust);
-    fprintf(fp, "Plyd %d\n", ch->played + (int)(current_time - ch->logon));
-    fprintf(fp, "Note %d\n", (int)ch->last_note);
+    using namespace std::chrono;
+    fprintf(fp, "Plyd %d\n", (int)duration_cast<seconds>(ch->total_played()).count());
+    fprintf(fp, "Note %d\n", (int)Clock::to_time_t(ch->last_note));
     fprintf(fp, "Scro %d\n", ch->lines);
     fprintf(fp, "Room %d\n",
             (ch->in_room == get_room_index(ROOM_VNUM_LIMBO) && ch->was_in_room != nullptr)
@@ -183,11 +185,11 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
     fprintf(fp, "ACs %d %d %d %d\n", ch->armor[0], ch->armor[1], ch->armor[2], ch->armor[3]);
     if (ch->wimpy != 0)
         fprintf(fp, "Wimp  %d\n", ch->wimpy);
-    fprintf(fp, "Attr %d %d %d %d %d\n", ch->perm_stat[STAT_STR], ch->perm_stat[STAT_INT], ch->perm_stat[STAT_WIS],
-            ch->perm_stat[STAT_DEX], ch->perm_stat[STAT_CON]);
+    fprintf(fp, "Attr %d %d %d %d %d\n", ch->perm_stat[Stat::Str], ch->perm_stat[Stat::Int], ch->perm_stat[Stat::Wis],
+            ch->perm_stat[Stat::Dex], ch->perm_stat[Stat::Con]);
 
-    fprintf(fp, "AMod %d %d %d %d %d\n", ch->mod_stat[STAT_STR], ch->mod_stat[STAT_INT], ch->mod_stat[STAT_WIS],
-            ch->mod_stat[STAT_DEX], ch->mod_stat[STAT_CON]);
+    fprintf(fp, "AMod %d %d %d %d %d\n", ch->mod_stat[Stat::Str], ch->mod_stat[Stat::Int], ch->mod_stat[Stat::Wis],
+            ch->mod_stat[Stat::Dex], ch->mod_stat[Stat::Con]);
 
     if (IS_NPC(ch)) {
         fprintf(fp, "Vnum %d\n", ch->pIndexData->vnum);
@@ -197,7 +199,7 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
             fprintf(fp, "Bin  %s~\n", ch->pcdata->bamfin);
         if (ch->pcdata->bamfout[0] != '\0')
             fprintf(fp, "Bout %s~\n", ch->pcdata->bamfout);
-        fprintf(fp, "Titl %s~\n", ch->pcdata->title);
+        fprintf(fp, "Titl %s~\n", ch->pcdata->title.c_str());
         fprintf(fp, "Afk %s~\n", ch->pcdata->afk);
         fprintf(fp, "Colo %d\n", ch->pcdata->colour);
         fprintf(fp, "Prmt %s~\n", ch->pcdata->prompt);
@@ -288,10 +290,10 @@ void fwrite_pet(CHAR_DATA *ch, CHAR_DATA *pet, FILE *fp) {
     if (pet->damroll != pet->pIndexData->damage[DICE_BONUS])
         fprintf(fp, "Dam  %d\n", pet->damroll);
     fprintf(fp, "ACs  %d %d %d %d\n", pet->armor[0], pet->armor[1], pet->armor[2], pet->armor[3]);
-    fprintf(fp, "Attr %d %d %d %d %d\n", pet->perm_stat[STAT_STR], pet->perm_stat[STAT_INT], pet->perm_stat[STAT_WIS],
-            pet->perm_stat[STAT_DEX], pet->perm_stat[STAT_CON]);
-    fprintf(fp, "AMod %d %d %d %d %d\n", pet->mod_stat[STAT_STR], pet->mod_stat[STAT_INT], pet->mod_stat[STAT_WIS],
-            pet->mod_stat[STAT_DEX], pet->mod_stat[STAT_CON]);
+    fprintf(fp, "Attr %d %d %d %d %d\n", pet->perm_stat[Stat::Str], pet->perm_stat[Stat::Int],
+            pet->perm_stat[Stat::Wis], pet->perm_stat[Stat::Dex], pet->perm_stat[Stat::Con]);
+    fprintf(fp, "AMod %d %d %d %d %d\n", pet->mod_stat[Stat::Str], pet->mod_stat[Stat::Int], pet->mod_stat[Stat::Wis],
+            pet->mod_stat[Stat::Dex], pet->mod_stat[Stat::Con]);
 
     for (paf = pet->affected; paf != nullptr; paf = paf->next) {
         if (paf->type < 0 || paf->type >= MAX_SKILL)
@@ -420,13 +422,11 @@ void fwrite_obj(CHAR_DATA *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
  * Load a char and inventory into a new ch structure.
  */
 bool load_char_obj(Descriptor *d, const char *name) {
-    static PC_DATA pcdata_zero;
     char strsave[MAX_INPUT_LENGTH];
     char buf[MAX_STRING_LENGTH * 2];
     CHAR_DATA *ch;
     FILE *fp;
     bool found;
-    int stat;
 
     if (char_free == nullptr) {
         ch = static_cast<CHAR_DATA *>(alloc_perm(sizeof(*ch)));
@@ -436,13 +436,7 @@ bool load_char_obj(Descriptor *d, const char *name) {
     }
     clear_char(ch);
 
-    if (pcdata_free == nullptr) {
-        ch->pcdata = static_cast<PC_DATA *>(alloc_perm(sizeof(*ch->pcdata)));
-    } else {
-        ch->pcdata = pcdata_free;
-        pcdata_free = pcdata_free->next;
-    }
-    *ch->pcdata = pcdata_zero;
+    ch->pcdata = std::make_unique<PC_DATA>();
 
     d->character(ch);
     ch->desc = d;
@@ -476,9 +470,8 @@ bool load_char_obj(Descriptor *d, const char *name) {
     ch->pcdata->prompt = str_dup("");
     ch->pcdata->afk = str_dup("");
     ch->pcdata->info_message = str_dup("");
-    ch->pcdata->colour = 0;
-    for (stat = 0; stat < MAX_STATS; stat++)
-        ch->perm_stat[stat] = 13;
+    ch->pcdata->colour = false;
+    ranges::fill(ch->perm_stat, 13);
     ch->pcdata->perm_hit = 0;
     ch->pcdata->perm_mana = 0;
     ch->pcdata->perm_move = 0;
@@ -655,13 +648,11 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
             paf->next = ch->affected;
             ch->affected = paf;
         } else if (word == "attrmod" || word == "amod") {
-            for (int stat = 0; stat < MAX_STATS; stat++) {
-                ch->mod_stat[stat] = fread_number(fp);
-            }
+            for (auto &stat : ch->mod_stat)
+                stat = fread_number(fp);
         } else if (word == "attrperm" || word == "attr") {
-            for (int stat = 0; stat < MAX_STATS; stat++) {
-                ch->perm_stat[stat] = fread_number(fp);
-            }
+            for (auto &stat : ch->perm_stat)
+                stat = fread_number(fp);
         } else if (word == "bamfin" || word == "bin") {
             ch->pcdata->bamfin = fread_string(fp);
         } else if (word == "bamfout" || word == "bout") {
@@ -758,11 +749,11 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         } else if (word == "name") {
             ch->name = fread_string(fp);
         } else if (word == "note") {
-            ch->last_note = fread_number(fp);
+            ch->last_note = Clock::from_time_t(fread_number(fp));
         } else if (word == "password" || word == "pass") {
             ch->pcdata->pwd = fread_string(fp);
         } else if (word == "played" || word == "plyd") {
-            ch->played = fread_number(fp);
+            ch->played = Seconds(fread_number(fp));
         } else if (word == "points" || word == "pnts") {
             ch->pcdata->points = fread_number(fp);
         } else if (word == "position" || word == "pos") {
@@ -806,15 +797,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         } else if (word == "trust" || word == "tru") {
             ch->trust = fread_number(fp);
         } else if (word == "title" || word == "titl") {
-            ch->pcdata->title = fread_string(fp);
-            // TODO: this is quite horrible.
-            if (ch->pcdata->title[0] != '.' && ch->pcdata->title[0] != ',' && ch->pcdata->title[0] != '!'
-                && ch->pcdata->title[0] != '?') {
-                char buf[MAX_STRING_LENGTH];
-                snprintf(buf, sizeof(buf), " %s", ch->pcdata->title);
-                free_string(ch->pcdata->title);
-                ch->pcdata->title = str_dup(buf);
-            }
+            ch->set_title(fread_stdstring(fp));
         } else if (word == "version" || word == "vers") {
             ch->version = fread_number(fp);
         } else if (word == "vnum") {
@@ -905,19 +888,14 @@ void fread_pet(CHAR_DATA *ch, FILE *fp) {
             }
 
             if (!str_cmp(word, "AMod")) {
-                int stat;
-
-                for (stat = 0; stat < MAX_STATS; stat++)
-                    pet->mod_stat[stat] = fread_number(fp);
-                fMatch = true;
+                for (auto &stat : pet->mod_stat)
+                    stat = fread_number(fp);
                 break;
             }
 
             if (!str_cmp(word, "Attr")) {
-                int stat;
-
-                for (stat = 0; stat < MAX_STATS; stat++)
-                    pet->perm_stat[stat] = fread_number(fp);
+                for (auto &stat : pet->perm_stat)
+                    stat = fread_number(fp);
                 fMatch = true;
                 break;
             }
