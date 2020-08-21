@@ -102,7 +102,7 @@ void advance_level(CHAR_DATA *ch) {
     snprintf(buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r", add_hp, ch->max_hit,
              add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice);
     send_to_char(buf, ch);
-    snprintf(log_buf, LOG_BUF_SIZE, "### %s has made a level in room %u\n\r", ch->name, ch->in_room->vnum);
+    snprintf(log_buf, LOG_BUF_SIZE, "### %s has made a level in room %u", ch->name, ch->in_room->vnum);
     log_string(log_buf);
     snprintf(log_buf, LOG_BUF_SIZE, "|W### |P%s |Whas made a level!!!|w", ch->name);
     announce(log_buf, ch);
