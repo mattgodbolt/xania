@@ -3683,8 +3683,11 @@ void spell_weaken(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *victim = (CHAR_DATA *)vo;
     AFFECT_DATA af;
 
-    if (is_affected(victim, sn) || saves_spell(level, victim))
+    if (is_affected(victim, sn) || saves_spell(level, victim)) {
+        act("$n looks unsteady for a moment, but it passes.", victim);
+        send_to_char("You feel unsteady for a moment, but it passes.\n\r", victim);
         return;
+    }
     af.type = sn;
     af.level = level;
     af.duration = level / 2;
