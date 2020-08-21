@@ -378,7 +378,7 @@ void show_char_to_char(CHAR_DATA *list, CHAR_DATA *ch) {
         if (rch == ch)
             continue;
 
-        if (!IS_NPC(rch) && IS_SET(rch->act, PLR_WIZINVIS) && get_trust(ch) < rch->invis_level)
+        if (!IS_NPC(rch) && IS_SET(rch->act, PLR_WIZINVIS) && ch->get_trust() < rch->invis_level)
             continue;
 
         if (can_see(ch, rch)) {
@@ -1327,10 +1327,10 @@ void do_score(CHAR_DATA *ch, const char *argument) {
 
     ch->send_to("|wYou are: |W{}{}|w.\n\r"_format(ch->name, IS_NPC(ch) ? "" : ch->pcdata->title));
 
-    if (get_trust(ch) == ch->level)
+    if (ch->get_trust() == ch->level)
         snprintf(buf, sizeof(buf), "Level: |W%d|w", ch->level);
     else
-        snprintf(buf, sizeof(buf), "Level: |W%d|w (trust |W%d|w)", ch->level, get_trust(ch));
+        snprintf(buf, sizeof(buf), "Level: |W%d|w (trust |W%d|w)", ch->level, ch->get_trust());
     using namespace std::chrono;
     snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Age: |W%d|w years (|W%ld|w hours)\n\r", get_age(ch),
              duration_cast<hours>(ch->total_played()).count());
@@ -1529,7 +1529,7 @@ void do_help(CHAR_DATA *ch, const char *argument) {
     }
 
     for (pHelp = help_first; pHelp != nullptr; pHelp = pHelp->next) {
-        if (pHelp->level > get_trust(ch))
+        if (pHelp->level > ch->get_trust())
             continue;
 
         if (is_name(argall, pHelp->keyword)) {

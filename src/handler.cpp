@@ -391,15 +391,6 @@ void reset_char(CHAR_DATA *ch) {
         ch->sex = ch->pcdata->true_sex;
 }
 
-// TODO remove me
-int get_trust(const CHAR_DATA *ch) {
-    if (ch == nullptr) {
-        bug("ch == nullptr in get_trust()");
-        return 0;
-    }
-    return ch->get_trust();
-}
-
 /*
  * Retrieve a character's age.
  */
@@ -1578,7 +1569,7 @@ bool room_is_private(ROOM_INDEX_DATA *pRoomIndex) {
 
 /* visibility on a room -- for entering and exits */
 bool can_see_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
-    if (IS_SET(pRoomIndex->room_flags, ROOM_IMP_ONLY) && get_trust(ch) < MAX_LEVEL)
+    if (IS_SET(pRoomIndex->room_flags, ROOM_IMP_ONLY) && ch->get_trust() < MAX_LEVEL)
         return false;
 
     if (IS_SET(pRoomIndex->room_flags, ROOM_GODS_ONLY) && !IS_IMMORTAL(ch))

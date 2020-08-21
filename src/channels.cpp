@@ -143,7 +143,7 @@ void do_immtalk(CHAR_DATA *ch, const char *argument) {
     if (IS_SET(ch->act, PLR_AFK))
         format = "|w(|cAFK|w)|W $n: |c$t|w";
 
-    if (get_trust(ch) >= 91)
+    if (ch->get_trust() >= LEVEL_HERO)
         act(format, ch, argument, nullptr, To::Char, POS_DEAD);
     for (auto &d : descriptors().playing()) {
         if (IS_IMMORTAL(d.character()) && !IS_SET(d.character()->comm, COMM_NOWIZ)) {

@@ -92,7 +92,7 @@ void save_char_obj(CHAR_DATA *ch) {
             perror(strsave);
         }
 
-        fprintf(fp, "Lev %2d Trust %2d  %s%s\n", ch->level, get_trust(ch), ch->name, ch->pcdata->title.c_str());
+        fprintf(fp, "Lev %2d Trust %2d  %s%s\n", ch->level, ch->get_trust(), ch->name, ch->pcdata->title.c_str());
         fclose(fp);
         fpReserve = fopen(NULL_FILE, "r");
     }

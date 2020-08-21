@@ -451,7 +451,7 @@ void interpret(CHAR_DATA *ch, const char *argument) {
     }
 
     /* Look for command in command table. */
-    auto cmd = commands.get(command, get_trust(ch));
+    auto cmd = commands.get(command, ch->get_trust());
 
     /* Look for command in socials table. */
     if (!cmd.has_value()) {
@@ -468,7 +468,7 @@ void interpret(CHAR_DATA *ch, const char *argument) {
     if ((!IS_NPC(ch) && IS_SET(ch->act, PLR_LOG)) || fLogAll || cmd->log == CommandLogLevel::Always) {
         int level = (cmd->level >= 91) ? (cmd->level) : 0;
         if (!IS_NPC(ch) && (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)))
-            level = UMAX(level, get_trust(ch));
+            level = UMAX(level, ch->get_trust());
         if (IS_NPC(ch) && ch->desc && ch->desc->original()) {
             snprintf(log_buf, LOG_BUF_SIZE, "Log %s (as '%s'): %s", ch->desc->original()->name, ch->name, logline);
         } else {
@@ -669,7 +669,7 @@ public:
 void do_commands(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     Columniser col(ch);
-    auto max_level = (get_trust(ch) < LEVEL_HERO) ? get_trust(ch) : (LEVEL_HERO - 1);
+    auto max_level = (ch->get_trust() < LEVEL_HERO) ? ch->get_trust() : (LEVEL_HERO - 1);
     commands.enumerate(commands.level_restrict(0, max_level, col.visitor()));
     if (col.buf[0] != '\0') {
         strcat(col.buf, "\n\r");
@@ -680,7 +680,7 @@ void do_commands(CHAR_DATA *ch, const char *argument) {
 void do_wizhelp(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     Columniser col(ch);
-    commands.enumerate(commands.level_restrict(LEVEL_HERO, get_trust(ch), col.visitor()));
+    commands.enumerate(commands.level_restrict(LEVEL_HERO, ch->get_trust(), col.visitor()));
     if (col.buf[0] != '\0') {
         strcat(col.buf, "\n\r");
         send_to_char(col.buf, ch);

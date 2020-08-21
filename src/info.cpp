@@ -282,7 +282,7 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
             if (victim != nullptr && victim->desc != nullptr && !IS_NPC(victim)) {
 
                 /* Player is currently logged in */
-                if (victim->invis_level > ch->level && get_trust(ch) < 96) {
+                if (victim->invis_level > ch->level && ch->get_trust() < GOD) {
 
                     snprintf(buf, sizeof(buf),
                              "It is impossible to determine the last time that %s roamed\n\rthe hills of Xania.\n\r",
@@ -291,7 +291,7 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
                 } else {
                     snprintf(buf, sizeof(buf), "%s is currently roaming the hills of Xania!\n\r", victim->name);
                     send_to_char(buf, ch);
-                    if (get_trust(ch) >= 96) {
+                    if (ch->get_trust() >= GOD) {
                         if (victim->desc->host().empty())
                             snprintf(buf, sizeof(buf),
                                      "It is impossible to determine where %s last logged in from.\n\r", victim->name);
@@ -304,7 +304,7 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
                 }
             } else {
                 /* Player is not currently logged in */
-                if (cur->invis_level > ch->level && get_trust(ch) < 96) {
+                if (cur->invis_level > ch->level && ch->get_trust() < GOD) {
 
                     snprintf(buf, sizeof(buf),
                              "It is impossible to determine the last time that %s roamed\n\rthe hills of Xania.\n\r",
@@ -323,7 +323,7 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
 
                     send_to_char(buf, ch);
 
-                    if (get_trust(ch) >= 96) {
+                    if (ch->get_trust() >= GOD) {
                         if (cur->last_login_from[0] == '\0')
                             snprintf(buf, sizeof(buf),
                                      "It is impossible to determine where %s last logged in from.\n\r",

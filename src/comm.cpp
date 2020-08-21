@@ -632,7 +632,7 @@ void nanny(Descriptor *d, const char *argument) {
 
         snprintf(log_buf, LOG_BUF_SIZE, "%s@%s has connected.", ch->name, d->host().c_str());
         log_new(log_buf, EXTRA_WIZNET_DEBUG,
-                ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? get_trust(ch) : 0);
+                ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? ch->get_trust() : 0);
 
         d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
         d->state((d->state() == DescriptorState::CircumventPassword) ? DescriptorState::ReadMotd
@@ -1147,7 +1147,7 @@ bool check_reconnect(Descriptor *d, bool fConn) {
                 act("$n has reconnected.", ch);
                 snprintf(log_buf, LOG_BUF_SIZE, "%s@%s reconnected.", ch->name, d->host().c_str());
                 log_new(log_buf, EXTRA_WIZNET_DEBUG,
-                        ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? get_trust(ch) : 0);
+                        ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? ch->get_trust() : 0);
                 d->state(DescriptorState::Playing);
             }
             return true;

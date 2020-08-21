@@ -1417,8 +1417,8 @@ extern sh_int gsn_bless;
  */
 #define IS_NPC(ch) (ch->is_npc())
 #define IS_IMMORTAL(ch) (ch->is_immortal())
-#define IS_HERO(ch) (get_trust(ch) >= LEVEL_HERO)
-#define IS_TRUSTED(ch, level) (get_trust((ch)) >= (level))
+#define IS_HERO(ch) (ch->get_trust() >= LEVEL_HERO)
+#define IS_TRUSTED(ch, level) (ch->get_trust() >= (level))
 #define IS_AFFECTED(ch, sn) (IS_SET((ch)->affected_by, (sn)))
 
 #define GET_AGE(ch) ((int)(17 + ((ch)->played + current_time - (ch)->logon) / 72000))
@@ -1656,7 +1656,6 @@ int get_weapon_sn(CHAR_DATA *ch);
 int get_weapon_skill(CHAR_DATA *ch, int sn);
 int get_age(const CHAR_DATA *ch);
 void reset_char(CHAR_DATA *ch);
-int get_trust(const CHAR_DATA *ch);
 int get_curr_stat(const CHAR_DATA *ch, Stat stat);
 int get_max_train(CHAR_DATA *ch, Stat stat);
 int can_carry_n(CHAR_DATA *ch);

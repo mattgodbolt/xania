@@ -45,7 +45,7 @@ void display_flags(const char *format, CHAR_DATA *ch, unsigned long current_val)
                 } else {
                     num = 0;
                 }
-                if (get_trust(ch) >= num) {
+                if (ch->get_trust() >= num) {
                     if (strlen(bufptr) + chars > 70) {
                         buffer_addline(buffer, "\n\r");
                         chars = 0;
@@ -131,7 +131,7 @@ unsigned long flag_set(const char *format, const char *arg, unsigned long curren
             arg++;
             break;
         }
-        auto bit = flag_bit(format, arg, get_trust(ch));
+        auto bit = flag_bit(format, arg, ch->get_trust());
         if (bit == INVALID_BIT) {
             display_flags(format, ch, (int)current_val);
             send_to_char("Allowed flags are:\n\r", ch);

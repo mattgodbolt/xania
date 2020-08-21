@@ -207,7 +207,7 @@ void Descriptor::close() noexcept {
     if (character_) {
         do_chal_canc(character_);
         log_new("Closing link to {}."_format(character_->name).c_str(), EXTRA_WIZNET_DEBUG,
-                (IS_SET(character_->act, PLR_WIZINVIS) || IS_SET(character_->act, PLR_PROWL)) ? get_trust(character_)
+                (IS_SET(character_->act, PLR_WIZINVIS) || IS_SET(character_->act, PLR_PROWL)) ? character_->get_trust()
                                                                                               : 0);
         if (is_playing() || state_ == DescriptorState::Disconnecting) {
             act("$n has lost $s link.", character_);

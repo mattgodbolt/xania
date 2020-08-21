@@ -572,7 +572,7 @@ void do_mpforce(CHAR_DATA *ch, const char *argument) {
         for (vch = char_list; vch != nullptr; vch = vch_next) {
             vch_next = vch->next;
 
-            if (vch->in_room == ch->in_room && get_trust(vch) < get_trust(ch) && can_see(ch, vch)) {
+            if (vch->in_room == ch->in_room && vch->get_trust() < ch->get_trust() && can_see(ch, vch)) {
                 interpret(vch, argument);
             }
         }

@@ -327,20 +327,20 @@ bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, const CHAR_DATA *actor, const
     if (!str_cmp(buf, "isimmort")) {
         switch (arg[1]) /* arg should be "$*" so just get the letter */
         {
-        case 'i': return (get_trust(mob) > LEVEL_IMMORTAL);
+        case 'i': return (mob->get_trust() > LEVEL_IMMORTAL);
         case 'n':
             if (actor)
-                return (get_trust(actor) > LEVEL_IMMORTAL);
+                return (actor->get_trust() > LEVEL_IMMORTAL);
             else
                 return -1;
         case 't':
             if (vict)
-                return (get_trust(vict) > LEVEL_IMMORTAL);
+                return (vict->get_trust() > LEVEL_IMMORTAL);
             else
                 return -1;
         case 'r':
             if (rndm)
-                return (get_trust(rndm) > LEVEL_IMMORTAL);
+                return (rndm->get_trust() > LEVEL_IMMORTAL);
             else
                 return -1;
         default: bug("Mob: %d bad argument to 'isimmort'", mob->pIndexData->vnum); return -1;
@@ -549,26 +549,26 @@ bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, const CHAR_DATA *actor, const
         switch (arg[1]) /* arg should be "$*" so just get the letter */
         {
         case 'i':
-            lhsvl = get_trust(mob);
+            lhsvl = mob->get_trust();
             rhsvl = atoi(val);
             return mprog_veval(lhsvl, opr, rhsvl);
         case 'n':
             if (actor) {
-                lhsvl = get_trust(actor);
+                lhsvl = actor->get_trust();
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
         case 't':
             if (vict) {
-                lhsvl = get_trust(vict);
+                lhsvl = vict->get_trust();
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
         case 'r':
             if (rndm) {
-                lhsvl = get_trust(rndm);
+                lhsvl = rndm->get_trust();
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else

@@ -196,7 +196,7 @@ void ban_site(CHAR_DATA *ch, const char *argument, bool fPerm) {
     prev = nullptr;
     for (pban = ban_list; pban != nullptr; prev = pban, pban = pban->next) {
         if (!str_cmp(name, pban->name)) {
-            if (pban->level > get_trust(ch)) {
+            if (pban->level > ch->get_trust()) {
                 send_to_char("That ban was set by a higher power.\n\r", ch);
                 return;
             } else {
@@ -211,7 +211,7 @@ void ban_site(CHAR_DATA *ch, const char *argument, bool fPerm) {
 
     pban = new_ban();
     pban->name = str_dup(name);
-    pban->level = get_trust(ch);
+    pban->level = ch->get_trust();
 
     /* set ban type */
     pban->ban_flags = type;
@@ -258,7 +258,7 @@ void do_allow(CHAR_DATA *ch, const char *argument) {
     prev = nullptr;
     for (curr = ban_list; curr != nullptr; prev = curr, curr = curr->next) {
         if (!str_cmp(aargh, curr->name)) {
-            if (curr->level > get_trust(ch)) {
+            if (curr->level > ch->get_trust()) {
                 send_to_char("You are not powerful enough to lift that ban.\n\r", ch);
                 return;
             }

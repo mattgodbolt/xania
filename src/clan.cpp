@@ -136,7 +136,7 @@ void do_noclanchan(CHAR_DATA *ch, const char *argument) {
     if (IS_NPC(ch))
         return;
 
-    if ((get_trust(ch) > (MAX_LEVEL - 5)) || ((ch->pc_clan() != nullptr) && (ch->pc_clan()->clanlevel > CLAN_HERO))) {
+    if ((ch->get_trust() > (MAX_LEVEL - 5)) || ((ch->pc_clan() != nullptr) && (ch->pc_clan()->clanlevel > CLAN_HERO))) {
     } else {
         send_to_char("Huh?\n\r", ch);
         return;
@@ -212,7 +212,7 @@ void do_member(CHAR_DATA *ch, const char *argument) {
         send_to_char("What kind of wally are you?  You can't do that!\n\r", ch);
         return;
     }
-    if (get_trust(victim) > get_trust(ch)) {
+    if (victim->get_trust() > ch->get_trust()) {
         snprintf(buf, sizeof(buf), "You cannot do that to %s.\n\r", victim->name);
         return;
     }
@@ -369,7 +369,7 @@ void do_clanset(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        if ((get_trust(victim)) > get_trust(ch)) {
+        if ((victim->get_trust()) > ch->get_trust()) {
             send_to_char("You do not have the powers to do that.\n\r", ch);
             return;
         }
@@ -443,7 +443,7 @@ void do_clanset(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        if ((get_trust(victim)) > get_trust(ch)) {
+        if ((victim->get_trust()) > ch->get_trust()) {
             send_to_char("You do not have the powers to do that.\n\r", ch);
             return;
         }

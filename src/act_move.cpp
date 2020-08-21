@@ -75,7 +75,7 @@ void move_char(CHAR_DATA *ch, int door) {
         return;
     }
 
-    if (room_is_private(to_room) && (get_trust(ch) < IMPLEMENTOR)) {
+    if (room_is_private(to_room) && (ch->get_trust() < IMPLEMENTOR)) {
         send_to_char("That room is private right now.\n\r", ch);
         return;
     }
@@ -255,7 +255,7 @@ void do_enter(CHAR_DATA *ch, const char *argument) {
                         return;
                     }
 
-                    if (room_is_private(to_room) && (get_trust(ch) < IMPLEMENTOR)) {
+                    if (room_is_private(to_room) && (ch->get_trust() < IMPLEMENTOR)) {
                         send_to_char("That room is private right now.\n\r", ch);
                         return;
                     }

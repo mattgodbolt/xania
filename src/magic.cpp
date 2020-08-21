@@ -1123,7 +1123,7 @@ void spell_charm_person(int sn, int level, CHAR_DATA *ch, void *vo) {
         return;
     }
 
-    if (IS_AFFECTED(victim, AFF_CHARM) || IS_AFFECTED(ch, AFF_CHARM) || get_trust(ch) < get_trust(victim)
+    if (IS_AFFECTED(victim, AFF_CHARM) || IS_AFFECTED(ch, AFF_CHARM) || ch->get_trust() < victim->get_trust()
         || IS_SET(victim->imm_flags, IMM_CHARM) || saves_spell(level, victim))
         return;
 
@@ -2053,7 +2053,7 @@ void spell_enchant_weapon(int sn, int level, CHAR_DATA *ch, void *vo) {
     int fail = 15; /* base 15% chance of failure */
 
     /* Nice little touch for IMPs */
-    if (get_trust(ch) == MAX_LEVEL)
+    if (ch->get_trust() == MAX_LEVEL)
         fail = -16535;
 
     /* TheMoog added material fiddling */
@@ -2111,7 +2111,7 @@ void spell_enchant_weapon(int sn, int level, CHAR_DATA *ch, void *vo) {
 
     /* We don't want armor, with more than 2 ench. hit&dam */
     int no_ench_num = 0;
-    if (obj->item_type == ITEM_ARMOR && (get_trust(ch) < MAX_LEVEL)) {
+    if (obj->item_type == ITEM_ARMOR && (ch->get_trust() < MAX_LEVEL)) {
         AFFECT_DATA *paf;
         for (paf = obj->affected; paf != nullptr; paf = paf->next) {
             if ((paf->type == sn) && (paf->location == APPLY_DAMROLL))

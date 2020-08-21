@@ -554,7 +554,7 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
         return;
     } /* done whilst switched? No way Jose */
 
-    if (get_trust(victim) > get_trust(ch)) {
+    if (victim->get_trust() > ch->get_trust()) {
 
         send_to_char("You failed.\n\rUmmm...beware of retaliation!\n\r", ch);
         act("$n attempted to smite $N!", ch, nullptr, victim, To::NotVict);

@@ -133,7 +133,7 @@ void do_nochannels(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (get_trust(victim) >= get_trust(ch)) {
+    if (victim->get_trust() >= ch->get_trust()) {
         send_to_char("You failed.\n\r", ch);
         return;
     }
@@ -207,7 +207,7 @@ void do_deny(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (get_trust(victim) >= get_trust(ch)) {
+    if (victim->get_trust() >= ch->get_trust()) {
         send_to_char("You failed.\n\r", ch);
         return;
     }
@@ -422,7 +422,7 @@ void do_transfer(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        if (room_is_private(location) && (get_trust(ch) < IMPLEMENTOR)) {
+        if (room_is_private(location) && (ch->get_trust() < IMPLEMENTOR)) {
             send_to_char("That room is private right now.\n\r", ch);
             return;
         }
@@ -498,7 +498,7 @@ void do_at(CHAR_DATA *ch, const char *argument) {
         send_to_char("But that's in here.......\n\r", ch);
         return;
     }
-    if (room_is_private(location) && (get_trust(ch) < IMPLEMENTOR)) {
+    if (room_is_private(location) && (ch->get_trust() < IMPLEMENTOR)) {
         send_to_char("That room is private right now.\n\r", ch);
         return;
     }
@@ -532,7 +532,7 @@ void do_goto(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (room_is_private(location) && (get_trust(ch) < IMPLEMENTOR)) {
+    if (room_is_private(location) && (ch->get_trust() < IMPLEMENTOR)) {
         send_to_char("That room is private right now.\n\r", ch);
         return;
     }
@@ -542,7 +542,7 @@ void do_goto(CHAR_DATA *ch, const char *argument) {
 
     // We don't user ch->player()'s bamfin/bamfout to avoid exposing which IMM is controlling a switched mob.
     for (auto *rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
-        if (get_trust(rch) >= ch->invis_level) {
+        if (rch->get_trust() >= ch->invis_level) {
             if (ch->pcdata != nullptr && !ch->pcdata->bamfout.empty())
                 act("$t", ch, ch->pcdata->bamfout, rch, To::Vict);
             else
@@ -558,7 +558,7 @@ void do_goto(CHAR_DATA *ch, const char *argument) {
     }
 
     for (auto *rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
-        if (get_trust(rch) >= ch->invis_level) {
+        if (rch->get_trust() >= ch->invis_level) {
             if (ch->pcdata != nullptr && !ch->pcdata->bamfin.empty())
                 act("$t", ch, ch->pcdata->bamfin, rch, To::Vict);
             else
@@ -670,7 +670,7 @@ void do_rstat(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (ch->in_room != location && room_is_private(location) && get_trust(ch) < IMPLEMENTOR) {
+    if (ch->in_room != location && room_is_private(location) && ch->get_trust() < IMPLEMENTOR) {
         send_to_char("That room is private right now.\n\r", ch);
         return;
     }
@@ -1674,7 +1674,7 @@ void do_snoop(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (get_trust(victim) >= get_trust(ch)) {
+    if (victim->get_trust() >= ch->get_trust()) {
         send_to_char("You failed.\n\r", ch);
         return;
     }
@@ -1752,7 +1752,7 @@ void do_return(CHAR_DATA *ch, const char *argument) {
    calls I don't know about. */
 bool obj_check(CHAR_DATA *ch, OBJ_DATA *obj) {
 
-    if (obj->level > get_trust(ch))
+    if (obj->level > ch->get_trust())
         return false;
     return true;
 }
@@ -1984,7 +1984,7 @@ void do_purge(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        if (get_trust(ch) <= get_trust(victim)) {
+        if (ch->get_trust() <= victim->get_trust()) {
             send_to_char("Maybe that wasn't a good idea...\n\r", ch);
             bug_snprintf(buf, sizeof(buf), "%s tried to purge you!\n\r", ch->name);
             send_to_char(buf, victim);
@@ -2040,7 +2040,7 @@ void do_advance(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (level > get_trust(ch)) {
+    if (level > ch->get_trust()) {
         send_to_char("Limited to your trust level.\n\r", ch);
         return;
     }
@@ -2122,7 +2122,7 @@ void do_trust(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (level > get_trust(ch)) {
+    if (level > ch->get_trust()) {
         send_to_char("Limited to your trust.\n\r", ch);
         return;
     }
@@ -2157,7 +2157,7 @@ void do_restore(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (get_trust(ch) >= MAX_LEVEL && !str_cmp(arg, "all")) {
+    if (ch->get_trust() >= MAX_LEVEL && !str_cmp(arg, "all")) {
         /* cure all */
 
         for (auto &d : descriptors().playing()) {
@@ -2222,7 +2222,7 @@ void do_freeze(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (get_trust(victim) >= get_trust(ch)) {
+    if (victim->get_trust() >= ch->get_trust()) {
         send_to_char("You failed.\n\r", ch);
         return;
     }
@@ -2300,7 +2300,7 @@ void do_noemote(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (get_trust(victim) >= get_trust(ch)) {
+    if (victim->get_trust() >= ch->get_trust()) {
         send_to_char("You failed.\n\r", ch);
         return;
     }
@@ -2337,7 +2337,7 @@ void do_noshout(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (get_trust(victim) >= get_trust(ch)) {
+    if (victim->get_trust() >= ch->get_trust()) {
         send_to_char("You failed.\n\r", ch);
         return;
     }
@@ -2369,7 +2369,7 @@ void do_notell(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (get_trust(victim) >= get_trust(ch)) {
+    if (victim->get_trust() >= ch->get_trust()) {
         send_to_char("You failed.\n\r", ch);
         return;
     }
@@ -2505,7 +2505,7 @@ void do_coma(CHAR_DATA *ch, const char *argument) {
         send_to_char("Duh!  Don't you dare fall asleep on the job!\n\r", ch);
         return;
     }
-    if ((get_trust(ch) <= get_trust(victim)) || !((IS_IMMORTAL(ch)) && IS_NPC(victim))) {
+    if ((ch->get_trust() <= victim->get_trust()) || !((IS_IMMORTAL(ch)) && IS_NPC(victim))) {
         send_to_char("You failed.\n\r", ch);
         return;
     }
@@ -3419,7 +3419,7 @@ void do_sockets(CHAR_DATA *ch, const char *argument) {
                 continue;
             if (view_all || is_name(arg, d.character()->name) || is_name(arg, d.person()->name))
                 name = d.person()->name;
-        } else if (get_trust(ch) == MAX_LEVEL) {
+        } else if (ch->get_trust() == MAX_LEVEL) {
             // log even connections that haven't logged in yet
             // Level 100s only, mind
             name = "(unknown)";
@@ -3471,7 +3471,7 @@ void do_force(CHAR_DATA *ch, const char *argument) {
         CHAR_DATA *vch;
         CHAR_DATA *vch_next;
 
-        if (get_trust(ch) < MAX_LEVEL - 3) {
+        if (ch->get_trust() < DEITY) {
             send_to_char("Not at your level!\n\r", ch);
             return;
         }
@@ -3479,7 +3479,7 @@ void do_force(CHAR_DATA *ch, const char *argument) {
         for (vch = char_list; vch != nullptr; vch = vch_next) {
             vch_next = vch->next;
 
-            if (!IS_NPC(vch) && get_trust(vch) < get_trust(ch)) {
+            if (!IS_NPC(vch) && vch->get_trust() < ch->get_trust()) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;
                 act(buf, ch, nullptr, vch, To::Vict);
@@ -3490,7 +3490,7 @@ void do_force(CHAR_DATA *ch, const char *argument) {
         CHAR_DATA *vch;
         CHAR_DATA *vch_next;
 
-        if (get_trust(ch) < MAX_LEVEL - 2) {
+        if (ch->get_trust() < SUPREME) {
             send_to_char("Not at your level!\n\r", ch);
             return;
         }
@@ -3498,7 +3498,7 @@ void do_force(CHAR_DATA *ch, const char *argument) {
         for (vch = char_list; vch != nullptr; vch = vch_next) {
             vch_next = vch->next;
 
-            if (!IS_NPC(vch) && get_trust(vch) < get_trust(ch) && vch->level < LEVEL_HERO) {
+            if (!IS_NPC(vch) && vch->get_trust() < ch->get_trust() && vch->level < LEVEL_HERO) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;
                 act(buf, ch, nullptr, vch, To::Vict);
@@ -3509,7 +3509,7 @@ void do_force(CHAR_DATA *ch, const char *argument) {
         CHAR_DATA *vch;
         CHAR_DATA *vch_next;
 
-        if (get_trust(ch) < MAX_LEVEL - 2) {
+        if (ch->get_trust() < SUPREME) {
             send_to_char("Not at your level!\n\r", ch);
             return;
         }
@@ -3517,7 +3517,7 @@ void do_force(CHAR_DATA *ch, const char *argument) {
         for (vch = char_list; vch != nullptr; vch = vch_next) {
             vch_next = vch->next;
 
-            if (!IS_NPC(vch) && get_trust(vch) < get_trust(ch) && vch->level >= LEVEL_HERO) {
+            if (!IS_NPC(vch) && vch->get_trust() < ch->get_trust() && vch->level >= LEVEL_HERO) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;
                 act(buf, ch, nullptr, vch, To::Vict);
@@ -3537,12 +3537,12 @@ void do_force(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        if (get_trust(victim) >= get_trust(ch)) {
+        if (victim->get_trust() >= ch->get_trust()) {
             send_to_char("Do it yourself!\n\r", ch);
             return;
         }
 
-        if (!IS_NPC(victim) && get_trust(ch) < MAX_LEVEL - 3) {
+        if (!IS_NPC(victim) && ch->get_trust() < DEITY) {
             send_to_char("Not at your level!\n\r", ch);
             return;
         }
@@ -3580,21 +3580,21 @@ void do_invis(CHAR_DATA *ch, const char *argument) {
             SET_BIT(ch->act, PLR_WIZINVIS);
             if (IS_SET(ch->act, PLR_PROWL))
                 REMOVE_BIT(ch->act, PLR_PROWL);
-            ch->invis_level = get_trust(ch);
+            ch->invis_level = ch->get_trust();
             act("$n slowly fades into thin air.", ch);
             send_to_char("You slowly vanish into thin air.\n\r", ch);
             if (ch->pet != nullptr) {
                 SET_BIT(ch->pet->act, PLR_WIZINVIS);
                 if (IS_SET(ch->pet->act, PLR_PROWL))
                     REMOVE_BIT(ch->pet->act, PLR_PROWL);
-                ch->pet->invis_level = get_trust(ch);
+                ch->pet->invis_level = ch->get_trust();
             }
         }
     else
     /* do the level thing */
     {
         level = atoi(arg);
-        if (level < 2 || level > get_trust(ch)) {
+        if (level < 2 || level > ch->get_trust()) {
             send_to_char("Invis level must be between 2 and your level.\n\r", ch);
             return;
         } else {
@@ -3614,7 +3614,7 @@ void do_prowl(CHAR_DATA *ch, const char *argument) {
     if IS_NPC (ch)
         return;
 
-    if (ch->level < LEVEL_HERO) {
+    if (ch->get_trust() < LEVEL_HERO) {
         send_to_char("Huh?\n\r", ch);
         return;
     }
@@ -3630,10 +3630,10 @@ void do_prowl(CHAR_DATA *ch, const char *argument) {
             }
             return;
         } else {
-            ch->invis_level = get_trust(ch);
+            ch->invis_level = ch->get_trust();
             SET_BIT(ch->act, PLR_PROWL);
             if (ch->pet != nullptr) {
-                ch->pet->invis_level = get_trust(ch);
+                ch->pet->invis_level = ch->get_trust();
                 SET_BIT(ch->pet->act, PLR_PROWL);
             }
             act("$n slowly fades into thin air.", ch);
@@ -3647,7 +3647,7 @@ void do_prowl(CHAR_DATA *ch, const char *argument) {
 
     level = atoi(arg);
 
-    if ((level > get_trust(ch)) || (level < 2)) {
+    if ((level > ch->get_trust()) || (level < 2)) {
         send_to_char("You must specify a level between 2 and your level.\n\r", ch);
         return;
     }

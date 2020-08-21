@@ -432,7 +432,7 @@ void do_note(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     auto note_remainder = smash_tilde(one_argument(argument, arg));
 
-    auto note_fn = sub_commands.get(arg[0] ? arg : "read", get_trust(ch));
+    auto note_fn = sub_commands.get(arg[0] ? arg : "read", ch->get_trust());
     if (note_fn.has_value()) {
         (*note_fn)(ch, note_remainder.c_str());
     } else {
