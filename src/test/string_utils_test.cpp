@@ -254,4 +254,22 @@ TEST_CASE("string_util tests") {
             CHECK(colourise_mud_string(true, "|z") == "z");
         }
     }
+
+    SECTION("string matching") {
+        SECTION("empty should match itself") { CHECK(matches("", "")); }
+        SECTION("empty should not match to nonempty") {
+            CHECK(!matches("something", ""));
+            CHECK(!matches("", "something"));
+        }
+        SECTION("identical strings should match") { CHECK(matches("monkey", "monkey")); }
+        SECTION("non-identical, same-length strings should not match") { CHECK(!matches("mankey", "monkey")); }
+        SECTION("strings differing in whitespace should not match") {
+            // This one we might consider changing behaviour of later.
+            CHECK(!matches(" monkey", "monkey"));
+            CHECK(!matches("monkey ", "monkey"));
+            CHECK(!matches("monkey", " monkey"));
+            CHECK(!matches("monkey", "monkey "));
+        }
+        SECTION("same strings of differing cases should match") { CHECK(matches("aardvark", "AaRDvarK")); }
+    }
 }

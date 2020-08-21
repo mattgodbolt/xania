@@ -54,3 +54,6 @@ Container split_lines(std::string_view input) {
 
 // Upper-cases the first character, taking into account things like `|Rthe goblin is DEAD!!`
 [[nodiscard]] std::string upper_first_character(std::string_view sv);
+
+// Compares two strings: are they referring to the same thing. That currently means "case insensitive comparison".
+[[nodiscard]] bool matches(std::string_view lhs, std::string_view rhs);

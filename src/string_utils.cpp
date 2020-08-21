@@ -1,6 +1,8 @@
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+#include <range/v3/algorithm/all_of.hpp>
+#include <range/v3/view/zip.hpp>
 
 #include <algorithm>
 #include <cstring>
@@ -236,4 +238,10 @@ std::string upper_first_character(std::string_view sv) {
         }
     }
     return result;
+}
+
+bool matches(std::string_view lhs, std::string_view rhs) {
+    if (lhs.size() != rhs.size())
+        return false;
+    return ranges::all_of(ranges::zip_view(lhs, rhs), [](auto pr) { return tolower(pr.first) == tolower(pr.second); });
 }
