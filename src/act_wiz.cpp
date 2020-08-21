@@ -3565,7 +3565,6 @@ void do_invis(CHAR_DATA *ch, const char *argument) {
     if (IS_NPC(ch))
         return;
 
-    /* RT code for taking a level argument */
     one_argument(argument, arg);
 
     if (arg[0] == '\0')
@@ -3628,6 +3627,8 @@ void do_prowl(CHAR_DATA *ch, const char *argument) {
                 REMOVE_BIT(ch->pet->act, PLR_PROWL);
                 ch->pet->invis_level = 0;
             }
+            act("$n slowly fades into existence.", ch);
+            send_to_char("You slowly fade back into existence.\n\r", ch);
             return;
         } else {
             ch->invis_level = ch->get_trust();
@@ -3659,6 +3660,8 @@ void do_prowl(CHAR_DATA *ch, const char *argument) {
             REMOVE_BIT(ch->pet->act, PLR_PROWL);
             ch->pet->invis_level = 0;
         }
+        act("$n slowly fades into existence.", ch);
+        send_to_char("You slowly fade back into existence.\n\r", ch);
         return;
     } else {
         ch->invis_level = level;
