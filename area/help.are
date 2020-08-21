@@ -1296,8 +1296,8 @@ freeze is usually preferred.
 ~
 
 97 DISCONNECT~
-Syntax: disconnect   <name>
-Syntax: disconnect + <name>
+Syntax: disconnect  <name>
+Syntax: disconnect +<name>
 
 Disconnect breaks a player's link to the game, dumping them back to the telnet
 prompt.  This is a non-lethal way of getting rid of spammers and annoying
