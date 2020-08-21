@@ -1344,6 +1344,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
     case ITEM_WAND:
     case ITEM_STAFF:
     case ITEM_WEAPON:
+    case ITEM_ARMOR:
     case ITEM_POTION:
     case ITEM_PILL:
     case ITEM_MONEY: break;
