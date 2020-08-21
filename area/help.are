@@ -1955,6 +1955,14 @@ It also renders the character unclean in the eyes of Alander and
 unable to RECALL.
 ~
 
+0 PLAGUE~
+Syntax: cast 'plague' <character>
+
+Plague is a contagious disease that weakens a character and reduces
+their natural regenerative powers. Due to its virulence, plague may spread to
+nearby players.
+~
+
 
 0 DAMNATION~
 Syntax: cast 'damnation' <weapon name>

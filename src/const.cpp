@@ -2923,12 +2923,12 @@ const struct group_type group_table[MAX_GROUP] = {
 
     {"mage default",
      {40, -3, -3, -3},
-     {"lore", "beguiling", "combat", "detection", "enhancement", "illusion", "maladictions", "protective",
+     {"lore", "beguiling", "combat", "detection", "enhancement", "illusion", "maledictions", "protective",
       "transportation", "weather"}},
 
     {"cleric default",
      {-3, 40, -3, -3},
-     {"flail", "attack", "creation", "curative", "benedictions", "detection", "healing", "maladictions", "protective",
+     {"flail", "attack", "creation", "curative", "benedictions", "detection", "healing", "maledictions", "protective",
       "shield block", "transportation", "weather"}},
 
     {"knight default",
@@ -2980,7 +2980,7 @@ const struct group_type group_table[MAX_GROUP] = {
 
     {"illusion", {4, -1, -1, -1}, {"invis", "mass invis", "ventriloquate"}},
 
-    {"maladictions",
+    {"maledictions",
      {5, 5, 8, 10},
      {"blindness", "change sex", "curse", "energy drain", "plague", "poison", "weaken", "lethargy", "insanity"}},
 
