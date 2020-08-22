@@ -210,11 +210,12 @@ const CLAN *CHAR_DATA::clan() const { return pc_clan() ? pc_clan()->clan : nullp
 bool CHAR_DATA::is_comm_brief() const { return is_pc() && IS_SET(comm, COMM_BRIEF); }
 bool CHAR_DATA::should_autoexit() const { return is_pc() && IS_SET(act, PLR_AUTOEXIT); }
 
-OBJ_DATA* CHAR_DATA::find_in_inventory(std::string_view argument) const {
+template <typename Func>
+OBJ_DATA *CHAR_DATA::find_filtered(std::string_view argument, Func filter) const {
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
     for (auto *obj = carrying; obj != nullptr; obj = obj->next_content) {
-        if (obj->wear_loc == WEAR_NONE && can_see(*obj) && is_name(arg, obj->name)) {
+        if (can_see(*obj) && is_name(arg, obj->name) && filter(*obj)) {
             if (++count == number)
                 return obj;
         }
@@ -223,21 +224,17 @@ OBJ_DATA* CHAR_DATA::find_in_inventory(std::string_view argument) const {
     return nullptr;
 }
 
-OBJ_DATA* CHAR_DATA::find_worn(std::string_view argument) const {
-    auto &&[number, arg] = number_argument(argument);
-    int count = 0;
-    for (auto *obj = carrying; obj != nullptr; obj = obj->next_content) {
-        if (obj->wear_loc == WEAR_NONE && can_see(*obj) && is_name(arg, obj->name)) {
-            if (++count == number)
-                return obj;
-        }
-    }
-
-    return nullptr;
+OBJ_DATA *CHAR_DATA::find_in_inventory(std::string_view argument) const {
+    return find_filtered(argument, [](const OBJ_DATA &obj) { return obj.wear_loc != WEAR_NONE; });
 }
 
-bool CHAR_DATA::can_see(const OBJ_DATA & object) const{
-    if (has_holylight()) return true;
+OBJ_DATA *CHAR_DATA::find_worn(std::string_view argument) const {
+    return find_filtered(argument, [](const OBJ_DATA &obj) { return obj.wear_loc == WEAR_NONE; });
+}
+
+bool CHAR_DATA::can_see(const OBJ_DATA &object) const {
+    if (has_holylight())
+        return true;
 
     if (IS_SET(object.extra_flags, ITEM_VIS_DEATH))
         return false;
@@ -258,6 +255,4 @@ bool CHAR_DATA::can_see(const OBJ_DATA & object) const{
         return false;
 
     return true;
-}
-
 }

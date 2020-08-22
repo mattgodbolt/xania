@@ -1133,7 +1133,7 @@ struct obj_index_data {
     sh_int reset_num;
     sh_int material;
     sh_int item_type;
-    int extra_flags;
+    unsigned int extra_flags;
     ush_int wear_flags;
     char *wear_string;
     sh_int level;
@@ -1165,7 +1165,7 @@ struct OBJ_DATA {
     char *short_descr;
     char *description;
     sh_int item_type;
-    int extra_flags;
+    unsigned int extra_flags;
     sh_int wear_flags;
     char *wear_string;
     sh_int wear_loc;

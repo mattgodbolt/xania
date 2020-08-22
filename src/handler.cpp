@@ -1319,21 +1319,8 @@ OBJ_DATA *get_obj_carry(CHAR_DATA *ch, const char *argument) {
  * Find an obj in player's equipment.
  */
 OBJ_DATA *get_obj_wear(CHAR_DATA *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
-    int number;
-    int count;
-
-    number = number_argument(argument, arg);
-    count = 0;
-    for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
-        if (obj->wear_loc != WEAR_NONE && can_see_obj(ch, obj) && is_name(arg, obj->name)) {
-            if (++count == number)
-                return obj;
-        }
-    }
-
-    return nullptr;
+    // TODO remove
+    return ch->find_in_inventory(argument);
 }
 
 /*

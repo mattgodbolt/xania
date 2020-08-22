@@ -902,10 +902,9 @@ void look_in_object(const CHAR_DATA &ch, const OBJ_DATA &obj) {
             break;
         }
 
-        ch.send_to("It's {} full of a {} liquid.\n\r"_format(obj.value[1] < obj.value[0] / 4       ? "less than"
-                                                             : obj.value[1] < 3 * obj.value[0] / 4 ? "about"
-                                                                                                   : "more than",
-                                                             liq_table[obj.value[2]].liq_color));
+        ch.send_to("It's {} full of a {} liquid.\n\r"_format(
+            obj.value[1] < obj.value[0] / 4 ? "less than" : obj.value[1] < 3 * obj.value[0] / 4 ? "about" : "more than",
+            liq_table[obj.value[2]].liq_color));
         break;
 
     case ITEM_CONTAINER:

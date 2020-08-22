@@ -174,12 +174,15 @@ struct CHAR_DATA {
     void set_title(std::string title);
 
     // Gets an item in a character's inventory. Returns nullptr if not found. Supports numbered argument.
-    OBJ_DATA *find_in_inventory(std::string_view argument) const;
+    [[nodiscard]] OBJ_DATA *find_in_inventory(std::string_view argument) const;
 
     // Gets an item a character is wearing. Returns nullptr if not found. Supports numbered argument.
-    OBJ_DATA *find_worn(std::string_view argument) const;
+    [[nodiscard]] OBJ_DATA *find_worn(std::string_view argument) const;
 
     // True if char can see object.
     [[nodiscard]] bool can_see(const OBJ_DATA &object) const;
 
+private:
+    template <typename Func>
+    [[nodiscard]] OBJ_DATA *find_filtered(std::string_view argument, Func filter) const;
 };
