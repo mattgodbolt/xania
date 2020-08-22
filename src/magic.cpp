@@ -3404,7 +3404,7 @@ void spell_refresh(int sn, int level, CHAR_DATA *ch, void *vo) {
     else
         send_to_char("You feel less tired.\n\r", victim);
     if (ch != victim)
-        send_to_char("Ok.\n\r", ch);
+        act("$N looks invigorated.", ch, nullptr, victim, To::Char);
 }
 
 void spell_remove_curse(int sn, int level, CHAR_DATA *ch, void *vo) {
