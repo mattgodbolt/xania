@@ -272,4 +272,25 @@ TEST_CASE("string_util tests") {
         }
         SECTION("same strings of differing cases should match") { CHECK(matches("aardvark", "AaRDvarK")); }
     }
+
+    SECTION("string matches start") {
+        SECTION("empty should not match start of empty") { CHECK(!matches_start("", "")); }
+        SECTION("empty should not match to nonempty") {
+            CHECK(!matches_start("something", ""));
+            CHECK(!matches_start("", "something"));
+        }
+        SECTION("identical strings should match") { CHECK(matches_start("monkey", "monkey")); }
+        SECTION("non-identical, same-length strings should not match") { CHECK(!matches_start("mankey", "monkey")); }
+        SECTION("strings differing in whitespace should not match") {
+            // This one we might consider changing behaviour of later, if matches() also changes.
+            CHECK(!matches_start(" monkey", "monkey"));
+            CHECK(!matches_start("monkey ", "monkey"));
+            CHECK(!matches_start("monkey", " monkey"));
+        }
+        SECTION("rhs starts with lhs") {
+            CHECK(matches_start("Aa", "aar"));
+            CHECK(matches_start("aa", "aar"));
+            CHECK(matches_start("monkey", "monkey "));
+        }
+    }
 }

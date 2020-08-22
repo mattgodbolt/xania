@@ -245,3 +245,9 @@ bool matches(std::string_view lhs, std::string_view rhs) {
         return false;
     return ranges::all_of(ranges::zip_view(lhs, rhs), [](auto pr) { return tolower(pr.first) == tolower(pr.second); });
 }
+
+bool matches_start(std::string_view lhs, std::string_view rhs) {
+    if (lhs.size() > rhs.size() || lhs.empty())
+        return false;
+    return matches(lhs, rhs.substr(0, lhs.size()));
+}

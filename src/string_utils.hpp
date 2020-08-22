@@ -57,3 +57,7 @@ Container split_lines(std::string_view input) {
 
 // Compares two strings: are they referring to the same thing. That currently means "case insensitive comparison".
 [[nodiscard]] bool matches(std::string_view lhs, std::string_view rhs);
+
+// Similar to matches() but checks if rhs starts with lhs, case insensitively.
+// lhs must be at least one character long and must not be longer than rhs.
+[[nodiscard]] bool matches_start(std::string_view lhs, std::string_view rhs);
