@@ -789,16 +789,12 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
 
 /* load a pet from the forgotten reaches */
 void fread_pet(CHAR_DATA *ch, FILE *fp) {
-    const char *word;
+    std::string word;
     CHAR_DATA *pet;
-    bool fMatch;
-
     /* first entry had BETTER be the vnum or we barf */
     word = feof(fp) ? "END" : fread_word(fp);
-    if (!str_cmp(word, "Vnum")) {
-        int vnum;
-
-        vnum = fread_number(fp);
+    if (matches(word, "Vnum")) {
+        int vnum = fread_number(fp);
         if (get_mob_index(vnum) == nullptr) {
             bug("Fread_pet: bad vnum %d.", vnum);
             pet = create_mobile(get_mob_index(MOB_VNUM_FIDO));
@@ -811,130 +807,91 @@ void fread_pet(CHAR_DATA *ch, FILE *fp) {
 
     for (;;) {
         word = feof(fp) ? "END" : fread_word(fp);
-        fMatch = false;
-
-        switch (UPPER(word[0])) {
-        case '#':
-            fMatch = true;
-            fread_obj(pet, fp);
-            break;
-
-        case '*':
-            fMatch = true;
+        if (word.empty() || word[0] == '*') {
             fread_to_eol(fp);
-            break;
-
-        case 'A':
-            KEY("Act", pet->act, fread_number(fp));
-            KEY("AfBy", pet->affected_by, fread_number(fp));
-            KEY("Alig", pet->alignment, fread_number(fp));
-
-            if (!str_cmp(word, "ACs")) {
-                int i;
-
-                for (i = 0; i < 4; i++)
-                    pet->armor[i] = fread_number(fp);
-                fMatch = true;
-                break;
+        } else if (word[0] == '#') {
+            fread_obj(pet, fp);
+        } else if (matches(word, "Act")) {
+            pet->act = fread_number(fp);
+        } else if (matches(word, "AfBy")) {
+            pet->affected_by = fread_number(fp);
+        } else if (matches(word, "Alig")) {
+            pet->alignment = fread_number(fp);
+        } else if (matches(word, "ACs")) {
+            for (int i = 0; i < 4; i++)
+                pet->armor[i] = fread_number(fp);
+        } else if (matches(word, "AffD")) {
+            AFFECT_DATA *paf;
+            int sn;
+            if (affect_free == nullptr)
+                paf = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf)));
+            else {
+                paf = affect_free;
+                affect_free = affect_free->next;
             }
 
-            if (!str_cmp(word, "AffD")) {
-                AFFECT_DATA *paf;
-                int sn;
+            sn = skill_lookup(fread_word(fp));
+            if (sn < 0)
+                bug("%s", "Fread_pet: unknown skill #{}"_format(sn).c_str());
+            else
+                paf->type = sn;
 
-                if (affect_free == nullptr)
-                    paf = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf)));
-                else {
-                    paf = affect_free;
-                    affect_free = affect_free->next;
-                }
-
-                sn = skill_lookup(fread_word(fp));
-                if (sn < 0)
-                    bug("Fread_char: unknown skill.");
-                else
-                    paf->type = sn;
-
-                paf->level = fread_number(fp);
-                paf->duration = fread_number(fp);
-                paf->modifier = fread_number(fp);
-                paf->location = fread_number(fp);
-                paf->bitvector = fread_number(fp);
-                paf->next = pet->affected;
-                pet->affected = paf;
-                fMatch = true;
-                break;
-            }
-
-            if (!str_cmp(word, "AMod")) {
-                for (auto &stat : pet->mod_stat)
-                    stat = fread_number(fp);
-                break;
-            }
-
-            if (!str_cmp(word, "Attr")) {
-                for (auto &stat : pet->perm_stat)
-                    stat = fread_number(fp);
-                fMatch = true;
-                break;
-            }
-            break;
-
-        case 'C': KEY("Comm", pet->comm, fread_number(fp)); break;
-
-        case 'D':
-            KEY("Dam", pet->damroll, fread_number(fp));
-            KEY("Desc", pet->description, fread_string(fp));
-            break;
-
-        case 'E':
-            if (!str_cmp(word, "End")) {
-                pet->leader = ch;
-                pet->master = ch;
-                ch->pet = pet;
-                return;
-            }
-            KEY("Exp", pet->exp, fread_number(fp));
-            break;
-
-        case 'G': KEY("Gold", pet->gold, fread_number(fp)); break;
-
-        case 'H':
-            KEY("Hit", pet->hitroll, fread_number(fp));
-
-            if (!str_cmp(word, "HMV")) {
-                pet->hit = fread_number(fp);
-                pet->max_hit = fread_number(fp);
-                pet->mana = fread_number(fp);
-                pet->max_mana = fread_number(fp);
-                pet->move = fread_number(fp);
-                pet->max_move = fread_number(fp);
-                fMatch = true;
-                break;
-            }
-            break;
-
-        case 'L':
-            KEY("Levl", pet->level, fread_number(fp));
-            KEY("LnD", pet->long_descr, fread_string(fp));
-            break;
-
-        case 'N': KEY("Name", pet->name, fread_string(fp)); break;
-
-        case 'P': KEY("Pos", pet->position, fread_number(fp)); break;
-
-        case 'R': KEY("Race", pet->race, race_lookup(fread_string(fp))); break;
-
-        case 'S':
-            KEY("Save", pet->saving_throw, fread_number(fp));
-            KEY("Sex", pet->sex, fread_number(fp));
-            KEY("ShD", pet->short_descr, fread_string(fp));
-            break;
-
-            if (!fMatch) {
-                bug("Fread_pet: no match.");
-                fread_to_eol(fp);
-            }
+            paf->level = fread_number(fp);
+            paf->duration = fread_number(fp);
+            paf->modifier = fread_number(fp);
+            paf->location = fread_number(fp);
+            paf->bitvector = fread_number(fp);
+            paf->next = pet->affected;
+            pet->affected = paf;
+        } else if (matches(word, "AMod")) {
+            for (auto &stat : pet->mod_stat)
+                stat = fread_number(fp);
+        } else if (matches(word, "Attr")) {
+            for (auto &stat : pet->perm_stat)
+                stat = fread_number(fp);
+        } else if (matches(word, "Comm")) {
+            pet->comm = fread_number(fp);
+        } else if (matches(word, "Dam")) {
+            pet->damroll = fread_number(fp);
+        } else if (matches(word, "Desc")) {
+            pet->description = fread_string(fp);
+        } else if (matches(word, "End")) {
+            pet->leader = ch;
+            pet->master = ch;
+            ch->pet = pet;
+            return;
+        } else if (matches(word, "Exp")) {
+            pet->exp = fread_number(fp);
+        } else if (matches(word, "Gold")) {
+            pet->gold = fread_number(fp);
+        } else if (matches(word, "Hit")) {
+            pet->hitroll = fread_number(fp);
+        } else if (matches(word, "HMV")) {
+            pet->hit = fread_number(fp);
+            pet->max_hit = fread_number(fp);
+            pet->mana = fread_number(fp);
+            pet->max_mana = fread_number(fp);
+            pet->move = fread_number(fp);
+            pet->max_move = fread_number(fp);
+        } else if (matches(word, "Levl")) {
+            pet->level = fread_number(fp);
+        } else if (matches(word, "LnD")) {
+            pet->long_descr = fread_string(fp);
+        } else if (matches(word, "Name")) {
+            pet->name = fread_string(fp);
+        } else if (matches(word, "Pos")) {
+            pet->position = fread_number(fp);
+        } else if (matches(word, "Race")) {
+            pet->race = race_lookup(fread_string(fp));
+        } else if (matches(word, "Save")) {
+            pet->saving_throw = fread_number(fp);
+        } else if (matches(word, "Sex")) {
+            pet->sex = fread_number(fp);
+        } else if (matches(word, "ShD")) {
+            pet->short_descr = fread_string(fp);
+        } else {
+            bug("%s", "Fread_pet: no match for {}."_format(word).c_str());
+            fread_to_eol(fp);
         }
     }
 }
