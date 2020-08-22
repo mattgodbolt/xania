@@ -14,9 +14,10 @@ public:
     // the various parse functions will be references to the copy inside the parser, and will be valid so long as the
     // ArgParser itself is still alive.
     explicit ArgParser(std::string args) noexcept : storage_(std::move(args)), remaining_(storage_) {}
-    // Constructing an ArgParser from a string_view will keep the "reference like" non-copy feel of the string_view. The
-    // ArgParser is as valid as the string_view it was constructed from.
+    // Constructing an ArgParser from a string_view or const char* will keep the "reference like" non-copy feel of the
+    // string_view. The ArgParser is as valid as the string_view it was constructed from.
     explicit ArgParser(std::string_view args) noexcept : remaining_(args) {}
+    explicit ArgParser(const char *args) noexcept : remaining_(args) {}
 
     // Return whether we're empty (i.e. no more arguments).
     [[nodiscard]] bool empty() const noexcept { return remaining_.empty(); }

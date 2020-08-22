@@ -206,3 +206,58 @@ PCCLAN *CHAR_DATA::pc_clan() { return is_pc() && pcdata->pcclan ? &pcdata->pccla
 const PCCLAN *CHAR_DATA::pc_clan() const { return is_pc() && pcdata->pcclan ? &pcdata->pcclan.value() : nullptr; }
 
 const CLAN *CHAR_DATA::clan() const { return pc_clan() ? pc_clan()->clan : nullptr; }
+
+bool CHAR_DATA::is_comm_brief() const { return is_pc() && IS_SET(comm, COMM_BRIEF); }
+bool CHAR_DATA::should_autoexit() const { return is_pc() && IS_SET(act, PLR_AUTOEXIT); }
+
+OBJ_DATA* CHAR_DATA::find_in_inventory(std::string_view argument) const {
+    auto &&[number, arg] = number_argument(argument);
+    int count = 0;
+    for (auto *obj = carrying; obj != nullptr; obj = obj->next_content) {
+        if (obj->wear_loc == WEAR_NONE && can_see(*obj) && is_name(arg, obj->name)) {
+            if (++count == number)
+                return obj;
+        }
+    }
+
+    return nullptr;
+}
+
+OBJ_DATA* CHAR_DATA::find_worn(std::string_view argument) const {
+    auto &&[number, arg] = number_argument(argument);
+    int count = 0;
+    for (auto *obj = carrying; obj != nullptr; obj = obj->next_content) {
+        if (obj->wear_loc == WEAR_NONE && can_see(*obj) && is_name(arg, obj->name)) {
+            if (++count == number)
+                return obj;
+        }
+    }
+
+    return nullptr;
+}
+
+bool CHAR_DATA::can_see(const OBJ_DATA & object) const{
+    if (has_holylight()) return true;
+
+    if (IS_SET(object.extra_flags, ITEM_VIS_DEATH))
+        return false;
+
+    if (is_blind() && object.item_type != ITEM_POTION)
+        return false;
+
+    if (object.item_type == ITEM_LIGHT && object.value[2] != 0)
+        return true;
+
+    if (IS_SET(object.extra_flags, ITEM_INVIS) && !has_detect_invis())
+        return false;
+
+    if (IS_SET(object.extra_flags, ITEM_GLOW))
+        return true;
+
+    if (room_is_dark(in_room) && !has_infrared())
+        return false;
+
+    return true;
+}
+
+}

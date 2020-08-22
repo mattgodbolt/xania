@@ -43,4 +43,4 @@ void buffer_removeline(BUFFER *buffer);
 void buffer_shrink(BUFFER *buffer);
 
 /* Pages the buffer to the given char, and then destroys the buffer. */
-void buffer_send(BUFFER *buffer, CHAR_DATA *ch);
+void buffer_send(BUFFER *buffer, const CHAR_DATA *ch);

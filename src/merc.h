@@ -1593,7 +1593,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex);
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
 void clear_char(CHAR_DATA *ch);
 void free_char(CHAR_DATA *ch);
-char *get_extra_descr(const char *name, EXTRA_DESCR_DATA *ed);
+const char *get_extra_descr(std::string_view name, const EXTRA_DESCR_DATA *ed);
 MOB_INDEX_DATA *get_mob_index(int vnum);
 OBJ_INDEX_DATA *get_obj_index(int vnum);
 ROOM_INDEX_DATA *get_room_index(int vnum);
@@ -1694,10 +1694,10 @@ bool check_sub_issue(OBJ_DATA *obj, CHAR_DATA *ch);
 
 CHAR_DATA *get_mob_by_vnum(sh_int vnum);
 OBJ_DATA *get_obj_type(OBJ_INDEX_DATA *pObjIndexData);
-OBJ_DATA *get_obj_list(CHAR_DATA *ch, const char *argument, OBJ_DATA *list);
+OBJ_DATA *get_obj_list(const CHAR_DATA *ch, std::string_view argument, OBJ_DATA *list);
 OBJ_DATA *get_obj_carry(CHAR_DATA *ch, const char *argument);
 OBJ_DATA *get_obj_wear(CHAR_DATA *ch, const char *argument);
-OBJ_DATA *get_obj_here(CHAR_DATA *ch, const char *argument);
+OBJ_DATA *get_obj_here(const CHAR_DATA *ch, std::string_view argument);
 OBJ_DATA *get_obj_world(CHAR_DATA *ch, const char *argument);
 OBJ_DATA *create_money(int amount);
 int get_obj_number(OBJ_DATA *obj);
@@ -1709,7 +1709,7 @@ inline const char *pers(const CHAR_DATA *ch, const CHAR_DATA *looker) {
     return can_see(looker, ch) ? (IS_NPC(ch) ? ch->short_descr : ch->name) : "someone";
 }
 bool can_see_obj(const CHAR_DATA *ch, const OBJ_DATA *obj);
-bool can_see_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex);
+bool can_see_room(const CHAR_DATA *ch, const ROOM_INDEX_DATA *pRoomIndex);
 bool can_drop_obj(CHAR_DATA *ch, OBJ_DATA *obj);
 const char *item_type_name(OBJ_DATA *obj);
 const char *item_index_type_name(OBJ_INDEX_DATA *obj);

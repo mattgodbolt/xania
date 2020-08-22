@@ -1475,9 +1475,9 @@ void free_char(CHAR_DATA *ch) {
 /*
  * Get an extra description from a list.
  */
-char *get_extra_descr(const char *name, EXTRA_DESCR_DATA *ed) {
+const char *get_extra_descr(std::string_view name, const EXTRA_DESCR_DATA *ed) {
     for (; ed != nullptr; ed = ed->next) {
-        if (is_name((char *)name, ed->keyword))
+        if (is_name(name, ed->keyword))
             return ed->description;
     }
     return nullptr;

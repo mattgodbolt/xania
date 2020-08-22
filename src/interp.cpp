@@ -134,7 +134,7 @@ void interp_initialise() {
     add_command("idea", do_idea);
     add_command("info", do_groups, POS_SLEEPING);
     add_command("motd", do_motd);
-    add_command("read", do_read, POS_RESTING);
+    add_command("read", do_look, POS_RESTING);
     add_command("report", do_report, POS_RESTING);
     add_command("rules", do_rules);
     add_command("skills", do_skills);
