@@ -116,13 +116,10 @@ State thy name and enter the realm of Xania: ~
 Welcome to Xania! See 'help rules' and 'help commands'.
 
 [ Recent Gameplay Updates! ]
-July 31:
-- Pets no longer get lost in limbo if their owner goes away from their computer.
-- Pets that finish a fight automatically let their owners do the looting.
-- Barbarian and Knight guildmasters in Wolfe Point are back in business.
-- Players recover from food poisoning more quickly than before.
-- When creating a new character you can now read help on the various classes.
-- Many items have been adjusted to suit the NPCs that possess them.
+Aug 22:
+- The 'scan' command is now less confusing when used in mazes.
+- Fixed a bug where mobs with warrior or thief skills weren't disarming
+  enemies.
 |g[Hit return to continue]|w
 ~ 
  

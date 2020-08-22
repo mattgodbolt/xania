@@ -2236,6 +2236,7 @@ void do_scan(CHAR_DATA *ch, const char *argument) {
     int num_rooms_scan = UMAX(1, ch->level / 10);
     bool found_anything = false;
     int direction;
+    std::vector<sh_int> found_rooms{ch->in_room->vnum};
 
     send_to_char("You can see around you :\n\r", ch);
     /* Loop for each point of the compass */
@@ -2252,6 +2253,11 @@ void do_scan(CHAR_DATA *ch, const char *argument) {
             if ((pexit = current_place->exit[direction]) == nullptr || (current_place = pexit->u1.to_room) == nullptr
                 || !can_see_room(ch, pexit->u1.to_room) || IS_SET(pexit->exit_info, EX_CLOSED))
                 break;
+            // Eliminate cycles in labyrinthine areas.
+            if (std::find(found_rooms.begin(), found_rooms.end(), pexit->u1.to_room->vnum) != found_rooms.end()) {
+                break;
+            }
+            found_rooms.push_back(pexit->u1.to_room->vnum);
 
             /* This loop goes through each character in a room and says
                         whether or not they are visible */
