@@ -1266,6 +1266,8 @@ void spell_create_water(int sn, int level, CHAR_DATA *ch, void *vo) {
             obj->name = str_dup(buf);
         }
         act("$p is filled.", ch, obj, nullptr, To::Char);
+    } else {
+        act("$p is full.", ch, obj, nullptr, To::Char);
     }
 }
 
