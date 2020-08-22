@@ -294,3 +294,38 @@ TEST_CASE("string_util tests") {
         }
     }
 }
+
+TEST_CASE("is_name()") {
+    SECTION("should work with simple prefixes") {
+        CHECK(is_name("t", "TheMoog"));
+        CHECK(is_name("th", "TheMoog"));
+        CHECK(is_name("the", "TheMoog"));
+        CHECK(is_name("themoo", "TheMoog"));
+        CHECK(is_name("themoog", "TheMoog"));
+        CHECK(is_name("TheMoog", "TheMoog"));
+        CHECK(!is_name("themoogs", "TheMoog"));
+    }
+    SECTION("should work with any one name") {
+        CHECK(is_name("p", "prisoner dewar dwarf"));
+        CHECK(is_name("d", "prisoner dewar dwarf"));
+        CHECK(is_name("prisoner", "prisoner dewar dwarf"));
+        CHECK(is_name("dewar", "prisoner dewar dwarf"));
+        CHECK(is_name("dwarf", "prisoner dewar dwarf"));
+    }
+    SECTION("should work with partials") {
+        CHECK(is_name("p d d", "prisoner dewar dwarf"));
+        CHECK(is_name("dewar pris", "prisoner dewar dwarf"));
+        CHECK(is_name("dewar dw pris", "prisoner dewar dwarf"));
+    }
+    SECTION("should mismatch if any one name mismatches") {
+        CHECK(!is_name("dewar dwo pris", "prisoner dewar dwarf"));
+        CHECK(!is_name("dewar prince", "prisoner dewar dwarf"));
+        CHECK(!is_name("dewar prince", "prisoner dewar dwarf"));
+        CHECK(!is_name("prisoner dewar dwarfs", "prisoner dewar dwarf"));
+    }
+    SECTION("should match if the entire string is a full match for one name") {
+        // MRG notes: the original is_name had this behaviour but I couldn't see how to make it actually happen in the
+        // mud in any useful way. Tested here, but a candidate for simplification unless I missed something.
+        CHECK(is_name("full match", "somet 'full match' yibble"));
+    }
+}

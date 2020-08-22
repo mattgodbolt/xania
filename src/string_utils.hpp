@@ -27,7 +27,7 @@
 
 // Given a string like 14.foo, return 14 and 'foo'.
 [[nodiscard]] int number_argument(const char *argument, char *arg); // <- deprecated
-[[nodiscard]] std::pair<int, const char *> number_argument(const char *argument);
+[[nodiscard]] std::pair<int, std::string_view> number_argument(std::string_view argument);
 
 // Iterate over lines in a string. `for (auto line : line_iter(...)) { ... }`
 inline auto line_iter(std::string_view sv) { return impl::LineSplitter{sv}; }
@@ -61,3 +61,7 @@ Container split_lines(std::string_view input) {
 // Similar to matches() but checks if rhs starts with lhs, case insensitively.
 // lhs must be at least one character long and must not be longer than rhs.
 [[nodiscard]] bool matches_start(std::string_view lhs, std::string_view rhs);
+
+// See if 'str' is a match for 'namelist'.
+// All parts of str must match one of the part of namelist.
+[[nodiscard]] bool is_name(std::string_view str, std::string_view namelist);

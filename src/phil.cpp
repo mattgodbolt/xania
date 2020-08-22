@@ -11,11 +11,13 @@
 #include "interp.h"
 #include "magic.h"
 #include "merc.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "string_utils.hpp"
+
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 #include <sys/types.h>
-#include <time.h>
 
 /* Note that Death's interest is less, since Phil is unlikely to like someone who keeps slaying him for pleasure ;-) */
 /* Note also the cludgy hack so that Phil doesn't become interested in himself and ignore other people around him who */

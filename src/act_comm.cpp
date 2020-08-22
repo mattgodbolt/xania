@@ -12,6 +12,7 @@
 #include "TimeInfoData.hpp"
 #include "chat/chatlink.h"
 #include "comm.hpp"
+#include "handler.hpp"
 #include "info.hpp"
 #include "merc.h"
 

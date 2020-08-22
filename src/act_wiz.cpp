@@ -15,6 +15,7 @@
 #include "comm.hpp"
 #include "db.h"
 #include "flags.h"
+#include "handler.hpp"
 #include "interp.h"
 #include "lookup.h"
 #include "magic.h"

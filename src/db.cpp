@@ -17,6 +17,7 @@
 #include "interp.h"
 #include "merc.h"
 #include "note.h"
+#include "string_utils.hpp"
 
 #include <range/v3/algorithm/fill.hpp>
 #include <range/v3/iterator/operations.hpp>

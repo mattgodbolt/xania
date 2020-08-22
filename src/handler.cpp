@@ -446,55 +446,6 @@ int can_carry_w(CHAR_DATA *ch) {
 }
 
 /*
- * See if a string is one of the names of an object.
- */
-/*
-bool is_name( const char *str, char *namelist )
-{
-    char name[MAX_INPUT_LENGTH];
-
-    for ( ; ; )
-    {
-        namelist = one_argument( namelist, name );
-        if ( name[0] == '\0' )
-            return false;
-        if ( !str_cmp( str, name ) )
-            return true;
-    }
-}
-*/
-
-bool is_name(const char *str, const char *namelist) {
-    char name[MAX_INPUT_LENGTH], part[MAX_INPUT_LENGTH];
-    const char *list, *string;
-
-    string = str;
-    /* we need ALL parts of string to match part of namelist */
-    for (;;) /* start parsing string */
-    {
-        str = one_argument(str, part);
-
-        if (part[0] == '\0')
-            return true;
-
-        /* check to see if this is part of namelist */
-        list = namelist;
-        for (;;) /* start parsing namelist */
-        {
-            list = one_argument(list, name);
-            if (name[0] == '\0') /* this name was not found */
-                return false;
-
-            if (!str_cmp(string, name))
-                return true; /* full pattern match */
-
-            if (!strncmp(part, name, strlen(part)))
-                break;
-        }
-    }
-}
-
-/*
  * Apply or remove an affect to a character.
  */
 void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd) {
@@ -1280,20 +1231,13 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
     free_char(ch);
 }
 
-/*
- * Find a char in the room.
- */
-CHAR_DATA *get_char_room(CHAR_DATA *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *rch;
-    int number;
-    int count;
-
-    number = number_argument(argument, arg);
-    count = 0;
-    if (!str_cmp(arg, "self"))
+// Find a char in the room.
+CHAR_DATA *get_char_room(CHAR_DATA *ch, std::string_view argument) {
+    auto &&[number, arg] = number_argument(argument);
+    if (matches(arg, "self"))
         return ch;
-    for (rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
+    int count = 0;
+    for (auto *rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
         if (!can_see(ch, rch) || !is_name(arg, rch->name))
             continue;
         if (++count == number)
@@ -1303,22 +1247,15 @@ CHAR_DATA *get_char_room(CHAR_DATA *ch, const char *argument) {
     return nullptr;
 }
 
-/*
- * Find a char in the world.
- */
-CHAR_DATA *get_char_world(CHAR_DATA *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *wch;
-    int number;
-    int count;
-
-    if ((wch = get_char_room(ch, argument)) != nullptr)
+// Find a char in the world.
+CHAR_DATA *get_char_world(CHAR_DATA *ch, std::string_view argument) {
+    if (auto *wch = get_char_room(ch, argument))
         return wch;
 
-    number = number_argument(argument, arg);
-    count = 0;
-    for (wch = char_list; wch != nullptr; wch = wch->next) {
-        if (wch->in_room == nullptr || !can_see(ch, wch) || !is_name(arg, wch->name))
+    auto &&[number, arg] = number_argument(argument);
+    int count = 0;
+    for (auto *wch = char_list; wch != nullptr; wch = wch->next) {
+        if (!wch->in_room || !ch->can_see(*wch) || !is_name(arg, wch->name))
             continue;
         if (++count == number)
             return wch;

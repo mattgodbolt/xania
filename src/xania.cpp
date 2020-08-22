@@ -7,11 +7,9 @@
 /*                                                                       */
 /*************************************************************************/
 
-#include "Descriptor.hpp"
 #include "DescriptorList.hpp"
-#include "buffer.h"
 #include "comm.hpp"
-#include "db.h"
+#include "handler.hpp"
 #include "interp.h"
 #include "magic.h"
 #include "merc.h"
@@ -23,8 +21,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <ctime>
-#include <sys/types.h>
 
 using namespace fmt::literals;
 

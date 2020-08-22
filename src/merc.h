@@ -1660,7 +1660,6 @@ int get_curr_stat(const CHAR_DATA *ch, Stat stat);
 int get_max_train(CHAR_DATA *ch, Stat stat);
 int can_carry_n(CHAR_DATA *ch);
 int can_carry_w(CHAR_DATA *ch);
-bool is_name(const char *str, const char *namelist);
 void affect_to_char(CHAR_DATA *ch, AFFECT_DATA *paf);
 void affect_to_obj(OBJ_DATA *obj, AFFECT_DATA *paf);
 void affect_remove(CHAR_DATA *ch, AFFECT_DATA *paf);
@@ -1693,8 +1692,6 @@ bool is_switched(CHAR_DATA *ch);
 /* MRG added */
 bool check_sub_issue(OBJ_DATA *obj, CHAR_DATA *ch);
 
-CHAR_DATA *get_char_room(CHAR_DATA *ch, const char *argument);
-CHAR_DATA *get_char_world(CHAR_DATA *ch, const char *argument);
 CHAR_DATA *get_mob_by_vnum(sh_int vnum);
 OBJ_DATA *get_obj_type(OBJ_INDEX_DATA *pObjIndexData);
 OBJ_DATA *get_obj_list(CHAR_DATA *ch, const char *argument, OBJ_DATA *list);

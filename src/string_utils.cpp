@@ -1,5 +1,7 @@
 #include "string_utils.hpp"
 
+#include "ArgParser.hpp"
+
 #include <fmt/format.h>
 #include <range/v3/algorithm/all_of.hpp>
 #include <range/v3/view/zip.hpp>
@@ -46,17 +48,17 @@ bool is_number(const char *arg) {
     return true;
 }
 
-std::pair<int, const char *> number_argument(const char *argument) {
-    std::string_view sv(argument);
-    if (auto dot = sv.find_first_of('.'); dot != std::string_view::npos)
-        return {from_chars(sv.substr(0, dot)), sv.substr(dot + 1).data()};
+std::pair<int, std::string_view> number_argument(std::string_view argument) {
+    if (auto dot = argument.find_first_of('.'); dot != std::string_view::npos)
+        return {from_chars(argument.substr(0, dot)), argument.substr(dot + 1)};
     return {1, argument};
 }
 
 int number_argument(const char *argument, char *arg) {
     // LEGACY FUNCTION TODO: remove
     auto &&[number, remainder] = number_argument(argument);
-    strcpy(arg, remainder);
+    memcpy(arg, remainder.data(), remainder.size());
+    arg[remainder.size()] = 0;
     return number;
 }
 
@@ -250,4 +252,41 @@ bool matches_start(std::string_view lhs, std::string_view rhs) {
     if (lhs.size() > rhs.size() || lhs.empty())
         return false;
     return matches(lhs, rhs.substr(0, lhs.size()));
+}
+
+namespace {
+enum class PartMatch { Complete, Partial, None };
+PartMatch match_one_name_part(std::string_view entire, std::string_view part, std::string_view namelist) {
+    for (auto name : ArgParser(namelist)) {
+        // Is the entire input string a match for this name?
+        if (matches(entire, name))
+            return PartMatch::Complete;
+
+        // if this part matches a prefix, then we have at least a partial match.
+        if (matches_start(part, name))
+            return PartMatch::Partial;
+    }
+    // Else, this part did not match anything in the namelist.
+    return PartMatch::None;
+}
+}
+
+bool is_name(std::string_view str, std::string_view namelist) {
+    // We need ALL parts of string to match part of namelist, or for the string to match one of the names exactly.
+    for (auto part : ArgParser(str)) {
+        switch (match_one_name_part(str, part, namelist)) {
+        case PartMatch::Complete:
+            // A complete match on any one part means this is a match, regardless of the other parts.
+            return true;
+        case PartMatch::Partial:
+            // A partial match means we keep going to check all the other parts match partially.
+            break;
+        case PartMatch::None:
+            // No match at all means we did not match.
+            return false;
+        }
+    }
+
+    // If we got here, every part matched partially, so we consider this a name.
+    return true;
 }

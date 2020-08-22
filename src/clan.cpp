@@ -10,14 +10,15 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "comm.hpp"
+#include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
+#include "string_utils.hpp"
 
 #include <range/v3/algorithm/find_if.hpp>
 
 #include <algorithm>
 #include <cstdio>
-#include <memory.h>
 
 /* User servicable bits... you will also need to change the NUM_CLANS in clan.h */
 

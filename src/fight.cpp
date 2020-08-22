@@ -10,13 +10,15 @@
 #include "TimeInfoData.hpp"
 #include "challeng.h"
 #include "comm.hpp"
+#include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
-#include <ctype.h>
-#include <stdio.h>
-#include <string.h>
+
+#include <cctype>
+#include <cstdio>
+#include <cstring>
+#include <ctime>
 #include <sys/types.h>
-#include <time.h>
 
 #define MAX_DAMAGE_MESSAGE 32
 

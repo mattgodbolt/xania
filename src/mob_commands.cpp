@@ -18,9 +18,9 @@
  *  such installation can be found in INSTALL.  Enjoy........    N'Atas-Ha *
  ***************************************************************************/
 
-#include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "comm.hpp"
+#include "handler.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
 

@@ -7,16 +7,17 @@
 /*              Wandera. Revised by Oshea 26/8/96                        */
 /*************************************************************************/
 
-#include "Descriptor.hpp"
-#include "merc.h"
-#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
-#include <time.h>
-
 #include "challeng.h"
+#include "Descriptor.hpp"
 #include "comm.hpp"
+#include "handler.hpp"
 #include "interp.h"
+#include "merc.h"
+
+#include <cstdio>
+#include <cstring>
+#include <ctime>
+#include <sys/types.h>
 
 /* Some local DEFINES to keep things general. */
 #define NAME_SIZE 30

@@ -11,13 +11,13 @@
 #include "WeatherData.hpp"
 #include "challeng.h"
 #include "comm.hpp"
+#include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <time.h>
+#include "string_utils.hpp"
+
+#include <cstdio>
+#include <cstring>
 
 /*
  * Local functions.
