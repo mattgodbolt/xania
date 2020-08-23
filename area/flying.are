@@ -391,16 +391,16 @@ walls, are manacles - some of which are occupied by shivering dwarves, and
 the odd skeleton.
 ~
 13 A 0
-D3
+D1
 The darkness continues to the east.
 ~
 ~
-0 -1 13013
-D1
+0 -1 13014
+D3
 The darkness continues to the west.
 ~
 ~
-0 -1 13014
+0 -1 13013
 D4
 There is an opening above.
 ~
