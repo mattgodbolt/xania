@@ -1320,7 +1320,7 @@ OBJ_DATA *get_obj_carry(CHAR_DATA *ch, const char *argument) {
  */
 OBJ_DATA *get_obj_wear(CHAR_DATA *ch, const char *argument) {
     // TODO remove
-    return ch->find_in_inventory(argument);
+    return ch->find_worn(argument);
 }
 
 /*
