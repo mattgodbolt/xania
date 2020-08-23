@@ -371,7 +371,7 @@ void do_peek(CHAR_DATA *ch, const char *argument) {
 }
 
 void show_char_to_char(const CHAR_DATA *list, const CHAR_DATA *ch) {
-    for (auto rch = list; rch != nullptr; rch = rch->next_in_room) {
+    for (auto *rch = list; rch != nullptr; rch = rch->next_in_room) {
         if (rch == ch)
             continue;
 
