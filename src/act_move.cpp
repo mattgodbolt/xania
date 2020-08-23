@@ -1054,9 +1054,6 @@ void do_recall(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    /* Is this kidding???? .  Death. */
-    /* if (ch->invis_level < HERO) */
-
     if (!IS_SET(ch->act, PLR_WIZINVIS))
         act("$n prays for transportation!", ch);
 
@@ -1137,7 +1134,7 @@ void do_recall(CHAR_DATA *ch, const char *argument) {
         fallen_off_mount(ch->ridden_by);
     }
 
-    if (ch->pet != nullptr)
+    if (ch->pet != nullptr && ch->pet->in_room != location)
         do_recall(ch->pet, argument);
 }
 
