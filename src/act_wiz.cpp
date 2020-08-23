@@ -1856,9 +1856,9 @@ void do_clone(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        if ((mob->level > 20 && !IS_TRUSTED(ch, GOD)) || (mob->level > 10 && !IS_TRUSTED(ch, IMMORTAL))
-            || (mob->level > 5 && !IS_TRUSTED(ch, DEMI)) || (mob->level > 0 && !IS_TRUSTED(ch, ANGEL))
-            || !IS_TRUSTED(ch, AVATAR)) {
+        if ((mob->level > 20 && ch->get_trust() < GOD) || (mob->level > 10 && ch->get_trust() < IMMORTAL)
+            || (mob->level > 5 && ch->get_trust() < DEMI) || (mob->level > 0 && ch->get_trust() < ANGEL)
+            || ch->get_trust() < AVATAR) {
             send_to_char("Your powers are not great enough for such a task.\n\r", ch);
             return;
         }
