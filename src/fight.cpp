@@ -1387,15 +1387,17 @@ void death_cry(CHAR_DATA *ch) {
         char buf[MAX_STRING_LENGTH];
         OBJ_DATA *obj;
 
-        auto name = ch->short_name();
+        // We can replace the %s's in limbo.are with `{}` fmt stuff. Probably worth doing when the obj->short_descr et
+        // al are moved to std::strings, then we can format directly into the newly-created strings.
+        auto name = std::string(ch->short_name());
         obj = create_object(get_obj_index(vnum));
         obj->timer = number_range(4, 7);
 
-        snprintf(buf, sizeof(buf), obj->short_descr, name.data());
+        snprintf(buf, sizeof(buf), obj->short_descr, name.c_str());
         free_string(obj->short_descr);
         obj->short_descr = str_dup(buf);
 
-        snprintf(buf, sizeof(buf), obj->description, name.data());
+        snprintf(buf, sizeof(buf), obj->description, name.c_str());
         free_string(obj->description);
         obj->description = str_dup(buf);
 
