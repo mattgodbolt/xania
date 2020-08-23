@@ -40,7 +40,7 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
     char strsave[MAX_INPUT_LENGTH];
     KNOWN_PLAYERS *cursor, *temp;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (ch->pcdata->confirm_delete) {
@@ -119,7 +119,7 @@ void do_say(CHAR_DATA *ch, const char *argument) {
 void do_afk(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
 
-    if (IS_NPC(ch) || IS_SET(ch->comm, COMM_NOCHANNELS))
+    if (ch->is_npc() || IS_SET(ch->comm, COMM_NOCHANNELS))
         return;
 
     if (IS_SET(ch->act, PLR_AFK) && (argument == nullptr || strlen(argument) == 0)) {
@@ -166,13 +166,13 @@ static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
     } else if (IS_SET(ch->comm, COMM_QUIET)) {
         send_to_char("|cYou must turn off quiet mode first.|w\n\r", ch);
 
-    } else if (victim->desc == nullptr && !IS_NPC(victim)) {
+    } else if (victim->desc == nullptr && victim->is_pc()) {
         act("|W$N|c seems to have misplaced $S link...try again later.|w", ch, nullptr, victim, To::Char);
 
     } else if (IS_SET(victim->comm, COMM_QUIET) && !IS_IMMORTAL(ch)) {
         act("|W$E|c is not receiving replies.|w", ch, nullptr, victim, To::Char);
 
-    } else if (IS_SET(victim->act, PLR_AFK) && !IS_NPC(victim)) {
+    } else if (IS_SET(victim->act, PLR_AFK) && victim->is_pc()) {
         snprintf(buf, sizeof(buf), "|W$N|c is %s.|w", victim->pcdata->afk.c_str());
         act(buf, ch, nullptr, victim, To::Char, POS_DEAD);
         if (IS_SET(victim->comm, COMM_SHOWAFK)) {
@@ -204,7 +204,7 @@ void do_tell(CHAR_DATA *ch, const char *argument) {
     victim = get_char_world(ch, arg);
     // TM: victim /may/ be null here, so don't check this if so
     if (victim && // added :)
-        IS_NPC(victim) && victim->in_room != ch->in_room)
+        victim->is_npc() && victim->in_room != ch->in_room)
         victim = nullptr;
     tell_to(ch, victim, message);
 }
@@ -235,7 +235,7 @@ void do_yell(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_emote(CHAR_DATA *ch, const char *argument) {
-    if (!IS_NPC(ch) && IS_SET(ch->comm, COMM_NOEMOTE)) {
+    if (ch->is_pc() && IS_SET(ch->comm, COMM_NOEMOTE)) {
         send_to_char("|cYou can't show your emotions.|w\n\r", ch);
 
     } else if (argument[0] == '\0') {
@@ -352,7 +352,7 @@ void do_pose(CHAR_DATA *ch, const char *argument) {
     int level;
     int pose;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     level = UMIN(ch->level, (int)(sizeof(pose_table) / sizeof(pose_table[0]) - 1));
@@ -398,7 +398,7 @@ void do_quit(CHAR_DATA *ch, const char *arg) {
     (void)arg;
     Descriptor *d;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if ((ch->pnote != nullptr) && (ch->desc != nullptr)) {
@@ -439,7 +439,7 @@ void do_quit(CHAR_DATA *ch, const char *arg) {
 
 void do_save(CHAR_DATA *ch, const char *arg) {
     (void)arg;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     save_char_obj(ch);
@@ -455,7 +455,7 @@ void do_ride(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *ridee;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (get_skill_learned(ch, gsn_ride) == 0) {
@@ -509,7 +509,7 @@ void char_ride(CHAR_DATA *ch, CHAR_DATA *ridee) {
 
 void do_dismount(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (get_skill_learned(ch, gsn_ride) == 0) {
@@ -586,7 +586,7 @@ void do_follow(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (!IS_NPC(victim) && IS_SET(victim->act, PLR_NOFOLLOW) && !IS_IMMORTAL(ch)) {
+    if (victim->is_pc() && IS_SET(victim->act, PLR_NOFOLLOW) && !IS_IMMORTAL(ch)) {
         act("$N doesn't seem to want any followers.\n\r", ch, nullptr, victim, To::Char);
         return;
     }
@@ -930,7 +930,7 @@ bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch) {
  * from_player: the player that sent it.
  */
 void chatperform(CHAR_DATA *to_npc, CHAR_DATA *from_player, const char *msg) {
-    if (!IS_NPC(to_npc) || (from_player != nullptr && IS_NPC(from_player)))
+    if (to_npc->is_pc() || (from_player != nullptr && from_player->is_npc()))
         return; /* failsafe */
     std::string reply = dochat(from_player ? from_player->name : "you", msg, to_npc->name);
     switch (reply[0]) {
@@ -950,11 +950,11 @@ void chatperform(CHAR_DATA *to_npc, CHAR_DATA *from_player, const char *msg) {
 
 void chatperformtoroom(const char *text, CHAR_DATA *ch) {
     CHAR_DATA *vch;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     for (vch = ch->in_room->people; vch; vch = vch->next_in_room)
-        if (IS_NPC(vch) && IS_SET(vch->pIndexData->act, ACT_TALKATIVE) && IS_AWAKE(vch)) {
+        if (vch->is_npc() && IS_SET(vch->pIndexData->act, ACT_TALKATIVE) && IS_AWAKE(vch)) {
             if (number_percent() > 66) /* less spammy - Fara */
                 chatperform(vch, ch, text);
         }

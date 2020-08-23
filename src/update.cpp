@@ -96,7 +96,7 @@ void advance_level(CHAR_DATA *ch) {
     ch->pcdata->perm_mana += add_mana;
     ch->pcdata->perm_move += add_move;
 
-    if (!IS_NPC(ch))
+    if (ch->is_pc())
         REMOVE_BIT(ch->act, PLR_BOUGHT_PET);
 
     snprintf(buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r", add_hp, ch->max_hit,
@@ -148,7 +148,7 @@ void lose_level(CHAR_DATA *ch) {
     ch->pcdata->perm_mana += add_mana;
     ch->pcdata->perm_move += add_move;
 
-    if (!IS_NPC(ch))
+    if (ch->is_pc())
         REMOVE_BIT(ch->act, PLR_BOUGHT_PET);
 
     snprintf(buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r", add_hp, ch->max_hit,
@@ -159,7 +159,7 @@ void lose_level(CHAR_DATA *ch) {
 }
 
 void gain_exp(CHAR_DATA *ch, int gain) {
-    if (IS_NPC(ch) || ch->level >= LEVEL_HERO)
+    if (ch->is_npc() || ch->level >= LEVEL_HERO)
         return;
 
     ch->exp = UMAX(exp_per_level(ch, ch->pcdata->points), ch->exp + gain);
@@ -180,7 +180,7 @@ int hit_gain(CHAR_DATA *ch) {
     int gain;
     int number;
 
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         gain = 5 + ch->level;
         if (IS_AFFECTED(ch, AFF_REGENERATION))
             gain *= 2;
@@ -234,7 +234,7 @@ int mana_gain(CHAR_DATA *ch) {
     int gain;
     int number;
 
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         gain = 5 + ch->level;
         switch (ch->position) {
         default: gain /= 2; break;
@@ -280,7 +280,7 @@ int mana_gain(CHAR_DATA *ch) {
 int move_gain(CHAR_DATA *ch) {
     int gain;
 
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         gain = ch->level;
     } else {
         gain = UMAX(15, ch->level);
@@ -315,7 +315,7 @@ int move_gain(CHAR_DATA *ch) {
 void gain_condition(CHAR_DATA *ch, int iCond, int value) {
     int condition;
 
-    if (value == 0 || IS_NPC(ch) || ch->level >= LEVEL_HERO)
+    if (value == 0 || ch->is_npc() || ch->level >= LEVEL_HERO)
         return;
 
     condition = ch->pcdata->condition[iCond];
@@ -351,7 +351,7 @@ void mobile_update() {
     for (ch = char_list; ch != nullptr; ch = ch_next) {
         ch_next = ch->next;
 
-        if (!IS_NPC(ch) || ch->in_room == nullptr || IS_AFFECTED(ch, AFF_CHARM))
+        if (ch->is_pc() || ch->in_room == nullptr || IS_AFFECTED(ch, AFF_CHARM))
             continue;
 
         if (ch->in_room->area->empty && !IS_SET(ch->act, ACT_UPDATE_ALWAYS))
@@ -521,7 +521,7 @@ void char_update() {
         if (ch->position == POS_STUNNED)
             update_pos(ch);
 
-        if (!IS_NPC(ch) && ch->level < LEVEL_IMMORTAL) {
+        if (ch->is_pc() && ch->level < LEVEL_IMMORTAL) {
             OBJ_DATA *obj;
 
             if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->item_type == ITEM_LIGHT && obj->value[2] > 0) {
@@ -582,7 +582,7 @@ void char_update() {
 
         /* scan all undead zombies created by raise_dead style spells
            and randomly decay them */
-        if (IS_NPC(ch) && ch->pIndexData->vnum == MOB_VNUM_ZOMBIE) {
+        if (ch->is_npc() && ch->pIndexData->vnum == MOB_VNUM_ZOMBIE) {
             if (number_percent() > 90) {
                 act("$n fits violently before decaying in to a pile of dust.", ch);
                 extract_char(ch, true);
@@ -722,7 +722,7 @@ void obj_update() {
         }
 
         if (obj->carried_by != nullptr) {
-            if (IS_NPC(obj->carried_by) && obj->carried_by->pIndexData->pShop != nullptr)
+            if ((obj->carried_by->is_npc()) && obj->carried_by->pIndexData->pShop != nullptr)
                 obj->carried_by->gold += obj->cost;
             else
                 act(message, obj->carried_by, obj, nullptr, To::Char);
@@ -784,7 +784,7 @@ void aggr_update() {
 
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         /* MOBProgram ACT_PROG trigger */
-        if (IS_NPC(wch) && wch->mpactnum > 0 && wch->in_room->area->nplayer > 0) {
+        if (wch->is_npc() && wch->mpactnum > 0 && wch->in_room->area->nplayer > 0) {
             MPROG_ACT_LIST *tmp_act, *tmp2_act;
             for (tmp_act = wch->mpact; tmp_act != nullptr; tmp_act = tmp_act->next) {
                 mprog_wordlist_check(tmp_act->buf, wch, tmp_act->ch, tmp_act->obj, tmp_act->vo, ACT_PROG);
@@ -798,13 +798,13 @@ void aggr_update() {
             wch->mpact = nullptr;
         }
 
-        if (IS_NPC(wch) || wch->level >= LEVEL_IMMORTAL || wch->in_room == nullptr || wch->in_room->area->empty)
+        if (wch->is_npc() || wch->level >= LEVEL_IMMORTAL || wch->in_room == nullptr || wch->in_room->area->empty)
             continue;
 
         for (ch = wch->in_room->people; ch != nullptr; ch = ch_next) {
 
             ch_next = ch->next_in_room;
-            if (IS_NPC(ch))
+            if (ch->is_npc())
                 do_aggressive_sentient(wch, ch);
         }
     }
@@ -854,7 +854,7 @@ void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
         for (vch = wch->in_room->people; vch != nullptr; vch = vch_next) {
             vch_next = vch->next_in_room;
 
-            if (!IS_NPC(vch) && vch->level < LEVEL_IMMORTAL && ch->level >= vch->level - 5
+            if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && ch->level >= vch->level - 5
                 && (!IS_SET(ch->act, ACT_WIMPY) || !IS_AWAKE(vch)) && can_see(ch, vch)) {
                 if (number_range(0, count) == 0)
                     victim = vch;

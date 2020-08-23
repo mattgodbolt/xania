@@ -133,7 +133,7 @@ void handle_signal_shutdown() {
 
         // vch->d->c check added by TM to avoid crashes when
         // someone hasn't logged in but the mud is shut down
-        if (!IS_NPC(vch) && vch->desc && vch->desc->is_playing()) {
+        if (vch->is_pc() && vch->desc && vch->desc->is_playing()) {
             /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
             MOBtrigger = false;
             do_save(vch, "");
@@ -1102,7 +1102,7 @@ bool check_reconnect(Descriptor *d, bool fConn) {
     CHAR_DATA *ch;
 
     for (ch = char_list; ch != nullptr; ch = ch->next) {
-        if (!IS_NPC(ch) && (!fConn || ch->desc == nullptr) && !str_cmp(d->character()->name, ch->name)) {
+        if (ch->is_pc() && (!fConn || ch->desc == nullptr) && !str_cmp(d->character()->name, ch->name)) {
             if (fConn == false) {
                 d->character()->pcdata->pwd = ch->pcdata->pwd;
             } else {

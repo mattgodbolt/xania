@@ -72,12 +72,12 @@ void do_challenge(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (IS_NPC(victim)) {
+    if (victim->is_npc()) {
         send_to_char("|cYou cannot challenge non-player characters.|w\n\r", ch);
         return;
     }
 
-    if (victim->desc == nullptr && !IS_NPC(victim)) {
+    if (victim->desc == nullptr && victim->is_pc()) {
         act("|W$N|c seems to have misplaced $S link...try again later.|w", ch, nullptr, victim, To::Char);
         return;
     }

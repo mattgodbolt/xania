@@ -53,7 +53,7 @@ void do_permit(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *victim;
     char buf[MAX_STRING_LENGTH];
     int flag = 1;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
     if (argument[0] == '-') {
         argument++;
@@ -62,7 +62,7 @@ void do_permit(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '+')
         argument++;
     victim = get_char_room(ch, argument);
-    if (victim == nullptr || IS_NPC(victim)) {
+    if (victim == nullptr || victim->is_npc()) {
         send_to_char("Permit whom?\n\r", ch);
         return;
     }
@@ -81,7 +81,7 @@ void do_outfit(CHAR_DATA *ch, const char *argument) {
     OBJ_DATA *obj;
     char buf[MAX_STRING_LENGTH];
 
-    if (ch->level > 5 || IS_NPC(ch)) {
+    if (ch->level > 5 || ch->is_npc()) {
         send_to_char("Find it yourself!\n\r", ch);
         return;
     }
@@ -203,7 +203,7 @@ void do_deny(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (IS_NPC(victim)) {
+    if (victim->is_npc()) {
         send_to_char("Not on NPC's.\n\r", ch);
         return;
     }
@@ -284,7 +284,7 @@ void do_pardon(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (IS_NPC(victim)) {
+    if (victim->is_npc()) {
         send_to_char("Not on NPC's.\n\r", ch);
         return;
     }
@@ -997,7 +997,7 @@ void do_mskills(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (IS_NPC(victim))
+    if (victim->is_npc())
         return;
 
     bug_snprintf(buf, sizeof(buf), "Skill list for %s:\n\r", victim->name);
@@ -1070,7 +1070,7 @@ void do_mspells(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (IS_NPC(victim))
+    if (victim->is_npc())
         return;
 
     bug_snprintf(buf, sizeof(buf), "Spell list for %s:\n\r", victim->name);
@@ -1188,7 +1188,7 @@ void do_mpracs(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (IS_NPC(victim))
+    if (victim->is_npc())
         return;
 
     bug_snprintf(buf, sizeof(buf), "Practice list for %s:\n\r", victim->name);
@@ -1234,7 +1234,7 @@ void do_minfo(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (IS_NPC(victim))
+    if (victim->is_npc())
         return;
 
     bug_snprintf(buf, sizeof(buf), "Info list for %s:\n\r", victim->name);
@@ -1289,14 +1289,21 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
                  victim->pc_clan() ? victim->pc_clan()->level_name() : "(none)");
     send_to_char(buf, ch);
 
-    bug_snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
-                 IS_NPC(victim) ? victim->pIndexData->vnum : 0, IS_NPC(victim) ? ".are" : "pc",
-                 race_table[victim->race].name,
-                 victim->sex == SEX_MALE ? "male" : victim->sex == SEX_FEMALE ? "female" : "neutral",
-                 victim->in_room == nullptr ? 0 : victim->in_room->vnum);
+    do {
+        if (snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
+                     victim->is_npc() ? victim->pIndexData->vnum : 0, victim->is_npc() ? ".are" : "pc",
+                     race_table[victim->race].name, victim->sex == 1 ? "male" : victim->sex == 2 ? "female" : "neutral",
+                     victim->in_room == nullptr ? 0 : victim->in_room->vnum)
+            < 0)
+            bug("Buffer too small at "
+                "_file_name_"
+                ":"
+                "1296"
+                " - message was truncated");
+    } while (0);
     send_to_char(buf, ch);
 
-    if (IS_NPC(victim)) {
+    if (victim->is_npc()) {
         bug_snprintf(buf, sizeof(buf), "Count: %d  Killed: %d\n\r", victim->pIndexData->count,
                      victim->pIndexData->killed);
         send_to_char(buf, ch);
@@ -1309,14 +1316,30 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
                  get_curr_stat(victim, Stat::Con));
     send_to_char(buf, ch);
 
-    bug_snprintf(buf, sizeof(buf), "Hp: %d/%d  Mana: %d/%d  Move: %d/%d  Practices: %d\n\r", victim->hit,
-                 victim->max_hit, victim->mana, victim->max_mana, victim->move, victim->max_move,
-                 IS_NPC(ch) ? 0 : victim->practice);
+    do {
+        if (snprintf(buf, sizeof(buf), "Hp: %d/%d  Mana: %d/%d  Move: %d/%d  Practices: %d\n\r", victim->hit,
+                     victim->max_hit, victim->mana, victim->max_mana, victim->move, victim->max_move,
+                     ch->is_npc() ? 0 : victim->practice)
+            < 0)
+            bug("Buffer too small at "
+                "_file_name_"
+                ":"
+                "1314"
+                " - message was truncated");
+    } while (0);
     send_to_char(buf, ch);
 
-    bug_snprintf(buf, sizeof(buf), "Lv: %d  Class: %s  Align: %d  Gold: %ld  Exp: %ld\n\r", victim->level,
-                 IS_NPC(victim) ? "mobile" : class_table[victim->class_num].name, victim->alignment, victim->gold,
-                 victim->exp);
+    do {
+        if (snprintf(buf, sizeof(buf), "Lv: %d  Class: %s  Align: %d  Gold: %ld  Exp: %ld\n\r", victim->level,
+                     victim->is_npc() ? "mobile" : class_table[victim->class_num].name, victim->alignment, victim->gold,
+                     victim->exp)
+            < 0)
+            bug("Buffer too small at "
+                "_file_name_"
+                ":"
+                "1319"
+                " - message was truncated");
+    } while (0);
     send_to_char(buf, ch);
 
     bug_snprintf(buf, sizeof(buf), "Armor: pierce: %d  bash: %d  slash: %d  magic: %d\n\r", GET_AC(victim, AC_PIERCE),
@@ -1327,7 +1350,7 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
                  GET_DAMROLL(victim), victim->saving_throw, victim->position, victim->wimpy);
     send_to_char(buf, ch);
 
-    if (IS_NPC(victim)) {
+    if (victim->is_npc()) {
         bug_snprintf(buf, sizeof(buf), "Damage: %dd%d  Message:  %s\n\r", victim->damage[DICE_NUMBER],
                      victim->damage[DICE_TYPE], attack_table[victim->dam_type].noun);
         send_to_char(buf, ch);
@@ -1339,7 +1362,7 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
                  victim->sentient_victim != nullptr ? victim->sentient_victim : "(none)");
     send_to_char(buf, ch);
 
-    if (!IS_NPC(victim)) {
+    if (victim->is_pc()) {
         bug_snprintf(buf, sizeof(buf), "Thirst: %d  Full: %d  Drunk: %d\n\r", victim->pcdata->condition[COND_THIRST],
                      victim->pcdata->condition[COND_FULL], victim->pcdata->condition[COND_DRUNK]);
         send_to_char(buf, ch);
@@ -1349,7 +1372,7 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
                  victim->carry_weight);
     send_to_char(buf, ch);
 
-    if (!IS_NPC(victim)) {
+    if (victim->is_pc()) {
         using namespace std::chrono;
         bug_snprintf(buf, sizeof(buf), "Age: %d  Played: %ld  Last Level: %d  Timer: %d\n\r", get_age(victim),
                      duration_cast<hours>(victim->total_played()).count(), victim->pcdata->last_level, victim->timer);
@@ -1359,7 +1382,7 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
     bug_snprintf(buf, sizeof(buf), "Act: %s\n\r", (char *)act_bit_name(victim->act));
     send_to_char(buf, ch);
 
-    if (!IS_NPC(victim)) {
+    if (victim->is_pc()) {
         int n;
         bug_snprintf(buf, sizeof(buf), "Extra: ");
         for (n = 0; n < MAX_EXTRA_FLAGS; n++) {
@@ -1376,7 +1399,7 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
         send_to_char(buf, ch);
     }
 
-    if (IS_NPC(victim) && victim->off_flags) {
+    if (victim->is_npc() && victim->off_flags) {
         bug_snprintf(buf, sizeof(buf), "Offense: %s\n\r", (char *)off_bit_name(victim->off_flags));
         send_to_char(buf, ch);
     }
@@ -1418,10 +1441,10 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
                  victim->long_descr[0] != '\0' ? victim->long_descr : "(none)\n\r");
     send_to_char(buf, ch);
 
-    if (IS_NPC(victim) && victim->spec_fun != 0)
+    if (victim->is_npc() && victim->spec_fun != 0)
         send_to_char("Mobile has special procedure.\n\r", ch);
 
-    if (IS_NPC(victim) && victim->pIndexData->progtypes) {
+    if (victim->is_npc() && victim->pIndexData->progtypes) {
         bug_snprintf(buf, sizeof(buf), "Mobile has MOBPROG: view with \"stat prog '%s'\"\n\r", victim->name);
         send_to_char(buf, ch);
     }
@@ -1573,8 +1596,8 @@ void do_mwhere(CHAR_DATA *ch, const char *argument) {
     buffer = buffer_create();
 
     for (victim = char_list; victim != nullptr; victim = victim->next) {
-        if ((IS_NPC(victim) && victim->in_room != nullptr && is_name(argument, victim->name) && findPC == false)
-            || (!IS_NPC(victim) && (findPC == true) && can_see(ch, victim))) {
+        if ((victim->is_npc() && victim->in_room != nullptr && is_name(argument, victim->name) && findPC == false)
+            || (victim->is_pc() && (findPC == true) && can_see(ch, victim))) {
             found = true;
             number++;
             buffer_addline_fmt(
@@ -1711,7 +1734,7 @@ void do_switch(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (!IS_NPC(victim)) {
+    if (victim->is_pc()) {
         send_to_char("You can only switch into mobiles.\n\r", ch);
         return;
     }
@@ -1828,7 +1851,7 @@ void do_clone(CHAR_DATA *ch, const char *argument) {
         CHAR_DATA *clone;
         OBJ_DATA *new_obj;
 
-        if (!IS_NPC(mob)) {
+        if (mob->is_pc()) {
             send_to_char("You can only clone mobiles.\n\r", ch);
             return;
         }
@@ -1952,7 +1975,7 @@ void do_purge(CHAR_DATA *ch, const char *argument) {
 
         for (victim = ch->in_room->people; victim != nullptr; victim = vnext) {
             vnext = victim->next_in_room;
-            if (IS_NPC(victim) && !IS_SET(victim->act, ACT_NOPURGE) && victim != ch /* safety precaution */)
+            if (victim->is_npc() && !IS_SET(victim->act, ACT_NOPURGE) && victim != ch /* safety precaution */)
                 extract_char(victim, true);
         }
 
@@ -1972,7 +1995,7 @@ void do_purge(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (!IS_NPC(victim)) {
+    if (victim->is_pc()) {
 
         if (ch == victim) {
             send_to_char("Ho ho ho.\n\r", ch);
@@ -2022,7 +2045,7 @@ void do_advance(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (IS_NPC(victim)) {
+    if (victim->is_npc()) {
         send_to_char("Not on NPC's.\n\r", ch);
         return;
     }
@@ -2107,7 +2130,7 @@ void do_trust(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (IS_NPC(victim)) {
+    if (victim->is_npc()) {
         send_to_char("Not on NPCs.\n\r", ch);
         return;
     }
@@ -2158,7 +2181,7 @@ void do_restore(CHAR_DATA *ch, const char *argument) {
         for (auto &d : descriptors().playing()) {
             victim = d.character();
 
-            if (IS_NPC(victim))
+            if (victim->is_npc())
                 continue;
 
             affect_strip(victim, gsn_plague);
@@ -2212,7 +2235,7 @@ void do_freeze(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (IS_NPC(victim)) {
+    if (victim->is_npc()) {
         send_to_char("Not on NPC's.\n\r", ch);
         return;
     }
@@ -2262,7 +2285,7 @@ void do_log(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (IS_NPC(victim)) {
+    if (victim->is_npc()) {
         send_to_char("Not on NPC's.\n\r", ch);
         return;
     }
@@ -2327,7 +2350,7 @@ void do_noshout(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (IS_NPC(victim)) {
+    if (victim->is_npc()) {
         send_to_char("Not on NPC's.\n\r", ch);
         return;
     }
@@ -2387,9 +2410,9 @@ void do_peace(CHAR_DATA *ch, const char *argument) {
     for (rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
         if (rch->fighting != nullptr)
             stop_fighting(rch, true);
-        if (IS_NPC(rch) && IS_SET(rch->act, ACT_AGGRESSIVE))
+        if (rch->is_npc() && IS_SET(rch->act, ACT_AGGRESSIVE))
             REMOVE_BIT(rch->act, ACT_AGGRESSIVE);
-        if (IS_NPC(rch) && (rch->sentient_victim)) {
+        if (rch->is_npc() && (rch->sentient_victim)) {
             free_string(rch->sentient_victim);
             rch->sentient_victim = nullptr;
         }
@@ -2499,7 +2522,7 @@ void do_coma(CHAR_DATA *ch, const char *argument) {
         send_to_char("Duh!  Don't you dare fall asleep on the job!\n\r", ch);
         return;
     }
-    if ((ch->get_trust() <= victim->get_trust()) || !((IS_IMMORTAL(ch)) && IS_NPC(victim))) {
+    if ((ch->get_trust() <= victim->get_trust()) || !((IS_IMMORTAL(ch)) && victim->is_npc())) {
         send_to_char("You failed.\n\r", ch);
         return;
     }
@@ -2724,7 +2747,7 @@ void do_sset(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (IS_NPC(victim)) {
+    if (victim->is_npc()) {
         send_to_char("Not on NPC's.\n\r", ch);
         return;
     }
@@ -2860,7 +2883,7 @@ void do_mset(CHAR_DATA *ch, const char *argument) {
             return;
         }
         victim->sex = value;
-        if (!IS_NPC(victim))
+        if (victim->is_pc())
             victim->pcdata->true_sex = value;
         return;
     }
@@ -2868,7 +2891,7 @@ void do_mset(CHAR_DATA *ch, const char *argument) {
     if (!str_prefix(arg2, "class")) {
         int class_num;
 
-        if (IS_NPC(victim)) {
+        if (victim->is_npc()) {
             send_to_char("Mobiles have no class.\n\r", ch);
             return;
         }
@@ -2894,7 +2917,7 @@ void do_mset(CHAR_DATA *ch, const char *argument) {
     }
 
     if (!str_prefix(arg2, "level")) {
-        if (!IS_NPC(victim)) {
+        if (victim->is_pc()) {
             send_to_char("Not on PC's.\n\r", ch);
             return;
         }
@@ -2918,7 +2941,7 @@ void do_mset(CHAR_DATA *ch, const char *argument) {
             return;
         }
         victim->max_hit = value;
-        if (!IS_NPC(victim))
+        if (victim->is_pc())
             victim->pcdata->perm_hit = value;
         return;
     }
@@ -2929,7 +2952,7 @@ void do_mset(CHAR_DATA *ch, const char *argument) {
             return;
         }
         victim->max_mana = value;
-        if (!IS_NPC(victim))
+        if (victim->is_pc())
             victim->pcdata->perm_mana = value;
         return;
     }
@@ -2940,7 +2963,7 @@ void do_mset(CHAR_DATA *ch, const char *argument) {
             return;
         }
         victim->max_move = value;
-        if (!IS_NPC(victim))
+        if (victim->is_pc())
             victim->pcdata->perm_move = value;
         return;
     }
@@ -2995,7 +3018,7 @@ void do_mset(CHAR_DATA *ch, const char *argument) {
     }
 
     if (!str_prefix(arg2, "thirst")) {
-        if (IS_NPC(victim)) {
+        if (victim->is_npc()) {
             send_to_char("Not on NPC's.\n\r", ch);
             return;
         }
@@ -3010,7 +3033,7 @@ void do_mset(CHAR_DATA *ch, const char *argument) {
     }
 
     if (!str_prefix(arg2, "drunk")) {
-        if (IS_NPC(victim)) {
+        if (victim->is_npc()) {
             send_to_char("Not on NPC's.\n\r", ch);
             return;
         }
@@ -3025,7 +3048,7 @@ void do_mset(CHAR_DATA *ch, const char *argument) {
     }
 
     if (!str_prefix(arg2, "full")) {
-        if (IS_NPC(victim)) {
+        if (victim->is_npc()) {
             send_to_char("Not on NPC's.\n\r", ch);
             return;
         }
@@ -3049,7 +3072,7 @@ void do_mset(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        if (!IS_NPC(victim) && !race_table[race].pc_race) {
+        if (victim->is_pc() && !race_table[race].pc_race) {
             send_to_char("That is not a valid player race.\n\r", ch);
             return;
         }
@@ -3110,7 +3133,7 @@ void do_string(CHAR_DATA *ch, const char *argument) {
         /* string something */
 
         if (!str_prefix(arg2, "name")) {
-            if (!IS_NPC(victim)) {
+            if (victim->is_pc()) {
                 send_to_char("Not on PC's.\n\r", ch);
                 return;
             }
@@ -3140,7 +3163,7 @@ void do_string(CHAR_DATA *ch, const char *argument) {
         }
 
         if (!str_prefix(arg2, "title")) {
-            if (IS_NPC(victim)) {
+            if (victim->is_npc()) {
                 send_to_char("Not on NPC's.\n\r", ch);
                 return;
             }
@@ -3150,7 +3173,7 @@ void do_string(CHAR_DATA *ch, const char *argument) {
         }
 
         if (!str_prefix(arg2, "spec")) {
-            if (!IS_NPC(victim)) {
+            if (victim->is_pc()) {
                 send_to_char("Not on PC's.\n\r", ch);
                 return;
             }
@@ -3473,7 +3496,7 @@ void do_force(CHAR_DATA *ch, const char *argument) {
         for (vch = char_list; vch != nullptr; vch = vch_next) {
             vch_next = vch->next;
 
-            if (!IS_NPC(vch) && vch->get_trust() < ch->get_trust()) {
+            if (vch->is_pc() && vch->get_trust() < ch->get_trust()) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;
                 act(buf, ch, nullptr, vch, To::Vict);
@@ -3492,7 +3515,7 @@ void do_force(CHAR_DATA *ch, const char *argument) {
         for (vch = char_list; vch != nullptr; vch = vch_next) {
             vch_next = vch->next;
 
-            if (!IS_NPC(vch) && vch->get_trust() < ch->get_trust() && vch->level < LEVEL_HERO) {
+            if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level < LEVEL_HERO) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;
                 act(buf, ch, nullptr, vch, To::Vict);
@@ -3511,7 +3534,7 @@ void do_force(CHAR_DATA *ch, const char *argument) {
         for (vch = char_list; vch != nullptr; vch = vch_next) {
             vch_next = vch->next;
 
-            if (!IS_NPC(vch) && vch->get_trust() < ch->get_trust() && vch->level >= LEVEL_HERO) {
+            if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level >= LEVEL_HERO) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;
                 act(buf, ch, nullptr, vch, To::Vict);
@@ -3536,7 +3559,7 @@ void do_force(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        if (!IS_NPC(victim) && ch->get_trust() < DEITY) {
+        if (victim->is_pc() && ch->get_trust() < DEITY) {
             send_to_char("Not at your level!\n\r", ch);
             return;
         }
@@ -3556,7 +3579,7 @@ void do_invis(CHAR_DATA *ch, const char *argument) {
     int level;
     char arg[MAX_STRING_LENGTH];
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     one_argument(argument, arg);
@@ -3604,7 +3627,7 @@ void do_prowl(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_STRING_LENGTH];
     int level = 0;
 
-    if IS_NPC (ch)
+    if (ch->is_npc())
         return;
 
     if (ch->get_trust() < LEVEL_HERO) {
@@ -3675,7 +3698,7 @@ void do_prowl(CHAR_DATA *ch, const char *argument) {
 
 void do_holylight(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (IS_SET(ch->act, PLR_HOLYLIGHT)) {

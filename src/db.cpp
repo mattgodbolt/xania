@@ -1188,7 +1188,7 @@ void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone) {
     int i;
     AFFECT_DATA *paf;
 
-    if (parent == nullptr || clone == nullptr || !IS_NPC(parent))
+    if (parent == nullptr || clone == nullptr || parent->is_pc())
         return;
 
     /* start fixing values */
@@ -1433,7 +1433,7 @@ void free_char(CHAR_DATA *ch) {
     AFFECT_DATA *paf;
     AFFECT_DATA *paf_next;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         mobile_count--;
 
     for (obj = ch->carrying; obj != nullptr; obj = obj_next) {
@@ -2548,7 +2548,7 @@ char *capitalize(const char *str) {
 void append_file(CHAR_DATA *ch, const char *file, const char *str) {
     FILE *fp;
 
-    if (IS_NPC(ch) || str[0] == '\0')
+    if (ch->is_npc() || str[0] == '\0')
         return;
 
     if ((fp = fopen(file, "a")) == nullptr) {

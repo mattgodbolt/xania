@@ -426,7 +426,7 @@ static void note_delete(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_note(CHAR_DATA *ch, const char *argument) {
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         return;
     }
     char arg[MAX_INPUT_LENGTH];

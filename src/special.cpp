@@ -177,7 +177,7 @@ bool spec_DEATH(CHAR_DATA *ch) {
 
     for (victim = char_list; victim != nullptr; victim = v_next) {
         v_next = victim->next;
-        if ((((victim->hit * 100) / victim->max_hit) < lowest_percent) && (!IS_NPC(victim))) {
+        if ((((victim->hit * 100) / victim->max_hit) < lowest_percent) && (victim->is_pc())) {
             lowest_percent = ((victim->hit * 100) / victim->max_hit);
             lowest_person = victim;
         }
@@ -257,7 +257,7 @@ bool spec_cast_adept(CHAR_DATA *ch) {
 
     for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
-        if (victim != ch && can_see(ch, victim) && number_bits(1) == 0 && !IS_NPC(victim) && victim->level < 11)
+        if (victim != ch && can_see(ch, victim) && number_bits(1) == 0 && victim->is_pc() && victim->level < 11)
             break;
     }
 
@@ -662,12 +662,12 @@ bool spec_executioner(CHAR_DATA *ch) {
     for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
 
-        if (!IS_NPC(victim) && IS_SET(victim->act, PLR_KILLER)) {
+        if (victim->is_pc() && IS_SET(victim->act, PLR_KILLER)) {
             crime = "KILLER";
             break;
         }
 
-        if (!IS_NPC(victim) && IS_SET(victim->act, PLR_THIEF)) {
+        if (victim->is_pc() && IS_SET(victim->act, PLR_THIEF)) {
             crime = "THIEF";
             break;
         }
@@ -723,7 +723,7 @@ bool spec_puff(CHAR_DATA *ch) {
 
     for (wch = char_list; wch != nullptr; wch = wch_next) {
         wch_next = wch->next;
-        if (IS_NPC(wch) || wch->in_room == nullptr)
+        if (wch->is_npc() || wch->in_room == nullptr)
             continue;
 
         for (nch = wch->in_room->people; nch != nullptr; nch = ch_next) {
@@ -731,7 +731,7 @@ bool spec_puff(CHAR_DATA *ch) {
 
             ch_next = nch->next_in_room;
 
-            if (!IS_NPC(nch) || number_bits(1) == 0)
+            if (nch->is_pc() || number_bits(1) == 0)
                 continue;
             /*
              * Ok we have a 'wch' player character and a 'nch' npc aggressor.
@@ -743,7 +743,7 @@ bool spec_puff(CHAR_DATA *ch) {
             for (vch = wch->in_room->people; vch != nullptr; vch = vch_next) {
                 vch_next = vch->next_in_room;
 
-                if (!IS_NPC(vch)) {
+                if (vch->is_pc()) {
                     if (number_range(0, count) == 0)
                         victim = vch;
                     count++;
@@ -876,12 +876,12 @@ bool spec_guard(CHAR_DATA *ch) {
     for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
 
-        if (!IS_NPC(victim) && IS_SET(victim->act, PLR_KILLER)) {
+        if (victim->is_pc() && IS_SET(victim->act, PLR_KILLER)) {
             crime = "KILLER";
             break;
         }
 
-        if (!IS_NPC(victim) && IS_SET(victim->act, PLR_THIEF)) {
+        if (victim->is_pc() && IS_SET(victim->act, PLR_THIEF)) {
             crime = "THIEF";
             break;
         }
@@ -1027,7 +1027,7 @@ bool spec_thief(CHAR_DATA *ch) {
     for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
 
-        if (IS_NPC(victim) || victim->level >= LEVEL_IMMORTAL || number_bits(5) != 0 || !can_see(ch, victim))
+        if (victim->is_npc() || victim->level >= LEVEL_IMMORTAL || number_bits(5) != 0 || !can_see(ch, victim))
             continue;
 
         if (IS_AWAKE(victim) && number_range(0, ch->level) == 0) {

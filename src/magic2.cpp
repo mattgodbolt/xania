@@ -102,7 +102,7 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
         return;
     }
 
-    if (!IS_NPC(victim)) {
+    if (victim->is_pc()) {
         send_to_char("Not on that target.\n\r", ch);
         return;
     }

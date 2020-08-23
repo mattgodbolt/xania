@@ -238,17 +238,17 @@ bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, const CHAR_DATA *actor, const
         case 'i': return 0;
         case 'n':
             if (actor)
-                return (!IS_NPC(actor));
+                return (actor->is_pc());
             else
                 return -1;
         case 't':
             if (vict)
-                return (!IS_NPC(vict));
+                return (vict->is_pc());
             else
                 return -1;
         case 'r':
             if (rndm)
-                return (!IS_NPC(rndm));
+                return (rndm->is_pc());
             else
                 return -1;
         default: bug("Mob: %d bad argument to 'ispc'", mob->pIndexData->vnum); return -1;
@@ -261,17 +261,17 @@ bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, const CHAR_DATA *actor, const
         case 'i': return 1;
         case 'n':
             if (actor)
-                return IS_NPC(actor);
+                return actor->is_npc();
             else
                 return -1;
         case 't':
             if (vict)
-                return IS_NPC(vict);
+                return vict->is_npc();
             else
                 return -1;
         case 'r':
             if (rndm)
-                return IS_NPC(rndm);
+                return rndm->is_npc();
             else
                 return -1;
         default: bug("Mob: %d bad argument to 'isnpc'", mob->pIndexData->vnum); return -1;
@@ -755,7 +755,7 @@ bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, const CHAR_DATA *actor, const
             return mprog_veval(lhsvl, opr, rhsvl);
         case 'n':
             if (actor) {
-                if IS_NPC (actor) {
+                if (actor->is_npc()) {
                     lhsvl = actor->pIndexData->vnum;
                     rhsvl = atoi(val);
                     return mprog_veval(lhsvl, opr, rhsvl);
@@ -765,7 +765,7 @@ bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, const CHAR_DATA *actor, const
             break; // TODO this fell through (as did all) but not clear that's what was wanted
         case 't':
             if (vict) {
-                if IS_NPC (actor) {
+                if (actor->is_npc()) {
                     lhsvl = vict->pIndexData->vnum;
                     rhsvl = atoi(val);
                     return mprog_veval(lhsvl, opr, rhsvl);
@@ -775,7 +775,7 @@ bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, const CHAR_DATA *actor, const
             break;
         case 'r':
             if (rndm) {
-                if IS_NPC (actor) {
+                if (actor->is_npc()) {
                     lhsvl = rndm->pIndexData->vnum;
                     rhsvl = atoi(val);
                     return mprog_veval(lhsvl, opr, rhsvl);
@@ -1026,14 +1026,14 @@ void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, c
         if (actor)
             if (can_see(mob, actor))
                 one_argument(actor->name, t);
-        if (!IS_NPC(actor))
+        if (actor->is_pc())
             *t = UPPER(*t);
         break;
 
     case 'N':
         if (actor) {
             if (can_see(mob, actor)) {
-                if (IS_NPC(actor)) {
+                if (actor->is_npc()) {
                     strcpy(t, actor->short_descr);
                 } else {
                     strcpy(t, actor->name);
@@ -1050,14 +1050,14 @@ void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, c
             if (can_see(mob, vict))
                 one_argument(vict->name, t);
         }
-        if (!IS_NPC(vict))
+        if (vict->is_pc())
             *t = UPPER(*t);
         break;
 
     case 'T':
         if (vict) {
             if (can_see(mob, vict)) {
-                if (IS_NPC(vict)) {
+                if (vict->is_npc()) {
                     strcpy(t, vict->short_descr);
                 } else {
                     strcpy(t, vict->name);
@@ -1075,14 +1075,14 @@ void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, c
             if (can_see(mob, rndm))
                 one_argument(rndm->name, t);
         }
-        if (!IS_NPC(rndm))
+        if (rndm->is_pc())
             *t = UPPER(*t);
         break;
 
     case 'R':
         if (rndm) {
             if (can_see(mob, rndm)) {
-                if (IS_NPC(rndm)) {
+                if (rndm->is_npc()) {
                     strcpy(t, rndm->short_descr);
                 } else {
                     strcpy(t, rndm->name);
@@ -1247,7 +1247,7 @@ void mprog_driver(char *com_list, CHAR_DATA *mob, const CHAR_DATA *actor, const 
 
     /* get a random visable mortal player who is in the room with the mob */
     for (vch = mob->in_room->people; vch; vch = vch->next_in_room)
-        if (!IS_NPC(vch) && vch->level < LEVEL_IMMORTAL && can_see(mob, vch)) {
+        if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && can_see(mob, vch)) {
             if (number_range(0, count) == 0)
                 rndm = vch;
             count++;
@@ -1345,7 +1345,7 @@ void mprog_act_trigger(const char *buf, CHAR_DATA *mob, const CHAR_DATA *ch, con
 
     MPROG_ACT_LIST *tmp_act;
 
-    if (IS_NPC(mob) && (mob->pIndexData->progtypes & ACT_PROG)) {
+    if (mob->is_npc() && (mob->pIndexData->progtypes & ACT_PROG)) {
         tmp_act = (MPROG_ACT_LIST *)alloc_mem(sizeof(MPROG_ACT_LIST));
         if (mob->mpactnum > 0)
             tmp_act->next = mob->mpact->next;
@@ -1365,7 +1365,7 @@ void mprog_bribe_trigger(CHAR_DATA *mob, CHAR_DATA *ch, int amount) {
 
     MPROG_DATA *mprg;
 
-    if (IS_NPC(mob) && (mob->pIndexData->progtypes & BRIBE_PROG)) {
+    if (mob->is_npc() && (mob->pIndexData->progtypes & BRIBE_PROG)) {
         for (mprg = mob->pIndexData->mobprogs; mprg != nullptr; mprg = mprg->next)
             if ((mprg->type & BRIBE_PROG) && (amount >= atoi(mprg->arglist))) {
                 /* this function previously created a gold object and gave it to ch
@@ -1378,20 +1378,20 @@ void mprog_bribe_trigger(CHAR_DATA *mob, CHAR_DATA *ch, int amount) {
 
 void mprog_death_trigger(CHAR_DATA *mob) {
 
-    if (IS_NPC(mob) && (mob->pIndexData->progtypes & DEATH_PROG)) {
+    if (mob->is_npc() && (mob->pIndexData->progtypes & DEATH_PROG)) {
         mprog_percent_check(mob, nullptr, nullptr, nullptr, DEATH_PROG);
     }
 }
 
 void mprog_entry_trigger(CHAR_DATA *mob) {
 
-    if (IS_NPC(mob) && (mob->pIndexData->progtypes & ENTRY_PROG))
+    if (mob->is_npc() && (mob->pIndexData->progtypes & ENTRY_PROG))
         mprog_percent_check(mob, nullptr, nullptr, nullptr, ENTRY_PROG);
 }
 
 void mprog_fight_trigger(CHAR_DATA *mob, CHAR_DATA *ch) {
 
-    if (IS_NPC(mob) && (mob->pIndexData->progtypes & FIGHT_PROG))
+    if (mob->is_npc() && (mob->pIndexData->progtypes & FIGHT_PROG))
         mprog_percent_check(mob, ch, nullptr, nullptr, FIGHT_PROG);
 }
 
@@ -1400,7 +1400,7 @@ void mprog_give_trigger(CHAR_DATA *mob, CHAR_DATA *ch, OBJ_DATA *obj) {
     char buf[MAX_INPUT_LENGTH];
     MPROG_DATA *mprg;
 
-    if (IS_NPC(mob) && (mob->pIndexData->progtypes & GIVE_PROG))
+    if (mob->is_npc() && (mob->pIndexData->progtypes & GIVE_PROG))
         for (mprg = mob->pIndexData->mobprogs; mprg != nullptr; mprg = mprg->next) {
             one_argument(mprg->arglist, buf);
             if ((mprg->type & GIVE_PROG) && ((!str_cmp(obj->name, mprg->arglist)) || (!str_cmp("all", buf)))) {
@@ -1415,10 +1415,10 @@ void mprog_greet_trigger(CHAR_DATA *mob) {
     CHAR_DATA *vmob;
 
     for (vmob = mob->in_room->people; vmob != nullptr; vmob = vmob->next_in_room)
-        if (IS_NPC(vmob) && mob != vmob && can_see(vmob, mob) && (vmob->fighting == nullptr) && IS_AWAKE(vmob)
+        if (vmob->is_npc() && mob != vmob && can_see(vmob, mob) && (vmob->fighting == nullptr) && IS_AWAKE(vmob)
             && (vmob->pIndexData->progtypes & GREET_PROG))
             mprog_percent_check(vmob, mob, nullptr, nullptr, GREET_PROG);
-        else if (IS_NPC(vmob) && (vmob->fighting == nullptr) && IS_AWAKE(vmob)
+        else if (vmob->is_npc() && (vmob->fighting == nullptr) && IS_AWAKE(vmob)
                  && (vmob->pIndexData->progtypes & ALL_GREET_PROG))
             mprog_percent_check(vmob, mob, nullptr, nullptr, ALL_GREET_PROG);
 }
@@ -1427,7 +1427,7 @@ void mprog_hitprcnt_trigger(CHAR_DATA *mob, CHAR_DATA *ch) {
 
     MPROG_DATA *mprg;
 
-    if (IS_NPC(mob) && (mob->pIndexData->progtypes & HITPRCNT_PROG))
+    if (mob->is_npc() && (mob->pIndexData->progtypes & HITPRCNT_PROG))
         for (mprg = mob->pIndexData->mobprogs; mprg != nullptr; mprg = mprg->next)
             if ((mprg->type & HITPRCNT_PROG) && ((100 * mob->hit / mob->max_hit) < atoi(mprg->arglist))) {
                 mprog_driver(mprg->comlist, mob, ch, nullptr, nullptr);
@@ -1446,6 +1446,6 @@ void mprog_speech_trigger(const char *txt, CHAR_DATA *mob) {
     CHAR_DATA *vmob;
 
     for (vmob = mob->in_room->people; vmob != nullptr; vmob = vmob->next_in_room)
-        if (IS_NPC(vmob) && (vmob->pIndexData->progtypes & SPEECH_PROG))
+        if (vmob->is_npc() && (vmob->pIndexData->progtypes & SPEECH_PROG))
             mprog_wordlist_check(txt, vmob, mob, nullptr, nullptr, SPEECH_PROG);
 }

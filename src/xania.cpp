@@ -354,7 +354,7 @@ int get_skill_trains(CHAR_DATA *ch, int gsn) {
 // Similar to get_skill
 int get_skill_learned(CHAR_DATA *ch, int skill_number) {
     // Mobs calling this get either 100 or 90
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         if (is_affected(ch, gsn_insanity))
             return 90;
         else
@@ -439,7 +439,7 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
     OBJ_DATA *obj;
     int num_of_corpses = 0, corpse, chance;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     /* scan the room looking for an appropriate objects...count them */
@@ -545,7 +545,7 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
                              with it, shah right! MMFOOMB
                              Should be dealt with in interp.c already*/
 
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         send_to_char("You must take your true form before unleashing your power.\n\r", ch);
         return;
     } /* done whilst switched? No way Jose */
@@ -612,7 +612,7 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
     else {
         obj_from_char(obj);
         obj_to_room(obj, victim->in_room);
-        if (IS_NPC(victim) && victim->wait == 0 && can_see_obj(victim, obj))
+        if (victim->is_npc() && victim->wait == 0 && can_see_obj(victim, obj))
             get_obj(victim, obj, nullptr);
     } /* disarms them, and NPCs will collect
               their weapon if they can see it.

@@ -130,7 +130,7 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
     AFFECT_DATA *paf;
     int sn, gn;
 
-    fprintf(fp, "#%s\n", IS_NPC(ch) ? "MOB" : "PLAYER");
+    fprintf(fp, "#%s\n", ch->is_npc() ? "MOB" : "PLAYER");
 
     fprintf(fp, "Name %s~\n", ch->name);
     fprintf(fp, "Vers %d\n", 3);
@@ -194,7 +194,7 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
     fprintf(fp, "AMod %d %d %d %d %d\n", ch->mod_stat[Stat::Str], ch->mod_stat[Stat::Int], ch->mod_stat[Stat::Wis],
             ch->mod_stat[Stat::Dex], ch->mod_stat[Stat::Con]);
 
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         fprintf(fp, "Vnum %d\n", ch->pIndexData->vnum);
     } else {
         fprintf(fp, "Pass %s~\n", ch->pcdata->pwd.c_str());

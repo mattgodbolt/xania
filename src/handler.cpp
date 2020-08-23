@@ -196,7 +196,7 @@ int get_weapon_skill(CHAR_DATA *ch, int sn) {
     int skill;
 
     /* -1 is exotic */
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         if (sn == -1)
             skill = 3 * ch->level;
         else if (sn == gsn_hand_to_hand)
@@ -222,7 +222,7 @@ void reset_char(CHAR_DATA *ch) {
     AFFECT_DATA *af;
     int i;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (ch->pcdata->perm_hit == 0 || ch->pcdata->perm_mana == 0 || ch->pcdata->perm_move == 0
@@ -239,7 +239,7 @@ void reset_char(CHAR_DATA *ch) {
                     case APPLY_SEX:
                         ch->sex -= mod;
                         if (ch->sex < 0 || ch->sex > 2)
-                            ch->sex = IS_NPC(ch) ? 0 : ch->pcdata->true_sex;
+                            ch->sex = ch->is_npc() ? 0 : ch->pcdata->true_sex;
                         break;
                     case APPLY_MANA: ch->max_mana -= mod; break;
                     case APPLY_HIT: ch->max_hit -= mod; break;
@@ -406,7 +406,7 @@ int get_curr_stat(const CHAR_DATA *ch, Stat stat) { return ch->curr_stat(stat); 
 int get_max_train(CHAR_DATA *ch, Stat stat) {
     int max;
 
-    if (IS_NPC(ch) || ch->level > LEVEL_IMMORTAL)
+    if (ch->is_npc() || ch->level > LEVEL_IMMORTAL)
         return 25;
 
     max = pc_race_table[ch->race].max_stats[stat];
@@ -423,10 +423,10 @@ int get_max_train(CHAR_DATA *ch, Stat stat) {
  * Retrieve a character's carry capacity.
  */
 int can_carry_n(CHAR_DATA *ch) {
-    if (!IS_NPC(ch) && ch->level >= LEVEL_IMMORTAL)
+    if (ch->is_pc() && ch->level >= LEVEL_IMMORTAL)
         return 1000;
 
-    if (IS_NPC(ch) && IS_SET(ch->act, ACT_PET))
+    if (ch->is_npc() && IS_SET(ch->act, ACT_PET))
         return 4;
 
     return MAX_WEAR + 2 * get_curr_stat(ch, Stat::Dex) + ch->level;
@@ -436,10 +436,10 @@ int can_carry_n(CHAR_DATA *ch) {
  * Retrieve a character's carry capacity.
  */
 int can_carry_w(CHAR_DATA *ch) {
-    if (!IS_NPC(ch) && ch->level >= LEVEL_IMMORTAL)
+    if (ch->is_pc() && ch->level >= LEVEL_IMMORTAL)
         return 1000000;
 
-    if (IS_NPC(ch) && IS_SET(ch->act, ACT_PET))
+    if (ch->is_npc() && IS_SET(ch->act, ACT_PET))
         return 1000;
 
     return str_app[get_curr_stat(ch, Stat::Str)].carry + ch->level * 5 / 2;
@@ -498,7 +498,7 @@ void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd) {
      * Check for weapon wielding.
      * Guard against recursion (for weapons with affects).
      */
-    if (!IS_NPC(ch) && (wield = get_eq_char(ch, WEAR_WIELD)) != nullptr
+    if (ch->is_pc() && (wield = get_eq_char(ch, WEAR_WIELD)) != nullptr
         && get_obj_weight(wield) > str_app[get_curr_stat(ch, Stat::Str)].wield) {
         static int depth;
 
@@ -676,7 +676,7 @@ void char_from_room(CHAR_DATA *ch) {
         return;
     }
 
-    if (!IS_NPC(ch))
+    if (ch->is_pc())
         --ch->in_room->area->nplayer;
 
     if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->item_type == ITEM_LIGHT && obj->value[2] != 0
@@ -721,7 +721,7 @@ void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
     ch->next_in_room = pRoomIndex->people;
     pRoomIndex->people = ch;
 
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         if (ch->in_room->area->empty) {
             ch->in_room->area->empty = false;
             ch->in_room->area->age = 0;
@@ -1196,7 +1196,7 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
         return;
     }
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         --ch->pIndexData->count;
 
     if (ch->desc != nullptr && ch->desc->is_switched()) {
@@ -1502,7 +1502,7 @@ bool can_drop_obj(CHAR_DATA *ch, OBJ_DATA *obj) {
     if (!IS_SET(obj->extra_flags, ITEM_NODROP))
         return true;
 
-    if (!IS_NPC(ch) && ch->level >= LEVEL_IMMORTAL)
+    if (ch->is_pc() && ch->level >= LEVEL_IMMORTAL)
         return true;
 
     return false;
@@ -2148,7 +2148,7 @@ const char *off_bit_name(int off_flags) {
 }
 
 bool is_set_extra(CHAR_DATA *ch, unsigned int flag) {
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return false;
     if (ch->extra_flags[flag / 32] & 1u << (flag & 31u))
         return true;
@@ -2156,13 +2156,13 @@ bool is_set_extra(CHAR_DATA *ch, unsigned int flag) {
 }
 
 void set_extra(CHAR_DATA *ch, unsigned int flag) {
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
     ch->extra_flags[flag / 32] |= (1u << (flag & 31u));
 }
 
 void remove_extra(CHAR_DATA *ch, unsigned int flag) {
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
     ch->extra_flags[flag / 32] &= ~(1u << (flag & 31u));
 }
@@ -2180,7 +2180,7 @@ void tolower_articles(char *string) {
 }
 
 bool is_switched(CHAR_DATA *ch) {
-    if (!IS_NPC(ch))
+    if (ch->is_pc())
         return false;
 
     if (ch->desc == nullptr)

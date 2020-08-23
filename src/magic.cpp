@@ -72,13 +72,13 @@ void say_spell(CHAR_DATA *ch, int sn) {
     snprintf(buf, sizeof(buf), "$n utters the words, '%s'.", skill_table[sn].name);
 
     for (CHAR_DATA *rch = ch->in_room->people; rch; rch = rch->next_in_room) {
-        if (!IS_NPC(rch) && rch->pcdata->colour) {
+        if (rch->is_pc() && rch->pcdata->colour) {
             snprintf(buf3, sizeof(buf3), "%c[0;33m", 27);
             send_to_char(buf3, rch);
         }
         if (rch != ch)
             act(ch->class_num == rch->class_num ? buf : buf2, ch, nullptr, rch, To::Vict);
-        if (!IS_NPC(rch) && rch->pcdata->colour) {
+        if (rch->is_pc() && rch->pcdata->colour) {
             snprintf(buf3, sizeof(buf3), "%c[0;37m", 27);
             send_to_char(buf3, rch);
         }
@@ -162,7 +162,7 @@ void do_cast(CHAR_DATA *ch, const char *argument) {
     int sn;
     int pos;
     /* Switched NPC's can cast spells, but others can't. */
-    if (IS_NPC(ch) && (ch->desc == nullptr))
+    if (ch->is_npc() && (ch->desc == nullptr))
         return;
 
     target_name = one_argument(argument, arg1);
@@ -174,7 +174,7 @@ void do_cast(CHAR_DATA *ch, const char *argument) {
     }
     /* Changed this bit, to '<=' 0 : spells you didn't know, were starting
            fights =) */
-    if ((sn = skill_lookup(arg1)) <= 0 || (!IS_NPC(ch) && ch->level < get_skill_level(ch, sn))) {
+    if ((sn = skill_lookup(arg1)) <= 0 || (ch->is_pc() && ch->level < get_skill_level(ch, sn))) {
         send_to_char("You don't know any spells of that name.\n\r", ch);
         return;
     }
@@ -199,19 +199,19 @@ void do_cast(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        if (!IS_NPC(ch) && ch->gold < (mana * 100)) {
+        if (ch->is_pc() && ch->gold < (mana * 100)) {
             send_to_char("You can't afford to!\n\r", ch);
             return;
         }
 
-        if (!IS_NPC(ch) && ch->mana < (mana * 2)) {
+        if (ch->is_pc() && ch->mana < (mana * 2)) {
             send_to_char("You don't have enough mana.\n\r", ch);
             return;
         }
 
         WAIT_STATE(ch, skill_table[sn].beats * 2);
 
-        if (!IS_NPC(ch) && number_percent() > get_skill_learned(ch, sn)) {
+        if (ch->is_pc() && number_percent() > get_skill_learned(ch, sn)) {
             send_to_char("You lost your concentration.\n\r", ch);
             check_improve(ch, sn, false, 8);
             ch->mana -= mana / 2;
@@ -297,12 +297,12 @@ void do_cast(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        if (!IS_NPC(ch) && ch->gold < (mana * 100)) {
+        if (ch->is_pc() && ch->gold < (mana * 100)) {
             send_to_char("You can't afford to!\n\r", ch);
             return;
         }
 
-        if (!IS_NPC(ch) && ch->mana < (mana * 2)) {
+        if (ch->is_pc() && ch->mana < (mana * 2)) {
             send_to_char("You don't have enough mana.\n\r", ch);
             return;
         }
@@ -318,7 +318,7 @@ void do_cast(CHAR_DATA *ch, const char *argument) {
 
         WAIT_STATE(ch, skill_table[sn].beats * 2);
 
-        if (!IS_NPC(ch) && number_percent() > get_skill_learned(ch, sn)) {
+        if (ch->is_pc() && number_percent() > get_skill_learned(ch, sn)) {
             send_to_char("You lost your concentration.\n\r", ch);
             check_improve(ch, sn, false, 8);
             ch->mana -= mana / 2;
@@ -368,12 +368,12 @@ void do_cast(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        if (!IS_NPC(ch) && ch->gold < (mana * 100)) {
+        if (ch->is_pc() && ch->gold < (mana * 100)) {
             send_to_char("You can't afford to!\n\r", ch);
             return;
         }
 
-        if (!IS_NPC(ch) && ch->mana < (mana * 2)) {
+        if (ch->is_pc() && ch->mana < (mana * 2)) {
             send_to_char("You don't have enough mana.\n\r", ch);
             return;
         }
@@ -389,7 +389,7 @@ void do_cast(CHAR_DATA *ch, const char *argument) {
 
         WAIT_STATE(ch, skill_table[sn].beats * 2);
 
-        if (!IS_NPC(ch) && number_percent() > get_skill_learned(ch, sn)) {
+        if (ch->is_pc() && number_percent() > get_skill_learned(ch, sn)) {
             send_to_char("You lost your concentration.\n\r", ch);
             check_improve(ch, sn, false, 8);
             ch->mana -= mana / 2;
@@ -458,7 +458,7 @@ void do_cast(CHAR_DATA *ch, const char *argument) {
                 }
         */
 
-        if (!IS_NPC(ch)) {
+        if (ch->is_pc()) {
 
             if (is_safe_spell(ch, victim, false) && victim != ch) {
                 send_to_char("Not on that target.\n\r", ch);
@@ -514,7 +514,7 @@ void do_cast(CHAR_DATA *ch, const char *argument) {
         break;
     }
 
-    if (!IS_NPC(ch) && ch->mana < mana) {
+    if (ch->is_pc() && ch->mana < mana) {
         send_to_char("You don't have enough mana.\n\r", ch);
         return;
     }
@@ -524,7 +524,7 @@ void do_cast(CHAR_DATA *ch, const char *argument) {
 
     WAIT_STATE(ch, skill_table[sn].beats);
 
-    if (!IS_NPC(ch) && number_percent() > get_skill_learned(ch, sn)) {
+    if (ch->is_pc() && number_percent() > get_skill_learned(ch, sn)) {
         send_to_char("You lost your concentration.\n\r", ch);
         check_improve(ch, sn, false, 1);
         ch->mana -= mana / 2;
@@ -771,7 +771,7 @@ void spell_call_lightning(int sn, int level, CHAR_DATA *ch, void *vo) {
         if (vch->in_room == nullptr)
             continue;
         if (vch->in_room == ch->in_room) {
-            if (vch != ch && (IS_NPC(ch) ? !IS_NPC(vch) : IS_NPC(vch)))
+            if (vch != ch && (ch->is_npc() ? vch->is_pc() : vch->is_npc()))
                 damage(ch, vch, saves_spell(level, vch) ? dam / 2 : dam, sn, DAM_LIGHTNING);
             continue;
         }
@@ -794,7 +794,7 @@ void spell_calm(int sn, int level, CHAR_DATA *ch, void *vo) {
     for (vch = ch->in_room->people; vch != nullptr; vch = vch->next_in_room) {
         if (vch->position == POS_FIGHTING) {
             count++;
-            if (IS_NPC(vch))
+            if (vch->is_npc())
                 mlevel += vch->level;
             else
                 mlevel += vch->level / 2;
@@ -811,7 +811,7 @@ void spell_calm(int sn, int level, CHAR_DATA *ch, void *vo) {
     if (number_range(0, chance) >= mlevel) /* hard to stop large fights */
     {
         for (vch = ch->in_room->people; vch != nullptr; vch = vch->next_in_room) {
-            if (IS_NPC(vch) && (IS_SET(vch->imm_flags, IMM_MAGIC) || IS_SET(vch->act, ACT_UNDEAD)))
+            if (vch->is_npc() && (IS_SET(vch->imm_flags, IMM_MAGIC) || IS_SET(vch->act, ACT_UNDEAD)))
                 return;
 
             if (IS_AFFECTED(vch, AFF_CALM) || IS_AFFECTED(vch, AFF_BERSERK) || is_affected(vch, skill_lookup("frenzy")))
@@ -822,7 +822,7 @@ void spell_calm(int sn, int level, CHAR_DATA *ch, void *vo) {
             if (vch->fighting || vch->position == POS_FIGHTING)
                 stop_fighting(vch, false);
 
-            if (IS_NPC(vch) && vch->sentient_victim) {
+            if (vch->is_npc() && vch->sentient_victim) {
                 free_string(vch->sentient_victim);
                 vch->sentient_victim = nullptr;
             }
@@ -832,7 +832,7 @@ void spell_calm(int sn, int level, CHAR_DATA *ch, void *vo) {
             af.level = level;
             af.duration = level / 4;
             af.location = APPLY_HITROLL;
-            if (!IS_NPC(vch))
+            if (vch->is_pc())
                 af.modifier = -5;
             else
                 af.modifier = -2;
@@ -852,8 +852,8 @@ void spell_cancellation(int sn, int level, CHAR_DATA *ch, void *vo) {
 
     level += 2;
 
-    if ((!IS_NPC(ch) && IS_NPC(victim) && !(IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim))
-        || (IS_NPC(ch) && !IS_NPC(victim))) {
+    if ((ch->is_pc() && victim->is_npc() && !(IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim))
+        || (ch->is_npc() && victim->is_pc())) {
         send_to_char("You failed, try dispel magic.\n\r", ch);
         return;
     }
@@ -1401,7 +1401,7 @@ void spell_curse(int sn, int level, CHAR_DATA *ch, void *vo) {
 void spell_exorcise(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *victim = (CHAR_DATA *)vo;
 
-    if (!IS_NPC(ch) && (victim->alignment > (ch->alignment + 100))) {
+    if (ch->is_pc() && (victim->alignment > (ch->alignment + 100))) {
         victim = ch;
         send_to_char("Your exorcism turns upon you!\n\r", ch);
     }
@@ -1427,7 +1427,7 @@ void spell_exorcise(int sn, int level, CHAR_DATA *ch, void *vo) {
 void spell_demonfire(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *victim = (CHAR_DATA *)vo;
 
-    if (!IS_NPC(ch) && (victim->alignment < (ch->alignment - 100))) {
+    if (ch->is_pc() && (victim->alignment < (ch->alignment - 100))) {
         victim = ch;
         send_to_char("The demons turn upon you!\n\r", ch);
     }
@@ -1552,7 +1552,7 @@ void spell_detect_poison(int sn, int level, CHAR_DATA *ch, void *vo) {
 
 void spell_dispel_evil(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *victim = (CHAR_DATA *)vo;
-    if (!IS_NPC(ch) && IS_EVIL(ch))
+    if (ch->is_pc() && IS_EVIL(ch))
         victim = ch;
 
     if (IS_GOOD(victim)) {
@@ -1580,7 +1580,7 @@ void spell_dispel_evil(int sn, int level, CHAR_DATA *ch, void *vo) {
 void spell_dispel_good(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *victim = (CHAR_DATA *)vo;
 
-    if (!IS_NPC(ch) && IS_GOOD(ch))
+    if (ch->is_pc() && IS_GOOD(ch))
         victim = ch;
 
     if (IS_EVIL(victim)) {
@@ -2313,7 +2313,7 @@ void spell_vorpal(int sn, int level, CHAR_DATA *ch, void *vo) {
     }
 
     const int mana = mana_for_spell(ch, sn);
-    if (IS_NPC(ch) && ch->gold < (mana * 100)) {
+    if (ch->is_npc() && ch->gold < (mana * 100)) {
         send_to_char("You can't afford to!\n\r", ch);
         return;
     }
@@ -2338,7 +2338,7 @@ void spell_venom(int sn, int level, CHAR_DATA *ch, void *vo) {
     }
 
     const int mana = mana_for_spell(ch, sn);
-    if (IS_NPC(ch) && ch->gold < (mana * 100)) {
+    if (ch->is_npc() && ch->gold < (mana * 100)) {
         send_to_char("You can't afford to!\n\r", ch);
         return;
     }
@@ -2363,7 +2363,7 @@ void spell_black_death(int sn, int level, CHAR_DATA *ch, void *vo) {
     }
 
     const int mana = mana_for_spell(ch, sn);
-    if (IS_NPC(ch) && ch->gold < (mana * 100)) {
+    if (ch->is_npc() && ch->gold < (mana * 100)) {
         send_to_char("You can't afford to!\n\r", ch);
         return;
     }
@@ -2388,7 +2388,7 @@ void spell_damnation(int sn, int level, CHAR_DATA *ch, void *vo) {
     }
 
     const int mana = mana_for_spell(ch, sn);
-    if (IS_NPC(ch) && ch->gold < (mana * 100)) {
+    if (ch->is_npc() && ch->gold < (mana * 100)) {
         send_to_char("You can't afford to!\n\r", ch);
         return;
     }
@@ -2440,7 +2440,7 @@ void spell_tame_lightning(int sn, int level, CHAR_DATA *ch, void *vo) {
     }
 
     const int mana = mana_for_spell(ch, sn);
-    if (IS_NPC(ch) && ch->gold < (mana * 100)) {
+    if (ch->is_npc() && ch->gold < (mana * 100)) {
         send_to_char("You can't afford to!\n\r", ch);
         return;
     }
@@ -2538,9 +2538,9 @@ void spell_faerie_fog(int sn, int level, CHAR_DATA *ch, void *vo) {
     send_to_char("You conjure a cloud of purple smoke.\n\r", ch);
 
     for (ich = ch->in_room->people; ich != nullptr; ich = ich->next_in_room) {
-        if (!IS_NPC(ich) && IS_SET(ich->act, PLR_WIZINVIS))
+        if (ich->is_pc() && IS_SET(ich->act, PLR_WIZINVIS))
             continue;
-        if (!IS_NPC(ich) && IS_SET(ich->act, PLR_PROWL))
+        if (ich->is_pc() && IS_SET(ich->act, PLR_PROWL))
             continue;
 
         if (ich == ch || saves_spell(level, ich))
@@ -2646,9 +2646,9 @@ void spell_gate(int sn, int level, CHAR_DATA *ch, void *vo) {
         || !can_see_room(ch, victim->in_room) || IS_SET(victim->in_room->room_flags, ROOM_SAFE)
         || IS_SET(victim->in_room->room_flags, ROOM_PRIVATE) || IS_SET(victim->in_room->room_flags, ROOM_SOLITARY)
         || IS_SET(victim->in_room->room_flags, ROOM_NO_RECALL) || IS_SET(ch->in_room->room_flags, ROOM_NO_RECALL)
-        || victim->level >= level + 3 || (!IS_NPC(victim) && victim->level >= LEVEL_HERO) /* NOT trust */
-        || (IS_NPC(victim) && IS_SET(victim->imm_flags, IMM_SUMMON))
-        || (!IS_NPC(victim) && IS_SET(victim->act, PLR_NOSUMMON)) || (IS_NPC(victim) && saves_spell(level, victim))) {
+        || victim->level >= level + 3 || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
+        || (victim->is_npc() && IS_SET(victim->imm_flags, IMM_SUMMON))
+        || (victim->is_pc() && IS_SET(victim->act, PLR_NOSUMMON)) || (victim->is_npc() && saves_spell(level, victim))) {
         send_to_char("You failed.\n\r", ch);
         return;
     }
@@ -3177,7 +3177,7 @@ void spell_mass_healing(int sn, int level, CHAR_DATA *ch, void *vo) {
     refresh_num = skill_lookup("refresh");
 
     for (gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
-        if ((IS_NPC(ch) && IS_NPC(gch)) || (!IS_NPC(ch) && !IS_NPC(gch))) {
+        if ((ch->is_npc() && gch->is_npc()) || (ch->is_pc() && gch->is_pc())) {
             spell_heal(heal_num, level, ch, (void *)gch);
             spell_refresh(refresh_num, level, ch, (void *)gch);
         }
@@ -3258,7 +3258,7 @@ void spell_plague(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *victim = (CHAR_DATA *)vo;
     AFFECT_DATA af;
 
-    if (saves_spell(level, victim) || (IS_NPC(victim) && IS_SET(victim->act, ACT_UNDEAD))) {
+    if (saves_spell(level, victim) || (victim->is_npc() && IS_SET(victim->act, ACT_UNDEAD))) {
         if (ch == victim)
             send_to_char("You feel momentarily ill, but it passes.\n\r", ch);
         else
@@ -3290,9 +3290,9 @@ void spell_portal(int sn, int level, CHAR_DATA *ch, void *vo) {
         || IS_SET(victim->in_room->room_flags, ROOM_PRIVATE) || IS_SET(victim->in_room->room_flags, ROOM_SOLITARY)
         || IS_SET(victim->in_room->room_flags, ROOM_NO_RECALL) || IS_SET(ch->in_room->room_flags, ROOM_NO_RECALL)
         || IS_SET(victim->in_room->room_flags, ROOM_LAW) || victim->level >= level + 3
-        || (!IS_NPC(victim) && victim->level >= LEVEL_HERO) /* NOT trust */
-        || (IS_NPC(victim) && IS_SET(victim->imm_flags, IMM_SUMMON))
-        || (!IS_NPC(victim) && IS_SET(victim->act, PLR_NOSUMMON)) || (IS_NPC(victim) && saves_spell(level, victim))) {
+        || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
+        || (victim->is_npc() && IS_SET(victim->imm_flags, IMM_SUMMON))
+        || (victim->is_pc() && IS_SET(victim->act, PLR_NOSUMMON)) || (victim->is_npc() && saves_spell(level, victim))) {
         send_to_char("You failed.\n\r", ch);
         return;
     }
@@ -3532,7 +3532,7 @@ void spell_sleep(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *victim = (CHAR_DATA *)vo;
     AFFECT_DATA af;
 
-    if (IS_AFFECTED(victim, AFF_SLEEP) || (IS_NPC(victim) && IS_SET(victim->act, ACT_UNDEAD)) || level < victim->level
+    if (IS_AFFECTED(victim, AFF_SLEEP) || (victim->is_npc() && IS_SET(victim->act, ACT_UNDEAD)) || level < victim->level
         || saves_spell(level, victim))
         return;
 
@@ -3587,10 +3587,10 @@ void spell_summon(int sn, int level, CHAR_DATA *ch, void *vo) {
         || ch->in_room == nullptr || IS_SET(victim->in_room->room_flags, ROOM_SAFE)
         || IS_SET(victim->in_room->room_flags, ROOM_PRIVATE) || IS_SET(victim->in_room->room_flags, ROOM_SOLITARY)
         || IS_SET(victim->in_room->room_flags, ROOM_NO_RECALL)
-        || (IS_NPC(victim) && IS_SET(victim->act, ACT_AGGRESSIVE)) || victim->level >= level + 3
-        || (!IS_NPC(victim) && victim->level >= LEVEL_HERO) || victim->fighting != nullptr
-        || (IS_NPC(victim) && IS_SET(victim->imm_flags, IMM_SUMMON))
-        || (!IS_NPC(victim) && IS_SET(victim->act, PLR_NOSUMMON)) || (IS_NPC(victim) && saves_spell(level, victim))
+        || (victim->is_npc() && IS_SET(victim->act, ACT_AGGRESSIVE)) || victim->level >= level + 3
+        || (victim->is_pc() && victim->level >= LEVEL_HERO) || victim->fighting != nullptr
+        || (victim->is_npc() && IS_SET(victim->imm_flags, IMM_SUMMON))
+        || (victim->is_pc() && IS_SET(victim->act, PLR_NOSUMMON)) || (victim->is_npc() && saves_spell(level, victim))
         || (IS_SET(ch->in_room->room_flags, ROOM_SAFE))) {
         send_to_char("You failed.\n\r", ch);
         return;
@@ -3599,7 +3599,7 @@ void spell_summon(int sn, int level, CHAR_DATA *ch, void *vo) {
         send_to_char("You'd probably get locked behind bars for that!\n\r", ch);
         return;
     }
-    if (IS_NPC(victim)) {
+    if (victim->is_npc()) {
         if (victim->pIndexData->pShop != nullptr || IS_SET(victim->act, ACT_IS_HEALER) || IS_SET(victim->act, ACT_GAIN)
             || IS_SET(victim->act, ACT_PRACTICE)) {
             act("The guildspersons' convention prevents your summons.", ch, nullptr, nullptr, To::Char);
@@ -3625,7 +3625,7 @@ void spell_teleport(int sn, int level, CHAR_DATA *ch, void *vo) {
     ROOM_INDEX_DATA *pRoomIndex;
 
     if (victim->in_room == nullptr || IS_SET(victim->in_room->room_flags, ROOM_NO_RECALL)
-        || (!IS_NPC(ch) && victim->fighting != nullptr)
+        || (ch->is_pc() && victim->fighting != nullptr)
         || (victim != ch && (saves_spell(level, victim) || saves_spell(level, victim)))) {
         send_to_char("You failed.\n\r", ch);
         return;
@@ -3705,7 +3705,7 @@ void spell_word_of_recall(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *victim = (CHAR_DATA *)vo;
     ROOM_INDEX_DATA *location;
 
-    if (IS_NPC(victim))
+    if (victim->is_npc())
         return;
 
     if ((location = get_room_index(ROOM_VNUM_TEMPLE)) == nullptr) {
@@ -3801,7 +3801,7 @@ void spell_acid_breath(int sn, int level, CHAR_DATA *ch, void *vo) {
     }
 
     hpch = UMAX(10, ch->hit);
-    if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && !IS_NPC(ch))
+    if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
     dam = number_range(hpch / 20 + 1, hpch / 10);
     if (saves_spell(level, victim))
@@ -3864,7 +3864,7 @@ void spell_fire_breath(int sn, int level, CHAR_DATA *ch, void *vo) {
     }
 
     hpch = UMAX(10, ch->hit);
-    if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && !IS_NPC(ch))
+    if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
     dam = number_range(hpch / 20 + 1, hpch / 10);
     if (saves_spell(level, victim))
@@ -3897,7 +3897,7 @@ void spell_frost_breath(int sn, int level, CHAR_DATA *ch, void *vo) {
     }
 
     int hpch = UMAX(10, ch->hit);
-    if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && !IS_NPC(ch))
+    if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
     int dam = number_range(hpch / 20 + 1, hpch / 10);
     if (saves_spell(level, victim))
@@ -3916,7 +3916,7 @@ void spell_gas_breath(int sn, int level, CHAR_DATA *ch, void *vo) {
         vch_next = vch->next_in_room;
         if (!is_safe_spell(ch, vch, true)) {
             hpch = UMAX(10, ch->hit);
-            if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && !IS_NPC(ch))
+            if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
                 hpch = 1000;
             dam = number_range(hpch / 20 + 1, hpch / 10);
             if (saves_spell(level, vch))
@@ -3932,7 +3932,7 @@ void spell_lightning_breath(int sn, int level, CHAR_DATA *ch, void *vo) {
     int hpch;
 
     hpch = UMAX(10, ch->hit);
-    if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && !IS_NPC(ch))
+    if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
     dam = number_range(hpch / 20 + 1, hpch / 10);
     if (saves_spell(level, victim))

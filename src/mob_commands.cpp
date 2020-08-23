@@ -80,7 +80,7 @@ void do_mpstat(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (!IS_NPC(victim)) {
+    if (victim->is_pc()) {
         send_to_char("Only Mobiles can have Programs!\n\r", ch);
         return;
     }
@@ -117,7 +117,7 @@ void do_mpasound(CHAR_DATA *ch, const char *argument) {
 
     ROOM_INDEX_DATA *was_in_room;
 
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
         return;
     }
@@ -148,7 +148,7 @@ void do_mpkill(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
 
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
         return;
     }
@@ -192,7 +192,7 @@ void do_mpjunk(CHAR_DATA *ch, const char *argument) {
     OBJ_DATA *obj;
     OBJ_DATA *obj_next;
 
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
         return;
     }
@@ -230,7 +230,7 @@ void do_mpechoaround(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
 
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
         return;
     }
@@ -256,7 +256,7 @@ void do_mpechoat(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
 
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
         return;
     }
@@ -279,7 +279,7 @@ void do_mpechoat(CHAR_DATA *ch, const char *argument) {
 /* prints the message to the room at large */
 
 void do_mpecho(CHAR_DATA *ch, const char *argument) {
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
         return;
     }
@@ -301,7 +301,7 @@ void do_mpmload(CHAR_DATA *ch, const char *argument) {
     MOB_INDEX_DATA *pMobIndex;
     CHAR_DATA *victim;
 
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
         return;
     }
@@ -328,7 +328,7 @@ void do_mpoload(CHAR_DATA *ch, const char *argument) {
     OBJ_INDEX_DATA *pObjIndex;
     OBJ_DATA *obj;
 
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
         return;
     }
@@ -364,7 +364,7 @@ void do_mppurge(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *victim;
     OBJ_DATA *obj;
 
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
         return;
     }
@@ -378,7 +378,7 @@ void do_mppurge(CHAR_DATA *ch, const char *argument) {
 
         for (victim = ch->in_room->people; victim != nullptr; victim = vnext) {
             vnext = victim->next_in_room;
-            if (IS_NPC(victim) && victim != ch)
+            if (victim->is_npc() && victim != ch)
                 extract_char(victim, true);
         }
 
@@ -399,7 +399,7 @@ void do_mppurge(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (!IS_NPC(victim)) {
+    if (victim->is_pc()) {
         bug("Mppurge - Purging a PC from vnum %d.", ch->pIndexData->vnum);
         return;
     }
@@ -413,7 +413,7 @@ void do_mpgoto(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
 
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
         return;
     }
@@ -444,7 +444,7 @@ void do_mpat(CHAR_DATA *ch, const char *argument) {
     ROOM_INDEX_DATA *original;
     CHAR_DATA *wch;
 
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
         return;
     }
@@ -487,7 +487,7 @@ void do_mptransfer(CHAR_DATA *ch, const char *argument) {
     char arg2[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
 
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
         return;
     }
@@ -552,7 +552,7 @@ void do_mptransfer(CHAR_DATA *ch, const char *argument) {
 void do_mpforce(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
 
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
         return;
     }

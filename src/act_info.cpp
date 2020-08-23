@@ -121,7 +121,7 @@ void show_list_to_char(const OBJ_DATA *list, const CHAR_DATA *ch, bool fShort, b
             pstrShow = format_obj_to_char(obj, ch, fShort);
             fCombine = false;
 
-            if (IS_NPC(ch) || IS_SET(ch->comm, COMM_COMBINE)) {
+            if (ch->is_npc() || IS_SET(ch->comm, COMM_COMBINE)) {
                 /*
                  * Look for duplicates, case sensitive.
                  * Matches tend to be near end so run loop backwords.
@@ -150,7 +150,7 @@ void show_list_to_char(const OBJ_DATA *list, const CHAR_DATA *ch, bool fShort, b
      * Output the formatted list.
      */
     for (iShow = 0; iShow < nShow; iShow++) {
-        if (IS_NPC(ch) || IS_SET(ch->comm, COMM_COMBINE)) {
+        if (ch->is_npc() || IS_SET(ch->comm, COMM_COMBINE)) {
             if (prgnShow[iShow] != 1) {
                 snprintf(buf, sizeof(buf), "(%2d) ", prgnShow[iShow]);
                 buffer_addline(buffer, buf);
@@ -164,7 +164,7 @@ void show_list_to_char(const OBJ_DATA *list, const CHAR_DATA *ch, bool fShort, b
     }
 
     if (fShowNothing && nShow == 0) {
-        if (IS_NPC(ch) || IS_SET(ch->comm, COMM_COMBINE))
+        if (ch->is_npc() || IS_SET(ch->comm, COMM_COMBINE))
             buffer_addline(buffer, "     ");
         buffer_addline(buffer, "Nothing.\n\r");
     }
@@ -183,9 +183,9 @@ void show_char_to_char_0(const CHAR_DATA *victim, const CHAR_DATA *ch) {
 
     if (IS_AFFECTED(victim, AFF_INVISIBLE))
         buf += "(|WInvis|w) ";
-    if (!IS_NPC(victim) && IS_SET(victim->act, PLR_WIZINVIS))
+    if (victim->is_pc() && IS_SET(victim->act, PLR_WIZINVIS))
         buf += "(|RWizi|w) ";
-    if (!IS_NPC(victim) && IS_SET(victim->act, PLR_PROWL))
+    if (victim->is_pc() && IS_SET(victim->act, PLR_PROWL))
         buf += "(|RProwl|w) ";
     if (IS_AFFECTED(victim, AFF_HIDE))
         buf += "(|WHide|w) ";
@@ -201,9 +201,9 @@ void show_char_to_char_0(const CHAR_DATA *victim, const CHAR_DATA *ch) {
         buf += "(|rRed Aura|w) ";
     if (IS_AFFECTED(victim, AFF_SANCTUARY))
         buf += "(|WWhite Aura|w) ";
-    if (!IS_NPC(victim) && IS_SET(victim->act, PLR_KILLER))
+    if (victim->is_pc() && IS_SET(victim->act, PLR_KILLER))
         buf += "(|RKILLER|w) ";
-    if (!IS_NPC(victim) && IS_SET(victim->act, PLR_THIEF))
+    if (victim->is_pc() && IS_SET(victim->act, PLR_THIEF))
         buf += "(|RTHIEF|w) ";
 
     if (is_affected(ch, gsn_bless)) {
@@ -219,7 +219,7 @@ void show_char_to_char_0(const CHAR_DATA *victim, const CHAR_DATA *ch) {
     }
 
     buf += pers(victim, ch);
-    if (!IS_NPC(victim) && !IS_SET(ch->comm, COMM_BRIEF))
+    if (victim->is_pc() && !IS_SET(ch->comm, COMM_BRIEF))
         buf += victim->pcdata->title;
 
     switch (victim->position) {
@@ -299,7 +299,7 @@ void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch) {
         }
     }
 
-    if (victim != ch && !IS_NPC(ch) && number_percent() < get_skill_learned(ch, gsn_peek)
+    if (victim != ch && ch->is_pc() && number_percent() < get_skill_learned(ch, gsn_peek)
         && IS_SET(ch->act, PLR_AUTOPEEK)) {
         send_to_char("\n\rYou peek at the inventory:\n\r", ch);
         check_improve(ch, gsn_peek, true, 4);
@@ -327,7 +327,7 @@ void do_peek(CHAR_DATA *ch, const char *argument) {
     if (!check_blind(ch))
         return;
 
-    if (!IS_NPC(ch) && !IS_SET(ch->act, PLR_HOLYLIGHT) && room_is_dark(ch->in_room)) {
+    if (ch->is_pc() && !IS_SET(ch->act, PLR_HOLYLIGHT) && room_is_dark(ch->in_room)) {
         send_to_char("It is pitch black ... \n\r", ch);
         show_char_to_char(ch->in_room->people, ch);
         return;
@@ -336,7 +336,7 @@ void do_peek(CHAR_DATA *ch, const char *argument) {
     argument = one_argument(argument, arg1);
 
     if ((victim = get_char_room(ch, arg1)) != nullptr) {
-        if (victim != ch && !IS_NPC(ch) && number_percent() < get_skill_learned(ch, gsn_peek)) {
+        if (victim != ch && ch->is_pc() && number_percent() < get_skill_learned(ch, gsn_peek)) {
             send_to_char("\n\rYou peek at their inventory:\n\r", ch);
             check_improve(ch, gsn_peek, true, 4);
             show_list_to_char(victim->carrying, ch, true, true);
@@ -350,7 +350,7 @@ void show_char_to_char(const CHAR_DATA *list, const CHAR_DATA *ch) {
         if (rch == ch)
             continue;
 
-        if (!IS_NPC(rch) && IS_SET(rch->act, PLR_WIZINVIS) && ch->get_trust() < rch->invis_level)
+        if (rch->is_pc() && IS_SET(rch->act, PLR_WIZINVIS) && ch->get_trust() < rch->invis_level)
             continue;
 
         if (can_see(ch, rch)) {
@@ -473,7 +473,7 @@ void do_wizlist(CHAR_DATA *ch, const char *argument) {
 void do_autolist(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     /* lists most player flags */
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     send_to_char("   action     status\n\r", ch);
@@ -583,7 +583,7 @@ void do_autolist(CHAR_DATA *ch, const char *argument) {
 
 void do_autoaffect(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (IS_SET(ch->comm, COMM_AFFECT)) {
@@ -596,7 +596,7 @@ void do_autoaffect(CHAR_DATA *ch, const char *argument) {
 }
 void do_autoassist(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (IS_SET(ch->act, PLR_AUTOASSIST)) {
@@ -610,7 +610,7 @@ void do_autoassist(CHAR_DATA *ch, const char *argument) {
 
 void do_autoexit(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (IS_SET(ch->act, PLR_AUTOEXIT)) {
@@ -624,7 +624,7 @@ void do_autoexit(CHAR_DATA *ch, const char *argument) {
 
 void do_autogold(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (IS_SET(ch->act, PLR_AUTOGOLD)) {
@@ -638,7 +638,7 @@ void do_autogold(CHAR_DATA *ch, const char *argument) {
 
 void do_autoloot(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (IS_SET(ch->act, PLR_AUTOLOOT)) {
@@ -652,7 +652,7 @@ void do_autoloot(CHAR_DATA *ch, const char *argument) {
 
 void do_autopeek(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (IS_SET(ch->act, PLR_AUTOPEEK)) {
@@ -666,7 +666,7 @@ void do_autopeek(CHAR_DATA *ch, const char *argument) {
 
 void do_autosac(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (IS_SET(ch->act, PLR_AUTOSAC)) {
@@ -680,7 +680,7 @@ void do_autosac(CHAR_DATA *ch, const char *argument) {
 
 void do_autosplit(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (IS_SET(ch->act, PLR_AUTOSPLIT)) {
@@ -705,15 +705,15 @@ void do_brief(CHAR_DATA *ch, const char *argument) {
 
 void do_colour(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    if IS_NPC (ch)
+    if (ch->is_npc())
         return;
 
     if (ch->pcdata->colour) {
         send_to_char("You feel less COLOURFUL.\n\r", ch);
 
-        ch->pcdata->colour = 0;
+        ch->pcdata->colour = false;
     } else {
-        ch->pcdata->colour = 1;
+        ch->pcdata->colour = true;
         send_to_char("You feel more |RC|GO|BL|rO|gU|bR|cF|YU|PL|W!.|w\n\r", ch);
     }
 }
@@ -787,7 +787,7 @@ void do_combine(CHAR_DATA *ch, const char *argument) {
 
 void do_noloot(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (IS_SET(ch->act, PLR_CANLOOT)) {
@@ -801,7 +801,7 @@ void do_noloot(CHAR_DATA *ch, const char *argument) {
 
 void do_nofollow(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (IS_SET(ch->act, PLR_NOFOLLOW)) {
@@ -816,7 +816,7 @@ void do_nofollow(CHAR_DATA *ch, const char *argument) {
 
 void do_nosummon(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         if (IS_SET(ch->imm_flags, IMM_SUMMON)) {
             send_to_char("You are no longer immune to summon.\n\r", ch);
             REMOVE_BIT(ch->imm_flags, IMM_SUMMON);
@@ -838,7 +838,7 @@ void do_nosummon(CHAR_DATA *ch, const char *argument) {
 void do_lore(CHAR_DATA *ch, OBJ_DATA *obj, const char *pdesc) {
     int sn = skill_lookup("identify");
 
-    if (!IS_NPC(ch) && number_percent() > get_skill_learned(ch, skill_lookup("lore"))) {
+    if (ch->is_pc() && number_percent() > get_skill_learned(ch, skill_lookup("lore"))) {
         send_to_char(pdesc, ch);
         check_improve(ch, gsn_lore, false, 1);
     } else {
@@ -1122,7 +1122,7 @@ void do_worth(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         snprintf(buf, sizeof(buf), "You have %d gold.\n\r", (int)ch->gold);
         send_to_char(buf, ch);
         return;
@@ -1220,7 +1220,7 @@ void do_score(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
-    ch->send_to("|wYou are: |W{}{}|w.\n\r"_format(ch->name, IS_NPC(ch) ? "" : ch->pcdata->title));
+    ch->send_to("|wYou are: |W{}{}|w.\n\r"_format(ch->name, ch->is_npc() ? "" : ch->pcdata->title));
 
     if (ch->get_trust() == ch->level)
         snprintf(buf, sizeof(buf), "Level: |W%d|w", ch->level);
@@ -1233,7 +1233,7 @@ void do_score(CHAR_DATA *ch, const char *argument) {
 
     snprintf(buf, sizeof(buf), "Race: |W%s|w", race_table[ch->race].name);
     snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Class: |W%s|w\n\r",
-             IS_NPC(ch) ? "mobile" : class_table[ch->class_num].name);
+             ch->is_npc() ? "mobile" : class_table[ch->class_num].name);
     send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Sex: |W%s|w", ch->sex == 0 ? "sexless" : ch->sex == 1 ? "male" : "female");
@@ -1248,7 +1248,7 @@ void do_score(CHAR_DATA *ch, const char *argument) {
     send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Wimpy: |W%d|w", ch->wimpy);
-    if (!IS_NPC(ch) && ch->level < LEVEL_HERO)
+    if (ch->is_pc() && ch->level < LEVEL_HERO)
         snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Score: |W%d|w (|W%d|w to next level)\n\r", (int)ch->exp,
                  (unsigned int)((ch->level + 1) * exp_per_level(ch, ch->pcdata->points) - ch->exp));
     else
@@ -1296,7 +1296,7 @@ void do_score(CHAR_DATA *ch, const char *argument) {
         snprintf(buf, sizeof(buf), "You are %s|w.\n\r", get_align_description(ch->alignment));
     send_to_char(buf, ch);
 
-    if (!IS_NPC(ch))
+    if (ch->is_pc())
         describe_condition(ch);
 
     if (IS_IMMORTAL(ch)) {
@@ -1847,7 +1847,7 @@ void do_consider(CHAR_DATA *ch, const char *argument) {
 }
 
 void set_prompt(CHAR_DATA *ch, const char *prompt) {
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         bug("Set_prompt: NPC.");
         return;
     }
@@ -1855,7 +1855,7 @@ void set_prompt(CHAR_DATA *ch, const char *prompt) {
 }
 
 void do_title(CHAR_DATA *ch, const char *argument) {
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (argument[0] == '\0') {
@@ -1918,7 +1918,7 @@ void do_practice(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     int sn;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (argument[0] == '\0') {
@@ -1954,7 +1954,7 @@ void do_practice(CHAR_DATA *ch, const char *argument) {
         }
 
         for (mob = ch->in_room->people; mob != nullptr; mob = mob->next_in_room) {
-            if (IS_NPC(mob) && IS_SET(mob->act, ACT_PRACTICE))
+            if (mob->is_npc() && IS_SET(mob->act, ACT_PRACTICE))
                 break;
         }
 
@@ -1969,14 +1969,14 @@ void do_practice(CHAR_DATA *ch, const char *argument) {
         }
 
         if ((sn = skill_lookup(argument)) < 0
-            || (!IS_NPC(ch)
+            || (ch->is_pc()
                 && ((ch->level < get_skill_level(ch, sn) || (ch->pcdata->learned[sn] < 1))))) // NOT get_skill_learned
         {
             send_to_char("You can't practice that.\n\r", ch);
             return;
         }
 
-        adept = IS_NPC(ch) ? 100 : class_table[ch->class_num].skill_adept;
+        adept = ch->is_npc() ? 100 : class_table[ch->class_num].skill_adept;
 
         if (ch->pcdata->learned[sn] >= adept) // NOT get_skill_learned
         {
@@ -2040,7 +2040,7 @@ void do_password(CHAR_DATA *ch, const char *argument) {
     char *p;
     char cEnd;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     /*

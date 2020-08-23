@@ -57,7 +57,7 @@ bool can_loot(CHAR_DATA *ch, OBJ_DATA *obj) {
     if (!str_cmp(ch->name, owner->name))
         return true;
 
-    if (!IS_NPC(owner) && IS_SET(owner->act, PLR_CANLOOT))
+    if (owner->is_pc() && IS_SET(owner->act, PLR_CANLOOT))
         return true;
 
     if (is_same_group(ch, owner))
@@ -843,7 +843,7 @@ void do_drink(CHAR_DATA *ch, const char *argument) {
         }
     }
 
-    if (!IS_NPC(ch) && ch->pcdata->condition[COND_DRUNK] > 10) {
+    if (ch->is_pc() && ch->pcdata->condition[COND_DRUNK] > 10) {
         send_to_char("You fail to reach your mouth.  *Hic*\n\r", ch);
         return;
     }
@@ -852,7 +852,7 @@ void do_drink(CHAR_DATA *ch, const char *argument) {
     default: send_to_char("You can't drink from that.\n\r", ch); break;
 
     case ITEM_FOUNTAIN:
-        if (!IS_NPC(ch))
+        if (ch->is_pc())
             ch->pcdata->condition[COND_THIRST] = 48;
         act("$n drinks from $p.", ch, obj, nullptr, To::Room);
         send_to_char("You are no longer thirsty.\n\r", ch);
@@ -879,11 +879,11 @@ void do_drink(CHAR_DATA *ch, const char *argument) {
         gain_condition(ch, COND_FULL, amount * liq_table[liquid].liq_affect[COND_FULL]);
         gain_condition(ch, COND_THIRST, amount * liq_table[liquid].liq_affect[COND_THIRST]);
 
-        if (!IS_NPC(ch) && ch->pcdata->condition[COND_DRUNK] > 10)
+        if (ch->is_pc() && ch->pcdata->condition[COND_DRUNK] > 10)
             send_to_char("You feel drunk.\n\r", ch);
-        if (!IS_NPC(ch) && ch->pcdata->condition[COND_FULL] > 40)
+        if (ch->is_pc() && ch->pcdata->condition[COND_FULL] > 40)
             send_to_char("You are full.\n\r", ch);
-        if (!IS_NPC(ch) && ch->pcdata->condition[COND_THIRST] > 40)
+        if (ch->is_pc() && ch->pcdata->condition[COND_THIRST] > 40)
             send_to_char("You do not feel thirsty.\n\r", ch);
 
         if (obj->value[3] != 0) {
@@ -927,7 +927,7 @@ void do_eat(CHAR_DATA *ch, const char *argument) {
             return;
         }
 
-        if (!IS_NPC(ch) && ch->pcdata->condition[COND_FULL] > 40) {
+        if (ch->is_pc() && ch->pcdata->condition[COND_FULL] > 40) {
             send_to_char("You are too full to eat more.\n\r", ch);
             return;
         }
@@ -939,7 +939,7 @@ void do_eat(CHAR_DATA *ch, const char *argument) {
     switch (obj->item_type) {
 
     case ITEM_FOOD:
-        if (!IS_NPC(ch)) {
+        if (ch->is_pc()) {
             int condition;
 
             condition = ch->pcdata->condition[COND_FULL];
@@ -1232,12 +1232,12 @@ void wear_obj(CHAR_DATA *ch, OBJ_DATA *obj, bool fReplace) {
         if (!remove_obj(ch, WEAR_WIELD, fReplace))
             return;
 
-        if (!IS_NPC(ch) && get_obj_weight(obj) > str_app[get_curr_stat(ch, Stat::Str)].wield) {
+        if (ch->is_pc() && get_obj_weight(obj) > str_app[get_curr_stat(ch, Stat::Str)].wield) {
             send_to_char("It is too heavy for you to wield.\n\r", ch);
             return;
         }
 
-        if (!IS_NPC(ch) && ch->size < SIZE_LARGE && IS_WEAPON_STAT(obj, WEAPON_TWO_HANDS)
+        if (ch->is_pc() && ch->size < SIZE_LARGE && IS_WEAPON_STAT(obj, WEAPON_TWO_HANDS)
             && get_eq_char(ch, WEAR_SHIELD) != nullptr) {
             send_to_char("You need two hands free for that weapon.\n\r", ch);
             return;
@@ -1275,7 +1275,7 @@ void wear_obj(CHAR_DATA *ch, OBJ_DATA *obj, bool fReplace) {
     }
 
     if (CAN_WEAR(obj, ITEM_HOLD))
-        if (!(IS_NPC(ch) && IS_SET(ch->act, ACT_PET))) {
+        if (!(ch->is_npc() && IS_SET(ch->act, ACT_PET))) {
             if (!remove_obj(ch, WEAR_HOLD, fReplace))
                 return;
             if (obj->wear_string == nullptr) {
@@ -1557,12 +1557,12 @@ void do_brandish(CHAR_DATA *ch, const char *argument) {
                     break;
 
                 case TAR_CHAR_OFFENSIVE:
-                    if (IS_NPC(ch) ? IS_NPC(vch) : !IS_NPC(vch))
+                    if (ch->is_npc() ? vch->is_npc() : vch->is_pc())
                         continue;
                     break;
 
                 case TAR_CHAR_DEFENSIVE:
-                    if (IS_NPC(ch) ? !IS_NPC(vch) : IS_NPC(vch))
+                    if (ch->is_npc() ? vch->is_pc() : vch->is_npc())
                         continue;
                     break;
 
@@ -1722,8 +1722,8 @@ void do_steal(CHAR_DATA *ch, const char *argument) {
     WAIT_STATE(ch, skill_table[gsn_steal].beats);
     percent = number_percent() + (IS_AWAKE(victim) ? 10 : -50);
 
-    if (ch->level + 5 < victim->level || victim->position == POS_FIGHTING || !IS_NPC(victim)
-        || (!IS_NPC(ch) && percent > get_skill_learned(ch, gsn_steal))) {
+    if (ch->level + 5 < victim->level || victim->position == POS_FIGHTING || victim->is_pc()
+        || (ch->is_pc() && percent > get_skill_learned(ch, gsn_steal))) {
         /*
          * Failure.
          */
@@ -1740,8 +1740,8 @@ void do_steal(CHAR_DATA *ch, const char *argument) {
         case 3: snprintf(buf, sizeof(buf), "Keep your hands out of there, %s!", ch->name); break;
         }
         do_yell(victim, buf);
-        if (!IS_NPC(ch)) {
-            if (IS_NPC(victim)) {
+        if (ch->is_pc()) {
+            if (victim->is_npc()) {
                 check_improve(ch, gsn_steal, false, 2);
                 multi_hit(victim, ch, TYPE_UNDEFINED);
             } else {
@@ -1809,7 +1809,7 @@ CHAR_DATA *find_keeper(CHAR_DATA *ch) {
 
     pShop = nullptr;
     for (keeper = ch->in_room->people; keeper; keeper = keeper->next_in_room) {
-        if (IS_NPC(keeper) && (pShop = keeper->pIndexData->pShop) != nullptr)
+        if (keeper->is_npc() && (pShop = keeper->pIndexData->pShop) != nullptr)
             break;
     }
 
@@ -1821,14 +1821,14 @@ CHAR_DATA *find_keeper(CHAR_DATA *ch) {
     /*
      * Undesirables.
      */
-    if (!IS_NPC(ch) && IS_SET(ch->act, PLR_KILLER)) {
+    if (ch->is_pc() && IS_SET(ch->act, PLR_KILLER)) {
         do_say(keeper, "Killers are not welcome!");
         snprintf(buf, sizeof(buf), "%s the KILLER is over here!\n\r", ch->name);
         do_yell(keeper, buf);
         return nullptr;
     }
 
-    if (!IS_NPC(ch) && IS_SET(ch->act, PLR_THIEF)) {
+    if (ch->is_pc() && IS_SET(ch->act, PLR_THIEF)) {
         do_say(keeper, "Thieves are not welcome!");
         snprintf(buf, sizeof(buf), "%s the THIEF is over here!\n\r", ch->name);
         do_yell(keeper, buf);
@@ -1910,7 +1910,7 @@ void do_buy(CHAR_DATA *ch, const char *argument) {
         ROOM_INDEX_DATA *pRoomIndexNext;
         ROOM_INDEX_DATA *in_room;
 
-        if (IS_NPC(ch))
+        if (ch->is_npc())
             return;
 
         argument = one_argument(argument, arg);
@@ -1951,7 +1951,7 @@ void do_buy(CHAR_DATA *ch, const char *argument) {
 
         /* haggle */
         roll = number_percent();
-        if (!IS_NPC(ch) && roll < get_skill_learned(ch, gsn_haggle)) {
+        if (ch->is_pc() && roll < get_skill_learned(ch, gsn_haggle)) {
             cost -= cost / 2 * roll / 100;
             snprintf(buf, sizeof(buf), "You haggle the price down to %d coins.\n\r", cost);
             send_to_char(buf, ch);
@@ -2023,7 +2023,7 @@ void do_buy(CHAR_DATA *ch, const char *argument) {
 
         /* haggle */
         roll = number_percent();
-        if (!IS_NPC(ch) && roll < get_skill_learned(ch, gsn_haggle)) {
+        if (ch->is_pc() && roll < get_skill_learned(ch, gsn_haggle)) {
             cost -= obj->cost / 2 * roll / 100;
             snprintf(buf, sizeof(buf), "You haggle the price down to %d coins.\n\r", cost);
             send_to_char(buf, ch);
@@ -2161,7 +2161,7 @@ void do_sell(CHAR_DATA *ch, const char *argument) {
     act("$n sells $p.", ch, obj, nullptr, To::Room);
     /* haggle */
     roll = number_percent();
-    if (!IS_NPC(ch) && roll < get_skill_learned(ch, gsn_haggle)) {
+    if (ch->is_pc() && roll < get_skill_learned(ch, gsn_haggle)) {
         send_to_char("You haggle with the shopkeeper.\n\r", ch);
         cost += obj->cost / 2 * roll / 100;
         cost = UMIN(cost, 95 * get_cost(keeper, obj, true) / 100);

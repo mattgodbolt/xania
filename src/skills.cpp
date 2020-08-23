@@ -22,12 +22,12 @@ void do_gain(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *trainer;
     int gn = 0, sn = 0, i = 0;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     /* find a trainer */
     for (trainer = ch->in_room->people; trainer != nullptr; trainer = trainer->next_in_room)
-        if (IS_NPC(trainer) && IS_SET(trainer->act, ACT_GAIN))
+        if (trainer->is_npc() && IS_SET(trainer->act, ACT_GAIN))
             break;
 
     if (trainer == nullptr || !can_see(ch, trainer)) {
@@ -190,7 +190,7 @@ void do_spells(CHAR_DATA *ch, const char *argument) {
     bool found = false;
     char buf[MAX_STRING_LENGTH];
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     /* initilize data */
@@ -247,7 +247,7 @@ void do_skills(CHAR_DATA *ch, const char *argument) {
     bool found = false;
     char buf[MAX_STRING_LENGTH];
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     /* initilize data */
@@ -299,7 +299,7 @@ void list_group_costs(CHAR_DATA *ch) {
     char buf[100];
     int gn, sn, col;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     col = 0;
@@ -353,7 +353,7 @@ void list_group_chosen(CHAR_DATA *ch) {
     char buf[100];
     int gn, sn, col;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     col = 0;
@@ -406,7 +406,7 @@ unsigned int exp_per_level(const CHAR_DATA *ch, int points) {
     unsigned int expl, inc;
     unsigned int expl2;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return 1000;
 
     expl = 1000;
@@ -579,7 +579,7 @@ void do_groups(CHAR_DATA *ch, const char *argument) {
     char buf[100];
     int gn, sn, col;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     col = 0;
@@ -643,7 +643,7 @@ void check_improve(CHAR_DATA *ch, int sn, bool success, int multiplier) {
     int chance, how_good;
     char buf[100];
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (ch->level < get_skill_level(ch, sn) || ch->pcdata->learned[sn] == 0 || ch->pcdata->learned[sn] == 100)
@@ -726,7 +726,7 @@ void gn_remove(CHAR_DATA *ch, int gn) {
 void group_add(CHAR_DATA *ch, const char *name, bool deduct) {
     int sn, gn;
 
-    if (IS_NPC(ch)) /* NPCs do not have skills */
+    if (ch->is_npc()) /* NPCs do not have skills */
         return;
 
     sn = skill_lookup(name);

@@ -67,7 +67,7 @@ void move_char(CHAR_DATA *ch, Direction door) {
         return;
     }
 
-    if (!IS_NPC(ch)) {
+    if (ch->is_pc()) {
         int iClass, iGuild;
         int move;
 
@@ -158,7 +158,7 @@ void move_char(CHAR_DATA *ch, Direction door) {
     }
 
     if (!(IS_AFFECTED(ch, AFF_SNEAK) && (ch->riding != nullptr))
-        && (IS_NPC(ch) || !IS_SET(ch->act, PLR_WIZINVIS) || !IS_SET(ch->act, PLR_PROWL))) {
+        && (ch->is_npc() || !IS_SET(ch->act, PLR_WIZINVIS) || !IS_SET(ch->act, PLR_PROWL))) {
         if (ch->ridden_by == nullptr) {
             if (ch->riding == nullptr) {
                 act("$n leaves $T.", ch, nullptr, to_string(door), To::Room);
@@ -172,7 +172,8 @@ void move_char(CHAR_DATA *ch, Direction door) {
     char_from_room(ch);
     char_to_room(ch, to_room);
 
-    if (!IS_AFFECTED(ch, AFF_SNEAK) && (IS_NPC(ch) || !IS_SET(ch->act, PLR_WIZINVIS) || !IS_SET(ch->act, PLR_PROWL))) {
+    if (!IS_AFFECTED(ch, AFF_SNEAK)
+        && (ch->is_npc() || !IS_SET(ch->act, PLR_WIZINVIS) || !IS_SET(ch->act, PLR_PROWL))) {
         if (ch->ridden_by == nullptr) {
             if (ch->riding == nullptr) {
                 act("$n has arrived.", ch);
@@ -196,7 +197,7 @@ void move_char(CHAR_DATA *ch, Direction door) {
 
         if (fch->master == ch && fch->position == POS_STANDING) {
 
-            if (IS_SET(ch->in_room->room_flags, ROOM_LAW) && (IS_NPC(fch) && IS_SET(fch->act, ACT_AGGRESSIVE))) {
+            if (IS_SET(ch->in_room->room_flags, ROOM_LAW) && (fch->is_npc() && IS_SET(fch->act, ACT_AGGRESSIVE))) {
                 act("$N may not enter here.", ch, nullptr, fch, To::Char);
                 act("You aren't allowed to go there.", fch, nullptr, nullptr, To::Char);
                 return;
@@ -238,7 +239,7 @@ void do_enter(CHAR_DATA *ch, const char *argument) {
                         return;
                     }
 
-                    if (IS_NPC(ch) && IS_SET(ch->act, ACT_AGGRESSIVE) && IS_SET(to_room->room_flags, ROOM_LAW)) {
+                    if (ch->is_npc() && IS_SET(ch->act, ACT_AGGRESSIVE) && IS_SET(to_room->room_flags, ROOM_LAW)) {
                         send_to_char("Something prevents you from leaving...\n\r", ch);
                         return;
                     }
@@ -248,7 +249,7 @@ void do_enter(CHAR_DATA *ch, const char *argument) {
                         return;
                     }
 
-                    if (!IS_NPC(ch)) {
+                    if (ch->is_pc()) {
                         int iClass, iGuild;
                         for (iClass = 0; iClass < MAX_CLASS; iClass++) {
                             for (iGuild = 0; iGuild < MAX_GUILD; iGuild++) {
@@ -321,7 +322,7 @@ void do_enter(CHAR_DATA *ch, const char *argument) {
                         if (fch->master == ch && fch->position == POS_STANDING) {
 
                             if (IS_SET(ch->in_room->room_flags, ROOM_LAW)
-                                && (IS_NPC(fch) && IS_SET(fch->act, ACT_AGGRESSIVE))) {
+                                && (fch->is_npc() && IS_SET(fch->act, ACT_AGGRESSIVE))) {
                                 act("You can't bring $N into the city.", ch, nullptr, fch, To::Char);
                                 act("You aren't allowed in the city.", fch, nullptr, nullptr, To::Char);
                                 continue;
@@ -706,13 +707,13 @@ void do_pick(CHAR_DATA *ch, const char *argument) {
 
     /* look for guards */
     for (auto *gch = ch->in_room->people; gch; gch = gch->next_in_room) {
-        if (IS_NPC(gch) && IS_AWAKE(gch) && ch->level + 5 < gch->level) {
+        if (gch->is_npc() && IS_AWAKE(gch) && ch->level + 5 < gch->level) {
             act("$N is standing too close to the lock.", ch, nullptr, gch, To::Char);
             return;
         }
     }
 
-    if (!IS_NPC(ch) && number_percent() > get_skill_learned(ch, gsn_pick_lock)) {
+    if (ch->is_pc() && number_percent() > get_skill_learned(ch, gsn_pick_lock)) {
         send_to_char("You failed.\n\r", ch);
         check_improve(ch, gsn_pick_lock, false, 2);
         return;
@@ -953,7 +954,7 @@ void do_sneak(CHAR_DATA *ch, const char *argument) {
     send_to_char("You attempt to move silently.\n\r", ch);
     affect_strip(ch, gsn_sneak);
 
-    if (IS_NPC(ch) || number_percent() < get_skill_learned(ch, gsn_sneak)) {
+    if (ch->is_npc() || number_percent() < get_skill_learned(ch, gsn_sneak)) {
         check_improve(ch, gsn_sneak, true, 3);
         af.type = gsn_sneak;
         af.level = ch->level;
@@ -973,7 +974,7 @@ void do_hide(CHAR_DATA *ch, const char *argument) {
     if (IS_AFFECTED(ch, AFF_HIDE))
         REMOVE_BIT(ch->affected_by, AFF_HIDE);
 
-    if (IS_NPC(ch) || number_percent() < ch->pcdata->learned[gsn_hide]) {
+    if (ch->is_npc() || number_percent() < ch->pcdata->learned[gsn_hide]) {
         SET_BIT(ch->affected_by, AFF_HIDE);
         check_improve(ch, gsn_hide, true, 3);
     } else
@@ -1000,7 +1001,7 @@ void do_recall(CHAR_DATA *ch, const char *argument) {
     ROOM_INDEX_DATA *location;
     int vnum;
 
-    if (IS_NPC(ch) && !IS_SET(ch->act, ACT_PET)) {
+    if (ch->is_npc() && !IS_SET(ch->act, ACT_PET)) {
         send_to_char("Only players can recall.\n\r", ch);
         return;
     }
@@ -1048,7 +1049,7 @@ void do_recall(CHAR_DATA *ch, const char *argument) {
     if ((victim = ch->fighting) != nullptr) {
         int lose, skill;
 
-        if (IS_NPC(ch))
+        if (ch->is_npc())
             skill = 40 + ch->level;
         else
             skill = get_skill_learned(ch, gsn_recall);
@@ -1079,7 +1080,7 @@ void do_recall(CHAR_DATA *ch, const char *argument) {
 
     do_look(ch, "auto");
 
-    if (IS_NPC(ch) && ch->ridden_by) {
+    if (ch->is_npc() && ch->ridden_by) {
         act("$n falls to the ground.", ch->ridden_by);
         act("You fall to the ground.", ch->ridden_by, nullptr, nullptr, To::Char);
         fallen_off_mount(ch->ridden_by);
@@ -1096,14 +1097,14 @@ void do_train(CHAR_DATA *ch, const char *argument) {
     const char *pOutput = nullptr;
     int cost;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     /*
      * Check for trainer.
      */
     for (mob = ch->in_room->people; mob; mob = mob->next_in_room) {
-        if (IS_NPC(mob) && IS_SET(mob->act, ACT_TRAIN))
+        if (mob->is_npc() && IS_SET(mob->act, ACT_TRAIN))
             break;
     }
 

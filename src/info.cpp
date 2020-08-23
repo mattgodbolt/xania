@@ -221,7 +221,7 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
         victim = get_char_world(ch, argument);
 
         /* Notice DEATH hack here!!! */
-        if (victim != nullptr && IS_NPC(victim) && strcmp(argument, "Death")) {
+        if (victim != nullptr && victim->is_npc() && strcmp(argument, "Death")) {
             send_to_char("Mobs don't have very interesting information to give to you.\n\r", ch);
             return;
         }
@@ -254,7 +254,7 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
             if (!cur) {
                 /* Player info not in cache, proceed to put it in there */
                 /*send_to_char ("Player info is not in cache.\n\r", ch);*/
-                if (victim && !IS_NPC(victim) && victim->desc) {
+                if (victim && victim->is_pc() && victim->desc) {
                     cur = &info_cache
                                .emplace(argument,
                                         FingerInfo(victim->name, victim->pcdata->info_message,
@@ -277,7 +277,7 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
             /* This is the tricky bit - should the player login time be seen
                by this player or not? */
 
-            if (victim != nullptr && victim->desc != nullptr && !IS_NPC(victim)) {
+            if (victim != nullptr && victim->desc != nullptr && victim->is_pc()) {
 
                 /* Player is currently logged in */
                 if (victim->invis_level > ch->level && ch->get_trust() < GOD) {

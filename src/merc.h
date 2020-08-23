@@ -1405,7 +1405,6 @@ extern sh_int gsn_bless;
 /*
  * Character macros.
  */
-#define IS_NPC(ch) (ch->is_npc())
 #define IS_IMMORTAL(ch) (ch->is_immortal())
 #define IS_HERO(ch) (ch->is_hero())
 #define IS_TRUSTED(ch, level) (ch->get_trust() >= (level))

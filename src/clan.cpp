@@ -134,7 +134,7 @@ void do_noclanchan(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *victim;
 
     /* Check for ability to noclanchan */
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if ((ch->get_trust() > (MAX_LEVEL - 5)) || ((ch->pc_clan() != nullptr) && (ch->pc_clan()->clanlevel > CLAN_HERO))) {
@@ -144,7 +144,7 @@ void do_noclanchan(CHAR_DATA *ch, const char *argument) {
     }
 
     victim = get_char_world(ch, argument);
-    if ((victim == nullptr) || IS_NPC(victim)) {
+    if ((victim == nullptr) || victim->is_npc()) {
         send_to_char("They're not here.\n\r", ch);
         return;
     } /* If can't find victim */
@@ -189,7 +189,7 @@ void do_member(CHAR_DATA *ch, const char *argument) {
 
     /* Check for ability to member */
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (!ch->pc_clan() || ch->pc_clan()->clanlevel < CLAN_LEADER) {
@@ -204,7 +204,7 @@ void do_member(CHAR_DATA *ch, const char *argument) {
     }
 
     victim = get_char_room(ch, argument);
-    if ((victim == nullptr) || IS_NPC(victim)) {
+    if ((victim == nullptr) || victim->is_npc()) {
         send_to_char("You can't see them here.\n\r", ch);
         return;
     }
@@ -268,7 +268,7 @@ void mote(CHAR_DATA *ch, const char *argument, int add) {
 
     /* Check for ability to *mote */
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (!ch->pc_clan() || ch->pc_clan()->clanlevel < CLAN_LEADER) {
@@ -318,7 +318,7 @@ void do_clanwho(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (!ch->clan()) {
@@ -365,7 +365,7 @@ void do_clanset(CHAR_DATA *ch, const char *argument) {
         }
 
         victim = get_char_world(ch, arg1);
-        if ((victim == nullptr) || (IS_NPC(victim))) {
+        if ((victim == nullptr) || (victim->is_npc())) {
             send_to_char("They're not here.\n\r", ch);
             return;
         }
@@ -439,7 +439,7 @@ void do_clanset(CHAR_DATA *ch, const char *argument) {
             return;
         }
         victim = get_char_world(ch, arg1);
-        if ((victim == nullptr) || (IS_NPC(victim))) {
+        if ((victim == nullptr) || (victim->is_npc())) {
             send_to_char("They're not here.\n\r", ch);
             return;
         }

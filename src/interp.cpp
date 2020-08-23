@@ -431,7 +431,7 @@ void interpret(CHAR_DATA *ch, const char *argument) {
     REMOVE_BIT(ch->affected_by, AFF_HIDE);
 
     /* Implement freeze command. */
-    if (!IS_NPC(ch) && IS_SET(ch->act, PLR_FREEZE)) {
+    if (ch->is_pc() && IS_SET(ch->act, PLR_FREEZE)) {
         send_to_char("You're totally frozen!\n\r", ch);
         return;
     }
@@ -466,11 +466,11 @@ void interpret(CHAR_DATA *ch, const char *argument) {
     if (cmd->log == CommandLogLevel::Never)
         strcpy(logline, "");
 
-    if ((!IS_NPC(ch) && IS_SET(ch->act, PLR_LOG)) || fLogAll || cmd->log == CommandLogLevel::Always) {
+    if ((ch->is_pc() && IS_SET(ch->act, PLR_LOG)) || fLogAll || cmd->log == CommandLogLevel::Always) {
         int level = (cmd->level >= 91) ? (cmd->level) : 0;
-        if (!IS_NPC(ch) && (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)))
+        if (ch->is_pc() && (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)))
             level = UMAX(level, ch->get_trust());
-        if (IS_NPC(ch) && ch->desc && ch->desc->original()) {
+        if (ch->is_npc() && ch->desc && ch->desc->original()) {
             snprintf(log_buf, LOG_BUF_SIZE, "Log %s (as '%s'): %s", ch->desc->original()->name, ch->name, logline);
         } else {
             snprintf(log_buf, LOG_BUF_SIZE, "Log %s: %s", ch->name, logline);
@@ -513,7 +513,7 @@ bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
     if (!(social = find_social(command)))
         return false;
 
-    if (!IS_NPC(ch) && IS_SET(ch->comm, COMM_NOEMOTE)) {
+    if (ch->is_pc() && IS_SET(ch->comm, COMM_NOEMOTE)) {
         send_to_char("You are anti-social!\n\r", ch);
         return true;
     }
@@ -538,7 +538,7 @@ bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
         act(social->char_found, ch, nullptr, victim, To::Char);
         act(social->vict_found, ch, nullptr, victim, To::Vict);
 
-        if (!IS_NPC(ch) && IS_NPC(victim) && !IS_AFFECTED(victim, AFF_CHARM) && IS_AWAKE(victim)
+        if (ch->is_pc() && victim->is_npc() && !IS_AFFECTED(victim, AFF_CHARM) && IS_AWAKE(victim)
             && victim->desc == nullptr) {
             switch (number_bits(4)) {
             case 0:
@@ -695,7 +695,7 @@ bool MP_Commands(CHAR_DATA *ch) /* Can MOBProged mobs
     if (is_switched(ch))
         return false;
 
-    if (IS_NPC(ch) && ch->pIndexData->progtypes && !IS_AFFECTED(ch, AFF_CHARM))
+    if (ch->is_npc() && ch->pIndexData->progtypes && !IS_AFFECTED(ch, AFF_CHARM))
         return true;
 
     return false;
