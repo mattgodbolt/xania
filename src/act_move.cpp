@@ -1186,10 +1186,7 @@ void do_train(CHAR_DATA *ch, const char *argument) {
              * This message dedicated to Jordan ... you big stud!
              */
             act("You have nothing left to train, you $T!", ch, nullptr,
-                ch->sex == SEX_MALE     ? "big stud"
-                : ch->sex == SEX_FEMALE ? "hot babe"
-                                        : "wild thing",
-                To::Char);
+                ch->sex == SEX_MALE ? "big stud" : ch->sex == SEX_FEMALE ? "hot babe" : "wild thing", To::Char);
         }
 
         return;
