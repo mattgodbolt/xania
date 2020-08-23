@@ -186,7 +186,7 @@ struct CHAR_DATA {
     [[nodiscard]] OBJ_DATA *find_worn(std::string_view argument) const;
 
     // Return the name used to describe the char in short text.
-    [[nodiscard]] std::string_view short_name() const noexcept { return is_pc() ? name : short_descr; }
+    [[nodiscard]] char *short_name() const noexcept { return is_pc() ? name : short_descr; }
 
     // Alignment.
     [[nodiscard]] bool is_good() const noexcept { return alignment >= 350; }
