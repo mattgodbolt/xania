@@ -2097,7 +2097,9 @@ E 1 5801 20 6            helmet
 E 1 5805 20 5            plate
 E 1 5831 -1 16           blaster
 M 0 5801 15 5808 1  1      storm trooper
-  
+
+O 0 3135 10 5808  fountain at cross roads
+
 E 1 5805 20 5            plate
 E 1 5831 -1 16           blaster
 M 0 5801 15 5816 1  1      storm trooper

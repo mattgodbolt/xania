@@ -7240,10 +7240,10 @@ A
 fountain water~
 A fountain~
 A large fountain is here gurgling out an endless stream of water.~
-stone~
-drink GQ 0
-100000 100000 'water' 0 0
-0 5000 0 P
+~
+fountain 0 0
+50 50 0 0 0
+0 5000 3000 G
 
 #9602
 cloth baggy pants~
@@ -7365,7 +7365,14 @@ weapon I AN
 'dagger' 10 9 'pierce' D
 90 5 18516 P
 
-
+#9613
+fountain water~
+A fountain~
+A small fountain trickles gently.~
+~
+fountain 0 0
+50 50 0 0 0
+0 5000 3000 G
 
 
 #0
@@ -7386,6 +7393,7 @@ M 0 9537 2 9506 1  1   the tax collector into The Center of Market Square
 G   1   9500   10            the palace key of New Thalos in inventory
 M 0 9540 1 9506 1  1   Raistlin into The Center of Market Square  
 O   0   9601    1   9506  load A fountain into The Center of Market Square
+O   0   9613    1   9618  load A small fountain into Mage's Courtyard
 M 0 9582 15 9507 1  1   The Royal Guard into The Southeastern Market Square  
 M 0 9582 15 9508 1  1   The Royal Guard into The Southwestern Market Square  
 M 0 9592 7 9509 1  1   the bodyguard into The Western Market Square  
