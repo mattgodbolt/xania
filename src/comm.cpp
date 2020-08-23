@@ -77,7 +77,6 @@ bool check_reconnect(Descriptor *d, bool fConn);
 bool check_playing(Descriptor *d, char *name);
 void nanny(Descriptor *d, const char *argument);
 bool process_output(Descriptor *d, bool fPrompt);
-void show_prompt(Descriptor *d, std::string_view prompt);
 
 /* Handle to get to doorman */
 Fd doormanDesc;
@@ -440,19 +439,23 @@ bool process_output(Descriptor *d, bool fPrompt) {
     if (!merc_down && d->is_paging())
         d->write("[Hit Return to continue]\n\r");
     else if (fPrompt && !merc_down && d->is_playing()) {
-        const auto *ch = d->character();
+        // Retrieve the pc data for the person associated with this descriptor. The person contains user preferences
+        // like prompt, colourisation and comm settings.
+        const auto *person = d->person();
+        // Character is used for the actual character status. This is very commonly this is the same as person, but if
+        // an IMM is switched, then the person will be the IMM, and character will be the monster they're switched to.
+        const auto *character = d->character();
+        bool ansi = person->pcdata->colour;
 
-        // battle prompt.
-        if (ch->fighting) {
-            d->write(describe_fight_condition(*ch->fighting));
-        }
+        // Battle prompt.
+        if (auto *fighting = character->fighting)
+            d->write(colourise_mud_string(ansi, describe_fight_condition(*fighting)));
 
-        ch = d->person();
-        if (!IS_SET(ch->comm, COMM_COMPACT))
+        if (!IS_SET(person->comm, COMM_COMPACT))
             d->write("\n\r");
 
-        if (IS_SET(ch->comm, COMM_PROMPT))
-            show_prompt(d, ch->pcdata->prompt);
+        if (IS_SET(person->comm, COMM_PROMPT))
+            d->write(colourise_mud_string(ansi, format_prompt(*character, person->pcdata->prompt)));
     }
 
     return d->flush_output();
@@ -1483,10 +1486,4 @@ std::string format_prompt(const CHAR_DATA &ch, std::string_view prompt) {
             buf += c;
     }
     return buf + "|w";
-}
-
-void show_prompt(Descriptor *d, std::string_view prompt) {
-    auto *ch = d->character();
-
-    ch->send_to(format_prompt(*ch, prompt));
 }

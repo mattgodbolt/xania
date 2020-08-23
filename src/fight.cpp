@@ -175,8 +175,8 @@ std::string_view wound_for(int percent) {
     if (percent >= 15)
         return "looks pretty hurt.";
     if (percent >= 0)
-        return "is in awful condition.";
-    return "is bleeding to death.";
+        return "is in |rawful condition|w.";
+    return "is |Rbleeding to death|w.";
 }
 }
 
