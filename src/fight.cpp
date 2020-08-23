@@ -182,7 +182,7 @@ std::string_view wound_for(int percent) {
 
 std::string describe_fight_condition(const CHAR_DATA &victim) {
     auto percent = victim.max_hit > 0 ? victim.hit * 100 / victim.max_hit : -1;
-    return "{} {}"_format(InitialCap{victim.short_name()}, wound_for(percent));
+    return "{} {}\n\r"_format(InitialCap{victim.short_name()}, wound_for(percent));
 }
 
 /*
