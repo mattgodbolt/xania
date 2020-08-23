@@ -175,8 +175,8 @@ std::string_view wound_for(int percent) {
     if (percent >= 15)
         return "looks pretty hurt.";
     if (percent >= 0)
-        return "is in |rawful condition|w.";
-    return "is |Rbleeding to death|w.";
+        return "is in awful condition.";
+    return "is bleeding to death.";
 }
 }
 
@@ -1391,11 +1391,11 @@ void death_cry(CHAR_DATA *ch) {
         obj = create_object(get_obj_index(vnum));
         obj->timer = number_range(4, 7);
 
-        snprintf(buf, sizeof(buf), obj->short_descr, name);
+        snprintf(buf, sizeof(buf), obj->short_descr, name.data());
         free_string(obj->short_descr);
         obj->short_descr = str_dup(buf);
 
-        snprintf(buf, sizeof(buf), obj->description, name);
+        snprintf(buf, sizeof(buf), obj->description, name.data());
         free_string(obj->description);
         obj->description = str_dup(buf);
 
