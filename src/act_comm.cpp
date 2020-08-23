@@ -93,7 +93,7 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
     ch->pcdata->confirm_delete = true;
 }
 
-void announce(const char *buf, const CHAR_DATA *ch) {
+void announce(std::string_view buf, const CHAR_DATA *ch) {
     if (ch->in_room == nullptr)
         return; /* special case on creation */
 

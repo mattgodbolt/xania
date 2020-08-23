@@ -293,5 +293,5 @@ extern void do_clanset(CHAR_DATA *ch, const char *arg);
 /* end of clan stuff */
 
 /* Misc stuff */
-extern void announce(const char *buf, const CHAR_DATA *ch);
+extern void announce(std::string_view buf, const CHAR_DATA *ch);
 bool check_social(CHAR_DATA *ch, const char *command, const char *arg);
