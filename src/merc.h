@@ -1407,12 +1407,6 @@ extern sh_int gsn_bless;
  */
 #define IS_AFFECTED(ch, sn) (IS_SET((ch)->affected_by, (sn)))
 
-#define GET_AGE(ch) ((int)(17 + ((ch)->played + current_time - (ch)->logon) / 72000))
-
-#define IS_GOOD(ch) (ch->alignment >= 350)
-#define IS_EVIL(ch) (ch->alignment <= -350)
-#define IS_NEUTRAL(ch) (!IS_GOOD(ch) && !IS_EVIL(ch))
-
 #define IS_AWAKE(ch) (ch->position > POS_SLEEPING)
 #define GET_AC(ch, type) ((ch)->armor[type] + (IS_AWAKE(ch) ? dex_app[get_curr_stat(ch, Stat::Dex)].defensive : 0))
 

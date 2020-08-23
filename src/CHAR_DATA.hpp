@@ -188,6 +188,11 @@ struct CHAR_DATA {
     // Return the name used to describe the char in short text.
     [[nodiscard]] std::string_view short_name() const noexcept { return is_pc() ? name : short_descr; }
 
+    // Alignment.
+    [[nodiscard]] bool is_good() const noexcept { return alignment >= 350; }
+    [[nodiscard]] bool is_evil() const noexcept { return alignment <= -350; }
+    [[nodiscard]] bool is_neutral() const noexcept { return !is_good() && !is_evil(); }
+
 private:
     template <typename Func>
     [[nodiscard]] OBJ_DATA *find_filtered_obj(std::string_view argument, Func filter) const;

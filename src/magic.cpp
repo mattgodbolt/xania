@@ -1552,17 +1552,17 @@ void spell_detect_poison(int sn, int level, CHAR_DATA *ch, void *vo) {
 
 void spell_dispel_evil(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *victim = (CHAR_DATA *)vo;
-    if (ch->is_pc() && IS_EVIL(ch))
+    if (ch->is_pc() && ch->is_evil())
         victim = ch;
 
-    if (IS_GOOD(victim)) {
+    if (victim->is_good()) {
         char buf[MAX_STRING_LENGTH];
         snprintf(buf, sizeof(buf), "%s protects $N.", deity_name);
         act(buf, ch, nullptr, victim, To::Room);
         return;
     }
 
-    if (IS_NEUTRAL(victim)) {
+    if (victim->is_neutral()) {
         act("$N does not seem to be affected.", ch, nullptr, victim, To::Char);
         return;
     }
@@ -1580,17 +1580,17 @@ void spell_dispel_evil(int sn, int level, CHAR_DATA *ch, void *vo) {
 void spell_dispel_good(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *victim = (CHAR_DATA *)vo;
 
-    if (ch->is_pc() && IS_GOOD(ch))
+    if (ch->is_pc() && ch->is_good())
         victim = ch;
 
-    if (IS_EVIL(victim)) {
+    if (victim->is_evil()) {
         char buf[MAX_STRING_LENGTH];
         snprintf(buf, sizeof(buf), "%s protects $N.", deity_name);
         act(buf, ch, nullptr, victim, To::Room);
         return;
     }
 
-    if (IS_NEUTRAL(victim)) {
+    if (victim->is_neutral()) {
         act("$N does not seem to be affected.", ch, nullptr, victim, To::Char);
         return;
     }
@@ -1849,16 +1849,16 @@ void spell_remove_alignment(int sn, int level, CHAR_DATA *ch, void *vo) {
     int chance = URANGE(5, levdif / 2 + material_table[obj->material].magical_resilience, 100);
     const int score = chance - number_percent();
 
-    if ((IS_SET(obj->extra_flags, ITEM_ANTI_EVIL) && IS_GOOD(ch))
-        || (IS_SET(obj->extra_flags, ITEM_ANTI_GOOD) && IS_EVIL(ch)))
+    if ((IS_SET(obj->extra_flags, ITEM_ANTI_EVIL) && ch->is_good())
+        || (IS_SET(obj->extra_flags, ITEM_ANTI_GOOD) && ch->is_evil()))
         chance -= 10;
 
     if ((score <= 20)) {
         act("The powerful nature of $n's spell removes some of $m alignment!", ch, obj, nullptr, To::Room);
         act("Your spell removes some of your alignment!", ch, obj, nullptr, To::Char);
-        if IS_GOOD (ch)
+        if (ch->is_good())
             ch->alignment -= (30 - score);
-        if IS_EVIL (ch)
+        if (ch->is_evil())
             ch->alignment += (30 - score);
         ch->alignment = URANGE(-1000, ch->alignment, 1000);
     }
@@ -2603,8 +2603,8 @@ void spell_frenzy(int sn, int level, CHAR_DATA *ch, void *vo) {
         return;
     }
 
-    if ((IS_GOOD(ch) && !IS_GOOD(victim)) || (IS_NEUTRAL(ch) && !IS_NEUTRAL(victim))
-        || (IS_EVIL(ch) && !IS_EVIL(victim))) {
+    if ((ch->is_good() && !victim->is_good()) || (ch->is_neutral() && !victim->is_neutral())
+        || (ch->is_evil() && !victim->is_evil())) {
         act("Your god doesn't seem to like $N", ch, nullptr, victim, To::Char);
         return;
     }
@@ -2858,13 +2858,14 @@ void spell_holy_word(int sn, int level, CHAR_DATA *ch, void *vo) {
     for (vch = ch->in_room->people; vch != nullptr; vch = vch_next) {
         vch_next = vch->next_in_room;
 
-        if ((IS_GOOD(ch) && IS_GOOD(vch)) || (IS_EVIL(ch) && IS_EVIL(vch)) || (IS_NEUTRAL(ch) && IS_NEUTRAL(vch))) {
+        if ((ch->is_good() && vch->is_good()) || (ch->is_evil() && vch->is_evil())
+            || (ch->is_neutral() && vch->is_neutral())) {
             send_to_char("You feel full more powerful.\n\r", vch);
             spell_frenzy(frenzy_num, level, ch, (void *)vch);
             spell_bless(bless_num, level, ch, (void *)vch);
         }
 
-        else if ((IS_GOOD(ch) && IS_EVIL(vch)) || (IS_EVIL(ch) && IS_GOOD(vch))) {
+        else if ((ch->is_good() && vch->is_evil()) || (ch->is_evil() && vch->is_good())) {
             if (!is_safe_spell(ch, vch, true)) {
                 spell_curse(curse_num, level, ch, (void *)vch);
                 send_to_char("You are struck down!\n\r", vch);
@@ -2873,7 +2874,7 @@ void spell_holy_word(int sn, int level, CHAR_DATA *ch, void *vo) {
             }
         }
 
-        else if (IS_NEUTRAL(ch)) {
+        else if (ch->is_neutral()) {
             if (!is_safe_spell(ch, vch, true)) {
                 spell_curse(curse_num, level / 2, ch, (void *)vch);
                 send_to_char("You are struck down!\n\r", vch);

@@ -126,8 +126,8 @@ void check_assist(CHAR_DATA *ch, CHAR_DATA *victim) {
                     || (rch->is_npc() && rch->race == ch->race && IS_SET(rch->off_flags, ASSIST_RACE))
 
                     || (rch->is_npc() && IS_SET(rch->off_flags, ASSIST_ALIGN)
-                        && ((IS_GOOD(rch) && IS_GOOD(ch)) || (IS_EVIL(rch) && IS_EVIL(ch))
-                            || (IS_NEUTRAL(rch) && IS_NEUTRAL(ch))))
+                        && ((rch->is_good() && ch->is_good()) || (rch->is_evil() && ch->is_evil())
+                            || (rch->is_neutral() && ch->is_neutral())))
 
                     || (rch->pIndexData == ch->pIndexData && IS_SET(rch->off_flags, ASSIST_VNUM)))
 
@@ -721,10 +721,10 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
     if (IS_AFFECTED(victim, AFF_SANCTUARY))
         dam /= 2;
 
-    if (IS_AFFECTED(victim, AFF_PROTECTION_EVIL) && IS_EVIL(ch))
+    if (IS_AFFECTED(victim, AFF_PROTECTION_EVIL) && ch->is_evil())
         dam -= dam / 4;
 
-    if (IS_AFFECTED(victim, AFF_PROTECTION_GOOD) && IS_GOOD(ch))
+    if (IS_AFFECTED(victim, AFF_PROTECTION_GOOD) && ch->is_good())
         dam -= dam / 4;
 
     immune = false;
@@ -1536,8 +1536,9 @@ void group_gain(CHAR_DATA *ch, CHAR_DATA *victim) {
             if (obj->wear_loc == WEAR_NONE)
                 continue;
 
-            if ((IS_OBJ_STAT(obj, ITEM_ANTI_EVIL) && IS_EVIL(ch)) || (IS_OBJ_STAT(obj, ITEM_ANTI_GOOD) && IS_GOOD(ch))
-                || (IS_OBJ_STAT(obj, ITEM_ANTI_NEUTRAL) && IS_NEUTRAL(ch))) {
+            if ((IS_OBJ_STAT(obj, ITEM_ANTI_EVIL) && ch->is_evil())
+                || (IS_OBJ_STAT(obj, ITEM_ANTI_GOOD) && ch->is_good())
+                || (IS_OBJ_STAT(obj, ITEM_ANTI_NEUTRAL) && ch->is_neutral())) {
                 act("You are zapped by $p.", ch, obj, nullptr, To::Char);
                 act("$n is zapped by $p.", ch, obj, nullptr, To::Room);
                 obj_from_char(obj);

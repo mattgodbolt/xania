@@ -197,7 +197,7 @@ void show_char_to_char_0(const CHAR_DATA *victim, const CHAR_DATA *ch) {
         buf += "(|PPink Aura|w) ";
     if (IS_AFFECTED(victim, AFF_OCTARINE_FIRE))
         buf += "(|GOctarine Aura|w) ";
-    if (IS_EVIL(victim) && IS_AFFECTED(ch, AFF_DETECT_EVIL))
+    if (victim->is_evil() && IS_AFFECTED(ch, AFF_DETECT_EVIL))
         buf += "(|rRed Aura|w) ";
     if (IS_AFFECTED(victim, AFF_SANCTUARY))
         buf += "(|WWhite Aura|w) ";

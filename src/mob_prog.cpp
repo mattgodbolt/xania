@@ -281,20 +281,20 @@ bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, const CHAR_DATA *actor, const
     if (!str_cmp(buf, "isgood")) {
         switch (arg[1]) /* arg should be "$*" so just get the letter */
         {
-        case 'i': return IS_GOOD(mob);
+        case 'i': return mob->is_good();
         case 'n':
             if (actor)
-                return IS_GOOD(actor);
+                return actor->is_good();
             else
                 return -1;
         case 't':
             if (vict)
-                return IS_GOOD(vict);
+                return vict->is_good();
             else
                 return -1;
         case 'r':
             if (rndm)
-                return IS_GOOD(rndm);
+                return rndm->is_good();
             else
                 return -1;
         default: bug("Mob: %d bad argument to 'isgood'", mob->pIndexData->vnum); return -1;
