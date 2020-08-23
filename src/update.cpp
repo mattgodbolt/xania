@@ -534,7 +534,7 @@ void char_update() {
                     act("$p flickers.", ch, obj, nullptr, To::Char);
             }
 
-            if (IS_IMMORTAL(ch))
+            if (ch->is_immortal())
                 ch->timer = 0;
 
             move_idle_char_to_limbo(ch);
@@ -635,7 +635,7 @@ void char_update() {
                 default: save = af->level - 4; break;
                 }
 
-                if (save != 0 && !saves_spell(save, vch) && !IS_IMMORTAL(vch) && !IS_AFFECTED(vch, AFF_PLAGUE)
+                if (save != 0 && !saves_spell(save, vch) && vch->is_mortal() && !IS_AFFECTED(vch, AFF_PLAGUE)
                     && number_bits(4) == 0) {
                     send_to_char("You feel hot and feverish.\n\r", vch);
                     act("$n shivers and looks very ill.", vch);

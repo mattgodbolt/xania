@@ -54,7 +54,7 @@ int is_note_to(const CHAR_DATA *ch, const NOTE_DATA *note) {
     if (is_name("all", note->to_list)) {
         return true;
     }
-    if (IS_IMMORTAL(ch) && is_name("immortal", note->to_list)) {
+    if (ch->is_immortal() && is_name("immortal", note->to_list)) {
         return true;
     }
     if (is_name(ch->name, note->to_list)) {

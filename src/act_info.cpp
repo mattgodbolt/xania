@@ -842,7 +842,7 @@ void do_lore(CHAR_DATA *ch, OBJ_DATA *obj, const char *pdesc) {
         send_to_char(pdesc, ch);
         check_improve(ch, gsn_lore, false, 1);
     } else {
-        if (!IS_IMMORTAL(ch))
+        if (ch->is_mortal())
             WAIT_STATE(ch, skill_table[sn].beats);
         send_to_char(pdesc, ch);
         check_improve(ch, gsn_lore, true, 1);
@@ -1299,7 +1299,7 @@ void do_score(CHAR_DATA *ch, const char *argument) {
     if (ch->is_pc())
         describe_condition(ch);
 
-    if (IS_IMMORTAL(ch)) {
+    if (ch->is_immortal()) {
         send_to_char("\n\r", ch);
         snprintf(buf, sizeof(buf), "Holy light: |W%s|w", IS_SET(ch->act, PLR_HOLYLIGHT) ? "on" : "off");
         if (IS_SET(ch->act, PLR_WIZINVIS)) {

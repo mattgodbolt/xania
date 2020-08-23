@@ -2522,7 +2522,7 @@ void do_coma(CHAR_DATA *ch, const char *argument) {
         send_to_char("Duh!  Don't you dare fall asleep on the job!\n\r", ch);
         return;
     }
-    if ((ch->get_trust() <= victim->get_trust()) || !((IS_IMMORTAL(ch)) && victim->is_npc())) {
+    if ((ch->get_trust() <= victim->get_trust()) || !((ch->is_immortal()) && victim->is_npc())) {
         send_to_char("You failed.\n\r", ch);
         return;
     }

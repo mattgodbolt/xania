@@ -38,7 +38,7 @@ void move_char(CHAR_DATA *ch, Direction door) {
         return;
     }
 
-    if (IS_SET(pexit->exit_info, EX_CLOSED) && !IS_IMMORTAL(ch)) {
+    if (IS_SET(pexit->exit_info, EX_CLOSED) && ch->is_mortal()) {
         if (IS_SET(pexit->exit_info, EX_PASSPROOF) && IS_AFFECTED(ch, AFF_PASS_DOOR)) {
             act("The $d is protected from trespass by a magical barrier.", ch, nullptr, pexit->keyword, To::Char);
             return;
@@ -82,7 +82,7 @@ void move_char(CHAR_DATA *ch, Direction door) {
 
         /* added Faramir 25/6/96 to stop non-clan members walking into room */
 
-        if (!IS_IMMORTAL(ch)) {
+        if (ch->is_mortal()) {
             for (auto &clan : clantable) {
                 if (to_room->vnum == clan.entrance_vnum && ch->clan() != &clan) {
                     ch->send_to("Only members of the {} may enter there.\n\r"_format(clan.name));
@@ -92,7 +92,7 @@ void move_char(CHAR_DATA *ch, Direction door) {
         }
 
         if (in_room->sector_type == SECT_AIR || to_room->sector_type == SECT_AIR) {
-            if ((!IS_AFFECTED(ch, AFF_FLYING) && !IS_IMMORTAL(ch))
+            if ((!IS_AFFECTED(ch, AFF_FLYING) && ch->is_mortal())
                 && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))) {
                 send_to_char("You can't fly.\n\r", ch);
                 return;
@@ -109,7 +109,7 @@ void move_char(CHAR_DATA *ch, Direction door) {
              */
             found = false;
 
-            if (IS_IMMORTAL(ch))
+            if (ch->is_immortal())
                 found = true;
 
             for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
@@ -260,7 +260,7 @@ void do_enter(CHAR_DATA *ch, const char *argument) {
                             }
                         }
 
-                        if (!IS_IMMORTAL(ch)) {
+                        if (ch->is_mortal()) {
                             for (auto &clan : clantable) {
                                 if (to_room->vnum == clan.entrance_vnum && ch->clan() != &clan) {
                                     ch->send_to("Only members of the {} may enter there.\n\r"_format(clan.name));
@@ -270,7 +270,7 @@ void do_enter(CHAR_DATA *ch, const char *argument) {
                         }
 
                         if (in_room->sector_type == SECT_AIR || to_room->sector_type == SECT_AIR) {
-                            if ((!IS_AFFECTED(ch, AFF_FLYING) && !IS_IMMORTAL(ch))
+                            if ((!IS_AFFECTED(ch, AFF_FLYING) && ch->is_mortal())
                                 && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))) {
                                 send_to_char("You can't fly.\n\r", ch);
                                 return;
@@ -288,7 +288,7 @@ void do_enter(CHAR_DATA *ch, const char *argument) {
                              */
                             found = false;
 
-                            if (IS_IMMORTAL(ch))
+                            if (ch->is_immortal())
                                 found = true;
 
                             for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
@@ -755,11 +755,11 @@ void do_pick(CHAR_DATA *ch, const char *argument) {
         /* 'pick door' */
 
         auto *pexit = ch->in_room->exit[door];
-        if (!IS_SET(pexit->exit_info, EX_CLOSED) && !IS_IMMORTAL(ch)) {
+        if (!IS_SET(pexit->exit_info, EX_CLOSED) && ch->is_mortal()) {
             send_to_char("It's not closed.\n\r", ch);
             return;
         }
-        if (pexit->key < 0 && !IS_IMMORTAL(ch)) {
+        if (pexit->key < 0 && ch->is_mortal()) {
             send_to_char("It can't be picked.\n\r", ch);
             return;
         }
@@ -767,7 +767,7 @@ void do_pick(CHAR_DATA *ch, const char *argument) {
             send_to_char("It's already unlocked.\n\r", ch);
             return;
         }
-        if (IS_SET(pexit->exit_info, EX_PICKPROOF) && !IS_IMMORTAL(ch)) {
+        if (IS_SET(pexit->exit_info, EX_PICKPROOF) && ch->is_mortal()) {
             send_to_char("You failed.\n\r", ch);
             return;
         }

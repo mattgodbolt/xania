@@ -805,7 +805,7 @@ void spell_calm(int sn, int level, CHAR_DATA *ch, void *vo) {
     /* compute chance of stopping combat */
     const int chance = 4 * level - high_level + 2 * count;
 
-    if (IS_IMMORTAL(ch)) /* always works */
+    if (ch->is_immortal()) /* always works */
         mlevel = 0;
 
     if (number_range(0, chance) >= mlevel) /* hard to stop large fights */
@@ -2414,7 +2414,7 @@ void spell_vampire(int sn, int level, CHAR_DATA *ch, void *vo) {
         return;
     }
 
-    if (IS_IMMORTAL(ch)) {
+    if (ch->is_immortal()) {
         SET_BIT(obj->value[4], WEAPON_VAMPIRIC);
         send_to_char("You suck the life force from the weapon leaving it hungry for blood.\n\r", ch);
     }
@@ -3109,12 +3109,11 @@ void spell_locate_object(int sn, int level, CHAR_DATA *ch, void *vo) {
 
     bool found = false;
     int number = 0;
-    int max_found = IS_IMMORTAL(ch) ? 200 : 2 * level;
+    int max_found = ch->is_immortal() ? 200 : 2 * level;
     std::string buffer;
     for (auto *obj = object_list; obj != nullptr; obj = obj->next) {
-        if (!ch->can_see(*obj) || !is_name(target_name, obj->name)
-            || (!ch->is_immortal() && number_percent() > 2 * level) || ch->level < obj->level
-            || IS_SET(obj->extra_flags, ITEM_NO_LOCATE))
+        if (!ch->can_see(*obj) || !is_name(target_name, obj->name) || (ch->is_mortal() && number_percent() > 2 * level)
+            || ch->level < obj->level || IS_SET(obj->extra_flags, ITEM_NO_LOCATE))
             continue;
 
         found = true;

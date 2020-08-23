@@ -528,7 +528,7 @@ void nanny(Descriptor *d, const char *argument) {
         if (check_reconnect(d, false)) {
             fOld = true;
         } else {
-            if (wizlock && !IS_IMMORTAL(ch)) {
+            if (wizlock && ch->is_mortal()) {
                 d->write("The game is wizlocked.  Try again later - a reboot may be imminent.\n\r");
                 d->close();
                 return;
@@ -674,7 +674,7 @@ void nanny(Descriptor *d, const char *argument) {
             if (ch->pcdata->colour) {
                 send_to_char("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!\n\r", ch);
             }
-            if (IS_HERO(ch)) {
+            if (ch->is_hero()) {
                 do_help(ch, "imotd");
                 d->state(DescriptorState::ReadIMotd);
             } else {
@@ -687,7 +687,7 @@ void nanny(Descriptor *d, const char *argument) {
             case 'Y':
                 ch->pcdata->colour = true;
                 send_to_char("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!\n\r", ch);
-                if (IS_HERO(ch)) {
+                if (ch->is_hero()) {
                     do_help(ch, "imotd");
                     d->state(DescriptorState::ReadIMotd);
                 } else {
@@ -699,7 +699,7 @@ void nanny(Descriptor *d, const char *argument) {
             case 'n':
             case 'N':
                 ch->pcdata->colour = false;
-                if (IS_HERO(ch)) {
+                if (ch->is_hero()) {
                     do_help(ch, "imotd");
                     d->state(DescriptorState::ReadIMotd);
                 } else {
@@ -992,7 +992,7 @@ void nanny(Descriptor *d, const char *argument) {
 
         } else if (ch->in_room != nullptr) {
             char_to_room(ch, ch->in_room);
-        } else if (IS_IMMORTAL(ch)) {
+        } else if (ch->is_immortal()) {
             char_to_room(ch, get_room_index(ROOM_VNUM_CHAT));
         } else {
             char_to_room(ch, get_room_index(ROOM_VNUM_TEMPLE));
@@ -1007,7 +1007,7 @@ void nanny(Descriptor *d, const char *argument) {
            updated if a player did count */
         max_on = std::max(static_cast<size_t>(ranges::distance(descriptors().all())), max_on);
 
-        if (ch->gold > 250000 && !IS_IMMORTAL(ch)) {
+        if (ch->gold > 250000 && ch->is_mortal()) {
             snprintf(buf, sizeof(buf), "You are taxed %ld gold to pay for the Mayor's bar.\n\r",
                      (ch->gold - 250000) / 2);
             send_to_char(buf, ch);

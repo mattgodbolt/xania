@@ -169,7 +169,7 @@ static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
     } else if (victim->desc == nullptr && victim->is_pc()) {
         act("|W$N|c seems to have misplaced $S link...try again later.|w", ch, nullptr, victim, To::Char);
 
-    } else if (IS_SET(victim->comm, COMM_QUIET) && !IS_IMMORTAL(ch)) {
+    } else if (IS_SET(victim->comm, COMM_QUIET) && ch->is_mortal()) {
         act("|W$E|c is not receiving replies.|w", ch, nullptr, victim, To::Char);
 
     } else if (IS_SET(victim->act, PLR_AFK) && victim->is_pc()) {
@@ -586,7 +586,7 @@ void do_follow(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (victim->is_pc() && IS_SET(victim->act, PLR_NOFOLLOW) && !IS_IMMORTAL(ch)) {
+    if (victim->is_pc() && IS_SET(victim->act, PLR_NOFOLLOW) && ch->is_mortal()) {
         act("$N doesn't seem to want any followers.\n\r", ch, nullptr, victim, To::Char);
         return;
     }

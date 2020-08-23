@@ -48,7 +48,7 @@ void do_channels(const CHAR_DATA *ch, const char *argument) {
         print_channel_status(ch, "clan channel", pc_clan->channelflags ^ CLANCHANNEL_ON, CLANCHANNEL_ON);
     }
 
-    if (IS_IMMORTAL(ch))
+    if (ch->is_immortal())
         print_channel_status(ch, "god channel", ch->comm, COMM_NOWIZ);
 
     print_status(ch, "quiet mode", "", IS_SET(ch->comm, COMM_QUIET), 1);
@@ -146,7 +146,7 @@ void do_immtalk(CHAR_DATA *ch, const char *argument) {
     if (ch->get_trust() >= LEVEL_HERO)
         act(format, ch, argument, nullptr, To::Char, POS_DEAD);
     for (auto &d : descriptors().playing()) {
-        if (IS_IMMORTAL(d.character()) && !IS_SET(d.character()->comm, COMM_NOWIZ)) {
+        if (d.character()->is_immortal() && !IS_SET(d.character()->comm, COMM_NOWIZ)) {
             act(format, ch, argument, d.character(), To::Vict, POS_DEAD);
         }
     }

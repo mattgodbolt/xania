@@ -87,7 +87,7 @@ void save_char_obj(CHAR_DATA *ch) {
         return;
 
     /* create god log */
-    if (IS_IMMORTAL(ch) || ch->level >= LEVEL_IMMORTAL) {
+    if (ch->is_immortal() || ch->level >= LEVEL_IMMORTAL) {
         fclose(fpReserve);
         snprintf(strsave, sizeof(strsave), "%s%s", GOD_DIR, capitalize(ch->name));
         if ((fp = fopen(strsave, "w")) == nullptr) {

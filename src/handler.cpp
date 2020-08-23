@@ -766,7 +766,7 @@ void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
             default: save = af->level - 4; break;
             }
 
-            if (save != 0 && !saves_spell(save, vch) && !IS_IMMORTAL(vch) && !IS_AFFECTED(vch, AFF_PLAGUE)
+            if (save != 0 && !saves_spell(save, vch) && vch->is_mortal() && !IS_AFFECTED(vch, AFF_PLAGUE)
                 && number_bits(6) == 0) {
                 send_to_char("You feel hot and feverish.\n\r", vch);
                 act("$n shivers and looks very ill.", vch);

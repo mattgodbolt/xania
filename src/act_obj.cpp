@@ -40,7 +40,7 @@ void explode_bomb(OBJ_DATA *bomb, CHAR_DATA *ch, CHAR_DATA *thrower);
 bool can_loot(CHAR_DATA *ch, OBJ_DATA *obj) {
     CHAR_DATA *owner, *wch;
 
-    if (IS_IMMORTAL(ch))
+    if (ch->is_immortal())
         return true;
 
     if (!obj->owner || obj->owner == nullptr)
@@ -225,7 +225,7 @@ void do_get(CHAR_DATA *ch, const char *argument) {
                 obj_next = obj->next_content;
                 if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && can_see_obj(ch, obj)) {
                     found = true;
-                    if (container->pIndexData->vnum == OBJ_VNUM_PIT && !IS_IMMORTAL(ch)) {
+                    if (container->pIndexData->vnum == OBJ_VNUM_PIT && ch->is_mortal()) {
                         send_to_char("Don't be so greedy!\n\r", ch);
                         return;
                     }
@@ -921,7 +921,7 @@ void do_eat(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (!IS_IMMORTAL(ch)) {
+    if (ch->is_mortal()) {
         if (obj->item_type != ITEM_FOOD && obj->item_type != ITEM_PILL) {
             send_to_char("That's not edible.\n\r", ch);
             return;
@@ -2297,7 +2297,7 @@ void do_hailcorpse(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (IS_IMMORTAL(ch)) {
+    if (ch->is_immortal()) {
         send_to_char("Those who cannot be slain may not pray for the return of their corpse.\n\r", ch);
         return;
     }

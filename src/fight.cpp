@@ -639,7 +639,7 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
     if (dam > 1000) {
         bug("Damage: %d: more than 1000 points!", dam);
         dam = 1000;
-        if (!IS_IMMORTAL(ch)) {
+        if (ch->is_mortal()) {
             OBJ_DATA *obj;
             obj = get_eq_char(ch, WEAR_WIELD);
             if (obj != nullptr) /*Rohans try at stopping crashes!*/
@@ -981,7 +981,7 @@ bool is_safe(CHAR_DATA *ch, CHAR_DATA *victim) {
 
     else /* Not NPC */
     {
-        if (IS_IMMORTAL(ch))
+        if (ch->is_immortal())
             return false;
 
         /* no pets */
@@ -1011,7 +1011,7 @@ bool is_safe_spell(CHAR_DATA *ch, CHAR_DATA *victim, bool area) {
     if (ch == victim)
         return true;
     /* immortals not hurt in area attacks */
-    if (IS_IMMORTAL(victim) && area)
+    if (victim->is_immortal() && area)
         return true;
 
     /* no killing in shops hack */
@@ -1044,7 +1044,7 @@ bool is_safe_spell(CHAR_DATA *ch, CHAR_DATA *victim, bool area) {
 
     else /* Not NPC */
     {
-        if (IS_IMMORTAL(ch) && !area)
+        if (ch->is_immortal() && !area)
             return false;
 
         /* no pets */

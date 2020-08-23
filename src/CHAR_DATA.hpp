@@ -151,6 +151,7 @@ struct CHAR_DATA {
 
     [[nodiscard]] bool has_holylight() const;
     [[nodiscard]] bool is_immortal() const;
+    [[nodiscard]] bool is_mortal() const { return !is_immortal(); }
     [[nodiscard]] bool is_hero() const;
 
     // Return a character's skill at the given skill number
