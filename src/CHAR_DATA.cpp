@@ -226,11 +226,11 @@ OBJ_DATA *CHAR_DATA::find_filtered_obj(std::string_view argument, Func filter) c
 }
 
 OBJ_DATA *CHAR_DATA::find_in_inventory(std::string_view argument) const {
-    return find_filtered_obj(argument, [](const OBJ_DATA &obj) { return obj.wear_loc != WEAR_NONE; });
+    return find_filtered_obj(argument, [](const OBJ_DATA &obj) { return obj.wear_loc == WEAR_NONE; });
 }
 
 OBJ_DATA *CHAR_DATA::find_worn(std::string_view argument) const {
-    return find_filtered_obj(argument, [](const OBJ_DATA &obj) { return obj.wear_loc == WEAR_NONE; });
+    return find_filtered_obj(argument, [](const OBJ_DATA &obj) { return obj.wear_loc != WEAR_NONE; });
 }
 
 bool CHAR_DATA::can_see(const OBJ_DATA &object) const {
