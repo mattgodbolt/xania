@@ -14,10 +14,14 @@
 #include "interp.h"
 #include "merc.h"
 
+#include <fmt/format.h>
+
 #include <cstdio>
 #include <cstring>
 #include <ctime>
 #include <sys/types.h>
+
+using namespace fmt::literals;
 
 /* Some local DEFINES to keep things general. */
 #define NAME_SIZE 30
@@ -172,11 +176,9 @@ void do_accept(CHAR_DATA *ch, const char *argument) {
     send_to_char(buf, ch);
 
     if (imm == nullptr) {
-        snprintf(buf, sizeof(buf),
-                 "|g%s|c has accepted to control the challenge. Now waiting to see\nif |g%s|c will accept your "
-                 "challenge.|w\n\r",
-                 pers(ch, challenger), challengee->name);
-        send_to_char(buf, challenger);
+        challenger->send_to(
+            "|g{}|c has accepted to control the challenge. Now waiting to see\nif |g{}|c will accept your "
+            "challenge.|w\n\r"_format(pers(ch, challenger), challengee->name));
     }
 
     snprintf(buf, sizeof(buf), "|CYou have been challenged to a duel to the death by |G%s.\n\r", challenger->name);

@@ -14,6 +14,7 @@
 #include "buffer.h"
 #include "comm.hpp"
 #include "db.h"
+#include "fight.hpp"
 #include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
@@ -259,7 +260,6 @@ void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch) {
     char buf2[MAX_STRING_LENGTH];
     OBJ_DATA *obj;
     int iWear;
-    int percent;
     bool found;
 
     if (can_see(victim, ch)) {
@@ -277,32 +277,7 @@ void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch) {
         act("You see nothing special about $M.", ch, nullptr, victim, To::Char);
     }
 
-    if (victim->max_hit > 0)
-        percent = (100 * victim->hit) / victim->max_hit;
-    else
-        percent = -1;
-
-    strcpy(buf, pers(victim, ch));
-
-    if (percent >= 100)
-        strcat(buf, " is in excellent condition.\n\r");
-    else if (percent >= 90)
-        strcat(buf, " has a few scratches.\n\r");
-    else if (percent >= 75)
-        strcat(buf, " has some small wounds and bruises.\n\r");
-    else if (percent >= 50)
-        strcat(buf, " has quite a few wounds.\n\r");
-    else if (percent >= 30)
-        strcat(buf, " has some big nasty wounds and scratches.\n\r");
-    else if (percent >= 15)
-        strcat(buf, " looks pretty hurt.\n\r");
-    else if (percent >= 0)
-        strcat(buf, " is in |rawful condition|w.\n\r");
-    else
-        strcat(buf, " is |Rbleeding to death|w.\n\r");
-
-    buf[0] = UPPER(buf[0]);
-    send_to_char(buf, ch);
+    send_to_char(describe_fight_condition(*victim), ch);
 
     found = false;
     for (iWear = 0; iWear < MAX_WEAR; iWear++) {
@@ -1791,26 +1766,24 @@ void do_credits(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_where(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
 
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        send_to_char("|cYou are in {}\n\rPlayers near you:|w\n\r"_format(ch->in_room->area->areaname), ch);
+        ch->send_to("|cYou are in {}\n\rPlayers near you:|w\n\r"_format(ch->in_room->area->areaname));
         auto found = false;
         for (auto &victim : descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch)
                                 | DescriptorFilter::same_area(*ch) | DescriptorFilter::to_character()) {
             if (victim.is_pc()) {
                 found = true;
-                snprintf(buf, sizeof(buf), "|W%-28s|w %s\n\r", victim.name, victim.in_room->name);
-                send_to_char(buf, ch);
+                ch->send_to("|W%{:<28}|w {}\n\r"_format(victim.name, victim.in_room->name));
             }
         }
         if (!found)
-            send_to_char("None\n\r", ch);
+            ch->send_to("None\n\r");
         if (ch->pet && ch->pet->in_room->area == ch->in_room->area) {
-            send_to_char("You sense that your pet is near {}.\n\r"_format(ch->pet->in_room->name), ch);
+            ch->send_to("You sense that your pet is near {}.\n\r"_format(ch->pet->in_room->name));
         }
     } else {
         auto found = false;
@@ -1819,8 +1792,7 @@ void do_where(CHAR_DATA *ch, const char *argument) {
                 && !IS_AFFECTED(victim, AFF_HIDE) && !IS_AFFECTED(victim, AFF_SNEAK) && can_see(ch, victim)
                 && victim != ch && is_name(arg, victim->name)) {
                 found = true;
-                snprintf(buf, sizeof(buf), "%-28s %s\n\r", pers(victim, ch), victim->in_room->name);
-                send_to_char(buf, ch);
+                ch->send_to("|W%{:<28}|w {}\n\r"_format(pers(victim, ch), victim->in_room->name));
                 break;
             }
         }

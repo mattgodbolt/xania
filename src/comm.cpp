@@ -19,6 +19,7 @@
 #include "challeng.h"
 #include "common/Fd.hpp"
 #include "common/doorman_protocol.h"
+#include "fight.hpp"
 #include "interp.h"
 #include "merc.h"
 #include "note.h"
@@ -439,53 +440,19 @@ bool process_output(Descriptor *d, bool fPrompt) {
     if (!merc_down && d->is_paging())
         d->write("[Hit Return to continue]\n\r");
     else if (fPrompt && !merc_down && d->is_playing()) {
-        CHAR_DATA *ch;
-        CHAR_DATA *victim;
+        const auto *ch = d->character();
 
-        ch = d->character();
-
-        /* battle prompt */
-        if ((victim = ch->fighting) != nullptr) {
-            int percent;
-            char wound[100];
-            char buf[MAX_STRING_LENGTH];
-
-            if (victim->max_hit > 0)
-                percent = victim->hit * 100 / victim->max_hit;
-            else
-                percent = -1;
-
-            if (percent >= 100)
-                snprintf(wound, sizeof(wound), "is in excellent condition.");
-            else if (percent >= 90)
-                snprintf(wound, sizeof(wound), "has a few scratches.");
-            else if (percent >= 75)
-                snprintf(wound, sizeof(wound), "has some small wounds and bruises.");
-            else if (percent >= 50)
-                snprintf(wound, sizeof(wound), "has quite a few wounds.");
-            else if (percent >= 30)
-                snprintf(wound, sizeof(wound), "has some big nasty wounds and scratches.");
-            else if (percent >= 15)
-                snprintf(wound, sizeof(wound), "looks pretty hurt.");
-            else if (percent >= 0)
-                snprintf(wound, sizeof(wound), "is in awful condition.");
-            else
-                snprintf(wound, sizeof(wound), "is bleeding to death.");
-
-            snprintf(buf, sizeof(buf), "%s %s \n\r", IS_NPC(victim) ? victim->short_descr : victim->name, wound);
-            buf[0] = UPPER(buf[0]);
-            d->write(buf);
+        // battle prompt.
+        if (ch->fighting) {
+            d->write(describe_fight_condition(*ch->fighting));
         }
 
         ch = d->person();
         if (!IS_SET(ch->comm, COMM_COMPACT))
             d->write("\n\r");
 
-        if (IS_SET(ch->comm, COMM_PROMPT)) {
-            /* get the prompt for the character in question */
-
+        if (IS_SET(ch->comm, COMM_PROMPT))
             show_prompt(d, ch->pcdata->prompt);
-        }
     }
 
     return d->flush_output();

@@ -2433,7 +2433,6 @@ void do_owhere(CHAR_DATA *ch, const char *argument) {
     char target_name[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     OBJ_DATA *in_obj;
-    BUFFER *buffer;
     bool found;
     int number = 0;
 
@@ -2449,8 +2448,8 @@ void do_owhere(CHAR_DATA *ch, const char *argument) {
         return;
     }
     one_argument(argument, target_name);
-    buffer = buffer_create();
 
+    std::string buffer;
     for (obj = object_list; obj != nullptr; obj = obj->next) {
         if (!is_name(target_name, obj->name))
             continue;
@@ -2462,15 +2461,15 @@ void do_owhere(CHAR_DATA *ch, const char *argument) {
             ;
 
         if (in_obj->carried_by != nullptr) {
-            buffer_addline_fmt(buffer, "%3d %-25.25s carried by %-20.20s in room %d\n\r", number, obj->short_descr,
-                               pers(in_obj->carried_by, ch), in_obj->carried_by->in_room->vnum);
+            buffer += "{:3} {:<25} carried by {:<20} in room {}\n\r"_format(
+                number, obj->short_descr, pers(in_obj->carried_by, ch), in_obj->carried_by->in_room->vnum);
         } else if (in_obj->in_room != nullptr) {
-            buffer_addline_fmt(buffer, "%3d %-25.25s in %-30.30s [%d]\n\r", number, obj->short_descr,
-                               in_obj->in_room->name, in_obj->in_room->vnum);
+            buffer += "{:3} {:<25} in {:<30} [{}]\n\r"_format(number, obj->short_descr, in_obj->in_room->name,
+                                                              in_obj->in_room->vnum);
         }
     }
 
-    buffer_send(buffer, ch);
+    ch->page_to(buffer);
     if (!found)
         send_to_char("Nothing like that in heaven or earth.\n\r", ch);
 }

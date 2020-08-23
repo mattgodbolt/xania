@@ -184,6 +184,9 @@ struct CHAR_DATA {
     // Gets an item a character is wearing. Returns nullptr if not found. Supports numbered argument.
     [[nodiscard]] OBJ_DATA *find_worn(std::string_view argument) const;
 
+    // Return the name used to describe the char in short text.
+    [[nodiscard]] std::string_view short_name() const noexcept { return is_pc() ? name : short_descr; }
+
 private:
     template <typename Func>
     [[nodiscard]] OBJ_DATA *find_filtered_obj(std::string_view argument, Func filter) const;

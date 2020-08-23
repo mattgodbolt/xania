@@ -746,26 +746,19 @@ void do_order(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_group(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
 
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        CHAR_DATA *gch;
-        CHAR_DATA *leader;
+        ch->send_to("{}'s group:\n\r"_format(pers(ch->leader ? ch->leader : ch, ch)));
 
-        leader = (ch->leader != nullptr) ? ch->leader : ch;
-        snprintf(buf, sizeof(buf), "%s's group:\n\r", pers(leader, ch));
-        send_to_char(buf, ch);
-
-        for (gch = char_list; gch != nullptr; gch = gch->next) {
+        for (auto *gch = char_list; gch != nullptr; gch = gch->next) {
             if (is_same_group(gch, ch)) {
-                snprintf(buf, sizeof(buf), "[%3d %s] %-16s %4d/%4d hp %4d/%4d mana %4d/%4d mv %5ld xp\n\r", gch->level,
-                         IS_NPC(gch) ? "Mob" : class_table[gch->class_num].who_name, pers(gch, ch), gch->hit,
-                         gch->max_hit, gch->mana, gch->max_mana, gch->move, gch->max_move, gch->exp);
-                send_to_char(buf, ch);
+                ch->send_to("[{:3} {}] {:<16} {:4}/{:4} hp {:4}/{:4} mana {:4}/{:4} mv {:5} xp\n\r"_format(
+                    gch->level, gch->is_npc() ? "Mob" : class_table[gch->class_num].who_name, pers(gch, ch), gch->hit,
+                    gch->max_hit, gch->mana, gch->max_mana, gch->move, gch->max_move, gch->exp));
             }
         }
         return;

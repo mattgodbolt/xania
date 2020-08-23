@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Format.hpp"
 #include "TimeInfoData.hpp"
 #include "challeng.h"
 #include "comm.hpp"
@@ -14,11 +15,15 @@
 #include "interp.h"
 #include "merc.h"
 
+#include <fmt/format.h>
+
 #include <cctype>
 #include <cstdio>
 #include <cstring>
 #include <ctime>
 #include <sys/types.h>
+
+using namespace fmt::literals;
 
 #define MAX_DAMAGE_MESSAGE 32
 
@@ -155,6 +160,31 @@ void check_assist(CHAR_DATA *ch, CHAR_DATA *victim) {
     }
 }
 
+namespace {
+std::string_view wound_for(int percent) {
+    if (percent >= 100)
+        return "is in excellent condition.";
+    if (percent >= 90)
+        return "has a few scratches.";
+    if (percent >= 75)
+        return "has some small wounds and bruises.";
+    if (percent >= 50)
+        return "has quite a few wounds.";
+    if (percent >= 30)
+        return "has some big nasty wounds and scratches.";
+    if (percent >= 15)
+        return "looks pretty hurt.";
+    if (percent >= 0)
+        return "is in |rawful condition|w.";
+    return "is |Rbleeding to death|w.";
+}
+}
+
+std::string describe_fight_condition(const CHAR_DATA &victim) {
+    auto percent = victim.max_hit > 0 ? victim.hit * 100 / victim.max_hit : -1;
+    return "{} {}"_format(InitialCap{victim.short_name()}, wound_for(percent));
+}
+
 /*
  * Do one group of attacks.
  */
@@ -193,37 +223,9 @@ void multi_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
 
     one_hit(ch, victim, dt);
 
-    if ((ch->in_room != nullptr && victim->in_room != nullptr)
-        && (ch->in_room->vnum == CHAL_ROOM && victim->in_room->vnum == CHAL_ROOM)) {
-        int percent;
-        char wound[100];
-        char buf[MAX_STRING_LENGTH];
-
-        if (victim->max_hit > 0)
-            percent = victim->hit * 100 / victim->max_hit;
-        else
-            percent = -1;
-
-        if (percent >= 100)
-            snprintf(wound, sizeof(wound), "is in excellent condition.");
-        else if (percent >= 90)
-            snprintf(wound, sizeof(wound), "has a few scratches.");
-        else if (percent >= 75)
-            snprintf(wound, sizeof(wound), "has some small wounds and bruises.");
-        else if (percent >= 50)
-            snprintf(wound, sizeof(wound), "has quite a few wounds.");
-        else if (percent >= 30)
-            snprintf(wound, sizeof(wound), "has some big nasty wounds and scratches.");
-        else if (percent >= 15)
-            snprintf(wound, sizeof(wound), "looks pretty hurt.");
-        else if (percent >= 0)
-            snprintf(wound, sizeof(wound), "is in awful condition.");
-        else
-            snprintf(wound, sizeof(wound), "is bleeding to death.");
-
-        snprintf(buf, sizeof(buf), "%s %s", IS_NPC(victim) ? victim->short_descr : victim->name, wound);
-        buf[0] = UPPER(buf[0]);
-        act(buf, ch, nullptr, victim, To::NotVict);
+    if (ch->in_room != nullptr && victim->in_room != nullptr && ch->in_room->vnum == CHAL_ROOM
+        && victim->in_room->vnum == CHAL_ROOM) {
+        act(describe_fight_condition(*victim), ch, nullptr, victim, To::NotVict);
     }
 
     if (ch->fighting != victim)
@@ -821,12 +823,8 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
             if (temp == 1)
                 return true;
 
-            snprintf(log_buf, LOG_BUF_SIZE, "%s killed by %s at %d", victim->name,
-                     (IS_NPC(ch) ? ch->short_descr : ch->name), victim->in_room->vnum);
-            log_string(log_buf);
-            snprintf(log_buf, LOG_BUF_SIZE, "|P###|w Sadly, %s was killed by %s.", victim->name,
-                     (IS_NPC(ch) ? ch->short_descr : ch->name));
-            announce(log_buf, victim);
+            log_string("{} killed by {} at {}"_format(victim->name, ch->short_name(), victim->in_room->vnum));
+            announce("|P###|w Sadly, {} was killed by {}."_format(victim->name, ch->short_name()), victim);
 
             for (squib = victim->in_room->people; squib; squib = squib->next_in_room) {
                 if ((IS_NPC(squib)) && (squib->pIndexData->vnum == LESSER_MINION_VNUM)) {
@@ -1094,7 +1092,7 @@ void check_killer(CHAR_DATA *ch, CHAR_DATA *victim) {
         if (ch->master == nullptr) {
             char buf[MAX_STRING_LENGTH];
 
-            snprintf(buf, sizeof(buf), "Check_killer: %s bad AFF_CHARM", IS_NPC(ch) ? ch->short_descr : ch->name);
+            strncpy(buf, "Check_killer: %s bad AFF_CHARM"_format(ch->short_name()).c_str(), MAX_STRING_LENGTH);
             bug(buf, 0);
             affect_strip(ch, gsn_charm_person);
             REMOVE_BIT(ch->affected_by, AFF_CHARM);
@@ -1391,9 +1389,8 @@ void death_cry(CHAR_DATA *ch) {
     if (vnum != 0) {
         char buf[MAX_STRING_LENGTH];
         OBJ_DATA *obj;
-        char *name;
 
-        name = IS_NPC(ch) ? ch->short_descr : ch->name;
+        auto name = ch->short_name();
         obj = create_object(get_obj_index(vnum));
         obj->timer = number_range(4, 7);
 

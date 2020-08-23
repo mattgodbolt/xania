@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "magic.h"
+#include "Format.hpp"
 #include "WeatherData.hpp"
 #include "challeng.h"
 #include "comm.hpp"
@@ -16,8 +17,12 @@
 #include "merc.h"
 #include "string_utils.hpp"
 
+#include <fmt/format.h>
+
 #include <cstdio>
 #include <cstring>
+
+using namespace fmt::literals;
 
 /*
  * Local functions.
@@ -3101,59 +3106,50 @@ void spell_lightning_bolt(int sn, int level, CHAR_DATA *ch, void *vo) {
 void spell_locate_object(int sn, int level, CHAR_DATA *ch, void *vo) {
     (void)sn;
     (void)vo;
-    char buf[MAX_INPUT_LENGTH];
-    char buffer[200 * 90]; /* extra paranoia factor */
-    OBJ_DATA *obj;
-    OBJ_DATA *in_obj;
-    bool found;
-    int number = 0, max_found;
 
-    found = false;
-    number = 0;
-    buffer[0] = '\0';
-    max_found = IS_IMMORTAL(ch) ? 200 : 2 * level;
-
-    for (obj = object_list; obj != nullptr; obj = obj->next) {
-        if (!can_see_obj(ch, obj) || !is_name(target_name, obj->name)
-            || (!IS_IMMORTAL(ch) && number_percent() > 2 * level) || ch->level < obj->level
+    bool found = false;
+    int number = 0;
+    int max_found = IS_IMMORTAL(ch) ? 200 : 2 * level;
+    std::string buffer;
+    for (auto *obj = object_list; obj != nullptr; obj = obj->next) {
+        if (!ch->can_see(*obj) || !is_name(target_name, obj->name)
+            || (!ch->is_immortal() && number_percent() > 2 * level) || ch->level < obj->level
             || IS_SET(obj->extra_flags, ITEM_NO_LOCATE))
             continue;
 
         found = true;
         number++;
 
-        for (in_obj = obj; in_obj->in_obj != nullptr; in_obj = in_obj->in_obj)
+        auto *in_obj = obj;
+        for (; in_obj->in_obj != nullptr; in_obj = in_obj->in_obj)
             ;
 
         if (in_obj->carried_by != nullptr /*&& can_see TODO wth was this supposed to be?*/) {
-            if (IS_IMMORTAL(ch)) {
-                snprintf(buf, sizeof(buf), "%s carried by %s in %s [Room %d]\n\r", obj->short_descr,
-                         pers(in_obj->carried_by, ch), in_obj->carried_by->in_room->name,
-                         in_obj->carried_by->in_room->vnum);
+            if (ch->is_immortal()) {
+                buffer += "{} carried by {} in {} [Room {}]\n\r"_format(
+                    InitialCap{obj->short_descr}, pers(in_obj->carried_by, ch), in_obj->carried_by->in_room->name,
+                    in_obj->carried_by->in_room->vnum);
             } else
-                snprintf(buf, sizeof(buf), "%s carried by %s\n\r", obj->short_descr, pers(in_obj->carried_by, ch));
+                buffer += "{} carried by {}\n\r"_format(InitialCap{obj->short_descr}, pers(in_obj->carried_by, ch));
         } else {
-            if (IS_IMMORTAL(ch) && in_obj->in_room != nullptr)
-                snprintf(buf, sizeof(buf), "%s in %s [Room %d]\n\r", obj->short_descr, in_obj->in_room->name,
-                         in_obj->in_room->vnum);
+            if (ch->is_immortal() && in_obj->in_room != nullptr)
+                buffer += "{} in {} [Room {}]\n\r"_format(InitialCap{obj->short_descr}, in_obj->in_room->name,
+                                                          in_obj->in_room->vnum);
             else
-                snprintf(buf, sizeof(buf), "%s in %s\n\r", obj->short_descr,
-                         in_obj->in_room == nullptr ? "somewhere" : in_obj->in_room->name);
+                buffer += "{} in {}\n\r"_format(InitialCap{obj->short_descr},
+                                                in_obj->in_room == nullptr ? "somewhere" : in_obj->in_room->name);
         }
-
-        buf[0] = UPPER(buf[0]);
-        strcat(buffer, buf);
 
         if (number >= max_found)
             break;
     }
 
     if (!found)
-        send_to_char("Nothing like that in heaven or earth.\n\r", ch);
+        ch->send_to("Nothing like that in heaven or earth.\n\r");
     else if (ch->lines)
-        page_to_char(buffer, ch);
+        ch->page_to(buffer);
     else
-        send_to_char(buffer, ch);
+        ch->send_to(buffer);
 }
 
 void spell_magic_missile(int sn, int level, CHAR_DATA *ch, void *vo) {

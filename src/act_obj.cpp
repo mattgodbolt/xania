@@ -15,9 +15,13 @@
 #include "merc.h"
 #include "string_utils.hpp"
 
+#include <fmt/format.h>
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+
+using namespace fmt::literals;
 
 extern const char *target_name; /* Included from magic.c */
 
@@ -646,7 +650,6 @@ void do_give(CHAR_DATA *ch, const char *argument) {
 void do_pour(CHAR_DATA *ch, const char *argument) {
 
     char arg1[MAX_INPUT_LENGTH];
-    char buf[MAX_STRING_LENGTH];
     OBJ_DATA *obj, *target_obj, *obj_next;
     bool found = false;
     CHAR_DATA *victim;
@@ -701,8 +704,7 @@ void do_pour(CHAR_DATA *ch, const char *argument) {
         }
 
         if (target_obj->value[2] != obj->value[2]) {
-            snprintf(buf, sizeof(buf), "%s already contains another type of liquid!\n\r", target_obj->name);
-            send_to_char(buf, ch);
+            ch->send_to("{} already contains another type of liquid!\n\r"_format(target_obj->name));
             return;
         }
 
@@ -714,8 +716,7 @@ void do_pour(CHAR_DATA *ch, const char *argument) {
 
         } while ((obj->value[1] > 0) && (target_obj->value[1] < target_obj->value[0]) && (pour_volume < 50));
 
-        snprintf(buf, sizeof(buf), "You pour the contents of %s into %s", obj->short_descr, target_obj->short_descr);
-        send_to_char(buf, ch);
+        ch->send_to("You pour the contents of {} into {}"_format(obj->short_descr, target_obj->short_descr));
         return;
     }
 
@@ -741,23 +742,18 @@ void do_pour(CHAR_DATA *ch, const char *argument) {
     }
 
     if (!found) {
-        snprintf(buf, sizeof(buf), "%s is not carrying an item which can be filled.\n\r",
-                 IS_NPC(victim) ? victim->short_descr : victim->name);
-        send_to_char(buf, ch);
+        ch->send_to("{} is not carrying an item which can be filled.\n\r"_format(victim->short_name()));
         return;
     }
 
     if (target_obj->value[2] != obj->value[2]) {
-        snprintf(buf, sizeof(buf), "%s's %s appears to contain a different type of liquid!\n\r",
-                 IS_NPC(victim) ? victim->short_descr : victim->name, target_obj->short_descr);
-        send_to_char(buf, ch);
+        ch->send_to("{}'s {} appears to contain a different type of liquid!\n\r"_format(victim->short_name(),
+                                                                                        target_obj->short_descr));
         return;
     }
 
     if (target_obj->value[1] >= target_obj->value[0]) {
-        snprintf(buf, sizeof(buf), "%s's liquid container is already full to the brim!\n\r",
-                 IS_NPC(victim) ? victim->short_descr : victim->name);
-        send_to_char(buf, ch);
+        ch->send_to("{}'s liquid container is already full to the brim!\n\r"_format(victim->short_name()));
         return;
     }
 
@@ -768,9 +764,7 @@ void do_pour(CHAR_DATA *ch, const char *argument) {
     } while ((obj->value[1] > 0) && (target_obj->value[1] < target_obj->value[0]) && (pour_volume < 50));
 
     act("You pour $p into $n's container.", ch, obj, nullptr, To::Char);
-    snprintf(buf, sizeof(buf), "%s pours liquid into your container.\n\r",
-             IS_NPC(victim) ? victim->short_descr : victim->name);
-    send_to_char(buf, victim);
+    ch->send_to("{} pours liquid into your container.\n\r"_format(victim->short_name()));
 }
 
 void do_fill(CHAR_DATA *ch, const char *argument) {

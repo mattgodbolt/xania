@@ -71,7 +71,9 @@ add_library(xania_lib STATIC
         Constants.hpp
         handler.hpp
         ArgParser.cpp ArgParser.hpp
-        Direction.cpp)
+        Direction.cpp
+        Format.hpp
+        fight.hpp)
 target_link_libraries(xania_lib xania_common crypt chat CONAN_PKG::fmt CONAN_PKG::range-v3)
 
 add_executable(xania main.cpp)

@@ -1691,8 +1691,8 @@ int get_obj_weight(OBJ_DATA *obj);
 bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex);
 bool room_is_private(ROOM_INDEX_DATA *pRoomIndex);
 bool can_see(const CHAR_DATA *ch, const CHAR_DATA *victim);
-inline const char *pers(const CHAR_DATA *ch, const CHAR_DATA *looker) {
-    return can_see(looker, ch) ? (IS_NPC(ch) ? ch->short_descr : ch->name) : "someone";
+inline std::string_view pers(const CHAR_DATA *ch, const CHAR_DATA *looker) {
+    return can_see(looker, ch) ? ch->short_name() : "someone";
 }
 bool can_see_obj(const CHAR_DATA *ch, const OBJ_DATA *obj);
 bool can_see_room(const CHAR_DATA *ch, const ROOM_INDEX_DATA *pRoomIndex);
