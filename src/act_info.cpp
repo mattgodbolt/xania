@@ -45,17 +45,17 @@ size_t max_on = 0;
 /*
  * Local functions.
  */
-char *format_obj_to_char(OBJ_DATA *obj, CHAR_DATA *ch, bool fShort);
-void show_list_to_char(OBJ_DATA *list, CHAR_DATA *ch, bool fShort, bool fShowNothing);
-void show_char_to_char_0(CHAR_DATA *victim, CHAR_DATA *ch);
+char *format_obj_to_char(const OBJ_DATA *obj, const CHAR_DATA *ch, bool fShort);
+void show_list_to_char(const OBJ_DATA *list, const CHAR_DATA *ch, bool fShort, bool fShowNothing);
+void show_char_to_char_0(const CHAR_DATA *victim, const CHAR_DATA *ch);
 void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch);
-void show_char_to_char(CHAR_DATA *list, CHAR_DATA *ch);
-bool check_blind(CHAR_DATA *ch);
+void show_char_to_char(const CHAR_DATA *list, const CHAR_DATA *ch);
+bool check_blind(const CHAR_DATA *ch);
 
 /* Mg's funcy shun */
 void set_prompt(CHAR_DATA *ch, const char *prompt);
 
-char *format_obj_to_char(OBJ_DATA *obj, CHAR_DATA *ch, bool fShort) {
+char *format_obj_to_char(const OBJ_DATA *obj, const CHAR_DATA *ch, bool fShort) {
     static char buf[MAX_STRING_LENGTH];
 
     buf[0] = '\0';
@@ -88,15 +88,13 @@ char *format_obj_to_char(OBJ_DATA *obj, CHAR_DATA *ch, bool fShort) {
  * Show a list to a character.
  * Can coalesce duplicated items.
  */
-void show_list_to_char(OBJ_DATA *list, CHAR_DATA *ch, bool fShort, bool fShowNothing) {
+void show_list_to_char(const OBJ_DATA *list, const CHAR_DATA *ch, bool fShort, bool fShowNothing) {
     char buf[MAX_STRING_LENGTH];
     char **prgpstrShow;
     int *prgnShow;
     char *pstrShow;
-    OBJ_DATA *obj;
     int nShow;
     int iShow;
-    int count;
     bool fCombine;
     BUFFER *buffer;
 
@@ -106,8 +104,8 @@ void show_list_to_char(OBJ_DATA *list, CHAR_DATA *ch, bool fShort, bool fShowNot
     /*
      * Alloc space for output lines.
      */
-    count = 0;
-    for (obj = list; obj != nullptr; obj = obj->next_content)
+    int count = 0;
+    for (auto *obj = list; obj != nullptr; obj = obj->next_content)
         count++;
     prgpstrShow = static_cast<char **>(alloc_mem(count * sizeof(char *)));
     prgnShow = static_cast<int *>(alloc_mem(count * sizeof(int)));
@@ -117,7 +115,7 @@ void show_list_to_char(OBJ_DATA *list, CHAR_DATA *ch, bool fShort, bool fShowNot
     /*
      * Format the list of objects.
      */
-    for (obj = list; obj != nullptr; obj = obj->next_content) {
+    for (auto *obj = list; obj != nullptr; obj = obj->next_content) {
         if (obj->wear_loc == WEAR_NONE && can_see_obj(ch, obj)) {
             pstrShow = format_obj_to_char(obj, ch, fShort);
             fCombine = false;
@@ -179,7 +177,7 @@ void show_list_to_char(OBJ_DATA *list, CHAR_DATA *ch, bool fShort, bool fShowNot
     buffer_send(buffer, ch);
 }
 
-void show_char_to_char_0(CHAR_DATA *victim, CHAR_DATA *ch) {
+void show_char_to_char_0(const CHAR_DATA *victim, const CHAR_DATA *ch) {
     std::string buf;
 
     if (IS_AFFECTED(victim, AFF_INVISIBLE))
@@ -372,10 +370,8 @@ void do_peek(CHAR_DATA *ch, const char *argument) {
         send_to_char("They aren't here.\n\r", ch);
 }
 
-void show_char_to_char(CHAR_DATA *list, CHAR_DATA *ch) {
-    CHAR_DATA *rch;
-
-    for (rch = list; rch != nullptr; rch = rch->next_in_room) {
+void show_char_to_char(const CHAR_DATA *list, const CHAR_DATA *ch) {
+    for (auto *rch = list; rch != nullptr; rch = rch->next_in_room) {
         if (rch == ch)
             continue;
 
@@ -383,38 +379,19 @@ void show_char_to_char(CHAR_DATA *list, CHAR_DATA *ch) {
             continue;
 
         if (can_see(ch, rch)) {
-            /*            If(!IS_NPC(ch) && ch->pcdata->colour)
-                       {
-                           if(IS_NPC(rch))
-                              snprintf(buf, sizeof(buf), "%c[1;32m", 27);
-                           else
-                              snprintf(buf, sizeof(buf), "%c[1;35m", 27);
-                           send_to_char(buf, ch);
-                        }*/
             show_char_to_char_0(rch, ch);
-        }
-        /*        if (!IS_NPC(ch) && ch->pcdata->colour)
-          {
-                   snprintf(buf, sizeof(buf), "%c[0;37m", 27);
-                   send_to_char(buf, ch);
-          } */
-        else if (room_is_dark(ch->in_room) && IS_AFFECTED(rch, AFF_INFRARED)) {
+        } else if (room_is_dark(ch->in_room) && IS_AFFECTED(rch, AFF_INFRARED)) {
             send_to_char("You see |Rglowing red|w eyes watching |RYOU!|w\n\r", ch);
         }
     }
 }
 
-bool check_blind(CHAR_DATA *ch) {
-
-    if (!IS_NPC(ch) && IS_SET(ch->act, PLR_HOLYLIGHT))
+bool check_blind(const CHAR_DATA *ch) {
+    if (!ch->is_blind() || ch->has_holylight())
         return true;
 
-    if (IS_AFFECTED(ch, AFF_BLIND)) {
-        send_to_char("You can't see a thing!\n\r", ch);
-        return false;
-    }
-
-    return true;
+    ch->send_to("You can't see a thing!\n\r");
+    return false;
 }
 
 /* changes your scroll */
@@ -889,255 +866,213 @@ void do_lore(CHAR_DATA *ch, OBJ_DATA *obj, const char *pdesc) {
     if (!IS_NPC(ch) && number_percent() > get_skill_learned(ch, skill_lookup("lore"))) {
         send_to_char(pdesc, ch);
         check_improve(ch, gsn_lore, false, 1);
-        return;
     } else {
         if (!IS_IMMORTAL(ch))
             WAIT_STATE(ch, skill_table[sn].beats);
         send_to_char(pdesc, ch);
         check_improve(ch, gsn_lore, true, 1);
         (*skill_table[sn].spell_fun)(sn, ch->level, ch, (void *)obj);
-        return;
     }
 }
 
-void do_look(CHAR_DATA *ch, const char *arg) {
-    char buf[MAX_STRING_LENGTH];
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    char arg3[MAX_INPUT_LENGTH];
-    EXIT_DATA *pexit;
-    CHAR_DATA *victim;
-    OBJ_DATA *obj;
-    char *pdesc;
-    int door;
-    int sn;
-    int number, count;
+namespace {
 
+void room_look(const CHAR_DATA &ch, bool force_full) {
+    ch.send_to("|R{}\n\r|w"_format(ch.in_room->name));
+    if (force_full || !ch.is_comm_brief()) {
+        ch.send_to("  {}"_format(ch.in_room->description));
+    }
+
+    if (ch.should_autoexit()) {
+        ch.send_to("\n\r");
+        do_exits(&ch, "auto");
+    }
+
+    show_list_to_char(ch.in_room->contents, &ch, false, false);
+    show_char_to_char(ch.in_room->people, &ch);
+}
+
+void look_in_object(const CHAR_DATA &ch, const OBJ_DATA &obj) {
+    switch (obj.item_type) {
+    default: ch.send_to("That is not a container.\n\r"); break;
+
+    case ITEM_DRINK_CON:
+        if (obj.value[1] <= 0) {
+            ch.send_to("It is empty.\n\r");
+            break;
+        }
+
+        ch.send_to("It's {} full of a {} liquid.\n\r"_format(
+            obj.value[1] < obj.value[0] / 4 ? "less than" : obj.value[1] < 3 * obj.value[0] / 4 ? "about" : "more than",
+            liq_table[obj.value[2]].liq_color));
+        break;
+
+    case ITEM_CONTAINER:
+    case ITEM_CORPSE_NPC:
+    case ITEM_CORPSE_PC:
+        if (IS_SET(obj.value[1], CONT_CLOSED)) {
+            ch.send_to("It is closed.\n\r");
+            break;
+        }
+
+        act("$p contains:", &ch, &obj, nullptr, To::Char);
+        show_list_to_char(obj.contains, &ch, true, true);
+        break;
+    }
+}
+
+const char *try_get_descr(const OBJ_DATA &obj, std::string_view name) {
+    if (auto *pdesc = get_extra_descr(name, obj.extra_descr))
+        return pdesc;
+    if (auto *pdesc = get_extra_descr(name, obj.pIndexData->extra_descr))
+        return pdesc;
+    return nullptr;
+}
+
+bool handled_as_look_at_object(CHAR_DATA &ch, std::string_view first_arg) {
+    auto &&[number, obj_desc] = number_argument(first_arg);
+    const auto sn = skill_lookup("lore");
+    int count = 0;
+    for (auto *obj = ch.carrying; obj; obj = obj->next_content) {
+        if (!ch.can_see(*obj))
+            continue;
+        if (auto *pdesc = try_get_descr(*obj, obj_desc)) {
+            if (++count == number) {
+                if (sn < 0 || (ch.is_pc() && ch.level < ch.get_skill(sn))) {
+                    ch.send_to(pdesc);
+                    return true;
+                } else {
+                    do_lore(&ch, obj, pdesc);
+                    return true;
+                }
+            } else
+                continue;
+        } else if (is_name(obj_desc, obj->name)) {
+            if (++count == number) {
+                ch.send_to("{}\n\r"_format(obj->description));
+                do_lore(&ch, obj, "");
+                return true;
+            }
+        }
+    }
+
+    for (auto *obj = ch.in_room->contents; obj; obj = obj->next_content) {
+        if (!ch.can_see(*obj))
+            continue;
+        if (auto *pdesc = try_get_descr(*obj, obj_desc)) {
+            if (++count == number) {
+                ch.send_to(pdesc);
+                return true;
+            }
+        }
+        if (is_name(obj_desc, obj->name))
+            if (++count == number) {
+                ch.send_to("{}\n\r"_format(obj->description));
+                return true;
+            }
+    }
+
+    if (count > 0 && count != number) {
+        if (count == 1)
+            ch.send_to("You only see one {} here.\n\r"_format(obj_desc));
+        else
+            ch.send_to("You only see {} {}s here.\n\r"_format(count, obj_desc));
+        return true;
+    }
+    return false;
+}
+
+void look_direction(const CHAR_DATA &ch, Direction door) {
+    const auto *pexit = ch.in_room->exit[door];
+    if (!pexit) {
+        ch.send_to("Nothing special there.\n\r");
+        return;
+    }
+
+    if (pexit->description && pexit->description[0] != '\0')
+        ch.send_to(pexit->description);
+    else
+        ch.send_to("Nothing special there.\n\r");
+
+    if (pexit->keyword && pexit->keyword[0] != '\0' && pexit->keyword[0] != ' ') {
+        if (IS_SET(pexit->exit_info, EX_CLOSED)) {
+            act("The $d is closed.", &ch, nullptr, pexit->keyword, To::Char);
+        } else if (IS_SET(pexit->exit_info, EX_ISDOOR)) {
+            act("The $d is open.", &ch, nullptr, pexit->keyword, To::Char);
+        }
+    }
+}
+
+}
+
+void do_look(CHAR_DATA *ch, const char *arguments) {
     if (ch->desc == nullptr)
         return;
 
     if (ch->position < POS_SLEEPING) {
-        send_to_char("You can't see anything but stars!\n\r", ch);
+        ch->send_to("You can't see anything but stars!\n\r");
         return;
     }
 
     if (ch->position == POS_SLEEPING) {
-        send_to_char("You can't see anything, you're sleeping!\n\r", ch);
+        ch->send_to("You can't see anything, you're sleeping!\n\r");
         return;
     }
 
     if (!check_blind(ch))
         return;
 
-    if (!IS_NPC(ch) && !IS_SET(ch->act, PLR_HOLYLIGHT) && room_is_dark(ch->in_room)) {
-        send_to_char("It is pitch black ... \n\r", ch);
+    if (!ch->has_holylight() && room_is_dark(ch->in_room)) {
+        ch->send_to("It is pitch black ... \n\r");
         show_char_to_char(ch->in_room->people, ch);
         return;
     }
 
-    arg = one_argument(arg, arg1);
-    arg = one_argument(arg, arg2);
-    number = number_argument(arg1, arg3);
-    count = 0;
+    ArgParser args(arguments);
+    auto first_arg = args.shift();
 
-    if (arg1[0] == '\0' || !str_cmp(arg1, "auto")) {
-        /* 'look' or 'look auto' */
-        /*        if ((!IS_NPC(ch)) && ( ch->pcdata->colour))
-          {
-                   snprintf(buf, sizeof(buf), "%c[1;31m", 27);
-                   send_to_char(buf, ch);
-          } */
-        send_to_char("|R", ch);
-        send_to_char(ch->in_room->name, ch);
-        send_to_char("\n\r|w", ch);
-        /*
-                if( (!IS_NPC(ch)) && (ch->pcdata->colour))
-          {
-                   snprintf(buf, sizeof(buf), "%c[0;37m", 27);
-                   send_to_char(buf, ch);
-                } */
-        if (arg1[0] == '\0' || (!IS_NPC(ch) && !IS_SET(ch->comm, COMM_BRIEF))) {
-            send_to_char("  ", ch);
-            send_to_char(ch->in_room->description, ch);
-        }
-
-        if (!IS_NPC(ch) && IS_SET(ch->act, PLR_AUTOEXIT)) {
-            send_to_char("\n\r", ch);
-            do_exits(ch, "auto");
-        }
-
-        show_list_to_char(ch->in_room->contents, ch, false, false);
-        show_char_to_char(ch->in_room->people, ch);
+    // A normal look, or a look auto to describe the room?
+    if (first_arg.empty() || matches(first_arg, "auto")) {
+        room_look(*ch, first_arg.empty());
         return;
     }
 
-    if (!str_cmp(arg1, "i") || !str_cmp(arg1, "in")) {
-        /* 'look in' */
-        if (arg2[0] == '\0') {
+    // Look in something?
+    if (matches_start(first_arg, "in")) {
+        if (args.empty()) {
             send_to_char("Look in what?\n\r", ch);
             return;
         }
-
-        if ((obj = get_obj_here(ch, arg2)) == nullptr) {
+        if (auto *obj = get_obj_here(ch, args.shift()))
+            look_in_object(*ch, *obj);
+        else
             send_to_char("You do not see that here.\n\r", ch);
-            return;
-        }
-
-        switch (obj->item_type) {
-        default: send_to_char("That is not a container.\n\r", ch); break;
-
-        case ITEM_DRINK_CON:
-            if (obj->value[1] <= 0) {
-                send_to_char("It is empty.\n\r", ch);
-                break;
-            }
-
-            snprintf(buf, sizeof(buf), "It's %s full of a %s liquid.\n\r",
-                     obj->value[1] < obj->value[0] / 4 ? "less than"
-                                                       : obj->value[1] < 3 * obj->value[0] / 4 ? "about" : "more than",
-                     liq_table[obj->value[2]].liq_color);
-
-            send_to_char(buf, ch);
-            break;
-
-        case ITEM_CONTAINER:
-        case ITEM_CORPSE_NPC:
-        case ITEM_CORPSE_PC:
-            if (IS_SET(obj->value[1], CONT_CLOSED)) {
-                send_to_char("It is closed.\n\r", ch);
-                break;
-            }
-
-            act("$p contains:", ch, obj, nullptr, To::Char);
-            show_list_to_char(obj->contains, ch, true, true);
-            break;
-        }
         return;
     }
 
-    if ((victim = get_char_room(ch, arg1)) != nullptr) {
+    // Look at a person?
+    if (auto *victim = get_char_room(ch, first_arg)) {
         show_char_to_char_1(victim, ch);
         return;
     }
 
-    for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
-        if (can_see_obj(ch, obj)) {
-            pdesc = get_extra_descr(arg3, obj->extra_descr);
-            if (pdesc != nullptr) {
-                if (++count == number) {
-                    sn = skill_lookup("lore");
-                    if (sn < 0 || (!IS_NPC(ch) && ch->level < get_skill_level(ch, sn))) {
-                        send_to_char(pdesc, ch);
-                        return;
-                    } else {
-                        do_lore(ch, obj, pdesc);
-                        return;
-                    }
-                } else
-                    continue;
-            }
+    // Look at an object?
+    if (handled_as_look_at_object(*ch, first_arg))
+        return;
 
-            pdesc = get_extra_descr(arg3, obj->pIndexData->extra_descr);
-            if (pdesc != nullptr) {
-                if (++count == number) {
-                    sn = skill_lookup("lore");
-                    if (sn < 0 || (!IS_NPC(ch) && ch->level < get_skill_level(ch, sn))) {
-                        send_to_char(pdesc, ch);
-                        return;
-                    } else {
-                        do_lore(ch, obj, pdesc);
-                        return;
-                    }
-                } else
-                    continue;
-            }
-
-            if (is_name(arg3, obj->name))
-                if (++count == number) {
-                    send_to_char(obj->description, ch);
-                    send_to_char("\n\r", ch);
-                    do_lore(ch, obj, "");
-                    return;
-                }
-        }
-    }
-
-    for (obj = ch->in_room->contents; obj != nullptr; obj = obj->next_content) {
-        if (can_see_obj(ch, obj)) {
-            pdesc = get_extra_descr(arg3, obj->extra_descr);
-            if (pdesc != nullptr)
-                if (++count == number) {
-                    send_to_char(pdesc, ch);
-                    return;
-                }
-
-            pdesc = get_extra_descr(arg3, obj->pIndexData->extra_descr);
-            if (pdesc != nullptr)
-                if (++count == number) {
-                    send_to_char(pdesc, ch);
-                    return;
-                }
-        }
-
-        if (is_name(arg3, obj->name))
-            if (++count == number) {
-                send_to_char(obj->description, ch);
-                send_to_char("\n\r", ch);
-                return;
-            }
-    }
-
-    if (count > 0 && count != number) {
-        if (count == 1)
-            snprintf(buf, sizeof(buf), "You only see one %s here.\n\r", arg3);
-        else
-            snprintf(buf, sizeof(buf), "You only see %d %s's here.\n\r", count, arg3);
-
-        send_to_char(buf, ch);
+    // Look at something in the extra description of the room?
+    if (auto *pdesc = get_extra_descr(first_arg, ch->in_room->extra_descr)) {
+        ch->send_to(pdesc);
         return;
     }
 
-    pdesc = get_extra_descr(arg1, ch->in_room->extra_descr);
-    if (pdesc != nullptr) {
-        send_to_char(pdesc, ch);
+    // Look in a direction?
+    if (auto opt_door = try_parse_direction(first_arg)) {
+        look_direction(*ch, *opt_door);
         return;
     }
 
-    if (!str_cmp(arg1, "n") || !str_cmp(arg1, "north"))
-        door = 0;
-    else if (!str_cmp(arg1, "e") || !str_cmp(arg1, "east"))
-        door = 1;
-    else if (!str_cmp(arg1, "s") || !str_cmp(arg1, "south"))
-        door = 2;
-    else if (!str_cmp(arg1, "w") || !str_cmp(arg1, "west"))
-        door = 3;
-    else if (!str_cmp(arg1, "u") || !str_cmp(arg1, "up"))
-        door = 4;
-    else if (!str_cmp(arg1, "d") || !str_cmp(arg1, "down"))
-        door = 5;
-    else {
-        send_to_char("You do not see that here.\n\r", ch);
-        return;
-    }
-
-    /* 'look direction' */
-    if ((pexit = ch->in_room->exit[door]) == nullptr) {
-        send_to_char("Nothing special there.\n\r", ch);
-        return;
-    }
-
-    if (pexit->description != nullptr && pexit->description[0] != '\0')
-        send_to_char(pexit->description, ch);
-    else
-        send_to_char("Nothing special there.\n\r", ch);
-
-    if (pexit->keyword != nullptr && pexit->keyword[0] != '\0' && pexit->keyword[0] != ' ') {
-        if (IS_SET(pexit->exit_info, EX_CLOSED)) {
-            act("The $d is closed.", ch, nullptr, pexit->keyword, To::Char);
-        } else if (IS_SET(pexit->exit_info, EX_ISDOOR)) {
-            act("The $d is open.", ch, nullptr, pexit->keyword, To::Char);
-        }
-    }
+    ch->send_to("You do not see that here.\n\r");
 }
 
 /* RT added back for the hell of it */
@@ -1175,53 +1110,37 @@ void do_examine(CHAR_DATA *ch, const char *argument) {
 /*
  * Thanks to Zrin for auto-exit part.
  */
-void do_exits(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-    EXIT_DATA *pexit;
-    bool found;
-    bool fAuto;
-    int door;
+void do_exits(const CHAR_DATA *ch, const char *argument) {
 
-    buf[0] = '\0';
-    fAuto = !str_cmp(argument, "auto");
+    auto fAuto = matches(argument, "auto");
 
     if (!check_blind(ch))
         return;
 
-    /*    if ((!IS_NPC(ch)) && (ch->pcdata->colour))
-        {
-           snprintf(buf, sizeof(buf), "%c[1;37m", 27);
-           send_to_char(buf, ch);
-        } */
-    strcpy(buf, fAuto ? "|W[Exits:" : "Obvious exits:\n\r");
+    std::string buf = fAuto ? "|W[Exits:" : "Obvious exits:\n\r";
 
-    found = false;
-    for (door = 0; door <= 5; door++) {
-        if ((pexit = ch->in_room->exit[door]) != nullptr && pexit->u1.to_room != nullptr
-            && can_see_room(ch, pexit->u1.to_room) && !IS_SET(pexit->exit_info, EX_CLOSED)) {
+    auto found = false;
+    for (auto door : all_directions) {
+        if (auto *pexit = ch->in_room->exit[door];
+            pexit && pexit->u1.to_room && can_see_room(ch, pexit->u1.to_room) && !IS_SET(pexit->exit_info, EX_CLOSED)) {
             found = true;
             if (fAuto) {
-                strcat(buf, " ");
-                strcat(buf, dir_name[door]);
+                buf += " {}"_format(to_string(door));
             } else {
-                snprintf(buf + strlen(buf), sizeof(buf), "%-5s - %s\n\r", capitalize(dir_name[door]),
-                         room_is_dark(pexit->u1.to_room) ? "Too dark to tell" : pexit->u1.to_room->name);
+                buf += "{:<5} - {}\n\r"_format(capitalize(to_string(door)), room_is_dark(pexit->u1.to_room)
+                                                                                ? "Too dark to tell"
+                                                                                : pexit->u1.to_room->name);
             }
         }
     }
 
     if (!found)
-        strcat(buf, fAuto ? " none" : "None.\n\r");
+        buf += fAuto ? " none" : "None.\n\r";
 
     if (fAuto)
-        strcat(buf, "]\n\r|w");
+        buf += "]\n\r|w";
 
-    send_to_char(buf, ch);
-    /*    if ( (!IS_NPC(ch)) && (ch->pcdata->colour))
-        {
-           snprintf(buf, sizeof(buf), "%c[0;37m", 27);
-           send_to_char( buf, ch );
-        } */
+    ch->send_to(buf);
 }
 
 void do_worth(CHAR_DATA *ch, const char *argument) {
@@ -2232,17 +2151,15 @@ void do_scan(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *current_person;
     CHAR_DATA *next_person;
     EXIT_DATA *pexit;
-    char buf[MAX_STRING_LENGTH];
     int count_num_rooms;
     int num_rooms_scan = UMAX(1, ch->level / 10);
     bool found_anything = false;
-    int direction;
     std::vector<sh_int> found_rooms{ch->in_room->vnum};
 
-    send_to_char("You can see around you :\n\r", ch);
+    ch->send_to("You can see around you :\n\r");
     /* Loop for each point of the compass */
 
-    for (direction = 0; direction < MAX_DIR; direction++) {
+    for (auto direction : all_directions) {
         /* No exits in that direction */
 
         current_place = ch->in_room;
@@ -2265,12 +2182,10 @@ void do_scan(CHAR_DATA *ch, const char *argument) {
 
             for (current_person = current_place->people; current_person != nullptr; current_person = next_person) {
                 next_person = current_person->next_in_room;
-                if (can_see(ch, current_person)) {
-                    snprintf(buf, sizeof(buf), "%d %-5s: |W%s|w\n\r", (count_num_rooms + 1),
-                             capitalize(dir_name[direction]),
-                             (current_person->pcdata == nullptr) ? current_person->short_descr : current_person->name);
-
-                    send_to_char(buf, ch);
+                if (ch->can_see(*current_person)) {
+                    ch->send_to("{} {:<5}: |W{}|w\n\r"_format(count_num_rooms + 1, capitalize(to_string(direction)),
+                                                              !current_person->pcdata ? current_person->short_descr
+                                                                                      : current_person->name));
                     found_anything = true;
                 }
             } /* Closes the for_each_char_loop */
@@ -2278,8 +2193,8 @@ void do_scan(CHAR_DATA *ch, const char *argument) {
         } /* Closes the for_each distance seeable loop */
 
     } /* closes main loop for each direction */
-    if (found_anything == false)
-        send_to_char("Nothing of great interest.\n\r", ch);
+    if (!found_anything)
+        ch->send_to("Nothing of great interest.\n\r");
 }
 
 /*

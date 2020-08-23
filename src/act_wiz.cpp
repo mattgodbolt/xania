@@ -662,7 +662,6 @@ void do_rstat(CHAR_DATA *ch, const char *argument) {
     ROOM_INDEX_DATA *location;
     OBJ_DATA *obj;
     CHAR_DATA *rch;
-    int door;
 
     one_argument(argument, arg);
     location = (arg[0] == '\0') ? ch->in_room : find_location(ch, arg);
@@ -682,7 +681,7 @@ void do_rstat(CHAR_DATA *ch, const char *argument) {
     bug_snprintf(buf, sizeof(buf), "Vnum: %d.  Sector: %d.  Light: %d.\n\r", location->vnum, location->sector_type,
                  location->light);
     send_to_char(buf, ch);
-    send_to_char("Flags:", ch);
+    send_to_char("Flags: ", ch);
     display_flags(ROOM_FLAGS, ch, location->room_flags);
     bug_snprintf(buf, sizeof(buf), "Description:\n\r%s", location->description);
     send_to_char(buf, ch);
@@ -716,16 +715,11 @@ void do_rstat(CHAR_DATA *ch, const char *argument) {
     }
     send_to_char(".\n\r", ch);
 
-    for (door = 0; door <= 5; door++) {
-        EXIT_DATA *pexit;
-
-        if ((pexit = location->exit[door]) != nullptr) {
-            bug_snprintf(
-                buf, sizeof(buf), "Door: %d.  To: %d.  Key: %d.  Exit flags: %d.\n\rKeyword: '%s'.  Description: %s",
-
-                door, (pexit->u1.to_room == nullptr ? -1 : pexit->u1.to_room->vnum), pexit->key, pexit->exit_info,
-                pexit->keyword, pexit->description[0] != '\0' ? pexit->description : "(none).\n\r");
-            send_to_char(buf, ch);
+    for (auto door : all_directions) {
+        if (auto *pexit = location->exit[door]) {
+            ch->send_to("Door: {}.  To: {}.  Key: {}.  Exit flags: {}.\n\rKeyword: '{}'.  Description: {}"_format(
+                to_string(door), (pexit->u1.to_room == nullptr ? -1 : pexit->u1.to_room->vnum), pexit->key,
+                pexit->exit_info, pexit->keyword, pexit->description[0] != '\0' ? pexit->description : "(none).\n\r"));
         }
     }
 }

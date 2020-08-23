@@ -346,7 +346,6 @@ void mobile_update() {
     CHAR_DATA *ch;
     CHAR_DATA *ch_next;
     EXIT_DATA *pexit;
-    int door;
 
     /* Examine all mobs. */
     for (ch = char_list; ch != nullptr; ch = ch_next) {
@@ -402,11 +401,12 @@ void mobile_update() {
         }
 
         /* Wander */
-        if (!IS_SET(ch->act, ACT_SENTINEL) && number_bits(4) == 0 && (door = number_bits(5)) <= 5
-            && (pexit = ch->in_room->exit[door]) != nullptr && pexit->u1.to_room != nullptr
+        auto opt_door = try_cast_direction(number_bits(5));
+        if (!IS_SET(ch->act, ACT_SENTINEL) && number_bits(4) == 0 && opt_door
+            && (pexit = ch->in_room->exit[*opt_door]) != nullptr && pexit->u1.to_room != nullptr
             && !IS_SET(pexit->exit_info, EX_CLOSED) && !IS_SET(pexit->u1.to_room->room_flags, ROOM_NO_MOB)
             && (!IS_SET(ch->act, ACT_STAY_AREA) || pexit->u1.to_room->area == ch->in_room->area)) {
-            move_char(ch, door);
+            move_char(ch, *opt_door);
         }
     }
 }

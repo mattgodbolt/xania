@@ -171,8 +171,7 @@ bool spec_phil(CHAR_DATA *ch) {
     ROOM_INDEX_DATA *home;
     ROOM_INDEX_DATA *room;
     CHAR_DATA *follow = nullptr;
-    sh_int exit = 0;
-    sh_int takeExit = 0;
+    Direction takeExit = Direction::North;
     EXIT_DATA *exitData;
     int interest = 0;
 
@@ -198,7 +197,7 @@ bool spec_phil(CHAR_DATA *ch) {
     /* Check for known people in this, and neighbouring, rooms */
     room = ch->in_room;
     findInterestingChar(room, &follow, &interest);
-    for (; exit < 6; exit++) {
+    for (auto exit : all_directions) {
         if ((exitData = room->exit[exit]) != nullptr)
             if (findInterestingChar(exitData->u1.to_room, &follow, &interest))
                 takeExit = exit;

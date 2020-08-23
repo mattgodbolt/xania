@@ -21,33 +21,19 @@
 
 using namespace fmt::literals;
 
-const char *dir_name[] = {"north", "east", "south", "west", "up", "down"};
-
-const sh_int rev_dir[] = {2, 3, 0, 1, 5, 4};
-
 const sh_int movement_loss[SECT_MAX] = {1, 2, 2, 3, 4, 6, 4, 1, 6, 10, 6};
 
 /*
  * Local functions.
  */
 int find_door(CHAR_DATA *ch, char *arg);
-bool has_key(CHAR_DATA *ch, int key);
+bool has_key(const CHAR_DATA *ch, int key);
 
-void move_char(CHAR_DATA *ch, int door) {
-    CHAR_DATA *fch;
-    CHAR_DATA *fch_next;
-    ROOM_INDEX_DATA *in_room;
-    ROOM_INDEX_DATA *to_room;
-    EXIT_DATA *pexit;
-
-    if (door < 0 || door > 5) {
-        bug("Do_move: bad door %d.", door);
-        return;
-    }
-
-    in_room = ch->in_room;
-    if ((pexit = in_room->exit[door]) == nullptr || (to_room = pexit->u1.to_room) == nullptr
-        || !can_see_room(ch, pexit->u1.to_room)) {
+void move_char(CHAR_DATA *ch, Direction door) {
+    auto *in_room = ch->in_room;
+    auto *pexit = in_room->exit[door];
+    auto *to_room = pexit ? pexit->u1.to_room : nullptr;
+    if (!pexit || !to_room || !ch->can_see(*to_room)) {
         send_to_char("Alas, you cannot go that way.\n\r", ch);
         return;
     }
@@ -175,10 +161,10 @@ void move_char(CHAR_DATA *ch, int door) {
         && (IS_NPC(ch) || !IS_SET(ch->act, PLR_WIZINVIS) || !IS_SET(ch->act, PLR_PROWL))) {
         if (ch->ridden_by == nullptr) {
             if (ch->riding == nullptr) {
-                act("$n leaves $T.", ch, nullptr, dir_name[door], To::Room);
+                act("$n leaves $T.", ch, nullptr, to_string(door), To::Room);
             } else {
-                act("$n rides $t on $N.", ch, dir_name[door], ch->riding, To::Room);
-                act("You ride $t on $N.", ch, dir_name[door], ch->riding, To::Char);
+                act("$n rides $t on $N.", ch, to_string(door), ch->riding, To::Room);
+                act("You ride $t on $N.", ch, to_string(door), ch->riding, To::Char);
             }
         }
     }
@@ -201,7 +187,8 @@ void move_char(CHAR_DATA *ch, int door) {
     if (in_room == to_room) /* no circular follows */
         return;
 
-    for (fch = in_room->people; fch != nullptr; fch = fch_next) {
+    CHAR_DATA *fch_next{};
+    for (auto *fch = in_room->people; fch != nullptr; fch = fch_next) {
         fch_next = fch->next_in_room;
 
         if (fch->master == ch && IS_AFFECTED(fch, AFF_CHARM) && fch->position < POS_STANDING)
@@ -367,96 +354,79 @@ void do_north(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
-    move_char(ch, DIR_NORTH);
+    move_char(ch, Direction::North);
 }
 
 void do_east(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
-    move_char(ch, DIR_EAST);
+    move_char(ch, Direction::East);
 }
 
 void do_south(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
-    move_char(ch, DIR_SOUTH);
+    move_char(ch, Direction::South);
 }
 
 void do_west(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
-    move_char(ch, DIR_WEST);
+    move_char(ch, Direction::West);
 }
 
 void do_up(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
-    move_char(ch, DIR_UP);
+    move_char(ch, Direction::Up);
 }
 
 void do_down(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
-    move_char(ch, DIR_DOWN);
+    move_char(ch, Direction::Down);
 }
 
-int find_door(CHAR_DATA *ch, char *arg) {
-    EXIT_DATA *pexit;
-    int door;
-
-    if (!str_cmp(arg, "n") || !str_cmp(arg, "north"))
-        door = 0;
-    else if (!str_cmp(arg, "e") || !str_cmp(arg, "east"))
-        door = 1;
-    else if (!str_cmp(arg, "s") || !str_cmp(arg, "south"))
-        door = 2;
-    else if (!str_cmp(arg, "w") || !str_cmp(arg, "west"))
-        door = 3;
-    else if (!str_cmp(arg, "u") || !str_cmp(arg, "up"))
-        door = 4;
-    else if (!str_cmp(arg, "d") || !str_cmp(arg, "down"))
-        door = 5;
-    else {
-        for (door = 0; door <= 5; door++) {
-            if ((pexit = ch->in_room->exit[door]) != nullptr && IS_SET(pexit->exit_info, EX_ISDOOR)
-                && pexit->keyword != nullptr && is_name(arg, pexit->keyword))
-                return door;
+std::optional<Direction> find_door(CHAR_DATA *ch, std::string_view arg) {
+    if (auto door = try_parse_direction(arg)) {
+        auto *pexit = ch->in_room->exit[*door];
+        if (!pexit) {
+            act("I see no door $T here.", ch, nullptr, arg, To::Char);
+            return {};
         }
-        act("I see no $T here.", ch, nullptr, arg, To::Char);
-        return -1;
+
+        if (!IS_SET(pexit->exit_info, EX_ISDOOR)) {
+            send_to_char("You can't do that.\n\r", ch);
+            return {};
+        }
+
+        return door;
     }
 
-    if ((pexit = ch->in_room->exit[door]) == nullptr) {
-        act("I see no door $T here.", ch, nullptr, arg, To::Char);
-        return -1;
+    for (auto door : all_directions) {
+        if (auto *pexit = ch->in_room->exit[door];
+            pexit && IS_SET(pexit->exit_info, EX_ISDOOR) && pexit->keyword != nullptr && is_name(arg, pexit->keyword))
+            return door;
     }
-
-    if (!IS_SET(pexit->exit_info, EX_ISDOOR)) {
-        send_to_char("You can't do that.\n\r", ch);
-        return -1;
-    }
-
-    return door;
+    act("I see no $T here.", ch, nullptr, arg, To::Char);
+    return {};
 }
 
 void do_open(CHAR_DATA *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
-    int door;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    ArgParser args(argument);
+    if (args.empty()) {
         send_to_char("Open what?\n\r", ch);
         return;
     }
 
-    if ((obj = get_obj_here(ch, arg)) != nullptr) {
+    auto arg = args.shift();
+
+    if (auto *obj = get_obj_here(ch, arg)) {
         /* 'open object' */
         if (obj->item_type != ITEM_CONTAINER) {
             send_to_char("That's not a container.\n\r", ch);
@@ -481,13 +451,11 @@ void do_open(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if ((door = find_door(ch, arg)) >= 0) {
+    if (auto opt_door = find_door(ch, arg)) {
+        auto door = *opt_door;
         /* 'open door' */
-        ROOM_INDEX_DATA *to_room;
-        EXIT_DATA *pexit;
-        EXIT_DATA *pexit_rev;
 
-        pexit = ch->in_room->exit[door];
+        auto *pexit = ch->in_room->exit[door];
         if (!IS_SET(pexit->exit_info, EX_CLOSED)) {
             send_to_char("It's already open.\n\r", ch);
             return;
@@ -502,7 +470,9 @@ void do_open(CHAR_DATA *ch, const char *argument) {
         send_to_char("Ok.\n\r", ch);
 
         /* open the other side */
-        if ((to_room = pexit->u1.to_room) != nullptr && (pexit_rev = to_room->exit[rev_dir[door]]) != nullptr
+        ROOM_INDEX_DATA *to_room;
+        EXIT_DATA *pexit_rev;
+        if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
             CHAR_DATA *rch;
 
@@ -514,18 +484,14 @@ void do_open(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_close(CHAR_DATA *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
-    int door;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    ArgParser args(argument);
+    if (args.empty()) {
         send_to_char("Close what?\n\r", ch);
         return;
     }
 
-    if ((obj = get_obj_here(ch, arg)) != nullptr) {
+    auto arg = args.shift();
+    if (auto *obj = get_obj_here(ch, arg)) {
         /* 'close object' */
         if (obj->item_type != ITEM_CONTAINER) {
             send_to_char("That's not a container.\n\r", ch);
@@ -546,13 +512,11 @@ void do_close(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if ((door = find_door(ch, arg)) >= 0) {
+    if (auto opt_door = find_door(ch, arg)) {
+        auto door = *opt_door;
         /* 'close door' */
-        ROOM_INDEX_DATA *to_room;
-        EXIT_DATA *pexit;
-        EXIT_DATA *pexit_rev;
 
-        pexit = ch->in_room->exit[door];
+        auto *pexit = ch->in_room->exit[door];
         if (IS_SET(pexit->exit_info, EX_CLOSED)) {
             send_to_char("It's already closed.\n\r", ch);
             return;
@@ -563,7 +527,9 @@ void do_close(CHAR_DATA *ch, const char *argument) {
         send_to_char("Ok.\n\r", ch);
 
         /* close the other side */
-        if ((to_room = pexit->u1.to_room) != nullptr && (pexit_rev = to_room->exit[rev_dir[door]]) != 0
+        ROOM_INDEX_DATA *to_room;
+        EXIT_DATA *pexit_rev;
+        if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
             CHAR_DATA *rch;
 
@@ -574,10 +540,8 @@ void do_close(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-bool has_key(CHAR_DATA *ch, int key) {
-    OBJ_DATA *obj;
-
-    for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
+bool has_key(const CHAR_DATA *ch, int key) {
+    for (auto *obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
         if (obj->pIndexData->vnum == key)
             return true;
     }
@@ -586,18 +550,14 @@ bool has_key(CHAR_DATA *ch, int key) {
 }
 
 void do_lock(CHAR_DATA *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
-    int door;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    ArgParser args(argument);
+    if (args.empty()) {
         send_to_char("Lock what?\n\r", ch);
         return;
     }
+    auto arg = args.shift();
 
-    if ((obj = get_obj_here(ch, arg)) != nullptr) {
+    if (auto *obj = get_obj_here(ch, arg)) {
         /* 'lock object' */
         if (obj->item_type != ITEM_CONTAINER) {
             send_to_char("That's not a container.\n\r", ch);
@@ -626,13 +586,11 @@ void do_lock(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if ((door = find_door(ch, arg)) >= 0) {
+    if (auto opt_door = find_door(ch, arg)) {
+        auto door = *opt_door;
         /* 'lock door' */
-        ROOM_INDEX_DATA *to_room;
-        EXIT_DATA *pexit;
-        EXIT_DATA *pexit_rev;
 
-        pexit = ch->in_room->exit[door];
+        auto *pexit = ch->in_room->exit[door];
         if (!IS_SET(pexit->exit_info, EX_CLOSED)) {
             send_to_char("It's not closed.\n\r", ch);
             return;
@@ -655,7 +613,9 @@ void do_lock(CHAR_DATA *ch, const char *argument) {
         act("$n locks the $d.", ch, nullptr, pexit->keyword, To::Room);
 
         /* lock the other side */
-        if ((to_room = pexit->u1.to_room) != nullptr && (pexit_rev = to_room->exit[rev_dir[door]]) != 0
+        ROOM_INDEX_DATA *to_room;
+        EXIT_DATA *pexit_rev;
+        if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
             SET_BIT(pexit_rev->exit_info, EX_LOCKED);
         }
@@ -663,18 +623,15 @@ void do_lock(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_unlock(CHAR_DATA *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
-    int door;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    ArgParser args(argument);
+    if (args.empty()) {
         send_to_char("Unlock what?\n\r", ch);
         return;
     }
 
-    if ((obj = get_obj_here(ch, arg)) != nullptr) {
+    auto arg = args.shift();
+
+    if (auto *obj = get_obj_here(ch, arg)) {
         /* 'unlock object' */
         if (obj->item_type != ITEM_CONTAINER) {
             send_to_char("That's not a container.\n\r", ch);
@@ -703,13 +660,10 @@ void do_unlock(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if ((door = find_door(ch, arg)) >= 0) {
+    if (auto opt_door = find_door(ch, arg)) {
+        auto door = *opt_door;
         /* 'unlock door' */
-        ROOM_INDEX_DATA *to_room;
-        EXIT_DATA *pexit;
-        EXIT_DATA *pexit_rev;
-
-        pexit = ch->in_room->exit[door];
+        auto *pexit = ch->in_room->exit[door];
         if (!IS_SET(pexit->exit_info, EX_CLOSED)) {
             send_to_char("It's not closed.\n\r", ch);
             return;
@@ -732,7 +686,9 @@ void do_unlock(CHAR_DATA *ch, const char *argument) {
         act("$n unlocks the $d.", ch, nullptr, pexit->keyword, To::Room);
 
         /* unlock the other side */
-        if ((to_room = pexit->u1.to_room) != nullptr && (pexit_rev = to_room->exit[rev_dir[door]]) != nullptr
+        ROOM_INDEX_DATA *to_room;
+        EXIT_DATA *pexit_rev;
+        if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
             REMOVE_BIT(pexit_rev->exit_info, EX_LOCKED);
         }
@@ -740,14 +696,8 @@ void do_unlock(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_pick(CHAR_DATA *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *gch;
-    OBJ_DATA *obj;
-    int door;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    ArgParser args(argument);
+    if (args.empty()) {
         send_to_char("Pick what?\n\r", ch);
         return;
     }
@@ -755,7 +705,7 @@ void do_pick(CHAR_DATA *ch, const char *argument) {
     WAIT_STATE(ch, skill_table[gsn_pick_lock].beats);
 
     /* look for guards */
-    for (gch = ch->in_room->people; gch; gch = gch->next_in_room) {
+    for (auto *gch = ch->in_room->people; gch; gch = gch->next_in_room) {
         if (IS_NPC(gch) && IS_AWAKE(gch) && ch->level + 5 < gch->level) {
             act("$N is standing too close to the lock.", ch, nullptr, gch, To::Char);
             return;
@@ -768,7 +718,8 @@ void do_pick(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if ((obj = get_obj_here(ch, arg)) != nullptr) {
+    auto arg = args.shift();
+    if (auto *obj = get_obj_here(ch, arg)) {
         /* 'pick object' */
         if (obj->item_type != ITEM_CONTAINER) {
             send_to_char("That's not a container.\n\r", ch);
@@ -798,13 +749,11 @@ void do_pick(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if ((door = find_door(ch, arg)) >= 0) {
+    if (auto opt_door = find_door(ch, arg)) {
+        auto door = *opt_door;
         /* 'pick door' */
-        ROOM_INDEX_DATA *to_room;
-        EXIT_DATA *pexit;
-        EXIT_DATA *pexit_rev;
 
-        pexit = ch->in_room->exit[door];
+        auto *pexit = ch->in_room->exit[door];
         if (!IS_SET(pexit->exit_info, EX_CLOSED) && !IS_IMMORTAL(ch)) {
             send_to_char("It's not closed.\n\r", ch);
             return;
@@ -828,7 +777,9 @@ void do_pick(CHAR_DATA *ch, const char *argument) {
         check_improve(ch, gsn_pick_lock, true, 2);
 
         /* pick the other side */
-        if ((to_room = pexit->u1.to_room) != nullptr && (pexit_rev = to_room->exit[rev_dir[door]]) != nullptr
+        ROOM_INDEX_DATA *to_room;
+        EXIT_DATA *pexit_rev;
+        if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
             REMOVE_BIT(pexit_rev->exit_info, EX_LOCKED);
         }

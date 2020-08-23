@@ -1355,7 +1355,6 @@ void make_corpse(CHAR_DATA *ch) {
 void death_cry(CHAR_DATA *ch) {
     ROOM_INDEX_DATA *was_in_room;
     const char *msg;
-    int door;
     int vnum;
     int i = 0;
     bool found = false;
@@ -1422,11 +1421,9 @@ void death_cry(CHAR_DATA *ch) {
         msg = "You hear someone's death cry.";
 
     was_in_room = ch->in_room;
-    for (door = 0; door <= 5; door++) {
-        EXIT_DATA *pexit;
-
-        if ((pexit = was_in_room->exit[door]) != nullptr && pexit->u1.to_room != nullptr
-            && pexit->u1.to_room != was_in_room) {
+    for (auto door : all_directions) {
+        if (auto *pexit = was_in_room->exit[door];
+            pexit && pexit->u1.to_room != nullptr && pexit->u1.to_room != was_in_room) {
             ch->in_room = pexit->u1.to_room;
             act(msg, ch);
         }
@@ -2664,10 +2661,9 @@ void do_flee(CHAR_DATA *ch, const char *argument) {
     was_in = ch->in_room;
     for (attempt = 0; attempt < 6; attempt++) {
         EXIT_DATA *pexit;
-        int door;
-
-        door = number_door();
-        if ((pexit = was_in->exit[door]) == 0 || pexit->u1.to_room == nullptr || IS_SET(pexit->exit_info, EX_CLOSED)
+        auto door = random_direction();
+        if ((pexit = was_in->exit[door]) == nullptr || pexit->u1.to_room == nullptr
+            || IS_SET(pexit->exit_info, EX_CLOSED)
             || (IS_NPC(ch) && IS_SET(pexit->u1.to_room->room_flags, ROOM_NO_MOB)))
             continue;
 

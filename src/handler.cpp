@@ -1294,15 +1294,10 @@ OBJ_DATA *get_obj_type(OBJ_INDEX_DATA *pObjIndex) {
 /*
  * Find an obj in a list.
  */
-OBJ_DATA *get_obj_list(CHAR_DATA *ch, const char *argument, OBJ_DATA *list) {
-    char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
-    int number;
-    int count;
-
-    number = number_argument(argument, arg);
-    count = 0;
-    for (obj = list; obj != nullptr; obj = obj->next_content) {
+OBJ_DATA *get_obj_list(const CHAR_DATA *ch, std::string_view argument, OBJ_DATA *list) {
+    auto &&[number, arg] = number_argument(argument);
+    int count = 0;
+    for (auto *obj = list; obj; obj = obj->next_content) {
         if (can_see_obj(ch, obj) && is_name(arg, obj->name)) {
             if (++count == number)
                 return obj;
@@ -1316,58 +1311,29 @@ OBJ_DATA *get_obj_list(CHAR_DATA *ch, const char *argument, OBJ_DATA *list) {
  * Find an obj in player's inventory.
  */
 OBJ_DATA *get_obj_carry(CHAR_DATA *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
-    int number;
-    int count;
-
-    number = number_argument(argument, arg);
-    count = 0;
-    for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
-        if (obj->wear_loc == WEAR_NONE && (can_see_obj(ch, obj)) && is_name(arg, obj->name)) {
-            if (++count == number)
-                return obj;
-        }
-    }
-
-    return nullptr;
+    // TODO remove
+    return ch->find_in_inventory(argument);
 }
 
 /*
  * Find an obj in player's equipment.
  */
 OBJ_DATA *get_obj_wear(CHAR_DATA *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
-    int number;
-    int count;
-
-    number = number_argument(argument, arg);
-    count = 0;
-    for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
-        if (obj->wear_loc != WEAR_NONE && can_see_obj(ch, obj) && is_name(arg, obj->name)) {
-            if (++count == number)
-                return obj;
-        }
-    }
-
-    return nullptr;
+    // TODO remove
+    return ch->find_in_inventory(argument);
 }
 
 /*
  * Find an obj in the room or in inventory.
  */
-OBJ_DATA *get_obj_here(CHAR_DATA *ch, const char *argument) {
-    OBJ_DATA *obj;
-
-    obj = get_obj_list(ch, argument, ch->in_room->contents);
-    if (obj != nullptr)
+OBJ_DATA *get_obj_here(const CHAR_DATA *ch, std::string_view argument) {
+    if (auto *obj = get_obj_list(ch, argument, ch->in_room->contents))
         return obj;
 
-    if ((obj = get_obj_carry(ch, argument)) != nullptr)
+    if (auto *obj = ch->find_in_inventory(argument))
         return obj;
 
-    if ((obj = get_obj_wear(ch, argument)) != nullptr)
+    if (auto *obj = ch->find_worn(argument))
         return obj;
 
     return nullptr;
@@ -1505,20 +1471,9 @@ bool room_is_private(ROOM_INDEX_DATA *pRoomIndex) {
 }
 
 /* visibility on a room -- for entering and exits */
-bool can_see_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
-    if (IS_SET(pRoomIndex->room_flags, ROOM_IMP_ONLY) && ch->get_trust() < MAX_LEVEL)
-        return false;
-
-    if (IS_SET(pRoomIndex->room_flags, ROOM_GODS_ONLY) && !IS_IMMORTAL(ch))
-        return false;
-
-    if (IS_SET(pRoomIndex->room_flags, ROOM_HEROES_ONLY) && !IS_HERO(ch))
-        return false;
-
-    if (IS_SET(pRoomIndex->room_flags, ROOM_NEWBIES_ONLY) && ch->level > 5 && !IS_IMMORTAL(ch))
-        return false;
-
-    return true;
+bool can_see_room(const CHAR_DATA *ch, const ROOM_INDEX_DATA *pRoomIndex) {
+    // TODO remove
+    return ch->can_see(*pRoomIndex);
 }
 
 bool can_see(const CHAR_DATA *ch, const CHAR_DATA *victim) {
@@ -1536,28 +1491,8 @@ bool can_see(const CHAR_DATA *ch, const CHAR_DATA *victim) {
  * True if char can see obj.
  */
 bool can_see_obj(const CHAR_DATA *ch, const OBJ_DATA *obj) {
-    if (!IS_NPC(ch) && IS_SET(ch->act, PLR_HOLYLIGHT))
-        return true;
-
-    if (IS_SET(obj->extra_flags, ITEM_VIS_DEATH))
-        return false;
-
-    if (IS_AFFECTED(ch, AFF_BLIND) && obj->item_type != ITEM_POTION)
-        return false;
-
-    if (obj->item_type == ITEM_LIGHT && obj->value[2] != 0)
-        return true;
-
-    if (IS_SET(obj->extra_flags, ITEM_INVIS) && !IS_AFFECTED(ch, AFF_DETECT_INVIS))
-        return false;
-
-    if (IS_OBJ_STAT(obj, ITEM_GLOW))
-        return true;
-
-    if (room_is_dark(ch->in_room) && !IS_AFFECTED(ch, AFF_INFRARED))
-        return false;
-
-    return true;
+    // TODO remove
+    return ch->can_see(*obj);
 }
 
 /*

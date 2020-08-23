@@ -113,7 +113,7 @@ void buffer_shrink(BUFFER *buffer) {
 }
 
 /* Pages the buffer to the given char, and then destroys the buffer. */
-void buffer_send(BUFFER *buffer, CHAR_DATA *ch) {
-    page_to_char(buffer->buffer, ch);
+void buffer_send(BUFFER *buffer, const CHAR_DATA *ch) {
+    ch->page_to(buffer->buffer);
     buffer_destroy(buffer);
 }

@@ -959,10 +959,10 @@ bool spec_mayor(CHAR_DATA *ch) {
         return false;
 
     switch (path[pos]) {
-    case '0':
-    case '1':
-    case '2':
-    case '3': move_char(ch, path[pos] - '0'); break;
+    case '0': move_char(ch, Direction::North); break;
+    case '1': move_char(ch, Direction::East); break;
+    case '2': move_char(ch, Direction::South); break;
+    case '3': move_char(ch, Direction::West); break;
 
     case 'W':
         ch->position = POS_STANDING;

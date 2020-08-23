@@ -2297,7 +2297,6 @@ void do_hailcorpse(CHAR_DATA *ch, const char *argument) {
     ROOM_INDEX_DATA *current_place;
     EXIT_DATA *pexit;
     bool foundit = false;
-    int direction;
     OBJ_DATA *current_obj;
     if (is_switched(ch)) {
         send_to_char("You cannot hail NPC corpses.\n\r", ch);
@@ -2324,7 +2323,7 @@ void do_hailcorpse(CHAR_DATA *ch, const char *argument) {
         }
     }
     /* if not here then check all the rooms adjacent to this one */
-    for (direction = 0; direction < MAX_DIR; direction++) {
+    for (auto direction : all_directions) {
         /* No exits in that direction */
         if (foundit)
             break;

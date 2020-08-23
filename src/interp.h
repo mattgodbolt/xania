@@ -9,7 +9,9 @@
 
 #pragma once
 
-#include "merc.h"
+#include "ArgParser.hpp"
+
+struct CHAR_DATA;
 
 extern void interp_initialise();
 
@@ -89,7 +91,7 @@ extern void do_echo(CHAR_DATA *ch, const char *arg);
 extern void do_emote(CHAR_DATA *ch, const char *arg);
 extern void do_equipment(CHAR_DATA *ch, const char *arg);
 extern void do_examine(CHAR_DATA *ch, const char *arg);
-extern void do_exits(CHAR_DATA *ch, const char *argument);
+extern void do_exits(const CHAR_DATA *ch, const char *argument);
 extern void do_fill(CHAR_DATA *ch, const char *arg);
 extern void do_pour(CHAR_DATA *ch, const char *arg);
 extern void do_finger(CHAR_DATA *ch, const char *arg);
@@ -124,7 +126,7 @@ extern void do_list(CHAR_DATA *ch, const char *arg);
 extern void do_load(CHAR_DATA *ch, const char *argument);
 extern void do_lock(CHAR_DATA *ch, const char *arg);
 extern void do_log(CHAR_DATA *ch, const char *arg);
-extern void do_look(CHAR_DATA *ch, const char *arg);
+extern void do_look(CHAR_DATA *ch, const char *arguments);
 extern void do_memory(CHAR_DATA *ch, const char *arg);
 extern void do_mfind(CHAR_DATA *ch, const char *arg);
 extern void do_mload(CHAR_DATA *ch, const char *argument);

@@ -2,7 +2,7 @@
 
 #include "string_utils.hpp"
 
-std::string_view ArgParser::pop_argument() noexcept {
+std::string_view ArgParser::shift() noexcept {
     ltrim();
 
     if (empty())
@@ -34,9 +34,9 @@ void ArgParser::ltrim() {
         remaining_.remove_prefix(1);
 }
 
-ArgParser::NumberArg ArgParser::pop_number_argument() noexcept {
+ArgParser::NumberArg ArgParser::shift_number() noexcept {
     if (empty())
         return {};
-    auto res = number_argument(pop_argument());
+    auto res = number_argument(shift());
     return NumberArg{res.first, res.second};
 }

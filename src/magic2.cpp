@@ -94,11 +94,8 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *victim = (CHAR_DATA *)vo;
     CHAR_DATA *current_person;
     CHAR_DATA *next_person;
-    ROOM_INDEX_DATA *room;
     CHAR_DATA *vch;
     CHAR_DATA *vch_next;
-    EXIT_DATA *pexit;
-    int direction;
 
     if (victim == ch) {
         send_to_char("You can't cast that on yourself.\n\r", ch);
@@ -169,15 +166,10 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
                 send_to_char("A faint psychic surge dazes you momentarily.\n\r", vch);
         }
 
-        for (direction = 0; direction < 6; direction++) {
+        for (auto direction : all_directions) {
             /* No exits in that direction */
-
-            pexit = ch->in_room->exit[direction];
-
-            if (pexit != nullptr) {
-                room = pexit->u1.to_room;
-                if (room != nullptr) {
-
+            if (auto *pexit = ch->in_room->exit[direction]) {
+                if (auto *room = pexit->u1.to_room) {
                     for (current_person = room->people; current_person != nullptr; current_person = next_person) {
                         next_person = current_person->next_in_room;
 

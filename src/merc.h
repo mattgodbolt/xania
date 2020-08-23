@@ -28,6 +28,7 @@
 
 #include "CHAR_DATA.hpp"
 #include "Constants.hpp"
+#include "Direction.hpp"
 #include "Stats.hpp"
 #include "Types.hpp"
 #include "clan.h"
@@ -817,17 +818,6 @@ static inline constexpr auto ff = BIT(31);
 #define ROOM_LAW (S)
 
 /*
- * Directions.
- * Used in #ROOMS.
- */
-#define DIR_NORTH 0
-#define DIR_EAST 1
-#define DIR_SOUTH 2
-#define DIR_WEST 3
-#define DIR_UP 4
-#define DIR_DOWN 5
-
-/*
  * Exit flags.
  * Used in #ROOMS.
  */
@@ -1133,7 +1123,7 @@ struct obj_index_data {
     sh_int reset_num;
     sh_int material;
     sh_int item_type;
-    int extra_flags;
+    unsigned int extra_flags;
     ush_int wear_flags;
     char *wear_string;
     sh_int level;
@@ -1165,7 +1155,7 @@ struct OBJ_DATA {
     char *short_descr;
     char *description;
     sh_int item_type;
-    int extra_flags;
+    unsigned int extra_flags;
     sh_int wear_flags;
     char *wear_string;
     sh_int wear_loc;
@@ -1257,11 +1247,11 @@ struct ROOM_INDEX_DATA {
     OBJ_DATA *contents;
     EXTRA_DESCR_DATA *extra_descr;
     AREA_DATA *area;
-    EXIT_DATA *exit[6];
+    PerDirection<EXIT_DATA *> exit;
     char *name;
     char *description;
     sh_int vnum;
-    int room_flags;
+    unsigned int room_flags;
     sh_int light;
     sh_int sector_type;
 
@@ -1417,7 +1407,7 @@ extern sh_int gsn_bless;
  */
 #define IS_NPC(ch) (ch->is_npc())
 #define IS_IMMORTAL(ch) (ch->is_immortal())
-#define IS_HERO(ch) (ch->get_trust() >= LEVEL_HERO)
+#define IS_HERO(ch) (ch->is_hero())
 #define IS_TRUSTED(ch, level) (ch->get_trust() >= (level))
 #define IS_AFFECTED(ch, sn) (IS_SET((ch)->affected_by, (sn)))
 
@@ -1494,9 +1484,6 @@ extern const struct flag_type sector_flags[];
 extern const struct flag_type extra_flags[];
 extern const struct flag_type wear_flags[];
 
-extern const sh_int rev_dir[];
-extern const char *dir_name[];
-
 /*
  * Global variables.
  */
@@ -1569,7 +1556,7 @@ void thrown_off(CHAR_DATA *ch, CHAR_DATA *pet);
 void fallen_off_mount(CHAR_DATA *ch);
 
 /* act_move.c */
-void move_char(CHAR_DATA *ch, int door);
+void move_char(CHAR_DATA *ch, Direction door);
 void unride_char(CHAR_DATA *ch, CHAR_DATA *pet);
 void do_enter(CHAR_DATA *ch, const char *argument);
 /* act_obj.c */
@@ -1593,7 +1580,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex);
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
 void clear_char(CHAR_DATA *ch);
 void free_char(CHAR_DATA *ch);
-char *get_extra_descr(const char *name, EXTRA_DESCR_DATA *ed);
+const char *get_extra_descr(std::string_view name, const EXTRA_DESCR_DATA *ed);
 MOB_INDEX_DATA *get_mob_index(int vnum);
 OBJ_INDEX_DATA *get_obj_index(int vnum);
 ROOM_INDEX_DATA *get_room_index(int vnum);
@@ -1616,7 +1603,6 @@ void free_string(char *pstr);
 int number_fuzzy(int number);
 int number_range(int from, int to);
 int number_percent();
-int number_door();
 int number_bits(int width);
 int number_mm();
 int dice(int number, int size);
@@ -1694,10 +1680,10 @@ bool check_sub_issue(OBJ_DATA *obj, CHAR_DATA *ch);
 
 CHAR_DATA *get_mob_by_vnum(sh_int vnum);
 OBJ_DATA *get_obj_type(OBJ_INDEX_DATA *pObjIndexData);
-OBJ_DATA *get_obj_list(CHAR_DATA *ch, const char *argument, OBJ_DATA *list);
+OBJ_DATA *get_obj_list(const CHAR_DATA *ch, std::string_view argument, OBJ_DATA *list);
 OBJ_DATA *get_obj_carry(CHAR_DATA *ch, const char *argument);
 OBJ_DATA *get_obj_wear(CHAR_DATA *ch, const char *argument);
-OBJ_DATA *get_obj_here(CHAR_DATA *ch, const char *argument);
+OBJ_DATA *get_obj_here(const CHAR_DATA *ch, std::string_view argument);
 OBJ_DATA *get_obj_world(CHAR_DATA *ch, const char *argument);
 OBJ_DATA *create_money(int amount);
 int get_obj_number(OBJ_DATA *obj);
@@ -1709,7 +1695,7 @@ inline const char *pers(const CHAR_DATA *ch, const CHAR_DATA *looker) {
     return can_see(looker, ch) ? (IS_NPC(ch) ? ch->short_descr : ch->name) : "someone";
 }
 bool can_see_obj(const CHAR_DATA *ch, const OBJ_DATA *obj);
-bool can_see_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex);
+bool can_see_room(const CHAR_DATA *ch, const ROOM_INDEX_DATA *pRoomIndex);
 bool can_drop_obj(CHAR_DATA *ch, OBJ_DATA *obj);
 const char *item_type_name(OBJ_DATA *obj);
 const char *item_index_type_name(OBJ_INDEX_DATA *obj);
@@ -1817,7 +1803,6 @@ void mprog_speech_trigger(const char *txt, CHAR_DATA *mob);
 #define AREA_NONE 0
 #define AREA_LOADING 4 /* Used for counting in db.c */
 
-#define MAX_DIR 6
 #define NO_FLAG -99 /* Must not be used in flags or stats. */
 
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)

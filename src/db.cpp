@@ -483,11 +483,12 @@ void load_resets(FILE *fp) {
                 iLastObj = iLastRoom;
             }
             break;
-        case RESETS_EXIT_FLAGS:
+        case RESETS_EXIT_FLAGS: {
             pRoomIndex = get_room_index(pReset->arg1);
+            auto opt_door = try_cast_direction(pReset->arg2);
 
-            if (pReset->arg2 < 0 || pReset->arg2 > 5 || !pRoomIndex
-                || (pexit = pRoomIndex->exit[pReset->arg2]) == nullptr || !IS_SET(pexit->rs_flags, EX_ISDOOR)) {
+            if (!opt_door || !pRoomIndex || (pexit = pRoomIndex->exit[*opt_door]) == nullptr
+                || !IS_SET(pexit->rs_flags, EX_ISDOOR)) {
                 bug("Load_resets: 'D': exit %d not door.", pReset->arg2);
                 exit(1);
             }
@@ -499,8 +500,9 @@ void load_resets(FILE *fp) {
             case 2: SET_BIT(pexit->rs_flags, EX_CLOSED | EX_LOCKED); break;
             }
             break;
+        }
         case RESETS_RANDOMIZE_EXITS:
-            if (pReset->arg2 < 0 || pReset->arg2 > 6) {
+            if (pReset->arg2 < 0 || pReset->arg2 > static_cast<int>(all_directions.size())) {
                 bug("Load_resets: 'R': bad exit %d.", pReset->arg2);
                 exit(1);
             }
@@ -616,7 +618,6 @@ void load_rooms(FILE *fp) {
     for (;;) {
         sh_int vnum;
         char letter;
-        int door;
         int iHash;
 
         letter = fread_letter(fp);
@@ -651,7 +652,7 @@ void load_rooms(FILE *fp) {
             SET_BIT(pRoomIndex->room_flags, ROOM_LAW);
         pRoomIndex->sector_type = fread_number(fp);
         pRoomIndex->light = 0;
-        for (door = 0; door <= 5; door++)
+        for (auto door : all_directions)
             pRoomIndex->exit[door] = nullptr;
 
         for (;;) {
@@ -664,8 +665,8 @@ void load_rooms(FILE *fp) {
                 EXIT_DATA *pexit;
                 int locks;
 
-                door = fread_number(fp);
-                if (door < 0 || door > 5) {
+                auto opt_door = try_cast_direction(fread_number(fp));
+                if (!opt_door) {
                     bug("Fread_rooms: vnum %d has bad door number.", vnum);
                     exit(1);
                 }
@@ -690,7 +691,7 @@ void load_rooms(FILE *fp) {
                 case 4: pexit->rs_flags = EX_ISDOOR | EX_PASSPROOF | EX_PICKPROOF; break;
                 }
 
-                pRoomIndex->exit[door] = pexit;
+                pRoomIndex->exit[*opt_door] = pexit;
                 top_exit++;
             } else if (letter == 'E') {
                 EXTRA_DESCR_DATA *ed;
@@ -780,21 +781,18 @@ void load_specials(FILE *fp) {
  * Check for bad reverse exits.
  */
 void fix_exits() {
-    extern const sh_int rev_dir[];
-    char buf[MAX_STRING_LENGTH];
     ROOM_INDEX_DATA *pRoomIndex;
     ROOM_INDEX_DATA *to_room;
     EXIT_DATA *pexit;
     EXIT_DATA *pexit_rev;
     int iHash;
-    int door;
 
     for (iHash = 0; iHash < MAX_KEY_HASH; iHash++) {
         for (pRoomIndex = room_index_hash[iHash]; pRoomIndex != nullptr; pRoomIndex = pRoomIndex->next) {
             bool fexit;
 
             fexit = false;
-            for (door = 0; door <= 5; door++) {
+            for (auto door : all_directions) {
                 if ((pexit = pRoomIndex->exit[door]) != nullptr) {
                     if (pexit->u1.vnum <= 0 || get_room_index(pexit->u1.vnum) == nullptr)
                         pexit->u1.to_room = nullptr;
@@ -811,14 +809,13 @@ void fix_exits() {
 
     for (iHash = 0; iHash < MAX_KEY_HASH; iHash++) {
         for (pRoomIndex = room_index_hash[iHash]; pRoomIndex != nullptr; pRoomIndex = pRoomIndex->next) {
-            for (door = 0; door <= 5; door++) {
+            for (auto door : all_directions) {
                 if ((pexit = pRoomIndex->exit[door]) != nullptr && (to_room = pexit->u1.to_room) != nullptr
-                    && (pexit_rev = to_room->exit[rev_dir[door]]) != nullptr && pexit_rev->u1.to_room != pRoomIndex
+                    && (pexit_rev = to_room->exit[reverse(door)]) != nullptr && pexit_rev->u1.to_room != pRoomIndex
                     && (pRoomIndex->vnum < 1200 || pRoomIndex->vnum > 1299)) {
-                    snprintf(buf, sizeof(buf), "Fix_exits: %d:%d -> %d:%d -> %d.", pRoomIndex->vnum, door,
-                             to_room->vnum, rev_dir[door],
-                             (pexit_rev->u1.to_room == nullptr) ? 0 : pexit_rev->u1.to_room->vnum);
-                    bug(buf, 0);
+                    bug("Fix_exits: %d:%d -> %d:%d -> %d.", pRoomIndex->vnum, static_cast<int>(door), to_room->vnum,
+                        static_cast<int>(reverse(door)),
+                        (pexit_rev->u1.to_room == nullptr) ? 0 : pexit_rev->u1.to_room->vnum);
                 }
             }
         }
@@ -856,13 +853,11 @@ void area_update() {
  * Reset one room.  Called by reset_area.
  */
 void reset_room(ROOM_INDEX_DATA *pRoom) {
-    extern const sh_int rev_dir[];
     RESET_DATA *pReset;
     CHAR_DATA *pMob;
     OBJ_DATA *pObj;
     CHAR_DATA *LastMob = nullptr;
     OBJ_DATA *LastObj = nullptr;
-    int iExit;
     bool last;
 
     if (!pRoom)
@@ -871,11 +866,11 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
     pMob = nullptr;
     last = false;
 
-    for (iExit = 0; iExit < MAX_DIR; iExit++) {
+    for (auto exit_dir : all_directions) {
         EXIT_DATA *pExit;
-        if ((pExit = pRoom->exit[iExit])) {
+        if ((pExit = pRoom->exit[exit_dir])) {
             pExit->exit_info = pExit->rs_flags;
-            if ((pExit->u1.to_room != nullptr) && ((pExit = pExit->u1.to_room->exit[rev_dir[iExit]]))) {
+            if ((pExit->u1.to_room != nullptr) && ((pExit = pExit->u1.to_room->exit[reverse(exit_dir)]))) {
                 /* nail the other side */
                 pExit->exit_info = pExit->rs_flags;
             }
@@ -1056,17 +1051,10 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
                 continue;
             }
 
-            {
-                EXIT_DATA *pExit;
-                int d0;
-                int d1;
-
-                for (d0 = 0; d0 < pReset->arg2 - 1; d0++) {
-                    d1 = number_range(d0, pReset->arg2 - 1);
-                    pExit = pRoomIndex->exit[d0];
-                    pRoomIndex->exit[d0] = pRoomIndex->exit[d1];
-                    pRoomIndex->exit[d1] = pExit;
-                }
+            for (int d0 = 0; d0 < pReset->arg2 - 1; d0++) {
+                auto door0 = try_cast_direction(d0).value();
+                auto door1 = try_cast_direction(number_range(d0, pReset->arg2 - 1)).value();
+                std::swap(pRoomIndex->exit[door0], pRoomIndex->exit[door1]);
             }
             break;
         }
@@ -1475,9 +1463,9 @@ void free_char(CHAR_DATA *ch) {
 /*
  * Get an extra description from a list.
  */
-char *get_extra_descr(const char *name, EXTRA_DESCR_DATA *ed) {
+const char *get_extra_descr(std::string_view name, const EXTRA_DESCR_DATA *ed) {
     for (; ed != nullptr; ed = ed->next) {
-        if (is_name((char *)name, ed->keyword))
+        if (is_name(name, ed->keyword))
             return ed->description;
     }
     return nullptr;
@@ -2382,18 +2370,6 @@ int number_percent() {
     return 1 + percent;
 }
 
-/*
- * Generate a random door.
- */
-int number_door() {
-    int door;
-
-    while ((door = number_mm() & (8 - 1)) > 5)
-        ;
-
-    return door;
-}
-
 int number_bits(int width) { return number_mm() & ((1 << width) - 1); }
 
 /*
@@ -2555,6 +2531,7 @@ bool str_suffix(const char *astr, const char *bstr) {
  * Returns an initial-capped string.
  */
 char *capitalize(const char *str) {
+    // TODO: replace across the board with the string_util version.
     static char strcap[MAX_STRING_LENGTH];
     int i;
 
