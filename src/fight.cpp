@@ -1090,10 +1090,7 @@ void check_killer(CHAR_DATA *ch, CHAR_DATA *victim) {
      */
     if (IS_SET(ch->affected_by, AFF_CHARM)) {
         if (ch->master == nullptr) {
-            char buf[MAX_STRING_LENGTH];
-
-            strncpy(buf, "Check_killer: %s bad AFF_CHARM"_format(ch->short_name()).c_str(), MAX_STRING_LENGTH);
-            bug(buf, 0);
+            bug("%s", "Check_killer: %s bad AFF_CHARM"_format(ch->short_name()).c_str());
             affect_strip(ch, gsn_charm_person);
             REMOVE_BIT(ch->affected_by, AFF_CHARM);
             return;
