@@ -45,6 +45,9 @@ Container split_lines(std::string_view input) {
 // Returns the string, lower-cased.
 [[nodiscard]] std::string lower_case(std::string_view str);
 
+// Returns an initial-capped string.
+[[nodiscard]] std::string capitalize(std::string_view text);
+
 // Returns true iff the second string is a prefix of the first (or the two strings are
 // identical).
 [[nodiscard]] bool has_prefix(std::string_view haystack, std::string_view needle);

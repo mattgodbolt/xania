@@ -982,23 +982,7 @@ bool handled_as_look_at_object(CHAR_DATA &ch, std::string_view first_arg) {
     return false;
 }
 
-int direction_of(std::string_view first_arg) {
-    if (matches_start("north", first_arg))
-        return 0;
-    if (matches_start("east", first_arg))
-        return 1;
-    if (matches_start("south", first_arg))
-        return 2;
-    if (matches_start("west", first_arg))
-        return 3;
-    if (matches_start("up", first_arg))
-        return 4;
-    if (matches_start("down", first_arg))
-        return 5;
-    return -1;
-}
-
-void look_direction(const CHAR_DATA &ch, int door) {
+void look_direction(const CHAR_DATA &ch, Direction door) {
     const auto *pexit = ch.in_room->exit[door];
     if (!pexit) {
         ch.send_to("Nothing special there.\n\r");
@@ -1083,8 +1067,8 @@ void do_look(CHAR_DATA *ch, const char *arguments) {
     }
 
     // Look in a direction?
-    if (auto door = direction_of(first_arg); door >= 0) {
-        look_direction(*ch, door);
+    if (auto opt_door = try_parse_direction(first_arg)) {
+        look_direction(*ch, *opt_door);
         return;
     }
 
@@ -1127,52 +1111,36 @@ void do_examine(CHAR_DATA *ch, const char *argument) {
  * Thanks to Zrin for auto-exit part.
  */
 void do_exits(const CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-    EXIT_DATA *pexit;
-    bool found;
-    bool fAuto;
-    int door;
 
-    buf[0] = '\0';
-    fAuto = !str_cmp(argument, "auto");
+    auto fAuto = matches(argument, "auto");
 
     if (!check_blind(ch))
         return;
 
-    /*    if ((!IS_NPC(ch)) && (ch->pcdata->colour))
-        {
-           snprintf(buf, sizeof(buf), "%c[1;37m", 27);
-           send_to_char(buf, ch);
-        } */
-    strcpy(buf, fAuto ? "|W[Exits:" : "Obvious exits:\n\r");
+    std::string buf = fAuto ? "|W[Exits:" : "Obvious exits:\n\r";
 
-    found = false;
-    for (door = 0; door <= 5; door++) {
-        if ((pexit = ch->in_room->exit[door]) != nullptr && pexit->u1.to_room != nullptr
-            && can_see_room(ch, pexit->u1.to_room) && !IS_SET(pexit->exit_info, EX_CLOSED)) {
+    auto found = false;
+    for (auto door : all_directions) {
+        if (auto *pexit = ch->in_room->exit[door];
+            pexit && pexit->u1.to_room && can_see_room(ch, pexit->u1.to_room) && !IS_SET(pexit->exit_info, EX_CLOSED)) {
             found = true;
             if (fAuto) {
-                strcat(buf, " ");
-                strcat(buf, dir_name[door]);
+                buf += " {}"_format(to_string(door));
             } else {
-                snprintf(buf + strlen(buf), sizeof(buf), "%-5s - %s\n\r", capitalize(dir_name[door]),
-                         room_is_dark(pexit->u1.to_room) ? "Too dark to tell" : pexit->u1.to_room->name);
+                buf += "{:<5} - {}\n\r"_format(capitalize(to_string(door)), room_is_dark(pexit->u1.to_room)
+                                                                                ? "Too dark to tell"
+                                                                                : pexit->u1.to_room->name);
             }
         }
     }
 
     if (!found)
-        strcat(buf, fAuto ? " none" : "None.\n\r");
+        buf += fAuto ? " none" : "None.\n\r";
 
     if (fAuto)
-        strcat(buf, "]\n\r|w");
+        buf += "]\n\r|w";
 
-    send_to_char(buf, ch);
-    /*    if ( (!IS_NPC(ch)) && (ch->pcdata->colour))
-        {
-           snprintf(buf, sizeof(buf), "%c[0;37m", 27);
-           send_to_char( buf, ch );
-        } */
+    ch->send_to(buf);
 }
 
 void do_worth(CHAR_DATA *ch, const char *argument) {
@@ -2183,17 +2151,15 @@ void do_scan(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *current_person;
     CHAR_DATA *next_person;
     EXIT_DATA *pexit;
-    char buf[MAX_STRING_LENGTH];
     int count_num_rooms;
     int num_rooms_scan = UMAX(1, ch->level / 10);
     bool found_anything = false;
-    int direction;
     std::vector<sh_int> found_rooms{ch->in_room->vnum};
 
-    send_to_char("You can see around you :\n\r", ch);
+    ch->send_to("You can see around you :\n\r");
     /* Loop for each point of the compass */
 
-    for (direction = 0; direction < MAX_DIR; direction++) {
+    for (auto direction : all_directions) {
         /* No exits in that direction */
 
         current_place = ch->in_room;
@@ -2216,12 +2182,10 @@ void do_scan(CHAR_DATA *ch, const char *argument) {
 
             for (current_person = current_place->people; current_person != nullptr; current_person = next_person) {
                 next_person = current_person->next_in_room;
-                if (can_see(ch, current_person)) {
-                    snprintf(buf, sizeof(buf), "%d %-5s: |W%s|w\n\r", (count_num_rooms + 1),
-                             capitalize(dir_name[direction]),
-                             (current_person->pcdata == nullptr) ? current_person->short_descr : current_person->name);
-
-                    send_to_char(buf, ch);
+                if (ch->can_see(*current_person)) {
+                    ch->send_to("{} {:<5}: |W{}|w\n\r"_format(count_num_rooms + 1, capitalize(to_string(direction)),
+                                                              !current_person->pcdata ? current_person->short_descr
+                                                                                      : current_person->name));
                     found_anything = true;
                 }
             } /* Closes the for_each_char_loop */
@@ -2229,8 +2193,8 @@ void do_scan(CHAR_DATA *ch, const char *argument) {
         } /* Closes the for_each distance seeable loop */
 
     } /* closes main loop for each direction */
-    if (found_anything == false)
-        send_to_char("Nothing of great interest.\n\r", ch);
+    if (!found_anything)
+        ch->send_to("Nothing of great interest.\n\r");
 }
 
 /*

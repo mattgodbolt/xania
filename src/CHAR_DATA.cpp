@@ -34,6 +34,7 @@ bool CHAR_DATA::is_prowlinvis_to(const CHAR_DATA &victim) const {
 }
 
 bool CHAR_DATA::is_immortal() const { return get_trust() >= LEVEL_IMMORTAL; }
+bool CHAR_DATA::is_hero() const { return get_trust() >= LEVEL_IMMORTAL; }
 
 // Retrieve a character's trusted level for permission checking.
 int CHAR_DATA::get_trust() const {
@@ -252,6 +253,22 @@ bool CHAR_DATA::can_see(const OBJ_DATA &object) const {
         return true;
 
     if (room_is_dark(in_room) && !has_infrared())
+        return false;
+
+    return true;
+}
+
+bool CHAR_DATA::can_see(const ROOM_INDEX_DATA &room) const {
+    if (IS_SET(room.room_flags, ROOM_IMP_ONLY) && get_trust() < MAX_LEVEL)
+        return false;
+
+    if (IS_SET(room.room_flags, ROOM_GODS_ONLY) && !is_immortal())
+        return false;
+
+    if (IS_SET(room.room_flags, ROOM_HEROES_ONLY) && !is_hero())
+        return false;
+
+    if (IS_SET(room.room_flags, ROOM_NEWBIES_ONLY) && level > 5 && !is_immortal())
         return false;
 
     return true;

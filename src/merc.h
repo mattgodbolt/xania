@@ -28,6 +28,7 @@
 
 #include "CHAR_DATA.hpp"
 #include "Constants.hpp"
+#include "Direction.hpp"
 #include "Stats.hpp"
 #include "Types.hpp"
 #include "clan.h"
@@ -817,17 +818,6 @@ static inline constexpr auto ff = BIT(31);
 #define ROOM_LAW (S)
 
 /*
- * Directions.
- * Used in #ROOMS.
- */
-#define DIR_NORTH 0
-#define DIR_EAST 1
-#define DIR_SOUTH 2
-#define DIR_WEST 3
-#define DIR_UP 4
-#define DIR_DOWN 5
-
-/*
  * Exit flags.
  * Used in #ROOMS.
  */
@@ -1257,11 +1247,11 @@ struct ROOM_INDEX_DATA {
     OBJ_DATA *contents;
     EXTRA_DESCR_DATA *extra_descr;
     AREA_DATA *area;
-    EXIT_DATA *exit[6];
+    PerDirection<EXIT_DATA *> exit;
     char *name;
     char *description;
     sh_int vnum;
-    int room_flags;
+    unsigned int room_flags;
     sh_int light;
     sh_int sector_type;
 
@@ -1417,7 +1407,7 @@ extern sh_int gsn_bless;
  */
 #define IS_NPC(ch) (ch->is_npc())
 #define IS_IMMORTAL(ch) (ch->is_immortal())
-#define IS_HERO(ch) (ch->get_trust() >= LEVEL_HERO)
+#define IS_HERO(ch) (ch->is_hero())
 #define IS_TRUSTED(ch, level) (ch->get_trust() >= (level))
 #define IS_AFFECTED(ch, sn) (IS_SET((ch)->affected_by, (sn)))
 
@@ -1494,9 +1484,6 @@ extern const struct flag_type sector_flags[];
 extern const struct flag_type extra_flags[];
 extern const struct flag_type wear_flags[];
 
-extern const sh_int rev_dir[];
-extern const char *dir_name[];
-
 /*
  * Global variables.
  */
@@ -1569,7 +1556,7 @@ void thrown_off(CHAR_DATA *ch, CHAR_DATA *pet);
 void fallen_off_mount(CHAR_DATA *ch);
 
 /* act_move.c */
-void move_char(CHAR_DATA *ch, int door);
+void move_char(CHAR_DATA *ch, Direction door);
 void unride_char(CHAR_DATA *ch, CHAR_DATA *pet);
 void do_enter(CHAR_DATA *ch, const char *argument);
 /* act_obj.c */
@@ -1616,7 +1603,6 @@ void free_string(char *pstr);
 int number_fuzzy(int number);
 int number_range(int from, int to);
 int number_percent();
-int number_door();
 int number_bits(int width);
 int number_mm();
 int dice(int number, int size);
@@ -1817,7 +1803,6 @@ void mprog_speech_trigger(const char *txt, CHAR_DATA *mob);
 #define AREA_NONE 0
 #define AREA_LOADING 4 /* Used for counting in db.c */
 
-#define MAX_DIR 6
 #define NO_FLAG -99 /* Must not be used in flags or stats. */
 
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)

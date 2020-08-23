@@ -109,6 +109,10 @@ struct CHAR_DATA {
 
     // True if char can see victim.
     [[nodiscard]] bool can_see(const CHAR_DATA &victim) const;
+    // True if char can see object.
+    [[nodiscard]] bool can_see(const OBJ_DATA &object) const;
+    // True if char can see a room.
+    [[nodiscard]] bool can_see(const ROOM_INDEX_DATA &room) const;
 
     [[nodiscard]] bool is_npc() const;
     [[nodiscard]] bool is_pc() const { return !is_npc(); }
@@ -147,6 +151,7 @@ struct CHAR_DATA {
 
     [[nodiscard]] bool has_holylight() const;
     [[nodiscard]] bool is_immortal() const;
+    [[nodiscard]] bool is_hero() const;
 
     // Return a character's skill at the given skill number
     [[nodiscard]] int get_skill(int skill_number) const;
@@ -178,9 +183,6 @@ struct CHAR_DATA {
 
     // Gets an item a character is wearing. Returns nullptr if not found. Supports numbered argument.
     [[nodiscard]] OBJ_DATA *find_worn(std::string_view argument) const;
-
-    // True if char can see object.
-    [[nodiscard]] bool can_see(const OBJ_DATA &object) const;
 
 private:
     template <typename Func>

@@ -178,6 +178,17 @@ std::string lower_case(std::string_view str) {
     return result;
 }
 
+std::string capitalize(std::string_view str) {
+    std::string result;
+    for (auto c : str) {
+        if (result.empty())
+            result.push_back(toupper(c));
+        else
+            result.push_back(tolower(c));
+    }
+    return result;
+}
+
 bool has_prefix(std::string_view haystack, std::string_view needle) {
     if (needle.size() > haystack.size())
         return false;

@@ -116,7 +116,6 @@ void do_mpstat(CHAR_DATA *ch, const char *argument) {
 void do_mpasound(CHAR_DATA *ch, const char *argument) {
 
     ROOM_INDEX_DATA *was_in_room;
-    int door;
 
     if (!IS_NPC(ch)) {
         send_to_char("Huh?\n\r", ch);
@@ -129,7 +128,7 @@ void do_mpasound(CHAR_DATA *ch, const char *argument) {
     }
 
     was_in_room = ch->in_room;
-    for (door = 0; door <= 5; door++) {
+    for (auto door : all_directions) {
         EXIT_DATA *pexit;
 
         if ((pexit = was_in_room->exit[door]) != nullptr && pexit->u1.to_room != nullptr

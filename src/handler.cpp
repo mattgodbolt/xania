@@ -1472,19 +1472,8 @@ bool room_is_private(ROOM_INDEX_DATA *pRoomIndex) {
 
 /* visibility on a room -- for entering and exits */
 bool can_see_room(const CHAR_DATA *ch, const ROOM_INDEX_DATA *pRoomIndex) {
-    if (IS_SET(pRoomIndex->room_flags, ROOM_IMP_ONLY) && ch->get_trust() < MAX_LEVEL)
-        return false;
-
-    if (IS_SET(pRoomIndex->room_flags, ROOM_GODS_ONLY) && !IS_IMMORTAL(ch))
-        return false;
-
-    if (IS_SET(pRoomIndex->room_flags, ROOM_HEROES_ONLY) && !IS_HERO(ch))
-        return false;
-
-    if (IS_SET(pRoomIndex->room_flags, ROOM_NEWBIES_ONLY) && ch->level > 5 && !IS_IMMORTAL(ch))
-        return false;
-
-    return true;
+    // TODO remove
+    return ch->can_see(*pRoomIndex);
 }
 
 bool can_see(const CHAR_DATA *ch, const CHAR_DATA *victim) {
