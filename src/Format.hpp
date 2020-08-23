@@ -16,6 +16,6 @@ struct fmt::formatter<InitialCap> {
     auto format(const InitialCap &str, FormatContext &ctx) {
         if (str.sv.empty())
             return format_to(ctx.out(), "");
-        return format_to(ctx.out(), "{}{}", std::toupper(str.sv.front()), str.sv.substr(1));
+        return format_to(ctx.out(), "{}{}", static_cast<char>(std::toupper(str.sv.front())), str.sv.substr(1));
     }
 };
