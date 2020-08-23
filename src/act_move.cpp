@@ -187,7 +187,7 @@ void move_char(CHAR_DATA *ch, Direction door) {
     if (in_room == to_room) /* no circular follows */
         return;
 
-    decltype(in_room->people) fch_next{};
+    CHAR_DATA *fch_next{};
     for (auto *fch = in_room->people; fch != nullptr; fch = fch_next) {
         fch_next = fch->next_in_room;
 
@@ -1186,7 +1186,10 @@ void do_train(CHAR_DATA *ch, const char *argument) {
              * This message dedicated to Jordan ... you big stud!
              */
             act("You have nothing left to train, you $T!", ch, nullptr,
-                ch->sex == SEX_MALE ? "big stud" : ch->sex == SEX_FEMALE ? "hot babe" : "wild thing", To::Char);
+                ch->sex == SEX_MALE     ? "big stud"
+                : ch->sex == SEX_FEMALE ? "hot babe"
+                                        : "wild thing",
+                To::Char);
         }
 
         return;

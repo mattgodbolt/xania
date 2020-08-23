@@ -212,7 +212,7 @@ bool CHAR_DATA::is_comm_brief() const { return is_pc() && IS_SET(comm, COMM_BRIE
 bool CHAR_DATA::should_autoexit() const { return is_pc() && IS_SET(act, PLR_AUTOEXIT); }
 
 template <typename Func>
-OBJ_DATA *CHAR_DATA::find_filtered(std::string_view argument, Func filter) const {
+OBJ_DATA *CHAR_DATA::find_filtered_obj(std::string_view argument, Func filter) const {
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
     for (auto *obj = carrying; obj != nullptr; obj = obj->next_content) {
@@ -226,11 +226,11 @@ OBJ_DATA *CHAR_DATA::find_filtered(std::string_view argument, Func filter) const
 }
 
 OBJ_DATA *CHAR_DATA::find_in_inventory(std::string_view argument) const {
-    return find_filtered(argument, [](const OBJ_DATA &obj) { return obj.wear_loc != WEAR_NONE; });
+    return find_filtered_obj(argument, [](const OBJ_DATA &obj) { return obj.wear_loc != WEAR_NONE; });
 }
 
 OBJ_DATA *CHAR_DATA::find_worn(std::string_view argument) const {
-    return find_filtered(argument, [](const OBJ_DATA &obj) { return obj.wear_loc == WEAR_NONE; });
+    return find_filtered_obj(argument, [](const OBJ_DATA &obj) { return obj.wear_loc == WEAR_NONE; });
 }
 
 bool CHAR_DATA::can_see(const OBJ_DATA &object) const {

@@ -186,5 +186,5 @@ struct CHAR_DATA {
 
 private:
     template <typename Func>
-    [[nodiscard]] OBJ_DATA *find_filtered(std::string_view argument, Func filter) const;
+    [[nodiscard]] OBJ_DATA *find_filtered_obj(std::string_view argument, Func filter) const;
 };
