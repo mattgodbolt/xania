@@ -1029,7 +1029,7 @@ void do_look(CHAR_DATA *ch, const char *arguments) {
     }
 
     ArgParser args(arguments);
-    auto first_arg = args.pop_argument();
+    auto first_arg = args.shift();
 
     // A normal look, or a look auto to describe the room?
     if (first_arg.empty() || matches(first_arg, "auto")) {
@@ -1043,7 +1043,7 @@ void do_look(CHAR_DATA *ch, const char *arguments) {
             send_to_char("Look in what?\n\r", ch);
             return;
         }
-        if (auto *obj = get_obj_here(ch, args.pop_argument()))
+        if (auto *obj = get_obj_here(ch, args.shift()))
             look_in_object(*ch, *obj);
         else
             send_to_char("You do not see that here.\n\r", ch);

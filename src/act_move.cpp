@@ -424,7 +424,7 @@ void do_open(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    auto arg = args.pop_argument();
+    auto arg = args.shift();
 
     if (auto *obj = get_obj_here(ch, arg)) {
         /* 'open object' */
@@ -490,7 +490,7 @@ void do_close(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    auto arg = args.pop_argument();
+    auto arg = args.shift();
     if (auto *obj = get_obj_here(ch, arg)) {
         /* 'close object' */
         if (obj->item_type != ITEM_CONTAINER) {
@@ -555,7 +555,7 @@ void do_lock(CHAR_DATA *ch, const char *argument) {
         send_to_char("Lock what?\n\r", ch);
         return;
     }
-    auto arg = args.pop_argument();
+    auto arg = args.shift();
 
     if (auto *obj = get_obj_here(ch, arg)) {
         /* 'lock object' */
@@ -629,7 +629,7 @@ void do_unlock(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    auto arg = args.pop_argument();
+    auto arg = args.shift();
 
     if (auto *obj = get_obj_here(ch, arg)) {
         /* 'unlock object' */
@@ -718,7 +718,7 @@ void do_pick(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    auto arg = args.pop_argument();
+    auto arg = args.shift();
     if (auto *obj = get_obj_here(ch, arg)) {
         /* 'pick object' */
         if (obj->item_type != ITEM_CONTAINER) {
