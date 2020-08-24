@@ -587,7 +587,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
             ch->affected_by = fread_number(fp);
         } else if (word == "afk") {
             ch->pcdata->afk = fread_stdstring(fp);
-        } else if (word == "alignment" || word == "align") {
+        } else if (matches_start(word, "alig")) {
             ch->alignment = fread_number(fp);
         } else if (word == "armor" || word == "ac") {
             fread_to_eol(fp);
