@@ -1471,7 +1471,7 @@ std::string_view who_race_name_of(const CHAR_DATA &wch) {
 std::string_view who_clan_name_of(const CHAR_DATA &wch) { return wch.clan() ? wch.clan()->whoname : ""sv; }
 
 std::string who_line_for(const CHAR_DATA &to, const CHAR_DATA &wch) {
-    return "[{:2} {} {}] {}{}{}{}{}{}|w{}{}\n\r"_format(
+    return "[{:3} {} {}] {}{}{}{}{}{}|w{}{}\n\r"_format(
         wch.level, who_race_name_of(wch), who_class_name_of(wch), who_clan_name_of(wch),
         IS_SET(wch.act, PLR_KILLER) ? "(|RKILLER|w) " : "", IS_SET(wch.act, PLR_THIEF) ? "(|RTHIEF|w) " : "",
         IS_SET(wch.act, PLR_AFK) ? "(|cAFK|w) " : "", wch.name, wch.is_pc() ? wch.pcdata->title : "",
