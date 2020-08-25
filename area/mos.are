@@ -471,7 +471,7 @@ It has dark skin and two eyeballs mounted atop a pair of wiggly stalks. Its
 gaping maw is full of razor sharp teeth and it seems to be dribbling.
 ~
 lizard~
-CHS FH -300 0
+CHS F -300 0
 35 0 10d10+790 1d1+300 3d6+10 stab
 -10 -10 -10 0
 EFIKN QJ I G
@@ -2434,6 +2434,7 @@ M 5813 spec_cast_mage
 M 5819 spec_executioner
 M 5822 spec_cast_mage
 M 5822 spec_cast_cleric
+M 5828 spec_breath_frost
 S
 
 #$
