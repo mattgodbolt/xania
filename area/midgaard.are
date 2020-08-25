@@ -174,19 +174,27 @@ AFN ABCD 0 0
 stand stand female 4500
 0 0 medium 0
 #3011
-frank bruno~
-Frank Bruno~
-Frank Bruno stands here protecting Xania.
+Concordius~
+Concordius~
+Concordius stands here keeping the peace.
 ~
-Frank Bruno is covered in muscle, he is ready to fight and die defending Xania
-If you are a killer or thief you should beware as he will destroy you.
+Concordius is a tall imposing figure with a weathered face that suggests great
+experience. 
 
-                     ...BEHAVE WELL OR FACE HIM...
+Word has it that Concordius is some kind of arbiter, or arbitrator, 
+or was it arboretum? You didn't quite catch what the guy said.
 
+A lightweight toga spans his lean body. An intricate claw-like
+object adorns to his right hand, and a bronze shield depicting a sun is 
+strapped to his left arm.
+
+Although he seems to be quite relaxed, his upright posture and alertness
+indicate that he is ready to respond at a moment's notice.
+As he speaks, his sonorous voice leaves you feeling enlightened.
 ~
-giant~
-BMTV CDFJZ 1000 0
-86 30 1d1+6999 1d1+999 4d10+30 punch
+human~
+BMTV CDFHJZ 1000 0
+86 30 1d1+6999 1d1+999 4d10+30 slash
 -28 -28 -28 -20
 ACDEFHIKLNOT ABP CD 0
 stand stand male 0
@@ -901,6 +909,23 @@ BV D 200 0
 FHNR 0 F 0
 stand stand male 0
 0 0 small 0
+#3162
+aquila tamed eagle~
+Aquila~
+A tamed eagle perches on a wall.
+~
+The dark brown feathers of Aquila's wings stand in contrast 
+to the bright white plume of her head. Her pale yellow eyes gaze intently, taking 
+in every movement nearby. Her bright yellow beak curves to a fine point and
+the hardened sinews of her talons twitch rhythmically.
+~
+bird~
+BV CDFJZ 1000 0
+80 30 10d100+2500 1d1+99 5d6+30 claw
+-25 -25 -25 -17
+FHQT ABP C 0
+stand stand female 0
+0 0 small 0
 #0
 
 
@@ -947,10 +972,10 @@ drink 0 A
 8 8 'local specialty' 0 0
 0 2 20 P
 #3005
-leather boxing gloves~
-a pair of boxing gloves~
-A pair of worn leather boxing gloves lie here.~
-leather~
+clawfist~
+Clawfist~
+A golden claw catches the light.~
+adamantite~
 armor BI HA
 19 18 19 20 0
 80 20 3000 P
@@ -958,6 +983,13 @@ A
 18 5
 A
 19 5
+E
+clawfist~
+This object is shaped like a claw featuring several talons and it's is about the
+size of a human hand. It's plated in gold yet between each claw and at the base
+you can see that it is formed from a darker, harder metal. Judging by the pits
+and scratches this is no ornament.
+~ 
 #3009
 potpie pot pie~
 a big pot pie~
@@ -2744,7 +2776,50 @@ officer blade~
 You see a sword of superior craftsmanship. It looks like something a soldier 
 might use.
 ~
-
+#3388
+shield sun~
+the Arbiter's shield~
+A shield embossed with the image of the sun lies here.~
+bronze~
+armor ABG AJ
+24 24 24 20 0
+86 18 3000 P
+E
+shield~
+This bronze shield has been embossed with the symbol of the sun. Its outer edge
+has been polished and sharpened such that it probably requires greater skill
+to master in combat compared to more common designs.
+~
+A
+18 2
+A
+19 2
+A
+23 5
+#3389
+toga linen~
+a fine linen toga~
+A fine linen toga lies in a crumpled heap.
+~
+cloth~
+armor AG AD
+20 20 20 28 0
+85 10 3000 P
+E
+toga linen~
+An unusual sparkle reflects off the cloth of this toga. It must
+be enchanted. 
+~
+A
+20 7
+A
+21 7
+A
+22 7
+A
+23 7
+A
+24 7
 
 #0
 
@@ -5657,7 +5732,7 @@ The concourse heads south, passing by a beautiful park.
 S
 #3271
 On the Concourse near the park~
-You are walking down the Concoruse, along the western wall of Midgaard.  To
+You are walking down the Concourse, along the western wall of Midgaard.  To
 the north, the road passes by a beautiful park, to the south, you can see
 the southwest corner of the city wall.
 ~
@@ -6151,8 +6226,12 @@ O 0 3098 1 3058
 * -- northern Midgaard --
 *
 
-M 0 3011 1 3001 1  1        Frank bruno  
-E 1 3005 -1 16         boxing gloves
+M 0 3011 1 3001 1  1        Concordius
+E 1 3005 10 9         clawfist 
+E 1 3388 10 11         shield
+E 1 3389 10 5
+*
+M 0 3162 1 3001 1  1        Aquila
 *
 O 0 3010 1 3054       Donation pit
 *
@@ -6594,7 +6673,6 @@ M 3064 drunk.prg
 M 3065 beggar.prg
 M 3067 gategrd2.prg
 M 3068 gategrd2.prg
-M 3011 bruno.prg
 S
 
 #SPECIALS
@@ -6618,6 +6696,8 @@ M  3069 spec_guard
 M  3100 spec_cast_cleric
 M  3120 spec_cast_cleric
 M  3143 spec_mayor
+M  3011 spec_concordius
+
 S
 
 

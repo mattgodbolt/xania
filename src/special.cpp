@@ -49,6 +49,7 @@ bool spec_puff(CHAR_DATA *ch);
 bool spec_DEATH(CHAR_DATA *ch);
 bool spec_greasy_joe(CHAR_DATA *ch);
 bool spec_phil(CHAR_DATA *ch);
+bool spec_concordius(CHAR_DATA *ch);
 /* Given a name, return the appropriate spec fun. */
 SpecialFunc spec_lookup(const char *name) {
     if (!str_cmp(name, "spec_breath_any"))
@@ -97,6 +98,8 @@ SpecialFunc spec_lookup(const char *name) {
         return spec_greasy_joe;
     if (!str_cmp(name, "spec_phil"))
         return spec_phil;
+    if (!str_cmp(name, "spec_concordius"))
+        return spec_concordius;
     return 0;
 }
 

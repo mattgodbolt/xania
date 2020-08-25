@@ -506,6 +506,16 @@ Might be a bit difficult.
 You ruffle your hair, wondering how far you can go before the rest think you're crazy.
 $n ruffles $s hair - weirdo!
 
+salute 0 0
+You salute.
+$n performs a snappy salute.
+You salute $M.
+$n salutes $N.
+$n salutes you.
+You don't see any reason to salute.
+You salute yourself, well done!
+$n salutes $mself. What an oddball.
+
 shiver 0 0
 Brrrrrrrrr.
 $n shivers uncomfortably.
