@@ -30,7 +30,7 @@ public:
     // Return all descriptors for playing characters who are visible to the given character, including the character
     // themselves.
     [[nodiscard]] auto all_visible_to(const CHAR_DATA &ch) const noexcept {
-        return all() | DescriptorFilter::visible_to(ch);
+        return playing() | DescriptorFilter::visible_to(ch);
     }
     // Return all descriptors for playing characters who can see the given character.
     [[nodiscard]] auto all_who_can_see(const CHAR_DATA &ch) const noexcept {
