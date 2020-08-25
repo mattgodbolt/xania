@@ -461,6 +461,23 @@ BV HBQP 1000 0
 NO ABCD 0 0
 stand stand female 1000
 0 0 small 0
+
+#5828
+grinning alien~
+a grinning alien~
+A alien stands here, grinning at you.
+~
+It has dark skin and two eyeballs mounted atop a pair of wiggly stalks. Its
+gaping maw is full of razor sharp teeth and it seems to be dribbling.
+~
+lizard~
+CHS FH -300 0
+35 0 10d10+790 1d1+300 3d6+10 stab
+-10 -10 -10 0
+EFIKN QJ I G
+stand stand male 500
+0 0 small 0
+
 #0
 #OBJECTS
 #5801
@@ -2214,7 +2231,10 @@ M 0 5808 10 5816 1  1      town person
   
 G 1 5816 -1              map
 M 0 5808 10 5816 1  1      town person
-  
+
+M 0 5828 2 5816 1  1      grinning alien
+M 0 5828 2 5817 1  1      grinning alien
+
 M 0 5808 10 5839 1  1      town person
   
 E 1 5813 -1 16           hand blaster
