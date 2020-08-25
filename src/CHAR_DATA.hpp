@@ -99,7 +99,6 @@ struct CHAR_DATA {
     sh_int start_pos{};
     sh_int default_pos{};
 
-    char *clipboard{};
     unsigned long extra_flags[(MAX_EXTRA_FLAGS / 32) + 1]{};
 
     MPROG_ACT_LIST *mpact{}; /* Used by MOBprogram */

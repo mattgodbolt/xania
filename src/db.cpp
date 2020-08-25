@@ -1419,7 +1419,6 @@ void clear_char(CHAR_DATA *ch) {
     ch->max_move = 100;
     ch->riding = nullptr;
     ch->ridden_by = nullptr;
-    ch->clipboard = nullptr;
     ranges::fill(ch->perm_stat, 13);
     ranges::fill(ch->mod_stat, 0);
 }
@@ -1450,9 +1449,6 @@ void free_char(CHAR_DATA *ch) {
     free_string(ch->short_descr);
     free_string(ch->long_descr);
     free_string(ch->description);
-
-    if (ch->clipboard)
-        free_string(ch->clipboard);
 
     ch->pcdata.reset();
 
