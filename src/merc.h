@@ -1599,7 +1599,6 @@ int dice(int number, int size);
 int interpolate(int level, int value_00, int value_32);
 bool str_cmp(const char *astr, const char *bstr);
 bool str_prefix(const char *astr, const char *bstr);
-bool str_infix(const char *astr, const char *bstr);
 bool str_suffix(const char *astr, const char *bstr);
 char *capitalize(const char *str);
 void append_file(CHAR_DATA *ch, const char *file, const char *str);

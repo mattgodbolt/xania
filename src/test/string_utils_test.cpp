@@ -293,6 +293,21 @@ TEST_CASE("string_util tests") {
             CHECK(matches_start("monkey", "monkey "));
         }
     }
+
+    SECTION("matches inside") {
+        SECTION("empty should not match inside empty") { CHECK(!matches_inside("", "")); }
+        SECTION("empty should not match inside nonempty") {
+            CHECK(!matches_inside("something", ""));
+            CHECK(!matches_inside("", "something"));
+        }
+        SECTION("identical strings should match") { CHECK(matches_inside("monkey", "monkey")); }
+        SECTION("identical substring should match") { CHECK(matches_inside("the", "cat in the hat")); }
+
+        SECTION("mismatches should mismatch") { CHECK(!matches_inside("cat in the hat", "the")); }
+
+        SECTION("case differing strings should match") { CHECK(matches_inside("mOnkEY", "Monkey")); }
+        SECTION("case differing substring should match") { CHECK(matches_inside("THE", "cat in thE hat")); }
+    }
 }
 
 TEST_CASE("is_name()") {

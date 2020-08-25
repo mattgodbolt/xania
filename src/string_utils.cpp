@@ -4,6 +4,8 @@
 
 #include <fmt/format.h>
 #include <range/v3/algorithm/all_of.hpp>
+#include <range/v3/algorithm/search.hpp>
+#include <range/v3/view/transform.hpp>
 #include <range/v3/view/zip.hpp>
 
 #include <algorithm>
@@ -263,6 +265,12 @@ bool matches_start(std::string_view lhs, std::string_view rhs) {
     if (lhs.size() > rhs.size() || lhs.empty())
         return false;
     return matches(lhs, rhs.substr(0, lhs.size()));
+}
+
+bool matches_inside(std::string_view needle, std::string_view haystack) {
+    auto needle_low = needle | ranges::views::transform(tolower);
+    auto haystack_low = haystack | ranges::views::transform(tolower);
+    return !ranges::search(haystack_low, needle_low).empty();
 }
 
 namespace {

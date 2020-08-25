@@ -2487,30 +2487,6 @@ bool str_prefix(const char *astr, const char *bstr) {
 }
 
 /*
- * Compare strings, case insensitive, for match anywhere.
- * Returns true is astr not part of bstr.
- *   (compatibility with historical functions).
- */
-bool str_infix(const char *astr, const char *bstr) {
-    int sstr1;
-    int sstr2;
-    int ichar;
-    char c0;
-
-    if ((c0 = LOWER(astr[0])) == '\0')
-        return false;
-
-    sstr1 = strlen(astr);
-    sstr2 = strlen(bstr);
-
-    for (ichar = 0; ichar <= sstr2 - sstr1; ichar++) {
-        if (c0 == LOWER(bstr[ichar]) && !str_prefix(astr, bstr + ichar))
-            return false;
-    }
-    return true;
-}
-
-/*
  * Compare strings, case insensitive, for suffix matching.
  * Return true if astr not a suffix of bstr
  *   (compatibility with historical functions).

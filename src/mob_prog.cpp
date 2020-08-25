@@ -19,19 +19,25 @@
  ***************************************************************************/
 
 #include "merc.h"
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
+#include "string_utils.hpp"
+
+#include <fmt/format.h>
+
+#include <cctype>
+#include <cstdlib>
+#include <cstring>
+#include <string_view>
+
+using namespace std::literals;
+using namespace fmt::literals;
 
 /*
  * Local function prototypes
  */
 
 char *mprog_next_command(char *clist);
-bool mprog_seval(char *lhs, char *opr, char *rhs);
-bool mprog_veval(int lhs, char *opr, int rhs);
+bool mprog_seval(std::string_view lhs, std::string_view opr, std::string_view rhs);
+bool mprog_veval(int lhs, std::string_view opr, int rhs);
 bool mprog_do_ifchck(char *ifchck, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj, const void *vo,
                      CHAR_DATA *rndm);
 char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj,
@@ -87,42 +93,40 @@ char *mprog_next_command(char *clist) {
  *  still have trailing spaces so be careful when editing since:
  *  "guard" and "guard " are not equal.
  */
-bool mprog_seval(char *lhs, char *opr, char *rhs) {
+bool mprog_seval(std::string_view lhs, std::string_view opr, std::string_view rhs) {
+    if (opr == "=="sv)
+        return matches(lhs, rhs);
+    if (opr == "!="sv)
+        return !matches(lhs, rhs);
+    if (opr == "/"sv)
+        return matches_inside(rhs, lhs);
+    if (opr == "!/"sv)
+        return !matches_inside(rhs, lhs);
 
-    if (!str_cmp(opr, "=="))
-        return (bool)(!str_cmp(lhs, rhs));
-    if (!str_cmp(opr, "!="))
-        return (bool)(str_cmp(lhs, rhs));
-    if (!str_cmp(opr, "/"))
-        return (bool)(!str_infix(rhs, lhs));
-    if (!str_cmp(opr, "!/"))
-        return (bool)(str_infix(rhs, lhs));
-
-    bug("Improper MOBprog operator '%s'", opr);
-    return 0;
+    bug("%s", "Improper MOBprog operator '{}'"_format(opr).c_str());
+    return false;
 }
 
-bool mprog_veval(int lhs, char *opr, int rhs) {
+bool mprog_veval(int lhs, std::string_view opr, int rhs) {
+    if (opr == "=="sv)
+        return lhs == rhs;
+    if (opr == "!="sv)
+        return lhs != rhs;
+    if (opr == ">"sv)
+        return lhs > rhs;
+    if (opr == "<"sv)
+        return lhs < rhs;
+    if (opr == "<="sv)
+        return lhs <= rhs;
+    if (opr == ">="sv)
+        return lhs >= rhs;
+    if (opr == "&"sv)
+        return lhs & rhs;
+    if (opr == "|"sv)
+        return lhs | rhs;
 
-    if (!str_cmp(opr, "=="))
-        return (lhs == rhs);
-    if (!str_cmp(opr, "!="))
-        return (lhs != rhs);
-    if (!str_cmp(opr, ">"))
-        return (lhs > rhs);
-    if (!str_cmp(opr, "<"))
-        return (lhs < rhs);
-    if (!str_cmp(opr, ">="))
-        return (lhs <= rhs);
-    if (!str_cmp(opr, ">="))
-        return (lhs >= rhs);
-    if (!str_cmp(opr, "&"))
-        return (lhs & rhs);
-    if (!str_cmp(opr, "|"))
-        return (lhs | rhs);
-
-    bug("Improper MOBprog operator '%s'", opr);
-    return 0;
+    bug("%s", "Improper MOBprog operator '{}'"_format(opr).c_str());
+    return false;
 }
 
 /* This function performs the evaluation of the if checks.  It is
