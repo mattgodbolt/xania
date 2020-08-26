@@ -24,8 +24,12 @@
 #include "merc.h"
 #include "string_utils.hpp"
 
+#include <fmt/format.h>
+
 #include <cstdio>
 #include <cstdlib>
+
+using namespace fmt::literals;
 
 /*
  * Local functions.
@@ -93,9 +97,8 @@ void do_mpstat(CHAR_DATA *ch, const char *argument) {
     snprintf(buf, sizeof(buf), "Name: %s.  Vnum: %d.\n\r", victim->name, victim->pIndexData->vnum);
     send_to_char(buf, ch);
 
-    snprintf(buf, sizeof(buf), "Short description: %s.\n\rLong  description: %s", victim->short_descr,
-             victim->long_descr[0] != '\0' ? victim->long_descr : "(none).\n\r");
-    send_to_char(buf, ch);
+    ch->send_to("Short description:{}.\n\rLong  description: {}"_format(
+        victim->short_descr, victim->long_descr.empty() ? "(none).\n\r" : victim->long_descr));
 
     snprintf(buf, sizeof(buf), "Hp: %d/%d.  Mana: %d/%d.  Move: %d/%d. \n\r", victim->hit, victim->max_hit,
              victim->mana, victim->max_mana, victim->move, victim->max_move);

@@ -1436,11 +1436,10 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
                  victim->ridden_by ? victim->ridden_by->name : "(none)");
     send_to_char(buf, ch);
 
-    bug_snprintf(buf, sizeof(buf), "Short description: %s\n\rLong  description: %s", victim->short_descr,
-                 victim->long_descr[0] != '\0' ? victim->long_descr : "(none)\n\r");
-    send_to_char(buf, ch);
+    ch->send_to("Short description: {}\n\rLong  description: {}"_format(
+        victim->short_descr, victim->long_descr.empty() ? "(none)\n\r" : victim->long_descr));
 
-    if (victim->is_npc() && victim->spec_fun != 0)
+    if (victim->is_npc() && victim->spec_fun)
         send_to_char("Mobile has special procedure.\n\r", ch);
 
     if (victim->is_npc() && victim->pIndexData->progtypes) {
@@ -3150,9 +3149,7 @@ void do_string(CHAR_DATA *ch, const char *argument) {
         }
 
         if (!str_prefix(arg2, "long")) {
-            free_string(victim->long_descr);
-            strcat(arg3, "\n\r");
-            victim->long_descr = str_dup(arg3);
+            victim->long_descr = arg3;
             return;
         }
 

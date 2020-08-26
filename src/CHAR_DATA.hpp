@@ -44,7 +44,7 @@ struct CHAR_DATA {
 
     sh_int version{};
     char *short_descr{};
-    char *long_descr{};
+    std::string long_descr;
     std::string description;
     std::string sentient_victim;
     sh_int sex{};

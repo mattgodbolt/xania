@@ -212,7 +212,7 @@ void show_char_to_char_0(const CHAR_DATA *victim, const CHAR_DATA *ch) {
         }
     }
 
-    if (victim->position == victim->start_pos && victim->long_descr[0] != '\0') {
+    if (victim->position == victim->start_pos && !victim->long_descr.empty()) {
         buf += victim->long_descr;
         ch->send_to(buf);
         return;

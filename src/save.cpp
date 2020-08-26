@@ -136,8 +136,8 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
     fprintf(fp, "Vers %d\n", 3);
     if (ch->short_descr[0] != '\0')
         fprintf(fp, "ShD  %s~\n", ch->short_descr);
-    if (ch->long_descr[0] != '\0')
-        fprintf(fp, "LnD  %s~\n", ch->long_descr);
+    if (!ch->long_descr.empty())
+        fprintf(fp, "LnD  %s~\n", ch->long_descr.c_str());
     if (!ch->description.empty())
         fprintf(fp, "Desc %s~\n", ch->description.c_str());
     fprintf(fp, "Race %s~\n", pc_race_table[ch->race].name);
@@ -264,7 +264,7 @@ void fwrite_pet(CHAR_DATA *ch, CHAR_DATA *pet, FILE *fp) {
     if (pet->short_descr != pet->pIndexData->short_descr)
         fprintf(fp, "ShD  %s~\n", pet->short_descr);
     if (pet->long_descr != pet->pIndexData->long_descr)
-        fprintf(fp, "LnD  %s~\n", pet->long_descr);
+        fprintf(fp, "LnD  %s~\n", pet->long_descr.c_str());
     if (pet->description != pet->pIndexData->description)
         fprintf(fp, "Desc %s~\n", pet->description.c_str());
     if (pet->race != pet->pIndexData->race)
@@ -710,7 +710,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         } else if (word == "level" || word == "lev" || word == "levl") {
             ch->level = fread_number(fp);
         } else if (word == "longdescr" || word == "lnd") {
-            ch->long_descr = fread_string(fp);
+            ch->long_descr = fread_stdstring(fp);
         } else if (word == "lastloginfrom") {
             login_from = fread_string(fp);
         } else if (word == "lastloginat") {
@@ -868,7 +868,7 @@ void fread_pet(CHAR_DATA *ch, FILE *fp) {
         } else if (matches(word, "Levl")) {
             pet->level = fread_number(fp);
         } else if (matches(word, "LnD")) {
-            pet->long_descr = fread_string(fp);
+            pet->long_descr = fread_stdstring(fp);
         } else if (matches(word, "Name")) {
             pet->name = fread_string(fp);
         } else if (matches(word, "Pos")) {

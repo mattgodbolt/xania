@@ -181,11 +181,9 @@ void load_mobiles(FILE *fp) {
         pMobIndex->short_descr = fread_string(fp);
         // Kill off errant capitals - see load_object
         tolower_articles(pMobIndex->short_descr);
-        pMobIndex->long_descr = fread_string(fp);
+        pMobIndex->long_descr = upper_first_character(fread_stdstring(fp));
         pMobIndex->description = upper_first_character(fread_stdstring(fp));
         pMobIndex->race = race_lookup(fread_string(fp));
-
-        pMobIndex->long_descr[0] = UPPER(pMobIndex->long_descr[0]);
 
         pMobIndex->act = fread_flag(fp) | ACT_IS_NPC | race_table[pMobIndex->race].act;
         pMobIndex->affected_by = fread_flag(fp) | race_table[pMobIndex->race].aff;
