@@ -134,8 +134,8 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
 
     fprintf(fp, "Name %s~\n", ch->name);
     fprintf(fp, "Vers %d\n", 3);
-    if (ch->short_descr[0] != '\0')
-        fprintf(fp, "ShD  %s~\n", ch->short_descr);
+    if (!ch->short_descr.empty())
+        fprintf(fp, "ShD  %s~\n", ch->short_descr.c_str());
     if (!ch->long_descr.empty())
         fprintf(fp, "LnD  %s~\n", ch->long_descr.c_str());
     if (!ch->description.empty())
@@ -262,7 +262,7 @@ void fwrite_pet(CHAR_DATA *ch, CHAR_DATA *pet, FILE *fp) {
 
     fprintf(fp, "Name %s~\n", pet->name);
     if (pet->short_descr != pet->pIndexData->short_descr)
-        fprintf(fp, "ShD  %s~\n", pet->short_descr);
+        fprintf(fp, "ShD  %s~\n", pet->short_descr.c_str());
     if (pet->long_descr != pet->pIndexData->long_descr)
         fprintf(fp, "LnD  %s~\n", pet->long_descr.c_str());
     if (pet->description != pet->pIndexData->description)
@@ -751,7 +751,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         } else if (word == "sex") {
             ch->sex = fread_number(fp);
         } else if (word == "shortdescr" || word == "shd") {
-            ch->short_descr = fread_string(fp);
+            ch->short_descr = fread_stdstring(fp);
         } else if (word == "skill" || word == "sk") {
             const int value = fread_number(fp);
             const char *temp = fread_word(fp);
@@ -880,7 +880,7 @@ void fread_pet(CHAR_DATA *ch, FILE *fp) {
         } else if (matches(word, "Sex")) {
             pet->sex = fread_number(fp);
         } else if (matches(word, "ShD")) {
-            pet->short_descr = fread_string(fp);
+            pet->short_descr = fread_stdstring(fp);
         } else {
             bug("%s", "Fread_pet: no match for {}."_format(word).c_str());
             fread_to_eol(fp);

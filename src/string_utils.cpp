@@ -309,3 +309,11 @@ bool is_name(std::string_view str, std::string_view namelist) {
     // If we got here, every part matched partially, so we consider this a name.
     return true;
 }
+
+std::string lower_case_articles(std::string_view text) {
+    auto result = std::string(text);
+    if (has_prefix(text, "The ") || has_prefix(text, "A ") || has_prefix(text, "An ")) {
+        result[0] = tolower(result[0]);
+    }
+    return result;
+}

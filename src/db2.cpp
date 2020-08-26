@@ -178,9 +178,7 @@ void load_mobiles(FILE *fp) {
         pMobIndex->area = area_last;
         newmobs++;
         pMobIndex->player_name = fread_string(fp);
-        pMobIndex->short_descr = fread_string(fp);
-        // Kill off errant capitals - see load_object
-        tolower_articles(pMobIndex->short_descr);
+        pMobIndex->short_descr = lower_case_articles(fread_stdstring(fp));
         pMobIndex->long_descr = upper_first_character(fread_stdstring(fp));
         pMobIndex->description = upper_first_character(fread_stdstring(fp));
         pMobIndex->race = race_lookup(fread_string(fp));
@@ -344,12 +342,12 @@ void load_objects(FILE *fp) {
         pObjIndex->reset_num = 0;
         newobjs++;
         pObjIndex->name = fread_string(fp);
-        pObjIndex->short_descr = fread_string(fp);
         /*
          * MG added - snarf short descrips to kill:
          * You hit The beastly fido
          */
-        tolower_articles(pObjIndex->short_descr);
+        // str_dup is temporary until short_descr of objects is a std::string
+        pObjIndex->short_descr = str_dup(lower_case_articles(fread_stdstring(fp)).c_str());
         pObjIndex->description = fread_string(fp);
         if (strlen(pObjIndex->description) == 0) {
             bug("Load_objects: empty long description in object %d.", vnum);

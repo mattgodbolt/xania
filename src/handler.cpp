@@ -2167,18 +2167,6 @@ void remove_extra(CHAR_DATA *ch, unsigned int flag) {
     ch->extra_flags[flag / 32] &= ~(1u << (flag & 31u));
 }
 
-/*
- * New: Kill off the errant capital letters that
- * have been creeping into the definite article of
- * short descriptions of objects and rooms.
- * of late.  This routine de-capitalises anything
- * beginning with 'The ' or 'A ' or 'An '
- */
-void tolower_articles(char *string) {
-    if (!strncmp(string, "The ", 4) || !strncmp(string, "A ", 2) || !strncmp(string, "An ", 3))
-        string[0] = tolower(string[0]);
-}
-
 bool is_switched(CHAR_DATA *ch) {
     if (ch->is_pc())
         return false;

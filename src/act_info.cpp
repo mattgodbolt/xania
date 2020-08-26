@@ -2150,8 +2150,7 @@ void do_scan(CHAR_DATA *ch, const char *argument) {
                 next_person = current_person->next_in_room;
                 if (ch->can_see(*current_person)) {
                     ch->send_to("{} {:<5}: |W{}|w\n\r"_format(count_num_rooms + 1, capitalize(to_string(direction)),
-                                                              !current_person->pcdata ? current_person->short_descr
-                                                                                      : current_person->name));
+                                                              current_person->short_name()));
                     found_anything = true;
                 }
             } /* Closes the for_each_char_loop */

@@ -857,9 +857,9 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
         } else {
 
             if (victim->level >= (ch->level + 30)) {
-                snprintf(log_buf, LOG_BUF_SIZE, "|R### %s just killed %s - %d levels above them!|w",
-                         (ch->is_npc() ? ch->short_descr : ch->name), victim->short_descr, (victim->level - ch->level));
-                do_immtalk(ch, log_buf);
+                bug("%s", "|R### {} just killed {} - {} levels above them!|w"_format(
+                              ch->short_name(), victim->short_descr, victim->level - ch->level)
+                              .c_str());
             }
         }
         victim_room_vnum = victim->in_room->vnum;
@@ -1279,7 +1279,7 @@ void make_corpse(CHAR_DATA *ch) {
     OBJ_DATA *corpse;
     OBJ_DATA *obj;
     OBJ_DATA *obj_next;
-    char *name;
+    std::string name;
 
     if (ch->is_npc()) {
         name = ch->short_descr;
@@ -1304,11 +1304,11 @@ void make_corpse(CHAR_DATA *ch) {
 
     corpse->level = ch->level;
 
-    snprintf(buf, sizeof(buf), corpse->short_descr, name);
+    snprintf(buf, sizeof(buf), corpse->short_descr, name.c_str());
     free_string(corpse->short_descr);
     corpse->short_descr = str_dup(buf);
 
-    snprintf(buf, sizeof(buf), corpse->description, name);
+    snprintf(buf, sizeof(buf), corpse->description, name.c_str());
     free_string(corpse->description);
     corpse->description = str_dup(buf);
 

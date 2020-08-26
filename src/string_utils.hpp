@@ -47,6 +47,10 @@ Container split_lines(std::string_view input) {
 // Returns an initial-capped string.
 [[nodiscard]] std::string capitalize(std::string_view text);
 
+// Kill off the errant capital letters that have been creeping into the definite article of short descriptions of
+// objects and rooms of late.  This routine de-capitalises anything beginning with 'The ' or 'A ' or 'An '.
+[[nodiscard]] std::string lower_case_articles(std::string_view text);
+
 // Returns true iff the second string is a prefix of the first (or the two strings are
 // identical).
 [[nodiscard]] bool has_prefix(std::string_view haystack, std::string_view needle);

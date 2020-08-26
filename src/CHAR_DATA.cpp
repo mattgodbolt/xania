@@ -283,8 +283,7 @@ int CHAR_DATA::num_active_ = 0;
 extern char str_empty[]; // Soon, to die...
 
 CHAR_DATA::CHAR_DATA()
-    : name(str_empty), short_descr(str_empty), description(str_empty), logon(current_time),
-      position(POS_STANDING) /*todo once not in merc.h put in header*/ {
+    : name(str_empty), logon(current_time), position(POS_STANDING) /*todo once not in merc.h put in header*/ {
     ranges::fill(armor, 100);
     ranges::fill(perm_stat, 13);
     ++num_active_;
@@ -300,7 +299,6 @@ CHAR_DATA::~CHAR_DATA() {
         affect_remove(this, affected);
 
     free_string(name);
-    free_string(short_descr);
 }
 
 void CHAR_DATA::yell(std::string_view exclamation) const {

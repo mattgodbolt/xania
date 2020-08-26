@@ -990,7 +990,7 @@ struct MOB_INDEX_DATA {
     sh_int count;
     sh_int killed;
     char *player_name;
-    char *short_descr;
+    std::string short_descr;
     std::string long_descr;
     std::string description;
     unsigned long act;
@@ -1696,7 +1696,6 @@ const char *form_bit_name(int form_flags);
 const char *part_bit_name(int part_flags);
 const char *weapon_bit_name(int weapon_flags);
 const char *comm_bit_name(int comm_flags);
-void tolower_articles(char *string);
 
 /* info.c */
 void load_player_list();

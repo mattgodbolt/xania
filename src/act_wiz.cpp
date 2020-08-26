@@ -1494,12 +1494,6 @@ void do_vnum(CHAR_DATA *ch, const char *argument) {
 void do_mfind(CHAR_DATA *ch, const char *argument) {
     extern int top_mob_index;
     char arg[MAX_INPUT_LENGTH];
-    MOB_INDEX_DATA *pMobIndex;
-    int vnum;
-    int nMatch;
-    bool fAll;
-    bool found;
-    BUFFER *buffer;
 
     one_argument(argument, arg);
     if (arg[0] == '\0') {
@@ -1507,9 +1501,8 @@ void do_mfind(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    fAll = false; /* !str_cmp( arg, "all" ); */
-    found = false;
-    nMatch = 0;
+    bool fAll = false; /* !str_cmp( arg, "all" ); */
+    bool found = false;
 
     /*
      * Yeah, so iterating over all vnum's takes 10,000 loops.
@@ -1517,20 +1510,22 @@ void do_mfind(CHAR_DATA *ch, const char *argument) {
      * Do you?
      * -- Furey
      */
-    buffer = buffer_create();
-    for (vnum = 0; nMatch < top_mob_index; vnum++) {
-        if ((pMobIndex = get_mob_index(vnum)) != nullptr) {
+    std::string buffer;
+    int nMatch = 0;
+    for (int vnum = 0; nMatch < top_mob_index; vnum++) {
+        if (auto *pMobIndex = get_mob_index(vnum)) {
             nMatch++;
             if (fAll || is_name(argument, pMobIndex->player_name)) {
                 found = true;
-                buffer_addline_fmt(buffer, "[%5d] %s\n\r", pMobIndex->vnum, pMobIndex->short_descr);
+                buffer += "[{:5}] {}\n\r"_format(pMobIndex->vnum, pMobIndex->short_descr);
             }
         }
     }
 
-    buffer_send(buffer, ch); /* frees buffer */
-    if (!found)
-        send_to_char("No mobiles by that name.\n\r", ch);
+    if (found)
+        ch->page_to(buffer);
+    else
+        ch->send_to("No mobiles by that name.\n\r");
 }
 
 void do_ofind(CHAR_DATA *ch, const char *argument) {
@@ -1576,34 +1571,28 @@ void do_ofind(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_mwhere(CHAR_DATA *ch, const char *argument) {
-    CHAR_DATA *victim;
-    bool found;
-    bool findPC = false;
-    int number = 0;
-    BUFFER *buffer;
-
+    bool find_pc = false;
     if (argument[0] == '\0') {
-        findPC = true;
+        find_pc = true;
     } else if (strlen(argument) < 2) {
         send_to_char("Please be more specific.\n\r", ch);
         return;
     }
 
-    found = false;
-    number = 0;
-    buffer = buffer_create();
-
-    for (victim = char_list; victim != nullptr; victim = victim->next) {
-        if ((victim->is_npc() && victim->in_room != nullptr && is_name(argument, victim->name) && findPC == false)
-            || (victim->is_pc() && (findPC == true) && can_see(ch, victim))) {
+    bool found = false;
+    int number = 0;
+    std::string buffer;
+    for (auto *victim = char_list; victim != nullptr; victim = victim->next) {
+        if ((victim->is_npc() && victim->in_room != nullptr && is_name(argument, victim->name) && !find_pc)
+            || (victim->is_pc() && find_pc && can_see(ch, victim))) {
             found = true;
             number++;
-            buffer_addline_fmt(
-                buffer, "%3d [%5d] %-28.28s [%5d] %20.20s\n\r", number, (findPC == true) ? 0 : victim->pIndexData->vnum,
-                (findPC == true) ? victim->name : victim->short_descr, victim->in_room->vnum, victim->in_room->name);
+            buffer += "{:3} [{:5}] {:<28} [{:5}] {:>20}\n\r"_format(number, find_pc ? 0 : victim->pIndexData->vnum,
+                                                                    victim->short_name(), victim->in_room->vnum,
+                                                                    victim->in_room->name);
         }
     }
-    buffer_send(buffer, ch);
+    ch->page_to(buffer);
 
     if (!found)
         act("You didn't find any $T.", ch, nullptr, argument, To::Char);
@@ -3143,8 +3132,7 @@ void do_string(CHAR_DATA *ch, const char *argument) {
         }
 
         if (!str_prefix(arg2, "short")) {
-            free_string(victim->short_descr);
-            victim->short_descr = str_dup(arg3);
+            victim->short_descr = arg3;
             return;
         }
 

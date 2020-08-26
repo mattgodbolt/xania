@@ -43,7 +43,7 @@ struct CHAR_DATA {
     char *name;
 
     sh_int version{};
-    char *short_descr{};
+    std::string short_descr;
     std::string long_descr;
     std::string description;
     std::string sentient_victim;
@@ -193,7 +193,10 @@ struct CHAR_DATA {
     [[nodiscard]] OBJ_DATA *find_worn(std::string_view argument) const;
 
     // Return the name used to describe the char in short text.
-    [[nodiscard]] std::string_view short_name() const noexcept { return is_pc() ? name : short_descr; }
+    [[nodiscard]] std::string_view short_name() const noexcept {
+        // TODO the cast to string_view is only needed while name isn't a std::string. remove soon!
+        return is_pc() ? name : std::string_view(short_descr);
+    }
 
     // Alignment.
     [[nodiscard]] bool is_good() const noexcept { return alignment >= 350; }

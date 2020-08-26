@@ -1593,7 +1593,6 @@ void do_brandish(CHAR_DATA *ch, const char *argument) {
 
 void do_zap(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    char buf[MAX_STRING_LENGTH];
     CHAR_DATA *victim;
     OBJ_DATA *wand;
     OBJ_DATA *obj;
@@ -1637,11 +1636,8 @@ void do_zap(CHAR_DATA *ch, const char *argument) {
 
         if ((victim != nullptr && victim != ch && victim->in_room->vnum != ch->in_room->vnum)
             && skill_table[wand->value[3]].target == TAR_CHAR_OFFENSIVE) {
-            if (get_char_room(ch, arg) != nullptr)
-                snprintf(buf, sizeof(buf), "You attempt to zap %s.....", victim->short_descr);
-            else
-                snprintf(buf, sizeof(buf), "You attempt to zap someone.....");
-            act(buf, ch, nullptr, nullptr, To::Char);
+            act("You attempt to zap {}....."_format(get_char_room(ch, arg) ? victim->short_descr : "someone"), ch,
+                nullptr, nullptr, To::Char);
             act("$n attempts to zap something....", ch);
             send_to_char("...but the |cgrand Iscarian magi|w outlawed interplanar combat millenia ago!\n\r", ch);
             act("$n appears to have been foiled by the law, and looks slightly annoyed!", ch, nullptr, nullptr,
@@ -2058,15 +2054,13 @@ void do_list(CHAR_DATA *ch, const char *argument) {
             if (IS_SET(pet->act, ACT_PET)) {
                 if (!found) {
                     found = true;
-                    send_to_char("Pets for sale:\n\r", ch);
+                    ch->send_to("Pets for sale:\n\r");
                 }
-                snprintf(buf, sizeof(buf), "[%2d] %8d - %s\n\r", pet->level, 10 * pet->level * pet->level,
-                         pet->short_descr);
-                send_to_char(buf, ch);
+                ch->send_to("[{:2}] {:8} - {}\n\r"_format(pet->level, 10 * pet->level * pet->level, pet->short_descr));
             }
         }
         if (!found)
-            send_to_char("Sorry, we're out of pets right now.\n\r", ch);
+            ch->send_to("Sorry, we're out of pets right now.\n\r");
         return;
     } else {
         CHAR_DATA *keeper;

@@ -308,6 +308,21 @@ TEST_CASE("string_util tests") {
         SECTION("case differing strings should match") { CHECK(matches_inside("mOnkEY", "Monkey")); }
         SECTION("case differing substring should match") { CHECK(matches_inside("THE", "cat in thE hat")); }
     }
+
+    SECTION("lower casing articles") {
+        SECTION("should leave proper names alone") {
+            CHECK(lower_case_articles("TheMoog") == "TheMoog");
+            CHECK(lower_case_articles("Antonio, the Master Baker") == "Antonio, the Master Baker");
+        }
+        SECTION("should remove errant capitalised articles") {
+            CHECK(lower_case_articles("The beastly fido") == "the beastly fido");
+            CHECK(lower_case_articles("A worm") == "a worm");
+            CHECK(lower_case_articles("An antagonist") == "an antagonist");
+        }
+        SECTION("should keep other capitals") {
+            CHECK(lower_case_articles("An acolyte of Moog") == "an acolyte of Moog");
+        }
+    }
 }
 
 TEST_CASE("is_name()") {

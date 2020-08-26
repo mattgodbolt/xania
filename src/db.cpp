@@ -1088,7 +1088,7 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
     mob->pIndexData = pMobIndex;
 
     mob->name = str_dup(pMobIndex->player_name);
-    mob->short_descr = str_dup(pMobIndex->short_descr);
+    mob->short_descr = pMobIndex->short_descr;
     mob->long_descr = pMobIndex->long_descr;
     mob->description = pMobIndex->description;
     mob->spec_fun = pMobIndex->spec_fun;
@@ -1183,7 +1183,7 @@ void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone) {
     /* start fixing values */
     clone->name = str_dup(parent->name);
     clone->version = parent->version;
-    clone->short_descr = str_dup(parent->short_descr);
+    clone->short_descr = parent->short_descr;
     clone->long_descr = parent->long_descr;
     clone->description = parent->description;
     clone->sex = parent->sex;
@@ -2220,7 +2220,7 @@ void do_dump(CHAR_DATA *ch, const char *argument) {
         if ((pMobIndex = get_mob_index(vnum)) != nullptr) {
             nMatch++;
             fprintf(fp, "#%-4d %3d active %3d killed     %s\n", pMobIndex->vnum, pMobIndex->count, pMobIndex->killed,
-                    pMobIndex->short_descr);
+                    pMobIndex->short_descr.c_str());
         }
     fclose(fp);
 
