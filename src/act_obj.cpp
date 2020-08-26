@@ -1963,9 +1963,7 @@ void do_buy(CHAR_DATA *ch, const char *argument) {
             pet->name = str_dup(smash_tilde(buf).c_str());
         }
 
-        snprintf(buf, sizeof(buf), "%sA neck tag says 'I belong to %s'.\n\r", pet->description, ch->name);
-        free_string(pet->description);
-        pet->description = str_dup(buf);
+        pet->description = "{}A neck tag says 'I belong to {}'."_format(pet->description, ch->name);
 
         char_to_room(pet, ch->in_room);
         add_follower(pet, ch);

@@ -1872,31 +1872,25 @@ void do_title(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_description(CHAR_DATA *ch, const char *argument) {
-    auto desc_line = smash_tilde(argument);
-
-    if (!desc_line.empty()) {
-        std::string description = ch->description ? ch->description : "";
+    if (auto desc_line = smash_tilde(argument); !desc_line.empty()) {
         if (desc_line.front() == '+') {
-            description += ltrim(desc_line.substr(1)) + "\n\r";
+            ch->description += ltrim(desc_line.substr(1)) + "\n\r";
         } else if (desc_line == "-") {
-            if (description.empty()) {
-                send_to_char("You have no description.\n\r", ch);
+            if (ch->description.empty()) {
+                ch->send_to("You have no description.\n\r");
                 return;
             }
-            description = remove_last_line(description);
+            ch->description = remove_last_line(ch->description);
         } else {
-            description = desc_line + "\n\r";
+            ch->description = desc_line + "\n\r";
         }
-        if (description.size() >= MAX_STRING_LENGTH - 2) {
-            send_to_char("Description too long.\n\r", ch);
+        if (ch->description.size() >= MAX_STRING_LENGTH - 2) {
+            ch->send_to("Description too long.\n\r");
             return;
         }
-        free_string(ch->description);
-        ch->description = str_dup(description.c_str());
     }
 
-    send_to_char("Your description is:\n\r", ch);
-    send_to_char(ch->description ? ch->description : "(None).\n\r", ch);
+    ch->send_to("Your description is:\n\r{}"_format(ch->description.empty() ? "(None).\n\r" : ch->description));
 }
 
 void do_report(CHAR_DATA *ch, const char *argument) {

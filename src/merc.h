@@ -992,7 +992,7 @@ struct MOB_INDEX_DATA {
     char *player_name;
     char *short_descr;
     char *long_descr;
-    char *description;
+    std::string description;
     unsigned long act;
     unsigned long affected_by;
     sh_int alignment;

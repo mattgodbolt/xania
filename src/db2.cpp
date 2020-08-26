@@ -10,6 +10,7 @@
 #include "db.h"
 #include "lookup.h"
 #include "merc.h"
+#include "string_utils.hpp"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -183,11 +184,10 @@ void load_mobiles(FILE *fp) {
         // Kill off errant capitals - see load_object
         tolower_articles(pMobIndex->short_descr);
         pMobIndex->long_descr = fread_string(fp);
-        pMobIndex->description = fread_string(fp);
+        pMobIndex->description = upper_first_character(fread_stdstring(fp));
         pMobIndex->race = race_lookup(fread_string(fp));
 
         pMobIndex->long_descr[0] = UPPER(pMobIndex->long_descr[0]);
-        pMobIndex->description[0] = UPPER(pMobIndex->description[0]);
 
         pMobIndex->act = fread_flag(fp) | ACT_IS_NPC | race_table[pMobIndex->race].act;
         pMobIndex->affected_by = fread_flag(fp) | race_table[pMobIndex->race].aff;

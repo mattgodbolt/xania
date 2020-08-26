@@ -302,7 +302,6 @@ CHAR_DATA::~CHAR_DATA() {
     free_string(name);
     free_string(short_descr);
     free_string(long_descr);
-    free_string(description);
 }
 
 void CHAR_DATA::yell(std::string_view exclamation) const {

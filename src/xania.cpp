@@ -500,7 +500,7 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
         animated->carrying = obj->contains;
         obj->contains = nullptr;
         /* Give the zombie its correct name and stuff */
-        snprintf(buf, sizeof(buf), animated->description, obj->description);
+        snprintf(buf, sizeof(buf), animated->description.c_str(), obj->description);
         free_string(animated->long_descr);
         animated->long_descr = str_dup(buf);
         snprintf(buf, sizeof(buf), animated->name, obj->name);

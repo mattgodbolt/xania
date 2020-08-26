@@ -138,8 +138,8 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
         fprintf(fp, "ShD  %s~\n", ch->short_descr);
     if (ch->long_descr[0] != '\0')
         fprintf(fp, "LnD  %s~\n", ch->long_descr);
-    if (ch->description[0] != '\0')
-        fprintf(fp, "Desc %s~\n", ch->description);
+    if (!ch->description.empty())
+        fprintf(fp, "Desc %s~\n", ch->description.c_str());
     fprintf(fp, "Race %s~\n", pc_race_table[ch->race].name);
     fprintf(fp, "Sex  %d\n", ch->sex);
     fprintf(fp, "Cla  %d\n", ch->class_num);
@@ -266,7 +266,7 @@ void fwrite_pet(CHAR_DATA *ch, CHAR_DATA *pet, FILE *fp) {
     if (pet->long_descr != pet->pIndexData->long_descr)
         fprintf(fp, "LnD  %s~\n", pet->long_descr);
     if (pet->description != pet->pIndexData->description)
-        fprintf(fp, "Desc %s~\n", pet->description);
+        fprintf(fp, "Desc %s~\n", pet->description.c_str());
     if (pet->race != pet->pIndexData->race)
         fprintf(fp, "Race %s~\n", race_table[pet->race].name);
     fprintf(fp, "Sex  %d\n", pet->sex);
@@ -667,7 +667,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         } else if (word == "damroll" || word == "dam") {
             ch->damroll = fread_number(fp);
         } else if (word == "description" || word == "desc") {
-            ch->description = fread_string(fp);
+            ch->description = fread_stdstring(fp);
         } else if (word == "end") {
             return;
         } else if (word == "exp") {
@@ -846,7 +846,7 @@ void fread_pet(CHAR_DATA *ch, FILE *fp) {
         } else if (matches(word, "Dam")) {
             pet->damroll = fread_number(fp);
         } else if (matches(word, "Desc")) {
-            pet->description = fread_string(fp);
+            pet->description = fread_stdstring(fp);
         } else if (matches(word, "End")) {
             pet->leader = ch;
             pet->master = ch;

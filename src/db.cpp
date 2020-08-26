@@ -1090,7 +1090,7 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
     mob->name = str_dup(pMobIndex->player_name);
     mob->short_descr = str_dup(pMobIndex->short_descr);
     mob->long_descr = str_dup(pMobIndex->long_descr);
-    mob->description = str_dup(pMobIndex->description);
+    mob->description = pMobIndex->description;
     mob->spec_fun = pMobIndex->spec_fun;
 
     /* read from prototype */
@@ -1185,7 +1185,7 @@ void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone) {
     clone->version = parent->version;
     clone->short_descr = str_dup(parent->short_descr);
     clone->long_descr = str_dup(parent->long_descr);
-    clone->description = str_dup(parent->description);
+    clone->description = parent->description;
     clone->sex = parent->sex;
     clone->class_num = parent->class_num;
     clone->race = parent->race;

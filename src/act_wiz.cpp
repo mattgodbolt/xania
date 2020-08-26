@@ -3139,8 +3139,7 @@ void do_string(CHAR_DATA *ch, const char *argument) {
         }
 
         if (!str_prefix(arg2, "description")) {
-            free_string(victim->description);
-            victim->description = str_dup(arg3);
+            victim->description = arg3;
             return;
         }
 
