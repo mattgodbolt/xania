@@ -1486,7 +1486,6 @@ extern OBJ_DATA *object_list;
 
 extern AFFECT_DATA *affect_free;
 
-extern CHAR_DATA *char_free;
 extern EXTRA_DESCR_DATA *extra_descr_free;
 extern OBJ_DATA *obj_free;
 
@@ -1568,8 +1567,6 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex);
 void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone);
 OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex);
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
-void clear_char(CHAR_DATA *ch);
-void free_char(CHAR_DATA *ch);
 const char *get_extra_descr(std::string_view name, const EXTRA_DESCR_DATA *ed);
 MOB_INDEX_DATA *get_mob_index(int vnum);
 OBJ_INDEX_DATA *get_obj_index(int vnum);

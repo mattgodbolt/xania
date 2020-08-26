@@ -213,7 +213,7 @@ void Descriptor::close() noexcept {
             act("$n has lost $s link.", character_);
             character_->desc = nullptr;
         } else {
-            free_char(person());
+            delete person();
         }
         character_ = nullptr;
         original_ = nullptr;

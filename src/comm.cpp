@@ -629,7 +629,7 @@ void nanny(Descriptor *d, const char *argument) {
                 return;
             d->write("Reconnect attempt failed.\n\rName: ");
             if (d->character()) {
-                free_char(d->character());
+                delete d->character();
                 d->character(nullptr);
             }
             d->state(DescriptorState::GetName);
@@ -639,7 +639,7 @@ void nanny(Descriptor *d, const char *argument) {
         case 'N':
             d->write("Name: ");
             if (d->character()) {
-                free_char(d->character());
+                delete d->character();
                 d->character(nullptr);
             }
             d->state(DescriptorState::GetName);
@@ -663,7 +663,7 @@ void nanny(Descriptor *d, const char *argument) {
         case 'n':
         case 'N':
             d->write("Ack! Amateurs! Try typing it in properly: ");
-            free_char(d->character());
+            delete d->character();
             d->character(nullptr);
             d->state(DescriptorState::GetName);
             break;
@@ -1109,7 +1109,7 @@ bool check_reconnect(Descriptor *d, bool fConn) {
             if (fConn == false) {
                 d->character()->pcdata->pwd = ch->pcdata->pwd;
             } else {
-                free_char(d->character());
+                delete d->character();
                 d->character(ch);
                 ch->desc = d;
                 ch->timer = 0;

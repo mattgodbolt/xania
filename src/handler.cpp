@@ -1228,7 +1228,7 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
 
     if (ch->desc)
         ch->desc->character(nullptr);
-    free_char(ch);
+    delete ch;
 }
 
 // Find a char in the room.

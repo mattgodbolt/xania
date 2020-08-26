@@ -5,6 +5,7 @@
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+#include <range/v3/algorithm/fill.hpp>
 
 using namespace fmt::literals;
 
@@ -272,4 +273,31 @@ bool CHAR_DATA::can_see(const ROOM_INDEX_DATA &room) const {
         return false;
 
     return true;
+}
+
+int CHAR_DATA::num_active_ = 0;
+
+extern char str_empty[]; // Soon, to die...
+
+CHAR_DATA::CHAR_DATA()
+    : name(str_empty), short_descr(str_empty), long_descr(str_empty), description(str_empty), logon(current_time),
+      position(POS_STANDING) /*todo once not in merc.h put in header*/ {
+    ranges::fill(armor, 100);
+    ranges::fill(perm_stat, 13);
+    ++num_active_;
+}
+
+CHAR_DATA::~CHAR_DATA() {
+    --num_active_;
+
+    while (carrying)
+        extract_obj(carrying);
+
+    while (affected)
+        affect_remove(this, affected);
+
+    free_string(name);
+    free_string(short_descr);
+    free_string(long_descr);
+    free_string(description);
 }

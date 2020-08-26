@@ -44,7 +44,6 @@ HELP_DATA *help_last;
 SHOP_DATA *shop_first;
 SHOP_DATA *shop_last;
 
-CHAR_DATA *char_free;
 EXTRA_DESCR_DATA *extra_descr_free = nullptr;
 OBJ_DATA *obj_free;
 
@@ -1078,24 +1077,14 @@ void reset_area(AREA_DATA *pArea) {
  * Create an instance of a mobile.
  */
 CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
-    CHAR_DATA *mob;
     int i;
-
-    mobile_count++;
 
     if (pMobIndex == nullptr) {
         bug("Create_mobile: nullptr pMobIndex.");
         exit(1);
     }
 
-    if (char_free == nullptr) {
-        mob = static_cast<CHAR_DATA *>(alloc_perm(sizeof(*mob)));
-    } else {
-        mob = char_free;
-        char_free = char_free->next;
-    }
-
-    clear_char(mob);
+    auto *mob = new CHAR_DATA;
     mob->pIndexData = pMobIndex;
 
     mob->name = str_dup(pMobIndex->player_name);
@@ -1390,70 +1379,6 @@ void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
             clone->extra_descr    = ed_new;
         }
     */
-}
-
-/*
- * Clear a new character.
- */
-void clear_char(CHAR_DATA *ch) {
-    int i;
-
-    *ch = CHAR_DATA();
-    ch->name = &str_empty[0];
-    ch->short_descr = &str_empty[0];
-    ch->long_descr = &str_empty[0];
-    ch->description = &str_empty[0];
-    ch->logon = current_time;
-    ch->last_note = Time::min();
-    ch->lines = PAGELEN;
-    for (i = 0; i < 4; i++)
-        ch->armor[i] = 100;
-    ch->comm = 0;
-    ch->position = POS_STANDING;
-    ch->practice = 0;
-    ch->hit = 20;
-    ch->max_hit = 20;
-    ch->mana = 100;
-    ch->max_mana = 100;
-    ch->move = 100;
-    ch->max_move = 100;
-    ch->riding = nullptr;
-    ch->ridden_by = nullptr;
-    ranges::fill(ch->perm_stat, 13);
-    ranges::fill(ch->mod_stat, 0);
-}
-
-/*
- * Free a character.
- */
-void free_char(CHAR_DATA *ch) {
-    OBJ_DATA *obj;
-    OBJ_DATA *obj_next;
-    AFFECT_DATA *paf;
-    AFFECT_DATA *paf_next;
-
-    if (ch->is_npc())
-        mobile_count--;
-
-    for (obj = ch->carrying; obj != nullptr; obj = obj_next) {
-        obj_next = obj->next_content;
-        extract_obj(obj);
-    }
-
-    for (paf = ch->affected; paf != nullptr; paf = paf_next) {
-        paf_next = paf->next;
-        affect_remove(ch, paf);
-    }
-
-    free_string(ch->name);
-    free_string(ch->short_descr);
-    free_string(ch->long_descr);
-    free_string(ch->description);
-
-    ch->pcdata.reset();
-
-    ch->next = char_free;
-    char_free = ch;
 }
 
 /*
@@ -2177,7 +2102,7 @@ void do_memory(CHAR_DATA *ch, const char *argument) {
     send_to_char(buf, ch);
     snprintf(buf, sizeof(buf), "Mobs    %5d(%d new format)\n\r", top_mob_index, newmobs);
     send_to_char(buf, ch);
-    snprintf(buf, sizeof(buf), "(in use)%5d\n\r", mobile_count);
+    snprintf(buf, sizeof(buf), "(in use)%5d\n\r", CHAR_DATA::num_active());
     send_to_char(buf, ch);
     snprintf(buf, sizeof(buf), "Objs    %5d(%d new format)\n\r", top_obj_index, newobjs);
     send_to_char(buf, ch);
@@ -2234,11 +2159,8 @@ void do_dump(CHAR_DATA *ch, const char *argument) {
         for (af = fch->affected; af != nullptr; af = af->next)
             aff_count++;
     }
-    for (fch = char_free; fch != nullptr; fch = fch->next)
-        count2++;
 
-    fprintf(fp, "Mobs	%4d (%8ld bytes), %2d free (%ld bytes)\n", count, count * (sizeof(*fch)), count2,
-            count2 * (sizeof(*fch)));
+    fprintf(fp, "Mobs	%4d (%8ld bytes)\n", count, count * (sizeof(*fch)));
 
     /* pcdata */
     fprintf(fp, "Pcdata	%4d (%8ld bytes)\n", num_pcs, num_pcs * (sizeof(*pc)));

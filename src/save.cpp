@@ -425,18 +425,10 @@ void fwrite_obj(CHAR_DATA *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
 bool load_char_obj(Descriptor *d, const char *name) {
     char strsave[MAX_INPUT_LENGTH];
     char buf[MAX_STRING_LENGTH * 2];
-    CHAR_DATA *ch;
     FILE *fp;
     bool found;
 
-    if (char_free == nullptr) {
-        ch = static_cast<CHAR_DATA *>(alloc_perm(sizeof(*ch)));
-    } else {
-        ch = char_free;
-        char_free = char_free->next;
-    }
-    clear_char(ch);
-
+    auto *ch = new CHAR_DATA();
     ch->pcdata = std::make_unique<PC_DATA>();
 
     d->character(ch);

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Constants.hpp"
 #include "Descriptor.hpp"
 #include "ExtraFlags.hpp"
 #include "PC_DATA.hpp"
@@ -39,7 +40,7 @@ struct CHAR_DATA {
     ROOM_INDEX_DATA *was_in_room{};
     std::unique_ptr<PC_DATA> pcdata;
     GEN_DATA *gen_data{};
-    char *name{};
+    char *name;
 
     sh_int version{};
     char *short_descr{};
@@ -52,17 +53,17 @@ struct CHAR_DATA {
     sh_int level{};
     sh_int trust{};
     Seconds played{};
-    int lines{}; /* for the pager */
+    int lines{PAGELEN}; /* for the pager */
     Time logon{};
-    Time last_note{};
+    Time last_note{Time::min()};
     sh_int timer{};
     sh_int wait{};
-    sh_int hit{};
-    sh_int max_hit{};
-    sh_int mana{};
-    sh_int max_mana{};
-    sh_int move{};
-    sh_int max_move{};
+    sh_int hit{29};
+    sh_int max_hit{20};
+    sh_int mana{100};
+    sh_int max_mana{100};
+    sh_int move{100};
+    sh_int max_move{100};
     long gold{};
     long exp{};
     unsigned long act{};
@@ -81,7 +82,7 @@ struct CHAR_DATA {
     sh_int alignment{};
     sh_int hitroll{};
     sh_int damroll{};
-    sh_int armor[4]{};
+    std::array<sh_int, 4> armor{};
     sh_int wimpy{};
     /* stats */
     Stats perm_stat;
@@ -103,6 +104,13 @@ struct CHAR_DATA {
 
     MPROG_ACT_LIST *mpact{}; /* Used by MOBprogram */
     int mpactnum{}; /* Used by MOBprogram */
+
+    CHAR_DATA();
+    ~CHAR_DATA();
+    CHAR_DATA(const CHAR_DATA &) = delete;
+    CHAR_DATA &operator=(const CHAR_DATA &) = delete;
+    CHAR_DATA(CHAR_DATA &&) = delete;
+    CHAR_DATA &operator=(CHAR_DATA &&) = delete;
 
     [[nodiscard]] Seconds total_played() const;
 
@@ -192,7 +200,10 @@ struct CHAR_DATA {
     [[nodiscard]] bool is_evil() const noexcept { return alignment <= -350; }
     [[nodiscard]] bool is_neutral() const noexcept { return !is_good() && !is_evil(); }
 
+    [[nodiscard]] static int num_active() { return num_active_; }
+
 private:
     template <typename Func>
     [[nodiscard]] OBJ_DATA *find_filtered_obj(std::string_view argument, Func filter) const;
+    static int num_active_;
 };
