@@ -147,8 +147,6 @@ void load_socials(FILE *fp) {
  * Snarf a mob section.  new style
  */
 void load_mobiles(FILE *fp) {
-    MOB_INDEX_DATA *pMobIndex;
-
     if (!area_last) {
         bug("Load_mobiles: no #AREA seen yet!");
         exit(1);
@@ -175,7 +173,7 @@ void load_mobiles(FILE *fp) {
         }
         fBootDb = true;
 
-        pMobIndex = static_cast<MOB_INDEX_DATA *>(alloc_perm(sizeof(*pMobIndex)));
+        auto *pMobIndex = new MOB_INDEX_DATA();
         pMobIndex->vnum = vnum;
         pMobIndex->area = area_last;
         newmobs++;
