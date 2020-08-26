@@ -1777,7 +1777,7 @@ void do_where(CHAR_DATA *ch, const char *argument) {
                                 | DescriptorFilter::same_area(*ch) | DescriptorFilter::to_character()) {
             if (victim.is_pc()) {
                 found = true;
-                ch->send_to("|W%{:<28}|w {}\n\r"_format(victim.name, victim.in_room->name));
+                ch->send_to("|W{:<28}|w {}\n\r"_format(victim.name, victim.in_room->name));
             }
         }
         if (!found)
@@ -1792,7 +1792,7 @@ void do_where(CHAR_DATA *ch, const char *argument) {
                 && !IS_AFFECTED(victim, AFF_HIDE) && !IS_AFFECTED(victim, AFF_SNEAK) && can_see(ch, victim)
                 && victim != ch && is_name(arg, victim->name)) {
                 found = true;
-                ch->send_to("|W%{:<28}|w {}\n\r"_format(pers(victim, ch), victim->in_room->name));
+                ch->send_to("|W{:<28}|w {}\n\r"_format(pers(victim, ch), victim->in_room->name));
                 break;
             }
         }
