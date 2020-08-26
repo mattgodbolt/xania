@@ -1077,8 +1077,6 @@ void reset_area(AREA_DATA *pArea) {
  * Create an instance of a mobile.
  */
 CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
-    int i;
-
     if (pMobIndex == nullptr) {
         bug("Create_mobile: nullptr pMobIndex.");
         exit(1);
@@ -1108,7 +1106,7 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
     mob->damage[DICE_NUMBER] = pMobIndex->damage[DICE_NUMBER];
     mob->damage[DICE_TYPE] = pMobIndex->damage[DICE_TYPE];
     mob->dam_type = pMobIndex->dam_type;
-    for (i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
         mob->armor[i] = pMobIndex->ac[i];
     mob->off_flags = pMobIndex->off_flags;
     mob->imm_flags = pMobIndex->imm_flags;
@@ -1174,7 +1172,6 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
 
 /* duplicate a mobile exactly -- except inventory */
 void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone) {
-    int i;
     AFFECT_DATA *paf;
 
     if (parent == nullptr || clone == nullptr || parent->is_pc())
@@ -1226,13 +1223,13 @@ void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone) {
     clone->default_pos = parent->default_pos;
     clone->spec_fun = parent->spec_fun;
 
-    for (i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
         clone->armor[i] = parent->armor[i];
 
     clone->perm_stat = parent->perm_stat;
     clone->mod_stat = parent->mod_stat;
 
-    for (i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++)
         clone->damage[i] = parent->damage[i];
 
     /* now add the affects */
@@ -1337,7 +1334,6 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
 
 /* duplicate an object exactly -- except contents */
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
-    int i;
     AFFECT_DATA *paf;
     /*    EXTRA_DESCR_DATA *ed,*ed_new; */
 
@@ -1358,7 +1354,7 @@ void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
     clone->material = parent->material;
     clone->timer = parent->timer;
 
-    for (i = 0; i < 5; i++)
+    for (int i = 0; i < 5; i++)
         clone->value[i] = parent->value[i];
 
     /* affects */
@@ -1566,20 +1562,30 @@ int fread_spnumber(FILE *fp) {
     return number;
 }
 
+// Note: not all flags are possible here - we return a 'long' (32 bits), but
+// allow to decode up to 52 bits ('z'). This makes no sense.
+long flag_convert(char letter) {
+    if ('A' <= letter && letter <= 'Z') {
+        return 1 << int(letter - 'A');
+    } else if ('a' <= letter && letter <= 'z') {
+        return 1 << (26 + int(letter - 'a'));
+    }
+    bug("illegal char '%c' in flag_convert", letter);
+    return 0;
+}
+
 long fread_flag(FILE *fp) {
-    int number;
     char c;
-    char lastc;
 
     do {
         c = getc(fp);
     } while (isspace(c));
 
-    number = 0;
+    int number = 0;
 
     if (!isdigit(c)) {
         while (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z')) {
-            lastc = c;
+            const char lastc = c;
             number += flag_convert(c);
             do {
                 c = getc(fp);
@@ -1598,25 +1604,7 @@ long fread_flag(FILE *fp) {
         if (c != ' ')
             ungetc(c, fp);
     }
-
     return number;
-}
-
-long flag_convert(char letter) {
-    long bitsum = 0;
-    char i;
-
-    if ('A' <= letter && letter <= 'Z') {
-        bitsum = 1;
-        for (i = letter; i > 'A'; i--)
-            bitsum *= 2;
-    } else if ('a' <= letter && letter <= 'z') {
-        bitsum = 67108864; /* 2^26 */
-        for (i = letter; i > 'a'; i--)
-            bitsum *= 2;
-    }
-
-    return bitsum;
 }
 
 /* Reads a ~-terminated string from a file into a new buffer. */
@@ -1673,10 +1661,9 @@ BUFFER *fread_string_tobuffer(FILE *fp) {
  *   this function takes 40% to 50% of boot-up time.
  */
 char *fread_string(FILE *fp) {
-    char *plast;
     char c;
 
-    plast = top_string + sizeof(char *);
+    char *plast = top_string + sizeof(char *);
     if (plast > &string_space[MAX_STRING - MAX_STRING_LENGTH]) {
         bug("Fread_string: MAX_STRING %d exceeded.", MAX_STRING);
         exit(1);
@@ -1759,17 +1746,7 @@ std::string fread_stdstring(FILE *fp) {
 }
 
 char *fread_string_eol(FILE *fp) {
-    static bool char_special[256 - EOF];
-    char *plast;
-    char c;
-
-    if (char_special[EOF - EOF] != true) {
-        char_special[EOF - EOF] = true;
-        char_special['\n' - EOF] = true;
-        char_special['\r' - EOF] = true;
-    }
-
-    plast = top_string + sizeof(char *);
+    char *plast = top_string + sizeof(char *);
     if (plast > &string_space[MAX_STRING - MAX_STRING_LENGTH]) {
         bug("Fread_string: MAX_STRING %d exceeded.", MAX_STRING);
         exit(1);
@@ -1779,64 +1756,69 @@ char *fread_string_eol(FILE *fp) {
      * Skip blanks.
      * Read first char.
      */
+    // Note: as isspace is used here, which matches \n and \r, there's no
+    // protection against reading off the end of the line and onto the next.
+    // Leaving this behaviour for now, as it's what we have.
     do {
-        c = getc(fp);
-    } while (isspace(c));
-
-    if ((*plast++ = c) == '\n')
-        return &str_empty[0];
+        // This doesn't advance the plast pointer, so when we exit, the first
+        // non-whitespace char will be there.
+        *plast = getc(fp);
+    } while (isspace(*plast));
+    plast++;
 
     for (;;) {
-        if (!char_special[(*plast++ = getc(fp)) - EOF])
-            continue;
-
-        switch (plast[-1]) {
-        default: break;
-
-        case EOF:
+        // Using int here, as getc can return -1 (EOF), which isn't the same as
+        // char 0xff (although if that's in our input, something's gone wrong
+        // anyway).
+        const int ch = getc(fp);
+        if (ch == EOF) {
             bug("Fread_string_eol  EOF");
             exit(1);
-            break;
-
-        case '\n':
-        case '\r': {
-            union {
-                char *pc;
-                char rgc[sizeof(char *)];
-            } u1;
-            int ic;
-            int iHash;
-            char *pHash;
-            char *pHashPrev;
-            char *pString;
-
-            plast[-1] = '\0';
-            iHash = UMIN(MAX_KEY_HASH - 1, plast - 1 - top_string);
-            for (pHash = string_hash[iHash]; pHash; pHash = pHashPrev) {
-                for (ic = 0; ic < (int)sizeof(char *); ic++)
-                    u1.rgc[ic] = pHash[ic];
-                pHashPrev = u1.pc;
-                pHash += sizeof(char *);
-
-                if (top_string[sizeof(char *)] == pHash[0] && !strcmp(top_string + sizeof(char *) + 1, pHash + 1))
-                    return pHash;
-            }
-
-            if (fBootDb) {
-                pString = top_string;
-                top_string = plast;
-                u1.pc = string_hash[iHash];
-                for (ic = 0; ic < (int)sizeof(char *); ic++)
-                    pString[ic] = u1.rgc[ic];
-                string_hash[iHash] = pString;
-
-                nAllocString += 1;
-                sAllocString += top_string - pString;
-                return pString + sizeof(char *);
-            } else {
-                return str_dup(top_string + sizeof(char *));
-            }
         }
+        if (ch != '\n' && ch != '\r') {
+            // Normal char - just copy into the buffer.
+            *plast++ = ch;
+            continue;
+        }
+        // Hit a line terminator. That terminates the string, then we do some
+        // weird processing.
+        *plast++ = '\0';
+
+        union {
+            char *pc;
+            char rgc[sizeof(char *)];
+        } u1;
+        int ic;
+        int iHash;
+        char *pHash;
+        char *pHashPrev;
+        char *pString;
+
+        plast[-1] = '\0';
+        iHash = UMIN(MAX_KEY_HASH - 1, plast - 1 - top_string);
+        for (pHash = string_hash[iHash]; pHash; pHash = pHashPrev) {
+            for (ic = 0; ic < (int)sizeof(char *); ic++)
+                u1.rgc[ic] = pHash[ic];
+            pHashPrev = u1.pc;
+            pHash += sizeof(char *);
+
+            if (top_string[sizeof(char *)] == pHash[0] && !strcmp(top_string + sizeof(char *) + 1, pHash + 1))
+                return pHash;
+        }
+
+        if (fBootDb) {
+            pString = top_string;
+            top_string = plast;
+            u1.pc = string_hash[iHash];
+            for (ic = 0; ic < (int)sizeof(char *); ic++)
+                pString[ic] = u1.rgc[ic];
+            string_hash[iHash] = pString;
+
+            nAllocString += 1;
+            sAllocString += top_string - pString;
+            return pString + sizeof(char *);
+        } else {
+            return str_dup(top_string + sizeof(char *));
         }
     }
 }

@@ -1581,7 +1581,6 @@ std::string fread_stdstring(FILE *fp);
 char *fread_string_eol(FILE *fp);
 void fread_to_eol(FILE *fp);
 char *fread_word(FILE *fp);
-long flag_convert(char letter);
 void *alloc_mem(int sMem);
 void *alloc_perm(int sMem);
 void free_mem(void *pMem, int sMem);
