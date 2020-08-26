@@ -274,7 +274,7 @@ extern void do_wizlock(CHAR_DATA *ch, const char *argument);
 extern void do_wizlist(CHAR_DATA *ch, const char *arg);
 extern void do_wiznet(CHAR_DATA *ch, const char *arg);
 extern void do_worth(CHAR_DATA *ch, const char *arg);
-extern void do_yell(CHAR_DATA *ch, const char *arg);
+extern void do_yell(CHAR_DATA *ch, std::string_view argument);
 extern void do_zap(CHAR_DATA *ch, const char *arg);
 extern void do_zecho(CHAR_DATA *ch, const char *arg);
 extern void do_throw(CHAR_DATA *ch, const char *arg);

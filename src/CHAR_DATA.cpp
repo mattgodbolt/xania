@@ -1,9 +1,12 @@
 #include "CHAR_DATA.hpp"
 
+#include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
+#include "comm.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
 
+#include <chat/chatlink.h>
 #include <fmt/format.h>
 #include <range/v3/algorithm/fill.hpp>
 
@@ -301,3 +304,25 @@ CHAR_DATA::~CHAR_DATA() {
     free_string(long_descr);
     free_string(description);
 }
+
+void CHAR_DATA::yell(std::string_view exclamation) const {
+    ::act("|WYou yell '$t|W'|w", this, exclamation, nullptr, To::Char);
+    for (auto &victim :
+         descriptors().all_but(*this) | DescriptorFilter::same_area(*this) | DescriptorFilter::to_character()) {
+        if (!IS_SET(victim.comm, COMM_QUIET))
+            ::act("|W$n yells '$t|W'|w", this, exclamation, &victim, To::Vict);
+    }
+}
+
+void CHAR_DATA::say(std::string_view message) {
+    ::act("$n|w says '$T|w'", this, nullptr, message, To::Room);
+    ::act("You say '$T|w'", this, nullptr, message, To::Char);
+    chatperformtoroom(message, this);
+    // TODO: one day we will make this take string_views. but for now:
+    auto as_std = std::string(message);
+    /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
+    mprog_speech_trigger(as_std.c_str(), this);
+}
+
+bool CHAR_DATA::is_player_killer() const noexcept { return is_pc() && IS_SET(act, PLR_KILLER); }
+bool CHAR_DATA::is_player_thief() const noexcept { return is_pc() && IS_SET(act, PLR_THIEF); }

@@ -1014,6 +1014,7 @@ char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA *mob, const CHAR_
  */
 void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, const OBJ_DATA *obj, const void *vo,
                      CHAR_DATA *rndm) {
+    // TODO: when `t` is not just a string view, we can more easily use the `Pronouns` stuff.
     static const char *he_she[] = {"it", "he", "she"};
     static const char *him_her[] = {"it", "him", "her"};
     static const char *his_her[] = {"its", "his", "her"};
@@ -1445,11 +1446,8 @@ void mprog_random_trigger(CHAR_DATA *mob) {
         mprog_percent_check(mob, nullptr, nullptr, nullptr, RAND_PROG);
 }
 
-void mprog_speech_trigger(const char *txt, CHAR_DATA *mob) {
-
-    CHAR_DATA *vmob;
-
-    for (vmob = mob->in_room->people; vmob != nullptr; vmob = vmob->next_in_room)
+void mprog_speech_trigger(const char *txt, const CHAR_DATA *mob) {
+    for (auto *vmob = mob->in_room->people; vmob != nullptr; vmob = vmob->next_in_room)
         if (vmob->is_npc() && (vmob->pIndexData->progtypes & SPEECH_PROG))
             mprog_wordlist_check(txt, vmob, mob, nullptr, nullptr, SPEECH_PROG);
 }

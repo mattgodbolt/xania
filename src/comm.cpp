@@ -15,6 +15,7 @@
 #include "comm.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
+#include "Pronouns.hpp"
 #include "TimeInfoData.hpp"
 #include "challeng.h"
 #include "common/Fd.hpp"
@@ -1160,29 +1161,17 @@ void act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg
 
 namespace {
 
-std::string_view pronouns(std::string_view format, const CHAR_DATA *ch, const std::array<std::string_view, 3> &text) {
+auto &pronouns(std::string_view format, const CHAR_DATA *ch) {
     if (!ch) {
         bug("%s", "Act: null ch in pronouns with format '{}'"_format(format).c_str());
-        return text[0];
+        return pronouns_for(0);
     }
-    switch (ch->sex) {
-    case 0: return text[0];
-    case 1: return text[1];
-    case 2: return text[2];
-    }
-    bug("%s", "Act: bad sex {} in pronouns with format '{}'"_format(ch->sex, format).c_str());
-    return text[0];
+    return pronouns_for(*ch);
 }
 
-std::string_view he_she(std::string_view format, const CHAR_DATA *ch) {
-    return pronouns(format, ch, {"it"sv, "he"sv, "she"sv});
-}
-std::string_view him_her(std::string_view format, const CHAR_DATA *ch) {
-    return pronouns(format, ch, {"it"sv, "him"sv, "her"sv});
-}
-std::string_view his_her(std::string_view format, const CHAR_DATA *ch) {
-    return pronouns(format, ch, {"its"sv, "his"sv, "her"sv});
-}
+std::string_view he_she(std::string_view format, const CHAR_DATA *ch) { return pronouns(format, ch).objective; }
+std::string_view him_her(std::string_view format, const CHAR_DATA *ch) { return pronouns(format, ch).subjective; }
+std::string_view his_her(std::string_view format, const CHAR_DATA *ch) { return pronouns(format, ch).possessive; }
 
 std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, const CHAR_DATA *to,
                        const CHAR_DATA *vch) {

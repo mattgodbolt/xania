@@ -14,6 +14,7 @@
 #include "comm.hpp"
 #include "interp.h"
 #include "merc.h"
+#include "string_utils.hpp"
 
 #include <fmt/format.h>
 
@@ -815,26 +816,15 @@ void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
     CHAR_DATA *vch_next;
     CHAR_DATA *victim;
     int count;
-    char buf[MAX_STRING_LENGTH];
-    bool shout = false;
 
     if (IS_SET(ch->act, ACT_SENTIENT) && ch->fighting == nullptr && !IS_AFFECTED(ch, AFF_CALM) && IS_AWAKE(ch)
         && !IS_AFFECTED(ch, AFF_CHARM) && can_see(ch, wch)) {
-        if (ch->hit == ch->max_hit && ch->mana == ch->max_mana) {
-            free_string(ch->sentient_victim);
-            ch->sentient_victim = str_dup("");
-        }
-        if ((ch->sentient_victim != nullptr) && (!str_cmp(wch->name, ch->sentient_victim))) {
+        if (ch->hit == ch->max_hit && ch->mana == ch->max_mana)
+            ch->sentient_victim.clear();
+        if (matches(wch->name, ch->sentient_victim)) {
             if (is_safe_sentient(ch, wch))
                 return;
-            snprintf(buf, sizeof(buf), "|WAha! I never forget a face, prepare to die %s!!!|w", wch->name);
-            if (IS_SET(ch->comm, COMM_NOSHOUT)) {
-                shout = true;
-                REMOVE_BIT(ch->comm, COMM_NOSHOUT);
-            }
-            do_yell(ch, buf);
-            if (shout)
-                SET_BIT(ch->comm, COMM_NOSHOUT);
+            ch->yell("|WAha! I never forget a face, prepare to die {}!!!|w"_format(wch->name));
             multi_hit(ch, wch, TYPE_UNDEFINED);
         }
     }
@@ -875,23 +865,11 @@ void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
  */
 
 bool is_safe_sentient(CHAR_DATA *ch, CHAR_DATA *wch) {
-
-    char buf[MAX_STRING_LENGTH];
-    bool shout = false;
-
     if (ch->in_room == nullptr)
         return false;
     if (IS_SET(ch->in_room->room_flags, ROOM_SAFE)) {
-        snprintf(buf, sizeof(buf), "|WIf it weren't for the law, you'd be dead meat %s!!!|w", wch->name);
-        if (IS_SET(ch->comm, COMM_NOSHOUT)) {
-            shout = true;
-            REMOVE_BIT(ch->comm, COMM_NOSHOUT);
-        }
-        do_yell(ch, buf);
-        if (shout)
-            SET_BIT(ch->comm, COMM_NOSHOUT);
-        free_string(ch->sentient_victim);
-        ch->sentient_victim = str_dup("");
+        ch->yell("|WIf it weren't for the law, you'd be dead meat {}!!!|w"_format(wch->name));
+        ch->sentient_victim.clear();
         return true;
     }
     return false;

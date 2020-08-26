@@ -73,7 +73,8 @@ add_library(xania_lib STATIC
         ArgParser.cpp ArgParser.hpp
         Direction.cpp
         Format.hpp
-        fight.hpp)
+        fight.hpp
+        Pronouns.hpp)
 target_link_libraries(xania_lib xania_common crypt chat CONAN_PKG::fmt CONAN_PKG::range-v3)
 
 add_executable(xania main.cpp)

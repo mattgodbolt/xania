@@ -38,7 +38,7 @@ void do_gain(CHAR_DATA *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        do_say(trainer, "Pardon me?");
+        trainer->say("Pardon me?");
         return;
     }
 

@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Pronouns.hpp"
 #include "TimeInfoData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
@@ -1686,7 +1687,6 @@ void do_zap(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_steal(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
@@ -1730,16 +1730,14 @@ void do_steal(CHAR_DATA *ch, const char *argument) {
         send_to_char("Oops.\n\r", ch);
         act("|W$n tried to steal from you.|w\n\r", ch, nullptr, victim, To::Vict);
         act("|W$n tried to steal from $N.|w\n\r", ch, nullptr, victim, To::NotVict);
+        std::string buf;
         switch (number_range(0, 3)) {
-        case 0: snprintf(buf, sizeof(buf), "%s is a lousy thief!", ch->name); break;
-        case 1:
-            snprintf(buf, sizeof(buf), "%s couldn't rob %s way out of a paper bag!", ch->name,
-                     (ch->sex == 2) ? "her" : "his");
-            break;
-        case 2: snprintf(buf, sizeof(buf), "%s tried to rob me!", ch->name); break;
-        case 3: snprintf(buf, sizeof(buf), "Keep your hands out of there, %s!", ch->name); break;
+        case 0: buf = "{} is a lousy thief!"_format(ch->name); break;
+        case 1: buf = "{} couldn't rob {} way out of a paper bag!"_format(ch->name, possessive(*ch)); break;
+        case 2: buf = "{} tried to rob me!"_format(ch->name); break;
+        case 3: buf = "Keep your hands out of there, {}!"_format(ch->name); break;
         }
-        do_yell(victim, buf);
+        victim->yell(buf);
         if (ch->is_pc()) {
             if (victim->is_npc()) {
                 check_improve(ch, gsn_steal, false, 2);
@@ -1762,14 +1760,13 @@ void do_steal(CHAR_DATA *ch, const char *argument) {
 
         amount = (int)(victim->gold * number_range(1, 10) / 100);
         if (amount <= 0) {
-            send_to_char("You couldn't get any gold.\n\r", ch);
+            ch->send_to("You couldn't get any gold.\n\r");
             return;
         }
 
         ch->gold += amount;
         victim->gold -= amount;
-        snprintf(buf, sizeof(buf), "Bingo!  You got %d gold coins.\n\r", amount);
-        send_to_char(buf, ch);
+        ch->send_to("Bingo!  You got {} gold coins.\n\r"_format(amount));
         check_improve(ch, gsn_steal, true, 2);
         return;
     }
@@ -1802,57 +1799,52 @@ void do_steal(CHAR_DATA *ch, const char *argument) {
 /*
  * Shopping commands.
  */
+
+namespace {
+CHAR_DATA *shopkeeper_in(const ROOM_INDEX_DATA &room) {
+    for (auto *maybe_keeper = room.people; maybe_keeper; maybe_keeper = maybe_keeper->next_in_room) {
+        if (maybe_keeper->is_npc() && maybe_keeper->pIndexData->pShop)
+            return maybe_keeper;
+    }
+    return nullptr;
+}
+}
+
 CHAR_DATA *find_keeper(CHAR_DATA *ch) {
-    char buf[MAX_STRING_LENGTH];
-    CHAR_DATA *keeper;
-    SHOP_DATA *pShop;
-
-    pShop = nullptr;
-    for (keeper = ch->in_room->people; keeper; keeper = keeper->next_in_room) {
-        if (keeper->is_npc() && (pShop = keeper->pIndexData->pShop) != nullptr)
-            break;
-    }
-
-    if (pShop == nullptr) {
-        send_to_char("You can't do that here.\n\r", ch);
+    auto *keeper = shopkeeper_in(*ch->in_room);
+    if (!keeper) {
+        ch->send_to("You can't do that here.\n\r");
         return nullptr;
     }
 
-    /*
-     * Undesirables.
-     */
-    if (ch->is_pc() && IS_SET(ch->act, PLR_KILLER)) {
-        do_say(keeper, "Killers are not welcome!");
-        snprintf(buf, sizeof(buf), "%s the KILLER is over here!\n\r", ch->name);
-        do_yell(keeper, buf);
+    // Undesirables.
+    if (ch->is_player_killer()) {
+        keeper->say("Killers are not welcome!");
+        keeper->yell("{} the KILLER is over here!\n\r"_format(ch->name));
         return nullptr;
     }
 
-    if (ch->is_pc() && IS_SET(ch->act, PLR_THIEF)) {
-        do_say(keeper, "Thieves are not welcome!");
-        snprintf(buf, sizeof(buf), "%s the THIEF is over here!\n\r", ch->name);
-        do_yell(keeper, buf);
+    if (ch->is_player_thief()) {
+        keeper->say("Thieves are not welcome!");
+        keeper->yell("{} the THIEF is over here!\n\r"_format(ch->name));
         return nullptr;
     }
 
-    /*
-     * Shop hours.
-     */
+    // Shop hours.
+    const auto *pShop = keeper->pIndexData->pShop;
     if (time_info.hour() < pShop->open_hour) {
-        do_say(keeper, "Sorry, I am closed. Come back later.");
+        keeper->say("Sorry, I am closed. Come back later.");
         return nullptr;
     }
 
     if (time_info.hour() > pShop->close_hour) {
-        do_say(keeper, "Sorry, I am closed. Come back tomorrow.");
+        keeper->say("Sorry, I am closed. Come back tomorrow.");
         return nullptr;
     }
 
-    /*
-     * Invisible or hidden people.
-     */
-    if (!can_see(keeper, ch)) {
-        do_say(keeper, "I don't trade with folks I can't see.");
+    // Invisible or hidden people.
+    if (!keeper->can_see(*ch)) {
+        keeper->say("I don't trade with folks I can't see.");
         return nullptr;
     }
 
@@ -1905,7 +1897,6 @@ void do_buy(CHAR_DATA *ch, const char *argument) {
 
     if (IS_SET(ch->in_room->room_flags, ROOM_PET_SHOP)) {
         char arg[MAX_INPUT_LENGTH];
-        char buf[MAX_STRING_LENGTH];
         CHAR_DATA *pet;
         ROOM_INDEX_DATA *pRoomIndexNext;
         ROOM_INDEX_DATA *in_room;

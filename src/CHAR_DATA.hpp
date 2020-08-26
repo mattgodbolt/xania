@@ -46,7 +46,7 @@ struct CHAR_DATA {
     char *short_descr{};
     char *long_descr{};
     char *description{};
-    char *sentient_victim{};
+    std::string sentient_victim;
     sh_int sex{};
     sh_int class_num{};
     sh_int race{};
@@ -199,6 +199,15 @@ struct CHAR_DATA {
     [[nodiscard]] bool is_good() const noexcept { return alignment >= 350; }
     [[nodiscard]] bool is_evil() const noexcept { return alignment <= -350; }
     [[nodiscard]] bool is_neutral() const noexcept { return !is_good() && !is_evil(); }
+
+    // Crime.
+    [[nodiscard]] bool is_player_killer() const noexcept;
+    [[nodiscard]] bool is_player_thief() const noexcept;
+
+    // Yell something. It's assumed all checks (e.g. message is not empty, victim has rights to yell) have been made
+    void yell(std::string_view exclamation) const;
+    // Say something.
+    void say(std::string_view message);
 
     [[nodiscard]] static int num_active() { return num_active_; }
 

@@ -14,6 +14,7 @@
 #include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
+#include "string_utils.hpp"
 
 #include <fmt/format.h>
 
@@ -204,8 +205,7 @@ void multi_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
 
     /* if mob has sentient bit set, set victim name in memory */
     if (IS_SET(victim->act, ACT_SENTIENT) && ch->is_pc()) {
-        free_string(victim->sentient_victim);
-        victim->sentient_victim = str_dup(ch->name);
+        victim->sentient_victim = ch->name;
     };
 
     /* decrement the wait */
@@ -623,8 +623,6 @@ void loot_and_sacrifice_corpse(CHAR_DATA *looter, CHAR_DATA *victim, sh_int vict
  */
 bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
     int temp;
-    CHAR_DATA *mob;
-    CHAR_DATA *mob_next;
     OBJ_DATA *wield;
     AFFECT_DATA *octarineFire;
     bool immune;
@@ -867,17 +865,9 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
         victim_room_vnum = victim->in_room->vnum;
         raw_kill(victim);
 
-        for (mob = char_list; mob != nullptr; mob = mob_next) {
-            mob_next = mob->next;
-            if (mob->is_npc()) {
-                if (IS_SET(mob->act, ACT_SENTIENT)) {
-                    if ((mob->sentient_victim != nullptr) && !str_cmp(victim->name, mob->sentient_victim)) {
-                        free_string(mob->sentient_victim);
-                        mob->sentient_victim = str_dup("");
-                    }
-                }
-            }
-        }
+        for (auto *mob = char_list; mob; mob = mob->next)
+            if (mob->is_npc() && IS_SET(mob->act, ACT_SENTIENT) && matches(mob->sentient_victim, victim->name))
+                mob->sentient_victim.clear();
         /**
          * If the final blow was a pet or charmed mob, its greedy master gets to autoloot.
          */
@@ -2520,7 +2510,6 @@ void do_murde(CHAR_DATA *ch, const char *argument) {
 }
 
 void do_murder(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
 
@@ -2563,11 +2552,7 @@ void do_murder(CHAR_DATA *ch, const char *argument) {
     }
 
     WAIT_STATE(ch, 1 * PULSE_VIOLENCE);
-    if (ch->is_npc())
-        snprintf(buf, sizeof(buf), "Help! I am being attacked by %s!", ch->short_descr);
-    else
-        snprintf(buf, sizeof(buf), "Help!  I am being attacked by %s!", ch->name);
-    do_yell(victim, buf);
+    victim->yell("Help! I am being attacked by {}!"_format(ch->short_name()));
     check_killer(ch, victim);
     multi_hit(ch, victim, TYPE_UNDEFINED);
 }

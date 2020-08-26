@@ -822,10 +822,8 @@ void spell_calm(int sn, int level, CHAR_DATA *ch, void *vo) {
             if (vch->fighting || vch->position == POS_FIGHTING)
                 stop_fighting(vch, false);
 
-            if (vch->is_npc() && vch->sentient_victim) {
-                free_string(vch->sentient_victim);
-                vch->sentient_victim = nullptr;
-            }
+            if (vch->is_npc())
+                vch->sentient_victim.clear();
 
             AFFECT_DATA af;
             af.type = sn;

@@ -1358,9 +1358,8 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
     bug_snprintf(buf, sizeof(buf), "Fighting: %s\n\r", victim->fighting ? victim->fighting->name : "(none)");
     send_to_char(buf, ch);
 
-    bug_snprintf(buf, sizeof(buf), "Sentient 'victim': %s\n\r",
-                 victim->sentient_victim != nullptr ? victim->sentient_victim : "(none)");
-    send_to_char(buf, ch);
+    ch->send_to(
+        "Sentient 'victim': {}\n\r"_format(victim->sentient_victim.empty() ? "(none)" : victim->sentient_victim));
 
     if (victim->is_pc()) {
         bug_snprintf(buf, sizeof(buf), "Thirst: %d  Full: %d  Drunk: %d\n\r", victim->pcdata->condition[COND_THIRST],
@@ -2405,20 +2404,16 @@ void do_notell(CHAR_DATA *ch, const char *argument) {
 
 void do_peace(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    CHAR_DATA *rch;
-
-    for (rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
-        if (rch->fighting != nullptr)
+    for (auto *rch = ch->in_room->people; rch; rch = rch->next_in_room) {
+        if (rch->fighting)
             stop_fighting(rch, true);
         if (rch->is_npc() && IS_SET(rch->act, ACT_AGGRESSIVE))
             REMOVE_BIT(rch->act, ACT_AGGRESSIVE);
-        if (rch->is_npc() && (rch->sentient_victim)) {
-            free_string(rch->sentient_victim);
-            rch->sentient_victim = nullptr;
-        }
+        if (rch->is_npc())
+            rch->sentient_victim.clear();
     }
 
-    send_to_char("Ok.\n\r", ch);
+    ch->send_to("Ok.\n\r");
 }
 
 void do_awaken(CHAR_DATA *ch, const char *argument) {

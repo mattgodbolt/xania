@@ -109,11 +109,7 @@ void do_say(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    act("$n|w says '$T|w'", ch, nullptr, argument, To::Room);
-    act("You say '$T|w'", ch, nullptr, argument, To::Char);
-    chatperformtoroom(argument, ch);
-    /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-    mprog_speech_trigger(argument, ch);
+    ch->say(argument);
 }
 
 void do_afk(CHAR_DATA *ch, const char *argument) {
@@ -211,13 +207,13 @@ void do_tell(CHAR_DATA *ch, const char *argument) {
 
 void do_reply(CHAR_DATA *ch, const char *argument) { tell_to(ch, ch->reply, argument); }
 
-void do_yell(CHAR_DATA *ch, const char *argument) {
+void do_yell(CHAR_DATA *ch, std::string_view argument) {
     if (IS_SET(ch->comm, COMM_NOSHOUT)) {
         send_to_char("|cYou can't yell.|w\n\r", ch);
         return;
     }
 
-    if (argument[0] == '\0') {
+    if (argument.empty()) {
         send_to_char("|cYell what?|w\n\r", ch);
         return;
     }
@@ -225,13 +221,7 @@ void do_yell(CHAR_DATA *ch, const char *argument) {
     if (IS_SET(ch->act, PLR_AFK))
         do_afk(ch, nullptr);
 
-    act("|WYou yell '$t|W'|w", ch, argument, nullptr, To::Char);
-    for (auto &victim :
-         descriptors().all_but(*ch) | DescriptorFilter::same_area(*ch) | DescriptorFilter::to_character()) {
-        if (!IS_SET(victim.comm, COMM_QUIET)) {
-            act("|W$n yells '$t|W'|w", ch, argument, &victim, To::Vict);
-        }
-    }
+    ch->yell(argument);
 }
 
 void do_emote(CHAR_DATA *ch, const char *argument) {
@@ -929,18 +919,18 @@ bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch) {
  * to_npc: the NPC that received the chat/social message.
  * from_player: the player that sent it.
  */
-void chatperform(CHAR_DATA *to_npc, CHAR_DATA *from_player, const char *msg) {
+void chatperform(CHAR_DATA *to_npc, CHAR_DATA *from_player, std::string_view msg) {
     if (to_npc->is_pc() || (from_player != nullptr && from_player->is_npc()))
         return; /* failsafe */
     std::string reply = dochat(from_player ? from_player->name : "you", msg, to_npc->name);
     switch (reply[0]) {
     case '\0': break;
-    case '"': /* say message */ do_say(to_npc, reply.substr(1).c_str()); break;
+    case '"': /* say message */ to_npc->say(reply.substr(1)); break;
     case ':': /* do emote */ do_emote(to_npc, reply.substr(1).c_str()); break;
     case '!': /* do command */ interpret(to_npc, reply.substr(1).c_str()); break;
     default: /* say or tell */
         if (from_player == nullptr) {
-            do_say(to_npc, reply.c_str());
+            to_npc->say(reply.c_str());
         } else {
             act("$N tells you '$t'.", from_player, reply, to_npc, To::Char);
             from_player->reply = to_npc;
@@ -948,12 +938,11 @@ void chatperform(CHAR_DATA *to_npc, CHAR_DATA *from_player, const char *msg) {
     }
 }
 
-void chatperformtoroom(const char *text, CHAR_DATA *ch) {
-    CHAR_DATA *vch;
+void chatperformtoroom(std::string_view text, CHAR_DATA *ch) {
     if (ch->is_npc())
         return;
 
-    for (vch = ch->in_room->people; vch; vch = vch->next_in_room)
+    for (auto *vch = ch->in_room->people; vch; vch = vch->next_in_room)
         if (vch->is_npc() && IS_SET(vch->pIndexData->act, ACT_TALKATIVE) && IS_AWAKE(vch)) {
             if (number_percent() > 66) /* less spammy - Fara */
                 chatperform(vch, ch, text);

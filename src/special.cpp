@@ -14,11 +14,15 @@
 #include "merc.h"
 #include "phil.h"
 
+#include <fmt/format.h>
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <sys/types.h>
+
+using namespace fmt::literals;
 
 /* The following special functions are available for mobiles. */
 /* Note that MOB special functions are called every 4 seconds. */
@@ -374,12 +378,8 @@ bool spec_cast_cleric(CHAR_DATA *ch) {
 }
 
 bool spec_greasy_joe(CHAR_DATA *ch) {
-    char buf[MAX_STRING_LENGTH];
-
-    if (number_percent() > 99) {
-        snprintf(buf, sizeof(buf), "...with onions?...");
-        do_say(ch, buf);
-    }
+    if (number_percent() > 99)
+        ch->say("...with onions?...");
     return true;
 }
 
@@ -650,18 +650,12 @@ bool spec_cast_bastard(CHAR_DATA *ch) {
 }
 
 bool spec_executioner(CHAR_DATA *ch) {
-    char buf[MAX_STRING_LENGTH];
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
-    const char *crime;
-
     if (!IS_AWAKE(ch) || ch->fighting != nullptr)
         return false;
 
-    crime = "";
-    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
-        v_next = victim->next_in_room;
-
+    auto *crime = "";
+    CHAR_DATA *victim;
+    for (victim = ch->in_room->people; victim; victim = victim->next) {
         if (victim->is_pc() && IS_SET(victim->act, PLR_KILLER)) {
             crime = "KILLER";
             break;
@@ -673,11 +667,10 @@ bool spec_executioner(CHAR_DATA *ch) {
         }
     }
 
-    if (victim == nullptr)
+    if (!victim)
         return false;
 
-    snprintf(buf, sizeof(buf), "%s is a %s!  PROTECT THE INNOCENT!  MORE BLOOOOD!!!", victim->name, crime);
-    do_yell(ch, buf);
+    ch->yell("{} is a {}!  PROTECT THE INNOCENT!  MORE BLOOOOD!!!"_format(victim->name, crime));
     multi_hit(ch, victim, TYPE_UNDEFINED);
     char_to_room(create_mobile(get_mob_index(MOB_VNUM_CITYGUARD)), ch->in_room);
     char_to_room(create_mobile(get_mob_index(MOB_VNUM_CITYGUARD)), ch->in_room);
@@ -698,7 +691,6 @@ bool spec_executioner(CHAR_DATA *ch) {
                 written by Seth of Rivers of Mud         */
 
 bool spec_puff(CHAR_DATA *ch) {
-    char buf[MAX_STRING_LENGTH];
     int rnd_social, sn, silliness;
     bool pc_found = true;
     CHAR_DATA *v_next;
@@ -763,14 +755,11 @@ bool spec_puff(CHAR_DATA *ch) {
     if (silliness <= 20)
         return true;
     else if (silliness <= 30) {
-        snprintf(buf, sizeof(buf), "Tongue-tied and twisted, just an earthbound misfit, ...");
-        do_say(ch, buf);
+        ch->say("Tongue-tied and twisted, just an earthbound misfit, ...");
     } else if (silliness <= 40) {
-        snprintf(buf, sizeof(buf), "The colors, the colors!");
-        do_say(ch, buf);
+        ch->say("The colors, the colors!");
     } else if (silliness <= 55) {
-        snprintf(buf, sizeof(buf), "Did you know that I'm written in C?");
-        do_say(ch, buf);
+        ch->say("Did you know that I'm written in C++?");
     } else if (silliness <= 75) {
         act(social_table[rnd_social].others_no_arg, ch);
         act(social_table[rnd_social].char_no_arg, ch, nullptr, nullptr, To::Char);
@@ -859,7 +848,6 @@ bool spec_fido(CHAR_DATA *ch) {
 }
 
 bool spec_guard(CHAR_DATA *ch) {
-    char buf[MAX_STRING_LENGTH];
     CHAR_DATA *victim;
     CHAR_DATA *v_next;
     CHAR_DATA *ech;
@@ -893,8 +881,7 @@ bool spec_guard(CHAR_DATA *ch) {
     }
 
     if (victim != nullptr) {
-        snprintf(buf, sizeof(buf), "%s is a %s!  PROTECT THE INNOCENT!!  BANZAI!!", victim->name, crime);
-        do_yell(ch, buf);
+        ch->yell("{} is a {}!  PROTECT THE INNOCENT!  BANZAI!!"_format(victim->name, crime));
         multi_hit(ch, victim, TYPE_UNDEFINED);
         return true;
     }
