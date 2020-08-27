@@ -21,6 +21,7 @@
 #include "common/Fd.hpp"
 #include "common/doorman_protocol.h"
 #include "fight.hpp"
+#include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
 #include "note.h"
@@ -404,6 +405,9 @@ void game_loop_unix(Fd control) {
             // Reap any sockets that got closed as a result of output handling.
             descriptors().reap_closed();
         }
+
+        // Now we know all game code has run, reap any dead characters.
+        reap_old_chars();
 
         // Synchronize to a clock.
         using namespace std::chrono;

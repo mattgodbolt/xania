@@ -1158,10 +1158,13 @@ void extract_obj(OBJ_DATA *obj) {
 
 /* extern void thrown_off(CHAR_DATA *ch, CHAR_DATA *pet); */
 
+std::vector<std::unique_ptr<CHAR_DATA>> chars_to_reap;
+void reap_old_chars() { chars_to_reap.clear(); }
+
 /*
  * Extract a char from the world.
  */
-void extract_char(CHAR_DATA *ch, bool fPull) {
+void extract_char(CHAR_DATA *ch, bool delete_from_world) {
     CHAR_DATA *wch;
     OBJ_DATA *obj;
     OBJ_DATA *obj_next;
@@ -1178,8 +1181,7 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
         thrown_off(ch->ridden_by, ch);
     }
 
-    if (fPull)
-
+    if (delete_from_world)
         die_follower(ch);
 
     stop_fighting(ch, true);
@@ -1191,7 +1193,7 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
 
     char_from_room(ch);
 
-    if (!fPull) {
+    if (!delete_from_world) {
         char_to_room(ch, get_room_index(ROOM_VNUM_ALTAR));
         return;
     }
@@ -1228,7 +1230,7 @@ void extract_char(CHAR_DATA *ch, bool fPull) {
 
     if (ch->desc)
         ch->desc->character(nullptr);
-    delete ch;
+    chars_to_reap.emplace_back(ch);
 }
 
 // Find a char in the room.

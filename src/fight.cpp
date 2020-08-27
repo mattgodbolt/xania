@@ -1418,8 +1418,6 @@ void death_cry(CHAR_DATA *ch) {
 }
 
 void raw_kill(CHAR_DATA *victim) {
-    int i;
-
     stop_fighting(victim, true);
     /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
     mprog_death_trigger(victim);
@@ -1440,10 +1438,8 @@ void raw_kill(CHAR_DATA *victim) {
     while (victim->affected)
         affect_remove(victim, victim->affected);
     victim->affected_by = race_table[victim->race].aff;
-    if (!in_duel(victim)) {
-        for (i = 0; i < 4; i++)
-            victim->armor[i] = 100;
-    }
+    if (!in_duel(victim))
+        victim->armor.fill(100);
     victim->position = POS_RESTING;
     victim->hit = UMAX(1, victim->hit);
     victim->mana = UMAX(1, victim->mana);
