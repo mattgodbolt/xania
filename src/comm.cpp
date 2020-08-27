@@ -960,7 +960,7 @@ void nanny(Descriptor *d, const char *argument) {
             Packet p;
             p.type = PACKET_AUTHORIZED;
             p.channel = d->channel();
-            p.nExtra = strlen(ch->name) + 1;
+            p.nExtra = strlen(ch->name);
             send_to_doorman(&p, ch->name);
         }
 
