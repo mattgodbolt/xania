@@ -11,6 +11,7 @@
 #include "merc.h"
 #include "string_utils.hpp"
 #include <fmt/format.h>
+#include <map>
 #include <string_view>
 #include <vector>
 
@@ -18,6 +19,65 @@ using namespace fmt::literals;
 using namespace std::literals;
 
 namespace {
+
+struct CombatEmote {
+    std::string_view to_vict;
+    std::string_view to_not_vict;
+};
+
+/**
+ * Maps the threshold minimum % of hitpoints that he has to get to in order to start
+ * performing the emotes. A random emote will be chosen. He will stop doing the
+ * emote once he gets less than 10% below that threshhold.
+ */
+inline static const std::multimap<int, CombatEmote> combat_emotes{
+    {2, {"$n says 'It seems you have bested me, traveller.'"sv, "$n says 'It seems you have bested me, traveller.'"sv}},
+    {2, {"$n glances around, looking for an escape route!"sv, "$n glances around, looking for an escape route!"sv}},
+    {10,
+     {"$n spins his shield furiously, deflecting your attacks."sv,
+      "$n spins $s shield furiously, deflecting $N's attacks."sv}},
+    {10,
+     {"$n says 'Perhaps we can settle this some other way?'"sv,
+      "$n says 'Perhaps we can settle this some other way?'"sv}},
+    {20, {"$n says 'It seems I have underestimated you.'"sv, "$n says 'It seems I have underestimated you.'"sv}},
+    {20, {"$n says 'Is that all you've got, outsider?'"sv, "$n says 'Is that all you've got, outsider?"sv}},
+    {20,
+     {"$n slams into you with a brutal shoulder charge!"sv, "$n knocks $N sideways with a brutal shoulder charge!"sv}},
+    {30, {"$n sneers at you in contempt."sv, "$n sneers at $N in contempt."sv}},
+    {30, {"$n says 'Is that all you've got, impostor?'"sv, "$n says 'Is that all you've got, impostor?"sv}},
+    {30,
+     {"$n slaps you disdainfully with the back of $s hand."sv, "$n slaps $N disdainfully with the back of $s hand."sv}},
+    {40,
+     {
+         "$n retreats behind $s shield."sv,
+         "$n retreats behind $s shield."sv,
+     }},
+    {40, {"$n inches backward nervously."sv, "$n inches backward nervously."sv}},
+    {40, {"$n thrusts $n golden claw at your jugular vein!"sv, "$n thrusts $s golden claw at $N's neck!"sv}},
+    {50,
+     {
+         "$n lashes out with a vicious jab."sv,
+         "$n lashes out with a vicious jab."sv,
+     }},
+    {50, {"$n attempts to wrestle you to the ground!"sv, "$n tries to wrestle $N to the ground!"sv}},
+    {50, {"$n drops to the ground and attempts a leg sweep!"sv, "$n drops to the ground and attempts a leg sweep!"sv}},
+    {60, {"$n's movements seem to quicken."sv, "$n's movements seem to quicken."sv}},
+    {60,
+     {"$n grabs a fistful of dirt at tosses it in your eyes!"sv, "$n grabs a fistful of dirt and tosses it at $N!"sv}},
+    {60, {"$n backflips casually out of your reach.", "$n backflips casually out of $N's reach."}},
+    {70, {"$n launches into a spinning heel kick!"sv, "$n lashes out at $N with the ball of his foot!"sv}},
+    {70,
+     {"$n lunges, thrusting the point of his shield at your head!"sv,
+      "$n thrusts the point of his shield at $N's face!"sv}},
+    {70,
+     {"$n begins to twist like an Iscarian sword-dancer."sv, "$n begins to twist like an Iscarian sword-dancer."sv}},
+    {80, {"$n dazzles you with a spinning lotus attack!"sv, "$N is dazzled by $n's spinning lotus attack!"sv}},
+    {80, {"$n cartwheels away from your advances."sv, "$n's cartwheels away from $N's advances."sv}},
+    {80,
+     {"$n grabs hold of your head and claws at your eyes!"sv,
+      "$n grabs hold of $N's head and tries to gouge their eyes!"sv}},
+    {90, {"$n deflects your attacks effortlessly."sv, "$n deflects $N's blows with ease."sv}},
+    {95, {"$n pounds you with a flurry of blows!"sv, "$n executes a flurry of attacks on $N!"sv}}};
 
 struct PersonalEmote {
     std::string_view good_msg;
@@ -41,7 +101,6 @@ inline static const std::array general_emotes{
     "$n says 'Did you know there are over sixty different species of eagle?!'"sv};
 
 bool concordius_stands_guard(CHAR_DATA *ch) {
-
     uint random = number_range(0, 100);
     if (random > 90) {
         act(general_emotes[random % general_emotes.size()], ch, nullptr, nullptr, To::Room);
@@ -64,8 +123,26 @@ bool concordius_stands_guard(CHAR_DATA *ch) {
     return found_someone;
 }
 
+/**
+ * Choose a random combat emote based on the proportion of damage he has taken.
+ * The emotes at lower health get increasingly desperate...
+ */
+void combat_emote(CHAR_DATA *ch) {
+    auto percent_hit_lower = (ch->hit * 100) / ch->max_hit;
+    auto it = combat_emotes.lower_bound(percent_hit_lower);
+    auto end = combat_emotes.upper_bound(percent_hit_lower + 10);
+    for (; it != end; ++it) {
+        if (number_range(0, 8) == 0) {
+            auto &emote = it->second;
+            act(emote.to_vict, ch, nullptr, ch->fighting, To::Vict);
+            act(emote.to_not_vict, ch, nullptr, ch->fighting, To::NotVict);
+            break;
+        }
+    }
+}
+
 bool concordius_fights(CHAR_DATA *ch) {
-    (void)ch; // TODO
+    combat_emote(ch);
     return true;
 }
 
@@ -76,7 +153,6 @@ bool concordius_fights(CHAR_DATA *ch) {
  * Note that this function will be called once every 4 seconds.
  */
 bool spec_concordius(CHAR_DATA *ch) {
-
     if (ch->position < POS_FIGHTING)
         return false;
     if (ch->position == POS_FIGHTING) {
