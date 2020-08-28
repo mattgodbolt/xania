@@ -1248,11 +1248,8 @@ std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg
 
         case 'd':
             if (auto arg2_as_string_ptr = std::get_if<std::string_view>(&arg2);
-                arg2_as_string_ptr != nullptr && (*arg2_as_string_ptr)[0] != '\0') {
-                std::string arg2_as_string(*arg2_as_string_ptr); // TODO: once one_argument is not so sucky, change this
-                char fname[MAX_INPUT_LENGTH];
-                one_argument(arg2_as_string.c_str(), fname);
-                buf += fname;
+                arg2_as_string_ptr != nullptr && !arg2_as_string_ptr->empty()) {
+                buf += ArgParser(*arg2_as_string_ptr).shift();
             } else {
                 buf += "door";
             }
