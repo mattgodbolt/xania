@@ -322,3 +322,5 @@ void CHAR_DATA::say(std::string_view message) {
 
 bool CHAR_DATA::is_player_killer() const noexcept { return is_pc() && IS_SET(act, PLR_KILLER); }
 bool CHAR_DATA::is_player_thief() const noexcept { return is_pc() && IS_SET(act, PLR_THIEF); }
+bool CHAR_DATA::has_detect_magic() const { return IS_SET(affected_by, AFF_DETECT_MAGIC); }
+bool CHAR_DATA::has_detect_evil() const { return IS_SET(affected_by, AFF_DETECT_EVIL); }

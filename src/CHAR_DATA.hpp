@@ -132,6 +132,8 @@ struct CHAR_DATA {
     [[nodiscard]] bool is_berserk() const;
     [[nodiscard]] bool has_detect_invis() const;
     [[nodiscard]] bool has_detect_hidden() const;
+    [[nodiscard]] bool has_detect_magic() const;
+    [[nodiscard]] bool has_detect_evil() const;
     [[nodiscard]] bool has_infrared() const;
 
     // Is the player wizinvis/prowl at all, and are they invisible to a particular character?
