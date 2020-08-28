@@ -30,7 +30,7 @@ struct CombatEmote {
  * performing the emotes. A random emote will be chosen. He will stop doing the
  * emote once he gets less than 10% below that threshhold.
  */
-inline static const std::multimap<int, CombatEmote> combat_emotes{
+inline static const std::multimap<int, CombatEmote> conc_combat_emotes{
     {2, {"$n says 'It seems you have bested me, traveller.'"sv, "$n says 'It seems you have bested me, traveller.'"sv}},
     {2, {"$n glances around, looking for an escape route!"sv, "$n glances around, looking for an escape route!"sv}},
     {10,
@@ -84,11 +84,11 @@ struct PersonalEmote {
     std::string_view not_good_msg;
 };
 
-inline static const std::vector<PersonalEmote> personal_emotes{
+inline static const std::vector<PersonalEmote> conc_personal_emotes{
     {"bow", "bow"},       {"flip", "eye"},    {"salute", "salute"}, {"punch", "judge"},
     {"highfive", "peer"}, {"smile", "smile"}, {"cheer", "bonk"}};
 
-inline static const std::array general_emotes{
+inline static const std::array conc_general_emotes{
     "$n polishes $s golden claw."sv,
     "$n looks skyward and closes $s eyes in thought."sv,
     "$n raises $s hand and begins to whistle birdsong."sv,
@@ -99,6 +99,10 @@ inline static const std::array general_emotes{
     "$n says 'How I long to visit Ultima once again..."sv,
     "$n says 'I'm told it's never sunny in Underdark. I don't like the sound of that.'"sv,
     "$n says 'Did you know there are over sixty different species of eagle?!'"sv};
+
+inline static const std::array aq_general_emotes{
+    "$n flutters $s wings."sv, "$n makes a piercing screech!"sv, "$n preens $s feathers"sv,
+    "$n dances back and forth on $s large talons."sv, "$n leaps into the air and arcs overhead."sv};
 
 /**
  * Patrol the rooms around the temple.
@@ -111,7 +115,7 @@ static inline uint patrol_pause = 0;
 void concordius_patrols(CHAR_DATA *ch) {
     uint random = number_range(0, 100);
     if (random > 90) {
-        act(general_emotes[random % general_emotes.size()], ch, nullptr, nullptr, To::Room);
+        act(conc_general_emotes[random % conc_general_emotes.size()], ch, nullptr, nullptr, To::Room);
         return;
     }
     for (auto victim = ch->in_room->people; victim; victim = victim->next_in_room) {
@@ -121,7 +125,7 @@ void concordius_patrols(CHAR_DATA *ch) {
         uint random = number_range(0, 100);
         if (random < 80)
             continue;
-        auto &pers_emote = personal_emotes[random % personal_emotes.size()];
+        auto &pers_emote = conc_personal_emotes[random % conc_personal_emotes.size()];
         auto msg = "{} {}"_format(victim->is_good() ? pers_emote.good_msg : pers_emote.not_good_msg, victim->name);
         interpret(ch, msg.c_str());
         break;
@@ -137,8 +141,8 @@ void concordius_patrols(CHAR_DATA *ch) {
  * The emotes at lower health get increasingly desperate...
  */
 void combat_emote(CHAR_DATA *ch, const int percent_hit_lower) {
-    auto it = combat_emotes.lower_bound(percent_hit_lower);
-    auto end = combat_emotes.upper_bound(percent_hit_lower + 10);
+    auto it = conc_combat_emotes.lower_bound(percent_hit_lower);
+    auto end = conc_combat_emotes.upper_bound(percent_hit_lower + 10);
     for (; it != end; ++it) {
         if (number_range(0, 8) == 0) {
             auto &emote = it->second;
@@ -168,6 +172,11 @@ void concordius_fights(CHAR_DATA *ch) {
 void aquila_patrols(CHAR_DATA *ch) {
     if (!ch->master) {
         interpret(ch, "follow Concordius");
+    }
+    uint random = number_range(0, 100);
+    if (random > 90) {
+        act(aq_general_emotes[random % aq_general_emotes.size()], ch, nullptr, nullptr, To::Room);
+        return;
     }
 }
 
