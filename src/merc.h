@@ -693,10 +693,11 @@ static inline constexpr auto ff = BIT(31);
 #define ITEM_VIS_DEATH (Q)
 #define ITEM_PROTECT_CONTAINER (R)
 #define ITEM_NO_LOCATE (S)
+#define ITEM_SUMMON_CORPSE (T)
 
 #define ITEM_EXTRA_FLAGS                                                                                               \
     "glow hum dark lock evil invis magic nodrop bless antigood antievil antineutral "                                  \
-    "noremove inventory nopurge rotdeath visdeath protected nolocate"
+    "noremove inventory nopurge rotdeath visdeath protected nolocate summon_corpse"
 
 /*
  * Wear flags.
@@ -792,6 +793,7 @@ static inline constexpr auto ff = BIT(31);
 #define ROOM_VNUM_TEMPLE 3001
 #define ROOM_VNUM_ALTAR 3054
 #define ROOM_VNUM_SCHOOL 3700
+#define ROOM_VNUM_NECROPOLIS 3360
 /* Where Death hangs out when he's not wanted */
 #define ROOM_VNUM_DEATH 30003
 #define ROOM_VNUM_FORREYSPLACE 1158

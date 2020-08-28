@@ -5,8 +5,6 @@
 /************************************************************************/
 
 #include "CHAR_DATA.hpp"
-#include "DescriptorFilter.hpp"
-#include "DescriptorList.hpp"
 #include "comm.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
@@ -30,7 +28,7 @@ struct CombatEmote {
  * performing the emotes. A random emote will be chosen. He will stop doing the
  * emote once he gets less than 10% below that threshhold.
  */
-inline static const std::multimap<int, CombatEmote> conc_combat_emotes{
+static inline const std::multimap<int, CombatEmote> conc_combat_emotes{
     {2, {"$n says 'It seems you have bested me, traveller.'"sv, "$n says 'It seems you have bested me, traveller.'"sv}},
     {2, {"$n glances around, looking for an escape route!"sv, "$n glances around, looking for an escape route!"sv}},
     {10,
@@ -84,11 +82,11 @@ struct PersonalEmote {
     std::string_view not_good_msg;
 };
 
-inline static const std::vector<PersonalEmote> conc_personal_emotes{
+static inline const std::vector<PersonalEmote> conc_personal_emotes{
     {"bow", "bow"},       {"flip", "eye"},    {"salute", "salute"}, {"punch", "judge"},
     {"highfive", "peer"}, {"smile", "smile"}, {"cheer", "bonk"}};
 
-inline static const std::array conc_general_emotes{
+static inline const std::array conc_general_emotes{
     "$n polishes $s golden claw."sv,
     "$n looks skyward and closes $s eyes in thought."sv,
     "$n raises $s hand and begins to whistle birdsong."sv,
@@ -100,8 +98,8 @@ inline static const std::array conc_general_emotes{
     "$n says 'I'm told it's never sunny in Underdark. I don't like the sound of that.'"sv,
     "$n says 'Did you know there are over sixty different species of eagle?!'"sv};
 
-inline static const std::array aq_general_emotes{
-    "$n flutters $s wings."sv, "$n makes a piercing screech!"sv, "$n preens $s feathers"sv,
+static inline const std::array aq_general_emotes{
+    "$n flutters $s wings."sv, "$n makes a piercing screech!"sv, "$n preens $s feathers."sv,
     "$n dances back and forth on $s large talons."sv, "$n leaps into the air and arcs overhead."sv};
 
 /**
