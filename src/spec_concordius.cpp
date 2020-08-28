@@ -100,7 +100,15 @@ inline static const std::array general_emotes{
     "$n says 'I'm told it's never sunny in Underdark. I don't like the sound of that.'"sv,
     "$n says 'Did you know there are over sixty different species of eagle?!'"sv};
 
-bool concordius_stands_guard(CHAR_DATA *ch) {
+/**
+ * Patrol the rooms around the temple.
+ */
+static inline constexpr std::array patrol_directions{"n", "s", "s", "w", "e", "e", "w",
+                                                     "s", "e", "w", "w", "e", "n", "n"};
+static inline uint patrol_index = 0;
+static inline uint patrol_pause = 0;
+
+bool concordius_patrols(CHAR_DATA *ch) {
     uint random = number_range(0, 100);
     if (random > 90) {
         act(general_emotes[random % general_emotes.size()], ch, nullptr, nullptr, To::Room);
@@ -119,6 +127,10 @@ bool concordius_stands_guard(CHAR_DATA *ch) {
         auto msg = "{} {}"_format(victim->is_good() ? pers_emote.good_msg : pers_emote.not_good_msg, victim->name);
         interpret(ch, msg.c_str());
         break;
+    }
+    // After socialising in the room, continue with patrol route.
+    if (matches(ch->in_room->area->areaname, "Midgaard") && patrol_pause++ % 3 == 2) {
+        interpret(ch, patrol_directions[patrol_index++ % patrol_directions.size()]);
     }
     return found_someone;
 }
@@ -146,6 +158,17 @@ bool concordius_fights(CHAR_DATA *ch) {
     return true;
 }
 
+/**
+ * Aquila routines
+ */
+
+bool aquila_patrols(CHAR_DATA *ch) {
+    if (!ch->master) {
+        interpret(ch, "follow Concordius");
+    }
+    return true;
+}
+
 }
 
 /**
@@ -158,6 +181,17 @@ bool spec_concordius(CHAR_DATA *ch) {
     if (ch->position == POS_FIGHTING) {
         return concordius_fights(ch);
     } else {
-        return concordius_stands_guard(ch);
+        return concordius_patrols(ch);
     }
+}
+
+/**
+ * Special program for Concordius' pet eagle Aquila.
+ * She follows him around and makes a fuss.
+ */
+bool spec_aquila_pet(CHAR_DATA *ch) {
+    if (ch->position < POS_FIGHTING) {
+        return false;
+    }
+    return aquila_patrols(ch);
 }
