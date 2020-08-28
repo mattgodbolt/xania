@@ -75,42 +75,42 @@ void do_mpstat(CHAR_DATA *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        send_to_char("MobProg stat whom?\n\r", ch);
+        ch->send_to("MobProg stat whom?\n\r");
         return;
     }
 
     if ((victim = get_char_world(ch, arg)) == nullptr) {
-        send_to_char("They aren't here.\n\r", ch);
+        ch->send_to("They aren't here.\n\r");
         return;
     }
 
     if (victim->is_pc()) {
-        send_to_char("Only Mobiles can have Programs!\n\r", ch);
+        ch->send_to("Only Mobiles can have Programs!\n\r");
         return;
     }
 
     if (!(victim->pIndexData->progtypes)) {
-        send_to_char("That Mobile has no Programs set.\n\r", ch);
+        ch->send_to("That Mobile has no Programs set.\n\r");
         return;
     }
 
     snprintf(buf, sizeof(buf), "Name: %s.  Vnum: %d.\n\r", victim->name, victim->pIndexData->vnum);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
 
     ch->send_to("Short description:{}.\n\rLong  description: {}"_format(
         victim->short_descr, victim->long_descr.empty() ? "(none).\n\r" : victim->long_descr));
 
     snprintf(buf, sizeof(buf), "Hp: %d/%d.  Mana: %d/%d.  Move: %d/%d. \n\r", victim->hit, victim->max_hit,
              victim->mana, victim->max_mana, victim->move, victim->max_move);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
 
     snprintf(buf, sizeof(buf), "Lv: %d.  Class: %d.  Align: %d.   Gold: %ld.  Exp: %ld.\n\r", victim->level,
              victim->class_num, victim->alignment, victim->gold, victim->exp);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
 
     for (mprg = victim->pIndexData->mobprogs; mprg != nullptr; mprg = mprg->next) {
         snprintf(buf, sizeof(buf), ">%s %s\n\r%s\n\r", mprog_type_to_name(mprg->type), mprg->arglist, mprg->comlist);
-        send_to_char(buf, ch);
+        ch->send_to(buf);
     }
 }
 
@@ -121,7 +121,7 @@ void do_mpasound(CHAR_DATA *ch, const char *argument) {
     ROOM_INDEX_DATA *was_in_room;
 
     if (ch->is_pc()) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_to("Huh?\n\r");
         return;
     }
 
@@ -152,7 +152,7 @@ void do_mpkill(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *victim;
 
     if (ch->is_pc()) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_to("Huh?\n\r");
         return;
     }
 
@@ -196,7 +196,7 @@ void do_mpjunk(CHAR_DATA *ch, const char *argument) {
     OBJ_DATA *obj_next;
 
     if (ch->is_pc()) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_to("Huh?\n\r");
         return;
     }
 
@@ -234,7 +234,7 @@ void do_mpechoaround(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *victim;
 
     if (ch->is_pc()) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_to("Huh?\n\r");
         return;
     }
 
@@ -260,7 +260,7 @@ void do_mpechoat(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *victim;
 
     if (ch->is_pc()) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_to("Huh?\n\r");
         return;
     }
 
@@ -283,7 +283,7 @@ void do_mpechoat(CHAR_DATA *ch, const char *argument) {
 
 void do_mpecho(CHAR_DATA *ch, const char *argument) {
     if (ch->is_pc()) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_to("Huh?\n\r");
         return;
     }
 
@@ -305,7 +305,7 @@ void do_mpmload(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *victim;
 
     if (ch->is_pc()) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_to("Huh?\n\r");
         return;
     }
 
@@ -332,7 +332,7 @@ void do_mpoload(CHAR_DATA *ch, const char *argument) {
     OBJ_DATA *obj;
 
     if (ch->is_pc()) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_to("Huh?\n\r");
         return;
     }
 
@@ -368,7 +368,7 @@ void do_mppurge(CHAR_DATA *ch, const char *argument) {
     OBJ_DATA *obj;
 
     if (ch->is_pc()) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_to("Huh?\n\r");
         return;
     }
 
@@ -417,7 +417,7 @@ void do_mpgoto(CHAR_DATA *ch, const char *argument) {
     ROOM_INDEX_DATA *location;
 
     if (ch->is_pc()) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_to("Huh?\n\r");
         return;
     }
 
@@ -448,7 +448,7 @@ void do_mpat(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *wch;
 
     if (ch->is_pc()) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_to("Huh?\n\r");
         return;
     }
 
@@ -491,7 +491,7 @@ void do_mptransfer(CHAR_DATA *ch, const char *argument) {
     ROOM_INDEX_DATA *location;
 
     if (ch->is_pc()) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_to("Huh?\n\r");
         return;
     }
     argument = one_argument(argument, arg1);
@@ -556,7 +556,7 @@ void do_mpforce(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
 
     if (ch->is_pc()) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_to("Huh?\n\r");
         return;
     }
 

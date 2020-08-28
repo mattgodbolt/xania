@@ -37,13 +37,14 @@ void tornado_teleport(CHAR_DATA *ch, CHAR_DATA *victim) {
                 break;
     }
 
-    if (victim != ch)
-        send_to_char("You are sucked helplessly into the tornado....\n\r", victim);
+    if (victim != ch) {
+        victim->send_to("You are sucked helplessly into the tornado....\n\r");
+    }
 
     act("$n is consumed by the tornado and vanishes!", victim);
     char_from_room(victim);
     char_to_room(victim, pRoomIndex);
-    send_to_char("...you appear to have been blown to another part of Xania!", victim);
+    victim->send_to("...you appear to have been blown to another part of Xania!");
 
     if (!ch->riding) {
         act("$n is blown into the room by a sudden blast of wind.", victim);
@@ -98,12 +99,12 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
     CHAR_DATA *vch_next;
 
     if (victim == ch) {
-        send_to_char("You can't cast that on yourself.\n\r", ch);
+        ch->send_to("You can't cast that on yourself.\n\r");
         return;
     }
 
     if (victim->is_pc()) {
-        send_to_char("Not on that target.\n\r", ch);
+        ch->send_to("Not on that target.\n\r");
         return;
     }
 
@@ -111,12 +112,12 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
         return;
 
     if (ch->in_room->vnum == CHAL_ROOM) {
-        send_to_char("Not in the challenge room.\n\r", ch);
+        ch->send_to("Not in the challenge room.\n\r");
         return;
     }
 
     if (ch->mana < (ch->max_mana - 100)) {
-        send_to_char("This powerful spell requires all of your psychic powers.\n\r", ch);
+        ch->send_to("This powerful spell requires all of your psychic powers.\n\r");
         return;
     }
 
@@ -130,7 +131,7 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
         /* HIT THE BASTARD! */
         tornado_dam(victim, ch, ch->level);
         tornado_mental(victim, ch, ch->level);
-        send_to_char("You feel sick and disorientated.\n\r", ch);
+        ch->send_to("You feel sick and disorientated.\n\r");
         act("$n is knocked to the ground and stunned.", ch, nullptr, victim, To::Room);
         return;
     } else {
@@ -143,7 +144,7 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
 
         tornado_dam(ch, victim, ch->level);
         tornado_mental(ch, victim, ch->level);
-        send_to_char("Your mighty blast spirals out of control, forming a towering tornado of psychic energy!\n\r", ch);
+        ch->send_to("Your mighty blast spirals out of control, forming a towering tornado of psychic energy!\n\r");
         act("$n's psychic blast spirals into a |Rhuge|w tornado of energy!", ch, nullptr, victim, To::Room);
 
         if (!IS_SET(victim->act, ACT_AGGRESSIVE)) {
@@ -162,8 +163,9 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
                 continue;
             }
 
-            if (vch->in_room->area == ch->in_room->area)
-                send_to_char("A faint psychic surge dazes you momentarily.\n\r", vch);
+            if (vch->in_room->area == ch->in_room->area) {
+                vch->send_to("A faint psychic surge dazes you momentarily.\n\r");
+            }
         }
 
         for (auto direction : all_directions) {
@@ -173,7 +175,7 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
                     for (current_person = room->people; current_person != nullptr; current_person = next_person) {
                         next_person = current_person->next_in_room;
 
-                        send_to_char("Suddenly, a gale of psychic energy blows through the room!\n\r", current_person);
+                        current_person->send_to("Suddenly, a gale of psychic energy blows through the room!\n\r");
                         if (!is_safe_spell(ch, current_person, true)
                             && (check_immune(current_person, DAM_MENTAL) != IS_IMMUNE))
                             tornado_mental(ch, current_person, ch->level);

@@ -143,7 +143,7 @@ void ban_site(CHAR_DATA *ch, const char *argument, bool fPerm) {
 
     if (arg1[0] == '\0') {
         if (ban_list == nullptr) {
-            send_to_char("No sites banned at this time.\n\r", ch);
+            ch->send_to("No sites banned at this time.\n\r");
             return;
         }
         buffer = buffer_create();
@@ -172,7 +172,7 @@ void ban_site(CHAR_DATA *ch, const char *argument, bool fPerm) {
     else if (!str_prefix(arg2, "permit"))
         type = BAN_PERMIT;
     else {
-        send_to_char("Acceptable ban types are 'all', 'newbies', and 'permit'.\n\r", ch);
+        ch->send_to("Acceptable ban types are 'all', 'newbies', and 'permit'.\n\r");
         return;
     }
 
@@ -189,7 +189,7 @@ void ban_site(CHAR_DATA *ch, const char *argument, bool fPerm) {
     }
 
     if (strlen(name) == 0) {
-        send_to_char("Ban which site?\n\r", ch);
+        ch->send_to("Ban which site?\n\r");
         return;
     }
 
@@ -197,7 +197,7 @@ void ban_site(CHAR_DATA *ch, const char *argument, bool fPerm) {
     for (pban = ban_list; pban != nullptr; prev = pban, pban = pban->next) {
         if (!str_cmp(name, pban->name)) {
             if (pban->level > ch->get_trust()) {
-                send_to_char("That ban was set by a higher power.\n\r", ch);
+                ch->send_to("That ban was set by a higher power.\n\r");
                 return;
             } else {
                 if (prev == nullptr)
@@ -229,7 +229,7 @@ void ban_site(CHAR_DATA *ch, const char *argument, bool fPerm) {
     snprintf(buf, sizeof(buf), "The host(s) matching '%s%s%s' have been banned.\n\r",
              IS_SET(pban->ban_flags, BAN_PREFIX) ? "*" : "", pban->name,
              IS_SET(pban->ban_flags, BAN_SUFFIX) ? "*" : "");
-    send_to_char(buf, ch);
+    ch->send_to(buf);
 }
 
 void do_ban(CHAR_DATA *ch, const char *argument) { ban_site(ch, argument, false); }
@@ -245,7 +245,7 @@ void do_allow(CHAR_DATA *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        send_to_char("Remove which site from the ban list?\n\r", ch);
+        ch->send_to("Remove which site from the ban list?\n\r");
         return;
     }
 
@@ -259,7 +259,7 @@ void do_allow(CHAR_DATA *ch, const char *argument) {
     for (curr = ban_list; curr != nullptr; prev = curr, curr = curr->next) {
         if (!str_cmp(aargh, curr->name)) {
             if (curr->level > ch->get_trust()) {
-                send_to_char("You are not powerful enough to lift that ban.\n\r", ch);
+                ch->send_to("You are not powerful enough to lift that ban.\n\r");
                 return;
             }
             if (prev == nullptr)
@@ -270,11 +270,11 @@ void do_allow(CHAR_DATA *ch, const char *argument) {
             snprintf(buf, sizeof(buf), "Ban on '%s%s%s' lifted.\n\r", IS_SET(curr->ban_flags, BAN_PREFIX) ? "*" : "",
                      aargh, IS_SET(curr->ban_flags, BAN_SUFFIX) ? "*" : "");
             free_ban(curr);
-            send_to_char(buf, ch);
+            ch->send_to(buf);
             save_bans();
             return;
         }
     }
 
-    send_to_char("That site is not banned.\n\r", ch);
+    ch->send_to("That site is not banned.\n\r");
 }

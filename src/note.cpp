@@ -190,7 +190,7 @@ static void note_list(CHAR_DATA *ch, const char *argument) {
             int is_new = note->date_stamp > ch->last_note && str_cmp(note->sender, ch->name);
 
             snprintf(buf, sizeof(buf), "[%3d%s] %s: %s|w\n\r", num, is_new ? "N" : " ", note->sender, note->subject);
-            send_to_char(buf, ch);
+            ch->send_to(buf);
             num++;
         }
     }
@@ -203,16 +203,16 @@ static void note_read(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '\0' || !str_prefix(argument, "next")) {
         note = lookup_note_date(ch->last_note, ch, &note_index);
         if (!note) {
-            send_to_char("You have no unread notes.\n\r", ch);
+            ch->send_to("You have no unread notes.\n\r");
         }
     } else if (is_number(argument)) {
         note_index = atoi(argument);
         note = lookup_note(note_index, ch);
         if (!note || note_index < 0) {
-            send_to_char("No such note.\n\r", ch);
+            ch->send_to("No such note.\n\r");
         }
     } else {
-        send_to_char("Note read which number?\n\r", ch);
+        ch->send_to("Note read which number?\n\r");
     }
 
     if (note) {
@@ -220,11 +220,11 @@ static void note_read(CHAR_DATA *ch, const char *argument) {
 
         snprintf(buf, sizeof(buf), "[%3d] %s|w: %s|w\n\r%s|w\n\rTo: %s|w\n\r", note_index, note->sender, note->subject,
                  note->date, note->to_list);
-        send_to_char(buf, ch);
+        ch->send_to(buf);
         if (note->text) {
             page_to_char(buffer_string(note->text), ch);
         }
-        send_to_char("|w", ch);
+        ch->send_to("|w");
         ch->last_note = UMAX(ch->last_note, note->date_stamp);
     }
 }
@@ -232,22 +232,22 @@ static void note_read(CHAR_DATA *ch, const char *argument) {
 static void note_addline(CHAR_DATA *ch, const char *argument) {
     NOTE_DATA *note = ensure_note(ch);
     if (!note) {
-        send_to_char("Failed to create new note.\n\r", ch);
+        ch->send_to("Failed to create new note.\n\r");
         return;
     }
     buffer_addline_fmt(note->text, "%s\n\r", argument);
-    send_to_char("Ok.\n\r", ch);
+    ch->send_to("Ok.\n\r");
 }
 
 static void note_removeline(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     NOTE_DATA *note = ch->pnote;
     if (!note || !note->text) {
-        send_to_char("There is no text to delete.\n\r", ch);
+        ch->send_to("There is no text to delete.\n\r");
         return;
     }
     buffer_removeline(note->text);
-    send_to_char("Ok.\n\r", ch);
+    ch->send_to("Ok.\n\r");
 }
 
 static void note_subject(CHAR_DATA *ch, const char *argument) {
@@ -257,9 +257,9 @@ static void note_subject(CHAR_DATA *ch, const char *argument) {
             free_string(note->subject);
         }
         note->subject = str_dup(argument);
-        send_to_char("Ok.\n\r", ch);
+        ch->send_to("Ok.\n\r");
     } else {
-        send_to_char("Failed to create new note.\n\r", ch);
+        ch->send_to("Failed to create new note.\n\r");
     }
 }
 
@@ -271,9 +271,9 @@ static void note_to(CHAR_DATA *ch, const char *argument) {
             free_string(note->to_list);
         }
         note->to_list = str_dup(argument);
-        send_to_char("Ok.\n\r", ch);
+        ch->send_to("Ok.\n\r");
     } else {
-        send_to_char("Failed to create new note.\n\r", ch);
+        ch->send_to("Failed to create new note.\n\r");
     }
 }
 
@@ -283,7 +283,7 @@ static void note_clear(CHAR_DATA *ch, const char *argument) {
         destroy_note(ch->pnote);
         ch->pnote = nullptr;
     }
-    send_to_char("Ok.\n\r", ch);
+    ch->send_to("Ok.\n\r");
 }
 
 static void note_show(CHAR_DATA *ch, const char *argument) {
@@ -292,14 +292,15 @@ static void note_show(CHAR_DATA *ch, const char *argument) {
     NOTE_DATA *note = ch->pnote;
 
     if (!note) {
-        send_to_char("You have no note in progress.\n\r", ch);
+        ch->send_to("You have no note in progress.\n\r");
         return;
     }
     snprintf(buf, sizeof(buf), "%s|w: %s|w\n\rTo: %s|w\n\r", note->sender ? note->sender : "(No sender)",
              note->subject ? note->subject : "(No subject)", note->to_list ? note->to_list : "(No recipients)");
-    send_to_char(buf, ch);
-    send_to_char(note->text ? buffer_string(note->text) : "(No message body)\n\r", ch);
-    send_to_char("|w", ch);
+    ch->send_to(buf);
+    std::string_view txt = note->text ? buffer_string(note->text) : "(No message body)\n\r";
+    ch->send_to(txt);
+    ch->send_to("|w");
 }
 
 static void note_post(CHAR_DATA *ch, const char *argument) {
@@ -308,15 +309,15 @@ static void note_post(CHAR_DATA *ch, const char *argument) {
     FILE *fp;
 
     if (!note) {
-        send_to_char("You have no note in progress.\n\r", ch);
+        ch->send_to("You have no note in progress.\n\r");
         return;
     }
     if (!note->to_list) {
-        send_to_char("You need to provide a recipient (name, all, or immortal).\n\r", ch);
+        ch->send_to("You need to provide a recipient (name, all, or immortal).\n\r");
         return;
     }
     if (!note->subject) {
-        send_to_char("You need to provide a subject.\n\r", ch);
+        ch->send_to("You need to provide a subject.\n\r");
         return;
     }
     note->date = str_dup("{}"_format(secs_only(current_time)).c_str()); // TODO remove when stringified
@@ -333,7 +334,7 @@ static void note_post(CHAR_DATA *ch, const char *argument) {
         fclose(fp);
     }
     note_announce(ch, note);
-    send_to_char("Ok.\n\r", ch);
+    ch->send_to("Ok.\n\r");
 }
 
 void note_announce(CHAR_DATA *chsender, NOTE_DATA *note) {
@@ -396,15 +397,15 @@ static void note_removecmd(CHAR_DATA *ch, const char *argument) {
     NOTE_DATA *note;
 
     if (!is_number(argument)) {
-        send_to_char("Note remove which number?\n\r", ch);
+        ch->send_to("Note remove which number?\n\r");
         return;
     }
     note = lookup_note(atoi(argument), ch);
     if (note) {
         note_remove(ch, note);
-        send_to_char("Ok.\n\r", ch);
+        ch->send_to("Ok.\n\r");
     } else {
-        send_to_char("No such note.\n\r", ch);
+        ch->send_to("No such note.\n\r");
     }
 }
 
@@ -412,16 +413,16 @@ static void note_delete(CHAR_DATA *ch, const char *argument) {
     NOTE_DATA *note;
 
     if (!is_number(argument)) {
-        send_to_char("Note delete which number?\n\r", ch);
+        ch->send_to("Note delete which number?\n\r");
         return;
     }
     note = lookup_note(atoi(argument), ch);
     if (note) {
         destroy_note(note);
         save_notes();
-        send_to_char("Ok.\n\r", ch);
+        ch->send_to("Ok.\n\r");
     } else {
-        send_to_char("No such note.\n\r", ch);
+        ch->send_to("No such note.\n\r");
     }
 }
 
@@ -436,7 +437,7 @@ void do_note(CHAR_DATA *ch, const char *argument) {
     if (note_fn.has_value()) {
         (*note_fn)(ch, note_remainder.c_str());
     } else {
-        send_to_char("Huh?  Type 'help note' for usage.\n\r", ch);
+        ch->send_to("Huh?  Type 'help note' for usage.\n\r");
     }
 }
 
