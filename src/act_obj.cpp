@@ -38,24 +38,22 @@ void explode_bomb(OBJ_DATA *bomb, CHAR_DATA *ch, CHAR_DATA *thrower);
 
 /* RT part of the corpse looting code */
 
-bool can_loot(CHAR_DATA *ch, OBJ_DATA *obj) {
-    CHAR_DATA *owner, *wch;
-
+bool can_loot(const CHAR_DATA *ch, const OBJ_DATA *obj) {
     if (ch->is_immortal())
         return true;
 
     if (!obj->owner || obj->owner == nullptr)
         return true;
 
-    owner = nullptr;
-    for (wch = char_list; wch != nullptr; wch = wch->next)
-        if (!str_cmp(wch->name, obj->owner))
+    const CHAR_DATA *owner = nullptr;
+    for (const auto *wch = char_list; wch != nullptr; wch = wch->next)
+        if (matches(wch->name, obj->owner))
             owner = wch;
 
     if (owner == nullptr)
         return true;
 
-    if (!str_cmp(ch->name, owner->name))
+    if (matches(ch->name, owner->name))
         return true;
 
     if (owner->is_pc() && IS_SET(owner->act, PLR_CANLOOT))
@@ -1353,7 +1351,7 @@ void do_sacrifice(CHAR_DATA *ch, const char *argument) {
 
     one_argument(argument, arg);
 
-    if (arg[0] == '\0' || !str_cmp(arg, ch->name)) {
+    if (arg[0] == '\0' || matches(arg, ch->name)) {
         snprintf(buf, sizeof(buf), "$n offers $mself to %s, who graciously declines.", deity_name);
         act(buf, ch);
         snprintf(buf, sizeof(buf), "%s appreciates your offer and may accept it later.\n\r", deity_name);
@@ -1953,11 +1951,8 @@ void do_buy(CHAR_DATA *ch, const char *argument) {
         pet->comm = COMM_NOTELL | COMM_NOSHOUT | COMM_NOCHANNELS;
 
         argument = one_argument(argument, arg);
-        if (arg[0] != '\0') {
-            snprintf(buf, sizeof(buf), "%s %s", pet->name, arg);
-            free_string(pet->name);
-            pet->name = str_dup(smash_tilde(buf).c_str());
-        }
+        if (arg[0] != '\0')
+            pet->name = smash_tilde("{} {}"_format(pet->name, arg));
 
         pet->description = "{}A neck tag says 'I belong to {}'."_format(pet->description, ch->name);
 
@@ -2293,7 +2288,7 @@ void do_hailcorpse(CHAR_DATA *ch, const char *argument) {
 
     /* first thing is to check the ch room to see if it's already here */
     for (current_obj = ch->in_room->contents; current_obj != nullptr; current_obj = current_obj->next_content) {
-        if ((current_obj->item_type == ITEM_CORPSE_PC) && strstr(current_obj->short_descr, ch->name) != nullptr) {
+        if (current_obj->item_type == ITEM_CORPSE_PC && matches_inside(ch->name, current_obj->short_descr)) {
             act("$n's corpse glows momentarily!", ch);
             send_to_char("Your corpse appears to be in the room already!\n\r", ch);
             return;
@@ -2311,7 +2306,7 @@ void do_hailcorpse(CHAR_DATA *ch, const char *argument) {
             continue;
 
         for (current_obj = current_place->contents; current_obj != nullptr; current_obj = current_obj->next_content) {
-            if ((current_obj->item_type == ITEM_CORPSE_PC) && strstr(current_obj->short_descr, ch->name) != nullptr) {
+            if ((current_obj->item_type == ITEM_CORPSE_PC) && matches_inside(ch->name, current_obj->short_descr)) {
                 foundit = true;
                 break;
             }

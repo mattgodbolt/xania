@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "ArgParser.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
@@ -15,6 +16,7 @@
 #include "handler.hpp"
 #include "info.hpp"
 #include "merc.h"
+#include "string_utils.hpp"
 
 #include <fmt/format.h>
 
@@ -37,7 +39,6 @@ void do_delet(CHAR_DATA *ch, const char *argument) {
 
 void do_delete(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    char strsave[MAX_INPUT_LENGTH];
     KNOWN_PLAYERS *cursor, *temp;
 
     if (ch->is_npc())
@@ -53,7 +54,7 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
                deletes. Eventually, info will have to be deleted from cached
                info if it is in there */
             cursor = player_list;
-            if (cursor != nullptr && !(strcmp(cursor->name, ch->name))) {
+            if (cursor && cursor->name ==  ch->name) {
                 player_list = player_list->next;
                 free_string(cursor->name);
                 free_mem(cursor, sizeof(KNOWN_PLAYERS));
@@ -75,9 +76,9 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
              cached of course! */
             remove_info_for_player(ch->name);
 
-            snprintf(strsave, sizeof(strsave), "%s%s", PLAYER_DIR, capitalize(ch->name));
+            auto strsave = "{}{}"_format(PLAYER_DIR,  upper_first_character(ch->name));
             do_quit(ch, "");
-            unlink(strsave);
+            unlink(strsave.c_str());
             return;
         }
     }
@@ -409,10 +410,8 @@ void do_quit(CHAR_DATA *ch, const char *arg) {
     do_chal_canc(ch);
     send_to_char("|WYou quit reality for the game.|w\n\r", ch);
     act("|W$n has left reality for the game.|w", ch);
-    snprintf(log_buf, LOG_BUF_SIZE, "%s has quit.", ch->name);
-    log_string(log_buf);
-    snprintf(log_buf, LOG_BUF_SIZE, "|W### |P%s|W departs, seeking another reality.|w", ch->name);
-    announce(log_buf, ch);
+    log_string("{} has quit."_format(ch->name));
+    announce("|W### |P{}|W departs, seeking another reality.|w"_format(ch->name), ch);
 
     /*
      * After extract_char the ch is no longer valid!
@@ -545,19 +544,16 @@ void unride_char(CHAR_DATA *ch, CHAR_DATA *pet) {
     affect_strip(ch, gsn_ride);
 }
 
-void do_follow(CHAR_DATA *ch, const char *argument) {
+void do_follow(CHAR_DATA *ch, std::string_view argument) {
     /* RT changed to allow unlimited following and follow the NOFOLLOW rules */
-    char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    ArgParser args(argument);
+    if (args.empty()) {
         send_to_char("Follow whom?\n\r", ch);
         return;
     }
 
-    if ((victim = get_char_room(ch, arg)) == nullptr) {
+    auto victim = get_char_room(ch, args.shift());
+    if (!victim) {
         send_to_char("They aren't here.\n\r", ch);
         return;
     }
@@ -893,7 +889,7 @@ void do_gtell(CHAR_DATA *ch, const char *argument) {
      */
     snprintf(buf, sizeof(buf), "|CYou tell the group '%s|C'|w.\n\r", argument);
     send_to_char(buf, ch);
-    snprintf(buf, sizeof(buf), "|C%s tells the group '%s|C'|w.\n\r", ch->name, argument);
+    auto msg = "|C{} tells the group '{}|C'|w.\n\r"_format(ch->name, argument);
     for (gch = char_list; gch != nullptr; gch = gch->next) {
         if (is_same_group(gch, ch) && (gch != ch))
             send_to_char(buf, gch);
@@ -906,7 +902,7 @@ void do_gtell(CHAR_DATA *ch, const char *argument) {
  * (2) if A ~ B then B ~ A
  * (3) if A ~ B  and B ~ C, then A ~ C
  */
-bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch) {
+bool is_same_group(const CHAR_DATA *ach, const CHAR_DATA *bch) {
     if (ach->leader != nullptr)
         ach = ach->leader;
     if (bch->leader != nullptr)

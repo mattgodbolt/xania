@@ -502,9 +502,8 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
         /* Give the zombie its correct name and stuff */
         snprintf(buf, sizeof(buf), animated->description.c_str(), obj->description);
         animated->long_descr = buf;
-        snprintf(buf, sizeof(buf), animated->name, obj->name);
-        free_string(animated->name);
-        animated->name = str_dup(buf);
+        snprintf(buf, sizeof(buf), animated->name.c_str(), obj->name);
+        animated->name = buf;
 
         /* Say byebye to the corpse */
         extract_obj(obj);
@@ -589,21 +588,15 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
             To::NotVict);
     }
 
-    /* tells others that the victim has
-                                            been disarmed, but not the victim :) */
-
-    snprintf(smitebuf, sizeof(smitebuf), "You |W>>> |YSMITE|W <<<|w %s with all of your Godly powers!\n\r",
-             (victim == ch) ? "yourself" : victim->name);
-    send_to_char(smitebuf, ch);
+    ch->send_to("You |W>>> |YSMITE|W <<<|w {} with all of your Godly powers!\n\r"_format(
+                (victim == ch) ? "yourself" : victim->name));
 
     victim->hit /= 2; /* easiest way of halving hp? */
     if (victim->hit < 1)
         victim->hit = 1; /* Cap the damage */
 
     victim->position = POS_RESTING;
-    /* Knock them into resting
-                                            and disarm them regardless of whether
-                                            they have talon or a noremove weapon */
+    /* Knock them into resting and disarm them regardless of whether they have talon or a noremove weapon */
 
     if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr) {
         return;

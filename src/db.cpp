@@ -1178,7 +1178,7 @@ void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone) {
         return;
 
     /* start fixing values */
-    clone->name = str_dup(parent->name);
+    clone->name = parent->name;
     clone->version = parent->version;
     clone->short_descr = parent->short_descr;
     clone->long_descr = parent->long_descr;
@@ -2431,7 +2431,7 @@ void append_file(CHAR_DATA *ch, const char *file, const char *str) {
         perror(file);
         send_to_char("Could not open the file!\n\r", ch);
     } else {
-        fprintf(fp, "[%5d] %s: %s\n", ch->in_room ? ch->in_room->vnum : 0, ch->name, str);
+        fprintf(fp, "[%5d] %s: %s\n", ch->in_room ? ch->in_room->vnum : 0, ch->name.c_str(), str);
         fclose(fp);
     }
 }

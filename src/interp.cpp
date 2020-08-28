@@ -14,11 +14,15 @@
 #include "merc.h"
 #include "note.h"
 
+#include <fmt/format.h>
+
 #include <cctype>
 #include <cstdio>
 #include <cstring>
 #include <functional>
 #include <utility>
+
+using namespace fmt::literals;
 
 namespace {
 inline constexpr auto ML = MAX_LEVEL; /* implementor */
@@ -418,7 +422,6 @@ static const char *apply_prefix(char *buf, CHAR_DATA *ch, const char *command) {
 void interpret(CHAR_DATA *ch, const char *argument) {
     char cmd_buf[MAX_INPUT_LENGTH];
     char command[MAX_INPUT_LENGTH];
-    char logline[MAX_INPUT_LENGTH];
     argument = apply_prefix(cmd_buf, ch, argument);
 
     /* Strip leading spaces. */
@@ -440,7 +443,7 @@ void interpret(CHAR_DATA *ch, const char *argument) {
      * Special parsing so ' can be a command,
      *   also no spaces needed after punctuation.
      */
-    strcpy(logline, argument);
+    std::string logline = argument;
     if (!isalpha(argument[0]) && !isdigit(argument[0])) {
         command[0] = argument[0];
         command[1] = '\0';
@@ -464,18 +467,18 @@ void interpret(CHAR_DATA *ch, const char *argument) {
 
     /* Log and snoop. */
     if (cmd->log == CommandLogLevel::Never)
-        strcpy(logline, "");
+        logline.clear();
 
     if ((ch->is_pc() && IS_SET(ch->act, PLR_LOG)) || fLogAll || cmd->log == CommandLogLevel::Always) {
         int level = (cmd->level >= 91) ? (cmd->level) : 0;
         if (ch->is_pc() && (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)))
             level = UMAX(level, ch->get_trust());
+        auto log_level = (cmd->level >= 91) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT;
         if (ch->is_npc() && ch->desc && ch->desc->original()) {
-            snprintf(log_buf, LOG_BUF_SIZE, "Log %s (as '%s'): %s", ch->desc->original()->name, ch->name, logline);
+            log_new("Log %s (as '%s'): %s"_format(ch->desc->original()->name, ch->name, logline), log_level, level);
         } else {
-            snprintf(log_buf, LOG_BUF_SIZE, "Log %s: %s", ch->name, logline);
+            log_new("Log %s: %s"_format(ch->name, logline), log_level, level);
         }
-        log_new(log_buf, (cmd->level >= 91) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT, level);
     }
 
     if (ch->desc)
@@ -506,8 +509,7 @@ static const struct social_type *find_social(const char *name) {
     return nullptr;
 }
 
-bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+bool check_social(CHAR_DATA *ch, const char *command, std::string_view argument) {
     const struct social_type *social;
 
     if (!(social = find_social(command)))
@@ -523,9 +525,10 @@ bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
         return true;
     }
 
-    one_argument(argument, arg);
+    ArgParser args(argument);
+    auto arg = args.shift();
     CHAR_DATA *victim = nullptr;
-    if (arg[0] == '\0') {
+    if (arg.empty()) {
         act(social->others_no_arg, ch, nullptr, victim, To::Room);
         act(social->char_no_arg, ch, nullptr, victim, To::Char);
     } else if ((victim = get_char_room(ch, arg)) == nullptr) {

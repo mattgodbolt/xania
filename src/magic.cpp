@@ -4042,10 +4042,11 @@ void spell_teleport_object(int sn, int level, CHAR_DATA *ch, void *vo) {
     }
 
     /* Check to see if the victim is actually already in the same room */
+    // TODO: we can break do_give() into pieces and call it directly instead of this nonsense.
     if (ch->in_room != victim->in_room) {
         act("You feel a brief presence in the room.", victim, nullptr, nullptr, To::Char);
         act("You feel a brief presence in the room.", victim);
-        snprintf(buf, sizeof(buf), "'%s' %s", object->name, victim->name);
+        snprintf(buf, sizeof(buf), "'%s' %s", object->name, victim->name.c_str());
         old_room = ch->in_room;
         char_from_room(ch);
         char_to_room(ch, victim->in_room);
@@ -4053,7 +4054,7 @@ void spell_teleport_object(int sn, int level, CHAR_DATA *ch, void *vo) {
         char_from_room(ch);
         char_to_room(ch, old_room);
     } else {
-        snprintf(buf, sizeof(buf), "'%s' %s", object->name, victim->name);
+        snprintf(buf, sizeof(buf), "'%s' %s", object->name, victim->name.c_str());
         do_give(ch, buf);
     } /* ..else... if not in same room */
 }

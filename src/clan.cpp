@@ -15,10 +15,13 @@
 #include "merc.h"
 #include "string_utils.hpp"
 
+#include <fmt/format.h>
 #include <range/v3/algorithm/find_if.hpp>
 
 #include <algorithm>
 #include <cstdio>
+
+using namespace fmt::literals;
 
 /* User servicable bits... you will also need to change the NUM_CLANS in clan.h */
 
@@ -122,8 +125,8 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
         if (pcclan && pcclan->clan->clanchar == orig_clan->clan->clanchar && pcclan->channelflags & CLANCHANNEL_ON
             && !IS_SET(victim->comm, COMM_QUIET)
             /* || they're an IMM snooping the channels */) {
-            snprintf(buf, sizeof(buf), "|G<%s> %s|w\n\r", can_see(d.character(), ch) ? ch->name : "Someone", argument);
-            send_to_char(buf, d.character());
+            send_to_char("|G<{}> {}|w\n\r"_format(can_see(d.character(), ch) ? ch->name : "Someone", argument),
+                         d.character());
         } /* If they can see the message */
     } /* for all descriptors */
 
@@ -171,15 +174,13 @@ void do_noclanchan(CHAR_DATA *ch, const char *argument) {
     victim_pcclan->channelflags ^= CLANCHANNEL_NOCHANNED; /* Change the victim's flags */
 
     /* Tell the char how things went */
-    snprintf(buf, sizeof(buf), "You have %sed %s's clan channel privileges.\n\r",
-             victim_pcclan->channelflags & CLANCHANNEL_NOCHANNED ? "revok" : "reinstat", victim->name);
-    send_to_char(buf, ch);
+    ch->send_to("You have {}ed {}'s clan channel privileges.\n\r"_format(
+        victim_pcclan->channelflags & CLANCHANNEL_NOCHANNED ? "revok" : "reinstat", victim->name));
 
     /* Inform the hapless victim */
-    snprintf(buf, sizeof(buf), "%s has %sed your clan channel privileges.\n\r", ch->name,
-             victim_pcclan->channelflags & CLANCHANNEL_NOCHANNED ? "revok" : "reinstat");
-    buf[0] = UPPER(buf[0]);
-    send_to_char(buf, victim);
+    send_to_char(upper_first_character("%s has %sed your clan channel privileges.\n\r"_format(
+                     ch->name, victim_pcclan->channelflags & CLANCHANNEL_NOCHANNED ? "revok" : "reinstat")),
+                 victim);
 } /* do_noclanchan */
 
 void do_member(CHAR_DATA *ch, const char *argument) {
@@ -214,7 +215,7 @@ void do_member(CHAR_DATA *ch, const char *argument) {
         return;
     }
     if (victim->get_trust() > ch->get_trust()) {
-        snprintf(buf, sizeof(buf), "You cannot do that to %s.\n\r", victim->name);
+        ch->send_to("You cannot do that to {}.\n\r"_format(victim->name));
         return;
     }
 

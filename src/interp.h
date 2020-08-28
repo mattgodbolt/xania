@@ -11,7 +11,10 @@
 
 #include "ArgParser.hpp"
 
+#include <string_view>
+
 struct CHAR_DATA;
+struct ROOM_INDEX_DATA;
 
 extern void interp_initialise();
 
@@ -96,7 +99,7 @@ extern void do_fill(CHAR_DATA *ch, const char *arg);
 extern void do_pour(CHAR_DATA *ch, const char *arg);
 extern void do_finger(CHAR_DATA *ch, const char *arg);
 extern void do_flee(CHAR_DATA *ch, const char *arg);
-extern void do_follow(CHAR_DATA *ch, const char *arg);
+extern void do_follow(CHAR_DATA *ch, std::string_view argument);
 extern void do_force(CHAR_DATA *ch, const char *argument);
 extern void do_freeze(CHAR_DATA *ch, const char *arg);
 extern void do_gain(CHAR_DATA *ch, const char *arg);
@@ -115,7 +118,7 @@ extern void do_help(CHAR_DATA *ch, const char *arg);
 extern void do_hide(CHAR_DATA *ch, const char *arg);
 extern void do_holylight(CHAR_DATA *ch, const char *arg);
 extern void do_idea(CHAR_DATA *ch, const char *arg);
-extern void do_immtalk(CHAR_DATA *ch, const char *arg);
+extern void do_immtalk(CHAR_DATA *ch, std::string_view arg);
 extern void do_immworth(CHAR_DATA *ch, const char *arg);
 extern void do_imotd(CHAR_DATA *ch, const char *arg);
 extern void do_inventory(CHAR_DATA *ch, const char *arg);
@@ -252,6 +255,7 @@ extern void do_tipwizard(CHAR_DATA *ch, const char *arg);
 extern void do_title(CHAR_DATA *ch, const char *arg);
 extern void do_train(CHAR_DATA *ch, const char *argument);
 extern void do_transfer(CHAR_DATA *ch, const char *arg);
+extern void transfer(const CHAR_DATA *imm, CHAR_DATA *victim, ROOM_INDEX_DATA *location);
 extern void do_trip(CHAR_DATA *ch, const char *arg);
 extern void do_trust(CHAR_DATA *ch, const char *arg);
 extern void do_typo(CHAR_DATA *ch, const char *arg);
@@ -294,4 +298,4 @@ extern void do_clanset(CHAR_DATA *ch, const char *arg);
 
 /* Misc stuff */
 extern void announce(std::string_view buf, const CHAR_DATA *ch);
-bool check_social(CHAR_DATA *ch, const char *command, const char *arg);
+bool check_social(CHAR_DATA *ch, const char *command, std::string_view argument);

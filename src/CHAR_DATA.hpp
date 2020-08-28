@@ -40,7 +40,7 @@ struct CHAR_DATA {
     ROOM_INDEX_DATA *was_in_room{};
     std::unique_ptr<PC_DATA> pcdata;
     GEN_DATA *gen_data{};
-    char *name;
+    std::string name;
 
     sh_int version{};
     std::string short_descr;

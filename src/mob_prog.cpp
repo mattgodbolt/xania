@@ -1023,14 +1023,14 @@ void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, c
 
     *t = '\0';
     switch (ch) {
-    case 'i': one_argument(mob->name, t); break;
+    case 'i': one_argument(mob->name.c_str(), t); break;
 
     case 'I': strcpy(t, mob->short_descr.c_str()); break;
 
     case 'n':
         if (actor)
             if (can_see(mob, actor))
-                one_argument(actor->name, t);
+                one_argument(actor->name.c_str(), t);
         if (actor->is_pc())
             *t = UPPER(*t);
         break;
@@ -1041,7 +1041,7 @@ void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, c
                 if (actor->is_npc()) {
                     strcpy(t, actor->short_descr.c_str());
                 } else {
-                    strcpy(t, actor->name);
+                    strcpy(t, actor->name.c_str());
                     strcat(t, " ");
                     strcat(t, actor->pcdata->title.c_str());
                 }
@@ -1053,7 +1053,7 @@ void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, c
     case 't':
         if (vict) {
             if (can_see(mob, vict))
-                one_argument(vict->name, t);
+                one_argument(vict->name.c_str(), t);
         }
         if (vict->is_pc())
             *t = UPPER(*t);
@@ -1065,7 +1065,7 @@ void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, c
                 if (vict->is_npc()) {
                     strcpy(t, vict->short_descr.c_str());
                 } else {
-                    strcpy(t, vict->name);
+                    strcpy(t, vict->name.c_str());
                     strcat(t, " ");
                     strcat(t, vict->pcdata->title.c_str());
                 }
@@ -1078,7 +1078,7 @@ void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, c
     case 'r':
         if (rndm) {
             if (can_see(mob, rndm))
-                one_argument(rndm->name, t);
+                one_argument(rndm->name.c_str(), t);
         }
         if (rndm->is_pc())
             *t = UPPER(*t);
@@ -1090,7 +1090,7 @@ void mprog_translate(char ch, char *t, CHAR_DATA *mob, const CHAR_DATA *actor, c
                 if (rndm->is_npc()) {
                     strcpy(t, rndm->short_descr.c_str());
                 } else {
-                    strcpy(t, rndm->name);
+                    strcpy(t, rndm->name.c_str());
                     strcat(t, " ");
                     strcat(t, rndm->pcdata->title.c_str());
                 }

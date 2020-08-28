@@ -51,7 +51,6 @@ ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, const char *arg);
 /* Permits or denies a player from playing the Mud from a PERMIT banned site */
 void do_permit(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *victim;
-    char buf[MAX_STRING_LENGTH];
     int flag = 1;
     if (ch->is_npc())
         return;
@@ -71,8 +70,7 @@ void do_permit(CHAR_DATA *ch, const char *argument) {
     } else {
         remove_extra(victim, EXTRA_PERMIT);
     }
-    bug_snprintf(buf, sizeof(buf), "PERMIT flag %s for %s.\n\r", (flag) ? "set" : "removed", victim->name);
-    send_to_char(buf, ch);
+    send_to_char("PERMIT flag %s for %s.\n\r"_format(flag ? "set" : "removed", victim->name), ch);
 }
 
 /* equips a character */
@@ -160,7 +158,7 @@ void do_bamfin(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (strstr(bamfin.c_str(), ch->name) == nullptr) {
+    if (!matches_inside(ch->name, bamfin)) {
         ch->send_to("You must include your name.\n\r");
         return;
     }
@@ -179,7 +177,7 @@ void do_bamfout(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    if (strstr(bamfout.c_str(), ch->name) == nullptr) {
+    if (!matches_inside(ch->name, bamfout)) {
         ch->send_to("You must include your name.\n\r");
         return;
     }
@@ -233,7 +231,7 @@ void do_disconnect(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '+') {
         argument++;
         for (auto &d : descriptors().all()) {
-            if (d.character() && !str_cmp(d.character()->name, argument)) {
+            if (d.character() && matches(d.character()->name, argument)) {
                 d.close();
                 send_to_char("Ok.\n\r", ch);
                 return;
@@ -405,7 +403,7 @@ void do_transfer(CHAR_DATA *ch, const char *argument) {
              descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch) | DescriptorFilter::to_character()) {
             if (victim.in_room != nullptr) {
                 char buf[MAX_STRING_LENGTH];
-                bug_snprintf(buf, sizeof(buf), "%s %s", victim.name, arg2);
+                bug_snprintf(buf, sizeof(buf), "%s %s", victim.name.c_str(), arg2);
                 do_transfer(ch, buf);
             }
         }
@@ -434,9 +432,12 @@ void do_transfer(CHAR_DATA *ch, const char *argument) {
         send_to_char("They aren't here.\n\r", ch);
         return;
     }
+    transfer(ch, victim, location);
+}
 
+void transfer(const CHAR_DATA *imm, CHAR_DATA *victim, ROOM_INDEX_DATA *location) {
     if (victim->in_room == nullptr) {
-        send_to_char("They are in limbo.\n\r", ch);
+        send_to_char("They are in limbo.\n\r", imm);
         return;
     }
 
@@ -448,10 +449,10 @@ void do_transfer(CHAR_DATA *ch, const char *argument) {
     char_from_room(victim);
     char_to_room(victim, location);
     act("$n arrives from a puff of smoke.", victim);
-    if (ch != victim)
-        act("$n has transferred you.", ch, nullptr, victim, To::Vict);
+    if (imm != victim)
+        act("$n has transferred you.", imm, nullptr, victim, To::Vict);
     do_look(victim, "auto");
-    send_to_char("Ok.\n\r", ch);
+    send_to_char("Ok.\n\r", imm);
 }
 
 void do_wizlock(CHAR_DATA *ch, const char *argument) {
@@ -702,8 +703,7 @@ void do_rstat(CHAR_DATA *ch, const char *argument) {
     for (rch = location->people; rch; rch = rch->next_in_room) {
         if (can_see(ch, rch)) {
             send_to_char(" ", ch);
-            one_argument(rch->name, buf);
-            send_to_char(buf, ch);
+            send_to_char(ArgParser(rch->name).shift(), ch);
         }
     }
 
@@ -815,12 +815,12 @@ void do_ostat(CHAR_DATA *ch, const char *argument) {
                  obj->condition, obj->timer);
     send_to_char(buf, ch);
 
-    bug_snprintf(
-        buf, sizeof(buf), "In room: %d  In object: %s  Carried by: %s  Wear_loc: %d\n\r",
+    ch->send_to("In room: %d  In object: %s  Carried by: %s  Wear_loc: %d\n\r"_format(
         obj->in_room == nullptr ? 0 : obj->in_room->vnum, obj->in_obj == nullptr ? "(none)" : obj->in_obj->short_descr,
-        obj->carried_by == nullptr ? "(none)" : can_see(ch, obj->carried_by) ? obj->carried_by->name : "someone",
-        obj->wear_loc);
-    send_to_char(buf, ch);
+        obj->carried_by == nullptr     ? "(none)"
+        : can_see(ch, obj->carried_by) ? obj->carried_by->name
+                                       : "someone",
+        obj->wear_loc));
 
     bug_snprintf(buf, sizeof(buf), "Values: %d %d %d %d %d\n\r", obj->value[0], obj->value[1], obj->value[2],
                  obj->value[3], obj->value[4]);
@@ -1000,8 +1000,7 @@ void do_mskills(CHAR_DATA *ch, const char *argument) {
     if (victim->is_npc())
         return;
 
-    bug_snprintf(buf, sizeof(buf), "Skill list for %s:\n\r", victim->name);
-    send_to_char(buf, ch);
+    ch->send_to("Skill list for {}:\n\r"_format(victim->name));
 
     /* initilize data */
     for (lev = 0; lev < LEVEL_HERO; lev++) {
@@ -1073,8 +1072,7 @@ void do_mspells(CHAR_DATA *ch, const char *argument) {
     if (victim->is_npc())
         return;
 
-    bug_snprintf(buf, sizeof(buf), "Spell list for %s:\n\r", victim->name);
-    send_to_char(buf, ch);
+    ch->send_to("Spell list for {}:\n\r"_format(victim->name));
 
     /* initilize data */
     for (lev = 0; lev < LEVEL_HERO; lev++) {
@@ -1141,8 +1139,7 @@ void do_maffects(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    bug_snprintf(buf, sizeof(buf), "Affect list for %s:\n\r", victim->name);
-    send_to_char(buf, ch);
+    ch->send_to("Affect list for {}:\n\r"_format(victim->name));
 
     if (victim->affected != nullptr) {
         for (paf = victim->affected; paf != nullptr; paf = paf->next) {
@@ -1191,8 +1188,7 @@ void do_mpracs(CHAR_DATA *ch, const char *argument) {
     if (victim->is_npc())
         return;
 
-    bug_snprintf(buf, sizeof(buf), "Practice list for %s:\n\r", victim->name);
-    send_to_char(buf, ch);
+    ch->send_to("Practice list for {}:\n\r"_format(victim->name));
 
     col = 0;
     for (sn = 0; sn < MAX_SKILL; sn++) {
@@ -1237,7 +1233,7 @@ void do_minfo(CHAR_DATA *ch, const char *argument) {
     if (victim->is_npc())
         return;
 
-    bug_snprintf(buf, sizeof(buf), "Info list for %s:\n\r", victim->name);
+    ch->send_to("Info list for {}:\n\r"_format(victim->name));
 
     col = 0;
 
@@ -1289,18 +1285,13 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
                  victim->pc_clan() ? victim->pc_clan()->level_name() : "(none)");
     send_to_char(buf, ch);
 
-    do {
-        if (snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
-                     victim->is_npc() ? victim->pIndexData->vnum : 0, victim->is_npc() ? ".are" : "pc",
-                     race_table[victim->race].name, victim->sex == 1 ? "male" : victim->sex == 2 ? "female" : "neutral",
-                     victim->in_room == nullptr ? 0 : victim->in_room->vnum)
-            < 0)
-            bug("Buffer too small at "
-                "_file_name_"
-                ":"
-                "1296"
-                " - message was truncated");
-    } while (0);
+    bug_snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
+                 victim->is_npc() ? victim->pIndexData->vnum : 0, victim->is_npc() ? ".are" : "pc",
+                 race_table[victim->race].name,
+                 victim->sex == 1   ? "male"
+                 : victim->sex == 2 ? "female"
+                                    : "neutral",
+                 victim->in_room == nullptr ? 0 : victim->in_room->vnum);
     send_to_char(buf, ch);
 
     if (victim->is_npc()) {

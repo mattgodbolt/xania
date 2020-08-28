@@ -1484,7 +1484,6 @@ std::string who_line_for(const CHAR_DATA &to, const CHAR_DATA &wch) {
 /* whois command */
 void do_whois(CHAR_DATA *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    bool found = false;
 
     one_argument(argument, arg);
 
@@ -1500,13 +1499,12 @@ void do_whois(CHAR_DATA *ch, const char *argument) {
         if (!can_see(ch, wch))
             continue;
 
-        if (!str_prefix(arg, wch->name)) {
-            found = true;
+        if (matches_start(arg, wch->name)) {
             output += who_line_for(*ch, *wch);
         }
     }
 
-    if (!found) {
+    if (output.empty()) {
         send_to_char("No one of that name is playing.\n\r", ch);
         return;
     }
@@ -2094,7 +2092,7 @@ void do_password(CHAR_DATA *ch, const char *argument) {
     /*
      * No tilde allowed because of player file format.
      */
-    pwdnew = crypt(arg2, ch->name);
+    pwdnew = crypt(arg2, ch->name.c_str());
     for (p = pwdnew; *p != '\0'; p++) {
         if (*p == '~') {
             send_to_char("New password not acceptable, try again.\n\r", ch);
