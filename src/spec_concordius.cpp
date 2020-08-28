@@ -30,7 +30,7 @@ struct CombatEmote {
  * performing the emotes. A random emote will be chosen. He will stop doing the
  * emote once he gets less than 10% below that threshhold.
  */
-inline static const std::multimap<int, CombatEmote> combat_emotes{
+inline static const std::multimap<int, CombatEmote> conc_combat_emotes{
     {2, {"$n says 'It seems you have bested me, traveller.'"sv, "$n says 'It seems you have bested me, traveller.'"sv}},
     {2, {"$n glances around, looking for an escape route!"sv, "$n glances around, looking for an escape route!"sv}},
     {10,
@@ -84,11 +84,11 @@ struct PersonalEmote {
     std::string_view not_good_msg;
 };
 
-inline static const std::vector<PersonalEmote> personal_emotes{
+inline static const std::vector<PersonalEmote> conc_personal_emotes{
     {"bow", "bow"},       {"flip", "eye"},    {"salute", "salute"}, {"punch", "judge"},
     {"highfive", "peer"}, {"smile", "smile"}, {"cheer", "bonk"}};
 
-inline static const std::array general_emotes{
+inline static const std::array conc_general_emotes{
     "$n polishes $s golden claw."sv,
     "$n looks skyward and closes $s eyes in thought."sv,
     "$n raises $s hand and begins to whistle birdsong."sv,
@@ -100,13 +100,24 @@ inline static const std::array general_emotes{
     "$n says 'I'm told it's never sunny in Underdark. I don't like the sound of that.'"sv,
     "$n says 'Did you know there are over sixty different species of eagle?!'"sv};
 
-bool concordius_stands_guard(CHAR_DATA *ch) {
+inline static const std::array aq_general_emotes{
+    "$n flutters $s wings."sv, "$n makes a piercing screech!"sv, "$n preens $s feathers"sv,
+    "$n dances back and forth on $s large talons."sv, "$n leaps into the air and arcs overhead."sv};
+
+/**
+ * Patrol the rooms around the temple.
+ */
+static inline constexpr std::array patrol_directions{"n", "s", "s", "w", "e", "e", "w",
+                                                     "s", "e", "w", "w", "e", "n", "n"};
+static inline uint patrol_index = 0;
+static inline uint patrol_pause = 0;
+
+void concordius_patrols(CHAR_DATA *ch) {
     uint random = number_range(0, 100);
     if (random > 90) {
-        act(general_emotes[random % general_emotes.size()], ch, nullptr, nullptr, To::Room);
-        return true;
+        act(conc_general_emotes[random % conc_general_emotes.size()], ch, nullptr, nullptr, To::Room);
+        return;
     }
-    bool found_someone = false;
     for (auto victim = ch->in_room->people; victim; victim = victim->next_in_room) {
         if (victim->is_npc() || !ch->can_see(*victim)) {
             continue;
@@ -114,23 +125,24 @@ bool concordius_stands_guard(CHAR_DATA *ch) {
         uint random = number_range(0, 100);
         if (random < 80)
             continue;
-        found_someone = true;
-        auto &pers_emote = personal_emotes[random % personal_emotes.size()];
+        auto &pers_emote = conc_personal_emotes[random % conc_personal_emotes.size()];
         auto msg = "{} {}"_format(victim->is_good() ? pers_emote.good_msg : pers_emote.not_good_msg, victim->name);
         interpret(ch, msg.c_str());
         break;
     }
-    return found_someone;
+    // After socialising in the room, continue with patrol route.
+    if (matches(ch->in_room->area->areaname, "Midgaard") && patrol_pause++ % 3 == 2) {
+        interpret(ch, patrol_directions[patrol_index++ % patrol_directions.size()]);
+    }
 }
 
 /**
  * Choose a random combat emote based on the proportion of damage he has taken.
  * The emotes at lower health get increasingly desperate...
  */
-void combat_emote(CHAR_DATA *ch) {
-    auto percent_hit_lower = (ch->hit * 100) / ch->max_hit;
-    auto it = combat_emotes.lower_bound(percent_hit_lower);
-    auto end = combat_emotes.upper_bound(percent_hit_lower + 10);
+void combat_emote(CHAR_DATA *ch, const int percent_hit_lower) {
+    auto it = conc_combat_emotes.lower_bound(percent_hit_lower);
+    auto end = conc_combat_emotes.upper_bound(percent_hit_lower + 10);
     for (; it != end; ++it) {
         if (number_range(0, 8) == 0) {
             auto &emote = it->second;
@@ -141,9 +153,31 @@ void combat_emote(CHAR_DATA *ch) {
     }
 }
 
-bool concordius_fights(CHAR_DATA *ch) {
-    combat_emote(ch);
-    return true;
+void concordius_fights(CHAR_DATA *ch) {
+    auto percent_hit_lower = (ch->hit * 100) / ch->max_hit;
+    combat_emote(ch, percent_hit_lower);
+    if (percent_hit_lower < 10 && number_range(0, 5) == 0) {
+        int sn = skill_lookup("heal");
+        if (sn > 0) {
+            act("|y$n begins to incant a shamanistic verse.|w", ch, nullptr, nullptr, To::Room);
+            (*skill_table[sn].spell_fun)(sn, ch->level, ch, ch);
+        }
+    }
+}
+
+/**
+ * Aquila routines
+ */
+
+void aquila_patrols(CHAR_DATA *ch) {
+    if (!ch->master) {
+        interpret(ch, "follow Concordius");
+    }
+    uint random = number_range(0, 100);
+    if (random > 90) {
+        act(aq_general_emotes[random % aq_general_emotes.size()], ch, nullptr, nullptr, To::Room);
+        return;
+    }
 }
 
 }
@@ -156,8 +190,21 @@ bool spec_concordius(CHAR_DATA *ch) {
     if (ch->position < POS_FIGHTING)
         return false;
     if (ch->position == POS_FIGHTING) {
-        return concordius_fights(ch);
+        concordius_fights(ch);
     } else {
-        return concordius_stands_guard(ch);
+        concordius_patrols(ch);
     }
+    return true;
+}
+
+/**
+ * Special program for Concordius' pet eagle Aquila.
+ * She follows him around and makes a fuss.
+ */
+bool spec_aquila_pet(CHAR_DATA *ch) {
+    if (ch->position < POS_FIGHTING) {
+        return false;
+    }
+    aquila_patrols(ch);
+    return true;
 }

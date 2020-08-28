@@ -2835,6 +2835,8 @@ void spell_heal(int sn, int level, CHAR_DATA *ch, void *vo) {
     send_to_char("A warm feeling fills your body.\n\r", victim);
     if (ch != victim)
         send_to_char("Ok.\n\r", ch);
+    else
+        act("$n glows with warmth.", ch, nullptr, victim, To::NotVict);
 }
 
 /* RT really nasty high-level attack spell */

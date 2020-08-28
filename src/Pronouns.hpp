@@ -12,7 +12,7 @@ struct Pronouns {
 
 inline const Pronouns &pronouns_for(int sex) { // TODO: strong type for sex.
     static constexpr Pronouns male{"his", "him", "he"};
-    static constexpr Pronouns female{"hers", "her", "she"};
+    static constexpr Pronouns female{"her", "her", "she"};
     static constexpr Pronouns neutral{"its", "it", "it"};
     switch (sex) {
     case 0: return neutral;
