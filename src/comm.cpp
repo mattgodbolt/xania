@@ -138,7 +138,7 @@ void handle_signal_shutdown() {
             /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
             MOBtrigger = false;
             do_save(vch, "");
-            vch->send_to("|RXania has been asked to shutdown by the operating system.|w\n\r");
+            send_to_char("|RXania has been asked to shutdown by the operating system.|w\n\r", vch);
             if (vch->desc && vch->desc->has_buffered_output())
                 process_output(vch->desc, false);
         }
@@ -680,7 +680,7 @@ void nanny(Descriptor *d, const char *argument) {
     case DescriptorState::GetAnsi:
         if (argument[0] == '\0') {
             if (ch->pcdata->colour) {
-                ch->send_to("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!\n\r");
+                send_to_char("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!\n\r", ch);
             }
             if (ch->is_hero()) {
                 do_help(ch, "imotd");
@@ -694,7 +694,7 @@ void nanny(Descriptor *d, const char *argument) {
             case 'y':
             case 'Y':
                 ch->pcdata->colour = true;
-                ch->send_to("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!\n\r");
+                send_to_char("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!\n\r", ch);
                 if (ch->is_hero()) {
                     do_help(ch, "imotd");
                     d->state(DescriptorState::ReadIMotd);
@@ -920,16 +920,15 @@ void nanny(Descriptor *d, const char *argument) {
         }
         break;
 
-    case DescriptorState::GenGroups: {
-        ch->send_to("\n\r");
-    }
+    case DescriptorState::GenGroups:
+        send_to_char("\n\r", ch);
         if (!str_cmp(argument, "done")) {
             snprintf(buf, sizeof(buf), "Creation points: %d\n\r", ch->pcdata->points);
-            ch->send_to(buf);
+            send_to_char(buf, ch);
             snprintf(buf, sizeof(buf), "Experience per level: %d\n\r", exp_per_level(ch, ch->gen_data->points_chosen));
             if (ch->pcdata->points < 40)
                 ch->train = (40 - ch->pcdata->points + 1) / 2;
-            ch->send_to(buf);
+            send_to_char(buf, ch);
             d->write("\n\r");
             d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
             d->state(DescriptorState::GetAnsi);
@@ -937,9 +936,8 @@ void nanny(Descriptor *d, const char *argument) {
             break;
         }
 
-        if (!parse_gen_groups(ch, argument)) {
-            ch->send_to("Choices are: list,learned,premise,add,drop,info,help, and done.\n\r");
-        }
+        if (!parse_gen_groups(ch, argument))
+            send_to_char("Choices are: list,learned,premise,add,drop,info,help, and done.\n\r", ch);
 
         do_help(ch, "menu choice");
         break;
@@ -986,9 +984,9 @@ void nanny(Descriptor *d, const char *argument) {
             ch->pcdata->learned[get_weapon_sn(ch)] = 40;
 
             char_to_room(ch, get_room_index(ROOM_VNUM_SCHOOL));
-            ch->send_to("\n\r");
+            send_to_char("\n\r", ch);
             do_help(ch, "NEWBIE INFO");
-            ch->send_to("\n\r");
+            send_to_char("\n\r", ch);
 
             /* Rohan: New player logged in, need to add name to player list */
             temp_known_player = (KNOWN_PLAYERS *)alloc_mem(sizeof(KNOWN_PLAYERS));
@@ -996,7 +994,7 @@ void nanny(Descriptor *d, const char *argument) {
             temp_known_player->next = player_list;
             player_list = temp_known_player;
             /* hack to let the newbie know about the tipwizard */
-            ch->send_to("|WTip: this is Xania's tip wizard! Type 'tips' to turn this on or off.|w\n\r");
+            send_to_char("|WTip: this is Xania's tip wizard! Type 'tips' to turn this on or off.|w\n\r", ch);
             /* turn on the newbie's tips */
             set_extra(ch, EXTRA_TIP_WIZARD);
 
@@ -1020,7 +1018,7 @@ void nanny(Descriptor *d, const char *argument) {
         if (ch->gold > 250000 && ch->is_mortal()) {
             snprintf(buf, sizeof(buf), "You are taxed %ld gold to pay for the Mayor's bar.\n\r",
                      (ch->gold - 250000) / 2);
-            ch->send_to(buf);
+            send_to_char(buf, ch);
             ch->gold -= (ch->gold - 250000) / 2;
         }
 
@@ -1034,7 +1032,7 @@ void nanny(Descriptor *d, const char *argument) {
 
         if (notes > 0) {
             snprintf(buf, sizeof(buf), "\n\rYou have %d new note%s waiting.\n\r", notes, (notes == 1) ? "" : "s");
-            ch->send_to(buf);
+            send_to_char(buf, ch);
         }
         break;
     }
@@ -1120,7 +1118,7 @@ bool check_reconnect(Descriptor *d, bool fConn) {
                 d->character(ch);
                 ch->desc = d;
                 ch->timer = 0;
-                ch->send_to("Reconnecting.\n\r");
+                send_to_char("Reconnecting.\n\r", ch);
                 act("$n has reconnected.", ch);
                 snprintf(log_buf, LOG_BUF_SIZE, "%s@%s reconnected.", ch->name, d->host().c_str());
                 log_new(log_buf, EXTRA_WIZNET_DEBUG,
@@ -1150,6 +1148,8 @@ bool check_playing(Descriptor *d, char *name) {
 
     return false;
 }
+
+void send_to_char(std::string_view txt, const CHAR_DATA *ch) { ch->send_to(txt); }
 
 /*
  * Send a page to one char.
@@ -1339,7 +1339,7 @@ void act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg
 
     for (auto *to : collect_folks(ch, vch, arg2, type, min_pos)) {
         auto formatted = format_act(format, ch, arg1, arg2, to, vch);
-        to->send_to(formatted);
+        send_to_char(formatted, to);
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         if (MOBtrigger) {
             auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1);

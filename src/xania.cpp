@@ -191,7 +191,7 @@ void do_immworth(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
 
     if ((obj = get_obj_world(ch, argument)) == nullptr) {
-        ch->send_to("Nothing like that in Xania.\n\r");
+        send_to_char("Nothing like that in Xania.\n\r", ch);
         return;
     }
 
@@ -200,7 +200,7 @@ void do_immworth(CHAR_DATA *ch, const char *argument) {
     if (worth == shouldbe) {
         snprintf(buf, sizeof(buf), "Object '%s' has %d point(s) - exactly right.\n\r", obj->pIndexData->short_descr,
                  worth);
-        ch->send_to(buf);
+        send_to_char(buf, ch);
         return;
     }
     if (worth > shouldbe) {
@@ -210,7 +210,7 @@ void do_immworth(CHAR_DATA *ch, const char *argument) {
         snprintf(buf, sizeof(buf), "Object '%s' has %d point(s), within the %d point maximum.\n\r",
                  obj->pIndexData->short_descr, worth, shouldbe);
     }
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 }
 
 /* do_prefix added 19-05-97 PCFN */
@@ -450,7 +450,7 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
 
     /* Did we find *any* corpses? */
     if (num_of_corpses == 0) {
-        ch->send_to("There are no dead in this room to reincarnate!\n\r");
+        send_to_char("There are no dead in this room to reincarnate!\n\r", ch);
         return;
     }
 
@@ -518,7 +518,7 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
 
 void do_smit(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    ch->send_to("If you wish to smite someone, then SPELL it out!\n\r");
+    send_to_char("If you wish to smite someone, then SPELL it out!\n\r", ch);
 }
 
 void do_smite(CHAR_DATA *ch, const char *argument) {
@@ -531,12 +531,12 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
     OBJ_DATA *obj;
 
     if (argument[0] == '\0') {
-        ch->send_to("Upon whom do you wish to unleash your power?\n\r");
+        send_to_char("Upon whom do you wish to unleash your power?\n\r", ch);
         return;
     }
 
     if ((victim = get_char_room(ch, argument)) == nullptr) {
-        ch->send_to("They aren't here.\n\r");
+        send_to_char("They aren't here.\n\r", ch);
         return;
     } /* Not (visibly) present in room! */
 
@@ -545,13 +545,13 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
                              Should be dealt with in interp.c already*/
 
     if (ch->is_npc()) {
-        ch->send_to("You must take your true form before unleashing your power.\n\r");
+        send_to_char("You must take your true form before unleashing your power.\n\r", ch);
         return;
     } /* done whilst switched? No way Jose */
 
     if (victim->get_trust() > ch->get_trust()) {
 
-        ch->send_to("You failed.\n\rUmmm...beware of retaliation!\n\r");
+        send_to_char("You failed.\n\rUmmm...beware of retaliation!\n\r", ch);
         act("$n attempted to smite $N!", ch, nullptr, victim, To::NotVict);
         act("$n attempted to smite you!", ch, nullptr, victim, To::Vict);
         return;
@@ -594,7 +594,7 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
 
     snprintf(smitebuf, sizeof(smitebuf), "You |W>>> |YSMITE|W <<<|w %s with all of your Godly powers!\n\r",
              (victim == ch) ? "yourself" : victim->name);
-    ch->send_to(smitebuf);
+    send_to_char(smitebuf, ch);
 
     victim->hit /= 2; /* easiest way of halving hp? */
     if (victim->hit < 1)
@@ -727,9 +727,8 @@ void tip_players() {
     auto tip = "|WTip: {}|w\n\r"_format(tip_current->tip);
     for (auto &d : descriptors().playing()) {
         CHAR_DATA *ch = d.person();
-        if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
-            ch->send_to(tip);
-        }
+        if (is_set_extra(ch, EXTRA_TIP_WIZARD))
+            send_to_char(tip, ch);
     }
     tip_current = tip_current->next;
 }
@@ -739,22 +738,22 @@ void do_tipwizard(CHAR_DATA *ch, const char *arg) {
     if (arg[0] == '\0') {
         if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
             remove_extra(ch, EXTRA_TIP_WIZARD);
-            ch->send_to("Tipwizard deactivated.\n\r");
+            send_to_char("Tipwizard deactivated.\n\r", ch);
         } else {
             set_extra(ch, EXTRA_TIP_WIZARD);
-            ch->send_to("Tipwizard activated!\n\r");
+            send_to_char("Tipwizard activated!\n\r", ch);
         }
         return;
     }
     if (!strcmp(arg, "on")) {
         set_extra(ch, EXTRA_TIP_WIZARD);
-        ch->send_to("Tipwizard activated!\n\r");
+        send_to_char("Tipwizard activated!\n\r", ch);
         return;
     }
     if (!strcmp(arg, "off")) {
         remove_extra(ch, EXTRA_TIP_WIZARD);
-        ch->send_to("Tipwizard deactivated.\n\r");
+        send_to_char("Tipwizard deactivated.\n\r", ch);
         return;
     }
-    ch->send_to("Syntax: tipwizard {on/off}\n\r");
+    send_to_char("Syntax: tipwizard {on/off}\n\r", ch);
 }

@@ -32,7 +32,7 @@ extern KNOWN_PLAYERS *player_list;
 
 void do_delet(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    ch->send_to("You must type the full command to delete yourself.\n\r");
+    send_to_char("You must type the full command to delete yourself.\n\r", ch);
 }
 
 void do_delete(CHAR_DATA *ch, const char *argument) {
@@ -45,7 +45,7 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
 
     if (ch->pcdata->confirm_delete) {
         if (argument[0] != '\0') {
-            ch->send_to("Delete status removed.\n\r");
+            send_to_char("Delete status removed.\n\r", ch);
             ch->pcdata->confirm_delete = false;
             return;
         } else {
@@ -83,13 +83,13 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
     }
 
     if (argument[0] != '\0') {
-        ch->send_to("Just type delete. No argument.\n\r");
+        send_to_char("Just type delete. No argument.\n\r", ch);
         return;
     }
 
-    ch->send_to("Type delete again to confirm this command.\n\r");
-    ch->send_to("WARNING: this command is irreversible.\n\r");
-    ch->send_to("Typing delete with an argument will undo delete status.\n\r");
+    send_to_char("Type delete again to confirm this command.\n\r", ch);
+    send_to_char("WARNING: this command is irreversible.\n\r", ch);
+    send_to_char("Typing delete with an argument will undo delete status.\n\r", ch);
     ch->pcdata->confirm_delete = true;
 }
 
@@ -105,7 +105,7 @@ void announce(std::string_view buf, const CHAR_DATA *ch) {
 
 void do_say(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '\0') {
-        ch->send_to("|cSay what?\n\r|w");
+        send_to_char("|cSay what?\n\r|w", ch);
         return;
     }
 
@@ -119,8 +119,8 @@ void do_afk(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (IS_SET(ch->act, PLR_AFK) && (argument == nullptr || strlen(argument) == 0)) {
-        ch->send_to("|cYour keyboard welcomes you back!|w\n\r");
-        ch->send_to("|cYou are no longer marked as being afk.|w\n\r");
+        send_to_char("|cYour keyboard welcomes you back!|w\n\r", ch);
+        send_to_char("|cYou are no longer marked as being afk.|w\n\r", ch);
         act("|W$n's|w keyboard has welcomed $m back!", ch, nullptr, nullptr, To::Room, POS_DEAD);
         act("|W$n|w is no longer afk.", ch, nullptr, nullptr, To::Room, POS_DEAD);
         announce("|W###|w (|cAFK|w) $N has returned to $S keyboard.", ch);
@@ -154,13 +154,13 @@ static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
         do_afk(ch, nullptr);
 
     if (victim == nullptr || text == nullptr || text[0] == '\0') {
-        ch->send_to("|cTell whom what?|w\n\r");
+        send_to_char("|cTell whom what?|w\n\r", ch);
 
     } else if (IS_SET(ch->comm, COMM_NOTELL)) {
-        ch->send_to("|cYour message didn't get through.|w\n\r");
+        send_to_char("|cYour message didn't get through.|w\n\r", ch);
 
     } else if (IS_SET(ch->comm, COMM_QUIET)) {
-        ch->send_to("|cYou must turn off quiet mode first.|w\n\r");
+        send_to_char("|cYou must turn off quiet mode first.|w\n\r", ch);
 
     } else if (victim->desc == nullptr && victim->is_pc()) {
         act("|W$N|c seems to have misplaced $S link...try again later.|w", ch, nullptr, victim, To::Char);
@@ -194,7 +194,7 @@ void do_tell(CHAR_DATA *ch, const char *argument) {
     const char *message = one_argument(argument, arg);
 
     if (arg[0] == '\0' || message[0] == '\0') {
-        ch->send_to("|cTell whom what?|w\n\r");
+        send_to_char("|cTell whom what?|w\n\r", ch);
         return;
     }
     victim = get_char_world(ch, arg);
@@ -209,12 +209,12 @@ void do_reply(CHAR_DATA *ch, const char *argument) { tell_to(ch, ch->reply, argu
 
 void do_yell(CHAR_DATA *ch, std::string_view argument) {
     if (IS_SET(ch->comm, COMM_NOSHOUT)) {
-        ch->send_to("|cYou can't yell.|w\n\r");
+        send_to_char("|cYou can't yell.|w\n\r", ch);
         return;
     }
 
     if (argument.empty()) {
-        ch->send_to("|cYell what?|w\n\r");
+        send_to_char("|cYell what?|w\n\r", ch);
         return;
     }
 
@@ -226,10 +226,10 @@ void do_yell(CHAR_DATA *ch, std::string_view argument) {
 
 void do_emote(CHAR_DATA *ch, const char *argument) {
     if (ch->is_pc() && IS_SET(ch->comm, COMM_NOEMOTE)) {
-        ch->send_to("|cYou can't show your emotions.|w\n\r");
+        send_to_char("|cYou can't show your emotions.|w\n\r", ch);
 
     } else if (argument[0] == '\0') {
-        ch->send_to("|cEmote what?|w\n\r");
+        send_to_char("|cEmote what?|w\n\r", ch);
 
     } else {
         if (IS_SET(ch->act, PLR_AFK))
@@ -354,34 +354,34 @@ void do_pose(CHAR_DATA *ch, const char *argument) {
 
 void do_bug(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '\0') {
-        ch->send_to("Please provide a brief description of the bug!\n\r");
+        send_to_char("Please provide a brief description of the bug!\n\r", ch);
         return;
     }
     append_file(ch, BUG_FILE, argument);
-    ch->send_to("|RBug logged! If you're lucky it may even get fixed!|w\n\r");
+    send_to_char("|RBug logged! If you're lucky it may even get fixed!|w\n\r", ch);
 }
 
 void do_idea(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '\0') {
-        ch->send_to("Please provide a brief description of your idea!\n\r");
+        send_to_char("Please provide a brief description of your idea!\n\r", ch);
         return;
     }
     append_file(ch, IDEA_FILE, argument);
-    ch->send_to("|WIdea logged. This is |RNOT|W an identify command.|w\n\r");
+    send_to_char("|WIdea logged. This is |RNOT|W an identify command.|w\n\r", ch);
 }
 
 void do_typo(CHAR_DATA *ch, const char *argument) {
     if (argument[0] == '\0') {
-        ch->send_to("A typo you say? Tell us where!\n\r");
+        send_to_char("A typo you say? Tell us where!\n\r", ch);
         return;
     }
     append_file(ch, TYPO_FILE, argument);
-    ch->send_to("|WTypo logged. One day we'll fix it, or buy a spellchecker.|w\n\r");
+    send_to_char("|WTypo logged. One day we'll fix it, or buy a spellchecker.|w\n\r", ch);
 }
 
 void do_qui(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    ch->send_to("|cIf you want to |RQUIT|c, you have to spell it out.|w\n\r");
+    send_to_char("|cIf you want to |RQUIT|c, you have to spell it out.|w\n\r", ch);
 }
 
 void do_quit(CHAR_DATA *ch, const char *arg) {
@@ -393,21 +393,21 @@ void do_quit(CHAR_DATA *ch, const char *arg) {
 
     if ((ch->pnote != nullptr) && (ch->desc != nullptr)) {
         /* Allow linkdeads to be auto-quitted even if they have a note */
-        ch->send_to("|cDon't you want to post your note first?|w\n\r");
+        send_to_char("|cDon't you want to post your note first?|w\n\r", ch);
         return;
     }
 
     if (ch->position == POS_FIGHTING) {
-        ch->send_to("|RNo way! You are fighting.|w\n\r");
+        send_to_char("|RNo way! You are fighting.|w\n\r", ch);
         return;
     }
 
     if (ch->position < POS_STUNNED) {
-        ch->send_to("|RYou're not DEAD yet.|w\n\r");
+        send_to_char("|RYou're not DEAD yet.|w\n\r", ch);
         return;
     }
     do_chal_canc(ch);
-    ch->send_to("|WYou quit reality for the game.|w\n\r");
+    send_to_char("|WYou quit reality for the game.|w\n\r", ch);
     act("|W$n has left reality for the game.|w", ch);
     snprintf(log_buf, LOG_BUF_SIZE, "%s has quit.", ch->name);
     log_string(log_buf);
@@ -433,7 +433,7 @@ void do_save(CHAR_DATA *ch, const char *arg) {
         return;
 
     save_char_obj(ch);
-    ch->send_to("|cTo Save is wisdom, but don't forget |WXania|c does it automagically!|w\n\r");
+    send_to_char("|cTo Save is wisdom, but don't forget |WXania|c does it automagically!|w\n\r", ch);
     WAIT_STATE(ch, 5 * PULSE_VIOLENCE);
 }
 
@@ -449,23 +449,23 @@ void do_ride(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (get_skill_learned(ch, gsn_ride) == 0) {
-        ch->send_to("Huh?\n\r");
+        send_to_char("Huh?\n\r", ch);
         return;
     }
 
     if (ch->riding != nullptr) {
-        ch->send_to("You can only ride one mount at a time.\n\r");
+        send_to_char("You can only ride one mount at a time.\n\r", ch);
         return;
     }
 
     one_argument(argument, arg);
     if (arg[0] == '\0') {
-        ch->send_to("Ride whom or what?\n\r");
+        send_to_char("Ride whom or what?\n\r", ch);
         return;
     }
 
     if ((ridee = get_char_room(ch, arg)) == nullptr) {
-        ch->send_to("They aren't here.\n\r");
+        send_to_char("They aren't here.\n\r", ch);
         return;
     }
 
@@ -503,12 +503,12 @@ void do_dismount(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (get_skill_learned(ch, gsn_ride) == 0) {
-        ch->send_to("Huh?\n\r");
+        send_to_char("Huh?\n\r", ch);
         return;
     }
 
     if (ch->riding == nullptr) {
-        ch->send_to("But you aren't riding anything!\n\r");
+        send_to_char("But you aren't riding anything!\n\r", ch);
         return;
     }
     unride_char(ch, ch->riding);
@@ -553,12 +553,12 @@ void do_follow(CHAR_DATA *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        ch->send_to("Follow whom?\n\r");
+        send_to_char("Follow whom?\n\r", ch);
         return;
     }
 
     if ((victim = get_char_room(ch, arg)) == nullptr) {
-        ch->send_to("They aren't here.\n\r");
+        send_to_char("They aren't here.\n\r", ch);
         return;
     }
 
@@ -569,7 +569,7 @@ void do_follow(CHAR_DATA *ch, const char *argument) {
 
     if (victim == ch) {
         if (ch->master == nullptr) {
-            ch->send_to("You already follow yourself.\n\r");
+            send_to_char("You already follow yourself.\n\r", ch);
             return;
         }
         stop_follower(ch);
@@ -680,17 +680,17 @@ void do_order(CHAR_DATA *ch, const char *argument) {
     one_argument(command_remainder, arg2);
 
     if (!str_cmp(arg2, "delete")) {
-        ch->send_to("That will NOT be done.\n\r");
+        send_to_char("That will NOT be done.\n\r", ch);
         return;
     }
 
     if (arg[0] == '\0' || command_remainder[0] == '\0') {
-        ch->send_to("Order whom to do what?\n\r");
+        send_to_char("Order whom to do what?\n\r", ch);
         return;
     }
 
     if (IS_AFFECTED(ch, AFF_CHARM)) {
-        ch->send_to("You feel like taking, not giving, orders.\n\r");
+        send_to_char("You feel like taking, not giving, orders.\n\r", ch);
         return;
     }
 
@@ -700,17 +700,17 @@ void do_order(CHAR_DATA *ch, const char *argument) {
     } else {
         fAll = false;
         if ((victim = get_char_room(ch, arg)) == nullptr) {
-            ch->send_to("They aren't here.\n\r");
+            send_to_char("They aren't here.\n\r", ch);
             return;
         }
 
         if (victim == ch) {
-            ch->send_to("Aye aye, right away!\n\r");
+            send_to_char("Aye aye, right away!\n\r", ch);
             return;
         }
 
         if (!IS_AFFECTED(victim, AFF_CHARM) || victim->master != ch) {
-            ch->send_to("Do it yourself!\n\r");
+            send_to_char("Do it yourself!\n\r", ch);
             return;
         }
     }
@@ -729,11 +729,10 @@ void do_order(CHAR_DATA *ch, const char *argument) {
         }
     }
 
-    if (found) {
-        ch->send_to("Ok.\n\r");
-    } else {
-        ch->send_to("You have no followers here.\n\r");
-    }
+    if (found)
+        send_to_char("Ok.\n\r", ch);
+    else
+        send_to_char("You have no followers here.\n\r", ch);
 }
 
 void do_group(CHAR_DATA *ch, const char *argument) {
@@ -756,12 +755,12 @@ void do_group(CHAR_DATA *ch, const char *argument) {
     }
 
     if ((victim = get_char_room(ch, arg)) == nullptr) {
-        ch->send_to("They aren't here.\n\r");
+        send_to_char("They aren't here.\n\r", ch);
         return;
     }
 
     if (ch->master != nullptr || (ch->leader != nullptr && ch->leader != ch)) {
-        ch->send_to("But you are following someone else!\n\r");
+        send_to_char("But you are following someone else!\n\r", ch);
         return;
     }
 
@@ -771,7 +770,7 @@ void do_group(CHAR_DATA *ch, const char *argument) {
     }
 
     if (IS_AFFECTED(victim, AFF_CHARM)) {
-        ch->send_to("You can't remove charmed mobs from your group.\n\r");
+        send_to_char("You can't remove charmed mobs from your group.\n\r", ch);
         return;
     }
 
@@ -819,24 +818,24 @@ void do_split(CHAR_DATA *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        ch->send_to("Split how much?\n\r");
+        send_to_char("Split how much?\n\r", ch);
         return;
     }
 
     amount = atoi(arg);
 
     if (amount < 0) {
-        ch->send_to("Your group wouldn't like that.\n\r");
+        send_to_char("Your group wouldn't like that.\n\r", ch);
         return;
     }
 
     if (amount == 0) {
-        ch->send_to("You hand out zero coins, but no one notices.\n\r");
+        send_to_char("You hand out zero coins, but no one notices.\n\r", ch);
         return;
     }
 
     if (ch->gold < amount) {
-        ch->send_to("You don't have that much gold.\n\r");
+        send_to_char("You don't have that much gold.\n\r", ch);
         return;
     }
 
@@ -847,7 +846,7 @@ void do_split(CHAR_DATA *ch, const char *argument) {
     }
 
     if (members < 2) {
-        ch->send_to("You'd share the gold if there was someone here to split it with!\n\r");
+        send_to_char("You'd share the gold if there was someone here to split it with!\n\r", ch);
         return;
     }
 
@@ -855,7 +854,7 @@ void do_split(CHAR_DATA *ch, const char *argument) {
     extra = amount % members;
 
     if (share == 0) {
-        ch->send_to("Don't even bother, cheapskate.\n\r");
+        send_to_char("Don't even bother, cheapskate.\n\r", ch);
         return;
     }
 
@@ -863,7 +862,7 @@ void do_split(CHAR_DATA *ch, const char *argument) {
     ch->gold += share + extra;
 
     snprintf(buf, sizeof(buf), "You split %d gold coins.  Your share is %d gold coins.\n\r", amount, share + extra);
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "$n splits %d gold coins.  Your share is %d gold coins.", amount, share);
 
@@ -880,12 +879,12 @@ void do_gtell(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *gch;
 
     if (argument[0] == '\0') {
-        ch->send_to("|cTell your group what?|w\n\r");
+        send_to_char("|cTell your group what?|w\n\r", ch);
         return;
     }
 
     if (IS_SET(ch->comm, COMM_NOTELL)) {
-        ch->send_to("|cYour message didn't get through!|w\n\r");
+        send_to_char("|cYour message didn't get through!|w\n\r", ch);
         return;
     }
 
@@ -893,12 +892,11 @@ void do_gtell(CHAR_DATA *ch, const char *argument) {
      * Note use of send_to_char, so gtell works on sleepers.
      */
     snprintf(buf, sizeof(buf), "|CYou tell the group '%s|C'|w.\n\r", argument);
-    ch->send_to(buf);
+    send_to_char(buf, ch);
     snprintf(buf, sizeof(buf), "|C%s tells the group '%s|C'|w.\n\r", ch->name, argument);
     for (gch = char_list; gch != nullptr; gch = gch->next) {
-        if (is_same_group(gch, ch) && (gch != ch)) {
-            gch->send_to(buf);
-        }
+        if (is_same_group(gch, ch) && (gch != ch))
+            send_to_char(buf, gch);
     }
 }
 

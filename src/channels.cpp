@@ -29,8 +29,8 @@ void do_channels(const CHAR_DATA *ch, const char *argument) {
     (void)argument;
 
     /* lists all channels and their status */
-    ch->send_to("|Wchannel         status|w\n\r");
-    ch->send_to("----------------------------\n\r");
+    send_to_char("|Wchannel         status|w\n\r", ch);
+    send_to_char("----------------------------\n\r", ch);
 
     print_channel_status(ch, "gossip", ch->comm, COMM_NOGOSSIP);
     print_channel_status(ch, "auction", ch->comm, COMM_NOAUCTION);
@@ -81,16 +81,16 @@ static void toggle_channel(CHAR_DATA *ch, unsigned long chan_flag, const char *c
         snprintf(buf, sizeof(buf), "|c%s channel is now |rOFF|c.|w\n\r", chan_name);
         SET_BIT(ch->comm, chan_flag);
     }
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 }
 
 void do_quiet(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_QUIET)) {
-        ch->send_to("Quiet mode removed.\n\r");
+        send_to_char("Quiet mode removed.\n\r", ch);
         REMOVE_BIT(ch->comm, COMM_QUIET);
     } else {
-        ch->send_to("From now on, you will only hear says and emotes.\n\r");
+        send_to_char("From now on, you will only hear says and emotes.\n\r", ch);
         SET_BIT(ch->comm, COMM_QUIET);
     }
 }
@@ -103,11 +103,11 @@ void channel_command(CHAR_DATA *ch, const char *argument, unsigned long chan_fla
         toggle_channel(ch, chan_flag, chan_name);
     } else {
         if (IS_SET(ch->comm, COMM_QUIET)) {
-            ch->send_to("You must turn off quiet mode first.\n\r");
+            send_to_char("You must turn off quiet mode first.\n\r", ch);
             return;
         }
         if (IS_SET(ch->comm, COMM_NOCHANNELS)) {
-            ch->send_to("The gods have revoked your channel privileges.\n\r");
+            send_to_char("The gods have revoked your channel privileges.\n\r", ch);
             return;
         }
         if (IS_SET(ch->act, PLR_AFK))
@@ -115,7 +115,7 @@ void channel_command(CHAR_DATA *ch, const char *argument, unsigned long chan_fla
         REMOVE_BIT(ch->comm, chan_flag);
 
         snprintf(buf, sizeof(buf), desc_self, argument);
-        ch->send_to(buf);
+        send_to_char(buf, ch);
         for (auto &d : descriptors().all_but(*ch)) {
             auto *victim = d.person();
             if (!IS_SET(victim->comm, chan_flag) && !IS_SET(victim->comm, COMM_QUIET)) {

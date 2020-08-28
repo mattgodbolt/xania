@@ -398,8 +398,7 @@ static const char *apply_prefix(char *buf, CHAR_DATA *ch, const char *command) {
         auto &pc_data = player->pcdata;
         if (command[0] == '\\') {
             if (command[1] == '\\') {
-                std::string_view txt = !pc_data->prefix.empty() ? "(prefix removed)\n\r" : "(no prefix to remove)\n\r";
-                ch->send_to(txt);
+                send_to_char(!pc_data->prefix.empty() ? "(prefix removed)\n\r" : "(no prefix to remove)\n\r", ch);
                 pc_data->prefix.clear();
                 command++; /* skip the \ */
             }
@@ -433,7 +432,7 @@ void interpret(CHAR_DATA *ch, const char *argument) {
 
     /* Implement freeze command. */
     if (ch->is_pc() && IS_SET(ch->act, PLR_FREEZE)) {
-        ch->send_to("You're totally frozen!\n\r");
+        send_to_char("You're totally frozen!\n\r", ch);
         return;
     }
 
@@ -457,9 +456,8 @@ void interpret(CHAR_DATA *ch, const char *argument) {
 
     /* Look for command in socials table. */
     if (!cmd.has_value()) {
-        if (!check_social(ch, command, argument)) {
-            ch->send_to("Huh?\n\r");
-        }
+        if (!check_social(ch, command, argument))
+            send_to_char("Huh?\n\r", ch);
         // Return before logging. This is to prevent accidentally logging a typo'd "never log" command.
         return;
     }
@@ -485,7 +483,7 @@ void interpret(CHAR_DATA *ch, const char *argument) {
 
     /* Character not in position for command? */
     if (ch->position < cmd->position) {
-        ch->send_to(bad_position_string[ch->position]);
+        send_to_char(bad_position_string[ch->position], ch);
         return;
     }
 
@@ -516,12 +514,12 @@ bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
         return false;
 
     if (ch->is_pc() && IS_SET(ch->comm, COMM_NOEMOTE)) {
-        ch->send_to("You are anti-social!\n\r");
+        send_to_char("You are anti-social!\n\r", ch);
         return true;
     }
 
     if ((ch->position < POS_SLEEPING) || (ch->position == POS_SLEEPING && str_cmp(social->name, "snore"))) {
-        ch->send_to(bad_position_string[ch->position]);
+        send_to_char(bad_position_string[ch->position], ch);
         return true;
     }
 
@@ -531,7 +529,7 @@ bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
         act(social->others_no_arg, ch, nullptr, victim, To::Room);
         act(social->char_no_arg, ch, nullptr, victim, To::Char);
     } else if ((victim = get_char_room(ch, arg)) == nullptr) {
-        ch->send_to("They aren't here.\n\r");
+        send_to_char("They aren't here.\n\r", ch);
     } else if (victim == ch) {
         act(social->others_auto, ch, nullptr, victim, To::Room);
         act(social->char_auto, ch, nullptr, victim, To::Char);
@@ -653,7 +651,7 @@ public:
 
         if (start_pos + name_len > max_width) {
             strcat(buf, "\n\r");
-            ch->send_to(buf);
+            send_to_char(buf, ch);
             buf[0] = '\0';
             start_pos = buf_len = 0;
         }
@@ -676,7 +674,7 @@ void do_commands(CHAR_DATA *ch, const char *argument) {
     commands.enumerate(commands.level_restrict(0, max_level, col.visitor()));
     if (col.buf[0] != '\0') {
         strcat(col.buf, "\n\r");
-        ch->send_to(col.buf);
+        send_to_char(col.buf, ch);
     }
 }
 
@@ -686,7 +684,7 @@ void do_wizhelp(CHAR_DATA *ch, const char *argument) {
     commands.enumerate(commands.level_restrict(LEVEL_HERO, ch->get_trust(), col.visitor()));
     if (col.buf[0] != '\0') {
         strcat(col.buf, "\n\r");
-        ch->send_to(col.buf);
+        send_to_char(col.buf, ch);
     }
 }
 

@@ -68,7 +68,7 @@ void display_flags(const char *format, CHAR_DATA *ch, unsigned long current_val)
         buffer_addline(buffer, "|w");
         buffer_send(buffer, ch); /* This frees buffer */
     } else {
-        ch->send_to("|CNone.|w\n\r");
+        send_to_char("|CNone.|w\n\r", ch);
     }
 }
 
@@ -113,7 +113,7 @@ unsigned long flag_set(const char *format, const char *arg, unsigned long curren
     auto retval = current_val;
     if (arg[0] == '\0') {
         display_flags(format, ch, (int)current_val);
-        ch->send_to("Allowed flags are:\n\r");
+        send_to_char("Allowed flags are:\n\r", ch);
         display_flags(format, ch, -1);
         return current_val;
     }
@@ -134,7 +134,7 @@ unsigned long flag_set(const char *format, const char *arg, unsigned long curren
         auto bit = flag_bit(format, arg, ch->get_trust());
         if (bit == INVALID_BIT) {
             display_flags(format, ch, (int)current_val);
-            ch->send_to("Allowed flags are:\n\r");
+            send_to_char("Allowed flags are:\n\r", ch);
             display_flags(format, ch, -1);
             return current_val;
         }

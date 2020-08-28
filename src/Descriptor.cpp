@@ -151,8 +151,7 @@ void Descriptor::show_next_page(std::string_view input) noexcept {
     }
 
     for (auto line = 0; !page_outbuf_.empty() && line < character_->lines; ++line) {
-        std::string_view txt = (page_outbuf_.front() + "\r\n").c_str();
-        character_->send_to(txt);
+        send_to_char((page_outbuf_.front() + "\r\n").c_str(), character_);
         page_outbuf_.pop_front();
     }
 }

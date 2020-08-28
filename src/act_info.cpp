@@ -272,38 +272,36 @@ void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch) {
     }
 
     if (victim->description[0] != '\0') {
-        ch->send_to(victim->description);
+        send_to_char(victim->description, ch);
     } else {
         act("You see nothing special about $M.", ch, nullptr, victim, To::Char);
     }
 
-    std::string_view txt = describe_fight_condition(*victim);
-    ch->send_to(txt);
+    send_to_char(describe_fight_condition(*victim), ch);
 
     found = false;
     for (iWear = 0; iWear < MAX_WEAR; iWear++) {
         if ((obj = get_eq_char(victim, iWear)) != nullptr && can_see_obj(ch, obj)) {
             if (!found) {
-                ch->send_to("\n\r");
+                send_to_char("\n\r", ch);
                 act("$N is using:", ch, nullptr, victim, To::Char);
                 found = true;
             }
             if (obj->wear_string != nullptr) {
                 snprintf(buf2, sizeof(buf2), "<%s>", obj->wear_string);
                 snprintf(buf, sizeof(buf), "%-20s", buf2);
-                ch->send_to(buf);
+                send_to_char(buf, ch);
             } else {
-                ch->send_to(where_name[iWear]);
+                send_to_char(where_name[iWear], ch);
             }
-            std::string_view txt_1 = format_obj_to_char(obj, ch, true);
-            ch->send_to(txt_1);
-            ch->send_to(txt_1);
+            send_to_char(format_obj_to_char(obj, ch, true), ch);
+            send_to_char("\n\r", ch);
         }
     }
 
     if (victim != ch && ch->is_pc() && number_percent() < get_skill_learned(ch, gsn_peek)
         && IS_SET(ch->act, PLR_AUTOPEEK)) {
-        ch->send_to("\n\rYou peek at the inventory:\n\r");
+        send_to_char("\n\rYou peek at the inventory:\n\r", ch);
         check_improve(ch, gsn_peek, true, 4);
         show_list_to_char(victim->carrying, ch, true, true);
     }
@@ -317,12 +315,12 @@ void do_peek(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (ch->position < POS_SLEEPING) {
-        ch->send_to("You can't see anything but stars!\n\r");
+        send_to_char("You can't see anything but stars!\n\r", ch);
         return;
     }
 
     if (ch->position == POS_SLEEPING) {
-        ch->send_to("You can't see anything, you're sleeping!\n\r");
+        send_to_char("You can't see anything, you're sleeping!\n\r", ch);
         return;
     }
 
@@ -330,7 +328,7 @@ void do_peek(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (ch->is_pc() && !IS_SET(ch->act, PLR_HOLYLIGHT) && room_is_dark(ch->in_room)) {
-        ch->send_to("It is pitch black ... \n\r");
+        send_to_char("It is pitch black ... \n\r", ch);
         show_char_to_char(ch->in_room->people, ch);
         return;
     }
@@ -339,13 +337,12 @@ void do_peek(CHAR_DATA *ch, const char *argument) {
 
     if ((victim = get_char_room(ch, arg1)) != nullptr) {
         if (victim != ch && ch->is_pc() && number_percent() < get_skill_learned(ch, gsn_peek)) {
-            ch->send_to("\n\rYou peek at their inventory:\n\r");
+            send_to_char("\n\rYou peek at their inventory:\n\r", ch);
             check_improve(ch, gsn_peek, true, 4);
             show_list_to_char(victim->carrying, ch, true, true);
         }
-    } else {
-        ch->send_to("They aren't here.\n\r");
-    }
+    } else
+        send_to_char("They aren't here.\n\r", ch);
 }
 
 void show_char_to_char(const CHAR_DATA *list, const CHAR_DATA *ch) {
@@ -359,7 +356,7 @@ void show_char_to_char(const CHAR_DATA *list, const CHAR_DATA *ch) {
         if (can_see(ch, rch)) {
             show_char_to_char_0(rch, ch);
         } else if (room_is_dark(ch->in_room) && IS_AFFECTED(rch, AFF_INFRARED)) {
-            ch->send_to("You see |Rglowing red|w eyes watching |RYOU!|w\n\r");
+            send_to_char("You see |Rglowing red|w eyes watching |RYOU!|w\n\r", ch);
         }
     }
 }
@@ -382,24 +379,24 @@ void do_scroll(CHAR_DATA *ch, const char *argument) {
 
     if (arg[0] == '\0') {
         if (ch->lines == 0) {
-            ch->send_to("|cPaging is set to maximum.|w\n\r");
+            send_to_char("|cPaging is set to maximum.|w\n\r", ch);
             ch->lines = 52;
         } else {
             snprintf(buf, sizeof(buf), "|cYou currently display %d lines per page.|w\n\r", ch->lines + 2);
-            ch->send_to(buf);
+            send_to_char(buf, ch);
         }
         return;
     }
 
     if (!is_number(arg)) {
-        ch->send_to("|cYou must provide a number.|w\n\r");
+        send_to_char("|cYou must provide a number.|w\n\r", ch);
         return;
     }
 
     lines = atoi(arg);
 
     if (lines == 0) {
-        ch->send_to("|cPaging at maximum.|w\n\r");
+        send_to_char("|cPaging at maximum.|w\n\r", ch);
         ch->lines = 52;
         return;
     }
@@ -409,12 +406,12 @@ void do_scroll(CHAR_DATA *ch, const char *argument) {
      */
 
     if (lines < 10 || lines > 52) {
-        ch->send_to("|cYou must provide a reasonable number.|w\n\r");
+        send_to_char("|cYou must provide a reasonable number.|w\n\r", ch);
         return;
     }
 
     snprintf(buf, sizeof(buf), "|cScroll set to %d lines.|w\n\r", lines);
-    ch->send_to(buf);
+    send_to_char(buf, ch);
     ch->lines = lines - 2;
 }
 
@@ -429,15 +426,13 @@ void do_socials(CHAR_DATA *ch, const char *argument) {
 
     for (iSocial = 0; social_table[iSocial].name[0] != '\0'; iSocial++) {
         snprintf(buf, sizeof(buf), "%-12s", social_table[iSocial].name);
-        ch->send_to(buf);
-        if (++col % 6 == 0) {
-            ch->send_to("\n\r");
-        }
+        send_to_char(buf, ch);
+        if (++col % 6 == 0)
+            send_to_char("\n\r", ch);
     }
 
-    if (col % 6 != 0) {
-        ch->send_to("\n\r");
-    }
+    if (col % 6 != 0)
+        send_to_char("\n\r", ch);
 }
 
 /* RT Commands to replace news, motd, imotd, etc from ROM */
@@ -481,127 +476,109 @@ void do_autolist(CHAR_DATA *ch, const char *argument) {
     if (ch->is_npc())
         return;
 
-    ch->send_to("   action     status\n\r");
-    ch->send_to("---------------------\n\r");
+    send_to_char("   action     status\n\r", ch);
+    send_to_char("---------------------\n\r", ch);
 
-    ch->send_to("ANSI colour    ");
-    if (ch->pcdata->colour) {
-        ch->send_to("|RON|w\n\r");
-    } else {
-        ch->send_to("|ROFF|w\n\r");
-    }
+    send_to_char("ANSI colour    ", ch);
+    if (ch->pcdata->colour)
+        send_to_char("|RON|w\n\r", ch);
+    else
+        send_to_char("|ROFF|w\n\r", ch);
 
-    ch->send_to("autoaffect     ");
-    if (IS_SET(ch->comm, COMM_AFFECT)) {
-        ch->send_to("|RON|w\n\r");
-    } else {
-        ch->send_to("|ROFF|w\n\r");
-    }
+    send_to_char("autoaffect     ", ch);
+    if (IS_SET(ch->comm, COMM_AFFECT))
+        send_to_char("|RON|w\n\r", ch);
+    else
+        send_to_char("|ROFF|w\n\r", ch);
 
-    ch->send_to("autoassist     ");
-    if (IS_SET(ch->act, PLR_AUTOASSIST)) {
-        ch->send_to("|RON|w\n\r");
-    } else {
-        ch->send_to("|ROFF|w\n\r");
-    }
+    send_to_char("autoassist     ", ch);
+    if (IS_SET(ch->act, PLR_AUTOASSIST))
+        send_to_char("|RON|w\n\r", ch);
+    else
+        send_to_char("|ROFF|w\n\r", ch);
 
-    ch->send_to("autoexit       ");
-    if (IS_SET(ch->act, PLR_AUTOEXIT)) {
-        ch->send_to("|RON|w\n\r");
-    } else {
-        ch->send_to("|ROFF|w\n\r");
-    }
+    send_to_char("autoexit       ", ch);
+    if (IS_SET(ch->act, PLR_AUTOEXIT))
+        send_to_char("|RON|w\n\r", ch);
+    else
+        send_to_char("|ROFF|w\n\r", ch);
 
-    ch->send_to("autogold       ");
-    if (IS_SET(ch->act, PLR_AUTOGOLD)) {
-        ch->send_to("|RON|w\n\r");
-    } else {
-        ch->send_to("|ROFF|w\n\r");
-    }
+    send_to_char("autogold       ", ch);
+    if (IS_SET(ch->act, PLR_AUTOGOLD))
+        send_to_char("|RON|w\n\r", ch);
+    else
+        send_to_char("|ROFF|w\n\r", ch);
 
-    ch->send_to("autoloot       ");
-    if (IS_SET(ch->act, PLR_AUTOLOOT)) {
-        ch->send_to("|RON|w\n\r");
-    } else {
-        ch->send_to("|ROFF|w\n\r");
-    }
+    send_to_char("autoloot       ", ch);
+    if (IS_SET(ch->act, PLR_AUTOLOOT))
+        send_to_char("|RON|w\n\r", ch);
+    else
+        send_to_char("|ROFF|w\n\r", ch);
 
-    ch->send_to("autopeek       ");
-    if (IS_SET(ch->act, PLR_AUTOPEEK)) {
-        ch->send_to("|RON|w\n\r");
-    } else {
-        ch->send_to("|ROFF|w\n\r");
-    }
+    send_to_char("autopeek       ", ch);
+    if (IS_SET(ch->act, PLR_AUTOPEEK))
+        send_to_char("|RON|w\n\r", ch);
+    else
+        send_to_char("|ROFF|w\n\r", ch);
 
-    ch->send_to("autosac        ");
-    if (IS_SET(ch->act, PLR_AUTOSAC)) {
-        ch->send_to("|RON|w\n\r");
-    } else {
-        ch->send_to("|ROFF|w\n\r");
-    }
+    send_to_char("autosac        ", ch);
+    if (IS_SET(ch->act, PLR_AUTOSAC))
+        send_to_char("|RON|w\n\r", ch);
+    else
+        send_to_char("|ROFF|w\n\r", ch);
 
-    ch->send_to("autosplit      ");
-    if (IS_SET(ch->act, PLR_AUTOSPLIT)) {
-        ch->send_to("|RON|w\n\r");
-    } else {
-        ch->send_to("|ROFF|w\n\r");
-    }
+    send_to_char("autosplit      ", ch);
+    if (IS_SET(ch->act, PLR_AUTOSPLIT))
+        send_to_char("|RON|w\n\r", ch);
+    else
+        send_to_char("|ROFF|w\n\r", ch);
 
-    ch->send_to("prompt         ");
-    if (IS_SET(ch->comm, COMM_PROMPT)) {
-        ch->send_to("|RON|w\n\r");
-    } else {
-        ch->send_to("|ROFF|w\n\r");
-    }
+    send_to_char("prompt         ", ch);
+    if (IS_SET(ch->comm, COMM_PROMPT))
+        send_to_char("|RON|w\n\r", ch);
+    else
+        send_to_char("|ROFF|w\n\r", ch);
 
-    ch->send_to("combine items  ");
-    if (IS_SET(ch->comm, COMM_COMBINE)) {
-        ch->send_to("|RON|w\n\r");
-    } else {
-        ch->send_to("|ROFF|w\n\r");
-    }
+    send_to_char("combine items  ", ch);
+    if (IS_SET(ch->comm, COMM_COMBINE))
+        send_to_char("|RON|w\n\r", ch);
+    else
+        send_to_char("|ROFF|w\n\r", ch);
 
-    if (!IS_SET(ch->act, PLR_CANLOOT)) {
-        ch->send_to("Your corpse is safe from thieves.\n\r");
-    } else {
-        ch->send_to("Your corpse may be looted.\n\r");
-    }
+    if (!IS_SET(ch->act, PLR_CANLOOT))
+        send_to_char("Your corpse is safe from thieves.\n\r", ch);
+    else
+        send_to_char("Your corpse may be looted.\n\r", ch);
 
-    if (IS_SET(ch->act, PLR_NOSUMMON)) {
-        ch->send_to("You cannot be summoned.\n\r");
-    } else {
-        ch->send_to("You can be summoned.\n\r");
-    }
+    if (IS_SET(ch->act, PLR_NOSUMMON))
+        send_to_char("You cannot be summoned.\n\r", ch);
+    else
+        send_to_char("You can be summoned.\n\r", ch);
 
-    if (IS_SET(ch->act, PLR_NOFOLLOW)) {
-        ch->send_to("You do not welcome followers.\n\r");
-    } else {
-        ch->send_to("You accept followers.\n\r");
-    }
+    if (IS_SET(ch->act, PLR_NOFOLLOW))
+        send_to_char("You do not welcome followers.\n\r", ch);
+    else
+        send_to_char("You accept followers.\n\r", ch);
 
-    if (IS_SET(ch->comm, COMM_BRIEF)) {
-        ch->send_to("Only brief descriptions are being shown.\n\r");
-    } else {
-        ch->send_to("Full descriptions are being shown.\n\r");
-    }
+    if (IS_SET(ch->comm, COMM_BRIEF))
+        send_to_char("Only brief descriptions are being shown.\n\r", ch);
+    else
+        send_to_char("Full descriptions are being shown.\n\r", ch);
 
-    if (IS_SET(ch->comm, COMM_COMPACT)) {
-        ch->send_to("Compact mode is set.\n\r");
-    } else {
-        ch->send_to("Compact mode is not set.\n\r");
-    }
+    if (IS_SET(ch->comm, COMM_COMPACT))
+        send_to_char("Compact mode is set.\n\r", ch);
+    else
+        send_to_char("Compact mode is not set.\n\r", ch);
 
-    if (IS_SET(ch->comm, COMM_SHOWAFK)) {
-        ch->send_to("Messages sent to you will be shown when afk.\n\r");
-    } else {
-        ch->send_to("Messages sent to you will not be shown when afk.\n\r");
-    }
+    if (IS_SET(ch->comm, COMM_SHOWAFK))
+        send_to_char("Messages sent to you will be shown when afk.\n\r", ch);
+    else
+        send_to_char("Messages sent to you will not be shown when afk.\n\r", ch);
 
-    if (IS_SET(ch->comm, COMM_SHOWDEFENCE)) {
-        ch->send_to("Shield blocks, parries, and dodges are being shown.\n\r");
-    } else {
-        ch->send_to("Shield blocks, parries, and dodges are not being shown.\n\r");
-    }
+    if (IS_SET(ch->comm, COMM_SHOWDEFENCE))
+        send_to_char("Shield blocks, parries, and dodges are being shown.\n\r", ch);
+    else
+        send_to_char("Shield blocks, parries, and dodges are not being shown.\n\r", ch);
 }
 
 void do_autoaffect(CHAR_DATA *ch, const char *argument) {
@@ -610,10 +587,10 @@ void do_autoaffect(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (IS_SET(ch->comm, COMM_AFFECT)) {
-        ch->send_to("Autoaffect removed.\n\r");
+        send_to_char("Autoaffect removed.\n\r", ch);
         REMOVE_BIT(ch->comm, COMM_AFFECT);
     } else {
-        ch->send_to("Affects will now be shown in score.\n\r");
+        send_to_char("Affects will now be shown in score.\n\r", ch);
         SET_BIT(ch->comm, COMM_AFFECT);
     }
 }
@@ -623,10 +600,10 @@ void do_autoassist(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (IS_SET(ch->act, PLR_AUTOASSIST)) {
-        ch->send_to("Autoassist removed.\n\r");
+        send_to_char("Autoassist removed.\n\r", ch);
         REMOVE_BIT(ch->act, PLR_AUTOASSIST);
     } else {
-        ch->send_to("You will now assist when needed.\n\r");
+        send_to_char("You will now assist when needed.\n\r", ch);
         SET_BIT(ch->act, PLR_AUTOASSIST);
     }
 }
@@ -637,10 +614,10 @@ void do_autoexit(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (IS_SET(ch->act, PLR_AUTOEXIT)) {
-        ch->send_to("Exits will no longer be displayed.\n\r");
+        send_to_char("Exits will no longer be displayed.\n\r", ch);
         REMOVE_BIT(ch->act, PLR_AUTOEXIT);
     } else {
-        ch->send_to("Exits will now be displayed.\n\r");
+        send_to_char("Exits will now be displayed.\n\r", ch);
         SET_BIT(ch->act, PLR_AUTOEXIT);
     }
 }
@@ -651,10 +628,10 @@ void do_autogold(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (IS_SET(ch->act, PLR_AUTOGOLD)) {
-        ch->send_to("Autogold removed.\n\r");
+        send_to_char("Autogold removed.\n\r", ch);
         REMOVE_BIT(ch->act, PLR_AUTOGOLD);
     } else {
-        ch->send_to("Automatic gold looting set.\n\r");
+        send_to_char("Automatic gold looting set.\n\r", ch);
         SET_BIT(ch->act, PLR_AUTOGOLD);
     }
 }
@@ -665,10 +642,10 @@ void do_autoloot(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (IS_SET(ch->act, PLR_AUTOLOOT)) {
-        ch->send_to("Autolooting removed.\n\r");
+        send_to_char("Autolooting removed.\n\r", ch);
         REMOVE_BIT(ch->act, PLR_AUTOLOOT);
     } else {
-        ch->send_to("Automatic corpse looting set.\n\r");
+        send_to_char("Automatic corpse looting set.\n\r", ch);
         SET_BIT(ch->act, PLR_AUTOLOOT);
     }
 }
@@ -679,10 +656,10 @@ void do_autopeek(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (IS_SET(ch->act, PLR_AUTOPEEK)) {
-        ch->send_to("Autopeeking removed.\n\r");
+        send_to_char("Autopeeking removed.\n\r", ch);
         REMOVE_BIT(ch->act, PLR_AUTOPEEK);
     } else {
-        ch->send_to("Automatic peeking set.\n\r");
+        send_to_char("Automatic peeking set.\n\r", ch);
         SET_BIT(ch->act, PLR_AUTOPEEK);
     }
 }
@@ -693,10 +670,10 @@ void do_autosac(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (IS_SET(ch->act, PLR_AUTOSAC)) {
-        ch->send_to("Autosacrificing removed.\n\r");
+        send_to_char("Autosacrificing removed.\n\r", ch);
         REMOVE_BIT(ch->act, PLR_AUTOSAC);
     } else {
-        ch->send_to("Automatic corpse sacrificing set.\n\r");
+        send_to_char("Automatic corpse sacrificing set.\n\r", ch);
         SET_BIT(ch->act, PLR_AUTOSAC);
     }
 }
@@ -707,10 +684,10 @@ void do_autosplit(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (IS_SET(ch->act, PLR_AUTOSPLIT)) {
-        ch->send_to("Autosplitting removed.\n\r");
+        send_to_char("Autosplitting removed.\n\r", ch);
         REMOVE_BIT(ch->act, PLR_AUTOSPLIT);
     } else {
-        ch->send_to("Automatic gold splitting set.\n\r");
+        send_to_char("Automatic gold splitting set.\n\r", ch);
         SET_BIT(ch->act, PLR_AUTOSPLIT);
     }
 }
@@ -718,10 +695,10 @@ void do_autosplit(CHAR_DATA *ch, const char *argument) {
 void do_brief(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_BRIEF)) {
-        ch->send_to("Full descriptions activated.\n\r");
+        send_to_char("Full descriptions activated.\n\r", ch);
         REMOVE_BIT(ch->comm, COMM_BRIEF);
     } else {
-        ch->send_to("Short descriptions activated.\n\r");
+        send_to_char("Short descriptions activated.\n\r", ch);
         SET_BIT(ch->comm, COMM_BRIEF);
     }
 }
@@ -732,32 +709,32 @@ void do_colour(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (ch->pcdata->colour) {
-        ch->send_to("You feel less COLOURFUL.\n\r");
+        send_to_char("You feel less COLOURFUL.\n\r", ch);
 
         ch->pcdata->colour = false;
     } else {
         ch->pcdata->colour = true;
-        ch->send_to("You feel more |RC|GO|BL|rO|gU|bR|cF|YU|PL|W!.|w\n\r");
+        send_to_char("You feel more |RC|GO|BL|rO|gU|bR|cF|YU|PL|W!.|w\n\r", ch);
     }
 }
 
 void do_showafk(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_SHOWAFK)) {
-        ch->send_to("Messages sent to you will now not be shown when afk.\n\r");
+        send_to_char("Messages sent to you will now not be shown when afk.\n\r", ch);
         REMOVE_BIT(ch->comm, COMM_SHOWAFK);
     } else {
-        ch->send_to("Messages sent to you will now be shown when afk.\n\r");
+        send_to_char("Messages sent to you will now be shown when afk.\n\r", ch);
         SET_BIT(ch->comm, COMM_SHOWAFK);
     }
 }
 void do_showdefence(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_SHOWDEFENCE)) {
-        ch->send_to("Shield blocks, parries and dodges will not be shown during combat.\n\r");
+        send_to_char("Shield blocks, parries and dodges will not be shown during combat.\n\r", ch);
         REMOVE_BIT(ch->comm, COMM_SHOWDEFENCE);
     } else {
-        ch->send_to("Shield blocks, parries and dodges will be shown during combat.\n\r");
+        send_to_char("Shield blocks, parries and dodges will be shown during combat.\n\r", ch);
         SET_BIT(ch->comm, COMM_SHOWDEFENCE);
     }
 }
@@ -765,10 +742,10 @@ void do_showdefence(CHAR_DATA *ch, const char *argument) {
 void do_compact(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_COMPACT)) {
-        ch->send_to("Compact mode removed.\n\r");
+        send_to_char("Compact mode removed.\n\r", ch);
         REMOVE_BIT(ch->comm, COMM_COMPACT);
     } else {
-        ch->send_to("Compact mode set.\n\r");
+        send_to_char("Compact mode set.\n\r", ch);
         SET_BIT(ch->comm, COMM_COMPACT);
     }
 }
@@ -781,29 +758,29 @@ void do_prompt(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (str_cmp(argument, "off") == 0) {
-        ch->send_to("You will no longer see prompts.\n\r");
+        send_to_char("You will no longer see prompts.\n\r", ch);
         REMOVE_BIT(ch->comm, COMM_PROMPT);
         return;
     }
     if (str_cmp(argument, "on") == 0) {
-        ch->send_to("You will now see prompts.\n\r");
+        send_to_char("You will now see prompts.\n\r", ch);
         SET_BIT(ch->comm, COMM_PROMPT);
         return;
     }
 
     /* okay that was the old stuff */
     set_prompt(ch, smash_tilde(argument).c_str());
-    ch->send_to("Ok - prompt set.\n\r");
+    send_to_char("Ok - prompt set.\n\r", ch);
     SET_BIT(ch->comm, COMM_PROMPT);
 }
 
 void do_combine(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_COMBINE)) {
-        ch->send_to("Long inventory selected.\n\r");
+        send_to_char("Long inventory selected.\n\r", ch);
         REMOVE_BIT(ch->comm, COMM_COMBINE);
     } else {
-        ch->send_to("Combined inventory selected.\n\r");
+        send_to_char("Combined inventory selected.\n\r", ch);
         SET_BIT(ch->comm, COMM_COMBINE);
     }
 }
@@ -814,10 +791,10 @@ void do_noloot(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (IS_SET(ch->act, PLR_CANLOOT)) {
-        ch->send_to("Your corpse is now safe from thieves.\n\r");
+        send_to_char("Your corpse is now safe from thieves.\n\r", ch);
         REMOVE_BIT(ch->act, PLR_CANLOOT);
     } else {
-        ch->send_to("Your corpse may now be looted.\n\r");
+        send_to_char("Your corpse may now be looted.\n\r", ch);
         SET_BIT(ch->act, PLR_CANLOOT);
     }
 }
@@ -828,10 +805,10 @@ void do_nofollow(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (IS_SET(ch->act, PLR_NOFOLLOW)) {
-        ch->send_to("You now accept followers.\n\r");
+        send_to_char("You now accept followers.\n\r", ch);
         REMOVE_BIT(ch->act, PLR_NOFOLLOW);
     } else {
-        ch->send_to("You no longer accept followers.\n\r");
+        send_to_char("You no longer accept followers.\n\r", ch);
         SET_BIT(ch->act, PLR_NOFOLLOW);
         die_follower(ch);
     }
@@ -841,18 +818,18 @@ void do_nosummon(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc()) {
         if (IS_SET(ch->imm_flags, IMM_SUMMON)) {
-            ch->send_to("You are no longer immune to summon.\n\r");
+            send_to_char("You are no longer immune to summon.\n\r", ch);
             REMOVE_BIT(ch->imm_flags, IMM_SUMMON);
         } else {
-            ch->send_to("You are now immune to summoning.\n\r");
+            send_to_char("You are now immune to summoning.\n\r", ch);
             SET_BIT(ch->imm_flags, IMM_SUMMON);
         }
     } else {
         if (IS_SET(ch->act, PLR_NOSUMMON)) {
-            ch->send_to("You are no longer immune to summon.\n\r");
+            send_to_char("You are no longer immune to summon.\n\r", ch);
             REMOVE_BIT(ch->act, PLR_NOSUMMON);
         } else {
-            ch->send_to("You are now immune to summoning.\n\r");
+            send_to_char("You are now immune to summoning.\n\r", ch);
             SET_BIT(ch->act, PLR_NOSUMMON);
         }
     }
@@ -862,12 +839,12 @@ void do_lore(CHAR_DATA *ch, OBJ_DATA *obj, const char *pdesc) {
     int sn = skill_lookup("identify");
 
     if (ch->is_pc() && number_percent() > get_skill_learned(ch, skill_lookup("lore"))) {
-        ch->send_to(pdesc);
+        send_to_char(pdesc, ch);
         check_improve(ch, gsn_lore, false, 1);
     } else {
         if (ch->is_mortal())
             WAIT_STATE(ch, skill_table[sn].beats);
-        ch->send_to(pdesc);
+        send_to_char(pdesc, ch);
         check_improve(ch, gsn_lore, true, 1);
         (*skill_table[sn].spell_fun)(sn, ch->level, ch, (void *)obj);
     }
@@ -1038,14 +1015,13 @@ void do_look(CHAR_DATA *ch, const char *arguments) {
     // Look in something?
     if (matches_start(first_arg, "in")) {
         if (args.empty()) {
-            ch->send_to("Look in what?\n\r");
+            send_to_char("Look in what?\n\r", ch);
             return;
         }
         if (auto *obj = get_obj_here(ch, args.shift()))
             look_in_object(*ch, *obj);
-        else {
-            ch->send_to("You do not see that here.\n\r");
-        }
+        else
+            send_to_char("You do not see that here.\n\r", ch);
         return;
     }
 
@@ -1085,7 +1061,7 @@ void do_examine(CHAR_DATA *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        ch->send_to("Examine what?\n\r");
+        send_to_char("Examine what?\n\r", ch);
         return;
     }
 
@@ -1098,9 +1074,8 @@ void do_examine(CHAR_DATA *ch, const char *argument) {
         case ITEM_DRINK_CON:
         case ITEM_CONTAINER:
         case ITEM_CORPSE_NPC:
-        case ITEM_CORPSE_PC: {
-            ch->send_to("When you look inside, you see:\n\r");
-        }
+        case ITEM_CORPSE_PC:
+            send_to_char("When you look inside, you see:\n\r", ch);
             snprintf(buf, sizeof(buf), "in %s", arg);
             do_look(ch, buf);
         }
@@ -1149,14 +1124,14 @@ void do_worth(CHAR_DATA *ch, const char *argument) {
 
     if (ch->is_npc()) {
         snprintf(buf, sizeof(buf), "You have %d gold.\n\r", (int)ch->gold);
-        ch->send_to(buf);
+        send_to_char(buf, ch);
         return;
     }
 
     snprintf(buf, sizeof(buf), "You have %d gold, and %d experience (%d exp to level).\n\r", (int)ch->gold,
              (int)ch->exp, (int)((ch->level + 1) * exp_per_level(ch, ch->pcdata->points) - ch->exp));
 
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 }
 
 int final_len(char *string) {
@@ -1211,7 +1186,7 @@ void describe_armour(CHAR_DATA *ch, int type, const char *name) {
     else
         snprintf(buf, sizeof(buf), "You are |y%s |W%s|w. (|W%d|w)\n\r", armour_desc[armour_index], name,
                  GET_AC(ch, type));
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 }
 
 static void describe_condition(CHAR_DATA *ch) {
@@ -1226,7 +1201,7 @@ static void describe_condition(CHAR_DATA *ch) {
     snprintf(buf, sizeof(buf), "You are %s%s%s%s%s.\n\r", drunk ? "|Wdrunk|w" : "",
              drunk ? delimiters[hungry + thirsty] : "", hungry ? "|Whungry|w" : "", (thirsty && hungry) ? " and " : "",
              thirsty ? "|Wthirsty|w" : "");
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 }
 
 static const char *align_descriptions[] = {"|Rsatanic", "|Rdemonic", "|Yevil",    "|Ymean",   "|Mneutral",
@@ -1254,23 +1229,23 @@ void do_score(CHAR_DATA *ch, const char *argument) {
     using namespace std::chrono;
     snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Age: |W%d|w years (|W%ld|w hours)\n\r", get_age(ch),
              duration_cast<hours>(ch->total_played()).count());
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Race: |W%s|w", race_table[ch->race].name);
     snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Class: |W%s|w\n\r",
              ch->is_npc() ? "mobile" : class_table[ch->class_num].name);
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Sex: |W%s|w", ch->sex == 0 ? "sexless" : ch->sex == 1 ? "male" : "female");
     snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Position: |W%s|w\n\r", position_desc[ch->position]);
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Items: |W%d|w / %d", ch->carry_number, can_carry_n(ch));
     snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Weight: |W%d|w / %d\n\r", ch->carry_weight, can_carry_w(ch));
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Gold: |W%d|w\n\r", (int)ch->gold);
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Wimpy: |W%d|w", ch->wimpy);
     if (ch->is_pc() && ch->level < LEVEL_HERO)
@@ -1278,13 +1253,13 @@ void do_score(CHAR_DATA *ch, const char *argument) {
                  (unsigned int)((ch->level + 1) * exp_per_level(ch, ch->pcdata->points) - ch->exp));
     else
         snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Score: |W%d|w\n\r", (int)ch->exp);
-    ch->send_to(buf);
-    ch->send_to("\n\r");
+    send_to_char(buf, ch);
+    send_to_char("\n\r", ch);
 
     snprintf(buf, sizeof(buf), "Hit: |W%d|w / %d", ch->hit, ch->max_hit);
     snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Mana: |W%d|w / %d", ch->mana, ch->max_mana);
     snprintf(next_column(buf, 2 * SC_COLWIDTH), sizeof(buf), "Move: |W%d|w / %d\n\r", ch->move, ch->max_move);
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 
     describe_armour(ch, AC_PIERCE, "piercing");
     describe_armour(ch, AC_BASH, "bashing");
@@ -1294,38 +1269,38 @@ void do_score(CHAR_DATA *ch, const char *argument) {
     if (ch->level >= 15) {
         snprintf(buf, sizeof(buf), "Hit roll: |W%d|w", GET_HITROLL(ch));
         snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Damage roll: |W%d|w\n\r", GET_DAMROLL(ch));
-        ch->send_to(buf);
+        send_to_char(buf, ch);
     }
-    ch->send_to("\n\r");
+    send_to_char("\n\r", ch);
 
     snprintf(buf, sizeof(buf), "Strength: %d (|W%d|w)", ch->perm_stat[Stat::Str], get_curr_stat(ch, Stat::Str));
     snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Intelligence: %d (|W%d|w)", ch->perm_stat[Stat::Int],
              get_curr_stat(ch, Stat::Int));
     snprintf(next_column(buf, 2 * SC_COLWIDTH), sizeof(buf), "Wisdom: %d (|W%d|w)\n\r", ch->perm_stat[Stat::Wis],
              get_curr_stat(ch, Stat::Wis));
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Dexterity: %d (|W%d|w)", ch->perm_stat[Stat::Dex], get_curr_stat(ch, Stat::Dex));
     snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Constitution: %d (|W%d|w)\n\r", ch->perm_stat[Stat::Con],
              get_curr_stat(ch, Stat::Con));
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "Practices: |W%d|w", ch->practice);
     snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Training sessions: |W%d|w\n\r", ch->train);
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 
     if (ch->level >= 10)
         snprintf(buf, sizeof(buf), "You are %s|w (alignment |W%d|w).\n\r", get_align_description(ch->alignment),
                  ch->alignment);
     else
         snprintf(buf, sizeof(buf), "You are %s|w.\n\r", get_align_description(ch->alignment));
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 
     if (ch->is_pc())
         describe_condition(ch);
 
     if (ch->is_immortal()) {
-        ch->send_to("\n\r");
+        send_to_char("\n\r", ch);
         snprintf(buf, sizeof(buf), "Holy light: |W%s|w", IS_SET(ch->act, PLR_HOLYLIGHT) ? "on" : "off");
         if (IS_SET(ch->act, PLR_WIZINVIS)) {
             snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Invisible: |W%d|w", ch->invis_level);
@@ -1335,11 +1310,11 @@ void do_score(CHAR_DATA *ch, const char *argument) {
                      "Prowl: |W%d|w", ch->invis_level);
         }
         strcat(buf, "\n\r");
-        ch->send_to(buf);
+        send_to_char(buf, ch);
     }
 
     if (IS_SET(ch->comm, COMM_AFFECT)) {
-        ch->send_to("\n\r");
+        send_to_char("\n\r", ch);
         do_affected(ch, nullptr);
     }
 }
@@ -1350,7 +1325,7 @@ void do_affected(CHAR_DATA *ch, const char *argument) {
     AFFECT_DATA *paf;
     int flag = 0;
 
-    ch->send_to("You are affected by:\n\r");
+    send_to_char("You are affected by:\n\r", ch);
 
     if (ch->affected != nullptr) {
         for (paf = ch->affected; paf != nullptr; paf = paf->next) {
@@ -1361,23 +1336,23 @@ void do_affected(CHAR_DATA *ch, const char *argument) {
                 snprintf(buf, sizeof(buf), "Spell: '%s'", skill_table[paf->type].name);
                 flag = 0;
             }
-            ch->send_to(buf);
+            send_to_char(buf, ch);
 
             if (ch->level >= 20) {
                 if (flag == 0) {
                     snprintf(buf, sizeof(buf), " modifies %s by %d for %d hours", affect_loc_name(paf->location),
                              paf->modifier, paf->duration);
-                    ch->send_to(buf);
+                    send_to_char(buf, ch);
                 } else {
                     snprintf(buf, sizeof(buf), " modifies %s by %d", affect_loc_name(paf->location), paf->modifier);
-                    ch->send_to(buf);
+                    send_to_char(buf, ch);
                 }
             }
 
-            ch->send_to(".\n\r");
+            send_to_char(".\n\r", ch);
         }
     } else {
-        ch->send_to("Nothing.\n\r");
+        send_to_char("Nothing.\n\r", ch);
     }
 }
 
@@ -1386,9 +1361,9 @@ void do_time(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
 
     // TODO(#134) this whole thing should use the user's TZ.
-    std::string_view txt = "{}\n\rXania started up at {}Z.\n\rThe system time is {}Z.\n\r"_format(
-        time_info.describe(), secs_only(boot_time), secs_only(current_time));
-    ch->send_to(txt);
+    send_to_char("{}\n\rXania started up at {}Z.\n\rThe system time is {}Z.\n\r"_format(
+                     time_info.describe(), secs_only(boot_time), secs_only(current_time)),
+                 ch);
 
     if (ch = ch->player(); !ch)
         return;
@@ -1418,19 +1393,18 @@ void do_time(CHAR_DATA *ch, const char *argument) {
         strftime(buf2, 63, "%H:%M:%S", ch_time);
 
         snprintf(buf, sizeof(buf), "Your local time is %s\n\r", buf2);
-        ch->send_to(buf);
+        send_to_char(buf, ch);
     }
 }
 
 void do_weather(CHAR_DATA *ch, const char *argument) {
     (void)argument;
     if (!IS_OUTSIDE(ch)) {
-        ch->send_to("You can't see the weather indoors.\n\r");
+        send_to_char("You can't see the weather indoors.\n\r", ch);
         return;
     }
 
-    std::string_view txt = weather_info.describe() + "\n\r";
-    ch->send_to(txt);
+    send_to_char(weather_info.describe() + "\n\r", ch);
 }
 
 void do_help(CHAR_DATA *ch, const char *argument) {
@@ -1455,8 +1429,8 @@ void do_help(CHAR_DATA *ch, const char *argument) {
 
         if (is_name(argall, pHelp->keyword)) {
             if (pHelp->level >= 0 && str_cmp(argall, "imotd")) {
-                ch->send_to(pHelp->keyword);
-                ch->send_to("\n\r");
+                send_to_char(pHelp->keyword, ch);
+                send_to_char("\n\r", ch);
             }
 
             /*
@@ -1470,7 +1444,7 @@ void do_help(CHAR_DATA *ch, const char *argument) {
         }
     }
 
-    ch->send_to("No help on that word.\n\r");
+    send_to_char("No help on that word.\n\r", ch);
 }
 
 namespace {
@@ -1515,7 +1489,7 @@ void do_whois(CHAR_DATA *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        ch->send_to("You must provide a name.\n\r");
+        send_to_char("You must provide a name.\n\r", ch);
         return;
     }
 
@@ -1533,7 +1507,7 @@ void do_whois(CHAR_DATA *ch, const char *argument) {
     }
 
     if (!found) {
-        ch->send_to("No one of that name is playing.\n\r");
+        send_to_char("No one of that name is playing.\n\r", ch);
         return;
     }
 
@@ -1587,10 +1561,7 @@ void do_who(CHAR_DATA *ch, const char *argument) {
             switch (++nNumber) {
             case 1: iLevelLower = atoi(arg); break;
             case 2: iLevelUpper = atoi(arg); break;
-            default: {
-                ch->send_to("Only two level numbers allowed.\n\r");
-            }
-                return;
+            default: send_to_char("Only two level numbers allowed.\n\r", ch); return;
             }
         } else {
 
@@ -1612,7 +1583,7 @@ void do_who(CHAR_DATA *ch, const char *argument) {
                         }
                         /* Check for NO match on clans */
                         if (!clan_ptr) {
-                            ch->send_to("That's not a valid race, class, or clan.\n\r");
+                            send_to_char("That's not a valid race, class, or clan.\n\r", ch);
                             return;
                         } else
                         /* It DID match! */
@@ -1667,18 +1638,15 @@ void do_count(CHAR_DATA *ch, const char *argument) {
     auto count = static_cast<size_t>(ranges::distance(descriptors().all_visible_to(*ch)));
     max_on = std::max(count, max_on);
 
-    if (max_on == count) {
-        std::string_view txt = "There are {} characters on, the most so far today.\n\r"_format(count);
-        ch->send_to(txt);
-    } else {
-        std::string_view txt = "There are {} characters on, the most on today was {}.\n\r"_format(count, max_on);
-        ch->send_to(txt);
-    }
+    if (max_on == count)
+        send_to_char("There are {} characters on, the most so far today.\n\r"_format(count), ch);
+    else
+        send_to_char("There are {} characters on, the most on today was {}.\n\r"_format(count, max_on), ch);
 }
 
 void do_inventory(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    ch->send_to("You are carrying:\n\r");
+    send_to_char("You are carrying:\n\r", ch);
     show_list_to_char(ch->carrying, ch, true, true);
 }
 
@@ -1690,7 +1658,7 @@ void do_equipment(CHAR_DATA *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char buf2[MAX_STRING_LENGTH];
 
-    ch->send_to("You are using:\n\r");
+    send_to_char("You are using:\n\r", ch);
     found = false;
     for (iWear = 0; iWear < MAX_WEAR; iWear++) {
         if ((obj = get_eq_char(ch, iWear)) == nullptr)
@@ -1699,24 +1667,22 @@ void do_equipment(CHAR_DATA *ch, const char *argument) {
         if (obj->wear_string != nullptr) {
             snprintf(buf2, sizeof(buf2), "<%s>", obj->wear_string);
             snprintf(buf, sizeof(buf), "%-20s", buf2);
-            ch->send_to(buf);
+            send_to_char(buf, ch);
         } else {
-            ch->send_to(where_name[iWear]);
+            send_to_char(where_name[iWear], ch);
         }
 
         if (can_see_obj(ch, obj)) {
-            std::string_view txt = format_obj_to_char(obj, ch, true);
-            ch->send_to(txt);
-            ch->send_to("\n\r");
+            send_to_char(format_obj_to_char(obj, ch, true), ch);
+            send_to_char("\n\r", ch);
         } else {
-            ch->send_to("something.\n\r");
+            send_to_char("something.\n\r", ch);
         }
         found = true;
     }
 
-    if (!found) {
-        ch->send_to("Nothing.\n\r");
-    }
+    if (!found)
+        send_to_char("Nothing.\n\r", ch);
 }
 
 void do_compare(CHAR_DATA *ch, const char *argument) {
@@ -1731,12 +1697,12 @@ void do_compare(CHAR_DATA *ch, const char *argument) {
     argument = one_argument(argument, arg1);
     argument = one_argument(argument, arg2);
     if (arg1[0] == '\0') {
-        ch->send_to("Compare what to what?\n\r");
+        send_to_char("Compare what to what?\n\r", ch);
         return;
     }
 
     if ((obj1 = get_obj_carry(ch, arg1)) == nullptr) {
-        ch->send_to("You do not have that item.\n\r");
+        send_to_char("You do not have that item.\n\r", ch);
         return;
     }
 
@@ -1748,13 +1714,13 @@ void do_compare(CHAR_DATA *ch, const char *argument) {
         }
 
         if (obj2 == nullptr) {
-            ch->send_to("You aren't wearing anything comparable.\n\r");
+            send_to_char("You aren't wearing anything comparable.\n\r", ch);
             return;
         }
     }
 
     else if ((obj2 = get_obj_carry(ch, arg2)) == nullptr) {
-        ch->send_to("You do not have that item.\n\r");
+        send_to_char("You do not have that item.\n\r", ch);
         return;
     }
 
@@ -1844,17 +1810,17 @@ void do_consider(CHAR_DATA *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        ch->send_to("Consider killing whom?\n\r");
+        send_to_char("Consider killing whom?\n\r", ch);
         return;
     }
 
     if ((victim = get_char_room(ch, arg)) == nullptr) {
-        ch->send_to("They're not here.\n\r");
+        send_to_char("They're not here.\n\r", ch);
         return;
     }
 
     if (is_safe(ch, victim)) {
-        ch->send_to("Don't even think about it.\n\r");
+        send_to_char("Don't even think about it.\n\r", ch);
         return;
     }
 
@@ -1893,7 +1859,7 @@ void do_title(CHAR_DATA *ch, const char *argument) {
         return;
 
     if (argument[0] == '\0') {
-        ch->send_to("Change your title to what?\n\r");
+        send_to_char("Change your title to what?\n\r", ch);
         return;
     }
 
@@ -1902,7 +1868,7 @@ void do_title(CHAR_DATA *ch, const char *argument) {
         new_title.resize(45);
 
     ch->set_title(new_title);
-    ch->send_to("Ok.\n\r");
+    send_to_char("Ok.\n\r", ch);
 }
 
 void do_description(CHAR_DATA *ch, const char *argument) {
@@ -1934,7 +1900,7 @@ void do_report(CHAR_DATA *ch, const char *argument) {
     snprintf(buf, sizeof(buf), "You say 'I have %d/%d hp %d/%d mana %d/%d mv %d xp.'\n\r", ch->hit, ch->max_hit,
              ch->mana, ch->max_mana, ch->move, ch->max_move, (int)ch->exp);
 
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 
     snprintf(buf, sizeof(buf), "$n says 'I have %d/%d hp %d/%d mana %d/%d mv %d xp.'", ch->hit, ch->max_hit, ch->mana,
              ch->max_mana, ch->move, ch->max_move, (int)ch->exp);
@@ -1962,24 +1928,22 @@ void do_practice(CHAR_DATA *ch, const char *argument) {
 
             snprintf(buf, sizeof(buf), "%-18s %3d%%  ", skill_table[sn].name,
                      ch->pcdata->learned[sn]); // NOT get_skill_learned
-            ch->send_to(buf);
-            if (++col % 3 == 0) {
-                ch->send_to("\n\r");
-            }
+            send_to_char(buf, ch);
+            if (++col % 3 == 0)
+                send_to_char("\n\r", ch);
         }
 
-        if (col % 3 != 0) {
-            ch->send_to("\n\r");
-        }
+        if (col % 3 != 0)
+            send_to_char("\n\r", ch);
 
         snprintf(buf, sizeof(buf), "You have %d practice sessions left.\n\r", ch->practice);
-        ch->send_to(buf);
+        send_to_char(buf, ch);
     } else {
         CHAR_DATA *mob;
         int adept;
 
         if (!IS_AWAKE(ch)) {
-            ch->send_to("In your dreams, or what?\n\r");
+            send_to_char("In your dreams, or what?\n\r", ch);
             return;
         }
 
@@ -1989,12 +1953,12 @@ void do_practice(CHAR_DATA *ch, const char *argument) {
         }
 
         if (mob == nullptr) {
-            ch->send_to("You can't do that here.\n\r");
+            send_to_char("You can't do that here.\n\r", ch);
             return;
         }
 
         if (ch->practice <= 0) {
-            ch->send_to("You have no practice sessions left.\n\r");
+            send_to_char("You have no practice sessions left.\n\r", ch);
             return;
         }
 
@@ -2002,7 +1966,7 @@ void do_practice(CHAR_DATA *ch, const char *argument) {
             || (ch->is_pc()
                 && ((ch->level < get_skill_level(ch, sn) || (ch->pcdata->learned[sn] < 1))))) // NOT get_skill_learned
         {
-            ch->send_to("You can't practice that.\n\r");
+            send_to_char("You can't practice that.\n\r", ch);
             return;
         }
 
@@ -2011,7 +1975,7 @@ void do_practice(CHAR_DATA *ch, const char *argument) {
         if (ch->pcdata->learned[sn] >= adept) // NOT get_skill_learned
         {
             snprintf(buf, sizeof(buf), "You are already learned at %s.\n\r", skill_table[sn].name);
-            ch->send_to(buf);
+            send_to_char(buf, ch);
         } else {
             ch->practice--;
             if (get_skill_trains(ch, sn) < 0) {
@@ -2048,18 +2012,18 @@ void do_wimpy(CHAR_DATA *ch, const char *argument) {
         wimpy = atoi(arg);
 
     if (wimpy < 0) {
-        ch->send_to("Your courage exceeds your wisdom.\n\r");
+        send_to_char("Your courage exceeds your wisdom.\n\r", ch);
         return;
     }
 
     if (wimpy > ch->max_hit / 2) {
-        ch->send_to("Such cowardice ill becomes you.\n\r");
+        send_to_char("Such cowardice ill becomes you.\n\r", ch);
         return;
     }
 
     ch->wimpy = wimpy;
     snprintf(buf, sizeof(buf), "Wimpy set to %d hit points.\n\r", wimpy);
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 }
 
 void do_password(CHAR_DATA *ch, const char *argument) {
@@ -2112,18 +2076,18 @@ void do_password(CHAR_DATA *ch, const char *argument) {
     *pArg = '\0';
 
     if (arg1[0] == '\0' || arg2[0] == '\0') {
-        ch->send_to("Syntax: password <old> <new>.\n\r");
+        send_to_char("Syntax: password <old> <new>.\n\r", ch);
         return;
     }
 
     if (!ch->pcdata->pwd.empty() && strcmp(crypt(arg1, ch->pcdata->pwd.c_str()), ch->pcdata->pwd.c_str())) {
         WAIT_STATE(ch, 40);
-        ch->send_to("Wrong password.  Wait 10 seconds.\n\r");
+        send_to_char("Wrong password.  Wait 10 seconds.\n\r", ch);
         return;
     }
 
     if ((int)strlen(arg2) < 5) {
-        ch->send_to("New password must be at least five characters long.\n\r");
+        send_to_char("New password must be at least five characters long.\n\r", ch);
         return;
     }
 
@@ -2133,14 +2097,14 @@ void do_password(CHAR_DATA *ch, const char *argument) {
     pwdnew = crypt(arg2, ch->name);
     for (p = pwdnew; *p != '\0'; p++) {
         if (*p == '~') {
-            ch->send_to("New password not acceptable, try again.\n\r");
+            send_to_char("New password not acceptable, try again.\n\r", ch);
             return;
         }
     }
 
     ch->pcdata->pwd = pwdnew;
     save_char_obj(ch);
-    ch->send_to("Ok.\n\r");
+    send_to_char("Ok.\n\r", ch);
 }
 
 /* RT configure command SMASHED */

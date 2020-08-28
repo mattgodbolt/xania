@@ -82,8 +82,7 @@ void log_new(std::string_view str, int loglevel, int level) {
         if (ch->is_npc() || !is_set_extra(ch, EXTRA_WIZNET_ON) || !is_set_extra(ch, loglevel)
             || (ch->get_trust() < level))
             continue;
-        const CHAR_DATA *ch_1 = d.character();
-        ch_1->send_to(wiznet_msg);
+        send_to_char(wiznet_msg, d.character());
     }
 }
 
@@ -104,7 +103,7 @@ void print_status(const CHAR_DATA *ch, const char *name, const char *master_name
     } else {
         strcpy(buff + prefix_len, "|rOFF|w\n\r");
     }
-    ch->send_to(buff);
+    send_to_char(buff, ch);
 }
 
 static void print_wiznet_statusline(CHAR_DATA *ch, const char *name, int state) {
@@ -112,8 +111,8 @@ static void print_wiznet_statusline(CHAR_DATA *ch, const char *name, int state) 
 }
 
 static void print_wiznet_status(CHAR_DATA *ch) {
-    ch->send_to("|Woption          status|w\n\r");
-    ch->send_to("----------------------------\n\r");
+    send_to_char("|Woption          status|w\n\r", ch);
+    send_to_char("----------------------------\n\r", ch);
 
     print_wiznet_statusline(ch, "bug", is_set_extra(ch, EXTRA_WIZNET_BUG));
     print_wiznet_statusline(ch, "debug", is_set_extra(ch, EXTRA_WIZNET_DEBUG));
@@ -128,12 +127,12 @@ static CommandSet<wiznet_fn> wiznet_commands;
 
 void wiznet_on(CHAR_DATA *ch) {
     set_extra(ch, EXTRA_WIZNET_ON);
-    ch->send_to("|cWIZNET is now |gON|c.|w\n\r");
+    send_to_char("|cWIZNET is now |gON|c.|w\n\r", ch);
 }
 
 void wiznet_off(CHAR_DATA *ch) {
     remove_extra(ch, EXTRA_WIZNET_ON);
-    ch->send_to("|cWIZNET is now |rOFF|c.|w\n\r");
+    send_to_char("|cWIZNET is now |rOFF|c.|w\n\r", ch);
 }
 
 static void toggle_wizchan(CHAR_DATA *ch, int flag, const char *name) {
@@ -147,7 +146,7 @@ static void toggle_wizchan(CHAR_DATA *ch, int flag, const char *name) {
                  is_set_extra(ch, EXTRA_WIZNET_ON) ? "|gON" : "|rON (WIZNET OFF)");
         set_extra(ch, flag);
     }
-    ch->send_to(buf);
+    send_to_char(buf, ch);
 }
 
 void wiznet_bug(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_BUG, "bug"); }

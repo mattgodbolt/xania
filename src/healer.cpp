@@ -35,7 +35,7 @@ void do_heal(CHAR_DATA *ch, const char *argument) {
     }
 
     if (mob == nullptr) {
-        ch->send_to("You can't do that here.\n\r");
+        send_to_char("You can't do that here.\n\r", ch);
         return;
     }
 
@@ -44,17 +44,17 @@ void do_heal(CHAR_DATA *ch, const char *argument) {
     if (arg[0] == '\0') {
         /* display price list */
         act("$N says 'I offer the following spells:'", ch, nullptr, mob, To::Char);
-        ch->send_to("  light: cure light wounds      1000 gold\n\r");
-        ch->send_to("  serious: cure serious wounds  1600 gold\n\r");
-        ch->send_to("  critical: cure critical wounds  2500 gold\n\r");
-        ch->send_to("  heal: healing spell           5000 gold\n\r");
-        ch->send_to("  blind: cure blindness         2000 gold\n\r");
-        ch->send_to("  disease: cure disease         1500 gold\n\r");
-        ch->send_to("  poison:  cure poison          2500 gold\n\r");
-        ch->send_to("  uncurse: remove curse         5000 gold\n\r");
-        ch->send_to("  refresh: restore movement      500 gold\n\r");
-        ch->send_to("  mana:  restore mana           1000 gold\n\r");
-        ch->send_to(" Type heal <type> to be healed.\n\r");
+        send_to_char("  light: cure light wounds      1000 gold\n\r", ch);
+        send_to_char("  serious: cure serious wounds  1600 gold\n\r", ch);
+        send_to_char("  critical: cure critical wounds  2500 gold\n\r", ch);
+        send_to_char("  heal: healing spell           5000 gold\n\r", ch);
+        send_to_char("  blind: cure blindness         2000 gold\n\r", ch);
+        send_to_char("  disease: cure disease         1500 gold\n\r", ch);
+        send_to_char("  poison:  cure poison          2500 gold\n\r", ch);
+        send_to_char("  uncurse: remove curse         5000 gold\n\r", ch);
+        send_to_char("  refresh: restore movement      500 gold\n\r", ch);
+        send_to_char("  mana:  restore mana           1000 gold\n\r", ch);
+        send_to_char(" Type heal <type> to be healed.\n\r", ch);
         return;
     }
 
@@ -129,7 +129,7 @@ void do_heal(CHAR_DATA *ch, const char *argument) {
     {
         ch->mana += dice(2, 8) + mob->level / 4;
         ch->mana = UMIN(ch->mana, ch->max_mana);
-        ch->send_to("A warm glow passes through you.\n\r");
+        send_to_char("A warm glow passes through you.\n\r", ch);
         return;
     }
 
