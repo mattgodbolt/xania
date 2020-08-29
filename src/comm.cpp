@@ -76,7 +76,7 @@ void move_active_char_from_limbo(CHAR_DATA *ch);
  */
 bool check_parse_name(const char *name);
 bool check_reconnect(Descriptor *d, bool fConn);
-bool check_playing(Descriptor *d, char *name);
+bool check_playing(Descriptor *d, std::string_view name);
 void nanny(Descriptor *d, const char *argument);
 bool process_output(Descriptor *d, bool fPrompt);
 
@@ -1135,10 +1135,10 @@ bool check_reconnect(Descriptor *d, bool fConn) {
 /*
  * Check if already playing.
  */
-bool check_playing(Descriptor *d, char *name) {
+bool check_playing(Descriptor *d, std::string_view name) {
     for (auto &dold : descriptors().all()) {
         if (&dold != d && dold.character() != nullptr && dold.state() != DescriptorState::GetName
-            && dold.state() != DescriptorState::GetOldPassword && !str_cmp(name, dold.person()->name)) {
+            && dold.state() != DescriptorState::GetOldPassword && matches(name, dold.person()->name)) {
             d->write("That character is already playing.\n\r");
             d->write("Do you wish to connect anyway (Y/N)?");
             d->state(DescriptorState::BreakConnect);
