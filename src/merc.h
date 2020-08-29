@@ -1074,7 +1074,7 @@ struct extra_descr_data {
 struct OBJ_INDEX_DATA {
     OBJ_INDEX_DATA *next{};
     EXTRA_DESCR_DATA *extra_descr{};
-    AffectList affected;
+    AffectList affected{};
     char *name{};
     char *short_descr{};
     char *description{};
@@ -1105,7 +1105,7 @@ struct OBJ_DATA {
     OBJ_DATA *in_obj{};
     Char *carried_by{};
     EXTRA_DESCR_DATA *extra_descr{};
-    AffectList affected;
+    AffectList affected{};
     OBJ_INDEX_DATA *pIndexData{};
     ROOM_INDEX_DATA *in_room{};
     bool enchanted{};
@@ -1124,7 +1124,7 @@ struct OBJ_DATA {
     sh_int condition{};
     sh_int material{};
     sh_int timer{};
-    std::array<int, 5> value;
+    std::array<int, 5> value{};
     ROOM_INDEX_DATA *destination{};
 };
 
