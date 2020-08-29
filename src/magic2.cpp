@@ -11,6 +11,7 @@
  * newer spells. magic.c is a monster already.
  */
 
+#include "AFFECT_DATA.hpp"
 #include "challeng.h"
 #include "comm.hpp"
 #include "interp.h"

@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "AFFECT_DATA.hpp"
 #include "DescriptorList.hpp"
 #include "comm.hpp"
 #include "handler.hpp"

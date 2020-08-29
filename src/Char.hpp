@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AFFECT_DATA.hpp"
 #include "Constants.hpp"
 #include "Descriptor.hpp"
 #include "ExtraFlags.hpp"
@@ -9,7 +10,6 @@
 
 #include <memory>
 
-struct AFFECT_DATA;
 struct MOB_INDEX_DATA;
 struct NOTE_DATA;
 struct OBJ_DATA;

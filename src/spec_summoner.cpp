@@ -4,6 +4,7 @@
 /*  See the header to file: merc.h for original code copyrights         */
 /************************************************************************/
 
+#include "AFFECT_DATA.hpp"
 #include "Char.hpp"
 #include "TimeInfoData.hpp"
 #include "comm.hpp"

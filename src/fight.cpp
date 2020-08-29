@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "AFFECT_DATA.hpp"
 #include "Format.hpp"
 #include "TimeInfoData.hpp"
 #include "challeng.h"

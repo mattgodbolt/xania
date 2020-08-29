@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "AFFECT_DATA.hpp"
 #include "db.h"
 #include "lookup.h"
 #include "merc.h"

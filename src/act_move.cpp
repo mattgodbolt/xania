@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "AFFECT_DATA.hpp"
 #include "challeng.h"
 #include "comm.hpp"
 #include "handler.hpp"

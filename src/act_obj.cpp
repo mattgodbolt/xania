@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "AFFECT_DATA.hpp"
 #include "Pronouns.hpp"
 #include "TimeInfoData.hpp"
 #include "buffer.h"

@@ -76,7 +76,8 @@ add_library(xania_lib STATIC
         Direction.cpp
         Format.hpp
         fight.hpp
-        Pronouns.hpp)
+        Pronouns.hpp
+        AFFECT_DATA.cpp AFFECT_DATA.hpp)
 target_link_libraries(xania_lib xania_common crypt chat CONAN_PKG::fmt CONAN_PKG::range-v3)
 
 add_executable(xania main.cpp)

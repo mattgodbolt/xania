@@ -227,19 +227,6 @@ struct pc_race_type /* additional data for pc races */
 /* verbose damage types - Faramir Aug 98 */
 
 /*
- * An affect.
- */
-struct AFFECT_DATA {
-    AFFECT_DATA *next;
-    sh_int type;
-    sh_int level;
-    sh_int duration;
-    sh_int location;
-    sh_int modifier;
-    int bitvector;
-};
-
-/*
  * A kill structure (indexed by level).
  */
 struct kill_data {

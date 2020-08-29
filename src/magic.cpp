@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "magic.h"
+#include "AFFECT_DATA.hpp"
 #include "Format.hpp"
 #include "WeatherData.hpp"
 #include "challeng.h"
