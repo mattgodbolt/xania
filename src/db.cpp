@@ -46,7 +46,6 @@ SHOP_DATA *shop_first;
 SHOP_DATA *shop_last;
 
 EXTRA_DESCR_DATA *extra_descr_free = nullptr;
-OBJ_DATA *obj_free;
 
 char bug_buf[2 * MAX_INPUT_LENGTH];
 Char *char_list;
@@ -1244,7 +1243,6 @@ void clone_mobile(Char *parent, Char *clone) {
  * if non-zero is looked up and then destination set accordingly.
  */
 OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
-    static OBJ_DATA obj_zero;
     OBJ_DATA *obj;
 
     if (pObjIndex == nullptr) {
@@ -1252,14 +1250,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
         exit(1);
     }
 
-    if (obj_free == nullptr) {
-        obj = static_cast<OBJ_DATA *>(alloc_perm(sizeof(*obj)));
-    } else {
-        obj = obj_free;
-        obj_free = obj_free->next;
-    }
-
-    *obj = obj_zero;
+    obj = new OBJ_DATA;
     obj->pIndexData = pObjIndex;
     obj->in_room = nullptr;
     obj->enchanted = false;
@@ -2107,7 +2098,7 @@ void do_memory(Char *ch, const char *argument) {
 void do_dump(Char *ch, const char *argument) {
     (void)ch;
     (void)argument;
-    int count, count2, num_pcs, aff_count;
+    int count, num_pcs, aff_count;
     Char *fch;
     MOB_INDEX_DATA *pMobIndex;
     PC_DATA *pc;
@@ -2134,7 +2125,6 @@ void do_dump(Char *ch, const char *argument) {
 
     /* mobs */
     count = 0;
-    count2 = 0;
     for (fch = char_list; fch != nullptr; fch = fch->next) {
         count++;
         if (fch->pcdata != nullptr)
@@ -2165,17 +2155,13 @@ void do_dump(Char *ch, const char *argument) {
 
     /* objects */
     count = 0;
-    count2 = 0;
     for (obj = object_list; obj != nullptr; obj = obj->next) {
         count++;
         for (af = obj->affected; af != nullptr; af = af->next)
             aff_count++;
     }
-    for (obj = obj_free; obj != nullptr; obj = obj->next)
-        count2++;
 
-    fprintf(fp, "Objs	%4d (%8ld bytes), %2d free (%ld bytes)\n", count, count * (sizeof(*obj)), count2,
-            count2 * (sizeof(*obj)));
+    fprintf(fp, "Objs	%4d (%8ld bytes)\n", count, count * (sizeof(*obj)));
 
     /* affects */
     fprintf(fp, "Affects	%4d (%8ld bytes)\n", aff_count, aff_count * (sizeof(*af)));

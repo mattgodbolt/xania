@@ -875,7 +875,6 @@ void fread_pet(Char *ch, FILE *fp) {
 }
 
 void fread_obj(Char *ch, FILE *fp) {
-    static OBJ_DATA obj_zero;
     OBJ_DATA *obj;
     std::string word;
     int iNest;
@@ -907,14 +906,7 @@ void fread_obj(Char *ch, FILE *fp) {
 
     if (obj == nullptr) /* either not found or old style */
     {
-        if (obj_free == nullptr) {
-            obj = static_cast<OBJ_DATA *>(alloc_perm(sizeof(*obj)));
-        } else {
-            obj = obj_free;
-            obj_free = obj_free->next;
-        }
-
-        *obj = obj_zero;
+        obj = new OBJ_DATA;
         obj->name = str_dup("");
         obj->short_descr = str_dup("");
         obj->description = str_dup("");

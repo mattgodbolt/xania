@@ -1128,9 +1128,7 @@ void extract_obj(OBJ_DATA *obj) {
     free_string(obj->wear_string);
     free_string(obj->owner);
     --obj->pIndexData->count;
-    obj->next = obj_free;
-    obj_free = obj;
-    obj->affected = nullptr;
+    delete obj;
 }
 
 /* extern void thrown_off(Char *ch, Char *pet); */

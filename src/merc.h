@@ -1129,33 +1129,33 @@ struct OBJ_INDEX_DATA {
  * One object.
  */
 struct OBJ_DATA {
-    OBJ_DATA *next;
-    OBJ_DATA *next_content;
-    OBJ_DATA *contains;
-    OBJ_DATA *in_obj;
-    Char *carried_by;
-    EXTRA_DESCR_DATA *extra_descr;
-    AFFECT_DATA *affected;
-    OBJ_INDEX_DATA *pIndexData;
-    ROOM_INDEX_DATA *in_room;
-    bool enchanted;
-    char *owner;
-    char *name;
-    char *short_descr;
-    char *description;
-    sh_int item_type;
-    unsigned int extra_flags;
-    sh_int wear_flags;
-    char *wear_string;
-    sh_int wear_loc;
-    sh_int weight;
-    int cost;
-    sh_int level;
-    sh_int condition;
-    sh_int material;
-    sh_int timer;
-    int value[5];
-    ROOM_INDEX_DATA *destination;
+    OBJ_DATA *next{};
+    OBJ_DATA *next_content{};
+    OBJ_DATA *contains{};
+    OBJ_DATA *in_obj{};
+    Char *carried_by{};
+    EXTRA_DESCR_DATA *extra_descr{};
+    AFFECT_DATA *affected{};
+    OBJ_INDEX_DATA *pIndexData{};
+    ROOM_INDEX_DATA *in_room{};
+    bool enchanted{};
+    char *owner{};
+    char *name{};
+    char *short_descr{};
+    char *description{};
+    sh_int item_type{};
+    unsigned int extra_flags{};
+    sh_int wear_flags{};
+    char *wear_string{};
+    sh_int wear_loc{};
+    sh_int weight{};
+    int cost{};
+    sh_int level{};
+    sh_int condition{};
+    sh_int material{};
+    sh_int timer{};
+    std::array<int, 5> value;
+    ROOM_INDEX_DATA *destination{};
 };
 
 /*
@@ -1474,7 +1474,6 @@ extern Char *char_list;
 extern OBJ_DATA *object_list;
 
 extern EXTRA_DESCR_DATA *extra_descr_free;
-extern OBJ_DATA *obj_free;
 
 extern bool fLogAll;
 extern FILE *fpReserve;
