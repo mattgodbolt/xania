@@ -433,7 +433,7 @@ bool load_char_obj(Descriptor *d, const char *name) {
 
     d->character(ch);
     ch->desc = d;
-    ch->name = str_dup(name);
+    ch->name = name;
     ch->version = 0;
     ch->race = race_lookup("human");
     ch->affected_by = 0;
@@ -718,7 +718,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         } else if (word == "minoffset") {
             ch->pcdata->minoffset = fread_number(fp);
         } else if (word == "name") {
-            ch->name = fread_string(fp);
+            ch->name = fread_stdstring(fp);
         } else if (word == "note") {
             ch->last_note = Clock::from_time_t(fread_number(fp));
         } else if (word == "password" || word == "pass") {
@@ -870,7 +870,7 @@ void fread_pet(CHAR_DATA *ch, FILE *fp) {
         } else if (matches(word, "LnD")) {
             pet->long_descr = fread_stdstring(fp);
         } else if (matches(word, "Name")) {
-            pet->name = fread_string(fp);
+            pet->name = fread_stdstring(fp);
         } else if (matches(word, "Pos")) {
             pet->position = fread_number(fp);
         } else if (matches(word, "Race")) {

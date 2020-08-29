@@ -401,7 +401,7 @@ void do_clanset(CHAR_DATA *ch, const char *argument) {
 
         case '-': {
             if (!victim->clan()) {
-                ch->send_to("%s is not a member of a clan.\n\r"_format(victim->name));
+                ch->send_to("{} is not a member of a clan.\n\r"_format(victim->name));
                 return;
             }
             auto clan_name = victim->clan()->name;
