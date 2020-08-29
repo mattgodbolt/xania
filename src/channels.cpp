@@ -130,25 +130,20 @@ void do_announce(CHAR_DATA *ch, const char *argument) {
     toggle_channel(ch, COMM_NOANNOUNCE, "Announce");
 }
 
-void do_immtalk(CHAR_DATA *ch, const char *argument) {
-    const char *format = "|W$n: |c$t|w";
-
-    if (argument[0] == '\0') {
+void do_immtalk(CHAR_DATA *ch, std::string_view argument) {
+    if (argument.empty()) {
         toggle_channel(ch, COMM_NOWIZ, "Immortal");
         return;
     }
 
     REMOVE_BIT(ch->comm, COMM_NOWIZ);
 
-    if (IS_SET(ch->act, PLR_AFK))
-        format = "|w(|cAFK|w)|W $n: |c$t|w";
-
+    const char *format = IS_SET(ch->act, PLR_AFK) ? "|W$n: |c$t|w" : "|w(|cAFK|w)|W $n: |c$t|w";
     if (ch->get_trust() >= LEVEL_HERO)
         act(format, ch, argument, nullptr, To::Char, POS_DEAD);
     for (auto &d : descriptors().playing()) {
-        if (d.character()->is_immortal() && !IS_SET(d.character()->comm, COMM_NOWIZ)) {
+        if (d.character()->is_immortal() && !IS_SET(d.character()->comm, COMM_NOWIZ))
             act(format, ch, argument, d.character(), To::Vict, POS_DEAD);
-        }
     }
 }
 

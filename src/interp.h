@@ -115,7 +115,7 @@ extern void do_help(CHAR_DATA *ch, const char *arg);
 extern void do_hide(CHAR_DATA *ch, const char *arg);
 extern void do_holylight(CHAR_DATA *ch, const char *arg);
 extern void do_idea(CHAR_DATA *ch, const char *arg);
-extern void do_immtalk(CHAR_DATA *ch, const char *arg);
+extern void do_immtalk(CHAR_DATA *ch, std::string_view argument);
 extern void do_immworth(CHAR_DATA *ch, const char *arg);
 extern void do_imotd(CHAR_DATA *ch, const char *arg);
 extern void do_inventory(CHAR_DATA *ch, const char *arg);
