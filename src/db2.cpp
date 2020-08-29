@@ -441,9 +441,7 @@ void load_objects(FILE *fp) {
             letter = fread_letter(fp);
 
             if (letter == 'A') {
-                AFFECT_DATA *paf;
-
-                paf = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf)));
+                AFFECT_DATA *paf = new AFFECT_DATA;
                 paf->type = -1;
                 paf->level = pObjIndex->level;
                 paf->duration = -1;

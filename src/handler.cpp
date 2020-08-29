@@ -26,8 +26,6 @@ void do_return(Char *ch, const char *arg);
 
 void spell_poison(int spell_num, int level, Char *ch, void *vo);
 
-AFFECT_DATA *affect_free = nullptr;
-
 /*
  * Local functions.
  */
@@ -518,16 +516,7 @@ void affect_modify(Char *ch, AFFECT_DATA *paf, bool fAdd) {
  * Give an affect to a char.
  */
 void affect_to_char(Char *ch, AFFECT_DATA *paf) {
-    AFFECT_DATA *paf_new;
-
-    if (affect_free == nullptr) {
-        paf_new = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf_new)));
-    } else {
-        paf_new = affect_free;
-        affect_free = affect_free->next;
-    }
-
-    *paf_new = *paf;
+    auto *paf_new = new AFFECT_DATA(*paf);
     paf_new->next = ch->affected;
     ch->affected = paf_new;
 
@@ -536,16 +525,8 @@ void affect_to_char(Char *ch, AFFECT_DATA *paf) {
 
 /* give an affect to an object */
 void affect_to_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
-    AFFECT_DATA *paf_new;
+    auto *paf_new = new AFFECT_DATA(*paf);
 
-    if (affect_free == nullptr)
-        paf_new = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf_new)));
-    else {
-        paf_new = affect_free;
-        affect_free = affect_free->next;
-    }
-
-    *paf_new = *paf;
     paf_new->next = obj->affected;
     obj->affected = paf_new;
 }
@@ -579,9 +560,7 @@ void affect_remove(Char *ch, AFFECT_DATA *paf) {
         }
     }
 
-    paf->next = affect_free;
-    affect_free = paf->next; /*  Modified by Death \/ as well */
-    paf = nullptr; /*            ""                 */
+    delete paf;
 }
 
 void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
@@ -611,9 +590,7 @@ void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
         }
     }
 
-    paf->next = affect_free;
-    affect_free = paf; /* modified from paf->next by TM */
-    paf = nullptr; /* ""  Death */
+    delete paf;
 }
 
 /*
@@ -1128,8 +1105,7 @@ void extract_obj(OBJ_DATA *obj) {
 
         for (paf = obj->affected; paf != nullptr; paf = paf_next) {
             paf_next = paf->next;
-            paf->next = affect_free;
-            affect_free = paf;
+            delete paf;
         }
     }
 

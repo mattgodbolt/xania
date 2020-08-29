@@ -1473,8 +1473,6 @@ extern BAN_DATA *ban_list;
 extern Char *char_list;
 extern OBJ_DATA *object_list;
 
-extern AFFECT_DATA *affect_free;
-
 extern EXTRA_DESCR_DATA *extra_descr_free;
 extern OBJ_DATA *obj_free;
 

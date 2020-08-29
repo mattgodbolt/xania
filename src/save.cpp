@@ -589,14 +589,7 @@ void fread_char(Char *ch, FILE *fp) {
                 ch->armor[i] = fread_number(fp);
             }
         } else if (word == "affect" || word == "aff" || word == "affd") {
-            AFFECT_DATA *paf;
-
-            if (affect_free == nullptr) {
-                paf = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf)));
-            } else {
-                paf = affect_free;
-                affect_free = affect_free->next;
-            }
+            auto *paf = new AFFECT_DATA;
 
             // Ick.
             if (word == "affd") {
@@ -814,16 +807,8 @@ void fread_pet(Char *ch, FILE *fp) {
             for (int i = 0; i < 4; i++)
                 pet->armor[i] = fread_number(fp);
         } else if (matches(word, "AffD")) {
-            AFFECT_DATA *paf;
-            int sn;
-            if (affect_free == nullptr)
-                paf = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf)));
-            else {
-                paf = affect_free;
-                affect_free = affect_free->next;
-            }
-
-            sn = skill_lookup(fread_word(fp));
+            AFFECT_DATA *paf = new AFFECT_DATA;
+            int sn = skill_lookup(fread_word(fp));
             if (sn < 0)
                 bug("%s", "Fread_pet: unknown skill #{}"_format(sn).c_str());
             else
@@ -948,14 +933,7 @@ void fread_obj(Char *ch, FILE *fp) {
         if (word.empty() || word[0] == '*') {
             fread_to_eol(fp);
         } else if (matches(word, "Affect") || matches(word, "Aff") || matches(word, "AffD")) {
-            AFFECT_DATA *paf;
-
-            if (affect_free == nullptr) {
-                paf = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf)));
-            } else {
-                paf = affect_free;
-                affect_free = affect_free->next;
-            }
+            AFFECT_DATA *paf = new AFFECT_DATA;
 
             // Spell effects on chars and customized objects in PFiles
             if (matches(word, "AffD")) {

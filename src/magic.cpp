@@ -1952,8 +1952,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
         /* remove all affects */
         for (AFFECT_DATA *paf = obj->affected; paf != nullptr; paf = paf_next) {
             paf_next = paf->next;
-            paf->next = affect_free;
-            affect_free = paf;
+            delete paf;
         }
         obj->affected = nullptr;
 
@@ -1973,13 +1972,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
         obj->enchanted = true;
 
         for (AFFECT_DATA *paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
-            if (affect_free == nullptr)
-                af_new = (AFFECT_DATA *)alloc_perm(sizeof(*af_new));
-            else {
-                af_new = affect_free;
-                affect_free = affect_free->next;
-            }
-
+            af_new = new AFFECT_DATA;
             af_new->next = obj->affected;
             obj->affected = af_new;
 
@@ -2020,14 +2013,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
             }
         }
     } else { /* add a new affect */
-        AFFECT_DATA *paf;
-        if (affect_free == nullptr)
-            paf = (AFFECT_DATA *)alloc_perm(sizeof(*paf));
-        else {
-            paf = affect_free;
-            affect_free = affect_free->next;
-        }
-
+        AFFECT_DATA *paf = new AFFECT_DATA;
         paf->type = sn;
         paf->level = level;
         paf->duration = -1;
@@ -2149,8 +2135,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
         /* remove all affects */
         for (AFFECT_DATA *paf = obj->affected; paf != nullptr; paf = paf_next) {
             paf_next = paf->next;
-            paf->next = affect_free;
-            affect_free = paf;
+            delete paf;
         }
         obj->affected = nullptr;
 
@@ -2170,13 +2155,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
         obj->enchanted = true;
 
         for (AFFECT_DATA *paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
-            if (affect_free == nullptr)
-                af_new = (AFFECT_DATA *)alloc_perm(sizeof(*af_new));
-            else {
-                af_new = affect_free;
-                affect_free = affect_free->next;
-            }
-
+            af_new = new AFFECT_DATA;
             af_new->next = obj->affected;
             obj->affected = af_new;
 
@@ -2218,14 +2197,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
             }
         }
     } else { /* add a new affect */
-        AFFECT_DATA *paf;
-        if (affect_free == nullptr)
-            paf = (AFFECT_DATA *)alloc_perm(sizeof(*paf));
-        else {
-            paf = affect_free;
-            affect_free = affect_free->next;
-        }
-
+        AFFECT_DATA *paf = new AFFECT_DATA;
         paf->type = sn;
         paf->level = level;
         paf->duration = -1;
@@ -2247,14 +2219,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
             }
         }
     } else { /* add a new affect */
-        AFFECT_DATA *paf;
-        if (affect_free == nullptr)
-            paf = (AFFECT_DATA *)alloc_perm(sizeof(*paf));
-        else {
-            paf = affect_free;
-            affect_free = affect_free->next;
-        }
-
+        AFFECT_DATA *paf = new AFFECT_DATA;
         paf->type = sn;
         paf->level = level;
         paf->duration = -1;

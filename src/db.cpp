@@ -2178,12 +2178,7 @@ void do_dump(Char *ch, const char *argument) {
             count2 * (sizeof(*obj)));
 
     /* affects */
-    count = 0;
-    for (af = affect_free; af != nullptr; af = af->next)
-        count++;
-
-    fprintf(fp, "Affects	%4d (%8ld bytes), %2d free (%ld bytes)\n", aff_count, aff_count * (sizeof(*af)), count,
-            count * (sizeof(*af)));
+    fprintf(fp, "Affects	%4d (%8ld bytes)\n", aff_count, aff_count * (sizeof(*af)));
 
     /* rooms */
     fprintf(fp, "Rooms	%4d (%8ld bytes)\n", top_room, top_room * (sizeof(*room)));
