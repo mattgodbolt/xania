@@ -22,7 +22,9 @@
 [[nodiscard]] std::string sanitise_input(std::string_view str);
 
 // Return true if an argument is completely numeric.
-[[nodiscard]] bool is_number(const char *arg);
+[[nodiscard]] bool is_number(std::string_view sv);
+// Parses a string as a number.
+[[nodiscard]] int parse_number(std::string_view sv);
 
 // Given a string like 14.foo, return 14 and 'foo'.
 [[nodiscard]] int number_argument(const char *argument, char *arg); // <- deprecated

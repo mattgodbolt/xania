@@ -1352,18 +1352,13 @@ OBJ_DATA *get_object(sh_int vnum) {
 /*
  * Find an obj in the world.
  */
-OBJ_DATA *get_obj_world(CHAR_DATA *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
-    int number;
-    int count;
-
-    if ((obj = get_obj_here(ch, argument)) != nullptr)
+OBJ_DATA *get_obj_world(CHAR_DATA *ch, std::string_view argument) {
+    if (auto *obj = get_obj_here(ch, argument))
         return obj;
 
-    number = number_argument(argument, arg);
-    count = 0;
-    for (obj = object_list; obj != nullptr; obj = obj->next) {
+    auto &&[number, arg] = number_argument(argument);
+    int count = 0;
+    for (auto *obj = object_list; obj != nullptr; obj = obj->next) {
         if (can_see_obj(ch, obj) && is_name(arg, obj->name)) {
             if (++count == number)
                 return obj;

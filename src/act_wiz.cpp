@@ -46,7 +46,7 @@ void do_mspells(CHAR_DATA *ch, const char *argument);
 /*
  * Local functions.
  */
-ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, const char *arg);
+ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, std::string_view arg);
 
 /* Permits or denies a player from playing the Mud from a PERMIT banned site */
 void do_permit(CHAR_DATA *ch, const char *argument) {
@@ -366,14 +366,14 @@ void do_pecho(CHAR_DATA *ch, const char *argument) {
     ch->send_to("personal> {}\n\r"_format(argument));
 }
 
-ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, const char *arg) {
+ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, std::string_view arg) {
     CHAR_DATA *victim;
     OBJ_DATA *obj;
 
     if (is_number(arg))
-        return get_room_index(atoi(arg));
+        return get_room_index(parse_number(arg));
 
-    if ((!str_cmp(arg, "here")))
+    if (matches(arg, "here"))
         return ch->in_room;
 
     if ((victim = get_char_world(ch, arg)) != nullptr)
@@ -385,27 +385,20 @@ ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, const char *arg) {
     return nullptr;
 }
 
-void do_transfer(CHAR_DATA *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    ROOM_INDEX_DATA *location;
-
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-
-    if (arg1[0] == '\0') {
+void do_transfer(CHAR_DATA *ch, std::string_view argument) {
+    ArgParser args(argument);
+    if (args.empty()) {
         send_to_char("Transfer whom (and where)?\n\r", ch);
         return;
     }
 
-    if (!str_cmp(arg1, "all")) {
+    auto whom = args.shift();
+    auto where = args.shift();
+    if (matches(whom, "all")) {
         for (auto &victim :
              descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch) | DescriptorFilter::to_character()) {
-            if (victim.in_room != nullptr) {
-                char buf[MAX_STRING_LENGTH];
-                bug_snprintf(buf, sizeof(buf), "%s %s", victim.name.c_str(), arg2);
-                do_transfer(ch, buf);
-            }
+            if (victim.in_room != nullptr)
+                do_transfer(ch, "{} {}"_format(victim.name, where));
         }
         return;
     }
@@ -413,10 +406,11 @@ void do_transfer(CHAR_DATA *ch, const char *argument) {
     /*
      * Thanks to Grodyn for the optional location parameter.
      */
-    if (arg2[0] == '\0') {
+    ROOM_INDEX_DATA *location{};
+    if (where.empty()) {
         location = ch->in_room;
     } else {
-        if ((location = find_location(ch, arg2)) == nullptr) {
+        if ((location = find_location(ch, where)) == nullptr) {
             send_to_char("No such location.\n\r", ch);
             return;
         }
@@ -427,8 +421,8 @@ void do_transfer(CHAR_DATA *ch, const char *argument) {
         }
     }
 
-    CHAR_DATA *victim;
-    if ((victim = get_char_world(ch, arg1)) == nullptr) {
+    auto *victim = get_char_world(ch, whom);
+    if (!victim) {
         send_to_char("They aren't here.\n\r", ch);
         return;
     }
