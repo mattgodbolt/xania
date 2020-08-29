@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "ArgParser.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
@@ -545,19 +546,16 @@ void unride_char(CHAR_DATA *ch, CHAR_DATA *pet) {
     affect_strip(ch, gsn_ride);
 }
 
-void do_follow(CHAR_DATA *ch, const char *argument) {
+void do_follow(CHAR_DATA *ch, std::string_view argument) {
     /* RT changed to allow unlimited following and follow the NOFOLLOW rules */
-    char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    ArgParser args(argument);
+    if (args.empty()) {
         send_to_char("Follow whom?\n\r", ch);
         return;
     }
 
-    if ((victim = get_char_room(ch, arg)) == nullptr) {
+    auto victim = get_char_room(ch, args.shift());
+    if (!victim) {
         send_to_char("They aren't here.\n\r", ch);
         return;
     }

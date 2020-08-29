@@ -96,7 +96,7 @@ extern void do_fill(CHAR_DATA *ch, const char *arg);
 extern void do_pour(CHAR_DATA *ch, const char *arg);
 extern void do_finger(CHAR_DATA *ch, const char *arg);
 extern void do_flee(CHAR_DATA *ch, const char *arg);
-extern void do_follow(CHAR_DATA *ch, const char *arg);
+extern void do_follow(CHAR_DATA *ch, std::string_view argument);
 extern void do_force(CHAR_DATA *ch, const char *argument);
 extern void do_freeze(CHAR_DATA *ch, const char *arg);
 extern void do_gain(CHAR_DATA *ch, const char *arg);
