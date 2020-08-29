@@ -553,26 +553,19 @@ int in_duel(const CHAR_DATA *ch) {
 static int check_duel_status(int f) {
     unsigned int flag = 0;
 
-    if (challenger != nullptr) {
-        if (challenger->name == challenger_name)
-            flag |= 1u;
-    }
+    if (challenger && challenger->name != challenger_name)
+        flag |= 1u;
 
-    if (challengee != nullptr) {
-        if (challengee->name == challengee_name)
-            flag |= 2u;
-    }
+    if (challengee && challengee->name != challengee_name)
+        flag |= 2u;
 
-    if (imm != nullptr) {
-        if (imm->name == imm_name)
-            flag |= 4u;
-    }
+    if (imm && imm->name != imm_name)
+        flag |= 4u;
 
     if (!flag)
         return 0;
-    else {
-        bug("check_duel_status: Name match failure. Code %d", flag);
-    }
+
+    bug("check_duel_status: Name match failure. Code %d", flag);
     if (f) {
         challenge_ticker = 1;
         do_chal_tick();
