@@ -475,9 +475,9 @@ void interpret(CHAR_DATA *ch, const char *argument) {
             level = UMAX(level, ch->get_trust());
         auto log_level = (cmd->level >= 91) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT;
         if (ch->is_npc() && ch->desc && ch->desc->original()) {
-            log_new("Log %s (as '%s'): %s"_format(ch->desc->original()->name, ch->name, logline), log_level, level);
+            log_new("Log {} (as '{}'): {}"_format(ch->desc->original()->name, ch->name, logline), log_level, level);
         } else {
-            log_new("Log %s: %s"_format(ch->name, logline), log_level, level);
+            log_new("Log {}: {}"_format(ch->name, logline), log_level, level);
         }
     }
 

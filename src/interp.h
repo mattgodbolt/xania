@@ -90,7 +90,7 @@ extern void do_duel(CHAR_DATA *ch, const char *arg);
 extern void do_dump(CHAR_DATA *ch, const char *arg);
 extern void do_east(CHAR_DATA *ch, const char *arg);
 extern void do_eat(CHAR_DATA *ch, const char *argument);
-extern void do_echo(CHAR_DATA *ch, const char *arg);
+extern void do_echo(CHAR_DATA *ch, std::string_view argument);
 extern void do_emote(CHAR_DATA *ch, const char *arg);
 extern void do_equipment(CHAR_DATA *ch, const char *arg);
 extern void do_examine(CHAR_DATA *ch, const char *arg);

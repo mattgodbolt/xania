@@ -525,7 +525,6 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
                                  Don't use this too much, it hurts :) */
 
     const char *smitestring;
-    char smitebuf[MAX_STRING_LENGTH];
     CHAR_DATA *victim;
     OBJ_DATA *obj;
 
@@ -644,7 +643,7 @@ void web_who() {
         if (web_see(wch)) {
             fprintf(fp, "<TR><TD>%d</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD>\n", wch->level,
                     wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ",
-                    class_table[wch->class_num].name, wch->name, wch->pcdata->title.c_str());
+                    class_table[wch->class_num].name, wch->name.c_str(), wch->pcdata->title.c_str());
             count++;
         }
     }

@@ -281,15 +281,18 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
 
                 /* Player is currently logged in */
                 if (victim->invis_level > ch->level && ch->get_trust() < GOD) {
-                    ch->send_to("It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.\n\r"_format(victim->name));
+                    ch->send_to(
+                        "It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.\n\r"_format(
+                            victim->name));
                 } else {
                     ch->send_to("{} is currently roaming the hills of Xania!\n\r"_format(victim->name));
                     if (ch->get_trust() >= GOD) {
                         if (victim->desc->host().empty())
-                            ch->send_to("It is impossible to determine where {} last logged in from.\n\r"_format(victim->name));
+                            ch->send_to(
+                                "It is impossible to determine where {} last logged in from.\n\r"_format(victim->name));
                         else {
-                            ch->send_to("%s is currently logged in from %s.\n\r"_format(cur->name.c_str(),
-                                        victim->desc->host().c_str()));
+                            ch->send_to(
+                                "{} is currently logged in from {}.\n\r"_format(cur->name, victim->desc->host()));
                         }
                     }
                 }

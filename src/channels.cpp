@@ -130,10 +130,10 @@ void do_announce(CHAR_DATA *ch, const char *argument) {
     toggle_channel(ch, COMM_NOANNOUNCE, "Announce");
 }
 
-void do_immtalk(CHAR_DATA *ch, const char *argument) {
+void do_immtalk(CHAR_DATA *ch, std::string_view argument) {
     const char *format = "|W$n: |c$t|w";
 
-    if (argument[0] == '\0') {
+    if (argument.empty()) {
         toggle_channel(ch, COMM_NOWIZ, "Immortal");
         return;
     }

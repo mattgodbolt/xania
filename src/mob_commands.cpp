@@ -94,8 +94,7 @@ void do_mpstat(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    snprintf(buf, sizeof(buf), "Name: %s.  Vnum: %d.\n\r", victim->name, victim->pIndexData->vnum);
-    send_to_char(buf, ch);
+    ch->send_to("Name: {}.  Vnum: {}.\n\r"_format(victim->name, victim->pIndexData->vnum));
 
     ch->send_to("Short description:{}.\n\rLong  description: {}"_format(
         victim->short_descr, victim->long_descr.empty() ? "(none).\n\r" : victim->long_descr));
@@ -506,9 +505,7 @@ void do_mptransfer(CHAR_DATA *ch, const char *argument) {
         for (auto &victim :
              descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch) | DescriptorFilter::to_character()) {
             if (victim.in_room != nullptr) {
-                char buf[MAX_STRING_LENGTH];
-                snprintf(buf, sizeof(buf), "%s %s", victim.name, arg2);
-                do_transfer(ch, buf);
+                do_transfer(ch, "{} {}"_format(victim.name, arg2));
             }
         }
         return;
