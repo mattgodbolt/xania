@@ -2,9 +2,9 @@
 
 #include <string_view>
 
-struct CHAR_DATA;
+struct Char;
 
-[[nodiscard]] CHAR_DATA *get_char_room(CHAR_DATA *ch, std::string_view argument);
-[[nodiscard]] CHAR_DATA *get_char_world(CHAR_DATA *ch, std::string_view argument);
-void extract_char(CHAR_DATA *ch, bool delete_from_world);
+[[nodiscard]] Char *get_char_room(Char *ch, std::string_view argument);
+[[nodiscard]] Char *get_char_world(Char *ch, std::string_view argument);
+void extract_char(Char *ch, bool delete_from_world);
 void reap_old_chars();

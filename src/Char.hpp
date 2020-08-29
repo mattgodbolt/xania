@@ -20,16 +20,16 @@ struct MPROG_ACT_LIST;
 /*
  * One character (PC or NPC).
  */
-struct CHAR_DATA {
-    CHAR_DATA *next{};
-    CHAR_DATA *next_in_room{};
-    CHAR_DATA *master{};
-    CHAR_DATA *leader{};
-    CHAR_DATA *fighting{};
-    CHAR_DATA *reply{};
-    CHAR_DATA *pet{};
-    CHAR_DATA *riding{};
-    CHAR_DATA *ridden_by{};
+struct Char {
+    Char *next{};
+    Char *next_in_room{};
+    Char *master{};
+    Char *leader{};
+    Char *fighting{};
+    Char *reply{};
+    Char *pet{};
+    Char *riding{};
+    Char *ridden_by{};
     SpecialFunc spec_fun{};
     MOB_INDEX_DATA *pIndexData{};
     Descriptor *desc{};
@@ -105,17 +105,17 @@ struct CHAR_DATA {
     MPROG_ACT_LIST *mpact{}; /* Used by MOBprogram */
     int mpactnum{}; /* Used by MOBprogram */
 
-    CHAR_DATA();
-    ~CHAR_DATA();
-    CHAR_DATA(const CHAR_DATA &) = delete;
-    CHAR_DATA &operator=(const CHAR_DATA &) = delete;
-    CHAR_DATA(CHAR_DATA &&) = delete;
-    CHAR_DATA &operator=(CHAR_DATA &&) = delete;
+    Char();
+    ~Char();
+    Char(const Char &) = delete;
+    Char &operator=(const Char &) = delete;
+    Char(Char &&) = delete;
+    Char &operator=(Char &&) = delete;
 
     [[nodiscard]] Seconds total_played() const;
 
     // True if char can see victim.
-    [[nodiscard]] bool can_see(const CHAR_DATA &victim) const;
+    [[nodiscard]] bool can_see(const Char &victim) const;
     // True if char can see object.
     [[nodiscard]] bool can_see(const OBJ_DATA &object) const;
     // True if char can see a room.
@@ -138,9 +138,9 @@ struct CHAR_DATA {
 
     // Is the player wizinvis/prowl at all, and are they invisible to a particular character?
     [[nodiscard]] bool is_wizinvis() const;
-    [[nodiscard]] bool is_wizinvis_to(const CHAR_DATA &victim) const;
+    [[nodiscard]] bool is_wizinvis_to(const Char &victim) const;
     [[nodiscard]] bool is_prowlinvis() const;
-    [[nodiscard]] bool is_prowlinvis_to(const CHAR_DATA &victim) const;
+    [[nodiscard]] bool is_prowlinvis_to(const Char &victim) const;
 
     // Returns whether this is a PC with brief set.
     [[nodiscard]] bool is_comm_brief() const;
@@ -155,8 +155,8 @@ struct CHAR_DATA {
     // * For a player: return this
     // * For an NPC controlled by a switched IMM, return that IMM
     // * For a normal NPC, return null.
-    [[nodiscard]] const CHAR_DATA *player() const { return desc ? desc->person() : nullptr; }
-    [[nodiscard]] CHAR_DATA *player() { return desc ? desc->person() : nullptr; }
+    [[nodiscard]] const Char *player() const { return desc ? desc->person() : nullptr; }
+    [[nodiscard]] Char *player() { return desc ? desc->person() : nullptr; }
 
     [[nodiscard]] bool has_holylight() const;
     [[nodiscard]] bool is_immortal() const;

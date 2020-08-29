@@ -53,7 +53,7 @@ const char *randomSocial() {
 
 /* do the right thing depending on the current state of sleepiness */
 /* returns true if something happened, otherwise false if everything's boring */
-bool doSleepActions(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
+bool doSleepActions(Char *ch, ROOM_INDEX_DATA *home) {
     int sleepFactor = sleepiness;
     int random;
 
@@ -109,12 +109,12 @@ bool doSleepActions(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
 }
 
 /* does a random social on a randomly selected person in the current room */
-void doRandomSocial(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
+void doRandomSocial(Char *ch, ROOM_INDEX_DATA *home) {
     (void)home;
     int charsInRoom = 0;
     int charSelected;
-    CHAR_DATA *firstChar;
-    CHAR_DATA *countChar;
+    Char *firstChar;
+    Char *countChar;
 
     firstChar = ch->in_room->people;
     for (countChar = firstChar; countChar; countChar = countChar->next_in_room)
@@ -133,7 +133,7 @@ void doRandomSocial(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
 /* character's name and its associated interest number on the table */
 /* Defaults:  ch=nullptr: 0  ch=<unknown>: 1 */
 /* Unknown characters are marginally more interesting than nothing */
-int charInterest(CHAR_DATA *ch) {
+int charInterest(Char *ch) {
     int listOffset = 0;
 
     if (ch == nullptr)
@@ -148,8 +148,8 @@ int charInterest(CHAR_DATA *ch) {
 }
 
 /* Check if there's a more interesting char in this room than has been found before */
-bool findInterestingChar(ROOM_INDEX_DATA *room, CHAR_DATA **follow, int *interest) {
-    CHAR_DATA *current;
+bool findInterestingChar(ROOM_INDEX_DATA *room, Char **follow, int *interest) {
+    Char *current;
     bool retVal = false;
     int currentInterest;
 
@@ -167,10 +167,10 @@ bool findInterestingChar(ROOM_INDEX_DATA *room, CHAR_DATA **follow, int *interes
 
 /* Special program for 'Phil' - Forrey's meerkat 'pet'. */
 /* Note that this function will be called once every 4 seconds. */
-bool spec_phil(CHAR_DATA *ch) {
+bool spec_phil(Char *ch) {
     ROOM_INDEX_DATA *home;
     ROOM_INDEX_DATA *room;
-    CHAR_DATA *follow = nullptr;
+    Char *follow = nullptr;
     Direction takeExit = Direction::North;
     EXIT_DATA *exitData;
     int interest = 0;

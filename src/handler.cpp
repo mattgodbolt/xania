@@ -21,16 +21,16 @@
 #include <cstring>
 
 /* command procedures needed */
-void do_return(CHAR_DATA *ch, const char *arg);
+void do_return(Char *ch, const char *arg);
 
-void spell_poison(int spell_num, int level, CHAR_DATA *ch, void *vo);
+void spell_poison(int spell_num, int level, Char *ch, void *vo);
 
 AFFECT_DATA *affect_free = nullptr;
 
 /*
  * Local functions.
  */
-void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd);
+void affect_modify(Char *ch, AFFECT_DATA *paf, bool fAdd);
 
 struct guess_type {
     const char *name;
@@ -110,7 +110,7 @@ int class_lookup(const char *name) {
    the 'globals' (magic and weapons) may be overriden
    three other cases -- wood, silver, and iron -- are checked in fight.c */
 
-int check_immune(CHAR_DATA *ch, int dam_type) {
+int check_immune(Char *ch, int dam_type) {
     int immune;
     int bit;
 
@@ -167,10 +167,10 @@ int check_immune(CHAR_DATA *ch, int dam_type) {
 }
 
 /* for returning skill information */
-int get_skill(const CHAR_DATA *ch, int sn) { return ch->get_skill(sn); }
+int get_skill(const Char *ch, int sn) { return ch->get_skill(sn); }
 
 /* for returning weapon information */
-int get_weapon_sn(CHAR_DATA *ch) {
+int get_weapon_sn(Char *ch) {
     OBJ_DATA *wield;
     int sn;
 
@@ -192,7 +192,7 @@ int get_weapon_sn(CHAR_DATA *ch) {
     return sn;
 }
 
-int get_weapon_skill(CHAR_DATA *ch, int sn) {
+int get_weapon_skill(Char *ch, int sn) {
     int skill;
 
     /* -1 is exotic */
@@ -216,7 +216,7 @@ int get_weapon_skill(CHAR_DATA *ch, int sn) {
 }
 
 /* used to de-screw characters */
-void reset_char(CHAR_DATA *ch) {
+void reset_char(Char *ch) {
     int loc, mod;
     OBJ_DATA *obj;
     AFFECT_DATA *af;
@@ -394,16 +394,16 @@ void reset_char(CHAR_DATA *ch) {
 /*
  * Retrieve a character's age.
  */
-int get_age(const CHAR_DATA *ch) {
+int get_age(const Char *ch) {
     using namespace std::chrono;
     return 17 + duration_cast<hours>(ch->total_played()).count() / 20;
 }
 
 /* command for retrieving stats */
-int get_curr_stat(const CHAR_DATA *ch, Stat stat) { return ch->curr_stat(stat); }
+int get_curr_stat(const Char *ch, Stat stat) { return ch->curr_stat(stat); }
 
 /* command for returning max training score */
-int get_max_train(CHAR_DATA *ch, Stat stat) {
+int get_max_train(Char *ch, Stat stat) {
     int max;
 
     if (ch->is_npc() || ch->level > LEVEL_IMMORTAL)
@@ -422,7 +422,7 @@ int get_max_train(CHAR_DATA *ch, Stat stat) {
 /*
  * Retrieve a character's carry capacity.
  */
-int can_carry_n(CHAR_DATA *ch) {
+int can_carry_n(Char *ch) {
     if (ch->is_pc() && ch->level >= LEVEL_IMMORTAL)
         return 1000;
 
@@ -435,7 +435,7 @@ int can_carry_n(CHAR_DATA *ch) {
 /*
  * Retrieve a character's carry capacity.
  */
-int can_carry_w(CHAR_DATA *ch) {
+int can_carry_w(Char *ch) {
     if (ch->is_pc() && ch->level >= LEVEL_IMMORTAL)
         return 1000000;
 
@@ -448,7 +448,7 @@ int can_carry_w(CHAR_DATA *ch) {
 /*
  * Apply or remove an affect to a character.
  */
-void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd) {
+void affect_modify(Char *ch, AFFECT_DATA *paf, bool fAdd) {
     OBJ_DATA *wield;
     int mod, i;
 
@@ -516,7 +516,7 @@ void affect_modify(CHAR_DATA *ch, AFFECT_DATA *paf, bool fAdd) {
 /*
  * Give an affect to a char.
  */
-void affect_to_char(CHAR_DATA *ch, AFFECT_DATA *paf) {
+void affect_to_char(Char *ch, AFFECT_DATA *paf) {
     AFFECT_DATA *paf_new;
 
     if (affect_free == nullptr) {
@@ -552,7 +552,7 @@ void affect_to_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
 /*
  * Remove an affect from a char.
  */
-void affect_remove(CHAR_DATA *ch, AFFECT_DATA *paf) {
+void affect_remove(Char *ch, AFFECT_DATA *paf) {
     if (ch->affected == nullptr) {
         bug("Affect_remove: no affect.");
         return;
@@ -618,7 +618,7 @@ void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
 /*
  * Strip all affects of a given sn.
  */
-void affect_strip(CHAR_DATA *ch, int sn) {
+void affect_strip(Char *ch, int sn) {
     AFFECT_DATA *paf;
     AFFECT_DATA *paf_next;
 
@@ -629,13 +629,13 @@ void affect_strip(CHAR_DATA *ch, int sn) {
     }
 }
 
-bool is_affected(const CHAR_DATA *ch, int sn) { return ch->is_affected_by(sn); }
+bool is_affected(const Char *ch, int sn) { return ch->is_affected_by(sn); }
 
 /*
  * Returns the AFFECT_DATA * structure for a char
  * return nullptr if the char isn't affected
  */
-AFFECT_DATA *find_affect(CHAR_DATA *ch, int sn) {
+AFFECT_DATA *find_affect(Char *ch, int sn) {
     AFFECT_DATA *paf;
 
     for (paf = ch->affected; paf != nullptr; paf = paf->next) {
@@ -649,7 +649,7 @@ AFFECT_DATA *find_affect(CHAR_DATA *ch, int sn) {
 /*
  * Add or enhance an affect.
  */
-void affect_join(CHAR_DATA *ch, AFFECT_DATA *paf) {
+void affect_join(Char *ch, AFFECT_DATA *paf) {
     AFFECT_DATA *paf_old;
 
     for (paf_old = ch->affected; paf_old != nullptr; paf_old = paf_old->next) {
@@ -668,7 +668,7 @@ void affect_join(CHAR_DATA *ch, AFFECT_DATA *paf) {
 /*
  * Move a char out of a room.
  */
-void char_from_room(CHAR_DATA *ch) {
+void char_from_room(Char *ch) {
     OBJ_DATA *obj;
 
     if (ch->in_room == nullptr) {
@@ -686,7 +686,7 @@ void char_from_room(CHAR_DATA *ch) {
     if (ch == ch->in_room->people) {
         ch->in_room->people = ch->next_in_room;
     } else {
-        CHAR_DATA *prev;
+        Char *prev;
 
         for (prev = ch->in_room->people; prev; prev = prev->next_in_room) {
             if (prev->next_in_room == ch) {
@@ -709,7 +709,7 @@ void char_from_room(CHAR_DATA *ch) {
 /*
  * Move a char into a room.
  */
-void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
+void char_to_room(Char *ch, ROOM_INDEX_DATA *pRoomIndex) {
     OBJ_DATA *obj;
 
     if (pRoomIndex == nullptr) {
@@ -734,7 +734,7 @@ void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
 
     if (IS_AFFECTED(ch, AFF_PLAGUE)) {
         AFFECT_DATA *af, plague;
-        CHAR_DATA *vch;
+        Char *vch;
         int save;
 
         for (af = ch->affected; af != nullptr; af = af->next) {
@@ -779,7 +779,7 @@ void char_to_room(CHAR_DATA *ch, ROOM_INDEX_DATA *pRoomIndex) {
 /*
  * Give an obj to a char.
  */
-void obj_to_char(OBJ_DATA *obj, CHAR_DATA *ch) {
+void obj_to_char(OBJ_DATA *obj, Char *ch) {
     obj->next_content = ch->carrying;
     ch->carrying = obj;
     obj->carried_by = ch;
@@ -793,7 +793,7 @@ void obj_to_char(OBJ_DATA *obj, CHAR_DATA *ch) {
  * Take an obj from its character.
  */
 void obj_from_char(OBJ_DATA *obj) {
-    CHAR_DATA *ch;
+    Char *ch;
 
     if ((ch = obj->carried_by) == nullptr) {
         bug("Obj_from_char: null ch.");
@@ -857,7 +857,7 @@ int apply_ac(OBJ_DATA *obj, int iWear, int type) {
 /*
  * Find a piece of eq on a character.
  */
-OBJ_DATA *get_eq_char(CHAR_DATA *ch, int iWear) {
+OBJ_DATA *get_eq_char(Char *ch, int iWear) {
     OBJ_DATA *obj;
 
     if (ch == nullptr)
@@ -876,7 +876,7 @@ OBJ_DATA *get_eq_char(CHAR_DATA *ch, int iWear) {
  * then poison them and inform the room. The poison effect doesn't
  * stack with existing poison, that would be pretty nasty.
  */
-void enforce_material_vulnerability(CHAR_DATA *ch, OBJ_DATA *obj) {
+void enforce_material_vulnerability(Char *ch, OBJ_DATA *obj) {
     if (check_material_vulnerability(ch, obj) == 1) {
         act("As you equip $p it burns you, causing you to shriek in pain!", ch, obj, nullptr, To::Char);
         act("$n shrieks in pain!", ch, obj, nullptr, To::Room);
@@ -890,7 +890,7 @@ void enforce_material_vulnerability(CHAR_DATA *ch, OBJ_DATA *obj) {
 /*
  * Equip a char with an obj.
  */
-void equip_char(CHAR_DATA *ch, OBJ_DATA *obj, int iWear) {
+void equip_char(Char *ch, OBJ_DATA *obj, int iWear) {
     AFFECT_DATA *paf;
     int i;
 
@@ -930,7 +930,7 @@ void equip_char(CHAR_DATA *ch, OBJ_DATA *obj, int iWear) {
 /*
  * Unequip a char with an obj.
  */
-void unequip_char(CHAR_DATA *ch, OBJ_DATA *obj) {
+void unequip_char(Char *ch, OBJ_DATA *obj) {
     AFFECT_DATA *paf;
     int i;
 
@@ -1002,7 +1002,7 @@ void obj_from_room(OBJ_DATA *obj) {
     obj->next_content = nullptr;
 }
 
-bool check_sub_issue(OBJ_DATA *obj, CHAR_DATA *ch) {
+bool check_sub_issue(OBJ_DATA *obj, Char *ch) {
     int vnum;
     vnum = obj->pIndexData->vnum;
     if (((vnum >= 3700) && (vnum <= 3713)) || (vnum == 3716) || (vnum == 3717)) {
@@ -1156,16 +1156,16 @@ void extract_obj(OBJ_DATA *obj) {
     obj->affected = nullptr;
 }
 
-/* extern void thrown_off(CHAR_DATA *ch, CHAR_DATA *pet); */
+/* extern void thrown_off(Char *ch, Char *pet); */
 
-std::vector<std::unique_ptr<CHAR_DATA>> chars_to_reap;
+std::vector<std::unique_ptr<Char>> chars_to_reap;
 void reap_old_chars() { chars_to_reap.clear(); }
 
 /*
  * Extract a char from the world.
  */
-void extract_char(CHAR_DATA *ch, bool delete_from_world) {
-    CHAR_DATA *wch;
+void extract_char(Char *ch, bool delete_from_world) {
+    Char *wch;
     OBJ_DATA *obj;
     OBJ_DATA *obj_next;
 
@@ -1213,7 +1213,7 @@ void extract_char(CHAR_DATA *ch, bool delete_from_world) {
     if (ch == char_list) {
         char_list = ch->next;
     } else {
-        CHAR_DATA *prev;
+        Char *prev;
 
         for (prev = char_list; prev != nullptr; prev = prev->next) {
             if (prev->next == ch) {
@@ -1234,7 +1234,7 @@ void extract_char(CHAR_DATA *ch, bool delete_from_world) {
 }
 
 // Find a char in the room.
-CHAR_DATA *get_char_room(CHAR_DATA *ch, std::string_view argument) {
+Char *get_char_room(Char *ch, std::string_view argument) {
     auto &&[number, arg] = number_argument(argument);
     if (matches(arg, "self"))
         return ch;
@@ -1250,7 +1250,7 @@ CHAR_DATA *get_char_room(CHAR_DATA *ch, std::string_view argument) {
 }
 
 // Find a char in the world.
-CHAR_DATA *get_char_world(CHAR_DATA *ch, std::string_view argument) {
+Char *get_char_world(Char *ch, std::string_view argument) {
     if (auto *wch = get_char_room(ch, argument))
         return wch;
 
@@ -1266,9 +1266,9 @@ CHAR_DATA *get_char_world(CHAR_DATA *ch, std::string_view argument) {
     return nullptr;
 }
 
-/* find a MOB by vnum in the world, returning its CHAR_DATA * */
-CHAR_DATA *get_mob_by_vnum(sh_int vnum) {
-    CHAR_DATA *current = char_list;
+/* find a MOB by vnum in the world, returning its Char * */
+Char *get_mob_by_vnum(sh_int vnum) {
+    Char *current = char_list;
 
     for (; current; current = current->next)
         if (current->pIndexData)
@@ -1296,7 +1296,7 @@ OBJ_DATA *get_obj_type(OBJ_INDEX_DATA *pObjIndex) {
 /*
  * Find an obj in a list.
  */
-OBJ_DATA *get_obj_list(const CHAR_DATA *ch, std::string_view argument, OBJ_DATA *list) {
+OBJ_DATA *get_obj_list(const Char *ch, std::string_view argument, OBJ_DATA *list) {
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
     for (auto *obj = list; obj; obj = obj->next_content) {
@@ -1312,7 +1312,7 @@ OBJ_DATA *get_obj_list(const CHAR_DATA *ch, std::string_view argument, OBJ_DATA 
 /*
  * Find an obj in player's inventory.
  */
-OBJ_DATA *get_obj_carry(CHAR_DATA *ch, const char *argument) {
+OBJ_DATA *get_obj_carry(Char *ch, const char *argument) {
     // TODO remove
     return ch->find_in_inventory(argument);
 }
@@ -1320,7 +1320,7 @@ OBJ_DATA *get_obj_carry(CHAR_DATA *ch, const char *argument) {
 /*
  * Find an obj in player's equipment.
  */
-OBJ_DATA *get_obj_wear(CHAR_DATA *ch, const char *argument) {
+OBJ_DATA *get_obj_wear(Char *ch, const char *argument) {
     // TODO remove
     return ch->find_worn(argument);
 }
@@ -1328,7 +1328,7 @@ OBJ_DATA *get_obj_wear(CHAR_DATA *ch, const char *argument) {
 /*
  * Find an obj in the room or in inventory.
  */
-OBJ_DATA *get_obj_here(const CHAR_DATA *ch, std::string_view argument) {
+OBJ_DATA *get_obj_here(const Char *ch, std::string_view argument) {
     if (auto *obj = get_obj_list(ch, argument, ch->in_room->contents))
         return obj;
 
@@ -1352,7 +1352,7 @@ OBJ_DATA *get_object(sh_int vnum) {
 /*
  * Find an obj in the world.
  */
-OBJ_DATA *get_obj_world(CHAR_DATA *ch, std::string_view argument) {
+OBJ_DATA *get_obj_world(Char *ch, std::string_view argument) {
     if (auto *obj = get_obj_here(ch, argument))
         return obj;
 
@@ -1448,7 +1448,7 @@ bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex) {
  * True if room is private.
  */
 bool room_is_private(ROOM_INDEX_DATA *pRoomIndex) {
-    CHAR_DATA *rch;
+    Char *rch;
     int count;
 
     count = 0;
@@ -1468,12 +1468,12 @@ bool room_is_private(ROOM_INDEX_DATA *pRoomIndex) {
 }
 
 /* visibility on a room -- for entering and exits */
-bool can_see_room(const CHAR_DATA *ch, const ROOM_INDEX_DATA *pRoomIndex) {
+bool can_see_room(const Char *ch, const ROOM_INDEX_DATA *pRoomIndex) {
     // TODO remove
     return ch->can_see(*pRoomIndex);
 }
 
-bool can_see(const CHAR_DATA *ch, const CHAR_DATA *victim) {
+bool can_see(const Char *ch, const Char *victim) {
     /* without this block, poor code involving descriptors would
        crash the mud - Fara 13/8/96 */
     // MRG notes, not seen in any logs thus far, candidate for deletion.
@@ -1487,7 +1487,7 @@ bool can_see(const CHAR_DATA *ch, const CHAR_DATA *victim) {
 /*
  * True if char can see obj.
  */
-bool can_see_obj(const CHAR_DATA *ch, const OBJ_DATA *obj) {
+bool can_see_obj(const Char *ch, const OBJ_DATA *obj) {
     // TODO remove
     return ch->can_see(*obj);
 }
@@ -1495,7 +1495,7 @@ bool can_see_obj(const CHAR_DATA *ch, const OBJ_DATA *obj) {
 /*
  * True if char can drop obj.
  */
-bool can_drop_obj(CHAR_DATA *ch, OBJ_DATA *obj) {
+bool can_drop_obj(Char *ch, OBJ_DATA *obj) {
     if (!IS_SET(obj->extra_flags, ITEM_NODROP))
         return true;
 
@@ -2146,7 +2146,7 @@ const char *off_bit_name(int off_flags) {
     return (buf[0] != '\0') ? buf + 1 : "none";
 }
 
-bool is_set_extra(CHAR_DATA *ch, unsigned int flag) {
+bool is_set_extra(Char *ch, unsigned int flag) {
     if (ch->is_npc())
         return false;
     if (ch->extra_flags[flag / 32] & 1u << (flag & 31u))
@@ -2154,19 +2154,19 @@ bool is_set_extra(CHAR_DATA *ch, unsigned int flag) {
     return false;
 }
 
-void set_extra(CHAR_DATA *ch, unsigned int flag) {
+void set_extra(Char *ch, unsigned int flag) {
     if (ch->is_npc())
         return;
     ch->extra_flags[flag / 32] |= (1u << (flag & 31u));
 }
 
-void remove_extra(CHAR_DATA *ch, unsigned int flag) {
+void remove_extra(Char *ch, unsigned int flag) {
     if (ch->is_npc())
         return;
     ch->extra_flags[flag / 32] &= ~(1u << (flag & 31u));
 }
 
-bool is_switched(CHAR_DATA *ch) {
+bool is_switched(Char *ch) {
     if (ch->is_pc())
         return false;
 

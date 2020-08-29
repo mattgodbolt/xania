@@ -26,10 +26,10 @@ const sh_int movement_loss[SECT_MAX] = {1, 2, 2, 3, 4, 6, 4, 1, 6, 10, 6};
 /*
  * Local functions.
  */
-int find_door(CHAR_DATA *ch, char *arg);
-bool has_key(const CHAR_DATA *ch, int key);
+int find_door(Char *ch, char *arg);
+bool has_key(const Char *ch, int key);
 
-void move_char(CHAR_DATA *ch, Direction door) {
+void move_char(Char *ch, Direction door) {
     auto *in_room = ch->in_room;
     auto *pexit = in_room->exit[door];
     auto *to_room = pexit ? pexit->u1.to_room : nullptr;
@@ -188,7 +188,7 @@ void move_char(CHAR_DATA *ch, Direction door) {
     if (in_room == to_room) /* no circular follows */
         return;
 
-    CHAR_DATA *fch_next{};
+    Char *fch_next{};
     for (auto *fch = in_room->people; fch != nullptr; fch = fch_next) {
         fch_next = fch->next_in_room;
 
@@ -214,12 +214,12 @@ void move_char(CHAR_DATA *ch, Direction door) {
     mprog_greet_trigger(ch);
 }
 
-void do_enter(CHAR_DATA *ch, const char *argument) {
+void do_enter(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     ROOM_INDEX_DATA *to_room, *in_room;
-    CHAR_DATA *fch;
-    CHAR_DATA *fch_next;
+    Char *fch;
+    Char *fch_next;
     int count = 0, number = number_argument(argument, arg);
     if (ch->riding) {
         send_to_char("Before entering a portal you must dismount.\n\r", ch);
@@ -351,49 +351,49 @@ void do_enter(CHAR_DATA *ch, const char *argument) {
     send_to_char("You can't see that here.\n\r", ch);
 }
 
-void do_north(CHAR_DATA *ch, const char *argument) {
+void do_north(Char *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, Direction::North);
 }
 
-void do_east(CHAR_DATA *ch, const char *argument) {
+void do_east(Char *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, Direction::East);
 }
 
-void do_south(CHAR_DATA *ch, const char *argument) {
+void do_south(Char *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, Direction::South);
 }
 
-void do_west(CHAR_DATA *ch, const char *argument) {
+void do_west(Char *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, Direction::West);
 }
 
-void do_up(CHAR_DATA *ch, const char *argument) {
+void do_up(Char *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, Direction::Up);
 }
 
-void do_down(CHAR_DATA *ch, const char *argument) {
+void do_down(Char *ch, const char *argument) {
     (void)argument;
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, Direction::Down);
 }
 
-std::optional<Direction> find_door(CHAR_DATA *ch, std::string_view arg) {
+std::optional<Direction> find_door(Char *ch, std::string_view arg) {
     if (auto door = try_parse_direction(arg)) {
         auto *pexit = ch->in_room->exit[*door];
         if (!pexit) {
@@ -418,7 +418,7 @@ std::optional<Direction> find_door(CHAR_DATA *ch, std::string_view arg) {
     return {};
 }
 
-void do_open(CHAR_DATA *ch, const char *argument) {
+void do_open(Char *ch, const char *argument) {
     ArgParser args(argument);
     if (args.empty()) {
         send_to_char("Open what?\n\r", ch);
@@ -475,7 +475,7 @@ void do_open(CHAR_DATA *ch, const char *argument) {
         EXIT_DATA *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
-            CHAR_DATA *rch;
+            Char *rch;
 
             REMOVE_BIT(pexit_rev->exit_info, EX_CLOSED);
             for (rch = to_room->people; rch != nullptr; rch = rch->next_in_room)
@@ -484,7 +484,7 @@ void do_open(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_close(CHAR_DATA *ch, const char *argument) {
+void do_close(Char *ch, const char *argument) {
     ArgParser args(argument);
     if (args.empty()) {
         send_to_char("Close what?\n\r", ch);
@@ -532,7 +532,7 @@ void do_close(CHAR_DATA *ch, const char *argument) {
         EXIT_DATA *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
-            CHAR_DATA *rch;
+            Char *rch;
 
             SET_BIT(pexit_rev->exit_info, EX_CLOSED);
             for (rch = to_room->people; rch != nullptr; rch = rch->next_in_room)
@@ -541,7 +541,7 @@ void do_close(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-bool has_key(const CHAR_DATA *ch, int key) {
+bool has_key(const Char *ch, int key) {
     for (auto *obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
         if (obj->pIndexData->vnum == key)
             return true;
@@ -550,7 +550,7 @@ bool has_key(const CHAR_DATA *ch, int key) {
     return false;
 }
 
-void do_lock(CHAR_DATA *ch, const char *argument) {
+void do_lock(Char *ch, const char *argument) {
     ArgParser args(argument);
     if (args.empty()) {
         send_to_char("Lock what?\n\r", ch);
@@ -623,7 +623,7 @@ void do_lock(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_unlock(CHAR_DATA *ch, const char *argument) {
+void do_unlock(Char *ch, const char *argument) {
     ArgParser args(argument);
     if (args.empty()) {
         send_to_char("Unlock what?\n\r", ch);
@@ -696,7 +696,7 @@ void do_unlock(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_pick(CHAR_DATA *ch, const char *argument) {
+void do_pick(Char *ch, const char *argument) {
     ArgParser args(argument);
     if (args.empty()) {
         send_to_char("Pick what?\n\r", ch);
@@ -787,7 +787,7 @@ void do_pick(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_stand(CHAR_DATA *ch, const char *arg) {
+void do_stand(Char *ch, const char *arg) {
     (void)arg;
 
     if (ch->riding != nullptr) {
@@ -820,7 +820,7 @@ void do_stand(CHAR_DATA *ch, const char *arg) {
     }
 }
 
-void do_rest(CHAR_DATA *ch, const char *argument) {
+void do_rest(Char *ch, const char *argument) {
     (void)argument;
 
     if (ch->riding != nullptr) {
@@ -853,7 +853,7 @@ void do_rest(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_sit(CHAR_DATA *ch, const char *argument) {
+void do_sit(Char *ch, const char *argument) {
     (void)argument;
 
     if (ch->riding != nullptr) {
@@ -881,7 +881,7 @@ void do_sit(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_sleep(CHAR_DATA *ch, const char *argument) {
+void do_sleep(Char *ch, const char *argument) {
     (void)argument;
 
     if (ch->riding != nullptr) {
@@ -904,9 +904,9 @@ void do_sleep(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_wake(CHAR_DATA *ch, const char *argument) {
+void do_wake(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
 
     one_argument(argument, arg);
     if (arg[0] == '\0') {
@@ -947,7 +947,7 @@ void do_wake(CHAR_DATA *ch, const char *argument) {
     act("$n wakes you.", ch, nullptr, victim, To::Vict);
 }
 
-void do_sneak(CHAR_DATA *ch, const char *argument) {
+void do_sneak(Char *ch, const char *argument) {
     (void)argument;
     AFFECT_DATA af;
 
@@ -967,7 +967,7 @@ void do_sneak(CHAR_DATA *ch, const char *argument) {
         check_improve(ch, gsn_sneak, false, 3);
 }
 
-void do_hide(CHAR_DATA *ch, const char *argument) {
+void do_hide(Char *ch, const char *argument) {
     (void)argument;
     send_to_char("You attempt to hide.\n\r", ch);
 
@@ -984,7 +984,7 @@ void do_hide(CHAR_DATA *ch, const char *argument) {
 /*
  * Contributed by Alander.
  */
-void do_visible(CHAR_DATA *ch, const char *argument) {
+void do_visible(Char *ch, const char *argument) {
     (void)argument;
     affect_strip(ch, gsn_invis);
     affect_strip(ch, gsn_mass_invis);
@@ -995,9 +995,9 @@ void do_visible(CHAR_DATA *ch, const char *argument) {
     send_to_char("Ok.\n\r", ch);
 }
 
-void do_recall(CHAR_DATA *ch, const char *argument) {
+void do_recall(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     ROOM_INDEX_DATA *location;
     int vnum;
 
@@ -1090,9 +1090,9 @@ void do_recall(CHAR_DATA *ch, const char *argument) {
         do_recall(ch->pet, argument);
 }
 
-void do_train(CHAR_DATA *ch, const char *argument) {
+void do_train(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
-    CHAR_DATA *mob;
+    Char *mob;
     Stat stat = Stat::Str;
     const char *pOutput = nullptr;
     int cost;

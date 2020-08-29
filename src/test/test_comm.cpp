@@ -1,11 +1,11 @@
 #include "comm.hpp"
 
-#include "CHAR_DATA.hpp"
+#include "Char.hpp"
 
 #include <catch2/catch.hpp>
 
 TEST_CASE("prompt formatting") {
-    CHAR_DATA ch;
+    Char ch;
     ch.hit = 10;
     ch.max_hit = 11;
     ch.move = 13;

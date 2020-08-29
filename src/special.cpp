@@ -26,32 +26,32 @@ using namespace fmt::literals;
 
 /* The following special functions are available for mobiles. */
 /* Note that MOB special functions are called every 4 seconds. */
-bool spec_breath_any(CHAR_DATA *ch);
-bool spec_breath_acid(CHAR_DATA *ch);
-bool spec_breath_fire(CHAR_DATA *ch);
-bool spec_breath_frost(CHAR_DATA *ch);
-bool spec_breath_gas(CHAR_DATA *ch);
-bool spec_breath_lightning(CHAR_DATA *ch);
-bool spec_cast_adept(CHAR_DATA *ch);
-bool spec_cast_cleric(CHAR_DATA *ch);
-bool spec_cast_judge(CHAR_DATA *ch);
-bool spec_cast_mage(CHAR_DATA *ch);
-bool spec_cast_undead(CHAR_DATA *ch);
-bool spec_cast_bastard(CHAR_DATA *ch);
-bool spec_executioner(CHAR_DATA *ch);
-bool spec_fido(CHAR_DATA *ch);
-bool spec_guard(CHAR_DATA *ch);
-bool spec_janitor(CHAR_DATA *ch);
-bool spec_mayor(CHAR_DATA *ch);
-bool spec_poison(CHAR_DATA *ch);
-bool spec_thief(CHAR_DATA *ch);
-bool spec_puff(CHAR_DATA *ch);
-bool spec_DEATH(CHAR_DATA *ch);
-bool spec_greasy_joe(CHAR_DATA *ch);
-bool spec_phil(CHAR_DATA *ch);
-bool spec_concordius(CHAR_DATA *ch);
-bool spec_aquila_pet(CHAR_DATA *ch);
-bool spec_summoner(CHAR_DATA *ch);
+bool spec_breath_any(Char *ch);
+bool spec_breath_acid(Char *ch);
+bool spec_breath_fire(Char *ch);
+bool spec_breath_frost(Char *ch);
+bool spec_breath_gas(Char *ch);
+bool spec_breath_lightning(Char *ch);
+bool spec_cast_adept(Char *ch);
+bool spec_cast_cleric(Char *ch);
+bool spec_cast_judge(Char *ch);
+bool spec_cast_mage(Char *ch);
+bool spec_cast_undead(Char *ch);
+bool spec_cast_bastard(Char *ch);
+bool spec_executioner(Char *ch);
+bool spec_fido(Char *ch);
+bool spec_guard(Char *ch);
+bool spec_janitor(Char *ch);
+bool spec_mayor(Char *ch);
+bool spec_poison(Char *ch);
+bool spec_thief(Char *ch);
+bool spec_puff(Char *ch);
+bool spec_DEATH(Char *ch);
+bool spec_greasy_joe(Char *ch);
+bool spec_phil(Char *ch);
+bool spec_concordius(Char *ch);
+bool spec_aquila_pet(Char *ch);
+bool spec_summoner(Char *ch);
 /* Given a name, return the appropriate spec fun. */
 SpecialFunc spec_lookup(const char *name) {
     if (!str_cmp(name, "spec_breath_any"))
@@ -110,9 +110,9 @@ SpecialFunc spec_lookup(const char *name) {
 }
 
 /* Core procedure for dragons. */
-bool dragon(CHAR_DATA *ch, const char *spell_name) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
+bool dragon(Char *ch, const char *spell_name) {
+    Char *victim;
+    Char *v_next;
     int sn;
 
     if (ch->position != POS_FIGHTING)
@@ -134,7 +134,7 @@ bool dragon(CHAR_DATA *ch, const char *spell_name) {
 }
 
 /* Special procedures for mobiles. */
-bool spec_breath_any(CHAR_DATA *ch) {
+bool spec_breath_any(Char *ch) {
     if (ch->position != POS_FIGHTING)
         return false;
 
@@ -152,13 +152,13 @@ bool spec_breath_any(CHAR_DATA *ch) {
     return false;
 }
 
-bool spec_breath_acid(CHAR_DATA *ch) { return dragon(ch, "acid breath"); }
+bool spec_breath_acid(Char *ch) { return dragon(ch, "acid breath"); }
 
-bool spec_breath_fire(CHAR_DATA *ch) { return dragon(ch, "fire breath"); }
+bool spec_breath_fire(Char *ch) { return dragon(ch, "fire breath"); }
 
-bool spec_breath_frost(CHAR_DATA *ch) { return dragon(ch, "frost breath"); }
+bool spec_breath_frost(Char *ch) { return dragon(ch, "frost breath"); }
 
-bool spec_breath_gas(CHAR_DATA *ch) {
+bool spec_breath_gas(Char *ch) {
     int sn;
 
     if (ch->position != POS_FIGHTING)
@@ -170,13 +170,13 @@ bool spec_breath_gas(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_breath_lightning(CHAR_DATA *ch) { return dragon(ch, "lightning breath"); }
+bool spec_breath_lightning(Char *ch) { return dragon(ch, "lightning breath"); }
 
-bool spec_DEATH(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
-    CHAR_DATA *lowest_person = nullptr;
-    CHAR_DATA *phil;
+bool spec_DEATH(Char *ch) {
+    Char *victim;
+    Char *v_next;
+    Char *lowest_person = nullptr;
+    Char *phil;
     ROOM_INDEX_DATA *home; /* Death's house */
     int lowest_percent = 15; /* Lowest percentage of hp Death gates to */
 
@@ -261,9 +261,9 @@ bool spec_DEATH(CHAR_DATA *ch) {
     }
 }
 
-bool spec_cast_adept(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
+bool spec_cast_adept(Char *ch) {
+    Char *victim;
+    Char *v_next;
 
     if (!IS_AWAKE(ch))
         return false;
@@ -312,9 +312,9 @@ bool spec_cast_adept(CHAR_DATA *ch) {
     return false;
 }
 
-bool spec_cast_cleric(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
+bool spec_cast_cleric(Char *ch) {
+    Char *victim;
+    Char *v_next;
     const char *spell;
     int sn;
 
@@ -386,15 +386,15 @@ bool spec_cast_cleric(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_greasy_joe(CHAR_DATA *ch) {
+bool spec_greasy_joe(Char *ch) {
     if (number_percent() > 99)
         ch->say("...with onions?...");
     return true;
 }
 
-bool spec_cast_judge(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
+bool spec_cast_judge(Char *ch) {
+    Char *victim;
+    Char *v_next;
     const char *spell;
     int sn;
 
@@ -417,9 +417,9 @@ bool spec_cast_judge(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_cast_mage(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
+bool spec_cast_mage(Char *ch) {
+    Char *victim;
+    Char *v_next;
     const char *spell;
     int sn;
 
@@ -499,9 +499,9 @@ bool spec_cast_mage(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_cast_undead(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
+bool spec_cast_undead(Char *ch) {
+    Char *victim;
+    Char *v_next;
     const char *spell;
     int sn;
 
@@ -589,9 +589,9 @@ bool spec_cast_undead(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_cast_bastard(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
+bool spec_cast_bastard(Char *ch) {
+    Char *victim;
+    Char *v_next;
     const char *spell;
     int sn;
 
@@ -658,12 +658,12 @@ bool spec_cast_bastard(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_executioner(CHAR_DATA *ch) {
+bool spec_executioner(Char *ch) {
     if (!IS_AWAKE(ch) || ch->fighting != nullptr)
         return false;
 
     auto *crime = "";
-    CHAR_DATA *victim;
+    Char *victim;
     for (victim = ch->in_room->people; victim; victim = victim->next) {
         if (victim->is_pc() && IS_SET(victim->act, PLR_KILLER)) {
             crime = "KILLER";
@@ -699,17 +699,17 @@ bool spec_executioner(CHAR_DATA *ch) {
 
                 written by Seth of Rivers of Mud         */
 
-bool spec_puff(CHAR_DATA *ch) {
+bool spec_puff(Char *ch) {
     int rnd_social, sn, silliness;
     bool pc_found = true;
-    CHAR_DATA *v_next;
-    CHAR_DATA *wch;
-    CHAR_DATA *wch_next;
-    CHAR_DATA *nch;
-    CHAR_DATA *ch_next;
-    CHAR_DATA *vch;
-    CHAR_DATA *vch_next;
-    CHAR_DATA *victim;
+    Char *v_next;
+    Char *wch;
+    Char *wch_next;
+    Char *nch;
+    Char *ch_next;
+    Char *vch;
+    Char *vch_next;
+    Char *victim;
     extern int social_count;
 
     if (!IS_AWAKE(ch))
@@ -829,7 +829,7 @@ bool spec_puff(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_fido(CHAR_DATA *ch) {
+bool spec_fido(Char *ch) {
     OBJ_DATA *corpse;
     OBJ_DATA *c_next;
     OBJ_DATA *obj;
@@ -856,10 +856,10 @@ bool spec_fido(CHAR_DATA *ch) {
     return false;
 }
 
-bool spec_guard(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
-    CHAR_DATA *ech;
+bool spec_guard(Char *ch) {
+    Char *victim;
+    Char *v_next;
+    Char *ech;
     const char *crime;
     int max_evil;
 
@@ -904,7 +904,7 @@ bool spec_guard(CHAR_DATA *ch) {
     return false;
 }
 
-bool spec_janitor(CHAR_DATA *ch) {
+bool spec_janitor(Char *ch) {
     OBJ_DATA *trash;
     OBJ_DATA *trash_next;
 
@@ -926,7 +926,7 @@ bool spec_janitor(CHAR_DATA *ch) {
     return false;
 }
 
-bool spec_mayor(CHAR_DATA *ch) {
+bool spec_mayor(Char *ch) {
     static const char open_path[] = "W3a3003b33000c111d0d111Oe333333Oe22c222112212111a1S.";
 
     static const char close_path[] = "W3a3003b33000c111d0d111CE333333CE22c222112212111a1S.";
@@ -999,8 +999,8 @@ bool spec_mayor(CHAR_DATA *ch) {
     return false;
 }
 
-bool spec_poison(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
+bool spec_poison(Char *ch) {
+    Char *victim;
 
     if (ch->position != POS_FIGHTING || (victim = ch->fighting) == nullptr || number_percent() > 2 * ch->level)
         return false;
@@ -1012,9 +1012,9 @@ bool spec_poison(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_thief(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
+bool spec_thief(Char *ch) {
+    Char *victim;
+    Char *v_next;
     long gold;
 
     if (ch->position != POS_STANDING)

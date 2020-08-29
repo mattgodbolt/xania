@@ -9,7 +9,7 @@
 
 #pragma once
 
-struct CHAR_DATA;
+struct Char;
 
 static constexpr auto INVALID_BIT = static_cast<unsigned long>(-1);
 
@@ -18,8 +18,8 @@ static constexpr auto INVALID_BIT = static_cast<unsigned long>(-1);
  *	  current value of flag
  *	  the character attempting to modify the flag
  */
-unsigned long flag_set(const char *format, const char *arg, unsigned long current_val, CHAR_DATA *ch);
+unsigned long flag_set(const char *format, const char *arg, unsigned long current_val, Char *ch);
 /*
  * Display the current flags
  */
-void display_flags(const char *format, CHAR_DATA *ch, unsigned long current_val);
+void display_flags(const char *format, Char *ch, unsigned long current_val);

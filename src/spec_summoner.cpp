@@ -4,7 +4,7 @@
 /*  See the header to file: merc.h for original code copyrights         */
 /************************************************************************/
 
-#include "CHAR_DATA.hpp"
+#include "Char.hpp"
 #include "TimeInfoData.hpp"
 #include "comm.hpp"
 #include "merc.h"
@@ -23,7 +23,7 @@ static inline constexpr auto ShardLevelRange{9};
 
 time_t last_advice_time{0};
 
-void summoner_awaits(CHAR_DATA *ch) {
+void summoner_awaits(Char *ch) {
     auto current = system_clock::to_time_t(current_time);
     if (current - last_advice_time > 30) {
         last_advice_time = current;
@@ -32,14 +32,14 @@ void summoner_awaits(CHAR_DATA *ch) {
     }
 }
 
-bool check_summoner_preconditions(CHAR_DATA *player, CHAR_DATA *summoner) {
+bool check_summoner_preconditions(Char *player, Char *summoner) {
     if (player->is_npc() || summoner->is_pc() || summoner->spec_fun != spec_lookup("spec_summoner")) {
         return false;
     } else
         return true;
 }
 
-std::optional<std::string_view> is_catalyst_invalid(CHAR_DATA *player, OBJ_DATA *catalyst) {
+std::optional<std::string_view> is_catalyst_invalid(Char *player, OBJ_DATA *catalyst) {
     if (!IS_SET(catalyst->extra_flags, ITEM_SUMMON_CORPSE)) {
         return object_wrong_type;
     } else if (catalyst->level + ShardLevelRange < player->level) {
@@ -48,7 +48,7 @@ std::optional<std::string_view> is_catalyst_invalid(CHAR_DATA *player, OBJ_DATA 
         return {};
 }
 
-bool check_catalyst(CHAR_DATA *player, CHAR_DATA *summoner, OBJ_DATA *catalyst) {
+bool check_catalyst(Char *player, Char *summoner, OBJ_DATA *catalyst) {
     if (auto reason = is_catalyst_invalid(player, catalyst)) {
         act("|C$n tells you '$t|C'|w", summoner, *reason, player, To::Vict, POS_DEAD);
         obj_from_char(catalyst);
@@ -66,7 +66,7 @@ bool check_catalyst(CHAR_DATA *player, CHAR_DATA *summoner, OBJ_DATA *catalyst) 
  * matches on short description because corpse names (keywords) don't include the
  * corpse owner's name.
  */
-std::optional<OBJ_DATA *> get_pc_corpse_world(CHAR_DATA *ch, std::string_view corpse_short_descr) {
+std::optional<OBJ_DATA *> get_pc_corpse_world(Char *ch, std::string_view corpse_short_descr) {
     for (auto obj = object_list; obj; obj = obj->next) {
         if (obj->item_type == ITEM_CORPSE_PC && obj->in_room && obj->in_room != ch->in_room) {
             if (matches(corpse_short_descr, obj->short_descr))
@@ -80,7 +80,7 @@ std::optional<OBJ_DATA *> get_pc_corpse_world(CHAR_DATA *ch, std::string_view co
 /**
  * Temporarily weaken the person who requested the summoning.
  */
-void apply_summoning_fatigue(CHAR_DATA *player) {
+void apply_summoning_fatigue(Char *player) {
     AFFECT_DATA af;
     af.type = skill_lookup("weaken");
     af.level = 5;
@@ -97,7 +97,7 @@ void apply_summoning_fatigue(CHAR_DATA *player) {
 /**
  * Find a player's corpse and teleport it into the room. Consumes the catalyst used to trigger.b
  */
-void summon_corpse(CHAR_DATA *player, CHAR_DATA *summoner, OBJ_DATA *catalyst) {
+void summon_corpse(Char *player, Char *summoner, OBJ_DATA *catalyst) {
     act("$n clutches $p between his bony fingers and begins to whisper.", summoner, catalyst, nullptr, To::Room);
     act("The runes on the summoning stone begin to glow more brightly!", summoner, catalyst, nullptr, To::Room);
     std::string corpse_name = "corpse of {}"_format(player->name);
@@ -119,14 +119,14 @@ void summon_corpse(CHAR_DATA *player, CHAR_DATA *summoner, OBJ_DATA *catalyst) {
  * Special program for corpse summoner NPCs. Currently just one of
  * these in the Necropolis, but there could be more in future.
  */
-bool spec_summoner(CHAR_DATA *ch) {
+bool spec_summoner(Char *ch) {
     if (ch->position < POS_STANDING || ch->in_room->vnum != ROOM_VNUM_NECROPOLIS)
         return false;
     summoner_awaits(ch);
     return true;
 }
 
-void handle_corpse_summoner(CHAR_DATA *player, CHAR_DATA *summoner, OBJ_DATA *catalyst) {
+void handle_corpse_summoner(Char *player, Char *summoner, OBJ_DATA *catalyst) {
     if (!check_summoner_preconditions(player, summoner)) {
         return;
     }

@@ -27,17 +27,17 @@
 using namespace fmt::literals;
 
 /* command procedures needed */
-void do_quit(CHAR_DATA *ch, const char *arg);
+void do_quit(Char *ch, const char *arg);
 
 /* Rohan's info stuff - extern to Player list */
 extern KNOWN_PLAYERS *player_list;
 
-void do_delet(CHAR_DATA *ch, const char *argument) {
+void do_delet(Char *ch, const char *argument) {
     (void)argument;
     send_to_char("You must type the full command to delete yourself.\n\r", ch);
 }
 
-void do_delete(CHAR_DATA *ch, const char *argument) {
+void do_delete(Char *ch, const char *argument) {
     (void)argument;
     KNOWN_PLAYERS *cursor, *temp;
 
@@ -94,7 +94,7 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
     ch->pcdata->confirm_delete = true;
 }
 
-void announce(std::string_view buf, const CHAR_DATA *ch) {
+void announce(std::string_view buf, const Char *ch) {
     if (ch->in_room == nullptr)
         return; /* special case on creation */
 
@@ -104,7 +104,7 @@ void announce(std::string_view buf, const CHAR_DATA *ch) {
     }
 }
 
-void do_say(CHAR_DATA *ch, const char *argument) {
+void do_say(Char *ch, const char *argument) {
     if (argument[0] == '\0') {
         send_to_char("|cSay what?\n\r|w", ch);
         return;
@@ -113,7 +113,7 @@ void do_say(CHAR_DATA *ch, const char *argument) {
     ch->say(argument);
 }
 
-void do_afk(CHAR_DATA *ch, const char *argument) {
+void do_afk(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
 
     if (ch->is_npc() || IS_SET(ch->comm, COMM_NOCHANNELS))
@@ -148,7 +148,7 @@ void do_afk(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
+static void tell_to(Char *ch, Char *victim, const char *text) {
     char buf[MAX_STRING_LENGTH];
 
     if (IS_SET(ch->act, PLR_AFK))
@@ -188,9 +188,9 @@ static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
     }
 }
 
-void do_tell(CHAR_DATA *ch, const char *argument) {
+void do_tell(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
 
     const char *message = one_argument(argument, arg);
 
@@ -206,9 +206,9 @@ void do_tell(CHAR_DATA *ch, const char *argument) {
     tell_to(ch, victim, message);
 }
 
-void do_reply(CHAR_DATA *ch, const char *argument) { tell_to(ch, ch->reply, argument); }
+void do_reply(Char *ch, const char *argument) { tell_to(ch, ch->reply, argument); }
 
-void do_yell(CHAR_DATA *ch, std::string_view argument) {
+void do_yell(Char *ch, std::string_view argument) {
     if (IS_SET(ch->comm, COMM_NOSHOUT)) {
         send_to_char("|cYou can't yell.|w\n\r", ch);
         return;
@@ -225,7 +225,7 @@ void do_yell(CHAR_DATA *ch, std::string_view argument) {
     ch->yell(argument);
 }
 
-void do_emote(CHAR_DATA *ch, const char *argument) {
+void do_emote(Char *ch, const char *argument) {
     if (ch->is_pc() && IS_SET(ch->comm, COMM_NOEMOTE)) {
         send_to_char("|cYou can't show your emotions.|w\n\r", ch);
 
@@ -338,7 +338,7 @@ const struct pose_table_type pose_table[] = {
       "$n flutters $s eyelids and accidentally slays a passing daemon.", "Atlas asks you to relieve him.",
       "Atlas asks $n to relieve him."}}};
 
-void do_pose(CHAR_DATA *ch, const char *argument) {
+void do_pose(Char *ch, const char *argument) {
     (void)argument;
     int level;
     int pose;
@@ -353,7 +353,7 @@ void do_pose(CHAR_DATA *ch, const char *argument) {
     act(pose_table[pose].message[2 * ch->class_num + 1], ch);
 }
 
-void do_bug(CHAR_DATA *ch, const char *argument) {
+void do_bug(Char *ch, const char *argument) {
     if (argument[0] == '\0') {
         send_to_char("Please provide a brief description of the bug!\n\r", ch);
         return;
@@ -362,7 +362,7 @@ void do_bug(CHAR_DATA *ch, const char *argument) {
     send_to_char("|RBug logged! If you're lucky it may even get fixed!|w\n\r", ch);
 }
 
-void do_idea(CHAR_DATA *ch, const char *argument) {
+void do_idea(Char *ch, const char *argument) {
     if (argument[0] == '\0') {
         send_to_char("Please provide a brief description of your idea!\n\r", ch);
         return;
@@ -371,7 +371,7 @@ void do_idea(CHAR_DATA *ch, const char *argument) {
     send_to_char("|WIdea logged. This is |RNOT|W an identify command.|w\n\r", ch);
 }
 
-void do_typo(CHAR_DATA *ch, const char *argument) {
+void do_typo(Char *ch, const char *argument) {
     if (argument[0] == '\0') {
         send_to_char("A typo you say? Tell us where!\n\r", ch);
         return;
@@ -380,12 +380,12 @@ void do_typo(CHAR_DATA *ch, const char *argument) {
     send_to_char("|WTypo logged. One day we'll fix it, or buy a spellchecker.|w\n\r", ch);
 }
 
-void do_qui(CHAR_DATA *ch, const char *argument) {
+void do_qui(Char *ch, const char *argument) {
     (void)argument;
     send_to_char("|cIf you want to |RQUIT|c, you have to spell it out.|w\n\r", ch);
 }
 
-void do_quit(CHAR_DATA *ch, const char *arg) {
+void do_quit(Char *ch, const char *arg) {
     (void)arg;
     Descriptor *d;
 
@@ -426,7 +426,7 @@ void do_quit(CHAR_DATA *ch, const char *arg) {
         d->close();
 }
 
-void do_save(CHAR_DATA *ch, const char *arg) {
+void do_save(Char *ch, const char *arg) {
     (void)arg;
     if (ch->is_npc())
         return;
@@ -436,13 +436,13 @@ void do_save(CHAR_DATA *ch, const char *arg) {
     WAIT_STATE(ch, 5 * PULSE_VIOLENCE);
 }
 
-void char_ride(CHAR_DATA *ch, CHAR_DATA *pet);
-void unride_char(CHAR_DATA *ch, CHAR_DATA *pet);
+void char_ride(Char *ch, Char *pet);
+void unride_char(Char *ch, Char *pet);
 
-void do_ride(CHAR_DATA *ch, const char *argument) {
+void do_ride(Char *ch, const char *argument) {
 
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *ridee;
+    Char *ridee;
 
     if (ch->is_npc())
         return;
@@ -476,7 +476,7 @@ void do_ride(CHAR_DATA *ch, const char *argument) {
     char_ride(ch, ridee);
 }
 
-void char_ride(CHAR_DATA *ch, CHAR_DATA *ridee) {
+void char_ride(Char *ch, Char *ridee) {
     AFFECT_DATA af;
 
     act("You leap gracefully onto $N.", ch, nullptr, ridee, To::Char);
@@ -496,7 +496,7 @@ void char_ride(CHAR_DATA *ch, CHAR_DATA *ridee) {
     affect_to_char(ch, &af);
 }
 
-void do_dismount(CHAR_DATA *ch, const char *argument) {
+void do_dismount(Char *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc())
         return;
@@ -513,14 +513,14 @@ void do_dismount(CHAR_DATA *ch, const char *argument) {
     unride_char(ch, ch->riding);
 }
 
-void thrown_off(CHAR_DATA *ch, CHAR_DATA *pet) {
+void thrown_off(Char *ch, Char *pet) {
     act("|RYou are flung from $N!|w", ch, nullptr, pet, To::Char);
     act("$n is flung from $N!", ch, nullptr, pet, To::Room);
     fallen_off_mount(ch);
 }
 
-void fallen_off_mount(CHAR_DATA *ch) {
-    CHAR_DATA *pet = ch->riding;
+void fallen_off_mount(Char *ch) {
+    Char *pet = ch->riding;
     if (pet == nullptr)
         return;
 
@@ -535,7 +535,7 @@ void fallen_off_mount(CHAR_DATA *ch) {
     damage(pet, ch, number_range(2, 2 + 2 * ch->size + pet->size), gsn_bash, DAM_BASH);
 }
 
-void unride_char(CHAR_DATA *ch, CHAR_DATA *pet) {
+void unride_char(Char *ch, Char *pet) {
     act("You swing your leg over and dismount $N.", ch, nullptr, pet, To::Char);
     act("$n smoothly dismounts $N.", ch, nullptr, pet, To::Room);
     pet->ridden_by = nullptr;
@@ -544,7 +544,7 @@ void unride_char(CHAR_DATA *ch, CHAR_DATA *pet) {
     affect_strip(ch, gsn_ride);
 }
 
-void do_follow(CHAR_DATA *ch, std::string_view argument) {
+void do_follow(Char *ch, std::string_view argument) {
     /* RT changed to allow unlimited following and follow the NOFOLLOW rules */
     ArgParser args(argument);
     if (args.empty()) {
@@ -585,7 +585,7 @@ void do_follow(CHAR_DATA *ch, std::string_view argument) {
     add_follower(ch, victim);
 }
 
-void add_follower(CHAR_DATA *ch, CHAR_DATA *master) {
+void add_follower(Char *ch, Char *master) {
     if (ch->master != nullptr) {
         bug("Add_follower: non-null master.");
         return;
@@ -600,7 +600,7 @@ void add_follower(CHAR_DATA *ch, CHAR_DATA *master) {
     act("You now follow $N.", ch, nullptr, master, To::Char);
 }
 
-void stop_follower(CHAR_DATA *ch) {
+void stop_follower(Char *ch) {
     if (ch->master == nullptr) {
         bug("Stop_follower: null master.");
         return;
@@ -627,8 +627,8 @@ void stop_follower(CHAR_DATA *ch) {
 }
 
 /* nukes charmed monsters and pets */
-void nuke_pets(CHAR_DATA *ch) {
-    CHAR_DATA *pet;
+void nuke_pets(Char *ch) {
+    Char *pet;
 
     if ((pet = ch->pet) != nullptr) {
         stop_follower(pet);
@@ -644,8 +644,8 @@ void nuke_pets(CHAR_DATA *ch) {
     ch->pet = nullptr;
 }
 
-void die_follower(CHAR_DATA *ch) {
-    CHAR_DATA *fch;
+void die_follower(Char *ch) {
+    Char *fch;
 
     if (ch->master != nullptr) {
         if (ch->master->pet == ch)
@@ -663,12 +663,12 @@ void die_follower(CHAR_DATA *ch) {
     }
 }
 
-void do_order(CHAR_DATA *ch, const char *argument) {
+void do_order(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
-    CHAR_DATA *och;
-    CHAR_DATA *och_next;
+    Char *victim;
+    Char *och;
+    Char *och_next;
     bool found;
     bool fAll;
 
@@ -731,9 +731,9 @@ void do_order(CHAR_DATA *ch, const char *argument) {
         send_to_char("You have no followers here.\n\r", ch);
 }
 
-void do_group(CHAR_DATA *ch, const char *argument) {
+void do_group(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
 
     one_argument(argument, arg);
 
@@ -802,10 +802,10 @@ void do_group(CHAR_DATA *ch, const char *argument) {
 /*
  * 'Split' originally by Gnort, God of Chaos.
  */
-void do_split(CHAR_DATA *ch, const char *argument) {
+void do_split(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *gch;
+    Char *gch;
     int members;
     int amount;
     int share;
@@ -870,9 +870,9 @@ void do_split(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_gtell(CHAR_DATA *ch, const char *argument) {
+void do_gtell(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
-    CHAR_DATA *gch;
+    Char *gch;
 
     if (argument[0] == '\0') {
         send_to_char("|cTell your group what?|w\n\r", ch);
@@ -902,7 +902,7 @@ void do_gtell(CHAR_DATA *ch, const char *argument) {
  * (2) if A ~ B then B ~ A
  * (3) if A ~ B  and B ~ C, then A ~ C
  */
-bool is_same_group(const CHAR_DATA *ach, const CHAR_DATA *bch) {
+bool is_same_group(const Char *ach, const Char *bch) {
     if (ach->leader != nullptr)
         ach = ach->leader;
     if (bch->leader != nullptr)
@@ -915,7 +915,7 @@ bool is_same_group(const CHAR_DATA *ach, const CHAR_DATA *bch) {
  * to_npc: the NPC that received the chat/social message.
  * from_player: the player that sent it.
  */
-void chatperform(CHAR_DATA *to_npc, CHAR_DATA *from_player, std::string_view msg) {
+void chatperform(Char *to_npc, Char *from_player, std::string_view msg) {
     if (to_npc->is_pc() || (from_player != nullptr && from_player->is_npc()))
         return; /* failsafe */
     std::string reply = dochat(from_player ? from_player->name : "you", msg, to_npc->name);
@@ -934,7 +934,7 @@ void chatperform(CHAR_DATA *to_npc, CHAR_DATA *from_player, std::string_view msg
     }
 }
 
-void chatperformtoroom(std::string_view text, CHAR_DATA *ch) {
+void chatperformtoroom(std::string_view text, Char *ch) {
     if (ch->is_npc())
         return;
 

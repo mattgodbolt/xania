@@ -78,7 +78,7 @@ void log_new(std::string_view str, int loglevel, int level) {
 
     auto wiznet_msg = "|GWIZNET:|g {}|w\n\r"_format(str);
     for (auto &d : descriptors().playing()) {
-        CHAR_DATA *ch = d.person();
+        Char *ch = d.person();
         if (ch->is_npc() || !is_set_extra(ch, EXTRA_WIZNET_ON) || !is_set_extra(ch, loglevel)
             || (ch->get_trust() < level))
             continue;
@@ -86,7 +86,7 @@ void log_new(std::string_view str, int loglevel, int level) {
     }
 }
 
-void print_status(const CHAR_DATA *ch, const char *name, const char *master_name, int state, int master_state) {
+void print_status(const Char *ch, const char *name, const char *master_name, int state, int master_state) {
     char buff[MAX_STRING_LENGTH];
     const size_t prefix_len = 16;
 
@@ -106,11 +106,11 @@ void print_status(const CHAR_DATA *ch, const char *name, const char *master_name
     send_to_char(buff, ch);
 }
 
-static void print_wiznet_statusline(CHAR_DATA *ch, const char *name, int state) {
+static void print_wiznet_statusline(Char *ch, const char *name, int state) {
     print_status(ch, name, "wiznet is off", state, is_set_extra(ch, EXTRA_WIZNET_ON));
 }
 
-static void print_wiznet_status(CHAR_DATA *ch) {
+static void print_wiznet_status(Char *ch) {
     send_to_char("|Woption          status|w\n\r", ch);
     send_to_char("----------------------------\n\r", ch);
 
@@ -122,20 +122,20 @@ static void print_wiznet_status(CHAR_DATA *ch) {
     print_status(ch, "wiznet", "", is_set_extra(ch, EXTRA_WIZNET_ON), 1);
 }
 
-using wiznet_fn = std::function<void(CHAR_DATA *ch)>;
+using wiznet_fn = std::function<void(Char *ch)>;
 static CommandSet<wiznet_fn> wiznet_commands;
 
-void wiznet_on(CHAR_DATA *ch) {
+void wiznet_on(Char *ch) {
     set_extra(ch, EXTRA_WIZNET_ON);
     send_to_char("|cWIZNET is now |gON|c.|w\n\r", ch);
 }
 
-void wiznet_off(CHAR_DATA *ch) {
+void wiznet_off(Char *ch) {
     remove_extra(ch, EXTRA_WIZNET_ON);
     send_to_char("|cWIZNET is now |rOFF|c.|w\n\r", ch);
 }
 
-static void toggle_wizchan(CHAR_DATA *ch, int flag, const char *name) {
+static void toggle_wizchan(Char *ch, int flag, const char *name) {
     char buf[MAX_STRING_LENGTH];
 
     if (is_set_extra(ch, flag)) {
@@ -149,15 +149,15 @@ static void toggle_wizchan(CHAR_DATA *ch, int flag, const char *name) {
     send_to_char(buf, ch);
 }
 
-void wiznet_bug(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_BUG, "bug"); }
+void wiznet_bug(Char *ch) { toggle_wizchan(ch, EXTRA_WIZNET_BUG, "bug"); }
 
-void wiznet_debug(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_DEBUG, "debug"); }
+void wiznet_debug(Char *ch) { toggle_wizchan(ch, EXTRA_WIZNET_DEBUG, "debug"); }
 
-void wiznet_mortal(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_MORT, "mortal"); }
+void wiznet_mortal(Char *ch) { toggle_wizchan(ch, EXTRA_WIZNET_MORT, "mortal"); }
 
-void wiznet_immortal(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_IMM, "immortal"); }
+void wiznet_immortal(Char *ch) { toggle_wizchan(ch, EXTRA_WIZNET_IMM, "immortal"); }
 
-void wiznet_tick(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_TICK, "tick"); }
+void wiznet_tick(Char *ch) { toggle_wizchan(ch, EXTRA_WIZNET_TICK, "tick"); }
 
 void wiznet_initialise() {
     wiznet_commands.add("on", wiznet_on, 0);
@@ -169,7 +169,7 @@ void wiznet_initialise() {
     wiznet_commands.add("tick", wiznet_tick, 0);
 }
 
-void do_wiznet(CHAR_DATA *ch, const char *argument) {
+void do_wiznet(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     argument = one_argument(argument, arg);
 

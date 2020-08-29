@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CHAR_DATA.hpp"
+#include "Char.hpp"
 
 #include <string_view>
 
@@ -25,8 +25,8 @@ inline const Pronouns &pronouns_for(int sex) { // TODO: strong type for sex.
     return neutral;
 }
 
-inline const Pronouns &pronouns_for(const CHAR_DATA &ch) { return pronouns_for(ch.sex); }
+inline const Pronouns &pronouns_for(const Char &ch) { return pronouns_for(ch.sex); }
 
-inline auto possessive(const CHAR_DATA &ch) { return pronouns_for(ch).possessive; }
-inline auto subjective(const CHAR_DATA &ch) { return pronouns_for(ch).subjective; }
-inline auto objective(const CHAR_DATA &ch) { return pronouns_for(ch).objective; }
+inline auto possessive(const Char &ch) { return pronouns_for(ch).possessive; }
+inline auto subjective(const Char &ch) { return pronouns_for(ch).subjective; }
+inline auto objective(const Char &ch) { return pronouns_for(ch).objective; }

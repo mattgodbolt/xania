@@ -16,7 +16,7 @@
 #include <cstdlib>
 #include <cstring>
 
-void display_flags(const char *format, CHAR_DATA *ch, unsigned long current_val) {
+void display_flags(const char *format, Char *ch, unsigned long current_val) {
     char buf[MAX_STRING_LENGTH];
     const char *src;
     char *dest;
@@ -109,7 +109,7 @@ unsigned long flag_bit(const char *format, const char *flag, int level) {
     return INVALID_BIT;
 }
 
-unsigned long flag_set(const char *format, const char *arg, unsigned long current_val, CHAR_DATA *ch) {
+unsigned long flag_set(const char *format, const char *arg, unsigned long current_val, Char *ch) {
     auto retval = current_val;
     if (arg[0] == '\0') {
         display_flags(format, ch, (int)current_val);

@@ -12,4 +12,4 @@
 #include "merc.h"
 
 /* function declarations */
-bool spec_phil(CHAR_DATA *ch);
+bool spec_phil(Char *ch);

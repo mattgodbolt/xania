@@ -28,41 +28,41 @@ using namespace fmt::literals;
 
 #define MAX_DAMAGE_MESSAGE 32
 
-void spell_poison(int spell_num, int level, CHAR_DATA *ch, void *vo);
-void spell_plague(int spell_num, int level, CHAR_DATA *ch, void *vo);
+void spell_poison(int spell_num, int level, Char *ch, void *vo);
+void spell_plague(int spell_num, int level, Char *ch, void *vo);
 
 /*
  * Local functions.
  */
-void check_assist(CHAR_DATA *ch, CHAR_DATA *victim);
-bool check_dodge(CHAR_DATA *ch, CHAR_DATA *victim);
-void check_killer(CHAR_DATA *ch, CHAR_DATA *victim);
-bool check_parry(CHAR_DATA *ch, CHAR_DATA *victim);
-bool check_shield_block(CHAR_DATA *ch, CHAR_DATA *victim);
-void dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type, bool immune);
-void announce(std::string_view buf, const CHAR_DATA *ch);
-void death_cry(CHAR_DATA *ch);
-void group_gain(CHAR_DATA *ch, CHAR_DATA *victim);
-int xp_compute(CHAR_DATA *gch, CHAR_DATA *victim, int total_levels);
-bool is_safe(CHAR_DATA *ch, CHAR_DATA *victim);
-void make_corpse(CHAR_DATA *ch);
-void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt);
-void mob_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt);
-void raw_kill(CHAR_DATA *victim);
-void set_fighting(CHAR_DATA *ch, CHAR_DATA *victim);
-void disarm(CHAR_DATA *ch, CHAR_DATA *victim);
-void lose_level(CHAR_DATA *ch);
+void check_assist(Char *ch, Char *victim);
+bool check_dodge(Char *ch, Char *victim);
+void check_killer(Char *ch, Char *victim);
+bool check_parry(Char *ch, Char *victim);
+bool check_shield_block(Char *ch, Char *victim);
+void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool immune);
+void announce(std::string_view buf, const Char *ch);
+void death_cry(Char *ch);
+void group_gain(Char *ch, Char *victim);
+int xp_compute(Char *gch, Char *victim, int total_levels);
+bool is_safe(Char *ch, Char *victim);
+void make_corpse(Char *ch);
+void one_hit(Char *ch, Char *victim, int dt);
+void mob_hit(Char *ch, Char *victim, int dt);
+void raw_kill(Char *victim);
+void set_fighting(Char *ch, Char *victim);
+void disarm(Char *ch, Char *victim);
+void lose_level(Char *ch);
 
-/*extern void thrown_off( CHAR_DATA *ch, CHAR_DATA *pet);*/
+/*extern void thrown_off( Char *ch, Char *pet);*/
 
 /*
  * Control the fights going on.
  * Called periodically by update_handler.
  */
 void violence_update() {
-    CHAR_DATA *ch;
-    CHAR_DATA *ch_next;
-    CHAR_DATA *victim;
+    Char *ch;
+    Char *ch_next;
+    Char *victim;
 
     for (ch = char_list; ch != nullptr; ch = ch_next) {
         ch_next = ch->next;
@@ -90,8 +90,8 @@ void violence_update() {
 }
 
 /* for auto assisting */
-void check_assist(CHAR_DATA *ch, CHAR_DATA *victim) {
-    CHAR_DATA *rch, *rch_next;
+void check_assist(Char *ch, Char *victim) {
+    Char *rch, *rch_next;
 
     for (rch = ch->in_room->people; rch != nullptr; rch = rch_next) {
         rch_next = rch->next_in_room;
@@ -133,8 +133,8 @@ void check_assist(CHAR_DATA *ch, CHAR_DATA *victim) {
                     || (rch->pIndexData == ch->pIndexData && IS_SET(rch->off_flags, ASSIST_VNUM)))
 
                 {
-                    CHAR_DATA *vch;
-                    CHAR_DATA *target;
+                    Char *vch;
+                    Char *target;
                     int number;
 
                     if (number_bits(1) == 0)
@@ -181,7 +181,7 @@ std::string_view wound_for(int percent) {
 }
 }
 
-std::string describe_fight_condition(const CHAR_DATA &victim) {
+std::string describe_fight_condition(const Char &victim) {
     auto percent = victim.max_hit > 0 ? victim.hit * 100 / victim.max_hit : -1;
     return "{} {}\n\r"_format(InitialCap{victim.short_name()}, wound_for(percent));
 }
@@ -189,7 +189,7 @@ std::string describe_fight_condition(const CHAR_DATA &victim) {
 /*
  * Do one group of attacks.
  */
-void multi_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
+void multi_hit(Char *ch, Char *victim, int dt) {
     int chance;
 
     if (!ch->in_room || !victim->in_room)
@@ -255,9 +255,9 @@ void multi_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
 }
 
 /* procedure for all mobile attacks */
-void mob_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
+void mob_hit(Char *ch, Char *victim, int dt) {
     int chance, number;
-    CHAR_DATA *vch, *vch_next;
+    Char *vch, *vch_next;
 
     if (IS_SET(ch->off_flags, OFF_BACKSTAB) && (ch->fighting == nullptr) && (get_eq_char(ch, WEAR_WIELD) != nullptr)
         && (victim->hit == victim->max_hit))
@@ -369,7 +369,7 @@ void mob_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
 /*
  * Hit one guy once.
  */
-void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
+void one_hit(Char *ch, Char *victim, int dt) {
     OBJ_DATA *wield;
     int victim_ac;
     int thac0;
@@ -598,7 +598,7 @@ void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
 /**
  * Loot a corpse and sacrifice it after something dies.
  */
-void loot_and_sacrifice_corpse(CHAR_DATA *looter, CHAR_DATA *victim, sh_int victim_room_vnum) {
+void loot_and_sacrifice_corpse(Char *looter, Char *victim, sh_int victim_room_vnum) {
     OBJ_DATA *corpse;
     if (looter->is_pc() && victim->is_npc() && looter->in_room->vnum == victim_room_vnum) {
         corpse = get_obj_list(looter, "corpse", looter->in_room->contents);
@@ -622,7 +622,7 @@ void loot_and_sacrifice_corpse(CHAR_DATA *looter, CHAR_DATA *victim, sh_int vict
 /*
  * Inflict damage from a hit.
  */
-bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
+bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
     int temp;
     OBJ_DATA *wield;
     AFFECT_DATA *octarineFire;
@@ -816,7 +816,7 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
         if (victim->is_pc()) {
             unsigned int exp_total = (victim->level * exp_per_level(victim, victim->pcdata->points));
             unsigned int exp_level = exp_per_level(victim, victim->pcdata->points);
-            CHAR_DATA *squib;
+            Char *squib;
 
             temp = do_check_chal(victim);
             if (temp == 1)
@@ -872,7 +872,7 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
         /**
          * If the final blow was a pet or charmed mob, its greedy master gets to autoloot.
          */
-        CHAR_DATA *looter = ((IS_AFFECTED(ch, AFF_CHARM) && !(ch->master->is_npc()))) ? ch->master : ch;
+        Char *looter = ((IS_AFFECTED(ch, AFF_CHARM) && !(ch->master->is_npc()))) ? ch->master : ch;
         loot_and_sacrifice_corpse(looter, victim, victim_room_vnum);
         return true;
     }
@@ -935,7 +935,7 @@ bool damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type) {
     return true;
 }
 
-bool is_safe(CHAR_DATA *ch, CHAR_DATA *victim) {
+bool is_safe(Char *ch, Char *victim) {
 
     char buf[MAX_STRING_LENGTH];
 
@@ -997,7 +997,7 @@ bool is_safe(CHAR_DATA *ch, CHAR_DATA *victim) {
     }
 }
 
-bool is_safe_spell(CHAR_DATA *ch, CHAR_DATA *victim, bool area) {
+bool is_safe_spell(Char *ch, Char *victim, bool area) {
     /* can't zap self (crash bug) */
     if (ch == victim)
         return true;
@@ -1061,7 +1061,7 @@ bool is_safe_spell(CHAR_DATA *ch, CHAR_DATA *victim, bool area) {
 /*
  * See if an attack justifies a KILLER flag.
  */
-void check_killer(CHAR_DATA *ch, CHAR_DATA *victim) {
+void check_killer(Char *ch, Char *victim) {
     /*
      * Follow charm thread to responsible character.
      * Attacking someone's charmed char is hostile!
@@ -1113,7 +1113,7 @@ void check_killer(CHAR_DATA *ch, CHAR_DATA *victim) {
  * Check for parry. Mod by Faramir 10/8/96 so whips can't be blocked
  * or parried. mwahahaha
  */
-bool check_parry(CHAR_DATA *ch, CHAR_DATA *victim) {
+bool check_parry(Char *ch, Char *victim) {
     OBJ_DATA *weapon;
     int chance;
 
@@ -1146,7 +1146,7 @@ bool check_parry(CHAR_DATA *ch, CHAR_DATA *victim) {
 /*
  * Check for shield block.
  */
-bool check_shield_block(CHAR_DATA *ch, CHAR_DATA *victim) {
+bool check_shield_block(Char *ch, Char *victim) {
     OBJ_DATA *weapon;
     int chance;
 
@@ -1180,7 +1180,7 @@ bool check_shield_block(CHAR_DATA *ch, CHAR_DATA *victim) {
 /*
  * Check for dodge.
  */
-bool check_dodge(CHAR_DATA *ch, CHAR_DATA *victim) {
+bool check_dodge(Char *ch, Char *victim) {
     int chance;
     int ddex = 0;
 
@@ -1215,7 +1215,7 @@ bool check_dodge(CHAR_DATA *ch, CHAR_DATA *victim) {
 /*
  * Set position of a victim.
  */
-void update_pos(CHAR_DATA *victim) {
+void update_pos(Char *victim) {
     if (victim->hit > 0) {
         if (victim->position <= POS_STUNNED)
             victim->position = POS_STANDING;
@@ -1243,7 +1243,7 @@ void update_pos(CHAR_DATA *victim) {
 /*
  * Start fights.
  */
-void set_fighting(CHAR_DATA *ch, CHAR_DATA *victim) {
+void set_fighting(Char *ch, Char *victim) {
 
     if (ch->fighting != nullptr) {
         bug("Set_fighting: already fighting");
@@ -1260,8 +1260,8 @@ void set_fighting(CHAR_DATA *ch, CHAR_DATA *victim) {
 /*
  * Stop fights.
  */
-void stop_fighting(CHAR_DATA *ch, bool fBoth) {
-    CHAR_DATA *fch;
+void stop_fighting(Char *ch, bool fBoth) {
+    Char *fch;
 
     for (fch = char_list; fch != nullptr; fch = fch->next) {
         if (fch == ch || (fBoth && fch->fighting == ch)) {
@@ -1275,7 +1275,7 @@ void stop_fighting(CHAR_DATA *ch, bool fBoth) {
 /*
  * Make a corpse out of a character.
  */
-void make_corpse(CHAR_DATA *ch) {
+void make_corpse(Char *ch) {
     char buf[MAX_STRING_LENGTH];
     OBJ_DATA *corpse;
     OBJ_DATA *obj;
@@ -1338,7 +1338,7 @@ void make_corpse(CHAR_DATA *ch) {
  * Improved Death_cry contributed by Diavolo.
  * Modified to by Faramir to deal with verbose fight sequences
  */
-void death_cry(CHAR_DATA *ch) {
+void death_cry(Char *ch) {
     ROOM_INDEX_DATA *was_in_room;
     const char *msg;
     int vnum;
@@ -1418,7 +1418,7 @@ void death_cry(CHAR_DATA *ch) {
     ch->in_room = was_in_room;
 }
 
-void raw_kill(CHAR_DATA *victim) {
+void raw_kill(Char *victim) {
     stop_fighting(victim, true);
     /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
     mprog_death_trigger(victim);
@@ -1454,10 +1454,10 @@ void raw_kill(CHAR_DATA *victim) {
     /*  save_char_obj( victim ); */
 }
 
-void group_gain(CHAR_DATA *ch, CHAR_DATA *victim) {
+void group_gain(Char *ch, Char *victim) {
     char buf[MAX_STRING_LENGTH];
-    CHAR_DATA *gch;
-    CHAR_DATA *lch;
+    Char *gch;
+    Char *lch;
     int xp;
     int members;
     int group_levels;
@@ -1539,8 +1539,8 @@ void group_gain(CHAR_DATA *ch, CHAR_DATA *victim) {
  * Also adjust alignment of killer.
  * Edit this function to change xp computations.
  */
-int xp_compute(CHAR_DATA *gch, CHAR_DATA *victim, int total_levels) {
-    CHAR_DATA *tmpch;
+int xp_compute(Char *gch, Char *victim, int total_levels) {
+    Char *tmpch;
     int xp, base_exp;
     int align, level_range;
     int change;
@@ -1738,7 +1738,7 @@ int xp_compute(CHAR_DATA *gch, CHAR_DATA *victim, int total_levels) {
     return xp;
 }
 
-void dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type, bool immune) {
+void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool immune) {
     char buf1[256], buf2[256], buf3[256];
     char vs[80];
     char vp[80];
@@ -2007,7 +2007,7 @@ void dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt, int dam_type
  * Disarm a creature.
  * Caller must check for successful attack.
  */
-void disarm(CHAR_DATA *ch, CHAR_DATA *victim) {
+void disarm(Char *ch, Char *victim) {
     OBJ_DATA *obj;
 
     if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr)
@@ -2034,7 +2034,7 @@ void disarm(CHAR_DATA *ch, CHAR_DATA *victim) {
     }
 }
 
-void do_berserk(CHAR_DATA *ch, const char *argument) {
+void do_berserk(Char *ch, const char *argument) {
     (void)argument;
     int chance, hp_percent;
     /*    OBJ_DATA *wield = get_eq_char( ch, WEAR_WIELD );*/
@@ -2121,9 +2121,9 @@ void do_berserk(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_bash(CHAR_DATA *ch, const char *argument) {
+void do_bash(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     int chance;
 
     one_argument(argument, arg);
@@ -2231,9 +2231,9 @@ void do_bash(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_dirt(CHAR_DATA *ch, const char *argument) {
+void do_dirt(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     int chance;
 
     one_argument(argument, arg);
@@ -2348,9 +2348,9 @@ void do_dirt(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_trip(CHAR_DATA *ch, const char *argument) {
+void do_trip(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     int chance;
 
     one_argument(argument, arg);
@@ -2449,9 +2449,9 @@ void do_trip(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_kill(CHAR_DATA *ch, const char *argument) {
+void do_kill(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
 
     one_argument(argument, arg);
 
@@ -2501,14 +2501,14 @@ void do_kill(CHAR_DATA *ch, const char *argument) {
     multi_hit(ch, victim, TYPE_UNDEFINED);
 }
 
-void do_murde(CHAR_DATA *ch, const char *argument) {
+void do_murde(Char *ch, const char *argument) {
     (void)argument;
     send_to_char("If you want to MURDER, spell it out.\n\r", ch);
 }
 
-void do_murder(CHAR_DATA *ch, const char *argument) {
+void do_murder(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
 
     one_argument(argument, arg);
 
@@ -2554,9 +2554,9 @@ void do_murder(CHAR_DATA *ch, const char *argument) {
     multi_hit(ch, victim, TYPE_UNDEFINED);
 }
 
-void do_backstab(CHAR_DATA *ch, const char *argument) {
+void do_backstab(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     OBJ_DATA *obj;
 
     one_argument(argument, arg);
@@ -2618,11 +2618,11 @@ void do_backstab(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_flee(CHAR_DATA *ch, const char *argument) {
+void do_flee(Char *ch, const char *argument) {
     (void)argument;
     ROOM_INDEX_DATA *was_in;
     ROOM_INDEX_DATA *now_in;
-    CHAR_DATA *victim;
+    Char *victim;
     int attempt;
 
     if ((victim = ch->fighting) == nullptr) {
@@ -2669,10 +2669,10 @@ void do_flee(CHAR_DATA *ch, const char *argument) {
     send_to_char("PANIC! You couldn't escape!\n\r", ch);
 }
 
-void do_rescue(CHAR_DATA *ch, const char *argument) {
+void do_rescue(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
-    CHAR_DATA *fch;
+    Char *victim;
+    Char *fch;
 
     one_argument(argument, arg);
     if (arg[0] == '\0') {
@@ -2742,9 +2742,9 @@ void do_rescue(CHAR_DATA *ch, const char *argument) {
 /* !!!! */
 /* ok now the code....yes you did get to it eventually..*/
 
-void do_headbutt(CHAR_DATA *ch, const char *argument) {
+void do_headbutt(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     AFFECT_DATA af;
     int chance;
 
@@ -2834,7 +2834,7 @@ void do_headbutt(CHAR_DATA *ch, const char *argument) {
 
 /* Wandera's little baby is just slipping in here */
 /**/
-void do_sharpen(CHAR_DATA *ch, const char *argument) {
+void do_sharpen(Char *ch, const char *argument) {
     (void)argument;
     OBJ_DATA *weapon;
     int chance;
@@ -2871,9 +2871,9 @@ void do_sharpen(CHAR_DATA *ch, const char *argument) {
     check_improve(ch, gsn_sharpen, true, 5);
 }
 
-void do_kick(CHAR_DATA *ch, const char *argument) {
+void do_kick(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
 
     if (ch->is_pc() && ch->level < get_skill_level(ch, gsn_kick)) {
         send_to_char("You better leave the martial arts to fighters.\n\r", ch);
@@ -2914,9 +2914,9 @@ void do_kick(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_disarm(CHAR_DATA *ch, const char *argument) {
+void do_disarm(Char *ch, const char *argument) {
     (void)argument;
-    CHAR_DATA *victim;
+    Char *victim;
     OBJ_DATA *obj;
     int chance, hth, ch_weapon, vict_weapon, ch_vict_weapon;
 
@@ -2986,13 +2986,13 @@ void do_disarm(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_sla(CHAR_DATA *ch, const char *argument) {
+void do_sla(Char *ch, const char *argument) {
     (void)argument;
     send_to_char("If you want to SLAY, spell it out.\n\r", ch);
 }
 
-void do_slay(CHAR_DATA *ch, const char *argument) {
-    CHAR_DATA *victim;
+void do_slay(Char *ch, const char *argument) {
+    Char *victim;
     char arg[MAX_INPUT_LENGTH];
 
     one_argument(argument, arg);

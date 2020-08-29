@@ -39,7 +39,7 @@ inline constexpr auto HE = LEVEL_HERO; /* hero */
 }
 
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-bool MP_Commands(CHAR_DATA *ch);
+bool MP_Commands(Char *ch);
 
 enum class CommandLogLevel { Normal, Always, Never };
 
@@ -60,7 +60,7 @@ static const char *bad_position_string[] = {"Lie still; you are DEAD.\n\r",
 
 // Function object for commands run by the interpreter, the do_ functions.
 // argument is modified (currently) by some of the text processing routines. TODO make into a const.
-using CommandFunc = std::function<void(CHAR_DATA *ch, char *argument)>;
+using CommandFunc = std::function<void(Char *ch, char *argument)>;
 
 struct CommandInfo {
     const char *name;
@@ -390,7 +390,7 @@ void interp_initialise() {
     add_command("mpforce", do_mpforce, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
 }
 
-static const char *apply_prefix(char *buf, CHAR_DATA *ch, const char *command) {
+static const char *apply_prefix(char *buf, Char *ch, const char *command) {
     // Unswitched MOBs don't have prefixes.  If we're switched, get the player's prefix.
     auto player = ch->player();
     if (!player)
@@ -419,7 +419,7 @@ static const char *apply_prefix(char *buf, CHAR_DATA *ch, const char *command) {
  * The main entry point for executing commands.
  * Can be recursively called from 'at', 'order', 'force'.
  */
-void interpret(CHAR_DATA *ch, const char *argument) {
+void interpret(Char *ch, const char *argument) {
     char cmd_buf[MAX_INPUT_LENGTH];
     char command[MAX_INPUT_LENGTH];
     argument = apply_prefix(cmd_buf, ch, argument);
@@ -508,7 +508,7 @@ static const struct social_type *find_social(std::string_view name) {
     return nullptr;
 }
 
-bool check_social(CHAR_DATA *ch, std::string_view command, std::string_view argument) {
+bool check_social(Char *ch, std::string_view command, std::string_view argument) {
     const auto *social = find_social(command);
     if (!social)
         return false;
@@ -524,7 +524,7 @@ bool check_social(CHAR_DATA *ch, std::string_view command, std::string_view argu
     }
 
     ArgParser args(argument);
-    CHAR_DATA *victim = nullptr;
+    Char *victim = nullptr;
     if (args.empty()) {
         act(social->others_no_arg, ch, nullptr, victim, To::Room);
         act(social->char_no_arg, ch, nullptr, victim, To::Char);
@@ -627,7 +627,7 @@ char *one_argument(char *argument, char *arg_first) {
 
 struct Columniser {
 public:
-    explicit Columniser(CHAR_DATA *ch) : ch(ch) { buf[0] = '\0'; }
+    explicit Columniser(Char *ch) : ch(ch) { buf[0] = '\0'; }
 
     std::function<void(const std::string &name, CommandInfo info, int level)> visitor() {
         return [this](const std::string &name, CommandInfo info, int level) {
@@ -661,13 +661,13 @@ public:
         memcpy(buf + start_pos, name.c_str(), name_len + 1);
     }
 
-    CHAR_DATA *ch;
+    Char *ch;
     char buf[MAX_STRING_LENGTH];
     int col_width = 12;
     int max_width = 72;
 };
 
-void do_commands(CHAR_DATA *ch, const char *argument) {
+void do_commands(Char *ch, const char *argument) {
     (void)argument;
     Columniser col(ch);
     auto max_level = (ch->get_trust() < LEVEL_HERO) ? ch->get_trust() : (LEVEL_HERO - 1);
@@ -678,7 +678,7 @@ void do_commands(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_wizhelp(CHAR_DATA *ch, const char *argument) {
+void do_wizhelp(Char *ch, const char *argument) {
     (void)argument;
     Columniser col(ch);
     commands.enumerate(commands.level_restrict(LEVEL_HERO, ch->get_trust(), col.visitor()));
@@ -688,7 +688,7 @@ void do_wizhelp(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-bool MP_Commands(CHAR_DATA *ch) /* Can MOBProged mobs
+bool MP_Commands(Char *ch) /* Can MOBProged mobs
                                    use mpcommands? true if yes.
                                    - Kahn */
 {

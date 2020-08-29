@@ -32,11 +32,11 @@ using namespace fmt::literals;
 static NOTE_DATA *note_first;
 static NOTE_DATA *note_last;
 
-using note_fn = std::function<void(CHAR_DATA *ch, const char *arg)>;
+using note_fn = std::function<void(Char *ch, const char *arg)>;
 static CommandSet<note_fn> sub_commands;
 
 /* returns the number of unread notes for the given user. */
-int note_count(CHAR_DATA *ch) {
+int note_count(Char *ch) {
     NOTE_DATA *note;
     int notes = 0;
     for (note = note_first; note != nullptr; note = note->next) {
@@ -47,7 +47,7 @@ int note_count(CHAR_DATA *ch) {
     return notes;
 }
 
-int is_note_to(const CHAR_DATA *ch, const NOTE_DATA *note) {
+int is_note_to(const Char *ch, const NOTE_DATA *note) {
     if (matches(ch->name, note->sender)) {
         return true;
     }
@@ -113,7 +113,7 @@ static void note_link(NOTE_DATA *note) {
     note_last = note;
 }
 
-static NOTE_DATA *lookup_note(int index, CHAR_DATA *ch) {
+static NOTE_DATA *lookup_note(int index, Char *ch) {
     NOTE_DATA *note;
 
     for (note = note_first; note; note = note->next) {
@@ -126,7 +126,7 @@ static NOTE_DATA *lookup_note(int index, CHAR_DATA *ch) {
     return nullptr;
 }
 
-static NOTE_DATA *lookup_note_date(Time date, CHAR_DATA *ch, int *index) {
+static NOTE_DATA *lookup_note_date(Time date, Char *ch, int *index) {
     NOTE_DATA *note;
     int count = 0;
 
@@ -142,7 +142,7 @@ static NOTE_DATA *lookup_note_date(Time date, CHAR_DATA *ch, int *index) {
     return nullptr;
 }
 
-static NOTE_DATA *ensure_note(CHAR_DATA *ch) {
+static NOTE_DATA *ensure_note(Char *ch) {
     if (!ch->pnote) {
         ch->pnote = create_note();
         if (ch->pnote) {
@@ -179,7 +179,7 @@ static void save_notes() {
     }
 }
 
-static void note_list(CHAR_DATA *ch, const char *argument) {
+static void note_list(Char *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
     int num = 0;
@@ -196,7 +196,7 @@ static void note_list(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-static void note_read(CHAR_DATA *ch, const char *argument) {
+static void note_read(Char *ch, const char *argument) {
     NOTE_DATA *note = nullptr;
     int note_index;
 
@@ -229,7 +229,7 @@ static void note_read(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-static void note_addline(CHAR_DATA *ch, const char *argument) {
+static void note_addline(Char *ch, const char *argument) {
     NOTE_DATA *note = ensure_note(ch);
     if (!note) {
         send_to_char("Failed to create new note.\n\r", ch);
@@ -239,7 +239,7 @@ static void note_addline(CHAR_DATA *ch, const char *argument) {
     send_to_char("Ok.\n\r", ch);
 }
 
-static void note_removeline(CHAR_DATA *ch, const char *argument) {
+static void note_removeline(Char *ch, const char *argument) {
     (void)argument;
     NOTE_DATA *note = ch->pnote;
     if (!note || !note->text) {
@@ -250,7 +250,7 @@ static void note_removeline(CHAR_DATA *ch, const char *argument) {
     send_to_char("Ok.\n\r", ch);
 }
 
-static void note_subject(CHAR_DATA *ch, const char *argument) {
+static void note_subject(Char *ch, const char *argument) {
     NOTE_DATA *note = ensure_note(ch);
     if (note) {
         if (note->subject) {
@@ -263,7 +263,7 @@ static void note_subject(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-static void note_to(CHAR_DATA *ch, const char *argument) {
+static void note_to(Char *ch, const char *argument) {
     NOTE_DATA *note = ensure_note(ch);
 
     if (note) {
@@ -277,7 +277,7 @@ static void note_to(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-static void note_clear(CHAR_DATA *ch, const char *argument) {
+static void note_clear(Char *ch, const char *argument) {
     (void)argument;
     if (ch->pnote) {
         destroy_note(ch->pnote);
@@ -286,7 +286,7 @@ static void note_clear(CHAR_DATA *ch, const char *argument) {
     send_to_char("Ok.\n\r", ch);
 }
 
-static void note_show(CHAR_DATA *ch, const char *argument) {
+static void note_show(Char *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
     NOTE_DATA *note = ch->pnote;
@@ -302,7 +302,7 @@ static void note_show(CHAR_DATA *ch, const char *argument) {
     send_to_char("|w", ch);
 }
 
-static void note_post(CHAR_DATA *ch, const char *argument) {
+static void note_post(Char *ch, const char *argument) {
     (void)argument;
     NOTE_DATA *note = ch->pnote;
     FILE *fp;
@@ -336,7 +336,7 @@ static void note_post(CHAR_DATA *ch, const char *argument) {
     send_to_char("Ok.\n\r", ch);
 }
 
-void note_announce(CHAR_DATA *chsender, NOTE_DATA *note) {
+void note_announce(Char *chsender, NOTE_DATA *note) {
     if (note == nullptr) {
         log_string("note_announce() note is null");
         return;
@@ -348,7 +348,7 @@ void note_announce(CHAR_DATA *chsender, NOTE_DATA *note) {
     }
 }
 
-static void note_remove(CHAR_DATA *ch, NOTE_DATA *note) {
+static void note_remove(Char *ch, NOTE_DATA *note) {
     char to_one[MAX_INPUT_LENGTH];
     char to_new[MAX_INPUT_LENGTH];
     char *to_list;
@@ -392,7 +392,7 @@ static void note_remove(CHAR_DATA *ch, NOTE_DATA *note) {
     save_notes();
 }
 
-static void note_removecmd(CHAR_DATA *ch, const char *argument) {
+static void note_removecmd(Char *ch, const char *argument) {
     NOTE_DATA *note;
 
     if (!is_number(argument)) {
@@ -408,7 +408,7 @@ static void note_removecmd(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-static void note_delete(CHAR_DATA *ch, const char *argument) {
+static void note_delete(Char *ch, const char *argument) {
     NOTE_DATA *note;
 
     if (!is_number(argument)) {
@@ -425,7 +425,7 @@ static void note_delete(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_note(CHAR_DATA *ch, const char *argument) {
+void do_note(Char *ch, const char *argument) {
     if (ch->is_npc()) {
         return;
     }

@@ -69,7 +69,7 @@ bool newlock; /* Game is newlocked    */
 bool MOBtrigger;
 
 bool read_from_descriptor(Descriptor *d, std::string_view data);
-void move_active_char_from_limbo(CHAR_DATA *ch);
+void move_active_char_from_limbo(Char *ch);
 
 /*
  * Other local functions (OS-independent).
@@ -123,8 +123,8 @@ void greet(Descriptor &d) {
 
 /* where we're asked nicely to quit from the outside (mudmgr or OS) */
 void handle_signal_shutdown() {
-    CHAR_DATA *vch;
-    CHAR_DATA *vch_next;
+    Char *vch;
+    Char *vch_next;
 
     log_string("Signal shutdown received");
 
@@ -472,7 +472,7 @@ bool process_output(Descriptor *d, bool fPrompt) {
 void nanny(Descriptor *d, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *ch;
+    Char *ch;
     char *pwdnew;
     char *p;
     int iClass;
@@ -1102,7 +1102,7 @@ bool check_parse_name(const char *name) {
  * Look for link-dead player to reconnect.
  */
 bool check_reconnect(Descriptor *d, bool fConn) {
-    CHAR_DATA *ch;
+    Char *ch;
 
     for (ch = char_list; ch != nullptr; ch = ch->next) {
         if (ch->is_pc() && (!fConn || ch->desc == nullptr) && matches(d->character()->name, ch->name)) {
@@ -1143,23 +1143,23 @@ bool check_playing(Descriptor *d, std::string_view name) {
     return false;
 }
 
-void send_to_char(std::string_view txt, const CHAR_DATA *ch) { ch->send_to(txt); }
+void send_to_char(std::string_view txt, const Char *ch) { ch->send_to(txt); }
 
 /*
  * Send a page to one char.
  */
-void page_to_char(const char *txt, CHAR_DATA *ch) {
+void page_to_char(const char *txt, Char *ch) {
     if (txt)
         ch->page_to(txt);
 }
 
-void act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type) {
+void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To type) {
     act(format, ch, arg1, arg2, type, POS_RESTING);
 }
 
 namespace {
 
-auto &pronouns(std::string_view format, const CHAR_DATA *ch) {
+auto &pronouns(std::string_view format, const Char *ch) {
     if (!ch) {
         bug("%s", "Act: null ch in pronouns with format '{}'"_format(format).c_str());
         return pronouns_for(0);
@@ -1167,12 +1167,12 @@ auto &pronouns(std::string_view format, const CHAR_DATA *ch) {
     return pronouns_for(*ch);
 }
 
-std::string_view he_she(std::string_view format, const CHAR_DATA *ch) { return pronouns(format, ch).objective; }
-std::string_view him_her(std::string_view format, const CHAR_DATA *ch) { return pronouns(format, ch).subjective; }
-std::string_view his_her(std::string_view format, const CHAR_DATA *ch) { return pronouns(format, ch).possessive; }
+std::string_view he_she(std::string_view format, const Char *ch) { return pronouns(format, ch).objective; }
+std::string_view him_her(std::string_view format, const Char *ch) { return pronouns(format, ch).subjective; }
+std::string_view his_her(std::string_view format, const Char *ch) { return pronouns(format, ch).possessive; }
 
-std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, const CHAR_DATA *to,
-                       const CHAR_DATA *vch) {
+std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, const Char *to,
+                       const Char *vch) {
     std::string buf;
 
     bool prev_was_dollar = false;
@@ -1254,14 +1254,14 @@ std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg
     return upper_first_character(buf) + "\n\r";
 }
 
-bool act_to_person(const CHAR_DATA *person, int min_pos) {
+bool act_to_person(const Char *person, int min_pos) {
     // Ignore folks with no descriptor, or below minimum position.
     return person->desc != nullptr && person->position >= min_pos;
 }
 
-std::vector<const CHAR_DATA *> folks_in_room(const ROOM_INDEX_DATA *room, const CHAR_DATA *ch, const CHAR_DATA *vch,
-                                             const To &type, int min_pos) {
-    std::vector<const CHAR_DATA *> result;
+std::vector<const Char *> folks_in_room(const ROOM_INDEX_DATA *room, const Char *ch, const Char *vch, const To &type,
+                                        int min_pos) {
+    std::vector<const Char *> result;
     for (auto *person = room->people; person; person = person->next_in_room) {
         if (!act_to_person(person, min_pos))
             continue;
@@ -1276,8 +1276,7 @@ std::vector<const CHAR_DATA *> folks_in_room(const ROOM_INDEX_DATA *room, const 
     return result;
 }
 
-std::vector<const CHAR_DATA *> collect_folks(const CHAR_DATA *ch, const CHAR_DATA *vch, Act2Arg arg2, To type,
-                                             int min_pos) {
+std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg arg2, To type, int min_pos) {
     const ROOM_INDEX_DATA *room{};
 
     switch (type) {
@@ -1325,11 +1324,11 @@ std::vector<const CHAR_DATA *> collect_folks(const CHAR_DATA *ch, const CHAR_DAT
 
 }
 
-void act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type, int min_pos) {
+void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To type, int min_pos) {
     if (format.empty() || !ch || !ch->in_room)
         return;
 
-    const CHAR_DATA *vch = std::get_if<const CHAR_DATA *>(&arg2) ? *std::get_if<const CHAR_DATA *>(&arg2) : nullptr;
+    const Char *vch = std::get_if<const Char *>(&arg2) ? *std::get_if<const Char *>(&arg2) : nullptr;
 
     for (auto *to : collect_folks(ch, vch, arg2, type, min_pos)) {
         auto formatted = format_act(format, ch, arg1, arg2, to, vch);
@@ -1338,7 +1337,7 @@ void act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg
         if (MOBtrigger) {
             auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1);
             // TODO: heinous const_cast here. Safe, but annoying and worth unpicking deeper down.
-            mprog_act_trigger(formatted.c_str(), const_cast<CHAR_DATA *>(to), ch,
+            mprog_act_trigger(formatted.c_str(), const_cast<Char *>(to), ch,
                               arg1_as_obj_ptr ? *arg1_as_obj_ptr : nullptr, vch);
         }
     }
@@ -1347,7 +1346,7 @@ void act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg
 
 namespace {
 
-std::string format_one_prompt_part(char c, const CHAR_DATA &ch) {
+std::string format_one_prompt_part(char c, const Char &ch) {
     switch (c) {
     case '%': return "%";
     case 'B': {
@@ -1454,7 +1453,7 @@ std::string format_one_prompt_part(char c, const CHAR_DATA &ch) {
 
 }
 
-std::string format_prompt(const CHAR_DATA &ch, std::string_view prompt) {
+std::string format_prompt(const Char &ch, std::string_view prompt) {
     if (prompt.empty()) {
         return "|p<{}/{}hp {}/{}m {}mv> |w"_format(ch.hit, ch.max_hit, ch.mana, ch.max_mana, ch.move);
     }

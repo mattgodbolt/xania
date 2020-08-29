@@ -26,14 +26,14 @@ public:
     [[nodiscard]] auto playing() const noexcept { return all() | DescriptorFilter::playing(); }
 
     // Return all descriptors for playing characters, skipping the given character.
-    [[nodiscard]] auto all_but(const CHAR_DATA &ch) const noexcept { return playing() | DescriptorFilter::except(ch); }
+    [[nodiscard]] auto all_but(const Char &ch) const noexcept { return playing() | DescriptorFilter::except(ch); }
     // Return all descriptors for playing characters who are visible to the given character, including the character
     // themselves.
-    [[nodiscard]] auto all_visible_to(const CHAR_DATA &ch) const noexcept {
+    [[nodiscard]] auto all_visible_to(const Char &ch) const noexcept {
         return playing() | DescriptorFilter::visible_to(ch);
     }
     // Return all descriptors for playing characters who can see the given character.
-    [[nodiscard]] auto all_who_can_see(const CHAR_DATA &ch) const noexcept {
+    [[nodiscard]] auto all_who_can_see(const Char &ch) const noexcept {
         return all_but(ch) | DescriptorFilter::can_see(ch);
     }
 

@@ -32,19 +32,19 @@ using namespace fmt::literals;
 #define MAX_NEST 100
 static OBJ_DATA *rgObjNest[MAX_NEST];
 
-extern void char_ride(CHAR_DATA *ch, CHAR_DATA *pet);
+extern void char_ride(Char *ch, Char *pet);
 
 /*
  * Local functions.
  */
-void fwrite_char(CHAR_DATA *ch, FILE *fp);
-void fwrite_obj(CHAR_DATA *ch, OBJ_DATA *obj, FILE *fp, int iNest);
-void fwrite_pet(CHAR_DATA *ch, CHAR_DATA *pet, FILE *fp);
-void fread_char(CHAR_DATA *ch, FILE *fp);
-void fread_pet(CHAR_DATA *ch, FILE *fp);
-void fread_obj(CHAR_DATA *ch, FILE *fp);
+void fwrite_char(Char *ch, FILE *fp);
+void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest);
+void fwrite_pet(Char *ch, Char *pet, FILE *fp);
+void fread_char(Char *ch, FILE *fp);
+void fread_pet(Char *ch, FILE *fp);
+void fread_obj(Char *ch, FILE *fp);
 
-char *extra_bit_string(CHAR_DATA *ch) {
+char *extra_bit_string(Char *ch) {
     static char buf[MAX_STRING_LENGTH]; /* NB not re-entrant :) */
     int n;
     buf[0] = '\0';
@@ -58,7 +58,7 @@ char *extra_bit_string(CHAR_DATA *ch) {
     return (char *)&buf;
 }
 
-void set_bits_from_pfile(CHAR_DATA *ch, FILE *fp) {
+void set_bits_from_pfile(Char *ch, FILE *fp) {
     int n;
     char c;
     for (n = 0; n <= MAX_EXTRA_FLAGS; n++) {
@@ -78,7 +78,7 @@ void set_bits_from_pfile(CHAR_DATA *ch, FILE *fp) {
  * Would be cool to save NPC's too for quest purposes,
  *   some of the infrastructure is provided.
  */
-void save_char_obj(CHAR_DATA *ch) {
+void save_char_obj(Char *ch) {
     char buf[MAX_STRING_LENGTH];
     FILE *fp;
 
@@ -126,7 +126,7 @@ void save_char_obj(CHAR_DATA *ch) {
 /*
  * Write the char.
  */
-void fwrite_char(CHAR_DATA *ch, FILE *fp) {
+void fwrite_char(Char *ch, FILE *fp) {
     AFFECT_DATA *paf;
     int sn, gn;
 
@@ -253,7 +253,7 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
 }
 
 /* write a pet */
-void fwrite_pet(CHAR_DATA *ch, CHAR_DATA *pet, FILE *fp) {
+void fwrite_pet(Char *ch, Char *pet, FILE *fp) {
     AFFECT_DATA *paf;
 
     fprintf(fp, "#PET\n");
@@ -319,7 +319,7 @@ void fwrite_pet(CHAR_DATA *ch, CHAR_DATA *pet, FILE *fp) {
 /*
  * Write an object and its contents.
  */
-void fwrite_obj(CHAR_DATA *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
+void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
     EXTRA_DESCR_DATA *ed;
     AFFECT_DATA *paf;
 
@@ -428,7 +428,7 @@ bool load_char_obj(Descriptor *d, const char *name) {
     FILE *fp;
     bool found;
 
-    auto *ch = new CHAR_DATA();
+    auto *ch = new Char();
     ch->pcdata = std::make_unique<PC_DATA>();
 
     d->character(ch);
@@ -568,7 +568,7 @@ bool load_char_obj(Descriptor *d, const char *name) {
         break;                                                                                                         \
     }
 
-void fread_char(CHAR_DATA *ch, FILE *fp) {
+void fread_char(Char *ch, FILE *fp) {
     for (;;) {
         const std::string word = lower_case(feof(fp) ? "end" : fread_word(fp));
         if (word.empty() || word[0] == '*') {
@@ -780,9 +780,9 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
 }
 
 /* load a pet from the forgotten reaches */
-void fread_pet(CHAR_DATA *ch, FILE *fp) {
+void fread_pet(Char *ch, FILE *fp) {
     std::string word;
-    CHAR_DATA *pet;
+    Char *pet;
     /* first entry had BETTER be the vnum or we barf */
     word = feof(fp) ? "END" : fread_word(fp);
     if (matches(word, "Vnum")) {
@@ -888,7 +888,7 @@ void fread_pet(CHAR_DATA *ch, FILE *fp) {
     }
 }
 
-void fread_obj(CHAR_DATA *ch, FILE *fp) {
+void fread_obj(Char *ch, FILE *fp) {
     static OBJ_DATA obj_zero;
     OBJ_DATA *obj;
     std::string word;

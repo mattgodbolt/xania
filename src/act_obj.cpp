@@ -25,28 +25,28 @@
 using namespace fmt::literals;
 
 extern const char *target_name; /* Included from magic.c */
-extern void handle_corpse_summoner(CHAR_DATA *ch, CHAR_DATA *victim, OBJ_DATA *obj);
+extern void handle_corpse_summoner(Char *ch, Char *victim, OBJ_DATA *obj);
 
 /*
  * Local functions.
  */
-bool remove_obj(CHAR_DATA *ch, int iWear, bool fReplace);
-void wear_obj(CHAR_DATA *ch, OBJ_DATA *obj, bool fReplace);
-CHAR_DATA *find_keeper(CHAR_DATA *ch);
-int get_cost(CHAR_DATA *keeper, OBJ_DATA *obj, bool fBuy);
+bool remove_obj(Char *ch, int iWear, bool fReplace);
+void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace);
+Char *find_keeper(Char *ch);
+int get_cost(Char *keeper, OBJ_DATA *obj, bool fBuy);
 
-void explode_bomb(OBJ_DATA *bomb, CHAR_DATA *ch, CHAR_DATA *thrower);
+void explode_bomb(OBJ_DATA *bomb, Char *ch, Char *thrower);
 
 /* RT part of the corpse looting code */
 
-bool can_loot(const CHAR_DATA *ch, const OBJ_DATA *obj) {
+bool can_loot(const Char *ch, const OBJ_DATA *obj) {
     if (ch->is_immortal())
         return true;
 
     if (!obj->owner || obj->owner == nullptr)
         return true;
 
-    const CHAR_DATA *owner = nullptr;
+    const Char *owner = nullptr;
     for (const auto *wch = char_list; wch != nullptr; wch = wch->next)
         if (matches(wch->name, obj->owner))
             owner = wch;
@@ -66,9 +66,9 @@ bool can_loot(const CHAR_DATA *ch, const OBJ_DATA *obj) {
     return false;
 }
 
-void get_obj(CHAR_DATA *ch, OBJ_DATA *obj, OBJ_DATA *container) {
+void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container) {
     /* variables for AUTOSPLIT */
-    CHAR_DATA *gch;
+    Char *gch;
     int members;
     char buffer[100];
 
@@ -130,7 +130,7 @@ void get_obj(CHAR_DATA *ch, OBJ_DATA *obj, OBJ_DATA *container) {
     }
 }
 
-void do_get(CHAR_DATA *ch, const char *argument) {
+void do_get(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
@@ -243,7 +243,7 @@ void do_get(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_put(CHAR_DATA *ch, const char *argument) {
+void do_put(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     OBJ_DATA *container;
@@ -339,7 +339,7 @@ void do_put(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_donate(CHAR_DATA *ch, const char *argument) {
+void do_donate(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *pit;
     OBJ_DATA *obj;
@@ -427,7 +427,7 @@ void do_donate(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_drop(CHAR_DATA *ch, const char *argument) {
+void do_drop(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     OBJ_DATA *obj_next;
@@ -525,11 +525,11 @@ void do_drop(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_give(CHAR_DATA *ch, const char *argument) {
+void do_give(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     char buf[MAX_STRING_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     OBJ_DATA *obj;
 
     argument = one_argument(argument, arg1);
@@ -648,12 +648,12 @@ void do_give(CHAR_DATA *ch, const char *argument) {
  *  pour for Xania, Faramir 30/6/96
  */
 
-void do_pour(CHAR_DATA *ch, const char *argument) {
+void do_pour(Char *ch, const char *argument) {
 
     char arg1[MAX_INPUT_LENGTH];
     OBJ_DATA *obj, *target_obj, *obj_next;
     bool found = false;
-    CHAR_DATA *victim;
+    Char *victim;
     int pour_volume = 0;
 
     argument = one_argument(argument, arg1);
@@ -768,7 +768,7 @@ void do_pour(CHAR_DATA *ch, const char *argument) {
     ch->send_to("{} pours liquid into your container.\n\r"_format(victim->short_name()));
 }
 
-void do_fill(CHAR_DATA *ch, const char *argument) {
+void do_fill(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     OBJ_DATA *fountain;
@@ -819,7 +819,7 @@ void do_fill(CHAR_DATA *ch, const char *argument) {
     obj->value[1] = obj->value[0];
 }
 
-void do_drink(CHAR_DATA *ch, const char *argument) {
+void do_drink(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     int amount;
@@ -907,7 +907,7 @@ void do_drink(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_eat(CHAR_DATA *ch, const char *argument) {
+void do_eat(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
 
@@ -982,7 +982,7 @@ void do_eat(CHAR_DATA *ch, const char *argument) {
 /*
  * Remove an object.
  */
-bool remove_obj(CHAR_DATA *ch, int iWear, bool fReplace) {
+bool remove_obj(Char *ch, int iWear, bool fReplace) {
     OBJ_DATA *obj;
 
     if ((obj = get_eq_char(ch, iWear)) == nullptr)
@@ -1007,7 +1007,7 @@ bool remove_obj(CHAR_DATA *ch, int iWear, bool fReplace) {
  * Optional replacement of existing objects.
  * Big repetitive code, ick.
  */
-void wear_obj(CHAR_DATA *ch, OBJ_DATA *obj, bool fReplace) {
+void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
     char buf[MAX_STRING_LENGTH];
 
     if (ch->level < obj->level) {
@@ -1291,7 +1291,7 @@ void wear_obj(CHAR_DATA *ch, OBJ_DATA *obj, bool fReplace) {
         send_to_char("You can't wear, wield, or hold that.\n\r", ch);
 }
 
-void do_wear(CHAR_DATA *ch, const char *argument) {
+void do_wear(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
 
@@ -1321,7 +1321,7 @@ void do_wear(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_remove(CHAR_DATA *ch, const char *argument) {
+void do_remove(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
 
@@ -1340,14 +1340,14 @@ void do_remove(CHAR_DATA *ch, const char *argument) {
     remove_obj(ch, obj->wear_loc, true);
 }
 
-void do_sacrifice(CHAR_DATA *ch, const char *argument) {
+void do_sacrifice(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     char buf[MAX_STRING_LENGTH];
     OBJ_DATA *obj;
     int gold;
 
     /* variables for AUTOSPLIT */
-    CHAR_DATA *gch;
+    Char *gch;
     int members;
     char buffer[100];
 
@@ -1417,7 +1417,7 @@ void do_sacrifice(CHAR_DATA *ch, const char *argument) {
     extract_obj(obj);
 }
 
-void do_quaff(CHAR_DATA *ch, const char *argument) {
+void do_quaff(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
 
@@ -1454,10 +1454,10 @@ void do_quaff(CHAR_DATA *ch, const char *argument) {
     extract_obj(obj);
 }
 
-void do_recite(CHAR_DATA *ch, const char *argument) {
+void do_recite(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     OBJ_DATA *scroll;
     OBJ_DATA *obj;
 
@@ -1512,10 +1512,10 @@ void do_recite(CHAR_DATA *ch, const char *argument) {
     extract_obj(scroll);
 }
 
-void do_brandish(CHAR_DATA *ch, const char *argument) {
+void do_brandish(Char *ch, const char *argument) {
     (void)argument;
-    CHAR_DATA *vch;
-    CHAR_DATA *vch_next;
+    Char *vch;
+    Char *vch_next;
     OBJ_DATA *staff;
     int sn;
 
@@ -1591,9 +1591,9 @@ void do_brandish(CHAR_DATA *ch, const char *argument) {
  * eg. being able to kill mobs far away with a wand of acid blast.
  */
 
-void do_zap(CHAR_DATA *ch, const char *argument) {
+void do_zap(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     OBJ_DATA *wand;
     OBJ_DATA *obj;
 
@@ -1682,10 +1682,10 @@ void do_zap(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_steal(CHAR_DATA *ch, const char *argument) {
+void do_steal(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     OBJ_DATA *obj;
     int percent;
 
@@ -1797,7 +1797,7 @@ void do_steal(CHAR_DATA *ch, const char *argument) {
  */
 
 namespace {
-CHAR_DATA *shopkeeper_in(const ROOM_INDEX_DATA &room) {
+Char *shopkeeper_in(const ROOM_INDEX_DATA &room) {
     for (auto *maybe_keeper = room.people; maybe_keeper; maybe_keeper = maybe_keeper->next_in_room) {
         if (maybe_keeper->is_npc() && maybe_keeper->pIndexData->pShop)
             return maybe_keeper;
@@ -1806,7 +1806,7 @@ CHAR_DATA *shopkeeper_in(const ROOM_INDEX_DATA &room) {
 }
 }
 
-CHAR_DATA *find_keeper(CHAR_DATA *ch) {
+Char *find_keeper(Char *ch) {
     auto *keeper = shopkeeper_in(*ch->in_room);
     if (!keeper) {
         ch->send_to("You can't do that here.\n\r");
@@ -1847,7 +1847,7 @@ CHAR_DATA *find_keeper(CHAR_DATA *ch) {
     return keeper;
 }
 
-int get_cost(CHAR_DATA *keeper, OBJ_DATA *obj, bool fBuy) {
+int get_cost(Char *keeper, OBJ_DATA *obj, bool fBuy) {
     SHOP_DATA *pShop;
     int cost;
 
@@ -1882,7 +1882,7 @@ int get_cost(CHAR_DATA *keeper, OBJ_DATA *obj, bool fBuy) {
     return cost;
 }
 
-void do_buy(CHAR_DATA *ch, const char *argument) {
+void do_buy(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     int cost, roll;
 
@@ -1893,7 +1893,7 @@ void do_buy(CHAR_DATA *ch, const char *argument) {
 
     if (IS_SET(ch->in_room->room_flags, ROOM_PET_SHOP)) {
         char arg[MAX_INPUT_LENGTH];
-        CHAR_DATA *pet;
+        Char *pet;
         ROOM_INDEX_DATA *pRoomIndexNext;
         ROOM_INDEX_DATA *in_room;
 
@@ -1966,7 +1966,7 @@ void do_buy(CHAR_DATA *ch, const char *argument) {
         act("$n bought $N as a pet.", ch, nullptr, pet, To::Room);
         return;
     } else {
-        CHAR_DATA *keeper;
+        Char *keeper;
         OBJ_DATA *obj;
 
         if ((keeper = find_keeper(ch)) == nullptr)
@@ -2031,12 +2031,12 @@ void do_buy(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_list(CHAR_DATA *ch, const char *argument) {
+void do_list(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
 
     if (IS_SET(ch->in_room->room_flags, ROOM_PET_SHOP)) {
         ROOM_INDEX_DATA *pRoomIndexNext;
-        CHAR_DATA *pet;
+        Char *pet;
         bool found;
 
         pRoomIndexNext = get_room_index(ch->in_room->vnum + 1);
@@ -2060,7 +2060,7 @@ void do_list(CHAR_DATA *ch, const char *argument) {
             ch->send_to("Sorry, we're out of pets right now.\n\r");
         return;
     } else {
-        CHAR_DATA *keeper;
+        Char *keeper;
         OBJ_DATA *obj;
         BUFFER *buffer;
         int cost;
@@ -2094,10 +2094,10 @@ void do_list(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_sell(CHAR_DATA *ch, const char *argument) {
+void do_sell(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *keeper;
+    Char *keeper;
     OBJ_DATA *obj;
     int cost, roll;
 
@@ -2164,10 +2164,10 @@ void do_sell(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_value(CHAR_DATA *ch, const char *argument) {
+void do_value(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *keeper;
+    Char *keeper;
     OBJ_DATA *obj;
     int cost;
 
@@ -2207,9 +2207,9 @@ void do_value(CHAR_DATA *ch, const char *argument) {
     ch->reply = keeper;
 }
 
-void do_throw(CHAR_DATA *ch, const char *argument) {
+void do_throw(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     OBJ_DATA *bomb;
     int chance;
 
@@ -2266,7 +2266,7 @@ void do_throw(CHAR_DATA *ch, const char *argument) {
 
 /* hailcorpse for getting out of sticky situations ooeer --Fara */
 
-void do_hailcorpse(CHAR_DATA *ch, const char *argument) {
+void do_hailcorpse(Char *ch, const char *argument) {
     (void)argument;
     ROOM_INDEX_DATA *current_place;
     EXIT_DATA *pexit;

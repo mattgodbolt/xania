@@ -26,7 +26,7 @@
  * use this to annoy others! :)
  */
 
-void tornado_teleport(CHAR_DATA *ch, CHAR_DATA *victim) {
+void tornado_teleport(Char *ch, Char *victim) {
     ROOM_INDEX_DATA *pRoomIndex;
 
     for (;;) {
@@ -57,7 +57,7 @@ void tornado_teleport(CHAR_DATA *ch, CHAR_DATA *victim) {
     do_look(victim, "auto");
 }
 
-void tornado_dam(CHAR_DATA *ch, CHAR_DATA *victim, int level) {
+void tornado_dam(Char *ch, Char *victim, int level) {
     int dam;
     int sn = skill_lookup("psychic tornado");
 
@@ -65,7 +65,7 @@ void tornado_dam(CHAR_DATA *ch, CHAR_DATA *victim, int level) {
     damage(ch, victim, dam, sn, DAM_MENTAL);
 }
 
-void tornado_mental(CHAR_DATA *ch, CHAR_DATA *victim, int level) {
+void tornado_mental(Char *ch, Char *victim, int level) {
 
     AFFECT_DATA af;
 
@@ -88,14 +88,14 @@ void tornado_mental(CHAR_DATA *ch, CHAR_DATA *victim, int level) {
     victim->position = POS_RESTING;
 }
 
-void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
+void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
-    CHAR_DATA *victim = (CHAR_DATA *)vo;
-    CHAR_DATA *current_person;
-    CHAR_DATA *next_person;
-    CHAR_DATA *vch;
-    CHAR_DATA *vch_next;
+    Char *victim = (Char *)vo;
+    Char *current_person;
+    Char *next_person;
+    Char *vch;
+    Char *vch_next;
 
     if (victim == ch) {
         send_to_char("You can't cast that on yourself.\n\r", ch);
@@ -187,7 +187,7 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
 
 /* commented out for time being --Fara  */
 
-// void spell_raise_dead (int sn, int level, CHAR_DATA *ch, void *vo)
+// void spell_raise_dead (int sn, int level, Char *ch, void *vo)
 //{
 // OBJ_DATA *victim;
 // AFFECT_DATA af;
@@ -207,7 +207,7 @@ void spell_psy_tornado(int sn, int level, CHAR_DATA *ch, void *vo) {
  */
 //  for (victim = ch->in_room->contents; victim; victim = victim->next_content) {
 //  if (victim->pIndexData->vnum == OBJ_VNUM_CORPSE_NPC) {
-//    CHAR_DATA *zombie;
+//    Char *zombie;
 //    MOB_INDEX_DATA *zIndex;
 //    OBJ_DATA *obj, *objNext;
 //    int zLevel, i;

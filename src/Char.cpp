@@ -1,4 +1,4 @@
-#include "CHAR_DATA.hpp"
+#include "Char.hpp"
 
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
@@ -12,36 +12,34 @@
 
 using namespace fmt::literals;
 
-Seconds CHAR_DATA::total_played() const { return std::chrono::duration_cast<Seconds>(current_time - logon + played); }
+Seconds Char::total_played() const { return std::chrono::duration_cast<Seconds>(current_time - logon + played); }
 
-bool CHAR_DATA::is_npc() const { return IS_SET(act, ACT_IS_NPC); }
-bool CHAR_DATA::is_warrior() const { return IS_SET(act, ACT_WARRIOR); }
-bool CHAR_DATA::is_thief() const { return IS_SET(act, ACT_THIEF); }
-bool CHAR_DATA::is_blind() const { return IS_SET(affected_by, AFF_BLIND); }
-bool CHAR_DATA::has_infrared() const { return IS_SET(affected_by, AFF_INFRARED); }
-bool CHAR_DATA::is_invisible() const { return IS_SET(affected_by, AFF_INVISIBLE); }
-bool CHAR_DATA::has_detect_invis() const { return IS_SET(affected_by, AFF_DETECT_INVIS); }
-bool CHAR_DATA::is_sneaking() const { return IS_SET(affected_by, AFF_SNEAK); }
-bool CHAR_DATA::is_hiding() const { return IS_SET(affected_by, AFF_HIDE); }
-bool CHAR_DATA::is_berserk() const { return IS_SET(affected_by, AFF_BERSERK); }
-bool CHAR_DATA::has_detect_hidden() const { return IS_SET(affected_by, AFF_DETECT_HIDDEN); }
-bool CHAR_DATA::has_holylight() const { return is_pc() && IS_SET(act, PLR_HOLYLIGHT); }
+bool Char::is_npc() const { return IS_SET(act, ACT_IS_NPC); }
+bool Char::is_warrior() const { return IS_SET(act, ACT_WARRIOR); }
+bool Char::is_thief() const { return IS_SET(act, ACT_THIEF); }
+bool Char::is_blind() const { return IS_SET(affected_by, AFF_BLIND); }
+bool Char::has_infrared() const { return IS_SET(affected_by, AFF_INFRARED); }
+bool Char::is_invisible() const { return IS_SET(affected_by, AFF_INVISIBLE); }
+bool Char::has_detect_invis() const { return IS_SET(affected_by, AFF_DETECT_INVIS); }
+bool Char::is_sneaking() const { return IS_SET(affected_by, AFF_SNEAK); }
+bool Char::is_hiding() const { return IS_SET(affected_by, AFF_HIDE); }
+bool Char::is_berserk() const { return IS_SET(affected_by, AFF_BERSERK); }
+bool Char::has_detect_hidden() const { return IS_SET(affected_by, AFF_DETECT_HIDDEN); }
+bool Char::has_holylight() const { return is_pc() && IS_SET(act, PLR_HOLYLIGHT); }
 
-bool CHAR_DATA::is_wizinvis() const { return is_pc() && IS_SET(act, PLR_WIZINVIS); }
-bool CHAR_DATA::is_wizinvis_to(const CHAR_DATA &victim) const {
-    return is_wizinvis() && victim.get_trust() < invis_level;
-}
+bool Char::is_wizinvis() const { return is_pc() && IS_SET(act, PLR_WIZINVIS); }
+bool Char::is_wizinvis_to(const Char &victim) const { return is_wizinvis() && victim.get_trust() < invis_level; }
 
-bool CHAR_DATA::is_prowlinvis() const { return is_pc() && IS_SET(act, PLR_PROWL); }
-bool CHAR_DATA::is_prowlinvis_to(const CHAR_DATA &victim) const {
+bool Char::is_prowlinvis() const { return is_pc() && IS_SET(act, PLR_PROWL); }
+bool Char::is_prowlinvis_to(const Char &victim) const {
     return is_prowlinvis() && in_room != victim.in_room && victim.get_trust() < invis_level;
 }
 
-bool CHAR_DATA::is_immortal() const { return get_trust() >= LEVEL_IMMORTAL; }
-bool CHAR_DATA::is_hero() const { return get_trust() >= LEVEL_IMMORTAL; }
+bool Char::is_immortal() const { return get_trust() >= LEVEL_IMMORTAL; }
+bool Char::is_hero() const { return get_trust() >= LEVEL_IMMORTAL; }
 
 // Retrieve a character's trusted level for permission checking.
-int CHAR_DATA::get_trust() const {
+int Char::get_trust() const {
     if (desc != nullptr && desc->is_switched() && this != desc->original())
         return desc->original()->get_trust();
 
@@ -55,7 +53,7 @@ int CHAR_DATA::get_trust() const {
 }
 
 // True if char can see victim.
-bool CHAR_DATA::can_see(const CHAR_DATA &victim) const {
+bool Char::can_see(const Char &victim) const {
     // We can always see ourself.
     if (this == &victim)
         return true;
@@ -106,29 +104,29 @@ bool CHAR_DATA::can_see(const CHAR_DATA &victim) const {
     return true;
 }
 
-void CHAR_DATA::send_to(std::string_view txt) const {
+void Char::send_to(std::string_view txt) const {
     if (txt.empty() || desc == nullptr || !desc->person())
         return;
     desc->write(colourise_mud_string(desc->person()->pcdata->colour, txt));
 }
 
-sh_int CHAR_DATA::curr_stat(Stat stat) const { return URANGE(3, perm_stat[stat] + mod_stat[stat], max_stat(stat)); }
+sh_int Char::curr_stat(Stat stat) const { return URANGE(3, perm_stat[stat] + mod_stat[stat], max_stat(stat)); }
 
-sh_int CHAR_DATA::max_stat(Stat stat) const {
+sh_int Char::max_stat(Stat stat) const {
     if (is_npc() || level > LEVEL_IMMORTAL)
         return 25;
 
     return UMIN(pc_race_table[race].max_stats[stat] + (class_table[class_num].attr_prime == stat ? 6 : 4), 25);
 }
 
-bool CHAR_DATA::is_affected_by(int skill_number) const {
+bool Char::is_affected_by(int skill_number) const {
     for (auto paf = affected; paf != nullptr; paf = paf->next)
         if (paf->type == skill_number)
             return true;
     return false;
 }
 
-int CHAR_DATA::get_skill(int skill_number) const {
+int Char::get_skill(int skill_number) const {
     int skill;
 
     if (skill_number < -1 || skill_number > MAX_SKILL) {
@@ -190,7 +188,7 @@ int CHAR_DATA::get_skill(int skill_number) const {
     return URANGE(0, skill, 100);
 }
 
-void CHAR_DATA::set_title(std::string title) {
+void Char::set_title(std::string title) {
     if (is_npc()) {
         bug("set_title: NPC.");
         return;
@@ -202,21 +200,21 @@ void CHAR_DATA::set_title(std::string title) {
         pcdata->title = std::move(title);
 }
 
-void CHAR_DATA::page_to(std::string_view txt) const {
+void Char::page_to(std::string_view txt) const {
     if (desc)
         desc->page_to(txt);
 }
 
-PCCLAN *CHAR_DATA::pc_clan() { return is_pc() && pcdata->pcclan ? &pcdata->pcclan.value() : nullptr; }
-const PCCLAN *CHAR_DATA::pc_clan() const { return is_pc() && pcdata->pcclan ? &pcdata->pcclan.value() : nullptr; }
+PCCLAN *Char::pc_clan() { return is_pc() && pcdata->pcclan ? &pcdata->pcclan.value() : nullptr; }
+const PCCLAN *Char::pc_clan() const { return is_pc() && pcdata->pcclan ? &pcdata->pcclan.value() : nullptr; }
 
-const CLAN *CHAR_DATA::clan() const { return pc_clan() ? pc_clan()->clan : nullptr; }
+const CLAN *Char::clan() const { return pc_clan() ? pc_clan()->clan : nullptr; }
 
-bool CHAR_DATA::is_comm_brief() const { return is_pc() && IS_SET(comm, COMM_BRIEF); }
-bool CHAR_DATA::should_autoexit() const { return is_pc() && IS_SET(act, PLR_AUTOEXIT); }
+bool Char::is_comm_brief() const { return is_pc() && IS_SET(comm, COMM_BRIEF); }
+bool Char::should_autoexit() const { return is_pc() && IS_SET(act, PLR_AUTOEXIT); }
 
 template <typename Func>
-OBJ_DATA *CHAR_DATA::find_filtered_obj(std::string_view argument, Func filter) const {
+OBJ_DATA *Char::find_filtered_obj(std::string_view argument, Func filter) const {
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
     for (auto *obj = carrying; obj != nullptr; obj = obj->next_content) {
@@ -229,15 +227,15 @@ OBJ_DATA *CHAR_DATA::find_filtered_obj(std::string_view argument, Func filter) c
     return nullptr;
 }
 
-OBJ_DATA *CHAR_DATA::find_in_inventory(std::string_view argument) const {
+OBJ_DATA *Char::find_in_inventory(std::string_view argument) const {
     return find_filtered_obj(argument, [](const OBJ_DATA &obj) { return obj.wear_loc == WEAR_NONE; });
 }
 
-OBJ_DATA *CHAR_DATA::find_worn(std::string_view argument) const {
+OBJ_DATA *Char::find_worn(std::string_view argument) const {
     return find_filtered_obj(argument, [](const OBJ_DATA &obj) { return obj.wear_loc != WEAR_NONE; });
 }
 
-bool CHAR_DATA::can_see(const OBJ_DATA &object) const {
+bool Char::can_see(const OBJ_DATA &object) const {
     if (has_holylight())
         return true;
 
@@ -262,7 +260,7 @@ bool CHAR_DATA::can_see(const OBJ_DATA &object) const {
     return true;
 }
 
-bool CHAR_DATA::can_see(const ROOM_INDEX_DATA &room) const {
+bool Char::can_see(const ROOM_INDEX_DATA &room) const {
     if (IS_SET(room.room_flags, ROOM_IMP_ONLY) && get_trust() < MAX_LEVEL)
         return false;
 
@@ -278,18 +276,17 @@ bool CHAR_DATA::can_see(const ROOM_INDEX_DATA &room) const {
     return true;
 }
 
-int CHAR_DATA::num_active_ = 0;
+int Char::num_active_ = 0;
 
 extern char str_empty[]; // Soon, to die...
 
-CHAR_DATA::CHAR_DATA()
-    : name(str_empty), logon(current_time), position(POS_STANDING) /*todo once not in merc.h put in header*/ {
+Char::Char() : name(str_empty), logon(current_time), position(POS_STANDING) /*todo once not in merc.h put in header*/ {
     ranges::fill(armor, 100);
     ranges::fill(perm_stat, 13);
     ++num_active_;
 }
 
-CHAR_DATA::~CHAR_DATA() {
+Char::~Char() {
     --num_active_;
 
     while (carrying)
@@ -299,7 +296,7 @@ CHAR_DATA::~CHAR_DATA() {
         affect_remove(this, affected);
 }
 
-void CHAR_DATA::yell(std::string_view exclamation) const {
+void Char::yell(std::string_view exclamation) const {
     ::act("|WYou yell '$t|W'|w", this, exclamation, nullptr, To::Char);
     for (auto &victim :
          descriptors().all_but(*this) | DescriptorFilter::same_area(*this) | DescriptorFilter::to_character()) {
@@ -308,7 +305,7 @@ void CHAR_DATA::yell(std::string_view exclamation) const {
     }
 }
 
-void CHAR_DATA::say(std::string_view message) {
+void Char::say(std::string_view message) {
     ::act("$n|w says '$T|w'", this, nullptr, message, To::Room);
     ::act("You say '$T|w'", this, nullptr, message, To::Char);
     chatperformtoroom(message, this);
@@ -318,7 +315,7 @@ void CHAR_DATA::say(std::string_view message) {
     mprog_speech_trigger(as_std.c_str(), this);
 }
 
-bool CHAR_DATA::is_player_killer() const noexcept { return is_pc() && IS_SET(act, PLR_KILLER); }
-bool CHAR_DATA::is_player_thief() const noexcept { return is_pc() && IS_SET(act, PLR_THIEF); }
-bool CHAR_DATA::has_detect_magic() const { return IS_SET(affected_by, AFF_DETECT_MAGIC); }
-bool CHAR_DATA::has_detect_evil() const { return IS_SET(affected_by, AFF_DETECT_EVIL); }
+bool Char::is_player_killer() const noexcept { return is_pc() && IS_SET(act, PLR_KILLER); }
+bool Char::is_player_thief() const noexcept { return is_pc() && IS_SET(act, PLR_THIEF); }
+bool Char::has_detect_magic() const { return IS_SET(affected_by, AFF_DETECT_MAGIC); }
+bool Char::has_detect_evil() const { return IS_SET(affected_by, AFF_DETECT_EVIL); }

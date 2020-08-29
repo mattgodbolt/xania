@@ -24,7 +24,7 @@
 
 using namespace fmt::literals;
 
-void do_finger(CHAR_DATA *ch, char *arg);
+void do_finger(Char *ch, char *arg);
 FingerInfo read_char_info(std::string_view player_name);
 
 // For finger info.
@@ -39,7 +39,7 @@ FingerInfo *search_info_cache(std::string_view name) {
         return &find_it->second;
     return nullptr;
 }
-FingerInfo *search_info_cache(const CHAR_DATA *ch) { return search_info_cache(ch->name); }
+FingerInfo *search_info_cache(const Char *ch) { return search_info_cache(ch->name); }
 
 }
 
@@ -73,7 +73,7 @@ void load_player_list() {
 }
 
 /* Rohan's setinfo function */
-void do_setinfo(CHAR_DATA *ch, const char *argument) {
+void do_setinfo(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     int update_show = 0;
     int update_hide = 0;
@@ -203,12 +203,12 @@ void do_setinfo(CHAR_DATA *ch, const char *argument) {
 /* Shows info on player as set by setinfo, plus datestamp as to
    when char was last logged on */
 
-void do_finger(CHAR_DATA *ch, const char *argument) {
+void do_finger(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
-    CHAR_DATA *victim = nullptr;
+    Char *victim = nullptr;
     KNOWN_PLAYERS *cursor = player_list;
     bool player_found = false;
-    CHAR_DATA *wch = char_list;
+    Char *wch = char_list;
     bool char_found = false;
 
     if (argument[0] == '\0' || matches(ch->name, argument)) {
@@ -339,7 +339,7 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
 }
 
 void remove_info_for_player(std::string_view player_name) { info_cache.erase(std::string(player_name)); }
-void update_info_cache(CHAR_DATA *ch) {
+void update_info_cache(Char *ch) {
     if (auto cur = search_info_cache(ch)) {
         cur->invis_level = ch->invis_level;
 

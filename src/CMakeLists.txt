@@ -65,7 +65,7 @@ add_library(xania_lib STATIC
         nth.hpp nth.cpp
         DescriptorList.hpp DescriptorList.cpp
         DescriptorFilter.hpp
-        CHAR_DATA.cpp CHAR_DATA.hpp
+        Char.cpp Char.hpp
         Types.hpp
         Stats.hpp
         ExtraFlags.hpp

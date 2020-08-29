@@ -47,17 +47,17 @@ size_t max_on = 0;
 /*
  * Local functions.
  */
-std::string format_obj_to_char(const OBJ_DATA *obj, const CHAR_DATA *ch, bool fShort);
-void show_list_to_char(const OBJ_DATA *list, const CHAR_DATA *ch, bool fShort, bool fShowNothing);
-void show_char_to_char_0(const CHAR_DATA *victim, const CHAR_DATA *ch);
-void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch);
-void show_char_to_char(const CHAR_DATA *list, const CHAR_DATA *ch);
-bool check_blind(const CHAR_DATA *ch);
+std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort);
+void show_list_to_char(const OBJ_DATA *list, const Char *ch, bool fShort, bool fShowNothing);
+void show_char_to_char_0(const Char *victim, const Char *ch);
+void show_char_to_char_1(Char *victim, Char *ch);
+void show_char_to_char(const Char *list, const Char *ch);
+bool check_blind(const Char *ch);
 
 /* Mg's funcy shun */
-void set_prompt(CHAR_DATA *ch, const char *prompt);
+void set_prompt(Char *ch, const char *prompt);
 
-std::string format_obj_to_char(const OBJ_DATA *obj, const CHAR_DATA *ch, bool fShort) {
+std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort) {
     std::string buf;
     if (IS_OBJ_STAT(obj, ITEM_INVIS))
         buf += "(|cInvis|w) ";
@@ -90,7 +90,7 @@ std::string format_obj_to_char(const OBJ_DATA *obj, const CHAR_DATA *ch, bool fS
  * Show a list to a character.
  * Can coalesce duplicated items.
  */
-void show_list_to_char(const OBJ_DATA *list, const CHAR_DATA *ch, bool fShort, bool fShowNothing) {
+void show_list_to_char(const OBJ_DATA *list, const Char *ch, bool fShort, bool fShowNothing) {
     if (!ch->desc)
         return;
 
@@ -141,7 +141,7 @@ void show_list_to_char(const OBJ_DATA *list, const CHAR_DATA *ch, bool fShort, b
     ch->page_to(buffer);
 }
 
-void show_char_to_char_0(const CHAR_DATA *victim, const CHAR_DATA *ch) {
+void show_char_to_char_0(const Char *victim, const Char *ch) {
     std::string buf;
 
     if (IS_AFFECTED(victim, AFF_INVISIBLE))
@@ -218,7 +218,7 @@ void show_char_to_char_0(const CHAR_DATA *victim, const CHAR_DATA *ch) {
     ch->send_to(buf);
 }
 
-void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch) {
+void show_char_to_char_1(Char *victim, Char *ch) {
     char buf[MAX_STRING_LENGTH];
     char buf2[MAX_STRING_LENGTH];
     OBJ_DATA *obj;
@@ -270,8 +270,8 @@ void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch) {
     }
 }
 
-void do_peek(CHAR_DATA *ch, const char *argument) {
-    CHAR_DATA *victim;
+void do_peek(Char *ch, const char *argument) {
+    Char *victim;
     char arg1[MAX_INPUT_LENGTH];
 
     if (ch->desc == nullptr)
@@ -308,7 +308,7 @@ void do_peek(CHAR_DATA *ch, const char *argument) {
         send_to_char("They aren't here.\n\r", ch);
 }
 
-void show_char_to_char(const CHAR_DATA *list, const CHAR_DATA *ch) {
+void show_char_to_char(const Char *list, const Char *ch) {
     for (auto *rch = list; rch != nullptr; rch = rch->next_in_room) {
         if (rch == ch)
             continue;
@@ -324,7 +324,7 @@ void show_char_to_char(const CHAR_DATA *list, const CHAR_DATA *ch) {
     }
 }
 
-bool check_blind(const CHAR_DATA *ch) {
+bool check_blind(const Char *ch) {
     if (!ch->is_blind() || ch->has_holylight())
         return true;
 
@@ -333,7 +333,7 @@ bool check_blind(const CHAR_DATA *ch) {
 }
 
 /* changes your scroll */
-void do_scroll(CHAR_DATA *ch, const char *argument) {
+void do_scroll(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     char buf[100];
     int lines;
@@ -379,7 +379,7 @@ void do_scroll(CHAR_DATA *ch, const char *argument) {
 }
 
 /* RT does socials */
-void do_socials(CHAR_DATA *ch, const char *argument) {
+void do_socials(Char *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
     int iSocial;
@@ -400,32 +400,32 @@ void do_socials(CHAR_DATA *ch, const char *argument) {
 
 /* RT Commands to replace news, motd, imotd, etc from ROM */
 
-void do_motd(CHAR_DATA *ch, const char *argument) {
+void do_motd(Char *ch, const char *argument) {
     (void)argument;
     do_help(ch, "motd");
 }
 
-void do_imotd(CHAR_DATA *ch, const char *argument) {
+void do_imotd(Char *ch, const char *argument) {
     (void)argument;
     do_help(ch, "imotd");
 }
 
-void do_rules(CHAR_DATA *ch, const char *argument) {
+void do_rules(Char *ch, const char *argument) {
     (void)argument;
     do_help(ch, "rules");
 }
 
-void do_story(CHAR_DATA *ch, const char *argument) {
+void do_story(Char *ch, const char *argument) {
     (void)argument;
     do_help(ch, "story");
 }
 
-void do_changes(CHAR_DATA *ch, const char *argument) {
+void do_changes(Char *ch, const char *argument) {
     (void)argument;
     do_help(ch, "changes");
 }
 
-void do_wizlist(CHAR_DATA *ch, const char *argument) {
+void do_wizlist(Char *ch, const char *argument) {
     (void)argument;
     do_help(ch, "wizlist");
 }
@@ -433,7 +433,7 @@ void do_wizlist(CHAR_DATA *ch, const char *argument) {
 /* RT this following section holds all the auto commands from ROM, as well as
    replacements for config */
 
-void do_autolist(CHAR_DATA *ch, const char *argument) {
+void do_autolist(Char *ch, const char *argument) {
     (void)argument;
     /* lists most player flags */
     if (ch->is_npc())
@@ -544,7 +544,7 @@ void do_autolist(CHAR_DATA *ch, const char *argument) {
         send_to_char("Shield blocks, parries, and dodges are not being shown.\n\r", ch);
 }
 
-void do_autoaffect(CHAR_DATA *ch, const char *argument) {
+void do_autoaffect(Char *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc())
         return;
@@ -557,7 +557,7 @@ void do_autoaffect(CHAR_DATA *ch, const char *argument) {
         SET_BIT(ch->comm, COMM_AFFECT);
     }
 }
-void do_autoassist(CHAR_DATA *ch, const char *argument) {
+void do_autoassist(Char *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc())
         return;
@@ -571,7 +571,7 @@ void do_autoassist(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_autoexit(CHAR_DATA *ch, const char *argument) {
+void do_autoexit(Char *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc())
         return;
@@ -585,7 +585,7 @@ void do_autoexit(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_autogold(CHAR_DATA *ch, const char *argument) {
+void do_autogold(Char *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc())
         return;
@@ -599,7 +599,7 @@ void do_autogold(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_autoloot(CHAR_DATA *ch, const char *argument) {
+void do_autoloot(Char *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc())
         return;
@@ -613,7 +613,7 @@ void do_autoloot(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_autopeek(CHAR_DATA *ch, const char *argument) {
+void do_autopeek(Char *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc())
         return;
@@ -627,7 +627,7 @@ void do_autopeek(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_autosac(CHAR_DATA *ch, const char *argument) {
+void do_autosac(Char *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc())
         return;
@@ -641,7 +641,7 @@ void do_autosac(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_autosplit(CHAR_DATA *ch, const char *argument) {
+void do_autosplit(Char *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc())
         return;
@@ -655,7 +655,7 @@ void do_autosplit(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_brief(CHAR_DATA *ch, const char *argument) {
+void do_brief(Char *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_BRIEF)) {
         send_to_char("Full descriptions activated.\n\r", ch);
@@ -666,7 +666,7 @@ void do_brief(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_colour(CHAR_DATA *ch, const char *argument) {
+void do_colour(Char *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc())
         return;
@@ -681,7 +681,7 @@ void do_colour(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_showafk(CHAR_DATA *ch, const char *argument) {
+void do_showafk(Char *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_SHOWAFK)) {
         send_to_char("Messages sent to you will now not be shown when afk.\n\r", ch);
@@ -691,7 +691,7 @@ void do_showafk(CHAR_DATA *ch, const char *argument) {
         SET_BIT(ch->comm, COMM_SHOWAFK);
     }
 }
-void do_showdefence(CHAR_DATA *ch, const char *argument) {
+void do_showdefence(Char *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_SHOWDEFENCE)) {
         send_to_char("Shield blocks, parries and dodges will not be shown during combat.\n\r", ch);
@@ -702,7 +702,7 @@ void do_showdefence(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_compact(CHAR_DATA *ch, const char *argument) {
+void do_compact(Char *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_COMPACT)) {
         send_to_char("Compact mode removed.\n\r", ch);
@@ -713,7 +713,7 @@ void do_compact(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_prompt(CHAR_DATA *ch, const char *argument) {
+void do_prompt(Char *ch, const char *argument) {
 
     /* PCFN 24-05-97  Oh dear - it seems that you can't set prompt while switched
        into a MOB.  Let's change that.... */
@@ -737,7 +737,7 @@ void do_prompt(CHAR_DATA *ch, const char *argument) {
     SET_BIT(ch->comm, COMM_PROMPT);
 }
 
-void do_combine(CHAR_DATA *ch, const char *argument) {
+void do_combine(Char *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_COMBINE)) {
         send_to_char("Long inventory selected.\n\r", ch);
@@ -748,7 +748,7 @@ void do_combine(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_noloot(CHAR_DATA *ch, const char *argument) {
+void do_noloot(Char *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc())
         return;
@@ -762,7 +762,7 @@ void do_noloot(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_nofollow(CHAR_DATA *ch, const char *argument) {
+void do_nofollow(Char *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc())
         return;
@@ -777,7 +777,7 @@ void do_nofollow(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_nosummon(CHAR_DATA *ch, const char *argument) {
+void do_nosummon(Char *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc()) {
         if (IS_SET(ch->imm_flags, IMM_SUMMON)) {
@@ -798,7 +798,7 @@ void do_nosummon(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_lore(CHAR_DATA *ch, OBJ_DATA *obj, const char *pdesc) {
+void do_lore(Char *ch, OBJ_DATA *obj, const char *pdesc) {
     int sn = skill_lookup("identify");
 
     if (ch->is_pc() && number_percent() > get_skill_learned(ch, skill_lookup("lore"))) {
@@ -815,7 +815,7 @@ void do_lore(CHAR_DATA *ch, OBJ_DATA *obj, const char *pdesc) {
 
 namespace {
 
-void room_look(const CHAR_DATA &ch, bool force_full) {
+void room_look(const Char &ch, bool force_full) {
     ch.send_to("|R{}\n\r|w"_format(ch.in_room->name));
     if (force_full || !ch.is_comm_brief()) {
         ch.send_to("  {}"_format(ch.in_room->description));
@@ -830,7 +830,7 @@ void room_look(const CHAR_DATA &ch, bool force_full) {
     show_char_to_char(ch.in_room->people, &ch);
 }
 
-void look_in_object(const CHAR_DATA &ch, const OBJ_DATA &obj) {
+void look_in_object(const Char &ch, const OBJ_DATA &obj) {
     switch (obj.item_type) {
     default: ch.send_to("That is not a container.\n\r"); break;
 
@@ -867,7 +867,7 @@ const char *try_get_descr(const OBJ_DATA &obj, std::string_view name) {
     return nullptr;
 }
 
-bool handled_as_look_at_object(CHAR_DATA &ch, std::string_view first_arg) {
+bool handled_as_look_at_object(Char &ch, std::string_view first_arg) {
     auto &&[number, obj_desc] = number_argument(first_arg);
     const auto sn = skill_lookup("lore");
     int count = 0;
@@ -920,7 +920,7 @@ bool handled_as_look_at_object(CHAR_DATA &ch, std::string_view first_arg) {
     return false;
 }
 
-void look_direction(const CHAR_DATA &ch, Direction door) {
+void look_direction(const Char &ch, Direction door) {
     const auto *pexit = ch.in_room->exit[door];
     if (!pexit) {
         ch.send_to("Nothing special there.\n\r");
@@ -943,7 +943,7 @@ void look_direction(const CHAR_DATA &ch, Direction door) {
 
 }
 
-void do_look(CHAR_DATA *ch, const char *arguments) {
+void do_look(Char *ch, const char *arguments) {
     if (ch->desc == nullptr)
         return;
 
@@ -1014,9 +1014,9 @@ void do_look(CHAR_DATA *ch, const char *arguments) {
 }
 
 /* RT added back for the hell of it */
-void do_read(CHAR_DATA *ch, const char *argument) { do_look(ch, argument); }
+void do_read(Char *ch, const char *argument) { do_look(ch, argument); }
 
-void do_examine(CHAR_DATA *ch, const char *argument) {
+void do_examine(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
@@ -1048,7 +1048,7 @@ void do_examine(CHAR_DATA *ch, const char *argument) {
 /*
  * Thanks to Zrin for auto-exit part.
  */
-void do_exits(const CHAR_DATA *ch, const char *argument) {
+void do_exits(const Char *ch, const char *argument) {
 
     auto fAuto = matches(argument, "auto");
 
@@ -1081,7 +1081,7 @@ void do_exits(const CHAR_DATA *ch, const char *argument) {
     ch->send_to(buf);
 }
 
-void do_worth(CHAR_DATA *ch, const char *argument) {
+void do_worth(Char *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
@@ -1135,7 +1135,7 @@ const char *armour_desc[] = {"divinely armoured against", "almost invulnerable t
                              "armoured against",          "somewhat armoured against",  "slightly armoured against",
                              "barely protected from",     "defenseless against",        "hopelessly vulnerable to"};
 
-void describe_armour(CHAR_DATA *ch, int type, const char *name) {
+void describe_armour(Char *ch, int type, const char *name) {
     char buf[MAX_STRING_LENGTH];
     int armour_index = (GET_AC(ch, type) + 120) / 20;
 
@@ -1152,7 +1152,7 @@ void describe_armour(CHAR_DATA *ch, int type, const char *name) {
     send_to_char(buf, ch);
 }
 
-static void describe_condition(CHAR_DATA *ch) {
+static void describe_condition(Char *ch) {
     char buf[MAX_STRING_LENGTH];
     int drunk = (ch->pcdata->condition[COND_DRUNK] > 10);
     int hungry = (ch->pcdata->condition[COND_FULL] == 0);
@@ -1179,7 +1179,7 @@ const char *get_align_description(int align) {
     return align_descriptions[index];
 }
 
-void do_score(CHAR_DATA *ch, const char *argument) {
+void do_score(Char *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
@@ -1282,7 +1282,7 @@ void do_score(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_affected(CHAR_DATA *ch, const char *argument) {
+void do_affected(Char *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
     AFFECT_DATA *paf;
@@ -1319,7 +1319,7 @@ void do_affected(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_time(CHAR_DATA *ch, const char *argument) {
+void do_time(Char *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
@@ -1360,7 +1360,7 @@ void do_time(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_weather(CHAR_DATA *ch, const char *argument) {
+void do_weather(Char *ch, const char *argument) {
     (void)argument;
     if (!IS_OUTSIDE(ch)) {
         send_to_char("You can't see the weather indoors.\n\r", ch);
@@ -1370,7 +1370,7 @@ void do_weather(CHAR_DATA *ch, const char *argument) {
     send_to_char(weather_info.describe() + "\n\r", ch);
 }
 
-void do_help(CHAR_DATA *ch, const char *argument) {
+void do_help(Char *ch, const char *argument) {
     HELP_DATA *pHelp;
     char argall[MAX_INPUT_LENGTH], argone[MAX_INPUT_LENGTH];
 
@@ -1412,7 +1412,7 @@ void do_help(CHAR_DATA *ch, const char *argument) {
 
 namespace {
 
-std::string_view who_class_name_of(const CHAR_DATA &wch) {
+std::string_view who_class_name_of(const Char &wch) {
     switch (wch.level) {
     case MAX_LEVEL - 0: return "|WIMP|w"sv; break;
     case MAX_LEVEL - 1: return "|YCRE|w"sv; break;
@@ -1427,13 +1427,13 @@ std::string_view who_class_name_of(const CHAR_DATA &wch) {
     return class_table[wch.class_num].who_name;
 }
 
-std::string_view who_race_name_of(const CHAR_DATA &wch) {
+std::string_view who_race_name_of(const Char &wch) {
     return wch.race < MAX_PC_RACE ? pc_race_table[wch.race].who_name : "     "sv;
 }
 
-std::string_view who_clan_name_of(const CHAR_DATA &wch) { return wch.clan() ? wch.clan()->whoname : ""sv; }
+std::string_view who_clan_name_of(const Char &wch) { return wch.clan() ? wch.clan()->whoname : ""sv; }
 
-std::string who_line_for(const CHAR_DATA &to, const CHAR_DATA &wch) {
+std::string who_line_for(const Char &to, const Char &wch) {
     return "[{:3} {} {}] {}{}{}{}{}{}|w{}{}\n\r"_format(
         wch.level, who_race_name_of(wch), who_class_name_of(wch), who_clan_name_of(wch),
         IS_SET(wch.act, PLR_KILLER) ? "(|RKILLER|w) " : "", IS_SET(wch.act, PLR_THIEF) ? "(|RTHIEF|w) " : "",
@@ -1445,7 +1445,7 @@ std::string who_line_for(const CHAR_DATA &to, const CHAR_DATA &wch) {
 }
 
 /* whois command */
-void do_whois(CHAR_DATA *ch, std::string_view argument) {
+void do_whois(Char *ch, std::string_view argument) {
     ArgParser args(argument);
 
     if (args.empty()) {
@@ -1476,7 +1476,7 @@ void do_whois(CHAR_DATA *ch, std::string_view argument) {
 /*
  * New 'who' command originally by Alander of Rivers of Mud.
  */
-void do_who(CHAR_DATA *ch, const char *argument) {
+void do_who(Char *ch, const char *argument) {
     int iClass;
     int iRace;
     int iLevelLower;
@@ -1592,7 +1592,7 @@ void do_who(CHAR_DATA *ch, const char *argument) {
     ch->page_to(output);
 }
 
-void do_count(CHAR_DATA *ch, const char *argument) {
+void do_count(Char *ch, const char *argument) {
     (void)argument;
     auto count = static_cast<size_t>(ranges::distance(descriptors().all_visible_to(*ch)));
     max_on = std::max(count, max_on);
@@ -1603,13 +1603,13 @@ void do_count(CHAR_DATA *ch, const char *argument) {
         send_to_char("There are {} characters on, the most on today was {}.\n\r"_format(count, max_on), ch);
 }
 
-void do_inventory(CHAR_DATA *ch, const char *argument) {
+void do_inventory(Char *ch, const char *argument) {
     (void)argument;
     send_to_char("You are carrying:\n\r", ch);
     show_list_to_char(ch->carrying, ch, true, true);
 }
 
-void do_equipment(CHAR_DATA *ch, const char *argument) {
+void do_equipment(Char *ch, const char *argument) {
     (void)argument;
     OBJ_DATA *obj;
     int iWear;
@@ -1644,7 +1644,7 @@ void do_equipment(CHAR_DATA *ch, const char *argument) {
         send_to_char("Nothing.\n\r", ch);
 }
 
-void do_compare(CHAR_DATA *ch, const char *argument) {
+void do_compare(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     OBJ_DATA *obj1;
@@ -1719,12 +1719,12 @@ void do_compare(CHAR_DATA *ch, const char *argument) {
     act(msg, ch, obj1, obj2, To::Char);
 }
 
-void do_credits(CHAR_DATA *ch, const char *argument) {
+void do_credits(Char *ch, const char *argument) {
     (void)argument;
     do_help(ch, "diku");
 }
 
-void do_where(CHAR_DATA *ch, const char *argument) {
+void do_where(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
 
     one_argument(argument, arg);
@@ -1760,9 +1760,9 @@ void do_where(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_consider(CHAR_DATA *ch, const char *argument) {
+void do_consider(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     const char *msg;
     int diff;
 
@@ -1805,7 +1805,7 @@ void do_consider(CHAR_DATA *ch, const char *argument) {
         do_mstat(ch, argument);
 }
 
-void set_prompt(CHAR_DATA *ch, const char *prompt) {
+void set_prompt(Char *ch, const char *prompt) {
     if (ch->is_npc()) {
         bug("Set_prompt: NPC.");
         return;
@@ -1813,7 +1813,7 @@ void set_prompt(CHAR_DATA *ch, const char *prompt) {
     ch->pcdata->prompt = prompt;
 }
 
-void do_title(CHAR_DATA *ch, const char *argument) {
+void do_title(Char *ch, const char *argument) {
     if (ch->is_npc())
         return;
 
@@ -1830,7 +1830,7 @@ void do_title(CHAR_DATA *ch, const char *argument) {
     send_to_char("Ok.\n\r", ch);
 }
 
-void do_description(CHAR_DATA *ch, const char *argument) {
+void do_description(Char *ch, const char *argument) {
     if (auto desc_line = smash_tilde(argument); !desc_line.empty()) {
         if (desc_line.front() == '+') {
             ch->description += ltrim(desc_line.substr(1)) + "\n\r";
@@ -1852,7 +1852,7 @@ void do_description(CHAR_DATA *ch, const char *argument) {
     ch->send_to("Your description is:\n\r{}"_format(ch->description.empty() ? "(None).\n\r" : ch->description));
 }
 
-void do_report(CHAR_DATA *ch, const char *argument) {
+void do_report(Char *ch, const char *argument) {
     (void)argument;
     char buf[MAX_INPUT_LENGTH];
 
@@ -1867,7 +1867,7 @@ void do_report(CHAR_DATA *ch, const char *argument) {
     act(buf, ch);
 }
 
-void do_practice(CHAR_DATA *ch, const char *argument) {
+void do_practice(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     int sn;
 
@@ -1898,7 +1898,7 @@ void do_practice(CHAR_DATA *ch, const char *argument) {
         snprintf(buf, sizeof(buf), "You have %d practice sessions left.\n\r", ch->practice);
         send_to_char(buf, ch);
     } else {
-        CHAR_DATA *mob;
+        Char *mob;
         int adept;
 
         if (!IS_AWAKE(ch)) {
@@ -1958,7 +1958,7 @@ void do_practice(CHAR_DATA *ch, const char *argument) {
 /*
  * 'Wimpy' originally by Dionysos.
  */
-void do_wimpy(CHAR_DATA *ch, const char *argument) {
+void do_wimpy(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     int wimpy;
@@ -1985,7 +1985,7 @@ void do_wimpy(CHAR_DATA *ch, const char *argument) {
     send_to_char(buf, ch);
 }
 
-void do_password(CHAR_DATA *ch, const char *argument) {
+void do_password(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     char *pArg;
@@ -2070,11 +2070,11 @@ void do_password(CHAR_DATA *ch, const char *argument) {
 
 /* MrG Scan command */
 
-void do_scan(CHAR_DATA *ch, const char *argument) {
+void do_scan(Char *ch, const char *argument) {
     (void)argument;
     ROOM_INDEX_DATA *current_place;
-    CHAR_DATA *current_person;
-    CHAR_DATA *next_person;
+    Char *current_person;
+    Char *next_person;
     EXIT_DATA *pexit;
     int count_num_rooms;
     int num_rooms_scan = UMAX(1, ch->level / 10);
@@ -2125,7 +2125,7 @@ void do_scan(CHAR_DATA *ch, const char *argument) {
  * alist to list all areas
  */
 
-void do_alist(CHAR_DATA *ch, const char *argument) {
+void do_alist(Char *ch, const char *argument) {
     (void)argument;
     AREA_DATA *pArea;
     BUFFER *buffer = buffer_create();

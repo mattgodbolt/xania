@@ -19,13 +19,13 @@
 
 using namespace fmt::literals;
 
-extern void print_status(const CHAR_DATA *ch, const char *name, const char *master_name, int state, int master_state);
+extern void print_status(const Char *ch, const char *name, const char *master_name, int state, int master_state);
 
-static void print_channel_status(const CHAR_DATA *ch, const char *chan, unsigned long reference, unsigned long flag) {
+static void print_channel_status(const Char *ch, const char *chan, unsigned long reference, unsigned long flag) {
     print_status(ch, chan, "OFF due to quiet mode", !IS_SET(reference, flag), !IS_SET(ch->comm, COMM_QUIET));
 }
 
-void do_channels(const CHAR_DATA *ch, const char *argument) {
+void do_channels(const Char *ch, const char *argument) {
     (void)argument;
 
     /* lists all channels and their status */
@@ -70,7 +70,7 @@ void do_channels(const CHAR_DATA *ch, const char *argument) {
         ch->send_to("You cannot show emotions.\n\r");
 }
 
-static void toggle_channel(CHAR_DATA *ch, unsigned long chan_flag, const char *chan_name) {
+static void toggle_channel(Char *ch, unsigned long chan_flag, const char *chan_name) {
     char buf[MAX_STRING_LENGTH];
 
     if (IS_SET(ch->comm, chan_flag)) {
@@ -84,7 +84,7 @@ static void toggle_channel(CHAR_DATA *ch, unsigned long chan_flag, const char *c
     send_to_char(buf, ch);
 }
 
-void do_quiet(CHAR_DATA *ch, const char *argument) {
+void do_quiet(Char *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_QUIET)) {
         send_to_char("Quiet mode removed.\n\r", ch);
@@ -95,7 +95,7 @@ void do_quiet(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void channel_command(CHAR_DATA *ch, const char *argument, unsigned long chan_flag, const char *chan_name,
+void channel_command(Char *ch, const char *argument, unsigned long chan_flag, const char *chan_name,
                      const char *desc_self, const char *desc_other) {
     char buf[MAX_STRING_LENGTH];
 
@@ -125,12 +125,12 @@ void channel_command(CHAR_DATA *ch, const char *argument, unsigned long chan_fla
     }
 }
 
-void do_announce(CHAR_DATA *ch, const char *argument) {
+void do_announce(Char *ch, const char *argument) {
     (void)argument;
     toggle_channel(ch, COMM_NOANNOUNCE, "Announce");
 }
 
-void do_immtalk(CHAR_DATA *ch, std::string_view argument) {
+void do_immtalk(Char *ch, std::string_view argument) {
     if (argument.empty()) {
         toggle_channel(ch, COMM_NOWIZ, "Immortal");
         return;
@@ -147,43 +147,43 @@ void do_immtalk(CHAR_DATA *ch, std::string_view argument) {
     }
 }
 
-void do_gossip(CHAR_DATA *ch, const char *argument) {
+void do_gossip(Char *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOGOSSIP, "Gossip", "|gYou gossip '%s|g'|w\n\r", "|g$n gossips '$t|g'|w");
 }
 
-void do_auction(CHAR_DATA *ch, const char *argument) {
+void do_auction(Char *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOAUCTION, "Auction", "You auction '%s|w'\n\r", "$n auctions '$t|w'");
 }
 
-void do_music(CHAR_DATA *ch, const char *argument) {
+void do_music(Char *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOMUSIC, "Music", "|PYou MUSIC: '%s|P'|w\n\r", "|P$n MUSIC: '$t|P'|w");
 }
 
-void do_question(CHAR_DATA *ch, const char *argument) {
+void do_question(Char *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOQUESTION, "Q/A", "|GYou question '%s|G'|w\n\r", "|G$n questions '$t|G'|w");
 }
 
-void do_answer(CHAR_DATA *ch, const char *argument) {
+void do_answer(Char *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOQUESTION, "Q/A", "|GYou answer '%s|G'|w\n\r", "|G$n answers '$t|G'|w");
 }
 
-void do_gratz(CHAR_DATA *ch, const char *argument) {
+void do_gratz(Char *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOGRATZ, "Gratz", "|yYou gratz '%s|y'|w\n\r", "|y$n gratzes '$t|y'|w");
 }
 
-void do_allege(CHAR_DATA *ch, const char *argument) {
+void do_allege(Char *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOALLEGE, "Allege", "|pYou allege '%s|p'|w\n\r", "|p$n alleges '$t|p'|w");
 }
 
-void do_philosophise(CHAR_DATA *ch, const char *argument) {
+void do_philosophise(Char *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOPHILOSOPHISE, "Philosophise", "|WYou philosophise '%s|W'|w\n\r",
                     "|W$n philosophises '$t|W'|w");
 }
 
-void do_qwest(CHAR_DATA *ch, const char *argument) {
+void do_qwest(Char *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOQWEST, "Qwest", "|YYou qwest '%s|Y'|w\n\r", "|Y$n qwests '$t|Y'|w");
 }
 
-void do_shout(CHAR_DATA *ch, const char *argument) {
+void do_shout(Char *ch, const char *argument) {
     channel_command(ch, argument, COMM_NOSHOUT, "Shout", "|WYou shout '%s|W'|w\n\r", "|W$n shouts '$t|W'|w");
 }

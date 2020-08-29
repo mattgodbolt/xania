@@ -62,7 +62,7 @@ const std::array<CLAN, NUM_CLANS> clantable = {{
 
 /* End user servicable bits */
 
-void do_clantalk(CHAR_DATA *ch, const char *argument) {
+void do_clantalk(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
 
     auto *orig_clan = ch->desc->person() ? ch->desc->person()->pc_clan() : nullptr;
@@ -132,8 +132,8 @@ void do_clantalk(CHAR_DATA *ch, const char *argument) {
 
 } /* do_clanchannel */
 
-void do_noclanchan(CHAR_DATA *ch, const char *argument) {
-    CHAR_DATA *victim;
+void do_noclanchan(Char *ch, const char *argument) {
+    Char *victim;
 
     /* Check for ability to noclanchan */
     if (ch->is_npc())
@@ -181,9 +181,9 @@ void do_noclanchan(CHAR_DATA *ch, const char *argument) {
                  victim);
 } /* do_noclanchan */
 
-void do_member(CHAR_DATA *ch, const char *argument) {
+void do_member(Char *ch, const char *argument) {
     char buf2[MAX_STRING_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
 
     /* Check for ability to member */
 
@@ -252,9 +252,9 @@ void do_member(CHAR_DATA *ch, const char *argument) {
     } /* ..else */
 } /* do_member */
 
-void mote(CHAR_DATA *ch, const char *argument, int add) {
+void mote(Char *ch, const char *argument, int add) {
     char buf[MAX_STRING_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
 
     /* Check for ability to *mote */
 
@@ -299,11 +299,11 @@ void mote(CHAR_DATA *ch, const char *argument, int add) {
     send_to_char(buf, victim);
 } /* c'est le end */
 
-void do_promote(CHAR_DATA *ch, const char *argument) { mote(ch, argument, 1); }
+void do_promote(Char *ch, const char *argument) { mote(ch, argument, 1); }
 
-void do_demote(CHAR_DATA *ch, const char *argument) { mote(ch, argument, -1); }
+void do_demote(Char *ch, const char *argument) { mote(ch, argument, -1); }
 
-void do_clanwho(CHAR_DATA *ch, const char *argument) {
+void do_clanwho(Char *ch, const char *argument) {
     (void)argument;
     if (ch->is_npc())
         return;
@@ -327,10 +327,10 @@ void do_clanwho(CHAR_DATA *ch, const char *argument) {
  *  Oh well, this one _had_ to be put in some time. Faramir.
  */
 
-void do_clanset(CHAR_DATA *ch, const char *argument) {
+void do_clanset(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char marker;
-    CHAR_DATA *victim;
+    Char *victim;
 
     argument = one_argument(argument, arg1);
 

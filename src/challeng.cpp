@@ -31,9 +31,9 @@ static int check_duel_status(int);
 
 /* Challenge variables.  Lets make them local to this file. */
 namespace {
-CHAR_DATA *challenger = nullptr;
-CHAR_DATA *challengee = nullptr;
-CHAR_DATA *imm = nullptr;
+Char *challenger = nullptr;
+Char *challengee = nullptr;
+Char *imm = nullptr;
 std::string imm_name;
 std::string challenger_name;
 std::string challengee_name;
@@ -47,8 +47,8 @@ bool challenge_fighting = false;
 
 /* And now on with the code. */
 
-void do_challenge(CHAR_DATA *ch, const char *argument) {
-    CHAR_DATA *victim;
+void do_challenge(Char *ch, const char *argument) {
+    Char *victim;
     char arg[MAX_INPUT_LENGTH];
 
     one_argument(argument, arg);
@@ -138,7 +138,7 @@ void do_challenge(CHAR_DATA *ch, const char *argument) {
     challenge_ticker = 4;
 }
 
-void do_accept(CHAR_DATA *ch, const char *argument) {
+void do_accept(Char *ch, const char *argument) {
     (void)argument;
 
     if ((challenger == nullptr) || (((challengee != ch) || (imm == nullptr)) && (ch->level <= 91))) {
@@ -185,7 +185,7 @@ void do_accept(CHAR_DATA *ch, const char *argument) {
     imm_name = imm->name;
 }
 
-void do_refuse(CHAR_DATA *ch, const char *argument) {
+void do_refuse(Char *ch, const char *argument) {
     (void)argument;
 
     if (ch != imm && ch != challenger && ch != challengee) {
@@ -214,7 +214,7 @@ void do_refuse(CHAR_DATA *ch, const char *argument) {
     send_to_char("You can't withdraw from control once you have accepted it.\n\r", ch);
 }
 
-void do_ready(CHAR_DATA *ch, const char *argument) {
+void do_ready(Char *ch, const char *argument) {
     (void)argument;
     if (check_duel_status(1))
         return;
@@ -321,7 +321,7 @@ void do_chal_tick() {
     }
 }
 
-void do_chal_canc(CHAR_DATA *ch) {
+void do_chal_canc(Char *ch) {
     char buf[MAX_STRING_LENGTH];
 
     /* We don't check status here since we are going to quit the duel
@@ -342,9 +342,9 @@ void do_chal_canc(CHAR_DATA *ch) {
     do_chal_tick();
 }
 
-void do_cancel_chal(CHAR_DATA *ch, const char *argument) {
+void do_cancel_chal(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     one_argument(argument, arg);
     victim = get_char_world(ch, arg);
 
@@ -371,9 +371,9 @@ void do_cancel_chal(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_duel(CHAR_DATA *ch, const char *argument) {
+void do_duel(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     one_argument(argument, arg);
     victim = get_char_world(ch, arg);
 
@@ -427,7 +427,7 @@ void tell_results_to(int who) {
 }
 }
 
-int do_check_chal(CHAR_DATA *ch) {
+int do_check_chal(Char *ch) {
     int who;
 
     /* Just check the status here in case of error.  May want to do
@@ -477,7 +477,7 @@ int do_check_chal(CHAR_DATA *ch) {
     return 1;
 }
 
-void do_room_check(CHAR_DATA *ch) {
+void do_room_check(Char *ch) {
     if (check_duel_status(1))
         return;
 
@@ -488,7 +488,7 @@ void do_room_check(CHAR_DATA *ch) {
     do_chal_tick();
 }
 
-void do_flee_check(CHAR_DATA *ch) {
+void do_flee_check(Char *ch) {
     int who;
 
     /* Just check status.  Add more error correction in future
@@ -528,7 +528,7 @@ void do_flee_check(CHAR_DATA *ch) {
     challenge_ticker = 0;
 }
 
-int fighting_duel(CHAR_DATA *ch, CHAR_DATA *victim) {
+int fighting_duel(Char *ch, Char *victim) {
     if (!challenge_fighting)
         return false;
     if (ch->in_room->vnum != CHAL_ROOM)
@@ -540,7 +540,7 @@ int fighting_duel(CHAR_DATA *ch, CHAR_DATA *victim) {
     return true;
 }
 
-int in_duel(const CHAR_DATA *ch) {
+int in_duel(const Char *ch) {
     if (!challenge_fighting)
         return false;
     if (ch->in_room->vnum != CHAL_ROOM)

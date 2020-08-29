@@ -27,7 +27,7 @@ public:
     }
     void removeline() { buffer_removeline(buf_.get()); }
     void shrink() { buffer_shrink(buf_.get()); }
-    void send(CHAR_DATA *ch) { buffer_send(buf_.release(), ch); }
+    void send(Char *ch) { buffer_send(buf_.release(), ch); }
 };
 
 }

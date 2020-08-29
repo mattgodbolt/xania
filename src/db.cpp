@@ -48,7 +48,7 @@ EXTRA_DESCR_DATA *extra_descr_free = nullptr;
 OBJ_DATA *obj_free;
 
 char bug_buf[2 * MAX_INPUT_LENGTH];
-CHAR_DATA *char_list;
+Char *char_list;
 char *help_greeting;
 char log_buf[LOG_BUF_SIZE];
 KILL_DATA kill_table[MAX_LEVEL];
@@ -853,9 +853,9 @@ void area_update() {
  */
 void reset_room(ROOM_INDEX_DATA *pRoom) {
     RESET_DATA *pReset;
-    CHAR_DATA *pMob;
+    Char *pMob;
     OBJ_DATA *pObj;
-    CHAR_DATA *LastMob = nullptr;
+    Char *LastMob = nullptr;
     OBJ_DATA *LastObj = nullptr;
     bool last;
 
@@ -1076,13 +1076,13 @@ void reset_area(AREA_DATA *pArea) {
 /*
  * Create an instance of a mobile.
  */
-CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
+Char *create_mobile(MOB_INDEX_DATA *pMobIndex) {
     if (pMobIndex == nullptr) {
         bug("Create_mobile: nullptr pMobIndex.");
         exit(1);
     }
 
-    auto *mob = new CHAR_DATA;
+    auto *mob = new Char;
     mob->pIndexData = pMobIndex;
 
     mob->name = str_dup(pMobIndex->player_name);
@@ -1171,7 +1171,7 @@ CHAR_DATA *create_mobile(MOB_INDEX_DATA *pMobIndex) {
 }
 
 /* duplicate a mobile exactly -- except inventory */
-void clone_mobile(CHAR_DATA *parent, CHAR_DATA *clone) {
+void clone_mobile(Char *parent, Char *clone) {
     AFFECT_DATA *paf;
 
     if (parent == nullptr || clone == nullptr || parent->is_pc())
@@ -1987,7 +1987,7 @@ void free_string(char *pstr) {
 }
 
 // Now takes parameters (TM was 'ere 10/00)
-void do_areas(CHAR_DATA *ch, const char *argument) {
+void do_areas(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH], cmdBuf[MAX_STRING_LENGTH];
     const char *pArea1rating, *pArea2rating;
     AREA_DATA *pArea1;
@@ -2066,7 +2066,7 @@ void do_areas(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-void do_memory(CHAR_DATA *ch, const char *argument) {
+void do_memory(Char *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
 
@@ -2084,7 +2084,7 @@ void do_memory(CHAR_DATA *ch, const char *argument) {
     send_to_char(buf, ch);
     snprintf(buf, sizeof(buf), "Mobs    %5d(%d new format)\n\r", top_mob_index, newmobs);
     send_to_char(buf, ch);
-    snprintf(buf, sizeof(buf), "(in use)%5d\n\r", CHAR_DATA::num_active());
+    snprintf(buf, sizeof(buf), "(in use)%5d\n\r", Char::num_active());
     send_to_char(buf, ch);
     snprintf(buf, sizeof(buf), "Objs    %5d(%d new format)\n\r", top_obj_index, newobjs);
     send_to_char(buf, ch);
@@ -2103,11 +2103,11 @@ void do_memory(CHAR_DATA *ch, const char *argument) {
     send_to_char(buf, ch);
 }
 
-void do_dump(CHAR_DATA *ch, const char *argument) {
+void do_dump(Char *ch, const char *argument) {
     (void)ch;
     (void)argument;
     int count, count2, num_pcs, aff_count;
-    CHAR_DATA *fch;
+    Char *fch;
     MOB_INDEX_DATA *pMobIndex;
     PC_DATA *pc;
     OBJ_DATA *obj;
@@ -2421,7 +2421,7 @@ char *capitalize(const char *str) {
 /*
  * Append a string to a file.
  */
-void append_file(CHAR_DATA *ch, const char *file, const char *str) {
+void append_file(Char *ch, const char *file, const char *str) {
     FILE *fp;
 
     if (ch->is_npc() || str[0] == '\0')

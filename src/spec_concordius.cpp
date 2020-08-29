@@ -4,7 +4,7 @@
 /*  See the header to file: merc.h for original code copyrights         */
 /************************************************************************/
 
-#include "CHAR_DATA.hpp"
+#include "Char.hpp"
 #include "comm.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
@@ -110,7 +110,7 @@ static inline constexpr std::array patrol_directions{"n", "s", "s", "w", "e", "e
 static inline uint patrol_index = 0;
 static inline uint patrol_pause = 0;
 
-void concordius_patrols(CHAR_DATA *ch) {
+void concordius_patrols(Char *ch) {
     uint random = number_range(0, 100);
     if (random > 90) {
         act(conc_general_emotes[random % conc_general_emotes.size()], ch, nullptr, nullptr, To::Room);
@@ -138,7 +138,7 @@ void concordius_patrols(CHAR_DATA *ch) {
  * Choose a random combat emote based on the proportion of damage he has taken.
  * The emotes at lower health get increasingly desperate...
  */
-void combat_emote(CHAR_DATA *ch, const int percent_hit_lower) {
+void combat_emote(Char *ch, const int percent_hit_lower) {
     auto it = conc_combat_emotes.lower_bound(percent_hit_lower);
     auto end = conc_combat_emotes.upper_bound(percent_hit_lower + 10);
     for (; it != end; ++it) {
@@ -151,7 +151,7 @@ void combat_emote(CHAR_DATA *ch, const int percent_hit_lower) {
     }
 }
 
-void concordius_fights(CHAR_DATA *ch) {
+void concordius_fights(Char *ch) {
     auto percent_hit_lower = (ch->hit * 100) / ch->max_hit;
     combat_emote(ch, percent_hit_lower);
     if (percent_hit_lower < 10 && number_range(0, 5) == 0) {
@@ -167,7 +167,7 @@ void concordius_fights(CHAR_DATA *ch) {
  * Aquila routines
  */
 
-void aquila_patrols(CHAR_DATA *ch) {
+void aquila_patrols(Char *ch) {
     if (!ch->master) {
         interpret(ch, "follow Concordius");
     }
@@ -184,7 +184,7 @@ void aquila_patrols(CHAR_DATA *ch) {
  * Special program for Concordius.
  * Note that this function will be called once every 4 seconds.
  */
-bool spec_concordius(CHAR_DATA *ch) {
+bool spec_concordius(Char *ch) {
     if (ch->position < POS_FIGHTING)
         return false;
     if (ch->position == POS_FIGHTING) {
@@ -199,7 +199,7 @@ bool spec_concordius(CHAR_DATA *ch) {
  * Special program for Concordius' pet eagle Aquila.
  * She follows him around and makes a fuss.
  */
-bool spec_aquila_pet(CHAR_DATA *ch) {
+bool spec_aquila_pet(Char *ch) {
     if (ch->position < POS_FIGHTING) {
         return false;
     }

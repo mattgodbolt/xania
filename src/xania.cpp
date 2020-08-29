@@ -158,7 +158,7 @@ void report_mobile(MOB_INDEX_DATA *mob) {
 
 void check_xania() {
     OBJ_DATA *object;
-    CHAR_DATA *mobile;
+    Char *mobile;
 
     bug("obj> **********************************************************************");
     bug("obj> **               Beginning sweep of all object in Xania             **");
@@ -185,7 +185,7 @@ void check_xania() {
     bug("mob> **********************************************************************");
 }
 
-void do_immworth(CHAR_DATA *ch, const char *argument) {
+void do_immworth(Char *ch, const char *argument) {
     OBJ_DATA *obj;
     int worth, shouldbe;
     char buf[MAX_STRING_LENGTH];
@@ -214,7 +214,7 @@ void do_immworth(CHAR_DATA *ch, const char *argument) {
 }
 
 /* do_prefix added 19-05-97 PCFN */
-void do_prefix(CHAR_DATA *ch, const char *argument) {
+void do_prefix(Char *ch, const char *argument) {
     if (ch = ch->player(); !ch)
         return;
 
@@ -236,7 +236,7 @@ void do_prefix(CHAR_DATA *ch, const char *argument) {
 }
 
 /* do_timezone added PCFN 24-05-97 */
-void do_timezone(CHAR_DATA *ch, const char *argument) {
+void do_timezone(Char *ch, const char *argument) {
     if (ch = ch->player(); !ch)
         return;
 
@@ -259,7 +259,7 @@ void do_timezone(CHAR_DATA *ch, const char *argument) {
 
 /*****************************************
  ******************************************************************/
-int get_skill_level(const CHAR_DATA *ch, int gsn) {
+int get_skill_level(const Char *ch, int gsn) {
     int level = 0, bonus;
 
     if (ch = ch->player(); !ch)
@@ -299,7 +299,7 @@ int get_skill_level(const CHAR_DATA *ch, int gsn) {
 }
 
 /*****************************************/
-int get_skill_difficulty(CHAR_DATA *ch, int gsn) {
+int get_skill_difficulty(Char *ch, int gsn) {
     int level, hard, bonus;
 
     if ((level = get_skill_level(ch, gsn)) == 0) /* ie you can't gain it ever! */
@@ -333,7 +333,7 @@ int get_skill_difficulty(CHAR_DATA *ch, int gsn) {
 }
 
 /*****************************************/
-int get_skill_trains(CHAR_DATA *ch, int gsn) {
+int get_skill_trains(Char *ch, int gsn) {
     int number;
     if ((number = get_skill_level(ch, gsn)) >= 60 && (ch->level < 60))
         /* can't show it */
@@ -352,7 +352,7 @@ int get_skill_trains(CHAR_DATA *ch, int gsn) {
 
 // New skill learned function - use instead of looking it up directly in the pcdata!!
 // Similar to get_skill
-int get_skill_learned(CHAR_DATA *ch, int skill_number) {
+int get_skill_learned(Char *ch, int skill_number) {
     // Mobs calling this get either 100 or 90
     if (ch->is_npc()) {
         if (is_affected(ch, gsn_insanity))
@@ -369,7 +369,7 @@ int get_skill_learned(CHAR_DATA *ch, int skill_number) {
 
 /*****************************************
  ******************************************************************/
-int get_group_trains(CHAR_DATA *ch, int gsn) {
+int get_group_trains(Char *ch, int gsn) {
     int number;
     if ((number = get_group_level(ch, gsn)) >= 60 && (ch->level < 60))
         /* can't show it */
@@ -384,7 +384,7 @@ int get_group_trains(CHAR_DATA *ch, int gsn) {
     return (group_table[gsn].rating[ch->class_num]);
 }
 
-int get_group_level(CHAR_DATA *ch, int gsn) {
+int get_group_level(Char *ch, int gsn) {
     switch (group_table[gsn].rating[ch->class_num]) {
     case 0: return 0;
     case -1: return 60;
@@ -400,7 +400,7 @@ int get_group_level(CHAR_DATA *ch, int gsn) {
  ******************************************************************/
 int is_made_of(OBJ_DATA *obj, const char *material);
 
-int check_material_vulnerability(CHAR_DATA *ch, OBJ_DATA *object) {
+int check_material_vulnerability(Char *ch, OBJ_DATA *object) {
 
     if (IS_SET(ch->vuln_flags, VULN_WOOD)) {
         if (is_made_of(object, "wood"))
@@ -430,7 +430,7 @@ int is_made_of(OBJ_DATA *obj, const char *material) {
 /*****************************************
  ******************************************************************/
 
-void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
+void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
     (void)vo;
@@ -484,7 +484,7 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
         return;
     } else {
         char buf[MAX_STRING_LENGTH];
-        CHAR_DATA *animated;
+        Char *animated;
 
         act("$s stands up.", ch, nullptr, obj, To::Room);
         act("$s stands up.", ch, nullptr, obj, To::Char);
@@ -515,17 +515,17 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
     }
 }
 
-void do_smit(CHAR_DATA *ch, const char *argument) {
+void do_smit(Char *ch, const char *argument) {
     (void)argument;
     send_to_char("If you wish to smite someone, then SPELL it out!\n\r", ch);
 }
 
-void do_smite(CHAR_DATA *ch, const char *argument) {
+void do_smite(Char *ch, const char *argument) {
     /* Power of the Immortals! By Faramir
                                  Don't use this too much, it hurts :) */
 
     const char *smitestring;
-    CHAR_DATA *victim;
+    Char *victim;
     OBJ_DATA *obj;
 
     if (argument[0] == '\0') {
@@ -612,7 +612,7 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
 
 /* web related functions */
 
-bool web_see(CHAR_DATA *ch) {
+bool web_see(Char *ch) {
 
     if (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL) || IS_SET(ch->act, PLR_AFK)
         || IS_AFFECTED(ch, AFF_INVISIBLE) || IS_AFFECTED(ch, AFF_SNEAK) || IS_AFFECTED(ch, AFF_HIDE))
@@ -718,14 +718,14 @@ void tip_players() {
     }
     auto tip = "|WTip: {}|w\n\r"_format(tip_current->tip);
     for (auto &d : descriptors().playing()) {
-        CHAR_DATA *ch = d.person();
+        Char *ch = d.person();
         if (is_set_extra(ch, EXTRA_TIP_WIZARD))
             send_to_char(tip, ch);
     }
     tip_current = tip_current->next;
 }
 
-void do_tipwizard(CHAR_DATA *ch, const char *arg) {
+void do_tipwizard(Char *ch, const char *arg) {
 
     if (arg[0] == '\0') {
         if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {

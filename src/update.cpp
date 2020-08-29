@@ -29,9 +29,9 @@ using namespace fmt::literals;
 /*
  * Local functions.
  */
-int hit_gain(CHAR_DATA *ch);
-int mana_gain(CHAR_DATA *ch);
-int move_gain(CHAR_DATA *ch);
+int hit_gain(Char *ch);
+int mana_gain(Char *ch);
+int move_gain(Char *ch);
 void mobile_update();
 void weather_update();
 void char_update();
@@ -47,7 +47,7 @@ static const uint32_t save_every_n = 30u;
 uint32_t save_number = 0;
 
 /* Advancement stuff. */
-void advance_level(CHAR_DATA *ch) {
+void advance_level(Char *ch) {
     char buf[MAX_STRING_LENGTH];
     int add_hp;
     int add_mana;
@@ -108,7 +108,7 @@ void advance_level(CHAR_DATA *ch) {
     announce("|W### |P{}|W has made a level!!!|w"_format(ch->name), ch);
 }
 
-void lose_level(CHAR_DATA *ch) {
+void lose_level(Char *ch) {
     char buf[MAX_STRING_LENGTH];
     int add_hp;
     int add_mana;
@@ -157,7 +157,7 @@ void lose_level(CHAR_DATA *ch) {
     announce("|W### |P{}|W has lost a level!!!|w"_format(ch->name), ch);
 }
 
-void gain_exp(CHAR_DATA *ch, int gain) {
+void gain_exp(Char *ch, int gain) {
     if (ch->is_npc() || ch->level >= LEVEL_HERO)
         return;
 
@@ -175,7 +175,7 @@ void gain_exp(CHAR_DATA *ch, int gain) {
 /*
  * Regeneration stuff.
  */
-int hit_gain(CHAR_DATA *ch) {
+int hit_gain(Char *ch) {
     int gain;
     int number;
 
@@ -229,7 +229,7 @@ int hit_gain(CHAR_DATA *ch) {
     return UMIN(gain, ch->max_hit - ch->hit);
 }
 
-int mana_gain(CHAR_DATA *ch) {
+int mana_gain(Char *ch) {
     int gain;
     int number;
 
@@ -276,7 +276,7 @@ int mana_gain(CHAR_DATA *ch) {
     return UMIN(gain, ch->max_mana - ch->mana);
 }
 
-int move_gain(CHAR_DATA *ch) {
+int move_gain(Char *ch) {
     int gain;
 
     if (ch->is_npc()) {
@@ -311,7 +311,7 @@ int move_gain(CHAR_DATA *ch) {
     return UMIN(gain, ch->max_move - ch->move);
 }
 
-void gain_condition(CHAR_DATA *ch, int iCond, int value) {
+void gain_condition(Char *ch, int iCond, int value) {
     int condition;
 
     if (value == 0 || ch->is_npc() || ch->level >= LEVEL_HERO)
@@ -342,8 +342,8 @@ void gain_condition(CHAR_DATA *ch, int iCond, int value) {
  * -- Furey
  */
 void mobile_update() {
-    CHAR_DATA *ch;
-    CHAR_DATA *ch_next;
+    Char *ch;
+    Char *ch_next;
     EXIT_DATA *pexit;
 
     /* Examine all mobs. */
@@ -430,7 +430,7 @@ void weather_update() {
  * If a char was idle and been sent to the limbo room and they send a command, return them to
  * their previous room.
  */
-void move_active_char_from_limbo(CHAR_DATA *ch) {
+void move_active_char_from_limbo(Char *ch) {
     if (ch == nullptr || ch->desc == nullptr || !ch->desc->is_playing() || ch->was_in_room == nullptr
         || ch->in_room != get_room_index(ROOM_VNUM_LIMBO))
         return;
@@ -451,7 +451,7 @@ void move_active_char_from_limbo(CHAR_DATA *ch) {
 /**
  * If a chars is idle, move it into the "limbo" room along with its pets.
  */
-void move_idle_char_to_limbo(CHAR_DATA *ch) {
+void move_idle_char_to_limbo(Char *ch) {
     if (++ch->timer >= 12) {
         if (ch->was_in_room == nullptr && ch->in_room != nullptr) {
             ch->was_in_room = ch->in_room;
@@ -479,9 +479,9 @@ void move_idle_char_to_limbo(CHAR_DATA *ch) {
  * Update all chars, including mobs.
  */
 void char_update() {
-    CHAR_DATA *ch;
-    CHAR_DATA *ch_next;
-    CHAR_DATA *ch_quit;
+    Char *ch;
+    Char *ch_next;
+    Char *ch_quit;
 
     ch_quit = nullptr;
 
@@ -597,7 +597,7 @@ void char_update() {
 
         if (is_affected(ch, gsn_plague) && ch != nullptr) {
             AFFECT_DATA *af, plague;
-            CHAR_DATA *vch;
+            Char *vch;
             int save, dam;
 
             if (ch->in_room == nullptr)
@@ -682,7 +682,7 @@ void obj_update() {
     AFFECT_DATA *paf, *paf_next;
 
     for (obj = object_list; obj != nullptr; obj = obj_next) {
-        CHAR_DATA *rch;
+        Char *rch;
         const char *message;
 
         obj_next = obj->next;
@@ -771,12 +771,12 @@ void obj_update() {
  *
  * -- Furey
  */
-void do_aggressive_sentient(CHAR_DATA *, CHAR_DATA *);
+void do_aggressive_sentient(Char *, Char *);
 void aggr_update() {
-    CHAR_DATA *wch;
-    CHAR_DATA *wch_next;
-    CHAR_DATA *ch;
-    CHAR_DATA *ch_next;
+    Char *wch;
+    Char *wch_next;
+    Char *ch;
+    Char *ch_next;
 
     for (wch = char_list; wch != nullptr; wch = wch_next) {
         wch_next = wch->next;
@@ -809,10 +809,10 @@ void aggr_update() {
     }
 }
 
-void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
-    CHAR_DATA *vch;
-    CHAR_DATA *vch_next;
-    CHAR_DATA *victim;
+void do_aggressive_sentient(Char *wch, Char *ch) {
+    Char *vch;
+    Char *vch_next;
+    Char *victim;
     int count;
 
     if (IS_SET(ch->act, ACT_SENTIENT) && ch->fighting == nullptr && !IS_AFFECTED(ch, AFF_CALM) && IS_AWAKE(ch)
@@ -862,7 +862,7 @@ void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
  * mob encountered his foe in a safe room --fara
  */
 
-bool is_safe_sentient(CHAR_DATA *ch, CHAR_DATA *wch) {
+bool is_safe_sentient(Char *ch, Char *wch) {
     if (ch->in_room == nullptr)
         return false;
     if (IS_SET(ch->in_room->room_flags, ROOM_SAFE)) {

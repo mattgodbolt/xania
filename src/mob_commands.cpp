@@ -35,8 +35,8 @@ using namespace fmt::literals;
  * Local functions.
  */
 
-ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, std::string_view arg);
-void do_transfer(CHAR_DATA *ch, std::string_view argument);
+ROOM_INDEX_DATA *find_location(Char *ch, std::string_view arg);
+void do_transfer(Char *ch, std::string_view argument);
 
 /* This routine transfers between alpha and numeric forms of the
  *  mob_prog bitvector types. It allows the words to show up in mpstat to
@@ -66,11 +66,11 @@ const char *mprog_type_to_name(int type) {
  * show the MOBprograms which are set.
  */
 
-void do_mpstat(CHAR_DATA *ch, const char *argument) {
+void do_mpstat(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     MPROG_DATA *mprg;
-    CHAR_DATA *victim;
+    Char *victim;
 
     one_argument(argument, arg);
 
@@ -115,7 +115,7 @@ void do_mpstat(CHAR_DATA *ch, const char *argument) {
 
 /* prints the argument to all the rooms aroud the mobile */
 
-void do_mpasound(CHAR_DATA *ch, const char *argument) {
+void do_mpasound(Char *ch, const char *argument) {
 
     ROOM_INDEX_DATA *was_in_room;
 
@@ -146,9 +146,9 @@ void do_mpasound(CHAR_DATA *ch, const char *argument) {
 
 /* lets the mobile kill any player or mobile without murder*/
 
-void do_mpkill(CHAR_DATA *ch, const char *argument) {
+void do_mpkill(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
 
     if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
@@ -189,7 +189,7 @@ void do_mpkill(CHAR_DATA *ch, const char *argument) {
    it can also destroy a worn object and it can destroy
    items using all.xxxxx or just plain all of them */
 
-void do_mpjunk(CHAR_DATA *ch, const char *argument) {
+void do_mpjunk(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     OBJ_DATA *obj_next;
@@ -228,9 +228,9 @@ void do_mpjunk(CHAR_DATA *ch, const char *argument) {
 
 /* prints the message to everyone in the room other than the mob and victim */
 
-void do_mpechoaround(CHAR_DATA *ch, const char *argument) {
+void do_mpechoaround(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
 
     if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
@@ -254,9 +254,9 @@ void do_mpechoaround(CHAR_DATA *ch, const char *argument) {
 
 /* prints the message to only the victim */
 
-void do_mpechoat(CHAR_DATA *ch, const char *argument) {
+void do_mpechoat(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
 
     if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
@@ -280,7 +280,7 @@ void do_mpechoat(CHAR_DATA *ch, const char *argument) {
 
 /* prints the message to the room at large */
 
-void do_mpecho(CHAR_DATA *ch, const char *argument) {
+void do_mpecho(Char *ch, const char *argument) {
     if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
         return;
@@ -298,10 +298,10 @@ void do_mpecho(CHAR_DATA *ch, const char *argument) {
 are loaded into inventory.  you can specify a level with
 the load object portion as well. */
 
-void do_mpmload(CHAR_DATA *ch, const char *argument) {
+void do_mpmload(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     MOB_INDEX_DATA *pMobIndex;
-    CHAR_DATA *victim;
+    Char *victim;
 
     if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
@@ -324,7 +324,7 @@ void do_mpmload(CHAR_DATA *ch, const char *argument) {
     char_to_room(victim, ch->in_room);
 }
 
-void do_mpoload(CHAR_DATA *ch, const char *argument) {
+void do_mpoload(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     OBJ_INDEX_DATA *pObjIndex;
@@ -361,9 +361,9 @@ void do_mpoload(CHAR_DATA *ch, const char *argument) {
    itself, but this had best be the last command in the MOBprogram
    otherwise ugly stuff will happen */
 
-void do_mppurge(CHAR_DATA *ch, const char *argument) {
+void do_mppurge(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     OBJ_DATA *obj;
 
     if (ch->is_pc()) {
@@ -375,7 +375,7 @@ void do_mppurge(CHAR_DATA *ch, const char *argument) {
 
     if (arg[0] == '\0') {
         /* 'purge' */
-        CHAR_DATA *vnext;
+        Char *vnext;
         OBJ_DATA *obj_next;
 
         for (victim = ch->in_room->people; victim != nullptr; victim = vnext) {
@@ -411,7 +411,7 @@ void do_mppurge(CHAR_DATA *ch, const char *argument) {
 
 /* lets the mobile goto any location it wishes that is not private */
 
-void do_mpgoto(CHAR_DATA *ch, const char *argument) {
+void do_mpgoto(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
 
@@ -440,11 +440,11 @@ void do_mpgoto(CHAR_DATA *ch, const char *argument) {
 
 /* lets the mobile do a command at another location. Very useful */
 
-void do_mpat(CHAR_DATA *ch, const char *argument) {
+void do_mpat(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
     ROOM_INDEX_DATA *original;
-    CHAR_DATA *wch;
+    Char *wch;
 
     if (ch->is_pc()) {
         send_to_char("Huh?\n\r", ch);
@@ -484,7 +484,7 @@ void do_mpat(CHAR_DATA *ch, const char *argument) {
 /* lets the mobile transfer people.  the all argument transfers
    everyone in the current room to the specified location */
 
-void do_mptransfer(CHAR_DATA *ch, const char *argument) {
+void do_mptransfer(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
@@ -528,7 +528,7 @@ void do_mptransfer(CHAR_DATA *ch, const char *argument) {
         }
     }
 
-    CHAR_DATA *victim;
+    Char *victim;
     if ((victim = get_char_world(ch, arg1)) == nullptr) {
         bug("Mptransfer - No such person from vnum %d.", ch->pIndexData->vnum);
         return;
@@ -549,7 +549,7 @@ void do_mptransfer(CHAR_DATA *ch, const char *argument) {
 /* lets the mobile force someone to do something.  must be mortal level
    and the all argument only affects those in the room with the mobile */
 
-void do_mpforce(CHAR_DATA *ch, const char *argument) {
+void do_mpforce(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
 
     if (ch->is_pc()) {
@@ -565,8 +565,8 @@ void do_mpforce(CHAR_DATA *ch, const char *argument) {
     }
 
     if (!str_cmp(arg, "all")) {
-        CHAR_DATA *vch;
-        CHAR_DATA *vch_next;
+        Char *vch;
+        Char *vch_next;
 
         for (vch = char_list; vch != nullptr; vch = vch_next) {
             vch_next = vch->next;
@@ -576,7 +576,7 @@ void do_mpforce(CHAR_DATA *ch, const char *argument) {
             }
         }
     } else {
-        CHAR_DATA *victim;
+        Char *victim;
 
         if ((victim = get_char_room(ch, arg)) == nullptr) {
             bug("Mpforce - No such victim from vnum %d.", ch->pIndexData->vnum);

@@ -2,6 +2,6 @@
 
 #include <string>
 
-struct CHAR_DATA;
+struct Char;
 
-std::string describe_fight_condition(const CHAR_DATA &victim);
+std::string describe_fight_condition(const Char &victim);

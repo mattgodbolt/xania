@@ -9,5 +9,5 @@
 
 void startchat(const char *);
 std::string dochat(std::string_view player_name, std::string_view msg, std::string_view npc_name);
-void chatperform(CHAR_DATA *to_npc, CHAR_DATA *from_player, std::string_view msg);
-void chatperformtoroom(std::string_view text, CHAR_DATA *ch);
+void chatperform(Char *to_npc, Char *from_player, std::string_view msg);
+void chatperformtoroom(std::string_view text, Char *ch);

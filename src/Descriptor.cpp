@@ -243,7 +243,7 @@ void Descriptor::note_input(std::string_view char_name, std::string_view input) 
         snooper->write(snooped_msg);
 }
 
-void Descriptor::do_switch(CHAR_DATA *victim) {
+void Descriptor::do_switch(Char *victim) {
     if (is_closed())
         return;
 
