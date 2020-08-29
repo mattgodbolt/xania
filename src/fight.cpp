@@ -527,7 +527,8 @@ void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
                 if (IS_SET(wield->value[4], WEAPON_VORPAL)) {
                     if (dam == (1 + wield->value[2]) * wield->value[1] / 2) {
                         dam *= 4;
-                        bug("one_hit:QUAD_DAM with %s [%d] by %s", wield->name, wield->pIndexData->vnum, ch->name.c_str());
+                        bug("one_hit:QUAD_DAM with %s [%d] by %s", wield->name, wield->pIndexData->vnum,
+                            ch->name.c_str());
                         act("With a blood curdling scream you leap forward swinging\n\ryour weapon in a great arc.", ch,
                             nullptr, victim, To::Char);
                         act("$n screams and leaps forwards swinging $s weapon in a great arc.", ch, nullptr, victim,

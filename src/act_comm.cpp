@@ -54,7 +54,7 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
                deletes. Eventually, info will have to be deleted from cached
                info if it is in there */
             cursor = player_list;
-            if (cursor && cursor->name ==  ch->name) {
+            if (cursor && cursor->name == ch->name) {
                 player_list = player_list->next;
                 free_string(cursor->name);
                 free_mem(cursor, sizeof(KNOWN_PLAYERS));
@@ -76,7 +76,7 @@ void do_delete(CHAR_DATA *ch, const char *argument) {
              cached of course! */
             remove_info_for_player(ch->name);
 
-            auto strsave = "{}{}"_format(PLAYER_DIR,  upper_first_character(ch->name));
+            auto strsave = "{}{}"_format(PLAYER_DIR, upper_first_character(ch->name));
             do_quit(ch, "");
             unlink(strsave.c_str());
             return;

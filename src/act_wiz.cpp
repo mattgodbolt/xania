@@ -811,9 +811,7 @@ void do_ostat(CHAR_DATA *ch, const char *argument) {
 
     ch->send_to("In room: {}  In object: {}  Carried by: {}  Wear_loc: {}\n\r"_format(
         obj->in_room == nullptr ? 0 : obj->in_room->vnum, obj->in_obj == nullptr ? "(none)" : obj->in_obj->short_descr,
-        obj->carried_by == nullptr     ? "(none)"
-        : can_see(ch, obj->carried_by) ? obj->carried_by->name
-                                       : "someone",
+        obj->carried_by == nullptr ? "(none)" : can_see(ch, obj->carried_by) ? obj->carried_by->name : "someone",
         obj->wear_loc));
 
     bug_snprintf(buf, sizeof(buf), "Values: %d %d %d %d %d\n\r", obj->value[0], obj->value[1], obj->value[2],
@@ -1274,16 +1272,13 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
-    ch->send_to("Name: {}     Clan: {}     Rank: {}.\n\r"_format(victim->name,
-                victim->clan() ? victim->clan()->name : "(none)",
-                victim->pc_clan() ? victim->pc_clan()->level_name() : "(none)"));
+    ch->send_to("Name: {}     Clan: {}     Rank: {}.\n\r"_format(
+        victim->name, victim->clan() ? victim->clan()->name : "(none)",
+        victim->pc_clan() ? victim->pc_clan()->level_name() : "(none)"));
 
     bug_snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
                  victim->is_npc() ? victim->pIndexData->vnum : 0, victim->is_npc() ? ".are" : "pc",
-                 race_table[victim->race].name,
-                 victim->sex == 1   ? "male"
-                 : victim->sex == 2 ? "female"
-                                    : "neutral",
+                 race_table[victim->race].name, victim->sex == 1 ? "male" : victim->sex == 2 ? "female" : "neutral",
                  victim->in_room == nullptr ? 0 : victim->in_room->vnum);
     send_to_char(buf, ch);
 
@@ -1410,12 +1405,12 @@ void do_mstat(CHAR_DATA *ch, const char *argument) {
         send_to_char(buf, ch);
     }
 
-    ch->send_to("Master: {}  Leader: {}  Pet: {}\n\r"_format(
-                victim->master ? victim->master->name : "(none)", victim->leader ? victim->leader->name : "(none)",
-                victim->pet ? victim->pet->name : "(none)"));
+    ch->send_to("Master: {}  Leader: {}  Pet: {}\n\r"_format(victim->master ? victim->master->name : "(none)",
+                                                             victim->leader ? victim->leader->name : "(none)",
+                                                             victim->pet ? victim->pet->name : "(none)"));
 
     ch->send_to("Riding: {}  Ridden by: {}\n\r"_format(victim->riding ? victim->riding->name : "(none)",
-                victim->ridden_by ? victim->ridden_by->name : "(none)"));
+                                                       victim->ridden_by ? victim->ridden_by->name : "(none)"));
 
     ch->send_to("Short description: {}\n\rLong  description: {}"_format(
         victim->short_descr, victim->long_descr.empty() ? "(none)\n\r" : victim->long_descr));

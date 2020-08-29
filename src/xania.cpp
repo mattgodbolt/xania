@@ -588,7 +588,7 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
     }
 
     ch->send_to("You |W>>> |YSMITE|W <<<|w {} with all of your Godly powers!\n\r"_format(
-                (victim == ch) ? "yourself" : victim->name));
+        (victim == ch) ? "yourself" : victim->name));
 
     victim->hit /= 2; /* easiest way of halving hp? */
     if (victim->hit < 1)

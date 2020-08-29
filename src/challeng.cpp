@@ -415,12 +415,14 @@ namespace {
 void tell_results_to(int who) {
     if (who == 0) {
         challenger->send_to("|cYou have lost your fight to the death with {}.|w\n\r"_format(challengee->name));
-        challengee->send_to("|cCongratulations! You have won the fight to the death with {}.|w\n\r"_format(challenger->name));
+        challengee->send_to(
+            "|cCongratulations! You have won the fight to the death with {}.|w\n\r"_format(challenger->name));
     }
 
     if (who == 1) {
         challengee->send_to("|cYou have lost your fight to the death with {}.|w\n\r"_format(challenger->name));
-        challenger->send_to("|cCongratulations! You have won the fight to the death with {}.|w\n\r"_format(challengee->name));
+        challenger->send_to(
+            "|cCongratulations! You have won the fight to the death with {}.|w\n\r"_format(challengee->name));
     }
 }
 }
@@ -455,8 +457,9 @@ int do_check_chal(CHAR_DATA *ch) {
     }
     transfer(imm, ch, altar);
 
-    announce("|W### |P{}|W was defeated in a duel to the death with |P{}|W.|w"_format(ch->name,
-                                                                                      who == 0 ? challengee->name : challenger->name), imm);
+    announce("|W### |P{}|W was defeated in a duel to the death with |P{}|W.|w"_format(
+                 ch->name, who == 0 ? challengee->name : challenger->name),
+             imm);
 
     tell_results_to(who);
 
@@ -506,8 +509,9 @@ void do_flee_check(CHAR_DATA *ch) {
     else
         who = 1;
 
-    announce("|W### |P{} |Whas cowardly fled from |P{}|W."_format(ch->name,
-                                                                  who == 0 ? challengee->name : challenger->name), imm);
+    announce(
+        "|W### |P{} |Whas cowardly fled from |P{}|W."_format(ch->name, who == 0 ? challengee->name : challenger->name),
+        imm);
 
     tell_results_to(who);
 

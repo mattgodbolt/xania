@@ -1678,7 +1678,8 @@ bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex);
 bool room_is_private(ROOM_INDEX_DATA *pRoomIndex);
 bool can_see(const CHAR_DATA *ch, const CHAR_DATA *victim);
 inline std::string_view pers(const CHAR_DATA *ch, const CHAR_DATA *looker) {
-    if (!looker->can_see(*ch)) return "someone";
+    if (!looker->can_see(*ch))
+        return "someone";
     return ch->is_npc() ? ch->short_descr : ch->name;
 }
 bool can_see_obj(const CHAR_DATA *ch, const OBJ_DATA *obj);

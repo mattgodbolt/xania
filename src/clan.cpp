@@ -228,15 +228,16 @@ void do_member(CHAR_DATA *ch, const char *argument) {
             } else {
                 /* In another clan ! */
                 ch->send_to("{} is a member of the {}.\n\rThey must leave that clan first.\n\r"_format(
-                         victim->name, ch->clan()->name));
+                    victim->name, ch->clan()->name));
                 return;
             } /* in your clan? */
         } /* if victim already in a clan */
         victim->pcdata->pcclan.emplace(PCCLAN{ch->clan()});
-        act("{} welcomes {} to the {}"_format(ch->name, victim->name, ch->clan()->name), ch, nullptr, victim, To::NotVict);
+        act("{} welcomes {} to the {}"_format(ch->name, victim->name, ch->clan()->name), ch, nullptr, victim,
+            To::NotVict);
         victim->send_to("You have become {} of the {}.\n\r"_format(ch->pc_clan()->level_name(), ch->clan()->name));
-        ch->send_to("You welcome {} as {} of the {}.\n\r"_format(victim->name, ch->pc_clan()->level_name(),
-                    ch->clan()->name));
+        ch->send_to(
+            "You welcome {} as {} of the {}.\n\r"_format(victim->name, ch->pc_clan()->level_name(), ch->clan()->name));
     } else { /* End adding member */
         /* Removing a person from a clan */
         if (victim->clan() == nullptr || victim->clan()->clanchar != ch->clan()->clanchar) {
@@ -244,9 +245,10 @@ void do_member(CHAR_DATA *ch, const char *argument) {
             return;
         } /* If not in clan */
         victim->pcdata->pcclan.reset();
-        act("{} removes {} from the {}"_format(ch->name, victim->name, ch->clan()->name), ch, nullptr, victim, To::NotVict);
-        victim->send_to( "You have been discharged from the {}.\n\r"_format(ch->clan()->name));
-        ch->send_to( "You remove {} from the {}.\n\r"_format(victim->name, ch->clan()->name));
+        act("{} removes {} from the {}"_format(ch->name, victim->name, ch->clan()->name), ch, nullptr, victim,
+            To::NotVict);
+        victim->send_to("You have been discharged from the {}.\n\r"_format(ch->clan()->name));
+        ch->send_to("You remove {} from the {}.\n\r"_format(victim->name, ch->clan()->name));
     } /* ..else */
 } /* do_member */
 
@@ -390,7 +392,7 @@ void do_clanset(CHAR_DATA *ch, const char *argument) {
 
             victim->pcdata->pcclan.emplace(PCCLAN{clan_to_add_to});
             ch->send_to("You set {} as {} of the {}.\n\r"_format(victim->name, victim->pc_clan()->level_name(),
-                     victim->clan()->name));
+                                                                 victim->clan()->name));
             return;
             break;
         }
