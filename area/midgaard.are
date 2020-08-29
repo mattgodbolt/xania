@@ -926,6 +926,25 @@ BV CDFJZ 1000 0
 FHQT ABP C 0
 stand stand female 0
 0 0 small 0
+#3163
+astradamus summoner~
+Astradamus the Summoner~
+Astradamus the Summoner kneels before the summoning stone. 
+~
+Astradamus is a berobed druid with a bald head. You see that where his eyes once
+were, only a pair of blackened sockets now remain and it leaves you wondering what
+happened to him.
+
+His palms rest gently on the great summoning stone and filaments of light
+from its runes appear to meld with his fingers.
+~
+human~
+BV DFH 1000 0
+75 0 1d1+999 1d1+999 2d4+30 divine
+-20 -15 -15 -15
+FHIK ABCD 0 0
+stand stand male 5000
+0 0 medium 0
 #0
 
 
@@ -2036,9 +2055,9 @@ map midgaard~
                                      Rainbow Bridge (Asgard and Valhalla)
                                     /
           North            Temple Altar   Mud School <--- ** NEWBIES **
-            |   /Up        (Healer, Pit)      |           ** GO HERE **
-            | /                  |       /Entrace to
-     West---+---East             |     /  Mud School
+            |   /Up        (Healer, Pit,      |           ** GO HERE **
+            | /                Tomb)     /Entrace to
+     West---+---East             |      /  Mud School
           / |                 Temple of       |
     Down/   |                   Isca        Arena
           South               (Recall)
@@ -2820,7 +2839,130 @@ A
 23 7
 A
 24 7
-
+#3390
+lesser summoning shard~
+a lesser summoning shard~
+a lesser shard of summoning has been left here.~
+silver~
+treasure GT A
+0 0 0 0 0
+2 1 250 P
+E
+lesser summoning shard~
+This shard can be used to summon corpses of players level 2 to 11.
+~
+#3391
+minor summoning shard~
+a minor summoning shard~
+a minor shard of summoning has been left here.~
+silver~
+treasure GT A
+0 0 0 0 0
+12 1 1950 P
+E
+minor summoning shard~
+This shard can be used to summon corpses of players level 12 to 21
+~
+#3392
+dull summoning shard~
+a dull summoning shard~
+a dull shard of summoning has been left here.~
+silver~
+treasure GT A
+0 0 0 0 0
+22 1 3750 P
+E
+dull summoning shard~
+This shard can be used to summon corpses of players level 22 to 31.
+~
+#3393
+polished summoningshard~
+a polished summoning shard~
+a polished shard of summoning has been left here.~
+silver~
+treasure GT A
+0 0 0 0 0
+32 1 5500 P
+E
+polished summoning shard~
+This shard can be used to summon corpses of players level 32 to 41.
+~
+#3394
+burnished summoning shard~
+a burnished summoning shard~
+a burnished shard of summoning has been left here.~
+silver~
+treasure GT A
+0 0 0 0 0
+42 1 7000 P
+E
+burnished summoning shard~
+This shard can be used to summon corpses of players level 42 to 51.
+~
+#3395
+greater summoning shard~
+a greater summoning shard~
+a greater shard of summoning has been left here.~
+silver~
+treasure GT A
+0 0 0 0 0
+52 1 8850 P
+E
+greater summoning shard~
+This shard can be used to summon corpses of players level 52 to 61.
+~
+#3396
+imbued summoning shard~
+an imbued summoning shard~
+an imbued shard of summoning has been left here.~
+silver~
+treasure GT A
+0 0 0 0 0
+62 1 10450 P
+E
+imbued summoning shard~
+This shard can be used to summon corpses of players level 62 to 71.
+~
+#3397
+sanctified summoning shard~
+a sanctified summoning shard~
+a sanctified shard of summoning has been left here.~
+silver~
+treasure GT A
+0 0 0 0 0
+72 1 12450 P
+E
+sanctified summoning shard~
+This shard can be used to summon corpses of players level 72 to 91.
+~
+#3398
+octarine summoning shard~
+an octarine summoning shard~
+an octarine shard of summoning has been left here.~
+octarine~
+treasure GT A
+0 0 0 0 0
+82 1 14250 P
+E
+octarine summoning shard~
+This shard can be used to summon corpses of players level 82 to 91.
+~
+#3399
+summoning stone~
+a summoning stone~
+A tall summoning stone pulses with an ethereal light.~
+stone~
+furniture 0 0
+0 0 0 0 0
+0 1000 600 G
+E
+summoning stone~
+At several metres in height, the summoning stone towers over the necropolis.
+Its blackened stone surface is zig-zagged with strange runes that
+pulse with a mysterious glow. Clearly this artifact is very ancient and
+you can't help wonder how it got here in the first place. Perhaps it was
+placed here by a powerful deity?
+~
 #0
 
 
@@ -4131,11 +4273,16 @@ S
 Before the Altar of Isca~
 Your feet stand upon the vast expanse of the Temple of Isca. Here, a 
 beautiful marble altar has been placed, its sides engraved with ornate,
-mystical runes and symbols. Pillars of the purest white pearlescent rock 
-stand firmly on either side, supporting a deeply arched roof. The whole
-temple is brightly illuminated by the end of a rainbow which cascades down
-above the temple, almost reaching into the donation pit which opens before
-your feet. In the corners of the hall, stand statues of mythical and 
+mystical runes and symbols. 
+
+Under the altar, stone steps wind downwards towards the necropolis.
+
+Pillars of the purest white pearlescent rock stand firmly on either side,
+supporting a deeply arched roof. The whole temple is brightly illuminated by
+the end of a rainbow which cascades down above the temple, almost reaching
+into the donation pit which opens before your feet. 
+
+In the corners of the hall, stand statues of mythical and 
 legendary figures whose exploits form the ancient history of Xania.
 ~
 30 8|1024 0
@@ -4175,6 +4322,11 @@ The other corners hold vast torsos of mighty warriors, mages,
 barbarians, divinities and legendary explorers, none of whom you
 recognise.
 ~
+D5
+The darkness of the Iscarian necropolis beckons.
+~
+~
+0 -1 3360
 S
 #3056
 The Fountain of Youth Apothecary~
@@ -6213,6 +6365,40 @@ The stairs lead back down to the pub.
 ~
 0 -1 3356
 S
+#3360
+Before the Summoning Stone~
+You are standing in an enormous stone necropolis. Peering through the dusty
+darkness, you see that there are great number of stone
+caskets of all shapes and sizes stacked up against the walls.
+
+A stone pillar etched with mysterious glowing runes pulses with a
+pale light. This must be the Summoning Stone of Astradamus!
+
+A sign has been bolted into the ground before it.
+~
+30 8|1024 0
+D4
+The stairs lead up to the temple.
+~
+~
+0 -1 3054
+E
+sign~
+.   To summon your corpse, purchase a summoning shard appropriate for your character's level 
+    and give it to the summoner. Type 'list' to see the shards for sale. 
+    Shard Type        | Level Range
+    -------------------------------
+    lesser shard      |    2 - 11
+    minor shard       |   12 - 21
+    dull shard        |   22 - 31
+    polished shard    |   32 - 41
+    burnished shard   |   42 - 51
+    greater shard     |   52 - 61
+    imbued shard      |   62 - 71
+    sanctified shard  |   72 - 81
+    octarine shard    |   82 - 91
+~
+S
 #0
 
 #RESETS
@@ -6640,6 +6826,19 @@ O 0 3136 1 3141       20 coins on Penny Lane
 *
 M 0 3012 1 3054 1  1       Healer in temple altar  
 *
+M 0 3163 1 3360 1  1       Astradamus in the necropolis
+G 1 3398 -1    octarine shard
+G 1 3397 -1    sanctified shard
+G 1 3396 -1    imbued shard
+G 1 3395 -1    greater shard
+G 1 3394 -1    burnished shard
+G 1 3393 -1    polished shard
+G 1 3392 -1    dull shard
+G 1 3391 -1    minor shard
+G 1 3390 -1    lesser shard
+*
+O 0 3399 -1 3360      Summoning Stone in the necropolis
+*
 O 0 3011 -1 30012     Put bread safe room
 O 0 3135 -1 30012     Put water safe room
 S
@@ -6665,6 +6864,8 @@ S
  3160  0  0  0  0  0   100 100    0 23 ; Mel's Maps
 
  3100  0  0  0  0  0  110  90  6 23 ; The Maid
+ 3163  0  0  0  0  0  100  200  0 23 ; Summoner
+
 0
 
 #MOBPROGS
@@ -6698,6 +6899,7 @@ M  3120 spec_cast_cleric
 M  3143 spec_mayor
 M  3011 spec_concordius
 M  3162 spec_aquila_pet
+M  3163 spec_summoner
 
 S
 

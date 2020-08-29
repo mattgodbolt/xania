@@ -28,6 +28,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <range/v3/algorithm/find_if.hpp>
 #include <sys/time.h>
 
 using namespace std::literals;
@@ -46,7 +47,7 @@ size_t max_on = 0;
 /*
  * Local functions.
  */
-char *format_obj_to_char(const OBJ_DATA *obj, const CHAR_DATA *ch, bool fShort);
+std::string format_obj_to_char(const OBJ_DATA *obj, const CHAR_DATA *ch, bool fShort);
 void show_list_to_char(const OBJ_DATA *list, const CHAR_DATA *ch, bool fShort, bool fShowNothing);
 void show_char_to_char_0(const CHAR_DATA *victim, const CHAR_DATA *ch);
 void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch);
@@ -56,31 +57,31 @@ bool check_blind(const CHAR_DATA *ch);
 /* Mg's funcy shun */
 void set_prompt(CHAR_DATA *ch, const char *prompt);
 
-char *format_obj_to_char(const OBJ_DATA *obj, const CHAR_DATA *ch, bool fShort) {
-    static char buf[MAX_STRING_LENGTH];
-
-    buf[0] = '\0';
+std::string format_obj_to_char(const OBJ_DATA *obj, const CHAR_DATA *ch, bool fShort) {
+    std::string buf;
     if (IS_OBJ_STAT(obj, ITEM_INVIS))
-        strcat(buf, "(|cInvis|w) ");
-    if (IS_AFFECTED(ch, AFF_DETECT_EVIL) && IS_OBJ_STAT(obj, ITEM_EVIL))
-        strcat(buf, "(|rRed Aura|w) ");
-    if (IS_AFFECTED(ch, AFF_DETECT_MAGIC) && IS_OBJ_STAT(obj, ITEM_MAGIC))
-        strcat(buf, "(|gMagical|w) ");
+        buf += "(|cInvis|w) ";
+    if (ch->has_detect_evil() && IS_OBJ_STAT(obj, ITEM_EVIL))
+        buf += "(|rRed Aura|w) ";
+    if (ch->has_detect_magic() && IS_OBJ_STAT(obj, ITEM_MAGIC))
+        buf += "(|gMagical|w) ";
     if (IS_OBJ_STAT(obj, ITEM_GLOW))
-        strcat(buf, "(|WGlowing|w) ");
+        buf += "(|WGlowing|w) ";
     if (IS_OBJ_STAT(obj, ITEM_HUM))
-        strcat(buf, "(|yHumming|w) ");
+        buf += "(|yHumming|w) ";
 
     if (fShort) {
-        if (obj->short_descr != nullptr)
-            strcat(buf, obj->short_descr);
+        if (obj->short_descr)
+            buf += obj->short_descr;
     } else {
-        if (obj->description != nullptr)
-            strcat(buf, obj->description);
+        if (obj->description)
+            buf += obj->description;
     }
 
-    if ((int)strlen(buf) <= 0)
-        strcat(buf, "This object has no description. Please inform the IMP.");
+    if (buf.empty()) {
+        buf = "This object has no description. Please inform the IMP.";
+        bug("Object %d has no description", obj->pIndexData->vnum);
+    }
 
     return buf;
 }
@@ -90,92 +91,54 @@ char *format_obj_to_char(const OBJ_DATA *obj, const CHAR_DATA *ch, bool fShort) 
  * Can coalesce duplicated items.
  */
 void show_list_to_char(const OBJ_DATA *list, const CHAR_DATA *ch, bool fShort, bool fShowNothing) {
-    char buf[MAX_STRING_LENGTH];
-    char **prgpstrShow;
-    int *prgnShow;
-    char *pstrShow;
-    int nShow;
-    int iShow;
-    bool fCombine;
-    BUFFER *buffer;
-
-    if (ch->desc == nullptr)
+    if (!ch->desc)
         return;
 
-    /*
-     * Alloc space for output lines.
-     */
-    int count = 0;
-    for (auto *obj = list; obj != nullptr; obj = obj->next_content)
-        count++;
-    prgpstrShow = static_cast<char **>(alloc_mem(count * sizeof(char *)));
-    prgnShow = static_cast<int *>(alloc_mem(count * sizeof(int)));
-    nShow = 0;
-    buffer = buffer_create();
+    struct DescAndCount {
+        std::string desc;
+        int count{1};
+    };
+    std::vector<DescAndCount> to_show;
 
-    /*
-     * Format the list of objects.
-     */
+    const bool show_counts = ch->is_npc() || IS_SET(ch->comm, COMM_COMBINE);
+
+    // Format the list of objects.
     for (auto *obj = list; obj != nullptr; obj = obj->next_content) {
         if (obj->wear_loc == WEAR_NONE && can_see_obj(ch, obj)) {
-            pstrShow = format_obj_to_char(obj, ch, fShort);
-            fCombine = false;
+            auto desc = format_obj_to_char(obj, ch, fShort);
+            auto combined_same = false;
 
-            if (ch->is_npc() || IS_SET(ch->comm, COMM_COMBINE)) {
-                /*
-                 * Look for duplicates, case sensitive.
-                 * Matches tend to be near end so run loop backwords.
-                 */
-                for (iShow = nShow - 1; iShow >= 0; iShow--) {
-                    if (!strcmp(prgpstrShow[iShow], pstrShow)) {
-                        prgnShow[iShow]++;
-                        fCombine = true;
-                        break;
-                    }
+            if (show_counts) {
+                // Look for duplicates, case sensitive.
+                if (auto existing = ranges::find_if(to_show, [&](const auto &x) { return x.desc == desc; });
+                    existing != to_show.end()) {
+                    existing->count++;
+                    combined_same = true;
                 }
             }
 
-            /*
-             * Couldn't combine, or didn't want to.
-             */
-            if (!fCombine) {
-                prgpstrShow[nShow] = str_dup(pstrShow);
-                prgnShow[nShow] = 1;
-                nShow++;
-            }
+            // Couldn't combine, or didn't want to.
+            if (!combined_same)
+                to_show.emplace_back(DescAndCount{std::move(desc)});
         }
     }
 
-    /*
-     * Output the formatted list.
-     */
-    for (iShow = 0; iShow < nShow; iShow++) {
-        if (ch->is_npc() || IS_SET(ch->comm, COMM_COMBINE)) {
-            if (prgnShow[iShow] != 1) {
-                snprintf(buf, sizeof(buf), "(%2d) ", prgnShow[iShow]);
-                buffer_addline(buffer, buf);
-            } else {
-                buffer_addline(buffer, "     ");
-            }
-        }
-        buffer_addline(buffer, prgpstrShow[iShow]);
-        buffer_addline(buffer, "\n\r");
-        free_string(prgpstrShow[iShow]);
+    // Output the formatted list.
+    std::string buffer;
+    auto indent = "     "sv;
+    for (const auto &[name, count] : to_show) {
+        if (show_counts)
+            buffer += count > 1 ? "({:2}) "_format(count) : indent;
+        buffer += name + "\n\r";
     }
 
-    if (fShowNothing && nShow == 0) {
-        if (ch->is_npc() || IS_SET(ch->comm, COMM_COMBINE))
-            buffer_addline(buffer, "     ");
-        buffer_addline(buffer, "Nothing.\n\r");
+    if (fShowNothing && to_show.empty()) {
+        if (show_counts)
+            buffer += indent;
+        buffer += "Nothing.\n\r";
     }
 
-    /*
-     * Clean up.
-     */
-    free_mem(prgpstrShow, count * sizeof(char *));
-    free_mem(prgnShow, count * sizeof(int));
-
-    buffer_send(buffer, ch);
+    ch->page_to(buffer);
 }
 
 void show_char_to_char_0(const CHAR_DATA *victim, const CHAR_DATA *ch) {

@@ -25,6 +25,7 @@
 using namespace fmt::literals;
 
 extern const char *target_name; /* Included from magic.c */
+extern void handle_corpse_summoner(CHAR_DATA *ch, CHAR_DATA *victim, OBJ_DATA *obj);
 
 /*
  * Local functions.
@@ -639,6 +640,7 @@ void do_give(CHAR_DATA *ch, const char *argument) {
     act("$n gives you $p.", ch, obj, victim, To::Vict);
     act("You give $p to $N.", ch, obj, victim, To::Char);
 
+    handle_corpse_summoner(ch, victim, obj);
     mprog_give_trigger(victim, ch, obj);
 }
 

@@ -48,6 +48,7 @@ add_library(xania_lib STATIC
         save.cpp
         skills.cpp
         spec_concordius.cpp
+        spec_summoner.cpp
         special.cpp
         tables.cpp
         tables.h

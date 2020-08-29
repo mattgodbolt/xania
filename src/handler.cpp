@@ -1701,6 +1701,8 @@ const char *extra_bit_name(int extra_flags) {
         strcat(buf, " invis");
     if (extra_flags & ITEM_MAGIC)
         strcat(buf, " magic");
+    if (extra_flags & ITEM_SUMMON_CORPSE)
+        strcat(buf, " summon_corpse");
     if (extra_flags & ITEM_NODROP)
         strcat(buf, " nodrop");
     if (extra_flags & ITEM_BLESS)
