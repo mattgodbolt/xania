@@ -1542,7 +1542,7 @@ void add_follower(CHAR_DATA *ch, CHAR_DATA *master);
 void stop_follower(CHAR_DATA *ch);
 void nuke_pets(CHAR_DATA *ch);
 void die_follower(CHAR_DATA *ch);
-bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch);
+bool is_same_group(const CHAR_DATA *ach, const CHAR_DATA *bch);
 void thrown_off(CHAR_DATA *ch, CHAR_DATA *pet);
 void fallen_off_mount(CHAR_DATA *ch);
 

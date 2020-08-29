@@ -904,7 +904,7 @@ void do_gtell(CHAR_DATA *ch, const char *argument) {
  * (2) if A ~ B then B ~ A
  * (3) if A ~ B  and B ~ C, then A ~ C
  */
-bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch) {
+bool is_same_group(const CHAR_DATA *ach, const CHAR_DATA *bch) {
     if (ach->leader != nullptr)
         ach = ach->leader;
     if (bch->leader != nullptr)
