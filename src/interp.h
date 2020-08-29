@@ -294,4 +294,4 @@ extern void do_clanset(CHAR_DATA *ch, const char *arg);
 
 /* Misc stuff */
 extern void announce(std::string_view buf, const CHAR_DATA *ch);
-bool check_social(CHAR_DATA *ch, const char *command, const char *arg);
+bool check_social(CHAR_DATA *ch, std::string_view command, std::string_view argument);

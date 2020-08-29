@@ -500,20 +500,17 @@ void interpret(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-static const struct social_type *find_social(const char *name) {
+static const struct social_type *find_social(std::string_view name) {
     for (int cmd = 0; social_table[cmd].name[0] != '\0'; cmd++) {
-        if (name[0] == social_table[cmd].name[0] && !str_prefix(name, social_table[cmd].name)) {
+        if (matches_start(name, social_table[cmd].name))
             return social_table + cmd;
-        }
     }
     return nullptr;
 }
 
-bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    const struct social_type *social;
-
-    if (!(social = find_social(command)))
+bool check_social(CHAR_DATA *ch, std::string_view command, std::string_view argument) {
+    const auto *social = find_social(command);
+    if (!social)
         return false;
 
     if (ch->is_pc() && IS_SET(ch->comm, COMM_NOEMOTE)) {
@@ -526,12 +523,12 @@ bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
         return true;
     }
 
-    one_argument(argument, arg);
+    ArgParser args(argument);
     CHAR_DATA *victim = nullptr;
-    if (arg[0] == '\0') {
+    if (args.empty()) {
         act(social->others_no_arg, ch, nullptr, victim, To::Room);
         act(social->char_no_arg, ch, nullptr, victim, To::Char);
-    } else if ((victim = get_char_room(ch, arg)) == nullptr) {
+    } else if ((victim = get_char_room(ch, args.shift())) == nullptr) {
         send_to_char("They aren't here.\n\r", ch);
     } else if (victim == ch) {
         act(social->others_auto, ch, nullptr, victim, To::Room);
