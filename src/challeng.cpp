@@ -30,23 +30,24 @@ using namespace fmt::literals;
 static int check_duel_status(int);
 
 /* Challenge variables.  Lets make them local to this file. */
-static CHAR_DATA *challenger = nullptr;
-static CHAR_DATA *challengee = nullptr;
-static CHAR_DATA *imm = nullptr;
-static char imm_name[NAME_SIZE + 1];
-static char challenger_name[NAME_SIZE + 1];
-static char challengee_name[NAME_SIZE + 1];
-static int imm_ready = 0;
-static int challenger_ready = 0;
-static int challengee_ready = 0;
-static int challenge_ticker;
-static bool challenge_active = false;
-static bool challenge_fighting = false;
+namespace {
+CHAR_DATA *challenger = nullptr;
+CHAR_DATA *challengee = nullptr;
+CHAR_DATA *imm = nullptr;
+std::string imm_name;
+std::string challenger_name;
+std::string challengee_name;
+int imm_ready = 0;
+int challenger_ready = 0;
+int challengee_ready = 0;
+int challenge_ticker;
+bool challenge_active = false;
+bool challenge_fighting = false;
+}
 
 /* And now on with the code. */
 
 void do_challenge(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     CHAR_DATA *victim;
     char arg[MAX_INPUT_LENGTH];
 
@@ -130,72 +131,62 @@ void do_challenge(CHAR_DATA *ch, const char *argument) {
     challenge_active = false;
     challenge_fighting = false;
 
-    snprintf(buf, sizeof(buf), "|cYou pray for the right to duel with %s.\n\r", challengee->name);
-    send_to_char(buf, challenger);
-    snprintf(buf, sizeof(buf), "|Ghas challenged %s, any imm takers? (type accept)|w", victim->name);
-    do_immtalk(ch, buf);
-    strncpy(challenger_name, challenger->name, NAME_SIZE);
-    strncpy(challengee_name, challengee->name, NAME_SIZE);
+    challenger->send_to("|cYou pray for the right to duel with {}.\n\r"_format(challengee->name));
+    do_immtalk(ch, "|Ghas challenged {}, any imm takers? (type accept)|w"_format(victim->name));
+    challenger_name = challenger->name;
+    challengee_name = challengee->name;
     challenge_ticker = 4;
 }
 
 void do_accept(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    char buf[MAX_STRING_LENGTH];
 
     if ((challenger == nullptr) || (((challengee != ch) || (imm == nullptr)) && (ch->level <= 91))) {
-        send_to_char("|cSorry, there is no challenge for you to accept.|w\n\r", ch);
+        ch->send_to("|cSorry, there is no challenge for you to accept.|w\n\r");
         return;
     }
 
     if (ch->level < 95 && imm == nullptr) {
-        send_to_char("|cYou have to be level 95 or higher to control a challenge.|w\n\r", ch);
+        ch->send_to("|cYou have to be level 95 or higher to control a challenge.|w\n\r");
         return;
     }
 
     if (imm != nullptr && imm != ch) {
         if (ch->level > 94) {
-            send_to_char("|cSorry, an imm has already accepted to control the challenge.|w\n\r", ch);
+            ch->send_to("|cSorry, an imm has already accepted to control the challenge.|w\n\r");
             return;
         }
 
-        send_to_char("|cType |gready|c when you are ready to be transfered.|w\n\r", imm);
-        send_to_char(
-            "|cThe challenge has been accepted, please wait for the immortals to prepare\n|cthe challenge room.|w\n\r",
-            challenger);
-        send_to_char(
-            "|cThe challenge has been accepted, please wait for the immortals to prepare\n|cthe challenge room.|w\n\r",
-            challengee);
+        imm->send_to("|cType |gready|c when you are ready to be transfered.|w\n\r");
+        challenger->send_to(
+            "|cThe challenge has been accepted, please wait for the immortals to prepare\n|cthe challenge room.|w\n\r");
+        challengee->send_to(
+            "|cThe challenge has been accepted, please wait for the immortals to prepare\n|cthe challenge room.|w\n\r");
         challenge_ticker = 4;
         return;
     }
 
-    snprintf(buf, sizeof(buf),
-             "|cYou have accepted to control the challenge.\n\rNow asking %s if they wish to duel.|w\n\r",
-             challengee->name);
-    send_to_char(buf, ch);
+    ch->send_to("|cYou have accepted to control the challenge.\n\rNow asking {} if they wish to duel.|w\n\r"_format(
+        challengee->name));
 
     if (imm == nullptr) {
         challenger->send_to(
-            "|g{}|c has accepted to control the challenge. Now waiting to see\nif |g{}|c will accept your "
-            "challenge.|w\n\r"_format(pers(ch, challenger), challengee->name));
+            "|g{}|c has accepted to control the challenge. Now waiting to see\n\r"
+            "if |g{}|c will accept your challenge.|w\n\r"_format(pers(ch, challenger), challengee->name));
     }
 
-    snprintf(buf, sizeof(buf), "|CYou have been challenged to a duel to the death by |G%s.\n\r", challenger->name);
-    send_to_char(buf, challengee);
+    challengee->send_to("|CYou have been challenged to a duel to the death by |G{}.\n\r"_format(challenger->name));
 
-    snprintf(buf, sizeof(buf), "|c%s's stats are: level:%d class:%s race:%s alignment:%d.\n\r", challenger->name,
-             challenger->level, class_table[challenger->class_num].name, race_table[challenger->race].name,
-             challenger->alignment);
-    send_to_char(buf, challengee);
-    send_to_char("|cType |paccept |cor |grefuse.\n\r|w", challengee);
+    challengee->send_to("|c{}'s stats are: level:{} class:{} race:{} alignment:{}.\n\r"_format(
+        challenger->name, challenger->level, class_table[challenger->class_num].name, race_table[challenger->race].name,
+        challenger->alignment));
+    challengee->send_to("|cType |paccept |cor |grefuse.\n\r|w");
     imm = ch;
-    strncpy(imm_name, imm->name, NAME_SIZE);
+    imm_name = imm->name;
 }
 
 void do_refuse(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    char buf[MAX_STRING_LENGTH];
 
     if (ch != imm && ch != challenger && ch != challengee) {
         send_to_char("|cRefuse what?|w\n\r", ch);
@@ -203,15 +194,10 @@ void do_refuse(CHAR_DATA *ch, const char *argument) {
     }
 
     if (ch == challengee && imm != nullptr) {
-        snprintf(buf, sizeof(buf), "|cYou have refused to fight to the death with %s.|w\n\r", challenger->name);
-        send_to_char(buf, ch);
-
-        snprintf(buf, sizeof(buf), "|c%s has refused to fight to the death with %s.|w\n\r", challengee->name,
-                 challenger->name);
-        send_to_char(buf, imm);
-
-        snprintf(buf, sizeof(buf), "|c%s has refused to fight to the death with you.|w\n\r", challengee->name);
-        send_to_char(buf, challenger);
+        ch->send_to("|cYou have refused to fight to the death with {}.|w\n\r"_format(challenger->name));
+        imm->send_to(
+            "|c{} has refused to fight to the death with {}.|w\n\r"_format(challengee->name, challenger->name));
+        challenger->send_to("|c{} has refused to fight to the death with you.|w\n\r"_format(challengee->name));
 
         challenger = nullptr;
         challengee = nullptr;
@@ -230,8 +216,6 @@ void do_refuse(CHAR_DATA *ch, const char *argument) {
 
 void do_ready(CHAR_DATA *ch, const char *argument) {
     (void)argument;
-    char buf[MAX_STRING_LENGTH];
-
     if (check_duel_status(1))
         return;
 
@@ -245,36 +229,37 @@ void do_ready(CHAR_DATA *ch, const char *argument) {
         return;
     }
 
+    auto prep_room = get_room_index(CHAL_PREP);
+    if (!prep_room) {
+        bug("Unable to find CHAL_PREP room!");
+        return;
+    }
     if (ch == imm && imm_ready == 0) {
-        snprintf(buf, sizeof(buf), "%s %d", ch->name, CHAL_PREP);
-        do_transfer(imm, buf);
+        transfer(imm, ch, prep_room);
         imm_ready = 1;
         challenge_ticker = 4;
-        snprintf(buf, sizeof(buf), "|cType |gready|c when you are ready to be transfered.|w\n\r");
-        send_to_char(buf, challenger);
-        send_to_char(buf, challengee);
+        auto msg = "|cType |gready|c when you are ready to be transfered.|w\n\r";
+        challenger->send_to(msg);
+        challengee->send_to(msg);
     }
 
     if (ch == challenger && challenger_ready == 0) {
-        snprintf(buf, sizeof(buf), "%s %d", ch->name, CHAL_PREP);
-        do_transfer(imm, buf);
+        transfer(imm, ch, prep_room);
         challenger_ready = 1;
     }
 
     if (ch == challengee && challengee_ready == 0) {
-        snprintf(buf, sizeof(buf), "%s %d", ch->name, CHAL_PREP);
-        do_transfer(imm, buf);
+        transfer(imm, ch, prep_room);
         challengee_ready = 1;
     }
 
     if (challenge_ticker > 0) {
         if (imm_ready == 1 && challenger_ready == 1 && challengee_ready == 1) {
-            snprintf(buf, sizeof(buf), "|W### Go to the |Pviewing gallery|W to watch a duel between %s and %s.|w",
-                     challenger->name, challengee->name);
-            announce(buf, imm);
-            send_to_char("|CRemember that you can |Gcancel|C the challenge at any time should it be\nnecessary to do "
-                         "so. (use cancel + challenger name)\n\r|w",
-                         imm);
+            auto msg = "|W### Go to the |Pviewing gallery|W to watch a duel between {} and {}.|w"_format(
+                challenger->name, challengee->name);
+            announce(msg.c_str(), imm);
+            imm->send_to("|CRemember that you can |Gcancel|C the challenge at any time should it be\nnecessary to do "
+                         "so. (use cancel + challenger name)\n\r|w");
             challenge_ticker = 0;
             challenge_active = true;
             return;
@@ -346,7 +331,7 @@ void do_chal_canc(CHAR_DATA *ch) {
     if (ch != imm && ch != challenger && ch != challengee)
         return;
 
-    snprintf(buf, sizeof(buf), "|c%s has either quit or lost their link.|w\n\r", ch->name);
+    auto msg = "|c{} has either quit or lost their link.|w\n\r"_format(ch->name);
     if (imm != nullptr && get_char_world(ch, imm_name))
         send_to_char(buf, imm);
     if (get_char_world(ch, challenger_name))
@@ -426,9 +411,24 @@ void do_duel(CHAR_DATA *ch, const char *argument) {
     send_to_char("|cYou did not challenge that person.|w\n\r", ch);
 }
 
+namespace {
+void tell_results_to(int who) {
+    if (who == 0) {
+        challenger->send_to("|cYou have lost your fight to the death with {}.|w\n\r"_format(challengee->name));
+        challengee->send_to(
+            "|cCongratulations! You have won the fight to the death with {}.|w\n\r"_format(challenger->name));
+    }
+
+    if (who == 1) {
+        challengee->send_to("|cYou have lost your fight to the death with {}.|w\n\r"_format(challenger->name));
+        challenger->send_to(
+            "|cCongratulations! You have won the fight to the death with {}.|w\n\r"_format(challengee->name));
+    }
+}
+}
+
 int do_check_chal(CHAR_DATA *ch) {
     int who;
-    char buf[MAX_STRING_LENGTH];
 
     /* Just check the status here in case of error.  May want to do
        better error correction later if we discover a problem. */
@@ -446,32 +446,22 @@ int do_check_chal(CHAR_DATA *ch) {
         who = 1;
 
     raw_kill(ch);
-    snprintf(buf, sizeof(buf), "%s 3054", ch->name);
     if (imm == nullptr) {
         bug("do_check_chal: crash potential here guys, challengee/r is being killed...");
         return 0;
     }
-    do_transfer(imm, buf);
-
-    snprintf(buf, sizeof(buf), "|W### |P%s |Wwas defeated in a duel to the death with |P%s|W.|w", ch->name,
-             who == 0 ? challengee->name : challenger->name);
-    announce(buf, imm);
-
-    if (who == 0) {
-        snprintf(buf, sizeof(buf), "|cYou have lost your fight to the death with %s.|w\n\r", challengee->name);
-        send_to_char(buf, challenger);
-        snprintf(buf, sizeof(buf), "|cCongratulations! You have won the fight to the death with %s.|w\n\r",
-                 challenger->name);
-        send_to_char(buf, challengee);
+    auto altar = get_room_index(ROOM_VNUM_ALTAR);
+    if (!altar) {
+        bug("do_check_chal: couldn't find altar!");
+        return 0;
     }
+    transfer(imm, ch, altar);
 
-    if (who == 1) {
-        snprintf(buf, sizeof(buf), "|cYou have lost your fight to the death with %s.|w\n\r", challenger->name);
-        send_to_char(buf, challengee);
-        snprintf(buf, sizeof(buf), "|cCongratulations! You have won the fight to the death with %s.|w\n\r",
-                 challengee->name);
-        send_to_char(buf, challenger);
-    }
+    announce("|W### |P{}|W was defeated in a duel to the death with |P{}|W.|w"_format(
+                 ch->name, who == 0 ? challengee->name : challenger->name),
+             imm);
+
+    tell_results_to(who);
 
     send_to_char("|cChallenge over. Challenge variables reset. New challenge can now be initiated.|w\n\r", imm);
 
@@ -500,7 +490,6 @@ void do_room_check(CHAR_DATA *ch) {
 
 void do_flee_check(CHAR_DATA *ch) {
     int who;
-    char buf[MAX_STRING_LENGTH];
 
     /* Just check status.  Add more error correction in future
        possibly. */
@@ -520,25 +509,11 @@ void do_flee_check(CHAR_DATA *ch) {
     else
         who = 1;
 
-    snprintf(buf, sizeof(buf), "|W### |P%s |Whas cowardly fled from |P%s|W.", ch->name,
-             who == 0 ? challengee->name : challenger->name);
-    announce(buf, imm);
+    announce(
+        "|W### |P{} |Whas cowardly fled from |P{}|W."_format(ch->name, who == 0 ? challengee->name : challenger->name),
+        imm);
 
-    if (who == 0) {
-        snprintf(buf, sizeof(buf), "|cYou have lost your fight to the death with %s.|w\n\r", challengee->name);
-        send_to_char(buf, challenger);
-        snprintf(buf, sizeof(buf), "|cCongratulations! You have won the fight to the death with %s.|w\n\r",
-                 challenger->name);
-        send_to_char(buf, challengee);
-    }
-
-    if (who == 1) {
-        snprintf(buf, sizeof(buf), "|cYou have lost your fight to the death with %s.|w\n\r", challenger->name);
-        send_to_char(buf, challengee);
-        snprintf(buf, sizeof(buf), "|cCongratulations! You have won the fight to the death with %s.|w\n\r",
-                 challengee->name);
-        send_to_char(buf, challenger);
-    }
+    tell_results_to(who);
 
     send_to_char("|cChallenge over. Challenge variables reset. New challenge can now be initiated.|w\n\r", imm);
 
@@ -565,41 +540,32 @@ int fighting_duel(CHAR_DATA *ch, CHAR_DATA *victim) {
     return true;
 }
 
-int in_duel(CHAR_DATA *ch) {
+int in_duel(const CHAR_DATA *ch) {
     if (!challenge_fighting)
         return false;
     if (ch->in_room->vnum != CHAL_ROOM)
         return false;
-    if ((ch != challenger) && (ch != challengee))
-        return false;
-    return true;
+    return ch == challenger || ch == challengee;
 }
 
 /* Checks to see that various things are correct.  Only input is
    toggle to say what to do on error.  0=nothing, 1=abort duel. */
 static int check_duel_status(int f) {
-    int flag = 0;
+    unsigned int flag = 0;
 
-    if (challenger != nullptr) {
-        if (strncmp(challenger->name, challenger_name, NAME_SIZE))
-            flag = 1;
-    }
+    if (challenger && challenger->name != challenger_name)
+        flag |= 1u;
 
-    if (challengee != nullptr) {
-        if (strncmp(challengee->name, challengee_name, NAME_SIZE))
-            flag += 2;
-    }
+    if (challengee && challengee->name != challengee_name)
+        flag |= 2u;
 
-    if (imm != nullptr) {
-        if (strncmp(imm->name, imm_name, NAME_SIZE))
-            flag = +4;
-    }
+    if (imm && imm->name != imm_name)
+        flag |= 4u;
 
     if (!flag)
         return 0;
-    else {
-        bug("check_duel_status: Name match failure. Code %d", flag);
-    }
+
+    bug("check_duel_status: Name match failure. Code %d", flag);
     if (f) {
         challenge_ticker = 1;
         do_chal_tick();

@@ -2053,7 +2053,7 @@ void do_password(CHAR_DATA *ch, const char *argument) {
     /*
      * No tilde allowed because of player file format.
      */
-    pwdnew = crypt(arg2, ch->name);
+    pwdnew = crypt(arg2, ch->name.c_str());
     for (p = pwdnew; *p != '\0'; p++) {
         if (*p == '~') {
             send_to_char("New password not acceptable, try again.\n\r", ch);

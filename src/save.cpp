@@ -79,7 +79,6 @@ void set_bits_from_pfile(CHAR_DATA *ch, FILE *fp) {
  *   some of the infrastructure is provided.
  */
 void save_char_obj(CHAR_DATA *ch) {
-    char strsave[MAX_INPUT_LENGTH];
     char buf[MAX_STRING_LENGTH];
     FILE *fp;
 
@@ -89,22 +88,22 @@ void save_char_obj(CHAR_DATA *ch) {
     /* create god log */
     if (ch->is_immortal() || ch->level >= LEVEL_IMMORTAL) {
         fclose(fpReserve);
-        snprintf(strsave, sizeof(strsave), "%s%s", GOD_DIR, capitalize(ch->name));
-        if ((fp = fopen(strsave, "w")) == nullptr) {
+        auto godsave = "{}{}"_format(GOD_DIR, upper_first_character(ch->name));
+        if ((fp = fopen(godsave.c_str(), "w")) == nullptr) {
             bug("Save_char_obj: fopen");
-            perror(strsave);
+            perror(godsave.c_str());
         }
 
-        fprintf(fp, "Lev %2d Trust %2d  %s%s\n", ch->level, ch->get_trust(), ch->name, ch->pcdata->title.c_str());
+        fprintf(fp, "Lev %2d Trust %2d  %s%s\n", ch->level, ch->get_trust(), ch->name.c_str(),
+                ch->pcdata->title.c_str());
         fclose(fp);
         fpReserve = fopen(NULL_FILE, "r");
     }
 
     fclose(fpReserve);
-    snprintf(strsave, sizeof(strsave), "%s%s", PLAYER_DIR, capitalize(ch->name));
     if ((fp = fopen(PLAYER_TEMP, "w")) == nullptr) {
         bug("Save_char_obj: fopen");
-        perror(strsave);
+        perror(PLAYER_TEMP);
     } else {
         fwrite_char(ch, fp);
         if (ch->carrying != nullptr)
@@ -116,9 +115,10 @@ void save_char_obj(CHAR_DATA *ch) {
     }
     fclose(fp);
     /* move the file */
-    snprintf(buf, sizeof(buf), "mv %s %s", PLAYER_TEMP, strsave);
+    auto strsave = "{}{}"_format(PLAYER_DIR, upper_first_character(ch->name));
+    snprintf(buf, sizeof(buf), "mv %s %s", PLAYER_TEMP, strsave.c_str());
     if (system(buf) != 0) {
-        bug("Unable to move temporary player name %s!! save failed!", strsave);
+        bug("Unable to move temporary player name %s!! save failed!", strsave.c_str());
     }
     fpReserve = fopen(NULL_FILE, "r");
 }
@@ -132,7 +132,7 @@ void fwrite_char(CHAR_DATA *ch, FILE *fp) {
 
     fprintf(fp, "#%s\n", ch->is_npc() ? "MOB" : "PLAYER");
 
-    fprintf(fp, "Name %s~\n", ch->name);
+    fprintf(fp, "Name %s~\n", ch->name.c_str());
     fprintf(fp, "Vers %d\n", 3);
     if (!ch->short_descr.empty())
         fprintf(fp, "ShD  %s~\n", ch->short_descr.c_str());
@@ -260,7 +260,7 @@ void fwrite_pet(CHAR_DATA *ch, CHAR_DATA *pet, FILE *fp) {
 
     fprintf(fp, "Vnum %d\n", pet->pIndexData->vnum);
 
-    fprintf(fp, "Name %s~\n", pet->name);
+    fprintf(fp, "Name %s~\n", pet->name.c_str());
     if (pet->short_descr != pet->pIndexData->short_descr)
         fprintf(fp, "ShD  %s~\n", pet->short_descr.c_str());
     if (pet->long_descr != pet->pIndexData->long_descr)
@@ -433,7 +433,7 @@ bool load_char_obj(Descriptor *d, const char *name) {
 
     d->character(ch);
     ch->desc = d;
-    ch->name = str_dup(name);
+    ch->name = name;
     ch->version = 0;
     ch->race = race_lookup("human");
     ch->affected_by = 0;
@@ -718,7 +718,7 @@ void fread_char(CHAR_DATA *ch, FILE *fp) {
         } else if (word == "minoffset") {
             ch->pcdata->minoffset = fread_number(fp);
         } else if (word == "name") {
-            ch->name = fread_string(fp);
+            ch->name = fread_stdstring(fp);
         } else if (word == "note") {
             ch->last_note = Clock::from_time_t(fread_number(fp));
         } else if (word == "password" || word == "pass") {
@@ -870,7 +870,7 @@ void fread_pet(CHAR_DATA *ch, FILE *fp) {
         } else if (matches(word, "LnD")) {
             pet->long_descr = fread_stdstring(fp);
         } else if (matches(word, "Name")) {
-            pet->name = fread_string(fp);
+            pet->name = fread_stdstring(fp);
         } else if (matches(word, "Pos")) {
             pet->position = fread_number(fp);
         } else if (matches(word, "Race")) {

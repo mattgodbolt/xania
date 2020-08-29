@@ -11,7 +11,10 @@
 
 #include "ArgParser.hpp"
 
+#include <string_view>
+
 struct CHAR_DATA;
+struct ROOM_INDEX_DATA;
 
 extern void interp_initialise();
 
@@ -87,7 +90,7 @@ extern void do_duel(CHAR_DATA *ch, const char *arg);
 extern void do_dump(CHAR_DATA *ch, const char *arg);
 extern void do_east(CHAR_DATA *ch, const char *arg);
 extern void do_eat(CHAR_DATA *ch, const char *argument);
-extern void do_echo(CHAR_DATA *ch, const char *arg);
+extern void do_echo(CHAR_DATA *ch, std::string_view argument);
 extern void do_emote(CHAR_DATA *ch, const char *arg);
 extern void do_equipment(CHAR_DATA *ch, const char *arg);
 extern void do_examine(CHAR_DATA *ch, const char *arg);
@@ -252,6 +255,7 @@ extern void do_tipwizard(CHAR_DATA *ch, const char *arg);
 extern void do_title(CHAR_DATA *ch, const char *arg);
 extern void do_train(CHAR_DATA *ch, const char *argument);
 extern void do_transfer(CHAR_DATA *ch, std::string_view argument);
+extern void transfer(const CHAR_DATA *imm, CHAR_DATA *victim, ROOM_INDEX_DATA *location);
 extern void do_trip(CHAR_DATA *ch, const char *arg);
 extern void do_trust(CHAR_DATA *ch, const char *arg);
 extern void do_typo(CHAR_DATA *ch, const char *arg);

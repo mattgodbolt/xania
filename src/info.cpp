@@ -211,7 +211,7 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
     CHAR_DATA *wch = char_list;
     bool char_found = false;
 
-    if (argument[0] == '\0' || !strcmp(ch->name, capitalize(argument))) {
+    if (argument[0] == '\0' || matches(ch->name, argument)) {
         do_setinfo(ch, "");
         return;
     } else {
@@ -230,7 +230,7 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
            see that char or not - hence I don't use get_char_world, as
            it only returns chars we can see */
         while (wch != nullptr && char_found == false) {
-            if (!strcmp(wch->name, argument))
+            if (matches(wch->name, argument))
                 char_found = true;
             else
                 wch = wch->next;
@@ -281,23 +281,19 @@ void do_finger(CHAR_DATA *ch, const char *argument) {
 
                 /* Player is currently logged in */
                 if (victim->invis_level > ch->level && ch->get_trust() < GOD) {
-
-                    snprintf(buf, sizeof(buf),
-                             "It is impossible to determine the last time that %s roamed\n\rthe hills of Xania.\n\r",
-                             victim->name);
-                    send_to_char(buf, ch);
+                    ch->send_to(
+                        "It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.\n\r"_format(
+                            victim->name));
                 } else {
-                    snprintf(buf, sizeof(buf), "%s is currently roaming the hills of Xania!\n\r", victim->name);
-                    send_to_char(buf, ch);
+                    ch->send_to("{} is currently roaming the hills of Xania!\n\r"_format(victim->name));
                     if (ch->get_trust() >= GOD) {
                         if (victim->desc->host().empty())
-                            snprintf(buf, sizeof(buf),
-                                     "It is impossible to determine where %s last logged in from.\n\r", victim->name);
+                            ch->send_to(
+                                "It is impossible to determine where {} last logged in from.\n\r"_format(victim->name));
                         else {
-                            snprintf(buf, sizeof(buf), "%s is currently logged in from %s.\n\r", cur->name.c_str(),
-                                     victim->desc->host().c_str());
+                            ch->send_to(
+                                "{} is currently logged in from {}.\n\r"_format(cur->name, victim->desc->host()));
                         }
-                        send_to_char(buf, ch);
                     }
                 }
             } else {

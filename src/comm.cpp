@@ -605,9 +605,8 @@ void nanny(Descriptor *d, const char *argument) {
         if (check_reconnect(d, true))
             return;
 
-        snprintf(log_buf, LOG_BUF_SIZE, "%s@%s has connected.", ch->name, d->host().c_str());
-        log_new(log_buf, EXTRA_WIZNET_DEBUG,
-                ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? ch->get_trust() : 0);
+        log_new("{}@{} has connected."_format(ch->name, d->host()), EXTRA_WIZNET_DEBUG,
+                ch->is_wizinvis() || ch->is_prowlinvis() ? ch->get_trust() : 0);
 
         d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
         d->state((d->state() == DescriptorState::CircumventPassword) ? DescriptorState::ReadMotd
@@ -625,7 +624,7 @@ void nanny(Descriptor *d, const char *argument) {
                 if (&d_old == d || d_old.character() == nullptr)
                     continue;
 
-                if (str_cmp(ch->name, d_old.character()->name))
+                if (!matches(ch->name, d_old.character()->name))
                     continue;
 
                 d_old.close();
@@ -658,10 +657,8 @@ void nanny(Descriptor *d, const char *argument) {
         switch (*argument) {
         case 'y':
         case 'Y':
-            snprintf(buf, sizeof(buf),
-                     "Welcome new character, to Xania.\n\rThink of a password for %s: ", (char *)ch->name);
             SetEchoState(d, 0);
-            d->write(buf);
+            d->write("Welcome new character, to Xania.\n\rThink of a password for {}: "_format(ch->name));
             d->state(DescriptorState::GetNewPassword);
             break;
 
@@ -729,7 +726,7 @@ void nanny(Descriptor *d, const char *argument) {
             return;
         }
 
-        pwdnew = crypt(argument, ch->name);
+        pwdnew = crypt(argument, ch->name.c_str());
         for (p = pwdnew; *p != '\0'; p++) {
             if (*p == '~') {
                 d->write("New password not acceptable, try again.\n\rPassword: ");
@@ -861,8 +858,7 @@ void nanny(Descriptor *d, const char *argument) {
             return;
         }
         ch->class_num = iClass;
-        snprintf(log_buf, LOG_BUF_SIZE, "%s@%s new player.", ch->name, d->host().c_str());
-        log_string(log_buf);
+        log_string("{}@{} new player."_format(ch->name, d->host()));
         d->write("\n\r");
         d->write("You may be good, neutral, or evil.\n\r");
         d->write("Which alignment (G/N/E)? ");
@@ -960,8 +956,8 @@ void nanny(Descriptor *d, const char *argument) {
             Packet p;
             p.type = PACKET_AUTHORIZED;
             p.channel = d->channel();
-            p.nExtra = strlen(ch->name);
-            send_to_doorman(&p, ch->name);
+            p.nExtra = ch->name.size();
+            send_to_doorman(&p, ch->name.c_str());
         }
 
         if (ch->level == 0) {
@@ -990,7 +986,7 @@ void nanny(Descriptor *d, const char *argument) {
 
             /* Rohan: New player logged in, need to add name to player list */
             temp_known_player = (KNOWN_PLAYERS *)alloc_mem(sizeof(KNOWN_PLAYERS));
-            temp_known_player->name = str_dup(ch->name);
+            temp_known_player->name = str_dup(ch->name.c_str());
             temp_known_player->next = player_list;
             player_list = temp_known_player;
             /* hack to let the newbie know about the tipwizard */
@@ -1006,8 +1002,7 @@ void nanny(Descriptor *d, const char *argument) {
             char_to_room(ch, get_room_index(ROOM_VNUM_TEMPLE));
         }
 
-        snprintf(log_buf, LOG_BUF_SIZE, "|W### |P%s|W has entered the game.|w", ch->name);
-        announce(log_buf, ch);
+        announce("|W### |P{}|W has entered the game.|w"_format(ch->name), ch);
         act("|P$n|W has entered the game.", ch);
         do_look(ch, "auto");
 
@@ -1110,7 +1105,7 @@ bool check_reconnect(Descriptor *d, bool fConn) {
     CHAR_DATA *ch;
 
     for (ch = char_list; ch != nullptr; ch = ch->next) {
-        if (ch->is_pc() && (!fConn || ch->desc == nullptr) && !str_cmp(d->character()->name, ch->name)) {
+        if (ch->is_pc() && (!fConn || ch->desc == nullptr) && matches(d->character()->name, ch->name)) {
             if (fConn == false) {
                 d->character()->pcdata->pwd = ch->pcdata->pwd;
             } else {
@@ -1120,9 +1115,8 @@ bool check_reconnect(Descriptor *d, bool fConn) {
                 ch->timer = 0;
                 send_to_char("Reconnecting.\n\r", ch);
                 act("$n has reconnected.", ch);
-                snprintf(log_buf, LOG_BUF_SIZE, "%s@%s reconnected.", ch->name, d->host().c_str());
-                log_new(log_buf, EXTRA_WIZNET_DEBUG,
-                        ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? ch->get_trust() : 0);
+                log_new("{}@{} reconnected."_format(ch->name, d->host().c_str()), EXTRA_WIZNET_DEBUG,
+                        (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
                 d->state(DescriptorState::Playing);
             }
             return true;

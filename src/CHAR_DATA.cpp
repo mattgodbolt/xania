@@ -297,8 +297,6 @@ CHAR_DATA::~CHAR_DATA() {
 
     while (affected)
         affect_remove(this, affected);
-
-    free_string(name);
 }
 
 void CHAR_DATA::yell(std::string_view exclamation) const {

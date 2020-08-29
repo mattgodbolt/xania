@@ -40,7 +40,7 @@ int note_count(CHAR_DATA *ch) {
     NOTE_DATA *note;
     int notes = 0;
     for (note = note_first; note != nullptr; note = note->next) {
-        if (is_note_to(ch, note) && str_cmp(ch->name, note->sender) && note->date_stamp > ch->last_note) {
+        if (is_note_to(ch, note) && !matches(ch->name, note->sender) && note->date_stamp > ch->last_note) {
             notes++;
         }
     }
@@ -48,7 +48,7 @@ int note_count(CHAR_DATA *ch) {
 }
 
 int is_note_to(const CHAR_DATA *ch, const NOTE_DATA *note) {
-    if (!str_cmp(ch->name, note->sender)) {
+    if (matches(ch->name, note->sender)) {
         return true;
     }
     if (is_name("all", note->to_list)) {
@@ -131,7 +131,7 @@ static NOTE_DATA *lookup_note_date(Time date, CHAR_DATA *ch, int *index) {
     int count = 0;
 
     for (note = note_first; note; note = note->next) {
-        if (is_note_to(ch, note) && str_cmp(ch->name, note->sender)) {
+        if (is_note_to(ch, note) && !matches(ch->name, note->sender)) {
             if (date < note->date_stamp) {
                 *index = count;
                 return note;
@@ -146,7 +146,7 @@ static NOTE_DATA *ensure_note(CHAR_DATA *ch) {
     if (!ch->pnote) {
         ch->pnote = create_note();
         if (ch->pnote) {
-            ch->pnote->sender = str_dup(ch->name);
+            ch->pnote->sender = str_dup(ch->name.c_str());
             if (!ch->pnote->sender) {
                 free(ch->pnote);
                 ch->pnote = nullptr;
@@ -187,7 +187,7 @@ static void note_list(CHAR_DATA *ch, const char *argument) {
 
     for (; note; note = note->next) {
         if (is_note_to(ch, note)) {
-            int is_new = note->date_stamp > ch->last_note && str_cmp(note->sender, ch->name);
+            bool is_new = note->date_stamp > ch->last_note && !matches(note->sender, ch->name);
 
             snprintf(buf, sizeof(buf), "[%3d%s] %s: %s|w\n\r", num, is_new ? "N" : " ", note->sender, note->subject);
             send_to_char(buf, ch);
@@ -354,7 +354,7 @@ static void note_remove(CHAR_DATA *ch, NOTE_DATA *note) {
     char *to_list;
     int index = 0;
 
-    if (!str_cmp(ch->name, note->sender)) {
+    if (matches(ch->name, note->sender)) {
         destroy_note(note);
         save_notes();
         return;
@@ -364,7 +364,7 @@ static void note_remove(CHAR_DATA *ch, NOTE_DATA *note) {
     to_list = note->to_list;
     while (*to_list != '\0') {
         to_list = one_argument(to_list, to_one);
-        if (to_one[0] != '\0' && str_cmp(ch->name, to_one)) {
+        if (to_one[0] != '\0' && !matches(ch->name, to_one)) {
             int len = strlen(to_one);
             memcpy(&to_new[index], to_one, len);
             index += len;

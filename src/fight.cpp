@@ -527,7 +527,8 @@ void one_hit(CHAR_DATA *ch, CHAR_DATA *victim, int dt) {
                 if (IS_SET(wield->value[4], WEAPON_VORPAL)) {
                     if (dam == (1 + wield->value[2]) * wield->value[1] / 2) {
                         dam *= 4;
-                        bug("one_hit:QUAD_DAM with %s [%d] by %s", wield->name, wield->pIndexData->vnum, ch->name);
+                        bug("one_hit:QUAD_DAM with %s [%d] by %s", wield->name, wield->pIndexData->vnum,
+                            ch->name.c_str());
                         act("With a blood curdling scream you leap forward swinging\n\ryour weapon in a great arc.", ch,
                             nullptr, victim, To::Char);
                         act("$n screams and leaps forwards swinging $s weapon in a great arc.", ch, nullptr, victim,
@@ -1296,7 +1297,7 @@ void make_corpse(CHAR_DATA *ch) {
         corpse->timer = number_range(25, 40);
         REMOVE_BIT(ch->act, PLR_CANLOOT);
         if (!IS_SET(ch->act, PLR_KILLER) && !IS_SET(ch->act, PLR_THIEF))
-            corpse->owner = str_dup(ch->name);
+            corpse->owner = str_dup(ch->name.c_str());
         else
             corpse->owner = nullptr;
         corpse->cost = 0;

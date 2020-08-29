@@ -1551,7 +1551,7 @@ void move_char(CHAR_DATA *ch, Direction door);
 void unride_char(CHAR_DATA *ch, CHAR_DATA *pet);
 void do_enter(CHAR_DATA *ch, const char *argument);
 /* act_obj.c */
-bool can_loot(CHAR_DATA *ch, OBJ_DATA *obj);
+bool can_loot(const CHAR_DATA *ch, const OBJ_DATA *obj);
 void get_obj(CHAR_DATA *ch, OBJ_DATA *obj, OBJ_DATA *container);
 
 /* act_wiz.c */
@@ -1678,7 +1678,9 @@ bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex);
 bool room_is_private(ROOM_INDEX_DATA *pRoomIndex);
 bool can_see(const CHAR_DATA *ch, const CHAR_DATA *victim);
 inline std::string_view pers(const CHAR_DATA *ch, const CHAR_DATA *looker) {
-    return can_see(looker, ch) ? ch->short_name() : "someone";
+    if (!looker->can_see(*ch))
+        return "someone";
+    return ch->is_npc() ? ch->short_descr : ch->name;
 }
 bool can_see_obj(const CHAR_DATA *ch, const OBJ_DATA *obj);
 bool can_see_room(const CHAR_DATA *ch, const ROOM_INDEX_DATA *pRoomIndex);
