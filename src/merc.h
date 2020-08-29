@@ -57,7 +57,7 @@ typedef struct extra_descr_data EXTRA_DESCR_DATA;
 typedef struct help_data HELP_DATA;
 typedef struct kill_data KILL_DATA;
 struct OBJ_DATA;
-typedef struct obj_index_data OBJ_INDEX_DATA;
+struct OBJ_INDEX_DATA;
 typedef struct program PROGRAM;
 typedef struct reset_data RESET_DATA;
 struct ROOM_INDEX_DATA;
@@ -1101,28 +1101,28 @@ struct extra_descr_data {
 /*
  * Prototype for an object.
  */
-struct obj_index_data {
-    OBJ_INDEX_DATA *next;
-    EXTRA_DESCR_DATA *extra_descr;
-    AFFECT_DATA *affected;
-    char *name;
-    char *short_descr;
-    char *description;
-    sh_int vnum;
-    sh_int reset_num;
-    sh_int material;
-    sh_int item_type;
-    unsigned int extra_flags;
-    ush_int wear_flags;
-    char *wear_string;
-    sh_int level;
-    sh_int condition;
-    sh_int count;
-    sh_int weight;
-    int cost;
-    int value[5];
+struct OBJ_INDEX_DATA {
+    OBJ_INDEX_DATA *next{};
+    EXTRA_DESCR_DATA *extra_descr{};
+    AFFECT_DATA *affected{};
+    char *name{};
+    char *short_descr{};
+    char *description{};
+    sh_int vnum{};
+    sh_int reset_num{};
+    sh_int material{};
+    sh_int item_type{};
+    unsigned int extra_flags{};
+    ush_int wear_flags{};
+    char *wear_string{};
+    sh_int level{};
+    sh_int condition{};
+    sh_int count{};
+    sh_int weight{};
+    int cost{};
+    std::array<int, 5> value{};
 
-    AREA_DATA *area;
+    AREA_DATA *area{};
 };
 
 /*

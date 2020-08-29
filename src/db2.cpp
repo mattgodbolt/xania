@@ -337,7 +337,7 @@ void load_objects(FILE *fp) {
         }
         fBootDb = true;
 
-        pObjIndex = static_cast<OBJ_INDEX_DATA *>(alloc_perm(sizeof(*pObjIndex)));
+        pObjIndex = new OBJ_INDEX_DATA;
         pObjIndex->vnum = vnum;
         pObjIndex->area = area_last;
         pObjIndex->reset_num = 0;
