@@ -35,8 +35,8 @@ using namespace fmt::literals;
  * Local functions.
  */
 
-ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, const char *arg);
-void do_transfer(CHAR_DATA *ch, const char *arg);
+ROOM_INDEX_DATA *find_location(CHAR_DATA *ch, std::string_view arg);
+void do_transfer(CHAR_DATA *ch, std::string_view argument);
 
 /* This routine transfers between alpha and numeric forms of the
  *  mob_prog bitvector types. It allows the words to show up in mpstat to

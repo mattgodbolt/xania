@@ -1670,7 +1670,7 @@ OBJ_DATA *get_obj_list(const CHAR_DATA *ch, std::string_view argument, OBJ_DATA 
 OBJ_DATA *get_obj_carry(CHAR_DATA *ch, const char *argument);
 OBJ_DATA *get_obj_wear(CHAR_DATA *ch, const char *argument);
 OBJ_DATA *get_obj_here(const CHAR_DATA *ch, std::string_view argument);
-OBJ_DATA *get_obj_world(CHAR_DATA *ch, const char *argument);
+OBJ_DATA *get_obj_world(CHAR_DATA *ch, std::string_view argument);
 OBJ_DATA *create_money(int amount);
 int get_obj_number(OBJ_DATA *obj);
 int get_obj_weight(OBJ_DATA *obj);

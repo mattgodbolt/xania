@@ -251,7 +251,7 @@ extern void do_time(CHAR_DATA *ch, const char *arg);
 extern void do_tipwizard(CHAR_DATA *ch, const char *arg);
 extern void do_title(CHAR_DATA *ch, const char *arg);
 extern void do_train(CHAR_DATA *ch, const char *argument);
-extern void do_transfer(CHAR_DATA *ch, const char *arg);
+extern void do_transfer(CHAR_DATA *ch, std::string_view argument);
 extern void do_trip(CHAR_DATA *ch, const char *arg);
 extern void do_trust(CHAR_DATA *ch, const char *arg);
 extern void do_typo(CHAR_DATA *ch, const char *arg);
