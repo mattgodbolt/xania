@@ -1445,32 +1445,28 @@ std::string who_line_for(const CHAR_DATA &to, const CHAR_DATA &wch) {
 }
 
 /* whois command */
-void do_whois(CHAR_DATA *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    bool found = false;
+void do_whois(CHAR_DATA *ch, std::string_view argument) {
+    ArgParser args(argument);
 
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        send_to_char("You must provide a name.\n\r", ch);
+    if (args.empty()) {
+        ch->send_to("You must provide a name.\n\r");
         return;
     }
 
     std::string output;
+    auto filter = args.shift();
     for (auto &d : descriptors().all_visible_to(*ch)) {
         auto *wch = d.person();
         // TODO: can or should this be part of all_visible_to?
         if (!can_see(ch, wch))
             continue;
 
-        if (!str_prefix(arg, wch->name)) {
-            found = true;
+        if (matches_start(filter, wch->name))
             output += who_line_for(*ch, *wch);
-        }
     }
 
-    if (!found) {
-        send_to_char("No one of that name is playing.\n\r", ch);
+    if (output.empty()) {
+        ch->send_to("No one of that name is playing.\n\r");
         return;
     }
 
