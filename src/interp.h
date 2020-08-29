@@ -118,7 +118,7 @@ extern void do_help(CHAR_DATA *ch, const char *arg);
 extern void do_hide(CHAR_DATA *ch, const char *arg);
 extern void do_holylight(CHAR_DATA *ch, const char *arg);
 extern void do_idea(CHAR_DATA *ch, const char *arg);
-extern void do_immtalk(CHAR_DATA *ch, std::string_view arg);
+extern void do_immtalk(CHAR_DATA *ch, std::string_view argument);
 extern void do_immworth(CHAR_DATA *ch, const char *arg);
 extern void do_imotd(CHAR_DATA *ch, const char *arg);
 extern void do_inventory(CHAR_DATA *ch, const char *arg);
@@ -271,7 +271,7 @@ extern void do_west(CHAR_DATA *ch, const char *arg);
 extern void do_where(CHAR_DATA *ch, const char *arg);
 extern void do_scan(CHAR_DATA *ch, const char *arg);
 extern void do_who(CHAR_DATA *ch, const char *arg);
-extern void do_whois(CHAR_DATA *ch, const char *arg);
+extern void do_whois(CHAR_DATA *ch, std::string_view argument);
 extern void do_wimpy(CHAR_DATA *ch, const char *arg);
 extern void do_wizhelp(CHAR_DATA *ch, const char *argument);
 extern void do_wizlock(CHAR_DATA *ch, const char *argument);
@@ -298,4 +298,4 @@ extern void do_clanset(CHAR_DATA *ch, const char *arg);
 
 /* Misc stuff */
 extern void announce(std::string_view buf, const CHAR_DATA *ch);
-bool check_social(CHAR_DATA *ch, const char *command, std::string_view argument);
+bool check_social(CHAR_DATA *ch, std::string_view command, std::string_view argument);
