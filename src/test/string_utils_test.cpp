@@ -12,13 +12,30 @@ TEST_CASE("string_util tests") {
         CHECK(is_number("123"));
         CHECK(is_number("-123"));
         CHECK(is_number("+123"));
-        CHECK(is_number("0"));
+        CHECK(is_number("-0"));
         CHECK(!is_number("a"));
         CHECK(!is_number("1-1"));
         CHECK(!is_number("-+123"));
         CHECK(!is_number("++123"));
         CHECK(!is_number("--123"));
         CHECK(!is_number(""));
+    }
+    SECTION("should parse numbers") {
+        SECTION("valid numbers should parse") {
+            CHECK(parse_number("0") == 0);
+            CHECK(parse_number("123") == 123);
+            CHECK(parse_number("-123") == -123);
+            CHECK(parse_number("+123") == 123);
+            CHECK(parse_number("-0") == 0);
+        }
+        SECTION("invalid numbers parse as zero") {
+            CHECK(parse_number("a") == 0);
+            CHECK(parse_number("1-1") == 0);
+            CHECK(parse_number("-+123") == 0);
+            CHECK(parse_number("++123") == 0);
+            CHECK(parse_number("--123") == 0);
+            CHECK(parse_number("") == 0);
+        }
     }
 
     SECTION("should split numbers and arguments") {

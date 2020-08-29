@@ -14,9 +14,7 @@
 using namespace std::literals;
 using namespace fmt::literals;
 
-namespace {
-
-int from_chars(std::string_view sv) {
+int parse_number(std::string_view sv) {
     if (sv.empty())
         return 0;
     bool is_neg = sv.front() == '-';
@@ -33,26 +31,19 @@ int from_chars(std::string_view sv) {
     return static_cast<int>(intermediate) * (is_neg ? -1 : 1);
 }
 
-}
-
-bool is_number(const char *arg) {
-    if (*arg == '\0')
+bool is_number(std::string_view sv) {
+    if (sv.empty())
         return false;
 
-    if (*arg == '+' || *arg == '-')
-        arg++;
+    if (sv.front() == '-' || sv.front() == '+')
+        sv.remove_prefix(1);
 
-    for (; *arg != '\0'; arg++) {
-        if (!isdigit(*arg))
-            return false;
-    }
-
-    return true;
+    return ranges::all_of(sv, isdigit);
 }
 
 std::pair<int, std::string_view> number_argument(std::string_view argument) {
     if (auto dot = argument.find_first_of('.'); dot != std::string_view::npos)
-        return {from_chars(argument.substr(0, dot)), argument.substr(dot + 1)};
+        return {parse_number(argument.substr(0, dot)), argument.substr(dot + 1)};
     return {1, argument};
 }
 
