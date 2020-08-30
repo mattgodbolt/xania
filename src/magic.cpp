@@ -19,6 +19,7 @@
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+#include <range/v3/algorithm/find_if.hpp>
 
 #include <cstdio>
 #include <cstring>
@@ -2075,16 +2076,11 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
     /* We don't want armor, with more than 2 ench. hit&dam */
     int no_ench_num = 0;
     if (obj->item_type == ITEM_ARMOR && (ch->get_trust() < MAX_LEVEL)) {
-        AFFECT_DATA *paf;
-        for (paf = obj->affected; paf != nullptr; paf = paf->next) {
-            if ((paf->type == sn) && (paf->location == AffectLocation::Damroll))
-                break;
-        }
-        if (paf != nullptr) {
-            /* Check for 2+ dam */
-            if (paf->modifier >= 2) {
+        if (auto it = ranges::find_if(
+                obj->affected, [&](const auto &af) { return af.type == sn && af.location == AffectLocation::Damroll; });
+            it != obj->affected.end()) {
+            if (it->modifier >= 2)
                 no_ench_num = number_range(1, 3);
-            }
         }
     }
 
@@ -2143,12 +2139,12 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
         obj->level = UMIN(LEVEL_HERO - 1, obj->level + 1);
 
     if (dam_found) {
-        for (AFFECT_DATA *paf = obj->affected; paf != nullptr; paf = paf->next) {
-            if (paf->location == AffectLocation::Damroll) {
-                paf->type = sn;
-                paf->modifier += added;
-                paf->level = UMAX(paf->level, level);
-                if (paf->modifier > 4)
+        for (auto &af : obj->affected) {
+            if (af.location == AffectLocation::Damroll) {
+                af.type = sn;
+                af.modifier += added;
+                af.level = UMAX(af.level, level);
+                if (af.modifier > 4)
                     SET_BIT(obj->extra_flags, ITEM_HUM);
             }
         }

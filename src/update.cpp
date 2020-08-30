@@ -35,7 +35,7 @@ int mana_gain(Char *ch);
 int move_gain(Char *ch);
 void mobile_update();
 void weather_update();
-void char_update();
+void ord();
 void obj_update();
 void aggr_update();
 
@@ -540,7 +540,7 @@ void char_update() {
             gain_condition(ch, COND_THIRST, -1);
         }
 
-        {
+        if (!ch->affected.empty()) {
             std::unordered_set<int> removed_this_tick_with_msg;
             ch->affected.modification_safe_for_each([&](auto &af) {
                 if (af.duration > 0) {
@@ -655,7 +655,6 @@ void char_update() {
 void obj_update() {
     OBJ_DATA *obj;
     OBJ_DATA *obj_next;
-    AFFECT_DATA *paf, *paf_next;
 
     for (obj = object_list; obj != nullptr; obj = obj_next) {
         Char *rch;
@@ -664,23 +663,22 @@ void obj_update() {
         obj_next = obj->next;
 
         /* go through affects and decrement */
-        for (paf = obj->affected; paf != nullptr; paf = paf_next) {
-            paf_next = paf->next;
-            if (paf->duration > 0) {
-                paf->duration--;
-                if (number_range(0, 4) == 0 && paf->level > 0)
-                    paf->level--; /* spell strength fades with time */
-            } else if (paf->duration < 0)
-                ;
-            else {
-                if (paf_next == nullptr || paf_next->type != paf->type || paf_next->duration > 0) {
-                    if (paf->type > 0 && skill_table[paf->type].msg_off) {
-                        act(skill_table[paf->type].msg_off, obj->carried_by, obj, nullptr, To::Char, POS_SLEEPING);
-                    }
+        if (!obj->affected.empty()) {
+            std::unordered_set<int> removed_this_tick_with_msg;
+            obj->affected.modification_safe_for_each([&](auto &af) {
+                if (af.duration > 0) {
+                    af.duration--;
+                    if (number_range(0, 4) == 0 && af.level > 0)
+                        af.level--; /* spell strength fades with time */
+                } else if (af.duration >= 0) {
+                    if (af.type > 0 && skill_table[af.type].msg_off)
+                        removed_this_tick_with_msg.emplace(af.type);
+                    affect_remove_obj(obj, af);
                 }
-
-                affect_remove_obj(obj, *paf);
-            }
+            });
+            // Only report wear-offs for those affects who are completely gone.
+            for (auto sn : removed_this_tick_with_msg)
+                act(skill_table[sn].msg_off, obj->carried_by, obj, nullptr, To::Char, POS_SLEEPING);
         }
 
         if (obj->timer <= 0 || --obj->timer > 0)

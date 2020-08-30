@@ -423,7 +423,7 @@ void affect_remove(Char *ch, const AFFECT_DATA &af) {
 }
 
 void affect_remove_obj(OBJ_DATA *obj, const AFFECT_DATA &af) {
-    if (obj->affected == nullptr) {
+    if (obj->affected.empty()) {
         bug("Affect_remove_object: no affect.");
         return;
     }
@@ -905,15 +905,7 @@ void extract_obj(OBJ_DATA *obj) {
         }
     }
 
-    {
-        AFFECT_DATA *paf;
-        AFFECT_DATA *paf_next;
-
-        for (paf = obj->affected; paf != nullptr; paf = paf_next) {
-            paf_next = paf->next;
-            delete paf;
-        }
-    }
+    obj->affected.clear();
 
     {
         EXTRA_DESCR_DATA *ed;

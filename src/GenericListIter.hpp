@@ -16,6 +16,7 @@ public:
     GenericListIter() = default;
     explicit GenericListIter(T *current) : current_(current) {}
     T &operator*() const noexcept { return *current_; }
+    T *operator->() const noexcept { return current_; }
     GenericListIter &operator++() noexcept {
         current_ = nexter_(current_);
         return *this;

@@ -334,7 +334,6 @@ void fwrite_pet(Char *ch, Char *pet, FILE *fp) {
  */
 void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
     EXTRA_DESCR_DATA *ed;
-    AFFECT_DATA *paf;
 
     /*
      * Slick recursion to write lists backwards,
@@ -415,11 +414,11 @@ void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
         break;
     }
 
-    for (paf = obj->affected; paf != nullptr; paf = paf->next) {
-        if (paf->type < 0 || paf->type >= MAX_SKILL)
+    for (auto &af : obj->affected) {
+        if (af.type < 0 || af.type >= MAX_SKILL)
             continue;
-        fprintf(fp, "AffD '%s' %d %d %d %d %d\n", skill_table[paf->type].name, paf->level, paf->duration, paf->modifier,
-                static_cast<int>(paf->location), paf->bitvector);
+        fprintf(fp, "AffD '%s' %d %d %d %d %d\n", skill_table[af.type].name, af.level, af.duration, af.modifier,
+                static_cast<int>(af.location), af.bitvector);
     }
 
     for (ed = obj->extra_descr; ed != nullptr; ed = ed->next) {

@@ -1324,7 +1324,6 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
 
 /* duplicate an object exactly -- except contents */
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
-    AFFECT_DATA *paf;
     /*    EXTRA_DESCR_DATA *ed,*ed_new; */
 
     if (parent == nullptr || clone == nullptr)
@@ -1350,8 +1349,8 @@ void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
     /* affects */
     clone->enchanted = parent->enchanted;
 
-    for (paf = parent->affected; paf != nullptr; paf = paf->next)
-        affect_to_obj(clone, *paf);
+    for (auto &af : parent->affected)
+        affect_to_obj(clone, af);
 
     /* extended desc */
     /*
@@ -2153,8 +2152,7 @@ void do_dump(Char *ch, const char *argument) {
     count = 0;
     for (obj = object_list; obj != nullptr; obj = obj->next) {
         count++;
-        for (af = obj->affected; af != nullptr; af = af->next)
-            aff_count++;
+        aff_count += obj->affected.size();
     }
 
     fprintf(fp, "Objs	%4d (%8ld bytes)\n", count, count * (sizeof(*obj)));
