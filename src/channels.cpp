@@ -55,7 +55,7 @@ void do_channels(const Char *ch, const char *argument) {
 
     if (ch->lines != PAGELEN) {
         if (ch->lines) {
-            ch->send_to("You display %d lines of scroll.\n\r"_format(ch->lines + 2));
+            ch->send_to("You display {} lines of scroll.\n\r"_format(ch->lines + 2));
         } else
             ch->send_to("Scroll buffering is off.\n\r");
     }
