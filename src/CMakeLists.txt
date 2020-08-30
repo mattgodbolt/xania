@@ -45,7 +45,7 @@ add_library(xania_lib STATIC
         note.h
         phil.cpp
         phil.h
-        save.cpp
+        save.cpp save.hpp
         skills.cpp
         spec_concordius.cpp
         spec_summoner.cpp

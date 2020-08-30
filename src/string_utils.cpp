@@ -5,6 +5,7 @@
 #include <fmt/format.h>
 #include <range/v3/algorithm/all_of.hpp>
 #include <range/v3/algorithm/search.hpp>
+#include <range/v3/range/conversion.hpp>
 #include <range/v3/view/transform.hpp>
 #include <range/v3/view/zip.hpp>
 
@@ -244,6 +245,13 @@ std::string upper_first_character(std::string_view sv) {
         }
     }
     return result;
+}
+
+std::string initial_caps_only(std::string_view text) {
+    return text | ranges::view::transform([first = true](auto ch) mutable {
+               return std::exchange(first, false) ? toupper(ch) : tolower(ch);
+           })
+           | ranges::to<std::string>;
 }
 
 bool matches(std::string_view lhs, std::string_view rhs) {

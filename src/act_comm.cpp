@@ -17,6 +17,7 @@
 #include "handler.hpp"
 #include "info.hpp"
 #include "merc.h"
+#include "save.hpp"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
@@ -77,8 +78,8 @@ void do_delete(Char *ch, const char *argument) {
              cached of course! */
             remove_info_for_player(ch->name);
 
-            auto strsave = "{}{}"_format(PLAYER_DIR, upper_first_character(ch->name));
-            do_quit(ch, "");
+            auto strsave = filename_for_player(ch->name);
+            do_quit(ch, ""); // ch is invalid after this
             unlink(strsave.c_str());
             return;
         }

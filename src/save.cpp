@@ -22,10 +22,26 @@
 #include <ctime>
 #include <sys/types.h>
 
+using namespace fmt::literals;
+
+std::string get_base_dir() { return ".."; }
+
+std::string get_path_for(std::string_view subdir) { return "{}/{}/"_format(get_base_dir(), subdir); }
+
+std::string get_player_dir() { return get_path_for("player"); }
+
+std::string get_god_dir() { return get_path_for("gods"); }
+
+std::string filename_for_player(std::string_view player_name) {
+    return "{}{}"_format(get_player_dir(), initial_caps_only(player_name));
+}
+
+std::string filename_for_god(std::string_view player_name) {
+    return "{}{}"_format(get_god_dir(), initial_caps_only(player_name));
+}
+
 char *login_from;
 char *login_at;
-
-using namespace fmt::literals;
 
 /*
  * Array of containers read for proper re-nesting of objects.
@@ -80,7 +96,6 @@ void set_bits_from_pfile(Char *ch, FILE *fp) {
  *   some of the infrastructure is provided.
  */
 void save_char_obj(Char *ch) {
-    char buf[MAX_STRING_LENGTH];
     FILE *fp;
 
     if (ch = ch->player(); !ch)
@@ -89,7 +104,7 @@ void save_char_obj(Char *ch) {
     /* create god log */
     if (ch->is_immortal() || ch->level >= LEVEL_IMMORTAL) {
         fclose(fpReserve);
-        auto godsave = "{}{}"_format(GOD_DIR, upper_first_character(ch->name));
+        auto godsave = filename_for_god(ch->name);
         if ((fp = fopen(godsave.c_str(), "w")) == nullptr) {
             bug("Save_char_obj: fopen");
             perror(godsave.c_str());
@@ -102,9 +117,10 @@ void save_char_obj(Char *ch) {
     }
 
     fclose(fpReserve);
-    if ((fp = fopen(PLAYER_TEMP, "w")) == nullptr) {
+    auto player_temp = filename_for_player(ch->name + ".tmp");
+    if ((fp = fopen(player_temp.c_str(), "w")) == nullptr) {
         bug("Save_char_obj: fopen");
-        perror(PLAYER_TEMP);
+        perror(player_temp.c_str());
     } else {
         fwrite_char(ch, fp);
         if (ch->carrying != nullptr)
@@ -116,10 +132,9 @@ void save_char_obj(Char *ch) {
     }
     fclose(fp);
     /* move the file */
-    auto strsave = "{}{}"_format(PLAYER_DIR, upper_first_character(ch->name));
-    snprintf(buf, sizeof(buf), "mv %s %s", PLAYER_TEMP, strsave.c_str());
-    if (system(buf) != 0) {
-        bug("Unable to move temporary player name %s!! save failed!", strsave.c_str());
+    auto player_file = filename_for_player(ch->name);
+    if (rename(player_temp.c_str(), player_file.c_str()) != 0) {
+        bug("Unable to move temporary player name %s!! rename failed: %s!", player_file.c_str(), strerror(errno));
     }
     fpReserve = fopen(NULL_FILE, "r");
 }
@@ -421,8 +436,6 @@ void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
  * Load a char and inventory into a new ch structure.
  */
 bool load_char_obj(Descriptor *d, const char *name) {
-    char strsave[MAX_INPUT_LENGTH];
-    char buf[MAX_STRING_LENGTH * 2];
     FILE *fp;
     bool found;
 
@@ -454,24 +467,7 @@ bool load_char_obj(Descriptor *d, const char *name) {
     found = false;
     fclose(fpReserve);
 
-    /* decompress if .gz file exists */
-    snprintf(strsave, sizeof(strsave), "%s%s%s", PLAYER_DIR, capitalize(name), ".gz");
-    if ((fp = fopen(strsave, "r")) != nullptr) {
-        FILE *q;
-        char t2[MAX_STRING_LENGTH * 2];
-        fclose(fp);
-        snprintf(t2, sizeof(t2), "%s%s", PLAYER_DIR, capitalize(name));
-        if ((q = fopen(t2, "r")) == nullptr) {
-            fclose(q);
-            snprintf(buf, sizeof(buf), "gzip -dfq %s", strsave);
-            if (system(buf) != 0) {
-                bug("Unable to decompress %s", strsave);
-            }
-        }
-    }
-
-    snprintf(strsave, sizeof(strsave), "%s%s", PLAYER_DIR, capitalize(name));
-    if ((fp = fopen(strsave, "r")) != nullptr) {
+    if ((fp = fopen(filename_for_player(name).c_str(), "r")) != nullptr) {
         int iNest;
 
         for (iNest = 0; iNest < MAX_NEST; iNest++)

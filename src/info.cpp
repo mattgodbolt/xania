@@ -13,6 +13,7 @@
 #include "comm.hpp"
 #include "handler.hpp"
 #include "merc.h"
+#include "save.hpp"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
@@ -51,7 +52,7 @@ void load_player_list() {
     KNOWN_PLAYERS *current_pos = player_list;
     DIR *dp;
     struct dirent *ep;
-    dp = opendir(PLAYER_DIR);
+    dp = opendir(get_player_dir().c_str());
     if (dp != nullptr) {
         while ((ep = (readdir(dp)))) {
             if (player_list == nullptr) {
@@ -215,13 +216,11 @@ void do_finger(Char *ch, const char *argument) {
         do_setinfo(ch, "");
         return;
     } else {
-        argument = capitalize(argument);
-
         /* Find out if argument is a mob */
         victim = get_char_world(ch, argument);
 
         /* Notice DEATH hack here!!! */
-        if (victim != nullptr && victim->is_npc() && strcmp(argument, "Death")) {
+        if (victim != nullptr && victim->is_npc() && !matches(argument, "Death")) {
             send_to_char("Mobs don't have very interesting information to give to you.\n\r", ch);
             return;
         }
@@ -357,7 +356,7 @@ void update_info_cache(Char *ch) {
 
 FingerInfo read_char_info(std::string_view player_name) {
     FingerInfo info(player_name);
-    if (auto fp = WrappedFd::open("{}{}"_format(PLAYER_DIR, player_name))) {
+    if (auto fp = WrappedFd::open(filename_for_player(player_name))) {
         for (;;) {
             const std::string word = lower_case(fread_word(fp));
             if (feof(fp))

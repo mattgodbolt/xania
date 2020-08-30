@@ -2383,21 +2383,6 @@ bool str_suffix(const char *astr, const char *bstr) {
 }
 
 /*
- * Returns an initial-capped string.
- */
-char *capitalize(const char *str) {
-    // TODO: replace across the board with the string_util version.
-    static char strcap[MAX_STRING_LENGTH];
-    int i;
-
-    for (i = 0; str[i] != '\0'; i++)
-        strcap[i] = LOWER(str[i]);
-    strcap[i] = '\0';
-    strcap[0] = UPPER(strcap[0]);
-    return strcap;
-}
-
-/*
  * Append a string to a file.
  */
 void append_file(Char *ch, const char *file, const char *str) {

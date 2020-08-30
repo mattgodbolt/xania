@@ -21,6 +21,7 @@
 #include "buffer.h"
 #include "comm.hpp"
 #include "merc.h"
+#include "string_utils.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -102,10 +103,10 @@ void load_bans() {
 
 bool check_ban(const char *site, int type) {
     BAN_DATA *pban;
+
     char host[MAX_STRING_LENGTH];
 
-    strcpy(host, capitalize(site));
-    host[0] = LOWER(host[0]);
+    strcpy(host, lower_case(site).c_str()); // TODO horrible.
 
     for (pban = ban_list; pban != nullptr; pban = pban->next) {
         if (!IS_SET(pban->ban_flags, type))

@@ -340,6 +340,15 @@ TEST_CASE("string_util tests") {
             CHECK(lower_case_articles("An acolyte of Moog") == "an acolyte of Moog");
         }
     }
+
+    SECTION("initial caps") {
+        CHECK(initial_caps_only("a monkey") == "A monkey");
+        CHECK(initial_caps_only("A MONKEY") == "A monkey");
+        CHECK(initial_caps_only("a MonkeY") == "A monkey");
+        CHECK(initial_caps_only("") == "");
+        CHECK(initial_caps_only("a") == "A");
+        CHECK(initial_caps_only("A") == "A");
+    }
 }
 
 TEST_CASE("is_name()") {

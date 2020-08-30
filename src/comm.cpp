@@ -1043,7 +1043,7 @@ bool check_parse_name(const char *name) {
     if (is_name(name, "all auto immortal self someone something the you"))
         return false;
 
-    if (!str_cmp(capitalize(name), "DEATH"))
+    if (matches(name, "DEATH"))
         return true;
 
     /*    if (str_cmp(capitalize(name),"DEATH") && (!str_prefix("death",name)

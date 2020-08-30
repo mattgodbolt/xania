@@ -1468,9 +1468,6 @@ extern size_t max_on;
  *   so players can go ahead and telnet to all the other descriptors.
  * Then we close it whenever we need to open a file (e.g. a save file).
  */
-#define PLAYER_DIR "../player/" /* Player files                 */
-#define PLAYER_TEMP "../player/temp"
-#define GOD_DIR "../gods/" /* list of gods                 */
 #define NULL_FILE "/dev/null" /* To reserve one stream        */
 
 #define AREA_LIST "area.lst" /* List of areas                */
@@ -1552,7 +1549,6 @@ int interpolate(int level, int value_00, int value_32);
 bool str_cmp(const char *astr, const char *bstr);
 bool str_prefix(const char *astr, const char *bstr);
 bool str_suffix(const char *astr, const char *bstr);
-char *capitalize(const char *str);
 void append_file(Char *ch, const char *file, const char *str);
 void bug(const char *str, ...) __attribute__((format(printf, 1, 2)));
 void log_string(std::string_view str);
