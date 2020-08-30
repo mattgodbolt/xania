@@ -20,10 +20,6 @@ public:
     [[nodiscard]] AFFECT_DATA &front() { return *first_; }
     [[nodiscard]] const AFFECT_DATA &front() const { return *first_; }
 
-    // Hacky interim shims.
-    operator AFFECT_DATA *() const noexcept { return first_; }
-    operator bool() const noexcept { return !empty(); }
-
     template <typename Func>
     void modification_safe_for_each(const Func &func) {
         AFFECT_DATA *next;
