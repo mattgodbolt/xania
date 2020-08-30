@@ -43,10 +43,9 @@ public:
     public:
         Iter(ArgParser &parser, std::string_view arg) noexcept : parser_(parser), arg_(arg){};
         std::string_view operator*() const noexcept { return arg_; }
-        Iter operator++() noexcept {
-            auto prev = *this;
+        Iter &operator++() noexcept {
             arg_ = parser_.shift();
-            return prev;
+            return *this;
         }
         bool operator==(const Iter &rhs) const noexcept { return arg_ == rhs.arg_; }
         bool operator!=(const Iter &rhs) const noexcept { return !(rhs == *this); }
