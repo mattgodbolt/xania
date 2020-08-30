@@ -296,94 +296,16 @@ void reset_char(Char *ch) {
             ch->armor[i] -= apply_ac(obj, loc, i);
 
         if (!obj->enchanted)
-            for (af = obj->pIndexData->affected; af != nullptr; af = af->next) {
-                mod = af->modifier;
-                switch (af->location) {
-                case APPLY_STR: ch->mod_stat[Stat::Str] += mod; break;
-                case APPLY_DEX: ch->mod_stat[Stat::Dex] += mod; break;
-                case APPLY_INT: ch->mod_stat[Stat::Int] += mod; break;
-                case APPLY_WIS: ch->mod_stat[Stat::Wis] += mod; break;
-                case APPLY_CON: ch->mod_stat[Stat::Con] += mod; break;
+            for (af = obj->pIndexData->affected; af != nullptr; af = af->next)
+                af->apply(*ch);
 
-                case APPLY_SEX: ch->sex += mod; break;
-                case APPLY_MANA: ch->max_mana += mod; break;
-                case APPLY_HIT: ch->max_hit += mod; break;
-                case APPLY_MOVE: ch->max_move += mod; break;
-
-                case APPLY_AC:
-                    for (i = 0; i < 4; i++)
-                        ch->armor[i] += mod;
-                    break;
-                case APPLY_HITROLL: ch->hitroll += mod; break;
-                case APPLY_DAMROLL: ch->damroll += mod; break;
-
-                case APPLY_SAVING_PARA: ch->saving_throw += mod; break;
-                case APPLY_SAVING_ROD: ch->saving_throw += mod; break;
-                case APPLY_SAVING_PETRI: ch->saving_throw += mod; break;
-                case APPLY_SAVING_BREATH: ch->saving_throw += mod; break;
-                case APPLY_SAVING_SPELL: ch->saving_throw += mod; break;
-                }
-            }
-
-        for (af = obj->affected; af != nullptr; af = af->next) {
-            mod = af->modifier;
-            switch (af->location) {
-            case APPLY_STR: ch->mod_stat[Stat::Str] += mod; break;
-            case APPLY_DEX: ch->mod_stat[Stat::Dex] += mod; break;
-            case APPLY_INT: ch->mod_stat[Stat::Int] += mod; break;
-            case APPLY_WIS: ch->mod_stat[Stat::Wis] += mod; break;
-            case APPLY_CON: ch->mod_stat[Stat::Con] += mod; break;
-
-            case APPLY_SEX: ch->sex += mod; break;
-            case APPLY_MANA: ch->max_mana += mod; break;
-            case APPLY_HIT: ch->max_hit += mod; break;
-            case APPLY_MOVE: ch->max_move += mod; break;
-
-            case APPLY_AC:
-                for (i = 0; i < 4; i++)
-                    ch->armor[i] += mod;
-                break;
-            case APPLY_HITROLL: ch->hitroll += mod; break;
-            case APPLY_DAMROLL: ch->damroll += mod; break;
-
-            case APPLY_SAVING_PARA: ch->saving_throw += mod; break;
-            case APPLY_SAVING_ROD: ch->saving_throw += mod; break;
-            case APPLY_SAVING_PETRI: ch->saving_throw += mod; break;
-            case APPLY_SAVING_BREATH: ch->saving_throw += mod; break;
-            case APPLY_SAVING_SPELL: ch->saving_throw += mod; break;
-            }
-        }
+        for (af = obj->affected; af != nullptr; af = af->next)
+            af->apply(*ch);
     }
 
     /* now add back spell effects */
-    for (af = ch->affected; af != nullptr; af = af->next) {
-        mod = af->modifier;
-        switch (af->location) {
-        case APPLY_STR: ch->mod_stat[Stat::Str] += mod; break;
-        case APPLY_DEX: ch->mod_stat[Stat::Dex] += mod; break;
-        case APPLY_INT: ch->mod_stat[Stat::Int] += mod; break;
-        case APPLY_WIS: ch->mod_stat[Stat::Wis] += mod; break;
-        case APPLY_CON: ch->mod_stat[Stat::Con] += mod; break;
-
-        case APPLY_SEX: ch->sex += mod; break;
-        case APPLY_MANA: ch->max_mana += mod; break;
-        case APPLY_HIT: ch->max_hit += mod; break;
-        case APPLY_MOVE: ch->max_move += mod; break;
-
-        case APPLY_AC:
-            for (i = 0; i < 4; i++)
-                ch->armor[i] += mod;
-            break;
-        case APPLY_HITROLL: ch->hitroll += mod; break;
-        case APPLY_DAMROLL: ch->damroll += mod; break;
-
-        case APPLY_SAVING_PARA: ch->saving_throw += mod; break;
-        case APPLY_SAVING_ROD: ch->saving_throw += mod; break;
-        case APPLY_SAVING_PETRI: ch->saving_throw += mod; break;
-        case APPLY_SAVING_BREATH: ch->saving_throw += mod; break;
-        case APPLY_SAVING_SPELL: ch->saving_throw += mod; break;
-        }
-    }
+    for (af = ch->affected; af != nullptr; af = af->next)
+        af->apply(*ch);
 
     /* make sure sex is RIGHT!!!! */
     if (ch->sex < 0 || ch->sex > 2)
@@ -448,55 +370,17 @@ int can_carry_w(Char *ch) {
  * Apply or remove an affect to a character.
  */
 void affect_modify(Char *ch, AFFECT_DATA *paf, bool fAdd) {
-    OBJ_DATA *wield;
-    int mod, i;
-
-    mod = paf->modifier;
-
     if (fAdd) {
-        SET_BIT(ch->affected_by, paf->bitvector);
+        paf->apply(*ch);
     } else {
-        REMOVE_BIT(ch->affected_by, paf->bitvector);
-        mod = 0 - mod;
-    }
-
-    switch (paf->location) {
-    default: bug("Affect_modify: unknown location %d.", paf->location); return;
-
-    case APPLY_NONE: break;
-    case APPLY_STR: ch->mod_stat[Stat::Str] += mod; break;
-    case APPLY_DEX: ch->mod_stat[Stat::Dex] += mod; break;
-    case APPLY_INT: ch->mod_stat[Stat::Int] += mod; break;
-    case APPLY_WIS: ch->mod_stat[Stat::Wis] += mod; break;
-    case APPLY_CON: ch->mod_stat[Stat::Con] += mod; break;
-    case APPLY_SEX: ch->sex += mod; break;
-    case APPLY_CLASS: break;
-    case APPLY_LEVEL: break;
-    case APPLY_AGE: break;
-    case APPLY_HEIGHT: break;
-    case APPLY_WEIGHT: break;
-    case APPLY_MANA: ch->max_mana += mod; break;
-    case APPLY_HIT: ch->max_hit += mod; break;
-    case APPLY_MOVE: ch->max_move += mod; break;
-    case APPLY_GOLD: break;
-    case APPLY_EXP: break;
-    case APPLY_AC:
-        for (i = 0; i < 4; i++)
-            ch->armor[i] += mod;
-        break;
-    case APPLY_HITROLL: ch->hitroll += mod; break;
-    case APPLY_DAMROLL: ch->damroll += mod; break;
-    case APPLY_SAVING_PARA: ch->saving_throw += mod; break;
-    case APPLY_SAVING_ROD: ch->saving_throw += mod; break;
-    case APPLY_SAVING_PETRI: ch->saving_throw += mod; break;
-    case APPLY_SAVING_BREATH: ch->saving_throw += mod; break;
-    case APPLY_SAVING_SPELL: ch->saving_throw += mod; break;
+        paf->unapply(*ch);
     }
 
     /*
      * Check for weapon wielding.
      * Guard against recursion (for weapons with affects).
      */
+    OBJ_DATA *wield;
     if (ch->is_pc() && (wield = get_eq_char(ch, WEAR_WIELD)) != nullptr
         && get_obj_weight(wield) > str_app[get_curr_stat(ch, Stat::Str)].wield) {
         static int depth;

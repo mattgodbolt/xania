@@ -48,53 +48,17 @@ void mobbug(const char *str, MOB_INDEX_DATA *mob) {
 }
 
 int report_object(OBJ_DATA *object, int boot) {
-    int worth = 0, hit = 0, dam = 0;
     int averagedam, allowedaverage;
     AFFECT_DATA *paf;
     OBJ_INDEX_DATA *obj = object->pIndexData;
 
-    for (paf = obj->affected; paf; paf = paf->next) {
-        switch (paf->location) {
-
-        default: break;
-
-        case APPLY_STR:
-        case APPLY_DEX:
-        case APPLY_INT:
-        case APPLY_WIS:
-        case APPLY_CON:
-            if (paf->modifier > 0)
-                worth += paf->modifier;
-            break;
-
-        case APPLY_HITROLL: hit += paf->modifier; break;
-        case APPLY_DAMROLL: dam += paf->modifier; break;
-
-        case APPLY_SAVING_PARA:
-        case APPLY_SAVING_ROD:
-        case APPLY_SAVING_PETRI:
-        case APPLY_SAVING_BREATH:
-        case APPLY_SAVING_SPELL:
-        case APPLY_AC:
-            if (paf->modifier < 0)
-                worth -= paf->modifier;
-            break;
-
-        case APPLY_MANA:
-        case APPLY_HIT:
-        case APPLY_MOVE:
-            if (paf->modifier > 0)
-                worth += (paf->modifier + 6) / 7;
-            break;
-        }
-    }
+    AFFECT_DATA::Value value;
+    for (paf = obj->affected; paf; paf = paf->next)
+        value += paf->worth();
     /* Weapons are allowed 1 hit and 1 dam for each point */
 
-    if (obj->item_type == ITEM_WEAPON) {
-        worth += (hit + dam) / 2;
-    } else {
-        worth += (hit + dam);
-    }
+    auto worth =
+        value.worth + obj->item_type == ITEM_WEAPON ? (value.hit + value.damage) / 2 : value.hit + value.damage;
 
     /* Object specific routines */
 

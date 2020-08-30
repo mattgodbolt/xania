@@ -733,36 +733,6 @@ static inline constexpr auto ff = BIT(31);
 #define WEAPON_ACID (K)
 
 /*
- * Apply types (for affects).
- * Used in #OBJECTS.
- */
-#define APPLY_NONE 0
-#define APPLY_STR 1
-#define APPLY_DEX 2
-#define APPLY_INT 3
-#define APPLY_WIS 4
-#define APPLY_CON 5
-#define APPLY_SEX 6
-#define APPLY_CLASS 7
-#define APPLY_LEVEL 8
-#define APPLY_AGE 9
-#define APPLY_HEIGHT 10
-#define APPLY_WEIGHT 11
-#define APPLY_MANA 12
-#define APPLY_HIT 13
-#define APPLY_MOVE 14
-#define APPLY_GOLD 15
-#define APPLY_EXP 16
-#define APPLY_AC 17
-#define APPLY_HITROLL 18
-#define APPLY_DAMROLL 19
-#define APPLY_SAVING_PARA 20
-#define APPLY_SAVING_ROD 21
-#define APPLY_SAVING_PETRI 22
-#define APPLY_SAVING_BREATH 23
-#define APPLY_SAVING_SPELL 24
-
-/*
  * Values for containers (value[1]).
  * Used in #OBJECTS.
  */
