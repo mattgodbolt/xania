@@ -668,7 +668,7 @@ void spell_armor(int sn, int level, Char *ch, void *vo) {
     af.level = level;
     af.duration = 24;
     af.modifier = -20;
-    af.location = APPLY_AC;
+    af.location = AffectLocation::Ac;
     af.bitvector = 0;
     affect_to_char(victim, &af);
     send_to_char("You feel someone protecting you.\n\r", victim);
@@ -690,12 +690,12 @@ void spell_bless(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 6 + level;
-    af.location = APPLY_HITROLL;
+    af.location = AffectLocation::Hitroll;
     af.modifier = level / 8;
     af.bitvector = 0;
     affect_to_char(victim, &af);
 
-    af.location = APPLY_SAVING_SPELL;
+    af.location = AffectLocation::SavingSpell;
     af.modifier = 0 - level / 8;
     affect_to_char(victim, &af);
     send_to_char("You feel righteous.\n\r", victim);
@@ -721,7 +721,7 @@ void spell_blindness(int sn, int level, Char *ch, void *vo) {
     AFFECT_DATA af;
     af.type = sn;
     af.level = level;
-    af.location = APPLY_HITROLL;
+    af.location = AffectLocation::Hitroll;
     af.modifier = -4;
     af.duration = 1;
     af.bitvector = AFF_BLIND;
@@ -830,7 +830,7 @@ void spell_calm(int sn, int level, Char *ch, void *vo) {
             af.type = sn;
             af.level = level;
             af.duration = level / 4;
-            af.location = APPLY_HITROLL;
+            af.location = AffectLocation::Hitroll;
             if (vch->is_pc())
                 af.modifier = -5;
             else
@@ -838,7 +838,7 @@ void spell_calm(int sn, int level, Char *ch, void *vo) {
             af.bitvector = AFF_CALM;
             affect_to_char(vch, &af);
 
-            af.location = APPLY_DAMROLL;
+            af.location = AffectLocation::Damroll;
             affect_to_char(vch, &af);
         }
     }
@@ -1108,7 +1108,7 @@ void spell_change_sex(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 2 * level;
-    af.location = APPLY_SEX;
+    af.location = AffectLocation::Sex;
     do {
         af.modifier = number_range(0, 2) - victim->sex;
     } while (af.modifier == 0);
@@ -1143,8 +1143,6 @@ void spell_charm_person(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = number_fuzzy(level / 4);
-    af.location = 0;
-    af.modifier = 0;
     af.bitvector = AFF_CHARM;
     affect_to_char(victim, &af);
     act("Isn't $n just so nice?", ch, nullptr, victim, To::Vict);
@@ -1168,7 +1166,7 @@ void spell_chill_touch(int sn, int level, Char *ch, void *vo) {
         af.type = sn;
         af.level = level;
         af.duration = 6;
-        af.location = APPLY_STR;
+        af.location = AffectLocation::Str;
         af.modifier = -1;
         af.bitvector = 0;
         affect_join(victim, &af);
@@ -1379,12 +1377,12 @@ void spell_curse(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 3 + (level / 6);
-    af.location = APPLY_HITROLL;
+    af.location = AffectLocation::Hitroll;
     af.modifier = -1 * (level / 8);
     af.bitvector = AFF_CURSE;
     affect_to_char(victim, &af);
 
-    af.location = APPLY_SAVING_SPELL;
+    af.location = AffectLocation::SavingSpell;
     af.modifier = level / 8;
     affect_to_char(victim, &af);
 
@@ -1459,8 +1457,6 @@ void spell_detect_evil(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level;
-    af.modifier = 0;
-    af.location = APPLY_NONE;
     af.bitvector = AFF_DETECT_EVIL;
     affect_to_char(victim, &af);
     send_to_char("Your eyes tingle.\n\r", victim);
@@ -1481,8 +1477,6 @@ void spell_detect_hidden(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level;
-    af.location = APPLY_NONE;
-    af.modifier = 0;
     af.bitvector = AFF_DETECT_HIDDEN;
     affect_to_char(victim, &af);
     send_to_char("Your awareness improves.\n\r", victim);
@@ -1503,8 +1497,6 @@ void spell_detect_invis(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level;
-    af.modifier = 0;
-    af.location = APPLY_NONE;
     af.bitvector = AFF_DETECT_INVIS;
     affect_to_char(victim, &af);
     send_to_char("Your eyes tingle.\n\r", victim);
@@ -1525,8 +1517,6 @@ void spell_detect_magic(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level;
-    af.modifier = 0;
-    af.location = APPLY_NONE;
     af.bitvector = AFF_DETECT_MAGIC;
     affect_to_char(victim, &af);
     send_to_char("Your eyes tingle.\n\r", victim);
@@ -1901,7 +1891,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
     bool ac_found = false;
     if (!obj->enchanted)
         for (AFFECT_DATA *paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
-            if (paf->location == APPLY_AC) {
+            if (paf->location == AffectLocation::Ac) {
                 ac_bonus = paf->modifier;
                 ac_found = true;
                 fail += 5 * (ac_bonus * ac_bonus);
@@ -1912,7 +1902,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
         }
 
     for (AFFECT_DATA *paf = obj->affected; paf != nullptr; paf = paf->next) {
-        if (paf->location == APPLY_AC) {
+        if (paf->location == AffectLocation::Ac) {
             ac_bonus = paf->modifier;
             ac_found = true;
             fail += 5 * (ac_bonus * ac_bonus);
@@ -2006,7 +1996,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
 
     if (ac_found) {
         for (AFFECT_DATA *paf = obj->affected; paf != nullptr; paf = paf->next) {
-            if (paf->location == APPLY_AC) {
+            if (paf->location == AffectLocation::Ac) {
                 paf->type = sn;
                 paf->modifier += added;
                 paf->level = UMAX(paf->level, level);
@@ -2017,7 +2007,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
         paf->type = sn;
         paf->level = level;
         paf->duration = -1;
-        paf->location = APPLY_AC;
+        paf->location = AffectLocation::Ac;
         paf->modifier = added;
         paf->bitvector = 0;
         paf->next = obj->affected;
@@ -2059,13 +2049,13 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
     bool hit_found = false, dam_found = false;
     if (!obj->enchanted) {
         for (AFFECT_DATA *paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
-            if (paf->location == APPLY_HITROLL) {
+            if (paf->location == AffectLocation::Hitroll) {
                 hit_bonus = paf->modifier;
                 hit_found = true;
                 fail += 2 * (hit_bonus * hit_bonus) * modifier;
             }
 
-            else if (paf->location == APPLY_DAMROLL) {
+            else if (paf->location == AffectLocation::Damroll) {
                 dam_bonus = paf->modifier;
                 dam_found = true;
                 fail += 2 * (dam_bonus * dam_bonus) * modifier;
@@ -2077,11 +2067,11 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
     }
 
     for (AFFECT_DATA *paf = obj->affected; paf != nullptr; paf = paf->next) {
-        if (paf->location == APPLY_HITROLL) {
+        if (paf->location == AffectLocation::Hitroll) {
             hit_bonus = paf->modifier;
             hit_found = true;
             fail += 2 * (hit_bonus * hit_bonus) * modifier;
-        } else if (paf->location == APPLY_DAMROLL) {
+        } else if (paf->location == AffectLocation::Damroll) {
             dam_bonus = paf->modifier;
             dam_found = true;
             fail += 2 * (dam_bonus * dam_bonus) * modifier;
@@ -2106,7 +2096,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
     if (obj->item_type == ITEM_ARMOR && (ch->get_trust() < MAX_LEVEL)) {
         AFFECT_DATA *paf;
         for (paf = obj->affected; paf != nullptr; paf = paf->next) {
-            if ((paf->type == sn) && (paf->location == APPLY_DAMROLL))
+            if ((paf->type == sn) && (paf->location == AffectLocation::Damroll))
                 break;
         }
         if (paf != nullptr) {
@@ -2188,7 +2178,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
 
     if (dam_found) {
         for (AFFECT_DATA *paf = obj->affected; paf != nullptr; paf = paf->next) {
-            if (paf->location == APPLY_DAMROLL) {
+            if (paf->location == AffectLocation::Damroll) {
                 paf->type = sn;
                 paf->modifier += added;
                 paf->level = UMAX(paf->level, level);
@@ -2201,7 +2191,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
         paf->type = sn;
         paf->level = level;
         paf->duration = -1;
-        paf->location = APPLY_DAMROLL;
+        paf->location = AffectLocation::Damroll;
         paf->modifier = added;
         paf->bitvector = 0;
         paf->next = obj->affected;
@@ -2210,7 +2200,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
 
     if (hit_found) {
         for (AFFECT_DATA *paf = obj->affected; paf != nullptr; paf = paf->next) {
-            if (paf->location == APPLY_HITROLL) {
+            if (paf->location == AffectLocation::Hitroll) {
                 paf->type = sn;
                 paf->modifier += added;
                 paf->level = UMAX(paf->level, level);
@@ -2223,7 +2213,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
         paf->type = sn;
         paf->level = level;
         paf->duration = -1;
-        paf->location = APPLY_HITROLL;
+        paf->location = AffectLocation::Hitroll;
         paf->modifier = added;
         paf->bitvector = 0;
         paf->next = obj->affected;
@@ -2485,7 +2475,7 @@ void spell_faerie_fire(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level;
-    af.location = APPLY_AC;
+    af.location = AffectLocation::Ac;
     af.modifier = 2 * level;
     af.bitvector = AFF_FAERIE_FIRE;
     affect_to_char(victim, &af);
@@ -2535,8 +2525,6 @@ void spell_fly(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level + 3;
-    af.location = 0;
-    af.modifier = 0;
     af.bitvector = AFF_FLYING;
     affect_to_char(victim, &af);
     send_to_char("Your feet rise off the ground.\n\r", victim);
@@ -2579,14 +2567,14 @@ void spell_frenzy(int sn, int level, Char *ch, void *vo) {
     af.modifier = level / 6;
     af.bitvector = 0;
 
-    af.location = APPLY_HITROLL;
+    af.location = AffectLocation::Hitroll;
     affect_to_char(victim, &af);
 
-    af.location = APPLY_DAMROLL;
+    af.location = AffectLocation::Damroll;
     affect_to_char(victim, &af);
 
     af.modifier = 10 * (level / 6);
-    af.location = APPLY_AC;
+    af.location = AffectLocation::Ac;
     affect_to_char(victim, &af);
 
     send_to_char("You are filled with holy wrath!\n\r", victim);
@@ -2654,7 +2642,7 @@ void spell_giant_strength(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level;
-    af.location = APPLY_STR;
+    af.location = AffectLocation::Str;
     af.modifier = 1 + (level >= 18) + (level >= 25) + (level >= 32);
     af.bitvector = 0;
     affect_to_char(victim, &af);
@@ -2689,8 +2677,6 @@ void spell_regeneration(int sn, int level, Char *ch, void *vo) {
         af.duration = level / 2;
     else
         af.duration = level / 4;
-    af.location = APPLY_NONE;
-    af.modifier = 0;
     af.bitvector = AFF_REGENERATION;
     affect_to_char(victim, &af);
     send_to_char("You feel vibrant!\n\r", victim);
@@ -2718,7 +2704,7 @@ void spell_haste(int sn, int level, Char *ch, void *vo) {
         af.duration = level / 2;
     else
         af.duration = level / 4;
-    af.location = APPLY_DEX;
+    af.location = AffectLocation::Dex;
     af.modifier = 1 + (level >= 18) + (level >= 25) + (level >= 32);
     af.bitvector = AFF_HASTE;
     affect_to_char(victim, &af);
@@ -2749,12 +2735,12 @@ void spell_insanity(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 5;
-    af.location = APPLY_WIS;
+    af.location = AffectLocation::Wis;
     af.modifier = -(1 + (level >= 20) + (level >= 30) + (level >= 50) + (level >= 75) + (level >= 91));
     af.bitvector = 0;
 
     affect_to_char(victim, &af);
-    af.location = APPLY_INT;
+    af.location = AffectLocation::Int;
     affect_to_char(victim, &af);
     if (ch != victim)
         act("$N suddenly appears very confused.", ch, nullptr, victim, To::Char);
@@ -2780,7 +2766,7 @@ void spell_lethargy(int sn, int level, Char *ch, void *vo) {
         af.duration = level / 2;
     else
         af.duration = level / 4;
-    af.location = APPLY_DEX;
+    af.location = AffectLocation::Dex;
     af.modifier = -(1 + (level >= 18) + (level >= 25) + (level >= 32));
     af.bitvector = AFF_LETHARGY;
     affect_to_char(victim, &af);
@@ -2973,17 +2959,13 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
 
     if (!obj->enchanted)
         for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
-            if (paf->location != APPLY_NONE && paf->modifier != 0) {
-                snprintf(buf, sizeof(buf), "Affects %s by %d.\n\r", affect_loc_name(paf->location), paf->modifier);
-                send_to_char(buf, ch);
-            }
+            if (paf->affects_stats())
+                ch->send_to("Affects {}.\n\r"_format(paf->describe_item_effect()));
         }
 
     for (paf = obj->affected; paf != nullptr; paf = paf->next) {
-        if (paf->location != APPLY_NONE && paf->modifier != 0) {
-            snprintf(buf, sizeof(buf), "Affects %s by %d.\n\r", affect_loc_name(paf->location), paf->modifier);
-            send_to_char(buf, ch);
-        }
+        if (paf->affects_stats())
+            ch->send_to("Affects {}.\n\r"_format(paf->describe_item_effect()));
     }
 }
 
@@ -3002,8 +2984,6 @@ void spell_infravision(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 2 * level;
-    af.location = APPLY_NONE;
-    af.modifier = 0;
     af.bitvector = AFF_INFRARED;
     affect_to_char(victim, &af);
     send_to_char("Your eyes glow red.\n\r", victim);
@@ -3021,8 +3001,6 @@ void spell_invis(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 24;
-    af.location = APPLY_NONE;
-    af.modifier = 0;
     af.bitvector = AFF_INVISIBLE;
     affect_to_char(victim, &af);
     send_to_char("You fade out of existence.\n\r", victim);
@@ -3163,8 +3141,6 @@ void spell_mass_invis(int sn, int level, Char *ch, void *vo) {
         af.type = sn;
         af.level = level / 2;
         af.duration = 24;
-        af.location = APPLY_NONE;
-        af.modifier = 0;
         af.bitvector = AFF_INVISIBLE;
         affect_to_char(gch, &af);
     }
@@ -3188,7 +3164,7 @@ void spell_octarine_fire(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 2;
-    af.location = APPLY_AC;
+    af.location = AffectLocation::Ac;
     af.modifier = 10 * level;
     af.bitvector = AFF_OCTARINE_FIRE;
     affect_to_char(victim, &af);
@@ -3210,8 +3186,6 @@ void spell_pass_door(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = number_fuzzy(level / 4);
-    af.location = APPLY_NONE;
-    af.modifier = 0;
     af.bitvector = AFF_PASS_DOOR;
     affect_to_char(victim, &af);
     act("$n turns translucent.", victim);
@@ -3235,7 +3209,7 @@ void spell_plague(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level * 3 / 4;
     af.duration = level;
-    af.location = APPLY_STR;
+    af.location = AffectLocation::Str;
     af.modifier = -5;
     af.bitvector = AFF_PLAGUE;
     affect_join(victim, &af);
@@ -3305,7 +3279,7 @@ void spell_poison(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level;
-    af.location = APPLY_STR;
+    af.location = AffectLocation::Str;
     af.modifier = -2;
     af.bitvector = AFF_POISON;
     affect_join(victim, &af);
@@ -3327,8 +3301,6 @@ void spell_protection_evil(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 24;
-    af.location = APPLY_NONE;
-    af.modifier = 0;
     af.bitvector = AFF_PROTECTION_EVIL;
     affect_to_char(victim, &af);
     send_to_char("You feel protected from evil.\n\r", victim);
@@ -3350,8 +3322,6 @@ void spell_protection_good(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 24;
-    af.location = APPLY_NONE;
-    af.modifier = 0;
     af.bitvector = AFF_PROTECTION_GOOD;
     affect_to_char(victim, &af);
     send_to_char("You feel protected from good.\n\r", victim);
@@ -3426,8 +3396,6 @@ void spell_sanctuary(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = number_fuzzy(level / 6);
-    af.location = APPLY_NONE;
-    af.modifier = 0;
     af.bitvector = AFF_SANCTUARY;
     affect_to_char(victim, &af);
     act("$n is surrounded by a white aura.", victim);
@@ -3448,8 +3416,6 @@ void spell_talon(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = number_fuzzy(level / 6);
-    af.location = APPLY_NONE;
-    af.modifier = 0;
     af.bitvector = AFF_TALON;
     affect_to_char(victim, &af);
     act("$n's hands become as strong as talons.", victim);
@@ -3470,7 +3436,7 @@ void spell_shield(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 8 + level;
-    af.location = APPLY_AC;
+    af.location = AffectLocation::Ac;
     af.modifier = -20;
     af.bitvector = 0;
     affect_to_char(victim, &af);
@@ -3505,8 +3471,6 @@ void spell_sleep(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 4 + level;
-    af.location = APPLY_NONE;
-    af.modifier = 0;
     af.bitvector = AFF_SLEEP;
     affect_join(victim, &af);
 
@@ -3531,7 +3495,7 @@ void spell_stone_skin(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level;
-    af.location = APPLY_AC;
+    af.location = AffectLocation::Ac;
     af.modifier = -40;
     af.bitvector = 0;
     affect_to_char(victim, &af);
@@ -3655,7 +3619,7 @@ void spell_weaken(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level / 2;
-    af.location = APPLY_STR;
+    af.location = AffectLocation::Str;
     af.modifier = -1 * (level / 5);
     af.bitvector = AFF_WEAKEN;
     affect_to_char(victim, &af);

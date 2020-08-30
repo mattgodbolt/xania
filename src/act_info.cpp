@@ -1287,30 +1287,20 @@ void do_affected(Char *ch, const char *argument) {
     (void)argument;
     char buf[MAX_STRING_LENGTH];
     AFFECT_DATA *paf;
-    int flag = 0;
 
     send_to_char("You are affected by:\n\r", ch);
 
     if (ch->affected != nullptr) {
         for (paf = ch->affected; paf != nullptr; paf = paf->next) {
-            if ((paf->type == gsn_sneak) || (paf->type == gsn_ride)) {
+            if ((paf->is_skill())) {
                 snprintf(buf, sizeof(buf), "Skill: '%s'", skill_table[paf->type].name);
-                flag = 1;
             } else {
                 snprintf(buf, sizeof(buf), "Spell: '%s'", skill_table[paf->type].name);
-                flag = 0;
             }
             send_to_char(buf, ch);
 
             if (ch->level >= 20) {
-                if (flag == 0) {
-                    snprintf(buf, sizeof(buf), " modifies %s by %d for %d hours", affect_loc_name(paf->location),
-                             paf->modifier, paf->duration);
-                    send_to_char(buf, ch);
-                } else {
-                    snprintf(buf, sizeof(buf), " modifies %s by %d", affect_loc_name(paf->location), paf->modifier);
-                    send_to_char(buf, ch);
-                }
+                ch->send_to(" modifies {}"_format(paf->describe_char_effect()));
             }
 
             send_to_char(".\n\r", ch);

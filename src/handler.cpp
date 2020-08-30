@@ -231,28 +231,31 @@ void reset_char(Char *ch) {
             obj = get_eq_char(ch, loc);
             if (obj == nullptr)
                 continue;
+            // TODO: this is similar to the unapply but not quite the same - is it important?
             if (!obj->enchanted)
                 for (af = obj->pIndexData->affected; af != nullptr; af = af->next) {
                     mod = af->modifier;
                     switch (af->location) {
-                    case APPLY_SEX:
+                    default: break;
+                    case AffectLocation::Sex:
                         ch->sex -= mod;
                         if (ch->sex < 0 || ch->sex > 2)
                             ch->sex = ch->is_npc() ? 0 : ch->pcdata->true_sex;
                         break;
-                    case APPLY_MANA: ch->max_mana -= mod; break;
-                    case APPLY_HIT: ch->max_hit -= mod; break;
-                    case APPLY_MOVE: ch->max_move -= mod; break;
+                    case AffectLocation::Mana: ch->max_mana -= mod; break;
+                    case AffectLocation::Hit: ch->max_hit -= mod; break;
+                    case AffectLocation::Move: ch->max_move -= mod; break;
                     }
                 }
 
             for (af = obj->affected; af != nullptr; af = af->next) {
                 mod = af->modifier;
                 switch (af->location) {
-                case APPLY_SEX: ch->sex -= mod; break;
-                case APPLY_MANA: ch->max_mana -= mod; break;
-                case APPLY_HIT: ch->max_hit -= mod; break;
-                case APPLY_MOVE: ch->max_move -= mod; break;
+                default: break;
+                case AffectLocation::Sex: ch->sex -= mod; break;
+                case AffectLocation::Mana: ch->max_mana -= mod; break;
+                case AffectLocation::Hit: ch->max_hit -= mod; break;
+                case AffectLocation::Move: ch->max_move -= mod; break;
                 }
             }
         }
@@ -615,7 +618,7 @@ void char_to_room(Char *ch, ROOM_INDEX_DATA *pRoomIndex) {
         plague.type = gsn_plague;
         plague.level = af->level - 1;
         plague.duration = number_range(1, 2 * plague.level);
-        plague.location = APPLY_STR;
+        plague.location = AffectLocation::Str;
         plague.modifier = -5;
         plague.bitvector = AFF_PLAGUE;
 
@@ -1433,105 +1436,72 @@ const char *item_index_type_name(OBJ_INDEX_DATA *obj) {
 }
 
 /*
- * Return ascii name of an affect location.
- */
-const char *affect_loc_name(int location) {
-    switch (location) {
-    case APPLY_NONE: return "none";
-    case APPLY_STR: return "strength";
-    case APPLY_DEX: return "dexterity";
-    case APPLY_INT: return "intelligence";
-    case APPLY_WIS: return "wisdom";
-    case APPLY_CON: return "constitution";
-    case APPLY_SEX: return "sex";
-    case APPLY_CLASS: return "class";
-    case APPLY_LEVEL: return "level";
-    case APPLY_AGE: return "age";
-    case APPLY_MANA: return "mana";
-    case APPLY_HIT: return "hp";
-    case APPLY_MOVE: return "moves";
-    case APPLY_GOLD: return "gold";
-    case APPLY_EXP: return "experience";
-    case APPLY_AC: return "armor class";
-    case APPLY_HITROLL: return "hit roll";
-    case APPLY_DAMROLL: return "damage roll";
-    case APPLY_SAVING_PARA: return "save vs paralysis";
-    case APPLY_SAVING_ROD: return "save vs rod";
-    case APPLY_SAVING_PETRI: return "save vs petrification";
-    case APPLY_SAVING_BREATH: return "save vs breath";
-    case APPLY_SAVING_SPELL: return "save vs spell";
-    }
-
-    bug("Affect_location_name: unknown location %d.", location);
-    return "(unknown)";
-}
-
-/*
  * Return ascii name of an affect bit vector.
  */
-const char *affect_bit_name(int vector) {
-    static char buf[512];
+std::string affect_bit_name(unsigned int vector) {
+    std::string buf;
 
-    buf[0] = '\0';
     if (vector & AFF_BLIND)
-        strcat(buf, " blind");
+        buf += " blind";
     if (vector & AFF_INVISIBLE)
-        strcat(buf, " invisible");
+        buf += " invisible";
     if (vector & AFF_DETECT_EVIL)
-        strcat(buf, " detect_evil");
+        buf += " detect_evil";
     if (vector & AFF_DETECT_INVIS)
-        strcat(buf, " detect_invis");
+        buf += " detect_invis";
     if (vector & AFF_DETECT_MAGIC)
-        strcat(buf, " detect_magic");
+        buf += " detect_magic";
     if (vector & AFF_DETECT_HIDDEN)
-        strcat(buf, " detect_hidden");
+        buf += " detect_hidden";
     if (vector & AFF_TALON)
-        strcat(buf, " talon");
+        buf += " talon";
     if (vector & AFF_SANCTUARY)
-        strcat(buf, " sanctuary");
+        buf += " sanctuary";
     if (vector & AFF_FAERIE_FIRE)
-        strcat(buf, " faerie_fire");
+        buf += " faerie_fire";
     if (vector & AFF_INFRARED)
-        strcat(buf, " infrared");
+        buf += " infrared";
     if (vector & AFF_CURSE)
-        strcat(buf, " curse");
+        buf += " curse";
     if (vector & AFF_POISON)
-        strcat(buf, " poison");
+        buf += " poison";
     if (vector & AFF_PROTECTION_EVIL)
-        strcat(buf, " protection_evil");
+        buf += " protection_evil";
     if (vector & AFF_PROTECTION_GOOD)
-        strcat(buf, " protection_good");
+        buf += " protection_good";
     /*   if ( vector & AFF_PARALYSIS     ) strcat( buf, " paralysis"     );*/
     /* REMOVE by Death, as we don't have the spell */
     if (vector & AFF_SLEEP)
-        strcat(buf, " sleep");
+        buf += " sleep";
     if (vector & AFF_SNEAK)
-        strcat(buf, " sneak");
+        buf += " sneak";
     if (vector & AFF_HIDE)
-        strcat(buf, " hide");
+        buf += " hide";
     if (vector & AFF_CHARM)
-        strcat(buf, " charm");
+        buf += " charm";
     if (vector & AFF_FLYING)
-        strcat(buf, " flying");
+        buf += " flying";
     if (vector & AFF_PASS_DOOR)
-        strcat(buf, " pass_door");
+        buf += " pass_door";
     if (vector & AFF_BERSERK)
-        strcat(buf, " berserk");
+        buf += " berserk";
     if (vector & AFF_CALM)
-        strcat(buf, " calm");
+        buf += " calm";
     if (vector & AFF_HASTE)
-        strcat(buf, " haste");
+        buf += " haste";
     if (vector & AFF_REGENERATION)
-        strcat(buf, " regeneration");
+        buf += " regeneration";
     if (vector & AFF_PLAGUE)
-        strcat(buf, " plague");
+        buf += " plague";
     if (vector & AFF_DARK_VISION)
-        strcat(buf, " dark_vision");
+        buf += " dark_vision";
     if (vector & AFF_LETHARGY)
-        strcat(buf, " lethargy");
+        buf += " lethargy";
     if (vector & AFF_OCTARINE_FIRE)
-        strcat(buf, " octarine fire");
-    return (buf[0] != '\0') ? buf + 1 : "none";
+        buf += " octarine fire";
+    if (buf.empty())
+        return "none";
+    return buf.substr(1);
 }
 
 /*

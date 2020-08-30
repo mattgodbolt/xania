@@ -2,33 +2,40 @@
 
 #include "Types.hpp"
 
+#include <string>
+#include <string_view>
+
 // Apply types (for affects).
 // Used in #OBJECTS, so value is important.
-#define APPLY_NONE 0
-#define APPLY_STR 1
-#define APPLY_DEX 2
-#define APPLY_INT 3
-#define APPLY_WIS 4
-#define APPLY_CON 5
-#define APPLY_SEX 6
-#define APPLY_CLASS 7
-#define APPLY_LEVEL 8
-#define APPLY_AGE 9
-//#define APPLY_HEIGHT 10
-//#define APPLY_WEIGHT 11
-#define APPLY_MANA 12
-#define APPLY_HIT 13
-#define APPLY_MOVE 14
-#define APPLY_GOLD 15
-#define APPLY_EXP 16
-#define APPLY_AC 17
-#define APPLY_HITROLL 18
-#define APPLY_DAMROLL 19
-#define APPLY_SAVING_PARA 20
-#define APPLY_SAVING_ROD 21
-#define APPLY_SAVING_PETRI 22
-#define APPLY_SAVING_BREATH 23
-#define APPLY_SAVING_SPELL 24
+enum class AffectLocation {
+    None = 0,
+    Str = 1,
+    Dex = 2,
+    Int = 3,
+    Wis = 4,
+    Con = 5,
+    Sex = 6,
+    Class = 7,
+    Level = 8,
+    Age = 9,
+    Height = 10,
+    Weight = 11,
+    Mana = 12,
+    Hit = 13,
+    Move = 14,
+    Gold = 15,
+    Exp = 16,
+    Ac = 17,
+    Hitroll = 18,
+    Damroll = 19,
+    SavingPara = 20,
+    SavingRod = 21,
+    SavingPetri = 22,
+    SavingBreath = 23,
+    SavingSpell = 24,
+};
+
+[[nodiscard]] std::string_view name(AffectLocation location);
 
 // A single effect that affects an object or character.
 struct AFFECT_DATA {
@@ -36,7 +43,7 @@ struct AFFECT_DATA {
     sh_int type{};
     sh_int level{};
     sh_int duration{};
-    sh_int location{};
+    AffectLocation location{AffectLocation::None};
     sh_int modifier{};
     unsigned int bitvector{};
 
@@ -55,6 +62,12 @@ struct AFFECT_DATA {
         }
     };
     [[nodiscard]] Value worth() const noexcept;
+
+    [[nodiscard]] bool affects_stats() const noexcept { return location != AffectLocation::None && modifier; }
+    [[nodiscard]] std::string describe_item_effect(bool for_imm = false) const;
+    [[nodiscard]] std::string describe_char_effect(bool for_imm = false) const;
+
+    [[nodiscard]] bool is_skill() const noexcept;
 
 private:
     void modify(Char &ch, bool apply);

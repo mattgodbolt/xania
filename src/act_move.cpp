@@ -950,18 +950,16 @@ void do_wake(Char *ch, const char *argument) {
 
 void do_sneak(Char *ch, const char *argument) {
     (void)argument;
-    AFFECT_DATA af;
 
     send_to_char("You attempt to move silently.\n\r", ch);
     affect_strip(ch, gsn_sneak);
 
     if (ch->is_npc() || number_percent() < get_skill_learned(ch, gsn_sneak)) {
         check_improve(ch, gsn_sneak, true, 3);
+        AFFECT_DATA af;
         af.type = gsn_sneak;
         af.level = ch->level;
         af.duration = ch->level;
-        af.location = APPLY_NONE;
-        af.modifier = 0;
         af.bitvector = AFF_SNEAK;
         affect_to_char(ch, &af);
     } else

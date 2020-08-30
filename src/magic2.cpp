@@ -73,16 +73,16 @@ void tornado_mental(Char *ch, Char *victim, int level) {
     af.type = skill_lookup("psychic tornado");
     af.level = level;
     af.duration = 2;
-    af.location = APPLY_HITROLL;
+    af.location = AffectLocation::Hitroll;
     af.modifier = -4;
     af.bitvector = AFF_BLIND;
     affect_to_char(victim, &af);
 
-    af.location = APPLY_WIS;
+    af.location = AffectLocation::Wis;
     af.modifier = -(1 + (level >= 20) + (level >= 30) + (level >= 50) + (level >= 75) + (level >= 91));
     af.bitvector = 0;
     affect_to_char(victim, &af);
-    af.location = APPLY_INT;
+    af.location = AffectLocation::Int;
     af.modifier = -(1 + (level >= 20) + (level >= 30) + (level >= 50) + (level >= 75) + (level >= 91));
     affect_to_char(victim, &af);
     WAIT_STATE(ch, PULSE_VIOLENCE * 2);

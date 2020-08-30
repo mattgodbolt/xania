@@ -890,15 +890,13 @@ void do_drink(Char *ch, const char *argument) {
 
         if (obj->value[3] != 0) {
             /* The shit was poisoned ! */
-            AFFECT_DATA af;
 
             act("$n chokes and gags.", ch);
             send_to_char("You choke and gag.\n\r", ch);
+            AFFECT_DATA af;
             af.type = gsn_poison;
             af.level = number_fuzzy(amount);
             af.duration = 3 * amount;
-            af.location = APPLY_NONE;
-            af.modifier = 0;
             af.bitvector = AFF_POISON;
             affect_join(ch, &af);
         }
@@ -954,16 +952,14 @@ void do_eat(Char *ch, const char *argument) {
 
         if (obj->value[3] != 0) {
             /* The shit was poisoned! */
-            AFFECT_DATA af;
 
             act("|r$n chokes and gags.|w", ch);
             send_to_char("|RYou choke and gag.|w\n\r", ch);
 
+            AFFECT_DATA af;
             af.type = gsn_poison;
             af.level = number_fuzzy(obj->value[0]);
             af.duration = UMAX(1, obj->value[0]);
-            af.location = APPLY_NONE;
-            af.modifier = 0;
             af.bitvector = AFF_POISON;
             affect_join(ch, &af);
         }

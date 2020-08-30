@@ -86,7 +86,7 @@ void apply_summoning_fatigue(Char *player) {
     af.type = skill_lookup("weaken");
     af.level = 5;
     af.duration = 2;
-    af.location = APPLY_STR;
+    af.location = AffectLocation::Str;
     af.modifier = -3;
     af.bitvector = AFF_WEAKEN;
     affect_to_char(player, &af);

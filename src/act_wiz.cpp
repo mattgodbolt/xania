@@ -955,18 +955,12 @@ void do_ostat(Char *ch, const char *argument) {
         send_to_char("'\n\r", ch);
     }
 
-    for (paf = obj->affected; paf != nullptr; paf = paf->next) {
-        bug_snprintf(buf, sizeof(buf), "Affects %s by %d, level %d.\n\r", affect_loc_name(paf->location), paf->modifier,
-                     paf->level);
-        send_to_char(buf, ch);
-    }
+    for (paf = obj->affected; paf != nullptr; paf = paf->next)
+        ch->send_to("Affects {}.\n\r"_format(paf->describe_item_effect(true)));
 
     if (!obj->enchanted)
-        for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
-            bug_snprintf(buf, sizeof(buf), "Affects %s by %d, level %d.\n\r", affect_loc_name(paf->location),
-                         paf->modifier, paf->level);
-            send_to_char(buf, ch);
-        }
+        for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next)
+            ch->send_to("Affects {}.\n\r"_format(paf->describe_item_effect(true)));
 }
 
 void do_mskills(Char *ch, const char *argument) {
@@ -1114,11 +1108,9 @@ void do_mspells(Char *ch, const char *argument) {
 }
 
 void do_maffects(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     Char *victim;
     AFFECT_DATA *paf;
-    int flag = 0;
 
     one_argument(argument, arg);
 
@@ -1134,25 +1126,10 @@ void do_maffects(Char *ch, const char *argument) {
 
     ch->send_to("Affect list for {}:\n\r"_format(victim->name));
 
-    if (victim->affected != nullptr) {
-        for (paf = victim->affected; paf != nullptr; paf = paf->next) {
-            if ((paf->type == gsn_sneak) || (paf->type == gsn_ride)) {
-                bug_snprintf(buf, sizeof(buf), "Skill: '%s'", skill_table[paf->type].name);
-                flag = 1;
-            } else {
-                bug_snprintf(buf, sizeof(buf), "Spell: '%s'", skill_table[paf->type].name);
-                flag = 0;
-            }
-            send_to_char(buf, ch);
-
-            if (flag == 0) {
-                bug_snprintf(buf, sizeof(buf), " modifies %s by %d for %d hours", affect_loc_name(paf->location),
-                             paf->modifier, paf->duration);
-                send_to_char(buf, ch);
-            }
-
-            send_to_char(".\n\r", ch);
-        }
+    if (victim->affected) {
+        for (paf = victim->affected; paf != nullptr; paf = paf->next)
+            ch->send_to("{}: '{}' modifies {}.\n\r"_format(
+                paf->is_skill() ? "Skill" : "Spell", skill_table[paf->type].name, paf->describe_char_effect(true)));
     } else {
         send_to_char("Nothing.\n\r", ch);
     }
@@ -1402,8 +1379,7 @@ void do_mstat(Char *ch, const char *argument) {
     send_to_char(buf, ch);
 
     if (victim->affected_by) {
-        bug_snprintf(buf, sizeof(buf), "Affected by %s\n\r", (char *)affect_bit_name(victim->affected_by));
-        send_to_char(buf, ch);
+        ch->send_to("Affected by {}\n\r"_format(affect_bit_name(victim->affected_by)));
     }
 
     ch->send_to("Master: {}  Leader: {}  Pet: {}\n\r"_format(victim->master ? victim->master->name : "(none)",
@@ -1423,12 +1399,9 @@ void do_mstat(Char *ch, const char *argument) {
         ch->send_to("Mobile has MOBPROG: view with \"stat prog '{}'\"\n\r"_format(victim->name));
     }
 
-    for (paf = victim->affected; paf != nullptr; paf = paf->next) {
-        bug_snprintf(buf, sizeof(buf), "Spell: '%s' modifies %s by %d for %d hours with bits %s, level %d.\n\r",
-                     (skill_table[(int)paf->type]).name, affect_loc_name(paf->location), paf->modifier, paf->duration,
-                     affect_bit_name(paf->bitvector), paf->level);
-        send_to_char(buf, ch);
-    }
+    for (paf = victim->affected; paf != nullptr; paf = paf->next)
+        ch->send_to("{}: '{}' modifies {}.\n\r"_format(paf->is_skill() ? "Skill" : "Spell", skill_table[paf->type].name,
+                                                       paf->describe_char_effect(true)));
     send_to_char("\n\r", ch);
 }
 
@@ -2420,7 +2393,6 @@ void do_owhere(Char *ch, const char *argument) {
 void do_coma(Char *ch, const char *argument) {
     Char *victim;
     char arg[MAX_INPUT_LENGTH];
-    AFFECT_DATA af;
 
     one_argument(argument, arg);
 
@@ -2446,11 +2418,10 @@ void do_coma(Char *ch, const char *argument) {
         return;
     }
 
-    af.type = 38; /* SLEEP */
+    AFFECT_DATA af;
+    af.type = 38; /* SLEEP */ // TODO 38? really?
     af.level = ch->trust;
     af.duration = 4 + ch->trust;
-    af.location = APPLY_NONE;
-    af.modifier = 0;
     af.bitvector = AFF_SLEEP;
     affect_join(victim, &af);
 

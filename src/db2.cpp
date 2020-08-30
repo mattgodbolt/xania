@@ -445,9 +445,8 @@ void load_objects(FILE *fp) {
                 paf->type = -1;
                 paf->level = pObjIndex->level;
                 paf->duration = -1;
-                paf->location = fread_number(fp);
+                paf->location = static_cast<AffectLocation>(fread_number(fp));
                 paf->modifier = fread_number(fp);
-                paf->bitvector = 0;
                 paf->next = pObjIndex->affected;
                 pObjIndex->affected = paf;
                 top_affect++;

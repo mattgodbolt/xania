@@ -248,7 +248,7 @@ void fwrite_char(Char *ch, FILE *fp) {
             continue;
 
         fprintf(fp, "AffD '%s' %3d %3d %3d %3d %10d\n", skill_table[paf->type].name, paf->level, paf->duration,
-                paf->modifier, paf->location, paf->bitvector);
+                paf->modifier, static_cast<int>(paf->location), paf->bitvector);
     }
     fprintf(fp, "End\n\n");
 }
@@ -304,7 +304,7 @@ void fwrite_pet(Char *ch, Char *pet, FILE *fp) {
             continue;
 
         fprintf(fp, "AffD '%s' %3d %3d %3d %3d %10d\n", skill_table[paf->type].name, paf->level, paf->duration,
-                paf->modifier, paf->location, paf->bitvector);
+                paf->modifier, static_cast<int>(paf->location), paf->bitvector);
     }
 
     if (ch->riding == pet) {
@@ -407,7 +407,7 @@ void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
         if (paf->type < 0 || paf->type >= MAX_SKILL)
             continue;
         fprintf(fp, "AffD '%s' %d %d %d %d %d\n", skill_table[paf->type].name, paf->level, paf->duration, paf->modifier,
-                paf->location, paf->bitvector);
+                static_cast<int>(paf->location), paf->bitvector);
     }
 
     for (ed = obj->extra_descr; ed != nullptr; ed = ed->next) {
@@ -607,7 +607,7 @@ void fread_char(Char *ch, FILE *fp) {
                 paf->level = fread_number(fp);
             paf->duration = fread_number(fp);
             paf->modifier = fread_number(fp);
-            paf->location = fread_number(fp);
+            paf->location = static_cast<AffectLocation>(fread_number(fp));
             paf->bitvector = fread_number(fp);
             paf->next = ch->affected;
             ch->affected = paf;
@@ -817,7 +817,7 @@ void fread_pet(Char *ch, FILE *fp) {
             paf->level = fread_number(fp);
             paf->duration = fread_number(fp);
             paf->modifier = fread_number(fp);
-            paf->location = fread_number(fp);
+            paf->location = static_cast<AffectLocation>(fread_number(fp));
             paf->bitvector = fread_number(fp);
             paf->next = pet->affected;
             pet->affected = paf;
@@ -944,7 +944,7 @@ void fread_obj(Char *ch, FILE *fp) {
                 paf->level = fread_number(fp);
             paf->duration = fread_number(fp);
             paf->modifier = fread_number(fp);
-            paf->location = fread_number(fp);
+            paf->location = static_cast<AffectLocation>(fread_number(fp));
             paf->bitvector = fread_number(fp);
             paf->next = obj->affected;
             obj->affected = paf;

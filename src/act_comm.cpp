@@ -488,11 +488,10 @@ void char_ride(Char *ch, Char *ridee) {
     af.type = gsn_ride;
     af.level = ridee->level;
     af.duration = -1;
-    af.location = APPLY_DAMROLL;
+    af.location = AffectLocation::Damroll;
     af.modifier = (ridee->level / 10) + (get_curr_stat(ridee, Stat::Dex) / 8);
-    af.bitvector = 0;
     affect_to_char(ch, &af);
-    af.location = APPLY_HITROLL;
+    af.location = AffectLocation::Hitroll;
     af.modifier = -(((ridee->level / 10) + (get_curr_stat(ridee, Stat::Dex) / 8)) / 4);
     affect_to_char(ch, &af);
 }

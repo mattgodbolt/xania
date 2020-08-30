@@ -1,7 +1,12 @@
 #include "AFFECT_DATA.hpp"
 
 #include "Char.hpp"
-#include "merc.h" // TODO remove once bits are more sensible.
+#include "merc.h"
+
+#include <fmt/format.h>
+
+using namespace fmt::literals;
+using namespace std::literals;
 
 void AFFECT_DATA::modify(Char &ch, bool apply) {
     if (apply) {
@@ -11,62 +16,145 @@ void AFFECT_DATA::modify(Char &ch, bool apply) {
     }
     auto mod = apply ? modifier : -modifier;
     switch (location) {
-    case APPLY_STR: ch.mod_stat[Stat::Str] += mod; break;
-    case APPLY_DEX: ch.mod_stat[Stat::Dex] += mod; break;
-    case APPLY_INT: ch.mod_stat[Stat::Int] += mod; break;
-    case APPLY_WIS: ch.mod_stat[Stat::Wis] += mod; break;
-    case APPLY_CON: ch.mod_stat[Stat::Con] += mod; break;
+    case AffectLocation::None: break;
 
-    case APPLY_SEX: ch.sex += mod; break;
-    case APPLY_MANA: ch.max_mana += mod; break;
-    case APPLY_HIT: ch.max_hit += mod; break;
-    case APPLY_MOVE: ch.max_move += mod; break;
+    case AffectLocation::Str: ch.mod_stat[Stat::Str] += mod; break;
+    case AffectLocation::Dex: ch.mod_stat[Stat::Dex] += mod; break;
+    case AffectLocation::Int: ch.mod_stat[Stat::Int] += mod; break;
+    case AffectLocation::Wis: ch.mod_stat[Stat::Wis] += mod; break;
+    case AffectLocation::Con: ch.mod_stat[Stat::Con] += mod; break;
 
-    case APPLY_AC:
+    case AffectLocation::Sex: ch.sex += mod; break;
+    case AffectLocation::Mana: ch.max_mana += mod; break;
+    case AffectLocation::Hit: ch.max_hit += mod; break;
+    case AffectLocation::Move: ch.max_move += mod; break;
+
+    case AffectLocation::Ac:
         for (auto &ac : ch.armor)
             ac += mod;
         break;
-    case APPLY_HITROLL: ch.hitroll += mod; break;
-    case APPLY_DAMROLL: ch.damroll += mod; break;
+    case AffectLocation::Hitroll: ch.hitroll += mod; break;
+    case AffectLocation::Damroll: ch.damroll += mod; break;
 
-    case APPLY_SAVING_PARA:
-    case APPLY_SAVING_ROD:
-    case APPLY_SAVING_PETRI:
-    case APPLY_SAVING_BREATH:
-    case APPLY_SAVING_SPELL: ch.saving_throw += mod; break;
+    case AffectLocation::SavingPara:
+    case AffectLocation::SavingRod:
+    case AffectLocation::SavingPetri:
+    case AffectLocation::SavingBreath:
+    case AffectLocation::SavingSpell: ch.saving_throw += mod; break;
+
+    case AffectLocation::Class:
+    case AffectLocation::Level:
+    case AffectLocation::Age:
+    case AffectLocation::Height:
+    case AffectLocation::Weight:
+    case AffectLocation::Gold:
+    case AffectLocation::Exp:
+        // TODO(193) should we do something with these?
+        break;
     }
 }
 
 AFFECT_DATA::Value AFFECT_DATA::worth() const noexcept {
     switch (location) {
-    case APPLY_STR:
-    case APPLY_DEX:
-    case APPLY_INT:
-    case APPLY_WIS:
-    case APPLY_CON:
+    case AffectLocation::Sex:
+    case AffectLocation::None: break;
+
+    case AffectLocation::Str:
+    case AffectLocation::Dex:
+    case AffectLocation::Int:
+    case AffectLocation::Wis:
+    case AffectLocation::Con:
         if (modifier > 0)
             return Value{0, 0, modifier};
         break;
 
-    case APPLY_HITROLL: return Value{modifier, 0, 0};
-    case APPLY_DAMROLL: return Value{0, modifier, 0};
+    case AffectLocation::Hitroll: return Value{modifier, 0, 0};
+    case AffectLocation::Damroll: return Value{0, modifier, 0};
 
-    case APPLY_SAVING_PARA:
-    case APPLY_SAVING_ROD:
-    case APPLY_SAVING_PETRI:
-    case APPLY_SAVING_BREATH:
-    case APPLY_SAVING_SPELL:
-    case APPLY_AC:
+    case AffectLocation::SavingPara:
+    case AffectLocation::SavingRod:
+    case AffectLocation::SavingPetri:
+    case AffectLocation::SavingBreath:
+    case AffectLocation::SavingSpell:
+    case AffectLocation::Ac:
         if (modifier < 0)
             if (modifier > 0)
                 return Value{0, 0, -modifier};
         break;
 
-    case APPLY_MANA:
-    case APPLY_HIT:
-    case APPLY_MOVE:
+    case AffectLocation::Mana:
+    case AffectLocation::Hit:
+    case AffectLocation::Move:
         if (modifier > 0)
             return Value{0, 0, (modifier + 6) / 7};
+
+    case AffectLocation::Class:
+    case AffectLocation::Level:
+    case AffectLocation::Age:
+    case AffectLocation::Height:
+    case AffectLocation::Weight:
+    case AffectLocation::Gold:
+    case AffectLocation::Exp:
+        // TODO(193) should we do something with these?
+        break;
     }
     return {};
 }
+
+std::string_view name(AffectLocation location) {
+    switch (location) {
+    case AffectLocation::None: return "none"sv;
+    case AffectLocation::Str: return "strength"sv;
+    case AffectLocation::Dex: return "dexterity"sv;
+    case AffectLocation::Int: return "intelligence"sv;
+    case AffectLocation::Wis: return "wisdom"sv;
+    case AffectLocation::Con: return "constitution"sv;
+    case AffectLocation::Sex: return "sex"sv;
+    case AffectLocation::Class: return "class"sv;
+    case AffectLocation::Level: return "level"sv;
+    case AffectLocation::Age: return "age"sv;
+    case AffectLocation::Mana: return "mana"sv;
+    case AffectLocation::Hit: return "hp"sv;
+    case AffectLocation::Move: return "moves"sv;
+    case AffectLocation::Gold: return "gold"sv;
+    case AffectLocation::Exp: return "experience"sv;
+    case AffectLocation::Ac: return "armor class"sv;
+    case AffectLocation::Hitroll: return "hit roll"sv;
+    case AffectLocation::Damroll: return "damage roll"sv;
+    case AffectLocation::SavingPara: return "save vs paralysis"sv;
+    case AffectLocation::SavingRod: return "save vs rod"sv;
+    case AffectLocation::SavingPetri: return "save vs petrification"sv;
+    case AffectLocation::SavingBreath: return "save vs breath"sv;
+    case AffectLocation::SavingSpell: return "save vs spell"sv;
+    case AffectLocation::Height: return "height"sv;
+    case AffectLocation::Weight: return "weight"sv;
+    }
+
+    bug("Affect_location_name: unknown location %d.", static_cast<int>(location));
+    return "(unknown)"sv;
+}
+
+std::string AFFECT_DATA::describe_item_effect(bool for_imm) const {
+    if (for_imm) {
+        return "{} by {}, level {}"_format(name(location), modifier, level);
+    } else {
+        return "{} by {}"_format(name(location), modifier);
+    }
+}
+std::string AFFECT_DATA::describe_char_effect(bool for_imm) const {
+    if (for_imm) {
+        if (is_skill())
+            return "{} by {} with bits {}, level {}"_format(name(location), modifier, affect_bit_name(bitvector),
+                                                            level);
+        else
+            return "{} by {} for {} hours with bits {}, level {}"_format(name(location), modifier, duration,
+                                                                         affect_bit_name(bitvector), level);
+    } else {
+        if (is_skill())
+            return "{} by {}"_format(name(location), modifier);
+        else
+            return "{} by {} for {} hours"_format(name(location), modifier, duration);
+    }
+}
+
+bool AFFECT_DATA::is_skill() const noexcept { return type == gsn_sneak || type == gsn_ride; }
