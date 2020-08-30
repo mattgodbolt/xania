@@ -136,7 +136,7 @@ std::string_view name(AffectLocation location) {
 
 std::string AFFECT_DATA::describe_item_effect(bool for_imm) const {
     if (for_imm) {
-        return "{} by {}, level {}"_format(name(location), modifier, level);
+        return "{} by {} with bits {}, level {}"_format(name(location), modifier, affect_bit_name(bitvector), level);
     } else {
         return "{} by {}"_format(name(location), modifier);
     }
