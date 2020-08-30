@@ -404,9 +404,7 @@ void affect_modify(Char *ch, AFFECT_DATA *paf, bool fAdd) {
  */
 void affect_to_char(Char *ch, AFFECT_DATA *paf) {
     auto *paf_new = new AFFECT_DATA(*paf);
-    paf_new->next = ch->affected;
-    ch->affected = paf_new;
-
+    ch->affected.add(paf_new);
     affect_modify(ch, paf_new, true);
 }
 
@@ -422,32 +420,13 @@ void affect_to_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
  * Remove an affect from a char.
  */
 void affect_remove(Char *ch, AFFECT_DATA *paf) {
-    if (ch->affected == nullptr) {
+    if (ch->affected.empty()) {
         bug("Affect_remove: no affect.");
         return;
     }
 
     affect_modify(ch, paf, false);
-
-    if (paf == ch->affected) {
-        ch->affected = paf->next;
-    } else {
-        AFFECT_DATA *prev;
-
-        for (prev = ch->affected; prev != nullptr; prev = prev->next) {
-            if (prev->next == paf) {
-                prev->next = paf->next;
-                break;
-            }
-        }
-
-        if (prev == nullptr) {
-            bug("Affect_remove: cannot find paf.");
-            return;
-        }
-    }
-
-    delete paf;
+    ch->affected.remove(paf);
 }
 
 void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {

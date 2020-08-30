@@ -119,12 +119,7 @@ sh_int Char::max_stat(Stat stat) const {
     return UMIN(pc_race_table[race].max_stats[stat] + (class_table[class_num].attr_prime == stat ? 6 : 4), 25);
 }
 
-bool Char::is_affected_by(int skill_number) const {
-    for (auto paf = affected; paf != nullptr; paf = paf->next)
-        if (paf->type == skill_number)
-            return true;
-    return false;
-}
+bool Char::is_affected_by(int skill_number) const { return affected.find_by_skill(skill_number); }
 
 int Char::get_skill(int skill_number) const {
     int skill;

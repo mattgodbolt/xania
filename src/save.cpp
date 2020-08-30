@@ -609,8 +609,7 @@ void fread_char(Char *ch, FILE *fp) {
             paf->modifier = fread_number(fp);
             paf->location = static_cast<AffectLocation>(fread_number(fp));
             paf->bitvector = fread_number(fp);
-            paf->next = ch->affected;
-            ch->affected = paf;
+            ch->affected.add(paf);
         } else if (word == "attrmod" || word == "amod") {
             for (auto &stat : ch->mod_stat)
                 stat = fread_number(fp);
@@ -819,8 +818,7 @@ void fread_pet(Char *ch, FILE *fp) {
             paf->modifier = fread_number(fp);
             paf->location = static_cast<AffectLocation>(fread_number(fp));
             paf->bitvector = fread_number(fp);
-            paf->next = pet->affected;
-            pet->affected = paf;
+            pet->affected.add(paf);
         } else if (matches(word, "AMod")) {
             for (auto &stat : pet->mod_stat)
                 stat = fread_number(fp);
@@ -925,7 +923,7 @@ void fread_obj(Char *ch, FILE *fp) {
         if (word.empty() || word[0] == '*') {
             fread_to_eol(fp);
         } else if (matches(word, "Affect") || matches(word, "Aff") || matches(word, "AffD")) {
-            AFFECT_DATA *paf = new AFFECT_DATA;
+            auto *paf = new AFFECT_DATA;
 
             // Spell effects on chars and customized objects in PFiles
             if (matches(word, "AffD")) {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AFFECT_DATA.hpp"
+#include "AffectList.hpp"
 #include "Constants.hpp"
 #include "Descriptor.hpp"
 #include "ExtraFlags.hpp"
@@ -33,7 +34,7 @@ struct Char {
     SpecialFunc spec_fun{};
     MOB_INDEX_DATA *pIndexData{};
     Descriptor *desc{};
-    AFFECT_DATA *affected{};
+    AffectList affected;
     NOTE_DATA *pnote{};
     OBJ_DATA *carrying{};
     ROOM_INDEX_DATA *in_room{};
