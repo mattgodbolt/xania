@@ -1443,7 +1443,6 @@ void do_mfind(Char *ch, const char *argument) {
         return;
     }
 
-    bool fAll = false; /* !str_cmp( arg, "all" ); */
     bool found = false;
 
     // Yeah, so iterating over all vnum's takes 10,000 loops.
@@ -1455,7 +1454,7 @@ void do_mfind(Char *ch, const char *argument) {
     for (int vnum = 0; nMatch < top_mob_index; vnum++) {
         if (auto *pMobIndex = get_mob_index(vnum)) {
             nMatch++;
-            if (fAll || is_name(argument, pMobIndex->player_name)) {
+            if (is_name(argument, pMobIndex->player_name)) {
                 found = true;
                 buffer += "[{:5}] {}\n\r"_format(pMobIndex->vnum, pMobIndex->short_descr);
             }
@@ -1474,7 +1473,6 @@ void do_ofind(Char *ch, const char *argument) {
     OBJ_INDEX_DATA *pObjIndex;
     int vnum;
     int nMatch;
-    bool fAll;
     bool found;
     BUFFER *buffer;
 
@@ -1484,7 +1482,6 @@ void do_ofind(Char *ch, const char *argument) {
         return;
     }
 
-    fAll = false; /* !str_cmp( arg, "all" ); */
     found = false;
     nMatch = 0;
 
@@ -1496,7 +1493,7 @@ void do_ofind(Char *ch, const char *argument) {
     for (vnum = 0; nMatch < top_obj_index; vnum++) {
         if ((pObjIndex = get_obj_index(vnum)) != nullptr) {
             nMatch++;
-            if (fAll || is_name(argument, pObjIndex->name)) {
+            if (is_name(argument, pObjIndex->name)) {
                 found = true;
                 buffer_addline_fmt(buffer, "[%5d] %s\n\r", pObjIndex->vnum, pObjIndex->short_descr);
             }
@@ -1566,7 +1563,7 @@ void do_mwhere(Char *ch, const char *argument) {
     ch->page_to(buffer);
 
     if (!found)
-        act("You didn't find any $T.", ch, nullptr, argument, To::Char);
+        act("You didn't find any $T.", ch, nullptr, argument, To::Char); // Poor Arthur.
 }
 
 void do_reboo(Char *ch, const char *argument) {
