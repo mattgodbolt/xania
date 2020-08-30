@@ -131,8 +131,6 @@ extern void do_lock(Char *ch, const char *arg);
 extern void do_log(Char *ch, const char *arg);
 extern void do_look(Char *ch, const char *arguments);
 extern void do_memory(Char *ch, const char *arg);
-extern void do_mfind(Char *ch, const char *arg);
-extern void do_mload(Char *ch, const char *argument);
 
 /* for MOBProgs */
 
@@ -167,8 +165,6 @@ extern void do_north(Char *ch, const char *arg);
 extern void do_noshout(Char *ch, const char *arg);
 extern void do_nosummon(Char *ch, const char *arg);
 extern void do_notell(Char *ch, const char *arg);
-extern void do_ofind(Char *ch, const char *arg);
-extern void do_oload(Char *ch, const char *argument);
 extern void do_open(Char *ch, const char *arg);
 extern void do_order(Char *ch, const char *argument);
 extern void do_oset(Char *ch, const char *argument);

@@ -1433,39 +1433,6 @@ void do_mstat(Char *ch, const char *argument) {
 
 /* ofind and mfind replaced with vnum, vnum skill also added */
 
-void do_vnum(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    const char *string;
-
-    string = one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        send_to_char("Syntax:\n\r", ch);
-        send_to_char("  vnum obj <name>\n\r", ch);
-        send_to_char("  vnum mob <name>\n\r", ch);
-        send_to_char("  vnum skill <skill or spell>\n\r", ch);
-        return;
-    }
-
-    if (!str_cmp(arg, "obj")) {
-        do_ofind(ch, string);
-        return;
-    }
-
-    if (!str_cmp(arg, "mob") || !str_cmp(arg, "char")) {
-        do_mfind(ch, string);
-        return;
-    }
-
-    if (!str_cmp(arg, "skill") || !str_cmp(arg, "spell")) {
-        do_slookup(ch, string);
-        return;
-    }
-    /* do both */
-    do_mfind(ch, argument);
-    do_ofind(ch, argument);
-}
-
 void do_mfind(Char *ch, const char *argument) {
     extern int top_mob_index;
     char arg[MAX_INPUT_LENGTH];
@@ -1479,12 +1446,10 @@ void do_mfind(Char *ch, const char *argument) {
     bool fAll = false; /* !str_cmp( arg, "all" ); */
     bool found = false;
 
-    /*
-     * Yeah, so iterating over all vnum's takes 10,000 loops.
-     * Get_mob_index is fast, and I don't feel like threading another link.
-     * Do you?
-     * -- Furey
-     */
+    // Yeah, so iterating over all vnum's takes 10,000 loops.
+    // Get_mob_index is fast, and I don't feel like threading another link.
+    // Do you?
+    // -- Furey
     std::string buffer;
     int nMatch = 0;
     for (int vnum = 0; nMatch < top_mob_index; vnum++) {
@@ -1523,12 +1488,10 @@ void do_ofind(Char *ch, const char *argument) {
     found = false;
     nMatch = 0;
 
-    /*
-     * Yeah, so iterating over all vnum's takes 10,000 loops.
-     * Get_obj_index is fast, and I don't feel like threading another link.
-     * Do you?
-     * -- Furey
-     */
+    // Yeah, so iterating over all vnum's takes 10,000 loops.
+    // Get_obj_index is fast, and I don't feel like threading another link.
+    // Do you?
+    // -- Furey
     buffer = buffer_create();
     for (vnum = 0; nMatch < top_obj_index; vnum++) {
         if ((pObjIndex = get_obj_index(vnum)) != nullptr) {
@@ -1543,6 +1506,39 @@ void do_ofind(Char *ch, const char *argument) {
     buffer_send(buffer, ch); /* NB this frees the buffer */
     if (!found)
         send_to_char("No objects by that name.\n\r", ch);
+}
+
+void do_vnum(Char *ch, const char *argument) {
+    char arg[MAX_INPUT_LENGTH];
+    const char *string;
+
+    string = one_argument(argument, arg);
+
+    if (arg[0] == '\0') {
+        send_to_char("Syntax:\n\r", ch);
+        send_to_char("  vnum obj <name>\n\r", ch);
+        send_to_char("  vnum mob <name>\n\r", ch);
+        send_to_char("  vnum skill <skill or spell>\n\r", ch);
+        return;
+    }
+
+    if (!str_cmp(arg, "obj")) {
+        do_ofind(ch, string);
+        return;
+    }
+
+    if (!str_cmp(arg, "mob") || !str_cmp(arg, "char")) {
+        do_mfind(ch, string);
+        return;
+    }
+
+    if (!str_cmp(arg, "skill") || !str_cmp(arg, "spell")) {
+        do_slookup(ch, string);
+        return;
+    }
+    /* do both */
+    do_mfind(ch, argument);
+    do_ofind(ch, argument);
 }
 
 void do_mwhere(Char *ch, const char *argument) {
@@ -1726,20 +1722,13 @@ void do_return(Char *ch, const char *argument) {
 /* trust levels for load and clone */
 /* cut out by Faramir but func retained in case of any
    calls I don't know about. */
-bool obj_check(Char *ch, OBJ_DATA *obj) {
-
-    if (obj->level > ch->get_trust())
-        return false;
-    return true;
-}
+bool obj_check(Char *ch, OBJ_DATA *obj) { return ch->get_trust() >= obj->level; }
 
 /* for clone, to insure that cloning goes many levels deep */
 void recursive_clone(Char *ch, OBJ_DATA *obj, OBJ_DATA *clone) {
-    OBJ_DATA *c_obj, *t_obj;
-
-    for (c_obj = obj->contains; c_obj != nullptr; c_obj = c_obj->next_content) {
+    for (OBJ_DATA *c_obj = obj->contains; c_obj != nullptr; c_obj = c_obj->next_content) {
         if (obj_check(ch, c_obj)) {
-            t_obj = create_object(c_obj->pIndexData);
+            OBJ_DATA *t_obj = create_object(c_obj->pIndexData);
             clone_object(c_obj, t_obj);
             obj_to_obj(t_obj, clone);
             recursive_clone(ch, c_obj, t_obj);
@@ -1750,11 +1739,9 @@ void recursive_clone(Char *ch, OBJ_DATA *obj, OBJ_DATA *clone) {
 /* command that is similar to load */
 void do_clone(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    const char *rest;
-    Char *mob;
-    OBJ_DATA *obj;
-
-    rest = one_argument(argument, arg);
+    Char *mob = nullptr;
+    OBJ_DATA *obj = nullptr;
+    const char *rest = one_argument(argument, arg);
 
     if (arg[0] == '\0') {
         send_to_char("Clone what?\n\r", ch);
@@ -1762,27 +1749,12 @@ void do_clone(Char *ch, const char *argument) {
     }
 
     if (!str_prefix(arg, "object")) {
-        mob = nullptr;
         obj = get_obj_here(ch, rest);
-        if (obj == nullptr) {
-            send_to_char("You don't see that here.\n\r", ch);
-            return;
-        }
     } else if (!str_prefix(arg, "mobile") || !str_prefix(arg, "character")) {
-        obj = nullptr;
         mob = get_char_room(ch, rest);
-        if (mob == nullptr) {
-            send_to_char("You don't see that here.\n\r", ch);
-            return;
-        }
-    } else /* find both */
-    {
+    } else { /* find both */
         mob = get_char_room(ch, argument);
         obj = get_obj_here(ch, argument);
-        if (mob == nullptr && obj == nullptr) {
-            send_to_char("You don't see that here.\n\r", ch);
-            return;
-        }
     }
 
     /* clone an object */
@@ -1804,7 +1776,6 @@ void do_clone(Char *ch, const char *argument) {
 
         act("$n has created $p.", ch, clone, nullptr, To::Room);
         act("You clone $p.", ch, clone, nullptr, To::Char);
-        return;
     } else if (mob != nullptr) {
         Char *clone;
         OBJ_DATA *new_obj;
@@ -1836,41 +1807,16 @@ void do_clone(Char *ch, const char *argument) {
         char_to_room(clone, ch->in_room);
         act("$n has created $N.", ch, nullptr, clone, To::Room);
         act("You clone $N.", ch, nullptr, clone, To::Char);
-        return;
+    } else {
+        send_to_char("You don't see that here.\n\r", ch);
     }
 }
 
 /* RT to replace the two load commands */
 
-void do_load(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-
-    argument = one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        send_to_char("Syntax:\n\r", ch);
-        send_to_char("  load mob <vnum>\n\r", ch);
-        send_to_char("  load obj <vnum> <level>\n\r", ch);
-        return;
-    }
-
-    if (!str_cmp(arg, "mob") || !str_cmp(arg, "char")) {
-        do_mload(ch, argument);
-        return;
-    }
-
-    if (!str_cmp(arg, "obj")) {
-        do_oload(ch, argument);
-        return;
-    }
-    /* echo syntax */
-    do_load(ch, "");
-}
-
 void do_mload(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     MOB_INDEX_DATA *pMobIndex;
-    Char *victim;
 
     one_argument(argument, arg);
 
@@ -1884,7 +1830,7 @@ void do_mload(Char *ch, const char *argument) {
         return;
     }
 
-    victim = create_mobile(pMobIndex);
+    Char *victim = create_mobile(pMobIndex);
     char_to_room(victim, ch->in_room);
     act("$n has created $N!", ch, nullptr, victim, To::Room);
     send_to_char("Ok.\n\r", ch);
@@ -1915,6 +1861,31 @@ void do_oload(Char *ch, const char *argument) {
         obj_to_room(obj, ch->in_room);
     act("$n has created $p!", ch, obj, nullptr, To::Room);
     send_to_char("Ok.\n\r", ch);
+}
+
+void do_load(Char *ch, const char *argument) {
+    char arg[MAX_INPUT_LENGTH];
+
+    argument = one_argument(argument, arg);
+
+    if (arg[0] == '\0') {
+        send_to_char("Syntax:\n\r", ch);
+        send_to_char("  load mob <vnum>\n\r", ch);
+        send_to_char("  load obj <vnum> <level>\n\r", ch);
+        return;
+    }
+
+    if (!str_cmp(arg, "mob") || !str_cmp(arg, "char")) {
+        do_mload(ch, argument);
+        return;
+    }
+
+    if (!str_cmp(arg, "obj")) {
+        do_oload(ch, argument);
+        return;
+    }
+    /* echo syntax */
+    do_load(ch, "");
 }
 
 void do_purge(Char *ch, const char *argument) {
