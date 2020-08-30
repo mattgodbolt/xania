@@ -49,7 +49,7 @@ install: build dirs  ## Install to 'install' (overridable with INSTALL_DIR)
 dirs:
 	@mkdir -p gods player log
 
-$(CONDA): $(CURL)
+$(CONDA): | $(CURL)
 	@mkdir -p $(CONDA_ROOT)
 	@echo "Installing conda locally..."
 	$(CURL) $(CURL_OPTIONS) https://repo.anaconda.com/miniconda/Miniconda3-py38_${CONDA_VERSION}-Linux-x86_64.sh -o $(CONDA_INSTALLER)
@@ -57,7 +57,7 @@ $(CONDA): $(CURL)
 	$(CONDA_INSTALLER) -u -b -p $(CONDA_ROOT)
 $(PIP): $(CONDA) # ideally would specify two outputs in $(CONDA) but make -j fails with that
 
-$(CONAN): $(PIP)
+$(CONAN): | $(PIP)
 	@echo "Installing conan locally..."
 	$(PIP) install conan==1.27.1
 
