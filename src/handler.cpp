@@ -218,7 +218,6 @@ int get_weapon_skill(Char *ch, int sn) {
 void reset_char(Char *ch) {
     int loc, mod;
     OBJ_DATA *obj;
-    AFFECT_DATA *af;
     int i;
 
     if (ch->is_npc())
@@ -233,7 +232,7 @@ void reset_char(Char *ch) {
                 continue;
             // TODO: this is similar to the unapply but not quite the same - is it important?
             if (!obj->enchanted)
-                for (af = obj->pIndexData->affected; af != nullptr; af = af->next) {
+                for (auto *af = obj->pIndexData->affected; af != nullptr; af = af->next) {
                     mod = af->modifier;
                     switch (af->location) {
                     default: break;
@@ -248,7 +247,7 @@ void reset_char(Char *ch) {
                     }
                 }
 
-            for (af = obj->affected; af != nullptr; af = af->next) {
+            for (auto *af = obj->affected; af != nullptr; af = af->next) {
                 mod = af->modifier;
                 switch (af->location) {
                 default: break;
@@ -299,16 +298,16 @@ void reset_char(Char *ch) {
             ch->armor[i] -= apply_ac(obj, loc, i);
 
         if (!obj->enchanted)
-            for (af = obj->pIndexData->affected; af != nullptr; af = af->next)
+            for (auto *af = obj->pIndexData->affected; af != nullptr; af = af->next)
                 af->apply(*ch);
 
-        for (af = obj->affected; af != nullptr; af = af->next)
+        for (auto *af = obj->affected; af != nullptr; af = af->next)
             af->apply(*ch);
     }
 
     /* now add back spell effects */
-    for (af = ch->affected; af != nullptr; af = af->next)
-        af->apply(*ch);
+    for (auto &af : ch->affected)
+        af.apply(*ch);
 
     /* make sure sex is RIGHT!!!! */
     if (ch->sex < 0 || ch->sex > 2)
@@ -463,14 +462,9 @@ void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
  * Strip all affects of a given sn.
  */
 void affect_strip(Char *ch, int sn) {
-    AFFECT_DATA *paf;
-    AFFECT_DATA *paf_next;
-
-    for (paf = ch->affected; paf != nullptr; paf = paf_next) {
-        paf_next = paf->next;
-        if (paf->type == sn)
-            affect_remove(ch, paf);
-    }
+    // This is O(N²) but N is likely 0 or 1 in all practical cases.
+    while (auto *aff = ch->affected.find_by_skill(sn))
+        affect_remove(ch, aff);
 }
 
 bool is_affected(const Char *ch, int sn) { return ch->is_affected_by(sn); }
@@ -537,8 +531,6 @@ void char_from_room(Char *ch) {
  * Move a char into a room.
  */
 void char_to_room(Char *ch, ROOM_INDEX_DATA *pRoomIndex) {
-    OBJ_DATA *obj;
-
     if (pRoomIndex == nullptr) {
         bug("Char_to_room: nullptr.");
         return;
@@ -556,42 +548,37 @@ void char_to_room(Char *ch, ROOM_INDEX_DATA *pRoomIndex) {
         ++ch->in_room->area->nplayer;
     }
 
-    if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->item_type == ITEM_LIGHT && obj->value[2] != 0)
+    if (auto *obj = get_eq_char(ch, WEAR_LIGHT); obj && obj->item_type == ITEM_LIGHT && obj->value[2] != 0)
         ++ch->in_room->light;
 
     if (IS_AFFECTED(ch, AFF_PLAGUE)) {
-        AFFECT_DATA *af, plague;
-        Char *vch;
-        int save;
-
-        for (af = ch->affected; af != nullptr; af = af->next) {
-            if (af->type == gsn_plague)
-                break;
-        }
-
-        if (af == nullptr) {
+        auto *existing_plague = ch->affected.find_by_skill(gsn_plague);
+        if (!existing_plague) {
             REMOVE_BIT(ch->affected_by, AFF_PLAGUE);
             return;
         }
 
-        if (af->level == 1)
+        if (existing_plague->level == 1)
             return;
 
+        AFFECT_DATA plague;
         plague.type = gsn_plague;
-        plague.level = af->level - 1;
+        plague.level = existing_plague->level - 1;
         plague.duration = number_range(1, 2 * plague.level);
         plague.location = AffectLocation::Str;
         plague.modifier = -5;
         plague.bitvector = AFF_PLAGUE;
 
-        for (vch = ch->in_room->people; vch != nullptr; vch = vch->next_in_room) {
-            switch (check_immune(vch, DAM_DISEASE)) {
-            case (IS_NORMAL): save = af->level - 4; break;
-            case (IS_IMMUNE): save = 0; break;
-            case (IS_RESISTANT): save = af->level - 8; break;
-            case (IS_VULNERABLE): save = af->level; break;
-            default: save = af->level - 4; break;
-            }
+        for (auto *vch = ch->in_room->people; vch != nullptr; vch = vch->next_in_room) {
+            const int save = [&]() -> int {
+                switch (check_immune(vch, DAM_DISEASE)) {
+                default:
+                case IS_NORMAL: return existing_plague->level - 4;
+                case IS_IMMUNE: return 0;
+                case IS_RESISTANT: return existing_plague->level - 8;
+                case IS_VULNERABLE: return existing_plague->level;
+                }
+            }();
 
             if (save != 0 && !saves_spell(save, vch) && vch->is_mortal() && !IS_AFFECTED(vch, AFF_PLAGUE)
                 && number_bits(6) == 0) {

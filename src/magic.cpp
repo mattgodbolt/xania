@@ -109,23 +109,20 @@ bool saves_dispel(int dis_level, int spell_level, int duration) {
     return number_percent() < save;
 }
 
-/* co-routine for dispel magic and cancellation */
-
 bool check_dispel(int dis_level, Char *victim, int sn) {
-    if (is_affected(victim, sn)) {
-        for (AFFECT_DATA *af = victim->affected; af != nullptr; af = af->next) {
-            if (af->type == sn) {
-                if (!saves_dispel(dis_level, af->level, af->duration)) {
-                    affect_strip(victim, sn);
-                    if (skill_table[sn].msg_off) {
-                        send_to_char(skill_table[sn].msg_off, victim);
-                        send_to_char("\n\r", victim);
-                    }
-                    return true;
-                } else
-                    af->level--;
-            }
+    // This behaviour probably needs a look:
+    // * multiple affects of the same SN get multiple chances of being dispelled.
+    // * any succeeding chance strips _all_ affects of that SN.
+    for (auto &af : victim->affected) {
+        if (af.type != sn)
+            continue;
+        if (!saves_dispel(dis_level, af.level, af.duration)) {
+            affect_strip(victim, sn);
+            if (skill_table[sn].msg_off)
+                victim->send_to("{}\n\r"_format(skill_table[sn].msg_off));
+            return true;
         }
+        af.level--;
     }
     return false;
 }

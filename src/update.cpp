@@ -493,9 +493,6 @@ void char_update() {
         save_number = 0;
 
     for (ch = char_list; ch != nullptr; ch = ch_next) {
-        AFFECT_DATA *paf;
-        AFFECT_DATA *paf_next;
-
         ch_next = ch->next;
 
         if (ch->timer > 30)
@@ -543,41 +540,23 @@ void char_update() {
             gain_condition(ch, COND_THIRST, -1);
         }
 
-        for (paf = ch->affected; paf != nullptr; paf = paf_next) {
-            paf_next = paf->next;
-            if (paf->duration > 0) {
-                paf->duration--;
-                if (number_range(0, 4) == 0 && paf->level > 0)
-                    paf->level--; /* spell strength fades with time */
-            } else if (paf->duration < 0)
-                ;
-            else {
-                if (paf_next == nullptr || paf_next->type != paf->type || paf_next->duration > 0) {
-                    if (paf->type > 0 && skill_table[paf->type].msg_off) {
-                        send_to_char(skill_table[paf->type].msg_off, ch);
-                        send_to_char("\n\r", ch);
-
-                        /*********************************/
-                        /*if ( paf->type == gsn_berserk
-                                              || paf->type == skill_lookup("frenzy"))
-                                              {
-                                                  wield = get_eq_char(ch, WEAR_WIELD);
-                                                  if ( (wield !=nullptr)
-                                                  && (wield->item_type == ITEM_WEAPON)
-                                                  && (IS_SET(wield->value[4], WEAPON_FLAMING)) )
-                                                  {
-
-                                                      copy = get_object(wield->pIndexData->vnum);
-                                                      wield->value[3] = copy->value[3];
-                                                      extract_obj(copy);
-                                                  }
-                                              }*/
-                        /*********************************/
-                    }
+        {
+            std::unordered_set<int> removed_this_tick_with_msg;
+            ch->affected.modification_safe_for_each([&](auto &af) {
+                if (af.duration > 0) {
+                    af.duration--;
+                    if (number_range(0, 4) == 0 && af.level > 0)
+                        af.level--; /* spell strength fades with time */
+                } else if (af.duration >= 0) {
+                    if (af.type > 0 && skill_table[af.type].msg_off)
+                        removed_this_tick_with_msg.emplace(af.type);
+                    affect_remove(ch, &af);
                 }
-
-                affect_remove(ch, paf);
-            }
+            });
+            // Only report wear-offs for those affects who are completely gone.
+            for (auto sn : removed_this_tick_with_msg)
+                if (!ch->is_affected_by(sn))
+                    ch->send_to("{}\n\r"_format(skill_table[sn].msg_off));
         }
 
         /* scan all undead zombies created by raise_dead style spells
@@ -597,7 +576,6 @@ void char_update() {
          */
 
         if (is_affected(ch, gsn_plague) && ch != nullptr) {
-            AFFECT_DATA *af, plague;
             Char *vch;
             int save, dam;
 
@@ -606,21 +584,18 @@ void char_update() {
 
             act("$n writhes in agony as plague sores erupt from $s skin.", ch);
             send_to_char("You writhe in agony from the plague.\n\r", ch);
-            for (af = ch->affected; af != nullptr; af = af->next) {
-                if (af->type == gsn_plague)
-                    break;
-            }
-
-            if (af == nullptr) {
+            auto *existing_plague = ch->affected.find_by_skill(gsn_plague);
+            if (existing_plague == nullptr) {
                 REMOVE_BIT(ch->affected_by, AFF_PLAGUE);
                 return;
             }
 
-            if (af->level == 1)
+            if (existing_plague->level == 1)
                 return;
 
+            AFFECT_DATA plague;
             plague.type = gsn_plague;
-            plague.level = af->level - 1;
+            plague.level = existing_plague->level - 1;
             plague.duration = number_range(1, 2 * plague.level);
             plague.location = AffectLocation::Str;
             plague.modifier = -5;
@@ -628,11 +603,11 @@ void char_update() {
 
             for (vch = ch->in_room->people; vch != nullptr; vch = vch->next_in_room) {
                 switch (check_immune(vch, DAM_DISEASE)) {
-                case (IS_NORMAL): save = af->level - 4; break;
-                case (IS_IMMUNE): save = 0; break;
-                case (IS_RESISTANT): save = af->level - 8; break;
-                case (IS_VULNERABLE): save = af->level; break;
-                default: save = af->level - 4; break;
+                case IS_NORMAL: save = existing_plague->level - 4; break;
+                case IS_IMMUNE: save = 0; break;
+                case IS_RESISTANT: save = existing_plague->level - 8; break;
+                case IS_VULNERABLE: save = existing_plague->level; break;
+                default: save = existing_plague->level - 4; break;
                 }
 
                 if (save != 0 && !saves_spell(save, vch) && vch->is_mortal() && !IS_AFFECTED(vch, AFF_PLAGUE)

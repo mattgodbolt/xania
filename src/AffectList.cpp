@@ -2,6 +2,7 @@
 #include "merc.h"
 
 #include <range/v3/algorithm/find.hpp>
+#include <range/v3/iterator/operations.hpp>
 
 void AffectList::add(AFFECT_DATA *aff) {
     aff->next = first_;
@@ -41,3 +42,5 @@ const AFFECT_DATA *AffectList::find_by_skill(int skill_number) const {
         return &*it;
     return nullptr;
 }
+
+size_t AffectList::size() const noexcept { return ranges::distance(*this); }

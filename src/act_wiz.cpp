@@ -1109,8 +1109,6 @@ void do_mspells(Char *ch, const char *argument) {
 
 void do_maffects(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-    AFFECT_DATA *paf;
 
     one_argument(argument, arg);
 
@@ -1119,20 +1117,21 @@ void do_maffects(Char *ch, const char *argument) {
         return;
     }
 
-    if ((victim = get_char_world(ch, argument)) == nullptr) {
+    Char *victim = get_char_world(ch, argument);
+    if (!victim) {
         send_to_char("They aren't here.\n\r", ch);
         return;
     }
 
     ch->send_to("Affect list for {}:\n\r"_format(victim->name));
 
-    if (victim->affected) {
-        for (paf = victim->affected; paf != nullptr; paf = paf->next)
-            ch->send_to("{}: '{}' modifies {}.\n\r"_format(
-                paf->is_skill() ? "Skill" : "Spell", skill_table[paf->type].name, paf->describe_char_effect(true)));
-    } else {
+    if (victim->affected.empty()) {
         send_to_char("Nothing.\n\r", ch);
+        return;
     }
+    for (auto &af : victim->affected)
+        ch->send_to("{}: '{}' modifies {}.\n\r"_format(af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
+                                                       af.describe_char_effect(true)));
 }
 
 /* Corrected 28/8/96 by Oshea to give correct list of spells/skills. */
@@ -1229,7 +1228,6 @@ void do_minfo(Char *ch, const char *argument) {
 void do_mstat(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    AFFECT_DATA *paf;
     Char *victim;
 
     /* this will help prevent major memory allocations */
@@ -1399,9 +1397,9 @@ void do_mstat(Char *ch, const char *argument) {
         ch->send_to("Mobile has MOBPROG: view with \"stat prog '{}'\"\n\r"_format(victim->name));
     }
 
-    for (paf = victim->affected; paf != nullptr; paf = paf->next)
-        ch->send_to("{}: '{}' modifies {}.\n\r"_format(paf->is_skill() ? "Skill" : "Spell", skill_table[paf->type].name,
-                                                       paf->describe_char_effect(true)));
+    for (const auto &af : victim->affected)
+        ch->send_to("{}: '{}' modifies {}.\n\r"_format(af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
+                                                       af.describe_char_effect(true)));
     send_to_char("\n\r", ch);
 }
 

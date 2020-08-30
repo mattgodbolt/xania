@@ -1285,28 +1285,17 @@ void do_score(Char *ch, const char *argument) {
 
 void do_affected(Char *ch, const char *argument) {
     (void)argument;
-    char buf[MAX_STRING_LENGTH];
-    AFFECT_DATA *paf;
-
     send_to_char("You are affected by:\n\r", ch);
 
-    if (ch->affected != nullptr) {
-        for (paf = ch->affected; paf != nullptr; paf = paf->next) {
-            if ((paf->is_skill())) {
-                snprintf(buf, sizeof(buf), "Skill: '%s'", skill_table[paf->type].name);
-            } else {
-                snprintf(buf, sizeof(buf), "Spell: '%s'", skill_table[paf->type].name);
-            }
-            send_to_char(buf, ch);
-
-            if (ch->level >= 20) {
-                ch->send_to(" modifies {}"_format(paf->describe_char_effect()));
-            }
-
-            send_to_char(".\n\r", ch);
-        }
-    } else {
+    if (ch->affected.empty()) {
         send_to_char("Nothing.\n\r", ch);
+        return;
+    }
+    for (auto &af : ch->affected) {
+        ch->send_to("{}: '{}'"_format(af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name));
+        if (ch->level >= 20)
+            ch->send_to(" modifies {}"_format(af.describe_char_effect()));
+        send_to_char(".\n\r", ch);
     }
 }
 

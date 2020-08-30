@@ -16,9 +16,22 @@ public:
     [[nodiscard]] AFFECT_DATA *find_by_skill(int skill_number);
     [[nodiscard]] const AFFECT_DATA *find_by_skill(int skill_number) const;
 
+    [[nodiscard]] size_t size() const noexcept;
+    [[nodiscard]] AFFECT_DATA &front() { return *first_; }
+    [[nodiscard]] const AFFECT_DATA &front() const { return *first_; }
+
     // Hacky interim shims.
     operator AFFECT_DATA *() const noexcept { return first_; }
     operator bool() const noexcept { return !empty(); }
+
+    template <typename Func>
+    void modification_safe_for_each(const Func &func) {
+        AFFECT_DATA *next;
+        for (auto *paf = first_; paf; paf = next) {
+            next = paf->next;
+            func(*paf);
+        }
+    }
 
     [[nodiscard]] auto begin() { return GenericListIter<AFFECT_DATA>(first_); }
     [[nodiscard]] auto end() { return GenericListIter<AFFECT_DATA>(); }

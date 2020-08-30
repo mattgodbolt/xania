@@ -128,7 +128,6 @@ void save_char_obj(Char *ch) {
  * Write the char.
  */
 void fwrite_char(Char *ch, FILE *fp) {
-    AFFECT_DATA *paf;
     int sn, gn;
 
     fprintf(fp, "#%s\n", ch->is_npc() ? "MOB" : "PLAYER");
@@ -243,20 +242,18 @@ void fwrite_char(Char *ch, FILE *fp) {
         }
     }
 
-    for (paf = ch->affected; paf != nullptr; paf = paf->next) {
-        if (paf->type < 0 || paf->type >= MAX_SKILL)
+    for (const auto &af : ch->affected) {
+        if (af.type < 0 || af.type >= MAX_SKILL)
             continue;
 
-        fprintf(fp, "AffD '%s' %3d %3d %3d %3d %10d\n", skill_table[paf->type].name, paf->level, paf->duration,
-                paf->modifier, static_cast<int>(paf->location), paf->bitvector);
+        fprintf(fp, "AffD '%s' %3d %3d %3d %3d %10d\n", skill_table[af.type].name, af.level, af.duration, af.modifier,
+                static_cast<int>(af.location), af.bitvector);
     }
     fprintf(fp, "End\n\n");
 }
 
 /* write a pet */
 void fwrite_pet(Char *ch, Char *pet, FILE *fp) {
-    AFFECT_DATA *paf;
-
     fprintf(fp, "#PET\n");
 
     fprintf(fp, "Vnum %d\n", pet->pIndexData->vnum);
@@ -299,12 +296,12 @@ void fwrite_pet(Char *ch, Char *pet, FILE *fp) {
     fprintf(fp, "AMod %d %d %d %d %d\n", pet->mod_stat[Stat::Str], pet->mod_stat[Stat::Int], pet->mod_stat[Stat::Wis],
             pet->mod_stat[Stat::Dex], pet->mod_stat[Stat::Con]);
 
-    for (paf = pet->affected; paf != nullptr; paf = paf->next) {
-        if (paf->type < 0 || paf->type >= MAX_SKILL)
+    for (const auto &af : pet->affected) {
+        if (af.type < 0 || af.type >= MAX_SKILL)
             continue;
 
-        fprintf(fp, "AffD '%s' %3d %3d %3d %3d %10d\n", skill_table[paf->type].name, paf->level, paf->duration,
-                paf->modifier, static_cast<int>(paf->location), paf->bitvector);
+        fprintf(fp, "AffD '%s' %3d %3d %3d %3d %10d\n", skill_table[af.type].name, af.level, af.duration, af.modifier,
+                static_cast<int>(af.location), af.bitvector);
     }
 
     if (ch->riding == pet) {

@@ -1437,8 +1437,8 @@ void raw_kill(Char *victim) {
 
     if (!in_duel(victim))
         extract_char(victim, false);
-    while (victim->affected)
-        affect_remove(victim, victim->affected);
+    while (!victim->affected.empty())
+        affect_remove(victim, &victim->affected.front());
     victim->affected_by = race_table[victim->race].aff;
     if (!in_duel(victim))
         victim->armor.fill(100);

@@ -2127,8 +2127,7 @@ void do_dump(Char *ch, const char *argument) {
         count++;
         if (fch->pcdata != nullptr)
             num_pcs++;
-        for (af = fch->affected; af != nullptr; af = af->next)
-            aff_count++;
+        aff_count += fch->affected.size();
     }
 
     fprintf(fp, "Mobs	%4d (%8ld bytes)\n", count, count * (sizeof(*fch)));
