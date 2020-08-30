@@ -10,6 +10,7 @@ public:
     AFFECT_DATA &add(const AFFECT_DATA &aff);
     void remove(const AFFECT_DATA &aff);
 
+    void clear();
     [[nodiscard]] bool empty() const noexcept { return !first_; }
 
     [[nodiscard]] AFFECT_DATA *find_by_skill(int skill_number);

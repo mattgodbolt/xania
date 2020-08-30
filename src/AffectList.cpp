@@ -46,3 +46,8 @@ const AFFECT_DATA *AffectList::find_by_skill(int skill_number) const {
 }
 
 size_t AffectList::size() const noexcept { return ranges::distance(*this); }
+
+void AffectList::clear() {
+    while (first_)
+        remove(*first_);
+}

@@ -916,7 +916,7 @@ void fread_obj(Char *ch, FILE *fp) {
         if (word.empty() || word[0] == '*') {
             fread_to_eol(fp);
         } else if (matches(word, "Affect") || matches(word, "Aff") || matches(word, "AffD")) {
-            auto *paf = new AFFECT_DATA;
+            AFFECT_DATA af;
 
             // Spell effects on chars and customized objects in PFiles
             if (matches(word, "AffD")) {
@@ -926,19 +926,18 @@ void fread_obj(Char *ch, FILE *fp) {
                 if (sn < 0)
                     bug("%s", "Fread_obj: unknown skill {}."_format(affected_by).c_str());
                 else
-                    paf->type = sn;
+                    af.type = sn;
             } else /* old form */
-                paf->type = fread_number(fp);
+                af.type = fread_number(fp);
             if (ch->version == 0)
-                paf->level = 20;
+                af.level = 20;
             else
-                paf->level = fread_number(fp);
-            paf->duration = fread_number(fp);
-            paf->modifier = fread_number(fp);
-            paf->location = static_cast<AffectLocation>(fread_number(fp));
-            paf->bitvector = fread_number(fp);
-            paf->next = obj->affected;
-            obj->affected = paf;
+                af.level = fread_number(fp);
+            af.duration = fread_number(fp);
+            af.modifier = fread_number(fp);
+            af.location = static_cast<AffectLocation>(fread_number(fp));
+            af.bitvector = fread_number(fp);
+            obj->affected.add(af);
         } else if (matches(word, "Cost")) {
             obj->cost = fread_number(fp);
         } else if (matches(word, "Description") || matches(word, "Desc")) {

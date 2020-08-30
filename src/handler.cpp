@@ -232,9 +232,9 @@ void reset_char(Char *ch) {
                 continue;
             // TODO: this is similar to the unapply but not quite the same - is it important?
             if (!obj->enchanted)
-                for (auto *af = obj->pIndexData->affected; af != nullptr; af = af->next) {
-                    mod = af->modifier;
-                    switch (af->location) {
+                for (const auto &af : obj->pIndexData->affected) {
+                    mod = af.modifier;
+                    switch (af.location) {
                     default: break;
                     case AffectLocation::Sex:
                         ch->sex -= mod;
@@ -247,9 +247,9 @@ void reset_char(Char *ch) {
                     }
                 }
 
-            for (auto *af = obj->affected; af != nullptr; af = af->next) {
-                mod = af->modifier;
-                switch (af->location) {
+            for (const auto &af : obj->affected) {
+                mod = af.modifier;
+                switch (af.location) {
                 default: break;
                 case AffectLocation::Sex: ch->sex -= mod; break;
                 case AffectLocation::Mana: ch->max_mana -= mod; break;
@@ -298,11 +298,11 @@ void reset_char(Char *ch) {
             ch->armor[i] -= apply_ac(obj, loc, i);
 
         if (!obj->enchanted)
-            for (auto *af = obj->pIndexData->affected; af != nullptr; af = af->next)
-                af->apply(*ch);
+            for (const auto &af : obj->pIndexData->affected)
+                af.apply(*ch);
 
-        for (auto *af = obj->affected; af != nullptr; af = af->next)
-            af->apply(*ch);
+        for (auto &af : obj->affected)
+            af.apply(*ch);
     }
 
     /* now add back spell effects */
@@ -407,12 +407,7 @@ void affect_to_char(Char *ch, const AFFECT_DATA &af) {
 }
 
 /* give an affect to an object */
-void affect_to_obj(OBJ_DATA *obj, const AFFECT_DATA &af) {
-    auto *paf_new = new AFFECT_DATA(af);
-
-    paf_new->next = obj->affected;
-    obj->affected = paf_new;
-}
+void affect_to_obj(OBJ_DATA *obj, const AFFECT_DATA &af) { obj->affected.add(af); }
 
 /*
  * Remove an affect from a char.
@@ -436,25 +431,7 @@ void affect_remove_obj(OBJ_DATA *obj, const AFFECT_DATA &af) {
     if (obj->carried_by != nullptr && obj->wear_loc != -1)
         affect_modify(obj->carried_by, af, false);
 
-    if (&af == obj->affected) {
-        obj->affected = af.next;
-    } else {
-        AFFECT_DATA *prev;
-
-        for (prev = obj->affected; prev != nullptr; prev = prev->next) {
-            if (prev->next == &af) {
-                prev->next = af.next;
-                break;
-            }
-        }
-
-        if (prev == nullptr) {
-            bug("Affect_remove_object: cannot find paf.");
-            return;
-        }
-    }
-
-    delete &af; // XXX
+    obj->affected.remove(af);
 }
 
 /*

@@ -1074,7 +1074,7 @@ struct extra_descr_data {
 struct OBJ_INDEX_DATA {
     OBJ_INDEX_DATA *next{};
     EXTRA_DESCR_DATA *extra_descr{};
-    AFFECT_DATA *affected{};
+    AffectList affected;
     char *name{};
     char *short_descr{};
     char *description{};
@@ -1105,7 +1105,7 @@ struct OBJ_DATA {
     OBJ_DATA *in_obj{};
     Char *carried_by{};
     EXTRA_DESCR_DATA *extra_descr{};
-    AFFECT_DATA *affected{};
+    AffectList affected;
     OBJ_INDEX_DATA *pIndexData{};
     ROOM_INDEX_DATA *in_room{};
     bool enchanted{};

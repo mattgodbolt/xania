@@ -1930,18 +1930,12 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
     }
 
     if (result < (fail / 2)) { /* item disenchanted */
-        AFFECT_DATA *paf_next;
-
         act("$p glows brightly, then fades...oops.", ch, obj, nullptr, To::Char);
         act("$p glows brightly, then fades.", ch, obj, nullptr, To::Room);
         obj->enchanted = true;
 
         /* remove all affects */
-        for (AFFECT_DATA *paf = obj->affected; paf != nullptr; paf = paf_next) {
-            paf_next = paf->next;
-            delete paf;
-        }
-        obj->affected = nullptr;
+        obj->affected.clear();
 
         /* clear all flags */
         obj->extra_flags = 0;
@@ -1955,20 +1949,11 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
 
     /* okay, move all the old flags into new vectors if we have to */
     if (!obj->enchanted) {
-        AFFECT_DATA *af_new;
         obj->enchanted = true;
 
-        for (AFFECT_DATA *paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
-            af_new = new AFFECT_DATA;
-            af_new->next = obj->affected;
-            obj->affected = af_new;
-
-            af_new->type = UMAX(0, paf->type);
-            af_new->level = paf->level;
-            af_new->duration = paf->duration;
-            af_new->location = paf->location;
-            af_new->modifier = paf->modifier;
-            af_new->bitvector = paf->bitvector;
+        for (auto af_clone : obj->pIndexData->affected) {
+            af_clone.type = UMAX(0, af_clone.type);
+            obj->affected.add(af_clone);
         }
     }
 
@@ -1992,23 +1977,22 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
         obj->level = UMIN(LEVEL_HERO - 1, obj->level + 1);
 
     if (ac_found) {
-        for (AFFECT_DATA *paf = obj->affected; paf != nullptr; paf = paf->next) {
-            if (paf->location == AffectLocation::Ac) {
-                paf->type = sn;
-                paf->modifier += added;
-                paf->level = UMAX(paf->level, level);
+        for (auto &af : obj->affected) {
+            if (af.location == AffectLocation::Ac) {
+                af.type = sn;
+                af.modifier += added;
+                af.level = UMAX(af.level, level);
             }
         }
     } else { /* add a new affect */
-        AFFECT_DATA *paf = new AFFECT_DATA;
-        paf->type = sn;
-        paf->level = level;
-        paf->duration = -1;
-        paf->location = AffectLocation::Ac;
-        paf->modifier = added;
-        paf->bitvector = 0;
-        paf->next = obj->affected;
-        obj->affected = paf;
+        AFFECT_DATA af;
+        af.type = sn;
+        af.level = level;
+        af.duration = -1;
+        af.location = AffectLocation::Ac;
+        af.modifier = added;
+        af.bitvector = 0;
+        obj->affected.add(af);
     }
 }
 
@@ -2113,18 +2097,12 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
     }
 
     if (result < (fail / 2) || (no_ench_num == 2)) { /* item disenchanted */
-        AFFECT_DATA *paf_next;
-
         act("$p glows brightly, then fades...oops.", ch, obj, nullptr, To::Char);
         act("$p glows brightly, then fades.", ch, obj, nullptr, To::Room);
         obj->enchanted = true;
 
         /* remove all affects */
-        for (AFFECT_DATA *paf = obj->affected; paf != nullptr; paf = paf_next) {
-            paf_next = paf->next;
-            delete paf;
-        }
-        obj->affected = nullptr;
+        obj->affected.clear();
 
         /* clear all flags */
         obj->extra_flags = 0;
@@ -2138,20 +2116,11 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
 
     /* okay, move all the old flags into new vectors if we have to */
     if (!obj->enchanted) {
-        AFFECT_DATA *af_new;
         obj->enchanted = true;
 
-        for (AFFECT_DATA *paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
-            af_new = new AFFECT_DATA;
-            af_new->next = obj->affected;
-            obj->affected = af_new;
-
-            af_new->type = UMAX(0, paf->type);
-            af_new->level = paf->level;
-            af_new->duration = paf->duration;
-            af_new->location = paf->location;
-            af_new->modifier = paf->modifier;
-            af_new->bitvector = paf->bitvector;
+        for (auto af_clone : obj->pIndexData->affected) {
+            af_clone.type = UMAX(0, af_clone.type);
+            obj->affected.add(af_clone);
         }
     }
 
@@ -2184,37 +2153,35 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
             }
         }
     } else { /* add a new affect */
-        AFFECT_DATA *paf = new AFFECT_DATA;
-        paf->type = sn;
-        paf->level = level;
-        paf->duration = -1;
-        paf->location = AffectLocation::Damroll;
-        paf->modifier = added;
-        paf->bitvector = 0;
-        paf->next = obj->affected;
-        obj->affected = paf;
+        AFFECT_DATA af;
+        af.type = sn;
+        af.level = level;
+        af.duration = -1;
+        af.location = AffectLocation::Damroll;
+        af.modifier = added;
+        af.bitvector = 0;
+        obj->affected.add(af);
     }
 
     if (hit_found) {
-        for (AFFECT_DATA *paf = obj->affected; paf != nullptr; paf = paf->next) {
-            if (paf->location == AffectLocation::Hitroll) {
-                paf->type = sn;
-                paf->modifier += added;
-                paf->level = UMAX(paf->level, level);
-                if (paf->modifier > 4)
+        for (auto &af : obj->affected) {
+            if (af.location == AffectLocation::Hitroll) {
+                af.type = sn;
+                af.modifier += added;
+                af.level = UMAX(af.level, level);
+                if (af.modifier > 4)
                     SET_BIT(obj->extra_flags, ITEM_HUM);
             }
         }
     } else { /* add a new affect */
-        AFFECT_DATA *paf = new AFFECT_DATA;
-        paf->type = sn;
-        paf->level = level;
-        paf->duration = -1;
-        paf->location = AffectLocation::Hitroll;
-        paf->modifier = added;
-        paf->bitvector = 0;
-        paf->next = obj->affected;
-        obj->affected = paf;
+        AFFECT_DATA af;
+        af.type = sn;
+        af.level = level;
+        af.duration = -1;
+        af.location = AffectLocation::Hitroll;
+        af.modifier = added;
+        af.bitvector = 0;
+        obj->affected.add(af);
     }
     /* Make armour become level 50 */
     if ((obj->item_type == ITEM_ARMOR) && (obj->level < 50)) {
@@ -2843,10 +2810,8 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
     (void)level;
     OBJ_DATA *obj = (OBJ_DATA *)vo;
     char buf[MAX_STRING_LENGTH];
-    AFFECT_DATA *paf;
 
     snprintf(buf, sizeof(buf), "Object '%s' is type %s, extra flags %s.\n\rWeight is %d, value is %d, level is %d.\n\r",
-
              obj->name, item_type_name(obj), extra_bit_name(obj->extra_flags), obj->weight, obj->cost, obj->level);
     send_to_char(buf, ch);
 
@@ -2955,14 +2920,14 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
     }
 
     if (!obj->enchanted)
-        for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
-            if (paf->affects_stats())
-                ch->send_to("Affects {}.\n\r"_format(paf->describe_item_effect()));
+        for (auto &af : obj->pIndexData->affected) {
+            if (af.affects_stats())
+                ch->send_to("Affects {}.\n\r"_format(af.describe_item_effect()));
         }
 
-    for (paf = obj->affected; paf != nullptr; paf = paf->next) {
-        if (paf->affects_stats())
-            ch->send_to("Affects {}.\n\r"_format(paf->describe_item_effect()));
+    for (auto &af : obj->affected) {
+        if (af.affects_stats())
+            ch->send_to("Affects {}.\n\r"_format(af.describe_item_effect()));
     }
 }
 

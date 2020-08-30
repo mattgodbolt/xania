@@ -441,14 +441,13 @@ void load_objects(FILE *fp) {
             letter = fread_letter(fp);
 
             if (letter == 'A') {
-                AFFECT_DATA *paf = new AFFECT_DATA;
-                paf->type = -1;
-                paf->level = pObjIndex->level;
-                paf->duration = -1;
-                paf->location = static_cast<AffectLocation>(fread_number(fp));
-                paf->modifier = fread_number(fp);
-                paf->next = pObjIndex->affected;
-                pObjIndex->affected = paf;
+                AFFECT_DATA af;
+                af.type = -1;
+                af.level = pObjIndex->level;
+                af.duration = -1;
+                af.location = static_cast<AffectLocation>(fread_number(fp));
+                af.modifier = fread_number(fp);
+                pObjIndex->affected.add(af);
                 top_affect++;
             }
 
