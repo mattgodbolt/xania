@@ -263,11 +263,11 @@ void do_cast(Char *ch, const char *argument) {
                 bomb->value[0] = ch->level;
                 bomb->value[1] = sn;
 
-                snprintf(buf, sizeof(buf), bomb->description, ch->name);
+                snprintf(buf, sizeof(buf), bomb->description, ch->name.c_str());
                 free_string(bomb->description);
                 bomb->description = str_dup(buf);
 
-                snprintf(buf, sizeof(buf), bomb->name, ch->name);
+                snprintf(buf, sizeof(buf), bomb->name, ch->name.c_str());
                 free_string(bomb->name);
                 bomb->name = str_dup(buf);
 
