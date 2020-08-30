@@ -722,7 +722,6 @@ void do_rstat(Char *ch, const char *argument) {
 void do_ostat(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    AFFECT_DATA *paf;
     OBJ_DATA *obj;
     OBJ_INDEX_DATA *pObjIndex;
     sh_int dam_type;
@@ -955,12 +954,12 @@ void do_ostat(Char *ch, const char *argument) {
         send_to_char("'\n\r", ch);
     }
 
-    for (paf = obj->affected; paf != nullptr; paf = paf->next)
-        ch->send_to("Affects {}.\n\r"_format(paf->describe_item_effect(true)));
+    for (auto &af : obj->affected)
+        ch->send_to("Affects {}.\n\r"_format(af.describe_item_effect(true)));
 
     if (!obj->enchanted)
-        for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next)
-            ch->send_to("Affects {}.\n\r"_format(paf->describe_item_effect(true)));
+        for (auto &af : obj->pIndexData->affected)
+            ch->send_to("Affects {}.\n\r"_format(af.describe_item_effect(true)));
 }
 
 void do_mskills(Char *ch, const char *argument) {

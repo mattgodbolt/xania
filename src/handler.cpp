@@ -681,9 +681,6 @@ void enforce_material_vulnerability(Char *ch, OBJ_DATA *obj) {
  * Equip a char with an obj.
  */
 void equip_char(Char *ch, OBJ_DATA *obj, int iWear) {
-    AFFECT_DATA *paf;
-    int i;
-
     if (get_eq_char(ch, iWear) != nullptr) {
         bug("Equip_char: already equipped (%d).", iWear);
         return;
@@ -703,15 +700,15 @@ void equip_char(Char *ch, OBJ_DATA *obj, int iWear) {
 
     enforce_material_vulnerability(ch, obj);
 
-    for (i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
         ch->armor[i] -= apply_ac(obj, iWear, i);
     obj->wear_loc = iWear;
 
     if (!obj->enchanted)
-        for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next)
-            affect_modify(ch, *paf, true);
-    for (paf = obj->affected; paf != nullptr; paf = paf->next)
-        affect_modify(ch, *paf, true);
+        for (auto &af : obj->pIndexData->affected)
+            affect_modify(ch, af, true);
+    for (auto &af : obj->affected)
+        affect_modify(ch, af, true);
 
     if (obj->item_type == ITEM_LIGHT && obj->value[2] != 0 && ch->in_room != nullptr)
         ++ch->in_room->light;
@@ -721,23 +718,20 @@ void equip_char(Char *ch, OBJ_DATA *obj, int iWear) {
  * Unequip a char with an obj.
  */
 void unequip_char(Char *ch, OBJ_DATA *obj) {
-    AFFECT_DATA *paf;
-    int i;
-
     if (obj->wear_loc == WEAR_NONE) {
         bug("Unequip_char: already unequipped.");
         return;
     }
 
-    for (i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
         ch->armor[i] += apply_ac(obj, obj->wear_loc, i);
     obj->wear_loc = -1;
 
     if (!obj->enchanted)
-        for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next)
-            affect_modify(ch, *paf, false);
-    for (paf = obj->affected; paf != nullptr; paf = paf->next)
-        affect_modify(ch, *paf, false);
+        for (auto &af : obj->pIndexData->affected)
+            affect_modify(ch, af, false);
+    for (auto &af : obj->affected)
+        affect_modify(ch, af, false);
 
     if (obj->item_type == ITEM_LIGHT && obj->value[2] != 0 && ch->in_room != nullptr && ch->in_room->light > 0)
         --ch->in_room->light;

@@ -2143,8 +2143,7 @@ void do_dump(Char *ch, const char *argument) {
     /* object prototypes */
     for (vnum = 0; nMatch < top_obj_index; vnum++)
         if ((pObjIndex = get_obj_index(vnum)) != nullptr) {
-            for (af = pObjIndex->affected; af != nullptr; af = af->next)
-                aff_count++;
+            aff_count += pObjIndex->affected.size();
             nMatch++;
         }
 

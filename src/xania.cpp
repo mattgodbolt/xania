@@ -17,6 +17,7 @@
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+#include <range/v3/numeric/accumulate.hpp>
 
 #include <cctype>
 #include <cstdio>
@@ -49,12 +50,11 @@ void mobbug(const char *str, MOB_INDEX_DATA *mob) {
 
 int report_object(OBJ_DATA *object, int boot) {
     int averagedam, allowedaverage;
-    AFFECT_DATA *paf;
     OBJ_INDEX_DATA *obj = object->pIndexData;
 
-    AFFECT_DATA::Value value;
-    for (paf = obj->affected; paf; paf = paf->next)
-        value += paf->worth();
+    auto value =
+        ranges::accumulate(obj->affected | ranges::views::transform(&AFFECT_DATA::worth), AFFECT_DATA::Value{});
+
     /* Weapons are allowed 1 hit and 1 dam for each point */
 
     auto worth =

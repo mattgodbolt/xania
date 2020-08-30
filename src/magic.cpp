@@ -1887,9 +1887,9 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
     /* find the bonuses */
     bool ac_found = false;
     if (!obj->enchanted)
-        for (AFFECT_DATA *paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
-            if (paf->location == AffectLocation::Ac) {
-                ac_bonus = paf->modifier;
+        for (auto &af : obj->pIndexData->affected) {
+            if (af.location == AffectLocation::Ac) {
+                ac_bonus = af.modifier;
                 ac_found = true;
                 fail += 5 * (ac_bonus * ac_bonus);
             }
@@ -1898,9 +1898,9 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
                 fail += 20;
         }
 
-    for (AFFECT_DATA *paf = obj->affected; paf != nullptr; paf = paf->next) {
-        if (paf->location == AffectLocation::Ac) {
-            ac_bonus = paf->modifier;
+    for (auto &af : obj->affected) {
+        if (af.location == AffectLocation::Ac) {
+            ac_bonus = af.modifier;
             ac_found = true;
             fail += 5 * (ac_bonus * ac_bonus);
         }
@@ -2029,15 +2029,15 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
 
     bool hit_found = false, dam_found = false;
     if (!obj->enchanted) {
-        for (AFFECT_DATA *paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next) {
-            if (paf->location == AffectLocation::Hitroll) {
-                hit_bonus = paf->modifier;
+        for (auto &af : obj->pIndexData->affected) {
+            if (af.location == AffectLocation::Hitroll) {
+                hit_bonus = af.modifier;
                 hit_found = true;
                 fail += 2 * (hit_bonus * hit_bonus) * modifier;
             }
 
-            else if (paf->location == AffectLocation::Damroll) {
-                dam_bonus = paf->modifier;
+            else if (af.location == AffectLocation::Damroll) {
+                dam_bonus = af.modifier;
                 dam_found = true;
                 fail += 2 * (dam_bonus * dam_bonus) * modifier;
             }
@@ -2047,13 +2047,13 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
         }
     }
 
-    for (AFFECT_DATA *paf = obj->affected; paf != nullptr; paf = paf->next) {
-        if (paf->location == AffectLocation::Hitroll) {
-            hit_bonus = paf->modifier;
+    for (auto &af : obj->affected) {
+        if (af.location == AffectLocation::Hitroll) {
+            hit_bonus = af.modifier;
             hit_found = true;
             fail += 2 * (hit_bonus * hit_bonus) * modifier;
-        } else if (paf->location == AffectLocation::Damroll) {
-            dam_bonus = paf->modifier;
+        } else if (af.location == AffectLocation::Damroll) {
+            dam_bonus = af.modifier;
             dam_found = true;
             fail += 2 * (dam_bonus * dam_bonus) * modifier;
         } else /* things get a little harder */

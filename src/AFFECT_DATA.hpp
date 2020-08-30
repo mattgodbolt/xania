@@ -22,11 +22,9 @@ struct AFFECT_DATA {
         int hit{};
         int damage{};
         int worth{};
-        Value &operator+=(const Value &rhs) noexcept {
-            hit += rhs.hit;
-            damage += rhs.damage;
-            worth += rhs.worth;
-            return *this;
+
+        friend Value operator+(const Value &lhs, const Value &rhs) noexcept {
+            return Value{lhs.hit + rhs.hit, lhs.damage + rhs.damage, lhs.worth + rhs.worth};
         }
     };
     [[nodiscard]] Value worth() const noexcept;
