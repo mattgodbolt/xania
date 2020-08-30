@@ -29,7 +29,7 @@ void spell_poison(int spell_num, int level, Char *ch, void *vo);
 /*
  * Local functions.
  */
-void affect_modify(Char *ch, AFFECT_DATA *paf, bool fAdd);
+void affect_modify(Char *ch, const AFFECT_DATA &af, bool fAdd);
 
 struct guess_type {
     const char *name;
@@ -371,11 +371,11 @@ int can_carry_w(Char *ch) {
 /*
  * Apply or remove an affect to a character.
  */
-void affect_modify(Char *ch, AFFECT_DATA *paf, bool fAdd) {
+void affect_modify(Char *ch, const AFFECT_DATA &af, bool fAdd) {
     if (fAdd) {
-        paf->apply(*ch);
+        af.apply(*ch);
     } else {
-        paf->unapply(*ch);
+        af.unapply(*ch);
     }
 
     /*
@@ -402,8 +402,7 @@ void affect_modify(Char *ch, AFFECT_DATA *paf, bool fAdd) {
  * Give an affect to a char.
  */
 void affect_to_char(Char *ch, const AFFECT_DATA &af) {
-    auto *paf_new = new AFFECT_DATA(af);
-    ch->affected.add(paf_new);
+    auto &paf_new = ch->affected.add(af);
     affect_modify(ch, paf_new, true);
 }
 
@@ -418,33 +417,33 @@ void affect_to_obj(OBJ_DATA *obj, const AFFECT_DATA &af) {
 /*
  * Remove an affect from a char.
  */
-void affect_remove(Char *ch, AFFECT_DATA *paf) {
+void affect_remove(Char *ch, const AFFECT_DATA &af) {
     if (ch->affected.empty()) {
         bug("Affect_remove: no affect.");
         return;
     }
 
-    affect_modify(ch, paf, false);
-    ch->affected.remove(paf);
+    affect_modify(ch, af, false);
+    ch->affected.remove(af);
 }
 
-void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
+void affect_remove_obj(OBJ_DATA *obj, const AFFECT_DATA &af) {
     if (obj->affected == nullptr) {
         bug("Affect_remove_object: no affect.");
         return;
     }
 
     if (obj->carried_by != nullptr && obj->wear_loc != -1)
-        affect_modify(obj->carried_by, paf, false);
+        affect_modify(obj->carried_by, af, false);
 
-    if (paf == obj->affected) {
-        obj->affected = paf->next;
+    if (&af == obj->affected) {
+        obj->affected = af.next;
     } else {
         AFFECT_DATA *prev;
 
         for (prev = obj->affected; prev != nullptr; prev = prev->next) {
-            if (prev->next == paf) {
-                prev->next = paf->next;
+            if (prev->next == &af) {
+                prev->next = af.next;
                 break;
             }
         }
@@ -455,7 +454,7 @@ void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
         }
     }
 
-    delete paf;
+    delete &af; // XXX
 }
 
 /*
@@ -464,7 +463,7 @@ void affect_remove_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
 void affect_strip(Char *ch, int sn) {
     // This is O(N²) but N is likely 0 or 1 in all practical cases.
     while (auto *aff = ch->affected.find_by_skill(sn))
-        affect_remove(ch, aff);
+        affect_remove(ch, *aff);
 }
 
 bool is_affected(const Char *ch, int sn) { return ch->is_affected_by(sn); }
@@ -480,7 +479,7 @@ void affect_join(Char *ch, const AFFECT_DATA &af) {
         net_af.level = (net_af.level + old->level) / 2;
         net_af.duration += old->duration;
         net_af.modifier += old->modifier;
-        affect_remove(ch, old);
+        affect_remove(ch, *old);
     }
 
     affect_to_char(ch, af);
@@ -733,9 +732,9 @@ void equip_char(Char *ch, OBJ_DATA *obj, int iWear) {
 
     if (!obj->enchanted)
         for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next)
-            affect_modify(ch, paf, true);
+            affect_modify(ch, *paf, true);
     for (paf = obj->affected; paf != nullptr; paf = paf->next)
-        affect_modify(ch, paf, true);
+        affect_modify(ch, *paf, true);
 
     if (obj->item_type == ITEM_LIGHT && obj->value[2] != 0 && ch->in_room != nullptr)
         ++ch->in_room->light;
@@ -759,9 +758,9 @@ void unequip_char(Char *ch, OBJ_DATA *obj) {
 
     if (!obj->enchanted)
         for (paf = obj->pIndexData->affected; paf != nullptr; paf = paf->next)
-            affect_modify(ch, paf, false);
+            affect_modify(ch, *paf, false);
     for (paf = obj->affected; paf != nullptr; paf = paf->next)
-        affect_modify(ch, paf, false);
+        affect_modify(ch, *paf, false);
 
     if (obj->item_type == ITEM_LIGHT && obj->value[2] != 0 && ch->in_room != nullptr && ch->in_room->light > 0)
         --ch->in_room->light;

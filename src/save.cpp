@@ -586,7 +586,7 @@ void fread_char(Char *ch, FILE *fp) {
                 ch->armor[i] = fread_number(fp);
             }
         } else if (word == "affect" || word == "aff" || word == "affd") {
-            auto *paf = new AFFECT_DATA;
+            AFFECT_DATA af;
 
             // Ick.
             if (word == "affd") {
@@ -595,18 +595,18 @@ void fread_char(Char *ch, FILE *fp) {
                 if (sn < 0)
                     bug("Fread_char: unknown skill.");
                 else
-                    paf->type = sn;
+                    af.type = sn;
             } else /* old form */
-                paf->type = fread_number(fp);
+                af.type = fread_number(fp);
             if (ch->version == 0)
-                paf->level = ch->level;
+                af.level = ch->level;
             else
-                paf->level = fread_number(fp);
-            paf->duration = fread_number(fp);
-            paf->modifier = fread_number(fp);
-            paf->location = static_cast<AffectLocation>(fread_number(fp));
-            paf->bitvector = fread_number(fp);
-            ch->affected.add(paf);
+                af.level = fread_number(fp);
+            af.duration = fread_number(fp);
+            af.modifier = fread_number(fp);
+            af.location = static_cast<AffectLocation>(fread_number(fp));
+            af.bitvector = fread_number(fp);
+            ch->affected.add(af);
         } else if (word == "attrmod" || word == "amod") {
             for (auto &stat : ch->mod_stat)
                 stat = fread_number(fp);
@@ -803,19 +803,19 @@ void fread_pet(Char *ch, FILE *fp) {
             for (int i = 0; i < 4; i++)
                 pet->armor[i] = fread_number(fp);
         } else if (matches(word, "AffD")) {
-            AFFECT_DATA *paf = new AFFECT_DATA;
+            AFFECT_DATA af;
             int sn = skill_lookup(fread_word(fp));
             if (sn < 0)
                 bug("%s", "Fread_pet: unknown skill #{}"_format(sn).c_str());
             else
-                paf->type = sn;
+                af.type = sn;
 
-            paf->level = fread_number(fp);
-            paf->duration = fread_number(fp);
-            paf->modifier = fread_number(fp);
-            paf->location = static_cast<AffectLocation>(fread_number(fp));
-            paf->bitvector = fread_number(fp);
-            pet->affected.add(paf);
+            af.level = fread_number(fp);
+            af.duration = fread_number(fp);
+            af.modifier = fread_number(fp);
+            af.location = static_cast<AffectLocation>(fread_number(fp));
+            af.bitvector = fread_number(fp);
+            pet->affected.add(af);
         } else if (matches(word, "AMod")) {
             for (auto &stat : pet->mod_stat)
                 stat = fread_number(fp);

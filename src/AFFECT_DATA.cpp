@@ -8,7 +8,7 @@
 using namespace fmt::literals;
 using namespace std::literals;
 
-void AFFECT_DATA::modify(Char &ch, bool apply) {
+void AFFECT_DATA::modify(Char &ch, bool apply) const {
     if (apply) {
         SET_BIT(ch.affected_by, bitvector);
     } else {

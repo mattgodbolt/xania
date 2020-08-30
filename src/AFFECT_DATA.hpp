@@ -15,8 +15,8 @@ struct AFFECT_DATA {
     sh_int modifier{};
     unsigned int bitvector{};
 
-    void apply(Char &ch) { modify(ch, true); }
-    void unapply(Char &ch) { modify(ch, false); }
+    void apply(Char &ch) const { modify(ch, true); }
+    void unapply(Char &ch) const { modify(ch, false); }
 
     struct Value {
         int hit{};
@@ -38,5 +38,5 @@ struct AFFECT_DATA {
     [[nodiscard]] bool is_skill() const noexcept;
 
 private:
-    void modify(Char &ch, bool apply);
+    void modify(Char &ch, bool apply) const;
 };

@@ -550,7 +550,7 @@ void char_update() {
                 } else if (af.duration >= 0) {
                     if (af.type > 0 && skill_table[af.type].msg_off)
                         removed_this_tick_with_msg.emplace(af.type);
-                    affect_remove(ch, &af);
+                    affect_remove(ch, af);
                 }
             });
             // Only report wear-offs for those affects who are completely gone.
@@ -679,7 +679,7 @@ void obj_update() {
                     }
                 }
 
-                affect_remove_obj(obj, paf);
+                affect_remove_obj(obj, *paf);
             }
         }
 

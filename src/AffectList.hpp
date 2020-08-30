@@ -7,9 +7,8 @@ class AffectList {
     AFFECT_DATA *first_{};
 
 public:
-    void add(AFFECT_DATA *aff);
-
-    void remove(AFFECT_DATA *aff);
+    AFFECT_DATA &add(const AFFECT_DATA &aff);
+    void remove(const AFFECT_DATA &aff);
 
     [[nodiscard]] bool empty() const noexcept { return !first_; }
 
