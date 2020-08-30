@@ -76,15 +76,15 @@ void tornado_mental(Char *ch, Char *victim, int level) {
     af.location = AffectLocation::Hitroll;
     af.modifier = -4;
     af.bitvector = AFF_BLIND;
-    affect_to_char(victim, &af);
+    affect_to_char(victim, af);
 
     af.location = AffectLocation::Wis;
     af.modifier = -(1 + (level >= 20) + (level >= 30) + (level >= 50) + (level >= 75) + (level >= 91));
     af.bitvector = 0;
-    affect_to_char(victim, &af);
+    affect_to_char(victim, af);
     af.location = AffectLocation::Int;
     af.modifier = -(1 + (level >= 20) + (level >= 30) + (level >= 50) + (level >= 75) + (level >= 91));
-    affect_to_char(victim, &af);
+    affect_to_char(victim, af);
     WAIT_STATE(ch, PULSE_VIOLENCE * 2);
     victim->position = POS_RESTING;
 }
@@ -268,7 +268,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
 //    af.location  = 0;
 //    af.modifier  = 0;
 //    af.bitvector = AFF_CHARM;
-//    affect_to_char( zombie, &af );
+//    affect_to_char( zombie, af );
 //    act( "Isn't $n just so nice?", ch, nullptr, victim, To::Vict );
 //    act("$N gazes at you through blood-chilling eye sockets.",ch,nullptr,zombie,To::Char);
 //

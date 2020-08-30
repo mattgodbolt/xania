@@ -2423,7 +2423,7 @@ void do_coma(Char *ch, const char *argument) {
     af.level = ch->trust;
     af.duration = 4 + ch->trust;
     af.bitvector = AFF_SLEEP;
-    affect_join(victim, &af);
+    affect_join(victim, af);
 
     if (IS_AWAKE(victim)) {
         send_to_char("You feel very sleepy ..... zzzzzz.\n\r", victim);

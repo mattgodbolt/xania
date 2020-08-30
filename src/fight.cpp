@@ -2095,14 +2095,14 @@ void do_berserk(Char *ch, const char *argument) {
         af.bitvector = AFF_BERSERK;
 
         af.location = AffectLocation::Hitroll;
-        affect_to_char(ch, &af);
+        affect_to_char(ch, af);
 
         af.location = AffectLocation::Damroll;
-        affect_to_char(ch, &af);
+        affect_to_char(ch, af);
 
         af.modifier = UMAX(10, 10 * (ch->level / 5));
         af.location = AffectLocation::Ac;
-        affect_to_char(ch, &af);
+        affect_to_char(ch, af);
 
         /* if ( (wield !=nullptr) && (wield->item_type == ITEM_WEAPON) &&
               (IS_SET(wield->value[4], WEAPON_FLAMING)))
@@ -2341,7 +2341,7 @@ void do_dirt(Char *ch, const char *argument) {
         af.modifier = -4;
         af.bitvector = AFF_BLIND;
 
-        affect_to_char(victim, &af);
+        affect_to_char(victim, af);
     } else {
         damage(ch, victim, 0, gsn_dirt, DAM_NONE);
         check_improve(ch, gsn_dirt, false, 2);
@@ -2822,7 +2822,7 @@ void do_headbutt(Char *ch, const char *argument) {
                 af.modifier = -5;
                 af.bitvector = AFF_BLIND;
 
-                affect_to_char(victim, &af);
+                affect_to_char(victim, af);
             }
         }
     } else {

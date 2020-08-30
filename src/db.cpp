@@ -1172,8 +1172,6 @@ Char *create_mobile(MOB_INDEX_DATA *pMobIndex) {
 
 /* duplicate a mobile exactly -- except inventory */
 void clone_mobile(Char *parent, Char *clone) {
-    AFFECT_DATA *paf;
-
     if (parent == nullptr || clone == nullptr || parent->is_pc())
         return;
 
@@ -1233,8 +1231,8 @@ void clone_mobile(Char *parent, Char *clone) {
         clone->damage[i] = parent->damage[i];
 
     /* now add the affects */
-    for (paf = parent->affected; paf != nullptr; paf = paf->next)
-        affect_to_char(clone, paf);
+    for (const auto &af : parent->affected)
+        affect_to_char(clone, af);
 }
 
 /*
@@ -1353,7 +1351,7 @@ void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
     clone->enchanted = parent->enchanted;
 
     for (paf = parent->affected; paf != nullptr; paf = paf->next)
-        affect_to_obj(clone, paf);
+        affect_to_obj(clone, *paf);
 
     /* extended desc */
     /*

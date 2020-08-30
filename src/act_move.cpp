@@ -961,7 +961,7 @@ void do_sneak(Char *ch, const char *argument) {
         af.level = ch->level;
         af.duration = ch->level;
         af.bitvector = AFF_SNEAK;
-        affect_to_char(ch, &af);
+        affect_to_char(ch, af);
     } else
         check_improve(ch, gsn_sneak, false, 3);
 }

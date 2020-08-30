@@ -639,7 +639,7 @@ void char_update() {
                     && number_bits(4) == 0) {
                     send_to_char("You feel hot and feverish.\n\r", vch);
                     act("$n shivers and looks very ill.", vch);
-                    affect_join(vch, &plague);
+                    affect_join(vch, plague);
                 }
             }
 

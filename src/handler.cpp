@@ -402,15 +402,15 @@ void affect_modify(Char *ch, AFFECT_DATA *paf, bool fAdd) {
 /*
  * Give an affect to a char.
  */
-void affect_to_char(Char *ch, AFFECT_DATA *paf) {
-    auto *paf_new = new AFFECT_DATA(*paf);
+void affect_to_char(Char *ch, const AFFECT_DATA &af) {
+    auto *paf_new = new AFFECT_DATA(af);
     ch->affected.add(paf_new);
     affect_modify(ch, paf_new, true);
 }
 
 /* give an affect to an object */
-void affect_to_obj(OBJ_DATA *obj, AFFECT_DATA *paf) {
-    auto *paf_new = new AFFECT_DATA(*paf);
+void affect_to_obj(OBJ_DATA *obj, const AFFECT_DATA &af) {
+    auto *paf_new = new AFFECT_DATA(af);
 
     paf_new->next = obj->affected;
     obj->affected = paf_new;
@@ -475,38 +475,21 @@ void affect_strip(Char *ch, int sn) {
 
 bool is_affected(const Char *ch, int sn) { return ch->is_affected_by(sn); }
 
-/*
- * Returns the AFFECT_DATA * structure for a char
- * return nullptr if the char isn't affected
- */
-AFFECT_DATA *find_affect(Char *ch, int sn) {
-    AFFECT_DATA *paf;
+// Returns the AFFECT_DATA * structure for a char.
+// return nullptr if the char isn't affected.
+AFFECT_DATA *find_affect(Char *ch, int sn) { return ch->affected.find_by_skill(sn); }
 
-    for (paf = ch->affected; paf != nullptr; paf = paf->next) {
-        if (paf->type == sn)
-            return paf;
+// Add or enhance an affect.
+void affect_join(Char *ch, const AFFECT_DATA &af) {
+    auto net_af = af;
+    if (auto old = ch->affected.find_by_skill(af.type)) {
+        net_af.level = (net_af.level + old->level) / 2;
+        net_af.duration += old->duration;
+        net_af.modifier += old->modifier;
+        affect_remove(ch, old);
     }
 
-    return nullptr;
-}
-
-/*
- * Add or enhance an affect.
- */
-void affect_join(Char *ch, AFFECT_DATA *paf) {
-    AFFECT_DATA *paf_old;
-
-    for (paf_old = ch->affected; paf_old != nullptr; paf_old = paf_old->next) {
-        if (paf_old->type == paf->type) {
-            paf->level = (paf->level + paf_old->level) / 2;
-            paf->duration += paf_old->duration;
-            paf->modifier += paf_old->modifier;
-            affect_remove(ch, paf_old);
-            break;
-        }
-    }
-
-    affect_to_char(ch, paf);
+    affect_to_char(ch, af);
 }
 
 /*
@@ -614,7 +597,7 @@ void char_to_room(Char *ch, ROOM_INDEX_DATA *pRoomIndex) {
                 && number_bits(6) == 0) {
                 send_to_char("You feel hot and feverish.\n\r", vch);
                 act("$n shivers and looks very ill.", vch);
-                affect_join(vch, &plague);
+                affect_join(vch, plague);
             }
         }
     }

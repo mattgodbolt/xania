@@ -89,7 +89,7 @@ void apply_summoning_fatigue(Char *player) {
     af.location = AffectLocation::Str;
     af.modifier = -3;
     af.bitvector = AFF_WEAKEN;
-    affect_to_char(player, &af);
+    affect_to_char(player, af);
     send_to_char("You are stunned and fall the ground.\n\r", player);
     act("$n is knocked off $s feet!", player);
     player->position = POS_RESTING;

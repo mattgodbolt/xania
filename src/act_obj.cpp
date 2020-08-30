@@ -898,7 +898,7 @@ void do_drink(Char *ch, const char *argument) {
             af.level = number_fuzzy(amount);
             af.duration = 3 * amount;
             af.bitvector = AFF_POISON;
-            affect_join(ch, &af);
+            affect_join(ch, af);
         }
 
         obj->value[1] -= amount;
@@ -961,7 +961,7 @@ void do_eat(Char *ch, const char *argument) {
             af.level = number_fuzzy(obj->value[0]);
             af.duration = UMAX(1, obj->value[0]);
             af.bitvector = AFF_POISON;
-            affect_join(ch, &af);
+            affect_join(ch, af);
         }
         break;
 
