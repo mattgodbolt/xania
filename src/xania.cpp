@@ -216,7 +216,7 @@ void do_timezone(Char *ch, const char *argument) {
     } else {
         sscanf(argument, "%hd:%hd", &ch->pcdata->houroffset, &ch->pcdata->minoffset);
         ch->send_to(
-            "Time will now be displayed %d:%02d from GMT\n\r"_format(ch->pcdata->houroffset, ch->pcdata->minoffset));
+            "Time will now be displayed {}:{:02} from GMT\n\r"_format(ch->pcdata->houroffset, ch->pcdata->minoffset));
     }
 }
 
