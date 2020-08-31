@@ -1369,8 +1369,14 @@ void spell_curse(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (IS_AFFECTED(victim, AFF_CURSE) || saves_spell(level, victim))
+    if (IS_AFFECTED(victim, AFF_CURSE)) {
+        act("A curse has already befallen $N.", ch, nullptr, victim, To::Char);
         return;
+    }
+    if (saves_spell(level, victim)) {
+        act("$N looks uncomfortable for a moment but it passes.", ch, nullptr, victim, To::Char);
+        return;
+    }
 
     af.type = sn;
     af.level = level;
