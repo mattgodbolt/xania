@@ -17,8 +17,8 @@
  ***************************************************************************/
 
 #include "merc.h"
-#include "tables.h"
 #include "string_utils.hpp"
+#include "tables.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
