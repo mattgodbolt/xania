@@ -872,8 +872,7 @@ void do_split(Char *ch, const char *argument) {
 }
 
 void do_gtell(Char *ch, std::string_view argument) {
-    ArgParser args(argument);
-    if (args.empty()) {
+    if (argument.empty()) {
         ch->send_to("|cTell your group what?|w\n\r");
         return;
     }
