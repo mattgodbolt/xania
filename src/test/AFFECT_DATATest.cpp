@@ -17,7 +17,6 @@ TEST_CASE("AFFECT_DATA") {
 
     SECTION("should start with sane defaults") {
         AFFECT_DATA af;
-        CHECK(af.next == nullptr);
         CHECK(af.type == 0);
         CHECK(af.level == 0);
         CHECK(af.duration == 0);
@@ -90,13 +89,13 @@ TEST_CASE("AFFECT_DATA") {
     }
 
     SECTION("should identify skills") {
-        CHECK(!AFFECT_DATA{nullptr, gsn_blindness}.is_skill());
-        CHECK(AFFECT_DATA{nullptr, gsn_sneak}.is_skill());
-        CHECK(AFFECT_DATA{nullptr, gsn_ride}.is_skill());
+        CHECK(!AFFECT_DATA{gsn_blindness}.is_skill());
+        CHECK(AFFECT_DATA{gsn_sneak}.is_skill());
+        CHECK(AFFECT_DATA{gsn_ride}.is_skill());
     }
 
     SECTION("should describe effects") {
-        auto spell = AFFECT_DATA{nullptr, -1, 33, 22, AffectLocation::Wis, 1, AFF_HASTE};
+        auto spell = AFFECT_DATA{-1, 33, 22, AffectLocation::Wis, 1, AFF_HASTE};
         SECTION("for items") {
             CHECK(spell.describe_item_effect(false) == "wisdom by 1");
             CHECK(spell.describe_item_effect(true) == "wisdom by 1 with bits haste, level 33");
@@ -107,7 +106,7 @@ TEST_CASE("AFFECT_DATA") {
                 CHECK(spell.describe_char_effect(true) == "wisdom by 1 for 22 hours with bits haste, level 33");
             }
             SECTION("skills") {
-                auto skill = AFFECT_DATA{nullptr, gsn_sneak, 80, 0, AffectLocation::None, 0, AFF_SNEAK};
+                auto skill = AFFECT_DATA{gsn_sneak, 80, 0, AffectLocation::None, 0, AFF_SNEAK};
                 CHECK(skill.describe_char_effect(false) == "none by 0");
                 CHECK(skill.describe_char_effect(true) == "none by 0 with bits sneak, level 80");
             }
