@@ -156,7 +156,7 @@ TEST_CASE("get pc corpse world") {
     auto tests_corpse_desc{"corpse of Test"};
 
     SECTION("no pc corpse in world") {
-        OBJ_DATA weapon{.item_type{ITEM_WEAPON}};
+        OBJ_DATA weapon{.item_type = ITEM_WEAPON};
         OBJ_DATA *object_ptr = &weapon;
         REQUIRE_CALL(mock, object_list()).RETURN(object_ptr);
 
@@ -167,7 +167,7 @@ TEST_CASE("get pc corpse world") {
 
     SECTION("ignore corpse owned by another player") {
         char descr[] = "corpse of Sinbad";
-        OBJ_DATA corpse{.in_room{&object_room}, .short_descr{descr}, .item_type{ITEM_CORPSE_PC}};
+        OBJ_DATA corpse{.in_room = &object_room, .short_descr = descr, .item_type = ITEM_CORPSE_PC};
         OBJ_DATA *object_ptr = &corpse;
         player.in_room = &player_room;
         REQUIRE_CALL(mock, object_list()).RETURN(object_ptr);
@@ -179,7 +179,7 @@ TEST_CASE("get pc corpse world") {
 
     SECTION("ignore player's corpse in same room as summoner") {
         char descr[] = "corpse of Sinbad";
-        OBJ_DATA corpse{.in_room{&player_room}, .short_descr{descr}, .item_type{ITEM_CORPSE_PC}};
+        OBJ_DATA corpse{.in_room = &player_room, .short_descr = descr, .item_type = ITEM_CORPSE_PC};
         OBJ_DATA *object_ptr = &corpse;
         REQUIRE_CALL(mock, object_list()).RETURN(object_ptr);
 
@@ -190,7 +190,7 @@ TEST_CASE("get pc corpse world") {
 
     SECTION("found player's corpse") {
         char descr[] = "corpse of Test";
-        OBJ_DATA corpse{.in_room{&object_room}, .short_descr{descr}, .item_type{ITEM_CORPSE_PC}};
+        OBJ_DATA corpse{.in_room = &object_room, .short_descr = descr, .item_type = ITEM_CORPSE_PC};
         OBJ_DATA *object_ptr = &corpse;
         REQUIRE_CALL(mock, object_list()).RETURN(object_ptr);
 
@@ -213,13 +213,13 @@ TEST_CASE("summon corpse") {
     player.in_room = &player_room;
     Char mob{};
     mob.in_room = &player_room;
-    OBJ_DATA catalyst{.level{12}};
+    OBJ_DATA catalyst{.level = 12};
     SET_BIT(catalyst.extra_flags, ITEM_SUMMON_CORPSE);
     const auto weaken_sn{68};
 
     SECTION("successful summmon") {
         char descr[] = "corpse of Test";
-        OBJ_DATA corpse{.in_room{&object_room}, .short_descr{descr}, .item_type{ITEM_CORPSE_PC}};
+        OBJ_DATA corpse{.in_room = &object_room, .short_descr = descr, .item_type = ITEM_CORPSE_PC};
         OBJ_DATA *object_ptr = &corpse;
         trompeloeil::sequence seq;
         REQUIRE_CALL(mock, act("$n clutches $p between $s bony fingers and begins to whisper."sv, &mob, &catalyst,
