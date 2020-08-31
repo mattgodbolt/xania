@@ -110,7 +110,7 @@ extern void do_goto(Char *ch, const char *arg);
 extern void do_gratz(Char *ch, const char *arg);
 extern void do_group(Char *ch, const char *arg);
 extern void do_groups(Char *ch, const char *arg);
-extern void do_gtell(Char *ch, const char *arg);
+extern void do_gtell(Char *ch, std::string_view argument);
 extern void do_hailcorpse(Char *ch, const char *arg);
 extern void do_headbutt(Char *ch, const char *arg);
 extern void do_heal(Char *ch, const char *arg);

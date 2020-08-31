@@ -871,30 +871,24 @@ void do_split(Char *ch, const char *argument) {
     }
 }
 
-void do_gtell(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-    Char *gch;
-
-    if (argument[0] == '\0') {
-        send_to_char("|cTell your group what?|w\n\r", ch);
+void do_gtell(Char *ch, std::string_view argument) {
+    ArgParser args(argument);
+    if (args.empty()) {
+        ch->send_to("|cTell your group what?|w\n\r");
         return;
     }
 
     if (IS_SET(ch->comm, COMM_NOTELL)) {
-        send_to_char("|cYour message didn't get through!|w\n\r", ch);
+        ch->send_to("|cYour message didn't get through!|w\n\r");
         return;
     }
 
-    /*
-     * Note use of send_to_char, so gtell works on sleepers.
-     */
-    snprintf(buf, sizeof(buf), "|CYou tell the group '%s|C'|w.\n\r", argument);
-    send_to_char(buf, ch);
+    // Note use of send_to_char, so gtell works on sleepers.
+    ch->send_to("|CYou tell the group '{}|C'|w.\n\r"_format(argument));
     auto msg = "|C{} tells the group '{}|C'|w.\n\r"_format(ch->name, argument);
-    for (gch = char_list; gch != nullptr; gch = gch->next) {
-        if (is_same_group(gch, ch) && (gch != ch))
-            send_to_char(buf, gch);
-    }
+    for (auto *gch = char_list; gch != nullptr; gch = gch->next)
+        if (is_same_group(gch, ch) && gch != ch)
+            gch->send_to(msg);
 }
 
 /*
