@@ -1317,7 +1317,6 @@ void spell_cure_disease(int sn, int level, Char *ch, void *vo) {
     }
 
     if (check_dispel((level + 5), victim, gsn_plague)) {
-        send_to_char("Your sores vanish.\n\r", victim);
         act("$n looks relieved as $s sores vanish.", victim);
     } else
         send_to_char("Spell failed.\n\r", ch);
