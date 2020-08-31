@@ -138,7 +138,7 @@ void do_immtalk(Char *ch, std::string_view argument) {
 
     REMOVE_BIT(ch->comm, COMM_NOWIZ);
 
-    const char *format = IS_SET(ch->act, PLR_AFK) ? "|W$n: |c$t|w" : "|w(|cAFK|w)|W $n: |c$t|w";
+    const char *format = IS_SET(ch->act, PLR_AFK) ? "|w(|cAFK|w)|W $n: |c$t|w" : "|W$n: |c$t|w";
     if (ch->get_trust() >= LEVEL_HERO)
         act(format, ch, argument, nullptr, To::Char, POS_DEAD);
     for (auto &d : descriptors().playing()) {
