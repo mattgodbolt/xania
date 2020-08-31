@@ -1543,9 +1543,7 @@ void spell_dispel_evil(int sn, int level, Char *ch, void *vo) {
         victim = ch;
 
     if (victim->is_good()) {
-        char buf[MAX_STRING_LENGTH];
-        snprintf(buf, sizeof(buf), "%s protects $N.", deity_name);
-        act(buf, ch, nullptr, victim, To::Room);
+        act("{} protects $N"_format(deity_name), ch, nullptr, victim, To::Char);
         return;
     }
 
@@ -1571,9 +1569,7 @@ void spell_dispel_good(int sn, int level, Char *ch, void *vo) {
         victim = ch;
 
     if (victim->is_evil()) {
-        char buf[MAX_STRING_LENGTH];
-        snprintf(buf, sizeof(buf), "%s protects $N.", deity_name);
-        act(buf, ch, nullptr, victim, To::Room);
+        act("{} protects $N"_format(deity_name), ch, nullptr, victim, To::Char);
         return;
     }
 
