@@ -142,18 +142,20 @@ std::string AFFECT_DATA::describe_item_effect(bool for_imm) const {
     }
 }
 std::string AFFECT_DATA::describe_char_effect(bool for_imm) const {
-    if (for_imm) {
+    if (for_imm) { // for imm commands like 'stat mob' and 'stat affects', display all the details.
         if (is_skill())
-            return "{} by {} with bits {}, level {}"_format(name(location), modifier, affect_bit_name(bitvector),
-                                                            level);
+            return " modifies {} by {} with bits {}, level {}"_format(name(location), modifier,
+                                                                      affect_bit_name(bitvector), level);
         else
-            return "{} by {} for {} hours with bits {}, level {}"_format(name(location), modifier, duration,
-                                                                         affect_bit_name(bitvector), level);
+            return " modifies {} by {} for {} hours with bits {}, level {}"_format(name(location), modifier, duration,
+                                                                                   affect_bit_name(bitvector), level);
     } else {
         if (is_skill())
-            return "{} by {}"_format(name(location), modifier);
+            return "";
+        else if (location == AffectLocation::None)
+            return " for {} hours"_format(duration);
         else
-            return "{} by {} for {} hours"_format(name(location), modifier, duration);
+            return " modifies {} by {} for {} hours"_format(name(location), modifier, duration);
     }
 }
 

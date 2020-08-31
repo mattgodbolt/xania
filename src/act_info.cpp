@@ -1294,7 +1294,7 @@ void do_affected(Char *ch, const char *argument) {
     for (auto &af : ch->affected) {
         ch->send_to("{}: '{}'"_format(af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name));
         if (ch->level >= 20)
-            ch->send_to(" modifies {}"_format(af.describe_char_effect()));
+            ch->send_to("{}"_format(af.describe_char_effect()));
         send_to_char(".\n\r", ch);
     }
 }

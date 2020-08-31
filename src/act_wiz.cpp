@@ -1129,8 +1129,8 @@ void do_maffects(Char *ch, const char *argument) {
         return;
     }
     for (auto &af : victim->affected)
-        ch->send_to("{}: '{}' modifies {}.\n\r"_format(af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
-                                                       af.describe_char_effect(true)));
+        ch->send_to("{}: '{}'{}.\n\r"_format(af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
+                                             af.describe_char_effect(true)));
 }
 
 /* Corrected 28/8/96 by Oshea to give correct list of spells/skills. */
@@ -1397,8 +1397,8 @@ void do_mstat(Char *ch, const char *argument) {
     }
 
     for (const auto &af : victim->affected)
-        ch->send_to("{}: '{}' modifies {}.\n\r"_format(af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
-                                                       af.describe_char_effect(true)));
+        ch->send_to("{}: '{}'{}.\n\r"_format(af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
+                                             af.describe_char_effect(true)));
     send_to_char("\n\r", ch);
 }
 
