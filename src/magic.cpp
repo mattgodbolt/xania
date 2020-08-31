@@ -533,7 +533,8 @@ void do_cast(Char *ch, const char *argument) {
         check_improve(ch, sn, true, 1);
     }
 
-    if (skill_table[sn].target == TAR_CHAR_OFFENSIVE && victim != ch && victim->master != ch) {
+    if (skill_table[sn].target == TAR_CHAR_OFFENSIVE && victim != ch && victim->master != ch
+        && (victim->is_npc() || fighting_duel(ch, victim))) {
         Char *vch;
         Char *vch_next;
 
