@@ -29,6 +29,10 @@ using namespace fmt::literals;
 
 #define MAX_DAMAGE_MESSAGE 32
 
+// Cap on damage deliverable by any single hit.
+// Nothing scientific about this value, it was probably plucked out of thin air.
+static inline constexpr auto DAMAGE_CAP = 1000;
+
 void spell_poison(int spell_num, int level, Char *ch, void *vo);
 void spell_plague(int spell_num, int level, Char *ch, void *vo);
 
@@ -573,8 +577,8 @@ void one_hit(Char *ch, Char *victim, int dt) {
 
     if (dam <= 0)
         dam = 1;
-    if (dam > 1000)
-        dam = 1000;
+    if (dam > DAMAGE_CAP)
+        dam = DAMAGE_CAP;
 
     damage(ch, victim, dam, dt, dam_type);
 
@@ -634,20 +638,15 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
         return false;
 
     /*
-     * Stop up any residual loopholes.
+     * Cap the damage if required, even for imms, and bug it if it's a player doing something suspicious.
      */
-    if (dam > 1000) {
-        bug("Damage: %d: more than 1000 points!", dam);
-        dam = 1000;
-        if (ch->is_mortal()) {
-            OBJ_DATA *obj;
-            obj = get_eq_char(ch, WEAR_WIELD);
-            if (obj != nullptr) /*Rohans try at stopping crashes!*/
-            {
-                send_to_char("|WYou really shouldn't cheat.|r\n\r", ch);
-                extract_obj(obj);
-            }
+    if (dam > DAMAGE_CAP) {
+        if (ch->is_pc() && ch->is_mortal()) {
+            bug("%s", "Player {} fighting {} in #{}, damage {} exceeds {} cap!"_format(
+                          ch->name, victim->name, ch->in_room->vnum, dam, DAMAGE_CAP)
+                          .c_str());
         }
+        dam = DAMAGE_CAP;
     }
 
     /* damage reduction */
