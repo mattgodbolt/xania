@@ -9,6 +9,7 @@
 #include "Stats.hpp"
 #include "Types.hpp"
 
+#include <fmt/core.h>
 #include <memory>
 
 struct MOB_INDEX_DATA;
@@ -182,6 +183,16 @@ struct Char {
 
     // Send text to this character's user (if they have one).
     void send_to(std::string_view txt) const;
+    template <typename... Args>
+    void send_to(std::string_view txt, Args &&... args) const {
+        return send_to(fmt::format(txt, std::forward<Args>(args)...));
+    }
+    // Send a line to this character's user (if they have one).
+    void send_line(std::string_view txt) const { return send_to("{}\n\r", txt); }
+    template <typename... Args>
+    void send_line(std::string_view txt, Args &&... args) const {
+        return send_to(fmt::format(txt, std::forward<Args>(args)...) + "\n\r");
+    }
 
     // Page text to this character's user (if they have one).
     void page_to(std::string_view txt) const;

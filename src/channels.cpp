@@ -29,8 +29,8 @@ void do_channels(const Char *ch, const char *argument) {
     (void)argument;
 
     /* lists all channels and their status */
-    send_to_char("|Wchannel         status|w\n\r", ch);
-    send_to_char("----------------------------\n\r", ch);
+    ch->send_line("|Wchannel         status|w");
+    ch->send_line("----------------------------");
 
     print_channel_status(ch, "gossip", ch->comm, COMM_NOGOSSIP);
     print_channel_status(ch, "auction", ch->comm, COMM_NOAUCTION);
@@ -55,19 +55,19 @@ void do_channels(const Char *ch, const char *argument) {
 
     if (ch->lines != PAGELEN) {
         if (ch->lines) {
-            ch->send_to("You display {} lines of scroll.\n\r"_format(ch->lines + 2));
+            ch->send_line("You display {} lines of scroll.", ch->lines + 2);
         } else
-            ch->send_to("Scroll buffering is off.\n\r");
+            ch->send_line("Scroll buffering is off.");
     }
 
     if (IS_SET(ch->comm, COMM_NOTELL))
-        ch->send_to("You cannot use tell.\n\r");
+        ch->send_line("You cannot use tell.");
 
     if (IS_SET(ch->comm, COMM_NOCHANNELS))
-        ch->send_to("You cannot use channels.\n\r");
+        ch->send_line("You cannot use channels.");
 
     if (IS_SET(ch->comm, COMM_NOEMOTE))
-        ch->send_to("You cannot show emotions.\n\r");
+        ch->send_line("You cannot show emotions.");
 }
 
 static void toggle_channel(Char *ch, unsigned long chan_flag, const char *chan_name) {
@@ -81,16 +81,16 @@ static void toggle_channel(Char *ch, unsigned long chan_flag, const char *chan_n
         snprintf(buf, sizeof(buf), "|c%s channel is now |rOFF|c.|w\n\r", chan_name);
         SET_BIT(ch->comm, chan_flag);
     }
-    send_to_char(buf, ch);
+    ch->send_to(buf);
 }
 
 void do_quiet(Char *ch, const char *argument) {
     (void)argument;
     if (IS_SET(ch->comm, COMM_QUIET)) {
-        send_to_char("Quiet mode removed.\n\r", ch);
+        ch->send_line("Quiet mode removed.");
         REMOVE_BIT(ch->comm, COMM_QUIET);
     } else {
-        send_to_char("From now on, you will only hear says and emotes.\n\r", ch);
+        ch->send_line("From now on, you will only hear says and emotes.");
         SET_BIT(ch->comm, COMM_QUIET);
     }
 }
@@ -103,11 +103,11 @@ void channel_command(Char *ch, const char *argument, unsigned long chan_flag, co
         toggle_channel(ch, chan_flag, chan_name);
     } else {
         if (IS_SET(ch->comm, COMM_QUIET)) {
-            send_to_char("You must turn off quiet mode first.\n\r", ch);
+            ch->send_line("You must turn off quiet mode first.");
             return;
         }
         if (IS_SET(ch->comm, COMM_NOCHANNELS)) {
-            send_to_char("The gods have revoked your channel privileges.\n\r", ch);
+            ch->send_line("The gods have revoked your channel privileges.");
             return;
         }
         if (IS_SET(ch->act, PLR_AFK))
@@ -115,7 +115,7 @@ void channel_command(Char *ch, const char *argument, unsigned long chan_flag, co
         REMOVE_BIT(ch->comm, chan_flag);
 
         snprintf(buf, sizeof(buf), desc_self, argument);
-        send_to_char(buf, ch);
+        ch->send_to(buf);
         for (auto &d : descriptors().all_but(*ch)) {
             auto *victim = d.person();
             if (!IS_SET(victim->comm, chan_flag) && !IS_SET(victim->comm, COMM_QUIET)) {

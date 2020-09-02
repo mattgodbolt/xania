@@ -558,7 +558,7 @@ void char_to_room(Char *ch, ROOM_INDEX_DATA *pRoomIndex) {
 
             if (save != 0 && !saves_spell(save, vch) && vch->is_mortal() && !IS_AFFECTED(vch, AFF_PLAGUE)
                 && number_bits(6) == 0) {
-                send_to_char("You feel hot and feverish.\n\r", vch);
+                vch->send_line("You feel hot and feverish.");
                 act("$n shivers and looks very ill.", vch);
                 affect_join(vch, plague);
             }

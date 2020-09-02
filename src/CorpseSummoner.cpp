@@ -102,7 +102,7 @@ void CorpseSummoner::apply_summoning_fatigue(Char *player) {
     af.modifier = -3;
     af.bitvector = AFF_WEAKEN;
     mud_.affect_to_char(player, af);
-    player->send_to("You are stunned and fall the ground.\n\r");
+    player->send_line("You are stunned and fall the ground.");
     mud_.act("$n is knocked off $s feet!", player, nullptr, nullptr, To::Room);
     player->position = POS_RESTING;
 }

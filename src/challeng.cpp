@@ -54,27 +54,27 @@ void do_challenge(Char *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (ch->level < 20) {
-        send_to_char("|cYou are too inexperienced to duel to the death.|w\n\r", ch);
+        ch->send_line("|cYou are too inexperienced to duel to the death.|w");
         return;
     }
 
     if (ch->level > 91) {
-        send_to_char("|cGods should not fight amongst themselves.|w\n\r", ch);
+        ch->send_line("|cGods should not fight amongst themselves.|w");
         return;
     }
 
     if (arg[0] == '\0') {
-        send_to_char("|cChallenge whom?|w\n\r", ch);
+        ch->send_line("|cChallenge whom?|w");
         return;
     }
 
     if ((victim = get_char_world(ch, arg)) == nullptr) {
-        send_to_char("|cThat player does not exist!|w\n\r", ch);
+        ch->send_line("|cThat player does not exist!|w");
         return;
     }
 
     if (victim->is_npc()) {
-        send_to_char("|cYou cannot challenge non-player characters.|w\n\r", ch);
+        ch->send_line("|cYou cannot challenge non-player characters.|w");
         return;
     }
 
@@ -85,27 +85,27 @@ void do_challenge(Char *ch, const char *argument) {
 
     if (ch->leader != nullptr) { /* This might need to be checked.  It
                                  is set when you are grouped as well! */
-        send_to_char("|cYou cannot challenge with pets or charmed mobs.|w\n\r", ch->leader);
+        ch->leader->send_line("|cYou cannot challenge with pets or charmed mobs.|w");
         return;
     }
 
     if (ch->desc->is_switched() || victim->desc->is_switched()) {
-        send_to_char("|cYou cannot challenge with switched mobs.|w\n\r", ch);
+        ch->send_line("|cYou cannot challenge with switched mobs.|w");
         return;
     }
 
     if (victim->level < 20) {
-        send_to_char("|cPick on somebody your own size.|w\n\r", ch);
+        ch->send_line("|cPick on somebody your own size.|w");
         return;
     }
 
     if (victim->level > 91) {
-        send_to_char("|cYou should not fight with your Gods.|w\n\r", ch);
+        ch->send_line("|cYou should not fight with your Gods.|w");
         return;
     }
 
     if (ch == victim) {
-        send_to_char("|cIf you fight yourself you shall lose.|w\n\r", ch);
+        ch->send_line("|cIf you fight yourself you shall lose.|w");
         return;
     }
 
@@ -113,14 +113,13 @@ void do_challenge(Char *ch, const char *argument) {
        been prone to crashes for a variety of reasons...this will help
        reduce such problems --Fara */
     if (victim->position == POS_FIGHTING) {
-        send_to_char("|cYou pray for the right to duel and the Gods inform you that your opponent\n\ris already "
-                     "engaged in combat.|w\n\r",
-                     ch);
+        ch->send_to("|cYou pray for the right to duel and the Gods inform you that your opponent\n\ris already "
+                    "engaged in combat.|w\n\r");
         return;
     }
 
     if (challenger != nullptr) {
-        send_to_char("|cSorry, a challenge is about to, or is taking place. Please try again later.|w\n\r", ch);
+        ch->send_line("|cSorry, a challenge is about to, or is taking place. Please try again later.|w");
         return;
     }
 
@@ -131,7 +130,7 @@ void do_challenge(Char *ch, const char *argument) {
     challenge_active = false;
     challenge_fighting = false;
 
-    challenger->send_to("|cYou pray for the right to duel with {}.\n\r"_format(challengee->name));
+    challenger->send_line("|cYou pray for the right to duel with {}.", challengee->name);
     do_immtalk(ch, "|Ghas challenged {}, any imm takers? (type accept)|w"_format(victim->name));
     challenger_name = challenger->name;
     challengee_name = challengee->name;
@@ -142,22 +141,22 @@ void do_accept(Char *ch, const char *argument) {
     (void)argument;
 
     if ((challenger == nullptr) || (((challengee != ch) || (imm == nullptr)) && (ch->level <= 91))) {
-        ch->send_to("|cSorry, there is no challenge for you to accept.|w\n\r");
+        ch->send_line("|cSorry, there is no challenge for you to accept.|w");
         return;
     }
 
     if (ch->level < 95 && imm == nullptr) {
-        ch->send_to("|cYou have to be level 95 or higher to control a challenge.|w\n\r");
+        ch->send_line("|cYou have to be level 95 or higher to control a challenge.|w");
         return;
     }
 
     if (imm != nullptr && imm != ch) {
         if (ch->level > 94) {
-            ch->send_to("|cSorry, an imm has already accepted to control the challenge.|w\n\r");
+            ch->send_line("|cSorry, an imm has already accepted to control the challenge.|w");
             return;
         }
 
-        imm->send_to("|cType |gready|c when you are ready to be transfered.|w\n\r");
+        imm->send_line("|cType |gready|c when you are ready to be transfered.|w");
         challenger->send_to(
             "|cThe challenge has been accepted, please wait for the immortals to prepare\n|cthe challenge room.|w\n\r");
         challengee->send_to(
@@ -175,7 +174,7 @@ void do_accept(Char *ch, const char *argument) {
             "if |g{}|c will accept your challenge.|w\n\r"_format(pers(ch, challenger), challengee->name));
     }
 
-    challengee->send_to("|CYou have been challenged to a duel to the death by |G{}.\n\r"_format(challenger->name));
+    challengee->send_line("|CYou have been challenged to a duel to the death by |G{}.", challenger->name);
 
     challengee->send_to("|c{}'s stats are: level:{} class:{} race:{} alignment:{}.\n\r"_format(
         challenger->name, challenger->level, class_table[challenger->class_num].name, race_table[challenger->race].name,
@@ -189,15 +188,15 @@ void do_refuse(Char *ch, const char *argument) {
     (void)argument;
 
     if (ch != imm && ch != challenger && ch != challengee) {
-        send_to_char("|cRefuse what?|w\n\r", ch);
+        ch->send_line("|cRefuse what?|w");
         return;
     }
 
     if (ch == challengee && imm != nullptr) {
-        ch->send_to("|cYou have refused to fight to the death with {}.|w\n\r"_format(challenger->name));
+        ch->send_line("|cYou have refused to fight to the death with {}.|w", challenger->name);
         imm->send_to(
             "|c{} has refused to fight to the death with {}.|w\n\r"_format(challengee->name, challenger->name));
-        challenger->send_to("|c{} has refused to fight to the death with you.|w\n\r"_format(challengee->name));
+        challenger->send_line("|c{} has refused to fight to the death with you.|w", challengee->name);
 
         challenger = nullptr;
         challengee = nullptr;
@@ -207,11 +206,11 @@ void do_refuse(Char *ch, const char *argument) {
     }
 
     if (ch == challenger) {
-        send_to_char("You can't withdraw your challenge like that!\n\r", ch);
+        ch->send_line("You can't withdraw your challenge like that!");
     }
 
     /* Else it is imm who is trying to refuse! */
-    send_to_char("You can't withdraw from control once you have accepted it.\n\r", ch);
+    ch->send_line("You can't withdraw from control once you have accepted it.");
 }
 
 void do_ready(Char *ch, const char *argument) {
@@ -220,12 +219,12 @@ void do_ready(Char *ch, const char *argument) {
         return;
 
     if (ch != imm && ch != challenger && ch != challengee) {
-        send_to_char("|cWhat are you ready for?|w\n\r", ch);
+        ch->send_line("|cWhat are you ready for?|w");
         return;
     }
 
     if ((ch == challenger || ch == challengee) && imm_ready != 1) {
-        send_to_char("|cWhat are you ready for?|w\n\r", ch);
+        ch->send_line("|cWhat are you ready for?|w");
         return;
     }
 
@@ -282,9 +281,9 @@ void do_chal_tick() {
                    duel silently less often. */
                 snprintf(buf, sizeof(buf), "|cThe challenge has been cancelled.|w\n\r");
 
-                send_to_char(buf, imm);
-                send_to_char(buf, challenger);
-                send_to_char(buf, challengee);
+                imm->send_to(buf);
+                challenger->send_to(buf);
+                challengee->send_to(buf);
                 stop_fighting(challenger, true);
                 stop_fighting(challengee, true);
                 challenger = nullptr;
@@ -310,14 +309,14 @@ void do_chal_tick() {
         snprintf(buf, sizeof(buf), "|CThere are %d ticks left before the challenge is cancelled.|w\n\r",
                  challenge_ticker);
         if (imm != nullptr)
-            send_to_char(buf, imm);
+            imm->send_to(buf);
         if (imm != nullptr && imm_ready != 0)
-            send_to_char(buf, challengee);
+            challengee->send_to(buf);
         /* Don't want to only tell chellenger when control has been
            accepted.  Warn him if he is on. Need to change this to check
            that challenger is still here. */
         if (imm_ready != 0)
-            send_to_char(buf, challenger);
+            challenger->send_to(buf);
     }
 }
 
@@ -333,11 +332,11 @@ void do_chal_canc(Char *ch) {
 
     auto msg = "|c{} has either quit or lost their link.|w\n\r"_format(ch->name);
     if (imm != nullptr && get_char_world(ch, imm_name))
-        send_to_char(buf, imm);
+        imm->send_to(buf);
     if (get_char_world(ch, challenger_name))
-        send_to_char(buf, challenger);
+        challenger->send_to(buf);
     if (get_char_world(ch, challengee_name))
-        send_to_char(buf, challengee);
+        challengee->send_to(buf);
     challenge_ticker = 1;
     do_chal_tick();
 }
@@ -352,21 +351,21 @@ void do_cancel_chal(Char *ch, const char *argument) {
         return;
 
     if (ch != imm) {
-        send_to_char("|cYou can't cancel anything.|w\n\r", ch);
+        ch->send_line("|cYou can't cancel anything.|w");
         return;
     }
 
     if (imm_ready != 1 || challenger_ready != 1 || challengee_ready != 1) {
-        send_to_char("|cEveryone must be ready to cancel the challenge.|w\n\r", imm);
+        imm->send_line("|cEveryone must be ready to cancel the challenge.|w");
         return;
     }
 
     if (victim == challenger) {
-        send_to_char("|cYou have cancelled the challenge.|w\n\r", imm);
+        imm->send_line("|cYou have cancelled the challenge.|w");
         challenge_ticker = 1;
         do_chal_tick();
     } else {
-        send_to_char("|cTo cancel the challenge, you must specify the challenger.|w\n\r", imm);
+        imm->send_line("|cTo cancel the challenge, you must specify the challenger.|w");
         return;
     }
 }
@@ -381,22 +380,22 @@ void do_duel(Char *ch, const char *argument) {
         return;
 
     if (ch != challenger && ch != challengee) {
-        send_to_char("|cYou are not in a challenge to duel.|w\n\r", ch);
+        ch->send_line("|cYou are not in a challenge to duel.|w");
         return;
     }
 
     if (arg[0] == '\0') {
-        send_to_char("|cDuel who?|w\n\r", ch);
+        ch->send_line("|cDuel who?|w");
         return;
     }
 
     if (ch->in_room->vnum != CHAL_ROOM) {
-        send_to_char("|cYou must be in the challenge room to duel.|w\n\r", ch);
+        ch->send_line("|cYou must be in the challenge room to duel.|w");
         return;
     }
 
     if (imm_ready != 1 || challenger_ready != 1 || challengee_ready != 1) {
-        send_to_char("|cNot everyone is ready yet.|w\n\r", ch);
+        ch->send_line("|cNot everyone is ready yet.|w");
         return;
     }
 
@@ -408,19 +407,19 @@ void do_duel(Char *ch, const char *argument) {
         return;
     }
 
-    send_to_char("|cYou did not challenge that person.|w\n\r", ch);
+    ch->send_line("|cYou did not challenge that person.|w");
 }
 
 namespace {
 void tell_results_to(int who) {
     if (who == 0) {
-        challenger->send_to("|cYou have lost your fight to the death with {}.|w\n\r"_format(challengee->name));
+        challenger->send_line("|cYou have lost your fight to the death with {}.|w", challengee->name);
         challengee->send_to(
             "|cCongratulations! You have won the fight to the death with {}.|w\n\r"_format(challenger->name));
     }
 
     if (who == 1) {
-        challengee->send_to("|cYou have lost your fight to the death with {}.|w\n\r"_format(challenger->name));
+        challengee->send_line("|cYou have lost your fight to the death with {}.|w", challenger->name);
         challenger->send_to(
             "|cCongratulations! You have won the fight to the death with {}.|w\n\r"_format(challengee->name));
     }
@@ -463,7 +462,7 @@ int do_check_chal(Char *ch) {
 
     tell_results_to(who);
 
-    send_to_char("|cChallenge over. Challenge variables reset. New challenge can now be initiated.|w\n\r", imm);
+    imm->send_line("|cChallenge over. Challenge variables reset. New challenge can now be initiated.|w");
 
     challenger = nullptr;
     challengee = nullptr;
@@ -515,7 +514,7 @@ void do_flee_check(Char *ch) {
 
     tell_results_to(who);
 
-    send_to_char("|cChallenge over. Challenge variables reset. New challenge can now be initiated.|w\n\r", imm);
+    imm->send_line("|cChallenge over. Challenge variables reset. New challenge can now be initiated.|w");
 
     challenger = nullptr;
     challengee = nullptr;

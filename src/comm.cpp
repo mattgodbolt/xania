@@ -138,7 +138,7 @@ void handle_signal_shutdown() {
             /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
             MOBtrigger = false;
             do_save(vch, "");
-            send_to_char("|RXania has been asked to shutdown by the operating system.|w\n\r", vch);
+            vch->send_line("|RXania has been asked to shutdown by the operating system.|w");
             if (vch->desc && vch->desc->has_buffered_output())
                 process_output(vch->desc, false);
         }
@@ -677,7 +677,7 @@ void nanny(Descriptor *d, const char *argument) {
     case DescriptorState::GetAnsi:
         if (argument[0] == '\0') {
             if (ch->pcdata->colour) {
-                send_to_char("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!\n\r", ch);
+                ch->send_line("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!");
             }
             if (ch->is_hero()) {
                 do_help(ch, "imotd");
@@ -691,7 +691,7 @@ void nanny(Descriptor *d, const char *argument) {
             case 'y':
             case 'Y':
                 ch->pcdata->colour = true;
-                send_to_char("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!\n\r", ch);
+                ch->send_line("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!");
                 if (ch->is_hero()) {
                     do_help(ch, "imotd");
                     d->state(DescriptorState::ReadIMotd);
@@ -917,14 +917,14 @@ void nanny(Descriptor *d, const char *argument) {
         break;
 
     case DescriptorState::GenGroups:
-        send_to_char("\n\r", ch);
+        ch->send_line("");
         if (!str_cmp(argument, "done")) {
             snprintf(buf, sizeof(buf), "Creation points: %d\n\r", ch->pcdata->points);
-            send_to_char(buf, ch);
+            ch->send_to(buf);
             snprintf(buf, sizeof(buf), "Experience per level: %d\n\r", exp_per_level(ch, ch->gen_data->points_chosen));
             if (ch->pcdata->points < 40)
                 ch->train = (40 - ch->pcdata->points + 1) / 2;
-            send_to_char(buf, ch);
+            ch->send_to(buf);
             d->write("\n\r");
             d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
             d->state(DescriptorState::GetAnsi);
@@ -933,7 +933,7 @@ void nanny(Descriptor *d, const char *argument) {
         }
 
         if (!parse_gen_groups(ch, argument))
-            send_to_char("Choices are: list,learned,premise,add,drop,info,help, and done.\n\r", ch);
+            ch->send_line("Choices are: list,learned,premise,add,drop,info,help, and done.");
 
         do_help(ch, "menu choice");
         break;
@@ -972,7 +972,7 @@ void nanny(Descriptor *d, const char *argument) {
             ch->move = ch->max_move;
             ch->train = 3;
             ch->practice = 5;
-            ch->send_to("the {}"_format(title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]));
+            ch->send_to("the {}", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
 
             do_outfit(ch, "");
             obj_to_char(create_object(get_obj_index(OBJ_VNUM_MAP)), ch);
@@ -980,9 +980,9 @@ void nanny(Descriptor *d, const char *argument) {
             ch->pcdata->learned[get_weapon_sn(ch)] = 40;
 
             char_to_room(ch, get_room_index(ROOM_VNUM_SCHOOL));
-            send_to_char("\n\r", ch);
+            ch->send_line("");
             do_help(ch, "NEWBIE INFO");
-            send_to_char("\n\r", ch);
+            ch->send_line("");
 
             /* Rohan: New player logged in, need to add name to player list */
             temp_known_player = (KNOWN_PLAYERS *)alloc_mem(sizeof(KNOWN_PLAYERS));
@@ -990,7 +990,7 @@ void nanny(Descriptor *d, const char *argument) {
             temp_known_player->next = player_list;
             player_list = temp_known_player;
             /* hack to let the newbie know about the tipwizard */
-            send_to_char("|WTip: this is Xania's tip wizard! Type 'tips' to turn this on or off.|w\n\r", ch);
+            ch->send_line("|WTip: this is Xania's tip wizard! Type 'tips' to turn this on or off.|w");
             /* turn on the newbie's tips */
             set_extra(ch, EXTRA_TIP_WIZARD);
 
@@ -1013,7 +1013,7 @@ void nanny(Descriptor *d, const char *argument) {
         if (ch->gold > 250000 && ch->is_mortal()) {
             snprintf(buf, sizeof(buf), "You are taxed %ld gold to pay for the Mayor's bar.\n\r",
                      (ch->gold - 250000) / 2);
-            send_to_char(buf, ch);
+            ch->send_to(buf);
             ch->gold -= (ch->gold - 250000) / 2;
         }
 
@@ -1027,7 +1027,7 @@ void nanny(Descriptor *d, const char *argument) {
 
         if (notes > 0) {
             snprintf(buf, sizeof(buf), "\n\rYou have %d new note%s waiting.\n\r", notes, (notes == 1) ? "" : "s");
-            send_to_char(buf, ch);
+            ch->send_to(buf);
         }
         break;
     }
@@ -1113,7 +1113,7 @@ bool check_reconnect(Descriptor *d, bool fConn) {
                 d->character(ch);
                 ch->desc = d;
                 ch->timer = 0;
-                send_to_char("Reconnecting.\n\r", ch);
+                ch->send_line("Reconnecting.");
                 act("$n has reconnected.", ch);
                 log_new("{}@{} reconnected."_format(ch->name, d->host().c_str()), EXTRA_WIZNET_DEBUG,
                         (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
@@ -1142,8 +1142,6 @@ bool check_playing(Descriptor *d, std::string_view name) {
 
     return false;
 }
-
-void send_to_char(std::string_view txt, const Char *ch) { ch->send_to(txt); }
 
 /*
  * Send a page to one char.
@@ -1332,7 +1330,7 @@ void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To
 
     for (auto *to : collect_folks(ch, vch, arg2, type, min_pos)) {
         auto formatted = format_act(format, ch, arg1, arg2, to, vch);
-        send_to_char(formatted, to);
+        to->send_to(formatted);
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         if (MOBtrigger) {
             auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1);

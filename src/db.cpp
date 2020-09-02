@@ -1992,21 +1992,21 @@ void do_areas(Char *ch, const char *argument) {
         if (isdigit(cmdBuf[0])) {
             minLevel = atoi(cmdBuf);
         } else {
-            send_to_char("You must specify a number for the minimum level.\n\r", ch);
+            ch->send_line("You must specify a number for the minimum level.");
             return;
         }
         if (argument[0] != '\0') {
             if (isdigit(argument[0])) {
                 maxLevel = atoi(argument);
             } else {
-                send_to_char("You must specify a number for the maximum level.\n\r", ch);
+                ch->send_line("You must specify a number for the maximum level.");
                 return;
             }
         }
     }
 
     if (minLevel > maxLevel) {
-        send_to_char("The minimum level must be below the maximum level.\n\r", ch);
+        ch->send_line("The minimum level must be below the maximum level.");
         return;
     }
 
@@ -2038,20 +2038,20 @@ void do_areas(Char *ch, const char *argument) {
             nFound++;
             // And shift out
             snprintf(buf, sizeof(buf), "%s%-39s%s%-39s|w\n\r", pArea1rating, pArea1->name, pArea2rating, pArea2->name);
-            send_to_char(buf, ch);
+            ch->send_to(buf);
             pArea1 = pArea2 = nullptr;
         }
     }
     // Check for any straggling lines
     if (pArea1) {
         snprintf(buf, sizeof(buf), "%s%-39s|w\n\r", pArea1rating, pArea1->name);
-        send_to_char(buf, ch);
+        ch->send_to(buf);
     }
     if (nFound) {
         snprintf(buf, sizeof(buf), "\n\rAreas found: %d\n\r", nFound);
-        send_to_char(buf, ch);
+        ch->send_to(buf);
     } else {
-        send_to_char("No areas found.\n\r", ch);
+        ch->send_line("No areas found.");
     }
 }
 
@@ -2060,36 +2060,36 @@ void do_memory(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
 
     snprintf(buf, sizeof(buf), "Affects %5d\n\r", top_affect);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
     snprintf(buf, sizeof(buf), "Areas   %5d\n\r", top_area);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
     snprintf(buf, sizeof(buf), "ExDes   %5d\n\r", top_ed);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
     snprintf(buf, sizeof(buf), "Exits   %5d\n\r", top_exit);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
     snprintf(buf, sizeof(buf), "Helps   %5d\n\r", top_help);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
     snprintf(buf, sizeof(buf), "Socials %5d\n\r", social_count);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
     snprintf(buf, sizeof(buf), "Mobs    %5d(%d new format)\n\r", top_mob_index, newmobs);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
     snprintf(buf, sizeof(buf), "(in use)%5d\n\r", Char::num_active());
-    send_to_char(buf, ch);
+    ch->send_to(buf);
     snprintf(buf, sizeof(buf), "Objs    %5d(%d new format)\n\r", top_obj_index, newobjs);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
     snprintf(buf, sizeof(buf), "Resets  %5d\n\r", top_reset);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
     snprintf(buf, sizeof(buf), "Rooms   %5d\n\r", top_room);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
     snprintf(buf, sizeof(buf), "Shops   %5d\n\r", top_shop);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
 
     snprintf(buf, sizeof(buf), "Strings %5d strings of %7d bytes (max %d).\n\r", nAllocString, sAllocString,
              MAX_STRING);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
 
     snprintf(buf, sizeof(buf), "Perms   %5d blocks  of %7d bytes.\n\r", nAllocPerm, sAllocPerm);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
 }
 
 void do_dump(Char *ch, const char *argument) {
@@ -2390,7 +2390,7 @@ void append_file(Char *ch, const char *file, const char *str) {
 
     if ((fp = fopen(file, "a")) == nullptr) {
         perror(file);
-        send_to_char("Could not open the file!\n\r", ch);
+        ch->send_line("Could not open the file!");
     } else {
         fprintf(fp, "[%5d] %s: %s\n", ch->in_room ? ch->in_room->vnum : 0, ch->name.c_str(), str);
         fclose(fp);

@@ -39,12 +39,12 @@ void tornado_teleport(Char *ch, Char *victim) {
     }
 
     if (victim != ch)
-        send_to_char("You are sucked helplessly into the tornado....\n\r", victim);
+        victim->send_line("You are sucked helplessly into the tornado....");
 
     act("$n is consumed by the tornado and vanishes!", victim);
     char_from_room(victim);
     char_to_room(victim, pRoomIndex);
-    send_to_char("...you appear to have been blown to another part of Xania!", victim);
+    victim->send_line("...you appear to have been blown to another part of Xania!");
 
     if (!ch->riding) {
         act("$n is blown into the room by a sudden blast of wind.", victim);
@@ -99,12 +99,12 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
     Char *vch_next;
 
     if (victim == ch) {
-        send_to_char("You can't cast that on yourself.\n\r", ch);
+        ch->send_line("You can't cast that on yourself.");
         return;
     }
 
     if (victim->is_pc()) {
-        send_to_char("Not on that target.\n\r", ch);
+        ch->send_line("Not on that target.");
         return;
     }
 
@@ -112,12 +112,12 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
         return;
 
     if (ch->in_room->vnum == CHAL_ROOM) {
-        send_to_char("Not in the challenge room.\n\r", ch);
+        ch->send_line("Not in the challenge room.");
         return;
     }
 
     if (ch->mana < (ch->max_mana - 100)) {
-        send_to_char("This powerful spell requires all of your psychic powers.\n\r", ch);
+        ch->send_line("This powerful spell requires all of your psychic powers.");
         return;
     }
 
@@ -131,7 +131,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
         /* HIT THE BASTARD! */
         tornado_dam(victim, ch, ch->level);
         tornado_mental(victim, ch, ch->level);
-        send_to_char("You feel sick and disorientated.\n\r", ch);
+        ch->send_line("You feel sick and disorientated.");
         act("$n is knocked to the ground and stunned.", ch, nullptr, victim, To::Room);
         return;
     } else {
@@ -144,7 +144,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
 
         tornado_dam(ch, victim, ch->level);
         tornado_mental(ch, victim, ch->level);
-        send_to_char("Your mighty blast spirals out of control, forming a towering tornado of psychic energy!\n\r", ch);
+        ch->send_line("Your mighty blast spirals out of control, forming a towering tornado of psychic energy!");
         act("$n's psychic blast spirals into a |Rhuge|w tornado of energy!", ch, nullptr, victim, To::Room);
 
         if (!IS_SET(victim->act, ACT_AGGRESSIVE)) {
@@ -164,7 +164,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
             }
 
             if (vch->in_room->area == ch->in_room->area)
-                send_to_char("A faint psychic surge dazes you momentarily.\n\r", vch);
+                vch->send_line("A faint psychic surge dazes you momentarily.");
         }
 
         for (auto direction : all_directions) {
@@ -174,7 +174,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
                     for (current_person = room->people; current_person != nullptr; current_person = next_person) {
                         next_person = current_person->next_in_room;
 
-                        send_to_char("Suddenly, a gale of psychic energy blows through the room!\n\r", current_person);
+                        current_person->send_line("Suddenly, a gale of psychic energy blows through the room!");
                         if (!is_safe_spell(ch, current_person, true)
                             && (check_immune(current_person, DAM_MENTAL) != IS_IMMUNE))
                             tornado_mental(ch, current_person, ch->level);
@@ -196,8 +196,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
 /* no corpse raising in a lawful place please */
 //
 //  if (IS_SET(ch->in_room->room_flags , ROOM_LAW)) {
-//  send_to_char( "Raising the dead is not permitted here.\n\r"
-//   , ch);
+//  ch->send_line( "Raising the dead is not permitted here.");
 //  return;
 //}
 //
@@ -217,7 +216,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
 //    zIndex = get_mob_index (MOB_VNUM_ZOMBIE);
 //    if (zIndex == nullptr) {
 // bug ("Unable to find a zombie mob in spell_raise_dead!");
-// send_to_char ("Urk!  Something terrible has happened!\n\r", ch);
+// ch->send_line ("Urk!  Something terrible has happened!");
 // return;
 //    }
 //
@@ -254,7 +253,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
  */
 //      act ("$n calls upon black magic to raise the dead!\n\rThe $p comes to life as a zombie!",
 //   ch, victim, nullptr, To::Room);
-//    send_to_char ("You disturb the slumber of a corpse!\n\r", ch);
+//    ch->send_line ("You disturb the slumber of a corpse!");
 //
 /* and now make this zombie a member of the group */
 /* uses code very similar to spell_charm_person() */
@@ -298,6 +297,6 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
 /*
  * No corpses
  */
-// send_to_char ("Raising the dead requires a fresh corpse to work with.\n\r", ch);
+// ch->send_line ("Raising the dead requires a fresh corpse to work with.");
 // return;
 //}

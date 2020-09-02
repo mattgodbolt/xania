@@ -156,7 +156,7 @@ void do_immworth(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
 
     if ((obj = get_obj_world(ch, argument)) == nullptr) {
-        send_to_char("Nothing like that in Xania.\n\r", ch);
+        ch->send_line("Nothing like that in Xania.");
         return;
     }
 
@@ -165,7 +165,7 @@ void do_immworth(Char *ch, const char *argument) {
     if (worth == shouldbe) {
         snprintf(buf, sizeof(buf), "Object '%s' has %d point(s) - exactly right.\n\r", obj->pIndexData->short_descr,
                  worth);
-        send_to_char(buf, ch);
+        ch->send_to(buf);
         return;
     }
     if (worth > shouldbe) {
@@ -175,7 +175,7 @@ void do_immworth(Char *ch, const char *argument) {
         snprintf(buf, sizeof(buf), "Object '%s' has %d point(s), within the %d point maximum.\n\r",
                  obj->pIndexData->short_descr, worth, shouldbe);
     }
-    send_to_char(buf, ch);
+    ch->send_to(buf);
 }
 
 /* do_prefix added 19-05-97 PCFN */
@@ -189,14 +189,14 @@ void do_prefix(Char *ch, const char *argument) {
 
     if (prefix.empty()) {
         if (ch->pcdata->prefix.empty()) {
-            ch->send_to("No prefix to remove.\n\r");
+            ch->send_line("No prefix to remove.");
         } else {
-            ch->send_to("Prefix removed.\n\r");
+            ch->send_line("Prefix removed.");
             ch->pcdata->prefix.clear();
         }
     } else {
         ch->pcdata->prefix = prefix;
-        ch->send_to("Prefix set to \"{}\"\n\r"_format(ch->pcdata->prefix));
+        ch->send_line("Prefix set to \"{}\"", ch->pcdata->prefix);
     }
 }
 
@@ -207,9 +207,9 @@ void do_timezone(Char *ch, const char *argument) {
 
     if (argument[0] == '\0') {
         if (ch->pcdata->minoffset == 0 && ch->pcdata->houroffset == 0)
-            ch->send_to("British time is already being used\n\r");
+            ch->send_line("British time is already being used");
         else {
-            ch->send_to("British time will be used\n\r");
+            ch->send_line("British time will be used");
             ch->pcdata->minoffset = 0;
             ch->pcdata->houroffset = 0;
         }
@@ -415,7 +415,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 
     /* Did we find *any* corpses? */
     if (num_of_corpses == 0) {
-        send_to_char("There are no dead in this room to reincarnate!\n\r", ch);
+        ch->send_line("There are no dead in this room to reincarnate!");
         return;
     }
 
@@ -482,7 +482,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 
 void do_smit(Char *ch, const char *argument) {
     (void)argument;
-    send_to_char("If you wish to smite someone, then SPELL it out!\n\r", ch);
+    ch->send_line("If you wish to smite someone, then SPELL it out!");
 }
 
 void do_smite(Char *ch, const char *argument) {
@@ -494,12 +494,12 @@ void do_smite(Char *ch, const char *argument) {
     OBJ_DATA *obj;
 
     if (argument[0] == '\0') {
-        send_to_char("Upon whom do you wish to unleash your power?\n\r", ch);
+        ch->send_line("Upon whom do you wish to unleash your power?");
         return;
     }
 
     if ((victim = get_char_room(ch, argument)) == nullptr) {
-        send_to_char("They aren't here.\n\r", ch);
+        ch->send_line("They aren't here.");
         return;
     } /* Not (visibly) present in room! */
 
@@ -508,13 +508,13 @@ void do_smite(Char *ch, const char *argument) {
                              Should be dealt with in interp.c already*/
 
     if (ch->is_npc()) {
-        send_to_char("You must take your true form before unleashing your power.\n\r", ch);
+        ch->send_line("You must take your true form before unleashing your power.");
         return;
     } /* done whilst switched? No way Jose */
 
     if (victim->get_trust() > ch->get_trust()) {
 
-        send_to_char("You failed.\n\rUmmm...beware of retaliation!\n\r", ch);
+        ch->send_line("You failed.\n\rUmmm...beware of retaliation!");
         act("$n attempted to smite $N!", ch, nullptr, victim, To::NotVict);
         act("$n attempted to smite you!", ch, nullptr, victim, To::Vict);
         return;
@@ -552,8 +552,8 @@ void do_smite(Char *ch, const char *argument) {
             To::NotVict);
     }
 
-    ch->send_to("You |W>>> |YSMITE|W <<<|w {} with all of your Godly powers!\n\r"_format(
-        (victim == ch) ? "yourself" : victim->name));
+    ch->send_line("You |W>>> |YSMITE|W <<<|w {} with all of your Godly powers!",
+                  (victim == ch) ? "yourself" : victim->name);
 
     victim->hit /= 2; /* easiest way of halving hp? */
     if (victim->hit < 1)
@@ -685,7 +685,7 @@ void tip_players() {
     for (auto &d : descriptors().playing()) {
         Char *ch = d.person();
         if (is_set_extra(ch, EXTRA_TIP_WIZARD))
-            send_to_char(tip, ch);
+            ch->send_to(tip);
     }
     tip_current = tip_current->next;
 }
@@ -695,22 +695,22 @@ void do_tipwizard(Char *ch, const char *arg) {
     if (arg[0] == '\0') {
         if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
             remove_extra(ch, EXTRA_TIP_WIZARD);
-            send_to_char("Tipwizard deactivated.\n\r", ch);
+            ch->send_line("Tipwizard deactivated.");
         } else {
             set_extra(ch, EXTRA_TIP_WIZARD);
-            send_to_char("Tipwizard activated!\n\r", ch);
+            ch->send_line("Tipwizard activated!");
         }
         return;
     }
     if (!strcmp(arg, "on")) {
         set_extra(ch, EXTRA_TIP_WIZARD);
-        send_to_char("Tipwizard activated!\n\r", ch);
+        ch->send_line("Tipwizard activated!");
         return;
     }
     if (!strcmp(arg, "off")) {
         remove_extra(ch, EXTRA_TIP_WIZARD);
-        send_to_char("Tipwizard deactivated.\n\r", ch);
+        ch->send_line("Tipwizard deactivated.");
         return;
     }
-    send_to_char("Syntax: tipwizard {on/off}\n\r", ch);
+    ch->send_line("Syntax: tipwizard {on/off}");
 }

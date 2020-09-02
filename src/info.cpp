@@ -81,13 +81,13 @@ void do_setinfo(Char *ch, const char *argument) {
     char smash_tilded[MAX_INPUT_LENGTH];
 
     if (argument[0] == '\0') {
-        ch->send_to("These are your current info settings:\n\r");
+        ch->send_line("These are your current info settings:");
         if (ch->pcdata->info_message.empty())
-            ch->send_to("Message: Not set.\n\r");
+            ch->send_line("Message: Not set.");
         else if (is_set_extra(ch, EXTRA_INFO_MESSAGE))
-            ch->send_to("Message: {}.\n\r"_format(ch->pcdata->info_message));
+            ch->send_line("Message: {}.", ch->pcdata->info_message);
         else
-            ch->send_to("Message: Withheld.\n\r");
+            ch->send_line("Message: Withheld.");
         return;
     }
     strncpy(smash_tilded, smash_tilde(argument).c_str(),
@@ -99,20 +99,19 @@ void do_setinfo(Char *ch, const char *argument) {
         if (args[0] == '\0') {
             if (is_set_extra(ch, EXTRA_INFO_MESSAGE)) {
                 if (ch->pcdata->info_message.empty())
-                    ch->send_to("Your message is currently not set.\n\r");
+                    ch->send_line("Your message is currently not set.");
                 else
-                    ch->send_to("Your message is currently set as: {}.\n\r"_format(ch->pcdata->info_message));
+                    ch->send_line("Your message is currently set as: {}.", ch->pcdata->info_message);
             } else
-                ch->send_to("Your message is currently being withheld.\n\r");
+                ch->send_line("Your message is currently being withheld.");
         } else {
             if (strlen(args) > 45)
                 args[45] = '\0';
             ch->pcdata->info_message = args;
             set_extra(ch, EXTRA_INFO_MESSAGE);
-            ch->send_to("Your message has been set to: {}.\n\r"_format(ch->pcdata->info_message));
+            ch->send_line("Your message has been set to: {}.", ch->pcdata->info_message);
             /* Update the info if it is in cache */
             if (auto cur = search_info_cache(ch)) {
-                /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
                 cur->info_message = ch->pcdata->info_message;
                 cur->i_message = true;
             }
@@ -122,17 +121,16 @@ void do_setinfo(Char *ch, const char *argument) {
 
     if (!strcmp(arg, "show")) {
         if (args[0] == '\0') {
-            send_to_char("You must supply one of the following arguments to 'setinfo show':\n\r    message\n\r", ch);
+            ch->send_line("You must supply one of the following arguments to 'setinfo show':\n\r    message");
             return;
         } else {
             if (!strcmp(args, "message")) {
                 if (ch->pcdata->info_message[0] == '\0')
-                    send_to_char("Your message must be set in order for it to be read by other players.\n\rUse "
-                                 "'setinfo message <your message>'.\n\r",
-                                 ch);
+                    ch->send_to("Your message must be set in order for it to be read by other players.\n\rUse "
+                                "'setinfo message <your message>'.\n\r");
                 else {
                     set_extra(ch, EXTRA_INFO_MESSAGE);
-                    send_to_char("Players will now be able to read your message when looking at your info.\n\r", ch);
+                    ch->send_line("Players will now be able to read your message when looking at your info.");
                     update_show = EXTRA_INFO_MESSAGE;
                 }
                 return;
@@ -140,39 +138,36 @@ void do_setinfo(Char *ch, const char *argument) {
             if (update_show != 0) { // TODO IDE COMPLAINS THIS IS UNREACHABLE
                 /* Update the info if it is in cache */
                 if (auto cur = search_info_cache(ch)) {
-                    /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
                     switch (update_show) {
                     case EXTRA_INFO_MESSAGE: cur->i_message = true; break;
                     }
                 }
             }
-            send_to_char("You must supply one of the following arguments to 'setinfo show':\n\r    message\n\r", ch);
+            ch->send_line("You must supply one of the following arguments to 'setinfo show':\n\r    message");
             return;
         }
     }
 
     if (!strcmp(arg, "hide")) {
         if (args[0] == '\0') {
-            send_to_char("You must supply one of the following arguments to 'setinfo hide':\n\r    message\n\r", ch);
+            ch->send_line("You must supply one of the following arguments to 'setinfo hide':\n\r    message");
             return;
         } else {
             if (!strcmp(args, "message")) {
                 remove_extra(ch, EXTRA_INFO_MESSAGE);
-                send_to_char("Players will now not be able to read your message when looking at your info.\n\r", ch);
+                ch->send_line("Players will now not be able to read your message when looking at your info.");
                 update_hide = EXTRA_INFO_MESSAGE;
             }
             if (update_hide != 0) {
                 /* Update the info if it is in cache */
                 if (auto cur = search_info_cache(ch)) {
-                    /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
                     switch (update_hide) {
                     case EXTRA_INFO_MESSAGE: cur->i_message = false; break;
                     }
                 }
                 return;
             } else {
-                send_to_char("You must supply one of the following arguments to 'setinfo hide':\n\r    message\n\r",
-                             ch);
+                ch->send_to("You must supply one of the following arguments to 'setinfo hide':\n\r    message\n\r");
                 return;
             }
         }
@@ -180,22 +175,21 @@ void do_setinfo(Char *ch, const char *argument) {
 
     if (!strcmp(arg, "clear")) {
         ch->pcdata->info_message.clear();
-        send_to_char("Your info details have been cleared.\n\r", ch);
+        ch->send_line("Your info details have been cleared.");
         /* Do the same if in cache */
         if (auto cur = search_info_cache(ch)) {
-            /*send_to_char ("Player info has been found in cache.\n\r", ch);*/
             cur->info_message.clear();
         }
         return;
     }
-    send_to_char("Usage:\n\r", ch);
-    send_to_char("setinfo                    Show your current info settings.\n\r", ch);
-    send_to_char("setinfo message [Message]  Show/set the message field.\n\r", ch);
-    send_to_char("setinfo show message\n\r", ch);
-    send_to_char("Set the field as readable by other players when looking at your info.\n\r", ch);
-    send_to_char("setinfo hide message\n\r", ch);
-    send_to_char("Set the field as non-readable by other players when looking at your info.\n\r", ch);
-    send_to_char("setinfo clear              Clear all the fields.\n\r", ch);
+    ch->send_line("Usage:");
+    ch->send_line("setinfo                    Show your current info settings.");
+    ch->send_line("setinfo message [Message]  Show/set the message field.");
+    ch->send_line("setinfo show message");
+    ch->send_line("Set the field as readable by other players when looking at your info.");
+    ch->send_line("setinfo hide message");
+    ch->send_line("Set the field as non-readable by other players when looking at your info.");
+    ch->send_line("setinfo clear              Clear all the fields.");
 }
 
 /* MrG finger command - oo-er! */
@@ -221,7 +215,7 @@ void do_finger(Char *ch, const char *argument) {
 
         /* Notice DEATH hack here!!! */
         if (victim != nullptr && victim->is_npc() && !matches(argument, "Death")) {
-            send_to_char("Mobs don't have very interesting information to give to you.\n\r", ch);
+            ch->send_line("Mobs don't have very interesting information to give to you.");
             return;
         }
 
@@ -248,11 +242,9 @@ void do_finger(Char *ch, const char *argument) {
 
         if (player_found == true) {
             /* Player exists in player directory */
-            /*   send_to_char ("Player found.\n\r", ch);*/
             const FingerInfo *cur = search_info_cache(argument);
             if (!cur) {
                 /* Player info not in cache, proceed to put it in there */
-                /*send_to_char ("Player info is not in cache.\n\r", ch);*/
                 if (victim && victim->is_pc() && victim->desc) {
                     cur = &info_cache
                                .emplace(argument,
@@ -271,7 +263,7 @@ void do_finger(Char *ch, const char *argument) {
                 snprintf(buf, sizeof(buf), "Message: %s\n\r", cur->info_message.c_str());
             else
                 snprintf(buf, sizeof(buf), "Message: Withheld.\n\r");
-            send_to_char(buf, ch);
+            ch->send_to(buf);
 
             /* This is the tricky bit - should the player login time be seen
                by this player or not? */
@@ -284,7 +276,7 @@ void do_finger(Char *ch, const char *argument) {
                         "It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.\n\r"_format(
                             victim->name));
                 } else {
-                    ch->send_to("{} is currently roaming the hills of Xania!\n\r"_format(victim->name));
+                    ch->send_line("{} is currently roaming the hills of Xania!", victim->name);
                     if (ch->get_trust() >= GOD) {
                         if (victim->desc->host().empty())
                             ch->send_to(
@@ -302,7 +294,7 @@ void do_finger(Char *ch, const char *argument) {
                     snprintf(buf, sizeof(buf),
                              "It is impossible to determine the last time that %s roamed\n\rthe hills of Xania.\n\r",
                              cur->name.c_str());
-                    send_to_char(buf, ch);
+                    ch->send_to(buf);
                 } else {
 
                     if (cur->last_login_at[0] == '\0')
@@ -314,7 +306,7 @@ void do_finger(Char *ch, const char *argument) {
                         snprintf(buf, sizeof(buf), "%s last roamed the hills of Xania on %s", cur->name.c_str(),
                                  cur->last_login_at.c_str());
 
-                    send_to_char(buf, ch);
+                    ch->send_to(buf);
 
                     if (ch->get_trust() >= GOD) {
                         if (cur->last_login_from[0] == '\0')
@@ -325,13 +317,13 @@ void do_finger(Char *ch, const char *argument) {
                             snprintf(buf, sizeof(buf), "%s last logged in from %s.\n\r", cur->name.c_str(),
                                      cur->last_login_from.c_str());
 
-                        send_to_char(buf, ch);
+                        ch->send_to(buf);
                     }
                 }
             }
             return;
         } else {
-            send_to_char("That player does not exist.\n\r", ch);
+            ch->send_line("That player does not exist.");
             return;
         }
     }

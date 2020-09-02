@@ -104,7 +104,7 @@ void advance_level(Char *ch) {
 
     snprintf(buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r", add_hp, ch->max_hit,
              add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
     log_string("### {} has made a level in room {}"_format(ch->name, ch->in_room->vnum));
     announce("|W### |P{}|W has made a level!!!|w"_format(ch->name), ch);
 }
@@ -154,7 +154,7 @@ void lose_level(Char *ch) {
 
     snprintf(buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r", add_hp, ch->max_hit,
              add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice);
-    send_to_char(buf, ch);
+    ch->send_to(buf);
     announce("|W### |P{}|W has lost a level!!!|w"_format(ch->name), ch);
 }
 
@@ -166,7 +166,7 @@ void gain_exp(Char *ch, int gain) {
     if (gain >= 0) {
         while ((ch->level < LEVEL_HERO)
                && ((ch->exp) >= ((int)exp_per_level(ch, ch->pcdata->points) * (ch->level + 1)))) {
-            send_to_char("|WYou raise a level!!|w\n\r", ch);
+            ch->send_line("|WYou raise a level!!|w");
             ch->level += 1;
             advance_level(ch);
         }
@@ -325,13 +325,13 @@ void gain_condition(Char *ch, int iCond, int value) {
 
     if (ch->pcdata->condition[iCond] == 0) {
         switch (iCond) {
-        case COND_FULL: send_to_char("You are hungry.\n\r", ch); break;
+        case COND_FULL: ch->send_line("You are hungry."); break;
 
-        case COND_THIRST: send_to_char("You are thirsty.\n\r", ch); break;
+        case COND_THIRST: ch->send_line("You are thirsty."); break;
 
         case COND_DRUNK:
             if (condition != 0)
-                send_to_char("You are sober.\n\r", ch);
+                ch->send_line("You are sober.");
             break;
         }
     }
@@ -422,7 +422,7 @@ void weather_update() {
     if (auto update_msg = weather_info.describe_change(weather_before); !update_msg.empty()) {
         for (auto &d : descriptors().playing()) {
             if (IS_OUTSIDE(d.character()) && IS_AWAKE(d.character()))
-                send_to_char(update_msg, d.character());
+                d.character()->send_to(update_msg);
         }
     }
 }
@@ -459,7 +459,7 @@ void move_idle_char_to_limbo(Char *ch) {
             if (ch->fighting != nullptr)
                 stop_fighting(ch, true);
             act("$n disappears into the void.", ch);
-            send_to_char("You disappear into the void.\n\r", ch);
+            ch->send_line("You disappear into the void.");
             if (ch->level > 1)
                 save_char_obj(ch);
             char_from_room(ch);
@@ -556,7 +556,7 @@ void char_update() {
             // Only report wear-offs for those affects who are completely gone.
             for (auto sn : removed_this_tick_with_msg)
                 if (!ch->is_affected_by(sn))
-                    ch->send_to("{}\n\r"_format(skill_table[sn].msg_off));
+                    ch->send_line("{}", skill_table[sn].msg_off);
         }
 
         /* scan all undead zombies created by raise_dead style spells
@@ -583,7 +583,7 @@ void char_update() {
                 return;
 
             act("$n writhes in agony as plague sores erupt from $s skin.", ch);
-            send_to_char("You writhe in agony from the plague.\n\r", ch);
+            ch->send_line("You writhe in agony from the plague.");
             auto *existing_plague = ch->affected.find_by_skill(gsn_plague);
             if (existing_plague == nullptr) {
                 REMOVE_BIT(ch->affected_by, AFF_PLAGUE);
@@ -612,7 +612,7 @@ void char_update() {
 
                 if (save != 0 && !saves_spell(save, vch) && vch->is_mortal() && !IS_AFFECTED(vch, AFF_PLAGUE)
                     && number_bits(4) == 0) {
-                    send_to_char("You feel hot and feverish.\n\r", vch);
+                    vch->send_line("You feel hot and feverish.");
                     act("$n shivers and looks very ill.", vch);
                     affect_join(vch, plague);
                 }
@@ -624,7 +624,7 @@ void char_update() {
             damage(ch, ch, dam, gsn_plague, DAM_DISEASE);
         } else if (IS_AFFECTED(ch, AFF_POISON) && ch != nullptr) {
             act("$n shivers and suffers.", ch);
-            send_to_char("You shiver and suffer.\n\r", ch);
+            ch->send_line("You shiver and suffer.");
             damage(ch, ch, 2, gsn_poison, DAM_POISON);
         } else if (ch->position == POS_INCAP && number_range(0, 1) == 0) {
             damage(ch, ch, 1, TYPE_UNDEFINED, DAM_NONE);
