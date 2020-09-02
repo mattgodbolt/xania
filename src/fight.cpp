@@ -9,6 +9,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "Format.hpp"
+#include "Logging.hpp"
 #include "TimeInfoData.hpp"
 #include "challeng.h"
 #include "comm.hpp"
@@ -820,7 +821,7 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
             if (temp == 1)
                 return true;
 
-            log_string(fmt::format("{} killed by {} at {}", victim->name, ch->short_name(), victim->in_room->vnum));
+            log_string("{} killed by {} at {}", victim->name, ch->short_name(), victim->in_room->vnum);
             announce(fmt::format("|P###|w Sadly, {} was killed by {}.", victim->name, ch->short_name()), victim);
 
             for (squib = victim->in_room->people; squib; squib = squib->next_in_room) {

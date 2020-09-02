@@ -1,5 +1,6 @@
 #include "AffectList.hpp"
-#include "merc.h"
+
+#include "Logging.hpp"
 
 #include <range/v3/algorithm/find.hpp>
 #include <range/v3/iterator/operations.hpp>

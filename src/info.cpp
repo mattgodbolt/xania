@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "info.hpp"
+#include "Logging.hpp"
 #include "TimeInfoData.hpp"
 #include "WrappedFd.hpp"
 #include "comm.hpp"

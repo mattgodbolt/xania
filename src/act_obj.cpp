@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
+#include "Logging.hpp"
 #include "Pronouns.hpp"
 #include "TimeInfoData.hpp"
 #include "buffer.h"

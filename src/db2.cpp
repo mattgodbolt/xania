@@ -8,10 +8,12 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
+#include "Logging.hpp"
 #include "db.h"
 #include "lookup.h"
 #include "merc.h"
 #include "string_utils.hpp"
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>

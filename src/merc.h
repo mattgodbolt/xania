@@ -1550,9 +1550,6 @@ bool str_cmp(const char *astr, const char *bstr);
 bool str_prefix(const char *astr, const char *bstr);
 bool str_suffix(const char *astr, const char *bstr);
 void append_file(Char *ch, const char *file, const char *str);
-void bug(const char *str, ...) __attribute__((format(printf, 1, 2)));
-void log_string(std::string_view str);
-void log_new(std::string_view str, int loglevel, int level);
 
 /* fight.c */
 bool is_safe(Char *ch, Char *victim);
@@ -1742,6 +1739,8 @@ void mprog_speech_trigger(const char *txt, const Char *mob);
 
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
 #define MACRO_STRINGIFY_(s) #s
+
+#include "Logging.hpp" // TODO remove with haste!
 
 #define bug_snprintf(...)                                                                                              \
     do {                                                                                                               \

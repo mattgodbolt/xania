@@ -1,4 +1,5 @@
 #include "WeatherData.hpp"
+#include "Logging.hpp"
 #include "merc.h"
 
 #include <fmt/format.h>

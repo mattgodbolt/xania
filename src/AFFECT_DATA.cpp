@@ -1,6 +1,7 @@
 #include "AFFECT_DATA.hpp"
 
 #include "Char.hpp"
+#include "Logging.hpp"
 #include "merc.h"
 
 #include <fmt/format.h>

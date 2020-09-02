@@ -39,12 +39,10 @@ TIP_TYPE *tip_current;
    that could be wrong with the object */
 
 void objectbug(const char *str, OBJ_INDEX_DATA *obj) {
-    log_string(fmt::format("obj> {} (#{}): {}", obj->short_descr, obj->vnum, str));
+    log_string("obj> {} (#{}): {}", obj->short_descr, obj->vnum, str);
 }
 
-void mobbug(const char *str, MOB_INDEX_DATA *mob) {
-    log_string(fmt::format("mob> {} (#{}): {}", mob->short_descr, mob->vnum, str));
-}
+void mobbug(const char *str, MOB_INDEX_DATA *mob) { log_string("mob> {} (#{}): {}", mob->short_descr, mob->vnum, str); }
 
 int report_object(OBJ_DATA *object, int boot) {
     int averagedam, allowedaverage;
@@ -640,7 +638,7 @@ void load_tipfile() {
         ungetc(c, fp);
         if (feof(fp)) {
             fclose(fp);
-            log_string(fmt::format("Loaded {} tips", tipcount));
+            log_string("Loaded {} tips", tipcount);
             if (tipcount == 0)
                 ignore_tips = true; /* don't bother polling the tip loop*/
             tip_current = tip_top;

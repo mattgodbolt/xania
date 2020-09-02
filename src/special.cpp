@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Logging.hpp"
 #include "TimeInfoData.hpp"
 #include "comm.hpp"
 #include "interp.h"

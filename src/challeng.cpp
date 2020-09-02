@@ -9,6 +9,7 @@
 
 #include "challeng.h"
 #include "Descriptor.hpp"
+#include "Logging.hpp"
 #include "comm.hpp"
 #include "handler.hpp"
 #include "interp.h"

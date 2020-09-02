@@ -15,6 +15,7 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
+#include "Logging.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "merc.h"

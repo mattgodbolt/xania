@@ -7,6 +7,7 @@
 /*                                                                      */
 /************************************************************************/
 
+#include "Logging.hpp"
 #include "comm.hpp"
 #include "interp.h"
 #include "magic.h"

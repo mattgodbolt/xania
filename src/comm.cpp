@@ -180,15 +180,15 @@ void doorman_lost() {
 void handle_doorman_packet(const Packet &p, std::string_view buffer) {
     switch (p.type) {
     case PACKET_CONNECT:
-        log_string(fmt::format("Incoming connection on channel {}.", p.channel));
+        log_string("Incoming connection on channel {}.", p.channel);
         if (auto *d = descriptors().create(p.channel)) {
             greet(*d);
         } else {
-            log_string(fmt::format("Duplicate channel {} on connect!", p.channel));
+            log_string("Duplicate channel {} on connect!", p.channel);
         }
         break;
     case PACKET_RECONNECT:
-        log_string(fmt::format("Incoming reconnection on channel {} for {}.", p.channel, buffer));
+        log_string("Incoming reconnection on channel {} for {}.", p.channel, buffer);
         if (auto *d = descriptors().create(p.channel)) {
             greet(*d);
             // Login name
@@ -207,7 +207,7 @@ void handle_doorman_packet(const Packet &p, std::string_view buffer) {
                 nanny(d, "");
             }
         } else {
-            log_string(fmt::format("Duplicate channel {} on reconnect!", p.channel));
+            log_string("Duplicate channel {} on reconnect!", p.channel);
         }
         break;
     case PACKET_DISCONNECT:
@@ -221,16 +221,16 @@ void handle_doorman_packet(const Packet &p, std::string_view buffer) {
                 d->state(DescriptorState::DisconnectingNp);
             d->close();
         } else {
-            log_string(fmt::format("Unable to find channel to close ({})", p.channel));
+            log_string("Unable to find channel to close ({})", p.channel);
         }
         break;
     case PACKET_INFO:
         if (auto *d = descriptors().find_by_channel(p.channel)) {
             auto *data = reinterpret_cast<const InfoData *>(buffer.data());
             d->set_endpoint(data->netaddr, data->port, data->data);
-            log_string(fmt::format("Info from doorman: {} is {}", p.channel, d->host()));
+            log_string("Info from doorman: {} is {}", p.channel, d->host());
         } else {
-            log_string(fmt::format("Unable to associate info with a descriptor ({})", p.channel));
+            log_string("Unable to associate info with a descriptor ({})", p.channel);
         }
         break;
 
@@ -240,7 +240,7 @@ void handle_doorman_packet(const Packet &p, std::string_view buffer) {
                 d->character()->timer = 0;
             read_from_descriptor(d, buffer);
         } else {
-            log_string(fmt::format("Unable to associate message with a descriptor ({})", p.channel));
+            log_string("Unable to associate message with a descriptor ({})", p.channel);
         }
         break;
     default: break;
@@ -856,7 +856,7 @@ void nanny(Descriptor *d, const char *argument) {
             return;
         }
         ch->class_num = iClass;
-        log_string(fmt::format("{}@{} new player.", ch->name, d->host()));
+        log_string("{}@{} new player.", ch->name, d->host());
         d->write("\n\r");
         d->write("You may be good, neutral, or evil.\n\r");
         d->write("Which alignment (G/N/E)? ");

@@ -63,9 +63,6 @@ void bug(const char *str, ...) {
     log_new(buf, EXTRA_WIZNET_BUG, 0); /* TM added */
 }
 
-/* Writes a string to the log. */
-void log_string(std::string_view str) { log_new(str, EXTRA_WIZNET_DEBUG, 0); }
-
 /* New log - takes a level and broadcasts to IMMs on WIZNET */
 void log_new(std::string_view str, int loglevel, int level) {
     // One day use spdlog here?

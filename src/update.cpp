@@ -103,7 +103,7 @@ void advance_level(Char *ch) {
     snprintf(buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r", add_hp, ch->max_hit,
              add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice);
     ch->send_to(buf);
-    log_string(fmt::format("### {} has made a level in room {}", ch->name, ch->in_room->vnum));
+    log_string("### {} has made a level in room {}", ch->name, ch->in_room->vnum);
     announce(fmt::format("|W### |P{}|W has made a level!!!|w", ch->name), ch);
 }
 
