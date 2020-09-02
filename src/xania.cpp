@@ -24,8 +24,6 @@
 #include <cstdlib>
 #include <cstring>
 
-using namespace fmt::literals;
-
 /*
  * KLUDGEMONGER III, Revenge of Kludgie, the Malicious Code Murderer...
  */
@@ -41,11 +39,11 @@ TIP_TYPE *tip_current;
    that could be wrong with the object */
 
 void objectbug(const char *str, OBJ_INDEX_DATA *obj) {
-    log_string("obj> {} (#{}): {}"_format(obj->short_descr, obj->vnum, str));
+    log_string(fmt::format("obj> {} (#{}): {}", obj->short_descr, obj->vnum, str));
 }
 
 void mobbug(const char *str, MOB_INDEX_DATA *mob) {
-    log_string("mob> {} (#{}): {}"_format(mob->short_descr, mob->vnum, str));
+    log_string(fmt::format("mob> {} (#{}): {}", mob->short_descr, mob->vnum, str));
 }
 
 int report_object(OBJ_DATA *object, int boot) {
@@ -215,8 +213,8 @@ void do_timezone(Char *ch, const char *argument) {
         }
     } else {
         sscanf(argument, "%hd:%hd", &ch->pcdata->houroffset, &ch->pcdata->minoffset);
-        ch->send_to(
-            "Time will now be displayed {}:{:02} from GMT\n\r"_format(ch->pcdata->houroffset, ch->pcdata->minoffset));
+        ch->send_to(fmt::format("Time will now be displayed {}:{:02} from GMT\n\r", ch->pcdata->houroffset,
+                                ch->pcdata->minoffset));
     }
 }
 
@@ -642,7 +640,7 @@ void load_tipfile() {
         ungetc(c, fp);
         if (feof(fp)) {
             fclose(fp);
-            log_string("Loaded {} tips"_format(tipcount));
+            log_string(fmt::format("Loaded {} tips", tipcount));
             if (tipcount == 0)
                 ignore_tips = true; /* don't bother polling the tip loop*/
             tip_current = tip_top;
@@ -681,7 +679,7 @@ void tip_players() {
         tip_current = tip_current->next;
         return;
     }
-    auto tip = "|WTip: {}|w\n\r"_format(tip_current->tip);
+    auto tip = fmt::format("|WTip: {}|w\n\r", tip_current->tip);
     for (auto &d : descriptors().playing()) {
         Char *ch = d.person();
         if (is_set_extra(ch, EXTRA_TIP_WIZARD))

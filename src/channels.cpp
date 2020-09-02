@@ -17,8 +17,6 @@
 
 #include <cstdio>
 
-using namespace fmt::literals;
-
 extern void print_status(const Char *ch, const char *name, const char *master_name, int state, int master_state);
 
 static void print_channel_status(const Char *ch, const char *chan, unsigned long reference, unsigned long flag) {

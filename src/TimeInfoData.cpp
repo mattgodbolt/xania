@@ -7,8 +7,6 @@
 #include <array>
 #include <string_view>
 
-using namespace fmt::literals;
-
 // Hateful globals.
 TimeInfoData time_info;
 const Time boot_time = std::chrono::system_clock::now();
@@ -72,7 +70,6 @@ TimeInfoData::TimeInfoData(Time now) {
 }
 
 std::string TimeInfoData::describe() const noexcept {
-    return "It is {} o'clock {}, Day of {}, {} the Month of {}."_format(
-        (hour_ % 12 == 0) ? 12 : hour_ % 12, hour_ >= 12 ? "pm" : "am", day_name[day_ % day_name.size()], nth(day_ + 1),
-        month_name[month_]);
+    return fmt::format("It is {} o'clock {}, Day of {}, {} the Month of {}.", (hour_ % 12 == 0) ? 12 : hour_ % 12,
+                       hour_ >= 12 ? "pm" : "am", day_name[day_ % day_name.size()], nth(day_ + 1), month_name[month_]);
 }

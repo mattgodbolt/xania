@@ -13,7 +13,6 @@
 #include <string_view>
 #include <vector>
 
-using namespace fmt::literals;
 using namespace std::literals;
 
 namespace {
@@ -124,7 +123,8 @@ void concordius_patrols(Char *ch) {
         if (random < 80)
             continue;
         auto &pers_emote = conc_personal_emotes[random % conc_personal_emotes.size()];
-        auto msg = "{} {}"_format(victim->is_good() ? pers_emote.good_msg : pers_emote.not_good_msg, victim->name);
+        auto msg =
+            fmt::format("{} {}", victim->is_good() ? pers_emote.good_msg : pers_emote.not_good_msg, victim->name);
         interpret(ch, msg.c_str());
         break;
     }

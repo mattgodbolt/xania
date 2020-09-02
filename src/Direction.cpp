@@ -5,8 +5,6 @@
 
 #include <fmt/format.h>
 
-using namespace fmt::literals;
-
 Direction reverse(Direction dir) {
     switch (dir) {
     case Direction::North: return Direction::South;
@@ -16,7 +14,7 @@ Direction reverse(Direction dir) {
     case Direction::Up: return Direction::Down;
     case Direction::Down: return Direction::Up;
     }
-    throw std::runtime_error("Bad direction {}"_format(static_cast<int>(dir)));
+    throw std::runtime_error(fmt::format("Bad direction {}", static_cast<int>(dir)));
 }
 
 std::string_view to_string(Direction dir) {
@@ -29,7 +27,7 @@ std::string_view to_string(Direction dir) {
     case Direction::Up: return "up"sv;
     case Direction::Down: return "down"sv;
     }
-    throw std::runtime_error("Bad direction {}"_format(static_cast<int>(dir)));
+    throw std::runtime_error(fmt::format("Bad direction {}", static_cast<int>(dir)));
 }
 
 std::optional<Direction> try_parse_direction(std::string_view name) {

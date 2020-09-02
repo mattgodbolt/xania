@@ -5,7 +5,6 @@
 
 #include <fmt/format.h>
 
-using namespace fmt::literals;
 using namespace std::literals;
 
 void AFFECT_DATA::modify(Char &ch, bool apply) const {
@@ -136,26 +135,27 @@ std::string_view name(AffectLocation location) {
 
 std::string AFFECT_DATA::describe_item_effect(bool for_imm) const {
     if (for_imm) {
-        return "{} by {} with bits {}, level {}"_format(name(location), modifier, affect_bit_name(bitvector), level);
+        return fmt::format("{} by {} with bits {}, level {}", name(location), modifier, affect_bit_name(bitvector),
+                           level);
     } else {
-        return "{} by {}"_format(name(location), modifier);
+        return fmt::format("{} by {}", name(location), modifier);
     }
 }
 std::string AFFECT_DATA::describe_char_effect(bool for_imm) const {
     if (for_imm) { // for imm commands like 'stat mob' and 'stat affects', display all the details.
         if (is_skill())
-            return " modifies {} by {} with bits {}, level {}"_format(name(location), modifier,
-                                                                      affect_bit_name(bitvector), level);
+            return fmt::format(" modifies {} by {} with bits {}, level {}", name(location), modifier,
+                               affect_bit_name(bitvector), level);
         else
-            return " modifies {} by {} for {} hours with bits {}, level {}"_format(name(location), modifier, duration,
-                                                                                   affect_bit_name(bitvector), level);
+            return fmt::format(" modifies {} by {} for {} hours with bits {}, level {}", name(location), modifier,
+                               duration, affect_bit_name(bitvector), level);
     } else {
         if (is_skill())
             return "";
         else if (location == AffectLocation::None)
-            return " for {} hours"_format(duration);
+            return fmt::format(" for {} hours", duration);
         else
-            return " modifies {} by {} for {} hours"_format(name(location), modifier, duration);
+            return fmt::format(" modifies {} by {} for {} hours", name(location), modifier, duration);
     }
 }
 

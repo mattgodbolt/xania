@@ -33,8 +33,6 @@
 #include <sys/time.h>
 
 using namespace std::literals;
-using namespace fmt::literals;
-
 const char *where_name[] = {"<used as light>     ", "<worn on finger>    ", "<worn on finger>    ",
                             "<worn around neck>  ", "<worn around neck>  ", "<worn on body>      ",
                             "<worn on head>      ", "<worn on legs>      ", "<worn on feet>      ",
@@ -129,7 +127,7 @@ void show_list_to_char(const OBJ_DATA *list, const Char *ch, bool fShort, bool f
     auto indent = "     "sv;
     for (const auto &[name, count] : to_show) {
         if (show_counts)
-            buffer += count > 1 ? "({:2}) "_format(count) : indent;
+            buffer += count > 1 ? fmt::format("({:2}) ", count) : indent;
         buffer += name + "\n\r";
     }
 
@@ -196,7 +194,7 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
     case POS_SITTING: buf += " is sitting here."; break;
     case POS_STANDING:
         if (victim->riding != nullptr) {
-            buf += " is here, riding {}."_format(victim->riding->name);
+            buf += fmt::format(" is here, riding {}.", victim->riding->name);
         } else {
             buf += " is here.";
         }
@@ -208,7 +206,7 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
         else if (victim->fighting == ch)
             buf += "|RYOU!|w";
         else if (victim->in_room == victim->fighting->in_room) {
-            buf += "{}."_format(pers(victim->fighting, ch));
+            buf += fmt::format("{}.", pers(victim->fighting, ch));
         } else
             buf += "somone who left??";
         break;
@@ -1064,11 +1062,10 @@ void do_exits(const Char *ch, const char *argument) {
             pexit && pexit->u1.to_room && can_see_room(ch, pexit->u1.to_room) && !IS_SET(pexit->exit_info, EX_CLOSED)) {
             found = true;
             if (fAuto) {
-                buf += " {}"_format(to_string(door));
+                buf += fmt::format(" {}", to_string(door));
             } else {
-                buf += "{:<5} - {}\n\r"_format(capitalize(to_string(door)), room_is_dark(pexit->u1.to_room)
-                                                                                ? "Too dark to tell"
-                                                                                : pexit->u1.to_room->name);
+                buf += fmt::format("{:<5} - {}\n\r", capitalize(to_string(door)),
+                                   room_is_dark(pexit->u1.to_room) ? "Too dark to tell" : pexit->u1.to_room->name);
             }
         }
     }
@@ -1411,12 +1408,13 @@ std::string_view who_race_name_of(const Char &wch) {
 std::string_view who_clan_name_of(const Char &wch) { return wch.clan() ? wch.clan()->whoname : ""sv; }
 
 std::string who_line_for(const Char &to, const Char &wch) {
-    return "[{:3} {} {}] {}{}{}{}{}{}|w{}{}\n\r"_format(
-        wch.level, who_race_name_of(wch), who_class_name_of(wch), who_clan_name_of(wch),
-        IS_SET(wch.act, PLR_KILLER) ? "(|RKILLER|w) " : "", IS_SET(wch.act, PLR_THIEF) ? "(|RTHIEF|w) " : "",
-        IS_SET(wch.act, PLR_AFK) ? "(|cAFK|w) " : "", wch.name, wch.is_pc() ? wch.pcdata->title : "",
-        wch.is_wizinvis() && to.is_immortal() ? " |g(Wizi at level {})|w"_format(wch.invis_level) : "",
-        wch.is_prowlinvis() && to.is_immortal() ? " |g(Prowl level {})|w"_format(wch.invis_level) : "");
+    return fmt::format(
+        "[{:3} {} {}] {}{}{}{}{}{}|w{}{}\n\r", wch.level, who_race_name_of(wch), who_class_name_of(wch),
+        who_clan_name_of(wch), IS_SET(wch.act, PLR_KILLER) ? "(|RKILLER|w) " : "",
+        IS_SET(wch.act, PLR_THIEF) ? "(|RTHIEF|w) " : "", IS_SET(wch.act, PLR_AFK) ? "(|cAFK|w) " : "", wch.name,
+        wch.is_pc() ? wch.pcdata->title : "",
+        wch.is_wizinvis() && to.is_immortal() ? fmt::format(" |g(Wizi at level {})|w", wch.invis_level) : "",
+        wch.is_prowlinvis() && to.is_immortal() ? fmt::format(" |g(Prowl level {})|w", wch.invis_level) : "");
 }
 
 }
@@ -1565,7 +1563,7 @@ void do_who(Char *ch, const char *argument) {
         output += who_line_for(*ch, *wch);
     }
 
-    output += "\n\rPlayers found: {}\n\r"_format(nMatch);
+    output += fmt::format("\n\rPlayers found: {}\n\r", nMatch);
     ch->page_to(output);
 }
 
@@ -2084,8 +2082,8 @@ void do_scan(Char *ch, const char *argument) {
             for (current_person = current_place->people; current_person != nullptr; current_person = next_person) {
                 next_person = current_person->next_in_room;
                 if (ch->can_see(*current_person)) {
-                    ch->send_to("{} {:<5}: |W{}|w\n\r"_format(count_num_rooms + 1, capitalize(to_string(direction)),
-                                                              current_person->short_name()));
+                    ch->send_to(fmt::format("{} {:<5}: |W{}|w\n\r", count_num_rooms + 1,
+                                            capitalize(to_string(direction)), current_person->short_name()));
                     found_anything = true;
                 }
             } /* Closes the for_each_char_loop */

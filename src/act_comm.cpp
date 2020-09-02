@@ -26,8 +26,6 @@
 #include <cstdlib>
 #include <cstring>
 
-using namespace fmt::literals;
-
 /* command procedures needed */
 void do_quit(Char *ch, const char *arg);
 
@@ -176,8 +174,8 @@ static void tell_to(Char *ch, Char *victim, const char *text) {
         act(buf, ch, nullptr, victim, To::Char, POS_DEAD);
         if (IS_SET(victim->comm, COMM_SHOWAFK)) {
             // TODO(#134) use the victim's timezone info.
-            act("|c\007AFK|C: At {}, $n told you '{}|C'.|w"_format(secs_only(current_time), text).c_str(), ch, nullptr,
-                victim, To::Vict, POS_DEAD);
+            act(fmt::format("|c\007AFK|C: At {}, $n told you '{}|C'.|w", secs_only(current_time), text).c_str(), ch,
+                nullptr, victim, To::Vict, POS_DEAD);
             act("|cYour message was logged onto $S screen.|w", ch, nullptr, victim, To::Char, POS_DEAD);
             victim->reply = ch;
         }
@@ -412,8 +410,8 @@ void do_quit(Char *ch, const char *arg) {
     do_chal_canc(ch);
     ch->send_line("|WYou quit reality for the game.|w");
     act("|W$n has left reality for the game.|w", ch);
-    log_string("{} has quit."_format(ch->name));
-    announce("|W### |P{}|W departs, seeking another reality.|w"_format(ch->name), ch);
+    log_string(fmt::format("{} has quit.", ch->name));
+    announce(fmt::format("|W### |P{}|W departs, seeking another reality.|w", ch->name), ch);
 
     /*
      * After extract_char the ch is no longer valid!
@@ -884,7 +882,7 @@ void do_gtell(Char *ch, std::string_view argument) {
 
     // Note use of send_line (not act), so gtell works on sleepers.
     ch->send_line("|CYou tell the group '{}|C'|w.", argument);
-    auto msg = "|C{} tells the group '{}|C'|w.\n\r"_format(ch->name, argument);
+    auto msg = fmt::format("|C{} tells the group '{}|C'|w.\n\r", ch->name, argument);
     for (auto *gch = char_list; gch != nullptr; gch = gch->next)
         if (is_same_group(gch, ch) && gch != ch)
             gch->send_to(msg);

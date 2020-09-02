@@ -33,8 +33,6 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
-using namespace fmt::literals;
-
 static const char ROOM_FLAGS[] = "dark * nomob indoors * * * * * private safe solitary petshop norecall 100imponly "
                                  "92godonly heroonly newbieonly law";
 
@@ -327,7 +325,8 @@ void do_recho(Char *ch, const char *argument) {
     }
 
     for (auto &victim : descriptors().playing() | DescriptorFilter::same_room(*ch) | DescriptorFilter::to_character()) {
-        victim.send_to("{}{}\n\r"_format(
+        victim.send_to(fmt::format(
+            "{}{}\n\r",
             victim.get_trust() >= ch->get_trust() && ch->in_room->vnum != CHAL_VIEWING_GALLERY ? "local> " : "",
             argument));
     }
@@ -399,7 +398,7 @@ void do_transfer(Char *ch, std::string_view argument) {
         for (auto &victim :
              descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch) | DescriptorFilter::to_character()) {
             if (victim.in_room != nullptr)
-                do_transfer(ch, "{} {}"_format(victim.name, where));
+                do_transfer(ch, fmt::format("{} {}", victim.name, where));
         }
         return;
     }
@@ -712,9 +711,10 @@ void do_rstat(Char *ch, const char *argument) {
 
     for (auto door : all_directions) {
         if (auto *pexit = location->exit[door]) {
-            ch->send_to("Door: {}.  To: {}.  Key: {}.  Exit flags: {}.\n\rKeyword: '{}'.  Description: {}"_format(
-                to_string(door), (pexit->u1.to_room == nullptr ? -1 : pexit->u1.to_room->vnum), pexit->key,
-                pexit->exit_info, pexit->keyword, pexit->description[0] != '\0' ? pexit->description : "(none).\n\r"));
+            ch->send_to(fmt::format("Door: {}.  To: {}.  Key: {}.  Exit flags: {}.\n\rKeyword: '{}'.  Description: {}",
+                                    to_string(door), (pexit->u1.to_room == nullptr ? -1 : pexit->u1.to_room->vnum),
+                                    pexit->key, pexit->exit_info, pexit->keyword,
+                                    pexit->description[0] != '\0' ? pexit->description : "(none).\n\r"));
         }
     }
 }
@@ -809,7 +809,8 @@ void do_ostat(Char *ch, const char *argument) {
                  obj->condition, obj->timer);
     ch->send_to(buf);
 
-    ch->send_to("In room: {}  In object: {}  Carried by: {}  Wear_loc: {}\n\r"_format(
+    ch->send_to(fmt::format(
+        "In room: {}  In object: {}  Carried by: {}  Wear_loc: {}\n\r",
         obj->in_room == nullptr ? 0 : obj->in_room->vnum, obj->in_obj == nullptr ? "(none)" : obj->in_obj->short_descr,
         obj->carried_by == nullptr ? "(none)" : can_see(ch, obj->carried_by) ? obj->carried_by->name : "someone",
         obj->wear_loc));
@@ -1129,8 +1130,8 @@ void do_maffects(Char *ch, const char *argument) {
         return;
     }
     for (auto &af : victim->affected)
-        ch->send_to("{}: '{}'{}.\n\r"_format(af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
-                                             af.describe_char_effect(true)));
+        ch->send_to(fmt::format("{}: '{}'{}.\n\r", af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
+                                af.describe_char_effect(true)));
 }
 
 /* Corrected 28/8/96 by Oshea to give correct list of spells/skills. */
@@ -1247,9 +1248,9 @@ void do_mstat(Char *ch, const char *argument) {
         return;
     }
 
-    ch->send_to("Name: {}     Clan: {}     Rank: {}.\n\r"_format(
-        victim->name, victim->clan() ? victim->clan()->name : "(none)",
-        victim->pc_clan() ? victim->pc_clan()->level_name() : "(none)"));
+    ch->send_to(fmt::format("Name: {}     Clan: {}     Rank: {}.\n\r", victim->name,
+                            victim->clan() ? victim->clan()->name : "(none)",
+                            victim->pc_clan() ? victim->pc_clan()->level_name() : "(none)"));
 
     bug_snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
                  victim->is_npc() ? victim->pIndexData->vnum : 0, victim->is_npc() ? ".are" : "pc",
@@ -1312,7 +1313,7 @@ void do_mstat(Char *ch, const char *argument) {
     ch->send_line("Fighting: {}", victim->fighting ? victim->fighting->name : "(none)");
 
     ch->send_to(
-        "Sentient 'victim': {}\n\r"_format(victim->sentient_victim.empty() ? "(none)" : victim->sentient_victim));
+        fmt::format("Sentient 'victim': {}\n\r", victim->sentient_victim.empty() ? "(none)" : victim->sentient_victim));
 
     if (victim->is_pc()) {
         bug_snprintf(buf, sizeof(buf), "Thirst: %d  Full: %d  Drunk: %d\n\r", victim->pcdata->condition[COND_THIRST],
@@ -1379,15 +1380,15 @@ void do_mstat(Char *ch, const char *argument) {
         ch->send_line("Affected by {}", affect_bit_name(victim->affected_by));
     }
 
-    ch->send_to("Master: {}  Leader: {}  Pet: {}\n\r"_format(victim->master ? victim->master->name : "(none)",
-                                                             victim->leader ? victim->leader->name : "(none)",
-                                                             victim->pet ? victim->pet->name : "(none)"));
+    ch->send_to(fmt::format("Master: {}  Leader: {}  Pet: {}\n\r", victim->master ? victim->master->name : "(none)",
+                            victim->leader ? victim->leader->name : "(none)",
+                            victim->pet ? victim->pet->name : "(none)"));
 
-    ch->send_to("Riding: {}  Ridden by: {}\n\r"_format(victim->riding ? victim->riding->name : "(none)",
-                                                       victim->ridden_by ? victim->ridden_by->name : "(none)"));
+    ch->send_to(fmt::format("Riding: {}  Ridden by: {}\n\r", victim->riding ? victim->riding->name : "(none)",
+                            victim->ridden_by ? victim->ridden_by->name : "(none)"));
 
-    ch->send_to("Short description: {}\n\rLong  description: {}"_format(
-        victim->short_descr, victim->long_descr.empty() ? "(none)\n\r" : victim->long_descr));
+    ch->send_to(fmt::format("Short description: {}\n\rLong  description: {}", victim->short_descr,
+                            victim->long_descr.empty() ? "(none)\n\r" : victim->long_descr));
 
     if (victim->is_npc() && victim->spec_fun)
         ch->send_line("Mobile has special procedure.");
@@ -1397,8 +1398,8 @@ void do_mstat(Char *ch, const char *argument) {
     }
 
     for (const auto &af : victim->affected)
-        ch->send_to("{}: '{}'{}.\n\r"_format(af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
-                                             af.describe_char_effect(true)));
+        ch->send_to(fmt::format("{}: '{}'{}.\n\r", af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
+                                af.describe_char_effect(true)));
     ch->send_line("");
 }
 
@@ -1427,7 +1428,7 @@ void do_mfind(Char *ch, const char *argument) {
             nMatch++;
             if (is_name(argument, pMobIndex->player_name)) {
                 found = true;
-                buffer += "[{:5}] {}\n\r"_format(pMobIndex->vnum, pMobIndex->short_descr);
+                buffer += fmt::format("[{:5}] {}\n\r", pMobIndex->vnum, pMobIndex->short_descr);
             }
         }
     }
@@ -1526,9 +1527,9 @@ void do_mwhere(Char *ch, const char *argument) {
             || (victim->is_pc() && find_pc && can_see(ch, victim))) {
             found = true;
             number++;
-            buffer += "{:3} [{:5}] {:<28} [{:5}] {:>20}\n\r"_format(number, find_pc ? 0 : victim->pIndexData->vnum,
-                                                                    victim->short_name(), victim->in_room->vnum,
-                                                                    victim->in_room->name);
+            buffer +=
+                fmt::format("{:3} [{:5}] {:<28} [{:5}] {:>20}\n\r", number, find_pc ? 0 : victim->pIndexData->vnum,
+                            victim->short_name(), victim->in_room->vnum, victim->in_room->name);
         }
     }
     ch->page_to(buffer);
@@ -1547,7 +1548,7 @@ void do_reboot(Char *ch, const char *argument) {
     extern bool merc_down;
 
     if (!IS_SET(ch->act, PLR_WIZINVIS)) {
-        do_echo(ch, "Reboot by {}."_format(ch->name));
+        do_echo(ch, fmt::format("Reboot by {}.", ch->name));
     }
     do_force(ch, "all save");
     do_save(ch, "");
@@ -1569,7 +1570,7 @@ void do_shutdown(Char *ch, const char *argument) {
     (void)argument;
     extern bool merc_down;
 
-    auto buf = "Shutdown by {}."_format(ch->name.c_str());
+    auto buf = fmt::format("Shutdown by {}.", ch->name.c_str());
     append_file(ch, SHUTDOWN_FILE, buf.c_str());
 
     do_echo(ch, buf + "\n\r");
@@ -2373,11 +2374,11 @@ void do_owhere(Char *ch, const char *argument) {
             ;
 
         if (in_obj->carried_by != nullptr) {
-            buffer += "{:3} {:<25} carried by {:<20} in room {}\n\r"_format(
-                number, obj->short_descr, pers(in_obj->carried_by, ch), in_obj->carried_by->in_room->vnum);
+            buffer += fmt::format("{:3} {:<25} carried by {:<20} in room {}\n\r", number, obj->short_descr,
+                                  pers(in_obj->carried_by, ch), in_obj->carried_by->in_room->vnum);
         } else if (in_obj->in_room != nullptr) {
-            buffer += "{:3} {:<25} in {:<30} [{}]\n\r"_format(number, obj->short_descr, in_obj->in_room->name,
-                                                              in_obj->in_room->vnum);
+            buffer += fmt::format("{:3} {:<25} in {:<30} [{}]\n\r", number, obj->short_descr, in_obj->in_room->name,
+                                  in_obj->in_room->vnum);
         }
     }
 
@@ -3323,7 +3324,7 @@ void do_sockets(Char *ch, const char *argument) {
         }
         if (!name.empty()) {
             count++;
-            buf += "[{:3} {:>5}] {}@{}\n\r"_format(d.channel(), short_name_of(d.state()), name, d.host());
+            buf += fmt::format("[{:3} {:>5}] {}@{}\n\r", d.channel(), short_name_of(d.state()), name, d.host());
         }
     }
     if (count == 0) {
@@ -3331,7 +3332,7 @@ void do_sockets(Char *ch, const char *argument) {
         return;
     }
 
-    buf += "{} user{}\n\r"_format(count, count == 1 ? "" : "s");
+    buf += fmt::format("{} user{}\n\r", count, count == 1 ? "" : "s");
     ch->desc->page_to(buf);
 }
 

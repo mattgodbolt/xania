@@ -14,8 +14,6 @@
 #include "chatconstants.hpp"
 
 using namespace chat;
-using namespace fmt::literals;
-
 extern void log_string(std::string_view str);
 
 std::string Eliza::handle_player_message(std::string_view player_name, std::string_view message,
@@ -68,7 +66,7 @@ void Eliza::register_database_names(std::string &names, Database &database) {
 
 void Eliza::ensure_database_open(const int current_db_num, const int line_count) {
     if (current_db_num < 0) {
-        log_string("no database is being loaded at #{}"_format(line_count));
+        log_string(fmt::format("no database is being loaded at #{}", line_count));
         exit(1);
     }
 }
@@ -76,7 +74,7 @@ void Eliza::ensure_database_open(const int current_db_num, const int line_count)
 bool Eliza::load_databases(std::string_view file) {
     std::ifstream fs(file.data());
     if (!fs.is_open()) {
-        log_string("Could not open chat database {}"_format(file));
+        log_string(fmt::format("Could not open chat database {}", file));
         return false;
     }
     int line_count = 0;
@@ -100,7 +98,7 @@ bool Eliza::load_databases(std::string_view file) {
                     current_keyword_responses.emplace_back(line);
                     break;
                 case '#': break;
-                case '"': log_string("{}"_format(line.substr(1))); break;
+                case '"': log_string(fmt::format("{}", line.substr(1))); break;
                 case '$':
                     // Complete the current database by emplacing a new Database in the map
                     // and moving the locals into it.
@@ -112,12 +110,12 @@ bool Eliza::load_databases(std::string_view file) {
                     break;
                 case '&': // Start a new database.
                     if (current_db_num >= 0) {
-                        log_string("& another database is being loaded at #{}"_format(line_count));
+                        log_string(fmt::format("& another database is being loaded at #{}", line_count));
                         exit(1);
                     }
                     current_db_num = parse_new_database_num(line.substr(1), line_count);
                     if (current_db_num < 0) {
-                        log_string("& bad database number {} at #{}"_format(line.substr(1), line_count));
+                        log_string(fmt::format("& bad database number {} at #{}", line.substr(1), line_count));
                         exit(1);
                     }
                     break;
@@ -132,11 +130,11 @@ bool Eliza::load_databases(std::string_view file) {
                     if (current_linked_database == nullptr) {
                         current_linked_database = parse_database_link(line.substr(1), line_count);
                     } else {
-                        log_string(
-                            "@ database #{} already has a database link at #{}"_format(current_db_num, line_count));
+                        log_string(fmt::format("@ database #{} already has a database link at #{}", current_db_num,
+                                               line_count));
                     }
                     break;
-                default: log_string("extraneous line: {} at #{}"_format(line, line_count));
+                default: log_string(fmt::format("extraneous line: {} at #{}", line, line_count));
                 }
         }
     }
@@ -147,7 +145,7 @@ int Eliza::parse_new_database_num(std::string_view str, const int line_count) {
     if (is_number(str.data())) {
         auto db_num = atoi(str.data());
         if (databases_.find(db_num) != databases_.end()) {
-            log_string("& database num already exists! #{} on line #{}"_format(db_num, line_count));
+            log_string(fmt::format("& database num already exists! #{} on line #{}", db_num, line_count));
             return -1;
         }
         return db_num;
@@ -162,9 +160,9 @@ Database *Eliza::parse_database_link(std::string_view str, const int line_count)
         if (entry != databases_.end()) {
             return &entry->second;
         }
-        log_string("@ database could not be found: #{} on line #{}"_format(db_num, line_count));
+        log_string(fmt::format("@ database could not be found: #{} on line #{}", db_num, line_count));
         return nullptr;
     }
-    log_string("@ invalid database link number {} on line #{}"_format(str, line_count));
+    log_string(fmt::format("@ invalid database link number {} on line #{}", str, line_count));
     return nullptr;
 }

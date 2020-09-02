@@ -24,8 +24,6 @@
 #include "comm.hpp"
 #include "merc.h"
 
-using namespace fmt::literals;
-
 extern FILE *fpArea;
 
 extern void copy_areaname(char *dest);
@@ -76,7 +74,7 @@ void log_new(std::string_view str, int loglevel, int level) {
     if (loglevel == EXTRA_WIZNET_DEBUG)
         level = UMAX(level, 96); /* Prevent non-SOCK ppl finding out sin_addrs */
 
-    auto wiznet_msg = "|GWIZNET:|g {}|w\n\r"_format(str);
+    auto wiznet_msg = fmt::format("|GWIZNET:|g {}|w\n\r", str);
     for (auto &d : descriptors().playing()) {
         Char *ch = d.person();
         if (ch->is_npc() || !is_set_extra(ch, EXTRA_WIZNET_ON) || !is_set_extra(ch, loglevel)

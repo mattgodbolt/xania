@@ -23,8 +23,6 @@
 #include <dirent.h>
 #include <unordered_map>
 
-using namespace fmt::literals;
-
 void do_finger(Char *ch, char *arg);
 FingerInfo read_char_info(std::string_view player_name);
 
@@ -272,18 +270,18 @@ void do_finger(Char *ch, const char *argument) {
 
                 /* Player is currently logged in */
                 if (victim->invis_level > ch->level && ch->get_trust() < GOD) {
-                    ch->send_to(
-                        "It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.\n\r"_format(
-                            victim->name));
+                    ch->send_to(fmt::format(
+                        "It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.\n\r",
+                        victim->name));
                 } else {
                     ch->send_line("{} is currently roaming the hills of Xania!", victim->name);
                     if (ch->get_trust() >= GOD) {
                         if (victim->desc->host().empty())
-                            ch->send_to(
-                                "It is impossible to determine where {} last logged in from.\n\r"_format(victim->name));
+                            ch->send_to(fmt::format("It is impossible to determine where {} last logged in from.\n\r",
+                                                    victim->name));
                         else {
                             ch->send_to(
-                                "{} is currently logged in from {}.\n\r"_format(cur->name, victim->desc->host()));
+                                fmt::format("{} is currently logged in from {}.\n\r", cur->name, victim->desc->host()));
                         }
                     }
                 }
@@ -341,7 +339,7 @@ void update_info_cache(Char *ch) {
         } else {
             /* If link dead, we need to grab as much
                info as possible. Death.*/
-            cur->last_login_at = "{}"_format(secs_only(current_time));
+            cur->last_login_at = fmt::format("{}", secs_only(current_time));
         }
     }
 }

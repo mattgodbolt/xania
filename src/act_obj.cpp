@@ -23,8 +23,6 @@
 #include <cstdlib>
 #include <cstring>
 
-using namespace fmt::literals;
-
 extern const char *target_name; /* Included from magic.c */
 extern void handle_corpse_summoner(Char *ch, Char *victim, OBJ_DATA *obj);
 
@@ -749,8 +747,8 @@ void do_pour(Char *ch, const char *argument) {
     }
 
     if (target_obj->value[2] != obj->value[2]) {
-        ch->send_to("{}'s {} appears to contain a different type of liquid!\n\r"_format(victim->short_name(),
-                                                                                        target_obj->short_descr));
+        ch->send_to(fmt::format("{}'s {} appears to contain a different type of liquid!\n\r", victim->short_name(),
+                                target_obj->short_descr));
         return;
     }
 
@@ -1633,7 +1631,7 @@ void do_zap(Char *ch, const char *argument) {
 
         if ((victim != nullptr && victim != ch && victim->in_room->vnum != ch->in_room->vnum)
             && skill_table[wand->value[3]].target == TAR_CHAR_OFFENSIVE) {
-            act("You attempt to zap {}....."_format(get_char_room(ch, arg) ? victim->short_descr : "someone"), ch,
+            act(fmt::format("You attempt to zap {}.....", get_char_room(ch, arg) ? victim->short_descr : "someone"), ch,
                 nullptr, nullptr, To::Char);
             act("$n attempts to zap something....", ch);
             ch->send_line("...but the |cgrand Iscarian magi|w outlawed interplanar combat millenia ago!");
@@ -1725,10 +1723,10 @@ void do_steal(Char *ch, const char *argument) {
         act("|W$n tried to steal from $N.|w\n\r", ch, nullptr, victim, To::NotVict);
         std::string buf;
         switch (number_range(0, 3)) {
-        case 0: buf = "{} is a lousy thief!"_format(ch->name); break;
-        case 1: buf = "{} couldn't rob {} way out of a paper bag!"_format(ch->name, possessive(*ch)); break;
-        case 2: buf = "{} tried to rob me!"_format(ch->name); break;
-        case 3: buf = "Keep your hands out of there, {}!"_format(ch->name); break;
+        case 0: buf = fmt::format("{} is a lousy thief!", ch->name); break;
+        case 1: buf = fmt::format("{} couldn't rob {} way out of a paper bag!", ch->name, possessive(*ch)); break;
+        case 2: buf = fmt::format("{} tried to rob me!", ch->name); break;
+        case 3: buf = fmt::format("Keep your hands out of there, {}!", ch->name); break;
         }
         victim->yell(buf);
         if (ch->is_pc()) {
@@ -1813,13 +1811,13 @@ Char *find_keeper(Char *ch) {
     // Undesirables.
     if (ch->is_player_killer()) {
         keeper->say("Killers are not welcome!");
-        keeper->yell("{} the KILLER is over here!\n\r"_format(ch->name));
+        keeper->yell(fmt::format("{} the KILLER is over here!\n\r", ch->name));
         return nullptr;
     }
 
     if (ch->is_player_thief()) {
         keeper->say("Thieves are not welcome!");
-        keeper->yell("{} the THIEF is over here!\n\r"_format(ch->name));
+        keeper->yell(fmt::format("{} the THIEF is over here!\n\r", ch->name));
         return nullptr;
     }
 
@@ -1951,9 +1949,9 @@ void do_buy(Char *ch, const char *argument) {
 
         argument = one_argument(argument, arg);
         if (arg[0] != '\0')
-            pet->name = smash_tilde("{} {}"_format(pet->name, arg));
+            pet->name = smash_tilde(fmt::format("{} {}", pet->name, arg));
 
-        pet->description = "{}A neck tag says 'I belong to {}'."_format(pet->description, ch->name);
+        pet->description = fmt::format("{}A neck tag says 'I belong to {}'.", pet->description, ch->name);
 
         char_to_room(pet, ch->in_room);
         add_follower(pet, ch);

@@ -27,8 +27,6 @@
 #include <functional>
 #include <memory>
 
-using namespace fmt::literals;
-
 static NOTE_DATA *note_first;
 static NOTE_DATA *note_last;
 
@@ -319,7 +317,7 @@ static void note_post(Char *ch, const char *argument) {
         ch->send_line("You need to provide a subject.");
         return;
     }
-    note->date = str_dup("{}"_format(secs_only(current_time)).c_str()); // TODO remove when stringified
+    note->date = str_dup(fmt::format("{}", secs_only(current_time)).c_str()); // TODO remove when stringified
     note->date_stamp = current_time;
 
     ch->pnote = nullptr;

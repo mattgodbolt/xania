@@ -22,22 +22,20 @@
 #include <ctime>
 #include <sys/types.h>
 
-using namespace fmt::literals;
-
 std::string get_base_dir() { return ".."; }
 
-std::string get_path_for(std::string_view subdir) { return "{}/{}/"_format(get_base_dir(), subdir); }
+std::string get_path_for(std::string_view subdir) { return fmt::format("{}/{}/", get_base_dir(), subdir); }
 
 std::string get_player_dir() { return get_path_for("player"); }
 
 std::string get_god_dir() { return get_path_for("gods"); }
 
 std::string filename_for_player(std::string_view player_name) {
-    return "{}{}"_format(get_player_dir(), initial_caps_only(player_name));
+    return fmt::format("{}{}", get_player_dir(), initial_caps_only(player_name));
 }
 
 std::string filename_for_god(std::string_view player_name) {
-    return "{}{}"_format(get_god_dir(), initial_caps_only(player_name));
+    return fmt::format("{}{}", get_god_dir(), initial_caps_only(player_name));
 }
 
 char *login_from;
@@ -801,7 +799,7 @@ void fread_pet(Char *ch, FILE *fp) {
             AFFECT_DATA af;
             int sn = skill_lookup(fread_word(fp));
             if (sn < 0)
-                bug("%s", "Fread_pet: unknown skill #{}"_format(sn).c_str());
+                bug("%s", fmt::format("Fread_pet: unknown skill #{}", sn).c_str());
             else
                 af.type = sn;
 
@@ -858,7 +856,7 @@ void fread_pet(Char *ch, FILE *fp) {
         } else if (matches(word, "ShD")) {
             pet->short_descr = fread_stdstring(fp);
         } else {
-            bug("%s", "Fread_pet: no match for {}."_format(word).c_str());
+            bug("%s", fmt::format("Fread_pet: no match for {}.", word).c_str());
             fread_to_eol(fp);
         }
     }
@@ -923,7 +921,7 @@ void fread_obj(Char *ch, FILE *fp) {
                 const char *affected_by = fread_word(fp);
                 sn = skill_lookup(affected_by);
                 if (sn < 0)
-                    bug("%s", "Fread_obj: unknown skill {}."_format(affected_by).c_str());
+                    bug("%s", fmt::format("Fread_obj: unknown skill {}.", affected_by).c_str());
                 else
                     af.type = sn;
             } else /* old form */
@@ -1011,7 +1009,7 @@ void fread_obj(Char *ch, FILE *fp) {
             if (iValue < 0 || iValue > 3) {
                 bug("Fread_obj: bad iValue %d.", iValue);
             } else if (sn < 0) {
-                bug("%s", "Fread_obj: unknown skill {}."_format(spell).c_str());
+                bug("%s", fmt::format("Fread_obj: unknown skill {}.", spell).c_str());
             } else {
                 obj->value[iValue] = sn;
             }
@@ -1045,7 +1043,7 @@ void fread_obj(Char *ch, FILE *fp) {
         } else if (matches(word, "WStr")) {
             obj->wear_string = fread_string(fp);
         } else {
-            bug("%s", "Fread_obj: no match for {}."_format(word).c_str());
+            bug("%s", fmt::format("Fread_obj: no match for {}.", word).c_str());
             fread_to_eol(fp);
         }
     }

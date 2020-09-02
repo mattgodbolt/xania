@@ -13,8 +13,6 @@
 #include <cstring>
 
 using namespace std::literals;
-using namespace fmt::literals;
-
 int parse_number(std::string_view sv) {
     if (sv.empty())
         return 0;
@@ -212,7 +210,7 @@ std::string decode_colour(bool ansi_enabled, char char_code) {
     default: return std::string(1, char_code);
     }
     if (ansi_enabled)
-        return "\033[{};3{}m"_format(char_code >= 'a' ? '0' : '1', sendcolour);
+        return fmt::format("\033[{};3{}m", char_code >= 'a' ? '0' : '1', sendcolour);
     return "";
 }
 

@@ -15,8 +15,6 @@
 #include <cstdio>
 #include <cstring>
 
-using namespace fmt::literals;
-
 /* used to get new skills */
 void do_gain(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
@@ -664,8 +662,8 @@ void check_improve(Char *ch, int sn, bool success, int multiplier) {
         chance = URANGE(5, 100 - ch->pcdata->learned[sn], 95);
         if (number_percent() < chance) {
             ch->pcdata->learned[sn]++;
-            ch->send_to(
-                "|WYou have become better at |C{}|W! ({})|w\n\r"_format(skill_table[sn].name, ch->pcdata->learned[sn]));
+            ch->send_to(fmt::format("|WYou have become better at |C{}|W! ({})|w\n\r", skill_table[sn].name,
+                                    ch->pcdata->learned[sn]));
             gain_exp(ch, 2 * how_good);
         }
     }
@@ -675,8 +673,8 @@ void check_improve(Char *ch, int sn, bool success, int multiplier) {
         if (number_percent() < chance) {
             ch->pcdata->learned[sn] += number_range(1, 3);
             ch->pcdata->learned[sn] = UMIN(ch->pcdata->learned[sn], 100);
-            ch->send_to("|WYou learn from your mistakes, and your |C{}|W skill improves. ({})|w\n\r"_format(
-                skill_table[sn].name, ch->pcdata->learned[sn]));
+            ch->send_to(fmt::format("|WYou learn from your mistakes, and your |C{}|W skill improves. ({})|w\n\r",
+                                    skill_table[sn].name, ch->pcdata->learned[sn]));
             gain_exp(ch, 2 * how_good);
         }
     }

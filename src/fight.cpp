@@ -25,8 +25,6 @@
 #include <ctime>
 #include <sys/types.h>
 
-using namespace fmt::literals;
-
 #define MAX_DAMAGE_MESSAGE 32
 
 // Cap on damage deliverable by any single hit.
@@ -188,7 +186,7 @@ std::string_view wound_for(int percent) {
 
 std::string describe_fight_condition(const Char &victim) {
     auto percent = victim.max_hit > 0 ? victim.hit * 100 / victim.max_hit : -1;
-    return "{} {}\n\r"_format(InitialCap{victim.short_name()}, wound_for(percent));
+    return fmt::format("{} {}\n\r", InitialCap{victim.short_name()}, wound_for(percent));
 }
 
 /*
@@ -642,8 +640,8 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
      */
     if (dam > DAMAGE_CAP) {
         if (ch->is_pc() && ch->is_mortal()) {
-            bug("%s", "Player {} fighting {} in #{}, damage {} exceeds {} cap!"_format(
-                          ch->name, victim->name, ch->in_room->vnum, dam, DAMAGE_CAP)
+            bug("%s", fmt::format("Player {} fighting {} in #{}, damage {} exceeds {} cap!", ch->name, victim->name,
+                                  ch->in_room->vnum, dam, DAMAGE_CAP)
                           .c_str());
         }
         dam = DAMAGE_CAP;
@@ -822,8 +820,8 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
             if (temp == 1)
                 return true;
 
-            log_string("{} killed by {} at {}"_format(victim->name, ch->short_name(), victim->in_room->vnum));
-            announce("|P###|w Sadly, {} was killed by {}."_format(victim->name, ch->short_name()), victim);
+            log_string(fmt::format("{} killed by {} at {}", victim->name, ch->short_name(), victim->in_room->vnum));
+            announce(fmt::format("|P###|w Sadly, {} was killed by {}.", victim->name, ch->short_name()), victim);
 
             for (squib = victim->in_room->people; squib; squib = squib->next_in_room) {
                 if ((squib->is_npc()) && (squib->pIndexData->vnum == LESSER_MINION_VNUM)) {
@@ -858,8 +856,8 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
         } else {
 
             if (victim->level >= (ch->level + 30)) {
-                bug("%s", "|R### {} just killed {} - {} levels above them!|w"_format(
-                              ch->short_name(), victim->short_descr, victim->level - ch->level)
+                bug("%s", fmt::format("|R### {} just killed {} - {} levels above them!|w", ch->short_name(),
+                                      victim->short_descr, victim->level - ch->level)
                               .c_str());
             }
         }
@@ -1081,7 +1079,7 @@ void check_killer(Char *ch, Char *victim) {
      */
     if (IS_SET(ch->affected_by, AFF_CHARM)) {
         if (ch->master == nullptr) {
-            bug("%s", "Check_killer: %s bad AFF_CHARM"_format(ch->short_name()).c_str());
+            bug("%s", fmt::format("Check_killer: %s bad AFF_CHARM", ch->short_name()).c_str());
             affect_strip(ch, gsn_charm_person);
             REMOVE_BIT(ch->affected_by, AFF_CHARM);
             return;
@@ -2549,7 +2547,7 @@ void do_murder(Char *ch, const char *argument) {
     }
 
     WAIT_STATE(ch, 1 * PULSE_VIOLENCE);
-    victim->yell("Help! I am being attacked by {}!"_format(ch->short_name()));
+    victim->yell(fmt::format("Help! I am being attacked by {}!", ch->short_name()));
     check_killer(ch, victim);
     multi_hit(ch, victim, TYPE_UNDEFINED);
 }

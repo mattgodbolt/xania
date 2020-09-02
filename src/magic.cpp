@@ -24,8 +24,6 @@
 #include <cstdio>
 #include <cstring>
 
-using namespace fmt::literals;
-
 /*
  * Local functions.
  */
@@ -1548,7 +1546,7 @@ void spell_dispel_evil(int sn, int level, Char *ch, void *vo) {
         victim = ch;
 
     if (victim->is_good()) {
-        act("{} protects $N"_format(deity_name), ch, nullptr, victim, To::Char);
+        act(fmt::format("{} protects $N", deity_name), ch, nullptr, victim, To::Char);
         return;
     }
 
@@ -1574,7 +1572,7 @@ void spell_dispel_good(int sn, int level, Char *ch, void *vo) {
         victim = ch;
 
     if (victim->is_evil()) {
-        act("{} protects $N"_format(deity_name), ch, nullptr, victim, To::Char);
+        act(fmt::format("{} protects $N", deity_name), ch, nullptr, victim, To::Char);
         return;
     }
 
@@ -3028,18 +3026,19 @@ void spell_locate_object(int sn, int level, Char *ch, void *vo) {
 
         if (in_obj->carried_by != nullptr /*&& can_see TODO wth was this supposed to be?*/) {
             if (ch->is_immortal()) {
-                buffer += "{} carried by {} in {} [Room {}]\n\r"_format(
-                    InitialCap{obj->short_descr}, pers(in_obj->carried_by, ch), in_obj->carried_by->in_room->name,
-                    in_obj->carried_by->in_room->vnum);
+                buffer += fmt::format("{} carried by {} in {} [Room {}]\n\r", InitialCap{obj->short_descr},
+                                      pers(in_obj->carried_by, ch), in_obj->carried_by->in_room->name,
+                                      in_obj->carried_by->in_room->vnum);
             } else
-                buffer += "{} carried by {}\n\r"_format(InitialCap{obj->short_descr}, pers(in_obj->carried_by, ch));
+                buffer +=
+                    fmt::format("{} carried by {}\n\r", InitialCap{obj->short_descr}, pers(in_obj->carried_by, ch));
         } else {
             if (ch->is_immortal() && in_obj->in_room != nullptr)
-                buffer += "{} in {} [Room {}]\n\r"_format(InitialCap{obj->short_descr}, in_obj->in_room->name,
-                                                          in_obj->in_room->vnum);
+                buffer += fmt::format("{} in {} [Room {}]\n\r", InitialCap{obj->short_descr}, in_obj->in_room->name,
+                                      in_obj->in_room->vnum);
             else
-                buffer += "{} in {}\n\r"_format(InitialCap{obj->short_descr},
-                                                in_obj->in_room == nullptr ? "somewhere" : in_obj->in_room->name);
+                buffer += fmt::format("{} in {}\n\r", InitialCap{obj->short_descr},
+                                      in_obj->in_room == nullptr ? "somewhere" : in_obj->in_room->name);
         }
 
         if (number >= max_found)

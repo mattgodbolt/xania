@@ -49,8 +49,6 @@
 #include <unistd.h>
 
 using namespace std::literals;
-using namespace fmt::literals;
-
 /* Added by Rohan - extern to player list for adding new players to it */
 extern KNOWN_PLAYERS *player_list;
 
@@ -99,7 +97,7 @@ bool send_to_doorman(const Packet *p, const void *extra) {
         else
             doormanDesc.write(*p);
     } catch (const std::runtime_error &re) {
-        bug("%s", "Unable to write to doorman: {}"_format(re.what()).c_str());
+        bug("%s", fmt::format("Unable to write to doorman: {}", re.what()).c_str());
         return false;
     }
     return true;
@@ -182,19 +180,19 @@ void doorman_lost() {
 void handle_doorman_packet(const Packet &p, std::string_view buffer) {
     switch (p.type) {
     case PACKET_CONNECT:
-        log_string("Incoming connection on channel {}."_format(p.channel));
+        log_string(fmt::format("Incoming connection on channel {}.", p.channel));
         if (auto *d = descriptors().create(p.channel)) {
             greet(*d);
         } else {
-            log_string("Duplicate channel {} on connect!"_format(p.channel));
+            log_string(fmt::format("Duplicate channel {} on connect!", p.channel));
         }
         break;
     case PACKET_RECONNECT:
-        log_string("Incoming reconnection on channel {} for {}."_format(p.channel, buffer));
+        log_string(fmt::format("Incoming reconnection on channel {} for {}.", p.channel, buffer));
         if (auto *d = descriptors().create(p.channel)) {
             greet(*d);
             // Login name
-            d->write("{}\n\r"_format(buffer));
+            d->write(fmt::format("{}\n\r", buffer));
             std::string nannyable(buffer);
             nanny(d, nannyable.c_str()); // TODO one day string_viewify
             d->write("\n\r");
@@ -209,7 +207,7 @@ void handle_doorman_packet(const Packet &p, std::string_view buffer) {
                 nanny(d, "");
             }
         } else {
-            log_string("Duplicate channel {} on reconnect!"_format(p.channel));
+            log_string(fmt::format("Duplicate channel {} on reconnect!", p.channel));
         }
         break;
     case PACKET_DISCONNECT:
@@ -223,16 +221,16 @@ void handle_doorman_packet(const Packet &p, std::string_view buffer) {
                 d->state(DescriptorState::DisconnectingNp);
             d->close();
         } else {
-            log_string("Unable to find channel to close ({})"_format(p.channel));
+            log_string(fmt::format("Unable to find channel to close ({})", p.channel));
         }
         break;
     case PACKET_INFO:
         if (auto *d = descriptors().find_by_channel(p.channel)) {
             auto *data = reinterpret_cast<const InfoData *>(buffer.data());
             d->set_endpoint(data->netaddr, data->port, data->data);
-            log_string("Info from doorman: {} is {}"_format(p.channel, d->host()));
+            log_string(fmt::format("Info from doorman: {} is {}", p.channel, d->host()));
         } else {
-            log_string("Unable to associate info with a descriptor ({})"_format(p.channel));
+            log_string(fmt::format("Unable to associate info with a descriptor ({})", p.channel));
         }
         break;
 
@@ -242,7 +240,7 @@ void handle_doorman_packet(const Packet &p, std::string_view buffer) {
                 d->character()->timer = 0;
             read_from_descriptor(d, buffer);
         } else {
-            log_string("Unable to associate message with a descriptor ({})"_format(p.channel));
+            log_string(fmt::format("Unable to associate message with a descriptor ({})", p.channel));
         }
         break;
     default: break;
@@ -322,7 +320,7 @@ void game_loop_unix(Fd control) {
                 pInit.type = PACKET_INIT;
                 send_to_doorman(&pInit, nullptr);
             } catch (const std::runtime_error &re) {
-                bug("%s", "Unable to accept doorman connection: {}"_format(re.what()).c_str());
+                bug("%s", fmt::format("Unable to accept doorman connection: {}", re.what()).c_str());
             }
         }
 
@@ -343,7 +341,7 @@ void game_loop_unix(Fd control) {
                         doormanDesc.read_all(gsl::span<char>(payload));
                     }
                 } catch (const std::runtime_error &re) {
-                    bug("%s", "Unable to read doorman packet: {}"_format(re.what()).c_str());
+                    bug("%s", fmt::format("Unable to read doorman packet: {}", re.what()).c_str());
                     doorman_lost();
                     break;
                 }
@@ -605,7 +603,7 @@ void nanny(Descriptor *d, const char *argument) {
         if (check_reconnect(d, true))
             return;
 
-        log_new("{}@{} has connected."_format(ch->name, d->host()), EXTRA_WIZNET_DEBUG,
+        log_new(fmt::format("{}@{} has connected.", ch->name, d->host()), EXTRA_WIZNET_DEBUG,
                 ch->is_wizinvis() || ch->is_prowlinvis() ? ch->get_trust() : 0);
 
         d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
@@ -658,7 +656,7 @@ void nanny(Descriptor *d, const char *argument) {
         case 'y':
         case 'Y':
             SetEchoState(d, 0);
-            d->write("Welcome new character, to Xania.\n\rThink of a password for {}: "_format(ch->name));
+            d->write(fmt::format("Welcome new character, to Xania.\n\rThink of a password for {}: ", ch->name));
             d->state(DescriptorState::GetNewPassword);
             break;
 
@@ -858,7 +856,7 @@ void nanny(Descriptor *d, const char *argument) {
             return;
         }
         ch->class_num = iClass;
-        log_string("{}@{} new player."_format(ch->name, d->host()));
+        log_string(fmt::format("{}@{} new player.", ch->name, d->host()));
         d->write("\n\r");
         d->write("You may be good, neutral, or evil.\n\r");
         d->write("Which alignment (G/N/E)? ");
@@ -1002,7 +1000,7 @@ void nanny(Descriptor *d, const char *argument) {
             char_to_room(ch, get_room_index(ROOM_VNUM_TEMPLE));
         }
 
-        announce("|W### |P{}|W has entered the game.|w"_format(ch->name), ch);
+        announce(fmt::format("|W### |P{}|W has entered the game.|w", ch->name), ch);
         act("|P$n|W has entered the game.", ch);
         do_look(ch, "auto");
 
@@ -1115,7 +1113,7 @@ bool check_reconnect(Descriptor *d, bool fConn) {
                 ch->timer = 0;
                 ch->send_line("Reconnecting.");
                 act("$n has reconnected.", ch);
-                log_new("{}@{} reconnected."_format(ch->name, d->host().c_str()), EXTRA_WIZNET_DEBUG,
+                log_new(fmt::format("{}@{} reconnected.", ch->name, d->host().c_str()), EXTRA_WIZNET_DEBUG,
                         (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
                 d->state(DescriptorState::Playing);
             }
@@ -1159,7 +1157,7 @@ namespace {
 
 auto &pronouns(std::string_view format, const Char *ch) {
     if (!ch) {
-        bug("%s", "Act: null ch in pronouns with format '{}'"_format(format).c_str());
+        bug("%s", fmt::format("Act: null ch in pronouns with format '{}'", format).c_str());
         return pronouns_for(0);
     }
     return pronouns_for(*ch);
@@ -1186,27 +1184,27 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
         }
 
         if (std::holds_alternative<nullptr_t>(arg2) && c >= 'A' && c <= 'Z') {
-            bug("%s", "Act: missing arg2 for code {} in format '{}'"_format(c, format).c_str());
+            bug("%s", fmt::format("Act: missing arg2 for code {} in format '{}'", c, format).c_str());
             continue;
         }
 
         switch (c) {
         default:
-            bug("%s", "Act: bad code {} in format '{}'"_format(c, format).c_str());
+            bug("%s", fmt::format("Act: bad code {} in format '{}'", c, format).c_str());
             break;
             /* Thx alex for 't' idea */
         case 't':
             if (auto arg1_as_string_ptr = std::get_if<std::string_view>(&arg1)) {
                 buf += *arg1_as_string_ptr;
             } else {
-                bug("%s", "$t passed but arg1 was not a string in '{}'"_format(format).c_str());
+                bug("%s", fmt::format("$t passed but arg1 was not a string in '{}'", format).c_str());
             }
             break;
         case 'T':
             if (auto arg2_as_string_ptr = std::get_if<std::string_view>(&arg2)) {
                 buf += *arg2_as_string_ptr;
             } else {
-                bug("%s", "$T passed but arg2 was not a string in '{}'"_format(format).c_str());
+                bug("%s", fmt::format("$T passed but arg2 was not a string in '{}'", format).c_str());
             }
             break;
         case 'n': buf += pers(ch, to); break;
@@ -1223,7 +1221,7 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
                 auto &obj1 = *arg1_as_obj_ptr;
                 buf += can_see_obj(to, obj1) ? obj1->short_descr : "something";
             } else {
-                bug("%s", "$p passed but arg1 was not an object in '{}'"_format(format).c_str());
+                bug("%s", fmt::format("$p passed but arg1 was not an object in '{}'", format).c_str());
                 buf += "something";
             }
             break;
@@ -1233,7 +1231,7 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
                 auto &obj2 = *arg2_as_obj_ptr;
                 buf += can_see_obj(to, obj2) ? obj2->short_descr : "something";
             } else {
-                bug("%s", "$p passed but arg2 was not an object in '{}'"_format(format).c_str());
+                bug("%s", fmt::format("$p passed but arg2 was not an object in '{}'", format).c_str());
                 buf += "something";
             }
             break;
@@ -1377,22 +1375,23 @@ std::string format_one_prompt_part(char c, const Char &ch) {
         return bar + "|p";
     }
 
-    case 'h': return "{}"_format(ch.hit);
-    case 'H': return "{}"_format(ch.max_hit);
-    case 'm': return "{}"_format(ch.mana);
-    case 'M': return "{}"_format(ch.max_mana);
-    case 'g': return "{}"_format(ch.gold);
+    case 'h': return fmt::format("{}", ch.hit);
+    case 'H': return fmt::format("{}", ch.max_hit);
+    case 'm': return fmt::format("{}", ch.mana);
+    case 'M': return fmt::format("{}", ch.max_mana);
+    case 'g': return fmt::format("{}", ch.gold);
     case 'x':
-        return "{}"_format((long int)(((long int)(ch.level + 1) * (long int)(exp_per_level(&ch, ch.pcdata->points))
+        return fmt::format("{}",
+                           (long int)(((long int)(ch.level + 1) * (long int)(exp_per_level(&ch, ch.pcdata->points))
                                        - (long int)(ch.exp))));
-    case 'v': return "{}"_format(ch.move);
-    case 'V': return "{}"_format(ch.max_move);
+    case 'v': return fmt::format("{}", ch.move);
+    case 'V': return fmt::format("{}", ch.max_move);
     case 'a':
         if (ch.get_trust() > 10)
-            return "{}"_format(ch.max_move);
+            return fmt::format("{}", ch.max_move);
         else
             return "??";
-    case 'X': return "{}"_format(ch.exp);
+    case 'X': return fmt::format("{}", ch.exp);
     case 'p':
         if (ch.player())
             return ch.player()->pcdata->prefix;
@@ -1412,7 +1411,7 @@ std::string format_one_prompt_part(char c, const Char &ch) {
         break;
     case 'R':
         if (ch.is_immortal())
-            return "{}"_format(ch.in_room->vnum);
+            return fmt::format("{}", ch.in_room->vnum);
         break;
     case 'z':
         if (ch.is_immortal())
@@ -1453,7 +1452,7 @@ std::string format_one_prompt_part(char c, const Char &ch) {
 
 std::string format_prompt(const Char &ch, std::string_view prompt) {
     if (prompt.empty()) {
-        return "|p<{}/{}hp {}/{}m {}mv> |w"_format(ch.hit, ch.max_hit, ch.mana, ch.max_mana, ch.move);
+        return fmt::format("|p<{}/{}hp {}/{}m {}mv> |w", ch.hit, ch.max_hit, ch.mana, ch.max_mana, ch.move);
     }
 
     bool prev_was_escape = false;

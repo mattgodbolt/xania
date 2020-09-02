@@ -10,8 +10,6 @@
 #include <fmt/format.h>
 #include <range/v3/algorithm/fill.hpp>
 
-using namespace fmt::literals;
-
 Seconds Char::total_played() const { return std::chrono::duration_cast<Seconds>(current_time - logon + played); }
 
 bool Char::is_npc() const { return IS_SET(act, ACT_IS_NPC); }
@@ -190,7 +188,7 @@ void Char::set_title(std::string title) {
     }
 
     if (!title.empty() && !ispunct(title[0]))
-        pcdata->title = " {}"_format(title);
+        pcdata->title = fmt::format(" {}", title);
     else
         pcdata->title = std::move(title);
 }

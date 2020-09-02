@@ -22,8 +22,6 @@
 #include <functional>
 #include <utility>
 
-using namespace fmt::literals;
-
 namespace {
 inline constexpr auto ML = MAX_LEVEL; /* implementor */
 inline constexpr auto L1 = MAX_LEVEL - 1; /* creator */
@@ -475,9 +473,10 @@ void interpret(Char *ch, const char *argument) {
             level = UMAX(level, ch->get_trust());
         auto log_level = (cmd->level >= 91) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT;
         if (ch->is_npc() && ch->desc && ch->desc->original()) {
-            log_new("Log {} (as '{}'): {}"_format(ch->desc->original()->name, ch->name, logline), log_level, level);
+            log_new(fmt::format("Log {} (as '{}'): {}", ch->desc->original()->name, ch->name, logline), log_level,
+                    level);
         } else {
-            log_new("Log {}: {}"_format(ch->name, logline), log_level, level);
+            log_new(fmt::format("Log {}: {}", ch->name, logline), log_level, level);
         }
     }
 

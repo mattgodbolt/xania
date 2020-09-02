@@ -29,8 +29,6 @@
 #include <string_view>
 
 using namespace std::literals;
-using namespace fmt::literals;
-
 /*
  * Local function prototypes
  */
@@ -100,7 +98,7 @@ bool mprog_seval(std::string_view lhs, std::string_view opr, std::string_view rh
     if (opr == "!/"sv)
         return !matches_inside(rhs, lhs);
 
-    bug("%s", "Improper MOBprog operator '{}'"_format(opr).c_str());
+    bug("%s", fmt::format("Improper MOBprog operator '{}'", opr).c_str());
     return false;
 }
 
@@ -122,7 +120,7 @@ bool mprog_veval(int lhs, std::string_view opr, int rhs) {
     if (opr == "|"sv)
         return lhs | rhs;
 
-    bug("%s", "Improper MOBprog operator '{}'"_format(opr).c_str());
+    bug("%s", fmt::format("Improper MOBprog operator '{}'", opr).c_str());
     return false;
 }
 

@@ -22,8 +22,6 @@
 #include <ctime>
 #include <sys/types.h>
 
-using namespace fmt::literals;
-
 /* The following special functions are available for mobiles. */
 /* Note that MOB special functions are called every 4 seconds. */
 bool spec_breath_any(Char *ch);
@@ -679,7 +677,7 @@ bool spec_executioner(Char *ch) {
     if (!victim)
         return false;
 
-    ch->yell("{} is a {}!  PROTECT THE INNOCENT!  MORE BLOOOOD!!!"_format(victim->name, crime));
+    ch->yell(fmt::format("{} is a {}!  PROTECT THE INNOCENT!  MORE BLOOOOD!!!", victim->name, crime));
     multi_hit(ch, victim, TYPE_UNDEFINED);
     char_to_room(create_mobile(get_mob_index(MOB_VNUM_CITYGUARD)), ch->in_room);
     char_to_room(create_mobile(get_mob_index(MOB_VNUM_CITYGUARD)), ch->in_room);
@@ -890,7 +888,7 @@ bool spec_guard(Char *ch) {
     }
 
     if (victim != nullptr) {
-        ch->yell("{} is a {}!  PROTECT THE INNOCENT!  BANZAI!!"_format(victim->name, crime));
+        ch->yell(fmt::format("{} is a {}!  PROTECT THE INNOCENT!  BANZAI!!", victim->name, crime));
         multi_hit(ch, victim, TYPE_UNDEFINED);
         return true;
     }

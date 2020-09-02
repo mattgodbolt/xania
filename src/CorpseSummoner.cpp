@@ -14,8 +14,6 @@
 
 using namespace std::chrono;
 using namespace std::literals;
-using namespace fmt::literals;
-
 CorpseSummoner::CorpseSummoner(Dependencies &dependencies) : mud_{dependencies}, last_advice_time_{0} {}
 
 time_t CorpseSummoner::last_advice_time() { return last_advice_time_; }
@@ -32,7 +30,7 @@ void CorpseSummoner::summoner_awaits(Char *ch, const time_t time_secs) {
 void CorpseSummoner::summon_corpse(Char *player, Char *summoner, OBJ_DATA *catalyst) {
     mud_.act("$n clutches $p between $s bony fingers and begins to whisper.", summoner, catalyst, nullptr, To::Room);
     mud_.act("The runes on the summoning stone begin to glow more brightly!", summoner, catalyst, nullptr, To::Room);
-    std::string corpse_name = "corpse of {}"_format(player->name);
+    std::string corpse_name = fmt::format("corpse of {}", player->name);
     if (auto corpse = get_pc_corpse_world(summoner, corpse_name)) {
         mud_.obj_from_room(*corpse);
         mud_.obj_to_room(*corpse, summoner->in_room);

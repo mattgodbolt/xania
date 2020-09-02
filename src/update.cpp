@@ -25,8 +25,6 @@
 #include <ctime>
 #include <sys/types.h>
 
-using namespace fmt::literals;
-
 /*
  * Local functions.
  */
@@ -58,7 +56,7 @@ void advance_level(Char *ch) {
     using namespace std::chrono;
     ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
 
-    ch->set_title("the {}"_format(title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]));
+    ch->set_title(fmt::format("the {}", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]));
 
     add_hp = con_app[get_curr_stat(ch, Stat::Con)].hitp
              + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);
@@ -105,8 +103,8 @@ void advance_level(Char *ch) {
     snprintf(buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r", add_hp, ch->max_hit,
              add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice);
     ch->send_to(buf);
-    log_string("### {} has made a level in room {}"_format(ch->name, ch->in_room->vnum));
-    announce("|W### |P{}|W has made a level!!!|w"_format(ch->name), ch);
+    log_string(fmt::format("### {} has made a level in room {}", ch->name, ch->in_room->vnum));
+    announce(fmt::format("|W### |P{}|W has made a level!!!|w", ch->name), ch);
 }
 
 void lose_level(Char *ch) {
@@ -119,7 +117,7 @@ void lose_level(Char *ch) {
     using namespace std::chrono;
     ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
 
-    ch->set_title("the {}"_format(title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]));
+    ch->set_title(fmt::format("the {}", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]));
 
     add_hp = con_app[ch->max_stat(Stat::Con)].hitp
              + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);
@@ -155,7 +153,7 @@ void lose_level(Char *ch) {
     snprintf(buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r", add_hp, ch->max_hit,
              add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice);
     ch->send_to(buf);
-    announce("|W### |P{}|W has lost a level!!!|w"_format(ch->name), ch);
+    announce(fmt::format("|W### |P{}|W has lost a level!!!|w", ch->name), ch);
 }
 
 void gain_exp(Char *ch, int gain) {
@@ -796,7 +794,7 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
         if (matches(wch->name, ch->sentient_victim)) {
             if (is_safe_sentient(ch, wch))
                 return;
-            ch->yell("|WAha! I never forget a face, prepare to die {}!!!|w"_format(wch->name));
+            ch->yell(fmt::format("|WAha! I never forget a face, prepare to die {}!!!|w", wch->name));
             multi_hit(ch, wch, TYPE_UNDEFINED);
         }
     }
@@ -840,7 +838,7 @@ bool is_safe_sentient(Char *ch, Char *wch) {
     if (ch->in_room == nullptr)
         return false;
     if (IS_SET(ch->in_room->room_flags, ROOM_SAFE)) {
-        ch->yell("|WIf it weren't for the law, you'd be dead meat {}!!!|w"_format(wch->name));
+        ch->yell(fmt::format("|WIf it weren't for the law, you'd be dead meat {}!!!|w", wch->name));
         ch->sentient_victim.clear();
         return true;
     }

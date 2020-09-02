@@ -29,8 +29,6 @@
 #include <cstdio>
 #include <cstdlib>
 
-using namespace fmt::literals;
-
 /*
  * Local functions.
  */
@@ -96,8 +94,8 @@ void do_mpstat(Char *ch, const char *argument) {
 
     ch->send_line("Name: {}.  Vnum: {}.", victim->name, victim->pIndexData->vnum);
 
-    ch->send_to("Short description:{}.\n\rLong  description: {}"_format(
-        victim->short_descr, victim->long_descr.empty() ? "(none).\n\r" : victim->long_descr));
+    ch->send_to(fmt::format("Short description:{}.\n\rLong  description: {}", victim->short_descr,
+                            victim->long_descr.empty() ? "(none).\n\r" : victim->long_descr));
 
     snprintf(buf, sizeof(buf), "Hp: %d/%d.  Mana: %d/%d.  Move: %d/%d. \n\r", victim->hit, victim->max_hit,
              victim->mana, victim->max_mana, victim->move, victim->max_move);
@@ -505,7 +503,7 @@ void do_mptransfer(Char *ch, const char *argument) {
         for (auto &victim :
              descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch) | DescriptorFilter::to_character()) {
             if (victim.in_room != nullptr) {
-                do_transfer(ch, "{} {}"_format(victim.name, arg2));
+                do_transfer(ch, fmt::format("{} {}", victim.name, arg2));
             }
         }
         return;

@@ -2,8 +2,6 @@
 
 #include <fmt/format.h>
 
-using namespace fmt::literals;
-
 namespace {
 
 unsigned long djb2_hash(std::string_view str) {
@@ -18,5 +16,5 @@ unsigned long djb2_hash(std::string_view str) {
 // Returns the hostname, masked for privacy and with a hashcode of the full hostname. This can be used by admins to spot
 // users coming from the same IP.
 std::string get_masked_hostname(std::string_view hostname) {
-    return "{}*** [#{}]"_format(hostname.substr(0, 6), djb2_hash(hostname));
+    return fmt::format("{}*** [#{}]", hostname.substr(0, 6), djb2_hash(hostname));
 }

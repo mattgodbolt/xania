@@ -8,8 +8,6 @@
 
 #include <fmt/format.h>
 
-using namespace fmt::literals;
-
 // Up to 5 characters
 const char *short_name_of(DescriptorState state) {
     switch (state) {
@@ -199,14 +197,15 @@ void Descriptor::close() noexcept {
     (void)flush_output();
     while (!snoop_by_.empty()) {
         auto &snooper = *snoop_by_.begin();
-        snooper->write("Your victim ({}) has left the game.\n\r"_format(character_ ? character_->name : "unknown"));
+        snooper->write(
+            fmt::format("Your victim ({}) has left the game.\n\r", character_ ? character_->name : "unknown"));
         snooper->stop_snooping(*this);
     }
     stop_snooping();
 
     if (character_) {
         do_chal_canc(character_);
-        log_new("Closing link to {}."_format(character_->name).c_str(), EXTRA_WIZNET_DEBUG,
+        log_new(fmt::format("Closing link to {}.", character_->name).c_str(), EXTRA_WIZNET_DEBUG,
                 (IS_SET(character_->act, PLR_WIZINVIS) || IS_SET(character_->act, PLR_PROWL)) ? character_->get_trust()
                                                                                               : 0);
         if (is_playing() || state_ == DescriptorState::Disconnecting) {
@@ -218,7 +217,7 @@ void Descriptor::close() noexcept {
         character_ = nullptr;
         original_ = nullptr;
     } else {
-        log_new("Closing link to channel {}."_format(channel_).c_str(), EXTRA_WIZNET_DEBUG, 100);
+        log_new(fmt::format("Closing link to channel {}.", channel_).c_str(), EXTRA_WIZNET_DEBUG, 100);
     }
 
     // If doorman didn't tell us to disconnect them, then tell doorman to kill the connection, else ack the disconnect.
@@ -238,7 +237,7 @@ void Descriptor::close() noexcept {
 void Descriptor::note_input(std::string_view char_name, std::string_view input) {
     if (snoop_by_.empty())
         return;
-    auto snooped_msg = "{}% {}\n\r"_format(char_name, input);
+    auto snooped_msg = fmt::format("{}% {}\n\r", char_name, input);
     for (auto *snooper : snoop_by_)
         snooper->write(snooped_msg);
 }
@@ -264,4 +263,4 @@ void Descriptor::do_return() {
     original_ = nullptr;
 }
 
-std::string Descriptor::login_time() const noexcept { return "{}"_format(secs_only(login_time_)); }
+std::string Descriptor::login_time() const noexcept { return fmt::format("{}", secs_only(login_time_)); }

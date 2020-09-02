@@ -21,8 +21,6 @@
 #include <ctime>
 #include <sys/types.h>
 
-using namespace fmt::literals;
-
 /* Some local DEFINES to keep things general. */
 #define NAME_SIZE 30
 
@@ -131,7 +129,7 @@ void do_challenge(Char *ch, const char *argument) {
     challenge_fighting = false;
 
     challenger->send_line("|cYou pray for the right to duel with {}.", challengee->name);
-    do_immtalk(ch, "|Ghas challenged {}, any imm takers? (type accept)|w"_format(victim->name));
+    do_immtalk(ch, fmt::format("|Ghas challenged {}, any imm takers? (type accept)|w", victim->name));
     challenger_name = challenger->name;
     challengee_name = challengee->name;
     challenge_ticker = 4;
@@ -165,20 +163,21 @@ void do_accept(Char *ch, const char *argument) {
         return;
     }
 
-    ch->send_to("|cYou have accepted to control the challenge.\n\rNow asking {} if they wish to duel.|w\n\r"_format(
-        challengee->name));
+    ch->send_to(
+        fmt::format("|cYou have accepted to control the challenge.\n\rNow asking {} if they wish to duel.|w\n\r",
+                    challengee->name));
 
     if (imm == nullptr) {
-        challenger->send_to(
-            "|g{}|c has accepted to control the challenge. Now waiting to see\n\r"
-            "if |g{}|c will accept your challenge.|w\n\r"_format(pers(ch, challenger), challengee->name));
+        challenger->send_to("|g{}|c has accepted to control the challenge. Now waiting to see\n\r"
+                            "if |g{}|c will accept your challenge.|w\n\r",
+                            pers(ch, challenger), challengee->name);
     }
 
     challengee->send_line("|CYou have been challenged to a duel to the death by |G{}.", challenger->name);
 
-    challengee->send_to("|c{}'s stats are: level:{} class:{} race:{} alignment:{}.\n\r"_format(
-        challenger->name, challenger->level, class_table[challenger->class_num].name, race_table[challenger->race].name,
-        challenger->alignment));
+    challengee->send_to(fmt::format("|c{}'s stats are: level:{} class:{} race:{} alignment:{}.\n\r", challenger->name,
+                                    challenger->level, class_table[challenger->class_num].name,
+                                    race_table[challenger->race].name, challenger->alignment));
     challengee->send_to("|cType |paccept |cor |grefuse.\n\r|w");
     imm = ch;
     imm_name = imm->name;
@@ -195,7 +194,7 @@ void do_refuse(Char *ch, const char *argument) {
     if (ch == challengee && imm != nullptr) {
         ch->send_line("|cYou have refused to fight to the death with {}.|w", challenger->name);
         imm->send_to(
-            "|c{} has refused to fight to the death with {}.|w\n\r"_format(challengee->name, challenger->name));
+            fmt::format("|c{} has refused to fight to the death with {}.|w\n\r", challengee->name, challenger->name));
         challenger->send_line("|c{} has refused to fight to the death with you.|w", challengee->name);
 
         challenger = nullptr;
@@ -254,8 +253,8 @@ void do_ready(Char *ch, const char *argument) {
 
     if (challenge_ticker > 0) {
         if (imm_ready == 1 && challenger_ready == 1 && challengee_ready == 1) {
-            auto msg = "|W### Go to the |Pviewing gallery|W to watch a duel between {} and {}.|w"_format(
-                challenger->name, challengee->name);
+            auto msg = fmt::format("|W### Go to the |Pviewing gallery|W to watch a duel between {} and {}.|w",
+                                   challenger->name, challengee->name);
             announce(msg.c_str(), imm);
             imm->send_to("|CRemember that you can |Gcancel|C the challenge at any time should it be\nnecessary to do "
                          "so. (use cancel + challenger name)\n\r|w");
@@ -330,7 +329,7 @@ void do_chal_canc(Char *ch) {
     if (ch != imm && ch != challenger && ch != challengee)
         return;
 
-    auto msg = "|c{} has either quit or lost their link.|w\n\r"_format(ch->name);
+    auto msg = fmt::format("|c{} has either quit or lost their link.|w\n\r", ch->name);
     if (imm != nullptr && get_char_world(ch, imm_name))
         imm->send_to(buf);
     if (get_char_world(ch, challenger_name))
@@ -415,13 +414,13 @@ void tell_results_to(int who) {
     if (who == 0) {
         challenger->send_line("|cYou have lost your fight to the death with {}.|w", challengee->name);
         challengee->send_to(
-            "|cCongratulations! You have won the fight to the death with {}.|w\n\r"_format(challenger->name));
+            fmt::format("|cCongratulations! You have won the fight to the death with {}.|w\n\r", challenger->name));
     }
 
     if (who == 1) {
         challengee->send_line("|cYou have lost your fight to the death with {}.|w", challenger->name);
         challenger->send_to(
-            "|cCongratulations! You have won the fight to the death with {}.|w\n\r"_format(challengee->name));
+            fmt::format("|cCongratulations! You have won the fight to the death with {}.|w\n\r", challengee->name));
     }
 }
 }
@@ -456,8 +455,8 @@ int do_check_chal(Char *ch) {
     }
     transfer(imm, ch, altar);
 
-    announce("|W### |P{}|W was defeated in a duel to the death with |P{}|W.|w"_format(
-                 ch->name, who == 0 ? challengee->name : challenger->name),
+    announce(fmt::format("|W### |P{}|W was defeated in a duel to the death with |P{}|W.|w", ch->name,
+                         who == 0 ? challengee->name : challenger->name),
              imm);
 
     tell_results_to(who);
@@ -508,9 +507,9 @@ void do_flee_check(Char *ch) {
     else
         who = 1;
 
-    announce(
-        "|W### |P{} |Whas cowardly fled from |P{}|W."_format(ch->name, who == 0 ? challengee->name : challenger->name),
-        imm);
+    announce(fmt::format("|W### |P{} |Whas cowardly fled from |P{}|W.", ch->name,
+                         who == 0 ? challengee->name : challenger->name),
+             imm);
 
     tell_results_to(who);
 

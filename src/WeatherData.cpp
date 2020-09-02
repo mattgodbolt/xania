@@ -3,8 +3,6 @@
 
 #include <fmt/format.h>
 
-using namespace fmt::literals;
-
 WeatherData weather_info;
 
 namespace {
@@ -106,8 +104,8 @@ WeatherData::WeatherData(const TimeInfoData &tid) : sunlight_(sun_from_time(tid)
 }
 
 std::string WeatherData::describe() const noexcept {
-    return "The sky is {} and {}."_format(to_string(sky_),
-                                          change_ > 0 ? "a warm southerly breeze blows" : "a cold northern gust blows");
+    return fmt::format("The sky is {} and {}.", to_string(sky_),
+                       change_ > 0 ? "a warm southerly breeze blows" : "a cold northern gust blows");
 }
 
 std::string WeatherData::describe_change(const WeatherData &before) const noexcept {
