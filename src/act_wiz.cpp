@@ -1271,31 +1271,12 @@ void do_mstat(Char *ch, const char *argument) {
                  get_curr_stat(victim, Stat::Con));
     ch->send_to(buf);
 
-    do {
-        if (snprintf(buf, sizeof(buf), "Hp: %d/%d  Mana: %d/%d  Move: %d/%d  Practices: %d\n\r", victim->hit,
-                     victim->max_hit, victim->mana, victim->max_mana, victim->move, victim->max_move,
-                     ch->is_npc() ? 0 : victim->practice)
-            < 0)
-            bug("Buffer too small at "
-                "_file_name_"
-                ":"
-                "1314"
-                " - message was truncated");
-    } while (0);
-    ch->send_to(buf);
+    ch->send_line("Hp: {}/{}  Mana: {}/{}  Move: {}/{}  Practices: {}", victim->hit, victim->max_hit, victim->mana,
+                  victim->max_mana, victim->move, victim->max_move, ch->is_npc() ? 0 : victim->practice);
 
-    do {
-        if (snprintf(buf, sizeof(buf), "Lv: %d  Class: %s  Align: %d  Gold: %ld  Exp: %ld\n\r", victim->level,
-                     victim->is_npc() ? "mobile" : class_table[victim->class_num].name, victim->alignment, victim->gold,
-                     victim->exp)
-            < 0)
-            bug("Buffer too small at "
-                "_file_name_"
-                ":"
-                "1319"
-                " - message was truncated");
-    } while (0);
-    ch->send_to(buf);
+    ch->send_line("Lv: {}  Class: {}  Align: {}  Gold: {}d  Exp: {}", victim->level,
+                  victim->is_npc() ? "mobile" : class_table[victim->class_num].name, victim->alignment, victim->gold,
+                  victim->exp);
 
     bug_snprintf(buf, sizeof(buf), "Armor: pierce: %d  bash: %d  slash: %d  magic: %d\n\r", GET_AC(victim, AC_PIERCE),
                  GET_AC(victim, AC_BASH), GET_AC(victim, AC_SLASH), GET_AC(victim, AC_EXOTIC));
