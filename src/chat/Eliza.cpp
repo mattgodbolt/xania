@@ -71,8 +71,8 @@ void Eliza::ensure_database_open(const int current_db_num, const int line_count)
     }
 }
 
-bool Eliza::load_databases(std::string_view file) {
-    std::ifstream fs(file.data());
+bool Eliza::load_databases(const std::string &file) {
+    std::ifstream fs(file);
     if (!fs.is_open()) {
         log_string("Could not open chat database {}", file);
         return false;
@@ -141,8 +141,8 @@ bool Eliza::load_databases(std::string_view file) {
 }
 
 int Eliza::parse_new_database_num(std::string_view str, const int line_count) {
-    if (is_number(str.data())) {
-        auto db_num = atoi(str.data());
+    if (is_number(str)) {
+        auto db_num = parse_number(str);
         if (databases_.find(db_num) != databases_.end()) {
             log_string("& database num already exists! #{} on line #{}", db_num, line_count);
             return -1;
@@ -153,8 +153,8 @@ int Eliza::parse_new_database_num(std::string_view str, const int line_count) {
 }
 
 Database *Eliza::parse_database_link(std::string_view str, const int line_count) {
-    if (is_number(str.data())) {
-        auto db_num = atoi(str.data());
+    if (is_number(str)) {
+        auto db_num = parse_number(str);
         auto entry = databases_.find(db_num);
         if (entry != databases_.end()) {
             return &entry->second;

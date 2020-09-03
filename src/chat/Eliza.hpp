@@ -15,7 +15,7 @@ namespace chat {
 
 class Eliza {
 public:
-    bool load_databases(std::string_view file);
+    bool load_databases(const std::string &file);
     /**
      * Handle a message from a player to a talkative NPC. This works
      * by accessing the database associated with the npc_name then looking up
