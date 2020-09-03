@@ -519,7 +519,6 @@ void validate_resets() {
     RESET_DATA *pReset, *pReset_next, *pReset_last;
     int vnum;
     bool Okay, oldBoot;
-    char buf[MAX_STRING_LENGTH];
 
     for (pArea = area_first; pArea != nullptr; pArea = pArea->next) {
         for (vnum = pArea->lvnum; vnum <= pArea->uvnum; vnum++) {
@@ -542,9 +541,7 @@ void validate_resets() {
                     case RESETS_MOB_IN_ROOM:
                         if (!(get_mob_index(pReset->arg1))) {
                             Okay = false;
-                            snprintf(buf, sizeof(buf), "Get_mob_index: bad vnum %d in reset in room %d.", pReset->arg1,
-                                     pRoom->vnum);
-                            bug(buf, 0);
+                            bug("Get_mob_index: bad vnum {} in reset in room {}.", pReset->arg1, pRoom->vnum);
                         }
                         break;
                     case RESETS_OBJ_IN_ROOM:
@@ -553,9 +550,7 @@ void validate_resets() {
                             temp_index->reset_num++;
                         else {
                             Okay = false;
-                            snprintf(buf, sizeof(buf), "Get_obj_index: bad vnum %d in reset in room %d.", pReset->arg1,
-                                     pRoom->vnum);
-                            bug(buf, 0);
+                            bug("Get_obj_index: bad vnum {} in reset in room {}.", pReset->arg1, pRoom->vnum);
                         }
                         break;
                     case RESETS_PUT_OBJ_OBJ:
@@ -564,9 +559,7 @@ void validate_resets() {
                             temp_index->reset_num++;
                         else {
                             Okay = false;
-                            snprintf(buf, sizeof(buf), "Get_obj_index: bad vnum %d in reset in room %d.", pReset->arg1,
-                                     pRoom->vnum);
-                            bug(buf, 0);
+                            bug("Get_obj_index: bad vnum {} in reset in room {}.", pReset->arg1, pRoom->vnum);
                         }
                         break;
                     case RESETS_GIVE_OBJ_MOB:
@@ -576,9 +569,7 @@ void validate_resets() {
                             temp_index->reset_num++;
                         else {
                             Okay = false;
-                            snprintf(buf, sizeof(buf), "Get_obj_index: bad vnum %d in reset in room %d.", pReset->arg1,
-                                     pRoom->vnum);
-                            bug(buf, 0);
+                            bug("Get_obj_index: bad vnum {} in reset in room {}.", pReset->arg1, pRoom->vnum);
                         }
                         break;
                     case RESETS_EXIT_FLAGS:

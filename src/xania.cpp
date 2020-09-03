@@ -38,11 +38,13 @@ TIP_TYPE *tip_current;
    object in points.  If boot is non-zero it will also 'BUG' these, along with any other things
    that could be wrong with the object */
 
-void objectbug(const char *str, OBJ_INDEX_DATA *obj) {
+void objectbug(std::string_view str, OBJ_INDEX_DATA *obj) {
     log_string("obj> {} (#{}): {}", obj->short_descr, obj->vnum, str);
 }
 
-void mobbug(const char *str, MOB_INDEX_DATA *mob) { log_string("mob> {} (#{}): {}", mob->short_descr, mob->vnum, str); }
+void mobbug(std::string_view str, MOB_INDEX_DATA *mob) {
+    log_string("mob> {} (#{}): {}", mob->short_descr, mob->vnum, str);
+}
 
 int report_object(OBJ_DATA *object, int boot) {
     int averagedam, allowedaverage;
@@ -95,9 +97,8 @@ int report_object(OBJ_DATA *object, int boot) {
     }
 
     if (boot && (worth > ((obj->level / 10) + 1))) {
-        char buf[MAX_STRING_LENGTH];
-        snprintf(buf, sizeof(buf), "points too high: has %d points (max should be %d)", worth, ((obj->level / 10) + 1));
-        objectbug(buf, obj);
+        objectbug(fmt::format("points too high: has {} points (max should be {})", worth, ((obj->level / 10) + 1)),
+                  obj);
     }
     return worth;
 }
