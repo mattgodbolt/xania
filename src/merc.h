@@ -1183,7 +1183,7 @@ struct area_data {
     bool empty;
 
     const char *areaname;
-    const char *filename;
+    std::string filename;
     int lvnum;
     int uvnum;
     int vnum;

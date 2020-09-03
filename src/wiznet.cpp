@@ -24,62 +24,6 @@
 #include "comm.hpp"
 #include "merc.h"
 
-extern FILE *fpArea;
-
-extern void copy_areaname(char *dest);
-
-/* Reports a bug. */
-void bug(const char *str, ...) {
-    char buf[MAX_STRING_LENGTH * 2];
-    char buf2[MAX_STRING_LENGTH];
-    va_list arglist;
-
-    if (fpArea != nullptr) {
-        int iLine;
-        int iChar;
-
-        if (fpArea == stdin) {
-            iLine = 0;
-        } else {
-            iChar = ftell(fpArea);
-            fseek(fpArea, 0, 0);
-            for (iLine = 0; ftell(fpArea) < iChar; iLine++) {
-                while (getc(fpArea) != '\n')
-                    ;
-            }
-            fseek(fpArea, iChar, 0);
-        }
-        /* FIXME : 'strArea' is not safely readable from here (I think because it's an
-         * array, not a pointer) - fix the filename printing so it works properly. */
-        copy_areaname(buf2);
-        log_string("[*****] FILE: {} LINE: {}", buf2, iLine);
-    }
-
-    strcpy(buf, "[*****] BUG: ");
-    va_start(arglist, str);
-    vsnprintf(buf + strlen(buf), sizeof(buf), str, arglist);
-    va_end(arglist); /* TM added */
-    log_new(buf, EXTRA_WIZNET_BUG, 0); /* TM added */
-}
-
-/* New log - takes a level and broadcasts to IMMs on WIZNET */
-void log_new(std::string_view str, int loglevel, int level) {
-    // One day use spdlog here?
-    fmt::print(stderr, "{} :: {}\n", Clock::now(), str);
-
-    if (loglevel == EXTRA_WIZNET_DEBUG)
-        level = UMAX(level, 96); /* Prevent non-SOCK ppl finding out sin_addrs */
-
-    auto wiznet_msg = fmt::format("|GWIZNET:|g {}|w\n\r", str);
-    for (auto &d : descriptors().playing()) {
-        Char *ch = d.person();
-        if (ch->is_npc() || !is_set_extra(ch, EXTRA_WIZNET_ON) || !is_set_extra(ch, loglevel)
-            || (ch->get_trust() < level))
-            continue;
-        d.character()->send_to(wiznet_msg);
-    }
-}
-
 void print_status(const Char *ch, const char *name, const char *master_name, int state, int master_state) {
     char buff[MAX_STRING_LENGTH];
     const size_t prefix_len = 16;

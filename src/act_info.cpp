@@ -2101,14 +2101,9 @@ void do_scan(Char *ch, const char *argument) {
 
 void do_alist(Char *ch, const char *argument) {
     (void)argument;
-    AREA_DATA *pArea;
-    BUFFER *buffer = buffer_create();
-
-    buffer_addline_fmt(buffer, "%3s %-29s %-5s-%5s %-10s\n\r", "Num", "Area Name", "Lvnum", "Uvnum", "Filename");
-
-    for (pArea = area_first; pArea; pArea = pArea->next) {
-        buffer_addline_fmt(buffer, "%3d %-29.29s %-5d-%5d %-12.12s\n\r", pArea->vnum, pArea->areaname, pArea->lvnum,
-                           pArea->uvnum, pArea->filename);
-    }
-    buffer_send(buffer, ch);
+    auto format_str = "{:3} {:29} {:<5}-{:>5} {:12}\n\r"sv;
+    auto buffer = fmt::format(format_str, "Num", "Area Name", "Lvnum", "Uvnum", "Filename");
+    for (auto *pArea = area_first; pArea; pArea = pArea->next)
+        buffer += fmt::format(format_str, pArea->vnum, pArea->areaname, pArea->lvnum, pArea->uvnum, pArea->filename);
+    ch->page_to(buffer);
 }

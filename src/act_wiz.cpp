@@ -2477,8 +2477,8 @@ bool osearch_is_item_type(const OBJ_INDEX_DATA *pIndexData, const sh_int item_ty
  * optional name. Adds their item vnum, name, level and area name to a new buffer.
  * Caller must release the buffer!
  */
-BUFFER *osearch_find_items(const int min_level, const int max_level, const sh_int item_type, char *item_name) {
-    BUFFER *buffer = buffer_create();
+std::string osearch_find_items(const int min_level, const int max_level, const sh_int item_type, char *item_name) {
+    std::string buffer;
     for (int i = 0; i < MAX_KEY_HASH; i++) {
         for (OBJ_INDEX_DATA *pIndexData = obj_index_hash[i]; pIndexData != nullptr; pIndexData = pIndexData->next) {
             if (!(osearch_is_item_in_level_range(pIndexData, min_level, max_level)
@@ -2488,8 +2488,8 @@ BUFFER *osearch_find_items(const int min_level, const int max_level, const sh_in
             if (item_name[0] != '\0' && !is_name(item_name, pIndexData->name)) {
                 continue;
             }
-            buffer_addline_fmt(buffer, "%5d %-25.25s|w (%3d) %s\n\r", pIndexData->vnum, pIndexData->short_descr,
-                               pIndexData->level, pIndexData->area->filename);
+            buffer += fmt::format("{:5} {:<27}|w ({:3}) {}\n\r", pIndexData->vnum, pIndexData->short_descr,
+                                  pIndexData->level, pIndexData->area->filename);
         }
     }
     return buffer;
@@ -2510,7 +2510,6 @@ void do_osearch(Char *ch, const char *argument) {
     int min_level;
     int max_level;
     sh_int item_type;
-    BUFFER *buffer;
     if (argument[0] == '\0') {
         osearch_display_syntax(ch);
         return;
@@ -2535,8 +2534,7 @@ void do_osearch(Char *ch, const char *argument) {
         osearch_display_syntax(ch);
         return;
     }
-    buffer = osearch_find_items(min_level, max_level, item_type, item_name);
-    buffer_send(buffer, ch);
+    ch->page_to(osearch_find_items(min_level, max_level, item_type, item_name));
 }
 
 void do_slookup(Char *ch, const char *argument) {

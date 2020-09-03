@@ -178,15 +178,11 @@ int sAllocPerm;
 
 /* Semi-locals. */
 bool fBootDb;
-FILE *fpArea;
-char strArea[MAX_INPUT_LENGTH];
 static bool area_header_found;
-
-void copy_areaname(char *dest) { strcpy(dest, strArea); }
 
 /* Local booting procedures. */
 void init_mm();
-void load_area(FILE *fp);
+void load_area(FILE *fp, const std::string &area_name);
 void load_helps(FILE *fp);
 void load_mobiles(FILE *fp);
 void load_objects(FILE *fp);
@@ -256,57 +252,57 @@ void boot_db() {
         }
 
         for (;;) {
-            strcpy(strArea, fread_word(fpList));
-            if (strArea[0] == '$')
+            std::string area_name = fread_word(fpList);
+            if (area_name[0] == '$')
                 break;
 
-            if (strArea[0] == '-') {
-                fpArea = stdin;
-            } else if ((fpArea = fopen(strArea, "r")) == nullptr) {
-                perror(strArea);
+            FILE *area_fp{};
+            if (area_name[0] == '-') {
+                area_fp = stdin;
+            } else if ((area_fp = fopen(area_name.c_str(), "r")) == nullptr) {
+                perror(area_name.c_str());
                 exit(1);
             }
-
+            BugAreaFileContext context(area_name, area_fp);
             for (;;) {
                 char *word;
-                if (fread_letter(fpArea) != '#') {
+                if (fread_letter(area_fp) != '#') {
                     bug("Boot_db: # not found.");
                     exit(1);
                 }
 
-                word = fread_word(fpArea);
+                word = fread_word(area_fp);
 
                 if (word[0] == '$')
                     break;
                 else if (!str_cmp(word, "AREA"))
-                    load_area(fpArea);
+                    load_area(area_fp, area_name);
                 else if (!str_cmp(word, "HELPS"))
-                    load_helps(fpArea);
+                    load_helps(area_fp);
                 else if (!str_cmp(word, "MOBILES"))
-                    load_mobiles(fpArea);
+                    load_mobiles(area_fp);
                 else if (!str_cmp(word, "OBJECTS"))
-                    load_objects(fpArea);
+                    load_objects(area_fp);
                 else if (!str_cmp(word, "RESETS"))
-                    load_resets(fpArea);
+                    load_resets(area_fp);
                 else if (!str_cmp(word, "ROOMS"))
-                    load_rooms(fpArea);
+                    load_rooms(area_fp);
                 else if (!str_cmp(word, "SHOPS"))
-                    load_shops(fpArea);
+                    load_shops(area_fp);
                 else if (!str_cmp(word, "SOCIALS"))
-                    load_socials(fpArea);
+                    load_socials(area_fp);
                 else if (!str_cmp(word, "SPECIALS"))
-                    load_specials(fpArea);
+                    load_specials(area_fp);
                 else if (!str_cmp(word, "MOBPROGS"))
-                    load_mobprogs(fpArea);
+                    load_mobprogs(area_fp);
                 else {
                     bug("Boot_db: bad section name.");
                     exit(1);
                 }
             }
 
-            if (fpArea != stdin)
-                fclose(fpArea);
-            fpArea = nullptr;
+            if (area_fp != stdin)
+                fclose(area_fp);
         }
         fclose(fpList);
     }
@@ -325,7 +321,7 @@ void boot_db() {
 }
 
 /* Snarf an 'area' header line. */
-void load_area(FILE *fp) {
+void load_area(FILE *fp, const std::string &area_name) {
     AREA_DATA *pArea;
 
     pArea = static_cast<AREA_DATA *>(alloc_perm(sizeof(*pArea)));
@@ -339,7 +335,7 @@ void load_area(FILE *fp) {
 
     pArea->area_flags = AREA_LOADING;
     pArea->vnum = top_area;
-    pArea->filename = str_dup(strArea);
+    pArea->filename = area_name;
 
     pArea->age = 15;
     pArea->nplayer = 0;
@@ -1728,6 +1724,8 @@ char *fread_string(FILE *fp) {
 std::string fread_stdstring(FILE *fp) {
     // Temporary hack until we can rephrase all this loading stuff.
     auto str = fread_string(fp);
+    if (!str)
+        return "";
     std::string result(str);
     free_string(str);
     return result;
