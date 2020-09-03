@@ -418,8 +418,7 @@ void game_loop_unix(Fd control) {
 
 bool read_from_descriptor(Descriptor *d, std::string_view data) {
     if (d->is_input_full()) {
-        snprintf(log_buf, LOG_BUF_SIZE, "%s input overflow!", d->host().c_str());
-        log_string(log_buf);
+        log_string("{} input overflow!", d->host().c_str());
         d->write_direct("\n\r*** PUT A LID ON IT!!! ***\n\r");
         d->clear_input();
         d->add_command("quit");
@@ -524,8 +523,7 @@ void nanny(Descriptor *d, const char *argument) {
         ch = d->character();
 
         if (IS_SET(ch->act, PLR_DENY)) {
-            snprintf(log_buf, LOG_BUF_SIZE, "Denying access to %s@%s.", char_name.c_str(), d->host().c_str());
-            log_string(log_buf);
+            log_string("Denying access to {}@{}.", char_name.c_str(), d->host().c_str());
             d->write("You are denied access.\n\r");
             d->close();
             return;

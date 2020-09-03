@@ -52,8 +52,7 @@ void bug(const char *str, ...) {
         /* FIXME : 'strArea' is not safely readable from here (I think because it's an
          * array, not a pointer) - fix the filename printing so it works properly. */
         copy_areaname(buf2);
-        snprintf(buf, sizeof(buf), "[*****] FILE: %s LINE: %d", buf2, iLine);
-        log_string(buf);
+        log_string("[*****] FILE: {} LINE: {}", buf2, iLine);
     }
 
     strcpy(buf, "[*****] BUG: ");

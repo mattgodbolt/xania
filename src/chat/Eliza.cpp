@@ -130,8 +130,7 @@ bool Eliza::load_databases(std::string_view file) {
                     if (current_linked_database == nullptr) {
                         current_linked_database = parse_database_link(line.substr(1), line_count);
                     } else {
-                        log_string(fmt::format("@ database #{} already has a database link at #{}", current_db_num,
-                                               line_count));
+                        log_string("@ database #{} already has a database link at #{}", current_db_num, line_count);
                     }
                     break;
                 default: log_string("extraneous line: {} at #{}", line, line_count);
