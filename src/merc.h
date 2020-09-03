@@ -1448,7 +1448,6 @@ extern EXTRA_DESCR_DATA *extra_descr_free;
 extern bool fLogAll;
 extern FILE *fpReserve;
 extern KILL_DATA kill_table[];
-extern char log_buf[];
 
 /* Moog added stuff */
 extern char deity_name_area[256];

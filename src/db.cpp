@@ -50,7 +50,6 @@ EXTRA_DESCR_DATA *extra_descr_free = nullptr;
 char bug_buf[2 * MAX_INPUT_LENGTH];
 Char *char_list;
 char *help_greeting;
-char log_buf[LOG_BUF_SIZE];
 KILL_DATA kill_table[MAX_LEVEL];
 OBJ_DATA *object_list;
 
