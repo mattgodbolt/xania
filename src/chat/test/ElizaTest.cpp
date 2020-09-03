@@ -15,7 +15,7 @@
 using namespace chat;
 
 TEST_CASE("production database sanity") {
-    std::string_view chatdata_file = TEST_RESOURCE_DIR "/chat.data";
+    std::string chatdata_file = TEST_RESOURCE_DIR "/chat.data";
     Eliza eliza;
 
     SECTION("validate production chat database loads and responds to a basic lookup") {
