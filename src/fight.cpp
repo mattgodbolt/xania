@@ -531,7 +531,7 @@ void one_hit(Char *ch, Char *victim, int dt) {
                 if (IS_SET(wield->value[4], WEAPON_VORPAL)) {
                     if (dam == (1 + wield->value[2]) * wield->value[1] / 2) {
                         dam *= 4;
-                        bug("one_hit:QUAD_DAM with %s [%d] by %s", wield->name, wield->pIndexData->vnum,
+                        bug("one_hit:QUAD_DAM with {} [{}] by {}", wield->name, wield->pIndexData->vnum,
                             ch->name.c_str());
                         act("With a blood curdling scream you leap forward swinging\n\ryour weapon in a great arc.", ch,
                             nullptr, victim, To::Char);
@@ -641,9 +641,8 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
      */
     if (dam > DAMAGE_CAP) {
         if (ch->is_pc() && ch->is_mortal()) {
-            bug("%s", fmt::format("Player {} fighting {} in #{}, damage {} exceeds {} cap!", ch->name, victim->name,
-                                  ch->in_room->vnum, dam, DAMAGE_CAP)
-                          .c_str());
+            bug("Player {} fighting {} in #{}, damage {} exceeds {} cap!", ch->name, victim->name, ch->in_room->vnum,
+                dam, DAMAGE_CAP);
         }
         dam = DAMAGE_CAP;
     }
@@ -857,9 +856,8 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
         } else {
 
             if (victim->level >= (ch->level + 30)) {
-                bug("%s", fmt::format("|R### {} just killed {} - {} levels above them!|w", ch->short_name(),
-                                      victim->short_descr, victim->level - ch->level)
-                              .c_str());
+                bug("|R### {} just killed {} - {} levels above them!|w", ch->short_name(), victim->short_descr,
+                    victim->level - ch->level);
             }
         }
         victim_room_vnum = victim->in_room->vnum;
@@ -1080,7 +1078,7 @@ void check_killer(Char *ch, Char *victim) {
      */
     if (IS_SET(ch->affected_by, AFF_CHARM)) {
         if (ch->master == nullptr) {
-            bug("%s", fmt::format("Check_killer: %s bad AFF_CHARM", ch->short_name()).c_str());
+            bug("Check_killer: {} bad AFF_CHARM", ch->short_name());
             affect_strip(ch, gsn_charm_person);
             REMOVE_BIT(ch->affected_by, AFF_CHARM);
             return;
@@ -1960,7 +1958,7 @@ void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool imm
         else if (dt >= TYPE_HIT && dt <= TYPE_HIT + MAX_DAMAGE_MESSAGE) /* this might be broken*/
             attack = attack_table[dt - TYPE_HIT].noun;
         else {
-            bug("Dam_message: bad dt %d.", dt);
+            bug("Dam_message: bad dt {}.", dt);
             dt = TYPE_HIT;
             attack = attack_table[0].name;
         }

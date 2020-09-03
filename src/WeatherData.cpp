@@ -58,7 +58,7 @@ void WeatherData::update(const TimeInfoData &tid) {
 
     switch (sky_) {
     default:
-        bug("Weather_update: bad sky %d.", static_cast<int>(sky_));
+        bug("Weather_update: bad sky {}.", static_cast<int>(sky_));
         sky_ = Sky::Cloudless;
         break;
 

@@ -171,7 +171,7 @@ void load_mobiles(FILE *fp) {
 
         fBootDb = false;
         if (get_mob_index(vnum) != nullptr) {
-            bug("Load_mobiles: vnum %d duplicated.", vnum);
+            bug("Load_mobiles: vnum {} duplicated.", vnum);
             exit(1);
         }
         fBootDb = true;
@@ -271,7 +271,7 @@ void load_mobiles(FILE *fp) {
 
                     REMOVE_BIT(pMobIndex->parts, vector);
                 } else {
-                    bug("Flag remove: flag '%s' not found.", word);
+                    bug("Flag remove: flag '{}' not found.", word);
                     exit(1);
                 }
             } else {
@@ -282,7 +282,7 @@ void load_mobiles(FILE *fp) {
             }
 
             if (letter != 'S') {
-                bug("Load_mobiles: vnum %d non-S.", vnum);
+                bug("Load_mobiles: vnum {} non-S.", vnum);
                 exit(1);
             }
         }
@@ -334,7 +334,7 @@ void load_objects(FILE *fp) {
 
         fBootDb = false;
         if (get_obj_index(vnum) != nullptr) {
-            bug("Load_objects: vnum %d duplicated.", vnum);
+            bug("Load_objects: vnum {} duplicated.", vnum);
             exit(1);
         }
         fBootDb = true;
@@ -353,7 +353,7 @@ void load_objects(FILE *fp) {
         pObjIndex->short_descr = str_dup(lower_case_articles(fread_stdstring(fp)).c_str());
         pObjIndex->description = fread_string(fp);
         if (strlen(pObjIndex->description) == 0) {
-            bug("Load_objects: empty long description in object %d.", vnum);
+            bug("Load_objects: empty long description in object {}.", vnum);
         }
         pObjIndex->material = material_lookup(fread_string(fp));
 

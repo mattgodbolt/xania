@@ -564,7 +564,7 @@ static int check_duel_status(int f) {
     if (!flag)
         return 0;
 
-    bug("check_duel_status: Name match failure. Code %d", flag);
+    bug("check_duel_status: Name match failure. Code {}", flag);
     if (f) {
         challenge_ticker = 1;
         do_chal_tick();

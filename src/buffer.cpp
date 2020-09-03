@@ -58,7 +58,7 @@ static void buffer_addline_internal(BUFFER *buffer, const char *text, int linele
         int needed = (linelen + buflen + 1 + BUFFER_GRANULARITY) & ~(BUFFER_GRANULARITY - 1);
         char *newtext = (char *)realloc(buffer->buffer, needed);
         if (newtext == nullptr) {
-            bug("Failed to realloc buffer to %d in add_buf.", needed);
+            bug("Failed to realloc buffer to {} in add_buf.", needed);
         } else {
             buffer->buffer = newtext;
             buffer->size = needed;

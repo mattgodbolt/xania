@@ -917,7 +917,7 @@ void do_ostat(Char *ch, const char *argument) {
         case (DAM_HARM): bug_snprintf(buf, sizeof(buf), "harm.\n\r"); break;
         default:
             bug_snprintf(buf, sizeof(buf), "unknown!!!!\n\r");
-            bug("ostat: Unknown damage type %d", dam_type);
+            bug("ostat: Unknown damage type {}", dam_type);
             break;
         }
         ch->send_to(buf);

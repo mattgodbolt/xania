@@ -130,7 +130,7 @@ std::string_view name(AffectLocation location) {
     case AffectLocation::Weight: return "weight"sv;
     }
 
-    bug("Affect_location_name: unknown location %d.", static_cast<int>(location));
+    bug("Affect_location_name: unknown location {}.", static_cast<int>(location));
     return "(unknown)"sv;
 }
 

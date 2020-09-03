@@ -57,7 +57,7 @@ int position_lookup(const char *name) {
     if (pos >= 0)
         return pos;
 
-    bug("Unknown position '%s' - defaulting!", name);
+    bug("Unknown position '{}' - defaulting!", name);
 
     return 0;
 }
@@ -74,7 +74,7 @@ int sex_lookup(const char *name) {
     if (sex >= 0)
         return sex;
 
-    bug("Unknown sex (oo-er) '%s' - defaulting!", name);
+    bug("Unknown sex (oo-er) '{}' - defaulting!", name);
     return 0;
 }
 
@@ -90,7 +90,7 @@ int size_lookup(const char *name) {
     if (size >= 0)
         return size;
 
-    bug("Unknown size type '%s' - defaulting!", name);
+    bug("Unknown size type '{}' - defaulting!", name);
 
     return 0;
 }
@@ -107,7 +107,7 @@ int attack_lookup(const char *name) {
     if (att >= 0)
         return att;
 
-    bug("Unknown attack type '%s' - defaulting!", name);
+    bug("Unknown attack type '{}' - defaulting!", name);
 
     return 0;
 }
@@ -133,7 +133,7 @@ int item_lookup(const char *name) {
     int type = item_lookup_impl(name);
     if (type >= 0)
         return type;
-    bug("Unknown item type '%s' - defaulting!", name);
+    bug("Unknown item type '{}' - defaulting!", name);
     return item_table[0].type;
 }
 
@@ -156,7 +156,7 @@ int liq_lookup(const char *name) {
     if (liq >= 0)
         return liq;
 
-    bug("Unknown liquid type '%s' - defaulting!", name);
+    bug("Unknown liquid type '{}' - defaulting!", name);
 
     return 0;
 }
@@ -196,7 +196,7 @@ int slot_lookup(int slot) {
     }
 
     if (fBootDb) {
-        bug("Slot_lookup: bad slot %d.", slot);
+        bug("Slot_lookup: bad slot {}.", slot);
         abort();
     }
 
@@ -215,7 +215,7 @@ int weapon_type(const char *name) {
     if (type >= 0)
         return type;
 
-    bug("Unknown weapon type '%s' - defaulting!", name);
+    bug("Unknown weapon type '{}' - defaulting!", name);
 
     return 0;
 }

@@ -866,7 +866,7 @@ void do_drink(Char *ch, const char *argument) {
         }
 
         if ((liquid = obj->value[2]) >= LIQ_MAX) {
-            bug("Do_drink: bad liquid number %d.", liquid);
+            bug("Do_drink: bad liquid number {}.", liquid);
             liquid = obj->value[2] = 0;
         }
 
@@ -1526,7 +1526,7 @@ void do_brandish(Char *ch, const char *argument) {
     }
 
     if ((sn = staff->value[3]) < 0 || sn >= MAX_SKILL || skill_table[sn].spell_fun == 0) {
-        bug("Do_brandish: bad sn %d.", sn);
+        bug("Do_brandish: bad sn {}.", sn);
         return;
     }
 
@@ -1546,7 +1546,7 @@ void do_brandish(Char *ch, const char *argument) {
                 vch_next = vch->next_in_room;
 
                 switch (skill_table[sn].target) {
-                default: bug("Do_brandish: bad target for sn %d.", sn); return;
+                default: bug("Do_brandish: bad target for sn {}.", sn); return;
 
                 case TAR_IGNORE:
                     if (vch != ch)
@@ -1900,7 +1900,7 @@ void do_buy(Char *ch, const char *argument) {
 
         pRoomIndexNext = get_room_index(ch->in_room->vnum + 1);
         if (pRoomIndexNext == nullptr) {
-            bug("Do_buy: bad pet shop at vnum %d.", ch->in_room->vnum);
+            bug("Do_buy: bad pet shop at vnum {}.", ch->in_room->vnum);
             ch->send_line("Sorry, you can't buy that here.");
             return;
         }
@@ -2037,7 +2037,7 @@ void do_list(Char *ch, const char *argument) {
 
         pRoomIndexNext = get_room_index(ch->in_room->vnum + 1);
         if (pRoomIndexNext == nullptr) {
-            bug("Do_list: bad pet shop at vnum %d.", ch->in_room->vnum);
+            bug("Do_list: bad pet shop at vnum {}.", ch->in_room->vnum);
             ch->send_line("You can't do that here.");
             return;
         }

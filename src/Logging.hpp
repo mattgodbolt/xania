@@ -11,8 +11,7 @@
 void bug(std::string_view message);
 template <typename... Args>
 void bug(std::string_view format, Args &&... args) {
-    // TODO: replace bug() with fmt formats
-    bug(fmt::sprintf(format, std::forward<Args>(args)...));
+    bug(fmt::format(format, std::forward<Args>(args)...));
 }
 // TODO: somehow combine log_new and log_string and all that. Maybe spdlog?
 void log_new(std::string_view str, int loglevel, int level);

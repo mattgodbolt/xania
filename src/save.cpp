@@ -132,7 +132,7 @@ void save_char_obj(Char *ch) {
     /* move the file */
     auto player_file = filename_for_player(ch->name);
     if (rename(player_temp.c_str(), player_file.c_str()) != 0) {
-        bug("Unable to move temporary player name %s!! rename failed: %s!", player_file.c_str(), strerror(errno));
+        bug("Unable to move temporary player name {}!! rename failed: {}!", player_file.c_str(), strerror(errno));
     }
     fpReserve = fopen(NULL_FILE, "r");
 }
@@ -620,7 +620,7 @@ void fread_char(Char *ch, FILE *fp) {
                 }
             }
             if (!found) {
-                bug("Unable to find clan '%c'", clan_char);
+                bug("Unable to find clan '{}'", clan_char);
             }
         } else if (word == "class" || word == "cla") {
             ch->class_num = fread_number(fp);
@@ -771,7 +771,7 @@ void fread_pet(Char *ch, FILE *fp) {
     if (matches(word, "Vnum")) {
         int vnum = fread_number(fp);
         if (get_mob_index(vnum) == nullptr) {
-            bug("Fread_pet: bad vnum %d.", vnum);
+            bug("Fread_pet: bad vnum {}.", vnum);
             pet = create_mobile(get_mob_index(MOB_VNUM_FIDO));
         } else
             pet = create_mobile(get_mob_index(vnum));
@@ -799,7 +799,7 @@ void fread_pet(Char *ch, FILE *fp) {
             AFFECT_DATA af;
             int sn = skill_lookup(fread_word(fp));
             if (sn < 0)
-                bug("%s", fmt::format("Fread_pet: unknown skill #{}", sn).c_str());
+                bug("Fread_pet: unknown skill #{}", sn);
             else
                 af.type = sn;
 
@@ -856,7 +856,7 @@ void fread_pet(Char *ch, FILE *fp) {
         } else if (matches(word, "ShD")) {
             pet->short_descr = fread_stdstring(fp);
         } else {
-            bug("%s", fmt::format("Fread_pet: no match for {}.", word).c_str());
+            bug("Fread_pet: no match for {}.", word);
             fread_to_eol(fp);
         }
     }
@@ -885,7 +885,7 @@ void fread_obj(Char *ch, FILE *fp) {
 
         vnum = fread_number(fp);
         if (get_obj_index(vnum) == nullptr) {
-            bug("Fread_obj: bad vnum %d.", vnum);
+            bug("Fread_obj: bad vnum {}.", vnum);
         } else {
             obj = create_object(get_obj_index(vnum));
             new_format = true;
@@ -921,7 +921,7 @@ void fread_obj(Char *ch, FILE *fp) {
                 const char *affected_by = fread_word(fp);
                 sn = skill_lookup(affected_by);
                 if (sn < 0)
-                    bug("%s", fmt::format("Fread_obj: unknown skill {}.", affected_by).c_str());
+                    bug("Fread_obj: unknown skill {}.", affected_by);
                 else
                     af.type = sn;
             } else /* old form */
@@ -989,7 +989,7 @@ void fread_obj(Char *ch, FILE *fp) {
         } else if (matches(word, "Nest")) {
             iNest = fread_number(fp);
             if (iNest < 0 || iNest >= MAX_NEST) {
-                bug("Fread_obj: bad nest %d.", iNest);
+                bug("Fread_obj: bad nest {}.", iNest);
             } else {
                 rgObjNest[iNest] = obj;
                 fNest = true;
@@ -1007,9 +1007,9 @@ void fread_obj(Char *ch, FILE *fp) {
             const char *spell = fread_word(fp);
             int sn = skill_lookup(spell);
             if (iValue < 0 || iValue > 3) {
-                bug("Fread_obj: bad iValue %d.", iValue);
+                bug("Fread_obj: bad iValue {}.", iValue);
             } else if (sn < 0) {
-                bug("%s", fmt::format("Fread_obj: unknown skill {}.", spell).c_str());
+                bug("Fread_obj: unknown skill {}.", spell);
             } else {
                 obj->value[iValue] = sn;
             }
@@ -1031,7 +1031,7 @@ void fread_obj(Char *ch, FILE *fp) {
         } else if (matches(word, "Vnum")) {
             int vnum = fread_number(fp);
             if ((obj->pIndexData = get_obj_index(vnum)) == nullptr)
-                bug("Fread_obj: bad vnum %d.", vnum);
+                bug("Fread_obj: bad vnum {}.", vnum);
             else
                 fVnum = true;
         } else if (matches(word, "WearFlags") || matches(word, "WeaF")) {
@@ -1043,7 +1043,7 @@ void fread_obj(Char *ch, FILE *fp) {
         } else if (matches(word, "WStr")) {
             obj->wear_string = fread_string(fp);
         } else {
-            bug("%s", fmt::format("Fread_obj: no match for {}.", word).c_str());
+            bug("Fread_obj: no match for {}.", word);
             fread_to_eol(fp);
         }
     }

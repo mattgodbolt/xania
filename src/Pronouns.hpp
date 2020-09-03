@@ -21,7 +21,7 @@ inline const Pronouns &pronouns_for(int sex) { // TODO: strong type for sex.
     default: break;
     }
     // TODO: reintroduce? throw? out of line?
-    //    bug("%s", fmt::format("Bad sex {} in pronouns ", ch->sex).c_str());
+    //    bug("{}", fmt::format("Bad sex {} in pronouns ", ch->sex).c_str());
     return neutral;
 }
 

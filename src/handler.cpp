@@ -682,7 +682,7 @@ void enforce_material_vulnerability(Char *ch, OBJ_DATA *obj) {
  */
 void equip_char(Char *ch, OBJ_DATA *obj, int iWear) {
     if (get_eq_char(ch, iWear) != nullptr) {
-        bug("Equip_char: already equipped (%d).", iWear);
+        bug("Equip_char: already equipped ({}).", iWear);
         return;
     }
 
@@ -900,7 +900,7 @@ void extract_obj(OBJ_DATA *obj) {
         }
 
         if (prev == nullptr) {
-            bug("Extract_obj: obj %d not found.", obj->pIndexData->vnum);
+            bug("Extract_obj: obj {} not found.", obj->pIndexData->vnum);
             return;
         }
     }
@@ -1149,7 +1149,7 @@ OBJ_DATA *create_money(int amount) {
     OBJ_DATA *obj;
 
     if (amount <= 0) {
-        bug("Create_money: zero or negative money %d.", amount);
+        bug("Create_money: zero or negative money {}.", amount);
         amount = 1;
     }
 
@@ -1308,7 +1308,7 @@ const char *item_type_name(OBJ_DATA *obj) {
     case ITEM_PORTAL: return "portal";
     }
 
-    bug("Item_type_name: unknown type %d.", obj->item_type);
+    bug("Item_type_name: unknown type {}.", obj->item_type);
     return "(unknown)";
 }
 
@@ -1342,7 +1342,7 @@ const char *item_index_type_name(OBJ_INDEX_DATA *obj) {
     case ITEM_PORTAL: return "portal";
     }
 
-    bug("Item_type_name: unknown type %d.", obj->item_type);
+    bug("Item_type_name: unknown type {}.", obj->item_type);
     return "(unknown)";
 }
 

@@ -123,7 +123,7 @@ int Char::get_skill(int skill_number) const {
     int skill;
 
     if (skill_number < -1 || skill_number > MAX_SKILL) {
-        bug("Bad sn %d in get_skill.", skill_number);
+        bug("Bad sn {} in get_skill.", skill_number);
         return 0;
     }
 

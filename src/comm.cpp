@@ -87,7 +87,7 @@ bool send_to_doorman(const Packet *p, const void *extra) {
     if (!doormanDesc.is_open())
         return false;
     if (p->nExtra > PACKET_MAX_PAYLOAD_SIZE) {
-        bug("MUD tried to send a doorman packet with payload size %d > %d! Dropping!", p->nExtra,
+        bug("MUD tried to send a doorman packet with payload size {} > {}! Dropping!", p->nExtra,
             PACKET_MAX_PAYLOAD_SIZE);
         return false;
     }
@@ -97,7 +97,7 @@ bool send_to_doorman(const Packet *p, const void *extra) {
         else
             doormanDesc.write(*p);
     } catch (const std::runtime_error &re) {
-        bug("%s", fmt::format("Unable to write to doorman: {}", re.what()).c_str());
+        bug("Unable to write to doorman: {}", re.what());
         return false;
     }
     return true;
@@ -302,7 +302,7 @@ void game_loop_unix(Fd control) {
                 handle_signal_shutdown();
                 return;
             } else {
-                bug("Unexpected signal %d: ignoring", info.ssi_signo);
+                bug("Unexpected signal {}: ignoring", info.ssi_signo);
             }
         }
 
@@ -320,7 +320,7 @@ void game_loop_unix(Fd control) {
                 pInit.type = PACKET_INIT;
                 send_to_doorman(&pInit, nullptr);
             } catch (const std::runtime_error &re) {
-                bug("%s", fmt::format("Unable to accept doorman connection: {}", re.what()).c_str());
+                bug("Unable to accept doorman connection: {}", re.what());
             }
         }
 
@@ -333,7 +333,7 @@ void game_loop_unix(Fd control) {
                     p = doormanDesc.read_all<Packet>();
                     if (p.nExtra) {
                         if (p.nExtra > PACKET_MAX_PAYLOAD_SIZE) {
-                            bug("Doorman sent a too big packet! %d > %d: dropping", p.nExtra, PACKET_MAX_PAYLOAD_SIZE);
+                            bug("Doorman sent a too big packet! {} > {}: dropping", p.nExtra, PACKET_MAX_PAYLOAD_SIZE);
                             doorman_lost();
                             break;
                         }
@@ -341,7 +341,7 @@ void game_loop_unix(Fd control) {
                         doormanDesc.read_all(gsl::span<char>(payload));
                     }
                 } catch (const std::runtime_error &re) {
-                    bug("%s", fmt::format("Unable to read doorman packet: {}", re.what()).c_str());
+                    bug("Unable to read doorman packet: {}", re.what());
                     doorman_lost();
                     break;
                 }
@@ -487,7 +487,7 @@ void nanny(Descriptor *d, const char *argument) {
     switch (d->state()) {
 
     default:
-        bug("Nanny: bad d->state() %d.", static_cast<int>(d->state()));
+        bug("Nanny: bad d->state() {}.", static_cast<int>(d->state()));
         d->close();
         return;
 
@@ -1155,7 +1155,7 @@ namespace {
 
 auto &pronouns(std::string_view format, const Char *ch) {
     if (!ch) {
-        bug("%s", fmt::format("Act: null ch in pronouns with format '{}'", format).c_str());
+        bug("Act: null ch in pronouns with format '{}'", format);
         return pronouns_for(0);
     }
     return pronouns_for(*ch);
@@ -1182,27 +1182,27 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
         }
 
         if (std::holds_alternative<nullptr_t>(arg2) && c >= 'A' && c <= 'Z') {
-            bug("%s", fmt::format("Act: missing arg2 for code {} in format '{}'", c, format).c_str());
+            bug("Act: missing arg2 for code {} in format '{}'", c, format);
             continue;
         }
 
         switch (c) {
         default:
-            bug("%s", fmt::format("Act: bad code {} in format '{}'", c, format).c_str());
+            bug("Act: bad code {} in format '{}'", c, format);
             break;
             /* Thx alex for 't' idea */
         case 't':
             if (auto arg1_as_string_ptr = std::get_if<std::string_view>(&arg1)) {
                 buf += *arg1_as_string_ptr;
             } else {
-                bug("%s", fmt::format("$t passed but arg1 was not a string in '{}'", format).c_str());
+                bug("$t passed but arg1 was not a string in '{}'", format);
             }
             break;
         case 'T':
             if (auto arg2_as_string_ptr = std::get_if<std::string_view>(&arg2)) {
                 buf += *arg2_as_string_ptr;
             } else {
-                bug("%s", fmt::format("$T passed but arg2 was not a string in '{}'", format).c_str());
+                bug("$T passed but arg2 was not a string in '{}'", format);
             }
             break;
         case 'n': buf += pers(ch, to); break;
@@ -1219,7 +1219,7 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
                 auto &obj1 = *arg1_as_obj_ptr;
                 buf += can_see_obj(to, obj1) ? obj1->short_descr : "something";
             } else {
-                bug("%s", fmt::format("$p passed but arg1 was not an object in '{}'", format).c_str());
+                bug("$p passed but arg1 was not an object in '{}'", format);
                 buf += "something";
             }
             break;
@@ -1229,7 +1229,7 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
                 auto &obj2 = *arg2_as_obj_ptr;
                 buf += can_see_obj(to, obj2) ? obj2->short_descr : "something";
             } else {
-                bug("%s", fmt::format("$p passed but arg2 was not an object in '{}'", format).c_str());
+                bug("$p passed but arg2 was not an object in '{}'", format);
                 buf += "something";
             }
             break;

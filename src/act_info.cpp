@@ -79,7 +79,7 @@ std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort)
 
     if (buf.empty()) {
         buf = "This object has no description. Please inform the IMP.";
-        bug("Object %d has no description", obj->pIndexData->vnum);
+        bug("Object {} has no description", obj->pIndexData->vnum);
     }
 
     return buf;

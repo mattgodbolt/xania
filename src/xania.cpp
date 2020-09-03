@@ -588,7 +588,7 @@ void web_who() {
     int count = 0;
 
     if ((fp = fopen(WEB_WHO_FILE, "w")) == nullptr) {
-        bug("web_who: couldn't open %s for writing!", WEB_WHO_FILE);
+        bug("web_who: couldn't open {} for writing!", WEB_WHO_FILE);
         return;
     }
     fprintf(fp, "<HTML><HEAD><TITLE TEXT=\"#FFFFFF\">Who's playing Xania right now?</TITLE>"
@@ -625,7 +625,7 @@ void load_tipfile() {
     tip_top = tip_current = nullptr; /* initialise globals */
 
     if ((fp = fopen(TIPWIZARD_FILE, "r")) == nullptr) {
-        bug("Couldn't open tip file \'%s\' for reading", TIPWIZARD_FILE);
+        bug("Couldn't open tip file \'{}\' for reading", TIPWIZARD_FILE);
         ignore_tips = true;
         return;
     }

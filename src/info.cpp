@@ -373,7 +373,7 @@ FingerInfo read_char_info(std::string_view player_name) {
             }
         }
     } else {
-        bug("Could not open player file '%s' to extract info.", info.name.c_str());
+        bug("Could not open player file '{}' to extract info.", info.name.c_str());
     }
     return info;
 }

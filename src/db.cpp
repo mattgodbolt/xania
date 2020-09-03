@@ -219,7 +219,7 @@ void boot_db() {
 
     /* Init some data space stuff. */
     if ((string_space = static_cast<char *>(calloc(1, MAX_STRING))) == nullptr) {
-        bug("Boot_db: can't alloc %d string space.", MAX_STRING);
+        bug("Boot_db: can't alloc {} string space.", MAX_STRING);
         exit(1);
     }
     top_string = string_space;
@@ -451,7 +451,7 @@ void load_resets(FILE *fp) {
         /* Stuff to add reset to the correct room */
         switch (letter) {
         default:
-            bug("Load_resets: bad command '%c'.", letter);
+            bug("Load_resets: bad command '{}'.", letter);
             exit(1);
             break;
         case RESETS_MOB_IN_ROOM:
@@ -483,12 +483,12 @@ void load_resets(FILE *fp) {
 
             if (!opt_door || !pRoomIndex || (pexit = pRoomIndex->exit[*opt_door]) == nullptr
                 || !IS_SET(pexit->rs_flags, EX_ISDOOR)) {
-                bug("Load_resets: 'D': exit %d not door.", pReset->arg2);
+                bug("Load_resets: 'D': exit {} not door.", pReset->arg2);
                 exit(1);
             }
 
             switch (pReset->arg3) {
-            default: bug("Load_resets: 'D': bad 'locks': %d.", pReset->arg3);
+            default: bug("Load_resets: 'D': bad 'locks': {}.", pReset->arg3);
             case 0: break;
             case 1: SET_BIT(pexit->rs_flags, EX_CLOSED); break;
             case 2: SET_BIT(pexit->rs_flags, EX_CLOSED | EX_LOCKED); break;
@@ -497,7 +497,7 @@ void load_resets(FILE *fp) {
         }
         case RESETS_RANDOMIZE_EXITS:
             if (pReset->arg2 < 0 || pReset->arg2 > static_cast<int>(all_directions.size())) {
-                bug("Load_resets: 'R': bad exit %d.", pReset->arg2);
+                bug("Load_resets: 'R': bad exit {}.", pReset->arg2);
                 exit(1);
             }
 
@@ -626,7 +626,7 @@ void load_rooms(FILE *fp) {
 
         fBootDb = false;
         if (get_room_index(vnum) != nullptr) {
-            bug("Load_rooms: vnum %d duplicated.", vnum);
+            bug("Load_rooms: vnum {} duplicated.", vnum);
             exit(1);
         }
         fBootDb = true;
@@ -661,7 +661,7 @@ void load_rooms(FILE *fp) {
 
                 auto opt_door = try_cast_direction(fread_number(fp));
                 if (!opt_door) {
-                    bug("Fread_rooms: vnum %d has bad door number.", vnum);
+                    bug("Fread_rooms: vnum {} has bad door number.", vnum);
                     exit(1);
                 }
 
@@ -697,7 +697,7 @@ void load_rooms(FILE *fp) {
                 pRoomIndex->extra_descr = ed;
                 top_ed++;
             } else {
-                bug("Load_rooms: vnum %d has flag not 'DES'.", vnum);
+                bug("Load_rooms: vnum {} has flag not 'DES'.", vnum);
                 exit(1);
             }
         }
@@ -749,7 +749,7 @@ void load_specials(FILE *fp) {
         char letter;
 
         switch (letter = fread_letter(fp)) {
-        default: bug("Load_specials: letter '%c' not *, M or S.", letter); exit(1);
+        default: bug("Load_specials: letter '{}' not *, M or S.", letter); exit(1);
 
         case 'S': return;
 
@@ -759,7 +759,7 @@ void load_specials(FILE *fp) {
             pMobIndex = get_mob_index(fread_number(fp));
             pMobIndex->spec_fun = spec_lookup(fread_word(fp));
             if (pMobIndex->spec_fun == 0) {
-                bug("Load_specials: 'M': vnum %d.", pMobIndex->vnum);
+                bug("Load_specials: 'M': vnum {}.", pMobIndex->vnum);
                 exit(1);
             }
             break;
@@ -807,7 +807,7 @@ void fix_exits() {
                 if ((pexit = pRoomIndex->exit[door]) != nullptr && (to_room = pexit->u1.to_room) != nullptr
                     && (pexit_rev = to_room->exit[reverse(door)]) != nullptr && pexit_rev->u1.to_room != pRoomIndex
                     && (pRoomIndex->vnum < 1200 || pRoomIndex->vnum > 1299)) {
-                    bug("Fix_exits: %d:%d -> %d:%d -> %d.", pRoomIndex->vnum, static_cast<int>(door), to_room->vnum,
+                    bug("Fix_exits: {} -> {}:{} -> {}.", pRoomIndex->vnum, static_cast<int>(door), to_room->vnum,
                         static_cast<int>(reverse(door)),
                         (pexit_rev->u1.to_room == nullptr) ? 0 : pexit_rev->u1.to_room->vnum);
                 }
@@ -879,11 +879,11 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
         int count, limit;
 
         switch (pReset->command) {
-        default: bug("Reset_room: bad command %c.", pReset->command); break;
+        default: bug("Reset_room: bad command {}.", pReset->command); break;
 
         case RESETS_MOB_IN_ROOM:
             if (!(pMobIndex = get_mob_index(pReset->arg1))) {
-                bug("Reset_room: 'M': bad vnum %d.", pReset->arg1);
+                bug("Reset_room: 'M': bad vnum {}.", pReset->arg1);
                 continue;
             }
             if (pMobIndex->count >= pReset->arg2) {
@@ -925,12 +925,12 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
 
         case RESETS_OBJ_IN_ROOM:
             if (!(pObjIndex = get_obj_index(pReset->arg1))) {
-                bug("Reset_room: 'O': bad vnum %d.", pReset->arg1);
+                bug("Reset_room: 'O': bad vnum {}.", pReset->arg1);
                 continue;
             }
 
             if (!(pRoomIndex = get_room_index(pReset->arg3))) {
-                bug("Reset_room: 'O': bad vnum %d.", pReset->arg3);
+                bug("Reset_room: 'O': bad vnum {}.", pReset->arg3);
                 continue;
             }
 
@@ -946,12 +946,12 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
 
         case RESETS_PUT_OBJ_OBJ:
             if (!(pObjIndex = get_obj_index(pReset->arg1))) {
-                bug("Reset_room: 'P': bad vnum %d.", pReset->arg1);
+                bug("Reset_room: 'P': bad vnum {}.", pReset->arg1);
                 continue;
             }
 
             if (!(pObjToIndex = get_obj_index(pReset->arg3))) {
-                bug("Reset_room: 'P': bad vnum %d.", pReset->arg3);
+                bug("Reset_room: 'P': bad vnum {}.", pReset->arg3);
                 continue;
             }
 
@@ -989,7 +989,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
         case RESETS_GIVE_OBJ_MOB:
         case RESETS_EQUIP_OBJ_MOB:
             if (!(pObjIndex = get_obj_index(pReset->arg1))) {
-                bug("Reset_room: 'E' or 'G': bad vnum %d.", pReset->arg1);
+                bug("Reset_room: 'E' or 'G': bad vnum {}.", pReset->arg1);
                 continue;
             }
 
@@ -997,7 +997,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
                 break;
 
             if (!LastMob) {
-                bug("Reset_room: 'E' or 'G': null mob for vnum %d.", pReset->arg1);
+                bug("Reset_room: 'E' or 'G': null mob for vnum {}.", pReset->arg1);
                 last = false;
                 break;
             }
@@ -1041,7 +1041,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
 
         case RESETS_RANDOMIZE_EXITS:
             if (!(pRoomIndex = get_room_index(pReset->arg1))) {
-                bug("Reset_room: 'R': bad vnum %d.", pReset->arg1);
+                bug("Reset_room: 'R': bad vnum {}.", pReset->arg1);
                 continue;
             }
 
@@ -1270,7 +1270,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
      * Mess with object properties.
      */
     switch (obj->item_type) {
-    default: bug("Read_object: vnum %d bad type.", pObjIndex->vnum); break;
+    default: bug("Read_object: vnum {} bad type.", pObjIndex->vnum); break;
 
     case ITEM_LIGHT:
         if (obj->value[2] == 999)
@@ -1295,7 +1295,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
         if (obj->value[0] != 0) {
             obj->destination = get_room_index(obj->value[0]);
             if (!obj->destination)
-                bug("Couldn't find room index %d for a portal (vnum %d)", obj->value[0], pObjIndex->vnum);
+                bug("Couldn't find room index {} for a portal (vnum {})", obj->value[0], pObjIndex->vnum);
             obj->value[0] = 0; // Prevents ppl ever finding the vnum in the obj
         }
         break;
@@ -1385,7 +1385,7 @@ MOB_INDEX_DATA *get_mob_index(int vnum) {
     }
 
     if (fBootDb) {
-        bug("Get_mob_index: bad vnum %d.", vnum);
+        bug("Get_mob_index: bad vnum {}.", vnum);
         exit(1);
     }
 
@@ -1405,7 +1405,7 @@ OBJ_INDEX_DATA *get_obj_index(int vnum) {
     }
 
     if (fBootDb) {
-        bug("Get_obj_index: bad vnum %d.", vnum);
+        bug("Get_obj_index: bad vnum {}.", vnum);
         exit(1);
     }
 
@@ -1425,7 +1425,7 @@ ROOM_INDEX_DATA *get_room_index(int vnum) {
     }
 
     if (fBootDb) {
-        bug("Get_room_index: bad vnum %d.", vnum);
+        bug("Get_room_index: bad vnum {}.", vnum);
         exit(1);
     }
 
@@ -1554,7 +1554,7 @@ long flag_convert(char letter) {
     } else if ('a' <= letter && letter <= 'z') {
         return 1 << (26 + int(letter - 'a'));
     }
-    bug("illegal char '%c' in flag_convert", letter);
+    bug("illegal char '{}' in flag_convert", letter);
     return 0;
 }
 
@@ -1649,7 +1649,7 @@ char *fread_string(FILE *fp) {
 
     char *plast = top_string + sizeof(char *);
     if (plast > &string_space[MAX_STRING - MAX_STRING_LENGTH]) {
-        bug("Fread_string: MAX_STRING %d exceeded.", MAX_STRING);
+        bug("Fread_string: MAX_STRING {} exceeded.", MAX_STRING);
         exit(1);
     }
     do {
@@ -1734,7 +1734,7 @@ std::string fread_stdstring(FILE *fp) {
 char *fread_string_eol(FILE *fp) {
     char *plast = top_string + sizeof(char *);
     if (plast > &string_space[MAX_STRING - MAX_STRING_LENGTH]) {
-        bug("Fread_string: MAX_STRING %d exceeded.", MAX_STRING);
+        bug("Fread_string: MAX_STRING {} exceeded.", MAX_STRING);
         exit(1);
     }
 
@@ -1875,7 +1875,7 @@ void *alloc_mem(int sMem) {
     }
 
     if (iList == MAX_MEM_LIST) {
-        bug("Alloc_mem: size %d too large.", sMem);
+        bug("Alloc_mem: size {} too large.", sMem);
         exit(1);
     }
 
@@ -1902,7 +1902,7 @@ void free_mem(void *pMem, int sMem) {
     }
 
     if (iList == MAX_MEM_LIST) {
-        bug("Free_mem: size %d too large.", sMem);
+        bug("Free_mem: size {} too large.", sMem);
         exit(1);
     }
 
@@ -1923,7 +1923,7 @@ void *alloc_perm(int sMem) {
     while (sMem % sizeof(long) != 0)
         sMem++;
     if (sMem > MAX_PERM_BLOCK) {
-        bug("Alloc_perm: %d too large.", sMem);
+        bug("Alloc_perm: {} too large.", sMem);
         exit(1);
     }
 
@@ -2444,7 +2444,7 @@ MPROG_DATA *mprog_file_read(char *f, MPROG_DATA *mprg, MOB_INDEX_DATA *pMobIndex
     snprintf(MOBProgfile, sizeof(MOBProgfile), "%s%s", MOB_DIR, f);
     progfile = fopen(MOBProgfile, "r");
     if (!progfile) {
-        bug("Mob:%d couldnt open mobprog file %s", pMobIndex->vnum, MOBProgfile);
+        bug("Mob:{} couldnt open mobprog file {}", pMobIndex->vnum, MOBProgfile);
         exit(1);
     }
     mprg2 = mprg;
@@ -2510,7 +2510,7 @@ void load_mobprogs(FILE *fp) {
     for (;;) {
         switch (letter = fread_letter(fp)) {
         default:
-            bug("Load_mobprogs: bad command '%c'.", letter);
+            bug("Load_mobprogs: bad command '{}'.", letter);
             exit(1);
             break;
         case 'S':
@@ -2520,7 +2520,7 @@ void load_mobprogs(FILE *fp) {
         case 'm':
             value = fread_number(fp);
             if ((iMob = get_mob_index(value)) == nullptr) {
-                bug("Load_mobprogs: vnum %d doesnt exist", value);
+                bug("Load_mobprogs: vnum {} doesnt exist", value);
                 exit(1);
             }
 
@@ -2548,7 +2548,7 @@ void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex) {
     bool done = false;
     char letter;
     if ((letter = fread_letter(fp)) != '>') {
-        bug("Load_mobiles: vnum %d MOBPROG char", pMobIndex->vnum);
+        bug("Load_mobiles: vnum {} MOBPROG char", pMobIndex->vnum);
         exit(1);
     }
     pMobIndex->mobprogs = (MPROG_DATA *)alloc_perm(sizeof(MPROG_DATA));
@@ -2557,7 +2557,7 @@ void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex) {
         mprg->type = mprog_name_to_type(fread_word(fp));
         switch (mprg->type) {
         case ERROR_PROG:
-            bug("Load_mobiles: vnum %d MOBPROG type.", pMobIndex->vnum);
+            bug("Load_mobiles: vnum {} MOBPROG type.", pMobIndex->vnum);
             exit(1);
             break;
         case IN_FILE_PROG:
@@ -2575,7 +2575,7 @@ void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex) {
                 done = true;
                 break;
             default:
-                bug("Load_mobiles: vnum %d bad MOBPROG.", pMobIndex->vnum);
+                bug("Load_mobiles: vnum {} bad MOBPROG.", pMobIndex->vnum);
                 exit(1);
                 break;
             }
@@ -2598,7 +2598,7 @@ void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex) {
                 done = true;
                 break;
             default:
-                bug("Load_mobiles: vnum %d bad MOBPROG.", pMobIndex->vnum);
+                bug("Load_mobiles: vnum {} bad MOBPROG.", pMobIndex->vnum);
                 exit(1);
                 break;
             }

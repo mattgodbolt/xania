@@ -431,7 +431,7 @@ void do_cast(Char *ch, const char *argument) {
     vo = nullptr;
 
     switch (skill_table[sn].target) {
-    default: bug("Do_cast: bad target for sn %d.", sn); return;
+    default: bug("Do_cast: bad target for sn {}.", sn); return;
 
     case TAR_IGNORE: break;
 
@@ -558,12 +558,12 @@ void obj_cast_spell(int sn, int level, Char *ch, Char *victim, OBJ_DATA *obj) {
         return;
 
     if (sn >= MAX_SKILL || skill_table[sn].spell_fun == 0) {
-        bug("Obj_cast_spell: bad sn %d.", sn);
+        bug("Obj_cast_spell: bad sn {}.", sn);
         return;
     }
 
     switch (skill_table[sn].target) {
-    default: bug("Obj_cast_spell: bad target for sn %d.", sn); return;
+    default: bug("Obj_cast_spell: bad target for sn {}.", sn); return;
 
     case TAR_IGNORE: vo = nullptr; break;
 
