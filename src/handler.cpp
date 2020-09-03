@@ -74,10 +74,10 @@ int material_guess(char *name) {
 
 #define SCP(string) if (!str_cmp(string, name))
 /* returns material number */
-int material_lookup(char *name) {
+int material_lookup(std::string_view name) {
     int material = MATERIAL_DEFAULT;
     int count = 0;
-    for (; material_table[count].material_name != nullptr; count++) {
+    for (; material_table[count].material_name; count++) {
         if (is_name(material_table[count].material_name, name))
             material = count;
     }
@@ -921,7 +921,6 @@ void extract_obj(OBJ_DATA *obj) {
     }
 
     free_string(obj->name);
-    free_string(obj->description);
     free_string(obj->short_descr);
     free_string(obj->wear_string);
     free_string(obj->owner);

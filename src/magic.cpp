@@ -89,7 +89,7 @@ void say_spell(Char *ch, int sn) {
  * Compute a saving throw.
  * Negative apply's make saving throw better.
  */
-bool saves_spell(int level, Char *victim) {
+bool saves_spell(int level, const Char *victim) {
     int save = 50 + (victim->level - level - victim->saving_throw) * 5;
     if (IS_AFFECTED(victim, AFF_BERSERK))
         save += victim->level / 2;
@@ -262,9 +262,7 @@ void do_cast(Char *ch, const char *argument) {
                 bomb->value[0] = ch->level;
                 bomb->value[1] = sn;
 
-                snprintf(buf, sizeof(buf), bomb->description, ch->name.c_str());
-                free_string(bomb->description);
-                bomb->description = str_dup(buf);
+                bomb->description = fmt::sprintf(bomb->description, ch->name);
 
                 snprintf(buf, sizeof(buf), bomb->name, ch->name.c_str());
                 free_string(bomb->name);
@@ -335,9 +333,7 @@ void do_cast(Char *ch, const char *argument) {
             free_string(scroll->short_descr);
             scroll->short_descr = str_dup(buf);
 
-            snprintf(buf, sizeof(buf), scroll->description, skill_table[sn].name);
-            free_string(scroll->description);
-            scroll->description = str_dup(buf);
+            scroll->description = fmt::sprintf(scroll->description, skill_table[sn].name);
 
             snprintf(buf, sizeof(buf), scroll->name, skill_table[sn].name);
             free_string(scroll->name);
@@ -406,9 +402,7 @@ void do_cast(Char *ch, const char *argument) {
             free_string(potion->short_descr);
             potion->short_descr = str_dup(buf);
 
-            snprintf(buf, sizeof(buf), potion->description, skill_table[sn].name);
-            free_string(potion->description);
-            potion->description = str_dup(buf);
+            potion->description = fmt::sprintf(potion->description, skill_table[sn].name);
 
             snprintf(buf, sizeof(buf), potion->name, skill_table[sn].name);
             free_string(potion->name);
@@ -3178,16 +3172,12 @@ void spell_plague(int sn, int level, Char *ch, void *vo) {
 void spell_portal(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)vo;
-    Char *victim;
-    OBJ_DATA *portal;
-    char buf[256];
-
-    if ((victim = get_char_world(ch, target_name)) == nullptr || victim == ch || victim->in_room == nullptr
-        || !can_see_room(ch, victim->in_room) || IS_SET(victim->in_room->room_flags, ROOM_SAFE)
-        || IS_SET(victim->in_room->room_flags, ROOM_PRIVATE) || IS_SET(victim->in_room->room_flags, ROOM_SOLITARY)
-        || IS_SET(victim->in_room->room_flags, ROOM_NO_RECALL) || IS_SET(ch->in_room->room_flags, ROOM_NO_RECALL)
-        || IS_SET(victim->in_room->room_flags, ROOM_LAW) || victim->level >= level + 3
-        || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
+    const auto *victim = get_char_world(ch, target_name);
+    if (!victim || victim == ch || victim->in_room == nullptr || !can_see_room(ch, victim->in_room)
+        || IS_SET(victim->in_room->room_flags, ROOM_SAFE) || IS_SET(victim->in_room->room_flags, ROOM_PRIVATE)
+        || IS_SET(victim->in_room->room_flags, ROOM_SOLITARY) || IS_SET(victim->in_room->room_flags, ROOM_NO_RECALL)
+        || IS_SET(ch->in_room->room_flags, ROOM_NO_RECALL) || IS_SET(victim->in_room->room_flags, ROOM_LAW)
+        || victim->level >= level + 3 || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
         || (victim->is_npc() && IS_SET(victim->imm_flags, IMM_SUMMON))
         || (victim->is_pc() && IS_SET(victim->act, PLR_NOSUMMON)) || (victim->is_npc() && saves_spell(level, victim))) {
         ch->send_line("You failed.");
@@ -3197,28 +3187,22 @@ void spell_portal(int sn, int level, Char *ch, void *vo) {
         ch->send_line("You cannot portal from this room.");
         return;
     }
-    portal = create_object(get_obj_index(OBJ_VNUM_PORTAL));
-    portal->timer = (ch->level / 10);
-    portal->destination = victim->in_room;
+    auto *source_portal = create_object(get_obj_index(OBJ_VNUM_PORTAL));
+    source_portal->timer = (ch->level / 10);
+    source_portal->destination = victim->in_room;
 
-    snprintf(buf, sizeof(buf), portal->description, victim->in_room->name);
+    // Put portal in current room.
+    source_portal->description = fmt::sprintf(source_portal->description, victim->in_room->name);
+    obj_to_room(source_portal, ch->in_room);
 
-    /* Put portal in current room */
-    free_string(portal->description);
-    portal->description = str_dup(buf);
-    obj_to_room(portal, ch->in_room);
-
-    /* Create second portal */
-    portal = create_object(get_obj_index(OBJ_VNUM_PORTAL));
-    portal->timer = (ch->level / 10);
-    portal->destination = ch->in_room;
-
-    snprintf(buf, sizeof(buf), portal->description, ch->in_room->name);
+    // Create second portal.
+    auto *dest_portal = create_object(get_obj_index(OBJ_VNUM_PORTAL));
+    dest_portal->timer = (ch->level / 10);
+    dest_portal->destination = ch->in_room;
 
     /* Put portal, in destination room, for this room */
-    free_string(portal->description);
-    portal->description = str_dup(buf);
-    obj_to_room(portal, victim->in_room);
+    dest_portal->description = fmt::sprintf(dest_portal->description, ch->in_room->name);
+    obj_to_room(dest_portal, victim->in_room);
 
     ch->send_line("You wave your hands madly, and create a portal.");
 }

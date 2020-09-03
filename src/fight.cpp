@@ -1306,9 +1306,7 @@ void make_corpse(Char *ch) {
     free_string(corpse->short_descr);
     corpse->short_descr = str_dup(buf);
 
-    snprintf(buf, sizeof(buf), corpse->description, name.c_str());
-    free_string(corpse->description);
-    corpse->description = str_dup(buf);
+    corpse->description = fmt::sprintf(corpse->description, name);
 
     for (obj = ch->carrying; obj != nullptr; obj = obj_next) {
         obj_next = obj->next_content;
@@ -1385,9 +1383,7 @@ void death_cry(Char *ch) {
         free_string(obj->short_descr);
         obj->short_descr = str_dup(buf);
 
-        snprintf(buf, sizeof(buf), obj->description, name.c_str());
-        free_string(obj->description);
-        obj->description = str_dup(buf);
+        obj->description = fmt::sprintf(obj->description, name);
 
         if (obj->item_type == ITEM_FOOD) {
             if (IS_SET(ch->form, FORM_POISON))

@@ -1077,7 +1077,7 @@ struct OBJ_INDEX_DATA {
     AffectList affected{};
     char *name{};
     char *short_descr{};
-    char *description{};
+    std::string description;
     sh_int vnum{};
     sh_int reset_num{};
     sh_int material{};
@@ -1112,7 +1112,7 @@ struct OBJ_DATA {
     char *owner{};
     char *name{};
     char *short_descr{};
-    char *description{};
+    std::string description;
     sh_int item_type{};
     unsigned int extra_flags{};
     sh_int wear_flags{};
@@ -1566,8 +1566,7 @@ void death_cry(Char *ch);
 
 /* handler.c */
 int check_immune(Char *ch, int dam_type);
-int material_lookup(char *name);
-int material_guess(char *name);
+int material_lookup(std::string_view name);
 int race_lookup(const char *name);
 int class_lookup(const char *name);
 int get_skill(const Char *ch, int sn);
@@ -1656,7 +1655,7 @@ char *one_argument(char *argument, char *arg_first); // TODO(MRG) get rid of thi
 int mana_cost(Char *ch, int min_mana, int level);
 int skill_lookup(const char *name);
 int slot_lookup(int slot);
-bool saves_spell(int level, Char *victim);
+bool saves_spell(int level, const Char *victim);
 void obj_cast_spell(int sn, int level, Char *ch, Char *victim, OBJ_DATA *obj);
 
 /* save.c */

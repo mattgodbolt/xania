@@ -1243,7 +1243,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
 
     obj->name = str_dup(pObjIndex->name);
     obj->short_descr = str_dup(pObjIndex->short_descr);
-    obj->description = str_dup(pObjIndex->description);
+    obj->description = pObjIndex->description;
     obj->material = pObjIndex->material;
     obj->item_type = pObjIndex->item_type;
     obj->extra_flags = pObjIndex->extra_flags;
@@ -1318,7 +1318,7 @@ void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
     /* start fixing the object */
     clone->name = str_dup(parent->name);
     clone->short_descr = str_dup(parent->short_descr);
-    clone->description = str_dup(parent->description);
+    clone->description = parent->description;
     clone->item_type = parent->item_type;
     clone->extra_flags = parent->extra_flags;
     clone->wear_flags = parent->wear_flags;

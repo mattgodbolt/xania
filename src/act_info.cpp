@@ -73,8 +73,7 @@ std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort)
         if (obj->short_descr)
             buf += obj->short_descr;
     } else {
-        if (obj->description)
-            buf += obj->description;
+        buf += obj->description;
     }
 
     if (buf.empty()) {

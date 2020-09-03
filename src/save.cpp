@@ -360,7 +360,7 @@ void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
     if (obj->short_descr != obj->pIndexData->short_descr)
         fprintf(fp, "ShD  %s~\n", obj->short_descr);
     if (obj->description != obj->pIndexData->description)
-        fprintf(fp, "Desc %s~\n", obj->description);
+        fmt::print(fp, "Desc {}~\n", obj->description);
     if (obj->extra_flags != obj->pIndexData->extra_flags)
         fprintf(fp, "ExtF %d\n", obj->extra_flags);
     if (obj->wear_flags != obj->pIndexData->wear_flags)

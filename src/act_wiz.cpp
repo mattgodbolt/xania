@@ -753,9 +753,8 @@ void do_ostat(Char *ch, const char *argument) {
         bug_snprintf(buf, sizeof(buf), "Vnum: %d  Type: %s\n\r", pObjIndex->vnum, item_index_type_name(pObjIndex));
         ch->send_to(buf);
 
-        bug_snprintf(buf, sizeof(buf), "Short description: %s\n\rLong description: %s\n\r", pObjIndex->short_descr,
-                     pObjIndex->description);
-        ch->send_to(buf);
+        ch->send_line("Short description: {}", pObjIndex->short_descr);
+        ch->send_line("Long description: {}", pObjIndex->description);
 
         bug_snprintf(buf, sizeof(buf), "Wear bits: %s\n\rExtra bits: %s\n\r", wear_bit_name(pObjIndex->wear_flags),
                      extra_bit_name(pObjIndex->extra_flags));
@@ -790,9 +789,8 @@ void do_ostat(Char *ch, const char *argument) {
                  obj->pIndexData->reset_num);
     ch->send_to(buf);
 
-    bug_snprintf(buf, sizeof(buf), "Short description: %s\n\rLong description: %s\n\r", obj->short_descr,
-                 obj->description);
-    ch->send_to(buf);
+    ch->send_line("Short description: {}", obj->short_descr);
+    ch->send_line("Long description: {}", obj->description);
 
     bug_snprintf(buf, sizeof(buf), "Wear bits: %s\n\rExtra bits: %s\n\r", wear_bit_name(obj->wear_flags),
                  extra_bit_name(obj->extra_flags));
@@ -3068,8 +3066,7 @@ void do_string(Char *ch, const char *argument) {
         }
 
         if (!str_prefix(arg2, "long")) {
-            free_string(obj->description);
-            obj->description = str_dup(arg3);
+            obj->description = arg3;
             return;
         }
 

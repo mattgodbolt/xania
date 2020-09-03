@@ -351,8 +351,8 @@ void load_objects(FILE *fp) {
          */
         // str_dup is temporary until short_descr of objects is a std::string
         pObjIndex->short_descr = str_dup(lower_case_articles(fread_stdstring(fp)).c_str());
-        pObjIndex->description = fread_string(fp);
-        if (strlen(pObjIndex->description) == 0) {
+        pObjIndex->description = fread_stdstring(fp);
+        if (pObjIndex->description.empty()) {
             bug("Load_objects: empty long description in object {}.", vnum);
         }
         pObjIndex->material = material_lookup(fread_string(fp));
