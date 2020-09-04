@@ -1013,7 +1013,8 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
         return;
     }
 
-    if (obj->wear_string != nullptr) {
+    bool use_default_message = obj->wear_string.empty();
+    if (!use_default_message) {
         act("$n uses $p.", ch, obj, nullptr, To::Room);
         act("You use $p.", ch, obj, nullptr, To::Char);
     }
@@ -1022,7 +1023,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
         if (!remove_obj(ch, WEAR_LIGHT, fReplace))
             return;
 
-        if (obj->wear_string == nullptr) {
+        if (use_default_message) {
             act("$n lights $p and holds it.", ch, obj, nullptr, To::Room);
             act("You light $p and hold it.", ch, obj, nullptr, To::Char);
         }
@@ -1037,7 +1038,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
             return;
 
         if (get_eq_char(ch, WEAR_FINGER_L) == nullptr) {
-            if (obj->wear_string == nullptr) {
+            if (use_default_message) {
                 act("$n wears $p on $s left finger.", ch, obj, nullptr, To::Room);
                 act("You wear $p on your left finger.", ch, obj, nullptr, To::Char);
             }
@@ -1046,7 +1047,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
         }
 
         if (get_eq_char(ch, WEAR_FINGER_R) == nullptr) {
-            if (obj->wear_string == nullptr) {
+            if (use_default_message) {
                 act("$n wears $p on $s right finger.", ch, obj, nullptr, To::Room);
                 act("You wear $p on your right finger.", ch, obj, nullptr, To::Char);
             }
@@ -1065,7 +1066,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
             return;
 
         if (get_eq_char(ch, WEAR_NECK_1) == nullptr) {
-            if (obj->wear_string == nullptr) {
+            if (use_default_message) {
                 act("$n wears $p around $s neck.", ch, obj, nullptr, To::Room);
                 act("You wear $p around your neck.", ch, obj, nullptr, To::Char);
             }
@@ -1074,7 +1075,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
         }
 
         if (get_eq_char(ch, WEAR_NECK_2) == nullptr) {
-            if (obj->wear_string == nullptr) {
+            if (use_default_message) {
                 act("$n wears $p around $s neck.", ch, obj, nullptr, To::Room);
                 act("You wear $p around your neck.", ch, obj, nullptr, To::Char);
             }
@@ -1090,7 +1091,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
     if (CAN_WEAR(obj, ITEM_WEAR_BODY)) {
         if (!remove_obj(ch, WEAR_BODY, fReplace))
             return;
-        if (obj->wear_string == nullptr) {
+        if (use_default_message) {
             act("$n wears $p on $s body.", ch, obj, nullptr, To::Room);
             act("You wear $p on your body.", ch, obj, nullptr, To::Char);
         }
@@ -1101,7 +1102,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
     if (CAN_WEAR(obj, ITEM_WEAR_HEAD)) {
         if (!remove_obj(ch, WEAR_HEAD, fReplace))
             return;
-        if (obj->wear_string == nullptr) {
+        if (use_default_message) {
             act("$n wears $p on $s head.", ch, obj, nullptr, To::Room);
             act("You wear $p on your head.", ch, obj, nullptr, To::Char);
         }
@@ -1112,7 +1113,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
     if (CAN_WEAR(obj, ITEM_WEAR_LEGS)) {
         if (!remove_obj(ch, WEAR_LEGS, fReplace))
             return;
-        if (obj->wear_string == nullptr) {
+        if (use_default_message) {
             act("$n wears $p on $s legs.", ch, obj, nullptr, To::Room);
             act("You wear $p on your legs.", ch, obj, nullptr, To::Char);
         }
@@ -1123,7 +1124,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
     if (CAN_WEAR(obj, ITEM_WEAR_FEET)) {
         if (!remove_obj(ch, WEAR_FEET, fReplace))
             return;
-        if (obj->wear_string == nullptr) {
+        if (use_default_message) {
             act("$n wears $p on $s feet.", ch, obj, nullptr, To::Room);
             act("You wear $p on your feet.", ch, obj, nullptr, To::Char);
         }
@@ -1134,7 +1135,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
     if (CAN_WEAR(obj, ITEM_WEAR_HANDS)) {
         if (!remove_obj(ch, WEAR_HANDS, fReplace))
             return;
-        if (obj->wear_string == nullptr) {
+        if (use_default_message) {
             act("$n wears $p on $s hands.", ch, obj, nullptr, To::Room);
             act("You wear $p on your hands.", ch, obj, nullptr, To::Char);
         }
@@ -1145,7 +1146,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
     if (CAN_WEAR(obj, ITEM_WEAR_ARMS)) {
         if (!remove_obj(ch, WEAR_ARMS, fReplace))
             return;
-        if (obj->wear_string == nullptr) {
+        if (use_default_message) {
             act("$n wears $p on $s arms.", ch, obj, nullptr, To::Room);
             act("You wear $p on your arms.", ch, obj, nullptr, To::Char);
         }
@@ -1156,7 +1157,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
     if (CAN_WEAR(obj, ITEM_WEAR_ABOUT)) {
         if (!remove_obj(ch, WEAR_ABOUT, fReplace))
             return;
-        if (obj->wear_string == nullptr) {
+        if (use_default_message) {
             act("$n wears $p about $s body.", ch, obj, nullptr, To::Room);
             act("You wear $p about your body.", ch, obj, nullptr, To::Char);
         }
@@ -1167,7 +1168,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
     if (CAN_WEAR(obj, ITEM_WEAR_WAIST)) {
         if (!remove_obj(ch, WEAR_WAIST, fReplace))
             return;
-        if (obj->wear_string == nullptr) {
+        if (use_default_message) {
             act("$n wears $p about $s waist.", ch, obj, nullptr, To::Room);
             act("You wear $p about your waist.", ch, obj, nullptr, To::Char);
         }
@@ -1181,7 +1182,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
             return;
 
         if (get_eq_char(ch, WEAR_WRIST_L) == nullptr) {
-            if (obj->wear_string == nullptr) {
+            if (use_default_message) {
                 act("$n wears $p around $s left wrist.", ch, obj, nullptr, To::Room);
                 act("You wear $p around your left wrist.", ch, obj, nullptr, To::Char);
             }
@@ -1190,7 +1191,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
         }
 
         if (get_eq_char(ch, WEAR_WRIST_R) == nullptr) {
-            if (obj->wear_string == nullptr) {
+            if (use_default_message) {
                 act("$n wears $p around $s right wrist.", ch, obj, nullptr, To::Room);
                 act("You wear $p around your right wrist.", ch, obj, nullptr, To::Char);
             }
@@ -1215,7 +1216,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
             return;
         }
 
-        if (obj->wear_string == nullptr) {
+        if (use_default_message) {
             act("$n wears $p as a shield.", ch, obj, nullptr, To::Room);
             act("You wear $p as a shield.", ch, obj, nullptr, To::Char);
         }
@@ -1240,7 +1241,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
             return;
         }
 
-        if (obj->wear_string == nullptr) {
+        if (use_default_message) {
             act("$n wields $p.", ch, obj, nullptr, To::Room);
             act("You wield $p.", ch, obj, nullptr, To::Char);
         }
@@ -1275,7 +1276,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
         if (!(ch->is_npc() && IS_SET(ch->act, ACT_PET))) {
             if (!remove_obj(ch, WEAR_HOLD, fReplace))
                 return;
-            if (obj->wear_string == nullptr) {
+            if (use_default_message) {
                 act("$n holds $p in $s hands.", ch, obj, nullptr, To::Room);
                 act("You hold $p in your hands.", ch, obj, nullptr, To::Char);
             }

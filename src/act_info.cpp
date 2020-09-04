@@ -33,12 +33,20 @@
 #include <sys/time.h>
 
 using namespace std::literals;
-const char *where_name[] = {"<used as light>     ", "<worn on finger>    ", "<worn on finger>    ",
-                            "<worn around neck>  ", "<worn around neck>  ", "<worn on body>      ",
-                            "<worn on head>      ", "<worn on legs>      ", "<worn on feet>      ",
-                            "<worn on hands>     ", "<worn on arms>      ", "<worn as shield>    ",
-                            "<worn about body>   ", "<worn about waist>  ", "<worn around wrist> ",
-                            "<worn around wrist> ", "<wielded>           ", "<held>              "};
+
+namespace {
+std::string wear_string_for(const OBJ_DATA *obj, int wear_location) {
+    constexpr std::array<std::string_view, MAX_WEAR> where_name = {
+        "used as light",     "worn on finger",   "worn on finger",
+        "worn around neck",  "worn around neck", "worn on body",
+        "worn on head",      "worn on legs",     "worn on feet",
+        "worn on hands",     "worn on arms",     "worn as shield",
+        "worn about body",   "worn about waist", "worn around wrist",
+        "worn around wrist", "wielded",          "held"};
+
+    return fmt::format("<{}>", obj->wear_string.empty() ? where_name[wear_location] : obj->wear_string);
+}
+}
 
 /* for do_count */
 size_t max_on = 0;
@@ -217,12 +225,6 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
 }
 
 void show_char_to_char_1(Char *victim, Char *ch) {
-    char buf[MAX_STRING_LENGTH];
-    char buf2[MAX_STRING_LENGTH];
-    OBJ_DATA *obj;
-    int iWear;
-    bool found;
-
     if (can_see(victim, ch)) {
         if (ch == victim)
             act("$n looks at $mself.", ch);
@@ -240,22 +242,15 @@ void show_char_to_char_1(Char *victim, Char *ch) {
 
     ch->send_to(describe_fight_condition(*victim));
 
-    found = false;
-    for (iWear = 0; iWear < MAX_WEAR; iWear++) {
-        if ((obj = get_eq_char(victim, iWear)) != nullptr && can_see_obj(ch, obj)) {
+    bool found = false;
+    for (int iWear = 0; iWear < MAX_WEAR; iWear++) {
+        if (const auto *obj = get_eq_char(victim, iWear); obj && can_see_obj(ch, obj)) {
             if (!found) {
                 ch->send_line("");
                 act("$N is using:", ch, nullptr, victim, To::Char);
                 found = true;
             }
-            if (obj->wear_string != nullptr) {
-                snprintf(buf2, sizeof(buf2), "<%s>", obj->wear_string);
-                snprintf(buf, sizeof(buf), "%-20s", buf2);
-                ch->send_to(buf);
-            } else {
-                ch->send_to(where_name[iWear]);
-            }
-            ch->send_line(format_obj_to_char(obj, ch, true));
+            ch->send_line("{:<20}{}", wear_string_for(obj, iWear), format_obj_to_char(obj, ch, true));
         }
     }
 
@@ -1585,32 +1580,15 @@ void do_inventory(Char *ch, const char *argument) {
 
 void do_equipment(Char *ch, const char *argument) {
     (void)argument;
-    OBJ_DATA *obj;
-    int iWear;
-    bool found;
-    char buf[MAX_STRING_LENGTH];
-    char buf2[MAX_STRING_LENGTH];
 
     ch->send_line("You are using:");
-    found = false;
-    for (iWear = 0; iWear < MAX_WEAR; iWear++) {
-        if ((obj = get_eq_char(ch, iWear)) == nullptr)
-            continue;
-
-        if (obj->wear_string != nullptr) {
-            snprintf(buf2, sizeof(buf2), "<%s>", obj->wear_string);
-            snprintf(buf, sizeof(buf), "%-20s", buf2);
-            ch->send_to(buf);
-        } else {
-            ch->send_to(where_name[iWear]);
+    bool found = false;
+    for (int iWear = 0; iWear < MAX_WEAR; iWear++) {
+        if (const auto *obj = get_eq_char(ch, iWear)) {
+            ch->send_line("{:<20}{}", wear_string_for(obj, iWear),
+                          can_see_obj(ch, obj) ? format_obj_to_char(obj, ch, true) : "something.");
+            found = true;
         }
-
-        if (can_see_obj(ch, obj)) {
-            ch->send_line(format_obj_to_char(obj, ch, true));
-        } else {
-            ch->send_line("something.");
-        }
-        found = true;
     }
 
     if (!found)

@@ -364,9 +364,8 @@ void load_objects(FILE *fp) {
 
         temp = fread_letter(fp);
         if (temp == ',') {
-            pObjIndex->wear_string = fread_string(fp);
+            pObjIndex->wear_string = fread_stdstring(fp);
         } else {
-            pObjIndex->wear_string = nullptr;
             ungetc(temp, fp);
         }
 

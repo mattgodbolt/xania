@@ -1084,7 +1084,7 @@ struct OBJ_INDEX_DATA {
     sh_int item_type{};
     unsigned int extra_flags{};
     ush_int wear_flags{};
-    char *wear_string{};
+    std::string wear_string;
     sh_int level{};
     sh_int condition{};
     sh_int count{};
@@ -1116,7 +1116,7 @@ struct OBJ_DATA {
     sh_int item_type{};
     unsigned int extra_flags{};
     sh_int wear_flags{};
-    char *wear_string{};
+    std::string wear_string;
     sh_int wear_loc{};
     sh_int weight{};
     int cost{};

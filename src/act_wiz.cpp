@@ -760,8 +760,7 @@ void do_ostat(Char *ch, const char *argument) {
                      extra_bit_name(pObjIndex->extra_flags));
         ch->send_to(buf);
 
-        bug_snprintf(buf, sizeof(buf), "Wear string: %s\n\r", pObjIndex->wear_string);
-        ch->send_to(buf);
+        ch->send_line("Wear string: {}", pObjIndex->wear_string);
 
         bug_snprintf(buf, sizeof(buf), "Weight: %d\n\r", pObjIndex->weight);
         ch->send_to(buf);
@@ -796,8 +795,7 @@ void do_ostat(Char *ch, const char *argument) {
                  extra_bit_name(obj->extra_flags));
     ch->send_to(buf);
 
-    bug_snprintf(buf, sizeof(buf), "Wear string: %s\n\r", obj->wear_string);
-    ch->send_to(buf);
+    ch->send_line("Wear string: {}", obj->wear_string);
 
     bug_snprintf(buf, sizeof(buf), "Number: %d/%d  Weight: %d/%d\n\r", 1, get_obj_number(obj), obj->weight,
                  get_obj_weight(obj));
@@ -3074,8 +3072,7 @@ void do_string(Char *ch, const char *argument) {
             if (strlen(arg3) > 17) {
                 ch->send_line("Wear_Strings may not be longer than 17 chars.");
             } else {
-                free_string(obj->wear_string);
-                obj->wear_string = str_dup(arg3);
+                obj->wear_string = arg3;
             }
             return;
         }

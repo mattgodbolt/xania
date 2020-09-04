@@ -366,7 +366,7 @@ void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
     if (obj->wear_flags != obj->pIndexData->wear_flags)
         fprintf(fp, "WeaF %d\n", obj->wear_flags);
     if (obj->wear_string != obj->pIndexData->wear_string)
-        fprintf(fp, "WStr %s~\n", obj->wear_string);
+        fmt::print(fp, "WStr {}~\n", obj->wear_string);
     if (obj->item_type != obj->pIndexData->item_type)
         fprintf(fp, "Ityp %d\n", obj->item_type);
     if (obj->weight != obj->pIndexData->weight)
@@ -897,8 +897,6 @@ void fread_obj(Char *ch, FILE *fp) {
         obj = new OBJ_DATA;
         obj->name = str_dup("");
         obj->short_descr = str_dup("");
-        obj->description = str_dup("");
-        obj->wear_string = str_dup("");
     }
 
     fNest = false;
@@ -1041,7 +1039,7 @@ void fread_obj(Char *ch, FILE *fp) {
         } else if (matches(word, "Weight") || matches(word, "Wt")) {
             obj->weight = fread_number(fp);
         } else if (matches(word, "WStr")) {
-            obj->wear_string = fread_string(fp);
+            obj->wear_string = fread_stdstring(fp);
         } else {
             bug("Fread_obj: no match for {}.", word);
             fread_to_eol(fp);
