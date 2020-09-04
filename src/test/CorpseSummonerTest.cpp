@@ -25,7 +25,7 @@ struct MockDependencies : public CorpseSummoner::Dependencies {
     MAKE_CONST_MOCK0(weaken_sn, int(), override);
 };
 
-OBJ_DATA make_test_obj(ROOM_INDEX_DATA *room, char *descr, int item_type) {
+OBJ_DATA make_test_obj(ROOM_INDEX_DATA *room, std::string_view descr, int item_type) {
     OBJ_DATA obj;
     obj.in_room = room;
     obj.short_descr = descr;
@@ -164,7 +164,7 @@ TEST_CASE("get pc corpse world") {
     auto tests_corpse_desc{"corpse of Test"};
 
     SECTION("no pc corpse in world") {
-        OBJ_DATA weapon = make_test_obj(&object_room, nullptr, ITEM_WEAPON);
+        OBJ_DATA weapon = make_test_obj(&object_room, "", ITEM_WEAPON);
         OBJ_DATA *object_ptr = &weapon;
         REQUIRE_CALL(mock, object_list()).RETURN(object_ptr);
 
