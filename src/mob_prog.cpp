@@ -1146,7 +1146,7 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const OBJ_D
 
     case 'o':
         if (obj)
-            can_see_obj(mob, obj) ? one_argument(obj->name, t) : strcpy(t, "something");
+            can_see_obj(mob, obj) ? one_argument(obj->name.c_str(), t) : strcpy(t, "something");
         break;
 
     case 'O':
@@ -1156,7 +1156,7 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const OBJ_D
 
     case 'p':
         if (v_obj)
-            can_see_obj(mob, v_obj) ? one_argument(v_obj->name, t) : strcpy(t, "something");
+            can_see_obj(mob, v_obj) ? one_argument(v_obj->name.c_str(), t) : strcpy(t, "something");
         break;
 
     case 'P':
@@ -1166,7 +1166,7 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const OBJ_D
 
     case 'a':
         if (obj)
-            switch (*(obj->name)) {
+            switch (obj->name.front()) {
             case 'a':
             case 'e':
             case 'i':
@@ -1178,7 +1178,7 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const OBJ_D
 
     case 'A':
         if (v_obj)
-            switch (*(v_obj->name)) {
+            switch (v_obj->name.front()) {
             case 'a':
             case 'e':
             case 'i':
@@ -1401,7 +1401,7 @@ void mprog_give_trigger(Char *mob, Char *ch, OBJ_DATA *obj) {
     if (mob->is_npc() && (mob->pIndexData->progtypes & GIVE_PROG))
         for (mprg = mob->pIndexData->mobprogs; mprg != nullptr; mprg = mprg->next) {
             one_argument(mprg->arglist, buf);
-            if ((mprg->type & GIVE_PROG) && ((!str_cmp(obj->name, mprg->arglist)) || (!str_cmp("all", buf)))) {
+            if ((mprg->type & GIVE_PROG) && ((matches(obj->name, mprg->arglist)) || (!str_cmp("all", buf)))) {
                 mprog_driver(mprg->comlist, mob, ch, obj, nullptr);
                 break;
             }

@@ -154,7 +154,6 @@ void do_cast(Char *ch, const char *argument) {
     OBJ_DATA *scroll;
     OBJ_INDEX_DATA *i_Scroll;
     OBJ_DATA *bomb;
-    char buf[MAX_STRING_LENGTH];
     void *vo;
     int sn;
     int pos;
@@ -263,10 +262,7 @@ void do_cast(Char *ch, const char *argument) {
                 bomb->value[1] = sn;
 
                 bomb->description = fmt::sprintf(bomb->description, ch->name);
-
-                snprintf(buf, sizeof(buf), bomb->name, ch->name.c_str());
-                free_string(bomb->name);
-                bomb->name = str_dup(buf);
+                bomb->name = fmt::sprintf(bomb->name, ch->name);
 
                 obj_to_char(bomb, ch);
                 equip_char(ch, bomb, WEAR_HOLD);
@@ -331,10 +327,7 @@ void do_cast(Char *ch, const char *argument) {
 
             scroll->short_descr = fmt::sprintf(scroll->short_descr, skill_table[sn].name);
             scroll->description = fmt::sprintf(scroll->description, skill_table[sn].name);
-
-            snprintf(buf, sizeof(buf), scroll->name, skill_table[sn].name);
-            free_string(scroll->name);
-            scroll->name = str_dup(buf);
+            scroll->name = fmt::sprintf(scroll->name, skill_table[sn].name);
 
             obj_to_char(scroll, ch);
             act("$n creates $p.", ch, scroll, nullptr, To::Room);
@@ -397,10 +390,7 @@ void do_cast(Char *ch, const char *argument) {
 
             potion->short_descr = fmt::sprintf(potion->short_descr, skill_table[sn].name);
             potion->description = fmt::sprintf(potion->description, skill_table[sn].name);
-
-            snprintf(buf, sizeof(buf), potion->name, skill_table[sn].name);
-            free_string(potion->name);
-            potion->name = str_dup(buf);
+            potion->name = fmt::sprintf(potion->name, skill_table[sn].name);
 
             obj_to_char(potion, ch);
             act("$n creates $p.", ch, potion, nullptr, To::Room);
@@ -1244,13 +1234,8 @@ void spell_create_water(int sn, int level, Char *ch, void *vo) {
     if (water > 0) {
         obj->value[2] = LIQ_WATER;
         obj->value[1] += water;
-        if (!is_name("water", obj->name)) {
-            char buf[MAX_STRING_LENGTH];
-
-            snprintf(buf, sizeof(buf), "%s water", obj->name);
-            free_string(obj->name);
-            obj->name = str_dup(buf);
-        }
+        if (!is_name("water", obj->name))
+            obj->name = fmt::format("{} water", obj->name);
         act("$p is filled.", ch, obj, nullptr, To::Char);
     } else {
         act("$p is full.", ch, obj, nullptr, To::Char);
@@ -2793,9 +2778,9 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
     OBJ_DATA *obj = (OBJ_DATA *)vo;
     char buf[MAX_STRING_LENGTH];
 
-    snprintf(buf, sizeof(buf), "Object '%s' is type %s, extra flags %s.\n\rWeight is %d, value is %d, level is %d.\n\r",
-             obj->name, item_type_name(obj), extra_bit_name(obj->extra_flags), obj->weight, obj->cost, obj->level);
-    ch->send_to(buf);
+    ch->send_line("Object '{}' is type {}, extra flags {}.", obj->name, item_type_name(obj),
+                  extra_bit_name(obj->extra_flags));
+    ch->send_line("Weight is {}, value is {}, level is {}.", obj->weight, obj->cost, obj->level);
 
     if ((obj->material != MATERIAL_NONE) && (obj->material != MATERIAL_DEFAULT)) {
         snprintf(buf, sizeof(buf), "Made of %s.\n\r", material_table[obj->material].material_name);
@@ -3912,7 +3897,7 @@ void spell_teleport_object(int sn, int level, Char *ch, void *vo) {
     if (ch->in_room != victim->in_room) {
         act("You feel a brief presence in the room.", victim, nullptr, nullptr, To::Char);
         act("You feel a brief presence in the room.", victim);
-        snprintf(buf, sizeof(buf), "'%s' %s", object->name, victim->name.c_str());
+        snprintf(buf, sizeof(buf), "'%s' %s", object->name.c_str(), victim->name.c_str());
         old_room = ch->in_room;
         char_from_room(ch);
         char_to_room(ch, victim->in_room);
@@ -3920,7 +3905,7 @@ void spell_teleport_object(int sn, int level, Char *ch, void *vo) {
         char_from_room(ch);
         char_to_room(ch, old_room);
     } else {
-        snprintf(buf, sizeof(buf), "'%s' %s", object->name, victim->name.c_str());
+        snprintf(buf, sizeof(buf), "'%s' %s", object->name.c_str(), victim->name.c_str());
         do_give(ch, buf);
     } /* ..else... if not in same room */
 }

@@ -344,7 +344,7 @@ void load_objects(FILE *fp) {
         pObjIndex->area = area_last;
         pObjIndex->reset_num = 0;
         newobjs++;
-        pObjIndex->name = fread_string(fp);
+        pObjIndex->name = fread_stdstring(fp);
         /*
          * MG added - snarf short descrips to kill:
          * You hit The beastly fido

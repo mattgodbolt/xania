@@ -920,7 +920,6 @@ void extract_obj(OBJ_DATA *obj) {
         }
     }
 
-    free_string(obj->name);
     --obj->pIndexData->count;
     delete obj;
 }

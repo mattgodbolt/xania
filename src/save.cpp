@@ -356,7 +356,7 @@ void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
     /* these data are only used if they do not match the defaults */
 
     if (obj->name != obj->pIndexData->name)
-        fprintf(fp, "Name %s~\n", obj->name);
+        fmt::print(fp, "Name {}~\n", obj->name);
     if (obj->short_descr != obj->pIndexData->short_descr)
         fmt::print(fp, "ShD  {}~\n", obj->short_descr);
     if (obj->description != obj->pIndexData->description)
@@ -893,10 +893,7 @@ void fread_obj(Char *ch, FILE *fp) {
     }
 
     if (obj == nullptr) /* either not found or old style */
-    {
         obj = new OBJ_DATA;
-        obj->name = str_dup("");
-    }
 
     fNest = false;
     fVnum = true;
@@ -982,7 +979,7 @@ void fread_obj(Char *ch, FILE *fp) {
         } else if (matches(word, "Level") || matches(word, "Lev")) {
             obj->level = fread_number(fp);
         } else if (matches(word, "Name")) {
-            obj->name = fread_string(fp);
+            obj->name = fread_stdstring(fp);
         } else if (matches(word, "Nest")) {
             iNest = fread_number(fp);
             if (iNest < 0 || iNest >= MAX_NEST) {

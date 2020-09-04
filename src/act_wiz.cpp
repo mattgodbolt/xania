@@ -656,7 +656,6 @@ void do_rstat(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
     OBJ_DATA *obj;
-    Char *rch;
 
     one_argument(argument, arg);
     location = (arg[0] == '\0') ? ch->in_room : find_location(ch, arg);
@@ -676,36 +675,34 @@ void do_rstat(Char *ch, const char *argument) {
     bug_snprintf(buf, sizeof(buf), "Vnum: %d.  Sector: %d.  Light: %d.\n\r", location->vnum, location->sector_type,
                  location->light);
     ch->send_to(buf);
-    ch->send_line("Flags: ");
+    ch->send_to("Flags: ");
     display_flags(ROOM_FLAGS, ch, location->room_flags);
     bug_snprintf(buf, sizeof(buf), "Description:\n\r%s", location->description);
     ch->send_to(buf);
 
     if (location->extra_descr != nullptr) {
-        EXTRA_DESCR_DATA *ed;
-
-        ch->send_line("Extra description keywords: '");
-        for (ed = location->extra_descr; ed; ed = ed->next) {
+        ch->send_to("Extra description keywords: '");
+        for (auto *ed = location->extra_descr; ed; ed = ed->next) {
             ch->send_to(ed->keyword);
             if (ed->next != nullptr)
-                ch->send_line(" ");
+                ch->send_to(" ");
         }
         ch->send_line("'.");
     }
 
-    ch->send_line("Characters:");
-    for (rch = location->people; rch; rch = rch->next_in_room) {
+    ch->send_to("Characters:");
+    for (auto *rch = location->people; rch; rch = rch->next_in_room) {
         if (can_see(ch, rch)) {
-            ch->send_line(" ");
+            ch->send_to(" ");
             ch->send_to(ArgParser(rch->name).shift());
         }
     }
+    ch->send_line(".");
 
-    ch->send_line(".\n\rObjects:   ");
+    ch->send_to("Objects:   ");
     for (obj = location->contents; obj; obj = obj->next_content) {
-        ch->send_line(" ");
-        one_argument(obj->name, buf);
-        ch->send_to(buf);
+        ch->send_to(" ");
+        ch->send_to(ArgParser(obj->name).shift());
     }
     ch->send_line(".");
 
@@ -747,8 +744,7 @@ void do_ostat(Char *ch, const char *argument) {
             return;
         }
         ch->send_line("Template of object:");
-        bug_snprintf(buf, sizeof(buf), "Name(s): %s\n\r", pObjIndex->name);
-        ch->send_to(buf);
+        ch->send_line("Name(s): {}", pObjIndex->name);
 
         bug_snprintf(buf, sizeof(buf), "Vnum: %d  Type: %s\n\r", pObjIndex->vnum, item_index_type_name(pObjIndex));
         ch->send_to(buf);
@@ -781,8 +777,7 @@ void do_ostat(Char *ch, const char *argument) {
         return;
     }
 
-    bug_snprintf(buf, sizeof(buf), "Name(s): %s\n\r", obj->name);
-    ch->send_to(buf);
+    ch->send_line("Name(s): {}", obj->name);
 
     bug_snprintf(buf, sizeof(buf), "Vnum: %d  Type: %s  Resets: %d\n\r", obj->pIndexData->vnum, item_type_name(obj),
                  obj->pIndexData->reset_num);
@@ -825,29 +820,17 @@ void do_ostat(Char *ch, const char *argument) {
         bug_snprintf(buf, sizeof(buf), "Level %d spells of:", obj->value[0]);
         ch->send_to(buf);
 
-        if (obj->value[1] >= 0 && obj->value[1] < MAX_SKILL) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[1]].name);
-            ch->send_line("'");
-        }
+        if (obj->value[1] >= 0 && obj->value[1] < MAX_SKILL)
+            ch->send_to(" '{}'", skill_table[obj->value[1]].name);
 
-        if (obj->value[2] >= 0 && obj->value[2] < MAX_SKILL) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[2]].name);
-            ch->send_line("'");
-        }
+        if (obj->value[2] >= 0 && obj->value[2] < MAX_SKILL)
+            ch->send_to(" '{}'", skill_table[obj->value[2]].name);
 
-        if (obj->value[3] >= 0 && obj->value[3] < MAX_SKILL) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[3]].name);
-            ch->send_line("'");
-        }
+        if (obj->value[3] >= 0 && obj->value[3] < MAX_SKILL)
+            ch->send_to(" '{}'", skill_table[obj->value[3]].name);
 
-        if ((obj->value[4] >= 0 && obj->value[4] < MAX_SKILL) && obj->item_type == ITEM_BOMB) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[4]].name);
-            ch->send_line("'");
-        }
+        if ((obj->value[4] >= 0 && obj->value[4] < MAX_SKILL) && obj->item_type == ITEM_BOMB)
+            ch->send_to(" '{}'", skill_table[obj->value[4]].name);
 
         ch->send_line(".");
         break;
@@ -857,17 +840,14 @@ void do_ostat(Char *ch, const char *argument) {
         bug_snprintf(buf, sizeof(buf), "Has %d(%d) charges of level %d", obj->value[1], obj->value[2], obj->value[0]);
         ch->send_to(buf);
 
-        if (obj->value[3] >= 0 && obj->value[3] < MAX_SKILL) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[3]].name);
-            ch->send_line("'");
-        }
+        if (obj->value[3] >= 0 && obj->value[3] < MAX_SKILL)
+            ch->send_to(" '{}'", skill_table[obj->value[3]].name);
 
         ch->send_line(".");
         break;
 
     case ITEM_WEAPON:
-        ch->send_line("Weapon type is ");
+        ch->send_to("Weapon type is ");
         switch (obj->value[0]) {
         case (WEAPON_EXOTIC): ch->send_line("exotic"); break;
         case (WEAPON_SWORD): ch->send_line("sword"); break;
@@ -934,18 +914,18 @@ void do_ostat(Char *ch, const char *argument) {
     if (obj->extra_descr != nullptr || obj->pIndexData->extra_descr != nullptr) {
         EXTRA_DESCR_DATA *ed;
 
-        ch->send_line("Extra description keywords: '");
+        ch->send_to("Extra description keywords: '");
 
         for (ed = obj->extra_descr; ed != nullptr; ed = ed->next) {
             ch->send_to(ed->keyword);
             if (ed->next != nullptr)
-                ch->send_line(" ");
+                ch->send_to(" ");
         }
 
         for (ed = obj->pIndexData->extra_descr; ed != nullptr; ed = ed->next) {
             ch->send_to(ed->keyword);
             if (ed->next != nullptr)
-                ch->send_line(" ");
+                ch->send_to(" ");
         }
 
         ch->send_line("'");
@@ -3045,8 +3025,7 @@ void do_string(Char *ch, const char *argument) {
         }
 
         if (!str_prefix(arg2, "name")) {
-            free_string(obj->name);
-            obj->name = str_dup(arg3);
+            obj->name = arg3;
             return;
         }
 

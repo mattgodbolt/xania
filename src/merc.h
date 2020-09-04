@@ -1075,7 +1075,7 @@ struct OBJ_INDEX_DATA {
     OBJ_INDEX_DATA *next{};
     EXTRA_DESCR_DATA *extra_descr{};
     AffectList affected{};
-    char *name{};
+    std::string name;
     std::string short_descr;
     std::string description;
     sh_int vnum{};
@@ -1110,7 +1110,7 @@ struct OBJ_DATA {
     ROOM_INDEX_DATA *in_room{};
     bool enchanted{};
     std::string owner;
-    char *name{};
+    std::string name;
     std::string short_descr;
     std::string description;
     sh_int item_type{};

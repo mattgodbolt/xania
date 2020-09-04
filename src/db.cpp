@@ -1071,7 +1071,7 @@ Char *create_mobile(MOB_INDEX_DATA *pMobIndex) {
     auto *mob = new Char;
     mob->pIndexData = pMobIndex;
 
-    mob->name = str_dup(pMobIndex->player_name);
+    mob->name = pMobIndex->player_name;
     mob->short_descr = pMobIndex->short_descr;
     mob->long_descr = pMobIndex->long_descr;
     mob->description = pMobIndex->description;
@@ -1234,14 +1234,14 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
         exit(1);
     }
 
-    obj = new OBJ_DATA;
+    obj = new OBJ_DATA; // TODO! make an actual constructor for this!
     obj->pIndexData = pObjIndex;
     obj->in_room = nullptr;
     obj->enchanted = false;
     obj->level = pObjIndex->level;
     obj->wear_loc = -1;
 
-    obj->name = str_dup(pObjIndex->name);
+    obj->name = pObjIndex->name;
     obj->short_descr = pObjIndex->short_descr;
     obj->description = pObjIndex->description;
     obj->material = pObjIndex->material;
@@ -1316,7 +1316,7 @@ void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
         return;
 
     /* start fixing the object */
-    clone->name = str_dup(parent->name);
+    clone->name = parent->name;
     clone->short_descr = parent->short_descr;
     clone->description = parent->description;
     clone->item_type = parent->item_type;

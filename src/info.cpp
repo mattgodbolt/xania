@@ -361,13 +361,13 @@ FingerInfo read_char_info(std::string_view player_name) {
             } else if (word == "invislevel" || word == "invis") {
                 info.invis_level = fread_number(fp);
             } else if (word == "info_message") {
-                info.info_message = fread_string(fp);
+                info.info_message = fread_stdstring(fp);
             } else if (word == "lastloginfrom") {
-                info.last_login_from = fread_string(fp);
+                info.last_login_from = fread_stdstring(fp);
             } else if (word == "lastloginat") {
-                info.last_login_at = fread_string(fp);
+                info.last_login_at = fread_stdstring(fp);
             } else if (word == "name") {
-                info.name = fread_string(fp);
+                info.name = fread_stdstring(fp);
             } else {
                 fread_to_eol(fp);
             }

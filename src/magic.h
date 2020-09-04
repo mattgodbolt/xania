@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "merc.h"
+struct Char;
 
 void spell_psy_tornado(int spell_num, int level, Char *ch, void *vo);
 void spell_insanity(int spell_num, int level, Char *ch, void *vo);
