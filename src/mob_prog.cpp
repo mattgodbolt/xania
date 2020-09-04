@@ -1151,7 +1151,7 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const OBJ_D
 
     case 'O':
         if (obj)
-            can_see_obj(mob, obj) ? strcpy(t, obj->short_descr) : strcpy(t, "something");
+            can_see_obj(mob, obj) ? strcpy(t, obj->short_descr.c_str()) : strcpy(t, "something");
         break;
 
     case 'p':
@@ -1161,7 +1161,7 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const OBJ_D
 
     case 'P':
         if (v_obj)
-            can_see_obj(mob, v_obj) ? strcpy(t, v_obj->short_descr) : strcpy(t, "something");
+            can_see_obj(mob, v_obj) ? strcpy(t, v_obj->short_descr.c_str()) : strcpy(t, "something");
         break;
 
     case 'a':

@@ -1273,7 +1273,6 @@ void stop_fighting(Char *ch, bool fBoth) {
  * Make a corpse out of a character.
  */
 void make_corpse(Char *ch) {
-    char buf[MAX_STRING_LENGTH];
     OBJ_DATA *corpse;
     OBJ_DATA *obj;
     OBJ_DATA *obj_next;
@@ -1302,10 +1301,7 @@ void make_corpse(Char *ch) {
 
     corpse->level = ch->level;
 
-    snprintf(buf, sizeof(buf), corpse->short_descr, name.c_str());
-    free_string(corpse->short_descr);
-    corpse->short_descr = str_dup(buf);
-
+    corpse->short_descr = fmt::sprintf(corpse->short_descr, name);
     corpse->description = fmt::sprintf(corpse->description, name);
 
     for (obj = ch->carrying; obj != nullptr; obj = obj_next) {
@@ -1370,20 +1366,10 @@ void death_cry(Char *ch) {
     act(msg, ch);
 
     if (vnum != 0) {
-        char buf[MAX_STRING_LENGTH];
-        OBJ_DATA *obj;
-
-        // We can replace the %s's in limbo.are with `{}` fmt stuff. Probably worth doing when the obj->short_descr et
-        // al are moved to std::strings, then we can format directly into the newly-created strings.
-        auto name = std::string(ch->short_name());
-        obj = create_object(get_obj_index(vnum));
+        auto *obj = create_object(get_obj_index(vnum));
         obj->timer = number_range(4, 7);
-
-        snprintf(buf, sizeof(buf), obj->short_descr, name.c_str());
-        free_string(obj->short_descr);
-        obj->short_descr = str_dup(buf);
-
-        obj->description = fmt::sprintf(obj->description, name);
+        obj->short_descr = fmt::sprintf(obj->short_descr, ch->short_name());
+        obj->description = fmt::sprintf(obj->description, ch->short_name());
 
         if (obj->item_type == ITEM_FOOD) {
             if (IS_SET(ch->form, FORM_POISON))

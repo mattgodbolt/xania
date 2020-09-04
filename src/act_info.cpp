@@ -77,12 +77,7 @@ std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort)
     if (IS_OBJ_STAT(obj, ITEM_HUM))
         buf += "(|yHumming|w) ";
 
-    if (fShort) {
-        if (obj->short_descr)
-            buf += obj->short_descr;
-    } else {
-        buf += obj->description;
-    }
+    buf += fShort ? obj->short_descr : obj->description;
 
     if (buf.empty()) {
         buf = "This object has no description. Please inform the IMP.";

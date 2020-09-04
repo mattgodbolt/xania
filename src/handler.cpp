@@ -921,7 +921,6 @@ void extract_obj(OBJ_DATA *obj) {
     }
 
     free_string(obj->name);
-    free_string(obj->short_descr);
     free_string(obj->owner);
     --obj->pIndexData->count;
     delete obj;
@@ -1143,24 +1142,19 @@ OBJ_DATA *get_obj_world(Char *ch, std::string_view argument) {
  * Create a 'money' obj.
  */
 OBJ_DATA *create_money(int amount) {
-    char buf[MAX_STRING_LENGTH];
-    OBJ_DATA *obj;
-
     if (amount <= 0) {
         bug("Create_money: zero or negative money {}.", amount);
         amount = 1;
     }
 
     if (amount == 1) {
-        obj = create_object(get_obj_index(OBJ_VNUM_MONEY_ONE));
-    } else {
-        obj = create_object(get_obj_index(OBJ_VNUM_MONEY_SOME));
-        snprintf(buf, sizeof(buf), obj->short_descr, amount);
-        free_string(obj->short_descr);
-        obj->short_descr = str_dup(buf);
-        obj->value[0] = amount;
-        obj->cost = amount;
+        return create_object(get_obj_index(OBJ_VNUM_MONEY_ONE));
     }
+
+    auto *obj = create_object(get_obj_index(OBJ_VNUM_MONEY_SOME));
+    obj->short_descr = fmt::sprintf(obj->short_descr, amount);
+    obj->value[0] = amount;
+    obj->cost = amount;
 
     return obj;
 }

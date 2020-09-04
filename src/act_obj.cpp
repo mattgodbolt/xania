@@ -2029,8 +2029,6 @@ void do_buy(Char *ch, const char *argument) {
 }
 
 void do_list(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-
     if (IS_SET(ch->in_room->room_flags, ROOM_PET_SHOP)) {
         ROOM_INDEX_DATA *pRoomIndexNext;
         Char *pet;
@@ -2055,11 +2053,9 @@ void do_list(Char *ch, const char *argument) {
         }
         if (!found)
             ch->send_line("Sorry, we're out of pets right now.");
-        return;
     } else {
         Char *keeper;
         OBJ_DATA *obj;
-        BUFFER *buffer;
         int cost;
         bool found;
         char arg[MAX_INPUT_LENGTH];
@@ -2068,26 +2064,23 @@ void do_list(Char *ch, const char *argument) {
             return;
         one_argument(argument, arg);
 
-        buffer = buffer_create();
-        found = false;
+        std::string buffer;
         for (obj = keeper->carrying; obj; obj = obj->next_content) {
             if (obj->wear_loc == WEAR_NONE && can_see_obj(ch, obj) && (cost = get_cost(keeper, obj, true)) > 0
                 && (arg[0] == '\0' || is_name(arg, obj->name))) {
                 if (!found) {
                     found = true;
-                    buffer_addline(buffer, "[Lv Price] Item\n\r");
+                    buffer += "[Lv Price] Item\n\r";
                 }
 
-                snprintf(buf, sizeof(buf), "[%2d %5d] %s.\n\r", obj->level, cost, obj->short_descr);
-                buffer_addline(buffer, buf);
+                buffer += fmt::format("[{:2} {:5}] %s.\n\r", obj->level, cost, obj->short_descr);
             }
         }
 
-        buffer_send(buffer, ch); /* Doesn't matter if it's blank */
-
-        if (!found)
+        if (buffer.empty())
             ch->send_line("You can't buy anything here.");
-        return;
+        else
+            ch->page_to(buffer);
     }
 }
 

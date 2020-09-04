@@ -150,7 +150,6 @@ void check_xania() {
 void do_immworth(Char *ch, const char *argument) {
     OBJ_DATA *obj;
     int worth, shouldbe;
-    char buf[MAX_STRING_LENGTH];
 
     if ((obj = get_obj_world(ch, argument)) == nullptr) {
         ch->send_line("Nothing like that in Xania.");
@@ -160,19 +159,14 @@ void do_immworth(Char *ch, const char *argument) {
     worth = report_object(obj, 0);
     shouldbe = ((obj->level / 10) + 1);
     if (worth == shouldbe) {
-        snprintf(buf, sizeof(buf), "Object '%s' has %d point(s) - exactly right.\n\r", obj->pIndexData->short_descr,
-                 worth);
-        ch->send_to(buf);
-        return;
-    }
-    if (worth > shouldbe) {
-        snprintf(buf, sizeof(buf), "Object '%s' has %d point(s), %d points |Rtoo high|w.\n\r",
-                 obj->pIndexData->short_descr, worth, (worth - shouldbe));
+        ch->send_line("Object '{}' has {} point(s) - exactly right.", obj->pIndexData->short_descr, worth);
+    } else if (worth > shouldbe) {
+        ch->send_line("Object '{}' has {} point(s), {} points |Rtoo high|w.", obj->pIndexData->short_descr, worth,
+                      worth - shouldbe);
     } else {
-        snprintf(buf, sizeof(buf), "Object '%s' has %d point(s), within the %d point maximum.\n\r",
-                 obj->pIndexData->short_descr, worth, shouldbe);
+        ch->send_line("Object '{}' has {} point(s), within the {} point maximum.", obj->pIndexData->short_descr, worth,
+                      shouldbe);
     }
-    ch->send_to(buf);
 }
 
 /* do_prefix added 19-05-97 PCFN */

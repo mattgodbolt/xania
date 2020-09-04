@@ -1242,7 +1242,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
     obj->wear_loc = -1;
 
     obj->name = str_dup(pObjIndex->name);
-    obj->short_descr = str_dup(pObjIndex->short_descr);
+    obj->short_descr = pObjIndex->short_descr;
     obj->description = pObjIndex->description;
     obj->material = pObjIndex->material;
     obj->item_type = pObjIndex->item_type;
@@ -1317,7 +1317,7 @@ void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
 
     /* start fixing the object */
     clone->name = str_dup(parent->name);
-    clone->short_descr = str_dup(parent->short_descr);
+    clone->short_descr = parent->short_descr;
     clone->description = parent->description;
     clone->item_type = parent->item_type;
     clone->extra_flags = parent->extra_flags;
@@ -2179,8 +2179,8 @@ void do_dump(Char *ch, const char *argument) {
     for (vnum = 0; nMatch < top_obj_index; vnum++)
         if ((pObjIndex = get_obj_index(vnum)) != nullptr) {
             nMatch++;
-            fprintf(fp, "#%-4d %3d active %3d reset      %s\n", pObjIndex->vnum, pObjIndex->count, pObjIndex->reset_num,
-                    pObjIndex->short_descr);
+            fmt::print(fp, "#{:<4} {:3} active {:3} reset      {}\n", pObjIndex->vnum, pObjIndex->count,
+                       pObjIndex->reset_num, pObjIndex->short_descr);
         }
 
     /* close file */

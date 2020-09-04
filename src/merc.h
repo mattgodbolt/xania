@@ -1076,7 +1076,7 @@ struct OBJ_INDEX_DATA {
     EXTRA_DESCR_DATA *extra_descr{};
     AffectList affected{};
     char *name{};
-    char *short_descr{};
+    std::string short_descr;
     std::string description;
     sh_int vnum{};
     sh_int reset_num{};
@@ -1111,7 +1111,7 @@ struct OBJ_DATA {
     bool enchanted{};
     char *owner{};
     char *name{};
-    char *short_descr{};
+    std::string short_descr;
     std::string description;
     sh_int item_type{};
     unsigned int extra_flags{};

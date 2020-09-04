@@ -329,10 +329,7 @@ void do_cast(Char *ch, const char *argument) {
             scroll->value[3] = -1;
             scroll->value[4] = -1;
 
-            snprintf(buf, sizeof(buf), scroll->short_descr, skill_table[sn].name);
-            free_string(scroll->short_descr);
-            scroll->short_descr = str_dup(buf);
-
+            scroll->short_descr = fmt::sprintf(scroll->short_descr, skill_table[sn].name);
             scroll->description = fmt::sprintf(scroll->description, skill_table[sn].name);
 
             snprintf(buf, sizeof(buf), scroll->name, skill_table[sn].name);
@@ -398,10 +395,7 @@ void do_cast(Char *ch, const char *argument) {
             potion->value[3] = -1;
             potion->value[4] = -1;
 
-            snprintf(buf, sizeof(buf), potion->short_descr, skill_table[sn].name);
-            free_string(potion->short_descr);
-            potion->short_descr = str_dup(buf);
-
+            potion->short_descr = fmt::sprintf(potion->short_descr, skill_table[sn].name);
             potion->description = fmt::sprintf(potion->description, skill_table[sn].name);
 
             snprintf(buf, sizeof(buf), potion->name, skill_table[sn].name);

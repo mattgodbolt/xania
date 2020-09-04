@@ -1419,11 +1419,6 @@ void do_mfind(Char *ch, const char *argument) {
 void do_ofind(Char *ch, const char *argument) {
     extern int top_obj_index;
     char arg[MAX_INPUT_LENGTH];
-    OBJ_INDEX_DATA *pObjIndex;
-    int vnum;
-    int nMatch;
-    bool found;
-    BUFFER *buffer;
 
     one_argument(argument, arg);
     if (arg[0] == '\0') {
@@ -1431,27 +1426,25 @@ void do_ofind(Char *ch, const char *argument) {
         return;
     }
 
-    found = false;
-    nMatch = 0;
+    int nMatch = 0;
 
     // Yeah, so iterating over all vnum's takes 10,000 loops.
     // Get_obj_index is fast, and I don't feel like threading another link.
     // Do you?
     // -- Furey
-    buffer = buffer_create();
-    for (vnum = 0; nMatch < top_obj_index; vnum++) {
-        if ((pObjIndex = get_obj_index(vnum)) != nullptr) {
+    std::string buffer;
+    for (int vnum = 0; nMatch < top_obj_index; vnum++) {
+        if (const auto *pObjIndex = get_obj_index(vnum)) {
             nMatch++;
-            if (is_name(argument, pObjIndex->name)) {
-                found = true;
-                buffer_addline_fmt(buffer, "[%5d] %s\n\r", pObjIndex->vnum, pObjIndex->short_descr);
-            }
+            if (is_name(argument, pObjIndex->name))
+                buffer += fmt::format("[{:5}] {}\n\r", pObjIndex->vnum, pObjIndex->short_descr);
         }
     }
 
-    buffer_send(buffer, ch); /* NB this frees the buffer */
-    if (!found)
+    if (buffer.empty())
         ch->send_line("No objects by that name.");
+    else
+        ch->page_to(buffer);
 }
 
 void do_vnum(Char *ch, const char *argument) {
@@ -3058,8 +3051,7 @@ void do_string(Char *ch, const char *argument) {
         }
 
         if (!str_prefix(arg2, "short")) {
-            free_string(obj->short_descr);
-            obj->short_descr = str_dup(arg3);
+            obj->short_descr = arg3;
             return;
         }
 

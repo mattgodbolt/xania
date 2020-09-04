@@ -358,7 +358,7 @@ void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
     if (obj->name != obj->pIndexData->name)
         fprintf(fp, "Name %s~\n", obj->name);
     if (obj->short_descr != obj->pIndexData->short_descr)
-        fprintf(fp, "ShD  %s~\n", obj->short_descr);
+        fmt::print(fp, "ShD  {}~\n", obj->short_descr);
     if (obj->description != obj->pIndexData->description)
         fmt::print(fp, "Desc {}~\n", obj->description);
     if (obj->extra_flags != obj->pIndexData->extra_flags)
@@ -896,7 +896,6 @@ void fread_obj(Char *ch, FILE *fp) {
     {
         obj = new OBJ_DATA;
         obj->name = str_dup("");
-        obj->short_descr = str_dup("");
     }
 
     fNest = false;
