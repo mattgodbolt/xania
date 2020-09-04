@@ -921,7 +921,6 @@ void extract_obj(OBJ_DATA *obj) {
     }
 
     free_string(obj->name);
-    free_string(obj->owner);
     --obj->pIndexData->count;
     delete obj;
 }

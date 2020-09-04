@@ -1109,7 +1109,7 @@ struct OBJ_DATA {
     OBJ_INDEX_DATA *pIndexData{};
     ROOM_INDEX_DATA *in_room{};
     bool enchanted{};
-    char *owner{};
+    std::string owner;
     char *name{};
     std::string short_descr;
     std::string description;

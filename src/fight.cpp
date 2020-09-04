@@ -1293,9 +1293,7 @@ void make_corpse(Char *ch) {
         corpse->timer = number_range(25, 40);
         REMOVE_BIT(ch->act, PLR_CANLOOT);
         if (!IS_SET(ch->act, PLR_KILLER) && !IS_SET(ch->act, PLR_THIEF))
-            corpse->owner = str_dup(ch->name.c_str());
-        else
-            corpse->owner = nullptr;
+            corpse->owner = ch->name;
         corpse->cost = 0;
     }
 

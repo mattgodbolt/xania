@@ -43,7 +43,7 @@ bool can_loot(const Char *ch, const OBJ_DATA *obj) {
     if (ch->is_immortal())
         return true;
 
-    if (!obj->owner || obj->owner == nullptr)
+    if (obj->owner.empty())
         return true;
 
     const Char *owner = nullptr;
