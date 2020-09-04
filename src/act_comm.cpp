@@ -741,9 +741,9 @@ void do_group(Char *ch, const char *argument) {
 
         for (auto *gch = char_list; gch != nullptr; gch = gch->next) {
             if (is_same_group(gch, ch)) {
-                ch->send_to("[{:3} {}] {:<16} {:4}/{:4} hp {:4}/{:4} mana {:4}/{:4} mv {:5} xp", gch->level,
-                            gch->is_npc() ? "Mob" : class_table[gch->class_num].who_name, pers(gch, ch), gch->hit,
-                            gch->max_hit, gch->mana, gch->max_mana, gch->move, gch->max_move, gch->exp);
+                ch->send_line("[{:3} {}] {:<16} {:4}/{:4} hp {:4}/{:4} mana {:4}/{:4} mv {:5} xp", gch->level,
+                              gch->is_npc() ? "Mob" : class_table[gch->class_num].who_name, pers(gch, ch), gch->hit,
+                              gch->max_hit, gch->mana, gch->max_mana, gch->move, gch->max_move, gch->exp);
             }
         }
         return;
