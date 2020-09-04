@@ -1386,7 +1386,7 @@ std::string format_one_prompt_part(char c, const Char &ch) {
     case 'V': return fmt::format("{}", ch.max_move);
     case 'a':
         if (ch.get_trust() > 10)
-            return fmt::format("{}", ch.max_move);
+            return fmt::format("{}", ch.alignment);
         else
             return "??";
     case 'X': return fmt::format("{}", ch.exp);
