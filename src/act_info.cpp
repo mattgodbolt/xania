@@ -1352,7 +1352,7 @@ void do_help(Char *ch, const char *argument) {
 
     if (auto *help = HelpList::singleton().lookup(ch->get_trust(), argall)) {
         if (help->level() >= 0 && !matches(argall, "imotd"))
-            ch->send_line(help->keyword());
+            ch->send_line("|W{}|w", help->keyword());
         ch->page_to(help->text());
     } else {
         ch->send_line("No help on that word.");
