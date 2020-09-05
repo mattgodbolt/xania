@@ -1,23 +1,24 @@
 #pragma once
 
 #include <cstdio>
-#include <memory>
+#include <cstdlib>
 #include <string_view>
 
 namespace test {
 
 class MemFile {
-    struct Closer {
-        void operator()(FILE *f) { ::fclose(f); }
-    };
+    FILE *file_;
     char *ptr_;
     size_t size_;
-    std::unique_ptr<FILE, Closer> file_;
 
 public:
     explicit MemFile(std::string_view contents) : file_(open_memstream(&ptr_, &size_)) {
-        ::fwrite(contents.data(), 1, contents.size(), file_.get());
-        ::fseek(file_.get(), 0, SEEK_SET);
+        ::fwrite(contents.data(), 1, contents.size(), file_);
+        ::fseek(file_, 0, SEEK_SET);
+    }
+    ~MemFile() {
+        ::fclose(file_);
+        ::free(ptr_);
     }
     MemFile(const MemFile &) = delete;
     MemFile &operator=(const MemFile &) = delete;
@@ -26,7 +27,7 @@ public:
     MemFile(MemFile &&) = delete;
     MemFile &operator=(MemFile &&) = delete;
 
-    FILE *file() const noexcept { return file_.get(); }
+    FILE *file() const noexcept { return file_; }
 };
 
 }
