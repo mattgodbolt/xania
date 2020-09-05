@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
+#include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
@@ -2075,7 +2076,7 @@ void do_alist(Char *ch, const char *argument) {
     (void)argument;
     auto format_str = "{:3} {:29} {:<5}-{:>5} {:12}\n\r"sv;
     auto buffer = fmt::format(format_str, "Num", "Area Name", "Lvnum", "Uvnum", "Filename");
-    for (auto *pArea = area_first; pArea; pArea = pArea->next)
+    for (auto &pArea : AreaList::singleton())
         buffer += fmt::format(format_str, pArea->vnum, pArea->areaname, pArea->lvnum, pArea->uvnum, pArea->filename);
     ch->page_to(buffer);
 }

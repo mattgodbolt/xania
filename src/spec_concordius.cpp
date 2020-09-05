@@ -4,6 +4,7 @@
 /*  See the header to file: merc.h for original code copyrights         */
 /************************************************************************/
 
+#include "AREA_DATA.hpp"
 #include "Char.hpp"
 #include "comm.hpp"
 #include "lookup.h"

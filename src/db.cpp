@@ -9,6 +9,7 @@
 
 #include "db.h"
 #include "AFFECT_DATA.hpp"
+#include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
@@ -119,15 +120,11 @@ OBJ_INDEX_DATA *obj_index_hash[MAX_KEY_HASH];
 ROOM_INDEX_DATA *room_index_hash[MAX_KEY_HASH];
 char *string_hash[MAX_KEY_HASH];
 
-AREA_DATA *area_first;
-AREA_DATA *area_last;
-
 char *string_space;
 char *top_string;
 char str_empty[1];
 
 int top_affect;
-int top_area;
 int top_ed;
 int top_exit;
 int top_help;
@@ -317,35 +314,30 @@ void boot_db() {
 
 /* Snarf an 'area' header line. */
 void load_area(FILE *fp, const std::string &area_name) {
-    AREA_DATA *pArea;
-
-    pArea = static_cast<AREA_DATA *>(alloc_perm(sizeof(*pArea)));
+    auto pArea = std::make_unique<AREA_DATA>();
+    auto &area_list = AreaList::singleton();
 
     fread_string(fp); /* filename */
-    pArea->areaname = fread_string(fp);
-    pArea->name = fread_string(fp);
+    pArea->areaname = fread_stdstring(fp);
+    pArea->name = fread_stdstring(fp);
 
     pArea->lvnum = fread_number(fp);
     pArea->uvnum = fread_number(fp);
 
     pArea->area_flags = AREA_LOADING;
-    pArea->vnum = top_area;
+    pArea->vnum = area_list.count();
     pArea->filename = area_name;
 
     pArea->age = 15;
     pArea->nplayer = 0;
     pArea->empty = false;
 
-    if (area_first == nullptr)
-        area_first = pArea;
-    if (area_last != nullptr) {
-        area_last->next = pArea;
-        REMOVE_BIT(area_last->area_flags, AREA_LOADING);
-    }
-    area_last = pArea;
-    pArea->next = nullptr;
+    if (AreaList::singleton().back())
+        REMOVE_BIT(AreaList::singleton().back()->area_flags, AREA_LOADING);
+
+    AreaList::singleton().add(std::move(pArea));
+
     area_header_found = true;
-    top_area++;
 }
 
 /* Snarf a help section. */
@@ -356,7 +348,7 @@ void load_helps(FILE *fp) {
         pHelp = static_cast<HELP_DATA *>(alloc_perm(sizeof(*pHelp)));
 
         if (area_header_found)
-            pHelp->area = area_last ? area_last : nullptr;
+            pHelp->area = AreaList::singleton().back();
         else
             pHelp->area = nullptr;
 
@@ -410,6 +402,7 @@ void load_resets(FILE *fp) {
     int iLastRoom = 0;
     int iLastObj = 0;
 
+    auto area_last = AreaList::singleton().back();
     if (area_last == nullptr) {
         bug("Load_resets: no #AREA seen yet.");
         exit(1);
@@ -508,14 +501,13 @@ void load_resets(FILE *fp) {
 }
 
 void validate_resets() {
-    AREA_DATA *pArea;
     OBJ_INDEX_DATA *temp_index;
     ROOM_INDEX_DATA *pRoom;
     RESET_DATA *pReset, *pReset_next, *pReset_last;
     int vnum;
     bool Okay, oldBoot;
 
-    for (pArea = area_first; pArea != nullptr; pArea = pArea->next) {
+    for (auto &pArea : AreaList::singleton()) {
         for (vnum = pArea->lvnum; vnum <= pArea->uvnum; vnum++) {
             oldBoot = fBootDb;
             fBootDb = false;
@@ -590,6 +582,7 @@ void validate_resets() {
 void load_rooms(FILE *fp) {
     ROOM_INDEX_DATA *pRoomIndex;
 
+    auto area_last = AreaList::singleton().back();
     if (area_last == nullptr) {
         bug("Load_resets: no #AREA seen yet.");
         exit(1);
@@ -804,9 +797,7 @@ void fix_exits() {
 
 /* Repopulate areas periodically. */
 void area_update() {
-    AREA_DATA *pArea;
-
-    for (pArea = area_first; pArea != nullptr; pArea = pArea->next) {
+    for (auto &pArea : AreaList::singleton()) {
 
         if (++pArea->age < 3)
             continue;
@@ -818,10 +809,10 @@ void area_update() {
         if ((!pArea->empty && (pArea->nplayer == 0 || pArea->age >= 15)) || pArea->age >= 31) {
             ROOM_INDEX_DATA *pRoomIndex;
 
-            reset_area(pArea);
+            reset_area(pArea.get());
             pArea->age = number_range(0, 3);
             pRoomIndex = get_room_index(ROOM_VNUM_SCHOOL);
-            if (pRoomIndex != nullptr && pArea == pRoomIndex->area)
+            if (pRoomIndex != nullptr && pArea.get() == pRoomIndex->area)
                 pArea->age = 15 - 2;
             else if (pArea->nplayer == 0)
                 pArea->empty = true;
@@ -1893,32 +1884,25 @@ void free_string(char *pstr) {
 }
 
 // Now takes parameters (TM was 'ere 10/00)
-void do_areas(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH], cmdBuf[MAX_STRING_LENGTH];
-    const char *pArea1rating, *pArea2rating;
-    AREA_DATA *pArea1;
-    AREA_DATA *pArea2;
-    AREA_DATA *pPtr;
+void do_areas(Char *ch, std::string_view argument) {
     int minLevel = 0;
     int maxLevel = 100;
-    int nFound = 0;
-    int charLevel = ch->level;
-
-    if (argument[0] != '\0') {
-        argument = one_argument(argument, cmdBuf);
-        if (isdigit(cmdBuf[0])) {
-            minLevel = atoi(cmdBuf);
-        } else {
+    ArgParser args(argument);
+    if (!args.empty()) {
+        auto min_level_str = args.shift();
+        if (!is_number(min_level_str)) {
             ch->send_line("You must specify a number for the minimum level.");
             return;
         }
-        if (argument[0] != '\0') {
-            if (isdigit(argument[0])) {
-                maxLevel = atoi(argument);
-            } else {
+        minLevel = parse_number(min_level_str);
+
+        if (!args.empty()) {
+            auto max_level_str = args.shift();
+            if (!is_number(max_level_str)) {
                 ch->send_line("You must specify a number for the maximum level.");
                 return;
             }
+            maxLevel = parse_number(max_level_str);
         }
     }
 
@@ -1927,11 +1911,18 @@ void do_areas(Char *ch, const char *argument) {
         return;
     }
 
-    pArea1 = pArea2 = nullptr;
-    for (pPtr = area_first; pPtr; pPtr = pPtr->next) {
+    const int charLevel = ch->level;
+    const AREA_DATA *pArea1{};
+    int num_found = 0;
+    std::string_view pArea1rating;
+    const AREA_DATA *pArea2{};
+    std::string_view pArea2rating;
+    for (auto &pPtr : AreaList::singleton()) {
         int min = 0, max = 100; // Defaults to 'all'
-        const char *cCode = "|w";
-        int scanRet = sscanf(pPtr->name, "{%d %d}", &min, &max);
+        std::string_view cCode = "|w";
+        // TODO: parse in AREA_DATA instead of here, then this whole code can be
+        // simplified.
+        int scanRet = sscanf(pPtr->name.c_str(), "{%d %d}", &min, &max);
         // Is it outside the requested range?
         if (min > maxLevel || max < minLevel)
             continue;
@@ -1946,27 +1937,24 @@ void do_areas(Char *ch, const char *argument) {
         }
 
         if (pArea1 == nullptr) {
-            pArea1 = pPtr;
+            pArea1 = pPtr.get();
             pArea1rating = cCode;
-            nFound++;
+            num_found++;
         } else {
-            pArea2 = pPtr;
+            pArea2 = pPtr.get();
             pArea2rating = cCode;
-            nFound++;
+            num_found++;
             // And shift out
-            snprintf(buf, sizeof(buf), "%s%-39s%s%-39s|w\n\r", pArea1rating, pArea1->name, pArea2rating, pArea2->name);
-            ch->send_to(buf);
+            ch->send_line("{}{:<39}{}{:<39}", pArea1rating, pArea1->name, pArea2rating, pArea2->name);
             pArea1 = pArea2 = nullptr;
         }
     }
     // Check for any straggling lines
-    if (pArea1) {
-        snprintf(buf, sizeof(buf), "%s%-39s|w\n\r", pArea1rating, pArea1->name);
-        ch->send_to(buf);
-    }
-    if (nFound) {
-        snprintf(buf, sizeof(buf), "\n\rAreas found: %d\n\r", nFound);
-        ch->send_to(buf);
+    if (pArea1)
+        ch->send_line("{}{:<39}", pArea1rating, pArea1->name);
+    if (num_found) {
+        ch->send_line("");
+        ch->send_line("Areas found: {}", num_found);
     } else {
         ch->send_line("No areas found.");
     }
@@ -1978,8 +1966,7 @@ void do_memory(Char *ch, const char *argument) {
 
     snprintf(buf, sizeof(buf), "Affects %5d\n\r", top_affect);
     ch->send_to(buf);
-    snprintf(buf, sizeof(buf), "Areas   %5d\n\r", top_area);
-    ch->send_to(buf);
+    ch->send_line("Areas   {:5}", AreaList::singleton().count());
     snprintf(buf, sizeof(buf), "ExDes   %5d\n\r", top_ed);
     ch->send_to(buf);
     snprintf(buf, sizeof(buf), "Exits   %5d\n\r", top_exit);
@@ -2422,6 +2409,7 @@ void load_mobprogs(FILE *fp) {
     MPROG_DATA *original;
     MPROG_DATA *working;
 
+    auto area_last = AreaList::singleton().back();
     if (area_last == nullptr) {
         bug("Load_mobprogs: no #AREA seen yet!");
         exit(1);

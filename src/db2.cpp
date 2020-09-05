@@ -8,24 +8,26 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
+#include "AREA_DATA.hpp"
 #include "Logging.hpp"
 #include "db.h"
 #include "lookup.h"
 #include "merc.h"
 #include "string_utils.hpp"
 
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <time.h>
 
 void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex);
 
 /* Sets vnum range for area when loading its constituent mobs/objects/rooms */
 void assign_area_vnum(int vnum) {
+    auto area_last = AreaList::singleton().back();
     if (area_last->lvnum == 0 || area_last->uvnum == 0)
         area_last->lvnum = area_last->uvnum = vnum;
     if (vnum != URANGE(area_last->lvnum, vnum, area_last->uvnum)) {
@@ -150,6 +152,7 @@ void load_socials(FILE *fp) {
  * Snarf a mob section.  new style
  */
 void load_mobiles(FILE *fp) {
+    auto area_last = AreaList::singleton().back();
     if (!area_last) {
         bug("Load_mobiles: no #AREA seen yet!");
         exit(1);
@@ -312,6 +315,7 @@ void load_objects(FILE *fp) {
     OBJ_INDEX_DATA *pObjIndex;
     char temp; /* Used for Death's Wear Strings bit */
 
+    auto area_last = AreaList::singleton().back();
     if (!area_last) {
         bug("Load_objects: no #AREA section found yet!");
         exit(1);

@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
+#include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
@@ -669,8 +670,8 @@ void do_rstat(Char *ch, const char *argument) {
         return;
     }
 
-    bug_snprintf(buf, sizeof(buf), "Name: '%s.'\n\rArea: '%s'.\n\r", location->name, location->area->name);
-    ch->send_to(buf);
+    ch->send_line("Name: '{}'.", location->name);
+    ch->send_line("Area: '{}'.'", location->area->name);
 
     bug_snprintf(buf, sizeof(buf), "Vnum: %d.  Sector: %d.  Light: %d.\n\r", location->vnum, location->sector_type,
                  location->light);

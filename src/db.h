@@ -9,7 +9,11 @@
 
 /* files used in db.c */
 #pragma once
-#include "merc.h"
+
+#include "Constants.hpp"
+
+struct MOB_INDEX_DATA;
+struct OBJ_INDEX_DATA;
 
 /* vals from db.c */
 extern bool fBootDb;
@@ -25,8 +29,6 @@ extern int top_ed;
 extern int top_vnum_room;
 extern int top_vnum_mob;
 extern int top_vnum_obj;
-extern AREA_DATA *area_first;
-extern AREA_DATA *area_last;
 
 /* from db2.c */
 

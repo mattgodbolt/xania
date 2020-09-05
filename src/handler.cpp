@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
+#include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
 #include "WeatherData.hpp"
 #include "buffer.h"

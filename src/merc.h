@@ -49,7 +49,7 @@ typedef struct _BUFFER BUFFER;
 /*
  * Structure types.
  */
-typedef struct area_data AREA_DATA;
+struct AREA_DATA;
 typedef struct ban_data BAN_DATA;
 class Descriptor;
 typedef struct exit_data EXIT_DATA;
@@ -1168,26 +1168,6 @@ struct reset_data {
     sh_int arg2;
     sh_int arg3;
     sh_int arg4;
-};
-
-/*
- * Area definition.
- */
-struct area_data {
-    AREA_DATA *next;
-
-    char *name;
-
-    sh_int age;
-    sh_int nplayer;
-    bool empty;
-
-    const char *areaname;
-    std::string filename;
-    int lvnum;
-    int uvnum;
-    int vnum;
-    int area_flags;
 };
 
 /* tip wizard type - Faramir Sep 21 1998 */

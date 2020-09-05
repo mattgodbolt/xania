@@ -13,6 +13,7 @@
  */
 
 #include "comm.hpp"
+#include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Pronouns.hpp"

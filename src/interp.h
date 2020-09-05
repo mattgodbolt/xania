@@ -37,7 +37,7 @@ extern void do_allege(Char *ch, const char *arg);
 extern void do_allow(Char *ch, const char *arg);
 extern void do_announce(Char *ch, const char *arg);
 extern void do_answer(Char *ch, const char *arg);
-extern void do_areas(Char *ch, const char *arg);
+extern void do_areas(Char *ch, std::string_view argument);
 extern void do_at(Char *ch, const char *arg);
 extern void do_auction(Char *ch, const char *arg);
 extern void do_autoaffect(Char *ch, const char *arg);
