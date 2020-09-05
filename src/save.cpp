@@ -10,17 +10,15 @@
 #include "AFFECT_DATA.hpp"
 #include "Descriptor.hpp"
 #include "TimeInfoData.hpp"
+#include "lookup.h"
 #include "merc.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
 #include <range/v3/algorithm/fill.hpp>
 
-#include <cctype>
 #include <cstdio>
 #include <cstring>
-#include <ctime>
-#include <sys/types.h>
 
 std::string get_base_dir() { return ".."; }
 

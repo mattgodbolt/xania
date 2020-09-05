@@ -15,6 +15,7 @@
 #include "comm.hpp"
 #include "handler.hpp"
 #include "interp.h"
+#include "lookup.h"
 #include "merc.h"
 #include "string_utils.hpp"
 

@@ -18,8 +18,6 @@
 
 #pragma once
 
-#include "merc.h"
-
 int position_lookup(const char *name);
 int sex_lookup(const char *name);
 int size_lookup(const char *name);
@@ -29,3 +27,4 @@ int item_lookup(const char *name);
 int item_lookup_strict(const char *name);
 int attack_lookup(const char *name);
 int weapon_type(const char *name);
+int skill_lookup(const char *name);

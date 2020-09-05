@@ -11,15 +11,13 @@
    direct questions or comments to rtaylor@cie-2.uoregon.edu
    any use of this code must include this header */
 
+#include "Char.hpp"
 #include "comm.hpp"
+#include "interp.h"
+#include "lookup.h"
 #include "magic.h"
 #include "merc.h"
 #include "string_utils.hpp"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-#include <sys/types.h>
 
 void do_heal(Char *ch, const char *argument) {
     Char *mob;

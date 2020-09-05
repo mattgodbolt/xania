@@ -15,8 +15,10 @@
 #include "challeng.h"
 #include "comm.hpp"
 #include "interp.h"
+#include "lookup.h"
 #include "magic.h"
 #include "merc.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

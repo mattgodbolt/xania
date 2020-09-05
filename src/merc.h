@@ -1653,7 +1653,6 @@ char *one_argument(char *argument, char *arg_first); // TODO(MRG) get rid of thi
 
 /* magic.c */
 int mana_cost(Char *ch, int min_mana, int level);
-int skill_lookup(const char *name);
 int slot_lookup(int slot);
 bool saves_spell(int level, const Char *victim);
 void obj_cast_spell(int sn, int level, Char *ch, Char *victim, OBJ_DATA *obj);

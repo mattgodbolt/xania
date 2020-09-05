@@ -10,6 +10,7 @@
 #include "Logging.hpp"
 #include "comm.hpp"
 #include "interp.h"
+#include "lookup.h"
 #include "magic.h"
 #include "merc.h"
 

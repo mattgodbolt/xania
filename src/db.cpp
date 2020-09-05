@@ -14,8 +14,8 @@
 #include "TimeInfoData.hpp"
 #include "WeatherData.hpp"
 #include "buffer.h"
-#include "comm.hpp"
 #include "interp.h"
+#include "lookup.h"
 #include "merc.h"
 #include "note.h"
 #include "string_utils.hpp"
@@ -23,15 +23,11 @@
 #include <range/v3/algorithm/fill.hpp>
 #include <range/v3/iterator/operations.hpp>
 
-#include <cstdarg>
+#include <cctype>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <ctype.h>
 #include <sys/resource.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <time.h>
 
 /* Externally referenced functions. */
 void wiznet_initialise();

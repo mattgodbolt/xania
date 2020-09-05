@@ -12,12 +12,12 @@
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
 #include "WeatherData.hpp"
-#include "buffer.h"
 #include "comm.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
 #include "interp.h"
+#include "lookup.h"
 #include "merc.h"
 #include "string_utils.hpp"
 

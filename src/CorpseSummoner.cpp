@@ -8,8 +8,10 @@
 #include "AFFECT_DATA.hpp"
 #include "Char.hpp"
 #include "TimeInfoData.hpp"
+#include "lookup.h"
 #include "merc.h"
 #include "string_utils.hpp"
+
 #include <fmt/format.h>
 
 using namespace std::chrono;

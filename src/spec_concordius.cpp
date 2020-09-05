@@ -6,9 +6,12 @@
 
 #include "Char.hpp"
 #include "comm.hpp"
+#include "lookup.h"
 #include "merc.h"
 #include "string_utils.hpp"
+
 #include <fmt/format.h>
+
 #include <map>
 #include <string_view>
 #include <vector>
