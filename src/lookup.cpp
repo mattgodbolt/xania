@@ -170,7 +170,7 @@ int skill_lookup(const char *name) {
     for (sn = 0; sn < MAX_SKILL; sn++) {
         if (skill_table[sn].name == nullptr)
             break;
-        if (is_name(name, skill_table[sn].name))
+        if (LOWER(name[0]) == LOWER(skill_table[sn].name[0]) && !str_prefix(name, skill_table[sn].name))
             return sn;
     }
 
