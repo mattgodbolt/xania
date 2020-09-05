@@ -43,7 +43,6 @@ SHOP_DATA *shop_last;
 
 EXTRA_DESCR_DATA *extra_descr_free = nullptr;
 
-char bug_buf[2 * MAX_INPUT_LENGTH];
 Char *char_list;
 char *help_greeting;
 KILL_DATA kill_table[MAX_LEVEL];
