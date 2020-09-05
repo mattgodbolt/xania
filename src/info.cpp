@@ -198,7 +198,6 @@ void do_setinfo(Char *ch, const char *argument) {
    when char was last logged on */
 
 void do_finger(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     Char *victim = nullptr;
     KNOWN_PLAYERS *cursor = player_list;
     bool player_found = false;
@@ -234,7 +233,7 @@ void do_finger(Char *ch, const char *argument) {
             victim = nullptr;
 
         while (cursor != nullptr && player_found == false) {
-            if (!strcmp(cursor->name, argument))
+            if (matches(cursor->name, argument))
                 player_found = true;
             cursor = cursor->next;
         }
@@ -257,12 +256,11 @@ void do_finger(Char *ch, const char *argument) {
             }
 
             if (cur->info_message.empty())
-                snprintf(buf, sizeof(buf), "Message: Not set.\n\r");
+                ch->send_line("Message: Not set.");
             else if (cur->i_message)
-                snprintf(buf, sizeof(buf), "Message: %s\n\r", cur->info_message.c_str());
+                ch->send_line("Message: {}", cur->info_message);
             else
-                snprintf(buf, sizeof(buf), "Message: Withheld.\n\r");
-            ch->send_to(buf);
+                ch->send_line("Message: Withheld.");
 
             /* This is the tricky bit - should the player login time be seen
                by this player or not? */
@@ -271,52 +269,36 @@ void do_finger(Char *ch, const char *argument) {
 
                 /* Player is currently logged in */
                 if (victim->invis_level > ch->level && ch->get_trust() < GOD) {
-                    ch->send_to(fmt::format(
-                        "It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.\n\r",
-                        victim->name));
+                    ch->send_line("It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.",
+                                  victim->name);
                 } else {
                     ch->send_line("{} is currently roaming the hills of Xania!", victim->name);
                     if (ch->get_trust() >= GOD) {
                         if (victim->desc->host().empty())
-                            ch->send_to(fmt::format("It is impossible to determine where {} last logged in from.\n\r",
-                                                    victim->name));
+                            ch->send_line("It is impossible to determine where {} last logged in from.", victim->name);
                         else {
-                            ch->send_to(
-                                fmt::format("{} is currently logged in from {}.\n\r", cur->name, victim->desc->host()));
+                            ch->send_line("{} is currently logged in from {}.", cur->name, victim->desc->host());
                         }
                     }
                 }
             } else {
                 /* Player is not currently logged in */
                 if (cur->invis_level > ch->level && ch->get_trust() < GOD) {
-
-                    snprintf(buf, sizeof(buf),
-                             "It is impossible to determine the last time that %s roamed\n\rthe hills of Xania.\n\r",
-                             cur->name.c_str());
-                    ch->send_to(buf);
+                    ch->send_line("It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.",
+                                  cur->name);
                 } else {
 
                     if (cur->last_login_at[0] == '\0')
-                        snprintf(
-                            buf, sizeof(buf),
-                            "It is impossible to determine the last time that %s roamed\n\rthe hills of Xania.\n\r",
-                            cur->name.c_str());
+                        ch->send_line(
+                            "It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.",
+                            cur->name);
                     else
-                        snprintf(buf, sizeof(buf), "%s last roamed the hills of Xania on %s", cur->name.c_str(),
-                                 cur->last_login_at.c_str());
-
-                    ch->send_to(buf);
-
+                        ch->send_line("{} last roamed the hills of Xania on {}.", cur->name, cur->last_login_at);
                     if (ch->get_trust() >= GOD) {
                         if (cur->last_login_from[0] == '\0')
-                            snprintf(buf, sizeof(buf),
-                                     "It is impossible to determine where %s last logged in from.\n\r",
-                                     cur->name.c_str());
+                            ch->send_line("It is impossible to determine where {} last logged in from.", cur->name);
                         else
-                            snprintf(buf, sizeof(buf), "%s last logged in from %s.\n\r", cur->name.c_str(),
-                                     cur->last_login_from.c_str());
-
-                        ch->send_to(buf);
+                            ch->send_line("{} last logged in from {}.", cur->name, cur->last_login_from);
                     }
                 }
             }
