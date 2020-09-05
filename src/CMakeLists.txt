@@ -82,7 +82,8 @@ add_library(xania_lib STATIC
         AffectLocation.hpp
         AffectList.cpp AffectList.hpp
         Logging.cpp Logging.hpp
-        AREA_DATA.cpp AREA_DATA.hpp)
+        AREA_DATA.cpp AREA_DATA.hpp
+        Help.cpp Help.hpp)
 target_link_libraries(xania_lib xania_common crypt chat CONAN_PKG::fmt CONAN_PKG::range-v3)
 target_compile_options(xania_lib PUBLIC -fconcepts)
 

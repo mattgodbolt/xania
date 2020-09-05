@@ -1,5 +1,8 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
+    <Objective-C>
+      <option name="GENERATE_COMPARISON_OPERATORS_USE_STD_TIE" value="true" />
+    </Objective-C>
     <Objective-C-extensions>
       <extensions>
         <pair source="cpp" header="hpp" fileNamingConvention="NONE" />

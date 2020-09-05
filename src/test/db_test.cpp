@@ -1,5 +1,5 @@
 #include "MemFile.hpp"
-#include "merc.h"
+#include "db.h"
 
 #include <catch2/catch.hpp>
 

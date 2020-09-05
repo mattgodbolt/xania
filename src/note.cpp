@@ -14,6 +14,7 @@
 #include "TimeInfoData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
+#include "db.h"
 #include "merc.h"
 #include "string_utils.hpp"
 

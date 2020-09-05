@@ -10,6 +10,7 @@
 #include "AFFECT_DATA.hpp"
 #include "Descriptor.hpp"
 #include "TimeInfoData.hpp"
+#include "db.h"
 #include "lookup.h"
 #include "merc.h"
 #include "string_utils.hpp"

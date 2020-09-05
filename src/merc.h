@@ -54,7 +54,6 @@ typedef struct ban_data BAN_DATA;
 class Descriptor;
 typedef struct exit_data EXIT_DATA;
 typedef struct extra_descr_data EXTRA_DESCR_DATA;
-typedef struct help_data HELP_DATA;
 typedef struct kill_data KILL_DATA;
 struct OBJ_DATA;
 struct OBJ_INDEX_DATA;
@@ -128,17 +127,6 @@ struct dex_app_type {
 struct con_app_type {
     sh_int hitp;
     sh_int shock;
-};
-
-/*
- * Help table types.
- */
-struct help_data {
-    HELP_DATA *next;
-    AREA_DATA *area;
-    sh_int level;
-    char *keyword;
-    char *text;
 };
 
 /*
@@ -1416,7 +1404,6 @@ extern const struct flag_type wear_flags[];
 /*
  * Global variables.
  */
-extern HELP_DATA *help_first;
 extern SHOP_DATA *shop_first;
 
 extern BAN_DATA *ban_list;
@@ -1503,16 +1490,6 @@ const char *get_extra_descr(std::string_view name, const EXTRA_DESCR_DATA *ed);
 MOB_INDEX_DATA *get_mob_index(int vnum);
 OBJ_INDEX_DATA *get_obj_index(int vnum);
 ROOM_INDEX_DATA *get_room_index(int vnum);
-char fread_letter(FILE *fp);
-int fread_number(FILE *fp);
-int fread_spnumber(FILE *fp);
-long fread_flag(FILE *fp);
-BUFFER *fread_string_tobuffer(FILE *fp);
-char *fread_string(FILE *fp);
-std::string fread_stdstring(FILE *fp);
-char *fread_string_eol(FILE *fp);
-std::string fread_stdstring_eol(FILE *fp);
-void fread_to_eol(FILE *fp);
 char *fread_word(FILE *fp);
 void *alloc_mem(int sMem);
 void *alloc_perm(int sMem);

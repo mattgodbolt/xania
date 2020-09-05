@@ -12,6 +12,7 @@
 #include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
+#include "Help.hpp"
 #include "TimeInfoData.hpp"
 #include "WeatherData.hpp"
 #include "buffer.h"
@@ -36,8 +37,6 @@ void wiznet_initialise();
 /*
  * Globals.
  */
-HELP_DATA *help_first;
-HELP_DATA *help_last;
 
 SHOP_DATA *shop_first;
 SHOP_DATA *shop_last;
@@ -45,7 +44,6 @@ SHOP_DATA *shop_last;
 EXTRA_DESCR_DATA *extra_descr_free = nullptr;
 
 Char *char_list;
-char *help_greeting;
 KILL_DATA kill_table[MAX_LEVEL];
 OBJ_DATA *object_list;
 
@@ -342,34 +340,8 @@ void load_area(FILE *fp, const std::string &area_name) {
 
 /* Snarf a help section. */
 void load_helps(FILE *fp) {
-    HELP_DATA *pHelp;
-
-    for (;;) {
-        pHelp = static_cast<HELP_DATA *>(alloc_perm(sizeof(*pHelp)));
-
-        if (area_header_found)
-            pHelp->area = AreaList::singleton().back();
-        else
-            pHelp->area = nullptr;
-
-        pHelp->level = fread_number(fp);
-        pHelp->keyword = fread_string(fp);
-        if (pHelp->keyword[0] == '$')
-            break;
-        pHelp->text = fread_string(fp);
-
-        if (!str_cmp(pHelp->keyword, "greeting"))
-            help_greeting = pHelp->text;
-
-        if (help_first == nullptr)
-            help_first = pHelp;
-        if (help_last != nullptr)
-            help_last->next = pHelp;
-
-        help_last = pHelp;
-        pHelp->next = nullptr;
-        top_help++;
-    }
+    while (auto help = Help::load(fp, area_header_found ? AreaList::singleton().back() : nullptr))
+        HelpList::singleton().add(std::move(*help));
 }
 
 /*
@@ -1629,11 +1601,8 @@ std::string fread_stdstring(FILE *fp) {
     for (;;) {
         auto c = fgetc(fp);
         switch (c) {
-        default: result += c; break;
-        case EOF:
-            /* temp fix */
-            bug("Fread_string: EOF");
-            return result;
+        default: result += static_cast<char>(c); break;
+        case EOF: bug("fread_stdstring: EOF"); return result;
 
         case '\n': result += "\n\r"; break;
         case '\r': break;
@@ -1650,10 +1619,7 @@ std::string fread_stdstring_eol(FILE *fp) {
         auto c = fgetc(fp);
         switch (c) {
         default: result += static_cast<char>(c); break;
-        case EOF:
-            /* temp fix */
-            bug("Fread_string_eol: EOF");
-            return result;
+        case EOF: bug("fread_stdstring_eol: EOF"); return result;
 
         case '\n': return result;
         }
@@ -1971,8 +1937,7 @@ void do_memory(Char *ch, const char *argument) {
     ch->send_to(buf);
     snprintf(buf, sizeof(buf), "Exits   %5d\n\r", top_exit);
     ch->send_to(buf);
-    snprintf(buf, sizeof(buf), "Helps   %5d\n\r", top_help);
-    ch->send_to(buf);
+    ch->send_line("Helps   {:5}", HelpList::singleton().count());
     snprintf(buf, sizeof(buf), "Socials %5d\n\r", social_count);
     ch->send_to(buf);
     snprintf(buf, sizeof(buf), "Mobs    %5d(%d new format)\n\r", top_mob_index, newmobs);

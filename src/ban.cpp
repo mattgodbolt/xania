@@ -20,15 +20,15 @@
 
 #include "buffer.h"
 #include "comm.hpp"
+#include "db.h"
 #include "merc.h"
 #include "string_utils.hpp"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-#include <sys/types.h>
 
-char *print_flags(const int value);
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
+char *print_flags(int value);
 
 BAN_DATA *ban_list;
 

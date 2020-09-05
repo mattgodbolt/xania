@@ -16,6 +16,7 @@
 #include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
+#include "Help.hpp"
 #include "Pronouns.hpp"
 #include "TimeInfoData.hpp"
 #include "challeng.h"
@@ -113,11 +114,12 @@ void SetEchoState(Descriptor *d, int on) {
 }
 
 void greet(Descriptor &d) {
-    extern char *help_greeting;
-    if (help_greeting[0] == '.')
-        d.write(help_greeting + 1);
-    else
-        d.write(help_greeting);
+    const auto *greeting = HelpList::singleton().lookup(0, "greeting");
+    if (!greeting) {
+        bug("Unable to look up greeting");
+        return;
+    }
+    d.write(greeting->text());
 }
 
 /* where we're asked nicely to quit from the outside (mudmgr or OS) */

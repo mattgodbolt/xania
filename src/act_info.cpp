@@ -11,6 +11,7 @@
 #include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
+#include "Help.hpp"
 #include "TimeInfoData.hpp"
 #include "WeatherData.hpp"
 #include "comm.hpp"
@@ -1335,7 +1336,6 @@ void do_weather(Char *ch, const char *argument) {
 }
 
 void do_help(Char *ch, const char *argument) {
-    HELP_DATA *pHelp;
     char argall[MAX_INPUT_LENGTH], argone[MAX_INPUT_LENGTH];
 
     if (argument[0] == '\0')
@@ -1350,28 +1350,13 @@ void do_help(Char *ch, const char *argument) {
         strcat(argall, argone);
     }
 
-    for (pHelp = help_first; pHelp != nullptr; pHelp = pHelp->next) {
-        if (pHelp->level > ch->get_trust())
-            continue;
-
-        if (is_name(argall, pHelp->keyword)) {
-            if (pHelp->level >= 0 && str_cmp(argall, "imotd")) {
-                ch->send_to(pHelp->keyword);
-                ch->send_line("");
-            }
-
-            /*
-             * Strip leading '.' to allow initial blanks.
-             */
-            if (pHelp->text[0] == '.')
-                page_to_char(pHelp->text + 1, ch);
-            else
-                page_to_char(pHelp->text, ch);
-            return;
-        }
+    if (auto *help = HelpList::singleton().lookup(ch->get_trust(), argall)) {
+        if (help->level() >= 0 && !matches(argall, "imotd"))
+            ch->send_line(help->keyword());
+        ch->page_to(help->text());
+    } else {
+        ch->send_line("No help on that word.");
     }
-
-    ch->send_line("No help on that word.");
 }
 
 namespace {

@@ -7,15 +7,17 @@
 /*                                                                       */
 /*************************************************************************/
 
-/* files used in db.c */
 #pragma once
 
 #include "Constants.hpp"
+#include "buffer.h"
+
+#include <cstdio>
+#include <string>
 
 struct MOB_INDEX_DATA;
 struct OBJ_INDEX_DATA;
 
-/* vals from db.c */
 extern bool fBootDb;
 extern int newmobs;
 extern int newobjs;
@@ -33,3 +35,14 @@ extern int top_vnum_obj;
 /* from db2.c */
 
 extern int social_count;
+
+char fread_letter(FILE *fp);
+int fread_number(FILE *fp);
+int fread_spnumber(FILE *fp);
+long fread_flag(FILE *fp);
+BUFFER *fread_string_tobuffer(FILE *fp);
+char *fread_string(FILE *fp);
+std::string fread_stdstring(FILE *fp);
+char *fread_string_eol(FILE *fp);
+void fread_to_eol(FILE *fp);
+std::string fread_stdstring_eol(FILE *fp);

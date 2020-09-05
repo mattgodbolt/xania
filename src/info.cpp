@@ -12,6 +12,7 @@
 #include "TimeInfoData.hpp"
 #include "WrappedFd.hpp"
 #include "comm.hpp"
+#include "db.h"
 #include "handler.hpp"
 #include "merc.h"
 #include "save.hpp"
