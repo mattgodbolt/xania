@@ -26,4 +26,10 @@ TEST_CASE("looks up skills") {
     check_spell("cure disease", "cure disease");
     check_spell("cure light", "cure light");
     check_spell("cure serious", "cure serious");
+
+    // Check every skill maps back to its own name.
+    for (auto &x : skill_table) {
+        if (x.name) // Can be removed if/when we get rid of the nullptr end thing.
+            check_spell(x.name, x.name);
+    }
 }
