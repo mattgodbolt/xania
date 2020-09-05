@@ -1531,6 +1531,7 @@ BUFFER *fread_string_tobuffer(FILE *fp);
 char *fread_string(FILE *fp);
 std::string fread_stdstring(FILE *fp);
 char *fread_string_eol(FILE *fp);
+std::string fread_stdstring_eol(FILE *fp);
 void fread_to_eol(FILE *fp);
 char *fread_word(FILE *fp);
 void *alloc_mem(int sMem);

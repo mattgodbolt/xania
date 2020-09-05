@@ -1622,6 +1622,54 @@ BUFFER *fread_string_tobuffer(FILE *fp) {
     return buffer;
 }
 
+void skip_ws(FILE *fp) {
+    for (;;) {
+        auto c = getc(fp);
+        if (!isspace(c)) {
+            ungetc(c, fp);
+            break;
+        }
+    }
+}
+
+std::string fread_stdstring(FILE *fp) {
+    skip_ws(fp);
+    std::string result;
+    for (;;) {
+        auto c = fgetc(fp);
+        switch (c) {
+        default: result += c; break;
+        case EOF:
+            /* temp fix */
+            bug("Fread_string: EOF");
+            return result;
+
+        case '\n': result += "\n\r"; break;
+        case '\r': break;
+
+        case '~': return result;
+        }
+    }
+}
+
+std::string fread_stdstring_eol(FILE *fp) {
+    skip_ws(fp);
+    std::string result;
+    for (;;) {
+        auto c = fgetc(fp);
+        switch (c) {
+        default: result += static_cast<char>(c); break;
+        case EOF:
+            /* temp fix */
+            bug("Fread_string_eol: EOF");
+            return result;
+
+        case '\n': return result;
+        }
+    }
+}
+
+namespace {
 /*
  * Read and allocate space for a string from a file.
  * These strings are read-only and shared.
@@ -1630,170 +1678,56 @@ BUFFER *fread_string_tobuffer(FILE *fp) {
  *   hash code is simply the string length.
  *   this function takes 40% to 50% of boot-up time.
  */
-char *fread_string(FILE *fp) {
-    char c;
-
+char *do_horrible_boot_strdup_thing(const std::string &str) {
     char *plast = top_string + sizeof(char *);
     if (plast > &string_space[MAX_STRING - MAX_STRING_LENGTH]) {
         bug("Fread_string: MAX_STRING {} exceeded.", MAX_STRING);
         exit(1);
     }
-    do {
-        c = getc(fp);
-    } while (isspace(c));
+    union {
+        char *pc;
+        char rgc[sizeof(char *)];
+    } u1;
+    int ic;
+    int iHash;
+    char *pHash;
+    char *pHashPrev;
+    char *pString;
 
-    if ((*plast++ = c) == '~')
-        return &str_empty[0];
+    strcpy(plast, str.c_str());
+    plast += str.size() + 1;
+    iHash = UMIN(MAX_KEY_HASH - 1, plast - 1 - top_string);
+    for (pHash = string_hash[iHash]; pHash; pHash = pHashPrev) {
+        for (ic = 0; ic < (int)sizeof(char *); ic++)
+            u1.rgc[ic] = pHash[ic];
+        pHashPrev = u1.pc;
+        pHash += sizeof(char *);
 
-    for (;;) {
-        switch (*plast = getc(fp)) {
-        default: plast++; break;
+        if (top_string[sizeof(char *)] == pHash[0] && !strcmp(top_string + sizeof(char *) + 1, pHash + 1))
+            return pHash;
+    }
 
-        case EOF:
-            /* temp fix */
-            bug("Fread_string: EOF");
-            return nullptr;
-            /* exit( 1 ); */
-            break;
+    if (fBootDb) {
+        pString = top_string;
+        top_string = plast;
+        u1.pc = string_hash[iHash];
+        for (ic = 0; ic < (int)sizeof(char *); ic++)
+            pString[ic] = u1.rgc[ic];
+        string_hash[iHash] = pString;
 
-        case '\n':
-            plast++;
-            *plast++ = '\r';
-            break;
-
-        case '\r': break;
-
-        case '~':
-            plast++;
-            {
-                union {
-                    char *pc;
-                    char rgc[sizeof(char *)];
-                } u1;
-                int ic;
-                int iHash;
-                char *pHash;
-                char *pHashPrev;
-                char *pString;
-
-                plast[-1] = '\0';
-                iHash = UMIN(MAX_KEY_HASH - 1, plast - 1 - top_string);
-                for (pHash = string_hash[iHash]; pHash; pHash = pHashPrev) {
-                    for (ic = 0; ic < (int)sizeof(char *); ic++)
-                        u1.rgc[ic] = pHash[ic];
-                    pHashPrev = u1.pc;
-                    pHash += sizeof(char *);
-
-                    if (top_string[sizeof(char *)] == pHash[0] && !strcmp(top_string + sizeof(char *) + 1, pHash + 1))
-                        return pHash;
-                }
-
-                if (fBootDb) {
-                    pString = top_string;
-                    top_string = plast;
-                    u1.pc = string_hash[iHash];
-                    for (ic = 0; ic < (int)sizeof(char *); ic++)
-                        pString[ic] = u1.rgc[ic];
-                    string_hash[iHash] = pString;
-
-                    nAllocString += 1;
-                    sAllocString += top_string - pString;
-                    return pString + sizeof(char *);
-                } else {
-                    return str_dup(top_string + sizeof(char *));
-                }
-            }
-        }
+        nAllocString += 1;
+        sAllocString += top_string - pString;
+        return pString + sizeof(char *);
+    } else {
+        return str_dup(top_string + sizeof(char *));
     }
 }
 
-std::string fread_stdstring(FILE *fp) {
-    // Temporary hack until we can rephrase all this loading stuff.
-    auto str = fread_string(fp);
-    if (!str)
-        return "";
-    std::string result(str);
-    free_string(str);
-    return result;
 }
 
-char *fread_string_eol(FILE *fp) {
-    char *plast = top_string + sizeof(char *);
-    if (plast > &string_space[MAX_STRING - MAX_STRING_LENGTH]) {
-        bug("Fread_string: MAX_STRING {} exceeded.", MAX_STRING);
-        exit(1);
-    }
+char *fread_string(FILE *fp) { return do_horrible_boot_strdup_thing(fread_stdstring(fp)); }
 
-    /*
-     * Skip blanks.
-     * Read first char.
-     */
-    // Note: as isspace is used here, which matches \n and \r, there's no
-    // protection against reading off the end of the line and onto the next.
-    // Leaving this behaviour for now, as it's what we have.
-    do {
-        // This doesn't advance the plast pointer, so when we exit, the first
-        // non-whitespace char will be there.
-        *plast = getc(fp);
-    } while (isspace(*plast));
-    plast++;
-
-    for (;;) {
-        // Using int here, as getc can return -1 (EOF), which isn't the same as
-        // char 0xff (although if that's in our input, something's gone wrong
-        // anyway).
-        const int ch = getc(fp);
-        if (ch == EOF) {
-            bug("Fread_string_eol  EOF");
-            exit(1);
-        }
-        if (ch != '\n' && ch != '\r') {
-            // Normal char - just copy into the buffer.
-            *plast++ = ch;
-            continue;
-        }
-        // Hit a line terminator. That terminates the string, then we do some
-        // weird processing.
-        *plast++ = '\0';
-
-        union {
-            char *pc;
-            char rgc[sizeof(char *)];
-        } u1;
-        int ic;
-        int iHash;
-        char *pHash;
-        char *pHashPrev;
-        char *pString;
-
-        plast[-1] = '\0';
-        iHash = UMIN(MAX_KEY_HASH - 1, plast - 1 - top_string);
-        for (pHash = string_hash[iHash]; pHash; pHash = pHashPrev) {
-            for (ic = 0; ic < (int)sizeof(char *); ic++)
-                u1.rgc[ic] = pHash[ic];
-            pHashPrev = u1.pc;
-            pHash += sizeof(char *);
-
-            if (top_string[sizeof(char *)] == pHash[0] && !strcmp(top_string + sizeof(char *) + 1, pHash + 1))
-                return pHash;
-        }
-
-        if (fBootDb) {
-            pString = top_string;
-            top_string = plast;
-            u1.pc = string_hash[iHash];
-            for (ic = 0; ic < (int)sizeof(char *); ic++)
-                pString[ic] = u1.rgc[ic];
-            string_hash[iHash] = pString;
-
-            nAllocString += 1;
-            sAllocString += top_string - pString;
-            return pString + sizeof(char *);
-        } else {
-            return str_dup(top_string + sizeof(char *));
-        }
-    }
-}
+char *fread_string_eol(FILE *fp) { return do_horrible_boot_strdup_thing(fread_stdstring_eol(fp)); }
 
 /*
  * Read to end of line (for comments).
