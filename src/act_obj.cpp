@@ -2073,7 +2073,7 @@ void do_list(Char *ch, const char *argument) {
                     buffer += "[Lv Price] Item\n\r";
                 }
 
-                buffer += fmt::format("[{:2} {:5}] %s.\n\r", obj->level, cost, obj->short_descr);
+                buffer += fmt::format("[{:2} {:5}] {}.\n\r", obj->level, cost, obj->short_descr);
             }
         }
 
