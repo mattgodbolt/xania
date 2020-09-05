@@ -527,13 +527,11 @@ void one_hit(Char *ch, Char *victim, int dt) {
                 }
 
             /* Vorpal weapon flag implemented by Wandera and Death*/
-            /* If weapon is vorpal the change of damage being *4  */
+            /* Previously this quadrupled damage if you landed a lucky hit. The bonus is now a bit less overpowered. */
             if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON)) {
                 if (IS_SET(wield->value[4], WEAPON_VORPAL)) {
                     if (dam == (1 + wield->value[2]) * wield->value[1] / 2) {
-                        dam *= 4;
-                        bug("one_hit:QUAD_DAM with {} [{}] by {}", wield->name, wield->pIndexData->vnum,
-                            ch->name.c_str());
+                        dam *= 1.3;
                         act("With a blood curdling scream you leap forward swinging\n\ryour weapon in a great arc.", ch,
                             nullptr, victim, To::Char);
                         act("$n screams and leaps forwards swinging $s weapon in a great arc.", ch, nullptr, victim,
