@@ -1099,14 +1099,10 @@ D3
 0 -1 2158
 S
 #2160
-A wide alleyway~
-The sides of the alleyway have been vandalized many times.
-One patch of graffiti actually looks readable:
-            This section has been designed for levels 5 through 10
-            If you are above level 10 please don't expect much.
-            If you are below level 5 enter at your own risk.
-In another spot it says "now entering Ogre territory..."
-A street lies to the west and a major road to the east.
+A dark alleyway~
+The walls of this alleyway have been vandalized many times.
+The bricks of the western wall have been graffitied on with
+obscure signs in many colours. A road leads east.
 ~
 21 AC 1
 D1
@@ -1120,7 +1116,7 @@ You see many gang members walking around looking for
 fights to pick and things to break.  It seems as if all of the
 other citizens have been run out of town.  All the former
 homes are boarded up and uninhabitable.  The road continues
-east and west.
+east and there's a dark alley to the west.
 ~
 21 0 1
 D1
