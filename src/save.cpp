@@ -159,9 +159,9 @@ void fwrite_char(const Char *ch, FILE *fp) {
     fprintf(fp, "Note %d\n", (int)Clock::to_time_t(ch->last_note));
     fprintf(fp, "Scro %d\n", ch->lines);
     fprintf(fp, "Room %d\n",
-            (ch->in_room == get_room_index(ROOM_VNUM_LIMBO) && ch->was_in_room != nullptr)
-                ? ch->was_in_room->vnum
-                : ch->in_room == nullptr ? 3001 : ch->in_room->vnum);
+            (ch->in_room == get_room_index(ROOM_VNUM_LIMBO) && ch->was_in_room != nullptr) ? ch->was_in_room->vnum
+            : ch->in_room == nullptr                                                       ? 3001
+                                                                                           : ch->in_room->vnum);
 
     fprintf(fp, "HMV  %d %d %d %d %d %d\n", ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move, ch->max_move);
     if (ch->gold > 0)
@@ -566,7 +566,7 @@ void fread_char(Char *ch, FILE *fp) {
             af.modifier = fread_number(fp);
             af.location = static_cast<AffectLocation>(fread_number(fp));
             af.bitvector = fread_number(fp);
-            ch->affected.add(af);
+            ch->affected.add_at_end(af);
         } else if (word == "attrmod" || word == "amod") {
             for (auto &stat : ch->mod_stat)
                 stat = fread_number(fp);
@@ -775,7 +775,7 @@ void fread_pet(Char *ch, FILE *fp) {
             af.modifier = fread_number(fp);
             af.location = static_cast<AffectLocation>(fread_number(fp));
             af.bitvector = fread_number(fp);
-            pet->affected.add(af);
+            pet->affected.add_at_end(af);
         } else if (matches(word, "AMod")) {
             for (auto &stat : pet->mod_stat)
                 stat = fread_number(fp);
@@ -895,7 +895,7 @@ void fread_obj(Char *ch, FILE *fp) {
             af.modifier = fread_number(fp);
             af.location = static_cast<AffectLocation>(fread_number(fp));
             af.bitvector = fread_number(fp);
-            obj->affected.add(af);
+            obj->affected.add_at_end(af);
         } else if (matches(word, "Cost")) {
             obj->cost = fread_number(fp);
         } else if (matches(word, "Description") || matches(word, "Desc")) {
