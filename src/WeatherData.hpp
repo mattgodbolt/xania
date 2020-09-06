@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Rng.hpp"
 #include "TimeInfoData.hpp"
 
 #include <string>
@@ -17,10 +18,10 @@ private:
 
 public:
     WeatherData() = default; // TODO remove once we get rid of the global.
-    explicit WeatherData(const TimeInfoData &tid);
+    explicit WeatherData(Rng &rng, const TimeInfoData &tid);
     WeatherData(Sky sky, Sun sunlight) : sky_(sky), sunlight_(sunlight) {}
 
-    void update(const TimeInfoData &tid);
+    void update(Rng &rng, const TimeInfoData &tid);
 
     void control(int delta) { change_ += delta; }
 

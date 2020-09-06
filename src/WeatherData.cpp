@@ -1,6 +1,5 @@
 #include "WeatherData.hpp"
 #include "Logging.hpp"
-#include "merc.h"
 
 #include <fmt/format.h>
 
@@ -49,10 +48,10 @@ int WeatherData::pressure_direction(const TimeInfoData &tid) const {
         return mmhg_ > 1015 ? -2 : 2;
 }
 
-void WeatherData::update(const TimeInfoData &tid) {
+void WeatherData::update(Rng &rng, const TimeInfoData &tid) {
     sunlight_ = sun_from_time(tid);
 
-    auto change_change = pressure_direction(tid) * dice(1, 4) + dice(2, 6) - dice(2, 6);
+    auto change_change = pressure_direction(tid) * rng.dice(1, 4) + rng.dice(2, 6) - rng.dice(2, 6);
     change_ = std::min(std::max(change_ + change_change, -12), 12);
     mmhg_ = std::min(std::max(mmhg_ + change_, 960), 1040);
 
@@ -63,36 +62,36 @@ void WeatherData::update(const TimeInfoData &tid) {
         break;
 
     case Sky::Cloudless:
-        if (mmhg_ < 990 || (mmhg_ < 1010 && number_bits(2) == 0))
+        if (mmhg_ < 990 || (mmhg_ < 1010 && rng.number_bits(2) == 0))
             sky_ = Sky::Cloudy;
         break;
 
     case Sky::Cloudy:
-        if (mmhg_ < 970 || (mmhg_ < 990 && number_bits(2) == 0))
+        if (mmhg_ < 970 || (mmhg_ < 990 && rng.number_bits(2) == 0))
             sky_ = Sky::Raining;
 
-        if (mmhg_ > 1030 && number_bits(2) == 0)
+        if (mmhg_ > 1030 && rng.number_bits(2) == 0)
             sky_ = Sky::Cloudless;
         break;
 
     case Sky::Raining:
-        if (mmhg_ < 970 && number_bits(2) == 0)
+        if (mmhg_ < 970 && rng.number_bits(2) == 0)
             sky_ = Sky::Lightning;
 
-        if (mmhg_ > 1030 || (mmhg_ > 1010 && number_bits(2) == 0))
+        if (mmhg_ > 1030 || (mmhg_ > 1010 && rng.number_bits(2) == 0))
             sky_ = Sky::Cloudy;
         break;
 
     case Sky::Lightning:
-        if (mmhg_ > 1010 || (mmhg_ > 990 && number_bits(2) == 0))
+        if (mmhg_ > 1010 || (mmhg_ > 990 && rng.number_bits(2) == 0))
             sky_ = Sky::Raining;
         break;
     }
 }
 
-WeatherData::WeatherData(const TimeInfoData &tid) : sunlight_(sun_from_time(tid)) {
+WeatherData::WeatherData(Rng &rng, const TimeInfoData &tid) : sunlight_(sun_from_time(tid)) {
     change_ = 0;
-    mmhg_ = 960 + number_range(1, tid.is_autumnal() ? 50 : 80);
+    mmhg_ = 960 + rng.number_range(1, tid.is_autumnal() ? 50 : 80);
 
     if (mmhg_ <= 980)
         sky_ = Sky::Lightning;

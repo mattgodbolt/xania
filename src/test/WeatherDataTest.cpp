@@ -3,43 +3,44 @@
 #include <catch2/catch.hpp>
 
 TEST_CASE("weather data") {
+    KnuthRng fake_rng(0xdeadbeef);
     SECTION("Notices day") {
-        CHECK(!WeatherData(TimeInfoData(5, 0, 0, 0)).is_dark());
-        CHECK(!WeatherData(TimeInfoData(9, 0, 0, 0)).is_dark());
-        CHECK(!WeatherData(TimeInfoData(18, 0, 0, 0)).is_dark());
+        CHECK(!WeatherData(fake_rng, TimeInfoData(5, 0, 0, 0)).is_dark());
+        CHECK(!WeatherData(fake_rng, TimeInfoData(9, 0, 0, 0)).is_dark());
+        CHECK(!WeatherData(fake_rng, TimeInfoData(18, 0, 0, 0)).is_dark());
     }
     SECTION("Notices night") {
-        CHECK(WeatherData(TimeInfoData(1, 0, 0, 0)).is_dark());
-        CHECK(WeatherData(TimeInfoData(4, 0, 0, 0)).is_dark());
-        CHECK(WeatherData(TimeInfoData(19, 0, 0, 0)).is_dark());
+        CHECK(WeatherData(fake_rng, TimeInfoData(1, 0, 0, 0)).is_dark());
+        CHECK(WeatherData(fake_rng, TimeInfoData(4, 0, 0, 0)).is_dark());
+        CHECK(WeatherData(fake_rng, TimeInfoData(19, 0, 0, 0)).is_dark());
     }
     SECTION("Should have no description if nothing at all changed") {
-        auto weather = WeatherData(TimeInfoData(5, 0, 0, 0));
+        auto weather = WeatherData(fake_rng, TimeInfoData(5, 0, 0, 0));
         CHECK(weather.describe_change(weather).empty());
     }
     SECTION("Should have no description if nothing change in the position of the sun") {
-        auto before = WeatherData(TimeInfoData(13, 0, 0, 0));
-        auto after = WeatherData(TimeInfoData(14, 0, 0, 0));
+        auto before = WeatherData(fake_rng, TimeInfoData(13, 0, 0, 0));
+        auto after = WeatherData(fake_rng, TimeInfoData(14, 0, 0, 0));
         CHECK(after.describe_change(before).empty());
     }
     SECTION("Describes day break") {
-        auto before = WeatherData(TimeInfoData(4, 0, 0, 0));
-        auto after = WeatherData(TimeInfoData(5, 0, 0, 0));
+        auto before = WeatherData(fake_rng, TimeInfoData(4, 0, 0, 0));
+        auto after = WeatherData(fake_rng, TimeInfoData(5, 0, 0, 0));
         CHECK(after.describe_change(before) == "The day has begun.\n\r");
     }
     SECTION("Describes sunrise") {
-        auto before = WeatherData(TimeInfoData(5, 0, 0, 0));
-        auto after = WeatherData(TimeInfoData(6, 0, 0, 0));
+        auto before = WeatherData(fake_rng, TimeInfoData(5, 0, 0, 0));
+        auto after = WeatherData(fake_rng, TimeInfoData(6, 0, 0, 0));
         CHECK(after.describe_change(before) == "The sun rises in the east.\n\r");
     }
     SECTION("Describes sunset") {
-        auto before = WeatherData(TimeInfoData(18, 0, 0, 0));
-        auto after = WeatherData(TimeInfoData(19, 0, 0, 0));
+        auto before = WeatherData(fake_rng, TimeInfoData(18, 0, 0, 0));
+        auto after = WeatherData(fake_rng, TimeInfoData(19, 0, 0, 0));
         CHECK(after.describe_change(before) == "The sun slowly disappears in the west.\n\r");
     }
     SECTION("Describes day end") {
-        auto before = WeatherData(TimeInfoData(19, 0, 0, 0));
-        auto after = WeatherData(TimeInfoData(20, 0, 0, 0));
+        auto before = WeatherData(fake_rng, TimeInfoData(19, 0, 0, 0));
+        auto after = WeatherData(fake_rng, TimeInfoData(20, 0, 0, 0));
         CHECK(after.describe_change(before) == "The night has begun.\n\r");
     }
     SECTION("Describes weather chagnges") {

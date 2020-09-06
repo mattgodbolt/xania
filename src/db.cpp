@@ -220,7 +220,7 @@ void boot_db() {
 
     // Set time and weather.
     time_info = TimeInfoData(Clock::now());
-    weather_info = WeatherData(time_info);
+    weather_info = WeatherData(Rng::global_rng(), time_info);
 
     /* Assign gsn's for skills which have them. */
     {
@@ -2067,11 +2067,13 @@ void do_dump(Char *ch, const char *argument) {
     fclose(fp);
 }
 
+KnuthRng knuth_rng(0);
+
 /*
  * Stick a little fuzz on a number.
  */
 int number_fuzzy(int number) {
-    switch (number_bits(2)) {
+    switch (knuth_rng.number_bits(2)) {
     case 0: number -= 1; break;
     case 3: number += 1; break;
     }
@@ -2079,103 +2081,25 @@ int number_fuzzy(int number) {
     return UMAX(1, number);
 }
 
-/*
- * Generate a random number.
- */
-int number_range(int from, int to) {
-    int power;
-    int number;
-
-    if (from == 0 && to == 0)
-        return 0;
-
-    if ((to = to - from + 1) <= 1)
-        return from;
-
-    for (power = 2; power < to; power <<= 1)
-        ;
-
-    while ((number = number_mm() & (power - 1)) >= to)
-        ;
-
-    return from + number;
-}
-
+int number_range(int from, int to) { return knuth_rng.number_range(from, to); }
 /*
  * Generate a percentile roll.
  */
-int number_percent() {
-    int percent;
+int number_percent() { return knuth_rng.number_percent(); }
 
-    while ((percent = number_mm() & (128 - 1)) > 99)
-        ;
-
-    return 1 + percent;
-}
-
-int number_bits(int width) { return number_mm() & ((1 << width) - 1); }
-
-/*
- * I've gotten too many bad reports on OS-supplied random number generators.
- * This is the Mitchell-Moore algorithm from Knuth Volume II.
- * Best to leave the constants alone unless you've read Knuth.
- * -- Furey
- */
-static int rgiState[2 + 55];
+int number_bits(int width) { return knuth_rng.number_bits(width); }
 
 void init_mm() {
-    int *piState;
-    int iState;
-
-    piState = &rgiState[2];
-
-    piState[-2] = 55 - 55;
-    piState[-1] = 55 - 24;
-
-    piState[0] = ((int)Clock::to_time_t(current_time)) & ((1 << 30) - 1);
-    piState[1] = 1;
-    for (iState = 2; iState < 55; iState++) {
-        piState[iState] = (piState[iState - 1] + piState[iState - 2]) & ((1 << 30) - 1);
-    }
+    knuth_rng = KnuthRng((int)Clock::to_time_t(current_time));
+    Rng::set_global_rng(knuth_rng);
 }
 
-int number_mm() {
-    int *piState;
-    int iState1;
-    int iState2;
-    int iRand;
-
-    piState = &rgiState[2];
-    iState1 = piState[-2];
-    iState2 = piState[-1];
-    iRand = (piState[iState1] + piState[iState2]) & ((1 << 30) - 1);
-    piState[iState1] = iRand;
-    if (++iState1 == 55)
-        iState1 = 0;
-    if (++iState2 == 55)
-        iState2 = 0;
-    piState[-2] = iState1;
-    piState[-1] = iState2;
-    return iRand >> 6;
-}
+int number_mm() { return static_cast<int>(knuth_rng.number_mm()); }
 
 /*
  * Roll some dice.
  */
-int dice(int number, int size) {
-    int idice;
-    int sum;
-
-    switch (size) {
-    case 0: return 0;
-    case 1: return number;
-    }
-
-    for (idice = 0, sum = 0; idice < number; idice++)
-        sum += number_range(1, size);
-
-    return sum;
-}
+int dice(int number, int size) { return knuth_rng.dice(number, size); }
 
 /*
  * Simple linear interpolation.
