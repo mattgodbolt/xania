@@ -8,6 +8,7 @@ class AffectList {
 
 public:
     AFFECT_DATA &add(const AFFECT_DATA &aff);
+    AFFECT_DATA &add_at_end(const AFFECT_DATA &aff);
     void remove(const AFFECT_DATA &aff);
 
     void clear();
