@@ -111,13 +111,7 @@ void save_char_obj(const Char *ch) {
         bug("Save_char_obj: fopen");
         perror(player_temp.c_str());
     } else {
-        fwrite_char(ch, fp);
-        if (ch->carrying != nullptr)
-            fwrite_obj(ch, ch->carrying, fp, 0);
-        /* save the pets */
-        if (ch->pet != nullptr && ch->pet->in_room == ch->in_room)
-            fwrite_pet(ch, ch->pet, fp);
-        fprintf(fp, "#END\n");
+        save_char_obj(ch, fp);
     }
     fclose(fp);
     /* move the file */
@@ -125,6 +119,16 @@ void save_char_obj(const Char *ch) {
     if (rename(player_temp.c_str(), player_file.c_str()) != 0) {
         bug("Unable to move temporary player name {}!! rename failed: {}!", player_file.c_str(), strerror(errno));
     }
+}
+
+void save_char_obj(const Char *ch, FILE *fp) {
+    fwrite_char(ch, fp);
+    if (ch->carrying != nullptr)
+        fwrite_obj(ch, ch->carrying, fp, 0);
+    /* save the pets */
+    if (ch->pet != nullptr && ch->pet->in_room == ch->in_room)
+        fwrite_pet(ch, ch->pet, fp);
+    fprintf(fp, "#END\n");
 }
 
 /*
@@ -159,9 +163,9 @@ void fwrite_char(const Char *ch, FILE *fp) {
     fprintf(fp, "Note %d\n", (int)Clock::to_time_t(ch->last_note));
     fprintf(fp, "Scro %d\n", ch->lines);
     fprintf(fp, "Room %d\n",
-            (ch->in_room == get_room_index(ROOM_VNUM_LIMBO) && ch->was_in_room != nullptr) ? ch->was_in_room->vnum
-            : ch->in_room == nullptr                                                       ? 3001
-                                                                                           : ch->in_room->vnum);
+            (ch->in_room == get_room_index(ROOM_VNUM_LIMBO) && ch->was_in_room != nullptr)
+                ? ch->was_in_room->vnum
+                : ch->in_room == nullptr ? 3001 : ch->in_room->vnum);
 
     fprintf(fp, "HMV  %d %d %d %d %d %d\n", ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move, ch->max_move);
     if (ch->gold > 0)
@@ -419,9 +423,43 @@ void fwrite_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest) {
         fwrite_obj(ch, obj->contains, fp, iNest + 1);
 }
 
+void load_into_char(Char &character, FILE *fp) {
+    int iNest;
+
+    for (iNest = 0; iNest < MAX_NEST; iNest++)
+        rgObjNest[iNest] = nullptr;
+
+    for (;;) {
+        auto letter = fread_letter(fp);
+        if (letter == '*') {
+            fread_to_eol(fp);
+            continue;
+        }
+
+        if (letter != '#') {
+            bug("Load_char_obj: # not found.");
+            break;
+        }
+
+        auto *word = fread_word(fp);
+        if (!str_cmp(word, "PLAYER")) {
+            fread_char(&character, fp);
+            affect_strip(&character, gsn_ride);
+        } else if (!str_cmp(word, "OBJECT") || !str_cmp(word, "O"))
+            fread_obj(&character, fp);
+        else if (!str_cmp(word, "PET"))
+            fread_pet(&character, fp);
+        else if (!str_cmp(word, "END"))
+            break;
+        else {
+            bug("Load_char_obj: bad section.");
+            break;
+        }
+    }
+}
+
 // Load a char and inventory into a new ch structure.
 LoadCharObjResult try_load_player(std::string_view player_name) {
-    FILE *fp;
     LoadCharObjResult res{true, std::make_unique<Char>()};
 
     auto *ch = res.character.get();
@@ -433,64 +471,27 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
     ch->comm = COMM_COMBINE | COMM_PROMPT | COMM_SHOWAFK | COMM_SHOWDEFENCE;
     ranges::fill(ch->perm_stat, 13);
 
-    if ((fp = fopen(filename_for_player(player_name).c_str(), "r")) != nullptr) {
-        int iNest;
-
-        for (iNest = 0; iNest < MAX_NEST; iNest++)
-            rgObjNest[iNest] = nullptr;
-
+    auto *fp = fopen(filename_for_player(player_name).c_str(), "r");
+    if (fp) {
         res.newly_created = false;
-        for (;;) {
-            char letter;
-            char *word;
-
-            letter = fread_letter(fp);
-            if (letter == '*') {
-                fread_to_eol(fp);
-                continue;
-            }
-
-            if (letter != '#') {
-                bug("Load_char_obj: # not found.");
-                break;
-            }
-
-            word = fread_word(fp);
-            if (!str_cmp(word, "PLAYER")) {
-                fread_char(ch, fp);
-                affect_strip(ch, gsn_ride);
-            } else if (!str_cmp(word, "OBJECT"))
-                fread_obj(ch, fp);
-            else if (!str_cmp(word, "O"))
-                fread_obj(ch, fp);
-            else if (!str_cmp(word, "PET"))
-                fread_pet(ch, fp);
-            else if (!str_cmp(word, "END"))
-                break;
-            else {
-                bug("Load_char_obj: bad section.");
-                break;
-            }
-        }
+        load_into_char(*ch, fp);
         fclose(fp);
     }
 
     /* initialize race */
     if (!res.newly_created) {
-        int i;
-
         if (ch->race == 0)
             ch->race = race_lookup("human");
 
         ch->size = pc_race_table[ch->race].size;
-        ch->dam_type = 17; /*punch */
+        ch->dam_type = attack_lookup("punch");
 
-        for (i = 0; i < 5; i++) {
-            if (pc_race_table[ch->race].skills[i] == nullptr)
+        for (auto *group : pc_race_table[ch->race].skills) {
+            if (!group)
                 break;
-            group_add(ch, pc_race_table[ch->race].skills[i], false);
+            group_add(ch, group, false);
         }
-        ch->affected_by = (int)(ch->affected_by | race_table[ch->race].aff);
+        ch->affected_by = ch->affected_by | race_table[ch->race].aff;
         ch->imm_flags = ch->imm_flags | race_table[ch->race].imm;
         ch->res_flags = ch->res_flags | race_table[ch->race].res;
         ch->vuln_flags = ch->vuln_flags | race_table[ch->race].vuln;
