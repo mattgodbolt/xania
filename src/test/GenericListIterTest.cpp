@@ -41,4 +41,8 @@ TEST_CASE("Generic list iterator") {
         CHECK((in_room | ranges::view::transform([](const Thing &t) { return t.ordinal; }) | ranges::to<std::vector>)
               == std::vector<int>{1, 4});
     }
+    SECTION("should handle empty lists") {
+        auto all = ranges::subrange(GenericListIter<Thing>(nullptr), GenericListIter<Thing>());
+        CHECK(ranges::distance(all) == 0);
+    }
 }
