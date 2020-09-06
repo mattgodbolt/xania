@@ -916,8 +916,11 @@ void fread_obj(Char *ch, FILE *fp) {
 
             ed->keyword = fread_string(fp);
             ed->description = fread_string(fp);
-            ed->next = obj->extra_descr;
-            obj->extra_descr = ed;
+            ed->next = nullptr;
+            auto **p_last_next = &obj->extra_descr;
+            for (auto *ent = obj->extra_descr; ent; ent = ent->next)
+                p_last_next = &ent->next;
+            *p_last_next = ed;
         } else if (matches(word, "End")) {
             if (!fNest || !fVnum || obj->pIndexData == nullptr) {
                 bug("Fread_obj: incomplete object.");
