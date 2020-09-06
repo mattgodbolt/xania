@@ -159,6 +159,7 @@ struct Char {
     // * For a normal NPC, return null.
     [[nodiscard]] const Char *player() const { return desc ? desc->person() : nullptr; }
     [[nodiscard]] Char *player() { return desc ? desc->person() : nullptr; }
+    [[nodiscard]] bool is_switched() const noexcept { return is_npc() && desc; }
 
     [[nodiscard]] bool has_holylight() const;
     [[nodiscard]] bool is_immortal() const;
@@ -227,6 +228,13 @@ struct Char {
     void say(std::string_view message);
 
     [[nodiscard]] static int num_active() { return num_active_; }
+
+    // Extra bits.
+    [[nodiscard]] bool is_set_extra(unsigned int flag) const noexcept {
+        return is_pc() && extra_flags[flag / 32u] & (1u << (flag & 31u));
+    }
+    void set_extra(unsigned int flag) noexcept;
+    void remove_extra(unsigned int flag) noexcept;
 
 private:
     template <typename Func>

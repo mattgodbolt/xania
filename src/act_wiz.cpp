@@ -22,6 +22,7 @@
 #include "lookup.h"
 #include "magic.h"
 #include "merc.h"
+#include "save.hpp"
 #include "string_utils.hpp"
 #include "tables.h"
 

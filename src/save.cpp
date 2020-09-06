@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "save.hpp"
 #include "AFFECT_DATA.hpp"
 #include "Descriptor.hpp"
 #include "TimeInfoData.hpp"
@@ -51,25 +52,19 @@ extern void char_ride(Char *ch, Char *pet);
 /*
  * Local functions.
  */
-void fwrite_char(Char *ch, FILE *fp);
-void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest);
-void fwrite_pet(Char *ch, Char *pet, FILE *fp);
+void fwrite_char(const Char *ch, FILE *fp);
+void fwrite_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest);
+void fwrite_pet(const Char *ch, const Char *pet, FILE *fp);
 void fread_char(Char *ch, FILE *fp);
 void fread_pet(Char *ch, FILE *fp);
 void fread_obj(Char *ch, FILE *fp);
 
-char *extra_bit_string(Char *ch) {
-    static char buf[MAX_STRING_LENGTH]; /* NB not re-entrant :) */
-    int n;
-    buf[0] = '\0';
-    for (n = 0; n < MAX_EXTRA_FLAGS; n++) {
-        if (is_set_extra(ch, n)) {
-            strcat(buf, "1");
-        } else {
-            strcat(buf, "0");
-        }
-    }
-    return (char *)&buf;
+std::string extra_bit_string(const Char &ch) {
+    std::string buf(MAX_EXTRA_FLAGS, '0');
+    for (int n = 0; n < MAX_EXTRA_FLAGS; n++)
+        if (ch.is_set_extra(n))
+            buf[n] = '1';
+    return buf;
 }
 
 void set_bits_from_pfile(Char *ch, FILE *fp) {
@@ -92,7 +87,7 @@ void set_bits_from_pfile(Char *ch, FILE *fp) {
  * Would be cool to save NPC's too for quest purposes,
  *   some of the infrastructure is provided.
  */
-void save_char_obj(Char *ch) {
+void save_char_obj(const Char *ch) {
     FILE *fp;
 
     if (ch = ch->player(); !ch)
@@ -135,7 +130,7 @@ void save_char_obj(Char *ch) {
 /*
  * Write the char.
  */
-void fwrite_char(Char *ch, FILE *fp) {
+void fwrite_char(const Char *ch, FILE *fp) {
     int sn, gn;
 
     fprintf(fp, "#%s\n", ch->is_npc() ? "MOB" : "PLAYER");
@@ -232,7 +227,7 @@ void fwrite_char(Char *ch, FILE *fp) {
         fprintf(fp, "HourOffset %d\n", ch->pcdata->houroffset);
         fprintf(fp, "MinOffset %d\n", ch->pcdata->minoffset);
 
-        fprintf(fp, "ExtraBits %s~\n", extra_bit_string(ch));
+        fmt::print(fp, "ExtraBits {}~\n", extra_bit_string(*ch));
 
         fprintf(fp, "Cond %d %d %d\n", ch->pcdata->condition[0], ch->pcdata->condition[1], ch->pcdata->condition[2]);
 
@@ -261,7 +256,7 @@ void fwrite_char(Char *ch, FILE *fp) {
 }
 
 /* write a pet */
-void fwrite_pet(Char *ch, Char *pet, FILE *fp) {
+void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
     fprintf(fp, "#PET\n");
 
     fprintf(fp, "Vnum %d\n", pet->pIndexData->vnum);
@@ -289,7 +284,7 @@ void fwrite_pet(Char *ch, Char *pet, FILE *fp) {
         fprintf(fp, "AfBy %d\n", pet->affected_by);
     if (pet->comm != 0)
         fprintf(fp, "Comm %ld\n", pet->comm);
-    fprintf(fp, "Pos  %d\n", pet->position = POS_FIGHTING ? POS_STANDING : pet->position);
+    fprintf(fp, "Pos  %d\n", pet->position == POS_FIGHTING ? POS_STANDING : pet->position);
     if (pet->saving_throw != 0)
         fprintf(fp, "Save %d\n", pet->saving_throw);
     if (pet->alignment != pet->pIndexData->alignment)
@@ -325,7 +320,7 @@ void fwrite_pet(Char *ch, Char *pet, FILE *fp) {
 /*
  * Write an object and its contents.
  */
-void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
+void fwrite_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest) {
     EXTRA_DESCR_DATA *ed;
 
     /*
@@ -424,47 +419,27 @@ void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
         fwrite_obj(ch, obj->contains, fp, iNest + 1);
 }
 
-/*
- * Load a char and inventory into a new ch structure.
- */
-bool load_char_obj(Descriptor *d, const char *name) {
+// Load a char and inventory into a new ch structure.
+LoadCharObjResult try_load_player(std::string_view player_name) {
     FILE *fp;
-    bool found;
+    LoadCharObjResult res{true, std::make_unique<Char>()};
 
-    auto *ch = new Char();
+    auto *ch = res.character.get();
     ch->pcdata = std::make_unique<PC_DATA>();
 
-    d->character(ch);
-    ch->desc = d;
-    ch->name = name;
-    ch->version = 0;
+    ch->name = player_name;
     ch->race = race_lookup("human");
-    ch->affected_by = 0;
-
     ch->act = PLR_AUTOPEEK | PLR_AUTOASSIST | PLR_AUTOEXIT | PLR_AUTOGOLD | PLR_AUTOLOOT | PLR_AUTOSAC | PLR_NOSUMMON;
-
     ch->comm = COMM_COMBINE | COMM_PROMPT | COMM_SHOWAFK | COMM_SHOWDEFENCE;
-    ch->invis_level = 0;
-    ch->practice = 0;
-    ch->train = 0;
-    ch->hitroll = 0;
-    ch->damroll = 0;
-    ch->trust = 0;
-    ch->wimpy = 0;
-    ch->riding = nullptr;
-    ch->ridden_by = nullptr;
-    ch->saving_throw = 0;
     ranges::fill(ch->perm_stat, 13);
 
-    found = false;
-
-    if ((fp = fopen(filename_for_player(name).c_str(), "r")) != nullptr) {
+    if ((fp = fopen(filename_for_player(player_name).c_str(), "r")) != nullptr) {
         int iNest;
 
         for (iNest = 0; iNest < MAX_NEST; iNest++)
             rgObjNest[iNest] = nullptr;
 
-        found = true;
+        res.newly_created = false;
         for (;;) {
             char letter;
             char *word;
@@ -501,7 +476,7 @@ bool load_char_obj(Descriptor *d, const char *name) {
     }
 
     /* initialize race */
-    if (found) {
+    if (!res.newly_created) {
         int i;
 
         if (ch->race == 0)
@@ -525,7 +500,7 @@ bool load_char_obj(Descriptor *d, const char *name) {
 
     /* RT initialize skills */
 
-    if (found && ch->version < 2) /* need to add the new skills */
+    if (!res.newly_created && ch->version < 2) /* need to add the new skills */
     {
         group_add(ch, "rom basics", false);
         group_add(ch, class_table[ch->class_num].base_group, false);
@@ -533,7 +508,7 @@ bool load_char_obj(Descriptor *d, const char *name) {
         ch->pcdata->learned[gsn_recall] = 50;
     }
 
-    return found;
+    return res;
 }
 
 /*

@@ -27,6 +27,7 @@
 #include "interp.h"
 #include "merc.h"
 #include "note.h"
+#include "save.hpp"
 #include "string_utils.hpp"
 
 #include <arpa/telnet.h>
@@ -521,8 +522,11 @@ void nanny(Descriptor *d, const char *argument) {
                  }
                  } */
 
-        fOld = load_char_obj(d, char_name.c_str());
-        ch = d->character();
+        auto res = try_load_player(char_name);
+        ch = res.character.release(); // this is where we take ownership of the char
+        fOld = !res.newly_created;
+        d->character(ch);
+        ch->desc = d;
 
         if (IS_SET(ch->act, PLR_DENY)) {
             log_string("Denying access to {}@{}.", char_name.c_str(), d->host().c_str());

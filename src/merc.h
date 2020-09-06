@@ -1552,11 +1552,11 @@ void obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *pRoomIndex);
 void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to);
 void obj_from_obj(OBJ_DATA *obj);
 void extract_obj(OBJ_DATA *obj);
-bool is_set_extra(Char *ch, unsigned int flag);
+bool is_set_extra(const Char *ch, unsigned int flag);
 void set_extra(Char *ch, unsigned int flag);
 void remove_extra(Char *ch, unsigned int flag);
 
-bool is_switched(Char *ch);
+bool is_switched(const Char *ch);
 
 /* MRG added */
 bool check_sub_issue(OBJ_DATA *obj, Char *ch);
@@ -1608,10 +1608,6 @@ int mana_cost(Char *ch, int min_mana, int level);
 int slot_lookup(int slot);
 bool saves_spell(int level, const Char *victim);
 void obj_cast_spell(int sn, int level, Char *ch, Char *victim, OBJ_DATA *obj);
-
-/* save.c */
-void save_char_obj(Char *ch);
-bool load_char_obj(Descriptor *d, const char *name);
 
 /* skills.c */
 bool parse_gen_groups(Char *ch, const char *argument);

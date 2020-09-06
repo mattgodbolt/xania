@@ -17,6 +17,7 @@
 #include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
+#include "save.hpp"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
