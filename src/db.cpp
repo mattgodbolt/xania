@@ -29,6 +29,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <range/v3/algorithm/find_if.hpp>
 #include <sys/resource.h>
 
 /* Externally referenced functions. */
@@ -40,8 +41,6 @@ void wiznet_initialise();
 
 SHOP_DATA *shop_first;
 SHOP_DATA *shop_last;
-
-EXTRA_DESCR_DATA *extra_descr_free = nullptr;
 
 Char *char_list;
 KILL_DATA kill_table[MAX_LEVEL];
@@ -123,7 +122,6 @@ char *top_string;
 char str_empty[1];
 
 int top_affect;
-int top_ed;
 int top_exit;
 int top_help;
 int top_mob_index;
@@ -552,7 +550,6 @@ void validate_resets() {
 
 /* Snarf a room section. */
 void load_rooms(FILE *fp) {
-    ROOM_INDEX_DATA *pRoomIndex;
 
     auto area_last = AreaList::singleton().back();
     if (area_last == nullptr) {
@@ -582,10 +579,7 @@ void load_rooms(FILE *fp) {
         }
         fBootDb = true;
 
-        pRoomIndex = static_cast<ROOM_INDEX_DATA *>(alloc_perm(sizeof(*pRoomIndex)));
-        pRoomIndex->people = nullptr;
-        pRoomIndex->contents = nullptr;
-        pRoomIndex->extra_descr = nullptr;
+        auto *pRoomIndex = new ROOM_INDEX_DATA;
         pRoomIndex->area = area_last;
         pRoomIndex->vnum = vnum;
         pRoomIndex->name = fread_string(fp);
@@ -596,9 +590,6 @@ void load_rooms(FILE *fp) {
         if (3000 <= vnum && vnum < 3400)
             SET_BIT(pRoomIndex->room_flags, ROOM_LAW);
         pRoomIndex->sector_type = fread_number(fp);
-        pRoomIndex->light = 0;
-        for (auto door : all_directions)
-            pRoomIndex->exit[door] = nullptr;
 
         for (;;) {
             letter = fread_letter(fp);
@@ -639,14 +630,9 @@ void load_rooms(FILE *fp) {
                 pRoomIndex->exit[*opt_door] = pexit;
                 top_exit++;
             } else if (letter == 'E') {
-                EXTRA_DESCR_DATA *ed;
-
-                ed = static_cast<EXTRA_DESCR_DATA *>(alloc_perm(sizeof(*ed)));
-                ed->keyword = fread_string(fp);
-                ed->description = fread_string(fp);
-                ed->next = pRoomIndex->extra_descr;
-                pRoomIndex->extra_descr = ed;
-                top_ed++;
+                auto keyword = fread_stdstring(fp);
+                auto description = fread_stdstring(fp);
+                pRoomIndex->extra_descr.emplace_back(EXTRA_DESCR_DATA{keyword, description});
             } else {
                 bug("Load_rooms: vnum {} has flag not 'DES'.", vnum);
                 exit(1);
@@ -1268,8 +1254,6 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
 
 /* duplicate an object exactly -- except contents */
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
-    /*    EXTRA_DESCR_DATA *ed,*ed_new; */
-
     if (parent == nullptr || clone == nullptr)
         return;
 
@@ -1297,27 +1281,15 @@ void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
         affect_to_obj(clone, af);
 
     /* extended desc */
-    /*
-        for (ed = parent->extra_descr; ed != nullptr; ed = ed->next);
-        {
-            ed_new              = alloc_perm( sizeof(*ed_new) );
-
-            ed_new->keyword       = str_dup( ed->keyword);
-            ed_new->description     = str_dup( ed->description );
-            ed_new->next             = clone->extra_descr;
-            clone->extra_descr    = ed_new;
-        }
-    */
+    clone->extra_descr = parent->extra_descr;
 }
 
 /*
  * Get an extra description from a list.
  */
-const char *get_extra_descr(std::string_view name, const EXTRA_DESCR_DATA *ed) {
-    for (; ed != nullptr; ed = ed->next) {
-        if (is_name(name, ed->keyword))
-            return ed->description;
-    }
+const char *get_extra_descr(std::string_view name, const std::vector<EXTRA_DESCR_DATA> &ed) {
+    if (auto it = ranges::find_if(ed, [&name](const auto &ed) { return is_name(name, ed.keyword); }); it != ed.end())
+        return it->description.c_str();
     return nullptr;
 }
 
@@ -1933,8 +1905,6 @@ void do_memory(Char *ch, const char *argument) {
     snprintf(buf, sizeof(buf), "Affects %5d\n\r", top_affect);
     ch->send_to(buf);
     ch->send_line("Areas   {:5}", AreaList::singleton().count());
-    snprintf(buf, sizeof(buf), "ExDes   %5d\n\r", top_ed);
-    ch->send_to(buf);
     snprintf(buf, sizeof(buf), "Exits   %5d\n\r", top_exit);
     ch->send_to(buf);
     ch->send_line("Helps   {:5}", HelpList::singleton().count());

@@ -907,21 +907,6 @@ void extract_obj(OBJ_DATA *obj) {
         }
     }
 
-    obj->affected.clear();
-
-    {
-        EXTRA_DESCR_DATA *ed;
-        EXTRA_DESCR_DATA *ed_next;
-
-        for (ed = obj->extra_descr; ed != nullptr; ed = ed_next) {
-            ed_next = ed->next;
-            free_string(ed->description);
-            free_string(ed->keyword);
-            ed->next = extra_descr_free; /* added by TM */
-            extra_descr_free = ed;
-        }
-    }
-
     --obj->pIndexData->count;
     delete obj;
 }

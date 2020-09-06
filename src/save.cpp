@@ -325,8 +325,6 @@ void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
  * Write an object and its contents.
  */
 void fwrite_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest) {
-    EXTRA_DESCR_DATA *ed;
-
     /*
      * Slick recursion to write lists backwards,
      *   so loading them will load in forwards order.
@@ -413,9 +411,8 @@ void fwrite_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest) {
                 static_cast<int>(af.location), af.bitvector);
     }
 
-    for (ed = obj->extra_descr; ed != nullptr; ed = ed->next) {
-        fprintf(fp, "ExDe %s~ %s~\n", ed->keyword, ed->description);
-    }
+    for (const auto &ed : obj->extra_descr)
+        fmt::print(fp, "ExDe {}~ {}~\n", ed.keyword, ed.description);
 
     fprintf(fp, "End\n\n");
 
@@ -906,22 +903,9 @@ void fread_obj(Char *ch, FILE *fp) {
         } else if (matches(word, "ExtraFlags") || matches(word, "ExtF")) {
             obj->extra_flags = fread_number(fp);
         } else if (matches(word, "ExtraDescr") || matches(word, "ExDe")) {
-            EXTRA_DESCR_DATA *ed;
-
-            if (extra_descr_free == nullptr) {
-                ed = static_cast<EXTRA_DESCR_DATA *>(alloc_perm(sizeof(*ed)));
-            } else {
-                ed = extra_descr_free;
-                extra_descr_free = extra_descr_free->next;
-            }
-
-            ed->keyword = fread_string(fp);
-            ed->description = fread_string(fp);
-            ed->next = nullptr;
-            auto **p_last_next = &obj->extra_descr;
-            for (auto *ent = obj->extra_descr; ent; ent = ent->next)
-                p_last_next = &ent->next;
-            *p_last_next = ed;
+            auto keyword = fread_stdstring(fp);
+            auto description = fread_stdstring(fp);
+            obj->extra_descr.emplace_back(EXTRA_DESCR_DATA{keyword, description});
         } else if (matches(word, "End")) {
             if (!fNest || !fVnum || obj->pIndexData == nullptr) {
                 bug("Fread_obj: incomplete object.");

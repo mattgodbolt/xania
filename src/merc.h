@@ -42,6 +42,7 @@
 #include <string>
 #include <unistd.h>
 #include <utility>
+#include <vector>
 
 /* Buffer structure */
 typedef struct _BUFFER BUFFER;
@@ -53,7 +54,7 @@ struct AREA_DATA;
 typedef struct ban_data BAN_DATA;
 class Descriptor;
 typedef struct exit_data EXIT_DATA;
-typedef struct extra_descr_data EXTRA_DESCR_DATA;
+struct EXTRA_DESCR_DATA;
 typedef struct kill_data KILL_DATA;
 struct OBJ_DATA;
 struct OBJ_INDEX_DATA;
@@ -1047,13 +1048,10 @@ struct liq_type {
     sh_int liq_affect[3];
 };
 
-/*
- * Extra description data for a room or object.
- */
-struct extra_descr_data {
-    EXTRA_DESCR_DATA *next; /* Next in list                     */
-    char *keyword; /* Keyword in look/examine          */
-    char *description; /* What to see                      */
+// Extra description data for a room or object.
+struct EXTRA_DESCR_DATA {
+    std::string keyword; // Keyword in look/examine
+    std::string description; // What to see
 };
 
 /*
@@ -1061,7 +1059,7 @@ struct extra_descr_data {
  */
 struct OBJ_INDEX_DATA {
     OBJ_INDEX_DATA *next{};
-    EXTRA_DESCR_DATA *extra_descr{};
+    std::vector<EXTRA_DESCR_DATA> extra_descr;
     AffectList affected{};
     std::string name;
     std::string short_descr;
@@ -1092,7 +1090,7 @@ struct OBJ_DATA {
     OBJ_DATA *contains{};
     OBJ_DATA *in_obj{};
     Char *carried_by{};
-    EXTRA_DESCR_DATA *extra_descr{};
+    std::vector<EXTRA_DESCR_DATA> extra_descr;
     AffectList affected{};
     OBJ_INDEX_DATA *pIndexData{};
     ROOM_INDEX_DATA *in_room{};
@@ -1169,21 +1167,21 @@ typedef struct _tip_type {
  * Room type.
  */
 struct ROOM_INDEX_DATA {
-    ROOM_INDEX_DATA *next;
-    Char *people;
-    OBJ_DATA *contents;
-    EXTRA_DESCR_DATA *extra_descr;
-    AREA_DATA *area;
-    PerDirection<EXIT_DATA *> exit;
-    char *name;
-    char *description;
-    sh_int vnum;
-    unsigned int room_flags;
-    sh_int light;
-    sh_int sector_type;
+    ROOM_INDEX_DATA *next{};
+    Char *people{};
+    OBJ_DATA *contents{};
+    std::vector<EXTRA_DESCR_DATA> extra_descr{};
+    AREA_DATA *area{};
+    PerDirection<EXIT_DATA *> exit{};
+    char *name{};
+    char *description{};
+    sh_int vnum{};
+    unsigned int room_flags{};
+    sh_int light{};
+    sh_int sector_type{};
 
-    RESET_DATA *reset_first;
-    RESET_DATA *reset_last;
+    RESET_DATA *reset_first{};
+    RESET_DATA *reset_last{};
 };
 
 /*
@@ -1480,7 +1478,7 @@ Char *create_mobile(MOB_INDEX_DATA *pMobIndex);
 void clone_mobile(Char *parent, Char *clone);
 OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex);
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
-const char *get_extra_descr(std::string_view name, const EXTRA_DESCR_DATA *ed);
+const char *get_extra_descr(std::string_view name, const std::vector<EXTRA_DESCR_DATA> &ed);
 MOB_INDEX_DATA *get_mob_index(int vnum);
 OBJ_INDEX_DATA *get_obj_index(int vnum);
 ROOM_INDEX_DATA *get_room_index(int vnum);
