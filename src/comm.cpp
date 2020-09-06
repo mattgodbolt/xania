@@ -61,7 +61,6 @@ extern KNOWN_PLAYERS *player_list;
  */
 DescriptorList the_descriptors;
 DescriptorList &descriptors() { return the_descriptors; }
-FILE *fpReserve; /* Reserved file handle    */
 bool god; /* All new chars are gods! */
 bool merc_down; /* Shutdown       */
 bool wizlock; /* Game is wizlocked    */

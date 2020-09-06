@@ -100,7 +100,6 @@ void save_char_obj(Char *ch) {
 
     /* create god log */
     if (ch->is_immortal() || ch->level >= LEVEL_IMMORTAL) {
-        fclose(fpReserve);
         auto godsave = filename_for_god(ch->name);
         if ((fp = fopen(godsave.c_str(), "w")) == nullptr) {
             bug("Save_char_obj: fopen");
@@ -110,10 +109,8 @@ void save_char_obj(Char *ch) {
         fprintf(fp, "Lev %2d Trust %2d  %s%s\n", ch->level, ch->get_trust(), ch->name.c_str(),
                 ch->pcdata->title.c_str());
         fclose(fp);
-        fpReserve = fopen(NULL_FILE, "r");
     }
 
-    fclose(fpReserve);
     auto player_temp = filename_for_player(ch->name + ".tmp");
     if ((fp = fopen(player_temp.c_str(), "w")) == nullptr) {
         bug("Save_char_obj: fopen");
@@ -133,7 +130,6 @@ void save_char_obj(Char *ch) {
     if (rename(player_temp.c_str(), player_file.c_str()) != 0) {
         bug("Unable to move temporary player name {}!! rename failed: {}!", player_file.c_str(), strerror(errno));
     }
-    fpReserve = fopen(NULL_FILE, "r");
 }
 
 /*
@@ -461,7 +457,6 @@ bool load_char_obj(Descriptor *d, const char *name) {
     ranges::fill(ch->perm_stat, 13);
 
     found = false;
-    fclose(fpReserve);
 
     if ((fp = fopen(filename_for_player(name).c_str(), "r")) != nullptr) {
         int iNest;
@@ -504,8 +499,6 @@ bool load_char_obj(Descriptor *d, const char *name) {
         }
         fclose(fp);
     }
-
-    fpReserve = fopen(NULL_FILE, "r");
 
     /* initialize race */
     if (found) {

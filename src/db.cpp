@@ -1978,7 +1978,6 @@ void do_dump(Char *ch, const char *argument) {
     int vnum, nMatch = 0;
 
     /* open file */
-    fclose(fpReserve);
     fp = fopen("mem.dmp", "w");
 
     /* report use of data structures */
@@ -2066,7 +2065,6 @@ void do_dump(Char *ch, const char *argument) {
 
     /* close file */
     fclose(fp);
-    fpReserve = fopen(NULL_FILE, "r");
 }
 
 /*

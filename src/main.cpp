@@ -24,14 +24,6 @@ int main(int argc, char **argv) {
     log_string("Xania {} booting...", BUILD_FULL_VERSION);
 
     /*
-     * Reserve one channel for our use.
-     */
-    if ((fpReserve = fopen(NULL_FILE, "r")) == nullptr) {
-        perror(NULL_FILE);
-        exit(1);
-    }
-
-    /*
      * Get the UNIX domain file
      */
     int port = 9000;

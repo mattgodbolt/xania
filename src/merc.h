@@ -1413,7 +1413,6 @@ extern OBJ_DATA *object_list;
 extern EXTRA_DESCR_DATA *extra_descr_free;
 
 extern bool fLogAll;
-extern FILE *fpReserve;
 extern KILL_DATA kill_table[];
 
 /* Moog added stuff */
@@ -1430,12 +1429,7 @@ extern size_t max_on;
  * All files are read in completely at bootup.
  * Most output files (bug, idea, typo, shutdown) are append-only.
  *
- * The NULL_FILE is held open so that we have a stream handle in reserve,
- *   so players can go ahead and telnet to all the other descriptors.
- * Then we close it whenever we need to open a file (e.g. a save file).
  */
-#define NULL_FILE "/dev/null" /* To reserve one stream        */
-
 #define AREA_LIST "area.lst" /* List of areas                */
 
 #define BUG_FILE "bugs.txt" /* For 'bug' and bug( )         */
