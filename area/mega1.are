@@ -1116,29 +1116,10 @@ D   0   8027    0      2  Stockroom of Throt & Gleep's Megger Store: Door north 
 D   0   8028    2      2  Throt & Gleep's Vault: Door south locked
 S
 #HELPS
-
-
-
-
-
-
 0 $~
 #SHOPS
-
-
-
-
-
-
 0
 #SPECIALS
-
-
-
-
-
-
-M 8003 spec_cast_judge
 M 8006 spec_cast_judge
 M 8010 spec_cast_judge
 M 8011 spec_cast_judge

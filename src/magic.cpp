@@ -3798,7 +3798,7 @@ void spell_general_purpose(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     int dam;
 
-    dam = number_range(25, 100);
+    dam = number_range(level, level * 3);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, sn, DAM_PIERCE);
@@ -3807,7 +3807,7 @@ void spell_general_purpose(int sn, int level, Char *ch, void *vo) {
 void spell_high_explosive(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     int dam;
-    dam = number_range(30, 120);
+    dam = number_range(level, level * 3);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, sn, DAM_PIERCE);
