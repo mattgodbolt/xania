@@ -20,6 +20,8 @@ set(BUILD_COMMIT_URL "https://this.is.a.local.build/1234" CACHE STRING "Full str
 
 set(CMAKE_CXX_STANDARD 17)
 add_compile_options(-Werror -Wall -Wextra)
+# Regardless of the CMake settings, I always want us to have debug information available.
+add_compile_options(-g)
 
 # -static-libasan is required to prevent doorman+xania from crashing on startup (with some error about LD_PRELOAD)
 # when you build with 'make'.

@@ -907,21 +907,6 @@ void extract_obj(OBJ_DATA *obj) {
         }
     }
 
-    obj->affected.clear();
-
-    {
-        EXTRA_DESCR_DATA *ed;
-        EXTRA_DESCR_DATA *ed_next;
-
-        for (ed = obj->extra_descr; ed != nullptr; ed = ed_next) {
-            ed_next = ed->next;
-            free_string(ed->description);
-            free_string(ed->keyword);
-            ed->next = extra_descr_free; /* added by TM */
-            extra_descr_free = ed;
-        }
-    }
-
     --obj->pIndexData->count;
     delete obj;
 }
@@ -1878,32 +1863,22 @@ const char *off_bit_name(int off_flags) {
     return (buf[0] != '\0') ? buf + 1 : "none";
 }
 
-bool is_set_extra(Char *ch, unsigned int flag) {
-    if (ch->is_npc())
-        return false;
-    if (ch->extra_flags[flag / 32] & 1u << (flag & 31u))
-        return true;
-    return false;
+bool is_set_extra(const Char *ch, unsigned int flag) {
+    // TODO remove
+    return ch->is_set_extra(flag);
 }
 
 void set_extra(Char *ch, unsigned int flag) {
-    if (ch->is_npc())
-        return;
-    ch->extra_flags[flag / 32] |= (1u << (flag & 31u));
+    // TODO remove
+    ch->set_extra(flag);
 }
 
 void remove_extra(Char *ch, unsigned int flag) {
-    if (ch->is_npc())
-        return;
-    ch->extra_flags[flag / 32] &= ~(1u << (flag & 31u));
+    // TODO remove
+    ch->remove_extra(flag);
 }
 
-bool is_switched(Char *ch) {
-    if (ch->is_pc())
-        return false;
-
-    if (ch->desc == nullptr)
-        return false;
-
-    return true;
+bool is_switched(const Char *ch) {
+    // TODO remove
+    return ch->is_switched();
 }

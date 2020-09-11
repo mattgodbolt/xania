@@ -22,10 +22,13 @@
 #include "lookup.h"
 #include "magic.h"
 #include "merc.h"
+#include "save.hpp"
 #include "string_utils.hpp"
 #include "tables.h"
 
 #include <fmt/format.h>
+#include <range/v3/view/concat.hpp>
+#include <range/v3/view/transform.hpp>
 
 #include <cctype>
 #include <cstdio>
@@ -681,14 +684,9 @@ void do_rstat(Char *ch, const char *argument) {
     bug_snprintf(buf, sizeof(buf), "Description:\n\r%s", location->description);
     ch->send_to(buf);
 
-    if (location->extra_descr != nullptr) {
-        ch->send_to("Extra description keywords: '");
-        for (auto *ed = location->extra_descr; ed; ed = ed->next) {
-            ch->send_to(ed->keyword);
-            if (ed->next != nullptr)
-                ch->send_to(" ");
-        }
-        ch->send_line("'.");
+    if (!location->extra_descr.empty()) {
+        ch->send_line("Extra description keywords: '{}'.",
+                      fmt::join(location->extra_descr | ranges::view::transform(&EXTRA_DESCR_DATA::keyword), " "));
     }
 
     ch->send_to("Characters:");
@@ -912,24 +910,11 @@ void do_ostat(Char *ch, const char *argument) {
         break;
     }
 
-    if (obj->extra_descr != nullptr || obj->pIndexData->extra_descr != nullptr) {
-        EXTRA_DESCR_DATA *ed;
-
-        ch->send_to("Extra description keywords: '");
-
-        for (ed = obj->extra_descr; ed != nullptr; ed = ed->next) {
-            ch->send_to(ed->keyword);
-            if (ed->next != nullptr)
-                ch->send_to(" ");
-        }
-
-        for (ed = obj->pIndexData->extra_descr; ed != nullptr; ed = ed->next) {
-            ch->send_to(ed->keyword);
-            if (ed->next != nullptr)
-                ch->send_to(" ");
-        }
-
-        ch->send_line("'");
+    if (!obj->extra_descr.empty() || !obj->pIndexData->extra_descr.empty()) {
+        ch->send_line("Extra description keywords: '{}'",
+                      fmt::join(ranges::view::concat(obj->extra_descr, obj->pIndexData->extra_descr)
+                                    | ranges::view::transform(&EXTRA_DESCR_DATA::keyword),
+                                " "));
     }
 
     for (auto &af : obj->affected)
@@ -3050,8 +3035,6 @@ void do_string(Char *ch, const char *argument) {
         }
 
         if (!str_prefix(arg2, "ed") || !str_prefix(arg2, "extended")) {
-            EXTRA_DESCR_DATA *ed;
-
             args = one_argument(args, arg3);
             if (args == nullptr) {
                 ch->send_line("Syntax: oset <object> ed <keyword> <string>");
@@ -3060,17 +3043,7 @@ void do_string(Char *ch, const char *argument) {
 
             strcat(args, "\n\r");
 
-            if (extra_descr_free == nullptr) {
-                ed = static_cast<EXTRA_DESCR_DATA *>(alloc_perm(sizeof(*ed)));
-            } else {
-                ed = extra_descr_free;
-                extra_descr_free = ed->next;
-            }
-
-            ed->keyword = str_dup(arg3);
-            ed->description = str_dup(args);
-            ed->next = obj->extra_descr;
-            obj->extra_descr = ed;
+            obj->extra_descr.emplace_back(EXTRA_DESCR_DATA{arg3, args});
             return;
         }
     }

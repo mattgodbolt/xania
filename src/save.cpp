@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "save.hpp"
 #include "AFFECT_DATA.hpp"
 #include "Descriptor.hpp"
 #include "TimeInfoData.hpp"
@@ -51,25 +52,19 @@ extern void char_ride(Char *ch, Char *pet);
 /*
  * Local functions.
  */
-void fwrite_char(Char *ch, FILE *fp);
-void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest);
-void fwrite_pet(Char *ch, Char *pet, FILE *fp);
+void fwrite_char(const Char *ch, FILE *fp);
+void fwrite_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest);
+void fwrite_pet(const Char *ch, const Char *pet, FILE *fp);
 void fread_char(Char *ch, FILE *fp);
 void fread_pet(Char *ch, FILE *fp);
 void fread_obj(Char *ch, FILE *fp);
 
-char *extra_bit_string(Char *ch) {
-    static char buf[MAX_STRING_LENGTH]; /* NB not re-entrant :) */
-    int n;
-    buf[0] = '\0';
-    for (n = 0; n < MAX_EXTRA_FLAGS; n++) {
-        if (is_set_extra(ch, n)) {
-            strcat(buf, "1");
-        } else {
-            strcat(buf, "0");
-        }
-    }
-    return (char *)&buf;
+std::string extra_bit_string(const Char &ch) {
+    std::string buf(MAX_EXTRA_FLAGS, '0');
+    for (int n = 0; n < MAX_EXTRA_FLAGS; n++)
+        if (ch.is_set_extra(n))
+            buf[n] = '1';
+    return buf;
 }
 
 void set_bits_from_pfile(Char *ch, FILE *fp) {
@@ -92,7 +87,7 @@ void set_bits_from_pfile(Char *ch, FILE *fp) {
  * Would be cool to save NPC's too for quest purposes,
  *   some of the infrastructure is provided.
  */
-void save_char_obj(Char *ch) {
+void save_char_obj(const Char *ch) {
     FILE *fp;
 
     if (ch = ch->player(); !ch)
@@ -100,7 +95,6 @@ void save_char_obj(Char *ch) {
 
     /* create god log */
     if (ch->is_immortal() || ch->level >= LEVEL_IMMORTAL) {
-        fclose(fpReserve);
         auto godsave = filename_for_god(ch->name);
         if ((fp = fopen(godsave.c_str(), "w")) == nullptr) {
             bug("Save_char_obj: fopen");
@@ -110,22 +104,14 @@ void save_char_obj(Char *ch) {
         fprintf(fp, "Lev %2d Trust %2d  %s%s\n", ch->level, ch->get_trust(), ch->name.c_str(),
                 ch->pcdata->title.c_str());
         fclose(fp);
-        fpReserve = fopen(NULL_FILE, "r");
     }
 
-    fclose(fpReserve);
     auto player_temp = filename_for_player(ch->name + ".tmp");
     if ((fp = fopen(player_temp.c_str(), "w")) == nullptr) {
         bug("Save_char_obj: fopen");
         perror(player_temp.c_str());
     } else {
-        fwrite_char(ch, fp);
-        if (ch->carrying != nullptr)
-            fwrite_obj(ch, ch->carrying, fp, 0);
-        /* save the pets */
-        if (ch->pet != nullptr && ch->pet->in_room == ch->in_room)
-            fwrite_pet(ch, ch->pet, fp);
-        fprintf(fp, "#END\n");
+        save_char_obj(ch, fp);
     }
     fclose(fp);
     /* move the file */
@@ -133,13 +119,22 @@ void save_char_obj(Char *ch) {
     if (rename(player_temp.c_str(), player_file.c_str()) != 0) {
         bug("Unable to move temporary player name {}!! rename failed: {}!", player_file.c_str(), strerror(errno));
     }
-    fpReserve = fopen(NULL_FILE, "r");
+}
+
+void save_char_obj(const Char *ch, FILE *fp) {
+    fwrite_char(ch, fp);
+    if (ch->carrying != nullptr)
+        fwrite_obj(ch, ch->carrying, fp, 0);
+    /* save the pets */
+    if (ch->pet != nullptr && ch->pet->in_room == ch->in_room)
+        fwrite_pet(ch, ch->pet, fp);
+    fprintf(fp, "#END\n");
 }
 
 /*
  * Write the char.
  */
-void fwrite_char(Char *ch, FILE *fp) {
+void fwrite_char(const Char *ch, FILE *fp) {
     int sn, gn;
 
     fprintf(fp, "#%s\n", ch->is_npc() ? "MOB" : "PLAYER");
@@ -236,7 +231,7 @@ void fwrite_char(Char *ch, FILE *fp) {
         fprintf(fp, "HourOffset %d\n", ch->pcdata->houroffset);
         fprintf(fp, "MinOffset %d\n", ch->pcdata->minoffset);
 
-        fprintf(fp, "ExtraBits %s~\n", extra_bit_string(ch));
+        fmt::print(fp, "ExtraBits {}~\n", extra_bit_string(*ch));
 
         fprintf(fp, "Cond %d %d %d\n", ch->pcdata->condition[0], ch->pcdata->condition[1], ch->pcdata->condition[2]);
 
@@ -265,7 +260,7 @@ void fwrite_char(Char *ch, FILE *fp) {
 }
 
 /* write a pet */
-void fwrite_pet(Char *ch, Char *pet, FILE *fp) {
+void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
     fprintf(fp, "#PET\n");
 
     fprintf(fp, "Vnum %d\n", pet->pIndexData->vnum);
@@ -293,7 +288,7 @@ void fwrite_pet(Char *ch, Char *pet, FILE *fp) {
         fprintf(fp, "AfBy %d\n", pet->affected_by);
     if (pet->comm != 0)
         fprintf(fp, "Comm %ld\n", pet->comm);
-    fprintf(fp, "Pos  %d\n", pet->position = POS_FIGHTING ? POS_STANDING : pet->position);
+    fprintf(fp, "Pos  %d\n", pet->position == POS_FIGHTING ? POS_STANDING : pet->position);
     if (pet->saving_throw != 0)
         fprintf(fp, "Save %d\n", pet->saving_throw);
     if (pet->alignment != pet->pIndexData->alignment)
@@ -329,9 +324,7 @@ void fwrite_pet(Char *ch, Char *pet, FILE *fp) {
 /*
  * Write an object and its contents.
  */
-void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
-    EXTRA_DESCR_DATA *ed;
-
+void fwrite_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest) {
     /*
      * Slick recursion to write lists backwards,
      *   so loading them will load in forwards order.
@@ -418,9 +411,8 @@ void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
                 static_cast<int>(af.location), af.bitvector);
     }
 
-    for (ed = obj->extra_descr; ed != nullptr; ed = ed->next) {
-        fprintf(fp, "ExDe %s~ %s~\n", ed->keyword, ed->description);
-    }
+    for (const auto &ed : obj->extra_descr)
+        fmt::print(fp, "ExDe {}~ {}~\n", ed.keyword, ed.description);
 
     fprintf(fp, "End\n\n");
 
@@ -428,101 +420,75 @@ void fwrite_obj(Char *ch, OBJ_DATA *obj, FILE *fp, int iNest) {
         fwrite_obj(ch, obj->contains, fp, iNest + 1);
 }
 
-/*
- * Load a char and inventory into a new ch structure.
- */
-bool load_char_obj(Descriptor *d, const char *name) {
-    FILE *fp;
-    bool found;
+void load_into_char(Char &character, FILE *fp) {
+    int iNest;
 
-    auto *ch = new Char();
+    for (iNest = 0; iNest < MAX_NEST; iNest++)
+        rgObjNest[iNest] = nullptr;
+
+    for (;;) {
+        auto letter = fread_letter(fp);
+        if (letter == '*') {
+            fread_to_eol(fp);
+            continue;
+        }
+
+        if (letter != '#') {
+            bug("Load_char_obj: # not found.");
+            break;
+        }
+
+        auto *word = fread_word(fp);
+        if (!str_cmp(word, "PLAYER")) {
+            fread_char(&character, fp);
+            affect_strip(&character, gsn_ride);
+        } else if (!str_cmp(word, "OBJECT") || !str_cmp(word, "O"))
+            fread_obj(&character, fp);
+        else if (!str_cmp(word, "PET"))
+            fread_pet(&character, fp);
+        else if (!str_cmp(word, "END"))
+            break;
+        else {
+            bug("Load_char_obj: bad section.");
+            break;
+        }
+    }
+}
+
+// Load a char and inventory into a new ch structure.
+LoadCharObjResult try_load_player(std::string_view player_name) {
+    LoadCharObjResult res{true, std::make_unique<Char>()};
+
+    auto *ch = res.character.get();
     ch->pcdata = std::make_unique<PC_DATA>();
 
-    d->character(ch);
-    ch->desc = d;
-    ch->name = name;
-    ch->version = 0;
+    ch->name = player_name;
     ch->race = race_lookup("human");
-    ch->affected_by = 0;
-
     ch->act = PLR_AUTOPEEK | PLR_AUTOASSIST | PLR_AUTOEXIT | PLR_AUTOGOLD | PLR_AUTOLOOT | PLR_AUTOSAC | PLR_NOSUMMON;
-
     ch->comm = COMM_COMBINE | COMM_PROMPT | COMM_SHOWAFK | COMM_SHOWDEFENCE;
-    ch->invis_level = 0;
-    ch->practice = 0;
-    ch->train = 0;
-    ch->hitroll = 0;
-    ch->damroll = 0;
-    ch->trust = 0;
-    ch->wimpy = 0;
-    ch->riding = nullptr;
-    ch->ridden_by = nullptr;
-    ch->saving_throw = 0;
     ranges::fill(ch->perm_stat, 13);
 
-    found = false;
-    fclose(fpReserve);
-
-    if ((fp = fopen(filename_for_player(name).c_str(), "r")) != nullptr) {
-        int iNest;
-
-        for (iNest = 0; iNest < MAX_NEST; iNest++)
-            rgObjNest[iNest] = nullptr;
-
-        found = true;
-        for (;;) {
-            char letter;
-            char *word;
-
-            letter = fread_letter(fp);
-            if (letter == '*') {
-                fread_to_eol(fp);
-                continue;
-            }
-
-            if (letter != '#') {
-                bug("Load_char_obj: # not found.");
-                break;
-            }
-
-            word = fread_word(fp);
-            if (!str_cmp(word, "PLAYER")) {
-                fread_char(ch, fp);
-                affect_strip(ch, gsn_ride);
-            } else if (!str_cmp(word, "OBJECT"))
-                fread_obj(ch, fp);
-            else if (!str_cmp(word, "O"))
-                fread_obj(ch, fp);
-            else if (!str_cmp(word, "PET"))
-                fread_pet(ch, fp);
-            else if (!str_cmp(word, "END"))
-                break;
-            else {
-                bug("Load_char_obj: bad section.");
-                break;
-            }
-        }
+    auto *fp = fopen(filename_for_player(player_name).c_str(), "r");
+    if (fp) {
+        res.newly_created = false;
+        load_into_char(*ch, fp);
         fclose(fp);
     }
 
-    fpReserve = fopen(NULL_FILE, "r");
-
     /* initialize race */
-    if (found) {
-        int i;
-
+    if (!res.newly_created) {
         if (ch->race == 0)
             ch->race = race_lookup("human");
 
         ch->size = pc_race_table[ch->race].size;
-        ch->dam_type = 17; /*punch */
+        ch->dam_type = attack_lookup("punch");
 
-        for (i = 0; i < 5; i++) {
-            if (pc_race_table[ch->race].skills[i] == nullptr)
+        for (auto *group : pc_race_table[ch->race].skills) {
+            if (!group)
                 break;
-            group_add(ch, pc_race_table[ch->race].skills[i], false);
+            group_add(ch, group, false);
         }
-        ch->affected_by = (int)(ch->affected_by | race_table[ch->race].aff);
+        ch->affected_by = ch->affected_by | race_table[ch->race].aff;
         ch->imm_flags = ch->imm_flags | race_table[ch->race].imm;
         ch->res_flags = ch->res_flags | race_table[ch->race].res;
         ch->vuln_flags = ch->vuln_flags | race_table[ch->race].vuln;
@@ -532,7 +498,7 @@ bool load_char_obj(Descriptor *d, const char *name) {
 
     /* RT initialize skills */
 
-    if (found && ch->version < 2) /* need to add the new skills */
+    if (!res.newly_created && ch->version < 2) /* need to add the new skills */
     {
         group_add(ch, "rom basics", false);
         group_add(ch, class_table[ch->class_num].base_group, false);
@@ -540,7 +506,7 @@ bool load_char_obj(Descriptor *d, const char *name) {
         ch->pcdata->learned[gsn_recall] = 50;
     }
 
-    return found;
+    return res;
 }
 
 /*
@@ -598,7 +564,7 @@ void fread_char(Char *ch, FILE *fp) {
             af.modifier = fread_number(fp);
             af.location = static_cast<AffectLocation>(fread_number(fp));
             af.bitvector = fread_number(fp);
-            ch->affected.add(af);
+            ch->affected.add_at_end(af);
         } else if (word == "attrmod" || word == "amod") {
             for (auto &stat : ch->mod_stat)
                 stat = fread_number(fp);
@@ -807,7 +773,7 @@ void fread_pet(Char *ch, FILE *fp) {
             af.modifier = fread_number(fp);
             af.location = static_cast<AffectLocation>(fread_number(fp));
             af.bitvector = fread_number(fp);
-            pet->affected.add(af);
+            pet->affected.add_at_end(af);
         } else if (matches(word, "AMod")) {
             for (auto &stat : pet->mod_stat)
                 stat = fread_number(fp);
@@ -927,7 +893,7 @@ void fread_obj(Char *ch, FILE *fp) {
             af.modifier = fread_number(fp);
             af.location = static_cast<AffectLocation>(fread_number(fp));
             af.bitvector = fread_number(fp);
-            obj->affected.add(af);
+            obj->affected.add_at_end(af);
         } else if (matches(word, "Cost")) {
             obj->cost = fread_number(fp);
         } else if (matches(word, "Description") || matches(word, "Desc")) {
@@ -937,19 +903,9 @@ void fread_obj(Char *ch, FILE *fp) {
         } else if (matches(word, "ExtraFlags") || matches(word, "ExtF")) {
             obj->extra_flags = fread_number(fp);
         } else if (matches(word, "ExtraDescr") || matches(word, "ExDe")) {
-            EXTRA_DESCR_DATA *ed;
-
-            if (extra_descr_free == nullptr) {
-                ed = static_cast<EXTRA_DESCR_DATA *>(alloc_perm(sizeof(*ed)));
-            } else {
-                ed = extra_descr_free;
-                extra_descr_free = extra_descr_free->next;
-            }
-
-            ed->keyword = fread_string(fp);
-            ed->description = fread_string(fp);
-            ed->next = obj->extra_descr;
-            obj->extra_descr = ed;
+            auto keyword = fread_stdstring(fp);
+            auto description = fread_stdstring(fp);
+            obj->extra_descr.emplace_back(EXTRA_DESCR_DATA{keyword, description});
         } else if (matches(word, "End")) {
             if (!fNest || !fVnum || obj->pIndexData == nullptr) {
                 bug("Fread_obj: incomplete object.");

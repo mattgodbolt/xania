@@ -12,6 +12,14 @@ AFFECT_DATA &AffectList::add(const AFFECT_DATA &aff) {
     return *new_aff;
 }
 
+AFFECT_DATA &AffectList::add_at_end(const AFFECT_DATA &aff) {
+    AFFECT_DATA **p_last_next = &first_;
+    for (auto *ent = first_; ent; ent = ent->next)
+        p_last_next = &ent->next;
+    *p_last_next = new AFFECT_DATA{aff};
+    return **p_last_next;
+}
+
 void AffectList::remove(const AFFECT_DATA &aff) {
     if (&aff == first_) {
         first_ = aff.next;
@@ -46,7 +54,7 @@ const AFFECT_DATA *AffectList::find_by_skill(int skill_number) const {
     return nullptr;
 }
 
-size_t AffectList::size() const noexcept { return ranges::distance(*this); }
+size_t AffectList::size() const noexcept { return ranges::distance(begin(), end()); }
 
 void AffectList::clear() {
     while (first_)

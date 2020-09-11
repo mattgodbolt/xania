@@ -312,3 +312,14 @@ bool Char::is_player_killer() const noexcept { return is_pc() && IS_SET(act, PLR
 bool Char::is_player_thief() const noexcept { return is_pc() && IS_SET(act, PLR_THIEF); }
 bool Char::has_detect_magic() const { return IS_SET(affected_by, AFF_DETECT_MAGIC); }
 bool Char::has_detect_evil() const { return IS_SET(affected_by, AFF_DETECT_EVIL); }
+
+void Char::set_extra(unsigned int flag) noexcept {
+    if (is_npc())
+        return;
+    extra_flags[flag / 32] |= (1u << (flag & 31u));
+}
+void Char::remove_extra(unsigned int flag) noexcept {
+    if (is_npc())
+        return;
+    extra_flags[flag / 32] &= ~(1u << (flag & 31u));
+}

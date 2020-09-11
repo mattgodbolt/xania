@@ -21,6 +21,7 @@
 #include "interp.h"
 #include "lookup.h"
 #include "merc.h"
+#include "save.hpp"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>

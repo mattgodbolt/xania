@@ -457,14 +457,9 @@ void load_objects(FILE *fp) {
             }
 
             else if (letter == 'E') {
-                EXTRA_DESCR_DATA *ed;
-
-                ed = static_cast<EXTRA_DESCR_DATA *>(alloc_perm(sizeof(*ed)));
-                ed->keyword = fread_string(fp);
-                ed->description = fread_string(fp);
-                ed->next = pObjIndex->extra_descr;
-                pObjIndex->extra_descr = ed;
-                top_ed++;
+                auto keyword = fread_stdstring(fp);
+                auto description = fread_stdstring(fp);
+                pObjIndex->extra_descr.emplace_back(EXTRA_DESCR_DATA{keyword, description});
             }
 
             else {

@@ -3,11 +3,21 @@
 #include "AFFECT_DATA.hpp"
 #include "GenericListIter.hpp"
 
+#include <utility>
+
 class AffectList {
     AFFECT_DATA *first_{};
 
 public:
+    AffectList() = default;
+    ~AffectList() { clear(); }
+    AffectList(const AffectList &) = delete;
+    AffectList &operator=(const AffectList &) = delete;
+    AffectList(AffectList &&lhs) noexcept : first_(std::exchange(lhs.first_, nullptr)) {}
+    AffectList &operator=(AffectList &&) = delete;
+
     AFFECT_DATA &add(const AFFECT_DATA &aff);
+    AFFECT_DATA &add_at_end(const AFFECT_DATA &aff);
     void remove(const AFFECT_DATA &aff);
 
     void clear();

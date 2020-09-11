@@ -1,0 +1,709 @@
+#PLAYER
+Name TheMoog~
+Vers 3
+Race human~
+Sex  1
+Cla  0
+Levl 100
+Clan 68
+CLevel 0
+CCFlags 1
+Tru  100
+Plyd 100270627
+Note 1594669532
+Scro 22
+Room 30005
+HMV  30000 30000 9973 10000 694 694
+Gold 41443
+Exp  100000
+Act  73736
+AfBy 2097536
+Comm 96256
+Pos  8
+Prac 104
+Trai 102
+Save  -12
+Alig  0
+Hit   13
+Dam   6
+ACs 68 67 70 183
+Attr 25 25 25 25 25
+AMod 4 1 5 4 0
+Pass NOTREALLY~
+Bin  TheMoog coalesces into shape.~
+Bout TheMoog isn't here any more.~
+Titl ! !gooMehT [|WPMI|w namuH 001]~
+Afk afk~
+Colo 1
+Prmt Moog:%z> ~
+Pnts 40
+TSex 1
+LLev 27089
+HMVP 30000 10000 694
+Info_message Xanian Implementor~
+Prefix ~
+HourOffset -5
+MinOffset 0
+ExtraBits 1111101001111000000000000000000000000000000000000000000000000000~
+Cond 0 47 48
+Sk 100 'reserved'
+Sk 100 'acid blast'
+Sk 100 'octarine fire'
+Sk 100 'armor'
+Sk 100 'bless'
+Sk 100 'blindness'
+Sk 100 'burning hands'
+Sk 100 'call lightning'
+Sk 100 'calm'
+Sk 100 'cancellation'
+Sk 100 'cause critical'
+Sk 100 'cause light'
+Sk 100 'cause serious'
+Sk 100 'chain lightning'
+Sk 100 'change sex'
+Sk 100 'charm person'
+Sk 100 'chill touch'
+Sk 100 'colour spray'
+Sk 100 'continual light'
+Sk 100 'control weather'
+Sk 100 'create food'
+Sk 100 'create spring'
+Sk 100 'create water'
+Sk 100 'cure blindness'
+Sk 100 'cure critical'
+Sk 100 'cure disease'
+Sk 100 'cure light'
+Sk 100 'cure poison'
+Sk 100 'cure serious'
+Sk 100 'curse'
+Sk 100 'exorcise'
+Sk 100 'demonfire'
+Sk 100 'detect evil'
+Sk 100 'detect hidden'
+Sk 100 'detect invis'
+Sk 100 'detect magic'
+Sk 100 'detect poison'
+Sk 100 'dispel evil'
+Sk 100 'dispel good'
+Sk 100 'dispel magic'
+Sk 100 'earthquake'
+Sk 100 'enchant armor'
+Sk 100 'protect container'
+Sk 100 'venom'
+Sk 100 'vorpal'
+Sk 100 'vampire'
+Sk 100 'black death'
+Sk 100 'tame lightning'
+Sk 100 'acid wash'
+Sk 100 'damnation'
+Sk 100 'enchant weapon'
+Sk 100 'energy drain'
+Sk 100 'insanity'
+Sk 100 'faerie fire'
+Sk 100 'faerie fog'
+Sk 100 'fireball'
+Sk 100 'flamestrike'
+Sk 100 'fly'
+Sk 100 'frenzy'
+Sk 100 'gate'
+Sk 100 'giant strength'
+Sk 100 'harm'
+Sk 100 'haste'
+Sk 100 'regeneration'
+Sk 100 'lethargy'
+Sk 100 'heal'
+Sk 100 'holy word'
+Sk 100 'identify'
+Sk 100 'infravision'
+Sk 1 'invis'
+Sk 100 'know alignment'
+Sk 100 'lightning bolt'
+Sk 100 'locate object'
+Sk 100 'magic missile'
+Sk 100 'mass healing'
+Sk 100 'mass invis'
+Sk 100 'pass door'
+Sk 100 'plague'
+Sk 1 'poison'
+Sk 100 'portal'
+Sk 100 'protection evil'
+Sk 100 'protection good'
+Sk 100 'psychic tornado'
+Sk 100 'refresh'
+Sk 100 'remove curse'
+Sk 100 'remove alignment'
+Sk 100 'remove invisible'
+Sk 100 'talon'
+Sk 100 'sanctuary'
+Sk 100 'shield'
+Sk 100 'shocking grasp'
+Sk 100 'sleep'
+Sk 100 'stone skin'
+Sk 100 'summon'
+Sk 100 'teleport'
+Sk 100 'teleport object'
+Sk 100 'undo spell'
+Sk 100 'ventriloquate'
+Sk 100 'weaken'
+Sk 100 'word of recall'
+Sk 100 'acid breath'
+Sk 100 'fire breath'
+Sk 100 'frost breath'
+Sk 100 'gas breath'
+Sk 100 'lightning breath'
+Sk 100 'general purpose'
+Sk 100 'high explosive'
+Sk 100 'axe'
+Sk 100 'dagger'
+Sk 100 'flail'
+Sk 100 'mace'
+Sk 100 'polearm'
+Sk 100 'shield block'
+Sk 100 'spear'
+Sk 100 'sword'
+Sk 100 'whip'
+Sk 100 'backstab'
+Sk 100 'bash'
+Sk 100 'berserk'
+Sk 100 'dirt kicking'
+Sk 100 'disarm'
+Sk 100 'dodge'
+Sk 100 'enhanced damage'
+Sk 100 'hand to hand'
+Sk 100 'headbutt'
+Sk 100 'parry'
+Sk 100 'rescue'
+Sk 100 'trip'
+Sk 100 'second attack'
+Sk 100 'third attack'
+Sk 100 'fast healing'
+Sk 100 'haggle'
+Sk 100 'hide'
+Sk 100 'lore'
+Sk 100 'meditation'
+Sk 100 'peek'
+Sk 100 'ride'
+Sk 100 'sharpen'
+Sk 100 'pick lock'
+Sk 100 'sneak'
+Sk 100 'steal'
+Sk 100 'scrolls'
+Sk 100 'staves'
+Sk 100 'wands'
+Sk 100 'throw'
+Sk 100 'recall'
+Gr 'rom basics'
+Gr 'mage basics'
+Gr 'mage default'
+Gr 'beguiling'
+Gr 'combat'
+Gr 'detection'
+Gr 'enhancement'
+Gr 'illusion'
+Gr 'maledictions'
+Gr 'protective'
+Gr 'transportation'
+Gr 'weather'
+AffD 'faerie fire' 100  99 200  17        256
+AffD 'haste' 100  49   4   2    2097152
+AffD 'giant strength' 100  99   4   1          0
+AffD 'armor' 100  23 -20  17          0
+AffD 'bless' 100 105 -12  24          0
+AffD 'bless' 100 105  12  18          0
+AffD 'sanctuary' 100  15   0   0        128
+End
+
+#O
+Vnum 30015
+Nest 0
+ExtF 192
+WStr worn in eyes~
+Wear 6
+Lev  99
+Cost 0
+End
+
+#O
+Vnum 30014
+Nest 0
+Wear 5
+Lev  99
+Cost 0
+End
+
+#O
+Vnum 21
+Nest 0
+Wear 0
+Cost 0
+Val  0 0 -1 0 0
+End
+
+#O
+Vnum 30013
+Nest 0
+Wear 8
+Lev  99
+Cost 0
+End
+
+#O
+Vnum 28002
+Nest 0
+Wear -1
+Lev  48
+Cost 18000
+End
+
+#O
+Vnum 2457
+Nest 0
+Wear -1
+Lev  35
+Cost 7173
+End
+
+#O
+Vnum 1908
+Nest 0
+Wear -1
+Lev  37
+Cost 7424
+End
+
+#O
+Vnum 10069
+Nest 0
+Wear -1
+Lev  1
+Cost 1
+End
+
+#O
+Vnum 13035
+Nest 0
+Wear -1
+Lev  30
+Cost 20
+End
+
+#O
+Vnum 1606
+Nest 0
+Wear -1
+Lev  16
+Cost 3200
+End
+
+#O
+Vnum 3090
+Nest 0
+Wear -1
+Cost 500
+Spell 1 'cancellation'
+End
+
+#O
+Vnum 13028
+Nest 0
+Wear 10
+Lev  34
+Cost 20
+End
+
+#O
+Vnum 3417
+Nest 0
+Wear -1
+Cost 0
+End
+
+#O
+Vnum 23
+Nest 0
+Name scroll hand written handwritten charm person~
+ShD  a hand-written scroll of charm person~
+Desc A hand-written scroll of charm person lies here.~
+Wear -1
+Lev  100
+Cost 0
+Val  100 15 -1 -1 -1
+Spell 1 'charm person'
+End
+
+#O
+Vnum 1399
+Nest 0
+Wear -1
+Lev  50
+Cost 10249
+End
+
+#O
+Vnum 1004
+Nest 0
+Wear -1
+Lev  60
+Cost 12347
+Spell 3 'charm person'
+End
+
+#O
+Vnum 16068
+Nest 0
+Wear -1
+Lev  21
+Cost 4260
+End
+
+#O
+Vnum 647
+Nest 0
+Wear -1
+Lev  33
+Cost 6613
+End
+
+#O
+Vnum 9908
+Nest 0
+Wear 17
+Lev  35
+Cost 7299
+Spell 3 'dispel evil'
+End
+
+#O
+Vnum 2449
+Nest 0
+Wear -1
+Lev  45
+Cost 9052
+End
+
+#O
+Vnum 13002
+Nest 0
+Wear -1
+Lev  35
+Cost 4000
+End
+
+#O
+Vnum 9227
+Nest 0
+Wear -1
+Lev  24
+Cost 4929
+End
+
+#O
+Vnum 25
+Nest 0
+Name home-made bomb made TheMoog's~
+Desc TheMoog's home-made bomb lies here.~
+Wear -1
+Lev  100
+Cost 0
+Val  100 65 65 -1 -1
+End
+
+#O
+Vnum 13002
+Nest 0
+Wear -1
+Lev  35
+Cost 4000
+Val  5 6 6 31 1352
+End
+
+#O
+Vnum 9585
+Nest 0
+Wear -1
+Lev  15
+Cost 4023
+End
+
+#O
+Vnum 647
+Nest 0
+Wear 16
+Lev  33
+Cost 6613
+End
+
+#O
+Vnum 10406
+Nest 0
+Wear -1
+Lev  35
+Cost 7140
+End
+
+#O
+Vnum 104
+Nest 0
+Wear -1
+Lev  3
+Cost 629
+End
+
+#O
+Vnum 13000
+Nest 0
+Wear -1
+Lev  16
+Cost 230
+End
+
+#O
+Vnum 10406
+Nest 0
+Wear -1
+Lev  35
+Cost 7140
+End
+
+#O
+Vnum 3032
+Nest 0
+Wear -1
+Cost 20
+End
+
+#O
+Vnum 3032
+Nest 1
+Wear -1
+Cost 20
+End
+
+#O
+Vnum 10406
+Nest 2
+Wear -1
+Lev  35
+Cost 7140
+End
+
+#O
+Vnum 12037
+Nest 1
+Wear -1
+Lev  1
+Cost 0
+End
+
+#O
+Vnum 30024
+Nest 0
+Wear -1
+Lev  1
+Cost 0
+End
+
+#O
+Vnum 12037
+Nest 0
+Wear -1
+Lev  1
+Cost 0
+End
+
+#O
+Vnum 21
+Nest 0
+Name token gratitude~
+ShD  a token of gratitude~
+Desc A token of |WTheMoog|w's gratitude has been carelessly left here.~
+Wear -1
+Cost 0
+Val  0 0 -1 0 0
+ExDe this~ token was given to |WLarkspur|w by |WTheMoog|w in gratitude for finding a crash bug in Xania.  It may be exchanged at a later date for a restring, an enchanted weapon or similar prize.
+
+~
+ExDe token~ This token was given to |WLarkspur|w by |WTheMoog|w in gratitude for finding a crash bug in Xania.  It may be exchanged at a later date for a restring, an enchanted weapon or similar prize.
+
+~
+End
+
+#O
+Vnum 21
+Nest 0
+Name token gratitude~
+ShD  a token of gratitude~
+Desc A token of |WTheMoog|w's gratitude has been carelessly left here.~
+Wear -1
+Cost 0
+Val  0 0 -1 0 0
+End
+
+#O
+Vnum 3009
+Nest 0
+Name noogie~
+ShD  A painful NOOGIE!!!~
+Desc OUCH!!! THAT HURT!!! NOOGIE FORM HELL!!~
+Wear -1
+Cost 100
+End
+
+#O
+Vnum 10406
+Nest 0
+Wear -1
+Lev  35
+Cost 7140
+End
+
+#O
+Vnum 10406
+Nest 0
+Wear -1
+Lev  35
+Cost 7140
+End
+
+#O
+Vnum 10406
+Nest 0
+Wear -1
+Lev  35
+Cost 7140
+End
+
+#O
+Vnum 10406
+Nest 0
+Wear -1
+Lev  35
+Cost 7140
+End
+
+#O
+Vnum 3162
+Nest 0
+Wear -1
+Cost 100
+End
+
+#O
+Vnum 2453
+Nest 0
+Wear -1
+Lev  37
+Cost 7416
+Spell 3 'armor'
+End
+
+#O
+Vnum 5029
+Nest 0
+Wear -1
+Cost 0
+End
+
+#O
+Vnum 5028
+Nest 0
+Wear -1
+Cost 0
+End
+
+#O
+Vnum 30024
+Nest 0
+Wear -1
+Lev  1
+Cost 0
+End
+
+#O
+Vnum 5232
+Nest 0
+Wear -1
+Lev  9
+Cost 2830
+End
+
+#O
+Vnum 2105
+Nest 0
+Wear -1
+Lev  10
+Cost 2044
+Spell 3 'colour spray'
+End
+
+#O
+Vnum 3703
+Nest 0
+Wear -1
+Cost 0
+End
+
+#O
+Vnum 23
+Nest 0
+Wear -1
+Cost 0
+End
+
+#O
+Vnum 104
+Nest 0
+Wear -1
+Lev  3
+Cost 629
+End
+
+#O
+Vnum 104
+Nest 0
+Wear -1
+Lev  3
+Cost 629
+End
+
+#O
+Vnum 104
+Nest 0
+Wear 3
+Lev  3
+Cost 629
+End
+
+#O
+Vnum 27041
+Nest 0
+Wear -1
+Cost 64
+End
+
+#O
+Vnum 2449
+Nest 0
+Wear -1
+Lev  45
+Cost 9052
+End
+
+#O
+Vnum 2451
+Nest 0
+Wear -1
+Lev  41
+Cost 8472
+End
+
+#O
+Vnum 9598
+Nest 0
+Wear -1
+Lev  16
+Cost 3358
+Val  2 2 8 5 64
+End
+
+#END

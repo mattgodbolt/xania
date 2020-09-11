@@ -17,6 +17,7 @@
 #include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
+#include "save.hpp"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
@@ -416,7 +417,7 @@ void mobile_update() {
 void weather_update() {
     time_info.advance();
     auto weather_before = weather_info;
-    weather_info.update(time_info);
+    weather_info.update(Rng::global_rng(), time_info);
 
     if (auto update_msg = weather_info.describe_change(weather_before); !update_msg.empty()) {
         for (auto &d : descriptors().playing()) {

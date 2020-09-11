@@ -26,7 +26,6 @@ extern OBJ_INDEX_DATA *obj_index_hash[MAX_KEY_HASH];
 extern int top_mob_index;
 extern int top_obj_index;
 extern int top_affect;
-extern int top_ed;
 
 extern int top_vnum_room;
 extern int top_vnum_mob;

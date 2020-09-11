@@ -52,7 +52,6 @@ void save_bans() {
     FILE *fp;
     bool found = false;
 
-    fclose(fpReserve);
     if ((fp = fopen(BAN_FILE, "w")) == nullptr) {
         perror(BAN_FILE);
     }
@@ -65,7 +64,6 @@ void save_bans() {
     }
 
     fclose(fp);
-    fpReserve = fopen(NULL_FILE, "r");
     if (!found)
         unlink(BAN_FILE);
 }

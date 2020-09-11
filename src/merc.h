@@ -42,6 +42,7 @@
 #include <string>
 #include <unistd.h>
 #include <utility>
+#include <vector>
 
 /* Buffer structure */
 typedef struct _BUFFER BUFFER;
@@ -53,7 +54,7 @@ struct AREA_DATA;
 typedef struct ban_data BAN_DATA;
 class Descriptor;
 typedef struct exit_data EXIT_DATA;
-typedef struct extra_descr_data EXTRA_DESCR_DATA;
+struct EXTRA_DESCR_DATA;
 typedef struct kill_data KILL_DATA;
 struct OBJ_DATA;
 struct OBJ_INDEX_DATA;
@@ -206,7 +207,7 @@ struct pc_race_type /* additional data for pc races */
     char who_name[6];
     sh_int points; /* cost in points of the race */
     sh_int class_mult[MAX_CLASS]; /* exp multiplier for class, * 100 */
-    const char *skills[5]; /* bonus skills for the race */
+    std::array<const char *, 5> skills{}; /* bonus skills for the race */
     Stats stats; /* starting stats */
     Stats max_stats; /* maximum stats */
     sh_int size; /* aff bits for the race */
@@ -1047,13 +1048,10 @@ struct liq_type {
     sh_int liq_affect[3];
 };
 
-/*
- * Extra description data for a room or object.
- */
-struct extra_descr_data {
-    EXTRA_DESCR_DATA *next; /* Next in list                     */
-    char *keyword; /* Keyword in look/examine          */
-    char *description; /* What to see                      */
+// Extra description data for a room or object.
+struct EXTRA_DESCR_DATA {
+    std::string keyword; // Keyword in look/examine
+    std::string description; // What to see
 };
 
 /*
@@ -1061,7 +1059,7 @@ struct extra_descr_data {
  */
 struct OBJ_INDEX_DATA {
     OBJ_INDEX_DATA *next{};
-    EXTRA_DESCR_DATA *extra_descr{};
+    std::vector<EXTRA_DESCR_DATA> extra_descr;
     AffectList affected{};
     std::string name;
     std::string short_descr;
@@ -1092,7 +1090,7 @@ struct OBJ_DATA {
     OBJ_DATA *contains{};
     OBJ_DATA *in_obj{};
     Char *carried_by{};
-    EXTRA_DESCR_DATA *extra_descr{};
+    std::vector<EXTRA_DESCR_DATA> extra_descr;
     AffectList affected{};
     OBJ_INDEX_DATA *pIndexData{};
     ROOM_INDEX_DATA *in_room{};
@@ -1169,21 +1167,21 @@ typedef struct _tip_type {
  * Room type.
  */
 struct ROOM_INDEX_DATA {
-    ROOM_INDEX_DATA *next;
-    Char *people;
-    OBJ_DATA *contents;
-    EXTRA_DESCR_DATA *extra_descr;
-    AREA_DATA *area;
-    PerDirection<EXIT_DATA *> exit;
-    char *name;
-    char *description;
-    sh_int vnum;
-    unsigned int room_flags;
-    sh_int light;
-    sh_int sector_type;
+    ROOM_INDEX_DATA *next{};
+    Char *people{};
+    OBJ_DATA *contents{};
+    std::vector<EXTRA_DESCR_DATA> extra_descr{};
+    AREA_DATA *area{};
+    PerDirection<EXIT_DATA *> exit{};
+    char *name{};
+    char *description{};
+    sh_int vnum{};
+    unsigned int room_flags{};
+    sh_int light{};
+    sh_int sector_type{};
 
-    RESET_DATA *reset_first;
-    RESET_DATA *reset_last;
+    RESET_DATA *reset_first{};
+    RESET_DATA *reset_last{};
 };
 
 /*
@@ -1413,7 +1411,6 @@ extern OBJ_DATA *object_list;
 extern EXTRA_DESCR_DATA *extra_descr_free;
 
 extern bool fLogAll;
-extern FILE *fpReserve;
 extern KILL_DATA kill_table[];
 
 /* Moog added stuff */
@@ -1430,12 +1427,7 @@ extern size_t max_on;
  * All files are read in completely at bootup.
  * Most output files (bug, idea, typo, shutdown) are append-only.
  *
- * The NULL_FILE is held open so that we have a stream handle in reserve,
- *   so players can go ahead and telnet to all the other descriptors.
- * Then we close it whenever we need to open a file (e.g. a save file).
  */
-#define NULL_FILE "/dev/null" /* To reserve one stream        */
-
 #define AREA_LIST "area.lst" /* List of areas                */
 
 #define BUG_FILE "bugs.txt" /* For 'bug' and bug( )         */
@@ -1486,7 +1478,7 @@ Char *create_mobile(MOB_INDEX_DATA *pMobIndex);
 void clone_mobile(Char *parent, Char *clone);
 OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex);
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
-const char *get_extra_descr(std::string_view name, const EXTRA_DESCR_DATA *ed);
+const char *get_extra_descr(std::string_view name, const std::vector<EXTRA_DESCR_DATA> &ed);
 MOB_INDEX_DATA *get_mob_index(int vnum);
 OBJ_INDEX_DATA *get_obj_index(int vnum);
 ROOM_INDEX_DATA *get_room_index(int vnum);
@@ -1558,11 +1550,11 @@ void obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *pRoomIndex);
 void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to);
 void obj_from_obj(OBJ_DATA *obj);
 void extract_obj(OBJ_DATA *obj);
-bool is_set_extra(Char *ch, unsigned int flag);
+bool is_set_extra(const Char *ch, unsigned int flag);
 void set_extra(Char *ch, unsigned int flag);
 void remove_extra(Char *ch, unsigned int flag);
 
-bool is_switched(Char *ch);
+bool is_switched(const Char *ch);
 
 /* MRG added */
 bool check_sub_issue(OBJ_DATA *obj, Char *ch);
@@ -1614,10 +1606,6 @@ int mana_cost(Char *ch, int min_mana, int level);
 int slot_lookup(int slot);
 bool saves_spell(int level, const Char *victim);
 void obj_cast_spell(int sn, int level, Char *ch, Char *victim, OBJ_DATA *obj);
-
-/* save.c */
-void save_char_obj(Char *ch);
-bool load_char_obj(Descriptor *d, const char *name);
 
 /* skills.c */
 bool parse_gen_groups(Char *ch, const char *argument);
