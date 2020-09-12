@@ -183,7 +183,7 @@ void load_mobiles(FILE *fp) {
         pMobIndex->vnum = vnum;
         pMobIndex->area = area_last;
         newmobs++;
-        pMobIndex->player_name = fread_string(fp);
+        pMobIndex->player_name = fread_stdstring(fp);
         pMobIndex->short_descr = lower_case_articles(fread_stdstring(fp));
         pMobIndex->long_descr = upper_first_character(fread_stdstring(fp));
         pMobIndex->description = upper_first_character(fread_stdstring(fp));

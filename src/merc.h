@@ -937,7 +937,7 @@ struct MOB_INDEX_DATA {
     sh_int vnum;
     sh_int count;
     sh_int killed;
-    char *player_name;
+    std::string player_name;
     std::string short_descr;
     std::string long_descr;
     std::string description;
