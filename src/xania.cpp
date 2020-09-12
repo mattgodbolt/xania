@@ -9,6 +9,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "DescriptorList.hpp"
+#include "MOB_INDEX_DATA.hpp"
 #include "comm.hpp"
 #include "db.h"
 #include "handler.hpp"

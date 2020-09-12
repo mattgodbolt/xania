@@ -5,6 +5,7 @@
 #include "Constants.hpp"
 #include "Descriptor.hpp"
 #include "ExtraFlags.hpp"
+#include "MOB_INDEX_DATA.hpp"
 #include "PcData.hpp"
 #include "Stats.hpp"
 #include "Types.hpp"

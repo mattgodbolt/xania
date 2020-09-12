@@ -13,6 +13,7 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Help.hpp"
+#include "MOB_INDEX_DATA.hpp"
 #include "TimeInfoData.hpp"
 #include "WeatherData.hpp"
 #include "buffer.h"

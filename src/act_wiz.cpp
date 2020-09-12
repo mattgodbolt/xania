@@ -11,6 +11,7 @@
 #include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
+#include "MOB_INDEX_DATA.hpp"
 #include "TimeInfoData.hpp"
 #include "buffer.h"
 #include "challeng.h"

@@ -17,6 +17,7 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Help.hpp"
+#include "MOB_INDEX_DATA.hpp"
 #include "Pronouns.hpp"
 #include "TimeInfoData.hpp"
 #include "challeng.h"

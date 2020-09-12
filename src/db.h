@@ -10,6 +10,7 @@
 #pragma once
 
 #include "Constants.hpp"
+#include "MOB_INDEX_DATA.hpp"
 #include "buffer.h"
 
 #include <cstdio>

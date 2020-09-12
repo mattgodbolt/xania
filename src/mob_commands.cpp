@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "DescriptorList.hpp"
+#include "MOB_INDEX_DATA.hpp"
 #include "comm.hpp"
 #include "handler.hpp"
 #include "merc.h"
