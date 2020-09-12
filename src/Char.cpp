@@ -198,10 +198,10 @@ void Char::page_to(std::string_view txt) const {
         desc->page_to(txt);
 }
 
-PCCLAN *Char::pc_clan() { return is_pc() && pcdata->pcclan ? &pcdata->pcclan.value() : nullptr; }
-const PCCLAN *Char::pc_clan() const { return is_pc() && pcdata->pcclan ? &pcdata->pcclan.value() : nullptr; }
+PcClan *Char::pc_clan() { return is_pc() && pcdata->pcclan ? &pcdata->pcclan.value() : nullptr; }
+const PcClan *Char::pc_clan() const { return is_pc() && pcdata->pcclan ? &pcdata->pcclan.value() : nullptr; }
 
-const CLAN *Char::clan() const { return pc_clan() ? pc_clan()->clan : nullptr; }
+const Clan *Char::clan() const { return pc_clan() ? &pc_clan()->clan : nullptr; }
 
 bool Char::is_comm_brief() const { return is_pc() && IS_SET(comm, COMM_BRIEF); }
 bool Char::should_autoexit() const { return is_pc() && IS_SET(act, PLR_AUTOEXIT); }

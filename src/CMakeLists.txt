@@ -70,7 +70,7 @@ add_library(xania_lib STATIC
         Types.hpp
         Stats.hpp
         ExtraFlags.hpp
-        PC_DATA.hpp
+        PcData.hpp
         Constants.hpp
         handler.hpp
         ArgParser.cpp ArgParser.hpp

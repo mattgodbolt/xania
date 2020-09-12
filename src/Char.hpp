@@ -5,7 +5,7 @@
 #include "Constants.hpp"
 #include "Descriptor.hpp"
 #include "ExtraFlags.hpp"
-#include "PC_DATA.hpp"
+#include "PcData.hpp"
 #include "Stats.hpp"
 #include "Types.hpp"
 
@@ -40,7 +40,7 @@ struct Char {
     OBJ_DATA *carrying{};
     ROOM_INDEX_DATA *in_room{};
     ROOM_INDEX_DATA *was_in_room{};
-    std::unique_ptr<PC_DATA> pcdata;
+    std::unique_ptr<PcData> pcdata;
     GEN_DATA *gen_data{};
     std::string name;
 
@@ -177,10 +177,10 @@ struct Char {
     [[nodiscard]] bool is_affected_by(int skill_number) const;
 
     // Return a pointer to the character's overall clan if they have one.
-    [[nodiscard]] const CLAN *clan() const;
+    [[nodiscard]] const Clan *clan() const;
     // Return a pointer to the character's individual clan membership info, if they have one.
-    [[nodiscard]] PCCLAN *pc_clan();
-    [[nodiscard]] const PCCLAN *pc_clan() const;
+    [[nodiscard]] PcClan *pc_clan();
+    [[nodiscard]] const PcClan *pc_clan() const;
 
     // Send text to this character's user (if they have one).
     void send_to(std::string_view txt) const;

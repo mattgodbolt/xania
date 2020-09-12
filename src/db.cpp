@@ -1937,7 +1937,7 @@ void do_dump(Char *ch, const char *argument) {
     int count, num_pcs, aff_count;
     Char *fch;
     MOB_INDEX_DATA *pMobIndex;
-    PC_DATA *pc;
+    PcData *pc;
     OBJ_DATA *obj;
     OBJ_INDEX_DATA *pObjIndex;
     ROOM_INDEX_DATA *room;

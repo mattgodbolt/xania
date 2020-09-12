@@ -1436,7 +1436,7 @@ void do_who(Char *ch, const char *argument) {
     int nMatch;
     bool rgfClass[MAX_CLASS];
     bool rgfRace[MAX_PC_RACE];
-    std::unordered_set<const CLAN *> rgfClan;
+    std::unordered_set<const Clan *> rgfClan;
     bool fClassRestrict;
     bool fRaceRestrict;
     bool fClanRestrict;
@@ -1486,7 +1486,7 @@ void do_who(Char *ch, const char *argument) {
                     iRace = race_lookup(arg);
                     if (iRace == 0 || iRace >= MAX_PC_RACE) {
                         /* Check if clan exists */
-                        const CLAN *clan_ptr = nullptr; // TODO this could be much better phrased
+                        const Clan *clan_ptr = nullptr; // TODO this could be much better phrased
                         for (auto &clan : clantable) {
                             if (is_name(arg, clan.name))
                                 clan_ptr = &clan;
