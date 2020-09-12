@@ -295,7 +295,7 @@ void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
         fprintf(fp, "Alig %d\n", pet->alignment);
     if (pet->hitroll != pet->pIndexData->hitroll)
         fprintf(fp, "Hit  %d\n", pet->hitroll);
-    if (pet->damroll != pet->pIndexData->damage[DICE_BONUS])
+    if (pet->damroll != pet->pIndexData->damage.bonus())
         fprintf(fp, "Dam  %d\n", pet->damroll);
     fprintf(fp, "ACs  %d %d %d %d\n", pet->armor[0], pet->armor[1], pet->armor[2], pet->armor[3]);
     fprintf(fp, "Attr %d %d %d %d %d\n", pet->perm_stat[Stat::Str], pet->perm_stat[Stat::Int],

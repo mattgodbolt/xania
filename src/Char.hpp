@@ -98,7 +98,7 @@ struct Char {
     unsigned long hit_location{}; /* for verbose combat sequences */
     /* mobile stuff */
     unsigned long off_flags{};
-    sh_int damage[3]{};
+    Dice damage; // This is non-wielding damage, and does not include the damroll bonus.
     sh_int dam_type{};
     sh_int start_pos{};
     sh_int default_pos{};
@@ -236,6 +236,9 @@ struct Char {
     }
     void set_extra(unsigned int flag) noexcept;
     void remove_extra(unsigned int flag) noexcept;
+
+    [[nodiscard]] int get_damroll() const noexcept;
+    [[nodiscard]] int get_hitroll() const noexcept;
 
 private:
     template <typename Func>

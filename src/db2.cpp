@@ -200,26 +200,9 @@ void load_mobiles(FILE *fp) {
         pMobIndex->level = fread_number(fp);
         pMobIndex->hitroll = fread_number(fp);
 
-        /* read hit dice */
-        pMobIndex->hit[DICE_NUMBER] = fread_number(fp);
-        /* 'd'          */ fread_letter(fp);
-        pMobIndex->hit[DICE_TYPE] = fread_number(fp);
-        /* '+'          */ fread_letter(fp);
-        pMobIndex->hit[DICE_BONUS] = fread_number(fp);
-
-        /* read mana dice */
-        pMobIndex->mana[DICE_NUMBER] = fread_number(fp);
-        fread_letter(fp);
-        pMobIndex->mana[DICE_TYPE] = fread_number(fp);
-        fread_letter(fp);
-        pMobIndex->mana[DICE_BONUS] = fread_number(fp);
-
-        /* read damage dice */
-        pMobIndex->damage[DICE_NUMBER] = fread_number(fp);
-        fread_letter(fp);
-        pMobIndex->damage[DICE_TYPE] = fread_number(fp);
-        fread_letter(fp);
-        pMobIndex->damage[DICE_BONUS] = fread_number(fp);
+        pMobIndex->hit = Dice::from_file(fp);
+        pMobIndex->mana = Dice::from_file(fp);
+        pMobIndex->damage = Dice::from_file(fp);
         pMobIndex->dam_type = attack_lookup(fread_word(fp));
 
         /* read armor class */

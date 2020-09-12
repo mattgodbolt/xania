@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Dice.hpp"
 #include "Types.hpp"
 
 #include <string>
@@ -29,9 +30,9 @@ struct MOB_INDEX_DATA {
     sh_int group; /* rom-2.4 style mob groupings */
     sh_int level;
     sh_int hitroll;
-    sh_int hit[3];
-    sh_int mana[3];
-    sh_int damage[3];
+    Dice hit;
+    Dice mana;
+    Dice damage; // The bonus() here is the damroll
     sh_int ac[4];
     sh_int dam_type;
     long off_flags;

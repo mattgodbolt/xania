@@ -1220,8 +1220,8 @@ void do_score(Char *ch, const char *argument) {
     describe_armour(ch, AC_EXOTIC, "magic");
 
     if (ch->level >= 15) {
-        snprintf(buf, sizeof(buf), "Hit roll: |W%d|w", GET_HITROLL(ch));
-        snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Damage roll: |W%d|w\n\r", GET_DAMROLL(ch));
+        snprintf(buf, sizeof(buf), "Hit roll: |W%d|w", ch->get_hitroll());
+        snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Damage roll: |W%d|w\n\r", ch->get_damroll());
         ch->send_to(buf);
     }
     ch->send_line("");

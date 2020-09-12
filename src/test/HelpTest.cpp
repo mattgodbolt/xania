@@ -1,14 +1,10 @@
 #include "Help.hpp"
 
+#include "CatchFormatters.hpp"
 #include "MemFile.hpp"
-#include <fmt/format.h>
 
 #include <catch2/catch.hpp>
-
-template <>
-struct Catch::StringMaker<Help> {
-    static std::string convert(const Help &value) { return fmt::to_string(value); }
-};
+#include <fmt/format.h>
 
 TEST_CASE("Help") {
     SECTION("should parse an end of help") {

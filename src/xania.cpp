@@ -110,12 +110,11 @@ int report_object(OBJ_DATA *object, int boot) {
 
 void report_mobile(MOB_INDEX_DATA *mob) {
 
-    if ((mob->damage[DICE_BONUS] + mob->hitroll
-         + ((mob->damage[DICE_NUMBER] * mob->damage[DICE_TYPE] + mob->damage[DICE_NUMBER]) / 2))
+    if ((mob->damage.bonus() + mob->hitroll + ((mob->damage.number() * mob->damage.type()) + mob->damage.number() / 2))
         < (mob->level * 3 / 2))
         mobbug("can't do enough damage", mob);
 
-    if ((mob->hit[DICE_NUMBER] + mob->hit[DICE_BONUS]) < (mob->level * 30))
+    if ((mob->hit.number() + mob->hit.bonus()) < (mob->level * 30))
         mobbug("has too few health points", mob);
 }
 

@@ -1029,13 +1029,13 @@ Char *create_mobile(MOB_INDEX_DATA *pMobIndex) {
     mob->alignment = pMobIndex->alignment;
     mob->level = pMobIndex->level;
     mob->hitroll = pMobIndex->hitroll;
-    mob->damroll = pMobIndex->damage[DICE_BONUS];
-    mob->max_hit = dice(pMobIndex->hit[DICE_NUMBER], pMobIndex->hit[DICE_TYPE]) + pMobIndex->hit[DICE_BONUS];
+    mob->max_hit = pMobIndex->hit.roll();
     mob->hit = mob->max_hit;
-    mob->max_mana = dice(pMobIndex->mana[DICE_NUMBER], pMobIndex->mana[DICE_TYPE]) + pMobIndex->mana[DICE_BONUS];
+    mob->max_mana = pMobIndex->mana.roll();
     mob->mana = mob->max_mana;
-    mob->damage[DICE_NUMBER] = pMobIndex->damage[DICE_NUMBER];
-    mob->damage[DICE_TYPE] = pMobIndex->damage[DICE_TYPE];
+    mob->damage = pMobIndex->damage;
+    mob->damage.bonus(0); // clear the bonus; it's accounted for in the damroll
+    mob->damroll = pMobIndex->damage.bonus();
     mob->dam_type = pMobIndex->dam_type;
     for (int i = 0; i < 4; i++)
         mob->armor[i] = pMobIndex->ac[i];
@@ -1141,6 +1141,7 @@ void clone_mobile(Char *parent, Char *clone) {
     clone->alignment = parent->alignment;
     clone->hitroll = parent->hitroll;
     clone->damroll = parent->damroll;
+    clone->damage = parent->damage;
     clone->wimpy = parent->wimpy;
     clone->form = parent->form;
     clone->parts = parent->parts;
@@ -1157,9 +1158,6 @@ void clone_mobile(Char *parent, Char *clone) {
 
     clone->perm_stat = parent->perm_stat;
     clone->mod_stat = parent->mod_stat;
-
-    for (int i = 0; i < 3; i++)
-        clone->damage[i] = parent->damage[i];
 
     /* now add the affects */
     for (const auto &af : parent->affected)

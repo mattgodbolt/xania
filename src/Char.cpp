@@ -323,3 +323,6 @@ void Char::remove_extra(unsigned int flag) noexcept {
         return;
     extra_flags[flag / 32] &= ~(1u << (flag & 31u));
 }
+
+int Char::get_hitroll() const noexcept { return hitroll + str_app[curr_stat(Stat::Str)].tohit; }
+int Char::get_damroll() const noexcept { return damroll + str_app[curr_stat(Stat::Str)].todam; }

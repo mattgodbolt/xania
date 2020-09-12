@@ -1245,14 +1245,11 @@ void do_mstat(Char *ch, const char *argument) {
                  GET_AC(victim, AC_BASH), GET_AC(victim, AC_SLASH), GET_AC(victim, AC_EXOTIC));
     ch->send_to(buf);
 
-    bug_snprintf(buf, sizeof(buf), "Hit: %d  Dam: %d  Saves: %d  Position: %d  Wimpy: %d\n\r", GET_HITROLL(victim),
-                 GET_DAMROLL(victim), victim->saving_throw, victim->position, victim->wimpy);
-    ch->send_to(buf);
+    ch->send_line("Hit: {}  Dam: {}  Saves: {}  Position: {}  Wimpy: {}", victim->get_hitroll(), victim->get_damroll(),
+                  victim->saving_throw, victim->position, victim->wimpy);
 
     if (victim->is_npc()) {
-        bug_snprintf(buf, sizeof(buf), "Damage: %dd%d  Message:  %s\n\r", victim->damage[DICE_NUMBER],
-                     victim->damage[DICE_TYPE], attack_table[victim->dam_type].noun);
-        ch->send_to(buf);
+        ch->send_line("Damage: {}  Message:  {}", victim->damage, attack_table[victim->dam_type].noun);
     }
     ch->send_line("Fighting: {}", victim->fighting ? victim->fighting->name : "(none)");
 
