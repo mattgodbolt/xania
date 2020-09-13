@@ -57,8 +57,9 @@ static const char *bad_position_string[] = {"Lie still; you are DEAD.\n\r",
                                             "You're standing.\n\r"};
 
 // Function object for commands run by the interpreter, the do_ functions.
-// argument is modified (currently) by some of the text processing routines. TODO make into a const.
-using CommandFunc = std::function<void(Char *ch, char *argument)>;
+// argument is modified (currently) by some of the text processing routines.
+using CommandFunc = std::function<void(Char *ch, const char *argument)>;
+using CommandFuncNoArgs = std::function<void(Char *ch)>;
 
 struct CommandInfo {
     const char *name;
@@ -76,6 +77,15 @@ static CommandSet<CommandInfo> commands;
 static void add_command(const char *name, CommandFunc do_fun, sh_int position = POS_DEAD, sh_int level = 0,
                         CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
     commands.add(name, CommandInfo(name, std::move(do_fun), position, level, log, show), level);
+}
+
+// Add command with no args.
+static void add_command(const char *name, CommandFuncNoArgs do_fun, sh_int position = POS_DEAD, sh_int level = 0,
+                        CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
+    commands.add(name,
+                 CommandInfo(
+                     name, [f = std::move(do_fun)](Char *ch, const char *) { f(ch); }, position, level, log, show),
+                 level);
 }
 
 void interp_initialise() {
@@ -666,8 +676,7 @@ public:
     int max_width = 72;
 };
 
-void do_commands(Char *ch, const char *argument) {
-    (void)argument;
+void do_commands(Char *ch) {
     Columniser col(ch);
     auto max_level = (ch->get_trust() < LEVEL_HERO) ? ch->get_trust() : (LEVEL_HERO - 1);
     commands.enumerate(commands.level_restrict(0, max_level, col.visitor()));
@@ -677,8 +686,7 @@ void do_commands(Char *ch, const char *argument) {
     }
 }
 
-void do_wizhelp(Char *ch, const char *argument) {
-    (void)argument;
+void do_wizhelp(Char *ch) {
     Columniser col(ch);
     commands.enumerate(commands.level_restrict(LEVEL_HERO, ch->get_trust(), col.visitor()));
     if (col.buf[0] != '\0') {

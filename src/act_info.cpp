@@ -364,9 +364,7 @@ void do_scroll(Char *ch, std::string_view argument) {
 }
 
 /* RT does socials */
-void do_socials(Char *ch, const char *argument) {
-    (void)argument;
-
+void do_socials(Char *ch) {
     int col = 0;
     for (int iSocial = 0; social_table[iSocial].name[0] != '\0'; iSocial++) {
         ch->send_to("{:<12}", social_table[iSocial].name);
@@ -380,41 +378,22 @@ void do_socials(Char *ch, const char *argument) {
 
 /* RT Commands to replace news, motd, imotd, etc from ROM */
 
-void do_motd(Char *ch, const char *argument) {
-    (void)argument;
-    do_help(ch, "motd");
-}
+void do_motd(Char *ch) { do_help(ch, "motd"); }
 
-void do_imotd(Char *ch, const char *argument) {
-    (void)argument;
-    do_help(ch, "imotd");
-}
+void do_imotd(Char *ch) { do_help(ch, "imotd"); }
 
-void do_rules(Char *ch, const char *argument) {
-    (void)argument;
-    do_help(ch, "rules");
-}
+void do_rules(Char *ch) { do_help(ch, "rules"); }
 
-void do_story(Char *ch, const char *argument) {
-    (void)argument;
-    do_help(ch, "story");
-}
+void do_story(Char *ch) { do_help(ch, "story"); }
 
-void do_changes(Char *ch, const char *argument) {
-    (void)argument;
-    do_help(ch, "changes");
-}
+void do_changes(Char *ch) { do_help(ch, "changes"); }
 
-void do_wizlist(Char *ch, const char *argument) {
-    (void)argument;
-    do_help(ch, "wizlist");
-}
+void do_wizlist(Char *ch) { do_help(ch, "wizlist"); }
 
 /* RT this following section holds all the auto commands from ROM, as well as
    replacements for config */
 
-void do_autolist(Char *ch, const char *argument) {
-    (void)argument;
+void do_autolist(Char *ch) {
     /* lists most player flags */
     if (ch->is_npc())
         return;
@@ -524,8 +503,7 @@ void do_autolist(Char *ch, const char *argument) {
         ch->send_line("Shield blocks, parries, and dodges are not being shown.");
 }
 
-void do_autoaffect(Char *ch, const char *argument) {
-    (void)argument;
+void do_autoaffect(Char *ch) {
     if (ch->is_npc())
         return;
 
@@ -537,8 +515,7 @@ void do_autoaffect(Char *ch, const char *argument) {
         SET_BIT(ch->comm, COMM_AFFECT);
     }
 }
-void do_autoassist(Char *ch, const char *argument) {
-    (void)argument;
+void do_autoassist(Char *ch) {
     if (ch->is_npc())
         return;
 
@@ -551,8 +528,7 @@ void do_autoassist(Char *ch, const char *argument) {
     }
 }
 
-void do_autoexit(Char *ch, const char *argument) {
-    (void)argument;
+void do_autoexit(Char *ch) {
     if (ch->is_npc())
         return;
 
@@ -565,8 +541,7 @@ void do_autoexit(Char *ch, const char *argument) {
     }
 }
 
-void do_autogold(Char *ch, const char *argument) {
-    (void)argument;
+void do_autogold(Char *ch) {
     if (ch->is_npc())
         return;
 
@@ -579,8 +554,7 @@ void do_autogold(Char *ch, const char *argument) {
     }
 }
 
-void do_autoloot(Char *ch, const char *argument) {
-    (void)argument;
+void do_autoloot(Char *ch) {
     if (ch->is_npc())
         return;
 
@@ -593,8 +567,7 @@ void do_autoloot(Char *ch, const char *argument) {
     }
 }
 
-void do_autopeek(Char *ch, const char *argument) {
-    (void)argument;
+void do_autopeek(Char *ch) {
     if (ch->is_npc())
         return;
 
@@ -607,8 +580,7 @@ void do_autopeek(Char *ch, const char *argument) {
     }
 }
 
-void do_autosac(Char *ch, const char *argument) {
-    (void)argument;
+void do_autosac(Char *ch) {
     if (ch->is_npc())
         return;
 
@@ -621,8 +593,7 @@ void do_autosac(Char *ch, const char *argument) {
     }
 }
 
-void do_autosplit(Char *ch, const char *argument) {
-    (void)argument;
+void do_autosplit(Char *ch) {
     if (ch->is_npc())
         return;
 
@@ -635,8 +606,7 @@ void do_autosplit(Char *ch, const char *argument) {
     }
 }
 
-void do_brief(Char *ch, const char *argument) {
-    (void)argument;
+void do_brief(Char *ch) {
     if (IS_SET(ch->comm, COMM_BRIEF)) {
         ch->send_line("Full descriptions activated.");
         REMOVE_BIT(ch->comm, COMM_BRIEF);
@@ -646,8 +616,7 @@ void do_brief(Char *ch, const char *argument) {
     }
 }
 
-void do_colour(Char *ch, const char *argument) {
-    (void)argument;
+void do_colour(Char *ch) {
     if (ch->is_npc())
         return;
 
@@ -661,8 +630,7 @@ void do_colour(Char *ch, const char *argument) {
     }
 }
 
-void do_showafk(Char *ch, const char *argument) {
-    (void)argument;
+void do_showafk(Char *ch) {
     if (IS_SET(ch->comm, COMM_SHOWAFK)) {
         ch->send_line("Messages sent to you will now not be shown when afk.");
         REMOVE_BIT(ch->comm, COMM_SHOWAFK);
@@ -671,8 +639,8 @@ void do_showafk(Char *ch, const char *argument) {
         SET_BIT(ch->comm, COMM_SHOWAFK);
     }
 }
-void do_showdefence(Char *ch, const char *argument) {
-    (void)argument;
+
+void do_showdefence(Char *ch) {
     if (IS_SET(ch->comm, COMM_SHOWDEFENCE)) {
         ch->send_line("Shield blocks, parries and dodges will not be shown during combat.");
         REMOVE_BIT(ch->comm, COMM_SHOWDEFENCE);
@@ -682,8 +650,7 @@ void do_showdefence(Char *ch, const char *argument) {
     }
 }
 
-void do_compact(Char *ch, const char *argument) {
-    (void)argument;
+void do_compact(Char *ch) {
     if (IS_SET(ch->comm, COMM_COMPACT)) {
         ch->send_line("Compact mode removed.");
         REMOVE_BIT(ch->comm, COMM_COMPACT);
@@ -694,7 +661,6 @@ void do_compact(Char *ch, const char *argument) {
 }
 
 void do_prompt(Char *ch, const char *argument) {
-
     /* PCFN 24-05-97  Oh dear - it seems that you can't set prompt while switched
        into a MOB.  Let's change that.... */
     if (ch = ch->player(); !ch)
@@ -717,8 +683,7 @@ void do_prompt(Char *ch, const char *argument) {
     SET_BIT(ch->comm, COMM_PROMPT);
 }
 
-void do_combine(Char *ch, const char *argument) {
-    (void)argument;
+void do_combine(Char *ch) {
     if (IS_SET(ch->comm, COMM_COMBINE)) {
         ch->send_line("Long inventory selected.");
         REMOVE_BIT(ch->comm, COMM_COMBINE);
@@ -728,8 +693,7 @@ void do_combine(Char *ch, const char *argument) {
     }
 }
 
-void do_noloot(Char *ch, const char *argument) {
-    (void)argument;
+void do_noloot(Char *ch) {
     if (ch->is_npc())
         return;
 
@@ -742,8 +706,7 @@ void do_noloot(Char *ch, const char *argument) {
     }
 }
 
-void do_nofollow(Char *ch, const char *argument) {
-    (void)argument;
+void do_nofollow(Char *ch) {
     if (ch->is_npc())
         return;
 
@@ -757,8 +720,7 @@ void do_nofollow(Char *ch, const char *argument) {
     }
 }
 
-void do_nosummon(Char *ch, const char *argument) {
-    (void)argument;
+void do_nosummon(Char *ch) {
     if (ch->is_npc()) {
         if (IS_SET(ch->imm_flags, IMM_SUMMON)) {
             ch->send_line("You are no longer immune to summon.");
@@ -1055,9 +1017,7 @@ void do_exits(const Char *ch, const char *argument) {
     ch->send_to(buf);
 }
 
-void do_worth(Char *ch, const char *argument) {
-    (void)argument;
-
+void do_worth(Char *ch) {
     if (ch->is_npc()) {
         ch->send_line("You have {} gold.", (int)ch->gold);
         return;
@@ -1129,8 +1089,7 @@ const char *get_align_description(int align) {
     return align_descriptions[index];
 }
 
-void do_score(Char *ch, const char *argument) {
-    (void)argument;
+void do_score(Char *ch) {
     char buf[MAX_STRING_LENGTH];
 
     ch->send_line("|wYou are: |W{}{}|w.", ch->name, ch->is_npc() ? "" : ch->pcdata->title);
@@ -1228,12 +1187,11 @@ void do_score(Char *ch, const char *argument) {
 
     if (IS_SET(ch->comm, COMM_AFFECT)) {
         ch->send_line("");
-        do_affected(ch, nullptr);
+        do_affected(ch);
     }
 }
 
-void do_affected(Char *ch, const char *argument) {
-    (void)argument;
+void do_affected(Char *ch) {
     ch->send_line("You are affected by:");
 
     if (ch->affected.empty()) {
@@ -1245,8 +1203,7 @@ void do_affected(Char *ch, const char *argument) {
                       ch->level >= 20 ? af.describe_char_effect() : "");
 }
 
-void do_time(Char *ch, const char *argument) {
-    (void)argument;
+void do_time(Char *ch) {
     char buf[MAX_STRING_LENGTH];
 
     // TODO(#134) this whole thing should use the user's TZ.
@@ -1286,8 +1243,7 @@ void do_time(Char *ch, const char *argument) {
     }
 }
 
-void do_weather(Char *ch, const char *argument) {
-    (void)argument;
+void do_weather(Char *ch) {
     if (!IS_OUTSIDE(ch)) {
         ch->send_line("You can't see the weather indoors.");
         return;
@@ -1503,8 +1459,7 @@ void do_who(Char *ch, const char *argument) {
     ch->page_to(output);
 }
 
-void do_count(Char *ch, const char *argument) {
-    (void)argument;
+void do_count(Char *ch) {
     auto count = static_cast<size_t>(ranges::distance(descriptors().all_visible_to(*ch)));
     max_on = std::max(count, max_on);
 
@@ -1514,15 +1469,12 @@ void do_count(Char *ch, const char *argument) {
         ch->send_line("There are {} characters on, the most son today was {}.", count, max_on);
 }
 
-void do_inventory(Char *ch, const char *argument) {
-    (void)argument;
+void do_inventory(Char *ch) {
     ch->send_line("You are carrying:");
     show_list_to_char(ch->carrying, ch, true, true);
 }
 
-void do_equipment(Char *ch, const char *argument) {
-    (void)argument;
-
+void do_equipment(Char *ch) {
     ch->send_line("You are using:");
     bool found = false;
     for (int iWear = 0; iWear < MAX_WEAR; iWear++) {
@@ -1612,10 +1564,7 @@ void do_compare(Char *ch, const char *argument) {
     act(msg, ch, obj1, obj2, To::Char);
 }
 
-void do_credits(Char *ch, const char *argument) {
-    (void)argument;
-    do_help(ch, "diku");
-}
+void do_credits(Char *ch) { do_help(ch, "diku"); }
 
 void do_where(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
@@ -1745,8 +1694,7 @@ void do_description(Char *ch, const char *argument) {
     ch->send_to("Your description is:\n\r{}", ch->description.empty() ? "(None).\n\r" : ch->description);
 }
 
-void do_report(Char *ch, const char *argument) {
-    (void)argument;
+void do_report(Char *ch) {
     char buf[MAX_INPUT_LENGTH];
 
     snprintf(buf, sizeof(buf), "You say 'I have %d/%d hp %d/%d mana %d/%d mv %d xp.'\n\r", ch->hit, ch->max_hit,
@@ -1963,8 +1911,7 @@ void do_password(Char *ch, const char *argument) {
 
 /* MrG Scan command */
 
-void do_scan(Char *ch, const char *argument) {
-    (void)argument;
+void do_scan(Char *ch) {
     ROOM_INDEX_DATA *current_place;
     Char *current_person;
     Char *next_person;
@@ -2018,8 +1965,7 @@ void do_scan(Char *ch, const char *argument) {
  * alist to list all areas
  */
 
-void do_alist(Char *ch, const char *argument) {
-    (void)argument;
+void do_alist(Char *ch) {
     auto format_str = "{:3} {:29} {:<5}-{:>5} {:12}\n\r"sv;
     auto buffer = fmt::format(format_str, "Num", "Area Name", "Lvnum", "Uvnum", "Filename");
     for (auto &pArea : AreaList::singleton())

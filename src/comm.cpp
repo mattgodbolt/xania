@@ -142,7 +142,7 @@ void handle_signal_shutdown() {
         if (vch->is_pc() && vch->desc && vch->desc->is_playing()) {
             /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
             MOBtrigger = false;
-            do_save(vch, "");
+            do_save(vch);
             vch->send_line("|RXania has been asked to shutdown by the operating system.|w");
             if (vch->desc && vch->desc->has_buffered_output())
                 process_output(vch->desc, false);
@@ -906,7 +906,7 @@ void nanny(Descriptor *d, const char *argument) {
             do_help(ch, "group header");
             list_group_costs(ch);
             d->write("You already have the following skills:\n\r");
-            do_skills(ch, "");
+            do_skills(ch);
             do_help(ch, "menu choice");
             d->state(DescriptorState::GenGroups);
             break;
@@ -980,7 +980,7 @@ void nanny(Descriptor *d, const char *argument) {
             ch->practice = 5;
             ch->send_to("the {}", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
 
-            do_outfit(ch, "");
+            do_outfit(ch);
             obj_to_char(create_object(get_obj_index(OBJ_VNUM_MAP)), ch);
 
             ch->pcdata->learned[get_weapon_sn(ch)] = 40;

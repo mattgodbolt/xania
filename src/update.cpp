@@ -644,7 +644,7 @@ void char_update() {
             save_char_obj(ch);
 
         if (ch == ch_quit)
-            do_quit(ch, "");
+            do_quit(ch);
     }
 }
 

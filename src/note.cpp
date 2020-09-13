@@ -178,8 +178,7 @@ static void save_notes() {
     }
 }
 
-static void note_list(Char *ch, const char *argument) {
-    (void)argument;
+static void note_list(Char *ch, [[maybe_unused]] const char *argument) {
     char buf[MAX_STRING_LENGTH];
     int num = 0;
     NOTE_DATA *note = note_first;
@@ -238,8 +237,7 @@ static void note_addline(Char *ch, const char *argument) {
     ch->send_line("Ok.");
 }
 
-static void note_removeline(Char *ch, const char *argument) {
-    (void)argument;
+static void note_removeline(Char *ch, [[maybe_unused]] const char *argument) {
     NOTE_DATA *note = ch->pnote;
     if (!note || !note->text) {
         ch->send_line("There is no text to delete.");
@@ -276,8 +274,7 @@ static void note_to(Char *ch, const char *argument) {
     }
 }
 
-static void note_clear(Char *ch, const char *argument) {
-    (void)argument;
+static void note_clear(Char *ch, [[maybe_unused]] const char *argument) {
     if (ch->pnote) {
         destroy_note(ch->pnote);
         ch->pnote = nullptr;
@@ -285,8 +282,7 @@ static void note_clear(Char *ch, const char *argument) {
     ch->send_line("Ok.");
 }
 
-static void note_show(Char *ch, const char *argument) {
-    (void)argument;
+static void note_show(Char *ch, [[maybe_unused]] const char *argument) {
     char buf[MAX_STRING_LENGTH];
     NOTE_DATA *note = ch->pnote;
 
@@ -301,8 +297,7 @@ static void note_show(Char *ch, const char *argument) {
     ch->send_line("|w");
 }
 
-static void note_post(Char *ch, const char *argument) {
-    (void)argument;
+static void note_post(Char *ch, [[maybe_unused]] const char *argument) {
     NOTE_DATA *note = ch->pnote;
     FILE *fp;
 

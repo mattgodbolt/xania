@@ -13,6 +13,7 @@
 #include "WeatherData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
+#include "interp.h"
 #include "lookup.h"
 #include "merc.h"
 #include "string_utils.hpp"
@@ -22,9 +23,6 @@
 #include <cctype>
 #include <cstdio>
 #include <cstring>
-
-/* command procedures needed */
-void do_return(Char *ch, const char *arg);
 
 void spell_poison(int spell_num, int level, Char *ch, void *vo);
 
@@ -954,7 +952,7 @@ void extract_char(Char *ch, bool delete_from_world) {
         --ch->pIndexData->count;
 
     if (ch->desc != nullptr && ch->desc->is_switched()) {
-        do_return(ch, "");
+        do_return(ch);
     }
 
     for (wch = char_list; wch != nullptr; wch = wch->next) {

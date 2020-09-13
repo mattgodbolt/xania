@@ -85,7 +85,7 @@ bool doSleepActions(Char *ch, ROOM_INDEX_DATA *home) {
     random = number_percent();
     if (sleepiness > SLEEP_AT) {
         if (ch->in_room == home) {
-            do_sleep(ch, 0);
+            do_sleep(ch);
         } else {
             act("$n tiredly waves $s hands in a complicated pattern and is gone.", ch);
             act("You transport yourself back home.", ch, nullptr, nullptr, To::Char);

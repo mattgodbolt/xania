@@ -1510,8 +1510,7 @@ void do_recite(Char *ch, const char *argument) {
     extract_obj(scroll);
 }
 
-void do_brandish(Char *ch, const char *argument) {
-    (void)argument;
+void do_brandish(Char *ch) {
     Char *vch;
     Char *vch_next;
     OBJ_DATA *staff;
@@ -2257,8 +2256,7 @@ void do_throw(Char *ch, const char *argument) {
 
 /* hailcorpse for getting out of sticky situations ooeer --Fara */
 
-void do_hailcorpse(Char *ch, const char *argument) {
-    (void)argument;
+void do_hailcorpse(Char *ch) {
     ROOM_INDEX_DATA *current_place;
     EXIT_DATA *pexit;
     bool foundit = false;

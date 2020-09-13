@@ -184,8 +184,7 @@ void do_gain(Char *ch, const char *argument) {
 
 /* R Spells and skills show the players spells (or skills) */
 
-void do_spells(Char *ch, const char *argument) {
-    (void)argument;
+void do_spells(Char *ch) {
     char spell_list[LEVEL_HERO][MAX_STRING_LENGTH];
     char spell_columns[LEVEL_HERO];
     int sn, lev, mana;
@@ -241,8 +240,7 @@ void do_spells(Char *ch, const char *argument) {
     ch->send_line("");
 }
 
-void do_skills(Char *ch, const char *argument) {
-    (void)argument;
+void do_skills(Char *ch) {
     char skill_list[LEVEL_HERO][MAX_STRING_LENGTH];
     char skill_columns[LEVEL_HERO];
     int sn, lev;

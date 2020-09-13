@@ -23,9 +23,7 @@ static void print_channel_status(const Char *ch, const char *chan, unsigned long
     print_status(ch, chan, "OFF due to quiet mode", !IS_SET(reference, flag), !IS_SET(ch->comm, COMM_QUIET));
 }
 
-void do_channels(const Char *ch, const char *argument) {
-    (void)argument;
-
+void do_channels(const Char *ch) {
     /* lists all channels and their status */
     ch->send_line("|Wchannel         status|w");
     ch->send_line("----------------------------");
@@ -82,8 +80,7 @@ static void toggle_channel(Char *ch, unsigned long chan_flag, const char *chan_n
     ch->send_to(buf);
 }
 
-void do_quiet(Char *ch, const char *argument) {
-    (void)argument;
+void do_quiet(Char *ch) {
     if (IS_SET(ch->comm, COMM_QUIET)) {
         ch->send_line("Quiet mode removed.");
         REMOVE_BIT(ch->comm, COMM_QUIET);
@@ -122,10 +119,7 @@ void channel_command(Char *ch, const char *argument, unsigned long chan_flag, co
     }
 }
 
-void do_announce(Char *ch, const char *argument) {
-    (void)argument;
-    toggle_channel(ch, COMM_NOANNOUNCE, "Announce");
-}
+void do_announce(Char *ch) { toggle_channel(ch, COMM_NOANNOUNCE, "Announce"); }
 
 void do_immtalk(Char *ch, std::string_view argument) {
     if (argument.empty()) {

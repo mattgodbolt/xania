@@ -192,7 +192,7 @@ void move_char(Char *ch, Direction door) {
         fch_next = fch->next_in_room;
 
         if (fch->master == ch && IS_AFFECTED(fch, AFF_CHARM) && fch->position < POS_STANDING)
-            do_stand(fch, "");
+            do_stand(fch);
 
         if (fch->master == ch && fch->position == POS_STANDING) {
 
@@ -316,7 +316,7 @@ void do_enter(Char *ch, const char *argument) {
                         fch_next = fch->next_in_room;
 
                         if (fch->master == ch && IS_AFFECTED(fch, AFF_CHARM) && fch->position < POS_STANDING)
-                            do_stand(fch, "");
+                            do_stand(fch);
 
                         if (fch->master == ch && fch->position == POS_STANDING) {
 
@@ -350,43 +350,37 @@ void do_enter(Char *ch, const char *argument) {
     ch->send_line("You can't see that here.");
 }
 
-void do_north(Char *ch, const char *argument) {
-    (void)argument;
+void do_north(Char *ch) {
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, Direction::North);
 }
 
-void do_east(Char *ch, const char *argument) {
-    (void)argument;
+void do_east(Char *ch) {
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, Direction::East);
 }
 
-void do_south(Char *ch, const char *argument) {
-    (void)argument;
+void do_south(Char *ch) {
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, Direction::South);
 }
 
-void do_west(Char *ch, const char *argument) {
-    (void)argument;
+void do_west(Char *ch) {
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, Direction::West);
 }
 
-void do_up(Char *ch, const char *argument) {
-    (void)argument;
+void do_up(Char *ch) {
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, Direction::Up);
 }
 
-void do_down(Char *ch, const char *argument) {
-    (void)argument;
+void do_down(Char *ch) {
     if (ch->in_room->vnum == CHAL_ROOM)
         do_room_check(ch);
     move_char(ch, Direction::Down);
@@ -786,9 +780,7 @@ void do_pick(Char *ch, const char *argument) {
     }
 }
 
-void do_stand(Char *ch, const char *arg) {
-    (void)arg;
-
+void do_stand(Char *ch) {
     if (ch->riding != nullptr) {
         unride_char(ch, ch->riding);
         return;
@@ -819,9 +811,7 @@ void do_stand(Char *ch, const char *arg) {
     }
 }
 
-void do_rest(Char *ch, const char *argument) {
-    (void)argument;
-
+void do_rest(Char *ch) {
     if (ch->riding != nullptr) {
         ch->send_line("You cannot rest - the saddle is too uncomfortable!");
         return;
@@ -852,9 +842,7 @@ void do_rest(Char *ch, const char *argument) {
     }
 }
 
-void do_sit(Char *ch, const char *argument) {
-    (void)argument;
-
+void do_sit(Char *ch) {
     if (ch->riding != nullptr) {
         ch->send_line("You're already sitting in a saddle!");
         return;
@@ -880,9 +868,7 @@ void do_sit(Char *ch, const char *argument) {
     }
 }
 
-void do_sleep(Char *ch, const char *argument) {
-    (void)argument;
-
+void do_sleep(Char *ch) {
     if (ch->riding != nullptr) {
         ch->send_line("You can't sleep - it's too uncomfortable in the saddle!");
         return;
@@ -916,7 +902,7 @@ void do_wake(Char *ch, const char *argument) {
             ch->send_line("You are already awake!");
             return;
         } else {
-            do_stand(ch, argument);
+            do_stand(ch);
             return;
         }
     }
@@ -946,9 +932,7 @@ void do_wake(Char *ch, const char *argument) {
     act("$n wakes you.", ch, nullptr, victim, To::Vict);
 }
 
-void do_sneak(Char *ch, const char *argument) {
-    (void)argument;
-
+void do_sneak(Char *ch) {
     ch->send_line("You attempt to move silently.");
     affect_strip(ch, gsn_sneak);
 
@@ -964,8 +948,7 @@ void do_sneak(Char *ch, const char *argument) {
         check_improve(ch, gsn_sneak, false, 3);
 }
 
-void do_hide(Char *ch, const char *argument) {
-    (void)argument;
+void do_hide(Char *ch) {
     ch->send_line("You attempt to hide.");
 
     if (IS_AFFECTED(ch, AFF_HIDE))
@@ -981,8 +964,7 @@ void do_hide(Char *ch, const char *argument) {
 /*
  * Contributed by Alander.
  */
-void do_visible(Char *ch, const char *argument) {
-    (void)argument;
+void do_visible(Char *ch) {
     affect_strip(ch, gsn_invis);
     affect_strip(ch, gsn_mass_invis);
     affect_strip(ch, gsn_sneak);

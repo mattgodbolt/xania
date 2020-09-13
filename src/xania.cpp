@@ -473,10 +473,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void do_smit(Char *ch, const char *argument) {
-    (void)argument;
-    ch->send_line("If you wish to smite someone, then SPELL it out!");
-}
+void do_smit(Char *ch) { ch->send_line("If you wish to smite someone, then SPELL it out!"); }
 
 void do_smite(Char *ch, const char *argument) {
     /* Power of the Immortals! By Faramir

@@ -16,24 +16,18 @@
 #include "comm.hpp"
 #include "handler.hpp"
 #include "info.hpp"
+#include "interp.h"
 #include "merc.h"
 #include "save.hpp"
 
 #include <fmt/format.h>
 
-/* command procedures needed */
-void do_quit(Char *ch, const char *arg);
-
 /* Rohan's info stuff - extern to Player list */
 extern KNOWN_PLAYERS *player_list;
 
-void do_delet(Char *ch, const char *argument) {
-    (void)argument;
-    ch->send_line("You must type the full command to delete yourself.");
-}
+void do_delet(Char *ch) { ch->send_line("You must type the full command to delete yourself."); }
 
 void do_delete(Char *ch, const char *argument) {
-    (void)argument;
     KNOWN_PLAYERS *cursor, *temp;
 
     if (ch->is_npc())
@@ -72,7 +66,7 @@ void do_delete(Char *ch, const char *argument) {
             remove_info_for_player(ch->name);
 
             auto strsave = filename_for_player(ch->name);
-            do_quit(ch, ""); // ch is invalid after this
+            do_quit(ch); // ch is invalid after this
             unlink(strsave.c_str());
             return;
         }
@@ -301,8 +295,7 @@ const struct pose_table_type pose_table[] = {
       "$n flutters $s eyelids and accidentally slays a passing daemon.", "Atlas asks you to relieve him.",
       "Atlas asks $n to relieve him."}}};
 
-void do_pose(Char *ch, const char *argument) {
-    (void)argument;
+void do_pose(Char *ch) {
     int level;
     int pose;
 
@@ -343,13 +336,9 @@ void do_typo(Char *ch, const char *argument) {
     ch->send_line("|WTypo logged. One day we'll fix it, or buy a spellchecker.|w");
 }
 
-void do_qui(Char *ch, const char *argument) {
-    (void)argument;
-    ch->send_line("|cIf you want to |RQUIT|c, you have to spell it out.|w");
-}
+void do_qui(Char *ch) { ch->send_line("|cIf you want to |RQUIT|c, you have to spell it out.|w"); }
 
-void do_quit(Char *ch, const char *arg) {
-    (void)arg;
+void do_quit(Char *ch) {
     Descriptor *d;
 
     if (ch->is_npc())
@@ -389,8 +378,7 @@ void do_quit(Char *ch, const char *arg) {
         d->close();
 }
 
-void do_save(Char *ch, const char *arg) {
-    (void)arg;
+void do_save(Char *ch) {
     if (ch->is_npc())
         return;
 
@@ -458,8 +446,7 @@ void char_ride(Char *ch, Char *ridee) {
     affect_to_char(ch, af);
 }
 
-void do_dismount(Char *ch, const char *argument) {
-    (void)argument;
+void do_dismount(Char *ch) {
     if (ch->is_npc())
         return;
 

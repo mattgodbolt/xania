@@ -1896,8 +1896,7 @@ void do_areas(Char *ch, std::string_view argument) {
     }
 }
 
-void do_memory(Char *ch, const char *argument) {
-    (void)argument;
+void do_memory(Char *ch) {
     char buf[MAX_STRING_LENGTH];
 
     snprintf(buf, sizeof(buf), "Affects %5d\n\r", top_affect);
@@ -1929,9 +1928,7 @@ void do_memory(Char *ch, const char *argument) {
     ch->send_to(buf);
 }
 
-void do_dump(Char *ch, const char *argument) {
-    (void)ch;
-    (void)argument;
+void do_dump(Char *ch) {
     int count, num_pcs, aff_count;
     Char *fch;
     MobIndexData *pMobIndex;
@@ -2028,6 +2025,8 @@ void do_dump(Char *ch, const char *argument) {
 
     /* close file */
     fclose(fp);
+
+    ch->send_line("Dump complete");
 }
 
 KnuthRng knuth_rng(0);

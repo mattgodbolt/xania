@@ -79,8 +79,7 @@ void do_permit(Char *ch, const char *argument) {
 }
 
 /* equips a character */
-void do_outfit(Char *ch, const char *argument) {
-    (void)argument;
+void do_outfit(Char *ch) {
     OBJ_DATA *obj;
     char buf[MAX_STRING_LENGTH];
 
@@ -220,7 +219,7 @@ void do_deny(Char *ch, const char *argument) {
     victim->send_line("You are denied access!");
     ch->send_line("OK.");
     save_char_obj(victim);
-    do_quit(victim, "");
+    do_quit(victim);
 }
 
 void do_disconnect(Char *ch, const char *argument) {
@@ -455,8 +454,7 @@ void transfer(const Char *imm, Char *victim, ROOM_INDEX_DATA *location) {
     imm->send_line("Ok.");
 }
 
-void do_wizlock(Char *ch, const char *argument) {
-    (void)argument;
+void do_wizlock(Char *ch) {
     extern bool wizlock;
     wizlock = !wizlock;
 
@@ -468,8 +466,7 @@ void do_wizlock(Char *ch, const char *argument) {
 
 /* RT anti-newbie code */
 
-void do_newlock(Char *ch, const char *argument) {
-    (void)argument;
+void do_newlock(Char *ch) {
     extern bool newlock;
     newlock = !newlock;
 
@@ -1461,20 +1458,16 @@ void do_mwhere(Char *ch, const char *argument) {
         act("You didn't find any $T.", ch, nullptr, argument, To::Char); // Poor Arthur.
 }
 
-void do_reboo(Char *ch, const char *argument) {
-    (void)argument;
-    ch->send_line("If you want to REBOOT, spell it out.");
-}
+void do_reboo(Char *ch) { ch->send_line("If you want to REBOOT, spell it out."); }
 
-void do_reboot(Char *ch, const char *argument) {
-    (void)argument;
+void do_reboot(Char *ch) {
     extern bool merc_down;
 
     if (!IS_SET(ch->act, PLR_WIZINVIS)) {
         do_echo(ch, fmt::format("Reboot by {}.", ch->name));
     }
     do_force(ch, "all save");
-    do_save(ch, "");
+    do_save(ch);
     merc_down = true;
     // Unlike do_shutdown(), do_reboot() does not explicitly call close_socket()
     // for every connected player. That's because close_socket() actually
@@ -1484,13 +1477,9 @@ void do_reboot(Char *ch, const char *argument) {
     // connection and then reconnect them to the mud once it's back up.
 }
 
-void do_shutdow(Char *ch, const char *argument) {
-    (void)argument;
-    ch->send_line("If you want to SHUTDOWN, spell it out.");
-}
+void do_shutdow(Char *ch) { ch->send_line("If you want to SHUTDOWN, spell it out."); }
 
-void do_shutdown(Char *ch, const char *argument) {
-    (void)argument;
+void do_shutdown(Char *ch) {
     extern bool merc_down;
 
     auto buf = fmt::format("Shutdown by {}.", ch->name.c_str());
@@ -1498,7 +1487,7 @@ void do_shutdown(Char *ch, const char *argument) {
 
     do_echo(ch, buf + "\n\r");
     do_force(ch, "all save");
-    do_save(ch, "");
+    do_save(ch);
     merc_down = true;
     for (auto &d : descriptors().all())
         d.close();
@@ -1597,8 +1586,7 @@ void do_switch(Char *ch, const char *argument) {
     victim->send_line("Ok.");
 }
 
-void do_return(Char *ch, const char *argument) {
-    (void)argument;
+void do_return(Char *ch) {
     if (ch->desc == nullptr)
         return;
 
@@ -2220,8 +2208,7 @@ void do_notell(Char *ch, const char *argument) {
     }
 }
 
-void do_peace(Char *ch, const char *argument) {
-    (void)argument;
+void do_peace(Char *ch) {
     for (auto *rch = ch->in_room->people; rch; rch = rch->next_in_room) {
         if (rch->fighting)
             stop_fighting(rch, true);
@@ -3482,8 +3469,7 @@ void do_prowl(Char *ch, const char *argument) {
     }
 }
 
-void do_holylight(Char *ch, const char *argument) {
-    (void)argument;
+void do_holylight(Char *ch) {
     if (ch->is_npc())
         return;
 

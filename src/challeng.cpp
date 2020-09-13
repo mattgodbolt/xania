@@ -136,9 +136,7 @@ void do_challenge(Char *ch, const char *argument) {
     challenge_ticker = 4;
 }
 
-void do_accept(Char *ch, const char *argument) {
-    (void)argument;
-
+void do_accept(Char *ch) {
     if ((challenger == nullptr) || (((challengee != ch) || (imm == nullptr)) && (ch->level <= 91))) {
         ch->send_line("|cSorry, there is no challenge for you to accept.|w");
         return;
@@ -184,9 +182,7 @@ void do_accept(Char *ch, const char *argument) {
     imm_name = imm->name;
 }
 
-void do_refuse(Char *ch, const char *argument) {
-    (void)argument;
-
+void do_refuse(Char *ch) {
     if (ch != imm && ch != challenger && ch != challengee) {
         ch->send_line("|cRefuse what?|w");
         return;
@@ -213,8 +209,7 @@ void do_refuse(Char *ch, const char *argument) {
     ch->send_line("You can't withdraw from control once you have accepted it.");
 }
 
-void do_ready(Char *ch, const char *argument) {
-    (void)argument;
+void do_ready(Char *ch) {
     if (check_duel_status(1))
         return;
 

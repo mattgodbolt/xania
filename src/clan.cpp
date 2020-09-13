@@ -286,8 +286,7 @@ void do_promote(Char *ch, const char *argument) { mote(ch, argument, 1); }
 
 void do_demote(Char *ch, const char *argument) { mote(ch, argument, -1); }
 
-void do_clanwho(Char *ch, const char *argument) {
-    (void)argument;
+void do_clanwho(Char *ch) {
     if (ch->is_npc())
         return;
 

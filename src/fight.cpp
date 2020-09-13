@@ -329,7 +329,7 @@ void mob_hit(Char *ch, Char *victim, int dt) {
 
     case (1):
         if (IS_SET(ch->off_flags, OFF_BERSERK) && !IS_AFFECTED(ch, AFF_BERSERK))
-            do_berserk(ch, "");
+            do_berserk(ch);
         break;
 
     case (2):
@@ -340,7 +340,7 @@ void mob_hit(Char *ch, Char *victim, int dt) {
                 act("$n tries to disarm you, but your talon like grip stops them!", ch, nullptr, victim, To::Vict);
                 act("$n tries to disarm $N, but fails.", ch, nullptr, victim, To::NotVict);
             } else
-                do_disarm(ch, "");
+                do_disarm(ch);
         }
         break;
     case (3):
@@ -894,11 +894,11 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
         if ((IS_SET(victim->act, ACT_WIMPY) && number_bits(2) == 0 && victim->hit < victim->max_hit / 5)
             || (IS_AFFECTED(victim, AFF_CHARM) && victim->master != nullptr
                 && victim->master->in_room != victim->in_room))
-            do_flee(victim, "");
+            do_flee(victim);
     }
 
     if (victim->is_pc() && victim->hit > 0 && victim->hit <= victim->wimpy && victim->wait < PULSE_VIOLENCE / 2)
-        do_flee(victim, "");
+        do_flee(victim);
 
     /*
      *  Check for being thrown from your horse/other mount
@@ -2011,8 +2011,7 @@ void disarm(Char *ch, Char *victim) {
     }
 }
 
-void do_berserk(Char *ch, const char *argument) {
-    (void)argument;
+void do_berserk(Char *ch) {
     int chance, hp_percent;
     /*    OBJ_DATA *wield = get_eq_char( ch, WEAR_WIELD );*/
 
@@ -2478,10 +2477,7 @@ void do_kill(Char *ch, const char *argument) {
     multi_hit(ch, victim, TYPE_UNDEFINED);
 }
 
-void do_murde(Char *ch, const char *argument) {
-    (void)argument;
-    ch->send_line("If you want to MURDER, spell it out.");
-}
+void do_murde(Char *ch) { ch->send_line("If you want to MURDER, spell it out."); }
 
 void do_murder(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
@@ -2595,8 +2591,7 @@ void do_backstab(Char *ch, const char *argument) {
     }
 }
 
-void do_flee(Char *ch, const char *argument) {
-    (void)argument;
+void do_flee(Char *ch) {
     ROOM_INDEX_DATA *was_in;
     ROOM_INDEX_DATA *now_in;
     Char *victim;
@@ -2811,8 +2806,7 @@ void do_headbutt(Char *ch, const char *argument) {
 
 /* Wandera's little baby is just slipping in here */
 /**/
-void do_sharpen(Char *ch, const char *argument) {
-    (void)argument;
+void do_sharpen(Char *ch) {
     OBJ_DATA *weapon;
     int chance;
 
@@ -2891,8 +2885,7 @@ void do_kick(Char *ch, const char *argument) {
     }
 }
 
-void do_disarm(Char *ch, const char *argument) {
-    (void)argument;
+void do_disarm(Char *ch) {
     Char *victim;
     OBJ_DATA *obj;
     int chance, hth, ch_weapon, vict_weapon, ch_vict_weapon;
@@ -2963,10 +2956,7 @@ void do_disarm(Char *ch, const char *argument) {
     }
 }
 
-void do_sla(Char *ch, const char *argument) {
-    (void)argument;
-    ch->send_line("If you want to SLAY, spell it out.");
-}
+void do_sla(Char *ch) { ch->send_line("If you want to SLAY, spell it out."); }
 
 void do_slay(Char *ch, const char *argument) {
     Char *victim;
