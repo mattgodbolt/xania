@@ -26,7 +26,7 @@ jobs:
       - name: build
         run: cmake --build cmake-build-${{ matrix.build_type }}
       - name: test
-        run: cd cmake-build-${{ matrix.build_type }} && ctest
+        run: cd cmake-build-${{ matrix.build_type }} && ctest --verbose
   deploy-code:
     needs: build-and-test
     runs-on: ubuntu-20.04
