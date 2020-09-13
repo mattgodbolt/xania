@@ -18,13 +18,8 @@
 #include "info.hpp"
 #include "merc.h"
 #include "save.hpp"
-#include "string_utils.hpp"
 
 #include <fmt/format.h>
-
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
 
 /* command procedures needed */
 void do_quit(Char *ch, const char *arg);
@@ -113,46 +108,19 @@ void do_say(Char *ch, const char *argument) {
     ch->say(argument);
 }
 
-void do_afk(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-
+void do_afk(Char *ch, std::string_view argument) {
+    static constexpr auto MaxAfkLength = 45u;
     if (ch->is_npc() || IS_SET(ch->comm, COMM_NOCHANNELS))
         return;
 
-    if (IS_SET(ch->act, PLR_AFK) && (argument == nullptr || strlen(argument) == 0)) {
-        ch->send_line("|cYour keyboard welcomes you back!|w");
-        ch->send_line("|cYou are no longer marked as being afk.|w");
-        act("|W$n's|w keyboard has welcomed $m back!", ch, nullptr, nullptr, To::Room, POS_DEAD);
-        act("|W$n|w is no longer afk.", ch, nullptr, nullptr, To::Room, POS_DEAD);
-        announce("|W###|w (|cAFK|w) $N has returned to $S keyboard.", ch);
-        REMOVE_BIT(ch->act, PLR_AFK);
-    } else {
-        if (argument[0] == '\0')
-            ch->pcdata->afk = "afk";
-        else {
-            strncpy(buf, argument, 45);
-            ch->pcdata->afk = buf;
-        }
-
-        // TODO(#148): when act() is taught to handle string_view...get rid of buff and this c_str().
-        snprintf(buf, sizeof(buf), "|cYou notify the mud that you are %s|c.|w", ch->pcdata->afk.c_str());
-        act(buf, ch, nullptr, nullptr, To::Char, POS_DEAD);
-
-        snprintf(buf, sizeof(buf), "|W$n|w is %s|w.", ch->pcdata->afk.c_str());
-        act(buf, ch, nullptr, nullptr, To::Room, POS_DEAD);
-
-        snprintf(buf, sizeof(buf), "|W###|w (|cAFK|w) $N is %s|w.", ch->pcdata->afk.c_str());
-        announce(buf, ch);
-
-        SET_BIT(ch->act, PLR_AFK);
-    }
+    if (IS_SET(ch->act, PLR_AFK) && argument.empty())
+        ch->set_not_afk();
+    else
+        ch->set_afk(argument.empty() ? "afk" : argument.substr(0, MaxAfkLength));
 }
 
 static void tell_to(Char *ch, Char *victim, const char *text) {
-    char buf[MAX_STRING_LENGTH];
-
-    if (IS_SET(ch->act, PLR_AFK))
-        do_afk(ch, nullptr);
+    ch->set_not_afk();
 
     if (victim == nullptr || text == nullptr || text[0] == '\0') {
         ch->send_line("|cTell whom what?|w");
@@ -170,8 +138,7 @@ static void tell_to(Char *ch, Char *victim, const char *text) {
         act("|W$E|c is not receiving replies.|w", ch, nullptr, victim, To::Char);
 
     } else if (IS_SET(victim->act, PLR_AFK) && victim->is_pc()) {
-        snprintf(buf, sizeof(buf), "|W$N|c is %s.|w", victim->pcdata->afk.c_str());
-        act(buf, ch, nullptr, victim, To::Char, POS_DEAD);
+        act(fmt::format("|W$N|c is {}.|w", victim->pcdata->afk), ch, nullptr, victim, To::Char, POS_DEAD);
         if (IS_SET(victim->comm, COMM_SHOWAFK)) {
             // TODO(#134) use the victim's timezone info.
             act(fmt::format("|c\007AFK|C: At {}, $n told you '{}|C'.|w", secs_only(current_time), text).c_str(), ch,
@@ -219,9 +186,7 @@ void do_yell(Char *ch, std::string_view argument) {
         return;
     }
 
-    if (IS_SET(ch->act, PLR_AFK))
-        do_afk(ch, nullptr);
-
+    ch->set_not_afk();
     ch->yell(argument);
 }
 
@@ -233,9 +198,7 @@ void do_emote(Char *ch, const char *argument) {
         ch->send_line("|cEmote what?|w");
 
     } else {
-        if (IS_SET(ch->act, PLR_AFK))
-            do_afk(ch, nullptr);
-
+        ch->set_not_afk();
         act("$n $T", ch, nullptr, argument, To::Room);
         act("$n $T", ch, nullptr, argument, To::Char);
         chatperformtoroom(argument, ch);
@@ -663,7 +626,6 @@ void die_follower(Char *ch) {
 }
 
 void do_order(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
     Char *victim;
     Char *och;
@@ -716,8 +678,7 @@ void do_order(Char *ch, const char *argument) {
 
         if (IS_AFFECTED(och, AFF_CHARM) && och->master == ch && (fAll || och == victim)) {
             found = true;
-            snprintf(buf, sizeof(buf), "|W$n|w orders you to '%s'.", command_remainder);
-            act(buf, ch, nullptr, och, To::Vict);
+            act(fmt::format("|W$n|w orders you to '{}'.", command_remainder), ch, nullptr, och, To::Vict);
             WAIT_STATE(ch, 2 * PULSE_VIOLENCE);
             // We know this points into the remainder of "argument"
             interpret(och, command_remainder);
@@ -802,13 +763,7 @@ void do_group(Char *ch, const char *argument) {
  * 'Split' originally by Gnort, God of Chaos.
  */
 void do_split(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    Char *gch;
-    int members;
-    int amount;
-    int share;
-    int extra;
 
     one_argument(argument, arg);
 
@@ -817,7 +772,7 @@ void do_split(Char *ch, const char *argument) {
         return;
     }
 
-    amount = atoi(arg);
+    int amount = atoi(arg);
 
     if (amount < 0) {
         ch->send_line("Your group wouldn't like that.");
@@ -834,8 +789,8 @@ void do_split(Char *ch, const char *argument) {
         return;
     }
 
-    members = 0;
-    for (gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
+    int members = 0;
+    for (auto *gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
         if (is_same_group(gch, ch) && !IS_AFFECTED(gch, AFF_CHARM))
             members++;
     }
@@ -845,8 +800,8 @@ void do_split(Char *ch, const char *argument) {
         return;
     }
 
-    share = amount / members;
-    extra = amount % members;
+    int share = amount / members;
+    int extra = amount % members;
 
     if (share == 0) {
         ch->send_line("Don't even bother, cheapskate.");
@@ -856,14 +811,13 @@ void do_split(Char *ch, const char *argument) {
     ch->gold -= amount;
     ch->gold += share + extra;
 
-    snprintf(buf, sizeof(buf), "You split %d gold coins.  Your share is %d gold coins.\n\r", amount, share + extra);
-    ch->send_to(buf);
+    ch->send_line("You split {} gold coins.  Your share is {} gold coins.", amount, share + extra);
 
-    snprintf(buf, sizeof(buf), "$n splits %d gold coins.  Your share is %d gold coins.", amount, share);
+    auto message = fmt::format("$n splits {} gold coins.  Your share is {} gold coins.", amount, share);
 
-    for (gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
+    for (auto *gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
         if (gch != ch && is_same_group(gch, ch) && !IS_AFFECTED(gch, AFF_CHARM)) {
-            act(buf, ch, nullptr, gch, To::Vict);
+            act(message, ch, nullptr, gch, To::Vict);
             gch->gold += share;
         }
     }
@@ -882,10 +836,10 @@ void do_gtell(Char *ch, std::string_view argument) {
 
     // Note use of send_line (not act), so gtell works on sleepers.
     ch->send_line("|CYou tell the group '{}|C'|w.", argument);
-    auto msg = fmt::format("|C{} tells the group '{}|C'|w.\n\r", ch->name, argument);
+    auto msg = fmt::format("|C{} tells the group '{}|C'|w.", ch->name, argument);
     for (auto *gch = char_list; gch != nullptr; gch = gch->next)
         if (is_same_group(gch, ch) && gch != ch)
-            gch->send_to(msg);
+            gch->send_line(msg);
 }
 
 /*

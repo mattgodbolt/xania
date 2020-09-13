@@ -240,6 +240,9 @@ struct Char {
     [[nodiscard]] int get_damroll() const noexcept;
     [[nodiscard]] int get_hitroll() const noexcept;
 
+    void set_not_afk();
+    void set_afk(std::string_view afk_message);
+
 private:
     template <typename Func>
     [[nodiscard]] OBJ_DATA *find_filtered_obj(std::string_view argument, Func filter) const;

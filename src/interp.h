@@ -31,7 +31,7 @@ extern void do_dismount(Char *ch, const char *arg);
 extern void do_accept(Char *ch, const char *arg);
 extern void do_advance(Char *ch, const char *argument);
 extern void do_affected(Char *ch, const char *arg);
-extern void do_afk(Char *ch, const char *arg);
+extern void do_afk(Char *ch, std::string_view argument);
 extern void do_alist(Char *ch, const char *arg);
 extern void do_allege(Char *ch, const char *arg);
 extern void do_allow(Char *ch, const char *arg);

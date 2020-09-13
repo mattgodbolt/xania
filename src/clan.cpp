@@ -103,8 +103,7 @@ void do_clantalk(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_SET(ch->act, PLR_AFK))
-        do_afk(ch, nullptr);
+    ch->set_not_afk();
 
     if (!orig_clan->channelflags) {
         orig_clan->channelflags ^= CLANCHANNEL_ON;

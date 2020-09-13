@@ -108,8 +108,7 @@ void channel_command(Char *ch, const char *argument, unsigned long chan_flag, co
             ch->send_line("The gods have revoked your channel privileges.");
             return;
         }
-        if (IS_SET(ch->act, PLR_AFK))
-            do_afk(ch, nullptr);
+        ch->set_not_afk();
         REMOVE_BIT(ch->comm, chan_flag);
 
         snprintf(buf, sizeof(buf), desc_self, argument);

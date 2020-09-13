@@ -3,6 +3,7 @@
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
 #include "comm.hpp"
+#include "interp.h"
 #include "merc.h"
 #include "string_utils.hpp"
 
@@ -326,3 +327,23 @@ void Char::remove_extra(unsigned int flag) noexcept {
 
 int Char::get_hitroll() const noexcept { return hitroll + str_app[curr_stat(Stat::Str)].tohit; }
 int Char::get_damroll() const noexcept { return damroll + str_app[curr_stat(Stat::Str)].todam; }
+
+void Char::set_not_afk() {
+    if (!IS_SET(act, PLR_AFK))
+        return;
+    send_line("|cYour keyboard welcomes you back!|w");
+    send_line("|cYou are no longer marked as being afk.|w");
+    ::act("|W$n's|w keyboard has welcomed $m back!", this, nullptr, nullptr, To::Room, POS_DEAD);
+    ::act("|W$n|w is no longer afk.", this, nullptr, nullptr, To::Room, POS_DEAD);
+    announce("|W###|w (|cAFK|w) $N has returned to $S keyboard.", this);
+    REMOVE_BIT(act, PLR_AFK);
+}
+
+void Char::set_afk(std::string_view afk_message) {
+    pcdata->afk = afk_message;
+    SET_BIT(act, PLR_AFK);
+    ::act(fmt::format("|cYou notify the mud that you are {}|c.|w", afk_message), this, nullptr, nullptr, To::Char,
+          POS_DEAD);
+    ::act(fmt::format("|W$n|w is {}|w.", afk_message), this, nullptr, nullptr, To::Room, POS_DEAD);
+    announce(fmt::format("|W###|w (|cAFK|w) $N is {}|w.", afk_message), this);
+}
