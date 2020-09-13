@@ -1037,56 +1037,39 @@ char *next_column(char *buf, int col_width) {
     return buf + len + num_spaces;
 }
 
-const char *position_desc[] = {"dead",    "mortally wounded", "incapacitated", "stunned", "sleeping",
-                               "resting", "sitting",          "fighting",      "standing"};
-
-const char *armour_desc[] = {"divinely armoured against", "almost invulnerable to",     "superbly armoured against",
-                             "heavily armoured against",  "very well-armoured against", "well-armoured against",
-                             "armoured against",          "somewhat armoured against",  "slightly armoured against",
-                             "barely protected from",     "defenseless against",        "hopelessly vulnerable to"};
+static const std::array position_desc = {"dead",    "mortally wounded", "incapacitated", "stunned", "sleeping",
+                                         "resting", "sitting",          "fighting",      "standing"};
 
 void describe_armour(Char *ch, int type, const char *name) {
-    char buf[MAX_STRING_LENGTH];
-    int armour_index = (GET_AC(ch, type) + 120) / 20;
-
-    if (armour_index < 0)
-        armour_index = 0;
-    if (armour_index > 11)
-        armour_index = 11;
-
+    static const std::array armour_desc = {
+        "divinely armoured against", "almost invulnerable to",     "superbly armoured against",
+        "heavily armoured against",  "very well-armoured against", "well-armoured against",
+        "armoured against",          "somewhat armoured against",  "slightly armoured against",
+        "barely protected from",     "defenseless against",        "hopelessly vulnerable to"};
+    auto armour_index = std::clamp((GET_AC(ch, type) + 120) / 20, 0, static_cast<int>(armour_desc.size()) - 1);
     if (ch->level < 25)
-        snprintf(buf, sizeof(buf), "You are |y%s |W%s|w.\n\r", armour_desc[armour_index], name);
+        ch->send_line("You are |y{} |W{}|w.", armour_desc[armour_index], name);
     else
-        snprintf(buf, sizeof(buf), "You are |y%s |W%s|w. (|W%d|w)\n\r", armour_desc[armour_index], name,
-                 GET_AC(ch, type));
-    ch->send_to(buf);
+        ch->send_line("You are |y{} |W{}|w. (|W{}|w)", armour_desc[armour_index], name, GET_AC(ch, type));
 }
 
 static void describe_condition(Char *ch) {
-    char buf[MAX_STRING_LENGTH];
-    int drunk = (ch->pcdata->condition[COND_DRUNK] > 10);
-    int hungry = (ch->pcdata->condition[COND_FULL] == 0);
-    int thirsty = (ch->pcdata->condition[COND_THIRST] == 0);
+    bool drunk = ch->pcdata->condition[COND_DRUNK] > 10;
+    bool hungry = ch->pcdata->condition[COND_FULL] == 0;
+    bool thirsty = ch->pcdata->condition[COND_THIRST] == 0;
     static const char *delimiters[] = {"", " and ", ", "};
 
     if (!drunk && !hungry && !thirsty)
         return;
-    snprintf(buf, sizeof(buf), "You are %s%s%s%s%s.\n\r", drunk ? "|Wdrunk|w" : "",
-             drunk ? delimiters[hungry + thirsty] : "", hungry ? "|Whungry|w" : "", (thirsty && hungry) ? " and " : "",
-             thirsty ? "|Wthirsty|w" : "");
-    ch->send_to(buf);
+    ch->send_line("You are {}{}{}{}{}.", drunk ? "|Wdrunk|w" : "", drunk ? delimiters[hungry + thirsty] : "",
+                  hungry ? "|Whungry|w" : "", (thirsty && hungry) ? " and " : "", thirsty ? "|Wthirsty|w" : "");
 }
 
-static const char *align_descriptions[] = {"|Rsatanic", "|Rdemonic", "|Yevil",    "|Ymean",   "|Mneutral",
-                                           "|Gkind",    "|Ggood",    "|Wsaintly", "|Wangelic"};
-
 const char *get_align_description(int align) {
-    int index = (align + 1000) * 8 / 2000;
-    if (index < 0) /* Let's be paranoid, eh? */
-        index = 0;
-    if (index > 8)
-        index = 8;
-    return align_descriptions[index];
+    static const std::array align_descriptions = {"|Rsatanic", "|Rdemonic", "|Yevil",    "|Ymean",   "|Mneutral",
+                                                  "|Gkind",    "|Ggood",    "|Wsaintly", "|Wangelic"};
+    return align_descriptions[std::clamp((align + 1000) * 8 / 2000, 0,
+                                         static_cast<int>(align_descriptions.size()) - 1)];
 }
 
 void do_score(Char *ch) {
