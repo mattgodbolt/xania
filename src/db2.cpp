@@ -10,7 +10,7 @@
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
 #include "Logging.hpp"
-#include "MOB_INDEX_DATA.hpp"
+#include "MobIndexData.hpp"
 #include "db.h"
 #include "lookup.h"
 #include "merc.h"
@@ -23,8 +23,6 @@
 #include <ctime>
 #include <sys/time.h>
 #include <sys/types.h>
-
-void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex);
 
 /* Sets vnum range for area when loading its constituent mobs/objects/rooms */
 void assign_area_vnum(int vnum) {
@@ -159,136 +157,13 @@ void load_mobiles(FILE *fp) {
         exit(1);
     }
     for (;;) {
-        sh_int vnum;
-        char letter;
-        int iHash;
-
-        letter = fread_letter(fp);
-        if (letter != '#') {
-            bug("Load_mobiles: # not found.");
-            exit(1);
-        }
-
-        vnum = fread_number(fp);
-        if (vnum == 0)
+        auto maybe_mob = MobIndexData::from_file(fp);
+        if (!maybe_mob)
             break;
 
-        fBootDb = false;
-        if (get_mob_index(vnum) != nullptr) {
-            bug("Load_mobiles: vnum {} duplicated.", vnum);
-            exit(1);
-        }
-        fBootDb = true;
-
-        auto *pMobIndex = new MOB_INDEX_DATA();
-        pMobIndex->vnum = vnum;
-        pMobIndex->area = area_last;
-        newmobs++;
-        pMobIndex->player_name = fread_stdstring(fp);
-        pMobIndex->short_descr = lower_case_articles(fread_stdstring(fp));
-        pMobIndex->long_descr = upper_first_character(fread_stdstring(fp));
-        pMobIndex->description = upper_first_character(fread_stdstring(fp));
-        pMobIndex->race = race_lookup(fread_string(fp));
-
-        pMobIndex->act = fread_flag(fp) | ACT_IS_NPC | race_table[pMobIndex->race].act;
-        pMobIndex->affected_by = fread_flag(fp) | race_table[pMobIndex->race].aff;
-        pMobIndex->pShop = nullptr;
-        pMobIndex->alignment = fread_number(fp);
-
-        pMobIndex->group = fread_number(fp);
-
-        pMobIndex->level = fread_number(fp);
-        pMobIndex->hitroll = fread_number(fp);
-
-        pMobIndex->hit = Dice::from_file(fp);
-        pMobIndex->mana = Dice::from_file(fp);
-        pMobIndex->damage = Dice::from_file(fp);
-        pMobIndex->dam_type = attack_lookup(fread_word(fp));
-
-        /* read armor class */
-        pMobIndex->ac[AC_PIERCE] = fread_number(fp) * 10;
-        pMobIndex->ac[AC_BASH] = fread_number(fp) * 10;
-        pMobIndex->ac[AC_SLASH] = fread_number(fp) * 10;
-        pMobIndex->ac[AC_EXOTIC] = fread_number(fp) * 10;
-
-        /* read flags and add in data from the race table */
-        pMobIndex->off_flags = fread_flag(fp) | race_table[pMobIndex->race].off;
-        pMobIndex->imm_flags = fread_flag(fp) | race_table[pMobIndex->race].imm;
-        pMobIndex->res_flags = fread_flag(fp) | race_table[pMobIndex->race].res;
-        pMobIndex->vuln_flags = fread_flag(fp) | race_table[pMobIndex->race].vuln;
-
-        /* vital statistics */
-        pMobIndex->start_pos = position_lookup(fread_word(fp));
-        pMobIndex->default_pos = position_lookup(fread_word(fp));
-        pMobIndex->sex = sex_lookup(fread_word(fp));
-        pMobIndex->gold = fread_number(fp);
-
-        pMobIndex->form = fread_flag(fp) | race_table[pMobIndex->race].form;
-        pMobIndex->parts = fread_flag(fp) | race_table[pMobIndex->race].parts;
-        /* size */
-        pMobIndex->size = size_lookup(fread_word(fp));
-        pMobIndex->material = material_lookup(fread_word(fp));
-
-        for (;;) {
-            letter = fread_letter(fp);
-
-            if (letter == 'F') {
-                char *word;
-                long vector;
-
-                word = fread_word(fp);
-                vector = fread_flag(fp);
-
-                if (!str_prefix(word, "act")) {
-                    REMOVE_BIT(pMobIndex->act, vector);
-                } else if (!str_prefix(word, "aff")) {
-                    REMOVE_BIT(pMobIndex->affected_by, vector);
-
-                } else if (!str_prefix(word, "off")) {
-                    REMOVE_BIT(pMobIndex->off_flags, vector);
-                } else if (!str_prefix(word, "imm")) {
-                    REMOVE_BIT(pMobIndex->imm_flags, vector);
-                } else if (!str_prefix(word, "res")) {
-                    REMOVE_BIT(pMobIndex->res_flags, vector);
-                } else if (!str_prefix(word, "vul")) {
-                    REMOVE_BIT(pMobIndex->vuln_flags, vector);
-                } else if (!str_prefix(word, "for")) {
-                    REMOVE_BIT(pMobIndex->form, vector);
-                } else if (!str_prefix(word, "par")) {
-
-                    REMOVE_BIT(pMobIndex->parts, vector);
-                } else {
-                    bug("Flag remove: flag '{}' not found.", word);
-                    exit(1);
-                }
-            } else {
-                {
-                    ungetc(letter, fp);
-                    break;
-                }
-            }
-
-            if (letter != 'S') {
-                bug("Load_mobiles: vnum {} non-S.", vnum);
-                exit(1);
-            }
-        }
-
-        /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-        letter = fread_letter(fp);
-        if (letter == '>') {
-            ungetc(letter, fp);
-            mprog_read_programs(fp, pMobIndex);
-        } else
-            ungetc(letter, fp);
-
-        iHash = vnum % MAX_KEY_HASH;
-        pMobIndex->next = mob_index_hash[iHash];
-        mob_index_hash[iHash] = pMobIndex;
-        top_mob_index++;
-        top_vnum_mob = top_vnum_mob < vnum ? vnum : top_vnum_mob;
-        assign_area_vnum(vnum);
-        kill_table[URANGE(0, pMobIndex->level, MAX_LEVEL - 1)].number++;
+        assign_area_vnum(maybe_mob->vnum);
+        kill_table[URANGE(0, maybe_mob->level, MAX_LEVEL - 1)].number++;
+        add_mob_index(std::move(*maybe_mob));
     }
 }
 

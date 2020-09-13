@@ -19,8 +19,9 @@
  ***************************************************************************/
 
 #include "DescriptorList.hpp"
-#include "MOB_INDEX_DATA.hpp"
+#include "MobIndexData.hpp"
 #include "comm.hpp"
+#include "db.h"
 #include "handler.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
@@ -299,7 +300,7 @@ the load object portion as well. */
 
 void do_mpmload(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    MOB_INDEX_DATA *pMobIndex;
+    MobIndexData *pMobIndex;
     Char *victim;
 
     if (ch->is_pc()) {

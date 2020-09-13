@@ -1421,12 +1421,11 @@ void ban_site(Char *ch, const char *site, bool fType);
 /* db.c */
 void boot_db();
 void area_update();
-Char *create_mobile(MOB_INDEX_DATA *pMobIndex);
+Char *create_mobile(MobIndexData *pMobIndex);
 void clone_mobile(Char *parent, Char *clone);
 OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex);
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
 const char *get_extra_descr(std::string_view name, const std::vector<EXTRA_DESCR_DATA> &ed);
-MOB_INDEX_DATA *get_mob_index(int vnum);
 OBJ_INDEX_DATA *get_obj_index(int vnum);
 ROOM_INDEX_DATA *get_room_index(int vnum);
 char *fread_word(FILE *fp);
@@ -1464,7 +1463,6 @@ void death_cry(Char *ch);
 /* handler.c */
 int check_immune(Char *ch, int dam_type);
 int material_lookup(std::string_view name);
-int race_lookup(const char *name);
 int class_lookup(const char *name);
 int get_skill(const Char *ch, int sn);
 int get_weapon_sn(Char *ch);

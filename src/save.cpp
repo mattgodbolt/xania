@@ -9,9 +9,9 @@
 
 #include "save.hpp"
 #include "AFFECT_DATA.hpp"
-#include "Descriptor.hpp"
 #include "TimeInfoData.hpp"
 #include "db.h"
+#include "handler.hpp"
 #include "lookup.h"
 #include "merc.h"
 #include "string_utils.hpp"

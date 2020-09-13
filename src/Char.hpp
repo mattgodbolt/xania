@@ -5,7 +5,7 @@
 #include "Constants.hpp"
 #include "Descriptor.hpp"
 #include "ExtraFlags.hpp"
-#include "MOB_INDEX_DATA.hpp"
+#include "MobIndexData.hpp"
 #include "PcData.hpp"
 #include "Stats.hpp"
 #include "Types.hpp"
@@ -13,7 +13,7 @@
 #include <fmt/core.h>
 #include <memory>
 
-struct MOB_INDEX_DATA;
+struct MobIndexData;
 struct NOTE_DATA;
 struct OBJ_DATA;
 struct ROOM_INDEX_DATA;
@@ -34,7 +34,7 @@ struct Char {
     Char *riding{};
     Char *ridden_by{};
     SpecialFunc spec_fun{};
-    MOB_INDEX_DATA *pIndexData{};
+    MobIndexData *pIndexData{};
     Descriptor *desc{};
     AffectList affected;
     NOTE_DATA *pnote{};

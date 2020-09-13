@@ -17,12 +17,13 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Help.hpp"
-#include "MOB_INDEX_DATA.hpp"
+#include "MobIndexData.hpp"
 #include "Pronouns.hpp"
 #include "TimeInfoData.hpp"
 #include "challeng.h"
 #include "common/Fd.hpp"
 #include "common/doorman_protocol.h"
+#include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
 #include "interp.h"
@@ -30,6 +31,8 @@
 #include "note.h"
 #include "save.hpp"
 #include "string_utils.hpp"
+
+#include <range/v3/algorithm/any_of.hpp>
 
 #include <arpa/telnet.h>
 #include <cctype>
@@ -1082,21 +1085,9 @@ bool check_parse_name(const char *name) {
             return false;
     }
 
-    /*
-     * Prevent players from naming themselves after mobs.
-     */
-    {
-        extern MOB_INDEX_DATA *mob_index_hash[MAX_KEY_HASH];
-        MOB_INDEX_DATA *pMobIndex;
-        int iHash;
-
-        for (iHash = 0; iHash < MAX_KEY_HASH; iHash++) {
-            for (pMobIndex = mob_index_hash[iHash]; pMobIndex != nullptr; pMobIndex = pMobIndex->next) {
-                if (is_name(name, pMobIndex->player_name))
-                    return false;
-            }
-        }
-    }
+    // Prevent players from naming themselves after mobs.
+    if (ranges::any_of(all_mob_indexes(), [&](const auto &p) { return is_name(name, p.player_name); }))
+        return false;
 
     return true;
 }

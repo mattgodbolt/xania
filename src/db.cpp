@@ -13,7 +13,7 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Help.hpp"
-#include "MOB_INDEX_DATA.hpp"
+#include "MobIndexData.hpp"
 #include "TimeInfoData.hpp"
 #include "WeatherData.hpp"
 #include "buffer.h"
@@ -113,7 +113,7 @@ sh_int gsn_insanity;
 sh_int gsn_bless;
 
 /* Locals. */
-MOB_INDEX_DATA *mob_index_hash[MAX_KEY_HASH];
+std::map<int, MobIndexData> mob_indexes; // a map only so things like "vnum mob XXX" are ordered.
 OBJ_INDEX_DATA *obj_index_hash[MAX_KEY_HASH];
 ROOM_INDEX_DATA *room_index_hash[MAX_KEY_HASH];
 char *string_hash[MAX_KEY_HASH];
@@ -125,16 +125,13 @@ char str_empty[1];
 int top_affect;
 int top_exit;
 int top_help;
-int top_mob_index;
 int top_obj_index;
 int top_reset;
 int top_room;
 int top_shop;
 int mobile_count = 0;
-int newmobs = 0;
 int newobjs = 0;
 int top_vnum_room;
-int top_vnum_mob;
 int top_vnum_obj;
 
 /*
@@ -142,9 +139,9 @@ int top_vnum_obj;
  */
 
 int mprog_name_to_type(char *name);
-MPROG_DATA *mprog_file_read(char *f, MPROG_DATA *mprg, MOB_INDEX_DATA *pMobIndex);
+MPROG_DATA *mprog_file_read(char *f, MPROG_DATA *mprg, MobIndexData *pMobIndex);
 void load_mobprogs(FILE *fp);
-void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex);
+void mprog_read_programs(FILE *fp, MobIndexData *pMobIndex);
 
 /*
  * Memory management.
@@ -652,7 +649,7 @@ void load_shops(FILE *fp) {
     SHOP_DATA *pShop;
 
     for (;;) {
-        MOB_INDEX_DATA *pMobIndex;
+        MobIndexData *pMobIndex;
         int iTrade;
 
         pShop = static_cast<SHOP_DATA *>(alloc_perm(sizeof(*pShop)));
@@ -683,7 +680,7 @@ void load_shops(FILE *fp) {
 /* Snarf spec proc declarations. */
 void load_specials(FILE *fp) {
     for (;;) {
-        MOB_INDEX_DATA *pMobIndex;
+        MobIndexData *pMobIndex;
         char letter;
 
         switch (letter = fread_letter(fp)) {
@@ -808,7 +805,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
     }
 
     for (pReset = pRoom->reset_first; pReset != nullptr; pReset = pReset->next) {
-        MOB_INDEX_DATA *pMobIndex;
+        MobIndexData *pMobIndex;
         OBJ_INDEX_DATA *pObjIndex;
         OBJ_INDEX_DATA *pObjToIndex;
         ROOM_INDEX_DATA *pRoomIndex;
@@ -1007,7 +1004,7 @@ void reset_area(AREA_DATA *pArea) {
 /*
  * Create an instance of a mobile.
  */
-Char *create_mobile(MOB_INDEX_DATA *pMobIndex) {
+Char *create_mobile(MobIndexData *pMobIndex) {
     if (pMobIndex == nullptr) {
         bug("Create_mobile: nullptr pMobIndex.");
         exit(1);
@@ -1292,25 +1289,27 @@ const char *get_extra_descr(std::string_view name, const std::vector<EXTRA_DESCR
     return nullptr;
 }
 
-/*
- * Translates mob virtual number to its mob index struct.
- * Hash table lookup.
- */
-MOB_INDEX_DATA *get_mob_index(int vnum) {
-    MOB_INDEX_DATA *pMobIndex;
-
-    for (pMobIndex = mob_index_hash[vnum % MAX_KEY_HASH]; pMobIndex != nullptr; pMobIndex = pMobIndex->next) {
-        if (pMobIndex->vnum == vnum)
-            return pMobIndex;
-    }
-
+// Translates mob virtual number to its mob index struct.
+MobIndexData *get_mob_index(int vnum) {
+    if (auto it = mob_indexes.find(vnum); it != mob_indexes.end())
+        return &it->second;
     if (fBootDb) {
         bug("Get_mob_index: bad vnum {}.", vnum);
         exit(1);
     }
-
     return nullptr;
 }
+
+// Adds a new mob.
+void add_mob_index(MobIndexData mob_index_data) {
+    auto vnum = mob_index_data.vnum;
+    if (!mob_indexes.try_emplace(vnum, std::move(mob_index_data)).second) {
+        bug("Load_mobiles: vnum {} duplicated.", vnum);
+        exit(1);
+    }
+}
+
+const std::map<int, MobIndexData> &all_mob_index_pairs() { return mob_indexes; }
 
 /*
  * Translates mob virtual number to its obj index struct.
@@ -1909,7 +1908,7 @@ void do_memory(Char *ch, const char *argument) {
     ch->send_line("Helps   {:5}", HelpList::singleton().count());
     snprintf(buf, sizeof(buf), "Socials %5d\n\r", social_count);
     ch->send_to(buf);
-    snprintf(buf, sizeof(buf), "Mobs    %5d(%d new format)\n\r", top_mob_index, newmobs);
+    snprintf(buf, sizeof(buf), "Mobs    %5lu\n\r", mob_indexes.size());
     ch->send_to(buf);
     snprintf(buf, sizeof(buf), "(in use)%5d\n\r", Char::num_active());
     ch->send_to(buf);
@@ -1935,7 +1934,7 @@ void do_dump(Char *ch, const char *argument) {
     (void)argument;
     int count, num_pcs, aff_count;
     Char *fch;
-    MOB_INDEX_DATA *pMobIndex;
+    MobIndexData *pMobIndex;
     PcData *pc;
     OBJ_DATA *obj;
     OBJ_INDEX_DATA *pObjIndex;
@@ -1955,7 +1954,7 @@ void do_dump(Char *ch, const char *argument) {
     aff_count = 0;
 
     /* mobile prototypes */
-    fprintf(fp, "MobProt	%4d (%8ld bytes)\n", top_mob_index, top_mob_index * (sizeof(*pMobIndex)));
+    fprintf(fp, "MobProt	%4lu (%8ld bytes)\n", mob_indexes.size(), mob_indexes.size() * (sizeof(*pMobIndex)));
 
     /* mobs */
     count = 0;
@@ -2010,13 +2009,8 @@ void do_dump(Char *ch, const char *argument) {
 
     fprintf(fp, "\nMobile Analysis\n");
     fprintf(fp, "---------------\n");
-    nMatch = 0;
-    for (vnum = 0; nMatch < top_mob_index; vnum++)
-        if ((pMobIndex = get_mob_index(vnum)) != nullptr) {
-            nMatch++;
-            fprintf(fp, "#%-4d %3d active %3d killed     %s\n", pMobIndex->vnum, pMobIndex->count, pMobIndex->killed,
-                    pMobIndex->short_descr.c_str());
-        }
+    for (const auto &mob : all_mob_indexes())
+        fprintf(fp, "#%-4d %3d active %3d killed     %s\n", mob.vnum, mob.count, mob.killed, mob.short_descr.c_str());
     fclose(fp);
 
     /* start printing out object data */
@@ -2197,7 +2191,7 @@ int mprog_name_to_type(char *name) {
 }
 
 /* This routine reads in scripts of MOBprograms from a file */
-MPROG_DATA *mprog_file_read(char *f, MPROG_DATA *mprg, MOB_INDEX_DATA *pMobIndex) {
+MPROG_DATA *mprog_file_read(char *f, MPROG_DATA *mprg, MobIndexData *pMobIndex) {
     MPROG_DATA *mprg2;
     FILE *progfile;
     char letter;
@@ -2260,7 +2254,7 @@ MPROG_DATA *mprog_file_read(char *f, MPROG_DATA *mprg, MOB_INDEX_DATA *pMobIndex
  */
 void load_mobprogs(FILE *fp) {
     char letter;
-    MOB_INDEX_DATA *iMob;
+    MobIndexData *iMob;
     int value;
     MPROG_DATA *original;
     MPROG_DATA *working;
@@ -2307,7 +2301,7 @@ void load_mobprogs(FILE *fp) {
 
 /* This procedure is responsible for reading any in_file MOBprograms.
  */
-void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex) {
+void mprog_read_programs(FILE *fp, MobIndexData *pMobIndex) {
     MPROG_DATA *mprg;
     bool done = false;
     char letter;

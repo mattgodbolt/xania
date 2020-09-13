@@ -10,6 +10,7 @@
 #include "Logging.hpp"
 #include "TimeInfoData.hpp"
 #include "comm.hpp"
+#include "db.h"
 #include "interp.h"
 #include "lookup.h"
 #include "magic.h"

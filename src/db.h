@@ -10,26 +10,25 @@
 #pragma once
 
 #include "Constants.hpp"
-#include "MOB_INDEX_DATA.hpp"
+#include "MobIndexData.hpp"
 #include "buffer.h"
 
+#include <range/v3/view/transform.hpp>
+
 #include <cstdio>
+#include <map>
 #include <string>
 
-struct MOB_INDEX_DATA;
+struct MobIndexData;
 struct OBJ_INDEX_DATA;
 
 extern bool fBootDb;
-extern int newmobs;
 extern int newobjs;
-extern MOB_INDEX_DATA *mob_index_hash[MAX_KEY_HASH];
 extern OBJ_INDEX_DATA *obj_index_hash[MAX_KEY_HASH];
-extern int top_mob_index;
 extern int top_obj_index;
 extern int top_affect;
 
 extern int top_vnum_room;
-extern int top_vnum_mob;
 extern int top_vnum_obj;
 
 /* from db2.c */
@@ -46,3 +45,12 @@ std::string fread_stdstring(FILE *fp);
 char *fread_string_eol(FILE *fp);
 void fread_to_eol(FILE *fp);
 std::string fread_stdstring_eol(FILE *fp);
+
+MobIndexData *get_mob_index(int vnum);
+void add_mob_index(MobIndexData mob_index_data);
+const std::map<int, MobIndexData> &all_mob_index_pairs();
+inline auto all_mob_indexes() {
+    return all_mob_index_pairs()
+           | ranges::views::transform([](const auto &p) -> const MobIndexData & { return p.second; });
+}
+void mprog_read_programs(FILE *fp, MobIndexData *pMobIndex);

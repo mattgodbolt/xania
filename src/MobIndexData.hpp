@@ -4,18 +4,16 @@
 #include "Types.hpp"
 
 #include <array>
+#include <cstdio>
+#include <optional>
 #include <string>
 
 struct SHOP_DATA;
 struct MPROG_DATA;
-struct AREA_DATA;
 
-/*
- * Prototype for a mob.
- * This is the in-memory version of #MOBILES.
- */
-struct MOB_INDEX_DATA {
-    MOB_INDEX_DATA *next{};
+// Prototype for a mob.
+// This is the in-memory version of #MOBILES.
+struct MobIndexData {
     SpecialFunc spec_fun{};
     SHOP_DATA *pShop{};
     sh_int vnum{};
@@ -28,7 +26,7 @@ struct MOB_INDEX_DATA {
     unsigned long act{};
     unsigned long affected_by{};
     sh_int alignment{};
-    sh_int group{}; /* rom-2.4 style mob groupings */
+    sh_int group{}; // rom-2.4 style mob groupings -- TODO unused
     sh_int level{};
     sh_int hitroll{};
     Dice hit;
@@ -48,9 +46,12 @@ struct MOB_INDEX_DATA {
     long form{};
     long parts{};
     sh_int size{};
-    sh_int material{};
+    sh_int material{}; // TODO: is this actually used in any meaningful way?
     MPROG_DATA *mobprogs{}; /* Used by MOBprogram */
     int progtypes{}; /* Used by MOBprogram */
 
-    AREA_DATA *area{};
+    static std::optional<MobIndexData> from_file(FILE *fp);
+
+private:
+    MobIndexData(sh_int vnum, FILE *fp);
 };
