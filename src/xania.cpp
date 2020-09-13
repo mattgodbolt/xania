@@ -9,6 +9,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "DescriptorList.hpp"
+#include "MobIndexData.hpp"
 #include "comm.hpp"
 #include "db.h"
 #include "handler.hpp"
@@ -44,7 +45,7 @@ void objectbug(std::string_view str, OBJ_INDEX_DATA *obj) {
     log_string("obj> {} (#{}): {}", obj->short_descr, obj->vnum, str);
 }
 
-void mobbug(std::string_view str, MOB_INDEX_DATA *mob) {
+void mobbug(std::string_view str, MobIndexData *mob) {
     log_string("mob> {} (#{}): {}", mob->short_descr, mob->vnum, str);
 }
 
@@ -107,14 +108,13 @@ int report_object(OBJ_DATA *object, int boot) {
 
 /* report_mobile - for checking those not-hard-enough mobs */
 
-void report_mobile(MOB_INDEX_DATA *mob) {
+void report_mobile(MobIndexData *mob) {
 
-    if ((mob->damage[DICE_BONUS] + mob->hitroll
-         + ((mob->damage[DICE_NUMBER] * mob->damage[DICE_TYPE] + mob->damage[DICE_NUMBER]) / 2))
+    if ((mob->damage.bonus() + mob->hitroll + ((mob->damage.number() * mob->damage.type()) + mob->damage.number() / 2))
         < (mob->level * 3 / 2))
         mobbug("can't do enough damage", mob);
 
-    if ((mob->hit[DICE_NUMBER] + mob->hit[DICE_BONUS]) < (mob->level * 30))
+    if ((mob->hit.number() + mob->hit.bonus()) < (mob->level * 30))
         mobbug("has too few health points", mob);
 }
 

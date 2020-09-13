@@ -70,7 +70,7 @@ add_library(xania_lib STATIC
         Types.hpp
         Stats.hpp
         ExtraFlags.hpp
-        PC_DATA.hpp
+        PcData.hpp
         Constants.hpp
         handler.hpp
         ArgParser.cpp ArgParser.hpp
@@ -83,7 +83,10 @@ add_library(xania_lib STATIC
         AffectList.cpp AffectList.hpp
         Logging.cpp Logging.hpp
         AREA_DATA.cpp AREA_DATA.hpp
-        Help.cpp Help.hpp Rng.cpp Rng.hpp)
+        Help.cpp Help.hpp
+        Rng.cpp Rng.hpp
+        MobIndexData.cpp MobIndexData.cpp
+        Dice.cpp Dice.hpp)
 target_link_libraries(xania_lib xania_common crypt chat CONAN_PKG::fmt CONAN_PKG::range-v3)
 target_compile_options(xania_lib PUBLIC -fconcepts)
 

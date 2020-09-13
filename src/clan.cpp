@@ -23,7 +23,7 @@
 
 /* User serviceable bits... you will also need to change the NUM_CLANS in clan.h */
 
-const std::array<CLAN, NUM_CLANS> clantable = {{
+const std::array<Clan, NUM_CLANS> clantable = {{
     {
         "Keepers of the Lore",
         "|p(Lore)|w ",
@@ -89,7 +89,7 @@ void do_clantalk(Char *ch, const char *argument) {
                             const auto *victim = d.person();
                             const auto *pcclan = victim->pc_clan();
 
-                            return pcclan && pcclan->clan->clanchar == orig_clan->clan->clanchar
+                            return pcclan && pcclan->clan.clanchar == orig_clan->clan.clanchar
                                    && pcclan->clanlevel >= CLAN_HERO && !IS_SET(victim->comm, COMM_QUIET);
                         })
         == playing.end()) {
@@ -115,7 +115,7 @@ void do_clantalk(Char *ch, const char *argument) {
     for (auto &d : descriptors().playing()) {
         auto *victim = d.person();
         const auto *pcclan = victim->pc_clan();
-        if (pcclan && pcclan->clan->clanchar == orig_clan->clan->clanchar && pcclan->channelflags & CLANCHANNEL_ON
+        if (pcclan && pcclan->clan.clanchar == orig_clan->clan.clanchar && pcclan->channelflags & CLANCHANNEL_ON
             && !IS_SET(victim->comm, COMM_QUIET)
             /* || they're an IMM snooping the channels */) {
             d.character()->send_line("|G<{}> {}|w", can_see(d.character(), ch) ? ch->name : "Someone", argument);
@@ -147,7 +147,7 @@ void do_noclanchan(Char *ch, const char *argument) {
 
     auto *victim_pcclan = victim->pc_clan();
     if ((victim_pcclan == nullptr) /* If the victim is not in any clan */
-        || (victim_pcclan->clan->clanchar != ch->clan()->clanchar) /* or in a different clan */
+        || (victim_pcclan->clan.clanchar != ch->clan()->clanchar) /* or in a different clan */
         || (victim_pcclan->clanlevel > ch->pc_clan()->clanlevel)) /* or they're a higher rank */
     {
         ch->send_line("You can't noclanchan {}!", victim->name);
@@ -223,7 +223,7 @@ void do_member(Char *ch, const char *argument) {
                 return;
             } /* in your clan? */
         } /* if victim already in a clan */
-        victim->pcdata->pcclan.emplace(PCCLAN{ch->clan()});
+        victim->pcdata->pcclan.emplace(PcClan{*ch->clan()});
         act(fmt::format("{} welcomes {} to the {}", ch->name, victim->name, ch->clan()->name), ch, nullptr, victim,
             To::NotVict);
         victim->send_line("You have become {} of the {}.", ch->pc_clan()->level_name(), ch->clan()->name);
@@ -344,7 +344,7 @@ void do_clanset(Char *ch, const char *argument) {
             return;
         }
 
-        const CLAN *clan_to_add_to{};
+        const Clan *clan_to_add_to{};
         if (marker == '+') {
 
             argument = one_argument(argument, arg1);
@@ -374,7 +374,7 @@ void do_clanset(Char *ch, const char *argument) {
                 return;
             }
 
-            victim->pcdata->pcclan.emplace(PCCLAN{clan_to_add_to});
+            victim->pcdata->pcclan.emplace(PcClan{*clan_to_add_to});
             ch->send_to("You set {} as {} of the {}.\n\r", victim->name, victim->pc_clan()->level_name(),
                         victim->clan()->name);
             return;

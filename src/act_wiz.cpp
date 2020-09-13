@@ -11,6 +11,7 @@
 #include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
+#include "MobIndexData.hpp"
 #include "TimeInfoData.hpp"
 #include "buffer.h"
 #include "challeng.h"
@@ -34,6 +35,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <range/v3/numeric/accumulate.hpp>
 #include <sys/time.h>
 #include <sys/types.h>
 
@@ -1244,14 +1246,11 @@ void do_mstat(Char *ch, const char *argument) {
                  GET_AC(victim, AC_BASH), GET_AC(victim, AC_SLASH), GET_AC(victim, AC_EXOTIC));
     ch->send_to(buf);
 
-    bug_snprintf(buf, sizeof(buf), "Hit: %d  Dam: %d  Saves: %d  Position: %d  Wimpy: %d\n\r", GET_HITROLL(victim),
-                 GET_DAMROLL(victim), victim->saving_throw, victim->position, victim->wimpy);
-    ch->send_to(buf);
+    ch->send_line("Hit: {}  Dam: {}  Saves: {}  Position: {}  Wimpy: {}", victim->get_hitroll(), victim->get_damroll(),
+                  victim->saving_throw, victim->position, victim->wimpy);
 
     if (victim->is_npc()) {
-        bug_snprintf(buf, sizeof(buf), "Damage: %dd%d  Message:  %s\n\r", victim->damage[DICE_NUMBER],
-                     victim->damage[DICE_TYPE], attack_table[victim->dam_type].noun);
-        ch->send_to(buf);
+        ch->send_line("Damage: {}  Message:  {}", victim->damage, attack_table[victim->dam_type].noun);
     }
     ch->send_line("Fighting: {}", victim->fighting ? victim->fighting->name : "(none)");
 
@@ -1349,7 +1348,6 @@ void do_mstat(Char *ch, const char *argument) {
 /* ofind and mfind replaced with vnum, vnum skill also added */
 
 void do_mfind(Char *ch, const char *argument) {
-    extern int top_mob_index;
     char arg[MAX_INPUT_LENGTH];
 
     one_argument(argument, arg);
@@ -1358,25 +1356,14 @@ void do_mfind(Char *ch, const char *argument) {
         return;
     }
 
-    bool found = false;
+    auto buffer = ranges::accumulate(all_mob_indexes() | ranges::views::filter([&](const auto &mob) {
+                                         return is_name(argument, mob.player_name);
+                                     }) | ranges::views::transform([](const auto &mob) {
+                                         return fmt::format("[{:5}] {}\n\r", mob.vnum, mob.short_descr);
+                                     }),
+                                     std::string());
 
-    // Yeah, so iterating over all vnum's takes 10,000 loops.
-    // Get_mob_index is fast, and I don't feel like threading another link.
-    // Do you?
-    // -- Furey
-    std::string buffer;
-    int nMatch = 0;
-    for (int vnum = 0; nMatch < top_mob_index; vnum++) {
-        if (auto *pMobIndex = get_mob_index(vnum)) {
-            nMatch++;
-            if (is_name(argument, pMobIndex->player_name)) {
-                found = true;
-                buffer += fmt::format("[{:5}] {}\n\r", pMobIndex->vnum, pMobIndex->short_descr);
-            }
-        }
-    }
-
-    if (found)
+    if (!buffer.empty())
         ch->page_to(buffer);
     else
         ch->send_line("No mobiles by that name.");
@@ -1721,7 +1708,7 @@ void do_clone(Char *ch, const char *argument) {
 
 void do_mload(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    MOB_INDEX_DATA *pMobIndex;
+    MobIndexData *pMobIndex;
 
     one_argument(argument, arg);
 

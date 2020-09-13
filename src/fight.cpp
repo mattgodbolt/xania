@@ -464,7 +464,7 @@ void one_hit(Char *ch, Char *victim, int dt) {
 
     thac0 = interpolate(ch->level, thac0_00, thac0_32);
 
-    thac0 -= GET_HITROLL(ch) * skill / 100;
+    thac0 -= ch->get_hitroll() * skill / 100;
     thac0 += 5 * (100 - skill) / 100;
 
     if (dt == gsn_backstab)
@@ -510,7 +510,7 @@ void one_hit(Char *ch, Char *victim, int dt) {
      * Calc damage.
      */
     if (ch->is_npc() && wield == nullptr)
-        dam = dice(ch->damage[DICE_NUMBER], ch->damage[DICE_TYPE]);
+        dam = ch->damage.roll();
 
     else {
         if (sn != -1)
@@ -572,7 +572,7 @@ void one_hit(Char *ch, Char *victim, int dt) {
             dam *= 2 + ch->level / 8;
     }
 
-    dam += GET_DAMROLL(ch) * UMIN(100, skill) / 100;
+    dam += ch->get_damroll() * UMIN(100, skill) / 100;
 
     if (dam <= 0)
         dam = 1;

@@ -210,7 +210,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
 //  for (victim = ch->in_room->contents; victim; victim = victim->next_content) {
 //  if (victim->pIndexData->vnum == OBJ_VNUM_CORPSE_NPC) {
 //    Char *zombie;
-//    MOB_INDEX_DATA *zIndex;
+//    MobIndexData *zIndex;
 //    OBJ_DATA *obj, *objNext;
 //    int zLevel, i;
 //    float zScale;

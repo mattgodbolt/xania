@@ -7,16 +7,16 @@ class Rng {
 public:
     virtual ~Rng() = default;
     virtual int number_mm() noexcept = 0;
-    int number_bits(unsigned int width) noexcept { return number_mm() & ((1u << width) - 1); }
-    int dice(int number, int size) noexcept;
-    int number_range(int from, int to) noexcept;
-    int number_percent() noexcept;
+    virtual int number_bits(unsigned int width) noexcept { return number_mm() & ((1u << width) - 1); }
+    virtual int dice(int number, int size) noexcept;
+    virtual int number_range(int from, int to) noexcept;
+    virtual int number_percent() noexcept;
 
     static Rng &global_rng();
     static void set_global_rng(Rng &rng);
 };
 
-class KnuthRng : public Rng {
+class KnuthRng final : public Rng {
     /*
      * I've gotten too many bad reports on OS-supplied random number generators.
      * This is the Mitchell-Moore algorithm from Knuth Volume II.
@@ -31,7 +31,7 @@ public:
     int number_mm() noexcept override;
 };
 
-class FakeRng : public Rng {
+class FakeRng final : public Rng {
     int result_;
 
 public:

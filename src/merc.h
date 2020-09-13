@@ -61,10 +61,10 @@ struct OBJ_INDEX_DATA;
 typedef struct program PROGRAM;
 typedef struct reset_data RESET_DATA;
 struct ROOM_INDEX_DATA;
-typedef struct shop_data SHOP_DATA;
+struct SHOP_DATA;
 typedef struct known_players KNOWN_PLAYERS; // TODO(#108) remove if unused.
 /* Merc22 MOBProgs */
-typedef struct mob_prog_data MPROG_DATA; /* MOBprogram */
+struct MPROG_DATA; /* MOBprogram */
 
 /*
  * Site ban structure.
@@ -135,7 +135,7 @@ struct con_app_type {
  */
 #define MAX_TRADE 5
 
-struct shop_data {
+struct SHOP_DATA {
     SHOP_DATA *next; /* Next shop in list            */
     sh_int keeper; /* Vnum of shop keeper mob      */
     sh_int buy_type[MAX_TRADE]; /* Item types shop will buy     */
@@ -537,11 +537,6 @@ static inline constexpr auto ff = BIT(31);
 #define AC_SLASH 2
 #define AC_EXOTIC 3
 
-/* dice */
-#define DICE_NUMBER 0
-#define DICE_TYPE 1
-#define DICE_BONUS 2
-
 /* size */
 #define SIZE_TINY 0
 #define SIZE_SMALL 1
@@ -927,51 +922,6 @@ static inline constexpr auto ff = BIT(31);
 #define COMM_NOALLEGE (X)
 
 /*
- * Prototype for a mob.
- * This is the in-memory version of #MOBILES.
- */
-struct MOB_INDEX_DATA {
-    MOB_INDEX_DATA *next;
-    SpecialFunc spec_fun;
-    SHOP_DATA *pShop;
-    sh_int vnum;
-    sh_int count;
-    sh_int killed;
-    char *player_name;
-    std::string short_descr;
-    std::string long_descr;
-    std::string description;
-    unsigned long act;
-    unsigned long affected_by;
-    sh_int alignment;
-    sh_int group; /* rom-2.4 style mob groupings */
-    sh_int level;
-    sh_int hitroll;
-    sh_int hit[3];
-    sh_int mana[3];
-    sh_int damage[3];
-    sh_int ac[4];
-    sh_int dam_type;
-    long off_flags;
-    long imm_flags;
-    long res_flags;
-    long vuln_flags;
-    sh_int start_pos;
-    sh_int default_pos;
-    sh_int sex;
-    sh_int race;
-    long gold;
-    long form;
-    long parts;
-    sh_int size;
-    sh_int material;
-    MPROG_DATA *mobprogs; /* Used by MOBprogram */
-    int progtypes; /* Used by MOBprogram */
-
-    AREA_DATA *area;
-};
-
-/*
  * MOBprogram block
  */
 
@@ -983,7 +933,7 @@ struct MPROG_ACT_LIST {
     const void *vo;
 };
 
-struct mob_prog_data {
+struct MPROG_DATA {
     MPROG_DATA *next;
     AREA_DATA *area;
     int type;
@@ -1335,9 +1285,6 @@ extern sh_int gsn_bless;
 #define IS_AWAKE(ch) (ch->position > POS_SLEEPING)
 #define GET_AC(ch, type) ((ch)->armor[type] + (IS_AWAKE(ch) ? dex_app[get_curr_stat(ch, Stat::Dex)].defensive : 0))
 
-#define GET_HITROLL(ch) ((ch)->hitroll + str_app[get_curr_stat(ch, Stat::Str)].tohit)
-#define GET_DAMROLL(ch) ((ch)->damroll + str_app[get_curr_stat(ch, Stat::Str)].todam)
-
 #define IS_OUTSIDE(ch) (!IS_SET((ch)->in_room->room_flags, ROOM_INDOORS))
 
 #define WAIT_STATE(ch, npulse) ((ch)->wait = UMAX((ch)->wait, (npulse)))
@@ -1474,12 +1421,11 @@ void ban_site(Char *ch, const char *site, bool fType);
 /* db.c */
 void boot_db();
 void area_update();
-Char *create_mobile(MOB_INDEX_DATA *pMobIndex);
+Char *create_mobile(MobIndexData *pMobIndex);
 void clone_mobile(Char *parent, Char *clone);
 OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex);
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
 const char *get_extra_descr(std::string_view name, const std::vector<EXTRA_DESCR_DATA> &ed);
-MOB_INDEX_DATA *get_mob_index(int vnum);
 OBJ_INDEX_DATA *get_obj_index(int vnum);
 ROOM_INDEX_DATA *get_room_index(int vnum);
 char *fread_word(FILE *fp);
@@ -1517,7 +1463,6 @@ void death_cry(Char *ch);
 /* handler.c */
 int check_immune(Char *ch, int dam_type);
 int material_lookup(std::string_view name);
-int race_lookup(const char *name);
 int class_lookup(const char *name);
 int get_skill(const Char *ch, int sn);
 int get_weapon_sn(Char *ch);

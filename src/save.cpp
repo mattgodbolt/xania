@@ -9,9 +9,9 @@
 
 #include "save.hpp"
 #include "AFFECT_DATA.hpp"
-#include "Descriptor.hpp"
 #include "TimeInfoData.hpp"
 #include "db.h"
+#include "handler.hpp"
 #include "lookup.h"
 #include "merc.h"
 #include "string_utils.hpp"
@@ -152,7 +152,7 @@ void fwrite_char(const Char *ch, FILE *fp) {
     fprintf(fp, "Cla  %d\n", ch->class_num);
     fprintf(fp, "Levl %d\n", ch->level);
     if (auto *pc_clan = ch->pc_clan()) {
-        fprintf(fp, "Clan %d\n", (int)pc_clan->clan->clanchar);
+        fprintf(fp, "Clan %d\n", (int)pc_clan->clan.clanchar);
         fprintf(fp, "CLevel %d\n", pc_clan->clanlevel);
         fprintf(fp, "CCFlags %d\n", pc_clan->channelflags);
     }
@@ -295,7 +295,7 @@ void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
         fprintf(fp, "Alig %d\n", pet->alignment);
     if (pet->hitroll != pet->pIndexData->hitroll)
         fprintf(fp, "Hit  %d\n", pet->hitroll);
-    if (pet->damroll != pet->pIndexData->damage[DICE_BONUS])
+    if (pet->damroll != pet->pIndexData->damage.bonus())
         fprintf(fp, "Dam  %d\n", pet->damroll);
     fprintf(fp, "ACs  %d %d %d %d\n", pet->armor[0], pet->armor[1], pet->armor[2], pet->armor[3]);
     fprintf(fp, "Attr %d %d %d %d %d\n", pet->perm_stat[Stat::Str], pet->perm_stat[Stat::Int],
@@ -460,7 +460,7 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
     LoadCharObjResult res{true, std::make_unique<Char>()};
 
     auto *ch = res.character.get();
-    ch->pcdata = std::make_unique<PC_DATA>();
+    ch->pcdata = std::make_unique<PcData>();
 
     ch->name = player_name;
     ch->race = race_lookup("human");
@@ -580,7 +580,7 @@ void fread_char(Char *ch, FILE *fp) {
             bool found = false;
             for (auto &clan : clantable) {
                 if (clan.clanchar == clan_char) {
-                    ch->pcdata->pcclan.emplace(PCCLAN{&clan});
+                    ch->pcdata->pcclan.emplace(PcClan{clan});
                     found = true;
                 }
             }

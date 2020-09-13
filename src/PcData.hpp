@@ -8,7 +8,7 @@
 #include <optional>
 #include <string>
 
-struct PC_DATA {
+struct PcData {
     std::string pwd;
     std::string bamfin;
     std::string bamfout;
@@ -31,5 +31,5 @@ struct PC_DATA {
     sh_int points{};
     bool confirm_delete{};
     bool colour{};
-    std::optional<PCCLAN> pcclan;
+    std::optional<PcClan> pcclan;
 };
