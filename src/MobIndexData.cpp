@@ -41,19 +41,19 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
     damage = Dice::from_file(fp);
     dam_type = attack_lookup(fread_word(fp));
 
-    /* read armor class */
+    // read armor class
     ac[AC_PIERCE] = fread_number(fp) * 10;
     ac[AC_BASH] = fread_number(fp) * 10;
     ac[AC_SLASH] = fread_number(fp) * 10;
     ac[AC_EXOTIC] = fread_number(fp) * 10;
 
-    /* read flags and add in data from the race table */
+    // read flags and add in data from the race table
     off_flags = fread_flag(fp) | race_table[race].off;
     imm_flags = fread_flag(fp) | race_table[race].imm;
     res_flags = fread_flag(fp) | race_table[race].res;
     vuln_flags = fread_flag(fp) | race_table[race].vuln;
 
-    /* vital statistics */
+    // vital statistics
     start_pos = position_lookup(fread_word(fp));
     default_pos = position_lookup(fread_word(fp));
     sex = sex_lookup(fread_word(fp));
@@ -61,11 +61,12 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
 
     form = fread_flag(fp) | race_table[race].form;
     parts = fread_flag(fp) | race_table[race].parts;
-    /* size */
     size = size_lookup(fread_word(fp));
     material = material_lookup(fread_word(fp));
 
     for (;;) {
+        // TODO: I'm pretty sure this is not exercised anywhere: the old code would unconditionally bug() and exit after
+        // reading the "S". Confirm and remove if unused.
         auto letter = fread_letter(fp);
 
         if (letter == 'F') {
@@ -96,14 +97,9 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
             ungetc(letter, fp);
             break;
         }
-
-        if (letter != 'S') {
-            bug("Load_mobiles: vnum {} non-S.", vnum);
-            exit(1);
-        }
     }
 
-    /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
+    // Merc-2.2 MOBProgs - Faramir 31/8/1998
     auto letter = fread_letter(fp);
     if (letter == '>') {
         ungetc(letter, fp);
