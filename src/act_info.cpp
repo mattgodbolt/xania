@@ -366,15 +366,10 @@ void do_scroll(Char *ch, std::string_view argument) {
 /* RT does socials */
 void do_socials(Char *ch, const char *argument) {
     (void)argument;
-    char buf[MAX_STRING_LENGTH];
-    int iSocial;
-    int col;
 
-    col = 0;
-
-    for (iSocial = 0; social_table[iSocial].name[0] != '\0'; iSocial++) {
-        snprintf(buf, sizeof(buf), "%-12s", social_table[iSocial].name);
-        ch->send_to(buf);
+    int col = 0;
+    for (int iSocial = 0; social_table[iSocial].name[0] != '\0'; iSocial++) {
+        ch->send_to("{:<12}", social_table[iSocial].name);
         if (++col % 6 == 0)
             ch->send_line("");
     }
