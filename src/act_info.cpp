@@ -924,7 +924,7 @@ void look_direction(const Char &ch, Direction door) {
 
 }
 
-void do_look(Char *ch, const char *arguments) {
+void do_look(Char *ch, std::string_view arguments) {
     if (ch->desc == nullptr)
         return;
 
@@ -995,33 +995,27 @@ void do_look(Char *ch, const char *arguments) {
 }
 
 /* RT added back for the hell of it */
-void do_read(Char *ch, const char *argument) { do_look(ch, argument); }
+void do_read(Char *ch, std::string_view argument) { do_look(ch, argument); }
 
-void do_examine(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-    char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
+void do_examine(Char *ch, std::string_view argument) {
+    ArgParser args(argument);
 
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    if (args.empty()) {
         ch->send_line("Examine what?");
         return;
     }
 
+    auto arg = args.shift();
     do_look(ch, arg);
 
-    if ((obj = get_obj_here(ch, arg)) != nullptr) {
+    if (auto *obj = get_obj_here(ch, arg)) {
         switch (obj->item_type) {
         default: break;
 
         case ITEM_DRINK_CON:
         case ITEM_CONTAINER:
         case ITEM_CORPSE_NPC:
-        case ITEM_CORPSE_PC:
-            ch->send_line("When you look inside, you see:");
-            snprintf(buf, sizeof(buf), "in %s", arg);
-            do_look(ch, buf);
+        case ITEM_CORPSE_PC: ch->send_line("When you look inside, you see:"); do_look(ch, fmt::format("in {}", arg));
         }
     }
 }
@@ -1063,18 +1057,14 @@ void do_exits(const Char *ch, const char *argument) {
 
 void do_worth(Char *ch, const char *argument) {
     (void)argument;
-    char buf[MAX_STRING_LENGTH];
 
     if (ch->is_npc()) {
-        snprintf(buf, sizeof(buf), "You have %d gold.\n\r", (int)ch->gold);
-        ch->send_to(buf);
+        ch->send_line("You have {} gold.", (int)ch->gold);
         return;
     }
 
-    snprintf(buf, sizeof(buf), "You have %d gold, and %d experience (%d exp to level).\n\r", (int)ch->gold,
-             (int)ch->exp, (int)((ch->level + 1) * exp_per_level(ch, ch->pcdata->points) - ch->exp));
-
-    ch->send_to(buf);
+    ch->send_line("You have {} gold, and {} experience ({} exp to level).", ch->gold, ch->exp,
+                  ((ch->level + 1) * exp_per_level(ch, ch->pcdata->points) - ch->exp));
 }
 
 #define SC_COLWIDTH 24

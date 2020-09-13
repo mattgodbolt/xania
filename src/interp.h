@@ -93,7 +93,7 @@ extern void do_eat(Char *ch, const char *argument);
 extern void do_echo(Char *ch, std::string_view argument);
 extern void do_emote(Char *ch, const char *arg);
 extern void do_equipment(Char *ch, const char *arg);
-extern void do_examine(Char *ch, const char *arg);
+extern void do_examine(Char *ch, std::string_view argument);
 extern void do_exits(const Char *ch, const char *argument);
 extern void do_fill(Char *ch, const char *arg);
 extern void do_pour(Char *ch, const char *arg);
@@ -129,7 +129,7 @@ extern void do_list(Char *ch, const char *arg);
 extern void do_load(Char *ch, const char *argument);
 extern void do_lock(Char *ch, const char *arg);
 extern void do_log(Char *ch, const char *arg);
-extern void do_look(Char *ch, const char *arguments);
+extern void do_look(Char *ch, std::string_view arguments);
 extern void do_memory(Char *ch, const char *arg);
 
 /* for MOBProgs */
@@ -191,7 +191,7 @@ extern void do_qui(Char *ch, const char *arg);
 extern void do_quiet(Char *ch, const char *arg);
 extern void do_quit(Char *ch, const char *arg);
 extern void do_qwest(Char *ch, const char *arg);
-extern void do_read(Char *ch, const char *arg);
+extern void do_read(Char *ch, std::string_view argument);
 extern void do_ready(Char *ch, const char *arg);
 extern void do_reboo(Char *ch, const char *arg);
 extern void do_reboot(Char *ch, const char *arg);
