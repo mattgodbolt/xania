@@ -279,7 +279,7 @@ TEST_CASE("string_util tests") {
             SECTION("for control codes") { CHECK(mud_string_width("|rred|w") == 3u); }
             SECTION("for odd cases") {
                 CHECK(mud_string_width("|") == 0u);
-                CHECK(mud_string_width("oh no|") == 4u);
+                CHECK(mud_string_width("oh no|") == 5u);
                 CHECK(mud_string_width("||") == 1u);
                 CHECK(mud_string_width("a||b") == 3u);
                 CHECK(mud_string_width("|z") == 1u);
