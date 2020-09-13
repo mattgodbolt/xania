@@ -60,6 +60,6 @@ stand stand male 200
         CHECK(mob->default_pos == POS_STANDING);
         CHECK(mob->start_pos == POS_STANDING);
         CHECK(mob->size == SIZE_MEDIUM);
-        CHECK(mob->material == 0);
+        CHECK(mob->material == MATERIAL_DEFAULT);
     }
 }
