@@ -61,7 +61,10 @@ Container split_lines(std::string_view input) {
 [[nodiscard]] bool has_prefix(std::string_view haystack, std::string_view needle);
 
 // Colourises (or strips out, if use_ansi is false) the strange pipe-delimited text format we use for colour.
-[[nodiscard]] std::string colourise_mud_string(bool use_ansi, std::string_view txt);
+[[nodiscard]] std::string colourise_mud_string(bool use_ansi, std::string_view text);
+
+// Returns the visible width of a string, accounting for mud colourisation.
+[[nodiscard]] size_t mud_string_width(std::string_view text);
 
 // Upper-cases the first character, taking into account things like `|Rthe goblin is DEAD!!`
 [[nodiscard]] std::string upper_first_character(std::string_view sv);

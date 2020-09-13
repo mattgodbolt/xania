@@ -270,6 +270,21 @@ TEST_CASE("string_util tests") {
             CHECK(colourise_mud_string(false, "|z") == "z");
             CHECK(colourise_mud_string(true, "|z") == "z");
         }
+
+        SECTION("should count width") {
+            SECTION("for normal text") {
+                CHECK(mud_string_width("") == 0u);
+                CHECK(mud_string_width("12345678") == 8u);
+            }
+            SECTION("for control codes") { CHECK(mud_string_width("|rred|w") == 3u); }
+            SECTION("for odd cases") {
+                CHECK(mud_string_width("|") == 0u);
+                CHECK(mud_string_width("oh no|") == 4u);
+                CHECK(mud_string_width("||") == 1u);
+                CHECK(mud_string_width("a||b") == 3u);
+                CHECK(mud_string_width("|z") == 1u);
+            }
+        }
     }
 
     SECTION("string matching") {

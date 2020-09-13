@@ -214,10 +214,10 @@ std::string decode_colour(bool ansi_enabled, char char_code) {
     return "";
 }
 
-std::string colourise_mud_string(bool use_ansi, std::string_view txt) {
+std::string colourise_mud_string(bool use_ansi, std::string_view text) {
     std::string buf;
     bool prev_was_pipe = false;
-    for (auto c : txt) {
+    for (auto c : text) {
         if (std::exchange(prev_was_pipe, false))
             buf += decode_colour(use_ansi, c);
         else if (c == '|')
@@ -226,6 +226,20 @@ std::string colourise_mud_string(bool use_ansi, std::string_view txt) {
             buf.push_back(c);
     }
     return buf;
+}
+
+size_t mud_string_width(std::string_view text) {
+    size_t width = 0;
+    bool prev_was_pipe = false;
+    for (auto c : text) {
+        if (std::exchange(prev_was_pipe, false))
+            width += decode_colour(false, c).size();
+        else if (c == '|')
+            prev_was_pipe = true;
+        else
+            width++;
+    }
+    return width;
 }
 
 std::string upper_first_character(std::string_view sv) {

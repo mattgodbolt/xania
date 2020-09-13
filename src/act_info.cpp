@@ -1087,30 +1087,10 @@ void do_worth(Char *ch, const char *argument) {
     ch->send_to(buf);
 }
 
-int final_len(char *string) {
-    int count = 0;
-    while (*string) {
-        if (*string == '|') {
-            string++;
-            if (*string == '|') {
-                count++;
-                string++;
-            } else {
-                if (*string)
-                    string++;
-            }
-        } else {
-            count++;
-            string++;
-        }
-    }
-    return count;
-}
-
 #define SC_COLWIDTH 24
 
 char *next_column(char *buf, int col_width) {
-    int eff_len = final_len(buf);
+    int eff_len = mud_string_width(buf);
     int len = strlen(buf);
     int num_spaces = (eff_len < col_width) ? (col_width - eff_len) : 1;
     memset(buf + len, ' ', num_spaces);
