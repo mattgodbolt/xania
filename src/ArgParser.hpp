@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string>
 #include <string_view>
 
@@ -34,7 +35,10 @@ public:
     };
     // Shift a single argument from the argument list, parsed as a possibly number-prefixed `3.thing`. Returns a {0,""}
     // result if the parser is empty.
-    [[nodiscard]] NumberArg shift_number() noexcept;
+    [[nodiscard]] NumberArg shift_numbered_arg() noexcept;
+
+    // Try and shift a numeric argument from the argument list. Remains unshifted if failed, or empty.
+    [[nodiscard]] std::optional<int> try_shift_number() noexcept;
 
     class Iter {
         ArgParser &parser_;

@@ -34,9 +34,20 @@ void ArgParser::ltrim() {
         remaining_.remove_prefix(1);
 }
 
-ArgParser::NumberArg ArgParser::shift_number() noexcept {
+ArgParser::NumberArg ArgParser::shift_numbered_arg() noexcept {
     if (empty())
         return {};
     auto res = number_argument(shift());
     return NumberArg{res.first, res.second};
+}
+
+std::optional<int> ArgParser::try_shift_number() noexcept {
+    if (empty())
+        return {};
+    auto prev_remaining = remaining_;
+    auto arg = shift();
+    if (is_number(arg))
+        return parse_number(arg);
+    remaining_ = prev_remaining;
+    return {};
 }

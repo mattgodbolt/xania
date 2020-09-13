@@ -323,48 +323,43 @@ bool check_blind(const Char *ch) {
 }
 
 /* changes your scroll */
-void do_scroll(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    char buf[100];
-    int lines;
+void do_scroll(Char *ch, std::string_view argument) {
+    // Pager limited to 52 due to memory complaints relating to
+    // buffer code ...short term fix :) --Faramir
+    static constexpr int MaxScrollLength = 52;
+    static constexpr int MinScrollLength = 10;
 
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    ArgParser args(argument);
+    if (args.empty()) {
         if (ch->lines == 0) {
             ch->send_line("|cPaging is set to maximum.|w");
-            ch->lines = 52;
+            ch->lines = MaxScrollLength;
         } else {
-            snprintf(buf, sizeof(buf), "|cYou currently display %d lines per page.|w\n\r", ch->lines + 2);
-            ch->send_to(buf);
+            ch->send_line("|cYou currently display {} lines per page.|w", ch->lines + 2);
         }
         return;
     }
 
-    if (!is_number(arg)) {
+    auto maybe_num = args.try_shift_number();
+    if (!maybe_num) {
         ch->send_line("|cYou must provide a number.|w");
         return;
     }
-
-    lines = atoi(arg);
+    auto lines = *maybe_num;
 
     if (lines == 0) {
         ch->send_line("|cPaging at maximum.|w");
-        ch->lines = 52;
+        ch->lines = MaxScrollLength;
         return;
     }
 
-    /* Pager limited to 52 due to memory complaints relating to
-     * buffer code ...short term fix :) --Faramir
-     */
-
-    if (lines < 10 || lines > 52) {
-        ch->send_line("|cYou must provide a reasonable number.|w");
+    if (lines < MinScrollLength || lines > MaxScrollLength) {
+        ch->send_line("|cYou must provide a reasonable number (between {} and {}).|w", MinScrollLength,
+                      MaxScrollLength);
         return;
     }
 
-    snprintf(buf, sizeof(buf), "|cScroll set to %d lines.|w\n\r", lines);
-    ch->send_to(buf);
+    ch->send_line("\"|cScroll set to {} lines.|w", lines);
     ch->lines = lines - 2;
 }
 

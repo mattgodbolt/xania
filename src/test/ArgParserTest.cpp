@@ -13,7 +13,7 @@ TEST_CASE("Argument parsing") {
         CHECK(ap.empty());
         SECTION("should shift empty string") { CHECK(ap.shift().empty()); }
         SECTION("should shift empty number arg") {
-            auto arg = ap.shift_number();
+            auto arg = ap.shift_numbered_arg();
             CHECK(arg.argument.empty());
             CHECK(arg.number == 0);
         }
@@ -64,10 +64,32 @@ TEST_CASE("Argument parsing") {
         std::copy(begin(ap), end(ap), std::back_inserter(parts));
         CHECK(parts == std::vector<std::string_view>{"this"sv, "is"sv, "a"sv, "test of"sv, "iteration"sv});
     }
-    SECTION("should shift number args") {
+    SECTION("should shift numbered args") {
         ArgParser ap("12.monkeys"sv);
-        auto arg = ap.shift_number();
+        auto arg = ap.shift_numbered_arg();
         CHECK(arg.number == 12);
         CHECK(arg.argument == "monkeys");
+    }
+    SECTION("should shift number arguments") {
+        SECTION("simple arguments") {
+            ArgParser ap("1 2 3 -200"sv);
+            CHECK(ap.try_shift_number() == 1);
+            CHECK(ap.try_shift_number() == 2);
+            CHECK(ap.try_shift_number() == 3);
+            CHECK(ap.try_shift_number() == -200);
+            CHECK(!ap.try_shift_number());
+        }
+        SECTION("doesn't misattribute numbered args") {
+            ArgParser ap("12.monkeys"sv);
+            CHECK(!ap.try_shift_number());
+        }
+        SECTION("doesn't shift if not numberic") {
+            ArgParser ap("1 a 2"sv);
+            CHECK(ap.try_shift_number() == 1);
+            CHECK(!ap.try_shift_number()); // fails to shift 'a'
+            CHECK(ap.shift() == "a"); // we can shift out a value
+            CHECK(ap.try_shift_number() == 2);
+            CHECK(ap.empty());
+        }
     }
 }

@@ -214,7 +214,7 @@ extern void do_sacrifice(Char *ch, const char *arg);
 extern void do_save(Char *ch, const char *arg);
 extern void do_say(Char *ch, const char *argument);
 extern void do_score(Char *ch, const char *arg);
-extern void do_scroll(Char *ch, const char *arg);
+extern void do_scroll(Char *ch, std::string_view argument);
 extern void do_sell(Char *ch, const char *arg);
 extern void do_set(Char *ch, const char *arg);
 extern void do_setinfo(Char *ch, const char *arg);
