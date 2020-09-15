@@ -200,9 +200,9 @@ void do_timezone(Char *ch, const char *argument) {
 
     if (argument[0] == '\0') {
         if (ch->pcdata->minoffset == 0 && ch->pcdata->houroffset == 0)
-            ch->send_line("British time is already being used");
+            ch->send_line("UTC is already being used");
         else {
-            ch->send_line("British time will be used");
+            ch->send_line("UTC time will be used");
             ch->pcdata->minoffset = 0;
             ch->pcdata->houroffset = 0;
         }

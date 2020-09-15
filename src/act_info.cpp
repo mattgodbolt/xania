@@ -24,16 +24,15 @@
 #include "save.hpp"
 #include "string_utils.hpp"
 
+#include <fmt/chrono.h>
 #include <fmt/format.h>
+#include <range/v3/algorithm/find_if.hpp>
 #include <range/v3/iterator/operations.hpp>
 
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <ctime>
-#include <range/v3/algorithm/find_if.hpp>
-#include <sys/time.h>
 
 using namespace std::literals;
 
@@ -783,8 +782,9 @@ void look_in_object(const Char &ch, const OBJ_DATA &obj) {
         }
 
         ch.send_line("It's {} full of a {} liquid.",
-                     obj.value[1] < obj.value[0] / 4 ? "less than"
-                                                     : obj.value[1] < 3 * obj.value[0] / 4 ? "about" : "more than",
+                     obj.value[1] < obj.value[0] / 4       ? "less than"
+                     : obj.value[1] < 3 * obj.value[0] / 4 ? "about"
+                                                           : "more than",
                      liq_table[obj.value[2]].liq_color);
         break;
 
@@ -1131,7 +1131,9 @@ void do_score(Char *ch) {
 
     col2.stat("Race", race_table[ch->race].name)
         .stat("Class", ch->is_npc() ? "mobile" : class_table[ch->class_num].name)
-        .stat("Sex", ch->sex == 0 ? "sexless" : ch->sex == 1 ? "male" : "female")
+        .stat("Sex", ch->sex == 0   ? "sexless"
+                     : ch->sex == 1 ? "male"
+                                    : "female")
         .stat("Position", position_desc[ch->position])
         .stat_of("Items", ch->carry_number, can_carry_n(ch))
         .stat_of("Weight", ch->carry_weight, can_carry_w(ch))
@@ -1209,8 +1211,6 @@ void do_affected(Char *ch) {
 }
 
 void do_time(Char *ch) {
-    char buf[MAX_STRING_LENGTH];
-
     // TODO(#134) this whole thing should use the user's TZ.
     ch->send_line(time_info.describe());
     ch->send_line("Xania started up at {}Z.", secs_only(boot_time));
@@ -1221,30 +1221,9 @@ void do_time(Char *ch) {
 
     // TODO(#95) now we have an actual time library we can replace this with a timezone and format accordingly.
     if (ch->pcdata->houroffset || ch->pcdata->minoffset) {
-        time_t ch_timet;
-        char buf2[32];
-        struct tm *ch_time;
-
-        ch_timet = time(0);
-
-        ch_time = gmtime(&ch_timet);
-        ch_time->tm_min += ch->pcdata->minoffset;
-        ch_time->tm_hour += ch->pcdata->houroffset;
-
-        ch_time->tm_hour -= (ch_time->tm_min / 60);
-        ch_time->tm_min = (ch_time->tm_min % 60);
-        if (ch_time->tm_min < 0) {
-            ch_time->tm_min += 60;
-            ch_time->tm_hour -= 1;
-        }
-        ch_time->tm_hour = (ch_time->tm_hour % 24);
-        if (ch_time->tm_hour < 0)
-            ch_time->tm_hour += 24;
-
-        strftime(buf2, 63, "%H:%M:%S", ch_time);
-
-        snprintf(buf, sizeof(buf), "Your local time is %s\n\r", buf2);
-        ch->send_to(buf);
+        using namespace std::chrono;
+        auto now = system_clock::now() + hours(ch->pcdata->houroffset) + minutes(ch->pcdata->minoffset);
+        ch->send_line("Your local time is {:%H:%M:%S}.", fmt::gmtime(system_clock::to_time_t(now)));
     }
 }
 
