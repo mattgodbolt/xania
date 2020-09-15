@@ -1027,18 +1027,10 @@ void do_worth(Char *ch) {
                   ((ch->level + 1) * exp_per_level(ch, ch->pcdata->points) - ch->exp));
 }
 
-#define SC_COLWIDTH 24
+namespace {
 
-char *next_column(char *buf, int col_width) {
-    int eff_len = mud_string_width(buf);
-    int len = strlen(buf);
-    int num_spaces = (eff_len < col_width) ? (col_width - eff_len) : 1;
-    memset(buf + len, ' ', num_spaces);
-    return buf + len + num_spaces;
-}
-
-static const std::array position_desc = {"dead",    "mortally wounded", "incapacitated", "stunned", "sleeping",
-                                         "resting", "sitting",          "fighting",      "standing"};
+const std::array position_desc = {"dead",    "mortally wounded", "incapacitated", "stunned", "sleeping",
+                                  "resting", "sitting",          "fighting",      "standing"};
 
 void describe_armour(Char *ch, int type, const char *name) {
     static const std::array armour_desc = {
@@ -1048,12 +1040,12 @@ void describe_armour(Char *ch, int type, const char *name) {
         "barely protected from",     "defenseless against",        "hopelessly vulnerable to"};
     auto armour_index = std::clamp((GET_AC(ch, type) + 120) / 20, 0, static_cast<int>(armour_desc.size()) - 1);
     if (ch->level < 25)
-        ch->send_line("You are |y{} |W{}|w.", armour_desc[armour_index], name);
+        ch->send_line("|CYou are|w: |y{} |W{}|w.", armour_desc[armour_index], name);
     else
-        ch->send_line("You are |y{} |W{}|w. (|W{}|w)", armour_desc[armour_index], name, GET_AC(ch, type));
+        ch->send_line("|CYou are|w: |y{} |W{}|w. (|W{}|w)", armour_desc[armour_index], name, GET_AC(ch, type));
 }
 
-static void describe_condition(Char *ch) {
+void describe_condition(Char *ch) {
     bool drunk = ch->pcdata->condition[COND_DRUNK] > 10;
     bool hungry = ch->pcdata->condition[COND_FULL] == 0;
     bool thirsty = ch->pcdata->condition[COND_THIRST] == 0;
@@ -1061,7 +1053,7 @@ static void describe_condition(Char *ch) {
 
     if (!drunk && !hungry && !thirsty)
         return;
-    ch->send_line("You are {}{}{}{}{}.", drunk ? "|Wdrunk|w" : "", drunk ? delimiters[hungry + thirsty] : "",
+    ch->send_line("|CYou are|w: {}{}{}{}{}.", drunk ? "|Wdrunk|w" : "", drunk ? delimiters[hungry + thirsty] : "",
                   hungry ? "|Whungry|w" : "", (thirsty && hungry) ? " and " : "", thirsty ? "|Wthirsty|w" : "");
 }
 
@@ -1072,49 +1064,92 @@ const char *get_align_description(int align) {
                                          static_cast<int>(align_descriptions.size()) - 1)];
 }
 
+class Columner {
+    static constexpr int ColumnWidth = 24;
+    Char &ch_;
+    std::string current_;
+    int cur_col_{};
+    int num_cols_{};
+
+    Columner &add_col(const std::string &column) {
+        if (cur_col_ == 0) {
+            current_ = column;
+        } else {
+            auto num_spaces = std::max(1, cur_col_ * ColumnWidth - static_cast<int>(mud_string_width(current_)));
+            current_ += std::string(num_spaces, ' ') + column;
+        }
+        if (++cur_col_ == num_cols_)
+            flush();
+        return *this;
+    }
+
+public:
+    explicit Columner(Char &ch, int num_cols) : ch_(ch), num_cols_(num_cols) {}
+    template <typename... Args>
+    Columner &add(std::string_view txt, Args &&... args) {
+        return add_col(fmt::format(txt, std::forward<Args>(args)...));
+    }
+    template <typename... Args>
+    Columner &kv(std::string_view key, std::string_view value_fmt, Args &&... args) {
+        return add_col(fmt::format("|C{}|w: {}", key, fmt::format(value_fmt, std::forward<Args>(args)...)));
+    }
+    template <typename StatVal>
+    Columner &stat(std::string_view stat, StatVal val) {
+        return kv(stat, "|W{}|w", val);
+    }
+    template <typename StatVal, typename MaxVal>
+    Columner &stat_of(std::string_view stat, StatVal val, MaxVal max) {
+        return kv(stat, "|W{}|w / {}", val, max);
+    }
+    template <typename StatVal, typename MaxVal>
+    Columner &stat_eff(std::string_view stat, StatVal val, MaxVal max) {
+        return kv(stat, "{} (|W{}|w)", val, max);
+    }
+    void flush() {
+        if (current_.empty())
+            return;
+        ch_.send_line(current_);
+        current_.clear();
+        cur_col_ = 0;
+    }
+};
+
+}
+
 void do_score(Char *ch) {
-    char buf[MAX_STRING_LENGTH];
-
-    ch->send_line("|wYou are: |W{}{}|w.", ch->name, ch->is_npc() ? "" : ch->pcdata->title);
-
-    if (ch->get_trust() == ch->level)
-        snprintf(buf, sizeof(buf), "Level: |W%d|w", ch->level);
-    else
-        snprintf(buf, sizeof(buf), "Level: |W%d|w (trust |W%d|w)", ch->level, ch->get_trust());
     using namespace std::chrono;
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Age: |W%d|w years (|W%ld|w hours)\n\r", get_age(ch),
-             duration_cast<hours>(ch->total_played()).count());
-    ch->send_to(buf);
+    ch->send_line("|CYou are|w: |W{}{}|w.", ch->name, ch->is_npc() ? "" : ch->pcdata->title);
 
-    snprintf(buf, sizeof(buf), "Race: |W%s|w", race_table[ch->race].name);
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Class: |W%s|w\n\r",
-             ch->is_npc() ? "mobile" : class_table[ch->class_num].name);
-    ch->send_to(buf);
+    Columner col2(*ch, 2);
+    Columner col3(*ch, 3);
 
-    snprintf(buf, sizeof(buf), "Sex: |W%s|w", ch->sex == 0 ? "sexless" : ch->sex == 1 ? "male" : "female");
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Position: |W%s|w\n\r", position_desc[ch->position]);
-    ch->send_to(buf);
-
-    snprintf(buf, sizeof(buf), "Items: |W%d|w / %d", ch->carry_number, can_carry_n(ch));
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Weight: |W%d|w / %d\n\r", ch->carry_weight, can_carry_w(ch));
-    ch->send_to(buf);
-
-    snprintf(buf, sizeof(buf), "Gold: |W%d|w\n\r", (int)ch->gold);
-    ch->send_to(buf);
-
-    snprintf(buf, sizeof(buf), "Wimpy: |W%d|w", ch->wimpy);
-    if (ch->is_pc() && ch->level < LEVEL_HERO)
-        snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Score: |W%d|w (|W%d|w to next level)\n\r", (int)ch->exp,
-                 (unsigned int)((ch->level + 1) * exp_per_level(ch, ch->pcdata->points) - ch->exp));
+    if (ch->level == ch->get_trust())
+        col2.stat("Level", ch->level);
     else
-        snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Score: |W%d|w\n\r", (int)ch->exp);
-    ch->send_to(buf);
+        col2.kv("Level", "|W{}|w (trust |W{}|w)", ch->level, ch->get_trust());
+    col2.kv("Age", "|W{}|w years (|W{}|w hours)", get_age(ch), duration_cast<hours>(ch->total_played()).count());
+
+    col2.stat("Race", race_table[ch->race].name)
+        .stat("Class", ch->is_npc() ? "mobile" : class_table[ch->class_num].name)
+        .stat("Sex", ch->sex == 0 ? "sexless" : ch->sex == 1 ? "male" : "female")
+        .stat("Position", position_desc[ch->position])
+        .stat_of("Items", ch->carry_number, can_carry_n(ch))
+        .stat_of("Weight", ch->carry_weight, can_carry_w(ch))
+        .stat("Gold", ch->gold)
+        .flush();
+
+    col2.stat("Wimpy", ch->wimpy);
+    if (ch->is_pc() && ch->level < LEVEL_HERO)
+        col2.kv("Score", "|W{}|w (|W{}|w to next level)", ch->exp,
+                ((ch->level + 1) * exp_per_level(ch, ch->pcdata->points) - ch->exp));
+    else
+        col2.stat("Score", ch->exp);
+
     ch->send_line("");
 
-    snprintf(buf, sizeof(buf), "Hit: |W%d|w / %d", ch->hit, ch->max_hit);
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Mana: |W%d|w / %d", ch->mana, ch->max_mana);
-    snprintf(next_column(buf, 2 * SC_COLWIDTH), sizeof(buf), "Move: |W%d|w / %d\n\r", ch->move, ch->max_move);
-    ch->send_to(buf);
+    col3.stat_of("Hit", ch->hit, ch->max_hit)
+        .stat_of("Mana", ch->mana, ch->max_mana)
+        .stat_of("Move", ch->move, ch->max_move);
 
     describe_armour(ch, AC_PIERCE, "piercing");
     describe_armour(ch, AC_BASH, "bashing");
@@ -1122,51 +1157,38 @@ void do_score(Char *ch) {
     describe_armour(ch, AC_EXOTIC, "magic");
 
     if (ch->level >= 15) {
-        snprintf(buf, sizeof(buf), "Hit roll: |W%d|w", ch->get_hitroll());
-        snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Damage roll: |W%d|w\n\r", ch->get_damroll());
-        ch->send_to(buf);
+        col2.stat("Hit roll", ch->get_hitroll());
+        col2.stat("Damage roll", ch->get_damroll());
     }
     ch->send_line("");
 
-    snprintf(buf, sizeof(buf), "Strength: %d (|W%d|w)", ch->perm_stat[Stat::Str], get_curr_stat(ch, Stat::Str));
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Intelligence: %d (|W%d|w)", ch->perm_stat[Stat::Int],
-             get_curr_stat(ch, Stat::Int));
-    snprintf(next_column(buf, 2 * SC_COLWIDTH), sizeof(buf), "Wisdom: %d (|W%d|w)\n\r", ch->perm_stat[Stat::Wis],
-             get_curr_stat(ch, Stat::Wis));
-    ch->send_to(buf);
+    col3.stat_eff("Strength", ch->perm_stat[Stat::Str], get_curr_stat(ch, Stat::Str))
+        .stat_eff("Intelligence", ch->perm_stat[Stat::Int], get_curr_stat(ch, Stat::Int))
+        .stat_eff("Wisdom", ch->perm_stat[Stat::Wis], get_curr_stat(ch, Stat::Wis));
 
-    snprintf(buf, sizeof(buf), "Dexterity: %d (|W%d|w)", ch->perm_stat[Stat::Dex], get_curr_stat(ch, Stat::Dex));
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Constitution: %d (|W%d|w)\n\r", ch->perm_stat[Stat::Con],
-             get_curr_stat(ch, Stat::Con));
-    ch->send_to(buf);
-
-    snprintf(buf, sizeof(buf), "Practices: |W%d|w", ch->practice);
-    snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Training sessions: |W%d|w\n\r", ch->train);
-    ch->send_to(buf);
+    col2.stat_eff("Dexterity", ch->perm_stat[Stat::Dex], get_curr_stat(ch, Stat::Dex))
+        .stat_eff("Constitution", ch->perm_stat[Stat::Con], get_curr_stat(ch, Stat::Con))
+        .stat("Practices", ch->practice)
+        .stat("Training sessions", ch->train);
 
     if (ch->level >= 10)
-        snprintf(buf, sizeof(buf), "You are %s|w (alignment |W%d|w).\n\r", get_align_description(ch->alignment),
-                 ch->alignment);
+        col2.kv("Alignment", "{}|w (|W{}|w).", get_align_description(ch->alignment), ch->alignment);
     else
-        snprintf(buf, sizeof(buf), "You are %s|w.\n\r", get_align_description(ch->alignment));
-    ch->send_to(buf);
-
-    if (ch->is_pc())
-        describe_condition(ch);
+        col2.stat("Alignment", get_align_description(ch->alignment));
+    col2.flush();
 
     if (ch->is_immortal()) {
         ch->send_line("");
-        snprintf(buf, sizeof(buf), "Holy light: |W%s|w", IS_SET(ch->act, PLR_HOLYLIGHT) ? "on" : "off");
-        if (IS_SET(ch->act, PLR_WIZINVIS)) {
-            snprintf(next_column(buf, SC_COLWIDTH), sizeof(buf), "Invisible: |W%d|w", ch->invis_level);
-        }
-        if (IS_SET(ch->act, PLR_PROWL)) {
-            snprintf(next_column(buf, SC_COLWIDTH * (IS_SET(ch->act, PLR_WIZINVIS) ? 2 : 1)), sizeof(buf),
-                     "Prowl: |W%d|w", ch->invis_level);
-        }
-        strcat(buf, "\n\r");
-        ch->send_to(buf);
+        col3.stat("Holy light", IS_SET(ch->act, PLR_HOLYLIGHT) ? "on" : "off");
+        if (IS_SET(ch->act, PLR_WIZINVIS))
+            col3.stat("Invisible", ch->invis_level);
+        if (IS_SET(ch->act, PLR_PROWL))
+            col3.stat("Prowl", ch->invis_level);
+        col3.flush();
     }
+
+    if (ch->is_pc())
+        describe_condition(ch);
 
     if (IS_SET(ch->comm, COMM_AFFECT)) {
         ch->send_line("");
@@ -1175,14 +1197,14 @@ void do_score(Char *ch) {
 }
 
 void do_affected(Char *ch) {
-    ch->send_line("You are affected by:");
+    ch->send_line("|CYou are affected by|w:");
 
     if (ch->affected.empty()) {
         ch->send_line("Nothing.");
         return;
     }
     for (auto &af : ch->affected)
-        ch->send_line("{}: '{}'{}.", af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
+        ch->send_line("|C{}|w: '{}'{}.", af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
                       ch->level >= 20 ? af.describe_char_effect() : "");
 }
 
