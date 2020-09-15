@@ -37,6 +37,7 @@
 using namespace std::literals;
 
 namespace {
+
 std::string wear_string_for(const OBJ_DATA *obj, int wear_location) {
     constexpr std::array<std::string_view, MAX_WEAR> where_name = {
         "used as light",     "worn on finger",   "worn on finger",
@@ -48,6 +49,63 @@ std::string wear_string_for(const OBJ_DATA *obj, int wear_location) {
 
     return fmt::format("<{}>", obj->wear_string.empty() ? where_name[wear_location] : obj->wear_string);
 }
+
+class Columner {
+    Char &ch_;
+    std::string current_;
+    int cur_col_{};
+    int num_cols_{};
+    int col_size_{};
+
+    Columner &add_col(const std::string &column) {
+        if (cur_col_ == 0) {
+            current_ = column;
+        } else {
+            auto num_spaces = std::max(1, cur_col_ * col_size_ - static_cast<int>(mud_string_width(current_)));
+            current_ += std::string(num_spaces, ' ') + column;
+        }
+        if (++cur_col_ == num_cols_)
+            flush();
+        return *this;
+    }
+
+public:
+    explicit Columner(Char &ch, int num_cols, int col_size = 24) : ch_(ch), num_cols_(num_cols), col_size_(col_size) {}
+    ~Columner() { flush(); }
+    Columner(const Columner &) = delete;
+    Columner &operator=(const Columner &) = delete;
+    Columner(Columner &&) = delete;
+    Columner &operator=(Columner &&) = delete;
+
+    template <typename... Args>
+    Columner &add(std::string_view txt, Args &&... args) {
+        return add_col(fmt::format(txt, std::forward<Args>(args)...));
+    }
+    template <typename... Args>
+    Columner &kv(std::string_view key, std::string_view value_fmt, Args &&... args) {
+        return add_col(fmt::format("|C{}|w: {}", key, fmt::format(value_fmt, std::forward<Args>(args)...)));
+    }
+    template <typename StatVal>
+    Columner &stat(std::string_view stat, StatVal val) {
+        return kv(stat, "|W{}|w", val);
+    }
+    template <typename StatVal, typename MaxVal>
+    Columner &stat_of(std::string_view stat, StatVal val, MaxVal max) {
+        return kv(stat, "|W{}|w / {}", val, max);
+    }
+    template <typename StatVal, typename MaxVal>
+    Columner &stat_eff(std::string_view stat, StatVal val, MaxVal max) {
+        return kv(stat, "{} (|W{}|w)", val, max);
+    }
+    void flush() {
+        if (current_.empty())
+            return;
+        ch_.send_line(current_);
+        current_.clear();
+        cur_col_ = 0;
+    }
+};
+
 }
 
 /* for do_count */
@@ -364,15 +422,9 @@ void do_scroll(Char *ch, std::string_view argument) {
 
 /* RT does socials */
 void do_socials(Char *ch) {
-    int col = 0;
-    for (int iSocial = 0; social_table[iSocial].name[0] != '\0'; iSocial++) {
-        ch->send_to("{:<12}", social_table[iSocial].name);
-        if (++col % 6 == 0)
-            ch->send_line("");
-    }
-
-    if (col % 6 != 0)
-        ch->send_line("");
+    Columner col(*ch, 6, 12);
+    for (int iSocial = 0; social_table[iSocial].name[0] != '\0'; iSocial++)
+        col.add(social_table[iSocial].name);
 }
 
 /* RT Commands to replace news, motd, imotd, etc from ROM */
@@ -782,9 +834,8 @@ void look_in_object(const Char &ch, const OBJ_DATA &obj) {
         }
 
         ch.send_line("It's {} full of a {} liquid.",
-                     obj.value[1] < obj.value[0] / 4       ? "less than"
-                     : obj.value[1] < 3 * obj.value[0] / 4 ? "about"
-                                                           : "more than",
+                     obj.value[1] < obj.value[0] / 4 ? "less than"
+                                                     : obj.value[1] < 3 * obj.value[0] / 4 ? "about" : "more than",
                      liq_table[obj.value[2]].liq_color);
         break;
 
@@ -1064,56 +1115,6 @@ const char *get_align_description(int align) {
                                          static_cast<int>(align_descriptions.size()) - 1)];
 }
 
-class Columner {
-    static constexpr int ColumnWidth = 24;
-    Char &ch_;
-    std::string current_;
-    int cur_col_{};
-    int num_cols_{};
-
-    Columner &add_col(const std::string &column) {
-        if (cur_col_ == 0) {
-            current_ = column;
-        } else {
-            auto num_spaces = std::max(1, cur_col_ * ColumnWidth - static_cast<int>(mud_string_width(current_)));
-            current_ += std::string(num_spaces, ' ') + column;
-        }
-        if (++cur_col_ == num_cols_)
-            flush();
-        return *this;
-    }
-
-public:
-    explicit Columner(Char &ch, int num_cols) : ch_(ch), num_cols_(num_cols) {}
-    template <typename... Args>
-    Columner &add(std::string_view txt, Args &&... args) {
-        return add_col(fmt::format(txt, std::forward<Args>(args)...));
-    }
-    template <typename... Args>
-    Columner &kv(std::string_view key, std::string_view value_fmt, Args &&... args) {
-        return add_col(fmt::format("|C{}|w: {}", key, fmt::format(value_fmt, std::forward<Args>(args)...)));
-    }
-    template <typename StatVal>
-    Columner &stat(std::string_view stat, StatVal val) {
-        return kv(stat, "|W{}|w", val);
-    }
-    template <typename StatVal, typename MaxVal>
-    Columner &stat_of(std::string_view stat, StatVal val, MaxVal max) {
-        return kv(stat, "|W{}|w / {}", val, max);
-    }
-    template <typename StatVal, typename MaxVal>
-    Columner &stat_eff(std::string_view stat, StatVal val, MaxVal max) {
-        return kv(stat, "{} (|W{}|w)", val, max);
-    }
-    void flush() {
-        if (current_.empty())
-            return;
-        ch_.send_line(current_);
-        current_.clear();
-        cur_col_ = 0;
-    }
-};
-
 }
 
 void do_score(Char *ch) {
@@ -1131,9 +1132,7 @@ void do_score(Char *ch) {
 
     col2.stat("Race", race_table[ch->race].name)
         .stat("Class", ch->is_npc() ? "mobile" : class_table[ch->class_num].name)
-        .stat("Sex", ch->sex == 0   ? "sexless"
-                     : ch->sex == 1 ? "male"
-                                    : "female")
+        .stat("Sex", ch->sex == 0 ? "sexless" : ch->sex == 1 ? "male" : "female")
         .stat("Position", position_desc[ch->position])
         .stat_of("Items", ch->carry_number, can_carry_n(ch))
         .stat_of("Weight", ch->carry_weight, can_carry_w(ch))
@@ -1679,58 +1678,36 @@ void do_description(Char *ch, const char *argument) {
 }
 
 void do_report(Char *ch) {
-    char buf[MAX_INPUT_LENGTH];
-
-    snprintf(buf, sizeof(buf), "You say 'I have %d/%d hp %d/%d mana %d/%d mv %d xp.'\n\r", ch->hit, ch->max_hit,
-             ch->mana, ch->max_mana, ch->move, ch->max_move, (int)ch->exp);
-
-    ch->send_to(buf);
-
-    snprintf(buf, sizeof(buf), "$n says 'I have %d/%d hp %d/%d mana %d/%d mv %d xp.'", ch->hit, ch->max_hit, ch->mana,
-             ch->max_mana, ch->move, ch->max_move, (int)ch->exp);
-
-    act(buf, ch);
+    ch->send_line("You say 'I have {}/{} hp {}/{} mana {}/{} mv {} xp.'\n\r", ch->hit, ch->max_hit, ch->mana,
+                  ch->max_mana, ch->move, ch->max_move, ch->exp);
+    act(fmt::format("$n says 'I have {}/{} hp {}/{} mana {}/{} mv {} xp.'", ch->hit, ch->max_hit, ch->mana,
+                    ch->max_mana, ch->move, ch->max_move, ch->exp),
+        ch);
 }
 
 void do_practice(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-    int sn;
-
     if (ch->is_npc())
         return;
 
     if (argument[0] == '\0') {
-        int col;
-
-        col = 0;
-        for (sn = 0; sn < MAX_SKILL; sn++) {
+        Columner col(*ch, 3);
+        for (auto sn = 0; sn < MAX_SKILL; sn++) {
             if (skill_table[sn].name == nullptr)
                 break;
-            if (ch->level < get_skill_level(ch, sn)
-                || ch->pcdata->learned[sn] < 1 /* skill is not known (NOT get_skill_learned) */)
-                continue;
-
-            snprintf(buf, sizeof(buf), "%-18s %3d%%  ", skill_table[sn].name,
-                     ch->pcdata->learned[sn]); // NOT get_skill_learned
-            ch->send_to(buf);
-            if (++col % 3 == 0)
-                ch->send_line("");
+            auto skill_level = ch->pcdata->learned[sn]; // NOT get_skill_learned
+            if (ch->level >= get_skill_level(ch, sn) && skill_level > 0)
+                col.add("{:<18} {:3}%", skill_table[sn].name, skill_level);
         }
+        col.flush();
 
-        if (col % 3 != 0)
-            ch->send_line("");
-
-        snprintf(buf, sizeof(buf), "You have %d practice sessions left.\n\r", ch->practice);
-        ch->send_to(buf);
+        ch->send_line("You have {} practice sessions left.", ch->practice);
     } else {
-        Char *mob;
-        int adept;
-
         if (!IS_AWAKE(ch)) {
             ch->send_line("In your dreams, or what?");
             return;
         }
 
+        Char *mob{};
         for (mob = ch->in_room->people; mob != nullptr; mob = mob->next_in_room) {
             if (mob->is_npc() && IS_SET(mob->act, ACT_PRACTICE))
                 break;
@@ -1745,34 +1722,34 @@ void do_practice(Char *ch, const char *argument) {
             ch->send_line("You have no practice sessions left.");
             return;
         }
-
-        if ((sn = skill_lookup(argument)) < 0
-            || (ch->is_pc()
-                && ((ch->level < get_skill_level(ch, sn) || (ch->pcdata->learned[sn] < 1))))) // NOT get_skill_learned
-        {
+        auto sn = skill_lookup(argument);
+        if (sn < 0) {
             ch->send_line("You can't practice that.");
             return;
         }
 
-        adept = ch->is_npc() ? 100 : class_table[ch->class_num].skill_adept;
+        auto &skill_level = ch->pcdata->learned[sn]; // NOT get_skill_learned
+        if (ch->level < get_skill_level(ch, sn) || skill_level < 1) {
+            ch->send_line("You can't practice that.");
+            return;
+        }
 
-        if (ch->pcdata->learned[sn] >= adept) // NOT get_skill_learned
-        {
-            snprintf(buf, sizeof(buf), "You are already learned at %s.\n\r", skill_table[sn].name);
-            ch->send_to(buf);
+        auto adept = ch->is_npc() ? 100 : class_table[ch->class_num].skill_adept;
+
+        if (skill_level >= adept) {
+            ch->send_line("You are already learned at {}.", skill_table[sn].name);
         } else {
             ch->practice--;
             if (get_skill_trains(ch, sn) < 0) {
-                ch->pcdata->learned[sn] += int_app[get_curr_stat(ch, Stat::Int)].learn / 4;
+                skill_level += int_app[get_curr_stat(ch, Stat::Int)].learn / 4;
             } else {
-                ch->pcdata->learned[sn] += int_app[get_curr_stat(ch, Stat::Int)].learn / get_skill_difficulty(ch, sn);
+                skill_level += int_app[get_curr_stat(ch, Stat::Int)].learn / get_skill_difficulty(ch, sn);
             }
-            if (ch->pcdata->learned[sn] < adept) // NOT get_skill_learned
-            {
+            if (skill_level < adept) {
                 act("You practice $T.", ch, nullptr, skill_table[sn].name, To::Char);
                 act("$n practices $T.", ch, nullptr, skill_table[sn].name, To::Room);
             } else {
-                ch->pcdata->learned[sn] = adept;
+                skill_level = adept;
                 act("You are now learned at $T.", ch, nullptr, skill_table[sn].name, To::Char);
                 act("$n is now learned at $T.", ch, nullptr, skill_table[sn].name, To::Room);
             }
@@ -1783,17 +1760,8 @@ void do_practice(Char *ch, const char *argument) {
 /*
  * 'Wimpy' originally by Dionysos.
  */
-void do_wimpy(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-    char arg[MAX_INPUT_LENGTH];
-    int wimpy;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0')
-        wimpy = ch->max_hit / 5;
-    else
-        wimpy = atoi(arg);
+void do_wimpy(Char *ch, std::string_view argument) {
+    auto wimpy = ArgParser(argument).try_shift_number().value_or(ch->max_hit / 5);
 
     if (wimpy < 0) {
         ch->send_line("Your courage exceeds your wisdom.");
@@ -1806,8 +1774,7 @@ void do_wimpy(Char *ch, const char *argument) {
     }
 
     ch->wimpy = wimpy;
-    snprintf(buf, sizeof(buf), "Wimpy set to %d hit points.\n\r", wimpy);
-    ch->send_to(buf);
+    ch->send_line("Wimpy set to {} hit points.", wimpy);
 }
 
 void do_password(Char *ch, const char *argument) {

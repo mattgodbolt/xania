@@ -269,7 +269,7 @@ extern void do_where(Char *ch, const char *arg);
 extern void do_scan(Char *ch);
 extern void do_who(Char *ch, const char *arg);
 extern void do_whois(Char *ch, std::string_view argument);
-extern void do_wimpy(Char *ch, const char *arg);
+extern void do_wimpy(Char *ch, std::string_view argument);
 extern void do_wizhelp(Char *ch);
 extern void do_wizlock(Char *ch);
 extern void do_wizlist(Char *ch);
