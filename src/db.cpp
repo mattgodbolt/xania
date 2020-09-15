@@ -1820,10 +1820,9 @@ void free_string(char *pstr) {
 }
 
 // Now takes parameters (TM was 'ere 10/00)
-void do_areas(Char *ch, std::string_view argument) {
+void do_areas(Char *ch, ArgParser args) {
     int minLevel = 0;
     int maxLevel = 100;
-    ArgParser args(argument);
     if (!args.empty()) {
         auto min_level_str = args.shift();
         if (!is_number(min_level_str)) {

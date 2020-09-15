@@ -182,7 +182,7 @@ void move_char(Char *ch, Direction door) {
         }
     }
 
-    do_look(ch, "auto");
+    look_auto(ch);
 
     if (in_room == to_room) /* no circular follows */
         return;
@@ -307,7 +307,7 @@ void do_enter(Char *ch, const char *argument) {
                     char_from_room(ch);
                     char_to_room(ch, obj->destination);
                     act("$n has arrived through a portal.", ch);
-                    do_look(ch, "auto");
+                    look_auto(ch);
 
                     if (in_room == to_room) /* no circular follows */
                         return;
@@ -411,8 +411,7 @@ std::optional<Direction> find_door(Char *ch, std::string_view arg) {
     return {};
 }
 
-void do_open(Char *ch, const char *argument) {
-    ArgParser args(argument);
+void do_open(Char *ch, ArgParser args) {
     if (args.empty()) {
         ch->send_line("Open what?");
         return;
@@ -477,8 +476,7 @@ void do_open(Char *ch, const char *argument) {
     }
 }
 
-void do_close(Char *ch, const char *argument) {
-    ArgParser args(argument);
+void do_close(Char *ch, ArgParser args) {
     if (args.empty()) {
         ch->send_line("Close what?");
         return;
@@ -543,8 +541,7 @@ bool has_key(const Char *ch, int key) {
     return false;
 }
 
-void do_lock(Char *ch, const char *argument) {
-    ArgParser args(argument);
+void do_lock(Char *ch, ArgParser args) {
     if (args.empty()) {
         ch->send_line("Lock what?");
         return;
@@ -616,8 +613,7 @@ void do_lock(Char *ch, const char *argument) {
     }
 }
 
-void do_unlock(Char *ch, const char *argument) {
-    ArgParser args(argument);
+void do_unlock(Char *ch, ArgParser args) {
     if (args.empty()) {
         ch->send_line("Unlock what?");
         return;
@@ -689,8 +685,7 @@ void do_unlock(Char *ch, const char *argument) {
     }
 }
 
-void do_pick(Char *ch, const char *argument) {
-    ArgParser args(argument);
+void do_pick(Char *ch, ArgParser args) {
     if (args.empty()) {
         ch->send_line("Pick what?");
         return;
@@ -1057,7 +1052,7 @@ void do_recall(Char *ch, const char *argument) {
     if (!IS_SET(ch->act, PLR_WIZINVIS))
         act("$n appears in the room.", ch);
 
-    do_look(ch, "auto");
+    look_auto(ch);
 
     if (ch->is_npc() && ch->ridden_by) {
         act("$n falls to the ground.", ch->ridden_by);

@@ -2548,7 +2548,7 @@ void spell_gate(int sn, int level, Char *ch, void *vo) {
     char_to_room(ch, victim->in_room);
 
     act("$n has arrived through a gate.", ch);
-    do_look(ch, "auto");
+    look_auto(ch);
 
     if (gate_pet && (ch->pet->in_room != ch->in_room)) {
         act("$n steps through a gate and vanishes.", ch->pet);
@@ -2556,7 +2556,7 @@ void spell_gate(int sn, int level, Char *ch, void *vo) {
         char_from_room(ch->pet);
         char_to_room(ch->pet, victim->in_room);
         act("$n has arrived through a gate.", ch->pet);
-        do_look(ch->pet, "auto");
+        look_auto(ch->pet);
     }
 }
 
@@ -3467,7 +3467,7 @@ void spell_summon(int sn, int level, Char *ch, void *vo) {
     char_to_room(victim, ch->in_room);
     act("$n arrives suddenly.", victim);
     act("$n has summoned you!", ch, nullptr, victim, To::Vict);
-    do_look(victim, "auto");
+    look_auto(victim);
 }
 
 void spell_teleport(int sn, int level, Char *ch, void *vo) {
@@ -3504,7 +3504,7 @@ void spell_teleport(int sn, int level, Char *ch, void *vo) {
         act("You fall to the ground with a thud!", victim, nullptr, nullptr, To::Char);
         fallen_off_mount(ch);
     } /* end ride check */
-    do_look(victim, "auto");
+    look_auto(victim);
 }
 
 void spell_ventriloquate(int sn, int level, Char *ch, void *vo) {
@@ -3585,7 +3585,7 @@ void spell_word_of_recall(int sn, int level, Char *ch, void *vo) {
         char_to_room(victim->riding, location);
     if (victim->invis_level < HERO)
         act("$n appears in the room.", victim);
-    do_look(victim, "auto");
+    look_auto(victim);
     if (ch->pet != nullptr)
         do_recall(ch->pet, "");
 }

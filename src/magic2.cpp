@@ -57,7 +57,7 @@ void tornado_teleport(Char *ch, Char *victim) {
         act("You fall to the ground with a thud!", victim, nullptr, nullptr, To::Char);
         fallen_off_mount(ch);
     } /* end ride check */
-    do_look(victim, "auto");
+    look_auto(victim);
 }
 
 void tornado_dam(Char *ch, Char *victim, int level) {

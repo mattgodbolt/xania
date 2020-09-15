@@ -390,8 +390,7 @@ ROOM_INDEX_DATA *find_location(Char *ch, std::string_view arg) {
     return nullptr;
 }
 
-void do_transfer(Char *ch, std::string_view argument) {
-    ArgParser args(argument);
+void do_transfer(Char *ch, ArgParser args) {
     if (args.empty()) {
         ch->send_line("Transfer whom (and where)?");
         return;
@@ -403,7 +402,7 @@ void do_transfer(Char *ch, std::string_view argument) {
         for (auto &victim :
              descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch) | DescriptorFilter::to_character()) {
             if (victim.in_room != nullptr)
-                do_transfer(ch, fmt::format("{} {}", victim.name, where));
+                do_transfer(ch, ArgParser(fmt::format("{} {}", victim.name, where)));
         }
         return;
     }
@@ -450,7 +449,7 @@ void transfer(const Char *imm, Char *victim, ROOM_INDEX_DATA *location) {
     act("$n arrives from a puff of smoke.", victim);
     if (imm != victim)
         act("$n has transferred you.", imm, nullptr, victim, To::Vict);
-    do_look(victim, "auto");
+    look_auto(victim);
     imm->send_line("Ok.");
 }
 
@@ -565,7 +564,7 @@ void do_goto(Char *ch, const char *argument) {
         }
     }
 
-    do_look(ch, "auto");
+    look_auto(ch);
 }
 
 /* RT to replace the 3 stat commands */

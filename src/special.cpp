@@ -985,11 +985,11 @@ bool spec_mayor(Char *ch) {
 
     case 'O':
         /* do_unlock( ch, "gate" ); */
-        do_open(ch, "gate");
+        do_open(ch, ArgParser("gate"));
         break;
 
     case 'C':
-        do_close(ch, "gate");
+        do_close(ch, ArgParser("gate"));
         /* do_lock( ch, "gate" ); */
         break;
 

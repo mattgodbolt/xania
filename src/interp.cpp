@@ -57,9 +57,9 @@ static const char *bad_position_string[] = {"Lie still; you are DEAD.\n\r",
                                             "You're standing.\n\r"};
 
 // Function object for commands run by the interpreter, the do_ functions.
-// argument is modified (currently) by some of the text processing routines.
 using CommandFunc = std::function<void(Char *ch, const char *argument)>;
 using CommandFuncNoArgs = std::function<void(Char *ch)>;
+using CommandFuncArgParser = std::function<void(Char *ch, ArgParser)>;
 
 struct CommandInfo {
     const char *name;
@@ -85,6 +85,16 @@ static void add_command(const char *name, CommandFuncNoArgs do_fun, sh_int posit
     commands.add(name,
                  CommandInfo(
                      name, [f = std::move(do_fun)](Char *ch, const char *) { f(ch); }, position, level, log, show),
+                 level);
+}
+
+// Add command with no args.
+static void add_command(const char *name, CommandFuncArgParser do_fun, sh_int position = POS_DEAD, sh_int level = 0,
+                        CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
+    commands.add(name,
+                 CommandInfo(
+                     name, [f = std::move(do_fun)](Char *ch, const char *args) { f(ch, ArgParser(args)); }, position,
+                     level, log, show),
                  level);
 }
 

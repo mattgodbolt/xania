@@ -380,13 +380,12 @@ bool check_blind(const Char *ch) {
 }
 
 /* changes your scroll */
-void do_scroll(Char *ch, std::string_view argument) {
+void do_scroll(Char *ch, ArgParser args) {
     // Pager limited to 52 due to memory complaints relating to
     // buffer code ...short term fix :) --Faramir
     static constexpr int MaxScrollLength = 52;
     static constexpr int MinScrollLength = 10;
 
-    ArgParser args(argument);
     if (args.empty()) {
         if (ch->lines == 0) {
             ch->send_line("|cPaging is set to maximum.|w");
@@ -935,32 +934,43 @@ void look_direction(const Char &ch, Direction door) {
     }
 }
 
-}
-
-void do_look(Char *ch, std::string_view arguments) {
+bool check_look(Char *ch) {
     if (ch->desc == nullptr)
-        return;
+        return false;
 
     if (ch->position < POS_SLEEPING) {
         ch->send_line("You can't see anything but stars!");
-        return;
+        return false;
     }
 
     if (ch->position == POS_SLEEPING) {
         ch->send_line("You can't see anything, you're sleeping!");
-        return;
+        return false;
     }
 
     if (!check_blind(ch))
-        return;
+        return false;
 
     if (!ch->has_holylight() && room_is_dark(ch->in_room)) {
         ch->send_line("It is pitch black ... ");
         show_char_to_char(ch->in_room->people, ch);
-        return;
+        return false;
     }
+    return true;
+}
 
-    ArgParser args(arguments);
+}
+
+void look_auto(Char *ch) {
+    if (!check_look(ch))
+        return;
+    room_look(*ch, false);
+}
+
+void do_look(Char *ch, ArgParser args) {
+    if (!check_look(ch))
+        return;
+
     auto first_arg = args.shift();
 
     // A normal look, or a look auto to describe the room?
@@ -1007,19 +1017,14 @@ void do_look(Char *ch, std::string_view arguments) {
     ch->send_line("You do not see that here.");
 }
 
-/* RT added back for the hell of it */
-void do_read(Char *ch, std::string_view argument) { do_look(ch, argument); }
-
-void do_examine(Char *ch, std::string_view argument) {
-    ArgParser args(argument);
-
+void do_examine(Char *ch, ArgParser args) {
     if (args.empty()) {
         ch->send_line("Examine what?");
         return;
     }
 
     auto arg = args.shift();
-    do_look(ch, arg);
+    do_look(ch, ArgParser(arg));
 
     if (auto *obj = get_obj_here(ch, arg)) {
         switch (obj->item_type) {
@@ -1028,7 +1033,10 @@ void do_examine(Char *ch, std::string_view argument) {
         case ITEM_DRINK_CON:
         case ITEM_CONTAINER:
         case ITEM_CORPSE_NPC:
-        case ITEM_CORPSE_PC: ch->send_line("When you look inside, you see:"); do_look(ch, fmt::format("in {}", arg));
+        case ITEM_CORPSE_PC:
+            ch->send_line("When you look inside, you see:");
+            do_look(ch, ArgParser(fmt::format("in {}", arg)));
+            break;
         }
     }
 }
@@ -1295,9 +1303,7 @@ std::string who_line_for(const Char &to, const Char &wch) {
 }
 
 /* whois command */
-void do_whois(Char *ch, std::string_view argument) {
-    ArgParser args(argument);
-
+void do_whois(Char *ch, ArgParser args) {
     if (args.empty()) {
         ch->send_line("You must provide a name.");
         return;
@@ -1760,8 +1766,8 @@ void do_practice(Char *ch, const char *argument) {
 /*
  * 'Wimpy' originally by Dionysos.
  */
-void do_wimpy(Char *ch, std::string_view argument) {
-    auto wimpy = ArgParser(argument).try_shift_number().value_or(ch->max_hit / 5);
+void do_wimpy(Char *ch, ArgParser args) {
+    auto wimpy = args.try_shift_number().value_or(ch->max_hit / 5);
 
     if (wimpy < 0) {
         ch->send_line("Your courage exceeds your wisdom.");

@@ -1010,7 +1010,7 @@ void nanny(Descriptor *d, const char *argument) {
 
         announce(fmt::format("|W### |P{}|W has entered the game.|w", ch->name), ch);
         act("|P$n|W has entered the game.", ch);
-        do_look(ch, "auto");
+        look_auto(ch);
 
         /* Rohan: code to increase the player count if needed - it was only
            updated if a player did count */

@@ -493,9 +493,8 @@ void unride_char(Char *ch, Char *pet) {
     affect_strip(ch, gsn_ride);
 }
 
-void do_follow(Char *ch, std::string_view argument) {
+void do_follow(Char *ch, ArgParser args) {
     /* RT changed to allow unlimited following and follow the NOFOLLOW rules */
-    ArgParser args(argument);
     if (args.empty()) {
         ch->send_line("Follow whom?");
         return;

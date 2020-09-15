@@ -469,7 +469,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
         /* Set up the zombie correctly */
         animated->master = ch;
         animated->leader = ch;
-        do_follow(animated, ch->name);
+        do_follow(animated, ArgParser(ch->name));
     }
 }
 

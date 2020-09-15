@@ -18,11 +18,13 @@
  *  such installation can be found in INSTALL.  Enjoy........    N'Atas-Ha *
  ***************************************************************************/
 
+#include "ArgParser.hpp"
 #include "DescriptorList.hpp"
 #include "MobIndexData.hpp"
 #include "comm.hpp"
 #include "db.h"
 #include "handler.hpp"
+#include "interp.h"
 #include "merc.h"
 #include "string_utils.hpp"
 
@@ -36,7 +38,6 @@
  */
 
 ROOM_INDEX_DATA *find_location(Char *ch, std::string_view arg);
-void do_transfer(Char *ch, std::string_view argument);
 
 /* This routine transfers between alpha and numeric forms of the
  *  mob_prog bitvector types. It allows the words to show up in mpstat to
@@ -505,7 +506,7 @@ void do_mptransfer(Char *ch, const char *argument) {
         for (auto &victim :
              descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch) | DescriptorFilter::to_character()) {
             if (victim.in_room != nullptr) {
-                do_transfer(ch, fmt::format("{} {}", victim.name, arg2));
+                do_transfer(ch, ArgParser(fmt::format("{} {}", victim.name, arg2)));
             }
         }
         return;
