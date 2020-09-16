@@ -496,16 +496,8 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
         ch->parts = race_table[ch->race].parts;
     }
 
-    /* RT initialize skills */
-
-    if (!res.newly_created && ch->version < 2) /* need to add the new skills */
-    {
-        group_add(ch, "rom basics", false);
-        group_add(ch, class_table[ch->class_num].base_group, false);
-        group_add(ch, class_table[ch->class_num].default_group, true);
-        ch->pcdata->learned[gsn_recall] = 50;
-    }
-
+    // For pfile upgrades we can use:
+    // if (!res.newly_created && ch->version < 4) { code to alter/retro fit old chars }
     return res;
 }
 
