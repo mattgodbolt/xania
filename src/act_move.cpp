@@ -16,9 +16,15 @@
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+#include <range/v3/range/conversion.hpp>
+#include <range/v3/view/concat.hpp>
+#include <range/v3/view/filter.hpp>
+#include <range/v3/view/transform.hpp>
 
 #include <cstdio>
 #include <cstring>
+
+using namespace std::literals;
 
 const sh_int movement_loss[SECT_MAX] = {1, 2, 2, 3, 4, 6, 4, 1, 6, 10, 6};
 
@@ -884,12 +890,8 @@ void do_sleep(Char *ch) {
     }
 }
 
-void do_wake(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    one_argument(argument, arg);
-    if (arg[0] == '\0') {
+void do_wake(Char *ch, ArgParser args) {
+    if (args.empty()) {
         /* Changed by rohan so that if you are resting or sitting, when you type
            wake, it will still make you stand up */
         /*      if (IS_AWAKE(ch)) {*/
@@ -907,7 +909,8 @@ void do_wake(Char *ch, const char *argument) {
         return;
     }
 
-    if ((victim = get_char_room(ch, arg)) == nullptr) {
+    auto *victim = get_char_room(ch, args.shift());
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
@@ -969,12 +972,7 @@ void do_visible(Char *ch) {
     ch->send_line("Ok.");
 }
 
-void do_recall(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-    Char *victim;
-    ROOM_INDEX_DATA *location;
-    int vnum;
-
+void do_recall(Char *ch, ArgParser args) {
     if (ch->is_npc() && !IS_SET(ch->act, ACT_PET)) {
         ch->send_line("Only players can recall.");
         return;
@@ -983,7 +981,9 @@ void do_recall(Char *ch, const char *argument) {
     if (!IS_SET(ch->act, PLR_WIZINVIS))
         act("$n prays for transportation!", ch);
 
-    if (!str_cmp(argument, "clan")) {
+    auto vnum = ROOM_VNUM_TEMPLE;
+    auto destination = args.shift();
+    if (matches(destination, "clan")) {
         if (IS_SET(ch->act, ACT_PET)) {
             if (ch->master != nullptr) {
                 if (ch->master->clan())
@@ -1000,11 +1000,10 @@ void do_recall(Char *ch, const char *argument) {
                 return;
             }
         }
-    } else {
-        vnum = ROOM_VNUM_TEMPLE;
     }
 
-    if ((location = get_room_index(vnum)) == nullptr) {
+    auto *location = get_room_index(vnum);
+    if (!location) {
         ch->send_line("You are completely lost.");
         return;
     }
@@ -1015,12 +1014,11 @@ void do_recall(Char *ch, const char *argument) {
     }
 
     if (IS_SET(ch->in_room->room_flags, ROOM_NO_RECALL) || IS_AFFECTED(ch, AFF_CURSE)) {
-        snprintf(buf, sizeof(buf), "%s has forsaken you.\n\r", deity_name);
-        ch->send_to(buf);
+        ch->send_line("{} has forsaken you.", deity_name);
         return;
     }
 
-    if ((victim = ch->fighting) != nullptr) {
+    if (ch->fighting) {
         int lose, skill;
 
         if (ch->is_npc())
@@ -1031,16 +1029,14 @@ void do_recall(Char *ch, const char *argument) {
         if (number_percent() < 80 * skill / 100) {
             check_improve(ch, gsn_recall, false, 6);
             WAIT_STATE(ch, 4);
-            snprintf(buf, sizeof(buf), "You failed!.\n\r");
-            ch->send_to(buf);
+            ch->send_line("You failed!");
             return;
         }
 
         lose = (ch->desc != nullptr) ? 25 : 50;
         gain_exp(ch, 0 - lose);
         check_improve(ch, gsn_recall, true, 4);
-        snprintf(buf, sizeof(buf), "You recall from combat!  You lose %d exps.\n\r", lose);
-        ch->send_to(buf);
+        ch->send_line("You recall from combat!  You lose {} exps.", lose);
         stop_fighting(ch, true);
     }
 
@@ -1060,23 +1056,20 @@ void do_recall(Char *ch, const char *argument) {
         fallen_off_mount(ch->ridden_by);
     }
 
-    if (ch->pet != nullptr && ch->pet->in_room != location)
-        do_recall(ch->pet, argument);
+    if (ch->pet && ch->pet->in_room != location) {
+        // We construct a new argparser here as the one we have has been modified to shift the arg off.
+        do_recall(ch->pet, ArgParser(destination));
+    }
 }
 
-void do_train(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-    Char *mob;
-    Stat stat = Stat::Str;
-    const char *pOutput = nullptr;
-    int cost;
-
+void do_train(Char *ch, ArgParser args) {
     if (ch->is_npc())
         return;
 
     /*
      * Check for trainer.
      */
+    Char *mob;
     for (mob = ch->in_room->people; mob; mob = mob->next_in_room) {
         if (mob->is_npc() && IS_SET(mob->act, ACT_TRAIN))
             break;
@@ -1087,84 +1080,34 @@ void do_train(Char *ch, const char *argument) {
         return;
     }
 
-    if (argument[0] == '\0') {
-        snprintf(buf, sizeof(buf), "You have %d training sessions.\n\r", ch->train);
-        ch->send_to(buf);
-        argument = "foo";
+    auto to_train = args.shift();
+    if (to_train.empty()) {
+        ch->send_line("You have {} training sessions.", ch->train);
     }
 
-    cost = 1;
+    static constexpr auto cost = 1; // See(#222)
 
-    if (!str_cmp(argument, "str")) {
-        if (class_table[ch->class_num].attr_prime == Stat::Str)
-            cost = 1;
-        stat = Stat::Str;
-        pOutput = "strength";
-    }
-
-    else if (!str_cmp(argument, "int")) {
-        if (class_table[ch->class_num].attr_prime == Stat::Int)
-            cost = 1;
-        stat = Stat::Int;
-        pOutput = "intelligence";
-    }
-
-    else if (!str_cmp(argument, "wis")) {
-        if (class_table[ch->class_num].attr_prime == Stat::Wis)
-            cost = 1;
-        stat = Stat::Wis;
-        pOutput = "wisdom";
-    }
-
-    else if (!str_cmp(argument, "dex")) {
-        if (class_table[ch->class_num].attr_prime == Stat::Dex)
-            cost = 1;
-        stat = Stat::Dex;
-        pOutput = "dexterity";
-    }
-
-    else if (!str_cmp(argument, "con")) {
-        if (class_table[ch->class_num].attr_prime == Stat::Con)
-            cost = 1;
-        stat = Stat::Con;
-        pOutput = "constitution";
-    }
-
-    else if (!str_cmp(argument, "hp"))
-        cost = 1;
-
-    else if (!str_cmp(argument, "mana"))
-        cost = 1;
-
-    else {
-        strcpy(buf, "You can train:");
-        if (ch->perm_stat[Stat::Str] < get_max_train(ch, Stat::Str))
-            strcat(buf, " str");
-        if (ch->perm_stat[Stat::Int] < get_max_train(ch, Stat::Int))
-            strcat(buf, " int");
-        if (ch->perm_stat[Stat::Wis] < get_max_train(ch, Stat::Wis))
-            strcat(buf, " wis");
-        if (ch->perm_stat[Stat::Dex] < get_max_train(ch, Stat::Dex))
-            strcat(buf, " dex");
-        if (ch->perm_stat[Stat::Con] < get_max_train(ch, Stat::Con))
-            strcat(buf, " con");
-        strcat(buf, " hp mana");
-
-        if (buf[strlen(buf) - 1] != ':') {
-            strcat(buf, ".\n\r");
-            ch->send_to(buf);
-        } else {
-            /*
-             * This message dedicated to Jordan ... you big stud!
-             */
-            act("You have nothing left to train, you $T!", ch, nullptr,
-                ch->sex == SEX_MALE ? "big stud" : ch->sex == SEX_FEMALE ? "hot babe" : "wild thing", To::Char);
+    if (auto maybe_stat = try_parse_stat(to_train)) {
+        auto stat = *maybe_stat;
+        if (ch->perm_stat[stat] >= get_max_train(ch, stat)) {
+            act("Your $T is already at maximum.", ch, nullptr, to_long_string(stat), To::Char);
+            return;
         }
 
+        if (cost > ch->train) {
+            ch->send_line("You don't have enough training sessions.");
+            return;
+        }
+
+        ch->train -= cost;
+
+        ch->perm_stat[stat] += 1;
+        act("|WYour $T increases!|w", ch, nullptr, to_long_string(stat), To::Char);
+        act("|W$n's $T increases!|w", ch, nullptr, to_long_string(stat), To::Room);
         return;
     }
 
-    if (!str_cmp("hp", argument)) {
+    if (matches("hp", to_train)) {
         if (cost > ch->train) {
             ch->send_line("You don't have enough training sessions.");
             return;
@@ -1179,7 +1122,7 @@ void do_train(Char *ch, const char *argument) {
         return;
     }
 
-    if (!str_cmp("mana", argument)) {
+    if (matches("mana", to_train)) {
         if (cost > ch->train) {
             ch->send_line("You don't have enough training sessions.");
             return;
@@ -1194,19 +1137,13 @@ void do_train(Char *ch, const char *argument) {
         return;
     }
 
-    if (ch->perm_stat[stat] >= get_max_train(ch, stat)) {
-        act("Your $T is already at maximum.", ch, nullptr, pOutput, To::Char);
-        return;
-    }
-
-    if (cost > ch->train) {
-        ch->send_line("You don't have enough training sessions.");
-        return;
-    }
-
-    ch->train -= cost;
-
-    ch->perm_stat[stat] += 1;
-    act("|WYour $T increases!|w", ch, nullptr, pOutput, To::Char);
-    act("|W$n's $T increases!|w", ch, nullptr, pOutput, To::Room);
+    const std::array always_trainable = {"hp"sv, "mana"sv};
+    // With newer `fmt` we can avoid the `to` and inline the whole thing.
+    // waiting on https://github.com/fmtlib/fmt/commit/febffa4e64b60099055d057c7818951ccb33ad69 being merged
+    const auto trainable = ranges::views::concat(all_stats | ranges::views::filter([&](auto stat) {
+                                                     return ch->perm_stat[stat] < get_max_train(ch, stat);
+                                                 }) | ranges::views::transform(to_short_string),
+                                                 always_trainable)
+                           | ranges::to<std::vector<std::string_view>>;
+    ch->send_line("You can train: {}.", fmt::join(trainable, " "sv));
 }

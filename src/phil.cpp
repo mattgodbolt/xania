@@ -61,7 +61,7 @@ bool doSleepActions(Char *ch, ROOM_INDEX_DATA *home) {
     if (ch->position == POS_SLEEPING) {
         sleepiness -= SLEEP_PT_ASLEEP;
         if (sleepFactor < WAKE_AT) {
-            do_wake(ch, "");
+            do_wake(ch, ArgParser(""));
             return true;
         }
         if (sleepFactor < STIR_AT) {

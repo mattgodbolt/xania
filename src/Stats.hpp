@@ -3,6 +3,8 @@
 #include "Types.hpp"
 
 #include <array>
+#include <optional>
+#include <string_view>
 
 enum class Stat {
     // Order is important: this is the order these are specified in the pfiles and area files.
@@ -13,6 +15,31 @@ enum class Stat {
     Con = 4
 };
 static constexpr inline auto MAX_STATS = 5;
+inline std::string_view to_short_string(Stat stat) {
+    using namespace std::literals;
+    switch (stat) {
+    case Stat::Str: return "str"sv;
+    case Stat::Int: return "int"sv;
+    case Stat::Wis: return "wis"sv;
+    case Stat::Dex: return "dex"sv;
+    case Stat::Con: return "con"sv;
+    }
+    return "(unknown)"sv;
+}
+inline std::string_view to_long_string(Stat stat) {
+    using namespace std::literals;
+    switch (stat) {
+    case Stat::Str: return "strength"sv;
+    case Stat::Int: return "intelligence"sv;
+    case Stat::Wis: return "wisdom"sv;
+    case Stat::Dex: return "dexterity"sv;
+    case Stat::Con: return "constitution"sv;
+    }
+    return "(unknown)"sv;
+}
+inline constexpr std::array all_stats = {Stat::Str, Stat::Int, Stat::Wis, Stat::Dex, Stat::Con};
+
+std::optional<Stat> try_parse_stat(std::string_view stat_name);
 
 class Stats {
     std::array<sh_int, MAX_STATS> stats_{};

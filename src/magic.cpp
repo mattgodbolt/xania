@@ -3587,7 +3587,7 @@ void spell_word_of_recall(int sn, int level, Char *ch, void *vo) {
         act("$n appears in the room.", victim);
     look_auto(victim);
     if (ch->pet != nullptr)
-        do_recall(ch->pet, "");
+        do_recall(ch->pet, ArgParser(""));
 }
 
 /*

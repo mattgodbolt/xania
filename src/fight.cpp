@@ -882,7 +882,7 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
      */
     if (victim->is_pc() && victim->desc == nullptr) {
         if (number_range(0, victim->wait) == 0) {
-            do_recall(victim, "");
+            do_recall(victim, ArgParser(""));
             return true;
         }
     }
