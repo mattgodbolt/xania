@@ -42,10 +42,12 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
     dam_type = attack_lookup(fread_word(fp));
 
     // read armor class
-    ac[AC_PIERCE] = fread_number(fp) * 10;
-    ac[AC_BASH] = fread_number(fp) * 10;
-    ac[AC_SLASH] = fread_number(fp) * 10;
-    ac[AC_EXOTIC] = fread_number(fp) * 10;
+    // #216 All armour values now use -1 as their base value. However existing
+    // area files don't take this into account. Until they do, make this adjustment.
+    ac[AC_PIERCE] = fread_number(fp) - 15;
+    ac[AC_BASH] = fread_number(fp) - 15;
+    ac[AC_SLASH] = fread_number(fp) - 15;
+    ac[AC_EXOTIC] = fread_number(fp) - 15;
 
     // read flags and add in data from the race table
     off_flags = fread_flag(fp) | race_table[race].off;

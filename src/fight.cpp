@@ -440,66 +440,66 @@ void one_hit(Char *ch, Char *victim, int dt) {
 
     /* get the weapon skill */
     sn = get_weapon_sn(ch);
-    skill = 20 + get_weapon_skill(ch, sn);
+    skill = get_weapon_skill(ch, sn);
 
     /*
      * Calculate to-hit-armor-class-0 versus armor.
      */
     if (ch->is_npc()) {
-        thac0_00 = 20;
-        thac0_32 = -4; /* as good as a thief */
+        thac0_00 = -4;
+        thac0_32 = -64; /* as good as a thief */
 
         if (IS_SET(ch->act, ACT_WARRIOR))
-            thac0_32 = -10;
+            thac0_32 = -70;
         else if (IS_SET(ch->act, ACT_THIEF))
-            thac0_32 = -4;
+            thac0_32 = -64;
         else if (IS_SET(ch->act, ACT_CLERIC))
-            thac0_32 = 2;
+            thac0_32 = -60;
         else if (IS_SET(ch->act, ACT_MAGE))
-            thac0_32 = 6;
+            thac0_32 = -57;
     } else {
         thac0_00 = class_table[ch->class_num].thac0_00;
         thac0_32 = class_table[ch->class_num].thac0_32;
     }
 
     thac0 = interpolate(ch->level, thac0_00, thac0_32);
-
-    thac0 -= ch->get_hitroll() * skill / 100;
-    thac0 += 5 * (100 - skill) / 100;
-
+    thac0 *= (skill/100.f);
+    thac0 -= ch->get_hitroll();
+    // Blindness caused by blind spell or dirt kick reduces your chance of landing a blow
+    if (!can_see(ch, victim))
+        thac0 *= 0.8f;
     if (dt == gsn_backstab)
-        /* changed from
-         * thac0 -= 10 * (100 - get_skill(ch,gsn_backstab));
-         * to this....Fara 28/8/96
-         */
-        thac0 -= (5 * (100 - get_skill(ch, gsn_backstab)));
+        thac0 -= get_skill(ch, gsn_backstab) / 3;
 
     switch (dam_type) {
-    case (DAM_PIERCE): victim_ac = GET_AC(victim, AC_PIERCE) / 10; break;
-    case (DAM_BASH): victim_ac = GET_AC(victim, AC_BASH) / 10; break;
-    case (DAM_SLASH): victim_ac = GET_AC(victim, AC_SLASH) / 10; break;
-    default: victim_ac = GET_AC(victim, AC_EXOTIC) / 10; break;
+    case (DAM_PIERCE): victim_ac = GET_AC(victim, AC_PIERCE); break;
+    case (DAM_BASH): victim_ac = GET_AC(victim, AC_BASH); break;
+    case (DAM_SLASH): victim_ac = GET_AC(victim, AC_SLASH); break;
+    default: victim_ac = GET_AC(victim, AC_EXOTIC); break;
     };
 
-    if (victim_ac < -15)
-        victim_ac = (victim_ac + 15) / 5 - 15;
-
-    if (!can_see(ch, victim))
-        victim_ac -= 4;
-
-    if (victim->position < POS_FIGHTING)
-        victim_ac += 4;
-
+    // Victim is more vulnerable if they're stunned or sleeping,
+    // and a little less so if they're resting or sitting.
     if (victim->position < POS_RESTING)
-        victim_ac += 6;
+        victim_ac *= 0.8f;
+    else if (victim->position < POS_FIGHTING)
+        victim_ac *= 0.9f;
 
-    /*
-     * The moment of excitement!
-     */
-    while ((diceroll = number_bits(5)) >= 20)
-        ;
+    if (victim_ac >= 0) {
+        victim_ac = -1;
+    }
+    if (thac0 >= 0) {
+        thac0 = -1;
+    }
+    victim_ac = -victim_ac;
+    thac0 = -thac0;
+    float to_hit_ratio = ((float)thac0 / (float)victim_ac) * 100;
+    // Regardless of how strong thac0 is relative to victim ac, there's always a chance to hit or miss.
+    int hit_chance = URANGE(10, to_hit_ratio, 95);
+    diceroll = dice(1, 100);
+    log_string("ch={} vic={} thac0={}  diceroll={}  victim_ac={} to_hit_ratio={} hit_chance={}", ch->name, victim->name, thac0, diceroll, victim_ac, to_hit_ratio, hit_chance);
 
-    if (diceroll == 0 || (diceroll != 19 && diceroll < thac0 - victim_ac)) {
+    if (diceroll >= hit_chance) {
         /* Miss. */
         damage(ch, victim, 0, dt, dam_type);
         return;
@@ -647,12 +647,19 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
         dam = DAMAGE_CAP;
     }
 
-    /* damage reduction */
-    if (dam > 30)
-        dam = (dam - 30) / 2 + 30;
-    if (dam > 75)
-        dam = (dam - 75) / 2 + 75;
+    log_string("ch {} dmg {}", ch->name, dam);
 
+    /* damage reduction */
+    // if (dam > 30) {
+    //     int new_dam = (dam - 30) / 2 + 30;
+    //     log_string("Dam reduction 1: ch: {}, vict: {}, {} - {}", ch->name, victim->name, dam, new_dam);
+    //     dam = new_dam;
+    // }
+    // if (dam > 75) {
+    //     int new_dam = (dam - 75) / 2 + 75;
+    //     log_string("Dam reduction 2: ch: {}, vict: {}, {} - {}", ch->name, victim->name, dam, new_dam);
+    //     dam = new_dam;
+    // }
     /*
      * New code to make octarine fire a little bit more effective
      */
@@ -1116,21 +1123,20 @@ bool check_parry(Char *ch, Char *victim) {
 
     if (!IS_AWAKE(victim))
         return false;
-
-    if (victim->is_npc()) {
-        chance = UMIN(30, victim->level);
-        if (is_affected(victim, gsn_insanity))
-            chance -= 10;
-    } else
-        chance = get_skill_learned(victim, gsn_parry) / 2;
-
     if (get_eq_char(victim, WEAR_WIELD) == nullptr)
         return false;
     if ((weapon = get_eq_char(ch, WEAR_WIELD)) != nullptr) {
         if (weapon->value[0] == WEAPON_WHIP)
             return false;
     }
-    if (number_percent() >= chance + victim->level - ch->level)
+    if (victim->is_npc()) {
+        chance = (victim->level / 4) + 1;
+        if (is_affected(victim, gsn_insanity))
+            chance -= 10;
+    } else
+        chance = get_skill_learned(victim, gsn_parry) / 3;
+    chance = UMAX(5, chance + victim->level - ch->level);
+    if (number_percent() >= chance)
         return false;
     if (IS_SET(victim->comm, COMM_SHOWDEFENCE))
         act("You parry $n's attack.", ch, nullptr, victim, To::Vict);
@@ -1149,21 +1155,20 @@ bool check_shield_block(Char *ch, Char *victim) {
 
     if (!IS_AWAKE(victim))
         return false;
-
-    if (victim->is_npc()) {
-        chance = UMIN(30, victim->level);
-        if (is_affected(victim, gsn_insanity))
-            chance -= 10;
-    } else
-        chance = get_skill_learned(victim, gsn_shield_block) / 2;
-
     if (get_eq_char(victim, WEAR_SHIELD) == nullptr)
         return false;
     if ((weapon = get_eq_char(ch, WEAR_WIELD)) != nullptr) {
         if (weapon->value[0] == WEAPON_WHIP)
             return false;
     }
-    if (number_percent() >= chance + victim->level - ch->level)
+    if (victim->is_npc()) {
+        chance = (victim->level / 4) + 1;
+        if (is_affected(victim, gsn_insanity))
+            chance -= 10;
+    } else
+        chance = get_skill_learned(victim, gsn_shield_block) / 3;
+    chance = UMAX(5, chance + victim->level - ch->level);
+    if (number_percent() >= chance)
         return false;
 
     if (IS_SET(victim->comm, COMM_SHOWDEFENCE))
@@ -1179,26 +1184,20 @@ bool check_shield_block(Char *ch, Char *victim) {
  */
 bool check_dodge(Char *ch, Char *victim) {
     int chance;
-    int ddex = 0;
-
     if (!IS_AWAKE(victim))
         return false;
 
     if (victim->is_npc()) {
-        chance = UMIN(30, victim->level);
+        chance = (victim->level / 4) + 1;
         if (is_affected(victim, gsn_insanity))
             chance -= 10;
     } else
-        chance = get_skill_learned(victim, gsn_dodge) / 2;
+        chance = get_skill_learned(victim, gsn_dodge) / 3;
 
-    /* added Faramir so dexterity actually influences like it says
-     * in the help file! Thanx to Oshea for noticing */
-    ddex = ((get_curr_stat(victim, Stat::Dex) - (get_curr_stat(ch, Stat::Dex))) * 3);
-
+    auto ddex = get_curr_stat(victim, Stat::Dex) - get_curr_stat(ch, Stat::Dex);
     chance += ddex;
-    chance += (get_curr_stat(victim, Stat::Dex) / 2);
-
-    if (number_percent() >= chance + victim->level - ch->level)
+    chance = UMAX(5, chance + victim->level - ch->level);
+    if (number_percent() >= chance)
         return false;
 
     if (IS_SET(victim->comm, COMM_SHOWDEFENCE))
@@ -1417,7 +1416,7 @@ void raw_kill(Char *victim) {
         affect_remove(victim, victim->affected.front());
     victim->affected_by = race_table[victim->race].aff;
     if (!in_duel(victim))
-        victim->armor.fill(100);
+        victim->armor.fill(-1);
     victim->position = POS_RESTING;
     victim->hit = UMAX(1, victim->hit);
     victim->mana = UMAX(1, victim->mana);
@@ -2075,7 +2074,7 @@ void do_berserk(Char *ch) {
         af.location = AffectLocation::Damroll;
         affect_to_char(ch, af);
 
-        af.modifier = UMAX(10, 10 * (ch->level / 5));
+        af.modifier = UMAX(10, ch->level);
         af.location = AffectLocation::Ac;
         affect_to_char(ch, af);
 

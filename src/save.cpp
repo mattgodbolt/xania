@@ -140,7 +140,7 @@ void fwrite_char(const Char *ch, FILE *fp) {
     fprintf(fp, "#%s\n", ch->is_npc() ? "MOB" : "PLAYER");
 
     fprintf(fp, "Name %s~\n", ch->name.c_str());
-    fprintf(fp, "Vers %d\n", 3);
+    fprintf(fp, "Vers %d\n", 4);
     if (!ch->short_descr.empty())
         fprintf(fp, "ShD  %s~\n", ch->short_descr.c_str());
     if (!ch->long_descr.empty())
@@ -496,8 +496,15 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
         ch->parts = race_table[ch->race].parts;
     }
 
-    // For pfile upgrades we can use:
-    // if (!res.newly_created && ch->version < 4) { code to alter/retro fit old chars }
+    if (!res.newly_created && ch->version < 4) {
+        // #216  In PFile Version 4, the strength of all armour is increased by 100 to go along
+        // with the corresponding resetting of Char's default armour value of 0 from 100.
+        // This is part of a general reorganization of hit calculations.
+        for (int i = 0; i < 4; i++) {
+            ch->armor[i] -= 101;
+        }
+
+    }
     return res;
 }
 
@@ -877,10 +884,7 @@ void fread_obj(Char *ch, FILE *fp) {
                     af.type = sn;
             } else /* old form */
                 af.type = fread_number(fp);
-            if (ch->version == 0)
-                af.level = 20;
-            else
-                af.level = fread_number(fp);
+            af.level = fread_number(fp);
             af.duration = fread_number(fp);
             af.modifier = fread_number(fp);
             af.location = static_cast<AffectLocation>(fread_number(fp));

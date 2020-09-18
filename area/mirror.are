@@ -2399,7 +2399,7 @@ around his teeth.
 ~
 fido~
 AFH 0 -200 0
-0 0 1d1+0 1d1+0 0d2+0 bite
+0 0 1d1+0 1d1+0 1d2+0 bite
 10 10 10 10
 FENU 0 0 0
 stand stand male 0

@@ -280,7 +280,7 @@ void reset_char(Char *ch) {
     ch->max_move = ch->pcdata->perm_move;
 
     for (i = 0; i < 4; i++)
-        ch->armor[i] = 100;
+        ch->armor[i] = -1; // #216 -1 armour is the new normal
 
     ch->hitroll = 0;
     ch->damroll = 0;
@@ -620,9 +620,9 @@ int apply_ac(OBJ_DATA *obj, int iWear, int type) {
         return 0;
 
     switch (iWear) {
-    case WEAR_BODY: return 3 * obj->value[type];
-    case WEAR_HEAD: return 2 * obj->value[type];
-    case WEAR_LEGS: return 2 * obj->value[type];
+    case WEAR_BODY: return /*3 * */obj->value[type];
+    case WEAR_HEAD: return /*2 * */ obj->value[type];
+    case WEAR_LEGS: return /*2 * */obj->value[type];
     case WEAR_FEET: return obj->value[type];
     case WEAR_HANDS: return obj->value[type];
     case WEAR_ARMS: return obj->value[type];
@@ -631,7 +631,7 @@ int apply_ac(OBJ_DATA *obj, int iWear, int type) {
     case WEAR_FINGER_R: return obj->value[type];
     case WEAR_NECK_1: return obj->value[type];
     case WEAR_NECK_2: return obj->value[type];
-    case WEAR_ABOUT: return 2 * obj->value[type];
+    case WEAR_ABOUT: return /*2 */ obj->value[type];
     case WEAR_WAIST: return obj->value[type];
     case WEAR_WRIST_L: return obj->value[type];
     case WEAR_WRIST_R: return obj->value[type];

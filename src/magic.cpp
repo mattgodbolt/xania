@@ -2505,7 +2505,7 @@ void spell_frenzy(int sn, int level, Char *ch, void *vo) {
     af.location = AffectLocation::Damroll;
     affect_to_char(victim, af);
 
-    af.modifier = 10 * (level / 6);
+    af.modifier = victim->level;
     af.location = AffectLocation::Ac;
     affect_to_char(victim, af);
 
