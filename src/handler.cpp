@@ -1390,51 +1390,51 @@ std::string affect_bit_name(unsigned int vector) {
 /*
  * Return ascii name of extra flags vector.
  */
-const char *extra_bit_name(int extra_flags) {
-    static char buf[512];
-
-    buf[0] = '\0';
+std::string extra_bit_name(unsigned int extra_flags) {
+    std::string buf;
     if (extra_flags & ITEM_GLOW)
-        strcat(buf, " glow");
+        buf += " glow";
     if (extra_flags & ITEM_HUM)
-        strcat(buf, " hum");
+        buf += " hum";
     if (extra_flags & ITEM_DARK)
-        strcat(buf, " dark");
+        buf += " dark";
     if (extra_flags & ITEM_LOCK)
-        strcat(buf, " lock");
+        buf += " lock";
     if (extra_flags & ITEM_EVIL)
-        strcat(buf, " evil");
+        buf += " evil";
     if (extra_flags & ITEM_INVIS)
-        strcat(buf, " invis");
+        buf += " invis";
     if (extra_flags & ITEM_MAGIC)
-        strcat(buf, " magic");
+        buf += " magic";
     if (extra_flags & ITEM_SUMMON_CORPSE)
-        strcat(buf, " summon_corpse");
+        buf += " summon_corpse";
     if (extra_flags & ITEM_NODROP)
-        strcat(buf, " nodrop");
+        buf += " nodrop";
     if (extra_flags & ITEM_BLESS)
-        strcat(buf, " bless");
+        buf += " bless";
     if (extra_flags & ITEM_ANTI_GOOD)
-        strcat(buf, " anti-good");
+        buf += " anti-good";
     if (extra_flags & ITEM_ANTI_EVIL)
-        strcat(buf, " anti-evil");
+        buf += " anti-evil";
     if (extra_flags & ITEM_ANTI_NEUTRAL)
-        strcat(buf, " anti-neutral");
+        buf += " anti-neutral";
     if (extra_flags & ITEM_PROTECT_CONTAINER)
-        strcat(buf, " protected");
+        buf += " protected";
     if (extra_flags & ITEM_NOREMOVE)
-        strcat(buf, " noremove");
+        buf += " noremove";
     if (extra_flags & ITEM_INVENTORY)
-        strcat(buf, " inventory");
+        buf += " inventory";
     if (extra_flags & ITEM_NOPURGE)
-        strcat(buf, " nopurge");
+        buf += " nopurge";
     if (extra_flags & ITEM_VIS_DEATH)
-        strcat(buf, " vis_death");
+        buf += " vis_death";
     if (extra_flags & ITEM_ROT_DEATH)
-        strcat(buf, " rot_death");
+        buf += " rot_death";
     if (extra_flags & ITEM_NO_LOCATE)
-        strcat(buf, " no_locate");
-    return (buf[0] != '\0') ? buf + 1 : "none";
+        buf += " no_locate";
+    if (buf.empty())
+        return "none";
+    return buf.substr(1);
 }
 
 /* return ascii name of an act vector */

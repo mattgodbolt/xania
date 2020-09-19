@@ -797,12 +797,8 @@ void spell_call_lightning(int sn, int level, Char *ch, void *vo) {
 
     const int dam = dice(level / 2, 8);
 
-    char buf[MAX_STRING_LENGTH];
-    snprintf(buf, sizeof(buf), "%s's lightning strikes your foes!\n\r", deity_name);
-    ch->send_to(buf);
-
-    snprintf(buf, sizeof(buf), "$n calls %s's lightning to strike $s foes!", deity_name);
-    act(buf, ch);
+    ch->send_line("{}'s lightning strikes your foes!", deity_name);
+    act(fmt::format("$n calls {}'s lightning to strike $s foes!", deity_name), ch);
 
     Char *vch_next;
     for (Char *vch = char_list; vch != nullptr; vch = vch_next) {

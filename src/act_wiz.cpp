@@ -13,7 +13,6 @@
 #include "DescriptorList.hpp"
 #include "MobIndexData.hpp"
 #include "TimeInfoData.hpp"
-#include "buffer.h"
 #include "challeng.h"
 #include "comm.hpp"
 #include "db.h"
@@ -80,43 +79,39 @@ void do_permit(Char *ch, const char *argument) {
 
 /* equips a character */
 void do_outfit(Char *ch) {
-    OBJ_DATA *obj;
-    char buf[MAX_STRING_LENGTH];
-
     if (ch->level > 5 || ch->is_npc()) {
         ch->send_line("Find it yourself!");
         return;
     }
 
-    if ((obj = get_eq_char(ch, WEAR_LIGHT)) == nullptr) {
-        obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_BANNER));
+    if (!get_eq_char(ch, WEAR_LIGHT)) {
+        auto *obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_BANNER));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, WEAR_LIGHT);
     }
 
-    if ((obj = get_eq_char(ch, WEAR_BODY)) == nullptr) {
-        obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_VEST));
+    if (!get_eq_char(ch, WEAR_BODY)) {
+        auto *obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_VEST));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, WEAR_BODY);
     }
 
-    if ((obj = get_eq_char(ch, WEAR_SHIELD)) == nullptr) {
-        obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_SHIELD));
+    if (!get_eq_char(ch, WEAR_SHIELD)) {
+        auto *obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_SHIELD));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, WEAR_SHIELD);
     }
 
-    if ((obj = get_eq_char(ch, WEAR_WIELD)) == nullptr) {
-        obj = create_object(get_obj_index(class_table[ch->class_num].weapon));
+    if (!get_eq_char(ch, WEAR_WIELD)) {
+        auto *obj = create_object(get_obj_index(class_table[ch->class_num].weapon));
         obj_to_char(obj, ch);
         equip_char(ch, obj, WEAR_WIELD);
     }
 
-    bug_snprintf(buf, sizeof(buf), "You have been equipped by %s.\n\r", deity_name);
-    ch->send_to(buf);
+    ch->send_line("You have been equipped by {}.", deity_name);
 }
 
 /* RT nochannels command, for those spammers */
@@ -653,14 +648,8 @@ void do_stat(Char *ch, const char *argument) {
     ch->send_line("Nothing by that name found anywhere.");
 }
 
-void do_rstat(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-    char arg[MAX_INPUT_LENGTH];
-    ROOM_INDEX_DATA *location;
-    OBJ_DATA *obj;
-
-    one_argument(argument, arg);
-    location = (arg[0] == '\0') ? ch->in_room : find_location(ch, arg);
+void do_rstat(Char *ch, std::string_view argument) {
+    auto *location = argument.empty() ? ch->in_room : find_location(ch, argument);
     if (location == nullptr) {
         ch->send_line("No such location.");
         return;
@@ -678,8 +667,8 @@ void do_rstat(Char *ch, const char *argument) {
                   static_cast<int>(location->sector_type), location->light);
     ch->send_to("Flags: ");
     display_flags(ROOM_FLAGS, ch, location->room_flags);
-    bug_snprintf(buf, sizeof(buf), "Description:\n\r%s", location->description);
-    ch->send_to(buf);
+    ch->send_line("Description:");
+    ch->send_to(location->description);
 
     if (!location->extra_descr.empty()) {
         ch->send_line("Extra description keywords: '{}'.",
@@ -696,7 +685,7 @@ void do_rstat(Char *ch, const char *argument) {
     ch->send_line(".");
 
     ch->send_to("Objects:   ");
-    for (obj = location->contents; obj; obj = obj->next_content) {
+    for (auto *obj = location->contents; obj; obj = obj->next_content) {
         ch->send_to(" ");
         ch->send_to(ArgParser(obj->name).shift());
     }
@@ -713,7 +702,6 @@ void do_rstat(Char *ch, const char *argument) {
 }
 
 void do_ostat(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
     OBJ_INDEX_DATA *pObjIndex;
@@ -742,28 +730,21 @@ void do_ostat(Char *ch, const char *argument) {
         ch->send_line("Template of object:");
         ch->send_line("Name(s): {}", pObjIndex->name);
 
-        bug_snprintf(buf, sizeof(buf), "Vnum: %d  Type: %s\n\r", pObjIndex->vnum, item_index_type_name(pObjIndex));
-        ch->send_to(buf);
+        ch->send_line("Vnum: {}  Type: {}", pObjIndex->vnum, item_index_type_name(pObjIndex));
 
         ch->send_line("Short description: {}", pObjIndex->short_descr);
         ch->send_line("Long description: {}", pObjIndex->description);
 
-        bug_snprintf(buf, sizeof(buf), "Wear bits: %s\n\rExtra bits: %s\n\r", wear_bit_name(pObjIndex->wear_flags),
-                     extra_bit_name(pObjIndex->extra_flags));
-        ch->send_to(buf);
+        ch->send_line("Wear bits: {}", wear_bit_name(pObjIndex->wear_flags));
+        ch->send_line("Extra bits: {}", extra_bit_name(pObjIndex->extra_flags));
 
         ch->send_line("Wear string: {}", pObjIndex->wear_string);
 
-        bug_snprintf(buf, sizeof(buf), "Weight: %d\n\r", pObjIndex->weight);
-        ch->send_to(buf);
+        ch->send_line("Weight: {}", pObjIndex->weight);
 
-        bug_snprintf(buf, sizeof(buf), "Level: %d  Cost: %d  Condition: %d\n\r", pObjIndex->level, pObjIndex->cost,
-                     pObjIndex->condition);
-        ch->send_to(buf);
+        ch->send_line("Level: {}  Cost: {}  Condition: {}", pObjIndex->level, pObjIndex->cost, pObjIndex->condition);
 
-        bug_snprintf(buf, sizeof(buf), "Values: %d %d %d %d %d\n\r", pObjIndex->value[0], pObjIndex->value[1],
-                     pObjIndex->value[2], pObjIndex->value[3], pObjIndex->value[4]);
-        ch->send_to(buf);
+        ch->send_line("Values: {}", fmt::join(pObjIndex->value, " "));
         ch->send_line("Please load this object if you need to know more about it.");
         return;
     }
@@ -775,26 +756,20 @@ void do_ostat(Char *ch, const char *argument) {
 
     ch->send_line("Name(s): {}", obj->name);
 
-    bug_snprintf(buf, sizeof(buf), "Vnum: %d  Type: %s  Resets: %d\n\r", obj->pIndexData->vnum, item_type_name(obj),
-                 obj->pIndexData->reset_num);
-    ch->send_to(buf);
+    ch->send_line("Vnum: {}  Type: {}  Resets: {}", obj->pIndexData->vnum, item_type_name(obj),
+                  obj->pIndexData->reset_num);
 
     ch->send_line("Short description: {}", obj->short_descr);
     ch->send_line("Long description: {}", obj->description);
 
-    bug_snprintf(buf, sizeof(buf), "Wear bits: %s\n\rExtra bits: %s\n\r", wear_bit_name(obj->wear_flags),
-                 extra_bit_name(obj->extra_flags));
-    ch->send_to(buf);
+    ch->send_line("Wear bits: {}", wear_bit_name(obj->wear_flags));
+    ch->send_line("Extra bits: {}", extra_bit_name(obj->extra_flags));
 
     ch->send_line("Wear string: {}", obj->wear_string);
 
-    bug_snprintf(buf, sizeof(buf), "Number: %d/%d  Weight: %d/%d\n\r", 1, get_obj_number(obj), obj->weight,
-                 get_obj_weight(obj));
-    ch->send_to(buf);
+    ch->send_line("Number: {}/{}  Weight: {}/{}", 1, get_obj_number(obj), obj->weight, get_obj_weight(obj));
 
-    bug_snprintf(buf, sizeof(buf), "Level: %d  Cost: %d  Condition: %d  Timer: %d\n\r", obj->level, obj->cost,
-                 obj->condition, obj->timer);
-    ch->send_to(buf);
+    ch->send_line("Level: {}  Cost: {}  Condition: {}  Timer: {}", obj->level, obj->cost, obj->condition, obj->timer);
 
     ch->send_to(fmt::format(
         "In room: {}  In object: {}  Carried by: {}  Wear_loc: {}\n\r",
@@ -802,9 +777,7 @@ void do_ostat(Char *ch, const char *argument) {
         obj->carried_by == nullptr ? "(none)" : can_see(ch, obj->carried_by) ? obj->carried_by->name : "someone",
         obj->wear_loc));
 
-    bug_snprintf(buf, sizeof(buf), "Values: %d %d %d %d %d\n\r", obj->value[0], obj->value[1], obj->value[2],
-                 obj->value[3], obj->value[4]);
-    ch->send_to(buf);
+    ch->send_line("Values: {}", fmt::join(obj->value, " "));
 
     /* now give out vital statistics as per identify */
 
@@ -813,8 +786,7 @@ void do_ostat(Char *ch, const char *argument) {
     case ITEM_POTION:
     case ITEM_PILL:
     case ITEM_BOMB:
-        bug_snprintf(buf, sizeof(buf), "Level %d spells of:", obj->value[0]);
-        ch->send_to(buf);
+        ch->send_to("Level {} spells of:", obj->value[0]);
 
         if (obj->value[1] >= 0 && obj->value[1] < MAX_SKILL)
             ch->send_to(" '{}'", skill_table[obj->value[1]].name);
@@ -833,8 +805,7 @@ void do_ostat(Char *ch, const char *argument) {
 
     case ITEM_WAND:
     case ITEM_STAFF:
-        bug_snprintf(buf, sizeof(buf), "Has %d(%d) charges of level %d", obj->value[1], obj->value[2], obj->value[0]);
-        ch->send_to(buf);
+        ch->send_to("Has {}({}) charges of level {}", obj->value[1], obj->value[2], obj->value[0]);
 
         if (obj->value[3] >= 0 && obj->value[3] < MAX_SKILL)
             ch->send_to(" '{}'", skill_table[obj->value[3]].name);
@@ -845,66 +816,58 @@ void do_ostat(Char *ch, const char *argument) {
     case ITEM_WEAPON:
         ch->send_to("Weapon type is ");
         switch (obj->value[0]) {
-        case (WEAPON_EXOTIC): ch->send_line("exotic"); break;
-        case (WEAPON_SWORD): ch->send_line("sword"); break;
-        case (WEAPON_DAGGER): ch->send_line("dagger"); break;
-        case (WEAPON_SPEAR): ch->send_line("spear/staff"); break;
-        case (WEAPON_MACE): ch->send_line("mace/club"); break;
-        case (WEAPON_AXE): ch->send_line("axe"); break;
-        case (WEAPON_FLAIL): ch->send_line("flail"); break;
-        case (WEAPON_WHIP): ch->send_line("whip"); break;
-        case (WEAPON_POLEARM): ch->send_line("polearm"); break;
+        case WEAPON_EXOTIC: ch->send_line("exotic"); break;
+        case WEAPON_SWORD: ch->send_line("sword"); break;
+        case WEAPON_DAGGER: ch->send_line("dagger"); break;
+        case WEAPON_SPEAR: ch->send_line("spear/staff"); break;
+        case WEAPON_MACE: ch->send_line("mace/club"); break;
+        case WEAPON_AXE: ch->send_line("axe"); break;
+        case WEAPON_FLAIL: ch->send_line("flail"); break;
+        case WEAPON_WHIP: ch->send_line("whip"); break;
+        case WEAPON_POLEARM: ch->send_line("polearm"); break;
         default: ch->send_line("unknown"); break;
         }
-        bug_snprintf(buf, sizeof(buf), "Damage is %dd%d (average %d)\n\r", obj->value[1], obj->value[2],
-                     (1 + obj->value[2]) * obj->value[1] / 2);
-        ch->send_to(buf);
+        ch->send_line("Damage is {}d{} (average {})", obj->value[1], obj->value[2],
+                      (1 + obj->value[2]) * obj->value[1] / 2);
 
-        if (obj->value[4]) /* weapon flags */
-        {
-            bug_snprintf(buf, sizeof(buf), "Weapons flags: %s\n\r", weapon_bit_name(obj->value[4]));
-            ch->send_to(buf);
+        if (obj->value[4]) {
+            ch->send_line("Weapons flags: {}", weapon_bit_name(obj->value[4]));
         }
 
         dam_type = attack_table[obj->value[3]].damage;
         ch->send_line("Damage type is ");
         switch (dam_type) {
-        case (DAM_NONE): bug_snprintf(buf, sizeof(buf), "none.\n\r"); break;
-        case (DAM_BASH): bug_snprintf(buf, sizeof(buf), "bash.\n\r"); break;
-        case (DAM_PIERCE): bug_snprintf(buf, sizeof(buf), "pierce.\n\r"); break;
-        case (DAM_SLASH): bug_snprintf(buf, sizeof(buf), "slash.\n\r"); break;
-        case (DAM_FIRE): bug_snprintf(buf, sizeof(buf), "fire.\n\r"); break;
-        case (DAM_COLD): bug_snprintf(buf, sizeof(buf), "cold.\n\r"); break;
-        case (DAM_LIGHTNING): bug_snprintf(buf, sizeof(buf), "lightning.\n\r"); break;
-        case (DAM_ACID): bug_snprintf(buf, sizeof(buf), "acid.\n\r"); break;
-        case (DAM_POISON): bug_snprintf(buf, sizeof(buf), "poison.\n\r"); break;
-        case (DAM_NEGATIVE): bug_snprintf(buf, sizeof(buf), "negative.\n\r"); break;
-        case (DAM_HOLY): bug_snprintf(buf, sizeof(buf), "holy.\n\r"); break;
-        case (DAM_ENERGY): bug_snprintf(buf, sizeof(buf), "energy.\n\r"); break;
-        case (DAM_MENTAL): bug_snprintf(buf, sizeof(buf), "mental.\n\r"); break;
-        case (DAM_DISEASE): bug_snprintf(buf, sizeof(buf), "disease.\n\r"); break;
-        case (DAM_DROWNING): bug_snprintf(buf, sizeof(buf), "drowning.\n\r"); break;
-        case (DAM_LIGHT): bug_snprintf(buf, sizeof(buf), "light.\n\r"); break;
-        case (DAM_OTHER): bug_snprintf(buf, sizeof(buf), "other.\n\r"); break;
-        case (DAM_HARM): bug_snprintf(buf, sizeof(buf), "harm.\n\r"); break;
+        case DAM_NONE: ch->send_line("none."); break;
+        case DAM_BASH: ch->send_line("bash."); break;
+        case DAM_PIERCE: ch->send_line("pierce."); break;
+        case DAM_SLASH: ch->send_line("slash."); break;
+        case DAM_FIRE: ch->send_line("fire."); break;
+        case DAM_COLD: ch->send_line("cold."); break;
+        case DAM_LIGHTNING: ch->send_line("lightning."); break;
+        case DAM_ACID: ch->send_line("acid."); break;
+        case DAM_POISON: ch->send_line("poison."); break;
+        case DAM_NEGATIVE: ch->send_line("negative."); break;
+        case DAM_HOLY: ch->send_line("holy."); break;
+        case DAM_ENERGY: ch->send_line("energy."); break;
+        case DAM_MENTAL: ch->send_line("mental."); break;
+        case DAM_DISEASE: ch->send_line("disease."); break;
+        case DAM_DROWNING: ch->send_line("drowning."); break;
+        case DAM_LIGHT: ch->send_line("light."); break;
+        case DAM_OTHER: ch->send_line("other."); break;
+        case DAM_HARM: ch->send_line("harm."); break;
         default:
-            bug_snprintf(buf, sizeof(buf), "unknown!!!!\n\r");
+            ch->send_line("unknown!!!!");
             bug("ostat: Unknown damage type {}", dam_type);
             break;
         }
-        ch->send_to(buf);
         break;
 
     case ITEM_ARMOR:
-        bug_snprintf(buf, sizeof(buf), "Armor class is %d pierce, %d bash, %d slash, and %d vs. magic\n\r",
-                     obj->value[0], obj->value[1], obj->value[2], obj->value[3]);
-        ch->send_to(buf);
+        ch->send_line("Armor class is {} pierce, {} bash, {} slash, and {} vs. magic", obj->value[0], obj->value[1],
+                      obj->value[2], obj->value[3]);
         break;
 
-    case ITEM_PORTAL:
-        bug_snprintf(buf, sizeof(buf), "Portal to %s (%d).\n\r", obj->destination->name, obj->destination->vnum);
-        ch->send_to(buf);
-        break;
+    case ITEM_PORTAL: ch->send_line("Portal to {} ({}).", obj->destination->name, obj->destination->vnum); break;
     }
 
     if (!obj->extra_descr.empty() || !obj->pIndexData->extra_descr.empty()) {
@@ -3483,17 +3446,12 @@ void do_holylight(Char *ch) {
     }
 }
 
-void do_sacname(Char *ch, const char *argument) {
-
-    char buf[MAX_STRING_LENGTH];
-
-    if (argument[0] == '\0') {
+void do_sacname(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("You must tell me who they're gonna sacrifice to!");
-        bug_snprintf(buf, sizeof(buf), "Currently sacrificing to: %s\n\r", deity_name);
-        ch->send_to(buf);
+        ch->send_line("Currently sacrificing to: {}", deity_name);
         return;
     }
-    strcpy(deity_name_area, argument);
-    bug_snprintf(buf, sizeof(buf), "Players now sacrifice to %s.\n\r", deity_name);
-    ch->send_to(buf);
+    deity_name = args.remaining();
+    ch->send_line("Players now sacrifice to {}.", deity_name);
 }

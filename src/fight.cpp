@@ -926,9 +926,6 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
 }
 
 bool is_safe(Char *ch, Char *victim) {
-
-    char buf[MAX_STRING_LENGTH];
-
     /* no killing in shops hack */
     if (victim->is_npc() && victim->pIndexData->pShop != nullptr) {
         ch->send_line("The shopkeeper wouldn't like that.");
@@ -938,8 +935,7 @@ bool is_safe(Char *ch, Char *victim) {
     if (victim->is_npc()
         && (IS_SET(victim->act, ACT_TRAIN) || IS_SET(victim->act, ACT_PRACTICE)
             || IS_SET(victim->act, ACT_IS_HEALER))) {
-        snprintf(buf, sizeof(buf), "I don't think %s would approve!\n\r", deity_name);
-        ch->send_to(buf);
+        ch->send_line("I don't think {} would approve!", deity_name);
         return true;
     }
 

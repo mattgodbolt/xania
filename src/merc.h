@@ -1339,14 +1339,11 @@ extern BAN_DATA *ban_list;
 extern Char *char_list;
 extern OBJ_DATA *object_list;
 
-extern EXTRA_DESCR_DATA *extra_descr_free;
-
 extern bool fLogAll;
 extern KILL_DATA kill_table[];
 
 /* Moog added stuff */
-extern char deity_name_area[256];
-extern char *deity_name;
+extern std::string deity_name;
 
 /* Added by Rohan, to try to make count work properly */
 extern size_t max_on;
@@ -1512,7 +1509,7 @@ bool can_drop_obj(Char *ch, OBJ_DATA *obj);
 const char *item_type_name(OBJ_DATA *obj);
 const char *item_index_type_name(OBJ_INDEX_DATA *obj);
 std::string affect_bit_name(unsigned int vector);
-const char *extra_bit_name(int extra_flags);
+std::string extra_bit_name(unsigned int extra_flags);
 const char *wear_bit_name(int wear_flags);
 const char *act_bit_name(int act_flags);
 const char *off_bit_name(int off_flags);
