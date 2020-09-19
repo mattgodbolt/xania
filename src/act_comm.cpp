@@ -748,18 +748,16 @@ void do_group(Char *ch, const char *argument) {
 /*
  * 'Split' originally by Gnort, God of Chaos.
  */
-void do_split(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_split(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Split how much?");
         return;
     }
 
-    int amount = atoi(arg);
+    split_coins(ch, args.try_shift_number().value_or(-1));
+}
 
+void split_coins(Char *ch, int amount) {
     if (amount < 0) {
         ch->send_line("Your group wouldn't like that.");
         return;

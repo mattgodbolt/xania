@@ -11,7 +11,6 @@
 #include "Logging.hpp"
 #include "Pronouns.hpp"
 #include "TimeInfoData.hpp"
-#include "buffer.h"
 #include "comm.hpp"
 #include "handler.hpp"
 #include "interp.h"
@@ -21,9 +20,7 @@
 
 #include <fmt/format.h>
 
-#include <cstdio>
 #include <cstdlib>
-#include <cstring>
 
 extern const char *target_name; /* Included from magic.c */
 extern void handle_corpse_summoner(Char *ch, Char *victim, OBJ_DATA *obj);
@@ -71,7 +68,6 @@ void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container) {
     /* variables for AUTOSPLIT */
     Char *gch;
     int members;
-    char buffer[100];
 
     if (!CAN_WEAR(obj, ITEM_TAKE)) {
         ch->send_line("You can't take that.");
@@ -120,8 +116,7 @@ void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container) {
             }
 
             if (members > 1 && obj->value[0] > 1) {
-                snprintf(buffer, sizeof(buffer), "%d", obj->value[0]);
-                do_split(ch, buffer);
+                split_coins(ch, obj->value[0]);
             }
         }
 
@@ -529,7 +524,6 @@ void do_drop(Char *ch, const char *argument) {
 void do_give(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
-    char buf[MAX_STRING_LENGTH];
     Char *victim;
     OBJ_DATA *obj;
 
@@ -580,11 +574,9 @@ void do_give(Char *ch, const char *argument) {
 
         ch->gold -= amount;
         victim->gold += amount;
-        snprintf(buf, sizeof(buf), "$n gives you %d gold.", amount);
-        act(buf, ch, nullptr, victim, To::Vict);
+        act(fmt::format("$n gives you {} gold.", amount), ch, nullptr, victim, To::Vict);
         act("$n gives $N some gold.", ch, nullptr, victim, To::NotVict);
-        snprintf(buf, sizeof(buf), "You give $N %d gold.", amount);
-        act(buf, ch, nullptr, victim, To::Char);
+        act(fmt::format("You give $N {} gold."), ch, nullptr, victim, To::Char);
 
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         mprog_bribe_trigger(victim, ch, amount);
@@ -749,8 +741,8 @@ void do_pour(Char *ch, const char *argument) {
     }
 
     if (target_obj->value[2] != obj->value[2]) {
-        ch->send_to(fmt::format("{}'s {} appears to contain a different type of liquid!\n\r", victim->short_name(),
-                                target_obj->short_descr));
+        ch->send_line(fmt::format("{}'s {} appears to contain a different type of liquid!", victim->short_name(),
+                                  target_obj->short_descr));
         return;
     }
 
@@ -1005,11 +997,8 @@ bool remove_obj(Char *ch, int iWear, bool fReplace) {
  * Big repetitive code, ick.
  */
 void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
-    char buf[MAX_STRING_LENGTH];
-
     if (ch->level < obj->level) {
-        snprintf(buf, sizeof(buf), "You must be level %d to use this object.\n\r", obj->level);
-        ch->send_to(buf);
+        ch->send_line("You must be level {} to use this object.", obj->level);
         act("$n tries to use $p, but is too inexperienced.", ch, obj, nullptr, To::Room);
         return;
     }
@@ -1340,22 +1329,18 @@ void do_remove(Char *ch, const char *argument) {
 
 void do_sacrifice(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    char buf[MAX_STRING_LENGTH];
     OBJ_DATA *obj;
     int gold;
 
     /* variables for AUTOSPLIT */
     Char *gch;
     int members;
-    char buffer[100];
 
     one_argument(argument, arg);
 
     if (arg[0] == '\0' || matches(arg, ch->name)) {
-        snprintf(buf, sizeof(buf), "$n offers $mself to %s, who graciously declines.", deity_name);
-        act(buf, ch);
-        snprintf(buf, sizeof(buf), "%s appreciates your offer and may accept it later.\n\r", deity_name);
-        ch->send_to(buf);
+        act(fmt::format("$n offers $mself to {}, who graciously declines.", deity_name), ch);
+        ch->send_line("{} appreciates your offer and may accept it later.", deity_name);
         return;
     }
 
@@ -1367,8 +1352,7 @@ void do_sacrifice(Char *ch, const char *argument) {
 
     if (obj->item_type == ITEM_CORPSE_PC) {
         if (obj->contains) {
-            snprintf(buf, sizeof(buf), "%s wouldn't like that.\n\r", deity_name);
-            ch->send_to(buf);
+            ch->send_line("{} wouldn't like that.", deity_name);
             return;
         }
     }
@@ -1384,16 +1368,10 @@ void do_sacrifice(Char *ch, const char *argument) {
         gold = UMIN(gold, obj->cost);
 
     switch (gold) {
-    default: snprintf(buf, sizeof(buf), "%s gives you %d gold coins for your sacrifice.\n\r", deity_name, gold); break;
-    case 0:
-        snprintf(buf, sizeof(buf), "%s laughs at your worthless sacrifice. You receive no gold coins.\n\r", deity_name);
-        break;
-    case 1:
-        snprintf(buf, sizeof(buf), "%s is unimpressed by your sacrifice but grants you a single\n\rgold coin.\n\r",
-                 deity_name);
-        break;
+    default: ch->send_line("{} gives you {} gold coins for your sacrifice.", deity_name, gold); break;
+    case 0: ch->send_line("{} laughs at your worthless sacrifice. You receive no gold coins.", deity_name); break;
+    case 1: ch->send_line("{} is unimpressed by your sacrifice but grants you a single gold coin.", deity_name); break;
     };
-    ch->send_to(buf);
 
     ch->gold += gold;
 
@@ -1405,13 +1383,11 @@ void do_sacrifice(Char *ch, const char *argument) {
         }
 
         if (members > 1 && gold > 1) {
-            snprintf(buffer, sizeof(buffer), "%d", gold);
-            do_split(ch, buffer);
+            split_coins(ch, gold);
         }
     }
 
-    snprintf(buf, sizeof(buf), "$n sacrifices $p to %s.", deity_name);
-    act(buf, ch, obj, nullptr, To::Room);
+    act(fmt::format("$n sacrifices $p to {}.", deity_name), ch, obj, nullptr, To::Room);
     extract_obj(obj);
 }
 
@@ -1721,8 +1697,8 @@ void do_steal(Char *ch, const char *argument) {
          * Failure.
          */
         ch->send_line("Oops.");
-        act("|W$n tried to steal from you.|w\n\r", ch, nullptr, victim, To::Vict);
-        act("|W$n tried to steal from $N.|w\n\r", ch, nullptr, victim, To::NotVict);
+        act("|W$n tried to steal from you.|w", ch, nullptr, victim, To::Vict);
+        act("|W$n tried to steal from $N.|w", ch, nullptr, victim, To::NotVict);
         std::string buf;
         switch (number_range(0, 3)) {
         case 0: buf = fmt::format("{} is a lousy thief!", ch->name); break;
@@ -1813,13 +1789,13 @@ Char *find_keeper(Char *ch) {
     // Undesirables.
     if (ch->is_player_killer()) {
         keeper->say("Killers are not welcome!");
-        keeper->yell(fmt::format("{} the KILLER is over here!\n\r", ch->name));
+        keeper->yell(fmt::format("{} the KILLER is over here!", ch->name));
         return nullptr;
     }
 
     if (ch->is_player_thief()) {
         keeper->say("Thieves are not welcome!");
-        keeper->yell(fmt::format("{} the THIEF is over here!\n\r", ch->name));
+        keeper->yell(fmt::format("{} the THIEF is over here!", ch->name));
         return nullptr;
     }
 
@@ -1880,7 +1856,6 @@ int get_cost(Char *keeper, OBJ_DATA *obj, bool fBuy) {
 }
 
 void do_buy(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     int cost, roll;
 
     if (argument[0] == '\0') {
@@ -1937,8 +1912,7 @@ void do_buy(Char *ch, const char *argument) {
         roll = number_percent();
         if (ch->is_pc() && roll < get_skill_learned(ch, gsn_haggle)) {
             cost -= cost / 2 * roll / 100;
-            snprintf(buf, sizeof(buf), "You haggle the price down to %d coins.\n\r", cost);
-            ch->send_to(buf);
+            ch->send_line("You haggle the price down to {} coins.", cost);
             check_improve(ch, gsn_haggle, true, 4);
         }
 
@@ -2004,8 +1978,7 @@ void do_buy(Char *ch, const char *argument) {
         roll = number_percent();
         if (ch->is_pc() && roll < get_skill_learned(ch, gsn_haggle)) {
             cost -= obj->cost / 2 * roll / 100;
-            snprintf(buf, sizeof(buf), "You haggle the price down to %d coins.\n\r", cost);
-            ch->send_to(buf);
+            ch->send_line("You haggle the price down to {} coins.", cost);
             check_improve(ch, gsn_haggle, true, 4);
         }
 
@@ -2085,7 +2058,6 @@ void do_list(Char *ch, const char *argument) {
 }
 
 void do_sell(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     Char *keeper;
     OBJ_DATA *obj;
@@ -2138,8 +2110,7 @@ void do_sell(Char *ch, const char *argument) {
         cost = UMIN(cost, (int)keeper->gold);
         check_improve(ch, gsn_haggle, true, 4);
     }
-    snprintf(buf, sizeof(buf), "You sell $p for %d gold piece%s.", cost, cost == 1 ? "" : "s");
-    act(buf, ch, obj, nullptr, To::Char);
+    act(fmt::format("You sell $p for {} gold piece{}.", cost, cost == 1 ? "" : "s"), ch, obj, nullptr, To::Char);
     ch->gold += cost;
     keeper->gold -= cost;
     if (keeper->gold < 0)
@@ -2155,7 +2126,6 @@ void do_sell(Char *ch, const char *argument) {
 }
 
 void do_value(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     Char *keeper;
     OBJ_DATA *obj;
@@ -2192,8 +2162,7 @@ void do_value(Char *ch, const char *argument) {
         return;
     }
 
-    snprintf(buf, sizeof(buf), "$n tells you 'I'll give you %d gold coins for $p'.", cost);
-    act(buf, keeper, obj, ch, To::Vict);
+    act(fmt::format("$n tells you 'I'll give you {} gold coins for $p'."), keeper, obj, ch, To::Vict);
     ch->reply = keeper;
 }
 
