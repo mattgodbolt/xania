@@ -26,12 +26,11 @@
 
 using namespace std::literals;
 
-const sh_int movement_loss[SECT_MAX] = {1, 2, 2, 3, 4, 6, 4, 1, 6, 10, 6};
+constexpr PerSectorType<int> movement_loss{1, 2, 2, 3, 4, 6, 4, 1, 6, 10, 6};
 
 /*
  * Local functions.
  */
-int find_door(Char *ch, char *arg);
 bool has_key(const Char *ch, int key);
 
 void move_char(Char *ch, Direction door) {
@@ -96,7 +95,7 @@ void move_char(Char *ch, Direction door) {
             }
         }
 
-        if (in_room->sector_type == SECT_AIR || to_room->sector_type == SECT_AIR) {
+        if (in_room->sector_type == SectorType::Air || to_room->sector_type == SectorType::Air) {
             if ((!IS_AFFECTED(ch, AFF_FLYING) && ch->is_mortal())
                 && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))) {
                 ch->send_line("You can't fly.");
@@ -104,7 +103,8 @@ void move_char(Char *ch, Direction door) {
             }
         }
 
-        if ((in_room->sector_type == SECT_WATER_NOSWIM || to_room->sector_type == SECT_WATER_NOSWIM)
+        if ((in_room->sector_type == SectorType::NonSwimmableWater
+             || to_room->sector_type == SectorType::NonSwimmableWater)
             && !IS_AFFECTED(ch, AFF_FLYING) && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))) {
             OBJ_DATA *obj;
             bool found;
@@ -129,8 +129,7 @@ void move_char(Char *ch, Direction door) {
             }
         }
 
-        move = movement_loss[UMIN(SECT_MAX - 1, in_room->sector_type)]
-               + movement_loss[UMIN(SECT_MAX - 1, to_room->sector_type)];
+        move = movement_loss[in_room->sector_type] + movement_loss[to_room->sector_type];
 
         move /= 2; /* i.e. the average */
 
@@ -274,7 +273,7 @@ void do_enter(Char *ch, const char *argument) {
                             }
                         }
 
-                        if (in_room->sector_type == SECT_AIR || to_room->sector_type == SECT_AIR) {
+                        if (in_room->sector_type == SectorType::Air || to_room->sector_type == SectorType::Air) {
                             if ((!IS_AFFECTED(ch, AFF_FLYING) && ch->is_mortal())
                                 && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))) {
                                 ch->send_line("You can't fly.");
@@ -282,7 +281,8 @@ void do_enter(Char *ch, const char *argument) {
                             }
                         }
 
-                        if ((in_room->sector_type == SECT_WATER_NOSWIM || to_room->sector_type == SECT_WATER_NOSWIM)
+                        if ((in_room->sector_type == SectorType::NonSwimmableWater
+                             || to_room->sector_type == SectorType::NonSwimmableWater)
                             && !IS_AFFECTED(ch, AFF_FLYING)
                             && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))) {
                             OBJ_DATA *obj;

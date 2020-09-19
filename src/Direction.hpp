@@ -1,5 +1,6 @@
 #pragma once
 
+#include "PerEnum.hpp"
 #include "Types.hpp"
 
 #include <array>
@@ -20,10 +21,4 @@ std::optional<Direction> try_parse_direction(std::string_view name);
 std::optional<Direction> try_cast_direction(int ordinal);
 
 template <typename T>
-class PerDirection {
-    std::array<T, 6> ts_{};
-
-public:
-    T &operator[](Direction d) { return ts_[static_cast<int>(d)]; }
-    const T &operator[](Direction d) const { return ts_[static_cast<int>(d)]; }
-};
+using PerDirection = PerEnum<Direction, T, 6u>;

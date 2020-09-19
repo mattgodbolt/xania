@@ -86,7 +86,9 @@ add_library(xania_lib STATIC
         Help.cpp Help.hpp
         Rng.cpp Rng.hpp
         MobIndexData.cpp MobIndexData.cpp
-        Dice.cpp Dice.hpp)
+        Dice.cpp Dice.hpp
+        SectorType.cpp SectorType.hpp
+        PerEnum.hpp)
 target_link_libraries(xania_lib xania_common crypt chat CONAN_PKG::fmt CONAN_PKG::range-v3)
 target_compile_options(xania_lib PUBLIC -fconcepts)
 

@@ -674,9 +674,8 @@ void do_rstat(Char *ch, const char *argument) {
     ch->send_line("Name: '{}'.", location->name);
     ch->send_line("Area: '{}'.'", location->area->name);
 
-    bug_snprintf(buf, sizeof(buf), "Vnum: %d.  Sector: %d.  Light: %d.\n\r", location->vnum, location->sector_type,
-                 location->light);
-    ch->send_to(buf);
+    ch->send_line("Vnum: {}.  Sector: {} ({}).  Light: {}.", location->vnum, to_string(location->sector_type),
+                  static_cast<int>(location->sector_type), location->light);
     ch->send_to("Flags: ");
     display_flags(ROOM_FLAGS, ch, location->room_flags);
     bug_snprintf(buf, sizeof(buf), "Description:\n\r%s", location->description);
@@ -3184,7 +3183,10 @@ void do_rset(Char *ch, const char *argument) {
      * Set something.
      */
     if (!str_prefix(arg2, "sector")) {
-        location->sector_type = value;
+        if (auto sector_type = try_get_sector_type(value))
+            location->sector_type = *sector_type;
+        else
+            ch->send_line("Invalid sector type number.");
         return;
     }
 

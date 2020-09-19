@@ -587,7 +587,12 @@ void load_rooms(FILE *fp) {
         /* horrible hack */
         if (3000 <= vnum && vnum < 3400)
             SET_BIT(pRoomIndex->room_flags, ROOM_LAW);
-        pRoomIndex->sector_type = fread_number(fp);
+        int sector_value = fread_number(fp);
+        if (auto sector_type = try_get_sector_type(sector_value)) {
+            pRoomIndex->sector_type = *sector_type;
+        } else {
+            bug("Invalid sector type {}, defaulted to {}", sector_value, pRoomIndex->sector_type);
+        }
 
         for (;;) {
             letter = fread_letter(fp);

@@ -2283,16 +2283,21 @@ void do_dirt(Char *ch, const char *argument) {
     /* terrain */
 
     switch (ch->in_room->sector_type) {
-    case (SECT_INSIDE): chance -= 20; break;
-    case (SECT_CITY): chance -= 10; break;
-    case (SECT_FIELD): chance += 5; break;
-    case (SECT_FOREST): break;
-    case (SECT_HILLS): break;
-    case (SECT_MOUNTAIN): chance -= 10; break;
-    case (SECT_WATER_SWIM): chance = 0; break;
-    case (SECT_WATER_NOSWIM): chance = 0; break;
-    case (SECT_AIR): chance = 0; break;
-    case (SECT_DESERT): chance += 10; break;
+    case SectorType::Inside: chance -= 20; break;
+
+    case SectorType::Mountain:
+    case SectorType::City: chance -= 10; break;
+
+    case SectorType::Field: chance += 5; break;
+
+    case SectorType::NonSwimmableWater:
+    case SectorType::SwimmableWater:
+    case SectorType::Air: chance = 0; break;
+
+    case SectorType::Desert: chance += 10; break;
+
+    case SectorType::Forest:
+    case SectorType::Hills: break;
     }
 
     if (chance == 0) {

@@ -1180,7 +1180,7 @@ bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex) {
     if (IS_SET(pRoomIndex->room_flags, ROOM_DARK))
         return true;
 
-    if (pRoomIndex->sector_type == SECT_INSIDE || pRoomIndex->sector_type == SECT_CITY)
+    if (pRoomIndex->sector_type == SectorType::Inside || pRoomIndex->sector_type == SectorType::City)
         return false;
 
     if (weather_info.is_dark())

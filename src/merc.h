@@ -29,6 +29,7 @@
 #include "Char.hpp"
 #include "Constants.hpp"
 #include "Direction.hpp"
+#include "SectorType.hpp"
 #include "Stats.hpp"
 #include "Types.hpp"
 #include "clan.h"
@@ -784,23 +785,6 @@ static inline constexpr auto ff = BIT(31);
 #define EX_SECRET (S)
 
 /*
- * Sector types.
- * Used in #ROOMS.
- */
-#define SECT_INSIDE 0
-#define SECT_CITY 1
-#define SECT_FIELD 2
-#define SECT_FOREST 3
-#define SECT_HILLS 4
-#define SECT_MOUNTAIN 5
-#define SECT_WATER_SWIM 6
-#define SECT_WATER_NOSWIM 7
-#define SECT_UNUSED 8
-#define SECT_AIR 9
-#define SECT_DESERT 10
-#define SECT_MAX 11
-
-/*
  * Equpiment wear locations.
  * Used in #RESETS.
  */
@@ -1128,7 +1112,7 @@ struct ROOM_INDEX_DATA {
     sh_int vnum{};
     unsigned int room_flags{};
     sh_int light{};
-    sh_int sector_type{};
+    SectorType sector_type{SectorType::Inside};
 
     RESET_DATA *reset_first{};
     RESET_DATA *reset_last{};
