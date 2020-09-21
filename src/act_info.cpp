@@ -1093,14 +1093,14 @@ const std::array position_desc = {"dead",    "mortally wounded", "incapacitated"
 
 void describe_armour(Char *ch, int type, const char *name) {
     static const std::array armour_desc = {
-        "hopelessly vulnerable to",  "defenseless against",  "barely protected from",
+        "hopelessly vulnerable to",  "defenseless against",        "barely protected from",
         "slightly armoured against", "somewhat armoured against",  "armoured against",
-        "well-armoured against", "very well-armoured against",  "heavily armoured against",
-        "superbly armoured against",  "almost invulnerable to", "divinely armoured against"};
+        "well-armoured against",     "very well-armoured against", "heavily armoured against",
+        "superbly armoured against", "almost invulnerable to",     "divinely armoured against"};
     // Armour ratings around -400 and beyond is labelled divine.
     static constexpr int ArmourBucketSize = 400 / armour_desc.size();
     int ac = -(GET_AC(ch, type));
-    int armour_bucket =  ac / ArmourBucketSize;
+    int armour_bucket = ac / ArmourBucketSize;
     auto armour_index = std::clamp(armour_bucket, 0, static_cast<int>(armour_desc.size()) - 1);
     if (ch->level < 25)
         ch->send_line("|CYou are|w: |y{} |W{}|w.", armour_desc[armour_index], name);

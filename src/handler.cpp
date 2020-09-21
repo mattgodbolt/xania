@@ -620,9 +620,9 @@ int apply_ac(OBJ_DATA *obj, int iWear, int type) {
         return 0;
 
     switch (iWear) {
-    case WEAR_BODY: return /*3 * */obj->value[type];
+    case WEAR_BODY: return /*3 * */ obj->value[type];
     case WEAR_HEAD: return /*2 * */ obj->value[type];
-    case WEAR_LEGS: return /*2 * */obj->value[type];
+    case WEAR_LEGS: return /*2 * */ obj->value[type];
     case WEAR_FEET: return obj->value[type];
     case WEAR_HANDS: return obj->value[type];
     case WEAR_ARMS: return obj->value[type];

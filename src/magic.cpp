@@ -599,7 +599,14 @@ void obj_cast_spell(int sn, int level, Char *ch, Char *victim, OBJ_DATA *obj) {
  */
 void spell_acid_blast(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    int dam = dice(level, 12);
+    static constexpr std::array dam_each = {
+        0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+        0,   0,   0,   0,   0,   0,   0,   0,   0,   108, 110, 112, 114, 116, 118, 120, 122, 124, 126,
+        128, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147,
+        148, 148, 149, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164,
+        166, 168, 170, 172, 174, 176, 178, 170, 171, 172, 173, 174, 175, 176, 177};
+    level = std::clamp(level, 0, static_cast<int>(dam_each.size() - 1));
+    int dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, sn, DAM_ACID);
@@ -707,14 +714,14 @@ void spell_blindness(int sn, int level, Char *ch, void *vo) {
 
 void spell_burning_hands(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    static const sh_int dam_each[] = {0,  0,  0,  0,  0,  14, 17, 20, 23, 26, 29, 29, 29, 30, 30, 31, 31,
-                                      32, 32, 33, 33, 34, 34, 35, 35, 36, 36, 37, 37, 38, 38, 39, 39, 40,
-                                      40, 41, 41, 42, 42, 43, 43, 44, 44, 45, 45, 46, 46, 47, 47, 48, 48};
-    int dam;
+    static constexpr std::array dam_each = {0,  0,  0,  0,  0,  14, 17, 20, 23, 26, 29, 29, 29, 30, 30, 31, 31, 32, 32,
+                                            33, 33, 34, 34, 35, 35, 36, 36, 37, 37, 38, 38, 39, 39, 40, 40, 41, 41, 42,
+                                            42, 43, 43, 44, 44, 45, 45, 46, 46, 47, 47, 48, 48, 48, 49, 50, 50, 51, 51,
+                                            52, 52, 53, 53, 54, 54, 55, 55, 56, 56, 56, 57, 57, 57, 58, 58, 58, 59, 59,
+                                            59, 59, 60, 60, 61, 61, 62, 62, 62, 63, 64, 65, 66, 67, 68, 69};
 
-    level = UMIN(level, (int)(sizeof(dam_each) / sizeof(dam_each[0]) - 1));
-    level = UMAX(0, level);
-    dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
+    level = std::clamp(level, 0, static_cast<int>(dam_each.size() - 1));
+    int dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, sn, DAM_FIRE);
@@ -1127,15 +1134,14 @@ void spell_charm_person(int sn, int level, Char *ch, void *vo) {
 
 void spell_chill_touch(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    static const sh_int dam_each[] = {0,  0,  0,  6,  7,  8,  9,  12, 13, 13, 13, 14, 14, 14, 15, 15, 15,
-                                      16, 16, 16, 17, 17, 17, 18, 18, 18, 19, 19, 19, 20, 20, 20, 21, 21,
-                                      21, 22, 22, 22, 23, 23, 23, 24, 24, 24, 25, 25, 25, 26, 26, 26, 27};
+    static constexpr std::array dam_each = {0,  0,  0,  6,  7,  8,  9,  12, 13, 13, 13, 14, 14, 14, 15, 15, 15, 16, 16,
+                                            16, 17, 17, 17, 18, 18, 18, 19, 19, 19, 20, 20, 20, 21, 21, 21, 22, 22, 22,
+                                            23, 23, 23, 24, 24, 24, 25, 25, 25, 26, 26, 26, 27, 27, 28, 29, 29, 30, 30,
+                                            31, 31, 32, 32, 33, 33, 34, 34, 35, 35, 35, 36, 36, 36, 37, 37, 37, 38, 38,
+                                            38, 38, 39, 39, 40, 40, 41, 41, 41, 42, 43, 44, 45, 46, 47, 48};
     AFFECT_DATA af;
-    int dam;
-
-    level = UMIN(level, (int)(sizeof(dam_each) / sizeof(dam_each[0]) - 1));
-    level = UMAX(0, level);
-    dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
+    level = std::clamp(level, 0, static_cast<int>(dam_each.size() - 1));
+    int dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
     if (!saves_spell(level, victim)) {
         act("$n turns blue and shivers.", victim);
         af.type = sn;
@@ -1154,14 +1160,13 @@ void spell_chill_touch(int sn, int level, Char *ch, void *vo) {
 
 void spell_colour_spray(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    static const sh_int dam_each[] = {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  30, 35, 40, 45, 50, 55,
-                                      55, 55, 56, 57, 58, 58, 59, 60, 61, 61, 62, 63, 64, 64, 65, 66, 67,
-                                      67, 68, 69, 70, 70, 71, 72, 73, 73, 74, 75, 76, 76, 77, 78, 79, 79};
-    int dam;
-
-    level = UMIN(level, (int)(sizeof(dam_each) / sizeof(dam_each[0]) - 1));
-    level = UMAX(0, level);
-    dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
+    static const std::array dam_each = {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  30, 35, 40, 45, 50, 55, 55, 55,
+                                        56, 57, 58, 58, 59, 60, 61, 61, 62, 63, 64, 64, 65, 66, 67, 67, 68, 69, 70,
+                                        70, 71, 72, 73, 73, 74, 75, 76, 76, 77, 78, 79, 79, 79, 80, 81, 81, 82, 82,
+                                        83, 83, 84, 84, 85, 85, 86, 86, 87, 87, 87, 88, 88, 88, 87, 87, 87, 88, 88,
+                                        88, 88, 89, 89, 90, 90, 91, 91, 91, 92, 93, 94, 95, 96, 97, 98};
+    level = std::clamp(level, 0, static_cast<int>(dam_each.size() - 1));
+    int dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
     if (saves_spell(level, victim))
         dam /= 2;
     else
@@ -2371,25 +2376,32 @@ void spell_energy_drain(int sn, int level, Char *ch, void *vo) {
 
 void spell_fireball(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    static const sh_int dam_each[] = {0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
-                                      0,   0,   30,  35,  40,  45,  50,  55,  60,  65,  70,  75,  80,
-                                      82,  84,  86,  88,  90,  92,  94,  96,  98,  100, 102, 104, 106,
-                                      108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130};
-    int dam;
-
-    level = UMIN(level, (int)(sizeof(dam_each) / sizeof(dam_each[0]) - 1));
-    level = UMAX(0, level);
-    dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
+    static constexpr std::array dam_each = {
+        0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   30,  35,  40,  45,
+        50,  55,  60,  65,  70,  75,  80,  82,  84,  86,  88,  90,  92,  94,  96,  98,  100, 102, 104,
+        106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 131, 132, 133, 133, 134, 135,
+        136, 136, 137, 138, 138, 139, 140, 140, 141, 142, 143, 144, 145, 146, 147, 148, 148, 149, 149,
+        150, 150, 151, 152, 153, 154, 155, 156, 156, 157, 158, 159, 160, 161, 162};
+    level = std::clamp(level, 0, static_cast<int>(dam_each.size() - 1));
+    int dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, sn, DAM_FIRE);
 }
 
+// Flamestrike is the cleric equivalent of fireball. It's slightly less powerful, and
+// it's less mana efficient, largely as the cleric role is not meant to specialize
+// in damage dealing. That said, other classes can gain it at high levels too.
 void spell_flamestrike(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    int dam;
-
-    dam = dice(6, 8);
+    static constexpr std::array dam_each = {
+        0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+        0,   0,   50,  55,  60,  65,  70,  75,  80,  82,  84,  86,  88,  90,  92,  94,  96,  98,  100,
+        102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 131, 132, 133, 133,
+        134, 135, 136, 136, 137, 138, 138, 139, 140, 140, 141, 141, 142, 143, 143, 144, 144, 145, 145,
+        146, 146, 147, 147, 148, 148, 149, 149, 150, 151, 152, 153, 154, 155, 156};
+    level = std::clamp(0, level, static_cast<int>(dam_each.size() - 1));
+    int dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, sn, DAM_FIRE);
@@ -2965,14 +2977,13 @@ void spell_know_alignment(int sn, int level, Char *ch, void *vo) {
 
 void spell_lightning_bolt(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    static const sh_int dam_each[] = {0,  0,  0,  0,  0,  0,  0,  0,  0,  25, 28, 31, 34, 37, 40, 40, 41,
-                                      42, 42, 43, 44, 44, 45, 46, 46, 47, 48, 48, 49, 50, 50, 51, 52, 52,
-                                      53, 54, 54, 55, 56, 56, 57, 58, 58, 59, 60, 60, 61, 62, 62, 63, 64};
-    int dam;
-
-    level = UMIN(level, (int)(sizeof(dam_each) / sizeof(dam_each[0]) - 1));
-    level = UMAX(0, level);
-    dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
+    static constexpr std::array dam_each = {0,  0,  0,  0,  0,  0,  0,  0,  0,  25, 28, 31, 34, 37, 40, 40, 41, 42, 42,
+                                            43, 44, 44, 45, 46, 46, 47, 48, 48, 49, 50, 50, 51, 52, 52, 53, 54, 54, 55,
+                                            56, 56, 57, 58, 58, 59, 60, 60, 61, 62, 62, 63, 64, 64, 65, 66, 66, 67, 67,
+                                            68, 68, 69, 69, 70, 70, 71, 71, 72, 72, 72, 73, 73, 73, 74, 74, 74, 75, 75,
+                                            75, 75, 76, 76, 77, 77, 78, 78, 78, 79, 80, 81, 82, 83, 84, 85};
+    level = std::clamp(level, 0, static_cast<int>(dam_each.size() - 1));
+    int dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, sn, DAM_LIGHTNING);
@@ -3029,14 +3040,13 @@ void spell_locate_object(int sn, int level, Char *ch, void *vo) {
 
 void spell_magic_missile(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    static const sh_int dam_each[] = {0,  3,  3,  4,  4,  5,  6,  6,  6,  6,  6,  7,  7,  7,  7,  7,  8,
-                                      8,  8,  8,  8,  9,  9,  9,  9,  9,  10, 10, 10, 10, 10, 11, 11, 11,
-                                      11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14};
-    int dam;
-
-    level = UMIN(level, (int)(sizeof(dam_each) / sizeof(dam_each[0]) - 1));
-    level = UMAX(0, level);
-    dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
+    static constexpr std::array dam_each = {0,  3,  3,  4,  4,  5,  6,  6,  6,  6,  6,  7,  7,  7,  7,  7,  8,  8,  8,
+                                            8,  8,  9,  9,  9,  9,  9,  10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12,
+                                            12, 12, 12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 15, 15, 16, 16, 17, 17,
+                                            18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 22, 23, 23, 23, 24, 24, 24, 25, 25,
+                                            25, 25, 26, 26, 26, 27, 27, 28, 28, 29, 30, 31, 32, 33, 34, 35};
+    level = std::clamp(level, 0, static_cast<int>(dam_each.size() - 1));
+    int dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, sn, DAM_ENERGY);
@@ -3367,14 +3377,13 @@ void spell_shield(int sn, int level, Char *ch, void *vo) {
 
 void spell_shocking_grasp(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    static const int dam_each[] = {0,  0,  0,  0,  0,  0,  0,  20, 25, 29, 33, 36, 39, 39, 39, 40, 40,
-                                   41, 41, 42, 42, 43, 43, 44, 44, 45, 45, 46, 46, 47, 47, 48, 48, 49,
-                                   49, 50, 50, 51, 51, 52, 52, 53, 53, 54, 54, 55, 55, 56, 56, 57, 57};
-    int dam;
-
-    level = UMIN(level, (int)(sizeof(dam_each) / sizeof(dam_each[0]) - 1));
-    level = UMAX(0, level);
-    dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
+    static constexpr std::array dam_each = {0,  0,  0,  0,  0,  0,  0,  20, 25, 29, 33, 36, 39, 39, 39, 40, 40, 41, 41,
+                                            42, 42, 43, 43, 44, 44, 45, 45, 46, 46, 47, 47, 48, 48, 49, 49, 50, 50, 51,
+                                            51, 52, 52, 53, 53, 54, 54, 55, 55, 56, 56, 57, 57, 57, 58, 59, 59, 60, 60,
+                                            61, 61, 62, 62, 63, 63, 64, 64, 65, 65, 65, 66, 66, 66, 67, 67, 67, 68, 68,
+                                            68, 68, 69, 69, 70, 70, 71, 71, 71, 72, 73, 74, 75, 76, 77, 78};
+    level = std::clamp(level, 0, static_cast<int>(dam_each.size() - 1));
+    int dam = number_range(dam_each[level] / 2, dam_each[level] * 2);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, sn, DAM_LIGHTNING);

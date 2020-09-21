@@ -463,7 +463,7 @@ void one_hit(Char *ch, Char *victim, int dt) {
     }
 
     thac0 = interpolate(ch->level, thac0_00, thac0_32);
-    thac0 *= (skill/100.f);
+    thac0 *= (skill / 100.f);
     thac0 -= ch->get_hitroll();
     // Blindness caused by blind spell or dirt kick reduces your chance of landing a blow
     if (!can_see(ch, victim))
@@ -497,7 +497,8 @@ void one_hit(Char *ch, Char *victim, int dt) {
     // Regardless of how strong thac0 is relative to victim ac, there's always a chance to hit or miss.
     int hit_chance = URANGE(10, to_hit_ratio, 95);
     diceroll = dice(1, 100);
-    log_string("ch={} vic={} thac0={}  diceroll={}  victim_ac={} to_hit_ratio={} hit_chance={}", ch->name, victim->name, thac0, diceroll, victim_ac, to_hit_ratio, hit_chance);
+    log_string("ch={} vic={} thac0={}  diceroll={}  victim_ac={} to_hit_ratio={} hit_chance={}", ch->name, victim->name,
+               thac0, diceroll, victim_ac, to_hit_ratio, hit_chance);
 
     if (diceroll >= hit_chance) {
         /* Miss. */

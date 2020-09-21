@@ -503,7 +503,6 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
         for (int i = 0; i < 4; i++) {
             ch->armor[i] -= 101;
         }
-
     }
     return res;
 }
