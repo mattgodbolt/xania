@@ -193,8 +193,8 @@ int hit_gain(Char *ch) {
         }
 
     } else {
-        gain = UMAX(3, get_curr_stat(ch, Stat::Con) - 3 + ch->level / 1.5);
-        gain += class_table[ch->class_num].hp_max - 7;
+        gain = UMAX(3, get_curr_stat(ch, Stat::Con) - 3 + ch->level / 1.7);
+        gain += class_table[ch->class_num].hp_max - 10;
         number = number_percent();
         if (number < get_skill_learned(ch, gsn_fast_healing)) {
             gain += number * gain / 100;
@@ -204,8 +204,8 @@ int hit_gain(Char *ch) {
 
         switch (ch->position) {
         case POS_SLEEPING: break;
-        case POS_RESTING: gain /= 1.5; break;
-        case POS_FIGHTING: gain /= 3; break;
+        case POS_RESTING: gain /= 1.7; break;
+        case POS_FIGHTING: gain /= 4.5; break;
         default: gain /= 2; break;
         }
 
@@ -250,11 +250,11 @@ int mana_gain(Char *ch) {
             if (ch->mana < ch->max_mana)
                 check_improve(ch, gsn_meditation, true, 8);
         }
-        gain = (gain * class_table[ch->class_num].fMana) / 6;
+        gain = (gain * class_table[ch->class_num].fMana) / 7;
 
         switch (ch->position) {
         case POS_SLEEPING: break;
-        case POS_RESTING: gain /= 1.5; break;
+        case POS_RESTING: gain /= 1.7; break;
         default: gain /= 2; break;
         }
 
