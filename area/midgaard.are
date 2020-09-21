@@ -470,7 +470,7 @@ A janitor is walking around, cleaning up.
 ~
 human~
 GH 0 900 0
-1 0 2d6+10 1d1+99 1d5+0 pound
+1 0 2d6+10 1d1+99 1d5+1 pound
 10 10 10 10
 NU 0 0 C
 stand stand male 10
@@ -502,7 +502,7 @@ He looks pretty mean.
 ~
 human~
 CS 0 -200 0
-5 1 2d6+54 1d1+99 1d6+1 punch
+5 1 2d6+54 1d1+99 1d6+2 punch
 7 5 5 10
 BJNQ 0 0 C
 stand stand male 18
@@ -530,7 +530,7 @@ The beggar looks like she is fed up with life.
 ~
 human~
 B 0 400 0
-1 0 2d6+10 1d1+99 1d5+0 beating
+1 0 2d6+10 1d1+99 1d5+1 beating
 8 8 8 10
 FJNU 0 0 C
 stand stand female 0
@@ -544,7 +544,7 @@ The alley cat is half starved and more than a little feral.
 ~
 cat~
 FGHU 0 -200 0
-0 1 1d6+4 1d1+99 1d4+0 scratch
+0 1 1d6+4 1d1+99 1d4+1 scratch
 8 8 8 9
 DR 0 0 C
 stand stand male 0

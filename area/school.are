@@ -320,7 +320,7 @@ a sub issue mace~
 You see a sub issue mace here.~
 bronze~
 weapon 0 AN
-'mace' 1 6 'pound' 0
+'mace' 1 5 'pound' 0
 0 6 0 P 
 E
 mace~
@@ -350,7 +350,7 @@ a sub issue sword~
 You see a sub issue sword here.~
 bronze~
 weapon 0 AN
-'sword' 1 6 'slash' 0
+'sword' 1 5 'slash' 0
 0 3 0 P
 E
 sword~
