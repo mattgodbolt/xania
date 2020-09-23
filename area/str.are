@@ -1648,50 +1648,50 @@ E  1  822  3    8           equip a pair of roller-skates
 M 0 805 5 836 1  1    Skull-head 5  
 *
 M 0 806 1 818 1  1    Pacman 1  
-E  1  814  1    8           equip The Cloud
+E  1  814  4    8           equip The Cloud
 *
 M 0 807 3 822 1  1    evil bomb 1  
-E  1  816  1    5           equip Golden Armor
+E  1  816  4    5           equip Golden Armor
 M 0 807 3 825 1  1    evil bomb 2  
 M 0 807 3 831 1  1    evil bomb 3  
 *
 M 0 808 1 821 1  1    Windman  
 E  1  803  -1  16
-G  1  801  1                 stone key
+G  1  801  5                 stone key
 *
 M 0 809 1 822 1  1    Thunderman  
-G  1  804  1                  The Gauntlets of Thunder
+G  1  804  5                  The Gauntlets of Thunder
 *
 M 0 810 1 823 1  1    Rainman  
-E  1  805  1    5           equip The Armor of Rain
+E  1  805  5    5           equip The Armor of Rain
 *
 M 0 811 1 824 1  1    Lightningman  
-G  1  806  1                The Badge of Lightning
+G  1  806  5                The Badge of Lightning
 *
 M 0 812 1 826 1  1    GoldLord  
-G  1  815  1                The Gold Aura
+G  1  815  5                The Gold Aura
 *
 M 0 813 1 827 1  1    WoodLord  
-G  1  817  1                  Wooden Mask
+G  1  817  5                  Wooden Mask
 *
 M 0 814 1 828 1  1    WaterLord  
-G  1  818  1                  Water Snake
-G  1  802  1                 glass key
+G  1  818  5                  Water Snake
+G  1  802  5                 glass key
 *
 M 0 815 1 829 1  1    FireLord  
-G  1  819  1                  Belt of Fire
+G  1  819  5                  Belt of Fire
 E  1  810  4  16              Blood Sucker
 *
 M 0 816 1 830 1  1    EarthLord  
 E  1  820  5  16              Claw of Earth
 *
 M 0 817 1 833 1  1    Evil Bomberman (Bomberman II)  
-E  1  807  1    0             The Light Bulb
-G  1  808  1                  The Baseball Cap
-E  1  809  1   16             Saint Sword
-G  1  811  1                  The Wrist Band of Angel
-G  1  812  1                  Sceptre of Soul
-G  1  813  1                  Shield of Wish
+E  1  807  4    0             The Light Bulb
+G  1  808  4                  The Baseball Cap
+E  1  809  4   16             Saint Sword
+G  1  811  4                  The Wrist Band of Angel
+G  1  812  4                  Sceptre of Soul
+G  1  813  4                  Shield of Wish
 *
 * ------ DOORS STATE ------
 *
