@@ -2357,7 +2357,7 @@ void spell_energy_drain(int sn, int level, Char *ch, void *vo) {
         dam = victim->hit + 1;
     } else {
         if (victim->in_room->vnum != CHAL_ROOM)
-            gain_exp(victim, 0 - 5 * number_range(level / 2, 3 * level / 2));
+            gain_exp(victim, 0 - 2.5 * number_range(level / 2, 3 * level / 2));
         victim->mana /= 2;
         victim->move /= 2;
         dam = dice(1, level);
