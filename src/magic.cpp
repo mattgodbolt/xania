@@ -33,13 +33,13 @@ void explode_bomb(OBJ_DATA *bomb, Char *ch, Char *thrower);
 
 namespace {
 
-static constexpr std::array AcidBlastDamage = {
+static constexpr std::array AcidBlastExorciseDemonfireDamage = {
     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
     0,   0,   0,   0,   0,   108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 131, 132, 133, 134, 135, 136,
     137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 148, 149, 149, 150, 151, 152, 153, 154, 155, 156, 157,
     158, 159, 160, 161, 162, 163, 164, 166, 168, 170, 172, 174, 176, 178, 170, 171, 172, 173, 174, 175, 176, 177};
 
-static constexpr std::array BurningHandsDamage = {
+static constexpr std::array BurningHandsCauseSerDamage = {
     0,  0,  0,  0,  0,  14, 17, 20, 23, 26, 29, 29, 29, 30, 30, 31, 31, 32, 32, 33, 33, 34, 34,
     35, 35, 36, 36, 37, 37, 38, 38, 39, 39, 40, 40, 41, 41, 42, 42, 43, 43, 44, 44, 45, 45, 46,
     46, 47, 47, 48, 48, 48, 49, 50, 50, 51, 51, 52, 52, 53, 53, 54, 54, 55, 55, 56, 56, 56, 57,
@@ -51,13 +51,13 @@ static constexpr std::array ChillTouchDamage = {
     25, 26, 26, 26, 27, 27, 28, 29, 29, 30, 30, 31, 31, 32, 32, 33, 33, 34, 34, 35, 35, 35, 36,
     36, 36, 37, 37, 37, 38, 38, 38, 38, 39, 39, 40, 40, 41, 41, 41, 42, 43, 44, 45, 46, 47, 48};
 
-static const std::array ColourSprayDamage = {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  30, 35, 40, 45, 50, 55, 55, 55,
-                                             56, 57, 58, 58, 59, 60, 61, 61, 62, 63, 64, 64, 65, 66, 67, 67, 68, 69, 70,
-                                             70, 71, 72, 73, 73, 74, 75, 76, 76, 77, 78, 79, 79, 79, 80, 81, 81, 82, 82,
-                                             83, 83, 84, 84, 85, 85, 86, 86, 87, 87, 87, 88, 88, 88, 87, 87, 87, 88, 88,
-                                             88, 88, 89, 89, 90, 90, 91, 91, 91, 92, 93, 94, 95, 96, 97, 98};
+static const std::array ColourSprayDispelGoodEvilDamage = {
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  30, 35, 40, 45, 50, 55, 55, 55, 56, 57, 58, 58,
+    59, 60, 61, 61, 62, 63, 64, 64, 65, 66, 67, 67, 68, 69, 70, 70, 71, 72, 73, 73, 74, 75, 76,
+    76, 77, 78, 79, 79, 79, 80, 81, 81, 82, 82, 83, 83, 84, 84, 85, 85, 86, 86, 87, 87, 87, 88,
+    88, 88, 87, 87, 87, 88, 88, 88, 88, 89, 89, 90, 90, 91, 91, 91, 92, 93, 94, 95, 96, 97, 98};
 
-static constexpr std::array FireballDamage = {
+static constexpr std::array FireballHarmDamage = {
     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   30,  35,  40,  45,  50,  55,  60,  65,
     70,  75,  80,  82,  84,  86,  88,  90,  92,  94,  96,  98,  100, 102, 104, 106, 108, 110, 112, 114, 116, 118, 120,
     122, 124, 126, 128, 130, 131, 132, 133, 133, 134, 135, 136, 136, 137, 138, 138, 139, 140, 140, 141, 142, 143, 144,
@@ -69,13 +69,13 @@ static constexpr std::array FlamestrikeDamage = {
     118, 120, 122, 124, 126, 128, 130, 131, 132, 133, 133, 134, 135, 136, 136, 137, 138, 138, 139, 140, 140, 141, 141,
     142, 143, 143, 144, 144, 145, 145, 146, 146, 147, 147, 148, 148, 149, 149, 150, 151, 152, 153, 154, 155, 156};
 
-static constexpr std::array LightningBoltDamage = {
+static constexpr std::array LightningBoltCauseCritDamage = {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  25, 28, 31, 34, 37, 40, 40, 41, 42, 42, 43, 44, 44, 45,
     46, 46, 47, 48, 48, 49, 50, 50, 51, 52, 52, 53, 54, 54, 55, 56, 56, 57, 58, 58, 59, 60, 60,
     61, 62, 62, 63, 64, 64, 65, 66, 66, 67, 67, 68, 68, 69, 69, 70, 70, 71, 71, 72, 72, 72, 73,
     73, 73, 74, 74, 74, 75, 75, 75, 75, 76, 76, 77, 77, 78, 78, 78, 79, 80, 81, 82, 83, 84, 85};
 
-static constexpr std::array MagicMissileDamage = {
+static constexpr std::array MagicMissileCauseLightDamage = {
     0,  3,  3,  4,  4,  5,  6,  6,  6,  6,  6,  7,  7,  7,  7,  7,  8,  8,  8,  8,  8,  9,  9,
     9,  9,  9,  10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13,
     14, 14, 14, 14, 14, 15, 15, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 22, 23,
@@ -94,7 +94,7 @@ static constexpr std::array ShockingGraspDamage = {
 template <std::size_t Size>
 std::pair<int, int> get_direct_dmg_and_level(int level, const std::array<int, Size> &damage_table) {
     int clamped_level = std::clamp(level, 0, static_cast<int>(damage_table.size() - 1));
-    int dam = number_range(damage_table[level] / 2, damage_table[level] * 2);
+    int dam = number_range(damage_table[clamped_level] / 2, damage_table[clamped_level] * 2);
     return {dam, clamped_level};
 }
 
@@ -668,7 +668,7 @@ void obj_cast_spell(int sn, int level, Char *ch, Char *victim, OBJ_DATA *obj) {
  */
 void spell_acid_blast(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    auto dam_level = get_direct_dmg_and_level(level, AcidBlastDamage);
+    auto dam_level = get_direct_dmg_and_level(level, AcidBlastExorciseDemonfireDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, sn, DAM_ACID);
@@ -776,7 +776,7 @@ void spell_blindness(int sn, int level, Char *ch, void *vo) {
 
 void spell_burning_hands(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    auto dam_level = get_direct_dmg_and_level(level, BurningHandsDamage);
+    auto dam_level = get_direct_dmg_and_level(level, BurningHandsCauseSerDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, sn, DAM_FIRE);
@@ -1054,22 +1054,33 @@ void spell_cancellation(int sn, int level, Char *ch, void *vo) {
 }
 
 void spell_cause_light(int sn, int level, Char *ch, void *vo) {
-    damage(ch, (Char *)vo, dice(1, 8) + level / 3, sn, DAM_HARM);
+    Char *victim = (Char *)vo;
+    auto dam_level = get_direct_dmg_and_level(level, MagicMissileCauseLightDamage);
+    if (saves_spell(dam_level.second, victim))
+        dam_level.first /= 2;
+    damage(ch, victim, dam_level.first, sn, DAM_HARM);
 }
 
 void spell_cause_critical(int sn, int level, Char *ch, void *vo) {
-    damage(ch, (Char *)vo, dice(3, 8) + level - 6, sn, DAM_HARM);
+    Char *victim = (Char *)vo;
+    auto dam_level = get_direct_dmg_and_level(level, LightningBoltCauseCritDamage);
+    if (saves_spell(dam_level.second, victim))
+        dam_level.first /= 2;
+    damage(ch, victim, dam_level.first, sn, DAM_HARM);
 }
 
 void spell_cause_serious(int sn, int level, Char *ch, void *vo) {
-    damage(ch, (Char *)vo, dice(2, 8) + level / 2, sn, DAM_HARM);
+    Char *victim = (Char *)vo;
+    auto dam_level = get_direct_dmg_and_level(level, BurningHandsCauseSerDamage);
+    if (saves_spell(dam_level.second, victim))
+        dam_level.first /= 2;
+    damage(ch, victim, dam_level.first, sn, DAM_HARM);
 }
 
 void spell_chain_lightning(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     Char *tmp_vict, *last_vict, *next_vict;
     bool found;
-    int dam;
 
     /* first strike */
 
@@ -1077,10 +1088,10 @@ void spell_chain_lightning(int sn, int level, Char *ch, void *vo) {
     act("A lightning bolt leaps from your hand and arcs to $N.", ch, nullptr, victim, To::Char);
     act("A lightning bolt leaps from $n's hand and hits you!", ch, nullptr, victim, To::Vict);
 
-    dam = dice(level, 6);
-    if (saves_spell(level, victim))
-        dam /= 3;
-    damage(ch, victim, dam, sn, DAM_LIGHTNING);
+    auto dam_level = get_direct_dmg_and_level(level, LightningBoltCauseCritDamage);
+    if (saves_spell(dam_level.second, victim))
+        dam_level.first /= 3;
+    damage(ch, victim, dam_level.first, sn, DAM_LIGHTNING);
     last_vict = victim;
     level -= 4; /* decrement damage */
 
@@ -1094,10 +1105,10 @@ void spell_chain_lightning(int sn, int level, Char *ch, void *vo) {
                 last_vict = tmp_vict;
                 act("The bolt arcs to $n!", tmp_vict);
                 act("The bolt hits you!", tmp_vict, nullptr, nullptr, To::Char);
-                dam = dice(level, 6);
-                if (saves_spell(level, tmp_vict))
-                    dam /= 3;
-                damage(ch, tmp_vict, dam, sn, DAM_LIGHTNING);
+                dam_level = get_direct_dmg_and_level(level, LightningBoltCauseCritDamage);
+                if (saves_spell(dam_level.second, tmp_vict))
+                    dam_level.first /= 3;
+                damage(ch, tmp_vict, dam_level.first, sn, DAM_LIGHTNING);
                 level -= 4; /* decrement damage */
             }
         } /* end target searching loop */
@@ -1117,10 +1128,10 @@ void spell_chain_lightning(int sn, int level, Char *ch, void *vo) {
             last_vict = ch;
             act("The bolt arcs to $n...whoops!", ch);
             ch->send_line("You are struck by your own lightning!");
-            dam = dice(level, 6);
-            if (saves_spell(level, ch))
-                dam /= 3;
-            damage(ch, ch, dam, sn, DAM_LIGHTNING);
+            dam_level = get_direct_dmg_and_level(level, LightningBoltCauseCritDamage);
+            if (saves_spell(dam_level.second, ch))
+                dam_level.first /= 3;
+            damage(ch, ch, dam_level.first, sn, DAM_LIGHTNING);
             level -= 4; /* decrement damage */
             if ((ch == nullptr) || (ch->in_room == nullptr))
                 return;
@@ -1209,7 +1220,7 @@ void spell_chill_touch(int sn, int level, Char *ch, void *vo) {
 
 void spell_colour_spray(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    auto dam_level = get_direct_dmg_and_level(level, ColourSprayDamage);
+    auto dam_level = get_direct_dmg_and_level(level, ColourSprayDispelGoodEvilDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     else
@@ -1414,10 +1425,10 @@ void spell_curse(int sn, int level, Char *ch, void *vo) {
         act("$N looks very uncomfortable.", ch, nullptr, victim, To::Char);
 }
 
-/* pgWandera's spell */
-
-/* PGW hard hitting spell in the attack group, the big boy of the bunch */
-
+/* PGW hard hitting spell in the attack group, the big boy of the bunch.
+ * It's equivalent to Acid Blast, but more situational due to the alignment checks.
+ * Like Harm, this gives clerics some firepower but at a price.
+ */
 void spell_exorcise(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
 
@@ -1434,16 +1445,17 @@ void spell_exorcise(int sn, int level, Char *ch, void *vo) {
         ch->send_line("You conjure forth the wrath of the Gods!");
     }
 
-    int dam = dice(level, 12);
+    auto dam_level = get_direct_dmg_and_level(level, AcidBlastExorciseDemonfireDamage);
     if ((ch->alignment <= victim->alignment + 100) && (ch->alignment >= victim->alignment - 100))
-        dam /= 2;
-    if (saves_spell(level, victim))
-        dam /= 2;
-    damage(ch, victim, dam, sn, DAM_HOLY);
+        dam_level.first /= 2;
+    if (saves_spell(dam_level.second, victim))
+        dam_level.first /= 2;
+    damage(ch, victim, dam_level.first, sn, DAM_HOLY);
 }
 
-/* RT replacement demonfire spell */
-
+/*
+ * Demonfire is the 'evil' version of exorcise.
+ */
 void spell_demonfire(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
 
@@ -1459,12 +1471,12 @@ void spell_demonfire(int sn, int level, Char *ch, void *vo) {
         act("$n has assailed you with the demons of Hell!", ch, nullptr, victim, To::Vict);
         ch->send_line("You conjure forth the demons of hell!");
     }
-    int dam = dice(level, 12);
+    auto dam_level = get_direct_dmg_and_level(level, AcidBlastExorciseDemonfireDamage);
     if (ch->alignment <= victim->alignment + 100 && ch->alignment >= victim->alignment - 100)
-        dam /= 2;
-    if (saves_spell(level, victim))
-        dam /= 2;
-    damage(ch, victim, dam, sn, DAM_NEGATIVE);
+        dam_level.first /= 2;
+    if (saves_spell(dam_level.second, victim))
+        dam_level.first /= 2;
+    damage(ch, victim, dam_level.first, sn, DAM_NEGATIVE);
 }
 
 void spell_detect_evil(int sn, int level, Char *ch, void *vo) {
@@ -1577,14 +1589,10 @@ void spell_dispel_evil(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    int dam;
-    if (victim->hit > (ch->level * 4))
-        dam = dice(level, 4);
-    else
-        dam = UMAX(victim->hit, dice(level, 4));
-    if (saves_spell(level, victim))
-        dam /= 2;
-    damage(ch, victim, dam, sn, DAM_HOLY);
+    auto dam_level = get_direct_dmg_and_level(level, ColourSprayDispelGoodEvilDamage);
+    if (saves_spell(dam_level.second, victim))
+        dam_level.first /= 2;
+    damage(ch, victim, dam_level.first, sn, DAM_HOLY);
 }
 
 void spell_dispel_good(int sn, int level, Char *ch, void *vo) {
@@ -1602,14 +1610,10 @@ void spell_dispel_good(int sn, int level, Char *ch, void *vo) {
         act("$N does not seem to be affected.", ch, nullptr, victim, To::Char);
         return;
     }
-    int dam;
-    if (victim->hit > (ch->level * 4))
-        dam = dice(level, 4);
-    else
-        dam = UMAX(victim->hit, dice(level, 4));
-    if (saves_spell(level, victim))
-        dam /= 2;
-    damage(ch, victim, dam, sn, DAM_HOLY);
+    auto dam_level = get_direct_dmg_and_level(level, ColourSprayDispelGoodEvilDamage);
+    if (saves_spell(dam_level.second, victim))
+        dam_level.first /= 2;
+    damage(ch, victim, dam_level.first, sn, DAM_HOLY);
 }
 
 /* modified for enhanced use */
@@ -2419,15 +2423,17 @@ void spell_energy_drain(int sn, int level, Char *ch, void *vo) {
 
 void spell_fireball(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    auto dam_level = get_direct_dmg_and_level(level, FireballDamage);
+    auto dam_level = get_direct_dmg_and_level(level, FireballHarmDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, sn, DAM_FIRE);
 }
 
-// Flamestrike is the cleric equivalent of fireball. It's slightly less powerful, and
-// it's less mana efficient, largely as the cleric role is not meant to specialize
-// in damage dealing. That said, other classes can gain it at high levels too.
+/* Flamestrike is the Attack spell group's equivalent of fireball. It's slightly
+ * less powerful and less mana efficient, largely as the cleric role is not
+ * meant to specialize in damage dealing. See also Harm, which is similar to Fireball
+ * in the Harmful group.
+ */
 void spell_flamestrike(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     auto dam_level = get_direct_dmg_and_level(level, FlamestrikeDamage);
@@ -2623,14 +2629,14 @@ void spell_giant_strength(int sn, int level, Char *ch, void *vo) {
     act("$n's muscles surge with heightened power.", victim);
 }
 
+// Clerics can opt in to the Harm group fairly cheaply. They'll get harm at level 23
+// vs mages getting Fireball at 22. Also, Harm is less mana efficient.
 void spell_harm(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    int dam;
-
-    dam = dice(level, 12);
-    if (saves_spell(level, victim))
-        dam /= 2;
-    damage(ch, victim, dam, sn, DAM_HARM);
+    auto dam_level = get_direct_dmg_and_level(level, FireballHarmDamage);
+    if (saves_spell(dam_level.second, victim))
+        dam_level.first /= 2;
+    damage(ch, victim, dam_level.first, sn, DAM_FIRE);
 }
 
 void spell_regeneration(int sn, int level, Char *ch, void *vo) {
@@ -3006,7 +3012,7 @@ void spell_know_alignment(int sn, int level, Char *ch, void *vo) {
 
 void spell_lightning_bolt(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    auto dam_level = get_direct_dmg_and_level(level, LightningBoltDamage);
+    auto dam_level = get_direct_dmg_and_level(level, LightningBoltCauseCritDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, sn, DAM_LIGHTNING);
@@ -3063,7 +3069,7 @@ void spell_locate_object(int sn, int level, Char *ch, void *vo) {
 
 void spell_magic_missile(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    auto dam_level = get_direct_dmg_and_level(level, MagicMissileDamage);
+    auto dam_level = get_direct_dmg_and_level(level, MagicMissileCauseLightDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, sn, DAM_ENERGY);
