@@ -157,12 +157,15 @@ void say_spell(Char *ch, int sn) {
 
 /*
  * Compute a saving throw.
- * Negative apply's make saving throw better.
+ * Chars of equal level and no resist gear will have 50/50 chance landing or resisting.
+ * Gear with negative saving_throw increases the chance that the victim will resist.
+ * If the victim is berserk, this actually makes them more vulnerable to attack
+ * from melee and magic, offsetting the damage & healing benefits it provides.
  */
 bool saves_spell(int level, const Char *victim) {
-    int save = 50 + (victim->level - level - victim->saving_throw) * 5;
+    int save = 50 + (victim->level - level - victim->saving_throw);
     if (IS_AFFECTED(victim, AFF_BERSERK))
-        save += victim->level / 2;
+        save -= victim->level / 3;
     save = URANGE(5, save, 95);
     return number_percent() < save;
 }
@@ -2739,6 +2742,7 @@ void spell_lethargy(int sn, int level, Char *ch, void *vo) {
             act("$N has a slow enough heart-beat already.", ch, nullptr, victim, To::Char);
         return;
     }
+
     af.type = sn;
     af.level = level;
     if (victim == ch)
