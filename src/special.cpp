@@ -121,7 +121,7 @@ bool dragon(Char *ch, const char *spell_name) {
 
     for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
-        if (victim->fighting == ch && number_bits(2) == 0)
+        if (victim->fighting == ch && number_bits(3) == 0)
             break;
     }
 
@@ -429,7 +429,7 @@ bool spec_cast_mage(Char *ch) {
 
     for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
-        if (victim->fighting == ch && number_bits(2) == 0)
+        if (victim->fighting == ch && number_bits(3) == 0)
             break;
     }
 
@@ -511,7 +511,7 @@ bool spec_cast_undead(Char *ch) {
 
     for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
-        if (victim->fighting == ch && number_bits(2) == 0)
+        if (victim->fighting == ch && number_bits(3) == 0)
             break;
     }
 
@@ -601,7 +601,7 @@ bool spec_cast_bastard(Char *ch) {
 
     for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
         v_next = victim->next_in_room;
-        if (victim->fighting == ch && number_bits(2) == 0)
+        if (victim->fighting == ch && number_bits(3) == 0)
             break;
     }
 
