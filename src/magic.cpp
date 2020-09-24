@@ -2742,7 +2742,12 @@ void spell_lethargy(int sn, int level, Char *ch, void *vo) {
             act("$N has a slow enough heart-beat already.", ch, nullptr, victim, To::Char);
         return;
     }
-
+    // The bonus makes it harder to resist than most spells.
+    if (victim != ch && saves_spell(level + 10, victim)) {
+        act("$N resists your magic through sheer force of will.", ch, nullptr, victim, To::Char);
+        victim->send_line("You feel slower momentarily but it passes.");
+        return;
+    }
     af.type = sn;
     af.level = level;
     if (victim == ch)
