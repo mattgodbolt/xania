@@ -3358,7 +3358,7 @@ void spell_sanctuary(int sn, int level, Char *ch, void *vo) {
     }
     af.type = sn;
     af.level = level;
-    af.duration = number_fuzzy(level / 6);
+    af.duration = number_fuzzy(level / 5);
     af.bitvector = AFF_SANCTUARY;
     affect_to_char(victim, af);
     act("$n is surrounded by a white aura.", victim);

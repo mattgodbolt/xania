@@ -447,16 +447,16 @@ void one_hit(Char *ch, Char *victim, int dt) {
      */
     if (ch->is_npc()) {
         thac0_00 = -4;
-        thac0_32 = -64; /* as good as a thief */
+        thac0_32 = -70; /* as good as a thief */
 
         if (IS_SET(ch->act, ACT_WARRIOR))
-            thac0_32 = -70;
+            thac0_32 = -76;
         else if (IS_SET(ch->act, ACT_THIEF))
-            thac0_32 = -64;
+            thac0_32 = -70;
         else if (IS_SET(ch->act, ACT_CLERIC))
-            thac0_32 = -60;
+            thac0_32 = -66;
         else if (IS_SET(ch->act, ACT_MAGE))
-            thac0_32 = -57;
+            thac0_32 = -63;
     } else {
         thac0_00 = class_table[ch->class_num].thac0_00;
         thac0_32 = class_table[ch->class_num].thac0_32;
@@ -497,8 +497,6 @@ void one_hit(Char *ch, Char *victim, int dt) {
     // Regardless of how strong thac0 is relative to victim ac, there's always a chance to hit or miss.
     int hit_chance = URANGE(10, to_hit_ratio, 95);
     diceroll = dice(1, 100);
-    log_string("ch={} vic={} thac0={}  diceroll={}  victim_ac={} to_hit_ratio={} hit_chance={}", ch->name, victim->name,
-               thac0, diceroll, victim_ac, to_hit_ratio, hit_chance);
 
     if (diceroll >= hit_chance) {
         /* Miss. */
@@ -648,19 +646,6 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
         dam = DAMAGE_CAP;
     }
 
-    log_string("ch {} dmg {}", ch->name, dam);
-
-    /* damage reduction */
-    // if (dam > 30) {
-    //     int new_dam = (dam - 30) / 2 + 30;
-    //     log_string("Dam reduction 1: ch: {}, vict: {}, {} - {}", ch->name, victim->name, dam, new_dam);
-    //     dam = new_dam;
-    // }
-    // if (dam > 75) {
-    //     int new_dam = (dam - 75) / 2 + 75;
-    //     log_string("Dam reduction 2: ch: {}, vict: {}, {} - {}", ch->name, victim->name, dam, new_dam);
-    //     dam = new_dam;
-    // }
     /*
      * New code to make octarine fire a little bit more effective
      */
@@ -724,7 +709,7 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
      * Damage modifiers.
      */
     if (IS_AFFECTED(victim, AFF_SANCTUARY))
-        dam /= 2;
+        dam /= 1.6f;
 
     if (IS_AFFECTED(victim, AFF_PROTECTION_EVIL) && ch->is_evil())
         dam -= dam / 4;
