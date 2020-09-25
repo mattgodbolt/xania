@@ -116,9 +116,10 @@ State thy name and enter the realm of Xania: ~
 Welcome to Xania! See 'help rules' and 'help commands'.
 
 [ Recent Gameplay Updates! ]
-Aug 29:
-- Astradamus will now summon your corpse if you ask him to. Please read 'help death'
-  and visit him underneath the temple!
+Sep 25:
+- Substantial changes to how combat calculates damage. Amour is fairly
+  important and things will probably hit more often and harder! 
+- Direct damage spells scale up with the caster's level for greater choice.
 |g[Hit return to continue]|w
 ~ 
  

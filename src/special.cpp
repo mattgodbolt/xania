@@ -462,22 +462,22 @@ bool spec_cast_mage(Char *ch) {
             break;
         case 3:
             min_level = 8;
-            max_level = 40;
+            max_level = 60;
             spell = "shocking grasp";
             break;
         case 4:
             min_level = 11;
-            max_level = 40;
+            max_level = 60;
             spell = "colour spray";
             break;
         case 5:
             min_level = 14;
-            max_level = 45;
+            max_level = 80;
             spell = "lightning bolt";
             break;
         case 6:
             min_level = 20;
-            max_level = 60;
+            max_level = 105;
             spell = "fireball";
             break;
         case 7:
