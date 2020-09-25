@@ -37,8 +37,8 @@ static constexpr std::array AcidBlastExorciseDemonfireDamage = {
     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
     0,   0,   0,   0,   0,   0,   0,   108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 131, 132,
     133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 148, 149, 149, 150, 151,
-    152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 166, 168, 170, 172, 174, 176, 178, 170,
-    171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 188, 188, 189};
+    153, 155, 157, 159, 161, 163, 165, 167, 169, 171, 173, 175, 177, 179, 181, 183, 185, 187, 189, 191, 193,
+    195, 197, 199, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218};
 
 static constexpr std::array BurningHandsCauseSerDamage = {
     0,  0,  0,  0,  0,  14, 17, 20, 23, 26, 29, 29, 29, 30, 30, 31, 31, 32, 32, 33, 33, 34, 34,
@@ -62,8 +62,8 @@ static constexpr std::array FireballHarmDamage = {
     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   30,  35,  40,  45,  50,  55,  60,
     65,  70,  75,  80,  82,  84,  86,  88,  90,  92,  94,  96,  98,  100, 102, 104, 106, 108, 110, 112, 114, 116,
     118, 120, 122, 124, 126, 128, 130, 131, 132, 133, 133, 134, 135, 136, 136, 137, 138, 138, 139, 140, 140, 141,
-    142, 143, 144, 145, 146, 147, 148, 148, 149, 149, 150, 150, 151, 152, 153, 154, 155, 156, 156, 157, 158, 159,
-    160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 170, 171, 171, 171, 171, 172, 172};
+    142, 143, 144, 146, 148, 150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 182,
+    184, 186, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 201, 201};
 
 static constexpr std::array FlamestrikeDamage = {
     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   50,  55,
@@ -174,12 +174,8 @@ bool saves_spell(int level, const Char *victim) {
 
 /* RT save for dispels */
 
-bool saves_dispel(int dis_level, int spell_level, int duration) {
-    if (duration == -1)
-        spell_level += 5;
-    /* very hard to dispel permanent effects */
-
-    const int save = URANGE(5, 50 + (spell_level - dis_level) * 5, 95);
+bool saves_dispel(int dis_level, int spell_level) {
+    const int save = URANGE(8, 50 + (spell_level - dis_level) * 3, 95);
     return number_percent() < save;
 }
 
@@ -190,7 +186,7 @@ bool check_dispel(int dis_level, Char *victim, int sn) {
     for (auto &af : victim->affected) {
         if (af.type != sn)
             continue;
-        if (!saves_dispel(dis_level, af.level, af.duration)) {
+        if (!saves_dispel(dis_level, af.level)) {
             affect_strip(victim, sn);
             if (skill_table[sn].msg_off)
                 victim->send_line("{}", skill_table[sn].msg_off);
@@ -1749,7 +1745,8 @@ void spell_dispel_magic(int sn, int level, Char *ch, void *vo) {
         found = true;
     }
 
-    if (IS_AFFECTED(victim, AFF_SANCTUARY) && !saves_dispel(level, victim->level, -1)
+    // Permanent Sanctuary on NPCs can be dispelled
+    if (IS_AFFECTED(victim, AFF_SANCTUARY) && !saves_dispel(level, victim->level)
         && !is_affected(victim, skill_lookup("sanctuary"))) {
         REMOVE_BIT(victim->affected_by, AFF_SANCTUARY);
         act("The white aura around $n's body vanishes.", victim);
@@ -3324,7 +3321,7 @@ void spell_remove_curse(int sn, int level, Char *ch, void *vo) {
             continue;
 
         if (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE)) { /* attempt to remove curse */
-            if (!saves_dispel(level, obj->level, 0)) {
+            if (!saves_dispel(level, obj->level)) {
                 found = true;
                 REMOVE_BIT(obj->extra_flags, ITEM_NODROP);
                 REMOVE_BIT(obj->extra_flags, ITEM_NOREMOVE);
@@ -3336,7 +3333,7 @@ void spell_remove_curse(int sn, int level, Char *ch, void *vo) {
 
     for (obj = victim->carrying; (obj != nullptr && !found); obj = obj->next_content) {
         if (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE)) { /* attempt to remove curse */
-            if (!saves_dispel(level, obj->level, 0)) {
+            if (!saves_dispel(level, obj->level)) {
                 found = true;
                 REMOVE_BIT(obj->extra_flags, ITEM_NODROP);
                 REMOVE_BIT(obj->extra_flags, ITEM_NOREMOVE);
