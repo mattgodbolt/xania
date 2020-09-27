@@ -111,7 +111,7 @@ D1
 You see a large stone door.
 ~
 door stone~
-2 2297 2223
+2 -1 2223
 D3
 You see the hallway. 
 ~
@@ -422,7 +422,7 @@ D3
 You see the Nursery.
 ~
 door stone~
-1 2297 2205
+1 -1 2205
 S
 #2224
 The Great Hall~
@@ -440,6 +440,11 @@ You see the Hall.
 ~
 ~
 0 -1 2229
+D3
+You see the Hall.
+~
+~
+0 -1 2223
 S
 #2225
 A Narrow Passageway~
@@ -1592,6 +1597,9 @@ G   1   2234    1            a grey key in inventory
 G   1   2243    9            a golden wand in inventory
 G   1   2223   20            a stone club in inventory
 E   1   2244    5     17     a silver staff held                   
+D   0   2204    1      1  Hallway east closed
+D   0   2204    3      1  Hallway west closed
+D   0   2205    3      1  Nursery west closed
 D   0   2230    3      2  THE Lair: Door west locked
 D   0   2218    1      2  Entrance to the Crypt: Door east locked
 D   0   2201    0      2  The Tower Gates: Door north locked
