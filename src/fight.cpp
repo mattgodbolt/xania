@@ -32,7 +32,8 @@
 
 // Cap on damage deliverable by any single hit.
 // Nothing scientific about this value, it was probably plucked out of thin air.
-static inline constexpr auto DAMAGE_CAP = 1000;
+static constexpr auto DAMAGE_CAP = 1000;
+static constexpr auto EXP_LOSS_ON_DEATH = 200;
 
 void spell_poison(int spell_num, int level, Char *ch, void *vo);
 void spell_plague(int spell_num, int level, Char *ch, void *vo);
@@ -805,8 +806,8 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
         group_gain(ch, victim);
 
         if (victim->is_pc()) {
-            unsigned int exp_total = (victim->level * exp_per_level(victim, victim->pcdata->points));
-            unsigned int exp_level = exp_per_level(victim, victim->pcdata->points);
+            auto exp_level = exp_per_level(victim, victim->pcdata->points);
+            auto exp_total = (victim->level * exp_level);
             Char *squib;
 
             temp = do_check_chal(victim);
@@ -825,27 +826,16 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
             }
 
             /*
-             * Dying penalty:
-             * 1/2 way back to previous level.
+             * Apply the death penalty.
              */
             if (victim->level >= 26) {
-                /* Erm...MATT I think this logic is wrong...sorry... =) */
-                /* You will lose (exp_per_level/2), if that's less than */
-                /* (level*exp_per_level) then you lose a level..EASY */
-                if (victim->exp - (exp_level / 2) < (exp_total)) {
+                if (victim->exp - EXP_LOSS_ON_DEATH < exp_total) {
                     victim->send_line("You lose a level!!  ");
                     victim->level -= 1;
                     lose_level(victim);
                 }
-                gain_exp(victim, -(exp_level / 2));
-
-            } else {
-                if (victim->exp > exp_total)
-                    gain_exp(victim,
-                             -((exp_level
-                                - (((victim->level + 1) * exp_per_level(victim, victim->pcdata->points) - victim->exp)))
-                               / 2));
             }
+            gain_exp(victim, -EXP_LOSS_ON_DEATH);
         } else {
 
             if (victim->level >= (ch->level + 30)) {
