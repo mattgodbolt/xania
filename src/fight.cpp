@@ -1697,10 +1697,10 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
 }
 
 void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool immune) {
-    char buf1[256], buf2[256], buf3[256];
+    std::string to_room, to_char, to_vict;
     char vs[80];
     char vp[80];
-    const char *attack;
+    std::string_view attack;
     char body_part[32]; /* should be ample */
     const char *d_pref = nullptr;
     const char *d_suff = nullptr;
@@ -1748,7 +1748,6 @@ void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool imm
     }
 
     strcpy(vs, d_pref);
-
     for (b = 0; dam_string_table[b].dam_types[DAM_NONE] != nullptr && !found; b++) {
         if (dam_prop <= dam_string_table[b].amount) {
             if (dam_type > 0 && dam_string_table[b].dam_types[dam_type] != nullptr)
@@ -1904,14 +1903,16 @@ void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool imm
         victim->hit_location = race_body_table[0].part_flag;
     }
 
+    std::string dam_value_label = dam > 0 && ch->level >= 20 ? fmt::format(" ({})", dam) : "";
+
     if (dt == TYPE_HIT) {
         if (ch == victim) {
-            snprintf(buf1, sizeof(buf1), "$n %s $m %s%c|w", vp, body_part, punct);
-            snprintf(buf2, sizeof(buf2), "You %s your own %s%c|w", vs, body_part, punct);
+            to_room = fmt::format("$n {} $m {}{}|w", vp, body_part, punct);
+            to_char = fmt::format("You {} your own {}{}|w{}", vs, body_part, punct, dam_value_label);
         } else {
-            snprintf(buf1, sizeof(buf1), "$n %s $N's %s%c|w", vp, body_part, punct); /* NOTVICT */
-            snprintf(buf2, sizeof(buf2), "You %s $N's %s%c|w", vs, body_part, punct); /* CHAR */
-            snprintf(buf3, sizeof(buf3), "$n %s your %s%c|w", vp, body_part, punct); /* VICT */
+            to_room = fmt::format("$n {} $N's {}{}|w", vp, body_part, punct);
+            to_char = fmt::format("You {} $N's {}{}|w{}", vs, body_part, punct, dam_value_label);
+            to_vict = fmt::format("$n {} your {}{}|w{}", vp, body_part, punct, dam_value_label);
         }
     } else {
         if (dt >= 0 && dt < MAX_SKILL)
@@ -1926,38 +1927,38 @@ void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool imm
 
         if (immune) {
             if (ch == victim) {
-                snprintf(buf1, sizeof(buf1), "$n is |Wunaffected|w by $s own %s.|w", attack);
-                snprintf(buf2, sizeof(buf2), "Luckily, you are immune to that.|w");
+                to_room = fmt::format("$n is |Wunaffected|w by $s own {}.|w", attack);
+                to_char = fmt::format("Luckily, you are immune to that.|w");
             } else {
-                snprintf(buf1, sizeof(buf1), "$N is |Wunaffected|w by $n's %s!|w", attack);
-                snprintf(buf2, sizeof(buf2), "$N is |Wunaffected|w by your %s!|w", attack);
-                snprintf(buf3, sizeof(buf3), "$n's %s is powerless against you.|w", attack);
+                to_room = fmt::format("$N is |Wunaffected|w by $n's {}.|w", attack);
+                to_char = fmt::format("$N is |Wunaffected|w by your {}!|w", attack);
+                to_vict = fmt::format("$n's {} is powerless against you.|w", attack);
             }
         } else {
             if (ch == victim) {
-                snprintf(buf1, sizeof(buf1), "$n's %s %s $m%c|w", attack, vp, punct);
-                snprintf(buf2, sizeof(buf2), "Your %s %s you%c|w", attack, vp, punct);
+                to_room = fmt::format("$n's {} {} $m{}|w", attack, vp, punct);
+                to_char = fmt::format("Your {} {} you{}|w{}", attack, vp, punct, dam_value_label);
             } else {
                 if (dt == gsn_bash && dam_prop == 0) {
-                    snprintf(buf1, sizeof(buf1), "$n's %s %s $N%c|w", attack, vp, punct);
-                    snprintf(buf2, sizeof(buf2), "Your %s %s $N%c|w", attack, vp, punct);
-                    snprintf(buf3, sizeof(buf3), "$n's %s %s you%c|w", attack, vp, punct);
+                    to_room = fmt::format("$n's {} {} $N{}|w", attack, vp, punct);
+                    to_char = fmt::format("Your {} {} $N{}|w{}", attack, vp, punct, dam_value_label);
+                    to_vict = fmt::format("$n's {} {} you{}|w{}", attack, vp, punct, dam_value_label);
                 } else {
-                    snprintf(buf1, sizeof(buf1), "$n's %s %s $N's %s%c|w", attack, vp, body_part, punct);
-                    snprintf(buf2, sizeof(buf2), "Your %s %s $N's %s%c|w", attack, vp, body_part, punct);
-                    snprintf(buf3, sizeof(buf3), "$n's %s %s your %s%c|w", attack, vp, body_part, punct);
+                    to_room = fmt::format("$n's {} {} $N's {}{}|w", attack, vp, body_part, punct);
+                    to_char = fmt::format("Your {} {} $N's {}{}|w{}", attack, vp, body_part, punct, dam_value_label);
+                    to_vict = fmt::format("$n's {} {} your {}{}|w{}", attack, vp, body_part, punct, dam_value_label);
                 }
             }
         }
     }
 
     if (ch == victim) {
-        act(buf1, ch);
-        act(buf2, ch, nullptr, nullptr, To::Char);
+        act(to_room, ch);
+        act(to_char, ch, nullptr, nullptr, To::Char);
     } else {
-        act(buf1, ch, nullptr, victim, To::NotVict);
-        act(buf2, ch, nullptr, victim, To::Char);
-        act(buf3, ch, nullptr, victim, To::Vict);
+        act(to_room, ch, nullptr, victim, To::NotVict);
+        act(to_char, ch, nullptr, victim, To::Char);
+        act(to_vict, ch, nullptr, victim, To::Vict);
     }
 }
 
