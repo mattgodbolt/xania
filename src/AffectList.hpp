@@ -3,15 +3,11 @@
 #include "AFFECT_DATA.hpp"
 #include "GenericList.hpp"
 
-#include <memory>
-#include <utility>
-
 class AffectList {
     GenericList<AFFECT_DATA> list_;
 
 public:
     AffectList() = default;
-    ~AffectList() { clear(); }
     AffectList(const AffectList &) = delete;
     AffectList &operator=(const AffectList &) = delete;
     AffectList(AffectList &&lhs) noexcept = default;
