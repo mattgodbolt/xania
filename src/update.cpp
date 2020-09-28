@@ -542,7 +542,7 @@ void char_update() {
 
         if (!ch->affected.empty()) {
             std::unordered_set<int> removed_this_tick_with_msg;
-            ch->affected.modification_safe_for_each([&](auto &af) {
+            for (auto &af : ch->affected) {
                 if (af.duration > 0) {
                     af.duration--;
                     if (number_range(0, 4) == 0 && af.level > 0)
@@ -552,7 +552,7 @@ void char_update() {
                         removed_this_tick_with_msg.emplace(af.type);
                     affect_remove(ch, af);
                 }
-            });
+            };
             // Only report wear-offs for those affects who are completely gone.
             for (auto sn : removed_this_tick_with_msg)
                 if (!ch->is_affected_by(sn))
@@ -665,7 +665,7 @@ void obj_update() {
         /* go through affects and decrement */
         if (!obj->affected.empty()) {
             std::unordered_set<int> removed_this_tick_with_msg;
-            obj->affected.modification_safe_for_each([&](auto &af) {
+            for (auto &af : obj->affected) {
                 if (af.duration > 0) {
                     af.duration--;
                     if (number_range(0, 4) == 0 && af.level > 0)
@@ -675,7 +675,7 @@ void obj_update() {
                         removed_this_tick_with_msg.emplace(af.type);
                     affect_remove_obj(obj, af);
                 }
-            });
+            };
             // Only report wear-offs for those affects who are completely gone.
             for (auto sn : removed_this_tick_with_msg)
                 act(skill_table[sn].msg_off, obj->carried_by, obj, nullptr, To::Char, POS_SLEEPING);

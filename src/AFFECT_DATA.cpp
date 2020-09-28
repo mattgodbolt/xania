@@ -161,3 +161,9 @@ std::string AFFECT_DATA::describe_char_effect(bool for_imm) const {
 }
 
 bool AFFECT_DATA::is_skill() const noexcept { return type == gsn_sneak || type == gsn_ride; }
+
+bool AFFECT_DATA::operator==(const AFFECT_DATA &rhs) const {
+    return std::tie(type, level, duration, location, modifier, bitvector)
+           == std::tie(rhs.type, rhs.level, rhs.duration, rhs.location, rhs.modifier, rhs.bitvector);
+}
+bool AFFECT_DATA::operator!=(const AFFECT_DATA &rhs) const { return !(rhs == *this); }

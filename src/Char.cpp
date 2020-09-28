@@ -286,8 +286,8 @@ Char::~Char() {
     while (carrying)
         extract_obj(carrying);
 
-    while (!affected.empty())
-        affect_remove(this, affected.front());
+    for (auto &af : affected)
+        affect_remove(this, af);
 }
 
 void Char::yell(std::string_view exclamation) const {

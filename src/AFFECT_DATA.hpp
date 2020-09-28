@@ -7,7 +7,6 @@
 
 // A single effect that affects an object or character.
 struct AFFECT_DATA {
-    AFFECT_DATA *next{};
     sh_int type{};
     sh_int level{};
     sh_int duration{};
@@ -34,6 +33,8 @@ struct AFFECT_DATA {
     [[nodiscard]] std::string describe_char_effect(bool for_imm = false) const;
 
     [[nodiscard]] bool is_skill() const noexcept;
+    bool operator==(const AFFECT_DATA &rhs) const;
+    bool operator!=(const AFFECT_DATA &rhs) const;
 
 private:
     void modify(Char &ch, bool apply) const;

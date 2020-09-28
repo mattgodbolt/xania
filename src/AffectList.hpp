@@ -1,19 +1,20 @@
 #pragma once
 
 #include "AFFECT_DATA.hpp"
-#include "GenericListIter.hpp"
+#include "GenericList.hpp"
 
+#include <memory>
 #include <utility>
 
 class AffectList {
-    AFFECT_DATA *first_{};
+    GenericList<AFFECT_DATA> list_;
 
 public:
     AffectList() = default;
     ~AffectList() { clear(); }
     AffectList(const AffectList &) = delete;
     AffectList &operator=(const AffectList &) = delete;
-    AffectList(AffectList &&lhs) noexcept : first_(std::exchange(lhs.first_, nullptr)) {}
+    AffectList(AffectList &&lhs) noexcept = default;
     AffectList &operator=(AffectList &&) = delete;
 
     AFFECT_DATA &add(const AFFECT_DATA &aff);
@@ -21,28 +22,19 @@ public:
     void remove(const AFFECT_DATA &aff);
 
     void clear();
-    [[nodiscard]] bool empty() const noexcept { return !first_; }
+    [[nodiscard]] bool empty() const noexcept { return list_.empty(); }
 
     [[nodiscard]] AFFECT_DATA *find_by_skill(int skill_number);
     [[nodiscard]] const AFFECT_DATA *find_by_skill(int skill_number) const;
 
-    [[nodiscard]] size_t size() const noexcept;
-    [[nodiscard]] AFFECT_DATA &front() { return *first_; }
-    [[nodiscard]] const AFFECT_DATA &front() const { return *first_; }
+    [[nodiscard]] size_t size() const noexcept { return list_.size(); }
+    [[nodiscard]] AFFECT_DATA &front() { return *list_.begin(); }
+    [[nodiscard]] const AFFECT_DATA &front() const { return *list_.begin(); }
 
-    template <typename Func>
-    void modification_safe_for_each(const Func &func) {
-        AFFECT_DATA *next;
-        for (auto *paf = first_; paf; paf = next) {
-            next = paf->next;
-            func(*paf);
-        }
-    }
-
-    [[nodiscard]] auto begin() { return GenericListIter<AFFECT_DATA>(first_); }
-    [[nodiscard]] auto end() { return GenericListIter<AFFECT_DATA>(); }
-    [[nodiscard]] auto begin() const { return GenericListIter<const AFFECT_DATA>(first_); }
-    [[nodiscard]] auto end() const { return GenericListIter<const AFFECT_DATA>(); }
+    [[nodiscard]] auto begin() { return list_.begin(); }
+    [[nodiscard]] auto end() { return list_.end(); }
+    [[nodiscard]] auto begin() const { return list_.begin(); }
+    [[nodiscard]] auto end() const { return list_.end(); }
 };
 
 inline auto begin(AffectList &al) { return al.begin(); }
