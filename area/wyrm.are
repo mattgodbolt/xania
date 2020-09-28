@@ -96,7 +96,7 @@ wilderness and brought here as a worthy opponent for you to prove your
 worth in combat.
 ~
 human~
-BFT Naa -1000 0
+BFT N -1000 0
 30 15 1d1+749 1d1+299 6d5+15 cleave
 -12 -13 -17 0
 CDEFHIK AB C HJ
@@ -183,7 +183,7 @@ leather armour and holds a huge pike. You notice the symbol of the dragon
 inscribed on its blade.
 ~
 human~
-BCFT HNaa -1000 0
+BCFT HN -1000 0
 100 50 100d10+7000 10d10+400 10d10+50 slice
 -30 -30 -30 -30
 ACDEFHIK ABP LQ N
@@ -202,7 +202,7 @@ true champion of the disciplehood.  Good luck in you final battle, may the
 Gods protect you!
 ~
 dragon~
-BCFQT DFNVaa -1000 0
+BCFQT DFNV -1000 0
 110 55 100d20+20000 10d10+1000 30d6+60 claw
 -35 -35 -35 -35
 EFGHN AB HIJKR FNOY

@@ -901,7 +901,7 @@ in his white beard, and his eyes are bright red.  Still trailing his manacles
 behind him, this Dewar is not going to get past the guards in this state.
 ~
 dwarf~
-CFHS MYXa -910 0
+CFHS MYX -910 0
 26 14 4d10+405 1d1+249 2d16+13 beating
 0 0 0 0
 CDFHIJNU A LQ I
@@ -1117,7 +1117,7 @@ a guard.  He may have failed the requirements to get into the Imladris invasion
 force - and has been consigned to boring duties.  He is in a foul mood.
 ~
 orc~
-CGT a -890 0
+CGT 0 -890 0
 32 18 5d10+750 1d1+99 5d9+16 slash
 -1 -2 -2 0
 DER A 0 0
