@@ -265,13 +265,11 @@ void multi_hit(Char *ch, Char *victim, int dt) {
 void mob_hit(Char *ch, Char *victim, int dt) {
     int chance, number;
     Char *vch, *vch_next;
-
     if (IS_SET(ch->off_flags, OFF_BACKSTAB) && (ch->fighting == nullptr) && (get_eq_char(ch, WEAR_WIELD) != nullptr)
         && (victim->hit == victim->max_hit))
         one_hit(ch, victim, gsn_backstab);
     else
         one_hit(ch, victim, dt);
-
     if (ch->fighting != victim)
         return;
 
@@ -296,15 +294,17 @@ void mob_hit(Char *ch, Char *victim, int dt) {
         one_hit(ch, victim, dt);
         if (ch->fighting != victim)
             return;
-    }
 
-    chance = get_skill(ch, gsn_third_attack) / 4;
-    if (number_percent() < chance) {
-        one_hit(ch, victim, dt);
-        if (ch->fighting != victim)
-            return;
+        // NPCs only launch a 3rd attack if their 2nd one succeeded.
+        // This reduces the odds of 3 attacks (possibly 4 if they have OFF_FAST too)
+        // from landing, which can be quite nasty if it happens.
+        chance = get_skill(ch, gsn_third_attack) / 4;
+        if (number_percent() < chance) {
+            one_hit(ch, victim, dt);
+            if (ch->fighting != victim)
+                return;
+        }
     }
-
     /* oh boy!  Fun stuff! */
 
     if (ch->wait > 0)
