@@ -2889,7 +2889,7 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
         break;
 
     case ITEM_WEAPON:
-        ch->send_line("Weapon type is ");
+        ch->send_to("Weapon type is ");
         switch (obj->value[0]) {
         case (WEAPON_EXOTIC): ch->send_line("exotic."); break;
         case (WEAPON_SWORD): ch->send_line("sword."); break;
@@ -3681,10 +3681,10 @@ void spell_acid_breath(int sn, int level, Char *ch, void *vo) {
         }
     }
 
-    hpch = UMAX(10, ch->hit);
+    hpch = URANGE(10, ch->hit, 2000);
     if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
-    dam = number_range(hpch / 20 + 1, hpch / 10);
+    dam = number_range(hpch / 20 + 16, hpch / 15);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, sn, DAM_ACID);
@@ -3744,10 +3744,10 @@ void spell_fire_breath(int sn, int level, Char *ch, void *vo) {
         }
     }
 
-    hpch = UMAX(10, ch->hit);
+    hpch = URANGE(10, ch->hit, 2000);
     if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
-    dam = number_range(hpch / 20 + 1, hpch / 10);
+    dam = number_range(hpch / 20 + 16, hpch / 15);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, sn, DAM_FIRE);
@@ -3777,10 +3777,10 @@ void spell_frost_breath(int sn, int level, Char *ch, void *vo) {
         }
     }
 
-    int hpch = UMAX(10, ch->hit);
+    int hpch = URANGE(10, ch->hit, 2000);
     if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
-    int dam = number_range(hpch / 20 + 1, hpch / 10);
+    int dam = number_range(hpch / 20 + 16, hpch / 15);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, sn, DAM_COLD);
@@ -3796,10 +3796,10 @@ void spell_gas_breath(int sn, int level, Char *ch, void *vo) {
     for (vch = ch->in_room->people; vch != nullptr; vch = vch_next) {
         vch_next = vch->next_in_room;
         if (!is_safe_spell(ch, vch, true)) {
-            hpch = UMAX(10, ch->hit);
+            hpch = URANGE(10, ch->hit, 2000);
             if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
                 hpch = 1000;
-            dam = number_range(hpch / 20 + 1, hpch / 10);
+            dam = number_range(hpch / 20 + 16, hpch / 15);
             if (saves_spell(level, vch))
                 dam /= 2;
             damage(ch, vch, dam, sn, DAM_POISON);
@@ -3812,10 +3812,10 @@ void spell_lightning_breath(int sn, int level, Char *ch, void *vo) {
     int dam;
     int hpch;
 
-    hpch = UMAX(10, ch->hit);
+    hpch = URANGE(10, ch->hit, 2000);
     if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
-    dam = number_range(hpch / 20 + 1, hpch / 10);
+    dam = number_range(hpch / 20 + 16, hpch / 15);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, sn, DAM_LIGHTNING);
