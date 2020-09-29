@@ -169,8 +169,7 @@ stand stand male 0
 #10125
 wand spell book cure lesser~
 Uruk's lesser spell book~
-You see an ancient volume gathering dust.
-~
+You see an ancient volume gathering dust.~
 vellum~
 wand ABCIHE AO
 90 10 10 14 0
@@ -185,8 +184,7 @@ orcish tongue, on the front.
 #10126
 chest~
 a strong looking chest~
-You see a large, strong chest inscribed with magic runes here.
-~
+You see a large, strong chest inscribed with magic runes here.~
 steel~
 container BD 0
 200 15 10134 0 0

@@ -483,8 +483,7 @@ stand stand male 500
 #5801
 helmet storm~
 A Storm trooper's helmet~
-The helmet of a storm trooper lies here.
-~
+The helmet of a storm trooper lies here.~
 adamantite~
 armor G AE
 14 15 14 0 0
@@ -499,8 +498,7 @@ A
 #5802
 leg plates storm~
 The leg plates of a Storm trooper~
-The leg plates of a Storm trooper lie here
-~
+The leg plates of a Storm trooper lie here.~
 adamantite~
 armor G AF
 15 14 14 0 0
@@ -517,8 +515,7 @@ A
 #5803
 arm guards storm~
 The arm guards of a storm trooper~
-The arm guards of a storm trooper lie here.
-~
+The arm guards of a storm trooper lie here.~
 adamantite~
 armor G AI
 14 14 15 0 0
@@ -537,8 +534,7 @@ A
 #5804
 boots storm~
 The boots of a storm trooper~
-The boots of a storm trooper lie here.
-~
+The boots of a storm trooper lie here.~
 adamantite~
 armor G AG
 15 15 14 0 0
@@ -555,8 +551,7 @@ A
 #5805
 plate storm~
 The plate of a storm trooper~
-The plate of a storm trooper is here.
-~
+The plate of a storm trooper is here.~
 adamantite~
 armor G AD
 15 15 15 0 0
@@ -576,8 +571,7 @@ A
 #5806
 power converter~
 A power converter~
-A power converter from Tashi station is lying in the dust.
-~
+A power converter from Tashi station is lying in the dust.~
 steel~
 light AG A
 0 0 200 0 0
@@ -594,8 +588,7 @@ A
 #5807
 restraining bolt~
 A droid restraining bolt~
-A small bolt lies in the dust.
-~
+A small bolt lies in the dust.~
 steel~
 wand AB AO
 50 3 3 38 0
@@ -603,8 +596,7 @@ wand AB AO
 #5808
 bad motivator~
 A bad motivator~
-A burnt out motivator from an R2 unit is here.
-~
+A burnt out motivator from an R2 unit is here.~
 steel~
 key ABFG AO
 0 0 0 0 0
@@ -622,8 +614,7 @@ A
 #5809
 belt utility~
 A mechanic's utility belt~
-A small belt lies in the dirt.
-~
+A small belt lies in the dirt.~
 cloth~
 armor G AL
 18 19 18 15 0
@@ -639,8 +630,7 @@ A
 #5810
 clear bracelet plastic~
 A clear plastic bracelet~
-A clear plastic thing is here.
-~
+A clear plastic thing is here.~
 glass~
 armor ABFKL AM
 18 18 18 15 0
@@ -656,8 +646,7 @@ A
 #5811
 pipe~
 A pipe~
-A long, slender pipe is here.
-~
+A long, slender pipe is here.~
 wood~
 wand G AO
 80 5 5 73 0
@@ -671,8 +660,7 @@ silver.  Whoever crafted this pipe was a master at his trade.
 #5812
 gaffi stick~
 A gaffi stick~
-The gaffi stick from a sand person lies here.
-~
+The gaffi stick from a sand person lies here.~
 wood~
 weapon BEHJL AN
 'polearm' 6 7 'pound' 0
@@ -690,8 +678,7 @@ A
 #5813
 hand blaster~
 A hand blaster~
-A small blaster about the size of your hand is here.
-~
+A small blaster about the size of your hand is here.~
 steel~
 weapon 0 AN
 'exotic' 4 10 'blast' D
@@ -706,8 +693,7 @@ A
 #5814
 blaster~
 A blaster~
-A blaster is on the ground.
-~
+A blaster is on the ground.~
 steel~
 weapon 0 AN
 'exotic' 11 5 'blast' 0
@@ -726,8 +712,7 @@ A
 #5815
 double laser pistol~
 A double-barrelled laser pistol~
-A sleek looking laser pistol catches your eye.
-~
+A sleek looking laser pistol catches your eye.~
 adamantite~
 weapon 0 AN
 'exotic' 7 12 'blast' 0
@@ -744,8 +729,7 @@ A
 #5816
 map paper~
 A map of Mos Eisly Spaceport~
-A piece of paper lies here.
-~
+A piece of paper lies here.~
 vellum~
 map 0 A
 1 0 0 0 0
@@ -787,8 +771,7 @@ Cantina       House      Shop   Street  Place       |         |
 #5817
 cloud white~
 A tiny white cloud~
-A tiny white cloud floats here.
-~
+A tiny white cloud floats here.~
 pill~
 pill G A
 90 63 0 0 0
@@ -796,8 +779,7 @@ pill G A
 #5818
 cloud red~
 A tiny red cloud~
-A tiny red cloud floats here.
-~
+A tiny red cloud floats here.~
 pill~
 pill G A
 90 35 43 501 0
@@ -805,8 +787,7 @@ pill G A
 #5819
 canteen~
 A canteen~
-A canteen with a shoulder strap rests here.
-~
+A canteen with a shoulder strap rests here.~
 steel~
 drink 0 AC
 400 0 'water' 0 0
@@ -814,8 +795,7 @@ drink 0 AC
 #5820
 pack backpack~
 A large backpack~
-A large pack rest here.
-~
+A large pack rest here.~
 cloth~
 container 0 AK
 1000 1 0 0 0
@@ -829,8 +809,7 @@ A
 #5821
 table~
 A red concrete table~
-A red concrete picnic table is here.
-~
+A red concrete picnic table is here.~
 adamantite~
 furniture O 0
 0 0 0 0 0
@@ -844,8 +823,7 @@ day to sit and relax on it.
 #5822
 bracelet special glowing nine~
 One of Angela's friendship bracelets~
-A bracelet woven of special glowing silk lies here.
-~
+A bracelet woven of special glowing silk lies here.~
 cloth~
 armor ABGI AM
 500 500 500 500 0
@@ -868,17 +846,15 @@ A
 #5823
 meal~
 A home cooked meal~
-A warm, home cooked meal from Tom's place is here.
-~
-~
+A warm, home cooked meal from Tom's place is here.~
+food~
 food 0 A
 40 0 0 0 0
 1 1 100 P
 #5824
 glass tea~
 A tall glass of tea~
-A tall glass of ice tea is here.
-~
+A tall glass of ice tea is here.~
 glass~
 drink 0 A
 20 20 'tea' 0 0
@@ -886,8 +862,7 @@ drink 0 A
 #5825
 shot glass~
 A shot of whisky~
-A small shot glass is here.
-~
+A small shot glass is here.~
 glass~
 drink 0 A
 10 10 'whisky' 0 0
@@ -895,8 +870,7 @@ drink 0 A
 #5826
 glass lemonade~
 A glass of lemonade~
-A tall glass filled with pink lemonade is here.
-~
+A tall glass filled with pink lemonade is here.~
 glass~
 drink 0 A
 20 20 'lemonade' 0 0
@@ -904,8 +878,7 @@ drink 0 A
 #5827
 coffee chocolate mocha cup mug~
 A warm cup of chocolate mocha coffee~
-A large dark coffee mug sits here.
-~
+A large dark coffee mug sits here.~
 glass~
 drink 0 A
 40 40 'coffee' 0 0
@@ -918,8 +891,7 @@ said it was ok if he sold them to everyone, so he does!
 #5828
 tripod blaster~
 A tripod-mounted blaster~
-A large, tripod-mounted blaster stands here.
-~
+A large, tripod-mounted blaster stands here.~
 adamantite~
 weapon 0 AN
 'exotic' 6 15 'blast' 0
@@ -941,8 +913,7 @@ A
 #5829
 rusty blaster~
 A rusty hand blaster~
-A rusty blaster about the size of your hand is here.
-~
+A rusty blaster about the size of your hand is here.~
 steel~
 weapon 0 AN
 'exotic' 5 7 'blast' D
@@ -955,8 +926,7 @@ sturdy and well suited for combat.
 #5830
 reinforced handcannon gun~
 A reinforced handcannon~
-A large gun with reinforced plating sits here.
-~
+A large gun with reinforced plating sits here.~
 adamantite~
 weapon 0 AN
 'exotic' 9 9 'blast' 0
@@ -973,8 +943,7 @@ A
 #5831
 imperial blaster~
 an imperial blaster~
-An imperial blaster is on the ground.
-~
+An imperial blaster is on the ground.~
 steel~
 weapon 0 AN
 'exotic' 8 8 'blast' 0
@@ -993,8 +962,7 @@ A
 #5832
 custom blaster~
 a custom blaster~
-A custom blaster is on the ground.
-~
+A custom blaster is on the ground.~
 steel~
 weapon 0 AN
 'exotic' 8 10 'blast' 0
