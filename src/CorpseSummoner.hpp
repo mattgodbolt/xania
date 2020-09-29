@@ -20,7 +20,7 @@ public:
         virtual void obj_to_room(OBJ_DATA *, ROOM_INDEX_DATA *) = 0;
         virtual void extract_obj(OBJ_DATA *) = 0;
         virtual void affect_to_char(Char *, const AFFECT_DATA &paf) = 0;
-        virtual OBJ_DATA *object_list() = 0;
+        virtual GenericList<OBJ_DATA *> &object_list() = 0;
         virtual SpecialFunc spec_fun_summoner() const = 0;
         virtual int weaken_sn() const = 0;
     };

@@ -20,7 +20,7 @@ struct MockDependencies : public CorpseSummoner::Dependencies {
     MAKE_MOCK2(obj_to_room, void(OBJ_DATA *obj, ROOM_INDEX_DATA *room), override);
     MAKE_MOCK1(extract_obj, void(OBJ_DATA *obj), override);
     MAKE_MOCK2(affect_to_char, void(Char *ch, const AFFECT_DATA &paf), override);
-    MAKE_MOCK0(object_list, OBJ_DATA *(), override);
+    MAKE_MOCK0(object_list, GenericList<OBJ_DATA *> &(), override);
     MAKE_CONST_MOCK0(spec_fun_summoner, SpecialFunc(), override);
     MAKE_CONST_MOCK0(weaken_sn, int(), override);
 };
@@ -165,8 +165,8 @@ TEST_CASE("get pc corpse world") {
 
     SECTION("no pc corpse in world") {
         OBJ_DATA weapon = make_test_obj(&object_room, "", ITEM_WEAPON);
-        OBJ_DATA *object_ptr = &weapon;
-        REQUIRE_CALL(mock, object_list()).RETURN(object_ptr);
+        auto obj_list = GenericList<OBJ_DATA *>::of(&weapon);
+        REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
         auto found = summoner.get_pc_corpse_world(&player, tests_corpse_desc);
 
@@ -176,9 +176,9 @@ TEST_CASE("get pc corpse world") {
     SECTION("ignore corpse owned by another player") {
         char descr[] = "corpse of Sinbad";
         OBJ_DATA corpse = make_test_obj(&object_room, descr, ITEM_CORPSE_PC);
-        OBJ_DATA *object_ptr = &corpse;
+        auto obj_list = GenericList<OBJ_DATA *>::of(&corpse);
         player.in_room = &player_room;
-        REQUIRE_CALL(mock, object_list()).RETURN(object_ptr);
+        REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
         auto found = summoner.get_pc_corpse_world(&player, tests_corpse_desc);
 
@@ -188,8 +188,8 @@ TEST_CASE("get pc corpse world") {
     SECTION("ignore player's corpse in same room as summoner") {
         char descr[] = "corpse of Sinbad";
         OBJ_DATA corpse = make_test_obj(&player_room, descr, ITEM_CORPSE_PC);
-        OBJ_DATA *object_ptr = &corpse;
-        REQUIRE_CALL(mock, object_list()).RETURN(object_ptr);
+        auto obj_list = GenericList<OBJ_DATA *>::of(&corpse);
+        REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
         auto found = summoner.get_pc_corpse_world(&player, tests_corpse_desc);
 
@@ -199,8 +199,8 @@ TEST_CASE("get pc corpse world") {
     SECTION("found player's corpse") {
         char descr[] = "corpse of Test";
         OBJ_DATA corpse = make_test_obj(&object_room, descr, ITEM_CORPSE_PC);
-        OBJ_DATA *object_ptr = &corpse;
-        REQUIRE_CALL(mock, object_list()).RETURN(object_ptr);
+        auto obj_list = GenericList<OBJ_DATA *>::of(&corpse);
+        REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
         auto found = summoner.get_pc_corpse_world(&player, tests_corpse_desc);
 
@@ -229,7 +229,7 @@ TEST_CASE("summon corpse") {
     SECTION("successful summmon") {
         char descr[] = "corpse of Test";
         OBJ_DATA corpse = make_test_obj(&object_room, descr, ITEM_CORPSE_PC);
-        OBJ_DATA *object_ptr = &corpse;
+        auto obj_list = GenericList<OBJ_DATA *>::of(&corpse);
         trompeloeil::sequence seq;
         REQUIRE_CALL(mock, act("$n clutches $p between $s bony fingers and begins to whisper."sv, &mob, &catalyst,
                                nullptr, To::Room))
@@ -237,7 +237,7 @@ TEST_CASE("summon corpse") {
         REQUIRE_CALL(mock, act("The runes on the summoning stone begin to glow more brightly!"sv, &mob, &catalyst,
                                nullptr, To::Room))
             .IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, object_list()).RETURN(object_ptr).IN_SEQUENCE(seq);
+        REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list).IN_SEQUENCE(seq);
         REQUIRE_CALL(mock, obj_from_room(&corpse)).IN_SEQUENCE(seq);
         REQUIRE_CALL(mock, obj_to_room(&corpse, &player_room)).IN_SEQUENCE(seq);
         REQUIRE_CALL(mock, act("|BThere is a flash of light and a corpse materialises on the ground before you!|w"sv,
@@ -257,7 +257,7 @@ TEST_CASE("summon corpse") {
 
     SECTION("failed summmon as corpse cannot be found") {
         OBJ_DATA objects{};
-        OBJ_DATA *object_ptr = &objects;
+        auto obj_list = GenericList<OBJ_DATA *>::of(&objects);
         trompeloeil::sequence seq;
         REQUIRE_CALL(mock, act("$n clutches $p between $s bony fingers and begins to whisper."sv, &mob, &catalyst,
                                nullptr, To::Room))
@@ -265,7 +265,7 @@ TEST_CASE("summon corpse") {
         REQUIRE_CALL(mock, act("The runes on the summoning stone begin to glow more brightly!"sv, &mob, &catalyst,
                                nullptr, To::Room))
             .IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, object_list()).RETURN(object_ptr).IN_SEQUENCE(seq);
+        REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list).IN_SEQUENCE(seq);
         REQUIRE_CALL(mock,
                      act("The runes dim and the summoner tips $s head in shame."sv, &mob, nullptr, nullptr, To::Room))
             .IN_SEQUENCE(seq);

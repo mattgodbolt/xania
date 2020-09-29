@@ -3030,7 +3030,7 @@ void spell_locate_object(int sn, int level, Char *ch, void *vo) {
     int number = 0;
     int max_found = ch->is_immortal() ? 200 : 2 * level;
     std::string buffer;
-    for (auto *obj = object_list; obj != nullptr; obj = obj->next) {
+    for (auto *obj : object_list) {
         if (!ch->can_see(*obj) || !is_name(target_name, obj->name) || (ch->is_mortal() && number_percent() > 2 * level)
             || ch->level < obj->level || IS_SET(obj->extra_flags, ITEM_NO_LOCATE))
             continue;

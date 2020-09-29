@@ -121,14 +121,11 @@ void report_mobile(MobIndexData *mob) {
 /* check_xania - check all of Xania and report those things that aren't what they should be */
 
 void check_xania() {
-    OBJ_DATA *object;
-    Char *mobile;
-
     bug("obj> **********************************************************************");
     bug("obj> **               Beginning sweep of all object in Xania             **");
     bug("obj> **********************************************************************");
 
-    for (object = object_list; object; object = object->next) {
+    for (auto *object : object_list) {
         report_object(object, 1);
     }
 
@@ -140,7 +137,7 @@ void check_xania() {
     bug("mob> **                       Beginning mobile sweep                     **");
     bug("mob> **********************************************************************");
 
-    for (mobile = char_list; mobile; mobile = mobile->next) {
+    for (auto *mobile = char_list; mobile; mobile = mobile->next) {
         report_mobile(mobile->pIndexData);
     }
 

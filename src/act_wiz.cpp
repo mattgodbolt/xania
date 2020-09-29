@@ -2215,7 +2215,6 @@ void do_awaken(Char *ch, const char *argument) {
 
 void do_owhere(Char *ch, const char *argument) {
     char target_name[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
     OBJ_DATA *in_obj;
     bool found;
     int number = 0;
@@ -2234,7 +2233,7 @@ void do_owhere(Char *ch, const char *argument) {
     one_argument(argument, target_name);
 
     std::string buffer;
-    for (obj = object_list; obj != nullptr; obj = obj->next) {
+    for (auto *obj : object_list) {
         if (!is_name(target_name, obj->name))
             continue;
 

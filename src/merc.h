@@ -1019,7 +1019,6 @@ struct OBJ_INDEX_DATA {
  * One object.
  */
 struct OBJ_DATA {
-    OBJ_DATA *next{};
     OBJ_DATA *next_content{};
     OBJ_DATA *contains{};
     OBJ_DATA *in_obj{};
@@ -1337,7 +1336,7 @@ extern SHOP_DATA *shop_first;
 
 extern BAN_DATA *ban_list;
 extern Char *char_list;
-extern OBJ_DATA *object_list;
+extern GenericList<OBJ_DATA *> object_list;
 
 extern bool fLogAll;
 extern KILL_DATA kill_table[];

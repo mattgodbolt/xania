@@ -884,22 +884,9 @@ void extract_obj(OBJ_DATA *obj) {
         extract_obj(obj->contains);
     }
 
-    if (object_list == obj) {
-        object_list = obj->next;
-    } else {
-        OBJ_DATA *prev;
-
-        for (prev = object_list; prev != nullptr; prev = prev->next) {
-            if (prev->next == obj) {
-                prev->next = obj->next;
-                break;
-            }
-        }
-
-        if (prev == nullptr) {
-            bug("Extract_obj: obj {} not found.", obj->pIndexData->vnum);
-            return;
-        }
+    if (!object_list.remove(obj)) {
+        bug("Extract_obj: obj {} not found.", obj->pIndexData->vnum);
+        return;
     }
 
     --obj->pIndexData->count;
@@ -1033,12 +1020,9 @@ Char *get_mob_by_vnum(sh_int vnum) {
  * Used by area-reset 'P' command.
  */
 OBJ_DATA *get_obj_type(OBJ_INDEX_DATA *pObjIndex) {
-    OBJ_DATA *obj;
-
-    for (obj = object_list; obj != nullptr; obj = obj->next) {
+    for (auto *obj : object_list)
         if (obj->pIndexData == pObjIndex)
             return obj;
-    }
 
     return nullptr;
 }
@@ -1108,7 +1092,7 @@ OBJ_DATA *get_obj_world(Char *ch, std::string_view argument) {
 
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
-    for (auto *obj = object_list; obj != nullptr; obj = obj->next) {
+    for (auto *obj : object_list) {
         if (can_see_obj(ch, obj) && is_name(arg, obj->name)) {
             if (++count == number)
                 return obj;

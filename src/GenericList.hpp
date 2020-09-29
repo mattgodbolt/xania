@@ -14,6 +14,10 @@ class Iter;
 // * we need to be able to remove elements from a list while iterating over it.
 // * very often the element being remove is the "current" element.
 // * rarely it's another element in the list.
+// TODO:
+// * more tests
+// * handle const-ness correctly
+// * support owning pointers? maybe?
 
 template <typename T, typename OptType = std::optional<T>>
 class GenericList {
@@ -75,6 +79,13 @@ public:
     }
     [[nodiscard]] size_t size() const { return std::distance(begin(), end()); }
     [[nodiscard]] size_t debug_count_all_nodes() const { return list_.size(); }
+
+    template <typename... Args>
+    static GenericList of(Args &&... args) {
+        GenericList result;
+        (result.add_back(args), ...);
+        return result;
+    }
 
 private:
     std::list<Elem> list_;

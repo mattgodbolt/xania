@@ -653,14 +653,9 @@ void char_update() {
  * This function is performance sensitive.
  */
 void obj_update() {
-    OBJ_DATA *obj;
-    OBJ_DATA *obj_next;
-
-    for (obj = object_list; obj != nullptr; obj = obj_next) {
+    for (auto *obj : object_list) {
         Char *rch;
         const char *message;
-
-        obj_next = obj->next;
 
         /* go through affects and decrement */
         if (!obj->affected.empty()) {

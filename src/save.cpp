@@ -908,8 +908,7 @@ void fread_obj(Char *ch, FILE *fp) {
                 return;
             } else {
                 if (!new_format) {
-                    obj->next = object_list;
-                    object_list = obj;
+                    object_list.add_front(obj);
                     obj->pIndexData->count++;
                 }
                 if (make_new) {
