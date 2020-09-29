@@ -1856,12 +1856,8 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
     }
 
     const int levdif = URANGE(-20, (ch->level - obj->level), 20);
-    int chance = URANGE(5, levdif / 2 + material_table[obj->material].magical_resilience, 100);
-    const int score = chance - number_percent();
-
-    if ((IS_SET(obj->extra_flags, ITEM_ANTI_EVIL) && ch->is_good())
-        || (IS_SET(obj->extra_flags, ITEM_ANTI_GOOD) && ch->is_evil()))
-        chance -= 10;
+    auto chance = URANGE(5, levdif / 2 + material_table[obj->material].magical_resilience, 100);
+    auto score = chance - number_percent();
 
     if ((score <= 20)) {
         act("The powerful nature of $n's spell removes some of $m alignment!", ch, obj, nullptr, To::Room);
@@ -1879,7 +1875,7 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
         REMOVE_BIT(obj->extra_flags, ITEM_ANTI_GOOD);
         REMOVE_BIT(obj->extra_flags, ITEM_ANTI_EVIL);
         REMOVE_BIT(obj->extra_flags, ITEM_ANTI_NEUTRAL);
-    } else if (score < -20) {
+    } else if (score < -40) {
         act("$p shivers violently and explodes!", ch, obj, nullptr, To::Room);
         act("$p shivers violently and explodes!", ch, obj, nullptr, To::Char);
         extract_obj(obj);
