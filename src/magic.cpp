@@ -2394,6 +2394,7 @@ void spell_energy_drain(int sn, int level, Char *ch, void *vo) {
     int dam;
 
     if (saves_spell(level, victim)) {
+        act("$N resists your magic through sheer force of will.", ch, nullptr, victim, To::Char);
         victim->send_line("You feel a momentary chill.");
         return;
     }
