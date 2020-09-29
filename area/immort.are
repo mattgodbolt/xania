@@ -534,7 +534,7 @@ clouds are far below you and a sense of beauty and peacefulness surrounds you.
 Over to the north, beyond a glistening golden walkway, you see the vast
 stone arch of a temple, topped by a glistening dome. 
 ~
-0 0 -1
+0 0 1
 D0
 Towards the golden walkway.
 ~
@@ -556,7 +556,7 @@ The viewing gallery~
 You stand on a high balcony. Below you is the combat room, from here 
 you can see all that goes on below during the duels.
 ~
-0 0 -1
+0 0 1
 D2
 Head of the rainbow bridge.
 ~
