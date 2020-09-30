@@ -32,7 +32,7 @@ eyes, these beings still radiate evil.  This warrior seems ready to
 strike down good where ever it manifests.
 ~
 elf~
-FT JVc -750 0
+FT JV -750 0
 50 9 5d25+1000 1d1+499 2d10+30 pound
 -40 -30 -36 -15
 CDEFHIJKN 0 LQ 0
@@ -49,7 +49,7 @@ moredhel from the dark path, back to the ways of light.  This elf looks
 ready to assist you
 ~
 elf~
-HL CJc 750 0
+HL CJ 750 0
 50 7 5d25+800 1d1+599 1d10+32 pound
 -35 -37 -36 -27
 CEFHIKLQS 0 LQ 0
@@ -81,7 +81,7 @@ Before you is a mage wearing a grey robe, signifying a user of the
 lesser path.  I wonder where his mentor is?
 ~
 human~
-R EHc 0 0
+R EH 0 0
 54 6 10d10+600 10d10+700 10d4+10 claw
 -28 -29 -31 -27
 FK 0 B 0
@@ -98,7 +98,7 @@ fierce fighters and deadly hunters.  It is rumoured that fire drakes are
 resistant to fire.
 ~
 dragon~
-C NTc 0 0
+C NT 0 0
 55 8 10d20+2200 10d10+800 10d4+30 flbite
 -40 -38 -39 -25
 ACDHMNO 0 H I
@@ -114,7 +114,7 @@ This tough little dwarf from the stone mountain is looking for things to
 fight.  Do you want to try to take this formidable fighter?
 ~
 dwarf~
-FT NVac 200 0
+FT NV 200 0
 60 10 15d10+2900 1d1+499 1d1+39 pound
 -40 -43 -42 -21
 CDEFHIJKN 0 0 0
@@ -129,7 +129,7 @@ A Knight of Zun is here.
 A Knight from the city of Zun is here to prove himself in battle.
 ~
 human~
-TL CHZc 450 0
+TL CHZ 450 0
 65 10 2d100+2700 1d1+699 12d5+15 smash
 -43 -42 -45 -23
 CEHIKNT LP C 0
@@ -145,7 +145,7 @@ A priest worshipping the Emerald Queen, the Valheru goddess of snakes
 is a terrible foe to combat.
 ~
 human~
-FQ HKc -1000 0
+FQ HK -1000 0
 69 10 10d10+3000 10d10+1000 10d5+10 wrath
 -40 -41 -50 -36
 FK KP C HN
@@ -161,7 +161,7 @@ Lims-Kragma, the death goddess has many fanatical followers.  One stands
 here ready to strike the unwary and give tribute to his goddess.
 ~
 human~
-FT NVa -500 0
+FT NV -500 0
 70 13 10d50+4500 1d1+999 6d6+25 divine
 -48 -43 -45 -29
 DEFHIKN AB K JN
@@ -179,7 +179,7 @@ black slayer.  These creatures can not be harmed by any magic except
 fire and can drain health from a man!
 ~
 human~
-F DKNZc -1000 0
+F DKNZ -1000 0
 70 10 1d1+4199 1d1+299 10d6+20 wrath
 -47 -46 -48 -40
 FGO BIJKO MPQS HNY
@@ -195,7 +195,7 @@ Black-robed mages are to be feared.  They are masters of the greater path
 and able to cast devastating spells, while protected from most magic.
 ~
 human~
-R HNVZc 0 0
+R HNVZ 0 0
 75 10 20d5+5000 20d5+1000 10d5+20 slap
 -51 -48 -49 -45
 FK 0 BCHIJK 0
@@ -211,7 +211,7 @@ The Lord of the West and Bane of Darkness, Arutha has been called by many
 titles but he's always been a great hunter of evil.
 ~
 human~
-BTaa CDEFHNVc 1000 0
+BTaa CDEFHNV 1000 0
 85 15 100d4+6500 1d1+499 5d6+43 beating
 -53 -51 -52 -40 
 CDEFHIKLNOQ MN GJK E
@@ -227,7 +227,7 @@ Murmandus is looking for the Lord of the West.  With Arutha out of the
 way, Murmandus can restore the Emerald Queen to this reality!
 ~
 elf~
-FRT HNac -1000 0
+FRT HN -1000 0
 85 15 100d4+6500 1d1+1299 5d6+43 wrath
 -50 -52 -53 -42
 BCDEFHIKNO BLPQ CD N
@@ -243,7 +243,7 @@ Jimmy the Hand, former thief and now companion to Arutha is here
 guarding Sethanon from the invasion.
 ~
 human~
-CGS BHNPQUVc 750 0
+CGS BHNPQUV 750 0
 72 7 30d10+4000 1d1+399 4d8+32 hit
 -42 -45 -47 -30
 BCEFGHIKN LQ D 0
@@ -260,7 +260,7 @@ defence of the lifestone.  This looks to be one of the most beautiful
 and deadly creatures ever to exist.
 ~
 dragon~
-FBTL BDHNTc 1000 0
+FBTL BDHNT 1000 0
 90 15 1d1+9999 1d1+999 5d10+45 acbite
 -70 -71 -72 -61
 ACDIKMO LK CD F
@@ -277,7 +277,7 @@ of the ancient Valheru Ashen-Shugar, their souls became fused into one
 awesome being of power.
 ~
 elf~ 
-MBTL CEHJNTVac 500 0
+MBTL CEHJNTV 500 0
 105 20 10d20+10000 1d1+1999 8d8+52 divine
 -80 -71 -78 -69
 CDEFGHIKNOR BHLQ CKNO E
@@ -293,7 +293,7 @@ Milamber of the Assembly also known as Pug of Stardock is here incanting
 spells.  An aura of power surrounds his body
 ~
 human~
-RL HNc 500 0
+RL HN 500 0
 105 12 10d100+9000 1d1+2499 6d6+50 hit
 -76 -72 -70 -85
 FGHK ENOP CDHIJK 0
@@ -309,7 +309,7 @@ Macross the Black is the most powerful sorcerer ever to live! Power
 emanates from his body.
 ~
 human~
-BJKRVb BCDEFHJPQRTVaacc -200 0
+BJKRVb BCDEFHJPQRTV -200 0
 140 22 1d1+24999 1d1+3999 1d1+149 wrath
 -100 -100 -100 -120
 AFGH C DEFGHIJK 0

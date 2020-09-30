@@ -770,7 +770,7 @@ the floor and peaked roof. A large hand woven rug lies in the centre of
 this simply furnished room and a small silvery urn is smoking in the
 corner, releasing a delicious, floristic odour.
 ~
-11 A 11
+11 A 3
 D5
 An Elven Dwelling
 ~
@@ -810,7 +810,7 @@ the floor and peaked roof. A large hand woven rug lies in the centre of
 this simply furnished room and a small silvery urn is smoking in the
 corner, releasing a delicious, floristic odour.
 ~
-11 A 11
+11 A 3
 D5
 An Elven Dwelling
 ~
@@ -850,7 +850,7 @@ the floor and peaked roof. A large hand woven rug lies in the centre of
 this simply furnished room and a small silvery urn is smoking in the
 corner, releasing a delicious, floristic odour.
 ~
-11 A 11
+11 A 3
 D5
 An Elven Dwelling
 ~
@@ -890,7 +890,7 @@ the floor and peaked roof. An bed of large made of large green
 leaves lies in the centre of the room and a phial of magical light
 suspended from the ceiling casts flickering beams of light.
 ~
-11 A 11
+11 A 3
 D5
 An Elven Dwelling
 ~
@@ -928,7 +928,7 @@ been constructed using the utmost skill of a woodsman as fine beams of
 oak cross each other intricately, forming the floor and peaked roof. 
 Several mats made of twined reeds are sprawled across the polished floor.
 ~
-11 A 11
+11 A 3
 D5
 An Elven Dwelling
 ~
@@ -967,7 +967,7 @@ cross each other intricately, forming the floor and peaked roof. A
 collection of terracotta earthenwear pots stand in one corner of the room, 
 radiating a luscious, magical warmth.
 ~
-11 A 11
+11 A 3
 D5
 An Elven Dwelling
 ~
@@ -1007,7 +1007,7 @@ of the room, filled with steaming hot water. This looks like an ideal
 opportunity for a bath, but quite how an elf managed to get so much
 hot water up inside a treehouse is beyond you....
 ~
-11 A 11
+11 A 3
 D5
 An Elven Dwelling
 ~
@@ -3116,8 +3116,7 @@ food 0 A
 #12039
 broken sword~
 a broken sword~
-Part of a sword has been left here.
-~
+Part of a sword has been left here.~
 adamantite~
 trash ABGI AO
 0 0 0 0 0

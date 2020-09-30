@@ -2922,7 +2922,7 @@ She looks extremely flustered and most unhappy to see you here. No food
 is offered to you.
 ~
 human~
-BHQ DFHVa -950 0
+BHQ DFHV -950 0
 50 36 2d6+2650 1d1+650 9d6+25 beating
 -13 -13 -13 -13
 CDEFHKN A BHPL KN
@@ -2957,7 +2957,7 @@ honour and will do his utmost do dispose of troublemakers, even if he
 does have poor taste in clothes.
 ~
 dragon~
-BCGQRTL CDEFHJNUVa -980 0
+BCGQRTL CDEFHJNUV -980 0
 80 60 3d6+5945 1d1+1120 8d10+40 acbite
 -30 -30 -30 -30
 CDEFHIJKMOR KL BR F
@@ -3127,10 +3127,10 @@ You see a tall, rather plump gentleman with a white goatie beard. He
 is wearing a pin stripe suit and shiny shoes.
 ~
 dragon~
-BGQRTL DEHJUVac -1000 0
+BGQRTL DEHJUV -1000 0
 95 70 3d6+7610 1d1+1235 9d11+50 acbite
 -36 -36 -36 -36
-BCDEFHIJKMNO AP Q HY
+BCEFHIJKMNO AP Q HY
 stand stand male 20000
 0 0 large 0
 
@@ -3144,10 +3144,10 @@ leaving only a pair of obsidian eyes visible. The Ninja crouches to
 the floor, calmly observing your movements.
 ~
 elf~
-BGQRSTL BCDEFHJNVac 0 0
+BGQRSTL BCDEFHJNV 0 0
 99 80 3d6+9232 1d1+1485 10d10+50 magic
 -36 -36 -36 -36
-BCDEFHIJKNF AB IL 0
+BCEFHIJKNF AB IL 0
 stand stand female 150
 0 0 medium 0
 
@@ -3160,7 +3160,7 @@ You see a foul bilious green entity swirling around, clearly without
 a care in the world.
 ~
 unique~
-BCRO HNTXa -900 0
+BCRO HNTX -900 0
 91 70 1d6+7695 1d1+1365 10d9+45 suction
 -33 -33 -33 -33
 FMNU QL K G
@@ -3210,17 +3210,17 @@ of his knowledge and understanding during his final few centuries of
 existence. He's also pretty good at healing. Type "heal" for a list.
 ~
 dragon~
-MBGJKQRSTVabb CDEFHJNTUVac 1000 0
+MBGJKQRSTVabb CDEFHJNTUV 1000 0
 147 90 3d6+25146 1d1+12205 20d20+90 divine
 -49 -49 -49 -28
-BCDEFHIJKLNO ABCDEFGHIJKLMNOPQRS 0 0
+BCEFHIJKLNO ABCDEFGHIJKLMNOPQRS 0 0
 stand stand male 0
 0 0 huge 0
 
 #27026
 julia genius~
 Julia the Genius~
-Julia, Faramir's dream girl, sits here working.
+Julia sits here working.
 ~
 You see a pretty young girl with an innocent face and breathtaking brown
 hair,  reading what looks like a very complicated book.
@@ -3289,7 +3289,7 @@ You see a thoroughly disorientated young man wearing his clothes back
 to front. He also has an enormous beer belly!
 ~
 human~
-GT Na -30 0
+GT N -30 0
 50 35 3d6+2745 1d1+550 5d10+25 beating
 -21 -21 -21 -21
 CDKUP 0 L 0
@@ -3369,7 +3369,7 @@ You see a well built female with short hair and an aggressive face.
 She is dressed in a muddy red soccer kit. 
 ~
 human~
-GHQ NVa -499 0
+GHQ NV -499 0
 68 48 2d6+4276 1d1+952 10d7+34 smash
 -26 -26 -26 -26
 DEHNU 0 I 0
@@ -4475,8 +4475,7 @@ A
 #27053
 nightie light~
 a light nightie~
-A nightie made of a fine, silken material, perfect for hot Summer nights.
-~
+A nightie made of a fine, silken material, perfect for hot Summer nights.~
 cloth~
 armor 0 AD
 5 5 5 5 0

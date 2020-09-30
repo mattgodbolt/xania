@@ -27,7 +27,7 @@ A ladder descending into the darkness!~
 You are climbing on a ladder.  Above you is a trapdoor.  Below you 
 is only darkness, from which a frigid breeze blows.
 ~
-134 A 11
+134 A 1
 D4
 ~
 trapdoor~
@@ -42,7 +42,7 @@ A ladder descending into the darkness!~
 You are climbing on a ladder.  Above you the ladder disappears in the
 dark.  Below is only darkness, from which a frigid breeze blows.
 ~
-134 A 11
+134 A 1
 D4
 ~
 ~
@@ -59,7 +59,7 @@ You do not understand what is keeping the tunnel walls from caving in.  This
 would probably be a very bad place to use a dispel magic spell!  You do see 
 some footprints in the dust, and looking up, you see who they belong to!
 ~
-134 AD 11
+134 AD 1
 D1
 ~
 ~
@@ -79,7 +79,7 @@ This room has a large pool of black water in the center.  You see
 many runes and glyphs surrounding it.  The room is lit by torches held in 
 sconces.  Each of these items in the room merits more investigation.
 ~
-134 D 11
+134 D 1
 D1
 ~
 ~
@@ -129,7 +129,7 @@ boxes, vials, chests, tubes, glasses, beakers, and other assorted containers.
 You think that drinking the contents of any might have undesireable effects.
 
 ~
-134 AD 11
+134 AD 1
 D0
 ~
 celldoor~
@@ -156,7 +156,7 @@ system.  Also several crates hold contents, whose scent is enought to make
 you wish to shut the door immediately.  You believe that you hear a noise
 from behind one of the crates.
 ~
-134 AD 11
+134 AD 1
 D0
 ~
 door~
@@ -168,7 +168,7 @@ This is nothing more than a small room with a very heavy iron door
 closing it off from the laboratory.  This is where Ciquala's assistants keep
 the experiments they are working on.
 ~
-134 AD 11
+134 AD 1
 D3
 ~
 celldoor~
@@ -180,7 +180,7 @@ This is nothing more than a small room with a very heavy iron door
 closing it off from the laboratory.  This is where Ciquala's minions keep
 the experiments they are working on.
 ~
-134 AD 11
+134 AD 1
 D2
 ~
 celldoor~
@@ -192,7 +192,7 @@ The occupants of this room were obviously left here by the Lich to
 keep intruders like you from bothering her, or learning her plans.  There
 are doors to both the east and west.
 ~
-134 AD 11
+134 AD 1
 D1
 ~
 door~
@@ -208,7 +208,7 @@ This empty tunnel has doors leading in all directions.  The roof of
 the tunnel seems abnormally low and shiny, almost as if it is not dirt.  This
 room is also as cold as all the others were.
 ~
-134 AD 11
+134 AD 1
 D0
 ~
 door~
@@ -233,7 +233,7 @@ plans.  You notice many maps of Lord British's castle.  You might be able to
 gain some information on Ciquala's plans, as well as learn your way through
 British's castle if you examine the map more closely.
 ~
-134 AD 11
+134 AD 1
 D2
 ~
 door~
@@ -251,7 +251,7 @@ You see many boxes before you, apparently this is a storage room of
 some sort.  You can bet that whatever a lich is storing, that it can't be good
 for the world in general.
 ~
-134 AD 11
+134 AD 1
 D0
 ~
 door~
@@ -263,7 +263,7 @@ You see a grate on the floor.  When you look down it, you see several
 creatures below, humanoid, but you can't make out exactly what they are.  
 There are also doors leading all directions but west.
 ~
-134 AD 11
+134 AD 1
 D0
 ~
 door~
@@ -288,7 +288,7 @@ have a will of their own.  No doubt the work of the Lich.  If these
 monstrosities are allowed to escape into the world, they will cause no end
 of problems for Xania.
 ~
-134 AD 11
+134 AD 1
 D4
 ~
 grate~
@@ -301,7 +301,7 @@ pain and fear in anyone who enters.  However, you don't pay as much attention
 to the racks and iron maidens as you would if were not for the lich in the  
 room.
 ~
-134 AD 11
+134 AD 1
 D2
 ~
 door~
@@ -315,7 +315,7 @@ covered with murals proclaiming the might and majesty of Ciquala.  She does
 not look old and decayed as you would have pictured her.  Instead, she looks 
 rather regal and stately, but undoubtedly evil.
 ~
-134 AD 11
+134 AD 1
 D0
 ~
 door~
@@ -333,7 +333,7 @@ rises above you, hidden in the darkness beyond the range your light can
 penetrate.  A feeling of hopelessness and insignificance overwhelms you as you
 face the Lich, Ciquala!
 ~
-134 AD 11
+134 AD 1
 D0
 ~
 ~
@@ -350,7 +350,7 @@ kingdom.  Racks or weapons, and spellbooks, and potions, not to mention large
 piles of coins that cover the floor.  A large paving stone in this room seems
 slightly disturbed.
 ~
-134 AD 11
+134 AD 1
 D0
 ~
 tapestry~
@@ -369,7 +369,7 @@ The hidden crypt of Cyquala~
 This room contains several crypts where the lichs and vampires rest.
 Unfortunately, they all seem to be out of their crypts right now.
 ~
-134 AD 11
+134 AD 1
 D4
 ~
 stone~

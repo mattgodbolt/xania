@@ -144,10 +144,14 @@ int Char::get_skill(int skill_number) const {
             skill = level * 2 + 20;
 
         if (skill_number == gsn_second_attack && (is_warrior() || is_thief()))
-            skill = 10 + 3 * level;
+            // i.e. level 100 NPC: 50% skill (and thus chance) of 2nd attack happening.
+            skill = UMAX(25, level / 2);
 
         else if (skill_number == gsn_third_attack && is_warrior())
-            skill = 4 * level - 40;
+            // i.e. a level 100 NPC only has a 70% skill in 3rd attack (minus other
+            // modifiers like Berserk), which means a 70% chance of it happening,
+            // and only if their 2nd attack succeeded.
+            skill = level - 30;
 
         else if (skill_number == gsn_hand_to_hand)
             skill = 40 + 2 * level;
@@ -174,7 +178,7 @@ int Char::get_skill(int skill_number) const {
     }
 
     if (is_berserk())
-        skill -= level / 2;
+        skill /= 1.5;
 
     if (is_affected_by(gsn_insanity))
         skill -= 10;

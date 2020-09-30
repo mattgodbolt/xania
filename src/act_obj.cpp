@@ -576,7 +576,7 @@ void do_give(Char *ch, const char *argument) {
         victim->gold += amount;
         act(fmt::format("$n gives you {} gold.", amount), ch, nullptr, victim, To::Vict);
         act("$n gives $N some gold.", ch, nullptr, victim, To::NotVict);
-        act(fmt::format("You give $N {} gold."), ch, nullptr, victim, To::Char);
+        act(fmt::format("You give $N {} gold.", amount), ch, nullptr, victim, To::Char);
 
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         mprog_bribe_trigger(victim, ch, amount);

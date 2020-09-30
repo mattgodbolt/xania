@@ -7248,8 +7248,7 @@ fountain 0 0
 #9602
 cloth baggy pants~
 a pair of white baggy pants~
-A pile of cloth lies here.
-~
+A pile of cloth lies here.~
 cloth~
 armor 0 AF
 2 2 2 2 0
@@ -7338,8 +7337,7 @@ weapon I AN
 #9610
 dagger~
 a dagger~
-A sharp, dull grey dagger lies here.
-~
+A sharp, dull grey dagger lies here.~
 adamantite~
 weapon I AN
 'dagger' 10 5 'pierce' D
@@ -7348,8 +7346,7 @@ weapon I AN
 #9611
 dagger~
 a dagger~
-A sharp, dull grey dagger lies here.
-~
+A sharp, dull grey dagger lies here.~
 adamantite~
 weapon I AN
 'dagger' 10 7 'pierce' D
@@ -7358,8 +7355,7 @@ weapon I AN
 #9612
 dagger~
 a dagger~
-A sharp, dull grey dagger lies here.
-~
+A sharp, dull grey dagger lies here.~
 adamantite~
 weapon I AN
 'dagger' 10 9 'pierce' D

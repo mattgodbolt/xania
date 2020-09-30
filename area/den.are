@@ -30,7 +30,7 @@ An aged, yet sturdy looking, man stands here.
 He eyes you and says, "Are you sure you want to go in there?"
 ~
 human~
-BHTV HNVaacc 0 0
+BHTV HNV 0 0
 60 15 1d1+1299 1d1+199 10d5+20 punch
 -40 -40 -40 -20
 CDEFHKNQ ABE 0 0
@@ -46,7 +46,7 @@ A large pirhana leads a group of smaller fish swimming here.
 What's that in his mouth?  It looks like...intestines.
 ~
 unique~
-BFT DFNPQVbbcc -1000 0
+BFT DFNPQVb -1000 0
 65 25 10d50+2500 1d1+199 9d6+30 bite
 -43 -43 -43 -21
 CDEFHKMR ABER 0 HO
@@ -61,7 +61,7 @@ A smaller fish swims alongside the huge pirhana.
 You notice a smaller fish swimming here...but it notices you and attacks.
 ~
 unique~
-BFT DFNPQVbbcc -1000 0
+BFT DFNPQVb -1000 0
 60 22 1d1+1199 1d1+199 6d8+32 bite
 -40 -40 -40 -40
 DEFHKMR ABER 0 HO
@@ -79,7 +79,7 @@ Oh crap; hey, get off my arm!
 ACCK!
 ~
 unique~
-BFT DFNPQVaabbcc -1000 0
+BFT DFNPQVbc -1000 0
 75 30 11d200+7800 1d1+199 8d8+30 bite
 -45 -45 -45 -30
 CDEFHKMR ABELR JKQ HO
@@ -95,7 +95,7 @@ You realize you've seen this monster before-- perhaps in your nightmares.
 When it doesn't immediately attack, you start to turn away-- then it pounces.
 ~
 unique~
-BFT DNPQVbbcc -1000 0
+BFT DNPQVb -1000 0
 85 40 10d200+10000 1d1+199 10d7+50 charge
 -50 -50 -50 -30
 CDEFHIKNR ABR G HO
@@ -110,7 +110,7 @@ The king of all sharks, Jaws, swims silently here.
 The monstrous Great White Jaws swims about here.
 ~
 unique~
-BCFT DFHNPQTVbbcc -1000 0
+BCFT DFHNPQTVb -1000 0
 95 45 11d400+6600 1d1+199 10d8+50 bite
 -60 -60 -60 -40
 ACDEFHIKMNR ABLR LK EHNO
@@ -125,7 +125,7 @@ This guy sure is weird and snivelly.  You want to kill him to put him
 out of his little freak misery.
 ~
 dwarf~
-BCHT HPQVXcc -500 0
+BCHT HPQVX -500 0
 70 32 1d1+5499 1d1+299 10d6+40 beating
 -40 -40 -40 -20
 DEFHIKN ABQ L J
@@ -141,7 +141,7 @@ Haven't you seen this guy before?  Wait...it's Doctor Frankenstein; man
 does he look loony.  What's that weird book in his hand?
 ~
 human~
-BCHRV NPQTVcc -1000 0
+BCHRV NPQTV -1000 0
 80 35 1d1+12999 1d1+999 10d6+48 divine
 -60 -60 -60 -30
 CDEFGHIKNQ ABKLQ CJ 0
@@ -158,7 +158,7 @@ As you inspect him further you realize that some parts were probably
 from hapless adventurers such as yourself.
 ~
 giant~
-BCFV BDFHNPQTVcc -1000 0
+BCFV BDFHNPQTV -1000 0
 95 45 11d500+7500 1d1+99 9d9+50 beating
 -70 -70 -70 -35
 CDEFGHIKNQ ABKLQ CJ 0
@@ -174,7 +174,7 @@ I guess "cute" is a relative term; this guy still looks like he could take
 your arm off.  He may not be as big as Godzilla, but he still looks rough.
 ~
 dragon~
-BCHT HNPQTVcc -500 0
+BCHT HNPQTV -500 0
 75 35 10d200+5000 1d1+99 10d6+20 suction
 -45 -45 -45 -25
 ACDEFHIKMR ABEHIL JKQ OP
@@ -190,7 +190,7 @@ The giant, bug-like Mothra hovers here, sizing you up.  It looks like it is
 just waiting for an opportunity to attack.
 ~
 unique~
-BCHT BNPQTVcc -1000 0
+BCHT BNPQTV -1000 0
 80 35 10d200+10000 1d1+99 10d7+40 pound
 -50 -50 -50 -35
 ACDEFHIKNR ABHIQ KR FO
@@ -206,7 +206,7 @@ He appears to be hunting Godzilla, but he decides you will do just fine.
 Man, his claws sure do look sharp.
 ~
 dragon~
-BCFT BDFNPQTVcc -1000 0
+BCFT BDFNPQTV -1000 0
 80 35 10d200+10000 1d1+99 10d7+40 shbite
 -50 -50 -50 -30
 CDFHPMR ABHIQ KR LO
@@ -222,7 +222,7 @@ Godzilla's nemesis, this monster is made up entirely of trash and goop.
 It looks like your weapons won't have much affect on him.
 ~
 unique~
-BCFTV BDFHNPQTVaacc -1000 0
+BCFTV BDFHNPQTV -1000 0
 85 38 20d100+7000 1d1+99 10d7+45 digestion
 -100 -100 -100 -50
 ACDEFHIKNR ABDELQ 0 CJK
@@ -237,7 +237,7 @@ A steel replica of Godzilla rests here.
 Mechazilla looks exactly like Godzilla except he is made entirely of metal.
 ~
 dragon~
-BCT HNPQTVcc -1000 0
+BCT HNPQTV -1000 0
 90 45 50d50+6500 1d1+99 10d7+45 wrath
 -50 -50 -50 -35
 ACDEFHIKMNR ABEHILQ CDJK O
@@ -254,7 +254,7 @@ monster you have ever seen, standing over 50 feet tall.
 That must be why he has the Orb of the Dragon Kings.
 ~
 dragon~
-BCFT BDFHNPQTVcc -1000 0
+BCFT BDFHNPQTV -1000 0
 100 50 500d11+7500 1d1+99 10d8+60 chomp
 -80 -80 -80 -40
 ACDEFHIKMNR ABELQ DK I
@@ -270,7 +270,7 @@ Mighty Joe Young...Who's that?  The poor simian is other overlooked
 because of his bigger buddy, but overlooking him now would be a big mistake.
 ~
 giant~
-BCHT DNPQVcc -500 0
+BCHT DNPQV -500 0
 85 40 200d11+7800 1d1+99 10d7+50 slap
 -50 -50 -50 -30
 CDFHINR ABEHILQ K OP
@@ -287,7 +287,7 @@ His muscles bulge with power, and he begins to pound his hairy chest
 when he sees you.  You think it's time to leave...but it may be too late.
 ~
 giant~
-BCFTV BDFHNPQTVcc -1000 0
+BCFTV BDFHNPQTV -1000 0
 100 45 31d100+6900 1d1+99 10d8+65 beating
 -80 -80 -80 -40
 ACDEFGHIJKNR ABE 0 0
@@ -318,7 +318,7 @@ He looks so little and cute...what's that gleaming in his hand?
 Why's he sawing at your Achilles's tendon?  Maybe you should attack.
 ~
 human~
-BFT BDFHNPQVcc -1000 0
+BFT BDFHNPQV -1000 0
 75 35 30d151+4970 1d1+299 10d6+40 slice
 -45 -45 -45 -25
 BCDEFHIKR ABLQ 0 H
@@ -334,7 +334,7 @@ This monster has no form...what are you supposed to attack?
 Maybe you should start with the part wrapped around your throat.
 ~
 unique~
-BFT BDFHNPQcc -1000 0
+BFT BDFHNPQ -1000 0
 85 35 50d51+6950 1d1+99 10d7+50 digestion
 -70 -70 -70 -35
 ACHNR ABDP 0 C
@@ -351,7 +351,7 @@ moon rises.  The man screams in pain as hair sprouts all over his body
 and he becomes lupine.  When his transformation is complete, he pounces.
 ~
 human~
-BFT DFHNPQVcc -1000 0
+BFT DFHNPQV -1000 0
 85 35 50d51+6950 1d1+99 10d7+50 claw
 -60 -60 -60 -30
 CDEFHIJKNR ABLQ 0 OY
@@ -367,7 +367,7 @@ As you gaze more intently, you notice that the shimmer is vaguely man-shaped.
 Suddenly the form coalesces and dives for your throat.
 ~
 human~
-BCFT BDFHNPQTcc -1000 0
+BCFT BDFHNPQT -1000 0
 75 35 30d151+4970 1d1+9 10d6+50 punch
 -45 -45 -45 -25
 CEFHKNU ABE 0 0
@@ -383,7 +383,7 @@ The embalmed body of a fallen pharoah comes shambling towards you.
 He reaches his rag-covered arms toward you and moans your name.
 ~
 human~
-BCFT DFHNPQcc -1000 0
+BCFT DFHNPQ -1000 0
 75 35 30d151+4970 1d1+299 10d6+50 punch
 -45 -45 -45 -25
 CDFHIJKNR ABKLQ D H
@@ -401,7 +401,7 @@ which paralyzes you.  As if in a dream, a raspy voice mutters, "It is
 your time."  You wonder if that might be the last thing you hear.
 ~
 human~
-BCFO BDFNPQTVcc -1000 0
+BCFO BDFNPQTV -1000 0
 85 40 50d51+8950 1d1+99 10d7+50 cleave
 -50 -50 -50 -35
 ACDEFHKNQ ABE KLQ 0
@@ -418,7 +418,7 @@ You reach out to remove his mask so that you can see his face, but just as
 you are about to touch it he whirls about and attacks.
 ~
 human~
-BCFT DFNPQTcc -1000 0
+BCFT DFNPQT -1000 0
 75 30 30d151+8970 1d1+99 10d6+50 beating
 -45 -45 -45 -25
 CEFIKNU AB 0 0
@@ -467,7 +467,7 @@ you have proven to be a worthy opponent.  Your journey ends here, though."
 She bares her teeth and lunges at you.
 ~
 human~
-BCFO DFHNPQTcc -1000 0
+BCFO DFHNPQT -1000 0
 75 30 1d1+5499 1d1+99 10d6+50 frbite
 -45 -45 -45 -25
 DEFHIKNR ABHILPQ K X
@@ -483,7 +483,7 @@ The grand mistress glances at you as you enter the room.  "Another puny
 mortal seeks our lord I see..  I'll save him the trouble of dealing with
 you," she says, then strikes with a flash of teeth and a spell on her breath. ~
 human~
-BCFO BDFHNPQTVcc -1000 0
+BCFO BDFHNPQTV -1000 0
 80 35 1d1+6499 1d1+999 10d7+50 acbite
 -50 -50 -50 -30
 CDEFHJKNR ABEHILOQ CD X
@@ -499,7 +499,7 @@ He says to you, "You may want a wooden weapon, like this stake.  I
 believe that is all he is vulnerable to."
 ~
 human~
-BT DFHNTVcc 1000 0
+BT DFHNTV 1000 0
 85 35 1d1+6999 1d1+999 10d7+50 stab
 -80 -80 -80 -40
 ACDEFHIJKN ABH 0 0
@@ -515,7 +515,7 @@ The Lord of the Vampires glances at you and says, "You are bolder than I
 thought, but your life ends now.  You should never have invaded my sanctum."
 ~
 human~
-BFOV BDFHNPQTVcc -1000 0
+BFOV BDFHNPQTV -1000 0
 105 50 500d11+6500 1d1+999 9d10+50 divine
 -70 -70 -70 -40
 ADEFHKNR ABELQ CD X
@@ -531,7 +531,7 @@ He says, "I will have your soul!" and fidgets with a box in his hands.
 Hooked chains fly from the box and tear at your flesh.
 ~
 human~
-BCOV BHNPQTVcc -1000 0
+BCOV BHNPQTV -1000 0
 105 45 500d11+6500 1d1+99 8d10+50 divine
 -70 -70 -70 -50
 ACDEFHJKNR ABELQ K J
@@ -546,7 +546,7 @@ Hey, is that William Shatner? Why's he so pale?
 No, that's Michael Myers, and he is beating you with your own leg!
 ~
 human~
-BCFOV BDFHNPQVcc -1000 0
+BCFOV BDFHNPQV -1000 0
 110 55 1d1+9999 1d1+99 9d10+55 beating
 -75 -75 -75 -45
 ACDEFHJKNR ABELQ K 0
@@ -562,7 +562,7 @@ From the hat, sweater, and claw, along with the witty conversation, you
 can tell who this is...and man is he ugly.  He sure needs a dermatologist.
 ~
 human~
-BCFOV BDFHNPQVcc -1000 0
+BCFOV BDFHNPQV -1000 0
 115 50 1d1+12999 1d1+99 10d10+55 divine
 -80 -80 -80 -45
 ACDERHJKNR ABELQ K 0
@@ -577,7 +577,7 @@ He's back..the man behind the mask.
 Your buddy Jason's here, dulling his machete...on your bones.
 ~
 human~
-BCFOV BDFHNPQVcc -1000 0
+BCFOV BDFHNPQV -1000 0
 125 60 1d1+19999 1d1+99 11d10+60 beating
 -100 -100 -100 -50
 ACDEFHJKNR ABELQ K 0
