@@ -7,7 +7,7 @@
 #include <range/v3/algorithm/find.hpp>
 #include <range/v3/algorithm/find_if.hpp>
 
-template <typename T, typename It>
+template <typename ElemT, typename GenListT, typename It>
 class Iter;
 
 // Issues:
@@ -16,7 +16,6 @@ class Iter;
 // * rarely it's another element in the list.
 // TODO:
 // * more tests
-// * handle const-ness correctly
 // * support owning pointers? maybe?
 
 template <typename T, typename OptType = std::optional<T>>
@@ -50,32 +49,20 @@ public:
         }
     }
 
-    using MutIter = Iter<T, typename std::list<Elem>::iterator>;
-    using ConstIter = Iter<T, typename std::list<Elem>::const_iterator>;
+    using MutIter = Iter<T, GenericList<T>, typename std::list<Elem>::iterator>;
+    using ConstIter = Iter<const T, const GenericList<T>, typename std::list<Elem>::const_iterator>;
     [[nodiscard]] MutIter begin() {
-        auto first = list_.begin();
-        while (first != list_.end() && first->removed()) {
-            // Skip any removed items; erasing any that are safe to do so.
-            if (first->count == 0)
-                first = list_.erase(first);
-            else
-                ++first;
-        }
-        return MutIter(this, first);
+        return MutIter(this, get_first_non_tombstone());
     }
     [[nodiscard]] MutIter end() { return MutIter(nullptr, list_.end()); }
-    [[nodiscard]] MutIter begin() const { return const_cast<GenericList<T> *>(this)->begin(); }
-    [[nodiscard]] MutIter end() const { return const_cast<GenericList<T> *>(this)->end(); }
-    //    [[nodiscard]] ConstIter begin() const {
-    //        auto first = list_.begin();
-    //        while (first != list_.end() && first->removed())
-    //            ++first;
-    //        return ConstIter(const_cast<GenericList<T>*>(this), first);
-    //    }
-    //    [[nodiscard]] ConstIter end() const { return ConstIter(nullptr, list_.end()); }
+    [[nodiscard]] ConstIter begin() const {
+        return ConstIter(this, get_first_non_tombstone());
+    }
+    [[nodiscard]] ConstIter end() const { return ConstIter(nullptr, list_.end()); }
 
     [[nodiscard]] bool empty() const {
-        return begin() == end(); // cannot use list.empty here
+        // We're trivially empty if the list is empty, or if our begin() (accounting for tombstones) is equal to end.
+        return list_.empty() || begin() == end();
     }
     [[nodiscard]] size_t size() const { return std::distance(begin(), end()); }
     [[nodiscard]] size_t debug_count_all_nodes() const { return list_.size(); }
@@ -88,14 +75,25 @@ public:
     }
 
 private:
-    std::list<Elem> list_;
+    auto get_first_non_tombstone() const {
+        auto first = list_.begin();
+        while (first != list_.end() && first->removed()) {
+            // Skip any removed items; erasing any that are safe to do so.
+            if (first->count == 0)
+                first = list_.erase(first);
+            else
+                ++first;
+        }
+        return first;
+    }
+    mutable std::list<Elem> list_;
     friend MutIter;
     friend ConstIter;
 };
 
-template <typename T, typename It>
+template <typename ElemT, typename GenListT, typename It>
 class Iter {
-    GenericList<T> *list_{};
+    GenListT *list_{};
     It current_{};
 
     void advance() {
@@ -114,7 +112,7 @@ class Iter {
 
 public:
     Iter() = default;
-    explicit Iter(GenericList<T> *list, It it) : list_(list), current_(it) {
+    explicit Iter(GenListT *list, It it) : list_(list), current_(it) {
         if (valid())
             current_->count++;
     }
@@ -151,8 +149,8 @@ public:
         }
     }
 
-    T &operator*() const noexcept { return *current_->item; }
-    T *operator->() const noexcept { return &*current_->item; }
+    ElemT &operator*() const noexcept { return *current_->item; }
+    ElemT *operator->() const noexcept { return &*current_->item; }
 
     Iter &operator++() noexcept {
         advance();
@@ -169,20 +167,20 @@ public:
     [[nodiscard]] bool valid() const { return list_ && current_ != list_->list_.end(); }
 
     using iterator_category = std::forward_iterator_tag;
-    using value_type = T;
+    using value_type = ElemT;
     using difference_type = ptrdiff_t;
-    using pointer = T *;
-    using reference = T &;
+    using pointer = ElemT *;
+    using reference = ElemT &;
 };
 
 namespace std {
-template <typename T, typename I>
-struct iterator_traits<Iter<T, I>> {
-    using iterator_category = typename Iter<T, I>::iterator_category;
-    using value_type = typename Iter<T, I>::value_type;
-    using difference_type = typename Iter<T, I>::difference_type;
-    using pointer = typename Iter<T, I>::pointer;
-    using reference = typename Iter<T, I>::reference;
+template <typename ElemT, typename GenListT, typename I>
+struct iterator_traits<Iter<ElemT, GenListT, I>> {
+    using iterator_category = typename Iter<ElemT, GenListT, I>::iterator_category;
+    using value_type = typename Iter<ElemT, GenListT, I>::value_type;
+    using difference_type = typename Iter<ElemT, GenListT, I>::difference_type;
+    using pointer = typename Iter<ElemT, GenListT, I>::pointer;
+    using reference = typename Iter<ElemT, GenListT, I>::reference;
 };
 }
 
