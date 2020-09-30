@@ -1699,7 +1699,8 @@ Relay and Cabling Room~
 A confused tangle of giant cables and fibre-optic links wrap around
 your neck and body, constricting your vision and breathing. The evil
 cackling ripple of the relay machines pour into your head and you feel
-your life force ebbing away.
+your life force ebbing away. There's an electrical portal south that glows
+with a blue light, and doors to the west and north.
 ~
 27 D 0
 D0
@@ -1708,16 +1709,17 @@ Lab West
 door~
 1 -1 27063
 D2
-Modulator
+A strange electrical light beckons.
 ~
-~
-0 -1 27066
+electrical portal~
+0 -1 27067
 D3
+A simple doorway.
 ~
-portal~
-2 -1 27071
+~
+1 -1 27071
 E
-cable fibre optic links~
+cable fibre optic links blue light~
 The chaos of tangled cables are thrusting in and out of a multitude
 of ports and holes in the walls. How anyone would know their way around
 here is beyond you.
@@ -1761,7 +1763,7 @@ Modulator
 ~
 ~
 0 -1 27066
-D5
+D0
 Relay and Cabling Room
 ~
 ~
@@ -1789,7 +1791,7 @@ D5
 Demodulator
 ~
 ~
-0 -1 27067
+0 -1 27066
 S
 #27069
 Digital Dimension~
@@ -1827,12 +1829,12 @@ Digital Dimension
 0 -1 27069
 S
 #27071
-Mr Hill's Office~
+Mr Hill's Paperless Office~
 A plain, well organised office is around you. The small desk cluttered
 with stationery stands beside a filing cabinet marked "Assessments".
 You realise what is missing here - paper. This is the paperless office,
 there aren't even any books or pictures. The occupier of this office
-must be a serious computer addict.
+must be a serious computer addict. Doors to the north and east.
 ~
 27 D 0
 D0
@@ -1843,7 +1845,7 @@ door~
 D1
 ~
 portal~
-2 -1 27065
+1 -1 27065
 S
 #27079
 Scholar's Walkway
@@ -4533,8 +4535,9 @@ D 0 27062 1 2
 D 0 27063 3 2       SERVER/LAB WEST
 D 0 27062 2 1
 D 0 27071 0 1       SERVER/OFFICE
-D 0 27063 2 1
+D 0 27063 2 1       LAB WEST/RELAY
 D 0 27065 0 1       LAB WEST/RELAY
+
 
 *DEPARTMENTAL BUILDING
 D 0 27079 1 1
