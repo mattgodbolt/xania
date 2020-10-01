@@ -44,8 +44,10 @@
 #include <ctime>
 #include <fcntl.h>
 #include <fmt/format.h>
+#include <fstream>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <streambuf>
 #include <string>
 #include <sys/signalfd.h>
 #include <sys/socket.h>
@@ -124,6 +126,21 @@ void greet(Descriptor &d) {
         return;
     }
     d.write(greeting->text());
+}
+
+namespace {
+bool is_being_debugged() {
+    std::ifstream t("/proc/self/status");
+    std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+
+    for (auto line : line_iter(str)) {
+        const auto match = "TracerPid:"sv;
+        if (matches_start(match, line))
+            return parse_number(ltrim(line.substr(match.size()))) != 0;
+    }
+
+    return false;
+}
 }
 
 /* where we're asked nicely to quit from the outside (mudmgr or OS) */
@@ -257,6 +274,8 @@ void handle_doorman_packet(const Packet &p, std::string_view buffer) {
 void game_loop_unix(Fd control) {
     static timeval null_time;
 
+    if (is_being_debugged())
+        log_string("Running under a debugger");
     signal(SIGPIPE, SIG_IGN);
 
     sigset_t signals;
@@ -283,6 +302,7 @@ void game_loop_unix(Fd control) {
          * Poll all active descriptors.
          */
         FD_ZERO(&in_set);
+        FD_ZERO(&in_set);
         FD_ZERO(&out_set);
         FD_ZERO(&exc_set);
         FD_SET(control.number(), &in_set);
@@ -305,7 +325,15 @@ void game_loop_unix(Fd control) {
                 bug("Unable to read signal info - treating as term");
                 info.ssi_signo = SIGTERM;
             }
-            if (info.ssi_signo == SIGTERM || info.ssi_signo == SIGINT) {
+            if (info.ssi_signo == SIGINT) {
+                if (is_being_debugged()) {
+                    log_string("Caught SIGINT but detected a debugger, trapping instead");
+                    raise(SIGTRAP);
+                } else {
+                    handle_signal_shutdown();
+                    return;
+                }
+            } else if (info.ssi_signo == SIGTERM) {
                 handle_signal_shutdown();
                 return;
             } else {
