@@ -15,10 +15,6 @@ the south wall stands a large window.
 There are no exits from Silence's Chamber.
 ~
 0 D 1
-D0
-~
-map~
-1 -1 16100
 D4
 ~
 ceiling~
@@ -4855,7 +4851,7 @@ D0
 A wall
 ~
 wall~
-1 -1 16413
+1 -1 16414
 D1
 Death's lane
 ~
@@ -9924,12 +9920,12 @@ D2
 A door stands ready to be employed
 ~
 door~
-1 -1 16400
+1 -1 16403
 D3
 A door stands before you
 ~
 door~
-1 -1 16404
+1 -1 16400
 E
 door~
 The door is black and made out of a wood like substance.~
@@ -12014,24 +12010,6 @@ door~
 E
 door~
 The door is a simple wooden door~
-S
-#16498
-Guest Room~
-This is a regular guest chamber.  It has a bed, a desk, a chair and a large
-mirror against the southern wall.  The floor is hard oak that has been
-varnished and polished.
-
-The sole exit is the door to the east
-~
-0 ADN 1
-D1
-A door is here
-~
-door~
-1 -1 16286
-E
-door~
-The door is made of a dark oak with all the normal door stuff~
 S
 #0
 
@@ -16415,7 +16393,6 @@ D   0  16474    2      1  Hallway in the Demon Clan: Door south closed
 D   0  16475    0      1  Western Summoning Chamber: Door north closed
 D   0  16479    1      1  Hallway in the Demon Clan: Door east closed
 D   0  16480    3      1  Northern Summoning Room: Door west closed
-D   0  16000    0      1  Chamber of Silence: Door north closed
 D   0  16000    5      1  Chamber of Silence: Door down closed
 S
 #SHOPS

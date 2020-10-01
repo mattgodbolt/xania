@@ -716,21 +716,11 @@ sprinkles the cool air and you step as lightly as possible, lest your
 tramping feet spoil the purity of this place.
 ~
 11 A 3
-D0
-Lost in the forest
-~
-~
-0 -1 12081
 D1
 Lost in the forest
 ~
 ~
-0 -1 12082
-D2
-Lost in the forest
-~
-~
-0 -1 12083
+0 -1 12081
 D3
 Nimrodel Way
 ~
@@ -1868,22 +1858,22 @@ D0
 Lost in the Forest
 ~
 ~
-0 -1 12083
+0 -1 12082
 D1
 Lost in the Forest
 ~
 ~
-0 -1 12082
+0 -1 12084
 D2
 Lost in the Forest
 ~
 ~
-0 -1 12029
+0 -1 12083
 D3
 Lost in the Forest
 ~
 ~
-0 -1 12081
+0 -1 12029
 S
 
 #12082
@@ -1893,26 +1883,11 @@ confusing shadows and filling you with fear. Birdsong can no longer
 be heard, just the mysterious thud of a thickening atmosphere...
 ~
 11 A 3
-D0
-Lost in the Forest
-~
-~
-0 -1 12084
-D1
-Lost in the Forest
-~
-~
-0 -1 12081
 D2
 Lost in the Forest
 ~
 ~
-0 -1 12082
-D3
-Lost in the Forest
-~
-~
-0 -1 12083
+0 -1 12081
 S
 
 #12083
@@ -1926,22 +1901,7 @@ D0
 Lost in the Forest
 ~
 ~
-0 -1 12029
-D1
-Lost in the Forest
-~
-~
 0 -1 12081
-D2
-Lost in the Forest
-~
-~
-0 -1 12081
-D3
-Lost in the Forest
-~
-~
-0 -1 12082
 S
 
 #12084
@@ -1953,21 +1913,6 @@ wise to get out of here as soon as possible, before something
 unpleasant happens to you.
 ~
 11 A 3
-D0
-Lost in the Forest
-~
-~
-0 -1 12081
-D1
-Lost in the Forest
-~
-~
-0 -1 12084
-D2
-Lost in the Forest
-~
-~
-0 -1 12081
 D3
 Lost in the Forest
 ~
