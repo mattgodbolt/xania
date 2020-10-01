@@ -302,7 +302,6 @@ void game_loop_unix(Fd control) {
          * Poll all active descriptors.
          */
         FD_ZERO(&in_set);
-        FD_ZERO(&in_set);
         FD_ZERO(&out_set);
         FD_ZERO(&exc_set);
         FD_SET(control.number(), &in_set);
