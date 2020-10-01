@@ -606,15 +606,15 @@ void loot_and_sacrifice_corpse(Char *looter, Char *victim, sh_int victim_room_vn
     OBJ_DATA *corpse;
     if (looter->is_pc() && victim->is_npc() && looter->in_room->vnum == victim_room_vnum) {
         corpse = get_obj_list(looter, "corpse", looter->in_room->contents);
-        if (IS_SET(looter->act, PLR_AUTOLOOT) && corpse && corpse->contains) { /* exists and not empty */
+        if (IS_SET(looter->act, PLR_AUTOLOOT) && corpse && !corpse->contains.empty()) { /* exists and not empty */
             do_get(looter, "all corpse");
         }
-        if (IS_SET(looter->act, PLR_AUTOGOLD) && corpse && corpse->contains && /* exists and not empty */
+        if (IS_SET(looter->act, PLR_AUTOGOLD) && corpse && !corpse->contains.empty() && /* exists and not empty */
             !IS_SET(looter->act, PLR_AUTOLOOT)) {
             do_get(looter, "gold corpse");
         }
         if (IS_SET(looter->act, PLR_AUTOSAC)) {
-            if (corpse && corpse->contains) {
+            if (corpse && !corpse->contains.empty()) {
                 return; /* leave if corpse has treasure */
             } else {
                 do_sacrifice(looter, "corpse");
@@ -1244,11 +1244,9 @@ void stop_fighting(Char *ch, bool fBoth) {
  * Make a corpse out of a character.
  */
 void make_corpse(Char *ch) {
-    OBJ_DATA *corpse;
-    OBJ_DATA *obj;
-    OBJ_DATA *obj_next;
     std::string name;
 
+    OBJ_DATA *corpse{};
     if (ch->is_npc()) {
         name = ch->short_descr;
         corpse = create_object(get_obj_index(OBJ_VNUM_CORPSE_NPC));
@@ -1273,8 +1271,7 @@ void make_corpse(Char *ch) {
     corpse->short_descr = fmt::sprintf(corpse->short_descr, name);
     corpse->description = fmt::sprintf(corpse->description, name);
 
-    for (obj = ch->carrying; obj != nullptr; obj = obj_next) {
-        obj_next = obj->next_content;
+    for (auto *obj : ch->carrying) {
         obj_from_char(obj);
         if (obj->item_type == ITEM_POTION)
             obj->timer = number_range(500, 1000);
@@ -1436,9 +1433,6 @@ void group_gain(Char *ch, Char *victim) {
     lch = (ch->leader != nullptr) ? ch->leader : ch;
 
     for (gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
-        OBJ_DATA *obj;
-        OBJ_DATA *obj_next;
-
         if (!is_same_group(gch, ch) || gch->is_npc())
             continue;
 
@@ -1465,8 +1459,7 @@ void group_gain(Char *ch, Char *victim) {
         gch->send_to(buf);
         gain_exp(gch, xp);
 
-        for (obj = ch->carrying; obj != nullptr; obj = obj_next) {
-            obj_next = obj->next_content;
+        for (auto *obj : ch->carrying) {
             if (obj->wear_loc == WEAR_NONE)
                 continue;
 

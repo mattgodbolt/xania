@@ -1019,8 +1019,7 @@ struct OBJ_INDEX_DATA {
  * One object.
  */
 struct OBJ_DATA {
-    OBJ_DATA *next_content{};
-    OBJ_DATA *contains{};
+    GenericList<OBJ_DATA *> contains;
     OBJ_DATA *in_obj{};
     Char *carried_by{};
     std::vector<EXTRA_DESCR_DATA> extra_descr;
@@ -1102,7 +1101,7 @@ typedef struct _tip_type {
 struct ROOM_INDEX_DATA {
     ROOM_INDEX_DATA *next{};
     Char *people{};
-    OBJ_DATA *contents{};
+    GenericList<OBJ_DATA *> contents;
     std::vector<EXTRA_DESCR_DATA> extra_descr{};
     AREA_DATA *area{};
     PerDirection<EXIT_DATA *> exit{};
@@ -1469,7 +1468,7 @@ int apply_ac(OBJ_DATA *obj, int iWear, int type);
 OBJ_DATA *get_eq_char(Char *ch, int iWear);
 void equip_char(Char *ch, OBJ_DATA *obj, int iWear);
 void unequip_char(Char *ch, OBJ_DATA *obj);
-int count_obj_list(OBJ_INDEX_DATA *obj, OBJ_DATA *list);
+int count_obj_list(OBJ_INDEX_DATA *obj, const GenericList<OBJ_DATA *>&list);
 void obj_from_room(OBJ_DATA *obj);
 void obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *pRoomIndex);
 void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to);
@@ -1486,7 +1485,7 @@ bool check_sub_issue(OBJ_DATA *obj, Char *ch);
 
 Char *get_mob_by_vnum(sh_int vnum);
 OBJ_DATA *get_obj_type(OBJ_INDEX_DATA *pObjIndexData);
-OBJ_DATA *get_obj_list(const Char *ch, std::string_view argument, OBJ_DATA *list);
+OBJ_DATA *get_obj_list(const Char *ch, std::string_view argument, GenericList<OBJ_DATA *> &list);
 OBJ_DATA *get_obj_carry(Char *ch, const char *argument);
 OBJ_DATA *get_obj_wear(Char *ch, const char *argument);
 OBJ_DATA *get_obj_here(const Char *ch, std::string_view argument);

@@ -378,14 +378,10 @@ void mobile_update() {
                 continue;
         }
         /* Scavenge */
-        if (IS_SET(ch->act, ACT_SCAVENGER) && ch->in_room->contents != nullptr && number_bits(6) == 0) {
-            OBJ_DATA *obj;
-            OBJ_DATA *obj_best;
-            int max;
-
-            max = 1;
-            obj_best = 0;
-            for (obj = ch->in_room->contents; obj; obj = obj->next_content) {
+        if (IS_SET(ch->act, ACT_SCAVENGER) && !ch->in_room->contents.empty() && number_bits(6) == 0) {
+            int max = 1;
+            OBJ_DATA *obj_best{};
+            for (auto *obj : ch->in_room->contents) {
                 if (CAN_WEAR(obj, ITEM_TAKE) && can_loot(ch, obj) && obj->cost > max && obj->cost > 0) {
                     obj_best = obj;
                     max = obj->cost;
@@ -701,11 +697,8 @@ void obj_update() {
             }
         }
 
-        if (obj->item_type == ITEM_CORPSE_PC && obj->contains) { /* save the contents */
-            OBJ_DATA *t_obj, *next_obj;
-
-            for (t_obj = obj->contains; t_obj != nullptr; t_obj = next_obj) {
-                next_obj = t_obj->next_content;
+        if (obj->item_type == ITEM_CORPSE_PC && !obj->contains.empty()) { /* save the contents */
+            for (auto *t_obj : obj->contains) {
                 obj_from_obj(t_obj);
 
                 if (obj->in_obj) /* in another object */

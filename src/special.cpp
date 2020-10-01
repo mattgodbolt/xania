@@ -831,22 +831,15 @@ bool spec_puff(Char *ch) {
 }
 
 bool spec_fido(Char *ch) {
-    OBJ_DATA *corpse;
-    OBJ_DATA *c_next;
-    OBJ_DATA *obj;
-    OBJ_DATA *obj_next;
-
     if (!IS_AWAKE(ch))
         return false;
 
-    for (corpse = ch->in_room->contents; corpse != nullptr; corpse = c_next) {
-        c_next = corpse->next_content;
+    for (auto *corpse : ch->in_room->contents) {
         if (corpse->item_type != ITEM_CORPSE_NPC)
             continue;
 
         act("$n savagely devours a corpse.", ch);
-        for (obj = corpse->contains; obj; obj = obj_next) {
-            obj_next = obj->next_content;
+        for (auto *obj : corpse->contains) {
             obj_from_obj(obj);
             obj_to_room(obj, ch->in_room);
         }
@@ -906,14 +899,10 @@ bool spec_guard(Char *ch) {
 }
 
 bool spec_janitor(Char *ch) {
-    OBJ_DATA *trash;
-    OBJ_DATA *trash_next;
-
     if (!IS_AWAKE(ch))
         return false;
 
-    for (trash = ch->in_room->contents; trash != nullptr; trash = trash_next) {
-        trash_next = trash->next_content;
+    for (auto *trash : ch->in_room->contents) {
         if (!IS_SET(trash->wear_flags, ITEM_TAKE) || !can_loot(ch, trash))
             continue;
         if (trash->item_type == ITEM_DRINK_CON || trash->item_type == ITEM_TRASH || trash->cost < 10) {

@@ -18,6 +18,8 @@
 
 #include <fmt/format.h>
 #include <range/v3/algorithm/fill.hpp>
+#include <range/v3/range/conversion.hpp>
+#include <range/v3/view/reverse.hpp>
 
 #include <cstdio>
 #include <cstring>
@@ -53,7 +55,8 @@ extern void char_ride(Char *ch, Char *pet);
  * Local functions.
  */
 void fwrite_char(const Char *ch, FILE *fp);
-void fwrite_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest);
+void fwrite_objs(const Char *ch, const GenericList<OBJ_DATA *> &objs, FILE *fp, int iNest = 0);
+void fwrite_one_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest);
 void fwrite_pet(const Char *ch, const Char *pet, FILE *fp);
 void fread_char(Char *ch, FILE *fp);
 void fread_pet(Char *ch, FILE *fp);
@@ -123,8 +126,7 @@ void save_char_obj(const Char *ch) {
 
 void save_char_obj(const Char *ch, FILE *fp) {
     fwrite_char(ch, fp);
-    if (ch->carrying != nullptr)
-        fwrite_obj(ch, ch->carrying, fp, 0);
+    fwrite_objs(ch, ch->carrying, fp);
     /* save the pets */
     if (ch->pet != nullptr && ch->pet->in_room == ch->in_room)
         fwrite_pet(ch, ch->pet, fp);
@@ -163,9 +165,9 @@ void fwrite_char(const Char *ch, FILE *fp) {
     fprintf(fp, "Note %d\n", (int)Clock::to_time_t(ch->last_note));
     fprintf(fp, "Scro %d\n", ch->lines);
     fprintf(fp, "Room %d\n",
-            (ch->in_room == get_room_index(ROOM_VNUM_LIMBO) && ch->was_in_room != nullptr)
-                ? ch->was_in_room->vnum
-                : ch->in_room == nullptr ? 3001 : ch->in_room->vnum);
+            (ch->in_room == get_room_index(ROOM_VNUM_LIMBO) && ch->was_in_room != nullptr) ? ch->was_in_room->vnum
+            : ch->in_room == nullptr                                                       ? 3001
+                                                                                           : ch->in_room->vnum);
 
     fprintf(fp, "HMV  %d %d %d %d %d %d\n", ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move, ch->max_move);
     if (ch->gold > 0)
@@ -315,25 +317,24 @@ void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
         fprintf(fp, "Ridden\n");
     }
 
-    if (pet->carrying)
-        fwrite_obj(pet, pet->carrying, fp, 0);
+    fwrite_objs(pet, pet->carrying, fp);
 
     fprintf(fp, "End\n");
 }
 
-/*
- * Write an object and its contents.
- */
-void fwrite_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest) {
-    /*
-     * Slick recursion to write lists backwards,
-     *   so loading them will load in forwards order.
-     */
-    if (obj->next_content != nullptr)
-        fwrite_obj(ch, obj->next_content, fp, iNest);
+void fwrite_objs(const Char *ch, const GenericList<OBJ_DATA *> &objs, FILE *fp, int iNest) {
+    // TODO: if/when we support reverse iteration of GenericLists, we can reverse directly here.
+    auto obj_ptrs = objs | ranges::to<std::vector<OBJ_DATA *>>;
+    for (auto *obj : obj_ptrs | ranges::views::reverse)
+        fwrite_one_obj(ch, obj, fp, iNest);
+}
 
+/*
+ * Write a single object and its contents.
+ */
+void fwrite_one_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest) {
     /*
-     * Castrate storage characters.
+     * Scupper storage characters.
      */
     if ((ch->level < obj->level - 2 && obj->item_type != ITEM_CONTAINER) || obj->item_type == ITEM_KEY
         || (obj->item_type == ITEM_MAP && !obj->value[0]))
@@ -416,8 +417,7 @@ void fwrite_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest) {
 
     fprintf(fp, "End\n\n");
 
-    if (obj->contains != nullptr)
-        fwrite_obj(ch, obj->contains, fp, iNest + 1);
+    fwrite_objs(ch, obj->contains, fp, iNest + 1);
 }
 
 void load_into_char(Char &character, FILE *fp) {

@@ -18,6 +18,7 @@
 #include "merc.h"
 #include "string_utils.hpp"
 
+#include <range/v3/algorithm/count.hpp>
 #include <range/v3/algorithm/fill.hpp>
 
 #include <cctype>
@@ -567,8 +568,7 @@ void char_to_room(Char *ch, ROOM_INDEX_DATA *pRoomIndex) {
  * Give an obj to a char.
  */
 void obj_to_char(OBJ_DATA *obj, Char *ch) {
-    obj->next_content = ch->carrying;
-    ch->carrying = obj;
+    ch->carrying.add_front(obj);
     obj->carried_by = ch;
     obj->in_room = nullptr;
     obj->in_obj = nullptr;
@@ -590,24 +590,10 @@ void obj_from_char(OBJ_DATA *obj) {
     if (obj->wear_loc != WEAR_NONE)
         unequip_char(ch, obj);
 
-    if (ch->carrying == obj) {
-        ch->carrying = obj->next_content;
-    } else {
-        OBJ_DATA *prev;
-
-        for (prev = ch->carrying; prev != nullptr; prev = prev->next_content) {
-            if (prev->next_content == obj) {
-                prev->next_content = obj->next_content;
-                break;
-            }
-        }
-
-        if (prev == nullptr)
-            bug("Obj_from_char: obj not in list.");
-    }
+    if (!ch->carrying.remove(obj))
+        bug("Obj_from_char: obj not in list.");
 
     obj->carried_by = nullptr;
-    obj->next_content = nullptr;
     ch->carry_number -= get_obj_number(obj);
     ch->carry_weight -= get_obj_weight(obj);
 }
@@ -645,12 +631,10 @@ int apply_ac(OBJ_DATA *obj, int iWear, int type) {
  * Find a piece of eq on a character.
  */
 OBJ_DATA *get_eq_char(Char *ch, int iWear) {
-    OBJ_DATA *obj;
-
     if (ch == nullptr)
         return nullptr;
 
-    for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
+    for (auto *obj : ch->carrying) {
         if (obj->wear_loc == iWear)
             return obj;
     }
@@ -737,55 +721,29 @@ void unequip_char(Char *ch, OBJ_DATA *obj) {
 /*
  * Count occurrences of an obj in a list.
  */
-int count_obj_list(OBJ_INDEX_DATA *pObjIndex, OBJ_DATA *list) {
-    OBJ_DATA *obj;
-    int nMatch;
-
-    nMatch = 0;
-    for (obj = list; obj != nullptr; obj = obj->next_content) {
-        if (obj->pIndexData == pObjIndex)
-            nMatch++;
-    }
-
-    return nMatch;
+int count_obj_list(OBJ_INDEX_DATA *pObjIndex, const GenericList<OBJ_DATA *> &list) {
+    return ranges::count(list, pObjIndex, [](auto *obj) { return obj->pIndexData; });
 }
 
 /*
  * Move an obj out of a room.
  */
 void obj_from_room(OBJ_DATA *obj) {
-    ROOM_INDEX_DATA *in_room;
-
-    if ((in_room = obj->in_room) == nullptr) {
+    if (!obj->in_room) {
         bug("obj_from_room: nullptr.");
         return;
     }
 
-    if (obj == in_room->contents) {
-        in_room->contents = obj->next_content;
-    } else {
-        OBJ_DATA *prev;
-
-        for (prev = in_room->contents; prev; prev = prev->next_content) {
-            if (prev->next_content == obj) {
-                prev->next_content = obj->next_content;
-                break;
-            }
-        }
-
-        if (prev == nullptr) {
-            bug("Obj_from_room: obj not found.");
-            return;
-        }
+    if (!obj->in_room->contents.remove(obj)) {
+        bug("Obj_from_room: obj not found.");
+        return;
     }
 
     obj->in_room = nullptr;
-    obj->next_content = nullptr;
 }
 
 bool check_sub_issue(OBJ_DATA *obj, Char *ch) {
-    int vnum;
-    vnum = obj->pIndexData->vnum;
+    int vnum = obj->pIndexData->vnum;
     if (((vnum >= 3700) && (vnum <= 3713)) || (vnum == 3716) || (vnum == 3717)) {
         act("$n drops the $p. It disappears in a puff of acrid smoke.", ch, obj, nullptr, To::Room);
         act("$p disappears in a puff of acrid smoke.", ch, obj, nullptr, To::Char);
@@ -798,8 +756,7 @@ bool check_sub_issue(OBJ_DATA *obj, Char *ch) {
  * Move an obj into a room.
  */
 void obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *pRoomIndex) {
-    obj->next_content = pRoomIndex->contents;
-    pRoomIndex->contents = obj;
+    pRoomIndex->contents.add_front(obj);
     obj->in_room = pRoomIndex;
     obj->carried_by = nullptr;
     obj->in_obj = nullptr;
@@ -809,8 +766,7 @@ void obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *pRoomIndex) {
  * Move an object into an object.
  */
 void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to) {
-    obj->next_content = obj_to->contains;
-    obj_to->contains = obj;
+    obj_to->contains.add_front(obj);
     obj->in_obj = obj_to;
     obj->in_room = nullptr;
     obj->carried_by = nullptr;
@@ -836,25 +792,10 @@ void obj_from_obj(OBJ_DATA *obj) {
         return;
     }
 
-    if (obj == obj_from->contains) {
-        obj_from->contains = obj->next_content;
-    } else {
-        OBJ_DATA *prev;
-
-        for (prev = obj_from->contains; prev; prev = prev->next_content) {
-            if (prev->next_content == obj) {
-                prev->next_content = obj->next_content;
-                break;
-            }
-        }
-
-        if (prev == nullptr) {
-            bug("Obj_from_obj: obj not found.");
-            return;
-        }
+    if (!obj_from->contains.remove(obj)) {
+        bug("Obj_from_obj: obj not found.");
+        return;
     }
-
-    obj->next_content = nullptr;
     obj->in_obj = nullptr;
 
     for (; obj_from != nullptr; obj_from = obj_from->in_obj) {
@@ -869,9 +810,6 @@ void obj_from_obj(OBJ_DATA *obj) {
  * Extract an obj from the world.
  */
 void extract_obj(OBJ_DATA *obj) {
-    OBJ_DATA *obj_content;
-    OBJ_DATA *obj_next;
-
     if (obj->in_room != nullptr)
         obj_from_room(obj);
     else if (obj->carried_by != nullptr)
@@ -879,10 +817,8 @@ void extract_obj(OBJ_DATA *obj) {
     else if (obj->in_obj != nullptr)
         obj_from_obj(obj);
 
-    for (obj_content = obj->contains; obj_content; obj_content = obj_next) {
-        obj_next = obj_content->next_content;
-        extract_obj(obj->contains);
-    }
+    for (auto *obj_content : obj->contains)
+        extract_obj(obj_content);
 
     if (!object_list.remove(obj)) {
         bug("Extract_obj: obj {} not found.", obj->pIndexData->vnum);
@@ -903,8 +839,6 @@ void reap_old_chars() { chars_to_reap.clear(); }
  */
 void extract_char(Char *ch, bool delete_from_world) {
     Char *wch;
-    OBJ_DATA *obj;
-    OBJ_DATA *obj_next;
 
     if (ch->in_room == nullptr) {
         bug("Extract_char: nullptr.");
@@ -923,10 +857,8 @@ void extract_char(Char *ch, bool delete_from_world) {
 
     stop_fighting(ch, true);
 
-    for (obj = ch->carrying; obj != nullptr; obj = obj_next) {
-        obj_next = obj->next_content;
+    for (auto *obj : ch->carrying)
         extract_obj(obj);
-    }
 
     char_from_room(ch);
 
@@ -1030,10 +962,10 @@ OBJ_DATA *get_obj_type(OBJ_INDEX_DATA *pObjIndex) {
 /*
  * Find an obj in a list.
  */
-OBJ_DATA *get_obj_list(const Char *ch, std::string_view argument, OBJ_DATA *list) {
+OBJ_DATA *get_obj_list(const Char *ch, std::string_view argument, GenericList<OBJ_DATA *> &list) {
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
-    for (auto *obj = list; obj; obj = obj->next_content) {
+    for (auto *obj : list) {
         if (can_see_obj(ch, obj) && is_name(arg, obj->name)) {
             if (++count == number)
                 return obj;
@@ -1135,8 +1067,8 @@ int get_obj_number(OBJ_DATA *obj) {
     else
         number = 1;
 
-    for (obj = obj->contains; obj != nullptr; obj = obj->next_content)
-        number += get_obj_number(obj);
+    for (auto *content : obj->contains)
+        number += get_obj_number(content);
 
     return number;
 }
@@ -1148,8 +1080,8 @@ int get_obj_weight(OBJ_DATA *obj) {
     int weight;
 
     weight = obj->weight;
-    for (obj = obj->contains; obj != nullptr; obj = obj->next_content)
-        weight += get_obj_weight(obj);
+    for (auto *content : obj->contains)
+        weight += get_obj_weight(content);
 
     return weight;
 }

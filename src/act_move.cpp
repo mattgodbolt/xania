@@ -28,11 +28,6 @@ using namespace std::literals;
 
 constexpr PerSectorType<int> movement_loss{1, 2, 2, 3, 4, 6, 4, 1, 6, 10, 6};
 
-/*
- * Local functions.
- */
-bool has_key(const Char *ch, int key);
-
 void move_char(Char *ch, Direction door) {
     auto *in_room = ch->in_room;
     auto *pexit = in_room->exit[door];
@@ -105,28 +100,10 @@ void move_char(Char *ch, Direction door) {
 
         if ((in_room->sector_type == SectorType::NonSwimmableWater
              || to_room->sector_type == SectorType::NonSwimmableWater)
-            && !IS_AFFECTED(ch, AFF_FLYING) && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))) {
-            OBJ_DATA *obj;
-            bool found;
-
-            /*
-             * Look for a boat.
-             */
-            found = false;
-
-            if (ch->is_immortal())
-                found = true;
-
-            for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
-                if (obj->item_type == ITEM_BOAT) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                ch->send_line("You need a boat to go there.");
-                return;
-            }
+            && !IS_AFFECTED(ch, AFF_FLYING) && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))
+            && !ch->has_boat()) {
+            ch->send_line("You need a boat to go there.");
+            return;
         }
 
         move = movement_loss[in_room->sector_type] + movement_loss[to_room->sector_type];
@@ -220,7 +197,6 @@ void move_char(Char *ch, Direction door) {
 
 void do_enter(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
     ROOM_INDEX_DATA *to_room, *in_room;
     Char *fch;
     Char *fch_next;
@@ -230,7 +206,7 @@ void do_enter(Char *ch, const char *argument) {
         return;
     }
     in_room = ch->in_room;
-    for (obj = ch->in_room->contents; obj; obj = obj->next_content) {
+    for (auto *obj : ch->in_room->contents) {
         if (can_see_obj(ch, obj) && (is_name(arg, obj->name))) {
             if (++count == number) {
                 if (obj->item_type == ITEM_PORTAL) {
@@ -284,28 +260,9 @@ void do_enter(Char *ch, const char *argument) {
                         if ((in_room->sector_type == SectorType::NonSwimmableWater
                              || to_room->sector_type == SectorType::NonSwimmableWater)
                             && !IS_AFFECTED(ch, AFF_FLYING)
-                            && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))) {
-                            OBJ_DATA *obj;
-                            bool found;
-
-                            /*
-                             * Look for a boat.
-                             */
-                            found = false;
-
-                            if (ch->is_immortal())
-                                found = true;
-
-                            for (obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
-                                if (obj->item_type == ITEM_BOAT) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if (!found) {
-                                ch->send_line("You need a boat to go there.");
-                                return;
-                            }
+                            && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING)) && !ch->has_boat()) {
+                            ch->send_line("You need a boat to go there.");
+                            return;
                         }
                     }
                     act("$n steps through a portal and vanishes.", ch);
@@ -538,15 +495,6 @@ void do_close(Char *ch, ArgParser args) {
     }
 }
 
-bool has_key(const Char *ch, int key) {
-    for (auto *obj = ch->carrying; obj != nullptr; obj = obj->next_content) {
-        if (obj->pIndexData->vnum == key)
-            return true;
-    }
-
-    return false;
-}
-
 void do_lock(Char *ch, ArgParser args) {
     if (args.empty()) {
         ch->send_line("Lock what?");
@@ -568,7 +516,7 @@ void do_lock(Char *ch, ArgParser args) {
             ch->send_line("It can't be locked.");
             return;
         }
-        if (!has_key(ch, obj->value[2])) {
+        if (!ch->carrying_object_vnum(obj->value[2])) {
             ch->send_line("You lack the key.");
             return;
         }
@@ -596,7 +544,7 @@ void do_lock(Char *ch, ArgParser args) {
             ch->send_line("It can't be locked.");
             return;
         }
-        if (!has_key(ch, pexit->key)) {
+        if (!ch->carrying_object_vnum(pexit->key)) {
             ch->send_line("You lack the key.");
             return;
         }
@@ -641,7 +589,7 @@ void do_unlock(Char *ch, ArgParser args) {
             ch->send_line("It can't be unlocked.");
             return;
         }
-        if (!has_key(ch, obj->value[2])) {
+        if (!ch->carrying_object_vnum(obj->value[2])) {
             ch->send_line("You lack the key.");
             return;
         }
@@ -668,7 +616,7 @@ void do_unlock(Char *ch, ArgParser args) {
             ch->send_line("It can't be unlocked.");
             return;
         }
-        if (!has_key(ch, pexit->key)) {
+        if (!ch->carrying_object_vnum(pexit->key)) {
             ch->send_line("You lack the key.");
             return;
         }

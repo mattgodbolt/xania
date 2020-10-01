@@ -684,12 +684,9 @@ void do_rstat(Char *ch, std::string_view argument) {
     }
     ch->send_line(".");
 
-    ch->send_to("Objects:   ");
-    for (auto *obj = location->contents; obj; obj = obj->next_content) {
-        ch->send_to(" ");
-        ch->send_to(ArgParser(obj->name).shift());
-    }
-    ch->send_line(".");
+    ch->send_line("Objects:    {}.", fmt::join(location->contents | ranges::views::transform([](auto *obj){
+                                       return std::string(ArgParser(obj->name).shift());
+                                   }), " "));
 
     for (auto door : all_directions) {
         if (auto *pexit = location->exit[door]) {
@@ -1567,7 +1564,7 @@ bool obj_check(Char *ch, OBJ_DATA *obj) { return ch->get_trust() >= obj->level; 
 
 /* for clone, to insure that cloning goes many levels deep */
 void recursive_clone(Char *ch, OBJ_DATA *obj, OBJ_DATA *clone) {
-    for (OBJ_DATA *c_obj = obj->contains; c_obj != nullptr; c_obj = c_obj->next_content) {
+    for (OBJ_DATA *c_obj : obj->contains) {
         if (obj_check(ch, c_obj)) {
             OBJ_DATA *t_obj = create_object(c_obj->pIndexData);
             clone_object(c_obj, t_obj);
@@ -1636,13 +1633,13 @@ void do_clone(Char *ch, const char *argument) {
         clone = create_mobile(mob->pIndexData);
         clone_mobile(mob, clone);
 
-        for (obj = mob->carrying; obj != nullptr; obj = obj->next_content) {
-            if (obj_check(ch, obj)) {
-                new_obj = create_object(obj->pIndexData);
-                clone_object(obj, new_obj);
-                recursive_clone(ch, obj, new_obj);
+        for (auto *carried : mob->carrying) {
+            if (obj_check(ch, carried)) {
+                new_obj = create_object(carried->pIndexData);
+                clone_object(carried, new_obj);
+                recursive_clone(ch, carried, new_obj);
                 obj_to_char(new_obj, clone);
-                new_obj->wear_loc = obj->wear_loc;
+                new_obj->wear_loc = carried->wear_loc;
             }
         }
         char_to_room(clone, ch->in_room);
@@ -1732,7 +1729,6 @@ void do_load(Char *ch, const char *argument) {
 void do_purge(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     Char *victim;
-    OBJ_DATA *obj;
     Descriptor *d;
 
     one_argument(argument, arg);
@@ -1740,7 +1736,6 @@ void do_purge(Char *ch, const char *argument) {
     if (arg[0] == '\0') {
         /* 'purge' */
         Char *vnext;
-        OBJ_DATA *obj_next;
 
         for (victim = ch->in_room->people; victim != nullptr; victim = vnext) {
             vnext = victim->next_in_room;
@@ -1748,8 +1743,7 @@ void do_purge(Char *ch, const char *argument) {
                 extract_char(victim, true);
         }
 
-        for (obj = ch->in_room->contents; obj != nullptr; obj = obj_next) {
-            obj_next = obj->next_content;
+        for (auto *obj : ch->in_room->contents) {
             if (!IS_OBJ_STAT(obj, ITEM_NOPURGE))
                 extract_obj(obj);
         }
