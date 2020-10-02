@@ -679,7 +679,8 @@ void enforce_material_vulnerability(Char *ch, OBJ_DATA *obj) {
  */
 void equip_char(Char *ch, OBJ_DATA *obj, int iWear) {
     if (get_eq_char(ch, iWear) != nullptr) {
-        bug("Equip_char: already equipped ({}).", iWear);
+        bug("Equip_char: {} #{} already equipped in slot {}.", ch->name, (ch->is_npc() ? ch->pIndexData->vnum : 0),
+            iWear);
         return;
     }
 
