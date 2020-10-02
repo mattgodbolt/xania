@@ -1559,26 +1559,29 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
         gch->alignment -= change;
     }
 
-    /* calculate exp multiplier */
+    /* Calculate exp multiplier. The principle is, attackers get a larger bonus
+       when slaying enemies that are of the opposite alignment, and are slightly
+       penalised when slaying enemies of similar alignment.
+    */
     if (IS_SET(victim->act, ACT_NOALIGN))
         xp = base_exp;
 
     else if (gch->alignment > 500) /* for goodie two shoes */
     {
         if (victim->alignment < -750)
-            xp = base_exp * 4 / 3;
+            xp = base_exp * 1.25f;
 
         else if (victim->alignment < -500)
-            xp = base_exp * 5 / 4;
+            xp = base_exp * 1.13f;
 
         else if (victim->alignment > 750)
-            xp = base_exp / 4;
+            xp = base_exp * 0.75f;
 
         else if (victim->alignment > 500)
-            xp = base_exp / 2;
+            xp = base_exp * 0.85f;
 
         else if ((victim->alignment > 250))
-            xp = base_exp * 3 / 4;
+            xp = base_exp * 0.90f;
 
         else
             xp = base_exp;
@@ -1587,19 +1590,19 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
     else if (gch->alignment < -500) /* for baddies */
     {
         if (victim->alignment > 750)
-            xp = base_exp * 5 / 4;
+            xp = base_exp * 1.25f;
 
         else if (victim->alignment > 500)
-            xp = base_exp * 11 / 10;
+            xp = base_exp * 1.13f;
 
         else if (victim->alignment < -750)
-            xp = base_exp * 1 / 2;
+            xp = base_exp * 0.75f;
 
         else if (victim->alignment < -500)
-            xp = base_exp * 3 / 4;
+            xp = base_exp * 0.85f;
 
         else if (victim->alignment < -250)
-            xp = base_exp * 9 / 10;
+            xp = base_exp * 0.90f;
 
         else
             xp = base_exp;
@@ -1609,13 +1612,13 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
     {
 
         if (victim->alignment < -500)
-            xp = base_exp * 6 / 5;
+            xp = base_exp * 1.17f;
 
         else if (victim->alignment > 750)
-            xp = base_exp * 1 / 2;
+            xp = base_exp * 0.75f;
 
         else if (victim->alignment > 0)
-            xp = base_exp * 3 / 4;
+            xp = base_exp * 0.90;
 
         else
             xp = base_exp;
@@ -1624,13 +1627,13 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
     else if (gch->alignment < -200) /* a little bad */
     {
         if (victim->alignment > 500)
-            xp = base_exp * 6 / 5;
+            xp = base_exp * 1.17f;
 
         else if (victim->alignment < -750)
-            xp = base_exp * 1 / 2;
+            xp = base_exp * 0.75f;
 
         else if (victim->alignment < 0)
-            xp = base_exp * 3 / 4;
+            xp = base_exp * 0.90f;
 
         else
             xp = base_exp;
@@ -1640,10 +1643,10 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
     {
 
         if (victim->alignment > 500 || victim->alignment < -500)
-            xp = base_exp * 4 / 3;
+            xp = base_exp * 1.25f;
 
-        else if (victim->alignment < 200 || victim->alignment > -200)
-            xp = base_exp * 1 / 2;
+        else if (victim->alignment > 200 || victim->alignment < -200)
+            xp = base_exp * 1.13f;
 
         else
             xp = base_exp;
