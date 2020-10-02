@@ -1481,50 +1481,48 @@ void do_equipment(Char *ch) {
         ch->send_line("Nothing.");
 }
 
-void do_compare(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj1;
-    OBJ_DATA *obj2;
-    int value1;
-    int value2;
-    const char *msg;
+namespace {
+OBJ_DATA *find_comparable(Char *ch, OBJ_DATA *obj_to_compare_to) {
+    for (auto *obj : ch->carrying) {
+        if (obj->wear_loc != WEAR_NONE && can_see_obj(ch, obj) && obj_to_compare_to->item_type == obj->item_type
+            && (obj_to_compare_to->wear_flags & obj->wear_flags & ~ITEM_TAKE) != 0) {
+            return obj;
+        }
+    }
+    return nullptr;
+}
+}
 
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-    if (arg1[0] == '\0') {
+void do_compare(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Compare what to what?");
         return;
     }
 
-    if ((obj1 = get_obj_carry(ch, arg1)) == nullptr) {
+    auto *obj1 = ch->find_in_inventory(args.shift());
+    if (!obj1) {
         ch->send_line("You do not have that item.");
         return;
     }
 
-    if (arg2[0] == '\0') {
-        for (auto *co : ch->carrying) {
-            if (co->wear_loc != WEAR_NONE && can_see_obj(ch, co) && obj1->item_type == co->item_type
-                && (obj1->wear_flags & co->wear_flags & ~ITEM_TAKE) != 0) {
-                obj2 = co;
-                break;
-            }
-        }
-
-        if (obj2 == nullptr) {
+    OBJ_DATA *obj2{};
+    if (args.empty()) {
+        obj2 = find_comparable(ch, obj1);
+        if (!obj2) {
             ch->send_line("You aren't wearing anything comparable.");
+            return;
+        }
+    } else {
+        obj2 = ch->find_in_inventory(args.shift());
+        if (!obj2) {
+            ch->send_line("You do not have that item.");
             return;
         }
     }
 
-    else if ((obj2 = get_obj_carry(ch, arg2)) == nullptr) {
-        ch->send_line("You do not have that item.");
-        return;
-    }
-
-    msg = nullptr;
-    value1 = 0;
-    value2 = 0;
+    std::string_view msg;
+    int value1 = 0;
+    int value2 = 0;
 
     if (obj1 == obj2) {
         msg = "You compare $p to itself.  It looks about the same.";
@@ -1546,7 +1544,7 @@ void do_compare(Char *ch, const char *argument) {
         }
     }
 
-    if (msg == nullptr) {
+    if (msg.empty()) {
         if (value1 == value2)
             msg = "$p and $P look about the same.";
         else if (value1 > value2)

@@ -72,7 +72,7 @@ extern void do_coma(Char *ch, const char *arg);
 extern void do_commands(Char *ch);
 extern void do_combine(Char *ch);
 extern void do_compact(Char *ch);
-extern void do_compare(Char *ch, const char *arg);
+extern void do_compare(Char *ch, ArgParser args);
 extern void do_consider(Char *ch, const char *arg);
 extern void do_count(Char *ch);
 extern void do_credits(Char *ch);
