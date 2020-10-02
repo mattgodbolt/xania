@@ -2017,7 +2017,7 @@ D1
 Express Elevator
 ~
 ~
-0 -1 27091
+0 -1 -27091
 D3
 Green Laboratory
 ~
@@ -2118,7 +2118,7 @@ D1
 Express Elevator
 ~
 ~
-0 -1 27092
+0 -1 -27092
 D4
 Departmental Foyer
 ~
@@ -2173,7 +2173,7 @@ D3
 Oily Boiler Room
 ~
 ~
-0 -1 27089
+0 -1 -27089
 S
 #27092
 Express Elevator~
@@ -2189,7 +2189,7 @@ D3
 Pokey Little Seminar Room
 ~
 ~
-0 -1 27085
+0 -1 -27085
 S
 #27093
 Chasm of Eternal Peril~
