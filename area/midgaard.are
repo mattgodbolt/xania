@@ -6230,32 +6230,32 @@ D0
 A stone arch.
 ~
 ~
-0 -1 3001
+0 -1 -3001
 D1
 A stone arch.
 ~
 ~
-0 -1 3001
+0 -1 -3001
 D2
 A stone arch.
 ~
 ~
-0 -1 3001
+0 -1 -3001
 D3
 A stone arch.
 ~
 ~
-0 -1 3001
+0 -1 -3001
 D4
 A stone arch.
 ~
 ~
-0 -1 3001
+0 -1 -3001
 D5
 A stone arch.
 ~
 ~
-0 -1 3001
+0 -1 -3001
 S
 #30012
 The preparation room~
@@ -6271,7 +6271,7 @@ D0
 A shimmering magical portal.
 ~
 ~
-0 -1 30011
+0 -1 -30011
 S
 #3356
 A Room in the Pub~

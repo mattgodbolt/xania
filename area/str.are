@@ -1148,7 +1148,7 @@ D2
 Into a telepod leading to somewhere
 ~
 door telepod~
-1 -1 818
+1 -1 -818
 S
 
 #818
@@ -1172,7 +1172,7 @@ D2
 Into a telepod leading to the Small Cave
 ~
 door telepod~
-1 -1 817
+1 -1 -817
 S
 
 #819
@@ -1571,7 +1571,7 @@ D2
 A telepod leading to the Entrance
 ~
 door telepod~
-1 -1 801
+1 -1 -801
 D4
 Coffin Room
 ~

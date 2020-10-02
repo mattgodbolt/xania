@@ -616,7 +616,16 @@ void load_rooms(FILE *fp) {
                 pexit->exit_info = 0;
                 locks = fread_number(fp);
                 pexit->key = fread_number(fp);
-                pexit->u1.vnum = fread_number(fp);
+                auto exit_vnum = fread_number(fp);
+                /* If an exit's destination room vnum is negative, it can be a cosmetic-only
+                 * exit (-1), otherwise it's a one-way exit.
+                 * fix_exits() ignores one-way exits that don't have a return path.
+                 */
+                if (exit_vnum < EXIT_VNUM_COSMETIC) {
+                    pexit->is_one_way = true;
+                    exit_vnum = -exit_vnum;
+                }
+                pexit->u1.vnum = exit_vnum;
 
                 pexit->rs_flags = 0;
 
@@ -746,7 +755,7 @@ void fix_exits() {
             for (auto door : all_directions) {
                 if ((pexit = pRoomIndex->exit[door]) != nullptr && (to_room = pexit->u1.to_room) != nullptr
                     && (pexit_rev = to_room->exit[reverse(door)]) != nullptr && pexit_rev->u1.to_room != pRoomIndex
-                    && (pRoomIndex->vnum < 1200 || pRoomIndex->vnum > 1299)) {
+                    && !pexit->is_one_way) {
                     bug("Fix_exits: {} -> {}:{} -> {}.", pRoomIndex->vnum, static_cast<int>(door), to_room->vnum,
                         static_cast<int>(reverse(door)),
                         (pexit_rev->u1.to_room == nullptr) ? 0 : pexit_rev->u1.to_room->vnum);

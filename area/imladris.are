@@ -3421,7 +3421,7 @@ E 1 12034 4 11          shield
 M 0 12019 1 12020 1  1        sea horse  
 
 M 0 12020 1 12084 1  1        orc captain  
-E 1 12034 4 11          ringmail
+E 1 12034 4 5           ringmail
 E 1 12033 4 16          spear
 E 1 12034 4 11          shield
 

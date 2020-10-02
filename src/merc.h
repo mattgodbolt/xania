@@ -1061,7 +1061,11 @@ struct exit_data {
 
     EXIT_DATA *next;
     int rs_flags;
+    bool is_one_way;
 };
+
+// If an exit's vnum is this value the exit goes nowhere but it can be looked at
+static constexpr inline auto EXIT_VNUM_COSMETIC = -1;
 
 /**
  * Commands used in #RESETS section of area files
