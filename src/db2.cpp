@@ -212,8 +212,7 @@ void load_objects(FILE *fp) {
          * MG added - snarf short descrips to kill:
          * You hit The beastly fido
          */
-        // str_dup is temporary until short_descr of objects is a std::string
-        pObjIndex->short_descr = str_dup(lower_case_articles(fread_stdstring(fp)).c_str());
+        pObjIndex->short_descr = lower_case_articles(fread_stdstring(fp));
         pObjIndex->description = fread_stdstring(fp);
         if (pObjIndex->description.empty()) {
             bug("Load_objects: empty long description in object {}.", vnum);

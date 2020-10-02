@@ -1055,7 +1055,8 @@ void do_exits(const Char *ch, const char *argument) {
                 buf += fmt::format(" {}", to_string(door));
             } else {
                 buf += fmt::format("{:<5} - {}\n\r", capitalize(to_string(door)),
-                                   room_is_dark(pexit->u1.to_room) ? "Too dark to tell" : pexit->u1.to_room->name);
+                                   !ch->has_holylight() && room_is_dark(pexit->u1.to_room) ? "Too dark to tell"
+                                                                                           : pexit->u1.to_room->name);
             }
         }
     }
