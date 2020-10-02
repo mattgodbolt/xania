@@ -3322,15 +3322,16 @@ void spell_remove_curse(int sn, int level, Char *ch, void *vo) {
             }
         }
     }
-
-    for (auto *obj : victim->carrying) {
-        if (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE)) { /* attempt to remove curse */
-            if (!saves_dispel(level, obj->level)) {
-                found = true;
-                REMOVE_BIT(obj->extra_flags, ITEM_NODROP);
-                REMOVE_BIT(obj->extra_flags, ITEM_NOREMOVE);
-                act("Your $p glows blue.", victim, obj, nullptr, To::Char);
-                act("$n's $p glows blue.", victim, obj, nullptr, To::Room);
+    if (!found) {
+        for (auto *obj : victim->carrying) {
+            if (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE)) { /* attempt to remove curse */
+                if (!saves_dispel(level, obj->level)) {
+                    found = true;
+                    REMOVE_BIT(obj->extra_flags, ITEM_NODROP);
+                    REMOVE_BIT(obj->extra_flags, ITEM_NOREMOVE);
+                    act("Your $p glows blue.", victim, obj, nullptr, To::Char);
+                    act("$n's $p glows blue.", victim, obj, nullptr, To::Room);
+                }
             }
         }
     }
