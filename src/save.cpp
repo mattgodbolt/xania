@@ -165,9 +165,9 @@ void fwrite_char(const Char *ch, FILE *fp) {
     fprintf(fp, "Note %d\n", (int)Clock::to_time_t(ch->last_note));
     fprintf(fp, "Scro %d\n", ch->lines);
     fprintf(fp, "Room %d\n",
-            (ch->in_room == get_room_index(ROOM_VNUM_LIMBO) && ch->was_in_room != nullptr) ? ch->was_in_room->vnum
-            : ch->in_room == nullptr                                                       ? 3001
-                                                                                           : ch->in_room->vnum);
+            (ch->in_room == get_room_index(ROOM_VNUM_LIMBO) && ch->was_in_room != nullptr)
+                ? ch->was_in_room->vnum
+                : ch->in_room == nullptr ? 3001 : ch->in_room->vnum);
 
     fprintf(fp, "HMV  %d %d %d %d %d %d\n", ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move, ch->max_move);
     if (ch->gold > 0)

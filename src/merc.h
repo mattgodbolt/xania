@@ -1472,7 +1472,7 @@ int apply_ac(OBJ_DATA *obj, int iWear, int type);
 OBJ_DATA *get_eq_char(Char *ch, int iWear);
 void equip_char(Char *ch, OBJ_DATA *obj, int iWear);
 void unequip_char(Char *ch, OBJ_DATA *obj);
-int count_obj_list(OBJ_INDEX_DATA *obj, const GenericList<OBJ_DATA *>&list);
+int count_obj_list(OBJ_INDEX_DATA *obj, const GenericList<OBJ_DATA *> &list);
 void obj_from_room(OBJ_DATA *obj);
 void obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *pRoomIndex);
 void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to);

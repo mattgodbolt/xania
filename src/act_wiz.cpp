@@ -684,9 +684,10 @@ void do_rstat(Char *ch, std::string_view argument) {
     }
     ch->send_line(".");
 
-    ch->send_line("Objects:    {}.", fmt::join(location->contents | ranges::views::transform([](auto *obj){
-                                       return std::string(ArgParser(obj->name).shift());
-                                   }), " "));
+    ch->send_line("Objects:    {}.", fmt::join(location->contents | ranges::views::transform([](auto *obj) {
+                                                   return std::string(ArgParser(obj->name).shift());
+                                               }),
+                                               " "));
 
     for (auto door : all_directions) {
         if (auto *pexit = location->exit[door]) {
