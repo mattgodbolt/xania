@@ -3296,45 +3296,52 @@ void spell_refresh(int sn, int level, Char *ch, void *vo) {
         act("$N looks invigorated.", ch, nullptr, victim, To::Char);
 }
 
+namespace {
+bool is_cursed(const OBJ_DATA *obj) { return IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE); }
+void try_remove_curse(const Char *victim, int level, OBJ_DATA *obj) {
+    if (!saves_dispel(level, obj->level)) {
+        REMOVE_BIT(obj->extra_flags, ITEM_NODROP);
+        REMOVE_BIT(obj->extra_flags, ITEM_NOREMOVE);
+        act("$p glows blue.", victim, obj, nullptr, To::Char);
+        act("$p glows blue.", victim, obj, nullptr, To::Room);
+    } else {
+        act("$p whispers with the voice of an unclean spirit.", victim, obj, nullptr, To::Char);
+        act("$p whispers with the voice of an unclean spirit.", victim, obj, nullptr, To::Room);
+    }
+}
+}
+
 void spell_remove_curse(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)ch;
     Char *victim = (Char *)vo;
 
-    if (check_dispel(level, victim, gsn_curse)) {
-        victim->send_line("You feel better.");
-        act("$n looks more relaxed.", victim);
+    if (is_affected(victim, gsn_curse)) {
+        if (check_dispel(level, victim, gsn_curse)) {
+            victim->send_line("You feel better.");
+            act("$n looks more relaxed.", victim);
+        } else {
+            act("$n still looks uncomfortable.", victim);
+        }
+        return;
     }
 
-    bool found = false;
-    for (int iWear = 0; (iWear < MAX_WEAR && !found); iWear++) {
+    for (int iWear = 0; iWear < MAX_WEAR; iWear++) {
         auto *obj = get_eq_char(victim, iWear);
-        if (!obj)
-            continue;
+        if (obj && is_cursed(obj)) {
+            try_remove_curse(victim, level, obj);
+            return;
+        }
+    }
 
-        if (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE)) { /* attempt to remove curse */
-            if (!saves_dispel(level, obj->level)) {
-                found = true;
-                REMOVE_BIT(obj->extra_flags, ITEM_NODROP);
-                REMOVE_BIT(obj->extra_flags, ITEM_NOREMOVE);
-                act("$p glows blue.", victim, obj, nullptr, To::Char);
-                act("$p glows blue.", victim, obj, nullptr, To::Room);
-            }
+    for (auto *obj : victim->carrying) {
+        if (is_cursed(obj)) {
+            try_remove_curse(victim, level, obj);
+            return;
         }
     }
-    if (!found) {
-        for (auto *obj : victim->carrying) {
-            if (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE)) { /* attempt to remove curse */
-                if (!saves_dispel(level, obj->level)) {
-                    found = true;
-                    REMOVE_BIT(obj->extra_flags, ITEM_NODROP);
-                    REMOVE_BIT(obj->extra_flags, ITEM_NOREMOVE);
-                    act("Your $p glows blue.", victim, obj, nullptr, To::Char);
-                    act("$n's $p glows blue.", victim, obj, nullptr, To::Room);
-                }
-            }
-        }
-    }
+    victim->send_line("You are not afflicted by a curse.");
+    act("$n doesn't appear to be afflicted by a curse.", victim);
 }
 
 void spell_sanctuary(int sn, int level, Char *ch, void *vo) {
