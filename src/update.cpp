@@ -193,7 +193,7 @@ int hit_gain(Char *ch) {
         }
 
     } else {
-        gain = UMAX(3, get_curr_stat(ch, Stat::Con) - 3 + ch->level / 1.7);
+        gain = UMAX(3, get_curr_stat(ch, Stat::Con) - 3 + ch->level);
         gain += class_table[ch->class_num].hp_max - 10;
         number = number_percent();
         if (number < get_skill_learned(ch, gsn_fast_healing)) {

@@ -1896,16 +1896,17 @@ void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool imm
         victim->hit_location = race_body_table[0].part_flag;
     }
 
-    std::string dam_value_label = dam > 0 && ch->level >= 20 ? fmt::format(" ({})", dam) : "";
+    const auto ch_dam_label = dam > 0 && ch->level >= 20 ? fmt::format(" ({})", dam) : "";
+    const auto vict_dam_label = dam > 0 && victim->level >= 20 ? fmt::format(" ({})", dam) : "";
 
     if (dt == TYPE_HIT) {
         if (ch == victim) {
             to_room = fmt::format("$n {} $m {}{}|w", vp, body_part, punct);
-            to_char = fmt::format("You {} your own {}{}|w{}", vs, body_part, punct, dam_value_label);
+            to_char = fmt::format("You {} your own {}{}|w{}", vs, body_part, punct, ch_dam_label);
         } else {
             to_room = fmt::format("$n {} $N's {}{}|w", vp, body_part, punct);
-            to_char = fmt::format("You {} $N's {}{}|w{}", vs, body_part, punct, dam_value_label);
-            to_vict = fmt::format("$n {} your {}{}|w{}", vp, body_part, punct, dam_value_label);
+            to_char = fmt::format("You {} $N's {}{}|w{}", vs, body_part, punct, ch_dam_label);
+            to_vict = fmt::format("$n {} your {}{}|w{}", vp, body_part, punct, vict_dam_label);
         }
     } else {
         if (dt >= 0 && dt < MAX_SKILL)
@@ -1930,16 +1931,16 @@ void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool imm
         } else {
             if (ch == victim) {
                 to_room = fmt::format("$n's {} {} $m{}|w", attack, vp, punct);
-                to_char = fmt::format("Your {} {} you{}|w{}", attack, vp, punct, dam_value_label);
+                to_char = fmt::format("Your {} {} you{}|w{}", attack, vp, punct, ch_dam_label);
             } else {
                 if (dt == gsn_bash && dam_prop == 0) {
                     to_room = fmt::format("$n's {} {} $N{}|w", attack, vp, punct);
-                    to_char = fmt::format("Your {} {} $N{}|w{}", attack, vp, punct, dam_value_label);
-                    to_vict = fmt::format("$n's {} {} you{}|w{}", attack, vp, punct, dam_value_label);
+                    to_char = fmt::format("Your {} {} $N{}|w{}", attack, vp, punct, ch_dam_label);
+                    to_vict = fmt::format("$n's {} {} you{}|w{}", attack, vp, punct, vict_dam_label);
                 } else {
                     to_room = fmt::format("$n's {} {} $N's {}{}|w", attack, vp, body_part, punct);
-                    to_char = fmt::format("Your {} {} $N's {}{}|w{}", attack, vp, body_part, punct, dam_value_label);
-                    to_vict = fmt::format("$n's {} {} your {}{}|w{}", attack, vp, body_part, punct, dam_value_label);
+                    to_char = fmt::format("Your {} {} $N's {}{}|w{}", attack, vp, body_part, punct, ch_dam_label);
+                    to_vict = fmt::format("$n's {} {} your {}{}|w{}", attack, vp, body_part, punct, vict_dam_label);
                 }
             }
         }
