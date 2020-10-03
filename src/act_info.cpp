@@ -789,16 +789,16 @@ void do_nosummon(Char *ch) {
     }
 }
 
-void do_lore(Char *ch, OBJ_DATA *obj, const char *pdesc) {
+void do_lore(Char *ch, OBJ_DATA *obj, std::string_view description) {
     int sn = skill_lookup("identify");
 
     if (ch->is_pc() && number_percent() > get_skill_learned(ch, skill_lookup("lore"))) {
-        ch->send_to(pdesc);
+        ch->send_line(description);
         check_improve(ch, gsn_lore, false, 1);
     } else {
         if (ch->is_mortal())
             WAIT_STATE(ch, skill_table[sn].beats);
-        ch->send_to(pdesc);
+        ch->send_to(description);
         check_improve(ch, gsn_lore, true, 1);
         (*skill_table[sn].spell_fun)(sn, ch->level, ch, (void *)obj);
     }
@@ -861,26 +861,19 @@ const char *try_get_descr(const OBJ_DATA &obj, std::string_view name) {
 
 bool handled_as_look_at_object(Char &ch, std::string_view first_arg) {
     auto &&[number, obj_desc] = number_argument(first_arg);
-    const auto sn = skill_lookup("lore");
     int count = 0;
     for (auto *obj : ch.carrying) {
         if (!ch.can_see(*obj))
             continue;
         if (auto *pdesc = try_get_descr(*obj, obj_desc)) {
             if (++count == number) {
-                if (sn < 0 || (ch.is_pc() && ch.level < ch.get_skill(sn))) {
-                    ch.send_to(pdesc);
-                    return true;
-                } else {
-                    do_lore(&ch, obj, pdesc);
-                    return true;
-                }
+                do_lore(&ch, obj, pdesc);
+                return true;
             } else
                 continue;
         } else if (is_name(obj_desc, obj->name)) {
             if (++count == number) {
-                ch.send_line("{}", obj->description);
-                do_lore(&ch, obj, "");
+                do_lore(&ch, obj, obj->description);
                 return true;
             }
         }
@@ -1061,7 +1054,8 @@ void do_exits(const Char *ch, const char *argument) {
                 buf += fmt::format(" {}", to_string(door));
             } else {
                 buf += fmt::format("{:<5} - {}\n\r", capitalize(to_string(door)),
-                                   room_is_dark(pexit->u1.to_room) ? "Too dark to tell" : pexit->u1.to_room->name);
+                                   !ch->has_holylight() && room_is_dark(pexit->u1.to_room) ? "Too dark to tell"
+                                                                                           : pexit->u1.to_room->name);
             }
         }
     }

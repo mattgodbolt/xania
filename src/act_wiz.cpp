@@ -218,19 +218,19 @@ void do_deny(Char *ch, const char *argument) {
 }
 
 void do_disconnect(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    one_argument(argument, arg);
-    if (arg[0] == '\0') {
-        ch->send_line("Disconnect whom?");
+    char buf[MAX_INPUT_LENGTH];
+    one_argument(argument, buf);
+    if (buf[0] == '\0') {
+        ch->send_line("Usage:");
+        ch->send_line("   disconnect <player name>");
+        ch->send_line("   disconnect <socket number>");
         return;
     }
-
-    if (argument[0] == '+') {
-        argument++;
+    const std::string_view argsv = buf;
+    if (is_number(argsv)) {
+        const uint32_t channel_num = parse_number(argsv);
         for (auto &d : descriptors().all()) {
-            if (d.character() && matches(d.character()->name, argument)) {
+            if (d.channel() == channel_num) {
                 d.close();
                 ch->send_line("Ok.");
                 return;
@@ -239,26 +239,14 @@ void do_disconnect(Char *ch, const char *argument) {
         ch->send_line("Couldn't find a matching descriptor.");
         return;
     } else {
-        if ((victim = get_char_world(ch, arg)) == nullptr) {
-            ch->send_line("They aren't here.");
-            return;
-        }
-
-        if (victim->desc == nullptr) {
-            act("$N doesn't have a descriptor.", ch, nullptr, victim, To::Char);
-            return;
-        }
-
         for (auto &d : descriptors().all()) {
-            if (&d == victim->desc) {
+            if (d.character() && matches(d.character()->name, argsv)) {
                 d.close();
                 ch->send_line("Ok.");
                 return;
             }
         }
-
-        bug("Do_disconnect: desc not found.");
-        ch->send_line("Descriptor not found!");
+        ch->send_line("Player not found!");
         return;
     }
 }

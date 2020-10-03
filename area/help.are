@@ -1299,17 +1299,15 @@ freeze is usually preferred.
 ~
 
 97 DISCONNECT~
-Syntax: disconnect  <name>
-Syntax: disconnect +<name>
+Syntax: disconnect <player name>
+Syntax: disconnect <socket number>
 
 Disconnect breaks a player's link to the game, dumping them back to the telnet
 prompt.  This is a non-lethal way of getting rid of spammers and annoying
 players.
 
-Disconnect + is used to get rid of players who are not actually in the mud
-but are connected and listed on 'sockets'. Rather than searching through
-the active players, it looks through those connected via the descriptor
-list.
+Disconnect <socket number> is used to get rid of players who are not actually in the mud
+but are connected and listed on 'sockets'.
 ~
 
 97 FREEZE~
