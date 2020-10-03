@@ -33,8 +33,8 @@ void render_area(FILE *out_file, AREA_DATA *area) {
                         && to->exit[reverse(door)]->u1.to_room == pRoomIndex) {
                         // Two way; write a single exit only for the lowest vnummed.
                         if (pRoomIndex->vnum <= to->vnum) {
-                            fmt::print("    v{}:{} -> v{}:{} [dir=both label=\"{}\"];\n", pRoomIndex->vnum, compass_pt[door],
-                                       to->vnum, compass_pt[reverse(door)], bidir_name[door]);
+                            fmt::print("    v{}:{} -> v{}:{} [dir=both label=\"{}\"];\n", pRoomIndex->vnum,
+                                       compass_pt[door], to->vnum, compass_pt[reverse(door)], bidir_name[door]);
                         }
                     } else {
                         fmt::print("    v{}:{} -> v{} [label={}];\n", pRoomIndex->vnum, compass_pt[door], to->vnum,
