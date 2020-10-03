@@ -59,7 +59,7 @@ $(PIP): $(CONDA) # ideally would specify two outputs in $(CONDA) but make -j fai
 
 $(CONAN): | $(PIP)
 	@echo "Installing conan locally..."
-	$(PIP) install conan==1.27.1
+	$(PIP) install conan==1.29.2
 
 .PHONY: conda conan
 conda: $(CONDA)
