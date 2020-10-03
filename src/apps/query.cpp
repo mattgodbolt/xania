@@ -25,7 +25,8 @@ int main(int argc, const char **argv) {
         exit(0);
     }
 
-    chdir(area_dir.c_str());
+    if (chdir(area_dir.c_str()) != 0)
+        throw fmt::system_error(errno, "Unable to change to area directory {}", area_dir);
     boot_db();
 
     struct AreaInfo {
