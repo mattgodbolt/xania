@@ -1,6 +1,7 @@
 #include "GenericList.hpp"
 
 #include <catch2/catch.hpp>
+#include <range/v3/algorithm/find_if.hpp>
 #include <range/v3/range/conversion.hpp>
 #include <range/v3/view/transform.hpp>
 #include <vector>

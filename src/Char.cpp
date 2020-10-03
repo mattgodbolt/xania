@@ -9,8 +9,9 @@
 
 #include <chat/chatlink.h>
 #include <fmt/format.h>
-#include <range/v3/algorithm/any_of.hpp>
+#include <range/v3/algorithm/contains.hpp>
 #include <range/v3/algorithm/fill.hpp>
+#include <range/v3/view/transform.hpp>
 
 Seconds Char::total_played() const { return std::chrono::duration_cast<Seconds>(current_time - logon + played); }
 
@@ -354,11 +355,9 @@ void Char::set_afk(std::string_view afk_message) {
 }
 
 bool Char::has_boat() const noexcept {
-    if (is_immortal())
-        return true;
-    return ranges::any_of(carrying, [](auto *obj) { return obj->item_type == ITEM_BOAT; });
+    return is_immortal() || ranges::contains(carrying, ITEM_BOAT, &OBJ_DATA::item_type);
 }
 
 bool Char::carrying_object_vnum(int vnum) const noexcept {
-    return ranges::any_of(carrying, [vnum](auto *obj) { return obj->pIndexData->vnum == vnum; });
+    return ranges::contains(carrying | ranges::views::transform(&OBJ_DATA::pIndexData), vnum, &OBJ_INDEX_DATA::vnum);
 }

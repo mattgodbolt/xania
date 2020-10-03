@@ -341,6 +341,7 @@ void do_donate(Char *ch, const char *argument) {
 
     /* get the pit's OBJ_DATA * */
     auto *altar = get_room_index(ROOM_VNUM_ALTAR);
+
     auto pit_it = ranges::find(altar->contents, OBJ_VNUM_PIT, [](auto *obj) { return obj->pIndexData->vnum; });
     if (pit_it == altar->contents.end()) {
         /* just in case someone should accidentally delete the pit... */

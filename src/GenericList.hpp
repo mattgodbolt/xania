@@ -4,7 +4,7 @@
 #include <optional>
 #include <utility>
 
-#include <range/v3/algorithm/find_if.hpp>
+#include <range/v3/algorithm/find.hpp>
 
 // A generic, modification-while-iterating-over safe list of objects.
 // This makes it safe to write code like:
@@ -14,10 +14,6 @@
 // Each doubly-linked node has a reference count: removing an item with a non-zero reference doesn't actually remove it
 // from the list, instead storing a "tombstone" at that list location. Iteration skips tombstones (and cleans them up as
 // it finds it can).
-// TODO:
-// * more tests
-// * support owning pointers? maybe?
-// * Maybe not support anything but pointers?
 
 template <typename ElemT, typename GenListT, typename It>
 class Iter;
@@ -41,11 +37,8 @@ public:
     // Remove an item. Removes by comparison to T, so comparing Ts must be defined.
     // Returns true if item was successfully removed.
     bool remove(const T &item) {
-        if (auto it = ranges::find_if(list_, [&](const Elem &elem) { return elem.item == item; }); it != list_.end()) {
-            if (it->count == 0)
-                list_.erase(it);
-            else
-                it->item = OptType{};
+        if (auto it = ranges::find(list_, item, &Elem::item); it != list_.end()) {
+            remove_or_tombstone(it);
             return true;
         }
         return false;
@@ -53,14 +46,8 @@ public:
 
     // Clear the list entirely.
     void clear() {
-        for (auto it = list_.begin(); it != list_.end();) {
-            if (it->count == 0)
-                it = list_.erase(it);
-            else {
-                it->item = OptType{};
-                ++it;
-            }
-        }
+        for (auto it = list_.begin(); it != list_.end();)
+            it = remove_or_tombstone(it);
     }
 
     // Is the list empty?
@@ -88,6 +75,12 @@ public:
     [[nodiscard]] size_t debug_count_all_nodes() const { return list_.size(); }
 
 private:
+    auto remove_or_tombstone(auto it) {
+        if (it->count == 0)
+            return list_.erase(it);
+        it->item = OptType{};
+        return ++it;
+    }
     auto get_first_non_tombstone() const {
         auto first = list_.begin();
         while (first != list_.end() && first->removed()) {
@@ -110,6 +103,7 @@ class Iter {
     It current_{};
 
     void advance() {
+        // We don't decref here, as we are going to walk the list, removing zero-count items, manually.
         --current_->count;
         do {
             // If we need to remove this node, and we're the only reference to this node, we can erase it now.
@@ -118,48 +112,43 @@ class Iter {
             else
                 ++current_;
         } while (*this != list_->end() && current_->removed());
-        if (valid())
-            ++current_->count;
+        incref();
     }
-
-public:
-    Iter() = default;
-    explicit Iter(GenListT *list, It it) noexcept : list_(list), current_(it) {
+    void incref() {
         if (valid())
             current_->count++;
     }
-    Iter(const Iter &other) noexcept : list_(other.list_), current_(other.current_) {
-        if (valid())
-            current_->count++;
-    }
-    Iter &operator=(const Iter &other) noexcept {
-        if (this == &other)
-            return *this;
-        if (valid())
-            current_->count--;
-        list_ = other.list_;
-        current_ = other.current_;
-        if (valid())
-            current_->count++;
-        return *this;
-    }
-    Iter(Iter &&other) noexcept : list_(std::exchange(other.list_, nullptr)), current_(other.current_) {}
-    Iter &operator=(Iter &&other) noexcept {
-        if (this == &other)
-            return *this;
-        if (valid())
-            current_->count--;
-        list_ = std::exchange(other.list_, nullptr);
-        current_ = other.current_;
-        return *this;
-    }
-    ~Iter() noexcept {
+    void decref() {
         if (valid()) {
             // If we're the last reference to a removed element we can erase it.
             if (--current_->count == 0 && current_->removed())
                 list_->list_.erase(current_);
         }
     }
+
+public:
+    Iter() = default;
+    explicit Iter(GenListT *list, It it) noexcept : list_(list), current_(it) { incref(); }
+    Iter(const Iter &other) noexcept : list_(other.list_), current_(other.current_) { incref(); }
+    Iter &operator=(const Iter &other) noexcept {
+        if (this == &other)
+            return *this;
+        decref();
+        list_ = other.list_;
+        current_ = other.current_;
+        incref();
+        return *this;
+    }
+    Iter(Iter &&other) noexcept : list_(std::exchange(other.list_, nullptr)), current_(other.current_) {}
+    Iter &operator=(Iter &&other) noexcept {
+        if (this == &other)
+            return *this;
+        decref();
+        list_ = std::exchange(other.list_, nullptr);
+        current_ = other.current_;
+        return *this;
+    }
+    ~Iter() noexcept { decref(); }
 
     ElemT &operator*() const noexcept { return *current_->item; }
     ElemT *operator->() const noexcept { return &*current_->item; }

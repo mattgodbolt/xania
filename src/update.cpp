@@ -548,7 +548,7 @@ void char_update() {
                         removed_this_tick_with_msg.emplace(af.type);
                     affect_remove(ch, af);
                 }
-            };
+            }
             // Only report wear-offs for those affects who are completely gone.
             for (auto sn : removed_this_tick_with_msg)
                 if (!ch->is_affected_by(sn))
@@ -666,7 +666,7 @@ void obj_update() {
                         removed_this_tick_with_msg.emplace(af.type);
                     affect_remove_obj(obj, af);
                 }
-            };
+            }
             // Only report wear-offs for those affects who are completely gone.
             for (auto sn : removed_this_tick_with_msg)
                 act(skill_table[sn].msg_off, obj->carried_by, obj, nullptr, To::Char, POS_SLEEPING);
