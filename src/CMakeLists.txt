@@ -5,6 +5,7 @@ add_subdirectory(common)
 add_subdirectory(doorman)
 add_subdirectory(chat)
 add_subdirectory(test)
+add_subdirectory(apps)
 
 add_library(xania_lib STATIC
         act_comm.cpp
