@@ -12,7 +12,7 @@ int main(int argc, const char **argv) {
     std::string output;
     std::string area_dir = DEFAULT_AREA_PATH;
     auto cli =
-        lyra::cli() | lyra::help(help)
+        lyra::cli() | lyra::help(help).description("Output DOT showing area interconnectedness")
         | lyra::opt(area_dir, "area dir")["--areas"]("read area files from this directory (default " + area_dir + ")")
         | lyra::arg(output, "output DOT file")("output to the given DOT file, default stdout");
 
