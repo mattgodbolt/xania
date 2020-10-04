@@ -66,7 +66,7 @@ public:
         return result;
     }
 
-    // Iteration support.s
+    // Iteration support.
     [[nodiscard]] MutIter begin() { return MutIter(this, get_first_non_tombstone()); }
     [[nodiscard]] MutIter end() { return MutIter(nullptr, list_.end()); }
     [[nodiscard]] ConstIter begin() const { return ConstIter(this, get_first_non_tombstone()); }
