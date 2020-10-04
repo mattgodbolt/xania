@@ -759,7 +759,7 @@ void do_lore(Char *ch, OBJ_DATA *obj, std::string_view description) {
     } else {
         if (ch->is_mortal())
             WAIT_STATE(ch, skill_table[sn].beats);
-        ch->send_to(description);
+        ch->send_line(description);
         check_improve(ch, gsn_lore, true, 1);
         (*skill_table[sn].spell_fun)(sn, ch->level, ch, (void *)obj);
     }

@@ -2821,31 +2821,22 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
     case ITEM_POTION:
     case ITEM_PILL:
     case ITEM_BOMB:
-        snprintf(buf, sizeof(buf), "Level %d spells of:", obj->value[0]);
-        ch->send_to(buf);
+        ch->send_to("Level {} spells of:", obj->value[0]);
 
         if (obj->value[1] >= 0 && obj->value[1] < MAX_SKILL) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[1]].name);
-            ch->send_line("'");
+            ch->send_to(" '{}'", skill_table[obj->value[1]].name);
         }
 
         if (obj->value[2] >= 0 && obj->value[2] < MAX_SKILL) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[2]].name);
-            ch->send_line("'");
+            ch->send_to(" '{}'", skill_table[obj->value[2]].name);
         }
 
         if (obj->value[3] >= 0 && obj->value[3] < MAX_SKILL) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[3]].name);
-            ch->send_line("'");
+            ch->send_to(" '{}'", skill_table[obj->value[3]].name);
         }
 
         if (obj->value[4] >= 0 && obj->value[4] < MAX_SKILL && obj->item_type == ITEM_BOMB) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[4]].name);
-            ch->send_line("'");
+            ch->send_to(" '{}'", skill_table[obj->value[4]].name);
         }
 
         ch->send_line(".");
@@ -2853,13 +2844,10 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
 
     case ITEM_WAND:
     case ITEM_STAFF:
-        snprintf(buf, sizeof(buf), "Has %d(%d) charges of level %d", obj->value[1], obj->value[2], obj->value[0]);
-        ch->send_to(buf);
+        ch->send_to("Has {}({}) charges of level {}", obj->value[1], obj->value[2], obj->value[0]);
 
         if (obj->value[3] >= 0 && obj->value[3] < MAX_SKILL) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[3]].name);
-            ch->send_line("'");
+            ch->send_to(" '{}'", skill_table[obj->value[3]].name);
         }
 
         ch->send_line(".");
@@ -2880,27 +2868,27 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
         default: ch->send_line("unknown."); break;
         }
         if ((obj->value[4] != 0) && (obj->item_type == ITEM_WEAPON)) {
-            ch->send_line("Weapon flags:");
+            ch->send_to("Weapon flags:");
             if (IS_SET(obj->value[4], WEAPON_FLAMING))
-                ch->send_line(" flaming");
+                ch->send_to(" flaming");
             if (IS_SET(obj->value[4], WEAPON_FROST))
-                ch->send_line(" frost");
+                ch->send_to(" frost");
             if (IS_SET(obj->value[4], WEAPON_VAMPIRIC))
-                ch->send_line(" vampiric");
+                ch->send_to(" vampiric");
             if (IS_SET(obj->value[4], WEAPON_SHARP))
-                ch->send_line(" sharp");
+                ch->send_to(" sharp");
             if (IS_SET(obj->value[4], WEAPON_VORPAL))
-                ch->send_line(" vorpal");
+                ch->send_to(" vorpal");
             if (IS_SET(obj->value[4], WEAPON_TWO_HANDS))
-                ch->send_line(" two-handed");
+                ch->send_to(" two-handed");
             if (IS_SET(obj->value[4], WEAPON_POISONED))
-                ch->send_line(" poisoned");
+                ch->send_to(" poisoned");
             if (IS_SET(obj->value[4], WEAPON_PLAGUED))
-                ch->send_line(" death");
+                ch->send_to(" death");
             if (IS_SET(obj->value[4], WEAPON_ACID))
-                ch->send_line(" acid");
+                ch->send_to(" acid");
             if (IS_SET(obj->value[4], WEAPON_LIGHTNING))
-                ch->send_line(" lightning");
+                ch->send_to(" lightning");
             ch->send_line(".");
         }
         snprintf(buf, sizeof(buf), "Damage is %dd%d (average %d).\n\r", obj->value[1], obj->value[2],
