@@ -10,15 +10,10 @@
 #include "Logging.hpp"
 #include "comm.hpp"
 #include "interp.h"
-#include "magic.h"
 #include "merc.h"
 #include "string_utils.hpp"
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <ctime>
-#include <sys/types.h>
+#include <range/v3/iterator/operations.hpp>
 
 /* Note that Death's interest is less, since Phil is unlikely to like someone who keeps slaying him for pleasure ;-) */
 /* Note also the cludgy hack so that Phil doesn't become interested in himself and ignore other people around him who */
@@ -112,22 +107,15 @@ bool doSleepActions(Char *ch, ROOM_INDEX_DATA *home) {
 /* does a random social on a randomly selected person in the current room */
 void doRandomSocial(Char *ch, ROOM_INDEX_DATA *home) {
     (void)home;
-    int charsInRoom = 0;
-    int charSelected;
-    Char *firstChar;
-    Char *countChar;
 
-    firstChar = ch->in_room->people;
-    for (countChar = firstChar; countChar; countChar = countChar->next_in_room)
-        charsInRoom++;
-    charSelected = (number_percent() * charsInRoom) / 100;
-    if (charSelected > charsInRoom)
-        charSelected = charsInRoom;
-    for (countChar = firstChar; charSelected--; countChar = countChar->next_in_room)
-        ;
-    if (countChar) {
-        check_social(ch, randomSocial(), countChar->name);
-    }
+    auto charsInRoom = ranges::distance(ch->in_room->people);
+    if (!charsInRoom)
+        return;
+    auto charSelected = (number_percent() * charsInRoom) / 100;
+    if (charSelected >= charsInRoom)
+        charSelected = charsInRoom - 1;
+    auto *countChar = *std::next(ch->in_room->people.begin(), charSelected);
+    check_social(ch, randomSocial(), countChar->name);
 }
 
 /* Find the amount of interest Phil will show in the given character, by looking up the */
@@ -150,11 +138,10 @@ int charInterest(Char *ch) {
 
 /* Check if there's a more interesting char in this room than has been found before */
 bool findInterestingChar(ROOM_INDEX_DATA *room, Char **follow, int *interest) {
-    Char *current;
     bool retVal = false;
     int currentInterest;
 
-    for (current = room->people; current; current = current->next_in_room) {
+    for (auto *current : room->people) {
         currentInterest = charInterest(current);
         if (currentInterest > *interest) {
             *follow = current;

@@ -1273,7 +1273,7 @@ bool act_to_person(const Char *person, int min_pos) {
 std::vector<const Char *> folks_in_room(const ROOM_INDEX_DATA *room, const Char *ch, const Char *vch, const To &type,
                                         int min_pos) {
     std::vector<const Char *> result;
-    for (auto *person = room->people; person; person = person->next_in_room) {
+    for (auto *person : room->people) {
         if (!act_to_person(person, min_pos))
             continue;
         // Never consider the character themselves (they're handled explicitly elsewhere).

@@ -795,7 +795,6 @@ void area_update() {
  */
 void reset_room(ROOM_INDEX_DATA *pRoom) {
     RESET_DATA *pReset;
-    Char *pMob;
     OBJ_DATA *pObj;
     Char *LastMob = nullptr;
     OBJ_DATA *LastObj = nullptr;
@@ -804,7 +803,6 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
     if (!pRoom)
         return;
 
-    pMob = nullptr;
     last = false;
 
     for (auto exit_dir : all_directions) {
@@ -823,12 +821,11 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
         OBJ_INDEX_DATA *pObjIndex;
         OBJ_INDEX_DATA *pObjToIndex;
         ROOM_INDEX_DATA *pRoomIndex;
-        int count, limit;
 
         switch (pReset->command) {
         default: bug("Reset_room: bad command {}.", pReset->command); break;
 
-        case RESETS_MOB_IN_ROOM:
+        case RESETS_MOB_IN_ROOM: {
             if (!(pMobIndex = get_mob_index(pReset->arg1))) {
                 bug("Reset_room: 'M': bad vnum {}.", pReset->arg1);
                 continue;
@@ -837,9 +834,9 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
                 last = false;
                 break;
             }
-            count = 0;
-            for (pMob = pRoom->people; pMob != nullptr; pMob = pMob->next_in_room) {
-                if (pMob->pIndexData == pMobIndex) {
+            int count = 0;
+            for (auto *mch : pRoom->people) {
+                if (mch->pIndexData == pMobIndex) {
                     count++;
                     if (count >= pReset->arg4) {
                         last = false;
@@ -851,7 +848,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
             if (count >= pReset->arg4)
                 break;
 
-            pMob = create_mobile(pMobIndex);
+            auto *pMob = create_mobile(pMobIndex);
 
             /*
              * Pet shop mobiles get ACT_PET set.
@@ -868,7 +865,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
 
             LastMob = pMob;
             last = true;
-            break;
+        } break;
 
         case RESETS_OBJ_IN_ROOM:
             if (!(pObjIndex = get_obj_index(pReset->arg1))) {
@@ -902,6 +899,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
                 continue;
             }
 
+            int limit, count;
             if (pReset->arg2 > 20) /* old format reduced from 50! */
                 limit = 6;
             else if (pReset->arg2 == -1) /* no limit */

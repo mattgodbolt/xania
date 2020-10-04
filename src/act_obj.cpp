@@ -66,10 +66,6 @@ bool can_loot(const Char *ch, const OBJ_DATA *obj) {
 }
 
 void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container) {
-    /* variables for AUTOSPLIT */
-    Char *gch;
-    int members;
-
     if (!CAN_WEAR(obj, ITEM_TAKE)) {
         ch->send_line("You can't take that.");
         return;
@@ -110,13 +106,7 @@ void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container) {
     if (obj->item_type == ITEM_MONEY) {
         ch->gold += obj->value[0];
         if (IS_SET(ch->act, PLR_AUTOSPLIT)) { /* AUTOSPLIT code */
-            members = 0;
-            for (gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
-                if (is_same_group(gch, ch))
-                    members++;
-            }
-
-            if (members > 1 && obj->value[0] > 1) {
+            if (ch->num_group_members_in_room() > 1 && obj->value[0] > 1) {
                 split_coins(ch, obj->value[0]);
             }
         }
@@ -1299,10 +1289,6 @@ void do_sacrifice(Char *ch, const char *argument) {
     OBJ_DATA *obj;
     int gold;
 
-    /* variables for AUTOSPLIT */
-    Char *gch;
-    int members;
-
     one_argument(argument, arg);
 
     if (arg[0] == '\0' || matches(arg, ch->name)) {
@@ -1343,13 +1329,7 @@ void do_sacrifice(Char *ch, const char *argument) {
     ch->gold += gold;
 
     if (IS_SET(ch->act, PLR_AUTOSPLIT)) { /* AUTOSPLIT code */
-        members = 0;
-        for (gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
-            if (is_same_group(gch, ch))
-                members++;
-        }
-
-        if (members > 1 && gold > 1) {
+        if (ch->num_group_members_in_room() > 1 && gold > 1) {
             split_coins(ch, gold);
         }
     }
@@ -1454,8 +1434,6 @@ void do_recite(Char *ch, const char *argument) {
 }
 
 void do_brandish(Char *ch) {
-    Char *vch;
-    Char *vch_next;
     OBJ_DATA *staff;
     int sn;
 
@@ -1486,9 +1464,7 @@ void do_brandish(Char *ch) {
         }
 
         else
-            for (vch = ch->in_room->people; vch; vch = vch_next) {
-                vch_next = vch->next_in_room;
-
+            for (auto *vch : ch->in_room->people) {
                 switch (skill_table[sn].target) {
                 default: bug("Do_brandish: bad target for sn {}.", sn); return;
 
@@ -1738,7 +1714,7 @@ void do_steal(Char *ch, const char *argument) {
 
 namespace {
 Char *shopkeeper_in(const ROOM_INDEX_DATA &room) {
-    for (auto *maybe_keeper = room.people; maybe_keeper; maybe_keeper = maybe_keeper->next_in_room) {
+    for (auto *maybe_keeper : room.people) {
         if (maybe_keeper->is_npc() && maybe_keeper->pIndexData->pShop)
             return maybe_keeper;
     }
@@ -1970,7 +1946,6 @@ void do_buy(Char *ch, const char *argument) {
 void do_list(Char *ch, const char *argument) {
     if (IS_SET(ch->in_room->room_flags, ROOM_PET_SHOP)) {
         ROOM_INDEX_DATA *pRoomIndexNext;
-        Char *pet;
         bool found;
 
         pRoomIndexNext = get_room_index(ch->in_room->vnum + 1);
@@ -1981,7 +1956,7 @@ void do_list(Char *ch, const char *argument) {
         }
 
         found = false;
-        for (pet = pRoomIndexNext->people; pet; pet = pet->next_in_room) {
+        for (auto *pet : pRoomIndexNext->people) {
             if (IS_SET(pet->act, ACT_PET)) {
                 if (!found) {
                     found = true;

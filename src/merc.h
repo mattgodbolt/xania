@@ -1104,7 +1104,7 @@ typedef struct _tip_type {
  */
 struct ROOM_INDEX_DATA {
     ROOM_INDEX_DATA *next{};
-    Char *people{};
+    GenericList<Char *> people;
     GenericList<OBJ_DATA *> contents;
     std::vector<EXTRA_DESCR_DATA> extra_descr{};
     AREA_DATA *area{};

@@ -612,8 +612,6 @@ void die_follower(Char *ch) {
 void do_order(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
     Char *victim;
-    Char *och;
-    Char *och_next;
     bool found;
     bool fAll;
 
@@ -657,9 +655,7 @@ void do_order(Char *ch, const char *argument) {
     }
 
     found = false;
-    for (och = ch->in_room->people; och != nullptr; och = och_next) {
-        och_next = och->next_in_room;
-
+    for (auto *och : ch->in_room->people) {
         if (IS_AFFECTED(och, AFF_CHARM) && och->master == ch && (fAll || och == victim)) {
             found = true;
             act(fmt::format("|W$n|w orders you to '{}'.", command_remainder), ch, nullptr, och, To::Vict);
@@ -772,7 +768,7 @@ void split_coins(Char *ch, int amount) {
     }
 
     int members = 0;
-    for (auto *gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
+    for (auto *gch : ch->in_room->people) {
         if (is_same_group(gch, ch) && !IS_AFFECTED(gch, AFF_CHARM))
             members++;
     }
@@ -797,7 +793,7 @@ void split_coins(Char *ch, int amount) {
 
     auto message = fmt::format("$n splits {} gold coins.  Your share is {} gold coins.", amount, share);
 
-    for (auto *gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
+    for (auto *gch : ch->in_room->people) {
         if (gch != ch && is_same_group(gch, ch) && !IS_AFFECTED(gch, AFF_CHARM)) {
             act(message, ch, nullptr, gch, To::Vict);
             gch->gold += share;
@@ -866,7 +862,7 @@ void chatperformtoroom(std::string_view text, Char *ch) {
     if (ch->is_npc())
         return;
 
-    for (auto *vch = ch->in_room->people; vch; vch = vch->next_in_room)
+    for (auto *vch : ch->in_room->people)
         if (vch->is_npc() && IS_SET(vch->pIndexData->act, ACT_TALKATIVE) && IS_AWAKE(vch)) {
             if (number_percent() > 66) /* less spammy - Fara */
                 chatperform(vch, ch, text);

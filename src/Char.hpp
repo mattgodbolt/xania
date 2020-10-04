@@ -24,7 +24,6 @@ struct MPROG_ACT_LIST;
  * One character (PC or NPC).
  */
 struct Char {
-    Char *next_in_room{};
     Char *master{};
     Char *leader{};
     Char *fighting{};
@@ -244,6 +243,8 @@ struct Char {
 
     [[nodiscard]] bool has_boat() const noexcept;
     [[nodiscard]] bool carrying_object_vnum(int vnum) const noexcept;
+
+    [[nodiscard]] size_t num_group_members_in_room() const noexcept;
 
 private:
     template <typename Func>

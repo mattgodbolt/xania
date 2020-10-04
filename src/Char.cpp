@@ -10,6 +10,7 @@
 #include <chat/chatlink.h>
 #include <fmt/format.h>
 #include <range/v3/algorithm/contains.hpp>
+#include <range/v3/algorithm/count_if.hpp>
 #include <range/v3/algorithm/fill.hpp>
 #include <range/v3/view/transform.hpp>
 
@@ -360,4 +361,7 @@ bool Char::has_boat() const noexcept {
 
 bool Char::carrying_object_vnum(int vnum) const noexcept {
     return ranges::contains(carrying | ranges::views::transform(&OBJ_DATA::pIndexData), vnum, &OBJ_INDEX_DATA::vnum);
+}
+size_t Char::num_group_members_in_room() const noexcept {
+    return ranges::count_if(in_room->people, [&](auto *gch) { return is_same_group(gch, this); });
 }

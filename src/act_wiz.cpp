@@ -519,7 +519,7 @@ void do_goto(Char *ch, const char *argument) {
         stop_fighting(ch, true);
 
     // We don't user ch->player()'s bamfin/bamfout to avoid exposing which IMM is controlling a switched mob.
-    for (auto *rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
+    for (auto *rch : ch->in_room->people) {
         if (rch->get_trust() >= ch->invis_level) {
             if (ch->pcdata != nullptr && !ch->pcdata->bamfout.empty())
                 act("$t", ch, ch->pcdata->bamfout, rch, To::Vict);
@@ -535,7 +535,7 @@ void do_goto(Char *ch, const char *argument) {
         char_to_room(ch->pet, location);
     }
 
-    for (auto *rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
+    for (auto *rch : ch->in_room->people) {
         if (rch->get_trust() >= ch->invis_level) {
             if (ch->pcdata != nullptr && !ch->pcdata->bamfin.empty())
                 act("$t", ch, ch->pcdata->bamfin, rch, To::Vict);
@@ -661,7 +661,7 @@ void do_rstat(Char *ch, std::string_view argument) {
     }
 
     ch->send_to("Characters:");
-    for (auto *rch = location->people; rch; rch = rch->next_in_room) {
+    for (auto *rch : location->people) {
         if (can_see(ch, rch)) {
             ch->send_to(" ");
             ch->send_to(ArgParser(rch->name).shift());
@@ -1714,17 +1714,14 @@ void do_load(Char *ch, const char *argument) {
 
 void do_purge(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    Char *victim;
     Descriptor *d;
 
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
         /* 'purge' */
-        Char *vnext;
 
-        for (victim = ch->in_room->people; victim != nullptr; victim = vnext) {
-            vnext = victim->next_in_room;
+        for (auto *victim : ch->in_room->people) {
             if (victim->is_npc() && !IS_SET(victim->act, ACT_NOPURGE) && victim != ch /* safety precaution */)
                 extract_char(victim, true);
         }
@@ -1739,7 +1736,8 @@ void do_purge(Char *ch, const char *argument) {
         return;
     }
 
-    if ((victim = get_char_world(ch, arg)) == nullptr) {
+    auto *victim = get_char_world(ch, arg);
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
@@ -1897,13 +1895,12 @@ void do_trust(Char *ch, const char *argument) {
 void do_restore(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     Char *victim;
-    Char *vch;
 
     one_argument(argument, arg);
     if (arg[0] == '\0' || !str_cmp(arg, "room")) {
         /* cure room */
 
-        for (vch = ch->in_room->people; vch != nullptr; vch = vch->next_in_room) {
+        for (auto *vch : ch->in_room->people) {
             affect_strip(vch, gsn_plague);
             affect_strip(vch, gsn_poison);
             affect_strip(vch, gsn_blindness);
@@ -2150,7 +2147,7 @@ void do_notell(Char *ch, const char *argument) {
 }
 
 void do_peace(Char *ch) {
-    for (auto *rch = ch->in_room->people; rch; rch = rch->next_in_room) {
+    for (auto *rch : ch->in_room->people) {
         if (rch->fighting)
             stop_fighting(rch, true);
         if (rch->is_npc() && IS_SET(rch->act, ACT_AGGRESSIVE))

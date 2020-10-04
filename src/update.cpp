@@ -564,7 +564,6 @@ void char_update() {
          */
 
         if (is_affected(ch, gsn_plague) && ch != nullptr) {
-            Char *vch;
             int save, dam;
 
             if (ch->in_room == nullptr)
@@ -589,7 +588,7 @@ void char_update() {
             plague.modifier = -5;
             plague.bitvector = AFF_PLAGUE;
 
-            for (vch = ch->in_room->people; vch != nullptr; vch = vch->next_in_room) {
+            for (auto *vch : ch->in_room->people) {
                 switch (check_immune(vch, DAM_DISEASE)) {
                 case IS_NORMAL: save = existing_plague->level - 4; break;
                 case IS_IMMUNE: save = 0; break;
@@ -640,7 +639,6 @@ void char_update() {
  */
 void obj_update() {
     for (auto *obj : object_list) {
-        Char *rch;
         const char *message;
 
         /* go through affects and decrement */
@@ -680,8 +678,10 @@ void obj_update() {
                 obj->carried_by->gold += obj->cost;
             else
                 act(message, obj->carried_by, obj, nullptr, To::Char);
-        } else if (obj->in_room != nullptr && (rch = obj->in_room->people) != nullptr) {
+        } else if (obj->in_room != nullptr && !obj->in_room->people.empty()) {
             if (!(obj->in_obj && obj->in_obj->pIndexData->vnum == OBJ_VNUM_PIT && !CAN_WEAR(obj->in_obj, ITEM_TAKE))) {
+                // seems like we pick someone to emote for convenience here...
+                auto *rch = *obj->in_room->people.begin();
                 act(message, rch, obj, nullptr, To::Room);
                 act(message, rch, obj, nullptr, To::Char);
             }
@@ -725,9 +725,6 @@ void obj_update() {
  */
 void do_aggressive_sentient(Char *, Char *);
 void aggr_update() {
-    Char *ch;
-    Char *ch_next;
-
     for (auto *wch : char_list) {
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         /* MOBProgram ACT_PROG trigger */
@@ -748,9 +745,7 @@ void aggr_update() {
         if (wch->is_npc() || wch->level >= LEVEL_IMMORTAL || wch->in_room == nullptr || wch->in_room->area->empty)
             continue;
 
-        for (ch = wch->in_room->people; ch != nullptr; ch = ch_next) {
-
-            ch_next = ch->next_in_room;
+        for (auto *ch : wch->in_room->people) {
             if (ch->is_npc())
                 do_aggressive_sentient(wch, ch);
         }
@@ -758,11 +753,6 @@ void aggr_update() {
 }
 
 void do_aggressive_sentient(Char *wch, Char *ch) {
-    Char *vch;
-    Char *vch_next;
-    Char *victim;
-    int count;
-
     if (IS_SET(ch->act, ACT_SENTIENT) && ch->fighting == nullptr && !IS_AFFECTED(ch, AFF_CALM) && IS_AWAKE(ch)
         && !IS_AFFECTED(ch, AFF_CHARM) && can_see(ch, wch)) {
         if (ch->hit == ch->max_hit && ch->mana == ch->max_mana)
@@ -785,11 +775,9 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
          *   giving each 'vch' an equal chance of selection.
          */
 
-        count = 0;
-        victim = nullptr;
-        for (vch = wch->in_room->people; vch != nullptr; vch = vch_next) {
-            vch_next = vch->next_in_room;
-
+        int count = 0;
+        Char *victim = nullptr;
+        for (auto *vch : wch->in_room->people) {
             if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && ch->level >= vch->level - 5
                 && (!IS_SET(ch->act, ACT_WIMPY) || !IS_AWAKE(vch)) && can_see(ch, vch)) {
                 if (number_range(0, count) == 0)

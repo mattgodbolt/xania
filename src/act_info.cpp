@@ -117,7 +117,7 @@ size_t max_on = 0;
 std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort);
 void show_char_to_char_0(const Char *victim, const Char *ch);
 void show_char_to_char_1(Char *victim, Char *ch);
-void show_char_to_char(const Char *list, const Char *ch);
+void show_char_to_char(const GenericList<Char *> &list, const Char *ch);
 bool check_blind(const Char *ch);
 
 /* Mg's funcy shun */
@@ -354,8 +354,8 @@ void do_peek(Char *ch, const char *argument) {
         ch->send_line("They aren't here.");
 }
 
-void show_char_to_char(const Char *list, const Char *ch) {
-    for (auto *rch = list; rch != nullptr; rch = rch->next_in_room) {
+void show_char_to_char(const GenericList<Char *> &list, const Char *ch) {
+    for (auto *rch : list) {
         if (rch == ch)
             continue;
 
@@ -1688,6 +1688,16 @@ void do_report(Char *ch) {
         ch);
 }
 
+namespace {
+Char *find_prac_mob(ROOM_INDEX_DATA *room) {
+    for (auto *mob : room->people) {
+        if (mob->is_npc() && IS_SET(mob->act, ACT_PRACTICE))
+            return mob;
+    }
+    return nullptr;
+}
+}
+
 void do_practice(Char *ch, const char *argument) {
     if (ch->is_npc())
         return;
@@ -1710,13 +1720,8 @@ void do_practice(Char *ch, const char *argument) {
             return;
         }
 
-        Char *mob{};
-        for (mob = ch->in_room->people; mob != nullptr; mob = mob->next_in_room) {
-            if (mob->is_npc() && IS_SET(mob->act, ACT_PRACTICE))
-                break;
-        }
-
-        if (mob == nullptr) {
+        Char *mob = find_prac_mob(ch->in_room);
+        if (!mob) {
             ch->send_line("You can't do that here.");
             return;
         }
@@ -1867,8 +1872,6 @@ void do_password(Char *ch, const char *argument) {
 
 void do_scan(Char *ch) {
     ROOM_INDEX_DATA *current_place;
-    Char *current_person;
-    Char *next_person;
     EXIT_DATA *pexit;
     int count_num_rooms;
     int num_rooms_scan = UMAX(1, ch->level / 10);
@@ -1899,8 +1902,7 @@ void do_scan(Char *ch) {
             /* This loop goes through each character in a room and says
                         whether or not they are visible */
 
-            for (current_person = current_place->people; current_person != nullptr; current_person = next_person) {
-                next_person = current_person->next_in_room;
+            for (auto *current_person : current_place->people) {
                 if (ch->can_see(*current_person)) {
                     ch->send_to(fmt::format("{} {:<5}: |W{}|w\n\r", count_num_rooms + 1,
                                             capitalize(to_string(direction)), current_person->short_name()));

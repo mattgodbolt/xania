@@ -169,10 +169,7 @@ void move_char(Char *ch, Direction door) {
     if (in_room == to_room) /* no circular follows */
         return;
 
-    Char *fch_next{};
-    for (auto *fch = in_room->people; fch != nullptr; fch = fch_next) {
-        fch_next = fch->next_in_room;
-
+    for (auto *fch : in_room->people) {
         if (fch->master == ch && IS_AFFECTED(fch, AFF_CHARM) && fch->position < POS_STANDING)
             do_stand(fch);
 
@@ -198,8 +195,6 @@ void move_char(Char *ch, Direction door) {
 void do_enter(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *to_room, *in_room;
-    Char *fch;
-    Char *fch_next;
     int count = 0, number = number_argument(argument, arg);
     if (ch->riding) {
         ch->send_line("Before entering a portal you must dismount.");
@@ -275,9 +270,7 @@ void do_enter(Char *ch, const char *argument) {
                     if (in_room == to_room) /* no circular follows */
                         return;
 
-                    for (fch = in_room->people; fch != nullptr; fch = fch_next) {
-                        fch_next = fch->next_in_room;
-
+                    for (auto *fch : in_room->people) {
                         if (fch->master == ch && IS_AFFECTED(fch, AFF_CHARM) && fch->position < POS_STANDING)
                             do_stand(fch);
 
@@ -430,10 +423,9 @@ void do_open(Char *ch, ArgParser args) {
         EXIT_DATA *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
-            Char *rch;
 
             REMOVE_BIT(pexit_rev->exit_info, EX_CLOSED);
-            for (rch = to_room->people; rch != nullptr; rch = rch->next_in_room)
+            for (auto *rch : to_room->people)
                 act("The $d opens.", rch, nullptr, pexit_rev->keyword, To::Char);
         }
     }
@@ -486,10 +478,8 @@ void do_close(Char *ch, ArgParser args) {
         EXIT_DATA *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
-            Char *rch;
-
             SET_BIT(pexit_rev->exit_info, EX_CLOSED);
-            for (rch = to_room->people; rch != nullptr; rch = rch->next_in_room)
+            for (auto *rch : to_room->people)
                 act("The $d closes.", rch, nullptr, pexit_rev->keyword, To::Char);
         }
     }
@@ -648,7 +638,7 @@ void do_pick(Char *ch, ArgParser args) {
     WAIT_STATE(ch, skill_table[gsn_pick_lock].beats);
 
     /* look for guards */
-    for (auto *gch = ch->in_room->people; gch; gch = gch->next_in_room) {
+    for (auto *gch : ch->in_room->people) {
         if (gch->is_npc() && IS_AWAKE(gch) && ch->level + 5 < gch->level) {
             act("$N is standing too close to the lock.", ch, nullptr, gch, To::Char);
             return;
@@ -1010,6 +1000,16 @@ void do_recall(Char *ch, ArgParser args) {
     }
 }
 
+namespace {
+Char *find_trainer(ROOM_INDEX_DATA *room) {
+    for (auto *mob : room->people) {
+        if (mob->is_npc() && IS_SET(mob->act, ACT_TRAIN))
+            return mob;
+    }
+    return nullptr;
+}
+}
+
 void do_train(Char *ch, ArgParser args) {
     if (ch->is_npc())
         return;
@@ -1017,13 +1017,8 @@ void do_train(Char *ch, ArgParser args) {
     /*
      * Check for trainer.
      */
-    Char *mob;
-    for (mob = ch->in_room->people; mob; mob = mob->next_in_room) {
-        if (mob->is_npc() && IS_SET(mob->act, ACT_TRAIN))
-            break;
-    }
-
-    if (mob == nullptr) {
+    Char *mob = find_trainer(ch->in_room);
+    if (!mob) {
         ch->send_line("You can't do that here.");
         return;
     }
