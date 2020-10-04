@@ -192,8 +192,6 @@ void do_mpkill(Char *ch, const char *argument) {
 
 void do_mpjunk(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
-    OBJ_DATA *obj_next;
 
     if (ch->is_pc()) {
         ch->send_line("Huh?");
@@ -208,7 +206,8 @@ void do_mpjunk(Char *ch, const char *argument) {
     }
 
     if (str_cmp(arg, "all") && str_prefix("all.", arg)) {
-        if ((obj = get_obj_wear(ch, arg)) != nullptr) {
+        auto *obj = get_obj_wear(ch, arg);
+        if (obj) {
             unequip_char(ch, obj);
             extract_obj(obj);
             return;
@@ -216,15 +215,15 @@ void do_mpjunk(Char *ch, const char *argument) {
         if ((obj = get_obj_carry(ch, arg)) == nullptr)
             return;
         extract_obj(obj);
-    } else
-        for (obj = ch->carrying; obj != nullptr; obj = obj_next) {
-            obj_next = obj->next_content;
+    } else {
+        for (auto *obj : ch->carrying) {
             if (arg[3] == '\0' || is_name(&arg[4], obj->name)) {
                 if (obj->wear_loc != WEAR_NONE)
                     unequip_char(ch, obj);
                 extract_obj(obj);
             }
         }
+    }
 }
 
 /* prints the message to everyone in the room other than the mob and victim */
@@ -365,7 +364,6 @@ void do_mpoload(Char *ch, const char *argument) {
 void do_mppurge(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     Char *victim;
-    OBJ_DATA *obj;
 
     if (ch->is_pc()) {
         ch->send_line("Huh?");
@@ -377,7 +375,6 @@ void do_mppurge(Char *ch, const char *argument) {
     if (arg[0] == '\0') {
         /* 'purge' */
         Char *vnext;
-        OBJ_DATA *obj_next;
 
         for (victim = ch->in_room->people; victim != nullptr; victim = vnext) {
             vnext = victim->next_in_room;
@@ -385,16 +382,15 @@ void do_mppurge(Char *ch, const char *argument) {
                 extract_char(victim, true);
         }
 
-        for (obj = ch->in_room->contents; obj != nullptr; obj = obj_next) {
-            obj_next = obj->next_content;
+        for (auto *obj : ch->in_room->contents)
             extract_obj(obj);
-        }
 
         return;
     }
 
     if ((victim = get_char_room(ch, arg)) == nullptr) {
-        if ((obj = get_obj_here(ch, arg))) {
+        auto *obj = get_obj_here(ch, arg);
+        if (obj) {
             extract_obj(obj);
         } else {
             bug("Mppurge - Bad argument from vnum {}.", ch->pIndexData->vnum);

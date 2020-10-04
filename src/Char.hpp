@@ -38,7 +38,7 @@ struct Char {
     Descriptor *desc{};
     AffectList affected;
     NOTE_DATA *pnote{};
-    OBJ_DATA *carrying{};
+    GenericList<OBJ_DATA *> carrying;
     ROOM_INDEX_DATA *in_room{};
     ROOM_INDEX_DATA *was_in_room{};
     std::unique_ptr<PcData> pcdata;
@@ -242,6 +242,9 @@ struct Char {
 
     void set_not_afk();
     void set_afk(std::string_view afk_message);
+
+    [[nodiscard]] bool has_boat() const noexcept;
+    [[nodiscard]] bool carrying_object_vnum(int vnum) const noexcept;
 
 private:
     template <typename Func>

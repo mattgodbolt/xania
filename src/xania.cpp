@@ -121,14 +121,11 @@ void report_mobile(MobIndexData *mob) {
 /* check_xania - check all of Xania and report those things that aren't what they should be */
 
 void check_xania() {
-    OBJ_DATA *object;
-    Char *mobile;
-
     bug("obj> **********************************************************************");
     bug("obj> **               Beginning sweep of all object in Xania             **");
     bug("obj> **********************************************************************");
 
-    for (object = object_list; object; object = object->next) {
+    for (auto *object : object_list) {
         report_object(object, 1);
     }
 
@@ -140,7 +137,7 @@ void check_xania() {
     bug("mob> **                       Beginning mobile sweep                     **");
     bug("mob> **********************************************************************");
 
-    for (mobile = char_list; mobile; mobile = mobile->next) {
+    for (auto *mobile = char_list; mobile; mobile = mobile->next) {
         report_mobile(mobile->pIndexData);
     }
 
@@ -394,14 +391,13 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
     (void)vo;
     /* is of type TAR_IGNORE so ignore *vo */
 
-    OBJ_DATA *obj;
     int num_of_corpses = 0, corpse, chance;
 
     if (ch->is_npc())
         return;
 
     /* scan the room looking for an appropriate objects...count them */
-    for (obj = ch->in_room->contents; obj; obj = obj->next_content) {
+    for (auto *obj : ch->in_room->contents) {
         if ((obj->pIndexData->item_type == ITEM_CORPSE_NPC) || (obj->pIndexData->item_type == ITEM_CORPSE_PC))
             num_of_corpses++;
     }
@@ -412,12 +408,15 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    /* choose a corpse at random & find it's corresponding OBJ_DATA */
+    /* choose a corpse at random & find its corresponding OBJ_DATA */
     corpse = number_range(1, num_of_corpses);
-    for (obj = ch->in_room->contents; obj; obj = obj->next_content) {
-        if ((obj->pIndexData->item_type == ITEM_CORPSE_NPC) || (obj->pIndexData->item_type == ITEM_CORPSE_PC)) {
-            if (--corpse == 0)
+    OBJ_DATA *obj{};
+    for (auto *c : ch->in_room->contents) {
+        if ((c->pIndexData->item_type == ITEM_CORPSE_NPC) || (c->pIndexData->item_type == ITEM_CORPSE_PC)) {
+            if (--corpse == 0) {
+                obj = c;
                 break;
+            }
         }
     }
 
@@ -435,13 +434,12 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
     chance = URANGE(1, (50 + ((ch->level - obj->pIndexData->level) * 3)), 99);
 
     if ((number_percent() > chance) || /* if random failed */
-        ((obj->pIndexData->item_type == ITEM_CORPSE_PC) && (obj->contains != nullptr)))
+        ((obj->pIndexData->item_type == ITEM_CORPSE_PC) && !obj->contains.empty()))
     /* if non-empty PC corpse */ {
         act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, To::Room);
         act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, To::Char);
         return;
     } else {
-        char buf[MAX_STRING_LENGTH];
         Char *animated;
 
         act("$s stands up.", ch, nullptr, obj, To::Room);
@@ -455,13 +453,11 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
         /* Put the zombie in the room */
         char_to_room(animated, ch->in_room);
         /* Give the zombie the kit that was in the corpse */
-        animated->carrying = obj->contains;
-        obj->contains = nullptr;
+        animated->carrying = std::move(obj->contains);
+        obj->contains.clear();
         /* Give the zombie its correct name and stuff */
-        snprintf(buf, sizeof(buf), animated->description.c_str(), obj->description);
-        animated->long_descr = buf;
-        snprintf(buf, sizeof(buf), animated->name.c_str(), obj->name);
-        animated->name = buf;
+        animated->long_descr = fmt::printf(animated->description, obj->description);
+        animated->name = fmt::printf(animated->name, obj->name);
 
         /* Say byebye to the corpse */
         extract_obj(obj);

@@ -3027,7 +3027,7 @@ void spell_locate_object(int sn, int level, Char *ch, void *vo) {
     int number = 0;
     int max_found = ch->is_immortal() ? 200 : 2 * level;
     std::string buffer;
-    for (auto *obj = object_list; obj != nullptr; obj = obj->next) {
+    for (auto *obj : object_list) {
         if (!ch->can_see(*obj) || !is_name(target_name, obj->name) || (ch->is_mortal() && number_percent() > 2 * level)
             || ch->level < obj->level || IS_SET(obj->extra_flags, ITEM_NO_LOCATE))
             continue;
@@ -3296,12 +3296,25 @@ void spell_refresh(int sn, int level, Char *ch, void *vo) {
         act("$N looks invigorated.", ch, nullptr, victim, To::Char);
 }
 
+namespace {
+bool is_cursed(const OBJ_DATA *obj) { return IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE); }
+void try_remove_curse(const Char *victim, int level, OBJ_DATA *obj) {
+    if (!saves_dispel(level, obj->level)) {
+        REMOVE_BIT(obj->extra_flags, ITEM_NODROP);
+        REMOVE_BIT(obj->extra_flags, ITEM_NOREMOVE);
+        act("$p glows blue.", victim, obj, nullptr, To::Char);
+        act("$p glows blue.", victim, obj, nullptr, To::Room);
+    } else {
+        act("$p whispers with the voice of an unclean spirit.", victim, obj, nullptr, To::Char);
+        act("$p whispers with the voice of an unclean spirit.", victim, obj, nullptr, To::Room);
+    }
+}
+}
+
 void spell_remove_curse(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)ch;
     Char *victim = (Char *)vo;
-    OBJ_DATA *obj;
-    int iWear;
 
     if (is_affected(victim, gsn_curse)) {
         if (check_dispel(level, victim, gsn_curse)) {
@@ -3313,35 +3326,17 @@ void spell_remove_curse(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    for (iWear = 0; iWear < MAX_WEAR; iWear++) {
-        if ((obj = get_eq_char(victim, iWear)) == nullptr)
-            continue;
-
-        if (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE)) { /* attempt to remove curse */
-            if (!saves_dispel(level, obj->level)) {
-                REMOVE_BIT(obj->extra_flags, ITEM_NODROP);
-                REMOVE_BIT(obj->extra_flags, ITEM_NOREMOVE);
-                act("$p glows blue.", victim, obj, nullptr, To::Char);
-                act("$p glows blue.", victim, obj, nullptr, To::Room);
-            } else {
-                act("$p whispers with the voice of an unclean spirit.", victim, obj, nullptr, To::Char);
-                act("$p whispers with the voice of an unclean spirit.", victim, obj, nullptr, To::Room);
-            }
+    for (int iWear = 0; iWear < MAX_WEAR; iWear++) {
+        auto *obj = get_eq_char(victim, iWear);
+        if (obj && is_cursed(obj)) {
+            try_remove_curse(victim, level, obj);
             return;
         }
     }
 
-    for (obj = victim->carrying; obj != nullptr; obj = obj->next_content) {
-        if (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE)) { /* attempt to remove curse */
-            if (!saves_dispel(level, obj->level)) {
-                REMOVE_BIT(obj->extra_flags, ITEM_NODROP);
-                REMOVE_BIT(obj->extra_flags, ITEM_NOREMOVE);
-                act("$p glows blue.", victim, obj, nullptr, To::Char);
-                act("$p glows blue.", victim, obj, nullptr, To::Room);
-            } else {
-                act("$p whispers with the voice of an unclean spirit.", victim, obj, nullptr, To::Char);
-                act("$p whispers with the voice of an unclean spirit.", victim, obj, nullptr, To::Room);
-            }
+    for (auto *obj : victim->carrying) {
+        if (is_cursed(obj)) {
+            try_remove_curse(victim, level, obj);
             return;
         }
     }
@@ -3634,25 +3629,19 @@ void spell_word_of_recall(int sn, int level, Char *ch, void *vo) {
  */
 void spell_acid_breath(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    OBJ_DATA *obj_lose;
-    OBJ_DATA *obj_next;
-    OBJ_DATA *t_obj, *n_obj;
     int dam;
     int hpch;
     int i;
 
     if (number_percent() < 2 * level && !saves_spell(level, victim) && ch->in_room->vnum != CHAL_ROOM) {
-        for (obj_lose = victim->carrying; obj_lose != nullptr; obj_lose = obj_next) {
-            int iWear;
-
-            obj_next = obj_lose->next_content;
-
+        for (auto *obj_lose : victim->carrying) {
             if (number_bits(2) != 0)
                 continue;
 
             switch (obj_lose->item_type) {
             case ITEM_ARMOR:
                 if (obj_lose->value[0] > 0) {
+                    int iWear;
                     act("$p is pitted and etched!", victim, obj_lose, nullptr, To::Char);
                     if ((iWear = obj_lose->wear_loc) != WEAR_NONE)
                         for (i = 0; i < 4; i++)
@@ -3672,8 +3661,7 @@ void spell_acid_breath(int sn, int level, Char *ch, void *vo) {
                         To::Char);
                     /* save some of  the contents */
 
-                    for (t_obj = obj_lose->contains; t_obj != nullptr; t_obj = n_obj) {
-                        n_obj = t_obj->next_content;
+                    for (auto *t_obj : obj_lose->contains) {
                         obj_from_obj(t_obj);
 
                         if (number_bits(2) == 0 || victim->in_room == nullptr)
@@ -3702,17 +3690,13 @@ void spell_acid_breath(int sn, int level, Char *ch, void *vo) {
 void spell_fire_breath(int sn, int level, Char *ch, void *vo) {
     /* Limit damage for PCs added by Rohan on all draconian*/
     Char *victim = (Char *)vo;
-    OBJ_DATA *obj_lose;
-    OBJ_DATA *obj_next;
-    OBJ_DATA *t_obj, *n_obj;
     int dam;
     int hpch;
 
     if (number_percent() < 2 * level && !saves_spell(level, victim) && ch->in_room->vnum != CHAL_ROOM) {
-        for (obj_lose = victim->carrying; obj_lose != nullptr; obj_lose = obj_next) {
+        for (auto *obj_lose : victim->carrying) {
             const char *msg;
 
-            obj_next = obj_lose->next_content;
             if (number_bits(2) != 0)
                 continue;
 
@@ -3735,8 +3719,7 @@ void spell_fire_breath(int sn, int level, Char *ch, void *vo) {
                     break;
                     act(msg, victim, obj_lose, nullptr, To::Char);
 
-                    for (t_obj = obj_lose->contains; t_obj != nullptr; t_obj = n_obj) {
-                        n_obj = t_obj->next_content;
+                    for (auto *t_obj : obj_lose->contains) {
                         obj_from_obj(t_obj);
 
                         if (number_bits(2) == 0 || ch->in_room == nullptr)
@@ -3764,14 +3747,11 @@ void spell_fire_breath(int sn, int level, Char *ch, void *vo) {
 
 void spell_frost_breath(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    OBJ_DATA *obj_lose;
-    OBJ_DATA *obj_next;
 
     if (number_percent() < 2 * level && !saves_spell(level, victim) && ch->in_room->vnum != CHAL_ROOM) {
-        for (obj_lose = victim->carrying; obj_lose != nullptr; obj_lose = obj_next) {
+        for (auto *obj_lose : victim->carrying) {
             const char *msg;
 
-            obj_next = obj_lose->next_content;
             if (number_bits(2) != 0)
                 continue;
 

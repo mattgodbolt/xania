@@ -7,7 +7,6 @@
 
 // A single effect that affects an object or character.
 struct AFFECT_DATA {
-    AFFECT_DATA *next{};
     sh_int type{};
     sh_int level{};
     sh_int duration{};

@@ -17,7 +17,6 @@ TEST_CASE("AFFECT_DATA") {
 
     SECTION("should start with sane defaults") {
         AFFECT_DATA af;
-        CHECK(af.next == nullptr);
         CHECK(af.type == 0);
         CHECK(af.level == 0);
         CHECK(af.duration == 0);
@@ -90,19 +89,19 @@ TEST_CASE("AFFECT_DATA") {
     }
 
     SECTION("should identify skills") {
-        CHECK(!AFFECT_DATA{nullptr, gsn_blindness}.is_skill());
-        CHECK(AFFECT_DATA{nullptr, gsn_sneak}.is_skill());
-        CHECK(AFFECT_DATA{nullptr, gsn_ride}.is_skill());
+        CHECK(!AFFECT_DATA{gsn_blindness}.is_skill());
+        CHECK(AFFECT_DATA{gsn_sneak}.is_skill());
+        CHECK(AFFECT_DATA{gsn_ride}.is_skill());
     }
 
     SECTION("should describe effects") {
-        auto spell_with_location = AFFECT_DATA{nullptr, -1, 33, 22, AffectLocation::Wis, 1, AFF_HASTE};
+        auto spell_with_location = AFFECT_DATA{-1, 33, 22, AffectLocation::Wis, 1, AFF_HASTE};
         SECTION("for items") {
             CHECK(spell_with_location.describe_item_effect(false) == "wisdom by 1");
             CHECK(spell_with_location.describe_item_effect(true) == "wisdom by 1 with bits haste, level 33");
         }
         SECTION("for characters") {
-            auto spell_no_location = AFFECT_DATA{nullptr, -1, 33, 22, AffectLocation::None, 1, AFF_HASTE};
+            auto spell_no_location = AFFECT_DATA{-1, 33, 22, AffectLocation::None, 1, AFF_HASTE};
             SECTION("spells") {
                 CHECK(spell_with_location.describe_char_effect(false) == " modifies wisdom by 1 for 22 hours");
                 CHECK(spell_with_location.describe_char_effect(true)
@@ -114,7 +113,7 @@ TEST_CASE("AFFECT_DATA") {
                       == " modifies none by 1 for 22 hours with bits haste, level 33");
             }
             SECTION("skills") {
-                auto skill = AFFECT_DATA{nullptr, gsn_sneak, 80, 0, AffectLocation::None, 0, AFF_SNEAK};
+                auto skill = AFFECT_DATA{gsn_sneak, 80, 0, AffectLocation::None, 0, AFF_SNEAK};
                 // Similar to above, concise message for effects like sneak and ride.
                 CHECK(skill.describe_char_effect(false) == "");
                 CHECK(skill.describe_char_effect(true) == " modifies none by 0 with bits sneak, level 80");

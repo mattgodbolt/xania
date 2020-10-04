@@ -115,7 +115,6 @@ size_t max_on = 0;
  * Local functions.
  */
 std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort);
-void show_list_to_char(const OBJ_DATA *list, const Char *ch, bool fShort, bool fShowNothing);
 void show_char_to_char_0(const Char *victim, const Char *ch);
 void show_char_to_char_1(Char *victim, Char *ch);
 void show_char_to_char(const Char *list, const Char *ch);
@@ -151,7 +150,7 @@ std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort)
  * Show a list to a character.
  * Can coalesce duplicated items.
  */
-void show_list_to_char(const OBJ_DATA *list, const Char *ch, bool fShort, bool fShowNothing) {
+void show_list_to_char(const GenericList<OBJ_DATA *> &list, const Char *ch, bool fShort, bool fShowNothing) {
     if (!ch->desc)
         return;
 
@@ -164,7 +163,7 @@ void show_list_to_char(const OBJ_DATA *list, const Char *ch, bool fShort, bool f
     const bool show_counts = ch->is_npc() || IS_SET(ch->comm, COMM_COMBINE);
 
     // Format the list of objects.
-    for (auto *obj = list; obj != nullptr; obj = obj->next_content) {
+    for (auto *obj : list) {
         if (obj->wear_loc == WEAR_NONE && can_see_obj(ch, obj)) {
             auto desc = format_obj_to_char(obj, ch, fShort);
             auto combined_same = false;
@@ -863,7 +862,7 @@ const char *try_get_descr(const OBJ_DATA &obj, std::string_view name) {
 bool handled_as_look_at_object(Char &ch, std::string_view first_arg) {
     auto &&[number, obj_desc] = number_argument(first_arg);
     int count = 0;
-    for (auto *obj = ch.carrying; obj; obj = obj->next_content) {
+    for (auto *obj : ch.carrying) {
         if (!ch.can_see(*obj))
             continue;
         if (auto *pdesc = try_get_descr(*obj, obj_desc)) {
@@ -880,7 +879,7 @@ bool handled_as_look_at_object(Char &ch, std::string_view first_arg) {
         }
     }
 
-    for (auto *obj = ch.in_room->contents; obj; obj = obj->next_content) {
+    for (auto *obj : ch.in_room->contents) {
         if (!ch.can_see(*obj))
             continue;
         if (auto *pdesc = try_get_descr(*obj, obj_desc)) {
@@ -1476,48 +1475,48 @@ void do_equipment(Char *ch) {
         ch->send_line("Nothing.");
 }
 
-void do_compare(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj1;
-    OBJ_DATA *obj2;
-    int value1;
-    int value2;
-    const char *msg;
+namespace {
+OBJ_DATA *find_comparable(Char *ch, OBJ_DATA *obj_to_compare_to) {
+    for (auto *obj : ch->carrying) {
+        if (obj->wear_loc != WEAR_NONE && can_see_obj(ch, obj) && obj_to_compare_to->item_type == obj->item_type
+            && (obj_to_compare_to->wear_flags & obj->wear_flags & ~ITEM_TAKE) != 0) {
+            return obj;
+        }
+    }
+    return nullptr;
+}
+}
 
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-    if (arg1[0] == '\0') {
+void do_compare(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Compare what to what?");
         return;
     }
 
-    if ((obj1 = get_obj_carry(ch, arg1)) == nullptr) {
+    auto *obj1 = ch->find_in_inventory(args.shift());
+    if (!obj1) {
         ch->send_line("You do not have that item.");
         return;
     }
 
-    if (arg2[0] == '\0') {
-        for (obj2 = ch->carrying; obj2 != nullptr; obj2 = obj2->next_content) {
-            if (obj2->wear_loc != WEAR_NONE && can_see_obj(ch, obj2) && obj1->item_type == obj2->item_type
-                && (obj1->wear_flags & obj2->wear_flags & ~ITEM_TAKE) != 0)
-                break;
-        }
-
-        if (obj2 == nullptr) {
+    OBJ_DATA *obj2{};
+    if (args.empty()) {
+        obj2 = find_comparable(ch, obj1);
+        if (!obj2) {
             ch->send_line("You aren't wearing anything comparable.");
+            return;
+        }
+    } else {
+        obj2 = ch->find_in_inventory(args.shift());
+        if (!obj2) {
+            ch->send_line("You do not have that item.");
             return;
         }
     }
 
-    else if ((obj2 = get_obj_carry(ch, arg2)) == nullptr) {
-        ch->send_line("You do not have that item.");
-        return;
-    }
-
-    msg = nullptr;
-    value1 = 0;
-    value2 = 0;
+    std::string_view msg;
+    int value1 = 0;
+    int value2 = 0;
 
     if (obj1 == obj2) {
         msg = "You compare $p to itself.  It looks about the same.";
@@ -1539,7 +1538,7 @@ void do_compare(Char *ch, const char *argument) {
         }
     }
 
-    if (msg == nullptr) {
+    if (msg.empty()) {
         if (value1 == value2)
             msg = "$p and $P look about the same.";
         else if (value1 > value2)

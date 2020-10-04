@@ -80,7 +80,7 @@ bool CorpseSummoner::check_catalyst(Char *player, Char *summoner, OBJ_DATA *cata
  * corpse owner's name.
  */
 std::optional<OBJ_DATA *> CorpseSummoner::get_pc_corpse_world(Char *ch, std::string_view corpse_short_descr) {
-    for (auto obj = mud_.object_list(); obj; obj = obj->next) {
+    for (auto obj : mud_.object_list()) {
         if (obj->item_type == ITEM_CORPSE_PC && obj->in_room && obj->in_room != ch->in_room) {
             if (matches(corpse_short_descr, obj->short_descr))
                 return obj;
@@ -125,7 +125,7 @@ public:
     void obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *room);
     void extract_obj(OBJ_DATA *obj);
     void affect_to_char(Char *ch, const AFFECT_DATA &af);
-    OBJ_DATA *object_list();
+    GenericList<OBJ_DATA *> &object_list();
     [[nodiscard]] SpecialFunc spec_fun_summoner() const;
     [[nodiscard]] int weaken_sn() const;
 
@@ -161,7 +161,7 @@ void DependenciesImpl::extract_obj(OBJ_DATA *obj) { ::extract_obj(obj); }
 
 void DependenciesImpl::affect_to_char(Char *ch, const AFFECT_DATA &af) { ::affect_to_char(ch, af); }
 
-OBJ_DATA *DependenciesImpl::object_list() { return ::object_list; }
+GenericList<OBJ_DATA *> &DependenciesImpl::object_list() { return ::object_list; }
 
 SpecialFunc DependenciesImpl::spec_fun_summoner() const { return spec_fun_summoner_; }
 

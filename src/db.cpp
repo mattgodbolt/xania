@@ -45,7 +45,7 @@ SHOP_DATA *shop_last;
 
 Char *char_list;
 KILL_DATA kill_table[MAX_LEVEL];
-OBJ_DATA *object_list;
+GenericList<OBJ_DATA *> object_list;
 
 sh_int gsn_backstab;
 sh_int gsn_dodge;
@@ -1255,8 +1255,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
     case ITEM_MONEY: break;
     }
 
-    obj->next = object_list;
-    object_list = obj;
+    object_list.add_front(obj);
     pObjIndex->count++;
 
     return obj;
@@ -1946,7 +1945,6 @@ void do_dump(Char *ch) {
     Char *fch;
     MobIndexData *pMobIndex;
     PcData *pc;
-    OBJ_DATA *obj;
     OBJ_INDEX_DATA *pObjIndex;
     ROOM_INDEX_DATA *room;
     EXIT_DATA *exit;
@@ -1996,12 +1994,12 @@ void do_dump(Char *ch) {
 
     /* objects */
     count = 0;
-    for (obj = object_list; obj != nullptr; obj = obj->next) {
+    for (auto *obj : object_list) {
         count++;
         aff_count += obj->affected.size();
     }
 
-    fprintf(fp, "Objs	%4d (%8ld bytes)\n", count, count * (sizeof(*obj)));
+    fprintf(fp, "Objs	%4d (%8ld bytes)\n", count, count * (sizeof(OBJ_DATA)));
 
     /* affects */
     fprintf(fp, "Affects	%4d (%8ld bytes)\n", aff_count, aff_count * (sizeof(*af)));

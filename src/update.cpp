@@ -378,14 +378,10 @@ void mobile_update() {
                 continue;
         }
         /* Scavenge */
-        if (IS_SET(ch->act, ACT_SCAVENGER) && ch->in_room->contents != nullptr && number_bits(6) == 0) {
-            OBJ_DATA *obj;
-            OBJ_DATA *obj_best;
-            int max;
-
-            max = 1;
-            obj_best = 0;
-            for (obj = ch->in_room->contents; obj; obj = obj->next_content) {
+        if (IS_SET(ch->act, ACT_SCAVENGER) && !ch->in_room->contents.empty() && number_bits(6) == 0) {
+            int max = 1;
+            OBJ_DATA *obj_best{};
+            for (auto *obj : ch->in_room->contents) {
                 if (CAN_WEAR(obj, ITEM_TAKE) && can_loot(ch, obj) && obj->cost > max && obj->cost > 0) {
                     obj_best = obj;
                     max = obj->cost;
@@ -542,7 +538,7 @@ void char_update() {
 
         if (!ch->affected.empty()) {
             std::unordered_set<int> removed_this_tick_with_msg;
-            ch->affected.modification_safe_for_each([&](auto &af) {
+            for (auto &af : ch->affected) {
                 if (af.duration > 0) {
                     af.duration--;
                     if (number_range(0, 4) == 0 && af.level > 0)
@@ -552,7 +548,7 @@ void char_update() {
                         removed_this_tick_with_msg.emplace(af.type);
                     affect_remove(ch, af);
                 }
-            });
+            }
             // Only report wear-offs for those affects who are completely gone.
             for (auto sn : removed_this_tick_with_msg)
                 if (!ch->is_affected_by(sn))
@@ -653,19 +649,14 @@ void char_update() {
  * This function is performance sensitive.
  */
 void obj_update() {
-    OBJ_DATA *obj;
-    OBJ_DATA *obj_next;
-
-    for (obj = object_list; obj != nullptr; obj = obj_next) {
+    for (auto *obj : object_list) {
         Char *rch;
         const char *message;
-
-        obj_next = obj->next;
 
         /* go through affects and decrement */
         if (!obj->affected.empty()) {
             std::unordered_set<int> removed_this_tick_with_msg;
-            obj->affected.modification_safe_for_each([&](auto &af) {
+            for (auto &af : obj->affected) {
                 if (af.duration > 0) {
                     af.duration--;
                     if (number_range(0, 4) == 0 && af.level > 0)
@@ -675,7 +666,7 @@ void obj_update() {
                         removed_this_tick_with_msg.emplace(af.type);
                     affect_remove_obj(obj, af);
                 }
-            });
+            }
             // Only report wear-offs for those affects who are completely gone.
             for (auto sn : removed_this_tick_with_msg)
                 act(skill_table[sn].msg_off, obj->carried_by, obj, nullptr, To::Char, POS_SLEEPING);
@@ -706,11 +697,8 @@ void obj_update() {
             }
         }
 
-        if (obj->item_type == ITEM_CORPSE_PC && obj->contains) { /* save the contents */
-            OBJ_DATA *t_obj, *next_obj;
-
-            for (t_obj = obj->contains; t_obj != nullptr; t_obj = next_obj) {
-                next_obj = t_obj->next_content;
+        if (obj->item_type == ITEM_CORPSE_PC && !obj->contains.empty()) { /* save the contents */
+            for (auto *t_obj : obj->contains) {
                 obj_from_obj(t_obj);
 
                 if (obj->in_obj) /* in another object */

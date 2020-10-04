@@ -9,7 +9,9 @@
 
 #include <chat/chatlink.h>
 #include <fmt/format.h>
+#include <range/v3/algorithm/contains.hpp>
 #include <range/v3/algorithm/fill.hpp>
+#include <range/v3/view/transform.hpp>
 
 Seconds Char::total_played() const { return std::chrono::duration_cast<Seconds>(current_time - logon + played); }
 
@@ -215,7 +217,7 @@ template <typename Func>
 OBJ_DATA *Char::find_filtered_obj(std::string_view argument, Func filter) const {
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
-    for (auto *obj = carrying; obj != nullptr; obj = obj->next_content) {
+    for (auto *obj : carrying) {
         if (can_see(*obj) && is_name(arg, obj->name) && filter(*obj)) {
             if (++count == number)
                 return obj;
@@ -287,11 +289,11 @@ Char::Char() : name(str_empty), logon(current_time), position(POS_STANDING) /*to
 Char::~Char() {
     --num_active_;
 
-    while (carrying)
-        extract_obj(carrying);
+    for (auto *obj : carrying)
+        extract_obj(obj);
 
-    while (!affected.empty())
-        affect_remove(this, affected.front());
+    for (auto &af : affected)
+        affect_remove(this, af);
 }
 
 void Char::yell(std::string_view exclamation) const {
@@ -350,4 +352,12 @@ void Char::set_afk(std::string_view afk_message) {
           POS_DEAD);
     ::act(fmt::format("|W$n|w is {}|w.", afk_message), this, nullptr, nullptr, To::Room, POS_DEAD);
     announce(fmt::format("|W###|w (|cAFK|w) $N is {}|w.", afk_message), this);
+}
+
+bool Char::has_boat() const noexcept {
+    return is_immortal() || ranges::contains(carrying, ITEM_BOAT, &OBJ_DATA::item_type);
+}
+
+bool Char::carrying_object_vnum(int vnum) const noexcept {
+    return ranges::contains(carrying | ranges::views::transform(&OBJ_DATA::pIndexData), vnum, &OBJ_INDEX_DATA::vnum);
 }

@@ -19,6 +19,7 @@
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+#include <range/v3/algorithm/find.hpp>
 
 #include <cstdlib>
 
@@ -129,8 +130,6 @@ void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container) {
 void do_get(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
-    OBJ_DATA *obj_next;
     OBJ_DATA *container;
     bool found;
 
@@ -149,8 +148,8 @@ void do_get(Char *ch, const char *argument) {
     if (arg2[0] == '\0') {
         if (str_cmp(arg1, "all") && str_prefix("all.", arg1)) {
             /* 'get obj' */
-            obj = get_obj_list(ch, arg1, ch->in_room->contents);
-            if (obj == nullptr) {
+            auto *obj = get_obj_list(ch, arg1, ch->in_room->contents);
+            if (!obj) {
                 act("I see no $T here.", ch, nullptr, arg1, To::Char);
                 return;
             }
@@ -159,8 +158,7 @@ void do_get(Char *ch, const char *argument) {
         } else {
             /* 'get all' or 'get all.obj' */
             found = false;
-            for (obj = ch->in_room->contents; obj != nullptr; obj = obj_next) {
-                obj_next = obj->next_content;
+            for (auto *obj : ch->in_room->contents) {
                 if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && can_see_obj(ch, obj)) {
                     found = true;
                     get_obj(ch, obj, nullptr);
@@ -208,8 +206,8 @@ void do_get(Char *ch, const char *argument) {
 
         if (str_cmp(arg1, "all") && str_prefix("all.", arg1)) {
             /* 'get obj container' */
-            obj = get_obj_list(ch, arg1, container->contains);
-            if (obj == nullptr) {
+            auto *obj = get_obj_list(ch, arg1, container->contains);
+            if (!obj) {
                 act("I see nothing like that in the $T.", ch, nullptr, arg2, To::Char);
                 return;
             }
@@ -217,8 +215,7 @@ void do_get(Char *ch, const char *argument) {
         } else {
             /* 'get all container' or 'get all.obj container' */
             found = false;
-            for (obj = container->contains; obj != nullptr; obj = obj_next) {
-                obj_next = obj->next_content;
+            for (auto *obj : container->contains) {
                 if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && can_see_obj(ch, obj)) {
                     found = true;
                     if (container->pIndexData->vnum == OBJ_VNUM_PIT && ch->is_mortal()) {
@@ -243,8 +240,6 @@ void do_put(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     OBJ_DATA *container;
-    OBJ_DATA *obj;
-    OBJ_DATA *obj_next;
 
     argument = one_argument(argument, arg1);
     argument = one_argument(argument, arg2);
@@ -279,7 +274,8 @@ void do_put(Char *ch, const char *argument) {
 
     if (str_cmp(arg1, "all") && str_prefix("all.", arg1)) {
         /* put obj container' */
-        if ((obj = get_obj_carry(ch, arg1)) == nullptr) {
+        auto *obj = get_obj_carry(ch, arg1);
+        if (!obj) {
             ch->send_line("You do not have that item.");
             return;
         }
@@ -313,9 +309,7 @@ void do_put(Char *ch, const char *argument) {
         act("You put $p in $P.", ch, obj, container, To::Char);
     } else {
         /* 'put all container' or 'put all.obj container' */
-        for (obj = ch->carrying; obj != nullptr; obj = obj_next) {
-            obj_next = obj->next_content;
-
+        for (auto *obj : ch->carrying) {
             if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == WEAR_NONE
                 && obj != container && can_drop_obj(ch, obj)
                 && get_obj_weight(obj) + get_obj_weight(container) <= container->value[0]) {
@@ -337,9 +331,6 @@ void do_put(Char *ch, const char *argument) {
 
 void do_donate(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *pit;
-    OBJ_DATA *obj;
-    OBJ_DATA *obj_next;
 
     /* Get command argument and ensure that one has been given */
     argument = one_argument(argument, arg);
@@ -349,16 +340,15 @@ void do_donate(Char *ch, const char *argument) {
     }
 
     /* get the pit's OBJ_DATA * */
-    for (pit = (get_room_index(ROOM_VNUM_ALTAR))->contents; pit; pit = pit->next_content) {
-        if (pit->pIndexData->vnum == OBJ_VNUM_PIT)
-            break;
-    }
+    auto *altar = get_room_index(ROOM_VNUM_ALTAR);
 
-    /* just in case someone should accidentally delete the pit... */
-    if (pit == nullptr) {
+    auto pit_it = ranges::find(altar->contents, OBJ_VNUM_PIT, [](auto *obj) { return obj->pIndexData->vnum; });
+    if (pit_it == altar->contents.end()) {
+        /* just in case someone should accidentally delete the pit... */
         ch->send_line("The psychic field seems to have lost its alignment.");
         return;
     }
+    auto *pit = *pit_it;
 
     /* check to see if the ch is currently cursed */
     if (IS_AFFECTED(ch, AFF_CURSE)) {
@@ -375,7 +365,8 @@ void do_donate(Char *ch, const char *argument) {
     /* check if 'all' or 'all.' has been used */
     if (str_cmp(arg, "all") && str_prefix("all.", arg)) { /* this returns true if NEITHER matched */
 
-        if ((obj = get_obj_carry(ch, arg)) == nullptr) {
+        auto *obj = get_obj_carry(ch, arg);
+        if (!obj) {
             ch->send_line("You do not have that item.");
             return;
         }
@@ -406,9 +397,7 @@ void do_donate(Char *ch, const char *argument) {
         }
     } else {
         /* 'put all container' or 'put all.obj container' */
-        for (obj = ch->carrying; obj != nullptr; obj = obj_next) {
-            obj_next = obj->next_content;
-
+        for (auto *obj : ch->carrying) {
             if ((arg[3] == '\0' || is_name(&arg[4], obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == WEAR_NONE
                 && can_drop_obj(ch, obj) && obj->timer == 0) {
                 obj->timer = number_range(100, 200);
@@ -425,8 +414,6 @@ void do_donate(Char *ch, const char *argument) {
 
 void do_drop(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
-    OBJ_DATA *obj_next;
     bool found;
 
     argument = one_argument(argument, arg);
@@ -454,9 +441,7 @@ void do_drop(Char *ch, const char *argument) {
 
         ch->gold -= amount;
 
-        for (obj = ch->in_room->contents; obj != nullptr; obj = obj_next) {
-            obj_next = obj->next_content;
-
+        for (auto *obj : ch->in_room->contents) {
             switch (obj->pIndexData->vnum) {
             case OBJ_VNUM_MONEY_ONE:
                 amount += 1;
@@ -478,7 +463,8 @@ void do_drop(Char *ch, const char *argument) {
 
     if (str_cmp(arg, "all") && str_prefix("all.", arg)) {
         /* 'drop obj' */
-        if ((obj = get_obj_carry(ch, arg)) == nullptr) {
+        auto *obj = get_obj_carry(ch, arg);
+        if (!obj) {
             ch->send_line("You do not have that item.");
             return;
         }
@@ -497,9 +483,7 @@ void do_drop(Char *ch, const char *argument) {
     } else {
         /* 'drop all' or 'drop all.obj' */
         found = false;
-        for (obj = ch->carrying; obj != nullptr; obj = obj_next) {
-            obj_next = obj->next_content;
-
+        for (auto *obj : ch->carrying) {
             if ((arg[3] == '\0' || is_name(&arg[4], obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == WEAR_NONE
                 && can_drop_obj(ch, obj)) {
                 found = true;
@@ -637,6 +621,28 @@ void do_give(Char *ch, const char *argument) {
     mprog_give_trigger(victim, ch, obj);
 }
 
+namespace {
+
+OBJ_DATA *find_pour_target(GenericList<OBJ_DATA *> &list, OBJ_DATA *obj) {
+    for (auto *target_obj : list) {
+        if (target_obj->item_type == ITEM_DRINK_CON && obj != target_obj) {
+            return target_obj;
+        }
+    }
+    return nullptr;
+}
+
+void pour_from_to(OBJ_DATA *obj, OBJ_DATA *target_obj) {
+    int pour_volume = 0;
+    do {
+        pour_volume++;
+        obj->value[1]--;
+        target_obj->value[1]++;
+    } while ((obj->value[1] > 0) && (target_obj->value[1] < target_obj->value[0]) && (pour_volume < 50));
+}
+
+}
+
 /*
  *  pour for Xania, Faramir 30/6/96
  */
@@ -644,10 +650,7 @@ void do_give(Char *ch, const char *argument) {
 void do_pour(Char *ch, const char *argument) {
 
     char arg1[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj, *target_obj, *obj_next;
-    bool found = false;
     Char *victim;
-    int pour_volume = 0;
 
     argument = one_argument(argument, arg1);
 
@@ -656,7 +659,8 @@ void do_pour(Char *ch, const char *argument) {
         return;
     }
 
-    if ((obj = get_obj_carry(ch, arg1)) == nullptr) {
+    auto *obj = get_obj_carry(ch, arg1);
+    if (!obj) {
         ch->send_line("You do not have that item.");
         return;
     }
@@ -682,17 +686,8 @@ void do_pour(Char *ch, const char *argument) {
     }
 
     if (!str_prefix(arg1, "in")) {
-
-        for (target_obj = ch->carrying; target_obj != nullptr; target_obj = obj_next) {
-
-            if ((target_obj->item_type == ITEM_DRINK_CON) && (obj != target_obj)) {
-                found = true;
-                break;
-            }
-            obj_next = target_obj->next_content;
-        }
-
-        if (!found) {
+        auto *target_obj = find_pour_target(ch->carrying, obj);
+        if (!target_obj) {
             ch->send_line("Pour what into what?!");
             return;
         }
@@ -702,13 +697,7 @@ void do_pour(Char *ch, const char *argument) {
             return;
         }
 
-        do {
-
-            pour_volume++;
-            obj->value[1]--;
-            target_obj->value[1]++;
-
-        } while ((obj->value[1] > 0) && (target_obj->value[1] < target_obj->value[0]) && (pour_volume < 50));
+        pour_from_to(obj, target_obj);
 
         ch->send_to("You pour the contents of {} into {}", obj->short_descr, target_obj->short_descr);
         return;
@@ -726,16 +715,8 @@ void do_pour(Char *ch, const char *argument) {
         return;
     }
 
-    for (target_obj = victim->carrying; target_obj != nullptr; target_obj = obj_next) {
-
-        if (target_obj->item_type == ITEM_DRINK_CON) {
-            found = true;
-            break;
-        }
-        obj_next = target_obj->next_content;
-    }
-
-    if (!found) {
+    auto *target_obj = find_pour_target(victim->carrying, nullptr);
+    if (!target_obj) {
         ch->send_line("{} is not carrying an item which can be filled.", victim->short_name());
         return;
     }
@@ -751,21 +732,24 @@ void do_pour(Char *ch, const char *argument) {
         return;
     }
 
-    do {
-        obj->value[1]--;
-        target_obj->value[1]++;
-        pour_volume++; /* very important, to stop inf.loops with endless containers! */
-    } while ((obj->value[1] > 0) && (target_obj->value[1] < target_obj->value[0]) && (pour_volume < 50));
+    pour_from_to(obj, target_obj);
 
     act("You pour $p into $n's container.", ch, obj, nullptr, To::Char);
     ch->send_line("{} pours liquid into your container.", victim->short_name());
 }
 
+namespace {
+OBJ_DATA *find_fountain(GenericList<OBJ_DATA *> &list) {
+    for (auto *fountain : list)
+        if (fountain->item_type == ITEM_FOUNTAIN)
+            return fountain;
+    return nullptr;
+}
+}
+
 void do_fill(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
-    OBJ_DATA *fountain;
-    bool found;
 
     one_argument(argument, arg);
 
@@ -779,15 +763,8 @@ void do_fill(Char *ch, const char *argument) {
         return;
     }
 
-    found = false;
-    for (fountain = ch->in_room->contents; fountain != nullptr; fountain = fountain->next_content) {
-        if (fountain->item_type == ITEM_FOUNTAIN) {
-            found = true;
-            break;
-        }
-    }
-
-    if (!found) {
+    auto fountain = find_fountain(ch->in_room->contents);
+    if (!fountain) {
         ch->send_line("There is no fountain here!");
         return;
     }
@@ -821,12 +798,8 @@ void do_drink(Char *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        for (obj = ch->in_room->contents; obj; obj = obj->next_content) {
-            if (obj->item_type == ITEM_FOUNTAIN)
-                break;
-        }
-
-        if (obj == nullptr) {
+        obj = find_fountain(ch->in_room->contents);
+        if (!obj) {
             ch->send_line("Drink what?");
             return;
         }
@@ -1280,8 +1253,6 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
 
 void do_wear(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
-
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
@@ -1290,16 +1261,12 @@ void do_wear(Char *ch, const char *argument) {
     }
 
     if (!str_cmp(arg, "all")) {
-        OBJ_DATA *obj_next;
-
-        for (obj = ch->carrying; obj != nullptr; obj = obj_next) {
-            obj_next = obj->next_content;
+        for (auto *obj : ch->carrying)
             if (obj->wear_loc == WEAR_NONE && can_see_obj(ch, obj))
                 wear_obj(ch, obj, false);
-        }
-        return;
     } else {
-        if ((obj = get_obj_carry(ch, arg)) == nullptr) {
+        auto *obj = get_obj_carry(ch, arg);
+        if (!obj) {
             ch->send_line("You do not have that item.");
             return;
         }
@@ -1351,7 +1318,7 @@ void do_sacrifice(Char *ch, const char *argument) {
     }
 
     if (obj->item_type == ITEM_CORPSE_PC) {
-        if (obj->contains) {
+        if (!obj->contains.empty()) {
             ch->send_line("{} wouldn't like that.", deity_name);
             return;
         }
@@ -1830,7 +1797,6 @@ int get_cost(Char *keeper, OBJ_DATA *obj, bool fBuy) {
     if (fBuy) {
         cost = obj->cost * pShop->profit_buy / 100;
     } else {
-        OBJ_DATA *obj2;
         int itype;
 
         cost = 0;
@@ -1841,7 +1807,7 @@ int get_cost(Char *keeper, OBJ_DATA *obj, bool fBuy) {
             }
         }
 
-        for (obj2 = keeper->carrying; obj2; obj2 = obj2->next_content) {
+        for (auto *obj2 : keeper->carrying) {
             if (obj->pIndexData == obj2->pIndexData) {
                 cost = 0;
                 break;
@@ -2028,7 +1994,6 @@ void do_list(Char *ch, const char *argument) {
             ch->send_line("Sorry, we're out of pets right now.");
     } else {
         Char *keeper;
-        OBJ_DATA *obj;
         int cost;
         bool found;
         char arg[MAX_INPUT_LENGTH];
@@ -2038,7 +2003,7 @@ void do_list(Char *ch, const char *argument) {
         one_argument(argument, arg);
 
         std::string buffer;
-        for (obj = keeper->carrying; obj; obj = obj->next_content) {
+        for (auto *obj : keeper->carrying) {
             if (obj->wear_loc == WEAR_NONE && can_see_obj(ch, obj) && (cost = get_cost(keeper, obj, true)) > 0
                 && (arg[0] == '\0' || is_name(arg, obj->name))) {
                 if (!found) {
@@ -2224,12 +2189,15 @@ void do_throw(Char *ch, const char *argument) {
 }
 
 /* hailcorpse for getting out of sticky situations ooeer --Fara */
-
+namespace {
+OBJ_DATA *find_corpse(Char *ch, GenericList<OBJ_DATA *> &list) {
+    for (auto *current_obj : list)
+        if (current_obj->item_type == ITEM_CORPSE_PC && matches_inside(ch->name, current_obj->short_descr))
+            return current_obj;
+    return nullptr;
+}
+}
 void do_hailcorpse(Char *ch) {
-    ROOM_INDEX_DATA *current_place;
-    EXIT_DATA *pexit;
-    bool foundit = false;
-    OBJ_DATA *current_obj;
     if (is_switched(ch)) {
         ch->send_line("You cannot hail NPC corpses.");
         return;
@@ -2247,39 +2215,29 @@ void do_hailcorpse(Char *ch) {
     WAIT_STATE(ch, 25);
 
     /* first thing is to check the ch room to see if it's already here */
-    for (current_obj = ch->in_room->contents; current_obj != nullptr; current_obj = current_obj->next_content) {
-        if (current_obj->item_type == ITEM_CORPSE_PC && matches_inside(ch->name, current_obj->short_descr)) {
-            act("$n's corpse glows momentarily!", ch);
-            ch->send_line("Your corpse appears to be in the room already!");
-            return;
-        }
+    if (find_corpse(ch, ch->in_room->contents)) {
+        act("$n's corpse glows momentarily!", ch);
+        ch->send_line("Your corpse appears to be in the room already!");
+        return;
     }
     /* if not here then check all the rooms adjacent to this one */
     for (auto direction : all_directions) {
-        /* No exits in that direction */
-        if (foundit)
-            break;
-        current_place = ch->in_room;
-
-        if ((pexit = current_place->exit[direction]) == nullptr || (current_place = pexit->u1.to_room) == nullptr
-            || !can_see_room(ch, pexit->u1.to_room))
+        auto *pexit = ch->in_room->exit[direction];
+        if (!pexit)
+            continue;
+        auto adjacent_room = pexit->u1.to_room;
+        if (!adjacent_room || !can_see_room(ch, adjacent_room))
             continue;
 
-        for (current_obj = current_place->contents; current_obj != nullptr; current_obj = current_obj->next_content) {
-            if ((current_obj->item_type == ITEM_CORPSE_PC) && matches_inside(ch->name, current_obj->short_descr)) {
-                foundit = true;
-                break;
-            }
+        if (auto *corpse = find_corpse(ch, adjacent_room->contents)) {
+            obj_from_room(corpse);
+            obj_to_room(corpse, ch->in_room);
+            act("The corpse of $n materialises and floats gently before you!", ch);
+            act("Your corpse materialises through a dark portal and floats to your feet!", ch, nullptr, nullptr,
+                To::Char);
+            return;
         }
     }
-    if (foundit) {
-        obj_from_room(current_obj);
-        obj_to_room(current_obj, ch->in_room);
-        act("The corpse of $n materialises and floats gently before you!", ch);
-        act("Your corpse materialises through a dark portal and floats to your feet!", ch, nullptr, nullptr, To::Char);
-        return;
-    } else {
-        act("$n's prayers for assistance are ignored by the Gods.", ch);
-        act("Your prayers for assistance are ignored. Your corpse cannot be found.", ch, nullptr, nullptr, To::Char);
-    }
+    act("$n's prayers for assistance are ignored by the Gods.", ch);
+    act("Your prayers for assistance are ignored. Your corpse cannot be found.", ch, nullptr, nullptr, To::Char);
 }
