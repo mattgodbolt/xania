@@ -442,6 +442,21 @@ void do_wizlist(Char *ch) { do_help(ch, "wizlist"); }
 /* RT this following section holds all the auto commands from ROM, as well as
    replacements for config */
 
+namespace {
+struct OnOff {
+    bool b;
+};
+}
+template <>
+struct fmt::formatter<OnOff> {
+    constexpr auto parse(format_parse_context &ctx) { return ctx.begin(); }
+
+    template <typename FormatContext>
+    auto format(const OnOff &onoff, FormatContext &ctx) {
+        return fmt::format_to(ctx.out(), onoff.b ? "|RON|w" : "|ROFF|w");
+    }
+};
+
 void do_autolist(Char *ch) {
     /* lists most player flags */
     if (ch->is_npc())
@@ -450,71 +465,17 @@ void do_autolist(Char *ch) {
     ch->send_line("   action     status");
     ch->send_line("---------------------");
 
-    ch->send_line("ANSI colour    ");
-    if (ch->pcdata->colour)
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autoaffect     ");
-    if (IS_SET(ch->comm, COMM_AFFECT))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autoassist     ");
-    if (IS_SET(ch->act, PLR_AUTOASSIST))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autoexit       ");
-    if (IS_SET(ch->act, PLR_AUTOEXIT))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autogold       ");
-    if (IS_SET(ch->act, PLR_AUTOGOLD))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autoloot       ");
-    if (IS_SET(ch->act, PLR_AUTOLOOT))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autopeek       ");
-    if (IS_SET(ch->act, PLR_AUTOPEEK))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autosac        ");
-    if (IS_SET(ch->act, PLR_AUTOSAC))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autosplit      ");
-    if (IS_SET(ch->act, PLR_AUTOSPLIT))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("prompt         ");
-    if (IS_SET(ch->comm, COMM_PROMPT))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("combine items  ");
-    if (IS_SET(ch->comm, COMM_COMBINE))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
+    ch->send_line("ANSI colour    {}", OnOff{ch->pcdata->colour});
+    ch->send_line("autoaffect     {}", OnOff{IS_SET(ch->comm, COMM_AFFECT)});
+    ch->send_line("autoassist     {}", OnOff{IS_SET(ch->act, PLR_AUTOASSIST)});
+    ch->send_line("autoexit       {}", OnOff{IS_SET(ch->act, PLR_AUTOEXIT)});
+    ch->send_line("autogold       {}", OnOff{IS_SET(ch->act, PLR_AUTOGOLD)});
+    ch->send_line("autoloot       {}", OnOff{IS_SET(ch->act, PLR_AUTOLOOT)});
+    ch->send_line("autopeek       {}", OnOff{IS_SET(ch->act, PLR_AUTOPEEK)});
+    ch->send_line("autosac        {}", OnOff{IS_SET(ch->act, PLR_AUTOSAC)});
+    ch->send_line("autosplit      {}", OnOff{IS_SET(ch->act, PLR_AUTOSPLIT)});
+    ch->send_line("prompt         {}", OnOff{IS_SET(ch->comm, COMM_PROMPT)});
+    ch->send_line("combine items  {}", OnOff{IS_SET(ch->comm, COMM_COMBINE)});
 
     if (!IS_SET(ch->act, PLR_CANLOOT))
         ch->send_line("Your corpse is safe from thieves.");
