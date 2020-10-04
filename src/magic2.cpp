@@ -19,12 +19,6 @@
 #include "magic.h"
 #include "merc.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <time.h>
-
 /* Faramir's rather devious tornado spell....watch out for players who
  * use this to annoy others! :)
  */
@@ -97,8 +91,6 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     Char *current_person;
     Char *next_person;
-    Char *vch;
-    Char *vch_next;
 
     if (victim == ch) {
         ch->send_line("You can't cast that on yourself.");
@@ -154,8 +146,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
                 tornado_teleport(ch, victim);
         }
 
-        for (vch = char_list; vch != nullptr; vch = vch_next) {
-            vch_next = vch->next;
+        for (auto *vch : char_list) {
             if (vch->in_room == nullptr)
                 continue;
             if (vch->in_room == ch->in_room) {

@@ -839,8 +839,6 @@ void reap_old_chars() { chars_to_reap.clear(); }
  * Extract a char from the world.
  */
 void extract_char(Char *ch, bool delete_from_world) {
-    Char *wch;
-
     if (ch->in_room == nullptr) {
         bug("Extract_char: nullptr.");
         return;
@@ -875,27 +873,13 @@ void extract_char(Char *ch, bool delete_from_world) {
         do_return(ch);
     }
 
-    for (wch = char_list; wch != nullptr; wch = wch->next) {
+    for (auto *wch : char_list)
         if (wch->reply == ch)
             wch->reply = nullptr;
-    }
 
-    if (ch == char_list) {
-        char_list = ch->next;
-    } else {
-        Char *prev;
-
-        for (prev = char_list; prev != nullptr; prev = prev->next) {
-            if (prev->next == ch) {
-                prev->next = ch->next;
-                break;
-            }
-        }
-
-        if (prev == nullptr) {
-            bug("Extract_char: char not found.");
-            return;
-        }
+    if (!char_list.remove(ch)) {
+        bug("Extract_char: char not found.");
+        return;
     }
 
     if (ch->desc)
@@ -926,7 +910,7 @@ Char *get_char_world(Char *ch, std::string_view argument) {
 
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
-    for (auto *wch = char_list; wch != nullptr; wch = wch->next) {
+    for (auto *wch : char_list) {
         if (!wch->in_room || !ch->can_see(*wch) || !is_name(arg, wch->name))
             continue;
         if (++count == number)
@@ -938,12 +922,9 @@ Char *get_char_world(Char *ch, std::string_view argument) {
 
 /* find a MOB by vnum in the world, returning its Char * */
 Char *get_mob_by_vnum(sh_int vnum) {
-    Char *current = char_list;
-
-    for (; current; current = current->next)
-        if (current->pIndexData)
-            if (current->pIndexData->vnum == vnum)
-                return current;
+    for (auto *current : char_list)
+        if (current->pIndexData && current->pIndexData->vnum == vnum)
+            return current;
 
     return nullptr;
 }

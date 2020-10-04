@@ -43,7 +43,7 @@ void wiznet_initialise();
 SHOP_DATA *shop_first;
 SHOP_DATA *shop_last;
 
-Char *char_list;
+GenericList<Char *> char_list;
 KILL_DATA kill_table[MAX_LEVEL];
 GenericList<OBJ_DATA *> object_list;
 
@@ -1106,8 +1106,7 @@ Char *create_mobile(MobIndexData *pMobIndex) {
     mob->position = mob->start_pos;
 
     /* link the mob to the world list */
-    mob->next = char_list;
-    char_list = mob;
+    char_list.add_front(mob);
     pMobIndex->count++;
     return mob;
 }
@@ -1942,7 +1941,6 @@ void do_memory(Char *ch) {
 
 void do_dump(Char *ch) {
     int count, num_pcs, aff_count;
-    Char *fch;
     MobIndexData *pMobIndex;
     PcData *pc;
     OBJ_INDEX_DATA *pObjIndex;
@@ -1966,14 +1964,14 @@ void do_dump(Char *ch) {
 
     /* mobs */
     count = 0;
-    for (fch = char_list; fch != nullptr; fch = fch->next) {
+    for (auto *fch : char_list) {
         count++;
         if (fch->pcdata != nullptr)
             num_pcs++;
         aff_count += fch->affected.size();
     }
 
-    fprintf(fp, "Mobs	%4d (%8ld bytes)\n", count, count * (sizeof(*fch)));
+    fprintf(fp, "Mobs	%4d (%8ld bytes)\n", count, count * (sizeof(MobIndexData)));
 
     /* pcdata */
     fprintf(fp, "Pcdata	%4d (%8ld bytes)\n", num_pcs, num_pcs * (sizeof(*pc)));

@@ -67,14 +67,9 @@ void lose_level(Char *ch);
  * Called periodically by update_handler.
  */
 void violence_update() {
-    Char *ch;
-    Char *ch_next;
-    Char *victim;
-
-    for (ch = char_list; ch != nullptr; ch = ch_next) {
-        ch_next = ch->next;
-
-        if ((victim = ch->fighting) == nullptr || ch->in_room == nullptr)
+    for (auto *ch : char_list) {
+        auto *victim = ch->fighting;
+        if (!victim || ch->in_room == nullptr)
             continue;
 
         if (IS_AWAKE(ch) && ch->in_room == victim->in_room)
@@ -149,7 +144,7 @@ void check_assist(Char *ch, Char *victim) {
 
                     target = nullptr;
                     number = 0;
-                    for (vch = ch->in_room->people; vch; vch = vch->next) {
+                    for (vch = ch->in_room->people; vch; vch = vch->next_in_room) {
                         if (can_see(rch, vch) && is_same_group(vch, victim) && number_range(0, number) == 0) {
                             target = vch;
                             number++;
@@ -277,7 +272,7 @@ void mob_hit(Char *ch, Char *victim, int dt) {
 
     if (IS_SET(ch->off_flags, OFF_AREA_ATTACK)) {
         for (vch = ch->in_room->people; vch != nullptr; vch = vch_next) {
-            vch_next = vch->next;
+            vch_next = vch->next_in_room;
             if ((vch != victim && vch->fighting == ch))
                 one_hit(ch, vch, dt);
         }
@@ -846,7 +841,7 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
         victim_room_vnum = victim->in_room->vnum;
         raw_kill(victim);
 
-        for (auto *mob = char_list; mob; mob = mob->next)
+        for (auto *mob : char_list)
             if (mob->is_npc() && IS_SET(mob->act, ACT_SENTIENT) && matches(mob->sentient_victim, victim->name))
                 mob->sentient_victim.clear();
         /**
@@ -1229,9 +1224,7 @@ void set_fighting(Char *ch, Char *victim) {
  * Stop fights.
  */
 void stop_fighting(Char *ch, bool fBoth) {
-    Char *fch;
-
-    for (fch = char_list; fch != nullptr; fch = fch->next) {
+    for (auto *fch : char_list) {
         if (fch == ch || (fBoth && fch->fighting == ch)) {
             fch->fighting = nullptr;
             fch->position = fch->is_npc() ? ch->default_pos : POS_STANDING;

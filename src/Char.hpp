@@ -24,7 +24,6 @@ struct MPROG_ACT_LIST;
  * One character (PC or NPC).
  */
 struct Char {
-    Char *next{};
     Char *next_in_room{};
     Char *master{};
     Char *leader{};

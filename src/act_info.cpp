@@ -1574,7 +1574,7 @@ void do_where(Char *ch, const char *argument) {
         }
     } else {
         auto found = false;
-        for (auto *victim = char_list; victim != nullptr; victim = victim->next) {
+        for (auto *victim : char_list) {
             if (victim->in_room != nullptr && victim->in_room->area == ch->in_room->area
                 && !IS_AFFECTED(victim, AFF_HIDE) && !IS_AFFECTED(victim, AFF_SNEAK) && can_see(ch, victim)
                 && victim != ch && is_name(arg, victim->name)) {

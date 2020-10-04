@@ -800,10 +800,8 @@ void spell_call_lightning(int sn, int level, Char *ch, void *vo) {
     ch->send_line("{}'s lightning strikes your foes!", deity_name);
     act(fmt::format("$n calls {}'s lightning to strike $s foes!", deity_name), ch);
 
-    Char *vch_next;
-    for (Char *vch = char_list; vch != nullptr; vch = vch_next) {
-        vch_next = vch->next;
-        if (vch->in_room == nullptr)
+    for (auto *vch : char_list) {
+        if (!vch->in_room)
             continue;
         if (vch->in_room == ch->in_room) {
             if (vch != ch && (ch->is_npc() ? vch->is_pc() : vch->is_npc()))
@@ -1775,14 +1773,11 @@ void spell_dispel_magic(int sn, int level, Char *ch, void *vo) {
 
 void spell_earthquake(int sn, int level, Char *ch, void *vo) {
     (void)vo;
-    Char *vch;
-    Char *vch_next;
 
     ch->send_line("The earth trembles beneath your feet!");
     act("$n makes the earth tremble and shiver.", ch);
 
-    for (vch = char_list; vch != nullptr; vch = vch_next) {
-        vch_next = vch->next;
+    for (auto *vch : char_list) {
         if (vch->in_room == nullptr)
             continue;
         if (vch->in_room == ch->in_room) {

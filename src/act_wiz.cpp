@@ -27,6 +27,7 @@
 #include "tables.h"
 
 #include <fmt/format.h>
+#include <range/v3/numeric/accumulate.hpp>
 #include <range/v3/view/concat.hpp>
 #include <range/v3/view/transform.hpp>
 
@@ -34,9 +35,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <range/v3/numeric/accumulate.hpp>
-#include <sys/time.h>
-#include <sys/types.h>
 
 static const char ROOM_FLAGS[] = "dark * nomob indoors * * * * * private safe solitary petshop norecall 100imponly "
                                  "92godonly heroonly newbieonly law";
@@ -462,7 +460,6 @@ void do_at(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
     ROOM_INDEX_DATA *original;
-    Char *wch;
 
     argument = one_argument(argument, arg);
 
@@ -492,7 +489,7 @@ void do_at(Char *ch, const char *argument) {
      * See if 'ch' still exists before continuing!
      * Handles 'at XXXX quit' case.
      */
-    for (wch = char_list; wch != nullptr; wch = wch->next) {
+    for (auto *wch : char_list) {
         if (wch == ch) {
             char_from_room(ch);
             char_to_room(ch, original);
@@ -1389,7 +1386,7 @@ void do_mwhere(Char *ch, const char *argument) {
     bool found = false;
     int number = 0;
     std::string buffer;
-    for (auto *victim = char_list; victim != nullptr; victim = victim->next) {
+    for (auto *victim : char_list) {
         if ((victim->is_npc() && victim->in_room != nullptr && is_name(argument, victim->name) && !find_pc)
             || (victim->is_pc() && find_pc && can_see(ch, victim))) {
             found = true;
@@ -3204,17 +3201,12 @@ void do_force(Char *ch, const char *argument) {
     bug_snprintf(buf, sizeof(buf), "$n forces you to '%s'.", argument);
 
     if (!str_cmp(arg, "all")) {
-        Char *vch;
-        Char *vch_next;
-
         if (ch->get_trust() < DEITY) {
             ch->send_line("Not at your level!");
             return;
         }
 
-        for (vch = char_list; vch != nullptr; vch = vch_next) {
-            vch_next = vch->next;
-
+        for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust()) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;
@@ -3223,17 +3215,12 @@ void do_force(Char *ch, const char *argument) {
             }
         }
     } else if (!str_cmp(arg, "players")) {
-        Char *vch;
-        Char *vch_next;
-
         if (ch->get_trust() < SUPREME) {
             ch->send_line("Not at your level!");
             return;
         }
 
-        for (vch = char_list; vch != nullptr; vch = vch_next) {
-            vch_next = vch->next;
-
+        for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level < LEVEL_HERO) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;
@@ -3242,17 +3229,12 @@ void do_force(Char *ch, const char *argument) {
             }
         }
     } else if (!str_cmp(arg, "gods")) {
-        Char *vch;
-        Char *vch_next;
-
         if (ch->get_trust() < SUPREME) {
             ch->send_line("Not at your level!");
             return;
         }
 
-        for (vch = char_list; vch != nullptr; vch = vch_next) {
-            vch_next = vch->next;
-
+        for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level >= LEVEL_HERO) {
                 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;

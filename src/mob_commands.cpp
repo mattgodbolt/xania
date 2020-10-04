@@ -441,7 +441,6 @@ void do_mpat(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     ROOM_INDEX_DATA *location;
     ROOM_INDEX_DATA *original;
-    Char *wch;
 
     if (ch->is_pc()) {
         ch->send_line("Huh?");
@@ -469,7 +468,7 @@ void do_mpat(Char *ch, const char *argument) {
      * See if 'ch' still exists before continuing!
      * Handles 'at XXXX quit' case.
      */
-    for (wch = char_list; wch != nullptr; wch = wch->next) {
+    for (auto *wch : char_list) {
         if (wch == ch) {
             char_from_room(ch);
             char_to_room(ch, original);
@@ -562,15 +561,9 @@ void do_mpforce(Char *ch, const char *argument) {
     }
 
     if (!str_cmp(arg, "all")) {
-        Char *vch;
-        Char *vch_next;
-
-        for (vch = char_list; vch != nullptr; vch = vch_next) {
-            vch_next = vch->next;
-
-            if (vch->in_room == ch->in_room && vch->get_trust() < ch->get_trust() && can_see(ch, vch)) {
+        for (auto *vch : char_list) {
+            if (vch->in_room == ch->in_room && vch->get_trust() < ch->get_trust() && can_see(ch, vch))
                 interpret(vch, argument);
-            }
         }
     } else {
         Char *victim;

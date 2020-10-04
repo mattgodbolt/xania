@@ -593,8 +593,6 @@ void nuke_pets(Char *ch) {
 }
 
 void die_follower(Char *ch) {
-    Char *fch;
-
     if (ch->master != nullptr) {
         if (ch->master->pet == ch)
             ch->master->pet = nullptr;
@@ -603,7 +601,7 @@ void die_follower(Char *ch) {
 
     ch->leader = nullptr;
 
-    for (fch = char_list; fch != nullptr; fch = fch->next) {
+    for (auto *fch : char_list) {
         if (fch->master == ch)
             stop_follower(fch);
         if (fch->leader == ch)
@@ -686,7 +684,7 @@ void do_group(Char *ch, const char *argument) {
     if (arg[0] == '\0') {
         ch->send_line("{}'s group:", pers(ch->leader ? ch->leader : ch, ch));
 
-        for (auto *gch = char_list; gch != nullptr; gch = gch->next) {
+        for (auto *gch : char_list) {
             if (is_same_group(gch, ch)) {
                 ch->send_line("[{:3} {}] {:<16} {:4}/{:4} hp {:4}/{:4} mana {:4}/{:4} mv {:5} xp", gch->level,
                               gch->is_npc() ? "Mob" : class_table[gch->class_num].who_name, pers(gch, ch), gch->hit,
@@ -821,7 +819,7 @@ void do_gtell(Char *ch, std::string_view argument) {
     // Note use of send_line (not act), so gtell works on sleepers.
     ch->send_line("|CYou tell the group '{}|C'|w.", argument);
     auto msg = fmt::format("|C{} tells the group '{}|C'|w.", ch->name, argument);
-    for (auto *gch = char_list; gch != nullptr; gch = gch->next)
+    for (auto *gch : char_list)
         if (is_same_group(gch, ch) && gch != ch)
             gch->send_line(msg);
 }

@@ -343,14 +343,10 @@ void gain_condition(Char *ch, int iCond, int value) {
  * -- Furey
  */
 void mobile_update() {
-    Char *ch;
-    Char *ch_next;
     EXIT_DATA *pexit;
 
     /* Examine all mobs. */
-    for (ch = char_list; ch != nullptr; ch = ch_next) {
-        ch_next = ch->next;
-
+    for (auto *ch : char_list) {
         if (ch->is_pc() || ch->in_room == nullptr || IS_AFFECTED(ch, AFF_CHARM))
             continue;
 
@@ -358,7 +354,7 @@ void mobile_update() {
             continue;
 
         /* Examine call for special procedure */
-        if (ch->spec_fun != 0) {
+        if (ch->spec_fun) {
             if ((*ch->spec_fun)(ch))
                 continue;
         }
@@ -476,8 +472,6 @@ void move_idle_char_to_limbo(Char *ch) {
  * Update all chars, including mobs.
  */
 void char_update() {
-    Char *ch;
-    Char *ch_next;
     Char *ch_quit;
 
     ch_quit = nullptr;
@@ -488,9 +482,7 @@ void char_update() {
     if (save_number == save_every_n)
         save_number = 0;
 
-    for (ch = char_list; ch != nullptr; ch = ch_next) {
-        ch_next = ch->next;
-
+    for (auto *ch : char_list) {
         if (ch->timer > 30)
             ch_quit = ch;
 
@@ -633,9 +625,7 @@ void char_update() {
      * Autosave and autoquit.
      * Check that these chars still exist.
      */
-    for (ch = char_list; ch != nullptr; ch = ch_next) {
-        ch_next = ch->next;
-
+    for (auto *ch : char_list) {
         if (ch->desc != nullptr && ch->desc->channel() % save_every_n == save_number)
             save_char_obj(ch);
 
@@ -735,14 +725,10 @@ void obj_update() {
  */
 void do_aggressive_sentient(Char *, Char *);
 void aggr_update() {
-    Char *wch;
-    Char *wch_next;
     Char *ch;
     Char *ch_next;
 
-    for (wch = char_list; wch != nullptr; wch = wch_next) {
-        wch_next = wch->next;
-
+    for (auto *wch : char_list) {
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         /* MOBProgram ACT_PROG trigger */
         if (wch->is_npc() && wch->mpactnum > 0 && wch->in_room->area->nplayer > 0) {

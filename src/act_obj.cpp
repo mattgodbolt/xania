@@ -46,7 +46,7 @@ bool can_loot(const Char *ch, const OBJ_DATA *obj) {
         return true;
 
     const Char *owner = nullptr;
-    for (const auto *wch = char_list; wch != nullptr; wch = wch->next)
+    for (const auto *wch : char_list)
         if (matches(wch->name, obj->owner))
             owner = wch;
 
