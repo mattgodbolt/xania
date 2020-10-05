@@ -43,7 +43,7 @@ void wiznet_initialise();
 SHOP_DATA *shop_first;
 SHOP_DATA *shop_last;
 
-Char *char_list;
+GenericList<Char *> char_list;
 KILL_DATA kill_table[MAX_LEVEL];
 GenericList<OBJ_DATA *> object_list;
 
@@ -795,7 +795,6 @@ void area_update() {
  */
 void reset_room(ROOM_INDEX_DATA *pRoom) {
     RESET_DATA *pReset;
-    Char *pMob;
     OBJ_DATA *pObj;
     Char *LastMob = nullptr;
     OBJ_DATA *LastObj = nullptr;
@@ -804,7 +803,6 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
     if (!pRoom)
         return;
 
-    pMob = nullptr;
     last = false;
 
     for (auto exit_dir : all_directions) {
@@ -823,12 +821,11 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
         OBJ_INDEX_DATA *pObjIndex;
         OBJ_INDEX_DATA *pObjToIndex;
         ROOM_INDEX_DATA *pRoomIndex;
-        int count, limit;
 
         switch (pReset->command) {
         default: bug("Reset_room: bad command {}.", pReset->command); break;
 
-        case RESETS_MOB_IN_ROOM:
+        case RESETS_MOB_IN_ROOM: {
             if (!(pMobIndex = get_mob_index(pReset->arg1))) {
                 bug("Reset_room: 'M': bad vnum {}.", pReset->arg1);
                 continue;
@@ -837,9 +834,9 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
                 last = false;
                 break;
             }
-            count = 0;
-            for (pMob = pRoom->people; pMob != nullptr; pMob = pMob->next_in_room) {
-                if (pMob->pIndexData == pMobIndex) {
+            int count = 0;
+            for (auto *mch : pRoom->people) {
+                if (mch->pIndexData == pMobIndex) {
                     count++;
                     if (count >= pReset->arg4) {
                         last = false;
@@ -851,7 +848,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
             if (count >= pReset->arg4)
                 break;
 
-            pMob = create_mobile(pMobIndex);
+            auto *pMob = create_mobile(pMobIndex);
 
             /*
              * Pet shop mobiles get ACT_PET set.
@@ -868,7 +865,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
 
             LastMob = pMob;
             last = true;
-            break;
+        } break;
 
         case RESETS_OBJ_IN_ROOM:
             if (!(pObjIndex = get_obj_index(pReset->arg1))) {
@@ -902,6 +899,7 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
                 continue;
             }
 
+            int limit, count;
             if (pReset->arg2 > 20) /* old format reduced from 50! */
                 limit = 6;
             else if (pReset->arg2 == -1) /* no limit */
@@ -1106,8 +1104,7 @@ Char *create_mobile(MobIndexData *pMobIndex) {
     mob->position = mob->start_pos;
 
     /* link the mob to the world list */
-    mob->next = char_list;
-    char_list = mob;
+    char_list.add_front(mob);
     pMobIndex->count++;
     return mob;
 }
@@ -1942,7 +1939,6 @@ void do_memory(Char *ch) {
 
 void do_dump(Char *ch) {
     int count, num_pcs, aff_count;
-    Char *fch;
     MobIndexData *pMobIndex;
     PcData *pc;
     OBJ_INDEX_DATA *pObjIndex;
@@ -1966,14 +1962,14 @@ void do_dump(Char *ch) {
 
     /* mobs */
     count = 0;
-    for (fch = char_list; fch != nullptr; fch = fch->next) {
+    for (auto *fch : char_list) {
         count++;
         if (fch->pcdata != nullptr)
             num_pcs++;
         aff_count += fch->affected.size();
     }
 
-    fprintf(fp, "Mobs	%4d (%8ld bytes)\n", count, count * (sizeof(*fch)));
+    fprintf(fp, "Mobs	%4d (%8ld bytes)\n", count, count * (sizeof(MobIndexData)));
 
     /* pcdata */
     fprintf(fp, "Pcdata	%4d (%8ld bytes)\n", num_pcs, num_pcs * (sizeof(*pc)));

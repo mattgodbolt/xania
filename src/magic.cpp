@@ -139,7 +139,7 @@ void say_spell(Char *ch, int sn) {
     }
     to_other_class = fmt::format("|y$n utters the words '{}'.|w", translation);
     to_same_class = fmt::format("|y$n utters the words '{}'.|w", skill_table[sn].name);
-    for (Char *rch = ch->in_room->people; rch; rch = rch->next_in_room) {
+    for (auto *rch : ch->in_room->people) {
         if (rch != ch)
             act(ch->class_num == rch->class_num ? to_same_class : to_other_class, ch, nullptr, rch, To::Vict);
     }
@@ -570,12 +570,8 @@ void do_cast(Char *ch, const char *argument) {
 
     if (skill_table[sn].target == TAR_CHAR_OFFENSIVE && victim != ch && victim->master != ch
         && (victim->is_npc() || fighting_duel(ch, victim))) {
-        Char *vch;
-        Char *vch_next;
-
-        if (ch && ch->in_room && ch->in_room->people != nullptr) {
-            for (vch = ch->in_room->people; vch; vch = vch_next) {
-                vch_next = vch->next_in_room;
+        if (ch && ch->in_room) {
+            for (auto *vch : ch->in_room->people) {
                 if (victim == vch && victim->fighting == nullptr) {
                     multi_hit(victim, ch, TYPE_UNDEFINED);
                     break;
@@ -639,11 +635,7 @@ void obj_cast_spell(int sn, int level, Char *ch, Char *victim, OBJ_DATA *obj) {
     (*skill_table[sn].spell_fun)(sn, level, ch, vo);
 
     if (skill_table[sn].target == TAR_CHAR_OFFENSIVE && victim != ch && victim->master != ch) {
-        Char *vch;
-        Char *vch_next;
-
-        for (vch = ch->in_room->people; vch; vch = vch_next) {
-            vch_next = vch->next_in_room;
+        for (auto *vch : ch->in_room->people) {
             if (victim == vch && victim->fighting == nullptr) {
                 multi_hit(victim, ch, TYPE_UNDEFINED);
                 break;
@@ -788,10 +780,8 @@ void spell_call_lightning(int sn, int level, Char *ch, void *vo) {
     ch->send_line("{}'s lightning strikes your foes!", deity_name);
     act(fmt::format("$n calls {}'s lightning to strike $s foes!", deity_name), ch);
 
-    Char *vch_next;
-    for (Char *vch = char_list; vch != nullptr; vch = vch_next) {
-        vch_next = vch->next;
-        if (vch->in_room == nullptr)
+    for (auto *vch : char_list) {
+        if (!vch->in_room)
             continue;
         if (vch->in_room == ch->in_room) {
             if (vch != ch && (ch->is_npc() ? vch->is_pc() : vch->is_npc()))
@@ -808,13 +798,12 @@ void spell_call_lightning(int sn, int level, Char *ch, void *vo) {
 
 void spell_calm(int sn, int level, Char *ch, void *vo) {
     (void)vo;
-    Char *vch;
     int mlevel = 0;
     int count = 0;
     int high_level = 0;
 
     /* get sum of all mobile levels in the room */
-    for (vch = ch->in_room->people; vch != nullptr; vch = vch->next_in_room) {
+    for (auto *vch : ch->in_room->people) {
         if (vch->position == POS_FIGHTING) {
             count++;
             if (vch->is_npc())
@@ -833,7 +822,7 @@ void spell_calm(int sn, int level, Char *ch, void *vo) {
 
     if (number_range(0, chance) >= mlevel) /* hard to stop large fights */
     {
-        for (vch = ch->in_room->people; vch != nullptr; vch = vch->next_in_room) {
+        for (auto *vch : ch->in_room->people) {
             if (vch->is_npc() && (IS_SET(vch->imm_flags, IMM_MAGIC) || IS_SET(vch->act, ACT_UNDEAD)))
                 return;
 
@@ -1064,7 +1053,7 @@ void spell_cause_serious(int sn, int level, Char *ch, void *vo) {
 
 void spell_chain_lightning(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    Char *tmp_vict, *last_vict, *next_vict;
+    Char *last_vict;
     bool found;
 
     /* first strike */
@@ -1083,8 +1072,7 @@ void spell_chain_lightning(int sn, int level, Char *ch, void *vo) {
     /* new targets */
     while (level > 0) {
         found = false;
-        for (tmp_vict = ch->in_room->people; tmp_vict != nullptr; tmp_vict = next_vict) {
-            next_vict = tmp_vict->next_in_room;
+        for (auto *tmp_vict : ch->in_room->people) {
             if (!is_safe_spell(ch, tmp_vict, true) && tmp_vict != last_vict) {
                 found = true;
                 last_vict = tmp_vict;
@@ -1763,14 +1751,11 @@ void spell_dispel_magic(int sn, int level, Char *ch, void *vo) {
 
 void spell_earthquake(int sn, int level, Char *ch, void *vo) {
     (void)vo;
-    Char *vch;
-    Char *vch_next;
 
     ch->send_line("The earth trembles beneath your feet!");
     act("$n makes the earth tremble and shiver.", ch);
 
-    for (vch = char_list; vch != nullptr; vch = vch_next) {
-        vch_next = vch->next;
+    for (auto *vch : char_list) {
         if (vch->in_room == nullptr)
             continue;
         if (vch->in_room == ch->in_room) {
@@ -2448,12 +2433,11 @@ void spell_faerie_fire(int sn, int level, Char *ch, void *vo) {
 void spell_faerie_fog(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)vo;
-    Char *ich;
 
     act("$n conjures a cloud of purple smoke.", ch);
     ch->send_line("You conjure a cloud of purple smoke.");
 
-    for (ich = ch->in_room->people; ich != nullptr; ich = ich->next_in_room) {
+    for (auto *ich : ch->in_room->people) {
         if (ich->is_pc() && IS_SET(ich->act, PLR_WIZINVIS))
             continue;
         if (ich->is_pc() && IS_SET(ich->act, PLR_PROWL))
@@ -2763,8 +2747,6 @@ void spell_heal(int sn, int level, Char *ch, void *vo) {
 /* PGW it was crap so i changed it*/
 void spell_holy_word(int sn, int level, Char *ch, void *vo) {
     (void)vo;
-    Char *vch;
-    Char *vch_next;
     int dam;
     int bless_num, curse_num, frenzy_num;
 
@@ -2775,9 +2757,7 @@ void spell_holy_word(int sn, int level, Char *ch, void *vo) {
     act("$n utters a word of divine power!", ch);
     ch->send_line("You utter a word of divine power.");
 
-    for (vch = ch->in_room->people; vch != nullptr; vch = vch_next) {
-        vch_next = vch->next_in_room;
-
+    for (auto *vch : ch->in_room->people) {
         if ((ch->is_good() && vch->is_good()) || (ch->is_evil() && vch->is_evil())
             || (ch->is_neutral() && vch->is_neutral())) {
             vch->send_line("You feel full more powerful.");
@@ -2829,31 +2809,22 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
     case ITEM_POTION:
     case ITEM_PILL:
     case ITEM_BOMB:
-        snprintf(buf, sizeof(buf), "Level %d spells of:", obj->value[0]);
-        ch->send_to(buf);
+        ch->send_to("Level {} spells of:", obj->value[0]);
 
         if (obj->value[1] >= 0 && obj->value[1] < MAX_SKILL) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[1]].name);
-            ch->send_line("'");
+            ch->send_to(" '{}'", skill_table[obj->value[1]].name);
         }
 
         if (obj->value[2] >= 0 && obj->value[2] < MAX_SKILL) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[2]].name);
-            ch->send_line("'");
+            ch->send_to(" '{}'", skill_table[obj->value[2]].name);
         }
 
         if (obj->value[3] >= 0 && obj->value[3] < MAX_SKILL) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[3]].name);
-            ch->send_line("'");
+            ch->send_to(" '{}'", skill_table[obj->value[3]].name);
         }
 
         if (obj->value[4] >= 0 && obj->value[4] < MAX_SKILL && obj->item_type == ITEM_BOMB) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[4]].name);
-            ch->send_line("'");
+            ch->send_to(" '{}'", skill_table[obj->value[4]].name);
         }
 
         ch->send_line(".");
@@ -2861,13 +2832,10 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
 
     case ITEM_WAND:
     case ITEM_STAFF:
-        snprintf(buf, sizeof(buf), "Has %d(%d) charges of level %d", obj->value[1], obj->value[2], obj->value[0]);
-        ch->send_to(buf);
+        ch->send_to("Has {}({}) charges of level {}", obj->value[1], obj->value[2], obj->value[0]);
 
         if (obj->value[3] >= 0 && obj->value[3] < MAX_SKILL) {
-            ch->send_line(" '");
-            ch->send_to(skill_table[obj->value[3]].name);
-            ch->send_line("'");
+            ch->send_to(" '{}'", skill_table[obj->value[3]].name);
         }
 
         ch->send_line(".");
@@ -2888,27 +2856,27 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
         default: ch->send_line("unknown."); break;
         }
         if ((obj->value[4] != 0) && (obj->item_type == ITEM_WEAPON)) {
-            ch->send_line("Weapon flags:");
+            ch->send_to("Weapon flags:");
             if (IS_SET(obj->value[4], WEAPON_FLAMING))
-                ch->send_line(" flaming");
+                ch->send_to(" flaming");
             if (IS_SET(obj->value[4], WEAPON_FROST))
-                ch->send_line(" frost");
+                ch->send_to(" frost");
             if (IS_SET(obj->value[4], WEAPON_VAMPIRIC))
-                ch->send_line(" vampiric");
+                ch->send_to(" vampiric");
             if (IS_SET(obj->value[4], WEAPON_SHARP))
-                ch->send_line(" sharp");
+                ch->send_to(" sharp");
             if (IS_SET(obj->value[4], WEAPON_VORPAL))
-                ch->send_line(" vorpal");
+                ch->send_to(" vorpal");
             if (IS_SET(obj->value[4], WEAPON_TWO_HANDS))
-                ch->send_line(" two-handed");
+                ch->send_to(" two-handed");
             if (IS_SET(obj->value[4], WEAPON_POISONED))
-                ch->send_line(" poisoned");
+                ch->send_to(" poisoned");
             if (IS_SET(obj->value[4], WEAPON_PLAGUED))
-                ch->send_line(" death");
+                ch->send_to(" death");
             if (IS_SET(obj->value[4], WEAPON_ACID))
-                ch->send_line(" acid");
+                ch->send_to(" acid");
             if (IS_SET(obj->value[4], WEAPON_LIGHTNING))
-                ch->send_line(" lightning");
+                ch->send_to(" lightning");
             ch->send_line(".");
         }
         snprintf(buf, sizeof(buf), "Damage is %dd%d (average %d).\n\r", obj->value[1], obj->value[2],
@@ -3067,13 +3035,12 @@ void spell_magic_missile(int sn, int level, Char *ch, void *vo) {
 void spell_mass_healing(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)vo;
-    Char *gch;
     int heal_num, refresh_num;
 
     heal_num = skill_lookup("heal");
     refresh_num = skill_lookup("refresh");
 
-    for (gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
+    for (auto *gch : ch->in_room->people) {
         if ((ch->is_npc() && gch->is_npc()) || (ch->is_pc() && gch->is_pc())) {
             spell_heal(heal_num, level, ch, (void *)gch);
             spell_refresh(refresh_num, level, ch, (void *)gch);
@@ -3084,9 +3051,8 @@ void spell_mass_healing(int sn, int level, Char *ch, void *vo) {
 void spell_mass_invis(int sn, int level, Char *ch, void *vo) {
     (void)vo;
     AFFECT_DATA af;
-    Char *gch;
 
-    for (gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
+    for (auto *gch : ch->in_room->people) {
         if (!is_same_group(gch, ch) || IS_AFFECTED(gch, AFF_INVISIBLE))
             continue;
         act("$n slowly fades out of existence.", gch);
@@ -3535,7 +3501,6 @@ void spell_ventriloquate(int sn, int level, Char *ch, void *vo) {
     char buf1[MAX_STRING_LENGTH];
     char buf2[MAX_STRING_LENGTH];
     char speaker[MAX_INPUT_LENGTH];
-    Char *vch;
 
     target_name = one_argument(target_name, speaker);
 
@@ -3543,7 +3508,7 @@ void spell_ventriloquate(int sn, int level, Char *ch, void *vo) {
     snprintf(buf2, sizeof(buf2), "Someone makes %s say '%s'.\n\r", speaker, target_name);
     buf1[0] = UPPER(buf1[0]);
 
-    for (vch = ch->in_room->people; vch != nullptr; vch = vch->next_in_room) {
+    for (auto *vch : ch->in_room->people) {
         if (!is_name(speaker, vch->name))
             vch->send_to(saves_spell(level, vch) ? buf2 : buf1);
     }
@@ -3765,13 +3730,10 @@ void spell_frost_breath(int sn, int level, Char *ch, void *vo) {
 
 void spell_gas_breath(int sn, int level, Char *ch, void *vo) {
     (void)vo;
-    Char *vch;
-    Char *vch_next;
     int dam;
     int hpch;
 
-    for (vch = ch->in_room->people; vch != nullptr; vch = vch_next) {
-        vch_next = vch->next_in_room;
+    for (auto *vch : ch->in_room->people) {
         if (!is_safe_spell(ch, vch, true)) {
             hpch = URANGE(10, ch->hit, 2000);
             if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())

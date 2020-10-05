@@ -19,12 +19,6 @@
 #include "magic.h"
 #include "merc.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <time.h>
-
 /* Faramir's rather devious tornado spell....watch out for players who
  * use this to annoy others! :)
  */
@@ -95,10 +89,6 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
     Char *victim = (Char *)vo;
-    Char *current_person;
-    Char *next_person;
-    Char *vch;
-    Char *vch_next;
 
     if (victim == ch) {
         ch->send_line("You can't cast that on yourself.");
@@ -154,8 +144,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
                 tornado_teleport(ch, victim);
         }
 
-        for (vch = char_list; vch != nullptr; vch = vch_next) {
-            vch_next = vch->next;
+        for (auto *vch : char_list) {
             if (vch->in_room == nullptr)
                 continue;
             if (vch->in_room == ch->in_room) {
@@ -173,9 +162,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
             /* No exits in that direction */
             if (auto *pexit = ch->in_room->exit[direction]) {
                 if (auto *room = pexit->u1.to_room) {
-                    for (current_person = room->people; current_person != nullptr; current_person = next_person) {
-                        next_person = current_person->next_in_room;
-
+                    for (auto *current_person : room->people) {
                         current_person->send_line("Suddenly, a gale of psychic energy blows through the room!");
                         if (!is_safe_spell(ch, current_person, true)
                             && (check_immune(current_person, DAM_MENTAL) != IS_IMMUNE))

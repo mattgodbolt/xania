@@ -117,7 +117,7 @@ size_t max_on = 0;
 std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort);
 void show_char_to_char_0(const Char *victim, const Char *ch);
 void show_char_to_char_1(Char *victim, Char *ch);
-void show_char_to_char(const Char *list, const Char *ch);
+void show_char_to_char(const GenericList<Char *> &list, const Char *ch);
 bool check_blind(const Char *ch);
 
 /* Mg's funcy shun */
@@ -354,8 +354,8 @@ void do_peek(Char *ch, const char *argument) {
         ch->send_line("They aren't here.");
 }
 
-void show_char_to_char(const Char *list, const Char *ch) {
-    for (auto *rch = list; rch != nullptr; rch = rch->next_in_room) {
+void show_char_to_char(const GenericList<Char *> &list, const Char *ch) {
+    for (auto *rch : list) {
         if (rch == ch)
             continue;
 
@@ -442,6 +442,21 @@ void do_wizlist(Char *ch) { do_help(ch, "wizlist"); }
 /* RT this following section holds all the auto commands from ROM, as well as
    replacements for config */
 
+namespace {
+struct OnOff {
+    bool b;
+};
+}
+template <>
+struct fmt::formatter<OnOff> {
+    constexpr auto parse(format_parse_context &ctx) { return ctx.begin(); }
+
+    template <typename FormatContext>
+    auto format(const OnOff &onoff, FormatContext &ctx) {
+        return fmt::format_to(ctx.out(), onoff.b ? "|RON|w" : "|ROFF|w");
+    }
+};
+
 void do_autolist(Char *ch) {
     /* lists most player flags */
     if (ch->is_npc())
@@ -450,71 +465,17 @@ void do_autolist(Char *ch) {
     ch->send_line("   action     status");
     ch->send_line("---------------------");
 
-    ch->send_line("ANSI colour    ");
-    if (ch->pcdata->colour)
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autoaffect     ");
-    if (IS_SET(ch->comm, COMM_AFFECT))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autoassist     ");
-    if (IS_SET(ch->act, PLR_AUTOASSIST))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autoexit       ");
-    if (IS_SET(ch->act, PLR_AUTOEXIT))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autogold       ");
-    if (IS_SET(ch->act, PLR_AUTOGOLD))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autoloot       ");
-    if (IS_SET(ch->act, PLR_AUTOLOOT))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autopeek       ");
-    if (IS_SET(ch->act, PLR_AUTOPEEK))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autosac        ");
-    if (IS_SET(ch->act, PLR_AUTOSAC))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("autosplit      ");
-    if (IS_SET(ch->act, PLR_AUTOSPLIT))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("prompt         ");
-    if (IS_SET(ch->comm, COMM_PROMPT))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
-
-    ch->send_line("combine items  ");
-    if (IS_SET(ch->comm, COMM_COMBINE))
-        ch->send_line("|RON|w");
-    else
-        ch->send_line("|ROFF|w");
+    ch->send_line("ANSI colour    {}", OnOff{ch->pcdata->colour});
+    ch->send_line("autoaffect     {}", OnOff{IS_SET(ch->comm, COMM_AFFECT)});
+    ch->send_line("autoassist     {}", OnOff{IS_SET(ch->act, PLR_AUTOASSIST)});
+    ch->send_line("autoexit       {}", OnOff{IS_SET(ch->act, PLR_AUTOEXIT)});
+    ch->send_line("autogold       {}", OnOff{IS_SET(ch->act, PLR_AUTOGOLD)});
+    ch->send_line("autoloot       {}", OnOff{IS_SET(ch->act, PLR_AUTOLOOT)});
+    ch->send_line("autopeek       {}", OnOff{IS_SET(ch->act, PLR_AUTOPEEK)});
+    ch->send_line("autosac        {}", OnOff{IS_SET(ch->act, PLR_AUTOSAC)});
+    ch->send_line("autosplit      {}", OnOff{IS_SET(ch->act, PLR_AUTOSPLIT)});
+    ch->send_line("prompt         {}", OnOff{IS_SET(ch->comm, COMM_PROMPT)});
+    ch->send_line("combine items  {}", OnOff{IS_SET(ch->comm, COMM_COMBINE)});
 
     if (!IS_SET(ch->act, PLR_CANLOOT))
         ch->send_line("Your corpse is safe from thieves.");
@@ -798,7 +759,7 @@ void do_lore(Char *ch, OBJ_DATA *obj, std::string_view description) {
     } else {
         if (ch->is_mortal())
             WAIT_STATE(ch, skill_table[sn].beats);
-        ch->send_to(description);
+        ch->send_line(description);
         check_improve(ch, gsn_lore, true, 1);
         (*skill_table[sn].spell_fun)(sn, ch->level, ch, (void *)obj);
     }
@@ -1574,7 +1535,7 @@ void do_where(Char *ch, const char *argument) {
         }
     } else {
         auto found = false;
-        for (auto *victim = char_list; victim != nullptr; victim = victim->next) {
+        for (auto *victim : char_list) {
             if (victim->in_room != nullptr && victim->in_room->area == ch->in_room->area
                 && !IS_AFFECTED(victim, AFF_HIDE) && !IS_AFFECTED(victim, AFF_SNEAK) && can_see(ch, victim)
                 && victim != ch && is_name(arg, victim->name)) {
@@ -1688,6 +1649,16 @@ void do_report(Char *ch) {
         ch);
 }
 
+namespace {
+Char *find_prac_mob(ROOM_INDEX_DATA *room) {
+    for (auto *mob : room->people) {
+        if (mob->is_npc() && IS_SET(mob->act, ACT_PRACTICE))
+            return mob;
+    }
+    return nullptr;
+}
+}
+
 void do_practice(Char *ch, const char *argument) {
     if (ch->is_npc())
         return;
@@ -1710,13 +1681,8 @@ void do_practice(Char *ch, const char *argument) {
             return;
         }
 
-        Char *mob{};
-        for (mob = ch->in_room->people; mob != nullptr; mob = mob->next_in_room) {
-            if (mob->is_npc() && IS_SET(mob->act, ACT_PRACTICE))
-                break;
-        }
-
-        if (mob == nullptr) {
+        Char *mob = find_prac_mob(ch->in_room);
+        if (!mob) {
             ch->send_line("You can't do that here.");
             return;
         }
@@ -1867,8 +1833,6 @@ void do_password(Char *ch, const char *argument) {
 
 void do_scan(Char *ch) {
     ROOM_INDEX_DATA *current_place;
-    Char *current_person;
-    Char *next_person;
     EXIT_DATA *pexit;
     int count_num_rooms;
     int num_rooms_scan = UMAX(1, ch->level / 10);
@@ -1899,8 +1863,7 @@ void do_scan(Char *ch) {
             /* This loop goes through each character in a room and says
                         whether or not they are visible */
 
-            for (current_person = current_place->people; current_person != nullptr; current_person = next_person) {
-                next_person = current_person->next_in_room;
+            for (auto *current_person : current_place->people) {
                 if (ch->can_see(*current_person)) {
                     ch->send_to(fmt::format("{} {:<5}: |W{}|w\n\r", count_num_rooms + 1,
                                             capitalize(to_string(direction)), current_person->short_name()));

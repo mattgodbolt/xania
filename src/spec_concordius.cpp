@@ -119,7 +119,7 @@ void concordius_patrols(Char *ch) {
         act(conc_general_emotes[random % conc_general_emotes.size()], ch, nullptr, nullptr, To::Room);
         return;
     }
-    for (auto victim = ch->in_room->people; victim; victim = victim->next_in_room) {
+    for (auto *victim : ch->in_room->people) {
         if (victim->is_npc() || !ch->can_see(*victim)) {
             continue;
         }

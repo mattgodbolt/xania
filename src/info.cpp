@@ -11,7 +11,6 @@
 #include "Logging.hpp"
 #include "TimeInfoData.hpp"
 #include "WrappedFd.hpp"
-#include "comm.hpp"
 #include "db.h"
 #include "handler.hpp"
 #include "merc.h"
@@ -197,117 +196,103 @@ void do_setinfo(Char *ch, const char *argument) {
 /* Now updated by Rohan, and hopefully included */
 /* Shows info on player as set by setinfo, plus datestamp as to
    when char was last logged on */
-
+namespace {
+Char *find_char_by_name(std::string_view name) {
+    // Find out if char is logged on (irrespective of whether we can see that char or not - hence I don't use
+    // get_char_world, as it only returns chars we can see
+    for (auto *wch : char_list)
+        if (matches(wch->name, name))
+            return wch;
+    return nullptr;
+}
+}
 void do_finger(Char *ch, const char *argument) {
-    Char *victim = nullptr;
-    KNOWN_PLAYERS *cursor = player_list;
-    bool player_found = false;
-    Char *wch = char_list;
-    bool char_found = false;
-
     if (argument[0] == '\0' || matches(ch->name, argument)) {
         do_setinfo(ch, "");
         return;
-    } else {
-        /* Find out if argument is a mob */
-        victim = get_char_world(ch, argument);
+    }
+    /* Find out if argument is a mob */
+    auto *victim = get_char_world(ch, argument);
 
-        /* Notice DEATH hack here!!! */
-        if (victim != nullptr && victim->is_npc() && !matches(argument, "Death")) {
-            ch->send_line("Mobs don't have very interesting information to give to you.");
-            return;
-        }
+    /* Notice DEATH hack here!!! */
+    if (victim != nullptr && victim->is_npc() && !matches(argument, "Death")) {
+        ch->send_line("Mobs don't have very interesting information to give to you.");
+        return;
+    }
 
-        /* Find out if char is logged on (irrespective of whether we can
-           see that char or not - hence I don't use get_char_world, as
-           it only returns chars we can see */
-        while (wch != nullptr && char_found == false) {
-            if (matches(wch->name, argument))
-                char_found = true;
-            else
-                wch = wch->next;
-        }
+    victim = find_char_by_name(argument);
 
-        if (char_found == true)
-            victim = wch;
-        else
-            victim = nullptr;
+    KNOWN_PLAYERS *cursor = player_list;
+    while (cursor) {
+        if (matches(cursor->name, argument))
+            break;
+        cursor = cursor->next;
+    }
 
-        while (cursor != nullptr && player_found == false) {
-            if (matches(cursor->name, argument))
-                player_found = true;
-            cursor = cursor->next;
-        }
-
-        if (player_found == true) {
-            /* Player exists in player directory */
-            const FingerInfo *cur = search_info_cache(argument);
-            if (!cur) {
-                /* Player info not in cache, proceed to put it in there */
-                if (victim && victim->is_pc() && victim->desc) {
-                    cur = &info_cache
-                               .emplace(argument,
-                                        FingerInfo(victim->name, victim->pcdata->info_message,
-                                                   victim->desc->login_time(), victim->desc->host(),
-                                                   victim->invis_level, is_set_extra(victim, EXTRA_INFO_MESSAGE)))
-                               .first->second;
-                } else {
-                    cur = &info_cache.emplace(argument, read_char_info(argument)).first->second;
-                }
+    if (cursor) {
+        /* Player exists in player directory */
+        const FingerInfo *cur = search_info_cache(argument);
+        if (!cur) {
+            /* Player info not in cache, proceed to put it in there */
+            if (victim && victim->is_pc() && victim->desc) {
+                cur = &info_cache
+                           .emplace(argument, FingerInfo(victim->name, victim->pcdata->info_message,
+                                                         victim->desc->login_time(), victim->desc->host(),
+                                                         victim->invis_level, is_set_extra(victim, EXTRA_INFO_MESSAGE)))
+                           .first->second;
+            } else {
+                cur = &info_cache.emplace(argument, read_char_info(argument)).first->second;
             }
+        }
 
-            if (cur->info_message.empty())
-                ch->send_line("Message: Not set.");
-            else if (cur->i_message)
-                ch->send_line("Message: {}", cur->info_message);
-            else
-                ch->send_line("Message: Withheld.");
+        if (cur->info_message.empty())
+            ch->send_line("Message: Not set.");
+        else if (cur->i_message)
+            ch->send_line("Message: {}", cur->info_message);
+        else
+            ch->send_line("Message: Withheld.");
 
-            /* This is the tricky bit - should the player login time be seen
-               by this player or not? */
+        /* This is the tricky bit - should the player login time be seen
+           by this player or not? */
 
-            if (victim != nullptr && victim->desc != nullptr && victim->is_pc()) {
+        if (victim != nullptr && victim->desc != nullptr && victim->is_pc()) {
 
-                /* Player is currently logged in */
-                if (victim->invis_level > ch->level && ch->get_trust() < GOD) {
-                    ch->send_line("It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.",
-                                  victim->name);
-                } else {
-                    ch->send_line("{} is currently roaming the hills of Xania!", victim->name);
-                    if (ch->get_trust() >= GOD) {
-                        if (victim->desc->host().empty())
-                            ch->send_line("It is impossible to determine where {} last logged in from.", victim->name);
-                        else {
-                            ch->send_line("{} is currently logged in from {}.", cur->name, victim->desc->host());
-                        }
+            /* Player is currently logged in */
+            if (victim->invis_level > ch->level && ch->get_trust() < GOD) {
+                ch->send_line("It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.",
+                              victim->name);
+            } else {
+                ch->send_line("{} is currently roaming the hills of Xania!", victim->name);
+                if (ch->get_trust() >= GOD) {
+                    if (victim->desc->host().empty())
+                        ch->send_line("It is impossible to determine where {} last logged in from.", victim->name);
+                    else {
+                        ch->send_line("{} is currently logged in from {}.", cur->name, victim->desc->host());
                     }
                 }
+            }
+        } else {
+            /* Player is not currently logged in */
+            if (cur->invis_level > ch->level && ch->get_trust() < GOD) {
+                ch->send_line("It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.",
+                              cur->name);
             } else {
-                /* Player is not currently logged in */
-                if (cur->invis_level > ch->level && ch->get_trust() < GOD) {
+
+                if (cur->last_login_at[0] == '\0')
                     ch->send_line("It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.",
                                   cur->name);
-                } else {
-
-                    if (cur->last_login_at[0] == '\0')
-                        ch->send_line(
-                            "It is impossible to determine the last time that {} roamed\n\rthe hills of Xania.",
-                            cur->name);
+                else
+                    ch->send_line("{} last roamed the hills of Xania on {}.", cur->name, cur->last_login_at);
+                if (ch->get_trust() >= GOD) {
+                    if (cur->last_login_from[0] == '\0')
+                        ch->send_line("It is impossible to determine where {} last logged in from.", cur->name);
                     else
-                        ch->send_line("{} last roamed the hills of Xania on {}.", cur->name, cur->last_login_at);
-                    if (ch->get_trust() >= GOD) {
-                        if (cur->last_login_from[0] == '\0')
-                            ch->send_line("It is impossible to determine where {} last logged in from.", cur->name);
-                        else
-                            ch->send_line("{} last logged in from {}.", cur->name, cur->last_login_from);
-                    }
+                        ch->send_line("{} last logged in from {}.", cur->name, cur->last_login_from);
                 }
             }
-            return;
-        } else {
-            ch->send_line("That player does not exist.");
-            return;
         }
+    } else {
+        ch->send_line("That player does not exist.");
     }
 }
 

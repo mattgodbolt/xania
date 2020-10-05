@@ -17,22 +17,26 @@
 #include <cstdio>
 #include <cstring>
 
+namespace {
+Char *find_trainer(ROOM_INDEX_DATA *room) {
+    for (auto *trainer : room->people)
+        if (trainer->is_npc() && IS_SET(trainer->act, ACT_GAIN))
+            return trainer;
+    return nullptr;
+}
+}
+
 /* used to get new skills */
 void do_gain(Char *ch, const char *argument) {
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    Char *trainer;
     int gn = 0, sn = 0, i = 0;
 
     if (ch->is_npc())
         return;
 
-    /* find a trainer */
-    for (trainer = ch->in_room->people; trainer != nullptr; trainer = trainer->next_in_room)
-        if (trainer->is_npc() && IS_SET(trainer->act, ACT_GAIN))
-            break;
-
-    if (trainer == nullptr || !can_see(ch, trainer)) {
+    auto *trainer = find_trainer(ch->in_room);
+    if (!trainer || !can_see(ch, trainer)) {
         ch->send_line("You can't do that here.");
         return;
     }

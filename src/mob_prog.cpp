@@ -1237,14 +1237,13 @@ void mprog_driver(char *com_list, Char *mob, const Char *actor, const OBJ_DATA *
     char *command_list;
     char *cmnd;
     Char *rndm = nullptr;
-    Char *vch = nullptr;
     int count = 0;
 
     if IS_AFFECTED (mob, AFF_CHARM)
         return;
 
-    /* get a random visable mortal player who is in the room with the mob */
-    for (vch = mob->in_room->people; vch; vch = vch->next_in_room)
+    /* get a random visible mortal player who is in the room with the mob */
+    for (auto *vch : mob->in_room->people)
         if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && can_see(mob, vch)) {
             if (number_range(0, count) == 0)
                 rndm = vch;
@@ -1409,10 +1408,7 @@ void mprog_give_trigger(Char *mob, Char *ch, OBJ_DATA *obj) {
 }
 
 void mprog_greet_trigger(Char *mob) {
-
-    Char *vmob;
-
-    for (vmob = mob->in_room->people; vmob != nullptr; vmob = vmob->next_in_room)
+    for (auto *vmob : mob->in_room->people)
         if (vmob->is_npc() && mob != vmob && can_see(vmob, mob) && (vmob->fighting == nullptr) && IS_AWAKE(vmob)
             && (vmob->pIndexData->progtypes & GREET_PROG))
             mprog_percent_check(vmob, mob, nullptr, nullptr, GREET_PROG);
@@ -1440,7 +1436,7 @@ void mprog_random_trigger(Char *mob) {
 }
 
 void mprog_speech_trigger(const char *txt, const Char *mob) {
-    for (auto *vmob = mob->in_room->people; vmob != nullptr; vmob = vmob->next_in_room)
+    for (auto *vmob : mob->in_room->people)
         if (vmob->is_npc() && (vmob->pIndexData->progtypes & SPEECH_PROG))
             mprog_wordlist_check(txt, vmob, mob, nullptr, nullptr, SPEECH_PROG);
 }

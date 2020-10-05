@@ -137,7 +137,7 @@ void check_xania() {
     bug("mob> **                       Beginning mobile sweep                     **");
     bug("mob> **********************************************************************");
 
-    for (auto *mobile = char_list; mobile; mobile = mobile->next) {
+    for (auto *mobile : char_list) {
         report_mobile(mobile->pIndexData);
     }
 

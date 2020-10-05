@@ -24,6 +24,7 @@
 #include <cctype>
 #include <cstdio>
 #include <cstring>
+#include <range/v3/iterator/operations.hpp>
 
 void spell_poison(int spell_num, int level, Char *ch, void *vo);
 
@@ -478,27 +479,12 @@ void char_from_room(Char *ch) {
         && ch->in_room->light > 0)
         --ch->in_room->light;
 
-    if (ch == ch->in_room->people) {
-        ch->in_room->people = ch->next_in_room;
-    } else {
-        Char *prev;
-
-        for (prev = ch->in_room->people; prev; prev = prev->next_in_room) {
-            if (prev->next_in_room == ch) {
-                prev->next_in_room = ch->next_in_room;
-                break;
-            }
-        }
-
-        if (prev == nullptr)
-            bug("Char_from_room: ch not found.");
-    }
+    if (!ch->in_room->people.remove(ch))
+        bug("Char_from_room: ch not found.");
 
     /* MOBProgs - check to tell mobs we've left the room removed from HERE*/
 
-    /*Challenge check!*/
     ch->in_room = nullptr;
-    ch->next_in_room = nullptr;
 }
 
 /*
@@ -511,8 +497,7 @@ void char_to_room(Char *ch, ROOM_INDEX_DATA *pRoomIndex) {
     }
 
     ch->in_room = pRoomIndex;
-    ch->next_in_room = pRoomIndex->people;
-    pRoomIndex->people = ch;
+    pRoomIndex->people.add_front(ch);
 
     if (ch->is_pc()) {
         if (ch->in_room->area->empty) {
@@ -543,7 +528,7 @@ void char_to_room(Char *ch, ROOM_INDEX_DATA *pRoomIndex) {
         plague.modifier = -5;
         plague.bitvector = AFF_PLAGUE;
 
-        for (auto *vch = ch->in_room->people; vch != nullptr; vch = vch->next_in_room) {
+        for (auto *vch : ch->in_room->people) {
             const int save = [&]() -> int {
                 switch (check_immune(vch, DAM_DISEASE)) {
                 default:
@@ -839,8 +824,6 @@ void reap_old_chars() { chars_to_reap.clear(); }
  * Extract a char from the world.
  */
 void extract_char(Char *ch, bool delete_from_world) {
-    Char *wch;
-
     if (ch->in_room == nullptr) {
         bug("Extract_char: nullptr.");
         return;
@@ -875,27 +858,13 @@ void extract_char(Char *ch, bool delete_from_world) {
         do_return(ch);
     }
 
-    for (wch = char_list; wch != nullptr; wch = wch->next) {
+    for (auto *wch : char_list)
         if (wch->reply == ch)
             wch->reply = nullptr;
-    }
 
-    if (ch == char_list) {
-        char_list = ch->next;
-    } else {
-        Char *prev;
-
-        for (prev = char_list; prev != nullptr; prev = prev->next) {
-            if (prev->next == ch) {
-                prev->next = ch->next;
-                break;
-            }
-        }
-
-        if (prev == nullptr) {
-            bug("Extract_char: char not found.");
-            return;
-        }
+    if (!char_list.remove(ch)) {
+        bug("Extract_char: char not found.");
+        return;
     }
 
     if (ch->desc)
@@ -909,7 +878,7 @@ Char *get_char_room(Char *ch, std::string_view argument) {
     if (matches(arg, "self"))
         return ch;
     int count = 0;
-    for (auto *rch = ch->in_room->people; rch != nullptr; rch = rch->next_in_room) {
+    for (auto *rch : ch->in_room->people) {
         if (!can_see(ch, rch) || !is_name(arg, rch->name))
             continue;
         if (++count == number)
@@ -926,7 +895,7 @@ Char *get_char_world(Char *ch, std::string_view argument) {
 
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
-    for (auto *wch = char_list; wch != nullptr; wch = wch->next) {
+    for (auto *wch : char_list) {
         if (!wch->in_room || !ch->can_see(*wch) || !is_name(arg, wch->name))
             continue;
         if (++count == number)
@@ -938,12 +907,9 @@ Char *get_char_world(Char *ch, std::string_view argument) {
 
 /* find a MOB by vnum in the world, returning its Char * */
 Char *get_mob_by_vnum(sh_int vnum) {
-    Char *current = char_list;
-
-    for (; current; current = current->next)
-        if (current->pIndexData)
-            if (current->pIndexData->vnum == vnum)
-                return current;
+    for (auto *current : char_list)
+        if (current->pIndexData && current->pIndexData->vnum == vnum)
+            return current;
 
     return nullptr;
 }
@@ -1110,12 +1076,7 @@ bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex) {
  * True if room is private.
  */
 bool room_is_private(ROOM_INDEX_DATA *pRoomIndex) {
-    Char *rch;
-    int count;
-
-    count = 0;
-    for (rch = pRoomIndex->people; rch != nullptr; rch = rch->next_in_room)
-        count++;
+    auto count = ranges::distance(pRoomIndex->people);
 
     if (IS_SET(pRoomIndex->room_flags, ROOM_PRIVATE) && count >= 2)
         return true;

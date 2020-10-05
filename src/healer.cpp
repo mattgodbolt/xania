@@ -19,20 +19,25 @@
 #include "merc.h"
 #include "string_utils.hpp"
 
+namespace {
+Char *find_healer(ROOM_INDEX_DATA *room) {
+    for (auto *mob : room->people) {
+        if (mob->is_npc() && IS_SET(mob->act, ACT_IS_HEALER))
+            return mob;
+    }
+    return nullptr;
+}
+}
+
 void do_heal(Char *ch, const char *argument) {
-    Char *mob;
     char arg[MAX_INPUT_LENGTH];
     int cost, sn;
     SpellFunc spell;
     const char *words;
 
     /* check for healer */
-    for (mob = ch->in_room->people; mob; mob = mob->next_in_room) {
-        if (mob->is_npc() && IS_SET(mob->act, ACT_IS_HEALER))
-            break;
-    }
-
-    if (mob == nullptr) {
+    auto *mob = find_healer(ch->in_room);
+    if (!mob) {
         ch->send_line("You can't do that here.");
         return;
     }

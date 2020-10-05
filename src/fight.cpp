@@ -67,14 +67,9 @@ void lose_level(Char *ch);
  * Called periodically by update_handler.
  */
 void violence_update() {
-    Char *ch;
-    Char *ch_next;
-    Char *victim;
-
-    for (ch = char_list; ch != nullptr; ch = ch_next) {
-        ch_next = ch->next;
-
-        if ((victim = ch->fighting) == nullptr || ch->in_room == nullptr)
+    for (auto *ch : char_list) {
+        auto *victim = ch->fighting;
+        if (!victim || ch->in_room == nullptr)
             continue;
 
         if (IS_AWAKE(ch) && ch->in_room == victim->in_room)
@@ -98,11 +93,7 @@ void violence_update() {
 
 /* for auto assisting */
 void check_assist(Char *ch, Char *victim) {
-    Char *rch, *rch_next;
-
-    for (rch = ch->in_room->people; rch != nullptr; rch = rch_next) {
-        rch_next = rch->next_in_room;
-
+    for (auto *rch : ch->in_room->people) {
         if (IS_AWAKE(rch) && rch->fighting == nullptr) {
 
             /* quick check for ASSIST_PLAYER */
@@ -140,16 +131,12 @@ void check_assist(Char *ch, Char *victim) {
                     || (rch->pIndexData == ch->pIndexData && IS_SET(rch->off_flags, ASSIST_VNUM)))
 
                 {
-                    Char *vch;
-                    Char *target;
-                    int number;
-
                     if (number_bits(1) == 0)
                         continue;
 
-                    target = nullptr;
-                    number = 0;
-                    for (vch = ch->in_room->people; vch; vch = vch->next) {
+                    Char *target = nullptr;
+                    int number = 0;
+                    for (auto *vch : ch->in_room->people) {
                         if (can_see(rch, vch) && is_same_group(vch, victim) && number_range(0, number) == 0) {
                             target = vch;
                             number++;
@@ -264,7 +251,6 @@ void multi_hit(Char *ch, Char *victim, int dt) {
 /* procedure for all mobile attacks */
 void mob_hit(Char *ch, Char *victim, int dt) {
     int chance, number;
-    Char *vch, *vch_next;
     if (IS_SET(ch->off_flags, OFF_BACKSTAB) && (ch->fighting == nullptr) && (get_eq_char(ch, WEAR_WIELD) != nullptr)
         && (victim->hit == victim->max_hit))
         one_hit(ch, victim, gsn_backstab);
@@ -276,8 +262,7 @@ void mob_hit(Char *ch, Char *victim, int dt) {
     /* Area attack -- BALLS nasty! */
 
     if (IS_SET(ch->off_flags, OFF_AREA_ATTACK)) {
-        for (vch = ch->in_room->people; vch != nullptr; vch = vch_next) {
-            vch_next = vch->next;
+        for (auto *vch : ch->in_room->people) {
             if ((vch != victim && vch->fighting == ch))
                 one_hit(ch, vch, dt);
         }
@@ -808,8 +793,6 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
         if (victim->is_pc()) {
             auto exp_level = exp_per_level(victim, victim->pcdata->points);
             auto exp_total = (victim->level * exp_level);
-            Char *squib;
-
             temp = do_check_chal(victim);
             if (temp == 1)
                 return true;
@@ -817,7 +800,7 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
             log_string("{} killed by {} at {}", victim->name, ch->short_name(), victim->in_room->vnum);
             announce(fmt::format("|P###|w Sadly, {} was killed by {}.", victim->name, ch->short_name()), victim);
 
-            for (squib = victim->in_room->people; squib; squib = squib->next_in_room) {
+            for (auto *squib : victim->in_room->people) {
                 if ((squib->is_npc()) && (squib->pIndexData->vnum == LESSER_MINION_VNUM)) {
                     act("$n swings his scythe and ushers $N's soul into the next world.", squib, nullptr, victim,
                         To::Room);
@@ -846,7 +829,7 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
         victim_room_vnum = victim->in_room->vnum;
         raw_kill(victim);
 
-        for (auto *mob = char_list; mob; mob = mob->next)
+        for (auto *mob : char_list)
             if (mob->is_npc() && IS_SET(mob->act, ACT_SENTIENT) && matches(mob->sentient_victim, victim->name))
                 mob->sentient_victim.clear();
         /**
@@ -1229,9 +1212,7 @@ void set_fighting(Char *ch, Char *victim) {
  * Stop fights.
  */
 void stop_fighting(Char *ch, bool fBoth) {
-    Char *fch;
-
-    for (fch = char_list; fch != nullptr; fch = fch->next) {
+    for (auto *fch : char_list) {
         if (fch == ch || (fBoth && fch->fighting == ch)) {
             fch->fighting = nullptr;
             fch->position = fch->is_npc() ? ch->default_pos : POS_STANDING;
@@ -1401,7 +1382,6 @@ void raw_kill(Char *victim) {
 
 void group_gain(Char *ch, Char *victim) {
     char buf[MAX_STRING_LENGTH];
-    Char *gch;
     Char *lch;
     int xp;
     int members;
@@ -1417,7 +1397,7 @@ void group_gain(Char *ch, Char *victim) {
 
     members = 0;
     group_levels = 0;
-    for (gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
+    for (auto *gch : ch->in_room->people) {
         if (is_same_group(gch, ch)) {
             members++;
             group_levels += gch->level;
@@ -1432,7 +1412,7 @@ void group_gain(Char *ch, Char *victim) {
 
     lch = (ch->leader != nullptr) ? ch->leader : ch;
 
-    for (gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
+    for (auto *gch : ch->in_room->people) {
         if (!is_same_group(gch, ch) || gch->is_npc())
             continue;
 
@@ -1481,7 +1461,6 @@ void group_gain(Char *ch, Char *victim) {
  * Edit this function to change xp computations.
  */
 int xp_compute(Char *gch, Char *victim, int total_levels) {
-    Char *tmpch;
     int xp, base_exp;
     int align, level_range;
     int change;
@@ -1492,7 +1471,7 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
     if (total_levels > gch->level) /* Must be in a group */
     {
         /* Find level of highest PC in group */
-        for (tmpch = gch->in_room->people; tmpch != nullptr; tmpch = tmpch->next_in_room)
+        for (auto *tmpch : gch->in_room->people)
             if (is_same_group(tmpch, gch))
                 if (tmpch->level > highest_level)
                     highest_level = tmpch->level;

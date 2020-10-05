@@ -1104,7 +1104,7 @@ typedef struct _tip_type {
  */
 struct ROOM_INDEX_DATA {
     ROOM_INDEX_DATA *next{};
-    Char *people{};
+    GenericList<Char *> people;
     GenericList<OBJ_DATA *> contents;
     std::vector<EXTRA_DESCR_DATA> extra_descr{};
     AREA_DATA *area{};
@@ -1259,7 +1259,7 @@ extern sh_int gsn_bless;
 #define URANGE(a, b, c) ((b) < (a) ? (a) : ((b) > (c) ? (c) : (b)))
 #define LOWER(c) ((c) >= 'A' && (c) <= 'Z' ? (c) + 'a' - 'A' : (c))
 #define UPPER(c) ((c) >= 'a' && (c) <= 'z' ? (c) + 'A' - 'a' : (c))
-#define IS_SET(flag, bit) ((flag) & (bit))
+#define IS_SET(flag, bit) (((flag) & (bit)) ? true : false)
 #define SET_BIT(var, bit) ((var) |= (bit))
 #define REMOVE_BIT(var, bit) ((var) &= ~(bit))
 
@@ -1338,7 +1338,7 @@ extern const struct flag_type wear_flags[];
 extern SHOP_DATA *shop_first;
 
 extern BAN_DATA *ban_list;
-extern Char *char_list;
+extern GenericList<Char *> char_list;
 extern GenericList<OBJ_DATA *> object_list;
 
 extern bool fLogAll;

@@ -593,8 +593,6 @@ void nuke_pets(Char *ch) {
 }
 
 void die_follower(Char *ch) {
-    Char *fch;
-
     if (ch->master != nullptr) {
         if (ch->master->pet == ch)
             ch->master->pet = nullptr;
@@ -603,7 +601,7 @@ void die_follower(Char *ch) {
 
     ch->leader = nullptr;
 
-    for (fch = char_list; fch != nullptr; fch = fch->next) {
+    for (auto *fch : char_list) {
         if (fch->master == ch)
             stop_follower(fch);
         if (fch->leader == ch)
@@ -614,8 +612,6 @@ void die_follower(Char *ch) {
 void do_order(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
     Char *victim;
-    Char *och;
-    Char *och_next;
     bool found;
     bool fAll;
 
@@ -659,9 +655,7 @@ void do_order(Char *ch, const char *argument) {
     }
 
     found = false;
-    for (och = ch->in_room->people; och != nullptr; och = och_next) {
-        och_next = och->next_in_room;
-
+    for (auto *och : ch->in_room->people) {
         if (IS_AFFECTED(och, AFF_CHARM) && och->master == ch && (fAll || och == victim)) {
             found = true;
             act(fmt::format("|W$n|w orders you to '{}'.", command_remainder), ch, nullptr, och, To::Vict);
@@ -686,7 +680,7 @@ void do_group(Char *ch, const char *argument) {
     if (arg[0] == '\0') {
         ch->send_line("{}'s group:", pers(ch->leader ? ch->leader : ch, ch));
 
-        for (auto *gch = char_list; gch != nullptr; gch = gch->next) {
+        for (auto *gch : char_list) {
             if (is_same_group(gch, ch)) {
                 ch->send_line("[{:3} {}] {:<16} {:4}/{:4} hp {:4}/{:4} mana {:4}/{:4} mv {:5} xp", gch->level,
                               gch->is_npc() ? "Mob" : class_table[gch->class_num].who_name, pers(gch, ch), gch->hit,
@@ -774,7 +768,7 @@ void split_coins(Char *ch, int amount) {
     }
 
     int members = 0;
-    for (auto *gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
+    for (auto *gch : ch->in_room->people) {
         if (is_same_group(gch, ch) && !IS_AFFECTED(gch, AFF_CHARM))
             members++;
     }
@@ -799,7 +793,7 @@ void split_coins(Char *ch, int amount) {
 
     auto message = fmt::format("$n splits {} gold coins.  Your share is {} gold coins.", amount, share);
 
-    for (auto *gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
+    for (auto *gch : ch->in_room->people) {
         if (gch != ch && is_same_group(gch, ch) && !IS_AFFECTED(gch, AFF_CHARM)) {
             act(message, ch, nullptr, gch, To::Vict);
             gch->gold += share;
@@ -821,7 +815,7 @@ void do_gtell(Char *ch, std::string_view argument) {
     // Note use of send_line (not act), so gtell works on sleepers.
     ch->send_line("|CYou tell the group '{}|C'|w.", argument);
     auto msg = fmt::format("|C{} tells the group '{}|C'|w.", ch->name, argument);
-    for (auto *gch = char_list; gch != nullptr; gch = gch->next)
+    for (auto *gch : char_list)
         if (is_same_group(gch, ch) && gch != ch)
             gch->send_line(msg);
 }
@@ -868,7 +862,7 @@ void chatperformtoroom(std::string_view text, Char *ch) {
     if (ch->is_npc())
         return;
 
-    for (auto *vch = ch->in_room->people; vch; vch = vch->next_in_room)
+    for (auto *vch : ch->in_room->people)
         if (vch->is_npc() && IS_SET(vch->pIndexData->act, ACT_TALKATIVE) && IS_AWAKE(vch)) {
             if (number_percent() > 66) /* less spammy - Fara */
                 chatperform(vch, ch, text);

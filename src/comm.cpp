@@ -145,15 +145,10 @@ bool is_being_debugged() {
 
 /* where we're asked nicely to quit from the outside (mudmgr or OS) */
 void handle_signal_shutdown() {
-    Char *vch;
-    Char *vch_next;
-
     log_string("Signal shutdown received");
 
     /* ask everyone to save! */
-    for (vch = char_list; vch != nullptr; vch = vch_next) {
-        vch_next = vch->next;
-
+    for (auto *vch : char_list) {
         // vch->d->c check added by TM to avoid crashes when
         // someone hasn't logged in but the mud is shut down
         if (vch->is_pc() && vch->desc && vch->desc->is_playing()) {
@@ -979,8 +974,7 @@ void nanny(Descriptor *d, const char *argument) {
 
     case DescriptorState::ReadMotd:
         d->write("\n\rWelcome to Xania.  May your stay be eventful.\n\r");
-        ch->next = char_list;
-        char_list = ch;
+        char_list.add_front(ch);
         d->state(DescriptorState::Playing);
         reset_char(ch);
 
@@ -1123,9 +1117,7 @@ bool check_parse_name(const char *name) {
  * Look for link-dead player to reconnect.
  */
 bool check_reconnect(Descriptor *d, bool fConn) {
-    Char *ch;
-
-    for (ch = char_list; ch != nullptr; ch = ch->next) {
+    for (auto ch : char_list) {
         if (ch->is_pc() && (!fConn || ch->desc == nullptr) && matches(d->character()->name, ch->name)) {
             if (fConn == false) {
                 d->character()->pcdata->pwd = ch->pcdata->pwd;
@@ -1281,7 +1273,7 @@ bool act_to_person(const Char *person, int min_pos) {
 std::vector<const Char *> folks_in_room(const ROOM_INDEX_DATA *room, const Char *ch, const Char *vch, const To &type,
                                         int min_pos) {
     std::vector<const Char *> result;
-    for (auto *person = room->people; person; person = person->next_in_room) {
+    for (auto *person : room->people) {
         if (!act_to_person(person, min_pos))
             continue;
         // Never consider the character themselves (they're handled explicitly elsewhere).
