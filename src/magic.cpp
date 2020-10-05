@@ -106,9 +106,8 @@ std::pair<int, int> get_direct_dmg_and_level(int level, const std::array<int, Si
  * Utter mystical words for an sn.
  */
 void say_spell(Char *ch, int sn) {
-    char buf[MAX_STRING_LENGTH];
-    char buf2[MAX_STRING_LENGTH * 2];
-    char buf3[MAX_STRING_LENGTH];
+    std::string translation;
+    std::string to_same_class, to_other_class;
     int length;
 
     struct syl_type {
@@ -127,11 +126,10 @@ void say_spell(Char *ch, int sn) {
         {"q", "d"},        {"r", "f"},        {"s", "g"},       {"t", "h"},        {"u", "j"},        {"v", "z"},
         {"w", "x"},        {"x", "n"},        {"y", "l"},       {"z", "k"},        {"", ""}};
 
-    buf[0] = '\0';
     for (const char *pName = skill_table[sn].name; *pName != '\0'; pName += length) {
         for (int iSyl = 0; (length = strlen(syl_table[iSyl].old)) != 0; iSyl++) {
             if (!str_prefix(syl_table[iSyl].old, pName)) {
-                strcat(buf, syl_table[iSyl].new_t);
+                translation += syl_table[iSyl].new_t;
                 break;
             }
         }
@@ -139,21 +137,11 @@ void say_spell(Char *ch, int sn) {
         if (length == 0)
             length = 1;
     }
-
-    snprintf(buf2, sizeof(buf2), "$n utters the words, '%s'.", buf);
-    snprintf(buf, sizeof(buf), "$n utters the words, '%s'.", skill_table[sn].name);
-
+    to_other_class = fmt::format("|y$n utters the words '{}'.|w", translation);
+    to_same_class = fmt::format("|y$n utters the words '{}'.|w", skill_table[sn].name);
     for (Char *rch = ch->in_room->people; rch; rch = rch->next_in_room) {
-        if (rch->is_pc() && rch->pcdata->colour) {
-            snprintf(buf3, sizeof(buf3), "%c[0;33m", 27);
-            rch->send_to(buf3);
-        }
         if (rch != ch)
-            act(ch->class_num == rch->class_num ? buf : buf2, ch, nullptr, rch, To::Vict);
-        if (rch->is_pc() && rch->pcdata->colour) {
-            snprintf(buf3, sizeof(buf3), "%c[0;37m", 27);
-            rch->send_to(buf3);
-        }
+            act(ch->class_num == rch->class_num ? to_same_class : to_other_class, ch, nullptr, rch, To::Vict);
     }
 }
 
