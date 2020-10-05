@@ -206,7 +206,7 @@ slaves.  The floating orbs flicker on and off creating a chaotic lighting.
 
 Wyrm streets goes east and west. Ruby Avenue lies to the south
 ~
-0 AD 1
+0 ADN 1
 D1
 Wyrm street goes on
 ~
@@ -271,7 +271,7 @@ slaves.  The orbs flicker on and off chaoticly.
 
 Wyrm streets continues to the east and west.
 ~
-0 AD 1
+0 ADN 1
 D1
 Wyrm street goes on
 ~
@@ -436,7 +436,7 @@ slaves.  The floating orbs at this section of the road flicker on and off.
 
 Wyrm streets continues to the east and west.
 ~
-0 AD 1
+0 ADN 1
 D1
 Wyrm street goes on
 ~
@@ -561,7 +561,7 @@ orb flickers on and off.
 
 Sunset goes on to the north and south
 ~
-0 AD 1
+0 ADN 1
 D0
 Sunset continues
 ~
@@ -1065,7 +1065,7 @@ out.
 
 Moonlight Avenues goes north and south, to the east is Diamond street
 ~
-0 AD 1
+0 ADN 1
 D0
 Moonlight avenue
 ~
@@ -1607,7 +1607,7 @@ form.  This street is rarely used, 'cept by those fleeing.
 
 Emerald street continues north, the Slaver's Route is south
 ~
-0 AD 1
+0 ADN 1
 D0
 Emerald street
 ~
@@ -1627,7 +1627,7 @@ east side of the street is the cavern wall, to the west the city stretches out.
 
 Sunrise continues north and south
 ~
-0 AD 1
+0 ADN 1
 D0
 Sunrise and Diamond
 ~
@@ -1826,7 +1826,7 @@ The ground is charred and you see little bits of what was once a humanoid.
 The slaver's route is east and west.  To the north lies Sunset, south is the
 gathering space.
 ~
-0 AD 1
+0 ADN 1
 D0
 Sunset
 ~
@@ -2136,7 +2136,7 @@ South is the entrance to the Guardian Eye's headquarters and the prisons.
 
 Slaver's route continues east and west
 ~
-0 AD 1
+0 ADN 1
 D1
 Slaver's route
 ~
@@ -2303,7 +2303,7 @@ orbs have stopped working.
 
 North is the Slaver's Route, the meeting place continues east and south
 ~
-0 AD 1
+0 ADN 1
 D0
 Slaver's route
 ~
@@ -2778,7 +2778,7 @@ rest of the city.  To the side of the street stands a statue of a weird alien.
 
 The street continues east and west, to the north is a door to a home
 ~
-0 AD 1
+0 ADN 1
 D0
 A doorway to a house
 ~
@@ -2921,7 +2921,7 @@ street is a statue of a monkey.
 East and west the street of the gods continues, north is gathering place To
 the south is the entrance to the Sparkling Jewel
 ~
-0 AD 1
+0 ADN 1
 D0
 The gathering place
 ~
@@ -3240,7 +3240,7 @@ Garth's love for the day lit world, maybe this space provides the access?
 
 The street continues west and south
 ~
-0 AD 1
+0 ADN 1
 D2
 The street of the gods
 ~
@@ -3607,7 +3607,7 @@ head, but they don't seem to shed much light and they flicker on and off.
 
 The road of shadows continues east and west.  South stand a shadowy door
 ~
-0 AD 1
+0 ADN 1
 D1
 The road of shadows
 ~
@@ -3898,7 +3898,7 @@ you flickers in and out chaotically.
 
 The alley continues east and west
 ~
-0 AD 1
+0 ADN 1
 D1
 The forgotten alley
 ~
@@ -4099,9 +4099,9 @@ You are walking along a dark small street.  It is very dark here, with a
 flickering floating orb that floats high above you being the only point of
 light apart from your light source.
 
-The alley goes north and south, to the west is a dark entrance way
+The alley goes north and south, to the west is a dark entrance way.
 ~
-0 AD 1
+0 ADN 1
 D0
 The forgotten alley
 ~
@@ -4226,7 +4226,7 @@ off giving off a little illumination so you can barely see the road.
 
 The alley goes north and south
 ~
-0 AD 1
+0 ADN 1
 D0
 The forgotten alley
 ~
@@ -4446,7 +4446,7 @@ off.
 
 Sunrise continues north and south
 ~
-0 AD 1
+0 ADN 1
 D0
 Sunrise
 ~
@@ -4539,7 +4539,7 @@ lighting is very erratic and strange.
 
 Azurite continues north and south
 ~
-0 AD 1
+0 ADN 1
 D0
 Azurite street
 ~
@@ -4900,7 +4900,7 @@ painful clarity.  The cavern walls rise up all around you.
 
 Death's lane goes on to the north
 ~
-0 AD 1
+0 ADN 1
 D0
 Death's lane
 ~
@@ -5401,7 +5401,7 @@ tunnel, only to the north are there any marks at all.
 The tunnel plunges into darkness to the south and a stone door lies to the
 north.
 ~
-0 AD 1
+0 ADN 1
 D0
 door~
 ~
@@ -5426,7 +5426,7 @@ better move before you get nailed.
 
 The tunnel heads north and east
 ~
-0 AD 1
+0 ADN 1
 D0
 Your light does not shed any clue as to what lies there
 ~
@@ -5453,7 +5453,7 @@ this section of the tunnel.
 
 The tunnel continues east and west
 ~
-0 AD 1
+0 ADN 1
 D1
 You can not see what lies in that direction
 ~
@@ -5473,7 +5473,7 @@ are no scratches in the walls, floor or ceiling.  The air is dry and cool.
 
 The tunnel plunges into darkness to the west
 ~
-0 AD 1
+0 ADN 1
 D1
 ~
 door~
@@ -5856,7 +5856,7 @@ polished onyx.
 
 East and west are doors, the corridor heads north
 ~
-0 AD 1
+0 ADN 1
 D0
 The jaded corridor
 ~
