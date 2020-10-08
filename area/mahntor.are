@@ -3852,13 +3852,13 @@ E   1   2374   10      7     a pair of red steel greaves on legs
 E   1   2375   10     10     a pair of red steel vambraces on arms                
 E   1   2366   15      5     a steel breast plate on body                
 E   1   2376   10     16     a minotaur glaive wielded                
-M 0 2321 2 2385 1  1   the Elite Minotaur Guard into The secret hallway  
+M 0 2321 2 2385 2  1   the Elite Minotaur Guard into The secret hallway  
 E   1   2377    5      6     a crimson steel helm and visor on head                
 E   1   2378    5      7     a pair of crimson steel greaves on legs                
 E   1   2379    5     10     a pair of crimson steel vambraces on arms                
 E   1   2366   15      5     a steel breast plate on body                
 E   1   2380    5     16     a huge morningstar wielded                
-M 0 2321 2 2385 1  1   the Elite Minotaur Guard into The secret hallway  
+M 0 2321 2 2385 2  1   the Elite Minotaur Guard into The secret hallway  
 E   1   2377    5      6     a crimson steel helm and visor on head                
 E   1   2378    5      7     a pair of crimson steel greaves on legs                
 E   1   2379    5     10     a pair of crimson steel vambraces on arms                
@@ -3874,7 +3874,7 @@ M 0 2323 1 2395 1  1   the Minotaur Butler into The main living room
 M 0 2324 1 2387 1  1   the Minotaur Ring-Keeper into The Guard Post  
 E   1   2381   20     17     some huge spiked brass knuckles held                   
 E   1   2383    5     16     a huge wooden maul wielded                
-E   1   2382    1     13     a multi-coloured key ring around waist           
+E   1   2382    3     13     a multi-coloured key ring around waist           
 P 1 2351 3 2382 1  1   Load a red key into a multi-coloured key ring  
 P 1 2352 3 2382 1  1   Load a black key into a multi-coloured key ring  
 P 1 2353 3 2382 1  1   Load a white key into a multi-coloured key ring  
