@@ -2841,6 +2841,14 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
         ch->send_line(".");
         break;
 
+    case ITEM_CONTAINER:
+        ch->send_line("Weight capacity: {}.", obj->value[0]);
+        break;
+
+    case ITEM_DRINK_CON:
+        ch->send_line("Liquid capacity: {}.", obj->value[0]);
+        break;
+
     case ITEM_WEAPON:
         ch->send_to("Weapon type is ");
         switch (obj->value[0]) {
