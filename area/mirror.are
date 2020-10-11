@@ -2398,11 +2398,11 @@ Fido is a small dog that has a foul smell and pieces of rotted meat hanging
 around his teeth.
 ~
 fido~
-AFH 0 -200 0
-0 0 1d1+0 1d1+0 1d2+0 bite
-10 10 10 10
+AFGH D -700 0
+6 3 1d1+125 1d1+120 2d3+3 digestion
+6 6 6 8
 FENU 0 0 0
-stand stand male 0
+stand stand male 246
 0 0 medium 0
 
 #5334
