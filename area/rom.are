@@ -116,10 +116,9 @@ State thy name and enter the realm of Xania: ~
 Welcome to Xania! See 'help rules' and 'help commands'.
 
 [ Recent Gameplay Updates! ]
-Sep 25:
-- Substantial changes to how combat calculates damage. Amour is fairly
-  important and things will probably hit more often and harder! 
-- Direct damage spells scale up with the caster's level for greater choice.
+Oct 11:
+- 'spells' now displays your proficiency in each spell.
+- 'areas' now displays the area list sorted by level.
 |g[Hit return to continue]|w
 ~ 
  

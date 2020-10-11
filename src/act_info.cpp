@@ -1886,6 +1886,7 @@ void do_alist(Char *ch) {
     auto format_str = "{:3} {:29} {:<5}-{:>5} {:12}\n\r"sv;
     auto buffer = fmt::format(format_str, "Num", "Area Name", "Lvnum", "Uvnum", "Filename");
     for (auto &pArea : AreaList::singleton())
-        buffer += fmt::format(format_str, pArea->vnum, pArea->areaname, pArea->lvnum, pArea->uvnum, pArea->filename);
+        buffer +=
+            fmt::format(format_str, pArea->area_num, pArea->areaname, pArea->lvnum, pArea->uvnum, pArea->filename);
     ch->page_to(buffer);
 }

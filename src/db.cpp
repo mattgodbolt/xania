@@ -300,6 +300,7 @@ void boot_db() {
      */
     fix_exits();
     fBootDb = false;
+    AreaList::singleton().sort();
     area_update();
     note_initialise();
     wiznet_initialise();
@@ -310,16 +311,18 @@ void boot_db() {
 void load_area(FILE *fp, const std::string &area_name) {
     auto pArea = std::make_unique<AREA_DATA>();
     auto &area_list = AreaList::singleton();
-
     fread_string(fp); /* filename */
     pArea->areaname = fread_stdstring(fp);
     pArea->name = fread_stdstring(fp);
-
+    int scanRet = sscanf(pArea->name.c_str(), "{%d %d}", &pArea->min_level, &pArea->max_level);
+    if (scanRet != 2) {
+        pArea->all_levels = true;
+    }
+    pArea->level_difference = pArea->max_level - pArea->min_level;
     pArea->lvnum = fread_number(fp);
     pArea->uvnum = fread_number(fp);
-
+    pArea->area_num = area_list.count();
     pArea->area_flags = AREA_LOADING;
-    pArea->vnum = area_list.count();
     pArea->filename = area_name;
 
     pArea->age = 15;
@@ -1832,7 +1835,7 @@ void free_string(char *pstr) {
 // Now takes parameters (TM was 'ere 10/00)
 void do_areas(Char *ch, ArgParser args) {
     int minLevel = 0;
-    int maxLevel = 100;
+    int maxLevel = MAX_LEVEL;
     if (!args.empty()) {
         auto min_level_str = args.shift();
         if (!is_number(min_level_str)) {
@@ -1857,46 +1860,42 @@ void do_areas(Char *ch, ArgParser args) {
     }
 
     const int charLevel = ch->level;
-    const AREA_DATA *pArea1{};
+    const AREA_DATA *area_column1{};
+    std::string_view colour_column1;
+    const AREA_DATA *area_column2{};
+    std::string_view colour_column2;
     int num_found = 0;
-    std::string_view pArea1rating;
-    const AREA_DATA *pArea2{};
-    std::string_view pArea2rating;
-    for (auto &pPtr : AreaList::singleton()) {
-        int min = 0, max = 100; // Defaults to 'all'
-        std::string_view cCode = "|w";
-        // TODO: parse in AREA_DATA instead of here, then this whole code can be
-        // simplified.
-        int scanRet = sscanf(pPtr->name.c_str(), "{%d %d}", &min, &max);
+    for (auto &area : AreaList::singleton()) {
+        std::string_view colour = "|w";
         // Is it outside the requested range?
-        if (min > maxLevel || max < minLevel)
+        if (area->min_level < minLevel || area->max_level > maxLevel)
             continue;
 
         // Work out colour code
-        if (scanRet != 2) {
-            cCode = "|C";
-        } else if (min > (charLevel + 3) || max < (charLevel - 3)) {
-            cCode = "|w";
+        if (area->all_levels) {
+            colour = "|C";
+        } else if (area->min_level > (charLevel + 3) || area->max_level < (charLevel - 3)) {
+            colour = "|w";
         } else {
-            cCode = "|W";
+            colour = "|W";
         }
 
-        if (pArea1 == nullptr) {
-            pArea1 = pPtr.get();
-            pArea1rating = cCode;
+        if (area_column1 == nullptr) {
+            area_column1 = area.get();
+            colour_column1 = colour;
             num_found++;
         } else {
-            pArea2 = pPtr.get();
-            pArea2rating = cCode;
+            area_column2 = area.get();
+            colour_column2 = colour;
             num_found++;
             // And shift out
-            ch->send_line("{}{:<39}{}{:<39}", pArea1rating, pArea1->name, pArea2rating, pArea2->name);
-            pArea1 = pArea2 = nullptr;
+            ch->send_line("{}{:<39}{}{:<39}", colour_column1, area_column1->name, colour_column2, area_column2->name);
+            area_column1 = area_column2 = nullptr;
         }
     }
     // Check for any straggling lines
-    if (pArea1)
-        ch->send_line("{}{:<39}", pArea1rating, pArea1->name);
+    if (area_column1)
+        ch->send_line("{}{:<39}", colour_column1, area_column1->name);
     if (num_found) {
         ch->send_line("");
         ch->send_line("Areas found: {}", num_found);
