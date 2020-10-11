@@ -614,9 +614,9 @@ void char_update() {
             ch->send_line("You shiver and suffer.");
             damage(ch, ch, 2, gsn_poison, DAM_POISON);
         } else if (ch->position == POS_INCAP && number_range(0, 1) == 0) {
-            damage(ch, ch, 1, TYPE_UNDEFINED, DAM_NONE);
+            damage(ch, ch, 1, TYPE_HIT, DAM_NONE);
         } else if (ch->position == POS_MORTAL) {
-            damage(ch, ch, 1, TYPE_UNDEFINED, DAM_NONE);
+            damage(ch, ch, 1, TYPE_HIT, DAM_NONE);
         }
     }
 

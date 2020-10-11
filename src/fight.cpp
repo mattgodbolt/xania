@@ -1873,7 +1873,7 @@ void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool imm
 
     if (dt == TYPE_HIT) {
         if (ch == victim) {
-            to_room = fmt::format("$n {} $m {}{}|w", vp, body_part, punct);
+            to_room = fmt::format("$n {} $s {}{}|w", vp, body_part, punct);
             to_char = fmt::format("You {} your own {}{}|w{}", vs, body_part, punct, ch_dam_label);
         } else {
             to_room = fmt::format("$n {} $N's {}{}|w", vp, body_part, punct);
