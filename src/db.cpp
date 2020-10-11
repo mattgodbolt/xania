@@ -1868,7 +1868,7 @@ void do_areas(Char *ch, ArgParser args) {
     for (auto &area : AreaList::singleton()) {
         std::string_view colour = "|w";
         // Is it outside the requested range?
-        if (area->min_level < minLevel || area->max_level > maxLevel)
+        if (area->min_level > maxLevel || area->max_level < minLevel)
             continue;
 
         // Work out colour code
