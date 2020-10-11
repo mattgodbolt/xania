@@ -573,6 +573,19 @@ you are currently wearing or wielding of the same type.
 COMPARE doesn't consider any special modifiers of the objects.
 ~
 
+0 KILL~
+Syntax: kill <mobile name>
+
+KILL will attack a non-player character, starting a fight. Kill can be used 
+if you're not already in combat.
+
+Alternatively, you can start a fight by using one of your combat skills 
+or a spell that harms the mobile.
+
+KILL cannot be used to attack other players. For that, see `help challenge`
+and `help duel`.
+~
+
 0 FLEE~
 Syntax: flee
 Syntax: rescue   <character>
