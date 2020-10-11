@@ -13,9 +13,9 @@
 #include "lookup.h"
 #include "magic.h"
 #include "merc.h"
-
 #include <cstdio>
 #include <cstring>
+#include <map>
 
 namespace {
 Char *find_trainer(ROOM_INDEX_DATA *room) {
@@ -186,61 +186,47 @@ void do_gain(Char *ch, const char *argument) {
     act("$N tells you 'I do not understand...'", ch, nullptr, trainer, To::Char);
 }
 
-/* R Spells and skills show the players spells (or skills) */
+/* Display the player's spells, mana cost and skill level, organized by level. */
 
 void do_spells(Char *ch) {
-    char spell_list[LEVEL_HERO][MAX_STRING_LENGTH];
-    char spell_columns[LEVEL_HERO];
     int sn, lev, mana;
-    bool found = false;
-    char buf[MAX_STRING_LENGTH];
+    std::map<int, std::string> level_to_spells;
+    std::map<int, size_t> level_to_column_count;
 
     if (ch->is_npc())
         return;
 
-    /* initilize data */
-    for (lev = 0; lev < LEVEL_HERO; lev++) {
-        spell_columns[lev] = 0;
-        spell_list[lev][0] = '\0';
-    }
-
     for (sn = 0; sn < MAX_SKILL; sn++) {
+        std::string buf;
         if (skill_table[sn].name == nullptr)
             break;
 
         if (get_skill_level(ch, sn) < LEVEL_HERO && skill_table[sn].spell_fun != spell_null
-            && ch->pcdata->learned[sn] > 0) // NOT get_skill_learned
-        {
-            found = true;
+            && ch->pcdata->learned[sn] > 0) { // NOT get_skill_learned
             lev = get_skill_level(ch, sn);
             if (ch->level < lev)
-                bug_snprintf(buf, sizeof(buf), "%-18s   n/a      ", skill_table[sn].name);
+                buf = fmt::format("{:<18}   n/a           ", skill_table[sn].name);
             else {
                 mana = UMAX(skill_table[sn].min_mana, 100 / (2 + ch->level - lev));
-                bug_snprintf(buf, sizeof(buf), "%-18s  %3d mana  ", skill_table[sn].name, mana);
+                buf = fmt::format("{:<18}  {:>3} mana {:>3}%  ", skill_table[sn].name, mana, ch->pcdata->learned[sn]);
             }
 
-            if (spell_list[lev][0] == '\0')
-                bug_snprintf(spell_list[lev], sizeof(spell_list[lev]), "\n\rLevel %2d: %s", lev, buf);
-            else /* append */
-            {
-                if (++spell_columns[lev] % 2 == 0)
-                    strcat(spell_list[lev], "\n\r          ");
-                strcat(spell_list[lev], buf);
+            if (level_to_spells[lev].empty())
+                level_to_spells[lev] = fmt::format("\n\rLevel {:<2}: {}", lev, buf);
+            else {
+                if (++level_to_column_count[lev] % 2 == 0)
+                    level_to_spells[lev] += "\n\r          ";
+                level_to_spells[lev] += buf;
             }
         }
     }
-
-    /* return results */
-
-    if (!found) {
+    if (level_to_spells.empty()) {
         ch->send_line("You know no spells.");
         return;
     }
-
-    for (lev = 0; lev < LEVEL_HERO; lev++)
-        if (spell_list[lev][0] != '\0')
-            ch->send_to(spell_list[lev]);
+    for (auto it = level_to_spells.begin(); it != level_to_spells.end(); it++) {
+        ch->send_to(it->second);
+    }
     ch->send_line("");
 }
 
