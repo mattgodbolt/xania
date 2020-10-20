@@ -1886,7 +1886,8 @@ void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool imm
         else if (dt >= TYPE_HIT && dt <= TYPE_HIT + MAX_DAMAGE_MESSAGE) /* this might be broken*/
             attack = attack_table[dt - TYPE_HIT].noun;
         else {
-            bug("Dam_message: bad dt {}.", dt);
+            bug("Dam_message: bad dt {}. ch: {} in room {},  victim: {} in room {}, dam_type: {}.", dt, ch->name,
+                ch->in_room->vnum, victim->name, victim->in_room->vnum, dam_type);
             dt = TYPE_HIT;
             attack = attack_table[0].name;
         }
