@@ -49,8 +49,6 @@ int main(int argc, char **argv) {
     auto control = init_socket(file);
     boot_db();
     load_bans();
-    /* Rohan: Load player list into memory */
-    load_player_list();
     startchat("chat.data");
     if (printinfo)
         check_xania();

@@ -58,10 +58,6 @@
 #include <unistd.h>
 
 using namespace std::literals;
-/* Added by Rohan - extern to player list for adding new players to it */
-extern KNOWN_PLAYERS *player_list;
-
-/* extern void identd_lookup();  ......commented out due to sock leaks */
 
 /*
  * Global variables.
@@ -506,7 +502,6 @@ void nanny(Descriptor *d, const char *argument) {
     int i;
     int notes;
     bool fOld;
-    KNOWN_PLAYERS *temp_known_player;
 
     while (isspace(*argument))
         argument++;
@@ -1011,11 +1006,6 @@ void nanny(Descriptor *d, const char *argument) {
             do_help(ch, "NEWBIE INFO");
             ch->send_line("");
 
-            /* Rohan: New player logged in, need to add name to player list */
-            temp_known_player = (KNOWN_PLAYERS *)alloc_mem(sizeof(KNOWN_PLAYERS));
-            temp_known_player->name = str_dup(ch->name.c_str());
-            temp_known_player->next = player_list;
-            player_list = temp_known_player;
             /* hack to let the newbie know about the tipwizard */
             ch->send_line("|WTip: this is Xania's tip wizard! Type 'tips' to turn this on or off.|w");
             /* turn on the newbie's tips */

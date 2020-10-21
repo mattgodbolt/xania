@@ -22,13 +22,9 @@
 
 #include <fmt/format.h>
 
-/* Rohan's info stuff - extern to Player list */
-extern KNOWN_PLAYERS *player_list;
-
 void do_delet(Char *ch) { ch->send_line("You must type the full command to delete yourself."); }
 
 void do_delete(Char *ch, const char *argument) {
-    KNOWN_PLAYERS *cursor, *temp;
 
     if (ch->is_npc())
         return;
@@ -39,32 +35,9 @@ void do_delete(Char *ch, const char *argument) {
             ch->pcdata->confirm_delete = false;
             return;
         } else {
-            /* Added by Rohan - to delete the name out of player list if a player
-               deletes. Eventually, info will have to be deleted from cached
-               info if it is in there */
-            cursor = player_list;
-            if (cursor && cursor->name == ch->name) {
-                player_list = player_list->next;
-                free_string(cursor->name);
-                free_mem(cursor, sizeof(KNOWN_PLAYERS));
-                /*     log_string ("Player name removed from player list.");*/
-            } else if (cursor != nullptr) {
-                while (cursor->next != nullptr && cursor->next->name != ch->name)
-                    cursor = cursor->next;
-                if (cursor->next != nullptr) {
-                    temp = cursor->next;
-                    cursor->next = cursor->next->next;
-                    free_string(temp->name);
-                    free_mem(temp, sizeof(KNOWN_PLAYERS));
-                    /* log_string ("Player name removed from player list.");*/
-                } else
-                    bug("Deleted player was not in player list.");
-            } else
-                bug("Player list was empty. Not good.");
             /* Added by Rohan - to delete the cached info, if it has been
              cached of course! */
             remove_info_for_player(ch->name);
-
             auto strsave = filename_for_player(ch->name);
             do_quit(ch); // ch is invalid after this
             unlink(strsave.c_str());

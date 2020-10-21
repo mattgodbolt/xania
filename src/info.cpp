@@ -22,6 +22,7 @@
 #include <cstdio>
 #include <cstring>
 #include <dirent.h>
+#include <sys/stat.h>
 #include <unordered_map>
 
 void do_finger(Char *ch, char *arg);
@@ -41,35 +42,6 @@ FingerInfo *search_info_cache(std::string_view name) {
 }
 FingerInfo *search_info_cache(const Char *ch) { return search_info_cache(ch->name); }
 
-}
-
-// TODO(#108) is this used?
-KNOWN_PLAYERS *player_list = nullptr;
-
-void load_player_list() {
-    /* Procedure roughly nicked from emacs info :) */
-    KNOWN_PLAYERS *current_pos = player_list;
-    DIR *dp;
-    struct dirent *ep;
-    dp = opendir(get_player_dir().c_str());
-    if (dp != nullptr) {
-        while ((ep = (readdir(dp)))) {
-            if (player_list == nullptr) {
-                player_list = static_cast<KNOWN_PLAYERS *>(alloc_mem(sizeof(KNOWN_PLAYERS)));
-                player_list->next = nullptr;
-                player_list->name = str_dup(ep->d_name);
-                current_pos = player_list;
-            } else {
-                current_pos->next = static_cast<KNOWN_PLAYERS *>(alloc_mem(sizeof(KNOWN_PLAYERS)));
-                current_pos = current_pos->next;
-                current_pos->next = nullptr;
-                current_pos->name = str_dup(ep->d_name);
-            }
-        }
-        closedir(dp);
-        log_string("Player list loaded.");
-    } else
-        bug("Couldn't open the player directory for reading file entries.");
 }
 
 /* Rohan's setinfo function */
@@ -222,14 +194,8 @@ void do_finger(Char *ch, const char *argument) {
 
     victim = find_char_by_name(argument);
 
-    KNOWN_PLAYERS *cursor = player_list;
-    while (cursor) {
-        if (matches(cursor->name, argument))
-            break;
-        cursor = cursor->next;
-    }
-
-    if (cursor) {
+    struct stat player_file;
+    if (!stat(filename_for_player(argument).c_str(), &player_file)) {
         /* Player exists in player directory */
         const FingerInfo *cur = search_info_cache(argument);
         if (!cur) {

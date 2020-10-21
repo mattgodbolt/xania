@@ -63,7 +63,6 @@ typedef struct program PROGRAM;
 typedef struct reset_data RESET_DATA;
 struct ROOM_INDEX_DATA;
 struct SHOP_DATA;
-typedef struct known_players KNOWN_PLAYERS; // TODO(#108) remove if unused.
 /* Merc22 MOBProgs */
 struct MPROG_DATA; /* MOBprogram */
 
@@ -962,12 +961,6 @@ struct FingerInfo {
                std::string_view last_login_from, sh_int invis_level, bool i_message)
         : name(name), info_message(info_message), last_login_at(last_login_at), last_login_from(last_login_from),
           invis_level(invis_level), i_message(i_message) {}
-};
-
-/* We also need a list of all known players: Rohan */
-struct known_players {
-    KNOWN_PLAYERS *next;
-    char *name;
 };
 
 /*
