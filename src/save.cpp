@@ -111,16 +111,15 @@ void save_char_obj(const Char *ch) {
 
     auto player_temp = filename_for_player(ch->name + ".tmp");
     if ((fp = fopen(player_temp.c_str(), "w")) == nullptr) {
-        bug("Save_char_obj: fopen");
-        perror(player_temp.c_str());
+        bug("Save_char_obj: fopen {} {}", player_temp, strerror(errno));
     } else {
         save_char_obj(ch, fp);
-    }
-    fclose(fp);
-    /* move the file */
-    auto player_file = filename_for_player(ch->name);
-    if (rename(player_temp.c_str(), player_file.c_str()) != 0) {
-        bug("Unable to move temporary player name {}!! rename failed: {}!", player_file.c_str(), strerror(errno));
+        fclose(fp);
+        /* move the file */
+        auto player_file = filename_for_player(ch->name);
+        if (rename(player_temp.c_str(), player_file.c_str()) != 0) {
+            bug("Unable to move temporary player name {}!! rename failed: {}!", player_file.c_str(), strerror(errno));
+        }
     }
 }
 
