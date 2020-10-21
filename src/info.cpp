@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "info.hpp"
+#include "ArgParser.hpp"
 #include "Logging.hpp"
 #include "TimeInfoData.hpp"
 #include "WrappedFd.hpp"
@@ -25,7 +26,7 @@
 #include <sys/stat.h>
 #include <unordered_map>
 
-void do_finger(Char *ch, char *arg);
+void do_finger(Char *ch, ArgParser args);
 FingerInfo read_char_info(std::string_view player_name);
 
 // For finger info.
@@ -178,36 +179,49 @@ Char *find_char_by_name(std::string_view name) {
     return nullptr;
 }
 }
-void do_finger(Char *ch, const char *argument) {
-    if (argument[0] == '\0' || matches(ch->name, argument)) {
+void do_finger(Char *ch, ArgParser args) {
+    if (args.empty()) {
         do_setinfo(ch, "");
         return;
     }
+    auto name = args.shift();
+    if (matches(ch->name, name)) {
+        do_setinfo(ch, "");
+        return;
+    }
+
+    // Disallow file system special characters before calling stat().
+    for (auto c : name) {
+        if (!isalpha(c)) {
+            ch->send_line("Invalid name.");
+            return;
+        }
+    }
+
     /* Find out if argument is a mob */
-    auto *victim = get_char_world(ch, argument);
+    auto *victim = get_char_world(ch, name);
 
     /* Notice DEATH hack here!!! */
-    if (victim != nullptr && victim->is_npc() && !matches(argument, "Death")) {
+    if (victim != nullptr && victim->is_npc() && !matches(name, "Death")) {
         ch->send_line("Mobs don't have very interesting information to give to you.");
         return;
     }
 
-    victim = find_char_by_name(argument);
-
+    victim = find_char_by_name(name);
     struct stat player_file;
-    if (!stat(filename_for_player(argument).c_str(), &player_file)) {
+    if (!stat(filename_for_player(name).c_str(), &player_file)) {
         /* Player exists in player directory */
-        const FingerInfo *cur = search_info_cache(argument);
+        const FingerInfo *cur = search_info_cache(name);
         if (!cur) {
             /* Player info not in cache, proceed to put it in there */
             if (victim && victim->is_pc() && victim->desc) {
                 cur = &info_cache
-                           .emplace(argument, FingerInfo(victim->name, victim->pcdata->info_message,
-                                                         victim->desc->login_time(), victim->desc->host(),
-                                                         victim->invis_level, is_set_extra(victim, EXTRA_INFO_MESSAGE)))
+                           .emplace(name, FingerInfo(victim->name, victim->pcdata->info_message,
+                                                     victim->desc->login_time(), victim->desc->host(),
+                                                     victim->invis_level, is_set_extra(victim, EXTRA_INFO_MESSAGE)))
                            .first->second;
             } else {
-                cur = &info_cache.emplace(argument, read_char_info(argument)).first->second;
+                cur = &info_cache.emplace(name, read_char_info(name)).first->second;
             }
         }
 

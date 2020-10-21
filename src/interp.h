@@ -97,7 +97,7 @@ extern void do_examine(Char *ch, ArgParser args);
 extern void do_exits(const Char *ch, const char *argument);
 extern void do_fill(Char *ch, const char *arg);
 extern void do_pour(Char *ch, const char *arg);
-extern void do_finger(Char *ch, const char *arg);
+extern void do_finger(Char *ch, ArgParser args);
 extern void do_flee(Char *ch);
 extern void do_follow(Char *ch, ArgParser args);
 extern void do_force(Char *ch, const char *argument);
