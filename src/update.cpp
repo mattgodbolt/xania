@@ -606,8 +606,8 @@ void char_update() {
             }
 
             dam = UMIN(ch->level, 5);
-            ch->mana -= dam;
-            ch->move -= dam;
+            ch->mana = UMAX(0, ch->mana - dam);
+            ch->move = UMAX(0, ch->move - dam);
             damage(ch, ch, dam, gsn_plague, DAM_DISEASE);
         } else if (IS_AFFECTED(ch, AFF_POISON) && ch != nullptr) {
             act("$n shivers and suffers.", ch);
