@@ -116,11 +116,11 @@ State thy name and enter the realm of Xania: ~
 Welcome to Xania! See 'help rules' and 'help commands'.
 
 [ Recent Gameplay Updates! ]
-Oct 11:
-- 'spells' now displays your proficiency in each spell.
-- 'areas' now displays the area list sorted by level.
-- The lore skill and the identify spell now show the capacity of
-  containers.
+Oct 24:
+- 'dispel magic' now has a chance to remove a a wider variety of 
+   spells that a mob may be affected by permanently.
+- 'undo spell' now works for the same spells as 'dispel magic' and
+  'cancellation'.
 |g[Hit return to continue]|w
 ~ 
  
