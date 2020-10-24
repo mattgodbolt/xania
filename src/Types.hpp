@@ -12,3 +12,5 @@ using ush_int = uint16_t;
 using SpellFunc = void (*)(int spell_num, int level, Char *ch, void *vo);
 // Function pointer for NPC special behaviours.
 using SpecialFunc = bool (*)(Char *ch);
+// Function pointers for dispel magic checks
+using DispelMagicFunc = bool (*)(int dis_level, Char *victim, int spell_num);

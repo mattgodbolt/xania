@@ -18,6 +18,7 @@
 
 struct Char;
 
+bool check_dispel(int dis_level, Char *victim, int spell_num);
 void spell_psy_tornado(int spell_num, int level, Char *ch, void *vo);
 void spell_insanity(int spell_num, int level, Char *ch, void *vo);
 void spell_null(int spell_num, int level, Char *ch, void *vo);

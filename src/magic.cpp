@@ -19,11 +19,11 @@
 #include "merc.h"
 #include "string_utils.hpp"
 
-#include <fmt/format.h>
-#include <range/v3/algorithm/find_if.hpp>
-
 #include <cstdio>
 #include <cstring>
+#include <fmt/format.h>
+#include <functional>
+#include <range/v3/algorithm/find_if.hpp>
 
 /*
  * Local functions.
@@ -167,17 +167,17 @@ bool saves_dispel(int dis_level, int spell_level) {
     return number_percent() < save;
 }
 
-bool check_dispel(int dis_level, Char *victim, int sn) {
+bool check_dispel(int dis_level, Char *victim, int spell_num) {
     // This behaviour probably needs a look:
     // * multiple affects of the same SN get multiple chances of being dispelled.
     // * any succeeding chance strips _all_ affects of that SN.
     for (auto &af : victim->affected) {
-        if (af.type != sn)
+        if (af.type != spell_num)
             continue;
         if (!saves_dispel(dis_level, af.level)) {
-            affect_strip(victim, sn);
-            if (skill_table[sn].msg_off)
-                victim->send_line("{}", skill_table[sn].msg_off);
+            affect_strip(victim, spell_num);
+            if (skill_table[spell_num].msg_off)
+                victim->send_line("{}", skill_table[spell_num].msg_off);
             return true;
         }
         af.level--;
@@ -707,7 +707,7 @@ void spell_bless(int sn, int level, Char *ch, void *vo) {
         if (victim == ch)
             ch->send_line("You are already blessed.");
         else
-            act("$N already has divine favor.", ch, nullptr, victim, To::Char);
+            act("$N already has divine favour.", ch, nullptr, victim, To::Char);
 
         return;
     }
@@ -855,11 +855,41 @@ void spell_calm(int sn, int level, Char *ch, void *vo) {
     }
 }
 
+/**
+ * Try to dispel/cancel all dynamic effects from the victim. 
+ * Also if the victim is an NPC with a 'permanent' affect applied,
+ * it has a chance of stripping at most one of those.
+ * Returns true if anything was dispelled.
+ */
+bool try_dispel_all_dispellables(int level, Char *victim) {
+    bool found = false;
+    bool dispelled_perm_affect = false;
+    for (auto sn = 0; sn < MAX_SKILL; sn++) {
+        auto &spell = skill_table[sn];
+        if (spell.dispel_fun) {
+            // Dispel dynamic effects.
+            if (spell.dispel_fun(level, victim, sn)) {
+                act(spell.dispel_victim_msg_to_room, victim);
+                found = true;
+            }
+            // Dispel permanent effects on NPCs. Only try one per cast of dispel magic
+            // otherwise it'll be too easy potentially fully debuff a mob.
+            if (!dispelled_perm_affect 
+                && IS_AFFECTED(victim, spell.dispel_npc_perm_affect_bit) && !saves_dispel(level, victim->level)
+                && !is_affected(victim, sn)) {
+                REMOVE_BIT(victim->affected_by, spell.dispel_npc_perm_affect_bit);
+                act(spell.dispel_victim_msg_to_room, victim);
+                dispelled_perm_affect = true;
+                found = true;
+            }
+        }
+    }
+    return found;
+}
+
 void spell_cancellation(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     Char *victim = (Char *)vo;
-    bool found = false;
-
     level += 2;
 
     if ((ch->is_pc() && victim->is_npc() && !(IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim))
@@ -867,160 +897,8 @@ void spell_cancellation(int sn, int level, Char *ch, void *vo) {
         ch->send_line("You failed, try dispel magic.");
         return;
     }
-
     /* unlike dispel magic, the victim gets NO save */
-
-    /* begin running through the spells */
-
-    if (check_dispel(level, victim, skill_lookup("armor")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("bless")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("blindness"))) {
-        found = true;
-        act("$n is no longer blinded.", victim);
-    }
-
-    if (check_dispel(level, victim, skill_lookup("calm"))) {
-        found = true;
-        act("$n no longer looks so peaceful...", victim);
-    }
-
-    if (check_dispel(level, victim, skill_lookup("change sex"))) {
-        found = true;
-        act("$n looks more like $mself again.", victim);
-        victim->send_line("You feel more like yourself again.");
-    }
-
-    if (check_dispel(level, victim, skill_lookup("charm person"))) {
-        found = true;
-        act("$n regains $s free will.", victim);
-    }
-
-    if (check_dispel(level, victim, skill_lookup("chill touch"))) {
-        found = true;
-        act("$n looks warmer.", victim);
-    }
-
-    if (check_dispel(level, victim, skill_lookup("curse")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("detect evil")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("detect invis")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("detect hidden")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("protection evil")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("protection good")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("lethargy")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("regeneration")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("talon")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("octarine fire")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("detect magic")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("faerie fire"))) {
-        act("$n's outline fades.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("fly"))) {
-        act("$n falls to the ground!", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("frenzy"))) {
-        act("$n no longer looks so wild.", victim);
-        ;
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("giant strength"))) {
-        act("$n no longer looks so mighty.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("haste"))) {
-        act("$n is no longer moving so quickly.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("talon"))) {
-        act("$n's hands return to normal.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("lethargy"))) {
-        act("$n's heart-beat quickens.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("insanity"))) {
-        act("$n looks less confused.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("infravision")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("invis"))) {
-        act("$n fades into existance.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("mass invis"))) {
-        act("$n fades into existance.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("octarine fire"))) {
-        act("$n's outline fades.", victim);
-        found = true;
-    }
-    if (check_dispel(level, victim, skill_lookup("pass door")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("sanctuary"))) {
-        act("The white aura around $n's body vanishes.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("shield"))) {
-        act("The shield protecting $n vanishes.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("sleep")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("stone skin"))) {
-        act("$n's skin regains its normal texture.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("weaken"))) {
-        act("$n looks stronger.", victim);
-        found = true;
-    }
-
+    const auto found = try_dispel_all_dispellables(level, victim);
     if (found)
         ch->send_line("Ok.");
     else
@@ -1589,160 +1467,15 @@ void spell_dispel_good(int sn, int level, Char *ch, void *vo) {
     damage(ch, victim, dam_level.first, sn, DAM_HOLY);
 }
 
-/* modified for enhanced use */
-
 void spell_dispel_magic(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     Char *victim = (Char *)vo;
-    bool found = false;
-
     if (saves_spell(level, victim)) {
         victim->send_line("You feel a brief tingling sensation.");
         ch->send_line("You failed.");
         return;
     }
-
-    /* begin running through the spells */
-
-    if (check_dispel(level, victim, skill_lookup("armor")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("bless")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("blindness"))) {
-        found = true;
-        act("$n is no longer blinded.", victim);
-    }
-
-    if (check_dispel(level, victim, skill_lookup("calm"))) {
-        found = true;
-        act("$n no longer looks so peaceful...", victim);
-    }
-
-    if (check_dispel(level, victim, skill_lookup("change sex"))) {
-        found = true;
-        act("$n looks more like $mself again.", victim);
-    }
-
-    if (check_dispel(level, victim, skill_lookup("charm person"))) {
-        found = true;
-        act("$n regains $s free will.", victim);
-    }
-
-    if (check_dispel(level, victim, skill_lookup("chill touch"))) {
-        found = true;
-        act("$n looks warmer.", victim);
-    }
-
-    if (check_dispel(level, victim, skill_lookup("curse")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("detect evil")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("detect hidden")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("detect invis")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("detect hidden")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("detect magic")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("faerie fire"))) {
-        act("$n's outline fades.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("fly"))) {
-        act("$n falls to the ground!", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("frenzy"))) {
-        act("$n no longer looks so wild.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("giant strength"))) {
-        act("$n no longer looks so mighty.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("haste"))) {
-        act("$n is no longer moving so quickly.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("talon"))) {
-        act("$n hand's return to normal.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("lethargy"))) {
-        act("$n is looking more lively.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("insanity"))) {
-        act("$n looks less confused.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("infravision")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("invis"))) {
-        act("$n fades into existance.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("mass invis"))) {
-        act("$n fades into existance.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("pass door")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("protection")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("sanctuary"))) {
-        act("The white aura around $n's body vanishes.", victim);
-        found = true;
-    }
-
-    // Permanent Sanctuary on NPCs can be dispelled
-    if (IS_AFFECTED(victim, AFF_SANCTUARY) && !saves_dispel(level, victim->level)
-        && !is_affected(victim, skill_lookup("sanctuary"))) {
-        REMOVE_BIT(victim->affected_by, AFF_SANCTUARY);
-        act("The white aura around $n's body vanishes.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("shield"))) {
-        act("The shield protecting $n vanishes.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("sleep")))
-        found = true;
-
-    if (check_dispel(level, victim, skill_lookup("stone skin"))) {
-        act("$n's skin regains its normal texture.", victim);
-        found = true;
-    }
-
-    if (check_dispel(level, victim, skill_lookup("weaken"))) {
-        act("$n looks stronger.", victim);
-        found = true;
-    }
-
+    const auto found = try_dispel_all_dispellables(level, victim);
     if (found)
         ch->send_line("Ok.");
     else
@@ -3889,7 +3622,7 @@ void spell_undo_spell(int sn, int level, Char *ch, void *vo) {
     (void)level;
     (void)vo;
     Char *victim;
-    int spell_undo;
+    int undo_spell_num;
     char arg1[MAX_STRING_LENGTH];
     char arg2[MAX_STRING_LENGTH];
 
@@ -3910,12 +3643,11 @@ void spell_undo_spell(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if ((spell_undo = skill_lookup(arg1)) < 0) {
+    if ((undo_spell_num = skill_lookup(arg1)) < 0) {
         ch->send_line("What kind of spell is that?");
         return;
     }
-
-    if (!is_affected(victim, spell_undo)) {
+    if (!is_affected(victim, undo_spell_num)) {
         if (victim == ch) {
             ch->send_line("You're not affected by that.");
         } else {
@@ -3923,50 +3655,13 @@ void spell_undo_spell(int sn, int level, Char *ch, void *vo) {
         }
         return;
     }
-
-    if (check_dispel(ch->level, victim, spell_undo)) {
-        if (!str_cmp(skill_table[spell_undo].name, "blindness"))
-            act("$n is no longer blinded.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "calm"))
-            act("$n no longer looks so peaceful...", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "change sex"))
-            act("$n looks more like $mself again.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "charm person"))
-            act("$n regains $s free will.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "chill touch"))
-            act("$n looks warmer.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "faerie fire"))
-            act("$n's outline fades.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "octarine fire"))
-            act("$n's octarine outline fades.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "fly"))
-            act("$n falls to the ground!", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "frenzy"))
-            act("$n no longer looks so wild.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "giant strength"))
-            act("$n no longer looks so mighty.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "haste"))
-            act("$n is no longer moving so quickly.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "talon"))
-            act("$n hand's return to normal.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "lethargy"))
-            act("$n is looking more lively.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "insanity"))
-            act("$n looks less confused.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "invis"))
-            act("$n fades into existance.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "mass invis"))
-            act("$n fades into existance.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "sanctuary"))
-            act("The white aura around $n's body vanishes.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "shield"))
-            act("The shield protecting $n vanishes.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "stone skin"))
-            act("$n's skin regains its normal texture.", victim);
-        if (!str_cmp(skill_table[spell_undo].name, "weaken"))
-            act("$n looks stronger.", victim);
-
-        ch->send_line("Ok.");
+    const auto &undo_spell = skill_table[undo_spell_num];
+    if (!undo_spell.dispel_fun) {
+        ch->send_line("That spell cannot be undone.");
+        return;
+    }
+    if (undo_spell.dispel_fun(ch->level, victim, undo_spell_num)) {
+        act(undo_spell.dispel_victim_msg_to_room, victim);
     } else {
         ch->send_line("Spell failed.");
     }

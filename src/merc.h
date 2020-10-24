@@ -1155,7 +1155,16 @@ struct skill_type {
     sh_int min_mana; /* Minimum mana used            */
     sh_int beats; /* Waiting time after use       */
     const char *noun_damage; /* Damage message               */
-    const char *msg_off; /* Wear off message             */
+    const char *msg_off; /* Wear off message for the wearer  */
+    DispelMagicFunc dispel_fun;
+    /* If a spell effect can be dispelled or cancelled, set this to contain the
+     * message sent to others in the room about a victim */
+    const char *dispel_victim_msg_to_room;
+    /* AFFECT bit if this is a dispellable affect that can permanently affect an NPC
+     * i.e. it's a spell applied in the area file that is not going to appear
+     * as an entry in an AffectList.
+     */
+    const unsigned int dispel_npc_perm_affect_bit;
 };
 
 struct group_type {
