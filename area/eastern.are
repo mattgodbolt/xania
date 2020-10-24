@@ -1270,7 +1270,7 @@ a great pile of treasure~
 A great, gleaming pile of treasure lies at your feet.~
 gold~
 money 0 A
-46270 0 0 0 0
+10270 0 0 0 0
 0 0 0 P
 
 #5016
@@ -1365,7 +1365,7 @@ A tarnished copper bracelet lies at your feet.~
 bronze~
 armor GH AM
 5 0 0 0 0
-0 10 0 P
+0 5 0 P
 A
 13     10
 A
@@ -1378,7 +1378,7 @@ A large ruby lies on the ground collecting dust.~
 stone~
 treasure G A
 20 0 0 0 0
-0 9 0 P
+0 2 900 P
 
 #5027
 gem diamond~
@@ -1387,7 +1387,7 @@ A glittering diamond lies at your feet.~
 stone~
 treasure G A
 21 0 0 0 0
-0 10 0 P
+0 2 1000 P
 
 #5028
 gem sapphire~
@@ -1396,7 +1396,7 @@ A brilliant sapphire lies here twinkling.~
 stone~
 treasure G A
 22 0 0 0 0
-0 7 0 P
+0 2 800 P
 
 #5029
 gem lapis~
@@ -1405,7 +1405,7 @@ A deep blue lapis lazuli gem lies here.~
 stone~
 treasure G A
 24 0 0 0 0
-0 11 0 P
+0 2 700 P
 
 #5030
 jewel tiger~
@@ -1414,7 +1414,7 @@ The Tiger Jewel lies here blazing.~
 stone~
 treasure I AO
 0 0 0 0 0
-0 23 0 P
+0 5 500 P
 A
 2       1
 
@@ -1425,7 +1425,7 @@ The red-eyed jewel glares at you greedily.~
 stone~
 treasure 0 AO
 0 0 0 0 0
-0 30 0 P
+0 4 0 P
 A
 3       2
 
@@ -1436,7 +1436,7 @@ A fiery green emerald sits here.~
 stone~
 treasure G A
 23 0 0 0 0
-0 7 0 P
+0 2 900 P
 
 #0
 
