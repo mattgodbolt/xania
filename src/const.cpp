@@ -1109,7 +1109,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "You can see again.",
      check_dispel,
      "$n can see again.",
-     0},
+     AFF_BLIND},
 
     {"burning hands",
      {7, 60, 60, 60},
@@ -1157,7 +1157,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "You have lost your peace of mind.",
      check_dispel,
      "$n no longer looks so peaceful.",
-     0},
+     AFF_CALM},
 
     {"cancellation",
      {18, 26, 34, 34},
@@ -1541,7 +1541,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "The red in your vision disappears.",
      check_dispel,
      "$n's sensitivity to evil fades.",
-     0},
+     AFF_DETECT_EVIL},
 
     {"detect hidden",
      {15, 11, 60, 60},
@@ -1557,7 +1557,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "You feel less aware of your suroundings.",
      check_dispel,
      "$n looks less alert.",
-     0},
+     AFF_DETECT_HIDDEN},
 
     {"detect invis",
      {3, 8, 60, 60},
@@ -1573,7 +1573,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "You no longer see invisible objects.",
      check_dispel,
      "$n's eyes stop sparkling.",
-     0},
+     AFF_DETECT_INVIS},
 
     {"detect magic",
      {2, 6, 60, 60},
@@ -1589,7 +1589,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "The detect magic wears off.",
      check_dispel,
      "$n's sensitivity to magic fades.",
-     0},
+     AFF_DETECT_MAGIC},
 
     {"detect poison",
      {15, 7, 60, 60},
@@ -1941,7 +1941,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "You slowly float to the ground.",
      check_dispel,
      "$n falls to the ground!",
-     0},
+     AFF_FLYING},
 
     {"frenzy",
      {60, 24, 26, 60},
@@ -1957,7 +1957,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "Your rage ebbs.",
      check_dispel,
      "$n no longer looks frenzied.",
-     0},
+     AFF_BERSERK},
 
     {"gate",
      {27, 17, 28, 28},
@@ -2021,7 +2021,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "You feel yourself slow down.",
      check_dispel,
      "$n's movements slow down.",
-     0},
+     AFF_HASTE},
 
     {"regeneration",
      {17, 21, 20, 19},
@@ -2037,7 +2037,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "You feel less vibrant.",
      check_dispel,
      "The warm glow surrounding $n fades.",
-     0},
+     AFF_REGENERATION},
 
     {"lethargy",
      {21, 29, 27, 26},
@@ -2117,7 +2117,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "You no longer see in the dark.",
      check_dispel,
      "$n's eyes stop glowing red.",
-     0},
+     AFF_INFRARED},
 
     {"invis",
      {5, 60, 60, 60},
@@ -2133,7 +2133,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "You are no longer invisible.",
      check_dispel,
      "$n fades into existence.",
-     0},
+     AFF_INVISIBLE},
 
     {"know alignment",
      {12, 9, 60, 60},
@@ -2245,7 +2245,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "You feel solid again.",
      check_dispel,
      "$n drifts back into phase.",
-     0},
+     AFF_PASS_DOOR},
 
     {"plague",
      {23, 17, 36, 26},
@@ -2309,7 +2309,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "You feel less protected from evil.",
      check_dispel,
      "$n looks less protected from the forces of evil.",
-     0},
+     AFF_PROTECTION_EVIL},
 
     {"protection good",
      {12, 9, 12, 12},
@@ -2325,7 +2325,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "You feel less protected from good.",
      check_dispel,
      "$n looks less protected from the powers of good.",
-     0},
+     AFF_PROTECTION_GOOD},
 
     {"psychic tornado",
      {60, 50, 70, 70},
@@ -2421,7 +2421,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "Your hands return to normal.",
      check_dispel,
      "$n's hands return to normal.",
-     0},
+     AFF_TALON},
 
     {"sanctuary",
      {36, 20, 30, 37},
