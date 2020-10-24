@@ -766,8 +766,8 @@ able to stop him!  Currently the only thing he's thinking of is impaling you on
 his spear!
 ~ 
 orc~
-FGT HVZ -800 0
-36 18 8d8+1170 5d6+200 6d7+18 pound
+FGT HZ -800 0
+36 18 8d8+1170 5d6+200 6d6+18 pound
 -3 -2 -1 0
 CEFHKQ A 0 N
 stand stand male 80
@@ -788,7 +788,7 @@ and sharp nails.
 ~
 dwarf~
 CSH FQZ -50 0
-20 10 4d10+400 1d1+99 3d8+10 bite
+20 10 4d10+400 1d1+99 4d5+10 bite
 0 0 0 0
 DFN A 0 0
 stand stand male 2
@@ -807,8 +807,8 @@ Six foot four tall, with a scaly humanoid appearance, the draconian warrior is
 a formidable opponent.
 ~
 dragon~
-BFGT FHTVa -980 0
-39 21 2d2+2040 1d1+249 4d12+21 hit
+BFGT FHTa -980 0
+39 21 2d2+2040 1d1+249 3d13+19 hit
 -3 -2 -1 0
 CEFIKMQ A EK 0
 stand stand male 93
@@ -827,7 +827,7 @@ destination.
 ~
 dwarf~
 CGS 0 -110 0
-23 11 4d10+400 1d1+99 2d15+11 bite
+23 11 4d10+400 1d1+99 2d12+11 bite
 0 -1 0 0
 DFIJN A 0 0
 stand stand male 4
@@ -845,7 +845,7 @@ end.  Its helmet is much too big for it and it can hardly see!
 ~
 dwarf~
 CGS A -100 0
-24 11 4d10+450 1d1+99 2d15+12 bite
+24 11 4d10+450 1d1+99 3d8+12 bite
 -1 -1 -1 0
 DFIJN A 0 0
 stand stand male 43
@@ -866,7 +866,7 @@ and sharp nails.
 ~
 dwarf~
 CSH FQZ -50 0
-21 10 4d10+400 1d1+99 3d9+11 bite
+21 10 4d10+400 1d1+99 3d7+11 bite
 0 0 0 0
 DFN A 0 0
 stand stand female 4
@@ -884,7 +884,7 @@ are you!
 ~
 dwarf~
 BC MY -900 0
-25 12 4d10+392 1d1+249 2d15+12 beating
+25 12 4d10+392 1d1+249 5d5+12 beating
 0 0 0 0
 FINU A LQ I
 sit sit male 0
@@ -902,7 +902,7 @@ behind him, this Dewar is not going to get past the guards in this state.
 ~
 dwarf~
 CFHS MYX -910 0
-26 14 4d10+405 1d1+249 2d16+13 beating
+26 14 4d10+405 1d1+249 5d5+13 beating
 0 0 0 0
 CDFHIJNU A LQ I
 stand stand male 0
@@ -919,8 +919,8 @@ too keen to blast you into oblivion!  With one clawed hand raised, he traces
 an evil sigil in the air and prepares to attack.
 ~
 dragon~
-FGHR HNUT -1000 0
-45 25 4d10+1850 2d10+520 6d8+23 claw
+FGHR HUT -1000 0
+45 25 4d10+1850 2d10+520 5d9+22 claw
 -2 -2 -2 -2
 CEFI AB CK 0
 stand stand male 600
@@ -939,8 +939,8 @@ warriors here, not for any humanitarian reasons, but simply as the draconian
 fighting force must be kept at its peak to further the draconians' evil goals.
 ~
 dragon~
-BGQL HTVZ -1000 0
-40 22 4d10+1650 2d10+450 6d7+21 divine
+BGQL HTZ -1000 0
+40 22 4d10+1650 2d10+450 4d10+20 divine
 -2 -1 -2 -3
 CDEFKMR ABN CK F
 stand stand male 540
@@ -957,8 +957,8 @@ a condition, you can only wonder.  The warrior has a charred wound on his
 stomach, and many small cuts and bruises over his body.
 ~
 dragon~
-BGT FHTVa -980 0
-36 17 2d2+1241 1d1+249 4d10+20 hit
+BGT FHTa -980 0
+36 17 2d2+1241 1d1+249 6d6+18 hit
 -3 -2 -1 0
 CEFIKMQ A EK 0
 stand stand male 76
@@ -985,7 +985,7 @@ The man sighs deeply, and continues:
 ~
 unique~
 BCU CDEFHJN 0 0
-50 27 1d1+4999 1d1+4999 6d8+22 divine
+50 27 1d1+4999 1d1+4999 6d8+25 divine
 -10 -10 -10 -10
 0 0 0 0
 stand stand male 1
@@ -1005,7 +1005,7 @@ whip.
 ~
 goblin~
 BCH 0 -150 0
-25 12 10d10+500 5d2+49 2d15+12 claw
+25 12 10d10+500 5d2+49 5d5+12 claw
 -1 0 0 -1
 CFIJNR A L 0
 stand stand male 4
@@ -1025,7 +1025,7 @@ different tale.
 ~
 goblin~
 BCH N -400 0
-28 14 10d10+550 5d2+49 3d11+13 claw
+28 14 10d10+550 5d2+49 4d7+13 claw
 -1 -1 -1 -1
 CFIJN A L 0
 stand stand male 6
@@ -1044,7 +1044,7 @@ purposes of the draconians.
 ~
 goblin~
 B RW -100 0
-20 10 10d10+326 10d10+400 3d7+8 charge
+20 10 10d10+326 10d10+400 4d5+10 charge
 0 0 0 0
 DFN AC L P
 stand stand male 0
@@ -1062,7 +1062,7 @@ delicate task as making explosives - and edge away from her slightly...
 ~
 goblin~
 BCH P -210 0
-24 11 10d10+460 5d2+49 2d15+12 claw
+24 11 10d10+460 5d2+49 6d4+12 claw
 0 0 0 0
 CFIJNR A L 0
 stand stand female 10
@@ -1083,7 +1083,7 @@ is that of a dragon's!
 ~
 minotaur~
 BFTV CDEFHNV -1000 0
-50 32 10d10+2490 50d4+400 4d14+25 pound
+50 32 10d10+2490 50d4+400 7d7+25 pound
 -4 -3 -2 0
 CDEFHKV AB JK N
 stand stand male 6666
@@ -1100,8 +1100,8 @@ abilities.  Fully six feet five he is at the peak of physical, mental and
 magical form, unfortunately for you!
 ~
 dragon~
-BCFR CDFHNZ -1000 0
-48 26 10d10+1950 2d2+1997 4d14+25 claw
+BCFR CDFHZ -1000 0
+48 26 10d10+1950 2d2+1997 6d8+24 claw
 -3 -3 0 -2
 FIK AB COP N
 stand stand male 350
@@ -1118,7 +1118,7 @@ force - and has been consigned to boring duties.  He is in a foul mood.
 ~
 orc~
 CGT 0 -890 0
-32 18 5d10+750 1d1+99 5d9+16 slash
+32 18 5d10+750 1d1+99 4d8+16 slash
 -1 -2 -2 0
 DER A 0 0
 stand stand male 20
