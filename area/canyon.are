@@ -1659,6 +1659,10 @@ armor A AC
 9 9 9 0 0
 30 3 6096 P
 A
+1      1
+A
+19      1
+A
 19      1
 
 #9205
@@ -1667,10 +1671,14 @@ the wind boots~
 A pair of boots that look fast standing still are here.~
 leather~
 armor G AG
-9 9 9 0 0
+9 9 9 5 0
 30 1 6089 P
 A
+1       1
+A
 2       2
+A
+14      100
 
 #9206
 helmet hurricane~
@@ -1678,8 +1686,12 @@ a hurricane helmet~
 A helmet that looks like it has weathered many storms has been set here.~
 stone~
 armor B AE
-9 9 9 0 0
+9 9 9 5 0
 30 4 6144 P
+A
+2      2
+A
+13     15
 A
 23     -4
 
@@ -1692,9 +1704,9 @@ weapon AB AN
 'sword' 6 5 'slash' 0
 30 10 6102 P
 A
-18     -1
+18     2
 A
-19      2
+19     2
 
 #9208
 shield electric~
@@ -1702,12 +1714,12 @@ an electric shield~
 A shield made entirely of energy buzzes here.~
 mithril~
 armor B AJ
-9 9 9 0 0
+9 9 9 5 0
 30 8 6144 P
 A
-1      -1
+1      2
 A
-5       1
+5       2
 
 #9209
 girth icy~
@@ -1715,10 +1727,12 @@ an icy girth~
 A girth made of magical ice has been left here.~
 stone~
 armor 0 AL
-9 9 9 0 0
+9 9 9 5 0
 30 10 6259 P
 A
-5      -2
+5      2
+A
+13      20
 
 #9210
 cloak waterfall~
@@ -1726,12 +1740,12 @@ a waterfall cloak~
 A cloak fashioned from a small magical waterfall is here.~
 cloth~
 armor 0 AK
-9 9 9 0 0
+9 9 9 5 0
 30 6 6226 P
 A
 12     25
 A
-18     -2
+18     2
 
 #9211
 amulet elemental~
@@ -1766,7 +1780,7 @@ armor 0 AI
 A
 1       1
 A
-4      -2
+4       2
 
 #9214
 legbands platinum bands~
@@ -1779,7 +1793,7 @@ armor 0 AF
 A
 2       1
 A
-3      -2
+3       2
 
 #9215
 wand~
@@ -1889,7 +1903,7 @@ weapon A AN
 'spear' 4 5 'slash' 0
 26 14 5341 P
 A
-13    -20
+13     20
 A
 18      2
 
@@ -1904,7 +1918,7 @@ weapon A AN
 A
 19      2
 A
-1      -1
+1       1
 
 #9228
 avalanche~
@@ -1915,7 +1929,7 @@ weapon 0 AN
 'exotic' 3 7 'blast' 0
 23 16 4717 P
 A
-18     -1
+18     1
 
 #9229
 star morning~
@@ -1928,7 +1942,7 @@ weapon A AN
 A
 23     -5
 A
-17     -3
+2      2
 
 #9230
 shock whip~
@@ -1941,7 +1955,7 @@ weapon B AN
 A
 19      3
 A
-1      -2
+1       1
 
 #9231
 elixir anti~
