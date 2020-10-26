@@ -443,10 +443,14 @@ void game_loop_unix(Fd control) {
 
 bool read_from_descriptor(Descriptor *d, std::string_view data) {
     if (d->is_input_full()) {
-        log_string("{} input overflow!", d->host().c_str());
-        d->write_direct("\n\r*** PUT A LID ON IT!!! ***\n\r");
+        // Only log input for the first command exceeding the input limit
+        // so that wiznet doesn't become unusable.
+        if (!d->is_spammer_warned()) {
+            log_string("{} input overflow!", d->host().c_str());
+            d->warn_spammer();
+            d->add_command("quit");
+        }
         d->clear_input();
-        d->add_command("quit");
         return false;
     }
 

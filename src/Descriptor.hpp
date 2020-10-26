@@ -44,6 +44,7 @@ class Descriptor {
     static constexpr size_t MaxInbufBacklog = 50u;
     uint32_t channel_{};
     std::list<std::string> pending_commands_;
+    bool is_spammer_warned_{};
     std::string last_command_;
     std::string raw_host_{"unknown"};
     std::string masked_host_{"unknown"};
@@ -77,6 +78,8 @@ public:
     [[nodiscard]] bool is_playing() const noexcept { return state_ == DescriptorState::Playing; }
 
     [[nodiscard]] bool is_input_full() const noexcept { return pending_commands_.size() >= MaxInbufBacklog; }
+    [[nodiscard]] bool is_spammer_warned() const noexcept { return is_spammer_warned_; }
+    void warn_spammer();
     void clear_input() { pending_commands_.clear(); }
     void add_command(std::string_view command) { pending_commands_.emplace_back(command); }
     [[nodiscard]] std::optional<std::string> pop_incomm();

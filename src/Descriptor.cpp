@@ -72,6 +72,11 @@ std::optional<std::string> Descriptor::pop_incomm() {
     }
 }
 
+void Descriptor::warn_spammer() {
+    is_spammer_warned_ = true;
+    write_direct("\n\r*** PUT A LID ON IT!!! ***\n\r");
+}
+
 bool Descriptor::write_direct(std::string_view text) const {
     if (is_closed())
         return false;
