@@ -164,7 +164,6 @@ void interp_initialise() {
     add_command("spells", do_spells);
     add_command("story", do_story);
     add_command("time", do_time);
-    add_command("timezone", do_timezone);
     add_command("tipwizard", do_tipwizard);
     add_command("tips", do_tipwizard);
     add_command("typo", do_typo);

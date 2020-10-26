@@ -1176,20 +1176,9 @@ void do_affected(Char *ch) {
 }
 
 void do_time(Char *ch) {
-    // TODO(#134) this whole thing should use the user's TZ.
     ch->send_line(time_info.describe());
     ch->send_line("Xania started up at {}Z.", secs_only(boot_time));
     ch->send_line("The system time is {}Z.", secs_only(current_time));
-
-    if (ch = ch->player(); !ch)
-        return;
-
-    // TODO(#95) now we have an actual time library we can replace this with a timezone and format accordingly.
-    if (ch->pcdata->houroffset || ch->pcdata->minoffset) {
-        using namespace std::chrono;
-        auto now = system_clock::now() + hours(ch->pcdata->houroffset) + minutes(ch->pcdata->minoffset);
-        ch->send_line("Your local time is {:%H:%M:%S}.", fmt::gmtime(system_clock::to_time_t(now)));
-    }
 }
 
 void do_weather(Char *ch) {

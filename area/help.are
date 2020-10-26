@@ -712,7 +712,7 @@ PROMPT <%*> where the %* are the various variables you may set yourself.
    %B :  Display |Yenergy bar|w prompt
    %p :  Display your current prefix
    %n :  Force a new line
-   %t :  Display current time
+   %t :  Display current time (UTC)
    %W :  Display whether you are wizinvis (|RIMMORTAL|w ONLY)
    %P :  Display whether you are prowling (|RIMMORTAL|w ONLY)
    %r :  Display the room name you are in (|RIMMORTAL|w ONLY)
@@ -824,29 +824,11 @@ Your ability scores are shown as true value(current value), so for example
 Str: 15(23) means you have a 15 strength from training, but a 23 strength
 from other factors (spells or items).
 
-TIME shows the game time, as well as the time the mud was last started,
-and the current local time for the host computer.  If you have a personal
-timezone set, it will also show you your own local time.
+TIME shows the game time, as well as the time the mud was last started. 
+Times are always displayed in the UTC timezone.
 
 WEATHER shows the current game weather.
 ~
-
-0 TIMEZONE~
-The 'timezone' command allows you to specify your own local time, as an
-offset from GMT.  The default time shown will be British time, which will
-include the 1-hour offset during Summer.  Your timezone will be used in
-addition to the normal times in the 'time' command, and will also be used
-in your prompt if you are using the '%t' (show current time) token.
-
-Syntax:
-   timezone 2:36         Sets your time offset to 2 hours and 36 mins
-   timezone              Unsets your time offset (forces British time)
-
-Related help:
-   help time
-   help prompt
-~
-
 
 0 WHO~
 Syntax: who

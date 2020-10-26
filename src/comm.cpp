@@ -1424,27 +1424,9 @@ std::string format_one_prompt_part(char c, const Char &ch) {
         break;
     case 'n': return "\n\r";
     case 't': {
-        // TODO fix up as part of the timezone stuff
         auto ch_timet = Clock::to_time_t(current_time);
         char time_buf[MAX_STRING_LENGTH];
-        if (ch.player() && (ch.player()->pcdata->houroffset || ch.player()->pcdata->minoffset)) {
-            auto *ch_time = gmtime(&ch_timet);
-            ch_time->tm_min += ch.player()->pcdata->minoffset;
-            ch_time->tm_hour += ch.player()->pcdata->houroffset;
-
-            ch_time->tm_hour -= (ch_time->tm_min / 60);
-            ch_time->tm_min = (ch_time->tm_min % 60);
-            if (ch_time->tm_min < 0) {
-                ch_time->tm_min += 60;
-                ch_time->tm_hour -= 1;
-            }
-            ch_time->tm_hour = (ch_time->tm_hour % 24);
-            if (ch_time->tm_hour < 0)
-                ch_time->tm_hour += 24;
-
-            strftime(time_buf, sizeof(time_buf), "%H:%M:%S", ch_time);
-        } else
-            strftime(time_buf, sizeof(time_buf), "%H:%M:%S", localtime(&ch_timet));
+        strftime(time_buf, sizeof(time_buf), "%H:%M:%S", gmtime(&ch_timet));
         return time_buf;
     } break;
     default: break;

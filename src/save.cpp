@@ -228,7 +228,7 @@ void fwrite_char(const Char *ch, FILE *fp) {
         /* save prefix PCFN 19-05-97 */
         fprintf(fp, "Prefix %s~\n", ch->pcdata->prefix.c_str());
 
-        /* Save time ;-)  PCFN 24-05-97 */
+        // Timezone hours and minutes offset are unused currently.
         fprintf(fp, "HourOffset %d\n", ch->pcdata->houroffset);
         fprintf(fp, "MinOffset %d\n", ch->pcdata->minoffset);
 
@@ -634,7 +634,10 @@ void fread_char(Char *ch, FILE *fp) {
         } else if (word == "hitroll" || word == "hit") {
             ch->hitroll = fread_number(fp);
         } else if (word == "houroffset") {
-            ch->pcdata->houroffset = fread_number(fp);
+            ch->pcdata->houroffset = 0;
+            // Timezone hours and minutes offset are unused currently but we've kept
+            // them in the pfiles for compatibility/potential reuse in future.
+            fread_number(fp);
         } else if (word == "hpmanamove" || word == "hmv") {
             ch->hit = fread_number(fp);
             ch->max_hit = fread_number(fp);
@@ -661,7 +664,10 @@ void fread_char(Char *ch, FILE *fp) {
         } else if (word == "lastloginat") {
             login_at = fread_string(fp);
         } else if (word == "minoffset") {
-            ch->pcdata->minoffset = fread_number(fp);
+            ch->pcdata->minoffset = 0;
+            // Timezone hours and minutes offset are unused currently but we've kept
+            // them in the pfiles for compatibility/potential reuse in future.
+            fread_number(fp);
         } else if (word == "name") {
             ch->name = fread_stdstring(fp);
         } else if (word == "note") {

@@ -17,6 +17,7 @@ struct PcData {
     std::string afk;
     std::string prefix;
     std::string info_message;
+    // Timezone hours and minutes offset are unused currently.
     sh_int houroffset{};
     sh_int minoffset{};
     sh_int perm_hit{};

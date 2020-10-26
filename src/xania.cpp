@@ -190,30 +190,6 @@ void do_prefix(Char *ch, const char *argument) {
     }
 }
 
-/* do_timezone added PCFN 24-05-97 */
-void do_timezone(Char *ch, const char *argument) {
-    if (ch = ch->player(); !ch)
-        return;
-
-    if (argument[0] == '\0') {
-        if (ch->pcdata->minoffset == 0 && ch->pcdata->houroffset == 0)
-            ch->send_line("UTC is already being used");
-        else {
-            ch->send_line("UTC time will be used");
-            ch->pcdata->minoffset = 0;
-            ch->pcdata->houroffset = 0;
-        }
-    } else {
-        sscanf(argument, "%hd:%hd", &ch->pcdata->houroffset, &ch->pcdata->minoffset);
-        ch->send_to(fmt::format("Time will now be displayed {}:{:02} from GMT\n\r", ch->pcdata->houroffset,
-                                ch->pcdata->minoffset));
-    }
-}
-
-/********************************************************************************************/
-
-/*****************************************
- ******************************************************************/
 int get_skill_level(const Char *ch, int gsn) {
     int level = 0, bonus;
 
