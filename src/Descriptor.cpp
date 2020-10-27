@@ -8,6 +8,8 @@
 
 #include <fmt/format.h>
 
+static const auto LobbyTimeoutMins = Minutes(2);
+
 // Up to 5 characters
 const char *short_name_of(DescriptorState state) {
     switch (state) {
@@ -75,6 +77,16 @@ std::optional<std::string> Descriptor::pop_incomm() {
 void Descriptor::warn_spammer() {
     is_spammer_warned_ = true;
     write_direct("\n\r*** PUT A LID ON IT!!! ***\n\r");
+}
+
+bool Descriptor::is_in_lobby() const noexcept {
+    return state_ == DescriptorState::GetName || state_ == DescriptorState::ConfirmNewName
+           || state_ == DescriptorState::GetOldPassword || state_ == DescriptorState::GetNewPassword
+           || state_ == DescriptorState::ConfirmNewPassword;
+}
+
+bool Descriptor::is_lobby_timeout_exceeded() const noexcept {
+    return is_in_lobby() && std::chrono::duration_cast<Minutes>(current_time - login_time_) >= LobbyTimeoutMins;
 }
 
 bool Descriptor::write_direct(std::string_view text) const {

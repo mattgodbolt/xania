@@ -80,6 +80,9 @@ public:
     [[nodiscard]] bool is_input_full() const noexcept { return pending_commands_.size() >= MaxInbufBacklog; }
     [[nodiscard]] bool is_spammer_warned() const noexcept { return is_spammer_warned_; }
     void warn_spammer();
+    [[nodiscard]] bool is_in_lobby() const noexcept;
+    // Returns true if the descriptor has been connected in the lobby (user/pass prompt) too long.
+    [[nodiscard]] bool is_lobby_timeout_exceeded() const noexcept;
     void clear_input() { pending_commands_.clear(); }
     void add_command(std::string_view command) { pending_commands_.emplace_back(command); }
     [[nodiscard]] std::optional<std::string> pop_incomm();

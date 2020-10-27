@@ -400,6 +400,8 @@ void game_loop_unix(Fd control) {
                     interpret(character, incomm->c_str());
                 else
                     nanny(&d, incomm->c_str());
+            } else if (d.is_lobby_timeout_exceeded()) {
+                d.close();
             }
         }
 
