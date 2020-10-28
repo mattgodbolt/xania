@@ -874,8 +874,9 @@ bool try_dispel_all_dispellables(int level, Char *victim) {
             }
             // Dispel permanent effects on NPCs. Only try one per cast of dispel magic
             // otherwise it'll be too easy potentially fully debuff a mob.
-            if (!dispelled_perm_affect && IS_AFFECTED(victim, spell.dispel_npc_perm_affect_bit)
+            if (!dispelled_perm_affect && victim->is_npc() && IS_AFFECTED(victim, spell.dispel_npc_perm_affect_bit)
                 && !saves_dispel(level, victim->level) && !is_affected(victim, sn)) {
+
                 REMOVE_BIT(victim->affected_by, spell.dispel_npc_perm_affect_bit);
                 act(spell.dispel_victim_msg_to_room, victim);
                 dispelled_perm_affect = true;
