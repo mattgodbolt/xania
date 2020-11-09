@@ -2,5 +2,7 @@
 /home/xania/data/log/doorman.log
 {
     daily
+    size 1M
+    copytruncate
     rotate 60
 }
