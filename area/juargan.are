@@ -1,7 +1,7 @@
 #AREA   
 juargan.are~
 Kingdom of Juargan~
-{10 25} Anon    Kingdom of Juargan~
+{ 8 25} Anon    Kingdom of Juargan~
 4700 4790
 
 #ROOMS
@@ -1147,8 +1147,9 @@ S
 #4772
 The small cave~
 You barely squeeze through into this cave, and you don't see much to it
-either.  All you see are piles of stones.  At least none of the stones has
-fallen over your exit north.
+either. 
+
+All you see are piles of stones atop a set of steps leading down.
 ~
 47 D 4
 D0
@@ -1407,10 +1408,10 @@ D3
 You see the dirty hills still.
 ~
 ~
-0 0 4000
+0 0 4001
 E
 plaque~
-This extension (hills and dwarf forest) is made my Hatchet for any Merc Mud.
+This extension (hills and dwarf forest) is made by Hatchet for any Merc Mud.
 copyright 1992
 ~
 S
@@ -1547,7 +1548,7 @@ many dwarves as it's body is at least five feet in diameter.
 unique~
 BFA D 0 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-6 -6 -6 0
 FENU 0 0 0
 stand stand neutral 1020
 0 0 medium 0
@@ -1636,7 +1637,7 @@ a large dwarven battle axe~
 A large battle axe lies here on the ground.~
 ~
 weapon GI AN
-'axe' 4 5 'slice' 0
+'axe' 5 5 'slice' 0
 27 5 5416 P
 E
 dwarven battle axe~

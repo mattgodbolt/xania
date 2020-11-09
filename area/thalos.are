@@ -1549,7 +1549,7 @@ D2
 You see a beautiful waterfall.
 ~
 ~
-0 -1 5281
+0 -1 4774
 S
 #5280
 A dark bend in the forest~
@@ -1568,20 +1568,6 @@ You see the trail back to the Dwarven Forest.
 ~
 ~
 0 0 5273
-S
-#5281
-By the beautiful waterfall~
-You see a VERY beautiful waterfall here.  It looks almost as if diamonds are
-falling down the mountain.  (You reach out and grab and no, it IS only water.)
-It looks so nice here, you feel like taking a nap.
-The trail leads north and south.
-~
-52 0 4
-D0
-You see the trail leading north.
-~
-~
-0 0 5279
 S
 #0
 

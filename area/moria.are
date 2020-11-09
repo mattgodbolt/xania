@@ -1140,7 +1140,9 @@ The hills~
 small from a distance you now get the feeling that they're closing in on you,
 towering over you, overwhelming you ...  The small path seems to have second
 thoughts about these hills because it starts winding unnecessarily, turning
-several times around itself.  To the south the hills have a lighter hue of
+several times around itself.  
+
+The hills continue to the east and to the south they have a lighter hue of
 dark. To the north however, the hills have become nightblack holes in the
 distant mountains.
 ~
@@ -1149,6 +1151,10 @@ D0
 ~
 ~
 0 0 4002
+D1
+~
+~
+0 0 4785
 D2
 ~
 ~
