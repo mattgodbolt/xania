@@ -1985,8 +1985,14 @@ The trees here seem to form a circle around a HUGE tree that is in the center
 of them.  You notice a wooden door carved into the huge tree to the east.  The
 trail that you followed to get here seems to end at the base of the tree.
 A pathway appears to lead into the ground between the great roots of the tree!
+Another well-trod pathway continues to the north.xxx
 ~
 61 AD 3
+D0
+A cart track.
+~
+~
+0 -1 6156
 D1
 The tree door is carved beautifully.
 ~
@@ -2050,6 +2056,42 @@ the hallway looks quite grand.
 ~
 ~
 1 -1 6154
+S
+#6156
+A heavily used cart track.~
+You find yourself trudging along a muddy cart track. The trees to your left
+and right arc overhead blocking out most of the sky. There is an eerie silence.
+~
+61 0 3
+D0
+The cart track continues.
+~
+~
+0 -1 6157
+D2
+A large tree looms.
+~
+~
+0 -1 6152
+S
+#6157
+A well-travelled cart track.~
+The filthy wet mud of this well-worn cart track cakes your feet, making
+movement heavy going. Through the thick fog, you can just about make out
+a stoney turret to the north, while the forest to your east and west leads
+to impassable undergrowth.
+~
+61 0 3
+D0
+A drawbridge looms in the distance.
+~
+~
+0 -1 501
+D2
+A cart track winds its way south.
+~
+~
+0 -1 6156
 S
 #0
 
