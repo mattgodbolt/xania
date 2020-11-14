@@ -5,6 +5,7 @@
 #include <string>
 #include <string_view>
 
+#include <fmt/chrono.h>
 #include <fmt/core.h>
 #include <fmt/printf.h>
 

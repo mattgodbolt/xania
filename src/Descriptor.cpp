@@ -280,4 +280,4 @@ void Descriptor::do_return() {
     original_ = nullptr;
 }
 
-std::string Descriptor::login_time() const noexcept { return fmt::format("{}", secs_only(login_time_)); }
+std::string Descriptor::login_time() const noexcept { return formatted_time(login_time_); }

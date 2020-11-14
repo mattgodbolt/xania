@@ -108,8 +108,8 @@ static void tell_to(Char *ch, Char *victim, const char *text) {
         act(fmt::format("|W$N|c is {}.|w", victim->pcdata->afk), ch, nullptr, victim, To::Char, POS_DEAD);
         if (IS_SET(victim->comm, COMM_SHOWAFK)) {
             // TODO(#134) use the victim's timezone info.
-            act(fmt::format("|c\007AFK|C: At {}, $n told you '{}|C'.|w", secs_only(current_time), text).c_str(), ch,
-                nullptr, victim, To::Vict, POS_DEAD);
+            act(fmt::format("|c\007AFK|C: At {}, $n told you '{}|C'.|w", formatted_time(current_time), text).c_str(),
+                ch, nullptr, victim, To::Vict, POS_DEAD);
             act("|cYour message was logged onto $S screen.|w", ch, nullptr, victim, To::Char, POS_DEAD);
             victim->reply = ch;
         }

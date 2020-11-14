@@ -42,7 +42,7 @@ void bug(std::string_view message) {
 /* New log - takes a level and broadcasts to IMMs on WIZNET */
 void log_new(std::string_view str, int loglevel, int level) {
     // One day use spdlog here?
-    fmt::print(stderr, "{} :: {}\n", Clock::now(), str);
+    fmt::print(stderr, "{} :: {}\n", formatted_time(Clock::now()), str);
 
     if (loglevel == EXTRA_WIZNET_DEBUG)
         level = std::max(level, 96); // Prevent non-SOCK ppl finding out addresses

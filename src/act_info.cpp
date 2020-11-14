@@ -1177,8 +1177,8 @@ void do_affected(Char *ch) {
 
 void do_time(Char *ch) {
     ch->send_line(time_info.describe());
-    ch->send_line("Xania started up at {}Z.", secs_only(boot_time));
-    ch->send_line("The system time is {}Z.", secs_only(current_time));
+    ch->send_line("Xania started up at {}Z.", formatted_time(boot_time));
+    ch->send_line("The system time is {}Z.", formatted_time(current_time));
 }
 
 void do_weather(Char *ch) {

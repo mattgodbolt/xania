@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <date/date.h>
+#include <fmt/chrono.h>
 #include <fmt/ostream.h>
 
 using Clock = std::chrono::system_clock;
@@ -10,4 +11,4 @@ using Seconds = std::chrono::seconds;
 using Minutes = std::chrono::minutes;
 using date::operator<<;
 
-inline auto secs_only(Time time) { return date::floor<std::chrono::seconds>(time); }
+inline auto formatted_time(Time time) { return fmt::format("{:%Y-%m-%d %H:%M:%S}", time); }

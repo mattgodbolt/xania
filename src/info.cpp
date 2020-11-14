@@ -288,7 +288,7 @@ void update_info_cache(Char *ch) {
         } else {
             /* If link dead, we need to grab as much
                info as possible. Death.*/
-            cur->last_login_at = fmt::format("{}", secs_only(current_time));
+            cur->last_login_at = formatted_time(current_time);
         }
     }
 }

@@ -313,7 +313,7 @@ static void note_post(Char *ch, [[maybe_unused]] const char *argument) {
         ch->send_line("You need to provide a subject.");
         return;
     }
-    note->date = str_dup(fmt::format("{}", secs_only(current_time)).c_str()); // TODO remove when stringified
+    note->date = str_dup(formatted_time(current_time).c_str()); // TODO remove when stringified
     note->date_stamp = current_time;
 
     ch->pnote = nullptr;
