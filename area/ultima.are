@@ -5402,25 +5402,25 @@ M 0 2400 5 2408 1  1   the insects into Humility Lane
   
 M 0 2401 1 2411 1  1   the bat into Attic
   
-G   0   2408    1            Moonstone in inventory
+G   0   2408    10            Moonstone in inventory
 M 0 2402 10 2401 1  1   the shepherd into New Magincia Road
   
-E   0   2417    1     16     the shepherd's crook wielded                
+E   0   2417    10     16     the shepherd's crook wielded
 M 0 2402 10 2407 1  1   the shepherd into Barn
   
-E   0   2417    1     16     the shepherd's crook wielded                
+E   0   2417    10     16     the shepherd's crook wielded    
 M 0 2402 10 2413 1  1   the shepherd into Humility Lane
   
-E   0   2417    1     16     the shepherd's crook wielded                
+E   0   2417    10     16     the shepherd's crook wielded
 M 0 2403 5 2402 1  1   the girl into New Magincia Road
   
-E   0   2418    1     17     the doll held                   
+E   0   2418    10     17     the doll held
 M 0 2403 5 2408 1  1   the girl into Humility Lane
   
-E   0   2418    1     17     the doll held                   
+E   0   2418    10     17     the doll held
 M 0 2403 5 2412 1  1   the girl into House
   
-E   0   2418    1     17     the doll held                   
+E   0   2418    10     17     the doll held
 M 0 2404 10 2401 1  1   the sheep into New Magincia Road
   
 M 0 2404 10 2404 1  1   the sheep into New Magincia Road
@@ -5431,58 +5431,58 @@ M 0 2404 10 2413 1  1   the sheep into Humility Lane
   
 M 0 2405 1 2415 1  1   Katrina the Shepherd into Katrina's Office
   
-E   0   2419    1     16     Katrina's sword wielded                
-E   0   2401    1     17     Lum held                   
+E   0   2419    10     16     Katrina's sword wielded
+E   0   2401    10     17     Lum held
 M 0 2406 10 2424 1  1   the giant rat into Library
   
 M 0 2407 1 2435 1  1   the giant spider into Web
   
-G   0   2409    1            Moonstone in inventory
-G   0   2420    1            a wrinkled scroll in inventory
+G   0   2409    10            Moonstone in inventory
+G   0   2420    10           a wrinkled scroll in inventory
 M 0 2408 10 2430 1  1   the mage into Library
   
-E   0   2422    1      5     a robe on body                
+E   0   2422    10      5     a robe on body
 M 0 2409 1 2421 1  1   Nystul the Librarian into Library Office
   
-E   0   2421    1     16     a magic dagger wielded                
+E   0   2421    10     16     a magic dagger wielded
 M 0 2410 1 2418 1  1   Mariah the Mage into Library
   
-E   0   2404    1     17     Ahm held                   
+E   0   2404    10     17     Ahm held
 M 0 2411 20 2452 1  1   the slime into Cellar
   
 M 0 2412 1 2454 1  1   the snake into Cellar
   
-G   0   2410    1            Moonstone in inventory
+G   0   2410    10           Moonstone in inventory
 M 0 2413 1 2406 1  1   Mr. Smithy into Stables
   
-E   0   2423    1      8     horseshoes on feet                
+E   0   2423    10      8     horseshoes on feet
 M 0 2414 5 2444 1  1   the bard into The South Wall of the Tavern
   
-E   0   2424    1     16     a mandolin wielded                
+E   0   2424    10     16     a mandolin wielded
 M 0 2415 3 2437 1  1   the beggar into The Center of the Tavern
   
-E   0   2425    1     17     a cup held                   
+E   0   2425    10     17     a cup held
 P 0 2426 3 2425 1  1   Load some gold pieces into a cup
   
 M 0 2416 1 2448 1  1   Iolo the Bard into Cellar
   
-G   0   2427    1            the bottle in inventory
-E   0   2428    1     16     Iolo's bow wielded                
-E   0   2400    1     17     Mu held                   
+G   0   2427    10            the bottle in inventory
+E   0   2428    10     16     Iolo's bow wielded
+E   0   2400    10     17     Mu held
 M 0 2417 1 2562 1  1   Chuckles the Jester into Lord British's Castle Entrance
   
-E   0   2429    1     16     a chicken wielded                
+E   0   2429    10    16     a chicken wielded
 M 0 2418 10 2439 1  1   the townsman into The North Wall of the Tavern
   
 M 0 2419 1 2445 1  1   Gwenno the Bard into The Southeast Corner of the Tavern
   
-E   0   2430    1     16     the Infinity Bow wielded                
+E   0   2430    10     16     the Infinity Bow wielded
 M 0 2420 5 2480 1  1   the orc into Yew Forest
   
-E   0   2431    1     16     a wooden spear wielded                
+E   0   2431    10    16     a wooden spear wielded
 M 0 2421 20 2473 1  1   the troll into Yew Forest
   
-E   0   2432    1     16     a stone club wielded                
+E   0   2432    10     16     a stone club wielded
 M 0 2422 10 2481 1  1   the wisp into Yew Forest
   
 M 0 2423 10 2478 1  1   the forest druid into Yew Forest
@@ -5491,14 +5491,14 @@ M 0 2424 10 2459 1  1   the city druid into Bonfire
   
 M 0 2425 1 2464 1  1   The Judge into The Bench
   
-E   0   2433    1     16     a gavel wielded                
+E   0   2433    10     16     a gavel wielded
 M 0 2426 1 2470 1  1   Jaana the Druid into Yew Forest
   
-E   0   2402    1     17     Beh held                   
-E   0   2434    1     16     a staff wielded                
+E   0   2402    10     17     Beh held
+E   0   2434    10     16     a staff wielded
 M 0 2427 1 2467 1  1   the dirty prisoner into Prison Cell
   
-G   0   2411    1            Moonstone in inventory
+G   0   2411    10            Moonstone in inventory
 M 0 2428 1 2468 1  1   the prisoner into Prison Cell
   
 M 0 2429 5 2456 1  1   the citizen of yew into In Front of the Courthouse
@@ -5513,17 +5513,17 @@ M 0 2433 10 2490 1  1   the gremlin into The Dungeon
   
 M 0 2434 1 2492 1  1   the headless into The Dungeon
   
-G   0   2412    1            Moonstone in inventory
+G   0   2412    10            Moonstone in inventory
 M 0 2435 10 2486 1  1   the fighter into The Dungeon
   
-E   0   2436    1     16     a sword wielded                
+E   0   2436    10     16     a sword wielded
 M 0 2436 1 2487 1  1   Geoffrey the Fighter into The Dungeon
   
-E   0   2406    1     17     Ra held                   
-E   0   2435    1     16     a sword wielded                
+E   0   2406    10     17     Ra held
+E   0   2435    10     16     a sword wielded
 M 0 2437 1 2488 1  1   Lord Simon into The Dungeon
   
-E   0   2437    1     16     a bastard sword wielded                
+E   0   2437    10     16     a bastard sword wielded
 M 0 2438 2 2516 1  1   the mimic into The Beach
   
 M 0 2438 2 2517 1  1   the mimic into The Beach
@@ -5538,66 +5538,66 @@ M 0 2466 5 2521 1  1   sea horse seahorse into The Whirlpool
   
 M 0 2467 1 2523 1  1   the squid into The Whirlpool
   
-G   0   2413    1            Moonstone in inventory
+G   0   2413    10            Moonstone in inventory
 M 0 2440 5 2508 1  1   a tinker into Sacrifice Street
   
-E   0   2438    1     16     a hammer wielded                
+E   0   2438    10     16     a hammer wielded
 M 0 2440 5 2511 1  1   a tinker into Residence
   
-E   0   2438    1     16     a hammer wielded                
+E   0   2438    10     16     a hammer wielded
 M 0 2440 5 2512 1  1   a tinker into Residence
   
-E   0   2438    1     16     a hammer wielded                
+E   0   2438    10     16     a hammer wielded
 M 0 2441 1 2510 1  1   Julia the Tinker into Forge
   
-E   0   2405    1     17     Cah held                   
-E   0   2439    1     16     a sword wielded                
+E   0   2405    10     17     Cah held
+E   0   2439    10     16     a sword wielded
 M 0 2442 1 2508 1  1   The Lady of Empath Abbey into Sacrifice Street
   
-E   0   2440    1      3     the Amulet of Love on neck                
+E   0   2440    10      3     the Amulet of Love on neck
 M 0 2468 1 2503 1  1   the armourer into The Armourer
   
 M 0 2469 1 2505 1  1   the weaponseller into The Weaponsmith
   
 M 0 2470 1 2506 1  1   the boatseller into The Boatseller
   
-G   0   2468    1            a boat in inventory
+G   0   2468    10            a boat in inventory
 M 0 2443 10 2541 1  1   the sandtrap into The Desert
   
 M 0 2444 1 2548 1  1   the dragon into The Dragon Cave
   
-G   0   2414    1            Moonstone in inventory
+G   0   2414    10            Moonstone in inventory
 M 0 2445 6 2537 1  1   the paladin into A Small Tent
   
-E   0   2441    1     17     a shiny sword held                   
-E   0   2442    1      5     shiny armour on body                
+E   0   2441    10     17     a shiny sword held
+E   0   2442    10      5     shiny armour on body
 M 0 2445 6 2538 1  1   the paladin into Desert Entrance
   
-E   0   2441    1     17     a shiny sword held                   
-E   0   2442    1      5     shiny armour on body                
+E   0   2441    10     17     a shiny sword held
+E   0   2442    10      5     shiny armour on body
 M 0 2445 6 2539 1  1   the paladin into A Small Tent
   
-E   0   2441    1     17     a shiny sword held                   
-E   0   2442    1      5     shiny armour on body                
+E   0   2441    10     17     a shiny sword held
+E   0   2442    10      5     shiny armour on body
 M 0 2445 6 2529 1  1   the paladin into Between the Tents
   
-E   0   2441    1     17     a shiny sword held                   
-E   0   2442    1      5     shiny armour on body                
+E   0   2441    10     17     a shiny sword held
+E   0   2442    10      5     shiny armour on body
 M 0 2445 6 2532 1  1   the paladin into A Small Tent
   
-E   0   2441    1     17     a shiny sword held                   
-E   0   2442    1      5     shiny armour on body                
+E   0   2441    10     17     a shiny sword held
+E   0   2442    10      5     shiny armour on body
 M 0 2445 6 2531 1  1   the paladin into A Small Tent
   
-E   0   2441    1     17     a shiny sword held                   
-E   0   2442    1      5     shiny armour on body                
+E   0   2441    10     17     a shiny sword held
+E   0   2442    10      5     shiny armour on body
 M 0 2446 1 2536 1  1   Dupre the Paladin into Dupre's Tent
   
-E   0   2407    1     17     Summ held                   
-E   0   2443    1     16     a rapier wielded                
+E   0   2407    10     17     Summ held
+E   0   2443    10     16     a rapier wielded
 M 0 2448 1 2534 1  1   Draxthanum the Gargoyle into The Grand Tent
   
-E   0   2444    1     16     a boomerang wielded                
+E   0   2444    10     16     a boomerang wielded
 M 0 2447 3 2550 1  1   the reaper into The Place of Ultimate Evil
   
 M 0 2447 3 2552 1  1   the reaper into The Place of Ultimate Evil
@@ -5610,65 +5610,65 @@ M 0 2450 5 2553 1  1   the ghost into The Place of Ultimate Evil
   
 M 0 2451 3 2555 1  1   the skeleton into The Place of Ultimate Evil
   
-E   0   2445    1     16     a rusty sword wielded                
-E   0   2446    1     11     a rusty shield as shield              
+E   0   2445    10     16     a rusty sword wielded
+E   0   2446    10     11     a rusty shield as shield
 M 0 2452 1 2551 1  1   the daemon into The Place of Ultimate Evil
   
-G   0   2415    1            Moonstone in inventory
+G   0   2415    10            Moonstone in inventory
 M 0 2453 4 2560 1  1   the mourner into The Graveyard
   
 M 0 2454 1 2561 1  1   Shamino the Ranger into The Graveyard
   
-E   0   2447    1     12     a magic cloak about body             
-E   0   2403    1     17     Ohm held                   
+E   0   2447    10     12     a magic cloak about body
+E   0   2403    10     17     Ohm held
 M 0 2455 1 2549 1  1   the Timelord into The Shrine of Spirituality
   
-E   0   2416    1     17     the Hourglass held                   
-E   0   2448    1      5     an aura of power on body                
+E   0   2416    10     17     the Hourglass held
+E   0   2448    10      5     an aura of power on body
 M 0 2456 1 2583 1  1   The Guardian into In the Warp
   
-E   0   2449    1      6     a big red face on head                
+E   0   2449    10      6     a big red face on head
 M 0 2457 1 2582 1  1   Blackthorn into In the Warp
   
-E   0   2450    1     16     a spiked mace wielded                
+E   0   2450    10     16     a spiked mace wielded
 M 0 2458 1 2580 1  1   Exodus into In the Warp
   
-E   0   2451    1      5     a completely black armour on body                
+E   0   2451    10      5     a completely black armour on body  
 M 0 2459 1 2579 1  1   Minax into In the Warp
   
-E   0   2452    1      3     an evil charm on neck                
+E   0   2452    10      3     an evil charm on neck
 M 0 2460 1 2578 1  1   Mondain into In the Warp
   
-E   0   2453    1     17     an evil gem held                   
+E   0   2453    10     17     an evil gem held
 M 0 2461 1 2565 1  1   Sentri into Hallways
   
-E   0   2454    1      6     Sentri's helmet on head                
-E   0   2455    1     10     Sentri's sleeves on arms                
-E   0   2456    1     13     Sentri's girth around waist           
-E   0   2457    1     16     Sentri's two-handed sword wielded                
-E   0   2458    1      9     Sentri's gloves on hands               
-E   0   2459    1      8     Sentri's boots on feet                
-E   0   2460    1      7     Sentri's leggings on legs                
-E   0   2461    1      5     Sentri's armour on body                
+E   0   2454    10      6     Sentri's helmet on head
+E   0   2455    10     10     Sentri's sleeves on arms
+E   0   2456    10     13     Sentri's girth around waist
+E   0   2457    10     16     Sentri's two-handed sword wielded
+E   0   2458    10      9     Sentri's gloves on hands
+E   0   2459    10      8     Sentri's boots on feet
+E   0   2460    10      7     Sentri's leggings on legs
+E   0   2461    10      5     Sentri's armour on body
 M 0 2462 1 2568 1  1   Batlin into Batlin's Room
   
-G   0   2400    1            Mu in inventory
-G   0   2401    1            Lum in inventory
-G   0   2402    1            Beh in inventory
-G   0   2403    1            Ohm in inventory
-G   0   2404    1            Ahm in inventory
-G   0   2405    1            Cah in inventory
-G   0   2406    1            Ra in inventory
-G   0   2407    1            Summ in inventory
-E   0   2462    1      3     a Fellowship medallion on neck                
+G   0   2400    10            Mu in inventory
+G   0   2401    10            Lum in inventory
+G   0   2402    10            Beh in inventory
+G   0   2403    10            Ohm in inventory
+G   0   2404    10            Ahm in inventory
+G   0   2405    10            Cah in inventory
+G   0   2406    10            Ra in inventory
+G   0   2407    10            Summ in inventory
+E   0   2462    10      3     a Fellowship medallion on neck
 M 0 2463 1 2567 1  1   The Avatar into The Throne Room
   
-E   0   2463    1     16     The Glass Sword wielded                
+E   0   2463    10     16     The Glass Sword wielded
 M 0 2464 1 2567 1  1   Lord British into The Throne Room
   
-E   0   2464    1      6     British's crown on head                
-E   0   2465    1     17     British's sceptre held                   
-E   0   2466    1      3     British's amulet on neck                
+E   0   2464    10      6     British's crown on head
+E   0   2465    10     17     British's sceptre held
+E   0   2466    10      3     British's amulet on neck
 O   0   2467    1   2563  load a fountain into Castle Fountain
 O   0   2467    1   2504  load a fountain into Minoc's Fountain
 D   0   2407    2      1  Barn: Door south closed
