@@ -749,9 +749,9 @@ v  |       |               |               |                    | v
 #501
 The Drawbridge~
        An enormous wooden drawbridge is all that stands between you and the
-chilly water below.  To the North of you, you can see the great portcullis
-that guards the entrance to the fabled city of Camelot.  To the South, you
-can still see the lands of Xania through the hazy fog, but to the East an
+chilly water below.  To the north of you, you can see the great portcullis
+that guards the entrance to the fabled city of Camelot.  To the south, you
+can still see the lands of Xania through the hazy fog, but to the east an
 impenetrable wall of fog blots out the view.  You can hear water lapping
 on a shore somewhere, possibly below you...
 ~
@@ -772,8 +772,8 @@ The Gatehouse~
         The portcullis hangs above you, with it's 3 inch diameter spikes,
 looking very menacing.  The guards who stand here seem unperturbed by your
 presence, and continue their gossip almost immediately after your rude
-interuption.  The drawbridge stretches out to the South and there is a
-large courtyard to the North.
+interuption.  The drawbridge stretches out to the south and there is a
+large courtyard to the north.
 ~
 5 D 1
 D0
@@ -794,7 +794,7 @@ here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
 with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
-The great Castle of Camelot looms above you to the North.
+The great Castle of Camelot looms above you to the north.
 ~
 5 0 1
 D0
@@ -825,7 +825,7 @@ here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
 with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
-The great Castle of Camelot looms above you to the North.
+The great Castle of Camelot looms above you to the north.
 ~
 5 0 1
 D0
@@ -846,7 +846,7 @@ here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
 with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
-The great Castle of Camelot looms above you to the North.
+The great Castle of Camelot looms above you to the north.
 ~
 5 0 1
 D2
@@ -867,7 +867,7 @@ here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
 with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
-The great Castle of Camelot looms above you to the North.
+The great Castle of Camelot looms above you to the north.
 ~
 5 0 1
 D0
@@ -898,7 +898,7 @@ here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
 with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
-The great Castle of Camelot looms above you to the North.
+The great Castle of Camelot looms above you to the north.
 ~
 5 0 1
 D1
@@ -924,7 +924,7 @@ here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
 with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
-The great Castle of Camelot looms above you to the North.
+The great Castle of Camelot looms above you to the north.
 ~
 5 0 1
 D0
@@ -941,8 +941,8 @@ S
 #509
 Entrance to the Castle.~
         You stand before the great castle, and it towers above you into the
-ever present mists.  To the North, you can see an opulent corridor, and back
-to the South you can see the courtyard.
+ever present mists.  To the north, you can see an opulent corridor, and back
+to the south you can see the courtyard.
 ~
 5 0 1
 D0
@@ -1058,8 +1058,8 @@ S
 #515
 The end of the South Wing.~
         The wide corridor you have been following now comes to an end.  The
-West wing extends away to the North, and the South wing disapears away to
-the East.  The paintings here are of Arthur's renowned feasts, held every
+West Wing extends away to the north, and the South Wing disapears away to
+the east.  The paintings here are of Arthur's renowned feasts, held every
 year in the castle dining hall.  The smiling face of King Arthur stares at
 you from his mask of oil.
 ~
@@ -1077,7 +1077,7 @@ Along the South Wing.
 S
 #516
 The South Wing.~
-        You are travelling along the South wing of the castle, which seems
+        You are travelling along the South Wing of the castle, which seems
 to be mainly a bit of a tourist attraction.  The walls of this keep are over
 four feet thick, made to withstand the onslaught of any army, but now they
 are decorated in tapestries and paintings to bestow upon the peasants the
@@ -1097,11 +1097,11 @@ Along the South Wing.
 S
 #517
 Outside the Library.~
-        You are travelling along the South wing of the castle, which seems
+        You are travelling along the South Wing of the castle, which seems
 to be mainly a bit of a tourist attraction.  The walls of this keep are over
 four feet thick, made to withstand the onslaught of any army, but now they
 are decorated in tapestries and paintings to bestow upon the peasants the
-knowledge of Arthur's great victories.  To the North, an open door leads
+knowledge of Arthur's great victories.  To the north, an open door leads
 into what appears to be a library, presumably open to all.
 ~
 5 D 0
@@ -1123,7 +1123,7 @@ Along the South Wing.
 S
 #518
 The Library.~
-        The walls of the library are bare, except for the North wall, where
+        The walls of the library are bare, except for the north wall, where
 a large bookshelf has been erected.  The books upon it are all accounts of
 the battles faught and won by King Arthur and his brave knights.  From the
 decor of the room, it is easy to surmise that this used to be the war room
@@ -1145,8 +1145,8 @@ S
 #519
 The end of the South Wing.~
         The wide corridor you have been following now comes to an end.  The
-East wing extends away to the North, and the South wing disapears away to
-the West.  The paintings here are of the priestesses of Avalon, and the Lady
+East Wing extends away to the north, and the South Wing disapears away to
+the west.  The paintings here are of the priestesses of Avalon, and the Lady
 of the Lake.  The beautiful Morgana, High Priestess and Lady of the Lake
 stares down at you with here mesmerising brown eyes.  You feel an urge to bow
 before such a one.
@@ -1165,11 +1165,11 @@ Along the South Wing.
 S
 #520
 Outside the Library.~
-        You are travelling along the East wing of the castle, which seems
+        You are travelling along the East Wing of the castle, which seems
 to be mainly a bit of a tourist attraction.  The walls of this keep are over
 four feet thick, made to withstand the onslaught of any army, but now they
 are decorated in tapestries and paintings to bestow upon the peasants the
-knowledge of Arthur's great victories.  To the West, an open door leads
+knowledge of Arthur's great victories.  To the west, an open door leads
 into what appears to be a library, presumably open to all.
 ~
 5 D 0
@@ -1216,8 +1216,8 @@ Along the West Wing.
 S
 #522
 Along the West Wing.~
-        You stand outside the dining area of the king.  To your East lies
-the entrance, and to the North and South the West wing continues.  The
+        You stand outside the dining area of the king.  To your east lies
+the entrance, and to the north and south the West Wing continues.  The
 tourist attractions are still very apparent, and are becoming more of a
 military nature.  The depictions are becoming appallingly violent, some with
 gruesome violence as a main theme.
@@ -1277,7 +1277,7 @@ Some more Dining Hall.
 S
 #525
 The East Wing.~
-        You are travelling along the East wing of the castle, which seems
+        You are travelling along the East Wing of the castle, which seems
 to be mainly a bit of a tourist attraction.  The walls of this keep are over
 four feet thick, made to withstand the onslaught of any army, but now they
 are decorated in tapestries and paintings to bestow upon the peasants the
@@ -1300,12 +1300,12 @@ Along the East Wing.
 S
 #526
 Along the East Wing.~
-        You are travelling along the East wing of the castle, which seems
+        You are travelling along the East Wing of the castle, which seems
 to be mainly a bit of a tourist attraction.  The walls of this keep are over
 four feet thick, made to withstand the onslaught of any army, but now they
 are decorated in tapestries and paintings to bestow upon the peasants the
 knowledge of Arthur's great victories.  A very dark painting hangs on the
-East wall, and you can't quite make out exactly what it is - maybe you should
+east wall, and you can't quite make out exactly what it is - maybe you should
 have a closer look...
 ~
 5 D 0
@@ -1331,7 +1331,7 @@ A Secret Corridor.~
 with water lapping upon a shore.  There are strange markings on the walls
 here, as if the walls themselves had shrunk back in terror.  Twisted lines
 criss cross the corridor to create the impression that the walls of Camelot
-have veins like aliving animal.  The secret door to the West is obviously
+have veins like aliving animal.  The secret door to the west is obviously
 there to protect people rather than prevent people from seeing this dark
 gruesome sight...
 ~
@@ -1350,8 +1350,8 @@ S
 #528
 The End of the East Wing.~
         The wide corridor you have been following now comes to an end.  The
-East wing extends away to the South, and the North wing disapears away to
-the West.  The paintings here are of Arthur's fearsome army, held in the
+East Wing extends away to the south, and the North Wing disapears away to
+the west.  The paintings here are of Arthur's fearsome army, held in the
 deepest regard by all the countries around.  The Great Knight Lancelot
 stares at you from his mask of oil.
 ~
@@ -1362,7 +1362,7 @@ Along the East Wing.
 ~
 0 -1 526
 D3
-Along the North Wing.
+Along the north Wing.
 ~
 ~
 0 -1 532
@@ -1370,14 +1370,14 @@ S
 #529
 The End of the East Wing.~
         The wide corridor you have been following now comes to an end.  The
-West wing extends away to the South, and the North wing disapears away to
-the East.  The paintings here are of Arthur's fearsome army, held in the
+West Wing extends away to the south, and the North Wing disapears away to
+the east.  The paintings here are of Arthur's fearsome army, held in the
 deepest regard by all the countries around.  The Great Knight Lancelot
 stares at you from his mask of oil.
 ~
 5 D 0
 D1
-Along the North Wing.
+Along the north Wing.
 ~
 ~
 0 -1 530
@@ -1401,16 +1401,16 @@ one of the areas where the peasants visit often.  The paintings are old, and
 of things you can't quite seem to understand.  The visage of a dark haired
 lady hangs above you with a small moon painted upon her brow.  In contrast,
 there are more battle scenes, but the walls are becoming bare now and you
-can hear the laughter of male voices in the distance to the East.
+can hear the laughter of male voices in the distance to the east.
 ~
 5 D 0
 D1
-Along the North Wing.
+Along the north Wing.
 ~
 ~
 0 -1 531
 D3
-Along the North Wing.
+Along the north Wing.
 ~
 ~
 0 -1 529
@@ -1418,13 +1418,13 @@ S
 #531
 Outside the Barracks.~
         The male voices you heard from down the corridor are echoing from
-within the room to the South.  This is obviously where the King's guards
+within the room to the south.  This is obviously where the King's guards
 come to cool down after their duties in and around the city.  The smell of
 fresh sweat and ale wafts through the air.
 ~
 5 D 0
 D1
-Along the North Wing.
+Along the north Wing.
 ~
 ~
 0 -1 532
@@ -1434,7 +1434,7 @@ Into the Barracks.
 ~
 0 -1 533
 D3
-Along the North Wing.
+Along the north Wing.
 ~
 ~
 0 -1 530
@@ -1442,13 +1442,13 @@ S
 #532
 Outside the Barracks.~
         The male voices you heard from down the corridor are echoing from
-within the room to the South.  This is obviously where the King's guards
+within the room to the south.  This is obviously where the King's guards
 come to cool down after their duties in and around the city.  The smell of
 fresh sweat and ale wafts through the air.
 ~
 5 D 0
 D1
-Along the North Wing.
+Along the north Wing.
 ~
 ~
 0 -1 528
@@ -1458,7 +1458,7 @@ Into the Barracks.
 ~
 0 -1 535
 D3
-Along the North Wing.
+Along the north Wing.
 ~
 ~
 0 -1 531
@@ -1473,7 +1473,7 @@ worries disappear while you can.
 ~
 5 D 0
 D0
-Into the North Wing.
+Into the north Wing.
 ~
 ~
 0 -1 531
@@ -1513,7 +1513,7 @@ worries disappear while you can.
 ~
 5 D 0
 D0
-Into the North Wing.
+Into the north Wing.
 ~
 ~
 0 -1 532
@@ -1526,7 +1526,7 @@ S
 #536
 Morgana's Secret Entrance to Camelot.~
         This is the edge of the lake that reaches up to Camelot's East wall,
-completely blocking out any chance of an invasion from the East.  The water
+completely blocking out any chance of an invasion from the east.  The water
 is shrouded in the eternal fog, but a black barge rests here - with no visible
 signs of propulsion available you wonder how it moves.  This is how the Lady
 Morgana of the Faeries enters Camelot to see her Brother Arthur, even though
@@ -1602,8 +1602,8 @@ At the Corner of the West Wing.~
         The bare walls seem to be closing in on you.  A wave of nausea hits
 you and you can't help feeling claustrophobic in this environment.  A glint
 of light can be seen through a small aperture cut into the wall in the angle
-of the corner.  To the East, the South Wing extends into the distance and to
-the North, the West Wing disappears out of view.
+of the corner.  To the east, the south Wing extends into the distance and to
+the north, the West Wing disappears out of view.
 ~
 5 D 0
 D0
@@ -1646,8 +1646,8 @@ At the Corner of the West Wing.~
         The bare walls seem to be closing in on you.  A wave of nausea hits
 you and you can't help feeling claustrophobic in this environment.  A glint
 of light can be seen through a small aperture cut into the wall in the angle
-of the corner.  To the East, the North Wing extends into the distance and to
-the South, the West Wing disappears out of view.
+of the corner.  To the east, the North Wing extends into the distance and to
+the south, the West Wing disappears out of view.
 ~
 5 D 0
 D1
@@ -1664,7 +1664,7 @@ S
 #543
 Along the South Wing.~
         The corridor is slightly better lit here, and the tapestries are back.
-To the North, there is a bedroom of some sort.  The door is half open and you
+To the north, there is a bedroom of some sort.  The door is half open and you
 can see the furnishings, but whether there is someone in is another matter.
 A light shines from within, glinting off your imperfect armour.
 ~
@@ -1714,8 +1714,8 @@ At the Corner of the East Wing.~
         The bare walls seem to be closing in on you.  A wave of nausea hits
 you and you can't help feeling claustrophobic in this environment.  A glint
 of light can be seen through a small aperture cut into the wall in the angle
-of the corner.  To the West, the South Wing extends into the distance and to
-the North, the East Wing disappears out of view.
+of the corner.  To the west, the South Wing extends into the distance and to
+the north, the East Wing disappears out of view.
 ~
 5 D 0
 D0
@@ -1782,8 +1782,8 @@ At the Corner of the East Wing.~
         The bare walls seem to be closing in on you.  A wave of nausea hits
 you and you can't help feeling claustrophobic in this environment.  A glint
 of light can be seen through a small aperture cut into the wall in the angle
-of the corner.  To the West, the North Wing extends into the distance and to
-the South, the East Wing disappears out of view.
+of the corner.  To the west, the North Wing extends into the distance and to
+the south, the East Wing disappears out of view.
 ~
 5 D 0
 D2
@@ -1799,13 +1799,13 @@ Along the North Wing.
 S
 #549
 Along the North Wing.~
-        A bright light shines into the corridor from the South, and ladies
+        A bright light shines into the corridor from the south, and ladies
 chatter washes over you like a wave.  There seems to be a lot of activity
 in there, maybe you should take a look.
 ~
 5 D 0
 D1
-Along the North Wing.
+Along the north Wing.
 ~
 ~
 0 -1 548
@@ -1815,21 +1815,21 @@ Into the Room.
 ~
 0 -1 561
 D3
-Along the North Wing.
+Along the north Wing.
 ~
 ~
 0 -1 550
 S
 #550
 Opposite some Large Iron Doors.~
-        Some huge iron doors stand to the South blocking your view of what
+        Some huge iron doors stand to the south blocking your view of what
 lies within.  You can hear the sounds of male laughter and the occasional
 clank of armour.  From the sounds of it, there is a body of fighting men
 inside...
 ~
 5 D 0
 D1
-Along the North Wing.
+Along the north Wing.
 ~
 ~
 0 -1 549
@@ -1839,25 +1839,25 @@ Into the Room.
 ~
 1 -1 552
 D3
-Along the North Wing.
+Along the north Wing.
 ~
 ~
 0 -1 551
 S
 #551
-Along the North Wing.~
+Along the north Wing.~
         The walls here seem to have token coverings - small paintings of
 people posing for the artists.  They all seem to be staring straight through
 you, and you get the urge to leave this place as soon as possible!
 ~
 5 D 0
 D1
-Along the North Wing.
+Along the north Wing.
 ~
 ~
 0 -1 550
 D3
-Along the North Wing.
+Along the north Wing.
 ~
 ~
 0 -1 542
@@ -1931,7 +1931,7 @@ their lives to the "One" God.  The altar is a structure made almost totally
 of gold, with an enormous wooden crucifix adorning the front.  There are
 rows of benches either side of a main, silk carpeted walkway leading
 directly to the altar.  A picture of their "Christ" hangs above the altar,
-staring down at you from the heavens.  There is a small door in the South
+staring down at you from the heavens.  There is a small door in the south
 wall.
 ~
 5 D 0
@@ -2065,7 +2065,7 @@ resumes her conversation.
 ~
 5 D 0
 D0
-Into the North Wing.
+Into the north Wing.
 ~
 ~
 0 -1 549
@@ -2091,11 +2091,11 @@ The Ladies in Waiting.
 0 -1 561
 S
 #563
-The North Western Battlement.~
+The north Western Battlement.~
         The battlements above Camelot allow the viewer to see for miles around
-and all that is within the viewing distance.  To the West and North lie the
-known lands of Xania, in the distant West, you can make out the sprawling
-city of New Thalos.
+and all that is within the viewing distance.  To the west and north lie the
+known lands of Xania, in the distant west, you can make out the sillouhette of
+a gigantic, ancient tree.
 ~
 5 0 0
 D1
@@ -2112,9 +2112,9 @@ S
 #564
 The South Western Battlement.~
        The battlements above Camelot allow the viewer to see for miles around
-and all that is within the viewing distance.  To the West and South lie the
-known lands of Xania, in the distant West, you can make out the sprawling
-city of New Thalos.
+and all that is within the viewing distance.  To the west and south lie the
+known lands of Xania, in the distant West, you can make out the sillhouette of
+a gigantic, ancient tree.
 ~
 5 0 0
 D0
@@ -2129,9 +2129,9 @@ South Eastern Battlement.
 0 -1 566
 S
 #565
-The North Eastern Battlement.~
+The north Eastern Battlement.~
         The battlements above Camelot allow the viewer to see for miles around
-and  all  that  is  within  the  viewing  distance.  To  the East,  a  thick
+and  all  that  is  within  the  viewing  distance.  To  the east,  a  thick
 impenetrable fog lies over what appears to be water, you can hear it lapping
 against the shore far below you.
 ~
@@ -2150,7 +2150,7 @@ S
 #566
 The South Eastern Battlement.~
         The battlements above Camelot allow the viewer to see for miles around
-and  all  that  is  within  the  viewing  distance.  To  the East,  a  thick
+and  all  that  is  within  the  viewing  distance.  To  the east,  a  thick
 impenetrable fog lies over what appears to be water, you can hear it lapping
 against the shore far below you.
 ~
