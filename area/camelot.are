@@ -690,7 +690,7 @@ food 0 AO
 12 0 0 0 0
 20 7 250 P
 #532
-map tourist scroll~
+map tourist booklet scroll~
 A tourist map~
 A tourists information booklet lies here.~
 paper~
@@ -698,7 +698,7 @@ map L A
 1 0 0 0 0
 40 5 500 P
 E
-map brochure scroll tourist~
+map tourist booklet scroll~
 A Tourists Map Of:-
 
 Ground Floor Of Camelot.
@@ -706,39 +706,39 @@ Ground Floor Of Camelot.
 
                           < North Wing >
    ______________________________________________________________
-   |        |                                   |               |
-   |        |                                   |               |
-^  |        |         SOLDIERS                  |               | ^
-W  |______  |                   BARRACKS        |               | E
-e  | D   |  |___________________________________|               | a
-s  | I H |                 ___________                          | s
-t  | N A |  _______        |         |                          | t
-   | I L |  |     |        |         |     _____________________|
-W  | N L |  |STORE|        | GARDEN  |     |                    | W
-i  | G   | _|_____|________|         |     |                    | i
-n  |_____| |               |_________|     |                    | n
-g  |       |               |               |      LIBRARY       | g
-   |       |  KITCHENS     |               |                    |
-v  |       |               |               |                    | v
-   |_______|_______________|_______________|____________________|
+   .        .                                   .               .
+   .        .                                   .               .
+^  .        .         SOLDIERS                  .               . ^
+W  .______  .                   BARRACKS        .               . E
+e  . D   .  .___________________________________.               . a
+s  . I H .                 ___________                          . s
+t  . N A .  _______        .         .                          . t
+   . I L .  .     .        .         .     _____________________.
+W  . N L .  .STORE.        . GARDEN  .     .                    . W
+i  . G   .  ._____.________.         .     .                    . i
+n  ._____. .               ._________.     .                    . n
+g  .       .               .               .      LIBRARY       . g
+   .       .  KITCHENS     .               .                    .
+v  .       .               .               .                    . v
+   ._______._______________._______________.____________________.
                           < South Wing >
-                                |
-                                |
-                                |
-                  /-------------|-------------\
-                  |                           |
-                  |    The Castle             |
-                  |                           |
-                  |          Courtyard        |
-                  |                           |
-                  |                           |
-                  \-------------|-------------/
-                                |
-                                |
-                                |
+                                ||
+                                ||
+                                ||
+                  /---------------------------\
+                  .                           .
+                  .    The Castle             .
+                  .                           .
+                  .          Courtyard        .
+                  .                           .
+                  .                           .
+                  \-------------||-------------/
+                                ||
+                                ||
+                                ||
                             Gate House
-                                |
-                                |
+                                ||
+                                ||
                                 #
                             Drawbridge
                                 #
@@ -792,7 +792,7 @@ The Southern Courtyard.~
         The hustle and bustle of every day life in a large city is epitomised
 here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
-with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
+with a hive ends - the courtyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
 The great Castle of Camelot looms above you to the north.
 ~
@@ -819,11 +819,11 @@ More Courtyard.
 0 -1 508
 S
 #504
-Southwestern Courtyard.~
+Southeastern Courtyard.~
         The hustle and bustle of every day life in a large city is epitomised
 here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
-with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
+with a hive ends - the courtyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
 The great Castle of Camelot looms above you to the north.
 ~
@@ -844,7 +844,7 @@ Northeastern Courtyard.~
         The hustle and bustle of every day life in a large city is epitomised
 here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
-with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
+with a hive ends - the courtyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
 The great Castle of Camelot looms above you to the north.
 ~
@@ -865,7 +865,7 @@ The Northern Courtyard.~
         The hustle and bustle of every day life in a large city is epitomised
 here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
-with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
+with a hive ends - the courtyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
 The great Castle of Camelot looms above you to the north.
 ~
@@ -896,7 +896,7 @@ Northwestern Courtyard.~
         The hustle and bustle of every day life in a large city is epitomised
 here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
-with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
+with a hive ends - the courtyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
 The great Castle of Camelot looms above you to the north.
 ~
@@ -922,7 +922,7 @@ Southwestern Courtyard.~
         The hustle and bustle of every day life in a large city is epitomised
 here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
-with a hive ends - the cortyard is bedecked in linens and beautiful flowers,
+with a hive ends - the courtyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
 The great Castle of Camelot looms above you to the north.
 ~
@@ -1317,7 +1317,7 @@ Along the East Wing.
 D1
 Morgana's secret entrance to the Castle.
 ~
-secret~
+secret painting~
 2 528 527
 D2
 Along the East Wing.
