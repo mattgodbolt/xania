@@ -16,10 +16,10 @@ old God on this living plane.  A second feeling of awe rushes over you again in
 the presence of this legendary mortal.
 ~
 human~
-BFT DHVX 1000 0
+BFLT DHVX 1000 0
 105 20 12d10+10100 10d6+945 5d4+47 divine
 -54 -50 -53 -30
-CEFJK ABKNQ IJ 0
+CEFJK AB CIJKNQ 0
 stand stand male 8000
 0 0 large 0
 #502
@@ -2189,7 +2189,7 @@ M 0 501 1 555 1  1  ; King Arthur
 E 1 501 1 16  ; Sword
 E 1 511 1 13  ; Scabbard
 E 1 512 1 5   ; Platemail
-E 1 513 1 8   ; Boots
+E 1 514 1 8   ; Boots
 E 1 515 -1 17 ; Crucifix
 *
 M 0 502 1 536 1  1  ; Morgana  
