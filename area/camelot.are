@@ -71,10 +71,10 @@ stand stand female 0
 0 0 medium 0
 #505
 lancelet sir knight~
-Lancelot~
-The brave Knight Sir Lancelot is polishing his armor here.
+Sir Lancelot~
+The brave knight Sir Lancelot is polishing his armor here.
 ~
-Lancelot, the greatest of all of Arthur's Knights, looks every bit as splendid as the
+Lancelot, the greatest of all of Arthur's knights, looks every bit as splendid as the
 tales tell.  Tall and muscular, his long tressess cover some of his battle scars.
 ~
 human~
@@ -102,8 +102,8 @@ stand stand male 0
 0 0 large 0
 #507
 knight~
-Knight of the Round Table~
-A Knight of the Round Table stands here appalled at you blatant disregard for ceremony!
+knight of the Round Table~
+A knight of the Round Table stands here appalled at you blatant disregard for ceremony!
 ~
 This man is one of the greatest in Arthur's disciplined army, you don't want to mess with him.
 ~
@@ -115,9 +115,9 @@ CDEFHIJKLU AB 0 0
 stand stand male 0
 0 0 medium 0
 #508
-priest preacher vicar chaplain~
-Chaplain~
-A a priest clad in white robes kneels in silent prayer.
+priest chaplain~
+the holy chaplain~
+A priest clad in white robes kneels in silent prayer.
 ~
 The priest of the old God sighs gently at your intrusion.  "We don't often get
 new disciples." he moans.
@@ -131,7 +131,7 @@ stand rest male 0
 0 0 medium 0
 #509
 jester clown fool~
-Court Jester~
+the court jester~
 The Court Jester flops his hat and grins.  His bowed legs carry him towards you.
 ~
 The Court Jester has some sort of bladder on a stick which makes strange noises.
@@ -144,9 +144,9 @@ DEFHJKU J BMNOP RSX
 stand stand male 0
 0 0 medium 0
 #510
-lady slave waiting~
-Lady in Waiting~
-A Lady in waiting waits here.
+lady waiting~
+a lady in waiting~
+A lady in waiting waits here.
 ~
 The lady in waiting patiently twiddles her thumbs as she waits for her Queen to
 call her to help her dress.  She blushes as you look at her and twitches her veil
@@ -161,7 +161,7 @@ stand stand female 0
 0 0 medium 0
 #511
 commoner peasant~
-A commoner~
+a commoner~
 A peasant of Camelot wanders by.
 ~
 This poor looking peasant looks quite contented with his lot.
@@ -175,8 +175,8 @@ stand stand male 0
 0 0 medium 0
 #512
 soldier~
-Foot Soldier~
-A soldier of Arthur's army is on guard here.
+a foot soldier~
+A soldier of King Arthur's army is on guard here.
 ~
 This stalwart soldier looks like he could stand on guard all day, his bladder
 control is phenomenal his face never twitches.
@@ -190,8 +190,8 @@ stand stand male 0
 0 0 medium 0
 #513
 cook chef~
-The Castle Cook~
-The Chef raises his cleaver and advances on the days dinner.
+the castle cook~
+The cook raises his cleaver and advances on the day's dinner.
 ~
 This short, plump man looks like a pleasant soul, even with his raised meat
 cleaver!
