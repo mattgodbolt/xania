@@ -117,15 +117,16 @@ stand stand male 0
 #508
 priest preacher vicar chaplain~
 Chaplain~
-A tall man clad in white robes is knelt in silent prayer.
+A a priest clad in white robes kneels in silent prayer.
 ~
-The priest of the old God sighs gently at your intrusion.  "We don't often get new disciples." he moans.
+The priest of the old God sighs gently at your intrusion.  "We don't often get
+new disciples." he moans.
 ~
 human~
-BCGHQaa CHVZaacc 1000 0
+BCGHQ CHVZaacc 1000 0
 72 9 12d10+4500 10d6+700 2d6+26 divine
 -30 -33 -33 -28
-ACDEFGKNOQ ABEHIMNO JKQ D
+ACDEFGKNOQ AB CJKQ D
 stand rest male 0
 0 0 medium 0
 #509
@@ -1911,6 +1912,8 @@ killers, but fiercely loyal to their king.  The room is decorated in the
 colours of each knight, depicting his family heritage, and battles he has
 fought and won.  The bright colours of the knights dazzle you, and the sea
 of faces becomes a blur.
+
+There is a study door to the east.
 ~
 5 D 0
 D0
