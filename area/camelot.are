@@ -235,7 +235,7 @@ E
 sword excalibur mighty~
 This huge sword, wielded only by the greatest warriors as decreed
 by the high druids of this land, lies waiting for the command to
-kill.  The druidical symbols on it's hilt are too old for even you
+kill.  The druidical symbols on its hilt are too old for even you
 to fathom.
 ~
 E
@@ -267,7 +267,7 @@ dagger jewelled~
 The blade of this dagger is long and slim, of the type used to
 disembowel the days kills.  The hilt feels cool in your hand, no
 matter how long you hold it, and the weapon seems to have a life
-all of it's own.  Anwe, Goddess of Nature, fills the blade with
+all of its own.  Anwe, Goddess of Nature, fills the blade with
 her divine presence.
 ~
 A
@@ -301,7 +301,7 @@ A
 #504
 black sword hilted~
 a huge black hilted sword~
-A huge black hilted sword glares at you from it's resting place.~
+A huge black hilted sword glares at you from its resting place.~
 iron~
 weapon BCEJ AN
 'sword' 6 15 'chop' BDF
@@ -311,7 +311,7 @@ sword black~
 This huge black sword is the epitome of the evil in nature, the
 dark side of the soul.  The darkened blade gleams coldly in the
 light of day, but seems brilliant in the dark of dusk, as night
-begins it's rule of the lands.
+begins its rule of the lands.
 ~
 A
 17 -25
@@ -777,7 +777,8 @@ v  .       .               .               .                    . v
 
 #ROOMS
 #501
-The Drawbridge~
+The Drawbridge
+   |R <Warning, you are entering a high level area!>|w~
        An enormous wooden drawbridge is all that stands between you and the
 chilly water below.  To the north of you, you can see the great portcullis
 that guards the entrance to the fabled city of Camelot.  To the south, you
@@ -799,8 +800,8 @@ A muddy track leads south.
 S
 #502
 The Gatehouse~
-        The portcullis hangs above you, with it's 3 inch diameter spikes,
-looking very menacing.  The guards who stand here seem unperturbed by your
+        The portcullis hangs above you. Its three inch diameter spikes,
+look very menacing.  The guards who stand here seem unperturbed by your
 presence, and continue their gossip almost immediately after your rude
 interuption.  The drawbridge stretches out to the south and there is a
 large courtyard to the north.
@@ -818,7 +819,7 @@ The Drawbridge.
 0 -1 501
 S
 #503
-The Southern Courtyard.~
+The Southern Courtyard~
         The hustle and bustle of every day life in a large city is epitomised
 here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
@@ -849,7 +850,7 @@ More Courtyard.
 0 -1 508
 S
 #504
-Southeastern Courtyard.~
+Southeastern Courtyard~
         The hustle and bustle of every day life in a large city is epitomised
 here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
@@ -870,7 +871,7 @@ More Courtyard.
 0 -1 503
 S
 #505
-Northeastern Courtyard.~
+Northeastern Courtyard~
         The hustle and bustle of every day life in a large city is epitomised
 here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
@@ -891,7 +892,7 @@ More Courtyard.
 0 -1 506
 S
 #506
-The Northern Courtyard.~
+The Northern Courtyard~
         The hustle and bustle of every day life in a large city is epitomised
 here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
@@ -922,7 +923,7 @@ More Courtyard.
 0 -1 507
 S
 #507
-Northwestern Courtyard.~
+Northwestern Courtyard~
         The hustle and bustle of every day life in a large city is epitomised
 here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
@@ -948,7 +949,7 @@ A Small Grocery Stall.
 0 -1 537
 S
 #508
-Southwestern Courtyard.~
+Southwestern Courtyard~
         The hustle and bustle of every day life in a large city is epitomised
 here in Camelot.  People mill around you, all going about their business in
 their own little worlds - almost like a hive.  That's where the similarity
@@ -969,7 +970,7 @@ More Courtyard.
 0 -1 503
 S
 #509
-Entrance to the Castle.~
+Entrance to the Castle~
         You stand before the great castle, and it towers above you into the
 ever present mists.  To the north, you can see an opulent corridor, and back
 to the south you can see the courtyard.
@@ -987,7 +988,7 @@ More Courtyard.
 0 -1 506
 S
 #510
-The South Wing.~
+The South Wing~
         This part of the Castle is open to all, and it is obvious the king
 wants everyone to believe in the legendary wealth of Camelot.  The walls
 are hung with gilt edged battle flags, many of them depicting the great
@@ -1013,7 +1014,7 @@ East along the South Wing.
 0 -1 511
 S
 #511
-Outside the Kitchens.~
+Outside the Kitchens~
         The scent of cooking meat wafts through the air mouth-wateringly,
 making your stomach rumble.  The corridor is as magnificent as the rest,
 but you neglect your surroundings as your belly now rules your mind!  You
@@ -1038,7 +1039,7 @@ East along the South Wing.
 0 -1 515
 S
 #512
-The Kitchens.~
+The Kitchens~
         The aroma you could smell outside is overwhelming in here.  There
 are numerous pots and pans bubbling away and it's difficult to tell what is
 actually inside any of them.  The chef is pottering about dicing beats of
@@ -1069,7 +1070,7 @@ what the chef might do!
 ~
 S
 #513
-The Store Room.~
+The Store Room~
         This is where the chef stores all his utensils and occasionally some
 meat, even though he prefers everything he cooks to be fresh.  Somehow, it is
 amazingly cold in here, you can feel your fingers turning blue and icicles
@@ -1083,7 +1084,7 @@ The Kitchens.
 1 -1 512
 S
 #514
-The Kitchen Garden.~
+The Kitchen Garden~
         Every herb you can possibly think of is growing in here!  The chef must
 be a cullinary whiz!  The scent of all the herbs together makes for a very
 heady aroma and you begin to feel a little light headed.
@@ -1096,7 +1097,7 @@ Back to the kitchens.
 0 -1 512
 S
 #515
-The end of the South Wing.~
+The end of the South Wing~
         The wide corridor you have been following now comes to an end.  The
 West Wing extends away to the north, and the South Wing disapears away to
 the east.  The paintings here are of Arthur's renowned feasts, held every
@@ -1116,7 +1117,7 @@ Along the South Wing.
 0 -1 511
 S
 #516
-The South Wing.~
+The South Wing~
         You are travelling along the South Wing of the castle, which seems
 to be mainly a bit of a tourist attraction.  The walls of this keep are over
 four feet thick, made to withstand the onslaught of any army, but now they
@@ -1136,7 +1137,7 @@ Along the South Wing.
 0 -1 510
 S
 #517
-Outside the Library.~
+Outside the Library~
         You are travelling along the South Wing of the castle, which seems
 to be mainly a bit of a tourist attraction.  The walls of this keep are over
 four feet thick, made to withstand the onslaught of any army, but now they
@@ -1162,7 +1163,7 @@ Along the South Wing.
 0 -1 516
 S
 #518
-The Library.~
+The Library~
         The walls of the library are bare, except for the north wall, where
 a large bookshelf has been erected.  The books upon it are all accounts of
 the battles faught and won by King Arthur and his brave knights.  From the
@@ -1183,7 +1184,7 @@ Into the South Wing.
 0 -1 517
 S
 #519
-The end of the South Wing.~
+The end of the South Wing~
         The wide corridor you have been following now comes to an end.  The
 East Wing extends away to the north, and the South Wing disapears away to
 the west.  The paintings here are of the priestesses of Avalon, and the Lady
@@ -1204,7 +1205,7 @@ Along the South Wing.
 0 -1 517
 S
 #520
-Outside the Library.~
+Outside the Library~
         You are travelling along the East Wing of the castle, which seems
 to be mainly a bit of a tourist attraction.  The walls of this keep are over
 four feet thick, made to withstand the onslaught of any army, but now they
@@ -1230,7 +1231,7 @@ Into the Library.
 0 -1 518
 S
 #521
-Along the West Wing.~
+Along the West Wing~
         The walls here are also adorned with more paintings and tapestries
 of Arthur's legendary feasts, but are broken by a number of tapestries of
 the ancient God the knights worship.  The tapestry to the east depicts a man dying
@@ -1255,7 +1256,7 @@ Along the West Wing.
 0 -1 515
 S
 #522
-Along the West Wing.~
+Along the West Wing~
         You stand outside the dining area of the king.  To your east lies
 the entrance, and to the north and south the West Wing continues.  The
 tourist attractions are still very apparent, and are becoming more of a
@@ -1280,7 +1281,7 @@ Along the West Wing.
 0 -1 521
 S
 #523
-The Dining Hall.~
+The Dining Hall~
         This is the largest dining area you have ever seen!  The seating is
 arranged to seat all of Camelot's inhabitants easily, with extra room for
 the King and his men at the head of the table.  In the centre of the room
@@ -1300,7 +1301,7 @@ Back to the West Wing.
 0 -1 522
 S
 #524
-The Dining Hall.~
+The Dining Hall~
         The continuation of the immense dining hall is where the king and
 his men are seated on feast days, or if the king is having a private meeting,
 this is where it all goes on.  The floor is littered with old bones and half
@@ -1316,13 +1317,13 @@ Some more Dining Hall.
 0 -1 523
 S
 #525
-The East Wing.~
+The East Wing~
         You are travelling along the East Wing of the castle, which seems
 to be mainly a bit of a tourist attraction.  The walls of this keep are over
 four feet thick, made to withstand the onslaught of any army, but now they
 are decorated in tapestries and paintings to bestow upon the peasants the
 knowledge of Arthur's great victories.  One tapestry stands out from the rest
-by it's sheer beauty - it shows a large, perfectly calm lake, with a small
+by its sheer beauty - it shows a large, perfectly calm lake, with a small
 barge rowing along it but leaving no trace.  Inside the barge a small but
 beautiful lady stands, parting the mist that surrounds them like a curtain.
 ~
@@ -1339,7 +1340,7 @@ Along the East Wing.
 0 -1 520
 S
 #526
-Along the East Wing.~
+Along the East Wing~
         You are travelling along the East Wing of the castle, which seems
 to be mainly a bit of a tourist attraction.  The walls of this keep are over
 four feet thick, made to withstand the onslaught of any army, but now they
@@ -1373,7 +1374,7 @@ She is adrift on the water in a tiny boat.
 ~
 S
 #527
-A Secret Corridor.~
+A Secret Corridor~
         In the distance you can hear a strange cackling laughter, mingling
 with water lapping upon a shore.  There are strange markings on the walls
 here, as if the walls themselves had shrunk back in terror.  Twisted lines
@@ -1395,7 +1396,7 @@ Back to the East Wing.
 4 528 526
 S
 #528
-The End of the East Wing.~
+The End of the East Wing~
         The wide corridor you have been following now comes to an end.  The
 East Wing extends away to the south, and the North Wing disapears away to
 the west.  The paintings here are of Arthur's fearsome army, held in the
@@ -1409,13 +1410,13 @@ Along the East Wing.
 ~
 0 -1 526
 D3
-Along the north Wing.
+Along the North Wing.
 ~
 ~
 0 -1 532
 S
 #529
-The End of the East Wing.~
+The End of the East Wing~
         The wide corridor you have been following now comes to an end.  The
 West Wing extends away to the south, and the North Wing disapears away to
 the east.  The paintings here are of Arthur's fearsome army, held in the
@@ -1424,7 +1425,7 @@ stares at you from his mask of oil.
 ~
 5 D 0
 D1
-Along the north Wing.
+Along the North Wing.
 ~
 ~
 0 -1 530
@@ -1442,7 +1443,7 @@ or the love he had for his queen?
 ~
 S
 #530
-The North Wing.~
+The North Wing~
         The tapestries now take on a more sombre look, obviously this is not
 one of the areas where the peasants visit often.  The paintings are old, and
 of things you can't quite seem to understand.  The visage of a dark haired
@@ -1452,18 +1453,18 @@ can hear the laughter of male voices in the distance to the east.
 ~
 5 D 0
 D1
-Along the north Wing.
+Along the North Wing.
 ~
 ~
 0 -1 531
 D3
-Along the north Wing.
+Along the North Wing.
 ~
 ~
 0 -1 529
 S
 #531
-Outside the Barracks.~
+Outside the Barracks~
         The male voices you heard from down the corridor are echoing from
 within the room to the south.  This is obviously where the King's guards
 come to cool down after their duties in and around the city.  The smell of
@@ -1471,7 +1472,7 @@ fresh sweat and ale wafts through the air.
 ~
 5 D 0
 D1
-Along the north Wing.
+Along the North Wing.
 ~
 ~
 0 -1 532
@@ -1481,13 +1482,13 @@ Into the Barracks.
 ~
 0 -1 533
 D3
-Along the north Wing.
+Along the North Wing.
 ~
 ~
 0 -1 530
 S
 #532
-Outside the Barracks.~
+Outside the Barracks~
         The male voices you heard from down the corridor are echoing from
 within the room to the south.  This is obviously where the King's guards
 come to cool down after their duties in and around the city.  The smell of
@@ -1495,7 +1496,7 @@ fresh sweat and ale wafts through the air.
 ~
 5 D 0
 D1
-Along the north Wing.
+Along the North Wing.
 ~
 ~
 0 -1 528
@@ -1505,13 +1506,13 @@ Into the Barracks.
 ~
 0 -1 535
 D3
-Along the north Wing.
+Along the North Wing.
 ~
 ~
 0 -1 531
 S
 #533
-Inside the Barracks.~
+Inside the Barracks~
         The floor is littered with broken ale jugs and half eaten food.  The
 men themselves seem to be an amiable bunch, obviously your intrusion into
 their private conversation has affected them little.  You feel almost at home
@@ -1520,7 +1521,7 @@ worries disappear while you can.
 ~
 5 D 0
 D0
-Into the north Wing.
+Into the North Wing.
 ~
 ~
 0 -1 531
@@ -1531,7 +1532,7 @@ More Barracks.
 0 -1 534
 S
 #534
-Inside the Barracks.~
+Inside the Barracks~
         The floor is littered with broken ale jugs and half eaten food.  The
 men themselves seem to be an amiable bunch, obviously your intrusion into
 their private conversation has affected them little.  You feel almost at home
@@ -1551,7 +1552,7 @@ More Barracks.
 0 -1 533
 S
 #535
-Inside the Barracks.~
+Inside the Barracks~
         The floor is littered with broken ale jugs and half eaten food.  The
 men themselves seem to be an amiable bunch, obviously your intrusion into
 their private conversation has affected them little.  You feel almost at home
@@ -1560,7 +1561,7 @@ worries disappear while you can.
 ~
 5 D 0
 D0
-Into the north Wing.
+Into the North Wing.
 ~
 ~
 0 -1 532
@@ -1571,7 +1572,7 @@ More Barracks.
 0 -1 534
 S
 #536
-Morgana's Secret Entrance to Camelot.~
+Morgana's Secret Entrance to Camelot~
         This is the edge of the lake that reaches up to Camelot's East wall,
 completely blocking out any chance of an invasion from the east.  The water
 is shrouded in the eternal fog, but a black barge rests here - with no visible
@@ -1587,9 +1588,9 @@ Back towards the Castle.
 0 -1 527
 S
 #537
-A Small Grocery Stall.~
-        This small stall has a large bright canopy covering it's wares and
-it's keeper from the elements.  You smell the distinct aroma of baking
+A Small Grocery Stall~
+        This small stall has a large bright canopy covering its wares and
+its keeper from the elements.  You smell the distinct aroma of baking
 potatoes, and can see various vegetables all around.
 ~
 5 D 0
@@ -1600,7 +1601,7 @@ Back into the Courtyard.
 0 -1 507
 S
 #538
-A Stairway Up.~
+A Stairway Up~
         Away from all the trappings of the open areas, these stairs mean
 business, and you can tell that their owners obviously don't want people
 travelling into their private realm.  The stairs are worn with the passing
@@ -1620,7 +1621,7 @@ Up to the Second Level of Camelot.
 1 -1 539
 S
 #539
-The West Wing.~
+The West Wing~
         You are now in the upper level of Camelot, in the area where only
 the King and his trusted subjects see.  The staircase down is here.  The
 splendour of the ground floor is in stark contrast to the barrenness of
@@ -1645,7 +1646,7 @@ Down to Ground Floor.
 0 -1 538
 S
 #540
-At the Corner of the West Wing.~
+At the Corner of the West Wing~
         The bare walls seem to be closing in on you.  A wave of nausea hits
 you and you can't help feeling claustrophobic in this environment.  A glint
 of light can be seen through a small aperture cut into the wall in the angle
@@ -1665,7 +1666,7 @@ Along the South Wing.
 0 -1 543
 S
 #541
-Along the West Wing.~
+Along the West Wing~
         The walls here seem to have token coverings - small paintings of
 people posing for the artists.  They all seem to be staring straight through
 you, and you get the urge to leave this place as soon as possible!
@@ -1689,7 +1690,7 @@ to get uncomfortable under his unwaverring gaze.
 ~
 S
 #542
-At the Corner of the West Wing.~
+At the Corner of the West Wing~
         The bare walls seem to be closing in on you.  A wave of nausea hits
 you and you can't help feeling claustrophobic in this environment.  A glint
 of light can be seen through a small aperture cut into the wall in the angle
@@ -1709,7 +1710,7 @@ Along the West Wing.
 0 -1 541
 S
 #543
-Along the South Wing.~
+Along the South Wing~
         The corridor is slightly better lit here, and the tapestries are back.
 To the north, there is a bedroom of some sort.  The door is half open and you
 can see the furnishings, but whether there is someone in is another matter.
@@ -1733,7 +1734,7 @@ Along the South Wing.
 0 -1 540
 S
 #544
-Along the South Wing.~
+Along the South Wing~
         The corridor is slightly better lit here, and the tapestries are back.
 To the North, there is a room of some sort.  The door is closed, so you can't
 tell what is in there.  A godawful stench emanates from within, and you feel
@@ -1757,7 +1758,7 @@ Along the South Wing.
 0 -1 543
 S
 #545
-At the Corner of the East Wing.~
+At the Corner of the East Wing~
         The bare walls seem to be closing in on you.  A wave of nausea hits
 you and you can't help feeling claustrophobic in this environment.  A glint
 of light can be seen through a small aperture cut into the wall in the angle
@@ -1777,7 +1778,7 @@ Along the South Wing.
 0 -1 544
 S
 #546
-Along the East Wing.~
+Along the East Wing~
         The walls here seem to have token coverings - small paintings of
 people posing for the artists.  They all seem to be staring straight through
 you, and you get the urge to leave this place as soon as possible!
@@ -1801,7 +1802,7 @@ to get uncomfortable under his unwaverring gaze.
 ~
 S
 #547
-Along the East Wing.~
+Along the East Wing~
         The walls here seem to have token coverings - small paintings of
 people posing for the artists.  They all seem to be staring straight through
 you, and you get the urge to leave this place as soon as possible!
@@ -1825,7 +1826,7 @@ to get uncomfortable under his unwaverring gaze.
 ~
 S
 #548
-At the Corner of the East Wing.~
+At the Corner of the East Wing~
         The bare walls seem to be closing in on you.  A wave of nausea hits
 you and you can't help feeling claustrophobic in this environment.  A glint
 of light can be seen through a small aperture cut into the wall in the angle
@@ -1845,14 +1846,14 @@ Along the North Wing.
 0 -1 549
 S
 #549
-Along the North Wing.~
+Along the North Wing~
         A bright light shines into the corridor from the south, and ladies
 chatter washes over you like a wave.  There seems to be a lot of activity
 in there, maybe you should take a look.
 ~
 5 D 0
 D1
-Along the north Wing.
+Along the North Wing.
 ~
 ~
 0 -1 548
@@ -1862,13 +1863,13 @@ Into the Room.
 ~
 0 -1 561
 D3
-Along the north Wing.
+Along the North Wing.
 ~
 ~
 0 -1 550
 S
 #550
-Opposite some Large Iron Doors.~
+Opposite some Large Iron Doors~
         Some huge iron doors stand to the south blocking your view of what
 lies within.  You can hear the sounds of male laughter and the occasional
 clank of armour.  From the sounds of it, there is a body of fighting men
@@ -1876,7 +1877,7 @@ inside...
 ~
 5 D 0
 D1
-Along the north Wing.
+Along the North Wing.
 ~
 ~
 0 -1 549
@@ -1886,31 +1887,31 @@ Into the Room.
 ~
 1 -1 552
 D3
-Along the north Wing.
+Along the North Wing.
 ~
 ~
 0 -1 551
 S
 #551
-Along the north Wing.~
+Along the North Wing~
         The walls here seem to have token coverings - small paintings of
 people posing for the artists.  They all seem to be staring straight through
 you, and you get the urge to leave this place as soon as possible!
 ~
 5 D 0
 D1
-Along the north Wing.
+Along the North Wing.
 ~
 ~
 0 -1 550
 D3
-Along the north Wing.
+Along the North Wing.
 ~
 ~
 0 -1 542
 S
 #552
-Inside the War Room.~
+Inside the War Room~
         This enormous room houses the legendary Round Table.  The most
 renowned of Arthur's knights are invited to become Knight's of the Round
 Table, an elite fighting force.  These men are highly trained and dedicated
@@ -1938,7 +1939,7 @@ equal including King Arthur himself.
 ~
 S
 #553
-Inside the War Room.~
+Inside the War Room~
         This enormous room houses the legendary Round Table.  The most
 renowned of Arthur's knights are invited to become Knight's of the Round
 Table, an elite fighting force.  These men are highly trained and dedicated
@@ -1973,7 +1974,7 @@ equal including King Arthur himself.
 ~
 S
 #554
-Inside a small chapel.~
+Inside a small chapel~
         This elegant chapel is small to the standards of Xania, where there
 are numerous Gods to worship.  The people who frequent this chapel dedicate
 their lives to the "One" God.  The altar is a structure made almost totally
@@ -1996,7 +1997,7 @@ A Private Prayer Room.
 1 -1 555
 S
 #555
-King Arthur's Private Prayer Room.~
+King Arthur's Private Prayer Room~
         This is King Arthur's private prayer room, decorated in exactly the
 same fashion as the chapel.  There is a small altar with a large golden
 crucifix fixed to the top, in front of which is a small kneeling cushion.
@@ -2016,7 +2017,7 @@ A Small Passageway.
 0 -1 556
 S
 #556
-The Small Passageway.~
+The Small Passageway~
         This small dark passageway is obviously a functional path for the
 king, as it has been marked by his passing many times.  The walls are bare,
 and the only light comes from a solitary candle placed in a hole in the wall.
@@ -2034,7 +2035,7 @@ More Corridor.
 0 -1 557
 S
 #557
-The Small Passageway.~
+The Small Passageway~
         This small dark passageway is obviously a functional path for the
 king, as it has been marked by his passing many times.  The walls are bare,
 and the only light comes from a solitary candle placed in a hole in the wall.
@@ -2057,7 +2058,7 @@ The markings turn out to be the outline of a secret door!
 ~
 S
 #558
-The King's Bedroom.~
+The King's Bedroom~
         The splendid four poster bed in the centre of the room distracts your
 attention from the beautiful artwork that adorns the walls.  The bed towers
 above you, with green silk curtains hanging from the posts and is covered
@@ -2090,7 +2091,7 @@ Into the South Wing.
 1 -1 544
 S
 #560
-The Ante-Chamber.~
+The Ante-Chamber~
         This small room is used for the housing of important guests who wish
 to address the congress of Knight's of the Round Table.  At present, Prince
 Markham is waiting impatiently for the arrival of King Arthur, and is not
@@ -2104,7 +2105,7 @@ The War Room.
 1 -1 553
 S
 #561
-The Ladies in Waiting's Room.~
+The Ladies in Waiting's Room~
         This opulent room bears the signs of a female inhabitance, there are
 half made tapestries strewn upon any item of furniture, and all the ladies
 themselves are gossiping together in a corner of the room.  Your intrusion
@@ -2113,7 +2114,7 @@ resumes her conversation.
 ~
 5 D 0
 D0
-Into the north Wing.
+Into the North Wing.
 ~
 ~
 0 -1 549
@@ -2124,7 +2125,7 @@ An opulent bedroom.
 0 -1 562
 S
 #562
-The Queens Bedroom.~
+The Queens Bedroom~
         The chamber of the Queen Gwenefwhar is the most splendid room you have
 ever seen!  The floor has been carpeted with an enormous tapestry with the
 image of their "Christ" upon the cross, surrounded by a halo of light, the
@@ -2139,7 +2140,7 @@ The Ladies in Waiting.
 0 -1 561
 S
 #563
-The north Western Battlement.~
+The North Western Battlement~
         The battlements above Camelot allow the viewer to see for miles around
 and all that is within the viewing distance.  To the west and north lie the
 known lands of Xania, in the distant west, you can make out the sillouhette of
@@ -2158,7 +2159,7 @@ South Western Battlement.
 0 -1 564
 S
 #564
-The South Western Battlement.~
+The South Western Battlement~
        The battlements above Camelot allow the viewer to see for miles around
 and all that is within the viewing distance.  To the west and south lie the
 known lands of Xania, in the distant West, you can make out the sillhouette of
@@ -2177,7 +2178,7 @@ South Eastern Battlement.
 0 -1 566
 S
 #565
-The north Eastern Battlement.~
+The North Eastern Battlement~
         The battlements above Camelot allow the viewer to see for miles around
 and  all  that  is  within  the  viewing  distance.  To  the east,  a  thick
 impenetrable fog lies over what appears to be water, you can hear it lapping
@@ -2196,7 +2197,7 @@ North Western Battlement.
 0 -1 563
 S
 #566
-The South Eastern Battlement.~
+The South Eastern Battlement~
         The battlements above Camelot allow the viewer to see for miles around
 and  all  that  is  within  the  viewing  distance.  To  the east,  a  thick
 impenetrable fog lies over what appears to be water, you can hear it lapping
@@ -2222,260 +2223,260 @@ S
 * ----  Camelot Resets  ----
 *
 M 0 501 1 555 1  1  ; King Arthur  
-E 1 501 1 16  ; Sword
-E 1 511 1 13  ; Scabbard
-E 1 512 1 5   ; Platemail
-E 1 514 1 8   ; Boots
+E 1 501 10 16  ; Sword
+E 1 511 10 13  ; Scabbard
+E 1 512 10 5   ; Platemail
+E 1 514 10 8   ; Boots
 E 1 515 -1 17 ; Crucifix
 *
 M 0 502 1 536 1  1  ; Morgana  
 G 1 519 -1    ; Load Potion
-E 1 502 1 16  ; Jewelled Dagger
-E 1 525 2 3   ; Robes
-E 1 526 2 4   ; Beads
+E 1 502 10 16  ; Jewelled Dagger
+E 1 525 10 3   ; Robes
+E 1 526 10 4   ; Beads
 *
 M 0 503 1 514 1  1  ; The Merlin  
-E 1 513 1 3   ; Robes
-E 1 510 1 17  ; Staff
+E 1 513 10 3   ; Robes
+E 1 510 10 17  ; Staff
 *
 M 0 504 1 562 1  1  ; Queen Gwenefwhar  
 G 1 527 -1    ; Mirror
-E 1 515 1 17  ; Crucifix
+E 1 515 -1 17  ; Crucifix
 *
 M 0 505 1 562 1  1  ; Lancelot  
-E 1 503 1 16  ; Sword
-E 1 515 1 17  ; Crucifix
-E 1 516 1 5   ; Platemail
-E 1 517 1 3   ; Pendant
+E 1 503 10 16  ; Sword
+E 1 515 10 17  ; Crucifix
+E 1 516 10 5   ; Platemail
+E 1 517 10 3   ; Pendant
 *
 M 0 506 1 560 1  1  ; Prince Markham  
-E 1 504 1 16  ; Sword
-E 1 518 1 5   ; Chainmail
+E 1 504 10 16  ; Sword
+E 1 518 10 5   ; Chainmail
 *
 M 0 508 1 554 1  1  ; Priest  
-E 1 506 1 16  ; Candlestick
-E 1 515 1 17  ; Crucifix
-E 1 520 1 3   ; Robes
+E 1 506 10 16  ; Candlestick
+E 1 515 10 17  ; Crucifix
+E 1 520 10 3   ; Robes
 *
 M 0 509 1 524 1  1  ; Jester  
-E 1 522 1 7   ; Trousers
-E 1 508 1 16  ; Bladder Onna Stick
+E 1 522 10 7   ; Trousers
+E 1 508 10 16  ; Bladder Onna Stick
 *
 M 0 513 1 512 1  1  ; Chef  
-E 1 524 1 3   ; Apron
-E 1 509 1 16  ; Cleaver
+E 1 524 10 3   ; Apron
+E 1 509 10 16  ; Cleaver
 *
 M 0 507 12 552 1  1  ; Knights of Round Table (1)  
-E 1 505 1 16   ; Sword
-E 1 515 1 17   ; Crucifix
-E 1 516 1 5    ; Plate Mail
+E 1 505 10 16   ; Sword
+E 1 515 10 17   ; Crucifix
+E 1 516 10 5    ; Plate Mail
 *
 M 0 507 12 552 1  1  ; Knights of Round Table (2)  
-E 1 505 1 16   ; Sword
-E 1 515 1 17   ; Crucifix
-E 1 516 1 5    ; Plate Mail
+E 1 505 10 16   ; Sword
+E 1 515 10 17   ; Crucifix
+E 1 516 10 5    ; Plate Mail
 *
 M 0 507 12 552 1  1  ; Knights of Round Table (3)  
-E 1 505 1 16   ; Sword
-E 1 515 1 17   ; Crucifix
-E 1 516 1 5    ; Plate Mail
+E 1 505 10 16   ; Sword
+E 1 515 10 17   ; Crucifix
+E 1 516 10 5    ; Plate Mail
 *
 M 0 507 12 552 1  1  ; Knights of Round Table (4)  
-E 1 505 1 16   ; Sword
-E 1 515 1 17   ; Crucifix
-E 1 516 1 5    ; Plate Mail
+E 1 505 10 16   ; Sword
+E 1 515 10 17   ; Crucifix
+E 1 516 10 5    ; Plate Mail
 *
 M 0 507 12 552 1  1  ; Knights of Round Table (5)  
-E 1 505 1 16   ; Sword
-E 1 515 1 17   ; Crucifix
-E 1 516 1 5    ; Plate Mail
+E 1 505 10 16   ; Sword
+E 1 515 10 17   ; Crucifix
+E 1 516 10 5    ; Plate Mail
 *
 M 0 507 12 552 1  1  ; Knights of Round Table (6)  
-E 1 505 1 16   ; Sword
-E 1 515 1 17   ; Crucifix
-E 1 516 1 5    ; Plate Mail
+E 1 505 10 16   ; Sword
+E 1 515 10 17   ; Crucifix
+E 1 516 10 5    ; Plate Mail
 *
 M 0 507 12 553 1  1  ; Knights of Round Table (7)  
-E 1 505 1 16   ; Sword
-E 1 515 1 17   ; Crucifix
-E 1 516 1 5    ; Plate Mail
+E 1 505 10 16   ; Sword
+E 1 515 10 17   ; Crucifix
+E 1 516 10 5    ; Plate Mail
 *
 M 0 507 12 553 1  1  ; Knights of Round Table (8)  
-E 1 505 1 16   ; Sword
-E 1 515 1 17   ; Crucifix
-E 1 516 1 5    ; Plate Mail
+E 1 505 10 16   ; Sword
+E 1 515 10 17   ; Crucifix
+E 1 516 10 5    ; Plate Mail
 *
 M 0 507 12 553 1  1  ; Knights of Round Table (9)  
-E 1 505 1 16   ; Sword
-E 1 515 1 17   ; Crucifix
-E 1 516 1 5    ; Plate Mail
+E 1 505 10 16   ; Sword
+E 1 515 10 17   ; Crucifix
+E 1 516 10 5    ; Plate Mail
 *
 M 0 507 12 553 1  1  ; Knights of Round Table (10)  
-E 1 505 1 16   ; Sword
-E 1 515 1 17   ; Crucifix
-E 1 516 1 5    ; Plate Mail
+E 1 505 10 16   ; Sword
+E 1 515 10 17   ; Crucifix
+E 1 516 10 5    ; Plate Mail
 *
 M 0 507 12 553 1  1  ; Knights of Round Table (11)  
-E 1 505 1 16   ; Sword
-E 1 515 1 17   ; Crucifix
-E 1 516 1 5    ; Plate Mail
+E 1 505 10 16   ; Sword
+E 1 515 10 17   ; Crucifix
+E 1 516 10 5    ; Plate Mail
 *
 M 0 507 12 553 1  1  ; Knights of Round Table (12)  
-E 1 505 1 16   ; Sword
-E 1 515 1 17   ; Crucifix
-E 1 516 1 5    ; Plate Mail
+E 1 505 10 16   ; Sword
+E 1 515 10 17   ; Crucifix
+E 1 516 10 5    ; Plate Mail
 *
 M 0 512 30 502 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 502 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 504 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 506 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 508 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 510 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 515 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 517 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 520 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 525 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 528 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 532 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 535 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 535 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 535 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 535 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 534 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 534 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 534 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 533 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 533 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 533 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 533 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 533 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 533 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 529 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 535 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 539 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 545 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 545 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 550 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 550 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 546 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 546 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 563 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 564 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 565 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 512 30 566 1  1  ; Foot Soldier  
-E 1 521 1 5    ; Chainmail
-E 1 507 1 16   ; Polearm
+E 1 521 10 5    ; Chainmail
+E 1 507 10 16   ; Polearm
 *
 M 0 510 6 561 1  1   ; Lady in Waiting  
 *
