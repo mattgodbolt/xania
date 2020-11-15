@@ -2542,6 +2542,14 @@ O 0 532 5 518  ; Load the tourist information
 *
 S
 
+#SPECIALS
+M 502 spec_cast_mage
+M 503 spec_cast_cleric
+M 504 spec_cast_cleric
+M 506 spec_cast_undead
+M 508 spec_cast_cleric
+S
+
 #SHOPS
 514 0 0 0 0 0 125 100 0 23  ; The Grocer in the Courtyard.
 
