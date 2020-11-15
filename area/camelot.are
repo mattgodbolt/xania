@@ -17,7 +17,7 @@ the presence of this legendary mortal.
 ~
 human~
 BFLT DHV 1000 0
-105 40 12d10+10100 10d6+600 10d10+40 divine
+105 55 12d10+10100 10d6+600 10d10+55 divine
 -54 -50 -53 -30
 CEFJK AB CIJKNQ 0
 stand stand male 8000
@@ -32,8 +32,8 @@ is the greatest of the old people, believed to possess immense magical powers.
 ~
 human~
 BCGLR DEFHT -800 0
-100 35 9d4+9600 5d5+500 10d9+35 claw
--40 -42 -41 -40
+100 50 9d4+9600 5d5+500 10d10+50 claw
+-50 -50 -50 -40
 ABEJK 0 CKNO X
 stand stand female 7522
 0 0 medium 0
@@ -48,7 +48,7 @@ all squishy animals.
 ~
 human~
 CGHQR DEFHT 850 0
-100 35 10d12+8800 10d12+550 10d9+35 blast
+100 50 10d12+8800 10d12+550 10d10+50 blast
 -46 -45 -48 -36
 CDEFHJK BQ CJLNO 0
 stand stand male 0
@@ -64,8 +64,8 @@ Midgaard, with glinting jewels flashing like small flowers in the wind.
 ~
 human~
 GHQ CDEFHNcc 800 0
-85 29 10d20+6500 6d6+400 8d8+29 bite
--37 -37 -33 -25
+85 42 10d20+6500 6d6+400 10d8+42 bite
+-42 -42 -42 -25
 CDEFHJKN AB HIJKMNPQ D
 stand stand female 0
 0 0 medium 0
@@ -79,8 +79,8 @@ tales tell.  Tall and muscular, his long tressess cover some of his battle scars
 ~
 human~
 GT CDEFHTVZaacc 950 0
-95 33 15d20+7500 6d4+500 10d9+33 pound
--42 -45 -41 -31
+95 48 15d20+7500 6d4+500 10d9+48 pound
+-46 -46 -46 -31
 CDEFGIKLOT AB DEJMNOQ HI
 stand stand male 0
 0 0 large 0
@@ -95,22 +95,22 @@ as you realise that the sword in his hand is heading your way!
 ~
 human~
 BCFLT DEFHJV -1000 0
-95 33 15d20+7500 6d4+500 10d9+33 pound
--45 -48 -41 -33
+95 48 15d20+7500 6d4+500 10d9+48 pound
+-46 -46 -46 -31
 ACDEFHJK AB MNOPQ IR
 stand stand male 0
 0 0 large 0
 #507
 knight~
-knight of the Round Table~
-A knight of the Round Table stands here appalled at you blatant disregard for ceremony!
+a knight of the Round Table~
+A knight of the Round Table stands here appalled at your blatant disregard for ceremony!
 ~
 This man is one of the greatest in Arthur's disciplined army, you don't want to mess with him.
 ~
 human~
 CGHTcc CDEFHNTVcc 750 0
 78 39 20d10+4800 10d6+460 7d11+39 pound
--33 -32 -34 -23
+-37 -37 -37 -23
 CDEFHIJKLU AB 0 0
 stand stand male 0
 0 0 medium 0
@@ -125,7 +125,7 @@ new disciples." he moans.
 human~
 BCGHQ CHVZaacc 1000 0
 72 35 12d10+4500 10d6+700 7d10+35 divine
--30 -33 -33 -28
+-35 -35 -35 -28
 ACDEFGKNOQ AB CJKQ D
 stand rest male 0
 0 0 medium 0
@@ -139,7 +139,7 @@ The Court Jester has some sort of bladder on a stick which makes strange noises.
 human~
 CGHScc HPUVcc 0 0
 61 30 1d1+2999 1d1+899 6d10+30 pound
--24 -23 -20 -20
+-30 -30 -30 -20
 DEFHJKU J 0 RSX
 stand stand male 0
 0 0 medium 0
@@ -169,8 +169,8 @@ This poor looking peasant looks quite contented with his lot.
 human~
 CGH Ncc 0 0
 39 20 12d12+900 1d1+299 4d10+20 pound
--16 -16 -16 -10
-CDEFNU S E X
+-20 -20 -20 -10
+CDEFNU S E 0
 stand stand male 0
 0 0 medium 0
 #512
@@ -184,7 +184,7 @@ control is phenomenal his face never twitches.
 human~
 BGTcc HNZcc 500 0
 53 27 12d20+1800 1d1+339 5d10+27 slash
--19 -20 -18 -15
+-25 -25 -25 -15
 CDEFHJKU AB 0 R
 stand stand male 0
 0 0 medium 0
@@ -198,8 +198,8 @@ cleaver!
 ~
 human~
 BHT HNVaacc 0 0
-44 22 12d6+1800 1d1+399 4d10+22 slash
--16 -14 -14 -10
+44 22 12d6+1800 1d1+399 4d11+22 slash
+-21 -22 -21 -10
 DEFHIK AB MN X
 stand stand male 0
 0 0 medium 0
