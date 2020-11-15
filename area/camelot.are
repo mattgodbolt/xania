@@ -773,6 +773,29 @@ v  .       .               .               .                    . v
                             Drawbridge
                                 #
 ~
+
+#533
+wooden signpost~
+a wooden signpost~
+A splintered wooden signpost has been rammed into the mud.~
+wood~
+furniture 0 0
+0 0 0 0 0
+0 0 0 P
+E
+wooden signpost~
+============================================================
+        Welcome to Camelot,  court of the knights of 
+                      the Round Table
+                 and seat of King Arthur.
+===      Law abiding citizens may travel in peace.      ====
+===      No thieving, pillaging or horse rustling!      ====
+
+Originally created by Manacle,  and customised by Xania a
+legendary number of years later.
+============================================================
+~
+
 #0
 
 #ROOMS
@@ -2222,6 +2245,10 @@ S
 *
 * ----  Camelot Resets  ----
 *
+O 0 533 1 501  ; Signpost outside
+
+O 0 3135 10 506 ; fountain northern courtyard
+
 M 0 501 1 555 1  1  ; King Arthur  
 E 1 501 10 16  ; Sword
 E 1 511 10 13  ; Scabbard
