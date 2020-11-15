@@ -87,17 +87,17 @@ stand stand male 0
 #506
 black knight markham prince~
 Prince Markham~
-Prince Markham - the Black Knight - unsheathes his sword and glares at you.
+The Black Knight unsheathes his sword and glares at you.
 ~
 The Black Knight stares coldly at you, shoving his plans for overthrowing the King into
 his belt, and unsheathing his great sword.  He laughs and your hair stands on end
 as you realise that the sword in his hand is heading your way!
 ~
 human~
-BCFHT DEFHJNQVaa -1000 0
+BCFLT DEFHJV -1000 0
 95 15 30d36+6750 6d4+500 5d6+25 pound
 -45 -48 -41 -33
-ABCDEFHJK ABMNO EJLPQ IR
+ACDEFHJK AB EJLMNOPQ IR
 stand stand male 0
 0 0 large 0
 #507
@@ -2056,9 +2056,8 @@ S
 The Ante-Chamber.~
         This small room is used for the housing of important guests who wish
 to address the congress of Knight's of the Round Table.  At present, Prince
-Markham has been in here for the past 2 hours, impatiently awaiting the
-arrival of King Arthur, and is not pleased to see just you enter into his
-presence!
+Markham is waiting impatiently for the arrival of King Arthur, and is not
+pleased to be disturbed by you!
 ~
 5 D 0
 D3
