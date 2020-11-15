@@ -66,7 +66,7 @@ human~
 GHQ CDEFHNcc 800 0
 85 12 10d20+6500 6d6+400 4d5+23 bite
 -37 -37 -33 -25
-CDEFHJKN ABLMNPQ HIJK D
+CDEFHJKN AB HIJKMNPQ D
 stand stand female 0
 0 0 medium 0
 #505
@@ -81,7 +81,7 @@ human~
 GT CDEFHTVZaacc 950 0
 95 14 30d36+7500 6d4+500 5d6+20 pound
 -42 -45 -41 -31
-CDEFGIKLOT AEJMNOQ BD CHI
+CDEFGIKLOT AB DEJMNOQ HI
 stand stand male 0
 0 0 large 0
 #506
@@ -156,7 +156,7 @@ human~
 CGH HNTUcc 0 0
 42 5 2d12+1200 1d1+349 1d1+19 claw
 -18 -19 -19 -12
-CDEFKNU MNOPQRS J E
+CDEFKNU AB CJ E
 stand stand female 0
 0 0 medium 0
 #511
@@ -972,6 +972,11 @@ West along the South Wing.
 ~
 ~
 0 -1 516
+D2
+Entrance to the Castle.
+~
+~
+0 -1 509
 D3
 East along the South Wing.
 ~
