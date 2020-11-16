@@ -48,7 +48,7 @@ all squishy animals.
 ~
 human~
 CGHQR DEFHT 850 0
-100 50 10d12+8800 10d12+550 10d10+50 blast
+100 50 10d12+8800 10d12+550 9d10+50 blast
 -46 -45 -48 -36
 CDEFHJK BQ CJLNO 0
 stand stand male 0
@@ -385,7 +385,7 @@ bladder stick~
 a bladder on a stick~
 A squelching bladder on a stick lies here.~
 wood~
-weapon GP ANO
+weapon G ANO
 'exotic' 6 10 'beating' E
 58 12 2400 P
 A
@@ -460,7 +460,7 @@ A
 cloak robes~
 Merlin's cloak~
 The robes of the Merlin lie discarded upon the ground.~
-cloth~
+octarine~
 armor GHIK ACK
 23 23 23 12 0
 85 8 12000 P
@@ -472,7 +472,9 @@ adorns the collar of the robes feels like an extension of yourself
 when worn.
 ~
 A
-12 35
+12 55
+A
+13 55
 A
 3 3
 #514
