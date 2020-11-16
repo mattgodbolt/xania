@@ -252,6 +252,8 @@ extern void do_tipwizard(Char *ch, const char *arg);
 extern void do_title(Char *ch, const char *arg);
 extern void do_train(Char *ch, ArgParser args);
 extern void do_transfer(Char *ch, ArgParser args);
+extern void do_tras(Char *ch, ArgParser args);
+extern void do_trash(Char *ch, ArgParser args);
 extern void transfer(const Char *imm, Char *victim, ROOM_INDEX_DATA *location);
 extern void do_trip(Char *ch, const char *arg);
 extern void do_trust(Char *ch, const char *arg);

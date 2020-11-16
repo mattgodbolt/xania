@@ -1338,6 +1338,33 @@ void do_sacrifice(Char *ch, const char *argument) {
     extract_obj(obj);
 }
 
+void do_tras(Char *ch, ArgParser args) {
+    (void)args;
+    ch->send_line("To trash an item please type the full command!");
+}
+
+void do_trash(Char *ch, ArgParser args) {
+    if (args.empty()) {
+        ch->send_line("Which item do you want to destroy?");
+        return;
+    }
+    auto objname = args.remaining();
+    auto *obj = ch->find_in_inventory(objname);
+    if (!obj) {
+        ch->send_line("You do not have that item.");
+        return;
+    }
+    // Disallow trashing of containers having contents because we don't want a player
+    // to shoot themselves in the foot.
+    if (obj->item_type == ITEM_CONTAINER && !obj->contains.empty()) {
+        ch->send_line("To trash a container please empty it first.");
+        return;
+    }
+    ch->send_line("You trash {}.", obj->short_descr);
+    act("$n trashes $p.", ch, obj, nullptr, To::Room);
+    extract_obj(obj);
+}
+
 void do_quaff(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;

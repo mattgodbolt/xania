@@ -257,6 +257,8 @@ void interp_initialise() {
     add_command("sacrifice", do_sacrifice, POS_RESTING);
     add_command("junk", do_sacrifice, POS_RESTING, 0, CommandLogLevel::Normal, false);
     add_command("tap", do_sacrifice, POS_RESTING, 0, CommandLogLevel::Normal, false);
+    add_command("tras", do_tras, POS_RESTING);
+    add_command("trash", do_trash, POS_RESTING);
     add_command("unlock", do_unlock, POS_RESTING);
     add_command("value", do_value, POS_RESTING);
     add_command("wear", do_wear, POS_RESTING);

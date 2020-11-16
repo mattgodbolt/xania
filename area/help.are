@@ -979,12 +979,29 @@ SELL sells an object to a shop keeper.
 VALUE asks the shop keeper how much he, she, or it will buy the item for.
 ~
 
-0 SACRIFICE~
+0 SACRIFICE JUNK~
 Syntax: sacrifice <object>
+Syntax: junk <object>
 
-SACRIFICE offers an object to your Alander, who may reward you.
+SACRIFICE offers an object to the Gods, who may reward you. The object must be
+visible in the room you're in. 
+
 The nature of the reward depends upon the type of object.
+
+See: TRASH
 ~
+
+0 TRASH~
+Syntax: trash <object>
+
+TRASH destroys an item in your inventory. To trash a container, empty it first. 
+
+Unlike SACRIFICE, you will receive no reward from the Gods. However, TRASH
+is useful for getting rid of items that you can't drop.
+
+See: SACRIFICE
+~
+
 
 0 SCROLL~
 Syntax: scroll
