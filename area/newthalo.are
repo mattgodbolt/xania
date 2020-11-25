@@ -4706,7 +4706,7 @@ D0
 Dragon Sea
 ~
 ~
-0 -1 9804
+0 -1 9806
 D1
 Shallows
 ~
@@ -4736,6 +4736,23 @@ Dragon Sea
 ~
 0 -1 9804
 S
+#9806
+The Dragon Sea~
+You are on the clear blue seas of the Dragon Sea.
+The plumes of great waves crash all around you.
+You see a great sail ship to the north.
+~
+95 0 7
+D0
+Broadside~
+~
+0 -1 27200
+D2
+~
+~
+0 -1 9804
+S
+
 #0
 
 #MOBILES
