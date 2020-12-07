@@ -126,9 +126,9 @@ S
 
 #27205
 Main Deck - Port~
-Here on the southern end of the ship's deck, the level rises upward to the south
-and to the east you see a mast of modest height. Overhead, its sails flick and 
-bulge in the wind.
+Here on the southern end of the ship's deck, the level rises upward to the
+south and to the east you see a mast of modest height. Overhead, its sails
+flick and bulge in the wind.
 ~
 27 0 1
 D0
@@ -171,11 +171,11 @@ S
 
 #27207
 Foot of the Foremast~
-You're standing at the base of the foremast. Its surface is pitted and uneven,
-having been punished over many years by the cruel weather. Above, its boom
-carry several great sails that drive the ship forward. A line of iron pegs
-have been hammered into the side of it. To the south you see a small vessel
-tied to the deck, and the forecastle rises to the north.
+You're standing at the base of the foremast. Its surface is pitted and
+uneven, having been punished over many years by the cruel weather. Above,
+its boom carries several great sails that drive the ship forwards. A line of
+iron pegs have been hammered into the side of it. To the south you see a
+small vessel tied to the deck, and the forecastle rises to the north.
 ~
 27 0 1
 D0
@@ -273,9 +273,10 @@ S
 
 #27210
 Midships~
-You're in the dead centre of the ship. Here, a huge capstan has been mounted horizonally.
-It bears four iron handles with which to turn it so that ropes can be hauled in and out
-more easily. The crew seem to be busy with their duties.
+You're in the dead centre of the ship. Here, a huge capstan has been mounted
+horizonally. It bears four iron handles with which to turn it so that ropes
+can be hauled in and out more easily. The crew seem to be busy with their
+duties.
 
 A massive loading hatch leads to the deck below.
 ~
@@ -309,8 +310,8 @@ S
 
 #27211
 Foot of the Mizzenmast~
-You're on a central part of the ship's main deck right underneath the shortest
-of its three masts. Iron pins have been mounted all the way up it.
+You're on a central part of the ship's main deck right underneath the
+shortest of its three masts. Iron pins have been mounted all the way up it.
 This is where the helmsman can steer the vessel using the wheel and
 the large whipstaff rod that disappears through a hole in the deck.
 ~
@@ -344,9 +345,9 @@ S
 
 #27212
 Main Deck - Starboard~
-The starboard side of the deck bears the brunt of the westerly wind. Flecks of
-sea spray sting your face and settle on your tongue. The ship's rail blocks
-your way east and you see a large mast to the west.
+The starboard side of the deck bears the brunt of the westerly wind. Flecks
+of sea spray sting your face and settle on your tongue. The ship's rail
+blocks your way east and you see a large mast to the west.
 ~
 27 0 1
 D2
@@ -363,11 +364,11 @@ S
 
 #27213
 Main Deck - Starboard~
-This section of the main deck features a large deck-mounted harpoon. The curves
-of its iron chassis have been bolted firmly into the deck. A curve of steel several
-feet wide provides a mounting point for the two ends of a harpoon rope made of
-thick sinew. The tip of the launcher protrudes over the ship's rail, ready to
-strike at any target of sufficient size. 
+This section of the main deck features a large deck-mounted harpoon. The
+curves of its iron chassis have been bolted firmly into the deck. A curve of
+steel several feet wide provides a mounting point for the two ends of a
+harpoon rope made of thick sinew. The tip of the launcher protrudes over the
+ship's rail, ready to strike at any target of sufficient size. 
 ~
 27 0 1
 D0
@@ -389,8 +390,9 @@ S
 
 #27214
 Main Deck - Starboard~
-The starboard main deck opens out to the east, where long plank has been extended.
-To the west you can see a huge mast, and a harpoon launcher stands tall to the north.
+The starboard main deck opens out to the east, where long plank has been
+extended. To the west you can see a huge mast, and a harpoon launcher stands
+tall to the north.
 ~
 27 0 1
 D0
@@ -418,8 +420,8 @@ S
 #27215
 Main Deck - Starboard~
 The main deck continues here. The planks below your feet, stained with sweat
-and blood, also seem to be riddled with woodworm. To the east the ocean extends
-beyond the horizon, and a great loading hatch is to the west.
+and blood, also seem to be riddled with woodworm. To the east the ocean
+extends beyond the horizon, and a great loading hatch is to the west.
 ~
 27 0 1
 D0
@@ -441,8 +443,9 @@ S
 
 #27216
 Main Deck - Starboard~
-You're at the aft end of the main deck. It rises upward a little to the quarterdeck
-to your south. The smell of sea salt, fish and guano fill your nostrils.
+You're at the aft end of the main deck. It rises upward a little to the
+quarterdeck to your south. The smell of sea salt, fish and guano fill your
+nostrils.
 ~
 27 0 1
 D0
@@ -464,10 +467,10 @@ S
 
 #27217
 Walking the Plank~
-You feel the swaying motion of the boat more acutely while standing on this fairly
-narrow but sturdy oak plank. It extends several feet over the ocean below.
-The waves are quite choppy and the biting cold would be enough to devour any warm
-blooded creature with ease.
+You feel the swaying motion of the boat more acutely while standing on this
+fairly narrow but sturdy oak plank. It extends several feet over the ocean
+below. The waves are quite choppy and the biting cold would be enough to
+devour any warm blooded creature with ease.
 ~
 27 N 1
 D3
@@ -486,8 +489,8 @@ S
 Quarterdeck - Port~
 This is the aft end of the main deck, where it rises up a little giving you
 an excellent view of the ship. The hull blocks your passage south
-but you hear sounds coming from behind it. The ocean extends far over the western
-horizon. The main deck spreads to the fore and starboard.
+but you hear sounds coming from behind it. The ocean extends far over the
+western horizon. The main deck spreads to the fore and starboard.
 ~
 27 0 1
 D0
@@ -504,10 +507,11 @@ S
 
 #27219
 Quarterdeck~
-You're on the centre of the quarterdeck, towards the stern of the ship. To the north
-a large mast carries a set of broad sails overhead.
+You're on the centre of the quarterdeck, towards the stern of the ship. To
+the north a large mast carries a set of broad sails overhead.
 
-A door is fitted into the hull to your south, and a ladder leads up to the poopdeck.
+A door is fitted into the hull to your south, and a ladder leads up to the
+poopdeck.
 ~
 27 0 1
 D0
@@ -539,10 +543,10 @@ S
 
 #27220
 Quarterdeck - Starboard~
-You're on the starboard end of the quarterdeck, overlooking the rest of the ship.
-You notice that the three masts to the north are all of different heights, 
-the one in the middle being nearly twice as tall as the others. You see a door
-and a ladder to the west.
+You're on the starboard end of the quarterdeck, overlooking the rest of the
+ship. You notice that the three masts to the north are all of different
+heights, the one in the middle being nearly twice as tall as the others.
+You see a door and a ladder to the west.
 ~
 27 0 1
 D0
@@ -559,10 +563,10 @@ S
 
 #27221
 Poopdeck~
-This is the aftmost point of the ship's upper decks. From here you can see plumes
-of air bubbles billowing out as it carves passage through the Dragon sea.
-The ship's rail prevents you from falling to what would likely be a unpleasant
-death below.
+This is the aftmost point of the ship's upper decks. From here you can see
+plumes of air bubbles billowing out as it carves passage through the Dragon
+sea. The ship's rail prevents you from falling to what would likely be an
+unpleasant death below.
 ~
 27 0 1
 D5
@@ -575,8 +579,8 @@ S
 #27222
 Clutching the Forepeak~
 You're hanging onto the prow of the ship. The mighty figure of a warrior 
-princess bearing a great trident has been carved into the hull. Your handholds
-are pretty slippery and you're keen to get back onto firmer ground.
+princess bearing a great trident has been carved into the hull. Your
+handholds are pretty slippery and you're keen to get back onto firmer ground.
 ~
 27 0 1
 D4
@@ -588,9 +592,9 @@ S
 
 #27223
 Forecastle~
-The forecastle, or fo'c'sle, is a broad wooden deck that leads to the bowsprit
-before you.  Back down below you see the main deck and several great sails
-flutter just above your head.
+The forecastle, or fo'c'sle, is a broad wooden deck that leads to the
+bowsprit before you.  Back down below you see the main deck and several
+great sails flutter just above your head.
 ~
 27 0 1
 D0
@@ -607,10 +611,10 @@ S
 
 #27224
 Forecastle~
-You're at the end of the fo'c'sle with nowhere else to go but up the bowsprit
-or down over some rigging to somewhere you can't see properly. The horizon to
-the north looks clear and the climate in the distance will doubtless be even colder
-than it is here.
+You're at the end of the fo'c'sle with nowhere else to go but up the
+bowsprit or down over some rigging to somewhere you can't see properly. The
+horizon to the north looks clear and the climate in the distance will
+doubtless be even colder than it is here.
 ~
 27 0 1
 D2
@@ -633,9 +637,10 @@ S
 
 #27225
 Up the Bowsprit~
-A great wooden rod protrudes from the deck and hangs out over the prow of the ship.
-Several ropes hanging down from some sails above terminate here. One slip and you're
-in a world of trouble. You have no choice but to go back down to the foc'c'sle.
+A great wooden rod protrudes from the deck and hangs out over the prow of
+the ship. Several ropes hanging down from some sails above terminate here.
+One slip and you're in a world of trouble. You have no choice but to go back
+down to the foc'c'sle.
 ~
 27 0 1
 D5
@@ -647,8 +652,9 @@ S
 
 #27226
 High above the Quarterdeck~
-You're on a boom high over the quarterdeck. A length of sail extends above you
-and towards the tip of the mizzenmast. You hear the cries of seabirds overhead.
+You're on a boom high over the quarterdeck. A length of sail extends above
+you and towards the tip of the mizzenmast. You hear the cries of seabirds
+overhead.
 ~
 27 0 1
 D1
@@ -688,8 +694,8 @@ S
 
 #27228
 Out on the Boom~
-You're on a boom high over the quarterdeck. A length of sail extends above you
-and towards the tip of the mizzenmast.
+You're on a boom high over the quarterdeck. A length of sail extends above
+you and towards the tip of the mizzenmast.
 ~
 27 0 1
 D3
@@ -720,10 +726,10 @@ S
 
 #27230
 Atop the Mizzenmast~
-You're standing on a narrow platform on top of the mizzenmast. There's nothing
-up here except a superb view of the ship below and the wide ocean all around.
-Far to the west you see dark coastline and a range of mountains pierce the sky
-to the east.
+You're standing on a narrow platform on top of the mizzenmast. There's
+nothing up here except a superb view of the ship below and the wide ocean
+all around. Far to the west you see dark coastline and a range of mountains
+pierce the sky to the east.
 ~
 27 0 1
 D5
@@ -735,9 +741,9 @@ S
 
 #27231
 Grappling the Rigging~
-You're grappling some ropes high above the main deck. A length of sail extends
-above you and towards the tip of the mainmast. It's a good job you don't suffer
-from vertigo.
+You're grappling some ropes high above the main deck. A length of sail
+extends above you and towards the tip of the mainmast. It's a good job you
+don't suffer from vertigo.
 ~
 27 0 1
 D1
@@ -750,8 +756,8 @@ S
 #27232
 Ascending the Mainmast~
 Hugging the mainmast, you find yourself at a junction between two great
-booms that swing above the deck below. The mast continues into the sky above
-or down to the relative safety of the deck below. 
+booms that swing above the deck below. The mast continues into the sky
+above or down to the relative safety of the deck below. 
 ~
 27 0 1
 D1
@@ -778,8 +784,8 @@ S
 
 #27233
 Grappling the Rigging~
-You're grappling the rigging over the starboard main deck. Here the wind catches
-your face and you feel its biting cold.
+You're grappling the rigging over the starboard main deck. Here the wind
+catches your face and you feel its biting cold.
 ~
 27 0 1
 D3
@@ -791,8 +797,9 @@ S
 
 #27234
 Ascending the Mainmast~
-The mainmast narrows slightly as it climbs further upward. A set of short booms
-extend east and west several metres above the ship's deck. You feel a little dizzy.
+The mainmast narrows slightly as it climbs further upward. A set of short
+booms extend east and west several metres above the ship's deck. You feel a
+little dizzy.
 ~
 27 0 1
 D4
@@ -809,10 +816,10 @@ S
 
 #27235
 High above the Deck~
-You're now uncomfortably high above the main deck. A great sail billows below
-your feet and the swaying of the ship is more pronounced at this height. Eastward
-the boom extends further. You notice some officers on the deck below studying
-the horizon with a telescope. 
+You're now uncomfortably high above the main deck. A great sail billows
+below your feet and the swaying of the ship is more pronounced at this
+height. Eastward the boom extends further. You notice some officers on the
+deck below studying the horizon with a telescope. 
 ~
 27 0 1
 D1
@@ -824,9 +831,9 @@ S
 
 #27236
 Ascending the Mainmast~
-This is where the main skysail begins its journey downwards, enabling the forces
-of wind and gravity to thrust the vessel forward. The mast continues upward
-towards a crow's nest. 
+This is where the main skysail begins its journey downwards, enabling the
+forces of wind and gravity to thrust the vessel forward. The mast
+continues upward towards a crow's nest. 
 ~
 27 0 1
 D1
@@ -868,11 +875,11 @@ S
 
 #27238
 The Crow's Nest~
-This tiny cradle is just about wide enough to carry a single person, although 
-there's very little margin for error should that person lose their grip. 
-Fortunately, there are several clasps designed for safety lines screwed into 
-the woodwork. There's an incredible vista all around. You notice land to the
-east and west, but none to the north or south. 
+This tiny cradle is just about wide enough to carry a single person,
+although there's very little margin for error should that person lose their
+grip. Fortunately, there are several clasps designed for safety lines
+screwed into  the woodwork. There's an incredible vista all around. You
+notice land to the east and west, but none to the north or south. 
 ~
 27 0 1
 D5
@@ -884,8 +891,9 @@ S
 
 #27239
 Balancing on the Boom~
-You're balancing on a wooden boom high above the forecastle. A sail and several 
-lines extend up to the foremast. The horizon to the north looks bleak and cold. 
+You're balancing on a wooden boom high above the forecastle. A sail and
+several lines extend up to the foremast. The horizon to the north looks
+bleak and cold. 
 ~
 27 0 1
 D1
@@ -898,9 +906,9 @@ S
 
 #27240
 Scaling the Foremast~
-The foremast, although thick and strong, is neither as imposing or as secure
-as the mainmast to the south. A maincourse sail hangs before you, bearing the
-brunt of the westerly wind. You spot a platform high above.
+The foremast, although thick and strong, is neither as imposing or as
+secure as the mainmast to the south. A maincourse sail hangs before you,
+bearing the brunt of the westerly wind. You spot a platform high above.
 ~
 27 0 1
 D1
@@ -927,9 +935,9 @@ S
 
 #27241
 Balancing on the Boom~
-You're balancing on a wooden boom high above the forecastle. A sail and several 
-lines extend up to the foremast. There is some shallower water to the east
-which is apparent from the variations in its colour.
+You're balancing on a wooden boom high above the forecastle. A sail and
+several lines extend up to the foremast. There is some shallower water to
+the east which is apparent from the variations in its colour.
 ~
 27 0 1
 D3
@@ -942,8 +950,9 @@ S
 #27242
 Standing on the Fighting Top~
 This is a narrow wooden platform, just large enough to mount a weapon like
-a deck gun or a crossbow. It obviously provides a great vantage point for spotting
-targets before the ship while also being low enough to launch projectiles. 
+a deck gun or a crossbow. It obviously provides a great vantage point for
+spotting targets before the ship while also being low enough to launch
+projectiles. 
 ~
 27 0 1
 D4
@@ -960,9 +969,9 @@ S
 
 #27243
 Tip of the Foremast~
-You're at the peak of the main staysail which flutters out below down to the
-forecastle. Just under your feet is a ballistic observation deck. The undulating
-motion of the ship suddenly makes you feel a little nauseous.
+You're at the peak of the main staysail which flutters out below down to
+the forecastle. Just under your feet is a ballistic observation deck. The
+undulating motion of the ship suddenly makes you feel a little nauseous.
 ~
 27 0 1
 D5
@@ -974,10 +983,11 @@ S
 
 #27244
 Gun Deck - Port~
-Here in the darkness below the main deck, the portholes provide a little light
-enabling you to survey the scene. Several black iron canons mounted on wooden
-carts sit on deck, some protruding out through the ship's hull. The deck
-is coated in grime and a fine black powder. There is a small alcove to the east.
+Here in the darkness below the main deck, the portholes provide a little
+light enabling you to survey the scene. Several black iron canons mounted
+on wooden carts sit on deck, some protruding out through the ship's hull.
+The deck is coated in grime and a fine black powder. There is a small
+alcove to the east.
 ~
 27 D 0
 D1
@@ -994,10 +1004,10 @@ S
 
 #27245
 Gun Deck - Port~
-You're standing in the darkness of the gun deck. There's nothing much here except
-for weaponry and the tools used to operate them. The ship's hull creaks with 
-its motion. A set of racks carrying ropes and rigging can be seen to the east
-under the faint daylight above.
+You're standing in the darkness of the gun deck. There's nothing much here
+except for weaponry and the tools used to operate them. The ship's hull
+creaks with its motion. A set of racks carrying ropes and rigging can be
+seen to the east under the faint daylight above.
 ~
 27 D 0
 D0
@@ -1019,9 +1029,9 @@ S
 
 #27246
 Gun Deck - Port~
-This is the aft end of the gun deck, where a canon points out to sea. You almost
-trip over a crate of ammo. The hallway continues in the darkness to the 
-north and east.
+This is the aft end of the gun deck, where a canon points out to sea. You
+almost trip over a crate of ammo. The hallway continues in the darkness
+to the  north and east.
 ~
 27 D 0
 D0
@@ -1039,8 +1049,8 @@ S
 #27247
 Mess Hall~
 Clearly a corner for food and merriment, the mess hall is surprisingly clean
-and hygenic compared to the rest of the ship. Apart from the rat that just caught
-your eye.
+and hygenic compared to the rest of the ship. Apart from the rat that just
+caught your eye.
 ~
 27 D 0
 D1
@@ -1108,11 +1118,12 @@ S
 
 #27251
 Gun Deck~
-This is the centre of the gun deck between the two gun aisles and a mess hall through a door
-to the south.
+This is the centre of the gun deck between the two gun aisles and a mess
+hall through a door to the south.
 
-The boarding of the deck above creaks under the weight of a crew member. A thin shaft of light
-breakts through the cracks revealing an eddy of dust that irritates your eyes. 
+The boarding of the deck above creaks under the weight of a crew member. A
+thin shaft of light breakts through the cracks revealing an eddy of dust
+that irritates your eyes. 
 ~
 27 D 0
 D1
@@ -1135,10 +1146,11 @@ S
 
 #27252
 Mess Hall~
-You're in the middle of the communal gathering and eating area where most of the crew will
-take a break between shifts. A long oak table spans the room, home to several tin pots and plates.
-The odour of fish and potatoes wafts in from the galley to the east, no doubt the daily diet
-is pretty limited. Some bunk beds stand to the south and a door to the gun deck is to the north.
+You're in the middle of the communal gathering and eating area where most of
+the crew will take a break between shifts. A long oak table spans the room,
+home to several tin pots and plates. The odour of fish and potatoes wafts in
+from the galley to the east, no doubt the daily diet is pretty limited. Some
+bunk beds stand to the south and a door to the gun deck is to the north.
 ~
 27 D 0
 D0
@@ -1165,9 +1177,10 @@ S
 
 #27253
 Crew's Quarters~
-This is the eastern side of the crew's quarters where several bunk beds and coffers offer a 
-home away from home to the crew. In the darkness you can hear the sound of scurrying rats 
-the creaking timbers of the hull. The quarters continue west and a store room is to the east.  
+This is the eastern side of the crew's quarters where several bunk beds and
+coffers offer a home away from home to the crew. In the darkness you can hear
+the sound of scurrying rats the creaking timbers of the hull. The quarters
+continue west and a store room is to the east.  
 ~
 27 D 0
 D0
@@ -1189,12 +1202,14 @@ S
 
 #27254
 Captain's Quarters~
-You find yourself in a well organised, tidy room within the ship's aft. A fine mahogany desk sits
-at its centre, complete with a large map and various navigational instruments. A portrait of a
-rather noble looking man hangs on the west wall over a sealed porthole. A black ceramic stove  
-stands in the corner, the embers within pumping out a pleasant wave of warmth. In the corner, 
-a short but well kept mattress lies close to the deck. A door leads north to the officer's area,
-and a much sturdier steel door blocks the way south. 
+You find yourself in a well organised, tidy room within the ship's aft. A
+fine mahogany desk sits at its centre, complete with a large map and various 
+navigational instruments. A portrait of a rather noble looking man hangs on
+the west wall over a sealed porthole. A black ceramic stove stands in the
+corner, the embers within pumping out a pleasant wave of warmth. In the
+corner, a short but well kept mattress lies close to the deck. A door leads
+north to the officer's area, and a much sturdier steel door blocks the way
+south. 
 ~
 27 DN 0
 D0
@@ -1211,9 +1226,10 @@ S
 
 #27255
 Captain's Storeroom~
-You're in a dark storeroom. There are many shelves loaded with maps, measurement devices and several
-types of foreign currency. There are also a number of books on international law and trade treaties.
-Your eye falls on one particularly large volume titled "The Great Whale: A Hunter's Tale".
+You're in a dark storeroom. There are many shelves loaded with maps,
+measurement devices and several types of foreign currency. There are also a
+number of books on international law and trade treaties. Your eye falls on
+one particularly large volume titled "The Great Whale: A Hunter's Tale".
 ~
 27 ADN 0
 D0
@@ -1225,9 +1241,9 @@ S
 
 #27256
 Gun Deck - Starboard~
-The starboard side of the gun deck features a few heavy iron cannons. Some are in a state of
-disrepair while others are pointing through the hull in a state of readiness. You almost trip
-over one in the darkness.
+The starboard side of the gun deck features a few heavy iron cannons. Some
+are in a state of disrepair while others are pointing through the hull in a
+state of readiness. You almost trip over one in the darkness.
 ~
 27 D 0
 D2
@@ -1239,9 +1255,10 @@ S
 
 #27257
 Gun Deck - Starboard~
-You're standing in the middle deck of the ship next to its main form of defence, a heavy iron
-great-cannon. You begin to wonder what the range of these devices is and how much damage
-they'd actually do against a party of hostile boarders.
+You're standing in the middle deck of the ship next to its main form of 
+defence, a heavy iron great-cannon. You begin to wonder what the range of
+these devices is and how much damage they'd actually do against a party of
+hostile boarders.
 ~
 27 D 0
 D0
@@ -1258,8 +1275,9 @@ S
 
 #27258
 Gun Deck - Starboard~
-This is the south eastern corner of the gun deck where a crate of buckshot stands next to
-a small stack of heavy iron cannonballs. The hallway heads west and to the north.
+This is the south eastern corner of the gun deck where a crate of buckshot
+stands next to a small stack of heavy iron cannonballs. The hallway heads
+west and to the north.
 ~
 27 D 0
 D0
@@ -1276,11 +1294,12 @@ S
 
 #27259
 Galley~
-The galley is home to the ship's cook. There is a cutting surface made of a high grade stone
-next to a wood-fired stove. A copper chimney protrudes up, carrying smoke and heat out into the fresh air.
-Several giant copper pots are steaming and bubbling with a frothy, fishy brew. There's a pair of shelves
-carrying some spices, loaves of bread and a bowl of lemons. Over in the west you see a large oak
-dining table.
+The galley is home to the ship's cook. There is a cutting surface made of
+a high grade stone next to a wood-fired stove. A copper chimney protrudes
+up, carrying smoke and heat out into the fresh air. Several giant copper
+pots are steaming and bubbling with a frothy, fishy brew. There's a pair
+of shelves carrying some spices, loaves of bread and a bowl of lemons. Over
+in the west you see a large oak dining table.
 ~
 27 D 0
 D3
@@ -1292,9 +1311,10 @@ S
 
 #27260
 Lockeroom~
-This room seems to be where the crew keeps clothes, boots and miscellenous tools on a huge set of
-makeshift shelves. There's a bit of a whiff about the place, perhaps coming from below but it's 
-hard to tell. The deck leads west towards a set of bunk beds.
+This room seems to be where the crew keeps clothes, boots and miscellenous
+tools on a huge set of makeshift shelves. There's a bit of a whiff about
+the place, perhaps coming from below but it's hard to tell. The deck leads
+west towards a set of bunk beds.
 ~
 27 D 0
 D3
@@ -1306,11 +1326,12 @@ S
 
 #27261
 Sick Bay~
-Here under the curved prow of the ship stands a makeshift gurney covered in grey sheeting.
-In the dim light you make out a wooden trolley, its surface drilled with holes and draped in
-webbing that's designed to hold onto surgical instruments even in the roughest of conditions.
-A bucket of fresh water stands next to another that appears to be half full of gore. A storage
-area is to the south.
+Here under the curved prow of the ship stands a makeshift gurney covered
+in grey sheeting. In the dim light you make out a wooden trolley, its
+surface drilled with holes and draped in webbing that's designed to hold
+onto surgical instruments even in the roughest of conditions. A bucket of
+fresh water stands next to another that appears to be half full of gore.
+A storage area is to the south.
 ~
 27 D 0
 D2
@@ -1322,10 +1343,11 @@ S
 
 #27262
 Sailroom~
-The ship's spare sails are kept in this room belowdecks. They are folded and stacked neatly,
-and although well kept, you can't help notice that some of them feature tears and bitemarks
-from the local residents. A low cart on wheels features several mount points for hooks - that
-must be how they get the goods in and out of this place.
+The ship's spare sails are kept in this room belowdecks. They are folded
+and stacked neatly, and although well kept, you can't help notice that
+some of them feature tears and bitemarks from the local residents. A low
+cart on wheels features several mount points for hooks - that must be how
+they get the goods in and out of this place.
 ~
 27 D 0
 D0
@@ -1342,9 +1364,9 @@ S
 
 #27263
 Main Hold~
-You're in a large, dark but open storage area.  The place stinks of fat and salted blubber, no
-doubt from one of the ship's hapless victims. The deck opens out to the east and the hold
-continues south. 
+You're in a large, dark but open storage area.  The place stinks of fat and
+salted blubber, no doubt from one of the ship's hapless victims. The deck
+opens out to the east and the hold continues south. 
 ~
 27 AD 0
 D1
@@ -1361,10 +1383,10 @@ S
 
 #27264
 Orlop Deck~
-This is the ship's bottom deck. A set of ladders leads up towards the light above.
-Here in the darkness the sounds of the sea and birdlife have been replaced by the rumble of
-creaking timbers. There's a small opening to rooms north and east, and there's a huge copper
-tank to the south.
+This is the ship's bottom deck. A set of ladders leads up towards the light
+above. Here in the darkness the sounds of the sea and birdlife have been
+replaced by the rumble of creaking timbers. There's a small opening to
+rooms north and east, and there's a huge copper tank to the south.
 ~
 27 D 0
 D0
@@ -1396,9 +1418,10 @@ S
 
 #27265
 Passenger's Quarters~
-This small room is home to a pair of bunk beds. They're reasonably well kept too as the sheets
-are clean and free of the unpleasant odours found elsewhere onboard. There's a small storage
-box for belongings but you also note that there's no porthole or window for travellers to enjoy.
+This small room is home to a pair of bunk beds. They're reasonably well kept
+too as the sheets are clean and free of the unpleasant odours found elsewhere
+onboard. There's a small storage box for belongings but you also note that
+there's no porthole or window for travellers to enjoy.
 ~
 27 AD 0
 D3
@@ -1410,9 +1433,10 @@ S
 
 #27266
 Main Hold~
-You're in the centre of the main hold. It's loaded with dried meat, sacks of grain, vegetables and
-an enormous slab of whalemeat. It seems to be pretty fresh too as a thin trail of fluid trickles
-slowly from through a drainage channel. The hold continues north and south. 
+You're in the centre of the main hold. It's loaded with dried meat, sacks of
+grain, vegetables and an enormous slab of whalemeat. It seems to be pretty
+fresh too as a thin trail of fluid trickles slowly from through a drainage
+channel. The hold continues north and south. 
 ~
 27 AD 0
 D0
@@ -1429,10 +1453,12 @@ S
 
 #27267
 Bilge Room~
-Home to a giant copper tank filled with water and effulent, you're forced to hold your breath
-due to the foul stench. You notice a large pair of footpumps connected to a mechanism that leads
-up through some pipes that protrude from the hull above your head. In the south east corner of
-the room stands a locked door and the ship's stern belowdecks is to the south.
+Home to a giant copper tank filled with water and effulent, you're forced to
+hold your breath due to the foul stench. You notice a large pair of
+footpumps connected to a mechanism that leads up through some pipes that
+protrude from the hull above your head. In the south east corner of
+the room stands a locked door and the ship's stern belowdecks is to
+the south.
 ~
 27 AD 0
 D0
@@ -1454,8 +1480,9 @@ S
 
 #27268
 The Brig~
-You're in a tiny dark prison cell. There's not much in here except a hard narrow bench and a bucket
-full of waste. You feel pretty sorry for anyone unfortunate enough to find themselves caught here.
+You're in a tiny dark prison cell. There's not much in here except a hard
+narrow bench and a bucket full of waste. You feel pretty sorry for anyone
+unfortunate enough to find themselves caught here.
 ~
 27 ADN 0
 D3
@@ -1467,9 +1494,10 @@ S
 
 #27269
 Main Hold~
-This is the sternhold, the darkest and dirtiest corner of the lower deck. It is home to a variety
-of boxes and crates carrying goods from every corner of Xania. A wheeled trolley with hook
-mountpoints stands next to a crate of heavy iron ore.
+This is the sternhold, the darkest and dirtiest corner of the lower deck. It
+is home to a variety of boxes and crates carrying goods from every corner
+of Xania. A wheeled trolley with hook mountpoints stands next to a crate
+of heavy iron ore.
 ~
 27 AD 0
 D0
@@ -1481,9 +1509,10 @@ S
 
 #27270
 The Stern~
-Here in the stern of the ship, the shaft of the rudder can be clearly seen, with several connecting
-ropes and rods to the helm above. This is perhaps the most peaceful corner of the ship, with
-nothing other than the curves of the ship's timbers to rest your weary legs.
+Here in the stern of the ship, the shaft of the rudder can be clearly seen,
+with several connecting ropes and rods to the helm above. This is perhaps
+the most peaceful corner of the ship, with nothing other than the curves of
+the ship's timbers to rest your weary legs.
 ~
 27 AD 0
 D0
@@ -1501,9 +1530,9 @@ S
 
 #27271
 Secondary Hold~
-This is a small hold where it seems that some of the ship's foods supplies are kept. Understandably,
-it's kept cleaner and tidier than some other parts of the belowdecks. The stern continues to the
-west.
+This is a small hold where it seems that some of the ship's foods supplies
+are kept. Understandably, it's kept cleaner and tidier than some other parts
+of the belowdecks. The stern continues to the west.
 ~
 27 AD 0
 D3
@@ -1515,9 +1544,10 @@ S
 
 #27272
 Officer's Quarters~
-The officer's quarters feature a pair of fairly well kept bunk beds, a low table with some 
-stools, a set of shelves and some writing implements. A oil lamp hangs on the wall. 
-To the west you can see the horizon through a porthole. The quarters continue east.
+The officer's quarters feature a pair of fairly well kept bunk beds, a low
+table with some  stools, a set of shelves and some writing implements. A oil
+lamp hangs on the wall. To the west you can see the horizon through a
+porthole. The quarters continue east.
 ~
 27 DN 0
 D1
@@ -1530,9 +1560,10 @@ S
 
 #27273
 Officer's Quarters~
-The officer's quarters feature a pair of fairly well kept bunk beds, a low table with some 
-stools, a set of shelves and some writing implements. A oil lamp hangs on the wall. 
-There are doors to the north and south, with another made of steel to the east.
+The officer's quarters feature a pair of fairly well kept bunk beds, a low
+table with some stools, a set of shelves and some writing implements. A oil
+lamp hangs on the wall. There are doors to the north and south, with another
+made of steel to the east.
 ~
 27 DN 0
 D0
@@ -1559,10 +1590,11 @@ S
 
 #27274
 Private Cabin~
-Easily the most luxurious part of the entire ship, this private cabin is well lit via a
-stained glass porthole and an oil lamp. A bed with satin sheets and a thick down mattress stands
-on the south wall. Travelling in relative comfort must cost a pretty penny. There's a door west
-to the officer's quarters.
+Easily the most luxurious part of the entire ship, this private cabin is
+well lit via a stained glass porthole and an oil lamp. A bed with satin
+sheets and a thick down mattress stands on the south wall. Travelling in
+relative comfort must cost a pretty penny. There's a door west to the
+officer's quarters.
 ~
 27 DN 0
 D3
@@ -1574,8 +1606,8 @@ S
 
 #27275
 Dragon Sea~
-You're out on the Dragon Sea. The waves crash around you for as far as you can see. The current
-takes you north.
+You're out on the Dragon Sea. The waves crash around you for as far as you
+can see. The current takes you north.
 ~
 27 0 7
 D0
@@ -1587,10 +1619,11 @@ S
 
 #27276
 Man O'erboard!~
-Uh oh. You've found yourself tumbling off the ship and into the great ocean. The salty water is
-freezing cold and you feel your muscles begin to lock up almost immediately. The hull of the ship
-slides on by to your left. Is that a cry of "man o'erboard!" you hear from high above? The waves
-crash all around you and dark depths open up beneath.
+Uh oh. You've found yourself tumbling off the ship and into the great ocean.
+The salty water is freezing cold and you feel your muscles begin to lock up
+almost immediately. The hull of the ship slides on by to your left. Is that
+a cry of "man o'erboard!" you hear from high above? The waves crash all
+around you and dark depths open up beneath.
 ~
 27 N 6
 D0
@@ -1617,8 +1650,8 @@ S
 
 #27277
 Dragon Sea~
-You're out on the Dragon Sea. The waves crash around you for as far as you can see. The current
-takes you east.
+You're out on the Dragon Sea. The waves crash around you for as far as you
+can see. The current takes you east.
 ~
 27 0 7
 D1
@@ -1630,8 +1663,8 @@ S
 
 #27278
 Dragon Sea~
-You're out on the Dragon Sea. The waves crash around you for as far as you can see. The swell
-takes you south.
+You're out on the Dragon Sea. The waves crash around you for as far as you
+can see. The swell takes you south.
 ~
 27 0 7
 D2
@@ -1644,8 +1677,9 @@ S
 
 #27279
 Deep Beneath the Waves~
-Holding your breath, you find yourself swept along underneath the ship's huge keel. You notice 
-some interesting rocks to the east and an unusually black shadow below.
+Holding your breath, you find yourself swept along underneath the ship's
+huge keel. You notice some interesting rocks to the east and an unusually
+black shadow below.
 ~
 27 AN 7
 D1
@@ -1667,9 +1701,9 @@ S
 
 #27280
 A Beautiful Coral Reef~
-A beam of sunlight breaks through the clouds above. You're surrounded by a spectacular coral
-reef, its miniature rocky towers coated in incredibly ornate submarine vegetation.  Darkness
-beckons from below.
+A beam of sunlight breaks through the clouds above. You're surrounded by a
+spectacular coral reef, its miniature rocky towers coated in incredibly
+ornate submarine vegetation.  Darkness beckons from below.
 ~
 27 N 7
 D3
@@ -1686,8 +1720,9 @@ S
 
 #27281
 An Underwater Cave~
-It's almost pitch black here in this under water cave. The cave provides protection from the
-ocean currents as well as the local shark population. You notice a small chest covered with sand.
+It's almost pitch black here in this under water cave. The cave provides
+protection from the ocean currents as well as the local shark population.
+You notice a small chest covered with sand.
 ~
 27 ADN 7
 D1
@@ -1699,9 +1734,9 @@ S
 
 #27282
 On the Seabed~
-Here at the bottom of the Dragon Sea there's nothing but the finest of sands and the occasional
-starfish.  The terrain is uneven, with rocks blocking your path north and south, but you notice a
-cave entrance to the west.
+Here at the bottom of the Dragon Sea there's nothing but the finest of sands
+and the occasional starfish.  The terrain is uneven, with rocks blocking
+your path north and south, but you notice a cave entrance to the west.
 ~
 27 ADN 7
 D3
@@ -1718,8 +1753,9 @@ S
 
 #27283
 Exploring the Seabed~
-Far below a coral reef, you find yourself sliding down a smooth part of the seabed towards a 
-great overhang. Beyond that, the water seems to get even colder and darker.
+Far below a coral reef, you find yourself sliding down a smooth part of the
+seabed towards a great overhang. Beyond that, the water seems to get even
+colder and darker.
 ~
 27 ADN 7
 D1
@@ -1736,9 +1772,9 @@ S
 
 #27284
 Edge of the Abyss~
-You're in the darkest and coldest place you've ever been. You feel your ears popping under the
-pillars of water above. You can try to swim back west up the slope of the seabed or you can 
-succumb to the pressure.
+You're in the darkest and coldest place you've ever been. You feel your ears
+popping under the pillars of water above. You can try to swim back west up
+the slope of the seabed or you can succumb to the pressure.
 ~
 27 ADN 7
 D3
@@ -1755,9 +1791,10 @@ S
 
 #27285
 The Black Abyss~
-Pure blackness.   Pierced suddenly by a bioluminescent jellyfish that skirts past your face
-down further down into the depths below. You notice an incredibly flat fish that resembles a 
-piece of slate sliding through the darkness.
+Pure blackness.   Pierced suddenly by a bioluminescent jellyfish that skirts
+past your face down further down into the depths below. You notice an
+incredibly flat fish that resembles a piece of slate sliding through the
+darkness.
 ~
 27 ADN 7
 D4
@@ -1774,9 +1811,10 @@ S
 
 #27286
 The Black Abyss~
-You've made it to the loneliest corner of the known universe at the bottom of the Black Abyss.
-Nothing could possibly survive down here for any reasonable length of time. In a fit of despair
-you feel an enormous longing to return to Midgaard for a pint of stout and slice of pie.
+You've made it to the loneliest corner of the known universe at the bottom
+of the Black Abyss. Nothing could possibly survive down here for any
+reasonable length of time. In a fit of despair you feel an enormous longing
+to return to Midgaard for a pint of stout and slice of pie.
 ~
 27 ADN 7
 D4
@@ -1796,10 +1834,10 @@ captain crueltooth~
 Captain Crueltooth~
 The Captain studies a navigational chart.
 ~
-The captain's face is tired, his eyes bloodshot from relentless voyaging and hunting over the
-years. His great, grey beard is well kept and his mouth is caught in a wry, knowing grin.
-There's something about his appearance, his stare, that leaves you feeling uneasy.
-How did he lose that leg?
+The captain's face is tired, his eyes bloodshot from relentless voyaging and
+hunting over the years. His great, grey beard is well kept and his mouth is
+caught in a wry, knowing grin. There's something about his appearance, his
+stare, that leaves you feeling uneasy. How did he lose that leg?
 ~
 human~
 BGLT DFH -300 0
@@ -2261,8 +2299,8 @@ a sentient ibliat~
 A web-footed humanoid forages the seabed.
 ~
 Part lizard, part fish, part man. At several feet tall, the ibliat is the
-largest "aquanoid" you've ever seen. It has dark blue-green flesh, webbed feet.
-and a worrisome set of teeth.
+largest "aquanoid" you've ever seen. It has dark blue-green flesh, webbed
+feet. and a worrisome set of teeth.
 ~
 lizard~
 BGHLT 0 -500 0
