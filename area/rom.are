@@ -116,6 +116,9 @@ State thy name and enter the realm of Xania: ~
 Welcome to Xania! See 'help rules' and 'help commands'.
 
 [ Recent Gameplay Updates! ]
+Dec 10: Cooldown timer is now displayed in your prompt by default, or add it
+as a customization with '%c' (see help prompt).
+
 Dec 7: New area! The Valkyrie. It's a naval themed area for levels 50-75 or so
 over in the Dragon Sea. It has some secrets and interesting storyline bosses. 
 |g[Hit return to continue]|w

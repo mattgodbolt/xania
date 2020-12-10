@@ -699,6 +699,7 @@ You can program you prompt using the following commands:
 
 PROMPT <%*> where the %* are the various variables you may set yourself.
 
+   %c :  Display your cooldown timer (wait state before next command)
    %h :  Display your current hits
    %H :  Display your maximum hits
    %m :  Display your current mana

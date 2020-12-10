@@ -6,13 +6,14 @@
 
 TEST_CASE("prompt formatting") {
     Char ch;
+    ch.wait = 3;
     ch.hit = 10;
     ch.max_hit = 11;
     ch.move = 13;
     ch.max_move = 14;
     ch.mana = 15;
     ch.max_mana = 16;
-    SECTION("default prompt") { CHECK(format_prompt(ch, "") == "|p<10/11hp 15/16m 13mv> |w"); }
+    SECTION("default prompt") { CHECK(format_prompt(ch, "") == "|p<10/11hp 15/16m 13mv 3cd> |w"); }
     SECTION("arbitrary text") {
         CHECK(format_prompt(ch, "moose") == "|pmoose|w");
         CHECK(format_prompt(ch, " with spaces ") == "|p with spaces |w");

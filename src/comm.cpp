@@ -1386,6 +1386,7 @@ std::string format_one_prompt_part(char c, const Char &ch) {
         return bar + "|p";
     }
 
+    case 'c': return fmt::format("{}", ch.wait);
     case 'h': return fmt::format("{}", ch.hit);
     case 'H': return fmt::format("{}", ch.max_hit);
     case 'm': return fmt::format("{}", ch.mana);
@@ -1445,7 +1446,8 @@ std::string format_one_prompt_part(char c, const Char &ch) {
 
 std::string format_prompt(const Char &ch, std::string_view prompt) {
     if (prompt.empty()) {
-        return fmt::format("|p<{}/{}hp {}/{}m {}mv> |w", ch.hit, ch.max_hit, ch.mana, ch.max_mana, ch.move);
+        return fmt::format("|p<{}/{}hp {}/{}m {}mv {}cd> |w", ch.hit, ch.max_hit, ch.mana, ch.max_mana, ch.move,
+                           ch.wait);
     }
 
     bool prev_was_escape = false;
