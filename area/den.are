@@ -1308,7 +1308,7 @@ which blocks the way west. Terror begins to encroach upon your mortal soul
 so I hope you have a spare set of underwear handy. If you are weak of heart
 then go no further west.
 ~
-181 A 2
+A 2
 D1
 The Ritual Chamber
 ~
@@ -1327,7 +1327,7 @@ to leave.  There are doors to the north and south, and the hallway continues
 west.  From the south you hear the sound of waves.  You hear the sound of 
 machinery from the north.
 ~
-181 ACD 0
+ACD 0
 D0
 The lab.
 ~
@@ -1357,7 +1357,7 @@ could be up there?  You hear the sounds of lightning and thunder from outside
 and a steady downpour assails the roof.  You hear a strange moaning 
 coming from there also..perhaps you should open the hatch and investigate?
 ~
-181 AD 0
+AD 0
 D2
 Beginning of the hallway.
 ~
@@ -1378,7 +1378,7 @@ Lying on a table is a large man, measuring well over seven feet.  He
 looks peaceful resting on the slab, but as you approach his eyes snap
 open, and he lets out a horrible moan.  Perhaps it is time to go back inside.
 ~
-181 A 4
+A 4
 D5
 The lab.
 ~
@@ -1394,7 +1394,7 @@ in you a sense of adventure...perhaps you should explore the sea to the
 south.  All you see in the water are a group of small fish..they look 
 relatively harmless.
 ~
-181 0 7
+0 7
 D0
 The beginning of the hallway.
 ~
@@ -1416,7 +1416,7 @@ whale swimming in the ocean..he looks just like Free Willy.  Maybe you should
 go visit with him or ask him for his autograph....bah..these little fish
 can't be that tough, eh?
 ~
-181 0 6
+0 6
 D0
 Near the shore.
 ~
@@ -1437,7 +1437,7 @@ didn't have bloody teeth, did he?  Uh oh...perhaps you should paddle back
 to the north or see what is behind the door to the east of you...anything
 but sit here with this monster.
 ~
-181 0 6
+0 6
 D0
 On the ocean.
 ~
@@ -1461,7 +1461,7 @@ your boat.  Man..his claws look much longer up close.  Perhaps you should
 retreat back through the door to the west or swim to the south where the 
 coast appears to be clear.
 ~
-181 0 6
+0 6
 D3
 In deep water.
 ~
@@ -1482,7 +1482,7 @@ appears to lead to a large cave.  You hear swimming to the east...sounds
 like a large body, too.  Maybe it's Roseanne?  Dunno...perhaps you should
 check it out.
 ~
-181 C 6
+C 6
 D0
 The creature's lair.
 ~
@@ -1503,7 +1503,7 @@ emerge from the watters surface....ooh...someone needs some Scope.  Wait,
 I've seen that fish before; it's that great white shark from Jaws.  Better
 high tail it back to the west before he catches up with you....
 ~
-181 A 6
+A 6
 D3
 In hot water.
 ~
@@ -1517,7 +1517,7 @@ start of the hall, and you can go further along the hall to the west.  To the
 north you smell bananas and hear chest pounding, and to the south you hear 
 the screech of mighty dinosaurs.
 ~
-181 A 0
+A 0
 D1
 The beginning of the hallway.
 ~
@@ -1550,7 +1550,7 @@ you can't recall seeing this beast before.  To the west is a door leading
 further in the jungle...to a pair of large tree trunks it appears.  The
 exit back to the hallway is south.
 ~
-181 0 3
+0 3
 D2
 The hallway.
 ~
@@ -1572,7 +1572,7 @@ But whose legs?  You look up into a relatively human face and realize...
 hey..that's King Kong...cool.  Then, when he picks you up and swings you
 about by your arm, you realize..hey..not cool.
 ~
-181 0 3
+0 3
 D1
 In the jungle.
 ~
@@ -1588,7 +1588,7 @@ big horde of insects.  You can see a large dragon to the east.  A large cloud
 of smog floats in the air to the south...must be Los Angeles.  As you are
 about to leave, you notice a little dinosaur...with dimples?
 ~
-181 0 4
+0 4
 D0
 The hallway.
 ~
@@ -1616,7 +1616,7 @@ Mothra's Lair~
 air here sizing you up.  The way he is looking at you with those big buggy
 eyes...spooky.  Swat him!
 ~
-181 0 9
+0 9
 D1
 On a cliff.
 ~
@@ -1631,7 +1631,7 @@ for Godzilla.  This room appears to be a nest of some sort, but there are
 no children around..is that because noone likes Rhodan?  Possibly.  Yeah, he
 does seem a bit grumpy..perhaps now would be a good time to leave him.
 ~
-181 0 9
+0 9
 D3
 On a cliff.
 ~
@@ -1646,7 +1646,7 @@ The top of a volcano is visible further to the south, and that seems to be
 the source of the inhuman shrieking you hear.  Perhaps you shouldn't 
 check that out?  Nah...go for the gusto.
 ~
-181 C 9
+C 9
 D0
 On a cliff.
 ~
@@ -1667,7 +1667,7 @@ soup; it is the Smog Monster, arch-rival of Godzilla and all around gooey
 guy.  It's probably time to take to the hill and flee north or south (if
 you can get the door south open fast enough.
 ~
-181 0 9
+0 9
 D0
 In the air.
 ~
@@ -1688,7 +1688,7 @@ search..it's the one and only Godzilla.  Wait..why is he so shiny?  Damn,
 you haven't found the real Godzilla..you've found that imposter Mechazilla.
 Perhaps you should be cautious, though...I hear he is tough.
 ~
-181 0 9
+0 9
 D0
 Smoggy air.
 ~
@@ -1708,7 +1708,7 @@ you, and as you watch a giant dragon rises from the magma.  He towers above
 you and looks exactly like Mechazilla...except meaner.  You'd better run
 like the wind now..because his mouth is opening.
 ~
-181 0 9
+0 9
 D0
 Near the mountain.
 ~
@@ -1722,7 +1722,7 @@ the west, and you can go back to the east..if you are scared that is.
 Doors to the north and south lead to more danger...perhaps you should go
 east?
 ~
-181 ACD 0
+ACD 0
 D1
 The hallway
 ~
@@ -1754,7 +1754,7 @@ leave the batteries in and the toy on?  As you watch, a knife juts out of
 the box and cuts it open; then a little head with red hair pops out and
 says, 'Wanna plaaaaaaaaay?'  Chuckie leaps out of the box and charges you.
 ~
-181 AD 0
+AD 0
 D2
 The hallway.
 ~
@@ -1773,7 +1773,7 @@ from behind the pillar in front of you, and as you watch a woman with
 snakes in her hair and a long tail slithers out and glares at you...
 watch out for them eyes.
 ~
-181 AD 0
+AD 0
 D0
 The hallway.
 ~
@@ -1785,7 +1785,7 @@ Even Further along the Hallway~
 	Man, won't this hall ever end?  It continues to the west and you
 can return east.  Once again, there are doors to the north and south.
 ~
-181 ACD 0
+ACD 0
 D0
 On a moonlit plain.
 ~
@@ -1814,7 +1814,7 @@ jelly-like substance slides over a hill in front of you and approaches
 menacingly.  Your only escape is back the way you came...perhaps you 
 should take it.
 ~
-181 A 2
+A 2
 D0
 Farther along the hallway.
 ~
@@ -1836,7 +1836,7 @@ grown a beard in the past 10 seconds...and fangs..and his eyes are yellow
 like a cat...perhaps now would be a good time to leave.  As you turn to
 flee he pounces on you..and it begins.
 ~
-181 A 2
+A 2
 D2
 Further along the hallway.
 ~
@@ -1850,7 +1850,7 @@ hallway soon you should turn back.  Perhaps the doors south and north
 might offer some excitement, or there could be adventure further to the 
 west along the hall.
 ~
-181 ACD 0
+ACD 0
 D1
 The hallway.
 ~
@@ -1885,7 +1885,7 @@ leave, you hear a faint shuffling behind you which you had dismissed
 earlier.  You realize your error when the sarcophagus behind you opens and
 a hand shoots out and grasps you about your throat...
 ~
-181 AD 0
+AD 0
 D2
 The hallway.
 ~
@@ -1913,7 +1913,7 @@ guy..maybe it's time to exit stage north.  As you get ready to step out
 the door, you feel a pressure upon your windpipe...almost as if there is
 a hand on it choking you...
 ~
-181 AD 0
+AD 0
 D0
 The hallway.
 ~
@@ -1928,7 +1928,7 @@ the door north.  A chill runs up your spine as you glance at the door to
 the south..your subconscious doesn't like that one.  Believe in ESP?  Might
 want to start now....keep out of there.
 ~
-181 ACD 0
+ACD 0
 D1
 The hallway.
 ~
@@ -1967,7 +1967,7 @@ a long flowing cape and a mask over half of his face.  The melody he plays
 is haunting and you are spellbound by the music..almost to the point of
 sleep...better watch yourself; that guy could be dangerous.
 ~
-181 AD 0
+AD 0
 D2
 A hallway.
 ~
@@ -1987,7 +1987,7 @@ know that you definitely don't want to be here...  Before you can flee
 from the room the figure draws a wicked-looking scythe from his cloak and
 bars the door.
 ~
-181 AD 0
+AD 0
 D0
 The hallway.
 ~
@@ -2001,7 +2001,7 @@ east now or try either of the doors to the north and south.  You hear the
 beating of wings to the north, yet no sound comes from the door to the 
 south.  Pick your poison.
 ~
-181 ACD 0
+ACD 0
 D1
 The hallway.
 ~
@@ -2028,7 +2028,7 @@ night, and you realize that it came from the castle..perhaps it would be
 a good idea to return south, but if you are feeling bold, you can enter
 the castle to the north.
 ~
-181 AC 2
+AC 2
 D2
 The hallway.
 ~
@@ -2046,7 +2046,7 @@ Bottom of the Stairs~
 and as you watch a pale woman clothed in blue approaches.  She wears a 
 smirk and her very presence frightens you.
 ~
-181 AD 0
+AD 0
 D1
 In front of the castle.
 ~
@@ -2065,7 +2065,7 @@ elect..perhaps down would be the better choice.  As you contemplate your
 decision, another woman wearing red garments descends the stairs, and you
 realize that your choice has already been made for you...
 ~
-181 AD 0
+AD 0
 D5
 Bottom of the stairs.
 ~
@@ -2083,7 +2083,7 @@ The Middle of the Stairwell~
 even get your bearings a woman shrouded in red leaps upon you from the 
 shadows.
 ~
-181 AD 0
+AD 0
 D5
 On the stairs.
 ~
@@ -2104,7 +2104,7 @@ yourself adventurer' before she bears her fangs at you.  As she leaps, you
 look past her and note that you hear the ringing of a bell, and the screech
 of a bat, to the east.
 ~
-181 AD 0
+AD 0
 D1
 Outside the bell tower.
 ~
@@ -2125,7 +2125,7 @@ and he says, 'Hello young adventurer, my name is Van Helsing; perhaps I
 may be of assistance to you?'  He wields a stake in his grasp, and looks like
 he knows how to use it.
 ~
-181 AD 0
+AD 0
 D3
 The top of the stairs.
 ~
@@ -2144,7 +2144,7 @@ of a huge, ancient bell which dominates the upper half of the room.  A chill
 runs through your bones as you peer at the sarcophagus, and you don't 
 the pale figure descending from the bell until he is upon you.
 ~
-181 AD 0
+AD 0
 D3
 Outside the bell tower.
 ~
@@ -2157,7 +2157,7 @@ A Stairwell~
 danger, and you can return to the hallway to the north.  A small, worn
 sign is the only object within sight.
 ~
-181 AD 0
+AD 0
 D0
 A hallway.
 ~
@@ -2181,7 +2181,7 @@ by going down, or go east along the hallway.  You hear horrible screams
 and scratches coming from the door to the north, and it is deathly quiet
 to the south.
 ~
-181 ACD 0
+ACD 0
 D5
 A stairwell.
 ~
@@ -2213,7 +2213,7 @@ Off to the right a woman is being impaled upon thousands of small pins.
 dressed from head to toe in black leather and who has had hundreds of pins
 inserted into his face.  That's gotta hurt.
 ~
-181 A 2
+A 2
 D2
 The hallway.
 ~
@@ -2232,7 +2232,7 @@ of the dirt and grabs your ankle.  You back off hurriedly, and a large
 figure crawls out of the grave.  He looks like William Shatner with a reeally
 bad tan.  Should you ask him about Star Trek or run?  I'd run.
 ~
-181 AD 2
+AD 2
 D0
 The hallway.
 ~
@@ -2246,7 +2246,7 @@ south you hear the screaming of victims, but there is a tranquil aura
 emanating from the door to the east, and you can return down the hallway to
 the west.  
 ~
-181 ACD 0
+ACD 0
 D3
 The hallway.
 ~
@@ -2285,7 +2285,7 @@ As you are preparing to turn and flee, the man takes something from his
 pocket..is that a finger?  Eww...  He replaces the finger, then pulls out a
 machete and begins to stalk you...
 ~
-181 AD 0
+AD 0
 D2
 The hallway.
 ~
@@ -2306,7 +2306,7 @@ he sneers at you.  Then he says, 'Welcome to my boiler room. Make yourself
 at home for you won't be leaving!'  He yells, "Welcome to prime time, bitch!"
 and lunges at you.
 ~
-181 AD 0
+AD 0
 D0
 The hallway.
 ~
@@ -2322,7 +2322,7 @@ need to practice, train or gain.  Man..he seems like a really cool guy, and
 he looks very powerful.  I bet he could do anything.  'Oh yeah,' he says,
 'would you like to buy some items you might need throughout your adventures?'
 ~
-181 ACD 0
+ACD 0
 D3
 The hallway.
 ~

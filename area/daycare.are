@@ -256,7 +256,7 @@ The Dwarven Drop Off~
 This is where the dwarven mommies and daddies come to drop off their
 annoying little brats.  You have the urge to leave.  There is a sign here.
 ~
-66 12 0
+12 0
 D2
 You see a large room full of noisy brats.
 ~
@@ -276,7 +276,7 @@ Day Care Center~
 You are in the north-east corner of the main part of the center.  Toys and
 toddlers are all over the room.  There is a kitchen to the east.
 ~
-66 8 0
+8 0
 D0
 You see the drop off.
 ~
@@ -303,7 +303,7 @@ Day Care Center~
 You are in the north-west corner of the main part of the center.  Toys and
 toddlers are all over the room.  There is a bathroom to the west.
 ~
-66  8 0
+8 0
 D1
 You see a large room full of noisy brats.
 ~
@@ -325,7 +325,7 @@ Day Care Center~
 You are in the south-east corner of the main part of the center.  Toys and
 toddlers are all over the room.  There is a playground to the east.
 ~
-66 8 0
+8 0
 D0
 You see a large room full of noisy brats.
 ~
@@ -347,7 +347,7 @@ Day Care Center~
 You are in the south-west corner of the main part of the center.  Toys and
 toddlers are all over the room.  There is a staircase to the west.
 ~
-66 8 0
+8 0
 D0
 You see a large room full of noisy brats.
 ~
@@ -369,7 +369,7 @@ The Messy Bathroom~
 You hold your nose as you realize you have made the worst mistake of your
 life.  The air is rancid and the walls are stained.
 ~
-66 8 0
+8 0
 D1
 You see a large room full of noisy brats.
 ~
@@ -381,7 +381,7 @@ The Staircase~
 You stand on top of a staircase leading down, and wonder what mystery could
 lie down under.  Beware!
 ~
-66 8 0
+8 0
 D1
 You see a large room full of noisy brats.
 ~
@@ -397,7 +397,7 @@ S
 The Playground~
 You are in the north-west corner of the playground.
 ~
-66 0 2
+0 2
 D1
 You see the playground.
 ~
@@ -413,7 +413,7 @@ S
 The Playground~
 You are in the north-east corner of the playground.
 ~
-66 0 2
+0 2
 D2
 You see the playground.
 ~
@@ -429,7 +429,7 @@ S
 The Playground~
 You are in the south-west corner of the playground.
 ~
-66 0 2
+0 2
 D0
 You see the playground.
 ~
@@ -450,7 +450,7 @@ S
 The Playground~
 You are in the south-east corner of the playground.
 ~
-66 0 2
+0 2
 D0
 You see the playground.
 ~
@@ -467,7 +467,7 @@ Entrance to the Mini-Maze~
 You stand in the entrance to a small, but confusing maze.  You really hope
 that you don't get lost.
 ~
-66 13 2
+13 2
 D1
 ~
 ~
@@ -482,7 +482,7 @@ S
 Mini-Maze~
 You are in a small passage that looks just like every other one.
 ~
-66 9 2
+9 2
 D3
 ~
 ~
@@ -500,7 +500,7 @@ S
 Mini-Maze~
 You are in a small passage that looks just like every other one.
 ~
-66 9 2
+9 2
 D2
 ~
 ~
@@ -514,7 +514,7 @@ S
 Mini-Maze~
 You are in a small passage that looks just like every other one.
 ~
-66 9 2
+9 2
 D0
 ~
 ~
@@ -528,7 +528,7 @@ S
 Mini-Maze~
 You are in a small passage that looks just like every other one.
 ~
-66 9 2
+9 2
 D3
 ~
 ~
@@ -547,7 +547,7 @@ End of the Mini-Maze~
 You stand at the end of your journey.  There is a big sign here and you had
 better read it!
 ~
-66 9 2
+9 2
 D0
 ~
 ~
@@ -567,7 +567,7 @@ Messy Kitchen~
 You stand in the kitchen and eating area of the day care center.  Pots and
 pans are everywhere, while the toddlers continue to create chaos.
 ~
-66 8 0
+8 0
 D3
 You see a large room full of noisy brats.
 ~
@@ -579,7 +579,7 @@ The End?~
 You have reached the final lair.  It is dominated by a huge five headed
 dragon (actually an overgrown brat with a Halloween mask).
 ~
-66 9 2
+9 2
 D0
 ~
 ~

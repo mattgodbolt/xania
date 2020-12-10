@@ -1496,7 +1496,7 @@ The Town Gates~
 are quite extravagant. You notice that occasionally a wolf wanders across the
 path before you. The wolves seem to live with the citizens in peace here.
 ~
-45 0 1
+0 1
 D3
 You see a town street.
 ~
@@ -1521,7 +1521,7 @@ Shop, to the south you see an Armoury. Citizens are wandering about smiling
 at you but you are unsure of their motives. There is a Dark feeling in this
 town. Yet it is so peaceful.
 ~
-45 0 1
+0 1
 D0
 You see an ornate building with a sword resting above the door.
 ~
@@ -1549,7 +1549,7 @@ East Wolf Run Ave.~
 people wandering about. They seem to be ignorant of what is going on around   
 them. To the north stands a  holy shrine that only the most devout may visit.
 ~
-45 0 1
+0 1
 D0
 The cleric's guild.
 ~
@@ -1573,7 +1573,7 @@ that it is the Barbarian's Guild. From the south reeks a stench of ale and
 sickened drunks. You think to yourself what a combination, a bunch of barbarians
 and a Pub. Wolf Run Ave. continues to the west and back to the east.
 ~
-45 0 1
+0 1
 D0
 You see a doorway hidden in trees and brush.
 ~
@@ -1603,7 +1603,7 @@ each other. To the south is an area filled with many different warriors. You
 see them boasting to each other of battles in the past. To the west is a
 small fountain and back to the east you can barely make out the town gates.
 ~
-45 0 1
+0 1
 D0
 You see the arcane shop.
 ~
@@ -1637,7 +1637,7 @@ doors and paint are old and falling apart but the sheriff does not look in
 quite as bad of shape. To the east is the entrance to the Town Hall and
 back to the west is a street leading out of town.
 ~
-45 0 1
+0 1
 D0
 You see an ornate sanctuary.
 ~
@@ -1667,7 +1667,7 @@ in and out of the hall doing business. To the south you notice an executioner
 waiting to do his duty. To the east is a small fountain and to the west is 
 West Wolf Run Avenue.
 ~
-45 0 1
+0 1
 D0
 The town hall.
 ~
@@ -1702,7 +1702,7 @@ West Wolf Run Ave.~
 extends to the north and south.  Shops are all along Foot Path Road. 
 To the east is the town hall.  To the west you see a large, grand gristmill.
 ~
-45 0 1
+0 1
 D0
 North Foot Path Rd.
 ~
@@ -1731,7 +1731,7 @@ and a Waterfall just beyond. To the north you see the entrance to a Wolf Pet
 Shop. The avenue to the east leads into town and to the west you see the path
 to the Gristmill.
 ~
-45 0 1
+0 1
 D0
 The Wolf Pet Shop.
 ~
@@ -1757,7 +1757,7 @@ the skys forever. To the west is a Gristmill pumping water into town from a
 Stunning Waterfall just beyond. Back to the east is West Wolf Run Ave. leading
 into town.
 ~
-45 A 4
+A 4
 D1
 West End of Wolf Run Ave.
 ~
@@ -1777,7 +1777,7 @@ hanging on the walls all about. Even though the weaponsmaster is intent on his
 work you feel that his keen senses are focused directly at you. Suddenly a
 knife comes to your neck and you hear "what may i sell you today m'lord?"
 ~
-45 0 1
+0 1
 D2
 East Wolf Run Ave.
 ~
@@ -1792,7 +1792,7 @@ a stout wooden table. A burly female clad in a thick bearskin poncho winks at yo
 as you walk past. Two other men stand in the corner throwing axes at a wooden pillar.
 To the north you can see a mighty figure training young warriors to be in a courtyard.
 ~
-45 0 1
+0 1
 D0
 The guildyard.
 ~
@@ -1813,7 +1813,7 @@ vanished, the lightning strikes the floor and you loose your footing. Suddenly
 you are before a counter with scrolls and potions scattered all about. The
 man speaks "May I help you?"
 ~
-45 0 1
+0 1
 D0
 A void.
 ~
@@ -1834,7 +1834,7 @@ sleep for eternity. A monk welcomes you in and hugs you close. The monk says
 a while. You are safe here." You realize that the tone in his voice could 
 easily put you to sleep. You feel secure.
 ~
-45 0 1
+0 1
 D2
 A fountain in the town square.
 ~
@@ -1849,7 +1849,7 @@ He is here to dispense justice and he looks like he does his job well. There
 are rows of empty pews here as if no one wants to enter these chambers of
 their own free will. The judge slams down his gavel and demands justice.
 ~
-45 0 1
+0 1
 D0
 A locked door.
 ~
@@ -1883,7 +1883,7 @@ North Foot Path Rd.~
 To the north you can see some houses and to the west you notice the Wolf Pet
 Shop entrance. Further to the north you notice a fountain.
 ~
-45 0 1
+0 1
 D0
 North Footpath Rd.
 ~
@@ -1909,7 +1909,7 @@ keep your distance. I am still training this one."  You decide to heed his
 warnings. "Can I interest you in this fine pup here?" he says pointing to a 
 large black wolf.
 ~
-45 M 1
+M 1
 D0
 A locked door.
 ~
@@ -1934,7 +1934,7 @@ looks to be the trainer's bed in a kennel along the north wall. You see no
 other furnature in the room. The windows are all barred and the walls are 
 scratched bare left only with indented with claw marks.
 ~
-45 0 1
+0 1
 D1
 North Footpath Rd.
 ~
@@ -1960,7 +1960,7 @@ your mind repeats the word "arcane". Darkness engulfs the room. It is pitch
 black. Here you must follow your magical feelings. The guild lies somewhere
 beyond.
 ~
-45 0 1
+0 1
 D0
 The Guildmaster.
 ~
@@ -1980,7 +1980,7 @@ You can hear a trickle in the distance and notice that the only light entering
 the room comes from below the doorway. You sure hope the judge isn't coming 
 home soon.
 ~
-45 0 1
+0 1
 D2
 The town hall.
 ~
@@ -1999,7 +1999,7 @@ area of all Wolf Pointe. You notice to the east is the judges house. To the
 west is the home of the wolf trainer and directly north is a small fountain
 standing alone in a simple little yard.
 ~
-45 0 1
+0 1
 D0
 A small fountain.
 ~
@@ -2028,7 +2028,7 @@ Young men stand here trying to learn the art of swinging battleaxes. You
 hear a voice bellow "You there!" and suddenly huge figure clad in black
 appears before you. "So you wish to learn our ways?"
 ~
-45 0 1
+0 1
 D2
 Guild Entrance.
 ~
@@ -2040,7 +2040,7 @@ The Arcane Master~
    Before you in a whirl of smoke appears the Master of Arcane. As the smoke
 clears the master bows before you and asks what services you require?
 ~
-45 0 1
+0 1
 D2
 The void.
 ~
@@ -2053,7 +2053,7 @@ A Silent Fountain~
 fountain in the very center of the area and soft green grass beneath your
 feet.
 ~
-45 0 1
+0 1
 D2
 North Footpath Rd.
 ~
@@ -2067,7 +2067,7 @@ many different assortments of armour hung in an almost artistic arrangement.
 The armourer is pounding on some freshly heated steel here. As you enter he
 looks up at you and offers his services.
 ~
-45 0 1
+0 1
 D0
 East Wolf Run Ave.
 ~
@@ -2083,7 +2083,7 @@ in the corner covered in ale. At the bar you notice a small man preparing
 drinks. As he rushes by he asks "what may I get for you sir?" You decide to
 answer him on his next pass.
 ~
-45 D 1
+D 1
 D0
 East Wolf Run Ave.
 ~
@@ -2104,7 +2104,7 @@ others. In another corner several men are gathered around watching an arm
 wrestling match. To the south you can make out a large arena and a large man
 in the center teaching young aspiring adventurers how to slay their opponent.
 ~
-45 0 1
+0 1
 D0
 East Wolf Run Ave.
 ~
@@ -2131,7 +2131,7 @@ someone's blood. Behind the door you hear a loud clammer and growls. The walls
 are made of old wood and you think that this must have been the first building
 built in this town.
 ~
-45 0 1
+0 1
 D0
 The town fountain.
 ~
@@ -2155,7 +2155,7 @@ lives in this area except for on tall hooded man. In the center of the yard
 you see a large tree trunk with many slices etched into it. You wonder if this
 man is close friends to the judge.
 ~
-45 0 1
+0 1
 D0
 Entrance to the town hall.
 ~
@@ -2173,7 +2173,7 @@ South Foot Path Rd.~
 intersection between Foot Path Road and Wolf Run Ave. To the west you see a 
 small general foods store and south you see a couple more shops.
 ~
-45 0 1
+0 1
 D0
 Wolf Run Ave.
 ~
@@ -2196,7 +2196,7 @@ General Foods~
 and other foods. Your mouth begins to water as you look over all of the isles
 of inventory in stock here.
 ~
-45 0 1
+0 1
 D1
 South Footpath road.
 ~
@@ -2211,7 +2211,7 @@ southern wall. Tall stools line the west and eastern walls. There comes a
 silence to the room just before every throw, then money quickly exchanges 
 hands. Do you think that your skill at darts is as good?
 ~
-45 0 1
+0 1
 D0
 The pub.
 ~
@@ -2230,7 +2230,7 @@ at each other. A large man stands alone in the center teaching these young
 ones the skills and tactics of knighthood. He looks at you and says "what 
 would you like to learn my young pupil?"
 ~
-45 0 1
+0 1
 D0
 The entrance to the guild.
 ~
@@ -2245,7 +2245,7 @@ to keep himself in the northern room. There is a sign that you can hardly
 read above the southern door that says:
                   AGGRESSIVE INMATE BEWARE!!!!!!!
 ~
-45 0 1
+0 1
 D0
 The jailhouse.
 ~
@@ -2262,7 +2262,7 @@ Town Baker~
    You see a very large man here pulling some pastries out of a brick oven. He 
 looks around at you and chuckles politely. "how may i serve you sir?"
 ~
-45 0 1
+0 1
 D3
 South Footpath Rd.
 ~
@@ -2275,7 +2275,7 @@ South Foot Path Rd.~
 to the north, east, and west. To the south you see a small town park that 
 looks like a wonderful place to sit and plan out your next adventure.
 ~
-45 0 1
+0 1
 D0
 Footpath Rd.
 ~
@@ -2305,7 +2305,7 @@ about to be slaughtered and put up for sale. You are not sure whether to
 prepare for a feast or pity these animals. All you do know is that you are 
 HUNGRY.
 ~
-45 0 1
+0 1
 D1
 South Footpath Rd.
 ~
@@ -2318,7 +2318,7 @@ The East End Garden~
 large goldfish. Some small cat tails are growing out of the water and you can
 see turtles and frogs playing games with eachother on the eastern shore.
 ~
-45 0 1
+0 1
 D3
 The center garden.
 ~
@@ -2331,7 +2331,7 @@ The Center Garden~
 see a pond. To the south a forest. And to the west a bird haven. This is the
 nature lover's area of town to get away from the trials of life.
 ~
-45 0 1
+0 1
 D0
 South Footpath Rd.
 ~
@@ -2360,7 +2360,7 @@ socialize, make nests, and breed. You see all different colors fluttering
 about the skies. Beautiful music is created here amongst the different species
 and it all seems to blend together to make one joyous song.
 ~
-45 0 1
+0 1
 D1
 The center garden.
 ~
@@ -2375,7 +2375,7 @@ green monstrous trees. You never know that this many trees have existed in the
 world. you notice some patches in the earth where adventurers have come just
 to sit down in the shade and rest in the cool breeze.
 ~
-45 0 1
+0 1
 D0
 The center garden.
 ~
@@ -2391,7 +2391,7 @@ building has obviously been abandoned for many years but seems to still be in
 fine working order. When you look back to the east you can see the dust and
 commotion rising from the town. To the west you see a Stunning Waterfall.
 ~
-45 0 1
+0 1
 D1
 A small path.
 ~
@@ -2413,7 +2413,7 @@ falls. A wolf elder steps out of the shadows, slowly takes a drink, and then
 disappears back into the woods. To the east is a gristmill and you think you 
 might be able to make it behind the falls to the south.
 ~
-45 KC 5
+KC 5
 D1
 The gristmill.
 ~
@@ -2435,7 +2435,7 @@ Looking around you gain a greater appreciation of the world around you. To
 the south you can see a large, black wolf and to the north you see the
 animals basking in the waterfall.
 ~
-45 0 1
+0 1
 D0
 The stunning waterfall.
 ~
@@ -2459,7 +2459,7 @@ your face from the waterfall to the south.  You feel serene and refreashed
 here.  You might be able to explore the den to the north if you dare pass   
 the wolf.  The path back to the south leads to the stunning waterfall.
 ~
-45 A 3
+A 3
 D2
 A well hidden hole in the hills.
 ~
@@ -2480,7 +2480,7 @@ feel that someone is watching you but you are unsure who or where this
 feeling is coming from. You decide that you had better leave the young pups 
 alone. This feels like a wonderful place to rest.
 ~
-45 0 1
+0 1
 D0
 Wolf pointe lookout.
 ~
@@ -2493,7 +2493,7 @@ A Dark Drab Cell~
    It is very dark in here. Cold, wet, no life can survive here save one.
 HIM!  Groooowwwwwlllllll!!!!!!
 ~
-45 0 1
+0 1
 D0
 The sheriff's office.
 ~
@@ -2506,7 +2506,7 @@ A Small Clearing~
 into Wolf Pointe. There are two narrow passages leading to the north and 
 south. 
 ~
-45 0 1
+0 1
 D0
 A northern passage.
 ~
@@ -2532,7 +2532,7 @@ A small passage in the forest.~
    This area is surrounded in large trees. Overhead the trees connect into a 
 sort of roof and the sky remains unseen, forever.
 ~
-45 0 1
+0 1
 D2
 A small clearing in the woods.
 ~
@@ -2549,7 +2549,7 @@ A small passage in the forest.~
    This is a southern passge into the woods. It is very dark and cold here. 
 The ground is covered in leaves and dew. You feel as if you are being watched.
 ~
-45 0 1
+0 1
 D0
 A small clearing in the woods.
 ~
@@ -2567,7 +2567,7 @@ A Pathway into Wolf Pointe.~
 path leading around the town walls. To the east is a small clearing and to the
 west are the town gates.
 ~
-45 0 1
+0 1
 D0
 North of the town gates.
 ~
@@ -2601,7 +2601,7 @@ North of the town gates.~
 passage into the woods, to the south are the town gates, and to the west is a
 small path leading around the town.
 ~
-45 0 1
+0 1
 D1
 A passage in the woods.
 ~
@@ -2624,7 +2624,7 @@ South of the Town Gates.~
 small path leading around town. To the east you can hear animals wandering and
 to the north you see the town gates.
 ~
-45 0 1
+0 1
 D0
 The town gates.
 ~
@@ -2647,7 +2647,7 @@ The Northern Edge of the Town Walls.~
 wall here that looks like a mouse hole. The path continues to the east and 
 west.
 ~
-45 0 1
+0 1
 D1
 Just north of the town gates.
 ~
@@ -2664,7 +2664,7 @@ The Southern Edge of the Town Walls.~
    You have found yourself in a rocky area that leads around the town. There 
 is not much to see here except a few trees and bushes.
 ~
-45 0 1
+0 1
 D1
 Just south of the town gates.
 ~
@@ -2681,7 +2681,7 @@ The Northwest Corner of the Wall.~
    You are in the northwestern corner of the town walls. The path goes to the 
 south and east.
 ~
-45 0 1
+0 1
 D1
 A small path along the north wall.
 ~
@@ -2698,7 +2698,7 @@ Behind the Town Walls.~
    Here you are behind the city. You can hear a waterfall to the east within
 the town and off in the distance you can hear a wolf howl.
 ~
-45 0 1
+0 1
 D0
 Northwest corner of the town wall.
 ~
@@ -2715,7 +2715,7 @@ The Southwest Corner of the Town Walls.~
    This is a small area where the garbage of the town is left. To the north
 and east a path continues.
 ~
-45 0 1
+0 1
 D0
 Behind the town walls.
 ~
@@ -2733,7 +2733,7 @@ A Small Hidden Room Behind the Falls.~
 carved out of the stone to be a secluded place of refuge. you see a small sign
 along the wall.
 ~
-45 0 1
+0 1
 E
 sign~
                                 SCORP'S REFUGE
@@ -2746,7 +2746,7 @@ The Holy Shrine~
 have been carved by hand over many years. The only decoration is a simple bench.
 A holy man meditates next to it.
 ~
-45 CD 1
+CD 1
 D2
 East Wolf Run Ave.
 ~

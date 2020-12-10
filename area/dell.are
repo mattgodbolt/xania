@@ -189,7 +189,7 @@ It's movement increases until it is a blur. It busts into bright |Rred flames|w
 The flames burn stronger until they are bright |WWhite|w. 
 The flames rise and take human form it beckons you to come north.
 ~
-12 N 2
+N 2
 D0
 A flaming bush.
 ~
@@ -213,7 +213,7 @@ of you so tightly packed that there is no space between them.
 Despite this apparent over crowding they appear to be very healthy. 
 The avenue streatchs away north-wards.
 ~
-12 0 2
+0 2
 D0
 ~
 ~
@@ -229,7 +229,7 @@ You are in the middle of a large clearing. There are some plants and bushes
 growing randomly, they all look surprisingly healthy. Directly in the middle of
 the clearing is a massive bean stalk stretching upwards into the clouds.
 ~
-12 0 2
+0 2
 D4
 ~
 ~
@@ -245,7 +245,7 @@ You are standing in the clouds. As you watch the clouds start to move, they
 swirl around and then begin to take shape. The movement dies away. A large
 throne is left floating about four metres away from the surface of the cloud.
 ~
-12 0 2
+0 2
 D5
 ~
 ~

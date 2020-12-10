@@ -423,7 +423,7 @@ on the outside of it's openning, but as you inch your way closer, a low
 rumbling comes from within.  Deep red scales lie scattered on the ground
 in front of the cave, hinting this to be someone's home.
 ~
-13 0 3
+0 3
 D5
 The cavern
 ~
@@ -444,7 +444,7 @@ Rain pelts down on you; and out of the corner of your eye, you keep
 catching quick movements.  Figments of the mind during the storm, or life
 within the storm itself?
 ~
-13 0 3
+0 3
 D2
 Dark forest
 ~
@@ -459,7 +459,7 @@ your skin and make patchwork designs on the ground.  Happy little critters
 scamper around playing tag in the fallen needles, while birds above bring
 the further reaches of the forest alive with song.
 ~
-13 0 3
+0 3
 D1
 Forest
 ~
@@ -480,7 +480,7 @@ chittering to one another.  A beautiful peacock with it's hen stand off
 behind a tree, his feathers brilliant and alive with color as he struts for her
 enjoyment.
 ~
-13 0 3
+0 3
 D2
 Forest
 ~
@@ -501,7 +501,7 @@ kind shines down here, so you think to yourself that maybe it's time
 to move on...  The low-to-the-ground snicker comes again, and the
 leaves on the groundfloor get scattered by whatever creature this is.
 ~
-13 0 3
+0 3
 D1
 Dark forest
 ~
@@ -521,7 +521,7 @@ light comes down through the trees.  Looking down, though, scattered
 amongst the dirt and leaves, you see a few maroonish scales glistening
 here and there, leading to the cave north.
 ~
-13 0 3
+0 3
 D0
 Cave entrance
 ~
@@ -548,7 +548,7 @@ animals here?  The fact that the sky is always cloudy; that the sun never
 shines?  Or..maybe...there is some OTHER creature that lives here that
 others are petrified of...
 ~
-13 0 3
+0 3
 D0
 Dark forest
 ~
@@ -574,7 +574,7 @@ fresh clean and always springlike.  Animals scamper around on the
 ground, making the leaves crackle beneath their pounces; and birds add to
 the light and airy atmosphere with their song.
 ~
-13 0 3
+0 3
 D1
 Forest
 ~
@@ -589,7 +589,7 @@ clearing.  Animals scamper around on the ground, making the leaves
 crackle beneath their pounces; and birds add to the light and airy
 atmosphere with their song.
 ~
-13 0 3
+0 3
 D1
 Forest
 ~
@@ -613,7 +613,7 @@ The sounds of the woodland creatures surround you.  To the south, the
 trees start to thin out to provide a clearing for the pond nearby.  The warm
 and brightness beckons you to join them.
 ~
-13 0 3
+0 3
 D0
 Forest
 ~
@@ -643,7 +643,7 @@ Rustling up ahead indicates playful animals scampering about on the
 needle and leaf covered floor.  Song birds twitter as they fly from one tree
 to the next.
 ~
-13 0 3
+0 3
 D0
 Forest
 ~
@@ -668,7 +668,7 @@ you to the bone.  Thunder overhead |Wb|YOO|Wms|w, masking what you *know* to
 be the sounds of some creature following you.  Lightning crackles scaring
 you senseless, jumping you from your own skin.
 ~
-13 0 3
+0 3
 D0
 Dark forest
 ~
@@ -683,7 +683,7 @@ crackling of leaves on the forest floor, only caused from the wind blowing
 so fiercely...  Movement from the corner of your eye, ending up only
 shadows caused by lightning...  |rAfraid?|w
 ~
-13 0 3
+0 3
 D1
 Dark forest
 ~
@@ -703,7 +703,7 @@ as a banshee maddened would.  To the east, the trees grow less dense;
 and although it's still dark, there is enough light to show some difference in
 scenery there.
 ~
-13 0 3
+0 3
 D0
 Dark forest
 ~
@@ -735,7 +735,7 @@ lillypads, no deer come to sip at her edge, and no trees grow around her.
 Survival of the fittest comes to mind as you now realize WHY there are no
 creatures in this area.
 ~
-13 0 7
+0 7
 D2
 Small pond
 ~
@@ -754,7 +754,7 @@ Footprints in the sand indicate recent usage of this grassy clearing by the
 water's edge.  This is a place of rest, relaxation and playfulness as
 animals of all kinds bask in the sun and drink from the clear pond.
 ~
-13 0 10
+0 10
 D1
 Open clearing
 ~
@@ -775,7 +775,7 @@ for the previous night, between clear water and sheltering woods.
 bees buzz
 to and fro among the pretty yellow flowers, while butterflies flitter above.
 ~
-13 0 10
+0 10
 D0
 Forest
 ~
@@ -800,7 +800,7 @@ pond...those who don't understand there *is* no danger here.  Soon they
 will learn and branch out with the others who frolick and tumble in the crisp
 grasses, and splash in the pond.
 ~
-13 0 10
+0 10
 D0
 Forest
 ~
@@ -825,7 +825,7 @@ Forest~
 Life is completely enjoyable for the creatures who live on this side of the
 pond, happy and carefree all their days.  Eat, play and be merry!!
 ~
-13 0 3
+0 3
 D0
 Forest
 ~
@@ -842,7 +842,7 @@ S
 Dark forest~
 Ogers and wights and dragons...*OH MY!*
 ~
-13 0 3
+0 3
 D0
 Dark forest
 ~
@@ -861,7 +861,7 @@ On the edge of the sludge-pond, small bones lie scattered about footprints
 in the sand.  A few sounds jump out at you in the darkness....a low angry
 grumble, a high pitched crazy laugh, and a scream cut off...
 ~
-13 0 3
+0 3
 D0
 Dark forest
 ~
@@ -887,7 +887,7 @@ eaten alive by the one who made the prints that now lie in the sand.  The
 greenish blackish color; certainly NOT like the clean clear water on the
 other side of the pond.
 ~
-13 0 7
+0 7
 D0
 Small pond
 ~
@@ -917,7 +917,7 @@ pond (don't you expect to see the Brady Bunch or Snow White appear
 now?!), the water is much cleaner, allowing the animals to drink from the
 east and north banks.
 ~
-13 0 6
+0 6
 D0
 Open clearing
 ~
@@ -949,7 +949,7 @@ stay there with their kind.  Even if one happened to venture this way, they
 would be dealt with by the law keepers on this side...and then from their
 own dark side for desertion...
 ~
-13 0 10
+0 10
 D0
 Open clearing
 ~
@@ -980,7 +980,7 @@ spring is always present.  Birds flitter in the air, then dive into the
 water for a quick dip.  A rabbit hops in the grass, looking for cowslip,
 a rabbit's favourite.
 ~
-13 0 10
+0 10
 D0
 Open clearing
 ~
@@ -1006,7 +1006,7 @@ layer of the pond.  There even seems to be...smoke (?) rising from the
 water.  Every once in a while, a bubble slowly forms, then pops, releasing
 noxious air from the bottom of the pond.
 ~
-13 0 7
+0 7
 D0
 Small pond
 ~
@@ -1033,7 +1033,7 @@ feels cleaner, no longer leaving that horrid thick stench that stuck in your
 lungs on the western side.  Although you don't see any birds yet, the sky
 ahead is filled with the sweet melodies of happy flighers.
 ~
-13 0 7
+0 7
 D0
 Small pond
 ~
@@ -1063,7 +1063,7 @@ cool off.  Fish jump into the air from below the surface.  Birds singing
 above dive into the clear cool water for a dip.  Parents from the woods bring
 their offspring to the shore east of here to enjoy sunshine by the water.
 ~
-13 0 6
+0 6
 D0
 Open clearing
 ~
@@ -1093,7 +1093,7 @@ play.  Parents bring their offspring here to enjoy the sun by the water's
 edge.  The young scamper about, tumbling in the green grass, stretching
 in the warmth of the sun, exploring the water for the first time.
 ~
-13 0 10
+0 10
 D0
 Open clearing
 ~
@@ -1118,7 +1118,7 @@ in the pond.  Not life that has sprouted here, just that of those who have
 ventured to see the difference between the two sides of the pond.  The
 water is not clean enough yet to produce life.
 ~
-13 0 7
+0 7
 D0
 Small pond
 ~
@@ -1144,7 +1144,7 @@ Dragonflies buzz about, though never landing; a frog from the eastern side
 tries the safety of a decaying log, but jumps off quickly as it falls apart
 under his legs.
 ~
-13 0 6
+0 6
 D0
 Small pond
 ~
@@ -1172,7 +1172,7 @@ their parents.  Frogs hop on lillypads, then get bumped off and thrown into
 the water by turtles who sneakily swim under the plant and tip them with
 their heads.
 ~
-13 0 6
+0 6
 D0
 Small pond
 ~
@@ -1191,7 +1191,7 @@ In this last little niche of the clearing, lovers come to woo and relax in
 secret.  Flowers bloom in the skirts of the forest, and the day's light
 sparkles off the water.
 ~
-13 0 10
+0 10
 D0
 Open clearing
 ~
@@ -1221,7 +1221,7 @@ down through the thick boughs, creating dancing patterns on the needle
 and leaf covered floor of the forest.  Critters scamper about, chittering away
 happily, and birds above sing the most sweetest songs they know.
 ~
-13 0 3
+0 3
 D0
 Forest
 ~
@@ -1248,7 +1248,7 @@ to and fro on the twig, leaf, and needle covered forest floor.
 
 A pathway leads towards some plains in the east.
 ~
-13 0 3
+0 3
 D1
 Plains
 ~
@@ -1267,7 +1267,7 @@ In this little corner of the world, fish jump from the clear water of the pond;
 dragonflies flitter around with pixies; and the sun beams down strongly,
 warming the world.
 ~
-13 0 6
+0 6
 D1
 Small pond
 ~
@@ -1286,7 +1286,7 @@ In this little corner of the world, fish jump from the pond; dragonflies flitter
 around in the air with pixies; and the sun shines down strongly, warming
 the world.
 ~
-13 0 6
+0 6
 D0
 Small pond
 ~
@@ -1315,7 +1315,7 @@ Splashes and giggles from water sprites fill the air.  Turtles swim back and
 forth, sprites upon their backs, giggling.  Dragonflies zoom down to the
 surface of the water, playing with the water sprites.
 ~
-13 0 6
+0 6
 D0
 Small pond
 ~
@@ -1334,7 +1334,7 @@ The trees grow tallest and strongest here before the pond.  Splashes and
 giggling indicate a happy time going on nearby.  The sun shines down
 through the boughs of the trees, and birds twitter all around.
 ~
-13 0 3
+0 3
 D1
 Forest
 ~
@@ -1353,7 +1353,7 @@ Trees here lend some shade to the open clearing, where animals frock and
 play in the day's warmth.  Birds sing their sweet melodies from above, and
 small critters scamper around playfully in the fallen leaf litter.
 ~
-13 0 3
+0 3
 D0
 Open clearing
 ~
@@ -1379,7 +1379,7 @@ skin from the coolness of the woods.  Birds twitter around, singing their
 sweet little melodies, and forest creatures scamper around on the leaf litter
 on the ground.  A horse whinnies in the distance.
 ~
-13 0 3
+0 3
 D0
 Forest
 ~
@@ -1404,7 +1404,7 @@ most of the waterspace.  Frogs hop about on the water pads, croaking;
 and dragonflies swoop down (careful to avoid the frogs' tongues) to snatch
 up water striders that swim the water's surface.  It's very beautiful here.
 ~
-13 0 6
+0 6
 D0
 Small pond
 ~
@@ -1424,7 +1424,7 @@ playing with them as tongues |g*|RPH|rW|pa|RP!|g* |wforward to snatch them
 up for dinner. Water striders swim along the water top, never breaking the
 surface.
 ~
-13 0 6
+0 6
 D0
 Small pond
 ~
@@ -1444,7 +1444,7 @@ A dragonfly zooms past, followed by a tiny, flying, giggling human-type
 creature.  Trees provide shade, but allow the sun to shine deeply down
 through the boughs, warming your skin when it touches.
 ~
-13 0 3
+0 3
 D1
 Forest
 ~
@@ -1466,7 +1466,7 @@ after you do.  Birdies flitter through the air, diving under then swooping up
 above tree branches, all the while singing.  A pair of squirrels jumps from
 one tree branch to the next, looking for an acorn branch.
 ~
-13 0 3
+0 3
 D0
 Forest
 ~
@@ -1492,7 +1492,7 @@ though the roots aren't even there.  The sun shines down on you from
 between the boughs of the trees (but don't look up, cuz a birdie might poop
 on your face).
 ~
-13 0 3
+0 3
 D1
 Forest
 ~
@@ -1513,7 +1513,7 @@ years.  You know you're still in the better half of the forest, though,
 because there are still leaves and needles on the trees, and that feeling of
 tranquility still hovers over you.
 ~
-13 0 3
+0 3
 D0
 Forest
 ~
@@ -1534,7 +1534,7 @@ years.  You know you're still in the better half of the forest, though,
 because there are still leaves and needles on the trees, and that feeling of
 tranquility still hovers over you, protecting you.
 ~
-13 0 3
+0 3
 D1
 Forest
 ~
@@ -1555,7 +1555,7 @@ years.  You know you're still in the better half of the forest, though,
 because there are still leaves and needles on the trees, and that feeling of
 tranquility still hovers over you.
 ~
-13 0 3
+0 3
 D0
 Forest
 ~
@@ -1582,7 +1582,7 @@ because there are still leaves and needles on the trees; that feeling of
 tranquility still hovers over you, protecting you; and the songs of birds fill
 your ears and spirits.
 ~
-13 0 3
+0 3
 D0
 Forest
 ~
@@ -1603,7 +1603,7 @@ years.  You know you're still in the better half of the forest, though,
 because there are still leaves and needles on the trees, and that feeling of
 tranquility still hovers over you.
 ~
-13 0 3
+0 3
 D0
 Forest
 ~
@@ -1625,7 +1625,7 @@ covered with a moss-type growth that stretches to the ceiling.  As you turn
 looking around the cavern, you notice an indentation, what appears to be a
 small tunnel.
 ~
-13 0 0
+0 0
 D2
 Small tunnel
 ~
@@ -1645,7 +1645,7 @@ you found.  The light from outside grows dimmer, but the tunnel starts
 allowing you to walk a little more upright...  With wonder sparkling in your
 eyes, you walk on...
 ~
-13 0 0
+0 0
 D2
 Enlarging tunnel
 ~
@@ -1661,7 +1661,7 @@ saw on the walls near the cave entrance, but the floor is slick too, so you
 have to use the wall as a balancer.  A muffled noise come to you from
 ahead.
 ~
-13 0 0
+0 0
 D1
 Large dark tunnel
 ~
@@ -1676,7 +1676,7 @@ slowly to the ever-dimming light, and although you can't see much, you
 can tell the size of the tunnel where you are by the squeak of hanging bats
 and the echo as a drip of water *plinks*.
 ~
-13 0 0
+0 0
 D1
 Small underground pool
 ~
@@ -1696,7 +1696,7 @@ There must be a run-off from the pond up above...that explains the water
 here underground.  But who's...or what's...footprints are dug into the
 surrounding wet dirt?
 ~
-13 0 0
+0 0
 D2
 Small underground pool
 ~
@@ -1710,7 +1710,7 @@ As you enter this second cavern, the first thing you notice is the huge fire
 in the center.  Smaller fires, set in no particular pattern, dot the walls,
 illuminating the cavern to the highest point of the ceiling.
 ~
-13 0 0
+0 0
 D2
 Dragon's lair
 ~
@@ -1724,7 +1724,7 @@ Deeper and deeper into this small labyrinth you've walked...a glow from
 ahead might mean you've reached the end of your journey.  "Umm...is that
 good or bad?" you whisper aloud.
 ~
-13 0 0
+0 0
 D3
 Fiery cavern
 ~
@@ -1738,7 +1738,7 @@ Deeper and deeper into this small labyrinth you've walked...a glow from
 ahead might mean you've reached the end of your journey.  "Umm..is that
 good or bad?" you whisper.  A low grumble from beyond echos all around.
 ~
-13 0 0
+0 0
 D3
 Dark passageway
 ~
@@ -1752,7 +1752,7 @@ The eyes of the few mice that scurry along the edge of the pool shine when
 your light hits them.  Water runs down the walls, probably from  the pond
 above, and join with the smaller pool that has formed down here.
 ~
-13 0 6
+0 6
 D2
 Small underground pool
 ~
@@ -1769,7 +1769,7 @@ been dig into the ground, obviously used as a nest...but what would need a
 bed THAT bi....your thought is cut short by a low grumbling from the far
 corner.
 ~
-13 0 0
+0 0
 D0
 Fiery cavern
 ~
@@ -1791,7 +1791,7 @@ A rat scurries across the end of the pool, it's eyes reflecting in the light
 you carry.  Water drips down from the ceiling into the pool, it's echoes
 filling the whole cavern.
 ~
-13 0 6
+0 6
 D0
 Dark passageway
 ~
@@ -1807,7 +1807,7 @@ pond above now echo IN your head, driving you stir crazy.  Rats and mice
 scurry along the water's edge.  At the edge of the pool also, you notice
 very large scratchings, almost catlike, dug into the earth.
 ~
-13 0 6
+0 6
 D3
 Small underground pool
 ~
@@ -1823,7 +1823,7 @@ dig this massive hold though which he could climb or fly out of his lair.
 There is nothing to hold onto to help you climb out, and you pity any small
 creature that falls in, for you know who's stomach they'd land in.
 ~
-13 0 0
+0 0
 D4
 The sacred glade
 ~

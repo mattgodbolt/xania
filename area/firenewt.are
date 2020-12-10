@@ -10,7 +10,7 @@ Obsidian hills~
 You see before you some shiny black hills. There is very little vegetation
 here. The hills appear to lead to a high mountain to the south east
 ~
-29 C 3
+C 3
 D0
 You see a path leading back towards the Turning Point.
 ~
@@ -31,7 +31,7 @@ Obsidian hills~
 You see before you some shiny black hills. There is very little vegetation
 here. The hills appear to lead to a high mountain to the south east
 ~
-29 C 3
+C 3
 D0
 You see some hills to the north.
 ~
@@ -52,7 +52,7 @@ Obsidian hills~
 You see before you some shiny black hills. There is very little vegetation
 here. The hills appear to lead to a high mountain to the south east
 ~
-29 C 3
+C 3
 D0
 You see some hills to the north.
 ~
@@ -73,7 +73,7 @@ Mountain side~
 The mountain is very high and looks to be quite old. There are a few cracks
 in the side of the mountain
 ~
-29 0 4
+0 4
 D2
 The mountain continues.
 ~
@@ -94,7 +94,7 @@ Mountain side~
 The mountain is very high and looks to be quite old. There is smoke coming
 from the top of the mountain.
 ~
-29 0 4
+0 4
 D0
 You see mountains to the north.
 ~
@@ -115,7 +115,7 @@ Mountain top~
 You've reached the top of the mountain. You can see more smoke from up here.
 The smoke seems to come from a hole to the south.
 ~
-29 C 4
+C 4
 D0
 You see the side of the mountain to the north.
 ~
@@ -140,7 +140,7 @@ Entrance to the mountain~
 The smoke comes from inside the hole.  It also looks like there is a path
 that leads down.
 ~
-29 C 4
+C 4
 D0
 You see the top of the mountain to the north.
 ~
@@ -172,7 +172,7 @@ Mountain top~
 You are standing at the top of the mountain. The mountain looks like it has
 been ravaged by something.
 ~
-29 C 4
+C 4
 D3
 You see the entrance to the mountain to the west.
 ~
@@ -184,7 +184,7 @@ Mountain top~
 You are standing at the top of the mountain. There are several cracks in the
 ground and you don't feel safe!
 ~
-29 C 4
+C 4
 D1
 You see the entrance to the mountain to the north.
 ~
@@ -195,7 +195,7 @@ S
 Mountain top~
 You are standing on the top of the mountain and think you should move north.
 ~
-29 C 4
+C 4
 D0
 You see the entrance to the mountain to the north.
 ~
@@ -206,7 +206,7 @@ S
 Inside the mountain~
 You are standing inside the mountain.
 ~
-29 AD 2
+AD 2
 D1
 You see guard barracks.
 ~
@@ -233,7 +233,7 @@ Guard room~
 You are standing in a room with beds, tables, and fire newts!
 There are paintings on the wall.  They show battle scenes.
 ~
-29 AD 2
+AD 2
 D3
 You see the dark tunnel shaft.
 ~
@@ -258,7 +258,7 @@ Guard room~
 You are standing in a room with beds, chairs, tables, and fire newts!
 There are paintings on the wall that show great leaders.
 ~
-29 AD 2
+AD 2
 D1
 You see the shaft in the mountain.
 ~
@@ -282,7 +282,7 @@ S
 Inside the mountain~
 You are standing inside the mountain.
 ~
-29 AD 2
+AD 2
 D0
 You see a large storage room.
 ~
@@ -309,7 +309,7 @@ Store room~
 You see nothing special in this room.  There are some boxes and fire newt
 workers here.  There is also some trash piled up in the room.
 ~
-29 AD 2
+AD 2
 D2
 You see the dark mountain shaft.
 ~
@@ -322,7 +322,7 @@ You are standing in the workers' quarters.  There are several workers here.
 The room is messy and has nothing of value in it.  The party the night before
 must have destroyed everything.
 ~
-29 AD 2
+AD 2
 D0
 You see the dark mountain shaft.
 ~
@@ -333,7 +333,7 @@ S
 Bottom of the mountain~
 You are standing at the bottom of the shaft.
 ~
-29 AD 2
+AD 2
 D0
 You see the dark tunnel.
 ~
@@ -349,7 +349,7 @@ S
 The tunnel~
 You are standing in a dry, dark tunnel.
 ~
-29 AD 2
+AD 2
 D0
 You see a bend in the tunnel.
 ~
@@ -365,7 +365,7 @@ S
 Bend in the tunnel~
 You are standing in a dark tunnel.
 ~
-29 AD 2
+AD 2
 D1
 The tunnel continues into the dark.
 ~
@@ -381,7 +381,7 @@ S
 The tunnel~
 You are standing in a dark tunnel.
 ~
-29 AD 2
+AD 2
 D0
 The tunnel continues into the dark.
 ~
@@ -404,7 +404,7 @@ You are standing in a fire newt house.  There is a mother fire newt here
 playing with her children.  The room is full of newt toys, they look very
 boring.
 ~
-29 AD 2
+AD 2
 D3
 You see the dark tunnel.
 ~
@@ -415,7 +415,7 @@ S
 The tunnel~
 You are standing in a dark tunnel.
 ~
-29 AD 2
+AD 2
 D0
 The tunnel continues on.
 ~
@@ -438,7 +438,7 @@ You are standing in a fire newt house.  There is a fire newt mother here
 playing with her children.  The room has several torn baby newt diapers here
 ... how disgusting!
 ~
-29 AD 2
+AD 2
 D1
 You see the dark tunnel.
 ~
@@ -449,7 +449,7 @@ S
 The tunnel~
 You are standing in the dark tunnel.
 ~
-29 AD 2
+AD 2
 D1
 You see a fire newt temple.
 ~
@@ -471,7 +471,7 @@ Entrance to the town hall~
 You are standing in the entrance to the town hall.  The room is large and
 ornate.
 ~
-29 AD 2
+AD 2
 D1
 You see the dark tunnel.
 ~
@@ -488,7 +488,7 @@ The Waiting Room~
 You are standing in the waiting room of the town hall.  There is a big door
 to the west.  The room has pictures of the villages history.
 ~
-29 AD 2
+AD 2
 D1
 You see the entrance to the town hall.
 ~
@@ -504,7 +504,7 @@ S
 The Leader's Office~
 You are standing in the fire newt leader's office.
 ~
-29 AD 2
+AD 2
 D1
 You see the waiting room.
 ~
@@ -516,7 +516,7 @@ Outside the temple~
 You are standing outside the fire newt temple.  The temple has some very
 large arches and towers.
 ~
-29 AD 2
+AD 2
 D1
 You see the entrance to the fire newt temple.
 ~
@@ -533,7 +533,7 @@ Entrance to the temple~
 You are standing at the entrance to the temple.  The temple is very neat. 
 The seats are set in straight rows and the altar is very large.
 ~
-29 AD 2
+AD 2
 D1
 You see the door, that leads to the inside of the temple.
 ~
@@ -549,7 +549,7 @@ S
 Inside the Temple~
 You are standing inside the fire newt temple.
 ~
-29 AD 2
+AD 2
 D3
 You see the door that leads to the temple entrance.
 ~
@@ -565,7 +565,7 @@ S
 The room before the doors~
 You are standing before a pair of huge doors.
 ~
-29 AD 2
+AD 2
 D1
 You see two large doors.
 ~
@@ -581,7 +581,7 @@ S
 The Egg Room~
 You are standing in a room that has several dozen piles of eggs.
 ~
-29 ACD 2
+ACD 2
 D3
 You see two large doors.
 ~

@@ -811,7 +811,7 @@ can still see the lands of Xania through the hazy fog, but to the east an
 impenetrable wall of fog blots out the view.  You can hear water lapping
 on a shore somewhere, possibly below you...
 ~
-5 0 1
+0 1
 D0
 Entrance to the fabled city of Camelot.
 ~
@@ -831,7 +831,7 @@ presence, and continue their gossip almost immediately after your rude
 interuption.  The drawbridge stretches out to the south and there is a
 large courtyard to the north.
 ~
-5 D 1
+D 1
 D0
 A Courtyard.
 ~
@@ -852,7 +852,7 @@ with a hive ends - the courtyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
 The great Castle of Camelot looms above you to the north.
 ~
-5 0 1
+0 1
 D0
 More Courtyard.
 ~
@@ -883,7 +883,7 @@ with a hive ends - the courtyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
 The great Castle of Camelot looms above you to the north.
 ~
-5 0 1
+0 1
 D0
 More Courtyard.
 ~
@@ -904,7 +904,7 @@ with a hive ends - the courtyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
 The great Castle of Camelot looms above you to the north.
 ~
-5 0 1
+0 1
 D2
 More Courtyard.
 ~
@@ -925,7 +925,7 @@ with a hive ends - the courtyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
 The great Castle of Camelot looms above you to the north.
 ~
-5 0 1
+0 1
 D0
 Entrance to Castle.
 ~
@@ -956,7 +956,7 @@ with a hive ends - the courtyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
 The great Castle of Camelot looms above you to the north.
 ~
-5 0 1
+0 1
 D1
 More Courtyard.
 ~
@@ -982,7 +982,7 @@ with a hive ends - the courtyard is bedecked in linens and beautiful flowers,
 such as you have never seen.  The people, though poor, all seem quite content.
 The great Castle of Camelot looms above you to the north.
 ~
-5 0 1
+0 1
 D0
 More Courtyard.
 ~
@@ -1000,7 +1000,7 @@ Entrance to the Castle~
 ever present mists.  To the north, you can see an opulent corridor, and back
 to the south you can see the courtyard.
 ~
-5 0 1
+0 1
 D0
 Into the Castle.
 ~
@@ -1021,7 +1021,7 @@ attles that King Arthur and his men have won.  The floor is carpeted in
 thick fresh hay, giving of a very sweet aroma, the occasional heavy footmarks
 hardly leave a mark on it.
 ~
-5 D 0
+D 0
 D1
 West along the South Wing.
 ~
@@ -1046,7 +1046,7 @@ but you neglect your surroundings as your belly now rules your mind!  You
 can hear someone singing in the kitchens - obviously the chef enjoys his
 work.
 ~
-5 D 0
+D 0
 D0
 Following your nose!
 ~
@@ -1071,7 +1071,7 @@ actually inside any of them.  The chef is pottering about dicing beats of
 animals and singing cheerfully to himself - obviously your intrusion is of
 no interest to him.
 ~
-5 D 0
+D 0
 D0
 The store room.
 ~
@@ -1101,7 +1101,7 @@ meat, even though he prefers everything he cooks to be fresh.  Somehow, it is
 amazingly cold in here, you can feel your fingers turning blue and icicles
 are forming from your ears.
 ~
-5 D 0
+D 0
 D2
 The Kitchens.
 ~
@@ -1114,7 +1114,7 @@ The Kitchen Garden~
 be a cullinary whiz!  The scent of all the herbs together makes for a very
 heady aroma and you begin to feel a little light headed.
 ~
-5 D 0
+D 0
 D3
 Back to the kitchens.
 ~
@@ -1129,7 +1129,7 @@ the east.  The paintings here are of Arthur's renowned feasts, held every
 year in the castle dining hall.  The smiling face of King Arthur stares at
 you from his mask of oil.
 ~
-5 D 0
+D 0
 D0
 Along the West Wing.
 ~
@@ -1149,7 +1149,7 @@ four feet thick, made to withstand the onslaught of any army, but now they
 are decorated in tapestries and paintings to bestow upon the peasants the
 knowledge of Arthur's great victories.
 ~
-5 D 0
+D 0
 D1
 Along the South Wing.
 ~
@@ -1170,7 +1170,7 @@ are decorated in tapestries and paintings to bestow upon the peasants the
 knowledge of Arthur's great victories.  To the north, an open door leads
 into what appears to be a library, presumably open to all.
 ~
-5 D 0
+D 0
 D0
 Into the Library.
 ~
@@ -1196,7 +1196,7 @@ decor of the room, it is easy to surmise that this used to be the war room
 of the king, but since he brought peace to his lands it has been no longer
 needed.  The floor has been marked by the passing of many iron shod men.
 ~
-5 D 0
+D 0
 D1
 Into the East Wing.
 ~
@@ -1217,7 +1217,7 @@ of the Lake.  The beautiful Morgana, High Priestess and Lady of the Lake
 stares down at you with here mesmerising brown eyes.  You feel an urge to bow
 before such a one.
 ~
-5 D 0
+D 0
 D0
 Along the East Wing.
 ~
@@ -1238,7 +1238,7 @@ are decorated in tapestries and paintings to bestow upon the peasants the
 knowledge of Arthur's great victories.  To the west, an open door leads
 into what appears to be a library, presumably open to all.
 ~
-5 D 0
+D 0
 D0
 Along the East Wing.
 ~
@@ -1263,7 +1263,7 @@ the ancient God the knights worship.  The tapestry to the east depicts a man dyi
 slowly on a crucifix.  It seems to move slightly under your gaze, or was it
 a draught from somewhere.
 ~
-5 D 0
+D 0
 D0
 Along the West Wing.
 ~
@@ -1288,7 +1288,7 @@ tourist attractions are still very apparent, and are becoming more of a
 military nature.  The depictions are becoming appallingly violent, some with
 gruesome violence as a main theme.
 ~
-5 D 0
+D 0
 D0
 Along the West Wing.
 ~
@@ -1313,7 +1313,7 @@ the King and his men at the head of the table.  In the centre of the room
 is a clear space where the jester entertains people with his juggling tricks
 and deranged sense of humour.
 ~
-5 D 0
+D 0
 D2
 Some more Dining Hall.
 ~
@@ -1334,7 +1334,7 @@ rotten vegetables.  In the centre of the room is a clear space where the
 jester entertains people with his juggling tricks and deranged sense of
 humour.
 ~
-5 D 0
+D 0
 D0
 Some more Dining Hall.
 ~
@@ -1352,7 +1352,7 @@ by its sheer beauty - it shows a large, perfectly calm lake, with a small
 barge rowing along it but leaving no trace.  Inside the barge a small but
 beautiful lady stands, parting the mist that surrounds them like a curtain.
 ~
-5 D 0
+D 0
 D0
 Along the East Wing.
 ~
@@ -1374,7 +1374,7 @@ knowledge of Arthur's great victories.  A very dark painting hangs on the
 east wall, and you can't quite make out exactly what it is - maybe you should
 have a closer look...
 ~
-5 D 0
+D 0
 D0
 Along the East Wing.
 ~
@@ -1408,7 +1408,7 @@ have veins like aliving animal.  The secret door to the west is obviously
 there to protect people rather than prevent people from seeing this dark
 gruesome sight...
 ~
-5 D 0
+D 0
 D1
 Edge of the Lake.
 ~
@@ -1428,7 +1428,7 @@ the west.  The paintings here are of Arthur's fearsome army, held in the
 deepest regard by all the countries around.  The Great Knight Lancelot
 stares at you from his mask of oil.
 ~
-5 D 0
+D 0
 D2
 Along the East Wing.
 ~
@@ -1448,7 +1448,7 @@ the east.  The paintings here are of Arthur's fearsome army, held in the
 deepest regard by all the countries around.  The Great Knight Lancelot
 stares at you from his mask of oil.
 ~
-5 D 0
+D 0
 D1
 Along the North Wing.
 ~
@@ -1476,7 +1476,7 @@ lady hangs above you with a small moon painted upon her brow.  In contrast,
 there are more battle scenes, but the walls are becoming bare now and you
 can hear the laughter of male voices in the distance to the east.
 ~
-5 D 0
+D 0
 D1
 Along the North Wing.
 ~
@@ -1495,7 +1495,7 @@ within the room to the south.  This is obviously where the King's guards
 come to cool down after their duties in and around the city.  The smell of
 fresh sweat and ale wafts through the air.
 ~
-5 D 0
+D 0
 D1
 Along the North Wing.
 ~
@@ -1519,7 +1519,7 @@ within the room to the south.  This is obviously where the King's guards
 come to cool down after their duties in and around the city.  The smell of
 fresh sweat and ale wafts through the air.
 ~
-5 D 0
+D 0
 D1
 Along the North Wing.
 ~
@@ -1544,7 +1544,7 @@ their private conversation has affected them little.  You feel almost at home
 in their company - maybe you should relax here for a while and let your
 worries disappear while you can.
 ~
-5 D 0
+D 0
 D0
 Into the North Wing.
 ~
@@ -1564,7 +1564,7 @@ their private conversation has affected them little.  You feel almost at home
 in their company - maybe you should relax here for a while and let your
 worries disappear while you can.
 ~
-5 D 0
+D 0
 D1
 More Barracks.
 ~
@@ -1584,7 +1584,7 @@ their private conversation has affected them little.  You feel almost at home
 in their company - maybe you should relax here for a while and let your
 worries disappear while you can.
 ~
-5 D 0
+D 0
 D0
 Into the North Wing.
 ~
@@ -1605,7 +1605,7 @@ signs of propulsion available you wonder how it moves.  This is how the Lady
 Morgana of the Faeries enters Camelot to see her Brother Arthur, even though
 she has been publicly banned from entering.
 ~
-5 D 2
+D 2
 D3
 Back towards the Castle.
 ~
@@ -1618,7 +1618,7 @@ A Small Grocery Stall~
 its keeper from the elements.  You smell the distinct aroma of baking
 potatoes, and can see various vegetables all around.
 ~
-5 D 0
+D 0
 D1
 Back into the Courtyard.
 ~
@@ -1633,7 +1633,7 @@ travelling into their private realm.  The stairs are worn with the passing
 of many iron shod feet, and the halls echo with the long lost calls of
 battle.
 ~
-5 D 0
+D 0
 D3
 Back to the West Wing.
 ~
@@ -1653,7 +1653,7 @@ splendour of the ground floor is in stark contrast to the barrenness of
 this floor.  The walls are bare, the floor has a shallow sprinkling of
 sawdust, and there is a strange smell, almost of decay...
 ~
-5 D 0
+D 0
 D0
 Along the West Wing.
 ~
@@ -1678,7 +1678,7 @@ of light can be seen through a small aperture cut into the wall in the angle
 of the corner.  To the east, the south Wing extends into the distance and to
 the north, the West Wing disappears out of view.
 ~
-5 D 0
+D 0
 D0
 Along the West Wing.
 ~
@@ -1696,7 +1696,7 @@ Along the West Wing~
 people posing for the artists.  They all seem to be staring straight through
 you, and you get the urge to leave this place as soon as possible!
 ~
-5 D 0
+D 0
 D0 
 Along the West Wing.
 ~
@@ -1722,7 +1722,7 @@ of light can be seen through a small aperture cut into the wall in the angle
 of the corner.  To the east, the North Wing extends into the distance and to
 the south, the West Wing disappears out of view.
 ~
-5 D 0
+D 0
 D1
 Along the North Wing.
 ~
@@ -1741,7 +1741,7 @@ To the north, there is a bedroom of some sort.  The door is half open and you
 can see the furnishings, but whether there is someone in is another matter.
 A light shines from within, glinting off your imperfect armour.
 ~
-5 D 0
+D 0
 D0
 Into the Bedroom.
 ~
@@ -1765,7 +1765,7 @@ To the North, there is a room of some sort.  The door is closed, so you can't
 tell what is in there.  A godawful stench emanates from within, and you feel
 like vomiting!
 ~
-5 D 0
+D 0
 D0
 Into the Room.
 ~
@@ -1790,7 +1790,7 @@ of light can be seen through a small aperture cut into the wall in the angle
 of the corner.  To the west, the South Wing extends into the distance and to
 the north, the East Wing disappears out of view.
 ~
-5 D 0
+D 0
 D0
 Along the East Wing.
 ~
@@ -1808,7 +1808,7 @@ Along the East Wing~
 people posing for the artists.  They all seem to be staring straight through
 you, and you get the urge to leave this place as soon as possible!
 ~
-5 D 0
+D 0
 D0
 Along the East Wing.
 ~
@@ -1832,7 +1832,7 @@ Along the East Wing~
 people posing for the artists.  They all seem to be staring straight through
 you, and you get the urge to leave this place as soon as possible!
 ~
-5 D 0
+D 0
 D0
 Along the East Wing.
 ~
@@ -1858,7 +1858,7 @@ of light can be seen through a small aperture cut into the wall in the angle
 of the corner.  To the west, the North Wing extends into the distance and to
 the south, the East Wing disappears out of view.
 ~
-5 D 0
+D 0
 D2
 Along the East Wing.
 ~
@@ -1876,7 +1876,7 @@ Along the North Wing~
 chatter washes over you like a wave.  There seems to be a lot of activity
 in there, maybe you should take a look.
 ~
-5 D 0
+D 0
 D1
 Along the North Wing.
 ~
@@ -1900,7 +1900,7 @@ lies within.  You can hear the sounds of male laughter and the occasional
 clank of armour.  From the sounds of it, there is a body of fighting men
 inside...
 ~
-5 D 0
+D 0
 D1
 Along the North Wing.
 ~
@@ -1923,7 +1923,7 @@ Along the North Wing~
 people posing for the artists.  They all seem to be staring straight through
 you, and you get the urge to leave this place as soon as possible!
 ~
-5 D 0
+D 0
 D1
 Along the North Wing.
 ~
@@ -1945,7 +1945,7 @@ colours of each knight, depicting his family heritage, and battles he has
 fought and won.  The bright colours of the knights dazzle you, and the sea
 of faces becomes a blur.
 ~
-5 D 0
+D 0
 D0
 Out of the Room.
 ~
@@ -1975,7 +1975,7 @@ of faces becomes a blur.
 
 There is a study door to the east.
 ~
-5 D 0
+D 0
 D0
 More of the same.
 ~
@@ -2009,7 +2009,7 @@ directly to the altar.  A picture of their "Christ" hangs above the altar,
 staring down at you from the heavens.  There is a small door in the south
 wall.
 ~
-5 D 0
+D 0
 D1
 The War Room.
 ~
@@ -2029,7 +2029,7 @@ crucifix fixed to the top, in front of which is a small kneeling cushion.
 The King spends a lot of his time here, contemplating his life, loves and
 victories.  Your intrusion has broken his concentration!
 ~
-5 D 0
+D 0
 D0
 To the Chapel.
 ~
@@ -2047,7 +2047,7 @@ The Small Passageway~
 king, as it has been marked by his passing many times.  The walls are bare,
 and the only light comes from a solitary candle placed in a hole in the wall.
 ~
-5 D 0
+D 0
 D0
 The Prayer Room.
 ~
@@ -2066,7 +2066,7 @@ king, as it has been marked by his passing many times.  The walls are bare,
 and the only light comes from a solitary candle placed in a hole in the wall.
 You can feel some markings on the south wall.
 ~
-5 D 0
+D 0
 D2
 A Secret Door.
 ~
@@ -2090,7 +2090,7 @@ above you, with green silk curtains hanging from the posts and is covered
 with a similarly green covered felt.  There is a clothes chest at the foot
 of the bed, and a large crucifix stands atop it.
 ~
-5 D 0
+D 0
 D0
 A Secret Place.
 ~
@@ -2108,7 +2108,7 @@ Inside the Water Closet.~
 vomit!  Obviously every inhabitant of Camelot has been and done their duty
 in this room!  Ugh!
 ~
-5 D 0
+D 0
 D2
 Into the South Wing.
 ~
@@ -2122,7 +2122,7 @@ to address the congress of Knight's of the Round Table.  At present, Prince
 Markham is waiting impatiently for the arrival of King Arthur, and is not
 pleased to be disturbed by you!
 ~
-5 D 0
+D 0
 D3
 The War Room.
 ~
@@ -2137,7 +2137,7 @@ themselves are gossiping together in a corner of the room.  Your intrusion
 obviously hasn't phased them at all, only one glances at you and smiles, then
 resumes her conversation.
 ~
-5 D 0
+D 0
 D0
 Into the North Wing.
 ~
@@ -2157,7 +2157,7 @@ image of their "Christ" upon the cross, surrounded by a halo of light, the
 bed is enormous, and clothed in different coloured lace, and on the walls are
 hung pictures of Arthur's greatest deeds.
 ~
-5 0 0
+0 0
 D0
 The Ladies in Waiting.
 ~
@@ -2171,7 +2171,7 @@ and all that is within the viewing distance.  To the west and north lie the
 known lands of Xania, in the distant west, you can make out the sillouhette of
 a gigantic, ancient tree.
 ~
-5 0 0
+0 0
 D1
 North Eastern Battlement.
 ~
@@ -2190,7 +2190,7 @@ and all that is within the viewing distance.  To the west and south lie the
 known lands of Xania, in the distant West, you can make out the sillhouette of
 a gigantic, ancient tree.
 ~
-5 0 0
+0 0
 D0
 North Western Battlement.
 ~
@@ -2209,7 +2209,7 @@ and  all  that  is  within  the  viewing  distance.  To  the east,  a  thick
 impenetrable fog lies over what appears to be water, you can hear it lapping
 against the shore far below you.
 ~
-5 0 0
+0 0
 D2
 South Eastern Battlement.
 ~
@@ -2228,7 +2228,7 @@ and  all  that  is  within  the  viewing  distance.  To  the east,  a  thick
 impenetrable fog lies over what appears to be water, you can hear it lapping
 against the shore far below you.
 ~
-5 0 0
+0 0
 D0
 North Eastern Battlement.
 ~

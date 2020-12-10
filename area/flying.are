@@ -11,7 +11,7 @@ You are at the bottom of a sheer face.  The rock here is dark, sharp and
 distinctly menacing.  Glancing upwards you see a huge shadow looming above
 you - what can it be?  You can see a path in the mountain to the west.
 ~
-13 0 0
+0 0
 D4
 You can fly up the cliff-face is magically propelled.
 ~
@@ -30,7 +30,7 @@ and further above you can see a huge flying chunk of rock!  What can this thing
 be - and how can you find out?  Upwards seems the only way to find out.  To the
 far north-east you see a fortress in the mountains.
 ~
-13 0 9
+0 9
 D4
 You see a huge levitating chunk of rock.
 ~
@@ -48,7 +48,7 @@ You find yourself next to a huge flying citadel!  What terrible magics are
 holding this huge chunk of rock in the air?  You see a gap in the walls around 
 the citadel to the north.
 ~
-13 0 9
+0 9
 D5
 You see free space.
 ~
@@ -68,7 +68,7 @@ hideous magic holding the citadel in the air, and the terrible strain on the
 rocks is manifest.  The alley continues to the east and west, and a small hole
 to the south permits you to leave the citadel.
 ~
-13 D 1
+D 1
 D2
 You see a gap in the wall.
 ~
@@ -102,7 +102,7 @@ armour, all coated in blood.  More worryingly, there are half-chewed arms and
 legs, of both draconian and human race.  Obviously whatever was eating this
 is partial to any kind of flesh ... maybe even yours!
 ~
-13 D 1
+D 1
 D0
 A northerly corridor.
 ~
@@ -141,7 +141,7 @@ dripping with a red substance.  You feel a slight draft emanating from the
 north, where you can just make out a mass of rusted metal.  To the south you
 see a T-junction.
 ~
-13 D 1
+D 1
 D0
 The corridor continues to the north where you can just make out a mass of rusted
 metal.
@@ -170,7 +170,7 @@ siege cannon.  Standing on tip-toes you can just about peer through the huge
 hole - and you can see the mountainous terrain.  A ladder leads up to a trap-
 door in the ceiling.
 ~
-13 D 1
+D 1
 D4
 The ladder leads upwards to a trap-door in the ceiling.
 ~
@@ -202,7 +202,7 @@ corridor running from east to west, and the courtyard tapers to the north.  You
 feel the cold wind on your face.  Stamping your feet to keep them warm,
 you note the hollow sound...
 ~
-13 D 1
+D 1
 D5
 The trap-door leads into darkness...
 ~
@@ -234,7 +234,7 @@ hole in the north wall.  Pointing out of the window is a huge rusted metal
 siege cannon.  What tremendous power a cannon of that size must possess!  A
 ladder leads up to a trap-door in the ceiling.
 ~
-13 D 1
+D 1
 D4
 The ladder leads upwards to a trap-door in the ceiling.
 ~
@@ -266,7 +266,7 @@ dripping with a red substance.  You feel a slight draft emanating from the
 north, where you can just make out a mass of rusted metal.  To the south you
 see a T-junction.
 ~
-13 D 1
+D 1
 D0
 The corridor continues to the north where you can just make out a mass of
 rusted metal.
@@ -300,7 +300,7 @@ still moving...
 A rope leads to a trap-door in the ceiling, from which you hear distant
 groaning.
 ~
-13 D 1
+D 1
 D4
 The rope leads up to a trap-door - you can hear the groaning of creatures in
 pain emananating from it.
@@ -339,7 +339,7 @@ over, perhaps to prevent anyone escaping ... although they'd only be escaping
 to a four hundred foot drop...
 You can see wisps of smoke emanating from a pile to the west.
 ~
-13 D 1
+D 1
 D1
 You can see a T-junction to the west, at the centre of which lies a burning
 pile.
@@ -356,7 +356,7 @@ make you wonder if the damage was caused by some huge siege weapon, or was it
 simply that the structure of the citadel couldn't take it any more.  The only
 exit, other than a 400 foot plunge, is to the west.
 ~
-13 D 1
+D 1
 D3
 You can see a T-junction.
 ~
@@ -376,7 +376,7 @@ The courtyard has tapered to a point - and the view is tremendous!  You can
 see for miles and miles - below you is the peak of a huge mountain, and you
 see the spires of a fortress nestled upon it.
 ~
-13 0 1
+0 1
 D2
 You see a cobbled courtyard to the south.
 ~
@@ -390,7 +390,7 @@ other unmentionables is almost tangible.  All around you, attached to the
 walls, are manacles - some of which are occupied by shivering dwarves, and
 the odd skeleton.
 ~
-13 A 0
+A 0
 D1
 The darkness continues to the east.
 ~
@@ -415,7 +415,7 @@ other unmentionables is almost tangible.  All around you, attached to the
 walls, are manacles - some of which are occupied by shivering dwarves, and
 the odd skeleton.
 ~
-13 A 0
+A 0
 D1
 The darkness continues to the east.
 ~
@@ -430,7 +430,7 @@ other unmentionables is almost tangible.  All around you, attached to the
 walls, are manacles - some of which are occupied by shivering dwarves, and
 the odd skeleton.
 ~
-13 A 0
+A 0
 D3
 The darkness continues to the west.
 ~
@@ -449,7 +449,7 @@ are heated by a burning torch which has been suspended underneath them.  You
 see a stairwell to the east, and a doorway to the south.  A trapdoor is set
 into the floor.
 ~
-13 D 1
+D 1
 D5
 It's a trapdoor.
 ~
@@ -472,7 +472,7 @@ You find yourself at the bottom of a stairwell.  To the east is a door from
 which you hear the sounds of metalworking, and to the west is an odd-shaped
 piece of machinery.  The stairs lead upwards into darkness.
 ~
-13 D 1
+D 1
 D1
 You see a doorway to the east, from which the sounds of metalworking can be
 heard.
@@ -497,7 +497,7 @@ fairly covered in plundered armour and weapons - altough they seem rather in
 need of the attention of a blacksmith as they are mostly dented and rusting.
 To the west you see a door, and there is a trapdoor set into the ground.
 ~
-13 D 1
+D 1
 D5
 A trapdoor.
 ~
@@ -524,7 +524,7 @@ to even go near the explosives, but the goblins are stupid enough to assemble
 the potentially lethal cocktails to create explosives.  To the north is a
 strange machine, and a doors lead east and south.
 ~
-13 D 1
+D 1
 D0
 You see a strange machine.
 ~
@@ -548,7 +548,7 @@ the hole is a winch and a hooked rope dangles down from it.  This must be how
 the draconians bring up supplies from the ground below.  To the east you can
 see a kitchen, and a door leads west.
 ~
-13 D 1
+D 1
 D1
 You see a kitchen.
 ~
@@ -573,7 +573,7 @@ from meat they have presumably 'collected' themselves.  A cooking pot sits on
 the side, bubbling slightly. The disconcerting thing about the pot is that a
 human finger keeps bubbling to the surface. You see the winch-room to the west.
 ~
-13 D 1
+D 1
 D3
 You see the winch-room.
 ~
@@ -594,7 +594,7 @@ in the corner lay testimony to the ineffectiveness of the 'treatment' given
 here.  There is a door to the north, and you see a staircase to the east.  A
 trapdoor in the ground leads downwards.
 ~
-13 D 0
+D 0
 D5
 You see a trapdoor.
 ~
@@ -630,7 +630,7 @@ You find yourself at the bottom of a spiral staircase which leads upwards
 into the gloom.  From the east you hear a rasping, buzzing noise, and from
 the west comes the slightly disconcering sound of creatures in pain.
 ~
-13 D 0
+D 0
 D3
 Westwards lies the draconian infirmary.
 ~
@@ -656,7 +656,7 @@ creature comforts, and is drafty, cold and dank.  The draconians are surely a
 sturdy race to be able to live in such conditions.  On the ground is a trap-
 door.
 ~
-13 AD 1
+AD 1
 D5
 A trapdoor.
 ~
@@ -672,7 +672,7 @@ S
 Further up the staircase~
 You are half-way up a staircase.  Above and below you is only darkness.
 ~
-13 AD 1
+AD 1
 D4
 Too dark to tell.
 ~
@@ -691,7 +691,7 @@ are lead by a hideous Minotaur High Lord whose lair you have just entered.
 The room is covered in filth, blood and decay - the meals of this creature are
 delivered live by the looks of it!
 ~
-13 AD 1
+AD 1
 D5
 Too dark to tell.
 ~
@@ -708,7 +708,7 @@ magical lightning jumping from the snotling's head to the spike on the ceiling.
 You guess that these poor creatures are being used as some kind of magical
 battery - perhaps this is where the power that hold the citadel up come from.
 ~
-13 A 1
+A 1
 D5
 You see the bottom of the stairs.
 ~
@@ -728,7 +728,7 @@ are magically suspended at waist height in the centre of the room, below them
 is a pentagram carved on the floor.  This is where the mage must control the
 citadel.
 ~
-13 AD 1
+AD 1
 D5
 You see the snotling mind-battery.
 ~

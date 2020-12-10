@@ -320,7 +320,7 @@ some grassy plains. The rocky scree is insecure and you lose your foothold
 several times. The mountain looms over you and the sense of impending doom
 is overwhelming.
 ~
-10 A 5
+A 5
 D0
 The Entrance to a secure fortress
 ~
@@ -337,7 +337,7 @@ The Entrance Hall~
 You stand in a large room with steal pegs along one wall, the floor is of
 cold grey stone. There is a large ornate door way to your north. A strange smell floats in from the west. The south wind blows in from the open arch.
 ~
-10 0 0
+0 0
 D0
 You open the large wooden door and look though the ornate doorway.
 The Main hall is on the other side.
@@ -361,7 +361,7 @@ A homely looking place with a blazing fire burning to the north.
 A large portrait with a golden frame is on the wall next to a large
 tapestry. There are some dark wooden doors to the east.
 ~
-10 DN 0
+DN 0
 D0
 You are brave if you enter the fire!
 ~
@@ -390,7 +390,7 @@ with ash and soot. There is a funny smell, a bit like roast pork.
 Smoke from the bright fire gushes up the chimney.
 The chimney looks quite thin.
 ~
-10 DN 10
+DN 10
 D4
 A thin chimney.
 ~
@@ -409,7 +409,7 @@ did look quite thin. You can hardly see because of all the smoke and fumes.
 The smoke clears for a second, you catch a glimpse of a shelf set back into
 the wall, on the shelf is a strong box.
 ~
-10 ACDL 0
+ACDL 0
 S
 #10140
 A Dark Stairway~
@@ -417,7 +417,7 @@ You are in a dark stairway. The stone stairs spiral upwards.
 There are faint signs of movement from the north.
 The only way out of this dreary place is up the stairs.
 ~
-10 A 0
+A 0
 D4
 It is to dark to tell what horrors await you above.
 ~
@@ -438,7 +438,7 @@ The flameing tourchs on the walls give off little light.
 There are two door one to the north and one to the south.
 A light draught makes you look up.
 ~
-10 DN 0
+DN 0
 D0
 A strong oak door
 ~
@@ -471,7 +471,7 @@ to the east and a cactus growing in the corner. In the centre of the room
 is a large four poster bed. It has been recently made. There is a large
 mat which looks a little out of place.
 ~
-10 DN 0
+DN 0
 D5
 Under the mat is a trap door.
 ~
@@ -492,7 +492,7 @@ You have entered a large room stacked from floor to ceiling with weapons.
 Uruk likes to have a large range at his disposal.
 To the south lies a well concealed door.
 ~
-10 D 0
+D 0
 D4
 You could bravely climb back up though the trap door.
 ~
@@ -511,7 +511,7 @@ There is a rack and some thumb screws.
 The walls are nicely tiled with human flesh.
 On the floor is blood and half dead rats.
 ~
-10 DN 0
+DN 0
 D0
 If you do not feel like being tortured leave south.
 ~
@@ -529,7 +529,7 @@ The Loft~
 You have climbed into a dark loft.
 Be careful ANYTHING! could live up here.
 ~
-10 DA 0
+DA 0
 D5
 You could climb back down the ladder, a wise move.
 ~
@@ -542,7 +542,7 @@ You are in a large, dark room. The smell of rotting straw is so over
 powering that you feel sick. Set into the walls are some strong iron
 rings, it looks as though at some time a great beast was housed here.
 ~
-10 DM 0
+DM 0
 D1
 Back to the entrance hall.
 ~
@@ -553,7 +553,7 @@ S
 Store Room~
 the store room
 ~
-10 D 0
+D 0
 S
 #0
 #RESETS

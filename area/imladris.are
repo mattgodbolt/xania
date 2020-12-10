@@ -13,7 +13,7 @@ Some grassy plains lie in the west whilst the dark shadow of tree
 covered hills lie in the east. In the distance, beyond the hills you
 can make out the snow capped peaks of some mist covered mountains.
 ~
-11 0 4
+0 4
 D1
 The trail continues
 ~
@@ -30,7 +30,7 @@ This well worn trail cuts eastwards, deep into the hills. The vegetation
 to the north and south grows increasingly thick, and ominously dark.
 The trail looks lighter and more welcoming in the west.
 ~
-11 0 4
+0 4
 D1
 The trail through the steep, wooded hills
 ~
@@ -51,7 +51,7 @@ exposed, especially as the trail is not perfectly straight. If anyone,
 or rather, anything, were to come round a bend or over a hill, they would
 see you immediately. Somehow, the cover of the trees seem like a good idea...
 ~
-11 0 4
+0 4
 D0
 Dark woods
 ~
@@ -82,7 +82,7 @@ imposing line of the Misty Mountains. The darkness of the trees
 to the north and south offer you shelter from the elements, and
 indeed, from any enemies you may encounter.
 ~
-11 0 4
+0 4
 D0
 Dark woods
 ~
@@ -113,7 +113,7 @@ river bed and then you notice the silver snake of the river Bruinen
 which heads between the north and south. The beautiful, yet fearful
 Misty Mountains stand regally in the far east.
 ~
-11 0 4
+0 4
 D1
 The sandy shoreline
 ~
@@ -133,7 +133,7 @@ and spruce trees tower around you and footsteps are perfectly silent
 on the ferny floor.  This looks like an ideal place to set up camp for
 the night.
 ~
-11 0 3
+0 3
 D2
 Back to the trail
 ~
@@ -149,7 +149,7 @@ growth of any other species. The thick layer of pine needles on the
 ground would be comfortable to lie upon though. Perhaps you should
 take a break from the perils of the road.
 ~
-11 0 4
+0 4
 D0
 Back to the trail
 ~
@@ -163,7 +163,7 @@ and spruce trees tower around you and footsteps are perfectly
 silent on the ferny floor. This looks like an ideal place to set up
 camp for the night.
 ~
-11 0 4
+0 4
 D2
 Back to the trail
 ~
@@ -178,7 +178,7 @@ of the undergrowth. The trees crowd around you and you hear a faint
 whispering...as if they are ushering you to return to the trail
 immediately. The whispering causes fear to surge through your body!
 ~
-11 0 4
+0 4
 D0
 Back to the trail
 ~
@@ -194,7 +194,7 @@ you can hear and smell the presence of a river, beyond which lie the
 Misty Mountains. Some forested hills spring up to your west, and you
 can see a trail winding up into them.
 ~
-11 0 2
+0 2
 D0
 The deserted river bed
 ~
@@ -225,7 +225,7 @@ covered in shingle and skeletons of various amphibious creatures.
 You can hear the sound of a river gliding along to your east, whilst
 the land climbs sharply to your west, topped by some dark trees.
 ~
-11 0 2
+0 2
 D0
 The deserted river bed
 ~
@@ -245,7 +245,7 @@ the land meets with the river to your east, and the steep terrace to the
 west arches round to the north blocking your progress in that direction.
 You can jump in the river, or head back south across the arid bed.
 ~
-11 0 2
+0 2
 D1
 In the river Bruinen
 ~
@@ -267,7 +267,7 @@ It appears that there is a ford across the river here, whilst the
 dried bed, indicating the path which the river formerly took, lies to
 the north and southwest.
 ~
-11 0 2
+0 2
 D5
 The ford across the river
 ~
@@ -286,7 +286,7 @@ Crunching across this dried river bed, you see a river flowing quickly
 to the east, whilst the sands spread out to the south. The land steepens
 to the west, shadowed by a dark forest.
 ~
-11 0 2
+0 2
 D0
 The deserted, sandy shoreline
 ~
@@ -308,7 +308,7 @@ swings around to the south and makes further progress in that
 direction impossible. You consider jumping in the fast flowing river
 to the east, or you can head back north again.
 ~
-11 0 2
+0 2
 D0
 The deserted river bed
 ~
@@ -331,7 +331,7 @@ the wind has whipped up too, causing the river to forge along at a
 tremendous pace. It looks like you don't have much choice but to let the
 flow take you....
 ~
-11 N 6
+N 6
 D2
 Carried along by the flow
 ~
@@ -344,7 +344,7 @@ Rushing south along the river Bruinen~
 The river is accelerating! You are helpless against the wind and water
 as they take you south!
 ~
-11 N 6
+N 6
 D2
 The ford
 ~
@@ -358,7 +358,7 @@ The flow has taken you to a ford across the river. Unfortunately, it
 appears that you are going far to fast to stop and clamber onto dry
 land. Don't bother wasting your effort.
 ~
-11 N 6
+N 6
 D2
 Entering the rapids
 ~
@@ -373,7 +373,7 @@ river Bruinen and the water is getting rather choppy. The flow
 accelerates....faster and faster..in an almost supernatural manner.
 You have no alternative but to let the flow take you.
 ~
-11 N 6
+N 6
 D2
 Caught in a viscious whirlpool
 ~
@@ -397,7 +397,7 @@ catch you in a whirlpool and giving you one chance to save your
 own skin before you drown....you might like to consider RECALLing out
 of here....
 ~
-11 0 6
+0 6
 S
 
 #12020
@@ -409,7 +409,7 @@ This ford is the one and only gateway to Imladris. Dark, ominous
 hills lie in the west and it is possible to enter the river as it
 goes on it southerly course.
 ~
-11 0 2
+0 2
 D1
 The entrance to Imladris
 ~
@@ -436,7 +436,7 @@ defensive capabilities. Mountains loom in the east and you can see
 clusters of small buildings amidst trees nearby.
 A sign stands here prominently.
 ~
-11 0 2
+0 2
 D1
 Gilthoniel Avenue
 ~
@@ -485,7 +485,7 @@ the branches which reach over, far above your head.
 In the distance you can hear the beautiful sound of elves singing
 intricate harmonies.
 ~
-11 0 2
+0 2
 D0
 An elven dwelling
 ~
@@ -518,7 +518,7 @@ branches which reach over, far above you.
 
 The sonorous harmonies of young elven voices melt through the air.
 ~
-11 0 2
+0 2
 D0
 An elven dwelling
 ~
@@ -554,7 +554,7 @@ It's presence fills you with a tremendous feeling of goodness and it
 is only then that you notice the fact that most of the lengthy branches
 are pointing towards the gardens to the south.
 ~
-11 0 2
+0 2
 D0
 The Well of Elbereth
 ~
@@ -590,7 +590,7 @@ past, the water which flows out of the Misty Mountains into Imladris
 is some of the finest in the world. A path heads southwards, or you
 can go east along the way of Nimrodel.
 ~
-11 0 2
+0 2
 D1
 Nimrodel Way
 ~
@@ -613,7 +613,7 @@ Way appears to glow with it's own inexplicable, magic light. A well
 stands in the west, whilst the way of Nimrodel continues east.
 For a moment you see faces amongst the trees to the north and south.
 ~
-11 0 2
+0 2
 D0
 An elven dwelling
 ~
@@ -643,7 +643,7 @@ elf haven. The road rises slightly to the east, and you can detect the
 beautiful aroma of flowers in the west. Somewhere in the trees to the
 south you can hear the sound of a hammer striking an anvil
 ~
-11 0 2
+0 2
 D0
 An elven dwelling
 ~
@@ -675,7 +675,7 @@ skies. The pebble lined way heads west, whilst you can detect another
 curious smell drifts up from the south. From here you can see another
 pathway marked out by pure white granite heading north.
 ~
-11 0 2
+0 2
 D0
 The White pathway
 ~
@@ -715,7 +715,7 @@ the soil is not capable of sustaining so many! The chirp of birdlife
 sprinkles the cool air and you step as lightly as possible, lest your
 tramping feet spoil the purity of this place.
 ~
-11 A 3
+A 3
 D1
 Lost in the forest
 ~
@@ -737,7 +737,7 @@ air, and you can see that the dwelling is quite large. Some ropes woven
 from vines hang down before you, trailing up through a hatchway in the
 bottom of the structure above.
 ~
-11 A 3
+A 3
 D2
 Elbereth Avenue
 ~
@@ -760,7 +760,7 @@ the floor and peaked roof. A large hand woven rug lies in the centre of
 this simply furnished room and a small silvery urn is smoking in the
 corner, releasing a delicious, floristic odour.
 ~
-11 A 3
+A 3
 D5
 An Elven Dwelling
 ~
@@ -777,7 +777,7 @@ air, and you can see that the dwelling is quite large. Some ropes woven
 from vines hang down before you, trailing up through a hatchway in the
 bottom of the structure above.
 ~
-11 A 2
+A 2
 D0
 Elbereth Avenue
 ~
@@ -800,7 +800,7 @@ the floor and peaked roof. A large hand woven rug lies in the centre of
 this simply furnished room and a small silvery urn is smoking in the
 corner, releasing a delicious, floristic odour.
 ~
-11 A 3
+A 3
 D5
 An Elven Dwelling
 ~
@@ -817,7 +817,7 @@ air, and you can see that the dwelling is quite large. Some ropes woven
 from vines hang down before you, trailing up through a hatchway in the
 bottom of the structure above.
 ~
-11 A 2
+A 2
 D2
 Elbereth Avenue
 ~
@@ -840,7 +840,7 @@ the floor and peaked roof. A large hand woven rug lies in the centre of
 this simply furnished room and a small silvery urn is smoking in the
 corner, releasing a delicious, floristic odour.
 ~
-11 A 3
+A 3
 D5
 An Elven Dwelling
 ~
@@ -857,7 +857,7 @@ air, and you can see that the dwelling is quite large. Some ropes woven
 from vines hang down before you, trailing up through a hatchway in the
 bottom of the structure above.
 ~
-11 A 2
+A 2
 D0
 Elbereth Avenue
 ~
@@ -880,7 +880,7 @@ the floor and peaked roof. An bed of large made of large green
 leaves lies in the centre of the room and a phial of magical light
 suspended from the ceiling casts flickering beams of light.
 ~
-11 A 3
+A 3
 D5
 An Elven Dwelling
 ~
@@ -897,7 +897,7 @@ air, and you can see that the dwelling is quite large. Some ropes woven
 from vines hang down before you, trailing up through a hatchway in the
 bottom of the structure above.
 ~
-11 A 2
+A 2
 D2
 Nimrodel Way
 ~
@@ -918,7 +918,7 @@ been constructed using the utmost skill of a woodsman as fine beams of
 oak cross each other intricately, forming the floor and peaked roof. 
 Several mats made of twined reeds are sprawled across the polished floor.
 ~
-11 A 3
+A 3
 D5
 An Elven Dwelling
 ~
@@ -935,7 +935,7 @@ air, and you can see that the dwelling is quite large. Some ropes woven
 from vines hang down before you, trailing up through a hatchway in the
 bottom of the structure above.
 ~
-11 A 2
+A 2
 D0
 Nimrodel Way
 ~
@@ -957,7 +957,7 @@ cross each other intricately, forming the floor and peaked roof. A
 collection of terracotta earthenwear pots stand in one corner of the room, 
 radiating a luscious, magical warmth.
 ~
-11 A 3
+A 3
 D5
 An Elven Dwelling
 ~
@@ -974,7 +974,7 @@ air, and you can see that the dwelling is quite large. Some ropes woven
 from vines hang down before you, trailing up through a hatchway in the
 bottom of the structure above.
 ~
-11 A 2
+A 2
 D2
 Nimrodel Way
 ~
@@ -997,7 +997,7 @@ of the room, filled with steaming hot water. This looks like an ideal
 opportunity for a bath, but quite how an elf managed to get so much
 hot water up inside a treehouse is beyond you....
 ~
-11 A 3
+A 3
 D5
 An Elven Dwelling
 ~
@@ -1017,7 +1017,7 @@ Racks and shelves line the walls, littered with tools and a varied
 selection of metal items which are still undergoing the process of
 construction. Nimrodel Way runs it's course to the north.
 ~
-11 A 2
+A 2
 D0
 Nimrodel Way
 ~
@@ -1034,7 +1034,7 @@ racks line this room, upon which the skins of many beasts are suspended,
 awaiting preparation. A pungent odour wafts around the workshop causing 
 you to edge back towards the sweeter smells of Nimrodel Way, to the north.
 ~
-11 A 2
+A 2
 D0
 Nimrodel Way
 ~
@@ -1048,7 +1048,7 @@ You head along a picturesque, winding, white stone pathway. To the
 south is the eastern end of Nimrodel Way and to the north, through
 the trees, you can make out the corners of a large building.
 ~
-11 0 2
+0 2
 D0
 Before the House of the Elf-Lord
 ~
@@ -1077,7 +1077,7 @@ and east into what appear to be some hedged gardens.
 In the past you have heard rumours of a magical shield which protects
 the house of the Elven Lord, but you can't see any evidence here....
 ~
-11 C 1
+C 1
 D0
 Inside the house
 ~
@@ -1121,7 +1121,7 @@ into the house of the Elven Lord. Heavy duty oak doors lie to the
 south and east, visible only by the light of a torch hanging from the
 wall.
 ~
-11 ADN 0
+ADN 0
 D0
 Too dark to tell
 ~
@@ -1149,7 +1149,7 @@ supplemented by that of a large crystal chandelier which is suspended
 from the centre of the stone ceiling. A hallway leads south, or
 you can try the large oak door to the north.
 ~
-11 ADN 0
+ADN 0
 D0
 Too dark to tell
 ~
@@ -1180,7 +1180,7 @@ south and west. The light which shines in through the arrow slit to the
 north allows you to see a small piece of paper has been nailed to one of
 the shelves.
 ~
-11 ADN 0
+ADN 0
 D2
 Too dark to tell
 ~
@@ -1222,7 +1222,7 @@ a few words such as 'Minas Tirith' and 'Mordor'. The latter, for some
 explicable reason, sends a shudder down your spine. An oak door stands
 to the east.
 ~
-11 ADN 0
+ADN 0
 D1
 Too dark to tell
 ~
@@ -1250,7 +1250,7 @@ and wide. A few comfortable velvet chairs tempt you into taking a brief
 rest. The Great Hall stretches off into the east, but you may go both
 north or west through oak doors.
 ~
-11 DN 0
+DN 0
 D0
 The Dining Room
 ~
@@ -1278,7 +1278,7 @@ been formed in the shape of twisting trees. A set of stairs in the
 north of the hall rotate upwards into darkness and a large oak door
 blocks the way to the east.
 ~
-11 DN 0
+DN 0
 D1
 The Glade of Tinuviel
 ~
@@ -1305,7 +1305,7 @@ also feature ornate, multicoloured tapestries of curious design. Oak
 doors lie to the east and south, and there appears to be a set of stairs
 in the far corner of the room leading down into darkness.
 ~
-11 DN 0
+DN 0
 D1
 Too dark to tell
 ~
@@ -1336,7 +1336,7 @@ Dark Corridor~
 A dark corridor heads in an east-west direction. Strong oak doors stand
 at either end.
 ~
-11 ADN 0
+ADN 0
 D1
 Too dark to tell
 ~
@@ -1358,7 +1358,7 @@ southern corner. A singular shelf holds a few scrolls of lore and some
 mysterious vials of coloured liquid. The only way out is through the
 door in the west.
 ~
-11 DN 0
+DN 0
 D3
 Too dark to tell
 ~
@@ -1379,7 +1379,7 @@ potions which have been placed on the ground.
 It looks like you are trapped in this room as no amount of banging and
 bashing on the trapdoor above will open it.
 ~
-11 AD 0
+AD 0
 S
 
 #12058
@@ -1387,7 +1387,7 @@ Dark Stairway~
 You are on a cold, damp stairway. A glimmer of heat and light can
 be detected from both the rooms above and below.
 ~
-11 ADN 0
+ADN 0
 D4
 Too dark to tell
 ~
@@ -1409,7 +1409,7 @@ with a variety of vegetables and kitchen utensils lying upon it.
 It looks like a huge feast is being prepared for. Your stomach rumbles.
 Stairs lead upwards and a trapdoor lies in the floor.
 ~
-11 DN 0
+DN 0
 D4
 Too dark to tell
 ~
@@ -1430,7 +1430,7 @@ elves very merry! The cold stone floor has been scattered with straw
 to help keep out the damp, and a little light shines in through the
 trap door above.
 ~
-11 ADN 0
+ADN 0
 D4
 The Kitchen
 ~
@@ -1443,7 +1443,7 @@ Dark Stairway~
 You are halfway along a very dark, winding stairway. Flickering shadows
 caused by a singular, glowing torch leap out at you.
 ~
-11 ADN 0
+ADN 0
 D4
 Too dark to tell
 ~
@@ -1461,7 +1461,7 @@ Cold Stone Corridor~
 This sinister, echoing corridor heads west. Doors lie to the north and
 south or you can try the stairs which lead downwards.
 ~
-11 ADN 0
+ADN 0
 D0
 A bedroom
 ~
@@ -1492,7 +1492,7 @@ the light which shines in through the arrow slit to the north. The white
 bed looks really soft and most welcoming. The simple furnishing also
 includes a chair and bookshelf.
 ~
-11 DN 0
+DN 0
 D2
 Cold Stone Corridor
 ~
@@ -1508,7 +1508,7 @@ the light which shines in through the arrow slit to the south. The white
 bed looks really soft and most welcoming. The simple furnishing also
 includes a chair and bookshelf.
 ~
-11 DN 0
+DN 0
 D0
 Cold Stone Corridor
 ~
@@ -1522,7 +1522,7 @@ Cold Stone Corridor~
 This cool, damp corridor leads east to west but you may attempt to open
 the oak doors which lie to the north and south.
 ~
-11 ADN 0
+ADN 0
 D0
 A large bedroom
 ~
@@ -1552,7 +1552,7 @@ A great big double bed is the main feature of this otherwise simple
 room. A crimson red rug is spread out across the floor and in the
 far corner there stands a small stool supporting a lantern.
 ~
-11 DN 0
+DN 0
 D2
 Cold Stone Corridor
 ~
@@ -1567,7 +1567,7 @@ room. A deep blue rug featuring the symbol of a crescent moon lies
 on the ground and a large torch glows brightly on the southern
 wall.
 ~
-11 DN 0
+DN 0
 D0
 Cold Dark Corridor
 ~
@@ -1581,7 +1581,7 @@ You are at the western end of a chilly, shadowed corridor. You can
 hear peels of laughter echoing faintly from somewhere else in this
 building. Oak doors stand firmly in the north, south and west.
 ~
-11 ADN 0
+ADN 0
 D0
 A bedroom
 ~
@@ -1611,7 +1611,7 @@ the light which shines in through the arrow slit to the north. The white
 bed looks really soft and most welcoming. The simple furnishing also
 includes a chair and bookshelf.
 ~
-11 DN 0
+DN 0
 D2
 Cold Stone Corridor
 ~
@@ -1626,7 +1626,7 @@ and the bed is the most welcoming one you have EVER seen! The
 temptation to take a nap here is almost overwhelming and you feel your
 eyes beginning to droop....
 ~
-11 DN 0
+DN 0
 D0
 Cold Stone Corridor
 ~
@@ -1642,7 +1642,7 @@ see a white pathway winding south away from this house. Birdsong rolls
 sweetly to your ears and it suddenly dawns upon you that it would be
 a great shame to have to leave this wonderful place at all.
 ~
-11 0 1
+0 1
 D1
 Cold Stone Corridor
 ~
@@ -1661,7 +1661,7 @@ the beautiful Undomiel, daughter of the Elf Lord. The Glade
 spreads out to the east whilst a large stone house can be entered
 through a door to the west, and a white path heads south.
 ~
-11 N 2
+N 2
 D1
 The Glade of Tinuviel
 ~
@@ -1698,7 +1698,7 @@ cascading water mixed with the beautiful aroma of this wonderful place
 causes you to close your eyes for a moment, for sure - experiences such
 as this make life worth living...
 ~
-11 N 2
+N 2
 D3
 The Glade of Tinuviel
 ~
@@ -1720,7 +1720,7 @@ This white stone pathway, hemmed in by some tall hedges, turns a sharp
 corner, heading both west and north. The smell of flowers and trill
 of birdsong dance through the air.
 ~
-11 N 2
+N 2
 D0
 The Glade of Tinuviel
 ~
@@ -1740,7 +1740,7 @@ Here, you can see colourful flowers fluttering happily in the wind
 and a great many tiny birds titter with each other in their own tongue.
 Gilthoniel Avenue, a main route through Imladris, lies to the north.
 ~
-11 0 2
+0 2
 D0
 Gilthoniel Avenue
 ~
@@ -1761,7 +1761,7 @@ cultivating foodstuffs here too, and baskets lie on the ground
 containing today's harvest of vegetables. The pathway through the
 garden splits four ways at this point.
 ~
-11 0 2
+0 2
 D0
 Entrance to the Gardens
 ~
@@ -1791,7 +1791,7 @@ one), as the wind whispers through the flowerbeds. The rains will
 soon come and lay their gift of life upon the crops of the elves
 so that the life in Imladris can be sustained forever.
 ~
-11 0 2
+0 2
 D1
 In the Gardens
 ~
@@ -1811,7 +1811,7 @@ soils have been laced with the seeds of blue roses, and the species
 has flourished wildly! The sea of azure petals seems almost artificial,
 but of course, nothing could be further from the truth.
 ~
-11 0 2
+0 2
 D3
 In the Gardens
 ~
@@ -1825,7 +1825,7 @@ This is the southern stretch of the gardens. Here, the blessing of the
 sun has produced beds of crops, large enough in quantity to feed
 the whole of Imladris for over a year.
 ~
-11 0 2
+0 2
 D0
 In the Gardens
 ~
@@ -1839,7 +1839,7 @@ The forest to the west signals the halt of the gardens. A mixture of
 unidentifiable plants grow here, but whatever they may be, the elves
 seem to know what they are doing.
 ~
-11 0 2
+0 2
 D1
 In the Gardens
 ~
@@ -1853,7 +1853,7 @@ The tall trees of the elves cluster closely around you, casting
 confusing shadows and filling you with fear. Birdsong can no longer
 be heard, just the mysterious thud of a thickening atmosphere...
 ~
-11 A 3
+A 3
 D0
 Lost in the Forest
 ~
@@ -1882,7 +1882,7 @@ The tall trees of the elves cluster closely around you, casting
 confusing shadows and filling you with fear. Birdsong can no longer
 be heard, just the mysterious thud of a thickening atmosphere...
 ~
-11 A 3
+A 3
 D2
 Lost in the Forest
 ~
@@ -1896,7 +1896,7 @@ The tall trees of the elves cluster closely around you, casting
 confusing shadows and filling you with fear. Birdsong can no longer
 be heard, just the mysterious thud of a thickening atmosphere...
 ~
-11 A 3
+A 3
 D0
 Lost in the Forest
 ~
@@ -1912,7 +1912,7 @@ heard, not even a whisper of the wind. You decide that it's probably
 wise to get out of here as soon as possible, before something
 unpleasant happens to you.
 ~
-11 A 3
+A 3
 D3
 Lost in the Forest
 ~

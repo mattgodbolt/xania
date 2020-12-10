@@ -12,7 +12,7 @@ crashing water moistens the air all around.  The noise is quite deafening!
 The misty air is filled by a beautiful rainbow.  There is a ledge to the east 
 which seems to lead off behind the waterfall.
 ~
-13 0 4
+0 4
 D1
 You see a ledge leading behind the waterfall.
 ~
@@ -32,7 +32,7 @@ rocks are damp from the water crashing around you - the noise is almost
 unbearable.  Looking around you notice that there is a dark tunnel leading
 to the north - the cliffs behind the waterfall are hollowed out!
 ~
-13 CD 0
+CD 0
 D3
 A chink of sunlight leads out to the west.
 ~
@@ -58,7 +58,7 @@ and back south to the waterfall, whose once-deafening roar is but a mere
 murmur now.  To the north there is a brighter area; you can't quite make it
 out from this distance.
 ~
-13 D 0
+D 0
 D0
 You see a brighter light.
 ~
@@ -79,7 +79,7 @@ patterns - quite possibly this gate was fashioned by magic rather than
 skilled craftsmen such is its scale and beauty.  Past the gate, to the north, 
 you see that the tunnel opens out into a huge cavern.
 ~
-13 D 0
+D 0
 D0
 You see a huge cavern.
 ~
@@ -103,7 +103,7 @@ of ramshackle buildings and tents, to the east a bustling market.  The
 Waterfall Road continues to the north, and the cavern ends at the Ullular Gate
 to the south.
 ~
-13 D 0
+D 0
 D0
 You see the Waterfall Road continue.
 ~
@@ -130,7 +130,7 @@ S
 Bizarre Bazaar East~
 bazaar.
 ~
-13 D 0
+D 0
 D1
 You see the western end of the bazaar.
 ~
@@ -147,7 +147,7 @@ S
 Bizarre Bazaar West~
 mo' bazaar.
 ~
-13 D 0
+D 0
 D3
 You see the main bazaar.
 ~
@@ -159,7 +159,7 @@ S
 Waterfall Road Central~
 Further up the road innit.
 ~
-13 D 0
+D 0
 D0
 The road continues northwards.
 ~
@@ -181,7 +181,7 @@ S
 Slums South-East~
 Slummmmmmm.
 ~
-13 D 0
+D 0
 D0
 The slums stretch out to the north.
 ~
@@ -203,7 +203,7 @@ S
 Slums South-West~
 Sulllfuummm.
 ~
-13 D 0
+D 0
 D0
 The slums stretch out to the north.
 ~
@@ -220,7 +220,7 @@ S
 Slums North-East~
 Mmmmmmmmmmmmatron!
 ~
-13 D 0
+D 0
 D1
 The Waterfall Road is to the east.
 ~
@@ -242,7 +242,7 @@ S
 Slums North-West~
 Fizbang!
 ~
-13 D 0
+D 0
 D1
 The slums stretch out to the east.
 ~
@@ -259,7 +259,7 @@ S
 Waterfall Road North~
 oooh
 ~
-13 D 0
+D 0
 D0
 The road ends at a gate to the north.
 ~
@@ -286,7 +286,7 @@ S
 Underslunky Avenue~
 Skrib
 ~
-13 D 0
+D 0
 D0
 The avenue continues to the north.
 ~
@@ -307,7 +307,7 @@ S
 #13514
 Underslunky Avenue North~
 sdfsfd~
-13 D 0
+D 0
 D2
 The avenue continues to the south.
 ~
@@ -318,7 +318,7 @@ S
 #13515
 Underslunky Avenue South~
 sdfsfd~
-13 D 0
+D 0
 D0
 The avenue continues to the north.
 ~
@@ -330,7 +330,7 @@ S
 G'bal Gardens~
 ooh pretty gardens
 ~
-13 D 0
+D 0
 D0
 You see a brightly-lit garden.
 ~
@@ -347,7 +347,7 @@ S
 Under the Underslunky~
 bwight light!
 ~
-13 D 0
+D 0
 D2
 The gardens continue to the south.
 ~
@@ -364,7 +364,7 @@ S
 G'bal Gardens~
 Ooh mo' pretty gardens
 ~
-13 D 0
+D 0
 D1
 You see a bright area.
 ~
@@ -376,7 +376,7 @@ S
 Before the Gates of G'bal~
 FILL IN THE VNUM OF THE KEY FOOL!
 ~
-13 D 0
+D 0
 D0
 Behind the gates is the palace of G'bal.
 ~
@@ -394,7 +394,7 @@ Entrance hallway~
 inside the domes-ooh
 FILL IN THE VNUM OF THE KEY FOOL!
 ~
-13 D 0
+D 0
 D0
 A set of doors lead to the throne room.
 ~
@@ -421,7 +421,7 @@ S
 East Dome of G'bal~
 dooommmeme
 ~
-13 D 0
+D 0
 D3
 A corridor leads to the entrance hall.
 ~
@@ -432,7 +432,7 @@ S
 #13522
 West Dome of G'bal~
 dooommmeme 2~
-13 D 0
+D 0
 D1
 A corridor leads to the entrance hall.
 ~
@@ -443,7 +443,7 @@ S
 #13523
 Before the audience chambers~
 asd~
-13 D 0
+D 0
 D2
 You see the entrance hallway.
 ~
@@ -460,7 +460,7 @@ S
 Ayurvedic's Audience Chambers~
 impressive
 ~
-13 D 0
+D 0
 D5
 The stairs lead down.
 ~

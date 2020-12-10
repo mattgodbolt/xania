@@ -870,7 +870,7 @@ the northeast rises a giant snow-capped peak, larger than any you have ever
 seen before.  A smooth stone path winds off through the rocky terrain to the
 east, away from the sea.
 ~
-18 0 2
+0 2
 D1
 A smooth stone path leads into the island.
 ~
@@ -892,7 +892,7 @@ kind of people inhabit this land, to spend so much time and effort to make
 something as simple as a path into perfection.  A shimmmering sea lies off
 in the distance to the west.
 ~
-18 0 1
+0 1
 D1
 A smooth stone path heads east.
 ~
@@ -911,7 +911,7 @@ outcropping.  The disarray of the terrain around you accentuates the complete
 perfection of the path below your feet.  Ahead to the east the path reaches
 its peack, and west it descends to meet a shimmering sea.
 ~
-18 0 1
+0 1
 D1
 A smooth stone path.
 ~
@@ -933,7 +933,7 @@ move along narrow aisles, tending to the garden endlessly in a desire for
 perfection.  To the west the path winds through the rocky terrain which 
 borders the sea.
 ~
-18 0 1
+0 1
 D1
 A beautiful garden.
 ~
@@ -955,7 +955,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.  A small path leaves
 the garden through an opening in the wall to the west.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -987,7 +987,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending tthe garden.  A high stone wall
 enclosing the garden stands to the west.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1014,7 +1014,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.  A high stone wall
 enclosing the garden turns here, heading south and east.
 ~
-18 0 2
+0 2
 D1
 The garden.
 ~
@@ -1036,7 +1036,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.  A high stone wall
 enclosing the garden stands to the west.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1063,7 +1063,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.  A high stone wall
 enclosing the garden turns here, heading north and east.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1084,7 +1084,7 @@ next to beautiful blooming flowers of all colors.  A small stream trickles
 through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1115,7 +1115,7 @@ next to beautiful blooming flowers of all colors.  A small stream trickles
 through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1147,7 +1147,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.  A high stone wall
 encloses the garden to the north.
 ~
-18 0 2
+0 2
 D1
 The garden.
 ~
@@ -1173,7 +1173,7 @@ next to beautiful blooming flowers of all colors.  A small stream trickles
 through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1205,7 +1205,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.  A high stone wall
 encloses the garden to the south.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1231,7 +1231,7 @@ next to beautiful blooming flowers of all colors.  A small stream trickles
 through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1262,7 +1262,7 @@ next to beautiful blooming flowers of all colors.  A small stream trickles
 through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1294,7 +1294,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.  An open gateway 
 stands in the wall to the north.
 ~
-18 0 2
+0 2
 D0
 A wide avenue.
 ~
@@ -1325,7 +1325,7 @@ next to beautiful blooming flowers of all colors.  A small stream trickles
 through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1357,7 +1357,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.  A high stone wall
 encloses the garden to the south.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1383,7 +1383,7 @@ next to beautiful blooming flowers of all colors.  A small stream trickles
 through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1414,7 +1414,7 @@ next to beautiful blooming flowers of all colors.  A small stream trickles
 through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1446,7 +1446,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.  A high stone wall
 encloses the garden to the north.
 ~
-18 0 2
+0 2
 D1
 The garden.
 ~
@@ -1472,7 +1472,7 @@ next to beautiful blooming flowers of all colors.  A small stream trickles
 through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1504,7 +1504,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden. A high stone wall
 encloses the garden to the south.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1532,7 +1532,7 @@ beneath wide-brimmed straw hats tending to the garden.  A small iron gate
 sits closed in a wall to the east, through which you can see an avenue 
 heading toward a village.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1564,7 +1564,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.  A high stone wall
 enclosing the garden stands to the east.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1591,7 +1591,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.  A high stone wall
 enclosing the garden turns here, heading south and west. 
 ~
-18 0 2
+0 2
 D2
 The garden.
 ~
@@ -1613,7 +1613,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.  A high stone wall
 enclosing the garden stands to the east.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1640,7 +1640,7 @@ through the garden, with water clear as glass.  Small figures race around
 beneath wide-brimmed straw hats tending to the garden.  A high stone wall
 enclosing the garden turns here, heading north and west.
 ~
-18 0 2
+0 2
 D0
 The garden.
 ~
@@ -1662,7 +1662,7 @@ of this region put into everything, even something as insignificant as the
 cleanliness ofa path.  To the west a small iron gate stands in a high stone
 wall through which you see the green of a garden.
 ~
-18 0 1
+0 1
 D1
 The path through the village.
 ~
@@ -1682,7 +1682,7 @@ of buildings fluttering small fans and giggling to themselves about some
 private joke.  To the north open doors reveal a small store which sells food,
 and south is the fish market.
 ~
-18 0 1
+0 1
 D0
 A food store.
 ~
@@ -1712,7 +1712,7 @@ seen before.  Behind a counter a squat man wearing a white loincloth eyes
 you warily, and barks at you in an unknown language.  If you are going
 to buy something, you would do well to pay and get out.
 ~
-18 D 0
+D 0
 D2
 The village path.
 ~
@@ -1726,7 +1726,7 @@ fish.  Around you small men is white loincloths shout and point at their
 fish, while a large man in the center of the room points and exchanges gold
 for the freshest catch of the day. 
 ~
-18 D 0
+D 0
 D0
 The path through the village.
 ~
@@ -1742,7 +1742,7 @@ people, who all have clean shining skin and stark white loincloths.  To
 the north stands a small ramshackled bathhouse, maybe you should pay it
 a visit.
 ~
-18 0 1
+0 1
 D0
 A small bathhouse.
 ~
@@ -1769,7 +1769,7 @@ and you feel the urge to jump in and relax for a few hours.  A toothless
 old woman approaches you and speaks to you questioningly in a language
 you cannot understand.
 ~
-18 0 1
+0 1
 D2
 A path through the village.
 ~
@@ -1786,7 +1786,7 @@ the man moves his hands to a sword at his waist, and shouts at you in a loud
 voice. Instantly the people clear a space between you and the approaching
 man.
 ~
-18 0 1
+0 1
 D1
 The path through the village.
 ~
@@ -1806,7 +1806,7 @@ tasks with admirable efficiency.  The past runs west to the center of the
 village, and to the east heads toward the high stone wall of a fort.  To the
 south an open doorway leads into a small clothing store.
 ~
-18 0 1
+0 1
 D1
 The path through the village.
 ~
@@ -1831,7 +1831,7 @@ and other flashy clothing items hang on the walls.  A withered tiny old man
 is sweepin in a back corner of the shop, making sure his shop is meticulously 
 clean.
 ~
-18 D 0 
+D 0
 D0
 A path through the village.
 ~
@@ -1845,7 +1845,7 @@ east towards the high walls of a stone fort.  The walls of the structure
 tower into the sky, and the iron bars of a massive gate can be seen in 
 the distance.
 ~
-18 0 1
+0 1
 D1
 The gates of the fort.
 ~
@@ -1865,7 +1865,7 @@ gate stands firmly shut in the wall.  Two guards stand outside the gate,
 keeping their eyes fixed on you.  You get the feeling you are not welcome
 here.
 ~
-18 0 1
+0 1
 D1
 Inside the fort.
 ~
@@ -1885,7 +1885,7 @@ superiors.  The inside of the fort is mostly a large clearing with small
 stone barracks except for a narrow tower in the center of the fort.  The
 gates of the forst are to the west.
 ~
-18 0 1
+0 1
 D0
 Inside the fort.
 ~
@@ -1915,7 +1915,7 @@ duties for the day.  You are amazed by the discipline and perfection of
 these people, and have no doubt they would be a terrible foe in battle.
 The wall of the fort turns east and south here.
 ~
-18 0 1
+0 1
 D1
 Inside the fort.
 ~
@@ -1935,7 +1935,7 @@ duties for the day.  You are amazed by the discipline and perfection of
 these people, and have no doubt they would be a terrible foe in battle.
 The wall of the fort turns east and south here.
 ~
-18 0 1
+0 1
 D0
 Inside the fort.
 ~
@@ -1955,7 +1955,7 @@ duties for the day.  You are amazed by the discipline and perfection of
 these people, and have no doubt they would be a terrible foe in battle.
 The doorway to a tall narrow tower lies to the east.
 ~
-18 0 1
+0 1
 D0
 Inside the fort.
 ~
@@ -1985,7 +1985,7 @@ duties for the day.  You are amazed by the discipline and perfection of
 these people, and have no doubt they would be a terrible foe in battle.
 The wall of the rises to the north.
 ~
-18 0 1
+0 1
 D1
 Inside the fort.
 ~
@@ -2010,7 +2010,7 @@ duties for the day.  You are amazed by the discipline and perfection of
 these people, and have no doubt they would be a terrible foe in battle.
 The wall of the rises to the south.
 ~
-18 0 1
+0 1
 D0
 Inside the fort.
 ~
@@ -2036,7 +2036,7 @@ these people, and have no doubt they would be a terrible foe in battle.
 The wall of the fort rises to the north, and the wall of a narrow tower
 stands to the south.
 ~
-18 0 1
+0 1
 D1
 Inside the fort.
 ~
@@ -2057,7 +2057,7 @@ these people, and have no doubt they would be a terrible foe in battle.
 The wall of the fort rises to the south, and the wall of a narrow tower
 stands to the north.
 ~
-18 0 1
+0 1
 D1
 Inside the fort.
 ~
@@ -2078,7 +2078,7 @@ these people, and have no doubt they would be a terrible foe in battle.
 The wall of the fort rises to the north, and a small cookhouse stands in 
 the corner of the wall to the east.
 ~
-18 0 1
+0 1
 D1
 A small cookhouse.
 ~
@@ -2104,7 +2104,7 @@ these people, and have no doubt they would be a terrible foe in battle.
 The wall of a narrow tower stands to the west, and the barracks are next
 to the wall of the fort to the east.
 ~
-18 0 1
+0 1
 D0
 Inside the fort.
 ~
@@ -2130,7 +2130,7 @@ these people, and have no doubt they would be a terrible foe in battle.
 The wall of the fort rises to the south, and in the corner of the wall to 
 the east stands the equipment building.
 ~
-18 0 1
+0 1
 D0
 Inside the fort.
 ~
@@ -2156,7 +2156,7 @@ are eating some type of raw fish and fight the urge to gag from the smell.
 A withered old woman walks about the room carrying a large cauldron and
 a ladle which she uses to serve her customers.
 ~
-18 D 0
+D 0
 D3
 Inside the fort.
 ~
@@ -2170,7 +2170,7 @@ room,  each so perfectly made you have to fight the urge to jump on the beds
 and mess up the sheets.  You notice some samurai stirring at the far end of
 the room....must be the night shift......maybe you better put out your light.
 ~
-18 D 0
+D 0
 D3
 Inside the fort.
 ~
@@ -2187,7 +2187,7 @@ which are stacked hundreds of suits of fine armor, and you are tempted to
 take one for yourself.  But you realize to yuor dismay you are much too
 large to fit one of these suits, too bad.
 ~
-18 D 0
+D 0
 D3
 Inside the fort.
 ~
@@ -2201,7 +2201,7 @@ the walls of the tsructure to end at a small doorway to a landing at the
 top of the tower.  You notice sentry's posted along the staircase and realize
 they probably aren't going like seeing you here.
 ~
-18 AD 0
+AD 0
 D3
 Inside the fort.
 ~
@@ -2221,7 +2221,7 @@ the shifting of guards at your presence.  Right now you are about a third of
 the way to the top of the tower, but you are high enough to know falling at
 this point would be a big mistake.
 ~
-18 AD 0
+AD 0
 D4
 On the staircase.
 ~
@@ -2240,7 +2240,7 @@ this tower.  Sentries move at your approach, very unhappy with your
 presence here, but they make no move to stop your progress....you wonder
 why the feel so secure that you wont do harm to their commander...
 ~
-18 AD 0
+AD 0
 D4
 The top of the staircase.
 ~
@@ -2260,7 +2260,7 @@ you to the east.  Two fierce looking guards stand here eyeing you coldly,
 and you get the feeling they are not going to just hand over they key to 
 this door.
 ~
-18 AD 0
+AD 0
 D1
 The Shogun's chamber.
 ~
@@ -2281,7 +2281,7 @@ on the floor with his sword across his lap in a deep meditation, seemingly
 oblivivous to your presence, but you have a feeling he knows every move you 
 are making.
 ~
-18 D 0
+D 0
 D3
 The top of the staircase.
 ~
@@ -2295,7 +2295,7 @@ To the north the land rises to become snow-capped mountains in the distance,
 behind which the sun is slipping below the horizon.  To the south open gates
 stand in a high stone wall, opening onto a beautifully colorful garden.
 ~
-18 0 1
+0 1
 D0
 A wide avenue.
 ~
@@ -2315,7 +2315,7 @@ the occasional wagon laden with supplies which passes you on the road.  You
 see the glint of the sun reflecting off something high in the moutains to
 the north.
 ~
-18 0 1
+0 1
 D0
 A wide avenue.
 ~
@@ -2334,7 +2334,7 @@ with the mountains to the north.  You can make out the spires of some
 sort of castle high in the mountains, and assume this is where the other
 travellers on the road are going to and coming from.
 ~
-18 0 1
+0 1
 D0
 A wide avenue.
 ~
@@ -2355,7 +2355,7 @@ out the definite shape of many gleaming spires on a rise high in the
 mountains, around which the tiny shapes of falcons circle lazily.  You
 can follow the road north to the mountains or to the south.
 ~
-18 0 1
+0 1
 D0
 A wide avenue.
 ~
@@ -2375,7 +2375,7 @@ set high on a ridge in the distance.  You can see the small figures of
 wagons and men moving along the road in the distance like ants doing their
 endless duty.
 ~
-18 0 1
+0 1
 D0
 A wide avenue.
 ~
@@ -2395,7 +2395,7 @@ can see miles and miles of barren terrain, ending at a long stone wall
 far distant to the south. To the north the road continues its rise into
 the heights of this range.
 ~
-18 0 1
+0 1
 D0
 A wide avenue.
 ~
@@ -2416,7 +2416,7 @@ you are can see forever in to the distance, the ground lighted up before
 you by the rays of the sun which reach above the peaks.  The base of a
 gleaming castle stands nearby to the north.
 ~
-18 0 1
+0 1
 D0
 The palace gates.
 ~
@@ -2438,7 +2438,7 @@ fashion.  Two figures wearing scarlet outfits stand in the shadows on
 either side of the doors, bodies completely covered in grey except for their
 glaring coal black eyes.
 ~
-18 0 1
+0 1
 D0
 Inside the palace.
 ~
@@ -2458,7 +2458,7 @@ inch of the room, polished and gleaming in their perfection.  Giant open
 archways lead to large rooms to the east and west, and a dimly lit corridor
 heads into darkness to the north.
 ~
-18 D 0
+D 0
 D0
 A dark corridor.
 ~
@@ -2488,7 +2488,7 @@ west you hear the bark of a commander, and make out many of the red clad
 figures in formation, obviously practicing their training.  An open archway
 leads to the center of the palace.
 ~
-18 D 0
+D 0
 D0
 The Chamber of the Red.
 ~
@@ -2513,7 +2513,7 @@ west you hear the bark of a commander, and make out many of the red clad
 figures in formation, obviously practicing their training.  You can go west
 or south.
 ~
-18 D 0
+D 0
 D2
 The Chamber of the Red.
 ~
@@ -2534,7 +2534,7 @@ for their skill and prowess in battle, and few dare to challenge them.  To
 the west you see red clad figures practicing combat techniques in the
 distance.
 ~
-18 D 0
+D 0
 D1
 The Chanber of the Red.
 ~
@@ -2560,7 +2560,7 @@ for their skill and prowess in battle, and few dare to challenge them.  To
 the west you see red clad figures practicing combat techniques in the
 distance.
 ~
-18 D 0
+D 0
 D0
 The Chanber of the Red.
 ~
@@ -2586,7 +2586,7 @@ catlike movements, then lash out in the blink of an eye, and immediately
 feel a sense of respect.  A ninja with a bamboo pole walks through the
 men, punishing any unfortunate enough to make a mistake.
 ~
-18 D 0
+D 0
 D1
 The Chamber of the Red.
 ~
@@ -2607,7 +2607,7 @@ catlike movements, then lash out in the blink of an eye, and immediately
 feel a sense of respect.  A ninja with a bamboo pole walks through the
 men, punishing any unfortunate rnough to make a mistake.
 ~
-18 D 0
+D 0
 D0
 The Chamber of the Red.
 ~
@@ -2627,7 +2627,7 @@ sitting in small groups quietly arguing intellectual viewpoints.  You
 can go north or east farther into the hallway, or west to the center of
 the palace.
 ~
-18 D 0
+D 0
 D0
 The Chamber of the White.
 ~
@@ -2651,7 +2651,7 @@ are quiet and thoughtful, many sitting at small tables reading books or
 sitting in small groups quietly arguing intellectual viewpoints.  You
 can go east or south farther into the hallway.
 ~
-18 D 0
+D 0
 D1
 The Chamber of the White.
 ~
@@ -2671,7 +2671,7 @@ the ways of discipline of the mind and heart.  While these may not be as
 skilled in battle techniques as the red, there strength of mind far surpasses
 that of their brothers.
 ~
-18 D 0
+D 0
 D1
 The Chamber of the White.
 ~
@@ -2696,7 +2696,7 @@ the ways of discipline of the mind and heart.  While these may not be as
 skilled in battle techniques as the red, there strength of mind far surpasses
 that of their brothers.
 ~
-18 D 0
+D 0
 D0
 The Chamber of the White.
 ~
@@ -2720,7 +2720,7 @@ elderly man in white sits cross-legged on a mat on the floor, speaking
 softly to the attentive ninja who sit cross legged on the floor in front
 of him listening attentively.
 ~
-18 D 0
+D 0
 D2
 The Chamber of the White.
 ~
@@ -2739,7 +2739,7 @@ elderly man in white sits cross-legged on a mat on the floor, speaking
 softly to the attentive ninja who sit cross legged on the floor in front
 of him listening attentively.
 ~
-18 D 0
+D 0
 D0
 The Chamber of the White.
 ~
@@ -2759,7 +2759,7 @@ alone, and wonder what is hiding in the shadows between the circles of
 light.  You can follow the hallway north or go back to the center of the
 palace to the south.
 ~
-18 AD 0
+AD 0
 D0 
 The dark corridor.
 ~
@@ -2778,7 +2778,7 @@ in a holder attached to the wall.  You get the eerie feeling you are not
 alone, and wonder what is hiding in the shadows between the circles of
 light.  You can follow the hallway north or go back south.
 ~
-18 AD 0
+AD 0
 D0 
 The dark corridor.
 ~
@@ -2797,7 +2797,7 @@ in a holder attached to the wall.  You get the eerie feeling you are not
 alone, and wonder what is hiding in the shadows between the circles of
 light.  You can follow the hallway north or go back south.
 ~
-18 AD 0
+AD 0
 D0 
 The dark corridor.
 ~
@@ -2816,7 +2816,7 @@ in a holder attached to the wall.  You get the eerie feeling you are not
 alone, and wonder what is hiding in the shadows between the circles of
 light.  You can follow the hallway north or go back south.
 ~
-18 AD 0
+AD 0
 D0 
 The dark corridor.
 ~
@@ -2835,7 +2835,7 @@ in a holder attached to the wall.  You get the eerie feeling you are not
 alone, and wonder what is hiding in the shadows between the circles of
 light.  You can follow the hallway north or go back south.
 ~
-18 AD 0
+AD 0
 D0 
 The dark corridor.
 ~
@@ -2854,7 +2854,7 @@ with a feeling of dread.  You hear but dont see rapid footsteps move across
 the room, and a sharp curved blade materialized out of thin air before you,
 moving toward you slowly....you better do something fast.
 ~
-18 AD 0
+AD 0
 D0
 The Emperor's Chamber.
 ~
@@ -2876,7 +2876,7 @@ You laugh at the appearance of the Emperor....just some old withered man....
 you could kill him in a second and put him out of his misery.....what could
 this old man possibly do to you, beat you with his cane?
 ~
-18 D 0
+D 0
 D2
 The Chamber of Death.
 ~

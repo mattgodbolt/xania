@@ -13,7 +13,7 @@ most of the light from the sky above, hence the distinct lack of lower
 level vegetation. From the east you can hear the sound of water, whilst
 the wood continues to the north and south. 
 ~
-27 0 3
+0 3
 D0
 North Wood
 ~
@@ -48,7 +48,7 @@ ornate fountain which appears to glow with goodness. The ground around
 is saturated with water so evidently this is a popular spot for skinny
 dipping.....
 ~
-27 0 3
+0 3
 D1
 Dull Clearing
 ~
@@ -66,7 +66,7 @@ You have entered a spot in the wood which has been deforested. Huge
 decapitated stumps crowd around you and the grass has been scorched
 by flames.
 ~
-27 0 3
+0 3
 D1
 East of the Clearing
 ~
@@ -95,7 +95,7 @@ bird song adds to the weight of silence thudding in your ears. The gloom
 continues to the north, whilst there is an almost living darkness to
 the west.
 ~
-27 0 3
+0 3
 D0 
 Dull Clearing
 ~
@@ -119,7 +119,7 @@ to tread your way through safely. In the gloom you can barely detect
 a strange metallic pole and to the north there is a huge hole in the
 trunk of a mighty tree. The darkness continues to the west.
 ~
-27 0 3
+0 3
 D0
 Within the mighty trunk
 ~
@@ -160,7 +160,7 @@ a large tree ascends to the sky. It has had handholds driven into it
 and thus appears to be climbable. The darkness spreads to the east but
 fades in the north and the woods continue to the south.
 ~
-27 0 3
+0 3
 D0
 Shady Wood
 ~
@@ -213,7 +213,7 @@ The floor is strewn with leaves and the husks of thousands of nuts which
 are beginning to hide your feet already. A pin prick of light shines down
 from through the top of this dead tree many tens of metres above.  
 ~
-27 D 3
+D 3
 D2
 Dark Wood
 ~
@@ -234,7 +234,7 @@ of tree stumps in the west. Some construction is being carried out here
 as the grass has been cleared to bare topsoil and various piles of materials
 lay strewn about the place. 
 ~
-27 0 2
+0 2
 D1
 Crossing of Paths
 ~
@@ -271,7 +271,7 @@ south towards a slate grey building which you can just make out in
 the distance. The pathway is straight and even with the grass and hedges
 either side well kept. 
 ~
-27 0 1
+0 1
 D0
 Dark Wood
 ~
@@ -293,7 +293,7 @@ North of the Wood~
 You are north of some rather menacing gloomy woodland but the patch
 you are in is open and full of the sounds of active wildlife.
 ~
-27 0 3
+0 3
 D2
 Shady Wood
 ~
@@ -308,7 +308,7 @@ There is an  almost deathly silence in this place except for the continuous
 sighing of the wind through the multitude of branches and limpid leaves.
 No further upward progress can be made in this tree. 
 ~
-27 0  3
+0 3
 D5
 Dark Wood
 ~
@@ -330,7 +330,7 @@ very distant buildings. To the south lies pleasant grassland whilst
 to the west you can see a gloomy plain bordered by an imposing wood.
 You can see a sign at the intersection. 
 ~
-27 0 3
+0 3
 D0 
 Pathway Before the Hall
 ~
@@ -364,7 +364,7 @@ well tended flower beds bordering the path.
 In the west the path heads towards a junction and in the east,
 the spires of tall gothic buildings piercing the sky.
 ~
-27 0 0
+0 0
 D1
 The Corner
 ~
@@ -385,7 +385,7 @@ The Corner~
 A pathway between flower beds changes course here, heading north towards
 a large building and west towards some distant trees.
 ~
-27 0 0
+0 0
 D0
 Path Outside the Grub Shack
 ~
@@ -408,7 +408,7 @@ You are standing on a slate grey pathway between a cluster of trees.
 The dark stone walls of an old  building loom in the north whilst the road continues
 to the south, sprouting a narrow path east.
 ~
-27 0 1
+0 1
 D0
 Entrance to the Halls
 ~
@@ -451,7 +451,7 @@ The door is a a large bronze plate etched with repetitious patterns.
 A gravel pathway lies to the south and you can enter the
 building to the east.  There is a plaque on the wall.
 ~
-27 0 1
+0 1
 D1
 Common Room
 ~
@@ -492,7 +492,7 @@ your interest, particularly due to the fact that the curtains have been
 looped over each other and tied together. 
 There are a set of stairs upwards and a door in the east. 
 ~
-27 D 1
+D 1
 D1
 Oak Corridor
 ~
@@ -521,7 +521,7 @@ A dark corridor lined with panels and floorboards of oak.
 The corridor heads east-west. It's only features are a notice board and
 a door to the south. 
 ~
-27 D 0
+D 0
 D1
 North Dining Room
 ~
@@ -551,7 +551,7 @@ table. There are various buckets containing utensils and to the north there
 is a metal grille pulled down over a hatchway beside a door. The room
 continues to the south. 
 ~
-27 D 0
+D 0
 D0
 Steamy Kitchen
 ~
@@ -580,7 +580,7 @@ north. Sturdy oak furniture is arranged neatly here and
 there is a large window spanning the wall to the south. A sturdy door
 stands in the west wall.
 ~
-27 D 0
+D 0
 D0 
 North Dining Room
 ~
@@ -606,7 +606,7 @@ scuttle before your feet towards the safety of the cracks in the floor.
 Although the clouds of water vapour limit your vision, you can just
 about make out doorways to the east and south. 
 ~
-27 D 0
+D 0
 D1
 Outside the Back Door
 ~
@@ -630,7 +630,7 @@ begin to fizzle at your boots..... You stand outside a light blue wooden door
 to the west which leads into the halls of residence towering above.A gravel
 path heads off east towards some trees. 
 ~
-27 0 1
+0 1
 D1
 Gravel Pathway
 ~
@@ -656,7 +656,7 @@ of tall trees and south along a gravel pathway. There are some  well
 kept rose beds beside the path despite the condition of the soil which
 has been carelessly trampled. 
 ~
-27 0 1
+0 1
 D1
 Lover's Grove
 ~
@@ -686,7 +686,7 @@ has been eroded and scattered by years of constantly trudging feet. The path
 heads both north and west, forming the corner of the imposing halls
 of residence, and there's a door to the south.
 ~
-27 0 1
+0 1
 D0
 Gravel Pathway
 ~
@@ -723,7 +723,7 @@ and a portrait of an elderly man. You notice a locked window to the south
 and a door to the north, but then your attention is drawn to a crack 
 in the ground.
 ~
-27 D 0
+D 0
 D0
 Oak Corridor
 ~
@@ -769,7 +769,7 @@ of the tiled floor. You can only guess what lies huddled beneath the
 white sheets in the corner of the room. 
 An archway cut into the stone to the west leads off into the darkness....
 ~
-27 AD 0
+AD 0
 D3
 Entrance to the Den
 ~
@@ -808,7 +808,7 @@ which is wholly unremarkable except for the rather unpleasant odour
 which is beginning to irritate your nostrils. You can escape through
 doors to the east and west.
 ~
-27 D 0
+D 0
 D1
 Smelly Bedroom
 ~
@@ -844,7 +844,7 @@ you to reel with nausea. The desk is stacked with sheets of paper coated
 with unintelligible scrawlings and you can see some trees out of the
 window to the east. There's a door west.
 ~
-27 D 0
+D 0
 D3
 Green Carpeted Landing
 ~
@@ -870,7 +870,7 @@ making movement virtually impossible. You assume that there are items
 of furniture in here somewhere underneath this junk but you cannot be
 sure of their exact location. 
 ~
-27 D 0
+D 0
 D1
 Green Carpeted Landing
 ~
@@ -891,7 +891,7 @@ comfortable right now. The trees tower over and let through minimal
 pin pricks of light, piercing the mellow, loving atmosphere of this
 odd place. 
 ~
-27 0 1
+0 1
 D3
 Gravel Pathway
 ~
@@ -904,7 +904,7 @@ You are following a poorly surfaced grey pathway, bordered by rose beds
 which follows east around a building to the north and west towards a
 pathway. You can smell something to the south.
 ~
-27 0 1
+0 1
 D1
 Gravel Pathway
 ~
@@ -941,7 +941,7 @@ welcomes you down and to your north there is a faint glimmer of light
 from a window. A terrible heart rendering cry causes you to shiver
 momentarily in fear, it's source seems to be from below.....
 ~
-27 AD 0
+AD 0
 D5
 The Unknown
 ~
@@ -958,7 +958,7 @@ Red Carpeted Landing~
 An ugly red carpet adds a rosy glow to this dull corridor. You can only
 see one doorway in the east and a stairway downwards. 
 ~
-27 D 0
+D 0
 D1
 Very Clean and Tidy Bedroom
 ~
@@ -984,7 +984,7 @@ the window is pristine on both sides and the very comfortable bed is
 perfectly smoothed out, ready for use. Unquestionably, this haven has
 already been contaminated by your presence. A door leads west.
 ~
-27 D 0
+D 0
 D3
 Red Carpeted Landing
 ~
@@ -1007,7 +1007,7 @@ Here you have a sense of near weightlessness and you have lost all
 knowledge of identity and purpose. There is a glimmer of light up
 above but no other exits are evident.
 ~
-27 AND 0
+AND 0
 D4
 The Unknown
 ~
@@ -1021,7 +1021,7 @@ of roast nuts radiates.. The temptation to make a purchase is almost overpowerin
 as you feel your stomach groaning with desire. There is a doorway to
 a large building in the east.
 ~
-27 0 0
+0 0
 D0
 ~
 ~
@@ -1054,7 +1054,7 @@ polished oak corridor heads east and a set of stairs
 heading down into the darkness. Otherwise, this doorstep is thoroughly
 uninteresting.
 ~
-27 DK 0
+DK 0
 D1
 Oak Corridor
 ~
@@ -1077,7 +1077,7 @@ A very boring oak-lined passageway stretches from east to west, lit by
 flickering candlelight and covered with a plethora of pinned paper signs.
 There is a small office to the north. 
 ~
-27 D 0
+D 0
 D0
 Porter's Office
 ~
@@ -1109,7 +1109,7 @@ A mixture of peculiar sounds are coming from a room to
 the north, the smell of ale floats in from the east and the corridor
 stretches off into the distant west. There is also a door to the south.
 ~
-27 D 0
+D 0
 D0
 Music Room
 ~
@@ -1136,7 +1136,7 @@ Grey Stairway~
 A dull wooden stairway heads between the ground floor of Main building
 and a musty smelling  bookshop below. 
 ~
-27 D 0
+D 0
 D4
 Inside the Northwest Door of Main
 ~
@@ -1158,7 +1158,7 @@ smell in here is one of great age and maturity, as if this room were
 the graveyard for decaying, odorous antiquities. The lack of any windows
 is a more likely explanation. A sign sits prominently on the desk.
 ~
-27 D 0
+D 0
 D4
 Grey Stairway
 ~
@@ -1195,7 +1195,7 @@ brink of piercing the skin of the Earth. Although the illumination is
 swallowed in the blackness, you are able to see that a tunnel heads
 off into the mysterious east. 
 ~
-27 AD 4
+AD 4
 D1
 Chasm of Eternal Peril
 ~
@@ -1215,7 +1215,7 @@ floor is dusted with layers of sand and there is a cheap plastic chair
 shoved in the corner of the room. There is an empty mailbox to one side
 and a small book on the counter. There's an exit east, and a door north.
 ~
-27 D 0
+D 0
 D0
 ~
 portal~
@@ -1249,7 +1249,7 @@ and the remarkable mosaic flooring to which you find your eyes magnetically
 drawn to. It is easy to imagine that many an interesting anecdote has
 been passed by word of mouth here in times gone by.
 ~
-27 D 0
+D 0
 D0
 Lavatory
 ~
@@ -1288,7 +1288,7 @@ induced sickness. The tiled walls are decorated with a mixture of colourful
 and obscene graffiti and there are two frosted glass windows which,
 thankfully, have been opened to allow ventilation.  There are exits south and west.
 ~
-27 D 0
+D 0
 D2
 The Old Vic
 ~
@@ -1312,7 +1312,7 @@ Is that a set of bagpipes?! On the walls are loud posters featuring pictures
 of many different people wielding swords and other unrecognisable weapons.
 There are exits to the north, south, east and west.
 ~
-27 D 0
+D 0
 D0
 Fire Exit
 ~
@@ -1340,7 +1340,7 @@ there are hundreds of chairs, all neatly lined up facing a small dais
 to the north of the room. The ceiling appears to be most unusual, consisting
 of many small white panels the twisted faces of gargoyles peering from above. 
 ~
-27 D 0
+D 0
 D0
 Oak Passageway
 ~
@@ -1371,7 +1371,7 @@ once in the glimmering floor. There is an odd atmosphere of respectability
 about this place, as if you are stepping along a hallowed pilgrimage
 trail. There are doors east and south.
 ~
-27 D 0
+D 0
 D0
 North Main Hall
 ~
@@ -1396,7 +1396,7 @@ have never seen before. Otherwise, this empty corridor merely serves
 the purpose of the accessing the hall to the north and offices to the
 east and west. 
 ~
-27 D 0
+D 0
 D0
 South Main Hall
 ~
@@ -1430,7 +1430,7 @@ and of dramatic landscapes, the type of which you are now well accustomed
 to. A set of shelves support a few books and some curious colourful
 objects. 
 ~
-27 D 0
+D 0
 D1
 Brunel Walk
 ~
@@ -1457,7 +1457,7 @@ You enter a small, spartan office featuring three chairs, a desk, piles
 of papers and a couple of books. There is a clock on the wall, ticking
 away happily above a sign and doorways to the north and south.
 ~
-27 D 0
+D 0
 D0
 Doktor Wolfgang's
 ~
@@ -1487,7 +1487,7 @@ and drawers, as well as some other mysterious medical equipment. This
 room is perfectly clean but is filled with an indescribably revolting,
 clinical smell. You can't wait to leave. 
 ~
-27 D 0
+D 0
 D2
 Reception
 ~
@@ -1502,7 +1502,7 @@ huge spotlight reveals a selection of aluminium dental furniture and
 some strange dental apparatus. This must be where people get their teeth
 fixed. There is a sign on the wall.
 ~
-27 D 0
+D 0
 D0
 Reception
 ~
@@ -1521,7 +1521,7 @@ unused for decades. Cobwebs brush your face and you hear rodents scuttling
 in the safety of the corners of the room. This place needs a good spring
 cleaning.
 ~
-27 CD 0
+CD 0
 D2
 Music Room
 ~
@@ -1542,7 +1542,7 @@ over in the east. The flowers here smile at you, hoping to gain your
 favour so that you don't trample them. You see your reflection in the
 door to the south.
 ~
-27 0 2
+0 2
 D0
 South of the Wood
 ~
@@ -1567,7 +1567,7 @@ humming and glowing with an imperial and ethereal power. The rods twist
 and turn, making might clanking sounds. It's almost hypnotic. You are
 beckoned by doors in the east and south. 
 ~
-27 D 0
+D 0
 D1
 Lab West
 ~
@@ -1587,7 +1587,7 @@ The room is otherwise empty and through a passage in the east you
 can see more devices. A powerful hum emanates through the doors in
 the south and west.
 ~
-27 D 0
+D 0
 D0 
 Path Outside the Computation Centre
 ~
@@ -1616,7 +1616,7 @@ devices sitting on a desk in the centre. There is a large notice board
 on the wall and a big, evil looking machine in the corner which is
 noisily eating large reams of parchment.
 ~
-27 D 0
+D 0
 D3
 Lab West
 ~
@@ -1637,7 +1637,7 @@ cackling ripple of the relay machines pour into your head and you feel
 your life force ebbing away. There's a cloud of steam south that glows
 with a blue light, and doors to the west and north.
 ~
-27 D 0
+D 0
 D0
 Lab West
 ~
@@ -1666,7 +1666,7 @@ heart beat and all sensory inputs function as normal, thankfully. The
 process seems to have succeeded, you breathe a sigh of relief and look
 up to see the way ahead. 
 ~
-27 NCD 0
+NCD 0
 D4
 Digital Dimension
 ~
@@ -1686,7 +1686,7 @@ your digital body is demodulated and you feel less like a bunch of coloured
 pixels. The peculiar process completed, you stretch your real muscles
 once again and head towards the mortal world. 
 ~
-27 NCD 0
+NCD 0
 D4
 Modulator
 ~
@@ -1710,7 +1710,7 @@ as if you had ten pairs of eyes rather than one. Gravity has no meaning,
 as you flip over and walk on the ceiling of this virtual room. This
 is going to take some getting used to. 
 ~
-27 ND 0
+ND 0
 D4
 Digital Dimension
 ~
@@ -1729,7 +1729,7 @@ artificial existence. You begin to feel the desire to return to the
 tactile world that you know and love as the novelty of travelling as
 a packet of data is swiftly wearing off. 
 ~
-27 ND 0
+ND 0
 D4
 Digital Dimension
 ~
@@ -1750,7 +1750,7 @@ momentarily as the thought that you might be considered a virus springs
 to mind. Virtual adrenalin floods your legs as you prepare to flee from
 this terrible place. 
 ~
-27 ND 0
+ND 0
 D5
 Digital Dimension
 ~
@@ -1765,7 +1765,7 @@ You realise what is missing here - paper. This is the paperless office,
 there aren't even any books or pictures. The occupier of this office
 must be a seriously addicted to his abacus. Doors to the north and east.
 ~
-27 D 0
+D 0
 D0
 Machine Room
 ~
@@ -1786,7 +1786,7 @@ bushes.
 The doors to a tall, dark building loom eastward, whilst the
 path continues to the north and south.
 ~
-27 0 1
+0 1
 D0
 Crossing of Paths
 ~
@@ -1823,7 +1823,7 @@ reflect an invisible passer by as well as echo their footsteps around
 this sonorous hallway. There is a trapdoor set in the ground, and doors
 east and west.
 ~
-27 D 0
+D 0
 D1
 Law Library
 ~
@@ -1853,7 +1853,7 @@ A bright light shines down from the room at the top of the stairs. There
 is a large foyer below but it seems like a model and the people like
 ants going about their business. A door lies to the east.
 ~
-27 D 0
+D 0
 D1
 Green Laboratory
 ~
@@ -1877,7 +1877,7 @@ A foyer down below seems minuscule and to try to walk down now seems
 like it would take forever. There is a door to the east and another
 at the top of the stairs.
 ~
-27 D 0
+D 0
 D1
 White Lecture Hall
 ~
@@ -1903,7 +1903,7 @@ windows on either side of the hall are concealed by black blinds but
 they do not prevent the wind from circling and howling against the exterior
 walls.
 ~
-27 D 0
+D 0
 D3
 Long Curving Stairway
 ~
@@ -1926,7 +1926,7 @@ been occupied in years - the furniture is dilapidated, the blinds torn,
 the screen sagging. Perhaps a lack of financing is responsible for this
 sub-standard hall. 
 ~
-27 D 0
+D 0
 D5
 Long Winding Stairway
 ~
@@ -1940,7 +1940,7 @@ chairs, a writing board and nothing else. Even the view out of the window
 is blocked by a large blue sheet which is on the outside, hanging from
 the window above.
 ~
-27 D 0
+D 0
 D1
 Express Elevator
 ~
@@ -1961,7 +1961,7 @@ into the ceiling away from the soft multicoloured carpet. This law library
 is filled with an almost liquid working atmosphere which you can barely
 penetrate, so everything happens in slow motion. 
 ~
-27 D 0
+D 0
 D1
 Law Library
 ~
@@ -1990,7 +1990,7 @@ radiate down upon your shoulders and the fireproof carpet, but the strange
 shadows under the shelves remain, snarling at you evilly. The working
 atmosphere in here is very thick, almost tangible.
 ~
-27 D 0
+D 0
 D3
 Law Library
 ~
@@ -2012,7 +2012,7 @@ with a paint brush? Glass tubes, metal rods and sheets of materials
 crowd the desks. The windows are all blinded but light shines down from
 the spotlights on the ceiling.
 ~
-27 D 0
+D 0
 D1
 Pokey Little Seminar Room
 ~
@@ -2042,7 +2042,7 @@ unknown. The heat is gradually rising and the contaminated steam, cackling
 evilly, tickles your face. There's a trapdoor in the ceiling and 
 a grate in the ground.
 ~
-27 AD 0
+AD 0
 D1
 Express Elevator
 ~
@@ -2076,7 +2076,7 @@ into a lonely black chasm on the skin of the Earth. This barren featureless
 landscape is barely visible but a clearly marked tunnel thrusts forward
 to the north, and a large grate in the ceiling.
 ~
-27 AD 4
+AD 4
 D0
 Chasm of Eternal Peril
 ~
@@ -2097,7 +2097,7 @@ your figure many times over. Before you realise, a door shuts tight
 and you suddenly feel much lighter. Moments later the door opens again
 revealing to you a dark boiler room in the west. 
 ~
-27 CD 0
+CD 0
 D3
 Oily Boiler Room
 ~
@@ -2113,7 +2113,7 @@ your figure many times over. Before you realise, a door shuts tight
 and you suddenly feel much heavier. Moments later the door opens again
 revealing to you a small, pokey little room in the west.
 ~
-27 CD 0
+CD 0
 D3
 Pokey Little Seminar Room
 ~
@@ -2128,7 +2128,7 @@ devilish subterranean tunnel. A thousand glowing eyes pierce the darkness
 yourself and unto their submission. You avert your eyes, clench your
 fists and continue on. 
 ~
-27 AD 4
+AD 4
 D2
 Chasm of Eternal Peril
 ~
@@ -2152,7 +2152,7 @@ in fear. A long dark passage has been torn out of the crust of the earth
 leaving bone dry, rugged terrain. Wisps of blue and green gas curl up
 through cracks in the earth, polluting the stale air.
 ~
-27 AD 4
+AD 4
 D0
 Chasm of Eternal Peril
 ~
@@ -2181,7 +2181,7 @@ darkness itself seems a sentient being.  A small stream trickles nearby,
 bubbling with acidity and devoid of all life. Survival within the folds
 of this barren place is unimaginable.
 ~
-27 AD 4
+AD 4
 D2
 Chasm of Eternal Peril
 ~
@@ -2201,7 +2201,7 @@ down to the bone marrow. The parched earth rumbles and splits asunder
 creating numerous gullies and closing others. Your morale drops to a
 new low.
 ~
-27 AD 4
+AD 4
 D2
 Chasm of Eternal Peril
 ~
@@ -2220,7 +2220,7 @@ the Earth to death. You are walking through what remains of the creature's
 vain efforts - a lifeless void, fit for the monarchy of the underworld.
 
 ~
-27 AD 4
+AD 4
 D1
 Chasm of Eternal Peril
 ~
@@ -2234,7 +2234,7 @@ can see. The stench of nothingness fills your nostrils causing to reconsider
 whether it was a good idea to come here after all. A gush of lava spurts
 up from an enormous crater in the otherwise featureless floor.
 ~
-27 AD 4
+AD 4
 D0
 Chasm of Eternal Peril
 ~
@@ -2252,7 +2252,7 @@ You are along a clean corridor between a big hall and a sports complex.
 Walls are adorned with pictures of sporting heroes and diagrams of people
 wrapping their legs behind their heads. Ouch.
 ~
-27 D 0
+D 0
 D1
 Changing Room
 ~
@@ -2276,7 +2276,7 @@ You almost slip over on the slate tiled flooring of this humid room. Through
 the gloom you detect empty clothes hooks on the walls all, and the yellow
 flickering lights cast tangled shadows. Exits lead out in all directions.
 ~
-27 D 0
+D 0
 D0
 Weights Room
 ~
@@ -2305,7 +2305,7 @@ flooring. There is a selection of oddly shaped apparatus here and the
 stench of stale sweat is overpowering. There is a board on the wall
 and some benches stacked at the side of the room. Fancy a workout?
 ~
-27 D 0
+D 0
 D0
 Changing Room
 ~
@@ -2330,7 +2330,7 @@ severely and a stack of extremely heavy looking metal blocks lie in
 the far corner of the room. An odd but recognisable aroma floats in
 from the east.
 ~
-27 D 0
+D 0
 D0
 ~
 ~
@@ -2360,7 +2360,7 @@ it's function well as you begin to sweat profusely. There are several
 wooden benches to one side and a small drain hole in the middle of the
 room.
 ~
-27 D 0
+D 0
 D0
 Hydration Therapy
 ~
@@ -2379,7 +2379,7 @@ a very welcoming turquoise aura. It looks inviting...apart from the strange smel
 A long plank juts out over the pool and water drips off it
 into the mildly rippling warm water.
 ~
-27 D 0
+D 0
 D2
 Sauna
 ~
@@ -2407,7 +2407,7 @@ The warm waters of the pool lap against your face, hugging your body
 and limbs tenderly. Spires of steam rise up into the air as mild undercurrents
 and upwellings bring warm water to the surface. 
 ~
-27 D 6
+D 6
 D4
 Poolside
 ~
@@ -2425,7 +2425,7 @@ The swirling currents meld around your body as you enter deep waters.
 The tasty water is quite cool here and you hear the sloshing of the
 waves against the drainage gullies at the pool walls. There is a grill
 set in the tiles on the pool floor.~
-27 D 6
+D 6
 D4
 In the Pool
 ~
@@ -2450,7 +2450,7 @@ a peek over the precipice. The blackness of a tunnel into the Earth
 opens downwards, whilst a ray of light streams down from a grille up
 above.
 ~
-27 D 4
+D 4
 D4
 In at the Deep End
 ~
@@ -2472,7 +2472,7 @@ the house and you feel compelled to enter. You only see faded yellow
 curtains through the windows and no sound permeates through the walls.
 A pathway runs north, and a door stands to the east.
 ~
-27 0 1
+0 1
 D0
 Scholar's Walkway
 ~
@@ -2504,7 +2504,7 @@ a faint glimmer of light. There's a trapdoor seated in the wooden floor.
 There are no other features here except the marvelously complex cobwebs
 which span the width of the passage. 
 ~
-27 D 0
+D 0
 D1
 Kitchen of Musical Madness
 ~
@@ -2541,7 +2541,7 @@ It must be a giant bogey monster, you think to yourself and decide that
 it's probably a good idea to aggravate the beast.....There's a trapdoor
 in the ceiling. 
 ~
-27 D 6
+D 6
 D4
 Spooky Hallway
 ~
@@ -2569,7 +2569,7 @@ manages to get into your skull and echo around with a will of it's own.
 No amount of blocking your ears stops the sound. You head starts to
 spin, hypnotised by a large whirling chandelier. 
 ~
-27 D 0
+D 0
 D3
 Spooky Hallway
 ~
@@ -2589,7 +2589,7 @@ is devoid of any other furniture. Creeping shadows are cast by the pale
 light which enters through the yellowed curtains and your footsteps
 creak on the weak grey floorboards. There's a narrow crack in the ceiling. 
 ~
-27 D 0
+D 0
 D4
 Storage Loft
 ~
@@ -2617,7 +2617,7 @@ so you are forced to stand on the mighty crossbeams. A fluffy, yellow
 insulating material, which does nothing to improve the clarity of the
 air, is draped all over the room. 
 ~
-27 D 0
+D 0
 D5
 Enormous Bedroom
 ~
@@ -2634,7 +2634,7 @@ A pathway through the woods~
 You are an a worn pathway which monotonously heads northwards. The trees
 to the east and west loom over you, with almost malicious intent.
 ~
-27 0 3
+0 3
 D0
 A pathway through the woods
 ~
@@ -2651,7 +2651,7 @@ A pathway through the woods~
 You are an a worn pathway which monotonously heads northwards. The trees
 to the east and west loom over you, with almost malicious intent.
 ~
-27 0 3
+0 3
 D0
 A pathway through the woods
 ~
@@ -2668,7 +2668,7 @@ A pathway through the woods~
 You are an a worn pathway which monotonously heads northwards. The trees
 to the east and west loom over you, with almost malicious intent.
 ~
-27 0 3
+0 3
 D0
 A pathway through the woods
 ~
@@ -2686,7 +2686,7 @@ A pathway through the woods
 You are an a worn pathway which monotonously heads northwards. The trees
 to the east and west loom over you, with almost malicious intent.
 ~
-27 0 3
+0 3
 D0
 A pathway through the woods
 ~

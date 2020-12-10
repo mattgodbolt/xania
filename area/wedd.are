@@ -315,7 +315,7 @@ temple entrance is enclosed by a small shop. You may either enter the
 shop, or head back south; don't attempt to bungee-jump off the bridge 
 down to the duelling pit!
 ~
-02 0 1
+0 1
 D0
 The entrance to a small shop.
 ~
@@ -339,7 +339,7 @@ that he hopes you will buy from him.  To the north you can see a huge
 temple looming over the top of the shops roof.  The path leads north, 
 through some huge brass doors, to the temple and back to the south.
 ~
-02 D 0
+D 0
 D0
 Through some huge brass doors that have been left ajar.
 ~
@@ -366,7 +366,7 @@ Just before you get to the altar you notice a small iron |Cgrate|w set
 into the floor.  It seems out of place amongst such architecture.  The 
 temple leads east to the reception area or south out of the temple.
 ~
-02 D 0
+D 0
 D1
 A doorway under a huge arch.
 ~
@@ -430,7 +430,7 @@ dazzles you.  Ahead across the dance floor to the north is the
 sanctuary of the buffet/bar, whilst the temple you have just left is
 to your west.
 ~
-02 D 0
+D 0
 D3
 The route to the peace of the temple.
 ~
@@ -476,7 +476,7 @@ fidget and adjust his tie as he feels your eyes upon him.  In the
 corner of the room is a winding staircase that leads upstairs.  A
 route back to the dance floor is to the south.
 ~
-02 D 0
+D 0
 D4
 A winding staircase.
 ~
@@ -498,7 +498,7 @@ The damp air chills your bones and you vow never to return to this
 desolate place.  Brrr!  The grate you climbed down through is 
 swinging behind you and you quickly make a beeline for it.
 ~
-02 AD 0
+AD 0
 D4
 The open grate swings here.
 ~
@@ -524,7 +524,7 @@ look as if it is alive.  After the hustle and bustle of downstairs you
 are glad for the peace and solitude. The chance to be alone together.
 The only exit from this idyllic setting is back down to the bar.
 ~
-02 A 4
+A 4
 D5
 A winding staircase.
 ~

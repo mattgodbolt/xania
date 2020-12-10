@@ -14,7 +14,7 @@ the south wall stands a large window.
 
 There are no exits from Silence's Chamber.
 ~
-0 D 1
+D 1
 D4
 ~
 ceiling~
@@ -66,7 +66,7 @@ glints in the light on the walls.
 
 Worm Street goes east, and Sunset goes south
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -86,7 +86,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -106,7 +106,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -126,7 +126,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -146,7 +146,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -166,7 +166,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -186,7 +186,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -206,7 +206,7 @@ slaves.  The floating orbs flicker on and off creating a chaotic lighting.
 
 Wyrm streets goes east and west. Ruby Avenue lies to the south
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -231,7 +231,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -251,7 +251,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -271,7 +271,7 @@ slaves.  The orbs flicker on and off chaoticly.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -296,7 +296,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -316,7 +316,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -336,7 +336,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -356,7 +356,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -376,7 +376,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -396,7 +396,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -416,7 +416,7 @@ slaves.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -436,7 +436,7 @@ slaves.  The floating orbs at this section of the road flicker on and off.
 
 Wyrm streets continues to the east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Wyrm street goes on
 ~
@@ -460,7 +460,7 @@ Midgaard, but alas, that is impossible.
 
 Wyrm street goes to the west and Sunrise lies to the south.
 ~
-0 ADN 1
+ADN 1
 D2
 Sunrise will eventually lead to the way out
 ~
@@ -483,7 +483,7 @@ door seems to be rusted shut.
 
 North and south moonlight continues, east is the door.
 ~
-0 ADN 1
+ADN 1
 D0
 Moonlight continues
 ~
@@ -515,7 +515,7 @@ just be the darkness that lies just beyond your insignificant circle of light.
 
 To the north is the corner of the city, to the south sunset continues
 ~
-0 ADN 1
+ADN 1
 D0
 The northwest corner of the city is there
 ~
@@ -539,7 +539,7 @@ your west glints with wetness.
 
 Sunset continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Sunset goes north
 ~
@@ -561,7 +561,7 @@ orb flickers on and off.
 
 Sunset goes on to the north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Sunset continues
 ~
@@ -582,7 +582,7 @@ smooth and glint in your light.  The entrance is to the north.
 
 To the north is a door, to the south is sunset
 ~
-0 ADN 1
+ADN 1
 D0
 A large door stands before you
 ~
@@ -608,7 +608,7 @@ the only thing that greets your gaze is pitch black.
 
 To the north is Wyrm street, to the south ruby street
 ~
-0 ADN 1
+ADN 1
 D0
 Wyrm street
 ~
@@ -629,7 +629,7 @@ feel as if things are watching you, sizing you, seeing if you are weak.
 
 Ruby street continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Ruby street
 ~
@@ -652,7 +652,7 @@ here.
 
 Ruby street goes on north and south, east is Sapphire street
 ~
-0 ADN 1
+ADN 1
 D0
 Ruby street
 ~
@@ -677,7 +677,7 @@ burning on a building.
 
 Ruby street is to the west, Sapphire continues east.
 ~
-0 ADN 1
+ADN 1
 D1
 Sapphire street
 ~
@@ -699,7 +699,7 @@ make out bits and pieces of conversation.
 
 To the east is Moonlight Avenues, to the west Sapphire
 ~
-0 ADN 1
+ADN 1
 D0
 The door to The Gemstone
 ~
@@ -731,7 +731,7 @@ street somewhat.
 
 To the north is Wyrm street, moonlight stretches south
 ~
-0 ADN 1
+ADN 1
 D0
 Wyrm street
 ~
@@ -751,7 +751,7 @@ moist and cool.
 
 Moonlight continues north and south. Sapphire street is west
 ~
-0 ADN 1
+ADN 1
 D0
 Moonlight avenue
 ~
@@ -777,7 +777,7 @@ the cavern walls.
 
 North is the northeastern corner of the city,  south Sunrise goes on.
 ~
-0 ADN 1
+ADN 1
 D0
 The northeastern corner of the Underdark
 ~
@@ -797,7 +797,7 @@ floats in the air above your head.
 
 Sunrise continues to the north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -817,7 +817,7 @@ floats in the air above your head.
 
 Sunrise continues to the north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -838,7 +838,7 @@ dark city.
 
 Sunset continues north and east, to the south is a door.
 ~
-0 ADN 1
+ADN 1
 D0
 Sunset
 ~
@@ -867,7 +867,7 @@ the south lies one of the residential homes
 
 Sunset goes on to the east and west.  To the south is a door
 ~
-0 ADN 1
+ADN 1
 D1
 Sunset
 ~
@@ -896,7 +896,7 @@ the south lies one of the residential homes
 
 Sunset goes on to the east and west.  To the south is a door
 ~
-0 ADN 1
+ADN 1
 D1
 Sunset
 ~
@@ -925,7 +925,7 @@ entrance to a home is to the south.
 
 Sunset goes east and west.  To the north is a walkway, south is a door
 ~
-0 ADN 1
+ADN 1
 D0
 Before the huge dwelling
 ~
@@ -960,7 +960,7 @@ well travelled.
 
 Sunset goes south and west.  Ruby street is west.
 ~
-0 ADN 1
+ADN 1
 D1
 Ruby street
 ~
@@ -983,7 +983,7 @@ of you and they seem to breath with their own life.
 
 Ruby continues to the east, to the west is Sunset
 ~
-0 ADN 1
+ADN 1
 D1
 Ruby street
 ~
@@ -1003,7 +1003,7 @@ of you and they seem to breath with their own life.
 
 Ruby continues to the east, to the west is Sunset
 ~
-0 ADN 1
+ADN 1
 D1
 Ruby street
 ~
@@ -1023,7 +1023,7 @@ blackness.  The air is cold and damp here.
 
 Ruby street continues north and west
 ~
-0 ADN 1
+ADN 1
 D0
 Ruby street
 ~
@@ -1043,7 +1043,7 @@ anyways.  Little orbs of light float above your head.
 
 Moonlight continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Moonlight Avenue
 ~
@@ -1065,7 +1065,7 @@ out.
 
 Moonlight Avenues goes north and south, to the east is Diamond street
 ~
-0 ADN 1
+ADN 1
 D0
 Moonlight avenue
 ~
@@ -1091,7 +1091,7 @@ and screaming reach your ears.
 
 Diamond street continues east, to the west is Moonlight Avenue
 ~
-0 ADN 1
+ADN 1
 D1
 Diamond street
 ~
@@ -1111,7 +1111,7 @@ darkness.  Screams from the slaves reach your ears.
 
 Diamond streets continues east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Diamond street
 ~
@@ -1131,7 +1131,7 @@ Only a few glowing orbs shine here.
 
 Diamond street lies east and south
 ~
-0 ADN 1
+ADN 1
 D1
 Diamond street
 ~
@@ -1150,7 +1150,7 @@ light to make the shadows fade.
 
 Diamond street lies east, south and west
 ~
-0 ADN 1
+ADN 1
 D1
 Diamond street
 ~
@@ -1174,7 +1174,7 @@ light to make the shadows fade.
 
 Diamond street lies east, south and west
 ~
-0 ADN 1
+ADN 1
 D1
 Diamond street
 ~
@@ -1199,7 +1199,7 @@ Only a few glowing orbs shine here.
 
 Diamond street lies east and south
 ~
-0 ADN 1
+ADN 1
 D2
 Diamond street
 ~
@@ -1220,7 +1220,7 @@ frightening hollow scream of shear horror and pain.
 
 Diamond street goes east, north, west.  Emerald street is south
 ~
-0 ADN 1
+ADN 1
 D0
 Diamond street
 ~
@@ -1250,7 +1250,7 @@ orbs didn't do anything.  An impenetrable field of black.
 
 Diamond street lies north, east and west
 ~
-0 ADN 1
+ADN 1
 D0
 Diamond street
 ~
@@ -1276,7 +1276,7 @@ begin to see shapes forming in the shadows.
 
 Diamond street continues north, east and west
 ~
-0 ADN 1
+ADN 1
 D0
 Diamond street
 ~
@@ -1301,7 +1301,7 @@ air is cool, and shadows seem to cling to everything.
 
 Diamond street continues north, east and west
 ~
-0 ADN 1
+ADN 1
 D0
 Diamond street
 ~
@@ -1327,7 +1327,7 @@ street sparkles in the vague light.
 
 Diamond Street continues to the east and west
 ~
-0 ADN 1
+ADN 1
 D1
 Diamond street
 ~
@@ -1348,7 +1348,7 @@ as if it were covered in diamonds.
 
 Sunrise is to the east, Diamond street to the west
 ~
-0 ADN 1
+ADN 1
 D1
 Sunrise
 ~
@@ -1370,7 +1370,7 @@ your western side seem menacing, anything could be hiding in them.
 
 Sunrise continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -1391,7 +1391,7 @@ quite audible here bouncing off the cavern wall into your ear.
 
 Sunrise goes north and south, Diamond goes west
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -1417,7 +1417,7 @@ You feel as if you are walking in a dream.
 
 Sunset continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Sunset
 ~
@@ -1437,7 +1437,7 @@ street, off to the side the street remains shrouded in black.
 
 Sunset continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Sunset
 ~
@@ -1457,7 +1457,7 @@ street, off to the side the street remains shrouded in black.
 
 Sunset continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Sunset
 ~
@@ -1480,7 +1480,7 @@ have been set up in most places.
 
 South is Sunset and Slaver's Route, north Sunset stretches on
 ~
-0 ADN 1
+ADN 1
 D0
 Sunset
 ~
@@ -1502,7 +1502,7 @@ barrier of black.
 
 Moonlight lies to the north and south.
 ~
-0 ADN 1
+ADN 1
 D0
 Moonlight Avenue
 ~
@@ -1524,7 +1524,7 @@ what it above you, you can see quit well in your immediate surroundings.
 
 Moonlight avenue continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Moonlight Avenue
 ~
@@ -1545,7 +1545,7 @@ Slaver's Square inspecting the goods.
 
 Moonlight avenue continues north, to the south is the Slaver's Route
 ~
-0 ADN 1
+ADN 1
 D0
 Moonlight Avenue
 ~
@@ -1565,7 +1565,7 @@ street is greenish.
 
 To the north is Diamond street, Emerald continues south
 ~
-0 ADN 1
+ADN 1
 D0
 Diamond street
 ~
@@ -1585,7 +1585,7 @@ and the inn.  The ground is greenish and sparkles gently in the light.
 
 Emerald street continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Emerald street
 ~
@@ -1607,7 +1607,7 @@ form.  This street is rarely used, 'cept by those fleeing.
 
 Emerald street continues north, the Slaver's Route is south
 ~
-0 ADN 1
+ADN 1
 D0
 Emerald street
 ~
@@ -1627,7 +1627,7 @@ east side of the street is the cavern wall, to the west the city stretches out.
 
 Sunrise continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise and Diamond
 ~
@@ -1648,7 +1648,7 @@ snuff out the little orbs that glow every ten feet.
 
 Sunrise continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -1670,7 +1670,7 @@ repugnant.
 
 Sunrise continues north, to the south is The Slaver's Route
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -1690,7 +1690,7 @@ reach you ears.  The road is well lit with the little floating orbs.
 
 Residential homes lie north and south.  The route stretches west
 ~
-0 ADN 1
+ADN 1
 D0
 A door blocks your entry
 ~
@@ -1720,7 +1720,7 @@ penetrate to this section of the street.
 
 Houses are the north and south.  The Slaver's Route is east and west
 ~
-0 ADN 1
+ADN 1
 D0
 A door blocks your entry
 ~
@@ -1755,7 +1755,7 @@ off in the distance.
 
 The Slaver's Route is east and west.  Doors are to the north and south.
 ~
-0 ADN 1
+ADN 1
 D0
 A door blocks your passage
 ~
@@ -1790,7 +1790,7 @@ light to basically illuminate everything.
 To the east and west the route goes on.  To the south is gathering space,
 and to the north is a door to a home
 ~
-0 ADN 1
+ADN 1
 D0
 A door to a home blocks your way
 ~
@@ -1826,7 +1826,7 @@ The ground is charred and you see little bits of what was once a humanoid.
 The slaver's route is east and west.  To the north lies Sunset, south is the
 gathering space.
 ~
-0 ADN 1
+ADN 1
 D0
 Sunset
 ~
@@ -1863,7 +1863,7 @@ almost everything around you.
 To the north is the entrance to Bodak's residence.  The slaver's route
 continues east and west.
 ~
-0 ADN 1
+ADN 1
 D0
 A massive door blocks your entry to Bodak's residence
 ~
@@ -1895,7 +1895,7 @@ coming from all around you.
 
 The slaver's route goes on east and west
 ~
-0 ADN 1
+ADN 1
 D1
 Slaver's route
 ~
@@ -1916,7 +1916,7 @@ everything.
 
 Slaver's routes continues east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Slaver's route
 ~
@@ -1938,7 +1938,7 @@ the many opportunities that a person can have down here...
 
 The slaver's route continues east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Slaver's route
 ~
@@ -1959,7 +1959,7 @@ evenly spaced light the way, well they sorta light the way.
 
 Slaver's route continues east and west, south is the Slave's square
 ~
-0 ADN 1
+ADN 1
 D1
 Slaver's route
 ~
@@ -1986,7 +1986,7 @@ market, dead centre of the Underdark.
 East and west is the slaver's route.  North is moonlight avenue, to the south
 is the slave's square and beyond that the market area.
 ~
-0 ADN 1
+ADN 1
 D0
 Moonlight avenue
 ~
@@ -2019,7 +2019,7 @@ interact in relative safety.
 
 To the north is the whore house, east and west the Slaver's route
 ~
-0 ADN 1
+ADN 1
 D0
 A door blocks your way to the whore house
 ~
@@ -2052,7 +2052,7 @@ about.
 
 The slaver's route continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 Slaver's route
 ~
@@ -2074,7 +2074,7 @@ rules after all...
 
 To the north is Emerald street, Slaver's goes east and west
 ~
-0 ADN 1
+ADN 1
 D0
 Emerald street
 ~
@@ -2102,7 +2102,7 @@ you CAN'T RECALL...
 
 To the north is The Floating Eye (an inn).  Slaver's goes east and west.
 ~
-0 ADN 1
+ADN 1
 D0
 A door stands in the doorway to The Floating Eye
 ~
@@ -2136,7 +2136,7 @@ South is the entrance to the Guardian Eye's headquarters and the prisons.
 
 Slaver's route continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 Slaver's route
 ~
@@ -2167,7 +2167,7 @@ the way for you.
 
 The slaver's route continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 Slaver's route
 ~
@@ -2190,7 +2190,7 @@ to the side of the road.
 
 The slaver's route continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 Slaver's route
 ~
@@ -2221,7 +2221,7 @@ with a dim light.
 
 To the east is the eastern entrance, to the west, the slaver's route.
 ~
-0 ADN 1
+ADN 1
 D1
 Before the eastern entrance
 ~
@@ -2255,7 +2255,7 @@ death.  Welcome to the Underdark.
 The north and south is Sunrise, to the east is the entrance and to the west is
 the Slaver's route and farther down, the market area.
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -2303,7 +2303,7 @@ orbs have stopped working.
 
 North is the Slaver's Route, the meeting place continues east and south
 ~
-0 ADN 1
+ADN 1
 D0
 Slaver's route
 ~
@@ -2331,7 +2331,7 @@ imagination or reality.
 
 North is the Slaver's route, west and south the gathering place lies
 ~
-0 ADN 1
+ADN 1
 D0
 Slaver's route
 ~
@@ -2357,7 +2357,7 @@ this area for discrete meetings.
 
 North and east the place goes on.  South is the street of the gods
 ~
-0 ADN 1
+ADN 1
 D0
 The gathering place
 ~
@@ -2390,7 +2390,7 @@ threatens to overcome your entire being.
 The gathering place continues north and west.  To the south lies the street
 of the Gods
 ~
-0 ADN 1
+ADN 1
 D0
 The gathering place
 ~
@@ -2418,7 +2418,7 @@ square.
 
 To the north is the Slaver's route, east and south lies the square
 ~
-0 ADN 1
+ADN 1
 D0
 The slaver's route
 ~
@@ -2456,7 +2456,7 @@ The dark brown stains are stains of blood.
 
 North is the slaver's route, west and south lies the slave's square
 ~
-0 ADN 1
+ADN 1
 D0
 Slaver's route
 ~
@@ -2486,7 +2486,7 @@ can realise this desire to the west.
 The slave's square continues north and east.  South is the street of the Gods
 and to the west is the entrance to the Slave Market.
 ~
-0 ADN 1
+ADN 1
 D0
 The slave's square
 ~
@@ -2520,7 +2520,7 @@ pain fill your being with pity and excitement.
 
 North and west is the square, south is the street of the gods.
 ~
-0 ADN 1
+ADN 1
 D0
 The slave's square
 ~
@@ -2554,7 +2554,7 @@ could kinda see.
 
 North is the eastern entrance, south Sunrise continues.
 ~
-0 ADN 1
+ADN 1
 D0
 The eastern entrance to the Underdark
 ~
@@ -2584,7 +2584,7 @@ your sight, a shape flits in and out of the shadows.
 
 North and west sunrise goes on.  South is the entrance to the cages.
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -2625,7 +2625,7 @@ dwell beneath the earth.
 
 Sunrise continues east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Sunrise
 ~
@@ -2655,7 +2655,7 @@ basically nothing but giving some light.
 
 Sunrise goes east and south
 ~
-0 ADN 1
+ADN 1
 D1
 Sunrise
 ~
@@ -2677,7 +2677,7 @@ smell it at all.
 
 Sunrise continues east and south
 ~
-0 ADN 1
+ADN 1
 D1
 Sunrise
 ~
@@ -2699,7 +2699,7 @@ cast spells to allow you to hear the past, the present and the future.
 
 Sunrise goes north and south, a door to the prisons is west
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -2733,7 +2733,7 @@ of a githzerai seems to be kneeling to a statue of Silence.
 
 To the North lies an entrance to a house, east the street goes onwards
 ~
-0 ADN 1
+ADN 1
 D0
 A door blocks the way into the home
 ~
@@ -2778,7 +2778,7 @@ rest of the city.  To the side of the street stands a statue of a weird alien.
 
 The street continues east and west, to the north is a door to a home
 ~
-0 ADN 1
+ADN 1
 D0
 A doorway to a house
 ~
@@ -2815,7 +2815,7 @@ you presume are mystic symbols of some sort.
 The street of the gods continues east and west, north is the entrance to a
 home.  South Sunset goes on.
 ~
-0 ADN 1
+ADN 1
 D0
 A door to a home
 ~
@@ -2866,7 +2866,7 @@ statue of a martial artist.
 The street of the gods goes east and west, north is the gathering place.  To
 the south is the entrance to the darkened root.
 ~
-0 ADN 1
+ADN 1
 D0
 The gathering place
 ~
@@ -2921,7 +2921,7 @@ street is a statue of a monkey.
 East and west the street of the gods continues, north is gathering place To
 the south is the entrance to the Sparkling Jewel
 ~
-0 ADN 1
+ADN 1
 D0
 The gathering place
 ~
@@ -2964,7 +2964,7 @@ you.
 
 East and west the street continues, south is the Dented Shield
 ~
-0 ADN 1
+ADN 1
 D1
 The street of the gods
 ~
@@ -2991,7 +2991,7 @@ this beauty into your soul.
 
 The street of the gods goes east and west, south is the Cracked Sword
 ~
-0 ADN 1
+ADN 1
 D1
 The street of the gods
 ~
@@ -3017,7 +3017,7 @@ down, left and right.  The ground seems to be rising up to your face.
 
 The street of the gods continues east and west, south is the Glowing Hand
 ~
-0 ADN 1
+ADN 1
 D1
 The street of the gods
 ~
@@ -3044,7 +3044,7 @@ symbols.
 The street goes on east and west, to the north is the entrance to the slave
 market, and south is Jasper avenue
 ~
-0 ADN 1
+ADN 1
 D0
 A door blocks your entry to the slave's market
 ~
@@ -3096,7 +3096,7 @@ lie holy symbols of Farside, RoX's playground.
 East and west the street continues, north is the slave's square and south is
 the entrance to Shadow's Shadow (a tavern)
 ~
-0 ADN 1
+ADN 1
 D0
 The slave's square
 ~
@@ -3154,7 +3154,7 @@ symbols.
 
 The street goes on east and west, to north is the gathering place.
 ~
-0 ADN 1
+ADN 1
 D0
 The gathering place
 ~
@@ -3190,7 +3190,7 @@ defend themselves from their enemies and unite for a common goal.
 
 The street goes on east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 The street of the gods
 ~
@@ -3212,7 +3212,7 @@ a huge black obsidian ball.
 
 The street goes on south and west.
 ~
-0 ADN 1
+ADN 1
 D2
 The street of the gods
 ~
@@ -3240,7 +3240,7 @@ Garth's love for the day lit world, maybe this space provides the access?
 
 The street continues west and south
 ~
-0 ADN 1
+ADN 1
 D2
 The street of the gods
 ~
@@ -3262,7 +3262,7 @@ showing their devotion.
 The street continues south and north.  To the east is the entrance to the
 guardian prisons.
 ~
-0 ADN 1
+ADN 1
 D0
 The street of the gods
 ~
@@ -3295,7 +3295,7 @@ the gods have come to accept the street.
 
 To the south is the road of shadows, north the street continues
 ~
-0 DN 1
+DN 1
 D0
 The street of the gods
 ~
@@ -3316,7 +3316,7 @@ casting everything in a dim light, like the light of the predawn.
 
 North is the street of the gods, south lies sunset
 ~
-0 ADN 1
+ADN 1
 D0
 Street of the gods
 ~
@@ -3337,7 +3337,7 @@ there a little floating orbs that float in the air, giving the area a dim look.
 
 Sunset continues north and south.
 ~
-0 ADN 1
+ADN 1
 D0
 Sunset
 ~
@@ -3357,7 +3357,7 @@ illuminating very little.  The hustling market area can be seen to the north.
 
 North is the street of the gods, south azurite continues
 ~
-0 ADN 1
+ADN 1
 D0
 Street of the gods
 ~
@@ -3380,7 +3380,7 @@ nothing.
 
 North and south Azurite street continues
 ~
-0 ADN 1
+ADN 1
 D0
 Azurite street
 ~
@@ -3400,7 +3400,7 @@ be form.  Everything seems to be cloaked in it's own shadow.  The light of
 the orbs and from your light source does nothing to illuminate the area.
 
 Sunset goes north and south.  The road of shadows heads east. ~
-0 ADN 1
+ADN 1
 D0
 Sunset
 ~
@@ -3426,7 +3426,7 @@ the shadows.  The hum of the city buzzes constantly in your ears.
 
 The road of shadows continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 Road of shadows
 ~
@@ -3448,7 +3448,7 @@ you..
 
 The road of shadows continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 Road of shadows
 ~
@@ -3469,7 +3469,7 @@ they normally do, don't give off enough light here to light up the area.
 
 The road of shadows continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 Road of shadows
 ~
@@ -3490,7 +3490,7 @@ seems to cast a shadow on everything.
 
 The road of shadows continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The road of shadows
 ~
@@ -3512,7 +3512,7 @@ all around you, you feel you are being sized up and inspected...
 
 The road of shadows continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The road of shadows at Azurite street
 ~
@@ -3533,7 +3533,7 @@ to the east and west, north and south they seem to clear up some.
 To the north and south Azurite runs, to the east and west the road of
 Shadows seems to disappear into darkness.
 ~
-0 ADN 1
+ADN 1
 D0
 Azurite street
 ~
@@ -3564,7 +3564,7 @@ Underdark like the shadows thus they walk this road frequently.
 
 East the road of shadows goes on.  West the road of shadows meet Azurite.
 ~
-0 ADN 1
+ADN 1
 D1
 Road of shadows
 ~
@@ -3586,7 +3586,7 @@ is, you can barely see anything around you.
 
 The road of shadows continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The road of shadows
 ~
@@ -3607,7 +3607,7 @@ head, but they don't seem to shed much light and they flicker on and off.
 
 The road of shadows continues east and west.  South stand a shadowy door
 ~
-0 ADN 1
+ADN 1
 D1
 The road of shadows
 ~
@@ -3646,7 +3646,7 @@ light onto the street.  Everything is dark.
 
 The road of shadows continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The road of shadows
 ~
@@ -3669,7 +3669,7 @@ north, the darkness clears up considerably.
 North is the beginning of the street of Gods.  East and west the road of
 shadows stretches onwards.
 ~
-0 ADN 1
+ADN 1
 D0
 The street of the gods
 ~
@@ -3696,7 +3696,7 @@ exist on this road.
 
 The road of shadows continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The road of shadows
 ~
@@ -3717,7 +3717,7 @@ everything loses it's colour and becomes black and white.
 
 The road of shadows continues east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 The road of shadows
 ~
@@ -3738,7 +3738,7 @@ light does not exist.  Nothing has colour, just a different shade of grey.
 
 The road of shadows travels west.  East and south is Sunrise
 ~
-0 ADN 1
+ADN 1
 D1
 Sunrise
 ~
@@ -3764,7 +3764,7 @@ down on you.
 
 Sunrise goes north and south.  West is the road of shadows
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -3789,7 +3789,7 @@ every ten feet casting an eerie dim on all the light strikes.
 
 Sunrise goes north and south, to the east the forgotten alley begins
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -3815,7 +3815,7 @@ the street darker than most.
 
 To the east they alley leads into darkness.  West is Sunrise
 ~
-0 ADN 1
+ADN 1
 D1
 The forgotten alley
 ~
@@ -3836,7 +3836,7 @@ ahead of you, while the floating orbs barely light up anything.
 
 The alley continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The forgotten alley
 ~
@@ -3856,7 +3856,7 @@ never travelled it.  The floating orbs glow dimly every fifteen feet.
 
 The alley goes on east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The forgotten alley
 ~
@@ -3877,7 +3877,7 @@ the city has died down.
 
 The alley continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The forgotten alley
 ~
@@ -3898,7 +3898,7 @@ you flickers in and out chaotically.
 
 The alley continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The forgotten alley
 ~
@@ -3919,7 +3919,7 @@ you...
 
 The alley goes north and west
 ~
-0 ADN 1
+ADN 1
 D0
 The forgotten alley
 ~
@@ -3940,7 +3940,7 @@ makes it any colour.
 
 The alley goes north and south
 ~
-0 ADN 1
+ADN 1
 D0
 The forgotten alley
 ~
@@ -3960,7 +3960,7 @@ ahead of you for five feet.
 
 The alley continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 The forgotten alley
 ~
@@ -3979,7 +3979,7 @@ make out a glowing orb far to the south and nothing to the east.
 
 The alley goes east and south
 ~
-0 ADN 1
+ADN 1
 D1
 The forgotten alley
 ~
@@ -3999,7 +3999,7 @@ walls that rise up to the north and east of you.
 
 The alley continues south and west
 ~
-0 ADN 1
+ADN 1
 D2
 The forgotten alley
 ~
@@ -4019,7 +4019,7 @@ anything that may be dangerous.
 
 The alley continues north and south.
 ~
-0 ADN 1
+ADN 1
 D0
 The forgotten alley
 ~
@@ -4038,7 +4038,7 @@ orbs float here and there sporadically.
 
 The alley goes north and south
 ~
-0 ADN 1
+ADN 1
 D0
 The forgotten alley
 ~
@@ -4057,7 +4057,7 @@ orbs float here and there sporadically.
 
 The alley continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 The forgotten alley
 ~
@@ -4077,7 +4077,7 @@ a dark, quiet and dangerous place like this.  There are no lights around.
 
 To the east is the forgotten alley, west is the door in.
 ~
-0 ADN 1
+ADN 1
 D1
 The forgotten alley
 ~
@@ -4101,7 +4101,7 @@ light apart from your light source.
 
 The alley goes north and south, to the west is a dark entrance way.
 ~
-0 ADN 1
+ADN 1
 D0
 The forgotten alley
 ~
@@ -4126,7 +4126,7 @@ person walking behind you.
 
 The alley continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 The forgotten alley
 ~
@@ -4146,7 +4146,7 @@ that you are travelling along.
 
 The alley goes north and west
 ~
-0 ADN 1
+ADN 1
 D0
 The forgotten alley
 ~
@@ -4166,7 +4166,7 @@ Underdark do not venture into this area.
 
 The alley goes east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The forgotten alley
 ~
@@ -4185,7 +4185,7 @@ light.  A solitary orb floats above your head casting it's glow on the street.
 
 The alley goes east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 The forgotten alley
 ~
@@ -4205,7 +4205,7 @@ is so quiet that it seems as if it is the silence of death.
 
 The alley continues east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 The forgotten alley
 ~
@@ -4226,7 +4226,7 @@ off giving off a little illumination so you can barely see the road.
 
 The alley goes north and south
 ~
-0 ADN 1
+ADN 1
 D0
 The forgotten alley
 ~
@@ -4247,7 +4247,7 @@ why the citizens of the Underdark do not venture here.
 
 To the east and north the alley continues, west is a dark door.
 ~
-0 ADN 1
+ADN 1
 D0
 The forgotten alley
 ~
@@ -4276,7 +4276,7 @@ that is all around you.
 
 The alley continues north and south.
 ~
-0 ADN 1
+ADN 1
 D0
 The forgotten alley
 ~
@@ -4295,7 +4295,7 @@ being.  Your light source does little to relieve the dark.
 
 The alley goes west and south
 ~
-0 ADN 1
+ADN 1
 D2
 The forgotten alley
 ~
@@ -4315,7 +4315,7 @@ from the west.
 
 The alley continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The forgotten alley
 ~
@@ -4336,7 +4336,7 @@ travelled through the Underdark.
 
 To the east the forgotten alley disappears into darkness.  West is Sunrise
 ~
-0 ADN 1
+ADN 1
 D1
 The forgotten alley
 ~
@@ -4355,7 +4355,7 @@ feet along this long road.  Everything is bathed in the soft glow of the orbs.
 
 To the east lies the forgotten alley.  North and west is Sunrise
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -4380,7 +4380,7 @@ city reach you ears clearly.
 
 Sunrise continues east and south.  North is the road of shadows
 ~
-0 ADN 1
+ADN 1
 D0
 The road of shadows
 ~
@@ -4404,7 +4404,7 @@ to the rest of the city.  Floating orbs float every five feet in the air.
 
 Sunrise continues north and south.
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -4424,7 +4424,7 @@ sense of humour.  Floating orbs have been placed every five feet.
 
 Sunrise goes on north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -4446,7 +4446,7 @@ off.
 
 Sunrise continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -4469,7 +4469,7 @@ or so feet in the air above your head.
 
 Sunrise continues to the north, south is Death's lane
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -4496,7 +4496,7 @@ be heard clearly here.
 
 To the north azurite meets the road of shadows and south it continues
 ~
-0 ADN 1
+ADN 1
 D0
 Azurite at road of shadows
 ~
@@ -4518,7 +4518,7 @@ Where the mighty veins once were now only roads exist.
 
 North and south azurite street stretches onwards
 ~
-0 ADN 1
+ADN 1
 D0
 Azurite street
 ~
@@ -4539,7 +4539,7 @@ lighting is very erratic and strange.
 
 Azurite continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Azurite street
 ~
@@ -4569,7 +4569,7 @@ the street is slight blueish.
 
 Azurite continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 Azurite
 ~
@@ -4592,7 +4592,7 @@ nothing.
 
 North Azurite street continues, south is the start of Death's lane
 ~
-0 ADN 1
+ADN 1
 D0
 Azurite street
 ~
@@ -4614,7 +4614,7 @@ your ears.
 
 To the east death's lane stretches, north azurite street begins.
 ~
-0 ADN 1
+ADN 1
 D0
 Azurite street
 ~
@@ -4635,7 +4635,7 @@ memory.  Glowing orbs grow more scarce to the east.
 
 East and west death's lane continues
 ~
-0 ADN 1
+ADN 1
 D1
 Death's lane
 ~
@@ -4656,7 +4656,7 @@ your blood rushes through you head.
 
 Death's lane goes on east and west
 ~
-0 ADN 1
+ADN 1
 D1
 Death's lane
 ~
@@ -4676,7 +4676,7 @@ your light source barely pierces the veil that shrouds all in a blanket.
 
 East and west death's lane stretches onwards
 ~
-0 ADN 1
+ADN 1
 D1
 Death's lane
 ~
@@ -4698,7 +4698,7 @@ surrounded by a solid wall of darkness.
 
 Death's lane continues east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Death's lane
 ~
@@ -4719,7 +4719,7 @@ being seen.
 
 Death's lane goes east and west
 ~
-0 ADN 1
+ADN 1
 D1
 Death's lane
 ~
@@ -4739,7 +4739,7 @@ existent.  The air seems to whisper of death.
 
 Death's lane continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 Death's lane
 ~
@@ -4760,7 +4760,7 @@ a small circle a little to the east.
 
 Death's Lane continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 Death's lane
 ~
@@ -4780,7 +4780,7 @@ street is when a person is trying to find an assassin to either kill or hire.
 
 West and south death's lane continues, north is Sunrise begins
 ~
-0 ADN 1
+ADN 1
 D0
 Sunrise
 ~
@@ -4805,7 +4805,7 @@ is cool.  Darkness seems to pool in every crevice.
 
 Death's lane heads north and east
 ~
-0 ADN 1
+ADN 1
 D0
 Death's lane
 ~
@@ -4826,7 +4826,7 @@ seems to weigh down on you.
 
 Death's lane continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 Death's lane
 ~
@@ -4846,7 +4846,7 @@ guild.  The darkness seems to hold your fate with a concealed dagger.
 
 West and east the lane continues
 ~
-0 ADN 1
+ADN 1
 D0
 A wall
 ~
@@ -4877,7 +4877,7 @@ to be surrounding you.
 
 West and south the lane goes onwards
 ~
-0 ADN 1
+ADN 1
 D2
 Death's lane
 ~
@@ -4900,7 +4900,7 @@ painful clarity.  The cavern walls rise up all around you.
 
 Death's lane goes on to the north
 ~
-0 ADN 1
+ADN 1
 D0
 Death's lane
 ~
@@ -4924,7 +4924,7 @@ through the loud hum of the city.
 
 North sunset meets the road of shadows.  South is traveller's crescent.
 ~
-0 ADN 1
+ADN 1
 D0
 Sunset at the road of shadows
 ~
@@ -4947,7 +4947,7 @@ to your nose, and tangy to your taste.
 
 Traveller's crescent goes east and south
 ~
-0 D 1
+D 1
 D1
 Traveller's crescent
 ~
@@ -4985,7 +4985,7 @@ problem here.
 
 The crescent continues east and west
 ~
-0 DN 1
+DN 1
 D1
 Traveller's crescent
 ~
@@ -5013,7 +5013,7 @@ the rest of the city, the inn provides a secluded spot to conduct business.
 
 North is Sunset, east and west the crescent continues
 ~
-0 DN 1
+DN 1
 D0
 Sunrise
 ~
@@ -5038,7 +5038,7 @@ to squint.  The sounds of the city buzz at a bearable level.
 
 East and west the crescent stretches
 ~
-0 DN 1
+DN 1
 D1
 Traveller's crescent
 ~
@@ -5058,7 +5058,7 @@ nice background hum.
 
 The crescent continues east and west
 ~
-0 DN 1
+DN 1
 D1
 Traveller's crescent
 ~
@@ -5078,7 +5078,7 @@ You hear laughter dancing through the air.
 
 The crescent goes on east and west
 ~
-0 DN 1
+DN 1
 D1
 Traveller's crescent
 ~
@@ -5099,7 +5099,7 @@ menacing here.
 
 The crescent continues south and west
 ~
-0 DN 1
+DN 1
 D2
 Traveller's crescent
 ~
@@ -5120,7 +5120,7 @@ laughter drifts past your ears.
 
 The crescent continues north and south
 ~
-0 DN 1
+DN 1
 D0
 Traveller's crescent
 ~
@@ -5141,7 +5141,7 @@ air.
 
 South and north the crescent continues
 ~
-0 DN 1
+DN 1
 D0
 Traveller's crescent
 ~
@@ -5162,7 +5162,7 @@ lie around this area.
 
 Traveller's crescent goes north and south, to the west is the inn
 ~
-0 DN 1
+DN 1
 D0
 Traveller's crescent
 ~
@@ -5192,7 +5192,7 @@ caresses your face and cools you down.
 
 Traveller's crescent heads north and west
 ~
-0 D 1
+D 1
 D0
 Traveller's crescent
 ~
@@ -5212,7 +5212,7 @@ the inn rises up to your north.  The crescent travels along the wall.
 
 The crescent goes east and west
 ~
-0 DN 1
+DN 1
 D1
 Traveller's crescent
 ~
@@ -5232,7 +5232,7 @@ the midday sun.
 
 The crescent travels east and west
 ~
-0 DN 1
+DN 1
 D1
 Traveller's crescent
 ~
@@ -5252,7 +5252,7 @@ existent.  A quiet sanctuary in the southwest end of the Underdark.
 
 Traveller's crescent continues east and west
 ~
-0 DN 1
+DN 1
 D1
 Traveller's crescent
 ~
@@ -5272,7 +5272,7 @@ here brighten everything up.  The street is clean and glows in the light.
 
 Traveller's crescent heads east and west
 ~
-0 DN 1
+DN 1
 D1
 Traveller's crescent
 ~
@@ -5293,7 +5293,7 @@ street seems to glow with life.
 
 The crescent continues east and west
 ~
-0 D 1
+D 1
 D1
 Traveller's crescent
 ~
@@ -5313,7 +5313,7 @@ walls into your eyes.  It's a blinding effect and forces you to squint.
 
 The crescent continues north and east
 ~
-0 DN 1
+DN 1
 D0
 Traveller's crescent
 ~
@@ -5333,7 +5333,7 @@ street is clean and a light grey.
 
 The crescent continues north and south
 ~
-0 DN 1
+DN 1
 D0
 Traveller's crescent
 ~
@@ -5354,7 +5354,7 @@ part of the Underdark.
 
 The crescent heads north and south
 ~
-0 DN 1
+DN 1
 D0
 Traveller's crescent
 ~
@@ -5375,7 +5375,7 @@ you are, you realise that when you notice the blood stain on the road.
 
 The crescents goes north and south
 ~
-0 DN 1
+DN 1
 D0
 Traveller's crescent
 ~
@@ -5401,7 +5401,7 @@ tunnel, only to the north are there any marks at all.
 The tunnel plunges into darkness to the south and a stone door lies to the
 north.
 ~
-0 ADN 1
+ADN 1
 D0
 door~
 ~
@@ -5426,7 +5426,7 @@ better move before you get nailed.
 
 The tunnel heads north and east
 ~
-0 ADN 1
+ADN 1
 D0
 Your light does not shed any clue as to what lies there
 ~
@@ -5453,7 +5453,7 @@ this section of the tunnel.
 
 The tunnel continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 You can not see what lies in that direction
 ~
@@ -5473,7 +5473,7 @@ are no scratches in the walls, floor or ceiling.  The air is dry and cool.
 
 The tunnel plunges into darkness to the west
 ~
-0 ADN 1
+ADN 1
 D1
 ~
 door~
@@ -5502,7 +5502,7 @@ corridor seems to descend into darkness.
 
 Up leads to the sewers of Midgaard, down the corridor continues
 ~
-0 AD 1
+AD 1
 D4
 The sewers of Midgaard
 ~
@@ -5523,7 +5523,7 @@ world.  An series of uninteresting scribbles sit on the walls.
 
 The corridor heads up and down
 ~
-0 AD 1
+AD 1
 D4
 The corridor
 ~
@@ -5553,7 +5553,7 @@ world.
 
 The corridor continues down and up
 ~
-0 AD 1
+AD 1
 D0
 ~
 wall~
@@ -5584,7 +5584,7 @@ your light source.
 
 The corridor heads downwards and up
 ~
-0 ADN 1
+ADN 1
 D4
 The vast corridor
 ~
@@ -5609,7 +5609,7 @@ markings that you can't make out at this distance.
 
 A huge door stands to the west, the way to the surface is up.
 ~
-0 AD 1
+AD 1
 D3
 A huge door blocks your way into the Underdark.
 ~
@@ -5651,7 +5651,7 @@ a small closet in it.
 
 The hall delves further into the house to the north.  South is the door
 ~
-0 ADN 1
+ADN 1
 D0
 The hall goes on
 ~
@@ -5692,7 +5692,7 @@ The scope of these halls just takes your breath away.
 
 The hall stretches to the east
 ~
-0 ADN 1
+ADN 1
 D1
 The hall goes onwards
 ~
@@ -5708,7 +5708,7 @@ light source seems harsh compared to the soft light that fills the hall.
 
 The hall continues east and west, south is a beautiful door
 ~
-0 ADN 1
+ADN 1
 D1
 The hall continues
 ~
@@ -5739,7 +5739,7 @@ incense.  The floor is made of onyx.
 
 The entrance lies to the south, the hall goes east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The hall goes on
 ~
@@ -5767,7 +5767,7 @@ Along the north wall stands a statue.
 
 The hall continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The hall stretches onwards
 ~
@@ -5799,7 +5799,7 @@ colours to come scintillating out of the wall.
 
 South stretches a corridor, west the hall goes onwards
 ~
-0 ADN 1
+ADN 1
 D2
 A corridor makes it's way south
 ~
@@ -5820,7 +5820,7 @@ across and to the ceiling it is about twenty feet.
 
 East and west are doors, north and south the corridor goes on
 ~
-0 ADN 1
+ADN 1
 D0
 The jaded hall
 ~
@@ -5856,7 +5856,7 @@ polished onyx.
 
 East and west are doors, the corridor heads north
 ~
-0 ADN 1
+ADN 1
 D0
 The jaded corridor
 ~
@@ -5887,7 +5887,7 @@ wielding a flawing silver sword defending a huge beholder.
 
 The hall stretches south and east
 ~
-0 ADN 1
+ADN 1
 D1
 The vast hall stretches onwards
 ~
@@ -5908,7 +5908,7 @@ large glowing eye woven into it.
 
 A beautiful door stands to the north, south and west the hall lies
 ~
-0 ADN 1
+ADN 1
 D0
 A beautiful door
 ~
@@ -5940,7 +5940,7 @@ make.  The ceiling floats about thirty feet above your head.
 
 The hall continues to the north and east
 ~
-0 ADN 1
+ADN 1
 D0
 The hall stretches onwards
 ~
@@ -5971,7 +5971,7 @@ glow green.
 
 The hall goes north and to the west
 ~
-0 ADN 1
+ADN 1
 D0
 The vast hall
 ~
@@ -5992,7 +5992,7 @@ ground.
 
 The only exit is the door to the west
 ~
-0 ADN 1
+ADN 1
 D3
 A door stands here
 ~
@@ -6012,7 +6012,7 @@ you fear to tread here in case you mess it up.
 
 The sole exit is the door to the east
 ~
-0 ADN 1
+ADN 1
 D1
 A door blocks the way
 ~
@@ -6033,7 +6033,7 @@ green but here they have thin veins of gold in them.
 
 The only way out is the door to the west
 ~
-0 ADN 1
+ADN 1
 D3
 A well crafted door stands here
 ~
@@ -6054,7 +6054,7 @@ painted onto the south wall.
 
 The solitary exit is the door to the east
 ~
-0 ADN 1
+ADN 1
 D1
 A door stands here
 ~
@@ -6076,7 +6076,7 @@ tankards of ale.
 
 The tavern continues south and west
 ~
-0 ADN 1
+ADN 1
 D2
 The tavern lies there
 ~
@@ -6097,7 +6097,7 @@ lighting.  One the walls are small cases of different gemstones.
 
 The tavern continues east and north
 ~
-0 ADN 1
+ADN 1
 D0
 The tavern goes on in this direction
 ~
@@ -6119,7 +6119,7 @@ enough place, well as friendly as you can get in the Underdark.
 
 The exit is a door to the south, the tavern lies to the north and west
 ~
-0 ADN 1
+ADN 1
 D0
 The tavern continues
 ~
@@ -6152,7 +6152,7 @@ slumped form lies against the north wall.
 
 The tavern goes east and south
 ~
-0 ADN 1
+ADN 1
 D1
 The tavern goes on
 ~
@@ -6180,7 +6180,7 @@ walls that look as if they will fall over with even the slightest pressure.
 
 West goes towards the entrance and you can go north, east and south
 ~
-0 ADN 1
+ADN 1
 D0
 You can't tell
 ~
@@ -6212,7 +6212,7 @@ have been erected by chance rather than by planning.
 
 There is a small door to the west, the warehouse continues south
 ~
-0 ADN 1
+ADN 1
 D2
 The main corridor of the warehouse
 ~
@@ -6237,7 +6237,7 @@ few rafters are broken and touch the floor near the middle of this room.
 
 The sole exit is east
 ~
-0 ADN 1
+ADN 1
 D1
 A small door
 ~
@@ -6258,7 +6258,7 @@ thin.
 The main corridor is to the north, west is a small wooden panel that looks
 as if it can be opened.  South is a small door.
 ~
-0 ADN 1
+ADN 1
 D0
 The main passage of the warehouse
 ~
@@ -6291,7 +6291,7 @@ within hands reach.
 
 The only exit is the panel to the east
 ~
-0 ADN 1
+ADN 1
 D1
 A wooden panel
 ~
@@ -6310,7 +6310,7 @@ are rough and are in shambles.
 
 The solitary exit it to the north
 ~
-0 ADN 1
+ADN 1
 D0
 A small wooden door
 ~
@@ -6331,7 +6331,7 @@ wood with panels here and there.
 The corridor continues east and west, panels to the north and south offer
 exits.
 ~
-0 ADN 1
+ADN 1
 D0
 A sliding panel
 ~
@@ -6367,7 +6367,7 @@ side.
 
 The sole exit is north, through the panel
 ~
-0 ADN 1
+ADN 1
 D0
 A broken wooden panel allows you to pass into the main corridor
 ~
@@ -6387,7 +6387,7 @@ is covered with dust and broken bits of furniture.
 
 The sole exit is the panel to the south
 ~
-0 ADJN 1
+ADJN 1
 D2
 A wooden panel slides to give an exit
 ~
@@ -6408,7 +6408,7 @@ standing.
 
 The corridor goes west and south to the north is a small door
 ~
-0 ADN 1
+ADN 1
 D0
 A small dark wooden door
 ~
@@ -6438,7 +6438,7 @@ without getting wet.
 
 The sole exit is the door to the south
 ~
-0 ADN 1
+ADN 1
 D2
 A door blocks the way out
 ~
@@ -6458,7 +6458,7 @@ Broken boards and furniture cover the floor.  The walls are well ventilated.
 
 The corridor continues north and east
 ~
-0 ADN 1
+ADN 1
 D0
 The dark corridor continues
 ~
@@ -6479,7 +6479,7 @@ complete, with only the odd hole here and there.
 
 The corridor continues north and west.  A door stands to the east
 ~
-0 ADN 1
+ADN 1
 D0
 The dark corridor becomes very chaotic
 ~
@@ -6503,7 +6503,7 @@ above it that casts a thin light into this small room.  The ceiling is
 scattered on the floor in a large jumble of wooden beams and planks.
 A door stands to the west
 ~
-0 ADN 1
+ADN 1
 D3
 A door lies here
 ~
@@ -6522,7 +6522,7 @@ hear knocking on the wood every once in awhile.
 
 The corridor continues north and south, to the east is a door
 ~
-0 ADN 1
+ADN 1
 D0
 The corridor continues in disarray
 ~
@@ -6551,7 +6551,7 @@ floor, and you see dark areas on the wall.
 
 A door stands to the west
 ~
-0 ADN 1
+ADN 1
 D3
 A door is here
 ~
@@ -6570,7 +6570,7 @@ beyond the walls.
 
 The corridor continues east and south.
 ~
-0 ADN 1
+ADN 1
 D1
 The corridor goes onwards
 ~
@@ -6591,7 +6591,7 @@ with you.
 
 The corridor continues east and west
 ~
-0 D 1
+D 1
 D1
 The corridor plunges into darkness
 ~
@@ -6612,7 +6612,7 @@ hidden beam lying on the ground.
 
 The corridor goes south and west.  To the east is a door
 ~
-0 ADN 1
+ADN 1
 D1
 A door stands here
 ~
@@ -6642,7 +6642,7 @@ this building.
 
 A door allows passage to the west
 ~
-0 ADN 1
+ADN 1
 D3
 A door stands here
 ~
@@ -6660,7 +6660,7 @@ from the rafters and the walls.
 
 The corridor goes north and west, to the south a door stands.
 ~
-0 ADN 1
+ADN 1
 D0
 The corridor meanders through the building
 ~
@@ -6689,7 +6689,7 @@ The floor is covered with dust, but has many foot prints in it.
 
 A door stands to the north.
 ~
-0 AD 1
+AD 1
 D0
 A door stands here
 ~
@@ -6714,7 +6714,7 @@ light, beyond which you can't see a thing.
 
 The corridor continues west and south.
 ~
-0 ADN 1
+ADN 1
 D2
 The corridor is there also
 ~
@@ -6735,7 +6735,7 @@ deposited these items.
 
 The corridor heads north, to the south lies a door.
 ~
-0 ADN 1
+ADN 1
 D0
 The corridor goes on
 ~
@@ -6761,7 +6761,7 @@ thousands of little hands.
 
 A door lies to the north and to the west
 ~
-0 ADN 1
+ADN 1
 D0
 The door to the corridor
 ~
@@ -6786,7 +6786,7 @@ a round hole in the ground.
 
 The door to the rec room is to the east
 ~
-0 ADN 1
+ADN 1
 D1
 A door stands here
 ~
@@ -6811,7 +6811,7 @@ abandoned...
 
 A corridor that leads into the building heads east, west is a door to the city.
 ~
-0 ADN 1
+ADN 1
 D1
 The corridor plunges deep within the building
 ~
@@ -6836,7 +6836,7 @@ incense filtering through the air.
 
 To the east lies the main hall, south is the door out
 ~
-0 ADN 1
+ADN 1
 D1
 The main hall
 ~
@@ -6862,7 +6862,7 @@ perfectly white.
 
 The hall splits north and east, to the west is the entrance hall
 ~
-0 ADN 1
+ADN 1
 D0
 The hall heads onwards
 ~
@@ -6887,7 +6887,7 @@ from azure to a deep crimson.
 
 A door lies to the west, the hallway continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 The hallway continues
 ~
@@ -6918,7 +6918,7 @@ to be used.
 
 The sole exit is to the east.
 ~
-0 ADN 1
+ADN 1
 D1
 A door stands ready
 ~
@@ -6937,7 +6937,7 @@ is crimson a striking contrast against the white floor.
 
 The hallway heads north, east and south, a door stands to the west.
 ~
-0 ADN 1
+ADN 1
 D0
 The hallway continues
 ~
@@ -6970,7 +6970,7 @@ The floor is wooden and the walls are also wooden.
 
 There are doorways to the north and east.
 ~
-0 ADN 1
+ADN 1
 D0
 A door lies to the north
 ~
@@ -6994,7 +6994,7 @@ exotic plants and animals.
 
 A door stands to the south, and to the west the hallway stretches.
 ~
-0 ADN 1
+ADN 1
 D2
 A door stands ready
 ~
@@ -7018,7 +7018,7 @@ the west all is a shower head.
 
 Doors are to the east and south.
 ~
-0 ADLN 1
+ADLN 1
 D1
 A door is before you
 ~
@@ -7042,7 +7042,7 @@ candle burns low on the table.
 
 A door is to the west
 ~
-0 DN 1
+DN 1
 D3
 A door blocks the way out
 ~
@@ -7062,7 +7062,7 @@ is crimson.
 
 Doors are to the east and west.  The hall heads south
 ~
-0 ADN 1
+ADN 1
 D1
 A door stands here
 ~
@@ -7091,7 +7091,7 @@ table.
 
 The hall stretches to the east.  To the north is a door.
 ~
-0 ADN 1
+ADN 1
 D0
 A door waits to be used
 ~
@@ -7110,7 +7110,7 @@ seems to be staring right at you.
 
 The dining hall stretches to the west
 ~
-0 ADN 1
+ADN 1
 D0
 ~
 painting~
@@ -7133,7 +7133,7 @@ series of mystic symbols on the floor and the walls around you.
 
 There are no obvious exits...
 ~
-0 ADN 1
+ADN 1
 D0
 ~
 wall~
@@ -7151,7 +7151,7 @@ the hall stand statues of different creatures, perhaps of arcane design.
 
 The hall continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The hall goes on
 ~
@@ -7177,7 +7177,7 @@ floor is pure white.
 
 The hall continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The hall continues
 ~
@@ -7203,7 +7203,7 @@ above your head.  A statue stands in the southeast corner.
 
 The hall goes north and west.
 ~
-0 AD 1
+AD 1
 D0
 The hall goes on
 ~
@@ -7228,7 +7228,7 @@ both sides of the hall.
 
 The hall continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 The hall goes on
 ~
@@ -7256,7 +7256,7 @@ the ceiling is way above your head.
 
 A large door stands to the north, the hall continues south
 ~
-0 ADN 1
+ADN 1
 D0
 Huge double doors wait to be used
 ~
@@ -7280,7 +7280,7 @@ You see a throne in the northwest corner of the chamber.
 
 The chamber goes on north and west.  A door stands to the south
 ~
-0 ADN 1
+ADN 1
 D0
 The audience chamber
 ~
@@ -7309,7 +7309,7 @@ blue.  You notice the lack of any furniture except the throne to the north.
 
 The chamber continues north and east.
 ~
-0 ADN 1
+ADN 1
 D0
 The audience chamber
 ~
@@ -7339,7 +7339,7 @@ room is the throne to the west.
 
 The chamber continues south and west
 ~
-0 ADN 1
+ADN 1
 D2
 The audience chamber
 ~
@@ -7360,7 +7360,7 @@ walls remain constant with the midnight blue.
 
 The chamber continues south and east
 ~
-0 ADN 1
+ADN 1
 D1
 The audience chamber
 ~
@@ -7385,7 +7385,7 @@ have been placed in holders that stand off against the walls.
 
 Doors stand north, east and south.
 ~
-0 DN 1
+DN 1
 D0
 A door blocks your way into the whoring area
 ~
@@ -7415,7 +7415,7 @@ notice a sign on the wall.
 
 The sole exit is the door to the west.
 ~
-0 DN 1
+DN 1
 D3
 The door stands ready to be used
 ~
@@ -7441,7 +7441,7 @@ you.
 
 The room spreads out north and east, and a door lies to the south
 ~
-0 DN 1
+DN 1
 D0
 The whoring area
 ~
@@ -7471,7 +7471,7 @@ interesting couples engaged in one of life's greatest experiences.
 
 The room continues north and west.
 ~
-0 DN 1
+DN 1
 D0
 The room goes on
 ~
@@ -7493,7 +7493,7 @@ thought possible.
 
 The room continues east and south
 ~
-0 DN 1
+DN 1
 D1
 The room goes on
 ~
@@ -7515,7 +7515,7 @@ sweat.
 
 The room goes on south and west
 ~
-0 DN 1
+DN 1
 D2
 The room continues
 ~
@@ -7535,7 +7535,7 @@ fresh food being cooked for all the patrons.
 
 The door out is to the south, the way into the inn is north
 ~
-0 DN 1
+DN 1
 D0
 The inn is this way
 ~
@@ -7558,7 +7558,7 @@ can hear the buzz of many conversations coming from the east.
 
 A door stands to the north, east is the common room.
 ~
-0 DN 1
+DN 1
 D0
 Door to the washroom
 ~
@@ -7587,7 +7587,7 @@ yourself in.  All in all, this washroom is very clean and neat.
 
 The sole exit is the door to the south
 ~
-0 DLN 1
+DLN 1
 D2
 The door out
 ~
@@ -7607,7 +7607,7 @@ room.  Patrons fill the room and there is some smoke in the air.
 The common room continues north and east, west is the hall, and south is
 a door to a room.
 ~
-0 DN 1
+DN 1
 D0
 The common room
 ~
@@ -7641,7 +7641,7 @@ is made.
 
 The way out is through the door to the north.
 ~
-0 ADN 1
+ADN 1
 D0
 The door leads out to the common room
 ~
@@ -7661,7 +7661,7 @@ normally is in a place where they serve many alcoholic beverages.
 
 The common room continues east and south
 ~
-0 DN 1
+DN 1
 D1
 The common room and bar
 ~
@@ -7682,7 +7682,7 @@ you can see figures huddled over their mugs of ale discussing business.
 The common rooms goes on north and west.  A door stands to the east and
 leads to more rooms.  There is also a door to the south
 ~
-0 DN 1
+DN 1
 D0
 The common room
 ~
@@ -7715,7 +7715,7 @@ bed and a chester drawers.
 
 The sole exit is the door to the north
 ~
-0 ADN 1
+ADN 1
 D0
 The door waits to be used
 ~
@@ -7734,7 +7734,7 @@ torches burn to light the area, although they don't do a very good job.
 To the west is a door, north and south are doors to room and the hall
 continues to the east.
 ~
-0 DN 1
+DN 1
 D0
 A door waits to be used
 ~
@@ -7767,7 +7767,7 @@ watching alertly for trouble.
 
 The common room continues south and west
 ~
-0 DN 1
+DN 1
 D2
 The common room
 ~
@@ -7787,7 +7787,7 @@ either.
 
 The door is the to south
 ~
-0 ADN 1
+ADN 1
 D2
 A door waits to be used
 ~
@@ -7805,7 +7805,7 @@ made.
 
 The way out if the door to the north
 ~
-0 ADN 1
+ADN 1
 D0
 The door leads out to the hallway
 ~
@@ -7823,7 +7823,7 @@ by a few torches that hang off between the doors.
 
 A Door leads to a room to the south, the hallway heads west
 ~
-0 DN 1
+DN 1
 D2
 A door waits to be used
 ~
@@ -7846,7 +7846,7 @@ the bed has been made ready to be slept in.
 
 The sole exit is the door to the north
 ~
-0 ADN 1
+ADN 1
 D0
 The door stands ready
 ~
@@ -7866,7 +7866,7 @@ screams of the slaves from behind the bars or their cages.
 North a door offers a way into the dirty cages of the slaves, you can leave
 by going east or south and west goes further into this building
 ~
-0 ADN 1
+ADN 1
 D0
 The bars can be opened like a door
 ~
@@ -7903,7 +7903,7 @@ threatens to release your last meal.
 
 The cages continues west, a door in the bars is to the south
 ~
-0 ADN 1
+ADN 1
 D2
 The bars wait to allow you to leave
 ~
@@ -7927,7 +7927,7 @@ scents that should accompany this scene.
 
 The hall continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The slave hall
 ~
@@ -7948,7 +7948,7 @@ some hay, it's as if these slaves are not humanoids.
 
 The cage continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The cage continues
 ~
@@ -7969,7 +7969,7 @@ blatant statement of wealth in the midst of this oppression.
 
 The hall continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The slave hall
 ~
@@ -7990,7 +7990,7 @@ barbed whip, to remind the slaves that they are slaves.
 
 The cage continues east and west
 ~
-0 ADN 1
+ADN 1
 D1
 The cage continues
 ~
@@ -8012,7 +8012,7 @@ desire by simply buying a slave from the Slave Dealer.
 
 The hall continues to the east, a door through the bars is north
 ~
-0 ADN 1
+ADN 1
 D0
 A door leads through the bars
 ~
@@ -8037,7 +8037,7 @@ smell of sweat, garbage and death hang in the air.
 
 The cage continues to the east, south is a door through the bars
 ~
-0 ADN 1
+ADN 1
 D1
 The slave cage
 ~
@@ -8062,7 +8062,7 @@ good thirty feet above your head.
 
 A door exits north, a prison cell is east, the hall continues south and west.
 ~
-0 DN 1
+DN 1
 D0
 A huge door that has no handle leads out
 ~
@@ -8101,7 +8101,7 @@ sound of your own breathing.
 
 The sole exit is through the door to the west
 ~
-0 ADLN 1
+ADLN 1
 D3
 The prison door
 ~
@@ -8121,7 +8121,7 @@ rests far above your head.  The walls are grey and the ground is black.
 
 The hall continues east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 Before the northern entrance
 ~
@@ -8141,7 +8141,7 @@ grey.
 
 The hall continues north and south, east and west are doors to cells.
 ~
-0 ADN 1
+ADN 1
 D0
 Before the northern entrance
 ~
@@ -8175,7 +8175,7 @@ the far wall and a hole in the ground in the corner.
 
 The sole exit is the door to the west.
 ~
-0 ADJN 1
+ADJN 1
 D3
 The prison door
 ~
@@ -8198,7 +8198,7 @@ the far wall and a hole in the ground in the corner.
 
 The sole exit is the door to the east
 ~
-0 ADJN 1
+ADJN 1
 D1
 The prison door
 ~
@@ -8223,7 +8223,7 @@ the eyes.
 
 The hall continues north and south, prison cells lie east and west.
 ~
-0 ADN 1
+ADN 1
 D0
 The prison hall
 ~
@@ -8258,7 +8258,7 @@ the far wall and a hole in the ground in the corner.
 
 The sole exit is the door to the east
 ~
-0 ADJN 1
+ADJN 1
 D1
 The prison door
 ~
@@ -8281,7 +8281,7 @@ the far wall and a hole in the ground in the corner.
 
 The sole exit is the door to the west
 ~
-0 ADJN 1
+ADJN 1
 D3
 The prison door
 ~
@@ -8305,7 +8305,7 @@ coming from the cells.
 
 The hall continues north, east and west.  South is a prison cell
 ~
-0 ADN 1
+ADN 1
 D0
 The prison hall
 ~
@@ -8341,7 +8341,7 @@ and the ceiling lies about thirty feet above your head.
 The door out is east, to the south is a prison cell guarded by an iron door
 and west the hall continues.
 ~
-0 ADN 1
+ADN 1
 D1
 The entrance door
 ~
@@ -8377,7 +8377,7 @@ laws that are kept.
 The hall continues east, there is a prison cell to the south, and the exit to
 the Underdark is west.
 ~
-0 ADN 1
+ADN 1
 D1
 The prison hall
 ~
@@ -8411,7 +8411,7 @@ the far wall and a hole in the ground in the corner.
 
 The sole exit is the door to the north
 ~
-0 ADJN 1
+ADJN 1
 D0
 The prison door
 ~
@@ -8434,7 +8434,7 @@ the far wall and a hole in the ground in the corner.
 
 The sole exit is the door to the north
 ~
-0 ADJN 1
+ADJN 1
 D0
 The prison door
 ~
@@ -8457,7 +8457,7 @@ the far wall and a hole in the ground in the corner.
 
 The sole exit is the door to the north
 ~
-0 ADJN 1
+ADJN 1
 D0
 The prison door
 ~
@@ -8481,7 +8481,7 @@ head.
 
 The hall continues east and west.  To the south is a prison cell
 ~
-0 ADN 1
+ADN 1
 D1
 The prison hall
 ~
@@ -8511,7 +8511,7 @@ hole in the corner.
 
 The sole exit is through the door to the north
 ~
-0 ADLN 1
+ADLN 1
 D0
 The prison door
 ~
@@ -8534,7 +8534,7 @@ cells.
 
 The hall continues east and west, to the south is a prison cell
 ~
-0 ADN 1
+ADN 1
 D1
 The prison hall
 ~
@@ -8563,7 +8563,7 @@ the far wall and a hole in the ground in the corner.
 
 The sole exit is the door to the north
 ~
-0 ADJN 1
+ADJN 1
 D0
 The prison door
 ~
@@ -8586,7 +8586,7 @@ agonized screams of the prisoners.
 
 The hall stretches east, to the south is a large iron door.
 ~
-0 ADN 1
+ADN 1
 D1
 The prison hall
 ~
@@ -8612,7 +8612,7 @@ hovers in the air way above your head.
 
 The sole exit is the door to the north.
 ~
-0 ADN 1
+ADN 1
 D0
 A huge iron door
 ~
@@ -8632,7 +8632,7 @@ various topics.  The tavern is dark and smells of smoke and alcohol.
 
 The tavern lies to the south, north is the entrance
 ~
-0 ADN 1
+ADN 1
 D0
 The door out
 ~
@@ -8656,7 +8656,7 @@ and alcohol permeates everything here.
 
 The tavern hall goes east and the entrance is to the north
 ~
-0 ADN 1
+ADN 1
 D0
 Before the entrance door
 ~
@@ -8683,7 +8683,7 @@ them.
 
 The common room is to the east, the hall goes west.
 ~
-0 ADN 1
+ADN 1
 D1
 The common room
 ~
@@ -8704,7 +8704,7 @@ and smells deeply of alcohol.
 
 The dining area continues north and east, the entrance hall is west
 ~
-0 ADN 1
+ADN 1
 D0
 The dining area
 ~
@@ -8730,7 +8730,7 @@ tables.
 
 The area continues north and west
 ~
-0 ADN 1
+ADN 1
 D0
 The dining area
 ~
@@ -8755,7 +8755,7 @@ can see the bar to the south.
 
 The area continues to the south and west.
 ~
-0 ADN 1
+ADN 1
 D2
 The dining area
 ~
@@ -8776,7 +8776,7 @@ wenches.  The air is thick with smoke.
 
 The dining area continues east and south, the washroom is west.
 ~
-0 ADN 1
+ADN 1
 D1
 The dining area
 ~
@@ -8806,7 +8806,7 @@ northern wall.
 
 The sole exit is the door to the east.
 ~
-0 ADLN 1
+ADLN 1
 D1
 A door stands ready
 ~
@@ -8825,7 +8825,7 @@ far side of the shop behind a counter.
 
 The only way out is north
 ~
-0 ADN 1
+ADN 1
 D0
 The street of the gods
 ~
@@ -8842,7 +8842,7 @@ buy and sell merchandise.
 
 The sole way out is north
 ~
-0 ADN 1
+ADN 1
 D0
 The street of the gods
 ~
@@ -8859,7 +8859,7 @@ waiting for you to buy something
 
 The sole exit is to the north
 ~
-0 ADN 1
+ADN 1
 D0
 The street of the gods
 ~
@@ -8876,7 +8876,7 @@ do not steal anything.
 
 The only exit is north
 ~
-0 ADN 1
+ADN 1
 D0
 The street of the gods
 ~
@@ -8891,7 +8891,7 @@ spice.  There are many counters with all sorts of spices and foods on them.
 
 The sole exit is to the north
 ~
-0 ADN 1
+ADN 1
 D0
 The street of the gods
 ~
@@ -8908,7 +8908,7 @@ texture.
 
 The door out is east, and the hallway goes west.
 ~
-0 ADN 1
+ADN 1
 D1
 The door out waits to be used
 ~
@@ -8931,7 +8931,7 @@ dark in the hallway and cool.
 
 The entrance is to the east, the hallway continues south
 ~
-0 ADN 1
+ADN 1
 D1
 The foyer
 ~
@@ -8952,7 +8952,7 @@ memory.
 
 The hallway continues north and south, to the east is a door
 ~
-0 ADN 1
+ADN 1
 D0
 The hallway
 ~
@@ -8982,7 +8982,7 @@ obvious that people are not meant to stay here long.
 
 The only way out is the door to the west
 ~
-0 ADN 1
+ADN 1
 D3
 A door
 ~
@@ -9001,7 +9001,7 @@ rock, as this entire structure was carved out of the living rock years ago.
 
 The hallway continues north and south, there is a door to the east.
 ~
-0 ADN 1
+ADN 1
 D0
 The hallway
 ~
@@ -9031,7 +9031,7 @@ half feet high here.  There is a large rug that covers the floor.
 
 The sole exit is the door to the west
 ~
-0 ADN 1
+ADN 1
 D3
 A door
 ~
@@ -9053,7 +9053,7 @@ air is cool and moist.
 
 The hallway goes north and there is a door to the east.
 ~
-0 ADN 1
+ADN 1
 D0
 The hallway
 ~
@@ -9078,7 +9078,7 @@ ground.  The room is about fifteen feet by fifteen.
 
 The sole exit is the door to the west
 ~
-0 ADN 1
+ADN 1
 D3
 A door
 ~
@@ -9098,7 +9098,7 @@ polished.  The walls are white marble.
 
 The hall continues to the south, there are doors east and west
 ~
-0 DN 1
+DN 1
 D0
 The exit to the city
 ~
@@ -9138,7 +9138,7 @@ light the room.
 
 The sole exit it the door to the west.
 ~
-0 DN 1
+DN 1
 D3
 A door
 ~
@@ -9158,7 +9158,7 @@ are black.  Small rods light the room.
 
 The only exit it the door to the east
 ~
-0 DN 1
+DN 1
 D1
 A door
 ~
@@ -9178,7 +9178,7 @@ that the thieves' guild is probably richer than most kingdoms.
 
 The hallway branches north, east, south and west.
 ~
-0 DN 1
+DN 1
 D0
 The entrance hall
 ~
@@ -9209,7 +9209,7 @@ Small rods that are being held on the walls light the way.
 
 The hallway continues east and west.
 ~
-0 ADN 1
+ADN 1
 D1
 The hallway
 ~
@@ -9230,7 +9230,7 @@ pedestal with a large glowing hand.
 
 Doors lie north and south, the hallway continues east.
 ~
-0 DN 1
+DN 1
 D0
 A door
 ~
@@ -9273,7 +9273,7 @@ couple bunks lie against the north and east wall respectively.
 
 The sole exit is the door to the south
 ~
-0 DN 1
+DN 1
 D2
 A door
 ~
@@ -9293,7 +9293,7 @@ cards.
 
 The sole exit is the door to the north.
 ~
-0 DN 1
+DN 1
 D0
 A door
 ~
@@ -9312,7 +9312,7 @@ with shelves.  The shelves are lined with these items.
 
 The sole exit is the door to the east
 ~
-0 ADN 1
+ADN 1
 D1
 A door waits to be used
 ~
@@ -9331,7 +9331,7 @@ gold since there are little rivulets of gold that create many chaotic patterns.
 
 The hallway continues north and south, there is a door to the west
 ~
-0 DN 1
+DN 1
 D0
 The hallway
 ~
@@ -9362,7 +9362,7 @@ were in a holy place of worship.
 
 The hallway heads north, there is a door to the west
 ~
-0 DN 1
+DN 1
 D0
 The hallway
 ~
@@ -9386,7 +9386,7 @@ Small rods provide a soft glow that lights everything in the room.
 
 There are doors to the east and west
 ~
-0 DN 1
+DN 1
 D1
 A door waits to be used
 ~
@@ -9411,7 +9411,7 @@ black and the walls are dark blue.
 
 The sole exit is the door to the east
 ~
-0 DN 1
+DN 1
 D1
 A door waits to be used
 ~
@@ -9430,7 +9430,7 @@ hallway are statues in the design of many different creatures.
 
 The hallway continue east and west, to the south is a door
 ~
-0 DN 1
+DN 1
 D1
 The hallway
 ~
@@ -9459,7 +9459,7 @@ and rewards.
 
 There is a door to the north, the chamber continues east and south
 ~
-0 DN 1
+DN 1
 D0
 A door waits to be used
 ~
@@ -9489,7 +9489,7 @@ enough room for about twenty people, and at the head sits the master thief.
 
 The chamber continues west and south
 ~
-0 DN 1
+DN 1
 D2
 The council chamber
 ~
@@ -9511,7 +9511,7 @@ guild is more powerful than that of their rival the assassin's guild.
 
 The chamber continues north and west
 ~
-0 DN 1
+DN 1
 D0
 The council chamber
 ~
@@ -9533,7 +9533,7 @@ the assassin's guild attempts to prevent it's growth.
 
 The chamber continues to the north and east
 ~
-0 DN 1
+DN 1
 D0
 The council chamber
 ~
@@ -9553,7 +9553,7 @@ exhibition in a museum, there are statues along the sides of the hall.
 
 The hallway continues east and west, there is a door to the north
 ~
-0 DN 1
+DN 1
 D0
 A door waits to be used
 ~
@@ -9586,7 +9586,7 @@ window looking out over the city.
 
 The sole exit is the door to the south
 ~
-0 ADN 1
+ADN 1
 D2
 A door waits to be used
 ~
@@ -9605,7 +9605,7 @@ smell of incense caresses your sense of smell.
 
 The hallway goes west and south, doors lie to the north and east
 ~
-0 DN 1
+DN 1
 D0
 A door waits to be used
 ~
@@ -9639,7 +9639,7 @@ and a pentagon engraved on the floor.
 
 The sole exit is the door to the south
 ~
-0 ADN 1
+ADN 1
 D2
 A door waits to be used
 ~
@@ -9658,7 +9658,7 @@ walls are dark grey with streaks of silver and gold in them.
 
 There is a door to the north and one to the west.
 ~
-0 DN 1
+DN 1
 D0
 A door waits to be used
 ~
@@ -9682,7 +9682,7 @@ chandelier hangs down from it.
 
 There is a door to the south
 ~
-0 DN 1
+DN 1
 D2
 A door waits to be used
 ~
@@ -9706,7 +9706,7 @@ white and glint with silver.
 
 The hallway continues north and south.  There is a door to the east
 ~
-0 DN 1
+DN 1
 D0
 The hallway
 ~
@@ -9740,7 +9740,7 @@ ground.
 
 The sole exit is the door to the west
 ~
-0 DN 1
+DN 1
 D3
 A door waits to be used
 ~
@@ -9760,7 +9760,7 @@ stands.
 
 The hallway goes north, there is a door to the east.
 ~
-0 DN 1
+DN 1
 D0
 The hallway
 ~
@@ -9792,7 +9792,7 @@ large fur rug on the floor.
 
 The sole exit is to the west
 ~
-0 DN 1
+DN 1
 D3
 A door waits to be used
 ~
@@ -9814,7 +9814,7 @@ and it is cool.
 
 The hallways goes west, the door out is east.
 ~
-0 ADN 1
+ADN 1
 D1
 The door out
 ~
@@ -9837,7 +9837,7 @@ which in a way it does.
 
 The hallway goes east and south
 ~
-0 ADN 1
+ADN 1
 D1
 The hallway
 ~
@@ -9857,7 +9857,7 @@ hallway.
 
 The hallway goes north and south
 ~
-0 ADN 1
+ADN 1
 D0
 The hallway
 ~
@@ -9877,7 +9877,7 @@ thin red lines form the shape of a skull.
 
 The hallway goes north and west, there is a door to the east.
 ~
-0 ADN 1
+ADN 1
 D0
 The hallway
 ~
@@ -9905,7 +9905,7 @@ patterns and gleam in the light.
 
 The corridor goes east, there are doors to the north, south and west.
 ~
-0 ADN 1
+ADN 1
 D0
 A door waits to be used
 ~
@@ -9938,7 +9938,7 @@ the room.
 
 The only way out is the door to the south
 ~
-0 ADN 1
+ADN 1
 D2
 A door stands ready
 ~
@@ -9956,7 +9956,7 @@ floor and walls are dark grey.
 
 The only way out is the door to the north
 ~
-0 ADN 1
+ADN 1
 D0
 A door stands before you
 ~
@@ -9977,7 +9977,7 @@ walls are black.  You notice that it is rather cool and quiet in this corridor.
 
 The corridor goes east and west.  Doors lie to the north and south.
 ~
-0 ADN 1
+ADN 1
 D0
 A door blocks you way
 ~
@@ -10010,7 +10010,7 @@ ground.  Apart from that, there is nothing else.
 
 The sole exit is the door to the north
 ~
-0 ADN 1
+ADN 1
 D0
 A door stands waiting
 ~
@@ -10028,7 +10028,7 @@ and the floor is black.
 
 The sole exit is the door to the south
 ~
-0 ADN 1
+ADN 1
 D2
 A door is ready to be used
 ~
@@ -10050,7 +10050,7 @@ your heart pumping and the loud thud of each of your foot steps.
 
 There are doors to the north, east and south.  The corridor heads west
 ~
-0 ADN 1
+ADN 1
 D0
 A door waits to be used
 ~
@@ -10083,7 +10083,7 @@ and that is all the furniture in this room.
 
 The sole exit is the door to the south
 ~
-0 ADN 1
+ADN 1
 D2
 A door stands ready
 ~
@@ -10101,7 +10101,7 @@ wall.
 
 The only way out is the door to the north
 ~
-0 ADN 1
+ADN 1
 D0
 A door waits to be used
 ~
@@ -10119,7 +10119,7 @@ with glowing lines of red in it.
 
 The chamber stretches to the east and south, to the west is a door
 ~
-0 ADN 1
+ADN 1
 D1
 The meeting chamber
 ~
@@ -10147,7 +10147,7 @@ the walls are dark grey with glowing lines of red.
 
 The chamber goes west and south
 ~
-0 ADN 1
+ADN 1
 D2
 The meeting chamber
 ~
@@ -10168,7 +10168,7 @@ will send someone out after you.
 
 The chamber continues north and west
 ~
-0 ADN 1
+ADN 1
 D0
 The meeting chamber
 ~
@@ -10189,7 +10189,7 @@ open hand.  A weird chamber by far.
 
 The chamber stretches north and east
 ~
-0 ADN 1
+ADN 1
 D0
 The meeting chamber
 ~
@@ -10210,7 +10210,7 @@ out a shape, but you can't tell what.
 
 The hallway continues north and east
 ~
-0 ADN 1
+ADN 1
 D0
 The hallway
 ~
@@ -10238,7 +10238,7 @@ or bright, everything is either black or shades of grey.
 
 The hallway continues north and south
 ~
-0 ADN 1
+ADN 1
 D0
 The hallway
 ~
@@ -10259,7 +10259,7 @@ here, making you shiver.
 There is a door to the north while the hall heads west and east, the hallway
 goes south.
 ~
-0 ADN 1
+ADN 1
 D0
 A door waits to be used
 ~
@@ -10293,7 +10293,7 @@ other critters.  Everything you see is protected by a barrier of magic.
 
 The sole exit is the door to the south
 ~
-0 ADN 1
+ADN 1
 D2
 A door waits to be used
 ~
@@ -10310,7 +10310,7 @@ It is very dark here.  You can't hear anything but the sounds that you make.
 
 To the north is a door, the hall goes on to the east
 ~
-0 ADN 1
+ADN 1
 D0
 A door stands ready
 ~
@@ -10334,7 +10334,7 @@ building, this room is actually messy.
 
 The sole exit is the door to the south
 ~
-0 ADN 1
+ADN 1
 D2
 The door waits
 ~
@@ -10351,7 +10351,7 @@ blue.  The hall is devoid of any decorations.  The air is chilly and dry.
 
 There is a door to the north while the hall continues east and west.
 ~
-0 ADN 1
+ADN 1
 D0
 A door blocks your passage
 ~
@@ -10380,7 +10380,7 @@ stretch a person 'till they either talk or split in half.
 
 The only exit is the door to the south
 ~
-0 ADN 1
+ADN 1
 D2
 The door waits for you
 ~
@@ -10400,7 +10400,7 @@ bunch do not even live in the Underdark.
 
 There is a door to the north and the hall stretches to the west
 ~
-0 ADN 1
+ADN 1
 D0
 A door blocks the way in
 ~
@@ -10423,7 +10423,7 @@ some words scribbled.  The rest of the chamber is black.
 
 The sole exit is to the south
 ~
-0 ADN 1
+ADN 1
 D2
 A door blocks the way out
 ~
@@ -10451,7 +10451,7 @@ of habitation.  What type of man is Eurandus?
 
 The way out is east, a hall goes north
 ~
-0 ADN 1
+ADN 1
 D0
 A hall stretches on
 ~
@@ -10479,7 +10479,7 @@ useful, but interesting enough to spend hours staring at.
 
 The only exit is the door to the east
 ~
-0 ADN 1
+ADN 1
 D1
 A door stands here ready
 ~
@@ -10498,7 +10498,7 @@ pure power coming from this hall.
 
 The hall stretches east, south and north, to the west is a door
 ~
-0 ADN 1
+ADN 1
 D0
 The large hall
 ~
@@ -10532,7 +10532,7 @@ insects crawling along the floor.
 
 The hall continues north and west
 ~
-0 ADN 1
+ADN 1
 D0
 The large hall
 ~
@@ -10553,7 +10553,7 @@ rest of the normal room stuff.
 
 The sole exit is the door to the east
 ~
-0 DN 1
+DN 1
 D1
 A door waits to be used
 ~
@@ -10571,7 +10571,7 @@ figures standing off to the side, yet you can't quite make them out.
 
 The hall continues east and south.  There is a door to the west
 ~
-0 ADN 1
+ADN 1
 D1
 The large hall
 ~
@@ -10605,7 +10605,7 @@ you.
 
 To the north is a door, the hall goes south and west
 ~
-0 ADN 1
+ADN 1
 D0
 A door blocks your way
 ~
@@ -10634,7 +10634,7 @@ soft and comfortable.  The rest of the room is dark and uninteresting.
 
 The sole exit is the door to the east
 ~
-0 ADN 1
+ADN 1
 D1
 A door stands here
 ~
@@ -10653,7 +10653,7 @@ Most of them die within hours of being created, yet others survive...
 
 The room continues to the north, there is a door to the south
 ~
-0 ADN 1
+ADN 1
 D0
 The experimentation room
 ~
@@ -10678,7 +10678,7 @@ under the table.
 
 The room continues to the south
 ~
-0 ADN 1
+ADN 1
 D2
 The experimenting room
 ~
@@ -10695,7 +10695,7 @@ the sounds of snarling and growls.
 
 There is a door to the north, south and west.
 ~
-0 ADN 1
+ADN 1
 D0
 A door stands ready
 ~
@@ -10727,7 +10727,7 @@ creature who is very fearsome and dangerous.
 
 The sole exit is the door to the east
 ~
-0 ADN 1
+ADN 1
 D1
 A door waits to be used
 ~
@@ -10751,7 +10751,7 @@ ceiling rests twenty feet above the ground.
 
 The cavern continues to the west, there is a door to the north
 ~
-0 ADN 1
+ADN 1
 D0
 A door stands ready to be used
 ~
@@ -10774,7 +10774,7 @@ The ceiling stretches about thirty feet into the air at this end of the cavern.
 
 The cavern goes to the east
 ~
-0 ADN 1
+ADN 1
 D1
 The cavern extends in this direction
 ~
@@ -10791,7 +10791,7 @@ lies to the north.
 
 The room continues north and west, a door to the east leads out
 ~
-0 ADN 1
+ADN 1
 D0
 The common room
 ~
@@ -10821,7 +10821,7 @@ and you can't make out a single word.
 
 The common room spreads out to the south and west
 ~
-0 ADN 1
+ADN 1
 D2
 The common room
 ~
@@ -10847,7 +10847,7 @@ about anything here knowing that no one can hear what you are saying.
 
 The common room extends to the east and south, a door lies to the west.
 ~
-0 ADN 1
+ADN 1
 D1
 The common room
 ~
@@ -10872,7 +10872,7 @@ pleasure.
 
 The common room lies to the north and the east
 ~
-0 ADN 1
+ADN 1
 D0
 The common room
 ~
@@ -10892,7 +10892,7 @@ about ten feet off the ground and the hallway is about seven feet wide.
 
 The hallway stretches westwards.  Doors lie to the north, east and south
 ~
-0 ADN 1
+ADN 1
 D0
 A door waits to be used
 ~
@@ -10926,7 +10926,7 @@ lies against the far wall and there is a bear skin rug on the floor.
 
 The sole exit is the door to the south
 ~
-0 ADN 1
+ADN 1
 D2
 A door leads back out
 ~
@@ -10945,7 +10945,7 @@ walls.
 
 The sole exit is the door to the north
 ~
-0 ADN 1
+ADN 1
 D0
 A door leads back out
 ~
@@ -10963,7 +10963,7 @@ so.  The hallway is silent and warm.
 
 The hallway goes east and west.  There are doors to the north and south
 ~
-0 ADN 1
+ADN 1
 D0
 A door leads into a room
 ~
@@ -10997,7 +10997,7 @@ lies against the far wall and there is a bear skin rug on the floor.
 
 The sole exit is the door to the north
 ~
-0 ADN 1
+ADN 1
 D0
 A door leads back out
 ~
@@ -11016,7 +11016,7 @@ walls.
 
 The sole exit is the door to the south
 ~
-0 ADN 1
+ADN 1
 D2
 A door leads back out
 ~
@@ -11034,7 +11034,7 @@ out of stone.
 
 There are doors to the north and south, the hallway goes back to the east
 ~
-0 ADN 1
+ADN 1
 D0
 A door leads to a room
 ~
@@ -11063,7 +11063,7 @@ lies against the far wall and there is a bear skin rug on the floor.
 
 The sole exit is the door to the south
 ~
-0 ADN 1
+ADN 1
 D2
 A door leads back out
 ~
@@ -11082,7 +11082,7 @@ walls.
 
 The sole exit is the door to the north
 ~
-0 ADN 1
+ADN 1
 D0
 A door leads back out
 ~
@@ -11101,7 +11101,7 @@ been burnt up by a major spell from a mage.
 
 The hallway goes deeper into the clan to the north, a door is to the south
 ~
-0 AD 1
+AD 1
 D0
 The hallway goes on
 ~
@@ -11124,7 +11124,7 @@ grey.  You can hear screams and the air is hot.
 
 The hallway goes north and south
 ~
-0 D 1
+D 1
 D0
 The hallways
 ~
@@ -11144,7 +11144,7 @@ beings of great power in these halls.
 
 The hallway goes east, south and west.
 ~
-0 D 1
+D 1
 D1
 The hallway
 ~
@@ -11170,7 +11170,7 @@ the forests.
 
 The hallway goes north and west, doors lie to the east and south
 ~
-0 ADN 1
+ADN 1
 D0
 The hallway stretches on
 ~
@@ -11205,7 +11205,7 @@ the Abyss.
 
 The sole exit is the door to the west
 ~
-0 D 1
+D 1
 D3
 A door blocks the way to the hallway
 ~
@@ -11225,7 +11225,7 @@ specializes on the level of the abyss that Graz'zt rules.
 
 There is a door to the north, the chamber goes to the east and south
 ~
-0 DN 1
+DN 1
 D0
 A large iron door
 ~
@@ -11254,7 +11254,7 @@ silver and gold.
 
 The chamber continues south and west
 ~
-0 DN 1
+DN 1
 D2
 The summoning chamber
 ~
@@ -11275,7 +11275,7 @@ demon prince whom the clan members worship and revere.
 
 The chamber continues north and west
 ~
-0 DN 1
+DN 1
 D0
 The summoning chamber
 ~
@@ -11296,7 +11296,7 @@ silver.  The floor is black and polish so it gleams in the light.
 
 The chamber continues to the north and east
 ~
-0 DN 1
+DN 1
 D0
 The summoning chamber
 ~
@@ -11317,7 +11317,7 @@ the sleeping chambers.
 
 The hallway continues north and south
 ~
-0 D 1
+D 1
 D0
 The hallway
 ~
@@ -11347,7 +11347,7 @@ Yeenoghu's layer to the ariel creatures of Pazuzu's level.
 
 The sole exit is the door to the west
 ~
-0 D 1
+D 1
 D3
 A large iron door stands here
 ~
@@ -11367,7 +11367,7 @@ the abyss.
 
 The hallway continues north and south, there is a door to the east
 ~
-0 D 1
+D 1
 D0
 The hallway
 ~
@@ -11397,7 +11397,7 @@ the Abyss.
 
 The sole exit is the door to the west
 ~
-0 D 1
+D 1
 D3
 A door blocks the way to the hallway
 ~
@@ -11416,7 +11416,7 @@ the sleeping chambers.
 
 The hallway continues north and south
 ~
-0 D 1
+D 1
 D0
 The hallway
 ~
@@ -11446,7 +11446,7 @@ Yeenoghu's layer to the ariel creatures of Pazuzu's level.
 
 The sole exit is the door to the west
 ~
-0 D 1
+D 1
 D3
 A large iron door stands here
 ~
@@ -11464,7 +11464,7 @@ levels of the abyss on them.
 
 There is a door to the east, and the hallway goes to the south
 ~
-0 D 1
+D 1
 D1
 A large iron door
 ~
@@ -11489,7 +11489,7 @@ the Abyss.
 
 The sole exit is the door to the west
 ~
-0 D 1
+D 1
 D3
 A door blocks the way to the hallway
 ~
@@ -11509,7 +11509,7 @@ Graz'zt to Orcus.
 
 The hallway continues east and west
 ~
-0 D 1
+D 1
 D1
 A split in the hallway
 ~
@@ -11529,7 +11529,7 @@ and the ceiling is black.
 
 The hallway goes north and east, there is a door to the south
 ~
-0 D 1
+D 1
 D0
 The hallway
 ~
@@ -11558,7 +11558,7 @@ hexagon.
 
 There is a door to the north, the chamber stretches east and south
 ~
-0 DN 1
+DN 1
 D0
 A large iron door
 ~
@@ -11587,7 +11587,7 @@ confinement.
 
 The chamber continues to the south and west
 ~
-0 DN 1
+DN 1
 D2
 The summoning chamber
 ~
@@ -11607,7 +11607,7 @@ green light.  The symbols on the room glint in the light.
 
 The chamber continues north and west
 ~
-0 DN 1
+DN 1
 D0
 The summoning chamber
 ~
@@ -11628,7 +11628,7 @@ greenish light that comes from the hexagon.
 
 The chamber continues to the north and east
 ~
-0 DN 1
+DN 1
 D0
 The summoning chamber
 ~
@@ -11649,7 +11649,7 @@ depict all the planes of the abyss, constantly changing.
 
 There is a door to the east, and the hallway goes to the south
 ~
-0 D 1
+D 1
 D1
 A large iron door
 ~
@@ -11673,7 +11673,7 @@ There is a large pentagon in the centre of the chamber.
 
 The room continues to the north and east, there is a door to the west
 ~
-0 DN 1
+DN 1
 D0
 The summoning room
 ~
@@ -11702,7 +11702,7 @@ this room.
 
 The room continues to the north and west
 ~
-0 DN 1
+DN 1
 D0
 The summoning room
 ~
@@ -11724,7 +11724,7 @@ is about twenty feet wide and long.
 
 The room goes to the south and west
 ~
-0 DN 1
+DN 1
 D2
 The summoning room
 ~
@@ -11746,7 +11746,7 @@ symbols that recalling would be impossible.
 
 The room stretches to the east and south
 ~
-0 DN 1
+DN 1
 D1
 The summoning room
 ~
@@ -11766,7 +11766,7 @@ that is truly interesting.
 
 The way out is to the north
 ~
-0 DN 1
+DN 1
 D0
 A door leads out
 ~
@@ -11785,7 +11785,7 @@ write home about.
 
 The exit back to the city is to the north
 ~
-0 DN 1
+DN 1
 D0
 The door leads back to the city
 ~
@@ -11803,7 +11803,7 @@ that is truly interesting.
 
 The way out is to the north.
 ~
-0 DN 1
+DN 1
 D0
 A door leads out
 ~
@@ -11822,7 +11822,7 @@ write home about.
 
 The exit back to the city is to the north
 ~
-0 DN 1
+DN 1
 D0
 The door leads back to the city
 ~
@@ -11840,7 +11840,7 @@ pieces of furniture.
 
 The way back to the city is through the door to the south
 ~
-0 DN 1
+DN 1
 D2
 The door leads out to the city
 ~
@@ -11858,7 +11858,7 @@ lie empty.  The house is silent and dark.
 
 The exit to the city is to the south
 ~
-0 ADN 1
+ADN 1
 D2
 The door leads back to the city
 ~
@@ -11874,7 +11874,7 @@ write home about.
 
 The exit back to the city is to the south
 ~
-0 DN 1
+DN 1
 D2
 The door leads back to the city
 ~
@@ -11892,7 +11892,7 @@ pieces of furniture.
 
 The way back to the city is through the door to the south
 ~
-0 DN 1
+DN 1
 D2
 The door leads out to the city
 ~
@@ -11910,7 +11910,7 @@ that is truly interesting.
 
 The way out is to the north
 ~
-0 DN 1
+DN 1
 D0
 A door leads out
 ~
@@ -11929,7 +11929,7 @@ write home about.
 
 The exit back to the city is to the north
 ~
-0 DN 1
+DN 1
 D0
 The door leads back to the city
 ~
@@ -11947,7 +11947,7 @@ lie empty.  The house is silent and dark.
 
 The exit to the city is to the north
 ~
-0 ADN 1
+ADN 1
 D0
 The door leads back to the city
 ~
@@ -11963,7 +11963,7 @@ write home about.
 
 The exit back to the city is to the south
 ~
-0 DN 1
+DN 1
 D2
 The door leads back to the city
 ~
@@ -11981,7 +11981,7 @@ pieces of furniture.
 
 The way back to the city is through the door to the south
 ~
-0 DN 1
+DN 1
 D2
 The door leads out to the city
 ~
@@ -12001,7 +12001,7 @@ interesting place.
 
 The way back to the city is to the south
 ~
-0 DN 1
+DN 1
 D2
 A door leads out to the city
 ~

@@ -2355,7 +2355,7 @@ The Road to Gimpville~
 Gimpville.  There are two and three story houses crammed together to the east
 and west.  A sign has been posted on the side of the road.
 ~
-0 0 2
+0 2
 D0
 The entrance to Gimpville
 ~
@@ -2386,7 +2386,7 @@ Southern Market Square~
    You are in the southern section of market square.  The marketplace streches
 north, east and west.  A grate is below you.
 ~
-0 0 1
+0 1
 D0
 center of Gimpville
 ~
@@ -2418,7 +2418,7 @@ Center of Gimpville~
    You are standing in the middle of market square, the center of Gimpville.
 A statue of the town's founder looms over you.
 ~
-0 0 1
+0 1
 D0
 northern market square
 ~
@@ -2445,7 +2445,7 @@ Southeast Corner of Market Square~
    This part of the square is bustling with activity.  A pet store is east
 and you see houses crowded together south.
 ~
-0 0 1
+0 1
 D0
 eastern market square
 ~
@@ -2468,7 +2468,7 @@ Southwest Corner of Market Square~
 person leaving their home to go to the shops on the other side of town.  A 
 field lies west and houses are to the south.
 ~
-0 0 1
+0 1
 D0
 western market square
 ~
@@ -2491,7 +2491,7 @@ Eastern Market Square~
 the east.  The center of Gimpville is west, and a weapons shop is to the east.
 Market square continues north and south.
 ~
-0 0 1
+0 1
 D0
 northeast corner of market
 ~
@@ -2518,7 +2518,7 @@ Western Market Square~
    A quiet part of market square.  A field lies west and market square continues
 in the other three directions.
 ~
-0 0 1
+0 1
 D0
 northwest corner of market
 ~
@@ -2546,7 +2546,7 @@ Northeast Corner of Market Square~
 entrance to a magic shop to the east.  The wall of Gimp's castle is north, and
 market square continues west and south.
 ~
-0 0 1
+0 1
 D1
 you see a magic shop
 ~
@@ -2570,7 +2570,7 @@ It strikes you as being odd that this castle has a bell tower instead of
 turrets. A gate is to the north, the center is south, and the north corners 
 of market square are east and west.
 ~
-0 0 1
+0 1
 D0
 A large archway with your typical iron gate.  
 ~
@@ -2597,7 +2597,7 @@ Northwest Corner of Market Square~
    A rather shady part of the market.  Lots of questionable people are walking
 through here.  A street vendor is one of them.
 ~
-0 0 1
+0 1
 D1
 northern market square
 ~
@@ -2619,7 +2619,7 @@ A Small Room~
    You are in a small room below market square.  You see a portal to the north,
 you wonder where it leads.  A grate is covering the opening above you.
 ~
-0 ADKNT 0
+ADKNT 0
 D0
 You see a portal to the future.
 ~
@@ -2636,7 +2636,7 @@ Gimpville Pet Store~
    The Gimpville Pet Store, with many common and strange animals to choose from.
 Ya know the shop commands by now.
 ~
-0 DM 0
+DM 0
 D3
 you see market square
 ~
@@ -2647,14 +2647,14 @@ S
 The Pet Cages~
    For the keeping of pets.
 ~
-0 D 0
+D 0
 S
 #7513
 A Magic Shop~
    What town would be complete without a magic shop?  Be sure to contribute to
 the local economy.  A nerdy looking magician stands behind the counter.
 ~
-0 D 0
+D 0
 D3
 You see... MARKET SQUARE!!!!
 ~
@@ -2667,7 +2667,7 @@ A Field~
 the rest of the village can be seen on the western edge of the field.  The field
 continues north.
 ~
-0 V 2
+V 2
 D0
 The field continues.
 ~
@@ -2685,7 +2685,7 @@ A Field~
 battle in progress...maybe you better leave.  You see the rest of the village
 to the west, market square to the east, and the field continues north and south.
 ~
-0 V 2
+V 2
 D0
 You see the field.
 ~
@@ -2708,7 +2708,7 @@ A field~
 the rich part of town is to the north.  The field continues south and market 
 square is east.
 ~
-0 V 2
+V 2
 D1
 You see market square.
 ~
@@ -2726,7 +2726,7 @@ Gimp's Castle~
 tapestries and paintings on the wall.  A stairway leads upstairs and there are
 exits north, east, and west.  Market Square is south.
 ~
-0 D 0
+D 0
 D0
 The living room
 ~
@@ -2758,7 +2758,7 @@ The Ballroom~
    You are in a very large room with guests dancing the night away.  Large 
 chandiliers light the room.  A peculiar lady is dancing in the corner.
 ~
-0 D 0
+D 0
 D0
 You see the trophy room. 
 ~
@@ -2775,7 +2775,7 @@ The Trophy Room~
    A room filled with animal heads, pretigious awards, treasures, and trophies.
 The living room is west, and the ballroom south.  A statue stands in the corner.
 ~
-0 D 0
+D 0
 D2
 You see the ballroom.
 ~
@@ -2793,7 +2793,7 @@ The Living Room~
 and a fireplace in the wall.  The kitchen is west, the center room is south, and
 the trophy room is east.
 ~
-0 D 0
+D 0
 D1
 You see the trophy room.
 ~
@@ -2816,7 +2816,7 @@ The Kitchen~
 obviously hasn't been cleaned since the last meal.  The living room is east and
 the dining room is south.
 ~
-0 D 0
+D 0
 D1
 You see the living room.
 ~
@@ -2833,7 +2833,7 @@ The Dining Room~
    You are in a large dining room.  The kitchen is north and the center room 
 east.
 ~
-0 D 0
+D 0
 D0
 You see the kitchen.
 ~
@@ -2850,7 +2850,7 @@ The Top of the Stairs~
    You reach the top of the stairs and see doors to the north and to the east.
 You also notice a ladder leading to the bell tower.
 ~
-0 D 0
+D 0
 D0
 You see a large oak door.  A sign reads "Only the most worthy may enter".
 ~
@@ -2877,7 +2877,7 @@ The Magician's Room~
    You have entered the chamber of Garlic, the Maniac Magician.  He looks ticked,
 maybe you should leave.
 ~
-0 DV 0
+DV 0
 D3
 A landing
 ~
@@ -2889,7 +2889,7 @@ Gimp's Den~
    This is the room that Gimp entertained his friends in.  Sit down.  Take a 
 load off.  Exits are east and south.
 ~
-0 CDKQT 0 
+CDKQT 0
 D1
 You see Gimp's bedroom.
 ~
@@ -2905,7 +2905,7 @@ S
 Gimp's Bedroom~
    The room is rather messy.  Gimp was kinda lazy.  The only exit is west.
 ~
-0 DK 0
+DK 0
 D3
 The den
 ~
@@ -2917,7 +2917,7 @@ The Belltower~
    You are in a tower that overlooks all of Gimpville.  One of Gimp's faithful
 servants is here eyeing you. The only exit is down.
 ~
-0 D 0
+D 0
 D5
 You see a ladder that descends downward.
 ~
@@ -2930,7 +2930,7 @@ A Small Room~
 you wonder where it leads.  A grate is covering the opening above you.  A sign
 is on the wall.
 ~
-0 ADKN 0
+ADKN 0
 D2 
 You see a portal to the past.
 ~
@@ -2953,7 +2953,7 @@ So do the many people walking around.  A group of kids point and laugh at you.
 You wonder what is so funny.  Exits are north and south, along with an entrance
 to a video arcade to the east.
 ~
-0 0 1
+0 1
 D0
 You see the end of the marketplace.
 ~
@@ -2980,7 +2980,7 @@ The End of the Marketplace~
    You are surounded by buildings.  A concert arena is north, a supermarket is 
 east, a movie theater is to the west, and the market place continues south.
 ~
-0 0 1
+0 1
 D0
 You see a large arena.
 ~
@@ -3008,7 +3008,7 @@ A Road to the City~
 the south.  The road is made of some hard, black substance, the word "pavement"
 comes to mind.  The only exit is north.
 ~
-0 0 1
+0 1
 D0
 You see the marketplace.
 ~
@@ -3027,7 +3027,7 @@ many other things.  There is a row of cash registers along the front of the stor
 A cashier waits for you in the express checkout.  The only exit is west.
 A sign is on the window.
 ~
-0 D 0
+D 0
 D3
 You see the marketplace
 ~
@@ -3044,7 +3044,7 @@ The Arcade~
 multitude of games.  West leads back to the marketplace.  You spy a door slightly
 ajar to the east.
 ~
-0 D 0
+D 0
 D1
 You see a door marked employees only.
 ~
@@ -3066,7 +3066,7 @@ game, if you die, it's for real.  Centipede is south, the Legend of Zelda east,
 and DOOM is north.  The arcade is west.  If you are a low level, you better 
 read the SIGN.
 ~
-0 CDK 0
+CDK 0
 D0
 A portal to the PC game, DOOM, that everyone was talking about in 1994.
 ~
@@ -3100,7 +3100,7 @@ Gimpville Cinemas~
 the north and "Pulp Fiction" is showing in the South Theater.  The
 marketplace is east.
 ~
-0 D 0
+D 0
 D0
 Theater 1
 ~
@@ -3122,7 +3122,7 @@ The North Theater~
    You are in a small movie theater.  The aisle continues down to the west.  The
 entrance is south.
 ~
-0 AD 0
+AD 0
 D2
 The Cinema entrance
 ~
@@ -3140,7 +3140,7 @@ The North Theater~
 of "The Crow".  The theater continues east.  There appears to be a door ajar
 leading south to the left of the screen.
 ~
-0 AD 0
+AD 0
 D1
 the north theater
 ~
@@ -3157,7 +3157,7 @@ The South Theater~
    You are standing in the back of the theater.  Aisle one is west and the back
 continues south.
 ~
-0 AD 0
+AD 0
 D0
 The entrance
 ~
@@ -3179,7 +3179,7 @@ The Back of the Theater~
    You are in the back of the South Theater.  Aisle two is west and the back
 continues north.
 ~
-0 AD 0
+AD 0
 D0
 You see a line of people waiting for you to take your seat.
 ~
@@ -3198,7 +3198,7 @@ are reviewing the movie.  The back of the theater is east and Aisle 1 is north
 if you want to be rude and inconsiderate by disturbing the people in the 
 middle rows.
 ~
-0 AD 0
+AD 0
 D0
 Lots and lots of seats.
 ~
@@ -3217,7 +3217,7 @@ to start, better take your seat.  Aisle 2 is to the south if you want to piss
 off the people in the middle row.  The back is east.  A door is ajar to the 
 west next to the screen.
 ~
-0 AD 0
+AD 0
 D1
 the back of the theater
 ~
@@ -3240,7 +3240,7 @@ Gimpville Arena~
 floor, making it ideal for rock concerts.  You hear VERY loud music to the
 north. A refreshment stand is east and the marketplace is south.
 ~
-0 CD 0
+CD 0
 D0
 the floor
 ~
@@ -3261,7 +3261,7 @@ S
 The Refreshment Stand~
    You are at the refreshment stand.  The only exit is west.
 ~
-0 D 0
+D 0
 D3
 The arena entrance.
 ~
@@ -3274,7 +3274,7 @@ The Mosh Pit~
 headbanging, and more moshing.  The pit is north and west, and the seats are
 east.
 ~
-0 AD 0
+AD 0
 D0
 the mosh pit
 ~
@@ -3297,7 +3297,7 @@ The Stands~
 close together and there are few of them.  The stands are north, and the mosh
 pit is west.
 ~
-0 AD 0
+AD 0
 D0
 the stands
 ~
@@ -3314,7 +3314,7 @@ The Stands~
    You are in the seats of the arena.  Because of the huge floor, the seating is
 limited and crowed.  The moshpit is west and the stands are south.
 ~
-0 AD 0
+AD 0
 D2
 The stands
 ~
@@ -3332,7 +3332,7 @@ The Mosh Pit~
 security guard is north to make sure no one gets on stage.  The pit is west and
 south.  The stands are east.
 ~
-0 AD 0
+AD 0
 D0
 You see the stage
 ~
@@ -3359,7 +3359,7 @@ The Mosh Pit~
    You are in the mosh pit.  You see nothing but people moshing to the music.
 The stage is north, the pit continues east, west and south.
 ~
-0 AD 0
+AD 0
 D0
 you see the stage
 ~
@@ -3387,7 +3387,7 @@ The Mosh Pit~
 banging, and more moshing.  The pit is north, east, and west.  The arena 
 entrance is south.
 ~
-0 AD 0
+AD 0
 D0
 the mosh pit
 ~
@@ -3414,7 +3414,7 @@ The Mosh Pit~
    You are on the floor.  You see nothing but people dancing, moshing, head 
 banging, and more moshing.  The pit is north and east. The stands are west.
 ~
-0 AD 0
+AD 0
 D0
 the mosh pit
 ~
@@ -3437,7 +3437,7 @@ The Stands~
 close together and there are few of them.  The stands are close together and
 there are few of them.  The stands are north, and the mosh pit is east.
 ~
-0 AD 0 
+AD 0
 D0
 the stands
 ~
@@ -3454,7 +3454,7 @@ The Stands~
    You are in the seats of the arena.  Because of the huge floor, the seating
 is limited and crowded.  The stands are south and the mosh pit is east.
 ~
-0 AD 0
+AD 0
 D1
 the mosh pit
 ~
@@ -3472,7 +3472,7 @@ The Mosh Pit~
 A security guard is north to make sure no one else gets on stage.  The pit is 
 east and south.  The stands are west.
 ~
-0 AD 0
+AD 0
 D0 
 You see the stage.
 ~
@@ -3499,7 +3499,7 @@ The Stage~
    You are on the stage.  A security officer doesn't take too kindly that you
 are on stage.  The stage is east, the mosh pit is south.
 ~
-0 D 0
+D 0
 D1
 the stage
 ~
@@ -3517,7 +3517,7 @@ The Stage~
 playing REALLY loud music.  The stage is north, east and, west.  The pit is 
 south.
 ~
-0 D 0
+D 0
 D0
 You see the back of the stage.
 ~
@@ -3544,7 +3544,7 @@ The Stage~
    You are on the stage.  A security officer doesn't take to kindly that you are
 on stage.  The stage is west, the mosh pit is south.  Backstage is north.
 ~
-0 D 0
+D 0
 D0
 backstage
 ~
@@ -3566,7 +3566,7 @@ Backstage~
    You are backstage.  The Gimps' bodyguard doesn't appear to want you back here.
 The only exit is south - maybe you better use it fast.
 ~
-0 AD 0
+AD 0
 D2
 the stage
 ~
@@ -3578,7 +3578,7 @@ The Back of the Stage~
    You are in the rear of the stage.  Some strange fellow is banging away on 
 LOTS of drums.  More stands are north and the stage is south.
 ~
-0 D 0
+D 0
 D0
 The worst seats in the house.
 ~
@@ -3596,7 +3596,7 @@ The Upper Deck~
 are behind the stage and are glad you didn't have to pay for this.  Only exit
 is south.
 ~
-0 AD 0
+AD 0
 D2
 the stage
 ~
@@ -3608,7 +3608,7 @@ Centipede~
    You are in a large field.  All you see are lots and lots of giant mushrooms.
 The mushroom patch continues east,west, and south.  The arcade is north.
 ~
-0 0 2
+0 2
 D0
 the backroom
 ~
@@ -3634,7 +3634,7 @@ S
 The Mushroom Patch~
    More mushrooms!  Exits are east and south.
 ~
-0 0 2
+0 2
 D1
 a mushroom patch
 ~
@@ -3650,7 +3650,7 @@ S
 The Mushroom Patch~
    Even more giant mushrooms!  Exits are north and east.
 ~
-0 0 2
+0 2
 D0
 a mushroom patch
 ~
@@ -3666,7 +3666,7 @@ S
 The Mushroom Patch~
    You guessed it... even more mushrooms.  Exits are north, east and west.
 ~
-0 0 2
+0 2
 D0
 a mushroom patch
 ~
@@ -3687,7 +3687,7 @@ S
 The Mushroom Patch~
    Even more giant mushrooms!  Exits are north and west.
 ~
-0 0 2
+0 2
 D0
 a mushroom patch
 ~
@@ -3703,7 +3703,7 @@ S
 The Mushroom Patch~
    More Mushrooms!  Exits are south and west.
 ~
-0 0 2
+0 2
 D2
 a mushroom patch
 ~
@@ -3720,7 +3720,7 @@ The Legend of Zelda~
    You are in a dense forest.  Hardly any light gets through the trees.  A palace
 is north and a field is east.  The arcade is back west.
 ~
-0 A 3
+A 3
 D0
 You see a large palace.
 ~
@@ -3743,7 +3743,7 @@ A field~
 scattered, yet appear to be arranged in a pattern.  The forest is west and the 
 hills are east.
 ~
-0 0 2
+0 2
 D1
 the hills
 ~
@@ -3759,7 +3759,7 @@ S
 The Hills~
    The land here is rather barren and rocky.  The only exit is west.
 ~
-0 0 4
+0 4
 D3
 the field
 ~
@@ -3771,7 +3771,7 @@ The Palace~
    The guardians in the underworld are much harder than foes encountered so far.
 Higher level mobs await to the east, the forest is south.
 ~
-0 AD 0
+AD 0
 D1
 Deeper into the palace.
 ~
@@ -3788,7 +3788,7 @@ The Palace~
    An IronKnuckle blocks your progress.  A big red door is east, those weak of
 heart may go west.
 ~
-0 AD 0
+AD 0
 D1
 A red door.
 ~
@@ -3805,7 +3805,7 @@ Ganon's Lair~
    OH NO!  You've stumbled into the lair of the vile, evil, and disgusting
 Ganon!  Looks like he has a visitor, better leave quick!
 ~
-0 AD 0
+AD 0
 D3
 An open red door.
 ~
@@ -3818,7 +3818,7 @@ A Room With a View~
 some sort of observation deck.  Of course the view is of a barren moon.  
 The only exit is east.
 ~
-0 DV 0
+DV 0
 D1
 a large room
 ~
@@ -3830,7 +3830,7 @@ DOOM~
    Oh No!  The exit closes behind you!  You are in a large room.  There are
 exits west and north.  A sign beckons to low levels.
 ~
-0 CD 0
+CD 0
 D0
 A door, open at your own risk.
 ~
@@ -3852,7 +3852,7 @@ Another Large Room~
    You are in a room crawling with soldiers.  Three jump off a platform in the 
 middle of the room and attack!!  Exits are north and south.  A sign is here.
 ~
-0 DV 0
+DV 0
 D0
 a hallway to the center
 ~
@@ -3874,7 +3874,7 @@ The Center of the Hanger~
 creatures are hurling fireballs down your throat from a platform.  A walkway
 leads north across toxic slime.  Exits are north and south.
 ~
-0 D 0 
+D 0
 D0
 A door, are you ready?
 ~
@@ -3896,7 +3896,7 @@ A Secret Passage Way~
    Unlike in the video game, this hallway leads straight to the Barons of Hell!
 So unless you are a REAL badass looking for evil equipment, turn back now.
 ~
-0 AD 0
+AD 0
 D1
 your own probable doom
 ~
@@ -3913,7 +3913,7 @@ Near the End~
    But who's end?  North you see a door that looks like it could be an exit.
 Exits north and south.
 ~
-0 AD 0
+AD 0
 D0
 Another door, open it quick!
 ~
@@ -3930,7 +3930,7 @@ The Exit Room~
    Finally!  You've reached the end.   However you notice an extension to the 
 east.  A switch is on the north wall, and a door is south.
 ~
-0 D 0
+D 0
 D0
 A switch, you wonder what would happen if you type "open switch"
 ~
@@ -3951,7 +3951,7 @@ S
 DOOM Extension~
   Exits are east and west.
 ~
-0 D 0
+D 0
 D1
 The end of the extension
 ~
@@ -3967,7 +3967,7 @@ S
 End of Extension~
    A barren, grey room.  Something invisible is here.  The only exit is west.
 ~
-0 ADNV 0
+ADNV 0
 D3
 DOOM extension
 ~
@@ -3980,7 +3980,7 @@ Tarantino Ave.~
 movie Pulp Fiction.  A store is north, a coffee shop is south.  The avenue 
 continues west and the theatre is east.
 ~
-0 T 1
+T 1
 D0
 a store
 ~
@@ -4008,7 +4008,7 @@ Tarantino Ave.~
 Pulp Fiction.  The Wallace's home is north, Butch's apartment is south, and 
 Jimmy's house is west.
 ~
-0 T 1
+T 1
 D0
 the Wallace home
 ~
@@ -4035,7 +4035,7 @@ The Wallace Manor~
    You are in the living room of Marsellis and Mia Wallace.  The only exit is 
 south.
 ~
-0 D 0
+D 0
 D2
 the avenue
 ~
@@ -4047,7 +4047,7 @@ A Store~
    You are in some sort of store.  An annoying song is playing on the radio.  
 You hear a commotion coming from down stairs.  The street is south.
 ~
-0 D 0
+D 0
 D2
 the avenue
 ~
@@ -4065,7 +4065,7 @@ A Coffee Shop~
 with a gun screaming, and two men are at a table, one pointing a gun at the 
 other.  The street is north.
 ~
-0 D 0
+D 0
 D0 
 the avenue
 ~
@@ -4077,7 +4077,7 @@ Butch's Apartment~
    You are in Butch's apartment.  There appears to be an intruder, you hear a 
 toilet flush.  The street is north.
 ~
-0 D 0
+D 0
 D0
 the avenue
 ~
@@ -4089,7 +4089,7 @@ Jimmy's House~
    You are in a room of a typical suburbean home.  Someone in a suit appears to 
 be giving Jimmy a large sum of money.  The avenue is east.
 ~
-0 D 0
+D 0
 D1
 the avenue
 ~
@@ -4102,7 +4102,7 @@ The Basement~
 chained here.  You hear screams and a gunshot in the next room.  A back room
 is north, the store is up.
 ~
-0 AD 0
+AD 0
 D0
 a door.
 ~
@@ -4120,7 +4120,7 @@ The Backroom~
 on the floor, one already dead the other surely will be soon.  The only exit is
 south.
 ~
-0 ADV 0
+ADV 0
 D2
 a door
 ~
@@ -4133,7 +4133,7 @@ The Crow~
 places and scenes from "The Crow".  The Theatre is north, a hotdog stand is
 south, and an alley is west.
 ~
-0 0 1
+0 1
 D0
 the theatre door
 ~
@@ -4155,7 +4155,7 @@ A Hot Dog Stand~
    You are in a hot dog stand.  A policeman and a young girl are discussing
 something about people returning from the dead.
 ~
-0 D 0
+D 0
 D0
 the street
 ~
@@ -4167,7 +4167,7 @@ A Dark Alley~
    You are in a dark alley.  Gideon's is north, a dark street is west, and the 
 street is east.
 ~
-0 A 1
+A 1
 D0
 Gideon's pawnshop
 ~
@@ -4189,7 +4189,7 @@ A Dark Street~
    You are in a dark street with a big red hot rod parked by the curb.  FunBoy's
 apartment is north, an alley is east, and a graveyard is west.
 ~
-0 A 1
+A 1
 D0
 FunBoy's apartment
 ~
@@ -4211,7 +4211,7 @@ Gideon's Pawn Shop~
    You see all kinds of stuff and junk for sale.  Everything from guitars to 
 televisions is here.  The alley is south.
 ~
-0 D 0
+D 0
 D2
 the alley
 ~
@@ -4222,7 +4222,7 @@ S
 FunBoy's Apartment~
    You are in a small, dark and dirt, run-down apartment.  The street is south.
 ~
-0 AD 0 
+AD 0
 D2
 the street
 ~
@@ -4234,7 +4234,7 @@ A Graveyard~
    You are in a small graveyard.  You notice two tombstones.  A large church is
 south, the street is east.
 ~
-0 A 2
+A 2
 D1
 the street
 ~
@@ -4255,7 +4255,7 @@ The Church~
    You are in a large, gothic cathedral.  It seems rather odd to find one in 
 an American city.  The roof is up (naturally) and the graveyard is north.
 ~
-0 AD 0 
+AD 0
 D0
 The graveyard
 ~
@@ -4272,7 +4272,7 @@ The Church Roof~
    This is where the final fight between Eric and Top Dollar takes place.  Watch
 your step!  It's a long way down.
 ~
-0 A 1
+A 1
 D5
 inside the church
 ~
@@ -4284,7 +4284,7 @@ The End of the First Episode~
    You are in a star shaped room.  Two VERY large foes are here.  The only exit
 is west or the after-life.
 ~
-0 DV 0
+DV 0
 D3
 the passageway
 ~
@@ -4296,7 +4296,7 @@ Cheesy's Weapon Shop~
    You see Cheesy admiring his handiwork.  You wonder if the merchandise lives
 up to it's name.
 ~
-0 D 0
+D 0
 D3
 you see the market
 ~

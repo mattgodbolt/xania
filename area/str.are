@@ -785,7 +785,7 @@ mystery blows through your nose.  Yet you can still "feel" that a fountain is
 at the centre.  Leading to the north is a gate to the Strange World and a
 pathway is leading up.
 ~
-80 ACD 3
+ACD 3
 D0
 A pass through the gate to the Strange World
 ~
@@ -812,7 +812,7 @@ carvings of a familiar figure that you may know.  There is a sign at the base
 of the statue.  Only two exits are here, a door leading to the north and the
 gate leading to the south.
 ~
-80 CD 2
+CD 2
 D0
 A pass through a door to the Brickroom
 ~
@@ -850,7 +850,7 @@ here except four brick walls and some bricks lying on the ground.  Two kids
 here are chasing each other, with bricks in their hands.  Obvious exits are
 doors to the east and south.
 ~
-80 D 1
+D 1
 D1
 A pass through a door to the Winterland
 ~
@@ -877,7 +877,7 @@ and you sneeze as you are frozen by the air here.  Snow- and ice-like
 substances are all over the place.  STRANGE!  The snow and ice are green...
 You see a trail leading to the south and a DOOR leading to the west.
 ~
-80 D 2
+D 2
 D2
 A trail to the Springland
 ~
@@ -897,7 +897,7 @@ your eyes are millions of flowers and plants blossoming, but you know none of
 their names.  They look beautiful.  You see trails to the north and east.
 There is also a path leading to the south.
 ~
-80 D 4
+D 4
 D0
 A trail to the Winterland
 ~
@@ -922,7 +922,7 @@ extreme heat.  You start to wonder how the weather can differ so greatly in
 this world.  You cannot stop sweating!  Plants like cacti are growing here
 except that they are red.  You see trails leading to the north and west.
 ~
-80 D 10
+D 10
 D0
 A trail leading to the Autumnland
 ~
@@ -941,7 +941,7 @@ Autumnland~
 gently.  STRANGE!  Leaves on the trees are red while falling leaves are green.
 You see a very huge tree trunk with a door.  The only exit is to the south.
 ~
-80 D 2
+D 2
 D2
 A trail leading to the Summerland
 ~
@@ -960,7 +960,7 @@ Inside the Tree Trunk~
 With a gleam from the doorway, you barely see a spiral staircase leading
 down.  The only exits are south to the door and down along the stairs.
 ~
-80 D 0
+D 0
 D2
 A pass through the door to the Autumnland
 ~
@@ -982,7 +982,7 @@ you observe the room in details, you discover that the ball you have just
 stepped on is a balloon, not a bomb.  A sign is here on the wall.  The only
 exit is the door to the west where you have entered.
 ~
-80 AD 0
+AD 0
 D3
 A pass through the door to the Space Control Room
 ~
@@ -1001,7 +1001,7 @@ Strange Forest~
 notice that the trees are "normal" here.  Two paths are here, one leading to
 the north and the other to the south.
 ~
-80 D 3
+D 3
 D0
 A path to Springland
 ~
@@ -1021,7 +1021,7 @@ is NOT an ordinary one.  The water flowing is green and steam is rising out of
 the river.  It must be very hot indeed.  There is a path to the north, but
 you may jump into the river south of you.
 ~
-80 D 3
+D 3
 D0
 A path to the Strange Forest
 ~
@@ -1041,7 +1041,7 @@ You stick your finger into the river and test the temperature.  Ouch!  It is
 extremely COLD.  You can go back along the path to the north, or you can move
 along the river in the east-west directions.
 ~
-80 D 6
+D 6
 D0
 A path to the Shore of Strange River
 ~
@@ -1066,7 +1066,7 @@ are standing.  Water is flowing out of the cave continuously, forming a big
 waterfall.  This must be the origin of the Strange River.  The only exit is to
 the west.
 ~
-80 D 6
+D 6
 D3
 Along the Strange River
 ~
@@ -1078,7 +1078,7 @@ S
 Along the Strange River~
      The river continues in the east-west directions.
 ~
-80 D 6
+D 6
 D1
 Along the Strange River
 ~
@@ -1095,7 +1095,7 @@ S
 A Turn in the Strange River~
      The river makes a turn here.  Exits are in the east-south directions.
 ~
-80 D 6
+D 6
 D1
 Along the Strange River
 ~
@@ -1115,7 +1115,7 @@ magnet is attracting you downward.  As you land, you look closely at your
 surroundings.  The Strange River ends here and the only exit is a path to the
 west.
 ~
-80 D 2
+D 2
 D3
 A path to a Small Cave
 ~
@@ -1133,7 +1133,7 @@ metal shells in the room.  According to your knowledge, these two shells must
 be telepods.  You may enter the telepods to the north and south of the room,
 or you can leave to the east.
 ~
-80 D 0
+D 0
 D0
 Into a telepod leading to somewhere
 ~
@@ -1157,7 +1157,7 @@ Space Control Room~
 advanced technological products.  There is a door leading to the east.  Also,
 two telepods are here, one to the north and one to the south.
 ~
-80 D 0
+D 0
 D0
 Into a telepod leading to somewhere
 ~
@@ -1182,7 +1182,7 @@ You hold both your breath and your weapon tight as you sense that you are
 exposed to extreme danger.  There is a staircase leading up and to the west of
 the room is a telepod.
 ~
-80 D 0
+D 0
 D3
 Into a telepod leading to somewhere
 ~
@@ -1202,7 +1202,7 @@ been made.  This spaceship can be compared to the Starfleet indeed.  You feel
 very comfortable here, but you should still keep an eye on your surroundings.
 Beware of the unexpected!  There are exits leading to all directions.
 ~
-80 D 0
+D 0
 D0
 A door leading to the Room of Wind
 ~
@@ -1248,7 +1248,7 @@ blowing.  You are having difficulties keeping yourself balanced.  You can
 barely open your eyes with tears dropping as the wind blows.  This is the Room
 of Windman.  The only exit is to the south.
 ~
-80 D 0
+D 0
 D2
 A door to Inside the Spaceship
 ~
@@ -1263,7 +1263,7 @@ ears with something you can grab, then you examine the room.  This is the room
 of Thunderman.  You walk around the room and discover that the only exit is to
 the west.
 ~
-80 D 0
+D 0
 D3
 A door to Inside the Spaceship
 ~
@@ -1277,7 +1277,7 @@ Room of Rain~
 nowhere.  This is the room of Rainman.  You want to leave this room as soon as
 possible, and you find that the only exit is to the north.
 ~
-80 D 0
+D 0
 D0
 A door to Inside the Spaceship
 ~
@@ -1291,7 +1291,7 @@ Room of Lightning~
 lucky that the lightning bolt didn't kill you.  This is the room of
 Lightningman.  The only exit is to the east.
 ~
-80 D 0
+D 0
 D1
 A door to Inside the Spaceship
 door~
@@ -1307,7 +1307,7 @@ your heart is beating faster, and your hands are sweating.  You hold your
 weapon tight as you are expecting the unexpected to happen.  The door from
 which you have entered is closed and the only exit is to the north.
 ~
-80 D 0
+D 0
 D0
 A door to Guardian's Room
 ~
@@ -1321,7 +1321,7 @@ Guardian's Room~
 This is the room of GoldLord, a guardian here.  There are two exits here, one
 to the south and the other to the west.
 ~
-80 D 0
+D 0
 D2
 A door to Arena
 ~
@@ -1340,7 +1340,7 @@ Guardian's Room~
 that this must be the room of WoodLord.  There are two exits in the room, one
 to the east and one to the south.
 ~
-80 D 0
+D 0
 D1
 A door to Guardian's Room
 ~
@@ -1362,7 +1362,7 @@ You try to walk in a strange gesture in order to make yourself balanced so
 that you will not fall into the water.  Meanwhile, you examine the room and
 find two exits, one to the north and the other to the south.
 ~
-80 D 0
+D 0
 D0
 A door to Guardian's Room
 ~
@@ -1383,7 +1383,7 @@ contacting the ground with your feet.  The room is filled with fire.  As you
 may guess, this is the room of FireLord.  Exits are to the north and to the
 east.
 ~
-80 D 0
+D 0
 D0
 A door to Guardian's Room
 ~
@@ -1402,7 +1402,7 @@ room is made of solid earth.  You feel more confident as you step on the
 lovely earth again.  This is the room of EarthLord.  Exits are leading to the
 east-west directions.
 ~
-80 D 0
+D 0
 D1
 A locked door leading to the east
 ~
@@ -1424,7 +1424,7 @@ whole room upside down, and you find that there is a secret passage behind a
 painting, leading to the north.  At the same time, you hear a big *BANG* and
 the door behind you is closed.
 ~
-80 D 0
+D 0
 D0
 A pass leading to the Secret Passage
 ~
@@ -1437,7 +1437,7 @@ Secret Passage~
      This is a damp, narrow, and dark passage.  Exits are in the north-south
 directions.
 ~
-80 AD 0
+AD 0
 D0
 A door leading to a room
 ~
@@ -1458,7 +1458,7 @@ by Bomberman is spreading here on the floor.  Your hair is standing erect, and
 you feel that your heart may jump out of your body in any second.  You sense
 something very evil.  There is no exit but a telepod lies north of the room.
 ~
-80 AD 0
+AD 0
 D0
 A telepod leading to somewhere
 ~
@@ -1473,7 +1473,7 @@ wandering spirits.  As you walk thru carefully.  You notice that there is a
 monument standing here, with small hand writings on it.  There are exits up
 and down.  Going down is a gate.
 ~
-80 AD 2
+AD 2
 D4
 Too dark to tell
 ~
@@ -1499,7 +1499,7 @@ S
 Dark Passage~
      This is a rugged, and very dark passage leading up and down.
 ~
-80 AD 2
+AD 2
 D4
 Too dark to tell
 ~
@@ -1518,7 +1518,7 @@ Dark Passage~
 soon you discover that there is light emerging from below.  Exits are up and 
 down.
 ~
-80 AD 2
+AD 2
 D4
 Too dark to tell
 ~
@@ -1540,7 +1540,7 @@ room.  The coffin is dark and dull, and the coffin's cover is bounded by two
 strips of yellow paper.  Writings in blood are on the strips.  The only exit 
 is up.
 ~
-80 D 2
+D 2
 D4
 Too dark to tell
 ~
@@ -1566,7 +1566,7 @@ touching them as you know none of them.  Carvings are on the west wall.  You
 have an omnious feeling as a breeze out of nowhere suddenly tickles you.  The
 is an exit leading up and a telepod is south of the room.
 ~
-80 AD 2
+AD 2
 D2
 A telepod leading to the Entrance
 ~

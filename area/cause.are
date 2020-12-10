@@ -5,7 +5,7 @@
 Bottom of the air spiral~
 You are stood in the centre of a desolate plan.  Infront of you is a large
 collumn of air spiraling upwards.~
-26 0 2
+0 2
 D4
 On the air spiral~
 ~
@@ -15,7 +15,7 @@ S
 On the air spiral~
 You are walking up an air spiral, the wind blows around you chilling you to the
 bone.  The only way to go is up. ~
-26 0 2
+0 2
 D4
 the air spiral~
 ~
@@ -25,7 +25,7 @@ S
 On the air spiral~
 You are walking up an air spiral, the wind blows around you chilling you to the
 bone.  The only way to go is up. ~
-26 0 2
+0 2
 D4
 Entrance Hall~
 ~
@@ -44,7 +44,7 @@ You must be naked and humbile befor your gods.
 Now naked and without vanity you are ready to walk north into the light.
 
 Good Luck.~
-26 0 2
+0 2
 D0
 a large oak door~
 ~
@@ -54,7 +54,7 @@ S
 The guardians room~
 You are in a small room, There is a large oak door to the north the one you
 entered by has vanished there are steps spiraling upwards around the room.~
-26 0 0
+0 0
 D0
 a large oak door~
 door~
@@ -70,7 +70,7 @@ After your fight with the monster you may need a little time to recover.
 There is a fountain here for you to drink from and some food to eat.
 If you have lost yuor nerve you may leave the corse way to the North
 East West or Down.  If you wish to continue go Up.~
-26 QN 0
+QN 0
 D0
 Bottom of the air spiral~
 ~
@@ -97,7 +97,7 @@ The viewing chair~
 You are in a large room, From here you can see all that goes on in the world.
 The master of knowledge sits here, he will be willing to help you if you pay
 him well.~
-26 NQS 0
+NQS 0
 D0
 a magic mirror~
 mirror~
@@ -106,7 +106,7 @@ S
 #26007
 a hideous room~
 You are in a hideous room, here on a throne sits your greed.~
-26 NQ 0
+NQ 0
 D0
 a large oak door~
 door~
@@ -115,7 +115,7 @@ S
 #26008
 Recovery room~
 After your fight with the monster you may need a little time to recover.  There is a fountain here for you to drink from and some food to eat.  If you have lost yuor nerve you may leave the corse way to the North East West or Down.  If you wish to continue go Up.~
-26 QN 0
+QN 0
 D0
 Bottom of the air spiral~
 ~
@@ -140,7 +140,7 @@ S
 #26009
 a hideous room~
 You are in a hideous room, here on a throne sits your pride.~
-26 NQ 0
+NQ 0
 D0
 a large oak door~
 door~
@@ -149,7 +149,7 @@ S
 #26010
 Recovery room~
 After your fight with the monster you may need a little time to recover.  There is a fountain here for you to drink from and some food to eat.  If you have lost yuor nerve you may leave the corse way to the North East West or Down.  If you wish to continue go Up.~
-26 QN 0
+QN 0
 D0
 Bottom of the air spiral~
 ~
@@ -174,7 +174,7 @@ S
 #26011
 a hideous room~
 You are in a hideous room, here on a throne sits your hatred.~
-26 NQ 0
+NQ 0
 D0
 a large oak door~
 door~
@@ -183,7 +183,7 @@ S
 #26012
 Recovery room~
 After your fight with the monster you may need a little time to recover.  There is a fountain here for you to drink from and some food to eat.  If you have lost yuor nerve you may leave the corse way to the North East West or Down.  If you wish to continue go Up.~
-26 QN 0
+QN 0
 D0
 Bottom of the air spiral~
 ~
@@ -208,7 +208,7 @@ S
 #26013
 a hideous room~
 You are in a hideous room, here on a throne sits your jelasy.~
-26 NQ 0
+NQ 0
 D0
 a large oak door~
 door~
@@ -221,7 +221,7 @@ There is a fountain here for you to drink from and some food to eat.
 If you have lost your nerve you may leave the corse way to the North.
 If you wish to continue go Up if you are good and true of heart or Down
 in you are full of evil intent.~
-26 QN 0
+QN 0
 D0
 Bottom of the air spiral~
 ~
@@ -238,7 +238,7 @@ S
 #26015
 a hideous room~
 You are in a hideous room, here on a throne sits your guilt.~
-26 NQ 0
+NQ 0
 D0
 a large oak door~
 door~
@@ -247,7 +247,7 @@ S
 #26016
 a hideous room~
 You are in a hideous room, here on a throne sits your self respect.~
-26 NQ 0
+NQ 0
 D0
 a large oak door~
 door~
@@ -256,7 +256,7 @@ S
 #26017
 Recovery room~
 After your fight with the monster you may need a little time to recover.  There is a fountain here for you to drink from and some food to eat.  If you have lost yuor nerve you may leave the corse way to the North East West or Down.  If you wish to continue go Up.~
-26 QN 0
+QN 0
 D0
 a large oak door~
 ~
@@ -269,7 +269,7 @@ S
 #26018
 Recovery room~
 After your fight with the monster you may need a little time to recover.  There is a fountain here for you to drink from and some food to eat.  If you have lost yuor nerve you may leave the corse way to the North East West or Down.  If you wish to continue go Up.~
-26 QN 0
+QN 0
 D0
 a large oak door~
 ~
@@ -282,7 +282,7 @@ S
 #26019
 a hideous room~
 You are in a hideous room, here on a throne sits your self doubt.~
-26 NQ 0
+NQ 0
 D5
 a large trap door~
 door~
@@ -291,7 +291,7 @@ S
 #26020
 a hideous room~
 You are in a hideous room, here on a throne sits your honour.~
-26 NQ 0
+NQ 0
 D4
 a trap door~
 door~
@@ -300,7 +300,7 @@ S
 #26021
 Recovery room~
 After your fight with the monster you may need a little time to recover.  There is a fountain here for you to drink from and some food to eat.  If you have lost yuor nerve you may leave the corse way to the North East West or Down.  If you wish to continue go Up.~
-26 QN 0
+QN 0
 D0
 a massive marble arch~
 ~
@@ -310,7 +310,7 @@ S
 A room of choices~
 You are in a massive room full of light you must decided what feelings lie
 deepest in your heart. Are you good or evil you must decide.~
-26 NQ 0
+NQ 0
 D4
 a portal~
 portal~
@@ -324,13 +324,13 @@ S
 GODS ROOM~
 HOW DARE YOU ENTER GODS ROOM
 NOW YOU WILL DIE!!~
-26 0 0
+0 0
 S
 #26024
 SATANS ROOM~
 HOW DARE YOU ENTER SATANS ROOM
 NOW YOU WILL DIE!!~
-26 0 0
+0 0
 S
 #0
 

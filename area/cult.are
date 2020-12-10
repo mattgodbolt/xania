@@ -13,7 +13,7 @@ which looks very functional.  There is one painting on the wall, you can't
 quite make it out, because it is what these new artist fools call abstract.
 There is a small sign here and a door to the North.
 ~
-98 D 0
+D 0
 D0
 A door leads into the temple.
 ~
@@ -41,7 +41,7 @@ Except for the fact that there is not much light here, this corridor looks
 very plain.  To the South is the reception desk, and to the North the corridor
 continues.
 ~
-98 D 0
+D 0
 D0
 The Corridor continues North.
 ~
@@ -59,7 +59,7 @@ The walls in this room are definately lined with paintings of Dragons
 and battles with Dragons.  In the later it always appears the Dragons are
 winning.  To the North there is an office and to the South there is a corridor.
 ~
-98 CD 0
+CD 0
 D0
 You see an office.
 ~
@@ -85,7 +85,7 @@ Hall, there is a room to the west and a door to the east.
  
 There is a very prominent plaque on the wall.
 ~
-98 D 0
+D 0
 D1
 There is a door to the east.
 ~
@@ -148,7 +148,7 @@ A five way intersection~
 Not much to say about this room, there are exits North, South, East,
 West, and Up.  There is a bright light coming from the South.
 ~
-98 CD 0
+CD 0
 D0
 There is an exit.
 ~
@@ -182,7 +182,7 @@ In the center of the room there is a shrine with a statue of a Dragon
 on top of it.  It appears to be a place of worship. The only exit is to
 the North.
 ~
-98 D 0
+D 0
 D0
 You see the intersection.
 ~
@@ -196,7 +196,7 @@ it, DRAGONS, of all sizes and colors.  You take a closer look and you see
 that the pictures are moving.  You feel uncomfortable in this room, you
 better leave.  The only exit is to the South.
 ~
-98 D 0
+D 0
 D1
 ~
 secret~
@@ -212,7 +212,7 @@ A VERY ordinary hallway~
 This hallway is SO ordinary it almost BORES you to death.  The
 intersection is to the West and there is a door to the East.
 ~
-98 D 0
+D 0
 D0
 You see a small store.
 ~
@@ -236,7 +236,7 @@ is a horrible stench that is rising from the toilet, you don't
 even want to think about what this guy had for lunch. The only exit
 lies to the West.
 ~
-98 D 0
+D 0
 D3
 You see a door.
 ~
@@ -250,7 +250,7 @@ rising from the floor.  The farther you walk, the more you begin to
 sweat, which is very odd, because you are not hot at all.  The hallway
 leads both East and West.
 ~
-98 D 0
+D 0
 D1
 You see the intersection.
 ~
@@ -267,7 +267,7 @@ Bend in the hallway~
 You wonder what lies around the corner to the North.  You could always
 head back by going East.
 ~
-98 D 0
+D 0
 D0
 Its too far to make out.
 ~
@@ -287,7 +287,7 @@ not to step in the center where a circle is drawn in chalk upon the
 ground.  It seems this circle  is the center of attention of this entire room.
 And to think the cult wanted you to join!
 ~
-98 D 0
+D 0
 D0
 You see a staircase.
 ~
@@ -309,7 +309,7 @@ Dark Room~
 This room is very dark.  There is a ladder leading Up, and an exit to
 the South.
 ~
-98 ACDK 0
+ACDK 0
 D2
 It's too dark to see anything.
 ~
@@ -327,7 +327,7 @@ This is where plans for the future of the Dragon Cult are made.  Only
 High Priests are allowed in here, oh yeah and someone else.  There are
 exits to the north, east, and west.
 ~
-98 D 0
+D 0
 D0
 It's very dark.
 ~
@@ -350,7 +350,7 @@ The Priests of the Dragon Cult sleep here. The room is very neat and
 tidy, except for one large tile on the floor with dirt around the edges. The
 only way out is West.
 ~
-98 D 0
+D 0
 D3
 You see the inner circle.
 ~
@@ -368,7 +368,7 @@ Whew this place really gives you the chills.  Exits are East and West
 and there is a cell to the North.  You hear a soft weeping coming from the
 cell.
 ~
-98 AD 0
+AD 0
 D0
 There is a cell door here.
 ~
@@ -390,7 +390,7 @@ The Cell~
 This dark damp place is the cell where they keep the Virgin
 Sacrifices.  Beyond the door to the south is a forboding corridor.
 ~
-98 ADN 0
+ADN 0
 D2
 You see a cell door.
 ~
@@ -403,7 +403,7 @@ You are really getting somewhere now.  You can tell by the knots
 forming in your stomach.  Exits are East and if you REALLY wish to continue
 onward, West.
 ~
-98 D 0
+D 0
 D1
 It's the hallway you just came from.
 ~
@@ -422,7 +422,7 @@ trouble.  The high priestess is rumored to fornicate with Dragons,
 some even say that she is half Dragon herself... but a half Dragons and
 Dragons in Midgaard? Impossible.
 ~
-98 D 0
+D 0
 D0
 That way smells REALLY bad.
 ~
@@ -442,7 +442,7 @@ WHAT COULD PRODUCE SUCH A SMELL?
 I don't know but it must be BIG!  A door is to the North and
 South, it sure smells better to the South.
 ~
-98 D 0
+D 0
 D0
 You see A BIG STEEL DOOR.
 ~
@@ -462,7 +462,7 @@ of Dragon defication should.  And they were intending on feeding another
 virgin to this horrible creature.  You shudder to think what this
 Wyrmling will be like if it ever grows up.  The only exit is to the South.
 ~
-98 D 0
+D 0
 D2
 You see a BIG STEEL DOOR, probably meant to keep the Wyrmling IN.
 ~
@@ -477,7 +477,7 @@ sales represenatives that can help you, provided you made an
 appointment.  You did make an appointment didn't you?
 The tourist office is to the east and you see the main offices to the north.
 ~
-98 D 0
+D 0
 D0
 The main office.
 ~
@@ -502,7 +502,7 @@ another.  There is a shrill ringing sound, and then they pick up these
 things and put it up to their ears and mouths.  This sort of place is
 not meant to exist.
 ~
-98 D 0
+D 0
 D0
 You see a hallway in the office.
 ~
@@ -530,7 +530,7 @@ The door snaps shut and you are left standing, locked in a small tight
 room... it does not look like there is any way out so you may as well lie down
 on the rug that covers the floor.
 ~
-98 DN 0
+DN 0
 D5
 ~
 trapdoor~
@@ -554,7 +554,7 @@ picture on the wall.  Exits are South, back to the main part of the
 office, and there is a glass wall and open door to the west... there
 is some lettering in the glass.
 ~
-98 D 0
+D 0
 D0
 You see a staircase.
 ~
@@ -580,7 +580,7 @@ side of the organization.  The employee's don't even bother with Fred,
 the boss, they just come here.  There is a desk here with some papers
 on it and some certificates on the wall. The only way out is back to the east.
 ~
-98 D 0
+D 0
 D1
 You see a hallway in the office.
 ~
@@ -595,7 +595,7 @@ anything ever gets done in here, or maybe not so, because nothing ever really
 does get done in here.  A huge desk is in the middle of the room, and the
 only way out is south.
 ~
-98 D 0
+D 0
 D2
 You see the middle of the office.
 ~
@@ -609,7 +609,7 @@ break room: Coffee, donuts, and more coffee.  Marie spends lots of time in
 here, because she really doesn't have that much to do.  The only exit is
 south.
 ~
-98 D 0
+D 0
 D2
 You see the copy room.
 ~
@@ -624,7 +624,7 @@ intersection so they really can't concentrate that well.  Fred
 observes this area from his office to the north.  The Entranceway
 lies west and there is a copy room to the east.
 ~
-98 D 0
+D 0
 D0
 You see Fred's office
 ~
@@ -648,7 +648,7 @@ will give you his pitch.  The furniture is nice but sterile, and there is
 nothing in the room that will distract your attention.  Somehow you feel like a
 trapped animal in this room.  The only exit is east.
 ~
-98 D 0
+D 0
 D1
 You see the entranceway to the office.
 ~
@@ -666,7 +666,7 @@ secretly Gale wants to use the hallway with Bob, but Bob doesn't know this and
 spends his time in here with Marie, wishing that Marie looked like Cindy (no
 there is no Cindy in this area). Oh well maybe this hallway is used alot.
 ~
-98 D 0
+D 0
 D0
 The hallway ends.
 ~
@@ -683,7 +683,7 @@ End of the hallway~
 This is the end of a back hallway that is used for dubious purposes.
 There are doors north and west and the hallway continues south.
 ~
-98 D 0
+D 0
 D0
 You see a rather important door.
 ~
@@ -708,7 +708,7 @@ There are all sorts of nifty office supplies here, there is a desk in the
 corner, what someone actually has their desk here? weird.  The middle of the
 office is west, the break room is north, and there is a door to the east.
 ~
-98 D 0
+D 0
 D0
 You see the break room.
 ~
@@ -731,7 +731,7 @@ This is a dark dismal cell.  It looks like the only way out is a
 locked door to the west.  The slide opens up about 15 feet above you,
 but its way too slick to try and climb up.
 ~
-9 DN 0
+DN 0
 D3
 You see a big rusty iron door.
 ~
@@ -744,7 +744,7 @@ All sorts of horrible devices, implementations of pain are strewn
 about the room.  There is a skeleton that is rotting on a rack.  The only
 visible exit is a cell door where prisoners are kept, to the east.
 ~
-98 D 0
+D 0
 D0
 ~
 secret~
@@ -762,7 +762,7 @@ the slide.  But there is really only one way to get out of this mess and
 that is to let the slide take you to wherever its destination is.  Or you
 could just sit here...
 ~
-98 DN 0
+DN 0
 D5
 Well you wish you knew.
 ~
@@ -775,7 +775,7 @@ This is a dark damp passageway with spiders and cob webs all around.
 Excluding all the twists and turns it takes the passageway has a door
 to the south and a door to the west.
 ~
-98 D 0
+D 0
 D2
 You see the inside of a secret door.
 ~
@@ -795,7 +795,7 @@ is the stench of human flesh that rises into your nostrils, making you
 ill.  Whatever is downward, is not going to like your presence.  You can go
 up and down, though to go down you'd have to be a fool.
 ~
-98 ACD 0
+ACD 0
 D4
 You see a dim light through the opening.
 ~
@@ -812,7 +812,7 @@ Deeper into the pit~
 There is a great evil that radiates from the earth below.  It is very
 dark down there, an unnatural darkness.  Go back up while you still can.
 ~
-98 AD 0
+AD 0
 D4
 It is too dark to see.
 ~
@@ -830,7 +830,7 @@ This is your last chance to turn away and leave the evil below.  It
 would not be cowardly to turn from danger such as this.  Go back and live to
 tell of this close encounter with death.
 ~
-98 AD 0
+AD 0
 D1
 It is too dark to see.
 ~
@@ -853,7 +853,7 @@ This small hidden area must have been the home to some sort of
 creature. It looks long abandoned, but the creatures hoard of treasure is still
 here.
 ~
-98 AD 0
+AD 0
 D3
 It is too dark to see.
 ~
@@ -866,7 +866,7 @@ You look around and see torn human skeletons.  A damp coldness sinks
 into your spine as you realize the full magnitude of what you've stumbled
 in upon.  This is the home of a Lich, and a powerful one at that.
 ~
-98 AD 0
+AD 0
 D4
 It is too dark to see.
 ~
@@ -878,7 +878,7 @@ Candy Store~
 This is the cults own personal candy shop.  You might want to try it,
 but be careful some of the candies are known for their strange effects.
 ~
-98 D 0
+D 0
 D2
 You see the hallway.
 ~
@@ -892,7 +892,7 @@ temple.  The walls change from the white office type walls to a dark stone
 wall, perhaps it is an indication of what lies below.  Exits are south
 and down.
 ~
-98 CD 0
+CD 0
 D2
 You see a hallway in the office.
 ~
@@ -910,7 +910,7 @@ The staircase ends here.  The room is quiet and dismal, but there are
 strange sounds, possibly chants coming from the south.  The only other wat out
 is up.
 ~
-98 CD 0
+CD 0
 D2
 It is too blurred to see anything of note.
 ~
@@ -931,7 +931,7 @@ far off lands.  You can smell the sweet odor of cigar smoke.  There is
 one book lying on the table next to Ravenwing's chair that particulary
 cathes your eye.
 ~
-99 CDJKL 0
+CDJKL 0
 E
 book~
 The binding reads "The Necronomicon: translated by H.P. Lovecraft"
@@ -944,7 +944,7 @@ small but not cramped.  There are lazy boy recliners about the room.
 The walls are composed of bookshelves which are filled with texts from
 far off lands.
 ~
-99 CDJKL 0
+CDJKL 0
 S
 #9899
 Sandman's Study~
@@ -953,7 +953,7 @@ small but not cramped.  There are lazy boy recliners  about the room.
 The walls are composed of bookshelves which are filled with texts from
 far off lands.
 ~
-99 CDJKL 0
+CDJKL 0
 S
 #0
 

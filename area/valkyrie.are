@@ -15,7 +15,7 @@ several portholes, presumably for some kind of weaponry. Affixed
 to its prow is a great slab of oak with the letters V A L K Y R I E carved
 into it. A number of ropes hang loose as if to invite you aboard.
 ~
-27 0 7
+0 7
 D2
 Dragon Sea
 ~
@@ -33,7 +33,7 @@ Main Deck - Port~
 Here the deck ends as the hull rises to foredeck to the north. You can
 see a mast to the east, and the ship's rail blocks your passage west.
 ~
-27 0 1
+0 1
 D1
 Foot of the Foremast
 ~
@@ -52,7 +52,7 @@ You're standing on the slatted deck of a ship. The deck is remarkbly clean,
 having been scrubbed by a conscientious crew member. You can see a smaller
 vessel sitting on the deck to the east.
 ~
-27 0 1
+0 1
 D0
 Main Deck - Port
 ~
@@ -77,7 +77,7 @@ Or both. To the east you see a great mast rising from the deck, while the
 deck continues north and south. You can also climb down the ropes to the
 Dragon Sea below.
 ~
-27 0 1
+0 1
 D0
 Main Deck - Port
 ~
@@ -106,7 +106,7 @@ There's a taste of salt in the air and the sound of wild seabirds overhead.
 The deck continues north, east and west. You spy a loading hatch to the east
 along with a large device for pulling the rigging.
 ~
-27 0 1
+0 1
 D0
 Main Deck - Port
 ~
@@ -130,7 +130,7 @@ Here on the southern end of the ship's deck, the level rises upward to the
 south and to the east you see a mast of modest height. Overhead, its sails
 flick and bulge in the wind.
 ~
-27 0 1
+0 1
 D0
 Main Deck - Port
 ~
@@ -155,7 +155,7 @@ Here at the northern end of the main deck a set of ladders leads up to
 the forecastle. The deck continues west, east and south where you can see
 a major mast carrying several sails. The deck creaks beneath your feet.
 ~
-27 0 1
+0 1
 D2
 Foot of the Foremast
 ~
@@ -177,7 +177,7 @@ its boom carries several great sails that drive the ship forwards. A line of
 iron pegs have been hammered into the side of it. To the south you see a
 small vessel tied to the deck, and the forecastle rises to the north.
 ~
-27 0 1
+0 1
 D0
 Below the Forecastle
 ~
@@ -213,7 +213,7 @@ vessel appears to have been heavily used o carry crew and heavy cargo.
 Its cracked rudder has been stained by years of heavy use. You see
 large masts rising up to the north and south.
 ~
-27 0 1
+0 1
 D0
 Foot of the Foremast
 ~
@@ -243,7 +243,7 @@ You're standing directly below the ship's mainmast. The surface of the mast
 has been rent by years of heat, frost and turbulent wind. Above, the mast
 pierces the sky, and several giant sails block your view of the top.
 ~
-27 0 1
+0 1
 D0
 Main Deck
 ~
@@ -280,7 +280,7 @@ duties.
 
 A massive loading hatch leads to the deck below.
 ~
-27 0 1
+0 1
 D0
 Foot of the Mainmast
 ~
@@ -315,7 +315,7 @@ shortest of its three masts. Iron pins have been mounted all the way up it.
 This is where the helmsman can steer the vessel using the wheel and
 the large whipstaff rod that disappears through a hole in the deck.
 ~
-27 0 1
+0 1
 D0
 Midships
 ~
@@ -349,7 +349,7 @@ The starboard side of the deck bears the brunt of the westerly wind. Flecks
 of sea spray sting your face and settle on your tongue. The ship's rail
 blocks your way east and you see a large mast to the west.
 ~
-27 0 1
+0 1
 D2
 Main Deck - Starboard
 ~
@@ -370,7 +370,7 @@ steel several feet wide provides a mounting point for the two ends of a
 harpoon rope made of thick sinew. The tip of the launcher protrudes over the
 ship's rail, ready to strike at any target of sufficient size. 
 ~
-27 0 1
+0 1
 D0
 Main Deck - Starboard
 ~
@@ -394,7 +394,7 @@ The starboard main deck opens out to the east, where long plank has been
 extended. To the west you can see a huge mast, and a harpoon launcher stands
 tall to the north.
 ~
-27 0 1
+0 1
 D0
 Main Deck - Starboard
 ~
@@ -423,7 +423,7 @@ The main deck continues here. The planks below your feet, stained with sweat
 and blood, also seem to be riddled with woodworm. To the east the ocean
 extends beyond the horizon, and a great loading hatch is to the west.
 ~
-27 0 1
+0 1
 D0
 Main Deck - Starboard
 ~
@@ -447,7 +447,7 @@ You're at the aft end of the main deck. It rises upward a little to the
 quarterdeck to your south. The smell of sea salt, fish and guano fill your
 nostrils.
 ~
-27 0 1
+0 1
 D0
 Main Deck - Starboard
 ~
@@ -472,7 +472,7 @@ fairly narrow but sturdy oak plank. It extends several feet over the ocean
 below. The waves are quite choppy and the biting cold would be enough to
 devour any warm blooded creature with ease.
 ~
-27 N 1
+N 1
 D3
 Main Deck - Starboard
 ~
@@ -492,7 +492,7 @@ an excellent view of the ship. The hull blocks your passage south
 but you hear sounds coming from behind it. The ocean extends far over the
 western horizon. The main deck spreads to the fore and starboard.
 ~
-27 0 1
+0 1
 D0
 Main Deck - Port
 ~
@@ -513,7 +513,7 @@ the north a large mast carries a set of broad sails overhead.
 A door is fitted into the hull to your south, and a ladder leads up to the
 poopdeck.
 ~
-27 0 1
+0 1
 D0
 Foot of the Mizzenmast
 ~
@@ -548,7 +548,7 @@ ship. You notice that the three masts to the north are all of different
 heights, the one in the middle being nearly twice as tall as the others.
 You see a door and a ladder to the west.
 ~
-27 0 1
+0 1
 D0
 Main Deck - Starboard
 ~
@@ -568,7 +568,7 @@ plumes of air bubbles billowing out as it carves passage through the Dragon
 sea. The ship's rail prevents you from falling to what would likely be an
 unpleasant death below.
 ~
-27 0 1
+0 1
 D5
 Quarterdeck
 ~
@@ -582,7 +582,7 @@ You're hanging onto the prow of the ship. The mighty figure of a warrior
 princess bearing a great trident has been carved into the hull. Your
 handholds are pretty slippery and you're keen to get back onto firmer ground.
 ~
-27 0 1
+0 1
 D4
 Below the Forecastle
 ~
@@ -596,7 +596,7 @@ The forecastle, or fo'c'sle, is a broad wooden deck that leads to the
 bowsprit before you.  Back down below you see the main deck and several
 great sails flutter just above your head.
 ~
-27 0 1
+0 1
 D0
 Forecastle
 ~
@@ -616,7 +616,7 @@ bowsprit or down over some rigging to somewhere you can't see properly. The
 horizon to the north looks clear and the climate in the distance will
 doubtless be even colder than it is here.
 ~
-27 0 1
+0 1
 D2
 Forecastle
 ~
@@ -642,7 +642,7 @@ the ship. Several ropes hanging down from some sails above terminate here.
 One slip and you're in a world of trouble. You have no choice but to go back
 down to the foc'c'sle.
 ~
-27 0 1
+0 1
 D5
 Forecastle
 ~
@@ -656,7 +656,7 @@ You're on a boom high over the quarterdeck. A length of sail extends above
 you and towards the tip of the mizzenmast. You hear the cries of seabirds
 overhead.
 ~
-27 0 1
+0 1
 D1
 Up the Mizzenmast
 ~
@@ -669,7 +669,7 @@ Up the Mizzenmast~
 You're grappling the climbing pins and ropes that climb up the mizzenmast. A
 great boom extends east and westward while the mast continues upward.
 ~
-27 0 1
+0 1
 D1
 Out on the Boom
 ~
@@ -697,7 +697,7 @@ Out on the Boom~
 You're on a boom high over the quarterdeck. A length of sail extends above
 you and towards the tip of the mizzenmast.
 ~
-27 0 1
+0 1
 D3
 Up the Mizzenmast
 ~
@@ -711,7 +711,7 @@ You're near the top of the mizzenmast. A few ropes have been tied off here,
 and just below a pair of sails extend outward, catching a breeze that heads
 west by northwest.
 ~
-27 0 1
+0 1
 D4
 Atop the Mizzenmast
 ~
@@ -731,7 +731,7 @@ nothing up here except a superb view of the ship below and the wide ocean
 all around. Far to the west you see dark coastline and a range of mountains
 pierce the sky to the east.
 ~
-27 0 1
+0 1
 D5
 Down the Mizzenmast
 ~
@@ -745,7 +745,7 @@ You're grappling some ropes high above the main deck. A length of sail
 extends above you and towards the tip of the mainmast. It's a good job you
 don't suffer from vertigo.
 ~
-27 0 1
+0 1
 D1
 Ascending the Mainmast
 ~
@@ -759,7 +759,7 @@ Hugging the mainmast, you find yourself at a junction between two great
 booms that swing above the deck below. The mast continues into the sky
 above or down to the relative safety of the deck below. 
 ~
-27 0 1
+0 1
 D1
 Grappling the Rigging
 ~
@@ -787,7 +787,7 @@ Grappling the Rigging~
 You're grappling the rigging over the starboard main deck. Here the wind
 catches your face and you feel its biting cold.
 ~
-27 0 1
+0 1
 D3
 Ascending the Mainmast
 ~
@@ -801,7 +801,7 @@ The mainmast narrows slightly as it climbs further upward. A set of short
 booms extend east and west several metres above the ship's deck. You feel a
 little dizzy.
 ~
-27 0 1
+0 1
 D4
 Ascending the Mainmast
 ~
@@ -821,7 +821,7 @@ below your feet and the swaying of the ship is more pronounced at this
 height. Eastward the boom extends further. You notice some officers on the
 deck below studying the horizon with a telescope. 
 ~
-27 0 1
+0 1
 D1
 Ascending the Mainmast
 ~
@@ -835,7 +835,7 @@ This is where the main skysail begins its journey downwards, enabling the
 forces of wind and gravity to thrust the vessel forward. The mast
 continues upward towards a crow's nest. 
 ~
-27 0 1
+0 1
 D1
 High Above the Deck
 ~
@@ -865,7 +865,7 @@ your feet and the swaying of the ship is more pronounced at this height. You
 notice a plume of air and water spurt from the ocean surface momentarily, 
 but there's no sign of what caused it.
 ~
-27 0 1
+0 1
 D3
 Ascending the Mainmast
 ~
@@ -881,7 +881,7 @@ grip. Fortunately, there are several clasps designed for safety lines
 screwed into  the woodwork. There's an incredible vista all around. You
 notice land to the east and west, but none to the north or south. 
 ~
-27 0 1
+0 1
 D5
 Descending the Mainmast
 ~
@@ -895,7 +895,7 @@ You're balancing on a wooden boom high above the forecastle. A sail and
 several lines extend up to the foremast. The horizon to the north looks
 bleak and cold. 
 ~
-27 0 1
+0 1
 D1
 Up the Foremast
 ~
@@ -910,7 +910,7 @@ The foremast, although thick and strong, is neither as imposing or as
 secure as the mainmast to the south. A maincourse sail hangs before you,
 bearing the brunt of the westerly wind. You spot a platform high above.
 ~
-27 0 1
+0 1
 D1
 Balancing on the Boom
 ~
@@ -939,7 +939,7 @@ You're balancing on a wooden boom high above the forecastle. A sail and
 several lines extend up to the foremast. There is some shallower water to
 the east which is apparent from the variations in its colour.
 ~
-27 0 1
+0 1
 D3
 Up the Foremast
 ~
@@ -954,7 +954,7 @@ a deck gun or a crossbow. It obviously provides a great vantage point for
 spotting targets before the ship while also being low enough to launch
 projectiles. 
 ~
-27 0 1
+0 1
 D4
 Tip of the Foremast
 ~
@@ -973,7 +973,7 @@ You're at the peak of the main staysail which flutters out below down to
 the forecastle. Just under your feet is a ballistic observation deck. The
 undulating motion of the ship suddenly makes you feel a little nauseous.
 ~
-27 0 1
+0 1
 D5
 Standing on the Fighting Top
 ~
@@ -989,7 +989,7 @@ on wooden carts sit on deck, some protruding out through the ship's hull.
 The deck is coated in grime and a fine black powder. There is a small
 alcove to the east.
 ~
-27 D 0
+D 0
 D1
 Armoury
 ~
@@ -1009,7 +1009,7 @@ except for weaponry and the tools used to operate them. The ship's hull
 creaks with its motion. A set of racks carrying ropes and rigging can be
 seen to the east under the faint daylight above.
 ~
-27 D 0
+D 0
 D0
 Gun Deck - Port
 ~
@@ -1033,7 +1033,7 @@ This is the aft end of the gun deck, where a canon points out to sea. You
 almost trip over a crate of ammo. The hallway continues in the darkness
 to the  north and east.
 ~
-27 D 0
+D 0
 D0
 Gun Deck - Port
 ~
@@ -1052,7 +1052,7 @@ Clearly a corner for food and merriment, the mess hall is surprisingly clean
 and hygenic compared to the rest of the ship. Apart from the rat that just
 caught your eye.
 ~
-27 D 0
+D 0
 D1
 Mess Hall
 ~
@@ -1067,7 +1067,7 @@ A set of bunk beds and benches line this small room inside the ship. The beds
 look pretty dirty and uncomfortable, no doubt due the crew occupying them in a
 round-the-clock duty rota. 
 ~
-27 D 0
+D 0
 D1
 Crew's Quarters
 ~
@@ -1081,7 +1081,7 @@ This corner of the middle deck is home to crates of ammo, gunpowder, blades,
 knives, hammers and many other tools. It's pretty dark in here and due to its
 contents, you feel that it would be quite risky to light a candle in here.
 ~
-27 D 0
+D 0
 D3
 Gun Deck - Port
 ~
@@ -1098,7 +1098,7 @@ of knot on display. Above, a loading hatch leads out out to the fresh air
 while the deck continues west into the darkness, and darker still beneath
 your feet.
 ~
-27 D 0
+D 0
 D3
 Gun Deck - Port
 ~
@@ -1125,7 +1125,7 @@ The boarding of the deck above creaks under the weight of a crew member. A
 thin shaft of light breakts through the cracks revealing an eddy of dust
 that irritates your eyes. 
 ~
-27 D 0
+D 0
 D1
 Gun Deck - Starboard
 ~
@@ -1152,7 +1152,7 @@ home to several tin pots and plates. The odour of fish and potatoes wafts in
 from the galley to the east, no doubt the daily diet is pretty limited. Some
 bunk beds stand to the south and a door to the gun deck is to the north.
 ~
-27 D 0
+D 0
 D0
 Gun Deck
 ~
@@ -1182,7 +1182,7 @@ coffers offer a home away from home to the crew. In the darkness you can hear
 the sound of scurrying rats the creaking timbers of the hull. The quarters
 continue west and a store room is to the east.  
 ~
-27 D 0
+D 0
 D0
 Mess Hall
 ~
@@ -1211,7 +1211,7 @@ corner, a short but well kept mattress lies close to the deck. A door leads
 north to the officer's area, and a much sturdier steel door blocks the way
 south. 
 ~
-27 DN 0
+DN 0
 D0
 Officer's Quarters
 ~
@@ -1231,7 +1231,7 @@ measurement devices and several types of foreign currency. There are also a
 number of books on international law and trade treaties. Your eye falls on
 one particularly large volume titled "The Great Whale: A Hunter's Tale".
 ~
-27 ADN 0
+ADN 0
 D0
 Captain's Quarters
 ~
@@ -1245,7 +1245,7 @@ The starboard side of the gun deck features a few heavy iron cannons. Some
 are in a state of disrepair while others are pointing through the hull in a
 state of readiness. You almost trip over one in the darkness.
 ~
-27 D 0
+D 0
 D2
 Gun Deck - Starboard
 ~
@@ -1260,7 +1260,7 @@ defence, a heavy iron great-cannon. You begin to wonder what the range of
 these devices is and how much damage they'd actually do against a party of
 hostile boarders.
 ~
-27 D 0
+D 0
 D0
 Gun Deck - Starboard
 ~
@@ -1279,7 +1279,7 @@ This is the south eastern corner of the gun deck where a crate of buckshot
 stands next to a small stack of heavy iron cannonballs. The hallway heads
 west and to the north.
 ~
-27 D 0
+D 0
 D0
 Gun Deck - Starboard
 ~
@@ -1301,7 +1301,7 @@ pots are steaming and bubbling with a frothy, fishy brew. There's a pair
 of shelves carrying some spices, loaves of bread and a bowl of lemons. Over
 in the west you see a large oak dining table.
 ~
-27 D 0
+D 0
 D3
 Mess Hall
 ~
@@ -1316,7 +1316,7 @@ tools on a huge set of makeshift shelves. There's a bit of a whiff about
 the place, perhaps coming from below but it's hard to tell. The deck leads
 west towards a set of bunk beds.
 ~
-27 D 0
+D 0
 D3
 Crew's Quarters
 ~
@@ -1333,7 +1333,7 @@ onto surgical instruments even in the roughest of conditions. A bucket of
 fresh water stands next to another that appears to be half full of gore.
 A storage area is to the south.
 ~
-27 D 0
+D 0
 D2
 Sailroom
 ~
@@ -1349,7 +1349,7 @@ some of them feature tears and bitemarks from the local residents. A low
 cart on wheels features several mount points for hooks - that must be how
 they get the goods in and out of this place.
 ~
-27 D 0
+D 0
 D0
 Sickbay
 ~
@@ -1368,7 +1368,7 @@ You're in a large, dark but open storage area.  The place stinks of fat and
 salted blubber, no doubt from one of the ship's hapless victims. The deck
 opens out to the east and the hold continues south. 
 ~
-27 AD 0
+AD 0
 D1
 Orlop Deck
 ~
@@ -1388,7 +1388,7 @@ above. Here in the darkness the sounds of the sea and birdlife have been
 replaced by the rumble of creaking timbers. There's a small opening to
 rooms north and east, and there's a huge copper tank to the south.
 ~
-27 D 0
+D 0
 D0
 Sailroom
 ~
@@ -1423,7 +1423,7 @@ too as the sheets are clean and free of the unpleasant odours found elsewhere
 onboard. There's a small storage box for belongings but you also note that
 there's no porthole or window for travellers to enjoy.
 ~
-27 AD 0
+AD 0
 D3
 Orlop Deck
 ~
@@ -1438,7 +1438,7 @@ grain, vegetables and an enormous slab of whalemeat. It seems to be pretty
 fresh too as a thin trail of fluid trickles slowly from through a drainage
 channel. The hold continues north and south. 
 ~
-27 AD 0
+AD 0
 D0
 Main Hold
 ~
@@ -1460,7 +1460,7 @@ protrude from the hull above your head. In the south east corner of
 the room stands a locked door and the ship's stern belowdecks is to
 the south.
 ~
-27 AD 0
+AD 0
 D0
 Orlop Deck
 ~
@@ -1484,7 +1484,7 @@ You're in a tiny dark prison cell. There's not much in here except a hard
 narrow bench and a bucket full of waste. You feel pretty sorry for anyone
 unfortunate enough to find themselves caught here.
 ~
-27 ADN 0
+ADN 0
 D3
 Orlop Deck
 ~
@@ -1499,7 +1499,7 @@ is home to a variety of boxes and crates carrying goods from every corner
 of Xania. A wheeled trolley with hook mountpoints stands next to a crate
 of heavy iron ore.
 ~
-27 AD 0
+AD 0
 D0
 Main Hold
 ~
@@ -1514,7 +1514,7 @@ with several connecting ropes and rods to the helm above. This is perhaps
 the most peaceful corner of the ship, with nothing other than the curves of
 the ship's timbers to rest your weary legs.
 ~
-27 AD 0
+AD 0
 D0
 Bilge Room
 ~
@@ -1534,7 +1534,7 @@ This is a small hold where it seems that some of the ship's foods supplies
 are kept. Understandably, it's kept cleaner and tidier than some other parts
 of the belowdecks. The stern continues to the west.
 ~
-27 AD 0
+AD 0
 D3
 The Stern
 ~
@@ -1549,7 +1549,7 @@ table with some  stools, a set of shelves and some writing implements. A oil
 lamp hangs on the wall. To the west you can see the horizon through a
 porthole. The quarters continue east.
 ~
-27 DN 0
+DN 0
 D1
 Officer's Quarters
 ~
@@ -1565,7 +1565,7 @@ table with some stools, a set of shelves and some writing implements. A oil
 lamp hangs on the wall. There are doors to the north and south, with another
 made of steel to the east.
 ~
-27 DN 0
+DN 0
 D0
 Quarterdeck
 ~
@@ -1596,7 +1596,7 @@ sheets and a thick down mattress stands on the south wall. Travelling in
 relative comfort must cost a pretty penny. There's a door west to the
 officer's quarters.
 ~
-27 DN 0
+DN 0
 D3
 Officer's Quarters
 ~
@@ -1609,7 +1609,7 @@ Dragon Sea~
 You're out on the Dragon Sea. The waves crash around you for as far as you
 can see. The current takes you north.
 ~
-27 0 7
+0 7
 D0
 Dragon Sea
 ~
@@ -1625,7 +1625,7 @@ almost immediately. The hull of the ship slides on by to your left. Is that
 a cry of "man o'erboard!" you hear from high above? The waves crash all
 around you and dark depths open up beneath.
 ~
-27 N 6
+N 6
 D0
 Dragon Sea
 ~
@@ -1653,7 +1653,7 @@ Dragon Sea~
 You're out on the Dragon Sea. The waves crash around you for as far as you
 can see. The current takes you east.
 ~
-27 0 7
+0 7
 D1
 Dragon Sea
 ~
@@ -1666,7 +1666,7 @@ Dragon Sea~
 You're out on the Dragon Sea. The waves crash around you for as far as you
 can see. The swell takes you south.
 ~
-27 0 7
+0 7
 D2
 Dragon Sea
 ~
@@ -1681,7 +1681,7 @@ Holding your breath, you find yourself swept along underneath the ship's
 huge keel. You notice some interesting rocks to the east and an unusually
 black shadow below.
 ~
-27 AN 7
+AN 7
 D1
 Coral Reef
 ~
@@ -1705,7 +1705,7 @@ A beam of sunlight breaks through the clouds above. You're surrounded by a
 spectacular coral reef, its miniature rocky towers coated in incredibly
 ornate submarine vegetation.  Darkness beckons from below.
 ~
-27 N 7
+N 7
 D3
 Deep Beneath the Waves
 ~
@@ -1724,7 +1724,7 @@ It's almost pitch black here in this under water cave. The cave provides
 protection from the ocean currents as well as the local shark population.
 You notice a small chest covered with sand.
 ~
-27 ADN 7
+ADN 7
 D1
 On the Seabed
 ~
@@ -1738,7 +1738,7 @@ Here at the bottom of the Dragon Sea there's nothing but the finest of sands
 and the occasional starfish.  The terrain is uneven, with rocks blocking
 your path north and south, but you notice a cave entrance to the west.
 ~
-27 ADN 7
+ADN 7
 D3
 An Underwater Cave
 ~
@@ -1757,7 +1757,7 @@ Far below a coral reef, you find yourself sliding down a smooth part of the
 seabed towards a great overhang. Beyond that, the water seems to get even
 colder and darker.
 ~
-27 ADN 7
+ADN 7
 D1
 Edge of the Abyss
 ~
@@ -1776,7 +1776,7 @@ You're in the darkest and coldest place you've ever been. You feel your ears
 popping under the pillars of water above. You can try to swim back west up
 the slope of the seabed or you can succumb to the pressure.
 ~
-27 ADN 7
+ADN 7
 D3
 Exploring the Seabed
 ~
@@ -1796,7 +1796,7 @@ past your face down further down into the depths below. You notice an
 incredibly flat fish that resembles a piece of slate sliding through the
 darkness.
 ~
-27 ADN 7
+ADN 7
 D4
 Edge of the Abyss
 ~
@@ -1816,7 +1816,7 @@ of the Black Abyss. Nothing could possibly survive down here for any
 reasonable length of time. In a fit of despair you feel an enormous longing
 to return to Midgaard for a pint of stout and slice of pie.
 ~
-27 ADN 7
+ADN 7
 D4
 The Black Abyss
 ~

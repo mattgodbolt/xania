@@ -12,7 +12,7 @@ This is the entrance to Yggdrasil, the World Ash.  Through
 this tree are conduits to many other planes of existence.  The way back
 to the forest is to the east and you can delve deeper to the north.
 ~
-99 0 3
+0 3
 D0
 Some woodlands lie to the north
 ~
@@ -40,7 +40,7 @@ The Trunk of Yggdrasil~
 You are traveling in Yggdrasil, the World Ash.  Who knows
 what other travelers you may encounter.
 ~
-99 0 3
+0 3
 D4
 The trunk continues to go up here.
 ~
@@ -58,7 +58,7 @@ You are in the lower reaches of Yggdrasil.  The tree top
 cannot be seen.  Lesser astral travelers can be seen moving
 about.
 ~
-99 0 3
+0 3
 D0
 A limb branches off in this direction.
 ~
@@ -94,7 +94,7 @@ S
 A Lower Branch of Yggdrasil~
 You are on a limb on the lower level of Yggdrasil.
 ~
-99 0 3
+0 3
 D2
 The main trunk is in this direction.
 ~
@@ -107,7 +107,7 @@ You are on the top of the World Ash.  You can see in the
 distance many realms and dimensions.  This is definitely a
 crossroads to the gods.
 ~
-99 0 3
+0 3
 D5
 The way down the trunk of Yggdrasil lies this way.
 ~
@@ -118,7 +118,7 @@ S
 A Lower Branch of Yggdrasil~
 You are on a limb on the lower level of Yggdrasil.
 ~
-99 0 3
+0 3
 D1
 The main trunk is in this direction.
 ~
@@ -129,7 +129,7 @@ S
 A Lower Branch of Yggdrasil~
 You are on a limb on the lower level of Yggdrasil.
 ~
-99 0 3
+0 3
 D3
 The main trunk is in this direction.
 ~
@@ -142,7 +142,7 @@ You are under the ground among the roots of Yggdrasil.  You
 sense a greater preponderance of evil in this area.  Your
 fellow travelers also tend to be of the evil persuasion.
 ~
-99 0 3
+0 3
 D0
 The roots lead off in this direction.
 ~
@@ -179,7 +179,7 @@ The Roots of Yggdrasil~
 You are in the roots of the great tree.  Many odd creatures
 can be seen and felt wandering in the area.
 ~
-99 0 3
+0 3
 D0
 The roots continue in this direction.
 ~
@@ -191,7 +191,7 @@ The Roots of Yggdrasil~
 You are in the roots of the great tree.  Many odd creatures
 can be seen and felt wandering in the area.
 ~
-99 0 3
+0 3
 D3
 The roots continue in this direction.
 ~
@@ -203,7 +203,7 @@ The Roots of Yggdrasil~
 You are in the roots of the great tree.  Many odd creatures
 can be seen and felt wandering in the area.
 ~
-99 0 3
+0 3
 D1
 The roots continue in this direction.
 ~
@@ -214,7 +214,7 @@ S
 A Lower Branch of Yggdrasil~
 You are on a limb on the lower level of Yggdrasil.
 ~
-99 0 3
+0 3
 D0
 The main trunk is in this direction.
 ~
@@ -228,7 +228,7 @@ you can almost see the foul and evil realms of the followers
 of evil.  You can faintly hear the screams of their tortured
 victims.
 ~
-99 0 3
+0 3
 D4
 You see the roots of the tree continue in this direction.
 ~
@@ -239,7 +239,7 @@ S
 A Middle Branch of Yggdrasil~
 You are on a limb on the middle level of Yggdrasil.
 ~
-99 0 3
+0 3
 D1
 The main trunk is in this direction.
 ~
@@ -250,7 +250,7 @@ S
 A Middle Branch of Yggdrasil~
 You are on a limb on the middle level of Yggdrasil.
 ~
-99 0 3
+0 3
 D2
 The main trunk is in this direction.
 ~
@@ -261,7 +261,7 @@ S
 A Middle Branch of Yggdrasil~
 You are on a limb on the middle level of Yggdrasil.
 ~
-99 0 3
+0 3
 D3
 The main trunk is in this direction.
 ~
@@ -272,7 +272,7 @@ S
 A Middle Branch of Yggdrasil~
 You are on a limb on the middle level of Yggdrasil.
 ~
-99 0 3
+0 3
 D0
 The main trunk is in this direction.
 ~
@@ -285,7 +285,7 @@ You are in the middle parts of Yggdrasil.  The tree top
 still cannot be seen.  Many travelers are passing you in
 fulfillment of their quests.
 ~
-99 0 3
+0 3
 D0
 A limb branches off in this direction.
 ~
@@ -323,7 +323,7 @@ You are in the topmost section of Yggdrasil.  The tree top
 is just above you.  Great power can be sensed in this area. 
 There is also goodness here.
 ~
-99 0 3
+0 3
 D0
 A limb branches off in this direction.
 ~
@@ -359,7 +359,7 @@ S
 An Upper Branch of Yggdrasil~
 You are on a limb on the upper level of Yggdrasil.
 ~
-99 0 3
+0 3
 D0
 The main trunk is in this direction.
 ~
@@ -370,7 +370,7 @@ S
 An Upper Branch of Yggdrasil~
 You are on a limb on the upper level of Yggdrasil.
 ~
-99 0 3
+0 3
 D1
 The main trunk is in this direction.
 ~
@@ -381,7 +381,7 @@ S
 An Upper Branch of Yggdrasil~
 You are on a limb on the upper level of Yggdrasil.
 ~
-99 0 3
+0 3
 D2
 The main trunk is in this direction.
 ~
@@ -392,7 +392,7 @@ S
 An Upper Branch of Yggdrasil~
 You are on a limb on the upper level of Yggdrasil.
 ~
-99 0 3
+0 3
 D3
 The main trunk is in this direction.
 ~
@@ -404,7 +404,7 @@ The Roots of Yggdrasil~
 You are in the roots of the great tree.  Many odd creatures
 can be seen and felt wandering in the area.
 ~
-99 0 3
+0 3
 D2
 The roots continue in this direction.
 ~

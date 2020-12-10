@@ -14,7 +14,7 @@ very much like turning back and heading for safer areas. The path leads north
 into more open lands while it also leads south into the darkness of the forest.
 A small sign is posted here.
 ~
-23 C 3
+C 3
 D0
 ~
 ~
@@ -42,7 +42,7 @@ down through the gaps in the canopy above and provide small spots of light
 that seem to attract what little foliage can grow on the dark forest floor.
 The path winds north and south into darkness.
 ~
-23 AC 3
+AC 3
 D0
 ~
 ~
@@ -60,7 +60,7 @@ intersection. It is almost as though you are in a circle of light that
 provides sanctuary in this land of darkness.
 Something has been scrawled in the dirt in blood here.
 ~
-23 0 3
+0 3
 D0
 ~
 ~
@@ -85,7 +85,7 @@ its deadly darkness and silence. Looking west, you see a path that leads up
 into a foothills region. Standing here on the boundary between light and
 darkness, you feel very vulnerable and alone.
 ~
-23 0 4
+0 4
 D0
 ~
 ~
@@ -102,7 +102,7 @@ heard and little light penetrates the canopy of trees above you. The air here
 smells musty and you long for a fresh breath. You see an intersection of paths
 to the west. The path you are on leads south into the darkening woods.
 ~
-23 A 3
+A 3
 D2
 ~
 ~
@@ -119,7 +119,7 @@ wet quagmire. It is difficult to walk, and you make squishing sounds as you
 move on. Looking east, you see a swampy path. The main path leads north and
 south into darkness.
 ~
-23 A 3
+A 3
 D0
 ~
 ~
@@ -140,7 +140,7 @@ that the ground has become dank and swampy, while the western path appears
 to be entering a hilly area. You hear sounds of swamp creatures to the north
 east.
 ~
-23 A 3
+A 3
 D0
 ~
 ~
@@ -159,7 +159,7 @@ of beaten armour and broken blades lie all around. Examining the tracks here
 lead you to believe that the dead and wounded were dragged off in two 
 directions, south and east.
 ~
-23 A 4
+A 4
 D1
 ~
 ~
@@ -179,7 +179,7 @@ The path here winds among the low rocky hills. The long trek up and down the
 hills begins to tire you greatly. Looking east, you see a small clearing. More
 hills are to the north of here.
 ~
-23 0 4
+0 4
 D0
 ~
 ~
@@ -196,7 +196,7 @@ slip and fall often. Looking south, you see that the path continues into the
 hills. Smoother ground is to the east, but the path seems to lead into a dark
 forest in that direction.
 ~
-23 0 4
+0 4
 D1
 ~
 ~
@@ -213,7 +213,7 @@ small boulders bounce and fall down below you. Looking to the east and west,
 you see more stable ground. The hillside itself goes on higher to the south
 and it drops away to the north.
 ~
-23 C 5
+C 5
 D0
 ~
 ~
@@ -238,7 +238,7 @@ beaten trees. There are little signs of life here. Only bare rock and dry dirt
 can be seen. Looking east, you see a small pass that will allow you to leave
 the foothills. The foothills themselves extend to the south.
 ~
-23 0 4
+0 4
 D1
 ~
 ~
@@ -256,7 +256,7 @@ Even here, you catch its scent on the winds. From here, you can travel south
 deeper into the foothills or to the west where a small pass will allow you to
 climb down.
 ~
-23 0 4
+0 4
 D2
 ~
 ~
@@ -272,7 +272,7 @@ You are in a barren set of foothills. Looking around, all you see are dead
 plants and boulders. From the south, you get a whiff of salty air. Barren paths
 lead east, north, and south into more barren hills.
 ~
-23 0 4
+0 4
 D0
 ~
 ~
@@ -294,7 +294,7 @@ bushes is a huge gnarled tree. It appears to have been twisted and torn by
 the forces of nature. It sways and moans as a strong wind from the south tears
 through its old feeble branches. The hills themselves lead in all directions.
 ~
-23 0 4
+0 4
 D0
 ~
 ~
@@ -320,7 +320,7 @@ lie around. An unbearable stench comes from within the cave itself. The dark
 cave entrance looms to the east. The hills themselves lead towards the
 north, south, and west.
 ~
-23 0 4
+0 4
 D0
 ~
 ~
@@ -347,7 +347,7 @@ rotting away slowly in the gloomy darkness. In the back of the cave, you see a
 large pile of rotting cloth, fur, and plant matter. Light and safety is
 towards the west.
 ~
-23 AD 0
+AD 0
 D3
 ~
 ~
@@ -366,7 +366,7 @@ life here. It is possible to climb down to the shore here. The hills
 themselves are to the north. The edge of the hills leads to the east along the
 shoreline.
 ~
-23 0 4
+0 4
 D0
 ~
 ~
@@ -389,7 +389,7 @@ notice signs of life in the rocky crags here. You can climb down towards the
 shore or head north into the hills themselves. The rocky summit you are
 standing leads east and west along the shoreline.
 ~
-23 0 4
+0 4
 D0
 ~
 ~
@@ -415,7 +415,7 @@ Looking around, you notice that you can safely climb down towards the shore.
 The hills themselves stretch towards the north. The rough summit you stand
 upon leads west along the shoreline.
 ~
-23 0 4
+0 4
 D0
 ~
 ~
@@ -435,7 +435,7 @@ You are at the base of the rocky hills. Stretching to the south and east, you
 see a rocky shore. To the southeast, you see a small altar of some sorts that
 glows with an eerie blue light. It is possible to climb up into the hills here.
 ~
-23 0 2
+0 2
 D1
 ~
 ~
@@ -456,7 +456,7 @@ whistles among the rocks. You see an altar of some sort built on the shore to
 the south. The shore itself leads east and west. Looking up, you see foothills
 and rocky crags.
 ~
-23 0 2
+0 2
 D1
 ~
 ~
@@ -481,7 +481,7 @@ vast sea is to your south. Looking to the southwest, you see a small altar
 that glows with a eerie blue light. The shore stretches out to the south and
 west. It is possible to climb up into the hills here.
 ~
-23 0 2
+0 2
 D2
 ~
 ~
@@ -501,7 +501,7 @@ You walk along the water's edge. The vastness of the ocean is staggering as
 you look out across it. You notice a small altar that glows with blue light
 to the east. The shore itself extends north away from the water's edge.
 ~
-23 0 2
+0 2
 D0
 ~
 ~
@@ -520,7 +520,7 @@ light. It is possible to walk south into the portal. The shore itself extends
 to the north, east, and west.
 There are small inscriptions on the rock at the base of the portal.
 ~
-23 0 2
+0 2
 D0
 ~
 ~
@@ -554,7 +554,7 @@ debris is washed up on shore. You slip and slide as you tread across the
 slippery rocks that make up the shore. To the west you see a small altar that
 radiates blue light. The shore extends north away from the water's edge.
 ~
-23 0 2
+0 2
 D0
 ~
 ~
@@ -572,7 +572,7 @@ finally right yourself. Gaining your bearings, you notice that there are three
 plain. Another window the the north shows an image of a rocky shore, whilst
 you detect an expanse of fields through the haze in the east.
 ~
-23 CD 0
+CD 0
 D0
 ~
 ~
@@ -593,7 +593,7 @@ out all light and stifle the wind. You smell swamp gas and hear damp squashing
 sounds all around you. The path leads east deeper into the swamp. You also see
 a dark forest to the west.
 ~
-23 ACD 3
+ACD 3
 D1
 ~
 ~
@@ -610,7 +610,7 @@ quicksand and rotting vegetation. Unlike the forest to the west, the swamp is
 teeming with life. Some of it is harmless, some is not. The path leads east
 and west into more swamp.
 ~
-23 AD 3
+AD 3
 D1
 ~
 ~
@@ -628,7 +628,7 @@ carefully picking your way around obstacles. Large, gnarled trees rise above
 you. Their moss covered branches block out all traces of the sun. The path
 here leads east and west.
 ~
-23 AD 3
+AD 3
 D1
 ~
 ~
@@ -644,7 +644,7 @@ You come upon a bend in the swampy path. The ground here is fairly sturdy,
 as this place is elevated above the rest of the swamp. Looking around, you see
 a dark, mist filled swamp. Small paths lead south and west into the mist.
 ~
-23 AD 3
+AD 3
 D2
 ~
 ~
@@ -660,7 +660,7 @@ You tread lightly through the mirky water and sludge that makes up the path
 you follow. To the east, there is a thick wall of mist. You can see nothing
 within it. Harder ground rises to the north.
 ~
-23 AD 3
+AD 3
 D0
 ~
 ~
@@ -676,7 +676,7 @@ You wander, hopelessly lost. Swirling mist obscures your vision and clouds
 your mind. You lose all concept of direction. Small, silent giggles can be
 heard all around. You can wander in any direction.
 ~
-23 ADN 4
+ADN 4
 D0
 ~
 ~
@@ -701,7 +701,7 @@ you and dare you to escape. You feel a slight electric charge in the mist. It
 almost caresses your body as it floats about you. You can wander in any
 direction.......
 ~
-23 ADN 3
+ADN 3
 D0
 ~
 ~
@@ -725,7 +725,7 @@ You try to peer through the mist......You see nothing. It swirls about you,
 covering you in a damp sheen. There is no sound, all light is eagerly devoured
 by the mist. You feel totally and hopelessly lost.
 ~
-23 ADN 4
+ADN 4
 D0
 ~
 ~
@@ -749,7 +749,7 @@ You stumble through the marsh here. The swamp seems to have swallowed you up
 and denied you exit. This mist is your jailor. You cannot tell where you are.
 You hear quiet laughter all about you.
 ~
-23 ADN 4
+ADN 4
 D0
 ~
 ~
@@ -773,7 +773,7 @@ You wander, lost, for what seems an eternity. Then....From nowhere....You see
 what appears to be trees and hills to the east. The mist itself thickens to
 the west, while it grows thin to the east.
 ~
-23 ADN 4
+ADN 4
 D0
 ~
 ~
@@ -798,7 +798,7 @@ to breathe. The ground below you makes a soft squishing sound as you trudge
 on, but this noise is absorbed by the mist and does not travel. You can wander
 in any direction.
 ~
-23 ADN 4
+ADN 4
 D0
 ~
 ~
@@ -822,7 +822,7 @@ You wander, lost hopelessly. The mist swirls all about you. You can discern no
 direction. You stumble blindly through the mist, oblivious to your
 surroundings.
 ~
-23 ADN 3
+ADN 3
 D0
 ~
 ~
@@ -846,7 +846,7 @@ A solid path rises out of the misty swamp. It leads north, into what appears
 to be a forested area. The trees, above, allow light and air to penetrate and
 you can see the sky above. A thick bank of mist is to your west.
 ~
-23 0 4
+0 4
 D0
 ~
 ~
@@ -863,7 +863,7 @@ undergrowth line both sides of the trail. Looking north, you see a thin line
 of smoke rising up above the tree line. You also notice a crude wooden gate
 farther north on the trail. The trail itself leads south into murky territory.
 ~
-23 C 3
+C 3
 D0
 ~
 ~
@@ -880,7 +880,7 @@ Looking inside the gates, you see a crude village. Large humanoid creatures
 are milling to and fro.......Ogres! You can head north through the gate or
 south into the forest.
 ~
-23 0 3
+0 3
 D0
 ~
 ~
@@ -896,7 +896,7 @@ You walk among the huts of the ogre village. The village appears to be cut
 from the heart of the forest itself. The swamp, nearby, provides the ogres
 with a prime hunting ground. Small paths lead north and east.
 ~
-23 0 1
+0 1
 D0
 ~
 ~
@@ -913,7 +913,7 @@ crude huts and cooking fires. To the north, you see a huge fire pit. Behind
 it, there appears to be a hut of sorts. Small paths lead east and west among 
 the crude huts. The gates to the south provide an exit from the village.
 ~
-23 0 1
+0 1
 D0
 ~
 ~
@@ -938,7 +938,7 @@ surround you. Every so often, you can hear grunts and snarls inside the huts.
 The smell here is unbearable. You wonder what type of creature could possibly
 live in such squalor. Small paths lead west and north here.
 ~
-23 0 1
+0 1
 D0
 ~
 ~
@@ -956,7 +956,7 @@ in front of the throne is quite worn, as if it is sat on quite often. You get
 the impression that this place is a crude sort of auditorium. Small paths lead
 east and south.
 ~
-23 0 1
+0 1
 D1
 ~
 ~
@@ -974,7 +974,7 @@ they appear to be quite large enough to hold hapless adventurers. A large
 lodge is towards the north, while paths lead east, west, and south into the
 village itself.
 ~
-23 0 1
+0 1
 D0
 ~
 door~
@@ -999,7 +999,7 @@ village's refuse. Partially eaten corpses, rotting food, and other truly
 disgusting things have been discarded here. Paths lead south and west towards
 fresher air.
 ~
-23 0 1
+0 1
 D2
 ~
 ~
@@ -1016,7 +1016,7 @@ line the walls here. Large chests on either side of the door appear to be
 locked. The lodge stretches north, while the doors to the south provide an
 exit into the village.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -1034,7 +1034,7 @@ is against the east wall. A doorway is directly to the north, long strands of
 beads blocking the view of the other side. Crude torches light the hall and 
 smoke clings to the ceiling.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -1052,7 +1052,7 @@ locks. The room is filled with trophies of dead enemies. It is quite lavishly
 decorated for such a crude inhabitant as an ogre. A beaded doorway is to the
 south.
 ~
-23 D 0
+D 0
 D2
 ~
 ~
@@ -1064,7 +1064,7 @@ You wander through the frigid wastelands. Your breath is a cloud before you.
 The cold cuts to the bone. Swirling snow and wind make impossible for you to
 discern any directions.
 ~
-23 0 5
+0 5
 D0
 ~
 ~
@@ -1088,7 +1088,7 @@ You wander through the frigid wastelands. Your breath is a cloud before you.
 The cold cuts to the bine. Swirling snow and wind make it impossible to
 discern any directions.
 ~
-23 0 5
+0 5
 D0
 ~
 ~
@@ -1113,7 +1113,7 @@ walls are frosted and are opaque. There is a small blue portal here. You can
 go north, to enter the portal. Looking south, you see a world of white outside
 the open doorway. Swirling snow and bright light obscure your view.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -1129,7 +1129,7 @@ You wander through the frigid wastelands. Your breath is a cloud before you.
 The cold cuts to the bone. Swirling snow and wind make it impossible for you
 to discern any directions.
 ~
-23 0 5
+0 5
 D0
 ~
 ~
@@ -1153,7 +1153,7 @@ You wander through the frigid wastelands. Your breath is a cloud before you.
 The cold cuts to the bone. Swirling snow and wind make it impossible for you
 to discern any directions.
 ~
-23 0 5
+0 5
 D0
 ~
 ~
@@ -1177,7 +1177,7 @@ You wander through the frigid wastelands. Your breath is a cloud before you.
 The cold cuts to the bone. Swirling snow and wind make it impossible for you
 to discern any directions.
 ~
-23 0 5
+0 5
 D0
 ~
 ~
@@ -1201,7 +1201,7 @@ You wander through the frigid wastelands. Your breath is a cloud before you.
 The cold cuts to the bone. Swirling snow and wind make it impossible for you
 to discern any directions.
 ~
-23 0 5
+0 5
 D0
 ~
 ~
@@ -1225,7 +1225,7 @@ You wander through the frigid wastelands. Your breath is a cloud before you.
 The cold cuts to the bone. Swirling snow and wind make it impossible for you
 to discern any direction.
 ~
-23 0 5
+0 5
 D0
 ~
 ~
@@ -1249,7 +1249,7 @@ You wander through the frigid wastelands. Your breath is a cloud before you.
 The cold cuts to the bone. Swirling snow and wind make it impossible for you
 to discern any directions.
 ~
-23 0 5
+0 5
 D0
 ~
 ~
@@ -1274,7 +1274,7 @@ wasteland stretches out. The snow falls lightly here and the wind is not
 very fierce. You can climb up the rocky cliff or head north into the arctic
 wastes.
 ~
-23 C 5
+C 5
 D0
 ~
 ~
@@ -1291,7 +1291,7 @@ sheer distance to the ground below. You can climb up higher into the cliffs,
 but the area above is obscured by clouds and you cannot tell what lies waiting
 above.
 ~
-23 C 5
+C 5
 D4
 ~
 ~
@@ -1309,7 +1309,7 @@ almost completely out of ice. A huge city and keep appear to be on the other
 side of these gates. There is also a possibility of climbing down the cliff 
 face.
 ~
-23 0 5
+0 5
 D2
 ~
 gate huge gates ice~
@@ -1332,7 +1332,7 @@ closed and only the light from the windows betrays the presence of inhabitants.
 A cold wind blows through here, scattering fine clouds of snow all about. Small
 streets lead south and east.
 ~
-23 0 1
+0 1
 D1
 ~
 ~
@@ -1350,7 +1350,7 @@ made from the very rock of this mountain. Snow falls all around and a fine
 sheet of ice can be seen covering all but the most used walk ways. Small city
 streets lead east and west, while a main road appears to lead south.
 ~
-23 0 1
+0 1
 D0
 ~
 gates gate huge ice~
@@ -1375,7 +1375,7 @@ of cobblestone and are quite treacherous. Small homes and businesses along
 the street are closed tight and light from their windows throws eerie shadows
 across the dark street. Small streets lead west and south here.
 ~
-23 0 1
+0 1
 D2
 ~
 ~
@@ -1393,7 +1393,7 @@ appears to be a small tavern. Bright lights shine through the windows. Small
 streets also lead north and east.
 A small sign hangs outside the tavern.
 ~
-23 0 1
+0 1
 D0
 ~
 ~
@@ -1425,7 +1425,7 @@ the square and small streets lead east and west. To the north, you see
 the gates to the city. You also notice a small store to the south.
 A small sign hangs outside the store.
 ~
-23 0 1
+0 1
 D0
 ~
 ~
@@ -1458,7 +1458,7 @@ the streets. The wind blows fiercely. Small streets lead in all directions.
 There appears to be a large building to the east, but the snow obscures your
 view.
 ~
-23 0 1
+0 1
 D0
 ~
 ~
@@ -1484,7 +1484,7 @@ inhabitants of the inn are all minotaurs of varying size and disposition. Most
 seem to regard you with suspicion. Few approach you. A large door leads
 north, out of the bar and back out into the cold.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -1497,7 +1497,7 @@ items that adventurers could use. Large fireplaces light and heat the room.
 A large desk occupies the back of the room. The door to the shop lies to the
 north.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -1510,7 +1510,7 @@ walls and snow blows across the dirty stone floor. It is evident that this
 store was once used, but it is no more. A small doorway leads north out into
 the chilling snow and wind.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -1523,7 +1523,7 @@ and practice dummies lie all around. The walls are chipped and scored from
 weapon blows. This is obviously the room of an avid warrior. A red door leads
 east.
 ~
-23 D 0
+D 0
 D1
 ~
 red~
@@ -1539,7 +1539,7 @@ This room is dark. It reeks of death and evil. Arcane symbols and a small
 altar fill the room. Blood runs from the altar. It is evident that this room
 is used for unholy purposes. A black door leads west.
 ~
-23 AD 0
+AD 0
 D1
 ~
 black~
@@ -1555,7 +1555,7 @@ Idols to the gods of good fill the room. White furniture and decorations give
 the room a holy appearance. It is evident that some being of supreme goodness
 lives here. A white door leads east.
 ~
-23 D 0
+D 0
 D1
 ~
 white~
@@ -1572,7 +1572,7 @@ end of this steep road, you see a huge keep. Snow swirls all about you and you
 feel your breath freeze as it leaves your lungs. Blurry lights to the east and
 west are all you can see from here.
 ~
-23 C 5
+C 5
 D1
 ~
 ~
@@ -1590,7 +1590,7 @@ and curtains help insulate the room and the beds themselves look quite warm.
 A table in the center of the room has the remnants of a card game strewn
 across it. A small door leads south.
 ~
-23 D 0
+D 0
 D2
 ~
 ~
@@ -1604,7 +1604,7 @@ appears as though the cold here has convinced the guards to seek warmth
 inside. You see the lights of the city to the west. You also notice small
 guard houses to the north and south.
 ~
-23 0 1
+0 1
 D0
 ~
 ~
@@ -1628,7 +1628,7 @@ You enter a small, but warm, guard house. Deep rugs and thick curtains
 insulate the room. A huge fireplace lights and warms the room. Outside, you
 hear the roar of the freezing wind. A small door leads north out into the cold.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -1642,7 +1642,7 @@ ceiling far above. The architecture appears to be dwarven. A huge pair of
 gates stand to the west, protecting the keep from the harsh cold outside. A
 large hall leads east, deeper into the keep.
 ~
-23 D 0
+D 0
 D1
 ~
 ~
@@ -1659,7 +1659,7 @@ various make and appearance are spread about. The ceiling above supports huge
 candelabras, which light the room. To the east, you see a bright light and
 hear sounds of inhabitation. Looking west, you see the entry gates to the keep.
 ~
-23 D 0
+D 0
 D1
 ~
 ~
@@ -1677,7 +1677,7 @@ off by the torches that line the walls. To the east, you see what appears to
 be a huge golden throne. The hall itself stretches south and a smaller hall
 leads to the west.
 ~
-23 D 0
+D 0
 D1
 ~
 ~
@@ -1698,7 +1698,7 @@ ceiling and torch light glimmers off the marble floor here. You are amazed at
 the sheer size of the hall. The hall itself leads north and east. You notice a
 smaller hall leading south, deeper into the keep.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -1720,7 +1720,7 @@ it, you feel small and feeble. It is evident that this throne is more of a
 decoration than anything else. Only the largest of kings could sit upon it.
 The hall leads south and west into other parts of the keep.
 ~
-23 D 0
+D 0
 D1
 ~
 throne huge golden gold~
@@ -1745,7 +1745,7 @@ off the marble floor below you. To the north, you see a huge golden throne.
 Looking up, you grow dizzy at the height to which the vaulted ceiling rises.
 The hall itself leads north and west.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -1760,7 +1760,7 @@ The secret hallway~
 You are in a small, torch lit hall. It leads from east to west. A large gold
 door is to the west. To the east, you see a heavy stone door.
 ~
-23 D 0
+D 0
 D1
 ~
 door huge stone~
@@ -1785,7 +1785,7 @@ covers the stone floor. Large candelabras hang from the ceiling, lighting the
 room. A huge fireplace warms the room. Beaded doorways lead south and east. A
 huge stone door stands in the west wall.
 ~
-23 D 0
+D 0
 D1
 ~
 ~
@@ -1810,7 +1810,7 @@ it would be quite easy to defend in times of emergency. Obviously, something
 important lies beyond. A small hall leads south, while the main hall can be
 seen to the north.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -1827,7 +1827,7 @@ very quiet in this hall. You notice rows of colored doors on each wall. To
 your east, you see a yellow door. To your west, you see a red door. The hall
 itself leads south and north.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -1859,7 +1859,7 @@ You walk down a small, quiet, torch lit hallway. Doors of different colors are
 in each wall. To your east, you see a maroon door. To your west, you see a
 black door. The hall itself leads north and south.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -1891,7 +1891,7 @@ You enter a temple of sorts. A small altar is here and relics of many
 religions lie around. It is evident that this is the room of a studying cleric.
 A yellow door leads west.
 ~
-23 D 0
+D 0
 D3
 ~
 yellow~
@@ -1908,7 +1908,7 @@ of the room is occupied by a huge pentagram. The entire room smells of smoke
 and incense. The room is obviously used extensively by a practicing mage. A
 maroon door leads west.
 ~
-23 D 0
+D 0
 D3
 ~
 maroon~
@@ -1925,7 +1925,7 @@ Colored doors can be seen in the walls here. To your east, you see a green
 door. To your west, you see a white door. The hall itself leads north and
 south.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -1957,7 +1957,7 @@ This appears to be the harem room of the Keep. Huge piles of furs and beds
 fill the room. The lighting is dim, but the room is very warm. You can hear
 music playing quietly from somewhere. Beaded doorways lead north and east.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -1973,7 +1973,7 @@ This room is filled with all types of natural items. Trees and plants have
 been lovingly cultivated and grown by hand, in large pots. The room is like an
 indoor garden. A green door leads west.
 ~
-23 D 0
+D 0
 D3
 ~
 green~
@@ -1989,7 +1989,7 @@ This room is decorated with sturdy stone furniture that is carved and gilded.
 Large candles light the room. A thick rug covers the floor. Thick furs and
 tapestries decorate the walls. Beaded doorways lead south and west.
 ~
-23 D 0
+D 0
 D2
 ~
 ~
@@ -2006,7 +2006,7 @@ furs and other rich furnishings adorn the room. Candles are everywhere and
 they help a huge fireplace light the room. The lavishness of the room
 overwhelms you. Beaded doorways lead north and west.
 ~
-23 DH 0
+DH 0
 D0
 ~
 ~
@@ -2022,7 +2022,7 @@ You are at the end of the hall. Colored doors line the walls to the north. To
 your west, you see a brown door. To you east, you see a grey door. The hall
 itself leads north back along the rows of doors.
 ~
-23 D 0
+D 0
 D0
 ~
 ~
@@ -2050,7 +2050,7 @@ This room is dirty and unkempt. Odds and ends of different items lie all over.
 It is apparent that some type of pack-rat lives here. It appears as though
 nothing has ever entered this room and ever left again. A grey door leads west.
 ~
-23 D 0
+D 0
 D3
 ~
 grey~
@@ -2066,7 +2066,7 @@ This room is full of green. The furniture and all other items show the color
 of nature. The room smells of pine and forest odors. From the items here, it
 appears as though a woodsman of some sorts lives here. A brown door leads east.
 ~
-23 D 0
+D 0
 D1
 ~
 brown~

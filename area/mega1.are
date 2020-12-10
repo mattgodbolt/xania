@@ -10,7 +10,7 @@ Entrance to Mega-City One~
 A road begins here in the glowing sands.  You follow it through a gate
 in a Plasteen wall onto the Megway of Mega-City One.
 ~
-80 0 1
+0 1
 D0
 You see the glowing sand of the badlands.
 ~
@@ -27,7 +27,7 @@ Mahmount Allesh Megway~
 You are on one mile of over 13 and a half billion kilometers of
 roadway in Mega-City One.  The Megway continues north and south.
 ~
-80 0 1
+0 1
 D0
 The entrance to Mega-City One is in this direction.
 ~
@@ -45,7 +45,7 @@ The Megway intersects with Junket Way here.  Junket Way is to the east,
 the Megway continues north and south, and the Pustule Palace Cafe is
 to the west.
 ~
-80 0 1
+0 1
 D0
 The Megway continues in this direction.
 ~
@@ -74,7 +74,7 @@ people driving Mo-Pads, the mobile homes which are constantly on the
 move until their owners can find an apartment in one of the City-blocks.
 The Megway continues north and south.
 ~
-80 0 1
+0 1
 D0
 An intersection lies in this direction.
 ~
@@ -95,7 +95,7 @@ be totally unemployed, and that a further five will not work more
 than ten hours a week.  To the east there is a dark alley and to the
 west is Rietzik's Shuggy Hall.
 ~
-80 0 1
+0 1
 D0
 The Megway continues in this direction.
 ~
@@ -124,7 +124,7 @@ of juves Boingging (tm) in the air above you.  Max Jaffa Boulevard goes
 east, the Megway continues north and south, and Bazza's Home for the
 Terminally Sarky is to the west.
 ~
-80 0 1
+0 1
 D0
 The Megway continues in this direction.
 ~
@@ -153,7 +153,7 @@ are bound to minimum speed limits.  Many Slow Driving offenses are being
 handed out by the Judges.  The Megway goes north and south, a Parkway
 goes east, and Nu Phisog Parlour is west.
 ~
-80 0 1
+0 1
 D0
 A plaza is to the north.
 ~
@@ -182,7 +182,7 @@ favorite hobbies such as spot welding and metalwork, scratch building
 fashion Kneepads, giving blood, or just looking out the window.  The
 Megway continues north and south.
 ~
-80 0 1
+0 1
 D0
 The Megway continues in this direction.
 ~
@@ -200,7 +200,7 @@ The Megway ends here.  To the west is Ziggi Piggi's Home for the
 Semi-Stiff, to the east and south are construction areas, and the
 Megway goes north.
 ~
-80 0 1
+0 1
 D0
 The Megway is ahead.
 ~
@@ -226,7 +226,7 @@ S
 Junket Way~
 Junket Way a small Skedway continues east and west.
 ~
-80 0 1
+0 1
 D1
 An intersection is ahead.
 ~
@@ -244,7 +244,7 @@ You are in a very dark and seedy alley.  This is just the right place for
 a bite fight.  Bite fighting is an illegal activity where both combatants
 can only use their sharpened teeth as weapons.
 ~
-80 A 1
+A 1
 D1
 An intersection is ahead.
 ~
@@ -260,7 +260,7 @@ S
 Max Jaffa Boulevard~
 Max Jaffa Boulevard continues east and west.
 ~
-80 0 1
+0 1
 D1
 An intersection is ahead.
 ~
@@ -276,7 +276,7 @@ S
 Ed Hilldreth Memorial Parkway ~
 The Parkway goes east and west.
 ~
-80 0 1
+0 1
 D1
 An intersection is ahead.
 ~
@@ -294,7 +294,7 @@ A Mega-City One City Block is being constructed at this site.  A
 typical block is from 100 to 1000 stories high with hundreds of
 thousands inhabitants.
 ~
-80 0 1
+0 1
 D3
 An intersection is ahead.
 ~
@@ -307,7 +307,7 @@ There is a second-hand kneepad stall is doing a brisk business with a
 group of juves on their way to school.  Junket Way goes west and Threep
 Lane travels south.
 ~
-80 0 1
+0 1
 D2
 Threep Lane continues ahead.
 ~
@@ -324,7 +324,7 @@ Threep Lane~
 Threep Lane continues north and south.  There is a building to the east
 with a sign next to the door.
 ~
-80 0 1
+0 1
 D0
 An intersection is ahead.
 ~
@@ -349,7 +349,7 @@ S
 Threep Lane~
 Threep Lane continues north and south.  There is a dark alley to the west.
 ~
-80 0 1
+0 1
 D0
 Threep Lane continues north.
 ~
@@ -371,7 +371,7 @@ Corner of Max Jaffa Blvd and Threep Way~
 A proprietor of Uncle Sumpty's Ugly Emporium meanders by.  Threep Lane
 continues north and south while Max Jaffa Boulevard goes west.
 ~
-80 0 1
+0 1
 D0
 Threep Lane continues north.
 ~
@@ -393,7 +393,7 @@ Corner of Ed Hilldreth Mem. Prkwy and Threep Lane~
 Threep Lane goes north from here while Ed Hilldreth Memorial Parkway goes
 west.
 ~
-80 0 1
+0 1
 D0
 Threep Lane continues north.
 ~
@@ -410,7 +410,7 @@ Construction Site for the Brit-Cit One tunnel.~
 Construction is under way for the Black Atlantic Tunnel to connect
 Mega-City One and Brit-Cit One.
 ~
-80 0 1
+0 1
 D0
 An intersection lies north.
 ~
@@ -422,7 +422,7 @@ Pustule Palace Cafe~
 A scabrous hole.  Run by Ernie Ramirez, an ex-perp, it is a meeting place
 for the low-life in the area.
 ~
-80 D 0
+D 0
 D1
 An intersection lies east.
 ~
@@ -435,7 +435,7 @@ A sleazy dive and the meeting place of a lot of perps.  Shuggy is a
 twenty-second Century version of pool, played on a hilly table, usually
 with large side bets.
 ~
-80 D 0
+D 0
 D1
 An intersection lies east.
 ~
@@ -448,7 +448,7 @@ This is an experimental psychiatric home.  Named after a 20th Century
 vid-critic, the home attempts, by various methods, to readjust the
 socially unacceptable attitudes of the inmates.
 ~
-80 D 0
+D 0
 D1
 A large plaza lies east.
 ~
@@ -462,7 +462,7 @@ and cheap face-changing facilities to the general public.  However,
 since the closure of Sump's Ugly clinics, the craze for face-changing has
 died down.
 ~
-80 D 0
+D 0
 D1
 An intersection lies east.
 ~
@@ -475,7 +475,7 @@ The only suspended animation parlour in the area.  It has a high turnover
 rate.  It is rumored that the patrons are being used in body sharking and
 organ legging activities.
 ~
-80 D 0
+D 0
 D1
 An intersection lies east.
 ~
@@ -489,7 +489,7 @@ with the utmost discourtesy.  Of course, something as crazy as this was
 bound to succeed.  There is a door to the north with a slot next to it.
 There is also a sign next to the slot.
 ~
-80 D 0
+D 0
 D0
 ~
 door~
@@ -508,7 +508,7 @@ Stockroom of Throt & Gleep's Megger Store~
 Many useless items stock the shelves of this stockroom.  A door leads
 south and large vault door is to the north.
 ~
-80 D 0
+D 0
 D0
 ~
 vault door~
@@ -527,7 +527,7 @@ S
 Throt & Gleep's Vault~
 The vault is musty with a slight smell of ozone in the air.
 ~
-80 D 0
+D 0
 D2
 ~
 vault door~

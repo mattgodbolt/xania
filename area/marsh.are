@@ -11,7 +11,7 @@ This section of the path is slowly being drowned by the nearby swamp to the
 south, which is creeping slowly inland.  Several caved-in buildings sprawl
 here, torn apart both by battle and the elements.
 ~
-83 0 2
+0 2
 D0
 The path looks drier here.
 ~
@@ -35,7 +35,7 @@ skies above the murky marsh, leaving the path before you dark and sinister.
 You see some disturbances in the marsh, but after a few strangled screams,
 the sounds stop.
 ~
-83 0 5
+0 5
 D0
 ~
 ~
@@ -58,7 +58,7 @@ trees it is one.  Occasionally you see a whole humanoid form floating face down
 in the water, but mostly you only find pieces.  You hear a loud bellow in the
 distance.  And feel fear creep into your heart.
 ~
-83 A 5
+A 5
 D1
 Eastward is the thick bog of ooze...
 ~
@@ -85,7 +85,7 @@ On a hill.~
 You stand atop a hill on the northwestern side of the evil swamp. Dark
 clouds whip around you and the wind raises its voice and assails you.
 ~
-83 A 4
+A 4
 D0
 To the north lies a damp broken roadway.
 ~
@@ -110,7 +110,7 @@ beasts flap over you and send chilling glares your way.  You feel out
 of place, and feel that the occupants of this realm will soon 
 have you for a feast.
 ~
-83 A 5
+A 5
 D1
 Eastward lies a horde of disgusting looking monsters.
 ~
@@ -131,7 +131,7 @@ An Oozing Bog~
 The ground here is soft and oozing.  You feel slimy water seeping into your
 boots.  Better stop and check for leeches when you get out of here.
 ~
-83 A 5
+A 5
 D3
 You see a large tree limb that looks easily moved.
 ~
@@ -147,7 +147,7 @@ Swamp Thing's Lair~
 A horrible swamp thing resides here.  Mutilated corpses suffuse the air with
 the overwhelming stench of putrid flesh.
 ~
-83 A 6
+A 6
 D3
 A pool of quick sand lies to the west.
 ~
@@ -165,7 +165,7 @@ You stand by a large oozing pool of quick sand.  Luckily only a complete
 klutz could not avoid it.  Dancing lights fly about you and one seems to
 be taunting you towards the pool.
 ~
-83 A 6
+A 6
 D1
 The swamp thing's lair.
 ~
@@ -196,7 +196,7 @@ You stand beside a large dark pond.  The water boils not with heat, but with
 motion, as if it is alive.  A creaking beat pulses through the air, leaving
 you with a cold sweat and fear in your heart.
 ~
-83 A 6
+A 6
 D1
 A large pool of quicksand lies to the east.
 ~
@@ -224,7 +224,7 @@ a huge patch of vegetation.  You sense an evil presence and notice
 a beast flying overhead to the south east, towards what looks to be a 
 huge fortress, half buried in the marsh.
 ~
-83 A 6
+A 6
 D0
 To the north a hill protrudes from the marshes.
 ~
@@ -258,7 +258,7 @@ Cloud of Darkness.~
 As you travel through this cloud of darkness, a fear such as you have never
 known before assails you.
 ~
-83 A 6
+A 6
 D0
 A dark pool lies to the north.
 ~
@@ -275,7 +275,7 @@ Near Vegetation from Hell.~
 You stand near some of the strangest plant life you have ever seen, a mixture
 of tumescent vegetables, evil-smelling fruit trees, and malignant ferns.
 ~
-83 A 6
+A 6
 D0
 To the north is a gloomy path through the marsh.
 ~
@@ -297,7 +297,7 @@ You are standing near a monolith which protrudes some 20 feet from the
 marsh into the air.  Its black obsidian surface shines darkly in the 
 strange, almost unearthly light that enters through the clouds above.
 ~
-83 A 5
+A 5
 D0
 To the north is a cloud of darkest evil.
 ~
@@ -325,7 +325,7 @@ A murky bog surrounds you.  To the east a black monolith juts forth from the
 ground.  Far to the north lies a huge pool of quicksand.  Snarls can be heard
 echoing as if from a great distance.
 ~
-83 A 5
+A 5
 D0
 To the north lies a huge pool of quicksand.
 ~
@@ -353,7 +353,7 @@ experience.  Many a creature bumps the bottom of your boat, and glares
 at you through unblinking eyes from the waters below.  The southern 
 portion of the lake looks calm and serene compared to this wild place.
 ~
-83 A 7
+A 7
 D2
 The southern portion of the lake lies to the south.
 ~
@@ -371,7 +371,7 @@ You are floating on a calm section of blue crystal water.  You feel much more
 at ease then you were before in this area.  Then a wave of fear passes over
 you.  You are not alone.
 ~
-83 A 7
+A 7
 D0
 Northern lake side.
 ~
@@ -393,7 +393,7 @@ Beach~
 You are on a sandy shore.  Marsh life creeps across the surface.  To the west
 lies an evil fortress.  You see figures walking along the battlements.
 ~
-83 A 5
+A 5
 D1
 To the east lies the southern portion of a small lake.
 ~
@@ -415,7 +415,7 @@ You stand before the gates of a huge fortress.  The drawbridge is up, the
 gates closed, and the portcullis down.  This place looks very dangerous,
 and you decide not to continue onward.
 ~
-83 A 3
+A 3
 D1
 To the east is a marshy beach.
 ~

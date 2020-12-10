@@ -10,7 +10,7 @@ A long tunnel~
 You encounter some rapids as you enter this tunnel cut out of
 the mountains by the river.
 ~
-50 AD 7
+AD 7
 D1
 ~
 ~
@@ -24,7 +24,7 @@ S
 A long tunnel~
 The tunnel branches off north.
 ~
-50 AD 7
+AD 7
 D0
 ~
 ~
@@ -42,7 +42,7 @@ S
 A long tunnel~
 The tunnel branches off south.
 ~
-50 AD 7
+AD 7
 D1
 ~
 ~
@@ -60,7 +60,7 @@ S
 A long tunnel~
 The tunnel branches off to the south.
 ~
-50 AD 7
+AD 7
 D1
 ~
 ~
@@ -81,7 +81,7 @@ water and lime from above. The tunnel continues to the east and the river
 leads back west. To the north is a roughly-hewn hallway. There is also
 a tunnel south.
 ~
-50 AD 7
+AD 7
 D0
 ~
 ~
@@ -103,7 +103,7 @@ S
 A long narrow tunnel~
 The tunnel rises sharply to the east.
 ~
-50 AD 5
+AD 5
 D1
 ~
 ~
@@ -118,7 +118,7 @@ A wide tunnel~
 The tunnel continues east and west. To the east the tunnel dives
 down into a bright light.
 ~
-50 AD 5
+AD 5
 D1
 ~
 ~
@@ -133,7 +133,7 @@ Cave-in~
 You stand at the edge of a large pile of rubble created from the last
 rockslide.
 ~
-50 AD 5
+AD 5
 D2
 ~
 ~
@@ -148,7 +148,7 @@ At the foot of the rubble~
 You are at the bottom of a large pile of rubble. A tunnel branches
 off to the north and east.
 ~
-50 AD 5
+AD 5
 D0
 ~
 ~
@@ -167,7 +167,7 @@ Cave entrance~
 You stand in the middle of a large and beautiful cave. A path leads
 deeper into the darkness.
 ~
-50 AD 5
+AD 5
 D2
 ~
 ~
@@ -182,7 +182,7 @@ Giant cave~
 This cavern overwhelms you. The walls and ceiling seem miles away.
 Bones of previous adventurers lie strewn on the cavern floor.
 ~
-50 AD 5
+AD 5
 D4
 ~
 ~
@@ -192,7 +192,7 @@ S
 Narrow bend~
 The tunnel turns to the south and west.
 ~
-50 AD 5
+AD 5
 D2
 ~
 ~
@@ -206,7 +206,7 @@ S
 Large cave~
 You are standing in a large cave. Many furs are spread out on the floor.
 ~
-50 AD 5
+AD 5
 D0
 ~
 ~
@@ -220,7 +220,7 @@ S
 Damp hallway~
 The walls here are extremely damp, as well as the floor.
 ~
-50 AD 5
+AD 5
 D1
 You hear drops of water.~
 ~
@@ -234,7 +234,7 @@ S
 Underground pool~
 You are wading in a knee deep pool of lime-water.
 ~
-50 AD 6
+AD 6
 D2
 ~
 ~
@@ -249,7 +249,7 @@ Damp hallway~
 The walls of the tunnel are extremely damp here. You hear the faint
 sound of running water to the south.
 ~
-50 AD 5
+AD 5
 D0
 You hear drops of water.~
 ~
@@ -264,7 +264,7 @@ Narrow crawlway~
 This crawlway is just big enough for a human to crawl through or a
 halfling to walk through.
 ~
-50 AD 5
+AD 5
 D0
 ~
 ~
@@ -283,7 +283,7 @@ Large cavern~
 You have entered a very large cavern. The rock formations would amaze
 almost any dwarf.
 ~
-50 AD 5
+AD 5
 D0
 ~
 ~
@@ -298,7 +298,7 @@ Fungus patch~
 As you walk through the fungus patch, you are shot at by many millions of
 spores. You can hardly breathe.
 ~
-50 AD 5
+AD 5
 D0
 ~
 ~
@@ -313,7 +313,7 @@ Fungus path~
 As you walk along the path, millions of spores are shot at you. You can
 hardly breathe.
 ~
-50 AD 5
+AD 5
 D2
 A giant mushroom temple stands to the south.~
 ~
@@ -328,7 +328,7 @@ Fungus temple~
 You find yourself standing inside of a giant mushroom. The inside
 is decorated in the fashion of a temple.
 ~
-50 AD 5
+AD 5
 D0
 ~
 ~
@@ -342,7 +342,7 @@ S
 Sloping passage~
 You follow a path sloping down from the fungus temple.
 ~
-50 AD 5
+AD 5
 D3
 ~
 ~
@@ -356,7 +356,7 @@ S
 Sloping passage~
 You are on a path that gently slopes up from the underground pool.
 ~
-50 AD 5
+AD 5
 D0
 You hear sounds of trickling water.~
 ~
@@ -371,7 +371,7 @@ The Sands of Sorrow~
 A vast desert stretches for miles, the sand constantly shifting around you.
 You feel lost.
 ~
-50 N 10
+N 10
 D0
 Sand as far as the eye can see.
 ~
@@ -398,7 +398,7 @@ The Sands of Sorrow~
 A vast desert stretches for miles, the sand constantly shifting around you.
 You feel lost.
 ~
-50 N 10
+N 10
 D0
 You see a nomad camp by an oasis.
 ~
@@ -425,7 +425,7 @@ The Sands of Sorrow~
 A vast desert stretches for miles, the sand constantly shifting around you.
 You feel lost.
 ~
-50 N 10
+N 10
 D0
 Sand as far as the eye can see.
 ~
@@ -452,7 +452,7 @@ The Sands of Sorrow~
 A vast desert stretches for miles, the sand constantly shifting around you.
 You feel lost.
 ~
-50 N 10
+N 10
 D0
 Sand as far as the eye can see.
 ~
@@ -479,7 +479,7 @@ The Sands of Sorrow~
 A vast desert stretches for miles, the sand constantly shifting around you.
 You feel lost.
 ~
-50 N 10
+N 10
 D0
 Sand as far as the eye can see.
 ~
@@ -506,7 +506,7 @@ The Sands of Sorrow~
 A vast desert stretches for miles, the sand constantly shifting around you.
 You feel lost.
 ~
-50 N 10
+N 10
 D0
 Sand as far as the eye can see.
 ~
@@ -533,7 +533,7 @@ The Sands of Sorrow~
 A vast desert stretches for miles, the sand constantly shifting around you.
 You feel lost.
 ~
-50 N 10
+N 10
 D0
 Sand as far as the eye can see.
 ~
@@ -560,7 +560,7 @@ The Sands of Sorrow~
 A vast desert stretches for miles, the sand constantly shifting around you.
 You feel lost.
 ~
-50 N 10
+N 10
 D0
 Sand as far as the eye can see.
 ~
@@ -587,7 +587,7 @@ The Sands of Sorrow~
 A vast desert stretches for miles, the sand constantly shifting around you.
 You feel lost.
 ~
-50 N 10
+N 10
 D0
 Sand as far as the eye can see.
 ~
@@ -616,7 +616,7 @@ and refresh themselves beside this beautiful oasis. Three tents and some
 camels make up the party. From within two of the tents you hear muffled
 voices, obviously surprised at your visit.
 ~
-50 0 2
+0 2
 D0
 You see ill-tempered camels.
 ~
@@ -639,7 +639,7 @@ This is a small and simple tent with few possessions in sight. Lying
 here and there are young-looking men and women, possibly slaves to the
 leader of this band.
 ~
-50 0 2
+0 2
 D3
 You see the center of the nomad camp.
 ~
@@ -652,7 +652,7 @@ Here stand about ten camels, all hitched to some stakes plugged into
 the ground. To the east you see a small tent while to the north you see a
 larger, fancier tent.
 ~
-50 0 2
+0 2
 D0
 This tent seems to be the temporary abode of the nomad leader. You make a
 mental note to visit it before you leave.~
@@ -674,7 +674,7 @@ The warrior's tent.~
 This tent has a few furnishings, but mainly it holds the band's
 protectors. They all stare at you coldly as you enter.
 ~
-50 H 2
+H 2
 D3
 Outside you see some peaceful camels.
 ~
@@ -687,7 +687,7 @@ This tent is as lavishly decorated on the inside as it is on the
 outside. A fancy carpet lies on the sand and numerous baskets line the
 walls.
 ~
-50 H 2
+H 2
 D1
 ~
 ~
@@ -704,7 +704,7 @@ This is where the leader of this band of nomads resides. He is
 definitely rich as you inspect the tapestries, baskets, and a few
 paintings as well.
 ~
-50 H 2
+H 2
 D3
 You see the entrance to this tent.
 ~
@@ -717,7 +717,7 @@ A vast desert stretches for miles, the sand constantly shifting around
 you.  But this patch of desert looks different...the sand glows.  You see a
 futuristic city to the south. Dust blows through a canyon to the north.
 ~
-50 CD 5
+CD 5
 D0
 A dusty canyon
 ~
@@ -740,7 +740,7 @@ Being very careful not to lose your balance, you look around and
 find that this canyon is about a half a kilometer deep. To the west is
 a dark cave leading under the desert sands.
 ~
-50 0 5
+0 5
 D0
 Sand as far as the eye can see.
 ~
@@ -758,7 +758,7 @@ The air in here is MUCH cooler than outside. From the west you hear
 strange sounds, but can see nothing. The cave slopes down into the
 darkness.
 ~
-50 AD 5
+AD 5
 D1
 Outside is lighter and very windy.~
 ~
@@ -775,7 +775,7 @@ haphazardly strewn about and the rotting carcasses, you would guess that
 this is a dragon's lair. As to what type, you can't really say. The cave
 narrows out into a tunnel to the west.
 ~
-50 ADH 5
+ADH 5
 D1
 ~
 ~
@@ -790,7 +790,7 @@ A wide tunnel~
 This tunnel seems to go on forever into the darkness. You carefully
 feel your way along the walls.
 ~
-50 ACD 5
+ACD 5
 D1
 ~
 door~
@@ -805,7 +805,7 @@ A narrower tunnel~
 The tunnel becomes very narrow and you fight to squeeze your way through.
 The floor seems to level off a little.
 ~
-50 AD 5
+AD 5
 D1
 ~
 ~
@@ -820,7 +820,7 @@ A narrow crack~
 This part of the tunnel is the hardest to move through as the walls
 move in to meet you.
 ~
-50 AD 5
+AD 5
 D0
 ~
 ~
@@ -835,7 +835,7 @@ A small cavern.~
 It is dark and damp and bats hang from the ceiling. A narrow crack is
 in the east wall. The floor now slopes upwards.
 ~
-50 AD 5
+AD 5
 D0
 ~
 ~
@@ -850,7 +850,7 @@ A small shaft~
 From within this shaft you can see a narrow hole in the roof just
 large enough for one person. Back east is the cavern.
 ~
-50 AD 5
+AD 5
 D2
 ~
 ~

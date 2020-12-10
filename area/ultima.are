@@ -13,7 +13,7 @@ village.  Around the gate there are two pedestals.  On the first
 pedestal, there is a magic scroll.  On the second there is a
 plaque.
 ~
-0 CD 0
+CD 0
 D2
 There is a huge gate
 ~
@@ -34,7 +34,7 @@ New Magincia Road~
 This is the main road of New Magincia.  To the south the dirt
 path continues to the south and a huge gate to the north.
 ~
-0 0 1
+0 1
 D0
 There is a huge gate.
 ~
@@ -50,7 +50,7 @@ New Magincia Road~
 The path continues to the south and the north.  You see the
 tracks of sheep here.
 ~
-0 0 1
+0 1
 D0
 The path continues to the north.
 ~
@@ -67,7 +67,7 @@ The New Magincia Moongate~
 You see another moongate here, exactly between the crossing of
 two paths.
 ~
-0 C 1
+C 1
 D0
 ~
 ~
@@ -94,7 +94,7 @@ New Magincia Road~
 The path continues to the south and north.  On the east there
 seems to be administrative building.
 ~
-0 0 1
+0 1
 D0
 There is a shimmering light.
 ~
@@ -114,7 +114,7 @@ New Magincia Road~
 The dirt road path ends here in a grove.  You can continue back
 to the north, and there is an old abandoned house to the west.
 ~
-0 0 1
+0 1
 D0
 ~
 ~
@@ -129,7 +129,7 @@ Stables~
 This is the stables for the shepherd.  There are many fine horses
 here.  You can return to the barn in to the south.
 ~
-0 D 1
+D 1
 D2
 The front part of the barn is to the south.
 ~
@@ -140,7 +140,7 @@ S
 Barn~
 This is your basic barn, with hay and stables to the north.
 ~
-0 D 1
+D 1
 D0
 You hear neighing, intermixed with a strange talking.
 ~
@@ -158,7 +158,7 @@ To your north there is a barn, and to the south you see a
 condemned building, though you cannot enter this way.  West is
 blocked off a herd of sheep.
 ~
-0 0 1
+0 1
 D0
 ~
 door~
@@ -175,7 +175,7 @@ This place is wrecked, the rafters have fell, and light shines
 through a large hole in the roof.  You wonder what kinds of
 animals have taken home here.
 ~
-0 D 1
+D 1
 D2
 ~
 ~
@@ -188,7 +188,7 @@ have been reconstructed yet from the ruin of Old Magincia.  Faint
 intimations of foolish pride still can be seen through the
 wreckage.
 ~
-0 D 1
+D 1
 D0
 ~
 ~
@@ -202,7 +202,7 @@ S
 Attic~
 The attic is dark, and you smell some vestiges of bat guano.
 ~
-0 D 1
+D 1
 D5
 The rest of the house is down.
 ~
@@ -214,7 +214,7 @@ House~
 This is a small humble house.  You do not see much here, though
 there are some faint squeaking.
 ~
-0 D 1
+D 1
 D2
 ~
 door~
@@ -231,7 +231,7 @@ This is a very small path.  It ends here with a fence to the
 east.  To the west is the Moongate, and to the north there is a
 small house.
 ~
-0 0 1
+0 1
 D0
 ~
 door~
@@ -247,7 +247,7 @@ Though this room is small, it acts as a meeting place for Katrina
 and any other person that she has to meet.  You can exit to the
 west or enter an office to the south.
 ~
-0 D 1
+D 1
 D2
 ~
 ~
@@ -263,7 +263,7 @@ This is office is very sparse... and humble.  There are no
 decorations, in fact the room is bare except for a simple desk
 and its chair.
 ~
-0 D 1
+D 1
 D0
 ~
 ~
@@ -277,7 +277,7 @@ ancient.  In any case you can't get out of the Library (remember
 the collapsed shelves?) so just pick a book and start reading. 
 The stacks continue to the east and west.
 ~
-0 D 0
+D 0
 D1
 ~
 ~
@@ -297,7 +297,7 @@ S
 Library~
 The Library continues here, with exits to the east and west.
 ~
-0 D 0
+D 0
 D1
 ~
 ~
@@ -317,7 +317,7 @@ S
 Library~
 The Library continues here, with exits to the east and west.
 ~
-0 D 0
+D 0
 D1
 ~
 ~
@@ -337,7 +337,7 @@ S
 Library~
 The Library continues here, with exits to the east and south.
 ~
-0 D 0
+D 0
 D2
 ~
 ~
@@ -356,7 +356,7 @@ S
 Library~
 The Library continues here, with exits to the north and west.
 ~
-0 D 0
+D 0
 D0
 ~
 ~
@@ -378,7 +378,7 @@ A big desk dominates this room.  All books must go through this
 office before getting taken out.  Through this office, and
 through this man.
 ~
-0 D 0
+D 0
 D1
 ~
 ~
@@ -392,7 +392,7 @@ S
 Library~
 The Library continues here, with exits to the west and east.
 ~
-0 D 0
+D 0
 D1
 You see a huge desk and man.
 ~
@@ -413,7 +413,7 @@ S
 Library~
 The Library continues here, with exits to the east and south .
 ~
-0 D 0
+D 0
 D1
 ~
 ~
@@ -433,7 +433,7 @@ S
 Library~
 The Library continues here, with exits to the north and east.
 ~
-0 D 0
+D 0
 D0
 ~
 ~
@@ -453,7 +453,7 @@ S
 Library~
 The Library continues here, with exits to the west and east.
 ~
-0 D 0
+D 0
 D1
 ~
 ~
@@ -471,7 +471,7 @@ S
 Library~
 The Library continues here, with exits to the west and east.
 ~
-0 D 0
+D 0
 D1
 ~
 ~
@@ -489,7 +489,7 @@ S
 Library~
 The Library continues here, with exits to the west and south.
 ~
-0 D 0
+D 0
 D2
 ~
 ~
@@ -509,7 +509,7 @@ The Library Moongate~
 A blue moongate is here, lighting up the otherwise featureless
 room.
 ~
-0 CD 0
+CD 0
 D0
 ~
 shelf~
@@ -524,7 +524,7 @@ S
 Library~
 The Library continues here, with exits to the north and west.
 ~
-0 D 0
+D 0
 D0
 ~
 ~
@@ -543,7 +543,7 @@ S
 Library~
 The Library continues here, with exits to the east and west.
 ~
-0 D 0
+D 0
 D1
 ~
 ~
@@ -562,7 +562,7 @@ S
 Library~
 The Library continues here, with exits to the east and west.
 ~
-0 D 0
+D 0
 D1
 ~
 ~
@@ -581,7 +581,7 @@ S
 Library~
 The Library continues here, with exits to the east and west..
 ~
-0 D 0
+D 0
 D1
 ~
 ~
@@ -604,7 +604,7 @@ S
 Library~
 The Library continues here, with exits to the east and north.
 ~
-0 D 0
+D 0
 D0
 ~
 ~
@@ -622,7 +622,7 @@ S
 Library~
 The Library continues here, with exits to the south and north.
 ~
-0 D 0
+D 0
 D0
 There is an odd chattering to the north.
 ~
@@ -642,7 +642,7 @@ Web~
 There is a Huge Web sitting here, stretching from shelf to shelf.
 And stupid you wandered into it.
 ~
-0 D 0
+D 0
 D0
 ~
 ~
@@ -656,7 +656,7 @@ S
 Library~
 The Library continues here, with exits to the south and east.
 ~
-0 D 0
+D 0
 D1
 ~
 ~
@@ -678,7 +678,7 @@ and other townsman.  This must be Britain.  There are people
 everywhere carrying their drinks and singing everywhere.  The
 party continues to the north, east south and west.
 ~
-0 D 0
+D 0
 D0
 ~
 ~
@@ -703,7 +703,7 @@ with humans trying to get in or get out.  There is no chance of
 you leaving the tavern tonight.you can return to the part to the
 east and the south.
 ~
-0 D 0
+D 0
 D1
 ~
 ~
@@ -719,7 +719,7 @@ Party-goers mingle here in front of the bar.  They seem to be
 having a great time and wish for you to join them.  You can
 continue on to the south, east or north.
 ~
-0 D 0
+D 0
 D1
 ~
 ~
@@ -738,7 +738,7 @@ The Northeast Corner of the Tavern~
 Along this east wall of the tavern are all the tables for the
 meals.  Outside the windows you see cobblestone streets.
 ~
-0 D 0
+D 0
 D2
 ~
 ~
@@ -753,7 +753,7 @@ The West Wall of the Tavern~
 The band has set up here, against the west wall.  Many people
 dance to the music.
 ~
-0 D 0
+D 0
 D0
 ~
 ~
@@ -773,7 +773,7 @@ The tables are set up here, you see many couples and group just
 sitting and talking.  They have drinks on their tables and smiles
 on there face.
 ~
-0 D 0
+D 0
 D0
 ~
 ~
@@ -792,7 +792,7 @@ The Southwest Corner of the Tavern~
 There are many people here, but even through their scent, there
 seems to be a slight stench.
 ~
-0 D 0
+D 0
 D0
 ~
 ~
@@ -812,7 +812,7 @@ The South Wall windows overlook the sea.  There seems to be a
 island far to the south, and boats just floating in the ports. 
 The party-goers just wander around here.
 ~
-0 D 0
+D 0
 D0
 ~
 ~
@@ -831,7 +831,7 @@ The Southeast Corner of the Tavern~
 There are tables here that continue to the north.  The
 party-goers just mingle and hit on each other.
 ~
-0 D 0
+D 0
 D0
 ~
 ~
@@ -846,7 +846,7 @@ Cellar~
 The stairway seems to lie down into the cellar.  It stinks of
 wine, beer and snakes here.
 ~
-0 CD 0
+CD 0
 D1
 ~
 ~
@@ -866,7 +866,7 @@ There are huge wine casks against this wall.  Most seem intact
 though one is eaten through, and the inside seems to have a gooey
 green substance.
 ~
-0 AD 0
+AD 0
 D1
 There is the sound of singing in that corner.
 ~
@@ -887,7 +887,7 @@ Cellar~
 There is a chair in corner.  And plenty of empty bottles.  There
 is also the evidence of the green substance here as well.
 ~
-0 AD 0
+AD 0
 D2
 ~
 ~
@@ -902,7 +902,7 @@ Cellar~
 There is a slime trail here.  There seems to be much broken glass
 down here.
 ~
-0 AD 0
+AD 0
 D0
 ~
 ~
@@ -922,7 +922,7 @@ The place around the moongate, as always, seems clean and neat.
 The blue light of the moongate has become a comforting sight to
 you.
 ~
-0 CD 0
+CD 0
 D0
 ~
 ~
@@ -949,7 +949,7 @@ Cellar~
 The walls are leaking here.  You here the bang of feet and the
 shifting of chairs from above.
 ~
-0 D 0
+D 0
 D0
 ~
 ~
@@ -968,7 +968,7 @@ Cellar~
 The damp walls of this corner bother you... not because it's
 damp.  Because its not water!
 ~
-0 AD 0
+AD 0
 D0
 ~
 ~
@@ -982,7 +982,7 @@ S
 Cellar~
 The smells and ventilation of this cellar are overpowering.
 ~
-0 AD 0
+AD 0
 D0
 There is a shimmering light.
 ~
@@ -1002,7 +1002,7 @@ Cellar~
 This corner of the cellar is the ugliest.  From the smell in the
 corner it is obvious where the Drunks clear their guts.
 ~
-0 AD 0
+AD 0
 D0
 ~
 ~
@@ -1019,7 +1019,7 @@ Most of Yew is secretly hidden in the branches of the forest.
 To the north you see one of the most dangerous parts of this same
 forest.
 ~
-0 C 3
+C 3
 D0
 ~
 ~
@@ -1036,7 +1036,7 @@ crime goes here to be tried.  There is little crime anymore
 though, after the great enlightenment.  There is also a pub to
 the west.
 ~
-0 0 1
+0 1
 D0
 ~
 ~
@@ -1061,7 +1061,7 @@ The cobblestone road leads into a clearing of the woods to the
 east and to a pub to the west.  To your south you see a great
 Courthouse, but its entrance is on the east.
 ~
-0 0 1
+0 1
 D1
 ~
 ~
@@ -1077,7 +1077,7 @@ You stand under a large stone arch.  To your east there is a
 bonfire.  Around the bonfire, are these same stone arches; they
 form a circle around the clearing.
 ~
-0 0 3
+0 3
 D1
 There are chanting druids and a large bonfire to the east.
 ~
@@ -1094,7 +1094,7 @@ The heat from the bonfire warms you even at the fringe of the
 ceremony.  Here, Druids form a circle and chant the sacred
 mantra.
 ~
-0 0 3
+0 3
 D3
 ~
 ~
@@ -1105,7 +1105,7 @@ Pub~
 You are in a happy little pub.  There are many little tables and
 citizens are talking here.
 ~
-0 D 1
+D 1
 D1
 ~
 ~
@@ -1116,7 +1116,7 @@ Justice Row~
 There are some citizens strolling on the road.  There is a Pub to
 the west.
 ~
-0 0 1
+0 1
 D1
 ~
 ~
@@ -1131,7 +1131,7 @@ Justice Row~
 Perhaps the only real street in a city where all the citizens
 are nestled in trees, it leads east to west.
 ~
-0 0 1
+0 1
 D1
 ~
 ~
@@ -1147,7 +1147,7 @@ This is where people would sit to see the cases and wait for the
 Judge.  To the North you see the actual Bench.  All around are
 the pew-like seats.
 ~
-0 D 1
+D 1
 D0
 ~
 doors~
@@ -1164,7 +1164,7 @@ have to crane your neck to even glimpse at the Judge.  There are
 no lawyers, there is only justice.  To the east and west there
 are the prisons.
 ~
-0 D 1
+D 1
 D0
 ~
 ~
@@ -1183,7 +1183,7 @@ Prison~
 To the north you see a cell.  Locks are unnecessary, because the
 prisoners are kept in their cells by magic.
 ~
-0 D 1
+D 1
 D0
 The prisoner looks at you and growls.
 ~
@@ -1199,7 +1199,7 @@ Prison~
 To the north you see a cell.  Locks are unnecessary, because the
 prisoners are kept in their cells by magic.
 ~
-0 D 1
+D 1
 D0
 The prisoner is a small man.
 ~
@@ -1214,7 +1214,7 @@ S
 Prison Cell~
 This is a cell where they keep dangerous prisoners.
 ~
-0 D 1
+D 1
 D2
 ~
 ~
@@ -1224,7 +1224,7 @@ S
 Prison Cell~
 This is a cell where they keep dangerous prisoners.
 ~
-0 D 1
+D 1
 D2
 ~
 ~
@@ -1235,7 +1235,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 You see trees.
 ~
@@ -1262,7 +1262,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 You see trees.
 ~
@@ -1289,7 +1289,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 You see trees.
 ~
@@ -1316,7 +1316,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 You see trees.
 ~
@@ -1343,7 +1343,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 You see trees.
 ~
@@ -1370,7 +1370,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 You see trees.
 ~
@@ -1397,7 +1397,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 You see trees.
 ~
@@ -1424,7 +1424,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 You see trees.
 ~
@@ -1451,7 +1451,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 You see trees.
 ~
@@ -1478,7 +1478,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 You see trees.
 ~
@@ -1505,7 +1505,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 You see trees.
 ~
@@ -1532,7 +1532,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 There is a shimmering light.
 ~
@@ -1559,7 +1559,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 You see trees.
 ~
@@ -1586,7 +1586,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 You see trees.
 ~
@@ -1613,7 +1613,7 @@ Yew Forest~
 This is the Yew Forest.  The trees look all the same.  Consequently
 you are lost.
 ~
-0 A 3
+A 3
 D0
 You see trees.
 ~
@@ -1639,7 +1639,7 @@ S
 The Yew Moongate~
 There is your way out, through the blue moongate.
 ~
-0 C 3
+C 3
 D2
 You see trees.
 ~
@@ -1658,7 +1658,7 @@ Dungeons.  After the Age of Enlightenment only 8 sources of evil
 still survive in the world.  These are the eight Dungeons.  Now
 they are being cleaned out.
 ~
-0 C 3
+C 3
 D4
 A cold draft pours out of the dungeon.
 ~
@@ -1674,7 +1674,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D0
 ~
 ~
@@ -1685,7 +1685,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D0
 ~
 ~
@@ -1700,7 +1700,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D0
 ~
 ~
@@ -1715,7 +1715,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D3
 ~
 ~
@@ -1726,7 +1726,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D0
 ~
 ~
@@ -1745,7 +1745,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D0
 ~
 ~
@@ -1768,7 +1768,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D1
 ~
 ~
@@ -1787,7 +1787,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D0
 ~
 ~
@@ -1802,7 +1802,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D0
 ~
 ~
@@ -1817,7 +1817,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D0
 ~
 ~
@@ -1836,7 +1836,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D0
 ~
 ~
@@ -1851,7 +1851,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D2
 ~
 ~
@@ -1862,7 +1862,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D2
 ~
 ~
@@ -1873,7 +1873,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D2
 ~
 ~
@@ -1884,7 +1884,7 @@ The Dungeon~
 These dungeon rooms seem all the same.  There are signs of recent
 battling everywhere.
 ~
-0 A 0
+A 0
 D1
 There is a shimmering light.
 ~
@@ -1899,7 +1899,7 @@ S
 The Dungeon Moongate~
 You feel safe within the blue glow of the moongate.
 ~
-0 C 0
+C 0
 D3
 ~
 ~
@@ -1915,7 +1915,7 @@ The moongate has lead to the ocean side city of Minoc.  To the
 north, there is the sea; and to the south there is the town of
 Minoc.
 ~
-0 C 0
+C 0
 D0
 ~
 ~
@@ -1930,7 +1930,7 @@ The Armourer~
 The Armourer buys and sells armour.  His smithy is impressive
 with all of his greatest works hanging on the walls.
 ~
-8 A 0
+A 0
 D1
 ~
 door~
@@ -1942,7 +1942,7 @@ This is the entrance of Minoc.  To the east you see the
 weaponsmith, and to the west is the Armourer.  To the south there
 seems to be a large road.
 ~
-0 A 0
+A 0
 D0
 ~
 ~
@@ -1965,7 +1965,7 @@ The Weaponsmith~
 The best Weaponsmith in the realm is here.  His shop is full of
 hanging weapons.
 ~
-8 A 0
+A 0
 D3
 ~
 door~
@@ -1976,7 +1976,7 @@ The Boatseller~
 This is the shop where you can purchase vehicles to cross the
 sea.
 ~
-8 A 0
+A 0
 D1
 ~
 door~
@@ -1987,7 +1987,7 @@ Sacrifice Street~
 This Street goes from east to west.  To the west is a shop and to
 the south is a home.
 ~
-0 A 0
+A 0
 D1
 ~
 ~
@@ -2006,7 +2006,7 @@ Sacrifice Street~
 This Street runs from east to west. To the west there is a shop,
 and to there east there is a forge.
 ~
-0 A 0
+A 0
 D0
 ~
 ~
@@ -2025,7 +2025,7 @@ Sacrifice Street~
 This Street runs from west to east.  There is a home to the south
 and forge to the east.
 ~
-0 A 0
+A 0
 D1
 ~
 door~
@@ -2045,7 +2045,7 @@ The heat of the place cause blisters to form.  The rhythmic beat
 of hammer against the forge causes you to believe that someone is
 working here.
 ~
-8 A 0
+A 0
 D3
 ~
 door~
@@ -2056,7 +2056,7 @@ Residence~
 This residence is very small.  It befits the teaching of
 sacrifice without any item that is extra.
 ~
-8 A 0
+A 0
 D0
 ~
 door~
@@ -2067,7 +2067,7 @@ Residence~
 This residence is very small.  It befits the teaching of
 sacrifice without any item that is extra.
 ~
-8 A 0
+A 0
 D0
 ~
 door~
@@ -2077,7 +2077,7 @@ S
 The Beach~
 This beach ends here.  You can go east or west.
 ~
-4 A 0
+A 0
 D1
 ~
 ~
@@ -2092,7 +2092,7 @@ The Beach~
 The beach extends from west to east, the waves are too heavy here
 to enter the ocean.
 ~
-0 A 0
+A 0
 D1
 ~
 ~
@@ -2107,7 +2107,7 @@ The Beach~
 The beach here is perfect, glistening white sands, perfect sun. 
 Too bad there is a monster infestation....
 ~
-0 A 0
+A 0
 D1
 ~
 ~
@@ -2125,7 +2125,7 @@ S
 The Beach~
 The Beach seems so idyllic, to bad these monster keep showing up.
 ~
-0 A 0
+A 0
 D1
 ~
 ~
@@ -2139,7 +2139,7 @@ S
 The Beach~
 The Beach ends here.
 ~
-0 A 0
+A 0
 D3
 ~
 ~
@@ -2150,7 +2150,7 @@ The Whirlpool~
 This is a nasty whirlpool.  The boat is tossed and turned
 everywhere.
 ~
-0 0 7
+0 7
 D0
 ~
 ~
@@ -2174,7 +2174,7 @@ The Whirlpool~
 This is a nasty whirlpool.  The boat is tossed and turned
 everywhere.
 ~
-0 0 7
+0 7
 D0
 ~
 ~
@@ -2197,7 +2197,7 @@ The Whirlpool~
 This is a nasty whirlpool.  The boat is tossed and turned
 everywhere.
 ~
-0 0 7
+0 7
 D0
 ~
 ~
@@ -2220,7 +2220,7 @@ The Whirlpool~
 This is a nasty whirlpool.  The boat is tossed and turned
 everywhere.
 ~
-0 0 7
+0 7
 D0
 ~
 ~
@@ -2243,7 +2243,7 @@ The Whirlpool~
 This is a nasty whirlpool.  The boat is tossed and turned
 everywhere.
 ~
-0 0 7
+0 7
 D0
 ~
 ~
@@ -2266,7 +2266,7 @@ The Whirlpool~
 This is a nasty whirlpool.  The boat is tossed and turned
 everywhere.
 ~
-0 0 7
+0 7
 D0
 ~
 ~
@@ -2289,7 +2289,7 @@ The Whirlpool~
 This is a nasty whirlpool.  The boat is tossed and turned
 everywhere.
 ~
-0 0 7
+0 7
 D0
 There is a shimmering light to the north
 ~
@@ -2313,7 +2313,7 @@ The Whirlpool~
 This is a nasty whirlpool.  The boat is tossed and turned
 everywhere.
 ~
-0 0 7
+0 7
 D0
 ~
 ~
@@ -2336,7 +2336,7 @@ The Whirlpool~
 This is a nasty whirlpool.  The boat is tossed and turned
 everywhere.
 ~
-0 0 7
+0 7
 D0
 ~
 ~
@@ -2358,7 +2358,7 @@ S
 The Minoc Moongate~
 The sea waves lap up against the Moongate.
 ~
-0 C 1
+C 1
 D2
 ~
 ~
@@ -2376,7 +2376,7 @@ paladins stand by it looking it the desert beyond.  Some just
 wander by.  To the south is a small tent, to the north are more
 tents. 
 ~
-0 0 10
+0 10
 D0
 ~
 ~
@@ -2395,7 +2395,7 @@ Between the Tents~
 There is a grand tent to the south, entered into through the
 east.
 ~
-0 0 10
+0 10
 D1
 ~
 ~
@@ -2410,7 +2410,7 @@ In front of the Grand Tent~
 To the south, there is a huge tent.  To the east lies a smaller
 tent.
 ~
-0 0 10
+0 10
 D1
 ~
 tent~
@@ -2429,7 +2429,7 @@ A Small Tent~
 The paladin's tent is very Spartan, as he has to live without
 much in order to develop his Honor.
 ~
-0 D 10
+D 10
 D3
 ~
 tent~
@@ -2440,7 +2440,7 @@ A Small Tent~
 The paladin's tent is very Spartan, as he has to live without
 much in order to develop his Honor.
 ~
-0 D 10
+D 10
 D0
 ~
 tent~
@@ -2455,7 +2455,7 @@ surrounded by a shield.  A shield that only the truly Honorable
 could get through.  And if you were truly honorable you wouldn't
 take the treasure.
 ~
-0 D 10
+D 10
 D1
 ~
 ~
@@ -2466,7 +2466,7 @@ The Grand Tent~
 This tent is absolutely huge.  To the east is the map room.  To
 the south there is Dupre.  To the east is the treasure room.
 ~
-0 D 10
+D 10
 D0
 ~
 tent~
@@ -2489,7 +2489,7 @@ The Map Tent~
 This room has many maps and scrolls all over the table.  There is
 one in particular that interest you.
 ~
-0 D 10
+D 10
 D3
 ~
 ~
@@ -2518,7 +2518,7 @@ S
 Dupre's Tent~
 This is the commander tent.  It is full of commander type things.
 ~
-0 D 10
+D 10
 D0
 ~
 ~
@@ -2529,7 +2529,7 @@ A Small Tent~
 The paladin's tent is very Spartan, as he has to live without
 much in order to develop his Honor.
 ~
-0 D 10
+D 10
 D1
 ~
 tent~
@@ -2540,7 +2540,7 @@ Desert Entrance~
 You feel the hot desert wind blow sand into your face as you look
 at those dunes.
 ~
-0 0 10
+0 10
 D0
 ~
 ~
@@ -2559,7 +2559,7 @@ A Small Tent~
 The paladin's tent is very Spartan, as he has to live without
 much in order to develop his Honor.
 ~
-0 D 10
+D 10
 D3
 ~
 tent~
@@ -2570,7 +2570,7 @@ The Desert~
 The desert in the northeast part of Britannia is a perfect
 example of its kind.  Dry, ugly, and lots of sand.
 ~
-0 0 10
+0 10
 D0
 There is a shimmering light.
 ~
@@ -2586,7 +2586,7 @@ The Desert~
 The Desert is an ugly place.  Sand whips into your eyes, making
 you unsure of where you are and what you see.
 ~
-0 0 10
+0 10
 D1
 ~
 ~
@@ -2604,7 +2604,7 @@ S
 The Desert~
 You trudge on.  This desert seems endless.
 ~
-0 0 10
+0 10
 D0
 ~
 ~
@@ -2624,7 +2624,7 @@ The Desert Moongate~
 Your thirst seems to slacken as you see the comforting glow of
 the moongate.
 ~
-0 C 10
+C 10
 D3
 ~
 ~
@@ -2640,7 +2640,7 @@ The Desert Moongate~
 Your thirst seems to slacken as you see the comforting glow of
 the moongate.
 ~
-0 0 10
+0 10
 D2
 ~
 ~
@@ -2656,7 +2656,7 @@ The Desert~
 There is a large cave to the north.  Smoke pours out of it, at
 regular intervals.
 ~
-0 0 10
+0 10
 D0
 The smoke obscures all vision.
 ~
@@ -2671,7 +2671,7 @@ S
 The Desert~
 The sands blows into your ear and eyes.
 ~
-0 0 10
+0 10
 D1
 There is a shimmering light.
 ~
@@ -2691,7 +2691,7 @@ The Desert Moongate~
 Your thirst seems to slacken as you see the comforting glow of
 the moongate.
 ~
-0 0 10
+0 10
 D3
 ~
 ~
@@ -2706,7 +2706,7 @@ S
 The Dragon Cave~
 The cave is smoky.  There is a a glint of gold.
 ~
-0 0 10
+0 10
 D2
 ~
 ~
@@ -2719,7 +2719,7 @@ source of all magical power.  The Timelord himself lives here.
 There is a moongate here also.  And last of all there is a huge
 engraving taking up the west wall.
 ~
-0 C 2
+C 2
 D0
 You peer into the blackness, and hear shrieks and sounds totally
 inhuman.~
@@ -2761,7 +2761,7 @@ S
 The Place of Ultimate Evil~
 The ground itself seems malevolent.  It sinks and engulfs you.
 ~
-0 AN 0
+AN 0
 D1
 ~
 ~
@@ -2776,7 +2776,7 @@ The Place of Ultimate Evil~
 The air sickens you.  You choke on whatever flows through the
 air.
 ~
-0 AN 0
+AN 0
 D1
 ~
 ~
@@ -2795,7 +2795,7 @@ The Place of Ultimate Evil~
 It is dark, there is no evidence of light except what you have
 with you.  And this is swallowed by the darkness within 2 feet.
 ~
-0 AN 0
+AN 0
 D2
 ~
 ~
@@ -2812,7 +2812,7 @@ and blood-curdling shouts are amplified, and you hear them
 frequently.  Other's like your own voice, will not travel to
 beyond a inch from your face.
 ~
-0 AN 0
+AN 0
 D0
 ~
 ~
@@ -2828,7 +2828,7 @@ When you enter this place all of your senses are immediately
 blasted.  You breath in that total evilness and feel dirty.  You
 want to leave right now.
 ~
-0 AN 0
+AN 0
 D0
 ~
 ~
@@ -2850,7 +2850,7 @@ S
 The Place of Ultimate Evil~
 You feel things all over your body.  Sucking it and hurting it.
 ~
-0 AN 0
+AN 0
 D0
 ~
 ~
@@ -2866,7 +2866,7 @@ The graveyard background noises seem to sooth you.  The are light
 and peaceful.  Your own voices carries so well and softly that
 you seem to be telepathically communicating.
 ~
-0 0 2
+0 2
 D1
 ~
 ~
@@ -2881,7 +2881,7 @@ The Graveyard~
 When you walk into here you are immediately soothed.  Nothing
 could be wrong with the world.  All your senses are pleased.
 ~
-0 0 2
+0 2
 D0
 There is a shimmering light.
 ~
@@ -2905,7 +2905,7 @@ The Graveyard~
 You feel a light breath of air under your clothing.  It massages
 you.
 ~
-0 0 2
+0 2
 D2
 ~
 ~
@@ -2920,7 +2920,7 @@ The Graveyard~
 The ground itself here seems to welcome your footsteps.  It is
 springy and causes you little fatigue.
 ~
-0 0 2
+0 2
 D0
 ~
 ~
@@ -2934,7 +2934,7 @@ S
 The Graveyard~
 The scent of the air refreshes you.  It is sweet and lovely.
 ~
-0 0 2
+0 2
 D0
 ~
 ~
@@ -2952,7 +2952,7 @@ S
 The Graveyard~
 The light here is bright and lovely.
 ~
-0 0 2
+0 2
 D0
 ~
 ~
@@ -2967,7 +2967,7 @@ Lord British's Castle Entrance~
 This building is awe-inspiring.  Just smaller then Yaz's own. 
 Anyway Lord British's personal Jester is here to entertain you.
 ~
-0 0 0
+0 0
 D0
 You see a fountain.
 ~
@@ -2978,7 +2978,7 @@ S
 Castle Fountain~
 A lovely fountain sits here.  To the north you see a guard.
 ~
-0 0 0
+0 0
 D0
 ~
 ~
@@ -2994,7 +2994,7 @@ There is a magical staircase going up.  Beware, for those who go
 up shall not return down.  The other exits except for the west
 are closed for construction.
 ~
-0 0 0
+0 0
 D1
 ~
 ~
@@ -3011,7 +3011,7 @@ This is the entrance for Lord British.  Through the great doors
 to the north you can enter.  Another hallways passes across this
 one.
 ~
-0 0 0
+0 0
 D0
 ~
 doors~
@@ -3035,7 +3035,7 @@ This is a hallway that would regularly extend from west to east,
 but it is closed for reconstruction.  There is though a room to
 your north that can be entered.
 ~
-0 0 0
+0 0
 D0
 ~
 door~
@@ -3050,7 +3050,7 @@ The Throne Room~
 In the Throne Room there are the two most important figures in
 the world.  The avatar and Lord British himself.
 ~
-0 0 0
+0 0
 D2
 ~
 doors~
@@ -3061,7 +3061,7 @@ Batlin's Room~
 Batlin, the molester of animals, and the general jerk, lives
 here.
 ~
-0 0 0
+0 0
 D2
 ~
 door~
@@ -3073,7 +3073,7 @@ You may gain true enlightenment here.  There is a large plaque on
 the wall.  The path continues only if you use the mantra, to
 gain enlightenment.
 ~
-0 0 0
+0 0
 D0
 The Path Of Enlightenment leads on.
 ~
@@ -3091,7 +3091,7 @@ You may gain true enlightenment here.  There is a large plaque on
 the wall.  The path continues only if you use the mantra, to
 gain enlightenment.
 ~
-0 0 0
+0 0
 D0
 The Path Of Enlightenment leads on.
 ~
@@ -3109,7 +3109,7 @@ You may gain true enlightenment here.  There is a large plaque on
 the wall.  The path continues only if you use the mantra, to
 gain enlightenment.
 ~
-0 0 0
+0 0
 D0
 The Path Of Enlightenment leads on.
 ~
@@ -3127,7 +3127,7 @@ You may gain true enlightenment here.  There is a large plaque on
 the wall.  The path continues only if you use the mantra, to
 gain enlightenment.
 ~
-0 0 0
+0 0
 D0
 The Path Of Enlightenment leads on.
 ~
@@ -3144,7 +3144,7 @@ You may gain true enlightenment here.  There is a large plaque on
 the wall.  The path continues only if you use the mantra, to
 gain enlightenment.
 ~
-0 0 0
+0 0
 D0
 The Path Of Enlightenment leads on.
 ~
@@ -3161,7 +3161,7 @@ You may gain true enlightenment here.  There is a large plaque on
 the wall.  The path continues only if you use the mantra, to
 gain enlightenment.
 ~
-0 0 0
+0 0
 D0
 The Path Of Enlightenment leads on.
 ~
@@ -3178,7 +3178,7 @@ You may gain true enlightenment here.  There is a large plaque on
 the wall.  The path continues only if you use the mantra, to
 gain enlightenment.
 ~
-0 0 0
+0 0
 D0
 The Path Of Enlightenment leads on.
 ~
@@ -3196,7 +3196,7 @@ You may gain true enlightenment here.  There is a large plaque on
 the wall.  The path continues only if you use the mantra, to
 gain enlightenment.
 ~
-0 0 0
+0 0
 D0
 The Path Of Enlightenment ends there.
 ~
@@ -3216,7 +3216,7 @@ become an Avatar though you must experience what he has
 experienced.  Go through the time warp and fight his enemies. 
 Beware only High Mortals should attempt this challenge."
 ~
-0 0 0
+0 0
 D4
 The Time Warp changes space, and fluxes its surroundings.
 ~
@@ -3230,7 +3230,7 @@ there was a Britannia.  Almost before there was a Lord British.
 This is the time of Mondain.  The first enemy that the Avatar
 met.
 ~
-0 0 0
+0 0
 D4
 The Time Warp leads you to another place.
 ~
@@ -3242,7 +3242,7 @@ In the Warp~
 You are in a featureless room.  You see the apprentice and lover
 of Mondain here.  Minax.  She does not seem happy to see you.
 ~
-0 0 0
+0 0
 D4
 The Time Warp zips to the future.
 ~
@@ -3254,7 +3254,7 @@ In the Warp~
 You see the last of the Triad of Evil.  With its destruction came
 the breaking of the world.
 ~
-0 0 0
+0 0
 D4
 The Time Warp continues on.
 ~
@@ -3268,7 +3268,7 @@ have fought and defeated the Avatar's enemy of the past.  Now the
 time warp leads to the future.  Only the truly courageous can
 survive the enemies there."
 ~
-0 0 0
+0 0
 D4
 The Time Warp changes space, and fluxes its surroundings.
 ~
@@ -3280,7 +3280,7 @@ In the Warp~
 You seem to be in a castle.  But there are torture devices here,
 and an angry King.
 ~
-0 0 0
+0 0
 D4
 The Time Warp sputters and crackles.
 ~
@@ -3292,13 +3292,13 @@ In the Warp~
 You seem to be in a blue room.  It seems to be only 2 dimensional
 as it sparkles.  There is also a big red face here.
 ~
-0 0 0
+0 0
 S
 #2584
 The Lagoon~
 The whirlpool-like ocean is to the north, and the beach is back to the east.
 ~
-0 0 0
+0 0
 D0
 The Ocean Roars.
 ~

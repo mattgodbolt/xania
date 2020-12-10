@@ -11,7 +11,7 @@ You are at the entrance to a tall tower to the north. Lightning
 flashes periodically and it is raining.  You think it might be a 
 good idea to turn back into the grove.
 ~
-22 A 1
+A 1
 D0
 You see a large steel gate.  Beyond is the Foyer of the Tower.
 ~
@@ -33,7 +33,7 @@ This is the entrance to the Tower.  The hallway continues to the north,
 leading towards a staircase.  You notice a grim painting on the wall,  and 
 quickly look away.
 ~
-22 CD 0
+CD 0
 D0
 You see a long hallway. 
 ~
@@ -55,7 +55,7 @@ Hallway~
 This hallway seems to stretch on forever.  You notice a stairway in  
 the distance. 
 ~
-22 D 0
+D 0
 D0
 The hall continues. 
 ~
@@ -71,7 +71,7 @@ S
 Hallway~
 You trudge down the hallway.  You notice doors to the east and west. 
 ~
-0 D 0
+D 0
 D0
 The hall continues. 
 ~
@@ -106,7 +106,7 @@ Nursery~
 It looks like a tornado has been through here.  Toys are scattered everywhere,
 and a small group of dragon hatchlings are fighting over a bone. 
 ~
-22 D 1
+D 1
 D1
 You see a large stone door.
 ~
@@ -122,7 +122,7 @@ S
 Storage Room~
 This room is covered with dust, it looks as if no one has been here in ages.
 ~
-22 D 1
+D 1
 D1
 You see the hallway. 
 ~
@@ -143,7 +143,7 @@ End of the Hallway~
 You have finally reached the end of the hallway.  A huge staircase leads up.
 You see a sign at the base of the staircase. 
 ~
-22 D 0
+D 0
 D2
 The hall continues. 
 ~
@@ -167,7 +167,7 @@ Guardian's Room~
 You climb down the rickety stairs and find yourself face to face with a 
 gargantuan hydra.  How fast can you climb UP stairs? 
 ~
-22 D 1
+D 1
 D2
 A large grey door.
 ~
@@ -185,7 +185,7 @@ You have made it past the hydra into the vault.  You are astounded by
 the treasure here.  Not only are you now rich, you can probably rest here
 safely.  The west wall seems to have a large door made entirely of ruby.
 ~
-22 CD 1
+CD 1
 D0
 You see nothing special. 
 ~
@@ -202,7 +202,7 @@ The Second Floor~
 You have made it up to the second floor.  You hear hissing and see several
 dragon men rushing you.  You wonder how long you will be staying here.
 ~
-22 D 1
+D 1
 D2
 You see the court.
 ~
@@ -219,7 +219,7 @@ The Court~
 You have entered what seems to be a large court.  The people guarding it
 don't seem happy to see you ...
 ~
-22 D 1
+D 1
 D0
 You see nothing special.
 ~
@@ -241,7 +241,7 @@ Hall O' Pleasure~
 You stop dead in your tracks as you enter this ornately decorated room - it
 is populated with the king's harem.  
 ~
-22 D 1
+D 1
 D3
 You see the Court.
 ~
@@ -252,7 +252,7 @@ S
 The Court~
 You are continuing down the hall.  To the east and west you see ornate doors.
 ~
-22 0 1
+0 1
 D0
 You see the court.
 ~
@@ -279,7 +279,7 @@ The Library~
 You have entered a huge room, filled with books.  A peaceful man is
 sitting at a table, studying.
 ~
-22 D 1
+D 1
 D3
 You see the court.
 ~
@@ -291,7 +291,7 @@ The Sanctum~
 This small room is modestly decorated with small dragon icons.  Its sole
 occupant is deep in thought.
 ~
-22 D 1
+D 1
 D1
 You see the Court.
 ~
@@ -304,7 +304,7 @@ You have reached the end of the court.  A huge Draconian is sitting in a
 chair here.  As you enter, he motions with his hand and you are rushed by three
 of his bodyguards.
 ~
-22 D 1
+D 1
 D0
 You see the court.
 ~
@@ -320,7 +320,7 @@ S
 Bedroom of the King~
 This is the personal room of the draconian king.  It is not empty.
 ~
-22 D 1
+D 1
 D3
 You see Court.
 ~
@@ -332,7 +332,7 @@ Entrance to the Crypt~
 You have entered a large room which smells heavily of reptile.  You wonder
 what awaits you here.
 ~
-22 D 1
+D 1
 D1
 You see the Treasure Vault.
 ~
@@ -350,7 +350,7 @@ You are in a large room which continues to the west.  You notice many
 coffins here.  Open coffins reveal remains of something other than man.  
 The smell of reptile is very strong here.
 ~
-22 D 1
+D 1
 D1
 You see the entrance.
 ~
@@ -367,7 +367,7 @@ The Lair~
 You have entered a large room dominated by a great white dragon.  It growls
 at you before it attacks.
 ~
-22 D 1
+D 1
 D2
 You the cave opening.
 ~
@@ -379,7 +379,7 @@ A Lair~
 You have entered a large room dominated by a great black dragon.  It looks
 as though it is amused by your presence.
 ~
-22 D 1
+D 1
 D0
 You the cave opening.
 ~
@@ -391,7 +391,7 @@ The Crypt Ends~
 You have come to the end of the Crypt.  It seems deserted.  There is a 
 strange coffin lying against the wall.
 ~
-22 D 1
+D 1
 D1
 You see the Crypt.
 ~
@@ -412,7 +412,7 @@ You have entered a huge hall.  It has been carefully decorated with
 beautiful tapestries depicting a great battle between dragons and men.  The
 dragons appear to be the victors.
 ~
-22 D 1
+D 1
 D1
 The Hall continues.
 ~
@@ -429,7 +429,7 @@ The Great Hall~
 You are working your way down the Hall.  To the north, you notice a smaller
 passageway, while the main hall continues to the east.
 ~
-22 D 1
+D 1
 D0
 You see a narrow passageway.
 ~
@@ -450,7 +450,7 @@ S
 A Narrow Passageway~
 This Passageway branches off from the main hall and leads somewhere ... where?
 ~
-22 D 1
+D 1
 D0
 You see a large Lair.  It looks dangerous.
 ~
@@ -468,7 +468,7 @@ You have entered a large lair with bones strewn about the ground.  You
 notice the source of these as you come face to face with a rather large red
 dragon.  You notice a trap door in the floor.
 ~
-22 D 1
+D 1
 D2
 The narrow passageway.
 ~
@@ -485,7 +485,7 @@ Underground Tunnel~
 You have entered an underground tunnel.  It is dark and dirty, and you find
 yourself wishing you were back in Midgaard.
 ~
-22 AD 2
+AD 2
 D0
 You see the tunnel.
 ~
@@ -501,7 +501,7 @@ S
 Underground Tunnel~
 This tunnel has come to a dead end.  You feel nervous about being trapped here.
 ~
-22 ACD 2
+ACD 2
 D2
 You see the tunnel.
 ~
@@ -514,7 +514,7 @@ You have come to the end of the great hall.  You see before you a huge
 golden door, it must be at least twenty feet tall!  It has beautiful etchings
 of dragons.  You see a sign on the door.
 ~
-22 D 1
+D 1
 D1
 You see a great golden door.
 ~
@@ -535,7 +535,7 @@ S
 THE Lair~
 You have entered a huge lair.  You feel that something big lives here or at least did.  The golden door lies back to the west.
 ~
-22 D 2
+D 2
 D3
 You see a great golden door.
 ~
@@ -547,7 +547,7 @@ The End...~
 You have reached the final lair.  It is dominated by a huge five headed
 dragon.  You suddenly realize that you have SERIOUS problems...
 ~
-22 D 2
+D 2
 D2
 You see the top of the mountain.
 ~
@@ -559,7 +559,7 @@ Stairwell~
 This is an old decrepit stairwell that leads to the wine cellar.  It looks
 like it hasn't been used for decades.  Well, at least not by anything living.
 ~
-22 D 2
+D 2
 D1
 The crypt~
 ~
@@ -575,7 +575,7 @@ This is the old wine cellar of the Dragon Tower.  The shelves are empty.
 Nothing living has been in here for a long time.  You see a tunnel leading
 off to the east and boy does it smell bad.  Kinda of like rotting flesh.
 ~
-22 A 2
+A 2
 D1
 A tunnel
 ~
@@ -594,7 +594,7 @@ your eyes soon tire from the strain.  The smell here has increased two fold.
 The tunnel continues to go to the east.  The wine cellar lies back to the 
 west.
 ~
-22 AI 2
+AI 2
 D0
 A cave opening
 ~
@@ -618,7 +618,7 @@ the room.  Some human, some indistinguishable.  It smells very bad in here.
 You can hear movement in the cave to the north.  The tunnel goes back to the
 south.
 ~
-22 AI 2
+AI 2
 D0
 The lair
 ~
@@ -636,7 +636,7 @@ You have finally come to the end of the tunnel.  Back to the west lies
 the miles of tunnels you have walked through.  You see the faint outline of
 a trapdoor above you.  A bride over an underground river lies to the south.
 ~
-22 AI 2
+AI 2
 D2
 bridge
 ~
@@ -659,7 +659,7 @@ You are walking along an old wooden bridge.  Its not that secure.  You
 might want to hurry along.  To the south, on the other side of the bridge,
 lies a small opening.
 ~
-22 AD 2
+AD 2
 D0
 The tunnel end
 ~
@@ -677,7 +677,7 @@ You are standing in a small opening.  To the north lies the old wooden
 bridge.  To your south the you can see a clearing.  You can see sunlight
 again.  What a welcome relief!
 ~
-22 AD 2
+AD 2
 D0
 bridge
 ~
@@ -695,7 +695,7 @@ You stand out in a clearing.  Mountains are all around you.  There is a
 well in the middle of the clearing.  Lying against the well is a sign.  A
 path leads up the mountain.  The small opening is back to the north.
 ~
-22 0 2
+0 2
 D0
 the small opening
 ~
@@ -730,7 +730,7 @@ A path~
 This path leads up the side of the mountain.  A clearing lies below you.
 There is a cave opening to the west.  The path continues up the mountain.
 ~
-22 0 2
+0 2
 D3
 cave opening
 ~
@@ -753,7 +753,7 @@ You stand before a huge cave opening.  You hearing heavy breathing from
 within the cave.  There are a few skeletons lying about.  The cave lies to 
 the south.  The path is back to the east.
 ~
-22 0 2
+0 2
 D1
 the path
 ~
@@ -770,7 +770,7 @@ The path continues~
 The path continues up the mountain to the top.  The path also goes down.
 Thats it, nothing more to see.
 ~
-22 0 2
+0 2
 D4
 top of the mountain
 ~
@@ -792,7 +792,7 @@ If you do have the key I would suggest not going in.  Some believe the Five
 Headed dragon Tiamat was imprisoned here by the gods.  But who believes in 
 fairy tales.  Well, if you're scared, you can always go down the mountain.
 ~
-22 0 2
+0 2
 D0
 The platinum door
 ~
@@ -821,7 +821,7 @@ O
 right before your eyes.  Pretty pathetic isn't it?  Next time you'll know
 to listen to the God of Laughs.
 ~
-22 B 0
+B 0
 S
 #0
 
