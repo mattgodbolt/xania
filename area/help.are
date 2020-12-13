@@ -2478,6 +2478,26 @@ to hazards. You can hail your corpse if it has become trapped in a
 particularly dangerous place.
 ~
 
+0 PRONOUNS~
+The pronouns command enables you to customise the personal pronouns that are
+used when the game constructs sentences. In particular, messages sent to other
+players describing an action you're taking or something that is happening
+to you. The terms will be applied automatically by many built-in socials,
+skills and spells.
+
+Your choices are saved automatically with your character.
+Also, your choices will override the standard terms regardless of what your
+charater's sex is, even if you've been afflicted by the "change sex" spell!
+
+Set your choices. Each choice should be a single word, ideally in lower case.
+        pronouns set <possessive> <objective> <subjective> <reflexive>
+Example:
+        pronouns set his him he himself
+Reset to the defaults:
+        pronouns reset
+Display choices:
+        pronouns show
+~
 
 0 $~
 

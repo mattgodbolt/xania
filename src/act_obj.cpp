@@ -1303,7 +1303,7 @@ void do_sacrifice(Char *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0' || matches(arg, ch->name)) {
-        act(fmt::format("$n offers $mself to {}, who graciously declines.", deity_name), ch);
+        act(fmt::format("$n offers $r to {}, who graciously declines.", deity_name), ch);
         ch->send_line("{} appreciates your offer and may accept it later.", deity_name);
         return;
     }

@@ -41,6 +41,10 @@ HourOffset 0
 MinOffset 0
 ExtraBits 0000000000000000000000000000000000000000000000000000000000000000~
 Cond 0 21 21
+Possessive ~
+Subjective ~
+Objective ~
+Reflexive ~
 Sk 1 'acid blast'
 Sk 51 'armor'
 Sk 1 'blindness'

@@ -46,6 +46,10 @@ HourOffset 0
 MinOffset 0
 ExtraBits 1111101001111000000000000000000000000000000000000000000000000000~
 Cond 0 47 48
+Possessive ~
+Subjective ~
+Objective ~
+Reflexive ~
 Sk 100 'reserved'
 Sk 100 'acid blast'
 Sk 100 'octarine fire'

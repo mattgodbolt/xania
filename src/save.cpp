@@ -236,6 +236,11 @@ void fwrite_char(const Char *ch, FILE *fp) {
 
         fprintf(fp, "Cond %d %d %d\n", ch->pcdata->condition[0], ch->pcdata->condition[1], ch->pcdata->condition[2]);
 
+        fprintf(fp, "Possessive %s~\n", ch->pcdata->pronouns.possessive.c_str());
+        fprintf(fp, "Subjective %s~\n", ch->pcdata->pronouns.subjective.c_str());
+        fprintf(fp, "Objective %s~\n", ch->pcdata->pronouns.objective.c_str());
+        fprintf(fp, "Reflexive %s~\n", ch->pcdata->pronouns.reflexive.c_str());
+
         for (sn = 0; sn < MAX_SKILL; sn++) {
             if (skill_table[sn].name != nullptr && ch->pcdata->learned[sn] > 0) // NOT get_skill_learned
             {
@@ -726,6 +731,14 @@ void fread_char(Char *ch, FILE *fp) {
             ch->pIndexData = get_mob_index(fread_number(fp));
         } else if (word == "wimpy" || word == "wimp") {
             ch->wimpy = fread_number(fp);
+        } else if (word == "possessive") {
+            ch->pcdata->pronouns.possessive = fread_stdstring(fp);
+        } else if (word == "subjective") {
+            ch->pcdata->pronouns.subjective = fread_stdstring(fp);
+        } else if (word == "objective") {
+            ch->pcdata->pronouns.objective = fread_stdstring(fp);
+        } else if (word == "reflexive") {
+            ch->pcdata->pronouns.reflexive = fread_stdstring(fp);
         }
     }
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Constants.hpp"
-#include "Types.hpp"
+#include "Pronouns.hpp"
 #include "clan.h"
 
 #include <array>
@@ -33,4 +33,5 @@ struct PcData {
     bool confirm_delete{};
     bool colour{};
     std::optional<PcClan> pcclan;
+    Pronouns pronouns;
 };

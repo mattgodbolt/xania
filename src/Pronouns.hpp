@@ -1,32 +1,28 @@
 #pragma once
 
-#include "Char.hpp"
+#include "ArgParser.hpp"
+#include "Types.hpp"
 
-#include <string_view>
+#include <string>
 
 struct Pronouns {
-    std::string_view possessive;
-    std::string_view subjective;
-    std::string_view objective;
+    std::string possessive;
+    std::string objective;
+    std::string subjective;
+    std::string reflexive;
+};
+const std::pair<const Pronouns &, const Pronouns &> pronouns_for(const Char &ch);
+const std::string &possessive(const Char &ch);
+const std::string &subjective(const Char &ch);
+const std::string &objective(const Char &ch);
+const std::string &reflexive(const Char &ch);
+
+enum class PronounParseState { Ok, EmptyArgs, MissingArgs };
+
+struct PronounParseResult {
+    Pronouns parsed;
+    PronounParseState state;
 };
 
-inline const Pronouns &pronouns_for(int sex) { // TODO: strong type for sex.
-    static constexpr Pronouns male{"his", "him", "he"};
-    static constexpr Pronouns female{"her", "her", "she"};
-    static constexpr Pronouns neutral{"its", "it", "it"};
-    switch (sex) {
-    case 0: return neutral;
-    case 1: return male;
-    case 2: return female;
-    default: break;
-    }
-    // TODO: reintroduce? throw? out of line?
-    //    bug("{}", fmt::format("Bad sex {} in pronouns ", ch->sex).c_str());
-    return neutral;
-}
-
-inline const Pronouns &pronouns_for(const Char &ch) { return pronouns_for(ch.sex); }
-
-inline auto possessive(const Char &ch) { return pronouns_for(ch).possessive; }
-inline auto subjective(const Char &ch) { return pronouns_for(ch).subjective; }
-inline auto objective(const Char &ch) { return pronouns_for(ch).objective; }
+PronounParseResult parse_pronouns(ArgParser args);
+void do_pronouns(Char *ch, ArgParser args);

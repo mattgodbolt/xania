@@ -282,7 +282,7 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
 void show_char_to_char_1(Char *victim, Char *ch) {
     if (can_see(victim, ch)) {
         if (ch == victim)
-            act("$n looks at $mself.", ch);
+            act("$n looks at $r.", ch);
         else {
             act("$n looks at you.", ch, nullptr, victim, To::Vict);
             act("$n looks at $N.", ch, nullptr, victim, To::NotVict);
@@ -1099,7 +1099,7 @@ void do_score(Char *ch) {
 
     col2.stat("Race", race_table[ch->race].name)
         .stat("Class", ch->is_npc() ? "mobile" : class_table[ch->class_num].name)
-        .stat("Sex", ch->sex == 0 ? "sexless" : ch->sex == 1 ? "male" : "female")
+        .stat("Sex", ch->sex == 0 ? "other" : ch->sex == 1 ? "male" : "female")
         .stat("Position", position_desc[ch->position])
         .stat_of("Items", ch->carry_number, can_carry_n(ch))
         .stat_of("Weight", ch->carry_weight, can_carry_w(ch))

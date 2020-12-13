@@ -199,6 +199,7 @@ void interp_initialise() {
     add_command("password", do_password, POS_DEAD, 0, CommandLogLevel::Never);
     add_command("prefix", do_prefix);
     add_command("prompt", do_prompt);
+    add_command("pronouns", do_pronouns);
     add_command("scroll", do_scroll);
     add_command("showdefence", do_showdefence);
     add_command("showafk", do_showafk);

@@ -79,6 +79,7 @@ add_library(xania_lib STATIC
         Format.hpp
         fight.hpp
         Pronouns.hpp
+        Pronouns.cpp
         AFFECT_DATA.cpp AFFECT_DATA.hpp
         AffectLocation.hpp
         AffectList.cpp AffectList.hpp

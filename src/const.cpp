@@ -1259,7 +1259,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
      "",
      "Your body feels familiar again.",
      check_dispel,
-     "$n looks more like $mself again.",
+     "$n looks more like $r again.",
      0},
 
     {"charm person",

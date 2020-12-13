@@ -387,7 +387,7 @@ void one_hit(Char *ch, Char *victim, int dt) {
         int chance = URANGE(2, af->level / 5, 5);
         if (number_percent() < chance) {
             act("In your confused state, you attack yourself!", ch, nullptr, victim, To::Char);
-            act("$n stumbles and in a confused state, hits $mself.", ch, nullptr, victim, To::Room);
+            act("$n stumbles and in a confused state, hits $r.", ch, nullptr, victim, To::Room);
             victim = ch;
             self_hitting = true;
         }
@@ -2188,7 +2188,7 @@ void do_dirt(Char *ch, const char *argument) {
     }
 
     if (IS_AFFECTED(victim, AFF_BLIND)) {
-        act("$e's already been blinded.", ch, nullptr, victim, To::Char);
+        act("$E's already been blinded.", ch, nullptr, victim, To::Char);
         return;
     }
 

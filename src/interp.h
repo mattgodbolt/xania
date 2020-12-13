@@ -188,6 +188,7 @@ extern void do_put(Char *ch, const char *arg);
 extern void do_quaff(Char *ch, const char *arg);
 extern void do_question(Char *ch, const char *arg);
 extern void do_enter(Char *ch, const char *argument);
+extern void do_pronouns(Char *ch, ArgParser args);
 extern void do_qui(Char *ch);
 extern void do_quiet(Char *ch);
 extern void do_quit(Char *ch);

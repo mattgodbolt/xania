@@ -839,7 +839,7 @@ void nanny(Descriptor *d, const char *argument) {
         ch->pcdata->points = pc_race_table[race].points;
         ch->size = pc_race_table[race].size;
 
-        d->write("What is your sex (M/F)? ");
+        d->write("Are you male, female or other (M/F/O)? ");
         d->state(DescriptorState::GetNewSex);
         break;
 
@@ -855,9 +855,15 @@ void nanny(Descriptor *d, const char *argument) {
             ch->sex = SEX_FEMALE;
             ch->pcdata->true_sex = SEX_FEMALE;
             break;
-        default: d->write("That's not a sex.\n\rWhat IS your sex? "); return;
+        case 'o':
+        case 'O':
+            ch->sex = SEX_NEUTRAL;
+            ch->pcdata->true_sex = SEX_NEUTRAL;
+            break;
+        default: d->write("Please specify (M)ale, (F)emale or (O)ther. "); return;
         }
 
+        d->write("Thanks. Personal pronouns can be set using the 'pronouns' command later on.\n");
         strcpy(buf, "The following classes are available: ");
         for (iClass = 0; iClass < MAX_CLASS; iClass++) {
             if (iClass > 0)
@@ -1166,17 +1172,10 @@ void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To
 
 namespace {
 
-auto &pronouns(std::string_view format, const Char *ch) {
-    if (!ch) {
-        bug("Act: null ch in pronouns with format '{}'", format);
-        return pronouns_for(0);
-    }
-    return pronouns_for(*ch);
-}
-
-std::string_view he_she(std::string_view format, const Char *ch) { return pronouns(format, ch).objective; }
-std::string_view him_her(std::string_view format, const Char *ch) { return pronouns(format, ch).subjective; }
-std::string_view his_her(std::string_view format, const Char *ch) { return pronouns(format, ch).possessive; }
+std::string_view he_she(const Char *ch) { return subjective(*ch); }
+std::string_view him_her(const Char *ch) { return objective(*ch); }
+std::string_view his_her(const Char *ch) { return possessive(*ch); }
+std::string_view himself_herself(const Char *ch) { return reflexive(*ch); }
 
 std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, const Char *to,
                        const Char *vch) {
@@ -1220,12 +1219,14 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
             break;
         case 'n': buf += pers(ch, to); break;
         case 'N': buf += pers(vch, to); break;
-        case 'e': buf += he_she(format, ch); break;
-        case 'E': buf += he_she(format, vch); break;
-        case 'm': buf += him_her(format, ch); break;
-        case 'M': buf += him_her(format, vch); break;
-        case 's': buf += his_her(format, ch); break;
-        case 'S': buf += his_her(format, vch); break;
+        case 'e': buf += he_she(ch); break;
+        case 'E': buf += he_she(vch); break;
+        case 'm': buf += him_her(ch); break;
+        case 'M': buf += him_her(vch); break;
+        case 's': buf += his_her(ch); break;
+        case 'S': buf += his_her(vch); break;
+        case 'r': buf += himself_herself(ch); break;
+        case 'R': buf += himself_herself(vch); break;
 
         case 'p':
             if (auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1)) {

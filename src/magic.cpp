@@ -1014,7 +1014,7 @@ void spell_change_sex(int sn, int level, Char *ch, void *vo) {
     af.bitvector = 0;
     affect_to_char(victim, af);
     victim->send_line("You feel different.");
-    act("$n doesn't look like $mself anymore...", victim);
+    act("$n doesn't look like $r anymore...", victim);
 }
 
 void spell_charm_person(int sn, int level, Char *ch, void *vo) {
@@ -2230,7 +2230,7 @@ void spell_frenzy(int sn, int level, Char *ch, void *vo) {
         if (victim == ch)
             ch->send_line("Why don't you just relax for a while?");
         else
-            act("$N doesn't look like $e wants to fight anymore.", ch, nullptr, victim, To::Char);
+            act("$N doesn't look like $E wants to fight anymore.", ch, nullptr, victim, To::Char);
         return;
     }
 
@@ -2347,7 +2347,7 @@ void spell_regeneration(int sn, int level, Char *ch, void *vo) {
         if (victim == ch)
             ch->send_line("You are already vibrant!");
         else
-            act("$N is already as vibrant as $e can be.", ch, nullptr, victim, To::Char);
+            act("$N is already as vibrant as $E can be.", ch, nullptr, victim, To::Char);
         return;
     }
     af.type = sn;
@@ -2374,7 +2374,7 @@ void spell_haste(int sn, int level, Char *ch, void *vo) {
         if (victim == ch)
             ch->send_line("You can't move any faster!");
         else
-            act("$N is already moving as fast as $e can.", ch, nullptr, victim, To::Char);
+            act("$N is already moving as fast as $E can.", ch, nullptr, victim, To::Char);
         return;
     }
     af.type = sn;
