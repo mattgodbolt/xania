@@ -504,7 +504,7 @@ static inline constexpr auto ff = BIT(31);
 #define AFF_PROTECTION_EVIL (L)
 #define AFF_POISON (M)
 #define AFF_PROTECTION_GOOD (N)
-#define AFF_HOLY_PROTECTION (O)
+// O currently unused
 
 #define AFF_SNEAK (P)
 #define AFF_HIDE (Q)

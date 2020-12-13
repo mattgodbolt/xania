@@ -2325,7 +2325,7 @@ oscillates slowly and effortlessly.
 
 ~
 unique~
-BGLT DFHLNO 500 0
+BGLT DFHLN 500 0
 110 55 12d10+12100 10d6+600 10d10+55 divine
 -54 -50 -53 -30
 CMO AB 0 0
