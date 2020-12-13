@@ -8,14 +8,14 @@ my $in_rooms = false;
 my $in_room = false;
 my $room_tildes = 0;
 
-while(<>) {
-    if(/#ROOMS/) {
+while (<>) {
+    if (/#ROOMS/) {
         $in_rooms = true;
-    } elsif((/#[A-Z]{2,}/)) {  # OBJECTS, MOBILES, RESETS, HELPS etc.
+    } elsif ((/#[A-Z]{2,}/)) {  # OBJECTS, MOBILES, RESETS, HELPS etc.
         $in_rooms = false;
     }
     if ($in_rooms) {
-        if(/#[0-9]+/) { # room vnum
+        if (/#[\d]+/) { # room vnum
             $in_room = true;
             $room_tildes = 0;
         } elsif ($in_room && /\~/) {
