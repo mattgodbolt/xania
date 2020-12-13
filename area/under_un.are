@@ -15103,9 +15103,9 @@ golden earring~
 golden earring~
 A small golden earring glints softly in the light~
 gold~
-armor G AE
-8 8 8 0 0
-25 1 5079 P
+armor G AQ
+6 6 6 0 0
+25 1 2579 P
 A
 2       1
 A
@@ -15976,11 +15976,11 @@ E   1  16069    3      3     A dark cloak on neck
 M 0 16086 3 16396 1  1   the magsman into Private Chamber  
 E   1  16069    3      3     A dark cloak on neck                
 M 0 16087 3 16383 1  1   the master thief into Thieves' Council Chamber  
-E   1  16070    3     18     Golden earring max_worn               
+E   1  16070    3     18     Golden earring                
 M 0 16087 3 16391 1  1   the master thief into Master Thief's Room  
-E   1  16070    3     18     Golden earring max_worn               
+E   1  16070    3     18     Golden earring                
 M 0 16087 3 16394 1  1   the master thief into Private Room  
-E   1  16070    3     18     Golden earring max_worn               
+E   1  16070    3     18     Golden earring                
 M 0 16088 1 16385 1  1   the head thief into Thieves' Council Chamber  
 E   1  16071    2     16     A jewelled dagger wielded                
 M 0 16089 1 16390 1  1   Meliadus into Mage Chamber  
