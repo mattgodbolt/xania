@@ -3220,6 +3220,21 @@ A
 A
 12 30
 
+#27274
+gold stud~
+a privateer's gold stud~
+A gold stud catches your eye.~
+gold~
+armor A AQ
+13 13 13 0 0
+61 1 3902 P
+A
+2 2
+A
+5 2
+A
+13 15
+
 #0
 
 #RESETS
@@ -3306,6 +3321,7 @@ M 0 27209 4 27210 1  1  1    burly boatswain
 E 1 27244 5 9                gauntlets
 
 M 0 27209 4 27250 1  1  1    burly boatswain
+E 1 27274 4 18               stud
 
 M 0 27209 4 27263 1  1  1    burly boatswain
 

@@ -1568,6 +1568,17 @@ A
 A
 12      5
 
+#1617
+iron hoop~
+an iron hoop~
+An iron hoop has been discarded.~
+iron~
+armor 0 AQ
+5 5 5 0 0
+15 1 1192 P
+A
+19      1
+
 #1621
 dark red potion~
 a dark red potion~
@@ -1743,7 +1754,8 @@ E   0   1604    5     16     a steel broad sword wielded
 E   1   1612    3     11     a black kite shield as shield              
 M 0 1613 1 1646 1  1   the captain into The Officer's Quarters  
 E   1   3387    -1     16     officer blade wielded     
-E   1   1614    3      6     a commander's helm on head                
+E   1   1614    8      6     a commander's helm on head                
+E   1   1617    8      18     iron hoop                
 M 0 1614 1 1643 1  1   the black pudding into Third Level of Western Tower  
 M 0 1615 2 1647 1  1   a lesser golem into Third Level of Eastern Tower  
 E   1   1606    2     16     the rod of might wielded                

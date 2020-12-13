@@ -1237,6 +1237,17 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
             return;
         }
 
+    if (CAN_WEAR(obj, ITEM_WEAR_EARS)) {
+        if (!remove_obj(ch, WEAR_EARS, fReplace))
+            return;
+        if (use_default_message) {
+            act("$n wears $p on $s ears.", ch, obj, nullptr, To::Room);
+            act("You wear $p on your ears.", ch, obj, nullptr, To::Char);
+        }
+        equip_char(ch, obj, WEAR_EARS);
+        return;
+    }
+
     if (fReplace)
         ch->send_line("You can't wear, wield, or hold that.");
 }

@@ -45,7 +45,8 @@ std::string wear_string_for(const OBJ_DATA *obj, int wear_location) {
         "worn on head",      "worn on legs",     "worn on feet",
         "worn on hands",     "worn on arms",     "worn as shield",
         "worn about body",   "worn about waist", "worn around wrist",
-        "worn around wrist", "wielded",          "held"};
+        "worn around wrist", "wielded",          "held",
+        "worn on ears"};
 
     return fmt::format("<{}>", obj->wear_string.empty() ? where_name[wear_location] : obj->wear_string);
 }

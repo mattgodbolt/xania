@@ -690,8 +690,10 @@ static inline constexpr auto ff = BIT(31);
 #define ITEM_WIELD (N)
 #define ITEM_HOLD (O)
 #define ITEM_TWO_HANDS (P)
+#define ITEM_WEAR_EARS (Q)
 
-#define ITEM_WEAR_FLAGS "take finger neck body head legs feet hands arms shield about waist wrist wield hold twohands"
+#define ITEM_WEAR_FLAGS                                                                                                \
+    "take finger neck body head legs feet hands arms shield about waist wrist wield hold twohands ears"
 
 /* weapon class */
 #define WEAPON_EXOTIC 0
@@ -806,7 +808,8 @@ static inline constexpr auto ff = BIT(31);
 #define WEAR_WRIST_R 15
 #define WEAR_WIELD 16
 #define WEAR_HOLD 17
-#define MAX_WEAR 18
+#define WEAR_EARS 18
+#define MAX_WEAR 19
 
 /***************************************************************************
  *                                                                         *
@@ -996,7 +999,7 @@ struct OBJ_INDEX_DATA {
     sh_int material{};
     sh_int item_type{};
     unsigned int extra_flags{};
-    ush_int wear_flags{};
+    int wear_flags{};
     std::string wear_string;
     sh_int level{};
     sh_int condition{};
@@ -1026,9 +1029,9 @@ struct OBJ_DATA {
     std::string description;
     sh_int item_type{};
     unsigned int extra_flags{};
-    sh_int wear_flags{};
+    int wear_flags{};
     std::string wear_string;
-    sh_int wear_loc{};
+    int wear_loc{};
     sh_int weight{};
     int cost{};
     sh_int level{};

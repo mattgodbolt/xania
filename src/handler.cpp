@@ -591,9 +591,9 @@ int apply_ac(OBJ_DATA *obj, int iWear, int type) {
         return 0;
 
     switch (iWear) {
-    case WEAR_BODY: return /*3 * */ obj->value[type];
-    case WEAR_HEAD: return /*2 * */ obj->value[type];
-    case WEAR_LEGS: return /*2 * */ obj->value[type];
+    case WEAR_BODY: return obj->value[type];
+    case WEAR_HEAD: return obj->value[type];
+    case WEAR_LEGS: return obj->value[type];
     case WEAR_FEET: return obj->value[type];
     case WEAR_HANDS: return obj->value[type];
     case WEAR_ARMS: return obj->value[type];
@@ -602,11 +602,12 @@ int apply_ac(OBJ_DATA *obj, int iWear, int type) {
     case WEAR_FINGER_R: return obj->value[type];
     case WEAR_NECK_1: return obj->value[type];
     case WEAR_NECK_2: return obj->value[type];
-    case WEAR_ABOUT: return /*2 */ obj->value[type];
+    case WEAR_ABOUT: return obj->value[type];
     case WEAR_WAIST: return obj->value[type];
     case WEAR_WRIST_L: return obj->value[type];
     case WEAR_WRIST_R: return obj->value[type];
     case WEAR_HOLD: return obj->value[type];
+    case WEAR_EARS: return obj->value[type];
     }
 
     return 0;
@@ -1543,6 +1544,8 @@ const char *wear_bit_name(int wear_flags) {
         strcat(buf, " wield");
     if (wear_flags & ITEM_HOLD)
         strcat(buf, " hold");
+    if (wear_flags & ITEM_WEAR_EARS)
+        strcat(buf, " ears");
 
     return (buf[0] != '\0') ? buf + 1 : "none";
 }

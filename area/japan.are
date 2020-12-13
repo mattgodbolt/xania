@@ -342,7 +342,7 @@ stand stand male 1500
 0 0 medium 0
 
 #1820
-white commander~
+elderly man white commander~
 the Commander of the White~
 An elderly man stands here instructing his trainees in the way of the ninja.
 ~
@@ -377,7 +377,7 @@ stand stand male 1000
 0 0 medium 0
 
 #1822
-red commander~
+elderly man red commander~
 the Commander of the Red~
 An elderly man stands here instructing his trainees in the way of the ninja.
 ~
@@ -857,6 +857,21 @@ silk~
 clothing A AK
 10 10 10 12 0
 60 5 500 G
+
+#1835
+miniature shuriken~
+a pair of miniature shuriken~
+A pair of miniature shuriken twinkle with light.~
+adamantite~
+armor A AQ
+18 18 18 0 0
+70 1 4102 P
+A
+5 2
+A
+1 2
+A
+12 25
 
 #0
 
@@ -3073,6 +3088,7 @@ M 0 1821 6 1853 1  1
 *
 M 0 1822 2 1873 1  1           Red Ninja Commander  
 E 0 1818 -1 16
+E 1 1835 5  18                 shuriken earring
 M 0 1822 2 1874 1  1   
 E 0 1818 -1 16
 *

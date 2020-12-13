@@ -2137,12 +2137,24 @@ armor 0 AI
 A
 4       1
 
+#5254
+gold earring hoop~
+a gold earring~
+A hoop of gold catches your eye.~
+gold~
+armor 0 AQ
+7 7 7 0 0
+25 1 992 P
+A
+18      2
+
 #0
 
 #RESETS
 M 0 5200 1 5250 1  1   The mighty beholder into The Temple of Thalos  
-E   1   5208    3     11     a sturdy iron shield as shield              
-E   1   5223   10      3     a dark green cloak on neck                
+E   1   5208    3     11     a sturdy iron shield as shield
+E   1   5223   10      3     a dark green cloak on neck
+E   1   5254   10     18     gold earring
 M 0 5201 12 5234 1  1   The lamia into The private gardens and courtyard of Thalos  
 E   1   5232    5     17     an incandescent blue stone held                   
 E   1   5252   -1     16     a long slim dagger wielded                

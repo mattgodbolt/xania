@@ -1525,6 +1525,23 @@ the brochre reads:
       |__________________________________|
 ~
 
+#9851
+coordinator earring~
+earring of co-ordination~
+A tiny earring lies on the ground.~
+glass~
+armor A AQ
+16 16 16 0 0
+78 1 3902 P
+A
+4 2
+A
+5 1
+A
+12 25
+A
+13 25
+
 #0
 
 #RESETS
@@ -1612,7 +1629,8 @@ E   1   9831    1     16     a black pen wielded
 M 0 9810 1 9877 1  1   Marie into The break room
   
 M 0 9811 1 9875 1  1   Gale into Gale's Office
-  
+E 1 9851 5 18          earring
+
 M 0 9812 1 9876 1  1   Fred into Fred's Office
   
 M 0 9813 1 9884 1  1   the Torturer into The torture chamber

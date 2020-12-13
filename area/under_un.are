@@ -15423,6 +15423,18 @@ A
 A
 19      4
 
+#16097
+gold miniature emblem~
+a miniature emblem of Xevior~
+A tiny gold emblem lies here.~
+gold~
+armor A AQ
+10 10 10 0 0
+40 1 1902 P
+A
+4 1
+A
+5 1
 
 #0
 
@@ -15608,7 +15620,8 @@ G   1  16010    2            A piece of polished blood stone in inventory
 M 0 16012 1 16135 1  1   the fighter into Road of Shadows  
 E   1  16011    2      5     Breast plate of strength on body                
 M 0 16013 1 16135 1  1   a high priest of Xevior into Road of Shadows  
-E   1  16012    1     17     A shining holy symbol of Xevior held                   
+E   1  16012    5     17     A shining holy symbol of Xevior held                   
+E   1  16097    5     18     Emblem earring                   
 M 0 16014 10 16211 1  1   the lizard man into Traveller's Crescent  
 E   1  16013    5      7     Ripped leather pants on legs                
 M 0 16014 10 16148 1  1   the lizard man into Forgotten Alley  

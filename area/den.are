@@ -1296,6 +1296,28 @@ Floor            Purgatory      Camp Crystal Lake
      
 Map by Urugula, who else?
 ~
+
+#18143
+reinforced steel bolts~
+a pair of reinforced steel bolts~
+A pair of reinforced steel bolts are here.~
+steel~
+armor B AQ
+20 20 20 0 0
+90 1 3902 P
+A
+1 2
+A
+4 2
+A
+5 2
+A
+18 4
+A
+19 4
+
+
+
 #0
 #ROOMS
 #18101
@@ -2358,6 +2380,7 @@ E 1 18107 2 17 		Manual of the Undead
 M 0 18109 1 18104 1  1 	Monster  
 E 1 18108 1 6		Brains
 E 1 18109 1 16		Decaying Arm
+E 1 18143 5 18      Bolts
 *
 M 0 18110 1 18114 1  1 	Godzooki  
 E 1 18110 5 16		Bubble Blower

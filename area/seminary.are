@@ -4409,6 +4409,21 @@ A
 A
 2 2
 
+#27055
+diamond stud~
+a diamond studded earring~
+A diamond stud lies here.~
+glass~
+armor A AQ
+12 12 12 0 0
+56 1 3902 P
+A
+4 1
+A
+5 1
+A
+13 20
+
 #0
 
 #RESETS
@@ -4670,6 +4685,7 @@ M 0 27025 1 27041 1  1  1    PIERRE IN CORRIDOR
 M 0 27026 1 27045 1  1  1    JULIA IN BOOKSHIP   
 E 1 27043 3 3       EQUIP HER PENDANT
 E 1 27053 -1 5
+E 1 27055 5 18      earring
 
 M 0 27027 3 27047 1  1  1    PORTER IN OFFICE   
 M 0 27027 3 27054 1  1  1    PORTER IN BRUNEL   

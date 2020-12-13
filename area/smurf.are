@@ -869,6 +869,17 @@ treasure G AO
 0 0 0 0 0
 9 10 2043 P
 
+#112
+silver stud earring~
+a silver stud~
+A silver stud almost escapes your notice.~
+silver~
+armor 0 AQ
+2 2 2 0 0
+8 1 412 P
+A
+5 1
+
 #0
 
 #RESETS
@@ -904,6 +915,7 @@ M 0 109 1 129 1  1   Smurfette into Smurfette's House
 E   1    104    8      3     a small necklace on neck                
 G   1    107    8            a tiny key in inventory
 M 0 110 1 125 1  1   Papa Smurf into Papa Smurf's Home  
+E 1 112 8 18         stud
 G   1    105   10            a pink potion in inventory
 G   1    109    8            a small key in inventory
 M 0 111 1 128 1  1   Gargamel into Gargamel's Castle  
