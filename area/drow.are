@@ -829,7 +829,7 @@ The defenseless goblin begs for mercy.
 goblin~
 BHA 0 -450 0
 1 0 1d1+20 1d1+20 1d2+0 pierce
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 sleep sleep male 40
 0 0 medium 0
@@ -844,7 +844,7 @@ I doubt he is the type to give directions.
 elf~
 DFGA D -1000 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 419
 0 0 medium 0
@@ -859,7 +859,7 @@ He looks pissed off!
 elf~
 BFA D -1000 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 495
 0 0 medium 0
@@ -874,7 +874,7 @@ The mage prepares to cast a spell ... at you!!
 elf~
 BFA D -1000 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 615
 0 0 medium 0
@@ -889,7 +889,7 @@ I wouldn't want go get on her bad side!
 elf~
 BFA D -1000 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand female 704
 0 0 medium 0
@@ -904,7 +904,7 @@ The drow master is ALWAYS ready for a fight.
 elf~
 BFLA D -1000 0
 21 10 1d1+727 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1069
 0 0 medium 0
@@ -919,7 +919,7 @@ He definitely knows his way around in combat.
 elf~
 BFLA D -1000 0
 23 11 1d1+772 1d1+460 5d5+11 acbite
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1184
 0 0 medium 0
@@ -934,7 +934,7 @@ She looks really pissed off!
 elf~
 BFLA DH -1000 0
 24 12 1d1+802 1d1+480 5d5+12 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand female 1234
 0 0 medium 0
@@ -949,7 +949,7 @@ She looks like she is about to rip your head off and eat it.
 elf~
 BFLA DH -1000 0
 25 12 1d1+863 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand female 1300
 0 0 medium 0
@@ -964,7 +964,7 @@ The yochlol is not in a good mood.
 unique~
 BFA DH -1000 0
 35 17 1d1+1249 1d1+700 6d6+17 slash
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand female 1793
 0 0 medium 0
@@ -979,7 +979,7 @@ The drow guard blends so well with his environment, you barely see his form.
 elf~
 BFA JQ -1000 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 483
 0 0 medium 0
@@ -994,7 +994,7 @@ The drow scout blends so well with her environment, you barely see her form.
 elf~
 FHA PQ -1000 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand female 282
 0 0 medium 0

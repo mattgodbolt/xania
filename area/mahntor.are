@@ -2091,7 +2091,7 @@ he waits for release.
 undead~
 BA DH -1000 0
 25 12 1d1+852 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1258
 0 0 medium 0
@@ -2108,7 +2108,7 @@ wind pushes it back and forth.
 unique~
 BA 0 250 0
 20 10 1d1+580 1d1+400 4d5+10 acbite
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand neutral 1033
 0 0 medium 0
@@ -2125,7 +2125,7 @@ It sees you and snarls.
 unique~
 BFA CEP 0 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 607
 0 0 medium 0
@@ -2140,7 +2140,7 @@ A grey toad. Its about the size of a cow. Small horns grow all over its body.
 unique~
 BA 0 -250 0
 14 7 1d1+350 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 sit sit neutral 576
 0 0 medium 0
@@ -2156,7 +2156,7 @@ anguish and dismay. You hear a faint sound of crying.
 unique~
 BA DH 1000 0
 25 12 1d1+845 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand female 1286
 0 0 medium 0
@@ -2171,7 +2171,7 @@ It looks like a thin wisp of mist that has gained substance and size.
 unique~
 BFA Q 0 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 624
 0 0 medium 0
@@ -2188,7 +2188,7 @@ he nears you.
 unique~
 BCFA 0 -1000 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1028
 0 0 medium 0
@@ -2204,7 +2204,7 @@ with its head hung low. It sees you and cringes in mortal terror.
 ogre~
 GHA 0 -200 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 402
 0 0 medium 0
@@ -2220,7 +2220,7 @@ formidable.
 ogre~
 CFGHA 0 -350 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 616
 0 0 medium 0
@@ -2236,7 +2236,7 @@ fight to the death before abandoning his post.
 ogre~
 BCFGA 0 -500 0
 19 9 1d1+551 1d1+380 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 787
 0 0 medium 0
@@ -2252,7 +2252,7 @@ charms and holy symbols draped about him. He looks at you and snarls.
 ogre~
 BCFGHA DH -750 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1049
 0 0 medium 0
@@ -2268,7 +2268,7 @@ quite formidable. He towers high above you and growls menacingly.
 ogre~
 BCFGHLA DH -1000 0
 25 12 1d1+825 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1298
 0 0 medium 0
@@ -2284,7 +2284,7 @@ and icy wastes.
 human~
 BCFGHA 0 0 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1012
 0 0 medium 0
@@ -2300,7 +2300,7 @@ curved talons and its mouth is full of sharp teeth.
 unique~
 BCFGHA 0 -350 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 643
 0 0 medium 0
@@ -2317,7 +2317,7 @@ as it charges directly at you.
 unique~
 BCFGA 0 0 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand neutral 1040
 0 0 medium 0
@@ -2333,7 +2333,7 @@ place to seek refuge from the cold.
 minotaur~
 BCGHA 0 100 0
 15 7 1d1+375 1d1+300 4d4+7 charge
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 622
 0 0 medium 0
@@ -2349,7 +2349,7 @@ his armor.
 minotaur~
 BCFGA 0 -330 0
 22 11 1d1+742 1d1+440 5d5+11 charge
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1136
 0 0 medium 0
@@ -2365,7 +2365,7 @@ fur and red eyes. He looks quite capable of protecting the city.
 minotaur~
 CFGA 0 -330 0
 21 10 1d1+698 1d1+420 5d5+10 charge
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1082
 0 0 medium 0
@@ -2381,7 +2381,7 @@ miserable standing in the driven snow and ice.
 minotaur~
 BCGA D -330 0
 25 12 1d1+856 1d1+500 5d5+12 charge
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand neutral 1272
 0 0 medium 0
@@ -2397,7 +2397,7 @@ skilled.
 minotaur~
 BCFGA D -330 0
 25 12 1d1+838 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1297
 0 0 medium 0
@@ -2413,7 +2413,7 @@ huge glaive. He looks quite capable of protecting the keep.
 minotaur~
 BCFGLA D -330 0
 26 13 1d1+875 1d1+520 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand male 1323
 0 0 medium 0
@@ -2429,7 +2429,7 @@ furs.
 minotaur~
 BCFGLA D -250 0
 28 14 1d1+955 1d1+560 5d5+14 charge
--8 -8 -8 1
+-23 -23 -23 -14
 FENU 0 0 0
 stand stand male 1414
 0 0 medium 0
@@ -2445,7 +2445,7 @@ in the harem.
 minotaur~
 BCGHA 0 1000 0
 2 1 1d1+40 1d1+40 1d2+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 83
 0 0 medium 0
@@ -2460,7 +2460,7 @@ He looks quite regal and refined to be a minotaur.
 minotaur~
 BCGHA 0 250 0
 20 10 1d1+580 1d1+400 4d5+10 charge
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1037
 0 0 medium 0
@@ -2476,7 +2476,7 @@ keys hanging from his belt. He wears huge, spiked brass knuckles.
 minotaur~
 BCGA DH -300 0
 29 14 1d1+963 1d1+580 5d5+14 charge
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1467
 0 0 medium 0
@@ -2492,7 +2492,7 @@ master of the warrior guild of Mahn-Tor.
 minotaur~
 BFLA DH -300 0
 30 15 1d1+1028 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1507
 0 0 medium 0
@@ -2508,7 +2508,7 @@ chill runs down your spine. He is the master of the Mahn-Tor anti-paladins.
 minotaur~
 BFLA DH -1000 0
 30 15 1d1+1022 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1561
 0 0 medium 0
@@ -2524,7 +2524,7 @@ presence. He is the leader of the Mahn-Tor paladins.
 minotaur~
 BLA DH 1000 0
 30 15 1d1+1021 1d1+600 5d5+15 charge
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1567
 0 0 medium 0
@@ -2541,7 +2541,7 @@ mages of Mahn-Tor.
 minotaur~
 BFLA DH 300 0
 30 15 1d1+1031 1d1+600 5d5+15 charge
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1510
 0 0 medium 0
@@ -2557,7 +2557,7 @@ master of all the clerics of Mahn-Tor.
 minotaur~
 BFLA DH 1000 0
 30 15 1d1+992 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1509
 0 0 medium 0
@@ -2573,7 +2573,7 @@ wears no metal of any type. He looks at you and smiles.
 minotaur~
 BLA DH 500 0
 30 15 1d1+1006 1d1+600 5d5+15 charge
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1504
 0 0 medium 0
@@ -2589,7 +2589,7 @@ compared to the normal minotaur. He looks at you with a slight smirk.
 minotaur~
 BFLA DH 500 0
 30 15 1d1+1036 1d1+600 5d5+15 charge
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1551
 0 0 medium 0
@@ -2605,7 +2605,7 @@ appears to be quite a skilled thief.
 minotaur~
 BCFLA Q -500 0
 30 15 1d1+1009 1d1+600 5d5+15 charge
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1548
 0 0 medium 0
@@ -2622,7 +2622,7 @@ Mahn-Tor is the leader of the minotaurs. He is awe-inspiring.
 minotaur~
 BCLA BDHTU -500 0
 33 16 1d1+1210 1d1+660 6d6+16 charge
--11 -11 -11 -1
+-26 -26 -26 -16
 FENU 0 0 0
 stand stand male 1728
 0 0 medium 0

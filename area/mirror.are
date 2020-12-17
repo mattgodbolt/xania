@@ -1875,7 +1875,7 @@ their playful personality.  Hmmm....  It looks like the baby is teething!
 unique~
 BCHA D 500 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 208
 0 0 medium 0
@@ -1891,7 +1891,7 @@ body of a four-legged beast.
 fido~
 CHA 0 500 0
 4 2 1d1+80 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand female 167
 0 0 medium 0
@@ -1907,7 +1907,7 @@ choice but to reciprocate.
 human~
 GHA 0 500 0
 5 2 1d1+100 1d1+100 2d3+2 scratch
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 203
 0 0 medium 0
@@ -1923,7 +1923,7 @@ he is just giggling with a kid running about.
 human~
 CGA H 1000 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand male 704
 0 0 medium 0
@@ -1940,7 +1940,7 @@ attention, if only for a moment.
 human~
 GHA 0 500 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 206
 0 0 medium 0
@@ -1958,7 +1958,7 @@ ARMED stranger.  Better not do any funny stuff in his presence.
 human~
 LA H 1000 0
 35 17 1d1+1271 1d1+700 6d6+17 slash
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand male 1786
 0 0 medium 0
@@ -1976,7 +1976,7 @@ and he clenches it at you.  Other than that, he is dressed all in black.
 human~
 BHA 0 -500 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 417
 0 0 medium 0
@@ -1993,7 +1993,7 @@ here.
 human~
 BA H 1000 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1003
 0 0 medium 0
@@ -2009,7 +2009,7 @@ stone creature.  It stands here guarding the city.
 unique~
 BA N 1000 0
 30 15 1d1+1013 1d1+600 5d5+15 pound
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand neutral 1558
 0 0 medium 0
@@ -2025,7 +2025,7 @@ He looks very proud of his work.
 human~
 BLA 0 800 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand female 1016
 0 0 medium 0
@@ -2040,7 +2040,7 @@ He looks at you, and says, 'What's your poison, stranger?'
 elf~
 BA 0 600 0
 30 15 1d1+997 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1546
 0 0 medium 0
@@ -2056,7 +2056,7 @@ he asks, 'How much you want?'
 human~
 BA 0 600 0
 30 15 1d1+1011 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1514
 0 0 medium 0
@@ -2071,7 +2071,7 @@ She smiles at you meekly.
 half-elf~
 BA 0 650 0
 30 15 1d1+1033 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand female 1506
 0 0 medium 0
@@ -2087,7 +2087,7 @@ metal into items of defence and destruction.
 dwarf~
 BA 0 550 0
 30 15 1d1+1012 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand female 1521
 0 0 medium 0
@@ -2102,7 +2102,7 @@ Ben tries to pawn his various wares to you.
 human~
 BA 0 600 0
 30 15 1d1+1020 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1554
 0 0 medium 0
@@ -2117,7 +2117,7 @@ The librarian looks busy and whispers, 'Shhh!'
 human~
 BHA 0 500 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand female 328
 0 0 medium 0
@@ -2132,7 +2132,7 @@ This young scholar is studying to be a priest.
 human~
 BHA 0 500 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 247
 0 0 medium 0
@@ -2147,7 +2147,7 @@ This old wizard almost looks like he is about to fall over and sleep.
 elf~
 BA D 550 0
 30 15 1d1+1013 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1562
 0 0 medium 0
@@ -2164,7 +2164,7 @@ attention, and you jump to her offer for a massage.
 human~
 BHA 0 700 0
 4 2 1d1+80 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand female 163
 0 0 medium 0
@@ -2180,7 +2180,7 @@ choice but to reciprocate and join him and the others in the soothing pool.
 human~
 BHA 0 650 0
 5 2 1d1+100 1d1+100 2d3+2 scratch
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 208
 0 0 medium 0
@@ -2197,7 +2197,7 @@ track of each city patrol.
 human~
 BCGA H 1000 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand male 712
 0 0 medium 0
@@ -2213,7 +2213,7 @@ he is watching the children play with amusement.
 human~
 BCGA H 1000 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand male 702
 0 0 medium 0
@@ -2229,7 +2229,7 @@ she sniffs at you, but she goes back to chewing some grass.
 unique~
 GHA 0 0 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 204
 0 0 medium 0
@@ -2245,7 +2245,7 @@ albeit ineffectively.
 unique~
 GHA 0 0 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 240
 0 0 medium 0
@@ -2260,7 +2260,7 @@ He eyes you with contained anger.  You'd better leave him alone!
 unique~
 FGHA 0 0 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 325
 0 0 medium 0
@@ -2275,7 +2275,7 @@ This bunny looks so adorable, you wished you had one just like this!
 rabbit~
 GHA 0 0 0
 2 1 1d1+40 1d1+40 1d2+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand neutral 83
 0 0 medium 0
@@ -2290,7 +2290,7 @@ Upon careful inspection, you are sure it is NOT a cobra!
 snake~
 FGHA P 0 0
 4 2 1d1+80 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand neutral 167
 0 0 medium 0
@@ -2305,7 +2305,7 @@ He doesn't like you bothering him, but is too polite to ask you to leave.
 human~
 GHA DN 1000 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 412
 0 0 medium 0
@@ -2320,7 +2320,7 @@ She wonders why you are staring at her, and how you got in here.
 human~
 GHA DN 1000 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand female 404
 0 0 medium 0
@@ -2335,7 +2335,7 @@ This musical fellow plays a happy song with his fellow comrades.
 human~
 BCA 0 450 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 244
 0 0 medium 0
@@ -2350,7 +2350,7 @@ This musical fellow wanders the world singing of the glory of Thalos.
 human~
 CA 0 550 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 293
 0 0 medium 0
@@ -2365,7 +2365,7 @@ A big, strong, helpful, trustworthy guard.
 human~
 ACG 0 1000 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 618
 0 0 medium 0
@@ -2379,7 +2379,7 @@ A janitor is walking around, cleaning up.
 human~
 A 0 900 0
 1 0 1d1+20 1d1+20 1d2+0 slash
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 stand stand male 40
 0 0 medium 0
@@ -2395,7 +2395,7 @@ around his teeth.
 fido~
 AFGH D -700 0
 6 3 1d1+125 1d1+120 2d3+3 digestion
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 246
 0 0 medium 0
@@ -2410,7 +2410,7 @@ A big, strong, helpful, trustworthy guard.
 human~
 ABG 0 1000 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 617
 0 0 medium 0

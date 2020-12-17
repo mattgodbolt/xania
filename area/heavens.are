@@ -1164,7 +1164,7 @@ It gracefully dances around your head.
 dragon~
 GTL NT 0 0
 55 10 1d1+2807 1d1+600 7d7+27 pierce
--18 -18 -18 -9
+-33 -33 -33 -24
 EKHUFNC A 0 0
 stand stand female 3430
 0 0 small 0
@@ -1180,7 +1180,7 @@ for the fact it is hungry and is attacking you!
 wyvern~
 GTL HNT -500 0
 61 20 1d1+3684 1d1+700 8d8+30 pierce
--20 -20 -20 -10
+-35 -35 -35 -25
 EHKUFN A 0 0
 stand stand male 3788
 0 0 medium 0
@@ -1195,7 +1195,7 @@ This huge, winged horse has a shimmering satin white coat.
 unique~
 GTL HNT 1000 0
 72 15 1d1+5170 1d1+800 8d8+36 pierce
--25 -25 -25 -11
+-40 -40 -40 -26
 EHKUFN A I 0
 stand stand male 4467
 0 0 medium 0
@@ -1210,7 +1210,7 @@ This huge, winged horse has a glistening sable coat.
 unique~
 GTL HNT -1000 0
 72 15 1d1+5077 1d1+800 8d8+36 pierce
--25 -25 -25 -11
+-40 -40 -40 -26
 EHKUFN A I 0
 stand stand male 4444
 0 0 medium 0
@@ -1226,7 +1226,7 @@ sharp looking hooves. It snorts at you and rolls it's eyeballs in disgust.
 unique~
 GTL HNT -1000 0
 82 20 1d1+6896 1d1+900 9d9+41 charge
--28 -28 -28 -17
+-43 -43 -43 -32
 EHKUFN A I 0
 stand stand female 4965
 0 0 large 0
@@ -1242,7 +1242,7 @@ sharp looking hooves. It eyes glint with wisdom and arrogance.
 unique~
 GTL HNT 1000 0
 82 20 1d1+7031 1d1+900 9d9+41 charge
--28 -28 -28 -17
+-43 -43 -43 -32
 EHKUFN A I 0
 stand stand female 4984
 0 0 large 0
@@ -1258,7 +1258,7 @@ a terribly malignant force.
 unique~
 FGRT HNT -1000 0
 90 22 1d1+7779 1d1+1000 9d9+45 pound
--30 -30 -30 -19
+-45 -45 -45 -34
 DEKUFNH AI 0 0
 stand stand male 5618
 0 0 huge 0
@@ -1274,7 +1274,7 @@ favour by precipitating one day....
 unique~
 GTRL HNT 1000 0
 90 22 1d1+7592 1d1+1000 9d9+45 pound
--30 -30 -30 -19
+-45 -45 -45 -34
 DEKUFNH AI 0 0
 stand stand male 5552
 0 0 huge 0
@@ -1290,7 +1290,7 @@ seen protrudes from his head.
 unique~
 BGQRSTL HNTV 0 0
 96 24 1d1+8835 1d1+1200 10d9+48 wrath
--32 -32 -32 -21
+-47 -47 -47 -36
 CDEFHKNU ABGI JI 0
 stand stand male 5984
 0 0 huge 0
@@ -1306,7 +1306,7 @@ to the wind thanks to a beautiful pair of wings.
 unique~
 BGQRSTL HNTV 0 0
 96 24 1d1+8688 1d1+1200 10d9+48 pound
--32 -32 -32 -21
+-47 -47 -47 -36
 CDEFHKNU ABGI JI 0
 stand stand male 5828
 0 0 giant 0
@@ -1322,7 +1322,7 @@ so that now, the cloud has an almost fluorescent green glow.
 unique~
 BFGQRST HNTV 0 0
 100 25 1d1+9434 1d1+1300 10d10+50 acbite
--33 -33 -33 -23
+-48 -48 -48 -38
 CDEFHKNU ABGIK CJI 0
 stand stand male 6153
 0 0 giant 0
@@ -1340,7 +1340,7 @@ coastline of the helpless tropical island of Butu.
 unique~
 GHQ BQFDNH 0 0
 60 15 1d1+3122 1d1+640 8d7+30 beating
--20 -20 -20 -11
+-35 -35 -35 -26
 FHJENU ABF 0 R
 stand stand neutral 3688
 0 0 tiny 0

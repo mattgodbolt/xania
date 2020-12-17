@@ -1941,7 +1941,7 @@ totally!
 elf~
 MBGQL DFH 1000 0
 24 10 8d6+700 1d1+400 4d6+6 pierce
--5 -5 -5 -5
+-20 -20 -20 -20
 EFQR AB C 0
 stand stand male 650
 0 0 medium 0
@@ -1964,7 +1964,7 @@ the ground. An ebony smoking pipe burns readily in his hand.
 human~
 MBGRL DH 1000 0
 25 10 8d6+650 1d1+500 4d6+6 magic
--5 -5 -5 -5
+-20 -20 -20 -20
 EQR ABH 0 0
 stand stand male 54
 0 0 medium 0
@@ -1982,7 +1982,7 @@ can't quite put a finger on the reason for this hunch.
 human~
 MBGT N 450 0
 22 9 7d6+610 1d1+350 4d6+5 slash
--5 -6 -6 -6
+-20 -21 -21 -21
 CEQR AB 0 OP
 stand stand male 985
 0 0 medium 0
@@ -2000,7 +2000,7 @@ dance routine in all of Elvendom!! The King is alive!
 elf~
 MHQ N 0 0
 15 6 4d6+355 1d1+200 3d6+3 beating
--3 -3 -3 0
+-18 -18 -18 -15
 N 0 0 0
 stand stand male 560
 0 0 medium 0
@@ -2023,7 +2023,7 @@ hobbit once again appears to be whole. Curious.
 hobbit~
 MBHS NU 1000 0
 12 5 3d6+205 1d1+250 2d6+3 sting
--2 -2 -2 -6
+-17 -17 -17 -21
 NR 0 BP 0
 stand stand male 99
 0 0 small 0
@@ -2042,7 +2042,7 @@ eyes.
 dwarf~
 BT 0 600 0
 14 6 4d6+305 1d1+190 3d6+2 cleave
--3 -3 -3 -3
+-18 -18 -18 -18
 CDEKH 0 0 0
 stand stand male 235
 0 0 small 0
@@ -2060,7 +2060,7 @@ of hearts.
 elf~
 BQ HTV 1000 0
 14 6 4d6+340 1d1+200 3d6+2 slice
--3 -3 -3 -3
+-18 -18 -18 -18
 FQR AB 0 0
 stand stand female 35
 0 0 medium 0
@@ -2080,7 +2080,7 @@ the lands of his kinsfolk.
 elf~
 MBCGT NHV 850 0
 20 8 6d6+510 1d1+430 4d6+5 pierce
--4 -5 -4 -4
+-19 -20 -19 -19
 CDEFKQR AB C 0
 stand stand male 675
 0 0 medium 0
@@ -2099,7 +2099,7 @@ is marked with a series of scars.
 dwarf~
 T N 500 0
 16 6 5d6+340 1d1+225 3d6+4 slice
--4 -4 -4 -4
+-19 -19 -19 -19
 CDQR 0 0 0
 stand stand male 276
 0 0 small 0
@@ -2117,7 +2117,7 @@ you might find an arrow in the back of your head.
 elf~
 BQ N 900 0
 18 7 5d6+350 1d1+260 4d6+1 punch
--4 -4 -4 -4
+-19 -19 -19 -19
 FHQR 0 0 0
 stand stand male 150
 0 0 medium 0
@@ -2138,7 +2138,7 @@ from his left side.
 human~
 BGQT NHCDV 1000 0
 25 10 6d6+525 1d1+430 5d6+2 pierce
--6 -6 -6 -6
+-21 -21 -21 -21
 EFIK ABI 0 0
 stand stand male 0
 0 0 large 0
@@ -2156,7 +2156,7 @@ become very curious as to what it might be...
 hobbit~
 BGHS 0 1000 0
 17 6 4d6+320 1d1+400 3d6+4 punch
--3 -3 -3 -9
+-18 -18 -18 -24
 FQR A C F
 stand stand male 39
 0 0 small 0
@@ -2172,7 +2172,7 @@ grown a few muscles since he first began adventuring, not too long ago.
 hobbit~
 BGHS N 1000 0
 16 4 4d6+320 1d1+190 3d6+5 slap
--3 -3 -3 -2
+-18 -18 -18 -17
 FCQR AE 0 0
 stand stand male 26
 0 0 small 0
@@ -2191,7 +2191,7 @@ at rest.
 hobbit~
 BGHS 0 1000 0
 16 3 4d6+320 1d1+190 3d6+4 slap
--3 -3 -3 -2
+-18 -18 -18 -17
 FQR A 0 0
 stand stand male 45
 0 0 small 0
@@ -2208,7 +2208,7 @@ would have.
 hobbit~
 BGHS 0 1000 0
 16 3 4d6+320 1d1+180 3d6+4 slap
--3 -3 -3 -2
+-18 -18 -18 -17
 FQR A 0 0
 stand stand male 116
 0 0 small 0
@@ -2227,7 +2227,7 @@ prospect that you might have to fight this....thing.
 unique~
 BCQTH NHQ -1000 0
 21 4 5d6+430 1d1+340 4d6+2 wrath
--4 -4 -5 -4
+-19 -19 -20 -19
 CEFGHKU AB F NO
 stand stand neutral 0
 0 0 large 0
@@ -2245,7 +2245,7 @@ burning into your skull.
 unique~
 BCFQT NH -1000 0
 21 4 5d6+430 1d1+340 4d6+2 wrath
--4 -4 -4 -4
+-19 -19 -19 -19
 CEFGHKU AB F NO
 stand stand neutral 0
 0 0 large 0
@@ -2263,7 +2263,7 @@ close them.
 orc~
 BCT Q -300 0
 12 3 2d6+230 1d1+100 3d6+1 slash
--1 -1 -1 0
+-16 -16 -16 -15
 CDKUR 0 F 0
 stand stand male 250
 0 0 large 0
@@ -2279,7 +2279,7 @@ a low view of humans, and hates elves to an even greater extent.
 orc~
 BCT Q -400 0
 13 3 2d6+240 1d1+120 3d6+2 slash
--2 -1 -2 0
+-17 -16 -17 -15
 CDKR 0 F 0 
 stand stand male 350
 0 0 large 0
@@ -2296,7 +2296,7 @@ Looks like it's been a bad day for this water elemental.
 unique~
 BF NDU 0 0
 12 3 2d6+235 1d1+100 2d6+3 frbite
--2 -2 -2 -5
+-17 -17 -17 -20
 N ABI 0 C
 stand stand neutral 0
 0 0 large 0
@@ -2315,7 +2315,7 @@ be a good idea not to put him in a bad mood....
 orc~
 BCT Q -500 0
 14 3 2d6+340 1d1+140 3d6+4 slash
--3 -2 -2 -1
+-18 -17 -17 -16
 CDKR 0 F 0 
 stand stand male 550
 0 0 large 0
@@ -2332,7 +2332,7 @@ a sword which has, rather unfortunately, been broken cleanly into two pieces.
 elf~
 BHQ 0 750 0
 12 3 2d6+240 1d1+110 2d6+3 pierce
--2 -2 -2 0
+-17 -17 -17 -15
 FHR 0 0 0
 stand stand male 85
 0 0 medium 0
@@ -2349,7 +2349,7 @@ chat as she is busy tanning hides.
 elf~
 BHQ 0 750 0
 12 3 2d6+240 1d1+110 2d6+3 pierce
--2 -2 -2 0
+-17 -17 -17 -15
 FHR 0 0 0
 stand stand female 85
 0 0 medium 0
@@ -2365,7 +2365,7 @@ intensive training.
 elf~
 BT N 1000 0
 13 3 2d6+250 1d1+120 2d6+3 slice
--2 -2 -2 0
+-17 -17 -17 -15
 EFKQRU 0 G 0 
 stand stand female 30
 0 0 medium 0
@@ -2381,7 +2381,7 @@ a wry grin rests upon his shining face.
 elf~
 BT N 1000 0
 13 3 2d6+250 1d1+120 2d6+3 slice
--2 -2 -2 0
+-17 -17 -17 -15
 EFKQRU 0 G 0 
 stand stand male 30
 0 0 medium 0
@@ -2397,7 +2397,7 @@ and a river of golden hair. Aren't ANY elves ugly??
 elf~
 BT N 1000 0
 13 3 2d6+250 1d1+120 2d6+3 slice
--2 -2 -2 0
+-17 -17 -17 -15
 EFKQRU 0 G 0 
 stand stand female 30
 0 0 medium 0
@@ -2414,7 +2414,7 @@ bending over and showing off her fine figure.
 elf~
 BT N 1000 0
 13 3 2d6+250 1d1+120 2d6+3 slice
--2 -2 -2 0
+-17 -17 -17 -15
 EFKQRU 0 G 0 
 stand stand female 30
 0 0 medium 0

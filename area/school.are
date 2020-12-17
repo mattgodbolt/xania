@@ -17,7 +17,7 @@ She's big and bad.  Don't mess with her.
 human~
 MBGQTV CH 1000 0
 30 +10 1d1+999 1d1+999 2d4+30 13
--15 -15 -15 -15
+-30 -30 -30 -30
 ACEFHIKN ABCD 0 0
 stand stand male 0
 0 0 medium 0
@@ -33,7 +33,7 @@ would really suffer the consequences.
 ~
 BG C 0 0
 5 -5 1d1+49 1d1+99 1d1+0 digestion
--15 -15 -15 -15
+-30 -30 -30 -30
 AN AB CD 0
 stand stand neutral 0
 BSc 0 L 0
@@ -48,7 +48,7 @@ that you can kill him, especially since he is leashed up, and you are not.
 school monster~
 B 0 0 0
 1 0 1d1+7 1d1+99 1d3+0 claw
-10 10 10 10
+-5 -5 -5 -5
 0 0 0 0
 stand stand neutral 10
 0 0 medium 0
@@ -63,7 +63,7 @@ that you can kill him, especially since he is leashed up, and you are not.
 school monster~
 BH 0 0 0
 1 0 1d1+7 1d1+99 1d2+0 claw
-10 10 10 10
+-5 -5 -5 -5
 O 0 0 0
 stand stand neutral 10
 0 0 medium 0
@@ -79,7 +79,7 @@ and you are not.
 school monster~
 BF 0 0 0
 1 0 1d1+7 1d1+99 1d4+0 claw
-10 10 10 10
+-5 -5 -5 -5
 EK 0 0 0
 stand stand neutral 10
 0 0 medium 0
@@ -93,7 +93,7 @@ Its scales are as black as night and its vicious red tongue tastes the air.
 school monster~
 BFH 0 0 0
 1 0 1d1+7 1d1+99 1d3+0 claw
-10 10 10 10
+-5 -5 -5 -5
 J 0 0 0
 stand stand neutral 10
 0 0 medium 0
@@ -108,7 +108,7 @@ looks like a great prize!!!
 school monster~
 B JZ 0 0
 2 1 2d2+20 1d1+99 1d4+1 claw
-8 8 8 10
+-7 -7 -7 -5
 FN 0 0 0
 stand stand neutral 25
 0 0 medium 0
@@ -122,7 +122,7 @@ He is big and bad.  Don't mess with him.
 human~
 BGQTV CH 1000 0
 30 +10 1d1+999  1d1+999 2d4+30 13
--15 -15 -15 -15
+-30 -30 -30 -30
 ACEFHIKN ABCD 0 0
 stand stand male 0
 0 0 medium 0
@@ -136,7 +136,7 @@ He is big and bad.  Don't mess with him.
 human~
 BGQTV CH 1000 0
 30 +10 1d1+999  1d1+999 2d4+30 13
--15 -15 -15 -15
+-30 -30 -30 -30
 ACEFHIKN ABCD 0 0
 stand stand male 0
 0 0 medium 0
@@ -150,7 +150,7 @@ The hare has powerful looking legs and a mean pair of teeth!
 rabbit~
 GHU 0 100 0
 1 0 1d1+10 1d1+99 1d3+0 bite
-10 10 10 10
+-5 -5 -5 -5
 0 0 0 0
 stand stand male 0
 0 0 tiny 0
@@ -164,7 +164,7 @@ It smiles at you, and tries to eat your leg.
 lizard~
 GU 0 -100 0
 2 0 2d2+20 1d1+99 1d4+1 bite
-8 8 8 10
+-7 -7 -7 -5
 R 0 0 0
 stand stand male 0
 0 0 small 0
@@ -178,7 +178,7 @@ Its boarish form is mostly muscle and sinew. It grunts at you.
 pig~
 GU 0 0 0
 3 1 3d3+30 1d1+99 1d6+1 charge
-7 7 7 9
+-8 -8 -8 -6
 CDFR 0 0 0
 stand stand male 0
 0 0 medium 0
@@ -192,7 +192,7 @@ It's fur might be worth money.
 fox~
 GHU 0 100 0
 1 1 1d1+12 1d1+99 1d3+1 bite
-8 8 8 10
+-7 -7 -7 -5
 NR 0 0 0
 stand stand male 0
 0 0 small 0
@@ -206,7 +206,7 @@ You don't see much but slime about it.
 ~
 GU 0 0 0
 0 0 1d1+0 1d1+99 1d1+0 digestion
-10 10 10 10
+-5 -5 -5 -5
 0 0 0 0
 stand stand neutral 0
 AGQc AFHM T 0
@@ -221,7 +221,7 @@ It looks mean.  You'd better run.
 school monster~
 FUT Z 0 0
 5 1 5d5+55 1d1+99 1d6+3 bite
-5 5 5 8
+-10 -10 -10 -7
 EKM 0 HI 0
 stand stand neutral 50
 0 0 large 0
@@ -235,7 +235,7 @@ The bear must be bigger than you!  It wants to rip your head off.
 bear~
 GU 0 0 0
 4 1 4d4+44 1d1+99 1d6+2 claw
-6 5 6 7
+-9 -10 -9 -8
 CR 0 0 0
 stand stand male 0
 0 0 large 0
@@ -250,7 +250,7 @@ like it wants to be left alone.
 wolf~
 GU 0 0 0
 4 0 4d4+44 1d1+99 1d6+2 bite
-7 7 7 10
+-8 -8 -8 -5
 NR 0 0 0 
 stand stand male 0
 0 0 medium 0
@@ -264,7 +264,7 @@ He is big and bad.  Don't mess with him.
 human~
 BCQTV CH 1000 0
 30 10 1d1+999 1d1+999 2d4+30 beating
--15 -15 -15 -15
+-30 -30 -30 -30
 ACEFHIKN ABCD 0 0
 stand stand male 0
 0 0 medium 0
@@ -278,7 +278,7 @@ He is big and bad.  Don't mess with him.
 human~
 BCJQTV CH 1000 0
 30 10 1d1+999 1d1+999 2d4+30 beating
--15 -15 -15 -15
+-30 -30 -30 -30
 ACEFHIKN ABCD 0 0
 stand stand male 0
 0 0 medium 0
@@ -292,7 +292,7 @@ He is big and bad.  Don't mess with him.
 human~
 BCKQTV CH 1000 0
 30 10 1d1+999 1d1+999 2d4+30 beating
--15 -15 -15 -15
+-30 -30 -30 -30
 ACEFHIKN ABCD 0 0
 stand stand male 0
 0 0 medium 0
@@ -307,7 +307,7 @@ diploma is yours.
 school monster~
 B J 0 0
 3 1 2d4+30 1d1+99 1d6+1 claw
-8 8 8 10
+-7 -7 -7 -5
 EFN 0 0 0
 stand stand neutral 30
 0 0 medium 0

@@ -1225,7 +1225,7 @@ skeleton looks very mindless but still dangerous ...
 undead~
 FA H 0 0
 65 32 1d1+3927 1d1+1300 8d8+32 slash
--31 -31 -31 -11
+-46 -46 -46 -26
 FENU 0 0 0
 stand stand male 4088
 0 0 medium 0
@@ -1242,7 +1242,7 @@ human.
 undead~
 BFA DFH -100 0
 69 34 1d1+4328 1d1+1380 8d8+34 punch
--34 -34 -34 -12
+-49 -49 -49 -27
 FENU 0 0 0
 stand stand male 4231
 0 0 medium 0
@@ -1258,7 +1258,7 @@ he looks like he hasn't forgot his fighting skills.
 undead~
 FA DH -500 0
 69 34 1d1+4153 1d1+1380 8d8+34 slash
--34 -34 -34 -12
+-49 -49 -49 -27
 FENU 0 0 0
 stand stand male 4285
 0 0 medium 0
@@ -1275,7 +1275,7 @@ in his eyes.
 undead~
 BFA BDFH -750 0
 62 31 1d1+3748 1d1+1240 8d8+31 slash
--29 -29 -29 -10
+-44 -44 -44 -25
 FENU 0 0 0
 stand stand male 3780
 0 0 medium 0
@@ -1291,7 +1291,7 @@ arms raises. He looks mighty tough to be just a minor minion.
 undead~
 BFA DFH -1000 0
 106 53 1d1+10201 1d1+2120 10d10+53 slash
--57 -57 -57 -24
+-72 -72 -72 -39
 FENUH 0 0 0
 stand stand male 6600
 0 0 medium 0
@@ -1308,7 +1308,7 @@ this man has a sacred beauty.  You see a halo around his head.
 human~
 BLA DFH 1000 0
 120 60 1d1+11707 1d1+2400 11d11+60 slash
--65 -65 -65 -28
+-80 -80 -80 -43
 FENUH 0 0 0
 stand stand male 7489
 0 0 medium 0
@@ -1327,7 +1327,7 @@ beings sometimes walk on all their legs and sometimes on the hind pair only.
 unique~
 FA H -500 0
 90 45 1d1+7808 1d1+1800 9d9+45 beating
--47 -47 -47 -19
+-62 -62 -62 -34
 FENUH 0 0 0
 stand stand neutral 5512
 0 0 medium 0
@@ -1346,7 +1346,7 @@ it has no face, only a suggestive blackness where a face ought to be ...
 unique~
 FGA PQH -1000 0
 75 37 1d1+5500 1d1+1500 9d8+37 acbite
--37 -37 -37 -14
+-52 -52 -52 -29
 FENUH 0 0 0
 stand stand neutral 4656
 0 0 medium 0
@@ -1365,7 +1365,7 @@ voices.  A hunting horror is HUGE, normally around 40 feet long.
 unique~
 FA DFH -1000 0
 75 37 1d1+5254 1d1+1500 9d8+37 acbite
--37 -37 -37 -14
+-52 -52 -52 -29
 FENUH 0 0 0
 stand stand neutral 4536
 0 0 medium 0
@@ -1380,7 +1380,7 @@ Just some unpleasant looking vine-like growths ...
 unique~
 CFA DPQH 0 0
 61 30 1d1+3734 1d1+1220 8d8+30 slash
--29 -29 -29 -10
+-44 -44 -44 -25
 FENU 0 0 0
 stand stand neutral 3710
 0 0 medium 0
@@ -1397,7 +1397,7 @@ He is called up from his service in hell in order to aid the Undying One.
 orc~
 BA DH -750 0
 70 35 1d1+4378 1d1+1400 8d8+35 slash
--34 -34 -34 -12
+-49 -49 -49 -27
 FENUC 0 0 0
 stand stand male 4239
 0 0 medium 0
@@ -1416,7 +1416,7 @@ lead you to believe that he knew that you were coming.
 unique~
 BFA DH -1000 0
 70 35 1d1+4278 1d1+1400 8d8+35 bite
--34 -34 -34 -12
+-49 -49 -49 -27
 FENU 0 0 0
 stand stand male 4361
 0 0 medium 0
@@ -1437,7 +1437,7 @@ softly into the air:
 undead~
 BA DFH 350 0
 80 40 1d1+5725 1d1+1600 9d9+40 pound
--40 -40 -40 -15
+-55 -55 -55 -30
 FENUH 0 0 0
 stand stand male 5010
 0 0 medium 0
@@ -1452,7 +1452,7 @@ It is a large brownish slug.  Got any salt?  Didn't think so ...
 unique~
 CA 0 0 0
 40 20 1d1+1426 1d1+800 6d6+20 slash
--15 -15 -15 -3
+-30 -30 -30 -18
 FENU 0 0 0
 stand stand neutral 2086
 0 0 medium 0
@@ -1477,7 +1477,7 @@ And on he babbles ...
 human~
 GA A 1000 0
 45 22 1d1+1883 1d1+900 7d7+22 slice
--19 -19 -19 -5
+-34 -34 -34 -20
 FENU 0 0 0
 sit sit male 2287
 0 0 medium 0
@@ -1496,7 +1496,7 @@ resting on the shoulder of the etcher ... her husband.
 undead~
 BA Q 1000 0
 45 22 1d1+1823 1d1+900 7d7+22 slash
--19 -19 -19 -5
+-34 -34 -34 -20
 FENU 0 0 0
 stand stand female 2270
 0 0 medium 0
@@ -1511,7 +1511,7 @@ YUK! It's ugly, disgusting ... it smells ... it also moves a bit!
 unique~
 CFA 0 -350 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 240
 0 0 medium 0

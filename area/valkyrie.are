@@ -1842,7 +1842,7 @@ stare, that leaves you feeling uneasy. How did he lose that leg?
 human~
 BGLT DFH -300 0
 80 40 2d6+6890 1d6+1120 10d8+40 punch
--26 -26 -26 -26
+-41 -41 -41 -41
 CFHKQR AB CNP 0
 stand stand male 800
 0 0 medium 0
@@ -1859,7 +1859,7 @@ is tidy and well cared for.
 human~
 BGLT DFH 100 0
 75 37 2d6+5890 1d1+900 15d6+37 punch
--25 -25 -25 -25
+-40 -40 -40 -40
 FKQR AB 0 0
 stand stand male 800
 0 0 medium 0
@@ -1876,7 +1876,7 @@ Vazquez seems to have earned the respect of her peers.
 human~
 BGLT 0 100 0
 73 36 1d6+5390 1d1+850 10d7+36 punch
--24 -24 -24 -24
+-39 -39 -39 -39
 CFKQR AB 0 0
 stand stand female 700
 0 0 medium 0
@@ -1894,7 +1894,7 @@ clean and tidy.
 human~
 BGLT 0 200 0
 73 36 1d6+5390 1d1+850 10d7+36 punch
--24 -24 -24 -24
+-39 -39 -39 -39
 FKQR AB 0 0
 stand stand male 700
 0 0 medium 0
@@ -1912,7 +1912,7 @@ reveals a set of sharp mandibles within.
 human~
 BGLT DFH -400 0
 82 41 2d6+7290 1d1+1500 9d9+41 slap
--27 -27 -27 -27
+-42 -42 -42 -42
 FK AB CNP 0
 stand stand male 1300
 0 0 medium 0
@@ -1929,7 +1929,7 @@ sore from countless hours gripping the ship's wheel.
 human~
 BGLT L 200 0
 72 35 1d6+5190 1d1+800 10d7+35 punch
--24 -24 -24 -24
+-39 -39 -39 -39
 FKQR AB 0 0
 stand stand male 650
 0 0 medium 0
@@ -1946,7 +1946,7 @@ warts.
 human~
 GT 0 200 0
 50 25 3d6+2774 1d1+561 10d5+25 punch
--17 -17 -17 -17
+-32 -32 -32 -32
 FKQR AB 0 0
 stand stand male 500
 0 0 medium 0
@@ -1964,7 +1964,7 @@ a little inebriated.
 human~
 FGT 0 0 0
 52 26 3d6+2894 1d1+591 10d5+26 punch
--17 -17 -17 -17
+-32 -32 -32 -32
 FKQR AB 0 0
 stand stand male 400
 0 0 medium 0
@@ -1981,7 +1981,7 @@ upset at the sight and smell of you.
 human~
 FGT DFa -200 0
 54 27 3d6+2994 1d1+621 11d5+27 punch
--18 -18 -18 -18
+-33 -33 -33 -33
 FKQR AB 0 0
 stand stand male 520
 0 0 medium 0
@@ -1997,7 +1997,7 @@ copper ring through one of his ears and he has a cheerful grin.
 human~
 GHT 0 0 0
 61 30 3d6+3294 1d1+671 10d6+30 punch
--20 -20 -20 -20
+-35 -35 -35 -35
 FKQR AB 0 0
 stand stand male 333
 0 0 medium 0
@@ -2014,7 +2014,7 @@ of abuse, and he has a great black beard that hasn't seen attention in years.
 human~
 GLT H 100 0
 62 31 3d6+3334 1d1+691 10d6+31 punch
--20 -20 -20 -20
+-35 -35 -35 -35
 FKR AB 0 0
 stand stand male 431
 0 0 medium 0
@@ -2031,7 +2031,7 @@ his sparkling eyes reveal a sharp intellect and competitive spirit.
 human~
 BGHT LN 0 0
 60 30 3d6+3294 1d1+671 10d6+30 punch
--20 -20 -20 -20
+-35 -35 -35 -35
 FKQR AB 0 0
 stand stand male 391
 0 0 medium 0
@@ -2048,7 +2048,7 @@ hard work. His face and hands are caked in dirt.
 human~
 BGHT 0 0 0
 55 27 3d6+2994 1d1+621 11d5+27 punch
--18 -18 -18 -18
+-33 -33 -33 -33
 FKQR AB 0 0
 stand stand male 401
 0 0 medium 0
@@ -2065,7 +2065,7 @@ due to the extreme conditions he's forced to work in.
 human~
 BGHT 0 0 0
 49 24 3d6+2704 1d1+541 10d5+24 punch
--17 -17 -17 -17
+-32 -32 -32 -32
 FKQR AB 0 0
 stand stand male 30
 0 0 medium 0
@@ -2083,7 +2083,7 @@ being out in the sun all day.
 human~
 BGHT 0 0 0
 51 25 3d6+2904 1d1+541 10d5+25 punch
--17 -17 -17 -17
+-32 -32 -32 -32
 FKQR AB 0 0
 stand stand male 30
 0 0 medium 0
@@ -2099,7 +2099,7 @@ shirt and leggings, he dances on the ropes like a trained monkey.
 human~
 BGHT 0 0 0
 51 25 3d6+2904 1d1+541 10d5+25 punch
--17 -17 -17 -17
+-32 -32 -32 -32
 FKQR AB 0 0
 stand stand male 250
 0 0 medium 0
@@ -2116,7 +2116,7 @@ an easy target.
 song bird~
 BFGT T 0 0
 54 27 3d6+2994 1d1+621 11d5+27 peck
--18 -18 -18 -18
+-33 -33 -33 -33
 FHKR AB 0 0
 stand stand neutral 0
 0 0 medium 0
@@ -2133,7 +2133,7 @@ probably to keep warm high up above the ship's deck.
 human~
 BGT LN 0 0
 54 27 3d6+2994 1d1+621 11d5+27 punch
--17 -17 -17 -17
+-32 -32 -32 -32
 FK AB 0 0
 sleep stand male 30
 0 0 medium 0
@@ -2150,7 +2150,7 @@ rather pale though, he probably doesn't get enough sunlight.
 human~
 BGT DFH 0 0
 68 34 2d6+3776 1d1+952 10d7+34 smash
--24 -24 -24 -24
+-39 -39 -39 -39
 FKR AB 0 0
 stand stand male 650
 0 0 medium 0
@@ -2167,7 +2167,7 @@ a dark robe that seems to absorb the light.
 lizard~
 BGT DFHQ 200 0
 70 35 2d6+4076 1d1+1052 10d7+35 pierce
--24 -24 -24 -24
+-39 -39 -39 -39
 BFK AB 0 0
 sit sit male 1000
 0 0 medium 0
@@ -2185,7 +2185,7 @@ youthful dexterity.
 human~
 BGHT 0 400 0
 70 35 2d6+4076 1d1+1052 10d7+35 punch
--24 -24 -24 -24
+-39 -39 -39 -39
 FR AB 0 0
 stand stand male 500
 0 0 medium 0
@@ -2201,7 +2201,7 @@ until the journey is over. You can't help wonder who or what he's running from.
 dwarf~
 BGHT Q -100 0
 65 32 3d6+3534 1d1+691 8d8+32 punch
--21 -21 -21 -21
+-36 -36 -36 -36
 FR AB 0 0
 stand stand male 30
 0 0 small 0
@@ -2218,7 +2218,7 @@ of years of hard labour onboard vessels such as this.
 human~
 BGLT H 100 0
 65 32 3d6+3534 1d1+691 8d8+32 punch
--21 -21 -21 -21
+-36 -36 -36 -36
 FKR AB 0 0
 rest rest male 800
 0 0 medium 0
@@ -2235,7 +2235,7 @@ ropes and reloading the harpoon. Which can't be an easy task.
 human~
 BGHLT D 100 0
 56 28 3d6+3094 1d1+621 11d5+28 punch
--18 -18 -18 -18
+-33 -33 -33 -33
 FKR AB 0 0
 stand stand male 250
 0 0 medium 0
@@ -2253,7 +2253,7 @@ as her arms slowly circle round and around.
 human~
 BGHLT 0 100 0
 57 28 3d6+3094 1d1+621 11d5+28 claw
--18 -18 -18 -18
+-33 -33 -33 -33
 FKRU AB 0 0
 stand stand female 304
 0 0 medium 0
@@ -2270,7 +2270,7 @@ It looks bored of its diet of algae and minnows.
 unique~
 BFGT DF -500 0
 68 39 3d6+3854 1d1+691 8d8+39 bite
--23 -23 -23 -23
+-38 -38 -38 -38
 CF AB 0 0
 stand stand neutral 0
 0 0 large 0
@@ -2288,7 +2288,7 @@ and caring for larger creatures.
 unique~
 BGLT 0 0 0
 68 39 3d6+3854 1d1+500 8d8+39 bite
--23 -23 -23 -23
+-38 -38 -38 -38
 F AB 0 0
 stand stand neutral 0
 0 0 medium 0
@@ -2305,7 +2305,7 @@ feet. and a worrisome set of teeth.
 lizard~
 BGHLT 0 -500 0
 72 36 2d6+4186 1d1+1102 10d7+36 claw
--24 -24 -24 -24
+-39 -39 -39 -39
 CF AB 0 0
 stand stand neutral 30
 0 0 medium 0
@@ -2327,7 +2327,7 @@ oscillates slowly and effortlessly.
 unique~
 BGLT DFHLN 500 0
 110 55 12d10+12100 10d6+600 10d10+55 divine
--54 -50 -53 -30
+-69 -65 -68 -45
 CMO AB 0 0
 stand stand neutral 30
 0 0 giant 0
@@ -2344,7 +2344,7 @@ drunk executioner.
 dwarf~
 BGHT 0 0 0
 65 32 3d6+3534 1d1+691 8d8+32 punch
--21 -21 -21 -21
+-36 -36 -36 -36
 FR AB 0 0
 stand stand male 30
 0 0 small 0
@@ -2361,7 +2361,7 @@ crafting the finest, strongest ropes in all of Xania.
 elf~
 BGHT L 500 0
 65 32 3d6+3534 1d1+691 8d8+32 punch
--21 -21 -21 -21
+-36 -36 -36 -36
 FR AB 0 0
 sit sit male 30
 0 0 medium 0
@@ -2378,7 +2378,7 @@ downturned, hopeless eyes. His back has arched due to years at the oar.
 orc~
 GHT 0 0 0
 50 25 3d6+2774 1d1+561 10d5+25 punch
--17 -17 -17 -17
+-32 -32 -32 -32
 FR AB 0 0
 sit sit male 30
 0 0 medium 0
@@ -2394,7 +2394,7 @@ the rat seems to be right at home here.
 unique~
 GHS Q 0 0
 48 24 3d6+2474 1d1+561 7d7+25 bite
--17 -17 -17 -17
+-32 -32 -32 -32
 FR AB 0 0
 stand stand neutral 30
 0 0 small 0

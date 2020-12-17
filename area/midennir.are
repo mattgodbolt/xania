@@ -18,7 +18,7 @@ APPEAR to be very hungry ... yet.
 wyvern~
 G 0 -200 0
 8 2 8d8+80 1d1+149 2d6+1 bite
-5 4 5 6
+-10 -11 -10 -9
 DNR 0 0 0
 stand stand male 0
 0 0 huge 0
@@ -32,7 +32,7 @@ You see before you a small and twisted creature with knotted muscles.
 goblin~
 FGT 0 -500 0
 6 1 4d4+65 1d1+99 2d4+1 punch
-4 6 4 9
+-11 -9 -11 -6
 KR 0 0 0
 stand stand male 25
 0 0 small 0
@@ -47,7 +47,7 @@ He is apparently the only survivor of the ambush.
 human~
 BH 0 500 0
 4 0 1d12+47 1d1+99 1d6+0 beating
-8 8 8 10
+-7 -7 -7 -5
 I 0 0 C
 rest rest male 0
 0 0 small 0
@@ -63,7 +63,7 @@ place that is used to be in days past.
 human~
 BT 0 500 0
 10 1 1d12+200 1d1+149 2d8+1 punch
-2 2 2 8
+-13 -13 -13 -7
 BFKQ AB CD 0
 stand stand male 350
 0 0 medium 0
@@ -78,7 +78,7 @@ has been sitting here quite a while, drinking himself into oblivion.
 human~
 BST D 600 0
 8 3 1d12+110 1d1+99 2d6+0 punch
-3 5 3 6
+-12 -10 -12 -9
 FIJKNQ 0 0 0
 sit sit male 260
 0 0 medium 0
@@ -93,7 +93,7 @@ little bits.
 human~
 GHS P -900 0
 8 2 1d12+110 1d1+99 2d5+2 punch
-5 3 3 6
+-10 -12 -12 -9
 BFJKQ 0 0 0
 stand stand male 400
 0 0 medium 0
@@ -108,7 +108,7 @@ beat up upon, but maybe you will do just fine ...
 goblin~
 FGT 0 -600 0
 7 1 1d12+100 1d1+149 1d10+1 punch
-3 5 3 8
+-12 -10 -12 -7
 DKNR 0 0 0
 stand stand male 55
 0 0 medium 0
@@ -123,7 +123,7 @@ for his shortsword and lunges for your neck.
 goblin~
 CFGT 0 -900 0
 9 2 1d12+120 1d1+199 1d12+3 punch
-1 3 1 6
+-14 -12 -14 -9
 DJKNR 0 0 0
 stand stand male 500
 0 0 medium 0

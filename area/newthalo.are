@@ -4766,7 +4766,7 @@ An old man peering through ancient tomes rests here.
 human~
 BJKRVb DF 0 0
 40 10 1d1+1459 1d1+499 6d6+20 pierce
--15 -15 -15 -15
+-30 -30 -30 -30
 FHNEU ABCD 0 0
 stand stand male 2003
 0 0 medium 0
@@ -4781,7 +4781,7 @@ An older man wrapped in purple, long-flowing robes meditates here.
 human~
 BJKQVb DFH 250 0
 40 10 1d1+1426 1d1+499 6d6+20 bite
--15 -15 -15 -15
+-30 -30 -30 -30
 EFGIKNU ABCD 0 0
 stand stand male 2099
 0 0 medium 0
@@ -4797,7 +4797,7 @@ in the ways of barbarian lore.
 human~
 BJKTVb DF 0 0
 40 20 1d1+1458 1d1+99 6d6+20 whip
--15 -15 -15 -15
+-30 -30 -30 -30
 ACEFHIKNU ABCD 0 0
 stand stand male 2048
 0 0 medium 0
@@ -4815,7 +4815,7 @@ of skill.....
 elf~
 BJKTVb DF -100 0
 40 15 1d1+1422 1d1+99 6d6+20 whip
--15 -15 -15 -15
+-30 -30 -30 -30
 BEFHJKNU ABCD 0 0
 stand stand male 2090
 0 0 medium 0
@@ -4832,7 +4832,7 @@ moon-shaped birthmark on her left cheek.
 human~
 BA 0 800 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 sit sit female 1019
 0 0 medium 0
@@ -4847,7 +4847,7 @@ He looks distracted as he pours five drinks at once without error.
 human~
 ABRVXYZ D 800 0
 23 11 1d1+796 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1200
 0 0 medium 0
@@ -4862,7 +4862,7 @@ You see the lead singer of the Lokettes lip synching to an old Zeppelin tune.
 human~
 BGA D 0 0
 18 9 1d1+479 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 752
 0 0 medium 0
@@ -4877,7 +4877,7 @@ A small skinny man rests here hoping to find a warm heart.
 human~
 CGHA 0 -20 0
 2 1 1d1+35 1d1+40 1d2+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 rest rest male 80
 0 0 medium 0
@@ -4892,7 +4892,7 @@ A small skinny man rests here staring at your clothes.
 human~
 CGHA 0 -20 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 rest rest male 124
 0 0 medium 0
@@ -4907,7 +4907,7 @@ This poor soul seems down on his luck, perhaps you might spare a dime?
 human~
 CGHSA 0 -20 0
 1 0 1d1+16 1d1+20 1d2+0 slash
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 stand stand male 41
 0 0 medium 0
@@ -4922,7 +4922,7 @@ You see a large man in a white apron covered in flour from head to toe.
 human~
 ABVXYZ D 800 0
 23 11 1d1+771 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1191
 0 0 medium 0
@@ -4937,7 +4937,7 @@ You see a half-elf sitting on a stool behind his counter.
 half-elf~
 ABVXYZ D 800 0
 23 11 1d1+771 1d1+460 5d5+11 slice
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1194
 0 0 medium 0
@@ -4952,7 +4952,7 @@ This small hobbit seems adept at counting money.
 hobbit~
 BA D 800 0
 23 11 1d1+787 1d1+460 5d5+11 punch
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1152
 0 0 medium 0
@@ -4968,7 +4968,7 @@ wardrobe.
 human~
 ABVXYZ D 800 0
 23 11 1d1+795 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1161
 0 0 medium 0
@@ -4983,7 +4983,7 @@ A tall slender elf stands before you smiling broadly.
 human~
 ABVXYZ D 800 0
 23 11 1d1+786 1d1+460 5d5+11 slice
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand female 1202
 0 0 medium 0
@@ -4999,7 +4999,7 @@ carelessly into the air.
 dwarf~
 ABTVXYZ D 800 0
 23 11 1d1+783 1d1+460 5d5+11 chop
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1170
 0 0 medium 0
@@ -5015,7 +5015,7 @@ his cold stare and place your order.
 human~
 ABTVXYZ D 800 0
 23 11 1d1+789 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1204
 0 0 medium 0
@@ -5030,7 +5030,7 @@ You see a small dwarf with a large hump on his left shoulder.
 dwarf~
 ABTVXYZ D 800 0
 23 11 1d1+785 1d1+460 5d5+11 chop
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1172
 0 0 medium 0
@@ -5047,7 +5047,7 @@ the smell that permeates the air.
 human~
 BA D 800 0
 23 11 1d1+772 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand female 1199
 0 0 medium 0
@@ -5063,7 +5063,7 @@ book and looking at his watch.
 dwarf~
 BGTA 0 0 0
 15 6 1d1+345 1d1+300 4d4+7 chop
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 610
 0 0 medium 0
@@ -5078,7 +5078,7 @@ A large sweaty looking man doesn't even return your glance.
 human~
 BGTA 0 10 0
 10 5 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 407
 0 0 medium 0
@@ -5095,7 +5095,7 @@ a pair of spectacles - THIS - is TheMoog!
 unique~
 BQTXA 0 1000 0
 35 17 1d1+1230 1d1+700 6d6+17 slash
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand male 1780
 0 0 medium 0
@@ -5122,7 +5122,7 @@ The Statue of Wandera is using:
 unique~
 BQTXA 0 1000 0
 31 15 1d1+1135 1d1+620 6d5+15 slash
--10 -10 -10 0
+-25 -25 -25 -15
 FENU 0 0 0
 stand stand male 1622
 0 0 medium 0
@@ -5149,7 +5149,7 @@ hair and it is covered in some rather old, cheap items of clothing.
 unique~
 BQTXA N 1000 0
 31 15 1d1+1097 1d1+620 6d5+15 slash
--10 -10 -10 0
+-25 -25 -25 -15
 FENU 0 0 0
 stand stand male 1612
 0 0 medium 0
@@ -5167,7 +5167,7 @@ upon YOU, when your time comes....
 unique~
 BQTXA 0 1000 0
 31 15 1d1+1135 1d1+620 6d5+15 slice
--10 -10 -10 0
+-25 -25 -25 -15
 FENU 0 0 0
 stand stand male 1555
 0 0 medium 0
@@ -5182,7 +5182,7 @@ In a raging fury, Rohan lunges at you with his huge, bloodied sword!
 unique~
 BQTXA 0 1000 0
 31 15 1d1+1108 1d1+620 6d5+15 slash
--10 -10 -10 0
+-25 -25 -25 -15
 FENU 0 0 0
 stand stand female 1566
 0 0 medium 0
@@ -5197,7 +5197,7 @@ A statue of Luxor.
 unique~
 BQTXA 0 1000 0
 31 15 1d1+1130 1d1+620 6d5+15 slash
--10 -10 -10 0
+-25 -25 -25 -15
 FENU 0 0 0
 stand stand female 1579
 0 0 medium 0
@@ -5215,7 +5215,7 @@ cannot be quite sure what.
 unique~
 BQRTXA 0 1000 0
 34 17 1d1+1202 1d1+680 6d6+17 slash
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand male 1780
 0 0 medium 0
@@ -5230,7 +5230,7 @@ Behold, the mighty creator!
 unique~
 BQRTWUXLA 0 1000 0
 35 17 1d1+1242 1d1+700 6d6+17 slash
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand male 1765
 0 0 medium 0
@@ -5245,7 +5245,7 @@ You see nothing special...
 human~
 CGHQA D 0 0
 11 5 1d1+250 1d1+220 3d4+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 448
 0 0 medium 0
@@ -5260,7 +5260,7 @@ You see nothing special...
 human~
 CGHSA D 0 0
 7 3 1d1+145 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 285
 0 0 medium 0
@@ -5275,7 +5275,7 @@ You see nothing special...
 elf~
 CGHRUA D 0 0
 9 4 1d1+185 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand male 367
 0 0 medium 0
@@ -5290,7 +5290,7 @@ You see nothing special...
 dwarf~
 CGHTA D 0 0
 12 6 1d1+270 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 503
 0 0 medium 0
@@ -5306,7 +5306,7 @@ tells you not to trust him very far.
 human~
 CFHTA 0 -100 0
 10 4 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 410
 0 0 medium 0
@@ -5321,7 +5321,7 @@ The large half-orc quickly glances you over and returns to his duties.
 orc~
 GTA 0 0 0
 12 5 1d1+270 1d1+240 3d4+6 pound
-2 2 2 6
+-13 -13 -13 -9
 FENUC 0 0 0
 stand stand male 486
 0 0 medium 0
@@ -5336,7 +5336,7 @@ This small child sees you looking at him and quickly looks away.
 human~
 ACHS 0 100 0
 7 3 1d1+145 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 287
 0 0 medium 0
@@ -5352,7 +5352,7 @@ crates from the boats like so many lilies.
 giant~
 GTA 0 0 0
 12 5 1d1+270 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENUC 0 0 0
 stand stand male 503
 0 0 medium 0
@@ -5368,7 +5368,7 @@ Sultan's fee for living in his grand city.
 hobbit~
 GHA 0 0 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 207
 0 0 medium 0
@@ -5383,7 +5383,7 @@ You see nothing special.
 human~
 MACGSTU 0 -200 0
 25 12 1d1+842 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1271
 0 0 medium 0
@@ -5398,7 +5398,7 @@ You see nothing special.
 human~
 MGTUA 0 -200 0
 25 12 1d1+851 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1292
 0 0 medium 0
@@ -5413,7 +5413,7 @@ You see nothing special.
 human~
 MCGHRLA D 200 0
 25 12 1d1+826 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1302
 0 0 medium 0
@@ -5428,7 +5428,7 @@ You see nothing special.
 human~
 GQTA D 0 0
 25 12 1d1+827 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1286
 0 0 medium 0
@@ -5444,7 +5444,7 @@ to stand on corners and accost passers-by with his doomsday preaching.
 human~
 HA 0 0 0
 7 3 1d1+145 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 283
 0 0 medium 0
@@ -5459,7 +5459,7 @@ You see a small starved cat.
 cat~
 CHUA 0 -10 0
 2 1 1d1+35 1d1+40 1d2+1 scratch
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 81
 0 0 medium 0
@@ -5474,7 +5474,7 @@ As you look up at this bird, you see the only thing it wants is a corpse.
 unique~
 AGH 0 -200 0
 2 1 1d1+35 1d1+40 1d2+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 82
 0 0 medium 0
@@ -5489,7 +5489,7 @@ He seems intent on winning.
 human~
 HA 0 200 0
 4 2 1d1+65 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand male 162
 0 0 medium 0
@@ -5504,7 +5504,7 @@ The huge hulking mass rises as someone asks him a question.
 giant~
 BETUA 0 300 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENUC 0 0 0
 sit sit male 1037
 0 0 medium 0
@@ -5519,7 +5519,7 @@ What you see before you is really a baby air elemental.
 unique~
 CFUA 0 -1000 0
 1 0 1d1+16 1d1+20 1d2+0 slash
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 stand stand male 41
 0 0 medium 0
@@ -5534,7 +5534,7 @@ A half snake half woman creature rears back to attack you.
 fido~
 CFRTA 0 -500 0
 8 4 1d1+169 1d1+160 3d3+4 shbite
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand female 323
 0 0 medium 0
@@ -5549,7 +5549,7 @@ This man looks like he could use a lot of rest.
 unique~
 EFRA U -750 0
 9 4 1d1+189 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand male 365
 0 0 medium 0
@@ -5564,7 +5564,7 @@ You see a large wealthy man in red robes smiling at you.
 human~
 BTWLA D 200 0
 35 17 1d1+1227 1d1+700 6d6+17 slash
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 rest rest male 1753
 0 0 medium 0
@@ -5580,7 +5580,7 @@ a light blue veil. Her loyalty to the sultan is unwavering.
 elf~
 BA 0 0 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand female 121
 0 0 medium 0
@@ -5596,7 +5596,7 @@ out of grace with the Sultan.
 human~
 BCHTA D -100 0
 18 8 1d1+502 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 sleep sleep male 739
 0 0 medium 0
@@ -5612,7 +5612,7 @@ castrated for the ladies safety.
 human~
 BFTA D 0 0
 15 6 1d1+345 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 604
 0 0 medium 0
@@ -5628,7 +5628,7 @@ bad she's about to kill you.
 elf~
 ETA D 100 0
 20 9 1d1+550 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 rest rest female 1014
 0 0 medium 0
@@ -5643,7 +5643,7 @@ This man looks like a really powerful sorcerer, I wouldn't mess with him.
 human~
 ABRT D 0 0
 21 10 1d1+696 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1070
 0 0 medium 0
@@ -5658,7 +5658,7 @@ This man looks like a poweful cleric, I wouldn't mess with him.
 human~
 ABQT D 0 0
 21 10 1d1+701 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1074
 0 0 medium 0
@@ -5673,7 +5673,7 @@ The man looks like Conan's cousin, I wouldn't mess with him.
 human~
 ABTU D 0 0
 21 10 1d1+702 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1061
 0 0 medium 0
@@ -5689,7 +5689,7 @@ get on the wrong side of him.
 human~
 ABST D 0 0
 21 10 1d1+702 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1050
 0 0 medium 0
@@ -5704,7 +5704,7 @@ You see a small boy running around the halls of the palace.
 human~
 GA 0 0 0
 2 1 1d1+35 1d1+40 1d2+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 80
 0 0 medium 0
@@ -5719,7 +5719,7 @@ You see a trained fighter, ready to help those in need.
 human~
 AGHT 0 1000 0
 10 4 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 404
 0 0 medium 0
@@ -5734,7 +5734,7 @@ You see a trained fighter, ready to defend the city.
 human~
 ABGT 0 1000 0
 10 4 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 412
 0 0 medium 0
@@ -5749,7 +5749,7 @@ You see a large man skilled in hunting and killing.
 human~
 ABGTU D 1000 0
 20 9 1d1+550 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1029
 0 0 medium 0
@@ -5764,7 +5764,7 @@ You see an assassin down on his luck looking to be freelanced out.
 elf~
 BTUA 0 0 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 203
 0 0 medium 0
@@ -5780,7 +5780,7 @@ beams a smile at you through his beard as you walk in.
 dwarf~
 ABVXYZ 0 0 0
 30 15 1d1+1035 1d1+600 5d5+15 beating
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1505
 0 0 medium 0
@@ -5796,7 +5796,7 @@ break from his swealtering work to bid you welcome.
 human~
 ABVXYZ 0 0 0
 30 15 1d1+1036 1d1+600 5d5+15 punch
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1566
 0 0 medium 0
@@ -5811,7 +5811,7 @@ You see one of the fine arabian beasts known about the land.
 unique~
 CGHUA 0 0 0
 4 2 1d1+65 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand male 163
 0 0 medium 0
@@ -5827,7 +5827,7 @@ he seems to be holding upside down.
 human~
 CGHA 0 0 0
 4 2 1d1+65 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand male 164
 0 0 medium 0
@@ -5842,7 +5842,7 @@ You see nothing special.
 human~
 A 0 -1000 0
 30 15 1d1+1021 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1568
 0 0 medium 0
@@ -5857,7 +5857,7 @@ A grey-brown reptillian creature with amber eyes stands before you.
 lizard~
 AFGTW 0 0 0
 8 4 1d1+169 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand neutral 334
 0 0 medium 0
@@ -5872,7 +5872,7 @@ A huge lizard like reptile with horns like a minotaur.
 minotaur~
 FGTA 0 0 0
 8 4 1d1+169 1d1+160 3d3+4 charge
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand neutral 331
 0 0 medium 0
@@ -5887,7 +5887,7 @@ A large two-headed hound barks at you viciously.
 fido~
 FGUA 0 0 0
 8 4 1d1+169 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand neutral 329
 0 0 medium 0
@@ -5902,7 +5902,7 @@ A large fierce dapple skinned lion glares at you.
 unique~
 FGUA 0 0 0
 8 4 1d1+169 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand neutral 330
 0 0 medium 0
@@ -5917,7 +5917,7 @@ You see a large snake like reptile with more than a dozen legs.
 snake~
 ABFT D -300 0
 12 6 1d1+270 1d1+240 3d4+6 shbite
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 483
 0 0 medium 0
@@ -5934,7 +5934,7 @@ dragon.
 unique~
 ABFT D -500 0
 9 4 1d1+189 1d1+180 3d3+4 flbite
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand male 368
 0 0 medium 0
@@ -5950,7 +5950,7 @@ color of the rainbow.
 unique~
 BEQUA B 300 0
 15 7 1d1+345 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 617
 0 0 medium 0
@@ -5966,7 +5966,7 @@ You wish you wounds would stop BLEEDING so much!
 unique~
 AFGU 0 0 0
 5 2 1d1+80 1d1+100 2d3+2 pound
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 206
 0 0 medium 0
@@ -5982,7 +5982,7 @@ thoroughbred you've seen in the stables.
 unique~
 BHUA 0 1000 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 400
 0 0 medium 0
@@ -5998,7 +5998,7 @@ hair to match her outfit.
 human~
 ABRVXYZ 0 0 0
 30 15 1d1+1004 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand female 1547
 0 0 medium 0
@@ -6013,7 +6013,7 @@ You see a powerful but slightly insane mage.
 human~
 ABRVXYZ 0 0 0
 30 15 1d1+1023 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1564
 0 0 medium 0
@@ -6028,7 +6028,7 @@ He does NOT look real happy that you have disturbed him.
 elf~
 BEQA DH 1000 0
 30 15 1d1+990 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1548
 0 0 medium 0
@@ -6044,7 +6044,7 @@ through some training.
 human~
 AGHTU D 1000 0
 31 15 1d1+1121 1d1+620 6d5+15 slash
--10 -10 -10 0
+-25 -25 -25 -15
 FENU 0 0 0
 stand stand male 1566
 0 0 medium 0
@@ -6060,7 +6060,7 @@ or another.
 orc~
 ABHVXYZ D -500 0
 20 10 1d1+550 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENUC 0 0 0
 stand stand male 1003
 0 0 medium 0
@@ -6076,7 +6076,7 @@ some sucker, um, customer to walk in his store.
 hobbit~
 ABHVXYZ D -500 0
 20 10 1d1+550 1d1+400 4d5+10 punch
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1042
 0 0 medium 0
@@ -6092,7 +6092,7 @@ his garden.
 elf~
 BUA 0 0 0
 20 10 1d1+550 1d1+400 4d5+10 slice
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1033
 0 0 medium 0
@@ -6109,7 +6109,7 @@ his love.
 unique~
 BGTUA BDU 1000 0
 12 5 1d1+270 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand female 483
 0 0 medium 0
@@ -6125,7 +6125,7 @@ blades on it.
 wolf~
 BETUWA D 0 0
 12 5 1d1+270 1d1+240 3d4+6 punch
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand female 484
 0 0 medium 0
@@ -6140,7 +6140,7 @@ Boy is she ugly.
 unique~
 BRA 0 0 0
 10 5 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 406
 0 0 medium 0
@@ -6155,7 +6155,7 @@ You see a chubby hobbit dressed in his best suit.
 hobbit~
 GLA 0 1000 0
 20 10 1d1+550 1d1+400 4d5+10 punch
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1006
 0 0 medium 0
@@ -6170,7 +6170,7 @@ You see a very large human who seems to taste everything he makes.
 human~
 BA 0 400 0
 20 10 1d1+550 1d1+400 4d5+10 punch
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1041
 0 0 medium 0
@@ -6185,7 +6185,7 @@ You see a large ray with sharp fangs and a barbed tail.
 unique~
 BEQTLA D -500 0
 30 15 1d1+1022 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand neutral 1529
 0 0 medium 0
@@ -6200,7 +6200,7 @@ A big, strong, helpful, trustworthy guard.
 human~
 TA 0 1000 0
 10 4 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 409
 0 0 medium 0
@@ -6215,7 +6215,7 @@ You see a old man, who seems to move with surprising agility.
 elf~
 ABTVXYZ DH 800 0
 130 65 1d1+12649 1d1+2600 11d11+65 slash
--72 -72 -72 -31
+-87 -87 -87 -46
 FENUH 0 0 0
 stand stand male 8160
 0 0 medium 0
@@ -6231,7 +6231,7 @@ have had it easy, judging by the excellent condition it is in.
 unique~
 Id N 0 0
 40 3 1d1+1463 1d1+350 6d6+20 crush
--20 -20 -20 0
+-35 -35 -35 -15
 CMOFENU 0 0 0
 stand stand female 2074
 0 0 large 0
@@ -6246,7 +6246,7 @@ The handsome mare, radiating strength and vitality neighs at you.
 unique~
 Id N 0 0
 30 3 1d1+1027 1d1+250 5d5+15 charge
--15 -15 -15 0
+-30 -30 -30 -15
 CMOFENU 0 0 0
 stand stand female 1557
 0 0 large 0
@@ -6261,7 +6261,7 @@ The cart horse chews at its bit, and calmly awaits its master.
 unique~
 Id N 0 0
 20 3 1d1+580 1d1+200 4d5+10 bite
--10 -10 -10 0
+-25 -25 -25 -15
 CMOFENU 0 0 0
 stand stand male 1012
 0 0 large 0
@@ -6279,7 +6279,7 @@ turn on you!
 unique~
 Id N 0 0
 50 3 1d1+2035 1d1+570 7d7+25 pound
--30 -30 -30 0
+-45 -45 -45 -15
 CMOIFENU 0 0 0
 stand stand male 2579
 0 0 large 0
@@ -6296,7 +6296,7 @@ Baggins on their legendary quest.
 unique~
 Id N 0 0
 10 3 1d1+230 1d1+100 3d3+5 chomp
--5 -5 -5 0
+-20 -20 -20 -15
 CMONFEU 0 0 0
 stand stand female 404
 0 0 medium 0
@@ -6311,7 +6311,7 @@ A tall fat man that looks very stupid stands befor you grinning.
 human~
 BV 0 900 0
 23 0 1d1+786 1d1+99 5d5+11 punch
--15 -15 -15 -15
+-30 -30 -30 -30
 FENU ABCD 0 0
 stand stand male 1161
 0 0 medium 0
@@ -6328,7 +6328,7 @@ as he is well skilled in his craft.
 human~
 BV H 500 0
 35 0 1d1+1279 1d1+264 6d6+17 punch
--30 -30 -30 -30
+-45 -45 -45 -45
 FENU 0 0 0
 stand stand male 1793
 0 0 medium 0

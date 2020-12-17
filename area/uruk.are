@@ -15,7 +15,7 @@ A big athletic looking dog crouches as though to spring.
 unique~
 FCG HNcc -600 0
 83 42 1d1+6698 1d1+324 10d8+42 bite
--40 -43 -37 -50
+-55 -58 -52 -65
 DFHCPQRL 0 J F
 stand stand male 0
 0 0 large 0
@@ -29,7 +29,7 @@ You shield your eyes from the bright fire. Watch out or you may get burnt.
 unique~
 FB H 0 0
 88 30 1d1+2500 1d1+2300 10d8+15 flbite
--1 -1 -1 -12
+-16 -16 -16 -27
 0 DHO 0 0
 stand stand neutral 0
 0 0 medium 0
@@ -46,7 +46,7 @@ came from. Uruk summoned him from the dawn of time to protect his Fortress.
 orc~
 FB H 0 0
 101 51 1d1+8000 1d1+500 15d6+51 beating
--40 -40 -40 -40
+-55 -55 -55 -55
 DF 0 C 0
 stand stand male 50
 0 0 huge 0
@@ -62,7 +62,7 @@ Both were members of the Uruk-hai tribe.
 orc~
 FB HDF -1000 0
 94 47 1d1+7486 1d1+164 15d6+47 punch
--47 -47 -47 -47
+-62 -62 -62 -62
 BDEFHIKN 0 C H
 stand stand male 2000
 0 0 large 0
@@ -80,7 +80,7 @@ The snake charmer smiles painfully.
 human~
 BCHS H -178 0
 83 41 1d1+6580 1d1+453 10d8+41 sting
--30 -31 -29 -30
+-45 -46 -44 -45
 F AB N 0
 stand stand male 5000
 0 0 medium 0
@@ -98,7 +98,7 @@ down, it is strange how she now always gets her own way!
 elf~
 BLRF DFVTH -1000 0
 108 54 1d1+8970 1d1+768 15d9+54 claw
--40 -37 -43 -41
+-55 -52 -58 -56
 HBFKE 0 J O
 sit sit female 1264
 0 0 small 0
@@ -114,7 +114,7 @@ The SpideR DemoN looks like a pretty easy kill, if you had the slay command.
 unique~
 BFC HVQ -950 0
 104 52 1d1+7834 1d1+473 15d6+52 digestion
--50 -50 -50 -50
+-65 -65 -65 -65
 FJOIHE Q D N
 stand stand neutral 0
 0 0 huge 0
@@ -128,7 +128,7 @@ A large fierce nazgul hovers over head.
 unique~
 d VT -200 0
 79 30 1d1+6200 1d1+640 8d10+20 acbite
--35 -35 -35 -20
+-50 -50 -50 -35
 CDELN LQ E N
 stand stand male 0
 0 0 giant 0
@@ -142,7 +142,7 @@ A massive dragon lies here waiting for its master.
 unique~
 d VTH -200 0
 92 72 1d1+15478 1d1+1287 15d10+72 flbite
--50 -50 -50 -50
+-65 -65 -65 -65
 CDEFHIMNO HO CD M
 stand stand female 0
 0 0 giant 0
@@ -159,7 +159,7 @@ then you notice the strange glint in his eye.
 unique~
 B DF -360 0
 47 12 1d1+3000 1d1+400 4d10+15 claw
--15 -15 -15 -15
+-30 -30 -30 -30
 K B CD O
 stand stand male 0
 0 0 medium 0

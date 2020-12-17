@@ -17,7 +17,7 @@ realize that it is created by some magical power.
 unique~
 CS N 500 0
 55 8 10d40+2500 1d1+200 2d6+18 crush
--21 -21 -21 -11
+-36 -36 -36 -26
 BDEUFN ALQ BI C 
 stand stand neutral 0
 0 0 large 0
@@ -34,7 +34,7 @@ shiny because it has scales.  It looks very clumsy and it can't fly!
 unique~
 GF NTD 600 0
 58 15 10d80+2700 1d1+199 5d5+23 claw
--28 -27 -27 -14
+-43 -42 -42 -29
 EFINU A C N
 stand stand female 1000
 0 0 medium 0
@@ -51,7 +51,7 @@ the robot desires.
 human~
 CH DEHN -800 0
 60 10 10d80+2900 1d1+199 4d8+25 shbite
--21 -24 -24 -12
+-36 -39 -39 -27
 EFINU ALP QR HIZ
 stand stand neutral 0
 0 0 medium 0
@@ -69,7 +69,7 @@ it roaring loudly.
 unique~
 GHU BHNTZ 800 0
 70 18 30d30+3600 1d1+99 3d4+22 blast
--32 -32 -32 -13
+-47 -47 -47 -28
 AEFOU ABOPQR 0 CK
 stand stand neutral 2000
 0 0 small 0
@@ -85,7 +85,7 @@ it will swallow you.  Otherwise it is motionless.
 unique~
 FG HNTZ 1000 0
 70 18 30d30+3600 1d1+99 5d3+17 digestion
--31 -31 -32 -14
+-46 -46 -47 -29
 BDUE A PR Q
 stand stand neutral 100
 0 0 medium 0
@@ -102,7 +102,7 @@ slimy saliva.  Yuck!  It's disgusting!
 human~
 S HNUTD -950 0
 80 23 10d20+6000 1d1+99 6d6+44 bite
--36 -36 -39 -19
+-51 -51 -54 -34
 EFHNU A C 0
 stand stand neutral 4000
 0 0 medium 0
@@ -120,7 +120,7 @@ moment.
 unique~
 C HNUV -850 0
 83 20 30d10+5700 1d1+249 6d6+35 blast
--42 -40 -39 -21
+-57 -55 -54 -36
 AEFNO AP Q HOR
 stand stand neutral 0
 0 0 small 0
@@ -137,7 +137,7 @@ tornado originating from him.  Watch out!
 dwarf~
 BFGT CEHJNZ -900 0
 88 35 20d70+5800 1d1+299 6d5+33 suction
--50 -51 -51 -21
+-65 -66 -66 -36
 DEFHNU ABI 0 H
 stand stand male 2000
 0 0 small 0
@@ -154,7 +154,7 @@ hands.  Smoke is coming out of his palms.  Be careful!
 dwarf~
 BGT CDEHJNZ -600 0
 88 24 10d50+4500 1d1+299 6d4+33 smash
--42 -42 -49 -18
+-57 -57 -64 -33
 CEFHNU AB 0 HL
 stand stand male 4000
 0 0 small 0
@@ -171,7 +171,7 @@ cause the room to rain very heavily.  Ouch, the rain hurts!
 dwarf~
 BGTF CDHJNVZ -900 0
 88 35 20d70+5900 1d1+299 7d5+33 pound
--44 -46 -46 -12
+-59 -61 -61 -27
 CDEFHNU ABI 0 HJ
 stand stand male 4000
 0 0 small 0
@@ -188,7 +188,7 @@ the room and the lightning almost strikes you!
 dwarf~
 BGT CEHJNZ -700 0
 88 30 20d65+5100 1d1+299 7d4+33 chop
--42 -42 -48 -20
+-57 -57 -63 -35
 CEFHNU AB JK H
 stand stand male 4000
 0 0 small 0
@@ -204,7 +204,7 @@ shimmering with the color of gold.
 giant~
 BGT DEHN 900 0
 93 31 30d50+6000 1d1+399 3d10+38 charge
--47 -46 -48 -18
+-62 -61 -63 -33
 DEFNU AE DQJR HIK
 stand stand male 800
 0 0 giant 0
@@ -221,7 +221,7 @@ is a tough giant.
 giant~
 BGT DHN -800 0
 93 38 30d50+6500 1d1+399 2d15+38 crush
--47 -44 -46 -22
+-62 -59 -61 -37
 DEFNU AR IK H
 stand stand male 800
 0 0 giant 0
@@ -238,7 +238,7 @@ appearance of the giant as it shifts its shape constantly.
 giant~
 BTFG HNV 1000 0
 93 32 30d50+6000 1d1+399 3d8+45 suction
--47 -44 -46 -19
+-62 -59 -61 -34
 DEFHU AJ H J
 stand stand male 800
 0 0 giant 0
@@ -255,7 +255,7 @@ predict what he will be like with a blink of your eyes.
 giant~
 BGT HN 1000 0
 93 35 30d50+6200 1d1+399 8d4+37 flbite
--46 -46 -46 -19
+-61 -61 -61 -34
 CEFU A D IR
 stand stand male 800
 0 0 giant 0
@@ -272,7 +272,7 @@ about this giant.
 giant~
 BGT HNV -1000 0
 93 37 30d50+6200 1d1+399 7d5+47 pound
--45 -45 -42 -24
+-60 -60 -57 -39
 AEFHNIU A HJ 0
 stand stand male 800
 0 0 giant 0
@@ -289,7 +289,7 @@ you have been to the tomb, you should know who he is...
 human~
 BFT CDEHJNQTZ 1000 0
 105 40 20d80+8100 1d1+599 5d5+22 pierce
--50 -51 -51 -21
+-65 -66 -66 -36
 ACDEFLU 0 0 N 
 stand stand male 0
 0 0 medium 0

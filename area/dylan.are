@@ -1590,7 +1590,7 @@ sharp talons flex as she considers you for her dinner.
 half-elf~
 CFA DFP -500 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand female 1006
 0 0 medium 0
@@ -1608,7 +1608,7 @@ her presence.
 half-elf~
 BCFA DFP -750 0
 23 11 1d1+790 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand female 1207
 0 0 medium 0
@@ -1624,7 +1624,7 @@ because objects behind it seem to waver and are slightly blurred.
 unique~
 CFA DFPQ 0 0
 25 12 1d1+852 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand neutral 1310
 0 0 medium 0
@@ -1640,7 +1640,7 @@ finest ghostly silks and a headdress with an elaborate brooch.
 unique~
 CA DHP -100 0
 27 13 1d1+893 1d1+540 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand neutral 1360
 0 0 medium 0
@@ -1655,7 +1655,7 @@ moves surprisingly fast for something of its size.~
 eagle~
 GA 0 50 0
 24 12 1d1+816 1d1+480 5d5+12 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand female 1231
 0 0 medium 0
@@ -1671,7 +1671,7 @@ moves surprisingly fast for something of its size.
 eagle~
 GA 0 50 0
 28 14 1d1+949 1d1+560 5d5+14 slash
--8 -8 -8 1
+-23 -23 -23 -14
 FENU 0 0 0
 stand stand male 1453
 0 0 medium 0
@@ -1688,7 +1688,7 @@ they would be quite painful.  Her eyes pierce your very soul.
 orc~
 BCFA DH -600 0
 31 15 1d1+1126 1d1+620 6d5+15 slash
--10 -10 -10 0
+-25 -25 -25 -15
 FENUC 0 0 0
 stand stand female 1584
 0 0 medium 0

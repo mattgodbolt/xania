@@ -1237,7 +1237,7 @@ Your typical smelly, blind flying mammal.
 unique~
 BFA F 0 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 202
 0 0 medium 0
@@ -1252,7 +1252,7 @@ He has lost his family and everything of his former life.
 human~
 HA 0 200 0
 7 3 1d1+141 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 287
 0 0 medium 0
@@ -1270,7 +1270,7 @@ probably won't last long.
 orc~
 CHA F 100 0
 8 3 1d1+174 1d1+160 3d3+4 scratch
-5 5 5 7
+-10 -10 -10 -8
 FENCU 0 0 0
 stand stand male 329
 0 0 medium 0
@@ -1286,7 +1286,7 @@ They seem like little more than zombie servants themselves.
 orc~
 CFA 0 -500 0
 9 4 1d1+190 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENCU 0 0 0
 stand stand male 375
 0 0 medium 0
@@ -1301,7 +1301,7 @@ In fact it IS alive in a magical sort of sense.
 unique~
 A HPU 0 0
 10 4 1d1+210 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 403
 0 0 medium 0
@@ -1314,7 +1314,7 @@ It is here.~
 unique~
 FA 0 0 0
 10 4 1d1+210 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 414
 0 0 medium 0
@@ -1330,7 +1330,7 @@ continues for him in his charmed state.
 undead~
 CFA 0 -290 0
 11 5 1d1+255 1d1+220 3d4+5 acbite
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 457
 0 0 medium 0
@@ -1349,7 +1349,7 @@ A templar tells you, "You must die for your sin!".
 human~
 CFA 0 600 0
 12 6 1d1+280 1d1+240 3d4+6 pound
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 499
 0 0 medium 0
@@ -1364,7 +1364,7 @@ Hard to tell much about the mysterious form even upon further inspection.
 undead~
 CFA FU 0 0
 12 6 1d1+280 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 502
 0 0 medium 0
@@ -1379,7 +1379,7 @@ A templar officer tells you "Better move along evil one!"
 human~
 FA D 700 0
 13 6 1d1+305 1d1+260 4d4+6 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 521
 0 0 medium 0
@@ -1394,7 +1394,7 @@ He seems to lack real interest in what he is doing.
 undead~
 CFA 0 -100 0
 13 6 1d1+305 1d1+260 4d4+6 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 529
 0 0 medium 0
@@ -1409,7 +1409,7 @@ Looks vaguely you-shaped.
 unique~
 A FPU 0 0
 14 6 1d1+330 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand neutral 563
 0 0 medium 0
@@ -1424,7 +1424,7 @@ A rather LARGE "bat" ...
 unique~
 BFA F -100 0
 15 6 1d1+355 1d1+300 4d4+7 acbite
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 605
 0 0 medium 0
@@ -1440,7 +1440,7 @@ to kill you to get a fresh corpse!
 undead~
 BFA 0 -888 0
 15 6 1d1+355 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 621
 0 0 medium 0
@@ -1456,7 +1456,7 @@ of an eye he seems stern again.
 human~
 BA DFH 1000 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 657
 0 0 medium 0
@@ -1471,7 +1471,7 @@ The spray of colored light bouncing off his scales is almost blinding.
 dragon~
 BFA DF -303 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENCU 0 0 0
 stand stand male 1023
 0 0 medium 0
@@ -1486,7 +1486,7 @@ You see nothing more than the sense of darkness and evil.
 dragon~
 BFA 0 -1000 0
 24 12 1d1+821 1d1+480 5d5+12 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENCU 0 0 0
 stand stand neutral 1254
 0 0 medium 0

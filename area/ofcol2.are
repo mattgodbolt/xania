@@ -1849,7 +1849,7 @@ Ofcol.
 human~
 CA N 1000 0
 19 9 1d1+551 1d1+380 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 795
 0 0 medium 0
@@ -1868,7 +1868,7 @@ death.
 human~
 MBLA DHN 1000 0
 33 16 1d1+1172 1d1+660 6d6+16 slash
--11 -11 -11 -1
+-26 -26 -26 -16
 FENU 0 0 0
 stand stand female 1705
 0 0 medium 0
@@ -1886,7 +1886,7 @@ has to be hard won to be kept, and that laxity is for the weak.
 human~
 GLA DHN 1000 0
 27 13 1d1+924 1d1+540 5d5+13 pound
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand male 1350
 0 0 medium 0
@@ -1906,7 +1906,7 @@ she need not be.
 human~
 BLA DN 1000 0
 27 13 1d1+928 1d1+540 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand female 1415
 0 0 medium 0
@@ -1923,7 +1923,7 @@ the metals or the value of the coins.
 human~
 BA N 1000 0
 30 15 1d1+1005 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1550
 0 0 medium 0
@@ -1939,7 +1939,7 @@ last sale from you.  He grins at you slightly.
 human~
 BA N 1000 0
 30 15 1d1+1034 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1537
 0 0 medium 0
@@ -1956,7 +1956,7 @@ shop, trading little things (for a wee bit of profit).
 human~
 BA N 1000 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand female 1033
 0 0 medium 0
@@ -1973,7 +1973,7 @@ kill, though.
 human~
 BA N 1000 0
 30 15 1d1+1013 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1534
 0 0 medium 0
@@ -1991,7 +1991,7 @@ get a good price off of you!
 human~
 BA N 1000 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand female 1045
 0 0 medium 0
@@ -2009,7 +2009,7 @@ Granny Jenkins cackles again.
 human~
 BA N 500 0
 6 3 1d1+138 1d1+120 2d3+3 slice
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 248
 0 0 medium 0
@@ -2026,7 +2026,7 @@ enter.  "Came by to watch, eh?", he asks.
 human~
 BFHA 0 200 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 486
 0 0 medium 0
@@ -2043,7 +2043,7 @@ her work.
 human~
 BHA 0 800 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 203
 0 0 medium 0
@@ -2059,7 +2059,7 @@ you've ever seen one.
 unique~
 HIA 0 0 0
 1 0 1d1+20 1d1+20 1d2+0 slash
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 stand stand female 40
 0 0 medium 0
@@ -2074,7 +2074,7 @@ The cow is here happily grazing.  It moos at you and goes back to grazing.
 unique~
 IA 0 0 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 204
 0 0 medium 0
@@ -2092,7 +2092,7 @@ which rests on the floor before it.
 unique~
 BILA 0 0 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 208
 0 0 large 0
@@ -2108,7 +2108,7 @@ back to grazing.
 unique~
 FHIA 0 0 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 241
 0 0 medium 0
@@ -2123,7 +2123,7 @@ The pig looks dirty.  It snorts and sniffs at you, then goes back to its slop.
 unique~
 BIA 0 0 0
 4 2 1d1+80 1d1+80 2d3+2 charge
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand neutral 162
 0 0 medium 0
@@ -2140,7 +2140,7 @@ armored.
 human~
 HA 0 500 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 207
 0 0 medium 0
@@ -2157,7 +2157,7 @@ and armored.
 human~
 HA 0 500 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 200
 0 0 medium 0
@@ -2173,7 +2173,7 @@ He then smiles and runs away, remembering his game.
 human~
 HA 0 500 0
 3 1 1d1+60 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 125
 0 0 medium 0
@@ -2189,7 +2189,7 @@ coin?'  She then smiles and runs away, remembering her game.
 human~
 HA 0 500 0
 3 1 1d1+60 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand female 123
 0 0 medium 0
@@ -2206,7 +2206,7 @@ She hits you with her broom.
 human~
 HA 0 500 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 205
 0 0 medium 0
@@ -2223,7 +2223,7 @@ any.
 human~
 BA 0 1000 0
 30 15 1d1+1039 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1541
 0 0 medium 0
@@ -2241,7 +2241,7 @@ Ofcol.
 human~
 BA N 1000 0
 19 9 1d1+551 1d1+380 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 762
 0 0 medium 0
@@ -2258,7 +2258,7 @@ you, hinting toward a tip from you in ever a subtle way.
 human~
 BA N 800 0
 13 6 1d1+325 1d1+260 4d4+6 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 533
 0 0 medium 0
@@ -2273,7 +2273,7 @@ The servant smiles good-naturedly at you, then goes on his duties.
 human~
 GA N 1000 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 248
 0 0 medium 0
@@ -2288,7 +2288,7 @@ This young man smiles at you, but is too busy to chat.
 human~
 GA N 1000 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 291
 0 0 medium 0
@@ -2303,7 +2303,7 @@ The page smiles for you, asking if he can do you a favor too.
 human~
 GA N 1000 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 203
 0 0 medium 0
@@ -2321,7 +2321,7 @@ god, Bahamut.  The dragon symbol around her neck looks almost alive.
 human~
 BA BHN 1000 0
 30 15 1d1+1020 1d1+600 5d5+15 slice
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand female 1519
 0 0 medium 0
@@ -2339,7 +2339,7 @@ turns to you and with a consipatory tone, whispers, "Kids!"
 human~
 GA BHN 1000 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1040
 0 0 medium 0
@@ -2356,7 +2356,7 @@ look upset at your presence.
 dragon~
 BA BHN 1000 0
 29 14 1d1+962 1d1+580 5d5+14 slice
--9 -9 -9 0
+-24 -24 -24 -15
 FENUC 0 0 0
 stand stand male 1478
 0 0 medium 0
@@ -2374,7 +2374,7 @@ his attendants to escort you away.
 dragon~
 BCA BHJN 1000 0
 37 18 1d1+1358 1d1+740 6d6+18 flbite
--14 -14 -14 -2
+-29 -29 -29 -17
 FENUC 0 0 0
 stand stand male 1915
 0 0 medium 0
@@ -2390,7 +2390,7 @@ his life for his liege.
 human~
 BA BN 1000 0
 21 10 1d1+709 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1083
 0 0 medium 0
@@ -2407,7 +2407,7 @@ He smiles at you, showing very sharp teeth.
 dragon~
 GA BN 1000 0
 21 10 1d1+695 1d1+420 5d5+10 slice
--4 -4 -4 3
+-19 -19 -19 -12
 FENUC 0 0 0
 stand stand male 1055
 0 0 medium 0
@@ -2425,7 +2425,7 @@ Ofcol.
 human~
 BA N 1000 0
 19 9 1d1+551 1d1+380 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 789
 0 0 medium 0

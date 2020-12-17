@@ -19,7 +19,7 @@ intelligence.
 unique~
 ABGQV FHNV 1000 0
 100 50 1d1+10000 1d1+2000 15d7+57 scratch
--40 -60 -30 -30000
+-55 -75 -45 -30015
 EFHJN ABLQ H I
 stand stand male 0
 0 0 small 0
@@ -37,7 +37,7 @@ the circumstances of its existence.
 undead~
 OQTVc CDHNTUVZ 0 0
 100 50 1d1+8984 1d1+1183 15d7+55 cleave
--30 -30 -30 -18
+-45 -45 -45 -33
 ACDEFHIKU ABHILMNR CDO 0
 stand stand neutral 0
 0 0 huge 0
@@ -54,7 +54,7 @@ It says...SQUEAK.
 unique~
 IHOUV HUNCDEFTZ 0 0
 100 30 1d1+30000 1d1+15000 1d1+30 scratch
--30 -30 -30 -30
+-45 -45 -45 -45
 EFIKMN ADHINR 0 0
 stand stand neutral 0
 0 0 small 0
@@ -68,7 +68,7 @@ The wolf stares back at you with a mischevious glint in his eye!
 unique~
 CIHOUV HUNCDEFTZ 10 0
 60 30 1d1+25000 1d1+1000 1d1+2000 scratch
--30 -30 -30 -30
+-45 -45 -45 -45
 EFIKMN ADHINR 0 0
 stand stand neutral 0
 0 0 small 0
@@ -83,7 +83,7 @@ WelL ArD TigeR SitS HerE GuardinG LuxoR WitH HeR EntirE BeinG
 unique~
 IHOUV HUNCDEFTZ 10 0
 91 30 1d1+30000 1d1+15000 1d1+30 scratch
--30 -30 -30 -30
+-45 -45 -45 -45
 EFIKMN ADHINR 0 0
 stand stand neutral 0
 0 0 large 0
@@ -98,7 +98,7 @@ It looks like a big wooly pussy.
 unique~
 IHOUV HUNCDEFTZ 10 0
 113 38 1d1+24000 1d1+15000 12d6+38 claw
--38 -38 -38 -38
+-53 -53 -53 -53
 EFIKMN ABLOQP 0 0
 stand stand neutral 0
 0 0 large 0
@@ -114,7 +114,7 @@ player names that are against the spirit of the game on a case by case basis.
 unique~
 IHOUV HUNCDEFTZ 10 0
 113 38 1d1+24000 1d1+15000 12d6+38 claw
--38 -38 -38 -38
+-53 -53 -53 -53
 EFIKMN ABLOQP 0 0
 stand stand neutral 0
 0 0 large 0

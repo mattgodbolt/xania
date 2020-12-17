@@ -922,7 +922,7 @@ growing in as of late.
 unique~
 CGA D 0 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 205
 0 0 medium 0
@@ -937,7 +937,7 @@ Old, scaly, but still with a lot of bite left in him.
 unique~
 ABCGL D -1000 0
 24 12 1d1+803 1d1+480 5d5+12 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1246
 0 0 medium 0
@@ -952,7 +952,7 @@ The Wolf Spider is hairy, very hairy.
 unique~
 BFA 0 -300 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 249
 0 0 medium 0
@@ -967,7 +967,7 @@ You notice an evil look in his eyes.
 unique~
 BA 0 -400 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 207
 0 0 medium 0
@@ -983,7 +983,7 @@ You notice a glazed look in her eyes.
 unique~
 BFLA 0 -800 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand female 489
 0 0 medium 0
@@ -998,7 +998,7 @@ An ordinary drone spider.
 unique~
 CGA 0 -300 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 249
 0 0 medium 0
@@ -1013,7 +1013,7 @@ She winks in and out.
 unique~
 CGA 0 1000 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand female 419
 0 0 medium 0
@@ -1028,7 +1028,7 @@ The slave does not mind you, but will fight like a warrior if attacked.
 human~
 CGA 0 0 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 320
 0 0 medium 0
@@ -1044,7 +1044,7 @@ and creates a magical treasure!
 unique~
 CEHA BDP 1000 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 407
 0 0 medium 0
@@ -1059,7 +1059,7 @@ The Bird Spider has very powerful jaws.
 unique~
 BFA 0 -800 0
 14 7 1d1+350 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand female 581
 0 0 medium 0
@@ -1075,7 +1075,7 @@ means well.
 unique~
 BCA D -400 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 288
 0 0 medium 0
@@ -1090,7 +1090,7 @@ He delves deeper into you as you stare at him.
 unique~
 BCLA D 1000 0
 25 12 1d1+837 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1290
 0 0 medium 0
@@ -1105,7 +1105,7 @@ He looks like a lazy bum who sleeps half the time.
 unique~
 FGA P 250 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 sleep sleep male 689
 0 0 medium 0
@@ -1123,7 +1123,7 @@ them.
 unique~
 BFLA BD -1000 0
 26 13 1d1+893 1d1+520 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand female 1364
 0 0 medium 0
@@ -1139,7 +1139,7 @@ someday free the slaves of the Empress.
 unique~
 BCA D 1000 0
 26 13 1d1+867 1d1+520 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand female 1363
 0 0 medium 0
@@ -1154,7 +1154,7 @@ Rather small, you almost feel sad in killing it.
 unique~
 AB D 1000 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 410
 0 0 medium 0
@@ -1169,7 +1169,7 @@ A medium-sized dragon--seems it hasn't killed anything yet by itself.
 unique~
 AB D 100 0
 13 6 1d1+325 1d1+260 4d4+6 slice
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 545
 0 0 medium 0
@@ -1186,7 +1186,7 @@ sharp poisonous fangs to paralyze or kill its prey.
 unique~
 ABG 0 -350 0
 8 4 1d1+184 1d1+160 3d3+4 punch
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand neutral 320
 0 0 medium 0
@@ -1203,7 +1203,7 @@ if it wasn't so immensely fat.  Its large, bulbous eyes stare back at you.
 unique~
 ABG D -1000 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand female 603
 0 0 medium 0

@@ -1023,7 +1023,7 @@ He seems to be in peace with himself and his surroundings.
 human~
 GHA D -500 0
 13 6 1d1+310 1d1+260 4d4+6 slice
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 528
 0 0 medium 0
@@ -1040,7 +1040,7 @@ or nothing to say.
 hobbit~
 BA 0 0 0
 4 2 1d1+65 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 sit sit male 166
 0 0 medium 0
@@ -1056,7 +1056,7 @@ He wears normal, light clothing and has an anonymous face.
 human~
 CGA 0 0 0
 6 3 1d1+125 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 242
 0 0 medium 0
@@ -1072,7 +1072,7 @@ She wears a minimum of clothing and has big ... eyes.
 human~
 CGA 0 0 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 208
 0 0 medium 0
@@ -1089,7 +1089,7 @@ for as long anyone can remember.
 unique~
 BFA D -1000 0
 24 12 1d1+814 1d1+480 5d5+12 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1256
 0 0 medium 0
@@ -1107,7 +1107,7 @@ He looks very fit and capable of protecting his goods.
 elf~
 ABC 0 400 0
 23 11 1d1+779 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1176
 0 0 medium 0
@@ -1123,7 +1123,7 @@ wierdest drinks known. He also looks very big.
 dwarf~
 AB 0 -100 0
 23 11 1d1+790 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1162
 0 0 medium 0
@@ -1138,7 +1138,7 @@ It is a small, furry creature with long ears and big feet.
 rabbit~
 GA 0 0 0
 1 0 1d1+16 1d1+20 1d2+0 slash
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 stand stand neutral 41
 0 0 medium 0
@@ -1155,7 +1155,7 @@ but so far they haven't succeeded.
 dragon~
 ABH DHT 1000 0
 10 5 1d1+215 1d1+200 3d3+5 flbite
-3 3 3 6
+-12 -12 -12 -9
 FENUC 0 0 0
 stand stand female 416
 0 0 medium 0

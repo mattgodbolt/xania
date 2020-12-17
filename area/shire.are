@@ -1162,7 +1162,7 @@ cannot overcome.
 elf~
 BGLA D 500 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 743
 0 0 medium 0
@@ -1181,7 +1181,7 @@ to take away that which belongs to him.
 hobbit~
 BGLA BD 0 0
 19 9 1d1+551 1d1+380 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 781
 0 0 medium 0
@@ -1198,7 +1198,7 @@ chap, always ready to befriend an injured bunny rabbit.
 hobbit~
 BHA 0 350 0
 7 3 1d1+161 1d1+140 3d3+3 bite
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 rest rest male 290
 0 0 medium 0
@@ -1214,7 +1214,7 @@ for he hasn't learned to walk yet.  He peers up at you and asks "da da?"
 hobbit~
 BHA 0 100 0
 2 1 1d1+40 1d1+40 1d2+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 sit sit male 81
 0 0 medium 0
@@ -1231,7 +1231,7 @@ in her eyes you can see her longing for a better life.
 hobbit~
 BA 0 100 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 202
 0 0 medium 0
@@ -1248,7 +1248,7 @@ if provoked, her rear kick can be quite deadly.
 unique~
 GIA 0 0 0
 4 2 1d1+80 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 rest rest neutral 164
 0 0 medium 0
@@ -1265,7 +1265,7 @@ and consequently cannot move around very quickly.
 unique~
 GIA 0 0 0
 3 1 1d1+60 1d1+60 2d3+1 charge
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 rest rest neutral 124
 0 0 medium 0
@@ -1280,7 +1280,7 @@ The chicken is bright and healthy.  She has no weapons but her beak.
 unique~
 GIA 0 0 0
 2 1 1d1+40 1d1+40 1d2+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 sit sit female 81
 0 0 medium 0
@@ -1297,7 +1297,7 @@ anything.
 unique~
 BFA 0 0 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 247
 0 0 medium 0
@@ -1312,7 +1312,7 @@ The horse looks at you and turns away.  You can tell that it is afraid of you.
 unique~
 BGIA 0 0 0
 4 2 1d1+80 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand neutral 161
 0 0 medium 0
@@ -1330,7 +1330,7 @@ This is one halfling you don't want to mess with.
 hobbit~
 CGA 0 150 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 sit sit male 325
 0 0 medium 0
@@ -1348,7 +1348,7 @@ This is one halfling you don't want to mess with.
 hobbit~
 CGA 0 150 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 sit sit male 324
 0 0 medium 0
@@ -1366,7 +1366,7 @@ Shire folk.
 hobbit~
 GLA 0 400 0
 14 7 1d1+350 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 sit sit male 579
 0 0 medium 0
@@ -1382,7 +1382,7 @@ local gossip.  In his younger days, he was quite a seasoned traveller.
 hobbit~
 BGA 0 200 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 499
 0 0 medium 0
@@ -1399,7 +1399,7 @@ who deserves a spanking but never got one.
 hobbit~
 CGHA H 50 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 247
 0 0 medium 0
@@ -1416,7 +1416,7 @@ in two without thinking about it.
 hobbit~
 BA 0 0 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 206
 0 0 medium 0
@@ -1433,7 +1433,7 @@ longer and wearies of it.
 elf~
 BLA 0 600 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 sit sit male 698
 0 0 medium 0
@@ -1450,7 +1450,7 @@ beyond your gaze.
 dwarf~
 BLA 0 200 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 sit sit male 687
 0 0 medium 0
@@ -1466,7 +1466,7 @@ like you.
 hobbit~
 BA 0 600 0
 21 10 1d1+697 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1054
 0 0 medium 0
@@ -1483,7 +1483,7 @@ in his power to prevent riff-raff like you from stealing it.
 hobbit~
 BA 0 600 0
 21 10 1d1+704 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1076
 0 0 medium 0
@@ -1499,7 +1499,7 @@ and armour would certainly help him in any fight against riff-raff like you.
 hobbit~
 BA 0 600 0
 50 25 1d1+2065 1d1+1000 7d7+25 slash
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand male 2574
 0 0 medium 0
@@ -1514,7 +1514,7 @@ The battle master is a wizened fighter, with many scars to prove his worth.
 hobbit~
 BA 0 350 0
 25 12 1d1+851 1d1+500 5d5+12 acbite
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1312
 0 0 medium 0
@@ -1530,7 +1530,7 @@ high and you get the sudden urge to step on him.
 hobbit~
 GHA 0 0 0
 3 1 1d1+60 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 124
 0 0 medium 0
@@ -1547,7 +1547,7 @@ a good fight.
 half-elf~
 BA 0 100 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 sit sit male 332
 0 0 medium 0
@@ -1563,7 +1563,7 @@ talk so much so quickly.
 hobbit~
 BHA 0 0 0
 4 2 1d1+80 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 sit sit female 160
 0 0 medium 0
@@ -1581,7 +1581,7 @@ that anyone would wish her ill.
 hobbit~
 BA 0 1000 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 246
 0 0 medium 0
@@ -1598,7 +1598,7 @@ he lacks in skill.
 hobbit~
 BA 0 0 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 209
 0 0 medium 0
@@ -1615,7 +1615,7 @@ coins if you'd be so good as to order a drink for him.
 hobbit~
 BHA 0 0 0
 4 2 1d1+80 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 sit sit male 167
 0 0 medium 0
@@ -1630,7 +1630,7 @@ The country bumpkin snores noisily.
 hobbit~
 BA 0 0 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 sleep sleep male 204
 0 0 medium 0
@@ -1646,7 +1646,7 @@ local gossip.  In his younger days, he was quite a seasoned traveller.
 hobbit~
 BA 0 200 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 481
 0 0 medium 0
@@ -1661,7 +1661,7 @@ He is a very professional looking type.
 hobbit~
 BA 0 200 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 499
 0 0 medium 0
@@ -1678,7 +1678,7 @@ somewhere outside the shire.
 hobbit~
 BA 0 150 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 330
 0 0 medium 0

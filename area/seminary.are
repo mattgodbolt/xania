@@ -2714,7 +2714,7 @@ You see a young, casually dressed man trying hard to relax.
 human~
 GR C 900 0
 35 18 1d6+1190 1d1+500 6d7+18 punch
--10 -10 -10 -10
+-25 -25 -25 -25
 FKQU N CP 0
 stand stand male 30
 0 0 medium 0
@@ -2730,7 +2730,7 @@ her work done.
 human~
 GQH ND -900 0
 40 20 2d6+1432 1d1+520 7d6+20 slap
--11 -11 -11 -11
+-26 -26 -26 -26
 FJNQU 0 LQ 0
 stand stand female 66
 0 0 medium 0
@@ -2747,7 +2747,7 @@ seeking assistance.
 elf~
 GCHQRL CDJNVc 50 0
 80 40 2d6+6890 1d6+1120 10d8+40 shbite
--21 -21 -21 -21
+-36 -36 -36 -36
 CEFHKNU P C 0
 stand stand female 154
 0 0 medium 0
@@ -2763,7 +2763,7 @@ lives alone in the trees.
 human~
 BCGTL CJNV 900 0
 48 24 3d6+1999 1d1+528 6d8+24 charge
--19 -19 -19 -19
+-34 -34 -34 -34
 CDEFHIK 0 GP 0
 stand stand male 10
 0 0 medium 0
@@ -2780,7 +2780,7 @@ farts at you. Ugh!
 dwarf~
 BCGHS HC -50 0
 45 22 1d6+1700 1d1+495 5d9+22 blast
--12 -12 -12 -12
+-27 -27 -27 -27
 DFHIJN 0 L 0
 sit sit male 333
 0 0 small 0
@@ -2799,7 +2799,7 @@ return later.
 unique~
 BCFT CV -900 0
 43 22 3d6+2250 1d6+473 6d8+22 bite
--17 -17 -17 -17
+-32 -32 -32 -32
 DEFIMN 0 B 0
 stand stand neutral 499
 0 0 huge 0
@@ -2815,7 +2815,7 @@ away all of his troubles and concerns.
 human~
 BTL CD 900 0
 36 18 3d6+1275 1d1+3965 6d6+18 punch
--15 -15 -15 -15
+-30 -30 -30 -30
 CDEFK 0 P I
 rest rest male 3000
 0 0 medium 0
@@ -2831,7 +2831,7 @@ away at some notepaper. Bennie looks up and smiles at you.
 human~
 BTL CD 900 0
 37 18 3d6+1275 1d1+396 7d6+18 punch
--15 -15 -15 -15
+-30 -30 -30 -30
 CDEFK 0 P I
 stand stand male 100
 0 0 medium 0
@@ -2848,7 +2848,7 @@ is offered to you.
 human~
 BHQ DFV -950 0
 50 25 2d6+2650 1d1+650 9d6+25 beating
--17 -17 -17 -17
+-32 -32 -32 -32
 CDEFHKN A BHPL KN
 stand stand female 200
 0 0 medium 0
@@ -2865,7 +2865,7 @@ logistics and making detailed arrangements. The administrator shouts
 human~
 BGHQTL DNV 950 0
 65 33 3d6+3500 1d1+845 6d12+33 wrath
--25 -25 -25 -25
+-40 -40 -40 -40
 FHIJKNT AP C F
 stand stand female 256
 0 0 medium 0
@@ -2883,7 +2883,7 @@ does have poor taste in clothes.
 dragon~
 BCGQRTL CDEFJNUV -980 0
 80 40 3d6+5945 1d1+1120 8d10+40 acbite
--30 -30 -30 -30
+-45 -45 -45 -45
 CDEFHIJKMOR KL BR F
 stand stand male 999
 0 0 huge 0
@@ -2900,7 +2900,7 @@ spectacles before settling back down to the work which he isn't doing.
 giant~
 BCGRTL DHNTUV 1000 0
 80 40 3d6+6200 1d1+1120 8d10+40 crush
--30 -30 -30 -30
+-45 -45 -45 -45
 DEKNOR AQLB CD 0
 sit sit male 5000
 0 0 giant 0
@@ -2917,7 +2917,7 @@ lazy right now.
 giant~
 BQ DNPU 0 0
 78 39 2d6+4320 1d1+1014 9d9+39 divine
--27 -27 -27 -27
+-42 -42 -42 -42
 BDKOU L N EF
 stand stand neutral 0
 0 0 giant 0
@@ -2934,7 +2934,7 @@ has been sharpened in a rather interesting way.
 human~
 HT DJV 0 0
 85 42 3d6+5635 1d1+935 9d10+42 pierce
--32 -32 -32 -32
+-47 -47 -47 -47
 EFHIK NP B 0
 sit sit male 1987
 0 0 medium 0
@@ -2950,7 +2950,7 @@ and jolting trying to break free of a vast armour plated reactor core.
 unique~
 BGT JHN -1000 0
 80 50 3d6+6300 1d1+880 8d10+40 pound
--30 -30 -30 -30
+-45 -45 -45 -45
 EKN AHR E F
 stand stand neutral 0
 0 0 huge 0
@@ -2967,7 +2967,7 @@ desk and mutters words of discontent under his breath.
 elf~
 BHR CDNTVc 900 0
 52 26 1d6+2598 1d1+572 5d11+26 bite
--19 -19 -19 -19
+-34 -34 -34 -34
 FHN 0 P 0
 sit sit male 250
 0 0 medium 0
@@ -2983,7 +2983,7 @@ by one evil will.
 unique~
 BGT NVa -900 0
 43 22 3d6+1823 1d1+473 6d8+22 whip
--17 -17 -17 -17
+-32 -32 -32 -32
 EHNU M F R
 stand stand neutral 0
 0 0 small 0
@@ -2999,7 +2999,7 @@ The lieutenant says authoritatively "OK, let's go down to the station. NOW!"
 human~
 GHQ CH 980 0
 45 22 2d6+1600 1d1+585 5d9+22 divine
--18 -18 -18 -18
+-33 -33 -33 -33
 EFKU A N 0
 stand stand female 175
 0 0 medium 0
@@ -3017,7 +3017,7 @@ you shudder in fear.
 unique~
 CFGRST Na -990 0
 48 24 3d6+2230 1d1+720 8d6+24 chomp
--19 -19 -19 -19
+-34 -34 -34 -34
 FHOU A 0 L
 stand stand male 2500
 0 0 huge 0
@@ -3034,7 +3034,7 @@ in confusion.
 orc~
 BHQ N -25 0
 55 26 2d6+2550 1d1+715 5d11+26 wrath
--21 -21 -21 -21
+-36 -36 -36 -36
 CEK 0 P 0
 stand stand male 155
 0 0 medium 0
@@ -3051,7 +3051,7 @@ is wearing a pin stripe suit and shiny shoes.
 dragon~
 BGQRTL DEHJUV -1000 0
 95 46 3d6+7610 1d1+1235 9d11+46 acbite
--36 -36 -36 -36
+-51 -51 -51 -51
 BCEFHIJKMNO AP Q HY
 stand stand male 20000
 0 0 large 0
@@ -3068,7 +3068,7 @@ the floor, calmly observing your movements.
 elf~
 BGQRSTL BCDEFHJNV 0 0
 99 50 3d6+9232 1d1+1485 10d10+50 magic
--36 -36 -36 -36
+-51 -51 -51 -51
 BCEFHIJKNF AB IL 0
 stand stand female 150
 0 0 medium 0
@@ -3084,7 +3084,7 @@ a care in the world.
 unique~
 BCRO NTX -900 0
 91 45 1d6+7695 1d1+1365 10d9+45 suction
--33 -33 -33 -33
+-48 -48 -48 -48
 FMNU QL K G
 stand stand neutral 1246
 0 0 large 0
@@ -3100,7 +3100,7 @@ hair flows gracefully as she turns her head towards you and smiles.
 dragon~
 BGHQ CHJN 950 0
 92 46 2d6+8596 1d1+1196 9d10+46 peck
--33 -33 -33 -33
+-48 -48 -48 -48
 HMN A HI 0
 stand stand female 911
 0 0 large 0
@@ -3115,7 +3115,7 @@ You see a merry old orc with swarthy green skin and a stripey apron.
 orc~
 BGTV CDEFHJNTUVc 0 0
 50 25 1d1+999 1d1+999 5d10+25 claw
--17 -17 -17 -6
+-32 -32 -32 -21
 CDEFHKT ABCDEFGHIJKLMNO 0 0
 stand stand male 0
 0 0 medium 0
@@ -3134,7 +3134,7 @@ existence. He's also pretty good at healing. Type "heal" for a list.
 human~
 MBGJKQRSTVabb CDEFHJNTUV 1000 0
 147 90 3d6+25146 1d1+12205 20d20+90 divine
--49 -49 -49 -28
+-64 -64 -64 -43
 BCEFHIJKLNO ABCDEFGHIJKLMNOPQRS 0 0
 stand stand male 0
 0 0 huge 0
@@ -3150,7 +3150,7 @@ hair,  reading what looks like a very complicated book.
 elf~
 BHRL E 1000 0
 58 29 1d6+2792 1d1+780 7d9+29 magic
--21 -21 -21 -21
+-36 -36 -36 -36
 FNQ 0 P 0
 stand stand female 250
 0 0 small 0
@@ -3166,7 +3166,7 @@ a blue uniform and has a pair of glasses tucked in his jacket pocket.
 human~
 GT NU -850 0
 50 25 3d6+2745 1d1+550 7d8+25 punch
--21 -21 -21 -21
+-36 -36 -36 -36
 EIKTU 0 0 0
 stand stand male 150
 0 0 medium 0
@@ -3181,7 +3181,7 @@ You see a plump, clean shaven dwarf in a white coat.
 dwarf~
 BGQ a -900 0
 52 26 2d6+2764 1d1+676 8d7+26 charge
--19 -19 -19 -19
+-34 -34 -34 -34
 FHN 0 I 0
 stand stand male 210
 0 0 small 0
@@ -3197,7 +3197,7 @@ Doktor Wolfgang grins at you from behind his spectacles.
 elf~
 BGQR CABLING 0 0
 54 27 2d6+2719 1d1+810 8d7+27 whip
--21 -21 -21 -21
+-36 -36 -36 -36
 FHN 0 PLQ 0
 stand stand male 190
 0 0 medium 0
@@ -3213,7 +3213,7 @@ to front. He also has an enormous beer belly!
 human~
 GT N -30 0
 50 25 3d6+2745 1d1+550 5d10+25 beating
--21 -21 -21 -21
+-36 -36 -36 -36
 CDKUP 0 L 0
 stand stand male 145
 0 0 medium 0
@@ -3229,7 +3229,7 @@ her stomach.
 orc~
 GTH MN 0 0
 51 26 3d6+2774 1d1+561 5d10+26 digestion
--21 -21 -21 -21
+-36 -36 -36 -36
 CKNU 0 0 L
 stand stand female 5
 0 0 medium 0
@@ -3246,7 +3246,7 @@ It seems to have taken on a life of its own...and it looks mad!
 unique~
 BGT N -900 0
 54 27 3d6+3060 1d1+594 5d11+27 blast
--21 -21 -21 -21
+-36 -36 -36 -36
 KOQU A 0 0
 stand stand neutral 250
 0 0 large 0
@@ -3262,7 +3262,7 @@ karate suit and a black belt.
 human~
 BHRTL CDNVc 1000 0
 71 35 3d6+4575 1d1+1050 10d7+35 chop
--27 -27 -27 -27
+-42 -42 -42 -42
 CDEFHKNQ 0 EP 0
 stand stand male 75
 0 0 medium 0
@@ -3278,7 +3278,7 @@ tanned muscular body.
 human~
 GHT N 0 0
 65 32 3d6+3410 1d1+715 7d10+32 crush
--25 -25 -25 -25
+-40 -40 -40 -40
 IKNOU 0 I F
 stand stand male 290
 0 0 large 0
@@ -3294,7 +3294,7 @@ She is dressed in tight fitting body suit.
 human~
 GHQ NV -499 0
 68 34 2d6+4276 1d1+952 10d7+34 smash
--26 -26 -26 -26
+-41 -41 -41 -41
 DEHNU 0 I 0
 stand stand female 160
 0 0 medium 0
@@ -3309,7 +3309,7 @@ You see a young female elf wearing a swimsuit and goggles.
 elf~
 BGHR DVbb 30 0
 65 32 1d6+3953 1d1+975 11d6+32 slap
--25 -25 -25 -25
+-40 -40 -40 -40
 FHNU R I 0
 stand stand female 0
 0 0 small 0
@@ -3325,7 +3325,7 @@ It's tail swings powerfully.
 unique~
 BFGRT HJNVbb -900 0
 65 35 3d6+5300 1d1+975 9d8+35 shbite
--24 -24 -24 -24
+-39 -39 -39 -39
 DHMOP AIR 0 H
 stand stand neutral 0
 0 0 large 0
@@ -3341,7 +3341,7 @@ brown suit. He is searching the ground for primary evidence.
 human~
 GHQRL CN 850 0
 72 36 3d6+3880 1d1+1080 8d9+36 magic
--26 -26 -26 -26
+-41 -41 -41 -41
 FNU P C I
 stand stand male 390
 0 0 medium 0
@@ -3357,7 +3357,7 @@ and a back pack.
 dragon~
 GHRTL CDNV 850 0
 74 37 3d6+4745 1d1+1110 9d8+37 frbite
--28 -28 -28 -28
+-43 -43 -43 -43
 CDEKM IP 0 0
 stand stand female 295
 0 0 large 0
@@ -3373,7 +3373,7 @@ is making notes with a quill and parchment.
 human~
 GHQSL DNPV 0 0
 76 38 3d6+4730 1d1+836 8d10+38 pierce
--29 -29 -29 -29
+-44 -44 -44 -44
 BEFHKN 0 0 0
 stand stand male 5500
 0 0 medium 0
@@ -3393,7 +3393,7 @@ hand in friendship.
 human~
 GCQTL CDNc 0 0
 78 39 3d6+5215 1d1+1014 10d8+39 divine
--29 -29 -29 -29
+-44 -44 -44 -44
 EHK AP I 0
 stand stand male 250
 0 0 medium 0
@@ -3409,7 +3409,7 @@ and milky skin.
 elf~
 BGQRL C 950 0
 55 27 2d6+3046 1d1+810 5d11+27 whip
--23 -23 -23 -23
+-38 -38 -38 -38
 FHN 0 PLQ 0
 stand stand female 200
 0 0 medium 0

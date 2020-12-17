@@ -2443,7 +2443,7 @@ It stands before you with arms folded, seemingly uninterested in you.
 human~
 ABG DFHN 0 0
 50 25 1d1+2034 1d1+1000 7d7+25 punch
--16 -16 -16 -12
+-31 -31 -31 -27
 FENU 0 0 0
 stand stand neutral 2608
 0 0 medium 0
@@ -2460,7 +2460,7 @@ than the darkest night, and hooves that burn with unholy fires.
 unique~
 AFG DJT -1000 0
 33 16 1d1+1169 1d1+660 6d6+16 slash
--11 -11 -11 -8
+-26 -26 -26 -23
 FENU 0 0 0
 stand stand neutral 1656
 0 0 medium 0
@@ -2477,7 +2477,7 @@ master to torment.
 undead~
 ACFG DJ -1000 0
 35 17 1d1+1250 1d1+700 6d6+17 slash
--11 -11 -11 -8
+-26 -26 -26 -23
 FENU 0 0 0
 stand stand female 1765
 0 0 medium 0
@@ -2493,7 +2493,7 @@ feel nothing, not even the slightest of motions.
 undead~
 AG BT 200 0
 25 12 1d1+850 1d1+500 5d5+12 slash
--8 -8 -8 -6
+-23 -23 -23 -21
 FENU 0 0 0
 stand stand neutral 1291
 0 0 medium 0
@@ -2509,7 +2509,7 @@ mindlessly, unaware of its surroundings.
 undead~
 AGH 0 0 0
 25 12 1d1+861 1d1+500 5d5+12 slash
--8 -8 -8 -6
+-23 -23 -23 -21
 FENU 0 0 0
 stand stand neutral 1278
 0 0 medium 0
@@ -2526,7 +2526,7 @@ and sunken.
 orc~
 ACGH J -500 0
 23 11 1d1+765 1d1+460 5d5+11 punch
--7 -7 -7 -5
+-22 -22 -22 -20
 FENUC 0 0 0
 stand stand male 1188
 0 0 medium 0
@@ -2544,7 +2544,7 @@ whistles through the air as it slices towards your neck.
 orc~
 ACG J -500 0
 26 13 1d1+866 1d1+520 5d5+13 punch
--8 -8 -8 -6
+-23 -23 -23 -21
 FENUC 0 0 0
 stand stand male 1343
 0 0 medium 0
@@ -2562,7 +2562,7 @@ whistles through the air as it slices towards your neck.
 orc~
 ABCF J -500 0
 37 18 1d1+1340 1d1+740 6d6+18 punch
--12 -12 -12 -9
+-27 -27 -27 -24
 FENUC 0 0 0
 stand stand male 1872
 0 0 medium 0
@@ -2580,7 +2580,7 @@ of his sword against its scabbard as it is unsheathed.
 orc~
 ACG J -750 0
 42 21 1d1+1734 1d1+840 6d6+21 punch
--14 -14 -14 -10
+-29 -29 -29 -25
 FENUC 0 0 0
 stand stand male 2125
 0 0 medium 0
@@ -2598,7 +2598,7 @@ of his sword against its scabbard as it is unsheathed.
 orc~
 ABCF J -750 0
 46 23 1d1+1846 1d1+920 7d7+23 punch
--15 -15 -15 -11
+-30 -30 -30 -26
 FENUC 0 0 0
 stand stand male 2326
 0 0 medium 0
@@ -2616,7 +2616,7 @@ people.  You notice this from the blast of lightning headed towards you.
 orc~
 ACGH J -600 0
 40 20 1d1+1457 1d1+800 6d6+20 punch
--13 -13 -13 -10
+-28 -28 -28 -25
 FENUC 0 0 0
 stand stand male 2056
 0 0 medium 0
@@ -2634,7 +2634,7 @@ people.  You notice this from the blast of lightning headed towards you.
 orc~
 ACFG J -600 0
 40 20 1d1+1452 1d1+800 6d6+20 punch
--13 -13 -13 -10
+-28 -28 -28 -25
 FENUC 0 0 0
 stand stand male 2066
 0 0 medium 0
@@ -2652,7 +2652,7 @@ your back.
 orc~
 AFG DEJ -900 0
 39 19 1d1+1373 1d1+780 6d6+19 beating
--13 -13 -13 -9
+-28 -28 -28 -24
 FENUC 0 0 0
 stand stand male 1997
 0 0 medium 0
@@ -2670,7 +2670,7 @@ hollow eyes sends you into paroxysms of fright.
 orc~
 ABF DEFHJ -1000 0
 52 26 1d1+2632 1d1+1040 7d7+26 punch
--17 -17 -17 -13
+-32 -32 -32 -28
 FENUC 0 0 0
 stand stand female 3169
 0 0 medium 0
@@ -2692,7 +2692,7 @@ to tighten.  You are about to die.
 orc~
 ABF BDFJH -1000 0
 60 30 1d1+3050 1d1+1200 8d7+30 slash
--20 -20 -20 -15
+-35 -35 -35 -30
 FENUC 0 0 0
 stand stand male 3740
 0 0 medium 0
@@ -2710,7 +2710,7 @@ true living beings it encounters, including you.
 undead~
 AFG JTU -1000 0
 32 16 1d1+1158 1d1+640 6d6+16 slice
--10 -10 -10 -8
+-25 -25 -25 -23
 FENU 0 0 0
 stand stand neutral 1609
 0 0 medium 0
@@ -2727,7 +2727,7 @@ are bitter enemies, and this one happened to get caught.  He intends to escape.
 human~
 AG J -350 0
 10 5 1d1+230 1d1+200 3d3+5 punch
--3 -3 -3 -2
+-18 -18 -18 -17
 FENU 0 0 0
 stand stand male 400
 0 0 medium 0
@@ -2744,7 +2744,7 @@ by the githyanki.  It cringes as you approach.
 human~
 AB 0 0 0
 20 10 1d1+580 1d1+400 4d5+10 punch
--6 -6 -6 -5
+-21 -21 -21 -20
 FENU 0 0 0
 stand stand neutral 1034
 0 0 medium 0
@@ -2762,7 +2762,7 @@ from his open mouth.
 dragon~
 AB DJ -500 0
 57 28 1d1+2881 1d1+1140 8d7+28 slash
--19 -19 -19 -14
+-34 -34 -34 -29
 FENUC 0 0 0
 stand stand male 3548
 0 0 medium 0
@@ -2777,7 +2777,7 @@ The fire feeds on your skin like a living being, licking out at your hair.
 unique~
 ABFG J 0 0
 35 17 1d1+1231 1d1+700 6d6+17 slash
--11 -11 -11 -8
+-26 -26 -26 -23
 FENU 0 0 0
 stand stand neutral 1787
 0 0 medium 0

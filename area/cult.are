@@ -968,7 +968,7 @@ The Receptionist appears to be friendly.
 human~
 BLA H 0 0
 61 30 1d1+3802 1d1+1220 8d8+30 slash
--29 -29 -29 -10
+-44 -44 -44 -25
 FENU 0 0 0
 stand stand female 3734
 0 0 medium 0
@@ -983,7 +983,7 @@ The minor priest seems preoccupied.
 human~
 GHA DH -100 0
 80 40 1d1+5687 1d1+1600 9d9+40 slash
--40 -40 -40 -15
+-55 -55 -55 -30
 FENUH 0 0 0
 stand stand male 4924
 0 0 medium 0
@@ -998,7 +998,7 @@ The robed priest is not to be trifeled with.
 human~
 FGA DEFH -200 0
 81 40 1d1+6833 1d1+1620 9d9+40 slash
--41 -41 -41 -16
+-56 -56 -56 -31
 FENUH 0 0 0
 stand stand male 5047
 0 0 medium 0
@@ -1013,7 +1013,7 @@ The draconian knight's sole purpose is to kill you.
 dragon~
 BFGLA DEFH -400 0
 78 39 1d1+5577 1d1+1560 9d9+39 slash
--39 -39 -39 -15
+-54 -54 -54 -30
 FENUCH 0 0 0
 stand stand male 4718
 0 0 medium 0
@@ -1029,7 +1029,7 @@ quite beautiful if it weren't for her SCALES!
 dragon~
 FGLA DEFH -600 0
 83 41 1d1+6972 1d1+1660 9d9+41 slash
--42 -42 -42 -16
+-57 -57 -57 -31
 FENUCH 0 0 0
 stand stand female 5216
 0 0 medium 0
@@ -1045,7 +1045,7 @@ to save her.
 elf~
 BA H 0 0
 3 1 1d1+60 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand female 124
 0 0 medium 0
@@ -1061,7 +1061,7 @@ It is viscious and has a nasty bite, so you better be ready!
 dragon~
 BCFA DHJ -1000 0
 85 42 1d1+7067 1d1+1700 9d9+42 slash
--44 -44 -44 -17
+-59 -59 -59 -32
 FENUCH 0 0 0
 stand stand male 5223
 0 0 medium 0
@@ -1076,7 +1076,7 @@ The minor priest seems preoccupied.
 human~
 BGA DH -100 0
 80 40 1d1+5768 1d1+1600 9d9+40 slash
--40 -40 -40 -15
+-55 -55 -55 -30
 FENUH 0 0 0
 stand stand male 5026
 0 0 medium 0
@@ -1091,7 +1091,7 @@ The monk is sincere, if loony, and he has a look of terror on his eyes.
 human~
 LA DH 0 0
 71 35 1d1+4973 1d1+1420 8d8+35 slash
--35 -35 -35 -13
+-50 -50 -50 -28
 FENU 0 0 0
 stand stand male 4465
 0 0 medium 0
@@ -1109,7 +1109,7 @@ Incidently, he talks alot.
 human~
 BGLA DH -1000 0
 60 30 1d1+3143 1d1+1200 8d7+30 slash
--28 -28 -28 -9
+-43 -43 -43 -24
 FENU 0 0 0
 stand stand male 3652
 0 0 medium 0
@@ -1126,7 +1126,7 @@ that basement... it's really terrible down there.
 elf~
 BGLA DH 200 0
 55 27 1d1+2861 1d1+1100 7d7+27 slash
--25 -25 -25 -8
+-40 -40 -40 -23
 FENU 0 0 0
 stand stand female 3309
 0 0 medium 0
@@ -1144,7 +1144,7 @@ the shelves that the papers go in on the ground.
 human~
 GLA DH -1000 0
 78 39 1d1+5545 1d1+1560 9d9+39 slash
--39 -39 -39 -15
+-54 -54 -54 -30
 FENUH 0 0 0
 stand stand female 4799
 0 0 medium 0
@@ -1161,7 +1161,7 @@ yelling at people, and trying to look up Gale's dress.
 human~
 BGLA DH -1000 0
 86 43 1d1+7298 1d1+1720 9d9+43 slash
--44 -44 -44 -17
+-59 -59 -59 -32
 FENUH 0 0 0
 stand stand male 5179
 0 0 medium 0
@@ -1176,7 +1176,7 @@ Yuck! What an ugly sight, I'm surprised you looked!
 orc~
 BFGA DH -1000 0
 86 43 1d1+7342 1d1+1720 9d9+43 slash
--44 -44 -44 -17
+-59 -59 -59 -32
 FENUCH 0 0 0
 stand stand male 5309
 0 0 medium 0
@@ -1192,7 +1192,7 @@ costs nothing.......
 human~
 BGLA DH -1000 0
 68 34 1d1+4244 1d1+1360 8d8+34 slash
--33 -33 -33 -12
+-48 -48 -48 -27
 FENU 0 0 0
 stand stand male 4242
 0 0 medium 0
@@ -1209,7 +1209,7 @@ Zombie is nothing to be laughed at.
 undead~
 BFGA DH -1000 0
 88 44 1d1+7557 1d1+1760 9d9+44 slash
--45 -45 -45 -18
+-60 -60 -60 -33
 FENUH 0 0 0
 stand stand male 5330
 0 0 medium 0
@@ -1227,7 +1227,7 @@ gods are in your favor he will probably kill you.
 undead~
 BFGLA DEFH -1000 0
 105 52 1d1+9483 1d1+2100 10d10+52 slice
--56 -56 -56 -23
+-71 -71 -71 -38
 FENUH 0 0 0
 stand stand male 6599
 0 0 medium 0
@@ -1242,7 +1242,7 @@ He has rotten teeth.
 human~
 BGA DH -200 0
 99 49 1d1+9007 1d1+1980 10d10+49 slash
--52 -52 -52 -21
+-67 -67 -67 -36
 FENUH 0 0 0
 stand stand male 6010
 0 0 medium 0

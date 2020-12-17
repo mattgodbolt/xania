@@ -1036,7 +1036,7 @@ You will become him if you are not careful.
 human~
 CGA 0 0 0
 4 2 1d1+80 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand male 167
 0 0 medium 0
@@ -1051,7 +1051,7 @@ You can't tell what the star looks like, she is too bright!
 unique~
 BGA 0 500 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand female 324
 0 0 medium 0
@@ -1066,7 +1066,7 @@ It hasn't got a definite shape, it is just a cloud of mist.
 unique~
 GA 0 200 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand female 404
 0 0 medium 0
@@ -1081,7 +1081,7 @@ You see the offspring of Halley's comet, here just to wipe everything out.
 unique~
 CFGA 0 -500 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 401
 0 0 medium 0
@@ -1097,7 +1097,7 @@ Still he can be very powerful.
 unique~
 BGHA 0 0 0
 15 7 1d1+375 1d1+300 4d4+7 pound
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 sleep sleep male 628
 0 0 medium 0
@@ -1113,7 +1113,7 @@ But somehow he manages to escape.  Though tiny, it can take a lot of hits!
 unique~
 CGA 0 0 0
 15 7 1d1+375 1d1+300 4d4+7 pound
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 612
 0 0 medium 0
@@ -1129,7 +1129,7 @@ here and his face may never be seen by anyone again.
 unique~
 BGA PQ -1000 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 sit sit male 736
 0 0 medium 0
@@ -1145,7 +1145,7 @@ jealousy and she has to suffer here endlessly until Perseus comes.
 unique~
 BEGA H 1000 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand female 734
 0 0 medium 0
@@ -1162,7 +1162,7 @@ granted immortality. He is a very brave and strong fighter.
 giant~
 BGA H 1000 0
 19 9 1d1+551 1d1+380 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENUC A 0 0
 stand stand male 774
 0 0 medium 0
@@ -1177,7 +1177,7 @@ It is the legendary horse with wings on its back.
 unique~
 BGHA 0 300 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand neutral 688
 0 0 medium 0
@@ -1195,7 +1195,7 @@ never meet.
 elf~
 BGA H 300 0
 19 9 1d1+551 1d1+380 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 762
 0 0 medium 0
@@ -1211,7 +1211,7 @@ one knows; even the Gods themselves have forgotten.
 unique~
 BGA 0 300 0
 11 5 1d1+275 1d1+220 3d4+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand female 458
 0 0 medium 0
@@ -1228,7 +1228,7 @@ hitting the head is certainly not easy.
 dragon~
 BFGA DH -1000 0
 25 12 1d1+842 1d1+500 5d5+12 pound
--6 -6 -6 2
+-21 -21 -21 -13
 FENUC 0 0 0
 stand stand neutral 1293
 0 0 medium 0
@@ -1245,7 +1245,7 @@ we are on now?
 dragon~
 CGHA 0 -700 0
 9 4 1d1+207 1d1+180 3d3+4 flbite
-4 4 4 7
+-11 -11 -11 -8
 FENUC 0 0 0
 stand stand neutral 375
 0 0 medium 0
@@ -1261,7 +1261,7 @@ also the ruler of Spring. He looks as if he is expecting you.
 unique~
 BGA H 700 0
 22 11 1d1+731 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 sit sit male 1128
 0 0 medium 0
@@ -1277,7 +1277,7 @@ like he can fight well ... indeed he has fought with Orion before and survived.
 unique~
 BFGA DH -100 0
 22 11 1d1+748 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1152
 0 0 medium 0
@@ -1293,7 +1293,7 @@ You can't find any imperfections on him.
 unique~
 BGA H 1000 0
 22 11 1d1+737 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1142
 0 0 medium 0
@@ -1309,7 +1309,7 @@ How can there be such a contrast?  You wonder ...
 unique~
 BCFGHA DHU -1000 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 603
 0 0 medium 0
@@ -1326,7 +1326,7 @@ So Hera made Cancer a constellation for his work.
 unique~
 BGA H 0 0
 22 11 1d1+748 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1141
 0 0 medium 0
@@ -1343,7 +1343,7 @@ his bare hands to tear the lion into two from its mouth!
 unique~
 BFGA DH -100 0
 22 11 1d1+745 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1108
 0 0 medium 0
@@ -1360,7 +1360,7 @@ gorgeous and is waiting for your first move, whatever it is ...
 unique~
 BGA H 1000 0
 22 11 1d1+741 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 sit sit female 1103
 0 0 medium 0
@@ -1376,7 +1376,7 @@ Now all he can see from you is greed and bloodshed.
 unique~
 BGA H 1000 0
 22 11 1d1+756 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1101
 0 0 medium 0
@@ -1392,7 +1392,7 @@ Sagittarius' arrow aimed at his heart forever.
 unique~
 BFGA DH -200 0
 22 11 1d1+760 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1121
 0 0 medium 0
@@ -1407,7 +1407,7 @@ He is a centaur and a well trained archer. No one can escape his arrows.
 unique~
 BGA H 1000 0
 22 11 1d1+758 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1145
 0 0 medium 0
@@ -1424,7 +1424,7 @@ days in peace.
 unique~
 BGA H 700 0
 22 11 1d1+734 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1150
 0 0 medium 0
@@ -1440,7 +1440,7 @@ hand with holding the vessel.
 unique~
 BGA H 1000 0
 22 11 1d1+750 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand female 1100
 0 0 medium 0
@@ -1456,7 +1456,7 @@ fish and she deserves your pity.
 unique~
 BGA H 1000 0
 22 11 1d1+733 1d1+440 5d5+11 pound
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 sit sit female 1124
 0 0 medium 0
@@ -1472,7 +1472,7 @@ So he becomes jealous of any living thing which is more handsome than him.
 unique~
 BFGA H -1000 0
 22 11 1d1+736 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1146
 0 0 medium 0
@@ -1488,7 +1488,7 @@ You think you'd better turn back.  At least you have got a chance of survival.
 bear~
 BFGA DH 0 0
 27 13 1d1+906 1d1+540 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand neutral 1407
 0 0 medium 0
@@ -1503,7 +1503,7 @@ She is the Queen of Dignity; facing her you feel all your dignity has gone.
 unique~
 BGA H 700 0
 26 13 1d1+883 1d1+520 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU A 0 0
 sit sit female 1361
 0 0 medium 0
@@ -1519,7 +1519,7 @@ weak and useless in front of him.
 unique~
 BGA H 700 0
 26 13 1d1+858 1d1+520 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU A 0 0
 sit sit male 1339
 0 0 medium 0
@@ -1537,7 +1537,7 @@ here at all?
 unique~
 BGA BDH 1000 0
 30 15 1d1+1021 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1553
 0 0 medium 0

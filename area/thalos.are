@@ -1584,7 +1584,7 @@ to disintegrate you.  Beholders are not known for their personality.
 unique~
 ABFHL D -870 0
 25 12 1d1+864 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand neutral 1264
 0 0 medium 0
@@ -1600,7 +1600,7 @@ body of a four-legged beast.  She licks her lips as she looks at you greedily.
 fido~
 CFGA 0 -999 0
 9 4 1d1+185 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand female 364
 0 0 medium 0
@@ -1616,7 +1616,7 @@ front.
 unique~
 BCFGHA P 10 0
 11 5 1d1+255 1d1+220 3d4+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 449
 0 0 medium 0
@@ -1630,7 +1630,7 @@ Two skeletons lie crushed under a large boulder.
 unique~
 BCFGHA P -10 0
 11 5 1d1+255 1d1+220 3d4+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 442
 0 0 medium 0
@@ -1644,7 +1644,7 @@ The stone floor of this house has been ripped apart.
 unique~
 BCFGHA P -140 0
 11 5 1d1+255 1d1+220 3d4+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 460
 0 0 medium 0
@@ -1658,7 +1658,7 @@ Some broken shards of pottery lie strewn about the floor.
 unique~
 BCFGHA P 200 0
 11 5 1d1+255 1d1+220 3d4+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 442
 0 0 medium 0
@@ -1672,7 +1672,7 @@ A few wooden planks lie stacked on a low shelf.
 unique~
 BCFGHA P 0 0
 11 5 1d1+255 1d1+220 3d4+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 451
 0 0 medium 0
@@ -1687,7 +1687,7 @@ A cute little lizard, that is, if you like reptiles!
 lizard~
 HA 0 0 0
 3 1 1d1+50 1d1+60 2d3+1 chomp
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand neutral 123
 0 0 medium 0
@@ -1703,7 +1703,7 @@ stone creature. He stands here still guarding the city.
 unique~
 BA N 600 0
 25 12 1d1+857 1d1+500 5d5+12 pound
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand neutral 1294
 0 0 medium 0

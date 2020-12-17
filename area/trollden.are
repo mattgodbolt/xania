@@ -126,7 +126,7 @@ saliva dripping from the beast's jaw.  The guardian beast snarls again.
 wolf~
 BCFGA DPQ -200 0
 7 3 1d1+145 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 286
 0 0 medium 0
@@ -143,7 +143,7 @@ of yours!!
 troll~
 CFGA P -500 0
 6 3 1d1+125 1d1+120 2d3+3 punch
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 sit sit male 250
 0 0 medium 0
@@ -160,7 +160,7 @@ His eyes dart toward you, as he realizes you are one third his size.
 troll~
 BCFGA P -500 0
 8 4 1d1+169 1d1+160 3d3+4 punch
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 329
 0 0 medium 0
@@ -177,7 +177,7 @@ He notices you and gargles "WANNA JOIN?".
 troll~
 BCFA P -100 0
 5 2 1d1+80 1d1+100 2d3+2 punch
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 sit sit male 206
 0 0 medium 0
@@ -194,7 +194,7 @@ You gasp as you realize you have intruded upon his acts of passion!
 troll~
 BCFGA P -1000 0
 13 5 1d1+305 1d1+260 4d4+6 punch
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 rest rest male 542
 0 0 medium 0
@@ -211,7 +211,7 @@ Her smiles turn into snarls as she screams at you!
 troll~
 BCFGA P -800 0
 11 5 1d1+255 1d1+220 3d4+5 punch
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 rest rest female 458
 0 0 medium 0
@@ -227,7 +227,7 @@ It moves quickly, from corpse to corpse.
 snake~
 CFHA PQ 0 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand neutral 125
 0 0 medium 0
@@ -245,7 +245,7 @@ jaw.  The roving beast snarls at you.
 dragon~
 BCFGA DP -200 0
 7 3 1d1+145 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENUC 0 0 0
 stand stand male 291
 0 0 medium 0
@@ -262,7 +262,7 @@ He advances toward you.
 troll~
 CFGA P -500 0
 8 4 1d1+169 1d1+160 3d3+4 punch
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 328
 0 0 medium 0

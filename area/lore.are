@@ -17,7 +17,7 @@ old and wise. She stands as you enter the room, and smiles at you.
 hobbit~
 BGCQ DFHN 0 0
 90 45 10d100+10000 10d20+600 9d10+40 divine
--50 -50 -50 -40
+-65 -65 -65 -55
 FHU ABQ JK 0
 stand stand female 1500
 0 0 small 0
@@ -32,7 +32,7 @@ A young fresh-faced novice is wandering around. Can you help?
 human~
 GHT 0 0 0
 8 4 2d5+100 1d1+100 2d5+5 slash
--5 -5 -5 -5
+-20 -20 -20 -20
 EFKU ABQ 0 0 
 stand stand male 1
 0 0 medium 0
@@ -48,7 +48,7 @@ and smiles.
 elf~
 BGCNQ N 0 0
 30 15 30d5+750 30d10+300 4d7+15 slice
--15 -15 -15 -15
+-30 -30 -30 -30
 EFU ABQ 0 0
 stand stand female 500
 0 0 medium 0
@@ -64,7 +64,7 @@ glares at you as you enter.
 dwarf~
 BGCNQ N 0 0
 30 15 1d1+749 1d1+299 6d5+15 slash
--15 -15 -15 -15
+-30 -30 -30 -30
 CDIU ABQ O O
 stand stand male 500
 0 0 medium 0
@@ -80,7 +80,7 @@ not waste his time.
 minotaur~
 BCGHT DFHN 0 0
 60 30 1d1+3000 1d1+550 10d6+25 whip
--25 -25 -25 -20
+-40 -40 -40 -35
 CDEKU ABQ 0 0
 stand stand male 1000
 0 0 medium 0
@@ -96,7 +96,7 @@ you as you enter.
 wolf~
 BCGHT DFHNV 0 0
 75 40 40d5+5500 40d5+500 9d8+40 bite
--40 -40 -40 -30
+-55 -55 -55 -45
 EFIKP ABQ 0 0
 stand stand male 2000
 0 0 medium 0
@@ -111,7 +111,7 @@ An old battle scarred orc stands here. Fear him not, he is an ally.
 orc~
 BCGHR HN 0 0
 50 25 1d1+2000 1d1+499 10d6+25 whip
--25 -25 -25 -10
+-40 -40 -40 -25
 CEI ABQ 0 X
 stand stand neutral 1000
 0 0 medium 0
@@ -128,7 +128,7 @@ enter, leaning on a huge oak staff.
 elf~
 BGCR DFHNV 0 0
 100 50 40d5+8000 40d5+1000 10d10+50 hit
--50 -50 -50 -50
+-65 -65 -65 -65
 EFHK ABQ C 0
 stand stand male 4000
 0 0 medium 0
@@ -145,7 +145,7 @@ up with a faint expression of annoyance on his face as you enter.
 human~
 BGRU CDEFHVZ 0 0
 90 50 20d5+7000 40d5+1000 10d10+50 0
--100 -100 -100 -100
+-115 -115 -115 -115
 ACEFKLP ABCDEHIKLPO 0 0
 stand stand male 10000
 0 0 medium 0

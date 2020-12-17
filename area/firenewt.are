@@ -601,7 +601,7 @@ It looks hungry and searches for food.
 lizard~
 BA 0 -100 0
 45 22 1d1+1809 1d1+40 7d7+22 slash
--15 -15 -15 -10
+-30 -30 -30 -25
 FENU 0 0 0
 stand stand male 2293
 0 0 medium 0
@@ -616,7 +616,7 @@ The ewe is watching her young.
 lizard~
 BA 0 -100 0
 47 23 1d1+1883 1d1+40 7d7+23 slash
--16 -16 -16 -11
+-31 -31 -31 -26
 FENU 0 0 0
 stand stand female 2407
 0 0 medium 0
@@ -631,7 +631,7 @@ The kid is playing with its siblings.
 human~
 BA 0 -100 0
 50 25 1d1+2093 1d1+20 7d7+25 slash
--17 -17 -17 -12
+-32 -32 -32 -27
 FENU 0 0 0
 stand stand neutral 2569
 0 0 medium 0
@@ -646,7 +646,7 @@ The fire newt worker looks hot and sweaty.
 lizard~
 CFGA 0 -400 0
 47 23 1d1+1956 1d1+40 7d7+23 slash
--16 -16 -16 -11
+-31 -31 -31 -26
 FENU 0 H 0
 stand stand male 2414
 0 0 medium 0
@@ -661,7 +661,7 @@ The fire newt guard thinks you would be better dead.
 lizard~
 BFA 0 -450 0
 55 27 1d1+2770 1d1+60 7d7+27 slash
--18 -18 -18 -14
+-33 -33 -33 -29
 FENU 0 H 0
 stand stand male 3336
 0 0 medium 0
@@ -676,7 +676,7 @@ The fire newt worker looks hot and sweaty.
 lizard~
 BA D -400 0
 46 23 1d1+1869 1d1+40 7d7+23 slash
--16 -16 -16 -11
+-31 -31 -31 -26
 FENU 0 H 0
 stand stand female 2385
 0 0 medium 0
@@ -691,7 +691,7 @@ The fire newt guard wants to kill you!
 lizard~
 FGA 0 -450 0
 55 27 1d1+2809 1d1+60 7d7+27 slash
--18 -18 -18 -14
+-33 -33 -33 -29
 FENU 0 H 0
 stand stand female 3394
 0 0 medium 0
@@ -706,7 +706,7 @@ The fire newt mother is watching her kids.
 lizard~
 BA 0 -355 0
 54 27 1d1+2739 1d1+40 7d7+27 slash
--18 -18 -18 -14
+-33 -33 -33 -29
 FENU 0 H 0
 stand stand female 3341
 0 0 medium 0
@@ -721,7 +721,7 @@ The fire newt baby is crawling and drooling here.
 lizard~
 BCA 0 -350 0
 44 22 1d1+1820 1d1+0 7d6+22 slash
--14 -14 -14 -10
+-29 -29 -29 -25
 FENU 0 H 0
 stand stand neutral 2269
 0 0 medium 0
@@ -736,7 +736,7 @@ He's just found something that doesn't belong here!
 lizard~
 BFA 0 -500 0
 58 29 1d1+3031 1d1+100 8d7+29 slash
--19 -19 -19 -15
+-34 -34 -34 -30
 FENU 0 H 0
 stand stand male 3621
 0 0 medium 0
@@ -751,7 +751,7 @@ The fire newt general grins evilly at you.
 lizard~
 BFA 0 -700 0
 59 29 1d1+3023 1d1+160 8d7+29 slash
--20 -20 -20 -17
+-35 -35 -35 -32
 FENU 0 H 0
 stand stand male 3672
 0 0 medium 0
@@ -766,7 +766,7 @@ The fire newt leader screams, 'I'm going to hose you!'
 lizard~
 BFLA DH -1000 0
 65 32 1d1+3957 1d1+260 8d8+32 slash
--23 -23 -23 -19
+-38 -38 -38 -34
 FENU 0 H 0
 stand stand male 4000
 0 0 medium 0
@@ -781,7 +781,7 @@ The fire newt priest is preparing for worship.
 lizard~
 BFLA DH -1000 0
 65 32 1d1+4029 1d1+200 8d8+32 slash
--23 -23 -23 -19
+-38 -38 -38 -34
 FENU 0 H 0
 stand stand male 3918
 0 0 medium 0
@@ -796,7 +796,7 @@ The fire lizard flicks its tongue at you.
 lizard~
 BFA DH -100 0
 62 31 1d1+3728 1d1+220 6d10+31 chomp
--22 -22 -22 -18
+-37 -37 -37 -33
 FENU 0 H 0
 stand stand neutral 3905
 0 0 medium 0

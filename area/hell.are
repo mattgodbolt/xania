@@ -13,7 +13,7 @@ circles around you.
 bat~
 F TZ -200 0
 65 0 55d12+8000 10d9+10 6d9+20 stab
-30 30 30 30
+15 15 15 15
 DFH 0 L ST
 stand stand neutral 0
 BGV ACDEFHJKP 2 0
@@ -29,7 +29,7 @@ The filthy waters of the Styx drip from it's rotten body.
 human~
 AFGO NZ -300 0
 68 0 55d12+9000 10d9+10 8d7+20 slice
-32 32 32 20
+17 17 17 5
 CEI F L ENS
 stand stand neutral 50
 BIMc ABCDEFGHIJK 3 0
@@ -48,7 +48,7 @@ onto the river all alone with this grim entity.
 human~
 ABCGOR HNVZ -800 0
 90 5 65d15+14500 2d500+200 5d8+19 slice
-50 50 50 50
+35 35 35 35
 ACEIKN AB LM HNL
 stand stand male 1000
 AHIMc ABCDEFGHIJK 4 0
@@ -64,7 +64,7 @@ fiery whip.
 goblin~
 ACGT J -500 0
 72 3 55d12+10000 10d9+10 8d8+16 slash
-30 30 30 5
+15 15 15 -10
 CDEKN H Q CN
 stand stand male 50
 AHMV ABCDEFGHIJK 2 0
@@ -79,7 +79,7 @@ except for two luminescent green eyes.
 orc~
 AFT JNZb -300 0
 76 0 55d12+11000 10d9+10 11d6+20 slice
-25 25 25 5
+10 10 10 -10
 DEFIKN FC Q HS
 stand stand neutral 0
 AHMV ABCDEFGHIJK 3 0
@@ -95,7 +95,7 @@ about the room.
 human~
 ABNVc O -200 0
 55 -1 35d10+5750 10d9+10 7d7+8 slice
-15 15 15 5
+0 0 0 -10
 CFIJN AB P R
 stand stand male 100
 AHMNV ABCDEFGIJKLQW 1 0
@@ -111,7 +111,7 @@ snaps a gioant whip of fire over hsi head.
 goblin~
 ABCT JVZ -500 0
 85 1 60d12+13250 10d9+10 15d5+20 slash
-40 40 40 0
+25 25 25 -15
 CDEK M Q C
 stand stand male 150
 AHMV ATK 4 0
@@ -126,7 +126,7 @@ fiery menace.  Steaming lava oozes and drips from its massive body.
 modron~
 ABCGR IJVcc -400 0
 88 2 60d12+14000 1d960+20 9d9+18 whip
-40 40 40 30
+25 25 25 15
 AEK BH K IR
 stand stand neutral 500
 AHJ ABCDEFGIKL 4 0
@@ -143,7 +143,7 @@ miseries of Hell.
 human~
 AFHT FJTVZ -500 0
 78 3 55d12+11500 10d9+10 9d8+12 slash
-30 30 30 10
+15 15 15 -5
 DFHK AR E O
 stand stand female 80
 AHNV ABDEFIJKLPU 2 0
@@ -159,7 +159,7 @@ armbone that goes right through its nose.
 troll~
 ACFTW FJc -500 0
 80 0 60d12+12000 10d9+10 15d5+20 slice
-25 25 25 0
+10 10 10 -15
 D A BE HK
 stand stand male 150
 ABHMV ABCDEFGHIJKUV 3 0
@@ -178,7 +178,7 @@ wooden pole in one arm, which you don't think is as harmless as it looks.
 human~
 ABCFORT DFHJVZ -900 0
 95 5 65d15+15750 1d1100+50 10d9+10 grep
-80 80 80 60
+65 65 65 45
 ABCDEFHIKN AB M N
 stand stand male 2500
 AHIMV ABCDEFGHIJK 4 0
@@ -193,7 +193,7 @@ molten fire except for two eyes which flicker as they stare at you.
 modron~
 ACFGHR IZ -500 0
 82 0 60d12+12500 1d840+20 15d5+10 whip
-32 32 32 25
+17 17 17 10
 KN AH KF IR
 stand stand neutral 80
 AHJ ABCDEFGIKL 2 0
@@ -209,7 +209,7 @@ head.  The fleshy remains of his last victim cling to his rotten fangs.
 goblin~
 ABFGT HDJ -750 0
 98 2 65d15+17000 10d9+10 10d9+20 whip
-60 60 60 10
+45 45 45 -5
 ACDFIKN AB Q N
 stand stand male 3000
 AHMV ABCDEFGHIJK 4 0
@@ -227,7 +227,7 @@ what master could possibly tame a beast such as this.
 wolf~
 ABCFG VZD -800 0
 98 3 65d15+17000 10d9+10 9d10+10 stab
-50 50 50 30
+35 35 35 15
 ADFH AB E HJ
 stand stand male 2000
 AGV ACDEFJQV 4 0

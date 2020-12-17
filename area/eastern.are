@@ -874,7 +874,7 @@ some rest.
 unique~
 CGHA P 900 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 200
 0 0 medium 0
@@ -890,7 +890,7 @@ LOTS of rest.
 unique~
 GA P 650 0
 8 3 1d1+164 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 331
 0 0 medium 0
@@ -906,7 +906,7 @@ and black.
 snake~
 GA 0 -10 0
 4 2 1d1+65 1d1+80 2d3+2 shbite
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand neutral 166
 0 0 medium 0
@@ -921,7 +921,7 @@ The little tail is mighty dangerous for such a small creature.
 unique~
 GA 0 -50 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand neutral 125
 0 0 medium 0
@@ -936,7 +936,7 @@ He's big, mean, and purple. Watch out!
 unique~
 BA 0 -100 0
 18 8 1d1+500 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand neutral 736
 0 0 medium 0
@@ -951,7 +951,7 @@ Then adds to it, 'Prepare to die, have a nice day!'
 dragon~
 BCFA DH 450 0
 30 15 1d1+1035 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENUC 0 0 0
 stand stand female 1566
 0 0 medium 0
@@ -968,7 +968,7 @@ about him.
 human~
 GHLA 0 950 0
 14 6 1d1+330 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 sit sit male 571
 0 0 medium 0
@@ -984,7 +984,7 @@ woven of silk and gold thread. A nasty cutlass hangs at his side.
 human~
 BLA 0 900 0
 12 5 1d1+280 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 497
 0 0 medium 0
@@ -998,7 +998,7 @@ A proud nomad warrior stands here.
 human~
 BA 0 700 0
 10 5 1d1+210 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 403
 0 0 medium 0
@@ -1012,7 +1012,7 @@ A young slave sits here staring at you with pleading eyes.
 human~
 BHA 0 1000 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 rest rest female 123
 0 0 medium 0
@@ -1028,7 +1028,7 @@ Obviously it no longer fears death.
 undead~
 ABFL DH -1000 0
 30 15 1d1+1031 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand neutral 1558
 0 0 medium 0
@@ -1043,7 +1043,7 @@ This half-spider, half-drow creature is a formidable opponent.
 half-elf~
 FGA D -1000 0
 8 3 1d1+168 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand female 331
 0 0 medium 0
@@ -1058,7 +1058,7 @@ The duergar could crush your head as easily as it does those rocks.
 dwarf~
 FGA D -850 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 201
 0 0 medium 0
@@ -1074,7 +1074,7 @@ has the same effect).
 unique~
 GHA D 850 0
 6 3 1d1+125 1d1+120 2d3+3 pound
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 245
 0 0 medium 0
@@ -1089,7 +1089,7 @@ The shaman shoots spores into the air.
 unique~
 BHA DH 850 0
 8 3 1d1+174 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 333
 0 0 medium 0
@@ -1103,7 +1103,7 @@ A small oasis invites you to dive in.
 unique~
 BCFA 0 -200 0
 7 3 1d1+151 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand neutral 293
 0 0 medium 0
@@ -1118,7 +1118,7 @@ Don't mess with this animal.
 unique~
 BFA 0 -351 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 209
 0 0 medium 0

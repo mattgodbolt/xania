@@ -2348,7 +2348,7 @@ undetectable as it moves.
 dog~
 GHA P 0 0
 5 2 1d1+80 1d1+100 2d3+2 bite
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 207
 0 0 medium 0
@@ -2366,7 +2366,7 @@ noticing him, and quietly disappears.
 elf~
 CFGHA JP 0 0
 8 4 1d1+169 1d1+160 3d3+4 slice
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 330
 0 0 medium 0
@@ -2382,7 +2382,7 @@ She glares at you, then quickly disappears before you see more of her.
 elf~
 CFGHA JP 0 0
 8 4 1d1+169 1d1+160 3d3+4 slice
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand female 324
 0 0 medium 0
@@ -2398,7 +2398,7 @@ He glares at your intrusion and attacks with menace.
 elf~
 BFA JP 0 0
 7 3 1d1+145 1d1+140 3d3+3 slice
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 284
 0 0 medium 0
@@ -2414,7 +2414,7 @@ She glares at your intrusion and attacks with menace.
 elf~
 BFA JP 0 0
 7 3 1d1+145 1d1+140 3d3+3 slice
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand female 292
 0 0 medium 0
@@ -2429,7 +2429,7 @@ The elf notices your intrusion and attacks with determination.
 elf~
 CFGA JP 0 0
 6 3 1d1+125 1d1+120 2d3+3 slice
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 244
 0 0 medium 0
@@ -2445,7 +2445,7 @@ when you are in her way.
 elf~
 GHA JP 0 0
 6 3 1d1+125 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 246
 0 0 medium 0
@@ -2462,7 +2462,7 @@ quite potent, though.
 elf~
 BCFA HN 0 0
 15 7 1d1+345 1d1+300 4d4+7 slice
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 620
 0 0 medium 0
@@ -2479,7 +2479,7 @@ quite potent, though.
 elf~
 BCFLA N 0 0
 15 7 1d1+345 1d1+300 4d4+7 slice
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand female 625
 0 0 medium 0
@@ -2495,7 +2495,7 @@ regular dragon, too.  It doesn't look happy.
 dragon~
 BFA 0 0 0
 20 10 1d1+550 1d1+400 4d5+10 flbite
--3 -3 -3 3
+-18 -18 -18 -12
 FENUC 0 0 0
 stand stand neutral 1020
 0 0 medium 0
@@ -2510,7 +2510,7 @@ He looks old and feeble.
 human~
 BCHA 0 0 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 121
 0 0 medium 0
@@ -2525,7 +2525,7 @@ Talemon looks harmless, but the fireballs he throws at you don't.
 elf~
 BCFA 0 0 0
 25 12 1d1+856 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1310
 0 0 medium 0
@@ -2541,7 +2541,7 @@ anger at you!
 modron~
 BFA 0 -500 0
 25 12 1d1+856 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand neutral 1256
 0 0 medium 0
@@ -2556,7 +2556,7 @@ The wolf is covered with brown hair.  It looks at you with fright.
 wolf~
 FHA 0 0 0
 4 2 1d1+70 1d1+80 2d3+2 bite
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand neutral 163
 0 0 medium 0
@@ -2572,7 +2572,7 @@ image of ... an antelope.
 unique~
 HA 0 0 0
 6 3 1d1+125 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 249
 0 0 medium 0

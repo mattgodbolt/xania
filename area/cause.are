@@ -344,7 +344,7 @@ The guardian of the causeway
 human~
 B HNTVW 0 0
 93 50 1d1+8593 1d1+1323 10d9+46 claw
--30  -30  -30  -10
+-45 -45 -45 -25
 CDEFHIKNU AB 0 0
 stand stand female 5660
 0 0 medium 0
@@ -357,7 +357,7 @@ An ugly monster that is your greed~
 human~
 B HNTVW 0 0
 93 50 1d1+8694 1d1+1323 10d9+46 claw
--30  -30  -30  -10
+-45 -45 -45 -25
 CDEFHIKNU AB 0 0
 stand stand female 5792
 0 0 medium 0
@@ -370,7 +370,7 @@ An ugly monster that is your pride~
 human~
 B HNTVW 0 0
 93 50 1d1+8666 1d1+1323 10d9+46 claw
--30  -30  -30  -10
+-45 -45 -45 -25
 CDEFHIKNU AB 0 0
 stand stand female 5695
 0 0 medium 0
@@ -383,7 +383,7 @@ An ugly monster that is your hatred~
 human~
 B HNTVW 0 0
 93 50 1d1+8700 1d1+1323 10d9+46 claw
--30  -30  -30  -10
+-45 -45 -45 -25
 CDEFHIKNU AB 0 0
 stand stand female 5848
 0 0 medium 0
@@ -396,7 +396,7 @@ An ugly monster that is your jealousy~
 human~
 B HNTVW 0 0
 93 50 1d1+8393 1d1+1323 10d9+46 claw
--30  -30  -30  -10
+-45 -45 -45 -25
 CDEFHIKNU AB 0 0
 stand stand female 5681
 0 0 medium 0
@@ -409,7 +409,7 @@ An ugly monster that is your self respect~
 human~
 B HNTVW 0 0
 93 50 1d1+8691 1d1+1323 10d9+46 claw
--30  -30  -30  -10
+-45 -45 -45 -25
 CDEFHIKNU AB 0 0
 stand stand female 5745
 0 0 medium 0
@@ -422,7 +422,7 @@ An ugly monster that is your honour~
 human~
 B HNTVW 0 0
 93 50  1d1+8494 1d1+1323 10 d9  ++46  5
--30  -30  -30  -10
+-45 -45 -45 -25
 CDEFHIKNU AB 0 0
 stand stand female 5760
 0 0 medium 0
@@ -435,7 +435,7 @@ An ugly monster that is your guilt~
 human~
 B HNTVW 0 0
 93 50  1d1+8486 1d1+1323 10 d9  ++46  5
--30  -30  -30  -10
+-45 -45 -45 -25
 CDEFHIKNU AB 0 0
 stand stand female 5810
 0 0 medium 0
@@ -448,7 +448,7 @@ An ugly monster that is your self doubt~
 human~
 B HNTVW 0 0
 93 50  1d1+8782 1d1+1323 10 d9  ++46  5
--30  -30  -30  -10
+-45 -45 -45 -25
 CDEFHIKNU AB 0 0
 stand stand female 5643
 0 0 medium 0
@@ -461,7 +461,7 @@ An adept of good~
 human~
 B HNTVW 1000 0
 110 50 1d1+10000 1d1+1323 10d10+55 claw
--30  -30  -30  -10
+-45 -45 -45 -25
 SCDEFHIKNU AB 0 0
 stand stand female 6776
 0 0 medium 0
@@ -474,7 +474,7 @@ An adept of evil ~
 human~
 B HNTVW 0 0
 110 50 1d1+10000 1d1+1323 10d10+55 claw
--30  -30  -30  -10
+-45 -45 -45 -25
 SCDEFHIKNU AB 0 0
 stand stand female 6605
 0 0 medium 0
@@ -487,7 +487,7 @@ God stands here ~
 human~
 B HNTVW 1000 0
 200 100 1d1+19296 1d1+1323 14d14+100 claw
--30 -30 -30 -10
+-45 -45 -45 -25
 CDEFHIKNU AB 0 0
 stand stand female 12479
 0 0 medium 0
@@ -500,7 +500,7 @@ Satan stand here~
 human~
 B HNTVW -1000 0
 200 100 1d1+19243 1d1+1323 14d14+100 claw
--30 -30 -30 -10
+-45 -45 -45 -25
 CDEFHIKNU AB 0 0
 stand stand female 12229
 0 0 medium 0
@@ -513,7 +513,7 @@ A wise old man sits here~
 human~
 B HNTVW 0 0
 93 50 1d1+8766 1d1+1323 10d9+46 claw
--30 -30 -30 -10
+-45 -45 -45 -25
 CDEFHIKNU AB 0 0
 stand stand female 5691
 0 0 medium 0

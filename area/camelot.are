@@ -18,7 +18,7 @@ the presence of this legendary mortal.
 human~
 BFLT DHV 1000 0
 105 55 12d10+10100 10d6+600 10d10+55 divine
--54 -50 -53 -30
+-69 -65 -68 -45
 CEFJK AB CIJKNQ 0
 stand stand male 8000
 0 0 large 0
@@ -33,7 +33,7 @@ is the greatest of the old people, believed to possess immense magical powers.
 human~
 BCGLR DEFHT -800 0
 100 50 9d4+9600 5d5+500 10d10+50 claw
--50 -50 -50 -40
+-65 -65 -65 -55
 ABEJK 0 CKNO X
 stand stand female 7522
 0 0 medium 0
@@ -49,7 +49,7 @@ all squishy animals.
 human~
 CGHQR DEFHT 850 0
 100 50 10d12+8800 10d12+550 9d10+50 blast
--46 -45 -48 -36
+-61 -60 -63 -51
 CDEFHJK BQ CJLNO 0
 stand stand male 0
 0 0 medium 0
@@ -65,7 +65,7 @@ Midgaard, with glinting jewels flashing like small flowers in the wind.
 human~
 GHQ CDEFHNcc 800 0
 85 42 10d20+6500 6d6+400 10d8+42 bite
--42 -42 -42 -25
+-57 -57 -57 -40
 CDEFHJKN AB HIJKMNPQ D
 stand stand female 0
 0 0 medium 0
@@ -80,7 +80,7 @@ tales tell.  Tall and muscular, his long tressess cover some of his battle scars
 human~
 GT CDEFHTVZaacc 950 0
 95 48 15d20+7500 6d4+500 10d9+48 pound
--46 -46 -46 -31
+-61 -61 -61 -46
 CDEFGIKLOT AB DEJMNOQ HI
 stand stand male 0
 0 0 large 0
@@ -96,7 +96,7 @@ as you realise that the sword in his hand is heading your way!
 human~
 BCFLT DEFHJV -1000 0
 95 48 15d20+7500 6d4+500 10d9+48 pound
--46 -46 -46 -31
+-61 -61 -61 -46
 ACDEFHJK AB MNOPQ IR
 stand stand male 0
 0 0 large 0
@@ -110,7 +110,7 @@ This man is one of the greatest in Arthur's disciplined army, you don't want to 
 human~
 CGHTcc CDEFHNTVcc 750 0
 78 39 20d10+4800 10d6+460 7d11+39 pound
--37 -37 -37 -23
+-52 -52 -52 -38
 CDEFHIJKLU AB 0 0
 stand stand male 0
 0 0 medium 0
@@ -125,7 +125,7 @@ new disciples." he moans.
 human~
 BCGHQ CHVZaacc 1000 0
 72 35 12d10+4500 10d6+700 7d10+35 divine
--35 -35 -35 -28
+-50 -50 -50 -43
 ACDEFGKNOQ AB CJKQ D
 stand rest male 0
 0 0 medium 0
@@ -139,7 +139,7 @@ The Court Jester has some sort of bladder on a stick which makes strange noises.
 human~
 CGHScc HPUVcc 0 0
 61 30 1d1+2999 1d1+899 6d10+30 pound
--30 -30 -30 -20
+-45 -45 -45 -35
 DEFHJKU J 0 RSX
 stand stand male 0
 0 0 medium 0
@@ -155,7 +155,7 @@ into place to cover her face.
 human~
 CGH HNTUcc 0 0
 42 21 2d12+1200 1d1+349 4d10+21 claw
--18 -19 -19 -12
+-33 -34 -34 -27
 CDEFKNU AB CJ E
 stand stand female 0
 0 0 medium 0
@@ -169,7 +169,7 @@ This poor looking peasant looks quite contented with his lot.
 human~
 CGH Ncc 0 0
 39 20 12d12+900 1d1+299 4d10+20 pound
--20 -20 -20 -10
+-35 -35 -35 -25
 CDEFNU S E 0
 stand stand male 0
 0 0 medium 0
@@ -184,7 +184,7 @@ control is phenomenal his face never twitches.
 human~
 BGTcc HNZcc 500 0
 53 27 12d20+1800 1d1+339 5d10+27 slash
--25 -25 -25 -15
+-40 -40 -40 -30
 CDEFHJKU AB 0 R
 stand stand male 0
 0 0 medium 0
@@ -199,7 +199,7 @@ cleaver!
 human~
 BHT HNVaacc 0 0
 44 22 12d6+1800 1d1+399 4d11+22 slash
--21 -22 -21 -10
+-36 -37 -36 -25
 DEFHIK AB MN X
 stand stand male 0
 0 0 medium 0
@@ -214,7 +214,7 @@ A short but powerful looking man who looks handy with a scythe.
 human~
 ABV 0 900 0
 23 15 1d1+999 1d1+99 4d6+15 beating
--15 -15 -15 -15
+-30 -30 -30 -30
 EFJ ABCD 0 0
 stand stand male 1300
 0 0 medium 0

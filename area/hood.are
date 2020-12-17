@@ -1297,7 +1297,7 @@ He's lived a life of violence ever since he was little.
 ogre~
 CEGA 0 -100 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 204
 0 0 medium 0
@@ -1312,7 +1312,7 @@ He wants to rid the world of every last Ogre gang member.
 troll~
 CEGA 0 +100 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 204
 0 0 medium 0
@@ -1327,7 +1327,7 @@ He's risen to be leader through brute force and cunning leadership.
 ogre~
 BFGA 0 0 0
 13 5 1d1+305 1d1+260 4d4+6 pound
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 534
 0 0 medium 0
@@ -1342,7 +1342,7 @@ He's 6'6" 245 pounds and enough muscle to bash your head in.
 ogre~
 CFGHA D -333 0
 10 4 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 416
 0 0 medium 0
@@ -1357,7 +1357,7 @@ She's a beauty (ok in RELATIVE terms) but you better not touch!
 ogre~
 CEGHA 0 0 0
 7 3 1d1+145 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand female 292
 0 0 medium 0
@@ -1372,7 +1372,7 @@ He'd rather be at the local pub then out here with these nasty kids.
 human~
 GA 0 +700 0
 8 4 1d1+169 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 322
 0 0 medium 0
@@ -1387,7 +1387,7 @@ He has a wary eye and a fine hand for art.
 ogre~
 HA P -400 0
 10 4 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 414
 0 0 medium 0
@@ -1403,7 +1403,7 @@ His fangs are blood-stained from hearty meals of ... steak?!
 fido~
 BFGA QD -100 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 202
 0 0 medium 0

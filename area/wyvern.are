@@ -1049,7 +1049,7 @@ The killer frog looks ravenous.
 unique~
 BFGA 0 -300 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 203
 0 0 medium 0
@@ -1064,7 +1064,7 @@ As you look, the figure seems to shift and move ...
 orc~
 BFGHA 0 -400 0
 9 4 1d1+190 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENUC 0 0 0
 stand stand male 360
 0 0 medium 0
@@ -1079,7 +1079,7 @@ He looks ready to attack!
 orc~
 CFGA 0 -600 0
 10 5 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENUC 0 0 0
 stand stand male 407
 0 0 medium 0
@@ -1094,7 +1094,7 @@ He snarls at you and says LEAVE OR DIE!
 orc~
 BCA 0 -600 0
 12 6 1d1+270 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENUC 0 0 0
 stand stand male 487
 0 0 medium 0
@@ -1109,7 +1109,7 @@ She says 'I can SEE you! I have been waiting ...'.
 orc~
 BCGA DF -900 0
 13 6 1d1+310 1d1+260 4d4+6 slash
-1 1 1 5
+-14 -14 -14 -10
 FENUC 0 0 0
 stand stand female 526
 0 0 medium 0
@@ -1124,7 +1124,7 @@ The plant looks something like a Venus fly-trap, only MUCH larger.
 unique~
 BFGA 0 0 0
 9 4 1d1+190 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand neutral 370
 0 0 medium 0
@@ -1139,7 +1139,7 @@ It thinks that perhaps you would make a better meal.
 giant~
 BCFGA 0 -200 0
 10 5 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENUC 0 0 0
 sit sit neutral 416
 0 0 medium 0
@@ -1154,7 +1154,7 @@ The Shadow is vaguely humanoid. Two glowing pinpoints look at you.
 elf~
 CFGA BDF -1000 0
 10 5 1d1+215 1d1+200 3d3+5 punch
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 413
 0 0 medium 0
@@ -1169,7 +1169,7 @@ He glares at you savagely and charges!
 elf~
 BCFGA DF -1000 0
 12 6 1d1+270 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 498
 0 0 medium 0
@@ -1184,7 +1184,7 @@ This powerful creature wonders whether to kill you or not ...
 minotaur~
 CGA D -600 0
 14 7 1d1+320 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 583
 0 0 medium 0
@@ -1199,7 +1199,7 @@ He looks up at you and screams 'SO! Coming to steal my hoard!'
 minotaur~
 BCFGA D -600 0
 15 6 1d1+355 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 614
 0 0 medium 0
@@ -1214,7 +1214,7 @@ He looks at you, and a sinister grin slowly spreads on his face ...
 minotaur~
 BCFGLA D -900 0
 17 8 1d1+463 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand male 693
 0 0 medium 0
@@ -1229,7 +1229,7 @@ It is a huge black blob that oozes about the room. Its heading toward YOU!
 unique~
 CFGA 0 -1000 0
 15 6 1d1+355 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 624
 0 0 medium 0
@@ -1244,7 +1244,7 @@ The golem appears to be made of some kind of clay, enchanted to come to life!
 giant~
 BGA D 0 0
 16 7 1d1+444 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENUC 0 0 0
 stand stand neutral 641
 0 0 medium 0
@@ -1259,7 +1259,7 @@ It thunders loudly 'I must protect my Master's wealth!'
 wyvern~
 CFGA DF -1000 0
 18 7 1d1+490 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 737
 0 0 medium 0
@@ -1274,7 +1274,7 @@ Terror fills your heart as you view this master of the undead.
 modron~
 CFGA BDH -1000 0
 19 9 1d1+521 1d1+380 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 765
 0 0 medium 0
@@ -1289,7 +1289,7 @@ The trapper is clad mostly in the fur of various animals he's caught.
 human~
 CA 0 0 0
 6 3 1d1+125 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 248
 0 0 medium 0
@@ -1304,7 +1304,7 @@ The hunter is rugged and sturdy from his occupation.
 human~
 CA 0 0 0
 8 4 1d1+169 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 rest rest male 327
 0 0 medium 0
@@ -1319,7 +1319,7 @@ The years of wanderings have left the ranger hardened and strong.
 human~
 CGA D 200 0
 12 6 1d1+270 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 rest rest male 495
 0 0 medium 0
@@ -1334,7 +1334,7 @@ This individual has quite a reputation at the local trading posts!
 human~
 BCA D 300 0
 15 6 1d1+355 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 600
 0 0 medium 0
@@ -1348,7 +1348,7 @@ The Lord of the Rangers catches your eye.
 human~
 BCLA D 400 0
 20 10 1d1+550 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1037
 0 0 medium 0
@@ -1363,7 +1363,7 @@ The centaur has the upper torso of a man and lower body of a horse.
 human~
 CA 0 200 0
 7 3 1d1+145 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 281
 0 0 medium 0
@@ -1378,7 +1378,7 @@ The centaur has the upper torso of a woman and lower body of a horse.
 human~
 CA 0 200 0
 7 3 1d1+145 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand female 292
 0 0 medium 0
@@ -1393,7 +1393,7 @@ This centaur has lived a full life.
 human~
 CA 0 200 0
 6 3 1d1+125 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 rest rest male 250
 0 0 medium 0
@@ -1408,7 +1408,7 @@ The elders act as counselors and advisors to the chief.
 human~
 BCA B 200 0
 9 4 1d1+190 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand male 373
 0 0 medium 0
@@ -1423,7 +1423,7 @@ He appears to be blocking entrance to the next room.
 human~
 BA B 200 0
 10 5 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 416
 0 0 medium 0
@@ -1439,7 +1439,7 @@ wisdom.
 human~
 BCA B 200 0
 12 6 1d1+270 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 rest rest male 501
 0 0 medium 0
@@ -1454,7 +1454,7 @@ As you watch this strange creature, its position seems to flicker and shift.
 wolf~
 HA 0 0 0
 10 5 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 416
 0 0 medium 0

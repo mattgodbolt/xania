@@ -17,7 +17,7 @@ face you can see a harshness, it would be wise not to test his patience.
 human~
 BQ CDFHV 1000 0
 112 56 1d1+7600 1d1+1444 10d11+56 wrath
--50 -50 -50 -50
+-65 -65 -65 -65
 FKIHE N C Z
 stand stand male 1236
 0 0 medium 0
@@ -33,7 +33,7 @@ A follower says 'Do you worship Wandera?'.
 human~
 GH V 600 0
 42 21 1d1+2100 1d1+604 8d5+21 punch
--5 -5 -5 0
+-20 -20 -20 -15
 Q AB J N
 sit sit male 27
 0 0 medium 0
@@ -49,7 +49,7 @@ He is wearing a shiny chainmail belt with a scalberd hanging from it.
 human~
 B HNV 900 0
 64 32 1d1+3200 1d1+868 8d8+32 slice
--10 -10 -10 -5
+-25 -25 -25 -20
 EDCFHIKN AEI D Z
 stand stand male 0
 0 0 large 0
@@ -64,7 +64,7 @@ His purpose for being on the land of Xania seems to be to make lots of money.
 human~
 CH KU -300 0
 23 11 1d1+1150 1d1+376 3d9+11 claw
--2 -2 -2 0
+-17 -17 -17 -15
 NE AN O Y
 stand stand male 0
 0 0 medium 0
@@ -82,7 +82,7 @@ things that you may find useful.
 human~
 B DFH 768 0
 78 39 1d1+3900 1d1+1036 1d1+100 cleave
--30 -30 -30 -30
+-45 -45 -45 -45
 CDBJFK AB CDNO I
 stand stand male 0
 0 0 medium 0

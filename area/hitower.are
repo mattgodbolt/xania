@@ -3271,7 +3271,7 @@ It seems to be made of nothing more than darkness ...
 unique~
 CFGA BDJP -350 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand neutral 375
 0 0 medium 0
@@ -3286,7 +3286,7 @@ He looks haggard and sickly; no doubt he's been lost here for quite some time.
 human~
 BCHA 0 400 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 sit sit male 323
 0 0 medium 0
@@ -3304,7 +3304,7 @@ bunny slayer himself, Edgar the Horrible!
 human~
 CEHA 0 1000 0
 1 0 1d1+20 1d1+20 1d2+0 slice
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 stand stand male 40
 0 0 medium 0
@@ -3319,7 +3319,7 @@ It looks quite strong.
 unique~
 BGA D 500 0
 23 11 1d1+760 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand neutral 1168
 0 0 medium 0
@@ -3335,7 +3335,7 @@ Then again, he may just have a headache.
 human~
 GHA D 450 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 407
 0 0 medium 0
@@ -3350,7 +3350,7 @@ He looks rather harmless, but then again so does a sleeping dragon.
 human~
 BGA D 750 0
 25 12 1d1+855 1d1+500 5d5+12 flbite
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1271
 0 0 medium 0
@@ -3365,7 +3365,7 @@ Tatorious winks at you mischievously.
 human~
 BGLA D 900 0
 25 12 1d1+848 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1308
 0 0 medium 0
@@ -3379,7 +3379,7 @@ Ezmerelda the cook is here stirring a large pot of something.
 human~
 BGA D -500 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand female 1014
 0 0 medium 0
@@ -3393,7 +3393,7 @@ The cook's assistant is here assisting the cook.
 human~
 BGHA D -200 0
 11 5 1d1+275 1d1+220 3d4+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 455
 0 0 medium 0
@@ -3413,7 +3413,7 @@ He looks quite mad, no doubt he's been mistreated horribly.
 orc~
 BCFGHA 0 100 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENUC 0 0 0
 stand stand male 655
 0 0 medium 0
@@ -3428,7 +3428,7 @@ He looks rather dirty.
 human~
 BGA D 100 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 sleep sleep male 707
 0 0 medium 0
@@ -3443,7 +3443,7 @@ The broom screams 'Take that you lout!'
 unique~
 BCFGA D 50 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand neutral 281
 0 0 medium 0
@@ -3458,7 +3458,7 @@ The hands twitch with anticipation of strangling someone.
 unique~
 FGA 0 -400 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand neutral 363
 0 0 medium 0
@@ -3473,7 +3473,7 @@ The eyes smolder with hatred.
 unique~
 FGA D -600 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 623
 0 0 medium 0
@@ -3488,7 +3488,7 @@ He looks quite sleepy.
 human~
 BCGHA D 250 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 sleep sleep male 488
 0 0 medium 0
@@ -3503,7 +3503,7 @@ She looks quite intent on her studies.
 human~
 BGHA 0 400 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 sit sit female 286
 0 0 medium 0
@@ -3518,7 +3518,7 @@ He looks to be oblivious to all but the spell he is memorizing.
 human~
 BGHA 0 380 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 289
 0 0 medium 0
@@ -3533,7 +3533,7 @@ He seems to be dreaming.
 human~
 BGHA 0 350 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 sleep sleep male 286
 0 0 medium 0
@@ -3548,7 +3548,7 @@ He looks like a mischievous youth.
 human~
 BGHA 0 -200 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 292
 0 0 medium 0
@@ -3564,7 +3564,7 @@ mark its mottled coat.
 cat~
 BGHA 0 500 0
 1 0 1d1+20 1d1+20 1d2+0 slash
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 stand stand female 40
 0 0 medium 0
@@ -3579,7 +3579,7 @@ The student yawns.
 human~
 BGHA 0 350 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 sit sit male 320
 0 0 medium 0
@@ -3594,7 +3594,7 @@ He looks quite angry at your interruption.
 half-elf~
 BFGA D 300 0
 14 7 1d1+350 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 572
 0 0 medium 0
@@ -3609,7 +3609,7 @@ He blinks in and out of existence, trying to master the spell.
 elf~
 BGHA BD 400 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 322
 0 0 medium 0
@@ -3623,7 +3623,7 @@ A spell teacher screams at your interruption and attacks.
 human~
 BFGA BD 300 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 618
 0 0 medium 0
@@ -3638,7 +3638,7 @@ She looks to have collapsed from sheer boredom.
 human~
 BGHA D 400 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 sleep sleep female 377
 0 0 medium 0
@@ -3652,7 +3652,7 @@ An old wizard is here making a speech
 dragon~
 BGHA D 400 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENUC 0 0 0
 stand stand male 752
 0 0 medium 0
@@ -3666,7 +3666,7 @@ A young mage is here learning hand to hand combat.
 human~
 BGHA D 300 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand male 377
 0 0 medium 0
@@ -3682,7 +3682,7 @@ user.
 elf~
 BFGA D 200 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand female 708
 0 0 medium 0
@@ -3696,7 +3696,7 @@ A spell teacher is here relaxing.
 human~
 BGA D 200 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 rest rest male 613
 0 0 medium 0
@@ -3710,7 +3710,7 @@ An aged wizard is sleeping here.
 human~
 BFGHLA D 350 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 sleep sleep male 1041
 0 0 medium 0
@@ -3724,7 +3724,7 @@ A scribe is here working on some manuscripts.
 human~
 BCGHA D 400 0
 14 7 1d1+350 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 571
 0 0 medium 0
@@ -3740,7 +3740,7 @@ lore she is translating.
 human~
 BGHA D 500 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand female 620
 0 0 medium 0
@@ -3756,7 +3756,7 @@ The master scribe screams 'How dare you interrupt my important work???'
 human~
 BFGHA D 100 0
 22 11 1d1+726 1d1+440 5d5+11 pound
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1132
 0 0 medium 0
@@ -3770,7 +3770,7 @@ The scribe's assistant is here folding parchments.
 human~
 BFGHA D 100 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 661
 0 0 medium 0
@@ -3784,7 +3784,7 @@ The Enchanter is here placing a dweomer upon well made sword.
 human~
 BFGLA D -200 0
 23 11 1d1+769 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1175
 0 0 medium 0
@@ -3799,7 +3799,7 @@ It looks quite sharp.
 unique~
 BFGA 0 -500 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 407
 0 0 medium 0
@@ -3817,7 +3817,7 @@ The Mad Alchemist throws back his head and cackles with insane glee!
 elf~
 BCFGHLA D 150 0
 24 12 1d1+805 1d1+480 5d5+12 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1258
 0 0 medium 0
@@ -3831,7 +3831,7 @@ The master summoner is here holding gateways open to other planes.
 dragon~
 BFGHLA D -200 0
 22 11 1d1+735 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENUC 0 0 0
 stand stand male 1136
 0 0 medium 0
@@ -3846,7 +3846,7 @@ The master charmer sizes you up, always looking for a new pet.
 dragon~
 BFA D -400 0
 23 11 1d1+794 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENUC 0 0 0
 stand stand male 1183
 0 0 medium 0
@@ -3861,7 +3861,7 @@ He looks flammable.
 unique~
 BFGA D 100 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 645
 0 0 medium 0
@@ -3876,7 +3876,7 @@ The master spell binder snarls at you and attacks.
 dragon~
 BCFGHLA D -500 0
 23 11 1d1+789 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENUC 0 0 0
 stand stand male 1175
 0 0 medium 0
@@ -3890,7 +3890,7 @@ The golem maker is here chiseling some stone.
 half-elf~
 BFGA D 300 0
 21 10 1d1+694 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1081
 0 0 medium 0
@@ -3905,7 +3905,7 @@ It looks like a statue, until you see it shamble towards you.
 unique~
 BFGA 0 300 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand neutral 1023
 0 0 medium 0
@@ -3920,7 +3920,7 @@ He looks rather dim witted.
 unique~
 BGA 0 350 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand neutral 750
 0 0 medium 0
@@ -3936,7 +3936,7 @@ resemble anything human.
 unique~
 BFGA 0 200 0
 12 6 1d1+300 1d1+240 3d4+6 punch
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand neutral 501
 0 0 medium 0
@@ -3951,7 +3951,7 @@ It looks like a bunch of old rags, quite surprising it can actually walk.
 unique~
 BCGA 0 350 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand neutral 321
 0 0 medium 0
@@ -3967,7 +3967,7 @@ but somewhat un-intelligent.
 unique~
 BCGA 0 350 0
 25 12 1d1+830 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand neutral 1281
 0 0 medium 0
@@ -3981,7 +3981,7 @@ A clay golem stands guard here.
 unique~
 BCFGA D 200 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 620
 0 0 medium 0
@@ -3997,7 +3997,7 @@ now stands a small harmless looking old man.
 dragon~
 BCGHLA D 150 0
 21 10 1d1+694 1d1+420 5d5+10 flbite
--4 -4 -4 3
+-19 -19 -19 -12
 FENUC 0 0 0
 stand stand male 1081
 0 0 medium 0
@@ -4015,7 +4015,7 @@ The Necromancer shrieks some obscenities and orders his minions to attack.
 dragon~
 BCFGHLA D -950 0
 25 12 1d1+857 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENUC 0 0 0
 stand stand male 1287
 0 0 medium 0
@@ -4030,7 +4030,7 @@ It feels no pain, and hacks at you ruthlessly.
 undead~
 BFGA D -500 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 627
 0 0 medium 0
@@ -4044,7 +4044,7 @@ An undead giant lumbers towards you.
 undead~
 BCFGA D -500 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand neutral 738
 0 0 medium 0
@@ -4061,7 +4061,7 @@ crawl with revulsion.
 orc~
 BCFGA D -450 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENUC 0 0 0
 stand stand female 1024
 0 0 medium 0
@@ -4076,7 +4076,7 @@ He looks like a rather peaceful old man.
 human~
 BFGHA D 450 0
 23 11 1d1+793 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 sleep sleep male 1205
 0 0 medium 0
@@ -4094,7 +4094,7 @@ alone.
 half-elf~
 BCFGA D 0 0
 24 12 1d1+827 1d1+480 5d5+12 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1222
 0 0 medium 0
@@ -4110,7 +4110,7 @@ contentedly.  It looks rather harmless, until you notice its very large claws.
 cat~
 BGA BP 0 0
 15 7 1d1+375 1d1+300 4d4+7 scratch
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand female 612
 0 0 medium 0
@@ -4125,7 +4125,7 @@ He looks quite peaceful.
 human~
 BGA DH 0 0
 30 15 1d1+1018 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1536
 0 0 medium 0
@@ -4142,7 +4142,7 @@ permanent scowl make her looks quite fearsome.
 human~
 BCFGA DP -750 0
 20 10 1d1+580 1d1+400 4d5+10 beating
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand female 1033
 0 0 medium 0
@@ -4158,7 +4158,7 @@ the question.
 cat~
 BGA DP -800 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 640
 0 0 medium 0
@@ -4173,7 +4173,7 @@ The master glares at you.
 dragon~
 BCGA DH -1000 0
 30 15 1d1+1033 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENUC 0 0 0
 stand stand male 1534
 0 0 medium 0
@@ -4189,7 +4189,7 @@ The apprentice screams 'Thou art unworthy of this honour!'
 human~
 BFGA D 750 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1026
 0 0 medium 0
@@ -4204,7 +4204,7 @@ It seems to be nothing more than a large ball of fluff with claws.
 cat~
 BGA DP 800 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 605
 0 0 medium 0
@@ -4219,7 +4219,7 @@ He looks like a self-righteous bastard.
 human~
 BGA DH 1000 0
 30 15 1d1+1001 1d1+600 5d5+15 slice
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1555
 0 0 medium 0
@@ -4235,7 +4235,7 @@ A beautiful jewel encrusted collar about its neck is its only adornment.
 cat~
 BGA DP 800 0
 25 12 1d1+847 1d1+500 5d5+12 pound
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand neutral 1282
 0 0 medium 0
@@ -4253,7 +4253,7 @@ The Grand Master pets her familiar and smiles at you in confidence.
 human~
 BGLA DH 0 0
 50 25 1d1+2064 1d1+1000 7d7+25 slash
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand female 2579
 0 0 medium 0
@@ -4267,7 +4267,7 @@ A wandering wizard is here mumbling to himself.
 human~
 CGA DP 350 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand male 691
 0 0 medium 0

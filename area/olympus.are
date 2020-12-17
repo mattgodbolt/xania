@@ -794,7 +794,7 @@ You now know what true fear is.
 unique~
 BCA BDFHNT 1000 0
 60 30 1d1+3146 1d1+1200 8d7+30 slash
--28 -28 -28 -9
+-43 -43 -43 -24
 FENU 0 0 0
 stand stand male 3737
 0 0 medium 0
@@ -810,7 +810,7 @@ looks up at you and smiles.
 unique~
 BCA BDFHNT 1000 0
 51 25 1d1+2663 1d1+1020 7d7+25 punch
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand male 3063
 0 0 medium 0
@@ -827,7 +827,7 @@ even notice your presence.
 unique~
 CA BDFHNPT 1000 0
 56 28 1d1+2871 1d1+1120 7d7+28 slash
--25 -25 -25 -8
+-40 -40 -40 -23
 FENU 0 0 0
 stand stand male 3361
 0 0 medium 0
@@ -844,7 +844,7 @@ have a seat.
 unique~
 BCA BDFHNT 1000 0
 59 29 1d1+2966 1d1+1180 8d7+29 slice
--27 -27 -27 -9
+-42 -42 -42 -24
 FENU 0 0 0
 sit sit male 3684
 0 0 medium 0
@@ -861,7 +861,7 @@ that he knows more than music.
 unique~
 BCA BDFHNT 1000 0
 58 29 1d1+2918 1d1+1160 8d7+29 slash
--27 -27 -27 -9
+-42 -42 -42 -24
 FENU 0 0 0
 stand stand male 3488
 0 0 medium 0
@@ -877,7 +877,7 @@ and says 'I am very busy.  What do you want?'
 unique~
 BCFA BDFHT -1000 0
 59 29 1d1+3052 1d1+1180 8d7+29 slash
--27 -27 -27 -9
+-42 -42 -42 -24
 FENU 0 0 0
 stand stand male 3625
 0 0 medium 0
@@ -893,7 +893,7 @@ you and invites you to join her.
 unique~
 BCA BDFHNT 1000 0
 56 28 1d1+2855 1d1+1120 7d7+28 slash
--25 -25 -25 -8
+-40 -40 -40 -23
 FENU 0 0 0
 stand stand female 3517
 0 0 medium 0
@@ -910,7 +910,7 @@ way to help you.  He is attended by three golden maidens.
 unique~
 BCA BDFHNT 1000 0
 55 27 1d1+2785 1d1+1100 7d7+27 slash
--25 -25 -25 -8
+-40 -40 -40 -23
 FENU 0 0 0
 stand stand male 3372
 0 0 medium 0
@@ -926,7 +926,7 @@ gold.  She seems to be very lifelike as she assists the smith in his work.
 unique~
 BCA BDFHNT 0 0
 26 13 1d1+861 1d1+520 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand female 1337
 0 0 medium 0
@@ -942,7 +942,7 @@ realize that Ares would not have any weaklings working for him.
 human~
 BCFA BDFHT 0 0
 35 17 1d1+1277 1d1+700 6d6+17 slash
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand male 1766
 0 0 medium 0
@@ -958,7 +958,7 @@ immortal Apollo.
 human~
 BCA BDFHT 1000 0
 14 7 1d1+350 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 577
 0 0 medium 0
@@ -973,7 +973,7 @@ This boy is truly lucky to be able to serve Athena herself.
 human~
 BCA BDFHT 1000 0
 6 3 1d1+138 1d1+120 2d3+3 slice
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 242
 0 0 medium 0
@@ -989,7 +989,7 @@ on the battle field, and you have no doubt that it does its job well.
 unique~
 BCFA BDFHT -600 0
 35 17 1d1+1254 1d1+700 6d6+17 acbite
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand neutral 1819
 0 0 medium 0
@@ -1006,7 +1006,7 @@ presence.
 unique~
 BCA BDFHNT 1000 0
 60 30 1d1+3112 1d1+1200 8d7+30 slash
--28 -28 -28 -9
+-43 -43 -43 -24
 FENU 0 0 0
 stand stand male 3749
 0 0 medium 0
@@ -1024,7 +1024,7 @@ of delicious looking foods.
 human~
 BCA BDFHNT 1000 0
 50 25 1d1+2060 1d1+1000 7d7+25 slash
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand male 2552
 0 0 medium 0
@@ -1041,7 +1041,7 @@ arcane supplies.
 human~
 BCA BDFHNT 1000 0
 50 25 1d1+2079 1d1+1000 7d7+25 slash
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand male 2608
 0 0 medium 0
@@ -1057,7 +1057,7 @@ paid off.
 human~
 BCA BDFHNT 1000 0
 50 25 1d1+2064 1d1+1000 7d7+25 slash
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand male 2599
 0 0 medium 0
@@ -1073,7 +1073,7 @@ He doesn't like what you've been doing in his city.
 human~
 BCFA BDFHNT 1000 0
 34 17 1d1+1210 1d1+680 6d6+17 slash
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand male 1744
 0 0 medium 0
@@ -1090,7 +1090,7 @@ to be trifled with.
 human~
 BCA BDFHNT 1000 0
 60 30 1d1+3069 1d1+1200 8d7+30 slash
--28 -28 -28 -9
+-43 -43 -43 -24
 FENU 0 0 0
 stand stand male 3730
 0 0 medium 0
@@ -1106,7 +1106,7 @@ of a dragon.  It growls at you as you enter the cell, then suddenly attacks!
 dragon~
 BCFA BDFHT -1000 0
 34 17 1d1+1231 1d1+680 6d6+17 flbite
--12 -12 -12 -1
+-27 -27 -27 -16
 FENUC 0 0 0
 stand stand male 1727
 0 0 medium 0
@@ -1122,7 +1122,7 @@ to rest and sit for a while.
 unique~
 BCA BDFHNT 1000 0
 59 29 1d1+3080 1d1+1180 8d7+29 slash
--27 -27 -27 -9
+-42 -42 -42 -24
 FENU 0 0 0
 stand stand female 3646
 0 0 medium 0
@@ -1138,7 +1138,7 @@ looks away.
 eagle~
 CA BDFHNT 0 0
 25 12 1d1+837 1d1+500 5d5+12 pound
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand neutral 1289
 0 0 medium 0
@@ -1153,7 +1153,7 @@ He looks happy and carefree.  He smiles and tips his hat to you.
 human~
 CA BDFHNT 1000 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 242
 0 0 medium 0
@@ -1169,7 +1169,7 @@ threatening, it seems as though it would be dangerous if provoked.
 unique~
 CA BDFHNT 0 0
 14 7 1d1+350 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand neutral 584
 0 0 medium 0
@@ -1184,7 +1184,7 @@ This man looks as is he has been spending WAY too much time in the kitchen.
 human~
 BCA BDFHNT 1000 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 326
 0 0 medium 0
@@ -1200,7 +1200,7 @@ prisoners.
 human~
 BCA BDFHNT 0 0
 22 11 1d1+731 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1132
 0 0 medium 0

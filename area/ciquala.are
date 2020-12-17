@@ -389,7 +389,7 @@ light for eyes.
 undead~
 BCFLA BJQT -1000 0
 33 16 1d1+1177 1d1+660 6d6+16 slash
--11 -11 -11 -1
+-26 -26 -26 -16
 FENU 0 0 0
 stand stand male 1676
 0 0 medium 0
@@ -406,7 +406,7 @@ twisted, warped creatures to serve Ciquala.
 undead~
 BCFHA DFJ -1000 0
 22 11 1d1+731 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1105
 0 0 medium 0
@@ -423,7 +423,7 @@ much like that of an insect.  Long talons reach out for you to shred you alive.
 undead~
 GFHA DFT -1000 0
 40 20 1d1+1448 1d1+800 6d6+20 slash
--15 -15 -15 -3
+-30 -30 -30 -18
 FENU 0 0 0
 stand stand male 2018
 0 0 medium 0
@@ -439,7 +439,7 @@ realize that flies (or itself) exist.
 unique~
 BA HN 0 0
 35 17 1d1+1253 1d1+700 6d6+17 slice
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand male 1787
 0 0 medium 0
@@ -454,7 +454,7 @@ slowly eating the wood away.  It is a black pudding!
 unique~
 BA 0 -1000 0
 37 18 1d1+1343 1d1+740 6d6+18 slash
--14 -14 -14 -2
+-29 -29 -29 -17
 FENU 0 0 0
 stand stand male 1926
 0 0 medium 0
@@ -470,7 +470,7 @@ recognize.  He stands about 8' tall, brushing the ceiling.
 giant~
 BA H 0 0
 50 25 1d1+2010 1d1+1000 7d7+25 slash
--22 -22 -22 -6
+-37 -37 -37 -21
 FENUC 0 0 0
 stand stand male 2518
 0 0 medium 0
@@ -486,7 +486,7 @@ to speak.  As it approaches you, a harsh chill makes you shiver.
 undead~
 BFA DBT -1000 0
 45 22 1d1+1816 1d1+900 7d7+22 slash
--19 -19 -19 -5
+-34 -34 -34 -20
 FENU 0 0 0
 stand stand male 2348
 0 0 medium 0
@@ -502,7 +502,7 @@ it drops on you!
 elf~
 BHA 0 -1000 0
 27 13 1d1+923 1d1+540 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand male 1367
 0 0 medium 0
@@ -519,7 +519,7 @@ on him.
 undead~
 BFA BDFH -1000 0
 37 18 1d1+1348 1d1+740 6d6+18 slash
--14 -14 -14 -2
+-29 -29 -29 -17
 FENU 0 0 0
 stand stand male 1923
 0 0 medium 0
@@ -535,7 +535,7 @@ opponent.~
 human~
 BA N -1000 0
 30 15 1d1+1012 1d1+600 5d5+15 punch
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1560
 0 0 medium 0
@@ -551,7 +551,7 @@ opponent.~
 human~
 BA N -250 0
 33 16 1d1+1166 1d1+660 6d6+16 punch
--11 -11 -11 -1
+-26 -26 -26 -16
 FENU 0 0 0
 stand stand male 1680
 0 0 medium 0
@@ -567,7 +567,7 @@ opponent.~
 human~
 BA N 250 0
 36 18 1d1+1281 1d1+720 6d6+18 punch
--13 -13 -13 -2
+-28 -28 -28 -17
 FENU 0 0 0
 stand stand male 1838
 0 0 medium 0
@@ -583,7 +583,7 @@ opponent.~
 human~
 BA N 1000 0
 39 19 1d1+1368 1d1+780 6d6+19 punch
--15 -15 -15 -3
+-30 -30 -30 -18
 FENU 0 0 0
 stand stand male 1970
 0 0 medium 0
@@ -598,7 +598,7 @@ You'd better not look to close, he may charm you.
 orc~
 BA JH -1000 0
 41 20 1d1+1716 1d1+820 6d6+20 slash
--16 -16 -16 -3
+-31 -31 -31 -18
 FENUC 0 0 0
 stand stand male 2136
 0 0 medium 0
@@ -613,7 +613,7 @@ This skeletal dragon has a neck tag that says 'I belong to Ciquala'
 dragon~
 BLA H -1000 0
 50 25 1d1+2080 1d1+1000 7d7+25 flbite
--22 -22 -22 -6
+-37 -37 -37 -21
 FENUC 0 0 0
 stand stand female 2532
 0 0 medium 0
@@ -630,7 +630,7 @@ see the menace in her eye as she looks at you, and prepares her first spell.
 undead~
 BFLA DHT -1000 0
 52 26 1d1+2690 1d1+1040 7d7+26 slash
--23 -23 -23 -7
+-38 -38 -38 -22
 FENU 0 0 0
 stand stand female 3172
 0 0 medium 0
@@ -646,7 +646,7 @@ light for eyes.
 undead~
 BCFA B -1000 0
 37 18 1d1+1302 1d1+740 6d6+18 slash
--14 -14 -14 -2
+-29 -29 -29 -17
 FENU 0 0 0
 stand stand male 1876
 0 0 medium 0
@@ -663,7 +663,7 @@ large fangs that seem to grow longer as he looks back at you.
 undead~
 BCFLA BT -1000 0
 47 23 1d1+1932 1d1+940 7d7+23 slash
--20 -20 -20 -5
+-35 -35 -35 -20
 FENU 0 0 0
 stand stand male 2384
 0 0 medium 0

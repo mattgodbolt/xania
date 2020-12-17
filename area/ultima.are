@@ -3324,7 +3324,7 @@ up of hundreds of annoying insects.
 unique~
 FA T -200 0
 2 1 1d1+40 1d1+40 1d2+1 slash
-0 0 0 0
+-15 -15 -15 -15
 FENU 0 0 0
 stand stand neutral 81
 0 0 medium 0
@@ -3340,7 +3340,7 @@ annoying creature usually travel in flocks, so WATCH OUT.
 bat~
 BFA T -500 0
 4 2 1d1+80 1d1+80 2d3+2 acbite
--1 -1 -1 -1
+-16 -16 -16 -16
 FENU 0 0 0
 stand stand male 167
 0 0 medium 0
@@ -3358,7 +3358,7 @@ his proud dignity and begin to sense that he was once a warrior.
 human~
 GA 0 1000 0
 4 2 1d1+80 1d1+80 2d3+2 slash
--1 -1 -1 -1
+-16 -16 -16 -16
 FENU 0 0 0
 stand stand male 164
 0 0 medium 0
@@ -3375,7 +3375,7 @@ look up at you expectantly.
 human~
 HA 0 1000 0
 3 1 1d1+60 1d1+60 2d3+1 slash
--1 -1 -1 0
+-16 -16 -16 -15
 FENU 0 0 0
 stand stand female 124
 0 0 medium 0
@@ -3391,7 +3391,7 @@ sheep has pure white fleece.
 unique~
 BHA 0 1000 0
 3 1 1d1+60 1d1+60 2d3+1 slash
--1 -1 -1 0
+-16 -16 -16 -15
 FENU 0 0 0
 stand stand neutral 124
 0 0 medium 0
@@ -3409,7 +3409,7 @@ great warrior and an able guardian of New Magincia.
 human~
 GCA H 1000 0
 5 2 1d1+100 1d1+100 2d3+2 slash
--1 -1 -1 -1
+-16 -16 -16 -16
 FENU 0 0 0
 stand stand female 201
 0 0 medium 0
@@ -3427,7 +3427,7 @@ teeth.
 unique~
 FA 0 -1000 0
 5 2 1d1+100 1d1+100 2d3+2 pound
--1 -1 -1 -1
+-16 -16 -16 -16
 FENU 0 0 0
 stand stand neutral 205
 0 0 medium 0
@@ -3444,7 +3444,7 @@ poison.
 unique~
 BCFA 0 -1000 0
 8 4 1d1+184 1d1+160 3d3+4 slash
--2 -2 -2 -2
+-17 -17 -17 -17
 FENU 0 0 0
 stand stand neutral 335
 0 0 medium 0
@@ -3461,7 +3461,7 @@ glances at you, and returns to his study.
 elf~
 GA E 1000 0
 6 3 1d1+138 1d1+120 2d3+3 slash
--2 -2 -2 -1
+-17 -17 -17 -16
 FENU 0 0 0
 stand stand male 240
 0 0 medium 0
@@ -3478,7 +3478,7 @@ power radiates from him.
 elf~
 BA H 1000 0
 30 15 1d1+1034 1d1+600 5d5+15 slash
--10 -10 -10 -7
+-25 -25 -25 -22
 FENU 0 0 0
 stand stand male 1538
 0 0 medium 0
@@ -3495,7 +3495,7 @@ serene in her total devotion to the virtue of Honesty.
 elf~
 GA H 1000 0
 8 4 1d1+184 1d1+160 3d3+4 slash
--2 -2 -2 -2
+-17 -17 -17 -17
 FENU 0 0 0
 stand stand female 335
 0 0 medium 0
@@ -3512,7 +3512,7 @@ reproduce.
 unique~
 FHA 0 -1000 0
 7 3 1d1+161 1d1+140 3d3+3 slash
--2 -2 -2 -1
+-17 -17 -17 -16
 FENU 0 0 0
 stand stand neutral 284
 0 0 medium 0
@@ -3528,7 +3528,7 @@ sense spilled beer, and the distinctive taste of human.
 snake~
 FHA 0 -1000 0
 9 4 1d1+207 1d1+180 3d3+4 punch
--3 -3 -3 -2
+-18 -18 -18 -17
 FENU 0 0 0
 stand stand male 373
 0 0 medium 0
@@ -3545,7 +3545,7 @@ body and his much practiced jaw muscles can be very dangerous.
 human~
 BA 0 500 0
 25 12 1d1+862 1d1+500 5d5+12 slash
--8 -8 -8 -6
+-23 -23 -23 -21
 FENU 0 0 0
 stand stand male 1279
 0 0 medium 0
@@ -3562,7 +3562,7 @@ dances.
 hobbit~
 BA 0 750 0
 9 4 1d1+207 1d1+180 3d3+4 slash
--3 -3 -3 -2
+-18 -18 -18 -17
 FENU 0 0 0
 stand stand male 367
 0 0 medium 0
@@ -3578,7 +3578,7 @@ But help him out gov, give him a few coins.
 human~
 A 0 500 0
 8 4 1d1+184 1d1+160 3d3+4 slash
--2 -2 -2 -2
+-17 -17 -17 -17
 FENU 0 0 0
 stand stand male 331
 0 0 medium 0
@@ -3597,7 +3597,7 @@ Compassion that he embodies, he holds out a bottle for you.
 human~
 BA H 1000 0
 11 5 1d1+275 1d1+220 3d4+5 slash
--3 -3 -3 -2
+-18 -18 -18 -17
 FENU 0 0 0
 stand stand male 444
 0 0 medium 0
@@ -3615,7 +3615,7 @@ hands, and when he dance the bells on his hat jingle merrily.
 human~
 BA H 1000 0
 33 16 1d1+1212 1d1+660 6d6+16 slash
--11 -11 -11 -8
+-26 -26 -26 -23
 FENU 0 0 0
 stand stand male 1703
 0 0 medium 0
@@ -3632,7 +3632,7 @@ citizen, he knows the value of a good party.
 human~
 A 0 1000 0
 9 4 1d1+207 1d1+180 3d3+4 slash
--3 -3 -3 -2
+-18 -18 -18 -17
 FENU 0 0 0
 stand stand male 375
 0 0 medium 0
@@ -3652,7 +3652,7 @@ them out the door.
 hobbit~
 A H 1000 0
 31 15 1d1+1111 1d1+620 6d5+15 slash
--10 -10 -10 -7
+-25 -25 -25 -22
 FENU 0 0 0
 stand stand female 1564
 0 0 medium 0
@@ -3668,7 +3668,7 @@ it armpits.  It travels in herds and is a coward.
 orc~
 FHA 0 -1000 0
 11 5 1d1+275 1d1+220 3d4+5 pound
--3 -3 -3 -2
+-18 -18 -18 -17
 FENUC 0 0 0
 stand stand male 440
 0 0 medium 0
@@ -3684,7 +3684,7 @@ head taller then you, his meaty arms swings a club at you.
 troll~
 FA 0 -1000 0
 13 6 1d1+325 1d1+260 4d4+6 slash
--4 -4 -4 -3
+-19 -19 -19 -18
 FENU 0 0 0
 stand stand male 536
 0 0 medium 0
@@ -3701,7 +3701,7 @@ It looks peaceful, but will defend itself.
 modron~
 CA H 0 0
 15 7 1d1+375 1d1+300 4d4+7 slice
--5 -5 -5 -3
+-20 -20 -20 -18
 FENU 0 0 0
 stand stand neutral 627
 0 0 medium 0
@@ -3720,7 +3720,7 @@ power.
 dwarf~
 A 0 1000 0
 12 6 1d1+300 1d1+240 3d4+6 slash
--4 -4 -4 -3
+-19 -19 -19 -18
 FENU 0 0 0
 stand stand male 490
 0 0 medium 0
@@ -3738,7 +3738,7 @@ seeking Justice.
 dwarf~
 BA 0 1000 0
 12 6 1d1+300 1d1+240 3d4+6 slash
--4 -4 -4 -3
+-19 -19 -19 -18
 FENU 0 0 0
 stand stand female 502
 0 0 medium 0
@@ -3758,7 +3758,7 @@ bare hands.
 human~
 BA H 1000 0
 32 16 1d1+1144 1d1+640 6d6+16 slash
--10 -10 -10 -8
+-25 -25 -25 -23
 FENU 0 0 0
 stand stand male 1616
 0 0 medium 0
@@ -3775,7 +3775,7 @@ has gone to the woods to drive life into a corner.
 dwarf~
 A HW 1000 0
 15 7 1d1+375 1d1+300 4d4+7 pound
--5 -5 -5 -3
+-20 -20 -20 -18
 FENU 0 0 0
 stand stand female 609
 0 0 medium 0
@@ -3792,7 +3792,7 @@ something black in his hands.
 elf~
 BHA P -666 0
 11 5 1d1+275 1d1+220 3d4+5 slash
--3 -3 -3 -2
+-18 -18 -18 -17
 FENU 0 0 0
 stand stand male 452
 0 0 medium 0
@@ -3808,7 +3808,7 @@ MURDER.  It took many guards and druids to restrain this beast.
 elf~
 BFA 0 -1000 0
 14 7 1d1+350 1d1+280 4d4+7 slash
--4 -4 -4 -3
+-19 -19 -19 -18
 FENU 0 0 0
 stand stand male 564
 0 0 medium 0
@@ -3826,7 +3826,7 @@ Virtue.
 human~
 HA 0 1000 0
 13 6 1d1+325 1d1+260 4d4+6 slice
--4 -4 -4 -3
+-19 -19 -19 -18
 FENU 0 0 0
 stand stand male 525
 0 0 medium 0
@@ -3844,7 +3844,7 @@ kick back and enjoy a drink.
 human~
 A 0 1000 0
 10 5 1d1+230 1d1+200 3d3+5 slash
--3 -3 -3 -2
+-18 -18 -18 -17
 FENU 0 0 0
 stand stand male 402
 0 0 medium 0
@@ -3860,7 +3860,7 @@ drink and eat.
 human~
 BA 0 1000 0
 13 6 1d1+325 1d1+260 4d4+6 slash
--4 -4 -4 -3
+-19 -19 -19 -18
 FENU 0 0 0
 stand stand female 532
 0 0 medium 0
@@ -3876,7 +3876,7 @@ have double the intelligence.  But in fact it has half.
 dog~
 FA 0 -1000 0
 16 8 1d1+464 1d1+320 4d4+8 slash
--5 -5 -5 -4
+-20 -20 -20 -19
 FENU 0 0 0
 stand stand neutral 659
 0 0 medium 0
@@ -3893,7 +3893,7 @@ but your money pouch seems much lighter.
 goblin~
 CHA PQ -1000 0
 15 7 1d1+375 1d1+300 4d4+7 slash
--5 -5 -5 -3
+-20 -20 -20 -18
 FENU 0 0 0
 stand stand neutral 607
 0 0 medium 0
@@ -3910,7 +3910,7 @@ creatures are strong and endurable.
 unique~
 FA 0 -1000 0
 19 9 1d1+551 1d1+380 4d4+9 slash
--6 -6 -6 -4
+-21 -21 -21 -19
 FENU 0 0 0
 stand stand neutral 772
 0 0 medium 0
@@ -3929,7 +3929,7 @@ clean them out.
 giant~
 A 0 1000 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--6 -6 -6 -4
+-21 -21 -21 -19
 FENUC 0 0 0
 stand stand female 721
 0 0 medium 0
@@ -3947,7 +3947,7 @@ Valor.
 giant~
 A H 1000 0
 22 11 1d1+727 1d1+440 5d5+11 slash
--7 -7 -7 -5
+-22 -22 -22 -20
 FENUC 0 0 0
 stand stand male 1145
 0 0 medium 0
@@ -3965,7 +3965,7 @@ solidified into a human form.
 giant~
 A H 1000 0
 33 16 1d1+1162 1d1+660 6d6+16 punch
--11 -11 -11 -8
+-26 -26 -26 -23
 FENUC 0 0 0
 stand stand male 1724
 0 0 medium 0
@@ -3981,7 +3981,7 @@ Beware adventurer of the Mimic.
 unique~
 FA 0 -1000 0
 26 13 1d1+888 1d1+520 5d5+13 slash
--8 -8 -8 -6
+-23 -23 -23 -21
 FENU 0 0 0
 stand stand neutral 1364
 0 0 medium 0
@@ -3998,7 +3998,7 @@ making you forget who you are....
 unique~
 FA 0 -1000 0
 23 11 1d1+792 1d1+460 5d5+11 slash
--7 -7 -7 -5
+-22 -22 -22 -20
 FENU 0 0 0
 stand stand neutral 1186
 0 0 medium 0
@@ -4016,7 +4016,7 @@ fight.
 dwarf~
 A 0 1000 0
 25 12 1d1+836 1d1+500 5d5+12 slash
--8 -8 -8 -6
+-23 -23 -23 -21
 FENU 0 0 0
 stand stand male 1303
 0 0 medium 0
@@ -4034,7 +4034,7 @@ Keeper of Oral History, as well as a prominent weaponsmith.
 dwarf~
 BA H 1000 0
 28 14 1d1+958 1d1+560 5d5+14 slash
--9 -9 -9 -7
+-24 -24 -24 -22
 FENU 0 0 0
 stand stand female 1403
 0 0 medium 0
@@ -4051,7 +4051,7 @@ knocks you down.  You cannot hurt this one.
 human~
 A H 1000 0
 34 17 1d1+1213 1d1+680 6d6+17 slash
--11 -11 -11 -8
+-26 -26 -26 -23
 FENU 0 0 0
 stand stand female 1709
 0 0 medium 0
@@ -4068,7 +4068,7 @@ like, but it is a dangerous foe.
 human~
 CFHA PQ -1000 0
 29 14 1d1+1002 1d1+580 5d5+14 slash
--9 -9 -9 -7
+-24 -24 -24 -22
 FENU 0 0 0
 stand stand neutral 1510
 0 0 medium 0
@@ -4086,7 +4086,7 @@ to it.  And doesn't talk about annoying C terms.
 dragon~
 BFA 0 -1000 0
 32 16 1d1+1128 1d1+640 6d6+16 flbite
--10 -10 -10 -8
+-25 -25 -25 -23
 FENUC 0 0 0
 stand stand neutral 1643
 0 0 medium 0
@@ -4104,7 +4104,7 @@ is among Brittannia's most powerful battalion.
 dwarf~
 A 0 1000 0
 30 15 1d1+1016 1d1+600 5d5+15 acbite
--10 -10 -10 -7
+-25 -25 -25 -22
 FENU 0 0 0
 stand stand male 1500
 0 0 medium 0
@@ -4121,7 +4121,7 @@ trying to figure out a plan of attack to get the dragon.
 dwarf~
 BA H 1000 0
 33 16 1d1+1187 1d1+660 6d6+16 flbite
--11 -11 -11 -8
+-26 -26 -26 -23
 FENU 0 0 0
 stand stand male 1692
 0 0 medium 0
@@ -4138,7 +4138,7 @@ up for disadvantage.
 unique~
 BFA 0 -1000 0
 31 15 1d1+1123 1d1+620 6d5+15 slash
--10 -10 -10 -7
+-25 -25 -25 -22
 FENU 0 0 0
 stand stand neutral 1579
 0 0 medium 0
@@ -4155,7 +4155,7 @@ strong and his aura is overpowering.
 bat~
 A H 1000 0
 35 17 1d1+1232 1d1+700 6d6+17 punch
--11 -11 -11 -8
+-26 -26 -26 -23
 FENU 0 0 0
 stand stand male 1789
 0 0 medium 0
@@ -4171,7 +4171,7 @@ through some responsibility.
 undead~
 A 0 1000 0
 32 16 1d1+1139 1d1+640 6d6+16 slash
--10 -10 -10 -8
+-25 -25 -25 -23
 FENU 0 0 0
 stand stand neutral 1609
 0 0 medium 0
@@ -4187,7 +4187,7 @@ evilness and swoops over to you.
 undead~
 FA 0 -1000 0
 32 16 1d1+1136 1d1+640 6d6+16 slash
--10 -10 -10 -8
+-25 -25 -25 -23
 FENU 0 0 0
 stand stand neutral 1629
 0 0 medium 0
@@ -4205,7 +4205,7 @@ nightly meals of flesh and bone.
 undead~
 FA 0 -1000 0
 33 16 1d1+1188 1d1+660 6d6+16 slash
--11 -11 -11 -8
+-26 -26 -26 -23
 FENU 0 0 0
 stand stand neutral 1668
 0 0 medium 0
@@ -4222,7 +4222,7 @@ Right now he seems to be busy... killing you.
 modron~
 FA H -1000 0
 34 17 1d1+1248 1d1+680 6d6+17 slash
--11 -11 -11 -8
+-26 -26 -26 -23
 FENU 0 0 0
 stand stand neutral 1730
 0 0 medium 0
@@ -4239,7 +4239,7 @@ strength to persevere.
 human~
 A 0 1000 0
 33 16 1d1+1168 1d1+660 6d6+16 slash
--11 -11 -11 -8
+-26 -26 -26 -23
 FENU 0 0 0
 stand stand female 1650
 0 0 medium 0
@@ -4256,7 +4256,7 @@ indeed is one with the spirit of Spirituality.
 human~
 BA H 1000 0
 35 17 1d1+1226 1d1+700 6d6+17 slash
--11 -11 -11 -8
+-26 -26 -26 -23
 FENU 0 0 0
 stand stand male 1756
 0 0 medium 0
@@ -4274,7 +4274,7 @@ powers must be, he is truly and totally neutral.
 modron~
 AB H 0 0
 40 20 1d1+1420 1d1+800 6d6+20 slice
--13 -13 -13 -10
+-28 -28 -28 -25
 FENU 0 0 0
 stand stand male 2059
 0 0 medium 0
@@ -4291,7 +4291,7 @@ enemies.  And now you have the joy of meeting him.
 modron~
 BFA H -1000 0
 45 22 1d1+1864 1d1+900 7d7+22 slash
--15 -15 -15 -11
+-30 -30 -30 -26
 FENU 0 0 0
 stand stand male 2282
 0 0 medium 0
@@ -4308,7 +4308,7 @@ era he still is corrupt and VERY, VERY dangerous.
 wolf~
 BFA H -1000 0
 43 21 1d1+1762 1d1+860 7d6+21 slash
--14 -14 -14 -10
+-29 -29 -29 -25
 FENU 0 0 0
 stand stand male 2202
 0 0 medium 0
@@ -4325,7 +4325,7 @@ last of the Triad that the Avatar destroyed.
 giant~
 BFA H -1000 0
 41 20 1d1+1667 1d1+820 6d6+20 slash
--13 -13 -13 -10
+-28 -28 -28 -25
 FENUC 0 0 0
 stand stand neutral 2080
 0 0 medium 0
@@ -4344,7 +4344,7 @@ power.
 giant~
 BFA H -1000 0
 39 19 1d1+1416 1d1+780 6d6+19 pound
--13 -13 -13 -9
+-28 -28 -28 -24
 FENUC 0 0 0
 stand stand female 2044
 0 0 medium 0
@@ -4362,7 +4362,7 @@ wielded.
 giant~
 BFA H -1000 0
 37 18 1d1+1332 1d1+740 6d6+18 slash
--12 -12 -12 -9
+-27 -27 -27 -24
 FENUC 0 0 0
 stand stand male 1898
 0 0 medium 0
@@ -4380,7 +4380,7 @@ and wields a heavy blade.
 giant~
 BA 0 1000 0
 35 17 1d1+1268 1d1+700 6d6+17 slash
--11 -11 -11 -8
+-26 -26 -26 -23
 FENUC 0 0 0
 stand stand male 1809
 0 0 medium 0
@@ -4398,7 +4398,7 @@ of his god.
 bat~
 A H -1000 0
 37 18 1d1+1303 1d1+740 6d6+18 slash
--12 -12 -12 -9
+-27 -27 -27 -24
 FENU 0 0 0
 stand stand male 1937
 0 0 medium 0
@@ -4416,7 +4416,7 @@ truly is an inspiration to those who know him.
 human~
 BA H 1000 0
 50 25 1d1+2017 1d1+1000 7d7+25 slash
--16 -16 -16 -12
+-31 -31 -31 -27
 FENU 0 0 0
 stand stand male 2508
 0 0 medium 0
@@ -4434,7 +4434,7 @@ figuratively and  truly.
 human~
 BA H 1000 0
 60 30 1d1+3012 1d1+1200 8d7+30 slash
--20 -20 -20 -15
+-35 -35 -35 -30
 FENU 0 0 0
 stand stand male 3711
 0 0 medium 0
@@ -4449,7 +4449,7 @@ This fish can sense blood in the water and comes to kill you.
 unique~
 FA 0 -1000 0
 25 12 1d1+853 1d1+500 5d5+12 slash
--8 -8 -8 -6
+-23 -23 -23 -21
 FENU 0 0 0
 stand stand male 1307
 0 0 medium 0
@@ -4465,7 +4465,7 @@ and diving please you.
 unique~
 A 0 500 0
 28 14 1d1+948 1d1+560 5d5+14 slash
--9 -9 -9 -7
+-24 -24 -24 -22
 FENU 0 0 0
 stand stand male 1412
 0 0 medium 0
@@ -4481,7 +4481,7 @@ huge and you fear as it grabs for you.
 unique~
 FA 0 -1000 0
 30 15 1d1+1039 1d1+600 5d5+15 slash
--10 -10 -10 -7
+-25 -25 -25 -22
 FENU 0 0 0
 stand stand male 1564
 0 0 medium 0
@@ -4496,7 +4496,7 @@ The Armourer sells... armour.
 human~
 BA CH 1000 0
 100 50 1d1+9439 1d1+2000 10d10+50 slash
--33 -33 -33 -25
+-48 -48 -48 -40
 FENUH 0 0 0
 stand stand male 6104
 0 0 medium 0
@@ -4511,7 +4511,7 @@ The Weaponseller sells... weapons.
 human~
 BA CH 1000 0
 100 50 1d1+9234 1d1+2000 10d10+50 slash
--33 -33 -33 -25
+-48 -48 -48 -40
 FENUH 0 0 0
 stand stand male 6247
 0 0 medium 0
@@ -4526,7 +4526,7 @@ The Boatseller sells... boats.
 human~
 BA CH 1000 0
 100 50 1d1+9410 1d1+2000 10d10+50 slash
--33 -33 -33 -25
+-48 -48 -48 -40
 FENUH 0 0 0
 stand stand male 6124
 0 0 medium 0

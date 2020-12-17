@@ -837,7 +837,7 @@ few feet long, its sharp teeth make you think twice about petting it.
 dragon~
 BGA T -900 0
 7 3 1d1+161 1d1+140 3d3+3 flbite
-5 5 5 7
+-10 -10 -10 -8
 FENUC 0 0 0
 stand stand neutral 284
 0 0 medium 0
@@ -854,7 +854,7 @@ spear as you enter the room.
 dragon~
 BCFA D -900 0
 13 6 1d1+325 1d1+260 4d4+6 flbite
-1 1 1 5
+-14 -14 -14 -10
 FENUC 0 0 0
 stand stand male 528
 0 0 medium 0
@@ -869,7 +869,7 @@ He doesn't look happy to see you.
 dragon~
 BCFLA T -1000 0
 27 13 1d1+898 1d1+540 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENUC 0 0 0
 stand stand male 1354
 0 0 medium 0
@@ -886,7 +886,7 @@ powerful to have been accepted by the creatures which live here.
 dragon~
 BA BDH -900 0
 22 11 1d1+742 1d1+440 5d5+11 punch
--4 -4 -4 3
+-19 -19 -19 -12
 FENUC 0 0 0
 stand stand male 1101
 0 0 medium 0
@@ -902,7 +902,7 @@ notice a golden medallion in the shape of a five headed dragon.
 dragon~
 BCFA DH -900 0
 22 11 1d1+730 1d1+440 5d5+11 flbite
--4 -4 -4 3
+-19 -19 -19 -12
 FENUC 0 0 0
 stand stand male 1141
 0 0 medium 0
@@ -919,7 +919,7 @@ is controlled by a greater power.
 dragon~
 BCA DHL -900 0
 26 13 1d1+899 1d1+520 5d5+13 chomp
--7 -7 -7 1
+-22 -22 -22 -14
 FENUC 0 0 0
 stand stand male 1336
 0 0 medium 0
@@ -936,7 +936,7 @@ prepares to defend herself.
 dragon~
 BA 0 -500 0
 6 3 1d1+138 1d1+120 2d3+3 slice
-6 6 6 8
+-9 -9 -9 -7
 FENUC 0 0 0
 stand stand female 242
 0 0 medium 0
@@ -952,7 +952,7 @@ not pleased it.
 dragon~
 BFA CDF -800 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENUC 0 0 0
 stand stand male 731
 0 0 medium 0
@@ -968,7 +968,7 @@ prepares to make you pay for your insolence ... with your lives!
 dragon~
 BCFLA HDF -1000 0
 55 27 1d1+2832 1d1+1100 7d7+27 slash
--25 -25 -25 -8
+-40 -40 -40 -23
 FENUC 0 0 0
 stand stand female 3417
 0 0 medium 0
@@ -984,7 +984,7 @@ you and invites you to stay ... forever!
 dragon~
 BCFLA DF -1000 0
 45 22 1d1+1868 1d1+900 7d7+22 flbite
--19 -19 -19 -5
+-34 -34 -34 -20
 FENUC 0 0 0
 stand stand male 2311
 0 0 medium 0
@@ -1000,7 +1000,7 @@ going to roll over and die for you.
 dragon~
 BCFLA DF -900 0
 39 19 1d1+1403 1d1+780 6d6+19 slash
--15 -15 -15 -3
+-30 -30 -30 -18
 FENUC 0 0 0
 stand stand male 1990
 0 0 medium 0
@@ -1017,7 +1017,7 @@ me a greater challenge than my offspring.'
 dragon~
 BCFLA DF -1000 0
 37 18 1d1+1357 1d1+740 6d6+18 flbite
--14 -14 -14 -2
+-29 -29 -29 -17
 FENUC 0 0 0
 stand stand female 1903
 0 0 medium 0
@@ -1034,7 +1034,7 @@ children.  Prepare to die.'
 dragon~
 BCFLA DF -1000 0
 41 20 1d1+1642 1d1+820 6d6+20 slash
--16 -16 -16 -3
+-31 -31 -31 -18
 FENUC 0 0 0
 stand stand female 2064
 0 0 medium 0
@@ -1050,7 +1050,7 @@ it isn't happy to see you.
 dragon~
 BCFA DF -800 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENUC 0 0 0
 stand stand neutral 725
 0 0 medium 0
@@ -1066,7 +1066,7 @@ left him alone.
 dragon~
 BA 0 0 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENUC 0 0 0
 stand stand male 203
 0 0 medium 0
@@ -1082,7 +1082,7 @@ rest, however, and now guards this corridor tirelessly as a zombie.
 dragon~
 BCFA DF -400 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENUC 0 0 0
 stand stand neutral 371
 0 0 medium 0
@@ -1097,7 +1097,7 @@ This small dragon looks like he's up to no good.
 dragon~
 CFGHA DF -300 0
 10 5 1d1+230 1d1+200 3d3+5 flbite
-3 3 3 6
+-12 -12 -12 -9
 FENUC 0 0 0
 stand stand male 408
 0 0 medium 0
@@ -1113,7 +1113,7 @@ suit.  As you enter the room, he points at you and laughs.
 dragon~
 GHA 0 0 0
 5 2 1d1+100 1d1+100 2d3+2 flbite
-6 6 6 8
+-9 -9 -9 -7
 FENUC 0 0 0
 stand stand male 203
 0 0 medium 0
@@ -1129,7 +1129,7 @@ it might be a good idea to leave her alone.
 dragon~
 BCA DFH -600 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENUC 0 0 0
 stand stand female 1010
 0 0 medium 0

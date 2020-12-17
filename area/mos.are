@@ -18,7 +18,7 @@ enforce the rule of the Emperor.
 human~
 TG HV -500 0
 65 0 5d100+1500 1d1+99 4d4+30 blast
--20 -20 -20 -10
+-35 -35 -35 -25
 FNU 0 EKHJ F
 stand stand male 1000
 0 0 large 0
@@ -35,7 +35,7 @@ underwear if you turn your back.
 human~
 CHS FH -300 0
 35 0 10d10+790 1d1+300 3d6+10 stab
--10 -10 -10 0
+-25 -25 -25 -15
 EFIKN Q I G
 stand stand male 500
 0 0 small 0
@@ -53,7 +53,7 @@ spotted YOU!
 human~
 CFGT FHPQV -1000 0
 43 0 10d100+1000 1d1+99 5d6+25 smash
--30 -30 -30 0
+-45 -45 -45 -15
 CDEFKNU 0 EG 0
 stand stand male 0
 0 0 medium 0
@@ -70,7 +70,7 @@ sand people can't be far...
 giant~
 BGHT HV -500 0
 120 0 40d100+18000 1d1+99 10d10+25 charge
--150 -150 -150 -150
+-165 -165 -165 -165
 CDEFHKO KPQ KI H
 stand stand neutral 0
 0 0 giant 0
@@ -87,7 +87,7 @@ its master.
 Droid~
 TUG H 0 0
 32 0 2d100+800 1d1+99 2d6+10 blast
--15 -15 -15 80
+-30 -30 -30 65
 CO PQLBN HI J
 stand stand neutral 0
 0 0 small 0
@@ -104,7 +104,7 @@ obviously could care less about what you think.
 Droid~
 BGTU HV 0 0
 44 0 4d200+1100 1d1+99 15d10+30 blast
--20 -20 -20 50
+-35 -35 -35 35
 COFE PQLBN HI J
 stand stand neutral 0
 0 0 medium 0
@@ -121,7 +121,7 @@ fight one of these powerful machines.
 Droid~
 GT HV 0 0
 75 0 20d100+4000 1d1+99 10d10+50 blast
--40 -40 -40 0
+-55 -55 -55 -15
 CDEFHIJKO BPQL CHIK J
 stand stand neutral 0
 0 0 large 0
@@ -137,7 +137,7 @@ home to see his family after a long day's work.
 Human~
 CGHTR H 400 0
 40 0 10d50+900 1d1+99 2d10+10 blast
--20 -20 -20 0
+-35 -35 -35 -15
 EFIKOU R EFG 0
 stand stand male 300
 0 0 medium 0
@@ -153,7 +153,7 @@ from the market to fix supper for her family.
 Human~
 CGHTR H 400 0
 50 0 10d50+1000 1d1+99 2d10+30 blast
--20 -20 -20 0
+-35 -35 -35 -15
 EFIKOU R EFG 0
 stand stand female 300
 0 0 medium 0
@@ -169,7 +169,7 @@ because he still has his pressure suit on.
 human~
 GHST HNV 500 0
 55 0 20d100+1000 1d1+99 4d4+40 blast
--25 -25 -25 0
+-40 -40 -40 -15
 CDEFHO K PS 0
 stand stand male 500
 0 0 medium 0
@@ -186,7 +186,7 @@ strange sounds.
 human~
 BGHRT HN 500 0
 65 0 15d100+1500 1d1+99 10d10+20 pound
--15 -15 -15 -9
+-30 -30 -30 -24
 CDEFIKNO QA BCL 0
 stand stand neutral 300
 0 0 small 0
@@ -202,7 +202,7 @@ blowing into...something...and...some music(?) is coming out.
 human~
 BGRT HN 700 0
 73 0 10d100+2000 1d1+99 10d10+20 pound
--12 -12 -12 -5
+-27 -27 -27 -20
 CDEFGIKNO PQ CB 0
 stand stand male 200
 0 0 medium 0
@@ -220,7 +220,7 @@ care.
 human~
 TG HZ -100 0
 70 0 20d100+2500 1d1+599 5d10+30 hit
--20 -20 -20 -10
+-35 -35 -35 -25
 CEFN A BC 0
 stand stand male 5000
 0 0 medium 0
@@ -237,7 +237,7 @@ careful what you do.
 human~
 BGRT HTV -300 0
 85 0 20d100+3000 1d1+500 10d10+55 pound
--50 -50 -50 -100
+-65 -65 -65 -115
 CDEFHIJKNP ABQ PK EHI
 stand stand male 0
 0 0 large 0
@@ -253,7 +253,7 @@ likely to get noticed by the Imperial storm troopers.
 human~
 CGHRST HPQV -1000 0
 55 0 20d100+1000 1d1+99 4d4+40 pound
--25 -25 -25 -25
+-40 -40 -40 -40
 BCDEFHIJKO ABP K E
 stand stand male 5000
 0 0 medium 0
@@ -270,7 +270,7 @@ fighting him ship to ship!
 human~
 GT HJDF 900 0
 80 0 10d100+2500 1d1+99 5d6+30 blast
--35 -35 -35 -8
+-50 -50 -50 -23
 ABCDEFHIJKOU AB D N
 stand stand male 3000
 0 0 large 0
@@ -287,7 +287,7 @@ much fights anything he can!
 human~
 GFT HJDF -300 0
 70 0 10d100+2000 1d1+99 6d6+40 blast
--35 -35 -35 -8
+-50 -50 -50 -23
 ABCEFHIJKOP AB D L
 stand stand male 3000
 0 0 large 0
@@ -304,7 +304,7 @@ the rebellion.
 human~
 GCHRT HNTV 0 0
 100 0 30d100+7000 1d1+999 10d10+150 blast
--80 -80 -80 -20
+-95 -95 -95 -35
 CDEFHIJKO ABK D HIP
 stand stand male 10000
 0 0 medium 0
@@ -321,7 +321,7 @@ only because you don't have a bounty on your head.
 human~
 GT HTV -1000 0
 85 0 40d100+2000 1d1+499 5d10+70 hit
--35 -35 -35 -10
+-50 -50 -50 -25
 CDEFHIJKO AB D HI
 stand stand male 10000
 0 0 small 0
@@ -337,7 +337,7 @@ all who he might be able to sell out to the Empire.
 human~
 CGRT HVPQ -1000 0
 95 20 40d100+6000 1d1+899 10d10+120 divine
--70 -70 -70 -20
+-85 -85 -85 -35
 ABCDEFHIJKOQ AB P I
 stand stand neutral 10000
 0 0 huge 0
@@ -354,7 +354,7 @@ wise to upset a wookie.
 human~
 BCGT DFHVN 1000 0
 98 20 20d100+7000 1d1+99 10d10+200 sting
--60 -60 -60 -15
+-75 -75 -75 -30
 CDEFHIJKQ AB KN H
 stand stand male 2000
 0 0 large 0
@@ -371,7 +371,7 @@ someone else...
 human~
 BCGRT CDEFBHJNQPTV 1000 0
 78 0 20d100+3000 1d1+999 5d10+90 divine
--60 -60 -60 -40
+-75 -75 -75 -55
 EFHKNQ ABCK N 0
 stand stand male 50000
 0 0 small 0
@@ -387,7 +387,7 @@ fights.  He keeps a close eye on everything that goes on.
 human~
 B H -200 0
 90 0 1d1+10000 1d1+100 1d1+100 blast
--900 -900 -900 -300
+-915 -915 -915 -315
 NO AB K D
 stand stand male 0
 0 0 small 0
@@ -402,7 +402,7 @@ It's a shopkeeper, what do you expect?
 human~
 B H -200 0
 90 0 1d1+10000 1d1+100 1d1+100 blast
--900 -900 -900 -300
+-915 -915 -915 -315
 NO AB K D
 stand stand male 0
 0 0 small 0
@@ -418,7 +418,7 @@ liked his cooking too.  Now he caters to the tastes of the universe.
 human~
 B H -200 0
 90 0 1d1+10000 1d1+100 1d1+100 blast
--900 -900 -900 -300
+-915 -915 -915 -315
 NO AB K D
 stand stand male 0
 0 0 small 0
@@ -433,7 +433,7 @@ You see nothing special about her.
 human~
 B H -200 0
 90 0 1d1+10000 1d1+100 1d1+100 blast
--900 -900 -900 -300
+-915 -915 -915 -315
 NO AB K 0
 stand stand male 0
 0 0 small 0
@@ -457,7 +457,7 @@ little annoyed...
 human~
 BV HBQP 1000 0
 90 0 1d1+29999 1d1+29999 1d1+100 blast
--900 -900 -900 -300
+-915 -915 -915 -315
 NO ABCD 0 0
 stand stand female 1000
 0 0 small 0
@@ -473,7 +473,7 @@ gaping maw is full of razor sharp teeth and it seems to be dribbling.
 lizard~
 CHS F -300 0
 35 0 10d10+790 1d1+300 3d6+10 stab
--10 -10 -10 0
+-25 -25 -25 -15
 EFIKN QJ I G
 stand stand male 500
 0 0 small 0

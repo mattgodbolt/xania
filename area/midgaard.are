@@ -19,7 +19,7 @@ wizard who retired recently.
 elf~
 BV D 900 0
 23 0 1d1+999 1d1+999 1d8+32 magic
--15 -15 -15 -15
+-30 -30 -30 -30
 AF ABCD 0 0
 stand stand female 15000
 0 0 medium 0
@@ -35,7 +35,7 @@ much about making baked products as life itself.
 human~
 BV 0 900 0
 23 0 1d1+999 1d1+99 1d8+20 beating
--15 -15 -15 -15
+-30 -30 -30 -30
 CDF ABCD 0 0
 stand stand male 500
 0 0 medium 0
@@ -51,7 +51,7 @@ carries on with his accounting.
 human~
 BV 0 900 0
 23 0 1d1+999 1d1+99 1d8+20 beating
--15 -15 -15 -15
+-30 -30 -30 -30
 EFJ ABCD 0 0
 stand stand male 1300
 0 0 medium 0
@@ -68,7 +68,7 @@ teeth.
 human~
 BTV 0 900 0
 150 10 1d1+999 1d1+99 1d8+32 punch
--15 -15 -15 -15
+-30 -30 -30 -30
 CEIK ABCD 0 0
 stand stand male 25000
 0 0 medium 0
@@ -84,7 +84,7 @@ supplier of the best armour money can buy.
 human~
 BV 0 900 0
 150 10 1d1+999 1d1+99 1d8+32 punch
--15 -15 -15 -15
+-30 -30 -30 -30
 CEFJKN ABCD 0 0
 stand stand male 25000
 0 0 medium 0
@@ -98,7 +98,7 @@ Well COUNT your money!
 human~
 CHS PQ -100 0
 8 1 6d8+80 1d1+99 1d5+1 punch
-2 4 3 7
+-13 -11 -12 -8
 EFJN 0 0 0
 stand stand male 100
 0 0 medium 0
@@ -112,7 +112,7 @@ This captain has killed more sharks than you have eaten peas.
 human~
 BTV 0 900 0
 23 10 1d1+999 1d1+99 1d8+32 beating
--15 -15 -15 -15
+-30 -30 -30 -30
 CEI ABCD 0 0
 stand stand male 1300
 0 0 medium 0
@@ -126,7 +126,7 @@ He looks like a strong, fit sailor.
 human~
 BJTV 0 900 0
 23 5 1d1+999 1d1+99 1d4+23 beating
--15 -15 -15 -15
+-30 -30 -30 -30
 FHJN ABCD 0 0
 stand stand male 58
 0 0 medium 0
@@ -140,7 +140,7 @@ He is young and close-cropped and looks quite happy.
 human~
 BV 0 900 0
 23 0 1d1+999 1d1+99 1d8+20 punch
--15 -15 -15 -15
+-30 -30 -30 -30
 0 ABCD 0 0
 stand stand male 4000
 0 0 medium 0
@@ -154,7 +154,7 @@ He is fat and has a content although watchful look on his face.
 human~
 BV 0 900 0
 23 0 1d1+999 1d1+99 1d8+22 slap
--15 -15 -15 -15
+-30 -30 -30 -30
 AF ABCD 0 0
 stand stand male 58000
 0 0 medium 0
@@ -169,7 +169,7 @@ keep herself going.
 human~
 BV 0 900 0
 23 0 1d1+999 1d1+99 1d8+20 punch
--15 -15 -15 -15
+-30 -30 -30 -30
 AFN ABCD 0 0
 stand stand female 4500
 0 0 medium 0
@@ -195,7 +195,7 @@ As he speaks, his sonorous voice leaves you feeling enlightened.
 human~
 BMTV CDFHJZ 1000 0
 86 30 1d1+6999 1d1+999 4d10+30 slash
--28 -28 -28 -20
+-43 -43 -43 -35
 ACDEFHIKLNOT ABP CD 0
 stand stand male 0
 0 0 huge 0
@@ -217,7 +217,7 @@ Type 'heal' to see what is on offer.
 human~
 MBQVa DFH 1000 0
 75 0 1d1+999 1d1+999 2d4+30 divine
--20 -15 -15 -15
+-35 -30 -30 -30
 FHIK ABCD 0 0
 stand stand male 5000
 0 0 medium 0
@@ -234,7 +234,7 @@ and you notice that she is surrounded by a blue shimmering aura.
 elf~
 BKRV DEFJZ 1000 0
 36 0 1d1+1999 1d1+999 3d8+24 magic
--15 -15 -15 -15
+-30 -30 -30 -30
 FG ABCD 0 0
 stand stand female 0
 0 0 medium 0
@@ -249,7 +249,7 @@ a peaceful, loving look. You notice that he is surrounded by a white aura.
 human~
 BKQV CDEFHZ 1000 0
 36 0 1d1+1999 1d1+999 3d8+24 divine
--15 -15 -15 -15
+-30 -30 -30 -30
 EFHIK ABCD 0 0
 stand stand male 0
 0 0 medium 0
@@ -265,7 +265,7 @@ human~
 
 BKSV DFZ 1000 0
 36 0 1d1+1999 1d1+199 3d8+24 punch
--15 -15 -15 -15
+-30 -30 -30 -30
 BEFHJN ABCD 0 0
 stand stand female 0
 0 0 medium 0
@@ -281,7 +281,7 @@ you hope to make use of now......
 dwarf~
 BKTV DF 1000 0
 36 0 1d1+1999 1d1+199 3d8+24 beating
--20 -20 -20 -20
+-35 -35 -35 -35
 ACDEIK ABCD 0 0
 stand stand male 0
 0 0 medium 0
@@ -297,7 +297,7 @@ as well as defensive spells make him a deadly opponent.
 elf~
 BRTV BDJ 800 0
 30 5 1d1+999 1d1+499 10d4+10 magic
--10 -10 -10 -8
+-25 -25 -25 -23
 AEG AB CD 0
 stand stand male 2000
 0 0 medium 0
@@ -314,7 +314,7 @@ opponent.
 human~
 BQTV DJ 800 0
 30 5 1d1+999 1d1+499 5d8+10 divine
--10 -10 -10 -7
+-25 -25 -25 -22
 DEIK AB CD 0
 stand stand male 2000
 0 0 medium 0
@@ -331,7 +331,7 @@ opponent.
 human~
 BTV DFP 800 0
 30 8 1d1+999 1d1+99 4d10+12 pierce
--12 -12 -12 -6
+-27 -27 -27 -21
 BEFJN AB CD 0
 stand stand male 2000
 0 0 medium 0
@@ -347,7 +347,7 @@ yourself the question, "Do you feel lucky punk? Well, do ya?"
 human~
 BTV DF 800 0
 30 10 1d1+999 1d1+199 11d4+10 punch
--10 -10 -10 -4
+-25 -25 -25 -19
 ACDEHIK AB CD 0
 stand stand male 2000
 0 0 medium 0
@@ -361,7 +361,7 @@ A tired looking Bartender who hates trouble in his bar.
 human~
 BV 0 900 0
 23 0 1d1+499 1d1+99 1d8+18 beating
--6 -6 -6 0
+-21 -21 -21 -15
 FHJN AB CD 0
 stand stand male 150
 0 0 medium 0
@@ -375,7 +375,7 @@ A tired looking waiter.
 human~
 BV 0 900 0
 23 0 1d1+499 1d1+99 1d8+18 beating
--6 -6 -6 0
+-21 -21 -21 -15
 FHJN AB CD 0
 stand stand male 150
 0 0 medium 0
@@ -389,7 +389,7 @@ peaceful life as a waiter.
 human~
 BRV D 600 0
 23 0 1d1+499 1d1+99 1d8+18 beating
--6 -6 -6 0
+-21 -21 -21 -15
 FJN AB CD 0
 stand stand male 150
 0 0 medium 0
@@ -402,7 +402,7 @@ A waiter who seems to have reached contact with God.
 human~
 BQV 0 600 0
 23 0 1d1+499 1d1+99 1d8+18 beating
--6 -6 -6 0
+-21 -21 -21 -15
 FHJN AB CD 0
 stand stand male 150
 0 0 medium 0
@@ -415,7 +415,7 @@ A waiter who knows where all his customers keep their money.
 human~
 BSV 0 600 0
 23 0 1d1+499 1d1+99 1d8+18 beating
--6 -6 -6 0
+-21 -21 -21 -15
 FHJN AB CD 0
 stand stand male 150
 0 0 medium 0
@@ -428,7 +428,7 @@ A waiter who easily could kill you, and still carry quite a few firebreathers.
 human~
 BTV 0 600 0
 23 0 1d1+499 1d1+99 1d8+18 beating
--6 -6 -6 0
+-21 -21 -21 -15
 BFHJN AB CD 0
 stand stand male 150
 0 0 medium 0
@@ -443,7 +443,7 @@ but do not mess with him or else he'll get upset.
 human~
 BSV 0 600 0
 23 2 1d1+499 1d1+99 1d8+18 beating
--8 -8 -8  -4
+-23 -23 -23 -19
 BEFJN AB CD 0
 stand stand male 200
 0 0 medium 0
@@ -457,7 +457,7 @@ A big, strong, helpful, trustworthy guard.
 human~
 CGT 0 1000 0
 15 3 15d15+160 1d1+149 2d4+4 punch
-0 0 0 8
+-15 -15 -15 -7
 CDEKLTU 0 C 0
 stand stand male 150
 0 0 medium 0
@@ -471,7 +471,7 @@ A janitor is walking around, cleaning up.
 human~
 GH 0 900 0
 1 0 2d6+10 1d1+99 1d5+1 pound
-10 10 10 10
+-5 -5 -5 -5
 NU 0 0 C
 stand stand male 10
 0 0 medium 0
@@ -488,7 +488,7 @@ beady black eyes.
 fido~
 FGHU 0 -200 0
 0 0 1d6+4 1d1+99 1d4+0 bite
-10 10 10 10
+-5 -5 -5 -5
 0 0 0 0
 stand stand male 0
 0 0 small 0
@@ -503,7 +503,7 @@ He looks pretty mean.
 human~
 CS 0 -200 0
 5 1 2d6+54 1d1+99 1d6+2 punch
-7 5 5 10
+-8 -10 -10 -5
 BJNQ 0 0 C
 stand stand male 18
 0 0 medium 0
@@ -517,7 +517,7 @@ A drunk who seems to be too happy, and to carry too much money.
 human~
 G 0 400 0
 2 -1 2d6+22 1d1+99 1d6+0 beating
-8 8 8 10
+-7 -7 -7 -5
 U 0 0 C
 stand stand male 65
 0 0 medium 0
@@ -531,7 +531,7 @@ The beggar looks like she is fed up with life.
 human~
 B 0 400 0
 1 0 2d6+10 1d1+99 1d5+1 beating
-8 8 8 10
+-7 -7 -7 -5
 FJNU 0 0 C
 stand stand female 0
 0 0 medium 0
@@ -545,7 +545,7 @@ The alley cat is half starved and more than a little feral.
 cat~
 FGHU 0 -200 0
 0 1 1d6+4 1d1+99 1d4+1 scratch
-8 8 8 9
+-7 -7 -7 -6
 DR 0 0 C
 stand stand male 0
 0 0 small 0
@@ -559,7 +559,7 @@ A big, strong, helpful, trustworthy guard.
 human~
 BT 0 1000 0
 15 3 15d15+150 1d1+149 2d4+4 punch
-0 0 0 8
+-15 -15 -15 -7
 CDEKLTU 0 C 0
 stand stand male 150
 0 0 medium 0
@@ -573,7 +573,7 @@ A big, strong, helpful, trustworthy guard.
 human~
 BT 0 1000 0
 15 3 15d15+150 1d1+149 2d4+4 punch
-0 0 0 8
+-15 -15 -15 -7
 CDEKLTU 0 C 0
 stand stand male 150
 0 0 medium 0
@@ -587,7 +587,7 @@ A big, strong, helpful, trustworthy guard.
 human~
 BT BQ 1000 0
 20 4 20d20+180 1d1+199 2d4+7 punch
--4 -6 -6 0
+-19 -21 -21 -15
 CDEHKLTU 0 C 0
 stand stand male 500
 0 0 medium 0
@@ -602,7 +602,7 @@ He looks very dangerous.  I wouldn't try to rob him.
 human~
 BQRV DEF 1000 0
 32 0 1d1+999 1d1+999 10d10+10 magic
--15 -15 -15 -15
+-30 -30 -30 -30
 FGH ABCD 0 0
 stand stand male 5000
 0 0 medium 0
@@ -616,7 +616,7 @@ A big, strong, helpful, trustworthy guard.
 human~
 BT 0 1000 0
 15 3 15d15+160 1d1+149 2d4+4 punch
-0 0 0 8
+-15 -15 -15 -7
 CDEKLTU 0 C 0
 stand stand male 150
 0 0 medium 0
@@ -630,7 +630,7 @@ A big, strong, helpful, trustworthy guard.
 human~
 BT 0 1000 0
 15 3 15d15+150 1d1+149 2d4+4 punch
-0 0 0 8
+-15 -15 -15 -7
 CDEKLTU 0 C 0
 stand stand male 150
 0 0 medium 0
@@ -644,7 +644,7 @@ The kitten looks like a cute, little, fierce fighter.
 cat~
 BU 0 400 0
 1 2 2d6+11 1d1+99 1d4+0 scratch
-8 8 8 10
+-7 -7 -7 -5
 0 0 C 0
 stand stand male 0
 0 0 tiny 0
@@ -658,7 +658,7 @@ The puppy looks like a cute, little, fierce fighter.
 dog~
 BU F 400 0
 3 2 4d6+25 1d1+99 1d6+0 bite
-7 7 7 10
+-8 -8 -8 -5
 N 0 C 0
 stand stand male 0
 0 Q S 0
@@ -672,7 +672,7 @@ The beagle looks like a fierce fighter.
 dog~
 BU F 400 0
 5 3 3d12+50 1d1+99 1d6+0 bite
-5 5 5 9
+-10 -10 -10 -6
 N 0 C 0
 stand stand male 0
 0 Q S 0
@@ -686,7 +686,7 @@ The rottweiler looks like a strong, fierce fighter.
 dog~
 BU F 400 0
 7 3 6d10+60 1d1+149 2d4+1 bite
-4 4 4 8
+-11 -11 -11 -7
 CDL 0 C 0
 stand stand male 0
 0 0 medium 0
@@ -700,7 +700,7 @@ The wolf looks like a strong, fearless fighter.
 wolf~
 BU F 0 0
 9 3 6d10+80 1d1+99 2d5+1 bite
-4 4 4 8
+-11 -11 -11 -7
 C 0 C 0
 stand stand male 0
 0 0 medium 0
@@ -715,7 +715,7 @@ for coming here more often.
 human~
 BV 0 1000 0
 23 2 1d1+499 1d1+99 1d8+12 beating
--15 -15 -15 -15
+-30 -30 -30 -30
 FG AB CD 0
 stand stand female 180
 0 0 medium 0
@@ -729,7 +729,7 @@ The sexton looks like he is relaxing after another grave-digging job.
 human~
 BH 0 800 0
 3 0 2d6+35 1d1+99 1d7+0 punch
-7 7 7 10
+-8 -8 -8 -5
 0 0 0 C
 sit sit male 75
 0 0 medium 0
@@ -743,7 +743,7 @@ The white swan is very elegant.
 water fowl~
 BU 0 1000 0
 1 0 2d6+10 1d1+99 1d5+0 peck
-8 8 8 10
+-7 -7 -7 -5
 CFR 0 R C
 stand stand male 0
 0 0 small 0
@@ -757,7 +757,7 @@ The duckling is adorable, it looks most of all like a tiny furball.
 water fowl~
 BU 0 1000 0
 0 0 1d4+0 1d1+99 1d1+0 peck
-10 10 10 10
+-5 -5 -5 -5
 FR 0 R C
 stand stand male 0
 0 0 tiny 0
@@ -771,7 +771,7 @@ The sparrow looks like it is enjoying life.
 song bird~
 GHU 0 1000 0
 0 0 2d6+0 1d1+99 1d3+0 peck
-10 10 10 10
+-5 -5 -5 -5
 R 0 0 C
 stand stand male 0
 0 0 tiny 0
@@ -785,7 +785,7 @@ The duck is quite fat.  It looks like it is enjoying life.
 water fowl~
 GU 0 1000 0
 1 0 2d6+5 1d1+99 1d4+0 peck
-10 10 10 10
+-5 -5 -5 -5
 FR 0 R C
 stand stand male 0
 0 0 small 0
@@ -799,7 +799,7 @@ A big, strong, angry captain.
 human~
 BCFT D 1000 0
 17 4 15d15+190 1d1+199 2d4+6 punch
--2 -2 -2 6
+-17 -17 -17 -9
 CDEHKLU 0 C 0
 stand stand male 500
 0 0 medium 0
@@ -813,7 +813,7 @@ A big, strong, angry guard.
 human~
 BCFT 0 1000 0
 15 3 15d15+10 1d1+149 2d4+4 punch
-0 0 0 8
+-15 -15 -15 -7
 CDEHKLU 0 C 0
 stand stand male 150
 0 0 medium 0
@@ -829,7 +829,7 @@ The Secretary says 'Please sit down and have a seat in the meantime'.
 human~
 B 0 900 0
 12 2 4d12+148 1d1+99 2d7+1 slap
-0 0 0 8
+-15 -15 -15 -7
 FHI 0 0 0
 sit sit female 100
 0 0 medium 0
@@ -843,7 +843,7 @@ He is a stocky, middle-aged man with thin, grey hair.
 human~
 BL N 900 0
 23 6 6d10+500 1d1+199 1d8+12 punch
--15 -15 -15 -15
+-30 -30 -30 -30
 EFNS AB CD 0
 sleep sleep male 1000
 0 0 medium 0
@@ -857,7 +857,7 @@ He is very good at his job - completely dissolved in tears.
 human~
 H 0 900 0
 1 0 2d6+10 1d1+99 1d5+0 slap
-10 10 10 10
+-5 -5 -5 -5
 D 0 0 C
 stand stand male 14
 0 0 medium 0
@@ -872,7 +872,7 @@ smiles warmly at you.
 human~
 BV 0 900 0
 25 0 1d1+999 1d1+199 1d8+10 slap
--15 -15 -15 -15
+-30 -30 -30 -30
 FG ABCD 0 0
 stand stand female 1000
 0 0 medium 0
@@ -889,7 +889,7 @@ at you, smiling faintly.
 human~
 BV 0 900 0
 25 0 1d1+999 1d1+199 5d6+20 slap
--15 -15 -15 -15
+-30 -30 -30 -30
 FG ABCD 0 0
 stand stand female 1000
 0 0 medium 0
@@ -905,7 +905,7 @@ get him drunk.
 snake~
 BV D 200 0
 15 3 11d10+200 1d1+99 4d6+4 bite
--6 -5 -2 4
+-21 -20 -17 -11
 FHNR 0 F 0
 stand stand male 0
 0 0 small 0
@@ -922,7 +922,7 @@ the hardened sinews of her talons twitch rhythmically.
 bird~
 BV CDFJZ 1000 0
 80 30 10d100+2500 1d1+99 5d6+30 claw
--25 -25 -25 -17
+-40 -40 -40 -32
 FHQT ABP C 0
 stand stand female 0
 0 0 small 0
@@ -941,7 +941,7 @@ from its runes appear to meld with his fingers.
 human~
 BV DFH 1000 0
 75 0 1d1+999 1d1+999 2d4+30 divine
--20 -15 -15 -15
+-35 -30 -30 -30
 FHIK ABCD 0 0
 stand stand male 5000
 0 0 medium 0

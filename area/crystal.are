@@ -1954,7 +1954,7 @@ cape. A single feather folds back along the right side of her head.
 human~
 AB H 900 0
 45 22 1d1+1852 1d1+900 7d7+22 slash
--15 -15 -15 -11
+-30 -30 -30 -26
 FENU 0 0 0
 stand stand female 2358
 0 0 medium 0
@@ -1970,7 +1970,7 @@ double chins, and pot belly all resemble those of a vicious little toad.
 elf~
 FGA H -900 0
 12 6 1d1+280 1d1+240 3d4+6 slash
--4 -4 -4 -3
+-19 -19 -19 -18
 FENU 0 0 0
 stand stand male 500
 0 0 medium 0
@@ -1986,7 +1986,7 @@ He looks travel weary and tired.
 giant~
 GA H 900 0
 30 15 1d1+1020 1d1+600 5d5+15 slash
--10 -10 -10 -7
+-25 -25 -25 -22
 FENUC 0 0 0
 stand stand male 1513
 0 0 medium 0
@@ -2002,7 +2002,7 @@ and hood.
 dragon~
 ABG J -750 0
 7 3 1d1+151 1d1+140 3d3+3 slash
--2 -2 -2 -1
+-17 -17 -17 -16
 FENUC 0 0 0
 stand stand male 285
 0 0 medium 0
@@ -2017,7 +2017,7 @@ He looks like a farmer.....go figure...
 human~
 A 0 150 0
 10 4 1d1+215 1d1+200 3d3+5 slash
--3 -3 -3 -2
+-18 -18 -18 -17
 FENU 0 0 0
 stand stand male 401
 0 0 medium 0
@@ -2032,7 +2032,7 @@ The worker is very busy...leave him alone.
 human~
 GA 0 125 0
 5 2 1d1+80 1d1+100 2d3+2 slash
--1 -1 -1 -1
+-16 -16 -16 -16
 FENU 0 0 0
 stand stand male 207
 0 0 medium 0
@@ -2047,7 +2047,7 @@ This is a very hungry looking fish with BIG teeth...
 unique~
 BFA 0 20 0
 7 3 1d1+145 1d1+140 3d3+3 slash
--2 -2 -2 -1
+-17 -17 -17 -16
 FENU 0 0 0
 stand stand neutral 290
 0 0 medium 0
@@ -2064,7 +2064,7 @@ It looks intently at you as if you look you over before eating you.
 dragon~
 ABFG D -700 0
 27 13 1d1+892 1d1+540 5d5+13 flbite
--9 -9 -9 -6
+-24 -24 -24 -21
 FENUC 0 0 0
 stand stand neutral 1370
 0 0 medium 0
@@ -2080,7 +2080,7 @@ thinking of biting You!!....
 unique~
 BFA D 100 0
 7 3 1d1+145 1d1+140 3d3+3 bite
--2 -2 -2 -1
+-17 -17 -17 -16
 FENU 0 0 0
 stand stand neutral 280
 0 0 medium 0
@@ -2096,7 +2096,7 @@ Probably walks too....
 unique~
 GA 0 200 0
 5 2 1d1+80 1d1+100 2d3+2 slash
--1 -1 -1 -1
+-16 -16 -16 -16
 FENU 0 0 0
 stand stand neutral 203
 0 0 medium 0
@@ -2111,7 +2111,7 @@ The hobgoblin screams at you, "Give me the blue crystal staff!!!!"
 hobgoblin~
 CGA 0 -300 0
 6 3 1d1+125 1d1+120 2d3+3 pierce
--2 -2 -2 -1
+-17 -17 -17 -16
 FENU 0 0 0
 stand stand male 242
 0 0 medium 0
@@ -2127,7 +2127,7 @@ suppose to be just a legend...
 unique~
 CGA Q -300 0
 17 8 1d1+453 1d1+340 4d4+8 slash
--5 -5 -5 -4
+-20 -20 -20 -19
 FENU 0 0 0
 stand stand male 696
 0 0 medium 0
@@ -2142,7 +2142,7 @@ This is an old pooh bear. It looks as if it has been loved a little too much.
 bear~
 CGA 0 300 0
 5 2 1d1+80 1d1+100 2d3+2 beating
--1 -1 -1 -1
+-16 -16 -16 -16
 FENU 0 0 0
 sit sit male 209
 0 0 medium 0
@@ -2158,7 +2158,7 @@ I'm sure the farmers would appreciate it too.
 fido~
 CA 0 -200 0
 5 2 1d1+80 1d1+100 2d3+2 slash
--1 -1 -1 -1
+-16 -16 -16 -16
 FENU 0 0 0
 stand stand male 208
 0 0 medium 0
@@ -2173,7 +2173,7 @@ The Mouse is a cute little creature.
 fido~
 BCA 0 100 0
 4 2 1d1+60 1d1+80 2d3+2 slash
--1 -1 -1 -1
+-16 -16 -16 -16
 FENU 0 0 0
 stand stand male 164
 0 0 medium 0

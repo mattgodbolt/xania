@@ -555,7 +555,7 @@ this factory meets ASPCA guidlines....
 fido~
 AFGH D -700 0
 6 3 1d1+125 1d1+120 2d3+3 digestion
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 246
 0 0 medium 0
@@ -572,7 +572,7 @@ slayer, Floyd now creates the beasts for other adventurers to fight.
 human~
 BGA DFH 2 0
 12 6 1d1+280 1d1+240 3d4+6 scratch
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 sit sit male 502
 0 0 medium 0
@@ -589,7 +589,7 @@ sharp...
 human~
 GA T 0 0
 9 4 1d1+187 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand neutral 377
 0 0 medium 0
@@ -605,7 +605,7 @@ in place!  Someone should tell him that he is a REVOLTING drunk.
 human~
 CGHA 0 1 0
 2 1 1d1+35 1d1+40 1d2+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 83
 0 0 medium 0
@@ -621,7 +621,7 @@ hydraulic fluid is leaking again.
 unique~
 BCA 0 0 0
 4 2 1d1+65 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 sit sit neutral 162
 0 0 medium 0
@@ -637,7 +637,7 @@ Factory" written in a bright purple starburst.  Fashion plate, he's not.
 human~
 GHA 0 100 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 125
 0 0 medium 0
@@ -653,7 +653,7 @@ worked the late shift!
 human~
 BHA 0 150 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 sleep sleep female 123
 0 0 medium 0
@@ -669,7 +669,7 @@ been chewing his way through some of the merchandise.
 unique~
 FCG N -500 0
 6 0 1d1+125 1d1+100 2d3+3 bite
--3 -3 -3 -3
+-18 -18 -18 -18
 HNFEU 0 0 0
 stand stand male 244
 0 0 large 0

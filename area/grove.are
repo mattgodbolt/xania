@@ -557,7 +557,7 @@ traps and pitfalls.
 unique~
 GHA DHN +1000 0
 20 9 1d1+560 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1047
 0 0 medium 0
@@ -574,7 +574,7 @@ traps and pitfalls.
 unique~
 GHA DHN +1000 0
 20 9 1d1+560 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand female 1015
 0 0 medium 0
@@ -590,7 +590,7 @@ his lack of wrinkles.
 unique~
 GHA N 1000 0
 13 6 1d1+305 1d1+260 4d4+6 beating
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 526
 0 0 medium 0
@@ -605,7 +605,7 @@ She looks ageless, as do all druids.  She smiles a beautiful smile at you.
 unique~
 GHA N 1000 0
 13 6 1d1+305 1d1+260 4d4+6 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand female 544
 0 0 medium 0
@@ -621,7 +621,7 @@ she sniffs at you, but she goes back to chewing some grass.
 unique~
 GHA 0 0 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 209
 0 0 medium 0
@@ -637,7 +637,7 @@ albeit ineffectively.
 unique~
 GHA 0 0 0
 6 3 1d1+125 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 251
 0 0 medium 0
@@ -652,7 +652,7 @@ He eyes you with contained anger.  You'd better leave him alone!
 unique~
 FGHA 0 0 0
 8 3 1d1+169 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 332
 0 0 medium 0
@@ -667,7 +667,7 @@ This bunny looks so adorable, you wished you had one just like this!
 unique~
 GHA 0 0 0
 2 1 1d1+35 1d1+40 1d2+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand neutral 83
 0 0 medium 0
@@ -682,7 +682,7 @@ Upon careful inspection, you are sure it is NOT a cobra!
 unique~
 FGHA P 0 0
 4 2 1d1+65 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand neutral 167
 0 0 medium 0
@@ -697,7 +697,7 @@ He doesn't like you bothering him, but is too polite to ask you to leave.
 unique~
 GHA DN 1000 0
 10 4 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 409
 0 0 medium 0
@@ -712,7 +712,7 @@ She wonders why you are staring at her, and how you got in here.
 unique~
 GHA DN 1000 0
 10 4 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand female 411
 0 0 medium 0

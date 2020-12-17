@@ -1553,7 +1553,7 @@ just want to pick him up and hug him.
 hobbit~
 CEA 0 600 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 124
 0 0 medium 0
@@ -1569,7 +1569,7 @@ She's starting to look pretty attractive to you ...
 hobbit~
 CEA 0 600 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 200
 0 0 medium 0
@@ -1585,7 +1585,7 @@ same time an intelligent creature who could outsmart you.
 hobbit~
 CA 0 500 0
 6 3 1d1+125 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 241
 0 0 medium 0
@@ -1601,7 +1601,7 @@ to make.  His hair is white, but he looks fairly strong.
 hobbit~
 BCA 0 500 0
 7 3 1d1+141 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 284
 0 0 medium 0
@@ -1617,7 +1617,7 @@ he makes up for it with his weapons skill.
 hobbit~
 BA 0 400 0
 8 3 1d1+164 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 330
 0 0 medium 0
@@ -1633,7 +1633,7 @@ but wise and resourceful.  You better not mess with him.
 hobbit~
 BA 0 550 0
 15 6 1d1+345 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 617
 0 0 medium 0
@@ -1649,7 +1649,7 @@ but with the eyes and fangs of a wild beast.
 troll~
 BCFA 0 -900 0
 8 3 1d1+169 1d1+160 3d3+4 punch
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 334
 0 0 medium 0
@@ -1664,7 +1664,7 @@ The Mouse is a cute little creature.
 unique~
 BCIA 0 100 0
 1 0 1d1+18 1d1+20 1d2+0 slash
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 stand stand male 40
 0 0 medium 0
@@ -1679,7 +1679,7 @@ The rat is a little evil creature that deserves death.
 unique~
 CA 0 -200 0
 2 1 1d1+32 1d1+40 1d2+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 83
 0 0 medium 0
@@ -1694,7 +1694,7 @@ You have the urge to kill this vile creature.
 unique~
 CA 0 -200 0
 4 2 1d1+60 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand male 166
 0 0 medium 0
@@ -1709,7 +1709,7 @@ This rat has grown up to be the size of an average dog.
 unique~
 CA 0 -200 0
 6 3 1d1+125 1d1+120 2d3+3 bite
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 244
 0 0 medium 0
@@ -1725,7 +1725,7 @@ he lifts his powerful arm to bludgeon you.
 troll~
 BFA 0 -800 0
 14 6 1d1+330 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 570
 0 0 medium 0
@@ -1740,7 +1740,7 @@ The bat is a grotesque little creature with large wings and fangs.
 unique~
 A 0 -500 0
 5 2 1d1+80 1d1+100 2d3+2 acbite
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 204
 0 0 medium 0
@@ -1756,7 +1756,7 @@ pulled out of its resting place by some evil force.
 undead~
 A 0 -700 0
 7 3 1d1+141 1d1+140 3d3+3 pound
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand neutral 290
 0 0 medium 0
@@ -1772,7 +1772,7 @@ hangs from the ceiling and bites at you.
 unique~
 BCFA D -900 0
 12 5 1d1+280 1d1+240 3d4+6 acbite
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 486
 0 0 medium 0
@@ -1788,7 +1788,7 @@ as he attempts to brain you.
 hobgoblin~
 BFA 0 -700 0
 6 3 1d1+125 1d1+120 2d3+3 pierce
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 243
 0 0 medium 0
@@ -1804,7 +1804,7 @@ of the elite guards.  He looks pissed.
 hobgoblin~
 BFA 0 -600 0
 3 1 1d1+50 1d1+60 2d3+1 pierce
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 120
 0 0 medium 0
@@ -1820,7 +1820,7 @@ stature.  He grins a toothy grin as he prepares to attack.
 hobgoblin~
 BA 0 -500 0
 7 3 1d1+151 1d1+140 3d3+3 pierce
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 282
 0 0 medium 0
@@ -1836,7 +1836,7 @@ destroying the sophisticated effect he was trying to create.
 hobgoblin~
 BA 0 -500 0
 12 5 1d1+280 1d1+240 3d4+6 scratch
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 sit sit male 503
 0 0 medium 0
@@ -1851,7 +1851,7 @@ The miner is totally covered in dust.
 hobgoblin~
 BCA 0 -400 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 202
 0 0 medium 0
@@ -1867,7 +1867,7 @@ can only see a couple feet in front of him.
 hobgoblin~
 BCA 0 -200 0
 10 4 1d1+210 1d1+200 3d3+5 pierce
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 404
 0 0 medium 0
@@ -1882,7 +1882,7 @@ The prisoner is just barely alive.
 hobbit~
 BCA 0 100 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 rest rest male 121
 0 0 medium 0
@@ -1897,7 +1897,7 @@ The prisoner is just barely alive.
 human~
 BCA 0 100 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 rest rest female 125
 0 0 medium 0
@@ -1913,7 +1913,7 @@ to wake it up.
 unique~
 BCFA 0 -10 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 206
 0 0 medium 0
@@ -1929,7 +1929,7 @@ in a pot.
 hobgoblin~
 BCA 0 -300 0
 7 3 1d1+151 1d1+140 3d3+3 pierce
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 285
 0 0 medium 0

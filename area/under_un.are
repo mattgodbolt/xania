@@ -12026,7 +12026,7 @@ The pupil is a very dark green and takes in every action you do. ~
 unique~
 A CDEF 0 0
 32 16 1d1+1175 1d1+640 6d6+16 slash
--10 -10 -10 0
+-25 -25 -25 -15
 FENU 0 0 0
 stand stand neutral 1640
 0 0 medium 0
@@ -12044,7 +12044,7 @@ focused.
 unique~
 A D -350 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand neutral 727
 0 0 medium 0
@@ -12062,7 +12062,7 @@ live, you wonder what the enforcers did to him.
 human~
 AB C -200 0
 18 9 1d1+522 1d1+360 4d4+9 pound
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 726
 0 0 medium 0
@@ -12080,7 +12080,7 @@ dizzy.
 unique~
 AL CDEF 0 0
 43 21 1d1+1801 1d1+860 7d6+21 pound
--17 -17 -17 -4
+-32 -32 -32 -19
 FENU 0 0 0
 stand stand neutral 2164
 0 0 medium 0
@@ -12100,7 +12100,7 @@ this huge eye.  The body is protected by a hard chitinous covering.
 unique~
 ABL CDEF 0 0
 50 25 1d1+2067 1d1+1000 7d7+25 pound
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand neutral 2581
 0 0 medium 0
@@ -12118,7 +12118,7 @@ masterminds many evil operations.
 unique~
 ABCL CDEFH -1000 0
 49 24 1d1+2003 1d1+980 7d7+24 slash
--21 -21 -21 -6
+-36 -36 -36 -21
 FENU 0 0 0
 stand stand neutral 2515
 0 0 medium 0
@@ -12135,7 +12135,7 @@ and he is going slightly bald.
 hobbit~
 AC E -500 0
 19 9 1d1+551 1d1+380 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 766
 0 0 medium 0
@@ -12152,7 +12152,7 @@ deadly and quick.
 half-elf~
 A D -750 0
 16 8 1d1+464 1d1+320 4d4+8 slice
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 661
 0 0 medium 0
@@ -12169,7 +12169,7 @@ surroundings.
 dwarf~
 A C -600 0
 21 10 1d1+702 1d1+420 5d5+10 chop
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1087
 0 0 medium 0
@@ -12185,7 +12185,7 @@ seems as if at every moment she is concentrating on a spell of some sort. ~
 human~
 ABL D -150 0
 43 21 1d1+1778 1d1+860 7d6+21 slash
--17 -17 -17 -4
+-32 -32 -32 -19
 FENU 0 0 0
 stand stand female 2176
 0 0 medium 0
@@ -12204,7 +12204,7 @@ grey-brown.  The belly is pale blue.
 snake~
 AB D -100 0
 38 19 1d1+1383 1d1+760 6d6+19 shbite
--14 -14 -14 -2
+-29 -29 -29 -17
 FENU 0 0 0
 stand stand neutral 1983
 0 0 medium 0
@@ -12223,7 +12223,7 @@ staring at him.
 orc~
 AB C -750 0
 43 21 1d1+1725 1d1+860 7d6+21 slash
--17 -17 -17 -4
+-32 -32 -32 -19
 FENUC 0 0 0
 stand stand male 2246
 0 0 medium 0
@@ -12240,7 +12240,7 @@ of Xevior on his forehead.
 elf~
 ABL CDEFH -666 0
 43 21 1d1+1759 1d1+860 7d6+21 beating
--17 -17 -17 -4
+-32 -32 -32 -19
 FENU 0 0 0
 stand stand male 2250
 0 0 medium 0
@@ -12257,7 +12257,7 @@ look at him.  Ready for any move you may make on him.
 lizard~
 A D -600 0
 16 8 1d1+464 1d1+320 4d4+8 punch
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 655
 0 0 medium 0
@@ -12275,7 +12275,7 @@ swallowed whole.
 unique~
 BFA HQ -100 0
 44 22 1d1+1765 1d1+880 7d6+22 slash
--18 -18 -18 -4
+-33 -33 -33 -19
 FENU 0 0 0
 stand stand neutral 2226
 0 0 medium 0
@@ -12292,7 +12292,7 @@ it's whole mass can not possibly fit in the corridor. ~
 unique~
 BFA HQ -250 0
 48 24 1d1+2014 1d1+960 7d7+24 slash
--20 -20 -20 -5
+-35 -35 -35 -20
 FENU 0 0 0
 stand stand neutral 2507
 0 0 medium 0
@@ -12310,7 +12310,7 @@ with ten eyestalks around it.
 human~
 AG DF -750 0
 43 21 1d1+1774 1d1+860 7d6+21 punch
--17 -17 -17 -4
+-32 -32 -32 -19
 FENU 0 0 0
 stand stand male 2177
 0 0 medium 0
@@ -12329,7 +12329,7 @@ githzerai!  You wonder how that happened.
 human~
 AGL DF -850 0
 46 23 1d1+1917 1d1+920 7d7+23 punch
--19 -19 -19 -5
+-34 -34 -34 -20
 FENU 0 0 0
 stand stand male 2375
 0 0 medium 0
@@ -12347,7 +12347,7 @@ would no easy matter to defeat him.
 human~
 AB DF -900 0
 48 24 1d1+1964 1d1+960 7d7+24 punch
--20 -20 -20 -5
+-35 -35 -35 -20
 FENU 0 0 0
 stand stand male 2418
 0 0 medium 0
@@ -12365,7 +12365,7 @@ olive-green.  This grell is the beloved pet of the beholder. ~
 unique~
 ABFL H -750 0
 46 23 1d1+1889 1d1+920 7d7+23 pound
--19 -19 -19 -5
+-34 -34 -34 -20
 FENU 0 0 0
 stand stand neutral 2401
 0 0 medium 0
@@ -12382,7 +12382,7 @@ make you pay.
 dwarf~
 AB CDNH 0 0
 100 50 1d1+9389 1d1+2000 10d10+50 slash
--53 -53 -53 -22
+-68 -68 -68 -37
 FENUH 0 0 0
 stand stand male 6209
 0 0 medium 0
@@ -12400,7 +12400,7 @@ seems to fit in.
 dwarf~
 AG E -500 0
 11 5 1d1+275 1d1+220 3d4+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 456
 0 0 medium 0
@@ -12415,7 +12415,7 @@ blends in with the murky lighting.  The drow looks quick and deadly. ~
 half-elf~
 AB E -600 0
 13 6 1d1+325 1d1+260 4d4+6 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 521
 0 0 medium 0
@@ -12432,7 +12432,7 @@ a gut that hangs out right over his belt, and a few scars on his face
 human~
 AG E -250 0
 14 7 1d1+350 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 562
 0 0 medium 0
@@ -12450,7 +12450,7 @@ them.
 human~
 AB E 0 0
 22 11 1d1+733 1d1+440 5d5+11 punch
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1126
 0 0 medium 0
@@ -12465,7 +12465,7 @@ built he is, but you do know he looks very deadly and dangerous ~
 orc~
 AB E 0 0
 22 11 1d1+743 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENUC 0 0 0
 stand stand male 1147
 0 0 medium 0
@@ -12483,7 +12483,7 @@ up anything.
 goblin~
 ACG PQ -50 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand neutral 682
 0 0 medium 0
@@ -12500,7 +12500,7 @@ slowly eating it's way through the wall and floor.
 unique~
 AG 0 0 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand neutral 1013
 0 0 medium 0
@@ -12517,7 +12517,7 @@ The rat's fur is black and brown and very dirty.
 unique~
 AG 0 0 0
 19 9 1d1+551 1d1+380 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand neutral 790
 0 0 medium 0
@@ -12535,7 +12535,7 @@ has dirty but sharp nails.
 hobbit~
 ACG PQ -400 0
 22 11 1d1+755 1d1+440 5d5+11 punch
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand neutral 1117
 0 0 medium 0
@@ -12554,7 +12554,7 @@ and bowed, with hands and feet tipped with thick nails which are filthy.
 human~
 ACG P -600 0
 21 10 1d1+727 1d1+420 5d5+10 punch
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand neutral 1073
 0 0 medium 0
@@ -12573,7 +12573,7 @@ ovals of large size.
 human~
 ABL DFHJ -999 0
 45 22 1d1+1810 1d1+900 7d7+22 slash
--19 -19 -19 -5
+-34 -34 -34 -20
 FENU 0 0 0
 stand stand neutral 2356
 0 0 medium 0
@@ -12590,7 +12590,7 @@ stares at you, his eyes bloodshot and sunken into their sockets. ~
 undead~
 ABF E -500 0
 38 19 1d1+1341 1d1+760 6d6+19 slash
--14 -14 -14 -2
+-29 -29 -29 -17
 FENU 0 0 0
 stand stand male 1921
 0 0 medium 0
@@ -12606,7 +12606,7 @@ at it's eyes and notice with a shock that they are watching you. ~
 unique~
 AB D 0 0
 40 20 1d1+1455 1d1+800 6d6+20 punch
--15 -15 -15 -3
+-30 -30 -30 -18
 FENU 0 0 0
 stand stand neutral 2062
 0 0 medium 0
@@ -12623,7 +12623,7 @@ looks as if it is watching you.
 unique~
 AB D 0 0
 39 19 1d1+1401 1d1+780 6d6+19 slash
--15 -15 -15 -3
+-30 -30 -30 -18
 FENU 0 0 0
 stand stand neutral 2021
 0 0 medium 0
@@ -12641,7 +12641,7 @@ and you are pretty sure all over his body.
 human~
 AB N -500 0
 42 21 1d1+1712 1d1+840 6d6+21 beating
--17 -17 -17 -4
+-32 -32 -32 -19
 FENU 0 0 0
 stand stand male 2106
 0 0 huge 0
@@ -12657,7 +12657,7 @@ eyes and ears of the bodak, if the bodak so desires.
 unique~
 AG BDFJPQ -750 0
 39 19 1d1+1400 1d1+780 6d6+19 slash
--15 -15 -15 -3
+-30 -30 -30 -18
 FENU 0 0 0
 stand stand male 2040
 0 0 small 0
@@ -12677,7 +12677,7 @@ babau.
 unique~
 ACF J -1000 0
 40 20 1d1+1425 1d1+800 6d6+20 pound
--15 -15 -15 -3
+-30 -30 -30 -18
 FENU 0 0 0
 stand stand neutral 2056
 0 0 large 0
@@ -12691,7 +12691,7 @@ This is a servant.  He is ready to serve whomever his current master is.~
 human~
 AG J 0 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 415
 0 0 medium 0
@@ -12709,7 +12709,7 @@ is basically earthy in colour.
 unique~
 ACF BEJQ -1000 0
 41 20 1d1+1685 1d1+820 6d6+20 slash
--16 -16 -16 -3
+-31 -31 -31 -18
 FENU 0 0 0
 stand stand neutral 2118
 0 0 medium 0
@@ -12724,7 +12724,7 @@ realise if you touch the goods her "boss" will be mighty upset. ~
 human~
 AC J 0 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand female 491
 0 0 medium 0
@@ -12742,7 +12742,7 @@ from then on.
 elf~
 AC J 0 0
 13 6 1d1+325 1d1+260 4d4+6 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand female 537
 0 0 medium 0
@@ -12759,7 +12759,7 @@ ready when you have paid up.
 human~
 AC J 0 0
 11 5 1d1+275 1d1+220 3d4+5 scratch
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 456
 0 0 medium 0
@@ -12776,7 +12776,7 @@ spills over his pants.
 human~
 AC J 0 0
 14 7 1d1+350 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 565
 0 0 medium 0
@@ -12792,7 +12792,7 @@ but you realise that he must be a terror to his underlings. ~
 human~
 AC J -1000 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 664
 0 0 medium 0
@@ -12810,7 +12810,7 @@ the streets of this foul city.
 hobbit~
 AB J -500 0
 13 6 1d1+325 1d1+260 4d4+6 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 538
 0 0 medium 0
@@ -12827,7 +12827,7 @@ half-orc is guzzling down the ale looking for trouble.
 orc~
 AB J -900 0
 11 5 1d1+275 1d1+220 3d4+5 pound
-3 3 3 6
+-12 -12 -12 -9
 FENUC 0 0 0
 stand stand male 448
 0 0 medium 0
@@ -12842,7 +12842,7 @@ skin is grey and his eyes are also grey.  He looks to be very dangerous. ~
 hobbit~
 AB J -750 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 485
 0 0 medium 0
@@ -12860,7 +12860,7 @@ here.
 human~
 AB JH 0 0
 100 50 1d1+9213 1d1+2000 10d10+50 slash
--53 -53 -53 -22
+-68 -68 -68 -37
 FENUH 0 0 0
 stand stand male 6041
 0 0 medium 0
@@ -12877,7 +12877,7 @@ a purple worm single handed.
 dwarf~
 AB J -500 0
 33 16 1d1+1200 1d1+660 6d6+16 slash
--11 -11 -11 -1
+-26 -26 -26 -16
 FENU 0 0 0
 stand stand male 1659
 0 0 medium 0
@@ -12894,7 +12894,7 @@ reason many people are after his life.
 hobbit~
 AB J -600 0
 30 15 1d1+999 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1533
 0 0 medium 0
@@ -12910,7 +12910,7 @@ and quick.  His dark skin and pointed ears makes him look like a demon. ~
 half-elf~
 AB J -999 0
 31 15 1d1+1138 1d1+620 6d5+15 slash
--10 -10 -10 0
+-25 -25 -25 -15
 FENU 0 0 0
 stand stand male 1594
 0 0 medium 0
@@ -12928,7 +12928,7 @@ the door.
 orc~
 AB J -999 0
 30 15 1d1+1018 1d1+600 5d5+15 pound
--9 -9 -9 0
+-24 -24 -24 -15
 FENUC 0 0 0
 stand stand male 1558
 0 0 large 0
@@ -12946,7 +12946,7 @@ although that is better than you yourself.
 half-elf~
 AB J 0 0
 13 6 1d1+325 1d1+260 4d4+6 slice
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand female 530
 0 0 medium 0
@@ -12962,7 +12962,7 @@ you to decide on which slave you wish to buy.
 human~
 BA H -900 0
 100 50 1d1+9131 1d1+2000 10d10+50 slash
--53 -53 -53 -22
+-68 -68 -68 -37
 FENUH 0 0 0
 stand stand male 6282
 0 0 large 0
@@ -12979,7 +12979,7 @@ trading.
 human~
 AC J -500 0
 23 11 1d1+777 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1165
 0 0 medium 0
@@ -12995,7 +12995,7 @@ that any slave would dread.
 human~
 AC J -900 0
 21 10 1d1+708 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1081
 0 0 medium 0
@@ -13010,7 +13010,7 @@ The orc slave looks none to pleased about being a slave.
 orc~
 BCA 0 0 0
 18 9 1d1+522 1d1+360 4d4+9 pound
--2 -2 -2 4
+-17 -17 -17 -11
 FENUC 0 0 0
 stand stand male 743
 0 0 medium 0
@@ -13025,7 +13025,7 @@ The goblin slave watches you with distrust and hatred.
 goblin~
 BCA 0 0 0
 16 8 1d1+464 1d1+320 4d4+8 pierce
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 645
 0 0 medium 0
@@ -13041,7 +13041,7 @@ been broken... yet.
 human~
 BCA 0 0 0
 19 9 1d1+551 1d1+380 4d4+9 punch
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 763
 0 0 medium 0
@@ -13055,7 +13055,7 @@ A female human slave stands before you watching you carefully. ~
 human~
 BCA 0 0 0
 11 5 1d1+275 1d1+220 3d4+5 punch
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 450
 0 0 medium 0
@@ -13070,7 +13070,7 @@ A small kobold looks like a strong fierce fighter.
 kobold~
 BCA 0 0 0
 20 10 1d1+580 1d1+400 4d5+10 pound
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1025
 0 0 medium 0
@@ -13084,7 +13084,7 @@ The elven slave looks as if he would defend his master, if he had to. ~
 elf~
 BCA 0 0 0
 24 12 1d1+811 1d1+480 5d5+12 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1250
 0 0 medium 0
@@ -13100,7 +13100,7 @@ if ordered to.
 dwarf~
 BCA 0 0 0
 26 13 1d1+881 1d1+520 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand male 1303
 0 0 medium 0
@@ -13117,7 +13117,7 @@ to attack him.
 human~
 AB CH 0 0
 100 50 1d1+9434 1d1+2000 10d10+50 slash
--53 -53 -53 -22
+-68 -68 -68 -37
 FENUH 0 0 0
 stand stand male 6048
 0 0 medium 0
@@ -13132,7 +13132,7 @@ name Prax.  He is an accomplished mage, and seems to breathe magic. ~
 half-elf~
 AB D -500 0
 28 14 1d1+942 1d1+560 5d5+14 slash
--8 -8 -8 1
+-23 -23 -23 -14
 FENU 0 0 0
 stand stand male 1431
 0 0 medium 0
@@ -13148,7 +13148,7 @@ entire career.  He goes by the name Thespan.
 half-elf~
 AB 0 -600 0
 26 13 1d1+863 1d1+520 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand male 1301
 0 0 medium 0
@@ -13164,7 +13164,7 @@ able to steal anything off of anyone.  Maybe you should check your gold.
 half-elf~
 AB 0 -600 0
 26 13 1d1+888 1d1+520 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand male 1337
 0 0 medium 0
@@ -13181,7 +13181,7 @@ clearly very intelligent and cunning.
 hobbit~
 AB D -600 0
 16 8 1d1+464 1d1+320 4d4+8 slice
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand female 667
 0 0 medium 0
@@ -13199,7 +13199,7 @@ beholder's has outfitted them and protects them.
 hobbit~
 AB 0 -700 0
 15 7 1d1+375 1d1+300 4d4+7 pound
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 610
 0 0 medium 0
@@ -13218,7 +13218,7 @@ races.
 dwarf~
 AB 0 -800 0
 17 8 1d1+493 1d1+340 4d4+8 scratch
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand male 703
 0 0 medium 0
@@ -13236,7 +13236,7 @@ Underdark.
 half-elf~
 AB 0 -700 0
 16 8 1d1+464 1d1+320 4d4+8 slice
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 656
 0 0 medium 0
@@ -13253,7 +13253,7 @@ profitable business going.
 half-elf~
 ABL D 0 0
 50 25 1d1+2089 1d1+1000 7d7+25 slash
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand male 2564
 0 0 medium 0
@@ -13271,7 +13271,7 @@ those who visit this unique city.
 half-elf~
 AB DH 0 0
 100 50 1d1+9282 1d1+2000 10d10+50 slash
--53 -53 -53 -22
+-68 -68 -68 -37
 FENUH 0 0 0
 stand stand male 6006
 0 0 medium 0
@@ -13290,7 +13290,7 @@ him.
 dwarf~
 AB DH 0 0
 100 50 1d1+9105 1d1+2000 10d10+50 slash
--53 -53 -53 -22
+-68 -68 -68 -37
 FENUH 0 0 0
 stand stand male 6245
 0 0 medium 0
@@ -13307,7 +13307,7 @@ She is a beautiful lady who always gets her way.
 human~
 ABL D -999 0
 40 20 1d1+1431 1d1+800 6d6+20 slash
--15 -15 -15 -3
+-30 -30 -30 -18
 FENU 0 0 0
 stand stand female 2010
 0 0 medium 0
@@ -13326,7 +13326,7 @@ with.
 hobbit~
 ABL D 0 0
 49 24 1d1+2034 1d1+980 7d7+24 slash
--21 -21 -21 -6
+-36 -36 -36 -21
 FENU 0 0 0
 stand stand male 2455
 0 0 medium 0
@@ -13343,7 +13343,7 @@ dressed is dark grey clothing and stands a good five feet tall.
 hobbit~
 AG 0 -500 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand male 683
 0 0 medium 0
@@ -13360,7 +13360,7 @@ in different shades of grey and sports a nice looking necklace ~
 hobbit~
 AG 0 -500 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 654
 0 0 medium 0
@@ -13378,7 +13378,7 @@ does his duty with a fanatic pride.
 hobbit~
 AB 0 -700 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand male 702
 0 0 medium 0
@@ -13395,7 +13395,7 @@ of experience his skills aren't refined like those of his superiors.
 hobbit~
 A Q -450 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 669
 0 0 medium 0
@@ -13412,7 +13412,7 @@ steal or kill.
 elf~
 AH P -600 0
 17 8 1d1+493 1d1+340 4d4+8 slice
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand male 683
 0 0 medium 0
@@ -13429,7 +13429,7 @@ scars from countless fights.
 elf~
 AH D -600 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 754
 0 0 medium 0
@@ -13446,7 +13446,7 @@ willing to take greater risks.
 orc~
 AH DQ -700 0
 19 9 1d1+551 1d1+380 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENUC 0 0 0
 stand stand male 796
 0 0 medium 0
@@ -13463,7 +13463,7 @@ with his life.
 half-elf~
 ABF D -500 0
 21 10 1d1+714 1d1+420 5d5+10 slice
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1056
 0 0 medium 0
@@ -13480,7 +13480,7 @@ can watch him.
 human~
 AB D -500 0
 23 11 1d1+766 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1206
 0 0 medium 0
@@ -13497,7 +13497,7 @@ water, he seems to flow rather than move.
 hobbit~
 AB DEF -700 0
 25 12 1d1+836 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1271
 0 0 medium 0
@@ -13515,7 +13515,7 @@ and he makes sure non of the other thieves gets near him in power.
 half-elf~
 AB DEF -1000 0
 47 23 1d1+1973 1d1+940 7d7+23 slash
--20 -20 -20 -5
+-35 -35 -35 -20
 FENU 0 0 0
 stand stand male 2460
 0 0 medium 0
@@ -13532,7 +13532,7 @@ robe and lights the room with a rob shaped like a hand holding an orb.
 human~
 AB DEFH -500 0
 40 20 1d1+1435 1d1+800 6d6+20 slash
--15 -15 -15 -3
+-30 -30 -30 -18
 FENU 0 0 0
 stand stand male 2002
 0 0 medium 0
@@ -13549,7 +13549,7 @@ guild who is stronger than the leader.
 elf~
 ABK DN 0 0
 50 25 1d1+2082 1d1+1000 7d7+25 slash
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand male 2539
 0 0 medium 0
@@ -13566,7 +13566,7 @@ so watch your back.
 elf~
 AG P -900 0
 20 10 1d1+580 1d1+400 4d5+10 punch
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1040
 0 0 medium 0
@@ -13583,7 +13583,7 @@ the opening.
 human~
 AG DPQ -999 0
 21 10 1d1+694 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1071
 0 0 medium 0
@@ -13599,7 +13599,7 @@ critical hit, watch your back and don't hang around. ~
 orc~
 AG DPQ -999 0
 22 11 1d1+742 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENUC 0 0 0
 stand stand male 1110
 0 0 medium 0
@@ -13616,7 +13616,7 @@ the match up, his strike is deadly.
 elf~
 AG DQ -999 0
 23 11 1d1+771 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1158
 0 0 medium 0
@@ -13633,7 +13633,7 @@ read all of this, I caution you to move right away.
 human~
 AG D -999 0
 25 12 1d1+865 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1288
 0 0 medium 0
@@ -13650,7 +13650,7 @@ what this assassin really looks like.
 human~
 AG D -999 0
 27 13 1d1+907 1d1+540 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand male 1393
 0 0 medium 0
@@ -13667,7 +13667,7 @@ take out almost any foe.
 human~
 AGL D -999 0
 29 14 1d1+978 1d1+580 5d5+14 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1482
 0 0 medium 0
@@ -13684,7 +13684,7 @@ many long hours to learn how to hit the critical spot.
 human~
 AGL D -999 0
 31 15 1d1+1128 1d1+620 6d5+15 slash
--10 -10 -10 0
+-25 -25 -25 -15
 FENU 0 0 0
 stand stand male 1566
 0 0 medium 0
@@ -13699,7 +13699,7 @@ any mortal.  His price is extremely high, but he has never failed. ~
 human~
 AG D -999 0
 46 23 1d1+1897 1d1+920 7d7+23 slash
--19 -19 -19 -5
+-34 -34 -34 -20
 FENU 0 0 0
 stand stand male 2307
 0 0 medium 0
@@ -13715,7 +13715,7 @@ land and is mortal.
 human~
 ABK DN 0 0
 50 25 1d1+2075 1d1+1000 7d7+25 slash
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand male 2547
 0 0 medium 0
@@ -13733,7 +13733,7 @@ focus right at you.
 unique~
 AG F -500 0
 44 22 1d1+1774 1d1+880 7d6+22 slash
--18 -18 -18 -4
+-33 -33 -33 -19
 FENU 0 0 0
 stand stand neutral 2229
 0 0 medium 0
@@ -13754,7 +13754,7 @@ the two lower ones.
 unique~
 AG F -600 0
 45 22 1d1+1844 1d1+900 7d7+22 slash
--19 -19 -19 -5
+-34 -34 -34 -20
 FENU 0 0 0
 stand stand neutral 2290
 0 0 medium 0
@@ -13773,7 +13773,7 @@ slack and slobbering with many small fangs.
 unique~
 AG F -800 0
 46 23 1d1+1844 1d1+920 7d7+23 slash
--19 -19 -19 -5
+-34 -34 -34 -20
 FENU 0 0 0
 stand stand neutral 2393
 0 0 medium 0
@@ -13790,7 +13790,7 @@ end up in a battle with a foe like this if you were weak.
 unique~
 AB H 0 0
 47 23 1d1+1958 1d1+940 7d7+23 acbite
--20 -20 -20 -5
+-35 -35 -35 -20
 FENU 0 0 0
 stand stand male 2417
 0 0 medium 0
@@ -13807,7 +13807,7 @@ warrior and is rarely beaten in a fight.
 dwarf~
 AG J -800 0
 46 23 1d1+1846 1d1+920 7d7+23 slash
--19 -19 -19 -5
+-34 -34 -34 -20
 FENU 0 0 0
 stand stand male 2404
 0 0 medium 0
@@ -13825,7 +13825,7 @@ away his insanity.
 orc~
 ABL H -999 0
 47 23 1d1+1945 1d1+940 7d7+23 slash
--20 -20 -20 -5
+-35 -35 -35 -20
 FENUC 0 0 0
 stand stand male 2367
 0 0 medium 0
@@ -13843,7 +13843,7 @@ tell that this man is extremely powerful.
 human~
 AB DH 0 0
 49 24 1d1+1995 1d1+980 7d7+24 slash
--21 -21 -21 -6
+-36 -36 -36 -21
 FENU 0 0 0
 stand stand male 2538
 0 0 medium 0
@@ -13863,7 +13863,7 @@ thus it seems to fade into the background.
 unique~
 AB D -500 0
 48 24 1d1+1971 1d1+960 7d7+24 slash
--20 -20 -20 -5
+-35 -35 -35 -20
 FENU 0 0 0
 stand stand neutral 2449
 0 0 medium 0
@@ -13883,7 +13883,7 @@ large gaping mouth and two glowing eyespots.
 unique~
 AB F -999 0
 48 24 1d1+2004 1d1+960 7d7+24 slash
--20 -20 -20 -5
+-35 -35 -35 -20
 FENU 0 0 0
 stand stand neutral 2504
 0 0 medium 0
@@ -13901,7 +13901,7 @@ hair is black.  He looks very evil.
 human~
 AB 0 -500 0
 25 12 1d1+863 1d1+500 5d5+12 beating
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1274
 0 0 large 0
@@ -13919,7 +13919,7 @@ thieves in the Underdark.
 orc~
 AB 0 -500 0
 26 13 1d1+897 1d1+520 5d5+13 pound
--7 -7 -7 1
+-22 -22 -22 -14
 FENUC 0 0 0
 stand stand male 1360
 0 0 medium 0
@@ -13936,7 +13936,7 @@ can become the most feared drow in the land
 half-elf~
 AB 0 -700 0
 26 13 1d1+858 1d1+520 5d5+13 pound
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand male 1321
 0 0 medium 0
@@ -13953,7 +13953,7 @@ rivals that of an ogre.
 dwarf~
 AB 0 -500 0
 24 12 1d1+815 1d1+480 5d5+12 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1254
 0 0 medium 0
@@ -13969,7 +13969,7 @@ and stares at your with glowing eyes.  A dangerous fellow by far.
 half-elf~
 AB 0 -800 0
 25 12 1d1+865 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1260
 0 0 medium 0
@@ -13985,7 +13985,7 @@ and hopes to find many powerful magical items.
 dwarf~
 AB 0 -500 0
 26 13 1d1+871 1d1+520 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand male 1352
 0 0 medium 0
@@ -14000,7 +14000,7 @@ of magical items to enhance his considerable magical prowess. ~
 human~
 AB 0 -400 0
 27 13 1d1+920 1d1+540 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand male 1351
 0 0 medium 0
@@ -14017,7 +14017,7 @@ Underdark.
 human~
 AB 0 -250 0
 25 12 1d1+841 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand female 1251
 0 0 medium 0
@@ -14032,7 +14032,7 @@ what they want and provides soft beds for those who wish to stay here. ~
 human~
 AB H 0 0
 100 50 1d1+9401 1d1+2000 10d10+50 slash
--53 -53 -53 -22
+-68 -68 -68 -37
 FENUH 0 0 0
 stand stand male 6231
 0 0 medium 0
@@ -14049,7 +14049,7 @@ fanatical desire to be one with the demons.
 human~
 AG N -500 0
 17 8 1d1+493 1d1+340 4d4+8 punch
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand male 693
 0 0 medium 0
@@ -14065,7 +14065,7 @@ He is also wearing red and black bracers.
 human~
 AG N -600 0
 21 10 1d1+726 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1057
 0 0 medium 0
@@ -14082,7 +14082,7 @@ possessed by an evil force.
 human~
 AB N -900 0
 23 11 1d1+775 1d1+460 5d5+11 pound
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1194
 0 0 medium 0
@@ -14099,7 +14099,7 @@ to this plane of existence.
 elf~
 ABL N -600 0
 27 13 1d1+912 1d1+540 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand male 1413
 0 0 medium 0
@@ -14116,7 +14116,7 @@ from his head.
 human~
 AG N -999 0
 30 15 1d1+1028 1d1+600 5d5+15 punch
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1519
 0 0 medium 0
@@ -14134,7 +14134,7 @@ red fangs instead of teeth.
 human~
 AG N -999 0
 35 17 1d1+1245 1d1+700 6d6+17 punch
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand male 1784
 0 0 medium 0
@@ -14153,7 +14153,7 @@ please.
 human~
 ABL HN -999 0
 37 18 1d1+1344 1d1+740 6d6+18 slash
--14 -14 -14 -2
+-29 -29 -29 -17
 FENU 0 0 0
 stand stand male 1892
 0 0 medium 0
@@ -14171,7 +14171,7 @@ he has spikes and his hands end with large claws.
 unique~
 AF 0 -999 0
 25 12 1d1+857 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1292
 0 0 medium 0
@@ -14188,7 +14188,7 @@ sense an aura of pure evil emanating from this creature.
 unique~
 AG 0 -999 0
 25 12 1d1+826 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1266
 0 0 medium 0
@@ -14205,7 +14205,7 @@ clammy.  Its eyes - sunken in the face - are dull and heavy lidded.
 human~
 AG 0 -500 0
 25 12 1d1+825 1d1+500 5d5+12 punch
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1284
 0 0 medium 0
@@ -14223,7 +14223,7 @@ yellow. Its eyes are disproportionably large and apparently lidless.
 unique~
 AG 0 -700 0
 24 12 1d1+809 1d1+480 5d5+12 acbite
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand neutral 1225
 0 0 medium 0

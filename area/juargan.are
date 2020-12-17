@@ -1429,7 +1429,7 @@ beard is encrusted with cracked rock and dust from the tunnel walls.
 unique~
 CA 0 500 0
 7 3 1d1+161 1d1+140 3d3+3 chop
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 283
 0 0 medium 0
@@ -1446,7 +1446,7 @@ mines.
 unique~
 CA 0 500 0
 5 2 1d1+100 1d1+100 2d3+2 chop
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 205
 0 0 medium 0
@@ -1463,7 +1463,7 @@ dwarf is of no use to anyone but him, but provides adequate defense.
 unique~
 BA 0 700 0
 10 5 1d1+230 1d1+200 3d3+5 chop
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 401
 0 0 medium 0
@@ -1480,7 +1480,7 @@ of failure at growing rocks.
 unique~
 CA D 1000 0
 10 5 1d1+230 1d1+200 3d3+5 chop
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 sit sit male 413
 0 0 medium 0
@@ -1497,7 +1497,7 @@ surroundings, as if his burden has become to much for him.
 unique~
 BLA D 1000 0
 27 13 1d1+911 1d1+540 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 sit sit male 1406
 0 0 medium 0
@@ -1514,7 +1514,7 @@ enemies with them.
 unique~
 CFA D -1000 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 327
 0 0 medium 0
@@ -1531,7 +1531,7 @@ turned into a crude scowl as you can feel that his soul is not at ease.
 unique~
 BFLA DF -999 0
 27 13 1d1+906 1d1+540 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand male 1408
 0 0 medium 0
@@ -1548,7 +1548,7 @@ many dwarves as it's body is at least five feet in diameter.
 unique~
 BFA D 0 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--6 -6 -6 0
+-21 -21 -21 -15
 FENU 0 0 0
 stand stand neutral 1020
 0 0 medium 0
@@ -1565,7 +1565,7 @@ of eternal pain.
 unique~
 BFA DFH -999 0
 15 7 1d1+375 1d1+300 4d4+7 chop
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 605
 0 0 medium 0

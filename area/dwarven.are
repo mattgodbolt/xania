@@ -847,7 +847,7 @@ The guard looks very tough and mean.
 dwarf~
 BLA D 500 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1003
 0 0 medium 0
@@ -862,7 +862,7 @@ He is very dirty, and looks extremely over-worked.
 dwarf~
 GLA 0 900 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 488
 0 0 medium 0
@@ -877,7 +877,7 @@ A black, almost transparent wraith.
 unique~
 BA DF -900 0
 29 14 1d1+999 1d1+580 5d5+14 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1493
 0 0 medium 0
@@ -892,7 +892,7 @@ The storekeeper is very rotund, but looks like a sharp guy.
 dwarf~
 BLA 0 900 0
 35 17 1d1+1228 1d1+700 6d6+17 slash
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand male 1762
 0 0 medium 0
@@ -907,7 +907,7 @@ Granite Head is covered with flour and grains.
 dwarf~
 BLA 0 900 0
 35 17 1d1+1271 1d1+700 6d6+17 slash
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand male 1762
 0 0 medium 0
@@ -923,7 +923,7 @@ habitat.  He looks very powerful.
 lizard~
 GA D 100 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 744
 0 0 medium 0
@@ -938,7 +938,7 @@ The giant is about 8 feet tall, with arms of steel, and looks very strong.
 giant~
 GA 0 0 0
 16 8 1d1+464 1d1+320 4d4+8 pound
-0 0 0 5
+-15 -15 -15 -10
 FENUC 0 0 0
 stand stand male 656
 0 0 medium 0
@@ -953,7 +953,7 @@ The mineworker is very tired, and very dirty, and he has bulging muscles.
 dwarf~
 BLA 0 0 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 335
 0 0 medium 0
@@ -968,7 +968,7 @@ The mine leader is very big and very strong.
 dwarf~
 BLA 0 0 0
 21 10 1d1+695 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1067
 0 0 medium 0
@@ -983,7 +983,7 @@ He is a very skilled surgeon, with hands of steel.
 dwarf~
 BLA DH 1000 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand male 372
 0 0 medium 0
@@ -997,7 +997,7 @@ A dwarven peon is awaiting help here.
 dwarf~
 BLA 0 500 0
 3 1 1d1+60 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 122
 0 0 medium 0
@@ -1011,7 +1011,7 @@ A grinning dwarf is here.
 dwarf~
 BLA 0 500 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand male 375
 0 0 medium 0
@@ -1025,7 +1025,7 @@ An unwanted son is here.  You feel sorry for the guy.
 dwarf~
 GA 0 250 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand male 367
 0 0 medium 0
@@ -1039,7 +1039,7 @@ An unwanted daughter is here.  You feel sorry for her.
 dwarf~
 GA 0 250 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand female 410
 0 0 medium 0
@@ -1053,7 +1053,7 @@ A barrack guard is here.
 dwarf~
 BLA 0 100 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 643
 0 0 medium 0
@@ -1067,7 +1067,7 @@ A man in waiting is here.  He looks nervous and unsure of himself.
 human~
 BLA 0 300 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 600
 0 0 medium 0
@@ -1082,7 +1082,7 @@ He looks VERY tough.
 dwarf~
 BFLA H -1000 0
 29 14 1d1+1001 1d1+580 5d5+14 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1466
 0 0 medium 0
@@ -1096,7 +1096,7 @@ There is a giant snake here.
 snake~
 BFA 0 -1000 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 605
 0 0 medium 0

@@ -641,7 +641,7 @@ sorrow and depression.  He is haunted by a memory of a lost paradise.
 human~
 GA 0 350 0
 4 2 1d1+65 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 sit sit male 164
 0 0 medium 0
@@ -656,7 +656,7 @@ Maggots crawl all over its decaying body.
 undead~
 BFA J -750 0
 4 2 1d1+65 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand male 162
 0 0 medium 0
@@ -672,7 +672,7 @@ resemble claws.  Its eyes are a dark yellow colour and glare hungrily at you.
 undead~
 BFA J -750 0
 6 3 1d1+125 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 242
 0 0 medium 0
@@ -688,7 +688,7 @@ time.
 undead~
 BFA J -750 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 123
 0 0 medium 0
@@ -704,7 +704,7 @@ time.
 undead~
 FA J -750 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 125
 0 0 medium 0
@@ -719,7 +719,7 @@ Maggots crawl all over its decaying body.
 undead~
 FA J -750 0
 4 2 1d1+65 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand male 165
 0 0 medium 0

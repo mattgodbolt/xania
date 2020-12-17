@@ -751,7 +751,7 @@ evil.  He perhaps was a student of the evil orc mage Uruk.
 orc~
 FGHR DEH -950 0
 42 22 10d6+1770 10d6+460 10d4+19 blast
--2 -2 -2 -2
+-17 -17 -17 -17
 FJNQ ABQ CL N
 stand stand male 200
 0 0 medium 0
@@ -768,7 +768,7 @@ his spear!
 orc~
 FGT HZ -800 0
 36 18 8d8+1170 5d6+200 6d6+18 pound
--3 -2 -1 0
+-18 -17 -16 -15
 CEFHKQ A 0 N
 stand stand male 80
 0 0 medium 0
@@ -789,7 +789,7 @@ and sharp nails.
 dwarf~
 CSH FQZ -50 0
 20 10 4d10+400 1d1+99 4d5+10 bite
-0 0 0 0
+-15 -15 -15 -15
 DFN A 0 0
 stand stand male 2
 0 0 small 0
@@ -809,7 +809,7 @@ a formidable opponent.
 dragon~
 BFGT FHTa -980 0
 39 21 2d2+2040 1d1+249 3d13+19 hit
--3 -2 -1 0
+-18 -17 -16 -15
 CEFIKMQ A EK 0
 stand stand male 93
 0 0 large 0
@@ -828,7 +828,7 @@ destination.
 dwarf~
 CGS 0 -110 0
 23 11 4d10+400 1d1+99 2d12+11 bite
-0 -1 0 0
+-15 -16 -15 -15
 DFIJN A 0 0
 stand stand male 4
 0 0 small 0
@@ -846,7 +846,7 @@ end.  Its helmet is much too big for it and it can hardly see!
 dwarf~
 CGS A -100 0
 24 11 4d10+450 1d1+99 3d8+12 bite
--1 -1 -1 0
+-16 -16 -16 -15
 DFIJN A 0 0
 stand stand male 43
 0 0 small 0
@@ -867,7 +867,7 @@ and sharp nails.
 dwarf~
 CSH FQZ -50 0
 21 10 4d10+400 1d1+99 3d7+11 bite
-0 0 0 0
+-15 -15 -15 -15
 DFN A 0 0
 stand stand female 4
 0 0 small 0
@@ -885,7 +885,7 @@ are you!
 dwarf~
 BC MY -900 0
 25 12 4d10+392 1d1+249 5d5+12 beating
-0 0 0 0
+-15 -15 -15 -15
 FINU A LQ I
 sit sit male 0
 0 0 medium 0
@@ -903,7 +903,7 @@ behind him, this Dewar is not going to get past the guards in this state.
 dwarf~
 CFHS MYX -910 0
 26 14 4d10+405 1d1+249 5d5+13 beating
-0 0 0 0
+-15 -15 -15 -15
 CDFHIJNU A LQ I
 stand stand male 0
 0 0 medium 0
@@ -921,7 +921,7 @@ an evil sigil in the air and prepares to attack.
 dragon~
 FGHR HUT -1000 0
 45 25 4d10+1850 2d10+520 5d9+22 claw
--2 -2 -2 -2
+-17 -17 -17 -17
 CEFI AB CK 0
 stand stand male 600
 0 0 large 0
@@ -941,7 +941,7 @@ fighting force must be kept at its peak to further the draconians' evil goals.
 dragon~
 BGQL HTZ -1000 0
 40 22 4d10+1650 2d10+450 4d10+20 divine
--2 -1 -2 -3
+-17 -16 -17 -18
 CDEFKMR ABN CK F
 stand stand male 540
 0 0 large 0
@@ -959,7 +959,7 @@ stomach, and many small cuts and bruises over his body.
 dragon~
 BGT FHTa -980 0
 36 17 2d2+1241 1d1+249 6d6+18 hit
--3 -2 -1 0
+-18 -17 -16 -15
 CEFIKMQ A EK 0
 stand stand male 76
 0 0 large 0
@@ -986,7 +986,7 @@ The man sighs deeply, and continues:
 unique~
 BCU CDEFHJN 0 0
 50 27 1d1+4999 1d1+4999 6d8+25 divine
--10 -10 -10 -10
+-25 -25 -25 -25
 0 0 0 0
 stand stand male 1
 0 0 large 0
@@ -1006,7 +1006,7 @@ whip.
 goblin~
 BCH 0 -150 0
 25 12 10d10+500 5d2+49 5d5+12 claw
--1 0 0 -1
+-16 -15 -15 -16
 CFIJNR A L 0
 stand stand male 4
 0 0 small 0
@@ -1026,7 +1026,7 @@ different tale.
 goblin~
 BCH N -400 0
 28 14 10d10+550 5d2+49 4d7+13 claw
--1 -1 -1 -1
+-16 -16 -16 -16
 CFIJN A L 0
 stand stand male 6
 0 0 small 0
@@ -1045,7 +1045,7 @@ purposes of the draconians.
 goblin~
 B RW -100 0
 20 10 10d10+326 10d10+400 4d5+10 charge
-0 0 0 0
+-15 -15 -15 -15
 DFN AC L P
 stand stand male 0
 0 0 tiny 0
@@ -1063,7 +1063,7 @@ delicate task as making explosives - and edge away from her slightly...
 goblin~
 BCH P -210 0
 24 11 10d10+460 5d2+49 6d4+12 claw
-0 0 0 0
+-15 -15 -15 -15
 CFIJNR A L 0
 stand stand female 10
 0 0 small 0
@@ -1084,7 +1084,7 @@ is that of a dragon's!
 minotaur~
 BFTV CDEFHNV -1000 0
 50 32 10d10+2490 50d4+400 7d7+25 pound
--4 -3 -2 0
+-19 -18 -17 -15
 CDEFHKV AB JK N
 stand stand male 6666
 0 0 huge 0
@@ -1102,7 +1102,7 @@ magical form, unfortunately for you!
 dragon~
 BCFR CDFHZ -1000 0
 48 26 10d10+1950 2d2+1997 6d8+24 claw
--3 -3 0 -2
+-18 -18 -15 -17
 FIK AB COP N
 stand stand male 350
 0 0 medium 0
@@ -1119,7 +1119,7 @@ force - and has been consigned to boring duties.  He is in a foul mood.
 orc~
 CGT 0 -890 0
 32 18 5d10+750 1d1+99 4d8+16 slash
--1 -2 -2 0
+-16 -17 -17 -15
 DER A 0 0
 stand stand male 20
 0 0 medium 0

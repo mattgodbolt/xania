@@ -2108,7 +2108,7 @@ one of a peaceful man leading a simple life.
 human~
 GA 0 350 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 200
 0 0 medium 0
@@ -2124,7 +2124,7 @@ teeth.  It doesn't resemble those cute little thingies from toy shops at all.
 bear~
 FGA 0 -50 0
 8 4 1d1+169 1d1+160 3d3+4 beating
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 sleep sleep neutral 322
 0 0 medium 0
@@ -2141,7 +2141,7 @@ rabbits into ferocious and bloodthirsty monsters.
 rabbit~
 FGA 0 -150 0
 3 1 1d1+50 1d1+60 2d3+1 bite
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 sleep sleep neutral 122
 0 0 medium 0
@@ -2157,7 +2157,7 @@ looking back at you with an air of watchful interest.
 unique~
 BEGIA D 350 0
 2 1 1d1+35 1d1+40 1d2+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand female 82
 0 0 medium 0
@@ -2172,7 +2172,7 @@ It is a large fox with beautiful, red-brown fur and a long, thick brush.
 fox~
 GA 0 -50 0
 2 1 1d1+35 1d1+40 1d2+1 bite
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand neutral 81
 0 0 medium 0
@@ -2188,7 +2188,7 @@ quickly from its long, white fangs.  It looks quite dangerous and very angry.
 unique~
 FGA 0 -350 0
 5 2 1d1+80 1d1+100 2d3+2 bite
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 208
 0 0 medium 0
@@ -2204,7 +2204,7 @@ quickly from its long, white fangs.  It looks quite dangerous and very angry.
 unique~
 FGA 0 -350 0
 5 2 1d1+80 1d1+100 2d3+2 bite
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 208
 0 0 medium 0
@@ -2219,7 +2219,7 @@ The large, grey wolf eyes you with interest while licking its lips.
 wolf~
 FGA 0 -150 0
 3 1 1d1+50 1d1+60 2d3+1 bite
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand neutral 121
 0 0 medium 0
@@ -2234,7 +2234,7 @@ The large, black wolf eyes you with interest while licking its lips.
 wolf~
 FGA 0 -150 0
 3 1 1d1+50 1d1+60 2d3+1 bite
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand neutral 122
 0 0 medium 0
@@ -2252,7 +2252,7 @@ do.
 dragon~
 ABFG D -1000 0
 25 12 1d1+826 1d1+500 5d5+12 flbite
--6 -6 -6 2
+-21 -21 -21 -13
 FENUC 0 0 0
 stand stand neutral 1303
 0 0 medium 0
@@ -2269,7 +2269,7 @@ he is having great fun.
 hobbit~
 CEHA BDP 1000 0
 10 4 1d1+215 1d1+200 3d3+5 beating
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 404
 0 0 medium 0
@@ -2285,7 +2285,7 @@ he would be a tough foe.
 human~
 BCFA D 0 0
 17 7 1d1+463 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand male 703
 0 0 medium 0
