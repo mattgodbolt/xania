@@ -7,7 +7,7 @@
 /*************************************************************************/
 #pragma once
 
-void startchat(const char *);
+void startchat(const std::string &);
 std::string dochat(std::string_view player_name, std::string_view msg, std::string_view npc_name);
 void chatperform(Char *to_npc, Char *from_player, std::string_view msg);
 void chatperformtoroom(std::string_view text, Char *ch);

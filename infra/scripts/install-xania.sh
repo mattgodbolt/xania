@@ -17,9 +17,3 @@ if [[ -d xania-$VERSION ]]; then
 fi
 
 curl -sL "$(aws s3 presign s3://mud.xania.org/releases/xania-$VERSION.tar.xz)" | tar Jxf -
-
-cd "xania-$VERSION"
-
-for dir in "$HOME/data/"*; do
-  ln -sf "$dir" .
-done

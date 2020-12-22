@@ -16,7 +16,7 @@
 
 #include <stdint.h>
 
-#define XANIA_FILE "/tmp/.xania-%d-%s"
+static inline constexpr auto PIPE_FILE = "/tmp/.xania-{}-{}";
 
 /*
  * A packet of data passing between the MUD and doorman

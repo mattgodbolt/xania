@@ -872,8 +872,6 @@ void update_handler() {
         count_update();
         /*Rohan's challenge safety net*/
         do_chal_tick();
-        /* web update */
-        web_who();
 
         /* tip wizard */
         if (ignore_tips == false) /* once every two ticks */

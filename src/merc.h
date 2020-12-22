@@ -83,7 +83,6 @@ struct ban_data {
 #define BAN_PREFIX 8
 #define BAN_SUFFIX 16
 #define BAN_ALL 32
-#define BAN_FILE "ban.lst"
 
 /**
  * Indexes into attack_table that are used by specific weapon enchantment spells
@@ -1354,31 +1353,6 @@ extern std::string deity_name;
 
 /* Added by Rohan, to try to make count work properly */
 extern size_t max_on;
-
-/*
- * Data files used by the server.
- *
- * AREA_LIST contains a list of areas to boot.
- * All files are read in completely at bootup.
- * Most output files (bug, idea, typo, shutdown) are append-only.
- *
- */
-#define AREA_LIST "area.lst" /* List of areas                */
-
-#define BUG_FILE "bugs.txt" /* For 'bug' and bug( )         */
-#define IDEA_FILE "ideas.txt" /* For 'idea'                   */
-#define TYPO_FILE "typos.txt" /* For 'typo'                   */
-#define SHUTDOWN_FILE "shutdown.txt" /* For 'shutdown'               */
-/* tip wizard */
-
-#define TIPWIZARD_FILE "tipfile.txt"
-
-/* web */
-
-#define WEB_WHO_FILE "../html/webwho.html"
-
-/* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-#define MOB_DIR ""
 
 /* act_comm.c */
 void check_sex(Char *ch);

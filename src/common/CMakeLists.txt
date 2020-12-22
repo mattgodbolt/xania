@@ -1,4 +1,5 @@
 add_library(xania_common STATIC
+        Configuration.hpp Configuration.cpp
         Fd.cpp Fd.hpp
         doorman_protocol.h
         mask_hostname.hpp mask_hostname.cpp

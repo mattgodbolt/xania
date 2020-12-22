@@ -15,6 +15,7 @@
 #include "TimeInfoData.hpp"
 #include "challeng.h"
 #include "comm.hpp"
+#include "common/Configuration.hpp"
 #include "db.h"
 #include "flags.h"
 #include "handler.hpp"
@@ -1427,8 +1428,6 @@ void do_shutdown(Char *ch) {
     extern bool merc_down;
 
     auto buf = fmt::format("Shutdown by {}.", ch->name.c_str());
-    append_file(ch, SHUTDOWN_FILE, buf.c_str());
-
     do_echo(ch, buf + "\n\r");
     do_force(ch, "all save");
     do_save(ch);

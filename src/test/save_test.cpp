@@ -1,3 +1,4 @@
+#include "common/Configuration.hpp"
 #include "save.hpp"
 
 #include "MemFile.hpp"
@@ -49,15 +50,16 @@ TEST_CASE("loading and saving player files") {
     // For now: prevent us from loading multiple times, as there's no tear-down, and it takes ages.
     static bool massive_hack = false;
     if (!massive_hack) {
-        // We need to be in the "area" directory to get this to load.
-        REQUIRE(chdir(TEST_DATA_DIR "/area") == 0);
+        // boot_db() uses Configuration and that expects some path env vars to point
+        // to 'area', 'player', 'html' etc. As the env vars can be relative paths,
+        // just point them at the test data dir, or dirs within it. The 'player' dir under
+        // TEST_DATA_DIR is where the test pfiles reside.
+        REQUIRE(setenv(MUD_AREA_DIR_ENV, TEST_DATA_DIR "/area", 1) == 0);
+        REQUIRE(setenv(MUD_DATA_DIR_ENV, TEST_DATA_DIR, 1) == 0);
+        REQUIRE(setenv(MUD_HTML_DIR_ENV, TEST_DATA_DIR, 1) == 0);
         boot_db();
         massive_hack = true;
     }
-    // We unfortunately can't use the "area" dir here as that's a symlink up to the _real_ areas.
-    // That means `../player` from there goes to the real player dir, not the test data. When #53 is
-    // addressed we can fix this in a nicer way, running from the data dir instead. I think.
-    REQUIRE(chdir(TEST_DATA_DIR "/player") == 0);
     SECTION("should be able to load a char") {
         auto res = try_load_player("Khirsah");
         CHECK(!res.newly_created);

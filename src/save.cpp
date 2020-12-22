@@ -10,6 +10,7 @@
 #include "save.hpp"
 #include "AFFECT_DATA.hpp"
 #include "TimeInfoData.hpp"
+#include "common/Configuration.hpp"
 #include "db.h"
 #include "handler.hpp"
 #include "lookup.h"
@@ -24,20 +25,12 @@
 #include <cstdio>
 #include <cstring>
 
-std::string get_base_dir() { return ".."; }
-
-std::string get_path_for(std::string_view subdir) { return fmt::format("{}/{}/", get_base_dir(), subdir); }
-
-std::string get_player_dir() { return get_path_for("player"); }
-
-std::string get_god_dir() { return get_path_for("gods"); }
-
 std::string filename_for_player(std::string_view player_name) {
-    return fmt::format("{}{}", get_player_dir(), initial_caps_only(player_name));
+    return fmt::format("{}{}", Configuration::singleton().player_dir(), initial_caps_only(player_name));
 }
 
 std::string filename_for_god(std::string_view player_name) {
-    return fmt::format("{}{}", get_god_dir(), initial_caps_only(player_name));
+    return fmt::format("{}{}", Configuration::singleton().gods_dir(), initial_caps_only(player_name));
 }
 
 char *login_from;

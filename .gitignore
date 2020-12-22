@@ -2,6 +2,7 @@
 /gods
 /install
 /log
+/system
 /cmake-build-*
 /html/webwho.html
 .tools

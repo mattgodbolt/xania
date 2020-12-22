@@ -1,5 +1,5 @@
 #!/usr/bin/perl -i
-# A script that will look for mobs within the MOBILS section of area files
+# A script that will look for mobs within the MOBILES section of area files
 # and improve each of the armour class ratings by 15, so that it doesn't
 # need to be done at runtime in MobIndexData.
 

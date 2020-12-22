@@ -10,6 +10,7 @@
 #include "Note.hpp"
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
+#include "common/Configuration.hpp"
 #include "db.h"
 #include "merc.h"
 #include "string_utils.hpp"
@@ -22,8 +23,6 @@
 #include <cctype>
 #include <cstdio>
 #include <functional>
-
-static const char *NOTE_FILE = "notes.txt";
 
 bool Note::is_to(const Char &ch) const {
     if (matches(ch.name, sender_)) {
@@ -131,11 +130,12 @@ void Note::remove_line() { text_ = remove_last_line(text_); }
 
 NoteHandler &NoteHandler::singleton() {
     static auto on_change = [](NoteHandler &handler) {
-        if (auto *file = fopen(NOTE_FILE, "w")) {
+        const auto notes_file = Configuration::singleton().notes_file();
+        if (auto *file = fopen(notes_file.c_str(), "w")) {
             handler.write_to(file);
             fclose(file);
         } else {
-            perror(NOTE_FILE);
+            perror(notes_file.c_str());
         }
     };
     static NoteHandler singleton(on_change);
@@ -143,8 +143,9 @@ NoteHandler &NoteHandler::singleton() {
 }
 
 void note_initialise() {
+    const auto notes_file = Configuration::singleton().notes_file();
     auto &handler = NoteHandler::singleton();
-    if (auto *fp = fopen(NOTE_FILE, "r")) {
+    if (auto *fp = fopen(notes_file.c_str(), "r")) {
         handler.read_from(fp);
         fclose(fp);
     }

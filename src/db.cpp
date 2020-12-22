@@ -18,6 +18,7 @@
 #include "TimeInfoData.hpp"
 #include "WeatherData.hpp"
 #include "buffer.h"
+#include "common/Configuration.hpp"
 #include "interp.h"
 #include "lookup.h"
 #include "merc.h"
@@ -139,7 +140,7 @@ int top_vnum_obj;
  */
 
 int mprog_name_to_type(char *name);
-MPROG_DATA *mprog_file_read(char *f, MPROG_DATA *mprg, MobIndexData *pMobIndex);
+MPROG_DATA *mprog_file_read(char *file_name, MPROG_DATA *mprg, MobIndexData *pMobIndex);
 void load_mobprogs(FILE *fp);
 void mprog_read_programs(FILE *fp, MobIndexData *pMobIndex);
 
@@ -232,8 +233,8 @@ void boot_db() {
     {
         FILE *fpList;
 
-        if ((fpList = fopen(AREA_LIST, "r")) == nullptr) {
-            perror(AREA_LIST);
+        if ((fpList = fopen(Configuration::singleton().area_file().c_str(), "r")) == nullptr) {
+            perror(Configuration::singleton().area_file().c_str());
             exit(1);
         }
 
@@ -245,9 +246,12 @@ void boot_db() {
             FILE *area_fp{};
             if (area_name[0] == '-') {
                 area_fp = stdin;
-            } else if ((area_fp = fopen(area_name.c_str(), "r")) == nullptr) {
-                perror(area_name.c_str());
-                exit(1);
+            } else {
+                std::string area_file_path = fmt::format("{}{}", Configuration::singleton().area_dir(), area_name);
+                if ((area_fp = fopen(area_file_path.c_str(), "r")) == nullptr) {
+                    perror(area_file_path.c_str());
+                    exit(1);
+                }
             }
             BugAreaFileContext context(area_name, area_fp);
             for (;;) {
@@ -2157,11 +2161,6 @@ void append_file(Char *ch, const char *file, const char *str) {
 
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
 
-/*
- * MOBprogram code block
- */
-/* the functions */
-
 /* This routine transfers between alpha and numeric forms of the
  *  mob_prog bitvector types. This allows the use of the words in the
  *  mob/script files.
@@ -2195,17 +2194,15 @@ int mprog_name_to_type(char *name) {
 }
 
 /* This routine reads in scripts of MOBprograms from a file */
-MPROG_DATA *mprog_file_read(char *f, MPROG_DATA *mprg, MobIndexData *pMobIndex) {
+MPROG_DATA *mprog_file_read(char *file_name, MPROG_DATA *mprg, MobIndexData *pMobIndex) {
     MPROG_DATA *mprg2;
     FILE *progfile;
     char letter;
     bool done = false;
-    char MOBProgfile[MAX_INPUT_LENGTH];
-
-    snprintf(MOBProgfile, sizeof(MOBProgfile), "%s%s", MOB_DIR, f);
-    progfile = fopen(MOBProgfile, "r");
+    std::string file_path = Configuration::singleton().area_dir() + file_name;
+    progfile = fopen(file_path.c_str(), "r");
     if (!progfile) {
-        bug("Mob:{} couldnt open mobprog file {}", pMobIndex->vnum, MOBProgfile);
+        bug("Mob:{} couldnt open mobprog file {}", pMobIndex->vnum, file_path);
         exit(1);
     }
     mprg2 = mprg;

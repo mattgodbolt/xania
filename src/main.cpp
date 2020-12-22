@@ -3,12 +3,14 @@
 #include "TimeInfoData.hpp"
 #include "chat/chatlink.h"
 #include "comm.hpp"
+#include "common/Configuration.hpp"
 #include "common/Time.hpp"
 #include "common/doorman_protocol.h"
 #include "string_utils.hpp"
 
 #include <cstdlib>
 #include <cstring>
+#include <fmt/format.h>
 #include <sys/time.h>
 #include <unistd.h>
 
@@ -22,7 +24,6 @@ int main(int argc, char **argv) {
     current_time = Clock::now();
 
     log_string("Xania {} booting...", BUILD_FULL_VERSION);
-
     /*
      * Get the UNIX domain file
      */
@@ -39,21 +40,19 @@ int main(int argc, char **argv) {
             port = atoi(argv[num]);
         }
     }
-    char file[256];
-    snprintf(file, sizeof(file), XANIA_FILE, port, getenv("USER") ? getenv("USER") : "unknown");
-
+    const auto pipe_file = fmt::format(PIPE_FILE, port, getenv("USER") ? getenv("USER") : "unknown");
     /*
      * Run the game.
      */
 
-    auto control = init_socket(file);
+    auto control = init_socket(pipe_file.c_str());
     boot_db();
     load_bans();
-    startchat("chat.data");
+    startchat(Configuration::singleton().chat_data_file());
     if (printinfo)
         check_xania();
-    load_tipfile(); /* tip wizard - Faramir 21 Sep 1998 */
-    log_string("Xania version {} is ready to rock via {}.", BUILD_VERSION, file);
+    load_tipfile();
+    log_string("Xania version {} is ready to rock via {}.", BUILD_VERSION, pipe_file);
 
     Packet pInit;
     pInit.nExtra = pInit.channel = 0;

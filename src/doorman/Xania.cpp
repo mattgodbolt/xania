@@ -37,8 +37,8 @@ void Xania::try_connect() {
     try {
         sockaddr_un xaniaAddr{};
         xaniaAddr.sun_family = PF_UNIX;
-        snprintf(xaniaAddr.sun_path, sizeof(xaniaAddr.sun_path), XANIA_FILE, doorman_.port(),
-                 getenv("USER") ? getenv("USER") : "unknown");
+        const auto pipe_file = fmt::format(PIPE_FILE, doorman_.port(), getenv("USER") ? getenv("USER") : "unknown");
+        strncpy(xaniaAddr.sun_path, pipe_file.c_str(), sizeof(xaniaAddr.sun_path) - 1);
         fd_.connect(xaniaAddr);
     } catch (const std::runtime_error &re) {
         log_.warn("Connection attempt to MUD failed: {}", re.what());

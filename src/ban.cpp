@@ -20,6 +20,7 @@
 
 #include "buffer.h"
 #include "comm.hpp"
+#include "common/Configuration.hpp"
 #include "db.h"
 #include "merc.h"
 #include "string_utils.hpp"
@@ -51,9 +52,10 @@ void save_bans() {
     BAN_DATA *pban;
     FILE *fp;
     bool found = false;
+    const auto ban_file = Configuration::singleton().ban_file();
 
-    if ((fp = fopen(BAN_FILE, "w")) == nullptr) {
-        perror(BAN_FILE);
+    if ((fp = fopen(ban_file.c_str(), "w")) == nullptr) {
+        perror(ban_file.c_str());
     }
 
     for (pban = ban_list; pban != nullptr; pban = pban->next) {
@@ -65,14 +67,15 @@ void save_bans() {
 
     fclose(fp);
     if (!found)
-        unlink(BAN_FILE);
+        unlink(ban_file.c_str());
 }
 
 void load_bans() {
     FILE *fp;
     BAN_DATA *ban_last;
+    const auto ban_file = Configuration::singleton().ban_file();
 
-    if ((fp = fopen(BAN_FILE, "r")) == nullptr)
+    if ((fp = fopen(ban_file.c_str(), "r")) == nullptr)
         return;
 
     ban_last = nullptr;

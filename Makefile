@@ -12,6 +12,19 @@ CURL_OPTIONS:=-sL --fail -m 120 --connect-timeout 3 --retry 3 --retry-max-time 3
 BUILD_TYPE?=debug
 BUILD_ROOT:=$(CURDIR)/cmake-build-$(BUILD_TYPE)
 INSTALL_DIR=$(CURDIR)/install
+
+# MUD_ env vars configure the mud processes.
+# MUD_AREA_DIR:  Static game database files.
+export MUD_AREA_DIR = $(INSTALL_DIR)/area
+# MUD_DATA_DIR:  The base directory of all runtime data. The mud uses these subdirectories:
+#   - player/ (player character files)
+#   - gods/ (configuration for deities)
+#   - system/ (other game and player generated data e.g. ban lists and bug lists)
+#   - log/ (the mud processes are unaware of this as log output is redirected from to stdout & stderr)
+export MUD_DATA_DIR = $(CURDIR)
+# MUD_HTML_DIR:  Static and dynamically generated HTML.
+export MUD_HTML_DIR = $(INSTALL_DIR)/html
+
 TOOLS_DIR=$(CURDIR)/.tools
 CLANG_VERSION?=10
 CLANG_FORMAT:=$(TOOLS_DIR)/clang-format-$(CLANG_VERSION)
@@ -44,11 +57,10 @@ build: $(BUILD_ROOT)/CMakeCache.txt  ## Build Xania source
 install: build dirs  ## Install to 'install' (overridable with INSTALL_DIR)
 	@mkdir -p $(INSTALL_DIR)
 	$(CMAKE) --build $(BUILD_ROOT) --target install
-	ln -sf $(CURDIR)/gods $(CURDIR)/player $(CURDIR)/log $(INSTALL_DIR)
 
 .PHONY: dirs
 dirs:
-	@mkdir -p gods player log
+	@mkdir -p gods player system log
 
 $(CONDA): | $(CURL)
 	@mkdir -p $(CONDA_ROOT)
@@ -81,11 +93,10 @@ $(CLANG_FORMAT): $(CURL)
 	@chmod +x $@
 
 .PHONY: start
-start: install dirs  ## Build and start Xania
-	@rm -f $(INSTALL_DIR)/area/shutdown.txt
-	(cd $(INSTALL_DIR)/area && ../bin/doorman) > $(CURDIR)/log/doorman.log 2>&1 &
+start: install 	  ## Build and start Xania
+	$(INSTALL_DIR)/bin/doorman > $(CURDIR)/log/doorman.log 2>&1 &
 	@sleep 1
-	(cd $(INSTALL_DIR)/area && ../bin/xania) > $(CURDIR)/log/xania.log 2>&1 &
+	$(INSTALL_DIR)/bin/xania > $(CURDIR)/log/xania.log 2>&1 &
 	@sleep 5
 	@echo "All being well, telnet localhost $(PORT) to log in"
 

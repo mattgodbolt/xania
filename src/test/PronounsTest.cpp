@@ -4,9 +4,6 @@
 #include "merc.h"
 
 #include <catch2/catch.hpp>
-#include <catch2/trompeloeil.hpp>
-
-using trompeloeil::_;
 
 namespace {
 Pronouns exp_male{"his", "him", "he", "himself"};

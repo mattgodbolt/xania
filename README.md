@@ -67,6 +67,20 @@ will pick up on this and just use it. Command-line users can run `make reformat-
 `make check-format` to just see if everything's formatted as it should be. At some point we'll make this part of the CI
 process.
 
+### Environment Variables
+
+The mud processes use some environment variables for configuration. Out of the box, `make start` will set reasonable defaults
+for these. However, if you are doing development and launching the processes from an IDE then you may want to set them.
+The project includes an example VS Code `launch.json` that sets these.
+
+- MUD_AREA_DIR:  Static game database files.
+- MUD_DATA_DIR:  The base directory of all runtime data. The mud uses these subdirectories:
+   - player/ (player character files)
+   - gods/ (configuration for deities)
+   - system/ (other player generated data e.g. ban lists and bug lists)
+   - log/ (the mud processes are unaware of this as log output is redirected from to stdout & stderr)
+- MUD_HTML_DIR:  Static and dynamically generated HTML.
+
 ### Tests
 
 There are some very early tests. To run the tests, use `make test`, or run them from your IDE.
@@ -74,10 +88,10 @@ There are some very early tests. To run the tests, use `make test`, or run them 
 ### Debugging Xania in GDB
 
 There's more than one way to do this, and one way is:  after building Xania you can run 
-it like so using a sub-shell in the `area` directory (use of `gdb` is optional):
+it like so (use of `gdb` is optional):
 
 ```bash
-$ (cd area && gdb ../install/bin/xania)
+$ gdb ../install/bin/xania
 (gdb) r   # to run
 ```
 

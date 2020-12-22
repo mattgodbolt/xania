@@ -14,6 +14,7 @@
 #include "TimeInfoData.hpp"
 #include "chat/chatlink.h"
 #include "comm.hpp"
+#include "common/Configuration.hpp"
 #include "handler.hpp"
 #include "info.hpp"
 #include "interp.h"
@@ -287,7 +288,7 @@ void do_bug(Char *ch, const char *argument) {
         ch->send_line("Please provide a brief description of the bug!");
         return;
     }
-    append_file(ch, BUG_FILE, argument);
+    append_file(ch, Configuration::singleton().bug_file().c_str(), argument);
     ch->send_line("|RBug logged! If you're lucky it may even get fixed!|w");
 }
 
@@ -296,7 +297,7 @@ void do_idea(Char *ch, const char *argument) {
         ch->send_line("Please provide a brief description of your idea!");
         return;
     }
-    append_file(ch, IDEA_FILE, argument);
+    append_file(ch, Configuration::singleton().ideas_file().c_str(), argument);
     ch->send_line("|WIdea logged. This is |RNOT|W an identify command.|w");
 }
 
@@ -305,7 +306,7 @@ void do_typo(Char *ch, const char *argument) {
         ch->send_line("A typo you say? Tell us where!");
         return;
     }
-    append_file(ch, TYPO_FILE, argument);
+    append_file(ch, Configuration::singleton().typo_file().c_str(), argument);
     ch->send_line("|WTypo logged. One day we'll fix it, or buy a spellchecker.|w");
 }
 

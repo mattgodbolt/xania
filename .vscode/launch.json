@@ -4,6 +4,9 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
+
+
         {
             "name": "(gdb) xania_test",
             "type": "cppdbg",
@@ -24,14 +27,46 @@
             ]
         },
         {
+            "name": "(gdb) common_test",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmake-build-debug/bin/common_test",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },        
+        {
             "name": "Debug Xania",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/install/bin/xania",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/area",
-            "environment": [],
+            "cwd": "${workspaceFolder}",
+            "environment": [ 
+                { 
+                    "name" : "MUD_DATA_DIR",
+                    "value" : "${workspaceFolder}"
+                },
+                { 
+                    "name" : "MUD_AREA_DIR",
+                    "value" : "${workspaceFolder}/install/area"
+                },
+                { 
+                    "name" : "MUD_HTML_DIR",
+                    "value" : "${workspaceFolder}/install/html"
+                }
+            ],
             "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [
