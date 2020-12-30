@@ -53,22 +53,17 @@ public:
         }
         bool operator==(const Iter &rhs) const noexcept { return arg_ == rhs.arg_; }
         bool operator!=(const Iter &rhs) const noexcept { return !(rhs == *this); }
+
+        using iterator_category = std::forward_iterator_tag;
+        using value_type = std::string_view;
+        using difference_type = ptrdiff_t;
+        using pointer = std::string_view *;
+        using reference = std::string_view &;
     };
 
     Iter begin() noexcept { return Iter(*this, shift()); }
     Iter end() noexcept { return Iter(*this, std::string_view()); }
 };
-
-namespace std {
-template <>
-struct iterator_traits<ArgParser::Iter> {
-    using iterator_category = std::forward_iterator_tag;
-    using value_type = std::string_view;
-    using difference_type = ptrdiff_t;
-    using pointer = std::string_view *;
-    using reference = std::string_view &;
-};
-}
 
 inline auto begin(ArgParser &parser) { return parser.begin(); }
 inline auto end(ArgParser &parser) { return parser.end(); }

@@ -174,17 +174,6 @@ public:
     using reference = ElemT &;
 };
 
-namespace std {
-template <typename ElemT, typename GenListT, typename I>
-struct iterator_traits<Iter<ElemT, GenListT, I>> {
-    using iterator_category = typename Iter<ElemT, GenListT, I>::iterator_category;
-    using value_type = typename Iter<ElemT, GenListT, I>::value_type;
-    using difference_type = typename Iter<ElemT, GenListT, I>::difference_type;
-    using pointer = typename Iter<ElemT, GenListT, I>::pointer;
-    using reference = typename Iter<ElemT, GenListT, I>::reference;
-};
-}
-
 template <typename T>
 auto begin(GenericList<T> &al) {
     return al.begin();
