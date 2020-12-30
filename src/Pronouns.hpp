@@ -11,7 +11,7 @@ struct Pronouns {
     std::string subjective;
     std::string reflexive;
 };
-const std::pair<const Pronouns &, const Pronouns &> pronouns_for(const Char &ch);
+std::pair<const Pronouns &, const Pronouns &> pronouns_for(const Char &ch);
 const std::string &possessive(const Char &ch);
 const std::string &subjective(const Char &ch);
 const std::string &objective(const Char &ch);
@@ -21,7 +21,7 @@ enum class PronounParseState { Ok, EmptyArgs, MissingArgs };
 
 struct PronounParseResult {
     Pronouns parsed;
-    PronounParseState state;
+    PronounParseState state{PronounParseState::EmptyArgs};
 };
 
 PronounParseResult parse_pronouns(ArgParser args);
