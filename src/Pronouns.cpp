@@ -18,9 +18,9 @@ const Pronouns &pronouns_for(int sex) { // TODO: strong type for sex.
     return neutral;
 }
 
-const std::pair<const Pronouns &, const Pronouns &> pronouns_for(const Char &ch) {
+std::pair<const Pronouns &, const Pronouns &> pronouns_for(const Char &ch) {
     const Pronouns &standard = pronouns_for(ch.sex);
-    const Pronouns &maybe_custom = ch.is_pc() ? ch.pcdata.get()->pronouns : standard;
+    const Pronouns &maybe_custom = ch.is_pc() ? ch.pcdata->pronouns : standard;
     return {maybe_custom, standard};
 }
 
@@ -59,9 +59,8 @@ void pronouns_syntax(Char *ch) {
 }
 
 PronounParseResult parse_pronouns(ArgParser args) {
-    static PronounParseResult EMPTY_ARGS = {"", "", "", "", PronounParseState::EmptyArgs};
     if (args.empty()) {
-        return EMPTY_ARGS;
+        return PronounParseResult();
     }
     PronounParseResult res;
     res.parsed.possessive = smash_tilde(args.shift());
@@ -93,17 +92,11 @@ void do_pronouns(Char *ch, ArgParser args) {
             ch->send_line("pronouns set requires a value for the possessive, objective, subject and reflexive terms.");
             return;
         }
-        ch->pcdata.get()->pronouns.possessive = res.parsed.possessive;
-        ch->pcdata.get()->pronouns.objective = res.parsed.objective;
-        ch->pcdata.get()->pronouns.subjective = res.parsed.subjective;
-        ch->pcdata.get()->pronouns.reflexive = res.parsed.reflexive;
+        ch->pcdata->pronouns = res.parsed;
         ch->send_line("Pronouns set.");
         ch->send_line("Skills, spells and built-in socials will use them in messages to other players.");
     } else if (matches(cmd, "reset")) {
-        ch->pcdata.get()->pronouns.possessive = "";
-        ch->pcdata.get()->pronouns.objective = "";
-        ch->pcdata.get()->pronouns.subjective = "";
-        ch->pcdata.get()->pronouns.reflexive = "";
+        ch->pcdata->pronouns = Pronouns();
         ch->send_line("Pronouns reset to the defaults.");
     } else if (matches(cmd, "show")) {
         const auto pronouns = pronouns_for(*ch);
