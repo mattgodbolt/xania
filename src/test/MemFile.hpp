@@ -15,7 +15,7 @@ public:
     MemFile() : file_(open_memstream(&ptr_, &size_)) {}
     explicit MemFile(std::string_view contents) : MemFile() {
         ::fwrite(contents.data(), 1, contents.size(), file_);
-        ::fseek(file_, 0, SEEK_SET);
+        rewind();
     }
     ~MemFile() {
         ::fclose(file_);
@@ -29,6 +29,7 @@ public:
     MemFile &operator=(MemFile &&) = delete;
 
     [[nodiscard]] FILE *file() const noexcept { return file_; }
+    void rewind() { ::fseek(file_, 0, SEEK_SET); }
 
     [[nodiscard]] std::string_view as_string_view() const noexcept {
         ::fflush(file_);

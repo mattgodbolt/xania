@@ -13,8 +13,8 @@
 #include <fmt/core.h>
 #include <memory>
 
+class Note;
 struct MobIndexData;
-struct NOTE_DATA;
 struct OBJ_DATA;
 struct ROOM_INDEX_DATA;
 struct GEN_DATA;
@@ -35,7 +35,7 @@ struct Char {
     MobIndexData *pIndexData{};
     Descriptor *desc{};
     AffectList affected;
-    NOTE_DATA *pnote{};
+    std::unique_ptr<Note> pnote;
     GenericList<OBJ_DATA *> carrying;
     ROOM_INDEX_DATA *in_room{};
     ROOM_INDEX_DATA *was_in_room{};

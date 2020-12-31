@@ -1,6 +1,7 @@
 #include "Char.hpp"
 
 #include "DescriptorList.hpp"
+#include "Note.hpp"
 #include "TimeInfoData.hpp"
 #include "comm.hpp"
 #include "interp.h"

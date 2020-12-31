@@ -14,13 +14,13 @@
 #include "DescriptorList.hpp"
 #include "Help.hpp"
 #include "MobIndexData.hpp"
+#include "Note.hpp"
 #include "TimeInfoData.hpp"
 #include "WeatherData.hpp"
 #include "buffer.h"
 #include "interp.h"
 #include "lookup.h"
 #include "merc.h"
-#include "note.h"
 #include "string_utils.hpp"
 
 #include <range/v3/algorithm/fill.hpp>

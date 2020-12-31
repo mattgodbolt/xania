@@ -18,6 +18,7 @@
 #include "DescriptorList.hpp"
 #include "Help.hpp"
 #include "MobIndexData.hpp"
+#include "Note.hpp"
 #include "Pronouns.hpp"
 #include "TimeInfoData.hpp"
 #include "challeng.h"
@@ -28,7 +29,6 @@
 #include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
-#include "note.h"
 #include "save.hpp"
 #include "string_utils.hpp"
 
@@ -1052,7 +1052,7 @@ void nanny(Descriptor *d, const char *argument) {
         }
 
         /* check notes */
-        notes = note_count(ch);
+        notes = NoteHandler::singleton().num_unread(*ch);
 
         if (notes > 0) {
             snprintf(buf, sizeof(buf), "\n\rYou have %d new note%s waiting.\n\r", notes, (notes == 1) ? "" : "s");

@@ -317,7 +317,7 @@ void do_quit(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if ((ch->pnote != nullptr) && (ch->desc != nullptr)) {
+    if (ch->pnote && (ch->desc != nullptr)) {
         /* Allow linkdeads to be auto-quitted even if they have a note */
         ch->send_line("|cDon't you want to post your note first?|w");
         return;
