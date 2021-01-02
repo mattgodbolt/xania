@@ -15,6 +15,7 @@
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+#include <range/v3/algorithm/count_if.hpp>
 #include <range/v3/algorithm/find_if.hpp>
 #include <range/v3/view/filter.hpp>
 
@@ -59,13 +60,8 @@ void Notes::erase(const Note &note) {
 Note &Notes::add(Note note) { return notes_.emplace_back(std::move(note)); }
 
 int Notes::num_unread(const Char &ch) const {
-    int notes = 0;
-    for (auto &note : notes_) {
-        if (note.is_to(ch) && !note.sent_by(ch) && note.date_stamp() > ch.last_note) {
-            notes++;
-        }
-    }
-    return notes;
+    return ranges::count_if(
+        notes_, [&ch](auto &note) { return note.is_to(ch) && !note.sent_by(ch) && note.date_stamp() > ch.last_note; });
 }
 
 Note *Notes::lookup(int index, const Char &ch) {
@@ -228,9 +224,8 @@ void NoteHandler::read(Char &ch, ArgParser args) {
             ch.send_line("No such note.");
         }
     } else if (args.empty() || matches_start(args.shift(), "next")) {
-        int note_index;
-        if (auto *note = notes_.lookup(ch.last_note, ch, &note_index)) {
-            show_note(*num, *note);
+        if (auto note_pair = notes_.lookup(ch.last_note, ch); note_pair.first) {
+            show_note(note_pair.second, *note_pair.first);
         } else {
             ch.send_line("You have no unread notes.");
         }
