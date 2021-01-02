@@ -94,6 +94,7 @@ public:
     // Buffers output to be processed later. If the max output size is exceeded, the descriptor is closed.
     void write(std::string_view message) noexcept;
     [[nodiscard]] bool has_buffered_output() const noexcept { return !outbuf_.empty(); }
+    [[nodiscard]] const std::string &buffered_output() const noexcept { return outbuf_; }
     void clear_output_buffer() noexcept { outbuf_.clear(); }
 
     // Send a page of text to a descriptor. Sending a page replaces any previous page.

@@ -42,8 +42,8 @@ add_library(xania_lib STATIC
         merc.h
         mob_commands.cpp
         mob_prog.cpp
-        note.cpp
-        note.h
+        Note.cpp
+        Note.hpp
         phil.cpp
         phil.h
         save.cpp save.hpp
