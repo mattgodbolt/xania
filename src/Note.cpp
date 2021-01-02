@@ -75,19 +75,18 @@ Note *Notes::lookup(int index, const Char &ch) {
     return nullptr;
 }
 
-Note *Notes::lookup(Time date, const Char &ch, int *index) {
+std::pair<Note *, int> Notes::lookup(Time date, const Char &ch) {
     int count = 0;
 
     for (auto &note : notes_) {
         if (note.is_to(ch) && !note.sent_by(ch)) {
             if (date < note.date_stamp()) {
-                *index = count;
-                return &note;
+                return {&note, count};
             }
             count++;
         }
     }
-    return nullptr;
+    return {nullptr, 0};
 }
 
 void Notes::save(FILE *file) const {

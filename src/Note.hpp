@@ -18,6 +18,7 @@
 #include <list>
 #include <string>
 #include <string_view>
+#include <utility>
 
 struct Char;
 
@@ -63,7 +64,7 @@ public:
 
     [[nodiscard]] int num_unread(const Char &ch) const;
     [[nodiscard]] Note *lookup(int index, const Char &ch);
-    [[nodiscard]] Note *lookup(Time date, const Char &ch, int *index);
+    [[nodiscard]] std::pair<Note *, int> lookup(Time date, const Char &ch);
 
     [[nodiscard]] const std::list<Note> &notes() const { return notes_; }
 

@@ -171,20 +171,19 @@ TEST_CASE("Note list handling") {
             CHECK(!notes.lookup(2, bob));
         }
         SECTION("should find messages by time") {
-            int index{-1};
             SECTION("first") {
-                auto *note = notes.lookup(Time(0s), jenny, &index);
+                auto &&[note, index] = notes.lookup(Time(0s), jenny);
                 REQUIRE(note);
                 CHECK(note->subject() == "Don't spam all");
                 CHECK(index == 0);
             }
             SECTION("second") {
-                auto *note = notes.lookup(Time(90s), jenny, &index);
+                auto &&[note, index] = notes.lookup(Time(90s), jenny);
                 REQUIRE(note);
                 CHECK(note->subject() == "Re: Hey");
                 CHECK(index == 1);
             }
-            SECTION("no more") { CHECK(!notes.lookup(Time(120s), jenny, &index)); }
+            SECTION("no more") { CHECK(!notes.lookup(Time(120s), jenny).first); }
         }
     }
 }
