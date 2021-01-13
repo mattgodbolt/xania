@@ -16,7 +16,7 @@ it says:    This section has been designed for levels 5 through 10
 Another section of graffiti says "Raff Rules!"
 There is a boulevard to the east and Emerald Avenue is visible to the west.
 ~
-21 AC 1
+AC 1
 D1
 ~
 ~
@@ -36,7 +36,7 @@ streets.  All the shops and homes have been boarded up and abandoned.
 An alleyway is to the west and the street continues east.  An over-
 grown lot is to the south.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -57,7 +57,7 @@ lie everywhere and broken sticks and abandoned knifes are strewn here
 and there.  An over-grown lot is to the south.  White Dragon Boulevard leads
 east and west.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -77,7 +77,7 @@ Only gang members dare wander the streets here.
 What used to be the armory lies to the south.  White Dragon Boulevard
 leads east and west.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -97,7 +97,7 @@ Black Dragon Avenue used to run south from here but the way has been
 blocked by the toppling of a building into the street.  White Dragon
 boulevard continues east and west.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -113,7 +113,7 @@ Ice Dragon Way leads south from here.  It used to run the whole length
 of the neighborhood and way lined with beautiful crystal sculptures.
 White Dragon boulevard leads east and west from here.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -133,7 +133,7 @@ A once majestic inn with a white marble facade lies to the south.
 Unfortunately, it has fallen into disrepair and decay.  You can continue
 east or west.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -148,7 +148,7 @@ Corner of Bronze and White Dragon~
 This is the north-east corner of the neighborhood. White Dragon
 boulevard heads west and Bronze Dragon street heads south.
 ~
-21 0 1
+0 1
 D2
 ~
 ~
@@ -164,7 +164,7 @@ A huge building was going to be built here, but they gave the
 project up when violence took over the town.  Now it is just a
 weed-strewn plot of land.  The lot continues east and there is a road north.
 ~
-21 0 2
+0 2
 D0
 ~
 ~
@@ -181,7 +181,7 @@ of town by the gang.  Now it is just a dusty square of land. The
 park was started to the south.  The lot continues west and there
 is a street to the north.
 ~
-21 0 2
+0 2
 D0
 ~
 ~
@@ -202,7 +202,7 @@ all been stolen or broken beyond repair. The back wall of the
 building has been bashed down, allowing you to go south.  White
 Dragon Boulevard is north.
 ~
-21 D 1
+D 1
 D0
 ~
 ~
@@ -217,7 +217,7 @@ A Bend in the Way~
 Ice Dragon Way bends east and south from here.  You notice a lot of
 blood dried into the dirt here.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -233,7 +233,7 @@ Ice Dragon Way bends to the north and west here.  There are footprints
 here.  They seem to indicate a large struggle took place here
 recently.  What used to be the town Magic shop is to the east.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -254,7 +254,7 @@ died and they took all his stuff and used it on their fellowmen.
 The front door leads west back out to the street.  There is a back
 door leading to another street to the east.
 ~
-21 D 1
+D 1
 D1
 ~
 ~
@@ -269,7 +269,7 @@ Bronze Dragon Street at wizard's back door~
 Bronze Dragon street goes north and south.  The back door to what
 remains of the magic shop is west.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -291,7 +291,7 @@ of the Dragon gang's idol, the Dracolich.  It has become sort of a
 training ground.  There is a short cut to the east and an overgrown
 lot of land to the north.
 ~
-21 0 2
+0 2
 D0
 ~
 ~
@@ -306,7 +306,7 @@ Shortcut~
 This is a shortcut between Dracolich Plaza and the center of town.
 Dracolich Plaza is to the west and the shortcut continues south.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -326,7 +326,7 @@ Several smashed crystal statues line the Way here.  You begin to wonder
 who smashed them, and with what.  The Way bends out of sight to the north
 and continues south.  To the east is a courtyard.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -347,7 +347,7 @@ someone forgot to water the plants and they all died.  Then again,
 you wonder how many people have died here too.  The courtyard extends
 to the south and there is a road to the west.
 ~
-21 D 1
+D 1
 D2
 ~
 ~
@@ -362,7 +362,7 @@ Bronze Dragon Street~
 There used to be a gate out to the east here which led to distant lands.
 The gate has rusted permanently shut.  The street goes north and south.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -376,7 +376,7 @@ S
 Shortcut~
 The shortcut extends north.  There is a street to the east.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -392,7 +392,7 @@ The Way continues north and intersects with Yellow Dragon Avenue
 to the south.  For some reason, you somehow realize that there is a
 shortcut to the west that leads to Dracolich Plaza.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -413,7 +413,7 @@ stairs used to extend up to a suite of rooms but the set is missing
 stairs 3-15.  The courtyard extends north and there is a street to
 the south.
 ~
-21 D 1
+D 1
 D0
 ~
 ~
@@ -430,7 +430,7 @@ disrepair like everything else.  It is now the hideout of the
 Dragon gang.  The gang leader runs his reign of terror from here.
 There is a wooden door barely on the hinges to the east.
 ~
-21 AD 1
+AD 1
 D1
 ~
 wooden door east~
@@ -441,7 +441,7 @@ Bronze Dragon Street at Warehouse~
 The street runs north and south.  There is an old wooden door leading
 to a warehouse to the west.  The warehouse LOOKS abandoned. . .
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -460,7 +460,7 @@ Yellow Dragon Road~
 Yellow Dragon Road is the southern boundary of Troll Territory.  The
 road extends east.  You enter "no-man's land" to the south.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -474,7 +474,7 @@ S
 Yellow Dragon Road~
 The road runs east and west.  Ice Dragon Way leads north from here.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -493,7 +493,7 @@ Yellow Dragon Road~
 The roads continues east and west.  There is a courtyard to the north.
 You enter "no man's land" to the south.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -517,7 +517,7 @@ There is a barred window to the north.  There appears to be a light
 coming from the cracks around it.  The road extends east and west
 from here.  Or you can enter "no man's land" south from here.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -536,7 +536,7 @@ Yellow Dragon Road~
 Bronze Dragon Street intersects here and runs north.  Yellow Dragon ends
 here but continues to the west.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -552,7 +552,7 @@ This is the section of town between the two gang's territories.  This
 is usually where the violence starts.  No Man's land continues south
 and east; or there is a street to the north.
 ~
-21 0 5
+0 5
 D0
 ~
 ~
@@ -572,7 +572,7 @@ This is the section of town between the two gang's territories.  This
 is usually where the violence starts.  No Man's land continues south
 east and west.
 ~
-21 0 5
+0 5
 D1
 ~
 ~
@@ -592,7 +592,7 @@ This is the section of town between the two gang's territories.  This
 is usually where the violence starts.  No Man's land continues south,
 east and west; or there is a street to the north.
 ~
-21 0 5
+0 5
 D0
 ~
 ~
@@ -616,7 +616,7 @@ This is the section of town between the two gang's territories.  This
 is usually where the violence starts.  No Man's land continues south,
 east, and west; or there is a street to the north.
 ~
-21 0 5
+0 5
 D0
 ~
 ~
@@ -640,7 +640,7 @@ This is the section of town between the two gang's territories.  This
 is usually where the violence starts.  No Man's land continues south
 and west.
 ~
-21 0 5
+0 5
 D2
 ~
 ~
@@ -656,7 +656,7 @@ This is the section of town between the two gang's territories.  This
 is usually where the violence starts.  No Man's land continues north
 and east; or there is a street to the south.
 ~
-21 0 5
+0 5
 D0
 ~
 ~
@@ -676,7 +676,7 @@ This is the section of town between the two gang's territories.  This
 is usually where the violence starts.  No Man's land continues north,
 east and west.
 ~
-21 0 5
+0 5
 D0
 ~
 ~
@@ -696,7 +696,7 @@ This is the section of town between the two gang's territories.  This
 is usually where the violence starts.  No Man's land continues north,
 east, and west; or there is a street to the south.
 ~
-21 0 5
+0 5
 D0
 ~
 ~
@@ -720,7 +720,7 @@ This is the section of town between the two gang's territories.  This
 is usually where the violence starts.  No Man's land continues north,
 east, and west.
 ~
-21 0 5
+0 5
 D0
 ~
 ~
@@ -740,7 +740,7 @@ This is the section of town between the two gang's territories.  This
 is usually where the violence starts.  No Man's land continues south
 and west; or there is a street to the south.
 ~
-21 0 5
+0 5
 D0
 ~
 ~
@@ -759,7 +759,7 @@ Bend in Hector Street~
 Hector street bends to the east and the south here.  "No Man's Land"
 entrance is to the north.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -779,7 +779,7 @@ Hector street runs east and west.  The Bakery used to be to the south
 but the entrance is sealed off.  Probably just a bunch of stale pies in
 there anyways.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -796,7 +796,7 @@ There is an entrance to "No Man's Land" to the north.  On the
 southwest corner of this intersection, it looks like a building
 was recently burned down.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -820,7 +820,7 @@ Once a bright spot in the town, it now looks like one of the
 hardest hit by the violence.  The building could collapse at any
 moment.  The street continues east and west.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -836,7 +836,7 @@ There is a grand fountain to the east but the water doesn't
 look good to drink.  Ajax street heads south and Hector
 goes back west.  "No Man's Land" is to the north.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -856,7 +856,7 @@ The street is full of garbage here.  An odd building lies to the west,
 but you don't seem to be able to find a way into it.  The street
 runs north and south here.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -872,7 +872,7 @@ The town bards sang of the victory parades that used to pass along this
 route.  It was once a major way through the center of town.  The street
 goes south to a bend and north to an intersection.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -889,7 +889,7 @@ It is now desecrated by graffiti and vandalism.  Perhaps its worst
 defilement is that it is the hangout of the Ogre gang.  There is a street to
 the east through a rusty metal door.
 ~
-21 AD 1
+AD 1
 D1
 ~
 rusted door metal~
@@ -901,7 +901,7 @@ The temple to honor the minor gods is through a rusty metal door
 to the west.  The street continues north and south.  You hear the
 muffled sounds of screams coming from the chapel.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -922,7 +922,7 @@ great warriors.  You think it's odd that it has not been defiled,
 but then you sense a aura protecting it.  Achilles runs east
 and south, while Hector heads out to the north.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -943,7 +943,7 @@ There is a large wrought-iron fence with spikes on top
 which prevents you from entering the area.  The street
 continues east and west.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -958,7 +958,7 @@ A bend in the road~
 Achilles Avenue bends to the north and west here.  There
 is also a narrow alley to the south.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -980,7 +980,7 @@ received!  Blood is splattered and dried all over the walls here.
 It looks like a great deal of carnage happened here.  The way
 out to the east leads out onto a street.
 ~
-21 D 0
+D 0
 D1
 ~
 ~
@@ -991,7 +991,7 @@ Ajax street at Weaponshop (or whats left of it)~
 The street goes north and south.  The stables used to be to the
 east, but I bet all the horses are dead or gone.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -1013,7 +1013,7 @@ the area.  There seems to be some kind of memorial to the
 great Mongol warrior Khan being crudely constructed here.
 There is a street to the east and another to the south.
 ~
-21 0 2
+0 2
 D1
 ~
 ~
@@ -1028,7 +1028,7 @@ Achilles avenue at entrance to park~
 A ... park?! lies to the west.  The street runs south to an
 intersection and curves to the north.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -1048,7 +1048,7 @@ The roads bends south and east here.  You barely notice
 a small alley leading north.  Some kind of tunnel entrance
 is to the west but it has been crushed under its own weight.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -1069,7 +1069,7 @@ this intersection.  Most of the walls and ceiling have long since
 been demolished.  An inn/pub is to the south.  The street bends
 to the east or west.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -1088,7 +1088,7 @@ Curve in the road~
 The street goes north or west from here.  A narrow street once
 headed southeast from here.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -1099,16 +1099,12 @@ D3
 0 -1 2158
 S
 #2160
-A wide alleyway~
-The sides of the alleyway have been vandalized many times.
-One patch of graffiti actually looks readable:
-            This section has been designed for levels 5 through 10
-            If you are above level 10 please don't expect much.
-            If you are below level 5 enter at your own risk.
-In another spot it says "now entering Ogre territory..."
-A street lies to the west and a major road to the east.
+A dark alleyway~
+The walls of this alleyway have been vandalized many times.
+The bricks of the western wall have been graffitied on with
+obscure signs in many colours. A road leads east.
 ~
-21 AC 1
+AC 1
 D1
 ~
 ~
@@ -1120,9 +1116,9 @@ You see many gang members walking around looking for
 fights to pick and things to break.  It seems as if all of the
 other citizens have been run out of town.  All the former
 homes are boarded up and uninhabitable.  The road continues
-east and west.
+east and there's a dark alley to the west.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -1137,7 +1133,7 @@ Alexander Street at park entrance~
 A park-looking area lies to the north and a passage between
 two buildings leads to another street to the south.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -1156,7 +1152,7 @@ Achilles Avenue~
 The Avenue Runs north and south.  You sense you are deep within
 Ogre gang territory, and a chill goes up your spine.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -1171,7 +1167,7 @@ Ajax Street~
 You can see a sinister black wrought-iron fence to the west.
 You wonder if it's keeping you out, or the ghouls in?
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -1189,7 +1185,7 @@ into oblivion sometimes.  It looks as if the beer is still on tap!!!
 A hallway leads south and you spy a street through the doorway
 to the north.
 ~
-21 D 0
+D 0
 D0
 ~
 ~
@@ -1205,7 +1201,7 @@ This street forms the southern boundary of Ogre territory.  The
 street extends far to the east.  There is also a pathway between
 buildings which leads to another street to the north.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -1220,7 +1216,7 @@ Intersection of Achilles and Solomon~
 Solomon street is to the east and west.  The other part of the
 T is Achilles Avenue, starting here and winding to the north.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -1241,7 +1237,7 @@ cemetery here to the north.  The evil just seems too strong to
 to consider entering.  You feel you should stick with the "lesser"
 evils along the road to the east and west.
 ~
-21 0 1
+0 1
 D1
 ~
 ~
@@ -1257,7 +1253,7 @@ The two roads meet at a corner here.  Ajax runs north and
 Solomon heads west.  An inn/pub is through a back doorway
 to the east.
 ~
-21 0 1
+0 1
 D0
 ~
 ~
@@ -1278,7 +1274,7 @@ The stairs leading up to the guest rooms here do not seem
 advisable to climb.  A doorway empties out into Solomon
 street to the west.
 ~
-21 AD 0
+AD 0
 D0
 ~
 ~
@@ -1301,7 +1297,7 @@ He's lived a life of violence ever since he was little.
 ogre~
 CEGA 0 -100 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 204
 0 0 medium 0
@@ -1316,7 +1312,7 @@ He wants to rid the world of every last Ogre gang member.
 troll~
 CEGA 0 +100 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 204
 0 0 medium 0
@@ -1331,7 +1327,7 @@ He's risen to be leader through brute force and cunning leadership.
 ogre~
 BFGA 0 0 0
 13 5 1d1+305 1d1+260 4d4+6 pound
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 534
 0 0 medium 0
@@ -1346,7 +1342,7 @@ He's 6'6" 245 pounds and enough muscle to bash your head in.
 ogre~
 CFGHA D -333 0
 10 4 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 416
 0 0 medium 0
@@ -1361,7 +1357,7 @@ She's a beauty (ok in RELATIVE terms) but you better not touch!
 ogre~
 CEGHA 0 0 0
 7 3 1d1+145 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand female 292
 0 0 medium 0
@@ -1376,7 +1372,7 @@ He'd rather be at the local pub then out here with these nasty kids.
 human~
 GA 0 +700 0
 8 4 1d1+169 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 322
 0 0 medium 0
@@ -1391,7 +1387,7 @@ He has a wary eye and a fine hand for art.
 ogre~
 HA P -400 0
 10 4 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 414
 0 0 medium 0
@@ -1407,7 +1403,7 @@ His fangs are blood-stained from hearty meals of ... steak?!
 fido~
 BFGA QD -100 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 202
 0 0 medium 0

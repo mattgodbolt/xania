@@ -1,16 +1,19 @@
 #include "string_utils.hpp"
 
+#include "ArgParser.hpp"
+
 #include <fmt/format.h>
+#include <range/v3/algorithm/all_of.hpp>
+#include <range/v3/algorithm/search.hpp>
+#include <range/v3/range/conversion.hpp>
+#include <range/v3/view/transform.hpp>
+#include <range/v3/view/zip.hpp>
 
 #include <algorithm>
 #include <cstring>
 
 using namespace std::literals;
-using namespace fmt::literals;
-
-namespace {
-
-int from_chars(std::string_view sv) {
+int parse_number(std::string_view sv) {
     if (sv.empty())
         return 0;
     bool is_neg = sv.front() == '-';
@@ -27,34 +30,27 @@ int from_chars(std::string_view sv) {
     return static_cast<int>(intermediate) * (is_neg ? -1 : 1);
 }
 
-}
-
-bool is_number(const char *arg) {
-    if (*arg == '\0')
+bool is_number(std::string_view sv) {
+    if (sv.empty())
         return false;
 
-    if (*arg == '+' || *arg == '-')
-        arg++;
+    if (sv.front() == '-' || sv.front() == '+')
+        sv.remove_prefix(1);
 
-    for (; *arg != '\0'; arg++) {
-        if (!isdigit(*arg))
-            return false;
-    }
-
-    return true;
+    return ranges::all_of(sv, isdigit);
 }
 
-std::pair<int, const char *> number_argument(const char *argument) {
-    std::string_view sv(argument);
-    if (auto dot = sv.find_first_of('.'); dot != std::string_view::npos)
-        return {from_chars(sv.substr(0, dot)), sv.substr(dot + 1).data()};
+std::pair<int, std::string_view> number_argument(std::string_view argument) {
+    if (auto dot = argument.find_first_of('.'); dot != std::string_view::npos)
+        return {parse_number(argument.substr(0, dot)), argument.substr(dot + 1)};
     return {1, argument};
 }
 
 int number_argument(const char *argument, char *arg) {
     // LEGACY FUNCTION TODO: remove
     auto &&[number, remainder] = number_argument(argument);
-    strcpy(arg, remainder);
+    memcpy(arg, remainder.data(), remainder.size());
+    arg[remainder.size()] = 0;
     return number;
 }
 
@@ -77,8 +73,18 @@ std::string replace_strings(std::string message, std::string_view from_str, std:
     return message;
 }
 
-std::string skip_whitespace(std::string_view str) {
+std::string ltrim(std::string_view str) {
     return std::string(std::find_if(str.begin(), str.end(), [](auto ch) { return !std::isspace(ch); }), str.end());
+}
+
+std::string trim(std::string_view str) {
+    std::string t = ltrim(str);
+    auto rit = std::find_if(t.rbegin(), t.rend(), [](auto ch) { return !std::isspace(ch); });
+    if (rit != t.rend()) {
+        return std::string(t.begin(), rit.base());
+    } else {
+        return t;
+    }
 }
 
 std::string reduce_spaces(std::string_view str) {
@@ -164,6 +170,17 @@ std::string lower_case(std::string_view str) {
     return result;
 }
 
+std::string capitalize(std::string_view str) {
+    std::string result;
+    for (auto c : str) {
+        if (result.empty())
+            result.push_back(toupper(c));
+        else
+            result.push_back(tolower(c));
+    }
+    return result;
+}
+
 bool has_prefix(std::string_view haystack, std::string_view needle) {
     if (needle.size() > haystack.size())
         return false;
@@ -193,14 +210,14 @@ std::string decode_colour(bool ansi_enabled, char char_code) {
     default: return std::string(1, char_code);
     }
     if (ansi_enabled)
-        return "\033[{};3{}m"_format(char_code >= 'a' ? '0' : '1', sendcolour);
+        return fmt::format("\033[{};3{}m", char_code >= 'a' ? '0' : '1', sendcolour);
     return "";
 }
 
-std::string colourise_mud_string(bool use_ansi, std::string_view txt) {
+std::string colourise_mud_string(bool use_ansi, std::string_view text) {
     std::string buf;
     bool prev_was_pipe = false;
-    for (auto c : txt) {
+    for (auto c : text) {
         if (std::exchange(prev_was_pipe, false))
             buf += decode_colour(use_ansi, c);
         else if (c == '|')
@@ -209,6 +226,20 @@ std::string colourise_mud_string(bool use_ansi, std::string_view txt) {
             buf.push_back(c);
     }
     return buf;
+}
+
+size_t mud_string_width(std::string_view text) {
+    size_t width = 0;
+    bool prev_was_pipe = false;
+    for (auto c : text) {
+        if (std::exchange(prev_was_pipe, false))
+            width += decode_colour(false, c).size();
+        else if (c == '|')
+            prev_was_pipe = true;
+        else
+            width++;
+    }
+    return width;
 }
 
 std::string upper_first_character(std::string_view sv) {
@@ -224,6 +255,76 @@ std::string upper_first_character(std::string_view sv) {
             c = toupper(c);
             break;
         }
+    }
+    return result;
+}
+
+std::string initial_caps_only(std::string_view text) {
+    return text | ranges::view::transform([first = true](auto ch) mutable {
+               return std::exchange(first, false) ? toupper(ch) : tolower(ch);
+           })
+           | ranges::to<std::string>;
+}
+
+bool matches(std::string_view lhs, std::string_view rhs) {
+    if (lhs.size() != rhs.size())
+        return false;
+    return ranges::all_of(ranges::zip_view(lhs, rhs), [](auto pr) { return tolower(pr.first) == tolower(pr.second); });
+}
+
+bool matches_start(std::string_view lhs, std::string_view rhs) {
+    if (lhs.size() > rhs.size() || lhs.empty())
+        return false;
+    return matches(lhs, rhs.substr(0, lhs.size()));
+}
+
+bool matches_inside(std::string_view needle, std::string_view haystack) {
+    auto needle_low = needle | ranges::views::transform(tolower);
+    auto haystack_low = haystack | ranges::views::transform(tolower);
+    return !ranges::search(haystack_low, needle_low).empty();
+}
+
+namespace {
+enum class PartMatch { Complete, Partial, None };
+PartMatch match_one_name_part(std::string_view entire, std::string_view part, std::string_view namelist) {
+    for (auto name : ArgParser(namelist)) {
+        // Is the entire input string a match for this name?
+        if (matches(entire, name))
+            return PartMatch::Complete;
+
+        // if this part matches a prefix, then we have at least a partial match.
+        if (matches_start(part, name))
+            return PartMatch::Partial;
+    }
+    // Else, this part did not match anything in the namelist.
+    return PartMatch::None;
+}
+}
+
+bool is_name(std::string_view str, std::string_view namelist) {
+    // We need ALL parts of string to match part of namelist, or for the string to match one of the names exactly.
+    for (auto part : ArgParser(str)) {
+        switch (match_one_name_part(str, part, namelist)) {
+        case PartMatch::Complete:
+            // A complete match on any one part means this is a match, regardless of the other parts.
+            return true;
+        case PartMatch::Partial:
+            // A partial match means we keep going to check all the other parts match partially.
+            break;
+        case PartMatch::None:
+            // No match at all means we did not match.
+            return false;
+        }
+    }
+
+    // If we got here, every part matched partially, so we consider this a name.
+    return true;
+}
+
+std::string lower_case_articles(std::string_view text) {
+    auto result = std::string(text);
+    if (has_prefix(text, "The ") || has_prefix(text, "A ") || has_prefix(text, "An ")) {
+        result[0] = tolower(result[0]);
     }
     return result;
 }

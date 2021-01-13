@@ -11,7 +11,7 @@ You are at the bottom of a sheer face.  The rock here is dark, sharp and
 distinctly menacing.  Glancing upwards you see a huge shadow looming above
 you - what can it be?  You can see a path in the mountain to the west.
 ~
-13 0 0
+0 0
 D4
 You can fly up the cliff-face is magically propelled.
 ~
@@ -30,7 +30,7 @@ and further above you can see a huge flying chunk of rock!  What can this thing
 be - and how can you find out?  Upwards seems the only way to find out.  To the
 far north-east you see a fortress in the mountains.
 ~
-13 0 9
+0 9
 D4
 You see a huge levitating chunk of rock.
 ~
@@ -48,7 +48,7 @@ You find yourself next to a huge flying citadel!  What terrible magics are
 holding this huge chunk of rock in the air?  You see a gap in the walls around 
 the citadel to the north.
 ~
-13 0 9
+0 9
 D5
 You see free space.
 ~
@@ -68,7 +68,7 @@ hideous magic holding the citadel in the air, and the terrible strain on the
 rocks is manifest.  The alley continues to the east and west, and a small hole
 to the south permits you to leave the citadel.
 ~
-13 D 1
+D 1
 D2
 You see a gap in the wall.
 ~
@@ -102,7 +102,7 @@ armour, all coated in blood.  More worryingly, there are half-chewed arms and
 legs, of both draconian and human race.  Obviously whatever was eating this
 is partial to any kind of flesh ... maybe even yours!
 ~
-13 D 1
+D 1
 D0
 A northerly corridor.
 ~
@@ -141,7 +141,7 @@ dripping with a red substance.  You feel a slight draft emanating from the
 north, where you can just make out a mass of rusted metal.  To the south you
 see a T-junction.
 ~
-13 D 1
+D 1
 D0
 The corridor continues to the north where you can just make out a mass of rusted
 metal.
@@ -170,7 +170,7 @@ siege cannon.  Standing on tip-toes you can just about peer through the huge
 hole - and you can see the mountainous terrain.  A ladder leads up to a trap-
 door in the ceiling.
 ~
-13 D 1
+D 1
 D4
 The ladder leads upwards to a trap-door in the ceiling.
 ~
@@ -202,7 +202,7 @@ corridor running from east to west, and the courtyard tapers to the north.  You
 feel the cold wind on your face.  Stamping your feet to keep them warm,
 you note the hollow sound...
 ~
-13 D 1
+D 1
 D5
 The trap-door leads into darkness...
 ~
@@ -234,7 +234,7 @@ hole in the north wall.  Pointing out of the window is a huge rusted metal
 siege cannon.  What tremendous power a cannon of that size must possess!  A
 ladder leads up to a trap-door in the ceiling.
 ~
-13 D 1
+D 1
 D4
 The ladder leads upwards to a trap-door in the ceiling.
 ~
@@ -266,7 +266,7 @@ dripping with a red substance.  You feel a slight draft emanating from the
 north, where you can just make out a mass of rusted metal.  To the south you
 see a T-junction.
 ~
-13 D 1
+D 1
 D0
 The corridor continues to the north where you can just make out a mass of
 rusted metal.
@@ -300,7 +300,7 @@ still moving...
 A rope leads to a trap-door in the ceiling, from which you hear distant
 groaning.
 ~
-13 D 1
+D 1
 D4
 The rope leads up to a trap-door - you can hear the groaning of creatures in
 pain emananating from it.
@@ -339,7 +339,7 @@ over, perhaps to prevent anyone escaping ... although they'd only be escaping
 to a four hundred foot drop...
 You can see wisps of smoke emanating from a pile to the west.
 ~
-13 D 1
+D 1
 D1
 You can see a T-junction to the west, at the centre of which lies a burning
 pile.
@@ -356,7 +356,7 @@ make you wonder if the damage was caused by some huge siege weapon, or was it
 simply that the structure of the citadel couldn't take it any more.  The only
 exit, other than a 400 foot plunge, is to the west.
 ~
-13 D 1
+D 1
 D3
 You can see a T-junction.
 ~
@@ -376,7 +376,7 @@ The courtyard has tapered to a point - and the view is tremendous!  You can
 see for miles and miles - below you is the peak of a huge mountain, and you
 see the spires of a fortress nestled upon it.
 ~
-13 0 12
+0 1
 D2
 You see a cobbled courtyard to the south.
 ~
@@ -390,17 +390,17 @@ other unmentionables is almost tangible.  All around you, attached to the
 walls, are manacles - some of which are occupied by shivering dwarves, and
 the odd skeleton.
 ~
-13 A 0
-D3
+A 0
+D1
 The darkness continues to the east.
 ~
 ~
-0 -1 13013
-D1
+0 -1 13014
+D3
 The darkness continues to the west.
 ~
 ~
-0 -1 13014
+0 -1 13013
 D4
 There is an opening above.
 ~
@@ -415,7 +415,7 @@ other unmentionables is almost tangible.  All around you, attached to the
 walls, are manacles - some of which are occupied by shivering dwarves, and
 the odd skeleton.
 ~
-13 A 0
+A 0
 D1
 The darkness continues to the east.
 ~
@@ -430,7 +430,7 @@ other unmentionables is almost tangible.  All around you, attached to the
 walls, are manacles - some of which are occupied by shivering dwarves, and
 the odd skeleton.
 ~
-13 A 0
+A 0
 D3
 The darkness continues to the west.
 ~
@@ -449,7 +449,7 @@ are heated by a burning torch which has been suspended underneath them.  You
 see a stairwell to the east, and a doorway to the south.  A trapdoor is set
 into the floor.
 ~
-13 D 1
+D 1
 D5
 It's a trapdoor.
 ~
@@ -472,7 +472,7 @@ You find yourself at the bottom of a stairwell.  To the east is a door from
 which you hear the sounds of metalworking, and to the west is an odd-shaped
 piece of machinery.  The stairs lead upwards into darkness.
 ~
-13 D 1
+D 1
 D1
 You see a doorway to the east, from which the sounds of metalworking can be
 heard.
@@ -497,7 +497,7 @@ fairly covered in plundered armour and weapons - altough they seem rather in
 need of the attention of a blacksmith as they are mostly dented and rusting.
 To the west you see a door, and there is a trapdoor set into the ground.
 ~
-13 D 1
+D 1
 D5
 A trapdoor.
 ~
@@ -524,7 +524,7 @@ to even go near the explosives, but the goblins are stupid enough to assemble
 the potentially lethal cocktails to create explosives.  To the north is a
 strange machine, and a doors lead east and south.
 ~
-13 D 1
+D 1
 D0
 You see a strange machine.
 ~
@@ -548,7 +548,7 @@ the hole is a winch and a hooked rope dangles down from it.  This must be how
 the draconians bring up supplies from the ground below.  To the east you can
 see a kitchen, and a door leads west.
 ~
-13 D 1
+D 1
 D1
 You see a kitchen.
 ~
@@ -573,7 +573,7 @@ from meat they have presumably 'collected' themselves.  A cooking pot sits on
 the side, bubbling slightly. The disconcerting thing about the pot is that a
 human finger keeps bubbling to the surface. You see the winch-room to the west.
 ~
-13 D 1
+D 1
 D3
 You see the winch-room.
 ~
@@ -594,7 +594,7 @@ in the corner lay testimony to the ineffectiveness of the 'treatment' given
 here.  There is a door to the north, and you see a staircase to the east.  A
 trapdoor in the ground leads downwards.
 ~
-13 D 0
+D 0
 D5
 You see a trapdoor.
 ~
@@ -630,7 +630,7 @@ You find yourself at the bottom of a spiral staircase which leads upwards
 into the gloom.  From the east you hear a rasping, buzzing noise, and from
 the west comes the slightly disconcering sound of creatures in pain.
 ~
-13 D 0
+D 0
 D3
 Westwards lies the draconian infirmary.
 ~
@@ -656,7 +656,7 @@ creature comforts, and is drafty, cold and dank.  The draconians are surely a
 sturdy race to be able to live in such conditions.  On the ground is a trap-
 door.
 ~
-13 AD 1
+AD 1
 D5
 A trapdoor.
 ~
@@ -672,7 +672,7 @@ S
 Further up the staircase~
 You are half-way up a staircase.  Above and below you is only darkness.
 ~
-13 AD 1
+AD 1
 D4
 Too dark to tell.
 ~
@@ -691,7 +691,7 @@ are lead by a hideous Minotaur High Lord whose lair you have just entered.
 The room is covered in filth, blood and decay - the meals of this creature are
 delivered live by the looks of it!
 ~
-13 AD 1
+AD 1
 D5
 Too dark to tell.
 ~
@@ -708,7 +708,7 @@ magical lightning jumping from the snotling's head to the spike on the ceiling.
 You guess that these poor creatures are being used as some kind of magical
 battery - perhaps this is where the power that hold the citadel up come from.
 ~
-13 A 1
+A 1
 D5
 You see the bottom of the stairs.
 ~
@@ -728,7 +728,7 @@ are magically suspended at waist height in the centre of the room, below them
 is a pentagram carved on the floor.  This is where the mage must control the
 citadel.
 ~
-13 AD 1
+AD 1
 D5
 You see the snotling mind-battery.
 ~
@@ -751,7 +751,7 @@ evil.  He perhaps was a student of the evil orc mage Uruk.
 orc~
 FGHR DEH -950 0
 42 22 10d6+1770 10d6+460 10d4+19 blast
--2 -2 -2 -2
+-17 -17 -17 -17
 FJNQ ABQ CL N
 stand stand male 200
 0 0 medium 0
@@ -766,9 +766,9 @@ able to stop him!  Currently the only thing he's thinking of is impaling you on
 his spear!
 ~ 
 orc~
-FGT HVZ -800 0
-36 18 8d8+1170 5d6+200 6d7+18 pound
--3 -2 -1 0
+FGT HZ -800 0
+36 18 8d8+1170 5d6+200 6d6+18 pound
+-18 -17 -16 -15
 CEFHKQ A 0 N
 stand stand male 80
 0 0 medium 0
@@ -788,8 +788,8 @@ and sharp nails.
 ~
 dwarf~
 CSH FQZ -50 0
-20 10 4d10+400 1d1+99 3d8+10 bite
-0 0 0 0
+20 10 4d10+400 1d1+99 4d5+10 bite
+-15 -15 -15 -15
 DFN A 0 0
 stand stand male 2
 0 0 small 0
@@ -807,9 +807,9 @@ Six foot four tall, with a scaly humanoid appearance, the draconian warrior is
 a formidable opponent.
 ~
 dragon~
-BFGT FHTVa -980 0
-39 21 2d2+2040 1d1+249 4d12+21 hit
--3 -2 -1 0
+BFGT FHTa -980 0
+39 21 2d2+2040 1d1+249 3d13+19 hit
+-18 -17 -16 -15
 CEFIKMQ A EK 0
 stand stand male 93
 0 0 large 0
@@ -827,8 +827,8 @@ destination.
 ~
 dwarf~
 CGS 0 -110 0
-23 11 4d10+400 1d1+99 2d15+11 bite
-0 -1 0 0
+23 11 4d10+400 1d1+99 2d12+11 bite
+-15 -16 -15 -15
 DFIJN A 0 0
 stand stand male 4
 0 0 small 0
@@ -845,8 +845,8 @@ end.  Its helmet is much too big for it and it can hardly see!
 ~
 dwarf~
 CGS A -100 0
-24 11 4d10+450 1d1+99 2d15+12 bite
--1 -1 -1 0
+24 11 4d10+450 1d1+99 3d8+12 bite
+-16 -16 -16 -15
 DFIJN A 0 0
 stand stand male 43
 0 0 small 0
@@ -866,8 +866,8 @@ and sharp nails.
 ~
 dwarf~
 CSH FQZ -50 0
-21 10 4d10+400 1d1+99 3d9+11 bite
-0 0 0 0
+21 10 4d10+400 1d1+99 3d7+11 bite
+-15 -15 -15 -15
 DFN A 0 0
 stand stand female 4
 0 0 small 0
@@ -884,8 +884,8 @@ are you!
 ~
 dwarf~
 BC MY -900 0
-25 12 4d10+392 1d1+249 2d15+12 beating
-0 0 0 0
+25 12 4d10+392 1d1+249 5d5+12 beating
+-15 -15 -15 -15
 FINU A LQ I
 sit sit male 0
 0 0 medium 0
@@ -901,9 +901,9 @@ in his white beard, and his eyes are bright red.  Still trailing his manacles
 behind him, this Dewar is not going to get past the guards in this state.
 ~
 dwarf~
-CFHS MYXa -910 0
-26 14 4d10+405 1d1+249 2d16+13 beating
-0 0 0 0
+CFHS MYX -910 0
+26 14 4d10+405 1d1+249 5d5+13 beating
+-15 -15 -15 -15
 CDFHIJNU A LQ I
 stand stand male 0
 0 0 medium 0
@@ -919,9 +919,9 @@ too keen to blast you into oblivion!  With one clawed hand raised, he traces
 an evil sigil in the air and prepares to attack.
 ~
 dragon~
-FGHR HNUT -1000 0
-45 25 4d10+1850 2d10+520 6d8+23 claw
--2 -2 -2 -2
+FGHR HUT -1000 0
+45 25 4d10+1850 2d10+520 5d9+22 claw
+-17 -17 -17 -17
 CEFI AB CK 0
 stand stand male 600
 0 0 large 0
@@ -939,9 +939,9 @@ warriors here, not for any humanitarian reasons, but simply as the draconian
 fighting force must be kept at its peak to further the draconians' evil goals.
 ~
 dragon~
-BGQL HTVZ -1000 0
-40 22 4d10+1650 2d10+450 6d7+21 divine
--2 -1 -2 -3
+BGQL HTZ -1000 0
+40 22 4d10+1650 2d10+450 4d10+20 divine
+-17 -16 -17 -18
 CDEFKMR ABN CK F
 stand stand male 540
 0 0 large 0
@@ -957,9 +957,9 @@ a condition, you can only wonder.  The warrior has a charred wound on his
 stomach, and many small cuts and bruises over his body.
 ~
 dragon~
-BGT FHTVa -980 0
-36 17 2d2+1241 1d1+249 4d10+20 hit
--3 -2 -1 0
+BGT FHTa -980 0
+36 17 2d2+1241 1d1+249 6d6+18 hit
+-18 -17 -16 -15
 CEFIKMQ A EK 0
 stand stand male 76
 0 0 large 0
@@ -985,8 +985,8 @@ The man sighs deeply, and continues:
 ~
 unique~
 BCU CDEFHJN 0 0
-50 27 1d1+4999 1d1+4999 6d8+22 divine
--10 -10 -10 -10
+50 27 1d1+4999 1d1+4999 6d8+25 divine
+-25 -25 -25 -25
 0 0 0 0
 stand stand male 1
 0 0 large 0
@@ -1005,8 +1005,8 @@ whip.
 ~
 goblin~
 BCH 0 -150 0
-25 12 10d10+500 5d2+49 2d15+12 claw
--1 0 0 -1
+25 12 10d10+500 5d2+49 5d5+12 claw
+-16 -15 -15 -16
 CFIJNR A L 0
 stand stand male 4
 0 0 small 0
@@ -1025,8 +1025,8 @@ different tale.
 ~
 goblin~
 BCH N -400 0
-28 14 10d10+550 5d2+49 3d11+13 claw
--1 -1 -1 -1
+28 14 10d10+550 5d2+49 4d7+13 claw
+-16 -16 -16 -16
 CFIJN A L 0
 stand stand male 6
 0 0 small 0
@@ -1044,8 +1044,8 @@ purposes of the draconians.
 ~
 goblin~
 B RW -100 0
-20 10 10d10+326 10d10+400 3d7+8 charge
-0 0 0 0
+20 10 10d10+326 10d10+400 4d5+10 charge
+-15 -15 -15 -15
 DFN AC L P
 stand stand male 0
 0 0 tiny 0
@@ -1062,8 +1062,8 @@ delicate task as making explosives - and edge away from her slightly...
 ~
 goblin~
 BCH P -210 0
-24 11 10d10+460 5d2+49 2d15+12 claw
-0 0 0 0
+24 11 10d10+460 5d2+49 6d4+12 claw
+-15 -15 -15 -15
 CFIJNR A L 0
 stand stand female 10
 0 0 small 0
@@ -1083,8 +1083,8 @@ is that of a dragon's!
 ~
 minotaur~
 BFTV CDEFHNV -1000 0
-50 32 10d10+2490 50d4+400 4d14+25 pound
--4 -3 -2 0
+50 32 10d10+2490 50d4+400 7d7+25 pound
+-19 -18 -17 -15
 CDEFHKV AB JK N
 stand stand male 6666
 0 0 huge 0
@@ -1100,9 +1100,9 @@ abilities.  Fully six feet five he is at the peak of physical, mental and
 magical form, unfortunately for you!
 ~
 dragon~
-BCFR CDFHNZ -1000 0
-48 26 10d10+1950 2d2+1997 4d14+25 claw
--3 -3 0 -2
+BCFR CDFHZ -1000 0
+48 26 10d10+1950 2d2+1997 6d8+24 claw
+-18 -18 -15 -17
 FIK AB COP N
 stand stand male 350
 0 0 medium 0
@@ -1117,9 +1117,9 @@ a guard.  He may have failed the requirements to get into the Imladris invasion
 force - and has been consigned to boring duties.  He is in a foul mood.
 ~
 orc~
-CGT a -890 0
-32 18 5d10+750 1d1+99 5d9+16 slash
--1 -2 -2 0
+CGT 0 -890 0
+32 18 5d10+750 1d1+99 4d8+16 slash
+-16 -17 -17 -15
 DER A 0 0
 stand stand male 20
 0 0 medium 0

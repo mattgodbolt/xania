@@ -21,7 +21,7 @@ The message reads:
 An ancient Glyph above the entrance keeps monsters from wandering up
 from the catacombs.
 ~
-20 C 1
+C 1
 D2
 ~
 ~
@@ -38,7 +38,7 @@ a large cross painted on the floor of the tunnel.To the south it seems
 maybe a bit lighter for some odd reason.  To the north a ray of light
 comes in from a hole in the ceiling.
 ~
-20 DI 0
+DI 0
 D0
 ~
 ~
@@ -58,7 +58,7 @@ This is a place to keep up on there weapon skills.  Much of the
 equipment looks old and worn but upon further inspection seems quite
 sturdy in fact.
 ~
-20 DI 0
+DI 0
 D1
 ~
 ~
@@ -74,7 +74,7 @@ The templar's curious mix of religion and fighting is evident here.
 A central painting depicts a cross composed of swords.  The elders
 teach the ancient art of prayer to the young pages.
 ~
-20 DI 0
+DI 0
 D1
 ~
 ~
@@ -90,7 +90,7 @@ Training facilities are evident to the west. To the south lies a hallway
 which has doors every couple of feet, looks like living quarters of some
 sort.  To the east the tunnel leads back into the natural catacombs.
 ~
-20 DI 0
+DI 0
 D1
 ~
 ~
@@ -109,7 +109,7 @@ Hallway~
 The hallway takes on a more indoor look to the west.  To the east it
 looks awfully dark.
 ~
-20 CDI 0
+CDI 0
 D1
 ~
 ~
@@ -124,7 +124,7 @@ Intersection~
 The tunnel continues to the north and the south, becoming less hewn and
 more natural to the south.  A passageway lined with paneling leads west.
 ~
-20 DI 0
+DI 0
 D0
 ~
 ~
@@ -144,7 +144,7 @@ Several bunk beds are lined up across the room.  It looks rather spartan
 and there is little evidence of toys or games.  Most of the desks are
 filled with books and papers of little interest.
 ~
-20 DI 0
+DI 0
 D0
 ~
 ~
@@ -160,7 +160,7 @@ This is a huge room which is filled wall to wall with beds. Apparently
 all the low level knights all sleep in this one room.  A door on the
 south wall is labelled "Elders only!".
 ~
-20 DI 0
+DI 0
 D2
 ~
 ~
@@ -175,7 +175,7 @@ N/S hallway~
 The hallway leads north an south.  A door leads to a templar's room to
 the east.  The decoration looks rather sparse here.
 ~
-20 DI 0
+DI 0
 D0
 ~
 ~
@@ -195,7 +195,7 @@ This is a room furnished in a room becoming a low level templar scribe.
 No real amenities but better than a communal sleeping quarters. As far
 as you can tell he would be a rank equivalent to a Sargeant.
 ~
-20 DI 0
+DI 0
 D3
 ~
 ~
@@ -207,7 +207,7 @@ As the tunnel leads south it gets more humid and damp.  Moss covers the
 walls and ferns even grow in the cracks here and there.  To the north it
 seems much more sterile.
 ~
-20 ADI 2
+ADI 2
 D0
 ~
 ~
@@ -223,7 +223,7 @@ The elders gather here to discuss training strategies and count their
 loot.  You notice papers which look like important secret documents
 lying around. An escape passage leads west.
 ~
-20 DI 0
+DI 0
 D0
 ~
 ~
@@ -249,7 +249,7 @@ The hallway continues to become more important-looking as you wander
 south.  A room to the east looks rather more pleasant that some of the
 others.
 ~
-20 DI 0
+DI 0
 D0
 ~
 ~
@@ -269,7 +269,7 @@ A rather nice looking room considering the drab conditions down here.
 Through all the signs of decoration you can still see evidence of water
 leaks.
 ~
-20 DI 0
+DI 0
 D3
 ~
 ~
@@ -281,7 +281,7 @@ The a huge table with an immaculate white table cloth stretches way off
 to the south.  The room is kept immaculately clean by the nights
 themselves.  They truly belive that cleanliness is next to godliness.
 ~
-20 DI 0
+DI 0
 D0
 ~
 ~
@@ -297,7 +297,7 @@ The hallway continues north and south.  A peculiar kind of glow seems
 to come from somewhere further along the hallway to the south. The room
 to the east looks like the lap of luxury.
 ~
-20 DI 0
+DI 0
 D0
 ~
 ~
@@ -317,7 +317,7 @@ First thing you notice in this room is the pleasant aroma of cedar.  All
 the paneling in the room is made of fine cedar.  A painting of an
 elegant knight hangs on the wall.
 ~
-20 DI 0
+DI 0
 D3
 ~
 ~
@@ -335,7 +335,7 @@ and south. To the south it seems to get impossibly darker.  To the east
 you hear... birds?  A small rivulet of water seeps in from the passage
 east.  The air is very humid and damp here.
 ~
-20 ADI 2
+ADI 2
 D0
 ~
 ~
@@ -355,7 +355,7 @@ A small grove of birches grow seem to grow from solid rock.  You hear
 birds singing but try as you might you cant see any.  A strange glow
 emanates from a place somewhere to the southeast in the grove.
 ~
-20 DJ 3
+DJ 3
 D1
 ~
 ~
@@ -372,7 +372,7 @@ You hear other small animals scampering through the light undergrowth
 yet you see nothing. The grove continues south, east and west. An out of
 place passage way for some reason heads north.
 ~
-20 DJ 3
+DJ 3
 D0
 ~
 ~
@@ -395,7 +395,7 @@ The holy grove~
 The grove continues west and south.  The glow is roughly to the south
 somewhere.
 ~
-20 DJ 3
+DJ 3
 D2
 ~
 ~
@@ -411,7 +411,7 @@ Mess hall~
 contrary, it is immaculately clean.  A very long table stretches way off
 to the north. A hallway is to the east.
 ~
-20 DI 0
+DI 0
 D0
 ~
 ~
@@ -426,7 +426,7 @@ End of a hallway~
 You hear voices coming from a room to the west.  the hallway goes north.
 To the east lies a room which seems to glow with power and piety.
 ~
-20 DI 0
+DI 0
 D0
 ~
 ~
@@ -445,7 +445,7 @@ Grand Templar's room~
 All the items in this room look ancient yet strangely very powerful and
 rich.  There is an aura of great holiness about the room.
 ~
-20 DI 0
+DI 0
 D3
 ~
 ~
@@ -457,7 +457,7 @@ This room is so dark that even powerful magic lights seems to barely
 illuminate the ground in front of you.  If its possible it seems even
 darker to the south.  The passage also leads back north.
 ~
-20 ADI 2
+ADI 2
 D0
 ~
 ~
@@ -472,7 +472,7 @@ The holy grove~
 The grove continues north and east.  To the east a strange humming can
 barely be heard.
 ~
-20 DJ 3
+DJ 3
 D0
 ~
 ~
@@ -489,7 +489,7 @@ its just the strange humming and glowing from a clearing to the south
 drowning out everything else. There is a sort of magical forcefield door
 to the south.
 ~
-20 DJ 3
+DJ 3
 D0
 ~
 ~
@@ -511,7 +511,7 @@ there's nothing really to describe except maybe the powerful sense of
 evil coming from the east and the almost overcoming urge to run to the
 west.
 ~
-20 ADI 2
+ADI 2
 D1
 ~
 ~
@@ -528,7 +528,7 @@ lingers.  You stumble over what you think are corpses in the utter
 darkness. You sense a evil growl from somewhere in the room. maybe
 everywhere in the room. . ..
 ~
-20 AD 5
+AD 5
 D0
 ~
 ~
@@ -547,7 +547,7 @@ Very dark cavern~
 The cavern is hard to describe due to the extreme magical darkness.
 Probing with a light source seems to reveal nothing but more darkness.
 ~
-20 AD 5
+AD 5
 D2
 ~
 ~
@@ -564,7 +564,7 @@ the stone of the Excalibur.  The strange humming glowing makes it
 difficult to see if the Excalibur is there or not. Might want to take a
 closer look if possible.
 ~
-20 DJ 3
+DJ 3
 D0
 a glowing forcefield with a small circular hole in it.
 ~
@@ -578,7 +578,7 @@ protected at the same time.  The swirling mist makes it tough to tell
 directions quite clearly, but you seem to be able to go north or south.
 The mist gets denser to the south.
 ~
-20 ADI 2
+ADI 2
 D0
 ~
 ~
@@ -595,7 +595,7 @@ sized caverns from the east and the north join to form a huge cavern
 heading south.  The walls of the cavern are made of a bizarre mixture
 of many shiny crystals.
 ~
-20 AD 5
+AD 5
 D0
 ~
 ~
@@ -616,7 +616,7 @@ templars buried their dead here.  Chills go down your spine as you feel
 something watching you.  You hear the random groan of a ghost, the howl
 of a wraith, and the dry clanking of bones.
 ~
-20 AD 5
+AD 5
 D1
 ~
 ~
@@ -633,7 +633,7 @@ can see.  To your horror many of the graves are empty and desecrated.
 A gap in the rows of tombs leads south and there are more graves to the
 east and west.
 ~
-20 AD 5
+AD 5
 D1
 ~
 ~
@@ -653,7 +653,7 @@ It seems as if many of the warriors could not stop fighting even in
 death.  They fight amongst each other and flail at any living being
 that would wander near.
 ~
-20 AD 5
+AD 5
 D1
 ~
 ~
@@ -669,7 +669,7 @@ Legions of skeletal warriors wander by and battle the enemy even in
 death.  Old battlelines have been forgotten and new ones made. Its a
 gruesome scene.
 ~
-20 AD 5
+AD 5
 D1
 ~
 ~
@@ -685,7 +685,7 @@ The tombs in this section seem somewhat more recent.  Rotting zombie
 warriors groan and wail with blank stares.  You hear sounds of digging
 off a bit to the south.
 ~
-20 AD 5
+AD 5
 D2
 ~
 ~
@@ -701,7 +701,7 @@ A chilling icy mist swirl about you.  The dampness and warmth has become
 bitter cold.  The walls of the cavern are several feet thick with ice
 here.  An icy wind blows from the south.
 ~
-20 ADI 2
+ADI 2
 D1
 ~
 ~
@@ -718,7 +718,7 @@ blowing in from the east and a chilly breeze blowing in from the west.
 The updrafts create bizarre icy-steamy mists which dance along the
 walls.
 ~
-20 ADI 2
+ADI 2
 D1
 ~
 ~
@@ -733,7 +733,7 @@ Mist cavern~
 A warm wind blows in from the east.  The air is still stifling hot in
 here despite the breeze.  The mist seems thick enough to be alive. . .
 ~
-20 ADI 2
+ADI 2
 D0
 ~
 ~
@@ -753,7 +753,7 @@ River of hot mist pour down in a cascade from a hole in the cavern.  It
 falls like water down from the heights like a waterfall and creates
 beautiful swirls.  It causes a hot wind to flow west.
 ~
-20 ADI 2
+ADI 2
 D3
 ~
 ~
@@ -768,7 +768,7 @@ Huge multicolored tunnel~
 The tunnel leads north and south.  To the south there is an odd
 twinkling phenomenon.
 ~
-20 ADI 2
+ADI 2
 D0
 ~
 ~
@@ -785,7 +785,7 @@ defiled. And most have been torn down and burned by looters. Some still
 seem to be intact to the south.  To the northwest is a seeming field of
 tombs of soldiers, now a battleground for the undead.
 ~
-20 AD 5
+AD 5
 D2
 ~
 ~
@@ -798,7 +798,7 @@ too have joined the legions of the undead.  From the looks of the place
 they seem to have starved to death.  Rickety stairs head down into a
 sort of basement.
 ~
-20 AD 4
+AD 4
 D1
 ~
 ~
@@ -818,7 +818,7 @@ Graves of recent casualties lie here.  Even the most recent don't seem to
 have been left undisturbed.  You hear sounds of digging in progress
 further to the south.
 ~
-20 AD 4
+AD 4
 D0
 ~
 ~
@@ -839,7 +839,7 @@ from spinning.  The air is very cold here and layers of ice on the wall.
 The sounds of metal on ice echo through the cavern. A side passage leads
 east and the main passage goes north and south.
 ~
-20 ADI 2
+ADI 2
 D0
 ~
 ~
@@ -859,7 +859,7 @@ The walls of the tunnels have many brilliant colors in them from the
 various veins of crystals running in them.  An odd twinkling comes from
 the east.
 ~
-20 ADI 2
+ADI 2
 D1
 ~
 ~
@@ -878,7 +878,7 @@ blinding flare of brilliance as more light is added to the multi-colored
 twinkling phenomenon that exists here.  This is also the lair of the
 fabled and feared Prism Dragon.
 ~
-20 D 5
+D 5
 D0
 ~
 ~
@@ -903,7 +903,7 @@ signify that is was here at all.  A building of some sort can be entered
 through a basement to the east.  The southern gate of the grounds is to
 the south.
 ~
-20 AD 4
+AD 4
 D0
 ~
 ~
@@ -923,7 +923,7 @@ Its dark and it smells like. ...BATS down here!  All you see is a swirl
 of the darkness and lots of scratching bats madly flailing around. A set
 of stairs go up into the building and a broken window leads west.
 ~
-20 AD 4
+AD 4
 D3
 ~
 ~
@@ -940,7 +940,7 @@ defilement.  There are piles of fresh bodies here awaiting burial.  A
 strange sense of evil magic from the south makes the hairs on the back
 of your neck to stand on end!
 ~
-20 AD 4
+AD 4
 D0
 ~
 ~
@@ -956,7 +956,7 @@ A rusty gate here no longer keeps anyone out or in.  You see a lonely
 E/W passage to the south.  A little used trail winds east through a
 crack in the wall.
 ~
-20 AD 2
+AD 2
 D0
 ~
 ~
@@ -976,7 +976,7 @@ An army of undead creatures of all types are lined up patiently. Their
 leader is an evil demonoid necromancer.  His plans to use his army of
 undead to take over the world seem about ready to get underway.
 ~
-20 AD 5
+AD 5
 D0
 ~
 ~
@@ -992,7 +992,7 @@ The passage bends north and east here.  To the east your not certain
 what lies ahead due to all the twists and turns you've made.  To the
 north is seems cold.
 ~
-20 ADI 2
+ADI 2
 D0
 ~
 ~
@@ -1007,7 +1007,7 @@ Cross of caverns~
 A little-used cavern enters from the south. A passage twists away to
 the west.  An odd twinkling comes from the cave to the north.
 ~
-20 ADI 2
+ADI 2
 D0
 ~
 ~
@@ -1026,7 +1026,7 @@ Lonely tunnel~
 Something indescribable makes you feel lonesome and sad here. Its just
 a feeling you get from this tunnel.  The tunnel east and west.
 ~
-20 ADI 2
+ADI 2
 D1
 ~
 ~
@@ -1042,7 +1042,7 @@ Something indescribable makes you feel lonesome and sad here. You see a
 gate to a burial ground to the north.  This lonesome tunnel sighs along
 west and east.
 ~
-20 ADI 2
+ADI 2
 D0
 ~
 ~
@@ -1061,7 +1061,7 @@ Bend in the lonely tunnel~
 Something indescribable makes you feel lonesome and sad here. The
 tunnel bends west and south.
 ~
-20 ADI 2
+ADI 2
 D2
 ~
 ~
@@ -1077,7 +1077,7 @@ Something indescribable makes you feel lonesome and sad here. The very
 walls of the tunnel seems to groan.  to the north the tunnel bends and
 east is an intersection.
 ~
-20 ADI 2
+ADI 2
 D0
 ~
 ~
@@ -1094,7 +1094,7 @@ direction.  Also you feel an ominous sense of evil magic from there.
 The tunnel to the west creaks and sighs as if alive.  To the south you
 smell a hint of fresh air.
 ~
-20 ADI 2
+ADI 2
 D0
 ~
 ~
@@ -1113,7 +1113,7 @@ Tunnel~
 The tunnel heads north and south.  North you see an intersection and
 far to the south you sense light and smell a fresh breeze.
 ~
-20 ADI 2
+ADI 2
 D0
 ~
 ~
@@ -1128,7 +1128,7 @@ Tunnel~
 The tunnel slopes noticeably down to the north and you sense the surface
 could be reached to the south.
 ~
-20 ADI 2
+ADI 2
 D0
 ~
 ~
@@ -1150,7 +1150,7 @@ here.  The message reads:
 An ancient Glyph above the entrance keeps monsters from wandering up
 from the catacombs.
 ~
-20 C 2
+C 2
 D0
 ~
 ~
@@ -1166,7 +1166,7 @@ Oh dear you seem to have lost your way.  You look back from whence you
 came but there's no exit there anymore.  There are exits in other
 directions but you have a feeling that you are hopelessly lost.
 ~
-20 ACDI 2
+ACDI 2
 D1
 ~
 ~
@@ -1182,7 +1182,7 @@ Oh dear you seem to have lost your way.  You look back from whence you
 came but there's no exit there anymore.  There are exits in other
 directions but you have a feeling that you are hopelessly lost.
 ~
-20 ACDI 2
+ACDI 2
 D2
 ~
 ~
@@ -1198,7 +1198,7 @@ Oh dear you seem to have lost your way.  You look back from whence you
 came but there's no exit there anymore.  There are exits in other
 directions but you have a feeling that you are hopelessly lost.
 ~
-20 ACDI 2
+ACDI 2
 D0
 ~
 ~
@@ -1214,7 +1214,7 @@ Oh dear you seem to have lost your way.  You look back from whence you
 came but there's no exit there anymore.  There are exits in other
 directions but you have a feeling that you are hopelessly lost.
 ~
-20 ACDI 2
+ACDI 2
 D0
 ~
 ~
@@ -1237,7 +1237,7 @@ Your typical smelly, blind flying mammal.
 unique~
 BFA F 0 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 202
 0 0 medium 0
@@ -1252,7 +1252,7 @@ He has lost his family and everything of his former life.
 human~
 HA 0 200 0
 7 3 1d1+141 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 287
 0 0 medium 0
@@ -1270,7 +1270,7 @@ probably won't last long.
 orc~
 CHA F 100 0
 8 3 1d1+174 1d1+160 3d3+4 scratch
-5 5 5 7
+-10 -10 -10 -8
 FENCU 0 0 0
 stand stand male 329
 0 0 medium 0
@@ -1286,7 +1286,7 @@ They seem like little more than zombie servants themselves.
 orc~
 CFA 0 -500 0
 9 4 1d1+190 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENCU 0 0 0
 stand stand male 375
 0 0 medium 0
@@ -1301,7 +1301,7 @@ In fact it IS alive in a magical sort of sense.
 unique~
 A HPU 0 0
 10 4 1d1+210 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 403
 0 0 medium 0
@@ -1314,7 +1314,7 @@ It is here.~
 unique~
 FA 0 0 0
 10 4 1d1+210 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 414
 0 0 medium 0
@@ -1330,7 +1330,7 @@ continues for him in his charmed state.
 undead~
 CFA 0 -290 0
 11 5 1d1+255 1d1+220 3d4+5 acbite
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 457
 0 0 medium 0
@@ -1349,7 +1349,7 @@ A templar tells you, "You must die for your sin!".
 human~
 CFA 0 600 0
 12 6 1d1+280 1d1+240 3d4+6 pound
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 499
 0 0 medium 0
@@ -1364,7 +1364,7 @@ Hard to tell much about the mysterious form even upon further inspection.
 undead~
 CFA FU 0 0
 12 6 1d1+280 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 502
 0 0 medium 0
@@ -1379,7 +1379,7 @@ A templar officer tells you "Better move along evil one!"
 human~
 FA D 700 0
 13 6 1d1+305 1d1+260 4d4+6 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 521
 0 0 medium 0
@@ -1394,7 +1394,7 @@ He seems to lack real interest in what he is doing.
 undead~
 CFA 0 -100 0
 13 6 1d1+305 1d1+260 4d4+6 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 529
 0 0 medium 0
@@ -1409,7 +1409,7 @@ Looks vaguely you-shaped.
 unique~
 A FPU 0 0
 14 6 1d1+330 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand neutral 563
 0 0 medium 0
@@ -1424,7 +1424,7 @@ A rather LARGE "bat" ...
 unique~
 BFA F -100 0
 15 6 1d1+355 1d1+300 4d4+7 acbite
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 605
 0 0 medium 0
@@ -1440,7 +1440,7 @@ to kill you to get a fresh corpse!
 undead~
 BFA 0 -888 0
 15 6 1d1+355 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 621
 0 0 medium 0
@@ -1456,7 +1456,7 @@ of an eye he seems stern again.
 human~
 BA DFH 1000 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 657
 0 0 medium 0
@@ -1471,7 +1471,7 @@ The spray of colored light bouncing off his scales is almost blinding.
 dragon~
 BFA DF -303 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENCU 0 0 0
 stand stand male 1023
 0 0 medium 0
@@ -1486,7 +1486,7 @@ You see nothing more than the sense of darkness and evil.
 dragon~
 BFA 0 -1000 0
 24 12 1d1+821 1d1+480 5d5+12 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENCU 0 0 0
 stand stand neutral 1254
 0 0 medium 0

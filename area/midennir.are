@@ -18,7 +18,7 @@ APPEAR to be very hungry ... yet.
 wyvern~
 G 0 -200 0
 8 2 8d8+80 1d1+149 2d6+1 bite
-5 4 5 6
+-10 -11 -10 -9
 DNR 0 0 0
 stand stand male 0
 0 0 huge 0
@@ -32,7 +32,7 @@ You see before you a small and twisted creature with knotted muscles.
 goblin~
 FGT 0 -500 0
 6 1 4d4+65 1d1+99 2d4+1 punch
-4 6 4 9
+-11 -9 -11 -6
 KR 0 0 0
 stand stand male 25
 0 0 small 0
@@ -47,7 +47,7 @@ He is apparently the only survivor of the ambush.
 human~
 BH 0 500 0
 4 0 1d12+47 1d1+99 1d6+0 beating
-8 8 8 10
+-7 -7 -7 -5
 I 0 0 C
 rest rest male 0
 0 0 small 0
@@ -63,7 +63,7 @@ place that is used to be in days past.
 human~
 BT 0 500 0
 10 1 1d12+200 1d1+149 2d8+1 punch
-2 2 2 8
+-13 -13 -13 -7
 BFKQ AB CD 0
 stand stand male 350
 0 0 medium 0
@@ -78,7 +78,7 @@ has been sitting here quite a while, drinking himself into oblivion.
 human~
 BST D 600 0
 8 3 1d12+110 1d1+99 2d6+0 punch
-3 5 3 6
+-12 -10 -12 -9
 FIJKNQ 0 0 0
 sit sit male 260
 0 0 medium 0
@@ -93,7 +93,7 @@ little bits.
 human~
 GHS P -900 0
 8 2 1d12+110 1d1+99 2d5+2 punch
-5 3 3 6
+-10 -12 -12 -9
 BFJKQ 0 0 0
 stand stand male 400
 0 0 medium 0
@@ -108,7 +108,7 @@ beat up upon, but maybe you will do just fine ...
 goblin~
 FGT 0 -600 0
 7 1 1d12+100 1d1+149 1d10+1 punch
-3 5 3 8
+-12 -10 -12 -7
 DKNR 0 0 0
 stand stand male 55
 0 0 medium 0
@@ -123,7 +123,7 @@ for his shortsword and lunges for your neck.
 goblin~
 CFGT 0 -900 0
 9 2 1d12+120 1d1+199 1d12+3 punch
-1 3 1 6
+-14 -12 -14 -9
 DJKNR 0 0 0
 stand stand male 500
 0 0 medium 0
@@ -221,7 +221,7 @@ The path looks rather bewildered and is not the kind of path to lead to
 anywhere significant or important but it seems to have made up its mind to
 enter the hills far away north.
 ~
-30 0 1
+0 1
 D0
 ~
 ~
@@ -237,7 +237,7 @@ The Lane~
 sides by tall, stately trees which lend the scene with a sense of quiet
 serenity. You can follow the road north or south.
 ~
-30 0 1
+0 1
 D0
 ~
 ~
@@ -255,7 +255,7 @@ west, and the highway continues the the east.  An old northern road leads to
 the dwarven kingdom and the abandoned mines of Moria, while the southern road
 shows the scars of the war which destroyed Thalos.
 ~
-30 0 1
+0 1
 D0
 An old road leads towards the abandoned mines of Moria and the Dwarven Kingom.
 ~
@@ -284,7 +284,7 @@ land. The road leads east into the peace and quiet - and dangers - of the
 forest; and to the west it becomes the main street of the town; surrounded by
 a confusion of shops, bars, and market places.
 ~
-30 4 1
+4 1
 D1
 ~
 ~
@@ -300,7 +300,7 @@ The Trail to Miden'nir~
 east is easy enough. To the west, smoke can be seen rising above the
 treetops. The sprawl of Midgaard lies north of here.
 ~
-35 0 3
+0 3
 D0
 To the north, you see the southern gates of Midgaard.
 ~
@@ -336,7 +336,7 @@ The Miden'nir~
      You are in a dark forest. To the east, mountains block passage. From
 here, only the lighter forest to the west or south offer a way to travel.
 ~
-35 0 3
+0 3
 D1
 ~
 ~
@@ -358,7 +358,7 @@ The Miden'nir~
 through your hair. To the north, the forest gets lighter. However, the
 southern and western paths place you even deeper in the wood.
 ~
-35 0 3
+0 3
 D0
 The forest is lighter in this direction.
 ~
@@ -380,7 +380,7 @@ On a Small Path~
      A path is here, leading east and south through the dark woods of
 Miden'nir. Mountains slash the scenery to the west of here.
 ~
-35 0 3
+0 3
 D1
 Wind-swept forest.
 ~
@@ -398,7 +398,7 @@ The Miden'nir~
 in these woods. The trees become too thick to the west, but you may go
 north, south or travel toward the mountains that lie east of here.
 ~
-35 0 3
+0 3
 D0
 The trees lighten up a bit this way.
 ~
@@ -421,7 +421,7 @@ A Crossroads~
 be closing in on you at this point, and you can barely see the sky
 through the thick branches above your head.
 ~
-35 0 3
+0 3
 D0
 Trees as far as the eye can see.
 ~
@@ -444,7 +444,7 @@ The Trail~
 mountains glare at you, and the thick woods and undergrowth prevent any
 movement westward.
 ~
-35 0 3
+0 3
 D0
 The trail bends to the north.
 ~
@@ -462,7 +462,7 @@ The Miden'nir~
 in these woods. You can go north toward the mountains, or west to the
 forest, but the steep mountains prevent any movement east.
 ~
-35 0 3
+0 3
 D0
 ~
 ~
@@ -484,7 +484,7 @@ The Miden'nir~
 that there is something evil hidden in these woods.  The forest gets
 lighter to the north.  The wind kicks up as you ponder your options.
 ~
-35 0 3
+0 3
 D0
 There is a small clearing to the north.
 ~
@@ -502,7 +502,7 @@ Deep Forest~
 seems to close around you, and get darker and more foreboding.  It might just
 be time to head back to somewhere safe.
 ~
-35 0 3
+0 3
 D0
 More forest.
 ~
@@ -530,7 +530,7 @@ Light Forest~
 trail.  To the east, the forest becomes thick and darker. South, the trail
 continues.
 ~
-35 0 3
+0 3
 D0
 A trail leading north-south.
 ~
@@ -553,7 +553,7 @@ Muddy Ground~
 make a disgusting SQUISH as you walk here. You can go in any of the
 four cardinal directions from here. Hopefully, it will be dryer.
 ~
-35 0 3
+0 3
 D0
 The Miden'nir continues.
 ~
@@ -581,7 +581,7 @@ Near the Mountains~
 You can only go north and west from here as the rocks stop all other
 movement.
 ~
-35 0 3
+0 3
 D0
 Many trees to the north.
 ~
@@ -598,17 +598,13 @@ The Fading Trail~
      The trail becomes nearly unpassable here. You can go north
 as the forest is relatively light. To the south, you can see a path.
 ~
-35 0 3
+0 3
 D0
 You can see a trail this way.
 ~
 ~
 0 0 3515
-D1
-The trees are nearly trunk-to-trunk this way.
-~
-~
-0 0 -1
+
 D2
 Dark forests.
 ~
@@ -618,10 +614,10 @@ S
 #3519
 The Dark Path~
      You are hemmed in by trees on either side of you.  The path
-continues north and south, and while is much to thick to explore west,
+continues north and south, and while is much too thick to explore west,
 you can head off into the woods to the west.
 ~
-35 0 3
+0 3
 D0
 The forest gets lighter this way.
 ~
@@ -651,7 +647,7 @@ they block out all direct sunlight.  While it is much too thick to go
 further east, you might be able to make your way though the forest to the
 south and west.
 ~
-35 0 3
+0 3
 D2
 The thick forest continues.
 ~
@@ -670,7 +666,7 @@ soaked into the ground. Two carcasses lie in front of you, seeming to look
 up at you. The forest is impassible to the south, but the other directions
 look ok.
 ~
-35 1 3
+1 3
 D0
 Darkness...
 ~
@@ -700,7 +696,7 @@ Deep in the Forest of Miden'nir~
 To the north, you catch glimpses of daylight. To the east, you
 simply cannot see. The trees are close and stifling.
 ~
-35 0 3
+0 3
 D0
 You see daylight and a trail to follow.
 ~
@@ -724,7 +720,7 @@ in this area rather dark.  The forest continues east, where it meets the
 mountains. The air is still and stuffy - a stench comes from the west and an
 ugly feeling causes the hair to rise on the back of your neck!
 ~
-35 0 3
+0 3
 D0
 It appears to get much darker that direction.
 ~
@@ -746,7 +742,7 @@ Along the Eastern Road~
 east.  A northern road crosses this one to the west, towards Midgaard.  You
 hear faint, happy singing to the north.
 ~
-30 0 1
+0 1
 D0
 You see a faint trail, covered with tiny footprints. The singing grows louder.
 ~
@@ -770,7 +766,7 @@ lands.  The road back to Midgaard is west of you, and a heavily guarded
 checkpoint is east.  A beautiful grove of trees is north, and a dirt path 
 wanders off to the south.
 ~
-30 0 1
+0 1
 D0
 You see a beautiful, shady grove -- it looks like a peaceful place to relax.
 ~
@@ -798,7 +794,7 @@ The Checkpoint~
 for contraband, and then allow you to pass on.  One ofthe knights cautions to
 not stray into the desert, lest you lose your way.
 ~
-30 0 1
+0 1
 D1
 The continues east towards New Thalos.
 ~
@@ -817,7 +813,7 @@ guarded checkpoint.  You have covered about half the distance between
 the city of Midgaard and New Thalos.  The air is getting drier and the heat
 more oppressive as you near the the barren wastes of the Sands of Sorrow.
 ~
-30 0 1
+0 1
 D1
 The road continues ahead, growing more arid as you near the desert.
 ~
@@ -835,7 +831,7 @@ Along the Eastern Road~
 wasteland blasted by arcane powers.  Ahead of you, the road is partially
 buried by the creeping sands, and the air grows even hotter.
 ~
-30 0 1
+0 1
 D1
 You see the Sands of Sorrow spilling over the road.
 ~
@@ -855,7 +851,7 @@ of the Sands of Sorrows is south, and the road continues east and west.  The
 sun paints illusions at the edge of your vision, one of them looks like a far 
 off city...
 ~
-30 0 10
+0 10
 D1
 The road ahead is almost lost in the desert.
 ~
@@ -874,7 +870,7 @@ sucking the life from your body, you wonder if it will ever end.  To your
 south, the Sands of Sorrow stretch on for miles, and to the east you think
 you see the towers of a magnificent city...or is it just a mirage?
 ~
-30 0 10
+0 10
 D1
 You can barely make out enough road to follow.
 ~
@@ -894,7 +890,7 @@ of all of Thera.  To the south, you see the endless wasteland of the Sands
 of Sorrows, and to the west you can barely make out a faint, but well-used,
 road leading to the City of Midgaard. 
 ~
-30 0 10
+0 10
 D1
 You see the west gate of New Thalos.
 ~
@@ -908,11 +904,11 @@ You see the road to Midgaard, covered with sand.
 S
 #3550
 At The Foot of The Mountains~
-     You find yourself at the foot of the mountains, where it is much to steep
+     You find yourself at the foot of the mountains, where it is much too steep
 to continue north or east.  You see the lush, green forest of Miden'nir to the
 south and west.
 ~
-35 0 5
+0 5
 D2
 The forest of Miden'nir spreads out before you.
 ~
@@ -931,7 +927,7 @@ in this area very dark.  The forest continues west, but mountains block
 further exploration in all other directions, except south, where you notice a
 small tunnel dug into the mountainside.
 ~
-35 1 3
+1 3
 D2
 ~
 ~
@@ -947,7 +943,7 @@ A Tunnel in the Mountains~
 this forest.  The floor is well worn, and continues south, into the
 mountain, or back north out into the forest.
 ~
-35 1 1
+1 1
 D0
 Outside, you see the forest of Miden'nir.
 ~
@@ -965,7 +961,7 @@ A Tunnel in the Mountains~
 the south the passage gets smaller and smaller.  A small alcove has been
 carved into the east wall.
 ~
-35 1 1
+1 1
 D0
 The tunnel gets wider in this direction.
 ~
@@ -987,7 +983,7 @@ A Small Alcove~
      A small alcove has been carved out here.  There are a bunch of twigs
 and leaves thrown into a pile here, probably serving as a bed.
 ~
-35 1 1
+1 1
 D3
 You see the main passageway.
 ~
@@ -1005,7 +1001,7 @@ A Tunnel in the Mountains~
 smaller to the south.  You almost have to hunch over to make your way thru
 this area.  A small archway to the south leads into a large chamber.
 ~
-35 1 1
+1 1
 D0
 The tunnel continues north.
 ~
@@ -1024,7 +1020,7 @@ serves as the living quarters for the goblins of Miden'nir.  The bones of
 numbers woodland creatures are strewn about the room, the remanents of a
 recent meal.
 ~
-35 1 1
+1 1
 D0
 The tunnel heads north.
 ~
@@ -1039,7 +1035,7 @@ chimney. A painted sign is visible on the porch to the west. You
 could go north or south around the building or leave this place and
 return to the forest.
 ~
-4 0 3
+0 3
 D0
 You can go north around the inn.
 ~
@@ -1082,7 +1078,7 @@ from this angle.  The air here is filled with smells of smoke and cooking.
 South, the front porch is waiting for you... or you can see if there is
 a back door.
 ~
-4 0 3
+0 3
 D2
 You see the front of the Inn.
 ~
@@ -1095,7 +1091,7 @@ South of the Inn~
 through the front door, or west and to the rear of the establishment.  You
 here some muffled cries from a tiny trail leading south of here.
 ~
-4 0 3
+0 3
 D0
 This way leads to the front of the inn.
 ~
@@ -1120,7 +1116,7 @@ piles of rubbish are to the west, but you will smell the worse for
 meddling there. As a clean alternative, you can go north or east around
 the inn.
 ~
-4 0 3
+0 3
 D1
 You can go around the inn this way.
 ~
@@ -1140,7 +1136,7 @@ goblins as of late, and it is no longer safe in these parts. The bar is just
 north of here. If you'd rather have your own table, one is empty to the
 south.
 ~
-4 12 1
+12 1
 D0
 The bar is here, manned by the innkeeper.
 ~
@@ -1168,7 +1164,7 @@ would be hard pressed to follow it far. A number of bushes are trampled on
 and some medium sized branches have been knocked down.  Obviously there has
 been a battle here rather recently.
 ~
-4 0 3
+0 3
 D0
 The inn lies to the north.
 ~
@@ -1187,7 +1183,7 @@ of the innkeeper, but as of late, he only serves the few adventurers that
 manage to survive a trip thru the forest. You can leave south and return to the
 common room.
 ~
-4 0 1
+0 1
 D2
 You may retreat south back to the common room.
 ~
@@ -1200,7 +1196,7 @@ The Bard's Table~
 wooden chairs sits here.  There is a large stain on the table, the remnants
 of a spilled drink.
 ~
-4 8 1
+8 1
 D1
 You see the main floor of the Inn to the east.
 ~
@@ -1212,7 +1208,7 @@ Garbage dump~
 You stand knee deep in garbage.  YECCH!!! It smells terrible and who knows
 what vermin live in these piles of filth ...
 ~
-4 0 3
+0 3
 D1
 You can return to cleaner lands this way.
 ~
@@ -1224,7 +1220,7 @@ A Quieter Section of the Inn~
 There seems to be no one in this end of the Woodsman, probably a safe place
 to rest and lick your wounds ...
 ~
-4 8 0
+8 0
 D0
 You see the common room.
 ~
@@ -1236,7 +1232,7 @@ On the Trail of the Horsemen~
   The path continues east and west of here.  You notice fresh tracks in
 the soft ground that show the horsemen fled to the west.
 ~
-4 0 3
+0 3
 D1
 Back to ambush point.
 ~
@@ -1253,7 +1249,7 @@ On the Trail of the Horsemen~
   The path continues east and south.  You notice fresh tracks in
 the soft ground that show the horsemen turned, and fled south.
 ~
-4 0 3
+0 3
 D1
 The trail continues.
 ~
@@ -1270,7 +1266,7 @@ On the Trail of the Horsemen~
   The trail of the horsemen continues east and north along this path through
 the forest.  The tracks are still fresh, so they must be near.
 ~
-4 0 3
+0 3
 D0
 The trail continues.
 ~
@@ -1288,7 +1284,7 @@ A Dead End Trail~
 make any further exploration impossible.  Fresh tracks cover the ground, and
 end right here.  The horsemen must be nearby.
 ~
-4 0 3
+0 3
 D1
 Back to along the trail.
 ~

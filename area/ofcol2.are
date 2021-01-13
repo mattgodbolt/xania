@@ -11,7 +11,7 @@ the bottles of it on the floor make your mouth water and your mind swirl.  You
 also see a very large still.  So THIS is why there are so many grain fields!
 The exit is to the east.
 ~
-6 D 0
+D 0
 D1
 You see the storage shed.
 ~
@@ -24,7 +24,7 @@ You are in the big intersection between Raff Way and Impy Way.  Crowds
 of people walk past you as they go on their daily tasks.  Raff Way continues
 east and west, and Impy Way runs north and south.
 ~
-6 0 1
+0 1
 D0
 Impy Way continues north.
 ~
@@ -51,7 +51,7 @@ Impy Way~
 You are on Impy Way.  You can see a leather shop east and a blacksmith
 west.  To the north you see a big intersection, and Impy Way continues south.
 ~
-6 0 1
+0 1
 D0
 You see the big intersection.
 ~
@@ -79,7 +79,7 @@ You are in a black and smelly room.  Pieces of metal are strewn all over
 the floor, and a wave of heat from a big furnace hits you.  An anvil sits on 
 one side of the room, and on the other side is a workbench.  The exit is east.
 ~
-6 D 0
+D 0
 D1
 You see Impy Way.
 ~
@@ -93,7 +93,7 @@ the floor.  The smell of burnt hide assaults your nose.  You can tell by the
 looks that the tanning is done VERY CLOSE to here!   A table is near the
 entrance.  The exit is west.
 ~
-6 D 0
+D 0
 D3
 You see Impy Way.
 ~
@@ -106,7 +106,7 @@ You are on Impy Way.  To the east is a meat store, and to the west is a
 pawn shop.  Impy Way continues north and south.  People are rushing around you
 to go to these stores.
 ~
-6 0 1
+0 1
 D0
 Impy Way continues North.
 ~
@@ -134,7 +134,7 @@ You are in a little shop filled with a lot of knick knacks and semi-
 valuable goods.  There is a display case full of little treasures that you are
 sure that you or any other little kid would like to touch!  The exit is east.
 ~
-6 D 0
+D 0
 D1
 You see Impy Way.
 ~
@@ -147,7 +147,7 @@ You are in a meat store.  Hanging on hooks are meats of many kinds of
 animals.  In the background, you can hear the sound of blade against flesh.
 It smells like meat here (which is not a good smell).  The exit is west.
 ~
-6 D 0
+D 0
 D3
 You see Impy Way.
 ~
@@ -160,7 +160,7 @@ You are on Impy Way.  To the east is Farmer's Market, and to the west is
 Nyles' House of Ale.  Impy Way runs north and ends south of here.  You can hear
 the sound of housewives gossiping at the market.
 ~
-6 0 1
+0 1
 D0
 Impy Way continues north.
 ~
@@ -188,7 +188,7 @@ This is a very busy bar, with everyone holding homemade bottles of
 ale.  You see even the more gentile persons here, laughing along with
 Nyles, who offers you a quart of ale too.
 ~
-6 D 0
+D 0
 D1
 You see Impy Way.
 ~
@@ -201,7 +201,7 @@ You see many carts filled with fruits and vegetables.  Many farmers are
 all trying to sell you their produce, each saying their's is better.  The exit
 is west.
 ~
-6 D 0
+D 0
 D3
 You see Impy Way.
 ~
@@ -214,7 +214,7 @@ You are at the end of Impy and of the city part of Ofcol.  To the east is
 a dirt road leading toward the farm animals.  West from here are fields.  Impy
 Way continues north.
 ~
-6 0 1
+0 1
 D0
 Impy Way continues north.
 ~
@@ -238,7 +238,7 @@ taller than you are.  You remember that the end of Impy Way is east of here,
 and you think you see a building to the north.  The field continues south and 
 west.
 ~
-6 0 2
+0 2
 D0
 You think you see a building north of here.
 ~
@@ -266,7 +266,7 @@ You are among fruit trees in a field.  You see many apple and orange
 trees.  You can make out the corn fields north and some vegetable patches west.
 The sight of the fruit makes your mouth water.
 ~
-6 0 2
+0 2
 D0
 You see the corn fields.
 ~
@@ -284,7 +284,7 @@ You are among the vegetable fields.  You see many cabbage and lettuce
 patches, along with tomato bushes and potato plants.  To the east are some
 fruit trees, and north are some wheat fields.
 ~
-6 0 2
+0 2
 D0
 You see the wheat fields.
 ~
@@ -303,7 +303,7 @@ cool shadow from the tall stalks and scarecrow lulls you to sleep and dream
 of a little girl and little dog from a faraway place.  To the east are the corn
 stalks, and south of you are the vegetable patches.
 ~
-6 0 2
+0 2
 D1
 You see the corn fields.
 ~
@@ -321,7 +321,7 @@ You are in the storage shed.  Bales of wheat, corn and hay are piled
 against the wall, and some vegetables are in carts.  You see a small door
 on the west door.  The main exit is south.
 ~
-6 D 0
+D 0
 D2
 You see the corn fields.
 ~
@@ -339,7 +339,7 @@ You are in the slaughterhouse, where all the animals are slaughtered so
 that they can be sold or their skins be tanned.  The scream of dying animals
 makes your stomach churn.  The exit is to the west.
 ~
-6 D 0
+D 0
 D3
 You see the dirt road.
 ~
@@ -351,7 +351,7 @@ Dirt Road~
 You are on a dirt road.  To the east is a barn, and you see a big chicken
 coop south of you.  The dirt road continues north and west.
 ~
-6 0 2
+0 2
 D0
 You see the dirt road.
 ~
@@ -378,7 +378,7 @@ Chicken Coop~
 You are in the chicken coop.  The smell of chickens and chicken droppings
 makes you gasp.  The exit is north.
 ~
-6 D 0
+D 0
 D0
 You can sense the fresh air.
 ~
@@ -390,7 +390,7 @@ Barn~
 You are in a barn.  There are some cows here, munching on mounds of hay.
 Milk is milked and bottled here.  You see the exit west.
 ~
-6 D 0
+D 0
 D3
 You see the dirt road.
 ~
@@ -402,7 +402,7 @@ Dirt Road~
 You are on a dirt road.  To the north and south, you see some grass 
 fields.  There is a pigsty west, and the dirt road continues east.
 ~
-6 0 2
+0 2
 D0
 You see some grass fields.
 ~
@@ -429,7 +429,7 @@ Grass Field~
 You are in a grass field.  Fences block the way north, east, and west.
 The dirt road is to the south.
 ~
-6 0 2
+0 2
 D2
 You see the dirt road.
 ~
@@ -441,7 +441,7 @@ Grass Field~
 You are in a grass field.  Fences block the way south, east, and west.
 The dirt road is to the north.
 ~
-6 0 2
+0 2
 D0
 You see the dirt road.
 ~
@@ -453,7 +453,7 @@ Pig Sty~
 For some reason, you are in a pig sty.  You wonder why you are standing in
 muck.  To realize your senses and notice the dirt road is to the east.
 ~
-6 0 2
+0 2
 D1
 You see the dry dirt road.
 ~
@@ -466,7 +466,7 @@ You are on Impy Way.  East and west of you are big houses.  Impy Way
 continues north and reaches a big intersection south.  Children are running to
 from home to home.
 ~
-6 0 1
+0 1
 D0
 Impy Way continues north.
 ~
@@ -495,7 +495,7 @@ than the average citizen, since there is more than one room to this house.  A
 door leads to the kitchen east, and a bedroom is upstairs.  The exit is to the
 west.
 ~
-6 D 0
+D 0
 D1
 You see the kitchen.
 ~
@@ -517,7 +517,7 @@ Bedroom~
 You are in the bedroom.  There isn't much of interest except for a bed and
 a closet.  The stairs lead back down.
 ~
-6 D 0
+D 0
 D5
 You see the main room of the house.
 ~
@@ -529,7 +529,7 @@ Kitchen~
 You are in a kitchen.  There isn't much of interest here.  The main room
 is west of here.
 ~
-6 D 0
+D 0
 D3
 You see the main room of the house.
 ~
@@ -543,7 +543,7 @@ than the average citizen, since there is more than one room to this house.  A
 door leads to the kitchen west, and a bedroom is upstairs.  The exit is to the
 east.
 ~
-6 D 0
+D 0
 D1
 You see Impy Way.
 ~
@@ -565,7 +565,7 @@ Bedroom~
 You are in the bedroom.  There isn't much of interest except for a bed and
 a closet.  The stairs lead back down.
 ~
-6 D 0
+D 0
 D5
 You see the main room of the house.
 ~
@@ -577,7 +577,7 @@ Kitchen~
 You are in a kitchen.  There isn't much of interest here.  The main room
 is east of here.
 ~
-6 D 0
+D 0
 D1
 You see the main room of the house.
 ~
@@ -589,7 +589,7 @@ Impy Way~
 You are on Impy Way.  Houses are to the east and west of here.  Impy Way
 continues north and south.  There are many people walking along the streets.
 ~
-6 0 1
+0 1
 D0
 Impy Way continues north.
 ~
@@ -616,7 +616,7 @@ House~
 You are in a house.  The living room and kitchen are all bundled into
 this room.  There is a bedroom south of here.  The exit is west.
 ~
-6 D 0
+D 0
 D2
 You see the bedroom.
 ~
@@ -633,7 +633,7 @@ Bedroom~
 You are in a bedroom.  There isn't much of interest here except for a bed
 and a dresser.  The main room of the house is north of here.
 ~
-6 D 0
+D 0
 D0
 You see the main room of the house.
 ~
@@ -645,7 +645,7 @@ House~
 You are in a house.  The living room and kitchen are all bundled into
 this room.  There is a bedroom south of here.  The exit is east.
 ~
-6 D 0
+D 0
 D1
 You see Impy Way.
 ~
@@ -662,7 +662,7 @@ Bedroom~
 You are in a bedroom.  There isn't much of interest here except for a bed
 and a dresser.  The main room of the house is north of here.
 ~
-6 D 0
+D 0
 D0
 You see the main room of the house.
 ~
@@ -675,7 +675,7 @@ You are on Impy Way.  Houses are to the east and west of here.  Impy Way
 continues south.  To the north is a big intersection.  There are many people
 walking along the streets.
 ~
-6 0 1
+0 1
 D0
 You see a big intersection.
 ~
@@ -702,7 +702,7 @@ House~
 You are in a house.  The living room and kitchen are all bundled into
 this room.  There is a bedroom south of here.  The exit is west.
 ~
-6 D 0
+D 0
 D2
 You see the bedroom.
 ~
@@ -719,7 +719,7 @@ Bedroom~
 You are in a bedroom.  There isn't much of interest here except for a bed
 and a dresser.  The main room of the house is north of here.
 ~
-6 D 0
+D 0
 D0
 You see the main room of the house.
 ~
@@ -731,7 +731,7 @@ House~
 You are in a house.  The living room and kitchen are all bundled into
 this room.  There is a bedroom south of here.  The exit is east.
 ~
-6 D 0
+D 0
 D1
 You see Impy Way.
 ~
@@ -748,7 +748,7 @@ Bedroom~
 You are in a bedroom.  There isn't much of interest here except for a bed
 and a dresser.  The main room of the house is north of here.
 ~
-6 D 0
+D 0
 D0
 You see the main room of the house.
 ~
@@ -761,7 +761,7 @@ You are on the intersection of Impy Way and Swiftest Way.  To the north of
 you is a big house.  Swiftest Way runs east and west, and Impy way continues
 south.  There are quite a few people on this intersection.
 ~
-6 0 1
+0 1
 D0
 You see the big house.
 ~
@@ -790,7 +790,7 @@ than the average citizen, since there is more than one room to this house.  A
 door leads to the kitchen north, and a bedroom is upstairs.  The exit is to 
 the south.
 ~
-6 D 0
+D 0
 D0
 You see the kitchen.
 ~
@@ -812,7 +812,7 @@ Bedroom~
 You are in the bedroom.  There isn't much of interest except for a bed 
 and a closet.  The stairs lead back down.
 ~
-6 D 0
+D 0
 D5
 You see the main room of the house.
 ~
@@ -824,7 +824,7 @@ Kitchen~
 You are in a kitchen.  There isn't much of interest here.  The main room
 is east of here.
 ~
-6 D 0
+D 0
 D2
 You see the main room of the house.
 ~
@@ -837,7 +837,7 @@ You are on Swiftest Way, the commoner's residential area.  Small houses
 are north and south of you.  Swiftest Way continues east, and west is a big
 intersection.
 ~
-6 0 1
+0 1
 D0
 You see a small house.
 ~
@@ -864,7 +864,7 @@ Swiftest Way~
 You are on Swiftest Way, the commoner's residential area.  Small houses
 are north and south of you.  Swiftest Way continues east and west.
 ~
-6 0 1
+0 1
 D0
 You see a small house.
 ~
@@ -891,7 +891,7 @@ End of Swiftest Way~
 You are on Swiftest Way, the commoner's residential area.  Small houses
 are north, south, and east of you.  Swiftest Way continues west.
 ~
-6 0 1
+0 1
 D0
 You see a small house.
 ~
@@ -919,7 +919,7 @@ You are on Swiftest Way, the commoner's residential area.  Small houses
 are north and south of you.  Swiftest Way continues west, and to the east you
 see a big intersection.
 ~
-6 0 1
+0 1
 D0
 You see a small house.
 ~
@@ -946,7 +946,7 @@ Swiftest Way~
 You are on Swiftest Way, the commoner's residential area.  Small houses
 are north and south of you.  Swiftest Way continues east and west.
 ~
-6 0 1
+0 1
 D0
 You see a small house.
 ~
@@ -973,7 +973,7 @@ The end of Swiftest Way~
 You are on Swiftest Way, the commoner's residential area.  Small houses
 are north, south, and west of you.  Swiftest Way continues east.
 ~
-6 0 1
+0 1
 D0
 You see a small house.
 ~
@@ -1001,7 +1001,7 @@ You are in a small house, owned by a commoner of Ofcol.  There isn't much
 of value here to you, but you'd bet that the owner really cherishes the pile
 of stuff here.  The exit is to the south.
 ~
-6 D 0
+D 0
 D2
 You see Swiftest Way.
 ~
@@ -1014,7 +1014,7 @@ You are in a small house, owned by a commoner of Ofcol.  There isn't much
 of value here to you, but you'd bet that the owner really cherishes the pile
 of stuff here.  The exit is to the north.
 ~
-6 D 0
+D 0
 D0
 You see Swiftest Way.
 ~
@@ -1027,7 +1027,7 @@ You are in a small house, owned by a commoner of Ofcol.  There isn't much
 of value here to you, but you'd bet that the owner really cherishes the pile
 of stuff here.  The exit is to the south.
 ~
-6 D 0
+D 0
 D2
 You see Swiftest Way.
 ~
@@ -1040,7 +1040,7 @@ You are in a small house, owned by a commoner of Ofcol.  There isn't much
 of value here to you, but you'd bet that the owner really cherishes the pile
 of stuff here.  The exit is to the north.
 ~
-6 D 0
+D 0
 D0
 You see Swiftest Way.
 ~
@@ -1053,7 +1053,7 @@ You are in a small house, owned by a commoner of Ofcol.  There isn't much
 of value here to you, but you'd bet that the owner really cherishes the pile
 of stuff here.  The exit is to the south.
 ~
-6 D 0
+D 0
 D2
 You see the end of Swiftest Way.
 ~
@@ -1066,7 +1066,7 @@ You are in a small house, owned by a commoner of Ofcol.  There isn't much
 of value here to you, but you'd bet that the owner really cherishes the pile
 of stuff here.  The exit is to the west.
 ~
-6 D 0
+D 0
 D3
 You see the end of Swiftest Way.
 ~
@@ -1079,7 +1079,7 @@ You are in a small house, owned by a commoner of Ofcol.  There isn't much
 of value here to you, but you'd bet that the owner really cherishes the pile
 of stuff here.  The exit is to the north.
 ~
-6 D 0
+D 0
 D0
 You see the end of Swiftest Way.
 ~
@@ -1092,7 +1092,7 @@ You are in a small house, owned by a commoner of Ofcol.  There isn't much
 of value here to you, but you'd bet that the owner really cherishes the pile
 of stuff here.  The exit is to the south.
 ~
-6 D 0
+D 0
 D2
 You see Swiftest Way.
 ~
@@ -1105,7 +1105,7 @@ You are in a small house, owned by a commoner of Ofcol.  There isn't much
 of value here to you, but you'd bet that the owner really cherishes the pile
 of stuff here.  The exit is to the north.
 ~
-6 D 0
+D 0
 D0
 You see Swiftest Way.
 ~
@@ -1118,7 +1118,7 @@ You are in a small house, owned by a commoner of Ofcol.  There isn't much
 of value here to you, but you'd bet that the owner really cherishes the pile
 of stuff here.  The exit is to the south.
 ~
-6 D 0
+D 0
 D2
 You see Swiftest Way.
 ~
@@ -1131,7 +1131,7 @@ You are in a small house, owned by a commoner of Ofcol.  There isn't much
 of value here to you, but you'd bet that the owner really cherishes the pile
 of stuff here.  The exit is to the north.
 ~
-6 D 0
+D 0
 D0
 You see Swiftest Way.
 ~
@@ -1144,7 +1144,7 @@ You are in a small house, owned by a commoner of Ofcol.  There isn't much
 of value here to you, but you'd bet that the owner really cherishes the pile
 of stuff here.  The exit is to the south.
 ~
-6 D 0
+D 0
 D2
 You see the end of Swiftest Way.
 ~
@@ -1157,7 +1157,7 @@ You are in a small house, owned by a commoner of Ofcol.  There isn't much
 of value here to you, but you'd bet that the owner really cherishes the pile
 of stuff here.  The exit is to the north.
 ~
-6 D 0
+D 0
 D0
 You see the end of Swiftest Way.
 ~
@@ -1170,7 +1170,7 @@ You are in a small house, owned by a commoner of Ofcol.  There isn't much
 of value here to you, but you'd bet that the owner really cherishes the pile
 of stuff here.  The exit is to the east.
 ~
-6 D 0
+D 0
 D1
 You see the end of Swiftest Way.
 ~
@@ -1184,7 +1184,7 @@ the east, you see Raff Way continue toward the Golden Citadel.  There are
 beautiful flowers growing along the rode here, making this more of a garden
 than a rode.
 ~
-6 0 1
+0 1
 D1
 Raff Way continues east.
 ~
@@ -1203,7 +1203,7 @@ the east, you see Raff Way continue toward the Golden Citadel.  There are
 beautiful flowers growing along the rode here, making this more of a garden
 than a rode.
 ~
-6 0 1
+0 1
 D1
 You see the entrance of the Golden Citadel.
 ~
@@ -1221,7 +1221,7 @@ You are on a dirt road.  To the east is a large building with a bad smell
 emanating from it.  To the west is the end of Impy Way, and this road continues
 south.
 ~
-6 0 2
+0 2
 D1
 You see the large building with the bad smell.
 ~
@@ -1245,7 +1245,7 @@ gold columns reach the twelve foot ceiling of this vast chamber.  Servants in
 golden livery wander this place, making even the raggiest messenger boy look
 richer than you are.  Exits lead to the anterooms in the cardinal directions.
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1269,7 +1269,7 @@ You are in an anteroom to the Temple of Ofcol.  Gold tiles cover the
 floor, and servants in golden livery pass you by peaceably.  The temple is to
 the south, and to the north is a hallway.  A stairways leads up.
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1289,7 +1289,7 @@ You are in an anteroom to the Temple of Ofcol.  Gold tiles cover the
 floor, and servants in golden livery pass you by peaceably.  The temple is to
 the east, and to the west is a hallway.  A stairways leads up.
 ~
-6 D 0
+D 0
 D1
 ~
 ~
@@ -1309,7 +1309,7 @@ You are in an anteroom to the Temple of Ofcol.  Gold tiles cover the
 floor, and servants in golden livery pass you by peaceably.  The temple is to
 the west, and to the east is a hallway.  A stairways leads up.
 ~
-6 D 0
+D 0
 D1
 ~
 ~
@@ -1329,7 +1329,7 @@ You are in an anteroom to the Temple of Ofcol.  Gold tiles cover the
 floor, and servants in golden livery pass you by peaceably.  The temple is to
 the north, and to the south is a hallway.  A stairways leads up.
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1349,7 +1349,7 @@ You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
 and rich golden tapestries drape the walls.  Servants in golden livery pass you
 by peaceably.  Exits lead east and south.
 ~
-6 D 0
+D 0
 D1
 ~
 ~
@@ -1365,7 +1365,7 @@ You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
 and rich golden tapestries drape the walls.  Servants in golden livery pass you
 by peaceably.  Exits lead east, west, and south.
 ~
-6 D 0
+D 0
 D1
 ~
 ~
@@ -1385,7 +1385,7 @@ You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
 and rich golden tapestries drape the walls.  Servants in golden livery pass you
 by peaceably.  Exits lead west and south.
 ~
-6 D 0
+D 0
 D2
 ~
 ~
@@ -1401,7 +1401,7 @@ You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
 and rich golden tapestries drape the walls.  Servants in golden livery pass you
 by peaceably.  Exits lead north and south.
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1417,7 +1417,7 @@ You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
 and rich golden tapestries drape the walls.  Servants in golden livery pass you
 by peaceably.  Exits lead north and south.
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1434,7 +1434,7 @@ and rich golden tapestries drape the walls.  Servants in golden livery pass you
 by peaceably.  Exits lead to the cardinal directions, with the east leading
 toward the Temple of Ofcol, and west leading toward the City of Ofcol.
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1458,7 +1458,7 @@ You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
 and rich golden tapestries drape the walls.  Servants in golden livery pass you
 by peaceably.  Exits lead west, north and south.
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1478,7 +1478,7 @@ You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
 and rich golden tapestries drape the walls.  Servants in golden livery pass you
 by peaceably.  Exits lead north and south.
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1494,7 +1494,7 @@ You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
 and rich golden tapestries drape the walls.  Servants in golden livery pass you
 by peaceably.  Exits lead north and south.
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1510,7 +1510,7 @@ You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
 and rich golden tapestries drape the walls.  Servants in golden livery pass you
 by peaceably.  Exits lead north and east.
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1526,7 +1526,7 @@ You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
 and rich golden tapestries drape the walls.  Servants in golden livery pass you
 by peaceably.  Exits lead east, west, and north.
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1546,7 +1546,7 @@ You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
 and rich golden tapestries drape the walls.  Servants in golden livery pass you
 by peaceably.  Exits lead west and north.
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1564,7 +1564,7 @@ with platinum cover the floor, walls and the ceiling.  The lights from numerous
 torches reflect from these shimmering planes, giving the illusion that you are
 standing in a gem.  Stairways lead up and down, and the hall leads south. 
 ~
-6 D 0
+D 0
 D2
 ~
 ~
@@ -1586,7 +1586,7 @@ with platinum cover the floor, walls and the ceiling.  The lights from numerous
 torches reflect from these shimmering planes, giving the illusion that you are
 standing in a gem.  Stairways lead up and down, and the hall leads east. 
 ~
-6 D 0
+D 0
 D1
 ~
 ~
@@ -1608,7 +1608,7 @@ are mounted on the walls of this meeting hall.  Surrounding a solid gold table
 are four sons of the Keeper of the Golden Citadel.  They smile at you and ask 
 you to join them in lunch.  Exits lead to the cardinal directions. 
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1634,7 +1634,7 @@ with platinum cover the floor, walls and the ceiling.  The lights from numerous
 torches reflect from these shimmering planes, giving the illusion that you are
 standing in a gem.  Stairways lead up and down, and the hall leads west. 
 ~
-6 D 0
+D 0
 D3
 ~
 ~
@@ -1656,7 +1656,7 @@ with platinum cover the floor, walls and the ceiling.  The lights from numerous
 torches reflect from these shimmering planes, giving the illusion that you are
 standing in a gem.  Stairways lead up and down, and the hall leads north. 
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1678,7 +1678,7 @@ gold, and gems of all types glitter from the walls, ceiling, even the floor.
 It is obvious that this room was not meant for you to intrude upon.  A stair-
 case leads back down, and a doorway leads south.
 ~
-6 D 0
+D 0
 D2
 ~
 ~
@@ -1696,7 +1696,7 @@ gold, and gems of all types glitter from the walls, ceiling, even the floor.
 It is obvious that this room was not meant for you to intrude upon.  A stair-
 case leads back down, and a doorway leads east.
 ~
-6 D 0
+D 0
 D1
 ~
 ~
@@ -1715,7 +1715,7 @@ center of this chamber, you see a great wealth of coins, and on top of that
 pile of coins, you see a golden dragon squinting at you.  Exits lead to the
 cardinal directions to the anterooms.
 ~
-6 D 0
+D 0
 D0
 ~
 ~
@@ -1745,7 +1745,7 @@ gold, and gems of all types glitter from the walls, ceiling, even the floor.
 It is obvious that this room was not meant for you to intrude upon.  A stair-
 case leads back down, and a doorway leads west.
 ~
-6 D 0
+D 0
 D3
 ~
 ~
@@ -1763,11 +1763,11 @@ gold, and gems of all types glitter from the walls, ceiling, even the floor.
 It is obvious that this room was not meant for you to intrude upon.  A stair-
 case leads back down, and a doorway leads north.
 ~
-6 D 0
-D1
+D 0
+D0
 ~
 ~
-0 0 695
+0 0 693
 D5
 ~
 ~
@@ -1779,7 +1779,7 @@ You are above the Dragon Chamber.  You curiously note that this shaft that
 connects the chamber to the sky is wide enough that even a dragon can fit
 through.  This shaft leads up and down.
 ~
-6 D 0
+D 0
 D4
 ~
 ~
@@ -1795,7 +1795,7 @@ You are in the shaft leading from the Dragon Chamber.  Below you lies the
 Dragon Chamber of the Golden Citadel.  Above you, you see the sky, but 
 currently, the way out is sealed by a layer of diamond that looks impenetrable.
 ~
-6 D 0
+D 0
 D5
 ~
 ~
@@ -1807,7 +1807,7 @@ You are inside the entrance to the Golden Citadel.  Rich golden tapestries
 line the walls, and golden tiles cover the floors.  The exit to this citadel is
 to the west, while the citadel itself is to the east.
 ~
-6 D 0
+D 0
 D1
 ~
 ~
@@ -1823,7 +1823,7 @@ You are outside the entrance to the Golden Citadel.  A great gate is to
 to the east, marking the entranceway into the citadel.  The road also leads
 back west to Raff Way.
 ~
-6 0 2
+0 2
 D1
 ~
 ~
@@ -1849,7 +1849,7 @@ Ofcol.
 human~
 CA N 1000 0
 19 9 1d1+551 1d1+380 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 795
 0 0 medium 0
@@ -1868,7 +1868,7 @@ death.
 human~
 MBLA DHN 1000 0
 33 16 1d1+1172 1d1+660 6d6+16 slash
--11 -11 -11 -1
+-26 -26 -26 -16
 FENU 0 0 0
 stand stand female 1705
 0 0 medium 0
@@ -1886,7 +1886,7 @@ has to be hard won to be kept, and that laxity is for the weak.
 human~
 GLA DHN 1000 0
 27 13 1d1+924 1d1+540 5d5+13 pound
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand male 1350
 0 0 medium 0
@@ -1906,7 +1906,7 @@ she need not be.
 human~
 BLA DN 1000 0
 27 13 1d1+928 1d1+540 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand female 1415
 0 0 medium 0
@@ -1923,7 +1923,7 @@ the metals or the value of the coins.
 human~
 BA N 1000 0
 30 15 1d1+1005 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1550
 0 0 medium 0
@@ -1939,7 +1939,7 @@ last sale from you.  He grins at you slightly.
 human~
 BA N 1000 0
 30 15 1d1+1034 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1537
 0 0 medium 0
@@ -1956,7 +1956,7 @@ shop, trading little things (for a wee bit of profit).
 human~
 BA N 1000 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand female 1033
 0 0 medium 0
@@ -1973,7 +1973,7 @@ kill, though.
 human~
 BA N 1000 0
 30 15 1d1+1013 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1534
 0 0 medium 0
@@ -1991,7 +1991,7 @@ get a good price off of you!
 human~
 BA N 1000 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand female 1045
 0 0 medium 0
@@ -2009,7 +2009,7 @@ Granny Jenkins cackles again.
 human~
 BA N 500 0
 6 3 1d1+138 1d1+120 2d3+3 slice
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 248
 0 0 medium 0
@@ -2026,7 +2026,7 @@ enter.  "Came by to watch, eh?", he asks.
 human~
 BFHA 0 200 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 486
 0 0 medium 0
@@ -2043,7 +2043,7 @@ her work.
 human~
 BHA 0 800 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 203
 0 0 medium 0
@@ -2059,7 +2059,7 @@ you've ever seen one.
 unique~
 HIA 0 0 0
 1 0 1d1+20 1d1+20 1d2+0 slash
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 stand stand female 40
 0 0 medium 0
@@ -2074,7 +2074,7 @@ The cow is here happily grazing.  It moos at you and goes back to grazing.
 unique~
 IA 0 0 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 204
 0 0 medium 0
@@ -2092,7 +2092,7 @@ which rests on the floor before it.
 unique~
 BILA 0 0 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 208
 0 0 large 0
@@ -2108,7 +2108,7 @@ back to grazing.
 unique~
 FHIA 0 0 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 241
 0 0 medium 0
@@ -2123,7 +2123,7 @@ The pig looks dirty.  It snorts and sniffs at you, then goes back to its slop.
 unique~
 BIA 0 0 0
 4 2 1d1+80 1d1+80 2d3+2 charge
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand neutral 162
 0 0 medium 0
@@ -2140,7 +2140,7 @@ armored.
 human~
 HA 0 500 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 207
 0 0 medium 0
@@ -2157,7 +2157,7 @@ and armored.
 human~
 HA 0 500 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 200
 0 0 medium 0
@@ -2173,7 +2173,7 @@ He then smiles and runs away, remembering his game.
 human~
 HA 0 500 0
 3 1 1d1+60 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 125
 0 0 medium 0
@@ -2189,7 +2189,7 @@ coin?'  She then smiles and runs away, remembering her game.
 human~
 HA 0 500 0
 3 1 1d1+60 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand female 123
 0 0 medium 0
@@ -2206,7 +2206,7 @@ She hits you with her broom.
 human~
 HA 0 500 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 205
 0 0 medium 0
@@ -2223,7 +2223,7 @@ any.
 human~
 BA 0 1000 0
 30 15 1d1+1039 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1541
 0 0 medium 0
@@ -2241,7 +2241,7 @@ Ofcol.
 human~
 BA N 1000 0
 19 9 1d1+551 1d1+380 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 762
 0 0 medium 0
@@ -2258,7 +2258,7 @@ you, hinting toward a tip from you in ever a subtle way.
 human~
 BA N 800 0
 13 6 1d1+325 1d1+260 4d4+6 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 533
 0 0 medium 0
@@ -2273,7 +2273,7 @@ The servant smiles good-naturedly at you, then goes on his duties.
 human~
 GA N 1000 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 248
 0 0 medium 0
@@ -2288,7 +2288,7 @@ This young man smiles at you, but is too busy to chat.
 human~
 GA N 1000 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 291
 0 0 medium 0
@@ -2303,7 +2303,7 @@ The page smiles for you, asking if he can do you a favor too.
 human~
 GA N 1000 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 203
 0 0 medium 0
@@ -2321,7 +2321,7 @@ god, Bahamut.  The dragon symbol around her neck looks almost alive.
 human~
 BA BHN 1000 0
 30 15 1d1+1020 1d1+600 5d5+15 slice
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand female 1519
 0 0 medium 0
@@ -2339,7 +2339,7 @@ turns to you and with a consipatory tone, whispers, "Kids!"
 human~
 GA BHN 1000 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1040
 0 0 medium 0
@@ -2356,7 +2356,7 @@ look upset at your presence.
 dragon~
 BA BHN 1000 0
 29 14 1d1+962 1d1+580 5d5+14 slice
--9 -9 -9 0
+-24 -24 -24 -15
 FENUC 0 0 0
 stand stand male 1478
 0 0 medium 0
@@ -2374,7 +2374,7 @@ his attendants to escort you away.
 dragon~
 BCA BHJN 1000 0
 37 18 1d1+1358 1d1+740 6d6+18 flbite
--14 -14 -14 -2
+-29 -29 -29 -17
 FENUC 0 0 0
 stand stand male 1915
 0 0 medium 0
@@ -2390,7 +2390,7 @@ his life for his liege.
 human~
 BA BN 1000 0
 21 10 1d1+709 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1083
 0 0 medium 0
@@ -2407,7 +2407,7 @@ He smiles at you, showing very sharp teeth.
 dragon~
 GA BN 1000 0
 21 10 1d1+695 1d1+420 5d5+10 slice
--4 -4 -4 3
+-19 -19 -19 -12
 FENUC 0 0 0
 stand stand male 1055
 0 0 medium 0
@@ -2425,7 +2425,7 @@ Ofcol.
 human~
 BA N 1000 0
 19 9 1d1+551 1d1+380 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 789
 0 0 medium 0
@@ -3308,6 +3308,7 @@ E   1    644   99     10     platinum sleeves on arms
 E   1    645   99     11     the platinum spiked shield as shield              
 E   1    646   99     13     the platinum girth around waist           
 E   1    647   99     16     Holy Avenger wielded                
+O 0 3135 10 601  fountain at The Big Intersection
 M 0 602 1 669 1  1   Captain Derrick into The Temple of Ofcol  
 E   1    620   99      1     an Ofcol signet ring on left finger         
 E   1    631   99      5     silver plate on body                

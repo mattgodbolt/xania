@@ -40,7 +40,7 @@ build: $(BUILD_ROOT)/CMakeCache.txt  ## Build Xania source
 	$(CMAKE) --build $(BUILD_ROOT)
 
 # Grr older cmakes don't support --install and --prefix
-install: build dirs
+install: build dirs  ## Install to 'install' (overridable with INSTALL_DIR)
 	@mkdir -p $(INSTALL_DIR)
 	$(CMAKE) --build $(BUILD_ROOT) --target install
 	ln -sf $(CURDIR)/gods $(CURDIR)/player $(CURDIR)/log $(INSTALL_DIR)
@@ -49,7 +49,7 @@ install: build dirs
 dirs:
 	@mkdir -p gods player log
 
-$(CONDA): $(CURL)
+$(CONDA): | $(CURL)
 	@mkdir -p $(CONDA_ROOT)
 	@echo "Installing conda locally..."
 	$(CURL) $(CURL_OPTIONS) https://repo.anaconda.com/miniconda/Miniconda3-py38_${CONDA_VERSION}-Linux-x86_64.sh -o $(CONDA_INSTALLER)
@@ -57,9 +57,9 @@ $(CONDA): $(CURL)
 	$(CONDA_INSTALLER) -u -b -p $(CONDA_ROOT)
 $(PIP): $(CONDA) # ideally would specify two outputs in $(CONDA) but make -j fails with that
 
-$(CONAN): $(PIP)
+$(CONAN): | $(PIP)
 	@echo "Installing conan locally..."
-	$(PIP) install conan==1.27.1
+	$(PIP) install conan==1.29.2
 
 .PHONY: conda conan
 conda: $(CONDA)

@@ -1,28 +1,26 @@
 /************************************************************************/
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                     */
-/*  (C) 1995-2000 Xania Development Team                                   */
+/*  (C) 1995-2000 Xania Development Team                                */
 /*  See the header to file: merc.h for original code copyrights         */
 /*                                                                      */
-/*  phil.c:  special functions for Phil the meerkat						*/
-/*																		*/
+/*  phil.c:  special functions for Phil the meerkat                     */
+/*                                                                      */
 /************************************************************************/
 
+#include "Logging.hpp"
 #include "comm.hpp"
 #include "interp.h"
-#include "magic.h"
 #include "merc.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <time.h>
+#include "string_utils.hpp"
+
+#include <range/v3/iterator/operations.hpp>
 
 /* Note that Death's interest is less, since Phil is unlikely to like someone who keeps slaying him for pleasure ;-) */
 /* Note also the cludgy hack so that Phil doesn't become interested in himself and ignore other people around him who */
 /* don't have a special interest. */
-#define PEOPLEONLIST 6
 const char *nameList[] = {"Forrey", "Faramir", "TheMoog", "Death", "Luxor", "Phil"};
 const int interestList[] = {1000, 900, 900, 850, 900, 0};
+#define PEOPLEONLIST int(sizeof(nameList) / sizeof(nameList[0]))
 
 /* Internal data for calculating what to do at any particular point in time. */
 int sleepiness = 500;
@@ -51,14 +49,14 @@ const char *randomSocial() {
 
 /* do the right thing depending on the current state of sleepiness */
 /* returns true if something happened, otherwise false if everything's boring */
-bool doSleepActions(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
+bool doSleepActions(Char *ch, ROOM_INDEX_DATA *home) {
     int sleepFactor = sleepiness;
     int random;
 
     if (ch->position == POS_SLEEPING) {
         sleepiness -= SLEEP_PT_ASLEEP;
         if (sleepFactor < WAKE_AT) {
-            do_wake(ch, "");
+            do_wake(ch, ArgParser(""));
             return true;
         }
         if (sleepFactor < STIR_AT) {
@@ -82,7 +80,7 @@ bool doSleepActions(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
     random = number_percent();
     if (sleepiness > SLEEP_AT) {
         if (ch->in_room == home) {
-            do_sleep(ch, 0);
+            do_sleep(ch);
         } else {
             act("$n tiredly waves $s hands in a complicated pattern and is gone.", ch);
             act("You transport yourself back home.", ch, nullptr, nullptr, To::Char);
@@ -107,31 +105,24 @@ bool doSleepActions(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
 }
 
 /* does a random social on a randomly selected person in the current room */
-void doRandomSocial(CHAR_DATA *ch, ROOM_INDEX_DATA *home) {
+void doRandomSocial(Char *ch, ROOM_INDEX_DATA *home) {
     (void)home;
-    int charsInRoom = 0;
-    int charSelected;
-    CHAR_DATA *firstChar;
-    CHAR_DATA *countChar;
 
-    firstChar = ch->in_room->people;
-    for (countChar = firstChar; countChar; countChar = countChar->next_in_room)
-        charsInRoom++;
-    charSelected = (number_percent() * charsInRoom) / 100;
-    if (charSelected > charsInRoom)
-        charSelected = charsInRoom;
-    for (countChar = firstChar; charSelected--; countChar = countChar->next_in_room)
-        ;
-    if (countChar) {
-        check_social(ch, randomSocial(), countChar->name);
-    }
+    auto charsInRoom = ranges::distance(ch->in_room->people);
+    if (!charsInRoom)
+        return;
+    auto charSelected = (number_percent() * charsInRoom) / 100;
+    if (charSelected >= charsInRoom)
+        charSelected = charsInRoom - 1;
+    auto *countChar = *std::next(ch->in_room->people.begin(), charSelected);
+    check_social(ch, randomSocial(), countChar->name);
 }
 
 /* Find the amount of interest Phil will show in the given character, by looking up the */
 /* character's name and its associated interest number on the table */
 /* Defaults:  ch=nullptr: 0  ch=<unknown>: 1 */
 /* Unknown characters are marginally more interesting than nothing */
-int charInterest(CHAR_DATA *ch) {
+int charInterest(Char *ch) {
     int listOffset = 0;
 
     if (ch == nullptr)
@@ -146,12 +137,11 @@ int charInterest(CHAR_DATA *ch) {
 }
 
 /* Check if there's a more interesting char in this room than has been found before */
-bool findInterestingChar(ROOM_INDEX_DATA *room, CHAR_DATA **follow, int *interest) {
-    CHAR_DATA *current;
+bool findInterestingChar(ROOM_INDEX_DATA *room, Char **follow, int *interest) {
     bool retVal = false;
     int currentInterest;
 
-    for (current = room->people; current; current = current->next_in_room) {
+    for (auto *current : room->people) {
         currentInterest = charInterest(current);
         if (currentInterest > *interest) {
             *follow = current;
@@ -165,12 +155,11 @@ bool findInterestingChar(ROOM_INDEX_DATA *room, CHAR_DATA **follow, int *interes
 
 /* Special program for 'Phil' - Forrey's meerkat 'pet'. */
 /* Note that this function will be called once every 4 seconds. */
-bool spec_phil(CHAR_DATA *ch) {
+bool spec_phil(Char *ch) {
     ROOM_INDEX_DATA *home;
     ROOM_INDEX_DATA *room;
-    CHAR_DATA *follow = nullptr;
-    sh_int exit = 0;
-    sh_int takeExit = 0;
+    Char *follow = nullptr;
+    Direction takeExit = Direction::North;
     EXIT_DATA *exitData;
     int interest = 0;
 
@@ -196,7 +185,7 @@ bool spec_phil(CHAR_DATA *ch) {
     /* Check for known people in this, and neighbouring, rooms */
     room = ch->in_room;
     findInterestingChar(room, &follow, &interest);
-    for (; exit < 6; exit++) {
+    for (auto exit : all_directions) {
         if ((exitData = room->exit[exit]) != nullptr)
             if (findInterestingChar(exitData->u1.to_room, &follow, &interest))
                 takeExit = exit;

@@ -1,5 +1,10 @@
-// akey.cpp
-
+/*************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
+/*  (C) 1995-2020 Xania Development Team                                 */
+/*  See the header to file: merc.h for original code copyrights          */
+/*  Chat bot originally written by Chris Busch in 1993-5, this file is a */
+/*  reimplementation of that work.                                       */
+/*************************************************************************/
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -26,7 +31,7 @@ const std::string &KeywordResponses::get_random_response() const {
     return default_response_;
 }
 
-void KeywordResponses::add_response(int weight, char *response_message) {
+void KeywordResponses::add_response(int weight, std::string_view response_message) {
     total_weight_ += weight;
     responses_.emplace_back(weight, response_message);
 }

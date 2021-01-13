@@ -11,30 +11,34 @@
    direct questions or comments to rtaylor@cie-2.uoregon.edu
    any use of this code must include this header */
 
+#include "Char.hpp"
 #include "comm.hpp"
+#include "interp.h"
+#include "lookup.h"
 #include "magic.h"
 #include "merc.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-#include <sys/types.h>
+#include "string_utils.hpp"
 
-void do_heal(CHAR_DATA *ch, const char *argument) {
-    CHAR_DATA *mob;
+namespace {
+Char *find_healer(ROOM_INDEX_DATA *room) {
+    for (auto *mob : room->people) {
+        if (mob->is_npc() && IS_SET(mob->act, ACT_IS_HEALER))
+            return mob;
+    }
+    return nullptr;
+}
+}
+
+void do_heal(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     int cost, sn;
     SpellFunc spell;
     const char *words;
 
     /* check for healer */
-    for (mob = ch->in_room->people; mob; mob = mob->next_in_room) {
-        if (IS_NPC(mob) && IS_SET(mob->act, ACT_IS_HEALER))
-            break;
-    }
-
-    if (mob == nullptr) {
-        send_to_char("You can't do that here.\n\r", ch);
+    auto *mob = find_healer(ch->in_room);
+    if (!mob) {
+        ch->send_line("You can't do that here.");
         return;
     }
 
@@ -43,92 +47,74 @@ void do_heal(CHAR_DATA *ch, const char *argument) {
     if (arg[0] == '\0') {
         /* display price list */
         act("$N says 'I offer the following spells:'", ch, nullptr, mob, To::Char);
-        send_to_char("  light: cure light wounds      1000 gold\n\r", ch);
-        send_to_char("  serious: cure serious wounds  1600 gold\n\r", ch);
-        send_to_char("  critic: cure critical wounds  2500 gold\n\r", ch);
-        send_to_char("  heal: healing spell	      5000 gold\n\r", ch);
-        send_to_char("  blind: cure blindness         2000 gold\n\r", ch);
-        send_to_char("  disease: cure disease         1500 gold\n\r", ch);
-        send_to_char("  poison:  cure poison	      2500 gold\n\r", ch);
-        send_to_char("  uncurse: remove curse	      5000 gold\n\r", ch);
-        send_to_char("  refresh: restore movement      500 gold\n\r", ch);
-        send_to_char("  mana:  restore mana	      1000 gold\n\r", ch);
-        send_to_char(" Type heal <type> to be healed.\n\r", ch);
+        ch->send_line("  light: cure light wounds      1000 gold");
+        ch->send_line("  serious: cure serious wounds  1600 gold");
+        ch->send_line("  critical: cure critical wounds  2500 gold");
+        ch->send_line("  heal: healing spell           5000 gold");
+        ch->send_line("  blind: cure blindness         2000 gold");
+        ch->send_line("  disease: cure disease         1500 gold");
+        ch->send_line("  poison:  cure poison          2500 gold");
+        ch->send_line("  uncurse: remove curse         5000 gold");
+        ch->send_line("  refresh: restore movement      500 gold");
+        ch->send_line("  mana:  restore mana           1000 gold");
+        ch->send_line(" Type heal <type> to be healed.");
         return;
     }
 
-    switch (arg[0]) {
-    case 'l':
+    if (matches_start(arg, "light")) {
         spell = spell_cure_light;
         sn = skill_lookup("cure light");
         words = "judicandus dies";
         cost = 1000;
-        break;
-
-    case 's':
+    } else if (matches_start(arg, "serious")) {
         spell = spell_cure_serious;
         sn = skill_lookup("cure serious");
         words = "judicandus gzfuajg";
         cost = 1600;
-        break;
-
-    case 'c':
+    } else if (matches_start(arg, "critical")) {
         spell = spell_cure_critical;
         sn = skill_lookup("cure critical");
         words = "judicandus qfuhuqar";
         cost = 2500;
-        break;
-
-    case 'h':
+    } else if (matches_start(arg, "heal")) {
         spell = spell_heal;
         sn = skill_lookup("heal");
         words = "pzar";
         cost = 5000;
-        break;
-
-    case 'b':
+    } else if (matches_start(arg, "blind")) {
         spell = spell_cure_blindness;
         sn = skill_lookup("cure blindness");
         words = "judicandus noselacri";
         cost = 2000;
-        break;
-
-    case 'd':
+    } else if (matches_start(arg, "disease")) {
         spell = spell_cure_disease;
         sn = skill_lookup("cure disease");
         words = "judicandus eugzagz";
         cost = 1500;
-        break;
-
-    case 'p':
+    } else if (matches_start(arg, "poison")) {
         spell = spell_cure_poison;
         sn = skill_lookup("cure poison");
         words = "judicandus sausabru";
         cost = 2500;
-        break;
-
-    case 'u':
+    } else if (matches_start(arg, "uncurse")) {
         spell = spell_remove_curse;
         sn = skill_lookup("remove curse");
         words = "candussido judifgz";
         cost = 5000;
-        break;
-
-    case 'r':
+    } else if (matches_start(arg, "refresh")) {
         spell = spell_refresh;
         sn = skill_lookup("refresh");
         words = "candusima";
         cost = 500;
-        break;
-
-    case 'm':
+    } else if (matches_start(arg, "mana")) {
         spell = nullptr;
         sn = -1;
         words = "energizer";
         cost = 1000;
-        break;
-
-    default: act("$N says 'Type 'heal' for a list of spells.'", ch, nullptr, mob, To::Char); return;
+    } else {
+        act("$N says 'Sorry, I am unfamiliar with that spell. Type 'heal' for a list of spells.'", ch, nullptr, mob,
+            To::Char);
+        return;
     }
 
     if (cost > ch->gold) {
@@ -146,7 +132,7 @@ void do_heal(CHAR_DATA *ch, const char *argument) {
     {
         ch->mana += dice(2, 8) + mob->level / 4;
         ch->mana = UMIN(ch->mana, ch->max_mana);
-        send_to_char("A warm glow passes through you.\n\r", ch);
+        ch->send_line("A warm glow passes through you.");
         return;
     }
 

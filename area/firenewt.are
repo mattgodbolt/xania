@@ -1,4 +1,8 @@
-#AREA   {40 60} Wandera  Fire Newt Mountain~
+#AREA
+firenewt.are~
+Fire Newt Mountain~
+{40 60} Wandera Fire Newt Mountain~
+2900 2950
 
 #ROOMS
 #2900
@@ -6,12 +10,12 @@ Obsidian hills~
 You see before you some shiny black hills. There is very little vegetation
 here. The hills appear to lead to a high mountain to the south east
 ~
-29 C 3
+C 3
 D0
 You see a path leading back towards the Turning Point.
 ~
 ~
-0 0 2900
+0 0 4785
 D2
 You see some more hills.  They continue south.
 ~
@@ -27,7 +31,7 @@ Obsidian hills~
 You see before you some shiny black hills. There is very little vegetation
 here. The hills appear to lead to a high mountain to the south east
 ~
-29 C 3
+C 3
 D0
 You see some hills to the north.
 ~
@@ -48,7 +52,7 @@ Obsidian hills~
 You see before you some shiny black hills. There is very little vegetation
 here. The hills appear to lead to a high mountain to the south east
 ~
-29 C 3
+C 3
 D0
 You see some hills to the north.
 ~
@@ -69,7 +73,7 @@ Mountain side~
 The mountain is very high and looks to be quite old. There are a few cracks
 in the side of the mountain
 ~
-29 0 4
+0 4
 D2
 The mountain continues.
 ~
@@ -90,7 +94,7 @@ Mountain side~
 The mountain is very high and looks to be quite old. There is smoke coming
 from the top of the mountain.
 ~
-29 0 4
+0 4
 D0
 You see mountains to the north.
 ~
@@ -111,7 +115,7 @@ Mountain top~
 You've reached the top of the mountain. You can see more smoke from up here.
 The smoke seems to come from a hole to the south.
 ~
-29 C 4
+C 4
 D0
 You see the side of the mountain to the north.
 ~
@@ -136,7 +140,7 @@ Entrance to the mountain~
 The smoke comes from inside the hole.  It also looks like there is a path
 that leads down.
 ~
-29 C 4
+C 4
 D0
 You see the top of the mountain to the north.
 ~
@@ -168,7 +172,7 @@ Mountain top~
 You are standing at the top of the mountain. The mountain looks like it has
 been ravaged by something.
 ~
-29 C 4
+C 4
 D3
 You see the entrance to the mountain to the west.
 ~
@@ -180,7 +184,7 @@ Mountain top~
 You are standing at the top of the mountain. There are several cracks in the
 ground and you don't feel safe!
 ~
-29 C 4
+C 4
 D1
 You see the entrance to the mountain to the north.
 ~
@@ -191,7 +195,7 @@ S
 Mountain top~
 You are standing on the top of the mountain and think you should move north.
 ~
-29 C 4
+C 4
 D0
 You see the entrance to the mountain to the north.
 ~
@@ -202,7 +206,7 @@ S
 Inside the mountain~
 You are standing inside the mountain.
 ~
-29 AD 2
+AD 2
 D1
 You see guard barracks.
 ~
@@ -229,7 +233,7 @@ Guard room~
 You are standing in a room with beds, tables, and fire newts!
 There are paintings on the wall.  They show battle scenes.
 ~
-29 AD 2
+AD 2
 D3
 You see the dark tunnel shaft.
 ~
@@ -254,7 +258,7 @@ Guard room~
 You are standing in a room with beds, chairs, tables, and fire newts!
 There are paintings on the wall that show great leaders.
 ~
-29 AD 2
+AD 2
 D1
 You see the shaft in the mountain.
 ~
@@ -278,7 +282,7 @@ S
 Inside the mountain~
 You are standing inside the mountain.
 ~
-29 AD 2
+AD 2
 D0
 You see a large storage room.
 ~
@@ -305,7 +309,7 @@ Store room~
 You see nothing special in this room.  There are some boxes and fire newt
 workers here.  There is also some trash piled up in the room.
 ~
-29 AD 2
+AD 2
 D2
 You see the dark mountain shaft.
 ~
@@ -318,7 +322,7 @@ You are standing in the workers' quarters.  There are several workers here.
 The room is messy and has nothing of value in it.  The party the night before
 must have destroyed everything.
 ~
-29 AD 2
+AD 2
 D0
 You see the dark mountain shaft.
 ~
@@ -329,7 +333,7 @@ S
 Bottom of the mountain~
 You are standing at the bottom of the shaft.
 ~
-29 AD 2
+AD 2
 D0
 You see the dark tunnel.
 ~
@@ -345,7 +349,7 @@ S
 The tunnel~
 You are standing in a dry, dark tunnel.
 ~
-29 AD 2
+AD 2
 D0
 You see a bend in the tunnel.
 ~
@@ -361,7 +365,7 @@ S
 Bend in the tunnel~
 You are standing in a dark tunnel.
 ~
-29 AD 2
+AD 2
 D1
 The tunnel continues into the dark.
 ~
@@ -377,7 +381,7 @@ S
 The tunnel~
 You are standing in a dark tunnel.
 ~
-29 AD 2
+AD 2
 D0
 The tunnel continues into the dark.
 ~
@@ -397,10 +401,10 @@ S
 #2920
 Fire Newt House~
 You are standing in a fire newt house.  There is a mother fire newt here
-playing with her children.  The room is full of newt toys- they look very
+playing with her children.  The room is full of newt toys, they look very
 boring.
 ~
-29 AD 2
+AD 2
 D3
 You see the dark tunnel.
 ~
@@ -411,7 +415,7 @@ S
 The tunnel~
 You are standing in a dark tunnel.
 ~
-29 AD 2
+AD 2
 D0
 The tunnel continues on.
 ~
@@ -434,7 +438,7 @@ You are standing in a fire newt house.  There is a fire newt mother here
 playing with her children.  The room has several torn baby newt diapers here
 ... how disgusting!
 ~
-29 AD 2
+AD 2
 D1
 You see the dark tunnel.
 ~
@@ -445,7 +449,7 @@ S
 The tunnel~
 You are standing in the dark tunnel.
 ~
-29 AD 2
+AD 2
 D1
 You see a fire newt temple.
 ~
@@ -467,7 +471,7 @@ Entrance to the town hall~
 You are standing in the entrance to the town hall.  The room is large and
 ornate.
 ~
-29 AD 2
+AD 2
 D1
 You see the dark tunnel.
 ~
@@ -484,7 +488,7 @@ The Waiting Room~
 You are standing in the waiting room of the town hall.  There is a big door
 to the west.  The room has pictures of the villages history.
 ~
-29 AD 2
+AD 2
 D1
 You see the entrance to the town hall.
 ~
@@ -500,7 +504,7 @@ S
 The Leader's Office~
 You are standing in the fire newt leader's office.
 ~
-29 AD 2
+AD 2
 D1
 You see the waiting room.
 ~
@@ -512,7 +516,7 @@ Outside the temple~
 You are standing outside the fire newt temple.  The temple has some very
 large arches and towers.
 ~
-29 AD 2
+AD 2
 D1
 You see the entrance to the fire newt temple.
 ~
@@ -527,9 +531,9 @@ S
 #2928
 Entrance to the temple~
 You are standing at the entrance to the temple.  The temple is very neat. 
-The sates are set in straight rows and the alter is very large.
+The seats are set in straight rows and the altar is very large.
 ~
-29 AD 2
+AD 2
 D1
 You see the door, that leads to the inside of the temple.
 ~
@@ -545,7 +549,7 @@ S
 Inside the Temple~
 You are standing inside the fire newt temple.
 ~
-29 AD 2
+AD 2
 D3
 You see the door that leads to the temple entrance.
 ~
@@ -561,7 +565,7 @@ S
 The room before the doors~
 You are standing before a pair of huge doors.
 ~
-29 AD 2
+AD 2
 D1
 You see two large doors.
 ~
@@ -575,10 +579,9 @@ You see the inside of the temple.
 S
 #2931
 The Egg Room~
-You are standing in a room that has several dozen piles of eggs.  There is
-a chest on the floor also.
+You are standing in a room that has several dozen piles of eggs.
 ~
-29 ACD 2
+ACD 2
 D3
 You see two large doors.
 ~
@@ -598,7 +601,7 @@ It looks hungry and searches for food.
 lizard~
 BA 0 -100 0
 45 22 1d1+1809 1d1+40 7d7+22 slash
-8 8 8 9
+-30 -30 -30 -25
 FENU 0 0 0
 stand stand male 2293
 0 0 medium 0
@@ -613,7 +616,7 @@ The ewe is watching her young.
 lizard~
 BA 0 -100 0
 47 23 1d1+1883 1d1+40 7d7+23 slash
-8 8 8 9
+-31 -31 -31 -26
 FENU 0 0 0
 stand stand female 2407
 0 0 medium 0
@@ -628,7 +631,7 @@ The kid is playing with its siblings.
 human~
 BA 0 -100 0
 50 25 1d1+2093 1d1+20 7d7+25 slash
-9 9 9 9
+-32 -32 -32 -27
 FENU 0 0 0
 stand stand neutral 2569
 0 0 medium 0
@@ -643,8 +646,8 @@ The fire newt worker looks hot and sweaty.
 lizard~
 CFGA 0 -400 0
 47 23 1d1+1956 1d1+40 7d7+23 slash
-8 8 8 9
-FENU 0 0 0
+-31 -31 -31 -26
+FENU 0 H 0
 stand stand male 2414
 0 0 medium 0
 
@@ -658,8 +661,8 @@ The fire newt guard thinks you would be better dead.
 lizard~
 BFA 0 -450 0
 55 27 1d1+2770 1d1+60 7d7+27 slash
-8 8 8 9
-FENU 0 0 0
+-33 -33 -33 -29
+FENU 0 H 0
 stand stand male 3336
 0 0 medium 0
 
@@ -673,8 +676,8 @@ The fire newt worker looks hot and sweaty.
 lizard~
 BA D -400 0
 46 23 1d1+1869 1d1+40 7d7+23 slash
-8 8 8 9
-FENU 0 0 0
+-31 -31 -31 -26
+FENU 0 H 0
 stand stand female 2385
 0 0 medium 0
 
@@ -688,8 +691,8 @@ The fire newt guard wants to kill you!
 lizard~
 FGA 0 -450 0
 55 27 1d1+2809 1d1+60 7d7+27 slash
-8 8 8 9
-FENU 0 0 0
+-33 -33 -33 -29
+FENU 0 H 0
 stand stand female 3394
 0 0 medium 0
 
@@ -703,8 +706,8 @@ The fire newt mother is watching her kids.
 lizard~
 BA 0 -355 0
 54 27 1d1+2739 1d1+40 7d7+27 slash
-8 8 8 9
-FENU 0 0 0
+-33 -33 -33 -29
+FENU 0 H 0
 stand stand female 3341
 0 0 medium 0
 
@@ -718,8 +721,8 @@ The fire newt baby is crawling and drooling here.
 lizard~
 BCA 0 -350 0
 44 22 1d1+1820 1d1+0 7d6+22 slash
-10 10 10 10
-FENU 0 0 0
+-29 -29 -29 -25
+FENU 0 H 0
 stand stand neutral 2269
 0 0 medium 0
 
@@ -733,8 +736,8 @@ He's just found something that doesn't belong here!
 lizard~
 BFA 0 -500 0
 58 29 1d1+3031 1d1+100 8d7+29 slash
-6 6 6 8
-FENU 0 0 0
+-34 -34 -34 -30
+FENU 0 H 0
 stand stand male 3621
 0 0 medium 0
 
@@ -748,8 +751,8 @@ The fire newt general grins evilly at you.
 lizard~
 BFA 0 -700 0
 59 29 1d1+3023 1d1+160 8d7+29 slash
-5 5 5 7
-FENU 0 0 0
+-35 -35 -35 -32
+FENU 0 H 0
 stand stand male 3672
 0 0 medium 0
 
@@ -763,8 +766,8 @@ The fire newt leader screams, 'I'm going to hose you!'
 lizard~
 BFLA DH -1000 0
 65 32 1d1+3957 1d1+260 8d8+32 slash
-1 1 1 5
-FENU 0 0 0
+-38 -38 -38 -34
+FENU 0 H 0
 stand stand male 4000
 0 0 medium 0
 
@@ -778,8 +781,8 @@ The fire newt priest is preparing for worship.
 lizard~
 BFLA DH -1000 0
 65 32 1d1+4029 1d1+200 8d8+32 slash
-3 3 3 6
-FENU 0 0 0
+-38 -38 -38 -34
+FENU 0 H 0
 stand stand male 3918
 0 0 medium 0
 
@@ -792,9 +795,9 @@ The fire lizard flicks its tongue at you.
 ~
 lizard~
 BFA DH -100 0
-62 31 1d1+3728 1d1+220 8d8+31 chomp
-3 3 3 6
-FENU 0 0 0
+62 31 1d1+3728 1d1+220 6d10+31 chomp
+-37 -37 -37 -33
+FENU 0 H 0
 stand stand neutral 3905
 0 0 medium 0
 
@@ -807,12 +810,12 @@ horns~
 a set of horns lies here.~
 bone~
 weapon 0 AN
-'exotic' 0 1 'pound' 0
-2 2 413 P
+'exotic' 9 5 'pound' 0
+45 2 2413 P
 
 #2902
 bladder milk~
-milk bladder~
+a milk bladder~
 a milk bladder lies here.~
 ~
 drink 0 A
@@ -821,57 +824,57 @@ drink 0 A
 
 #2903
 shovel~
-shovel~
+a shovel~
 a shovel lies here.~
 ~
 weapon 0 AN
-'mace' 0 1 'pound' 0
-2 2 413 P
+'mace' 6 8 'pound' 0
+47 2 2413 P
 
 #2904
 short sword~
-short sword~
+a short sword~
 a short sword lies here.~
 ~
 weapon 0 AN
-'sword' 1 2 'pierce' 0
-3 3 603 P
+'sword' 5 11 'pierce' 0
+55 3 2603 P
 
 #2905
 hand axe~
-hand axe~
+a hand axe~
 a hand axe lies here.~
 ~
 weapon 0 AN
-'axe' 1 2 'slash' 0
-3 3 608 P
+'axe' 5 11 'slash' 0
+55 3 2608 P
 
 #2906
 chainmail~
-chainmail~
+a chainmail shirt~
 a chainmail shirt lies here.~
 ~
 armor 0 AD
-4 4 4 0 0
-5 10 1016 P
+19 19 19 0 0
+58 10 2016 P
 
 #2907
 pick~
-pick~
+a pick~
 a pick lies here.~
 ~
 weapon 0 AN
-'mace' 1 2 'pierce' 0
-5 2 1011 P
+'mace' 6 10 'pierce' 0
+58 2 2011 P
 
 #2911
 broad axe~
-broad axe~
+a broad axe~
 a broad axe lies here.~
 ~
 weapon GJ AN
-'axe' 3 4 'slash' 0
-13 15 2708 P
+'axe' 8 8 'slash' 0
+65 15 2708 P
 A
 18      1
 A
@@ -879,36 +882,36 @@ A
 
 #2912
 leather suit~
-leather suit~
+a leather suit~
 a leather suit lies here.~
 ~
 armor AG AD
-5 5 5 0 0
-13 3 2706 P
+21 21 21 0 0
+65 3 2706 P
 A
 2       1
 
 #2913
-mace~
-mace~
-a mace lies here.~
+flaming mace~
+a flaming mace~
+a flaming mace lies here.~
 ~
 weapon BG AN
-'mace' 2 3 'blast' 0
-10 10 2020 P
+'mace' 8 8 'blast' 0
+65 10 2020 P
 A
 18      2
 A
 19      2
 
 #2914
-potion~
 orange potion~
+an orange potion~
 an orange potion lies here.~
 ~
 potion G A
-10 22 17 28 0
-11 1 2268 P
+40 36 66 0 0
+50 1 2268 P
 
 #2915
 egg newt~
@@ -916,8 +919,8 @@ a newt egg~
 a newt egg lies here.~
 ~
 food 0 A
-10 0 0 0 0
-0 1 0 P
+40 0 0 0 0
+0 1 1 P
 
 #0
 

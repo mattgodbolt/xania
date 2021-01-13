@@ -17,7 +17,7 @@ old and wise. She stands as you enter the room, and smiles at you.
 hobbit~
 BGCQ DFHN 0 0
 90 45 10d100+10000 10d20+600 9d10+40 divine
--50 -50 -50 -40
+-65 -65 -65 -55
 FHU ABQ JK 0
 stand stand female 1500
 0 0 small 0
@@ -32,7 +32,7 @@ A young fresh-faced novice is wandering around. Can you help?
 human~
 GHT 0 0 0
 8 4 2d5+100 1d1+100 2d5+5 slash
--5 -5 -5 -5
+-20 -20 -20 -20
 EFKU ABQ 0 0 
 stand stand male 1
 0 0 medium 0
@@ -48,7 +48,7 @@ and smiles.
 elf~
 BGCNQ N 0 0
 30 15 30d5+750 30d10+300 4d7+15 slice
--15 -15 -15 -15
+-30 -30 -30 -30
 EFU ABQ 0 0
 stand stand female 500
 0 0 medium 0
@@ -64,7 +64,7 @@ glares at you as you enter.
 dwarf~
 BGCNQ N 0 0
 30 15 1d1+749 1d1+299 6d5+15 slash
--15 -15 -15 -15
+-30 -30 -30 -30
 CDIU ABQ O O
 stand stand male 500
 0 0 medium 0
@@ -80,7 +80,7 @@ not waste his time.
 minotaur~
 BCGHT DFHN 0 0
 60 30 1d1+3000 1d1+550 10d6+25 whip
--25 -25 -25 -20
+-40 -40 -40 -35
 CDEKU ABQ 0 0
 stand stand male 1000
 0 0 medium 0
@@ -96,7 +96,7 @@ you as you enter.
 wolf~
 BCGHT DFHNV 0 0
 75 40 40d5+5500 40d5+500 9d8+40 bite
--40 -40 -40 -30
+-55 -55 -55 -45
 EFIKP ABQ 0 0
 stand stand male 2000
 0 0 medium 0
@@ -111,7 +111,7 @@ An old battle scarred orc stands here. Fear him not, he is an ally.
 orc~
 BCGHR HN 0 0
 50 25 1d1+2000 1d1+499 10d6+25 whip
--25 -25 -25 -10
+-40 -40 -40 -25
 CEI ABQ 0 X
 stand stand neutral 1000
 0 0 medium 0
@@ -128,7 +128,7 @@ enter, leaning on a huge oak staff.
 elf~
 BGCR DFHNV 0 0
 100 50 40d5+8000 40d5+1000 10d10+50 hit
--50 -50 -50 -50
+-65 -65 -65 -65
 EFHK ABQ C 0
 stand stand male 4000
 0 0 medium 0
@@ -145,7 +145,7 @@ up with a faint expression of annoyance on his face as you enter.
 human~
 BGRU CDEFHVZ 0 0
 90 50 20d5+7000 40d5+1000 10d10+50 0
--100 -100 -100 -100
+-115 -115 -115 -115
 ACEFKLP ABCDEHIKLPO 0 0
 stand stand male 10000
 0 0 medium 0
@@ -514,7 +514,7 @@ tower. The pathway has been heavily worn by the elements and the
 pounding of a thousand feet, but the thick tangle of bracken and 
 musty grey tree branches on either side appear to be preserved.
 ~
-30 0 4
+0 4
 D0
 ~
 ~
@@ -536,7 +536,7 @@ ceiling depicts the incredible scene of the raging dragon wars. Strangely
 despite the enormity of the place you feel at peace in the sanctuary of 
 this place.
 ~
-30 D 0
+D 0
 D0
 The archway leads north to the great altar.
 ~
@@ -570,7 +570,7 @@ fro. Others just sit and read in the tranquility of this room.
 One of the walls has a plaque on it, next to the plaque is an elegant 
 stone statue of a mighty hero.
 ~
-30 D 0
+D 0
 D0
 A secret passage lies here through the waterfall.
 ~
@@ -603,7 +603,7 @@ You are in a marble floored passageway. Ahead of you the sounds of
 plates and dishes crashing can be heard. To the north of you is a finely 
 crafted archway through which many strange smells are emanating.
 ~
-30 D 0
+D 0
 D0
 Through the archway you can see a chemistry lab.
 ~
@@ -628,7 +628,7 @@ flickering torches set in brackets on the walls.  The corridor continues
 both to the north and west. There are oak doors set in the north and 
 west walls.
 ~
-30 D 0
+D 0
 D0
 You see a large oak door, on which the word "LIBRARY" is stencilled in gold.
 ~
@@ -653,7 +653,7 @@ This is a small passage carved out of the rock. It is damp from the
 waterfall, and you can smell mildew and moss. A light can be made out 
 ahead of you.
 ~
-30 D 0
+D 0
 D0
 The secret study lies to the north.
 ~
@@ -672,7 +672,7 @@ This is a small study. There is a desk with a large pile of papers, and
 several shelves which are so full of books they look in danger of collapsing.
 It is quite dark and cramped in here. A large oak chest sits in the corner.
 ~
-30 D 0
+D 0
 D2
 A dark entrance back towards the waterfall.
 ~
@@ -689,7 +689,7 @@ many different coloured liquids. On the wall are parchments written in
 languages you do not understand. Be careful you don't touch anything as 
 it may explode! A small archway lies to the north of you.
 ~
-30 D 0
+D 0
 D0
 A small archway lies ahead of you.
 ~
@@ -710,7 +710,7 @@ drink, and discuss things with each other. On the far wall you can see
 tables loaded with fresh fruits and bottles of wine. A few people are
 here having a well earned meal.
 ~
-30 D 0
+D 0
 D0
 You see an open doorway to the north.
 ~
@@ -731,7 +731,7 @@ On two wall are hundreds of draws, each neatly labelled with substances
 that you haven't heard of. To one side is a small desk, and chair. The 
 desk is covered in papers. A large metal chest is in one corner of the room.
 ~
-30 D 0
+D 0
 D2
 This is the entrance to the chemistry lab.
 ~
@@ -749,7 +749,7 @@ knowledge that is stored in this room. What stories these walls could tell
 if they could only speak! There are several clan members mulling around the 
 room, and the silence is almost deafening.
 ~
-30 D 0
+D 0
 D0
 A small door is concealed in the oak panelling of this wall.
 ~
@@ -773,7 +773,7 @@ incense burns and fills the air with it's pungent smell. In the corner
 of the room is a large red leather chair, with a small table next to it. 
 In another corner of the room is a small iron chest.
 ~
-30 D 0
+D 0
 D2
 The secret door back to the library
 ~
@@ -791,7 +791,7 @@ display is a large painting depicting the overpowering of the dragon
 lords, its image depicting the slain corpse of the dragon  lord leader 
 surrounded by numerous cheery face Xanians.
 ~
-30 D 0
+D 0
 D0
 A intricately carved wooden door.
 ~
@@ -819,7 +819,7 @@ the jewel encrusted ceiling. Dominating the centre of the room a large
 throne stands atop a vast pyramid of steps before which a very scantily 
 clad french maid busily polishes the master's equipment!
 ~
-30 D 0
+D 0
 D0
 A barely noticable set of golden swing doors.
 ~
@@ -855,7 +855,7 @@ which two men, one in shiny black and one in long brown flowing robes are
 battling with what seems like beams of light...|Wvery|w strange.... A 
 large sign is on one of the side walls, perhaps you should read it?
 ~
-30 D 0
+D 0
 D2
 The golden swing doors.
 ~
@@ -880,7 +880,7 @@ A large, rusted portcullis covers the blackened entrance tunnel, but
 through it you can just about see a torchlit courtyard. A trail leads
 south through the trees.
 ~
-30 D 0
+D 0
 D0
 The Courtyard
 ~
@@ -901,7 +901,7 @@ archaic words you cannot decipher. Books are stacked in piles that rise
 above you and threaten to topple at any moment. In one corner a man sits
 at a desk.
 ~
-30 D 0
+D 0
 D2
 You see an open doorway to the south.
 ~
@@ -959,7 +959,6 @@ E 1 30159 10 11
 M 0 30157 1 30161 1  1   
 E 1 30153 5 12
 E 1 30154 5 9
-E 1 30158 5 17
 E 1 30165 5 17
 * Chest in Hobbit's Office
 O 0 30168 1 30159

@@ -13,7 +13,7 @@ menace permeates the surrounding area. You have a strange urge to turn
 back and go back the way you've come.
   A small path leads north into the shadows and back south to the road.
 ~
-13 C 3
+C 3
 D0
 The shadows cloud your vision.
 ~
@@ -31,7 +31,7 @@ from all sides. The shadowy mist obscures most of your vision. Strange
 sounds of moaning and growling come from all directions.
   All exits lead into shadows, you are very confused.
 ~
-13 AN 3
+AN 3
 D0
 The shadows cloud your vision.
 ~
@@ -60,7 +60,7 @@ from all sides. The shadowy mist obscures most of your vision. Strange
 sounds moaning and growling come from all directions.
   All exits lead into shadows, you are very confused.
 ~
-13 AN 3
+AN 3
 D0
 You see a small clearing in the shadows.
 ~
@@ -89,7 +89,7 @@ from all sides. The shadowy mist obscures most of your vision. Strange
 sounds of moaning and growling come from all directions.
   All exits lead into shadows, you are very confused.
 ~
-13 AN 3
+AN 3
 D0
 The shadows cloud your vision.
 ~
@@ -118,7 +118,7 @@ from all sides. The shadowy mist obscures most of your vision. Strange
 sounds of moaning and growling come from all directions.
   All exits lead into shadows, you are very confused.
 ~
-13 AN 3
+AN 3
 D0
 The shadows cloud your vision.
 ~
@@ -147,7 +147,7 @@ from all sides. The shadowy mist obscures most of your vision. Strange
 sounds of moaning and growling come from all directions.
   All exits lead into shadows, you are very confused.
 ~
-13 AN 3
+AN 3
 D0
 The shadows cloud your vision.
 ~
@@ -176,7 +176,7 @@ from all sides. The shadowy mist obscures most of your vision. Strange
 sounds of moaning and growling come from all directions.
   All exits lead into shadows, you are very confused.
 ~
-13 AN 3
+AN 3
 D0
 The shadows cloud your vision.
 ~
@@ -205,7 +205,7 @@ from all sides. The shadowy mist obscures most of your vision. Strange
 sounds of moaning and growling come from all directions.
   All exits lead into shadows, you are very confused.
 ~
-13 AN 3
+AN 3
 D0
 The shadows cloud your vision.
 ~
@@ -234,7 +234,7 @@ from all sides. The shadowy mist obscures most of your vision. Strange
 sounds of moaning and growling come from all directions.
   All exits lead into shadows, you are very confused.
 ~
-13 AN 3
+AN 3
 D0
 The shadows cloud your vision.
 ~
@@ -263,7 +263,7 @@ from all sides. The shadowy mist obscures most of your vision. Strange
 sounds of moaning and growling come from all directions.
   All directions lead into shadows, you are very confused.
 ~
-13 AN 3
+AN 3
 D0
 The shadows cloud your vision.
 ~
@@ -294,7 +294,7 @@ your view into the grove.
   A small path leads north to some shadowy structure. All other exits are
 shrouded in shadowy mist.
 ~
-13 A 3
+A 3
 D0
 You can barely make out some sort of building to the north.
 ~
@@ -314,7 +314,7 @@ into the storm clouds above.
   A diamond gate is to the north, guarded by a huge golem. The trail
 back south has disappeared behind you.
 ~
-13 D 0
+D 0
 D0
 The diamond gate looks incredibly strong.
 ~
@@ -330,7 +330,7 @@ oblivious to your presence.
   Exits lead north to the common room, west to the dinning room, east to
 a plain hallway and back south through the gate.
 ~
-13 D 0
+D 0
 D0
 The common room looks quite busy and noisy.
 ~
@@ -358,7 +358,7 @@ tables and a small water fountain here, otherwise the room is quite
 unremarkable.
   Exits lead off in all directions.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -382,7 +382,7 @@ The Hallway~
 You are in a long hallway, it seems rather unremarkable.
   The hallway continues east and back west.
 ~
-13 D 0
+D 0
 D1
 ~
 ~
@@ -399,7 +399,7 @@ tables and chairs here, you can see that this room could easily seat
 several hundred people. It is oddly deserted here, obviously not meal time.
   Exits lead west to the kitchen, and back east.
 ~
-13 D 0
+D 0
 D1
 ~
 ~
@@ -416,7 +416,7 @@ used by the regular occupants of the tower. Dust covers the floors
 here.
   The faint outline of a trapdoor can be seen in the dust.
 ~
-13 AD 0
+AD 0
 D2
 ~
 ~
@@ -434,7 +434,7 @@ they obviously have more interesting things to contemplate. Strick the
 bartender is here waiting to take your order.
   The only exit leads back west.
 ~
-13 D 0
+D 0
 D3
 ~
 ~
@@ -447,7 +447,7 @@ the counter, selling all sorts of herbs, parchment and other reagents
 used in magical studies.
   The only exit leads back east to the common room.
 ~
-13 D 0
+D 0
 D1
 ~
 ~
@@ -462,7 +462,7 @@ Opposite the oven is an equally enormous meat locker, large enough to
 comfortably store several hapless adventurers no doubt. In the middle of
 the room, hanging in mid-air is a spice rack.
 ~
-13 D 0
+D 0
 D1
 ~
 door wooden~
@@ -475,7 +475,7 @@ light filters through from above. A faint sound of dripping water can be
 heard in the distance below.
   A rope ladder leads down.
 ~
-13 AD 0
+AD 0
 D4
 ~
 trapdoor~
@@ -492,7 +492,7 @@ tower. The sound of running water can be heard coming from the south,
 other than that, an almost tangible stillness fills the air.
   Passages lead off in all directions, and a ladder leads up.
 ~
-13 AD 0
+AD 0
 D0
 ~
 ~
@@ -521,7 +521,7 @@ You are at the end of a dark passage which ends in a stout wooden door.
 Other then through the door, the only apparent exit is back the way you
 came.
 ~
-13 AD 0
+AD 0
 D0
 ~
 oak door~
@@ -538,7 +538,7 @@ shedding soft light around the edges. Faint snoring sounds can be heard
 behind the door.
   Exits lead east through the door, or back west.
 ~
-13 AD 0
+AD 0
 D1
 ~
 door~
@@ -557,7 +557,7 @@ pool.
   Exits lead back north, or perhaps for the very adventurous, down into the
 pool.
 ~
-13 AD 0
+AD 0
 D0
 ~
 ~
@@ -575,7 +575,7 @@ to be a cave-in to the west. It is certainly unpassable, and perhaps quite
 dangerous just being this close.
   The only exit leads back east.
 ~
-13 AD 0
+AD 0
 D1
 ~
 ~
@@ -587,7 +587,7 @@ You are in a dark cell. Straw and dirt cover the floors here, it is
 very dark. Someone, or something seems to be chained to the far wall.
   The only exit is back south.
 ~
-13 AD 0
+AD 0
 D2
 ~
 oak door~
@@ -600,7 +600,7 @@ sleeping form of the Jailor on duty, you can surmise that very few, if any
 prisoners survive long enough to spend much time in these dank dungeons.
   The only exit leads back west.
 ~
-13 D 0
+D 0
 D3
 ~
 door~
@@ -613,14 +613,14 @@ drags you under.  You are sucked into blackness.  You feel your lungs burst
 from lack of oxygen.  Just as you feel your life fading, you notice a change in
 direction ... and are sucked under by a rip tide.
 ~
-13 AD 0
+AD 0
 S
 #1330
 The hallway~
 You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
 ~
-13 D 0
+D 0
 D0
 ~
 door wooden~
@@ -643,7 +643,7 @@ A bend in the hallway~
 You are at a bend in the hallway. The walls emit a faint magical glow
 which provides enough light to see by.
 ~
-13 D 0
+D 0
 D0
 ~
 door wooden~
@@ -667,7 +667,7 @@ You are in a small store room. Assorted junk is piled on shelves or
 leaning against walls.
   The only apparent exit it back south.
 ~
-13 AD 0
+AD 0
 D2
 ~
 door wooden~
@@ -679,7 +679,7 @@ You are in a dark broom closet. Many straw brooms and other cleaning
 instruments have been left here, apparently unused (perhaps the maid quit?).
   The only exit leads back north to the hallway.
 ~
-13 AD 0
+AD 0
 D0
 ~
 door wooden~
@@ -690,7 +690,7 @@ A hallway~
 You are in a long hallway leading north and south. The walls emit a
 faint magical glow which provides enough light to see by.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -714,7 +714,7 @@ You are in the chamber of the tower guardians. It is rather sparsely
 furnished, but then again the odd occupants don't look to need furniture.
 Here and there a disembodied pair of hands or eyes flits about.
 ~
-13 D 0
+D 0
 D0
 ~
 door wooden~
@@ -727,7 +727,7 @@ dusty mirror on one wall, other than that the room looks quite bare, and
 unused.
   The only apparent exit leads back west to the hallway.
 ~
-13 D 0
+D 0
 D3
 ~
 door wooden~
@@ -744,7 +744,7 @@ floats overhead, providing light. A small cot is in one corner looking
 ever so comfortable, so comfortable in fact ...someone is sleeping in it.
   The only apparent exit leads back west to the hallway.
 ~
-13 D 0
+D 0
 D3
 ~
 door wooden~
@@ -756,7 +756,7 @@ You are in a long hallway leading from the south. The walls emit a faint
 magical glow which provides enough light to see by.
   Stairs lead up to the next level and the hallway leads back south.
 ~
-13 D 0
+D 0
 D1
 ~
 door wooden~
@@ -777,7 +777,7 @@ blackened and burnt by what you could only imagine to be magical fire.
 There is no sign of the previous occupant, undoubtedly he left in a hurry.
   The only exit leads back west to the hallway.
 ~
-13 AD 0
+AD 0
 D3
 ~
 door charred~
@@ -790,7 +790,7 @@ magical glow which provides enough light to see by. Some faint moonlight
 can be seen in the culdesac to the east.
   The hallway continues west and stairs lead down to the level below.
 ~
-13 D 0
+D 0
 D0
 ~
 door oak~
@@ -815,7 +815,7 @@ You are in a small culdesac. A window to the east is letting in moonlight
 and a pleasant breeze. Through it, the surrounding country side can be seen.
   The only apparent exit leads back west to the hallway.
 ~
-13 D 0
+D 0
 D3
 ~
 ~
@@ -833,7 +833,7 @@ You are in the barracks of the apprentice magic users. Here and there, a
 young apprentice sits engrossed in magical study, or practicing a feeble
 cantrip. Cots line the walls, and the room continues west.
 ~
-13 D 0
+D 0
 D2
 ~
 door oak~
@@ -849,7 +849,7 @@ You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
   There is a door to the north, and the hallway continues west or back east.
 ~
-13 D 0
+D 0
 D0
 ~
 door oak~
@@ -869,7 +869,7 @@ You are in the barracks of the apprentice magic users. Here and there, a
 young apprentice sits engrossed in magical study, or practicing a feeble
 cantrip. Cots line the walls, and the room continues east.
 ~
-13 D 0
+D 0
 D1
 ~
 ~
@@ -885,7 +885,7 @@ You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by. Flashes of light can
 be seen under the doorway to the north.
 ~
-13 D 0
+D 0
 D0
 A flash of blue light momentarily lights up the doors outline
 ~
@@ -907,7 +907,7 @@ about on a few worktables. In the far corner several young mages have a
 small kitten cornered and seem to be testing spells upon it.
   The only apparent exit leads back south to the hallway.
 ~
-13 D 0
+D 0
 D2
 ~
 door oak~
@@ -919,7 +919,7 @@ You are at a bend in the hallway. The walls emit a faint magical glow
 which provides enough light to see by.
   The hallway continues south and back east.
 ~
-13 D 0
+D 0
 D1
 ~
 ~
@@ -935,7 +935,7 @@ You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
   There is a closed metal door to the west.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -956,7 +956,7 @@ art. The instructor stops in his lecture on the fine uses of magic missile
 at your entry and lunges to attack you.
   The only apparent exit is back east to the hallway.
 ~
-13 D 0
+D 0
 D1
 ~
 door metal~
@@ -967,7 +967,7 @@ A hallway~
 You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -986,7 +986,7 @@ A hallway~
 You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1007,7 +1007,7 @@ blackboard which is floating in the air here. Other than a few desks,
 it is bare of furnishings.
   The only apparent exit leads back east to the hallway.
 ~
-13 D 0
+D 0
 D1
 ~
 door metal~
@@ -1019,7 +1019,7 @@ You are at a bend in the hallway. The walls emit a faint magical glow
 which provides enough light to see by.
   The hallway continues east and north.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1035,7 +1035,7 @@ You are in an apparently empty classroom. A strange feeling of being
 watched comes over you, and you hear the faint rustle of robes.
   The only apparent exit is back east to the hallway.
 ~
-13 D 0
+D 0
 D1
 ~
 door metal~
@@ -1047,7 +1047,7 @@ You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
   A sturdy iron door can be seen to the south.
 ~
-13 D 0
+D 0
 D1
 ~
 ~
@@ -1067,7 +1067,7 @@ You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
   There is a large oaken door to the south.
 ~
-13 D 0
+D 0
 D1
 ~
 ~
@@ -1087,7 +1087,7 @@ You are in a small amphitheater. Rows of comfortable looking chairs circle
 a large podium. The echos of your footsteps seem very loud here.
   The only apparent exit leads north to the hallway.
 ~
-13 D 0
+D 0
 D0
 ~
 door sturdy iron~
@@ -1099,7 +1099,7 @@ You are in a long hallway leading east and west. The walls emit a faint
 magical glow providing enough light to see by.
   A small door can be seen to the south.
 ~
-13 D 0
+D 0
 D1
 ~
 ~
@@ -1118,7 +1118,7 @@ The training room~
 You are in a large training room. It is filled with battle scared manikins
 , and many other devices used in the practice of fighting.
 ~
-13 D 0
+D 0
 D0
 ~
 door~
@@ -1130,7 +1130,7 @@ You are at a bend in the hallway. The walls emit a faint magical glow
 which provides enough light to see by.
   The hallway continues north and west.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1147,7 +1147,7 @@ floor all bare the scars of many fiery spells, but still look quite strong
 and hold fast.
   The only exit leads north to the hallway.
 ~
-13 D 0
+D 0
 D0
 ~
 door small~
@@ -1159,7 +1159,7 @@ You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
   A doorway can be seen to the east.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1179,7 +1179,7 @@ You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
   A wooden door can been seen to the east.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1200,7 +1200,7 @@ are here relaxing in their idle time. A large coffee machine is against
 the far wall.
   The only apparent exit leads back west to the hallway.
 ~
-13 D 0
+D 0
 D3
 ~
 door wooden~
@@ -1214,7 +1214,7 @@ a scrying globe sit on a stand in the middle of the room. An enormous bed
 can be seen floating about a meter above the floor.
   The only exit leads back west to the hallway.
 ~
-13 D 0
+D 0
 D3
 ~
 door wooden~
@@ -1226,7 +1226,7 @@ You are in a long hallway leading north and south. The walls emit a faint
 magical glow providing enough light to see by.
   A glass door can be seen to the east.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1248,7 +1248,7 @@ down upon it. The only light source here comes from an interestingly non-
 magical oil lamp.
   The only apparent exit leads back west to the hallway.
 ~
-13 D 0
+D 0
 D3
 ~
 door glass~
@@ -1261,7 +1261,7 @@ which provides enough light to see by. A lesser guardian is here keeping
 silent watch on the entrance to the levels above.
   Stairs lead up and the hallway continues back south.
 ~
-13 D 0
+D 0
 D2
 ~
 ~
@@ -1279,7 +1279,7 @@ to those of the upper echelon of mages. The walls here emit a faint blue
 magical aura which provides some light.
   The hallway leads west from here and the stairs go down.
 ~
-13 D 0
+D 0
 D3
 ~
 ~
@@ -1295,7 +1295,7 @@ You are in a long hallway stretching east and west. The walls here emit
 a faint magical energy providing enough light to see by.
   There is a thick looking wooden door to the north.
 ~
-13 D 0
+D 0
 D0
 ~
 door wooden~
@@ -1316,7 +1316,7 @@ are quills, inkpots and parchments all about on desks and worktables.
 A section to the west seems to be curtained off, but the flicker of a
 candle can be seen through the curtain.
 ~
-13 D 0
+D 0
 D2
 ~
 door wooden~
@@ -1331,7 +1331,7 @@ A hallway~
 You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
 ~
-13 D 0
+D 0
 D1
 ~
 ~
@@ -1348,7 +1348,7 @@ scrolls lay on the writing table in the center of the room. A giant candle
 flickering with soft blue flames provides the only light here.
   The only apparent exit is the way you came in.
 ~
-13 D 0
+D 0
 D1
 ~
 curtain~
@@ -1360,7 +1360,7 @@ You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
   A half closed door can be seen to the north.
 ~
-13 D 0
+D 0
 D0
 A dark room can be seen through the half opened door
 ~
@@ -1380,7 +1380,7 @@ A store room~
 You are in a small dark store room. A few common items are stacked upon
 the shelves here, but very little looks interesting.
 ~
-13 AD 0
+AD 0
 D2
 ~
 door wooden~
@@ -1392,7 +1392,7 @@ You are at a bend in the long hallway. The walls emit a faint magical
 glow which provides enough light to see by.
   The hallway continues south and east from here.
 ~
-13 D 0
+D 0
 D1
 ~
 ~
@@ -1408,7 +1408,7 @@ You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
   An iron bound door can be seen to the west.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1428,7 +1428,7 @@ You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
   The sharp sound of metal on metal can be heard to the west.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1449,7 +1449,7 @@ materials are here along with many neatly stacked piles of precious metals.
 A large cabinet with sigils of warding is bolted to one wall.
   The ring of metal on metal can be heard to the south.
 ~
-13 D 0
+D 0
 D1
 ~
 door iron~
@@ -1464,7 +1464,7 @@ A hallway~
 You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1482,7 +1482,7 @@ A rune-encrusted mithril anvil is in the center of the room, looking well
 used. Other tools of metallurgy hang on a rack which floats about three
 meters in the air of its own force.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1507,7 +1507,7 @@ are racks of finely crafted weapons. A huge chest with a glowing lock is
 set to one side. Several unfinished looking blades rest atop a small work
 table.
 ~
-13 D 0
+D 0
 D0
 ~
 door~
@@ -1519,7 +1519,7 @@ You are at a bend in a long hallway. The walls emit a faint magical glow
 which provides enough light to see by.
   The hallway continues north and east.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1535,7 +1535,7 @@ You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
   A steel door can be seen to the south.
 ~
-13 D 0
+D 0
 D1
 ~
 ~
@@ -1554,7 +1554,7 @@ A hallway~
 You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
 ~
-13 D 0
+D 0
 D1
 ~
 ~
@@ -1571,7 +1571,7 @@ and some scrawled notes are piled about a workbench. This room is very
 untidy, looking almost abandoned, or used by a madman.
   The only apparent exits are east and north.
 ~
-13 D 0
+D 0
 D0
 ~
 door steel~
@@ -1587,7 +1587,7 @@ You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
   You can see a steel door to the south.
 ~
-13 D 0
+D 0
 D1
 ~
 ~
@@ -1608,7 +1608,7 @@ glass tubes and scores of oddly shaped vials and bottles are everywhere.
 It is incredibly messy here, crushed glass and other trash litter the floor.
   The only apparent exit is the one you entered by.
 ~
-13 D 0
+D 0
 D3
 ~
 ~
@@ -1620,7 +1620,7 @@ You are at a bend in a long hallway. The walls emit a faint magical glow
 which provides enough light to see by.
   The hallway continues north and west.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1635,7 +1635,7 @@ The pentagram chamber~
 You are in a large room with a five pointed star etched into the floor.
 A crackling energy field can be seen to the south, it looks quite dangerous.
 ~
-13 D 0
+D 0
 D0
 ~
 door steel~
@@ -1652,7 +1652,7 @@ You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
   A bronze door can be seen to the east.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1672,7 +1672,7 @@ You feel a stomach twisting sensation as you enter the energy field.
 Nice going!  You might as well wait here until the wizard who built this
 trap comes back to imprison your soul as well as your body.
 ~
-13 DN 0
+DN 0
 D1
 ~
 ~
@@ -1700,7 +1700,7 @@ You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
   A bronze door can be seen to the east.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1719,7 +1719,7 @@ An empty room~
 You are in an empty room. It is both quiet and comfortable here, it looks
 like a safe place to rest.
 ~
-13 CD 0
+CD 0
 D3
 ~
 door bronze~
@@ -1732,7 +1732,7 @@ dirt litters the floor here, it looks to have been recently used by wild
 animals.
   Strange sounds can be heard through the bars to the north.
 ~
-13 D 0
+D 0
 D0
 ~
 cage bars~
@@ -1747,7 +1747,7 @@ A hallway~
 You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
 ~
-13 D 0
+D 0
 D0
 ~
 ~
@@ -1763,7 +1763,7 @@ You are in the animal pens. Many caged animals are here looking unhappy.
 Obviously they are destined to be enslaved, or used in some cruel magical
 experimentation.
 ~
-13 D 0
+D 0
 D2
 ~
 cage bars~
@@ -1775,7 +1775,7 @@ You are at the end of a long north-south hallway. The walls emit a faint
 magical glow which provides enough light to see by.
   Stairs here lead up to the next level, and the hallway continues south.
 ~
-13 D 0
+D 0
 D2
 ~
 ~
@@ -1791,7 +1791,7 @@ You are atop the stairway to the upper levels of the high tower. The walls
 emit a faint magical glow which provides enough light to see by.
   A hallway leads west from here, and the stairs lead down.
 ~
-13 D 0
+D 0
 D3
 ~
 ~
@@ -1807,7 +1807,7 @@ You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
   A silver door can be seen to the north.
 ~
-14 D 0
+D 0
 D0
 ~
 door silver~
@@ -1828,7 +1828,7 @@ here and here. Many freshly cut staves rods and wands of different sizes
 are here.
   You can see a silver door to the west.
 ~
-14 D 0
+D 0
 D2
 ~
 door silver~
@@ -1845,7 +1845,7 @@ shops of similar nature, this one is without furnishings or tools. The
 spell binder obviously needs none for the working of his art.
   A silver door can be seen to the west.
 ~
-14 D 0
+D 0
 D1
 ~
 door silver~
@@ -1861,7 +1861,7 @@ You have discovered the cache of the master spell binder. There are three
 very large silver chased cabinets here, other than that, the room is bare.
   A silver door can be seen to the south.
 ~
-14 D 0
+D 0
 D1
 ~
 door silver~
@@ -1876,7 +1876,7 @@ A hallway~
 You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
 ~
-14 D 0
+D 0
 D1
 ~
 ~
@@ -1892,7 +1892,7 @@ You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
   A silver door can be seen to the north.
 ~
-14 D 0
+D 0
 D0
 ~
 door silver~
@@ -1912,7 +1912,7 @@ You are at a bend in the long hallway. The walls emit a faint magical
 glow which provides enough light to see by.
   The hallway continues east and south.
 ~
-14 D 0
+D 0
 D1
 ~
 ~
@@ -1927,7 +1927,7 @@ A hallway~
 You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -1943,7 +1943,7 @@ You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
   A rusty old door can be seen to the west.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -1963,7 +1963,7 @@ You are in the golem master's workshop. A few unfinished looking humanoid
 forms of different make are here, some moving, some not. The animated forms
 lunge to attack you.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -1986,7 +1986,7 @@ A store room~
 You are in a small store room. Large chunks of clay, stone, wood and many
 other raw materials are here.
 ~
-14 D 0
+D 0
 D2
 ~
 ~
@@ -1998,7 +1998,7 @@ You are in the golem chamber. Golems made of every imaginable material
 are here, ranging in size from a hand-span to nearly the ceiling. They all
 seem to be sleeping.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2008,7 +2008,7 @@ S
 It is very dark here...~
 It is very dark here...
 ~
-14 AD 0
+AD 0
 D4
 ~
 trapdoor~
@@ -2023,7 +2023,7 @@ A hallway~
 You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2039,7 +2039,7 @@ You are at a bend in the long hallway. The walls emit a faint magical
 glow which provides enough light to see by.
   The hallway continues north and east from here.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2054,7 +2054,7 @@ A hallway~
 You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
 ~
-14 D 0
+D 0
 D1
 ~
 ~
@@ -2070,7 +2070,7 @@ You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
   An emerald door can be seen to the south.
 ~
-14 D 0
+D 0
 D1
 ~
 ~
@@ -2091,7 +2091,7 @@ every changing in color and texture, as if they were reforming before your
 very eyes. Many splendorous treasures lie all around in heaps and piles, or
 at least they seem to be treasures...
 ~
-14 D 0
+D 0
 D0
 ~
 door emerald~
@@ -2108,23 +2108,11 @@ and artifacts float here and there in the air. The ripples of strong magic
 can be felt everywhere.
   The room seems much larger than it looks...
 ~
-14 D 0
-D0
-~
-~
-0 -1 -1
+D 0
 D1
 ~
 ~
 0 -1 1417
-D2
-~
-~
-0 -1 -1
-D3
-~
-~
-0 -1 -1
 S
 #1419
 A hallway~
@@ -2132,7 +2120,7 @@ You are in a long hallway leading east and west. The walls emit a faint
 magical glow which provides enough light to see by.
   A glass door can be seen to the south.
 ~
-14 D 0
+D 0
 D1
 ~
 ~
@@ -2152,7 +2140,7 @@ You are in a meditation chamber. It is very silent here, in fact you
 can not even hear your own footsteps.
   You feel very peaceful.
 ~
-14 CDJ 0
+CDJ 0
 D0
 ~
 door glass~
@@ -2164,7 +2152,7 @@ You are at a bend in the long hallway. The walls emit a faint magical
 glow which provides enough light to see by.
   The hallway continues north and west from here.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2180,7 +2168,7 @@ You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
   A blackened door can be seen to the east.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2200,7 +2188,7 @@ You are in a large dark room. The air here seems quite stale, and a sense
 of extreme dread comes over you. The stench of rotten flesh seems to be
 wafting in from the open doorway to the north.
 ~
-14 AD 0
+AD 0
 D0
 ~
 ~
@@ -2218,7 +2206,7 @@ abandon. Several operating tables with still forms that resemble nothing
 you've ever seen alive are here.
   Tortured screams can be heard from the north.
 ~
-14 AD 0
+AD 0
 D0
 Upon gazing northwards, you are filled with deep dread
 ~
@@ -2236,7 +2224,7 @@ human and otherwise stand here waiting to do their master's bidding. Some
 glowing arcane sigils have been etched into walls and floor, no doubt to
 protect the evil master from his own ungodly creations.
 ~
-14 AD 0
+AD 0
 D2
 ~
 ~
@@ -2247,7 +2235,7 @@ A hallway~
 You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2262,7 +2250,7 @@ A hallway~
 You are in a long hallway leading north and south. The walls emit a faint
 magical glow which provides enough light to see by.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2278,7 +2266,7 @@ You are at the end of a long hallway. The walls here glow with a faint
 magical energy which provides plenty of light.
   Stairs lead up to the next level here and the hallway continues south.
 ~
-14 D 0
+D 0
 D2
 ~
 ~
@@ -2295,7 +2283,7 @@ ancient runes of power stretch out before you. Magical energies seem to
 crackle with power all around and whisper in tongues long forgotten, almost
 as if the corridor it self were alive.
 ~
-14 D 0
+D 0
 D3
 ~
 ~
@@ -2312,7 +2300,7 @@ of power stretch out before you. Magical energies seem to crackle with
 power all around and whisper in tongues long forgotten, almost as if the
 corridor itself were alive.
 ~
-14 D 0
+D 0
 D1
 ~
 ~
@@ -2329,7 +2317,7 @@ ancient runes of power stretch out before you. Magical energies seem to
 crackle with power all around and whisper in tongues long forgotten, almost
 as if the corridor itself were alive.
 ~
-14 D 0
+D 0
 D1
 ~
 ~
@@ -2346,7 +2334,7 @@ engraved with ancient runes of power stretch out before you. Magical
 energies seem to crackle with power all around and whisper in tongues
 long forgotten, almost as if the corridor itself were alive.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2362,7 +2350,7 @@ You are at an intersection in the corridor. The obsidian walled halls
 lead off in every direction from here, pulsing with the power of their
 ancient runes.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2387,7 +2375,7 @@ ancient runes of power stretch out before you. A darkened door is to the
 east. Tendrils of mist cling to the floor here, they seem to be seeping
 from under the door.
 ~
-14 D 0
+D 0
 D1
 ~
 door black~
@@ -2407,7 +2395,7 @@ it pours forth a constant stream of smokey fog into the air about you. Here
 and there on stands of different sizes are crystal balls and oddly shaped
 mirrors.
 ~
-14 AD 0
+AD 0
 D3
 ~
 door black~
@@ -2419,7 +2407,7 @@ You have reached an end in the long corridor. Obsidian walls engraved
 with ancient runes of power stretch out before you. The sound of snoring
 can barely be heard through the door to the west.
 ~
-14 D 0
+D 0
 D1
 ~
 ~
@@ -2436,7 +2424,7 @@ here, covered with books parchments and scrolls. Long shelves loaded with
 row upon row of books stretch out in every direction as far as the eye can
 see.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2464,7 +2452,7 @@ books, tomes and scrolls of every possible shape size and color. The elusive
 books seem to wink in and out of existence before your untrained eyes.
   It is very quiet here.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2490,7 +2478,7 @@ books, tomes and scrolls of every possible shape size and color. The elusive
 books seem to wink in and out of existence before your untrained eyes.
   It is very quiet here.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2516,7 +2504,7 @@ books, tomes and scrolls of every possible shape size and color. The elusive
 books seem to wink in and out of existence before your untrained eyes.
   It is very quiet here.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2542,7 +2530,7 @@ books, tomes and scrolls of every possible shape size and color. The elusive
 books seem to wink in and out of existence before your untrained eyes.
   It is very quiet here.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2568,7 +2556,7 @@ books, tomes and scrolls of every possible shape size and color. The elusive
 books seem to wink in and out of existence before your untrained eyes.
   It is very quiet here.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2594,7 +2582,7 @@ books, tomes and scrolls of every possible shape size and color. The elusive
 books seem to wink in and out of existence before your untrained eyes.
   It is very quiet here.
 ~
-14 D 0
+D 0
 D1
 ~
 ~
@@ -2611,7 +2599,7 @@ close here, you can barely maneuver between them. The musty smell is still
 strong, and the elusive books still hover just out of reach.
   A faint flicker of light can barely be made out to the north.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2630,7 +2618,7 @@ bark of a tree. Spidery writings seem to crawls across the pages, totally
 incomprehensible to your mortal eye. Something seems to be wedged between
 the pages.
 ~
-14 D 0
+D 0
 D2
 ~
 ~
@@ -2643,7 +2631,7 @@ engraved with ancient runes of power stretch out before you. Magical
 energies seem to crackle with power all around and whisper in tongues
 long forgotten, almost as if the corridor itself were alive.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2660,7 +2648,7 @@ abrupt halt at the edge of a golden archway here. The hum of power is so
 strong it nearly numbs your body.
   The archway lies before you, glowing and pulsing with energy.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2677,7 +2665,7 @@ magical energies here had infused your body, found it wanting and left. The
 intense glow from the arch above you is almost blinding. Through the light
 you can barely make out a stairway leading up.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2693,7 +2681,7 @@ You are on a small landing in the middle of a long stairway leading up.
 Your senses seem dulled here, no sound or smell can be detected at all, and
 the only thing you can see in any direction is endless stairway.
 ~
-14 D 0
+D 0
 D4
 ~
 ~
@@ -2713,7 +2701,7 @@ here.
 a multi-colored hallway swirling with patterns that remain just barely
 unrecognizable is to the north.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2741,7 +2729,7 @@ You are in a grey tiled hallway leading north and south. Dim balls of
 energy float here and there shedding a warm light, and showing the way.
 A feeling of peace and balance comes over you.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2758,7 +2746,7 @@ energy float here and there shedding a warm light, and showing the way.
 A feeling of peace and balance comes over you.
   Large grey metal double doors can be seen to the south.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2776,7 +2764,7 @@ taste the power held within these walls.
   Once your eyes adjust to the semi-light, you can make out a larger room
 to the south.
 ~
-14 D 0
+D 0
 D0
 ~
 door grey~
@@ -2793,7 +2781,7 @@ neutrality. Some artifacts are hung on the walls here, or set on stands.
 The room in general looks both comfortable and official. Probably where the
 master of neutrality holds audience.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2819,7 +2807,7 @@ many parchments and scrolls on it. The most notable thing in the room is
 a small set of scales, which floats about eye level. In perfect balance,
 the scales are no doubt a sign of the master's neutrality.
 ~
-14 D 0
+D 0
 D1
 ~
 ~
@@ -2830,7 +2818,7 @@ A closet~
 You are in a small closet. It is filled with many cloaks, and some other
 apparel.
 ~
-14 AD 0
+AD 0
 D3
 ~
 ~
@@ -2842,7 +2830,7 @@ You are in the bedroom of the master magician of neutrality. Curtained
 windows can be seen on the south wall. A large comfortable looking bed
 takes up most of the room.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -2854,7 +2842,7 @@ You are in a long dark hallway leading east and west. Not much can be
 seen in the unnatural darkness here, but you get a deep sense of dread
 the further you go.
 ~
-14 AD 0
+AD 0
 D1
 ~
 ~
@@ -2870,7 +2858,7 @@ You are in a long dark hallway leading east and west. Not much can be
 seen in the unnatural darkness here, but you get a deep sense of dread
 the further you go.
 ~
-14 AD 0
+AD 0
 D1
 ~
 ~
@@ -2887,7 +2875,7 @@ tangible in its thickness. A deep sense of fear and loathing comes over
 you.
   A pair of obsidian doors can be seen to the east.
 ~
-14 AD 0
+AD 0
 D1
 ~
 door obsidian~
@@ -2904,7 +2892,7 @@ with a very vague idea of the actual size of the room. Swirling here and
 there in the dark, are patches of pure black which seem to suck in your
 light and leave it that much darker here.
 ~
-14 AD 0
+AD 0
 D0
 ~
 ~
@@ -2926,7 +2914,7 @@ S
 It is very dark here...~
 It is very dark here...
 ~
-14 AD 0
+AD 0
 D2
 ~
 ~
@@ -2939,7 +2927,7 @@ on the wall, they seem to quiver with anticipation of a victim as if they
 had a mind of their own. An operating table is here, though it is bare.
   An extreme feeling of evil permeates the entire area.
 ~
-14 AD 0
+AD 0
 D0
 ~
 ~
@@ -2952,7 +2940,7 @@ dark power, scrawled and traced in an evil language no longer known to most
 of this plane of existence. There is an obsidian altar here which seems to
 glow, but does not shed any light, in fact it seems to be taking light in.
 ~
-14 AD 0
+AD 0
 D3
 ~
 ~
@@ -2965,7 +2953,7 @@ are a milky white color, and glow with a warm luminescence, as does the
 floor. A feeling of goodness permeates the area, and you feel unworthy to
 tread upon these sacred floors.
 ~
-14 D 0
+D 0
 D1
 ~
 ~
@@ -2983,7 +2971,7 @@ floor. A feeling of goodness permeates the area, and you feel unworthy to
 tread upon these sacred floors.
   A huge set of double doors in finely worked ivory can be seen to the west.
 ~
-14 D 0
+D 0
 D1
 ~
 ~
@@ -3000,7 +2988,7 @@ of light cannot be seen. It is almost as if the room itself exudes a warm
 glow of goodness. A larger chamber can be seen to the west, but you do not
 feel worthy to pass into it.
 ~
-14 D 0
+D 0
 D1
 ~
 door ivory~
@@ -3018,7 +3006,7 @@ flame is in the center of the room, seeming to feed off of darkness and
 cleansing the room of any evil. You feel a slight tug at your being as the
 flame flickers towards you.
 ~
-14 0 0
+0 0
 D0
 ~
 ~
@@ -3042,7 +3030,7 @@ You are in a small meditation chamber. White silk cushions are everywhere,
 looking very comfortable. You get an easy peaceful feeling of relaxation
 here, almost making you want to lie down and fall asleep.
 ~
-14 D 0
+D 0
 D2
 ~
 ~
@@ -3054,7 +3042,7 @@ You are in a spacious study. It is extremely tidy here, to an almost
 antiseptic nature. One would wonder how anyone could study without a
 mess all around them, the master of this chamber obviously can.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -3065,7 +3053,7 @@ A closet~
 You are in a small closet. Cloaks and vests hang from hooks in the wall,
 and a few old boots are all that can be seen here. Rather featureless.
 ~
-14 AD 0
+AD 0
 D1
 ~
 ~
@@ -3078,7 +3066,7 @@ standing abreast. The floor here is a swirl of multicolored patterns, in
 constant motion.
   A huge grey metal door blocks the way north, it looks quite sturdy.
 ~
-14 D 0
+D 0
 D0
 ~
 door metal grey~
@@ -3095,7 +3083,7 @@ standing abreast. The floor here is a swirl of multicolored patterns, in
 constant motion.
   A huge black obsidian door blocks the way north, it looks quite sturdy.
 ~
-14 D 0
+D 0
 D0
 ~
 door obsidian black~
@@ -3112,7 +3100,7 @@ standing abreast. The floor here is a swirl of multicolored patterns, in
 constant motion.
   A huge white ivory door blocks the way north, it looks quite sturdy.
 ~
-14 D 0
+D 0
 D0
 ~
 door ivory white~
@@ -3129,7 +3117,7 @@ magic. Beautiful tapestries displaying the ancient masters of lore are on
 the walls, and the floor is covered with a plush multicolored carpet, which
 seems to rustle and move at the touch of your boots.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -3148,7 +3136,7 @@ and fade again at random times. All this splendor plays about and draws
 attention to a large throne in the center of the room, it seems to be cut
 from a single enormous emerald.
 ~
-14 D 0
+D 0
 D0
 ~
 ~
@@ -3177,7 +3165,7 @@ outlandish colors hang from a rack suspended in mid air at eye level. The
 only other interesting feature in the room is a large silver mirror on a
 finely crafted gold stand.
 ~
-14 D 0
+D 0
 D3
 ~
 ~
@@ -3190,7 +3178,7 @@ shelves which span every wall. A large oaken writing table is in the center
 of the room with odd papers and parchments on it. The illumination here,
 to your surprise is a quite un-magical oil lamp.
 ~
-14 D 0
+D 0
 D1
 ~
 ~
@@ -3203,7 +3191,7 @@ altar. Many icons to lesser deities line the room, but it is obvious by one
 glance at the symbols on the altar, that this room was designed for the
 worship of Mystra, the goddess of magic.
 ~
-14 D 0
+D 0
 D1
 ~
 door secret~
@@ -3222,7 +3210,7 @@ The treasury~
 You are in a small chamber, the stale air here is testament to the fact
 that it has gone undisturbed for many years.
 ~
-14 D 0
+D 0
 D3
 ~
 door secret~
@@ -3236,7 +3224,7 @@ into the wall here there hang several travel worthy cloaks, and a small
 leather backpack.  It looks as if someone has prepared this room to be used
 in the event speedy of a evacuation.
 ~
-14 AD 0
+AD 0
 D3
 ~
 ~
@@ -3250,7 +3238,7 @@ sides, completely negating the effects of gravity.
   An imperfection in the uniform blue can be seen overhead, it might be an
 exit.
 ~
-14 D 0
+D 0
 D4
 ~
 ~
@@ -3263,7 +3251,7 @@ books and papers cover every available flat surface. Empty beer cans lie here
 and there, discarded with total abandon. A few over full ashtrays can be seen
 on a desk.
 ~
-14 CDJ 0
+CDJ 0
 D5
 You can see mortals pitifully begging for help below.
 ~
@@ -3283,7 +3271,7 @@ It seems to be made of nothing more than darkness ...
 unique~
 CFGA BDJP -350 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand neutral 375
 0 0 medium 0
@@ -3298,7 +3286,7 @@ He looks haggard and sickly; no doubt he's been lost here for quite some time.
 human~
 BCHA 0 400 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 sit sit male 323
 0 0 medium 0
@@ -3316,7 +3304,7 @@ bunny slayer himself, Edgar the Horrible!
 human~
 CEHA 0 1000 0
 1 0 1d1+20 1d1+20 1d2+0 slice
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 stand stand male 40
 0 0 medium 0
@@ -3331,7 +3319,7 @@ It looks quite strong.
 unique~
 BGA D 500 0
 23 11 1d1+760 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand neutral 1168
 0 0 medium 0
@@ -3347,7 +3335,7 @@ Then again, he may just have a headache.
 human~
 GHA D 450 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 407
 0 0 medium 0
@@ -3362,7 +3350,7 @@ He looks rather harmless, but then again so does a sleeping dragon.
 human~
 BGA D 750 0
 25 12 1d1+855 1d1+500 5d5+12 flbite
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1271
 0 0 medium 0
@@ -3377,7 +3365,7 @@ Tatorious winks at you mischievously.
 human~
 BGLA D 900 0
 25 12 1d1+848 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand male 1308
 0 0 medium 0
@@ -3391,7 +3379,7 @@ Ezmerelda the cook is here stirring a large pot of something.
 human~
 BGA D -500 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand female 1014
 0 0 medium 0
@@ -3405,7 +3393,7 @@ The cook's assistant is here assisting the cook.
 human~
 BGHA D -200 0
 11 5 1d1+275 1d1+220 3d4+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 455
 0 0 medium 0
@@ -3425,7 +3413,7 @@ He looks quite mad, no doubt he's been mistreated horribly.
 orc~
 BCFGHA 0 100 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENUC 0 0 0
 stand stand male 655
 0 0 medium 0
@@ -3440,7 +3428,7 @@ He looks rather dirty.
 human~
 BGA D 100 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 sleep sleep male 707
 0 0 medium 0
@@ -3455,7 +3443,7 @@ The broom screams 'Take that you lout!'
 unique~
 BCFGA D 50 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand neutral 281
 0 0 medium 0
@@ -3470,7 +3458,7 @@ The hands twitch with anticipation of strangling someone.
 unique~
 FGA 0 -400 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand neutral 363
 0 0 medium 0
@@ -3485,7 +3473,7 @@ The eyes smolder with hatred.
 unique~
 FGA D -600 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 623
 0 0 medium 0
@@ -3500,7 +3488,7 @@ He looks quite sleepy.
 human~
 BCGHA D 250 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 sleep sleep male 488
 0 0 medium 0
@@ -3515,7 +3503,7 @@ She looks quite intent on her studies.
 human~
 BGHA 0 400 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 sit sit female 286
 0 0 medium 0
@@ -3530,7 +3518,7 @@ He looks to be oblivious to all but the spell he is memorizing.
 human~
 BGHA 0 380 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 289
 0 0 medium 0
@@ -3545,7 +3533,7 @@ He seems to be dreaming.
 human~
 BGHA 0 350 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 sleep sleep male 286
 0 0 medium 0
@@ -3560,7 +3548,7 @@ He looks like a mischievous youth.
 human~
 BGHA 0 -200 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 292
 0 0 medium 0
@@ -3576,7 +3564,7 @@ mark its mottled coat.
 cat~
 BGHA 0 500 0
 1 0 1d1+20 1d1+20 1d2+0 slash
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 stand stand female 40
 0 0 medium 0
@@ -3591,7 +3579,7 @@ The student yawns.
 human~
 BGHA 0 350 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 sit sit male 320
 0 0 medium 0
@@ -3606,7 +3594,7 @@ He looks quite angry at your interruption.
 half-elf~
 BFGA D 300 0
 14 7 1d1+350 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 572
 0 0 medium 0
@@ -3621,7 +3609,7 @@ He blinks in and out of existence, trying to master the spell.
 elf~
 BGHA BD 400 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 322
 0 0 medium 0
@@ -3635,7 +3623,7 @@ A spell teacher screams at your interruption and attacks.
 human~
 BFGA BD 300 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 618
 0 0 medium 0
@@ -3650,7 +3638,7 @@ She looks to have collapsed from sheer boredom.
 human~
 BGHA D 400 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 sleep sleep female 377
 0 0 medium 0
@@ -3664,7 +3652,7 @@ An old wizard is here making a speech
 dragon~
 BGHA D 400 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENUC 0 0 0
 stand stand male 752
 0 0 medium 0
@@ -3678,7 +3666,7 @@ A young mage is here learning hand to hand combat.
 human~
 BGHA D 300 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand male 377
 0 0 medium 0
@@ -3694,7 +3682,7 @@ user.
 elf~
 BFGA D 200 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand female 708
 0 0 medium 0
@@ -3708,7 +3696,7 @@ A spell teacher is here relaxing.
 human~
 BGA D 200 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 rest rest male 613
 0 0 medium 0
@@ -3722,7 +3710,7 @@ An aged wizard is sleeping here.
 human~
 BFGHLA D 350 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 sleep sleep male 1041
 0 0 medium 0
@@ -3736,7 +3724,7 @@ A scribe is here working on some manuscripts.
 human~
 BCGHA D 400 0
 14 7 1d1+350 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 571
 0 0 medium 0
@@ -3752,7 +3740,7 @@ lore she is translating.
 human~
 BGHA D 500 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand female 620
 0 0 medium 0
@@ -3768,7 +3756,7 @@ The master scribe screams 'How dare you interrupt my important work???'
 human~
 BFGHA D 100 0
 22 11 1d1+726 1d1+440 5d5+11 pound
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1132
 0 0 medium 0
@@ -3782,7 +3770,7 @@ The scribe's assistant is here folding parchments.
 human~
 BFGHA D 100 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 661
 0 0 medium 0
@@ -3796,7 +3784,7 @@ The Enchanter is here placing a dweomer upon well made sword.
 human~
 BFGLA D -200 0
 23 11 1d1+769 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1175
 0 0 medium 0
@@ -3811,7 +3799,7 @@ It looks quite sharp.
 unique~
 BFGA 0 -500 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 407
 0 0 medium 0
@@ -3829,7 +3817,7 @@ The Mad Alchemist throws back his head and cackles with insane glee!
 elf~
 BCFGHLA D 150 0
 24 12 1d1+805 1d1+480 5d5+12 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1258
 0 0 medium 0
@@ -3843,7 +3831,7 @@ The master summoner is here holding gateways open to other planes.
 dragon~
 BFGHLA D -200 0
 22 11 1d1+735 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENUC 0 0 0
 stand stand male 1136
 0 0 medium 0
@@ -3858,7 +3846,7 @@ The master charmer sizes you up, always looking for a new pet.
 dragon~
 BFA D -400 0
 23 11 1d1+794 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENUC 0 0 0
 stand stand male 1183
 0 0 medium 0
@@ -3873,7 +3861,7 @@ He looks flammable.
 unique~
 BFGA D 100 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 645
 0 0 medium 0
@@ -3888,7 +3876,7 @@ The master spell binder snarls at you and attacks.
 dragon~
 BCFGHLA D -500 0
 23 11 1d1+789 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENUC 0 0 0
 stand stand male 1175
 0 0 medium 0
@@ -3902,7 +3890,7 @@ The golem maker is here chiseling some stone.
 half-elf~
 BFGA D 300 0
 21 10 1d1+694 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1081
 0 0 medium 0
@@ -3917,7 +3905,7 @@ It looks like a statue, until you see it shamble towards you.
 unique~
 BFGA 0 300 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand neutral 1023
 0 0 medium 0
@@ -3932,7 +3920,7 @@ He looks rather dim witted.
 unique~
 BGA 0 350 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand neutral 750
 0 0 medium 0
@@ -3948,7 +3936,7 @@ resemble anything human.
 unique~
 BFGA 0 200 0
 12 6 1d1+300 1d1+240 3d4+6 punch
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand neutral 501
 0 0 medium 0
@@ -3963,7 +3951,7 @@ It looks like a bunch of old rags, quite surprising it can actually walk.
 unique~
 BCGA 0 350 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand neutral 321
 0 0 medium 0
@@ -3979,7 +3967,7 @@ but somewhat un-intelligent.
 unique~
 BCGA 0 350 0
 25 12 1d1+830 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand neutral 1281
 0 0 medium 0
@@ -3993,7 +3981,7 @@ A clay golem stands guard here.
 unique~
 BCFGA D 200 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 620
 0 0 medium 0
@@ -4009,7 +3997,7 @@ now stands a small harmless looking old man.
 dragon~
 BCGHLA D 150 0
 21 10 1d1+694 1d1+420 5d5+10 flbite
--4 -4 -4 3
+-19 -19 -19 -12
 FENUC 0 0 0
 stand stand male 1081
 0 0 medium 0
@@ -4027,7 +4015,7 @@ The Necromancer shrieks some obscenities and orders his minions to attack.
 dragon~
 BCFGHLA D -950 0
 25 12 1d1+857 1d1+500 5d5+12 slash
--6 -6 -6 2
+-21 -21 -21 -13
 FENUC 0 0 0
 stand stand male 1287
 0 0 medium 0
@@ -4042,7 +4030,7 @@ It feels no pain, and hacks at you ruthlessly.
 undead~
 BFGA D -500 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 627
 0 0 medium 0
@@ -4056,7 +4044,7 @@ An undead giant lumbers towards you.
 undead~
 BCFGA D -500 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand neutral 738
 0 0 medium 0
@@ -4073,7 +4061,7 @@ crawl with revulsion.
 orc~
 BCFGA D -450 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENUC 0 0 0
 stand stand female 1024
 0 0 medium 0
@@ -4088,7 +4076,7 @@ He looks like a rather peaceful old man.
 human~
 BFGHA D 450 0
 23 11 1d1+793 1d1+460 5d5+11 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 sleep sleep male 1205
 0 0 medium 0
@@ -4106,7 +4094,7 @@ alone.
 half-elf~
 BCFGA D 0 0
 24 12 1d1+827 1d1+480 5d5+12 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand male 1222
 0 0 medium 0
@@ -4122,7 +4110,7 @@ contentedly.  It looks rather harmless, until you notice its very large claws.
 cat~
 BGA BP 0 0
 15 7 1d1+375 1d1+300 4d4+7 scratch
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand female 612
 0 0 medium 0
@@ -4137,7 +4125,7 @@ He looks quite peaceful.
 human~
 BGA DH 0 0
 30 15 1d1+1018 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1536
 0 0 medium 0
@@ -4154,7 +4142,7 @@ permanent scowl make her looks quite fearsome.
 human~
 BCFGA DP -750 0
 20 10 1d1+580 1d1+400 4d5+10 beating
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand female 1033
 0 0 medium 0
@@ -4170,7 +4158,7 @@ the question.
 cat~
 BGA DP -800 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 640
 0 0 medium 0
@@ -4185,7 +4173,7 @@ The master glares at you.
 dragon~
 BCGA DH -1000 0
 30 15 1d1+1033 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENUC 0 0 0
 stand stand male 1534
 0 0 medium 0
@@ -4201,7 +4189,7 @@ The apprentice screams 'Thou art unworthy of this honour!'
 human~
 BFGA D 750 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1026
 0 0 medium 0
@@ -4216,7 +4204,7 @@ It seems to be nothing more than a large ball of fluff with claws.
 cat~
 BGA DP 800 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 605
 0 0 medium 0
@@ -4231,7 +4219,7 @@ He looks like a self-righteous bastard.
 human~
 BGA DH 1000 0
 30 15 1d1+1001 1d1+600 5d5+15 slice
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1555
 0 0 medium 0
@@ -4247,7 +4235,7 @@ A beautiful jewel encrusted collar about its neck is its only adornment.
 cat~
 BGA DP 800 0
 25 12 1d1+847 1d1+500 5d5+12 pound
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand neutral 1282
 0 0 medium 0
@@ -4265,7 +4253,7 @@ The Grand Master pets her familiar and smiles at you in confidence.
 human~
 BGLA DH 0 0
 50 25 1d1+2064 1d1+1000 7d7+25 slash
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand female 2579
 0 0 medium 0
@@ -4279,7 +4267,7 @@ A wandering wizard is here mumbling to himself.
 human~
 CGA DP 350 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand male 691
 0 0 medium 0
@@ -4779,8 +4767,8 @@ a silvery dagger~
 A long dagger that seems to be made of silver is here.~
 silver~
 weapon G AN
-'dagger' 2 3 'pierce' 0
-9 5 1827 P
+'dagger' 4 4 'pierce' 0
+17 5 1827 P
 A
 18      1
 

@@ -13,7 +13,7 @@ cloud you can hear the faint sounds of Midgaard. Right before you to the
 north lies the grand Mansion of Naris, the residence of the Greater God
 Redferne.
 ~
-79 CJ 0
+CJ 0
 D0
 You see a HUGE arched gate leading into this magnificent building.
 ~
@@ -42,7 +42,7 @@ north from here. To the south you can see a huge, and VERY heavy-
 looking iron-wrought door. It looks like this is the only exit from
 this magnificent old house. To the west you can see a large ashen door.
 ~
-79 CDJ 0
+CDJ 0
 D0
 The hallway continues that way. You can see more doorways under the
 wooden staircase in that direction.
@@ -97,7 +97,7 @@ hanging down from the ceiling approximately 10 feet off the floor. To the
 east there is a great old ashen door. A large glass window is set in the
 west wall.
 ~
-79 CDJ 0
+CDJ 0
 D1
 You can see an old ashen door, painted in a peculiar yellow colour.
 ~
@@ -149,7 +149,7 @@ walls. A bunch of funny-looking items fill the center of the room. There are
 no furniture here what-so-ever. The only way out seems to be west, through
 the low steel door.
 ~
-79 CDJ 0
+CDJ 0
 D3
 You see only the back of a safe's steel door.
 ~
@@ -164,7 +164,7 @@ but this doesn't bother your sight at all. To the north lies the kitchen.
 To the south lies the Southern end of the hall. To the east there is a huge
 metal door. To the west there is a large aspenwood door.
 ~
-79 CDJ 0
+CDJ 0
 D0
 ~
 ~
@@ -196,7 +196,7 @@ decorated with paintings of smiling Kings and Queens. The most attractive
 picture is one of a Prince in shiny armour. By one of the walls there is an
 old arm-chair. The only exit is through the aspenwood door to the east.
 ~
-79 CDJ 0
+CDJ 0
 D1
 The door seems to be a very HEAVY door, carved completely from the trunk of
 an Aspen tree.
@@ -216,7 +216,7 @@ makes you feel the agony of HUNGER. The only visible exit is south to the
 Northern end of the hall. To the north there is a larder, and to the east
 stands a fridge.
 ~
-79 CDJ 0
+CDJ 0
 D0
 It's dark in there,  but the sounds from there are unmistakably from rats.
 ~
@@ -238,7 +238,7 @@ The Larder~
 You can see food all over. Among the heaps of food you notice HUGE rats
 scuttering around, nibbling pieces off the heaps here and there.
 ~
-79 CDJ 0
+CDJ 0
 D2
 ~
 door wooden larder exit~
@@ -248,7 +248,7 @@ S
 The Fridge~
 This place is LOADED with drink, water and booze.
 ~
-79 CDJ 0
+CDJ 0
 D3
 ~
 door exit fridge~
@@ -260,7 +260,7 @@ You can see up and down the stairway. It seems to take forever, either going
 up OR down. It's just a seemingly insurmountable climb, either way. Up is the 
 bedroom of Redferne, and Down leads to the Southern end of the hall.
 ~
-79 CDJ 0
+CDJ 0
 D4
 ~
 ~
@@ -274,7 +274,7 @@ S
 The Treasure room~
 This place is gloomy.  The only visible exit is west, through the oak door.
 ~
-79 CDJ 0
+CDJ 0
 D1
 ~
 safe steel~
@@ -294,7 +294,7 @@ room.  This stretches at least 300 square feet, so can you imagine the BED?
 A large staircase leads down to the hall.  A couple of doors open up to a
 broad balcony to the south. 
 ~
-79 CDJ 0
+CDJ 0
 D2
 The sun seems to shine out there, warmly and comforting.
 ~
@@ -311,7 +311,7 @@ You see a splendid of the most of this world. The valleys stretch as far as
 the eye reaches to the south from here. Down below you can see the entrance
 of this magnificent building. To the north are the doors to Redferne's Bedroom.
 ~
-79 CJ 0
+CJ 0
 D0
 You see the comfortable bedroom of Naris, the mansion of Redferne the Greater
 God.
@@ -332,7 +332,7 @@ the state the walls are in, this could very well be a large AGGRESSIVE animal.
 This makes you pretty insecure, this stating your feeling about the place, 
 quite mildly.
 ~
-79 D 0
+D 0
 D3
 This looks like the only exit from here.
 ~
@@ -346,7 +346,7 @@ seems to extend only to up and down. Unless you want to let go of the secure
 and seemingly unmoveable chain, then those are the directions you should take
 from here.
 ~
-79 C 5
+C 5
 D4
 Up the way you see the chain disappearing into the clouds above.
 ~
@@ -365,7 +365,7 @@ and death will come and collect you quickly. The chain leads upwards and down.
 No way are you going to descend now ... you've only just begun your climb.
 Besides it could cost you your life.  Look down and you'll see why.
 ~
-79 C 5
+C 5
 D4
 There seems to be only one way from here and that's up.
 ~
@@ -380,7 +380,7 @@ you can now see the Mansion of Naris, Residence of the Greater God Redferne.
 The chain beneath you seems to evaporate in the mustering clouds that
 surround you by now.
 ~
-79 C 5
+C 5
 D4
 You see the sunny top of the clouds. Beyond these, the Mansion towers before
 your eyes. Beautiful!!
@@ -403,7 +403,7 @@ help the innocent.
 human~
 GLA DH 1000 0
 29 14 1d1+973 1d1+580 5d5+14 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1518
 0 0 medium 0

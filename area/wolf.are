@@ -18,7 +18,7 @@ arcane appear very powerful.
 human~
 BV D 0 0
 50 0 1d1+2499 1d1+1499 10d10+10 magic
--20 -20 -20 -20
+-35 -35 -35 -35
 FK ABCDLQ BCDLQ 0
 stand stand male 20000
 0 0 medium 0
@@ -33,7 +33,7 @@ to giggle alot.
 human~
 BV 0 0 0
 50 25 1d1+2499 1d1+199 10d10+25 digestion
--20 -20 -20 -20
+-35 -35 -35 -35
 CDEFKO ABCDLQ BCDLQ 0 
 stand stand male 0
 0 0 large 0
@@ -49,7 +49,7 @@ strength.
 human~
 BV 0 0 0
 50 25 1d1+2499 1d1+199 10d10+25 digestion
--20 -20 -20 -20
+-35 -35 -35 -35
 CDEFKO ABCDLQ BCDLQ 0 
 stand stand male 0
 0 0 large 0
@@ -64,7 +64,7 @@ face that grows larger with every chop.
 human~
 BV 0 0 0
 50 24 1d1+2499 1d1+199 10d10+19 cleave
--20 -20 -20 -20
+-35 -35 -35 -35
 CDEFKO ABCDLQ BCDLQ 0 
 stand stand male 0
 0 0 large 0
@@ -79,7 +79,7 @@ every weapon in the shop.
 human~
 BV 0 0 0
 50 30 1d1+2499 1d1+199 10d10+30 beating
--20 -20 -20 -20
+-35 -35 -35 -35
 CDEFKO ABCDLQ BCDLQ 0 
 stand stand male 20000
 0 0 large 0
@@ -94,7 +94,7 @@ he sells. He is covered in light grey armor from head to toe.
 human~
 BV 0 0 0
 50 30 1d1+2499 1d1+199 10d10+30 beating
--20 -20 -20 -20
+-35 -35 -35 -35
 CDEFKO ABCDLQ BCDLQ 0 
 stand stand male 20000
 0 0 large 0
@@ -109,7 +109,7 @@ to take down any of the animals here if they would happen to talk back to him.
 human~
 BV 0 0 0
 50 30 1d1+2499 1d1+199 10d10+30 bite
--20 -20 -20 -20
+-35 -35 -35 -35
 CDEFKO ABCDLQ BCDLQ 0 
 stand stand male 0
 0 0 large 0
@@ -125,7 +125,7 @@ foolish.
 human~
 CGV 0 0 0
 50 30 1d1+2499 1d1+199 5d10+30 magic
--20 -20 -20 -20
+-35 -35 -35 -35
 CDEFKO ABCDLQ BCDLQ 0 
 stand stand female 0
 0 0 medium 0
@@ -141,7 +141,7 @@ very mysterious man yet you feel very comfortable around him.
 human~
 BVQ DFHJN 0 0
 50 25 1d1+3499 1d1+199 5d10+25 divine
--20 -20 -20 -20
+-35 -35 -35 -35
 CDEFHKON ABCDLQ BCDLQ 0 
 stand stand male 0
 0 0 large 0
@@ -157,7 +157,7 @@ all alone. He rushes by you, nods and continues on about his duties.
 human~
 BV 0 0 0
 50 25 1d1+2499 1d1+99 10d10+18 beating
--25 -25 -25 0
+-40 -40 -40 -15
 FHN ABCDLQ BCD 0
 stand stand male 0
 0 0 medium 0
@@ -171,7 +171,7 @@ A large, muscular man is here protecting the citizens.
 human~
 CGT 0 1000 0
 35 17 25d21+900 35d10+100 8d5+12 pound
--10 -10 -10 -5
+-25 -25 -25 -20
 CFNU 0 Q 0
 stand stand male 120
 0 0 large 0
@@ -185,7 +185,7 @@ A very large man who is protecting the town.
 human~
 CGT 0 1000 0
 35 16 25d21+900 35d10+100 8d5+16 pound
--10 -10 -10 -5
+-25 -25 -25 -20
 CFNU 0 Q 0
 stand stand male 120
 0 0 large 0
@@ -199,7 +199,7 @@ A very large man who is protecting the town.
 human~
 BCT 0 1000 0
 35 16 25d21+900 35d10+100 8d5+12 pound
--10 -10 -10 -5
+-25 -25 -25 -20
 CFNU 0 Q 0
 stand stand male 120
 0 0 large 0
@@ -213,7 +213,7 @@ A very large man who is protecting the town.
 human~
 CGT 0 1000 0
 35 16 25d21+900 35d10+100 8d5+19 pound
--10 -10 -10 -5
+-25 -25 -25 -20
 CFNU 0 Q 0
 stand stand male 120
 0 0 large 0
@@ -227,7 +227,7 @@ A very large man who is protecting the town.
 human~
 CGT 0 1000 0
 35 16 25d21+900 35d10+100 8d5+14 pound
--10 -10 -10 -5
+-25 -25 -25 -20
 CFNU 0 Q 0
 stand stand male 120
 0 0 large 0
@@ -241,7 +241,7 @@ A very large man protecting town.
 human~
 CGT 0 1000 0
 35 16 25d21+900 35d10+100 8d5+16 pound
--10 -10 -10 -5
+-25 -25 -25 -20
 CFNU 0 Q 0
 stand stand male 120
 0 0 large 0
@@ -255,7 +255,7 @@ A very large man protecting town.
 human~
 CGT 0 1000 0
 35 16 25d21+900 35d10+100 8d5+17 pound
--10 -10 -10 -5
+-25 -25 -25 -20
 CFNU 0 Q 0
 stand stand male 120
 0 0 large 0
@@ -269,7 +269,7 @@ The Wolf pup looks like a tough little furball.
 wolf~
 UH 0 0 0
 10 5 10d5+100 10d10+100 3d4+5 bite
-0 0 0 0
+-15 -15 -15 -15
 N 0 C 0
 stand stand neutral 0
 0 0 tiny 0
@@ -283,7 +283,7 @@ The brown Wolf looks like an aggressive youth.
 wolf~
 UH F 0 0
 20 10 10d10+300 20d10+100 4d6+10 bite
--2 -2 -2 -2
+-17 -17 -17 -17
 N 0 C 0
 stand stand neutral 0
 0 0 small 0
@@ -297,7 +297,7 @@ The grey Wolf looks like a mean protector.
 wolf~
 UH F 0 0
 30 15 30d15+350 30d10+100 2d18+15 bite
--4 -4 -4 -4
+-19 -19 -19 -19
 N 0 C 0
 stand stand neutral 0
 0 0 medium 0
@@ -311,7 +311,7 @@ The Wolf elder stands here watchs carefully over his owner.
 wolf~
 UH F 0 0
 40 20 20d40+400 40d10+100 4d10+15 chomp
--5 -5 -5 -5
+-20 -20 -20 -20
 N 0 C 0
 stand stand neutral 0
 0 0 large 0
@@ -326,7 +326,7 @@ He is bogged down with many items and doesn't seem to be very coordinated.
 human~
 GHC 0 350 0
 10 5 10d5+100 10d10+100 3d5+5 hit
-1 1 1 0
+-14 -14 -14 -15
 NE 0 0 0
 stand stand neutral 20
 0 0 medium 0
@@ -342,7 +342,7 @@ go when he throws it.
 human~
 BG 0 400 0
 5 2 2d6+42 5d10+100 1d6+2 beating
-1 1 1 3
+-14 -14 -14 -12
 U 0 0 C
 stand stand male 55
 0 0 medium 0
@@ -359,7 +359,7 @@ is going on around him.
 human~
 CGHT 0 1000 0
 15 7 15d15+10 15d10+100 4d5+4 pound
-0 0 0 8
+-15 -15 -15 -7
 EK 0 L 0
 stand stand male 50
 0 0 medium 0
@@ -375,7 +375,7 @@ obviously taken care of by someone.
 human~
 CGHT 0 1000 0
 15 7 15d15+10 15d10+100 4d5+4 pound
-0 0 0 8
+-15 -15 -15 -7
 EK 0 L 0
 stand stand female 150
 0 0 medium 0
@@ -391,7 +391,7 @@ eyes and a dark grin on his face.
 human~
 BT DFH -1000 0
 75 36 60d60+3500 75d10+100 8d9+30 crush
--50 -50 -50 -40
+-65 -65 -65 -55
 FD AB LQ FY
 stand stand female 750
 0 0 large 0
@@ -405,7 +405,7 @@ A large red eyed rat is looking through the rubbage for his next meal.
 unique~
 BU 0 0 0
 1 1 2d6+10 1d10+99 1d5+1 peck
-8 8 8 10
+-7 -7 -7 -5
 F 0 0 C 
 stand stand male 0
 0 0 small 0
@@ -422,7 +422,7 @@ is already too involved.
 human~
 CGHT 0 500 0
 15 7 15d15+10 15d10+149 2d8+7 punch
-0 0 0 8
+-15 -15 -15 -7
 CDEHKLU 0 C 0
 stand stand male 150
 0 0 medium 0
@@ -437,7 +437,7 @@ a man that you would care to do business with.
 human~
 BT DFH -1000 0
 65 37 50d50+2500 1d1+99 6d10+30 crush
--50 -50 -50 -40
+-65 -65 -65 -55
 FD AB LQ FY
 stand stand male 750
 0 0 large 0
@@ -451,7 +451,7 @@ The birds are flying around singing quietly.
 song bird~
 GHU 0 1000 0
 1 0 2d6+0 1d1+99 1d3+0 peck
-10 10 10 10
+-5 -5 -5 -5
 R 0 0 C
 stand stand neutral 0
 0 0 tiny 0
@@ -467,7 +467,7 @@ at all times. He looks wrinkled in his face due to many years at his job.
 human~
 BT DFH 0 0
 75 37 60d60+3500 75d10+100 8d9+30 crush
--50 -50 -50 -40
+-65 -65 -65 -55
 FD AB LQ FY
 stand stand male 750
 0 0 large 0
@@ -483,7 +483,7 @@ float across the ground as if he were flying.
 human~
 GT DFH 0 0
 75 37 60d60+3500 75d10+100 8d9+30 crush
--50 -50 -50 -40
+-65 -65 -65 -55
 FD AB LQ FY
 stand stand male 750
 0 0 large 0
@@ -498,7 +498,7 @@ himself and looks as if he is winning.
 human~
 CHG 0 0 0
 5 0 12d6+10 1d1+99 1d5+0 slap
-10 10 10 10
+-5 -5 -5 -5
 D 0 0 C 
 stand stand male 14
 0 0 small 0
@@ -513,7 +513,7 @@ watch him you see him eat one of the marbles that a boy lost.
 dog~
 CHG 0 0 0
 5 2 12d6+10 1d1+99 1d5+3 slap
-10 10 10 10
+-5 -5 -5 -5
 D 0 0 C 
 stand stand neutral 14
 0 0 small 0
@@ -528,7 +528,7 @@ long dark hair and looks as if she will grow up to be a beautiful young lady.
 human~
 CHG 0 0 0
 5 1 12d6+10 1d1+99 1d5+2 slap
-10 10 10 10
+-5 -5 -5 -5
 D 0 0 C 
 stand stand female 14
 0 0 small 0
@@ -543,7 +543,7 @@ leg. MMMMEEEEEEEOOOOOOOWWWWWWWWWWWW!!!!!!!!!!
 cat~
 CHG 0 0 0
 5 2 12d6+10 1d1+99 1d5+5 slap
-10 10 10 10
+-5 -5 -5 -5
 D 0 0 C 
 stand stand female 14
 0 0 small 0
@@ -557,7 +557,7 @@ He is very large and very mean. You are gonna die!!!
 human~
 BFT DFH -1000 0
 65 25 40d60+3500 65d10+100 6d10+25 crush
--24 -26 -25 -15
+-39 -41 -40 -30
 FD AB LQ FY
 stand stand female 750
 0 0 large 0
@@ -571,7 +571,7 @@ He looks pretty mean. Better not cross him.
 human~
 GCT 0 -500 0
 15 7 15d15+10 15d10+149 2d11+5 punch
-0 0 0 8
+-15 -15 -15 -7
 C 0 C 0
 stand stand male 150
 0 0 medium 0
@@ -585,7 +585,7 @@ He is having a wonderful day. Full of smiles and jokes.
 human~
 GCT 0 5000 0
 15 7 15d15+10 15d10+149 2d12+6 punch
-0 0 0 8
+-15 -15 -15 -7
 C 0 C 0
 stand stand male 150
 0 0 medium 0
@@ -603,7 +603,7 @@ a dark grey tip.
 wolf~
 G N 500 0
 40 20 6d10+500 40d10+199 4d10+20 bite
--15 -15 -15 -15
+-30 -30 -30 -30
 EFN AB Q Y
 stand stand neutral 100
 0 0 medium 0
@@ -620,7 +620,7 @@ follow you everywhere.
 wolf~
 BUQ QHFJ 0 0
 42 21 20d21+500 42d10+99 4d11+20 bite
--18 -19 -19 -6
+-33 -34 -34 -21
 RKNU 0 LQ 0
 stand stand neutral 178
 0 0 medium 0
@@ -637,7 +637,7 @@ leaders of the wolf pack.
 wolf~
 BGU HFJ 0 0
 42 21 20d21+500 1d1+99 4d11+20 bite
--19 -19 -19 -8
+-34 -34 -34 -23
 KNU 0 LQ 0
 stand stand neutral 178
 0 0 medium 0
@@ -654,7 +654,7 @@ every step you take he steps towards you.
 wolf~
 G N -500 0
 40 20 6d10+500 1d1+199 4d10+20 bite
--15 -15 -15 -15
+-30 -30 -30 -30
 EFN AB Q 0
 stand stand neutral 100
 0 0 medium 0
@@ -670,7 +670,7 @@ yet. They are rolling around together biting each others ears and feet.
 wolf~
 BU HF 0 0
 9 3 6d10+80 1d1+99 2d5+1 bite
--4 -4 -4 -8
+-19 -19 -19 -23
 C 0 C 0
 stand stand neutral 0
 0 0 small 0
@@ -686,7 +686,7 @@ seems in continuous motion.
 human~
 BJKVRbb DFH 0 0
 91 10 1d1+25000 1d1+499 5d8+5 pierce
--15 -15 -15 -15 
+-30 -30 -30 -30
 FHN ABCD 0 0
 stand stand male 0
 0 0 medium 0
@@ -702,7 +702,7 @@ with life.
 human~
 BJKQVbb DFH 500 0
 91 10 1d1+25000 1d1+499 6d7+8 bite
--15 -15 -15 -15
+-30 -30 -30 -30
 EFGIK ABCD 0 0
 stand stand male 0
 0 0 medium 0
@@ -717,7 +717,7 @@ armored and his arms are about twice the width as yours.
 human~
 BJKTVbb DFH 0 0
 91 20 1d1+30000 1d1+99 2d4+30 digestion
--15 -15 -15 -15
+-30 -30 -30 -30
 ACEFHIK ABCD 0 0
 stand stand male 0
 0 0 medium 0
@@ -732,7 +732,7 @@ are bursting at the seams!
 elf~
 BJKSVbb DFH -500 0
 91 15 1d1+25000 1d1+99 1d4+10 digestion
--15 -15 -15 -15
+-30 -30 -30 -30
 BEFHJKN ABCD 0 0
 stand stand male 0
 0 0 medium 0
@@ -1039,8 +1039,7 @@ Some six pointed objects and a small rubber ball are here.
 #10071
 wolf Pointe cloak~
 Wolf Pointe Cloak~
-A silvery-grey cloak lies here in a pile.
-~
+A silvery-grey cloak lies here in a pile.~
 cloth~
 armor A AK
 15 16 15 15 0
@@ -1497,7 +1496,7 @@ The Town Gates~
 are quite extravagant. You notice that occasionally a wolf wanders across the
 path before you. The wolves seem to live with the citizens in peace here.
 ~
-45 0 1
+0 1
 D3
 You see a town street.
 ~
@@ -1522,7 +1521,7 @@ Shop, to the south you see an Armoury. Citizens are wandering about smiling
 at you but you are unsure of their motives. There is a Dark feeling in this
 town. Yet it is so peaceful.
 ~
-45 0 1
+0 1
 D0
 You see an ornate building with a sword resting above the door.
 ~
@@ -1550,7 +1549,7 @@ East Wolf Run Ave.~
 people wandering about. They seem to be ignorant of what is going on around   
 them. To the north stands a  holy shrine that only the most devout may visit.
 ~
-45 0 1
+0 1
 D0
 The cleric's guild.
 ~
@@ -1574,7 +1573,7 @@ that it is the Barbarian's Guild. From the south reeks a stench of ale and
 sickened drunks. You think to yourself what a combination, a bunch of barbarians
 and a Pub. Wolf Run Ave. continues to the west and back to the east.
 ~
-45 0 1
+0 1
 D0
 You see a doorway hidden in trees and brush.
 ~
@@ -1604,7 +1603,7 @@ each other. To the south is an area filled with many different warriors. You
 see them boasting to each other of battles in the past. To the west is a
 small fountain and back to the east you can barely make out the town gates.
 ~
-45 0 1
+0 1
 D0
 You see the arcane shop.
 ~
@@ -1638,7 +1637,7 @@ doors and paint are old and falling apart but the sheriff does not look in
 quite as bad of shape. To the east is the entrance to the Town Hall and
 back to the west is a street leading out of town.
 ~
-45 0 1
+0 1
 D0
 You see an ornate sanctuary.
 ~
@@ -1668,7 +1667,7 @@ in and out of the hall doing business. To the south you notice an executioner
 waiting to do his duty. To the east is a small fountain and to the west is 
 West Wolf Run Avenue.
 ~
-45 0 1
+0 1
 D0
 The town hall.
 ~
@@ -1703,7 +1702,7 @@ West Wolf Run Ave.~
 extends to the north and south.  Shops are all along Foot Path Road. 
 To the east is the town hall.  To the west you see a large, grand gristmill.
 ~
-45 0 1
+0 1
 D0
 North Foot Path Rd.
 ~
@@ -1732,7 +1731,7 @@ and a Waterfall just beyond. To the north you see the entrance to a Wolf Pet
 Shop. The avenue to the east leads into town and to the west you see the path
 to the Gristmill.
 ~
-45 0 1
+0 1
 D0
 The Wolf Pet Shop.
 ~
@@ -1758,7 +1757,7 @@ the skys forever. To the west is a Gristmill pumping water into town from a
 Stunning Waterfall just beyond. Back to the east is West Wolf Run Ave. leading
 into town.
 ~
-45 A 4
+A 4
 D1
 West End of Wolf Run Ave.
 ~
@@ -1778,7 +1777,7 @@ hanging on the walls all about. Even though the weaponsmaster is intent on his
 work you feel that his keen senses are focused directly at you. Suddenly a
 knife comes to your neck and you hear "what may i sell you today m'lord?"
 ~
-45 0 1
+0 1
 D2
 East Wolf Run Ave.
 ~
@@ -1793,7 +1792,7 @@ a stout wooden table. A burly female clad in a thick bearskin poncho winks at yo
 as you walk past. Two other men stand in the corner throwing axes at a wooden pillar.
 To the north you can see a mighty figure training young warriors to be in a courtyard.
 ~
-45 0 1
+0 1
 D0
 The guildyard.
 ~
@@ -1814,7 +1813,7 @@ vanished, the lightning strikes the floor and you loose your footing. Suddenly
 you are before a counter with scrolls and potions scattered all about. The
 man speaks "May I help you?"
 ~
-45 0 1
+0 1
 D0
 A void.
 ~
@@ -1835,7 +1834,7 @@ sleep for eternity. A monk welcomes you in and hugs you close. The monk says
 a while. You are safe here." You realize that the tone in his voice could 
 easily put you to sleep. You feel secure.
 ~
-45 0 1
+0 1
 D2
 A fountain in the town square.
 ~
@@ -1850,7 +1849,7 @@ He is here to dispense justice and he looks like he does his job well. There
 are rows of empty pews here as if no one wants to enter these chambers of
 their own free will. The judge slams down his gavel and demands justice.
 ~
-45 0 1
+0 1
 D0
 A locked door.
 ~
@@ -1884,7 +1883,7 @@ North Foot Path Rd.~
 To the north you can see some houses and to the west you notice the Wolf Pet
 Shop entrance. Further to the north you notice a fountain.
 ~
-45 0 1
+0 1
 D0
 North Footpath Rd.
 ~
@@ -1910,7 +1909,7 @@ keep your distance. I am still training this one."  You decide to heed his
 warnings. "Can I interest you in this fine pup here?" he says pointing to a 
 large black wolf.
 ~
-45 M 1
+M 1
 D0
 A locked door.
 ~
@@ -1935,7 +1934,7 @@ looks to be the trainer's bed in a kennel along the north wall. You see no
 other furnature in the room. The windows are all barred and the walls are 
 scratched bare left only with indented with claw marks.
 ~
-45 0 1
+0 1
 D1
 North Footpath Rd.
 ~
@@ -1961,7 +1960,7 @@ your mind repeats the word "arcane". Darkness engulfs the room. It is pitch
 black. Here you must follow your magical feelings. The guild lies somewhere
 beyond.
 ~
-45 0 1
+0 1
 D0
 The Guildmaster.
 ~
@@ -1981,7 +1980,7 @@ You can hear a trickle in the distance and notice that the only light entering
 the room comes from below the doorway. You sure hope the judge isn't coming 
 home soon.
 ~
-45 0 1
+0 1
 D2
 The town hall.
 ~
@@ -2000,7 +1999,7 @@ area of all Wolf Pointe. You notice to the east is the judges house. To the
 west is the home of the wolf trainer and directly north is a small fountain
 standing alone in a simple little yard.
 ~
-45 0 1
+0 1
 D0
 A small fountain.
 ~
@@ -2029,7 +2028,7 @@ Young men stand here trying to learn the art of swinging battleaxes. You
 hear a voice bellow "You there!" and suddenly huge figure clad in black
 appears before you. "So you wish to learn our ways?"
 ~
-45 0 1
+0 1
 D2
 Guild Entrance.
 ~
@@ -2041,7 +2040,7 @@ The Arcane Master~
    Before you in a whirl of smoke appears the Master of Arcane. As the smoke
 clears the master bows before you and asks what services you require?
 ~
-45 0 1
+0 1
 D2
 The void.
 ~
@@ -2054,7 +2053,7 @@ A Silent Fountain~
 fountain in the very center of the area and soft green grass beneath your
 feet.
 ~
-45 0 1
+0 1
 D2
 North Footpath Rd.
 ~
@@ -2068,7 +2067,7 @@ many different assortments of armour hung in an almost artistic arrangement.
 The armourer is pounding on some freshly heated steel here. As you enter he
 looks up at you and offers his services.
 ~
-45 0 1
+0 1
 D0
 East Wolf Run Ave.
 ~
@@ -2084,7 +2083,7 @@ in the corner covered in ale. At the bar you notice a small man preparing
 drinks. As he rushes by he asks "what may I get for you sir?" You decide to
 answer him on his next pass.
 ~
-45 D 1
+D 1
 D0
 East Wolf Run Ave.
 ~
@@ -2105,7 +2104,7 @@ others. In another corner several men are gathered around watching an arm
 wrestling match. To the south you can make out a large arena and a large man
 in the center teaching young aspiring adventurers how to slay their opponent.
 ~
-45 0 1
+0 1
 D0
 East Wolf Run Ave.
 ~
@@ -2132,7 +2131,7 @@ someone's blood. Behind the door you hear a loud clammer and growls. The walls
 are made of old wood and you think that this must have been the first building
 built in this town.
 ~
-45 0 1
+0 1
 D0
 The town fountain.
 ~
@@ -2156,7 +2155,7 @@ lives in this area except for on tall hooded man. In the center of the yard
 you see a large tree trunk with many slices etched into it. You wonder if this
 man is close friends to the judge.
 ~
-45 0 1
+0 1
 D0
 Entrance to the town hall.
 ~
@@ -2174,7 +2173,7 @@ South Foot Path Rd.~
 intersection between Foot Path Road and Wolf Run Ave. To the west you see a 
 small general foods store and south you see a couple more shops.
 ~
-45 0 1
+0 1
 D0
 Wolf Run Ave.
 ~
@@ -2197,7 +2196,7 @@ General Foods~
 and other foods. Your mouth begins to water as you look over all of the isles
 of inventory in stock here.
 ~
-45 0 1
+0 1
 D1
 South Footpath road.
 ~
@@ -2212,7 +2211,7 @@ southern wall. Tall stools line the west and eastern walls. There comes a
 silence to the room just before every throw, then money quickly exchanges 
 hands. Do you think that your skill at darts is as good?
 ~
-45 0 1
+0 1
 D0
 The pub.
 ~
@@ -2231,7 +2230,7 @@ at each other. A large man stands alone in the center teaching these young
 ones the skills and tactics of knighthood. He looks at you and says "what 
 would you like to learn my young pupil?"
 ~
-45 0 1
+0 1
 D0
 The entrance to the guild.
 ~
@@ -2246,7 +2245,7 @@ to keep himself in the northern room. There is a sign that you can hardly
 read above the southern door that says:
                   AGGRESSIVE INMATE BEWARE!!!!!!!
 ~
-45 0 1
+0 1
 D0
 The jailhouse.
 ~
@@ -2263,7 +2262,7 @@ Town Baker~
    You see a very large man here pulling some pastries out of a brick oven. He 
 looks around at you and chuckles politely. "how may i serve you sir?"
 ~
-45 0 1
+0 1
 D3
 South Footpath Rd.
 ~
@@ -2276,7 +2275,7 @@ South Foot Path Rd.~
 to the north, east, and west. To the south you see a small town park that 
 looks like a wonderful place to sit and plan out your next adventure.
 ~
-45 0 1
+0 1
 D0
 Footpath Rd.
 ~
@@ -2306,7 +2305,7 @@ about to be slaughtered and put up for sale. You are not sure whether to
 prepare for a feast or pity these animals. All you do know is that you are 
 HUNGRY.
 ~
-45 0 1
+0 1
 D1
 South Footpath Rd.
 ~
@@ -2319,7 +2318,7 @@ The East End Garden~
 large goldfish. Some small cat tails are growing out of the water and you can
 see turtles and frogs playing games with eachother on the eastern shore.
 ~
-45 0 1
+0 1
 D3
 The center garden.
 ~
@@ -2332,7 +2331,7 @@ The Center Garden~
 see a pond. To the south a forest. And to the west a bird haven. This is the
 nature lover's area of town to get away from the trials of life.
 ~
-45 0 1
+0 1
 D0
 South Footpath Rd.
 ~
@@ -2361,7 +2360,7 @@ socialize, make nests, and breed. You see all different colors fluttering
 about the skies. Beautiful music is created here amongst the different species
 and it all seems to blend together to make one joyous song.
 ~
-45 0 1
+0 1
 D1
 The center garden.
 ~
@@ -2376,7 +2375,7 @@ green monstrous trees. You never know that this many trees have existed in the
 world. you notice some patches in the earth where adventurers have come just
 to sit down in the shade and rest in the cool breeze.
 ~
-45 0 1
+0 1
 D0
 The center garden.
 ~
@@ -2392,7 +2391,7 @@ building has obviously been abandoned for many years but seems to still be in
 fine working order. When you look back to the east you can see the dust and
 commotion rising from the town. To the west you see a Stunning Waterfall.
 ~
-45 0 1
+0 1
 D1
 A small path.
 ~
@@ -2414,7 +2413,7 @@ falls. A wolf elder steps out of the shadows, slowly takes a drink, and then
 disappears back into the woods. To the east is a gristmill and you think you 
 might be able to make it behind the falls to the south.
 ~
-45 KC 5
+KC 5
 D1
 The gristmill.
 ~
@@ -2436,7 +2435,7 @@ Looking around you gain a greater appreciation of the world around you. To
 the south you can see a large, black wolf and to the north you see the
 animals basking in the waterfall.
 ~
-45 0 1
+0 1
 D0
 The stunning waterfall.
 ~
@@ -2460,7 +2459,7 @@ your face from the waterfall to the south.  You feel serene and refreashed
 here.  You might be able to explore the den to the north if you dare pass   
 the wolf.  The path back to the south leads to the stunning waterfall.
 ~
-45 A 3
+A 3
 D2
 A well hidden hole in the hills.
 ~
@@ -2481,7 +2480,7 @@ feel that someone is watching you but you are unsure who or where this
 feeling is coming from. You decide that you had better leave the young pups 
 alone. This feels like a wonderful place to rest.
 ~
-45 0 1
+0 1
 D0
 Wolf pointe lookout.
 ~
@@ -2494,7 +2493,7 @@ A Dark Drab Cell~
    It is very dark in here. Cold, wet, no life can survive here save one.
 HIM!  Groooowwwwwlllllll!!!!!!
 ~
-45 0 1
+0 1
 D0
 The sheriff's office.
 ~
@@ -2507,7 +2506,7 @@ A Small Clearing~
 into Wolf Pointe. There are two narrow passages leading to the north and 
 south. 
 ~
-45 0 1
+0 1
 D0
 A northern passage.
 ~
@@ -2533,7 +2532,7 @@ A small passage in the forest.~
    This area is surrounded in large trees. Overhead the trees connect into a 
 sort of roof and the sky remains unseen, forever.
 ~
-45 0 1
+0 1
 D2
 A small clearing in the woods.
 ~
@@ -2550,7 +2549,7 @@ A small passage in the forest.~
    This is a southern passge into the woods. It is very dark and cold here. 
 The ground is covered in leaves and dew. You feel as if you are being watched.
 ~
-45 0 1
+0 1
 D0
 A small clearing in the woods.
 ~
@@ -2565,10 +2564,10 @@ S
 #10105
 A Pathway into Wolf Pointe.~
    This is a small path leading into Wolf Pointe. To the north and south is a
-path leading around th town walls. To the east is a small clearing and to the
+path leading around the town walls. To the east is a small clearing and to the
 west are the town gates.
 ~
-45 0 1
+0 1
 D0
 North of the town gates.
 ~
@@ -2602,7 +2601,7 @@ North of the town gates.~
 passage into the woods, to the south are the town gates, and to the west is a
 small path leading around the town.
 ~
-45 0 1
+0 1
 D1
 A passage in the woods.
 ~
@@ -2625,7 +2624,7 @@ South of the Town Gates.~
 small path leading around town. To the east you can hear animals wandering and
 to the north you see the town gates.
 ~
-45 0 1
+0 1
 D0
 The town gates.
 ~
@@ -2648,7 +2647,7 @@ The Northern Edge of the Town Walls.~
 wall here that looks like a mouse hole. The path continues to the east and 
 west.
 ~
-45 0 1
+0 1
 D1
 Just north of the town gates.
 ~
@@ -2665,7 +2664,7 @@ The Southern Edge of the Town Walls.~
    You have found yourself in a rocky area that leads around the town. There 
 is not much to see here except a few trees and bushes.
 ~
-45 0 1
+0 1
 D1
 Just south of the town gates.
 ~
@@ -2682,7 +2681,7 @@ The Northwest Corner of the Wall.~
    You are in the northwestern corner of the town walls. The path goes to the 
 south and east.
 ~
-45 0 1
+0 1
 D1
 A small path along the north wall.
 ~
@@ -2699,7 +2698,7 @@ Behind the Town Walls.~
    Here you are behind the city. You can hear a waterfall to the east within
 the town and off in the distance you can hear a wolf howl.
 ~
-45 0 1
+0 1
 D0
 Northwest corner of the town wall.
 ~
@@ -2716,7 +2715,7 @@ The Southwest Corner of the Town Walls.~
    This is a small area where the garbage of the town is left. To the north
 and east a path continues.
 ~
-45 0 1
+0 1
 D0
 Behind the town walls.
 ~
@@ -2734,7 +2733,7 @@ A Small Hidden Room Behind the Falls.~
 carved out of the stone to be a secluded place of refuge. you see a small sign
 along the wall.
 ~
-45 0 1
+0 1
 E
 sign~
                                 SCORP'S REFUGE
@@ -2747,7 +2746,7 @@ The Holy Shrine~
 have been carved by hand over many years. The only decoration is a simple bench.
 A holy man meditates next to it.
 ~
-45 CD 1
+CD 1
 D2
 East Wolf Run Ave.
 ~

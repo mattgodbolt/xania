@@ -1,0 +1,483 @@
+#PLAYER
+Name Khirsah~
+Vers 4
+Race orc~
+Sex  1
+Cla  0
+Levl 11
+Plyd 200824
+Note 956492971
+Scro 22
+Room 30005
+HMV  142 142 177 177 225 225
+Gold 37560
+Exp  19180
+Act  134283516
+AfBy 512
+Comm 17004544
+Pos  8
+Prac 14
+Trai 1
+Save  -12
+Alig  5
+Hit   13
+Dam   1
+ACs 62 59 61 98
+Wimp  15
+Attr 18 18 20 13 16
+AMod 3 0 3 1 1
+Pass NOTREALLY~
+Titl , Moog's alt~
+Afk not really heres, testing~
+Colo 1
+Prmt %h [%B] %m/%M %x> ~
+Pnts 53
+TSex 1
+LLev 26
+HMVP 123 172 160
+Info_message ~
+Prefix ~
+HourOffset 0
+MinOffset 0
+ExtraBits 0000000000000000000000000000000000000000000000000000000000000000~
+Cond 0 21 21
+Possessive ~
+Subjective ~
+Objective ~
+Reflexive ~
+Sk 1 'acid blast'
+Sk 51 'armor'
+Sk 1 'blindness'
+Sk 87 'burning hands'
+Sk 1 'cancellation'
+Sk 1 'chain lightning'
+Sk 1 'change sex'
+Sk 65 'chill touch'
+Sk 1 'colour spray'
+Sk 1 'cure poison'
+Sk 1 'curse'
+Sk 1 'dispel magic'
+Sk 1 'energy drain'
+Sk 1 'insanity'
+Sk 1 'fireball'
+Sk 42 'giant strength'
+Sk 1 'haste'
+Sk 1 'regeneration'
+Sk 1 'lethargy'
+Sk 1 'infravision'
+Sk 1 'lightning bolt'
+Sk 58 'magic missile'
+Sk 1 'plague'
+Sk 1 'poison'
+Sk 1 'protection evil'
+Sk 1 'protection good'
+Sk 1 'refresh'
+Sk 1 'sanctuary'
+Sk 1 'shield'
+Sk 75 'shocking grasp'
+Sk 1 'stone skin'
+Sk 42 'weaken'
+Sk 79 'dagger'
+Sk 51 'sword'
+Sk 1 'berserk'
+Sk 1 'second attack'
+Sk 1 'fast healing'
+Sk 28 'meditation'
+Sk 1 'scrolls'
+Sk 1 'staves'
+Sk 47 'wands'
+Sk 1 'throw'
+Sk 50 'recall'
+Gr 'rom basics'
+Gr 'mage basics'
+Gr 'combat'
+Gr 'enhancement'
+Gr 'maledictions'
+Gr 'protective'
+AffD 'bless'  97  80 -12  24          0
+AffD 'bless'  90  80  12  18          0
+End
+
+#O
+Vnum 3707
+Nest 0
+Wear 7
+Cost 0
+End
+
+#O
+Vnum 3712
+Nest 0
+Wear 13
+Cost 0
+End
+
+#O
+Vnum 3715
+Nest 0
+Wear 17
+Cost 0
+End
+
+#O
+Vnum 3138
+Nest 0
+Wear -1
+Cost 30
+End
+
+#O
+Vnum 104
+Nest 0
+Wear -1
+Lev  3
+Cost 629
+End
+
+#O
+Vnum 3066
+Nest 0
+Wear 5
+Lev  3
+Cost 200
+End
+
+#O
+Vnum 3052
+Nest 0
+Wear 15
+Cost 80
+End
+
+#O
+Vnum 6601
+Nest 0
+Wear 2
+Lev  3
+Cost 1200
+End
+
+#O
+Vnum 101
+Nest 0
+Wear 6
+Lev  3
+Cost 612
+End
+
+#O
+Vnum 3052
+Nest 0
+Wear -1
+Cost 80
+End
+
+#O
+Vnum 6601
+Nest 0
+Wear 1
+Lev  3
+Cost 1200
+End
+
+#O
+Vnum 6621
+Nest 0
+Wear 12
+Lev  3
+Cost 2000
+End
+
+#O
+Vnum 104
+Nest 0
+Wear -1
+Lev  3
+Cost 629
+End
+
+#O
+Vnum 9409
+Nest 0
+Wear 0
+Lev  5
+Cost 1022
+Val  0 0 -1 0 0
+End
+
+#O
+Vnum 1507
+Nest 0
+Wear 4
+Lev  8
+Cost 1625
+End
+
+#O
+Vnum 2108
+Nest 0
+Wear -1
+Lev  7
+Cost 1438
+Spell 3 'blindness'
+End
+
+#O
+Vnum 1504
+Nest 0
+Wear -1
+Lev  8
+Cost 1619
+End
+
+#O
+Vnum 7801
+Nest 0
+Wear 8
+Lev  6
+Cost 1234
+End
+
+#O
+Vnum 7803
+Nest 0
+Wear 3
+Lev  6
+Cost 1230
+End
+
+#O
+Vnum 1504
+Nest 0
+Wear -1
+Lev  8
+Cost 1619
+End
+
+#O
+Vnum 3022
+Nest 0
+Wear -1
+Lev  7
+Cost 250
+End
+
+#O
+Vnum 9521
+Nest 0
+Wear 11
+Lev  10
+Cost 402
+End
+
+#O
+Vnum 3022
+Nest 0
+Wear -1
+Lev  7
+Cost 250
+End
+
+#O
+Vnum 2108
+Nest 0
+Wear -1
+Lev  7
+Cost 1438
+Spell 3 'blindness'
+End
+
+#O
+Vnum 2105
+Nest 0
+Wear -1
+Lev  10
+Cost 2044
+Spell 3 'colour spray'
+End
+
+#O
+Vnum 102
+Nest 0
+Wear -1
+Lev  1
+Cost 200
+End
+
+#O
+Vnum 3074
+Nest 0
+Wear -1
+Lev  5
+Cost 250
+End
+
+#O
+Vnum 3045
+Nest 0
+Wear -1
+Lev  5
+Cost 600
+End
+
+#O
+Vnum 3072
+Nest 0
+Wear -1
+Lev  5
+Cost 500
+End
+
+#O
+Vnum 3077
+Nest 0
+Wear -1
+Lev  5
+Cost 250
+End
+
+#O
+Vnum 3072
+Nest 0
+Wear -1
+Lev  5
+Cost 500
+End
+
+#O
+Vnum 3009
+Nest 0
+Wear -1
+Cost 40
+End
+
+#O
+Vnum 2105
+Nest 0
+Wear -1
+Lev  10
+Cost 2044
+Spell 3 'colour spray'
+End
+
+#O
+Vnum 2104
+Nest 0
+Wear -1
+Lev  10
+Cost 2097
+End
+
+#O
+Vnum 2109
+Nest 0
+Wear -1
+Lev  10
+Cost 2014
+End
+
+#O
+Vnum 2105
+Nest 0
+Wear -1
+Lev  10
+Cost 2044
+Spell 3 'colour spray'
+End
+
+#O
+Vnum 4004
+Nest 0
+Wear -1
+Lev  3
+Cost 100
+End
+
+#O
+Vnum 4154
+Nest 0
+Wear -1
+Cost 2000
+End
+
+#O
+Vnum 4058
+Nest 0
+Wear -1
+Lev  5
+Cost 200
+End
+
+#O
+Vnum 11004
+Nest 0
+Wear 14
+Cost 0
+End
+
+#O
+Vnum 5230
+Nest 0
+Wear -1
+Lev  9
+Cost 2743
+End
+
+#O
+Vnum 5251
+Nest 0
+Wear -1
+Lev  9
+Cost 1821
+Spell 3 'call lightning'
+End
+
+#O
+Vnum 5252
+Nest 0
+Wear 16
+Lev  9
+Cost 1815
+End
+
+#O
+Vnum 3021
+Nest 0
+Wear -1
+Cost 60
+End
+
+#O
+Vnum 3009
+Nest 0
+Wear -1
+Cost 40
+End
+
+#O
+Vnum 3098
+Nest 0
+Wear -1
+Lev  1
+Cost 0
+Spell 1 'calm'
+End
+
+#O
+Vnum 103
+Nest 0
+Wear -1
+Lev  3
+Cost 607
+End
+
+#O
+Vnum 106
+Nest 0
+Wear -1
+Lev  10
+Cost 2031
+Spell 3 'burning hands'
+End
+
+#END

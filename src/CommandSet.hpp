@@ -11,12 +11,12 @@ class CommandSet {
 public:
     // add a command called 'name' with a value, which is available to characters
     // at level 'level' or above.
-    void add(const std::string &name_in, T &&value, int level) {
+    void add(const std::string &name_in, T &&value, int level = 0) {
         auto name = lower_case(name_in);
         commands_.try_emplace(name, item{.value = std::move(value), .level = level, .order = order_++});
     }
 
-    std::optional<T> get(const std::string &name_in, int level) const {
+    std::optional<T> get(std::string_view name_in, int level) const {
         auto name = lower_case(name_in);
         std::optional<T> result = std::nullopt;
         int best_order = order_;

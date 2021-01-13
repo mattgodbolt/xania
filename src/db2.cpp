@@ -7,19 +7,35 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "AFFECT_DATA.hpp"
+#include "AREA_DATA.hpp"
+#include "Logging.hpp"
+#include "MobIndexData.hpp"
 #include "db.h"
 #include "lookup.h"
 #include "merc.h"
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "string_utils.hpp"
+
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <time.h>
 
-void mprog_read_programs(FILE *fp, MOB_INDEX_DATA *pMobIndex);
-void assign_area_vnum(int vnum);
+/* Sets vnum range for area when loading its constituent mobs/objects/rooms */
+void assign_area_vnum(int vnum) {
+    auto area_last = AreaList::singleton().back();
+    if (area_last->lvnum == 0 || area_last->uvnum == 0)
+        area_last->lvnum = area_last->uvnum = vnum;
+    if (vnum != URANGE(area_last->lvnum, vnum, area_last->uvnum)) {
+        if (vnum < area_last->lvnum)
+            area_last->lvnum = vnum;
+        else
+            area_last->uvnum = vnum;
+    }
+}
 
 /* values for db2.c */
 struct social_type social_table[MAX_SOCIALS];
@@ -135,166 +151,19 @@ void load_socials(FILE *fp) {
  * Snarf a mob section.  new style
  */
 void load_mobiles(FILE *fp) {
-    MOB_INDEX_DATA *pMobIndex;
-
+    auto area_last = AreaList::singleton().back();
     if (!area_last) {
         bug("Load_mobiles: no #AREA seen yet!");
         exit(1);
     }
     for (;;) {
-        sh_int vnum;
-        char letter;
-        int iHash;
-
-        letter = fread_letter(fp);
-        if (letter != '#') {
-            bug("Load_mobiles: # not found.");
-            exit(1);
-        }
-
-        vnum = fread_number(fp);
-        if (vnum == 0)
+        auto maybe_mob = MobIndexData::from_file(fp);
+        if (!maybe_mob)
             break;
 
-        fBootDb = false;
-        if (get_mob_index(vnum) != nullptr) {
-            bug("Load_mobiles: vnum %d duplicated.", vnum);
-            exit(1);
-        }
-        fBootDb = true;
-
-        pMobIndex = static_cast<MOB_INDEX_DATA *>(alloc_perm(sizeof(*pMobIndex)));
-        pMobIndex->vnum = vnum;
-        pMobIndex->area = area_last;
-        pMobIndex->new_format = true;
-        newmobs++;
-        pMobIndex->player_name = fread_string(fp);
-        pMobIndex->short_descr = fread_string(fp);
-        // Kill off errant capitals - see load_object
-        tolower_articles(pMobIndex->short_descr);
-        pMobIndex->long_descr = fread_string(fp);
-        pMobIndex->description = fread_string(fp);
-        pMobIndex->race = race_lookup(fread_string(fp));
-
-        pMobIndex->long_descr[0] = UPPER(pMobIndex->long_descr[0]);
-        pMobIndex->description[0] = UPPER(pMobIndex->description[0]);
-
-        pMobIndex->act = fread_flag(fp) | ACT_IS_NPC | race_table[pMobIndex->race].act;
-        pMobIndex->affected_by = fread_flag(fp) | race_table[pMobIndex->race].aff;
-        pMobIndex->pShop = nullptr;
-        pMobIndex->alignment = fread_number(fp);
-
-        pMobIndex->group = fread_number(fp);
-
-        pMobIndex->level = fread_number(fp);
-        pMobIndex->hitroll = fread_number(fp);
-
-        /* read hit dice */
-        pMobIndex->hit[DICE_NUMBER] = fread_number(fp);
-        /* 'd'          */ fread_letter(fp);
-        pMobIndex->hit[DICE_TYPE] = fread_number(fp);
-        /* '+'          */ fread_letter(fp);
-        pMobIndex->hit[DICE_BONUS] = fread_number(fp);
-
-        /* read mana dice */
-        pMobIndex->mana[DICE_NUMBER] = fread_number(fp);
-        fread_letter(fp);
-        pMobIndex->mana[DICE_TYPE] = fread_number(fp);
-        fread_letter(fp);
-        pMobIndex->mana[DICE_BONUS] = fread_number(fp);
-
-        /* read damage dice */
-        pMobIndex->damage[DICE_NUMBER] = fread_number(fp);
-        fread_letter(fp);
-        pMobIndex->damage[DICE_TYPE] = fread_number(fp);
-        fread_letter(fp);
-        pMobIndex->damage[DICE_BONUS] = fread_number(fp);
-        pMobIndex->dam_type = attack_lookup(fread_word(fp));
-
-        /* read armor class */
-        pMobIndex->ac[AC_PIERCE] = fread_number(fp) * 10;
-        pMobIndex->ac[AC_BASH] = fread_number(fp) * 10;
-        pMobIndex->ac[AC_SLASH] = fread_number(fp) * 10;
-        pMobIndex->ac[AC_EXOTIC] = fread_number(fp) * 10;
-
-        /* read flags and add in data from the race table */
-        pMobIndex->off_flags = fread_flag(fp) | race_table[pMobIndex->race].off;
-        pMobIndex->imm_flags = fread_flag(fp) | race_table[pMobIndex->race].imm;
-        pMobIndex->res_flags = fread_flag(fp) | race_table[pMobIndex->race].res;
-        pMobIndex->vuln_flags = fread_flag(fp) | race_table[pMobIndex->race].vuln;
-
-        /* vital statistics */
-        pMobIndex->start_pos = position_lookup(fread_word(fp));
-        pMobIndex->default_pos = position_lookup(fread_word(fp));
-        pMobIndex->sex = sex_lookup(fread_word(fp));
-        pMobIndex->gold = fread_number(fp);
-
-        pMobIndex->form = fread_flag(fp) | race_table[pMobIndex->race].form;
-        pMobIndex->parts = fread_flag(fp) | race_table[pMobIndex->race].parts;
-        /* size */
-        pMobIndex->size = size_lookup(fread_word(fp));
-        pMobIndex->material = material_lookup(fread_word(fp));
-
-        for (;;) {
-            letter = fread_letter(fp);
-
-            if (letter == 'F') {
-                char *word;
-                long vector;
-
-                word = fread_word(fp);
-                vector = fread_flag(fp);
-
-                if (!str_prefix(word, "act")) {
-                    REMOVE_BIT(pMobIndex->act, vector);
-                } else if (!str_prefix(word, "aff")) {
-                    REMOVE_BIT(pMobIndex->affected_by, vector);
-
-                } else if (!str_prefix(word, "off")) {
-                    REMOVE_BIT(pMobIndex->off_flags, vector);
-                } else if (!str_prefix(word, "imm")) {
-                    REMOVE_BIT(pMobIndex->imm_flags, vector);
-                } else if (!str_prefix(word, "res")) {
-                    REMOVE_BIT(pMobIndex->res_flags, vector);
-                } else if (!str_prefix(word, "vul")) {
-                    REMOVE_BIT(pMobIndex->vuln_flags, vector);
-                } else if (!str_prefix(word, "for")) {
-                    REMOVE_BIT(pMobIndex->form, vector);
-                } else if (!str_prefix(word, "par")) {
-
-                    REMOVE_BIT(pMobIndex->parts, vector);
-                } else {
-                    bug("Flag remove: flag '%s' not found.", word);
-                    exit(1);
-                }
-            } else {
-                {
-                    ungetc(letter, fp);
-                    break;
-                }
-            }
-
-            if (letter != 'S') {
-                bug("Load_mobiles: vnum %d non-S.", vnum);
-                exit(1);
-            }
-        }
-
-        /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-        letter = fread_letter(fp);
-        if (letter == '>') {
-            ungetc(letter, fp);
-            mprog_read_programs(fp, pMobIndex);
-        } else
-            ungetc(letter, fp);
-
-        iHash = vnum % MAX_KEY_HASH;
-        pMobIndex->next = mob_index_hash[iHash];
-        mob_index_hash[iHash] = pMobIndex;
-        top_mob_index++;
-        top_vnum_mob = top_vnum_mob < vnum ? vnum : top_vnum_mob;
-        assign_area_vnum(vnum);
-        kill_table[URANGE(0, pMobIndex->level, MAX_LEVEL - 1)].number++;
+        assign_area_vnum(maybe_mob->vnum);
+        kill_table[URANGE(0, maybe_mob->level, MAX_LEVEL - 1)].number++;
+        add_mob_index(std::move(*maybe_mob));
     }
 }
 
@@ -305,6 +174,7 @@ void load_objects(FILE *fp) {
     OBJ_INDEX_DATA *pObjIndex;
     char temp; /* Used for Death's Wear Strings bit */
 
+    auto area_last = AreaList::singleton().back();
     if (!area_last) {
         bug("Load_objects: no #AREA section found yet!");
         exit(1);
@@ -327,27 +197,25 @@ void load_objects(FILE *fp) {
 
         fBootDb = false;
         if (get_obj_index(vnum) != nullptr) {
-            bug("Load_objects: vnum %d duplicated.", vnum);
+            bug("Load_objects: vnum {} duplicated.", vnum);
             exit(1);
         }
         fBootDb = true;
 
-        pObjIndex = static_cast<OBJ_INDEX_DATA *>(alloc_perm(sizeof(*pObjIndex)));
+        pObjIndex = new OBJ_INDEX_DATA;
         pObjIndex->vnum = vnum;
         pObjIndex->area = area_last;
-        pObjIndex->new_format = true;
         pObjIndex->reset_num = 0;
         newobjs++;
-        pObjIndex->name = fread_string(fp);
-        pObjIndex->short_descr = fread_string(fp);
+        pObjIndex->name = fread_stdstring(fp);
         /*
          * MG added - snarf short descrips to kill:
          * You hit The beastly fido
          */
-        tolower_articles(pObjIndex->short_descr);
-        pObjIndex->description = fread_string(fp);
-        if (strlen(pObjIndex->description) == 0) {
-            bug("Load_objects: empty long description in object %d.", vnum);
+        pObjIndex->short_descr = lower_case_articles(fread_stdstring(fp));
+        pObjIndex->description = fread_stdstring(fp);
+        if (pObjIndex->description.empty()) {
+            bug("Load_objects: empty long description in object {}.", vnum);
         }
         pObjIndex->material = material_lookup(fread_string(fp));
 
@@ -358,9 +226,8 @@ void load_objects(FILE *fp) {
 
         temp = fread_letter(fp);
         if (temp == ',') {
-            pObjIndex->wear_string = fread_string(fp);
+            pObjIndex->wear_string = fread_stdstring(fp);
         } else {
-            pObjIndex->wear_string = nullptr;
             ungetc(temp, fp);
         }
 
@@ -437,29 +304,20 @@ void load_objects(FILE *fp) {
             letter = fread_letter(fp);
 
             if (letter == 'A') {
-                AFFECT_DATA *paf;
-
-                paf = static_cast<AFFECT_DATA *>(alloc_perm(sizeof(*paf)));
-                paf->type = -1;
-                paf->level = pObjIndex->level;
-                paf->duration = -1;
-                paf->location = fread_number(fp);
-                paf->modifier = fread_number(fp);
-                paf->bitvector = 0;
-                paf->next = pObjIndex->affected;
-                pObjIndex->affected = paf;
+                AFFECT_DATA af;
+                af.type = -1;
+                af.level = pObjIndex->level;
+                af.duration = -1;
+                af.location = static_cast<AffectLocation>(fread_number(fp));
+                af.modifier = fread_number(fp);
+                pObjIndex->affected.add(af);
                 top_affect++;
             }
 
             else if (letter == 'E') {
-                EXTRA_DESCR_DATA *ed;
-
-                ed = static_cast<EXTRA_DESCR_DATA *>(alloc_perm(sizeof(*ed)));
-                ed->keyword = fread_string(fp);
-                ed->description = fread_string(fp);
-                ed->next = pObjIndex->extra_descr;
-                pObjIndex->extra_descr = ed;
-                top_ed++;
+                auto keyword = fread_stdstring(fp);
+                auto description = fread_stdstring(fp);
+                pObjIndex->extra_descr.emplace_back(EXTRA_DESCR_DATA{keyword, description});
             }
 
             else {

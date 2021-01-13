@@ -1,16 +1,17 @@
 #AREA   
 draconia.are~
 Dragon Tower~
-{ 5 30} Wench   Dragon Tower~
+{ 5 55} Wench   Dragon Tower~
 2201 2299
 
 #ROOMS
 #2201
 The Tower Gates~
-You are at the entrance to a tall tower.  Lightning flashes periodically and
-it is raining.  You think it might be a good idea to turn back into the grove.
+You are at the entrance to a tall tower to the north. Lightning 
+flashes periodically and it is raining.  You think it might be a 
+good idea to turn back into the grove.
 ~
-22 A 1
+A 1
 D0
 You see a large steel gate.  Beyond is the Foyer of the Tower.
 ~
@@ -32,7 +33,7 @@ This is the entrance to the Tower.  The hallway continues to the north,
 leading towards a staircase.  You notice a grim painting on the wall,  and 
 quickly look away.
 ~
-22 CD 0
+CD 0
 D0
 You see a long hallway. 
 ~
@@ -54,7 +55,7 @@ Hallway~
 This hallway seems to stretch on forever.  You notice a stairway in  
 the distance. 
 ~
-22 D 0
+D 0
 D0
 The hall continues. 
 ~
@@ -70,7 +71,7 @@ S
 Hallway~
 You trudge down the hallway.  You notice doors to the east and west. 
 ~
-0 D 0
+D 0
 D0
 The hall continues. 
 ~
@@ -105,12 +106,12 @@ Nursery~
 It looks like a tornado has been through here.  Toys are scattered everywhere,
 and a small group of dragon hatchlings are fighting over a bone. 
 ~
-22 D 1
+D 1
 D1
 You see a large stone door.
 ~
 door stone~
-2 2297 2223
+2 -1 2223
 D3
 You see the hallway. 
 ~
@@ -121,7 +122,7 @@ S
 Storage Room~
 This room is covered with dust, it looks as if no one has been here in ages.
 ~
-22 D 1
+D 1
 D1
 You see the hallway. 
 ~
@@ -142,7 +143,7 @@ End of the Hallway~
 You have finally reached the end of the hallway.  A huge staircase leads up.
 You see a sign at the base of the staircase. 
 ~
-22 D 0
+D 0
 D2
 The hall continues. 
 ~
@@ -166,7 +167,7 @@ Guardian's Room~
 You climb down the rickety stairs and find yourself face to face with a 
 gargantuan hydra.  How fast can you climb UP stairs? 
 ~
-22 D 1
+D 1
 D2
 A large grey door.
 ~
@@ -184,7 +185,7 @@ You have made it past the hydra into the vault.  You are astounded by
 the treasure here.  Not only are you now rich, you can probably rest here
 safely.  The west wall seems to have a large door made entirely of ruby.
 ~
-22 CD 1
+CD 1
 D0
 You see nothing special. 
 ~
@@ -201,7 +202,7 @@ The Second Floor~
 You have made it up to the second floor.  You hear hissing and see several
 dragon men rushing you.  You wonder how long you will be staying here.
 ~
-22 D 1
+D 1
 D2
 You see the court.
 ~
@@ -218,7 +219,7 @@ The Court~
 You have entered what seems to be a large court.  The people guarding it
 don't seem happy to see you ...
 ~
-22 D 1
+D 1
 D0
 You see nothing special.
 ~
@@ -240,7 +241,7 @@ Hall O' Pleasure~
 You stop dead in your tracks as you enter this ornately decorated room - it
 is populated with the king's harem.  
 ~
-22 D 1
+D 1
 D3
 You see the Court.
 ~
@@ -251,7 +252,7 @@ S
 The Court~
 You are continuing down the hall.  To the east and west you see ornate doors.
 ~
-22 0 1
+0 1
 D0
 You see the court.
 ~
@@ -278,7 +279,7 @@ The Library~
 You have entered a huge room, filled with books.  A peaceful man is
 sitting at a table, studying.
 ~
-22 D 1
+D 1
 D3
 You see the court.
 ~
@@ -290,7 +291,7 @@ The Sanctum~
 This small room is modestly decorated with small dragon icons.  Its sole
 occupant is deep in thought.
 ~
-22 D 1
+D 1
 D1
 You see the Court.
 ~
@@ -303,7 +304,7 @@ You have reached the end of the court.  A huge Draconian is sitting in a
 chair here.  As you enter, he motions with his hand and you are rushed by three
 of his bodyguards.
 ~
-22 D 1
+D 1
 D0
 You see the court.
 ~
@@ -319,7 +320,7 @@ S
 Bedroom of the King~
 This is the personal room of the draconian king.  It is not empty.
 ~
-22 D 1
+D 1
 D3
 You see Court.
 ~
@@ -331,7 +332,7 @@ Entrance to the Crypt~
 You have entered a large room which smells heavily of reptile.  You wonder
 what awaits you here.
 ~
-22 D 1
+D 1
 D1
 You see the Treasure Vault.
 ~
@@ -349,7 +350,7 @@ You are in a large room which continues to the west.  You notice many
 coffins here.  Open coffins reveal remains of something other than man.  
 The smell of reptile is very strong here.
 ~
-22 D 1
+D 1
 D1
 You see the entrance.
 ~
@@ -366,7 +367,7 @@ The Lair~
 You have entered a large room dominated by a great white dragon.  It growls
 at you before it attacks.
 ~
-22 D 1
+D 1
 D2
 You the cave opening.
 ~
@@ -378,7 +379,7 @@ A Lair~
 You have entered a large room dominated by a great black dragon.  It looks
 as though it is amused by your presence.
 ~
-22 D 1
+D 1
 D0
 You the cave opening.
 ~
@@ -390,7 +391,7 @@ The Crypt Ends~
 You have come to the end of the Crypt.  It seems deserted.  There is a 
 strange coffin lying against the wall.
 ~
-22 D 1
+D 1
 D1
 You see the Crypt.
 ~
@@ -411,7 +412,7 @@ You have entered a huge hall.  It has been carefully decorated with
 beautiful tapestries depicting a great battle between dragons and men.  The
 dragons appear to be the victors.
 ~
-22 D 1
+D 1
 D1
 The Hall continues.
 ~
@@ -421,14 +422,14 @@ D3
 You see the Nursery.
 ~
 door stone~
-1 2297 2205
+1 -1 2205
 S
 #2224
 The Great Hall~
 You are working your way down the Hall.  To the north, you notice a smaller
 passageway, while the main hall continues to the east.
 ~
-22 D 1
+D 1
 D0
 You see a narrow passageway.
 ~
@@ -439,12 +440,17 @@ You see the Hall.
 ~
 ~
 0 -1 2229
+D3
+You see the Hall.
+~
+~
+0 -1 2223
 S
 #2225
 A Narrow Passageway~
 This Passageway branches off from the main hall and leads somewhere ... where?
 ~
-22 D 1
+D 1
 D0
 You see a large Lair.  It looks dangerous.
 ~
@@ -462,7 +468,7 @@ You have entered a large lair with bones strewn about the ground.  You
 notice the source of these as you come face to face with a rather large red
 dragon.  You notice a trap door in the floor.
 ~
-22 D 1
+D 1
 D2
 The narrow passageway.
 ~
@@ -479,7 +485,7 @@ Underground Tunnel~
 You have entered an underground tunnel.  It is dark and dirty, and you find
 yourself wishing you were back in Midgaard.
 ~
-22 AD 2
+AD 2
 D0
 You see the tunnel.
 ~
@@ -495,7 +501,7 @@ S
 Underground Tunnel~
 This tunnel has come to a dead end.  You feel nervous about being trapped here.
 ~
-22 ACD 2
+ACD 2
 D2
 You see the tunnel.
 ~
@@ -508,7 +514,7 @@ You have come to the end of the great hall.  You see before you a huge
 golden door, it must be at least twenty feet tall!  It has beautiful etchings
 of dragons.  You see a sign on the door.
 ~
-22 D 1
+D 1
 D1
 You see a great golden door.
 ~
@@ -529,7 +535,7 @@ S
 THE Lair~
 You have entered a huge lair.  You feel that something big lives here or at least did.  The golden door lies back to the west.
 ~
-22 D 2
+D 2
 D3
 You see a great golden door.
 ~
@@ -541,7 +547,7 @@ The End...~
 You have reached the final lair.  It is dominated by a huge five headed
 dragon.  You suddenly realize that you have SERIOUS problems...
 ~
-22 D 2
+D 2
 D2
 You see the top of the mountain.
 ~
@@ -553,7 +559,7 @@ Stairwell~
 This is an old decrepit stairwell that leads to the wine cellar.  It looks
 like it hasn't been used for decades.  Well, at least not by anything living.
 ~
-22 D 2
+D 2
 D1
 The crypt~
 ~
@@ -569,7 +575,7 @@ This is the old wine cellar of the Dragon Tower.  The shelves are empty.
 Nothing living has been in here for a long time.  You see a tunnel leading
 off to the east and boy does it smell bad.  Kinda of like rotting flesh.
 ~
-22 A 2
+A 2
 D1
 A tunnel
 ~
@@ -588,7 +594,7 @@ your eyes soon tire from the strain.  The smell here has increased two fold.
 The tunnel continues to go to the east.  The wine cellar lies back to the 
 west.
 ~
-22 AI 2
+AI 2
 D0
 A cave opening
 ~
@@ -612,7 +618,7 @@ the room.  Some human, some indistinguishable.  It smells very bad in here.
 You can hear movement in the cave to the north.  The tunnel goes back to the
 south.
 ~
-22 AI 2
+AI 2
 D0
 The lair
 ~
@@ -630,7 +636,7 @@ You have finally come to the end of the tunnel.  Back to the west lies
 the miles of tunnels you have walked through.  You see the faint outline of
 a trapdoor above you.  A bride over an underground river lies to the south.
 ~
-22 AI 2
+AI 2
 D2
 bridge
 ~
@@ -653,7 +659,7 @@ You are walking along an old wooden bridge.  Its not that secure.  You
 might want to hurry along.  To the south, on the other side of the bridge,
 lies a small opening.
 ~
-22 AD 2
+AD 2
 D0
 The tunnel end
 ~
@@ -671,7 +677,7 @@ You are standing in a small opening.  To the north lies the old wooden
 bridge.  To your south the you can see a clearing.  You can see sunlight
 again.  What a welcome relief!
 ~
-22 AD 2
+AD 2
 D0
 bridge
 ~
@@ -689,7 +695,7 @@ You stand out in a clearing.  Mountains are all around you.  There is a
 well in the middle of the clearing.  Lying against the well is a sign.  A
 path leads up the mountain.  The small opening is back to the north.
 ~
-22 0 2
+0 2
 D0
 the small opening
 ~
@@ -724,7 +730,7 @@ A path~
 This path leads up the side of the mountain.  A clearing lies below you.
 There is a cave opening to the west.  The path continues up the mountain.
 ~
-22 0 2
+0 2
 D3
 cave opening
 ~
@@ -747,7 +753,7 @@ You stand before a huge cave opening.  You hearing heavy breathing from
 within the cave.  There are a few skeletons lying about.  The cave lies to 
 the south.  The path is back to the east.
 ~
-22 0 2
+0 2
 D1
 the path
 ~
@@ -764,7 +770,7 @@ The path continues~
 The path continues up the mountain to the top.  The path also goes down.
 Thats it, nothing more to see.
 ~
-22 0 2
+0 2
 D4
 top of the mountain
 ~
@@ -786,7 +792,7 @@ If you do have the key I would suggest not going in.  Some believe the Five
 Headed dragon Tiamat was imprisoned here by the gods.  But who believes in 
 fairy tales.  Well, if you're scared, you can always go down the mountain.
 ~
-22 0 2
+0 2
 D0
 The platinum door
 ~
@@ -815,7 +821,7 @@ O
 right before your eyes.  Pretty pathetic isn't it?  Next time you'll know
 to listen to the God of Laughs.
 ~
-22 B 0
+B 0
 S
 #0
 
@@ -831,7 +837,7 @@ few feet long, its sharp teeth make you think twice about petting it.
 dragon~
 BGA T -900 0
 7 3 1d1+161 1d1+140 3d3+3 flbite
-5 5 5 7
+-10 -10 -10 -8
 FENUC 0 0 0
 stand stand neutral 284
 0 0 medium 0
@@ -848,7 +854,7 @@ spear as you enter the room.
 dragon~
 BCFA D -900 0
 13 6 1d1+325 1d1+260 4d4+6 flbite
-1 1 1 5
+-14 -14 -14 -10
 FENUC 0 0 0
 stand stand male 528
 0 0 medium 0
@@ -863,7 +869,7 @@ He doesn't look happy to see you.
 dragon~
 BCFLA T -1000 0
 27 13 1d1+898 1d1+540 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENUC 0 0 0
 stand stand male 1354
 0 0 medium 0
@@ -880,7 +886,7 @@ powerful to have been accepted by the creatures which live here.
 dragon~
 BA BDH -900 0
 22 11 1d1+742 1d1+440 5d5+11 punch
--4 -4 -4 3
+-19 -19 -19 -12
 FENUC 0 0 0
 stand stand male 1101
 0 0 medium 0
@@ -896,7 +902,7 @@ notice a golden medallion in the shape of a five headed dragon.
 dragon~
 BCFA DH -900 0
 22 11 1d1+730 1d1+440 5d5+11 flbite
--4 -4 -4 3
+-19 -19 -19 -12
 FENUC 0 0 0
 stand stand male 1141
 0 0 medium 0
@@ -913,7 +919,7 @@ is controlled by a greater power.
 dragon~
 BCA DHL -900 0
 26 13 1d1+899 1d1+520 5d5+13 chomp
--7 -7 -7 1
+-22 -22 -22 -14
 FENUC 0 0 0
 stand stand male 1336
 0 0 medium 0
@@ -930,7 +936,7 @@ prepares to defend herself.
 dragon~
 BA 0 -500 0
 6 3 1d1+138 1d1+120 2d3+3 slice
-6 6 6 8
+-9 -9 -9 -7
 FENUC 0 0 0
 stand stand female 242
 0 0 medium 0
@@ -946,7 +952,7 @@ not pleased it.
 dragon~
 BFA CDF -800 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENUC 0 0 0
 stand stand male 731
 0 0 medium 0
@@ -962,7 +968,7 @@ prepares to make you pay for your insolence ... with your lives!
 dragon~
 BCFLA HDF -1000 0
 55 27 1d1+2832 1d1+1100 7d7+27 slash
--25 -25 -25 -8
+-40 -40 -40 -23
 FENUC 0 0 0
 stand stand female 3417
 0 0 medium 0
@@ -978,7 +984,7 @@ you and invites you to stay ... forever!
 dragon~
 BCFLA DF -1000 0
 45 22 1d1+1868 1d1+900 7d7+22 flbite
--19 -19 -19 -5
+-34 -34 -34 -20
 FENUC 0 0 0
 stand stand male 2311
 0 0 medium 0
@@ -994,7 +1000,7 @@ going to roll over and die for you.
 dragon~
 BCFLA DF -900 0
 39 19 1d1+1403 1d1+780 6d6+19 slash
--15 -15 -15 -3
+-30 -30 -30 -18
 FENUC 0 0 0
 stand stand male 1990
 0 0 medium 0
@@ -1011,7 +1017,7 @@ me a greater challenge than my offspring.'
 dragon~
 BCFLA DF -1000 0
 37 18 1d1+1357 1d1+740 6d6+18 flbite
--14 -14 -14 -2
+-29 -29 -29 -17
 FENUC 0 0 0
 stand stand female 1903
 0 0 medium 0
@@ -1028,7 +1034,7 @@ children.  Prepare to die.'
 dragon~
 BCFLA DF -1000 0
 41 20 1d1+1642 1d1+820 6d6+20 slash
--16 -16 -16 -3
+-31 -31 -31 -18
 FENUC 0 0 0
 stand stand female 2064
 0 0 medium 0
@@ -1044,7 +1050,7 @@ it isn't happy to see you.
 dragon~
 BCFA DF -800 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENUC 0 0 0
 stand stand neutral 725
 0 0 medium 0
@@ -1060,7 +1066,7 @@ left him alone.
 dragon~
 BA 0 0 0
 5 2 1d1+100 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENUC 0 0 0
 stand stand male 203
 0 0 medium 0
@@ -1076,7 +1082,7 @@ rest, however, and now guards this corridor tirelessly as a zombie.
 dragon~
 BCFA DF -400 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENUC 0 0 0
 stand stand neutral 371
 0 0 medium 0
@@ -1091,7 +1097,7 @@ This small dragon looks like he's up to no good.
 dragon~
 CFGHA DF -300 0
 10 5 1d1+230 1d1+200 3d3+5 flbite
-3 3 3 6
+-12 -12 -12 -9
 FENUC 0 0 0
 stand stand male 408
 0 0 medium 0
@@ -1107,7 +1113,7 @@ suit.  As you enter the room, he points at you and laughs.
 dragon~
 GHA 0 0 0
 5 2 1d1+100 1d1+100 2d3+2 flbite
-6 6 6 8
+-9 -9 -9 -7
 FENUC 0 0 0
 stand stand male 203
 0 0 medium 0
@@ -1123,7 +1129,7 @@ it might be a good idea to leave her alone.
 dragon~
 BCA DFH -600 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENUC 0 0 0
 stand stand female 1010
 0 0 medium 0
@@ -1552,7 +1558,7 @@ M 0 2200 5 2239 1  1   the dragon hatchling into Clearing
   
 M 0 2200 5 2201 1  1   the dragon hatchling into The Tower Gates
   
-G   1   2231    1            a steel key in inventory
+G   1   2231    10           a steel key in inventory
 M 0 2200 5 2202 1  1   the dragon hatchling into The Foyer
   
 M 0 2200 5 2203 1  1   the dragon hatchling into Hallway
@@ -1591,6 +1597,9 @@ G   1   2234    1            a grey key in inventory
 G   1   2243    9            a golden wand in inventory
 G   1   2223   20            a stone club in inventory
 E   1   2244    5     17     a silver staff held                   
+D   0   2204    1      1  Hallway east closed
+D   0   2204    3      1  Hallway west closed
+D   0   2205    3      1  Nursery west closed
 D   0   2230    3      2  THE Lair: Door west locked
 D   0   2218    1      2  Entrance to the Crypt: Door east locked
 D   0   2201    0      2  The Tower Gates: Door north locked

@@ -7,30 +7,37 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "AFFECT_DATA.hpp"
+#include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
+#include "TimeInfoData.hpp"
+#include "WeatherData.hpp"
 #include "comm.hpp"
+#include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
-#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
-#include <time.h>
+#include "save.hpp"
+#include "string_utils.hpp"
 
-/* Few external functions */
-int get_max_stat(CHAR_DATA *ch, int stat);
+#include <fmt/format.h>
+
+#include <cstdio>
+#include <cstring>
+#include <ctime>
+#include <sys/types.h>
 
 /*
  * Local functions.
  */
-int hit_gain(CHAR_DATA *ch);
-int mana_gain(CHAR_DATA *ch);
-int move_gain(CHAR_DATA *ch);
+int hit_gain(Char *ch);
+int mana_gain(Char *ch);
+int move_gain(Char *ch);
 void mobile_update();
 void weather_update();
-void char_update();
+void ord();
 void obj_update();
 void aggr_update();
-void announce(const char *buf, CHAR_DATA *ch);
 
 /* Added by Rohan to reset the count every day */
 void count_update();
@@ -41,24 +48,24 @@ static const uint32_t save_every_n = 30u;
 uint32_t save_number = 0;
 
 /* Advancement stuff. */
-void advance_level(CHAR_DATA *ch) {
+void advance_level(Char *ch) {
     char buf[MAX_STRING_LENGTH];
     int add_hp;
     int add_mana;
     int add_move;
     int add_prac;
 
-    ch->pcdata->last_level = (ch->played + (int)(current_time - ch->logon)) / 3600;
+    using namespace std::chrono;
+    ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
 
-    snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
-    set_title(ch, buf);
+    ch->set_title(fmt::format("the {}", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]));
 
-    add_hp = con_app[get_curr_stat(ch, STAT_CON)].hitp
+    add_hp = con_app[get_curr_stat(ch, Stat::Con)].hitp
              + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);
 
     add_mana = number_range(
         0, class_table[ch->class_num].fMana * class_table[ch->class_num].fMana
-               * (UMAX(0, get_curr_stat(ch, STAT_WIS) - 15) + 2 * UMAX(0, get_curr_stat(ch, STAT_INT) - 15)));
+               * (UMAX(0, get_curr_stat(ch, Stat::Wis) - 15) + 2 * UMAX(0, get_curr_stat(ch, Stat::Int) - 15)));
 
     add_mana += 150;
     add_mana /= 300; /* =max (2*int+wis)/10 (10=mage.fMana)*/
@@ -76,8 +83,8 @@ void advance_level(CHAR_DATA *ch) {
 
     /* End of new section. */
 
-    add_move = number_range(1, (get_curr_stat(ch, STAT_CON) + get_curr_stat(ch, STAT_DEX)) / 6);
-    add_prac = wis_app[get_curr_stat(ch, STAT_WIS)].practice;
+    add_move = number_range(1, (get_curr_stat(ch, Stat::Con) + get_curr_stat(ch, Stat::Dex)) / 6);
+    add_prac = wis_app[get_curr_stat(ch, Stat::Wis)].practice;
 
     add_hp = UMAX(1, add_hp * 9 / 10);
     add_move = UMAX(6, add_move * 9 / 10);
@@ -92,37 +99,35 @@ void advance_level(CHAR_DATA *ch) {
     ch->pcdata->perm_mana += add_mana;
     ch->pcdata->perm_move += add_move;
 
-    if (!IS_NPC(ch))
+    if (ch->is_pc())
         REMOVE_BIT(ch->act, PLR_BOUGHT_PET);
 
     snprintf(buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r", add_hp, ch->max_hit,
              add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice);
-    send_to_char(buf, ch);
-    snprintf(log_buf, LOG_BUF_SIZE, "### %s has made a level in room %u\n\r", ch->name, ch->in_room->vnum);
-    log_string(log_buf);
-    snprintf(log_buf, LOG_BUF_SIZE, "|W### |P%s |Whas made a level!!!|w", ch->name);
-    announce(log_buf, ch);
+    ch->send_to(buf);
+    log_string("### {} has made a level in room {}", ch->name, ch->in_room->vnum);
+    announce(fmt::format("|W### |P{}|W has made a level!!!|w", ch->name), ch);
 }
 
-void lose_level(CHAR_DATA *ch) {
+void lose_level(Char *ch) {
     char buf[MAX_STRING_LENGTH];
     int add_hp;
     int add_mana;
     int add_move;
     int add_prac;
 
-    ch->pcdata->last_level = (ch->played + (int)(current_time - ch->logon)) / 3600;
+    using namespace std::chrono;
+    ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
 
-    snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
-    set_title(ch, buf);
+    ch->set_title(fmt::format("the {}", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]));
 
-    add_hp = con_app[get_max_stat(ch, STAT_CON)].hitp
+    add_hp = con_app[ch->max_stat(Stat::Con)].hitp
              + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);
-    add_mana = (number_range(2, (2 * get_max_stat(ch, STAT_INT) + get_max_stat(ch, STAT_WIS)) / 5)
+    add_mana = (number_range(2, (2 * ch->max_stat(Stat::Int) + ch->max_stat(Stat::Wis)) / 5)
                 * class_table[ch->class_num].fMana)
                / 10;
-    add_move = number_range(1, (get_max_stat(ch, STAT_CON) + get_max_stat(ch, STAT_DEX)) / 6);
-    add_prac = -(wis_app[get_max_stat(ch, STAT_WIS)].practice);
+    add_move = number_range(1, (ch->max_stat(Stat::Con) + ch->max_stat(Stat::Dex)) / 6);
+    add_prac = -(wis_app[ch->max_stat(Stat::Wis)].practice);
 
     add_hp = add_hp * 9 / 10;
     add_mana = add_mana * 9 / 10;
@@ -144,25 +149,24 @@ void lose_level(CHAR_DATA *ch) {
     ch->pcdata->perm_mana += add_mana;
     ch->pcdata->perm_move += add_move;
 
-    if (!IS_NPC(ch))
+    if (ch->is_pc())
         REMOVE_BIT(ch->act, PLR_BOUGHT_PET);
 
     snprintf(buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r", add_hp, ch->max_hit,
              add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice);
-    send_to_char(buf, ch);
-    snprintf(log_buf, LOG_BUF_SIZE, "|W### |P%s|W has lost a level!!!|w", ch->name);
-    announce(log_buf, ch);
+    ch->send_to(buf);
+    announce(fmt::format("|W### |P{}|W has lost a level!!!|w", ch->name), ch);
 }
 
-void gain_exp(CHAR_DATA *ch, int gain) {
-    if (IS_NPC(ch) || ch->level >= LEVEL_HERO)
+void gain_exp(Char *ch, int gain) {
+    if (ch->is_npc() || ch->level >= LEVEL_HERO)
         return;
 
     ch->exp = UMAX(exp_per_level(ch, ch->pcdata->points), ch->exp + gain);
     if (gain >= 0) {
         while ((ch->level < LEVEL_HERO)
                && ((ch->exp) >= ((int)exp_per_level(ch, ch->pcdata->points) * (ch->level + 1)))) {
-            send_to_char("|WYou raise a level!!|w\n\r", ch);
+            ch->send_line("|WYou raise a level!!|w");
             ch->level += 1;
             advance_level(ch);
         }
@@ -172,11 +176,11 @@ void gain_exp(CHAR_DATA *ch, int gain) {
 /*
  * Regeneration stuff.
  */
-int hit_gain(CHAR_DATA *ch) {
+int hit_gain(Char *ch) {
     int gain;
     int number;
 
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         gain = 5 + ch->level;
         if (IS_AFFECTED(ch, AFF_REGENERATION))
             gain *= 2;
@@ -189,8 +193,8 @@ int hit_gain(CHAR_DATA *ch) {
         }
 
     } else {
-        gain = UMAX(3, get_curr_stat(ch, STAT_CON) - 3 + ch->level / 1.5);
-        gain += class_table[ch->class_num].hp_max - 7;
+        gain = UMAX(3, get_curr_stat(ch, Stat::Con) - 3 + ch->level);
+        gain += class_table[ch->class_num].hp_max - 10;
         number = number_percent();
         if (number < get_skill_learned(ch, gsn_fast_healing)) {
             gain += number * gain / 100;
@@ -200,8 +204,8 @@ int hit_gain(CHAR_DATA *ch) {
 
         switch (ch->position) {
         case POS_SLEEPING: break;
-        case POS_RESTING: gain /= 1.5; break;
-        case POS_FIGHTING: gain /= 3; break;
+        case POS_RESTING: gain /= 1.7; break;
+        case POS_FIGHTING: gain /= 4.5; break;
         default: gain /= 2; break;
         }
 
@@ -226,11 +230,11 @@ int hit_gain(CHAR_DATA *ch) {
     return UMIN(gain, ch->max_hit - ch->hit);
 }
 
-int mana_gain(CHAR_DATA *ch) {
+int mana_gain(Char *ch) {
     int gain;
     int number;
 
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         gain = 5 + ch->level;
         switch (ch->position) {
         default: gain /= 2; break;
@@ -239,18 +243,18 @@ int mana_gain(CHAR_DATA *ch) {
         case POS_FIGHTING: gain /= 3; break;
         }
     } else {
-        gain = (get_curr_stat(ch, STAT_WIS) + get_curr_stat(ch, STAT_INT) + ch->level) / 2;
+        gain = (get_curr_stat(ch, Stat::Wis) + get_curr_stat(ch, Stat::Int) + ch->level) / 2;
         number = number_percent();
         if (number < get_skill_learned(ch, gsn_meditation)) {
             gain += number * gain / 100;
             if (ch->mana < ch->max_mana)
                 check_improve(ch, gsn_meditation, true, 8);
         }
-        gain = (gain * class_table[ch->class_num].fMana) / 6;
+        gain = (gain * class_table[ch->class_num].fMana) / 7;
 
         switch (ch->position) {
         case POS_SLEEPING: break;
-        case POS_RESTING: gain /= 1.5; break;
+        case POS_RESTING: gain /= 1.7; break;
         default: gain /= 2; break;
         }
 
@@ -273,17 +277,17 @@ int mana_gain(CHAR_DATA *ch) {
     return UMIN(gain, ch->max_mana - ch->mana);
 }
 
-int move_gain(CHAR_DATA *ch) {
+int move_gain(Char *ch) {
     int gain;
 
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         gain = ch->level;
     } else {
         gain = UMAX(15, ch->level);
 
         switch (ch->position) {
-        case POS_SLEEPING: gain += get_curr_stat(ch, STAT_DEX); break;
-        case POS_RESTING: gain += get_curr_stat(ch, STAT_DEX) / 2; break;
+        case POS_SLEEPING: gain += get_curr_stat(ch, Stat::Dex); break;
+        case POS_RESTING: gain += get_curr_stat(ch, Stat::Dex) / 2; break;
         }
 
         if (ch->pcdata->condition[COND_FULL] == 0)
@@ -308,10 +312,10 @@ int move_gain(CHAR_DATA *ch) {
     return UMIN(gain, ch->max_move - ch->move);
 }
 
-void gain_condition(CHAR_DATA *ch, int iCond, int value) {
+void gain_condition(Char *ch, int iCond, int value) {
     int condition;
 
-    if (value == 0 || IS_NPC(ch) || ch->level >= LEVEL_HERO)
+    if (value == 0 || ch->is_npc() || ch->level >= LEVEL_HERO)
         return;
 
     condition = ch->pcdata->condition[iCond];
@@ -321,13 +325,13 @@ void gain_condition(CHAR_DATA *ch, int iCond, int value) {
 
     if (ch->pcdata->condition[iCond] == 0) {
         switch (iCond) {
-        case COND_FULL: send_to_char("You are hungry.\n\r", ch); break;
+        case COND_FULL: ch->send_line("You are hungry."); break;
 
-        case COND_THIRST: send_to_char("You are thirsty.\n\r", ch); break;
+        case COND_THIRST: ch->send_line("You are thirsty."); break;
 
         case COND_DRUNK:
             if (condition != 0)
-                send_to_char("You are sober.\n\r", ch);
+                ch->send_line("You are sober.");
             break;
         }
     }
@@ -339,23 +343,18 @@ void gain_condition(CHAR_DATA *ch, int iCond, int value) {
  * -- Furey
  */
 void mobile_update() {
-    CHAR_DATA *ch;
-    CHAR_DATA *ch_next;
     EXIT_DATA *pexit;
-    int door;
 
     /* Examine all mobs. */
-    for (ch = char_list; ch != nullptr; ch = ch_next) {
-        ch_next = ch->next;
-
-        if (!IS_NPC(ch) || ch->in_room == nullptr || IS_AFFECTED(ch, AFF_CHARM))
+    for (auto *ch : char_list) {
+        if (ch->is_pc() || ch->in_room == nullptr || IS_AFFECTED(ch, AFF_CHARM))
             continue;
 
         if (ch->in_room->area->empty && !IS_SET(ch->act, ACT_UPDATE_ALWAYS))
             continue;
 
         /* Examine call for special procedure */
-        if (ch->spec_fun != 0) {
+        if (ch->spec_fun) {
             if ((*ch->spec_fun)(ch))
                 continue;
         }
@@ -375,14 +374,10 @@ void mobile_update() {
                 continue;
         }
         /* Scavenge */
-        if (IS_SET(ch->act, ACT_SCAVENGER) && ch->in_room->contents != nullptr && number_bits(6) == 0) {
-            OBJ_DATA *obj;
-            OBJ_DATA *obj_best;
-            int max;
-
-            max = 1;
-            obj_best = 0;
-            for (obj = ch->in_room->contents; obj; obj = obj->next_content) {
+        if (IS_SET(ch->act, ACT_SCAVENGER) && !ch->in_room->contents.empty() && number_bits(6) == 0) {
+            int max = 1;
+            OBJ_DATA *obj_best{};
+            for (auto *obj : ch->in_room->contents) {
                 if (CAN_WEAR(obj, ITEM_TAKE) && can_loot(ch, obj) && obj->cost > max && obj->cost > 0) {
                     obj_best = obj;
                     max = obj->cost;
@@ -398,11 +393,12 @@ void mobile_update() {
         }
 
         /* Wander */
-        if (!IS_SET(ch->act, ACT_SENTINEL) && number_bits(4) == 0 && (door = number_bits(5)) <= 5
-            && (pexit = ch->in_room->exit[door]) != nullptr && pexit->u1.to_room != nullptr
+        auto opt_door = try_cast_direction(number_bits(5));
+        if (!IS_SET(ch->act, ACT_SENTINEL) && number_bits(4) == 0 && opt_door
+            && (pexit = ch->in_room->exit[*opt_door]) != nullptr && pexit->u1.to_room != nullptr
             && !IS_SET(pexit->exit_info, EX_CLOSED) && !IS_SET(pexit->u1.to_room->room_flags, ROOM_NO_MOB)
             && (!IS_SET(ch->act, ACT_STAY_AREA) || pexit->u1.to_room->area == ch->in_room->area)) {
-            move_char(ch, door);
+            move_char(ch, *opt_door);
         }
     }
 }
@@ -411,115 +407,14 @@ void mobile_update() {
  * Update the weather.
  */
 void weather_update() {
-    char buf[MAX_STRING_LENGTH];
-    Descriptor *d;
-    int diff;
+    time_info.advance();
+    auto weather_before = weather_info;
+    weather_info.update(Rng::global_rng(), time_info);
 
-    buf[0] = '\0';
-
-    switch (++time_info.hour) {
-    case 5:
-        weather_info.sunlight = SUN_LIGHT;
-        strcat(buf, "The day has begun.\n\r");
-        break;
-
-    case 6:
-        weather_info.sunlight = SUN_RISE;
-        strcat(buf, "The sun rises in the east.\n\r");
-        break;
-
-    case 19:
-        weather_info.sunlight = SUN_SET;
-        strcat(buf, "The sun slowly disappears in the west.\n\r");
-        break;
-
-    case 20:
-        weather_info.sunlight = SUN_DARK;
-        strcat(buf, "The night has begun.\n\r");
-        break;
-
-    case 24:
-        time_info.hour = 0;
-        time_info.day++;
-        break;
-    }
-
-    if (time_info.day >= 35) {
-        time_info.day = 0;
-        time_info.month++;
-    }
-
-    if (time_info.month >= 17) {
-        time_info.month = 0;
-        time_info.year++;
-    }
-
-    /*
-     * Weather change.
-     */
-    if (time_info.month >= 9 && time_info.month <= 16)
-        diff = weather_info.mmhg > 985 ? -2 : 2;
-    else
-        diff = weather_info.mmhg > 1015 ? -2 : 2;
-
-    weather_info.change += diff * dice(1, 4) + dice(2, 6) - dice(2, 6);
-    weather_info.change = UMAX(weather_info.change, -12);
-    weather_info.change = UMIN(weather_info.change, 12);
-
-    weather_info.mmhg += weather_info.change;
-    weather_info.mmhg = UMAX(weather_info.mmhg, 960);
-    weather_info.mmhg = UMIN(weather_info.mmhg, 1040);
-
-    switch (weather_info.sky) {
-    default:
-        bug("Weather_update: bad sky %d.", weather_info.sky);
-        weather_info.sky = SKY_CLOUDLESS;
-        break;
-
-    case SKY_CLOUDLESS:
-        if (weather_info.mmhg < 990 || (weather_info.mmhg < 1010 && number_bits(2) == 0)) {
-            strcat(buf, "The sky is getting cloudy.\n\r");
-            weather_info.sky = SKY_CLOUDY;
-        }
-        break;
-
-    case SKY_CLOUDY:
-        if (weather_info.mmhg < 970 || (weather_info.mmhg < 990 && number_bits(2) == 0)) {
-            strcat(buf, "It starts to rain.\n\r");
-            weather_info.sky = SKY_RAINING;
-        }
-
-        if (weather_info.mmhg > 1030 && number_bits(2) == 0) {
-            strcat(buf, "The clouds disappear.\n\r");
-            weather_info.sky = SKY_CLOUDLESS;
-        }
-        break;
-
-    case SKY_RAINING:
-        if (weather_info.mmhg < 970 && number_bits(2) == 0) {
-            strcat(buf, "Lightning flashes in the sky.\n\r");
-            weather_info.sky = SKY_LIGHTNING;
-        }
-
-        if (weather_info.mmhg > 1030 || (weather_info.mmhg > 1010 && number_bits(2) == 0)) {
-            strcat(buf, "The rain stopped.\n\r");
-            weather_info.sky = SKY_CLOUDY;
-        }
-        break;
-
-    case SKY_LIGHTNING:
-        if (weather_info.mmhg > 1010 || (weather_info.mmhg > 990 && number_bits(2) == 0)) {
-            strcat(buf, "The lightning has stopped.\n\r");
-            weather_info.sky = SKY_RAINING;
-            break;
-        }
-        break;
-    }
-
-    if (buf[0] != '\0') {
-        for (d = descriptor_list; d != nullptr; d = d->next) {
-            if (d->is_playing() && IS_OUTSIDE(d->character()) && IS_AWAKE(d->character()))
-                send_to_char(buf, d->character());
+    if (auto update_msg = weather_info.describe_change(weather_before); !update_msg.empty()) {
+        for (auto &d : descriptors().playing()) {
+            if (IS_OUTSIDE(d.character()) && IS_AWAKE(d.character()))
+                d.character()->send_to(update_msg);
         }
     }
 }
@@ -528,7 +423,7 @@ void weather_update() {
  * If a char was idle and been sent to the limbo room and they send a command, return them to
  * their previous room.
  */
-void move_active_char_from_limbo(CHAR_DATA *ch) {
+void move_active_char_from_limbo(Char *ch) {
     if (ch == nullptr || ch->desc == nullptr || !ch->desc->is_playing() || ch->was_in_room == nullptr
         || ch->in_room != get_room_index(ROOM_VNUM_LIMBO))
         return;
@@ -549,14 +444,14 @@ void move_active_char_from_limbo(CHAR_DATA *ch) {
 /**
  * If a chars is idle, move it into the "limbo" room along with its pets.
  */
-void move_idle_char_to_limbo(CHAR_DATA *ch) {
+void move_idle_char_to_limbo(Char *ch) {
     if (++ch->timer >= 12) {
         if (ch->was_in_room == nullptr && ch->in_room != nullptr) {
             ch->was_in_room = ch->in_room;
             if (ch->fighting != nullptr)
                 stop_fighting(ch, true);
             act("$n disappears into the void.", ch);
-            send_to_char("You disappear into the void.\n\r", ch);
+            ch->send_line("You disappear into the void.");
             if (ch->level > 1)
                 save_char_obj(ch);
             char_from_room(ch);
@@ -577,9 +472,7 @@ void move_idle_char_to_limbo(CHAR_DATA *ch) {
  * Update all chars, including mobs.
  */
 void char_update() {
-    CHAR_DATA *ch;
-    CHAR_DATA *ch_next;
-    CHAR_DATA *ch_quit;
+    Char *ch_quit;
 
     ch_quit = nullptr;
 
@@ -589,12 +482,7 @@ void char_update() {
     if (save_number == save_every_n)
         save_number = 0;
 
-    for (ch = char_list; ch != nullptr; ch = ch_next) {
-        AFFECT_DATA *paf;
-        AFFECT_DATA *paf_next;
-
-        ch_next = ch->next;
-
+    for (auto *ch : char_list) {
         if (ch->timer > 30)
             ch_quit = ch;
 
@@ -618,7 +506,7 @@ void char_update() {
         if (ch->position == POS_STUNNED)
             update_pos(ch);
 
-        if (!IS_NPC(ch) && ch->level < LEVEL_IMMORTAL) {
+        if (ch->is_pc() && ch->level < LEVEL_IMMORTAL) {
             OBJ_DATA *obj;
 
             if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->item_type == ITEM_LIGHT && obj->value[2] > 0) {
@@ -631,7 +519,7 @@ void char_update() {
                     act("$p flickers.", ch, obj, nullptr, To::Char);
             }
 
-            if (IS_IMMORTAL(ch))
+            if (ch->is_immortal())
                 ch->timer = 0;
 
             move_idle_char_to_limbo(ch);
@@ -640,46 +528,28 @@ void char_update() {
             gain_condition(ch, COND_THIRST, -1);
         }
 
-        for (paf = ch->affected; paf != nullptr; paf = paf_next) {
-            paf_next = paf->next;
-            if (paf->duration > 0) {
-                paf->duration--;
-                if (number_range(0, 4) == 0 && paf->level > 0)
-                    paf->level--; /* spell strength fades with time */
-            } else if (paf->duration < 0)
-                ;
-            else {
-                if (paf_next == nullptr || paf_next->type != paf->type || paf_next->duration > 0) {
-                    if (paf->type > 0 && skill_table[paf->type].msg_off) {
-                        send_to_char(skill_table[paf->type].msg_off, ch);
-                        send_to_char("\n\r", ch);
-
-                        /*********************************/
-                        /*if ( paf->type == gsn_berserk
-                                              || paf->type == skill_lookup("frenzy"))
-                                              {
-                                                  wield = get_eq_char(ch, WEAR_WIELD);
-                                                  if ( (wield !=nullptr)
-                                                  && (wield->item_type == ITEM_WEAPON)
-                                                  && (IS_SET(wield->value[4], WEAPON_FLAMING)) )
-                                                  {
-
-                                                      copy = get_object(wield->pIndexData->vnum);
-                                                      wield->value[3] = copy->value[3];
-                                                      extract_obj(copy);
-                                                  }
-                                              }*/
-                        /*********************************/
-                    }
+        if (!ch->affected.empty()) {
+            std::unordered_set<int> removed_this_tick_with_msg;
+            for (auto &af : ch->affected) {
+                if (af.duration > 0) {
+                    af.duration--;
+                    if (number_range(0, 4) == 0 && af.level > 0)
+                        af.level--; /* spell strength fades with time */
+                } else if (af.duration >= 0) {
+                    if (af.type > 0 && skill_table[af.type].msg_off)
+                        removed_this_tick_with_msg.emplace(af.type);
+                    affect_remove(ch, af);
                 }
-
-                affect_remove(ch, paf);
             }
+            // Only report wear-offs for those affects who are completely gone.
+            for (auto sn : removed_this_tick_with_msg)
+                if (!ch->is_affected_by(sn))
+                    ch->send_line("{}", skill_table[sn].msg_off);
         }
 
         /* scan all undead zombies created by raise_dead style spells
            and randomly decay them */
-        if (IS_NPC(ch) && ch->pIndexData->vnum == MOB_VNUM_ZOMBIE) {
+        if (ch->is_npc() && ch->pIndexData->vnum == MOB_VNUM_ZOMBIE) {
             if (number_percent() > 90) {
                 act("$n fits violently before decaying in to a pile of dust.", ch);
                 extract_char(ch, true);
@@ -694,64 +564,59 @@ void char_update() {
          */
 
         if (is_affected(ch, gsn_plague) && ch != nullptr) {
-            AFFECT_DATA *af, plague;
-            CHAR_DATA *vch;
             int save, dam;
 
             if (ch->in_room == nullptr)
                 return;
 
             act("$n writhes in agony as plague sores erupt from $s skin.", ch);
-            send_to_char("You writhe in agony from the plague.\n\r", ch);
-            for (af = ch->affected; af != nullptr; af = af->next) {
-                if (af->type == gsn_plague)
-                    break;
-            }
-
-            if (af == nullptr) {
+            ch->send_line("You writhe in agony from the plague.");
+            auto *existing_plague = ch->affected.find_by_skill(gsn_plague);
+            if (existing_plague == nullptr) {
                 REMOVE_BIT(ch->affected_by, AFF_PLAGUE);
                 return;
             }
 
-            if (af->level == 1)
+            if (existing_plague->level == 1)
                 return;
 
+            AFFECT_DATA plague;
             plague.type = gsn_plague;
-            plague.level = af->level - 1;
+            plague.level = existing_plague->level - 1;
             plague.duration = number_range(1, 2 * plague.level);
-            plague.location = APPLY_STR;
+            plague.location = AffectLocation::Str;
             plague.modifier = -5;
             plague.bitvector = AFF_PLAGUE;
 
-            for (vch = ch->in_room->people; vch != nullptr; vch = vch->next_in_room) {
+            for (auto *vch : ch->in_room->people) {
                 switch (check_immune(vch, DAM_DISEASE)) {
-                case (IS_NORMAL): save = af->level - 4; break;
-                case (IS_IMMUNE): save = 0; break;
-                case (IS_RESISTANT): save = af->level - 8; break;
-                case (IS_VULNERABLE): save = af->level; break;
-                default: save = af->level - 4; break;
+                case IS_NORMAL: save = existing_plague->level - 4; break;
+                case IS_IMMUNE: save = 0; break;
+                case IS_RESISTANT: save = existing_plague->level - 8; break;
+                case IS_VULNERABLE: save = existing_plague->level; break;
+                default: save = existing_plague->level - 4; break;
                 }
 
-                if (save != 0 && !saves_spell(save, vch) && !IS_IMMORTAL(vch) && !IS_AFFECTED(vch, AFF_PLAGUE)
+                if (save != 0 && !saves_spell(save, vch) && vch->is_mortal() && !IS_AFFECTED(vch, AFF_PLAGUE)
                     && number_bits(4) == 0) {
-                    send_to_char("You feel hot and feverish.\n\r", vch);
+                    vch->send_line("You feel hot and feverish.");
                     act("$n shivers and looks very ill.", vch);
-                    affect_join(vch, &plague);
+                    affect_join(vch, plague);
                 }
             }
 
             dam = UMIN(ch->level, 5);
-            ch->mana -= dam;
-            ch->move -= dam;
+            ch->mana = UMAX(0, ch->mana - dam);
+            ch->move = UMAX(0, ch->move - dam);
             damage(ch, ch, dam, gsn_plague, DAM_DISEASE);
         } else if (IS_AFFECTED(ch, AFF_POISON) && ch != nullptr) {
             act("$n shivers and suffers.", ch);
-            send_to_char("You shiver and suffer.\n\r", ch);
+            ch->send_line("You shiver and suffer.");
             damage(ch, ch, 2, gsn_poison, DAM_POISON);
         } else if (ch->position == POS_INCAP && number_range(0, 1) == 0) {
-            damage(ch, ch, 1, TYPE_UNDEFINED, DAM_NONE);
+            damage(ch, ch, 1, TYPE_HIT, DAM_NONE);
         } else if (ch->position == POS_MORTAL) {
-            damage(ch, ch, 1, TYPE_UNDEFINED, DAM_NONE);
+            damage(ch, ch, 1, TYPE_HIT, DAM_NONE);
         }
     }
 
@@ -759,14 +624,12 @@ void char_update() {
      * Autosave and autoquit.
      * Check that these chars still exist.
      */
-    for (ch = char_list; ch != nullptr; ch = ch_next) {
-        ch_next = ch->next;
-
+    for (auto *ch : char_list) {
         if (ch->desc != nullptr && ch->desc->channel() % save_every_n == save_number)
             save_char_obj(ch);
 
         if (ch == ch_quit)
-            do_quit(ch, "");
+            do_quit(ch);
     }
 }
 
@@ -775,34 +638,26 @@ void char_update() {
  * This function is performance sensitive.
  */
 void obj_update() {
-    OBJ_DATA *obj;
-    OBJ_DATA *obj_next;
-    AFFECT_DATA *paf, *paf_next;
-
-    for (obj = object_list; obj != nullptr; obj = obj_next) {
-        CHAR_DATA *rch;
+    for (auto *obj : object_list) {
         const char *message;
 
-        obj_next = obj->next;
-
         /* go through affects and decrement */
-        for (paf = obj->affected; paf != nullptr; paf = paf_next) {
-            paf_next = paf->next;
-            if (paf->duration > 0) {
-                paf->duration--;
-                if (number_range(0, 4) == 0 && paf->level > 0)
-                    paf->level--; /* spell strength fades with time */
-            } else if (paf->duration < 0)
-                ;
-            else {
-                if (paf_next == nullptr || paf_next->type != paf->type || paf_next->duration > 0) {
-                    if (paf->type > 0 && skill_table[paf->type].msg_off) {
-                        act(skill_table[paf->type].msg_off, obj->carried_by, obj, nullptr, To::Char, POS_SLEEPING);
-                    }
+        if (!obj->affected.empty()) {
+            std::unordered_set<int> removed_this_tick_with_msg;
+            for (auto &af : obj->affected) {
+                if (af.duration > 0) {
+                    af.duration--;
+                    if (number_range(0, 4) == 0 && af.level > 0)
+                        af.level--; /* spell strength fades with time */
+                } else if (af.duration >= 0) {
+                    if (af.type > 0 && skill_table[af.type].msg_off)
+                        removed_this_tick_with_msg.emplace(af.type);
+                    affect_remove_obj(obj, af);
                 }
-
-                affect_remove_obj(obj, paf);
             }
+            // Only report wear-offs for those affects who are completely gone.
+            for (auto sn : removed_this_tick_with_msg)
+                act(skill_table[sn].msg_off, obj->carried_by, obj, nullptr, To::Char, POS_SLEEPING);
         }
 
         if (obj->timer <= 0 || --obj->timer > 0)
@@ -819,22 +674,21 @@ void obj_update() {
         }
 
         if (obj->carried_by != nullptr) {
-            if (IS_NPC(obj->carried_by) && obj->carried_by->pIndexData->pShop != nullptr)
+            if ((obj->carried_by->is_npc()) && obj->carried_by->pIndexData->pShop != nullptr)
                 obj->carried_by->gold += obj->cost;
             else
                 act(message, obj->carried_by, obj, nullptr, To::Char);
-        } else if (obj->in_room != nullptr && (rch = obj->in_room->people) != nullptr) {
+        } else if (obj->in_room != nullptr && !obj->in_room->people.empty()) {
             if (!(obj->in_obj && obj->in_obj->pIndexData->vnum == OBJ_VNUM_PIT && !CAN_WEAR(obj->in_obj, ITEM_TAKE))) {
+                // seems like we pick someone to emote for convenience here...
+                auto *rch = *obj->in_room->people.begin();
                 act(message, rch, obj, nullptr, To::Room);
                 act(message, rch, obj, nullptr, To::Char);
             }
         }
 
-        if (obj->item_type == ITEM_CORPSE_PC && obj->contains) { /* save the contents */
-            OBJ_DATA *t_obj, *next_obj;
-
-            for (t_obj = obj->contains; t_obj != nullptr; t_obj = next_obj) {
-                next_obj = t_obj->next_content;
+        if (obj->item_type == ITEM_CORPSE_PC && !obj->contains.empty()) { /* save the contents */
+            for (auto *t_obj : obj->contains) {
                 obj_from_obj(t_obj);
 
                 if (obj->in_obj) /* in another object */
@@ -869,19 +723,12 @@ void obj_update() {
  *
  * -- Furey
  */
-void do_aggressive_sentient(CHAR_DATA *, CHAR_DATA *);
+void do_aggressive_sentient(Char *, Char *);
 void aggr_update() {
-    CHAR_DATA *wch;
-    CHAR_DATA *wch_next;
-    CHAR_DATA *ch;
-    CHAR_DATA *ch_next;
-
-    for (wch = char_list; wch != nullptr; wch = wch_next) {
-        wch_next = wch->next;
-
+    for (auto *wch : char_list) {
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         /* MOBProgram ACT_PROG trigger */
-        if (IS_NPC(wch) && wch->mpactnum > 0 && wch->in_room->area->nplayer > 0) {
+        if (wch->is_npc() && wch->mpactnum > 0 && wch->in_room->area->nplayer > 0) {
             MPROG_ACT_LIST *tmp_act, *tmp2_act;
             for (tmp_act = wch->mpact; tmp_act != nullptr; tmp_act = tmp_act->next) {
                 mprog_wordlist_check(tmp_act->buf, wch, tmp_act->ch, tmp_act->obj, tmp_act->vo, ACT_PROG);
@@ -895,43 +742,25 @@ void aggr_update() {
             wch->mpact = nullptr;
         }
 
-        if (IS_NPC(wch) || wch->level >= LEVEL_IMMORTAL || wch->in_room == nullptr || wch->in_room->area->empty)
+        if (wch->is_npc() || wch->level >= LEVEL_IMMORTAL || wch->in_room == nullptr || wch->in_room->area->empty)
             continue;
 
-        for (ch = wch->in_room->people; ch != nullptr; ch = ch_next) {
-
-            ch_next = ch->next_in_room;
-            if (IS_NPC(ch))
+        for (auto *ch : wch->in_room->people) {
+            if (ch->is_npc())
                 do_aggressive_sentient(wch, ch);
         }
     }
 }
 
-void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
-    CHAR_DATA *vch;
-    CHAR_DATA *vch_next;
-    CHAR_DATA *victim;
-    int count;
-    char buf[MAX_STRING_LENGTH];
-    bool shout = false;
-
+void do_aggressive_sentient(Char *wch, Char *ch) {
     if (IS_SET(ch->act, ACT_SENTIENT) && ch->fighting == nullptr && !IS_AFFECTED(ch, AFF_CALM) && IS_AWAKE(ch)
         && !IS_AFFECTED(ch, AFF_CHARM) && can_see(ch, wch)) {
-        if (ch->hit == ch->max_hit && ch->mana == ch->max_mana) {
-            free_string(ch->sentient_victim);
-            ch->sentient_victim = str_dup("");
-        }
-        if ((ch->sentient_victim != nullptr) && (!str_cmp(wch->name, ch->sentient_victim))) {
+        if (ch->hit == ch->max_hit && ch->mana == ch->max_mana)
+            ch->sentient_victim.clear();
+        if (matches(wch->name, ch->sentient_victim)) {
             if (is_safe_sentient(ch, wch))
                 return;
-            snprintf(buf, sizeof(buf), "|WAha! I never forget a face, prepare to die %s!!!|w", wch->name);
-            if (IS_SET(ch->comm, COMM_NOSHOUT)) {
-                shout = true;
-                REMOVE_BIT(ch->comm, COMM_NOSHOUT);
-            }
-            do_yell(ch, buf);
-            if (shout)
-                SET_BIT(ch->comm, COMM_NOSHOUT);
+            ch->yell(fmt::format("|WAha! I never forget a face, prepare to die {}!!!|w", wch->name));
             multi_hit(ch, wch, TYPE_UNDEFINED);
         }
     }
@@ -946,12 +775,10 @@ void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
          *   giving each 'vch' an equal chance of selection.
          */
 
-        count = 0;
-        victim = nullptr;
-        for (vch = wch->in_room->people; vch != nullptr; vch = vch_next) {
-            vch_next = vch->next_in_room;
-
-            if (!IS_NPC(vch) && vch->level < LEVEL_IMMORTAL && ch->level >= vch->level - 5
+        int count = 0;
+        Char *victim = nullptr;
+        for (auto *vch : wch->in_room->people) {
+            if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && ch->level >= vch->level - 5
                 && (!IS_SET(ch->act, ACT_WIMPY) || !IS_AWAKE(vch)) && can_see(ch, vch)) {
                 if (number_range(0, count) == 0)
                     victim = vch;
@@ -971,34 +798,23 @@ void do_aggressive_sentient(CHAR_DATA *wch, CHAR_DATA *ch) {
  * mob encountered his foe in a safe room --fara
  */
 
-bool is_safe_sentient(CHAR_DATA *ch, CHAR_DATA *wch) {
-
-    char buf[MAX_STRING_LENGTH];
-    bool shout = false;
-
+bool is_safe_sentient(Char *ch, Char *wch) {
     if (ch->in_room == nullptr)
         return false;
     if (IS_SET(ch->in_room->room_flags, ROOM_SAFE)) {
-        snprintf(buf, sizeof(buf), "|WIf it weren't for the law, you'd be dead meat %s!!!|w", wch->name);
-        if (IS_SET(ch->comm, COMM_NOSHOUT)) {
-            shout = true;
-            REMOVE_BIT(ch->comm, COMM_NOSHOUT);
-        }
-        do_yell(ch, buf);
-        if (shout)
-            SET_BIT(ch->comm, COMM_NOSHOUT);
-        free_string(ch->sentient_victim);
-        ch->sentient_victim = str_dup("");
+        ch->yell(fmt::format("|WIf it weren't for the law, you'd be dead meat {}!!!|w", wch->name));
+        ch->sentient_victim.clear();
         return true;
     }
     return false;
 }
 
-/* This function resets the player count everyday */
+/* This function resets the player count every day */
 void count_update() {
     struct tm *cur_time;
     int current_day;
-    cur_time = localtime(&current_time);
+    auto as_tt = Clock::to_time_t(current_time);
+    cur_time = localtime(&as_tt);
     current_day = cur_time->tm_mday;
     /* Initialise count_updated if this first time called */
     if (count_updated == 0) {

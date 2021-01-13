@@ -116,13 +116,17 @@ State thy name and enter the realm of Xania: ~
 Welcome to Xania! See 'help rules' and 'help commands'.
 
 [ Recent Gameplay Updates! ]
-July 31:
-- Pets no longer get lost in limbo if their owner goes away from their computer.
-- Pets that finish a fight automatically let their owners do the looting.
-- Barbarian and Knight guildmasters in Wolfe Point are back in business.
-- Players recover from food poisoning more quickly than before.
-- When creating a new character you can now read help on the various classes.
-- Many items have been adjusted to suit the NPCs that possess them.
+Dec 16: 'Other' sex can be chosen during char creation. New 'pronouns' command
+lets you customise how in-game messages refer to you, see 'help pronouns'.
+
+Dec 13: There's an earring item slot now. Earrings are quite rare, there's
+only 11 to be found in Xania at the moment!
+ 
+Dec 10: Cooldown timer is now displayed in your prompt by default, or add it
+as a customization with '%c' (see help prompt).
+
+Dec 7: New area! The Valkyrie. It's a naval themed area for levels 50-75 or so
+over in the Dragon Sea. It has some secrets and interesting storyline bosses. 
 |g[Hit return to continue]|w
 ~ 
  

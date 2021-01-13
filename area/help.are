@@ -284,10 +284,13 @@ experience!!
 Corpses decay after time, and the objects inside corpses decay with them.
 Player corpses last *roughly* 30 hours of game time (15 minutes of real time).
 Only the player who died, or someone in the same group, can retrieve objects
-from a player's corpse. If the victim type 'noloot' his corpse can be
+from a player's corpse. If the victim types 'noloot' his corpse can be
 looted but it is recommended that you only do this if someone urgenty
 needs to remove the contents from your corpse.
 
+Alternatively, you can visit |WAstradamus the Summoner|w and he will
+attempt to summon your corpse for price. You can find him in the
+necropolis underneath the Temple of Isca.
 ~
 
 
@@ -570,6 +573,19 @@ you are currently wearing or wielding of the same type.
 COMPARE doesn't consider any special modifiers of the objects.
 ~
 
+0 KILL~
+Syntax: kill <mobile name>
+
+KILL will attack a non-player character, starting a fight. Kill can be used 
+if you're not already in combat.
+
+Alternatively, you can start a fight by using one of your combat skills 
+or a spell that harms the mobile.
+
+KILL cannot be used to attack other players. For that, see `help challenge`
+and `help duel`.
+~
+
 0 FLEE~
 Syntax: flee
 Syntax: rescue   <character>
@@ -683,6 +699,7 @@ You can program you prompt using the following commands:
 
 PROMPT <%*> where the %* are the various variables you may set yourself.
 
+   %c :  Display your cooldown timer (wait state before next command)
    %h :  Display your current hits
    %H :  Display your maximum hits
    %m :  Display your current mana
@@ -696,7 +713,7 @@ PROMPT <%*> where the %* are the various variables you may set yourself.
    %B :  Display |Yenergy bar|w prompt
    %p :  Display your current prefix
    %n :  Force a new line
-   %t :  Display current time
+   %t :  Display current time (UTC)
    %W :  Display whether you are wizinvis (|RIMMORTAL|w ONLY)
    %P :  Display whether you are prowling (|RIMMORTAL|w ONLY)
    %r :  Display the room name you are in (|RIMMORTAL|w ONLY)
@@ -808,29 +825,11 @@ Your ability scores are shown as true value(current value), so for example
 Str: 15(23) means you have a 15 strength from training, but a 23 strength
 from other factors (spells or items).
 
-TIME shows the game time, as well as the time the mud was last started,
-and the current local time for the host computer.  If you have a personal
-timezone set, it will also show you your own local time.
+TIME shows the game time, as well as the time the mud was last started. 
+Times are always displayed in the UTC timezone.
 
 WEATHER shows the current game weather.
 ~
-
-0 TIMEZONE~
-The 'timezone' command allows you to specify your own local time, as an
-offset from GMT.  The default time shown will be British time, which will
-include the 1-hour offset during Summer.  Your timezone will be used in
-addition to the normal times in the 'time' command, and will also be used
-in your prompt if you are using the '%t' (show current time) token.
-
-Syntax:
-   timezone 2:36         Sets your time offset to 2 hours and 36 mins
-   timezone              Unsets your time offset (forces British time)
-
-Related help:
-   help time
-   help prompt
-~
-
 
 0 WHO~
 Syntax: who
@@ -981,12 +980,29 @@ SELL sells an object to a shop keeper.
 VALUE asks the shop keeper how much he, she, or it will buy the item for.
 ~
 
-0 SACRIFICE~
+0 SACRIFICE JUNK~
 Syntax: sacrifice <object>
+Syntax: junk <object>
 
-SACRIFICE offers an object to your Alander, who may reward you.
+SACRIFICE offers an object to the Gods, who may reward you. The object must be
+visible in the room you're in. 
+
 The nature of the reward depends upon the type of object.
+
+See: TRASH
 ~
+
+0 TRASH~
+Syntax: trash <object>
+
+TRASH destroys an item in your inventory. To trash a container, empty it first. 
+
+Unlike SACRIFICE, you will receive no reward from the Gods. However, TRASH
+is useful for getting rid of items that you can't drop.
+
+See: SACRIFICE
+~
+
 
 0 SCROLL~
 Syntax: scroll
@@ -1296,17 +1312,15 @@ freeze is usually preferred.
 ~
 
 97 DISCONNECT~
-Syntax: disconnect   <name>
-Syntax: disconnect + <name>
+Syntax: disconnect <player name>
+Syntax: disconnect <socket number>
 
 Disconnect breaks a player's link to the game, dumping them back to the telnet
 prompt.  This is a non-lethal way of getting rid of spammers and annoying
 players.
 
-Disconnect + is used to get rid of players who are not actually in the mud
-but are connected and listed on 'sockets'. Rather than searching through
-the active players, it looks through those connected via the descriptor
-list.
+Disconnect <socket number> is used to get rid of players who are not actually in the mud
+but are connected and listed on 'sockets'.
 ~
 
 97 FREEZE~
@@ -1732,9 +1746,10 @@ list of the channels follows:
                               above will actually see this information.
   tick                      - Time-keeping TICK log line.
 ~
-0 EDUCATION UNLIMITED~
-Education Unlimited - the alternative university campus!
-Written by Faramir, May 1995.
+0 EDUCATION UNLIMITED SEMINARY~
+The Seminary - the alternative Xania college campus! Originally written
+by Faramir, May 1995 as "Education Unlimited", then updated and rebalanced
+in November 2020.
 ~
 0 IMLADRIS~
 Imladris - a recreation of the elven haven created by J.R.R. Tolkien, as
@@ -1953,6 +1968,14 @@ Syntax: cast 'curse' <character>
 This spell reduces the character's to-hit roll and save versus spells.
 It also renders the character unclean in the eyes of Alander and
 unable to RECALL.
+~
+
+0 PLAGUE~
+Syntax: cast 'plague' <character>
+
+Plague is a contagious disease that weakens a character and reduces
+their natural regenerative powers. Due to its virulence, plague may spread to
+nearby players.
 ~
 
 
@@ -2455,6 +2478,26 @@ to hazards. You can hail your corpse if it has become trapped in a
 particularly dangerous place.
 ~
 
+0 PRONOUNS~
+The pronouns command enables you to customise the personal pronouns that are
+used when the game constructs sentences. In particular, messages sent to other
+players describing an action you're taking or something that is happening
+to you. The terms will be applied automatically by many built-in socials,
+skills and spells.
+
+Your choices are saved automatically with your character.
+Also, your choices will override the standard terms regardless of what your
+charater's sex is, even if you've been afflicted by the "change sex" spell!
+
+Set your choices. Each choice should be a single word, ideally in lower case.
+        pronouns set <possessive> <objective> <subjective> <reflexive>
+Example:
+        pronouns set his him he himself
+Reset to the defaults:
+        pronouns reset
+Display choices:
+        pronouns show
+~
 
 0 $~
 

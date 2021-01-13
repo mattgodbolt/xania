@@ -55,7 +55,7 @@ most commands can be abbreviated e.g. you can use the 'sleep' command
 
 typing "." is equivalent to 'gossip', as "'" is say and "," is emote.~
 
-you can customise your command prompt, read 'help prompt'~
+you can customise your command prompt, read 'help prompt'.~
 
 the 'showdefence' command lets you show/hide defence actions such as
      dodging and parrying in combat.~

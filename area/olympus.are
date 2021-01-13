@@ -11,7 +11,7 @@ You are climbing a large mountain which towers over Ofcol.  The path
 continues up the mountain, but part of it is gone.  A perilous, narrow
 causeway leads north, and there is a sheer cliff-face to the east.
 ~
-9 0 5
+0 5
 D0
 A narrow causeway.
 ~
@@ -36,7 +36,7 @@ Mountain~
 You are making your way up the mountain.  The rigorous climb has left you
 tired, and you are ready to take a break.
 ~
-9 0 9
+0 9
 D4
 ~
 ~
@@ -52,7 +52,7 @@ You have finally reached the top of the mountain.  The air here is so thin
 that you must gasp for breath.  To the north, you see what seems to be the
 entrance to a city.
 ~
-9 0 9
+0 9
 D0
 ~
 ~
@@ -68,7 +68,7 @@ You are at the entrance to a huge city.  As you look around, you realize
 that the inhabitants of this city must be very wealthy indeed - you have never
 seen a city with such beautiful buildings.
 ~
-9 0 1
+0 1
 D0
 ~
 ~
@@ -84,7 +84,7 @@ You are walking down a huge street.  You notice that there are not many
 people in this town.  On a corner, you see a sign marked 'Zeus Street'.
 To the west, you see a small store.
 ~
-9 0 1
+0 1
 D0
 The street continues.
 ~
@@ -105,7 +105,7 @@ You are walking down what appears to be the main street of this city.
 You see large residences to the east and west, while the street continues
 to the north and south.
 ~
-9 0 1
+0 1
 D0
 ~
 ~
@@ -128,7 +128,7 @@ S
 Zeus Street~
 You are on the main street of this town, called Zeus street.
 ~
-9 0 1
+0 1
 D0
 ~
 ~
@@ -148,7 +148,7 @@ You are still on the main thoroughfare of this town.  To the north, you see
 a large castle.  To the east there is a smaller road, while there is some sort
 of store to the west.
 ~
-9 0 1
+0 1
 D0
 ~
 ~
@@ -168,7 +168,7 @@ You are in the entryway of a large castle.  It is very beautiful, with
 large paintings and a lovely carpet.  You hear jovial laughter to the north,
 while smaller corridors branch off to the east and west.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -192,7 +192,7 @@ You stop dead in your tracks as you enter this room.  Before you is Zeus,
 in all his glory, sitting on a huge golden throne.  You had thought him to be 
 just a myth, but here he is ... you wonder who else lives in this castle.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -217,7 +217,7 @@ Western Wing~
 You are in the western wing of the castle.  You see the entrance to the
 east, while this hallway continues to the west.
 ~
-9 D 1
+D 1
 D1
 ~
 ~
@@ -232,7 +232,7 @@ Western Wing~
 You are in the western wing of the castle.  The hallway continues to the
 north, while there are private rooms to the west and south.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -255,7 +255,7 @@ Western Wing~
 You are in the western wing of the castle.  This hallway continues to the
 south, and you hear pots and pans rattling to the north.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -270,7 +270,7 @@ Kitchen~
 You have entered the kitchen of this castle, and it is a hotbed of
 activity.  Servants are bustling about, preparing food for the Gods themselves.
 ~
-9 D 1
+D 1
 D2
 ~
 ~
@@ -281,7 +281,7 @@ Eastern Wing~
 You are in the eastern wing of the castle.  The hall continues to the
 east, while the entrance is back to the west.
 ~
-9 D 1
+D 1
 D1
 ~
 ~
@@ -296,7 +296,7 @@ Eastern Wing~
 You are in the eastern wing of the castle.  The hall turns to the north
 here, while there are private rooms to the east and the south.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -319,7 +319,7 @@ Eastern Wing~
 You are in the eastern wing of the castle.  You hear animals to the north,
 while the hallway continues to the south.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -334,7 +334,7 @@ Dungeon~
 You are in Zeus's Dungeon.  You wonder what creatures are so terrible that
 even mighty Zeus fears them enough to imprison them.
 ~
-9 AD 1
+AD 1
 D0
 ~
 ~
@@ -349,7 +349,7 @@ Dungeon~
 You are in Zeus's Dungeon.  There are cells to the north, west, and east. 
 From the east and west, you hear guttural noises.  From the north, nothing ...
 ~
-9 AD 1
+AD 1
 D0
 ~
 ~
@@ -371,7 +371,7 @@ S
 Cell~
 You are in a small, cramped, dirty cell.  It is a horrid place.
 ~
-9 AD 1
+AD 1
 D2
 ~
 ~
@@ -381,7 +381,7 @@ S
 Cell~
 You are in a small, cramped, dirty cell.  It is a horrid place.
 ~
-9 AD 1
+AD 1
 D1
 ~
 ~
@@ -391,7 +391,7 @@ S
 Cell~
 You are in a small, cramped, dirty cell.  It is a horrid place.
 ~
-9 AD 1
+AD 1
 D3
 ~
 ~
@@ -402,7 +402,7 @@ Stairway~
 You have come to a large stairway leading up.  To the south, you see the
 throne room of Zeus.
 ~
-9 D 1
+D 1
 D2
 ~
 ~
@@ -417,7 +417,7 @@ Bakery~
 You are in the small store which supplies the residents of this town with
 their food.  It smells wonderful in here!
 ~
-9 D 1
+D 1
 D1
 ~
 ~
@@ -428,7 +428,7 @@ Residence~
 You are in the residence of one of the inhabitants of this town.  She
 looks vaguely familiar, but you can't place her name ...
 ~
-9 D 1
+D 1
 D3
 ~
 ~
@@ -439,7 +439,7 @@ Residence~
 You are in the residence of one of the inhabitants of this town.  He looks
 vaguely familiar, but you can't place his name ...
 ~
-9 D 1
+D 1
 D1
 ~
 ~
@@ -450,7 +450,7 @@ Mystic Shop~
 You are in the store which provides the citizens here with whichever
 arcane objects they may need.
 ~
-9 D 1
+D 1
 D1
 ~
 ~
@@ -461,7 +461,7 @@ Ares Street~
 You are on a smaller road which branches off from the main street.  On a
 sign, you notice that the name of this road is Ares Street.
 ~
-9 D 1
+D 1
 D1
 ~
 ~
@@ -477,7 +477,7 @@ You have entered private quarters which are reserved for visitors to the
 castle.  You nearly faint as you recognize the occupant of this chamber as Odin
 himself, patron God of Midgaard.  He must be visiting Zeus.
 ~
-9 D 1
+D 1
 D1
 ~
 ~
@@ -488,7 +488,7 @@ Storage Room~
 You are in a storage room of the castle.  There isn't much here, just a
 few boxes filled with old junk.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -500,7 +500,7 @@ You have entered a room reserved for visitors to this castle.  You are
 amazed as you recognize the occupant - Ra, the Egyptian Sun God.  He must be
 visiting Zeus.
 ~
-9 D 1
+D 1
 D3
 ~
 ~
@@ -511,7 +511,7 @@ Storage Room~
 You are in a storage room of the castle.  There isn't much here, just a lot
 of dust.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -523,7 +523,7 @@ You are in the stable of the castle.  Rather than the horses which you
 expected to find, it is filled with a wide variety of creatures which you
 thought were mythical.  Obviously, you were wrong.
 ~
-9 D 1
+D 1
 D2
 ~
 ~
@@ -535,7 +535,7 @@ You have reached the end of Ares Street.  To the south you see an armoury,
 while there is a weapons shop to the east.  To the north, you hear the sounds
 of a blacksmith.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -558,7 +558,7 @@ Armoury~
 This small store is almost empty.  It seems as if there is not much here,
 but the shopkeeper doesn't want to do business with you anyways.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -570,7 +570,7 @@ You have entered a small store with a modest selection of weapons.  You
 get the feeling that there is not a very wide selection here, but the
 shopkeeper doesn't want to do business with you anyways.
 ~
-9 D 1
+D 1
 D3
 ~
 ~
@@ -582,7 +582,7 @@ This large room is so noisy, you can barely hear yourself think.  All the
 occupants are hard at work, crafting high quality weapons and armor.  Something
 is strange about the west wall, although you can't quite tell what it is.
 ~
-9 D 1
+D 1
 D2
 ~
 ~
@@ -599,7 +599,7 @@ You have entered a large room dominated by a huge table with a large map
 on it.  Several men are gathered around the table, studying the map carefully.
 You hear the barking of dogs to the north.
 ~
-9 AD 1
+AD 1
 D0
 ~
 ~
@@ -616,7 +616,7 @@ discoveries on the first floor, and wonder what secrets the upper floor of this
 castle holds.  Hallways extend in all directions, and you see a small, closed 
 hatch above you.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -648,7 +648,7 @@ Northern Hall~
 You are in the northern hallway.  There is a private room to the north,
 and the stairs leading down are to the south.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -663,7 +663,7 @@ Southern Hall~
 You are in the southern hallway.  There is a private room to the south,
 and the stairs leading down are to the north.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -678,7 +678,7 @@ Western Hall~
 You are in the western hallway.  There is a private room to the west, and
 the stairs leading down are to the east.
 ~
-9 D 1
+D 1
 D1
 ~
 ~
@@ -693,7 +693,7 @@ Eastern Hall~
 You are in the eastern hallway.  There is a private room to the east, and
 the stairs leading down are to the west.
 ~
-9 D 1
+D 1
 D1
 ~
 ~
@@ -707,7 +707,7 @@ S
 Bed Room~
 You are in the bed room of a God!  This one seems to be empty.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -717,7 +717,7 @@ S
 Bed Room~
 You are in the bed room of a God!
 ~
-9 D 1
+D 1
 D1
 ~
 ~
@@ -727,7 +727,7 @@ S
 Bed Room~
 You are in the bed room of a God!
 ~
-9 D 1
+D 1
 D3
 ~
 ~
@@ -737,7 +737,7 @@ S
 Bed Room~
 You are in the bed room of a God!
 ~
-9 D 1
+D 1
 D2
 ~
 ~
@@ -749,7 +749,7 @@ You have entered the most sacred of places, the hall of true Gods.  If you
 are a mortal, it would probably be a good idea to leave NOW!  Exits leave in
 all directions.
 ~
-9 D 1
+D 1
 D0
 ~
 ~
@@ -763,7 +763,7 @@ S
 The Portal~
 A sign reads: Beware of the unexpected and don't expect too much.
 ~
-9 D 1
+D 1
 D2
 ~
 ~
@@ -773,7 +773,7 @@ S
 The Believer~
 A voice whispers, 'before the time has passed, enjoy your life.'
 ~
-9 D 1
+D 1
 D2
 ~
 ~
@@ -794,7 +794,7 @@ You now know what true fear is.
 unique~
 BCA BDFHNT 1000 0
 60 30 1d1+3146 1d1+1200 8d7+30 slash
--28 -28 -28 -9
+-43 -43 -43 -24
 FENU 0 0 0
 stand stand male 3737
 0 0 medium 0
@@ -810,7 +810,7 @@ looks up at you and smiles.
 unique~
 BCA BDFHNT 1000 0
 51 25 1d1+2663 1d1+1020 7d7+25 punch
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand male 3063
 0 0 medium 0
@@ -827,7 +827,7 @@ even notice your presence.
 unique~
 CA BDFHNPT 1000 0
 56 28 1d1+2871 1d1+1120 7d7+28 slash
--25 -25 -25 -8
+-40 -40 -40 -23
 FENU 0 0 0
 stand stand male 3361
 0 0 medium 0
@@ -844,7 +844,7 @@ have a seat.
 unique~
 BCA BDFHNT 1000 0
 59 29 1d1+2966 1d1+1180 8d7+29 slice
--27 -27 -27 -9
+-42 -42 -42 -24
 FENU 0 0 0
 sit sit male 3684
 0 0 medium 0
@@ -861,7 +861,7 @@ that he knows more than music.
 unique~
 BCA BDFHNT 1000 0
 58 29 1d1+2918 1d1+1160 8d7+29 slash
--27 -27 -27 -9
+-42 -42 -42 -24
 FENU 0 0 0
 stand stand male 3488
 0 0 medium 0
@@ -877,7 +877,7 @@ and says 'I am very busy.  What do you want?'
 unique~
 BCFA BDFHT -1000 0
 59 29 1d1+3052 1d1+1180 8d7+29 slash
--27 -27 -27 -9
+-42 -42 -42 -24
 FENU 0 0 0
 stand stand male 3625
 0 0 medium 0
@@ -893,7 +893,7 @@ you and invites you to join her.
 unique~
 BCA BDFHNT 1000 0
 56 28 1d1+2855 1d1+1120 7d7+28 slash
--25 -25 -25 -8
+-40 -40 -40 -23
 FENU 0 0 0
 stand stand female 3517
 0 0 medium 0
@@ -910,7 +910,7 @@ way to help you.  He is attended by three golden maidens.
 unique~
 BCA BDFHNT 1000 0
 55 27 1d1+2785 1d1+1100 7d7+27 slash
--25 -25 -25 -8
+-40 -40 -40 -23
 FENU 0 0 0
 stand stand male 3372
 0 0 medium 0
@@ -926,7 +926,7 @@ gold.  She seems to be very lifelike as she assists the smith in his work.
 unique~
 BCA BDFHNT 0 0
 26 13 1d1+861 1d1+520 5d5+13 slash
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand female 1337
 0 0 medium 0
@@ -942,7 +942,7 @@ realize that Ares would not have any weaklings working for him.
 human~
 BCFA BDFHT 0 0
 35 17 1d1+1277 1d1+700 6d6+17 slash
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand male 1766
 0 0 medium 0
@@ -958,7 +958,7 @@ immortal Apollo.
 human~
 BCA BDFHT 1000 0
 14 7 1d1+350 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 577
 0 0 medium 0
@@ -973,7 +973,7 @@ This boy is truly lucky to be able to serve Athena herself.
 human~
 BCA BDFHT 1000 0
 6 3 1d1+138 1d1+120 2d3+3 slice
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 242
 0 0 medium 0
@@ -989,7 +989,7 @@ on the battle field, and you have no doubt that it does its job well.
 unique~
 BCFA BDFHT -600 0
 35 17 1d1+1254 1d1+700 6d6+17 acbite
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand neutral 1819
 0 0 medium 0
@@ -1006,7 +1006,7 @@ presence.
 unique~
 BCA BDFHNT 1000 0
 60 30 1d1+3112 1d1+1200 8d7+30 slash
--28 -28 -28 -9
+-43 -43 -43 -24
 FENU 0 0 0
 stand stand male 3749
 0 0 medium 0
@@ -1024,7 +1024,7 @@ of delicious looking foods.
 human~
 BCA BDFHNT 1000 0
 50 25 1d1+2060 1d1+1000 7d7+25 slash
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand male 2552
 0 0 medium 0
@@ -1041,7 +1041,7 @@ arcane supplies.
 human~
 BCA BDFHNT 1000 0
 50 25 1d1+2079 1d1+1000 7d7+25 slash
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand male 2608
 0 0 medium 0
@@ -1057,7 +1057,7 @@ paid off.
 human~
 BCA BDFHNT 1000 0
 50 25 1d1+2064 1d1+1000 7d7+25 slash
--22 -22 -22 -6
+-37 -37 -37 -21
 FENU 0 0 0
 stand stand male 2599
 0 0 medium 0
@@ -1073,7 +1073,7 @@ He doesn't like what you've been doing in his city.
 human~
 BCFA BDFHNT 1000 0
 34 17 1d1+1210 1d1+680 6d6+17 slash
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand male 1744
 0 0 medium 0
@@ -1090,7 +1090,7 @@ to be trifled with.
 human~
 BCA BDFHNT 1000 0
 60 30 1d1+3069 1d1+1200 8d7+30 slash
--28 -28 -28 -9
+-43 -43 -43 -24
 FENU 0 0 0
 stand stand male 3730
 0 0 medium 0
@@ -1106,7 +1106,7 @@ of a dragon.  It growls at you as you enter the cell, then suddenly attacks!
 dragon~
 BCFA BDFHT -1000 0
 34 17 1d1+1231 1d1+680 6d6+17 flbite
--12 -12 -12 -1
+-27 -27 -27 -16
 FENUC 0 0 0
 stand stand male 1727
 0 0 medium 0
@@ -1122,7 +1122,7 @@ to rest and sit for a while.
 unique~
 BCA BDFHNT 1000 0
 59 29 1d1+3080 1d1+1180 8d7+29 slash
--27 -27 -27 -9
+-42 -42 -42 -24
 FENU 0 0 0
 stand stand female 3646
 0 0 medium 0
@@ -1138,7 +1138,7 @@ looks away.
 eagle~
 CA BDFHNT 0 0
 25 12 1d1+837 1d1+500 5d5+12 pound
--6 -6 -6 2
+-21 -21 -21 -13
 FENU 0 0 0
 stand stand neutral 1289
 0 0 medium 0
@@ -1153,7 +1153,7 @@ He looks happy and carefree.  He smiles and tips his hat to you.
 human~
 CA BDFHNT 1000 0
 6 3 1d1+138 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 242
 0 0 medium 0
@@ -1169,7 +1169,7 @@ threatening, it seems as though it would be dangerous if provoked.
 unique~
 CA BDFHNT 0 0
 14 7 1d1+350 1d1+280 4d4+7 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand neutral 584
 0 0 medium 0
@@ -1184,7 +1184,7 @@ This man looks as is he has been spending WAY too much time in the kitchen.
 human~
 BCA BDFHNT 1000 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 326
 0 0 medium 0
@@ -1200,7 +1200,7 @@ prisoners.
 human~
 BCA BDFHNT 0 0
 22 11 1d1+731 1d1+440 5d5+11 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1132
 0 0 medium 0

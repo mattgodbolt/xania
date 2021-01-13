@@ -18,7 +18,7 @@ enforce the rule of the Emperor.
 human~
 TG HV -500 0
 65 0 5d100+1500 1d1+99 4d4+30 blast
--20 -20 -20 -10
+-35 -35 -35 -25
 FNU 0 EKHJ F
 stand stand male 1000
 0 0 large 0
@@ -35,7 +35,7 @@ underwear if you turn your back.
 human~
 CHS FH -300 0
 35 0 10d10+790 1d1+300 3d6+10 stab
--10 -10 -10 0
+-25 -25 -25 -15
 EFIKN Q I G
 stand stand male 500
 0 0 small 0
@@ -53,7 +53,7 @@ spotted YOU!
 human~
 CFGT FHPQV -1000 0
 43 0 10d100+1000 1d1+99 5d6+25 smash
--30 -30 -30 0
+-45 -45 -45 -15
 CDEFKNU 0 EG 0
 stand stand male 0
 0 0 medium 0
@@ -70,7 +70,7 @@ sand people can't be far...
 giant~
 BGHT HV -500 0
 120 0 40d100+18000 1d1+99 10d10+25 charge
--150 -150 -150 -150
+-165 -165 -165 -165
 CDEFHKO KPQ KI H
 stand stand neutral 0
 0 0 giant 0
@@ -87,7 +87,7 @@ its master.
 Droid~
 TUG H 0 0
 32 0 2d100+800 1d1+99 2d6+10 blast
--15 -15 -15 80
+-30 -30 -30 65
 CO PQLBN HI J
 stand stand neutral 0
 0 0 small 0
@@ -104,7 +104,7 @@ obviously could care less about what you think.
 Droid~
 BGTU HV 0 0
 44 0 4d200+1100 1d1+99 15d10+30 blast
--20 -20 -20 50
+-35 -35 -35 35
 COFE PQLBN HI J
 stand stand neutral 0
 0 0 medium 0
@@ -121,7 +121,7 @@ fight one of these powerful machines.
 Droid~
 GT HV 0 0
 75 0 20d100+4000 1d1+99 10d10+50 blast
--40 -40 -40 0
+-55 -55 -55 -15
 CDEFHIJKO BPQL CHIK J
 stand stand neutral 0
 0 0 large 0
@@ -137,7 +137,7 @@ home to see his family after a long day's work.
 Human~
 CGHTR H 400 0
 40 0 10d50+900 1d1+99 2d10+10 blast
--20 -20 -20 0
+-35 -35 -35 -15
 EFIKOU R EFG 0
 stand stand male 300
 0 0 medium 0
@@ -153,7 +153,7 @@ from the market to fix supper for her family.
 Human~
 CGHTR H 400 0
 50 0 10d50+1000 1d1+99 2d10+30 blast
--20 -20 -20 0
+-35 -35 -35 -15
 EFIKOU R EFG 0
 stand stand female 300
 0 0 medium 0
@@ -169,7 +169,7 @@ because he still has his pressure suit on.
 human~
 GHST HNV 500 0
 55 0 20d100+1000 1d1+99 4d4+40 blast
--25 -25 -25 0
+-40 -40 -40 -15
 CDEFHO K PS 0
 stand stand male 500
 0 0 medium 0
@@ -186,7 +186,7 @@ strange sounds.
 human~
 BGHRT HN 500 0
 65 0 15d100+1500 1d1+99 10d10+20 pound
--15 -15 -15 -9
+-30 -30 -30 -24
 CDEFIKNO QA BCL 0
 stand stand neutral 300
 0 0 small 0
@@ -202,7 +202,7 @@ blowing into...something...and...some music(?) is coming out.
 human~
 BGRT HN 700 0
 73 0 10d100+2000 1d1+99 10d10+20 pound
--12 -12 -12 -5
+-27 -27 -27 -20
 CDEFGIKNO PQ CB 0
 stand stand male 200
 0 0 medium 0
@@ -220,7 +220,7 @@ care.
 human~
 TG HZ -100 0
 70 0 20d100+2500 1d1+599 5d10+30 hit
--20 -20 -20 -10
+-35 -35 -35 -25
 CEFN A BC 0
 stand stand male 5000
 0 0 medium 0
@@ -237,7 +237,7 @@ careful what you do.
 human~
 BGRT HTV -300 0
 85 0 20d100+3000 1d1+500 10d10+55 pound
--50 -50 -50 -100
+-65 -65 -65 -115
 CDEFHIJKNP ABQ PK EHI
 stand stand male 0
 0 0 large 0
@@ -253,7 +253,7 @@ likely to get noticed by the Imperial storm troopers.
 human~
 CGHRST HPQV -1000 0
 55 0 20d100+1000 1d1+99 4d4+40 pound
--25 -25 -25 -25
+-40 -40 -40 -40
 BCDEFHIJKO ABP K E
 stand stand male 5000
 0 0 medium 0
@@ -270,7 +270,7 @@ fighting him ship to ship!
 human~
 GT HJDF 900 0
 80 0 10d100+2500 1d1+99 5d6+30 blast
--35 -35 -35 -8
+-50 -50 -50 -23
 ABCDEFHIJKOU AB D N
 stand stand male 3000
 0 0 large 0
@@ -280,14 +280,14 @@ drunk pilot~
 The drunk pilot~
 A drunk pilot staggers around cursing his ship.
 ~
-This guy has had WAY to much to drink.  He's pretty pissed off cause
+This guy has had WAY too much to drink.  He's pretty pissed off cause
 someone blew up his ship.  Anyway, he is NOT in a good mood and pretty
 much fights anything he can!
 ~
 human~
 GFT HJDF -300 0
 70 0 10d100+2000 1d1+99 6d6+40 blast
--35 -35 -35 -8
+-50 -50 -50 -23
 ABCEFHIJKOP AB D L
 stand stand male 3000
 0 0 large 0
@@ -304,7 +304,7 @@ the rebellion.
 human~
 GCHRT HNTV 0 0
 100 0 30d100+7000 1d1+999 10d10+150 blast
--80 -80 -80 -20
+-95 -95 -95 -35
 CDEFHIJKO ABK D HIP
 stand stand male 10000
 0 0 medium 0
@@ -321,7 +321,7 @@ only because you don't have a bounty on your head.
 human~
 GT HTV -1000 0
 85 0 40d100+2000 1d1+499 5d10+70 hit
--35 -35 -35 -10
+-50 -50 -50 -25
 CDEFHIJKO AB D HI
 stand stand male 10000
 0 0 small 0
@@ -337,7 +337,7 @@ all who he might be able to sell out to the Empire.
 human~
 CGRT HVPQ -1000 0
 95 20 40d100+6000 1d1+899 10d10+120 divine
--70 -70 -70 -20
+-85 -85 -85 -35
 ABCDEFHIJKOQ AB P I
 stand stand neutral 10000
 0 0 huge 0
@@ -354,7 +354,7 @@ wise to upset a wookie.
 human~
 BCGT DFHVN 1000 0
 98 20 20d100+7000 1d1+99 10d10+200 sting
--60 -60 -60 -15
+-75 -75 -75 -30
 CDEFHIJKQ AB KN H
 stand stand male 2000
 0 0 large 0
@@ -371,7 +371,7 @@ someone else...
 human~
 BCGRT CDEFBHJNQPTV 1000 0
 78 0 20d100+3000 1d1+999 5d10+90 divine
--60 -60 -60 -40
+-75 -75 -75 -55
 EFHKNQ ABCK N 0
 stand stand male 50000
 0 0 small 0
@@ -387,7 +387,7 @@ fights.  He keeps a close eye on everything that goes on.
 human~
 B H -200 0
 90 0 1d1+10000 1d1+100 1d1+100 blast
--900 -900 -900 -300
+-915 -915 -915 -315
 NO AB K D
 stand stand male 0
 0 0 small 0
@@ -402,7 +402,7 @@ It's a shopkeeper, what do you expect?
 human~
 B H -200 0
 90 0 1d1+10000 1d1+100 1d1+100 blast
--900 -900 -900 -300
+-915 -915 -915 -315
 NO AB K D
 stand stand male 0
 0 0 small 0
@@ -418,7 +418,7 @@ liked his cooking too.  Now he caters to the tastes of the universe.
 human~
 B H -200 0
 90 0 1d1+10000 1d1+100 1d1+100 blast
--900 -900 -900 -300
+-915 -915 -915 -315
 NO AB K D
 stand stand male 0
 0 0 small 0
@@ -433,7 +433,7 @@ You see nothing special about her.
 human~
 B H -200 0
 90 0 1d1+10000 1d1+100 1d1+100 blast
--900 -900 -900 -300
+-915 -915 -915 -315
 NO AB K 0
 stand stand male 0
 0 0 small 0
@@ -457,17 +457,33 @@ little annoyed...
 human~
 BV HBQP 1000 0
 90 0 1d1+29999 1d1+29999 1d1+100 blast
--900 -900 -900 -300
+-915 -915 -915 -315
 NO ABCD 0 0
 stand stand female 1000
 0 0 small 0
+
+#5828
+grinning alien~
+a grinning alien~
+A alien stands here, grinning at you.
+~
+It has dark skin and two eyeballs mounted atop a pair of wiggly stalks. Its
+gaping maw is full of razor sharp teeth and it seems to be dribbling.
+~
+lizard~
+CHS F -300 0
+35 0 10d10+790 1d1+300 3d6+10 stab
+-25 -25 -25 -15
+EFIKN QJ I G
+stand stand male 500
+0 0 small 0
+
 #0
 #OBJECTS
 #5801
 helmet storm~
 A Storm trooper's helmet~
-The helmet of a storm trooper lies here.
-~
+The helmet of a storm trooper lies here.~
 adamantite~
 armor G AE
 14 15 14 0 0
@@ -482,8 +498,7 @@ A
 #5802
 leg plates storm~
 The leg plates of a Storm trooper~
-The leg plates of a Storm trooper lie here
-~
+The leg plates of a Storm trooper lie here.~
 adamantite~
 armor G AF
 15 14 14 0 0
@@ -500,8 +515,7 @@ A
 #5803
 arm guards storm~
 The arm guards of a storm trooper~
-The arm guards of a storm trooper lie here.
-~
+The arm guards of a storm trooper lie here.~
 adamantite~
 armor G AI
 14 14 15 0 0
@@ -520,8 +534,7 @@ A
 #5804
 boots storm~
 The boots of a storm trooper~
-The boots of a storm trooper lie here.
-~
+The boots of a storm trooper lie here.~
 adamantite~
 armor G AG
 15 15 14 0 0
@@ -538,8 +551,7 @@ A
 #5805
 plate storm~
 The plate of a storm trooper~
-The plate of a storm trooper is here.
-~
+The plate of a storm trooper is here.~
 adamantite~
 armor G AD
 15 15 15 0 0
@@ -559,8 +571,7 @@ A
 #5806
 power converter~
 A power converter~
-A power converter from Tashi station is lying in the dust.
-~
+A power converter from Tashi station is lying in the dust.~
 steel~
 light AG A
 0 0 200 0 0
@@ -577,8 +588,7 @@ A
 #5807
 restraining bolt~
 A droid restraining bolt~
-A small bolt lies in the dust.
-~
+A small bolt lies in the dust.~
 steel~
 wand AB AO
 50 3 3 38 0
@@ -586,8 +596,7 @@ wand AB AO
 #5808
 bad motivator~
 A bad motivator~
-A burnt out motivator from an R2 unit is here.
-~
+A burnt out motivator from an R2 unit is here.~
 steel~
 key ABFG AO
 0 0 0 0 0
@@ -605,8 +614,7 @@ A
 #5809
 belt utility~
 A mechanic's utility belt~
-A small belt lies in the dirt.
-~
+A small belt lies in the dirt.~
 cloth~
 armor G AL
 18 19 18 15 0
@@ -622,8 +630,7 @@ A
 #5810
 clear bracelet plastic~
 A clear plastic bracelet~
-A clear plastic thing is here.
-~
+A clear plastic thing is here.~
 glass~
 armor ABFKL AM
 18 18 18 15 0
@@ -639,8 +646,7 @@ A
 #5811
 pipe~
 A pipe~
-A long, slender pipe is here.
-~
+A long, slender pipe is here.~
 wood~
 wand G AO
 80 5 5 73 0
@@ -654,8 +660,7 @@ silver.  Whoever crafted this pipe was a master at his trade.
 #5812
 gaffi stick~
 A gaffi stick~
-The gaffi stick from a sand person lies here.
-~
+The gaffi stick from a sand person lies here.~
 wood~
 weapon BEHJL AN
 'polearm' 6 7 'pound' 0
@@ -673,8 +678,7 @@ A
 #5813
 hand blaster~
 A hand blaster~
-A small blaster about the size of your hand is here.
-~
+A small blaster about the size of your hand is here.~
 steel~
 weapon 0 AN
 'exotic' 4 10 'blast' D
@@ -689,8 +693,7 @@ A
 #5814
 blaster~
 A blaster~
-A blaster is on the ground.
-~
+A blaster is on the ground.~
 steel~
 weapon 0 AN
 'exotic' 11 5 'blast' 0
@@ -709,8 +712,7 @@ A
 #5815
 double laser pistol~
 A double-barrelled laser pistol~
-A sleek looking laser pistol catches your eye.
-~
+A sleek looking laser pistol catches your eye.~
 adamantite~
 weapon 0 AN
 'exotic' 7 12 'blast' 0
@@ -727,8 +729,7 @@ A
 #5816
 map paper~
 A map of Mos Eisly Spaceport~
-A piece of paper lies here.
-~
+A piece of paper lies here.~
 vellum~
 map 0 A
 1 0 0 0 0
@@ -770,8 +771,7 @@ Cantina       House      Shop   Street  Place       |         |
 #5817
 cloud white~
 A tiny white cloud~
-A tiny white cloud floats here.
-~
+A tiny white cloud floats here.~
 pill~
 pill G A
 90 63 0 0 0
@@ -779,8 +779,7 @@ pill G A
 #5818
 cloud red~
 A tiny red cloud~
-A tiny red cloud floats here.
-~
+A tiny red cloud floats here.~
 pill~
 pill G A
 90 35 43 501 0
@@ -788,8 +787,7 @@ pill G A
 #5819
 canteen~
 A canteen~
-A canteen with a shoulder strap rests here.
-~
+A canteen with a shoulder strap rests here.~
 steel~
 drink 0 AC
 400 0 'water' 0 0
@@ -797,8 +795,7 @@ drink 0 AC
 #5820
 pack backpack~
 A large backpack~
-A large pack rest here.
-~
+A large pack rest here.~
 cloth~
 container 0 AK
 1000 1 0 0 0
@@ -812,8 +809,7 @@ A
 #5821
 table~
 A red concrete table~
-A red concrete picnic table is here.
-~
+A red concrete picnic table is here.~
 adamantite~
 furniture O 0
 0 0 0 0 0
@@ -827,8 +823,7 @@ day to sit and relax on it.
 #5822
 bracelet special glowing nine~
 One of Angela's friendship bracelets~
-A bracelet woven of special glowing silk lies here.
-~
+A bracelet woven of special glowing silk lies here.~
 cloth~
 armor ABGI AM
 500 500 500 500 0
@@ -851,17 +846,15 @@ A
 #5823
 meal~
 A home cooked meal~
-A warm, home cooked meal from Tom's place is here.
-~
-~
+A warm, home cooked meal from Tom's place is here.~
+food~
 food 0 A
 40 0 0 0 0
 1 1 100 P
 #5824
 glass tea~
 A tall glass of tea~
-A tall glass of ice tea is here.
-~
+A tall glass of ice tea is here.~
 glass~
 drink 0 A
 20 20 'tea' 0 0
@@ -869,8 +862,7 @@ drink 0 A
 #5825
 shot glass~
 A shot of whisky~
-A small shot glass is here.
-~
+A small shot glass is here.~
 glass~
 drink 0 A
 10 10 'whisky' 0 0
@@ -878,8 +870,7 @@ drink 0 A
 #5826
 glass lemonade~
 A glass of lemonade~
-A tall glass filled with pink lemonade is here.
-~
+A tall glass filled with pink lemonade is here.~
 glass~
 drink 0 A
 20 20 'lemonade' 0 0
@@ -887,8 +878,7 @@ drink 0 A
 #5827
 coffee chocolate mocha cup mug~
 A warm cup of chocolate mocha coffee~
-A large dark coffee mug sits here.
-~
+A large dark coffee mug sits here.~
 glass~
 drink 0 A
 40 40 'coffee' 0 0
@@ -901,8 +891,7 @@ said it was ok if he sold them to everyone, so he does!
 #5828
 tripod blaster~
 A tripod-mounted blaster~
-A large, tripod-mounted blaster stands here.
-~
+A large, tripod-mounted blaster stands here.~
 adamantite~
 weapon 0 AN
 'exotic' 6 15 'blast' 0
@@ -924,8 +913,7 @@ A
 #5829
 rusty blaster~
 A rusty hand blaster~
-A rusty blaster about the size of your hand is here.
-~
+A rusty blaster about the size of your hand is here.~
 steel~
 weapon 0 AN
 'exotic' 5 7 'blast' D
@@ -938,8 +926,7 @@ sturdy and well suited for combat.
 #5830
 reinforced handcannon gun~
 A reinforced handcannon~
-A large gun with reinforced plating sits here.
-~
+A large gun with reinforced plating sits here.~
 adamantite~
 weapon 0 AN
 'exotic' 9 9 'blast' 0
@@ -956,8 +943,7 @@ A
 #5831
 imperial blaster~
 an imperial blaster~
-An imperial blaster is on the ground.
-~
+An imperial blaster is on the ground.~
 steel~
 weapon 0 AN
 'exotic' 8 8 'blast' 0
@@ -976,8 +962,7 @@ A
 #5832
 custom blaster~
 a custom blaster~
-A custom blaster is on the ground.
-~
+A custom blaster is on the ground.~
 steel~
 weapon 0 AN
 'exotic' 8 10 'blast' 0
@@ -1005,7 +990,7 @@ nearly 100 feet.  There is a strange silence here, but you cannot escape
 the feeling that you are being watched.  The canyon narrows to the
 north, and widens out to the south.
 ~
-58 N 10
+N 10
 D0
 ~
 ~
@@ -1022,7 +1007,7 @@ and trapped.  No one is here, or so you suspect, but you can't help
 feeling that something is here.  The canyon widens to the north and
 south.  A small side canyon is to the east.
 ~
-58 N 10
+N 10
 D0
 ~
 ~
@@ -1041,7 +1026,7 @@ Bantha Canyon~
 This small side canyon is an ideal place for the nomadic sand people to
 leave their huge mounts.  The main canyon is to the west.
 ~
-58 0 10
+0 10
 D3
 ~
 ~
@@ -1053,7 +1038,7 @@ The canyon is quite wide here, and the walls do not seem quite so high.
 Towards the north, you can hear many voices and commotion.  The canyon
 continues south, and Moseisly Spaceport lies north.
 ~
-58 0 10
+0 10
 D0
 ~
 ~
@@ -1070,7 +1055,7 @@ galaxy come to exchange goods, bargain for passage, and slit throats.
 You will never find a more wretched hive of scum and villainy.  The city
 continues north, and a canyon lies south.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1089,7 +1074,7 @@ it doesn't look like they are helping much.  The main street continues
 north, and the city entrance lies to the south.  West of here is a small
 shop.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1111,7 +1096,7 @@ The Imperial guards have been sent here to bring order to the town, but
 it doesn't look like they are helping much.  The main street runs north
 and south.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1129,7 +1114,7 @@ The Imperial guards have been sent here to bring order to the town, but
 it doesn't look like they are helping much.  The main street runs north
 and south of here, and the Imperial Way runs east and west.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1155,7 +1140,7 @@ The Imperial guards have been sent here to bring order to the town, but
 they are getting their butts kicked the same as everyone.  The main 
 street runs north and south.  To the west is a small shop.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1178,7 +1163,7 @@ it doesn't look like they are helping much.  The main street runs north
 and south.  To the east is Rain's place, and to the west is Tom's
 cafeteria.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1204,7 +1189,7 @@ The Imperial guards have been sent here to bring order to the town, but
 it doesn't look like they are helping much.  The main street continues
 south.  To the east is a small shop, and to the north is a weapon shop.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1225,7 +1210,7 @@ arms of all sorts.  Yet, not to many of them appear to be in working
 condition.  The walls are covered with blast marks, and the low roof
 seems about ready to cave in.  To the south is the main street.
 ~
-58 0 0
+0 0
 D2
 ~
 ~
@@ -1238,7 +1223,7 @@ in this spaceport.  The room is well lit with fluorescent lighting, and
 the place seems in pretty good condition.  To the east is the main
 street.
 ~
-58 0 0
+0 0
 D1
 ~
 ~
@@ -1252,7 +1237,7 @@ the west.  Shadowy figures lurk here and there, trying to keep out of
 sight, and Imperial storm troopers patrol the streets.  To the east is
 the main street.  To the west continues Imperial Way.
 ~
-58 0 1
+0 1
 D1
 ~
 ~
@@ -1269,7 +1254,7 @@ really falling apart.  The counter has collapsed onto the floor, and
 mice have taken up residence in the floor.  No one seems to be here, and
 it looks rather abandoned.  The main street is to the east.
 ~
-58 0 0
+0 0
 D1
 ~
 ~
@@ -1282,7 +1267,7 @@ locals.  Many people run in and out, buying things and hurrying on their
 way.  The Empire keeps a close eye on this place, just to make sure
 nothing funny happens.  The main street is to the east.
 ~
-58 0 0
+0 0
 D1
 ~
 ~
@@ -1294,7 +1279,7 @@ This is one of the small homes that the citizens live in.  It seems
 cramped, but is laid out in a very functional way.  The house seems like
 a very pleasant place to live.  A residential street is to the west.
 ~
-58 0 0
+0 0
 D3
 ~
 ~
@@ -1307,7 +1292,7 @@ people moving between the docking bays to the east, and the cantina to
 the west.  Imperial storm troopers patrol the streets.  To the west is a
 residential street, and the Imperial Way continues east.
 ~
-58 0 1
+0 1
 D1
 ~
 ~
@@ -1326,7 +1311,7 @@ residential street is to the west of here.
 
 A Jawa is here, trying to push a driod on you.
 ~
-58 M 0
+M 0
 D3
 ~
 ~
@@ -1336,7 +1321,7 @@ S
 Droid Storage~
 This is the Droid Pet shop storage room.
 ~
-58 D 0
+D 0
 S
 #5821
 A Residential Street~
@@ -1346,7 +1331,7 @@ walking to and fro doing the things that people do in their everyday
 lives.  The storm troopers usually leave the people here alone.  A shop 
 is to the east.  The residential street continues north.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1364,7 +1349,7 @@ walking to and fro doing the things that people do in their everyday
 lives.  To the east is the Imperial way, and the residential street runs 
 north and south.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1386,7 +1371,7 @@ walking to and fro doing the things that people do in their everyday
 lives.  The storm troopers usually leave the people here alone.  The
 residential street runs north and south.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1405,7 +1390,7 @@ lives.  The storm troopers usually leave the people here alone.  To the
 east is a small house, the cantina is west, and the residential street
 runs north and south.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1432,7 +1417,7 @@ lives.  The storm troopers usually leave the people here alone.  You can
 hear children playing to the north.  The residential street runs north 
 and south.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1448,7 +1433,7 @@ This is one of the small homes that the citizens live in.  It seems
 cramped, but is laid out in a very functional way.  The house seems like
 a very pleasant place to live.  A residential street is to the south.
 ~
-58 0 0
+0 0
 D2
 ~
 ~
@@ -1461,7 +1446,7 @@ materials that they don't want the Empire to get a hold of.  It is a
 rather dark and slightly smelly room, I bet no one has cleaned it in a
 long time.
 ~
-58 A 0
+A 0
 D1
 The Wall~
 Wall~
@@ -1474,7 +1459,7 @@ business. There are many storm troopers around, but here it is about a
 fair fight, so the storm troopers are not so quick to start a conflict.
 The alley continues east.
 ~
-58 N 1
+N 1
 D1
 ~
 ~
@@ -1488,7 +1473,7 @@ the west.  Shadowy figures lurk here and there, trying to keep out of
 sight.  To the west is the main street, and the Imperial Way continues 
 east.
 ~
-58 0 1
+0 1
 D1
 ~
 ~
@@ -1505,7 +1490,7 @@ business. There are many storm troopers around, but here it is about a
 fair fight, so the storm troopers are not so quick to start a conflict.
 The alley continues east.
 ~
-58 N 1
+N 1
 D1
 ~
 ~
@@ -1521,7 +1506,7 @@ welcome change to the dangers that lie outside.  There is a warm fire
 here, and you can smell the sweet aroma of potions brewing.  The main
 street is west.
 ~
-58 CK 0
+CK 0
 D 1
 The Wall~
 Wall~
@@ -1539,7 +1524,7 @@ place, and it is out of stock at the time.  The owner seems to have left
 the place to decay until he gan get some supplies in.  The main street is
 west.
 ~
-58 0 0
+0 0
 D3
 ~
 ~
@@ -1552,7 +1537,7 @@ business. There are many storm troopers around, but here it is about a
 fair fight, so the storm troopers are not so quick to start a conflict.
 The alley continues north.
 ~
-0 N 1
+N 1
 D0
 ~
 ~
@@ -1569,7 +1554,7 @@ business. There are many storm troopers around, but here it is about a
 fair fight, so the storm troopers are not so quick to start a conflict.
 The alley continues west and south.  The Imperial Way lies to the north.
 ~
-58 N 1
+N 1
 D0
 ~
 ~
@@ -1591,7 +1576,7 @@ the west.  Shadowy figures lurk here and there, trying to keep out of
 sight, and Imperial storm troopers patrol the streets.  The Imperial Way
 runs east and west, and a dark alley runs north and south.
 ~
-58 C 1
+C 1
 D0
 ~
 ~
@@ -1616,7 +1601,7 @@ business. There are many storm troopers around, but here it is about a
 fair fight, so the storm troopers are not so quick to start a conflict.
 The alley continues west and north. The Imperial Way is south.
 ~
-58 N 1
+N 1
 D0
 ~
 ~
@@ -1638,7 +1623,7 @@ fair fight, so the storm troopers are not so quick to start a conflict.
 The alley continues south.  You notice something strange about the west
 wall.
 ~
-58 N 1
+N 1
 D2
 ~
 ~
@@ -1656,7 +1641,7 @@ the west.  Shadowy figures lurk here and there, trying to keep out of
 sight, and Imperial storm troopers patrol the streets.  To the north is
 an access road, and the Imperial Way continues west.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1675,7 +1660,7 @@ huge machines trying to make sure nothing goes wrong, better stay out of
 the way.  The Imperial Way is south, and the access road continues
 north.  East is a docking bay.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1698,7 +1683,7 @@ huge machines trying to make sure nothing goes wrong, better stay out of
 the way.  To the north and east are docking bays.  The access road
 continues south.
 ~
-58 0 1
+0 1
 D0
 ~
 ~
@@ -1723,7 +1708,7 @@ ship, a heavily modified stock light freighter.  It looks as though it
 can handle itself fine if the Empire ever came after it.  An access road
 is south of here.
 ~
-58 0 1
+0 1
 D2
 ~
 ~
@@ -1737,7 +1722,7 @@ Most of the ships that dock here are looking for more than refueling and
 repairs, they are also looking for refuge from the Empire.  An access
 road is west of here.
 ~
-58 0 1
+0 1
 D3
 ~
 ~
@@ -1751,7 +1736,7 @@ Most of the ships that dock here are looking for more than refueling and
 repairs, they are also looking for refuge from the Empire.  An access
 road is west of here.
 ~
-58 0 1
+0 1
 D3
 ~
 ~
@@ -1768,7 +1753,7 @@ plenty of business dealings go on here in the many booths in the darker
 corners.  The cantina stretches north and south.  To the west is the
 bar, and a residential street is east.
 ~
-58 ACDN 0
+ACDN 0
 D0
 ~
 ~
@@ -1795,7 +1780,7 @@ keep a close eye on this place, and you can see that their presence is
 felt, but business seems to get along just fine.  The cantina continues
 west, and the entrance is north.  A private booth is south of you.
 ~
-58 ADN 0
+ADN 0
 D0
 ~
 ~
@@ -1814,7 +1799,7 @@ keep a close eye on this place, and you can see that their presence is
 felt, but business seems to get along just fine.  The cantina continues
 north and west.  The entrance is south.
 ~
-58 ADN 0
+ADN 0
 D0
 ~
 ~
@@ -1836,7 +1821,7 @@ whisky is the prominent flavor of the air today.  The storm troopers
 keep a close eye on this place.  The cantina continues west and south.  
 A private booth is north of you.
 ~
-58 ADN 0
+ADN 0
 D2
 ~
 ~
@@ -1856,7 +1841,7 @@ felt, but business seems to get along just fine.  The cantina continues
 east and west.  The bar is north of
 you.
 ~
-58 ADN 0
+ADN 0
 D0
 ~
 ~
@@ -1878,7 +1863,7 @@ them don't look to friendly either.  The bartender seems not to notice
 you, and perhaps it is better that way.  The cantina continues in all
 directions, and the exit is east of here.
 ~
-58 ADN 0
+ADN 0
 D0
 ~
 ~
@@ -1906,7 +1891,7 @@ felt, but business seems to get along just fine.  The cantina continues
 east and west.  The bar is south of you and the band is playing just
 north.
 ~
-58 ADN 0
+ADN 0
 D0
 ~
 ~
@@ -1933,7 +1918,7 @@ over and over again, and you begin to wonder if the band is playing to
 cover up the drone of the bar, of if the bar is trying to cover up the
 drone of the band. The cantina continues to the east, south and west.
 ~
-58 ADN 0
+ADN 0
 D1
 ~
 ~
@@ -1958,7 +1943,7 @@ north and east.
 
 You feel someone push you from behind.
 ~
-58 ADN 0
+ADN 0
 D0
 ~
 ~
@@ -1977,7 +1962,7 @@ keep a close eye on this place, and you can see that their presence is
 felt, but business seems to get along just fine.  The cantina continues
 north and south.  The bar is east of you and a private booth lies west.
 ~
-58 ADN 0
+ADN 0
 D 0
 ~
 ~
@@ -2000,7 +1985,7 @@ keep a close eye on this place, and you can see that their presence is
 felt, but business seems to get along just fine.  The cantina continues
 north, east and south.
 ~
-58 ADN 0
+ADN 0
 D0
 ~
 ~
@@ -2024,7 +2009,7 @@ felt, but business seems to get along just fine.  The cantina continues
 south and a band is playing east.  There are private booths to the north
 and west.
 ~
-58 ADN 0
+ADN 0
 D0
 ~
 ~
@@ -2045,7 +2030,7 @@ small table here, and chairs for about four or five people.  This is
 where many of the business dealings are held.  The only exit is to the
 south.
 ~
-58 ADN 0
+ADN 0
 D2
 ~
 ~
@@ -2063,7 +2048,7 @@ it.  That is where Estranged and Hart spent all the time that they
 weren't on these stairs.  It is a little early for people to be
 on campus, and no one is here yet.
 ~
-58 QCAKNS 1
+QCAKNS 1
 D 1
 The promised land lies east~
 ~
@@ -2080,7 +2065,7 @@ This is the fabled table of Xavier.  All of Estranged's and Hart's
 friends gathered here throughout the day, socializing and making out.
 This looks like the perfect place to relax and take a nap.
 ~
-58 P 2
+P 2
 D3
 The Brophy stairs are west~
 ~
@@ -2097,7 +2082,9 @@ E 1 5801 20 6            helmet
 E 1 5805 20 5            plate
 E 1 5831 -1 16           blaster
 M 0 5801 15 5808 1  1      storm trooper
-  
+
+O 0 3135 10 5808  fountain at cross roads
+
 E 1 5805 20 5            plate
 E 1 5831 -1 16           blaster
 M 0 5801 15 5816 1  1      storm trooper
@@ -2212,7 +2199,10 @@ M 0 5808 10 5816 1  1      town person
   
 G 1 5816 -1              map
 M 0 5808 10 5816 1  1      town person
-  
+
+M 0 5828 2 5816 1  1      grinning alien
+M 0 5828 2 5817 1  1      grinning alien
+
 M 0 5808 10 5839 1  1      town person
   
 E 1 5813 -1 16           hand blaster
@@ -2412,6 +2402,7 @@ M 5813 spec_cast_mage
 M 5819 spec_executioner
 M 5822 spec_cast_mage
 M 5822 spec_cast_cleric
+M 5828 spec_breath_frost
 S
 
 #$

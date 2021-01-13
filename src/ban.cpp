@@ -1,11 +1,11 @@
 /***************************************************************************
- *	ROM 2.4 is copyright 1993-1996 Russ Taylor			   *
- *	ROM has been brought to you by the ROM consortium		   *
- *	    Russ Taylor (rtaylor@pacinfo.com)				   *
- *	    Gabrielle Taylor (gtaylor@pacinfo.com)			   *
- *	    Brian Moore (rom@rom.efn.org)				   *
- *	By using this code, you have agreed to follow the terms of the	   *
- *	ROM license, in the file Rom24/doc/rom.license			   *
+ * ROM 2.4 is copyright 1993-1996 Russ Taylor
+ * ROM has been brought to you by the ROM consortium
+ *     Russ Taylor (rtaylor@pacinfo.com)
+ *     Gabrielle Taylor (gtaylor@pacinfo.com)
+ *     Brian Moore (rom@rom.efn.org)
+ * By using this code, you have agreed to follow the terms of the
+ * ROM license, in the file Rom24/doc/rom.license
  ***************************************************************************/
 
 /*************************************************************************/
@@ -20,14 +20,15 @@
 
 #include "buffer.h"
 #include "comm.hpp"
+#include "db.h"
 #include "merc.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-#include <sys/types.h>
+#include "string_utils.hpp"
 
-char *print_flags(const int value);
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
+char *print_flags(int value);
 
 BAN_DATA *ban_list;
 
@@ -51,7 +52,6 @@ void save_bans() {
     FILE *fp;
     bool found = false;
 
-    fclose(fpReserve);
     if ((fp = fopen(BAN_FILE, "w")) == nullptr) {
         perror(BAN_FILE);
     }
@@ -64,7 +64,6 @@ void save_bans() {
     }
 
     fclose(fp);
-    fpReserve = fopen(NULL_FILE, "r");
     if (!found)
         unlink(BAN_FILE);
 }
@@ -102,10 +101,10 @@ void load_bans() {
 
 bool check_ban(const char *site, int type) {
     BAN_DATA *pban;
+
     char host[MAX_STRING_LENGTH];
 
-    strcpy(host, capitalize(site));
-    host[0] = LOWER(host[0]);
+    strcpy(host, lower_case(site).c_str()); // TODO horrible.
 
     for (pban = ban_list; pban != nullptr; pban = pban->next) {
         if (!IS_SET(pban->ban_flags, type))
@@ -128,7 +127,7 @@ bool check_ban(const char *site, int type) {
     return false;
 }
 
-void ban_site(CHAR_DATA *ch, const char *argument, bool fPerm) {
+void ban_site(Char *ch, const char *argument, bool fPerm) {
     char buf[MAX_STRING_LENGTH];
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
@@ -143,7 +142,7 @@ void ban_site(CHAR_DATA *ch, const char *argument, bool fPerm) {
 
     if (arg1[0] == '\0') {
         if (ban_list == nullptr) {
-            send_to_char("No sites banned at this time.\n\r", ch);
+            ch->send_line("No sites banned at this time.");
             return;
         }
         buffer = buffer_create();
@@ -172,7 +171,7 @@ void ban_site(CHAR_DATA *ch, const char *argument, bool fPerm) {
     else if (!str_prefix(arg2, "permit"))
         type = BAN_PERMIT;
     else {
-        send_to_char("Acceptable ban types are 'all', 'newbies', and 'permit'.\n\r", ch);
+        ch->send_line("Acceptable ban types are 'all', 'newbies', and 'permit'.");
         return;
     }
 
@@ -189,15 +188,15 @@ void ban_site(CHAR_DATA *ch, const char *argument, bool fPerm) {
     }
 
     if (strlen(name) == 0) {
-        send_to_char("Ban which site?\n\r", ch);
+        ch->send_line("Ban which site?");
         return;
     }
 
     prev = nullptr;
     for (pban = ban_list; pban != nullptr; prev = pban, pban = pban->next) {
         if (!str_cmp(name, pban->name)) {
-            if (pban->level > get_trust(ch)) {
-                send_to_char("That ban was set by a higher power.\n\r", ch);
+            if (pban->level > ch->get_trust()) {
+                ch->send_line("That ban was set by a higher power.");
                 return;
             } else {
                 if (prev == nullptr)
@@ -211,7 +210,7 @@ void ban_site(CHAR_DATA *ch, const char *argument, bool fPerm) {
 
     pban = new_ban();
     pban->name = str_dup(name);
-    pban->level = get_trust(ch);
+    pban->level = ch->get_trust();
 
     /* set ban type */
     pban->ban_flags = type;
@@ -229,14 +228,14 @@ void ban_site(CHAR_DATA *ch, const char *argument, bool fPerm) {
     snprintf(buf, sizeof(buf), "The host(s) matching '%s%s%s' have been banned.\n\r",
              IS_SET(pban->ban_flags, BAN_PREFIX) ? "*" : "", pban->name,
              IS_SET(pban->ban_flags, BAN_SUFFIX) ? "*" : "");
-    send_to_char(buf, ch);
+    ch->send_to(buf);
 }
 
-void do_ban(CHAR_DATA *ch, const char *argument) { ban_site(ch, argument, false); }
+void do_ban(Char *ch, const char *argument) { ban_site(ch, argument, false); }
 
-void do_permban(CHAR_DATA *ch, const char *argument) { ban_site(ch, argument, true); }
+void do_permban(Char *ch, const char *argument) { ban_site(ch, argument, true); }
 
-void do_allow(CHAR_DATA *ch, const char *argument) {
+void do_allow(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH], *aargh = arg;
     char buf[MAX_STRING_LENGTH];
     BAN_DATA *prev;
@@ -245,7 +244,7 @@ void do_allow(CHAR_DATA *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        send_to_char("Remove which site from the ban list?\n\r", ch);
+        ch->send_line("Remove which site from the ban list?");
         return;
     }
 
@@ -258,8 +257,8 @@ void do_allow(CHAR_DATA *ch, const char *argument) {
     prev = nullptr;
     for (curr = ban_list; curr != nullptr; prev = curr, curr = curr->next) {
         if (!str_cmp(aargh, curr->name)) {
-            if (curr->level > get_trust(ch)) {
-                send_to_char("You are not powerful enough to lift that ban.\n\r", ch);
+            if (curr->level > ch->get_trust()) {
+                ch->send_line("You are not powerful enough to lift that ban.");
                 return;
             }
             if (prev == nullptr)
@@ -270,11 +269,11 @@ void do_allow(CHAR_DATA *ch, const char *argument) {
             snprintf(buf, sizeof(buf), "Ban on '%s%s%s' lifted.\n\r", IS_SET(curr->ban_flags, BAN_PREFIX) ? "*" : "",
                      aargh, IS_SET(curr->ban_flags, BAN_SUFFIX) ? "*" : "");
             free_ban(curr);
-            send_to_char(buf, ch);
+            ch->send_to(buf);
             save_bans();
             return;
         }
     }
 
-    send_to_char("That site is not banned.\n\r", ch);
+    ch->send_line("That site is not banned.");
 }

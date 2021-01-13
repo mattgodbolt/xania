@@ -9,24 +9,35 @@
 
 #include "interp.h"
 #include "CommandSet.hpp"
-#include "Descriptor.hpp"
+#include "Note.hpp"
 #include "comm.hpp"
+#include "handler.hpp"
 #include "merc.h"
-#include "note.h"
 
 #include <fmt/format.h>
 
 #include <cctype>
 #include <cstdio>
-#include <cstdlib>
 #include <cstring>
 #include <functional>
 #include <utility>
 
-using namespace fmt::literals;
+namespace {
+inline constexpr auto ML = MAX_LEVEL; /* implementor */
+inline constexpr auto L1 = MAX_LEVEL - 1; /* creator */
+inline constexpr auto L2 = MAX_LEVEL - 2; /* supreme being */
+inline constexpr auto L3 = MAX_LEVEL - 3; /* deity */
+inline constexpr auto L4 = MAX_LEVEL - 4; /* god */
+inline constexpr auto L5 = MAX_LEVEL - 5; /* immortal */
+inline constexpr auto L6 = MAX_LEVEL - 6; /* demigod */
+inline constexpr auto L7 = MAX_LEVEL - 7; /* angel */
+inline constexpr auto L8 = MAX_LEVEL - 8; /* avatar */
+inline constexpr auto IM = LEVEL_IMMORTAL; /* angel */
+inline constexpr auto HE = LEVEL_HERO; /* hero */
+}
 
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-bool MP_Commands(CHAR_DATA *ch);
+bool MP_Commands(Char *ch);
 
 enum class CommandLogLevel { Normal, Always, Never };
 
@@ -46,8 +57,9 @@ static const char *bad_position_string[] = {"Lie still; you are DEAD.\n\r",
                                             "You're standing.\n\r"};
 
 // Function object for commands run by the interpreter, the do_ functions.
-// argument is modified (currently) by some of the text processing routines. TODO make into a const.
-using CommandFunc = std::function<void(CHAR_DATA *ch, char *argument)>;
+using CommandFunc = std::function<void(Char *ch, const char *argument)>;
+using CommandFuncNoArgs = std::function<void(Char *ch)>;
+using CommandFuncArgParser = std::function<void(Char *ch, ArgParser)>;
 
 struct CommandInfo {
     const char *name;
@@ -65,6 +77,25 @@ static CommandSet<CommandInfo> commands;
 static void add_command(const char *name, CommandFunc do_fun, sh_int position = POS_DEAD, sh_int level = 0,
                         CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
     commands.add(name, CommandInfo(name, std::move(do_fun), position, level, log, show), level);
+}
+
+// Add command with no args.
+static void add_command(const char *name, CommandFuncNoArgs do_fun, sh_int position = POS_DEAD, sh_int level = 0,
+                        CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
+    commands.add(name,
+                 CommandInfo(
+                     name, [f = std::move(do_fun)](Char *ch, const char *) { f(ch); }, position, level, log, show),
+                 level);
+}
+
+// Add command with no args.
+static void add_command(const char *name, CommandFuncArgParser do_fun, sh_int position = POS_DEAD, sh_int level = 0,
+                        CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
+    commands.add(name,
+                 CommandInfo(
+                     name, [f = std::move(do_fun)](Char *ch, const char *args) { f(ch, ArgParser(args)); }, position,
+                     level, log, show),
+                 level);
 }
 
 void interp_initialise() {
@@ -125,7 +156,7 @@ void interp_initialise() {
     add_command("idea", do_idea);
     add_command("info", do_groups, POS_SLEEPING);
     add_command("motd", do_motd);
-    add_command("read", do_read, POS_RESTING);
+    add_command("read", do_look, POS_RESTING);
     add_command("report", do_report, POS_RESTING);
     add_command("rules", do_rules);
     add_command("skills", do_skills);
@@ -133,7 +164,6 @@ void interp_initialise() {
     add_command("spells", do_spells);
     add_command("story", do_story);
     add_command("time", do_time);
-    add_command("timezone", do_timezone);
     add_command("tipwizard", do_tipwizard);
     add_command("tips", do_tipwizard);
     add_command("typo", do_typo);
@@ -169,6 +199,7 @@ void interp_initialise() {
     add_command("password", do_password, POS_DEAD, 0, CommandLogLevel::Never);
     add_command("prefix", do_prefix);
     add_command("prompt", do_prompt);
+    add_command("pronouns", do_pronouns);
     add_command("scroll", do_scroll);
     add_command("showdefence", do_showdefence);
     add_command("showafk", do_showafk);
@@ -227,6 +258,8 @@ void interp_initialise() {
     add_command("sacrifice", do_sacrifice, POS_RESTING);
     add_command("junk", do_sacrifice, POS_RESTING, 0, CommandLogLevel::Normal, false);
     add_command("tap", do_sacrifice, POS_RESTING, 0, CommandLogLevel::Normal, false);
+    add_command("tras", do_tras, POS_RESTING);
+    add_command("trash", do_trash, POS_RESTING);
     add_command("unlock", do_unlock, POS_RESTING);
     add_command("value", do_value, POS_RESTING);
     add_command("wear", do_wear, POS_RESTING);
@@ -377,31 +410,28 @@ void interp_initialise() {
     add_command("mpforce", do_mpforce, POS_DEAD, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
 }
 
-static const char *apply_prefix(char *buf, CHAR_DATA *ch, const char *command) {
-    char *pc_prefix = nullptr;
-
-    /* Unswitched MOBs don't have prefixes.  If we're switched, get the player's prefix. */
-    if (IS_NPC(ch)) {
-        if (ch->desc && ch->desc->original())
-            pc_prefix = ch->desc->original()->pcdata->prefix;
-        else
-            return command;
-    } else
-        pc_prefix = ch->pcdata->prefix;
+static const char *apply_prefix(char *buf, Char *ch, const char *command) {
+    // Unswitched MOBs don't have prefixes.  If we're switched, get the player's prefix.
+    auto player = ch->player();
+    if (!player)
+        return command;
 
     if (0 == strcmp(command, "prefix")) {
         return command;
-    } else if (command[0] == '\\') {
-        if (command[1] == '\\') {
-            send_to_char(pc_prefix[0] ? "(prefix removed)\n\r" : "(no prefix to remove)\n\r", ch);
-            pc_prefix[0] = '\0';
-            command++; /* skip the \ */
-        }
-        command++; /* skip the \ */
-        return command;
     } else {
-        snprintf(buf, MAX_INPUT_LENGTH, "%s%s", pc_prefix, command);
-        return buf;
+        auto &pc_data = player->pcdata;
+        if (command[0] == '\\') {
+            if (command[1] == '\\') {
+                ch->send_to(!pc_data->prefix.empty() ? "(prefix removed)\n\r" : "(no prefix to remove)\n\r");
+                pc_data->prefix.clear();
+                command++; /* skip the \ */
+            }
+            command++; /* skip the \ */
+            return command;
+        } else {
+            snprintf(buf, MAX_INPUT_LENGTH, "%s%s", pc_data->prefix.c_str(), command);
+            return buf;
+        }
     }
 }
 
@@ -409,10 +439,9 @@ static const char *apply_prefix(char *buf, CHAR_DATA *ch, const char *command) {
  * The main entry point for executing commands.
  * Can be recursively called from 'at', 'order', 'force'.
  */
-void interpret(CHAR_DATA *ch, const char *argument) {
+void interpret(Char *ch, const char *argument) {
     char cmd_buf[MAX_INPUT_LENGTH];
     char command[MAX_INPUT_LENGTH];
-    char logline[MAX_INPUT_LENGTH];
     argument = apply_prefix(cmd_buf, ch, argument);
 
     /* Strip leading spaces. */
@@ -425,8 +454,8 @@ void interpret(CHAR_DATA *ch, const char *argument) {
     REMOVE_BIT(ch->affected_by, AFF_HIDE);
 
     /* Implement freeze command. */
-    if (!IS_NPC(ch) && IS_SET(ch->act, PLR_FREEZE)) {
-        send_to_char("You're totally frozen!\n\r", ch);
+    if (ch->is_pc() && IS_SET(ch->act, PLR_FREEZE)) {
+        ch->send_line("You're totally frozen!");
         return;
     }
 
@@ -434,7 +463,7 @@ void interpret(CHAR_DATA *ch, const char *argument) {
      * Special parsing so ' can be a command,
      *   also no spaces needed after punctuation.
      */
-    strcpy(logline, argument);
+    std::string logline = argument;
     if (!isalpha(argument[0]) && !isdigit(argument[0])) {
         command[0] = argument[0];
         command[1] = '\0';
@@ -446,30 +475,31 @@ void interpret(CHAR_DATA *ch, const char *argument) {
     }
 
     /* Look for command in command table. */
-    auto cmd = commands.get(command, get_trust(ch));
+    auto cmd = commands.get(command, ch->get_trust());
 
     /* Look for command in socials table. */
     if (!cmd.has_value()) {
         if (!check_social(ch, command, argument))
-            send_to_char("Huh?\n\r", ch);
+            ch->send_line("Huh?");
         // Return before logging. This is to prevent accidentally logging a typo'd "never log" command.
         return;
     }
 
     /* Log and snoop. */
     if (cmd->log == CommandLogLevel::Never)
-        strcpy(logline, "");
+        logline.clear();
 
-    if ((!IS_NPC(ch) && IS_SET(ch->act, PLR_LOG)) || fLogAll || cmd->log == CommandLogLevel::Always) {
+    if ((ch->is_pc() && IS_SET(ch->act, PLR_LOG)) || fLogAll || cmd->log == CommandLogLevel::Always) {
         int level = (cmd->level >= 91) ? (cmd->level) : 0;
-        if (!IS_NPC(ch) && (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)))
-            level = UMAX(level, get_trust(ch));
-        if (IS_NPC(ch) && ch->desc && ch->desc->original()) {
-            snprintf(log_buf, LOG_BUF_SIZE, "Log %s (as '%s'): %s", ch->desc->original()->name, ch->name, logline);
+        if (ch->is_pc() && (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)))
+            level = UMAX(level, ch->get_trust());
+        auto log_level = (cmd->level >= 91) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT;
+        if (ch->is_npc() && ch->desc && ch->desc->original()) {
+            log_new(fmt::format("Log {} (as '{}'): {}", ch->desc->original()->name, ch->name, logline), log_level,
+                    level);
         } else {
-            snprintf(log_buf, LOG_BUF_SIZE, "Log %s: %s", ch->name, logline);
+            log_new(fmt::format("Log {}: {}", ch->name, logline), log_level, level);
         }
-        log_new(log_buf, (cmd->level >= 91) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT, level);
     }
 
     if (ch->desc)
@@ -477,7 +507,7 @@ void interpret(CHAR_DATA *ch, const char *argument) {
 
     /* Character not in position for command? */
     if (ch->position < cmd->position) {
-        send_to_char(bad_position_string[ch->position], ch);
+        ch->send_to(bad_position_string[ch->position]);
         return;
     }
 
@@ -491,39 +521,36 @@ void interpret(CHAR_DATA *ch, const char *argument) {
     }
 }
 
-static const struct social_type *find_social(const char *name) {
+static const struct social_type *find_social(std::string_view name) {
     for (int cmd = 0; social_table[cmd].name[0] != '\0'; cmd++) {
-        if (name[0] == social_table[cmd].name[0] && !str_prefix(name, social_table[cmd].name)) {
+        if (matches_start(name, social_table[cmd].name))
             return social_table + cmd;
-        }
     }
     return nullptr;
 }
 
-bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    const struct social_type *social;
-
-    if (!(social = find_social(command)))
+bool check_social(Char *ch, std::string_view command, std::string_view argument) {
+    const auto *social = find_social(command);
+    if (!social)
         return false;
 
-    if (!IS_NPC(ch) && IS_SET(ch->comm, COMM_NOEMOTE)) {
-        send_to_char("You are anti-social!\n\r", ch);
+    if (ch->is_pc() && IS_SET(ch->comm, COMM_NOEMOTE)) {
+        ch->send_line("You are anti-social!");
         return true;
     }
 
     if ((ch->position < POS_SLEEPING) || (ch->position == POS_SLEEPING && str_cmp(social->name, "snore"))) {
-        send_to_char(bad_position_string[ch->position], ch);
+        ch->send_to(bad_position_string[ch->position]);
         return true;
     }
 
-    one_argument(argument, arg);
-    CHAR_DATA *victim = nullptr;
-    if (arg[0] == '\0') {
+    ArgParser args(argument);
+    Char *victim = nullptr;
+    if (args.empty()) {
         act(social->others_no_arg, ch, nullptr, victim, To::Room);
         act(social->char_no_arg, ch, nullptr, victim, To::Char);
-    } else if ((victim = get_char_room(ch, arg)) == nullptr) {
-        send_to_char("They aren't here.\n\r", ch);
+    } else if ((victim = get_char_room(ch, args.shift())) == nullptr) {
+        ch->send_line("They aren't here.");
     } else if (victim == ch) {
         act(social->others_auto, ch, nullptr, victim, To::Room);
         act(social->char_auto, ch, nullptr, victim, To::Char);
@@ -532,7 +559,7 @@ bool check_social(CHAR_DATA *ch, const char *command, const char *argument) {
         act(social->char_found, ch, nullptr, victim, To::Char);
         act(social->vict_found, ch, nullptr, victim, To::Vict);
 
-        if (!IS_NPC(ch) && IS_NPC(victim) && !IS_AFFECTED(victim, AFF_CHARM) && IS_AWAKE(victim)
+        if (ch->is_pc() && victim->is_npc() && !IS_AFFECTED(victim, AFF_CHARM) && IS_AWAKE(victim)
             && victim->desc == nullptr) {
             switch (number_bits(4)) {
             case 0:
@@ -621,7 +648,7 @@ char *one_argument(char *argument, char *arg_first) {
 
 struct Columniser {
 public:
-    explicit Columniser(CHAR_DATA *ch) : ch(ch) { buf[0] = '\0'; }
+    explicit Columniser(Char *ch) : ch(ch) { buf[0] = '\0'; }
 
     std::function<void(const std::string &name, CommandInfo info, int level)> visitor() {
         return [this](const std::string &name, CommandInfo info, int level) {
@@ -645,7 +672,7 @@ public:
 
         if (start_pos + name_len > max_width) {
             strcat(buf, "\n\r");
-            send_to_char(buf, ch);
+            ch->send_to(buf);
             buf[0] = '\0';
             start_pos = buf_len = 0;
         }
@@ -655,41 +682,39 @@ public:
         memcpy(buf + start_pos, name.c_str(), name_len + 1);
     }
 
-    CHAR_DATA *ch;
+    Char *ch;
     char buf[MAX_STRING_LENGTH];
     int col_width = 12;
     int max_width = 72;
 };
 
-void do_commands(CHAR_DATA *ch, const char *argument) {
-    (void)argument;
+void do_commands(Char *ch) {
     Columniser col(ch);
-    auto max_level = (get_trust(ch) < LEVEL_HERO) ? get_trust(ch) : (LEVEL_HERO - 1);
+    auto max_level = (ch->get_trust() < LEVEL_HERO) ? ch->get_trust() : (LEVEL_HERO - 1);
     commands.enumerate(commands.level_restrict(0, max_level, col.visitor()));
     if (col.buf[0] != '\0') {
         strcat(col.buf, "\n\r");
-        send_to_char(col.buf, ch);
+        ch->send_to(col.buf);
     }
 }
 
-void do_wizhelp(CHAR_DATA *ch, const char *argument) {
-    (void)argument;
+void do_wizhelp(Char *ch) {
     Columniser col(ch);
-    commands.enumerate(commands.level_restrict(LEVEL_HERO, get_trust(ch), col.visitor()));
+    commands.enumerate(commands.level_restrict(LEVEL_HERO, ch->get_trust(), col.visitor()));
     if (col.buf[0] != '\0') {
         strcat(col.buf, "\n\r");
-        send_to_char(col.buf, ch);
+        ch->send_to(col.buf);
     }
 }
 
-bool MP_Commands(CHAR_DATA *ch) /* Can MOBProged mobs
+bool MP_Commands(Char *ch) /* Can MOBProged mobs
                                    use mpcommands? true if yes.
                                    - Kahn */
 {
     if (is_switched(ch))
         return false;
 
-    if (IS_NPC(ch) && ch->pIndexData->progtypes && !IS_AFFECTED(ch, AFF_CHARM))
+    if (ch->is_npc() && ch->pIndexData->progtypes && !IS_AFFECTED(ch, AFF_CHARM))
         return true;
 
     return false;

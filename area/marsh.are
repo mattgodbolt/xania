@@ -11,7 +11,7 @@ This section of the path is slowly being drowned by the nearby swamp to the
 south, which is creeping slowly inland.  Several caved-in buildings sprawl
 here, torn apart both by battle and the elements.
 ~
-83 0 2
+0 2
 D0
 The path looks drier here.
 ~
@@ -35,7 +35,7 @@ skies above the murky marsh, leaving the path before you dark and sinister.
 You see some disturbances in the marsh, but after a few strangled screams,
 the sounds stop.
 ~
-83 0 5
+0 5
 D0
 ~
 ~
@@ -58,7 +58,7 @@ trees it is one.  Occasionally you see a whole humanoid form floating face down
 in the water, but mostly you only find pieces.  You hear a loud bellow in the
 distance.  And feel fear creep into your heart.
 ~
-83 A 5
+A 5
 D1
 Eastward is the thick bog of ooze...
 ~
@@ -85,7 +85,7 @@ On a hill.~
 You stand atop a hill on the northwestern side of the evil swamp. Dark
 clouds whip around you and the wind raises its voice and assails you.
 ~
-83 A 4
+A 4
 D0
 To the north lies a damp broken roadway.
 ~
@@ -110,7 +110,7 @@ beasts flap over you and send chilling glares your way.  You feel out
 of place, and feel that the occupants of this realm will soon 
 have you for a feast.
 ~
-83 A 5
+A 5
 D1
 Eastward lies a horde of disgusting looking monsters.
 ~
@@ -131,7 +131,7 @@ An Oozing Bog~
 The ground here is soft and oozing.  You feel slimy water seeping into your
 boots.  Better stop and check for leeches when you get out of here.
 ~
-83 A 5
+A 5
 D3
 You see a large tree limb that looks easily moved.
 ~
@@ -147,7 +147,7 @@ Swamp Thing's Lair~
 A horrible swamp thing resides here.  Mutilated corpses suffuse the air with
 the overwhelming stench of putrid flesh.
 ~
-83 A 6
+A 6
 D3
 A pool of quick sand lies to the west.
 ~
@@ -165,7 +165,7 @@ You stand by a large oozing pool of quick sand.  Luckily only a complete
 klutz could not avoid it.  Dancing lights fly about you and one seems to
 be taunting you towards the pool.
 ~
-83 A 6
+A 6
 D1
 The swamp thing's lair.
 ~
@@ -196,7 +196,7 @@ You stand beside a large dark pond.  The water boils not with heat, but with
 motion, as if it is alive.  A creaking beat pulses through the air, leaving
 you with a cold sweat and fear in your heart.
 ~
-83 A 6
+A 6
 D1
 A large pool of quicksand lies to the east.
 ~
@@ -224,7 +224,7 @@ a huge patch of vegetation.  You sense an evil presence and notice
 a beast flying overhead to the south east, towards what looks to be a 
 huge fortress, half buried in the marsh.
 ~
-83 A 6
+A 6
 D0
 To the north a hill protrudes from the marshes.
 ~
@@ -258,7 +258,7 @@ Cloud of Darkness.~
 As you travel through this cloud of darkness, a fear such as you have never
 known before assails you.
 ~
-83 A 6
+A 6
 D0
 A dark pool lies to the north.
 ~
@@ -275,7 +275,7 @@ Near Vegetation from Hell.~
 You stand near some of the strangest plant life you have ever seen, a mixture
 of tumescent vegetables, evil-smelling fruit trees, and malignant ferns.
 ~
-83 A 6
+A 6
 D0
 To the north is a gloomy path through the marsh.
 ~
@@ -297,7 +297,7 @@ You are standing near a monolith which protrudes some 20 feet from the
 marsh into the air.  Its black obsidian surface shines darkly in the 
 strange, almost unearthly light that enters through the clouds above.
 ~
-83 A 5
+A 5
 D0
 To the north is a cloud of darkest evil.
 ~
@@ -325,7 +325,7 @@ A murky bog surrounds you.  To the east a black monolith juts forth from the
 ground.  Far to the north lies a huge pool of quicksand.  Snarls can be heard
 echoing as if from a great distance.
 ~
-83 A 5
+A 5
 D0
 To the north lies a huge pool of quicksand.
 ~
@@ -353,7 +353,7 @@ experience.  Many a creature bumps the bottom of your boat, and glares
 at you through unblinking eyes from the waters below.  The southern 
 portion of the lake looks calm and serene compared to this wild place.
 ~
-83 A 7
+A 7
 D2
 The southern portion of the lake lies to the south.
 ~
@@ -371,7 +371,7 @@ You are floating on a calm section of blue crystal water.  You feel much more
 at ease then you were before in this area.  Then a wave of fear passes over
 you.  You are not alone.
 ~
-83 A 7
+A 7
 D0
 Northern lake side.
 ~
@@ -393,7 +393,7 @@ Beach~
 You are on a sandy shore.  Marsh life creeps across the surface.  To the west
 lies an evil fortress.  You see figures walking along the battlements.
 ~
-83 A 5
+A 5
 D1
 To the east lies the southern portion of a small lake.
 ~
@@ -415,7 +415,7 @@ You stand before the gates of a huge fortress.  The drawbridge is up, the
 gates closed, and the portcullis down.  This place looks very dangerous,
 and you decide not to continue onward.
 ~
-83 A 3
+A 3
 D1
 To the east is a marshy beach.
 ~
@@ -440,7 +440,7 @@ as he approaches and raises two black taloned claws to strike you.
 troll~
 BCFGA 0 -600 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 650
 0 0 medium 0
@@ -457,7 +457,7 @@ and cackles with glee.
 troll~
 CFGA 0 -400 0
 14 7 1d1+350 1d1+280 4d4+7 chomp
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 566
 0 0 medium 0
@@ -472,7 +472,7 @@ This mean bastard looks like he could tear you limb from limb.
 ogre~
 CFGA 0 -500 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1030
 0 0 medium 0
@@ -487,7 +487,7 @@ The Swamp Thing has huge fists, which look like they could pound you flat.
 unique~
 CFGA 0 -700 0
 24 12 1d1+801 1d1+480 5d5+12 slash
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand neutral 1200
 0 0 medium 0
@@ -502,7 +502,7 @@ The Gnoll seems annoyed at your presence.
 troll~
 CGA DF -1000 0
 30 15 1d1+1012 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1524
 0 0 medium 0
@@ -518,7 +518,7 @@ appendages.
 unique~
 CFGA DF -450 0
 21 10 1d1+695 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1098
 0 0 medium 0
@@ -534,7 +534,7 @@ sword blow.
 unique~
 CGHA P 0 0
 3 1 1d1+60 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 125
 0 0 medium 0
@@ -551,7 +551,7 @@ are just able to notice a small pair of glowing eyes.
 unique~
 CGHA P 0 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 406
 0 0 medium 0
@@ -566,7 +566,7 @@ This 10 meter anaconda looks rather hungry.
 snake~
 CFGHA PQ -100 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 655
 0 0 medium 0
@@ -581,7 +581,7 @@ It's the largest Amazon python you have ever seen.
 snake~
 CFGHA PQ -100 0
 11 5 1d1+275 1d1+220 3d4+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand female 442
 0 0 medium 0
@@ -597,7 +597,7 @@ because she thinks you stink too, and she's about to do something about it.
 unique~
 CGA 0 -200 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand female 367
 0 0 medium 0
@@ -613,7 +613,7 @@ swamp light, the blade of his scythe gleams.
 giant~
 CGA DF -200 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENUC 0 0 0
 stand stand male 1004
 0 0 medium 0
@@ -629,7 +629,7 @@ into the marsh.
 wolf~
 CFGA 0 -200 0
 8 4 1d1+184 1d1+160 3d3+4 bite
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand female 323
 0 0 medium 0
@@ -644,7 +644,7 @@ This grotesque pile of plant matter fills you with utmost horror.
 unique~
 CGA Q -100 0
 13 6 1d1+325 1d1+260 4d4+6 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand neutral 533
 0 0 medium 0
@@ -660,7 +660,7 @@ painted on his face and hands.
 orc~
 BCDFGA DF -100 0
 12 6 1d1+300 1d1+240 3d4+6 pound
-2 2 2 6
+-13 -13 -13 -9
 FENUC 0 0 0
 stand stand male 499
 0 0 medium 0
@@ -675,7 +675,7 @@ This huge monster of a man has green gnarly teeth and a BIG stick.
 giant~
 BCDFGA DF -100 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENUC 0 0 0
 stand stand male 601
 0 0 medium 0
@@ -690,7 +690,7 @@ This creepy fellow looks like he could use you as a meal.
 unique~
 BCDFGA DF -100 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand neutral 499
 0 0 medium 0

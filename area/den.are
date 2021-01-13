@@ -30,9 +30,9 @@ An aged, yet sturdy looking, man stands here.
 He eyes you and says, "Are you sure you want to go in there?"
 ~
 human~
-BHTV HNVaacc 0 0
+BHTV HNV 0 0
 60 15 1d1+1299 1d1+199 10d5+20 punch
--40 -40 -40 -20
+-55 -55 -55 -35
 CDEFHKNQ ABE 0 0
 stand stand male 1000
 0 0 medium 0
@@ -46,9 +46,9 @@ A large pirhana leads a group of smaller fish swimming here.
 What's that in his mouth?  It looks like...intestines.
 ~
 unique~
-BFT DFNPQVbbcc -1000 0
+BFT DFNPQVb -1000 0
 65 25 10d50+2500 1d1+199 9d6+30 bite
--43 -43 -43 -21
+-58 -58 -58 -36
 CDEFHKMR ABER 0 HO
 stand stand neutral 0
 0 0 small 0
@@ -61,9 +61,9 @@ A smaller fish swims alongside the huge pirhana.
 You notice a smaller fish swimming here...but it notices you and attacks.
 ~
 unique~
-BFT DFNPQVbbcc -1000 0
+BFT DFNPQVb -1000 0
 60 22 1d1+1199 1d1+199 6d8+32 bite
--40 -40 -40 -40
+-55 -55 -55 -55
 DEFHKMR ABER 0 HO
 stand stand neutral 0
 0 0 small 0
@@ -79,9 +79,9 @@ Oh crap; hey, get off my arm!
 ACCK!
 ~
 unique~
-BFT DFNPQVaabbcc -1000 0
+BFT DFNPQVbc -1000 0
 75 30 11d200+7800 1d1+199 8d8+30 bite
--45 -45 -45 -30
+-60 -60 -60 -45
 CDEFHKMR ABELR JKQ HO
 stand stand neutral 0
 0 0 large 0
@@ -95,9 +95,9 @@ You realize you've seen this monster before-- perhaps in your nightmares.
 When it doesn't immediately attack, you start to turn away-- then it pounces.
 ~
 unique~
-BFT DNPQVbbcc -1000 0
+BFT DNPQVb -1000 0
 85 40 10d200+10000 1d1+199 10d7+50 charge
--50 -50 -50 -30
+-65 -65 -65 -45
 CDEFHIKNR ABR G HO
 stand stand male 0
 0 0 medium 0
@@ -110,9 +110,9 @@ The king of all sharks, Jaws, swims silently here.
 The monstrous Great White Jaws swims about here.
 ~
 unique~
-BCFT DFHNPQTVbbcc -1000 0
+BCFT DFHNPQTVb -1000 0
 95 45 11d400+6600 1d1+199 10d8+50 bite
--60 -60 -60 -40
+-75 -75 -75 -55
 ACDEFHIKMNR ABLR LK EHNO
 stand stand male 0
 0 0 giant 0
@@ -125,9 +125,9 @@ This guy sure is weird and snivelly.  You want to kill him to put him
 out of his little freak misery.
 ~
 dwarf~
-BCHT HPQVXcc -500 0
+BCHT HPQVX -500 0
 70 32 1d1+5499 1d1+299 10d6+40 beating
--40 -40 -40 -20
+-55 -55 -55 -35
 DEFHIKN ABQ L J
 sit sit male 10000
 0 0 small 0
@@ -141,9 +141,9 @@ Haven't you seen this guy before?  Wait...it's Doctor Frankenstein; man
 does he look loony.  What's that weird book in his hand?
 ~
 human~
-BCHRV NPQTVcc -1000 0
+BCHRV NPQTV -1000 0
 80 35 1d1+12999 1d1+999 10d6+48 divine
--60 -60 -60 -30
+-75 -75 -75 -45
 CDEFGHIKNQ ABKLQ CJ 0
 stand stand male 50000
 0 0 medium 0
@@ -158,9 +158,9 @@ As you inspect him further you realize that some parts were probably
 from hapless adventurers such as yourself.
 ~
 giant~
-BCFV BDFHNPQTVcc -1000 0
+BCFV BDFHNPQTV -1000 0
 95 45 11d500+7500 1d1+99 9d9+50 beating
--70 -70 -70 -35
+-85 -85 -85 -50
 CDEFGHIKNQ ABKLQ CJ 0
 stand stand male 20000
 0 0 huge 0
@@ -174,9 +174,9 @@ I guess "cute" is a relative term; this guy still looks like he could take
 your arm off.  He may not be as big as Godzilla, but he still looks rough.
 ~
 dragon~
-BCHT HNPQTVcc -500 0
+BCHT HNPQTV -500 0
 75 35 10d200+5000 1d1+99 10d6+20 suction
--45 -45 -45 -25
+-60 -60 -60 -40
 ACDEFHIKMR ABEHIL JKQ OP
 stand stand male 10000
 0 0 large 0
@@ -190,9 +190,9 @@ The giant, bug-like Mothra hovers here, sizing you up.  It looks like it is
 just waiting for an opportunity to attack.
 ~
 unique~
-BCHT BNPQTVcc -1000 0
+BCHT BNPQTV -1000 0
 80 35 10d200+10000 1d1+99 10d7+40 pound
--50 -50 -50 -35
+-65 -65 -65 -50
 ACDEFHIKNR ABHIQ KR FO
 stand stand neutral 10000
 0 0 huge 0
@@ -206,9 +206,9 @@ He appears to be hunting Godzilla, but he decides you will do just fine.
 Man, his claws sure do look sharp.
 ~
 dragon~
-BCFT BDFNPQTVcc -1000 0
+BCFT BDFNPQTV -1000 0
 80 35 10d200+10000 1d1+99 10d7+40 shbite
--50 -50 -50 -30
+-65 -65 -65 -45
 CDFHPMR ABHIQ KR LO
 stand stand male 15000
 0 0 huge 0
@@ -222,9 +222,9 @@ Godzilla's nemesis, this monster is made up entirely of trash and goop.
 It looks like your weapons won't have much affect on him.
 ~
 unique~
-BCFTV BDFHNPQTVaacc -1000 0
+BCFTV BDFHNPQTV -1000 0
 85 38 20d100+7000 1d1+99 10d7+45 digestion
--100 -100 -100 -50
+-115 -115 -115 -65
 ACDEFHIKNR ABDELQ 0 CJK
 stand stand neutral 25000
 0 0 giant 0
@@ -237,9 +237,9 @@ A steel replica of Godzilla rests here.
 Mechazilla looks exactly like Godzilla except he is made entirely of metal.
 ~
 dragon~
-BCT HNPQTVcc -1000 0
+BCT HNPQTV -1000 0
 90 45 50d50+6500 1d1+99 10d7+45 wrath
--50 -50 -50 -35
+-65 -65 -65 -50
 ACDEFHIKMNR ABEHILQ CDJK O
 stand stand neutral 25000
 0 0 giant 0
@@ -254,9 +254,9 @@ monster you have ever seen, standing over 50 feet tall.
 That must be why he has the Orb of the Dragon Kings.
 ~
 dragon~
-BCFT BDFHNPQTVcc -1000 0
+BCFT BDFHNPQTV -1000 0
 100 50 500d11+7500 1d1+99 10d8+60 chomp
--80 -80 -80 -40
+-95 -95 -95 -55
 ACDEFHIKMNR ABELQ DK I
 stand stand male 50000
 0 0 giant 0
@@ -270,9 +270,9 @@ Mighty Joe Young...Who's that?  The poor simian is other overlooked
 because of his bigger buddy, but overlooking him now would be a big mistake.
 ~
 giant~
-BCHT DNPQVcc -500 0
+BCHT DNPQV -500 0
 85 40 200d11+7800 1d1+99 10d7+50 slap
--50 -50 -50 -30
+-65 -65 -65 -45
 CDFHINR ABEHILQ K OP
 stand stand male 10000
 0 0 large 0
@@ -287,9 +287,9 @@ His muscles bulge with power, and he begins to pound his hairy chest
 when he sees you.  You think it's time to leave...but it may be too late.
 ~
 giant~
-BCFTV BDFHNPQTVcc -1000 0
+BCFTV BDFHNPQTV -1000 0
 100 45 31d100+6900 1d1+99 10d8+65 beating
--80 -80 -80 -40
+-95 -95 -95 -55
 ACDEFGHIJKNR ABE 0 0
 stand stand male 25000
 0 0 giant 0
@@ -304,7 +304,7 @@ Her hair is a crown of snakes, and you feel stiffer when she glances at you. ~
 human~
 BFT FHNPQT -1000 0
 70 35 20d151+4980 1d1+299 10d6+40 wrath
--50 -50 -50 -30
+-65 -65 -65 -45
 DEFKMNR ABL K HIO
 stand stand female 10000
 0 0 medium 0
@@ -318,9 +318,9 @@ He looks so little and cute...what's that gleaming in his hand?
 Why's he sawing at your Achilles's tendon?  Maybe you should attack.
 ~
 human~
-BFT BDFHNPQVcc -1000 0
+BFT BDFHNPQV -1000 0
 75 35 30d151+4970 1d1+299 10d6+40 slice
--45 -45 -45 -25
+-60 -60 -60 -40
 BCDEFHIKR ABLQ 0 H
 stand stand male 15000
 0 0 small 0
@@ -334,9 +334,9 @@ This monster has no form...what are you supposed to attack?
 Maybe you should start with the part wrapped around your throat.
 ~
 unique~
-BFT BDFHNPQcc -1000 0
+BFT BDFHNPQ -1000 0
 85 35 50d51+6950 1d1+99 10d7+50 digestion
--70 -70 -70 -35
+-85 -85 -85 -50
 ACHNR ABDP 0 C
 stand stand neutral 0
 0 0 huge 0
@@ -351,9 +351,9 @@ moon rises.  The man screams in pain as hair sprouts all over his body
 and he becomes lupine.  When his transformation is complete, he pounces.
 ~
 human~
-BFT DFHNPQVcc -1000 0
+BFT DFHNPQV -1000 0
 85 35 50d51+6950 1d1+99 10d7+50 claw
--60 -60 -60 -30
+-75 -75 -75 -45
 CDEFHIJKNR ABLQ 0 OY
 stand stand male 30000
 0 0 large 0
@@ -367,9 +367,9 @@ As you gaze more intently, you notice that the shimmer is vaguely man-shaped.
 Suddenly the form coalesces and dives for your throat.
 ~
 human~
-BCFT BDFHNPQTcc -1000 0
+BCFT BDFHNPQT -1000 0
 75 35 30d151+4970 1d1+9 10d6+50 punch
--45 -45 -45 -25
+-60 -60 -60 -40
 CEFHKNU ABE 0 0
 stand stand male 30000
 0 0 medium 0
@@ -383,9 +383,9 @@ The embalmed body of a fallen pharoah comes shambling towards you.
 He reaches his rag-covered arms toward you and moans your name.
 ~
 human~
-BCFT DFHNPQcc -1000 0
+BCFT DFHNPQ -1000 0
 75 35 30d151+4970 1d1+299 10d6+50 punch
--45 -45 -45 -25
+-60 -60 -60 -40
 CDFHIJKNR ABKLQ D H
 stand stand male 50000
 0 0 medium 0
@@ -401,9 +401,9 @@ which paralyzes you.  As if in a dream, a raspy voice mutters, "It is
 your time."  You wonder if that might be the last thing you hear.
 ~
 human~
-BCFO BDFNPQTVcc -1000 0
+BCFO BDFNPQTV -1000 0
 85 40 50d51+8950 1d1+99 10d7+50 cleave
--50 -50 -50 -35
+-65 -65 -65 -50
 ACDEFHKNQ ABE KLQ 0
 stand stand male 0
 0 0 large 0
@@ -418,9 +418,9 @@ You reach out to remove his mask so that you can see his face, but just as
 you are about to touch it he whirls about and attacks.
 ~
 human~
-BCFT DFNPQTcc -1000 0
+BCFT DFNPQT -1000 0
 75 30 30d151+8970 1d1+99 10d6+50 beating
--45 -45 -45 -25
+-60 -60 -60 -40
 CEFIKNU AB 0 0
 stand stand male 30000
 0 0 medium 0
@@ -436,7 +436,7 @@ While you are pondering where they came from, she tries to put two in you.
 human~
 BCFO DFHNPQT -1000 0
 70 30 1d1+4999 1d1+99 10d6+50 shbite
--40 -40 -40 -20
+-55 -55 -55 -35
 DEFHKNR ABHILPQ K X
 stand stand female 0
 0 0 medium 0
@@ -452,7 +452,7 @@ she looks alot meaner.)
 human~
 BCFO DFHNPQT -1000 0
 72 30 1d1+5249 1d1+99 10d6+50 flbite
--42 -42 -42 -21
+-57 -57 -57 -36
 DEFHKNR ABHILPQ K X
 stand stand female 0
 0 0 medium 0
@@ -467,9 +467,9 @@ you have proven to be a worthy opponent.  Your journey ends here, though."
 She bares her teeth and lunges at you.
 ~
 human~
-BCFO DFHNPQTcc -1000 0
+BCFO DFHNPQT -1000 0
 75 30 1d1+5499 1d1+99 10d6+50 frbite
--45 -45 -45 -25
+-60 -60 -60 -40
 DEFHIKNR ABHILPQ K X
 stand stand female 0
 0 0 medium 0
@@ -483,9 +483,9 @@ The grand mistress glances at you as you enter the room.  "Another puny
 mortal seeks our lord I see..  I'll save him the trouble of dealing with
 you," she says, then strikes with a flash of teeth and a spell on her breath. ~
 human~
-BCFO BDFHNPQTVcc -1000 0
+BCFO BDFHNPQTV -1000 0
 80 35 1d1+6499 1d1+999 10d7+50 acbite
--50 -50 -50 -30
+-65 -65 -65 -45
 CDEFHJKNR ABEHILOQ CD X
 stand stand female 0
 0 0 medium 0
@@ -499,9 +499,9 @@ He says to you, "You may want a wooden weapon, like this stake.  I
 believe that is all he is vulnerable to."
 ~
 human~
-BT DFHNTVcc 1000 0
+BT DFHNTV 1000 0
 85 35 1d1+6999 1d1+999 10d7+50 stab
--80 -80 -80 -40
+-95 -95 -95 -55
 ACDEFHIJKN ABH 0 0
 stand stand male 25000
 0 0 medium 0
@@ -515,9 +515,9 @@ The Lord of the Vampires glances at you and says, "You are bolder than I
 thought, but your life ends now.  You should never have invaded my sanctum."
 ~
 human~
-BFOV BDFHNPQTVcc -1000 0
+BFOV BDFHNPQTV -1000 0
 105 50 500d11+6500 1d1+999 9d10+50 divine
--70 -70 -70 -40
+-85 -85 -85 -55
 ADEFHKNR ABELQ CD X
 stand stand male 50000
 0 0 huge 0
@@ -531,9 +531,9 @@ He says, "I will have your soul!" and fidgets with a box in his hands.
 Hooked chains fly from the box and tear at your flesh.
 ~
 human~
-BCOV BHNPQTVcc -1000 0
+BCOV BHNPQTV -1000 0
 105 45 500d11+6500 1d1+99 8d10+50 divine
--70 -70 -70 -50
+-85 -85 -85 -65
 ACDEFHJKNR ABELQ K J
 stand stand male 100000
 0 0 large 0
@@ -546,9 +546,9 @@ Hey, is that William Shatner? Why's he so pale?
 No, that's Michael Myers, and he is beating you with your own leg!
 ~
 human~
-BCFOV BDFHNPQVcc -1000 0
+BCFOV BDFHNPQV -1000 0
 110 55 1d1+9999 1d1+99 9d10+55 beating
--75 -75 -75 -45
+-90 -90 -90 -60
 ACDEFHJKNR ABELQ K 0
 stand stand male 50000
 0 0 large 0
@@ -562,9 +562,9 @@ From the hat, sweater, and claw, along with the witty conversation, you
 can tell who this is...and man is he ugly.  He sure needs a dermatologist.
 ~
 human~
-BCFOV BDFHNPQVcc -1000 0
+BCFOV BDFHNPQV -1000 0
 115 50 1d1+12999 1d1+99 10d10+55 divine
--80 -80 -80 -45
+-95 -95 -95 -60
 ACDERHJKNR ABELQ K 0
 stand stand male 100000
 0 0 huge 0
@@ -577,9 +577,9 @@ He's back..the man behind the mask.
 Your buddy Jason's here, dulling his machete...on your bones.
 ~
 human~
-BCFOV BDFHNPQVcc -1000 0
+BCFOV BDFHNPQV -1000 0
 125 60 1d1+19999 1d1+99 11d10+60 beating
--100 -100 -100 -50
+-115 -115 -115 -65
 ACDEFHJKNR ABELQ K 0
 stand stand male 200000
 0 0 giant 0
@@ -595,7 +595,7 @@ a more powerful being in Thera.
 elf~
 BJKUVbb DFH 1000 0
 145 100 1d1+4999 1d1+1999 1d1+199 divine
--200 -200 -200 -200
+-215 -215 -215 -215
 ABCDEFGHIJKNP ABCD 0 0
 stand stand male 5000000
 0 0 giant 0
@@ -1296,6 +1296,28 @@ Floor            Purgatory      Camp Crystal Lake
      
 Map by Urugula, who else?
 ~
+
+#18143
+reinforced steel bolts~
+a pair of reinforced steel bolts~
+A pair of reinforced steel bolts are here.~
+steel~
+armor B AQ
+20 20 20 0 0
+90 1 3902 P
+A
+1 2
+A
+4 2
+A
+5 2
+A
+18 4
+A
+19 4
+
+
+
 #0
 #ROOMS
 #18101
@@ -1308,7 +1330,7 @@ which blocks the way west. Terror begins to encroach upon your mortal soul
 so I hope you have a spare set of underwear handy. If you are weak of heart
 then go no further west.
 ~
-181 A 2
+A 2
 D1
 The Ritual Chamber
 ~
@@ -1327,7 +1349,7 @@ to leave.  There are doors to the north and south, and the hallway continues
 west.  From the south you hear the sound of waves.  You hear the sound of 
 machinery from the north.
 ~
-181 ACD 0
+ACD 0
 D0
 The lab.
 ~
@@ -1357,7 +1379,7 @@ could be up there?  You hear the sounds of lightning and thunder from outside
 and a steady downpour assails the roof.  You hear a strange moaning 
 coming from there also..perhaps you should open the hatch and investigate?
 ~
-181 AD 0
+AD 0
 D2
 Beginning of the hallway.
 ~
@@ -1378,7 +1400,7 @@ Lying on a table is a large man, measuring well over seven feet.  He
 looks peaceful resting on the slab, but as you approach his eyes snap
 open, and he lets out a horrible moan.  Perhaps it is time to go back inside.
 ~
-181 A 4
+A 4
 D5
 The lab.
 ~
@@ -1394,7 +1416,7 @@ in you a sense of adventure...perhaps you should explore the sea to the
 south.  All you see in the water are a group of small fish..they look 
 relatively harmless.
 ~
-181 0 7
+0 7
 D0
 The beginning of the hallway.
 ~
@@ -1416,7 +1438,7 @@ whale swimming in the ocean..he looks just like Free Willy.  Maybe you should
 go visit with him or ask him for his autograph....bah..these little fish
 can't be that tough, eh?
 ~
-181 0 6
+0 6
 D0
 Near the shore.
 ~
@@ -1437,7 +1459,7 @@ didn't have bloody teeth, did he?  Uh oh...perhaps you should paddle back
 to the north or see what is behind the door to the east of you...anything
 but sit here with this monster.
 ~
-181 0 6
+0 6
 D0
 On the ocean.
 ~
@@ -1461,7 +1483,7 @@ your boat.  Man..his claws look much longer up close.  Perhaps you should
 retreat back through the door to the west or swim to the south where the 
 coast appears to be clear.
 ~
-181 0 6
+0 6
 D3
 In deep water.
 ~
@@ -1482,7 +1504,7 @@ appears to lead to a large cave.  You hear swimming to the east...sounds
 like a large body, too.  Maybe it's Roseanne?  Dunno...perhaps you should
 check it out.
 ~
-181 C 6
+C 6
 D0
 The creature's lair.
 ~
@@ -1503,7 +1525,7 @@ emerge from the watters surface....ooh...someone needs some Scope.  Wait,
 I've seen that fish before; it's that great white shark from Jaws.  Better
 high tail it back to the west before he catches up with you....
 ~
-181 A 6
+A 6
 D3
 In hot water.
 ~
@@ -1517,7 +1539,7 @@ start of the hall, and you can go further along the hall to the west.  To the
 north you smell bananas and hear chest pounding, and to the south you hear 
 the screech of mighty dinosaurs.
 ~
-181 A 0
+A 0
 D1
 The beginning of the hallway.
 ~
@@ -1550,7 +1572,7 @@ you can't recall seeing this beast before.  To the west is a door leading
 further in the jungle...to a pair of large tree trunks it appears.  The
 exit back to the hallway is south.
 ~
-181 0 3
+0 3
 D2
 The hallway.
 ~
@@ -1572,7 +1594,7 @@ But whose legs?  You look up into a relatively human face and realize...
 hey..that's King Kong...cool.  Then, when he picks you up and swings you
 about by your arm, you realize..hey..not cool.
 ~
-181 0 3
+0 3
 D1
 In the jungle.
 ~
@@ -1588,7 +1610,7 @@ big horde of insects.  You can see a large dragon to the east.  A large cloud
 of smog floats in the air to the south...must be Los Angeles.  As you are
 about to leave, you notice a little dinosaur...with dimples?
 ~
-181 0 4
+0 4
 D0
 The hallway.
 ~
@@ -1616,7 +1638,7 @@ Mothra's Lair~
 air here sizing you up.  The way he is looking at you with those big buggy
 eyes...spooky.  Swat him!
 ~
-181 0 9
+0 9
 D1
 On a cliff.
 ~
@@ -1631,7 +1653,7 @@ for Godzilla.  This room appears to be a nest of some sort, but there are
 no children around..is that because noone likes Rhodan?  Possibly.  Yeah, he
 does seem a bit grumpy..perhaps now would be a good time to leave him.
 ~
-181 0 9
+0 9
 D3
 On a cliff.
 ~
@@ -1646,7 +1668,7 @@ The top of a volcano is visible further to the south, and that seems to be
 the source of the inhuman shrieking you hear.  Perhaps you shouldn't 
 check that out?  Nah...go for the gusto.
 ~
-181 C 9
+C 9
 D0
 On a cliff.
 ~
@@ -1667,7 +1689,7 @@ soup; it is the Smog Monster, arch-rival of Godzilla and all around gooey
 guy.  It's probably time to take to the hill and flee north or south (if
 you can get the door south open fast enough.
 ~
-181 0 9
+0 9
 D0
 In the air.
 ~
@@ -1688,7 +1710,7 @@ search..it's the one and only Godzilla.  Wait..why is he so shiny?  Damn,
 you haven't found the real Godzilla..you've found that imposter Mechazilla.
 Perhaps you should be cautious, though...I hear he is tough.
 ~
-181 0 9
+0 9
 D0
 Smoggy air.
 ~
@@ -1708,7 +1730,7 @@ you, and as you watch a giant dragon rises from the magma.  He towers above
 you and looks exactly like Mechazilla...except meaner.  You'd better run
 like the wind now..because his mouth is opening.
 ~
-181 0 9
+0 9
 D0
 Near the mountain.
 ~
@@ -1722,7 +1744,7 @@ the west, and you can go back to the east..if you are scared that is.
 Doors to the north and south lead to more danger...perhaps you should go
 east?
 ~
-181 ACD 0
+ACD 0
 D1
 The hallway
 ~
@@ -1754,7 +1776,7 @@ leave the batteries in and the toy on?  As you watch, a knife juts out of
 the box and cuts it open; then a little head with red hair pops out and
 says, 'Wanna plaaaaaaaaay?'  Chuckie leaps out of the box and charges you.
 ~
-181 AD 0
+AD 0
 D2
 The hallway.
 ~
@@ -1773,7 +1795,7 @@ from behind the pillar in front of you, and as you watch a woman with
 snakes in her hair and a long tail slithers out and glares at you...
 watch out for them eyes.
 ~
-181 AD 0
+AD 0
 D0
 The hallway.
 ~
@@ -1785,7 +1807,7 @@ Even Further along the Hallway~
 	Man, won't this hall ever end?  It continues to the west and you
 can return east.  Once again, there are doors to the north and south.
 ~
-181 ACD 0
+ACD 0
 D0
 On a moonlit plain.
 ~
@@ -1814,7 +1836,7 @@ jelly-like substance slides over a hill in front of you and approaches
 menacingly.  Your only escape is back the way you came...perhaps you 
 should take it.
 ~
-181 A 2
+A 2
 D0
 Farther along the hallway.
 ~
@@ -1836,7 +1858,7 @@ grown a beard in the past 10 seconds...and fangs..and his eyes are yellow
 like a cat...perhaps now would be a good time to leave.  As you turn to
 flee he pounces on you..and it begins.
 ~
-181 A 2
+A 2
 D2
 Further along the hallway.
 ~
@@ -1850,7 +1872,7 @@ hallway soon you should turn back.  Perhaps the doors south and north
 might offer some excitement, or there could be adventure further to the 
 west along the hall.
 ~
-181 ACD 0
+ACD 0
 D1
 The hallway.
 ~
@@ -1885,7 +1907,7 @@ leave, you hear a faint shuffling behind you which you had dismissed
 earlier.  You realize your error when the sarcophagus behind you opens and
 a hand shoots out and grasps you about your throat...
 ~
-181 AD 0
+AD 0
 D2
 The hallway.
 ~
@@ -1913,7 +1935,7 @@ guy..maybe it's time to exit stage north.  As you get ready to step out
 the door, you feel a pressure upon your windpipe...almost as if there is
 a hand on it choking you...
 ~
-181 AD 0
+AD 0
 D0
 The hallway.
 ~
@@ -1928,7 +1950,7 @@ the door north.  A chill runs up your spine as you glance at the door to
 the south..your subconscious doesn't like that one.  Believe in ESP?  Might
 want to start now....keep out of there.
 ~
-181 ACD 0
+ACD 0
 D1
 The hallway.
 ~
@@ -1967,7 +1989,7 @@ a long flowing cape and a mask over half of his face.  The melody he plays
 is haunting and you are spellbound by the music..almost to the point of
 sleep...better watch yourself; that guy could be dangerous.
 ~
-181 AD 0
+AD 0
 D2
 A hallway.
 ~
@@ -1987,7 +2009,7 @@ know that you definitely don't want to be here...  Before you can flee
 from the room the figure draws a wicked-looking scythe from his cloak and
 bars the door.
 ~
-181 AD 0
+AD 0
 D0
 The hallway.
 ~
@@ -2001,7 +2023,7 @@ east now or try either of the doors to the north and south.  You hear the
 beating of wings to the north, yet no sound comes from the door to the 
 south.  Pick your poison.
 ~
-181 ACD 0
+ACD 0
 D1
 The hallway.
 ~
@@ -2028,7 +2050,7 @@ night, and you realize that it came from the castle..perhaps it would be
 a good idea to return south, but if you are feeling bold, you can enter
 the castle to the north.
 ~
-181 AC 2
+AC 2
 D2
 The hallway.
 ~
@@ -2046,7 +2068,7 @@ Bottom of the Stairs~
 and as you watch a pale woman clothed in blue approaches.  She wears a 
 smirk and her very presence frightens you.
 ~
-181 AD 0
+AD 0
 D1
 In front of the castle.
 ~
@@ -2065,7 +2087,7 @@ elect..perhaps down would be the better choice.  As you contemplate your
 decision, another woman wearing red garments descends the stairs, and you
 realize that your choice has already been made for you...
 ~
-181 AD 0
+AD 0
 D5
 Bottom of the stairs.
 ~
@@ -2083,7 +2105,7 @@ The Middle of the Stairwell~
 even get your bearings a woman shrouded in red leaps upon you from the 
 shadows.
 ~
-181 AD 0
+AD 0
 D5
 On the stairs.
 ~
@@ -2104,7 +2126,7 @@ yourself adventurer' before she bears her fangs at you.  As she leaps, you
 look past her and note that you hear the ringing of a bell, and the screech
 of a bat, to the east.
 ~
-181 AD 0
+AD 0
 D1
 Outside the bell tower.
 ~
@@ -2125,7 +2147,7 @@ and he says, 'Hello young adventurer, my name is Van Helsing; perhaps I
 may be of assistance to you?'  He wields a stake in his grasp, and looks like
 he knows how to use it.
 ~
-181 AD 0
+AD 0
 D3
 The top of the stairs.
 ~
@@ -2144,7 +2166,7 @@ of a huge, ancient bell which dominates the upper half of the room.  A chill
 runs through your bones as you peer at the sarcophagus, and you don't 
 the pale figure descending from the bell until he is upon you.
 ~
-181 AD 0
+AD 0
 D3
 Outside the bell tower.
 ~
@@ -2157,7 +2179,7 @@ A Stairwell~
 danger, and you can return to the hallway to the north.  A small, worn
 sign is the only object within sight.
 ~
-181 AD 0
+AD 0
 D0
 A hallway.
 ~
@@ -2181,7 +2203,7 @@ by going down, or go east along the hallway.  You hear horrible screams
 and scratches coming from the door to the north, and it is deathly quiet
 to the south.
 ~
-181 ACD 0
+ACD 0
 D5
 A stairwell.
 ~
@@ -2213,7 +2235,7 @@ Off to the right a woman is being impaled upon thousands of small pins.
 dressed from head to toe in black leather and who has had hundreds of pins
 inserted into his face.  That's gotta hurt.
 ~
-181 A 2
+A 2
 D2
 The hallway.
 ~
@@ -2232,7 +2254,7 @@ of the dirt and grabs your ankle.  You back off hurriedly, and a large
 figure crawls out of the grave.  He looks like William Shatner with a reeally
 bad tan.  Should you ask him about Star Trek or run?  I'd run.
 ~
-181 AD 2
+AD 2
 D0
 The hallway.
 ~
@@ -2246,7 +2268,7 @@ south you hear the screaming of victims, but there is a tranquil aura
 emanating from the door to the east, and you can return down the hallway to
 the west.  
 ~
-181 ACD 0
+ACD 0
 D3
 The hallway.
 ~
@@ -2285,7 +2307,7 @@ As you are preparing to turn and flee, the man takes something from his
 pocket..is that a finger?  Eww...  He replaces the finger, then pulls out a
 machete and begins to stalk you...
 ~
-181 AD 0
+AD 0
 D2
 The hallway.
 ~
@@ -2306,7 +2328,7 @@ he sneers at you.  Then he says, 'Welcome to my boiler room. Make yourself
 at home for you won't be leaving!'  He yells, "Welcome to prime time, bitch!"
 and lunges at you.
 ~
-181 AD 0
+AD 0
 D0
 The hallway.
 ~
@@ -2322,7 +2344,7 @@ need to practice, train or gain.  Man..he seems like a really cool guy, and
 he looks very powerful.  I bet he could do anything.  'Oh yeah,' he says,
 'would you like to buy some items you might need throughout your adventures?'
 ~
-181 ACD 0
+ACD 0
 D3
 The hallway.
 ~
@@ -2358,6 +2380,7 @@ E 1 18107 2 17 		Manual of the Undead
 M 0 18109 1 18104 1  1 	Monster  
 E 1 18108 1 6		Brains
 E 1 18109 1 16		Decaying Arm
+E 1 18143 5 18      Bolts
 *
 M 0 18110 1 18114 1  1 	Godzooki  
 E 1 18110 5 16		Bubble Blower

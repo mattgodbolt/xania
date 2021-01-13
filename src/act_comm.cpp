@@ -7,191 +7,110 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "AFFECT_DATA.hpp"
+#include "ArgParser.hpp"
 #include "Descriptor.hpp"
-#include "info.hpp"
-#include "merc.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <time.h>
-
-#include "chat/chatconstants.hpp"
+#include "DescriptorList.hpp"
+#include "TimeInfoData.hpp"
 #include "chat/chatlink.h"
 #include "comm.hpp"
+#include "handler.hpp"
+#include "info.hpp"
+#include "interp.h"
+#include "merc.h"
+#include "save.hpp"
 
-/* command procedures needed */
-void do_quit(CHAR_DATA *ch, const char *arg);
+#include <fmt/format.h>
 
-/* Rohan's info stuff - extern to Player list */
-extern KNOWN_PLAYERS *player_list;
+void do_delet(Char *ch) { ch->send_line("You must type the full command to delete yourself."); }
 
-void do_delet(CHAR_DATA *ch, const char *argument) {
-    (void)argument;
-    send_to_char("You must type the full command to delete yourself.\n\r", ch);
-}
+void do_delete(Char *ch, const char *argument) {
 
-void do_delete(CHAR_DATA *ch, const char *argument) {
-    (void)argument;
-    char strsave[MAX_INPUT_LENGTH];
-    KNOWN_PLAYERS *cursor, *temp;
-
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (ch->pcdata->confirm_delete) {
         if (argument[0] != '\0') {
-            send_to_char("Delete status removed.\n\r", ch);
+            ch->send_line("Delete status removed.");
             ch->pcdata->confirm_delete = false;
             return;
         } else {
-            /* Added by Rohan - to delete the name out of player list if a player
-               deletes. Eventually, info will have to be deleted from cached
-               info if it is in there */
-            cursor = player_list;
-            if (cursor != nullptr && !(strcmp(cursor->name, ch->name))) {
-                player_list = player_list->next;
-                free_string(cursor->name);
-                free_mem(cursor, sizeof(KNOWN_PLAYERS));
-                /*	     log_string ("Player name removed from player list.");*/
-            } else if (cursor != nullptr) {
-                while (cursor->next != nullptr && cursor->next->name != ch->name)
-                    cursor = cursor->next;
-                if (cursor->next != nullptr) {
-                    temp = cursor->next;
-                    cursor->next = cursor->next->next;
-                    free_string(temp->name);
-                    free_mem(temp, sizeof(KNOWN_PLAYERS));
-                    /*		 log_string ("Player name removed from player list.");*/
-                } else
-                    bug("Deleted player was not in player list.");
-            } else
-                bug("Player list was empty. Not good.");
             /* Added by Rohan - to delete the cached info, if it has been
              cached of course! */
             remove_info_for_player(ch->name);
-
-            snprintf(strsave, sizeof(strsave), "%s%s", PLAYER_DIR, capitalize(ch->name));
-            do_quit(ch, "");
-            unlink(strsave);
+            auto strsave = filename_for_player(ch->name);
+            do_quit(ch); // ch is invalid after this
+            unlink(strsave.c_str());
             return;
         }
     }
 
     if (argument[0] != '\0') {
-        send_to_char("Just type delete. No argument.\n\r", ch);
+        ch->send_line("Just type delete. No argument.");
         return;
     }
 
-    send_to_char("Type delete again to confirm this command.\n\r", ch);
-    send_to_char("WARNING: this command is irreversible.\n\r", ch);
-    send_to_char("Typing delete with an argument will undo delete status.\n\r", ch);
+    ch->send_line("Type delete again to confirm this command.");
+    ch->send_line("WARNING: this command is irreversible.");
+    ch->send_line("Typing delete with an argument will undo delete status.");
     ch->pcdata->confirm_delete = true;
 }
 
-void announce(const char *buf, CHAR_DATA *ch) {
-    Descriptor *d;
-
-    if (descriptor_list == nullptr)
-        return;
-
+void announce(std::string_view buf, const Char *ch) {
     if (ch->in_room == nullptr)
         return; /* special case on creation */
 
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        CHAR_DATA *victim;
-
-        victim = d->person();
-
-        if (d->is_playing() && d->character() != ch && victim && can_see(victim, ch)
-            && !IS_SET(victim->comm, COMM_NOANNOUNCE) && !IS_SET(victim->comm, COMM_QUIET)) {
-            act(buf, victim, nullptr, ch, To::Char, POS_DEAD);
-        }
+    for (auto &victim : descriptors().all_who_can_see(*ch) | DescriptorFilter::to_person()) {
+        if (!IS_SET(victim.comm, COMM_NOANNOUNCE) && !IS_SET(victim.comm, COMM_QUIET))
+            act(buf, &victim, nullptr, ch, To::Char, POS_DEAD);
     }
 }
 
-void do_say(CHAR_DATA *ch, const char *argument) {
+void do_say(Char *ch, const char *argument) {
     if (argument[0] == '\0') {
-        send_to_char("|cSay what?\n\r|w", ch);
+        ch->send_line("|cSay what?\n\r|w");
         return;
     }
 
-    act("$n|w says '$T|w'", ch, nullptr, argument, To::Room);
-    act("You say '$T|w'", ch, nullptr, argument, To::Char);
-    chatperformtoroom(argument, ch);
-    /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-    mprog_speech_trigger(argument, ch);
+    ch->say(argument);
 }
 
-void do_afk(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-
-    if (IS_NPC(ch) || IS_SET(ch->comm, COMM_NOCHANNELS))
+void do_afk(Char *ch, std::string_view argument) {
+    static constexpr auto MaxAfkLength = 45u;
+    if (ch->is_npc() || IS_SET(ch->comm, COMM_NOCHANNELS))
         return;
 
-    if (IS_SET(ch->act, PLR_AFK) && (argument == nullptr || strlen(argument) == 0)) {
-        send_to_char("|cYour keyboard welcomes you back!|w\n\r", ch);
-        send_to_char("|cYou are no longer marked as being afk.|w\n\r", ch);
-        act("|W$n's|w keyboard has welcomed $m back!", ch, nullptr, nullptr, To::Room, POS_DEAD);
-        act("|W$n|w is no longer afk.", ch, nullptr, nullptr, To::Room, POS_DEAD);
-        announce("|W###|w (|cAFK|w) $N has returned to $S keyboard.", ch);
-        REMOVE_BIT(ch->act, PLR_AFK);
-    } else {
-        free_string(ch->pcdata->afk);
-
-        if (argument[0] == '\0')
-            ch->pcdata->afk = str_dup("afk");
-        else {
-            strncpy(buf, argument, 45);
-            ch->pcdata->afk = str_dup(buf);
-        }
-
-        snprintf(buf, sizeof(buf), "|cYou notify the mud that you are %s|c.|w", ch->pcdata->afk);
-        act(buf, ch, nullptr, nullptr, To::Char, POS_DEAD);
-
-        snprintf(buf, sizeof(buf), "|W$n|w is %s|w.", ch->pcdata->afk);
-        act(buf, ch, nullptr, nullptr, To::Room, POS_DEAD);
-
-        snprintf(buf, sizeof(buf), "|W###|w (|cAFK|w) $N is %s|w.", ch->pcdata->afk);
-        announce(buf, ch);
-
-        SET_BIT(ch->act, PLR_AFK);
-    }
+    if (IS_SET(ch->act, PLR_AFK) && argument.empty())
+        ch->set_not_afk();
+    else
+        ch->set_afk(argument.empty() ? "afk" : argument.substr(0, MaxAfkLength));
 }
 
-static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
-    char buf[MAX_STRING_LENGTH];
-
-    if (IS_SET(ch->act, PLR_AFK))
-        do_afk(ch, nullptr);
+static void tell_to(Char *ch, Char *victim, const char *text) {
+    ch->set_not_afk();
 
     if (victim == nullptr || text == nullptr || text[0] == '\0') {
-        send_to_char("|cTell whom what?|w\n\r", ch);
+        ch->send_line("|cTell whom what?|w");
 
     } else if (IS_SET(ch->comm, COMM_NOTELL)) {
-        send_to_char("|cYour message didn't get through.|w\n\r", ch);
+        ch->send_line("|cYour message didn't get through.|w");
 
     } else if (IS_SET(ch->comm, COMM_QUIET)) {
-        send_to_char("|cYou must turn off quiet mode first.|w\n\r", ch);
+        ch->send_line("|cYou must turn off quiet mode first.|w");
 
-    } else if (victim->desc == nullptr && !IS_NPC(victim)) {
+    } else if (victim->desc == nullptr && victim->is_pc()) {
         act("|W$N|c seems to have misplaced $S link...try again later.|w", ch, nullptr, victim, To::Char);
 
-    } else if (IS_SET(victim->comm, COMM_QUIET) && !IS_IMMORTAL(ch)) {
+    } else if (IS_SET(victim->comm, COMM_QUIET) && ch->is_mortal()) {
         act("|W$E|c is not receiving replies.|w", ch, nullptr, victim, To::Char);
 
-    } else if (IS_SET(victim->act, PLR_AFK) && !IS_NPC(victim)) {
-        snprintf(buf, sizeof(buf), "|W$N|c is %s.|w", victim->pcdata->afk);
-        act(buf, ch, nullptr, victim, To::Char, POS_DEAD);
+    } else if (IS_SET(victim->act, PLR_AFK) && victim->is_pc()) {
+        act(fmt::format("|W$N|c is {}.|w", victim->pcdata->afk), ch, nullptr, victim, To::Char, POS_DEAD);
         if (IS_SET(victim->comm, COMM_SHOWAFK)) {
-            char *strtime;
-            strtime = ctime(&current_time);
-            strtime[strlen(strtime) - 1] = '\0';
-            snprintf(buf, sizeof(buf), "|c%cAFK|C: At %s, $n told you '%s|C'.|w", 7, strtime, text);
-            act(buf, ch, nullptr, victim, To::Vict, POS_DEAD);
-            snprintf(buf, sizeof(buf), "|cYour message was logged onto $S screen.|w");
-            act(buf, ch, nullptr, victim, To::Char, POS_DEAD);
+            // TODO(#134) use the victim's timezone info.
+            act(fmt::format("|c\007AFK|C: At {}, $n told you '{}|C'.|w", formatted_time(current_time), text).c_str(),
+                ch, nullptr, victim, To::Vict, POS_DEAD);
+            act("|cYour message was logged onto $S screen.|w", ch, nullptr, victim, To::Char, POS_DEAD);
             victim->reply = ch;
         }
 
@@ -203,62 +122,50 @@ static void tell_to(CHAR_DATA *ch, CHAR_DATA *victim, const char *text) {
     }
 }
 
-void do_tell(CHAR_DATA *ch, const char *argument) {
+void do_tell(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
 
     const char *message = one_argument(argument, arg);
 
     if (arg[0] == '\0' || message[0] == '\0') {
-        send_to_char("|cTell whom what?|w\n\r", ch);
+        ch->send_line("|cTell whom what?|w");
         return;
     }
     victim = get_char_world(ch, arg);
     // TM: victim /may/ be null here, so don't check this if so
     if (victim && // added :)
-        IS_NPC(victim) && victim->in_room != ch->in_room)
+        victim->is_npc() && victim->in_room != ch->in_room)
         victim = nullptr;
     tell_to(ch, victim, message);
 }
 
-void do_reply(CHAR_DATA *ch, const char *argument) { tell_to(ch, ch->reply, argument); }
+void do_reply(Char *ch, const char *argument) { tell_to(ch, ch->reply, argument); }
 
-void do_yell(CHAR_DATA *ch, const char *argument) {
-    Descriptor *d;
-
+void do_yell(Char *ch, std::string_view argument) {
     if (IS_SET(ch->comm, COMM_NOSHOUT)) {
-        send_to_char("|cYou can't yell.|w\n\r", ch);
+        ch->send_line("|cYou can't yell.|w");
         return;
     }
 
-    if (argument[0] == '\0') {
-        send_to_char("|cYell what?|w\n\r", ch);
+    if (argument.empty()) {
+        ch->send_line("|cYell what?|w");
         return;
     }
 
-    if (IS_SET(ch->act, PLR_AFK))
-        do_afk(ch, nullptr);
-
-    act("|WYou yell '$t|W'|w", ch, argument, nullptr, To::Char);
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        if (d->is_playing() && d->character() != ch && d->character()->in_room != nullptr
-            && d->character()->in_room->area == ch->in_room->area && !IS_SET(d->character()->comm, COMM_QUIET)) {
-            act("|W$n yells '$t|W'|w", ch, argument, d->character(), To::Vict);
-        }
-    }
+    ch->set_not_afk();
+    ch->yell(argument);
 }
 
-void do_emote(CHAR_DATA *ch, const char *argument) {
-    if (!IS_NPC(ch) && IS_SET(ch->comm, COMM_NOEMOTE)) {
-        send_to_char("|cYou can't show your emotions.|w\n\r", ch);
+void do_emote(Char *ch, const char *argument) {
+    if (ch->is_pc() && IS_SET(ch->comm, COMM_NOEMOTE)) {
+        ch->send_line("|cYou can't show your emotions.|w");
 
     } else if (argument[0] == '\0') {
-        send_to_char("|cEmote what?|w\n\r", ch);
+        ch->send_line("|cEmote what?|w");
 
     } else {
-        if (IS_SET(ch->act, PLR_AFK))
-            do_afk(ch, nullptr);
-
+        ch->set_not_afk();
         act("$n $T", ch, nullptr, argument, To::Room);
         act("$n $T", ch, nullptr, argument, To::Char);
         chatperformtoroom(argument, ch);
@@ -361,12 +268,11 @@ const struct pose_table_type pose_table[] = {
       "$n flutters $s eyelids and accidentally slays a passing daemon.", "Atlas asks you to relieve him.",
       "Atlas asks $n to relieve him."}}};
 
-void do_pose(CHAR_DATA *ch, const char *argument) {
-    (void)argument;
+void do_pose(Char *ch) {
     int level;
     int pose;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     level = UMIN(ch->level, (int)(sizeof(pose_table) / sizeof(pose_table[0]) - 1));
@@ -376,67 +282,61 @@ void do_pose(CHAR_DATA *ch, const char *argument) {
     act(pose_table[pose].message[2 * ch->class_num + 1], ch);
 }
 
-void do_bug(CHAR_DATA *ch, const char *argument) {
+void do_bug(Char *ch, const char *argument) {
     if (argument[0] == '\0') {
-        send_to_char("Please provide a brief description of the bug!\n\r", ch);
+        ch->send_line("Please provide a brief description of the bug!");
         return;
     }
     append_file(ch, BUG_FILE, argument);
-    send_to_char("|RBug logged! If you're lucky it may even get fixed!|w\n\r", ch);
+    ch->send_line("|RBug logged! If you're lucky it may even get fixed!|w");
 }
 
-void do_idea(CHAR_DATA *ch, const char *argument) {
+void do_idea(Char *ch, const char *argument) {
     if (argument[0] == '\0') {
-        send_to_char("Please provide a brief description of your idea!\n\r", ch);
+        ch->send_line("Please provide a brief description of your idea!");
         return;
     }
     append_file(ch, IDEA_FILE, argument);
-    send_to_char("|WIdea logged. This is |RNOT|W an identify command.|w\n\r", ch);
+    ch->send_line("|WIdea logged. This is |RNOT|W an identify command.|w");
 }
 
-void do_typo(CHAR_DATA *ch, const char *argument) {
+void do_typo(Char *ch, const char *argument) {
     if (argument[0] == '\0') {
-        send_to_char("A typo you say? Tell us where!\n\r", ch);
+        ch->send_line("A typo you say? Tell us where!");
         return;
     }
     append_file(ch, TYPO_FILE, argument);
-    send_to_char("|WTypo logged. One day we'll fix it, or buy a spellchecker.|w\n\r", ch);
+    ch->send_line("|WTypo logged. One day we'll fix it, or buy a spellchecker.|w");
 }
 
-void do_qui(CHAR_DATA *ch, const char *argument) {
-    (void)argument;
-    send_to_char("|cIf you want to |RQUIT|c, you have to spell it out.|w\n\r", ch);
-}
+void do_qui(Char *ch) { ch->send_line("|cIf you want to |RQUIT|c, you have to spell it out.|w"); }
 
-void do_quit(CHAR_DATA *ch, const char *arg) {
-    (void)arg;
+void do_quit(Char *ch) {
     Descriptor *d;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
-    if ((ch->pnote != nullptr) && (ch->desc != nullptr)) {
+    if (ch->pnote && (ch->desc != nullptr)) {
         /* Allow linkdeads to be auto-quitted even if they have a note */
-        send_to_char("|cDon't you want to post your note first?|w\n\r", ch);
+        ch->send_line("|cDon't you want to post your note first?|w");
         return;
     }
 
     if (ch->position == POS_FIGHTING) {
-        send_to_char("|RNo way! You are fighting.|w\n\r", ch);
+        ch->send_line("|RNo way! You are fighting.|w");
         return;
     }
 
     if (ch->position < POS_STUNNED) {
-        send_to_char("|RYou're not DEAD yet.|w\n\r", ch);
+        ch->send_line("|RYou're not DEAD yet.|w");
         return;
     }
     do_chal_canc(ch);
-    send_to_char("|WYou quit reality for the game.|w\n\r", ch);
+    ch->send_line("|WYou quit reality for the game.|w");
     act("|W$n has left reality for the game.|w", ch);
-    snprintf(log_buf, LOG_BUF_SIZE, "%s has quit.", ch->name);
-    log_string(log_buf);
-    snprintf(log_buf, LOG_BUF_SIZE, "|W### |P%s|W departs, seeking another reality.|w", ch->name);
-    announce(log_buf, ch);
+    log_string("{} has quit.", ch->name);
+    announce(fmt::format("|W### |P{}|W departs, seeking another reality.|w", ch->name), ch);
 
     /*
      * After extract_char the ch is no longer valid!
@@ -448,48 +348,47 @@ void do_quit(CHAR_DATA *ch, const char *arg) {
     d = ch->desc;
     extract_char(ch, true);
     if (d != nullptr)
-        close_socket(d);
+        d->close();
 }
 
-void do_save(CHAR_DATA *ch, const char *arg) {
-    (void)arg;
-    if (IS_NPC(ch))
+void do_save(Char *ch) {
+    if (ch->is_npc())
         return;
 
     save_char_obj(ch);
-    send_to_char("|cTo Save is wisdom, but don't forget |WXania|c does it automagically!|w\n\r", ch);
+    ch->send_line("|cTo Save is wisdom, but don't forget |WXania|c does it automagically!|w");
     WAIT_STATE(ch, 5 * PULSE_VIOLENCE);
 }
 
-void char_ride(CHAR_DATA *ch, CHAR_DATA *pet);
-void unride_char(CHAR_DATA *ch, CHAR_DATA *pet);
+void char_ride(Char *ch, Char *pet);
+void unride_char(Char *ch, Char *pet);
 
-void do_ride(CHAR_DATA *ch, const char *argument) {
+void do_ride(Char *ch, const char *argument) {
 
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *ridee;
+    Char *ridee;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     if (get_skill_learned(ch, gsn_ride) == 0) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_line("Huh?");
         return;
     }
 
     if (ch->riding != nullptr) {
-        send_to_char("You can only ride one mount at a time.\n\r", ch);
+        ch->send_line("You can only ride one mount at a time.");
         return;
     }
 
     one_argument(argument, arg);
     if (arg[0] == '\0') {
-        send_to_char("Ride whom or what?\n\r", ch);
+        ch->send_line("Ride whom or what?");
         return;
     }
 
     if ((ridee = get_char_room(ch, arg)) == nullptr) {
-        send_to_char("They aren't here.\n\r", ch);
+        ch->send_line("They aren't here.");
         return;
     }
 
@@ -501,7 +400,7 @@ void do_ride(CHAR_DATA *ch, const char *argument) {
     char_ride(ch, ridee);
 }
 
-void char_ride(CHAR_DATA *ch, CHAR_DATA *ridee) {
+void char_ride(Char *ch, Char *ridee) {
     AFFECT_DATA af;
 
     act("You leap gracefully onto $N.", ch, nullptr, ridee, To::Char);
@@ -512,40 +411,38 @@ void char_ride(CHAR_DATA *ch, CHAR_DATA *ridee) {
     af.type = gsn_ride;
     af.level = ridee->level;
     af.duration = -1;
-    af.location = APPLY_DAMROLL;
-    af.modifier = (ridee->level / 10) + (get_curr_stat(ridee, STAT_DEX) / 8);
-    af.bitvector = 0;
-    affect_to_char(ch, &af);
-    af.location = APPLY_HITROLL;
-    af.modifier = -(((ridee->level / 10) + (get_curr_stat(ridee, STAT_DEX) / 8)) / 4);
-    affect_to_char(ch, &af);
+    af.location = AffectLocation::Damroll;
+    af.modifier = (ridee->level / 10) + (get_curr_stat(ridee, Stat::Dex) / 8);
+    affect_to_char(ch, af);
+    af.location = AffectLocation::Hitroll;
+    af.modifier = -(((ridee->level / 10) + (get_curr_stat(ridee, Stat::Dex) / 8)) / 4);
+    affect_to_char(ch, af);
 }
 
-void do_dismount(CHAR_DATA *ch, const char *argument) {
-    (void)argument;
-    if (IS_NPC(ch))
+void do_dismount(Char *ch) {
+    if (ch->is_npc())
         return;
 
     if (get_skill_learned(ch, gsn_ride) == 0) {
-        send_to_char("Huh?\n\r", ch);
+        ch->send_line("Huh?");
         return;
     }
 
     if (ch->riding == nullptr) {
-        send_to_char("But you aren't riding anything!\n\r", ch);
+        ch->send_line("But you aren't riding anything!");
         return;
     }
     unride_char(ch, ch->riding);
 }
 
-void thrown_off(CHAR_DATA *ch, CHAR_DATA *pet) {
+void thrown_off(Char *ch, Char *pet) {
     act("|RYou are flung from $N!|w", ch, nullptr, pet, To::Char);
     act("$n is flung from $N!", ch, nullptr, pet, To::Room);
     fallen_off_mount(ch);
 }
 
-void fallen_off_mount(CHAR_DATA *ch) {
-    CHAR_DATA *pet = ch->riding;
+void fallen_off_mount(Char *ch) {
+    Char *pet = ch->riding;
     if (pet == nullptr)
         return;
 
@@ -560,7 +457,7 @@ void fallen_off_mount(CHAR_DATA *ch) {
     damage(pet, ch, number_range(2, 2 + 2 * ch->size + pet->size), gsn_bash, DAM_BASH);
 }
 
-void unride_char(CHAR_DATA *ch, CHAR_DATA *pet) {
+void unride_char(Char *ch, Char *pet) {
     act("You swing your leg over and dismount $N.", ch, nullptr, pet, To::Char);
     act("$n smoothly dismounts $N.", ch, nullptr, pet, To::Room);
     pet->ridden_by = nullptr;
@@ -569,20 +466,16 @@ void unride_char(CHAR_DATA *ch, CHAR_DATA *pet) {
     affect_strip(ch, gsn_ride);
 }
 
-void do_follow(CHAR_DATA *ch, const char *argument) {
+void do_follow(Char *ch, ArgParser args) {
     /* RT changed to allow unlimited following and follow the NOFOLLOW rules */
-    char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        send_to_char("Follow whom?\n\r", ch);
+    if (args.empty()) {
+        ch->send_line("Follow whom?");
         return;
     }
 
-    if ((victim = get_char_room(ch, arg)) == nullptr) {
-        send_to_char("They aren't here.\n\r", ch);
+    auto victim = get_char_room(ch, args.shift());
+    if (!victim) {
+        ch->send_line("They aren't here.");
         return;
     }
 
@@ -593,14 +486,14 @@ void do_follow(CHAR_DATA *ch, const char *argument) {
 
     if (victim == ch) {
         if (ch->master == nullptr) {
-            send_to_char("You already follow yourself.\n\r", ch);
+            ch->send_line("You already follow yourself.");
             return;
         }
         stop_follower(ch);
         return;
     }
 
-    if (!IS_NPC(victim) && IS_SET(victim->act, PLR_NOFOLLOW) && !IS_IMMORTAL(ch)) {
+    if (victim->is_pc() && IS_SET(victim->act, PLR_NOFOLLOW) && ch->is_mortal()) {
         act("$N doesn't seem to want any followers.\n\r", ch, nullptr, victim, To::Char);
         return;
     }
@@ -613,7 +506,7 @@ void do_follow(CHAR_DATA *ch, const char *argument) {
     add_follower(ch, victim);
 }
 
-void add_follower(CHAR_DATA *ch, CHAR_DATA *master) {
+void add_follower(Char *ch, Char *master) {
     if (ch->master != nullptr) {
         bug("Add_follower: non-null master.");
         return;
@@ -628,7 +521,7 @@ void add_follower(CHAR_DATA *ch, CHAR_DATA *master) {
     act("You now follow $N.", ch, nullptr, master, To::Char);
 }
 
-void stop_follower(CHAR_DATA *ch) {
+void stop_follower(Char *ch) {
     if (ch->master == nullptr) {
         bug("Stop_follower: null master.");
         return;
@@ -655,8 +548,8 @@ void stop_follower(CHAR_DATA *ch) {
 }
 
 /* nukes charmed monsters and pets */
-void nuke_pets(CHAR_DATA *ch) {
-    CHAR_DATA *pet;
+void nuke_pets(Char *ch) {
+    Char *pet;
 
     if ((pet = ch->pet) != nullptr) {
         stop_follower(pet);
@@ -672,9 +565,7 @@ void nuke_pets(CHAR_DATA *ch) {
     ch->pet = nullptr;
 }
 
-void die_follower(CHAR_DATA *ch) {
-    CHAR_DATA *fch;
-
+void die_follower(Char *ch) {
     if (ch->master != nullptr) {
         if (ch->master->pet == ch)
             ch->master->pet = nullptr;
@@ -683,7 +574,7 @@ void die_follower(CHAR_DATA *ch) {
 
     ch->leader = nullptr;
 
-    for (fch = char_list; fch != nullptr; fch = fch->next) {
+    for (auto *fch : char_list) {
         if (fch->master == ch)
             stop_follower(fch);
         if (fch->leader == ch)
@@ -691,12 +582,9 @@ void die_follower(CHAR_DATA *ch) {
     }
 }
 
-void do_order(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
+void do_order(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
-    CHAR_DATA *och;
-    CHAR_DATA *och_next;
+    Char *victim;
     bool found;
     bool fAll;
 
@@ -704,17 +592,17 @@ void do_order(CHAR_DATA *ch, const char *argument) {
     one_argument(command_remainder, arg2);
 
     if (!str_cmp(arg2, "delete")) {
-        send_to_char("That will NOT be done.\n\r", ch);
+        ch->send_line("That will NOT be done.");
         return;
     }
 
     if (arg[0] == '\0' || command_remainder[0] == '\0') {
-        send_to_char("Order whom to do what?\n\r", ch);
+        ch->send_line("Order whom to do what?");
         return;
     }
 
     if (IS_AFFECTED(ch, AFF_CHARM)) {
-        send_to_char("You feel like taking, not giving, orders.\n\r", ch);
+        ch->send_line("You feel like taking, not giving, orders.");
         return;
     }
 
@@ -724,29 +612,26 @@ void do_order(CHAR_DATA *ch, const char *argument) {
     } else {
         fAll = false;
         if ((victim = get_char_room(ch, arg)) == nullptr) {
-            send_to_char("They aren't here.\n\r", ch);
+            ch->send_line("They aren't here.");
             return;
         }
 
         if (victim == ch) {
-            send_to_char("Aye aye, right away!\n\r", ch);
+            ch->send_line("Aye aye, right away!");
             return;
         }
 
         if (!IS_AFFECTED(victim, AFF_CHARM) || victim->master != ch) {
-            send_to_char("Do it yourself!\n\r", ch);
+            ch->send_line("Do it yourself!");
             return;
         }
     }
 
     found = false;
-    for (och = ch->in_room->people; och != nullptr; och = och_next) {
-        och_next = och->next_in_room;
-
+    for (auto *och : ch->in_room->people) {
         if (IS_AFFECTED(och, AFF_CHARM) && och->master == ch && (fAll || och == victim)) {
             found = true;
-            snprintf(buf, sizeof(buf), "|W$n|w orders you to '%s'.", command_remainder);
-            act(buf, ch, nullptr, och, To::Vict);
+            act(fmt::format("|W$n|w orders you to '{}'.", command_remainder), ch, nullptr, och, To::Vict);
             WAIT_STATE(ch, 2 * PULSE_VIOLENCE);
             // We know this points into the remainder of "argument"
             interpret(och, command_remainder);
@@ -754,44 +639,37 @@ void do_order(CHAR_DATA *ch, const char *argument) {
     }
 
     if (found)
-        send_to_char("Ok.\n\r", ch);
+        ch->send_line("Ok.");
     else
-        send_to_char("You have no followers here.\n\r", ch);
+        ch->send_line("You have no followers here.");
 }
 
-void do_group(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
+void do_group(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
 
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        CHAR_DATA *gch;
-        CHAR_DATA *leader;
+        ch->send_line("{}'s group:", pers(ch->leader ? ch->leader : ch, ch));
 
-        leader = (ch->leader != nullptr) ? ch->leader : ch;
-        snprintf(buf, sizeof(buf), "%s's group:\n\r", pers(leader, ch));
-        send_to_char(buf, ch);
-
-        for (gch = char_list; gch != nullptr; gch = gch->next) {
+        for (auto *gch : char_list) {
             if (is_same_group(gch, ch)) {
-                snprintf(buf, sizeof(buf), "[%2d %s] %-16s %4d/%4d hp %4d/%4d mana %4d/%4d mv %5ld xp\n\r", gch->level,
-                         IS_NPC(gch) ? "Mob" : class_table[gch->class_num].who_name, capitalize(pers(gch, ch)),
-                         gch->hit, gch->max_hit, gch->mana, gch->max_mana, gch->move, gch->max_move, gch->exp);
-                send_to_char(buf, ch);
+                ch->send_line("[{:3} {}] {:<16} {:4}/{:4} hp {:4}/{:4} mana {:4}/{:4} mv {:5} xp", gch->level,
+                              gch->is_npc() ? "Mob" : class_table[gch->class_num].who_name, pers(gch, ch), gch->hit,
+                              gch->max_hit, gch->mana, gch->max_mana, gch->move, gch->max_move, gch->exp);
             }
         }
         return;
     }
 
     if ((victim = get_char_room(ch, arg)) == nullptr) {
-        send_to_char("They aren't here.\n\r", ch);
+        ch->send_line("They aren't here.");
         return;
     }
 
     if (ch->master != nullptr || (ch->leader != nullptr && ch->leader != ch)) {
-        send_to_char("But you are following someone else!\n\r", ch);
+        ch->send_line("But you are following someone else!");
         return;
     }
 
@@ -801,7 +679,7 @@ void do_group(CHAR_DATA *ch, const char *argument) {
     }
 
     if (IS_AFFECTED(victim, AFF_CHARM)) {
-        send_to_char("You can't remove charmed mobs from your group.\n\r", ch);
+        ch->send_line("You can't remove charmed mobs from your group.");
         return;
     }
 
@@ -837,98 +715,82 @@ void do_group(CHAR_DATA *ch, const char *argument) {
 /*
  * 'Split' originally by Gnort, God of Chaos.
  */
-void do_split(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-    char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *gch;
-    int members;
-    int amount;
-    int share;
-    int extra;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        send_to_char("Split how much?\n\r", ch);
+void do_split(Char *ch, ArgParser args) {
+    if (args.empty()) {
+        ch->send_line("Split how much?");
         return;
     }
 
-    amount = atoi(arg);
+    split_coins(ch, args.try_shift_number().value_or(-1));
+}
 
+void split_coins(Char *ch, int amount) {
     if (amount < 0) {
-        send_to_char("Your group wouldn't like that.\n\r", ch);
+        ch->send_line("Your group wouldn't like that.");
         return;
     }
 
     if (amount == 0) {
-        send_to_char("You hand out zero coins, but no one notices.\n\r", ch);
+        ch->send_line("You hand out zero coins, but no one notices.");
         return;
     }
 
     if (ch->gold < amount) {
-        send_to_char("You don't have that much gold.\n\r", ch);
+        ch->send_line("You don't have that much gold.");
         return;
     }
 
-    members = 0;
-    for (gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
+    int members = 0;
+    for (auto *gch : ch->in_room->people) {
         if (is_same_group(gch, ch) && !IS_AFFECTED(gch, AFF_CHARM))
             members++;
     }
 
     if (members < 2) {
-        send_to_char("You'd share the gold if there was someone here to split it with!\n\r", ch);
+        ch->send_line("You'd share the gold if there was someone here to split it with!");
         return;
     }
 
-    share = amount / members;
-    extra = amount % members;
+    int share = amount / members;
+    int extra = amount % members;
 
     if (share == 0) {
-        send_to_char("Don't even bother, cheapskate.\n\r", ch);
+        ch->send_line("Don't even bother, cheapskate.");
         return;
     }
 
     ch->gold -= amount;
     ch->gold += share + extra;
 
-    snprintf(buf, sizeof(buf), "You split %d gold coins.  Your share is %d gold coins.\n\r", amount, share + extra);
-    send_to_char(buf, ch);
+    ch->send_line("You split {} gold coins.  Your share is {} gold coins.", amount, share + extra);
 
-    snprintf(buf, sizeof(buf), "$n splits %d gold coins.  Your share is %d gold coins.", amount, share);
+    auto message = fmt::format("$n splits {} gold coins.  Your share is {} gold coins.", amount, share);
 
-    for (gch = ch->in_room->people; gch != nullptr; gch = gch->next_in_room) {
+    for (auto *gch : ch->in_room->people) {
         if (gch != ch && is_same_group(gch, ch) && !IS_AFFECTED(gch, AFF_CHARM)) {
-            act(buf, ch, nullptr, gch, To::Vict);
+            act(message, ch, nullptr, gch, To::Vict);
             gch->gold += share;
         }
     }
 }
 
-void do_gtell(CHAR_DATA *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-    CHAR_DATA *gch;
-
-    if (argument[0] == '\0') {
-        send_to_char("|cTell your group what?|w\n\r", ch);
+void do_gtell(Char *ch, std::string_view argument) {
+    if (argument.empty()) {
+        ch->send_line("|cTell your group what?|w");
         return;
     }
 
     if (IS_SET(ch->comm, COMM_NOTELL)) {
-        send_to_char("|cYour message didn't get through!|w\n\r", ch);
+        ch->send_line("|cYour message didn't get through!|w");
         return;
     }
 
-    /*
-     * Note use of send_to_char, so gtell works on sleepers.
-     */
-    snprintf(buf, sizeof(buf), "|CYou tell the group '%s|C'|w.\n\r", argument);
-    send_to_char(buf, ch);
-    snprintf(buf, sizeof(buf), "|C%s tells the group '%s|C'|w.\n\r", ch->name, argument);
-    for (gch = char_list; gch != nullptr; gch = gch->next) {
-        if (is_same_group(gch, ch) && (gch != ch))
-            send_to_char(buf, gch);
-    }
+    // Note use of send_line (not act), so gtell works on sleepers.
+    ch->send_line("|CYou tell the group '{}|C'|w.", argument);
+    auto msg = fmt::format("|C{} tells the group '{}|C'|w.", ch->name, argument);
+    for (auto *gch : char_list)
+        if (is_same_group(gch, ch) && gch != ch)
+            gch->send_line(msg);
 }
 
 /*
@@ -937,7 +799,7 @@ void do_gtell(CHAR_DATA *ch, const char *argument) {
  * (2) if A ~ B then B ~ A
  * (3) if A ~ B  and B ~ C, then A ~ C
  */
-bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch) {
+bool is_same_group(const Char *ach, const Char *bch) {
     if (ach->leader != nullptr)
         ach = ach->leader;
     if (bch->leader != nullptr)
@@ -950,35 +812,31 @@ bool is_same_group(CHAR_DATA *ach, CHAR_DATA *bch) {
  * to_npc: the NPC that received the chat/social message.
  * from_player: the player that sent it.
  */
-void chatperform(CHAR_DATA *to_npc, CHAR_DATA *from_player, const char *msg) {
-    char response_buf[MaxChatReplyLength];
-    if (!IS_NPC(to_npc) || (from_player != nullptr && IS_NPC(from_player)))
+void chatperform(Char *to_npc, Char *from_player, std::string_view msg) {
+    if (to_npc->is_pc() || (from_player != nullptr && from_player->is_npc()))
         return; /* failsafe */
-    const char *reply = dochat(response_buf, from_player ? from_player->name : "you", msg, to_npc->name);
-    if (reply) {
-        switch (reply[0]) {
-        case '\0': break;
-        case '"': /* say message */ do_say(to_npc, reply + 1); break;
-        case ':': /* do emote */ do_emote(to_npc, reply + 1); break;
-        case '!': /* do command */ interpret(to_npc, reply + 1); break;
-        default: /* say or tell */
-            if (from_player == nullptr) {
-                do_say(to_npc, reply);
-            } else {
-                act("$N tells you '$t'.", from_player, reply, to_npc, To::Char);
-                from_player->reply = to_npc;
-            }
+    std::string reply = dochat(from_player ? from_player->name : "you", msg, to_npc->name);
+    switch (reply[0]) {
+    case '\0': break;
+    case '"': /* say message */ to_npc->say(reply.substr(1)); break;
+    case ':': /* do emote */ do_emote(to_npc, reply.substr(1).c_str()); break;
+    case '!': /* do command */ interpret(to_npc, reply.substr(1).c_str()); break;
+    default: /* say or tell */
+        if (from_player == nullptr) {
+            to_npc->say(reply.c_str());
+        } else {
+            act("$N tells you '$t'.", from_player, reply, to_npc, To::Char);
+            from_player->reply = to_npc;
         }
     }
 }
 
-void chatperformtoroom(const char *text, CHAR_DATA *ch) {
-    CHAR_DATA *vch;
-    if (IS_NPC(ch))
+void chatperformtoroom(std::string_view text, Char *ch) {
+    if (ch->is_npc())
         return;
 
-    for (vch = ch->in_room->people; vch; vch = vch->next_in_room)
-        if (IS_NPC(vch) && IS_SET(vch->pIndexData->act, ACT_TALKATIVE) && IS_AWAKE(vch)) {
+    for (auto *vch : ch->in_room->people)
+        if (vch->is_npc() && IS_SET(vch->pIndexData->act, ACT_TALKATIVE) && IS_AWAKE(vch)) {
             if (number_percent() > 66) /* less spammy - Fara */
                 chatperform(vch, ch, text);
         }

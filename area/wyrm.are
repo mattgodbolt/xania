@@ -16,7 +16,7 @@ unbelievers that would violate the sanctity of this temple.
 dragon~
 BT CDFHNTVaa 750 0
 75 35 1d1+11999 1d1+599 8d9+35 divine
--25 -24 -25 -25
+-40 -39 -40 -40
 EFHIKQRU AB R 0
 stand stand female 4000
 0 0 huge 0
@@ -32,7 +32,7 @@ altar praying to the great wyrm.
 dragon~
 BQ H 1000 0
 90 45 10d100+10000 10d20+600 9d10+40 wrath
--30 -30 -30 -25
+-45 -45 -45 -40
 FKQRU AB 0 0
 stand stand female 10000
 0 0 huge 0
@@ -49,7 +49,7 @@ Kill him now and claim your reward.
 elf~
 GH 0 0 0
 5 2 5d5+50 5d5+100 1d6+2 pierce
--2 -3 -2 -1
+-17 -18 -17 -16
 F AB  0 HZ
 stand stand male 0
 0 0 medium 0
@@ -65,7 +65,7 @@ then you are worthy to wield the token of the great wyrm he possesses.
 orc~
 BF aa -500 0
 10 5 10d5+100 5d5+100 2d5+5 slash
--1 -2 -1 -1
+-16 -17 -16 -16
 CEFK AB 0 CJY 
 stand stand male 0
 0 0 small 0
@@ -81,7 +81,7 @@ from a far away land so that you may prove your magical prowess.
 human~
 BR H -1000 0
 30 15 30d5+550 30d10+300 4d7+15 magic
--15 -15 -15 -9
+-30 -30 -30 -24
 F A BD P
 stand stand male 500
 0 0 medium 0
@@ -96,9 +96,9 @@ wilderness and brought here as a worthy opponent for you to prove your
 worth in combat.
 ~
 human~
-BFT Naa -1000 0
+BFT N -1000 0
 30 15 1d1+749 1d1+299 6d5+15 cleave
--12 -13 -17 0
+-27 -28 -32 -15
 CDEFHIK AB C HJ
 stand stand male 500
 0 0 medium 0
@@ -116,7 +116,7 @@ have been a better choice!
 unique~
 B HN 0 0
 50 25 1d1+2599 1d1+499 10d6+15 flbite
--15 -15 -15 -10
+-30 -30 -30 -25
 FHK ABH 0 0
 stand stand neutral 0
 0 0 medium 0
@@ -134,7 +134,7 @@ have been a better choice!
 unique~
 B HN 0 0
 50 25 1d1+2599 1d1+499 10d6+25 frbite
--15 -15 -15 -10
+-30 -30 -30 -25
 FK ABI 0 H
 stand stand neutral 0
 0 0 medium 0
@@ -152,7 +152,7 @@ it to the High Priest, he may then make you a high priest of the great wyrm.
 unique~
 BC HNVaa -1000 0
 75 40 40d5+5500 40d5+500 9d8+40 cleave
--30 -30 -30 -13
+-45 -45 -45 -28
 EFIKN ABLQ FHI EKNO
 stand stand neutral 0
 0 0 large 0
@@ -168,7 +168,7 @@ left wrist he wears a silver bracelet which bears the symbol of the dragon.
 elf~
 BFR BDFHN -1000 0
 100 50 40d5+6000 40d5+1000 10d10+50 stab
--32 -32 -32 -20
+-47 -47 -47 -35
 FG AB 0 Y
 stand stand male 2500
 0 0 medium 0
@@ -183,9 +183,9 @@ leather armour and holds a huge pike. You notice the symbol of the dragon
 inscribed on its blade.
 ~
 human~
-BCFT HNaa -1000 0
+BCFT HN -1000 0
 100 50 100d10+7000 10d10+400 10d10+50 slice
--30 -30 -30 -30
+-45 -45 -45 -45
 ACDEFHIK ABP LQ N
 stand stand female 5000
 0 0 giant 0
@@ -202,9 +202,9 @@ true champion of the disciplehood.  Good luck in you final battle, may the
 Gods protect you!
 ~
 dragon~
-BCFQT DFNVaa -1000 0
+BCFQT DFNV -1000 0
 110 55 100d20+20000 10d10+1000 30d6+60 claw
--35 -35 -35 -35
+-50 -50 -50 -50
 EFGHN AB HIJKR FNOY
 stand stand male 8000
 0 0 huge 0
@@ -614,7 +614,7 @@ Dwarven forest. Around you, coniferous vegetation looms ominously, and the
 pathway seems a little clearer to the south. Around a bend to the north you 
 can faintly discern the wall of a great fortress.
 ~
-30 0 2
+0 2
 D0
 Temple Gates
 ~
@@ -637,7 +637,7 @@ the temple, a tall lone tower rises up to a dizzying height. You can hear
 a soft chanting carried to your ears on the wind but you can't quite make 
 out the words.
 ~
-30 0 2
+0 2
 D0
 The entrance to the temple through the giant |Cgates|w.
 ~
@@ -665,7 +665,7 @@ end broad steps lead up to the altar room, from which you can hear a
 faint chanting.  To the south are the impressive temple |Cgates|w. There are 
 also smaller gateways to the west and east.
 ~
-30 0 2
+0 2
 D0
 The entrance to the main temple.
 ~
@@ -712,7 +712,7 @@ of the draconian deity. Paintings and tapestries adorn the white marble
 walls.  To the east is a portal with a sign above it and to the west is a 
 solid oak door.  There is also a plaque on the wall.
 ~
-30 D 0
+D 0
 D0
 You can see a secret passage.
 ~
@@ -768,7 +768,7 @@ This is the armoury, clan members are encouraged to put weapons and
 armour here for the benefit of their brethren.  The only exit is east 
 back into the courtyard.
 ~
-30 D 0
+D 0
 D1
 You can see the courtyard to the east.
 ~
@@ -781,7 +781,7 @@ The Secret Room~
 This is a secret room north of the altar.  It is quite dark and 
 cramped in here.  A stairway spirals upwards into darkness.
 ~
-30 D 0
+D 0
 D2
 This leads back to the temple altar.
 ~
@@ -801,7 +801,7 @@ dungeons.  In the dungeons below are a series of tests that clan members
 must complete if they wish to join and raise their level within the 
 clan.  The only other exit is west back to the temple altar.
 ~
-30 D 0
+D 0
 D3
 Through the portal you see the temple altar.
 ~
@@ -819,7 +819,7 @@ The Vault~
 Clan members are encouraged to leave items that they think might 
 help their fellow clansmen in this room.  There is an oak door to the east.
 ~
-30 D 0
+D 0
 D1
 A sturdy door made of oak.
 ~
@@ -833,7 +833,7 @@ You pause for a while to catch your breath before you continue along
 the stairway.  Looking up you can see the faintest glimmer of light, 
 while down below you can make out nothing but darkness.
 ~
-30 D 0
+D 0
 D4
 You can see a faint steady light which you believe must come from a 
 magical source.
@@ -853,7 +853,7 @@ This is the beginning of the tests.  There are steps going up here,
 and to the east and the west are solid oak doors.  The corridor continues 
 to the north.
 ~
-30 D 0
+D 0
 D0
 The corridor continues to the north.
 ~
@@ -883,7 +883,7 @@ give of a steady magical glow.  In the centre of the room is a large
 table and around the table are several chairs.  This room is obviously 
 used for important meetings.
 ~
-30 D 0
+D 0
 D5
 A dark stairway.
 ~
@@ -901,7 +901,7 @@ The corridor is lit by flickering torches set in brackets on the
 walls.  The corridor continues both to the north and the south.  There 
 are oak doors set in the east and west walls.
 ~
-30 D 0
+D 0
 D0
 ~
 ~
@@ -927,7 +927,7 @@ A Small Cell~
 This small cell is strewn with straw.  A hard wooden bench rests 
 against the east wall and a slop bucket has been placed in a corner.
 ~
-30 D 0
+D 0
 D3
 The cell exit.
 ~
@@ -951,7 +951,7 @@ rest several potions.  Beside the potions is a small note.  The western
 door leads back to the corridor but there is also a door in the southern 
 wall.
 ~
-30 D 0
+D 0
 D1
 The cell exit
 ~
@@ -975,7 +975,7 @@ apprehensively as you consider what awaits you behind the doors which lie
 to the east, west and north.  But If you are courageous and brave you can 
 overcome these trials and honour your clan.
 ~
-30 D 0
+D 0
 D0
 A metal door.  A sign on the door reads "The Final Test".
 ~
@@ -1004,7 +1004,7 @@ sticky red substance, around a rotting ram's skull.  On a desk in the
 corner some alchemists apparatus bubble away, and on a  bookshelf are 
 several large leather bound tomes.
 ~
-30 DN 0
+DN 0
 D1
 The cell exit.
 ~
@@ -1034,7 +1034,7 @@ You are in a large cell.  Various bones are strewn on the floor and
 the walls are splattered with blood and substances which are too foul to 
 think about.
 ~
-30 DN 0
+DN 0
 D3
 The cell exit.
 ~
@@ -1054,7 +1054,7 @@ torches in the hallway to the south.  The room appears to be empty but
 you get the strange feeling that something is lurking in the shadows 
 watching you.
 ~
-30 AD 0
+AD 0
 D2
 A metal door.
 ~
@@ -1078,7 +1078,7 @@ decay.  Around the edges are several silver candelabra holding black
 candles. There only exits is back to the west. Suddenly one of the 
 corpses begins to move!
 ~
-30 D 0
+D 0
 D1
 A secret doorway!  How clever of you to find it!
 ~
@@ -1097,7 +1097,7 @@ This small room is illuminated by light filtering down a narrow
 shaft cut into the ceiling above you.  There are three exits, the 
 corridor lies to the east and there are doors to the west and north.
 ~
-30 D 0
+D 0
 D0
 You notice the rune of flame carved into the door, and when you place 
 your hand against it it feels warm to the touch.
@@ -1123,7 +1123,7 @@ In the centre of the room is a large rack and standing in the corner
 is an enormous iron maiden.  You also notice an impressive collection of 
 thumbscrews, whips and other foul instruments of torture.
 ~
-30 D 0
+D 0
 D0
 A steel door.
 ~
@@ -1151,7 +1151,7 @@ You have entered a small room brightly lit by some magical source.
 A thunderous voice speaks, "Congratulations.  Claim your prize for you 
 truly are a worthy hero of the Great Wyrm.".
 ~
-30 D 0
+D 0
 D3
 The secret passage.
 ~
@@ -1166,7 +1166,7 @@ you ought to be dead but you seem to be protected from the flames by some
 kind of magical force. There is a doorway to the south, or you may head
 west.
 ~
-30 D 0
+D 0
 D2
 The southern door.
 ~
@@ -1184,7 +1184,7 @@ As you step into the room you suddenly find yourself in a raging
 blizzard.  You also realise that you're treading through a foot of snow 
 and ice.
 ~
-30 D 0
+D 0
 D0
 ~
 ~
@@ -1203,7 +1203,7 @@ venture onwards.  What lies before you is the ultimate challenge, if you
 come out of it alive you will be honoured as one of the bravest and 
 strongest warrior of the disciplehood.
 ~
-30 D 0
+D 0
 D2
 A steel door.
 ~
@@ -1223,7 +1223,7 @@ This is the end of the Champions Trial, whether you took the fiery
 path or the frosty path.  But do you have the key so that you can claim 
 your prize?
 ~
-30 D 0
+D 0
 D1
 ~
 ~
@@ -1239,7 +1239,7 @@ The Dragons Lair!~
 You have walked into the dragons lair.  The room is littered with 
 the charred remnants of foolish clansmen who disturbed the dragons rest.
 ~
-30 D 0
+D 0
 D1
 ~
 ~
@@ -1253,7 +1253,7 @@ unbelievers before they are sacrificed.  Often prospective clan members
 will come here to prove their loyalty to the disciplehood and become 
 initiates.
 ~
-30 D 0
+D 0
 D0
 A solid door without a keyhole.
 ~
@@ -1268,7 +1268,7 @@ are adorned with elegant tapestries and fine paintings.  Light streams in
 through vast arched windows on the southern wall.  There is a ornately 
 carved double oak door to the north, and the hallway continues to the east.
 ~
-30 D 0
+D 0
 D0
 ~
 oak door north~
@@ -1312,7 +1312,7 @@ Several fine suits of armour stand in the corners and on the northern wall
 there are shelves filled with books and scrolls.  The only exit is to the 
 south through a pair of double doors.
 ~
-30 D 0
+D 0
 D2
 ~
 oak door south~
@@ -1344,7 +1344,7 @@ dragons. On either side of the door are pedestals and on these rest golden
 orbs which glow brightly and are warm to the touch.  There is a second 
 door in the northern wall.
 ~
-30 D 0
+D 0
 D0
 ~
 door north~
@@ -1378,7 +1378,7 @@ to sit on. At the far end there is a grand throne, the seat of the Preceptor
 of the Wyrm, flanked by two only slightly less grand thrones for the high 
 priests.
 ~
-30 D 0
+D 0
 D2
 ~
 door south~
@@ -1399,7 +1399,7 @@ casting eerie shadows that dance about the room.  You stop and listen for
 a moment, feeling sure you can hear a slow, steady heartbeat and faint 
 breathing.
 ~
-30 D 0
+D 0
 D3
 ~
 golden door west~

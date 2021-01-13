@@ -4,4 +4,4 @@
 #include <string_view>
 
 void remove_info_for_player(std::string_view player_name);
-void update_info_cache(CHAR_DATA *ch);
+void update_info_cache(Char *ch);

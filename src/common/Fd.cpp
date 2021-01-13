@@ -2,8 +2,6 @@
 
 #include <fmt/format.h>
 
-using namespace fmt::literals;
-
 void Fd::write(const void *data, size_t length) const {
     if (!is_open())
         throw std::runtime_error("Write called on invalid file descriptor");
@@ -11,7 +9,7 @@ void Fd::write(const void *data, size_t length) const {
     if (num < 0)
         throw fmt::system_error(errno, "Unable to write to {}", fd_);
     if (static_cast<size_t>(num) != length)
-        throw std::runtime_error("Truncated write to file descriptor {} ({}/{})"_format(fd_, num, length));
+        throw std::runtime_error(fmt::format("Truncated write to file descriptor {} ({}/{})", fd_, num, length));
 }
 
 void Fd::writev(gsl::span<const iovec> io_vecs) const {
@@ -26,7 +24,7 @@ void Fd::writev(gsl::span<const iovec> io_vecs) const {
         length += v.iov_len;
 
     if (static_cast<size_t>(num) != length)
-        throw std::runtime_error("Truncated write to file descriptor {} ({}/{})"_format(fd_, num, length));
+        throw std::runtime_error(fmt::format("Truncated write to file descriptor {} ({}/{})", fd_, num, length));
 }
 
 Fd Fd::accept(sockaddr *address, socklen_t *socklen) const {
@@ -40,7 +38,7 @@ Fd Fd::socket(int domain, int type, int protocol) {
     int socket_fd = ::socket(domain, type, protocol);
     if (socket_fd < 0)
         throw fmt::system_error(
-            errno, "Unable to create a socket (domain {}, type {}, protocol {})"_format(domain, type, protocol));
+            errno, fmt::format("Unable to create a socket (domain {}, type {}, protocol {})", domain, type, protocol));
     return Fd(socket_fd);
 }
 
@@ -80,7 +78,7 @@ void Fd::read_all(void *data, size_t length) const {
     if (num_read < 0)
         throw fmt::system_error(errno, "Unable to read from {}", fd_);
     if (static_cast<size_t>(num_read) != length)
-        throw std::runtime_error("Truncated read from file descriptor {} ({}/{})"_format(fd_, num_read, length));
+        throw std::runtime_error(fmt::format("Truncated read from file descriptor {} ({}/{})", fd_, num_read, length));
 }
 
 size_t Fd::try_read_some(void *data, size_t length) const {

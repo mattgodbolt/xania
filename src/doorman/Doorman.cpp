@@ -2,7 +2,7 @@
 #include "Channel.hpp"
 #include "SeasocksToLogger.hpp"
 #include "Xania.hpp"
-#include "doorman_protocol.h"
+#include "common/doorman_protocol.h"
 
 #include <algorithm>
 #include <string_view>

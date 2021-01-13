@@ -9,84 +9,22 @@
 
 #include "CommandSet.hpp"
 #include "Descriptor.hpp"
-#include <ctype.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <time.h>
 
+#include <fmt/format.h>
+
+#include <cctype>
+#include <cstdarg>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <sys/types.h>
+
+#include "DescriptorList.hpp"
 #include "comm.hpp"
 #include "merc.h"
 
-extern FILE *fpArea;
-
-extern void copy_areaname(char *dest);
-
-/* Reports a bug. */
-void bug(const char *str, ...) {
-    char buf[MAX_STRING_LENGTH * 2];
-    char buf2[MAX_STRING_LENGTH];
-    va_list arglist;
-
-    if (fpArea != nullptr) {
-        int iLine;
-        int iChar;
-
-        if (fpArea == stdin) {
-            iLine = 0;
-        } else {
-            iChar = ftell(fpArea);
-            fseek(fpArea, 0, 0);
-            for (iLine = 0; ftell(fpArea) < iChar; iLine++) {
-                while (getc(fpArea) != '\n')
-                    ;
-            }
-            fseek(fpArea, iChar, 0);
-        }
-        /* FIXME : 'strArea' is not safely readable from here (I think because it's an
-         * array, not a pointer) - fix the filename printing so it works properly. */
-        copy_areaname(buf2);
-        snprintf(buf, sizeof(buf), "[*****] FILE: %s LINE: %d", buf2, iLine);
-        log_string(buf);
-    }
-
-    strcpy(buf, "[*****] BUG: ");
-    va_start(arglist, str);
-    vsnprintf(buf + strlen(buf), sizeof(buf), str, arglist);
-    va_end(arglist); /* TM added */
-    log_new(buf, EXTRA_WIZNET_BUG, 0); /* TM added */
-}
-
-/* Writes a string to the log. */
-void log_string(const char *str) { log_new(str, EXTRA_WIZNET_DEBUG, 0); }
-
-/* New log - takes a level and broadcasts to IMMs on WIZNET */
-void log_new(const char *str, int loglevel, int level) {
-    char *strtime;
-    char buf[MAX_STRING_LENGTH];
-    Descriptor *d;
-
-    strtime = ctime(&current_time);
-    strtime[strlen(strtime) - 1] = '\0';
-    fprintf(stderr, "%s :: %s\n", strtime, str); /* Prints to the log */
-
-    snprintf(buf, sizeof(buf), "|GWIZNET:|g %s|w\n\r", str); /* Prepare the Wiznet message */
-
-    if (loglevel == EXTRA_WIZNET_DEBUG)
-        level = UMAX(level, 96); /* Prevent non-SOCK ppl finding out sin_addrs */
-
-    for (d = descriptor_list; d; d = d->next) {
-        CHAR_DATA *ch = d->person();
-        if ((!d->is_playing()) || (ch == nullptr) || (IS_NPC(ch)) || !is_set_extra(ch, EXTRA_WIZNET_ON)
-            || !is_set_extra(ch, loglevel) || (get_trust(ch) < level))
-            continue;
-        send_to_char(buf, d->character());
-    }
-}
-
-void print_status(CHAR_DATA *ch, const char *name, const char *master_name, int state, int master_state) {
+void print_status(const Char *ch, const char *name, const char *master_name, int state, int master_state) {
     char buff[MAX_STRING_LENGTH];
     const size_t prefix_len = 16;
 
@@ -103,16 +41,16 @@ void print_status(CHAR_DATA *ch, const char *name, const char *master_name, int 
     } else {
         strcpy(buff + prefix_len, "|rOFF|w\n\r");
     }
-    send_to_char(buff, ch);
+    ch->send_to(buff);
 }
 
-static void print_wiznet_statusline(CHAR_DATA *ch, const char *name, int state) {
+static void print_wiznet_statusline(Char *ch, const char *name, int state) {
     print_status(ch, name, "wiznet is off", state, is_set_extra(ch, EXTRA_WIZNET_ON));
 }
 
-static void print_wiznet_status(CHAR_DATA *ch) {
-    send_to_char("|Woption          status|w\n\r", ch);
-    send_to_char("----------------------------\n\r", ch);
+static void print_wiznet_status(Char *ch) {
+    ch->send_line("|Woption          status|w");
+    ch->send_line("----------------------------");
 
     print_wiznet_statusline(ch, "bug", is_set_extra(ch, EXTRA_WIZNET_BUG));
     print_wiznet_statusline(ch, "debug", is_set_extra(ch, EXTRA_WIZNET_DEBUG));
@@ -122,20 +60,20 @@ static void print_wiznet_status(CHAR_DATA *ch) {
     print_status(ch, "wiznet", "", is_set_extra(ch, EXTRA_WIZNET_ON), 1);
 }
 
-using wiznet_fn = std::function<void(CHAR_DATA *ch)>;
+using wiznet_fn = std::function<void(Char *ch)>;
 static CommandSet<wiznet_fn> wiznet_commands;
 
-void wiznet_on(CHAR_DATA *ch) {
+void wiznet_on(Char *ch) {
     set_extra(ch, EXTRA_WIZNET_ON);
-    send_to_char("|cWIZNET is now |gON|c.|w\n\r", ch);
+    ch->send_line("|cWIZNET is now |gON|c.|w");
 }
 
-void wiznet_off(CHAR_DATA *ch) {
+void wiznet_off(Char *ch) {
     remove_extra(ch, EXTRA_WIZNET_ON);
-    send_to_char("|cWIZNET is now |rOFF|c.|w\n\r", ch);
+    ch->send_line("|cWIZNET is now |rOFF|c.|w");
 }
 
-static void toggle_wizchan(CHAR_DATA *ch, int flag, const char *name) {
+static void toggle_wizchan(Char *ch, int flag, const char *name) {
     char buf[MAX_STRING_LENGTH];
 
     if (is_set_extra(ch, flag)) {
@@ -146,18 +84,18 @@ static void toggle_wizchan(CHAR_DATA *ch, int flag, const char *name) {
                  is_set_extra(ch, EXTRA_WIZNET_ON) ? "|gON" : "|rON (WIZNET OFF)");
         set_extra(ch, flag);
     }
-    send_to_char(buf, ch);
+    ch->send_to(buf);
 }
 
-void wiznet_bug(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_BUG, "bug"); }
+void wiznet_bug(Char *ch) { toggle_wizchan(ch, EXTRA_WIZNET_BUG, "bug"); }
 
-void wiznet_debug(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_DEBUG, "debug"); }
+void wiznet_debug(Char *ch) { toggle_wizchan(ch, EXTRA_WIZNET_DEBUG, "debug"); }
 
-void wiznet_mortal(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_MORT, "mortal"); }
+void wiznet_mortal(Char *ch) { toggle_wizchan(ch, EXTRA_WIZNET_MORT, "mortal"); }
 
-void wiznet_immortal(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_IMM, "immortal"); }
+void wiznet_immortal(Char *ch) { toggle_wizchan(ch, EXTRA_WIZNET_IMM, "immortal"); }
 
-void wiznet_tick(CHAR_DATA *ch) { toggle_wizchan(ch, EXTRA_WIZNET_TICK, "tick"); }
+void wiznet_tick(Char *ch) { toggle_wizchan(ch, EXTRA_WIZNET_TICK, "tick"); }
 
 void wiznet_initialise() {
     wiznet_commands.add("on", wiznet_on, 0);
@@ -169,7 +107,7 @@ void wiznet_initialise() {
     wiznet_commands.add("tick", wiznet_tick, 0);
 }
 
-void do_wiznet(CHAR_DATA *ch, const char *argument) {
+void do_wiznet(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     argument = one_argument(argument, arg);
 

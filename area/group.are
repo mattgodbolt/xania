@@ -250,7 +250,7 @@ combat		offensive magics, such as fireball and chill touch
 detection	informational magics, such as detect magic and identify
 enhancement	spells that maximize physical potential, such as haste
 illusion	magics for concealing and deceiving
-maladictions	a selection of curses fit for any witch
+maledictions	a selection of curses fit for any witch
 protective	defensive magics, ranging from armor to stone skin
 transporation	spells for getting from here to there
 weather		spells for conjuring and mastering the elements
@@ -277,7 +277,7 @@ curative	spells that cure the sick and feeble of their ailments
 benedictions	powerful magics that grant the blessings of the gods
 detection	informational magics, such as detect magic and identify
 healing		spells for treating wounds, from scratches to death blows
-maladictions	an assortment of curses
+maledictions	an assortment of curses
 protective	defensive magics, including the powerful sanctuary spell
 transportation	spells for getting from here to there
 weather         spells for conjuring and mastering the elements
@@ -411,7 +411,7 @@ flamestrike	sends a column of flame from the heavens
 ~
 
 -1 BEGUILING~
-This insideous spell group is used to invade the minds of others.  It consists
+This insidious spell group is used to invade the minds of others.  It consists
 of various charming magics, well suited for turning your foes to your cause.
 Only mages have access to the beguiling magics, which consist of
 the following:
@@ -564,8 +564,8 @@ mass invis	turns the caster's group invisible
 ventriloquate	allows the caster to put words in someone's mouth
 ~
 
--1 MALADICTIONS~
-Maladictions are a group of curses and other baneful spells, designed to
+-1 MALEDICTIONS~
+Maledictions are a group of curses and other baneful spells, designed to
 cripple, inconvinience, or torture, rather than kill outright.  These spells
 may be case by any class.
 

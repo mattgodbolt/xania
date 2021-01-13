@@ -16,7 +16,7 @@
 #include <cstdlib>
 #include <cstring>
 
-void display_flags(const char *format, CHAR_DATA *ch, unsigned long current_val) {
+void display_flags(const char *format, Char *ch, unsigned long current_val) {
     char buf[MAX_STRING_LENGTH];
     const char *src;
     char *dest;
@@ -45,7 +45,7 @@ void display_flags(const char *format, CHAR_DATA *ch, unsigned long current_val)
                 } else {
                     num = 0;
                 }
-                if (get_trust(ch) >= num) {
+                if (ch->get_trust() >= num) {
                     if (strlen(bufptr) + chars > 70) {
                         buffer_addline(buffer, "\n\r");
                         chars = 0;
@@ -68,7 +68,7 @@ void display_flags(const char *format, CHAR_DATA *ch, unsigned long current_val)
         buffer_addline(buffer, "|w");
         buffer_send(buffer, ch); /* This frees buffer */
     } else {
-        send_to_char("|CNone.|w\n\r", ch);
+        ch->send_line("|CNone.|w");
     }
 }
 
@@ -109,11 +109,11 @@ unsigned long flag_bit(const char *format, const char *flag, int level) {
     return INVALID_BIT;
 }
 
-unsigned long flag_set(const char *format, const char *arg, unsigned long current_val, CHAR_DATA *ch) {
+unsigned long flag_set(const char *format, const char *arg, unsigned long current_val, Char *ch) {
     auto retval = current_val;
     if (arg[0] == '\0') {
         display_flags(format, ch, (int)current_val);
-        send_to_char("Allowed flags are:\n\r", ch);
+        ch->send_line("Allowed flags are:");
         display_flags(format, ch, -1);
         return current_val;
     }
@@ -131,10 +131,10 @@ unsigned long flag_set(const char *format, const char *arg, unsigned long curren
             arg++;
             break;
         }
-        auto bit = flag_bit(format, arg, get_trust(ch));
+        auto bit = flag_bit(format, arg, ch->get_trust());
         if (bit == INVALID_BIT) {
             display_flags(format, ch, (int)current_val);
-            send_to_char("Allowed flags are:\n\r", ch);
+            ch->send_line("Allowed flags are:");
             display_flags(format, ch, -1);
             return current_val;
         }

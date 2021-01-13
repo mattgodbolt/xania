@@ -46,7 +46,7 @@ void Xania::try_connect() {
             try {
                 chan.on_reconnect_attempt();
             } catch (const std::runtime_error &re) {
-                log_.info("[{}]: Unable to send reconnect message: %{}", chan.reservation()->id(), re.what());
+                log_.info("[{}]: Unable to send reconnect message: {}", chan.reservation()->id(), re.what());
             }
         });
         log_.debug("Closing descriptor {} (mud)", fd_.number());

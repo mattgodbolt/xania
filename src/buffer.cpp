@@ -15,6 +15,7 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
+#include "Logging.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "merc.h"
@@ -57,7 +58,7 @@ static void buffer_addline_internal(BUFFER *buffer, const char *text, int linele
         int needed = (linelen + buflen + 1 + BUFFER_GRANULARITY) & ~(BUFFER_GRANULARITY - 1);
         char *newtext = (char *)realloc(buffer->buffer, needed);
         if (newtext == nullptr) {
-            bug("Failed to realloc buffer to %d in add_buf.", needed);
+            bug("Failed to realloc buffer to {} in add_buf.", needed);
         } else {
             buffer->buffer = newtext;
             buffer->size = needed;
@@ -113,7 +114,7 @@ void buffer_shrink(BUFFER *buffer) {
 }
 
 /* Pages the buffer to the given char, and then destroys the buffer. */
-void buffer_send(BUFFER *buffer, CHAR_DATA *ch) {
-    page_to_char(buffer->buffer, ch);
+void buffer_send(BUFFER *buffer, const Char *ch) {
+    ch->page_to(buffer->buffer);
     buffer_destroy(buffer);
 }

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Fd.hpp"
 #include "IdAllocator.hpp"
 #include "Logger.hpp"
-#include "doorman_protocol.h"
+#include "common/Fd.hpp"
+#include "common/doorman_protocol.h"
 
 #include <chrono>
 #include <string_view>

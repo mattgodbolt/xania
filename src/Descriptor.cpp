@@ -1,12 +1,14 @@
 #include "Descriptor.hpp"
 
+#include "TimeInfoData.hpp"
 #include "comm.hpp"
+#include "common/mask_hostname.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
 
-using namespace fmt::literals;
+static const auto LobbyTimeoutMins = Minutes(2);
 
 // Up to 5 characters
 const char *short_name_of(DescriptorState state) {
@@ -35,7 +37,7 @@ const char *short_name_of(DescriptorState state) {
     return "<UNK>";
 }
 
-Descriptor::Descriptor(uint32_t descriptor) : channel_(descriptor), login_time_(ctime(&current_time)) {}
+Descriptor::Descriptor(uint32_t descriptor) : channel_(descriptor), login_time_(current_time) {}
 
 Descriptor::~Descriptor() {
     // Ensure we don't have anything pointing back at us. No messages here in case this is during shutdown.
@@ -72,8 +74,23 @@ std::optional<std::string> Descriptor::pop_incomm() {
     }
 }
 
+void Descriptor::warn_spammer() {
+    is_spammer_warned_ = true;
+    write_direct("\n\r*** PUT A LID ON IT!!! ***\n\r");
+}
+
+bool Descriptor::is_in_lobby() const noexcept {
+    return state_ == DescriptorState::GetName || state_ == DescriptorState::ConfirmNewName
+           || state_ == DescriptorState::GetOldPassword || state_ == DescriptorState::GetNewPassword
+           || state_ == DescriptorState::ConfirmNewPassword;
+}
+
+bool Descriptor::is_lobby_timeout_exceeded() const noexcept {
+    return is_in_lobby() && std::chrono::duration_cast<Minutes>(current_time - login_time_) >= LobbyTimeoutMins;
+}
+
 bool Descriptor::write_direct(std::string_view text) const {
-    if (closed())
+    if (is_closed())
         return false;
 
     Packet p;
@@ -82,29 +99,11 @@ bool Descriptor::write_direct(std::string_view text) const {
 
     while (!text.empty()) {
         p.nExtra = std::min<uint32_t>(text.length(), PACKET_MAX_PAYLOAD_SIZE);
-        if (!SendPacket(&p, text.data()))
+        if (!send_to_doorman(&p, text.data()))
             return false;
         text = text.substr(p.nExtra);
     }
     return true;
-}
-
-namespace {
-
-// TODO duplicated with doorman! we should share implementation
-unsigned long djb2_hash(std::string_view str) {
-    unsigned long hash = 5381;
-    for (auto c : str)
-        hash = hash * 33 + c;
-    return hash;
-}
-
-// Returns the hostname, masked for privacy and with a hashcode of the full hostname. This can be used by admins to spot
-// users coming from the same IP.
-std::string get_masked_hostname(std::string_view hostname) {
-    return "{}*** [#{}]"_format(hostname.substr(0, 6), djb2_hash(hostname));
-}
-
 }
 
 void Descriptor::set_endpoint(uint32_t netaddr, uint16_t port, std::string_view raw_full_hostname) {
@@ -115,7 +114,7 @@ void Descriptor::set_endpoint(uint32_t netaddr, uint16_t port, std::string_view 
 }
 
 bool Descriptor::flush_output() noexcept {
-    if (outbuf_.empty() || closed())
+    if (outbuf_.empty() || is_closed())
         return true;
 
     if (character_) {
@@ -132,7 +131,7 @@ bool Descriptor::flush_output() noexcept {
 }
 
 void Descriptor::write(std::string_view message) noexcept {
-    if (closed())
+    if (is_closed())
         return;
     // Initial \n\r if needed.
     if (outbuf_.empty() && !processing_command_)
@@ -140,7 +139,7 @@ void Descriptor::write(std::string_view message) noexcept {
 
     if (outbuf_.size() + message.size() > MaxOutputBufSize) {
         bug("Buffer overflow. Closing.");
-        outbuf_.clear(); // Prevent a possible loop where close_socket() might write some last few things to the socket.
+        outbuf_.clear(); // Prevent a possible loop where close() might write some last few things to the socket.
         close();
         return;
     }
@@ -149,31 +148,31 @@ void Descriptor::write(std::string_view message) noexcept {
 }
 
 void Descriptor::page_to(std::string_view page) noexcept {
-    if (closed())
+    if (is_closed())
         return;
 
     page_outbuf_ = split_lines<decltype(page_outbuf_)>(page);
     // Drop the last line if it's purely whitespace.
-    if (!page_outbuf_.empty() && skip_whitespace(page_outbuf_.back()).empty())
+    if (!page_outbuf_.empty() && ltrim(page_outbuf_.back()).empty())
         page_outbuf_.pop_back();
     show_next_page("");
 }
 
 void Descriptor::show_next_page(std::string_view input) noexcept {
     // Any non-empty input cancels pagination, as does having no associated character to send to.
-    if (!skip_whitespace(input).empty() || !character_) {
+    if (!ltrim(input).empty() || !character_) {
         page_outbuf_.clear();
         return;
     }
 
     for (auto line = 0; !page_outbuf_.empty() && line < character_->lines; ++line) {
-        send_to_char((page_outbuf_.front() + "\r\n").c_str(), character_);
+        character_->send_to((page_outbuf_.front() + "\n\r").c_str());
         page_outbuf_.pop_front();
     }
 }
 
 bool Descriptor::try_start_snooping(Descriptor &other) {
-    if (closed() || other.closed())
+    if (is_closed() || other.is_closed())
         return false;
 
     // If already snooping, early out (to prevent us complaining it's a "snoop loop".
@@ -209,32 +208,33 @@ void Descriptor::stop_snooping() {
 }
 
 void Descriptor::close() noexcept {
-    if (closed())
+    if (is_closed())
         return;
 
     (void)flush_output();
     while (!snoop_by_.empty()) {
         auto &snooper = *snoop_by_.begin();
-        snooper->write("Your victim ({}) has left the game.\n\r"_format(character_ ? character_->name : "unknown"));
+        snooper->write(
+            fmt::format("Your victim ({}) has left the game.\n\r", character_ ? character_->name : "unknown"));
         snooper->stop_snooping(*this);
     }
     stop_snooping();
 
     if (character_) {
         do_chal_canc(character_);
-        log_new("Closing link to {}."_format(character_->name).c_str(), EXTRA_WIZNET_DEBUG,
-                (IS_SET(character_->act, PLR_WIZINVIS) || IS_SET(character_->act, PLR_PROWL)) ? get_trust(character_)
+        log_new(fmt::format("Closing link to {}.", character_->name).c_str(), EXTRA_WIZNET_DEBUG,
+                (IS_SET(character_->act, PLR_WIZINVIS) || IS_SET(character_->act, PLR_PROWL)) ? character_->get_trust()
                                                                                               : 0);
         if (is_playing() || state_ == DescriptorState::Disconnecting) {
             act("$n has lost $s link.", character_);
             character_->desc = nullptr;
         } else {
-            free_char(person());
+            delete person();
         }
         character_ = nullptr;
         original_ = nullptr;
     } else {
-        log_new("Closing link to channel {}."_format(channel_).c_str(), EXTRA_WIZNET_DEBUG, 100);
+        log_new(fmt::format("Closing link to channel {}.", channel_).c_str(), EXTRA_WIZNET_DEBUG, 100);
     }
 
     // If doorman didn't tell us to disconnect them, then tell doorman to kill the connection, else ack the disconnect.
@@ -246,7 +246,7 @@ void Descriptor::close() noexcept {
     }
     p.channel = channel_;
     p.nExtra = 0;
-    SendPacket(&p, nullptr);
+    send_to_doorman(&p, nullptr);
 
     state_ = DescriptorState::Closed;
 }
@@ -254,13 +254,13 @@ void Descriptor::close() noexcept {
 void Descriptor::note_input(std::string_view char_name, std::string_view input) {
     if (snoop_by_.empty())
         return;
-    auto snooped_msg = "{}% {}\n\r"_format(char_name, input);
+    auto snooped_msg = fmt::format("{}% {}\n\r", char_name, input);
     for (auto *snooper : snoop_by_)
         snooper->write(snooped_msg);
 }
 
-void Descriptor::do_switch(CHAR_DATA *victim) {
-    if (closed())
+void Descriptor::do_switch(Char *victim) {
+    if (is_closed())
         return;
 
     if (is_switched())
@@ -272,10 +272,12 @@ void Descriptor::do_switch(CHAR_DATA *victim) {
 }
 
 void Descriptor::do_return() {
-    if (!is_switched() || closed())
+    if (!is_switched() || is_closed())
         return;
     character_->desc = nullptr;
     original_->desc = this;
     character_ = original_;
     original_ = nullptr;
 }
+
+std::string Descriptor::login_time() const noexcept { return formatted_time(login_time_); }

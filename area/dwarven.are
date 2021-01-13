@@ -12,7 +12,7 @@ giants.  You can climb back down the mountains to the west and leave these
 realms, or seek riches in the northern mineshafts.  A dirt road leads south, 
 towards a small building.  You can hear crying and shrieking coming from it.
 ~
-65 0 2
+0 2
 D0
 The path continues.
 ~
@@ -34,7 +34,7 @@ Path, base of mountain~
 Now you are at the bottom of a rugged mountain.  The forest around you is
 very dense, and it seems very dark to the north.
 ~
-65 0 4
+0 4
 D0
 The path continues up the mountain.
 ~
@@ -51,7 +51,7 @@ Path, middle of mountain~
 Standing on the middle of the mountain, you can easily see the turning
 point to the south, and the top of the mountain is very near to the north.
 ~
-65 0 5
+0 5
 D0
 The top of the mountain is easily seen from here.
 ~
@@ -69,7 +69,7 @@ You are now on the top of the mountain.  To the south you see a path
 leading down the mountain.  To the east and west you see entrances to
 what seems like mines.
 ~
-65 0 4
+0 4
 D1
 An entrance to the mountain which seems to lead underground.
 ~
@@ -92,7 +92,7 @@ This is a narrow path leading to the Dwarven Kingdom.  It looks less
 travelled than the others, and it is very creepy.  The path opens up
 to the south, and continues to the north.
 ~
-65 D 0
+D 0
 D0
 ~
 ~
@@ -107,7 +107,7 @@ Entrance to Mountain~
 Here is an entrance to the mountain.  The door looks very well built,
 and you can hear noise coming from within.
 ~
-65 0 2
+0 2
 D1
 ~
 ~
@@ -123,7 +123,7 @@ This is a narrow path that bends to the east here.  The trees hang over
 the path, and it is very overgrown.  The narrow path continues to the
 south and to the east.
 ~
-65 D 0
+D 0
 D1
 ~
 ~
@@ -141,7 +141,7 @@ S
 Narrow path~
 This path is very narrow, and it continues to the north and west.
 ~
-65 D 0
+D 0
 D0
 ~
 ~
@@ -156,7 +156,7 @@ Narrow north-south path~
 This path leads to the north and south.  To the north you can see a
 door, and to the south the path continues.
 ~
-65 D 0
+D 0
 D0
 ~
 ~
@@ -171,7 +171,7 @@ Door to Kingdom~
 Here the path turns to the west.  You can see a door in front of you,
 and the path continues to the west and south.
 ~
-65 D 0
+D 0
 D1
 ~
 door~
@@ -190,7 +190,7 @@ Path to the Castle~
 You are on a path that will eventually lead to the castle.  It
 continues north to the castle, and there is a door on the western wall.
 ~
-65 D 0
+D 0
 D0
 ~
 ~
@@ -206,7 +206,7 @@ You are still on the path to the castle, or back to the
 Dwarven village, whichever way you wish to go.  The path
 continues to the north and south.
 ~
-65 D 0
+D 0
 D0
 ~
 ~
@@ -227,7 +227,7 @@ standing on end.  A sign says:
               *      Here, celibacy is uninvited       *
               ******************************************
 ~
-65 D 0
+D 0
 D1
 ~
 door~
@@ -242,7 +242,7 @@ Inside the entrance~
 Everything here is covered in soot and very grimy.  The path continues
 to the east and north, and there is a door to the west.
 ~
-65 D 0
+D 0
 D0
 The little underground path continues to the north.
 ~
@@ -264,7 +264,7 @@ Path~
 You are on a path in the dwarven village which leads north to the shops
 and south to the corner of the area.
 ~
-65 D 0
+D 0
 D0
 ~
 ~
@@ -279,7 +279,7 @@ Turn in road~
 You are on a path that leads to a Hide & Tooth shop to the west, and the
 path continues to the south.
 ~
-65 D 0
+D 0
 D2
 ~
 ~
@@ -295,7 +295,7 @@ Hide & Tooth Shop~
 You are in the Hide & Tooth shop.  Here you may buy the finest in Dwarven
 weapons and armors. The path continues to the north and east.
 ~
-65 D 0
+D 0
 D0
 ~
 ~
@@ -310,7 +310,7 @@ Path to the north of shop~
 You are on a path to the north of the Hide & Tooth shop.  The path continues
 to the north, and there is Granite Head's bakery to the west.
 ~
-65 D 0
+D 0
 D0
 ~
 ~
@@ -329,7 +329,7 @@ North of Shops~
 Here the path bends to the east towards the barracks. To the
 south you can see the shops.
 ~
-65 D 0
+D 0
 D1
 ~
 ~
@@ -344,7 +344,7 @@ Path by Hospital~
 Here the path passes by the Hospital to the north.  It continues
 to the east to the barracks, and to the west.
 ~
-65 D 0
+D 0
 D0
 ~
 ~
@@ -362,7 +362,7 @@ S
 Path next to barracks~
 Here the path continues west, and east to the barracks.
 ~
-65 D 0
+D 0
 D1
 ~
 ~
@@ -377,7 +377,7 @@ Entrance to barracks~
 Here there is an entrance to the barracks to the south, and
 the path continues to the west.
 ~
-65 D 0
+D 0
 D2
 ~
 door~
@@ -392,7 +392,7 @@ Guard House~
 You are in the guard house to the west of the entrance
 to the castle.  There are nude posters covering the walls.
 ~
-65 D 0
+D 0
 D1
 ~
 ~
@@ -408,7 +408,7 @@ Here is the first of two main rooms of barracks.  The
 barracks continue to the south, and you can leave the room
 to the north.
 ~
-65 D 0
+D 0
 D0
 ~
 door~
@@ -423,7 +423,7 @@ Back of Barracks~
 Here is the back of the dwarven barracks.  There are rows
 of beds here, and there is a stench that is unbearable.
 ~
-65 D 0
+D 0
 D0
 ~
 ~
@@ -439,7 +439,7 @@ You are just inside the castle.  It is very tubular in shape,
 and it is very featureless.  There is a set of stairs that lead
 up, and the door leads out of the castle to the west.
 ~
-65 D 0
+D 0
 D3
 ~
 door~
@@ -454,7 +454,7 @@ A store room~
 There is a layer of dust on the floor at least 3 inches thick!  It is
 probable that not many people have been in here for many months.
 ~
-65 AD 0
+AD 0
 D1
 A lighted area that looks like a well worn path.
 ~
@@ -474,7 +474,7 @@ Wine cellar~
 This room smells like wine, and you can only assume it used to be
 a wine cellar at one time.
 ~
-65 AD 0
+AD 0
 D4
 ~
 ~
@@ -488,7 +488,7 @@ S
 Stairs in castle~
 The stairs continue to circle up and down here.
 ~
-65 D 0
+D 0
 D4
 ~
 ~
@@ -504,7 +504,7 @@ You are still circling around on the stairs.  You are starting to
 get dizzy from going around and around and around and around and
 around.  The stairs continue up and down.
 ~
-65 D 0
+D 0
 D4
 ~
 ~
@@ -519,7 +519,7 @@ Top of stairs~
 You are at the top of the stairs in the castle.  There is an exit
 to the east, and the stairs lead down.
 ~
-65 D 0
+D 0
 D1
 ~
 ~
@@ -536,7 +536,7 @@ This is the Queen's waiting room.  Here the men literally
 to get to 'know' her people, in the biblical sense.  The queen's
 bedroom is to the north, and you can see stairs to the west.
 ~
-65 D 0
+D 0
 D0
 ~
 door~
@@ -556,7 +556,7 @@ A note has been scrawled in lipstick on the mirror:
     I'm out looking for my birth control pills.
     Why don't you sleep into something comfortable while you're waiting?
 ~
-65 D 0
+D 0
 D2
 ~
 door~
@@ -567,7 +567,7 @@ Hospital~
 You are inside the Dwarven Hospital.  It smells like rubbing
 alcohol, and there is blood all over the walls.
 ~
-65 D 0
+D 0
 D2
 ~
 ~
@@ -578,7 +578,7 @@ Granite Head's Bakery~
 The aroma coming from this room is sensuous.  You can almost taste
 the pastries dissolving in your mouth.
 ~
-65 D 0
+D 0
 D1
 ~
 ~
@@ -589,7 +589,7 @@ Dark path~
 This path is very well worn, and there is an entrance to the mines to the
 east, while the path continues to the north and west.
 ~
-65 D 0
+D 0
 D0
 ~
 ~
@@ -608,7 +608,7 @@ Mine entrance~
 The little path here leads down toward the mines, while the worn path
 continues to the west.
 ~
-65 D 0
+D 0
 D3
 ~
 door~
@@ -624,7 +624,7 @@ There are holes everywhere from the places that the workers blew
 away the rock to get to whatever they were looking for.  A path leads
 down and up.
 ~
-65 AD 0
+AD 0
 D4
 ~
 ~
@@ -639,7 +639,7 @@ Path in the mine~
 You are deep inside the mine, and you feel very uncomfortable.  The
 path continues to the east, and leads to the mineshaft to the west.
 ~
-65 AD 0
+AD 0
 D1
 ~
 ~
@@ -654,7 +654,7 @@ Mine crossroad~
 You are at a crossroad in the mine.  There is a door to the north,
 and the path continues to the south, east, and west.
 ~
-65 AD 0
+AD 0
 D0
 ~
 door~
@@ -678,7 +678,7 @@ You are inside the storage area for the raw materials
 that are found down here.  The room is very unsturdy as the
 supports are very rickety.
 ~
-54 AD 0
+AD 0
 D3
 ~
 ~
@@ -689,7 +689,7 @@ Mine Maze~
 You have entered the maze of the mines.  To the east you
 can see some inscriptions, and you can exit to the south.
 ~
-65 AD 0
+AD 0
 D1
 ~
 ~
@@ -703,7 +703,7 @@ S
 Maze inscription~
 You are inside the maze, but not far enough in that you could get lost.
 ~
-65 AD 0
+AD 0
 D0
 ~
 ~
@@ -717,7 +717,7 @@ S
 Maze~
 You are in a maze.
 ~
-65 AD 0
+AD 0
 D0
 ~
 ~
@@ -731,7 +731,7 @@ S
 Maze~
 You are in a maze.
 ~
-65 AD 0
+AD 0
 D0
 ~
 ~
@@ -745,7 +745,7 @@ S
 Maze~
 You are in a maze.
 ~
-65 AD 0
+AD 0
 D2
 ~
 ~
@@ -761,7 +761,7 @@ This is the storage room for equipment used by the
 Dwarven miners.  It is very small, and you can tell that
 not many miners actually use any equipment.
 ~
-65 AD 0
+AD 0
 D0
 ~
 ~
@@ -777,7 +777,7 @@ To the north, you see the maze.  There is a sign above the south exit:
     Those who enter, plan on a timely death.
     Especially if you're loyal to the queen.
 ~
-65 AD 0
+AD 0
 D1
 ~
 ~
@@ -793,7 +793,7 @@ You have entered the Mazekeeper's room.  There are pictures of
 the Queen with darts thrown in it.  Spray-painted on the wall are
 things like 'the queen shall suffer' and 'Catholics Rule'.
 ~
-65 AD 0
+AD 0
 D1
 ~
 ~
@@ -804,7 +804,7 @@ Bottom of mineshaft~
 You are at the bottom of the mineshaft.  The air here is very sooty, and
 it is very hard to breath.  The mineshaft leads up and east.
 ~
-65 AD 0
+AD 0
 D1
 ~
 ~
@@ -822,7 +822,7 @@ earth.  Here lies the palace of the dwarven queen, and untold riches.
 But beware, for the mines are said to be haunted by demon and spirit alike.
 The dwarven kingdom lies to the east.
 ~
-65 0 5
+0 5
 D1
 The dwarven kingdom awaits!
 ~
@@ -847,7 +847,7 @@ The guard looks very tough and mean.
 dwarf~
 BLA D 500 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1003
 0 0 medium 0
@@ -862,7 +862,7 @@ He is very dirty, and looks extremely over-worked.
 dwarf~
 GLA 0 900 0
 12 6 1d1+300 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand male 488
 0 0 medium 0
@@ -877,7 +877,7 @@ A black, almost transparent wraith.
 unique~
 BA DF -900 0
 29 14 1d1+999 1d1+580 5d5+14 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1493
 0 0 medium 0
@@ -892,7 +892,7 @@ The storekeeper is very rotund, but looks like a sharp guy.
 dwarf~
 BLA 0 900 0
 35 17 1d1+1228 1d1+700 6d6+17 slash
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand male 1762
 0 0 medium 0
@@ -907,7 +907,7 @@ Granite Head is covered with flour and grains.
 dwarf~
 BLA 0 900 0
 35 17 1d1+1271 1d1+700 6d6+17 slash
--12 -12 -12 -1
+-27 -27 -27 -16
 FENU 0 0 0
 stand stand male 1762
 0 0 medium 0
@@ -923,7 +923,7 @@ habitat.  He looks very powerful.
 lizard~
 GA D 100 0
 18 9 1d1+522 1d1+360 4d4+9 slash
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand male 744
 0 0 medium 0
@@ -938,7 +938,7 @@ The giant is about 8 feet tall, with arms of steel, and looks very strong.
 giant~
 GA 0 0 0
 16 8 1d1+464 1d1+320 4d4+8 pound
-0 0 0 5
+-15 -15 -15 -10
 FENUC 0 0 0
 stand stand male 656
 0 0 medium 0
@@ -953,7 +953,7 @@ The mineworker is very tired, and very dirty, and he has bulging muscles.
 dwarf~
 BLA 0 0 0
 8 4 1d1+184 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 335
 0 0 medium 0
@@ -968,7 +968,7 @@ The mine leader is very big and very strong.
 dwarf~
 BLA 0 0 0
 21 10 1d1+695 1d1+420 5d5+10 slash
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand male 1067
 0 0 medium 0
@@ -983,7 +983,7 @@ He is a very skilled surgeon, with hands of steel.
 dwarf~
 BLA DH 1000 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand male 372
 0 0 medium 0
@@ -997,7 +997,7 @@ A dwarven peon is awaiting help here.
 dwarf~
 BLA 0 500 0
 3 1 1d1+60 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 122
 0 0 medium 0
@@ -1011,7 +1011,7 @@ A grinning dwarf is here.
 dwarf~
 BLA 0 500 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand male 375
 0 0 medium 0
@@ -1025,7 +1025,7 @@ An unwanted son is here.  You feel sorry for the guy.
 dwarf~
 GA 0 250 0
 9 4 1d1+207 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand male 367
 0 0 medium 0
@@ -1039,7 +1039,7 @@ An unwanted daughter is here.  You feel sorry for her.
 dwarf~
 GA 0 250 0
 10 5 1d1+230 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand female 410
 0 0 medium 0
@@ -1053,7 +1053,7 @@ A barrack guard is here.
 dwarf~
 BLA 0 100 0
 16 8 1d1+464 1d1+320 4d4+8 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 643
 0 0 medium 0
@@ -1067,7 +1067,7 @@ A man in waiting is here.  He looks nervous and unsure of himself.
 human~
 BLA 0 300 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 600
 0 0 medium 0
@@ -1082,7 +1082,7 @@ He looks VERY tough.
 dwarf~
 BFLA H -1000 0
 29 14 1d1+1001 1d1+580 5d5+14 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1466
 0 0 medium 0
@@ -1096,7 +1096,7 @@ There is a giant snake here.
 snake~
 BFA 0 -1000 0
 15 7 1d1+375 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand male 605
 0 0 medium 0

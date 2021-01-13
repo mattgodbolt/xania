@@ -35,7 +35,7 @@ class Fd {
     size_t try_read_some(void *data, size_t length) const;
 
 public:
-    Fd() : fd_(-1) {}
+    Fd() noexcept : fd_(-1) {}
     explicit Fd(int fd) noexcept : fd_(fd) {}
     ~Fd() noexcept { close(); }
     Fd(const Fd &) = delete;

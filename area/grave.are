@@ -11,7 +11,7 @@ You are on a well-kept gravel road that leads north-south through the
 graveyard.  On both sides of the road grow dark evergreen trees.  An iron
 grate is to the north and narrow gravel paths lead east and west.
 ~
-36 0 2
+0 2
 D0
 Through the solid iron bars you see Elm Street. 
 ~
@@ -38,7 +38,7 @@ A Gravel Road in the Graveyard~
 You are on a well-kept gravel road that leads north-south through the
 graveyard.  On both sides of the road grow dark evergreen trees.
 ~
-36 0 2
+0 2
 D0
 The gravel road continues northwards.
 ~
@@ -55,7 +55,7 @@ A Gravel Road in the Graveyard~
 You are on a well-kept gravel road that leads north-south through the
 graveyard.  On both sides of the road grow dark evergreen trees.
 ~
-36 0 2
+0 2
 D0
 The gravel road continues northwards.
 ~
@@ -72,7 +72,7 @@ A Gravel Road in the Graveyard~
 You are on a well-kept gravel road that leads north-south through the
 graveyard.  On both sides of the road grow dark evergreen trees.
 ~
-36 0 2
+0 2
 D0
 The gravel road continues northwards.
 ~
@@ -90,7 +90,7 @@ In front of the Chapel~
 You are on an open space before a small chapel.  A gravel road leads north
 through the graveyard and the chapel entrance is to the south.
 ~
-36 0 2
+0 2
 D0
 The gravel road continues northwards.
 ~
@@ -117,7 +117,7 @@ A Gravel Path on the Graveyard~
 You are on a gravel path winding its way between dark evergreen trees on
 the graveyard.  An old tomb is here.
 ~
-36 0 2
+0 2
 D1
 The gravel path continues eastwards towards a gravel road.
 ~
@@ -143,7 +143,7 @@ In a dusty Tomb~
 You are in a dark burial chamber beneath a large tomb stone.
 The only exit appears to be up.
 ~
-36 AD 1
+AD 1
 D4
 ~
 tomb stone~
@@ -154,7 +154,7 @@ A Gravel Path on the Graveyard~
 You are on a gravel path winding its way between dark evergreen trees on
 the graveyard.  The path leads north and west.  An old tomb is here.
 ~
-36 0 2
+0 2
 D0
 The gravel path continues northwards.
 ~
@@ -180,7 +180,7 @@ In a dusty Tomb~
 You are in a dark burial chamber beneath a large tomb stone.
 The only exit appears to be up.
 ~
-36 AD 1
+AD 1
 D4
 ~
 tomb stone~
@@ -191,7 +191,7 @@ A Gravel Path on the Graveyard~
 You are on a gravel path winding its way between dark evergreen trees on
 the graveyard.  The path leads east and south.  An old tomb is here.
 ~
-36 0 2
+0 2
 D1
 The gravel path continues eastwards.
 ~
@@ -217,7 +217,7 @@ In a dusty Tomb~
 You are in a dark burial chamber beneath a large tomb stone.
 The only exit appears to be up.
 ~
-36 AD 1
+AD 1
 D4
 ~
 tomb stone~
@@ -228,7 +228,7 @@ A Gravel Path on the Graveyard~
 You are on a gravel path winding its way between dark evergreen trees on
 the graveyard.  The path leads north and east.  A small shed is to the west.
 ~
-36 0 2
+0 2
 D0
 The gravel path continues northwards.
 ~
@@ -250,7 +250,7 @@ In a shed on the Graveyard~
 You are in a small shed that looks as if it is used to store all sorts of
 gardening equipment.  The only exit appears to be through a door to the east.
 ~
-36 D 1
+D 1
 D1
 ~
 door~
@@ -261,7 +261,7 @@ A Gravel Path on the Graveyard~
 You are on a gravel path winding its way between dark evergreen trees on
 the graveyard.  The path leads south and west.  An old tomb is here.
 ~
-36 0 2
+0 2
 D2
 The gravel path continues southwards.
 ~
@@ -287,7 +287,7 @@ In a dusty Tomb~
 You are in a dark burial chamber beneath a large tomb stone.
 The only exit appears to be up.
 ~
-36 AD 1
+AD 1
 D4
 ~
 tomb stone~
@@ -298,7 +298,7 @@ A Gravel Path on the Graveyard~
 You are on a gravel path winding its way between dark evergreen trees on
 the graveyard.  The path leads north and south.  An old tomb is here.
 ~
-36 0 2
+0 2
 D0
 The gravel path continues northwards.
 ~
@@ -324,7 +324,7 @@ In a dusty Tomb~
 You are in a dark burial chamber beneath a large tomb stone.
 The only exit appears to be up.
 ~
-36 AD 1
+AD 1
 D4
 ~
 tomb stone~
@@ -335,7 +335,7 @@ A Gravel Path on the Graveyard~
 You are on a gravel path winding its way between dark evergreen trees on
 the graveyard.  The path leads north and east.  An old tomb is here.
 ~
-36 0 2
+0 2
 D0
 The gravel path continues northwards.
 ~
@@ -361,7 +361,7 @@ In a dusty Tomb~
 You are in a dark burial chamber beneath a large tomb stone.
 The only exit appears to be up.
 ~
-36 AD 1
+AD 1
 D4
 ~
 tomb stone~
@@ -372,7 +372,7 @@ A Gravel Path on the Graveyard~
 You are on a gravel path winding its way between dark evergreen trees on
 the graveyard.  The path leads north and west.  An old tomb is here.
 ~
-36 0 2
+0 2
 D0
 The gravel path continues northwards.
 ~
@@ -398,7 +398,7 @@ In a dusty Tomb~
 You are in a dark burial chamber beneath a large tomb stone.
 The only exit appears to be up.
 ~
-36 AD 1
+AD 1
 D4
 ~
 tomb stone~
@@ -409,7 +409,7 @@ A Gravel Path on the Graveyard~
 You are on a gravel path winding its way between dark evergreen trees on
 the graveyard.  The path leads north and south.  An old tomb is here.
 ~
-36 0 2
+0 2
 D0
 The gravel path continues northwards.
 ~
@@ -435,7 +435,7 @@ In a dusty Tomb~
 You are in a dark burial chamber beneath a large tomb stone.
 The only exit appears to be up.
 ~
-36 AD 1
+AD 1
 D4
 ~
 tomb stone~
@@ -446,7 +446,7 @@ A Gravel Path on the Graveyard~
 You are on a gravel path winding its way between dark evergreen trees on
 the graveyard.  The path leads east and south.  An old tomb is here.
 ~
-36 0 2
+0 2
 D1
 The gravel path continues eastwards.
 ~
@@ -472,7 +472,7 @@ In a dusty Tomb~
 You are in a dark burial chamber beneath a large tomb stone.
 The only exit appears to be up.
 ~
-36 AD 1
+AD 1
 D4
 ~
 tomb stone~
@@ -483,7 +483,7 @@ A Gravel Path on the Graveyard~
 You are on a gravel path winding its way between dark evergreen trees on
 the graveyard.  The path leads north and west.  An old tomb is here.
 ~
-36 0 2
+0 2
 D0
 The gravel path continues northwards.
 ~
@@ -509,7 +509,7 @@ In a dusty Tomb~
 You are in a dark burial chamber beneath a large tomb stone.
 The only exit appears to be up.
 ~
-36 AD 1
+AD 1
 D4
 ~
 tomb stone~
@@ -520,7 +520,7 @@ A Gravel Path on the Graveyard~
 You are on a gravel path winding its way between dark evergreen trees on
 the graveyard.  The path leads south and west.  An old tomb is here.
 ~
-36 0 2
+0 2
 D2
 The gravel path continues southwards.
 ~
@@ -546,7 +546,7 @@ In a dusty Tomb~
 You are in a dark burial chamber beneath a large tomb stone.
 The only exit appears to be up.
 ~
-36 AD 1
+AD 1
 D4
 ~
 tomb stone~
@@ -557,7 +557,7 @@ A Gravel Path on the Graveyard~
 You are on a gravel path winding its way between dark evergreen trees on
 the graveyard.  The path leads north and east.  An old tomb is here.
 ~
-36 0 2
+0 2
 D0
 The gravel path continues northwards.
 ~
@@ -583,7 +583,7 @@ In a dusty Tomb~
 You are in a dark burial chamber beneath a large tomb stone.
 The only exit appears to be up.
 ~
-36 AD 1
+AD 1
 D4
 ~
 tomb stone~
@@ -594,7 +594,7 @@ A Gravel Path on the Graveyard~
 You are on a gravel path winding its way between dark evergreen trees on
 the graveyard.  The path leads south and west.  An old tomb is here.
 ~
-36 0 2
+0 2
 D2
 The gravel path continues southwards.
 ~
@@ -620,7 +620,7 @@ In a dusty Tomb~
 You are in a dark burial chamber beneath a large tomb stone.
 The only exit appears to be up.
 ~
-36 AD 1
+AD 1
 D4
 ~
 tomb stone~
@@ -641,7 +641,7 @@ sorrow and depression.  He is haunted by a memory of a lost paradise.
 human~
 GA 0 350 0
 4 2 1d1+65 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 sit sit male 164
 0 0 medium 0
@@ -656,7 +656,7 @@ Maggots crawl all over its decaying body.
 undead~
 BFA J -750 0
 4 2 1d1+65 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand male 162
 0 0 medium 0
@@ -672,7 +672,7 @@ resemble claws.  Its eyes are a dark yellow colour and glare hungrily at you.
 undead~
 BFA J -750 0
 6 3 1d1+125 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 242
 0 0 medium 0
@@ -688,7 +688,7 @@ time.
 undead~
 BFA J -750 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 123
 0 0 medium 0
@@ -704,7 +704,7 @@ time.
 undead~
 FA J -750 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 125
 0 0 medium 0
@@ -719,7 +719,7 @@ Maggots crawl all over its decaying body.
 undead~
 FA J -750 0
 4 2 1d1+65 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand male 165
 0 0 medium 0

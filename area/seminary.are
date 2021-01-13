@@ -1,7 +1,7 @@
 #AREA 
-edu.are~
-Education Unlimited~
-{30 90} Faramir Education Unlimited~
+seminary.are~
+The Seminary~
+{30 90} Faramir The Seminary~
 27000 27120
 
 #ROOMS
@@ -13,7 +13,7 @@ most of the light from the sky above, hence the distinct lack of lower
 level vegetation. From the east you can hear the sound of water, whilst
 the wood continues to the north and south. 
 ~
-27 0 3
+0 3
 D0
 North Wood
 ~
@@ -48,7 +48,7 @@ ornate fountain which appears to glow with goodness. The ground around
 is saturated with water so evidently this is a popular spot for skinny
 dipping.....
 ~
-27 0 3
+0 3
 D1
 Dull Clearing
 ~
@@ -62,11 +62,11 @@ Shady Wood
 S
 #27002
 Dull Clearing~
-You have entered a spot in the wood which has been deforested - huge
+You have entered a spot in the wood which has been deforested. Huge
 decapitated stumps crowd around you and the grass has been scorched
 by flames.
 ~
-27 0 3
+0 3
 D1
 East of the Clearing
 ~
@@ -95,7 +95,7 @@ bird song adds to the weight of silence thudding in your ears. The gloom
 continues to the north, whilst there is an almost living darkness to
 the west.
 ~
-27 0 3
+0 3
 D0 
 Dull Clearing
 ~
@@ -119,7 +119,7 @@ to tread your way through safely. In the gloom you can barely detect
 a strange metallic pole and to the north there is a huge hole in the
 trunk of a mighty tree. The darkness continues to the west.
 ~
-27 0 3
+0 3
 D0
 Within the mighty trunk
 ~
@@ -154,13 +154,13 @@ you, traveller."
 S
 #27005
 Dark Wood~
-You have entered a very dark section of woodland - the liquid shadow
+You have entered a very dark section of woodland. The liquid shadow
 engulfs you and almost begins to fill your lungs. The silhouette of
 a large tree ascends to the sky. It has had handholds driven into it
 and thus appears to be climbable. The darkness spreads to the east but
 fades in the north and the woods continue to the south.
 ~
-27 0 3
+0 3
 D0
 Shady Wood
 ~
@@ -177,7 +177,7 @@ Woodlands
 ~
 0 -1 27119
 D4
-Dan's Treehouse
+A Treehouse
 ~
 ~
 0 -1 27010
@@ -213,7 +213,7 @@ The floor is strewn with leaves and the husks of thousands of nuts which
 are beginning to hide your feet already. A pin prick of light shines down
 from through the top of this dead tree many tens of metres above.  
 ~
-27 D 3
+D 3
 D2
 Dark Wood
 ~
@@ -234,7 +234,7 @@ of tree stumps in the west. Some construction is being carried out here
 as the grass has been cleared to bare topsoil and various piles of materials
 lay strewn about the place. 
 ~
-27 0 2
+0 2
 D1
 Crossing of Paths
 ~
@@ -249,36 +249,36 @@ E
 construction building~
 The early stages of building seem to be in limbo at the moment. The
 form of the building remains unapparent and the mixture of aggregates
-and pile of girders on the ground indicates that progress with the project
+and stone blocks on the ground indicates that progress with the project
 is likely to resume soon. You notice a small sign on the ground.
 ~
 E
 materials~
 There are many materials strewn upon the ground including piles of gravel
-and huge girders considerably too heavy for you to lift. There is a
+and huge stone blocks considerably too heavy for you to lift. There is a
 small sign on the ground.
 ~
 E
 sign notice~
-The sign says "University Construction Scheme - New Halls of Residence.
+The sign says "Construction Scheme - New Halls of Residence.
 Open Next Year"
 ~
 S
 #27008
 South of the Wood~
-You are immediately south of the Dark Wood on a pathway which heads
-south towards a brown bricked building which you can just make out in
+You are immediately south of the dark wood on a pathway which heads
+south towards a slate grey building which you can just make out in
 the distance. The pathway is straight and even with the grass and hedges
 either side well kept. 
 ~
-27 0 1
+0 1
 D0
 Dark Wood
 ~
 ~
 0 -1 27004
 D2
-Path Outside the Computer Centre
+Path Outside the Laboratory
 ~
 ~
 0 -1 27060
@@ -293,7 +293,7 @@ North of the Wood~
 You are north of some rather menacing gloomy woodland but the patch
 you are in is open and full of the sounds of active wildlife.
 ~
-27 0 3
+0 3
 D2
 Shady Wood
 ~
@@ -301,14 +301,14 @@ Shady Wood
 0 -1 27000
 S
 #27010
-Dan's Treehouse~
+A Ramshackle Treehouse~
 Amidst the high branches of the mysterious black trees many broad planks
 have been lain to form a solid structure some eight metres above ground.
 There is an  almost deathly silence in this place except for the continuous
 sighing of the wind through the multitude of branches and limpid leaves.
 No further upward progress can be made in this tree. 
 ~
-27 0  3
+0 3
 D5
 Dark Wood
 ~
@@ -316,7 +316,7 @@ Dark Wood
 0 -1 27005
 E
 treehouse beams tree house~
-Dan's treehouse has been constructed of many strong beams of wood, lain
+This treehouse has been constructed of many creaking old beams of wood, lain
 across the strongest branches immediately above the trunk. Rope and
 metal pegs have been utilised to  strengthen the structure and it seems
 quite capable of supporting a substantial weight. 
@@ -325,14 +325,14 @@ S
 #27011
 Crossing of Paths~
 Here there is a crossroads leading in all directions. To the north the
-road disappears amongst the trees, to the east it heads towards some
+pathway disappears amongst the trees, to the east it heads towards some
 very distant buildings. To the south lies pleasant grassland whilst
 to the west you can see a gloomy plain bordered by an imposing wood.
 You can see a sign at the intersection. 
 ~
-27 0 3
+0 3
 D0 
-Driveway Before the Hall
+Pathway Before the Hall
 ~
 ~
 0 -1 27019
@@ -354,18 +354,17 @@ Dull Clearing
 E
 sign~
 The sign points north towards "Halls of Residence", east towards "Main
-Campus", south towards " Faculty" and west to "Nature Reserve + Computer
-Science". 
+Campus", south towards "Faculty" and south-west to "Computational Laboratory". 
 ~
 S
 #27012
 East-West Parade~
-This is a brickwork pathway running, as it's name suggests, from east
-to west. There are some well tended flower beds bordering the path.
-In the west the path heads towards a junction and in the east you can
-see some buildings.
+This is a pathway made of slate and hunks of granite.  There are some
+well tended flower beds bordering the path.
+In the west the path heads towards a junction and in the east,
+the spires of tall gothic buildings piercing the sky.
 ~
-27 0 0
+0 0
 D1
 The Corner
 ~
@@ -386,9 +385,9 @@ The Corner~
 A pathway between flower beds changes course here, heading north towards
 a large building and west towards some distant trees.
 ~
-27 0 0
+0 0
 D0
-Path Outside Greasy Joe's
+Path Outside the Grub Shack
 ~
 ~
 0 -1 27040
@@ -404,12 +403,12 @@ of trudging boots has ruined much of their beauty.
 ~
 S
 #27019
-Driveway Before the Hall~
-You are standing on a grey gravel driveway amongst a cluster of trees.
-A large old stone building looms in the north whilst the road continues
+Pathway Before the Hall~
+You are standing on a slate grey pathway between a cluster of trees.
+The dark stone walls of an old  building loom in the north whilst the road continues
 to the south, sprouting a narrow path east.
 ~
-27 0 1
+0 1
 D0
 Entrance to the Halls
 ~
@@ -440,36 +439,34 @@ the nearest tree. Otherwise there is nothing of note here.
 ~
 E
 etching graffiti~
-The etchings are a mixture of lewd comments including "Big Jim is a
-fool" and "I hate this damn hall". In addition one etching states "The
-staff here are devil worshippers!". You are glad to receive this note
-of caution but not reassured by it!
+The etchings are a mixture of lewd comments including "Embrace the darkness".
+In addition one etching states "The staff here are devil worshippers!".
+You are glad to receive this note of caution but not reassured by it!
 ~
 S
 #27020
 Entrance to the Halls~
-You stand outside the main entrance to a University hall of residence.
-The door is a gauzy yellow, clearly someone here has a complete lack
-of taste. A gravel driveway lies to the south and you can enter the
+You stand outside the main entrance to The Seminary's hall of residence.
+The door is a a large bronze plate etched with repetitious patterns.
+A gravel pathway lies to the south and you can enter the
 building to the east.  There is a plaque on the wall.
 ~
-27 0 1
+0 1
 D1
 Common Room
 ~
 ~
 0 -1 27021
 D2
-Driveway Before the Hall
+Pathway Before the Hall
 ~
 ~
 0 -1 27019
 E
 door~
-The main door has been painted a foul yellow colour, designed to frighten
-off even the toughest of intruders.  The lock is of a strong brass
-construction and would have no difficulty keeping you out if it were
-not for the fact that it has been drilled out......
+The bronze door has been etched almost as if it was to ward off evil spirits.
+The lock is of a strong brass construction and would have no difficulty
+keeping you out if it were not for the fact that it has been drilled out......
 ~
 E
 hall~
@@ -480,24 +477,24 @@ to have a personality all of their own.
 ~
 E
 plaque sign notice~
-The fine engraved brass plaque says "Welcome to MERC Halls of residence,
+The fine engraved brass plaque says "Welcome to The Seminary Halls of residence
 commissioned and opened by Prince Faramir of Minas Ithil, April 1995".
 ~
 S
 #27021
 Common Room~
 You are standing in the middle of a common room amidst a few rather
-uncomfortable looking chairs and opposite a smashed TV set. Shards of
-glass are scattered across the polished floor and a disgusting aroma
+uncomfortable looking wooden benches that stand alongside a great dining table.
+Shards of glass are scattered across the polished floor and a disgusting aroma
 is emanating from the corner of the room, you hate to think what the
 source is. There are some ornate windows in the south wall which take
 your interest, particularly due to the fact that the curtains have been
-looped over each other and tied together. Curiouser and curiouser....
- There are a set of stairs upwards and a door in the east. 
+looped over each other and tied together. 
+There are a set of stairs upwards and a door in the east. 
 ~
-27 D 1
+D 1
 D1
-Bland Corridor
+Oak Corridor
 ~
 ~
 0 -1 27022
@@ -519,30 +516,27 @@ They return your gaze with equal vigour.
 ~
 S
 #27022
-Bland Corridor~
-A boring, unpleasantly clean, odourless corridor, it's only feature
-being a notice board and door to the south. 
+Oak Panelled Corridor~
+A dark corridor lined with panels and floorboards of oak.
+The corridor heads east-west. It's only features are a notice board and
+a door to the south. 
 ~
-27 D 0
+D 0
 D1
 North Dining Room
 ~
-door~
+~
 0 -1 27023
 D2
 Administration Office
 ~
 door~
-1 27029 27029
+1 -1 27029
 D3
 Common Room
 ~
 ~
 0 -1 27021
-D4
-~
-portal~
-2 -1 27032
 E
 notice sign~
 The notice board contains many pinned signs containing bold statements
@@ -552,12 +546,12 @@ MEAL."
 S
 #27023
 North Dining Room~
-You are in a large hallway cluttered by low tables and hard chairs.
-There are various buckets containing utensils and to the north there
+You are in a large hallway cluttered by oak benches and a long dining
+table. There are various buckets containing utensils and to the north there
 is a metal grille pulled down over a hatchway beside a door. The room
 continues to the south. 
 ~
-27 D 0
+D 0
 D0
 Steamy Kitchen
 ~
@@ -569,24 +563,24 @@ South Dining Room
 ~
 0 -1 27024
 D3
-Bland Corridor
+Oak Corridor
 ~
 door~
 1 -1 27022
 E
 grille~
 A strong corrugated metal blind covers the hatchway. It looks well worn
-through years of service and is very clean. A small sign on it says
-"No Smoking".
+through years of service and is very clean.
 ~
 S
 #27024
 South Dining Room~
 You are in the Southern Dining hall, an extension upon the room to the
-north. The same clean and simple furniture is arranged neatly here and
-there is a large window spanning the wall to the south. 
+north. Sturdy oak furniture is arranged neatly here and
+there is a large window spanning the wall to the south. A sturdy door
+stands in the west wall.
 ~
-27 D 0
+D 0
 D0 
 North Dining Room
 ~
@@ -594,25 +588,25 @@ North Dining Room
 0 -1 27023
 D3
 ~
-portal~
-2 -1 27029
+door~
+1 -1 27029
 E
 window~
 Out of the window you can see some trees in the distant south across
-a gravel path and lawn. The window stares at you and begins to question
-your sanity.
+a gravel path and lawn. The window stares back at you and begins to question
+your own sanity.
 ~
 S
 #27025
 Steamy Kitchen~
-This is clearly an important room as it is full of large metal cuboid
-machines which are spurting superheated steam and blue flames. Vast
-vats of unpleasant and foul smelling chemicals lie on a stove and cockroaches
+This is clearly an important room as it is full of large iron cookpots
+and the embers of a large fire. The cookpots a half-full of 
+foul smelling chemicals lie on a stove and cockroaches
 scuttle before your feet towards the safety of the cracks in the floor.
 Although the clouds of water vapour limit your vision, you can just
 about make out doorways to the east and south. 
 ~
-27 D 0
+D 0
 D1
 Outside the Back Door
 ~
@@ -624,25 +618,19 @@ North Dining Room
 door~
 1 -1 27023
 E
-machine~
-The machines are large shiny metal fabrications with plenty of lethal
-sharp edges. The cleanliness is supreme along their surfaces but you
-notice some suspicious pools of grease underneath.
-~
-E
-pot vat~
-There are some large cylindrical vats here bubbling with purple and
-green substances, the purpose of which you cannot imagine. 
+cookpots~
+They're cast from black iron with a large wooden handle. They bubble with
+purple and green substances, the purpose of which you cannot imagine. 
 ~
 S
 #27026
 Outside the Back Door~
-You stand outside a light blue wooden door, the halls of residence building
-towering over you to your west. A gravel path heads off east towards
-a some distant trees. The gravel ground is dirty and smeared with a
-mixture of dubious toxins which begin to fizzle at your boots.....
+The gravel ground is dirty and smeared with a mixture of dubious toxins which
+begin to fizzle at your boots..... You stand outside a light blue wooden door
+to the west which leads into the halls of residence towering above.A gravel
+path heads off east towards some trees. 
 ~
-27 0 1
+0 1
 D1
 Gravel Pathway
 ~
@@ -663,12 +651,12 @@ to have a personality all of their own.
 S
 #27027
 Gravel Pathway~
-You are standing at a junction where a pathway heads east off to a bunch
+You are standing at a junction where a pathway heads east off to a crop
 of tall trees and south along a gravel pathway. There are some  well
 kept rose beds beside the path despite the condition of the soil which
 has been carelessly trampled. 
 ~
-27 0 1
+0 1
 D1
 Lover's Grove
 ~
@@ -693,12 +681,12 @@ sleepy...
 S
 #27028
 Gravel Pathway~
-You are at a turning in the gravel pathway bordered by rose beds. It
+You are at a turning in the gravel pathway bordered by rose beds. The gravel
+has been eroded and scattered by years of constantly trudging feet. The path
 heads both north and west, forming the corner of the imposing halls
-of residence. The gravel has been eroded and scattered by years of constantly
-trudging feet.
+of residence, and there's a door to the south.
 ~
-27 0 1
+0 1
 D0
 Gravel Pathway
 ~
@@ -707,7 +695,7 @@ Gravel Pathway
 D2
 ~
 portal~
-2 -1 27047
+1 -1 27047
 D3
 Gravel Pathway
 ~
@@ -728,37 +716,33 @@ sleepy...
 ~
 S
 #27029
-Administration Office
-
-   *** CAUTION - ENTERING HIGH LEVEL ZONE ***
-          <PROCEED AT YOU OWN PERIL!!>
-    ~
+Administration Office~
 This is a well organised office featuring a mahogany desk covered with
 papers besides several filing cabinets. On the wall are many notices
-and a portrait of an elderly man. You notice a window to the south but
-your attention is distracted by a peculiar musty smell which seems to
-be coming from a crack in the ground.
+and a portrait of an elderly man. You notice a locked window to the south
+and a door to the north, but then your attention is drawn to a crack 
+in the ground.
 ~
-27 D 0
+D 0
 D0
-Bland Corridor
+Oak Corridor
 ~
 door~
-1 27029 27022
+1 -1 27022
+D1
+~
+portal~
+1 -1 27024
 D2
 The Unknown
 ~
 ~
 2 27036 27036
-D1
-~
-portal~
-2 -1 27024
 D5
 Ritual Chamber
 ~
 trapdoor~
-2 27029 27030
+2 27036 27030
 E
 painting portrait~
 A noble figure sits in profile and the inscription below says "Lord
@@ -785,7 +769,7 @@ of the tiled floor. You can only guess what lies huddled beneath the
 white sheets in the corner of the room. 
 An archway cut into the stone to the west leads off into the darkness....
 ~
-27 AD 0
+AD 0
 D3
 Entrance to the Den
 ~
@@ -824,7 +808,7 @@ which is wholly unremarkable except for the rather unpleasant odour
 which is beginning to irritate your nostrils. You can escape through
 doors to the east and west.
 ~
-27 D 0
+D 0
 D1
 Smelly Bedroom
 ~
@@ -858,31 +842,23 @@ underwear appears to have been ground permanently into the carpet and
 these items appear to be the source of a terrible smell which is causing
 you to reel with nausea. The desk is stacked with sheets of paper coated
 with unintelligible scrawlings and you can see some trees out of the
-window to the east.
+window to the east. There's a door west.
 ~
-27 D 0
+D 0
 D3
 Green Carpeted Landing
 ~
 door~
 1 -1 27031
-D4
-~
-portal~
-2 -1 27038
-D5
-~
-portal~
-2 -1 27022
 E
 shelves~
 The shelves are littered with many poor examples of origami and books
-with titles such as "Computing Law" and "Anti-MUD Society Manifesto"
+with titles such as "Alchemy and Wizardry" and "Anti-MUD Society Manifesto"
 ~
 E
 desk sheets paper~
 There are thousands of handwritten sheets stacked neatly on the table
-but the writing is so bad it looks more like essays written in Klingon
+but the writing is so bad it looks more like essays written in Greek
 rather than English. 
 ~
 S
@@ -894,7 +870,7 @@ making movement virtually impossible. You assume that there are items
 of furniture in here somewhere underneath this junk but you cannot be
 sure of their exact location. 
 ~
-27 D 0
+D 0
 D1
 Green Carpeted Landing
 ~
@@ -903,7 +879,7 @@ door~
 E
 junk~
 You attempt to examine the junk but it is in such a sheer mess that
-your efforts are totally futile. Your head begins to spin as you contemplate
+your efforts are futile. Your head begins to spin as you contemplate
 how someone would actually try to live in this place. 
 ~
 S
@@ -915,7 +891,7 @@ comfortable right now. The trees tower over and let through minimal
 pin pricks of light, piercing the mellow, loving atmosphere of this
 odd place. 
 ~
-27 0 1
+0 1
 D3
 Gravel Pathway
 ~
@@ -926,9 +902,9 @@ S
 Gravel Pathway~
 You are following a poorly surfaced grey pathway, bordered by rose beds
 which follows east around a building to the north and west towards a
-driveway. 
+pathway. You can smell something to the south.
 ~
-27 0 1
+0 1
 D1
 Gravel Pathway
 ~
@@ -936,10 +912,10 @@ Gravel Pathway
 0 -1 27028
 D2
 ~
-portal~
-2 -1 27040
+~
+0 -1 27040
 D3
-Driveway Before the Hall
+Pathway Before the Hall
 ~
 ~
 0 -1 27019
@@ -965,7 +941,7 @@ welcomes you down and to your north there is a faint glimmer of light
 from a window. A terrible heart rendering cry causes you to shiver
 momentarily in fear, it's source seems to be from below.....
 ~
-27 AD 0
+AD 0
 D5
 The Unknown
 ~
@@ -982,7 +958,7 @@ Red Carpeted Landing~
 An ugly red carpet adds a rosy glow to this dull corridor. You can only
 see one doorway in the east and a stairway downwards. 
 ~
-27 D 0
+D 0
 D1
 Very Clean and Tidy Bedroom
 ~
@@ -1006,18 +982,14 @@ extreme, even to the extent of every item in the room being placed in
 perfect symmetry. There is not a speck of dust in the smallest nook,
 the window is pristine on both sides and the very comfortable bed is
 perfectly smoothed out, ready for use. Unquestionably, this haven has
-already been contaminated by your presence. 
+already been contaminated by your presence. A door leads west.
 ~
-27 D 0
+D 0
 D3
 Red Carpeted Landing
 ~
 door~
 1 -1 27037
-D5
-~
-portal~
-2 -1 27032
 E
 bed~
 The bed is soft, cool and very tempting.
@@ -1035,7 +1007,7 @@ Here you have a sense of near weightlessness and you have lost all
 knowledge of identity and purpose. There is a glimmer of light up
 above but no other exits are evident.
 ~
-27 AND 0
+AND 0
 D4
 The Unknown
 ~
@@ -1043,17 +1015,17 @@ The Unknown
 0 -1 27036
 S
 #27040
-Path Outside Greasy Joe's~
-The path runs beside a small van, from which a delicious odour food
-is radiating. The temptation to make a purchase is almost overpowering
+The Chestnut Grille~
+The path runs past a large iron chestnut grille, from which a delicious odour
+of roast nuts radiates.. The temptation to make a purchase is almost overpowering
 as you feel your stomach groaning with desire. There is a doorway to
 a large building in the east.
 ~
-27 0 0
+0 0
 D0
 ~
-portal~
-2 -1 27035
+~
+0 -1 27035
 D1
 Inside the Northwest Door of Main
 ~
@@ -1077,14 +1049,14 @@ The counter is a small aluminium platform, devoid of any grease.
 S
 #27041
 Inside the Northwest Door of Main~
-You are on the threshold of a major university building. There is a
-dimly lit, highly polished corridor heading east and a set of stairs
+You are on the threshold of a major university building. A dimly lit,
+polished oak corridor heads east and a set of stairs
 heading down into the darkness. Otherwise, this doorstep is thoroughly
 uninteresting.
 ~
-27 DK 0
+DK 0
 D1
-Yellow Corridor
+Oak Corridor
 ~
 ~
 0 -1 27042
@@ -1100,19 +1072,19 @@ Grey Stairway
 0 -1 27044
 S
 #27042
-Yellow Corridor~
-A very boring corridor stretches from east to west, lit by flickering
-fluorescent lights and covered with a plethora of pinned paper signs.
+Oak Passageway~
+A very boring oak-lined passageway stretches from east to west, lit by
+flickering candlelight and covered with a plethora of pinned paper signs.
 There is a small office to the north. 
 ~
-27 D 0
+D 0
 D0
 Porter's Office
 ~
 door~
 0 -1 27047
 D1
-Yellow Corridor
+Oak Passageway
 ~
 ~
 0 -1 27043
@@ -1132,16 +1104,14 @@ beneath the Book Shop!"
 ~
 S
 #27043
-Yellow Corridor~
-This corridor is arguably the dullest place you have ever been to and
-you begin to debate with yourself as to whether imprisonment here would
-cause madness. A mixture of peculiar sounds are coming from a room to
+Oak Passageway~
+A mixture of peculiar sounds are coming from a room to
 the north, the smell of ale floats in from the east and the corridor
 stretches off into the distant west. There is also a door to the south.
 ~
-27 D 0
+D 0
 D0
-Ent's Room
+Music Room
 ~
 door~
 1 -1 27050
@@ -1163,10 +1133,10 @@ Yellow Corridor
 S
 #27044
 Grey Stairway~
-A dull concrete stairway heads between the ground floor of Main building
+A dull wooden stairway heads between the ground floor of Main building
 and a musty smelling  bookshop below. 
 ~
-27 D 0
+D 0
 D4
 Inside the Northwest Door of Main
 ~
@@ -1188,7 +1158,7 @@ smell in here is one of great age and maturity, as if this room were
 the graveyard for decaying, odorous antiquities. The lack of any windows
 is a more likely explanation. A sign sits prominently on the desk.
 ~
-27 D 0
+D 0
 D4
 Grey Stairway
 ~
@@ -1219,17 +1189,13 @@ they all look very boring and for the workaholic only.
 ~
 S
 #27046
-Entering the Bowels of the Earth
-
-   *** CAUTION - ENTERING HIGH LEVEL ZONE ***
-          <PROCEED AT YOUR OWN PERIL>
-~
+Entering the Bowels of the Earth~
 The gloom of eternity falls upon your shoulders as you stand upon the
 brink of piercing the skin of the Earth. Although the illumination is
 swallowed in the blackness, you are able to see that a tunnel heads
 off into the mysterious east. 
 ~
-27 AD 4
+AD 4
 D1
 Chasm of Eternal Peril
 ~
@@ -1247,17 +1213,17 @@ You stand under a naked light bulb in a pokey little office with a white
 counter and a huge postcard collection pinned to the back wall. The
 floor is dusted with layers of sand and there is a cheap plastic chair
 shoved in the corner of the room. There is an empty mailbox to one side
-and a small book on the counter.
+and a small book on the counter. There's an exit east, and a door north.
 ~
-27 D 0
+D 0
 D0
 ~
 portal~
-2 -1 27028
+1 -1 27028
 D1
 ~
-portal~
-2 -1 27050
+~
+0 -1 27050
 D2
 Yellow Corridor
 ~
@@ -1283,7 +1249,7 @@ and the remarkable mosaic flooring to which you find your eyes magnetically
 drawn to. It is easy to imagine that many an interesting anecdote has
 been passed by word of mouth here in times gone by.
 ~
-27 D 0
+D 0
 D0
 Lavatory
 ~
@@ -1291,13 +1257,13 @@ Lavatory
 0 -1 27049
 D2
 ~
-portal~
-2 -1 27103
+~
+0 -1 27103
 D3
 Yellow Corridor
 ~
-door~
-1 -1 27043
+~
+0 -1 27043
 E
 mosaic floor~
 The multi-coloured mosaic flooring depicts a huge red dragon being slain
@@ -1320,9 +1286,9 @@ Lavatory~
 You are in a cool, clean public bathroom filled with the aroma of alcohol
 induced sickness. The tiled walls are decorated with a mixture of colourful
 and obscene graffiti and there are two frosted glass windows which,
-thankfully, have been opened to allow ventilation. 
+thankfully, have been opened to allow ventilation.  There are exits south and west.
 ~
-27 D 0
+D 0
 D2
 The Old Vic
 ~
@@ -1330,8 +1296,8 @@ The Old Vic
 0 -1 27048
 D3
 ~
-portal~
-2 -1 27050
+~
+0 -1 27050
 E
 graffiti~
 The Graffiti is interesting and varied, it mainly being messages about
@@ -1339,56 +1305,32 @@ rebelling against an oppressive political system.
 ~
 S
 #27050
-Ent's Room~
-You are standing in a room which is packed to the brim with large machines
-which are flashing coloured lights randomly and making the strangest
-high pitched whirring  noises you have ever heard. In the centre of
-the room is a large blue table with fist sized holes in each corner
-and halfway along each length. One of the machines starts playing music
-which you immediately find extremely irritating and you start to consider
-ways of stopping it.  On the walls are loud posters featuring pictures
+Music Room~
+You are standing in a room which is packed to the brim with wooden
+and brass musical instruments, tambourines and other percussion.
+Is that a set of bagpipes?! On the walls are loud posters featuring pictures
 of many different people wielding swords and other unrecognisable weapons.
-This really is a weird place.
+There are exits to the north, south, east and west.
 ~
-27 D 0
+D 0
 D0
 Fire Exit
 ~
-door~
-1 -1 27059
+~
+0 -1 27059
 D1
 ~
-portal~
-2 -1 27049
-D2
-Yellow Corridor
 ~
-door~
-1 -1 27043
+0 -1 27049
+D2
+Oak Passageway
+~
+~
+0 -1 27043
 D3
 ~
 portal~
-2 -1 27047
-E
-machines~
-There are many brightly lit machines here, covered in colourful pictures
-and bold writing. One machine is called "Operation Doom" and another
-is "Search for Karate Kid part VIII". There are knobs and buttons on
-the machines but no amount of fiddling with them causes anything to
-happen. You remain totally mystified. 
-~
-E
-table~
-The blue table has a soft surface marked out with a few lines and bordered
-with six small holes. It feels too uncomfortable to be a bed. 
-~
-E
-poster~
-The posters all say "Natural Born Killers" or "Pulp Fiction" amidst
-dramatic pictures of many people meeting their doom in searing balls
-of fire. You feel afraid of a wizard who can make balls of flame that
-BIG - your own magic suddenly feels so puny in comparison. 
-~
+0 -1 27047
 S
 #27051
 North Main Hall~
@@ -1396,14 +1338,11 @@ A huge room encompasses your feeble body and you see your reflection
 in the polished brown floor. Within the glass walls of this mighty room
 there are hundreds of chairs, all neatly lined up facing a small dais
 to the north of the room. The ceiling appears to be most unusual, consisting
-of many small white panels with many thick black cables twisting and
-diving in and out of the gaps between. Suspended from the ceiling are
-some large black boxes with fearsome circular faces. The room spreads
-out to the south. 
+of many small white panels the twisted faces of gargoyles peering from above. 
 ~
-27 D 0
+D 0
 D0
-Yellow Corridor
+Oak Passageway
 ~
 door~
 1 -1 27043
@@ -1423,13 +1362,6 @@ The dais is a carved oak platform with a comfortable chair placed to
 one side of it. There is a peculiar aura of nobility about the dais
 and you feel too unworthy to attempt to stand upon it. 
 ~
-E
-box~
-There are a few huge black boxes suspended from the ceiling by rods
-and cables. They look extremely strong but their purpose is foreign
-to you. You are further confused when one of the boxes crackles and
-splutters suddenly and loudly, without moving.
-~
 S
 #27052
 South Main Hall~
@@ -1437,9 +1369,9 @@ An enormous haunting hall spans the horizon, bordered by large glass
 walls. There are a great many chairs filling this space, each reflected
 once in the glimmering floor. There is an odd atmosphere of respectability
 about this place, as if you are stepping along a hallowed pilgrimage
-trail. 
+trail. There are doors east and south.
 ~
-27 D 0
+D 0
 D0
 North Main Hall
 ~
@@ -1464,7 +1396,7 @@ have never seen before. Otherwise, this empty corridor merely serves
 the purpose of the accessing the hall to the north and offices to the
 east and west. 
 ~
-27 D 0
+D 0
 D0
 South Main Hall
 ~
@@ -1498,7 +1430,7 @@ and of dramatic landscapes, the type of which you are now well accustomed
 to. A set of shelves support a few books and some curious colourful
 objects. 
 ~
-27 D 0
+D 0
 D1
 Brunel Walk
 ~
@@ -1525,7 +1457,7 @@ You enter a small, spartan office featuring three chairs, a desk, piles
 of papers and a couple of books. There is a clock on the wall, ticking
 away happily above a sign and doorways to the north and south.
 ~
-27 D 0
+D 0
 D0
 Doktor Wolfgang's
 ~
@@ -1553,9 +1485,9 @@ even the tiniest of shadows. An ergonomic table is the centrepiece of
 this small surgery, which also features some polished metal closets
 and drawers, as well as some other mysterious medical equipment. This
 room is perfectly clean but is filled with an indescribably revolting,
-clinical smell. You can't wait to  leave. 
+clinical smell. You can't wait to leave. 
 ~
-27 D 0
+D 0
 D2
 Reception
 ~
@@ -1563,13 +1495,14 @@ door~
 1 -1 27056
 S
 #27058
-Lorenzo's~
-Upon entering the room you almost trip over the huge dentists chair
+Fangtastic Lorenzo's~
+Upon entering the room you almost trip over the huge medieval dentists chair
 which is sprouting a plethora of weird, highly mobile metal arms. A
 huge spotlight reveals a selection of aluminium dental furniture and
-some strange dental apparatus. There is a sign on the wall.
+some strange dental apparatus. This must be where people get their teeth
+fixed. There is a sign on the wall.
 ~
-27 D 0
+D 0
 D0
 Reception
 ~
@@ -1588,7 +1521,12 @@ unused for decades. Cobwebs brush your face and you hear rodents scuttling
 in the safety of the corners of the room. This place needs a good spring
 cleaning.
 ~
-27 CD 0
+CD 0
+D2
+Music Room
+~
+~
+0 -1 27050
 D4
 The Corner
 ~
@@ -1596,14 +1534,15 @@ The Corner
 0 -1 27013
 S
 #27060
-Path Outside the Computer Centre~
-You stand on a grassy knoll before a single storey brick building. You
-have a pleasant view of the surrounding area - a wood in the north and
-a series of large buildings over in the east. The flowers here smile
-at you, hoping to gain your favour so that you don't trample them. You
-see your reflection in the door to the south.
+Path Outside the Computation Centre~
+You stand on a grassy knoll before a single storey brick building that
+has been overgrown with wicked ivy. You have a pleasant view of the
+surrounding area - a wood in the north and a series of huge dark buildings
+over in the east. The flowers here smile at you, hoping to gain your
+favour so that you don't trample them. You see your reflection in the
+door to the south.
 ~
-27 0 2
+0 2
 D0
 South of the Wood
 ~
@@ -1622,15 +1561,13 @@ of the University Vegetation Society.
 ~
 S
 #27062
-Server Room~
-Several almighty computers stand before you, humming and glowing with
-an imperial and ethereal power. The rest of this featureless room cowers
-in the dimming shadows. The hum resonates in your ears and draws you
-towards the servers, which are subliminally demanding your total submission
-to their sovereign power. You are beckoned by doors in the east and
-south. 
+Machine Room~
+Several almighty machines built of brass rods and plates stand before you,
+humming and glowing with an imperial and ethereal power. The rods twist
+and turn, making might clanking sounds. It's almost hypnotic. You are
+beckoned by doors in the east and south. 
 ~
-27 D 0
+D 0
 D1
 Lab West
 ~
@@ -1644,17 +1581,15 @@ door~
 S
 #27063
 Lab West~
-You are in a long, carpeted room filled with small computer terminals
-which are whirring with delight. A communications relay hidden away
-somewhere is clicking and spluttering and the fluorescent lights vibrate
-at another frequency producing a hi-tech harmony which is already irritating
-you. The room is otherwise empty and through a passage in the east you
-can see more computers. A powerful hum emanates through the doors in
+You are in a long, carpeted room filled with ornate abaci, slide rules
+and sextants. These sit atop a searies of draftsman's boards and worktops.
+The room is otherwise empty and through a passage in the east you
+can see more devices. A powerful hum emanates through the doors in
 the south and west.
 ~
-27 D 0
+D 0
 D0 
-Path Outside the Computer Centre
+Path Outside the Computation Centre
 ~
 door~
 1 -1 27060
@@ -1664,24 +1599,24 @@ Lab East
 ~
 0 -1 27064
 D2
-Relay and Cabling Room
+Steam Room
 ~
 door~
 1 -1 27065
 D3
-Server Room
+Machine Room
 ~
 door~
 2 27062 27062
 S
 #27064
 Lab East~
-You enter a small computer room and see a few terminals sitting on a
-desk in the centre. There is a large notice board on the wall and a
-big, evil looking machine in the corner which is noisily eating large
-reams of paper.
+You enter a small laboratory room and see a few mechanical calculation
+devices sitting on a desk in the centre. There is a large notice board
+on the wall and a big, evil looking machine in the corner which is
+noisily eating large reams of parchment.
 ~
-27 D 0
+D 0
 D3
 Lab West
 ~
@@ -1690,38 +1625,34 @@ Lab West
 E
 notice sign~
 The notice board contains many pinned messages which of little importance
-except one which states clearly "Playing of games is forbidden. MUD
-is a game".  Bummer.
+except one which states clearly "Playing of games is forbidden. Dungeons
+and Dragons is a game".  Bummer.
 ~
 S
 #27065
-Relay and Cabling Room~
-A confused tangle of giant cables and fibre-optic links wrap around
-your neck and body, constricting your vision and breathing. The evil
+Maintenance Workshop~
+A confused tangle of gears and pushrods surround you,
+constricting your vision and breathing. The evil
 cackling ripple of the relay machines pour into your head and you feel
-your life force ebbing away.
+your life force ebbing away. There's a cloud of steam south that glows
+with a blue light, and doors to the west and north.
 ~
-27 D 0
+D 0
 D0
 Lab West
 ~
 door~
 1 -1 27063
 D2
-Modulator
+A strange electrical light beckons.
 ~
 ~
-0 -1 27066
+0 -1 27067
 D3
+A simple doorway.
 ~
-portal~
-2 -1 27071
-E
-cable fibre optic links~
-The chaos of tangled cables are thrusting in and out of a multitude
-of ports and holes in the walls. How anyone would know their way around
-here is beyond you.
 ~
+1 -1 27071
 S
 #27066
 Modulator~
@@ -1735,7 +1666,7 @@ heart beat and all sensory inputs function as normal, thankfully. The
 process seems to have succeeded, you breathe a sigh of relief and look
 up to see the way ahead. 
 ~
-27 NCD 0
+NCD 0
 D4
 Digital Dimension
 ~
@@ -1755,14 +1686,14 @@ your digital body is demodulated and you feel less like a bunch of coloured
 pixels. The peculiar process completed, you stretch your real muscles
 once again and head towards the mortal world. 
 ~
-27 NCD 0
+NCD 0
 D4
 Modulator
 ~
 ~
 0 -1 27066
-D5
-Relay and Cabling Room
+D0
+Maintenance Workshop
 ~
 ~
 0 -1 27065
@@ -1779,7 +1710,7 @@ as if you had ten pairs of eyes rather than one. Gravity has no meaning,
 as you flip over and walk on the ceiling of this virtual room. This
 is going to take some getting used to. 
 ~
-27 ND 0
+ND 0
 D4
 Digital Dimension
 ~
@@ -1789,7 +1720,7 @@ D5
 Demodulator
 ~
 ~
-0 -1 27067
+0 -1 27066
 S
 #27069
 Digital Dimension~
@@ -1798,7 +1729,7 @@ artificial existence. You begin to feel the desire to return to the
 tactile world that you know and love as the novelty of travelling as
 a packet of data is swiftly wearing off. 
 ~
-27 ND 0
+ND 0
 D4
 Digital Dimension
 ~
@@ -1819,7 +1750,7 @@ momentarily as the thought that you might be considered a virus springs
 to mind. Virtual adrenalin floods your legs as you prepare to flee from
 this terrible place. 
 ~
-27 ND 0
+ND 0
 D5
 Digital Dimension
 ~
@@ -1827,37 +1758,35 @@ Digital Dimension
 0 -1 27069
 S
 #27071
-Mr Hill's Office~
+Mr Hill's Paperless Office~
 A plain, well organised office is around you. The small desk cluttered
 with stationery stands beside a filing cabinet marked "Assessments".
 You realise what is missing here - paper. This is the paperless office,
 there aren't even any books or pictures. The occupier of this office
-must be a serious computer addict.
+must be a seriously addicted to his abacus. Doors to the north and east.
 ~
-27 D 0
+D 0
 D0
-Server Room
+Machine Room
 ~
 door~
 1 -1 27062
 D1
 ~
 portal~
-2 -1 27065
+1 -1 27065
 S
 #27079
-Scholar's Walkway
-
-   *** CAUTION - ENTERING HIGH LEVEL ZONE ***
-          <PROCEED AT YOUR OWN PERIL>
-   ~
+Scholar's Walkway~
 You are travelling along a yellow-brick pavement bordered by various
 trees and some pleasant flower beds. Litter dances over the path to
 the music of the wind before being trapped by the sturdy legs of the
-bushes. A tall building with big doors looms in the east whilst the
+bushes. 
+
+The doors to a tall, dark building loom eastward, whilst the
 path continues to the north and south.
 ~
-27 0 1
+0 1
 D0
 Crossing of Paths
 ~
@@ -1891,9 +1820,10 @@ Both the entrance to and exit from this grand building, the foyer, with
 it's high ceiling, reception desk, wooden benches and giant pot plants
 is a welcome sight. The floor is so polished that perhaps it would even
 reflect an invisible passer by as well as echo their footsteps around
-this sonorous hallway. There is a trapdoor set in the ground.
+this sonorous hallway. There is a trapdoor set in the ground, and doors
+east and west.
 ~
-27 D 0
+D 0
 D1
 Law Library
 ~
@@ -1923,7 +1853,7 @@ A bright light shines down from the room at the top of the stairs. There
 is a large foyer below but it seems like a model and the people like
 ants going about their business. A door lies to the east.
 ~
-27 D 0
+D 0
 D1
 Green Laboratory
 ~
@@ -1947,7 +1877,7 @@ A foyer down below seems minuscule and to try to walk down now seems
 like it would take forever. There is a door to the east and another
 at the top of the stairs.
 ~
-27 D 0
+D 0
 D1
 White Lecture Hall
 ~
@@ -1973,7 +1903,7 @@ windows on either side of the hall are concealed by black blinds but
 they do not prevent the wind from circling and howling against the exterior
 walls.
 ~
-27 D 0
+D 0
 D3
 Long Curving Stairway
 ~
@@ -1996,7 +1926,7 @@ been occupied in years - the furniture is dilapidated, the blinds torn,
 the screen sagging. Perhaps a lack of financing is responsible for this
 sub-standard hall. 
 ~
-27 D 0
+D 0
 D5
 Long Winding Stairway
 ~
@@ -2010,12 +1940,12 @@ chairs, a writing board and nothing else. Even the view out of the window
 is blocked by a large blue sheet which is on the outside, hanging from
 the window above.
 ~
-27 D 0
+D 0
 D1
 Express Elevator
 ~
 ~
-0 -1 27091
+0 -1 -27091
 D3
 Green Laboratory
 ~
@@ -2031,7 +1961,7 @@ into the ceiling away from the soft multicoloured carpet. This law library
 is filled with an almost liquid working atmosphere which you can barely
 penetrate, so everything happens in slow motion. 
 ~
-27 D 0
+D 0
 D1
 Law Library
 ~
@@ -2060,7 +1990,7 @@ radiate down upon your shoulders and the fireproof carpet, but the strange
 shadows under the shelves remain, snarling at you evilly. The working
 atmosphere in here is very thick, almost tangible.
 ~
-27 D 0
+D 0
 D3
 Law Library
 ~
@@ -2082,7 +2012,7 @@ with a paint brush? Glass tubes, metal rods and sheets of materials
 crowd the desks. The windows are all blinded but light shines down from
 the spotlights on the ceiling.
 ~
-27 D 0
+D 0
 D1
 Pokey Little Seminar Room
 ~
@@ -2109,14 +2039,15 @@ oily pipes thrust into the darkness in all directions and your footsteps
 crash against the insecure metal grilles below. You see glowing eyes
 in the darkness, hiding behind the pipes and you gulp in fear of the
 unknown. The heat is gradually rising and the contaminated steam, cackling
-evilly, tickles your face.
+evilly, tickles your face. There's a trapdoor in the ceiling and 
+a grate in the ground.
 ~
-27 AD 0
+AD 0
 D1
 Express Elevator
 ~
 ~
-0 -1 27092
+0 -1 -27092
 D4
 Departmental Foyer
 ~
@@ -2143,9 +2074,9 @@ Entering the Bowels of the Earth~
 You decide to redefine the meaning of the word "darkness" as you step
 into a lonely black chasm on the skin of the Earth. This barren featureless
 landscape is barely visible but a clearly marked tunnel thrusts forward
-to the north.
+to the north, and a large grate in the ceiling.
 ~
-27 AD 4
+AD 4
 D0
 Chasm of Eternal Peril
 ~
@@ -2166,12 +2097,12 @@ your figure many times over. Before you realise, a door shuts tight
 and you suddenly feel much lighter. Moments later the door opens again
 revealing to you a dark boiler room in the west. 
 ~
-27 CD 0
+CD 0
 D3
 Oily Boiler Room
 ~
 ~
-0 -1 27089
+0 -1 -27089
 S
 #27092
 Express Elevator~
@@ -2182,12 +2113,12 @@ your figure many times over. Before you realise, a door shuts tight
 and you suddenly feel much heavier. Moments later the door opens again
 revealing to you a small, pokey little room in the west.
 ~
-27 CD 0
+CD 0
 D3
 Pokey Little Seminar Room
 ~
 ~
-0 -1 27085
+0 -1 -27085
 S
 #27093
 Chasm of Eternal Peril~
@@ -2197,7 +2128,7 @@ devilish subterranean tunnel. A thousand glowing eyes pierce the darkness
 yourself and unto their submission. You avert your eyes, clench your
 fists and continue on. 
 ~
-27 AD 4
+AD 4
 D2
 Chasm of Eternal Peril
 ~
@@ -2221,7 +2152,7 @@ in fear. A long dark passage has been torn out of the crust of the earth
 leaving bone dry, rugged terrain. Wisps of blue and green gas curl up
 through cracks in the earth, polluting the stale air.
 ~
-27 AD 4
+AD 4
 D0
 Chasm of Eternal Peril
 ~
@@ -2250,7 +2181,7 @@ darkness itself seems a sentient being.  A small stream trickles nearby,
 bubbling with acidity and devoid of all life. Survival within the folds
 of this barren place is unimaginable.
 ~
-27 AD 4
+AD 4
 D2
 Chasm of Eternal Peril
 ~
@@ -2270,7 +2201,7 @@ down to the bone marrow. The parched earth rumbles and splits asunder
 creating numerous gullies and closing others. Your morale drops to a
 new low.
 ~
-27 AD 4
+AD 4
 D2
 Chasm of Eternal Peril
 ~
@@ -2289,7 +2220,7 @@ the Earth to death. You are walking through what remains of the creature's
 vain efforts - a lifeless void, fit for the monarchy of the underworld.
 
 ~
-27 AD 4
+AD 4
 D1
 Chasm of Eternal Peril
 ~
@@ -2303,7 +2234,7 @@ can see. The stench of nothingness fills your nostrils causing to reconsider
 whether it was a good idea to come here after all. A gush of lava spurts
 up from an enormous crater in the otherwise featureless floor.
 ~
-27 AD 4
+AD 4
 D0
 Chasm of Eternal Peril
 ~
@@ -2316,16 +2247,12 @@ Slime Pit
 0 -1 27112
 S
 #27100
-Walkway
-
-   *** CAUTION - ENTERING HIGH LEVEL ZONE ***
-         <PROCEED AT YOUR OWN PERIL>
-   ~
+Walkway~
 You are along a clean corridor between a big hall and a sports complex.
 Walls are adorned with pictures of sporting heroes and diagrams of people
 wrapping their legs behind their heads. Ouch.
 ~
-27 D 0
+D 0
 D1
 Changing Room
 ~
@@ -2344,46 +2271,46 @@ Merckx".
 ~
 S
 #27101
-Changing Room~
-You almost slip over on the washed tiled flooring of this humid room.
-There are empty clothes hooks on the walls all around and the yellow
-flickering lights cast tangled shadows . Exits lead out in all directions.
+Privacy Cubicle~
+You almost slip over on the slate tiled flooring of this humid room. Through
+the gloom you detect empty clothes hooks on the walls all, and the yellow
+flickering lights cast tangled shadows. Exits lead out in all directions.
 ~
-27 D 0
+D 0
 D0
 Weights Room
 ~
-door~
-1 -1 27103
+~
+0 -1 27103
 D1
 Sauna
 ~
-door~
-1 -1 27104
+~
+0 -1 27104
 D2
 Gym
 ~
-door~
-1 -1 27102
+~
+0 -1 27102
 D3
 Walkway
 ~
-door~
+~
 0 -1 27100
 S
 #27102
-Gym~
+Chamber of Physical Attunement~
 A large, well lit hall echoes your footsteps despite the well padded
 flooring. There is a selection of oddly shaped apparatus here and the
 stench of stale sweat is overpowering. There is a board on the wall
 and some benches stacked at the side of the room. Fancy a workout?
 ~
-27 D 0
+D 0
 D0
 Changing Room
 ~
-door~
-1 -1 27101
+~
+0 -1 27101
 E
 board~
 On the board is scribbled "Set exercises: 30 push ups; 50 sit ups; 20
@@ -2403,11 +2330,11 @@ severely and a stack of extremely heavy looking metal blocks lie in
 the far corner of the room. An odd but recognisable aroma floats in
 from the east.
 ~
-27 D 0
+D 0
 D0
 ~
-portal~
-2 -1 27048
+~
+0 -1 27048
 D1
 Poolside
 ~
@@ -2416,8 +2343,8 @@ Poolside
 D2
 Changing Room
 ~
-door~
-1 -1 27101
+~
+0 -1 27101
 E
 weights~
 The weight machines vary in type greatly, from your basic bench press
@@ -2433,30 +2360,30 @@ it's function well as you begin to sweat profusely. There are several
 wooden benches to one side and a small drain hole in the middle of the
 room.
 ~
-27 D 0
+D 0
 D0
-Poolside
+Hydration Therapy
 ~
-door~
-1 -1 27105
+~
+0 -1 27105
 D3
-Changing Room
+Privacy Cubicle
 ~
-door~
-1 -1 27101
+~
+0 -1 27101
 S
 #27105
-Poolside~
-You stand beside a medium sized swimming pool which is glowing with
-a very welcoming turquoise aura - the stench of chlorine seems strangely
-appealing. A long plank juts out over the pool and water drips off it
+Hydration Therapy~
+You stand beside a medium sized pool of warm water which is glowing with
+a very welcoming turquoise aura. It looks inviting...apart from the strange smell.
+A long plank juts out over the pool and water drips off it
 into the mildly rippling warm water.
 ~
-27 D 0
+D 0
 D2
 Sauna
 ~
-door~
+~
 1 -1 27104
 D3
 Weights Room
@@ -2478,10 +2405,9 @@ S
 In the Pool~
 The warm waters of the pool lap against your face, hugging your body
 and limbs tenderly. Spires of steam rise up into the air as mild undercurrents
-and upwellings bring warm water to the 
-surface. 
+and upwellings bring warm water to the surface. 
 ~
-27 D 6
+D 6
 D4
 Poolside
 ~
@@ -2497,9 +2423,9 @@ S
 In at the Deep End~
 The swirling currents meld around your body as you enter deep waters.
 The tasty water is quite cool here and you hear the sloshing of the
-waves against the drainage gullies at the pool walls. There is a grille
+waves against the drainage gullies at the pool walls. There is a grill
 set in the tiles on the pool floor.~
-27 D 6
+D 6
 D4
 In the Pool
 ~
@@ -2508,27 +2434,23 @@ In the Pool
 D5
 Entering the Bowels of the Earth
 ~
-grille~
+grill~
 1 -1 27108
 E
-grille~
+grill~
 Below the rippling surface you see a small white grille at the deepest
 point in the pool.
 ~
 S
 #27108
-Entering the Bowels of the Earth
-
-   *** CAUTION - ENTERING HIGH LEVEL ZONE ***
-          <PROCEED AT YOUR OWN PERIL>
-   ~
+Entering the Bowels of the Earth~
 You stand upon some sodden earth above the darkness of an underground
 chasm. A chill wind howls out of the depths and you consider risking
 a peek over the precipice. The blackness of a tunnel into the Earth
 opens downwards, whilst a ray of light streams down from a grille up
 above.
 ~
-27 AD 4
+D 4
 D4
 In at the Deep End
 ~
@@ -2548,9 +2470,9 @@ and the temperature around you rises slightly, creating a unique and
 wholly undesirable atmosphere. The solid front door beckons you towards
 the house and you feel compelled to enter. You only see faded yellow
 curtains through the windows and no sound permeates through the walls.
-A pathway runs north.
+A pathway runs north, and a door stands to the east.
 ~
-27 0 1
+0 1
 D0
 Scholar's Walkway
 ~
@@ -2578,10 +2500,11 @@ Spooky Hallway~
 You enter a short dim hall  formed from ancient, brittle planks of wood
 which have faded to a dull grey. A stairway heads upwards into the darkness
 whilst the hall disappears east through the gloom where you can see
-a faint glimmer of light. There are no other features here except the
-marvelously complex cobwebs which span the width of the passage. 
+a faint glimmer of light. There's a trapdoor seated in the wooden floor.
+There are no other features here except the marvelously complex cobwebs
+which span the width of the passage. 
 ~
-27 D 0
+D 0
 D1
 Kitchen of Musical Madness
 ~
@@ -2615,9 +2538,10 @@ The light shines down upon a green oily gunge which folds around you
 and begins to draw you downwards. The slime pit stinks to high heaven
 as gaseous emissions bubble from it's depths and pop up at the surface.
 It must be a giant bogey monster, you think to yourself and decide that
-it's probably a good idea to aggravate the beast..... 
+it's probably a good idea to aggravate the beast.....There's a trapdoor
+in the ceiling. 
 ~
-27 D 6
+D 6
 D4
 Spooky Hallway
 ~
@@ -2645,7 +2569,7 @@ manages to get into your skull and echo around with a will of it's own.
 No amount of blocking your ears stops the sound. You head starts to
 spin, hypnotised by a large whirling chandelier. 
 ~
-27 D 0
+D 0
 D3
 Spooky Hallway
 ~
@@ -2663,9 +2587,9 @@ Enormous Bedroom~
 A huge bed fills the centre of this cold, dark room which strangely,
 is devoid of any other furniture. Creeping shadows are cast by the pale
 light which enters through the yellowed curtains and your footsteps
-creak on the weak grey floorboards. 
+creak on the weak grey floorboards. There's a narrow crack in the ceiling. 
 ~
-27 D 0
+D 0
 D4
 Storage Loft
 ~
@@ -2693,7 +2617,7 @@ so you are forced to stand on the mighty crossbeams. A fluffy, yellow
 insulating material, which does nothing to improve the clarity of the
 air, is draped all over the room. 
 ~
-27 D 0
+D 0
 D5
 Enormous Bedroom
 ~
@@ -2710,7 +2634,7 @@ A pathway through the woods~
 You are an a worn pathway which monotonously heads northwards. The trees
 to the east and west loom over you, with almost malicious intent.
 ~
-27 0 3
+0 3
 D0
 A pathway through the woods
 ~
@@ -2727,7 +2651,7 @@ A pathway through the woods~
 You are an a worn pathway which monotonously heads northwards. The trees
 to the east and west loom over you, with almost malicious intent.
 ~
-27 0 3
+0 3
 D0
 A pathway through the woods
 ~
@@ -2744,7 +2668,7 @@ A pathway through the woods~
 You are an a worn pathway which monotonously heads northwards. The trees
 to the east and west loom over you, with almost malicious intent.
 ~
-27 0 3
+0 3
 D0
 A pathway through the woods
 ~
@@ -2762,7 +2686,7 @@ A pathway through the woods
 You are an a worn pathway which monotonously heads northwards. The trees
 to the east and west loom over you, with almost malicious intent.
 ~
-27 0 3
+0 3
 D0
 A pathway through the woods
 ~
@@ -2781,16 +2705,16 @@ S
 
 #MOBILES
 #27000
-freshman~
-a freshman~
-A university Freshman stands here, holding his chin in thought.
+young student~
+a young student~
+A young student stands here, holding his chin in thought.
 ~
 You see a young, casually dressed man trying hard to relax.
 ~
 human~
-GR c 900 0
-35 25 1d6+1190 1d1+500 6d7+20 punch
--10 -10 -10 -10
+GR C 900 0
+35 18 1d6+1190 1d1+500 6d7+18 punch
+-25 -25 -25 -25
 FKQU N CP 0
 stand stand male 30
 0 0 medium 0
@@ -2805,43 +2729,41 @@ her work done.
 ~
 human~
 GQH ND -900 0
-40 30 2d6+1432 1d1+520 7d6+20 slap
--11 -11 -11 -11
+40 20 2d6+1432 1d1+520 7d6+20 slap
+-26 -26 -26 -26
 FJNQU 0 LQ 0
 stand stand female 66
 0 0 medium 0
 
 #27002
 postgraduate~
-a postgraduate~
-A well educated postgraduate stands here trying to sort his notes out.
+a haughty postgraduate~
+A well educated postgraduate stands here trying to sort her notes out.
 ~
 You see a very well organised man in his mid-twenties fumbling with
 a thick pile of papers. The postgraduate glances at you passively,
 seeking assistance.
 ~
 elf~
-GCHQRL CDHJNVc 50 0
-80 55 2d6+6890 1d6+1120 10d8+40 shbite
--21 -21 -21 -21
+GCHQRL CDJNVc 50 0
+80 40 2d6+6890 1d6+1120 10d8+40 shbite
+-36 -36 -36 -36
 CEFHKNU P C 0
-stand stand male 154
+stand stand female 154
 0 0 medium 0
 
 #27003
-Dan~
-Dan~
-Dan sits here by himself, trying to be at one with nature.
+wildman wallace~
+Wildman Wallace~
+A wildman sits here by himself, trying to be at one with nature.
 ~
-You see Dan, the troubled student of English, living in the wilderness
-in an attempt to find his true self. Dan is wearing ragged clothes and
-you can just make out the glimmer of his eyes behind his swaying black
-hair. 
+You see a troubled former student who has turned feral and now
+lives alone in the trees.
 ~
 human~
-BCGTL CHJNV 900 0
-48 35 3d6+1999 1d1+528 6d8+24 charge
--19 -19 -19 -19
+BCGTL CJNV 900 0
+48 24 3d6+1999 1d1+528 6d8+24 charge
+-34 -34 -34 -34
 CDEFHIK 0 GP 0
 stand stand male 10
 0 0 medium 0
@@ -2849,16 +2771,16 @@ stand stand male 10
 #27004
 jessop thunderpant~
 Jessop von Thunderpant~
-Jessop von Thunderpant sits here gloriously, making terrible smells.
+Jessop von Thunderpant is joyfully downing beers and belching!
 ~
 You see a typically short, stocky, bearded dwarf wearing a fine pair
 of hand-stitched dungarees. Jessop rolls his eyes in exasperation and
 farts at you. Ugh!
 ~
 dwarf~
-BCGHS Hc -50 0
-45 36 1d6+1700 1d1+495 5d9+22 blast
--12 -12 -12 -12
+BCGHS HC -50 0
+45 22 1d6+1700 1d1+495 5d9+22 blast
+-27 -27 -27 -27
 DFHIJN 0 L 0
 sit sit male 333
 0 0 small 0
@@ -2869,29 +2791,31 @@ Butros Butros Butros~
 A simply HUGE squirrel is here, chewing away at some kernels.
 ~
 You see a huge mutant beast with red brown fur and a long spiked tail.
+Perhaps a crazy experiment gone wrong?
+
 The squirrel is busy eating right now, please make an appointment and
 return later.
 ~
 unique~
-BCFT HV -900 0
-43 33 3d6+2250 1d6+473 6d8+22 bite
--17 -17 -17 -17
+BCFT CV -900 0
+43 22 3d6+2250 1d6+473 6d8+22 bite
+-32 -32 -32 -32
 DEFIMN 0 B 0
 stand stand neutral 499
 0 0 huge 0
 
 #27006
-Johnboy~
-Johnboy~
-Johnboy lies here, smoking some strong tobacco.
+Smokey Joe~
+Smokey Joe~
+Smokey Joe lies here procrastinating and smoking some strong tobacco.
 ~
 You see a large blonde haired, casually dressed student, who is smoking
 away all of his troubles and concerns.
 ~
 human~
-BTL CDH 900 0
-36 26 3d6+1275 1d1+3965 6d6+18 punch
--15 -15 -15 -15
+BTL CD 900 0
+36 18 3d6+1275 1d1+3965 6d6+18 punch
+-30 -30 -30 -30
 CDEFK 0 P I
 rest rest male 3000
 0 0 medium 0
@@ -2905,9 +2829,9 @@ You see a tough looking smartly dressed young man who is scribbling
 away at some notepaper. Bennie looks up and smiles at you.
 ~
 human~
-BTL CDH 900 0
-37 26 3d6+1275 1d1+396 7d6+18 punch
--15 -15 -15 -15
+BTL CD 900 0
+37 18 3d6+1275 1d1+396 7d6+18 punch
+-30 -30 -30 -30
 CDEFK 0 P I
 stand stand male 100
 0 0 medium 0
@@ -2922,9 +2846,9 @@ She looks extremely flustered and most unhappy to see you here. No food
 is offered to you.
 ~
 human~
-BHQ DFHVa -950 0
-50 36 2d6+2650 1d1+650 9d6+25 beating
--13 -13 -13 -13
+BHQ DFV -950 0
+50 25 2d6+2650 1d1+650 9d6+25 beating
+-32 -32 -32 -32
 CDEFHKN A BHPL KN
 stand stand female 200
 0 0 medium 0
@@ -2939,9 +2863,9 @@ logistics and making detailed arrangements. The administrator shouts
 "Get out of my hair! I've got things to do!"
 ~
 human~
-BGHQTL DHNV 950 0
-65 48 3d6+3500 1d1+845 6d12+33 wrath
--25 -25 -25 -25
+BGHQTL DNV 950 0
+65 33 3d6+3500 1d1+845 6d12+33 wrath
+-40 -40 -40 -40
 FHIJKNT AP C F
 stand stand female 256
 0 0 medium 0
@@ -2957,34 +2881,34 @@ honour and will do his utmost do dispose of troublemakers, even if he
 does have poor taste in clothes.
 ~
 dragon~
-BCGQRTL CDEFHJNUVa -980 0
-80 60 3d6+5945 1d1+1120 8d10+40 acbite
--30 -30 -30 -30
+BCGQRTL CDEFJNUV -980 0
+80 40 3d6+5945 1d1+1120 8d10+40 acbite
+-45 -45 -45 -45
 CDEFHIJKMOR KL BR F
 stand stand male 999
 0 0 huge 0
 
 #27011
-matt~
-Matt~
-Matt sits here giving the impression of being very studious.
+professor gutenberg~
+Professor Gutenberg~
+Professor Gutenberg sits here giving the impression of being very studious.
 ~
-You look up and see the huge hulk of Matt, a mighty student dressed
-in tweed and a beret. Matt smiles and winks at you from behind his
+You look up and see the huge hulk of the professor dressed
+in tweed and a beret. He smiles and winks at you from behind his
 spectacles before settling back down to the work which he isn't doing.
 ~
 giant~
-BCGRTL BDHNTUV 1000 0
-80 60 3d6+6200 1d1+1120 8d10+40 crush
--30 -30 -30 -30
+BCGRTL DHNTUV 1000 0
+80 40 3d6+6200 1d1+1120 8d10+40 crush
+-45 -45 -45 -45
 DEKNOR AQLB CD 0
 sit sit male 5000
 0 0 giant 0
 
 #27012
 atmosphere working~
-the Working Atmosphere~
-The thick Working Atmosphere weighs heavily upon your shoulders. 
+the working atmosphere~
+The thick working atmosphere weighs heavily upon your shoulders. 
 ~
 You see a thick musty cloud which rolls around the room doing nothing
 in particular. Actually, the Working Atmosphere is being positively
@@ -2992,8 +2916,8 @@ lazy right now.
 ~
 giant~
 BQ DNPU 0 0
-78 55 2d6+4320 1d1+1014 9d9+39 divine
--27 -27 -27 -27
+78 39 2d6+4320 1d1+1014 9d9+39 divine
+-42 -42 -42 -42
 BDKOU L N EF
 stand stand neutral 0
 0 0 giant 0
@@ -3008,26 +2932,25 @@ useless hand, whilst writing a pointless letter with a pencil which
 has been sharpened in a rather interesting way.
 ~
 human~
-HT DHJV 0 0
-85 65 3d6+5635 1d1+935 9d10+42 pierce
--32 -32 -32 -32
+HT DJV 0 0
+85 42 3d6+5635 1d1+935 9d10+42 pierce
+-47 -47 -47 -47
 EFHIK NP B 0
 sit sit male 1987
 0 0 medium 0
 
 #27014
 reactor pressurised water steel greasy cylinder~
-the Pressurised Water Reactor~
-An enormous, greasy steel cylinder sprouting numerous hysterical pipelines
-is here.
+the pressurised water reactor~
+An enormous steel cylinder sprouting numerous pipelines is here.
 ~
 You see a group of blackened, greasy, steel pipes which are twisting
 and jolting trying to break free of a vast armour plated reactor core.
 ~
 unique~
 BGT JHN -1000 0
-80 60 3d6+6300 1d1+880 8d10+40 pound
--30 -30 -30 -30
+80 50 3d6+6300 1d1+880 8d10+40 pound
+-45 -45 -45 -45
 EKN AHR E F
 stand stand neutral 0
 0 0 huge 0
@@ -3035,56 +2958,55 @@ stand stand neutral 0
 #27015
 piotr~
 Piotr~
-Piotr sits here, mudding.
+Piotr sits here, calculating what he owes for this year's tuition.
 ~
 You see a young, good looking man with blonde hair and blue eyes,
-concentrating hard on a computer screen. Piotr suddenly punches the
-desk and mutters words of discontent under his breath. Perhaps his
-MUD character has been killed again.....
+concentrating hard on an abacus. Piotr suddenly punches the
+desk and mutters words of discontent under his breath.
 ~
 elf~
-BHR CDHNTVc 900 0
-52 36 1d6+2598 1d1+572 5d11+26 bite
--19 -19 -19 -19
+BHR CDNTVc 900 0
+52 26 1d6+2598 1d1+572 5d11+26 bite
+-34 -34 -34 -34
 FHN 0 P 0
 sit sit male 250
 0 0 medium 0
 
 #27016
-wiring wires multi coloured tangle~
-some Wiring~
-A tangle of multicoloured wires traverses the wall.
+enchanted gears~
+a tangle of enchanted gears~
+A tangle of enchanted gears traverses the wall.
 ~
-You see a chaotic fury of different wires and fibre optics all guided
+You see a chaotic fury of different gears and springs all guided
 by one evil will.
 ~
 unique~
-BGT NHVa -900 0
-43 33 3d6+1823 1d1+473 6d8+22 whip
--17 -17 -17 -17
+BGT NVa -900 0
+43 22 3d6+1823 1d1+473 6d8+22 whip
+-32 -32 -32 -32
 EHNU M F R
 stand stand neutral 0
 0 0 small 0
 
 #27017
 cybercop~
-a Cybercop~
-A Cybercop stands here in her high resolution uniform.
+a cybercop~
+A cybercop stands here in her high resolution uniform.
 ~
 You see a tall long haired female computer sprite in a very smart uniform.
 The lieutenant says authoritatively "OK, let's go down to the station. NOW!"
 ~
 human~
 GHQ CH 980 0
-45 35 2d6+1600 1d1+585 5d9+22 divine
--18 -18 -18 -18
+45 22 2d6+1600 1d1+585 5d9+22 divine
+-33 -33 -33 -33
 EFKU A N 0
 stand stand female 175
 0 0 medium 0
 
 #27018
-trojan~
-The Trojan~
+trojan virus~
+the trojan virus~
 The ancient Trojan is here, destroying the computer system.
 ~
 You see a mighty warrior wearing white ceremonial robes and a 
@@ -3093,92 +3015,92 @@ and the terrible scowl on his ugly, tanned virtual face makes
 you shudder in fear.
 ~
 unique~
-CFGRST HNa -990 0
-48 36 3d6+2230 1d1+720 8d6+30 chomp
--19 -19 -19 -19
+CFGRST Na -990 0
+48 24 3d6+2230 1d1+720 8d6+24 chomp
+-34 -34 -34 -34
 FHOU A 0 L
 stand stand male 2500
 0 0 huge 0
 
 #27019
-hill mr~
-Mr Hill~
-Mr Hill is here, sorting out a really technical computer problem. 
+hill~
+Dr Hill~
+Dr Hill is repairing his theodolite.
 ~
 You see a middle aged, dark haired, wart faced man in a cheap suit.
-He stares at a computer screen before holding his chin and frowning
+He stares at a theodolite before holding his chin and frowning
 in confusion.
 ~
 orc~
-BHQ HN -25 0
-55 42 2d6+2550 1d1+715 5d11+27 wrath
--21 -21 -21 -21
+BHQ N -25 0
+55 26 2d6+2550 1d1+715 5d11+26 wrath
+-36 -36 -36 -36
 CEK 0 P 0
 stand stand male 155
 0 0 medium 0
 
 #27020
 chancellor vice~
-the Vice Chancellor~
-The Vice Chancellor of the University is here, making plans for it's
+the vice chancellor~
+The vice chancellor of the seminary is here, making plans for it's
 future.
 ~
 You see a tall, rather plump gentleman with a white goatie beard. He
 is wearing a pin stripe suit and shiny shoes.
 ~
 dragon~
-BGQRTL DEHJUVac -1000 0
-95 70 3d6+7610 1d1+1235 9d11+50 acbite
--36 -36 -36 -36
-BCDEFHIJKMNO AP Q HY
+BGQRTL DEHJUV -1000 0
+95 46 3d6+7610 1d1+1235 9d11+46 acbite
+-51 -51 -51 -51
+BCEFHIJKMNO AP Q HY
 stand stand male 20000
 0 0 large 0
 
 #27021
 ninja~
-the Ninja~
-The Ninja is here, preparing to assassinate the Vice Chancellor.
+the ninja~
+The ninja is here, preparing to assassinate the vice chancellor.
 ~
 You see a tall muscular figure wrapped head to toe in the blackest cloths
-leaving only a pair of obsidian eyes visible. The Ninja crouches to
+leaving only a pair of obsidian eyes visible. The ninja crouches to
 the floor, calmly observing your movements.
 ~
 elf~
-BGQRSTL BCDEFHJNVac 0 0
-99 80 3d6+9232 1d1+1485 10d10+50 magic
--36 -36 -36 -36
-BCDEFHIJKNF AB IL 0
+BGQRSTL BCDEFHJNV 0 0
+99 50 3d6+9232 1d1+1485 10d10+50 magic
+-51 -51 -51 -51
+BCEFHIJKNF AB IL 0
 stand stand female 150
 0 0 medium 0
 
 #27022
-slime~
-the Slime~
-The Slime is here, bubbling away harmlessly.
+slime chemical residue~
+the slime~
+The slimey chemical residue is here, bubbling away harmlessly.
 ~
 You see a foul bilious green entity swirling around, clearly without
 a care in the world.
 ~
 unique~
-BCRO HNTXa -900 0
-91 70 1d6+7695 1d1+1365 10d9+45 suction
--33 -33 -33 -33
+BCRO NTX -900 0
+91 45 1d6+7695 1d1+1365 10d9+45 suction
+-48 -48 -48 -48
 FMNU QL K G
 stand stand neutral 1246
 0 0 large 0
 
 #27023
 wife lady~
-the Wife~
-The Wife is here, busily reading a novel.
+the wife~
+The wife is here, busily reading a novel.
 ~
 You see a good looking middle aged lady in a floral dress. Her auburn
 hair flows gracefully as she turns her head towards you and smiles.
 ~
 dragon~
 BGHQ CHJN 950 0
-92 65 2d6+8596 1d1+1196 9d10+46 peck
--33 -33 -33 -33
+92 46 2d6+8596 1d1+1196 9d10+46 peck
+-48 -48 -48 -48
 HMN A HI 0
 stand stand female 911
 0 0 large 0
@@ -3192,50 +3114,50 @@ You see a merry old orc with swarthy green skin and a stripey apron.
 ~
 orc~
 BGTV CDEFHJNTUVc 0 0
-50 20 1d1+999 1d1+999 5d10+17 claw
--17 -17 -17 -6
+50 25 1d1+999 1d1+999 5d10+25 claw
+-32 -32 -32 -21
 CDEFHKT ABCDEFGHIJKLMNO 0 0
 stand stand male 0
 0 0 medium 0
 
 
 #27025
-pierre angelic sorcerer~
-Pierre the Angelic Sorcerer~
-Pierre the Angelic Sorcerer waits here, ready to train you.
+pierre wizened porter~
+a wizened old porter~
+A wizened old porter known as Pierre waits here, ready to train you.
 ~
-You see a great white aged dragon with colourless eyes of eternal wisdom.
-Pierre smiles happily and beckons you over, willing to pass on much
+You see a wise old man with a weathered face and colourless eyes of eternal
+wisdom. Pierre smiles happily and beckons you over, willing to pass on much
 of his knowledge and understanding during his final few centuries of
 existence. He's also pretty good at healing. Type "heal" for a list.
 ~
-dragon~
-MBGJKQRSTVabb CDEFHJNTUVac 1000 0
+human~
+MBGJKQRSTVabb CDEFHJNTUV 1000 0
 147 90 3d6+25146 1d1+12205 20d20+90 divine
--49 -49 -49 -28
-BCDEFHIJKLNO ABCDEFGHIJKLMNOPQRS 0 0
+-64 -64 -64 -43
+BCEFHIJKLNO ABCDEFGHIJKLMNOPQRS 0 0
 stand stand male 0
 0 0 huge 0
 
 #27026
-julia genius~
-Julia the Genius~
-Julia, Faramir's dream girl, sits here working.
+julia bookworm~
+Julia the bookworm~
+Julia sits here reading a book.
 ~
 You see a pretty young girl with an innocent face and breathtaking brown
 hair,  reading what looks like a very complicated book.
 ~
 elf~
-BHRL EH 1000 0
-58 42 1d6+2792 1d1+780 7d9+29 magic
--21 -21 -21 -21
+BHRL E 1000 0
+58 29 1d6+2792 1d1+780 7d9+29 magic
+-36 -36 -36 -36
 FNQ 0 P 0
 stand stand female 250
 0 0 small 0
 
 #27027
 porter~
-a porter~
+a reluctant porter~
 A porter stands here, reluctant to help you.
 ~
 You see a middle aged man with a wearied, sun tanned face. He is wearing
@@ -3243,87 +3165,88 @@ a blue uniform and has a pair of glasses tucked in his jacket pocket.
 ~
 human~
 GT NU -850 0
-50 36 3d6+2745 1d1+550 7d8+25 punch
--21 -21 -21 -21
+50 25 3d6+2745 1d1+550 7d8+25 punch
+-36 -36 -36 -36
 EIKTU 0 0 0
 stand stand male 150
 0 0 medium 0
 
 #27028
-leisure suit lorenzo~
-Leisuresuit Lorenzo~
-Leisuresuit Lorenzo is here, examining his tooth collection.
+lorenzo~
+Dr Lorenzo~
+Dr Lorenzo is here, examining his tooth collection.
 ~
 You see a plump, clean shaven dwarf in a white coat.
 ~
 dwarf~
-BGQ Ha -900 0
-52 36 2d6+2764 1d1+676 8d7+26 charge
--19 -19 -19 -19
+BGQ a -900 0
+52 26 2d6+2764 1d1+676 8d7+26 charge
+-34 -34 -34 -34
 FHN 0 I 0
 stand stand male 210
 0 0 small 0
 
 #27029
-doktor wolfgang~
-Doktor Wolfgang~
-Doktor Wolfgang is here making a diagnosis.
+wolfgang~
+Dr Wolfgang~
+Dr Wolfgang is here making a diagnosis.
 ~
 You see an elderly elf with thinning hair, wrapped in a white coat.
 Doktor Wolfgang grins at you from behind his spectacles.
 ~
 elf~
-BGQR Hc 0 0
-54 36 2d6+2719 1d1+810 8d7+27 whip
--21 -21 -21 -21
+BGQR CABLING 0 0
+54 27 2d6+2719 1d1+810 8d7+27 whip
+-36 -36 -36 -36
 FHN 0 PLQ 0
 stand stand male 190
 0 0 medium 0
 
 #27030
 youth drunken~
-a Drunken Youth~
-A Drunken Youth is here, winning as many drinking games as possible.
+a drunken youth~
+A drunken youth is here, winning as many drinking games as possible.
 ~
 You see a thoroughly disorientated young man wearing his clothes back
 to front. He also has an enormous beer belly!
 ~
 human~
-GT Na -30 0
-50 35 3d6+2745 1d1+550 5d10+25 beating
--21 -21 -21 -21
+GT N -30 0
+50 25 3d6+2745 1d1+550 5d10+25 beating
+-36 -36 -36 -36
 CDKUP 0 L 0
 stand stand male 145
 0 0 medium 0
 
 #27031
-lightweight light weight~
-a Lightweight~
-A Lightweight is here being sick.
+alcoholic partygoer~
+an alcoholic partygoer~
+An alcoholic partygoer is here being sick.
 ~
 You see a very smartly dressed, green faced student bending over gripping
 her stomach.
 ~
 orc~
 GTH MN 0 0
-51 36 3d6+2774 1d1+561 5d10+26 digestion
--21 -21 -21 -21
+51 26 3d6+2774 1d1+561 5d10+26 digestion
+-36 -36 -36 -36
 CKNU 0 0 L
 stand stand female 5
 0 0 medium 0
 
 #27032
-loudspeaker~
-a Loudspeaker~
-A Loudspeaker is here pumping out deafening noises.
+enchanted bagpipes~
+the enchanted bagpipes~
+A set of enchanted bagpipes puffs away furiously!
 ~
-You see a big black box fronted by a metal grille and a snarling circular
-face.
+A tartan bag is wrapped around itself and pierced by several ivory and
+ebony cynlinders, one of which features a set of holes and a mouthpiece.
+It seems to have taken on a life of its own...and it looks mad!
 ~
 unique~
-BGT HN -900 0
-54 36 3d6+3060 1d1+594 5d11+27 blast
--21 -21 -21 -21
+BGT N -900 0
+54 27 3d6+3060 1d1+594 5d11+27 blast
+-36 -36 -36 -36
 KOQU A 0 0
 stand stand neutral 250
 0 0 large 0
@@ -3331,135 +3254,134 @@ stand stand neutral 250
 #27033
 nikos~
 Nikos~
-Nikos is here practising his martial art.
+Nikos is here practising his martial arts.
 ~
 You see a young dark haired man with designer stubble wearing a white
 karate suit and a black belt.
 ~
 human~
-BHRTL CDHNVc 1000 0
-71 55 3d6+4575 1d1+1050 10d7+35 chop
--27 -27 -27 -27
+BHRTL CDNVc 1000 0
+71 35 3d6+4575 1d1+1050 10d7+35 chop
+-42 -42 -42 -42
 CDEFHKNQ 0 EP 0
 stand stand male 75
 0 0 medium 0
 
 #27034
-adonis~
-Adonis~
-Adonis is here oiling his well defined muscles.
+gymrat~
+a zealous gymrat~
+A zealous gymrat is here admiring his own well defined muscles.
 ~
 You see a tall blonde Olympian wearing only a waist support around his
 tanned muscular body.
 ~
 human~
 GHT N 0 0
-65 45 3d6+3410 1d1+715 7d10+32 crush
--25 -25 -25 -25
+65 32 3d6+3410 1d1+715 7d10+32 crush
+-40 -40 -40 -40
 IKNOU 0 I F
 stand stand male 290
 0 0 large 0
 
 #27035
-soccer player~
-a Soccer Player~
-A Soccer Player is here chanting support for her team.
+gymnast~
+a flexible gymnast~
+A very flexible looking gymnast is here, warming up.
 ~
-You see a well built female with short hair and an aggressive face.
-She is dressed in a muddy red soccer kit. 
+You see a well built female with short hair and an energetic face.
+She is dressed in tight fitting body suit.
 ~
 human~
-GHQ NVa -499 0
-68 48 2d6+4276 1d1+952 10d7+34 smash
--26 -26 -26 -26
+GHQ NV -499 0
+68 34 2d6+4276 1d1+952 10d7+34 smash
+-41 -41 -41 -41
 DEHNU 0 I 0
 stand stand female 160
 0 0 medium 0
 
 #27036
 pool attendant~
-a Pool Attendant~
-A Pool Attendant is here being responsible.
+a pool attendant~
+A pool attendant is here keeping an eye on things.
 ~
 You see a young female elf wearing a swimsuit and goggles.
 ~
 elf~
-BGHR DHVbb 30 0
-65 48 1d6+3953 1d1+975 11d6+32 slap
--25 -25 -25 -25
+BGHR DVbb 30 0
+65 32 1d6+3953 1d1+975 11d6+32 slap
+-40 -40 -40 -40
 FHNU R I 0
 stand stand female 0
 0 0 small 0
 
 #27037
 dolphin mutant~
-the Dolphin Mutant~
-The Dolphin Mutant is here, swishing it's sharp tail angrily.
+a mutant dolphin~
+A mutant dolphin swishes its sharp tail angrily.
 ~
 You see a long sleek mammal with a bullet nose and a sharp dorsal fin.
 It's tail swings powerfully.
 ~
 unique~
 BFGRT HJNVbb -900 0
-65 48 3d6+5300 1d1+975 9d8+35 shbite
--24 -24 -24 -24
+65 35 3d6+5300 1d1+975 9d8+35 shbite
+-39 -39 -39 -39
 DHMOP AIR 0 H
 stand stand neutral 0
 0 0 large 0
 
 #27038
 historian aged~
-an Historian~
-An aged Historian is here, searching for evidence.
+an historian~
+An aged historian is here, searching for evidence.
 ~
 You see an educated elderly man with wispy hair wearing a chocolate
-brown suit. He is closely 
-examining the ground.
+brown suit. He is searching the ground for primary evidence.
 ~
 human~
-GHQRL CHN 850 0
-72 48 3d6+3880 1d1+1080 8d9+36 magic
--26 -26 -26 -26
+GHQRL CN 850 0
+72 36 3d6+3880 1d1+1080 8d9+36 magic
+-41 -41 -41 -41
 FNU P C I
 stand stand male 390
 0 0 medium 0
 
 #27039
 geologist~
-a Geologist~
-A Geologist is here analysing geophysical disequilibria.
+a curious geologist~
+A geologist is here analysing geophysical disequilibria.
 ~
 You see an unusually scaly, strong looking woman wearing rugged clothes
 and a back pack.
 ~
 dragon~
-GHRTL CDHNV 850 0
-74 48 3d6+4745 1d1+1110 9d8+37 frbite
--28 -28 -28 -28
+GHRTL CDNV 850 0
+74 37 3d6+4745 1d1+1110 9d8+37 frbite
+-43 -43 -43 -43
 CDEKM IP 0 0
 stand stand female 295
 0 0 large 0
 
 #27040
-economist~
-an Economist~
-An Economist is here estimating the cost of a proposed development.
+econometrist~
+an econometrist~
+An econometrist is here estimating the cost of a proposed development.
 ~
-You see a black haired, middle aged man wearing an expensive suit. He
-is making notes in a personal organiser.
+You see a black haired, middle aged man wearing an expensive black gown. He
+is making notes with a quill and parchment.
 ~
 human~
-GHQSL DHNPV 0 0
-76 48 3d6+4730 1d1+836 8d10+38 pierce
--29 -29 -29 -29
+GHQSL DNPV 0 0
+76 38 3d6+4730 1d1+836 8d10+38 pierce
+-44 -44 -44 -44
 BEFHKN 0 0 0
 stand stand male 5500
 0 0 medium 0
 
 #27041
 unknown explorer~
-the Unknown Explorer~
-The Unknown Explorer is here, charting the world.
+the unknown explorer~
+The unknown explorer is here, charting the world.
 ~
 You see a wrinkled face browned by decades of exposure to the elements.
 It belongs the mighty body of the great unknown explorer who roams and
@@ -3469,9 +3391,9 @@ through you to what lies inside and beyond, before he raises a ghostly
 hand in friendship.
 ~
 human~
-GCQTL CDHNc 0 0
-78 55 3d6+5215 1d1+1014 10d8+39 divine
--29 -29 -29 -29
+GCQTL CDNc 0 0
+78 39 3d6+5215 1d1+1014 10d8+39 divine
+-44 -44 -44 -44
 EHK AP I 0
 stand stand male 250
 0 0 medium 0
@@ -3479,15 +3401,15 @@ stand stand male 250
 #27042
 counsellor roy~
 Counsellor Roy~
-Counsellor Roy is here, getting to the bottom of the problem.
+Counsellor Roy is here, trying to understand what makes you tick.
 ~
 You see a young woman with long, curling black hair, the darkest eyes
 and milky skin. 
 ~
 elf~
-BGQRL Hc 950 0
-55 36 2d6+3046 1d1+810 5d11+27 whip
--23 -23 -23 -23
+BGQRL C 950 0
+55 27 2d6+3046 1d1+810 5d11+27 whip
+-38 -38 -38 -38
 FHN 0 PLQ 0
 stand stand female 200
 0 0 medium 0
@@ -3524,7 +3446,7 @@ The key is glowing with a supernatural aura.
 ~
 
 #27062
-data key~
+strange data key~
 the data key~
 A strange key lies here.~
 adamantite~
@@ -3651,9 +3573,9 @@ A hard looking wooden chair has been left here.
 ~
 
 #27005
-pool table~
-a Pool table~
-A Pool table stands here.~
+percussion set~
+a percussion set~
+A table featuring several percussion instruments awaits players.~
 wood~
 furniture 0 0
 0 0 0 0 0
@@ -3687,42 +3609,41 @@ The doctor's table is long, black, fully adjustable and highly ergonomic.
 ~
 
 #27008
-server computer~
-a Server~
-A big Server sits here.~
+babbus computational device~
+a Babbus Computational Device~
+A Babbus Computational Device (c), Model III, stands proudly before you.
+~
 steel~
 furniture AB 0
 0 0 0 0 0
 100 150 50000 P
 E
-server computer~
-There are several large vibrating computers sitting here, glowing with
-an inner light. They are of solid construction and have blank featureless
-surfaces without any form of interface with reality. Huge cooling ducts
-pipe out of each unit and travel up the far wall of the room and out
-through the ceiling. 
+babbus computational device~
+This is an absolutely enormous machine consisting of at least a dozen
+layers of brass and steel plate, interwoven by inumerable gears, cogs,
+springs, pinions, pulleys, cables, pendumlums and counter-weights. 
+It must've taken a lifetime to construct this beast!
 ~
 
 #27009
-terminal computer~
-a terminal~
-A terminal sits here idly.~
+automated mechanical abacus~
+an automated abacus~
+An automated mechanical abacus sits here idly.~
 steel~
 furniture AB 0
 0 0 0 0 0
 0 45 9000 P
 E
-terminal computer~
-The computer terminals are all identical grey cuboids with a black screen
-resting on top. A keyboard with far too many buttons sits before each
-terminal and a mouse controlling device beside. The terminals beep happily.
-
+automated mechanical abacus~
+The abacus is built of brass rods, gears and springs, with tiny ivy loops
+wrapped around the rods and a a set of levers on the side. A huge 
+winding mechanism appears to be its source of power.
 ~
 
 #27010
-printer~
-a printer~
-A printer vibrates noisily here.~
+clockwork printer~
+a clockwork printer~
+A clockwork printer vibrates noisily.~
 steel~
 furniture B 0
 0 0 0 0 0
@@ -3730,7 +3651,7 @@ furniture B 0
 E
 printer~
 The printer is a big grey box which lurches from side to side, screaming
-a horrendous noise, whilst chewing up vast reams of green paper.
+a horrendous noise, whilst chewing up vast reams of green parchment.
 ~
 
 #27011
@@ -3748,15 +3669,15 @@ set into it saying "Donated by Prince Faramir."
 ~
 
 #27012
-fountain delight~
-the Fountain of Delight~
-The Fountain of Delight springs forth from the ground.~
+fountain~
+the Fountain of Knowledge~
+The Fountain of Knowledge springs forth from the ground.~
 stone~
 fountain KO 0
 999 999 0 0 0
 0 1500 500000 P
 E
-fountain delight~
+fountain~
 The fountain is a circular basin about four meters in diameter. A huge
 sculptured unicorn leaps forth from the centre, the tip of it's horn
 spouting a flurry of white water. 
@@ -3765,8 +3686,7 @@ E
 unicorn~
 The unicorn's muscular stone form is almost alive with realism. Evidently,
 whoever put it here spared no expense - this is a masterpiece of art.
-For a moment you get the feeling that the unicorn winks and smiles at
-you! This place certainly is very spooky.
+For a moment you get the feeling that the unicorn winks and smiles at you!
 ~
 
 #27013
@@ -3783,18 +3703,13 @@ The nuts look small, brown and smell tasty.
 ~
 
 #27014
-television tv~
-a television~
-A battered television sits here.~
+draughts board~
+a draughts board~
+A draughts board lies here.~
 glass~
-furniture B 0
+furniture 0 0
 0 0 0 0 0
 0 40 35 D
-E
-television tv~
-The television set appears to have fulfilled a lengthy lifetime of being
-watched and has recently met a most untimely and unpleasant death.
-~
 
 #27015
 utensils~
@@ -3841,7 +3756,7 @@ The large bed looks extremely soft and very welcoming.
 
 #27018
 dungarees jessop~
-Jessop's Dungarees~
+a pair of high quality dungarees~
 You see a pair of high quality baggy dungarees here.~
 bronze~
 armor AG AF
@@ -3863,7 +3778,7 @@ a biologists coat~
 A tough looking scientific coat is here.~
 cloth~
 armor EJG AK
-10 10 10 10 0
+11 11 11 11 0
 40 5 7000 P
 E
 biologists coat~
@@ -3871,14 +3786,16 @@ The coat is a bleached white finely woven material which is both unstylish
 and strong.
 ~
 A
+4 2
+A
 2 2
 A
-24 -2
+24 -4
 
 #27019
-dan donkey jacket~
-Dan's Donkey Jacket~
-You see a silvery coloured thick coat with big buttons here.~
+outdoor jacket~
+a wildman's outdoor jacket~
+You see a silvery outdoor jacket with big buttons here.~
 silver~
 armor AGK AK
 13 13 13 12 0
@@ -3900,7 +3817,7 @@ A
 #27020
 ladle spoon soup~
 a soup ladle~
-A large, shining metal spoon sits here.~
+A large shining metal spoon sits here.~
 steel~
 weapon AEJ AN
 'exotic' 10 5 'beating' C
@@ -3956,7 +3873,7 @@ A
 
 #27023
 blade destruction~
-the Blade of Destruction~
+the blade of destruction~
 A huge two handed weapon with a terrifying blackened blade floats here.~
 adamantite~
 weapon ABCE ANP
@@ -4014,27 +3931,27 @@ A
 17 -4
 
 #27026
-newspaper burning rolled news paper~
-a burning rolled-up newspaper~
-A tightly rolled up financial newspaper is burning here.~
-paper~
+roll parchment~
+a roll of burning parchment~
+A roll of parchment is burning here.~
+wood~
 weapon AEM AN
 'mace' 8 9 'scratch' A
 76 5 19000 D
 E
-newspaper burning rolled news paper~
+roll parchment~
 You see the bright flames which lick around an expertly rolled, high
-quality newspaper.
+quality parchment.
 ~
 A
 12 70
 A
-18 -3
+18 3
 
 
 #27027
 explorer shield~
-the Explorer's shield~
+an explorer's shield~
 An intricate metal shield is here with a detailed planetary symbol embossed
 upon it's surface.~
 adamantite~
@@ -4072,7 +3989,7 @@ A
 
 #27028
 explorer monocle~
-the Explorer's monocle~
+an explorer's monocle~
 A small circular disc of glass with a platinum frame and chain lies
 here.~
 glass~
@@ -4107,7 +4024,9 @@ sketches detailing The Moog's crazy ideas. On the back cover the word
 'Talon' has been written along with lots of unintelligible script.
 ~
 A
-13 10
+13 55
+A
+3 3
 
 #27031
 curious interesting wood graphite~
@@ -4139,7 +4058,7 @@ and swirls as well as some brown. It looks really awful but has a pleasant
 silky feel about it.
 ~
 A
-4 -2
+4 2
 A
 12 50
 A
@@ -4167,7 +4086,7 @@ A
 
 #27034
 cyberstaff cyber staff virtual~
-the cyberstaff~
+a cyberstaff~
 You see a long, virtual staff here, glowing with an inner light.~
 adamantite~
 weapon AIK AN
@@ -4188,21 +4107,23 @@ A
 24 4
 
 #27035
-midnight wrapping black cloth~
-Midnight Wrapping~
+midnight warps black cloth~
+midnight wraps~
 You see some black cloth here.~
 cloth~
 armor C AD
 23 23 23 21 0
 86 5 43000 P
 E
-midnight wrapping~
-The Midnight Wrapping is a collection of the darkest cloths which have
+midnight wraps~
+You see a collection of the darkest cloths which have
 had magical fibres woven into them in order to provide the wearer with
 supreme protection and concealment.
 ~
 A
-1 -2
+1 2
+A
+13 35
 A
 24 -12
 
@@ -4221,15 +4142,12 @@ These terrible weapons strike fear into your heart as you feel in awe
 of the power that created them.
 ~
 A
-3 -4
-A
-4 -3
-A
 18 15
 A
 19 15
 A
-12 -30
+12 30
+
 #27038
 false toenails toe nails~
 a set of false toe nails~
@@ -4284,10 +4202,9 @@ food O A
 0 1 100 P
 
 #27042
-veggie~
-a veggie burger~
-A huge, delicious, vegetarian burger dripping with extra relish sits
-here waiting to be devoured.~
+roast chestnuts~
+roast chestnuts~
+A handful of roast chestnuts steams away~
 food~
 food O A
 45 0 0 0 0
@@ -4340,19 +4257,19 @@ A
 19 3
 
 #27045
-designer stubble~
-designer stubble~
-A small pile of golden stubble is here having just been shaved off.~
+neckbeard~
+an enormous neckbeard~
+A small pile of hair stubble is here having just been shaved off.~
 gold~
 armor AK AC
 23 23 23 23 0
 71 1 17500 P
 A
-5 -1
+5 2
 A
-4 -1
+4 2
 A
-3 -1
+3 2
 A
 23 -12
 
@@ -4372,19 +4289,17 @@ A
 18 -6
 
 #27047
-bright red baseball cap~
-a bright red baseball cap~
-You see a bright red Baseball Cap here.~
+dolphin skin cap leathery~
+a dolphin skin cap~
+You see leathery cap on the ground.~
 brass~
 armor ABGEJ AE
 21 16 16 16 0
 65 12 32500 P
 E
-bright red baseball cap~
-The cap is made of solid brass and has been painted a ridiculously frightening
-red which hurts your eyes if you look at it for too long. The words
-"Detroit Red Wings" are written on the front and the letters "NHL" feature
-on the inside label.
+dolphin skin cap leathery~
+The cap is made of the thick hide of a dolphin. The colour is pale
+grey and its surface, although smooth to the eye, is actually quite rough.
 ~
 A
 1 3
@@ -4413,18 +4328,16 @@ The dorsal fin has been torn from a large ocean mammal. It is of solid
 construction, extremely sharp and very evil.
 ~
 A
-3 -2
+1 1
 A
-1 -1
+18 5
 A
-18 7
-A
-19 7
+19 5
 
 
 #27050
 bracelet bracer dragon kind wreath scales~
-the bracelet of Dragonkind~
+the bracelet of dragonkind~
 A glistening wreath of green dragon scales lies here.~
 adamantite~
 armor EJ AM
@@ -4443,7 +4356,7 @@ wrath.
 A
 12 50
 A
-24 4
+24 -4
 
 #27051
 ajandurah staff utter negativity glistening length adamantite~
@@ -4462,25 +4375,54 @@ A
 12 30
 
 #27052
-walkman walk man sony~
-a tiny Sony Walkman~
-A really compact Sony Walkman glistens pleasingly here.~
-steel~
+joss stick~
+a smoking joss stick~
+An aromatic joss stick burns pleasingly.~
+wood~
 light 0 A
 0 0 999 0 0
 30 4 1000 P
 A
-3 1
+3 2
+A
+4 2
 
 #27053
 nightie light~
 a light nightie~
-A nightie made of a fine, silken material, perfect for hot Summer nights.
-~
+A nightie made of a fine, silken material, perfect for hot Summer nights.~
 cloth~
 armor 0 AD
 5 5 5 5 0
 1 1 1 P
+
+#27054
+bloody vampire tooth ring~
+a vampire tooth ring~
+A small bloody ring lies in the dirt.~
+bone~
+armor G AB
+17 17 17 0 0
+52 1 5043 P
+A
+13     45
+A
+2 2
+
+#27055
+diamond stud~
+a diamond studded earring~
+A diamond stud lies here.~
+glass~
+armor A AQ
+12 12 12 0 0
+56 1 3902 P
+A
+4 1
+A
+5 1
+A
+13 20
 
 #0
 
@@ -4488,8 +4430,12 @@ armor 0 AD
 
 *CLOSE/LOCK ALL DOORS
 *HALL
-D 0 27022 2 2 
-D 0 27029 0 2       BLAND CORRIDOR IN HALL
+D 0 27022 2 1 
+D 0 27029 0 1       OAK CORRIDOR IN HALL
+
+D 0 27029 1 1       ADMIN OFFICE TO DINING
+D 0 27024 3 1       ADMIN/DINING ROOM
+
 D 0 27023 0 1
 D 0 27025 2 1       KITCHEN
 D 0 27025 1 1
@@ -4506,13 +4452,12 @@ D 0 27037 1 1
 D 0 27038 3 1       CLEAN & TIDY BEDROOM
 
 *MAIN
+D 0 27028 2 1       GRAVEL PATH/PORTERS
+D 0 27047 0 1       GRAVEL PATH/PORTER'S OFFICE
 D 0 27043 0 1
-D 0 27050 2 1       ENT'S ROOM
 D 0 27043 1 1
-D 0 27048 3 1       OLD VIC
 D 0 27043 2 1
 D 0 27051 0 1       NORTH MAIN HALL
-D 0 27050 0 1       FIRE EXIT
 D 0 27051 3 1       FIRE EXIT
 D 0 27052 1 1
 D 0 27100 3 1       MAIN HALL/WALKWAY
@@ -4527,15 +4472,18 @@ D 0 27056 0 1       RECEPTION/DR.WOLFGANG'S
 D 0 27056 2 1
 D 0 27058 0 1       RECEPTION/LORENZO'S
 
-*COMPUTER CENTRE
+*COMPUTING CENTRE
 D 0 27060 2 1
 D 0 27063 0 1       OUTSIDE LAB/LAB WEST
 D 0 27062 1 2
 D 0 27063 3 2       SERVER/LAB WEST
 D 0 27062 2 1
 D 0 27071 0 1       SERVER/OFFICE
-D 0 27063 2 1
+D 0 27063 2 1       LAB WEST/RELAY
 D 0 27065 0 1       LAB WEST/RELAY
+D 0 27065 3 1       DR HILL'S OFFICE/RELAY CABLING
+D 0 27071 1 1
+
 
 *DEPARTMENTAL BUILDING
 D 0 27079 1 1
@@ -4555,18 +4503,6 @@ D 0 27088 1 1       SEMINAR/GREEN HALL
 D 0 27089 5 1
 D 0 27090 4 1       BOILER/BOWELS
 
-*SPORTS BUILDING
-D 0 27101 0 1
-D 0 27103 2 1       CHANGING/WEIGHTS
-D 0 27101 1 1
-D 0 27104 3 1       CHANGING/SAUNA
-D 0 27101 2 1
-D 0 27102 0 1       CHANGING/GYM
-D 0 27104 0 1
-D 0 27105 2 1       SAUNA/POOLSIDE
-D 0 27107 5 1
-D 0 27108 4 1       DEEP END/BOWELS
-
 *MANSION
 D 0 27110 1 2
 D 0 27111 3 2       BEFORE HOUSE/SPOOKY HALL
@@ -4576,26 +4512,8 @@ D 0 27114 4 2
 D 0 27115 5 2       BEDROOM/LOFT
 
 *LOCK SECRET EXITS
-D 0 27038 5 2
-D 0 27032 4 2       BEDROOMS
-D 0 27032 5 2
-D 0 27022 4 2       BEDROOM/CORRIDOR
-D 0 27029 1 2
-D 0 27024 3 2       ADMIN/DINING ROOM
-D 0 27028 2 2
-D 0 27047 0 2       GRAVEL PATH/PORTER'S OFFICE
-D 0 27035 2 2
-D 0 27040 0 2       GRAVEL PATH/OUTSIDE GREASY'S
-D 0 27047 1 2
-D 0 27050 3 2       PORTER'S OFFICE/ENT'S ROOM
-D 0 27050 1 2
-D 0 27049 3 2       ENT'S ROOM/LAVATORY
-D 0 27048 2 2
-D 0 27103 0 2       OLD VIC/WEIGHTS ROOM
 D 0 27088 5 2
 D 0 27086 4 2       GREEN LAB/LIBRARY
-D 0 27071 1 2
-D 0 27065 3 2       MR HILL'S OFFICE/RELAY CABLING
 
 *LOAD STATIC OBJECTS
 O 0 27000 1 27111   COBWEB IN HALL
@@ -4619,7 +4537,7 @@ O 0 27004 5 27048
 O 0 27004 5 27051
 O 0 27004 5 27052
 O 0 27004 5 27021   CHAIR IN MAIN HALL, COMMON ROOM, BEDROOM
-O 0 27005 1 27050   POOL TABLE IN ENT'S ROOM
+O 0 27005 1 27050   PERCUSSION SET IN MUSIC ROOM
 O 0 27006 1 27055   PSYCHOLOGY BOOK IN COUSELLING ROOM
 O 0 27007 1 27057   DOCTOR'S TABLE IN WOLFGANG'S ROOM
 O 0 27008 3 27062
@@ -4628,8 +4546,8 @@ O 0 27008 3 27062   SERVERS IN SERVER ROOM
 O 0 27009 5 27063
 O 0 27009 5 27063
 O 0 27009 5 27064
-O 0 27009 5 27064   TERMINALS IN COMPUTER LABS
-O 0 27009 5 27071   TERMINAL IN OFFICE
+O 0 27009 5 27064   DEVICES IN COMPUTER LABS
+O 0 27009 5 27071   DEVICES IN OFFICE
 O 0 27010 1 27064   PRINTER IN LAB
 O 0 27011 4 27080
 O 0 27011 4 27088
@@ -4637,7 +4555,7 @@ O 0 27011 4 27083
 O 0 27011 4 27084   BENCHES IN DEPARTMENTAL BUILDING
 O 0 27012 1 27001   FOUNTAIN IN WOOD
 O 0 27013 1 27006   NUTS UNDER TREE
-O 0 27014 1 27021   TV IN COMMON ROOM
+O 0 27014 1 27021   DRAUGHTS IN COMMON ROOM
 O 0 27016 1 27029   DESK IN ADMIN OFFICE
 O 0 27049 1 27114   BED IN BEDROOM
 
@@ -4653,7 +4571,7 @@ P 1 27015 3 27001 1  1   PUT UTENSILS IN BUCKET
 *HALLS
 
 M 0 27006 1 27033 1  1  1    JOHNBOY IN BEDROOM   
-G 1 27052 1         GIVE HIM WALKMAN
+G 1 27052 1         GIVE HIM JOSS STICK
 M 0 27007 1 27038 1  1  1    BENNIE IN BEDROOM   
 
 M 0 27000 11 27021 1  1  1    
@@ -4696,7 +4614,7 @@ M 0 27005 1 27006 1  1  1    BUTROS UNDER TREE
 M 0 27000 11 27040 1  1  1    
 M 0 27000 11 27040 1  1  1   FRESHMAN OUTSIDE GREASY'S   
 
-M 0 27011 1 27083 1  1  1    MOOG IN WHITE LECTURE HALL   
+M 0 27011 1 27083 1  1  1    PROFESSOR GUTENBERG IN WHITE LECTURE HALL   
 E 1 27030 2 17      EQUIP HIM NOTEBOOK
 G 1 27084 -1        GIVE HIM KEY TO DUSTY HALL
 
@@ -4716,7 +4634,7 @@ M 0 27002 4 27086 1  1  1
 M 0 27002 4 27085 1  1  1    POSTGRADUATES IN DEPARTMENTAL BUILDING   
 
 
-*COMPUTER CENTRE
+*COMPUTATION CENTRE
 
 M 0 27000 11 27060 1  1  1   FRESHMAN OUTSIDE   
 
@@ -4760,19 +4678,21 @@ E 1 27039 2 3       EQUIP HER BEAUTY SPOT
 M 0 27024 1 27040 1  1  1    JOE OUTSIDE MAIN   
 G 1 27040 -1        GIVE BURGER
 G 1 27041 -1        GIVE ULTIMATE
-G 1 27042 -1        GIVE VEGGIE
+G 1 27042 -1        GIVE CHESTNUTS
 
 M 0 27025 1 27041 1  1  1    PIERRE IN CORRIDOR   
 
 M 0 27026 1 27045 1  1  1    JULIA IN BOOKSHIP   
 E 1 27043 3 3       EQUIP HER PENDANT
 E 1 27053 -1 5
+E 1 27055 5 18      earring
 
 M 0 27027 3 27047 1  1  1    PORTER IN OFFICE   
 M 0 27027 3 27054 1  1  1    PORTER IN BRUNEL   
 M 0 27027 3 27051 1  1  1    PORTER IN HALL   
 
 M 0 27028 1 27058 1  1  1    LORENZO IN HIS ROOM   
+E 1 27054 3 1                VAMPIRE RING
 
 M 0 27029 1 27057 1  1  1    DR WOLFGANG IN HIS ROOM   
 E 1 27044 3 16      EQUIP HIM STETHOSCOPE
@@ -4783,26 +4703,26 @@ M 0 27030 4 27048 1  1  1
 M 0 27030 4 27048 1  1  1    DRUNKARD IN OLD VIC   
 
 M 0 27030 4 27050 1  1  1    
-M 0 27030 4 27050 1  1  1    DRUNKARD IN ENT'S ROOM   
+M 0 27032 1 27050 1  1  1    BAGPIPES IN MUSIC ROOM   
 
 M 0 27031 3 27048 1  1  1    LIGHTWEIGHT IN OLD VIC   
 
 M 0 27031 3 27049 1  1  1    
 M 0 27031 3 27049 1  1  1    LIGHTWEIGHT IN LAVATORY   
 
-M 0 27032 2 27051 1  1  1    
-M 0 27032 2 27051 1  1  1    LOUDSPEAKER IN HALL   
+M 0 27030 4 27051 1  1  1    
+M 0 27030 4 27051 1  1  1    DRUNKARD IN NORTH HALL
 
 *SPORTS CENTRE
 
 M 0 27033 1 27102 1  1  1    NIKOS IN GYM   
-E 1 27045 3 3       EQUIP HIM STUBBLE
+E 1 27045 3 3       EQUIP BEARD
 
 M 0 27034 2 27103 1  1  1    
 M 0 27034 2 27103 1  1  1    ADONIS IN WEIGHTS ROOM   
 
-M 0 27035 2 27104 1  1  1    SOCCER IN SAUNA   
-M 0 27035 2 27101 1  1  1    SOCCER IN CHANGING ROOM   
+M 0 27035 2 27104 1  1  1    ATHLETE IN SAUNA   
+M 0 27035 2 27101 1  1  1    ATHLETE IN CHANGING ROOM   
 
 M 0 27036 2 27105 1  1  1    ATTENDANT AT POOLSIDE   
 
@@ -4822,7 +4742,7 @@ M 0 27039 1 27095 1  1  1    GEOLOGIST IN CHASM
 E 1 27025 2 12      EQUIP HER BAG
 
 M 0 27040 1 27096 1  1  1    ECONOMIST IN CHASM   
-E 1 27026 2 16      EQUIP HIM NEWSPAPER
+E 1 27026 2 16      EQUIP HIM PARCHMENT
 
 M 0 27041 1 27097 1  1  1    EXPLORER IN CHASM   
 E 1 27027 2 11      EQUIP HIM SHIELD

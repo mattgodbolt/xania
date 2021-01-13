@@ -11,7 +11,7 @@ You are on a mountain path which ascends a steep mountainside.  The trail
 curves around the mountain so that you cannot really see what lies ahead.
 You do sense great power though coming from the area behind the mountain.
 ~
-92 0 5
+0 5
 D0
 ~
 ~
@@ -26,7 +26,7 @@ A Mountain Path~
 You are on a rocky mountain path leading up and around a steep mountainside.
 You sense a glow from the area beyond the mountain, which you cannot see yet.
 ~
-92 0 5
+0 5
 D4
 ~
 ~
@@ -43,7 +43,7 @@ last the arduous journey up the mountain.  Curiously you notice a few
 uncovered bodies which don't seem to have died of exhaustion.  The path curves
 east around the mountain.
 ~
-92 0 5
+0 5
 D4
 ~
 ~
@@ -69,7 +69,7 @@ This looks like a normal mountain path, but it is NOT!  This section of the
 path is habitated by a huge (and of course, man-eating) Cyclops.  The path
 makes its final ascent to an overlook.
 ~
-92 0 5
+0 5
 D4
 ~
 ~
@@ -92,7 +92,7 @@ river flowing through the canyon.  Also to the east you spy a cave entrance
 leading into the canyon wall.  The path descends to the north to another
 overlook.
 ~
-92 0 5
+0 5
 D0
 ~
 ~
@@ -108,7 +108,7 @@ You see various elemental servants wandering around the canyon.  The noise of
 humming coming from the canyon gets louder.  The path makes a steep descent
 into the canyon here.
 ~
-92 0 5
+0 5
 D2
 ~
 ~
@@ -125,7 +125,7 @@ Elemental servants bustle back and forth doing the biddings of the elemental
 rulers.  You see a sort of cross roads to the north, and you can climb up to
 the overlook here.
 ~
-92 0 3
+0 3
 D0
 ~
 ~
@@ -142,7 +142,7 @@ going about their business, while others seem to have no business at all.
 In general, it is calm, yet there is always a incessant buzz of things
 going on about.  The canyon continues north and east.
 ~
-92 0 3
+0 3
 D0
 ~
 ~
@@ -162,7 +162,7 @@ leads up, away, and out of the canyon.  Various pure and cross-breeds of
 elemental forms wander the canyon floor, which extends in a wide swath
 northwards.
 ~
-92 0 3
+0 3
 D0
 ~
 ~
@@ -188,7 +188,7 @@ all.  In general, it is calm, yet there is always a incessant buzz of
 things going on about.  The canyon floor extends north and west.  There is a
 cave mouth set into the canyon wall to the east.
 ~
-92 0 3
+0 3
 D0
 ~
 ~
@@ -210,7 +210,7 @@ all.  In general, it is calm, yet there is always an incessant buzz of
 things going on about.  The canyon floor extends off to the north, east,
 and south.
 ~
-92 0 3
+0 3
 D0
 ~
 ~
@@ -231,7 +231,7 @@ going about their business, while others seem to have no business at
 all.  In general, it is calm, yet there is always an incessant buzz of
 things going on about.  The canyon floor extends in all directions.
 ~
-92 0 3
+0 3
 D0
 ~
 ~
@@ -257,7 +257,7 @@ all.  In general, it is calm, yet there is always an incessant buzz of
 things going on about.  The canyon floor extends north, south, and west.
 A path follows a stream to the east.
 ~
-92 0 3
+0 3
 D0
 ~
 ~
@@ -283,7 +283,7 @@ all.  In general, it is calm, yet there is always an incessant buzz of
 things going on about. The canyon floor extends north, east, and south.
 To the west a garden is on fire.
 ~
-92 0 3
+0 3
 D0
 ~
 ~
@@ -308,7 +308,7 @@ going about their business, while others seem to have no business at
 all.  In general, it is calm, yet there is always an incessant buzz of
 things going on about.  The canyon floor extends in all directions.
 ~
-92 0 3
+0 3
 D0
 ~
 ~
@@ -333,7 +333,7 @@ going about their business, while others seem to have no business at
 all.  In general, it is calm, yet there is always an incessant buzz of
 things going on about.  The Canyon floor extends north, south and west.
 ~
-92 0 3
+0 3
 D0
 ~
 ~
@@ -355,7 +355,7 @@ all.  In general, it is calm, yet there is always an incessant buzz of
 things going on about. The canyon floor extends east and south.  You can
 climb a rise in the canyon floor to the north.
 ~
-92 0 3
+0 3
 D0
 ~
 ~
@@ -376,7 +376,7 @@ going about their business, while others seem to have no business at
 all.  In general, it is calm, yet there is always an incessant buzz of
 things going on about.  The canyon floor extends east, south, and west.
 ~
-92 0 3
+0 3
 D1
 ~
 ~
@@ -398,7 +398,7 @@ all.  In general, it is calm, yet there is always an incessant buzz of
 things going on about.  The canyon floor extends south and west.  You can
 climb a rise in the canyon floor to the north.
 ~
-92 0 3
+0 3
 D0
 ~
 ~
@@ -417,7 +417,7 @@ Dark Cave~
 You notice a path winding east among some huge boulders.  You feel a powerful
 source of energy from that direction.
 ~
-92 AD 3
+AD 3
 D1
 ~
 ~
@@ -434,7 +434,7 @@ are even darker than the darkness.  You hear a powerful humming all around
 you.  Cave paths go south and east roughly, its hard to tell exactly when you
 can't see where you are going.
 ~
-92 AD 3
+AD 3
 D1
 ~
 ~
@@ -455,7 +455,7 @@ are even darker than the darkness.  You hear a powerful humming all around
 you.  Cave paths go south and west roughly; it's hard to tell exactly when you
 can't see where you are going.
 ~
-92 AD 3
+AD 3
 D2
 ~
 ~
@@ -472,7 +472,7 @@ are even darker than the darkness.  You hear a powerful humming all around you.
 Cave paths go north, south and east roughly; it's hard to tell exactly when
 you can't see where you are going.
 ~
-92 AD 3
+AD 3
 D0
 ~
 ~
@@ -493,7 +493,7 @@ are even darker than the darkness.  You hear a powerful humming all around you.
 Cave paths go north, south and west roughly, it's hard to tell exactly when you
 can't see where you are going.
 ~
-92 AD 3
+AD 3
 D0
 ~
 ~
@@ -514,7 +514,7 @@ only to illuminate about a foot ahead of you.  You suddenly realize that the
 path has descended quite a bit but you didn't notice before because of the
 darkness.  You sense a great presence off to the east aways.
 ~
-92 AD 3
+AD 3
 D0
 ~
 ~
@@ -531,7 +531,7 @@ only to illuminate about a foot ahead of you.  You suddenly realize that the
 path has descended quite a bit but you didn't notice before because of the
 darkness.  You sense a great presence directly to the east.
 ~
-92 AD 3
+AD 3
 D0
 ~
 ~
@@ -551,7 +551,7 @@ This is the abode of the Earth Ruler.  He decides about earthquakes,
 landslides, and avalanches.  The Earth Ruler sits upon a huge marble throne
 carved into the wall.
 ~
-92 AD 3
+AD 3
 D3
 ~
 ~
@@ -568,7 +568,7 @@ The water in the river seems to bubble and froth with magic.  Though it
 splashes playfully on you, it does not seem wet.  The path leads north closer
 to the water. To the west you see a T-intersection.
 ~
-92 0 3
+0 3
 D0
 ~
 ~
@@ -584,7 +584,7 @@ To continue you had to walk right in the river.  Though you walk along in
 water up to your knees, you do not seem to get wet.  A bay stretches out to
 the north and the river goes south.
 ~
-92 0 6
+0 6
 D0
 ~
 ~
@@ -600,7 +600,7 @@ The water is crystal clear here and you can see the bottom of the bay 30 feet
 below you.  Then you realize you are walking on the water itself.  Truly
 magical water indeed.  Though you splash through the bay you do not get wet.
 ~
-92 0 6
+0 6
 D0
 ~
 ~
@@ -620,7 +620,7 @@ The water is crystal clear here and you can see the bottom of the bay 30 feet
 below you.  Then you realize you are walking on the water itself.  Truly
 magical water indeed.  Though you splash through the bay you do not get wet.
 ~
-92 0 6
+0 6
 D0
 ~
 ~
@@ -640,7 +640,7 @@ The water is crystal clear here and you can see the bottom of the bay 30 feet
 below you.  Then you realize you are walking on the water itself.  Truly
 magical water indeed.  Though you splash through the bay you do not get wet.
 ~
-92 0 6
+0 6
 D0
 ~
 ~
@@ -656,7 +656,7 @@ The water is crystal clear here and you can see the bottom of the bay 30 feet
 below you.  Then you realize you are walking on the water itself.  Truly
 magical water indeed.  Though you splash through the bay you do not get wet.
 ~
-92 0 6
+0 6
 D1
 ~
 ~
@@ -672,7 +672,7 @@ The water is crystal clear here and you can see the bottom of the bay 30 feet
 below you.  Then you realize you are walking on the water itself.  Truly
 magical water indeed.  Though you splash through the bay you do not get wet.
 ~
-92 0 6
+0 6
 D1
 ~
 ~
@@ -692,7 +692,7 @@ The water is crystal clear here and you can see the bottom of the bay 30 feet
 below you.  Then you realize you are walking on the water itself.  Truly
 magical water indeed.  Though you splash through the bay you do not get wet.
 ~
-92 0 6
+0 6
 D2
 ~
 ~
@@ -713,7 +713,7 @@ like it's been here for a long, long time.  Though you are 'under water' there
 is no difficulty breathing normally, and oddly you do not feel the pressure of
 the water above you.
 ~
-92 D 6
+D 6
 D4
 ~
 ~
@@ -725,7 +725,7 @@ You tread carefully along a path which dips and turns among geysers of fire.
 Miniature volcanoes spew lava in rivers.  The fire is hot but not altogether
 dangerous.  The path extends east and south.
 ~
-92 0 5
+0 5
 D1
 ~
 ~
@@ -740,7 +740,7 @@ A Fiery Pathway~
 You tread carefully along a path which dips and turns among pits of fire and
 beds of coals.  A garden to the west glows with an everlasting fire.
 ~
-92 0 5
+0 5
 D0
 ~
 ~
@@ -756,7 +756,7 @@ Everywhere around you the landscape is afire; the rocks, the shrubs and even
 the air seems to be aflame.  Curiously, the magical fire does not seem to
 consume its hosts.  A path leads east among some fire pits.
 ~
-92 0 5
+0 5
 D1
 ~
 ~
@@ -771,7 +771,7 @@ The Fire Chamber~
 The fire ruler sits upon a throne made of blue flame.  Little flickers of
 flame dance to and fro for the entertainment of the ruler.
 ~
-92 0 3
+0 3
 D1
 ~
 ~
@@ -783,7 +783,7 @@ The pathway glows and hums because of the electricity pulsing through it.
 It seems almost soothing to your weary feet.  To the north there is a
 sunken-in area.  A path leads east also.
 ~
-92 0 3
+0 3
 D0
 ~
 ~
@@ -799,7 +799,7 @@ Though there is a seemingly carefree atmosphere here, you sense that
 something much more important takes place near by.  The electric playground
 extends north and east.
 ~
-92 0 4
+0 4
 D0
 ~
 ~
@@ -815,7 +815,7 @@ Though there is a seemingly carefree atmosphere here, you sense that
 something much more important takes place near by.  There is an electric
 path heading away south.  The playground extends north and west.
 ~
-92 0 4
+0 4
 D0
 ~
 ~
@@ -835,7 +835,7 @@ Though there is a seemingly carefree atmosphere here, you sense that
 something much more important takes place near by.  The playground continues
 south and east.
 ~
-92 0 4
+0 4
 D1
 ~
 ~
@@ -851,7 +851,7 @@ Though there is a seemingly carefree atmosphere here, you sense that
 something much more important takes place near by.  The playground is
 south and west.  Something more important catches your eye to the east.
 ~
-92 0 4
+0 4
 D1
 ~
 ~
@@ -871,7 +871,7 @@ Up a set of stairs carved into the hill you see intermittent flashes of
 lightning.  A continuous hum also comes form that direction.  To the west
 is the electric playground.
 ~
-92 0 4
+0 4
 D3
 ~
 ~
@@ -887,7 +887,7 @@ There is some sort of control panel here. Apparently the Lightning Ruler
 observes and controls electric forces from here.  A set of steps carved into
 the hill lead down to a causeway.
 ~
-92 D 6
+D 6
 D5
 ~
 ~
@@ -898,7 +898,7 @@ Mesa West~
 An electric path starts to the west.  The mesa continues to the east.
 Or you can climb down to the canyon floor to the south.
 ~
-92 0 4
+0 4
 D1
 ~
 ~
@@ -917,7 +917,7 @@ Mesa East~
 A path starts to the north.  The mesa continues to the west.
 Or you can climb down to the canyon floor to the south.
 ~
-92 0 4
+0 4
 D0
 ~
 ~
@@ -934,12 +934,12 @@ S
 #9255
 Floating in Air~
 Last you knew, you were walking on the mesa.  Abruptly the path dropped
-from beneath your feet much to quick for you to recover.  Instead of
+from beneath your feet much too quick for you to recover.  Instead of
 plunging to your death, you seemingly miss the ground and begin walking
 on air.  The space to the north and east seems just thin air, but you can
 walk there.  The pathway you came from is to the south.
 ~
-92 0 4
+0 4
 D0
 ~
 ~
@@ -959,7 +959,7 @@ You look down and see the ground 100 feet below you.  The wind whispering
 in your ear seems to reassure you that this is fine.  To the north aways
 you spy a portal of sorts.  To the west is more thin air.
 ~
-92 0 4
+0 4
 D0
 ~
 ~
@@ -975,7 +975,7 @@ You look down and see the ground 100 feet below you.  The wind whispering
 in your ear seems to reassure you that this is fine.  To the east aways
 you spy a portal of sorts.  To the south is more thin air.
 ~
-92 0 4
+0 4
 D1
 ~
 ~
@@ -992,7 +992,7 @@ in your ear seems to reassure you that this is fine. There is a portal
 hanging in midair here. It is to the east.  You can float south or west
 if you'd like.
 ~
-92 0 4
+0 4
 D1
 ~
 ~
@@ -1015,7 +1015,7 @@ Windy Tunnel~
 A tunnel leads east.  To the west you can enter a portal. The wind in
 this tunnel is quite fierce, it seems as if it's forced.  
 ~
-92 0 4
+0 4
 D1
 ~
 ~
@@ -1035,7 +1035,7 @@ Tiny tornadoes come and go and dance along the ground here.  At the back
 of the chamber you notice a huge throne made of swirling clouds.
 A tunnel leads west.
 ~
-92 D 6
+D 6
 D3
 ~
 ~
@@ -1059,7 +1059,7 @@ He wants to see what's on the other side of the mountain too.
 human~
 CGT 0 500 0
 3 1 1d1+54 1d1+99 2d3+1 punch
-7 7 7 8
+-8 -8 -8 -7
 JNFEU 0 HIJR 0
 stand stand male 122
 0 0 medium 0
@@ -1074,7 +1074,7 @@ He looks like he's about to have dinner (maybe it's you?).
 giant~
 BFQT DF -700 0
 22 7 1d1+731 10d10+100 5d5+11 smash
--7 -7 -7 -2
+-22 -22 -22 -17
 ACDIOFENU AB CD 0
 stand stand male 1135
 0 0 huge 0
@@ -1089,7 +1089,7 @@ Rather small for an elemental form, looks like a reject.
 unique~
 GA 0 0 0
 1 0 1d1+20 1d1+20 1d2+0 slash
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 stand stand neutral 40
 0 0 medium 0
@@ -1104,7 +1104,7 @@ You can't tell which kind of elemental it is, maybe it's a bit o' all of them?
 unique~
 MBLA 0 0 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand neutral 1016
 0 0 medium 0
@@ -1119,7 +1119,7 @@ A small elemental, a resident of the canyon.
 unique~
 BGA 0 0 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 202
 0 0 medium 0
@@ -1134,7 +1134,7 @@ A medium elemental, a resident of the canyon.
 unique~
 BGA 0 10 0
 10 5 1d1+200 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand neutral 411
 0 0 medium 0
@@ -1148,7 +1148,7 @@ A large elemental, a resident of the canyon.~
 unique~
 BGA 0 20 0
 15 7 1d1+345 1d1+300 4d4+7 slash
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 613
 0 0 medium 0
@@ -1165,7 +1165,7 @@ he begins and the rock wall ends.
 unique~
 BLA H 0 0
 30 15 1d1+1002 1d1+600 5d5+15 slice
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand neutral 1528
 0 0 medium 0
@@ -1180,7 +1180,7 @@ As you look at him he seems to blend in with the fire in his throne.
 unique~
 BLA H 0 0
 30 15 1d1+1035 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand neutral 1547
 0 0 medium 0
@@ -1195,7 +1195,7 @@ As you peer at him you seem to be looking at the sky itself.
 unique~
 BLA H 0 0
 30 15 1d1+994 1d1+600 5d5+15 slice
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand neutral 1552
 0 0 medium 0
@@ -1211,7 +1211,7 @@ You rub your eyes and look and the ruler is there grinning at you.
 unique~
 BLA H 0 0
 30 15 1d1+1031 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand neutral 1540
 0 0 medium 0
@@ -1227,7 +1227,7 @@ as you get scared, it reforms in elemental form.
 unique~
 BLA H 0 0
 30 15 1d1+1011 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand neutral 1537
 0 0 medium 0
@@ -1242,7 +1242,7 @@ It trickles along the ground and gets your feet wet.
 unique~
 GA 0 0 0
 8 4 1d1+160 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand neutral 327
 0 0 medium 0
@@ -1257,7 +1257,7 @@ It smolders along the grass aimlessly.
 unique~
 GA 0 0 0
 4 2 1d1+60 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand neutral 163
 0 0 medium 0
@@ -1272,7 +1272,7 @@ It looks a little blue.
 unique~
 GA 0 520 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand neutral 120
 0 0 medium 0
@@ -1287,7 +1287,7 @@ It seems to be a small living pebble!
 unique~
 GA 0 0 0
 3 1 1d1+50 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand neutral 125
 0 0 medium 0
@@ -1302,7 +1302,7 @@ Zipping from place to place at the speed of light is tough work.
 unique~
 GA 0 0 0
 4 2 1d1+60 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand neutral 163
 0 0 medium 0
@@ -1317,7 +1317,7 @@ The magical blob of acid is a cross between lightning and water.
 unique~
 GA 0 0 0
 9 3 1d1+180 1d1+180 3d3+4 slash
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand neutral 368
 0 0 medium 0
@@ -1332,7 +1332,7 @@ The magical lava beast is a cross between fire and earth.
 unique~
 GA 0 0 0
 8 4 1d1+160 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand neutral 327
 0 0 medium 0
@@ -1347,7 +1347,7 @@ The magical mud monster is a cross between water and earth.
 unique~
 GA 0 0 0
 7 3 1d1+161 1d1+140 3d3+3 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand neutral 288
 0 0 medium 0
@@ -1362,7 +1362,7 @@ The magical mist is a cross between water and air.
 unique~
 GA 0 0 0
 6 2 1d1+120 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 241
 0 0 medium 0
@@ -1377,7 +1377,7 @@ The magical manifestation of energy.
 unique~
 GA 0 0 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 206
 0 0 medium 0
@@ -1392,7 +1392,7 @@ The magical dust cloud is a cross between air and earth.
 unique~
 GA 0 0 0
 6 2 1d1+108 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 244
 0 0 medium 0
@@ -1407,7 +1407,7 @@ The magical eddie current is a manifestation of an air elemental.
 unique~
 GA 0 0 0
 2 1 1d1+40 1d1+40 1d2+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand neutral 83
 0 0 medium 0
@@ -1423,7 +1423,7 @@ humanoid figure somehow trapped in the fire.
 unique~
 BGLA 0 -100 0
 26 13 1d1+890 1d1+520 5d5+13 punch
--7 -7 -7 1
+-22 -22 -22 -14
 FENU 0 0 0
 stand stand neutral 1354
 0 0 medium 0
@@ -1438,7 +1438,7 @@ A humanoid figure seems to be trapped in the field of the Magneto.
 unique~
 BGLA 0 -150 0
 22 11 1d1+733 1d1+440 5d5+11 punch
--4 -4 -4 3
+-19 -19 -19 -12
 FENU 0 0 0
 stand stand neutral 1105
 0 0 medium 0
@@ -1453,7 +1453,7 @@ A humanoid figure encased in ice but still apparently alive.
 unique~
 BGHLA P -250 0
 24 12 1d1+797 1d1+480 5d5+12 punch
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand neutral 1232
 0 0 medium 0
@@ -1468,7 +1468,7 @@ A humanoid figure trapped in stone seems alive.
 unique~
 BGA 0 -310 0
 23 11 1d1+779 1d1+460 5d5+11 punch
--5 -5 -5 2
+-20 -20 -20 -13
 FENU 0 0 0
 stand stand neutral 1154
 0 0 medium 0
@@ -1483,7 +1483,7 @@ A humanoid figure is trapped in the rushing wind.
 unique~
 BGA P -10 0
 28 14 1d1+955 1d1+560 5d5+14 punch
--8 -8 -8 1
+-23 -23 -23 -14
 FENU 0 0 0
 stand stand neutral 1424
 0 0 medium 0
@@ -1499,7 +1499,7 @@ Stone of Surrender which can be used to render opponents senseless.
 human~
 BGA B -50 0
 17 8 1d1+493 1d1+340 4d4+8 slash
--1 -1 -1 4
+-16 -16 -16 -11
 FENU 0 0 0
 stand stand neutral 703
 0 0 medium 0
@@ -1515,7 +1515,7 @@ the elemental forces.
 unique~
 GA 0 150 0
 18 9 1d1+522 1d1+360 4d4+9 pound
--2 -2 -2 4
+-17 -17 -17 -11
 FENU 0 0 0
 stand stand neutral 739
 0 0 medium 0
@@ -1532,7 +1532,7 @@ He seeks their aid for a powerful new spell of deception.
 human~
 BGA 0 -50 0
 12 5 1d1+270 1d1+240 3d4+6 slash
-2 2 2 6
+-13 -13 -13 -9
 FENU 0 0 0
 stand stand neutral 498
 0 0 medium 0
@@ -1547,7 +1547,7 @@ Rare herbs are rumored to grow only in the canyon.
 human~
 GA 0 -50 0
 13 6 1d1+305 1d1+260 4d4+6 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand neutral 532
 0 0 medium 0
@@ -1562,7 +1562,7 @@ It's only a baby by dragon standards.
 unique~
 BGA DF 0 0
 16 7 1d1+444 1d1+320 4d4+8 flbite
-0 0 0 5
+-15 -15 -15 -10
 FENU 0 0 0
 stand stand neutral 646
 0 0 medium 0
@@ -1577,7 +1577,7 @@ The little bugger steals stuff and is generally obnoxious.
 unique~
 CGHA PQ -500 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand neutral 200
 0 0 medium 0
@@ -1592,7 +1592,7 @@ HUGE, need i say more?
 unique~
 BGA 0 30 0
 20 10 1d1+580 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand neutral 1008
 0 0 medium 0
@@ -1607,7 +1607,7 @@ I WOULD NOT suggest you attack me ...!
 unique~
 BEGA 0 900 0
 30 15 1d1+994 1d1+600 5d5+15 slash
--9 -9 -9 0
+-24 -24 -24 -15
 FENU 0 0 0
 stand stand male 1520
 0 0 medium 0
@@ -1659,6 +1659,10 @@ armor A AC
 9 9 9 0 0
 30 3 6096 P
 A
+1      1
+A
+18      1
+A
 19      1
 
 #9205
@@ -1667,10 +1671,14 @@ the wind boots~
 A pair of boots that look fast standing still are here.~
 leather~
 armor G AG
-9 9 9 0 0
+9 9 9 5 0
 30 1 6089 P
 A
+1       1
+A
 2       2
+A
+14      100
 
 #9206
 helmet hurricane~
@@ -1678,8 +1686,12 @@ a hurricane helmet~
 A helmet that looks like it has weathered many storms has been set here.~
 stone~
 armor B AE
-9 9 9 0 0
+9 9 9 5 0
 30 4 6144 P
+A
+2      2
+A
+13     15
 A
 23     -4
 
@@ -1692,9 +1704,9 @@ weapon AB AN
 'sword' 6 5 'slash' 0
 30 10 6102 P
 A
-18     -1
+18     2
 A
-19      2
+19     2
 
 #9208
 shield electric~
@@ -1702,12 +1714,12 @@ an electric shield~
 A shield made entirely of energy buzzes here.~
 mithril~
 armor B AJ
-9 9 9 0 0
+9 9 9 5 0
 30 8 6144 P
 A
-1      -1
+1      2
 A
-5       1
+5       2
 
 #9209
 girth icy~
@@ -1715,10 +1727,12 @@ an icy girth~
 A girth made of magical ice has been left here.~
 stone~
 armor 0 AL
-9 9 9 0 0
+9 9 9 5 0
 30 10 6259 P
 A
-5      -2
+5      2
+A
+13      20
 
 #9210
 cloak waterfall~
@@ -1726,12 +1740,12 @@ a waterfall cloak~
 A cloak fashioned from a small magical waterfall is here.~
 cloth~
 armor 0 AK
-9 9 9 0 0
+9 9 9 5 0
 30 6 6226 P
 A
 12     25
 A
-18     -2
+18     2
 
 #9211
 amulet elemental~
@@ -1766,7 +1780,7 @@ armor 0 AI
 A
 1       1
 A
-4      -2
+4       2
 
 #9214
 legbands platinum bands~
@@ -1779,7 +1793,7 @@ armor 0 AF
 A
 2       1
 A
-3      -2
+3       2
 
 #9215
 wand~
@@ -1889,7 +1903,7 @@ weapon A AN
 'spear' 4 5 'slash' 0
 26 14 5341 P
 A
-13    -20
+13     20
 A
 18      2
 
@@ -1904,7 +1918,7 @@ weapon A AN
 A
 19      2
 A
-1      -1
+1       1
 
 #9228
 avalanche~
@@ -1915,7 +1929,7 @@ weapon 0 AN
 'exotic' 3 7 'blast' 0
 23 16 4717 P
 A
-18     -1
+18     1
 
 #9229
 star morning~
@@ -1928,7 +1942,7 @@ weapon A AN
 A
 23     -5
 A
-17     -3
+2      2
 
 #9230
 shock whip~
@@ -1941,7 +1955,7 @@ weapon B AN
 A
 19      3
 A
-1      -2
+1       1
 
 #9231
 elixir anti~

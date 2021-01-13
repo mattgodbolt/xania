@@ -17,7 +17,7 @@ This is a young but not totally harmless creature.
 dwarf~
 CGT 0 -5 0
 3 0 1d4+25 1d1+99 1d4+2 beating
-7 6 7 10
+-8 -9 -8 -5
 DJR 0 0 0
 sit stand male 10
 0 0 small 0
@@ -31,7 +31,7 @@ This is a tiny little bear with a heart on his chest.
 doll~
 CG 0 500 0
 1 0 1d10+10 1d1+99 1d4+0 beating
-8 5 9 10
+-7 -10 -6 -5
 NR 0 0 0
 stand stand male 0
 0 0 S cloth
@@ -45,7 +45,7 @@ You see a small little cute rag doll.
 doll~
 CG 0 300 0
 2 0 2d5+14 1d1+99 1d5+0 beating
-7 4 8 10
+-8 -11 -7 -5
 FHR 0 0 0
 sit stand female 0
 0 0 S cloth
@@ -59,7 +59,7 @@ The toy is looking for target practice.
 doll~
 CGT 0 -300 0
 3 1 3d5+30 1d1+99 1d4+3 punch
-6 7 6 9
+-9 -8 -9 -6
 IR 0 G E
 stand stand male 0
 0 0 S tin
@@ -74,7 +74,7 @@ He snarls and growls at you.
 doll~
 CF 0 -400 0
 3 0 3d4+24 1d1+99 1d6+1 chomp
-6 3 7 10
+-9 -12 -8 -5
 DJNR 0 0 0
 stand stand male 5
 0 0 S cloth
@@ -88,7 +88,7 @@ This doll has been hugged and played with until there is almost nothing left.
 doll~
 CG 0 -2 0
 1 0 1d10+1 1d1+99 1d4+0 beating
-8 5 9 10
+-7 -10 -6 -5
 R 0 0 0
 stand stand neutral 0
 0 0 S cloth
@@ -103,7 +103,7 @@ appears that there is still some fight left in her.
 dwarf~
 GL 0 10 0
 5 1 4d4+42 5d4+100 1d6+1 slap
-5 5 5 10
+-10 -10 -10 -5
 CDR 0 0 0
 stand stand female 50
 0 0 medium 0
@@ -118,7 +118,7 @@ You suddenly think that you had better flee.
 dwarf~
 BCT D -800 0
 8 1 3d10+100 8d4+100 1d7+3 punch
-3 2 3 8
+-12 -13 -12 -7
 CDJR 0 0 0
 stand stand male 120
 0 0 medium 0
@@ -133,7 +133,7 @@ biggest urge to put him out of his misery.
 dwarf~
 BC 0 -400 0
 1 0 2d4+15 1d1+199 2d2+1 beating
-8 8 8 10
+-7 -7 -7 -5
 IJN 0 0 0
 stand stand male 50
 0 0 small 0
@@ -256,7 +256,7 @@ The Dwarven Drop Off~
 This is where the dwarven mommies and daddies come to drop off their
 annoying little brats.  You have the urge to leave.  There is a sign here.
 ~
-66 12 0
+12 0
 D2
 You see a large room full of noisy brats.
 ~
@@ -276,7 +276,7 @@ Day Care Center~
 You are in the north-east corner of the main part of the center.  Toys and
 toddlers are all over the room.  There is a kitchen to the east.
 ~
-66 8 0
+8 0
 D0
 You see the drop off.
 ~
@@ -303,7 +303,7 @@ Day Care Center~
 You are in the north-west corner of the main part of the center.  Toys and
 toddlers are all over the room.  There is a bathroom to the west.
 ~
-66  8 0
+8 0
 D1
 You see a large room full of noisy brats.
 ~
@@ -325,7 +325,7 @@ Day Care Center~
 You are in the south-east corner of the main part of the center.  Toys and
 toddlers are all over the room.  There is a playground to the east.
 ~
-66 8 0
+8 0
 D0
 You see a large room full of noisy brats.
 ~
@@ -347,7 +347,7 @@ Day Care Center~
 You are in the south-west corner of the main part of the center.  Toys and
 toddlers are all over the room.  There is a staircase to the west.
 ~
-66 8 0
+8 0
 D0
 You see a large room full of noisy brats.
 ~
@@ -369,7 +369,7 @@ The Messy Bathroom~
 You hold your nose as you realize you have made the worst mistake of your
 life.  The air is rancid and the walls are stained.
 ~
-66 8 0
+8 0
 D1
 You see a large room full of noisy brats.
 ~
@@ -381,7 +381,7 @@ The Staircase~
 You stand on top of a staircase leading down, and wonder what mystery could
 lie down under.  Beware!
 ~
-66 8 0
+8 0
 D1
 You see a large room full of noisy brats.
 ~
@@ -397,7 +397,7 @@ S
 The Playground~
 You are in the north-west corner of the playground.
 ~
-66 0 2
+0 2
 D1
 You see the playground.
 ~
@@ -413,7 +413,7 @@ S
 The Playground~
 You are in the north-east corner of the playground.
 ~
-66 0 2
+0 2
 D2
 You see the playground.
 ~
@@ -429,7 +429,7 @@ S
 The Playground~
 You are in the south-west corner of the playground.
 ~
-66 0 2
+0 2
 D0
 You see the playground.
 ~
@@ -450,7 +450,7 @@ S
 The Playground~
 You are in the south-east corner of the playground.
 ~
-66 0 2
+0 2
 D0
 You see the playground.
 ~
@@ -467,7 +467,7 @@ Entrance to the Mini-Maze~
 You stand in the entrance to a small, but confusing maze.  You really hope
 that you don't get lost.
 ~
-66 13 2
+13 2
 D1
 ~
 ~
@@ -482,7 +482,7 @@ S
 Mini-Maze~
 You are in a small passage that looks just like every other one.
 ~
-66 9 2
+9 2
 D3
 ~
 ~
@@ -500,7 +500,7 @@ S
 Mini-Maze~
 You are in a small passage that looks just like every other one.
 ~
-66 9 2
+9 2
 D2
 ~
 ~
@@ -514,7 +514,7 @@ S
 Mini-Maze~
 You are in a small passage that looks just like every other one.
 ~
-66 9 2
+9 2
 D0
 ~
 ~
@@ -528,7 +528,7 @@ S
 Mini-Maze~
 You are in a small passage that looks just like every other one.
 ~
-66 9 2
+9 2
 D3
 ~
 ~
@@ -547,7 +547,7 @@ End of the Mini-Maze~
 You stand at the end of your journey.  There is a big sign here and you had
 better read it!
 ~
-66 9 2
+9 2
 D0
 ~
 ~
@@ -567,7 +567,7 @@ Messy Kitchen~
 You stand in the kitchen and eating area of the day care center.  Pots and
 pans are everywhere, while the toddlers continue to create chaos.
 ~
-66 8 0
+8 0
 D3
 You see a large room full of noisy brats.
 ~
@@ -579,7 +579,7 @@ The End?~
 You have reached the final lair.  It is dominated by a huge five headed
 dragon (actually an overgrown brat with a Halloween mask).
 ~
-66 9 2
+9 2
 D0
 ~
 ~

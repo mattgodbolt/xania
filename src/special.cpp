@@ -7,43 +7,45 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Logging.hpp"
+#include "TimeInfoData.hpp"
 #include "comm.hpp"
+#include "db.h"
 #include "interp.h"
+#include "lookup.h"
 #include "magic.h"
 #include "merc.h"
-#include "phil.h"
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <ctime>
-#include <sys/types.h>
+#include <fmt/format.h>
 
 /* The following special functions are available for mobiles. */
 /* Note that MOB special functions are called every 4 seconds. */
-bool spec_breath_any(CHAR_DATA *ch);
-bool spec_breath_acid(CHAR_DATA *ch);
-bool spec_breath_fire(CHAR_DATA *ch);
-bool spec_breath_frost(CHAR_DATA *ch);
-bool spec_breath_gas(CHAR_DATA *ch);
-bool spec_breath_lightning(CHAR_DATA *ch);
-bool spec_cast_adept(CHAR_DATA *ch);
-bool spec_cast_cleric(CHAR_DATA *ch);
-bool spec_cast_judge(CHAR_DATA *ch);
-bool spec_cast_mage(CHAR_DATA *ch);
-bool spec_cast_undead(CHAR_DATA *ch);
-bool spec_cast_bastard(CHAR_DATA *ch);
-bool spec_executioner(CHAR_DATA *ch);
-bool spec_fido(CHAR_DATA *ch);
-bool spec_guard(CHAR_DATA *ch);
-bool spec_janitor(CHAR_DATA *ch);
-bool spec_mayor(CHAR_DATA *ch);
-bool spec_poison(CHAR_DATA *ch);
-bool spec_thief(CHAR_DATA *ch);
-bool spec_puff(CHAR_DATA *ch);
-bool spec_DEATH(CHAR_DATA *ch);
-bool spec_greasy_joe(CHAR_DATA *ch);
-bool spec_phil(CHAR_DATA *ch);
+bool spec_breath_any(Char *ch);
+bool spec_breath_acid(Char *ch);
+bool spec_breath_fire(Char *ch);
+bool spec_breath_frost(Char *ch);
+bool spec_breath_gas(Char *ch);
+bool spec_breath_lightning(Char *ch);
+bool spec_cast_adept(Char *ch);
+bool spec_cast_cleric(Char *ch);
+bool spec_cast_judge(Char *ch);
+bool spec_cast_mage(Char *ch);
+bool spec_cast_undead(Char *ch);
+bool spec_cast_bastard(Char *ch);
+bool spec_executioner(Char *ch);
+bool spec_fido(Char *ch);
+bool spec_guard(Char *ch);
+bool spec_janitor(Char *ch);
+bool spec_mayor(Char *ch);
+bool spec_poison(Char *ch);
+bool spec_thief(Char *ch);
+bool spec_puff(Char *ch);
+bool spec_DEATH(Char *ch);
+bool spec_greasy_joe(Char *ch);
+bool spec_phil(Char *ch);
+bool spec_concordius(Char *ch);
+bool spec_aquila_pet(Char *ch);
+bool spec_summoner(Char *ch);
 /* Given a name, return the appropriate spec fun. */
 SpecialFunc spec_lookup(const char *name) {
     if (!str_cmp(name, "spec_breath_any"))
@@ -92,35 +94,51 @@ SpecialFunc spec_lookup(const char *name) {
         return spec_greasy_joe;
     if (!str_cmp(name, "spec_phil"))
         return spec_phil;
-    return 0;
+    if (!str_cmp(name, "spec_concordius"))
+        return spec_concordius;
+    if (!str_cmp(name, "spec_aquila_pet"))
+        return spec_aquila_pet;
+    if (!str_cmp(name, "spec_summoner"))
+        return spec_summoner;
+    return nullptr;
+}
+
+namespace {
+// We might want to revisit this, as it disproportionately picks the earlier members of the room.
+template <typename F>
+Char *pick_fighting_victim(const Char *ch, F filter) {
+    for (auto *victim : ch->in_room->people)
+        if (victim->fighting == ch && filter(victim))
+            return victim;
+    return nullptr;
+}
+template <typename F>
+Char *pick_passive_victim(const Char *ch, F filter) {
+    for (auto *victim : ch->in_room->people)
+        if (victim != ch && filter(victim))
+            return victim;
+    return nullptr;
+}
 }
 
 /* Core procedure for dragons. */
-bool dragon(CHAR_DATA *ch, const char *spell_name) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
-    int sn;
-
+bool dragon(Char *ch, const char *spell_name) {
     if (ch->position != POS_FIGHTING)
         return false;
 
-    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
-        v_next = victim->next_in_room;
-        if (victim->fighting == ch && number_bits(2) == 0)
-            break;
-    }
-
-    if (victim == nullptr)
+    auto victim = pick_fighting_victim(ch, [](auto) { return number_bits(3) == 0; });
+    if (!victim)
         return false;
 
-    if ((sn = skill_lookup(spell_name)) < 0)
+    int sn = skill_lookup(spell_name);
+    if (sn < 0)
         return false;
     (*skill_table[sn].spell_fun)(sn, ch->level, ch, victim);
     return true;
 }
 
 /* Special procedures for mobiles. */
-bool spec_breath_any(CHAR_DATA *ch) {
+bool spec_breath_any(Char *ch) {
     if (ch->position != POS_FIGHTING)
         return false;
 
@@ -138,13 +156,13 @@ bool spec_breath_any(CHAR_DATA *ch) {
     return false;
 }
 
-bool spec_breath_acid(CHAR_DATA *ch) { return dragon(ch, "acid breath"); }
+bool spec_breath_acid(Char *ch) { return dragon(ch, "acid breath"); }
 
-bool spec_breath_fire(CHAR_DATA *ch) { return dragon(ch, "fire breath"); }
+bool spec_breath_fire(Char *ch) { return dragon(ch, "fire breath"); }
 
-bool spec_breath_frost(CHAR_DATA *ch) { return dragon(ch, "frost breath"); }
+bool spec_breath_frost(Char *ch) { return dragon(ch, "frost breath"); }
 
-bool spec_breath_gas(CHAR_DATA *ch) {
+bool spec_breath_gas(Char *ch) {
     int sn;
 
     if (ch->position != POS_FIGHTING)
@@ -156,13 +174,11 @@ bool spec_breath_gas(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_breath_lightning(CHAR_DATA *ch) { return dragon(ch, "lightning breath"); }
+bool spec_breath_lightning(Char *ch) { return dragon(ch, "lightning breath"); }
 
-bool spec_DEATH(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
-    CHAR_DATA *lowest_person = nullptr;
-    CHAR_DATA *phil;
+bool spec_DEATH(Char *ch) {
+    Char *lowest_person = nullptr;
+    Char *phil;
     ROOM_INDEX_DATA *home; /* Death's house */
     int lowest_percent = 15; /* Lowest percentage of hp Death gates to */
 
@@ -174,9 +190,8 @@ bool spec_DEATH(CHAR_DATA *ch) {
         return false;
     }
 
-    for (victim = char_list; victim != nullptr; victim = v_next) {
-        v_next = victim->next;
-        if ((((victim->hit * 100) / victim->max_hit) < lowest_percent) && (!IS_NPC(victim))) {
+    for (auto *victim : char_list) {
+        if ((((victim->hit * 100) / victim->max_hit) < lowest_percent) && (victim->is_pc())) {
             lowest_percent = ((victim->hit * 100) / victim->max_hit);
             lowest_person = victim;
         }
@@ -247,20 +262,14 @@ bool spec_DEATH(CHAR_DATA *ch) {
     }
 }
 
-bool spec_cast_adept(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
-
+bool spec_cast_adept(Char *ch) {
     if (!IS_AWAKE(ch))
         return false;
 
-    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
-        v_next = victim->next_in_room;
-        if (victim != ch && can_see(ch, victim) && number_bits(1) == 0 && !IS_NPC(victim) && victim->level < 11)
-            break;
-    }
-
-    if (victim == nullptr)
+    auto *victim = pick_passive_victim(ch, [&](auto *victim) {
+        return can_see(ch, victim) && number_bits(1) == 0 && victim->is_pc() && victim->level < 11;
+    });
+    if (!victim)
         return false;
 
     switch (number_bits(4)) {
@@ -298,22 +307,15 @@ bool spec_cast_adept(CHAR_DATA *ch) {
     return false;
 }
 
-bool spec_cast_cleric(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
+bool spec_cast_cleric(Char *ch) {
     const char *spell;
     int sn;
 
     if (ch->position != POS_FIGHTING)
         return false;
 
-    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
-        v_next = victim->next_in_room;
-        if (victim->fighting == ch && number_bits(2) == 0)
-            break;
-    }
-
-    if (victim == nullptr)
+    auto *victim = pick_fighting_victim(ch, [](auto) { return number_bits(2) == 0; });
+    if (!victim)
         return false;
 
     for (;;) {
@@ -372,32 +374,21 @@ bool spec_cast_cleric(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_greasy_joe(CHAR_DATA *ch) {
-    char buf[MAX_STRING_LENGTH];
-
-    if (number_percent() > 99) {
-        snprintf(buf, sizeof(buf), "...with onions?...");
-        do_say(ch, buf);
-    }
+bool spec_greasy_joe(Char *ch) {
+    if (number_percent() > 99)
+        ch->say("...with onions?...");
     return true;
 }
 
-bool spec_cast_judge(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
+bool spec_cast_judge(Char *ch) {
     const char *spell;
     int sn;
 
     if (ch->position != POS_FIGHTING)
         return false;
 
-    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
-        v_next = victim->next_in_room;
-        if (victim->fighting == ch && number_bits(2) == 0)
-            break;
-    }
-
-    if (victim == nullptr)
+    auto *victim = pick_fighting_victim(ch, [](auto) { return number_bits(2) == 0; });
+    if (!victim)
         return false;
 
     spell = "high explosive";
@@ -407,22 +398,15 @@ bool spec_cast_judge(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_cast_mage(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
+bool spec_cast_mage(Char *ch) {
     const char *spell;
     int sn;
 
     if (ch->position != POS_FIGHTING)
         return false;
 
-    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
-        v_next = victim->next_in_room;
-        if (victim->fighting == ch && number_bits(2) == 0)
-            break;
-    }
-
-    if (victim == nullptr)
+    auto *victim = pick_fighting_victim(ch, [](auto) { return number_bits(3) == 0; });
+    if (!victim)
         return false;
 
     for (;;) {
@@ -451,22 +435,22 @@ bool spec_cast_mage(CHAR_DATA *ch) {
             break;
         case 3:
             min_level = 8;
-            max_level = 40;
+            max_level = 60;
             spell = "shocking grasp";
             break;
         case 4:
             min_level = 11;
-            max_level = 40;
+            max_level = 60;
             spell = "colour spray";
             break;
         case 5:
             min_level = 14;
-            max_level = 45;
+            max_level = 80;
             spell = "lightning bolt";
             break;
         case 6:
             min_level = 20;
-            max_level = 60;
+            max_level = 105;
             spell = "fireball";
             break;
         case 7:
@@ -489,22 +473,15 @@ bool spec_cast_mage(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_cast_undead(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
+bool spec_cast_undead(Char *ch) {
     const char *spell;
     int sn;
 
     if (ch->position != POS_FIGHTING)
         return false;
 
-    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
-        v_next = victim->next_in_room;
-        if (victim->fighting == ch && number_bits(2) == 0)
-            break;
-    }
-
-    if (victim == nullptr)
+    auto *victim = pick_fighting_victim(ch, [](auto) { return number_bits(3) == 0; });
+    if (!victim)
         return false;
 
     for (;;) {
@@ -579,22 +556,15 @@ bool spec_cast_undead(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_cast_bastard(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
+bool spec_cast_bastard(Char *ch) {
     const char *spell;
     int sn;
 
     if (ch->position != POS_FIGHTING)
         return false;
 
-    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
-        v_next = victim->next_in_room;
-        if (victim->fighting == ch && number_bits(2) == 0)
-            break;
-    }
-
-    if (victim == nullptr)
+    auto *victim = pick_fighting_victim(ch, [](auto) { return number_bits(3) == 0; });
+    if (!victim)
         return false;
 
     for (;;) {
@@ -648,35 +618,15 @@ bool spec_cast_bastard(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_executioner(CHAR_DATA *ch) {
-    char buf[MAX_STRING_LENGTH];
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
-    const char *crime;
-
+bool spec_executioner(Char *ch) {
     if (!IS_AWAKE(ch) || ch->fighting != nullptr)
         return false;
 
-    crime = "";
-    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
-        v_next = victim->next_in_room;
-
-        if (!IS_NPC(victim) && IS_SET(victim->act, PLR_KILLER)) {
-            crime = "KILLER";
-            break;
-        }
-
-        if (!IS_NPC(victim) && IS_SET(victim->act, PLR_THIEF)) {
-            crime = "THIEF";
-            break;
-        }
-    }
-
-    if (victim == nullptr)
+    auto *victim = pick_passive_victim(ch, [](Char *vch) { return vch->is_player_killer() || vch->is_player_thief(); });
+    if (!victim)
         return false;
-
-    snprintf(buf, sizeof(buf), "%s is a %s!  PROTECT THE INNOCENT!  MORE BLOOOOD!!!", victim->name, crime);
-    do_yell(ch, buf);
+    ch->yell(fmt::format("{} is a {}!  PROTECT THE INNOCENT!  MORE BLOOOOD!!!", victim->name,
+                         victim->is_player_killer() ? "KILLER" : "THIEF"));
     multi_hit(ch, victim, TYPE_UNDEFINED);
     char_to_room(create_mobile(get_mob_index(MOB_VNUM_CITYGUARD)), ch->in_room);
     char_to_room(create_mobile(get_mob_index(MOB_VNUM_CITYGUARD)), ch->in_room);
@@ -696,18 +646,9 @@ bool spec_executioner(CHAR_DATA *ch) {
 
                 written by Seth of Rivers of Mud         */
 
-bool spec_puff(CHAR_DATA *ch) {
-    char buf[MAX_STRING_LENGTH];
+bool spec_puff(Char *ch) {
     int rnd_social, sn, silliness;
-    bool pc_found = true;
-    CHAR_DATA *v_next;
-    CHAR_DATA *wch;
-    CHAR_DATA *wch_next;
-    CHAR_DATA *nch;
-    CHAR_DATA *ch_next;
-    CHAR_DATA *vch;
-    CHAR_DATA *vch_next;
-    CHAR_DATA *victim;
+    Char *victim;
     extern int social_count;
 
     if (!IS_AWAKE(ch))
@@ -720,29 +661,17 @@ bool spec_puff(CHAR_DATA *ch) {
          (Thank you, Furey-- I screwed this up many times until I
          learned of your way of doing it)                      */
 
-    for (wch = char_list; wch != nullptr; wch = wch_next) {
-        wch_next = wch->next;
-        if (IS_NPC(wch) || wch->in_room == nullptr)
+    for (auto *wch : char_list) {
+        if (wch->is_npc() || wch->in_room == nullptr)
             continue;
 
-        for (nch = wch->in_room->people; nch != nullptr; nch = ch_next) {
-            int count;
-
-            ch_next = nch->next_in_room;
-
-            if (!IS_NPC(nch) || number_bits(1) == 0)
+        for (auto *nch : wch->in_room->people) {
+            if (nch->is_pc() || number_bits(1) == 0)
                 continue;
-            /*
-             * Ok we have a 'wch' player character and a 'nch' npc aggressor.
-             * Now make the aggressor fight a RANDOM pc victim in the room,
-             *   giving each 'vch' an equal chance of selection.
-             */
-            count = 0;
+            int count = 0;
             victim = nullptr;
-            for (vch = wch->in_room->people; vch != nullptr; vch = vch_next) {
-                vch_next = vch->next_in_room;
-
-                if (!IS_NPC(vch)) {
+            for (auto *vch : wch->in_room->people) {
+                if (vch->is_pc()) {
                     if (number_range(0, count) == 0)
                         victim = vch;
                     count++;
@@ -762,19 +691,18 @@ bool spec_puff(CHAR_DATA *ch) {
     if (silliness <= 20)
         return true;
     else if (silliness <= 30) {
-        snprintf(buf, sizeof(buf), "Tongue-tied and twisted, just an earthbound misfit, ...");
-        do_say(ch, buf);
+        ch->say("Tongue-tied and twisted, just an earthbound misfit, ...");
     } else if (silliness <= 40) {
-        snprintf(buf, sizeof(buf), "The colors, the colors!");
-        do_say(ch, buf);
+        ch->say("The colors, the colors!");
     } else if (silliness <= 55) {
-        snprintf(buf, sizeof(buf), "Did you know that I'm written in C?");
-        do_say(ch, buf);
+        ch->say("Did you know that I'm written in C++?");
     } else if (silliness <= 75) {
         act(social_table[rnd_social].others_no_arg, ch);
         act(social_table[rnd_social].char_no_arg, ch, nullptr, nullptr, To::Char);
     } else if (silliness <= 85) {
-        if ((!pc_found) || (victim != ch->in_room->people))
+        // TODO(#239) : no idea what this check is supposed to do, but was in the original code and I ported it to the
+        // new way.
+        if (victim != *ch->in_room->people.begin())
             return false;
         act(social_table[rnd_social].others_found, ch, nullptr, victim, To::NotVict);
         act(social_table[rnd_social].char_found, ch, nullptr, victim, To::Char);
@@ -815,13 +743,8 @@ bool spec_puff(CHAR_DATA *ch) {
     if (ch->position != POS_FIGHTING)
         return false;
 
-    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
-        v_next = victim->next_in_room;
-        if (victim->fighting == ch && number_bits(2) == 0)
-            break;
-    }
-
-    if (victim == nullptr)
+    victim = pick_fighting_victim(ch, [](auto) { return number_bits(2) == 0; });
+    if (!victim)
         return false;
 
     if ((sn = skill_lookup("teleport")) < 0)
@@ -830,23 +753,16 @@ bool spec_puff(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_fido(CHAR_DATA *ch) {
-    OBJ_DATA *corpse;
-    OBJ_DATA *c_next;
-    OBJ_DATA *obj;
-    OBJ_DATA *obj_next;
-
+bool spec_fido(Char *ch) {
     if (!IS_AWAKE(ch))
         return false;
 
-    for (corpse = ch->in_room->contents; corpse != nullptr; corpse = c_next) {
-        c_next = corpse->next_content;
+    for (auto *corpse : ch->in_room->contents) {
         if (corpse->item_type != ITEM_CORPSE_NPC)
             continue;
 
         act("$n savagely devours a corpse.", ch);
-        for (obj = corpse->contains; obj; obj = obj_next) {
-            obj_next = obj->next_content;
+        for (auto *obj : corpse->contains) {
             obj_from_obj(obj);
             obj_to_room(obj, ch->in_room);
         }
@@ -857,48 +773,27 @@ bool spec_fido(CHAR_DATA *ch) {
     return false;
 }
 
-bool spec_guard(CHAR_DATA *ch) {
-    char buf[MAX_STRING_LENGTH];
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
-    CHAR_DATA *ech;
-    const char *crime;
-    int max_evil;
-
+bool spec_guard(Char *ch) {
     if (!IS_AWAKE(ch) || ch->fighting != nullptr)
         return false;
 
-    max_evil = 300;
-    ech = nullptr;
-    crime = "";
-
-    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
-        v_next = victim->next_in_room;
-
-        if (!IS_NPC(victim) && IS_SET(victim->act, PLR_KILLER)) {
-            crime = "KILLER";
-            break;
-        }
-
-        if (!IS_NPC(victim) && IS_SET(victim->act, PLR_THIEF)) {
-            crime = "THIEF";
-            break;
-        }
-
-        if (victim->fighting != nullptr && victim->fighting != ch && victim->alignment < max_evil) {
-            max_evil = victim->alignment;
-            ech = victim;
-        }
-    }
-
-    if (victim != nullptr) {
-        snprintf(buf, sizeof(buf), "%s is a %s!  PROTECT THE INNOCENT!!  BANZAI!!", victim->name, crime);
-        do_yell(ch, buf);
+    if (auto *victim =
+            pick_passive_victim(ch, [](Char *vch) { return vch->is_player_killer() || vch->is_player_thief(); })) {
+        ch->yell(fmt::format("{} is a {}!  PROTECT THE INNOCENT!  BANZAI!!", victim->name,
+                             victim->is_player_killer() ? "KILLER" : "THIEF"));
         multi_hit(ch, victim, TYPE_UNDEFINED);
         return true;
     }
 
-    if (ech != nullptr) {
+    int max_evil = 300;
+    Char *ech{};
+    for (auto vch : ch->in_room->people) {
+        if (vch->fighting != nullptr && vch->fighting != ch && vch->alignment < max_evil) {
+            max_evil = vch->alignment;
+            ech = vch;
+        }
+    }
+    if (ech) {
         act("$n screams 'PROTECT THE INNOCENT!!  BANZAI!!", ch);
         multi_hit(ch, ech, TYPE_UNDEFINED);
         return true;
@@ -907,15 +802,11 @@ bool spec_guard(CHAR_DATA *ch) {
     return false;
 }
 
-bool spec_janitor(CHAR_DATA *ch) {
-    OBJ_DATA *trash;
-    OBJ_DATA *trash_next;
-
+bool spec_janitor(Char *ch) {
     if (!IS_AWAKE(ch))
         return false;
 
-    for (trash = ch->in_room->contents; trash != nullptr; trash = trash_next) {
-        trash_next = trash->next_content;
+    for (auto *trash : ch->in_room->contents) {
         if (!IS_SET(trash->wear_flags, ITEM_TAKE) || !can_loot(ch, trash))
             continue;
         if (trash->item_type == ITEM_DRINK_CON || trash->item_type == ITEM_TRASH || trash->cost < 10) {
@@ -929,7 +820,7 @@ bool spec_janitor(CHAR_DATA *ch) {
     return false;
 }
 
-bool spec_mayor(CHAR_DATA *ch) {
+bool spec_mayor(Char *ch) {
     static const char open_path[] = "W3a3003b33000c111d0d111Oe333333Oe22c222112212111a1S.";
 
     static const char close_path[] = "W3a3003b33000c111d0d111CE333333CE22c222112212111a1S.";
@@ -939,13 +830,13 @@ bool spec_mayor(CHAR_DATA *ch) {
     static bool move;
 
     if (!move) {
-        if (time_info.hour == 6) {
+        if (time_info.hour() == 6) {
             path = open_path;
             move = true;
             pos = 0;
         }
 
-        if (time_info.hour == 20) {
+        if (time_info.hour() == 20) {
             path = close_path;
             move = true;
             pos = 0;
@@ -958,10 +849,10 @@ bool spec_mayor(CHAR_DATA *ch) {
         return false;
 
     switch (path[pos]) {
-    case '0':
-    case '1':
-    case '2':
-    case '3': move_char(ch, path[pos] - '0'); break;
+    case '0': move_char(ch, Direction::North); break;
+    case '1': move_char(ch, Direction::East); break;
+    case '2': move_char(ch, Direction::South); break;
+    case '3': move_char(ch, Direction::West); break;
 
     case 'W':
         ch->position = POS_STANDING;
@@ -986,13 +877,13 @@ bool spec_mayor(CHAR_DATA *ch) {
     case 'E': act("$n says 'I hereby declare the city of Midgaard closed!'", ch); break;
 
     case 'O':
-        /*	do_unlock( ch, "gate" ); */
-        do_open(ch, "gate");
+        /* do_unlock( ch, "gate" ); */
+        do_open(ch, ArgParser("gate"));
         break;
 
     case 'C':
-        do_close(ch, "gate");
-        /*	do_lock( ch, "gate" ); */
+        do_close(ch, ArgParser("gate"));
+        /* do_lock( ch, "gate" ); */
         break;
 
     case '.': move = false; break;
@@ -1002,8 +893,8 @@ bool spec_mayor(CHAR_DATA *ch) {
     return false;
 }
 
-bool spec_poison(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
+bool spec_poison(Char *ch) {
+    Char *victim;
 
     if (ch->position != POS_FIGHTING || (victim = ch->fighting) == nullptr || number_percent() > 2 * ch->level)
         return false;
@@ -1015,18 +906,14 @@ bool spec_poison(CHAR_DATA *ch) {
     return true;
 }
 
-bool spec_thief(CHAR_DATA *ch) {
-    CHAR_DATA *victim;
-    CHAR_DATA *v_next;
+bool spec_thief(Char *ch) {
     long gold;
 
     if (ch->position != POS_STANDING)
         return false;
 
-    for (victim = ch->in_room->people; victim != nullptr; victim = v_next) {
-        v_next = victim->next_in_room;
-
-        if (IS_NPC(victim) || victim->level >= LEVEL_IMMORTAL || number_bits(5) != 0 || !can_see(ch, victim))
+    for (auto *victim : ch->in_room->people) {
+        if (victim->is_npc() || victim->level >= LEVEL_IMMORTAL || number_bits(5) != 0 || !can_see(ch, victim))
             continue;
 
         if (IS_AWAKE(victim) && number_range(0, ch->level) == 0) {

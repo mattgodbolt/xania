@@ -25,7 +25,7 @@ in strange contemplations.
 unique~
 0 0 1000 0
 26 5 5d10+550 26d5+100 4d6+3 chomp
--15 -15 -15 -10
+-30 -30 -30 -25
 MNc AB CD 0
 stand stand female 500
 DHZ ACDEFHJKPQUVX M 0
@@ -42,7 +42,7 @@ a shiver run down your spine.
 unique~
 BO 0 1000 0
 10 4 3d3+200 3d3+180 3d3+3 maul
-4 4 4 7
+-11 -11 -11 -8
 FENU 0 0 0
 stand stand neutral 500
 0 0 medium 0
@@ -154,7 +154,7 @@ trash 0 A
 0 0 0 0 0
 0 5 0 D
 #20
-mushroom~
+mushroom magic~
 a Magic Mushroom~
 A delicious magic mushroom is here.~
 food~
@@ -217,7 +217,7 @@ Careful - it may go off anytime!!
 #26
 portal doorway~
 a portal~
-This a portal to %s~
+This is a portal to %s~
 octarine~
 portal AGO 0
 0 0 0 0 0
@@ -231,7 +231,7 @@ portal AGO 0
 The Void~
   You are floating in nothing.
 ~
-0 8 1
+8 1
 S
 #2
 Limbo~
@@ -240,7 +240,7 @@ matter, surrounded by swirling glowing light, which fades into the relative
 darkness around you without any trace of edges or shadow.
    There is a "No Tipping" notice pinned to the darkness.
 ~
-0 8 1
+8 1
 D4
 ~
 ~

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "common/Time.hpp"
+
 #include <cstdint>
 #include <list>
 #include <optional>
@@ -7,7 +9,7 @@
 #include <string_view>
 #include <unordered_set>
 
-struct CHAR_DATA;
+struct Char;
 
 // Connected state for a descriptor.
 enum class DescriptorState {
@@ -42,10 +44,11 @@ class Descriptor {
     static constexpr size_t MaxInbufBacklog = 50u;
     uint32_t channel_{};
     std::list<std::string> pending_commands_;
+    bool is_spammer_warned_{};
     std::string last_command_;
     std::string raw_host_{"unknown"};
     std::string masked_host_{"unknown"};
-    std::string login_time_;
+    Time login_time_;
     std::string outbuf_;
     std::list<std::string> page_outbuf_;
     std::unordered_set<Descriptor *> snoop_by_;
@@ -54,22 +57,32 @@ class Descriptor {
     uint16_t port_{};
     bool processing_command_{};
     DescriptorState state_{DescriptorState::GetName};
-    CHAR_DATA *character_{};
-    CHAR_DATA *original_{};
+    Char *character_{};
+    Char *original_{};
 
     [[nodiscard]] std::optional<std::string> pop_raw();
 
 public:
-    Descriptor *next{};
-
     explicit Descriptor(uint32_t descriptor);
     ~Descriptor();
+
+    // Descriptors are referenced everywhere; prevent accidental copying or moving that would invalidate others'
+    // references.
+    Descriptor(const Descriptor &) = delete;
+    Descriptor &operator=(const Descriptor &) = delete;
+    Descriptor(Descriptor &&) = delete;
+    Descriptor &operator=(Descriptor &&) = delete;
 
     void state(DescriptorState state) noexcept { state_ = state; }
     [[nodiscard]] DescriptorState state() const noexcept { return state_; }
     [[nodiscard]] bool is_playing() const noexcept { return state_ == DescriptorState::Playing; }
 
     [[nodiscard]] bool is_input_full() const noexcept { return pending_commands_.size() >= MaxInbufBacklog; }
+    [[nodiscard]] bool is_spammer_warned() const noexcept { return is_spammer_warned_; }
+    void warn_spammer();
+    [[nodiscard]] bool is_in_lobby() const noexcept;
+    // Returns true if the descriptor has been connected in the lobby (user/pass prompt) too long.
+    [[nodiscard]] bool is_lobby_timeout_exceeded() const noexcept;
     void clear_input() { pending_commands_.clear(); }
     void add_command(std::string_view command) { pending_commands_.emplace_back(command); }
     [[nodiscard]] std::optional<std::string> pop_incomm();
@@ -81,6 +94,7 @@ public:
     // Buffers output to be processed later. If the max output size is exceeded, the descriptor is closed.
     void write(std::string_view message) noexcept;
     [[nodiscard]] bool has_buffered_output() const noexcept { return !outbuf_.empty(); }
+    [[nodiscard]] const std::string &buffered_output() const noexcept { return outbuf_; }
     void clear_output_buffer() noexcept { outbuf_.clear(); }
 
     // Send a page of text to a descriptor. Sending a page replaces any previous page.
@@ -93,7 +107,7 @@ public:
     void set_endpoint(uint32_t netaddr, uint16_t port, std::string_view raw_full_hostname);
 
     [[nodiscard]] const std::string &host() const noexcept { return masked_host_; }
-    [[nodiscard]] const std::string &login_time() const noexcept { return login_time_; }
+    [[nodiscard]] std::string login_time() const noexcept;
 
     [[nodiscard]] bool flush_output() noexcept;
 
@@ -102,7 +116,7 @@ public:
     void stop_snooping(Descriptor &other);
     void stop_snooping();
 
-    [[nodiscard]] bool closed() const noexcept { return state_ == DescriptorState::Closed; }
+    [[nodiscard]] bool is_closed() const noexcept { return state_ == DescriptorState::Closed; }
     void close() noexcept;
 
     [[nodiscard]] uint32_t channel() const noexcept { return channel_; }
@@ -111,14 +125,14 @@ public:
     void processing_command(bool is_processing) noexcept { processing_command_ = is_processing; }
     [[nodiscard]] bool processing_command() const noexcept { return processing_command_; }
 
-    [[nodiscard]] CHAR_DATA *character() const noexcept { return character_; }
-    void character(CHAR_DATA *character) noexcept { character_ = character; }
-    [[nodiscard]] CHAR_DATA *original() const noexcept { return original_; }
+    [[nodiscard]] Char *character() const noexcept { return character_; }
+    void character(Char *character) noexcept { character_ = character; }
+    [[nodiscard]] Char *original() const noexcept { return original_; }
     // do_ prefix because switch is a C keyword
-    void do_switch(CHAR_DATA *victim);
+    void do_switch(Char *victim);
     // do_ prefix because return is a C keyword
     void do_return();
     // Return the real-life "person" player character behind this descriptor.
-    [[nodiscard]] CHAR_DATA *person() const noexcept { return original_ ? original_ : character_; }
+    [[nodiscard]] Char *person() const noexcept { return original_ ? original_ : character_; }
     [[nodiscard]] bool is_switched() const noexcept { return original_ != nullptr; }
 };

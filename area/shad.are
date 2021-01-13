@@ -17,7 +17,7 @@ his reputation.
 human~
 GT NTQV -1000 0
 50 25 2d50+2100 1d1+325 5d10+25 wrath
--17 -17 -17 -12
+-32 -32 -32 -27
 FHK AM 0 NS
 stand stand male 2000
 0 0 medium 0
@@ -34,7 +34,7 @@ of the clan, and is now a full-fledged Shadow Warrior.
 human~
 GTc NQV -1000 0
 40 20 3d10+1500 1d1+320 5d7+20 wrath
--13 -13 -13 -9
+-28 -28 -28 -24
 FGHKC AM 0 NS
 stand stand male 1000
 0 0 medium 0
@@ -51,7 +51,7 @@ Being so powerful, he feels no need to conceal himself.
 elf~
 GRTKc NVc -1000 0
 70 35 3d100+4200 1d1+700 3d45+20 wrath
--27 -27 -27 -20
+-42 -42 -42 -35
 CDFH ABM 0 NS
 stand stand male 1
 0 0 medium 0
@@ -68,7 +68,7 @@ ropes of the clan. The armor he wears illustrates his rank in the Council.
 dwarf~
 GTc NQV -1000 0
 20 10 2d50+480 1d1+200 4d5+10 pierce
--7 -7 -7 -4
+-22 -22 -22 -19
 CFGK A M NS
 stand stand male 1000
 0 0 medium 0
@@ -85,7 +85,7 @@ you with Council equipment for a price.
 dwarf~
 BGTVc HVc -1000 0
 91 30 1d1+8000 1d1+600 8d10+30 wrath
--30 -30 -30 -20
+-45 -45 -45 -35
 CDIKN ABLQ 0 0
 stand stand male 7000
 0 0 small 0
@@ -103,7 +103,7 @@ and the Shadow Council.
 giant~
 BGNQRT DFHNVc -1000 0
 140 70 1d1+29999 1d1+1310 10d14+70 wrath
--40 -40 -40 -32
+-55 -55 -55 -47
 BCDEFHIKNQ ABMP D NS
 stand stand male 7000
 0 0 huge 0
@@ -261,7 +261,7 @@ emanates from the oily liquid which clings to them. Up above, the
 shielded stairway opens out into dark enclosed space, somewhere in
 the city of Midgaard.
 ~
-30 AD 0
+AD 0
 D4 
 You see faint shafts of light.
 ~
@@ -283,7 +283,7 @@ feel safe in this evil sanctuary. From here, a long hallway stretches east,
 into other rooms of the Secret Lair. A tall statue stands in the corner of
 the room.
 ~
-30 D 0
+D 0
 D1
 a walk through a dim hallway
 ~
@@ -310,7 +310,7 @@ in the corner. You can hear the scuffling of feet in the darkness, and you
 also notice a shadowy door to the north. You can continue east, or go back 
 west.
 ~
-30 AD 0
+AD 0
 D0
 through the dark door
 ~
@@ -350,7 +350,7 @@ just standing here. This is where members of the Shadow Council rest, to
 regain strength, and meditate, to regain magickal power. Light from the fire
 flares off of a statue in the corner.
 ~
-30 D 0
+D 0
 D2
 a walk back through the door
 ~
@@ -371,7 +371,7 @@ lit room. Sitting behind a desk is a dwarf, willing to sell you Council
 supplies. A door here leads north, and an open exit is south. You can make
 out a little writing on the east wall.
 ~
-30 D 0
+D 0
 D2
 passing north, through the door
 ~
@@ -405,7 +405,7 @@ This is a well lit room used for depositing extra items you may have, for
 the benefit of other Council members. If the merchant north won't purchase
 an item you have, please put it in the pit here.
 ~
-30 D 0
+D 0
 D0 
 a walk back to the end of the dark hallway
 ~
@@ -421,7 +421,7 @@ the teaching. In the air you can detect the powerful odour of a mysterious
 drug, which you assume the Council members consume in order to enhance 
 their performance.
 ~
-30 D 0
+D 0
 D2
 a walk south through the door
 ~

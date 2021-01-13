@@ -13,7 +13,7 @@ can feel a strange sensation of contentedness and relief seeping through You,
 as if great burdens have been lifted from Your shoulders. From here, friendly-
 looking paths lead east and south.
 ~
-89 0 3
+0 3
 D1
 The path wind its way through the tall trees, disappearing out of sight.
 ~
@@ -31,7 +31,7 @@ You are standing amidst the ancient oaks and poplars in the holy grove. You
 feel unusually happy here, as if great burdens have been lifted from Your
 shoulders. From here, pleasant-looking paths lead east, west and south.
 ~
-89 0 3
+0 3
 D1
 The path wind its way through the tall trees, towards a clearing faintly seen.
 ~
@@ -56,7 +56,7 @@ seems powerfully DIFFERENT from the rest of the forest, as if something is
 severely strained in the fabric of reality here.  There is a small tablet 
 on one of the trees.
 ~
-89 C 3
+C 3
 D0
 A small, narrow path winds north, and is quickly lost in the bushes. It
 looks quite a wilderness there!
@@ -87,7 +87,7 @@ shoulders. From here, pleasant-looking paths lead east, north and south. To
 the west, through the trees, You can see a faint trail leading towards the
 eastern road.
 ~
-89 C 3
+C 3
 D0
 The path wind its way through the tall trees, disappearing out of sight.
 ~
@@ -120,7 +120,7 @@ holy grove to the east, north and west, while to the south a wide, sunny field
 slopes down to a sparkling lake.  Above you is a strange shimmering, almost
 like something from another world....
 ~
-89 0 3
+0 3
 D0
 The path wind its way north, disappearing through the tall trees.
 ~
@@ -156,7 +156,7 @@ can feel a strange sensation of joy and calm seeping through You, as if great
 burdens have been lifted from Your shoulders. To the south, You glimpse an open
 area through the trees, while paths lead away north and west.
 ~
-89 0 3
+0 3
 D0
 The path wind its way through the tall trees, disappearing out of sight.
 ~
@@ -189,7 +189,7 @@ field, sloping gently down towards a bright, glittering lake. Somehow, here
 you feel an inexplicable happiness, as if the world's troubles no longer
 really matter to you.
 ~
-89 0 3
+0 3
 D0
 The path leading north is soon lost out of sight amongst the ancient oaks and
 poplars.
@@ -221,7 +221,7 @@ sion, shimmering softly through the colors of the rainbow. You feel as if You
 could spend the rest of your life here, lying on your back and looking at the
 patterns of the clouds as they gently drift across the sky.
 ~
-89 D 2
+D 2
 D0
 There is a path leading north towards the sacred glade.
 ~
@@ -255,7 +255,7 @@ from the wood's edge to the north, to the softly shimmering, rainbow-colored
 mansion to the south. This place enjoys a perpetual cool, sunny summers after-
 noon.
 ~
-89 C 2
+C 2
 D0
 To the north, the winding stone path leads into the holy grove.
 ~
@@ -281,7 +281,7 @@ the croquet lawn is to the north, flanked by large windows. The walls are
 panelled in oak and hung with strange paintings.  There is door in the south
 wall.
 ~
-89 CD 0
+CD 0
 D0
 Through the windows next to the door you can see the croquet lawn, bathed in
 afternoon sunlight.
@@ -307,7 +307,7 @@ You are in the north end of a connecting hallway, tastefully decorated with
 oak paneling and the coat-of-arms of various famous nobles hung on the walls.
 The hallway leads south, and there is a door in the eastern wall.
 ~
-89 D 0
+D 0
 D0
 ~
 door~
@@ -329,7 +329,7 @@ shades, producing a very nice, cool effect. There is a large bed and a
 matching set of sofas, easy-chairs and a coffee table. Through the venetian
 blinds in front of the large east window you can see the edge of the grove.
 ~
-89 DJ 0
+DJ 0
 D3
 ~
 door~
@@ -341,7 +341,7 @@ You are standing in the south end of the hallway. There are doors in the
 elegant oak-panelled walls to the south, east and west. Many different
 coat-of-arms adorn the walls here.
 ~
-89 D 0
+D 0
 D0
 ~
 ~
@@ -367,7 +367,7 @@ plements them. There is a large, warm waterbed and a sofa group in dark wood
 with leather upholstery, including a coffee table. Heavy brown curtains are
 pulled away from the wide windows, to reveal a nice view towards the grove.
 ~
-89 DJ 0
+DJ 0
 D3
 ~
 door~
@@ -383,7 +383,7 @@ along several shelves and a large combo refrigerator/freezer. A big oven and
 stove is lurking in a corner. There is some proof here that Dragon is a less
 than meticulous housekeeper... There are doors to the north and west.
 ~
-89 D 0
+D 0
 D0
 ~
 door~
@@ -401,7 +401,7 @@ standing forlornly in a corner suggests that this does not happen often.
 There are doors in the south and west walls, while to the east there is a
 short corridor to the greenhouse.
 ~
-89 D 0
+D 0
 D1
 ~
 door~
@@ -425,7 +425,7 @@ see out for all the greenery here. There is a set of easy-chairs and a glass
 coffee table. To the south, there is a wide double door out to a sunlit 
 terrace.
 ~
-89 DJ 0
+DJ 0
 D1
 ~
 ~
@@ -442,7 +442,7 @@ seating at least 24, with heavy, wooden chairs to match. The oak panel walls
 are filled with paintings. There are doors to the north and east, and to the
 west there is a wide double door opening out onto the sunlit terrace.
 ~
-89 D 0
+D 0
 D0
 ~
 door~
@@ -479,7 +479,7 @@ colors, while a double door leads into the house proper to the east. It is
 warm and calm here. There is a white-painted table with a parasol here,
 together with a matched set of chairs.
 ~
-89 CD 0
+CD 0
 D0
 ~
 door~
@@ -500,7 +500,7 @@ heart is filled with pure, peaceful thoughts.  This looks like a safe place
 to recover from the wounds of adventuring.  A faint path through the grove
 lies to the north, and you can see the eastern road to the south.
 ~
-89 0 3
+0 3
 D0
 A faint trail leads deeper into the grove.
 ~
@@ -520,7 +520,7 @@ so tranquil.  The trail turns towards the east, leading into the secluded
 trees of the druids' holy grove, and a path back to the eastern road lies
 south.
 ~
-89 0 3
+0 3
 D1
 You see the stately oaks and poplars of the holy grove.
 ~
@@ -540,7 +540,7 @@ and falling ...
 ...
 .
 ~
-89 C 0
+C 0
 S
 #0
 
@@ -557,7 +557,7 @@ traps and pitfalls.
 unique~
 GHA DHN +1000 0
 20 9 1d1+560 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand male 1047
 0 0 medium 0
@@ -574,7 +574,7 @@ traps and pitfalls.
 unique~
 GHA DHN +1000 0
 20 9 1d1+560 1d1+400 4d5+10 slash
--3 -3 -3 3
+-18 -18 -18 -12
 FENU 0 0 0
 stand stand female 1015
 0 0 medium 0
@@ -590,7 +590,7 @@ his lack of wrinkles.
 unique~
 GHA N 1000 0
 13 6 1d1+305 1d1+260 4d4+6 beating
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand male 526
 0 0 medium 0
@@ -605,7 +605,7 @@ She looks ageless, as do all druids.  She smiles a beautiful smile at you.
 unique~
 GHA N 1000 0
 13 6 1d1+305 1d1+260 4d4+6 slash
-1 1 1 5
+-14 -14 -14 -10
 FENU 0 0 0
 stand stand female 544
 0 0 medium 0
@@ -621,7 +621,7 @@ she sniffs at you, but she goes back to chewing some grass.
 unique~
 GHA 0 0 0
 5 2 1d1+80 1d1+100 2d3+2 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand female 209
 0 0 medium 0
@@ -637,7 +637,7 @@ albeit ineffectively.
 unique~
 GHA 0 0 0
 6 3 1d1+125 1d1+120 2d3+3 slash
-6 6 6 8
+-9 -9 -9 -7
 FENU 0 0 0
 stand stand male 251
 0 0 medium 0
@@ -652,7 +652,7 @@ He eyes you with contained anger.  You'd better leave him alone!
 unique~
 FGHA 0 0 0
 8 3 1d1+169 1d1+160 3d3+4 slash
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 332
 0 0 medium 0
@@ -667,7 +667,7 @@ This bunny looks so adorable, you wished you had one just like this!
 unique~
 GHA 0 0 0
 2 1 1d1+35 1d1+40 1d2+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand neutral 83
 0 0 medium 0
@@ -682,7 +682,7 @@ Upon careful inspection, you are sure it is NOT a cobra!
 unique~
 FGHA P 0 0
 4 2 1d1+65 1d1+80 2d3+2 slash
-7 7 7 8
+-8 -8 -8 -7
 FENU 0 0 0
 stand stand neutral 167
 0 0 medium 0
@@ -697,7 +697,7 @@ He doesn't like you bothering him, but is too polite to ask you to leave.
 unique~
 GHA DN 1000 0
 10 4 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 409
 0 0 medium 0
@@ -712,7 +712,7 @@ She wonders why you are staring at her, and how you got in here.
 unique~
 GHA DN 1000 0
 10 4 1d1+215 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand female 411
 0 0 medium 0

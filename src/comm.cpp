@@ -13,13 +13,26 @@
  */
 
 #include "comm.hpp"
+#include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
+#include "DescriptorList.hpp"
+#include "Help.hpp"
+#include "MobIndexData.hpp"
+#include "Note.hpp"
+#include "Pronouns.hpp"
+#include "TimeInfoData.hpp"
 #include "challeng.h"
-#include "doorman/doorman_protocol.h"
+#include "common/Fd.hpp"
+#include "common/doorman_protocol.h"
+#include "db.h"
+#include "fight.hpp"
+#include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
-#include "note.h"
+#include "save.hpp"
 #include "string_utils.hpp"
+
+#include <range/v3/algorithm/any_of.hpp>
 
 #include <arpa/telnet.h>
 #include <cctype>
@@ -31,84 +44,65 @@
 #include <ctime>
 #include <fcntl.h>
 #include <fmt/format.h>
+#include <fstream>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <streambuf>
 #include <string>
 #include <sys/signalfd.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/un.h>
+#include <thread>
 #include <unistd.h>
 
 using namespace std::literals;
-using namespace fmt::literals;
-
-/* Added by Rohan - extern to player list for adding new players to it */
-extern KNOWN_PLAYERS *player_list;
-
-/* extern void identd_lookup();  ......commented out due to sock leaks */
-
-char str_boot_time[MAX_INPUT_LENGTH];
-
-/*
- * Socket and TCP/IP stuff.
- */
-
-const char echo_off_str[] = {char(IAC), char(WILL), char(TELOPT_ECHO), '\0'};
-const char echo_on_str[] = {char(IAC), char(WONT), char(TELOPT_ECHO), '\0'};
-const char go_ahead_str[] = {char(IAC), char(GA), '\0'};
 
 /*
  * Global variables.
  */
-Descriptor *descriptor_list; /* All open descriptors    */
-Descriptor *d_next; /* Next descriptor in loop */
-FILE *fpReserve; /* Reserved file handle    */
+DescriptorList the_descriptors;
+DescriptorList &descriptors() { return the_descriptors; }
 bool god; /* All new chars are gods! */
 bool merc_down; /* Shutdown       */
 bool wizlock; /* Game is wizlocked    */
 bool newlock; /* Game is newlocked    */
-time_t current_time; /* time of this pulse */
 bool MOBtrigger;
 
-void game_loop_unix(int control);
-int init_socket(const char *file);
-Descriptor *new_descriptor(int channel);
-void reap_closed_sockets();
-bool read_from_descriptor(Descriptor *d, char *text, int nRead);
-void move_active_char_from_limbo(CHAR_DATA *ch);
+bool read_from_descriptor(Descriptor *d, std::string_view data);
+void move_active_char_from_limbo(Char *ch);
 
 /*
  * Other local functions (OS-independent).
  */
 bool check_parse_name(const char *name);
 bool check_reconnect(Descriptor *d, bool fConn);
-bool check_playing(Descriptor *d, char *name);
+bool check_playing(Descriptor *d, std::string_view name);
 void nanny(Descriptor *d, const char *argument);
 bool process_output(Descriptor *d, bool fPrompt);
-void show_prompt(Descriptor *d, char *prompt);
 
 /* Handle to get to doorman */
-int doormanDesc = 0;
+Fd doormanDesc;
 
 /* Send a packet to doorman */
-bool SendPacket(Packet *p, const void *extra) {
+bool send_to_doorman(const Packet *p, const void *extra) {
     // TODO: do something rather than return here if there's a failure
-    if (!doormanDesc)
+    if (!doormanDesc.is_open())
         return false;
     if (p->nExtra > PACKET_MAX_PAYLOAD_SIZE) {
-        bug("MUD tried to send a doorman packet with payload size %d > %d! Dropping!", p->nExtra,
+        bug("MUD tried to send a doorman packet with payload size {} > {}! Dropping!", p->nExtra,
             PACKET_MAX_PAYLOAD_SIZE);
         return false;
     }
-    int bytes_written = write(doormanDesc, (char *)p, sizeof(Packet));
-    if (bytes_written != sizeof(Packet))
+    try {
+        if (p->nExtra)
+            doormanDesc.write_many(*p, gsl::span<const byte>(static_cast<const byte *>(extra), p->nExtra));
+        else
+            doormanDesc.write(*p);
+    } catch (const std::runtime_error &re) {
+        bug("Unable to write to doorman: {}", re.what());
         return false;
-    if (p->nExtra) {
-        bytes_written = write(doormanDesc, extra, p->nExtra);
-        if (bytes_written != (ssize_t)(p->nExtra))
-            return false;
     }
     return true;
 }
@@ -118,82 +112,73 @@ void SetEchoState(Descriptor *d, int on) {
     p.type = on ? PACKET_ECHO_ON : PACKET_ECHO_OFF;
     p.channel = d->channel();
     p.nExtra = 0;
-    SendPacket(&p, nullptr);
+    send_to_doorman(&p, nullptr);
+}
+
+void greet(Descriptor &d) {
+    const auto *greeting = HelpList::singleton().lookup(0, "greeting");
+    if (!greeting) {
+        bug("Unable to look up greeting");
+        return;
+    }
+    d.write(greeting->text());
+}
+
+namespace {
+bool is_being_debugged() {
+    std::ifstream t("/proc/self/status");
+    std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+
+    for (auto line : line_iter(str)) {
+        const auto match = "TracerPid:"sv;
+        if (matches_start(match, line))
+            return parse_number(ltrim(line.substr(match.size()))) != 0;
+    }
+
+    return false;
+}
 }
 
 /* where we're asked nicely to quit from the outside (mudmgr or OS) */
 void handle_signal_shutdown() {
-    CHAR_DATA *vch;
-    CHAR_DATA *vch_next;
-    Descriptor *d, *d_next;
-
     log_string("Signal shutdown received");
 
     /* ask everyone to save! */
-    for (vch = char_list; vch != nullptr; vch = vch_next) {
-        vch_next = vch->next;
-
+    for (auto *vch : char_list) {
         // vch->d->c check added by TM to avoid crashes when
         // someone hasn't logged in but the mud is shut down
-        if (!IS_NPC(vch) && vch->desc && vch->desc->is_playing()) {
+        if (vch->is_pc() && vch->desc && vch->desc->is_playing()) {
             /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
             MOBtrigger = false;
-            do_save(vch, "");
-            send_to_char("|RXania has been asked to shutdown by the operating system.|w\n\r", vch);
+            do_save(vch);
+            vch->send_line("|RXania has been asked to shutdown by the operating system.|w");
             if (vch->desc && vch->desc->has_buffered_output())
                 process_output(vch->desc, false);
         }
     }
     merc_down = true;
-    for (d = descriptor_list; d != nullptr; d = d_next) {
-        d_next = d->next;
-        close_socket(d);
-    }
+    for (auto &d : descriptors().all())
+        d.close();
 }
 
-int init_socket(const char *file) {
-    static struct sockaddr_un sa_zero;
-    struct sockaddr_un sa;
-    int x = 1;
-    int fd;
-    socklen_t size;
-
+Fd init_socket(const char *file) {
     unlink(file);
 
-    if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
-        perror("Init_socket: socket");
-        exit(1);
-    }
-
-    if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (char *)&x, sizeof(x)) < 0) {
-        perror("Init_socket: SO_REUSEADDR");
-        close(fd);
-        exit(1);
-    }
-
-    sa = sa_zero;
-    sa.sun_family = AF_UNIX;
-    strcpy(sa.sun_path, file);
-
-    if (bind(fd, (struct sockaddr *)&sa, sizeof(sa)) < 0) {
-        perror("Init socket: bind");
-        close(fd);
-        exit(1);
-    }
-
-    if (listen(fd, 3) < 0) {
-        perror("Init socket: listen");
-        close(fd);
-        exit(1);
-    }
+    auto fd = Fd::socket(PF_UNIX, SOCK_STREAM, 0);
+    sockaddr_un xaniaAddr{};
+    strncpy(xaniaAddr.sun_path, file, sizeof(xaniaAddr.sun_path) - 1);
+    xaniaAddr.sun_family = PF_UNIX;
+    int enabled = 1;
+    fd.setsockopt(SOL_SOCKET, SO_REUSEADDR, &enabled, sizeof(enabled)).bind(xaniaAddr).listen(3);
 
     log_string("Waiting for doorman...");
-    size = sizeof(sa);
-    if ((doormanDesc = accept(fd, (struct sockaddr *)&sa, &size)) < 0) {
-        log_string("Unable to accept doorman...booting anyway");
-        doormanDesc = 0;
-    } else {
+    try {
+        sockaddr_un dont_care{};
+        socklen_t dont_care_len{sizeof(sockaddr_in)};
+        doormanDesc = fd.accept(reinterpret_cast<sockaddr *>(&dont_care), &dont_care_len);
         log_string("Doorman has connected - proceeding with boot-up");
+    } catch (const std::system_error &e) {
+        log_string("Unable to accept doorman...booting anyway");
     }
 
     return fd;
@@ -201,18 +186,87 @@ int init_socket(const char *file) {
 
 void doorman_lost() {
     log_string("Lost connection to doorman");
-    if (doormanDesc)
-        close(doormanDesc);
-    doormanDesc = 0;
+    doormanDesc.close();
     /* Now to go through and disconnect all the characters */
-    while (descriptor_list)
-        close_socket(descriptor_list);
+    for (auto &d : descriptors().all())
+        d.close();
 }
 
-void game_loop_unix(int control) {
-    static struct timeval null_time;
-    struct timeval last_time;
+void handle_doorman_packet(const Packet &p, std::string_view buffer) {
+    switch (p.type) {
+    case PACKET_CONNECT:
+        log_string("Incoming connection on channel {}.", p.channel);
+        if (auto *d = descriptors().create(p.channel)) {
+            greet(*d);
+        } else {
+            log_string("Duplicate channel {} on connect!", p.channel);
+        }
+        break;
+    case PACKET_RECONNECT:
+        log_string("Incoming reconnection on channel {} for {}.", p.channel, buffer);
+        if (auto *d = descriptors().create(p.channel)) {
+            greet(*d);
+            // Login name
+            d->write(fmt::format("{}\n\r", buffer));
+            std::string nannyable(buffer);
+            nanny(d, nannyable.c_str()); // TODO one day string_viewify
+            d->write("\n\r");
 
+            // Paranoid :
+            if (d->state() == DescriptorState::GetOldPassword) {
+                d->state(DescriptorState::CircumventPassword);
+                // log in
+                nanny(d, "");
+                // accept ANSIness
+                d->write("\n\r");
+                nanny(d, "");
+            }
+        } else {
+            log_string("Duplicate channel {} on reconnect!", p.channel);
+        }
+        break;
+    case PACKET_DISCONNECT:
+        if (auto *d = descriptors().find_by_channel(p.channel)) {
+            if (d->character() && d->character()->level > 1)
+                save_char_obj(d->character());
+            d->clear_output_buffer();
+            if (d->is_playing())
+                d->state(DescriptorState::Disconnecting);
+            else
+                d->state(DescriptorState::DisconnectingNp);
+            d->close();
+        } else {
+            log_string("Unable to find channel to close ({})", p.channel);
+        }
+        break;
+    case PACKET_INFO:
+        if (auto *d = descriptors().find_by_channel(p.channel)) {
+            auto *data = reinterpret_cast<const InfoData *>(buffer.data());
+            d->set_endpoint(data->netaddr, data->port, data->data);
+            log_string("Info from doorman: {} is {}", p.channel, d->host());
+        } else {
+            log_string("Unable to associate info with a descriptor ({})", p.channel);
+        }
+        break;
+
+    case PACKET_MESSAGE:
+        if (auto *d = descriptors().find_by_channel(p.channel)) {
+            if (d->character() != nullptr)
+                d->character()->timer = 0;
+            read_from_descriptor(d, buffer);
+        } else {
+            log_string("Unable to associate message with a descriptor ({})", p.channel);
+        }
+        break;
+    default: break;
+    }
+}
+
+void game_loop_unix(Fd control) {
+    static timeval null_time;
+
+    if (is_being_debugged())
+        log_string("Running under a debugger");
     signal(SIGPIPE, SIG_IGN);
 
     sigset_t signals;
@@ -226,11 +280,10 @@ void game_loop_unix(int control) {
         return;
     }
 
-    gettimeofday(&last_time, nullptr);
-    current_time = (time_t)last_time.tv_sec;
-
     /* Main loop */
     while (!merc_down) {
+        current_time = Clock::now();
+
         fd_set in_set;
         fd_set out_set;
         fd_set exc_set;
@@ -242,12 +295,14 @@ void game_loop_unix(int control) {
         FD_ZERO(&in_set);
         FD_ZERO(&out_set);
         FD_ZERO(&exc_set);
-        FD_SET(control, &in_set);
+        FD_SET(control.number(), &in_set);
         FD_SET(signal_fd, &in_set);
-        if (doormanDesc)
-            FD_SET(doormanDesc, &in_set);
-        maxdesc = UMAX(control, doormanDesc);
-        maxdesc = UMAX(maxdesc, signal_fd);
+        if (doormanDesc.is_open()) {
+            FD_SET(doormanDesc.number(), &in_set);
+            maxdesc = std::max(control.number(), doormanDesc.number());
+        } else
+            maxdesc = control.number();
+        maxdesc = std::max(maxdesc, signal_fd);
 
         if (select(maxdesc + 1, &in_set, &out_set, &exc_set, &null_time) < 0) {
             perror("Game_loop: select: poll");
@@ -260,189 +315,98 @@ void game_loop_unix(int control) {
                 bug("Unable to read signal info - treating as term");
                 info.ssi_signo = SIGTERM;
             }
-            if (info.ssi_signo == SIGTERM || info.ssi_signo == SIGINT) {
+            if (info.ssi_signo == SIGINT) {
+                if (is_being_debugged()) {
+                    log_string("Caught SIGINT but detected a debugger, trapping instead");
+                    raise(SIGTRAP);
+                } else {
+                    handle_signal_shutdown();
+                    return;
+                }
+            } else if (info.ssi_signo == SIGTERM) {
                 handle_signal_shutdown();
                 return;
             } else {
-                bug("Unexpected signal %d: ignoring", info.ssi_signo);
+                bug("Unexpected signal {}: ignoring", info.ssi_signo);
             }
         }
 
         /* If we don't have a connection from doorman, wait for one */
-        if (doormanDesc == 0) {
-            struct sockaddr_un sock;
-            socklen_t size;
-
+        if (!doormanDesc.is_open()) {
             log_string("Waiting for doorman...");
-            size = sizeof(sock);
-            getsockname(control, (struct sockaddr *)&sock, &size);
-            if ((doormanDesc = accept(control, (struct sockaddr *)&sock, &size)) < 0) {
-                perror("doorman: accept");
-                doormanDesc = 0;
-            } else {
-                Packet pInit;
+
+            try {
+                sockaddr_un dont_care{};
+                socklen_t dont_care_len{sizeof(sockaddr_in)};
+                doormanDesc = control.accept(reinterpret_cast<sockaddr *>(&dont_care), &dont_care_len);
                 log_string("Doorman has connected.");
+                Packet pInit;
                 pInit.nExtra = pInit.channel = 0;
                 pInit.type = PACKET_INIT;
-                SendPacket(&pInit, nullptr);
+                send_to_doorman(&pInit, nullptr);
+            } catch (const std::runtime_error &re) {
+                bug("Unable to accept doorman connection: {}", re.what());
             }
         }
 
         /* Process doorman input, if any */
-        if (doormanDesc && FD_ISSET(doormanDesc, &in_set)) {
+        if (doormanDesc.is_open() && FD_ISSET(doormanDesc.number(), &in_set)) {
+            Packet p{};
+            std::string payload;
             do {
-                Packet p;
-                char buffer[UMAX(PACKET_MAX_PAYLOAD_SIZE, 4096 * 4)];
-                int nBytes;
-                int ok;
-
-                nBytes = read(doormanDesc, (char *)&p, sizeof(p));
-                if (nBytes <= 0) {
-                    doorman_lost();
-                    break;
-                } else {
-                    char logMes[18 * 1024];
-                    if (p.nExtra > PACKET_MAX_PAYLOAD_SIZE) {
-                        bug("Doorman sent a too big packet! %d > %d: dropping", p.nExtra, PACKET_MAX_PAYLOAD_SIZE);
-                        return;
-                    }
+                try {
+                    p = doormanDesc.read_all<Packet>();
                     if (p.nExtra) {
-                        ssize_t payload_read = read(doormanDesc, buffer, p.nExtra);
-                        if (payload_read <= 0) {
+                        if (p.nExtra > PACKET_MAX_PAYLOAD_SIZE) {
+                            bug("Doorman sent a too big packet! {} > {}: dropping", p.nExtra, PACKET_MAX_PAYLOAD_SIZE);
                             doorman_lost();
                             break;
                         }
-                        nBytes += payload_read;
+                        payload.resize(p.nExtra);
+                        doormanDesc.read_all(gsl::span<char>(payload));
                     }
-                    if ((size_t)nBytes != sizeof(Packet) + p.nExtra) {
-                        doorman_lost();
-                        break;
-                    }
-                    switch (p.type) {
-                    case PACKET_CONNECT:
-                        snprintf(logMes, sizeof(logMes), "Incoming connection on channel %d.", p.channel);
-                        log_string(logMes);
-                        new_descriptor(p.channel);
-                        break;
-                    case PACKET_RECONNECT: {
-                        snprintf(logMes, sizeof(logMes), "Incoming reconnection on channel %d for %s.", p.channel,
-                                 buffer);
-                        log_string(logMes);
-                        auto *d = new_descriptor(p.channel);
-                        // Login name
-                        d->write(buffer);
-                        d->write("\n\r");
-                        nanny(d, buffer);
-                        d->write("\n\r");
-
-                        // Paranoid :
-                        if (d->state() == DescriptorState::GetOldPassword) {
-                            d->state(DescriptorState::CircumventPassword);
-                            // log in
-                            nanny(d, "");
-                            // accept ANSIness
-                            d->write("\n\r");
-                            nanny(d, "");
-                        }
-                    } break;
-                    case PACKET_DISCONNECT:
-                        /*
-                         * Find the descriptor associated with the channel and close it
-                         */
-                        for (auto *d = descriptor_list; d; d = d->next) {
-                            if (d->channel() == p.channel) {
-                                if (d->character() && d->character()->level > 1)
-                                    save_char_obj(d->character());
-                                d->clear_output_buffer();
-                                if (d->is_playing())
-                                    d->state(DescriptorState::Disconnecting);
-                                else
-                                    d->state(DescriptorState::DisconnectingNp);
-                                close_socket(d);
-                                break;
-                            }
-                        }
-                        break;
-                    case PACKET_INFO: {
-                        /*
-                         * Find the descriptor associated with the channel
-                         */
-                        Descriptor *found{};
-                        for (auto *d = descriptor_list; d; d = d->next) {
-                            if (d->channel() == p.channel) {
-                                found = d;
-                                auto *data = reinterpret_cast<const InfoData *>(buffer);
-                                d->set_endpoint(data->netaddr, data->port, data->data);
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            snprintf(logMes, sizeof(logMes), "Unable to associate info with a descriptor (%d)",
-                                     p.channel);
-                        } else {
-                            snprintf(logMes, sizeof(logMes), "Info from doorman: %d is %s", p.channel,
-                                     found->host().c_str());
-                        }
-                        log_string(logMes);
-                        break;
-                    }
-                    case PACKET_MESSAGE:
-                        /*
-                         * Find the descriptor associated with the channel
-                         */
-                        ok = 0;
-                        for (auto *d = descriptor_list; d; d = d->next) {
-                            if (d->channel() == p.channel) {
-                                ok = 1;
-                                if (d->character() != nullptr)
-                                    d->character()->timer = 0;
-                                read_from_descriptor(d, buffer, p.nExtra);
-                            }
-                        }
-                        if (!ok) {
-                            snprintf(logMes, sizeof(logMes), "Unable to associate message with a descriptor (%d)",
-                                     p.channel);
-                            log_string(logMes);
-                        }
-                        break;
-                    default: break;
-                    }
+                } catch (const std::runtime_error &re) {
+                    bug("Unable to read doorman packet: {}", re.what());
+                    doorman_lost();
+                    break;
                 }
+                handle_doorman_packet(p, payload);
                 /* Reselect to see if there is more data */
                 select(maxdesc + 1, &in_set, &out_set, &exc_set, &null_time);
-            } while FD_ISSET(doormanDesc, &in_set);
+            } while FD_ISSET(doormanDesc.number(), &in_set);
         }
 
         /*
          * De-waitstate characters and process pending input
          */
-        std::unordered_set<Descriptor *> handled_input;
-        for (auto *d = descriptor_list; d; d = d->next) {
-            d->processing_command(false);
-            auto *character = d->character();
+        for (auto &d : descriptors().all()) {
+            d.processing_command(false);
+            auto *character = d.character();
             if (character && character->wait > 0)
                 --character->wait;
             /* Waitstate the character */
             if (character && character->wait)
                 continue;
 
-            if (auto incomm = d->pop_incomm()) {
-                d->processing_command(true);
+            if (auto incomm = d.pop_incomm()) {
+                d.processing_command(true);
                 move_active_char_from_limbo(character);
 
                 // It's possible that 'd' will be deleted as a result of any of the following operations. Be very
                 // careful.
-                if (d->is_paging())
-                    d->show_next_page(*incomm);
-                else if (d->is_playing())
+                if (d.is_paging())
+                    d.show_next_page(*incomm);
+                else if (d.is_playing())
                     interpret(character, incomm->c_str());
                 else
-                    nanny(d, incomm->c_str());
+                    nanny(&d, incomm->c_str());
+            } else if (d.is_lobby_timeout_exceeded()) {
+                d.close();
             }
         }
 
         // Reap any sockets that got closed as a result of input processing or nannying.
-        reap_closed_sockets();
+        descriptors().reap_closed();
 
         /*
          * Autonomous game motion.
@@ -452,112 +416,47 @@ void game_loop_unix(int control) {
         /*
          * Output.
          */
-        if (doormanDesc) {
-            for (auto *d = descriptor_list; d != nullptr; d = d->next) {
-                if (d->processing_command() || d->has_buffered_output()) {
-                    if (!process_output(d, true)) {
-                        if (d->character() != nullptr && d->character()->level > 1)
-                            save_char_obj(d->character());
-                        d->clear_output_buffer();
-                        close_socket(d);
+        if (doormanDesc.is_open()) {
+            for (auto &d : descriptors().all()) {
+                if (d.processing_command() || d.has_buffered_output()) {
+                    if (!process_output(&d, true)) {
+                        if (d.character() != nullptr && d.character()->level > 1)
+                            save_char_obj(d.character());
+                        d.clear_output_buffer();
+                        d.close();
                     }
                 }
             }
             // Reap any sockets that got closed as a result of output handling.
-            reap_closed_sockets();
+            descriptors().reap_closed();
         }
 
-        /*
-         * Synchronize to a clock.
-         * Sleep( last_time + 1/PULSE_PER_SECOND - now ).
-         * Careful here of signed versus unsigned arithmetic.
-         */
-        {
-            struct timeval now_time;
-            long secDelta;
-            long usecDelta;
+        // Now we know all game code has run, reap any dead characters.
+        reap_old_chars();
 
-            gettimeofday(&now_time, nullptr);
-            usecDelta = ((int)last_time.tv_usec) - ((int)now_time.tv_usec) + 1000000 / PULSE_PER_SECOND;
-            secDelta = ((int)last_time.tv_sec) - ((int)now_time.tv_sec);
-            while (usecDelta < 0) {
-                usecDelta += 1000000;
-                secDelta -= 1;
-            }
-
-            while (usecDelta >= 1000000) {
-                usecDelta -= 1000000;
-                secDelta += 1;
-            }
-
-            if (secDelta > 0 || (secDelta == 0 && usecDelta > 0)) {
-                struct timeval stall_time;
-
-                stall_time.tv_usec = usecDelta;
-                stall_time.tv_sec = secDelta;
-                if (select(0, nullptr, nullptr, nullptr, &stall_time) < 0) {
-                    perror("Game_loop: select: stall");
-                    exit(1);
-                }
-            }
-        }
-
-        gettimeofday(&last_time, nullptr);
-        current_time = (time_t)last_time.tv_sec;
+        // Synchronize to a clock.
+        using namespace std::chrono;
+        using namespace std::literals;
+        constexpr auto nanos_per_pulse = duration_cast<nanoseconds>(1s) / PULSE_PER_SECOND;
+        auto next_pulse = current_time + nanos_per_pulse;
+        std::this_thread::sleep_until(next_pulse);
     }
 }
 
-Descriptor *new_descriptor(int channel) {
-    auto *dnew = new Descriptor(channel);
-
-    /*
-     * Init descriptor data.
-     */
-    dnew->next = descriptor_list;
-    descriptor_list = dnew;
-
-    /*
-     * Send the greeting.
-     */
-    {
-        extern char *help_greeting;
-        if (help_greeting[0] == '.')
-            dnew->write(help_greeting + 1);
-        else
-            dnew->write(help_greeting);
-    }
-
-    return dnew;
-}
-
-void close_socket(Descriptor *dclose) { dclose->close(); }
-
-void reap_closed_sockets() {
-    Descriptor *dnext;
-    Descriptor **dprev = &descriptor_list;
-    for (auto *desc = descriptor_list; desc; desc = dnext) {
-        dnext = desc->next;
-        if (desc->closed()) {
-            *dprev = dnext;
-            // TODO: ideally no naked news/deletes. One day.
-            delete desc;
-        } else {
-            dprev = &desc->next;
-        }
-    }
-}
-
-bool read_from_descriptor(Descriptor *d, char *data, int nRead) {
+bool read_from_descriptor(Descriptor *d, std::string_view data) {
     if (d->is_input_full()) {
-        snprintf(log_buf, LOG_BUF_SIZE, "%s input overflow!", d->host().c_str());
-        log_string(log_buf);
-        d->write_direct("\n\r*** PUT A LID ON IT!!! ***\n\r");
+        // Only log input for the first command exceeding the input limit
+        // so that wiznet doesn't become unusable.
+        if (!d->is_spammer_warned()) {
+            log_string("{} input overflow!", d->host().c_str());
+            d->warn_spammer();
+            d->add_command("quit");
+        }
         d->clear_input();
-        d->add_command("quit");
         return false;
     }
 
-    d->add_command(std::string_view(data, nRead));
+    d->add_command(data);
     return true;
 }
 
@@ -573,56 +472,23 @@ bool process_output(Descriptor *d, bool fPrompt) {
     if (!merc_down && d->is_paging())
         d->write("[Hit Return to continue]\n\r");
     else if (fPrompt && !merc_down && d->is_playing()) {
-        CHAR_DATA *ch;
-        CHAR_DATA *victim;
+        // Retrieve the pc data for the person associated with this descriptor. The person contains user preferences
+        // like prompt, colourisation and comm settings.
+        const auto *person = d->person();
+        // Character is used for the actual character status. This is very commonly this is the same as person, but if
+        // an IMM is switched, then the person will be the IMM, and character will be the monster they're switched to.
+        const auto *character = d->character();
+        bool ansi = person->pcdata->colour;
 
-        ch = d->character();
+        // Battle prompt.
+        if (auto *fighting = character->fighting)
+            d->write(colourise_mud_string(ansi, describe_fight_condition(*fighting)));
 
-        /* battle prompt */
-        if ((victim = ch->fighting) != nullptr) {
-            int percent;
-            char wound[100];
-            char buf[MAX_STRING_LENGTH];
-
-            if (victim->max_hit > 0)
-                percent = victim->hit * 100 / victim->max_hit;
-            else
-                percent = -1;
-
-            if (percent >= 100)
-                snprintf(wound, sizeof(wound), "is in excellent condition.");
-            else if (percent >= 90)
-                snprintf(wound, sizeof(wound), "has a few scratches.");
-            else if (percent >= 75)
-                snprintf(wound, sizeof(wound), "has some small wounds and bruises.");
-            else if (percent >= 50)
-                snprintf(wound, sizeof(wound), "has quite a few wounds.");
-            else if (percent >= 30)
-                snprintf(wound, sizeof(wound), "has some big nasty wounds and scratches.");
-            else if (percent >= 15)
-                snprintf(wound, sizeof(wound), "looks pretty hurt.");
-            else if (percent >= 0)
-                snprintf(wound, sizeof(wound), "is in awful condition.");
-            else
-                snprintf(wound, sizeof(wound), "is bleeding to death.");
-
-            snprintf(buf, sizeof(buf), "%s %s \n\r", IS_NPC(victim) ? victim->short_descr : victim->name, wound);
-            buf[0] = UPPER(buf[0]);
-            d->write(buf);
-        }
-
-        ch = d->person();
-        if (!IS_SET(ch->comm, COMM_COMPACT))
+        if (!IS_SET(person->comm, COMM_COMPACT))
             d->write("\n\r");
 
-        if (IS_SET(ch->comm, COMM_PROMPT)) {
-            /* get the prompt for the character in question */
-
-            show_prompt(d, ch->pcdata->prompt);
-        }
-
-        if (IS_SET(ch->comm, COMM_TELNET_GA))
-            d->write(go_ahead_str);
+        if (IS_SET(person->comm, COMM_PROMPT))
+            d->write(colourise_mud_string(ansi, format_prompt(*character, person->pcdata->prompt)));
     }
 
     return d->flush_output();
@@ -632,10 +498,9 @@ bool process_output(Descriptor *d, bool fPrompt) {
  * Deal with sockets that haven't logged in yet.
  */
 void nanny(Descriptor *d, const char *argument) {
-    Descriptor *d_old, *d_next;
     char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    CHAR_DATA *ch;
+    Char *ch;
     char *pwdnew;
     char *p;
     int iClass;
@@ -643,10 +508,6 @@ void nanny(Descriptor *d, const char *argument) {
     int i;
     int notes;
     bool fOld;
-    KNOWN_PLAYERS *temp_known_player;
-    /* Rohan: 2 variables needed to increase player count */
-    int count;
-    Descriptor *de;
 
     while (isspace(*argument))
         argument++;
@@ -656,8 +517,8 @@ void nanny(Descriptor *d, const char *argument) {
     switch (d->state()) {
 
     default:
-        bug("Nanny: bad d->state() %d.", static_cast<int>(d->state()));
-        close_socket(d);
+        bug("Nanny: bad d->state() {}.", static_cast<int>(d->state()));
+        d->close();
         return;
 
     case DescriptorState::Closed:
@@ -666,7 +527,7 @@ void nanny(Descriptor *d, const char *argument) {
 
     case DescriptorState::GetName: {
         if (argument[0] == '\0') {
-            close_socket(d);
+            d->close();
             return;
         }
         // Take a copy of the character's proposed name, so we can forcibly upper-case its first letter.
@@ -688,23 +549,25 @@ void nanny(Descriptor *d, const char *argument) {
                  }
                  } */
 
-        fOld = load_char_obj(d, char_name.c_str());
-        ch = d->character();
+        auto res = try_load_player(char_name);
+        ch = res.character.release(); // this is where we take ownership of the char
+        fOld = !res.newly_created;
+        d->character(ch);
+        ch->desc = d;
 
         if (IS_SET(ch->act, PLR_DENY)) {
-            snprintf(log_buf, LOG_BUF_SIZE, "Denying access to %s@%s.", char_name.c_str(), d->host().c_str());
-            log_string(log_buf);
+            log_string("Denying access to {}@{}.", char_name.c_str(), d->host().c_str());
             d->write("You are denied access.\n\r");
-            close_socket(d);
+            d->close();
             return;
         }
 
         if (check_reconnect(d, false)) {
             fOld = true;
         } else {
-            if (wizlock && !IS_IMMORTAL(ch)) {
+            if (wizlock && ch->is_mortal()) {
                 d->write("The game is wizlocked.  Try again later - a reboot may be imminent.\n\r");
-                close_socket(d);
+                d->close();
                 return;
             }
         }
@@ -719,7 +582,7 @@ void nanny(Descriptor *d, const char *argument) {
             /* New player */
             if (newlock) {
                 d->write("The game is newlocked.  Try again later - a reboot may be imminent.\n\r");
-                close_socket(d);
+                d->close();
                 return;
             }
 
@@ -727,7 +590,7 @@ void nanny(Descriptor *d, const char *argument) {
             if (check_ban(d->raw_full_hostname().c_str(), BAN_NEWBIES)
                 || check_ban(d->raw_full_hostname().c_str(), BAN_PERMIT)) {
                 d->write("Your site has been banned.  Only existing players from your site may connect.\n\r");
-                close_socket(d);
+                d->close();
                 return;
             }
 
@@ -743,14 +606,14 @@ void nanny(Descriptor *d, const char *argument) {
 
         // TODO crypt can return null if if fails (e.g. password is truncated).
         // for now we just pwd[0], which lets us reset passwords.
-        if (ch->pcdata->pwd[0] && strcmp(crypt(argument, ch->pcdata->pwd), ch->pcdata->pwd)) {
+        if (!ch->pcdata->pwd.empty() && strcmp(crypt(argument, ch->pcdata->pwd.c_str()), ch->pcdata->pwd.c_str())) {
             d->write("Our survey said <Crude buzzer noise>.\n\rWrong password.\n\r");
-            close_socket(d);
+            d->close();
             return;
         }
         // falls through
     case DescriptorState::CircumventPassword:
-        if (ch->pcdata->pwd[0] == 0) {
+        if (ch->pcdata->pwd.empty()) {
             d->write("Oopsie! Null password!\n\r");
             d->write("Unless some IMM has been fiddling, then this is a bug!\n\r");
             d->write("Type 'password null <new password>' to fix.\n\r");
@@ -761,7 +624,7 @@ void nanny(Descriptor *d, const char *argument) {
         // This is the one time we use the full host name.
         if (check_ban(d->raw_full_hostname().c_str(), BAN_PERMIT) && (!is_set_extra(ch, EXTRA_PERMIT))) {
             d->write("Your site has been banned.  Sorry.\n\r");
-            close_socket(d);
+            d->close();
             return;
         }
 
@@ -771,9 +634,8 @@ void nanny(Descriptor *d, const char *argument) {
         if (check_reconnect(d, true))
             return;
 
-        snprintf(log_buf, LOG_BUF_SIZE, "%s@%s has connected.", ch->name, d->host().c_str());
-        log_new(log_buf, EXTRA_WIZNET_DEBUG,
-                ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? get_trust(ch) : 0);
+        log_new(fmt::format("{}@{} has connected.", ch->name, d->host()), EXTRA_WIZNET_DEBUG,
+                ch->is_wizinvis() || ch->is_prowlinvis() ? ch->get_trust() : 0);
 
         d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
         d->state((d->state() == DescriptorState::CircumventPassword) ? DescriptorState::ReadMotd
@@ -787,21 +649,20 @@ void nanny(Descriptor *d, const char *argument) {
         switch (*argument) {
         case 'y':
         case 'Y':
-            for (d_old = descriptor_list; d_old != nullptr; d_old = d_next) {
-                d_next = d_old->next;
-                if (d_old == d || d_old->character() == nullptr)
+            for (auto &d_old : descriptors().all()) {
+                if (&d_old == d || d_old.character() == nullptr)
                     continue;
 
-                if (str_cmp(ch->name, d_old->character()->name))
+                if (!matches(ch->name, d_old.character()->name))
                     continue;
 
-                close_socket(d_old);
+                d_old.close();
             }
             if (check_reconnect(d, true))
                 return;
             d->write("Reconnect attempt failed.\n\rName: ");
             if (d->character()) {
-                free_char(d->character());
+                delete d->character();
                 d->character(nullptr);
             }
             d->state(DescriptorState::GetName);
@@ -811,7 +672,7 @@ void nanny(Descriptor *d, const char *argument) {
         case 'N':
             d->write("Name: ");
             if (d->character()) {
-                free_char(d->character());
+                delete d->character();
                 d->character(nullptr);
             }
             d->state(DescriptorState::GetName);
@@ -825,17 +686,15 @@ void nanny(Descriptor *d, const char *argument) {
         switch (*argument) {
         case 'y':
         case 'Y':
-            snprintf(buf, sizeof(buf),
-                     "Welcome new character, to Xania.\n\rThink of a password for %s: ", (char *)ch->name);
             SetEchoState(d, 0);
-            d->write(buf);
+            d->write(fmt::format("Welcome new character, to Xania.\n\rThink of a password for {}: ", ch->name));
             d->state(DescriptorState::GetNewPassword);
             break;
 
         case 'n':
         case 'N':
             d->write("Ack! Amateurs! Try typing it in properly: ");
-            free_char(d->character());
+            delete d->character();
             d->character(nullptr);
             d->state(DescriptorState::GetName);
             break;
@@ -847,9 +706,9 @@ void nanny(Descriptor *d, const char *argument) {
     case DescriptorState::GetAnsi:
         if (argument[0] == '\0') {
             if (ch->pcdata->colour) {
-                send_to_char("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!\n\r", ch);
+                ch->send_line("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!");
             }
-            if (IS_HERO(ch)) {
+            if (ch->is_hero()) {
                 do_help(ch, "imotd");
                 d->state(DescriptorState::ReadIMotd);
             } else {
@@ -861,8 +720,8 @@ void nanny(Descriptor *d, const char *argument) {
             case 'y':
             case 'Y':
                 ch->pcdata->colour = true;
-                send_to_char("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!\n\r", ch);
-                if (IS_HERO(ch)) {
+                ch->send_line("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!");
+                if (ch->is_hero()) {
                     do_help(ch, "imotd");
                     d->state(DescriptorState::ReadIMotd);
                 } else {
@@ -874,7 +733,7 @@ void nanny(Descriptor *d, const char *argument) {
             case 'n':
             case 'N':
                 ch->pcdata->colour = false;
-                if (IS_HERO(ch)) {
+                if (ch->is_hero()) {
                     do_help(ch, "imotd");
                     d->state(DescriptorState::ReadIMotd);
                 } else {
@@ -896,7 +755,7 @@ void nanny(Descriptor *d, const char *argument) {
             return;
         }
 
-        pwdnew = crypt(argument, ch->name);
+        pwdnew = crypt(argument, ch->name.c_str());
         for (p = pwdnew; *p != '\0'; p++) {
             if (*p == '~') {
                 d->write("New password not acceptable, try again.\n\rPassword: ");
@@ -904,8 +763,7 @@ void nanny(Descriptor *d, const char *argument) {
             }
         }
 
-        free_string(ch->pcdata->pwd);
-        ch->pcdata->pwd = str_dup(pwdnew);
+        ch->pcdata->pwd = pwdnew;
         d->write("Please retype password: ");
         d->state(DescriptorState::ConfirmNewPassword);
         break;
@@ -913,7 +771,7 @@ void nanny(Descriptor *d, const char *argument) {
     case DescriptorState::ConfirmNewPassword:
         d->write("\n\r");
 
-        if (strcmp(crypt(argument, ch->pcdata->pwd), ch->pcdata->pwd)) {
+        if (strcmp(crypt(argument, ch->pcdata->pwd.c_str()), ch->pcdata->pwd.c_str())) {
             d->write("You could try typing the same thing in twice...\n\rRetype password: ");
             d->state(DescriptorState::GetNewPassword);
             return;
@@ -963,8 +821,7 @@ void nanny(Descriptor *d, const char *argument) {
 
         ch->race = race;
         /* initialize stats */
-        for (i = 0; i < MAX_STATS; i++)
-            ch->perm_stat[i] = pc_race_table[race].stats[i];
+        ch->perm_stat = pc_race_table[race].stats;
         ch->affected_by = (int)(ch->affected_by | race_table[race].aff);
         ch->imm_flags = ch->imm_flags | race_table[race].imm;
         ch->res_flags = ch->res_flags | race_table[race].res;
@@ -982,7 +839,7 @@ void nanny(Descriptor *d, const char *argument) {
         ch->pcdata->points = pc_race_table[race].points;
         ch->size = pc_race_table[race].size;
 
-        d->write("What is your sex (M/F)? ");
+        d->write("Are you male, female or other (M/F/O)? ");
         d->state(DescriptorState::GetNewSex);
         break;
 
@@ -998,9 +855,15 @@ void nanny(Descriptor *d, const char *argument) {
             ch->sex = SEX_FEMALE;
             ch->pcdata->true_sex = SEX_FEMALE;
             break;
-        default: d->write("That's not a sex.\n\rWhat IS your sex? "); return;
+        case 'o':
+        case 'O':
+            ch->sex = SEX_NEUTRAL;
+            ch->pcdata->true_sex = SEX_NEUTRAL;
+            break;
+        default: d->write("Please specify (M)ale, (F)emale or (O)ther. "); return;
         }
 
+        d->write("Thanks. Personal pronouns can be set using the 'pronouns' command later on.\n");
         strcpy(buf, "The following classes are available: ");
         for (iClass = 0; iClass < MAX_CLASS; iClass++) {
             if (iClass > 0)
@@ -1030,8 +893,7 @@ void nanny(Descriptor *d, const char *argument) {
             return;
         }
         ch->class_num = iClass;
-        snprintf(log_buf, LOG_BUF_SIZE, "%s@%s new player.", ch->name, d->host().c_str());
-        log_string(log_buf);
+        log_string("{}@{} new player.", ch->name, d->host());
         d->write("\n\r");
         d->write("You may be good, neutral, or evil.\n\r");
         d->write("Which alignment (G/N/E)? ");
@@ -1073,7 +935,7 @@ void nanny(Descriptor *d, const char *argument) {
             do_help(ch, "group header");
             list_group_costs(ch);
             d->write("You already have the following skills:\n\r");
-            do_skills(ch, "");
+            do_skills(ch);
             do_help(ch, "menu choice");
             d->state(DescriptorState::GenGroups);
             break;
@@ -1090,14 +952,14 @@ void nanny(Descriptor *d, const char *argument) {
         break;
 
     case DescriptorState::GenGroups:
-        send_to_char("\n\r", ch);
+        ch->send_line("");
         if (!str_cmp(argument, "done")) {
             snprintf(buf, sizeof(buf), "Creation points: %d\n\r", ch->pcdata->points);
-            send_to_char(buf, ch);
+            ch->send_to(buf);
             snprintf(buf, sizeof(buf), "Experience per level: %d\n\r", exp_per_level(ch, ch->gen_data->points_chosen));
             if (ch->pcdata->points < 40)
                 ch->train = (40 - ch->pcdata->points + 1) / 2;
-            send_to_char(buf, ch);
+            ch->send_to(buf);
             d->write("\n\r");
             d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
             d->state(DescriptorState::GetAnsi);
@@ -1106,7 +968,7 @@ void nanny(Descriptor *d, const char *argument) {
         }
 
         if (!parse_gen_groups(ch, argument))
-            send_to_char("Choices are: list,learned,premise,add,drop,info,help, and done.\n\r", ch);
+            ch->send_line("Choices are: list,learned,premise,add,drop,info,help, and done.");
 
         do_help(ch, "menu choice");
         break;
@@ -1119,8 +981,7 @@ void nanny(Descriptor *d, const char *argument) {
 
     case DescriptorState::ReadMotd:
         d->write("\n\rWelcome to Xania.  May your stay be eventful.\n\r");
-        ch->next = char_list;
-        char_list = ch;
+        char_list.add_front(ch);
         d->state(DescriptorState::Playing);
         reset_char(ch);
 
@@ -1129,8 +990,8 @@ void nanny(Descriptor *d, const char *argument) {
             Packet p;
             p.type = PACKET_AUTHORIZED;
             p.channel = d->channel();
-            p.nExtra = strlen(ch->name) + 1;
-            SendPacket(&p, ch->name);
+            p.nExtra = ch->name.size();
+            send_to_doorman(&p, ch->name.c_str());
         }
 
         if (ch->level == 0) {
@@ -1145,54 +1006,43 @@ void nanny(Descriptor *d, const char *argument) {
             ch->move = ch->max_move;
             ch->train = 3;
             ch->practice = 5;
-            snprintf(buf, sizeof(buf), "the %s", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
-            set_title(ch, buf);
+            ch->send_to("the {}", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
 
-            do_outfit(ch, "");
-            obj_to_char(create_object(get_obj_index(OBJ_VNUM_MAP), 0), ch);
+            do_outfit(ch);
+            obj_to_char(create_object(get_obj_index(OBJ_VNUM_MAP)), ch);
 
             ch->pcdata->learned[get_weapon_sn(ch)] = 40;
 
             char_to_room(ch, get_room_index(ROOM_VNUM_SCHOOL));
-            send_to_char("\n\r", ch);
+            ch->send_line("");
             do_help(ch, "NEWBIE INFO");
-            send_to_char("\n\r", ch);
+            ch->send_line("");
 
-            /* Rohan: New player logged in, need to add name to player list */
-            temp_known_player = (KNOWN_PLAYERS *)alloc_mem(sizeof(KNOWN_PLAYERS));
-            temp_known_player->name = str_dup(ch->name);
-            temp_known_player->next = player_list;
-            player_list = temp_known_player;
             /* hack to let the newbie know about the tipwizard */
-            send_to_char("|WTip: this is Xania's tip wizard! Type 'tips' to turn this on or off.|w\n\r", ch);
+            ch->send_line("|WTip: this is Xania's tip wizard! Type 'tips' to turn this on or off.|w");
             /* turn on the newbie's tips */
             set_extra(ch, EXTRA_TIP_WIZARD);
 
         } else if (ch->in_room != nullptr) {
             char_to_room(ch, ch->in_room);
-        } else if (IS_IMMORTAL(ch)) {
+        } else if (ch->is_immortal()) {
             char_to_room(ch, get_room_index(ROOM_VNUM_CHAT));
         } else {
             char_to_room(ch, get_room_index(ROOM_VNUM_TEMPLE));
         }
 
-        snprintf(log_buf, LOG_BUF_SIZE, "|W### |P%s|W has entered the game.|w", ch->name);
-        announce(log_buf, ch);
+        announce(fmt::format("|W### |P{}|W has entered the game.|w", ch->name), ch);
         act("|P$n|W has entered the game.", ch);
-        do_look(ch, "auto");
+        look_auto(ch);
 
         /* Rohan: code to increase the player count if needed - it was only
            updated if a player did count */
-        count = 0;
-        for (de = descriptor_list; de != nullptr; de = de->next)
-            if (de->is_playing())
-                count++;
-        max_on = UMAX(count, max_on);
+        max_on = std::max(static_cast<size_t>(ranges::distance(descriptors().all())), max_on);
 
-        if (ch->gold > 250000 && !IS_IMMORTAL(ch)) {
+        if (ch->gold > 250000 && ch->is_mortal()) {
             snprintf(buf, sizeof(buf), "You are taxed %ld gold to pay for the Mayor's bar.\n\r",
                      (ch->gold - 250000) / 2);
-            send_to_char(buf, ch);
+            ch->send_to(buf);
             ch->gold -= (ch->gold - 250000) / 2;
         }
 
@@ -1202,11 +1052,11 @@ void nanny(Descriptor *d, const char *argument) {
         }
 
         /* check notes */
-        notes = note_count(ch);
+        notes = NoteHandler::singleton().num_unread(*ch);
 
         if (notes > 0) {
             snprintf(buf, sizeof(buf), "\n\rYou have %d new note%s waiting.\n\r", notes, (notes == 1) ? "" : "s");
-            send_to_char(buf, ch);
+            ch->send_to(buf);
         }
         break;
     }
@@ -1222,7 +1072,7 @@ bool check_parse_name(const char *name) {
     if (is_name(name, "all auto immortal self someone something the you"))
         return false;
 
-    if (!str_cmp(capitalize(name), "DEATH"))
+    if (matches(name, "DEATH"))
         return true;
 
     /*    if (str_cmp(capitalize(name),"DEATH") && (!str_prefix("death",name)
@@ -1258,21 +1108,9 @@ bool check_parse_name(const char *name) {
             return false;
     }
 
-    /*
-     * Prevent players from naming themselves after mobs.
-     */
-    {
-        extern MOB_INDEX_DATA *mob_index_hash[MAX_KEY_HASH];
-        MOB_INDEX_DATA *pMobIndex;
-        int iHash;
-
-        for (iHash = 0; iHash < MAX_KEY_HASH; iHash++) {
-            for (pMobIndex = mob_index_hash[iHash]; pMobIndex != nullptr; pMobIndex = pMobIndex->next) {
-                if (is_name(name, pMobIndex->player_name))
-                    return false;
-            }
-        }
-    }
+    // Prevent players from naming themselves after mobs.
+    if (ranges::any_of(all_mob_indexes(), [&](const auto &p) { return is_name(name, p.player_name); }))
+        return false;
 
     return true;
 }
@@ -1281,23 +1119,19 @@ bool check_parse_name(const char *name) {
  * Look for link-dead player to reconnect.
  */
 bool check_reconnect(Descriptor *d, bool fConn) {
-    CHAR_DATA *ch;
-
-    for (ch = char_list; ch != nullptr; ch = ch->next) {
-        if (!IS_NPC(ch) && (!fConn || ch->desc == nullptr) && !str_cmp(d->character()->name, ch->name)) {
+    for (auto ch : char_list) {
+        if (ch->is_pc() && (!fConn || ch->desc == nullptr) && matches(d->character()->name, ch->name)) {
             if (fConn == false) {
-                free_string(d->character()->pcdata->pwd);
-                d->character()->pcdata->pwd = str_dup(ch->pcdata->pwd);
+                d->character()->pcdata->pwd = ch->pcdata->pwd;
             } else {
-                free_char(d->character());
+                delete d->character();
                 d->character(ch);
                 ch->desc = d;
                 ch->timer = 0;
-                send_to_char("Reconnecting.\n\r", ch);
+                ch->send_line("Reconnecting.");
                 act("$n has reconnected.", ch);
-                snprintf(log_buf, LOG_BUF_SIZE, "%s@%s reconnected.", ch->name, d->host().c_str());
-                log_new(log_buf, EXTRA_WIZNET_DEBUG,
-                        ((IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL))) ? get_trust(ch) : 0);
+                log_new(fmt::format("{}@{} reconnected.", ch->name, d->host().c_str()), EXTRA_WIZNET_DEBUG,
+                        (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
                 d->state(DescriptorState::Playing);
             }
             return true;
@@ -1310,12 +1144,10 @@ bool check_reconnect(Descriptor *d, bool fConn) {
 /*
  * Check if already playing.
  */
-bool check_playing(Descriptor *d, char *name) {
-    Descriptor *dold;
-
-    for (dold = descriptor_list; dold; dold = dold->next) {
-        if (dold != d && dold->character() != nullptr && dold->state() != DescriptorState::GetName
-            && dold->state() != DescriptorState::GetOldPassword && !str_cmp(name, dold->person()->name)) {
+bool check_playing(Descriptor *d, std::string_view name) {
+    for (auto &dold : descriptors().all()) {
+        if (&dold != d && dold.character() != nullptr && dold.state() != DescriptorState::GetName
+            && dold.state() != DescriptorState::GetOldPassword && matches(name, dold.person()->name)) {
             d->write("That character is already playing.\n\r");
             d->write("Do you wish to connect anyway (Y/N)?");
             d->state(DescriptorState::BreakConnect);
@@ -1326,56 +1158,27 @@ bool check_playing(Descriptor *d, char *name) {
     return false;
 }
 
-// Write to one char.
-void send_to_char(std::string_view txt, const CHAR_DATA *ch) {
-    if (txt.empty() || ch->desc == nullptr || !ch->desc->person())
-        return;
-
-    ch->desc->write(colourise_mud_string(ch->desc->person()->pcdata->colour, txt));
-}
-
 /*
  * Send a page to one char.
  */
-void page_to_char(const char *txt, CHAR_DATA *ch) {
-    if (txt == nullptr || ch->desc == nullptr)
-        return;
-
-    ch->desc->page_to(txt);
+void page_to_char(const char *txt, Char *ch) {
+    if (txt)
+        ch->page_to(txt);
 }
 
-void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type) {
+void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To type) {
     act(format, ch, arg1, arg2, type, POS_RESTING);
 }
 
 namespace {
 
-std::string_view pronouns(std::string_view format, const CHAR_DATA *ch, const std::array<std::string_view, 3> &text) {
-    if (!ch) {
-        bug("%s", "Act: null ch in pronouns with format '{}'"_format(format).c_str());
-        return text[0];
-    }
-    switch (ch->sex) {
-    case 0: return text[0];
-    case 1: return text[1];
-    case 2: return text[2];
-    }
-    bug("%s", "Act: bad sex {} in pronouns with format '{}'"_format(ch->sex, format).c_str());
-    return text[0];
-}
+std::string_view he_she(const Char *ch) { return subjective(*ch); }
+std::string_view him_her(const Char *ch) { return objective(*ch); }
+std::string_view his_her(const Char *ch) { return possessive(*ch); }
+std::string_view himself_herself(const Char *ch) { return reflexive(*ch); }
 
-std::string_view he_she(std::string_view format, const CHAR_DATA *ch) {
-    return pronouns(format, ch, {"it"sv, "he"sv, "she"sv});
-}
-std::string_view him_her(std::string_view format, const CHAR_DATA *ch) {
-    return pronouns(format, ch, {"it"sv, "him"sv, "her"sv});
-}
-std::string_view his_her(std::string_view format, const CHAR_DATA *ch) {
-    return pronouns(format, ch, {"its"sv, "his"sv, "her"sv});
-}
-
-std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, const CHAR_DATA *to,
-                       const CHAR_DATA *vch) {
+std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, const Char *to,
+                       const Char *vch) {
     std::string buf;
 
     bool prev_was_dollar = false;
@@ -1391,44 +1194,46 @@ std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg
         }
 
         if (std::holds_alternative<nullptr_t>(arg2) && c >= 'A' && c <= 'Z') {
-            bug("%s", "Act: missing arg2 for code {} in format '{}'"_format(c, format).c_str());
+            bug("Act: missing arg2 for code {} in format '{}'", c, format);
             continue;
         }
 
         switch (c) {
         default:
-            bug("%s", "Act: bad code {} in format '{}'"_format(c, format).c_str());
+            bug("Act: bad code {} in format '{}'", c, format);
             break;
             /* Thx alex for 't' idea */
         case 't':
             if (auto arg1_as_string_ptr = std::get_if<std::string_view>(&arg1)) {
                 buf += *arg1_as_string_ptr;
             } else {
-                bug("%s", "$t passed but arg1 was not a string in '{}'"_format(format).c_str());
+                bug("$t passed but arg1 was not a string in '{}'", format);
             }
             break;
         case 'T':
             if (auto arg2_as_string_ptr = std::get_if<std::string_view>(&arg2)) {
                 buf += *arg2_as_string_ptr;
             } else {
-                bug("%s", "$T passed but arg2 was not a string in '{}'"_format(format).c_str());
+                bug("$T passed but arg2 was not a string in '{}'", format);
             }
             break;
         case 'n': buf += pers(ch, to); break;
         case 'N': buf += pers(vch, to); break;
-        case 'e': buf += he_she(format, ch); break;
-        case 'E': buf += he_she(format, vch); break;
-        case 'm': buf += him_her(format, ch); break;
-        case 'M': buf += him_her(format, vch); break;
-        case 's': buf += his_her(format, ch); break;
-        case 'S': buf += his_her(format, vch); break;
+        case 'e': buf += he_she(ch); break;
+        case 'E': buf += he_she(vch); break;
+        case 'm': buf += him_her(ch); break;
+        case 'M': buf += him_her(vch); break;
+        case 's': buf += his_her(ch); break;
+        case 'S': buf += his_her(vch); break;
+        case 'r': buf += himself_herself(ch); break;
+        case 'R': buf += himself_herself(vch); break;
 
         case 'p':
             if (auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1)) {
                 auto &obj1 = *arg1_as_obj_ptr;
                 buf += can_see_obj(to, obj1) ? obj1->short_descr : "something";
             } else {
-                bug("%s", "$p passed but arg1 was not an object in '{}'"_format(format).c_str());
+                bug("$p passed but arg1 was not an object in '{}'", format);
                 buf += "something";
             }
             break;
@@ -1438,18 +1243,15 @@ std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg
                 auto &obj2 = *arg2_as_obj_ptr;
                 buf += can_see_obj(to, obj2) ? obj2->short_descr : "something";
             } else {
-                bug("%s", "$p passed but arg2 was not an object in '{}'"_format(format).c_str());
+                bug("$p passed but arg2 was not an object in '{}'", format);
                 buf += "something";
             }
             break;
 
         case 'd':
             if (auto arg2_as_string_ptr = std::get_if<std::string_view>(&arg2);
-                arg2_as_string_ptr != nullptr && (*arg2_as_string_ptr)[0] != '\0') {
-                std::string arg2_as_string(*arg2_as_string_ptr); // TODO: once one_argument is not so sucky, change this
-                char fname[MAX_INPUT_LENGTH];
-                one_argument(arg2_as_string.c_str(), fname);
-                buf += fname;
+                arg2_as_string_ptr != nullptr && !arg2_as_string_ptr->empty()) {
+                buf += ArgParser(*arg2_as_string_ptr).shift();
             } else {
                 buf += "door";
             }
@@ -1460,15 +1262,15 @@ std::string format_act(std::string_view format, const CHAR_DATA *ch, Act1Arg arg
     return upper_first_character(buf) + "\n\r";
 }
 
-bool act_to_person(const CHAR_DATA *person, int min_pos) {
+bool act_to_person(const Char *person, int min_pos) {
     // Ignore folks with no descriptor, or below minimum position.
     return person->desc != nullptr && person->position >= min_pos;
 }
 
-std::vector<const CHAR_DATA *> folks_in_room(const ROOM_INDEX_DATA *room, const CHAR_DATA *ch, const CHAR_DATA *vch,
-                                             const To &type, int min_pos) {
-    std::vector<const CHAR_DATA *> result;
-    for (auto *person = room->people; person; person = person->next_in_room) {
+std::vector<const Char *> folks_in_room(const ROOM_INDEX_DATA *room, const Char *ch, const Char *vch, const To &type,
+                                        int min_pos) {
+    std::vector<const Char *> result;
+    for (auto *person : room->people) {
         if (!act_to_person(person, min_pos))
             continue;
         // Never consider the character themselves (they're handled explicitly elsewhere).
@@ -1482,8 +1284,7 @@ std::vector<const CHAR_DATA *> folks_in_room(const ROOM_INDEX_DATA *room, const 
     return result;
 }
 
-std::vector<const CHAR_DATA *> collect_folks(const CHAR_DATA *ch, const CHAR_DATA *vch, Act2Arg arg2, To type,
-                                             int min_pos) {
+std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg arg2, To type, int min_pos) {
     const ROOM_INDEX_DATA *room{};
 
     switch (type) {
@@ -1531,244 +1332,134 @@ std::vector<const CHAR_DATA *> collect_folks(const CHAR_DATA *ch, const CHAR_DAT
 
 }
 
-void act(const char *format, CHAR_DATA *ch, Act1Arg arg1, Act2Arg arg2, To type, int min_pos) {
-    // Socials and puff use null here as a "don't do this". If you're tempted to turn format into a string_view, beware,
-    // that causes a segfault.
-    if (format == nullptr || format[0] == 0 || !ch || !ch->in_room)
+void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To type, int min_pos) {
+    if (format.empty() || !ch || !ch->in_room)
         return;
 
-    const CHAR_DATA *vch = std::get_if<const CHAR_DATA *>(&arg2) ? *std::get_if<const CHAR_DATA *>(&arg2) : nullptr;
+    const Char *vch = std::get_if<const Char *>(&arg2) ? *std::get_if<const Char *>(&arg2) : nullptr;
 
     for (auto *to : collect_folks(ch, vch, arg2, type, min_pos)) {
         auto formatted = format_act(format, ch, arg1, arg2, to, vch);
-        send_to_char(formatted, to);
+        to->send_to(formatted);
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         if (MOBtrigger) {
             auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1);
             // TODO: heinous const_cast here. Safe, but annoying and worth unpicking deeper down.
-            mprog_act_trigger(formatted.c_str(), const_cast<CHAR_DATA *>(to), ch,
+            mprog_act_trigger(formatted.c_str(), const_cast<Char *>(to), ch,
                               arg1_as_obj_ptr ? *arg1_as_obj_ptr : nullptr, vch);
         }
     }
     MOBtrigger = true;
 }
 
-void show_prompt(Descriptor *d, char *prompt) {
-    char buf[256]; /* this is actually sent to the ch */
-    char buf2[64];
-    CHAR_DATA *ch;
-    CHAR_DATA *ch_prefix = nullptr; /* Needed for prefix in prompt with switched MOB */
-    char *point;
-    char *str;
-    const char *i;
-    int bufspace = 255; /* Counter of space left in buf[] */
+namespace {
 
-    ch = d->character();
-    /*
-     * Discard null and zero-length prompts.
-     */
-
-    if (!IS_NPC(ch) && (ch->pcdata->colour))
-        send_to_char("|p", ch);
-
-    if (IS_NPC(ch)) {
-        if (ch->desc->original())
-            ch_prefix = ch->desc->original();
-    } else
-        ch_prefix = ch;
-
-    if (prompt == nullptr || prompt[0] == '\0') {
-        snprintf(buf, sizeof(buf), "<%d/%dhp %d/%dm %dmv> |w", ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move);
-        *(buf + strlen(buf)) = '\0';
-        send_to_char(buf, ch);
-        return;
-    }
-
-    point = buf;
-    buf[0] = '\0';
-    str = prompt; /* zero-terminated raw prompt macro */
-    while ((*str != '\0') && (bufspace >= 0)) {
-        float tmp, loop;
-        char bar[256];
-
-        if (*str != '%') {
-            if (bufspace-- > 0) {
-                *point++ = *str;
-                *point = '\0';
-            }
-            str++;
-            continue;
-        }
-        ++str;
-
-        switch (*str) {
-        default: i = "|W ?? |p"; break;
-
-        case 'B':
-            buf2[0] = '\0';
-            bar[0] = '\0';
-            strcpy(bar, "|g||");
-
-            tmp = (float)ch->hit / (float)(ch->max_hit / 10.0);
-            for (loop = 0.0; loop < 10.0; loop++) {
-                if (loop > tmp) {
-                    bar[2] = ' ';
-                    bar[3] = '\0';
+std::string format_one_prompt_part(char c, const Char &ch) {
+    switch (c) {
+    case '%': return "%";
+    case 'B': {
+        std::string bar;
+        constexpr auto NumGradations = 10u;
+        auto num_full = static_cast<float>(NumGradations * ch.hit) / ch.max_hit;
+        char prev_colour = 0;
+        for (auto loop = 0u; loop < NumGradations; ++loop) {
+            auto fullness = num_full - loop;
+            if (fullness <= 0.25f)
+                bar += ' ';
+            else {
+                char colour = 'g';
+                if (loop < NumGradations / 3)
+                    colour = 'r';
+                else if (loop < (2 * NumGradations) / 3)
+                    colour = 'y';
+                if (colour != prev_colour) {
+                    bar = bar + '|' + colour;
+                    prev_colour = colour;
                 }
-                if (loop <= 10.0)
-                    bar[1] = 'g';
-                if (loop < 6.0)
-                    bar[1] = 'y';
-                if (loop < 3.0)
-                    bar[1] = 'r';
-                i = buf2;
-                strcat(buf2, bar);
+                if (fullness <= 0.5f)
+                    bar += ".";
+                else if (fullness < 1.f)
+                    bar += ":";
+                else
+                    bar += "||";
             }
-            strcat(buf2, "|p");
-
-            break;
-        case 'h':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%d", ch->hit);
-            break;
-        case 'H':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%d", ch->max_hit);
-            break;
-        case 'm':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%d", ch->mana);
-            break;
-        case 'M':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%d", ch->max_mana);
-            break;
-        case 'g':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%ld", ch->gold);
-            break;
-        case 'x':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%ld",
-                     (long int)(((long int)(ch->level + 1) * (long int)(exp_per_level(ch, ch->pcdata->points))
-                                 - (long int)(ch->exp))));
-            break;
-        case 'v':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%d", ch->move);
-            break;
-        case 'V':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%d", ch->max_move);
-            break;
-        case 'a':
-            i = buf2;
-            if (get_trust(ch) >= 10) {
-                snprintf(buf2, sizeof(buf2), "%d", ch->alignment);
-            } else {
-                snprintf(buf2, sizeof(buf2), "??");
-            }
-            break;
-        case 'X':
-            i = buf2;
-            snprintf(buf2, sizeof(buf2), "%ld", ch->exp);
-            break;
-            /* PCFN 20-05-97 prefix */
-        case 'p':
-            if (ch_prefix) {
-                i = ch_prefix->pcdata->prefix;
-            } else {
-                i = "\0";
-            }
-            break;
-            /* end */
-        case 'r':
-            if (IS_IMMORTAL(ch)) {
-                i = ch->in_room->name;
-            } else {
-                i = "|W ?? |p";
-            }
-
-            break;
-        case 'W':
-            if IS_IMMORTAL (ch) {
-                i = (IS_SET(ch->act, PLR_WIZINVIS)) ? "|R*W*|p" : "-w-";
-            } else {
-                i = "|W ?? |p";
-            }
-            break;
-            /* Can be changed easily for tribes/clans etc. */
-        case 'P':
-            if (IS_IMMORTAL(ch)) {
-                i = (IS_SET(ch->act, PLR_PROWL)) ? "|R*P*|p" : "-p-";
-            } else {
-                i = "|W ?? |p";
-            }
-            break;
-        case 'R':
-            if IS_IMMORTAL (ch) {
-                i = buf2;
-                snprintf(buf2, sizeof(buf2), "%d", ch->in_room->vnum);
-            } else {
-                i = "|W ?? |p";
-            }
-            break;
-
-        case 'z':
-            if IS_IMMORTAL (ch) {
-                i = ch->in_room->area->areaname; // print the area name short form
-            } else {
-                i = "|W ?? |p";
-            }
-            break;
-
-        case 'n': i = "\n\r"; break;
-
-        case 't': {
-            time_t ch_timet;
-
-            ch_timet = time(0);
-
-            if (ch_prefix->pcdata->houroffset || ch_prefix->pcdata->minoffset) {
-                struct tm *ch_time;
-
-                ch_time = gmtime(&ch_timet);
-                ch_time->tm_min += ch_prefix->pcdata->minoffset;
-                ch_time->tm_hour += ch_prefix->pcdata->houroffset;
-
-                ch_time->tm_hour -= (ch_time->tm_min / 60);
-                ch_time->tm_min = (ch_time->tm_min % 60);
-                if (ch_time->tm_min < 0) {
-                    ch_time->tm_min += 60;
-                    ch_time->tm_hour -= 1;
-                }
-                ch_time->tm_hour = (ch_time->tm_hour % 24);
-                if (ch_time->tm_hour < 0)
-                    ch_time->tm_hour += 24;
-
-                strftime(buf2, 63, "%H:%M:%S", ch_time);
-            } else
-                strftime(buf2, 63, "%H:%M:%S", localtime(&ch_timet));
-            i = buf2;
-        } break;
         }
-
-        ++str;
-        strncpy(point, i, bufspace - 1);
-        if ((int)strlen(i) > (bufspace - 1))
-            point[bufspace - 1] = '\0';
-        point += strlen(i);
-        if ((bufspace -= strlen(i)) <= 0)
-            break;
-
-        /*      while ( ( *point = *i ) != '\0' )
-                 ++point, ++i;*/
+        return bar + "|p";
     }
 
-    if (bufspace > 0) {
-        strncpy(point, "|w", bufspace - 1);
-        point[bufspace - 1] = '\0';
+    case 'c': return fmt::format("{}", ch.wait);
+    case 'h': return fmt::format("{}", ch.hit);
+    case 'H': return fmt::format("{}", ch.max_hit);
+    case 'm': return fmt::format("{}", ch.mana);
+    case 'M': return fmt::format("{}", ch.max_mana);
+    case 'g': return fmt::format("{}", ch.gold);
+    case 'x':
+        return fmt::format("{}",
+                           (long int)(((long int)(ch.level + 1) * (long int)(exp_per_level(&ch, ch.pcdata->points))
+                                       - (long int)(ch.exp))));
+    case 'v': return fmt::format("{}", ch.move);
+    case 'V': return fmt::format("{}", ch.max_move);
+    case 'a':
+        if (ch.get_trust() > 10)
+            return fmt::format("{}", ch.alignment);
+        else
+            return "??";
+    case 'X': return fmt::format("{}", ch.exp);
+    case 'p':
+        if (ch.player())
+            return ch.player()->pcdata->prefix;
+        return "";
+    case 'r':
+        if (ch.is_immortal())
+            return ch.in_room->name;
+        break;
+    case 'W':
+        if (ch.is_immortal())
+            return ch.is_wizinvis() ? "|R*W*|p" : "-w-";
+        break;
+        /* Can be changed easily for tribes/clans etc. */
+    case 'P':
+        if (ch.is_immortal())
+            return ch.is_prowlinvis() ? "|R*P*|p" : "-p-";
+        break;
+    case 'R':
+        if (ch.is_immortal())
+            return fmt::format("{}", ch.in_room->vnum);
+        break;
+    case 'z':
+        if (ch.is_immortal())
+            return ch.in_room->area->areaname;
+        break;
+    case 'n': return "\n\r";
+    case 't': {
+        auto ch_timet = Clock::to_time_t(current_time);
+        char time_buf[MAX_STRING_LENGTH];
+        strftime(time_buf, sizeof(time_buf), "%H:%M:%S", gmtime(&ch_timet));
+        return time_buf;
+    } break;
+    default: break;
     }
 
-    send_to_char(buf, ch);
+    return "|W ?? |p";
+}
+
+}
+
+std::string format_prompt(const Char &ch, std::string_view prompt) {
+    if (prompt.empty()) {
+        return fmt::format("|p<{}/{}hp {}/{}m {}mv {}cd> |w", ch.hit, ch.max_hit, ch.mana, ch.max_mana, ch.move,
+                           ch.wait);
+    }
+
+    bool prev_was_escape = false;
+    std::string buf = "|p";
+    for (auto c : prompt) {
+        if (std::exchange(prev_was_escape, false)) {
+            buf += format_one_prompt_part(c, ch);
+        } else if (c == '%')
+            prev_was_escape = true;
+        else
+            buf += c;
+    }
+    return buf + "|w";
 }

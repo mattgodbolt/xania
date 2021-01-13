@@ -7,21 +7,25 @@
 /*                                                                       */
 /*************************************************************************/
 
-#include "Descriptor.hpp"
-#include "buffer.h"
+#include "AFFECT_DATA.hpp"
+#include "DescriptorList.hpp"
+#include "MobIndexData.hpp"
 #include "comm.hpp"
 #include "db.h"
+#include "handler.hpp"
 #include "interp.h"
+#include "lookup.h"
 #include "magic.h"
 #include "merc.h"
 #include "string_utils.hpp"
+
+#include <fmt/format.h>
+#include <range/v3/numeric/accumulate.hpp>
 
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <ctime>
-#include <sys/types.h>
 
 /*
  * KLUDGEMONGER III, Revenge of Kludgie, the Malicious Code Murderer...
@@ -37,66 +41,25 @@ TIP_TYPE *tip_current;
    object in points.  If boot is non-zero it will also 'BUG' these, along with any other things
    that could be wrong with the object */
 
-void objectbug(const char *str, OBJ_INDEX_DATA *obj) {
-    char buf[MAX_STRING_LENGTH + 64];
-    snprintf(buf, sizeof(buf), "obj> %s (#%d): %s", obj->short_descr, obj->vnum, str);
-    log_string(buf);
+void objectbug(std::string_view str, OBJ_INDEX_DATA *obj) {
+    log_string("obj> {} (#{}): {}", obj->short_descr, obj->vnum, str);
 }
 
-void mobbug(const char *str, MOB_INDEX_DATA *mob) {
-    char buf[MAX_STRING_LENGTH];
-    snprintf(buf, sizeof(buf), "mob> %s (#%d): %s", mob->short_descr, mob->vnum, str);
-    log_string(buf);
+void mobbug(std::string_view str, MobIndexData *mob) {
+    log_string("mob> {} (#{}): {}", mob->short_descr, mob->vnum, str);
 }
 
 int report_object(OBJ_DATA *object, int boot) {
-    int worth = 0, hit = 0, dam = 0;
     int averagedam, allowedaverage;
-    AFFECT_DATA *paf;
     OBJ_INDEX_DATA *obj = object->pIndexData;
 
-    for (paf = obj->affected; paf; paf = paf->next) {
-        switch (paf->location) {
+    auto value =
+        ranges::accumulate(obj->affected | ranges::views::transform(&AFFECT_DATA::worth), AFFECT_DATA::Value{});
 
-        default: break;
-
-        case APPLY_STR:
-        case APPLY_DEX:
-        case APPLY_INT:
-        case APPLY_WIS:
-        case APPLY_CON:
-            if (paf->modifier > 0)
-                worth += paf->modifier;
-            break;
-
-        case APPLY_HITROLL: hit += paf->modifier; break;
-        case APPLY_DAMROLL: dam += paf->modifier; break;
-
-        case APPLY_SAVING_PARA:
-        case APPLY_SAVING_ROD:
-        case APPLY_SAVING_PETRI:
-        case APPLY_SAVING_BREATH:
-        case APPLY_SAVING_SPELL:
-        case APPLY_AC:
-            if (paf->modifier < 0)
-                worth -= paf->modifier;
-            break;
-
-        case APPLY_MANA:
-        case APPLY_HIT:
-        case APPLY_MOVE:
-            if (paf->modifier > 0)
-                worth += (paf->modifier + 6) / 7;
-            break;
-        }
-    }
     /* Weapons are allowed 1 hit and 1 dam for each point */
 
-    if (obj->item_type == ITEM_WEAPON) {
-        worth += (hit + dam) / 2;
-    } else {
-        worth += (hit + dam);
-    }
+    auto worth =
+        value.worth + obj->item_type == ITEM_WEAPON ? (value.hit + value.damage) / 2 : value.hit + value.damage;
 
     /* Object specific routines */
 
@@ -137,37 +100,32 @@ int report_object(OBJ_DATA *object, int boot) {
     }
 
     if (boot && (worth > ((obj->level / 10) + 1))) {
-        char buf[MAX_STRING_LENGTH];
-        snprintf(buf, sizeof(buf), "points too high: has %d points (max should be %d)", worth, ((obj->level / 10) + 1));
-        objectbug(buf, obj);
+        objectbug(fmt::format("points too high: has {} points (max should be {})", worth, ((obj->level / 10) + 1)),
+                  obj);
     }
     return worth;
 }
 
 /* report_mobile - for checking those not-hard-enough mobs */
 
-void report_mobile(MOB_INDEX_DATA *mob) {
+void report_mobile(MobIndexData *mob) {
 
-    if ((mob->damage[DICE_BONUS] + mob->hitroll
-         + ((mob->damage[DICE_NUMBER] * mob->damage[DICE_TYPE] + mob->damage[DICE_NUMBER]) / 2))
+    if ((mob->damage.bonus() + mob->hitroll + ((mob->damage.number() * mob->damage.type()) + mob->damage.number() / 2))
         < (mob->level * 3 / 2))
         mobbug("can't do enough damage", mob);
 
-    if ((mob->hit[DICE_NUMBER] + mob->hit[DICE_BONUS]) < (mob->level * 30))
+    if ((mob->hit.number() + mob->hit.bonus()) < (mob->level * 30))
         mobbug("has too few health points", mob);
 }
 
 /* check_xania - check all of Xania and report those things that aren't what they should be */
 
 void check_xania() {
-    OBJ_DATA *object;
-    CHAR_DATA *mobile;
-
     bug("obj> **********************************************************************");
     bug("obj> **               Beginning sweep of all object in Xania             **");
     bug("obj> **********************************************************************");
 
-    for (object = object_list; object; object = object->next) {
+    for (auto *object : object_list) {
         report_object(object, 1);
     }
 
@@ -179,7 +137,7 @@ void check_xania() {
     bug("mob> **                       Beginning mobile sweep                     **");
     bug("mob> **********************************************************************");
 
-    for (mobile = char_list; mobile; mobile = mobile->next) {
+    for (auto *mobile : char_list) {
         report_mobile(mobile->pIndexData);
     }
 
@@ -188,124 +146,55 @@ void check_xania() {
     bug("mob> **********************************************************************");
 }
 
-void do_immworth(CHAR_DATA *ch, const char *argument) {
+void do_immworth(Char *ch, const char *argument) {
     OBJ_DATA *obj;
     int worth, shouldbe;
-    char buf[MAX_STRING_LENGTH];
 
     if ((obj = get_obj_world(ch, argument)) == nullptr) {
-        send_to_char("Nothing like that in Xania.\n\r", ch);
+        ch->send_line("Nothing like that in Xania.");
         return;
     }
 
     worth = report_object(obj, 0);
     shouldbe = ((obj->level / 10) + 1);
     if (worth == shouldbe) {
-        snprintf(buf, sizeof(buf), "Object '%s' has %d point(s) - exactly right.\n\r", obj->pIndexData->short_descr,
-                 worth);
-        send_to_char(buf, ch);
-        return;
-    }
-    if (worth > shouldbe) {
-        snprintf(buf, sizeof(buf), "Object '%s' has %d point(s), %d points |Rtoo high|w.\n\r",
-                 obj->pIndexData->short_descr, worth, (worth - shouldbe));
+        ch->send_line("Object '{}' has {} point(s) - exactly right.", obj->pIndexData->short_descr, worth);
+    } else if (worth > shouldbe) {
+        ch->send_line("Object '{}' has {} point(s), {} points |Rtoo high|w.", obj->pIndexData->short_descr, worth,
+                      worth - shouldbe);
     } else {
-        snprintf(buf, sizeof(buf), "Object '%s' has %d point(s), within the %d point maximum.\n\r",
-                 obj->pIndexData->short_descr, worth, shouldbe);
+        ch->send_line("Object '{}' has {} point(s), within the {} point maximum.", obj->pIndexData->short_descr, worth,
+                      shouldbe);
     }
-    send_to_char(buf, ch);
-}
-
-void set_prefix(CHAR_DATA *ch, const char *prefix) {
-    free_string(ch->pcdata->prefix);
-    ch->pcdata->prefix = str_dup(prefix);
 }
 
 /* do_prefix added 19-05-97 PCFN */
-void do_prefix(CHAR_DATA *ch, const char *argument) {
-    CHAR_DATA *ch_prefix = nullptr;
-    char ch_buffer[MAX_STRING_LENGTH];
+void do_prefix(Char *ch, const char *argument) {
+    if (ch = ch->player(); !ch)
+        return;
 
     auto prefix = smash_tilde(argument);
-
     if (prefix.length() > (MAX_STRING_LENGTH - 1))
         prefix.resize(MAX_STRING_LENGTH - 1);
 
-    if (IS_NPC(ch)) {
-        if (ch->desc->original())
-            ch_prefix = ch->desc->original();
-        else
-            return;
-    } else
-        ch_prefix = ch;
-
-    /* ch_prefix is the character, or the character who is switched into the MOB
-       otherwise it's nullptr */
-
-    if (ch_prefix == nullptr)
-        return;
-
     if (prefix.empty()) {
-        if (ch_prefix->pcdata->prefix[0] == '\0') {
-            snprintf(ch_buffer, sizeof(ch_buffer), "No prefix to remove.\n\r");
+        if (ch->pcdata->prefix.empty()) {
+            ch->send_line("No prefix to remove.");
         } else {
-            snprintf(ch_buffer, sizeof(ch_buffer), "Prefix removed.\n\r");
-        }
-    }
-
-    set_prefix(ch_prefix, prefix.c_str());
-    if (ch_prefix->pcdata->prefix[0] != '\0')
-        snprintf(ch_buffer, sizeof(ch_buffer), "Prefix set to \"%s\"\n\r", ch_prefix->pcdata->prefix);
-
-    send_to_char(ch_buffer, ch);
-}
-
-/* do_timezone added PCFN 24-05-97 */
-void do_timezone(CHAR_DATA *ch, const char *argument) {
-    CHAR_DATA *ch_owner = nullptr;
-    char buf[64];
-
-    if (IS_NPC(ch)) {
-        if (ch->desc->original())
-            ch_owner = ch->desc->original();
-        else
-            return;
-    } else
-        ch_owner = ch;
-
-    if (argument[0] == '\0') {
-        if (ch_owner->pcdata->minoffset == 0 && ch_owner->pcdata->houroffset == 0)
-            send_to_char("British time is already being used\n\r", ch_owner);
-        else {
-            send_to_char("British time will be used\n\r", ch_owner);
-            ch_owner->pcdata->minoffset = 0;
-            ch_owner->pcdata->houroffset = 0;
+            ch->send_line("Prefix removed.");
+            ch->pcdata->prefix.clear();
         }
     } else {
-        sscanf(argument, "%d:%d", (int *)&(ch_owner->pcdata->houroffset), (int *)&(ch_owner->pcdata->minoffset));
-        snprintf(buf, sizeof(buf), "Time will now be displayed %d:%02d from GMT\n\r", ch_owner->pcdata->houroffset,
-                 ch_owner->pcdata->minoffset);
-        send_to_char(buf, ch_owner);
+        ch->pcdata->prefix = prefix;
+        ch->send_line("Prefix set to \"{}\"", ch->pcdata->prefix);
     }
 }
 
-/********************************************************************************************/
-
-/*****************************************
- ******************************************************************/
-int get_skill_level(const CHAR_DATA *ch, int gsn) {
+int get_skill_level(const Char *ch, int gsn) {
     int level = 0, bonus;
 
-    if (IS_NPC(ch)) {
-
-        if (ch->desc) { /* Is this a switched IMM? */
-            if ((ch = ch->desc->original()) == nullptr) {
-                return 1;
-            }
-        } else { /* A genuine NPC */
-            return 1;
-        }
-    }
+    if (ch = ch->player(); !ch)
+        return 1;
 
     /* First we work out which level they'd get it at because of their class */
 
@@ -341,7 +230,7 @@ int get_skill_level(const CHAR_DATA *ch, int gsn) {
 }
 
 /*****************************************/
-int get_skill_difficulty(CHAR_DATA *ch, int gsn) {
+int get_skill_difficulty(Char *ch, int gsn) {
     int level, hard, bonus;
 
     if ((level = get_skill_level(ch, gsn)) == 0) /* ie you can't gain it ever! */
@@ -375,7 +264,7 @@ int get_skill_difficulty(CHAR_DATA *ch, int gsn) {
 }
 
 /*****************************************/
-int get_skill_trains(CHAR_DATA *ch, int gsn) {
+int get_skill_trains(Char *ch, int gsn) {
     int number;
     if ((number = get_skill_level(ch, gsn)) >= 60 && (ch->level < 60))
         /* can't show it */
@@ -394,9 +283,9 @@ int get_skill_trains(CHAR_DATA *ch, int gsn) {
 
 // New skill learned function - use instead of looking it up directly in the pcdata!!
 // Similar to get_skill
-int get_skill_learned(CHAR_DATA *ch, int skill_number) {
+int get_skill_learned(Char *ch, int skill_number) {
     // Mobs calling this get either 100 or 90
-    if (IS_NPC(ch)) {
+    if (ch->is_npc()) {
         if (is_affected(ch, gsn_insanity))
             return 90;
         else
@@ -411,7 +300,7 @@ int get_skill_learned(CHAR_DATA *ch, int skill_number) {
 
 /*****************************************
  ******************************************************************/
-int get_group_trains(CHAR_DATA *ch, int gsn) {
+int get_group_trains(Char *ch, int gsn) {
     int number;
     if ((number = get_group_level(ch, gsn)) >= 60 && (ch->level < 60))
         /* can't show it */
@@ -426,7 +315,7 @@ int get_group_trains(CHAR_DATA *ch, int gsn) {
     return (group_table[gsn].rating[ch->class_num]);
 }
 
-int get_group_level(CHAR_DATA *ch, int gsn) {
+int get_group_level(Char *ch, int gsn) {
     switch (group_table[gsn].rating[ch->class_num]) {
     case 0: return 0;
     case -1: return 60;
@@ -442,7 +331,7 @@ int get_group_level(CHAR_DATA *ch, int gsn) {
  ******************************************************************/
 int is_made_of(OBJ_DATA *obj, const char *material);
 
-int check_material_vulnerability(CHAR_DATA *ch, OBJ_DATA *object) {
+int check_material_vulnerability(Char *ch, OBJ_DATA *object) {
 
     if (IS_SET(ch->vuln_flags, VULN_WOOD)) {
         if (is_made_of(object, "wood"))
@@ -472,36 +361,38 @@ int is_made_of(OBJ_DATA *obj, const char *material) {
 /*****************************************
  ******************************************************************/
 
-void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
+void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
     (void)vo;
     /* is of type TAR_IGNORE so ignore *vo */
 
-    OBJ_DATA *obj;
     int num_of_corpses = 0, corpse, chance;
 
-    if (IS_NPC(ch))
+    if (ch->is_npc())
         return;
 
     /* scan the room looking for an appropriate objects...count them */
-    for (obj = ch->in_room->contents; obj; obj = obj->next_content) {
+    for (auto *obj : ch->in_room->contents) {
         if ((obj->pIndexData->item_type == ITEM_CORPSE_NPC) || (obj->pIndexData->item_type == ITEM_CORPSE_PC))
             num_of_corpses++;
     }
 
     /* Did we find *any* corpses? */
     if (num_of_corpses == 0) {
-        send_to_char("There are no dead in this room to reincarnate!\n\r", ch);
+        ch->send_line("There are no dead in this room to reincarnate!");
         return;
     }
 
-    /* choose a corpse at random & find it's corresponding OBJ_DATA */
+    /* choose a corpse at random & find its corresponding OBJ_DATA */
     corpse = number_range(1, num_of_corpses);
-    for (obj = ch->in_room->contents; obj; obj = obj->next_content) {
-        if ((obj->pIndexData->item_type == ITEM_CORPSE_NPC) || (obj->pIndexData->item_type == ITEM_CORPSE_PC)) {
-            if (--corpse == 0)
+    OBJ_DATA *obj{};
+    for (auto *c : ch->in_room->contents) {
+        if ((c->pIndexData->item_type == ITEM_CORPSE_NPC) || (c->pIndexData->item_type == ITEM_CORPSE_PC)) {
+            if (--corpse == 0) {
+                obj = c;
                 break;
+            }
         }
     }
 
@@ -519,14 +410,13 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
     chance = URANGE(1, (50 + ((ch->level - obj->pIndexData->level) * 3)), 99);
 
     if ((number_percent() > chance) || /* if random failed */
-        ((obj->pIndexData->item_type == ITEM_CORPSE_PC) && (obj->contains != nullptr)))
+        ((obj->pIndexData->item_type == ITEM_CORPSE_PC) && !obj->contains.empty()))
     /* if non-empty PC corpse */ {
         act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, To::Room);
         act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, To::Char);
         return;
     } else {
-        char buf[MAX_STRING_LENGTH];
-        CHAR_DATA *animated;
+        Char *animated;
 
         act("$s stands up.", ch, nullptr, obj, To::Room);
         act("$s stands up.", ch, nullptr, obj, To::Char);
@@ -539,15 +429,11 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
         /* Put the zombie in the room */
         char_to_room(animated, ch->in_room);
         /* Give the zombie the kit that was in the corpse */
-        animated->carrying = obj->contains;
-        obj->contains = nullptr;
+        animated->carrying = std::move(obj->contains);
+        obj->contains.clear();
         /* Give the zombie its correct name and stuff */
-        snprintf(buf, sizeof(buf), animated->description, obj->description);
-        free_string(animated->long_descr);
-        animated->long_descr = str_dup(buf);
-        snprintf(buf, sizeof(buf), animated->name, obj->name);
-        free_string(animated->name);
-        animated->name = str_dup(buf);
+        animated->long_descr = fmt::printf(animated->description, obj->description);
+        animated->name = fmt::printf(animated->name, obj->name);
 
         /* Say byebye to the corpse */
         extract_obj(obj);
@@ -555,31 +441,27 @@ void spell_reincarnate(int sn, int level, CHAR_DATA *ch, void *vo) {
         /* Set up the zombie correctly */
         animated->master = ch;
         animated->leader = ch;
-        do_follow(animated, ch->name);
+        do_follow(animated, ArgParser(ch->name));
     }
 }
 
-void do_smit(CHAR_DATA *ch, const char *argument) {
-    (void)argument;
-    send_to_char("If you wish to smite someone, then SPELL it out!\n\r", ch);
-}
+void do_smit(Char *ch) { ch->send_line("If you wish to smite someone, then SPELL it out!"); }
 
-void do_smite(CHAR_DATA *ch, const char *argument) {
+void do_smite(Char *ch, const char *argument) {
     /* Power of the Immortals! By Faramir
                                  Don't use this too much, it hurts :) */
 
     const char *smitestring;
-    char smitebuf[MAX_STRING_LENGTH];
-    CHAR_DATA *victim;
+    Char *victim;
     OBJ_DATA *obj;
 
     if (argument[0] == '\0') {
-        send_to_char("Upon whom do you wish to unleash your power?\n\r", ch);
+        ch->send_line("Upon whom do you wish to unleash your power?");
         return;
     }
 
     if ((victim = get_char_room(ch, argument)) == nullptr) {
-        send_to_char("They aren't here.\n\r", ch);
+        ch->send_line("They aren't here.");
         return;
     } /* Not (visibly) present in room! */
 
@@ -587,14 +469,14 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
                              with it, shah right! MMFOOMB
                              Should be dealt with in interp.c already*/
 
-    if (IS_NPC(ch)) {
-        send_to_char("You must take your true form before unleashing your power.\n\r", ch);
+    if (ch->is_npc()) {
+        ch->send_line("You must take your true form before unleashing your power.");
         return;
     } /* done whilst switched? No way Jose */
 
-    if (get_trust(victim) > get_trust(ch)) {
+    if (victim->get_trust() > ch->get_trust()) {
 
-        send_to_char("You failed.\n\rUmmm...beware of retaliation!\n\r", ch);
+        ch->send_line("You failed.\n\rUmmm...beware of retaliation!");
         act("$n attempted to smite $N!", ch, nullptr, victim, To::NotVict);
         act("$n attempted to smite you!", ch, nullptr, victim, To::Vict);
         return;
@@ -632,21 +514,15 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
             To::NotVict);
     }
 
-    /* tells others that the victim has
-                                            been disarmed, but not the victim :) */
-
-    snprintf(smitebuf, sizeof(smitebuf), "You |W>>> |YSMITE|W <<<|w %s with all of your Godly powers!\n\r",
-             (victim == ch) ? "yourself" : victim->name);
-    send_to_char(smitebuf, ch);
+    ch->send_line("You |W>>> |YSMITE|W <<<|w {} with all of your Godly powers!",
+                  (victim == ch) ? "yourself" : victim->name);
 
     victim->hit /= 2; /* easiest way of halving hp? */
     if (victim->hit < 1)
         victim->hit = 1; /* Cap the damage */
 
     victim->position = POS_RESTING;
-    /* Knock them into resting
-                                            and disarm them regardless of whether
-                                            they have talon or a noremove weapon */
+    /* Knock them into resting and disarm them regardless of whether they have talon or a noremove weapon */
 
     if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr) {
         return;
@@ -654,7 +530,7 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
     else {
         obj_from_char(obj);
         obj_to_room(obj, victim->in_room);
-        if (IS_NPC(victim) && victim->wait == 0 && can_see_obj(victim, obj))
+        if (victim->is_npc() && victim->wait == 0 && can_see_obj(victim, obj))
             get_obj(victim, obj, nullptr);
     } /* disarms them, and NPCs will collect
               their weapon if they can see it.
@@ -663,7 +539,7 @@ void do_smite(CHAR_DATA *ch, const char *argument) {
 
 /* web related functions */
 
-bool web_see(CHAR_DATA *ch) {
+bool web_see(Char *ch) {
 
     if (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL) || IS_SET(ch->act, PLR_AFK)
         || IS_AFFECTED(ch, AFF_INVISIBLE) || IS_AFFECTED(ch, AFF_SNEAK) || IS_AFFECTED(ch, AFF_HIDE))
@@ -675,11 +551,10 @@ bool web_see(CHAR_DATA *ch) {
 void web_who() {
 
     FILE *fp;
-    Descriptor *d;
     int count = 0;
 
     if ((fp = fopen(WEB_WHO_FILE, "w")) == nullptr) {
-        bug("web_who: couldn't open %s for writing!", WEB_WHO_FILE);
+        bug("web_who: couldn't open {} for writing!", WEB_WHO_FILE);
         return;
     }
     fprintf(fp, "<HTML><HEAD><TITLE TEXT=\"#FFFFFF\">Who's playing Xania right now?</TITLE>"
@@ -690,14 +565,14 @@ void web_who() {
     );
     fprintf(fp, "<b><TR><TD>Level</TD> <TD>Race</TD> <TD>Class</TD>  <TD>Who</TD></TR></b>\n");
 
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        auto wch = d->person();
-        if (!d->is_playing() || !web_see(wch))
-            continue;
-        fprintf(fp, "<TR><TD>%d</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD>\n", wch->level,
-                wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ", class_table[wch->class_num].name,
-                wch->name, wch->pcdata->title);
-        count++;
+    for (auto &d : descriptors().playing()) {
+        auto wch = d.person();
+        if (web_see(wch)) {
+            fprintf(fp, "<TR><TD>%d</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD>\n", wch->level,
+                    wch->race < MAX_PC_RACE ? pc_race_table[wch->race].who_name : "     ",
+                    class_table[wch->class_num].name, wch->name.c_str(), wch->pcdata->title.c_str());
+            count++;
+        }
     }
     fprintf(fp,
             "</TABLE>"
@@ -716,7 +591,7 @@ void load_tipfile() {
     tip_top = tip_current = nullptr; /* initialise globals */
 
     if ((fp = fopen(TIPWIZARD_FILE, "r")) == nullptr) {
-        bug("Couldn't open tip file \'%s\' for reading", TIPWIZARD_FILE);
+        bug("Couldn't open tip file \'{}\' for reading", TIPWIZARD_FILE);
         ignore_tips = true;
         return;
     }
@@ -729,7 +604,7 @@ void load_tipfile() {
         ungetc(c, fp);
         if (feof(fp)) {
             fclose(fp);
-            bug("Loaded %d tips", tipcount); /* not really a bug! */
+            log_string("Loaded {} tips", tipcount);
             if (tipcount == 0)
                 ignore_tips = true; /* don't bother polling the tip loop*/
             tip_current = tip_top;
@@ -751,10 +626,6 @@ void load_tipfile() {
 }
 
 void tip_players() {
-
-    Descriptor *d;
-    char buf[MAX_STRING_LENGTH];
-
     /* check the tip wizard list first ... */
 
     if (tip_current == nullptr)
@@ -772,40 +643,36 @@ void tip_players() {
         tip_current = tip_current->next;
         return;
     }
-    snprintf(buf, sizeof(buf), "|WTip: %s|w\n\r", tip_current->tip);
-    for (d = descriptor_list; d != nullptr; d = d->next) {
-        if (!d->is_playing())
-            continue;
-
-        CHAR_DATA *ch = d->person();
-        if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
-            send_to_char(buf, ch);
-        }
+    auto tip = fmt::format("|WTip: {}|w\n\r", tip_current->tip);
+    for (auto &d : descriptors().playing()) {
+        Char *ch = d.person();
+        if (is_set_extra(ch, EXTRA_TIP_WIZARD))
+            ch->send_to(tip);
     }
     tip_current = tip_current->next;
 }
 
-void do_tipwizard(CHAR_DATA *ch, const char *arg) {
+void do_tipwizard(Char *ch, const char *arg) {
 
     if (arg[0] == '\0') {
         if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
             remove_extra(ch, EXTRA_TIP_WIZARD);
-            send_to_char("Tipwizard deactivated.\n\r", ch);
+            ch->send_line("Tipwizard deactivated.");
         } else {
             set_extra(ch, EXTRA_TIP_WIZARD);
-            send_to_char("Tipwizard activated!\n\r", ch);
+            ch->send_line("Tipwizard activated!");
         }
         return;
     }
     if (!strcmp(arg, "on")) {
         set_extra(ch, EXTRA_TIP_WIZARD);
-        send_to_char("Tipwizard activated!\n\r", ch);
+        ch->send_line("Tipwizard activated!");
         return;
     }
     if (!strcmp(arg, "off")) {
         remove_extra(ch, EXTRA_TIP_WIZARD);
-        send_to_char("Tipwizard deactivated.\n\r", ch);
+        ch->send_line("Tipwizard deactivated.");
         return;
     }
-    send_to_char("Syntax: tipwizard {on/off}\n\r", ch);
+    ch->send_line("Syntax: tipwizard {on/off}");
 }

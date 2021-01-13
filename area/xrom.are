@@ -19,7 +19,7 @@ intelligence.
 unique~
 ABGQV FHNV 1000 0
 100 50 1d1+10000 1d1+2000 15d7+57 scratch
--40 -60 -30 -30000
+-55 -75 -45 -30015
 EFHJN ABLQ H I
 stand stand male 0
 0 0 small 0
@@ -37,7 +37,7 @@ the circumstances of its existence.
 undead~
 OQTVc CDHNTUVZ 0 0
 100 50 1d1+8984 1d1+1183 15d7+55 cleave
--30 -30 -30 -18
+-45 -45 -45 -33
 ACDEFHIKU ABHILMNR CDO 0
 stand stand neutral 0
 0 0 huge 0
@@ -54,7 +54,7 @@ It says...SQUEAK.
 unique~
 IHOUV HUNCDEFTZ 0 0
 100 30 1d1+30000 1d1+15000 1d1+30 scratch
--30 -30 -30 -30
+-45 -45 -45 -45
 EFIKMN ADHINR 0 0
 stand stand neutral 0
 0 0 small 0
@@ -68,7 +68,7 @@ The wolf stares back at you with a mischevious glint in his eye!
 unique~
 CIHOUV HUNCDEFTZ 10 0
 60 30 1d1+25000 1d1+1000 1d1+2000 scratch
--30 -30 -30 -30
+-45 -45 -45 -45
 EFIKMN ADHINR 0 0
 stand stand neutral 0
 0 0 small 0
@@ -83,7 +83,7 @@ WelL ArD TigeR SitS HerE GuardinG LuxoR WitH HeR EntirE BeinG
 unique~
 IHOUV HUNCDEFTZ 10 0
 91 30 1d1+30000 1d1+15000 1d1+30 scratch
--30 -30 -30 -30
+-45 -45 -45 -45
 EFIKMN ADHINR 0 0
 stand stand neutral 0
 0 0 large 0
@@ -98,7 +98,7 @@ It looks like a big wooly pussy.
 unique~
 IHOUV HUNCDEFTZ 10 0
 113 38 1d1+24000 1d1+15000 12d6+38 claw
--38 -38 -38 -38
+-53 -53 -53 -53
 EFIKMN ABLOQP 0 0
 stand stand neutral 0
 0 0 large 0
@@ -114,7 +114,7 @@ player names that are against the spirit of the game on a case by case basis.
 unique~
 IHOUV HUNCDEFTZ 10 0
 113 38 1d1+24000 1d1+15000 12d6+38 claw
--38 -38 -38 -38
+-53 -53 -53 -53
 EFIKMN ABLOQP 0 0
 stand stand neutral 0
 0 0 large 0
@@ -126,8 +126,7 @@ stand stand neutral 0
 #30000
 rod divine power~
 a rod of divine power~
-You see a red coloured rod lying here innocently.
-~
+You see a red coloured rod lying here innocently.~
 adamantite~
 armor AB AO
 0 0 0 0 0
@@ -432,25 +431,6 @@ durability in mind, hence the titanium case. Its viewscreen is full of
 so fast it is impossible to see what they are!
 ~
 
-#30023
-rusty scythe~
-a rusty looking scythe~
-You see an enormous, black scythe here, ready to decapitate somebody.~
-iron~
-weapon CGHO AN
-'whip' 36 12 'cleave' BDG
-91 50 0 P
-E
-rusty scythe~
-A huge, weathered curve of iron stands atop a long knarled staff.
-~
-A
-18 99
-A
-19 99
-A
-9 100
-
 #30024
 gem clan krellstone~
 a sacred Krellstone clan gem~
@@ -623,7 +603,7 @@ you, causing a feeling of impending claustrophobia. The wardrobe seems
 to go on forever, as you shuffle through its hidden depths.....
 Will you ever reach the other end?
 ~
-30 ADQ 0
+ADQ 0
 D0
 The Living Room
 ~
@@ -658,7 +638,7 @@ of Keanu Reeves on the wall that has been covered in graffiti and
 various obscenities. There are doorways in all directions and you
 can't but help detect a smell from the west.
 ~
-30 D 0
+D 0
 D0
 Faramir's Chambers
 ~
@@ -700,7 +680,7 @@ swear that you saw it on some TV show once. An unpleasant reddish
 liquid shimmers beneath your feet as is it failing to flow down
 the drain which the plumber failed to fix yet again. Typical.
 ~
-30 AD 0
+AD 0
 D0
 Luxor's Cardboard Box
 ~
@@ -720,22 +700,17 @@ S
 
 #30004
 Faramir's Gaff~
-You step in to what appears to be a harem containing a giggling gaggle 
-of the most goggling girls the Gods graced any planet with. 
-
-The strong dose of drugs circulating through your body quickly subsides.
-
-You now find yourself in a cosy little bedroom featuring blank yellow
+You find yourself in a cosy little bedroom featuring blank yellow
 walls, a solid black table and a boring pine bed. The large glossy
 'The Matrix' poster on the far wall features a particularly fine shot
-of Carrie-Anne Moss' voluminous and eminently comfortable breasts in
-addition to Keanu's charsimatically challenged haircut. 
+of Carrie-Anne Moss.
+  
 A chubby computer sits under the table, its disk whirring like a hair
 drier in a 70s barber shop. The view from the window is green and 
 unremarkable except for the perma-sunset on the horizon that Faramir
 nicked from Death while he wasn't looking.
 ~
-30 D 0
+D 0
 D2
 A living room
 ~
@@ -758,7 +733,7 @@ The Moog to fix, by the look of it.  A 56k modem glows red next to the
 monitor; its LEDs and that of the network hub are the only sources of light
 in the room.
 ~
-30 D 0
+D 0
 D3
 A living room
 ~
@@ -775,7 +750,7 @@ Relax you are quite safe, you would not be here unless Wandera had invited
 you. Lie back into the soft leaves and speak what is on your mind, fear not
 what you say as from the true god you have no secrets.
 ~
-30 D 0
+D 0
 D1
 A living room
 ~
@@ -794,7 +769,7 @@ desk a set of shelves and a tall cupboard. The sun always shines
 in through the window to the east and you hear the faint sound
 of a "Chariot of Fire" in the background.
 ~
-30 D 0
+D 0
 D4
 A living room
 ~
@@ -813,7 +788,7 @@ sit tiny hourglasses, each one carefully named.  You glance upon an
 hourglass with your own name inscribed upon it, and you worry as there
 seems not to be much sand left in it...
 ~
-30 D 0
+D 0
 D5
 Realm of Death
 ~
@@ -835,7 +810,7 @@ You see a filty rugby ball on the floor (Boy has that seen a few scrums)
 The sounds of Phill Collins put an over all feeling of suicide over you and
 you wonder how you will ever escape ahhhh yes the same way you came in.........
 ~
-30 D 0
+D 0
 D2
 Realm of Death
 ~
@@ -852,7 +827,7 @@ forage under the noonday sun.  A feeling of tranquility passes over you as
 you realize that while you're here, you are absolutely safe...until Firefawn
 returns.
 ~
-30 D 0
+D 0
 D3
 The Wardrobe
 ~
@@ -874,7 +849,7 @@ that you don't recognize the writing of but you guess that it might
 be Hebrew.  In the corner, you notice a piece of parchment with Greek
 on it. It appears to be the source of much study at the moment.
 ~
-30 D 0
+D 0
 D3
 Firefawn's Fantasy Field
 ~
@@ -900,7 +875,7 @@ camp bed set up just in front of you.  Clearly Harlequin wants to be close
 to his work, but what on Xania is he making?  A cure for cancer, a 
 vaccine against AIDS, nah its just something to clean the fridge with.
 ~
-30 D 0
+D 0
 D3
 Oshea's study
 ~
@@ -924,7 +899,7 @@ grant Tajil anything more than a utility room as his immortal domain.
 Shelved in the far corner, a slowly spinning record player hisses and skips, 
 punctuating the echoing silence of the basement.
 ~
-30 D 0
+D 0
 D4
 In the wardrobe
 ~

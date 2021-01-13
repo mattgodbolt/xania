@@ -10,7 +10,7 @@ Dimly Lit Path~
 This path is made of crushed granite with curious blue streaks in it.
 The path continues north to a village, or south to the eastern road.
 ~
-1 0 3
+0 3
 D0
 The path continues toward the village.
 ~
@@ -27,7 +27,7 @@ Dimly Lit Path~
 This section of the road is badly worn and frequently traversed.  There is
 faint singing to the north.  The path back to the road lies to the south.
 ~
-1 C 3
+C 3
 D0
 The path continues toward the village.
 ~
@@ -44,7 +44,7 @@ Dimly Lit Path~
 This section of the road is badly worn and frequently traversed.  Singing is
 getting stronger to the north.  The path back to the road lies to the south.
 ~
-1 0 3
+0 3
 D0
 The entrance to smurf village.
 ~
@@ -63,7 +63,7 @@ village easily.  Little blue creatures with white hats and boots and little
 fluffy tails scamper about.  They sing continuously.  The singing is getting
 on your nerves and you have the urge to squash them.
 ~
-1 0 2
+0 2
 D0
 Smurfy Road
 ~
@@ -82,7 +82,7 @@ you?  These little blue smurfs?  The singing is growing intense.  Your ears
 are starting to ring.  Smurfy Road continues to the north, west, and east.
 There is still time to turn back and go south.
 ~
-1 0 1
+0 1
 D0
 Smurfy Road
 ~
@@ -110,7 +110,7 @@ You continue to travel down Smurfy Road.  Isn't it just smurfy?  Smurfy road
 continues its smurfy path to the smurfy north, smurfy west, and smurfy south.
 A smurfy home lies to the smurfy east.
 ~
-1 0 1
+0 1
 D0
 Smurfy Road
 ~
@@ -138,7 +138,7 @@ Oh boy, another smurfy road!  Smurfy Road goes north and south here.  There
 is a smurfy, mushroom home to the west.  A beautiful smurfberry patch is to
 the east.
 ~
-1 0 1
+0 1
 D0
 Smurfy Road
 ~
@@ -166,7 +166,7 @@ Smurfy Road continues to smurf here.  It smurfs to the south and smurfs to
 an end to the north.  A smurfberry patch is to the east.  A stone path lies
 to the west.
 ~
-1 0 1
+0 1
 D0
 Smurfy Road
 ~
@@ -194,7 +194,7 @@ A smurfy well lies here in the middle of Smurfy Road.  A fence separates
 the smurfs from harm to the north.  A berry patch is to the east.  Smurfy
 Road continues to to the south and west.
 ~
-1 0 1
+0 1
 D1
 Smurfberry Patch
 ~
@@ -222,7 +222,7 @@ A corner of smurfy road is where you stand.  A smurfy fence blocks passage
 to the east or south.  A smurfy home is to the north.  Smurfy Road goes back
 to the west.
 ~
-1 0 1
+0 1
 D0
 Smurfy Home
 ~
@@ -239,7 +239,7 @@ Smurfy Road~
 Western corner of Smurfy Road.  You can continue to smurf down the road
 to the east and north.  You can also smurf into a smurfy home to the south.
 ~
-1 0 1
+0 1
 D0
 Smurfy Road
 ~
@@ -263,7 +263,7 @@ movie.  A smurfy home is to the west.  Papa Smurf's backyard is to the
 north but you can't go there.  Smurfy Road continues to the south and
 east.
 ~
-1 0 1
+0 1
 D1
 Smurfy Road
 ~
@@ -286,7 +286,7 @@ You are walking along a cute little stone path.  To the south lies Papa
 Smurf's house.  A Smurfy house is to the west.  Smurfy road is to the east.
 Everything is so peaceful here.  You could stay forever.
 ~
-1 0 1
+0 1
 D1
 Smurfy Road
 ~
@@ -308,7 +308,7 @@ Smurfy Road~
 Yet another part of Smurfy Road.  Hey if you go west its the last
 section of Smurfy Road.  You can go back to the smurfy well to the east.
 ~
-1 0 1
+0 1
 D1
 Smurfy Road
 ~
@@ -326,7 +326,7 @@ The last piece of Smurfy Road.  You can go back to Smurfy Road to the east.
 A nice, beautiful, smurfy, mushroom home is to the south.  In the distance to
 the north you can see Gargamel's Castle.
 ~
-1 0 1
+0 1
 D0
 Path to Gargamel's Castle
 ~
@@ -349,7 +349,7 @@ Delicious smurfberries grow here.  You could probably eat a year's worth of
 smurfberries in one sitting.  Smurfy Road is back to the west.  Another
 smurfberry patch is to the north.
 ~
-1 0 1
+0 1
 D0
 Smurfberry Patch
 ~
@@ -368,7 +368,7 @@ nostrils crazy.  It almost, ALMOST, makes you forget all the singing going
 on.  Smurfy Road is to the west, while smurfberry patches are to the north
 and south.
 ~
-1 0 1
+0 1
 D0
 Smurfberry Patch
 ~
@@ -391,7 +391,7 @@ The northernmost of the smurfberry patches grows here.  It looks just
 as scrumptious as all the rest.  Just take a few; they'll never know.  Smurfy
 Road is to the west.  A smurfberry patch is to the south.
 ~
-1 0 1
+0 1
 D2
 Smurfberry Patch
 ~
@@ -410,7 +410,7 @@ many smurfy books.  The print is so small you couldn't even read it
 with a magnifying glass.  I wonder if Brainy Smurf minds if you
 destroy his home?  Smurfy Road is back to the south.
 ~
-1 0 1
+0 1
 D2
 Smurfy Road
 ~
@@ -423,7 +423,7 @@ This home was well built.  Of course, until you rip it apart you big meany
 you.  Tools are all over the place.  Too small for you to use.  Smurfy Road is
 back to the west.
 ~
-1 0 1
+0 1
 D3
 Smurfy Road
 ~
@@ -436,7 +436,7 @@ Hefty is anything but wimpy.  So is his house.  It actually took you a
 couple of minutes to destroy his house.  Better watch out -- he might be
 a little mad at you.  Smurfy Road is back to the north.
 ~
-1 0 1
+0 1
 D0
 Smurfy Road
 ~
@@ -449,7 +449,7 @@ Be vewy vewy quiet.  Sleepy Smurf is probably sleeping.  You see so many
 beds you can't even tell if he is here.  Maybe you should quietly go back to
 Smurfy Road to the east.
 ~
-1 0 1
+0 1
 D1
 Smurfy Road
 ~
@@ -462,7 +462,7 @@ This is Grumpy Smurf's home.  He is pissed at you.  Of course, he is pissed
 at everyone.  So don't take it bad.  Maybe you'd better leave before he really
 gets mad.  Smurfy Road to the east is your only salvation.
 ~
-1 0 1
+0 1
 D1
 Smurfy Road
 ~
@@ -475,7 +475,7 @@ You pull the top of his house and it explodes in your face.  That Jokey
 Smurf, what a kidder.  You can hear his laughter as you wipe the ashes off
 your face.  You better get even.  Smurfy Road is to the north.
 ~
-1 0 1
+0 1
 D0
 Smurfy Road
 ~
@@ -489,7 +489,7 @@ home.  He takes pride in his work.  You could get to know him or just squash
 him.  If Papa Smurf is not here he is probably at Smurfette's putting the
 moves on her.  A stone path lies to the north.
 ~
-1 0 1
+0 1
 D0
 Stone Path
 ~
@@ -501,7 +501,7 @@ Path to Gargamel's Castle~
 You are walking along a path to Gargamel's Castle to the North.
 Smurfy Road lies to the south.
 ~
-1 0 1
+0 1
 D0
 Outside Gargamel's Castle
 ~
@@ -519,7 +519,7 @@ You are standing outside Gargamel's Castle.  You can hear him screaming at
 Azreal from inside.  You can also him cursing out those wretched smurfs.
 His Castle is to the north while Smurfy Road is to the south.
 ~
-1 0 1
+0 1
 D0
 Gargamel's Castle
 ~
@@ -536,7 +536,7 @@ Gargamel's Castle~
 This is Gargamel's Castle.  His big black kettle is in the middle of the room.
 Where else would he put it?  The place has only one room.
 ~
-1 0 1
+0 1
 D2
 Outside Gargamel's Castle
 ~
@@ -549,7 +549,7 @@ This house is conveniently next to Papa Smurfs.  Makes it easier for Papa
 Smurf to sneak over at night.  I hope he uses protection.  I would hate to
 have little smurfs running around.  The only exit is to the east.
 ~
-1 0 1
+0 1
 D1
 Smurfy Road
 ~
@@ -570,7 +570,7 @@ urge to crush him.
 unique~
 GHA 0 100 0
 1 0 1d1+18 1d1+20 1d2+0 slash
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 stand stand male 41
 0 0 medium 0
@@ -585,7 +585,7 @@ A small smurf is quietly picking berries.  He seems to hardly notice you.
 unique~
 BHA 0 100 0
 1 0 1d1+18 1d1+20 1d2+0 slash
-9 9 9 9
+-6 -6 -6 -6
 FENU 0 0 0
 stand stand male 41
 0 0 medium 0
@@ -601,7 +601,7 @@ other smurfs.  They fear his knowledge.  Knowledge is power!
 unique~
 GHA 0 100 0
 3 1 1d1+48 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 125
 0 0 medium 0
@@ -617,7 +617,7 @@ give him a break, like all of his bones.
 unique~
 GHA 0 100 0
 3 1 1d1+48 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 120
 0 0 medium 0
@@ -633,7 +633,7 @@ if he has ever stayed up a whole night without sleeping.
 unique~
 GHA 0 100 0
 3 1 1d1+48 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 123
 0 0 medium 0
@@ -649,7 +649,7 @@ the time.  Won't do him much good when he's DEAD.
 unique~
 GHA 0 100 0
 3 1 1d1+48 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 125
 0 0 medium 0
@@ -664,7 +664,7 @@ Grumpy has never been happy in his whole life.  So why don't you just end it?
 unique~
 GHA 0 100 0
 3 1 1d1+48 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 122
 0 0 medium 0
@@ -680,7 +680,7 @@ Oh well, to each his own.
 unique~
 GHA 0 100 0
 3 1 1d1+48 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand male 125
 0 0 medium 0
@@ -696,7 +696,7 @@ size.
 unique~
 GHA 0 100 0
 3 1 1d1+52 1d1+60 2d3+1 slash
-8 8 8 9
+-7 -7 -7 -6
 FENU 0 0 0
 stand stand female 121
 0 0 medium 0
@@ -713,7 +713,7 @@ is why Papa Smurf is so popular among the ladies.
 unique~
 GHA 0 100 0
 10 4 1d1+185 1d1+200 3d3+5 beating
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 400
 0 0 medium 0
@@ -729,7 +729,7 @@ before but always lets them escape.  He brings true meaning to the word moron.
 unique~
 BHA 0 -100 0
 10 4 1d1+185 1d1+200 3d3+5 slash
-3 3 3 6
+-12 -12 -12 -9
 FENU 0 0 0
 stand stand male 403
 0 0 medium 0
@@ -745,7 +745,7 @@ just grab a smurf in his teeth and chew away.
 cat~
 BHA 0 -100 0
 8 3 1d1+172 1d1+160 3d3+4 scratch
-5 5 5 7
+-10 -10 -10 -8
 FENU 0 0 0
 stand stand male 323
 0 0 medium 0
@@ -850,8 +850,7 @@ key 0 A
 #110
 jewel box~
 a jewel box~
-A tiny jewel box sparkles on a shelf.
-~
+A tiny jewel box sparkles on a shelf.~
 silver~
 container D 0
 200 15 107 0 0
@@ -869,6 +868,17 @@ stone~
 treasure G AO
 0 0 0 0 0
 9 10 2043 P
+
+#112
+silver stud earring~
+a silver stud~
+A silver stud almost escapes your notice.~
+silver~
+armor 0 AQ
+2 2 2 0 0
+8 1 412 P
+A
+5 1
 
 #0
 
@@ -905,6 +915,7 @@ M 0 109 1 129 1  1   Smurfette into Smurfette's House
 E   1    104    8      3     a small necklace on neck                
 G   1    107    8            a tiny key in inventory
 M 0 110 1 125 1  1   Papa Smurf into Papa Smurf's Home  
+E 1 112 8 18         stud
 G   1    105   10            a pink potion in inventory
 G   1    109    8            a small key in inventory
 M 0 111 1 128 1  1   Gargamel into Gargamel's Castle  

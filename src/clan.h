@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include <array>
+
 // Change this for new clans
 constexpr inline auto NUM_CLANS = 4;
 
@@ -22,21 +24,23 @@ constexpr inline auto CLAN_MEMBER = 0;
 constexpr inline auto CLAN_HERO = CLAN_MAX - 1;
 constexpr inline auto CLAN_LEADER = CLAN_MAX;
 
-// CLAN is for an entire clan
-struct CLAN {
+// Clan is for an entire clan
+struct Clan {
     const char *name;
     const char *whoname;
     const char clanchar;
-    const char *levelname[CLAN_MAX + 1];
+    std::array<const char *, CLAN_MAX + 1> levelname;
     int recall_vnum;
     int entrance_vnum;
 };
 
-// PCCLAN is a structure all PC's in clans have
-struct PCCLAN {
-    const CLAN *clan;
-    int clanlevel;
-    unsigned int channelflags;
+// PcClan is a structure all PC's in clans have
+struct PcClan {
+    const Clan &clan;
+    int clanlevel{CLAN_MEMBER};
+    unsigned int channelflags{CLANCHANNEL_ON};
+
+    [[nodiscard]] const char *level_name() const { return clan.levelname[clanlevel]; }
 };
 
-extern const CLAN clantable[NUM_CLANS];
+extern const std::array<Clan, NUM_CLANS> clantable;
