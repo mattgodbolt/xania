@@ -18,10 +18,11 @@ std::string read_whole_file(const std::string &name) {
     ::fseek(fp, 0, SEEK_END);
     auto len = ::ftell(fp);
     REQUIRE(len > 0);
+    size_t len_ok = (size_t)len;
     ::fseek(fp, 0, SEEK_SET);
     std::string result;
     result.resize(len);
-    REQUIRE(::fread(result.data(), 1, len, fp) == len);
+    REQUIRE(::fread(result.data(), 1, len, fp) == len_ok);
     ::fclose(fp);
     return result;
 }

@@ -33,8 +33,6 @@ include(scripts/conan.cmake)
 message("If the following conan check fails; please remove your .tools directory")
 conan_check(VERSION 1.34.1 REQUIRED)
 
-conan_add_remote(NAME bincrafters INDEX 1
-        URL https://api.bintray.com/conan/bincrafters/public-conan)
 conan_cmake_run(CONANFILE conanfile.txt
         BASIC_SETUP CMAKE_TARGETS
         BUILD missing)
