@@ -29,8 +29,9 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsa
 
 include(scripts/conan.cmake)
 
+# See Makefile - CONAN_VERSION 
 message("If the following conan check fails; please remove your .tools directory")
-conan_check(VERSION 1.29.2 REQUIRED)
+conan_check(VERSION 1.34.1 REQUIRED)
 
 conan_add_remote(NAME bincrafters INDEX 1
         URL https://api.bintray.com/conan/bincrafters/public-conan)

@@ -15,10 +15,11 @@ INSTALL_DIR=$(CURDIR)/install
 TOOLS_DIR=$(CURDIR)/.tools
 CLANG_VERSION?=10
 CLANG_FORMAT:=$(TOOLS_DIR)/clang-format-$(CLANG_VERSION)
-CONDA_VERSION?=4.8.3
+CONDA_VERSION?=4.9.2
 CONDA_ROOT:=$(TOOLS_DIR)/conda-$(CONDA_VERSION)
 CONDA_INSTALLER=$(TOOLS_DIR)/conda-$(CONDA_VERSION)/installer.sh
 CONDA:=$(CONDA_ROOT)/bin/conda
+CONAN_VERSION=1.34.1
 PIP:=$(CONDA_ROOT)/bin/pip
 CONAN:=$(CONDA_ROOT)/bin/conan
 SOURCE_FILES:=$(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name \*.C -o -name *.hpp)
@@ -59,7 +60,7 @@ $(PIP): $(CONDA) # ideally would specify two outputs in $(CONDA) but make -j fai
 
 $(CONAN): | $(PIP)
 	@echo "Installing conan locally..."
-	$(PIP) install conan==1.29.2
+	$(PIP) install conan==$(CONAN_VERSION)
 
 .PHONY: conda conan
 conda: $(CONDA)
