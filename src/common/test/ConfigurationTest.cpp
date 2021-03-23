@@ -2,11 +2,17 @@
 
 #include <catch2/catch.hpp>
 
-TEST_CASE("Configuration initialized") {
-
+namespace {
+void apply_default_settings() {
     REQUIRE(setenv(MUD_AREA_DIR_ENV, TEST_DATA_DIR "/area", 1) == 0);
     REQUIRE(setenv(MUD_DATA_DIR_ENV, TEST_DATA_DIR "/data", 1) == 0);
     REQUIRE(setenv(MUD_HTML_DIR_ENV, TEST_DATA_DIR "/html", 1) == 0);
+    REQUIRE(setenv(MUD_PORT_ENV, "9000", 1) == 0);
+}
+}
+
+TEST_CASE("Configuration initialized") {
+    apply_default_settings();
     Configuration config;
 
     SECTION("area dir") {
@@ -74,10 +80,16 @@ TEST_CASE("Configuration initialized") {
 
         REQUIRE(file == TEST_DATA_DIR "/data/system/notes.txt");
     }
+    SECTION("port") {
+        auto port = config.port();
+
+        REQUIRE(port == 9000);
+    }
 }
 
 TEST_CASE("Missing directory") {
 
+    apply_default_settings();
     REQUIRE(setenv(MUD_AREA_DIR_ENV, TEST_DATA_DIR "/missing", 1) == 0);
 
     SECTION("Throws exception") {
@@ -88,10 +100,24 @@ TEST_CASE("Missing directory") {
 
 TEST_CASE("Missing path env var") {
 
+    apply_default_settings();
     REQUIRE(unsetenv(MUD_AREA_DIR_ENV) == 0);
 
     SECTION("Throws exception") {
         REQUIRE_THROWS_WITH(Configuration(),
                             "An environment variable called MUD_AREA_DIR must specify a directory path");
+    }
+}
+
+TEST_CASE("Default port") {
+
+    apply_default_settings();
+    REQUIRE(unsetenv(MUD_PORT_ENV) == 0);
+    Configuration config;
+
+    SECTION("default port") {
+        auto port = config.port();
+
+        REQUIRE(port == 9000);
     }
 }

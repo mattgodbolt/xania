@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 TimeoutStartSec=infinity
-WorkingDirectory=/home/xania/xania/infra
+WorkingDirectory=/home/xania/xania/infra/scripts
 ExecStart=/home/xania/xania/infra/scripts/start-doorman.sh
 StandardOutput=append:/home/xania/data/log/doorman.log
 SyslogIdentifier=doorman

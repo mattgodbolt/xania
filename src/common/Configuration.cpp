@@ -20,6 +20,7 @@ Configuration::Configuration() {
     typo_file_ = system_dir_ + "typos.txt";
     ideas_file_ = system_dir_ + "ideas.txt";
     notes_file_ = system_dir_ + "notes.txt";
+    port_ = int_env(MUD_PORT_ENV, 9000);
 }
 
 std::string Configuration::area_dir() const { return area_dir_; }
@@ -35,6 +36,7 @@ std::string Configuration::bug_file() const { return bug_file_; }
 std::string Configuration::typo_file() const { return typo_file_; }
 std::string Configuration::ideas_file() const { return ideas_file_; }
 std::string Configuration::notes_file() const { return notes_file_; }
+uint Configuration::port() const { return port_; }
 
 bool Configuration::is_valid_dir(const char *dirname) const {
     if (!dirname) {
@@ -63,6 +65,11 @@ std::string Configuration::make_path(std::string dir) const {
     } else {
         return dir;
     }
+}
+
+int Configuration::int_env(const std::string &envkey, const int default_value) const {
+    const auto value = std::getenv(envkey.c_str());
+    return value ? atoi(value) : default_value;
 }
 
 Configuration &Configuration::singleton() {

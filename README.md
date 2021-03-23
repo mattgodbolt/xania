@@ -55,8 +55,8 @@ locally in `.tools/` to do work (e.g. `conan` for C++ packages, `clang-format` f
 For day-to-day developing you can use your favourite IDE or editor (CLion, vs.code, vi, emacs). If your IDE supports
 CMake projects, then it might Just Work out of the box. CLion, for example, will open up and run the code from the IDE.
 
-The mud happily runs without being installed: just ensure the working directory is set to the `area` directory. We'll
-likely try and improve on this in future to make it less likely to go wrong.
+The mud happily runs without being installed, however it does rely on a few environment variables for configuration 
+(see below).
 
 There are two components, `doorman` and `xania`. The former is the TCP side of things, and unless you're changing how
 the MUD and the connection process communicate you can probably build and run `doorman` and then leave it running.
@@ -73,13 +73,22 @@ The mud processes use some environment variables for configuration. Out of the b
 for these. However, if you are doing development and launching the processes from an IDE then you may want to set them.
 The project includes an example VS Code `launch.json` that sets these.
 
-- MUD_AREA_DIR:  Static game database files.
-- MUD_DATA_DIR:  The base directory of all runtime data. The mud uses these subdirectories:
+- `MUD_AREA_DIR`:  Static game database files.
+- `MUD_DATA_DIR`:  The base directory of all runtime data. The mud uses these subdirectories:
    - player/ (player character files)
    - gods/ (configuration for deities)
    - system/ (other player generated data e.g. ban lists and bug lists)
    - log/ (the mud processes are unaware of this as log output is redirected from to stdout & stderr)
-- MUD_HTML_DIR:  Static and dynamically generated HTML.
+- `MUD_HTML_DIR`:  Static and dynamically generated HTML.
+- `MUD_PORT`:  The TCP port doorman listens on for telnet connections. Default: `9000`.
+
+If you are running either process directly from a shell rather than using `make start` or a launch target in your IDE,
+there is also a helper script `mud-settings-dev.sh`.  Source this file from one of your shells then run the process e.g.
+after running the build:
+```
+$ . mud-settings-dev.sh
+$ ./install/bin/doorman
+```
 
 ### Tests
 
@@ -91,7 +100,7 @@ There's more than one way to do this, and one way is:  after building Xania you 
 it like so (use of `gdb` is optional):
 
 ```bash
-$ gdb ../install/bin/xania
+$ gdb install/bin/xania
 (gdb) r   # to run
 ```
 

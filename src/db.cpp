@@ -232,9 +232,10 @@ void boot_db() {
     /* Read in all the area files. */
     {
         FILE *fpList;
-
-        if ((fpList = fopen(Configuration::singleton().area_file().c_str(), "r")) == nullptr) {
-            perror(Configuration::singleton().area_file().c_str());
+        const auto &config = Configuration::singleton();
+        const auto area_file = config.area_file();
+        if ((fpList = fopen(area_file.c_str(), "r")) == nullptr) {
+            perror(area_file.c_str());
             exit(1);
         }
 
@@ -247,7 +248,7 @@ void boot_db() {
             if (area_name[0] == '-') {
                 area_fp = stdin;
             } else {
-                std::string area_file_path = fmt::format("{}{}", Configuration::singleton().area_dir(), area_name);
+                std::string area_file_path = fmt::format("{}{}", config.area_dir(), area_name);
                 if ((area_fp = fopen(area_file_path.c_str(), "r")) == nullptr) {
                     perror(area_file_path.c_str());
                     exit(1);

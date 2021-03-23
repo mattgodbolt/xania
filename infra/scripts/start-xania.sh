@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
+# Started by xania systemd service and assumes the pwd is this directory.
 
 set -euo pipefail
 
 ulimit -c unlimited
 
-export MUD_DATA_DIR=~/data
-export MUD_AREA_DIR=~/releases/current/area
-export MUD_HTML_DIR=~/releases/current/html
+. mud-settings-prod.sh
 
 ~/releases/current/bin/xania

@@ -17,6 +17,7 @@
 
 #include "Doorman.hpp"
 #include "Logger.hpp"
+#include "common/Configuration.hpp"
 #include "version.h"
 
 #include <fmt/format.h>
@@ -24,34 +25,23 @@
 #include <csignal>
 #include <getopt.h>
 
-void usage() { fmt::print(stderr, "Usage: doorman [-h | --help] [-d | --debug] [-p | --port port] [port]\n"); }
+void usage() { fmt::print(stderr, "Usage: doorman [-h | --help] [-d | --debug]\n"); }
 
 int Main(Logger &log, int argc, char *argv[]) {
     int debug = 0;
-    int port = 9000;
-    option options[] = {
-        {"port", 1, nullptr, 'p'}, {"debug", 0, &debug, 1}, {"help", 0, nullptr, 'h'}, {nullptr, 0, nullptr, 0}};
+    option options[] = {{"debug", 0, &debug, 1}, {"help", 0, nullptr, 'h'}, {nullptr, 0, nullptr, 0}};
 
     /*
      * Parse any arguments
      */
-    port = 9000;
     for (;;) {
         int optType;
         int index = 0;
 
-        optType = getopt_long(argc, argv, "dp:h", options, &index);
+        optType = getopt_long(argc, argv, "dh", options, &index);
         if (optType == -1)
             break;
         switch (optType) {
-        case 'p':
-            port = atoi(optarg);
-            if (port <= 0) {
-                log.error("Invalid port '{}'", optarg);
-                usage();
-                exit(1);
-            }
-            break;
         case 'd': debug = 1; break;
         case 'h':
             usage();
@@ -60,14 +50,7 @@ int Main(Logger &log, int argc, char *argv[]) {
         }
     }
 
-    if (optind == (argc - 1)) {
-        port = atoi(argv[optind]);
-        if (port <= 0) {
-            log.error("Invalid port '{}'", argv[optind]);
-            usage();
-            exit(1);
-        }
-    } else if (optind < (argc - 1)) {
+    if (optind < (argc - 1)) {
         usage();
         exit(1);
     }
@@ -85,7 +68,7 @@ int Main(Logger &log, int argc, char *argv[]) {
      */
     signal(SIGPIPE, SIG_IGN);
 
-    Doorman doorman(port);
+    Doorman doorman(Configuration::singleton().port());
 
     /*
      * Loop forever!

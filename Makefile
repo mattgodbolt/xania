@@ -5,7 +5,6 @@ default: install
 help: # with thanks to Ben Rady
 	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-PORT?=9000
 CMAKE?=$(shell which cmake || echo .cmake-not-found)
 CURL?=$(shell which curl || echo .curl-not-found)
 CURL_OPTIONS:=-sL --fail -m 120 --connect-timeout 3 --retry 3 --retry-max-time 360
@@ -13,7 +12,7 @@ BUILD_TYPE?=debug
 BUILD_ROOT:=$(CURDIR)/cmake-build-$(BUILD_TYPE)
 INSTALL_DIR=$(CURDIR)/install
 
-# MUD_ env vars configure the mud processes.
+# MUD_ env vars configure the mud processes. See also:  mud-settings-dev.sh
 # MUD_AREA_DIR:  Static game database files.
 export MUD_AREA_DIR = $(INSTALL_DIR)/area
 # MUD_DATA_DIR:  The base directory of all runtime data. The mud uses these subdirectories:
@@ -24,6 +23,8 @@ export MUD_AREA_DIR = $(INSTALL_DIR)/area
 export MUD_DATA_DIR = $(CURDIR)
 # MUD_HTML_DIR:  Static and dynamically generated HTML.
 export MUD_HTML_DIR = $(INSTALL_DIR)/html
+# MUD_PORT: the TCP port doorman listens on for telnet connections
+export MUD_PORT = 9000
 
 TOOLS_DIR=$(CURDIR)/.tools
 CLANG_VERSION?=10
@@ -98,7 +99,7 @@ start: install 	  ## Build and start Xania
 	@sleep 1
 	$(INSTALL_DIR)/bin/xania > $(CURDIR)/log/xania.log 2>&1 &
 	@sleep 5
-	@echo "All being well, telnet localhost $(PORT) to log in"
+	@echo "All being well, telnet localhost $(MUD_PORT) to log in"
 
 .PHONY: stop
 stop: dirs  ## Stop Xania

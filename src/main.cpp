@@ -24,10 +24,10 @@ int main(int argc, char **argv) {
     current_time = Clock::now();
 
     log_string("Xania {} booting...", BUILD_FULL_VERSION);
+    const auto &config = Configuration::singleton();
     /*
      * Get the UNIX domain file
      */
-    int port = 9000;
     if (argc > 1) {
         int num = 1;
         if (*argv[num] == '-') {
@@ -36,11 +36,9 @@ int main(int argc, char **argv) {
         } else if (*argv[num] == 'L') {
             num++;
             printinfo = true;
-        } else if (is_number(argv[num])) {
-            port = atoi(argv[num]);
         }
     }
-    const auto pipe_file = fmt::format(PIPE_FILE, port, getenv("USER") ? getenv("USER") : "unknown");
+    const auto pipe_file = fmt::format(PIPE_FILE, config.port(), getenv("USER") ? getenv("USER") : "unknown");
     /*
      * Run the game.
      */
@@ -48,7 +46,7 @@ int main(int argc, char **argv) {
     auto control = init_socket(pipe_file.c_str());
     boot_db();
     load_bans();
-    startchat(Configuration::singleton().chat_data_file());
+    startchat(config.chat_data_file());
     if (printinfo)
         check_xania();
     load_tipfile();
