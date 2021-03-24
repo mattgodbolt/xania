@@ -11,21 +11,6 @@ CURL_OPTIONS:=-sL --fail -m 120 --connect-timeout 3 --retry 3 --retry-max-time 3
 BUILD_TYPE?=debug
 BUILD_ROOT:=$(CURDIR)/cmake-build-$(BUILD_TYPE)
 INSTALL_DIR=$(CURDIR)/install
-
-# MUD_ env vars configure the mud processes. See also:  mud-settings-dev.sh
-# MUD_AREA_DIR:  Static game database files.
-export MUD_AREA_DIR = $(INSTALL_DIR)/area
-# MUD_DATA_DIR:  The base directory of all runtime data. The mud uses these subdirectories:
-#   - player/ (player character files)
-#   - gods/ (configuration for deities)
-#   - system/ (other game and player generated data e.g. ban lists and bug lists)
-#   - log/ (the mud processes are unaware of this as log output is redirected from to stdout & stderr)
-export MUD_DATA_DIR = $(CURDIR)
-# MUD_HTML_DIR:  Static and dynamically generated HTML.
-export MUD_HTML_DIR = $(INSTALL_DIR)/html
-# MUD_PORT: the TCP port doorman listens on for telnet connections
-export MUD_PORT = 9000
-
 TOOLS_DIR=$(CURDIR)/.tools
 CLANG_VERSION?=10
 CLANG_FORMAT:=$(TOOLS_DIR)/clang-format-$(CLANG_VERSION)
@@ -95,11 +80,7 @@ $(CLANG_FORMAT): $(CURL)
 
 .PHONY: start
 start: install 	  ## Build and start Xania
-	$(INSTALL_DIR)/bin/doorman > $(CURDIR)/log/doorman.log 2>&1 &
-	@sleep 1
-	$(INSTALL_DIR)/bin/xania > $(CURDIR)/log/xania.log 2>&1 &
-	@sleep 5
-	@echo "All being well, telnet localhost $(MUD_PORT) to log in"
+	./start-mud.sh
 
 .PHONY: stop
 stop: dirs  ## Stop Xania

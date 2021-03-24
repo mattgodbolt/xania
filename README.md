@@ -70,7 +70,9 @@ process.
 ### Environment Variables
 
 The mud processes use some environment variables for configuration. Out of the box, `make start` will set reasonable defaults
-for these. However, if you are doing development and launching the processes from an IDE then you may want to set them.
+for these. The default settings are stored in `mud-settings-dev.sh`, and `make start` will read this file.
+
+If you are doing development and launching the processes from an IDE then you prefer to configure these settings separately.
 The project includes an example VS Code `launch.json` that sets these.
 
 - `MUD_AREA_DIR`:  Static game database files.
@@ -82,7 +84,7 @@ The project includes an example VS Code `launch.json` that sets these.
 - `MUD_HTML_DIR`:  Static and dynamically generated HTML.
 - `MUD_PORT`:  The TCP port doorman listens on for telnet connections. Default: `9000`.
 
-If you are running either process directly from a shell rather than using `make start` or a launch target in your IDE,
+If you are running either process _directly_ from a shell rather than using `make start` or a launch target in your IDE,
 there is also a helper script `mud-settings-dev.sh`.  Source this file from one of your shells then run the process e.g.
 after running the build:
 ```
