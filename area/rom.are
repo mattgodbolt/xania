@@ -116,6 +116,9 @@ State thy name and enter the realm of Xania: ~
 Welcome to Xania! See 'help rules' and 'help commands'.
 
 [ Recent Gameplay Updates! ]
+Mar 25: Most 'buff' spells will automatically refresh an existing buff of the
+same type, unless the existing buff was cast by a higher level player.
+
 Dec 16: 'Other' sex can be chosen during char creation. New 'pronouns' command
 lets you customise how in-game messages refer to you, see 'help pronouns'.
 
