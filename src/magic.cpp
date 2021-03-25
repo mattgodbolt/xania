@@ -681,12 +681,16 @@ void spell_acid_wash(int sn, int level, Char *ch, void *vo) {
 
 void spell_armor(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    if (is_affected(victim, sn)) {
-        if (victim == ch)
-            ch->send_line("You are already protected.");
-        else
-            act("$N is already armored.", ch, nullptr, victim, To::Char);
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("You are already protected by more powerful armor.");
+            else
+                act("$N is already protected by more powerful armor.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     AFFECT_DATA af;
     af.type = sn;
@@ -703,13 +707,16 @@ void spell_armor(int sn, int level, Char *ch, void *vo) {
 
 void spell_bless(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    if (is_affected(victim, sn)) {
-        if (victim == ch)
-            ch->send_line("You are already blessed.");
-        else
-            act("$N already has divine favour.", ch, nullptr, victim, To::Char);
-
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("Greater blessings have already been granted to you.");
+            else
+                act("$N is already has divine favour.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     AFFECT_DATA af;
     af.type = sn;
@@ -1332,12 +1339,16 @@ void spell_demonfire(int sn, int level, Char *ch, void *vo) {
 
 void spell_detect_evil(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    if (IS_AFFECTED(victim, AFF_DETECT_EVIL)) {
-        if (victim == ch)
-            ch->send_line("You can already sense evil.");
-        else
-            act("$N can already detect evil.", ch, nullptr, victim, To::Char);
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("You already possess a greater awareness of evil.");
+            else
+                act("$N already possesses a greater awareness of evil.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     AFFECT_DATA af;
     af.type = sn;
@@ -1352,12 +1363,16 @@ void spell_detect_evil(int sn, int level, Char *ch, void *vo) {
 
 void spell_detect_hidden(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    if (IS_AFFECTED(victim, AFF_DETECT_HIDDEN)) {
-        if (victim == ch)
-            ch->send_line("You are already as alert as you can be. ");
-        else
-            act("$N can already sense hidden lifeforms.", ch, nullptr, victim, To::Char);
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("You already have superior awareness.");
+            else
+                act("$N already has superior awareness.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     AFFECT_DATA af;
     af.type = sn;
@@ -1372,12 +1387,16 @@ void spell_detect_hidden(int sn, int level, Char *ch, void *vo) {
 
 void spell_detect_invis(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    if (IS_AFFECTED(victim, AFF_DETECT_INVIS)) {
-        if (victim == ch)
-            ch->send_line("You can already see invisible.");
-        else
-            act("$N can already see invisible things.", ch, nullptr, victim, To::Char);
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("Your vision is already augmented.");
+            else
+                act("$N already has superior vision.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     AFFECT_DATA af;
     af.type = sn;
@@ -1392,12 +1411,16 @@ void spell_detect_invis(int sn, int level, Char *ch, void *vo) {
 
 void spell_detect_magic(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    if (IS_AFFECTED(victim, AFF_DETECT_MAGIC)) {
-        if (victim == ch)
-            ch->send_line("You can already sense magical auras.");
-        else
-            act("$N can already detect magic.", ch, nullptr, victim, To::Char);
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("You already have superior sensitivity to magic.");
+            else
+                act("$N already has superior sensitivity to magic.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     AFFECT_DATA af;
     af.type = sn;
@@ -2191,16 +2214,10 @@ void spell_faerie_fog(int sn, int level, Char *ch, void *vo) {
 }
 
 void spell_fly(int sn, int level, Char *ch, void *vo) {
+    (void)ch;
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
-
-    if (IS_AFFECTED(victim, AFF_FLYING)) {
-        if (victim == ch)
-            ch->send_line("You are already airborne.");
-        else
-            act("$N doesn't need your help to fly.", ch, nullptr, victim, To::Char);
-        return;
-    }
+    affect_strip(victim, sn);
     af.type = sn;
     af.level = level;
     af.duration = level + 3;
@@ -2217,7 +2234,6 @@ void spell_frenzy(int sn, int level, Char *ch, void *vo) {
     /*  OBJ_DATA *wield = get_eq_char( ch, WEAR_WIELD );*/
 
     AFFECT_DATA af;
-
     if (is_affected(victim, sn) || IS_AFFECTED(victim, AFF_BERSERK)) {
         if (victim == ch)
             ch->send_line("You are already in a frenzy.");
@@ -2239,7 +2255,6 @@ void spell_frenzy(int sn, int level, Char *ch, void *vo) {
         act("Your god doesn't seem to like $N", ch, nullptr, victim, To::Char);
         return;
     }
-
     af.type = sn;
     af.level = level;
     af.duration = level / 3;
@@ -2310,13 +2325,16 @@ void spell_gate(int sn, int level, Char *ch, void *vo) {
 void spell_giant_strength(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
-
-    if (is_affected(victim, sn)) {
-        if (victim == ch)
-            ch->send_line("You are already as strong as you can get!");
-        else
-            act("$N can't get any stronger.", ch, nullptr, victim, To::Char);
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("You are already as strong as you can get!");
+            else
+                act("$N can't get any stronger.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     af.type = sn;
     af.level = level;
@@ -2342,13 +2360,16 @@ void spell_harm(int sn, int level, Char *ch, void *vo) {
 void spell_regeneration(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
-
-    if (is_affected(victim, sn) || IS_AFFECTED(victim, AFF_REGENERATION)) {
-        if (victim == ch)
-            ch->send_line("You are already vibrant!");
-        else
-            act("$N is already as vibrant as $E can be.", ch, nullptr, victim, To::Char);
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("You are already regenerating with great rapidity.");
+            else
+                act("$N is already regenerating with great rapidity.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     af.type = sn;
     af.level = level;
@@ -2369,14 +2390,7 @@ void spell_regeneration(int sn, int level, Char *ch, void *vo) {
 void spell_haste(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
-
-    if (is_affected(victim, sn) || IS_AFFECTED(victim, AFF_HASTE) || IS_SET(victim->off_flags, OFF_FAST)) {
-        if (victim == ch)
-            ch->send_line("You can't move any faster!");
-        else
-            act("$N is already moving as fast as $E can.", ch, nullptr, victim, To::Char);
-        return;
-    }
+    affect_strip(victim, sn);
     af.type = sn;
     af.level = level;
     if (victim == ch)
@@ -2643,14 +2657,7 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
 void spell_infravision(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
-
-    if (IS_AFFECTED(victim, AFF_INFRARED)) {
-        if (victim == ch)
-            ch->send_line("You can already see in the dark.");
-        else
-            act("$N already has infravision.\n\r", ch, nullptr, victim, To::Char);
-        return;
-    }
+    affect_strip(victim, sn);
     act("$n's eyes glow red.\n\r", ch);
     af.type = sn;
     af.level = level;
@@ -2831,13 +2838,16 @@ void spell_octarine_fire(int sn, int level, Char *ch, void *vo) {
 void spell_pass_door(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
-
-    if (IS_AFFECTED(victim, AFF_PASS_DOOR)) {
-        if (victim == ch)
-            ch->send_line("You are already out of phase.");
-        else
-            act("$N is already shifted out of phase.", ch, nullptr, victim, To::Char);
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("You are already shifted out of phase to a greater degree.");
+            else
+                act("$N is already shifted out of phase to a greater degree.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     af.type = sn;
     af.level = level;
@@ -2936,13 +2946,16 @@ void spell_poison(int sn, int level, Char *ch, void *vo) {
 void spell_protection_evil(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
-
-    if (IS_AFFECTED(victim, AFF_PROTECTION_EVIL)) {
-        if (victim == ch)
-            ch->send_line("You are already protected from evil.");
-        else
-            act("$N is already protected from evil.", ch, nullptr, victim, To::Char);
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("Greater magic already protects you from evil.");
+            else
+                act("$N is already protected from evil by more powerful magic.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     af.type = sn;
     af.level = level;
@@ -2957,13 +2970,16 @@ void spell_protection_evil(int sn, int level, Char *ch, void *vo) {
 void spell_protection_good(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
-
-    if (IS_AFFECTED(victim, AFF_PROTECTION_GOOD)) {
-        if (victim == ch)
-            ch->send_line("You are already protected from good.");
-        else
-            act("$N is already protected from good.", ch, nullptr, victim, To::Char);
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("Greater magic already protects you from good.");
+            else
+                act("$N is already protected from good by more powerful magic.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     af.type = sn;
     af.level = level;
@@ -3038,13 +3054,16 @@ void spell_remove_curse(int sn, int level, Char *ch, void *vo) {
 void spell_sanctuary(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
-
-    if (IS_AFFECTED(victim, AFF_SANCTUARY)) {
-        if (victim == ch)
-            ch->send_line("You are already in sanctuary.");
-        else
-            act("$N is already in sanctuary.", ch, nullptr, victim, To::Char);
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("You are already shrouded in a scintillating aura.");
+            else
+                act("$N is already shrouded in a scintillating aura.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     af.type = sn;
     af.level = level;
@@ -3058,13 +3077,16 @@ void spell_sanctuary(int sn, int level, Char *ch, void *vo) {
 void spell_talon(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
-
-    if (is_affected(victim, sn)) {
-        if (victim == ch)
-            ch->send_line("Your hands are already as strong as talons.");
-        else
-            act("$N already has talon like hands.", ch, nullptr, victim, To::Char);
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("You talons are already as hard as they can be!");
+            else
+                act("$N already has hardened talons.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     af.type = sn;
     af.level = level;
@@ -3078,13 +3100,16 @@ void spell_talon(int sn, int level, Char *ch, void *vo) {
 void spell_shield(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
-
-    if (is_affected(victim, sn)) {
-        if (victim == ch)
-            ch->send_line("You are already shielded from harm.");
-        else
-            act("$N is already protected by a shield.", ch, nullptr, victim, To::Char);
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("You are already affected by a resplendent force shield.");
+            else
+                act("$N is already protected by a resplendent force shield.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     af.type = sn;
     af.level = level;
@@ -3130,13 +3155,16 @@ void spell_sleep(int sn, int level, Char *ch, void *vo) {
 void spell_stone_skin(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
-
-    if (is_affected(ch, sn)) {
-        if (victim == ch)
-            ch->send_line("Your skin is already as hard as a rock.");
-        else
-            act("$N is already as hard as can be.", ch, nullptr, victim, To::Char);
-        return;
+    const auto curr_affect = find_affect(victim, sn);
+    if (curr_affect) {
+        if (curr_affect->level > level) {
+            if (victim == ch)
+                ch->send_line("Your spell cannot harden your skin any further!");
+            else
+                act("$N already has hardened stone skin.", ch, nullptr, victim, To::Char);
+            return;
+        }
+        affect_strip(victim, sn);
     }
     af.type = sn;
     af.level = level;

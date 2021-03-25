@@ -7,7 +7,7 @@
 #   $ ./install/bin/doorman
 # You can also use 'make start' to start both doorman and xania, see README.md.
 # You can set the directory settings to absolute paths too if needed.
-export MUD_PORT=9002
+export MUD_PORT=9000
 export MUD_AREA_DIR=area
 export MUD_HTML_DIR=html
 export MUD_DATA_DIR=.
