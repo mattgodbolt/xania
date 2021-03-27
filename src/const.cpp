@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "VnumObjects.hpp"
 #include "magic.h"
 #include "merc.h"
 #include <stdio.h>
@@ -338,31 +339,31 @@ const struct race_body_type race_body_table[MAX_BODY_PARTS] = {
       format:
       {       BODY_PART, "description", found in a pair?, location }  */
     {PART_HEAD, "head", false, 3, "$n's severed head plops on the ground.",
-     OBJ_VNUM_SEVERED_HEAD}, /* don't move from top of list */
-    {PART_ARMS, "arm", true, 2, "$n's arm is sliced from $s dead body.", OBJ_VNUM_SLICED_ARM}, /* double */
+     objects::SeveredHead}, /* don't move from top of list */
+    {PART_ARMS, "arm", true, 2, "$n's arm is sliced from $s dead body.", objects::SlicedArm}, /* double */
 
-    {PART_LEGS, "leg", true, 1, "$n's leg is sliced from $s dead body.", OBJ_VNUM_SLICED_LEG}, /* double */
-    {PART_HEART, "chest", false, 2, "$n's heart is torn from $s chest.", OBJ_VNUM_TORN_HEART},
+    {PART_LEGS, "leg", true, 1, "$n's leg is sliced from $s dead body.", objects::SlicedLeg}, /* double */
+    {PART_HEART, "chest", false, 2, "$n's heart is torn from $s chest.", objects::TornHeart},
 
-    {PART_BRAINS, "head", false, 3, "$n's head is shattered, and $s brains splash all over you.", OBJ_VNUM_BRAINS},
+    {PART_BRAINS, "head", false, 3, "$n's head is shattered, and $s brains splash all over you.", objects::Brains},
 
-    {PART_GUTS, "midriff", false, 2, "$n spills $s guts all over the floor.", OBJ_VNUM_GUTS},
+    {PART_GUTS, "midriff", false, 2, "$n spills $s guts all over the floor.", objects::Guts},
 
     {PART_HANDS, "hand", true, 2, 0, 0}, /* double */
     {PART_FEET, "shin", true, 1, 0, 0}, /* double. No feet! */
     {PART_FINGERS, "hand", true, 2, 0, 0}, /* double */
-    {PART_EAR, "head", false, 3, "$n's severed head plops on the ground.", OBJ_VNUM_SEVERED_HEAD},
-    {PART_EYE, "head", false, 3, "$n's severed head plops on the ground.", OBJ_VNUM_SEVERED_HEAD},
-    {PART_LONG_TONGUE, "tongue", false, 3, "$n's severed head plops on the ground.", OBJ_VNUM_SEVERED_HEAD},
+    {PART_EAR, "head", false, 3, "$n's severed head plops on the ground.", objects::SeveredHead},
+    {PART_EYE, "head", false, 3, "$n's severed head plops on the ground.", objects::SeveredHead},
+    {PART_LONG_TONGUE, "tongue", false, 3, "$n's severed head plops on the ground.", objects::SeveredHead},
     {PART_EYESTALKS, "eye stalks", false, 2, 0, 0}, /* weird */
     {PART_TENTACLES, "tentacles", false, 2, 0, 0},
     {PART_FINS, "fin", false, 2, 0, 0},
-    {PART_WINGS, "wings", false, 2, "$n's wing is sliced off and lands with a crunch.", OBJ_VNUM_SLICED_WING},
+    {PART_WINGS, "wings", false, 2, "$n's wing is sliced off and lands with a crunch.", objects::SlicedWing},
     {PART_TAIL, "tail", false, 1, 0, 0},
-    {PART_CLAWS, "claws", false, 2, "$n's claw flies off and narrowly misses you.", OBJ_VNUM_SLICED_CLAW},
+    {PART_CLAWS, "claws", false, 2, "$n's claw flies off and narrowly misses you.", objects::SlicedClaw},
     {PART_FANGS, "fangs", false, 3, 0, 0},
     {PART_HORNS, "horn", false, 3, 0, 0},
-    {PART_SCALES, "scales", false, 2, "$n's heart is torn from $s chest.", OBJ_VNUM_TORN_HEART},
+    {PART_SCALES, "scales", false, 2, "$n's heart is torn from $s chest.", objects::TornHeart},
     {PART_TUSKS, "tusk", false, 2, 0, 0}};
 
 /*
@@ -371,7 +372,7 @@ const struct race_body_type race_body_table[MAX_BODY_PARTS] = {
 const struct class_type class_table[MAX_CLASS] = {{"mage",
                                                    "Mag",
                                                    Stat::Int,
-                                                   OBJ_VNUM_SCHOOL_DAGGER,
+                                                   objects::SchoolDagger,
                                                    {3018, 9618, 10074},
                                                    75,
                                                    -1,
@@ -385,7 +386,7 @@ const struct class_type class_table[MAX_CLASS] = {{"mage",
                                                   {"cleric",
                                                    "Cle",
                                                    Stat::Wis,
-                                                   OBJ_VNUM_SCHOOL_MACE,
+                                                   objects::SchoolMace,
                                                    {3003, 9619, 10114},
                                                    75,
                                                    -1,
@@ -399,7 +400,7 @@ const struct class_type class_table[MAX_CLASS] = {{"mage",
                                                   {"knight",
                                                    "Kni",
                                                    Stat::Str,
-                                                   OBJ_VNUM_SCHOOL_SWORD,
+                                                   objects::SchoolSword,
                                                    {3028, 9639, 10086},
                                                    75,
                                                    -1,
@@ -413,7 +414,7 @@ const struct class_type class_table[MAX_CLASS] = {{"mage",
                                                   {"barbarian",
                                                    "Bar",
                                                    Stat::Con,
-                                                   OBJ_VNUM_SCHOOL_AXE,
+                                                   objects::SchoolAxe,
                                                    {3022, 9633, 10073},
                                                    75,
                                                    -1,

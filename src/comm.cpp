@@ -21,6 +21,8 @@
 #include "Note.hpp"
 #include "Pronouns.hpp"
 #include "TimeInfoData.hpp"
+#include "VnumObjects.hpp"
+#include "VnumRooms.hpp"
 #include "challeng.h"
 #include "common/Fd.hpp"
 #include "common/doorman_protocol.h"
@@ -1009,11 +1011,11 @@ void nanny(Descriptor *d, const char *argument) {
             ch->send_to("the {}", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
 
             do_outfit(ch);
-            obj_to_char(create_object(get_obj_index(OBJ_VNUM_MAP)), ch);
+            obj_to_char(create_object(get_obj_index(objects::Map)), ch);
 
             ch->pcdata->learned[get_weapon_sn(ch)] = 40;
 
-            char_to_room(ch, get_room_index(ROOM_VNUM_SCHOOL));
+            char_to_room(ch, get_room_index(rooms::MudschoolEntrance));
             ch->send_line("");
             do_help(ch, "NEWBIE INFO");
             ch->send_line("");
@@ -1026,9 +1028,9 @@ void nanny(Descriptor *d, const char *argument) {
         } else if (ch->in_room != nullptr) {
             char_to_room(ch, ch->in_room);
         } else if (ch->is_immortal()) {
-            char_to_room(ch, get_room_index(ROOM_VNUM_CHAT));
+            char_to_room(ch, get_room_index(rooms::Chat));
         } else {
-            char_to_room(ch, get_room_index(ROOM_VNUM_TEMPLE));
+            char_to_room(ch, get_room_index(rooms::MidgaardTemple));
         }
 
         announce(fmt::format("|W### |P{}|W has entered the game.|w", ch->name), ch);
@@ -1319,11 +1321,11 @@ std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg
 
     auto result = folks_in_room(room, ch, vch, type, min_pos);
 
-    // If we're sending messages to the challenge room...
-    if (room->vnum == CHAL_ROOM) {
+    // If we're sending messages to the challenge arena...
+    if (room->vnum == rooms::ChallengeArena) {
         // also include all the folks in the viewing gallery with the appropriate position. We assume the victim
         // is not somehow in the viewing gallery.
-        auto viewing = folks_in_room(get_room_index(CHAL_VIEWING_GALLERY), ch, vch, type, min_pos);
+        auto viewing = folks_in_room(get_room_index(rooms::ChallengeGallery), ch, vch, type, min_pos);
         result.insert(result.end(), viewing.begin(), viewing.end());
     }
 

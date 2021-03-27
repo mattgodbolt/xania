@@ -8,6 +8,7 @@
 #include "AFFECT_DATA.hpp"
 #include "Char.hpp"
 #include "TimeInfoData.hpp"
+#include "VnumRooms.hpp"
 #include "lookup.h"
 #include "merc.h"
 #include "string_utils.hpp"
@@ -176,7 +177,7 @@ CorpseSummoner corpse_summoner(dependencies);
  * these in the Necropolis, but there could be more in future.
  */
 bool spec_summoner(Char *ch) {
-    if (ch->position < POS_STANDING || ch->in_room->vnum != ROOM_VNUM_NECROPOLIS)
+    if (ch->position < POS_STANDING || ch->in_room->vnum != rooms::MidgaardNecropolis)
         return false;
     corpse_summoner.summoner_awaits(ch, system_clock::to_time_t(current_time));
     return true;

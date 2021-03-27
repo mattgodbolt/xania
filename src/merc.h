@@ -229,15 +229,6 @@ struct kill_data {
  *                                                                         *
  ***************************************************************************/
 
-/*
- * Well known mob virtual numbers.
- * Defined in #MOBILES.
- */
-#define MOB_VNUM_FIDO 3090
-#define MOB_VNUM_CITYGUARD 3060
-#define MOB_VNUM_VAMPIRE 3404
-#define MOB_VNUM_ZOMBIE 2
-
 /* RT ASCII conversions -- used so we can have letters in this file */
 
 static constexpr unsigned int BIT(unsigned int bit) { return 1u << bit; }
@@ -545,44 +536,6 @@ static inline constexpr auto ff = BIT(31);
 #define SIZE_GIANT 5
 
 /*
- * Well known object virtual numbers.
- * Defined in #OBJECTS.
- */
-#define OBJ_VNUM_MONEY_ONE 2
-#define OBJ_VNUM_MONEY_SOME 3
-
-#define OBJ_VNUM_SCROLL 23
-#define OBJ_VNUM_POTION 24
-#define OBJ_VNUM_BOMB 25
-#define OBJ_VNUM_PORTAL 26
-
-#define OBJ_VNUM_CORPSE_NPC 10
-#define OBJ_VNUM_CORPSE_PC 11
-#define OBJ_VNUM_SEVERED_HEAD 12
-#define OBJ_VNUM_TORN_HEART 13
-#define OBJ_VNUM_SLICED_ARM 14
-#define OBJ_VNUM_SLICED_LEG 15
-#define OBJ_VNUM_GUTS 16
-#define OBJ_VNUM_BRAINS 17
-#define OBJ_VNUM_SLICED_WING 18
-#define OBJ_VNUM_SLICED_CLAW 19
-
-#define OBJ_VNUM_MUSHROOM 20
-#define OBJ_VNUM_LIGHT_BALL 21
-#define OBJ_VNUM_SPRING 22
-
-#define OBJ_VNUM_PIT 3010
-
-#define OBJ_VNUM_SCHOOL_AXE 3717
-#define OBJ_VNUM_SCHOOL_MACE 3700
-#define OBJ_VNUM_SCHOOL_DAGGER 3701
-#define OBJ_VNUM_SCHOOL_SWORD 3702
-#define OBJ_VNUM_SCHOOL_VEST 3703
-#define OBJ_VNUM_SCHOOL_SHIELD 3704
-#define OBJ_VNUM_SCHOOL_BANNER 3716
-#define OBJ_VNUM_MAP 3162
-
-/*
  * Material types.
  * Used in #OBJECTS
  */
@@ -725,22 +678,6 @@ static inline constexpr auto ff = BIT(31);
 #define CONT_PICKPROOF 2
 #define CONT_CLOSED 4
 #define CONT_LOCKED 8
-
-/*
- * Well known room virtual numbers.
- * Defined in #ROOMS.
- */
-#define ROOM_VNUM_LIMBO 2
-#define ROOM_VNUM_CHAT 1200
-#define ROOM_VNUM_TEMPLE 3001
-#define ROOM_VNUM_ALTAR 3054
-#define ROOM_VNUM_SCHOOL 3700
-#define ROOM_VNUM_NECROPOLIS 3360
-/* Where Death hangs out when he's not wanted */
-#define ROOM_VNUM_DEATH 30003
-#define ROOM_VNUM_FORREYSPLACE 1158
-#define LESSER_MINION_VNUM 30001
-#define PHIL_THE_MEERKAT_VNUM 30000
 
 /*
  * Room flags.
@@ -1572,12 +1509,6 @@ void mprog_hitprcnt_trigger(Char *mob, Char *ch);
 void mprog_death_trigger(Char *mob);
 void mprog_random_trigger(Char *mob);
 void mprog_speech_trigger(const char *txt, const Char *mob);
-
-/*
- * Object defined in limbo.are
- * Used in save.c to load objects that don't exist.
- */
-#define OBJ_VNUM_DUMMY 1
 
 /*
  * Area flags.

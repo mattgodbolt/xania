@@ -12,6 +12,7 @@
  */
 
 #include "AFFECT_DATA.hpp"
+#include "VnumRooms.hpp"
 #include "challeng.h"
 #include "comm.hpp"
 #include "interp.h"
@@ -103,7 +104,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
     if (is_safe(ch, victim))
         return;
 
-    if (ch->in_room->vnum == CHAL_ROOM) {
+    if (ch->in_room->vnum == rooms::ChallengeArena) {
         ch->send_line("Not in the challenge room.");
         return;
     }
@@ -195,14 +196,14 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
  * Find a corpse to work on
  */
 //  for (victim = ch->in_room->contents; victim; victim = victim->next_content) {
-//  if (victim->pIndexData->vnum == OBJ_VNUM_CORPSE_NPC) {
+//  if (victim->pIndexData->vnum == objects::NonPlayerCorpse) {
 //    Char *zombie;
 //    MobIndexData *zIndex;
 //    OBJ_DATA *obj, *objNext;
 //    int zLevel, i;
 //    float zScale;
 //
-//    zIndex = get_mob_index (MOB_VNUM_ZOMBIE);
+//    zIndex = get_mob_index (mobiles::Zombie);
 //    if (zIndex == nullptr) {
 // bug ("Unable to find a zombie mob in spell_raise_dead!");
 // ch->send_line ("Urk!  Something terrible has happened!");

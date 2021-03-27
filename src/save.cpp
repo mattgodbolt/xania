@@ -10,6 +10,8 @@
 #include "save.hpp"
 #include "AFFECT_DATA.hpp"
 #include "TimeInfoData.hpp"
+#include "VnumMobiles.hpp"
+#include "VnumRooms.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"
 #include "handler.hpp"
@@ -157,7 +159,7 @@ void fwrite_char(const Char *ch, FILE *fp) {
     fprintf(fp, "Note %d\n", (int)Clock::to_time_t(ch->last_note));
     fprintf(fp, "Scro %d\n", ch->lines);
     fprintf(fp, "Room %d\n",
-            (ch->in_room == get_room_index(ROOM_VNUM_LIMBO) && ch->was_in_room != nullptr)
+            (ch->in_room == get_room_index(rooms::Limbo) && ch->was_in_room != nullptr)
                 ? ch->was_in_room->vnum
                 : ch->in_room == nullptr ? 3001 : ch->in_room->vnum);
 
@@ -689,7 +691,7 @@ void fread_char(Char *ch, FILE *fp) {
         } else if (word == "room") {
             ch->in_room = get_room_index(fread_number(fp));
             if (ch->in_room == nullptr)
-                ch->in_room = get_room_index(ROOM_VNUM_LIMBO);
+                ch->in_room = get_room_index(rooms::Limbo);
         } else if (word == "savingthrow" || word == "save") {
             ch->saving_throw = fread_number(fp);
         } else if (word == "scro") {
@@ -746,12 +748,12 @@ void fread_pet(Char *ch, FILE *fp) {
         int vnum = fread_number(fp);
         if (get_mob_index(vnum) == nullptr) {
             bug("Fread_pet: bad vnum {}.", vnum);
-            pet = create_mobile(get_mob_index(MOB_VNUM_FIDO));
+            pet = create_mobile(get_mob_index(mobiles::Fido));
         } else
             pet = create_mobile(get_mob_index(vnum));
     } else {
         bug("Fread_pet: no vnum in file.");
-        pet = create_mobile(get_mob_index(MOB_VNUM_FIDO));
+        pet = create_mobile(get_mob_index(mobiles::Fido));
     }
 
     for (;;) {

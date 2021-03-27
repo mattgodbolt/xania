@@ -13,6 +13,8 @@
 #include "DescriptorList.hpp"
 #include "MobIndexData.hpp"
 #include "TimeInfoData.hpp"
+#include "VnumObjects.hpp"
+#include "VnumRooms.hpp"
 #include "challeng.h"
 #include "comm.hpp"
 #include "common/Configuration.hpp"
@@ -84,21 +86,21 @@ void do_outfit(Char *ch) {
     }
 
     if (!get_eq_char(ch, WEAR_LIGHT)) {
-        auto *obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_BANNER));
+        auto *obj = create_object(get_obj_index(objects::SchoolBanner));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, WEAR_LIGHT);
     }
 
     if (!get_eq_char(ch, WEAR_BODY)) {
-        auto *obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_VEST));
+        auto *obj = create_object(get_obj_index(objects::SchoolVest));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, WEAR_BODY);
     }
 
     if (!get_eq_char(ch, WEAR_SHIELD)) {
-        auto *obj = create_object(get_obj_index(OBJ_VNUM_SCHOOL_SHIELD));
+        auto *obj = create_object(get_obj_index(objects::SchoolShield));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, WEAR_SHIELD);
@@ -314,7 +316,7 @@ void do_recho(Char *ch, const char *argument) {
     for (auto &victim : descriptors().playing() | DescriptorFilter::same_room(*ch) | DescriptorFilter::to_character()) {
         victim.send_to(fmt::format(
             "{}{}\n\r",
-            victim.get_trust() >= ch->get_trust() && ch->in_room->vnum != CHAL_VIEWING_GALLERY ? "local> " : "",
+            victim.get_trust() >= ch->get_trust() && ch->in_room->vnum != rooms::ChallengeGallery ? "local> " : "",
             argument));
     }
 }

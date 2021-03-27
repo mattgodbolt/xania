@@ -10,6 +10,8 @@
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
+#include "VnumObjects.hpp"
+#include "VnumRooms.hpp"
 #include "WeatherData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
@@ -757,7 +759,7 @@ void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to) {
     obj->in_obj = obj_to;
     obj->in_room = nullptr;
     obj->carried_by = nullptr;
-    if (obj_to->pIndexData->vnum == OBJ_VNUM_PIT)
+    if (obj_to->pIndexData->vnum == objects::Pit)
         obj->cost = 0;
 
     for (; obj_to != nullptr; obj_to = obj_to->in_obj) {
@@ -848,7 +850,7 @@ void extract_char(Char *ch, bool delete_from_world) {
     char_from_room(ch);
 
     if (!delete_from_world) {
-        char_to_room(ch, get_room_index(ROOM_VNUM_ALTAR));
+        char_to_room(ch, get_room_index(rooms::MidgaardAltar));
         return;
     }
 
@@ -1012,10 +1014,10 @@ OBJ_DATA *create_money(int amount) {
     }
 
     if (amount == 1) {
-        return create_object(get_obj_index(OBJ_VNUM_MONEY_ONE));
+        return create_object(get_obj_index(objects::MoneyOne));
     }
 
-    auto *obj = create_object(get_obj_index(OBJ_VNUM_MONEY_SOME));
+    auto *obj = create_object(get_obj_index(objects::MoneySome));
     obj->short_descr = fmt::sprintf(obj->short_descr, amount);
     obj->value[0] = amount;
     obj->cost = amount;

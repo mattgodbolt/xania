@@ -12,6 +12,9 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
+#include "VnumMobiles.hpp"
+#include "VnumObjects.hpp"
+#include "VnumRooms.hpp"
 #include "WeatherData.hpp"
 #include "comm.hpp"
 #include "handler.hpp"
@@ -425,7 +428,7 @@ void weather_update() {
  */
 void move_active_char_from_limbo(Char *ch) {
     if (ch == nullptr || ch->desc == nullptr || !ch->desc->is_playing() || ch->was_in_room == nullptr
-        || ch->in_room != get_room_index(ROOM_VNUM_LIMBO))
+        || ch->in_room != get_room_index(rooms::Limbo))
         return;
 
     ch->timer = 0;
@@ -455,14 +458,14 @@ void move_idle_char_to_limbo(Char *ch) {
             if (ch->level > 1)
                 save_char_obj(ch);
             char_from_room(ch);
-            char_to_room(ch, get_room_index(ROOM_VNUM_LIMBO));
+            char_to_room(ch, get_room_index(rooms::Limbo));
             if (ch->pet) { /* move pets too */
                 if (ch->pet->fighting)
                     stop_fighting(ch->pet, true);
                 act("$n flickers and phases out", ch->pet);
                 ch->pet->was_in_room = ch->pet->in_room;
                 char_from_room(ch->pet);
-                char_to_room(ch->pet, get_room_index(ROOM_VNUM_LIMBO));
+                char_to_room(ch->pet, get_room_index(rooms::Limbo));
             }
         }
     }
@@ -549,7 +552,7 @@ void char_update() {
 
         /* scan all undead zombies created by raise_dead style spells
            and randomly decay them */
-        if (ch->is_npc() && ch->pIndexData->vnum == MOB_VNUM_ZOMBIE) {
+        if (ch->is_npc() && ch->pIndexData->vnum == mobiles::Zombie) {
             if (number_percent() > 90) {
                 act("$n fits violently before decaying in to a pile of dust.", ch);
                 extract_char(ch, true);
@@ -679,7 +682,7 @@ void obj_update() {
             else
                 act(message, obj->carried_by, obj, nullptr, To::Char);
         } else if (obj->in_room != nullptr && !obj->in_room->people.empty()) {
-            if (!(obj->in_obj && obj->in_obj->pIndexData->vnum == OBJ_VNUM_PIT && !CAN_WEAR(obj->in_obj, ITEM_TAKE))) {
+            if (!(obj->in_obj && obj->in_obj->pIndexData->vnum == objects::Pit && !CAN_WEAR(obj->in_obj, ITEM_TAKE))) {
                 // seems like we pick someone to emote for convenience here...
                 auto *rch = *obj->in_room->people.begin();
                 act(message, rch, obj, nullptr, To::Room);

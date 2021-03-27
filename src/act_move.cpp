@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
+#include "VnumRooms.hpp"
 #include "challeng.h"
 #include "comm.hpp"
 #include "handler.hpp"
@@ -307,37 +308,37 @@ void do_enter(Char *ch, const char *argument) {
 }
 
 void do_north(Char *ch) {
-    if (ch->in_room->vnum == CHAL_ROOM)
+    if (ch->in_room->vnum == rooms::ChallengeArena)
         do_room_check(ch);
     move_char(ch, Direction::North);
 }
 
 void do_east(Char *ch) {
-    if (ch->in_room->vnum == CHAL_ROOM)
+    if (ch->in_room->vnum == rooms::ChallengeArena)
         do_room_check(ch);
     move_char(ch, Direction::East);
 }
 
 void do_south(Char *ch) {
-    if (ch->in_room->vnum == CHAL_ROOM)
+    if (ch->in_room->vnum == rooms::ChallengeArena)
         do_room_check(ch);
     move_char(ch, Direction::South);
 }
 
 void do_west(Char *ch) {
-    if (ch->in_room->vnum == CHAL_ROOM)
+    if (ch->in_room->vnum == rooms::ChallengeArena)
         do_room_check(ch);
     move_char(ch, Direction::West);
 }
 
 void do_up(Char *ch) {
-    if (ch->in_room->vnum == CHAL_ROOM)
+    if (ch->in_room->vnum == rooms::ChallengeArena)
         do_room_check(ch);
     move_char(ch, Direction::Up);
 }
 
 void do_down(Char *ch) {
-    if (ch->in_room->vnum == CHAL_ROOM)
+    if (ch->in_room->vnum == rooms::ChallengeArena)
         do_room_check(ch);
     move_char(ch, Direction::Down);
 }
@@ -919,7 +920,7 @@ void do_recall(Char *ch, ArgParser args) {
     if (!IS_SET(ch->act, PLR_WIZINVIS))
         act("$n prays for transportation!", ch);
 
-    auto vnum = ROOM_VNUM_TEMPLE;
+    auto vnum = rooms::MidgaardTemple;
     auto destination = args.shift();
     if (matches(destination, "clan")) {
         if (IS_SET(ch->act, ACT_PET)) {

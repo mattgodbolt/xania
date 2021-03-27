@@ -16,6 +16,7 @@
 #include "MobIndexData.hpp"
 #include "Note.hpp"
 #include "TimeInfoData.hpp"
+#include "VnumRooms.hpp"
 #include "WeatherData.hpp"
 #include "buffer.h"
 #include "common/Configuration.hpp"
@@ -788,7 +789,7 @@ void area_update() {
 
             reset_area(pArea.get());
             pArea->age = number_range(0, 3);
-            pRoomIndex = get_room_index(ROOM_VNUM_SCHOOL);
+            pRoomIndex = get_room_index(rooms::MudschoolEntrance);
             if (pRoomIndex != nullptr && pArea.get() == pRoomIndex->area)
                 pArea->age = 15 - 2;
             else if (pArea->nplayer == 0)

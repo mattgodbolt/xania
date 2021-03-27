@@ -8,6 +8,7 @@
 /************************************************************************/
 
 #include "Logging.hpp"
+#include "VnumRooms.hpp"
 #include "comm.hpp"
 #include "interp.h"
 #include "merc.h"
@@ -168,7 +169,7 @@ bool spec_phil(Char *ch) {
         return false;
 
     /* Check sleep state */
-    if ((home = get_room_index(ROOM_VNUM_FORREYSPLACE)) == nullptr) {
+    if ((home = get_room_index(rooms::ForreyHome)) == nullptr) {
         bug("Couldn't get Forrey's home index.");
         return false;
     }

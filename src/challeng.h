@@ -10,10 +10,6 @@
 #pragma once
 #include "merc.h"
 
-#define CHAL_VIEWING_GALLERY 1222
-#define CHAL_ROOM 30011
-#define CHAL_PREP 30012
-
 int fighting_duel(Char *ch, Char *victim);
 int in_duel(const Char *ch);
 void do_chal_tick();

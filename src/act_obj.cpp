@@ -11,6 +11,8 @@
 #include "Logging.hpp"
 #include "Pronouns.hpp"
 #include "TimeInfoData.hpp"
+#include "VnumObjects.hpp"
+#include "VnumRooms.hpp"
 #include "comm.hpp"
 #include "handler.hpp"
 #include "interp.h"
@@ -87,12 +89,12 @@ void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container) {
     }
 
     if (container != nullptr) {
-        if (container->pIndexData->vnum == OBJ_VNUM_PIT && ch->get_trust() < obj->level) {
+        if (container->pIndexData->vnum == objects::Pit && ch->get_trust() < obj->level) {
             ch->send_line("You are not powerful enough to use it.");
             return;
         }
 
-        if (container->pIndexData->vnum == OBJ_VNUM_PIT && !CAN_WEAR(container, ITEM_TAKE) && obj->timer)
+        if (container->pIndexData->vnum == objects::Pit && !CAN_WEAR(container, ITEM_TAKE) && obj->timer)
             obj->timer = 0;
         act("You get $p from $P.", ch, obj, container, To::Char);
         act("$n gets $p from $P.", ch, obj, container, To::Room);
@@ -208,7 +210,7 @@ void do_get(Char *ch, const char *argument) {
             for (auto *obj : container->contains) {
                 if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && can_see_obj(ch, obj)) {
                     found = true;
-                    if (container->pIndexData->vnum == OBJ_VNUM_PIT && ch->is_mortal()) {
+                    if (container->pIndexData->vnum == objects::Pit && ch->is_mortal()) {
                         ch->send_line("Don't be so greedy!");
                         return;
                     }
@@ -285,7 +287,7 @@ void do_put(Char *ch, const char *argument) {
             return;
         }
 
-        if (container->pIndexData->vnum == OBJ_VNUM_PIT && !CAN_WEAR(container, ITEM_TAKE)) {
+        if (container->pIndexData->vnum == objects::Pit && !CAN_WEAR(container, ITEM_TAKE)) {
             if (obj->timer) {
                 ch->send_line("Only permanent items may go in the pit.");
                 return;
@@ -303,7 +305,7 @@ void do_put(Char *ch, const char *argument) {
             if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == WEAR_NONE
                 && obj != container && can_drop_obj(ch, obj)
                 && get_obj_weight(obj) + get_obj_weight(container) <= container->value[0]) {
-                if (container->pIndexData->vnum == OBJ_VNUM_PIT) {
+                if (container->pIndexData->vnum == objects::Pit) {
                     if (obj->timer)
                         continue;
                     else
@@ -330,9 +332,9 @@ void do_donate(Char *ch, const char *argument) {
     }
 
     /* get the pit's OBJ_DATA * */
-    auto *altar = get_room_index(ROOM_VNUM_ALTAR);
+    auto *altar = get_room_index(rooms::MidgaardAltar);
 
-    auto pit_it = ranges::find(altar->contents, OBJ_VNUM_PIT, [](auto *obj) { return obj->pIndexData->vnum; });
+    auto pit_it = ranges::find(altar->contents, objects::Pit, [](auto *obj) { return obj->pIndexData->vnum; });
     if (pit_it == altar->contents.end()) {
         /* just in case someone should accidentally delete the pit... */
         ch->send_line("The psychic field seems to have lost its alignment.");
@@ -433,12 +435,12 @@ void do_drop(Char *ch, const char *argument) {
 
         for (auto *obj : ch->in_room->contents) {
             switch (obj->pIndexData->vnum) {
-            case OBJ_VNUM_MONEY_ONE:
+            case objects::MoneyOne:
                 amount += 1;
                 extract_obj(obj);
                 break;
 
-            case OBJ_VNUM_MONEY_SOME:
+            case objects::MoneySome:
                 amount += obj->value[0];
                 extract_obj(obj);
                 break;

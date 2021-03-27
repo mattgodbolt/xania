@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tables.h"
+#include "VnumObjects.hpp"
 #include "merc.h"
 #include <stdio.h>
 #include <string.h>
@@ -77,14 +78,14 @@ const struct item_type item_table[] = {{ITEM_LIGHT, "light"},
                                        {ITEM_BOMB, "bomb"},
                                        {0, nullptr}};
 
-const struct weapon_type weapon_table[] = {{"sword", OBJ_VNUM_SCHOOL_SWORD, WEAPON_SWORD, &gsn_sword},
-                                           {"mace", OBJ_VNUM_SCHOOL_MACE, WEAPON_MACE, &gsn_mace},
-                                           {"dagger", OBJ_VNUM_SCHOOL_DAGGER, WEAPON_DAGGER, &gsn_dagger},
-                                           {"axe", OBJ_VNUM_SCHOOL_AXE, WEAPON_AXE, &gsn_axe},
+const struct weapon_type weapon_table[] = {{"sword", objects::SchoolSword, WEAPON_SWORD, &gsn_sword},
+                                           {"mace", objects::SchoolMace, WEAPON_MACE, &gsn_mace},
+                                           {"dagger", objects::SchoolDagger, WEAPON_DAGGER, &gsn_dagger},
+                                           {"axe", objects::SchoolAxe, WEAPON_AXE, &gsn_axe},
 
-                                           {"exotic", OBJ_VNUM_SCHOOL_SWORD, WEAPON_EXOTIC, nullptr},
-                                           {"spear", OBJ_VNUM_SCHOOL_MACE, WEAPON_SPEAR, &gsn_spear},
-                                           {"flail", OBJ_VNUM_SCHOOL_DAGGER, WEAPON_FLAIL, &gsn_flail},
-                                           {"whip", OBJ_VNUM_SCHOOL_AXE, WEAPON_WHIP, &gsn_whip},
-                                           {"polearm", OBJ_VNUM_SCHOOL_AXE, WEAPON_POLEARM, &gsn_polearm},
+                                           {"exotic", objects::SchoolSword, WEAPON_EXOTIC, nullptr},
+                                           {"spear", objects::SchoolMace, WEAPON_SPEAR, &gsn_spear},
+                                           {"flail", objects::SchoolDagger, WEAPON_FLAIL, &gsn_flail},
+                                           {"whip", objects::SchoolAxe, WEAPON_WHIP, &gsn_whip},
+                                           {"polearm", objects::SchoolAxe, WEAPON_POLEARM, &gsn_polearm},
                                            {nullptr, 0, 0, nullptr}};

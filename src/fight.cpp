@@ -11,6 +11,9 @@
 #include "Format.hpp"
 #include "Logging.hpp"
 #include "TimeInfoData.hpp"
+#include "VnumMobiles.hpp"
+#include "VnumObjects.hpp"
+#include "VnumRooms.hpp"
 #include "challeng.h"
 #include "comm.hpp"
 #include "handler.hpp"
@@ -190,7 +193,7 @@ void multi_hit(Char *ch, Char *victim, int dt) {
         return;
     /* If in combat room */
 
-    if (ch->in_room->vnum == CHAL_ROOM || victim->in_room->vnum == CHAL_ROOM) {
+    if (ch->in_room->vnum == rooms::ChallengeArena || victim->in_room->vnum == rooms::ChallengeArena) {
         if (dt == 100)
             dt = TYPE_UNDEFINED;
         else if (ch->fighting == nullptr)
@@ -217,8 +220,8 @@ void multi_hit(Char *ch, Char *victim, int dt) {
 
     one_hit(ch, victim, dt);
 
-    if (ch->in_room != nullptr && victim->in_room != nullptr && ch->in_room->vnum == CHAL_ROOM
-        && victim->in_room->vnum == CHAL_ROOM) {
+    if (ch->in_room != nullptr && victim->in_room != nullptr && ch->in_room->vnum == rooms::ChallengeArena
+        && victim->in_room->vnum == rooms::ChallengeArena) {
         act(describe_fight_condition(*victim), ch, nullptr, victim, To::NotVict);
     }
 
@@ -801,7 +804,7 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
             announce(fmt::format("|P###|w Sadly, {} was killed by {}.", victim->name, ch->short_name()), victim);
 
             for (auto *squib : victim->in_room->people) {
-                if ((squib->is_npc()) && (squib->pIndexData->vnum == LESSER_MINION_VNUM)) {
+                if ((squib->is_npc()) && (squib->pIndexData->vnum == mobiles::LesserMinionDeath)) {
                     act("$n swings his scythe and ushers $N's soul into the next world.", squib, nullptr, victim,
                         To::Room);
                     break;
@@ -1230,7 +1233,7 @@ void make_corpse(Char *ch) {
     OBJ_DATA *corpse{};
     if (ch->is_npc()) {
         name = ch->short_descr;
-        corpse = create_object(get_obj_index(OBJ_VNUM_CORPSE_NPC));
+        corpse = create_object(get_obj_index(objects::NonPlayerCorpse));
         corpse->timer = number_range(3, 6);
         if (ch->gold > 0) {
             obj_to_obj(create_money(ch->gold), corpse);
@@ -1239,7 +1242,7 @@ void make_corpse(Char *ch) {
         corpse->cost = 0;
     } else {
         name = ch->name;
-        corpse = create_object(get_obj_index(OBJ_VNUM_CORPSE_PC));
+        corpse = create_object(get_obj_index(objects::PlayerCorpse));
         corpse->timer = number_range(25, 40);
         REMOVE_BIT(ch->act, PLR_CANLOOT);
         if (!IS_SET(ch->act, PLR_KILLER) && !IS_SET(ch->act, PLR_THIEF))
@@ -2710,7 +2713,7 @@ void do_headbutt(Char *ch, const char *argument) {
           return;
     }
 
-    if (!IS_NPC (victim) && (ch->in_room->vnum != CHAL_ROOM)) {
+    if (!IS_NPC (victim) && (ch->in_room->vnum != rooms::ChallengeArena)) {
        ch->send_line ("You can only legally headbutt a player if you are
  duelling with them.");
        return;

@@ -10,6 +10,7 @@
 #include "AFFECT_DATA.hpp"
 #include "DescriptorList.hpp"
 #include "MobIndexData.hpp"
+#include "VnumMobiles.hpp"
 #include "comm.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"
@@ -421,7 +422,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 
         act("$s stands up.", ch, nullptr, obj, To::Room);
         act("$s stands up.", ch, nullptr, obj, To::Char);
-        animated = create_mobile(get_mob_index(MOB_VNUM_ZOMBIE));
+        animated = create_mobile(get_mob_index(mobiles::Zombie));
         if (animated == nullptr) {
             bug("spell_reincarnate: Couldn't find corpse vnum!");
             return;
