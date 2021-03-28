@@ -69,6 +69,7 @@ TEST_CASE("string_util tests") {
             char str[] = "spider.pig";
             auto &&[number, arg] = number_argument(str);
             CHECK(arg == "pig"sv);
+            CHECK(number == 0);
         }
     }
 
