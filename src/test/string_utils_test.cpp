@@ -1,6 +1,5 @@
 #include "string_utils.hpp"
 
-#include "merc.h" // TODO remove once we test just the pair<> version
 #include <catch2/catch.hpp>
 
 #include <string_view>
@@ -39,35 +38,36 @@ TEST_CASE("string_util tests") {
     }
 
     SECTION("should split numbers and arguments") {
-        // TODO check pair version
-        char buf[MAX_STRING_LENGTH];
         SECTION("with just a name") {
             char str[] = "object";
-            CHECK(number_argument(str, buf) == 1);
-            CHECK(buf == "object"sv);
+            auto &&[number, arg] = number_argument(str);
+            CHECK(arg == "object"sv);
         }
         SECTION("with a name and a number") {
             SECTION("1") {
                 char str[] = "1.first";
-                CHECK(number_argument(str, buf) == 1);
-                CHECK(buf == "first"sv);
+                auto &&[number, arg] = number_argument(str);
+                CHECK(arg == "first"sv);
+                CHECK(number == 1);
             }
             SECTION("negative") {
                 char str[] = "-1.wtf";
-                CHECK(number_argument(str, buf) == -1);
-                CHECK(buf == "wtf"sv);
+                auto &&[number, arg] = number_argument(str);
+                CHECK(arg == "wtf"sv);
+                CHECK(number == -1);
             }
             SECTION("22") {
                 char str[] = "22.twentysecond";
-                CHECK(number_argument(str, buf) == 22);
-                CHECK(buf == "twentysecond"sv);
+                auto &&[number, arg] = number_argument(str);
+                CHECK(arg == "twentysecond"sv);
+                CHECK(number == 22);
                 SECTION("and the original string is left untouched") { CHECK(str == "22.twentysecond"sv); }
             }
         }
         SECTION("garbage non-numbers") {
             char str[] = "spider.pig";
-            CHECK(number_argument(str, buf) == 0);
-            CHECK(buf == "pig"sv);
+            auto &&[number, arg] = number_argument(str);
+            CHECK(arg == "pig"sv);
         }
     }
 

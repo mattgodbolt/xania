@@ -1303,7 +1303,6 @@ void fallen_off_mount(Char *ch);
 /* act_move.c */
 void move_char(Char *ch, Direction door);
 void unride_char(Char *ch, Char *pet);
-void do_enter(Char *ch, const char *argument);
 /* act_obj.c */
 bool can_loot(const Char *ch, const OBJ_DATA *obj);
 void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container);

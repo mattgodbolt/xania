@@ -46,14 +46,6 @@ std::pair<int, std::string_view> number_argument(std::string_view argument) {
     return {1, argument};
 }
 
-int number_argument(const char *argument, char *arg) {
-    // LEGACY FUNCTION TODO: remove
-    auto &&[number, remainder] = number_argument(argument);
-    memcpy(arg, remainder.data(), remainder.size());
-    arg[remainder.size()] = 0;
-    return number;
-}
-
 std::string smash_tilde(std::string_view str) {
     std::string result;
     result.reserve(str.size());

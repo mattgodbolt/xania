@@ -193,10 +193,10 @@ void move_char(Char *ch, Direction door) {
     mprog_greet_trigger(ch);
 }
 
-void do_enter(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_enter(Char *ch, std::string_view argument) {
     ROOM_INDEX_DATA *to_room, *in_room;
-    int count = 0, number = number_argument(argument, arg);
+    int count = 0;
+    auto &&[number, arg] = number_argument(argument);
     if (ch->riding) {
         ch->send_line("Before entering a portal you must dismount.");
         return;

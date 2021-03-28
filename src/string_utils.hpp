@@ -27,7 +27,6 @@
 [[nodiscard]] int parse_number(std::string_view sv);
 
 // Given a string like 14.foo, return 14 and 'foo'.
-[[nodiscard]] int number_argument(const char *argument, char *arg); // <- deprecated
 [[nodiscard]] std::pair<int, std::string_view> number_argument(std::string_view argument);
 
 // Iterate over lines in a string. `for (auto line : line_iter(...)) { ... }`
