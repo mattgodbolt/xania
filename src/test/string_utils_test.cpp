@@ -42,6 +42,7 @@ TEST_CASE("string_util tests") {
             char str[] = "object";
             auto &&[number, arg] = number_argument(str);
             CHECK(arg == "object"sv);
+            CHECK(number == 1);
         }
         SECTION("with a name and a number") {
             SECTION("1") {
