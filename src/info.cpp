@@ -80,7 +80,7 @@ void do_setinfo(Char *ch, const char *argument) {
             if (strlen(args) > 45)
                 args[45] = '\0';
             ch->pcdata->info_message = args;
-            set_extra(ch, EXTRA_INFO_MESSAGE);
+            ch->set_extra(EXTRA_INFO_MESSAGE);
             ch->send_line("Your message has been set to: {}.", ch->pcdata->info_message);
             /* Update the info if it is in cache */
             if (auto cur = search_info_cache(ch)) {
@@ -101,7 +101,7 @@ void do_setinfo(Char *ch, const char *argument) {
                     ch->send_to("Your message must be set in order for it to be read by other players.\n\rUse "
                                 "'setinfo message <your message>'.\n\r");
                 else {
-                    set_extra(ch, EXTRA_INFO_MESSAGE);
+                    ch->set_extra(EXTRA_INFO_MESSAGE);
                     ch->send_line("Players will now be able to read your message when looking at your info.");
                     update_show = EXTRA_INFO_MESSAGE;
                 }
@@ -126,7 +126,7 @@ void do_setinfo(Char *ch, const char *argument) {
             return;
         } else {
             if (!strcmp(args, "message")) {
-                remove_extra(ch, EXTRA_INFO_MESSAGE);
+                ch->remove_extra(EXTRA_INFO_MESSAGE);
                 ch->send_line("Players will now not be able to read your message when looking at your info.");
                 update_hide = EXTRA_INFO_MESSAGE;
             }

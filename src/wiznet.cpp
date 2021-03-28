@@ -64,12 +64,12 @@ using wiznet_fn = std::function<void(Char *ch)>;
 static CommandSet<wiznet_fn> wiznet_commands;
 
 void wiznet_on(Char *ch) {
-    set_extra(ch, EXTRA_WIZNET_ON);
+    ch->set_extra(EXTRA_WIZNET_ON);
     ch->send_line("|cWIZNET is now |gON|c.|w");
 }
 
 void wiznet_off(Char *ch) {
-    remove_extra(ch, EXTRA_WIZNET_ON);
+    ch->remove_extra(EXTRA_WIZNET_ON);
     ch->send_line("|cWIZNET is now |rOFF|c.|w");
 }
 
@@ -78,11 +78,11 @@ static void toggle_wizchan(Char *ch, int flag, const char *name) {
 
     if (ch->is_set_extra(flag)) {
         snprintf(buf, sizeof(buf), "|GWIZNET %s is now |rOFF|G.|w\n\r", name);
-        remove_extra(ch, flag);
+        ch->remove_extra(flag);
     } else {
         snprintf(buf, sizeof(buf), "|GWIZNET %s is now %s|G.|w\n\r", name,
                  ch->is_set_extra(EXTRA_WIZNET_ON) ? "|gON" : "|rON (WIZNET OFF)");
-        set_extra(ch, flag);
+        ch->set_extra(flag);
     }
     ch->send_to(buf);
 }

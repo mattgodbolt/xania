@@ -613,21 +613,21 @@ void do_tipwizard(Char *ch, const char *arg) {
 
     if (arg[0] == '\0') {
         if (ch->is_set_extra(EXTRA_TIP_WIZARD)) {
-            remove_extra(ch, EXTRA_TIP_WIZARD);
+            ch->remove_extra(EXTRA_TIP_WIZARD);
             ch->send_line("Tipwizard deactivated.");
         } else {
-            set_extra(ch, EXTRA_TIP_WIZARD);
+            ch->set_extra(EXTRA_TIP_WIZARD);
             ch->send_line("Tipwizard activated!");
         }
         return;
     }
     if (!strcmp(arg, "on")) {
-        set_extra(ch, EXTRA_TIP_WIZARD);
+        ch->set_extra(EXTRA_TIP_WIZARD);
         ch->send_line("Tipwizard activated!");
         return;
     }
     if (!strcmp(arg, "off")) {
-        remove_extra(ch, EXTRA_TIP_WIZARD);
+        ch->remove_extra(EXTRA_TIP_WIZARD);
         ch->send_line("Tipwizard deactivated.");
         return;
     }

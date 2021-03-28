@@ -71,9 +71,9 @@ void do_permit(Char *ch, const char *argument) {
         return;
     }
     if (flag) {
-        set_extra(victim, EXTRA_PERMIT);
+        victim->set_extra(EXTRA_PERMIT);
     } else {
-        remove_extra(victim, EXTRA_PERMIT);
+        victim->remove_extra(EXTRA_PERMIT);
     }
     ch->send_line("PERMIT flag {} for {}.", flag ? "set" : "removed", victim->name);
 }

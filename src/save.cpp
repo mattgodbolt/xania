@@ -73,7 +73,7 @@ void set_bits_from_pfile(Char *ch, FILE *fp) {
         if (c == '0')
             continue;
         if (c == '1') {
-            set_extra(ch, n);
+            ch->set_extra(n);
         } else {
             break;
         }

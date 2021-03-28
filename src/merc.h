@@ -1393,10 +1393,6 @@ void obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *pRoomIndex);
 void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to);
 void obj_from_obj(OBJ_DATA *obj);
 void extract_obj(OBJ_DATA *obj);
-void set_extra(Char *ch, unsigned int flag);
-void remove_extra(Char *ch, unsigned int flag);
-
-bool is_switched(const Char *ch);
 
 /* MRG added */
 bool check_sub_issue(OBJ_DATA *obj, Char *ch);

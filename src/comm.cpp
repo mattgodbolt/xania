@@ -1023,7 +1023,7 @@ void nanny(Descriptor *d, const char *argument) {
             /* hack to let the newbie know about the tipwizard */
             ch->send_line("|WTip: this is Xania's tip wizard! Type 'tips' to turn this on or off.|w");
             /* turn on the newbie's tips */
-            set_extra(ch, EXTRA_TIP_WIZARD);
+            ch->set_extra(EXTRA_TIP_WIZARD);
 
         } else if (ch->in_room != nullptr) {
             char_to_room(ch, ch->in_room);

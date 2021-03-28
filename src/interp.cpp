@@ -711,7 +711,7 @@ bool MP_Commands(Char *ch) /* Can MOBProged mobs
                                    use mpcommands? true if yes.
                                    - Kahn */
 {
-    if (is_switched(ch))
+    if (ch->is_switched())
         return false;
 
     if (ch->is_npc() && ch->pIndexData->progtypes && !IS_AFFECTED(ch, AFF_CHARM))

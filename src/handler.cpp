@@ -1742,18 +1742,3 @@ const char *off_bit_name(int off_flags) {
 
     return (buf[0] != '\0') ? buf + 1 : "none";
 }
-
-void set_extra(Char *ch, unsigned int flag) {
-    // TODO remove
-    ch->set_extra(flag);
-}
-
-void remove_extra(Char *ch, unsigned int flag) {
-    // TODO remove
-    ch->remove_extra(flag);
-}
-
-bool is_switched(const Char *ch) {
-    // TODO remove
-    return ch->is_switched();
-}

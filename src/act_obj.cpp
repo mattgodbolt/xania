@@ -2213,7 +2213,7 @@ OBJ_DATA *find_corpse(Char *ch, GenericList<OBJ_DATA *> &list) {
 }
 }
 void do_hailcorpse(Char *ch) {
-    if (is_switched(ch)) {
+    if (ch->is_switched()) {
         ch->send_line("You cannot hail NPC corpses.");
         return;
     }
