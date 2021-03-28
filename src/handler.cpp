@@ -1743,11 +1743,6 @@ const char *off_bit_name(int off_flags) {
     return (buf[0] != '\0') ? buf + 1 : "none";
 }
 
-bool is_set_extra(const Char *ch, unsigned int flag) {
-    // TODO remove
-    return ch->is_set_extra(flag);
-}
-
 void set_extra(Char *ch, unsigned int flag) {
     // TODO remove
     ch->set_extra(flag);

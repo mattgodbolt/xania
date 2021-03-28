@@ -624,7 +624,7 @@ void nanny(Descriptor *d, const char *argument) {
         SetEchoState(d, 1);
 
         // This is the one time we use the full host name.
-        if (check_ban(d->raw_full_hostname().c_str(), BAN_PERMIT) && (!is_set_extra(ch, EXTRA_PERMIT))) {
+        if (check_ban(d->raw_full_hostname().c_str(), BAN_PERMIT) && (!ch->is_set_extra(EXTRA_PERMIT))) {
             d->write("Your site has been banned.  Sorry.\n\r");
             d->close();
             return;

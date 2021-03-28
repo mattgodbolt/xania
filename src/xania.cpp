@@ -603,7 +603,7 @@ void tip_players() {
     auto tip = fmt::format("|WTip: {}|w\n\r", tip_current->tip);
     for (auto &d : descriptors().playing()) {
         Char *ch = d.person();
-        if (is_set_extra(ch, EXTRA_TIP_WIZARD))
+        if (ch->is_set_extra(EXTRA_TIP_WIZARD))
             ch->send_to(tip);
     }
     tip_current = tip_current->next;
@@ -612,7 +612,7 @@ void tip_players() {
 void do_tipwizard(Char *ch, const char *arg) {
 
     if (arg[0] == '\0') {
-        if (is_set_extra(ch, EXTRA_TIP_WIZARD)) {
+        if (ch->is_set_extra(EXTRA_TIP_WIZARD)) {
             remove_extra(ch, EXTRA_TIP_WIZARD);
             ch->send_line("Tipwizard deactivated.");
         } else {

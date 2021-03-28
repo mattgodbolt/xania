@@ -56,7 +56,7 @@ void do_setinfo(Char *ch, const char *argument) {
         ch->send_line("These are your current info settings:");
         if (ch->pcdata->info_message.empty())
             ch->send_line("Message: Not set.");
-        else if (is_set_extra(ch, EXTRA_INFO_MESSAGE))
+        else if (ch->is_set_extra(EXTRA_INFO_MESSAGE))
             ch->send_line("Message: {}.", ch->pcdata->info_message);
         else
             ch->send_line("Message: Withheld.");
@@ -69,7 +69,7 @@ void do_setinfo(Char *ch, const char *argument) {
 
     if (!strcmp(arg, "message")) {
         if (args[0] == '\0') {
-            if (is_set_extra(ch, EXTRA_INFO_MESSAGE)) {
+            if (ch->is_set_extra(EXTRA_INFO_MESSAGE)) {
                 if (ch->pcdata->info_message.empty())
                     ch->send_line("Your message is currently not set.");
                 else
@@ -218,7 +218,7 @@ void do_finger(Char *ch, ArgParser args) {
                 cur = &info_cache
                            .emplace(name, FingerInfo(victim->name, victim->pcdata->info_message,
                                                      victim->desc->login_time(), victim->desc->host(),
-                                                     victim->invis_level, is_set_extra(victim, EXTRA_INFO_MESSAGE)))
+                                                     victim->invis_level, victim->is_set_extra(EXTRA_INFO_MESSAGE)))
                            .first->second;
             } else {
                 cur = &info_cache.emplace(name, read_char_info(name)).first->second;

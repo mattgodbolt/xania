@@ -1225,7 +1225,7 @@ void do_mstat(Char *ch, const char *argument) {
         int n;
         bug_snprintf(buf, sizeof(buf), "Extra: ");
         for (n = 0; n < MAX_EXTRA_FLAGS; n++) {
-            if (is_set_extra(ch, n)) {
+            if (ch->is_set_extra(n)) {
                 strcat(buf, flagname_extra[n]);
             }
         }

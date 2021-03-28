@@ -45,19 +45,19 @@ void print_status(const Char *ch, const char *name, const char *master_name, int
 }
 
 static void print_wiznet_statusline(Char *ch, const char *name, int state) {
-    print_status(ch, name, "wiznet is off", state, is_set_extra(ch, EXTRA_WIZNET_ON));
+    print_status(ch, name, "wiznet is off", state, ch->is_set_extra(EXTRA_WIZNET_ON));
 }
 
 static void print_wiznet_status(Char *ch) {
     ch->send_line("|Woption          status|w");
     ch->send_line("----------------------------");
 
-    print_wiznet_statusline(ch, "bug", is_set_extra(ch, EXTRA_WIZNET_BUG));
-    print_wiznet_statusline(ch, "debug", is_set_extra(ch, EXTRA_WIZNET_DEBUG));
-    print_wiznet_statusline(ch, "immortal", is_set_extra(ch, EXTRA_WIZNET_IMM));
-    print_wiznet_statusline(ch, "mortal", is_set_extra(ch, EXTRA_WIZNET_MORT));
-    print_wiznet_statusline(ch, "tick", is_set_extra(ch, EXTRA_WIZNET_TICK));
-    print_status(ch, "wiznet", "", is_set_extra(ch, EXTRA_WIZNET_ON), 1);
+    print_wiznet_statusline(ch, "bug", ch->is_set_extra(EXTRA_WIZNET_BUG));
+    print_wiznet_statusline(ch, "debug", ch->is_set_extra(EXTRA_WIZNET_DEBUG));
+    print_wiznet_statusline(ch, "immortal", ch->is_set_extra(EXTRA_WIZNET_IMM));
+    print_wiznet_statusline(ch, "mortal", ch->is_set_extra(EXTRA_WIZNET_MORT));
+    print_wiznet_statusline(ch, "tick", ch->is_set_extra(EXTRA_WIZNET_TICK));
+    print_status(ch, "wiznet", "", ch->is_set_extra(EXTRA_WIZNET_ON), 1);
 }
 
 using wiznet_fn = std::function<void(Char *ch)>;
@@ -76,12 +76,12 @@ void wiznet_off(Char *ch) {
 static void toggle_wizchan(Char *ch, int flag, const char *name) {
     char buf[MAX_STRING_LENGTH];
 
-    if (is_set_extra(ch, flag)) {
+    if (ch->is_set_extra(flag)) {
         snprintf(buf, sizeof(buf), "|GWIZNET %s is now |rOFF|G.|w\n\r", name);
         remove_extra(ch, flag);
     } else {
         snprintf(buf, sizeof(buf), "|GWIZNET %s is now %s|G.|w\n\r", name,
-                 is_set_extra(ch, EXTRA_WIZNET_ON) ? "|gON" : "|rON (WIZNET OFF)");
+                 ch->is_set_extra(EXTRA_WIZNET_ON) ? "|gON" : "|rON (WIZNET OFF)");
         set_extra(ch, flag);
     }
     ch->send_to(buf);

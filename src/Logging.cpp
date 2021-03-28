@@ -50,7 +50,7 @@ void log_new(std::string_view str, int loglevel, int level) {
     auto wiznet_msg = fmt::format("|GWIZNET:|g {}|w\n\r", str);
     for (auto &d : descriptors().playing()) {
         auto *ch = d.person();
-        if (ch->is_npc() || !is_set_extra(ch, EXTRA_WIZNET_ON) || !is_set_extra(ch, loglevel)
+        if (ch->is_npc() || !ch->is_set_extra(EXTRA_WIZNET_ON) || !ch->is_set_extra(loglevel)
             || (ch->get_trust() < level))
             continue;
         d.character()->send_to(wiznet_msg);
