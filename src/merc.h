@@ -588,7 +588,6 @@ static inline constexpr auto ff = BIT(31);
 #define ITEM_CORPSE_PC 24
 #define ITEM_FOUNTAIN 25
 #define ITEM_PILL 26
-#define ITEM_PROTECT 27
 #define ITEM_MAP 28
 #define ITEM_BOMB 29
 #define ITEM_PORTAL 30
