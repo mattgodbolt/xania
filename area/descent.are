@@ -4413,7 +4413,7 @@ prenuptial agreement~
 A prenuptial agreement lies here.~
 paper~
 scroll 0 A
-51 1 1 1 0
+51 1 0 0 0
 50 1 10269 P
 
 #10431
@@ -4453,7 +4453,7 @@ figurine of a nightmare~
 You see a small figurine of a dark horse on the ground.~
 china~
 wand AG AO
-54 20 20 68 0
+54 20 20 66 0
 54 3 500 P
 A
 14     30
@@ -4797,22 +4797,10 @@ D   0  10537    1      1  Inside the Reactor Core: Door east closed
 D   0  11082    2      1  : Door south closed
 S
 #SHOPS
-
-
-
-
-
-
 10451 	5  2  9  4  3	 110 75	 0 23	; Hiramoto
 10454 	0  0  0  0  0	 110 75	 0 23	; Stanley
 0
 #SPECIALS
-
-
-
-
-
-
 M  10401 spec_cast_judge                              Guardian of Hell
 M  10402 spec_thief                                        Pile of Coins (mob)
 M  10405 spec_thief                                        gold bar (mob)

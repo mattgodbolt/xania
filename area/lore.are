@@ -424,84 +424,84 @@ fountain 0 0
 
 #30174
 armour scroll~
-a scroll of GOD's armour~
+a scroll of God's armour~
 An old scroll lies in tatters here.~
 paper~
 scroll 0 AO
 10 'armor' 0 0 0
-10 6 10000 P
+10 6 1000 P
 
 #30175
 strength scroll~
-a scroll of GOD's strength~
+a scroll of God's strength~
 An old scroll lies in tatters here.~
 paper~
 scroll 0 AO
 18 'giant' 0 0 0
-18 6 18000 P
+18 6 1800 P
 
 #30176
 speed scroll haste~
-a scroll of GOD's speed~
+a scroll of God's speed~
 An old scroll lies in tatters here.~
 paper~
 scroll 0 AO
 26 'haste' 0 0 0
-26 6 26000 P
+26 6 2600 P
 
 #30177
 wrath scroll frenzy~
-a scroll of GOD's wrath~
+a scroll of God's wrath~
 An old scroll lies in tatters here.~
 paper~
 scroll 0 AO
 35 'frenzy' 0 0 0
-35 6 35000 P
+35 6 3500 P
 
 #30178
 stone skin scroll~
-a scroll of GOD's skin~
+a scroll of God's skin~
 An old scroll lies in tatters here.~
 paper~
 scroll 0 AO
 45 'stone skin' 0 0 0
-45 6 45000 P
+45 6 4500 P
 
 #30179
 heal scroll~
-a scroll of GOD's healing touch~
+a scroll of God's healing touch~
 An old scroll lies in tatters here.~
 paper~
 scroll 0 AO
 52 'heal' 0 0 0
-52 6 60000 P
+52 6 6000 P
 
 #30180
 radar scroll locate~
-a scroll of GOD's radar~
+a scroll of God's radar~
 An old scroll lies in tatters here.~
 paper~
 scroll 0 AO
 60 'locate object' 0 0 0
-60 6 75000 P
+60 6 4500 P
 
 #30181
 undo spell scroll purging~
-a scroll of GOD's purging power~
+a scroll of God's purging power~
 An old scroll lies in tatters here.~
 paper~
 scroll 0 AO
 70 'undo spell' 0 0 0
-70 6 90000 P
+70 6 4000 P
 
 #30182
 blessing scroll~
-a scroll of GOD's blessing~
+a scroll of God's blessing~
 An old scroll lies in tatters here.~
 paper~
 scroll 0 AO
 75 'bless' 0 0 0
-75 6 110000 P
+75 6 3100 P
 
 
 #0
@@ -1012,11 +1012,8 @@ G 1 30182 -1
 S
 
 #SHOPS 
-
 30158  0  0  0  0 0  115  100  0  23 ; The Old Man
-
 0
-
 
 #$
 #SPECIALS

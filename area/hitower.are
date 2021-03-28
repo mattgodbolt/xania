@@ -4728,7 +4728,7 @@ A herbal brew is here.~
 china~
 drink 0 A
 5 5 'tea' 1 0
-25 2 5176 P
+25 2 60 P
 
 #1352
 waybread~
@@ -4737,7 +4737,7 @@ A loaf of waybread has been left here.~
 food~
 food 0 A
 32 0 0 0 0
-25 3 5224 P
+25 3 55 P
 
 #1355
 cleaver~
@@ -5729,14 +5729,8 @@ P 1 1404 3 1402 1  1   Load a bottle of cranberry juice into a fridge
   
 S
 #SHOPS
-
-
-
-
-
-
- 1305	17 19  0  0  0	 210  50	 0 23	; Strick the Bartender
- 1306	 2  3  4 10 21	 250  30	 0 23	; Tatorious the Wizard
+1305	17 19  0  0  0	 210  50	 0 23	; Strick the Bartender
+1306	 2  3  4 10 21	 250  30	 0 23	; Tatorious the Wizard
 0
 #SPECIALS
 

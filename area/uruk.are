@@ -606,12 +606,12 @@ E 1 10133 3 16    equip whip
 M 0 10126 1 10145 1  1  load spider  
 E 1 10132 3 17    eqiup web
 
-M 0 10129 1 10146 1  1        load servent stables  
+M 0 10129 1 10146 1  1        load servant stables  
 M 0 10127 1 10147 1  1        load nazgul store room  
 M 0 10128 1 10147 1  1        load dragon store room  
 S
 #SHOPS
-10129 0 0 0 0 0 100 100 0 23    servent boy in stable
+10129 0 0 0 0 0 100 100 0 23    servant boy in stable
 0
 #SPECIALS
 

@@ -7796,12 +7796,6 @@ G   1   9607    1            some reigns made from twisted vines in inventory
 G   1   9608    1            glowing horseshoes in inventory
 S
 #SHOPS
-
-
-
-
-
-
 9511	 1  8 12 13 15	200 100		0 23	; general store
 9513	 8 11  9 16 21	200  40		0 23	; tailor
 9514	 0  0  0  0  0	150  40		0 23	; Vera

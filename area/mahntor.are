@@ -3969,28 +3969,10 @@ R   0   2358    4         The frigid wastelands: Door(s) 0-4 randomized
 R   0   2359    4         The frigid wastelands: Door(s) 0-4 randomized
 S
 #HELPS
-
-
-
-
-
-
 0 $~
 #SHOPS
-
-
-
-
-
-
 0
 #SPECIALS
-
-
-
-
-
-
 M  2300 spec_cast_undead
 M  2302 spec_breath_acid
 M  2306 spec_poison

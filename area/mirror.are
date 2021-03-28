@@ -3114,26 +3114,15 @@ M 0 5323 3 5358 1  1   a deer into The dwarf forest
 M 0 5326 4 5356 1  1   a harmless snake into A trail at the end of the dwarf forest  
 S
 #SHOPS
-
-
-
-
-
-
- 5310    0  0  0  0  0   120  90         0 23   ; The barkeep
- 5311    5 17 19  0  0   110  90         6 20   ; The grocer/meat seller
- 5312   19  0  0  0  0   110  90         7 19   ; The produce seller
- 5313    5  9  0  0  0   130  70         5 21   ; The armourer
- 5314    1  8 12 13 22   135  65         8 18   ; The smithy
- 5317    2  3  4 10  0   120  50         9 17   ; The Wizard
+5310    0  0  0  0  0   120  90         0 23   ; The barkeep
+5311    5 17 19  0  0   110  90         6 20   ; The grocer/meat seller
+5312   19  0  0  0  0   110  90         7 19   ; The produce seller
+5313    5  9  0  0  0   130  70         5 21   ; The armourer
+5314    1  8 12 13 22   135  65         8 18   ; The smithy
+5317    2  3  4 10  0   120  50         9 17   ; The Wizard
 0
+
 #SPECIALS
-
-
-
-
-
-
 M  5300 spec_cast_mage
 M  5303 spec_guard
 M  5305 spec_guard

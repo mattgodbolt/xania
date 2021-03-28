@@ -1131,7 +1131,7 @@ weapon 0 AN
 'spear' 1 8 'pierce' 0
 4 5 50 G
 #3028
-staff~
+wooden staff~
 a wooden staff~
 A stout wooden staff lies on the floor.~
 wood~
@@ -1159,7 +1159,7 @@ light 0 A
 0 0 50 0 0
 0 1 10 G
 #3031
-lantern~
+hooded brass lantern~
 a hooded brass lantern~
 A hooded brass lantern has been left here.~
 brass~
@@ -1451,7 +1451,7 @@ armor 0 AE
 3 4 4 0 1
 5 4 250 P
 #3074
-skirt scale mail~
+long skirt scale mail~
 a long scale mail skirt~
 A long scale mail skirt is lying on the ground.~
 steel~
@@ -1713,7 +1713,7 @@ armor 0 AF
 5 4 5 0 3
 10 10 500 P
 #3113
-boots ironbound~
+boots iron-bound~
 a pair of iron-bound boots~
 A pair of iron-bound boots lies here.~
 iron~
@@ -2646,7 +2646,7 @@ A
 
 
 #3373
-mercenary shirt~
+mercenary shirt issue~
 a mercenary issue shirt~
 A mercenary issue shirt is lying on the ground.~
 steel~
@@ -2655,7 +2655,7 @@ armor A AD
 13 18 1200 P
 
 #3374
-coif mercenary~
+coif mercenary issue~
 a mercenary issue coif~
 A mercenary issue coif is lying on the ground.~
 steel~
@@ -2664,7 +2664,7 @@ armor A AE
 13 5 600 P
 
 #3375
-skirt mercenary~
+skirt mercenary issue~
 a mercenary issue skirt~
 A mercenary issue skirt is lying on the ground.~
 steel~
@@ -2673,7 +2673,7 @@ armor A AF
 13 10 600 P
 
 #3376
-boots mercenary~
+boots mercenary issue~
 a pair mercenary issue boots~
 A pair of mercenary issue boots stand here.~
 steel~
@@ -2682,7 +2682,7 @@ armor A AG
 13 6 600 P
 
 #3377
-gauntlets mercenary~
+gauntlets mercenary issue~
 a pair of mercenary issue gauntlets~
 A pair of mercenary issue gauntlets are lying on the ground.~
 steel~
@@ -2691,7 +2691,7 @@ armor A AH
 13 4 600 P
 
 #3378
-sleeves mercenary~
+sleeves mercenary issue~
 a pair of mercenary issue sleeves~
 A pair of mercenary issue sleeves are lying on the ground.~
 steel~
@@ -2700,7 +2700,7 @@ armor A AI
 13 8 600 P
 
 #3379
-shield mercenary~
+shield mercenary issue~
 a mercenary issue shield~
 A mercenary issue shield is lying on the ground.~
 steel~
@@ -6514,15 +6514,15 @@ G 1 3062 -1    leather pants
 G 1 3063 -1    leather boots
 G 1 3064 -1    leather gloves
 G 1 3065 -1    leather sleeves
+G 1 3052 -1    leather bracer
+G 1 3053 -1    leather belt
+G 1 3054 -1    leather girdle
 G 1 3066 -1    hard leather jerkin
 G 1 3067 -1    hard leather cap
 G 1 3068 -1    hard leather pants
 G 1 3069 -1    hard leather boots
 G 1 3070 -1    hard leather gloves
 G 1 3071 -1    hard leather sleeves
-G 1 3052 -1    leather bracer
-G 1 3053 -1    leather belt
-G 1 3054 -1    leather girdle
 *
 M 0 3006 1 3049 1  1        A Captain (selling boats) at Levee  
 G 1 3050 -1              Give a raft to the captain

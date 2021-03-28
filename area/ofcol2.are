@@ -3498,27 +3498,17 @@ E   1    654   99      5     a golden dragonscale torso on body
 E   1    660   99     11     a golden dragonscale shield as shield              
 E   1    662   99     16     the Golden Claw wielded                
 S
+
 #SHOPS
-
-
-
-
-
-
-  604	5  9 15  0  0	120  80	 0 23; Jim the Blacksmith
-  605	9  0  0  0  0	120  80	 0 23; Sam the Leatherworker
-  606	8 12 13  0  0   120  80  0 23; Madam Tracy
-  607	0 19  0  0  0	120  10	 0 23; Marty the Butcher
-  608	0 17 19  0  0	120  10  0 23; Elizabeth the Grocer
-  622	0 17  0  0  0	120  10  0 23; Nyles the Bartender
+604	5  9 15  0  0	120  80	 0 23; Jim the Blacksmith
+605	9  0  0  0  0	120  80	 0 23; Sam the Leatherworker
+606	8 12 13  0  0   120  80  0 23; Madam Tracy
+607	0 19  0  0  0	120  10	 0 23; Marty the Butcher
+608	0 17 19  0  0	120  10  0 23; Elizabeth the Grocer
+622	0 17  0  0  0	120  10  0 23; Nyles the Bartender
 0
+
 #SPECIALS
-
-
-
-
-
-
 M  600	spec_guard		Ofcol cityguard
 M  601	spec_cast_cleric	Marshal Diana
 M  602  spec_cast_cleric	Captain Derrick

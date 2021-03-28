@@ -1144,6 +1144,7 @@ const char *item_type_name(OBJ_DATA *obj) {
     case ITEM_TREASURE: return "treasure";
     case ITEM_ARMOR: return "armor";
     case ITEM_POTION: return "potion";
+    case ITEM_CLOTHING: return "clothing";
     case ITEM_FURNITURE: return "furniture";
     case ITEM_TRASH: return "trash";
     case ITEM_CONTAINER: return "container";
@@ -1178,6 +1179,7 @@ const char *item_index_type_name(OBJ_INDEX_DATA *obj) {
     case ITEM_TREASURE: return "treasure";
     case ITEM_ARMOR: return "armor";
     case ITEM_POTION: return "potion";
+    case ITEM_CLOTHING: return "clothing";
     case ITEM_FURNITURE: return "furniture";
     case ITEM_TRASH: return "trash";
     case ITEM_CONTAINER: return "container";

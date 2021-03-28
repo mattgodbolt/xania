@@ -1642,7 +1642,7 @@ M 0 9815 1 9883 1  1   the Zombie into The dungeon
   
 M 0 9816 1 9891 1  1   the Lich Priest into The bottom of the pit
   
-M 0 9817 1 9892 1  1   An old monk into Candy Store
+M 0 9817 1 9892 1  1   An old        into Candy Store
   
 G   1   9841  100            Clear Candy <tm> in inventory
 G   1   9842  100            White Candy <tm> in inventory

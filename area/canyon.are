@@ -2158,13 +2158,7 @@ M 0 9224 8 9259 1  1   a dust cloud into Windy Tunnel
 M 0 9224 8 9257 1  1   a dust cloud into Floating in Air  
 S
 #SHOPS
-
-
-
-
-
-
- 9238	 0  0  0  0  0	 105  15	 0 23	; Elixir Vendor
+9238	 0  0  0  0  0	 105  15	 0 23	; Elixir Vendor
 0
 #SPECIALS
 

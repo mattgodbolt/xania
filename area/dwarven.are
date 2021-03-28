@@ -1172,7 +1172,7 @@ A
 1       2
 
 #6510
-helmet~
+dwarven helmet~
 A dwarven helmet~
 A dwarven helmet is here.~
 steel~
@@ -1194,7 +1194,7 @@ A
 19      1
 
 #6512
-gloves~
+dwarven gloves~
 Dwarven gloves~
 Thick dwarven gloves lay here.~
 leather~
@@ -1486,14 +1486,8 @@ M 0 6505 1 6520 1  1   the giant lizard into Path next to barracks
   
 S
 #SHOPS
-
-
-
-
-
-
- 6503	 0  0  0  0  0	 150  50	 0 23	; Hide and Tooth
- 6504	 0  0  0  0  0	 150  50	 0 23	; Granitehead the Baker
+6503	 0  0  0  0  0	 150  50	 0 23	; Hide and Tooth
+6504	 0  0  0  0  0	 150  50	 0 23	; Granitehead the Baker
 0
 
 #$
