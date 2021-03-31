@@ -1162,7 +1162,7 @@ void do_mstat(Char *ch, const char *argument) {
 
     bug_snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
                  victim->is_npc() ? victim->pIndexData->vnum : 0, victim->is_npc() ? ".are" : "pc",
-                 race_table[victim->race].name, victim->sex == 1 ? "male" : victim->sex == 2 ? "female" : "neutral",
+                 race_table[victim->race].name, std::string(victim->sex.name()).c_str(),
                  victim->in_room == nullptr ? 0 : victim->in_room->vnum);
     ch->send_to(buf);
 
@@ -2612,13 +2612,13 @@ void do_mset(Char *ch, const char *argument) {
     }
 
     if (!str_prefix(arg2, "sex")) {
-        if (value < 0 || value > 2) {
-            ch->send_line("Sex range is 0 to 2.");
-            return;
+        if (auto sex = Sex::try_from_name(arg3)) {
+            victim->sex = *sex;
+            if (victim->is_pc())
+                victim->pcdata->true_sex = *sex;
+        } else {
+            ch->send_line("Invalid sex. Options: " + Sex::names_csv());
         }
-        victim->sex = value;
-        if (victim->is_pc())
-            victim->pcdata->true_sex = value;
         return;
     }
 

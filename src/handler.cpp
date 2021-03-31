@@ -238,9 +238,7 @@ void reset_char(Char *ch) {
                     switch (af.location) {
                     default: break;
                     case AffectLocation::Sex:
-                        ch->sex -= mod;
-                        if (ch->sex < 0 || ch->sex > 2)
-                            ch->sex = ch->is_npc() ? 0 : ch->pcdata->true_sex;
+                        ch->sex += mod; // TODO test
                         break;
                     case AffectLocation::Mana: ch->max_mana -= mod; break;
                     case AffectLocation::Hit: ch->max_hit -= mod; break;
@@ -252,7 +250,7 @@ void reset_char(Char *ch) {
                 mod = af.modifier;
                 switch (af.location) {
                 default: break;
-                case AffectLocation::Sex: ch->sex -= mod; break;
+                case AffectLocation::Sex: ch->sex += mod; break;
                 case AffectLocation::Mana: ch->max_mana -= mod; break;
                 case AffectLocation::Hit: ch->max_hit -= mod; break;
                 case AffectLocation::Move: ch->max_move -= mod; break;
@@ -265,20 +263,11 @@ void reset_char(Char *ch) {
         ch->pcdata->perm_move = ch->max_move;
         using namespace std::chrono;
         ch->pcdata->last_level = (int)duration_cast<hours>(ch->played).count();
-        if (ch->pcdata->true_sex < 0 || ch->pcdata->true_sex > 2) {
-            if (ch->sex > 0 && ch->sex < 3)
-                ch->pcdata->true_sex = ch->sex;
-            else
-                ch->pcdata->true_sex = 0;
-        }
     }
 
     /* now restore the character to his/her true condition */
     ranges::fill(ch->mod_stat, 0);
 
-    if (ch->pcdata->true_sex < 0 || ch->pcdata->true_sex > 2)
-        ch->pcdata->true_sex = 0;
-    ch->sex = ch->pcdata->true_sex;
     ch->max_hit = ch->pcdata->perm_hit;
     ch->max_mana = ch->pcdata->perm_mana;
     ch->max_move = ch->pcdata->perm_move;
@@ -309,10 +298,6 @@ void reset_char(Char *ch) {
     /* now add back spell effects */
     for (auto &af : ch->affected)
         af.apply(*ch);
-
-    /* make sure sex is RIGHT!!!! */
-    if (ch->sex < 0 || ch->sex > 2)
-        ch->sex = ch->pcdata->true_sex;
 }
 
 /*

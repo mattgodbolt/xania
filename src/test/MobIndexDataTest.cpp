@@ -55,7 +55,7 @@ stand stand male 200
         CHECK(mob->damage == Dice(10, 4, 19));
         CHECK(attack_table[mob->dam_type].name == "blast"sv);
         CHECK(mob->ac == std::array<sh_int, 4>{-2, -2, -2, -2});
-        CHECK(mob->sex == SEX_MALE);
+        CHECK(mob->sex.is_male());
         // TODO: check flags
         CHECK(mob->default_pos == POS_STANDING);
         CHECK(mob->start_pos == POS_STANDING);

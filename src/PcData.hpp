@@ -2,6 +2,7 @@
 
 #include "Constants.hpp"
 #include "Pronouns.hpp"
+#include "Sex.hpp"
 #include "clan.h"
 
 #include <array>
@@ -23,7 +24,7 @@ struct PcData {
     sh_int perm_hit{};
     sh_int perm_mana{};
     sh_int perm_move{};
-    sh_int true_sex{};
+    Sex true_sex;
 
     int last_level{};
     std::array<sh_int, 3> condition{0, 48, 48};

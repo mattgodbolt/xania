@@ -846,25 +846,13 @@ void nanny(Descriptor *d, const char *argument) {
         break;
 
     case DescriptorState::GetNewSex:
-        switch (argument[0]) {
-        case 'm':
-        case 'M':
-            ch->sex = SEX_MALE;
-            ch->pcdata->true_sex = SEX_MALE;
-            break;
-        case 'f':
-        case 'F':
-            ch->sex = SEX_FEMALE;
-            ch->pcdata->true_sex = SEX_FEMALE;
-            break;
-        case 'o':
-        case 'O':
-            ch->sex = SEX_NEUTRAL;
-            ch->pcdata->true_sex = SEX_NEUTRAL;
-            break;
-        default: d->write("Please specify (M)ale, (F)emale or (O)ther. "); return;
+        if (auto sex = Sex::try_from_char(argument[0])) {
+            ch->sex = *sex;
+            ch->pcdata->true_sex = *sex;
+        } else {
+            d->write("Please specify (M)ale, (F)emale or (O)ther. ");
+            return;
         }
-
         d->write("Thanks. Personal pronouns can be set using the 'pronouns' command later on.\n");
         strcpy(buf, "The following classes are available: ");
         for (iClass = 0; iClass < MAX_CLASS; iClass++) {
@@ -1008,7 +996,7 @@ void nanny(Descriptor *d, const char *argument) {
             ch->move = ch->max_move;
             ch->train = 3;
             ch->practice = 5;
-            ch->send_to("the {}", title_table[ch->class_num][ch->level][ch->sex == SEX_FEMALE ? 1 : 0]);
+            ch->send_to("the {}", title_table[ch->class_num][ch->level][ch->sex.is_male() ? 0 : 1]);
 
             do_outfit(ch);
             obj_to_char(create_object(get_obj_index(objects::Map)), ch);

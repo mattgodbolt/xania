@@ -25,11 +25,6 @@ struct position_type {
     const char *short_name;
 };
 
-struct sex_type {
-    const char *name;
-    int sex;
-};
-
 struct size_type {
     const char *name;
 };
@@ -47,7 +42,6 @@ struct weapon_type {
 
 /* game tables */
 extern const struct position_type position_table[];
-extern const struct sex_type sex_table[];
 extern const struct size_type size_table[];
 
 /* items */

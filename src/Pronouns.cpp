@@ -1,17 +1,17 @@
 #include "Pronouns.hpp"
 #include "ArgParser.hpp"
 #include "Char.hpp"
+#include "Sex.hpp"
 #include "string_utils.hpp"
 
-const Pronouns &pronouns_for(int sex) { // TODO: strong type for sex.
+const Pronouns &pronouns_for(const Sex &sex) {
     static Pronouns male{"his", "him", "he", "himself"};
     static Pronouns female{"her", "her", "she", "herself"};
     static Pronouns neutral{"their", "them", "they", "themself"};
-    switch (sex) {
-    case 0: return neutral;
-    case 1: return male;
-    case 2: return female;
-    default: break;
+    switch (sex.type()) {
+    case Sex::Type::neutral: return neutral;
+    case Sex::Type::male: return male;
+    case Sex::Type::female: return female;
     }
     // TODO: reintroduce? throw? out of line?
     //    bug("{}", fmt::format("Bad sex {} in pronouns ", ch->sex).c_str());

@@ -513,14 +513,6 @@ static inline constexpr auto ff = BIT(31);
 #define AFF_OCTARINE_FIRE (dd)
 #define AFF_LETHARGY (ee)
 
-/*
- * Sex.
- * Used in #MOBILES.
- */
-#define SEX_NEUTRAL 0
-#define SEX_MALE 1
-#define SEX_FEMALE 2
-
 /* AC types */
 #define AC_PIERCE 0
 #define AC_BASH 1
@@ -1265,7 +1257,6 @@ struct flag_type {
     bool settable;
 };
 
-extern const struct flag_type sex_flags[];
 extern const struct flag_type door_resets[];
 extern const struct flag_type room_flags[];
 extern const struct flag_type sector_flags[];
@@ -1291,7 +1282,6 @@ extern std::string deity_name;
 extern size_t max_on;
 
 /* act_comm.c */
-void check_sex(Char *ch);
 void add_follower(Char *ch, Char *master);
 void stop_follower(Char *ch);
 void nuke_pets(Char *ch);

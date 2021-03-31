@@ -16,7 +16,7 @@ She's big and bad.  Don't mess with her.
 ~
 human~
 MBGQTV CH 1000 0
-30 +10 1d1+999 1d1+999 2d4+30 13
+30 10 1d1+999 1d1+999 2d4+30 slash
 -30 -30 -30 -30
 ACEFHIKN ABCD 0 0
 stand stand male 0
@@ -121,7 +121,7 @@ He is big and bad.  Don't mess with him.
 ~
 human~
 BGQTV CH 1000 0
-30 +10 1d1+999  1d1+999 2d4+30 13
+30 +10 1d1+999  1d1+999 2d4+30 slash
 -30 -30 -30 -30
 ACEFHIKN ABCD 0 0
 stand stand male 0
@@ -135,7 +135,7 @@ He is big and bad.  Don't mess with him.
 ~
 human~
 BGQTV CH 1000 0
-30 +10 1d1+999  1d1+999 2d4+30 13
+30 +10 1d1+999  1d1+999 2d4+30 slash
 -30 -30 -30 -30
 ACEFHIKN ABCD 0 0
 stand stand male 0

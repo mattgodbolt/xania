@@ -1018,7 +1018,7 @@ void spell_change_sex(int sn, int level, Char *ch, void *vo) {
     af.duration = 2 * level;
     af.location = AffectLocation::Sex;
     do {
-        af.modifier = number_range(0, 2) - victim->sex;
+        af.modifier = number_range(0, 2) - victim->sex.ordinal();
     } while (af.modifier == 0);
     af.bitvector = 0;
     affect_to_char(victim, af);

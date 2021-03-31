@@ -36,11 +36,6 @@ const struct position_type position_table[] = {{"dead", "dead"},           {"mor
                                                {"sitting", "sit"},         {"fighting", "fight"},
                                                {"standing", "stand"},      {nullptr, nullptr}};
 
-/* for sex */
-// TM> fixed to allow some areas to load in properly
-const struct sex_type sex_table[] = {{"none", 0}, {"neither", 0}, {"neutral", 0}, {"either", 0},
-                                     {"male", 1}, {"female", 2},  {nullptr, 0}};
-
 /* for sizes */
 const struct size_type size_table[] = {{"tiny"},
                                        {"small"},

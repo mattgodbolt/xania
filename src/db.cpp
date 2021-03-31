@@ -1063,8 +1063,6 @@ Char *create_mobile(MobIndexData *pMobIndex) {
     mob->start_pos = pMobIndex->start_pos;
     mob->default_pos = pMobIndex->default_pos;
     mob->sex = pMobIndex->sex;
-    if (mob->sex == 3) /* random sex */
-        mob->sex = number_range(1, 2);
     mob->race = pMobIndex->race;
     if (pMobIndex->gold == 0)
         mob->gold = 0;

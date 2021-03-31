@@ -7,6 +7,7 @@
 #include "ExtraFlags.hpp"
 #include "MobIndexData.hpp"
 #include "PcData.hpp"
+#include "Sex.hpp"
 #include "Stats.hpp"
 #include "Types.hpp"
 
@@ -14,6 +15,7 @@
 #include <memory>
 
 class Note;
+class Sex;
 struct MobIndexData;
 struct OBJ_DATA;
 struct ROOM_INDEX_DATA;
@@ -48,7 +50,7 @@ struct Char {
     std::string long_descr;
     std::string description;
     std::string sentient_victim;
-    sh_int sex{};
+    Sex sex;
     sh_int class_num{};
     sh_int race{};
     sh_int level{};

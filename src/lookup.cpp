@@ -50,32 +50,8 @@ int position_lookup(const char *name) {
         if (LOWER(name[0]) == LOWER(position_table[pos].name[0]) && !str_prefix(name, position_table[pos].name))
             return pos;
     }
-
-    // Check for numerics now (now we know how many are in
-    // the table)
-    pos = numeric_lookup_check(name, pos);
-    if (pos >= 0)
-        return pos;
-
-    bug("Unknown position '{}' - defaulting!", name);
-
-    return 0;
-}
-
-int sex_lookup(const char *name) {
-    int sex;
-
-    for (sex = 0; sex_table[sex].name != nullptr; sex++) {
-        if (LOWER(name[0]) == LOWER(sex_table[sex].name[0]) && !str_prefix(name, sex_table[sex].name))
-            return sex_table[sex].sex;
-    }
-
-    sex = numeric_lookup_check(name, sex);
-    if (sex >= 0)
-        return sex;
-
-    bug("Unknown sex (oo-er) '{}' - defaulting!", name);
-    return 0;
+    bug("Load_objects: Unknown position: {}", name);
+    exit(1);
 }
 
 int size_lookup(const char *name) {
@@ -85,14 +61,8 @@ int size_lookup(const char *name) {
         if (LOWER(name[0]) == LOWER(size_table[size].name[0]) && !str_prefix(name, size_table[size].name))
             return size;
     }
-
-    size = numeric_lookup_check(name, size);
-    if (size >= 0)
-        return size;
-
-    bug("Unknown size type '{}' - defaulting!", name);
-
-    return 0;
+    bug("Load_objects: Unknown size: {}", name);
+    exit(1);
 }
 
 int attack_lookup(const char *name) {
@@ -102,14 +72,8 @@ int attack_lookup(const char *name) {
         if (LOWER(name[0]) == LOWER(attack_table[att].name[0]) && !str_prefix(name, attack_table[att].name))
             return att;
     }
-
-    att = numeric_lookup_check(name, att);
-    if (att >= 0)
-        return att;
-
-    bug("Unknown attack type '{}' - defaulting!", name);
-
-    return 0;
+    bug("Load_objects: Unknown attack: {}", name);
+    exit(1);
 }
 
 int item_lookup_impl(const char *name) {

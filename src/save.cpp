@@ -144,7 +144,7 @@ void fwrite_char(const Char *ch, FILE *fp) {
     if (!ch->description.empty())
         fprintf(fp, "Desc %s~\n", ch->description.c_str());
     fprintf(fp, "Race %s~\n", pc_race_table[ch->race].name);
-    fprintf(fp, "Sex  %d\n", ch->sex);
+    fprintf(fp, "Sex  %d\n", ch->sex.ordinal());
     fprintf(fp, "Cla  %d\n", ch->class_num);
     fprintf(fp, "Levl %d\n", ch->level);
     if (auto *pc_clan = ch->pc_clan()) {
@@ -210,7 +210,7 @@ void fwrite_char(const Char *ch, FILE *fp) {
         fprintf(fp, "Colo %d\n", ch->pcdata->colour);
         fprintf(fp, "Prmt %s~\n", ch->pcdata->prompt.c_str());
         fprintf(fp, "Pnts %d\n", ch->pcdata->points);
-        fprintf(fp, "TSex %d\n", ch->pcdata->true_sex);
+        fprintf(fp, "TSex %d\n", ch->pcdata->true_sex.ordinal());
         fprintf(fp, "LLev %d\n", ch->pcdata->last_level);
         fprintf(fp, "HMVP %d %d %d\n", ch->pcdata->perm_hit, ch->pcdata->perm_mana, ch->pcdata->perm_move);
         /* Rohan: Save info data */
@@ -275,7 +275,7 @@ void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
         fprintf(fp, "Desc %s~\n", pet->description.c_str());
     if (pet->race != pet->pIndexData->race)
         fprintf(fp, "Race %s~\n", race_table[pet->race].name);
-    fprintf(fp, "Sex  %d\n", pet->sex);
+    fprintf(fp, "Sex  %d\n", pet->sex.ordinal());
     if (pet->level != pet->pIndexData->level)
         fprintf(fp, "Levl %d\n", pet->level);
     fprintf(fp, "HMV  %d %d %d %d %d %d\n", pet->hit, pet->max_hit, pet->mana, pet->max_mana, pet->move, pet->max_move);
@@ -700,7 +700,11 @@ void fread_char(Char *ch, FILE *fp) {
             if (ch->lines == 0 || ch->lines > 52)
                 ch->lines = 52;
         } else if (word == "sex") {
-            ch->sex = fread_number(fp);
+            if (auto sex = Sex::try_from_ordinal(fread_number(fp))) {
+                ch->sex = *sex;
+            } else {
+                bug("Fread_char: unknown sex.");
+            }
         } else if (word == "shortdescr" || word == "shd") {
             ch->short_descr = fread_stdstring(fp);
         } else if (word == "skill" || word == "sk") {
@@ -713,7 +717,11 @@ void fread_char(Char *ch, FILE *fp) {
             } else
                 ch->pcdata->learned[sn] = value;
         } else if (word == "truesex" || word == "tsex") {
-            ch->pcdata->true_sex = fread_number(fp);
+            if (auto sex = Sex::try_from_ordinal(fread_number(fp))) {
+                ch->pcdata->true_sex = *sex;
+            } else {
+                bug("Fread_char: unknown truesex.");
+            }
         } else if (word == "trai") {
             ch->train = fread_number(fp);
         } else if (word == "trust" || word == "tru") {
@@ -828,7 +836,11 @@ void fread_pet(Char *ch, FILE *fp) {
         } else if (matches(word, "Save")) {
             pet->saving_throw = fread_number(fp);
         } else if (matches(word, "Sex")) {
-            pet->sex = fread_number(fp);
+            if (auto sex = Sex::try_from_ordinal(fread_number(fp))) {
+                pet->sex = *sex;
+            } else {
+                bug("Fread_pet: unknown sex.");
+            }
         } else if (matches(word, "ShD")) {
             pet->short_descr = fread_stdstring(fp);
         } else {

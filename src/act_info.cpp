@@ -9,6 +9,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
+#include "Char.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Help.hpp"
@@ -1099,7 +1100,7 @@ void do_score(Char *ch) {
 
     col2.stat("Race", race_table[ch->race].name)
         .stat("Class", ch->is_npc() ? "mobile" : class_table[ch->class_num].name)
-        .stat("Sex", ch->sex == 0 ? "other" : ch->sex == 1 ? "male" : "female")
+        .stat("Sex", ch->sex.name())
         .stat("Position", position_desc[ch->position])
         .stat_of("Items", ch->carry_number, can_carry_n(ch))
         .stat_of("Weight", ch->carry_weight, can_carry_w(ch))

@@ -91,8 +91,19 @@ add_library(xania_lib STATIC
         Dice.cpp Dice.hpp
         SectorType.cpp SectorType.hpp
         PerEnum.hpp
-        GenericList.hpp)
-target_link_libraries(xania_lib xania_common crypt chat CONAN_PKG::fmt CONAN_PKG::range-v3)
+        GenericList.hpp
+        Sex.hpp
+        Sex.cpp)
+target_link_libraries(
+        xania_lib
+        xania_common
+        crypt
+        chat
+        CONAN_PKG::fmt
+        CONAN_PKG::range-v3
+        CONAN_PKG::magic_enum
+        CONAN_PKG::namedtype
+)
 target_compile_options(xania_lib PUBLIC -fconcepts)
 
 add_executable(xania main.cpp)

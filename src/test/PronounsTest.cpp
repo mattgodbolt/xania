@@ -1,6 +1,7 @@
 #include "Pronouns.hpp"
 #include "ArgParser.hpp"
 #include "Char.hpp"
+#include "Sex.hpp"
 #include "merc.h"
 
 #include <catch2/catch.hpp>
@@ -17,7 +18,7 @@ TEST_CASE("pronouns for") {
     Char player{};
     player.pcdata = std::make_unique<PcData>();
     SECTION("male standard no custom") {
-        player.sex = SEX_MALE;
+        player.sex = Sex::male();
         const auto custom = pronouns_for(player).first;
         auto expected_cust = std::tie(exp_uncustomized.possessive, exp_uncustomized.objective,
                                       exp_uncustomized.subjective, exp_uncustomized.reflexive);
@@ -30,7 +31,7 @@ TEST_CASE("pronouns for") {
         REQUIRE(expected_std == actual_std);
     }
     SECTION("female standard") {
-        player.sex = SEX_FEMALE;
+        player.sex = Sex::female();
         const auto standard = pronouns_for(player).second;
         auto expected_std =
             std::tie(exp_female.possessive, exp_female.objective, exp_female.subjective, exp_female.reflexive);
@@ -38,6 +39,7 @@ TEST_CASE("pronouns for") {
         REQUIRE(expected_std == actual_std);
     }
     SECTION("neutral standard") {
+        player.sex = Sex::neutral();
         const auto standard = pronouns_for(player).second;
         auto expected_std =
             std::tie(exp_neutral.possessive, exp_neutral.objective, exp_neutral.subjective, exp_neutral.reflexive);
@@ -45,7 +47,7 @@ TEST_CASE("pronouns for") {
         REQUIRE(expected_std == actual_std);
     }
     SECTION("male custom") {
-        player.sex = SEX_MALE;
+        player.sex = Sex::male();
         player.pcdata.get()->pronouns.possessive = "zer";
         player.pcdata.get()->pronouns.objective = "hir";
         player.pcdata.get()->pronouns.subjective = "ze";
@@ -61,7 +63,7 @@ TEST_CASE("pronoun shortcuts") {
     Char player{};
     player.pcdata = std::make_unique<PcData>();
     SECTION("no custom") {
-        player.sex = SEX_FEMALE;
+        player.sex = Sex::female();
         SECTION("possessive") {
             const auto &result = possessive(player);
             REQUIRE("her" == result);
@@ -80,7 +82,7 @@ TEST_CASE("pronoun shortcuts") {
         }
     }
     SECTION("custom") {
-        player.sex = SEX_MALE;
+        player.sex = Sex::male();
         player.pcdata.get()->pronouns.possessive = "zer";
         player.pcdata.get()->pronouns.objective = "hir";
         player.pcdata.get()->pronouns.subjective = "ze";

@@ -56,7 +56,12 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
     // vital statistics
     start_pos = position_lookup(fread_word(fp));
     default_pos = position_lookup(fread_word(fp));
-    sex = sex_lookup(fread_word(fp));
+    if (auto opt_sex = Sex::try_from_name(fread_word(fp))) {
+        sex = *opt_sex;
+    } else {
+        bug("Unrecognized sex.");
+        exit(1);
+    }
     gold = fread_number(fp);
 
     form = fread_flag(fp) | race_table[race].form;
