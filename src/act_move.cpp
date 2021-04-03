@@ -1082,12 +1082,10 @@ void do_train(Char *ch, ArgParser args) {
     }
 
     const std::array always_trainable = {"hp"sv, "mana"sv};
-    // With newer `fmt` we can avoid the `to` and inline the whole thing.
-    // waiting on https://github.com/fmtlib/fmt/commit/febffa4e64b60099055d057c7818951ccb33ad69 being merged
-    const auto trainable = ranges::views::concat(all_stats | ranges::views::filter([&](auto stat) {
-                                                     return ch->perm_stat[stat] < get_max_train(ch, stat);
-                                                 }) | ranges::views::transform(to_short_string),
-                                                 always_trainable)
-                           | ranges::to<std::vector<std::string_view>>;
-    ch->send_line("You can train: {}.", fmt::join(trainable, " "sv));
+    ch->send_line("You can train: {}.",
+                  fmt::join(ranges::views::concat(all_stats | ranges::views::filter([&](auto stat) {
+                                                      return ch->perm_stat[stat] < get_max_train(ch, stat);
+                                                  }) | ranges::views::transform(to_short_string),
+                                                  always_trainable),
+                            " "sv));
 }
