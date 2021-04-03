@@ -34,6 +34,9 @@ type 'brief' to see shorter room descriptions when you walk around.~
 
 use the 'cast' command to use any spells your character may have.~
 
+use the 'wimpy' command each time you level so that you will
+     automatically flee at 10% health!~
+
 the 'colour' command can be used to toggle ANSI colour mode.~
 
 use 'description' to create a textual description of your character.~
