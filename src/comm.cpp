@@ -909,9 +909,10 @@ void nanny(Descriptor *d, const char *argument) {
         group_add(ch, "rom basics", false);
         group_add(ch, class_table[ch->class_num].base_group, false);
         ch->pcdata->learned[gsn_recall] = 50;
-        d->write("Do you wish to customize this character?\n\r");
-        d->write("Customization takes time, but allows a wider range of skills and abilities.\n\r");
-        d->write("Customize (Y/N)? ");
+        ch->send_line("Customizing your character allows for a wider range of skills,  If you're new");
+        ch->send_line("to the game we recommend skipping customization for now.");
+        ch->send_line("At level 60+ characters can learn skills they didn't start with.");
+        ch->send_line("Customize (Y/N)? ");
         d->state(DescriptorState::DefaultChoice);
         break;
 
@@ -924,7 +925,7 @@ void nanny(Descriptor *d, const char *argument) {
             ch->gen_data->points_chosen = ch->pcdata->points;
             do_help(ch, "group header");
             list_group_costs(ch);
-            d->write("You already have the following skills:\n\r");
+            ch->send_line("You already have the following skills:");
             do_skills(ch);
             do_help(ch, "menu choice");
             d->state(DescriptorState::GenGroups);
@@ -958,7 +959,7 @@ void nanny(Descriptor *d, const char *argument) {
         }
 
         if (!parse_gen_groups(ch, argument))
-            ch->send_line("Choices are: list,learned,premise,add,drop,info,help, and done.");
+            ch->send_line("Choice (add, drop, help, info, learned, list, done)?");
 
         do_help(ch, "menu choice");
         break;

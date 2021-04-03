@@ -154,47 +154,48 @@ bombs           Although strictly speaking, they are not magical, bombs can
 ~
  
 -1 'GROUP HEADER'~
-The following skills and groups are available to your chacter:
-(this list may be seen again by typing list)
+Type 'help' for a useful introduction to character customization.
+The following skills and groups are available to your character:
+(this list may be seen again by typing 'list')
+~
+
+-1 'GROUP ADVICE'~
+The skills and spells you pick at creation are not the only ones you
+can ever gain. From level 60, you can spend 'train' points on new skills 
+and spells you didn't start with.
+
+Skills and spells cost creation points (CP). Once your character has more than
+about 40 CP it will require more experience points to gain levels.
+
+Skill groups are bundles of related skills or spells, and some groups contain
+_other_ groups! Use "info" to show all the groups you currently have, and 
+"info groupname" to see what's provided by a specific group. 
+
+Every class has a "default" skill group (e.g. "mage default"). When customizing,
+the default skill group is NOT granted automatically! It's a wise one to add 
+as it costs few points for what it provides.
+
+We recommend that you create a balanced character that has a variety of
+abilities so that you have between 1200 and 4000 exp per level.
+
 ~
 
 -1 'GROUP HELP'~
 The following commands are available:
-list         display all groups and skills not yet bought
-learned      show all groups and skills bought 
-premise      brief explanation of creation points and skill groups
-add <name>   buy a skill or group
-drop <name>  discard a skill or group
-info <name>  list the skills or spells contained within a group
-help <name>  help on skills and groups, or other help topics
-done	     exit the character generation process
+list           display all groups and skills not yet bought
+learned        show all groups and skills bought 
+add <name>     buy a skill or group
+drop <name>    discard a skill or group
+info           an expanded list of skill/spell groups you currently have
+info <name>    list the skills or spells contained within a group e.g.
+                  info mage basics
+                  info transportation
+help <name>    help on skills and groups, or other help topics
+done           exit the character generation process
 ~
 
 -1 'MENU CHOICE'~
-Choice (add,drop,list,help,info,done)?~
-
--1 'GROUPS' 'INFO' 'PREMISE'~
-The Xanian skill system allows you to fully customize your new character,
-making him or her skilled in the skills you choose. The skills and spells
-which you pick at creation are |Cnot|w the only ones you can ever gain,
-for you can expend 'trains' at a later stage to improve your character in
-many ways. 
-
-Skills and spells are paid for with creation points, and the more
-creation points you have, the harder it is to gain a level. Furthermore, 
-higher-cost skills are harder to practice.
-
-Skill groups are like package deals for characters - sets of skills or spells
-that are closely related, and hence can be learned as a unit.  There is a 
-default skill group for each class, which can be selected for a balanced 
-selection of skills at a somewhat reduced cost.
-
-Faramir recommends that you try to create a balanced character which has
-a variety of skills and/or spells (depending on whether you wish to be
-a magical person or not) so that you have between 1200 and 4000 exp per
-level. To have more than 4000 will give you a far greater challenge in
-the game, especially at higher levels.
-~
+Choice (add, drop, help, info, learned, list, done)?~
 
 -1 BASICS~
 The basic skills:

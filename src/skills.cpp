@@ -440,6 +440,7 @@ bool parse_gen_groups(Char *ch, const char *argument) {
 
     if (!str_prefix(arg, "help")) {
         if (argument[0] == '\0') {
+            do_help(ch, "group advice");
             do_help(ch, "group help");
             return true;
         }
@@ -538,11 +539,6 @@ bool parse_gen_groups(Char *ch, const char *argument) {
         }
 
         ch->send_line("You haven't bought any such skill or group.");
-        return true;
-    }
-
-    if (!str_prefix(arg, "premise")) {
-        do_help(ch, "premise");
         return true;
     }
 
