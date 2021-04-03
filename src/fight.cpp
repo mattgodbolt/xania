@@ -2242,6 +2242,7 @@ void do_dirt(Char *ch, const char *argument) {
 
     case SectorType::Field: chance += 5; break;
 
+    case SectorType::Unused:
     case SectorType::NonSwimmableWater:
     case SectorType::SwimmableWater:
     case SectorType::Air: chance = 0; break;

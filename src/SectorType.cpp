@@ -16,6 +16,7 @@ std::string_view to_string(SectorType type) {
     case SectorType::Mountain: return "mountain";
     case SectorType::SwimmableWater: return "water (swimmable)";
     case SectorType::NonSwimmableWater: return "water (non-swimmable)";
+    case SectorType::Unused: return "(unused)";
     case SectorType::Air: return "air";
     case SectorType::Desert: return "desert";
     }

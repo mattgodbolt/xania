@@ -4,6 +4,7 @@
 
 #include <fmt/format.h>
 
+#include <magic_enum.hpp>
 #include <optional>
 #include <string_view>
 
@@ -18,12 +19,12 @@ enum class SectorType {
     Mountain = 5,
     SwimmableWater = 6,
     NonSwimmableWater = 7,
-    // 8 is unused
+    Unused = 8,
     Air = 9,
     Desert = 10,
 };
 
-static constexpr int SectorType_Max = 11; // TODO ideally find a nice way to make this better
+static constexpr int SectorType_Max = magic_enum::enum_count<SectorType>();
 template <typename T>
 using PerSectorType = PerEnum<SectorType, T, SectorType_Max>;
 
