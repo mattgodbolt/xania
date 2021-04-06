@@ -5,6 +5,10 @@ Found on @mattgodbolt's hard disk, and resurrected. Shows the code behind a
 UK-based Multi-User Dungeon that my university housemates and I ran, built and
 administrated in late 1990s.
 
+## Discord
+
+We chat about the mud [here](https://discord.gg/Xsstufyt8t). Feel free to drop in.
+
 ## Building and running
 
 If you want to build and run Xania locally, you'll need a modern Linux (Ubuntu 18.04 and 20.04 have been tested). You'll
