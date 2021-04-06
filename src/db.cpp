@@ -35,6 +35,11 @@
 #include <range/v3/algorithm/find_if.hpp>
 #include <sys/resource.h>
 
+namespace {
+static inline constexpr auto RoomResetAgeOccupiedArea = 15;
+static inline constexpr auto RoomResetAgeUnoccupiedArea = 10;
+}
+
 /* Externally referenced functions. */
 void wiznet_initialise();
 
@@ -331,7 +336,7 @@ void load_area(FILE *fp, const std::string &area_name) {
     pArea->area_flags = AREA_LOADING;
     pArea->filename = area_name;
 
-    pArea->age = 15;
+    pArea->age = RoomResetAgeOccupiedArea; // trigger an area reset when main game loop starts
     pArea->nplayer = 0;
     pArea->empty = false;
 
@@ -773,25 +778,33 @@ void fix_exits() {
     }
 }
 
-/* Repopulate areas periodically. */
+/* Repopulate areas periodically. An area ticks every minute (Constants.hpp PULSE_AREA).
+ * Regular areas reset every:
+ * - ~15 minutes if occupied by players.
+ * - ~10 minutes if unoccupied by players.
+ * Mud School runs an accelerated schedule so that newbies don't get bored and confused:
+ * - Every 2 minutes if occupied by players.
+ * - Every minute if unoccupied by players.
+ *
+ * "pArea->empty" has subtley different meaning to "pArea->nplayer == 0". "empty" is set false
+ * whenever a player enters any room in the area (see char_to_room()).
+ * nplayer is decremented whenever a player leaves a room within the area, but the empty flag is only set true
+ * if the area has aged sufficiently to be reset _and_ if there are still no players in the area.
+ * This means that players can't force an area to reset more quickly simply by stepping out of it!
+ *
+ * Due to the special case code below, Mud School _never_ gets flagged as empty.
+ */
 void area_update() {
     for (auto &pArea : AreaList::singleton()) {
-
-        if (++pArea->age < 3)
-            continue;
-
-        /*
-         * Check age and reset.
-         * Note: Mud School resets every 3 minutes (not 15).
-         */
-        if ((!pArea->empty && (pArea->nplayer == 0 || pArea->age >= 15)) || pArea->age >= 31) {
+        ++pArea->age;
+        if ((!pArea->empty && pArea->age >= RoomResetAgeOccupiedArea)
+            || (pArea->empty && pArea->age >= RoomResetAgeUnoccupiedArea)) {
             ROOM_INDEX_DATA *pRoomIndex;
-
             reset_area(pArea.get());
             pArea->age = number_range(0, 3);
             pRoomIndex = get_room_index(rooms::MudschoolEntrance);
             if (pRoomIndex != nullptr && pArea.get() == pRoomIndex->area)
-                pArea->age = 15 - 2;
+                pArea->age = RoomResetAgeUnoccupiedArea;
             else if (pArea->nplayer == 0)
                 pArea->empty = true;
         }
@@ -801,209 +814,195 @@ void area_update() {
 /*
  * Reset one room.  Called by reset_area.
  */
-void reset_room(ROOM_INDEX_DATA *pRoom) {
-    RESET_DATA *pReset;
-    OBJ_DATA *pObj;
-    Char *LastMob = nullptr;
-    OBJ_DATA *LastObj = nullptr;
-    bool last;
-
-    if (!pRoom)
+void reset_room(ROOM_INDEX_DATA *room) {
+    RESET_DATA *reset;
+    Char *lastMob = nullptr;
+    bool lastMobWasReset = false;
+    if (!room)
         return;
 
-    last = false;
-
     for (auto exit_dir : all_directions) {
-        EXIT_DATA *pExit;
-        if ((pExit = pRoom->exit[exit_dir])) {
-            pExit->exit_info = pExit->rs_flags;
-            if ((pExit->u1.to_room != nullptr) && ((pExit = pExit->u1.to_room->exit[reverse(exit_dir)]))) {
+        EXIT_DATA *exit;
+        if ((exit = room->exit[exit_dir])) {
+            exit->exit_info = exit->rs_flags;
+            if ((exit->u1.to_room != nullptr) && ((exit = exit->u1.to_room->exit[reverse(exit_dir)]))) {
                 /* nail the other side */
-                pExit->exit_info = pExit->rs_flags;
+                exit->exit_info = exit->rs_flags;
             }
         }
     }
 
-    for (pReset = pRoom->reset_first; pReset != nullptr; pReset = pReset->next) {
-        MobIndexData *pMobIndex;
-        OBJ_INDEX_DATA *pObjIndex;
-        OBJ_INDEX_DATA *pObjToIndex;
-        ROOM_INDEX_DATA *pRoomIndex;
-
-        switch (pReset->command) {
-        default: bug("Reset_room: bad command {}.", pReset->command); break;
+    for (reset = room->reset_first; reset != nullptr; reset = reset->next) {
+        switch (reset->command) {
+        default: bug("Reset_room: bad command {}.", reset->command); break;
 
         case RESETS_MOB_IN_ROOM: {
-            if (!(pMobIndex = get_mob_index(pReset->arg1))) {
-                bug("Reset_room: 'M': bad vnum {}.", pReset->arg1);
+            MobIndexData *mobIndex;
+            if (!(mobIndex = get_mob_index(reset->arg1))) {
+                bug("Reset_room: 'M': bad vnum {}.", reset->arg1);
                 continue;
             }
-            if (pMobIndex->count >= pReset->arg2) {
-                last = false;
-                break;
+            if (mobIndex->count >= reset->arg2) {
+                lastMobWasReset = false;
+                continue;
             }
             int count = 0;
-            for (auto *mch : pRoom->people) {
-                if (mch->pIndexData == pMobIndex) {
+            for (auto *mch : room->people) {
+                if (mch->pIndexData == mobIndex) {
                     count++;
-                    if (count >= pReset->arg4) {
-                        last = false;
+                    if (count >= reset->arg4) {
+                        lastMobWasReset = false;
                         break;
                     }
                 }
             }
 
-            if (count >= pReset->arg4)
-                break;
-
-            auto *pMob = create_mobile(pMobIndex);
-
-            /*
-             * Pet shop mobiles get ACT_PET set.
-             */
-            {
-                ROOM_INDEX_DATA *pRoomIndexPrev;
-
-                pRoomIndexPrev = get_room_index(pRoom->vnum - 1);
-                if (pRoomIndexPrev && IS_SET(pRoomIndexPrev->room_flags, ROOM_PET_SHOP))
-                    SET_BIT(pMob->act, ACT_PET);
-            }
-
-            char_to_room(pMob, pRoom);
-
-            LastMob = pMob;
-            last = true;
-        } break;
-
-        case RESETS_OBJ_IN_ROOM:
-            if (!(pObjIndex = get_obj_index(pReset->arg1))) {
-                bug("Reset_room: 'O': bad vnum {}.", pReset->arg1);
+            if (count >= reset->arg4)
                 continue;
-            }
 
-            if (!(pRoomIndex = get_room_index(pReset->arg3))) {
-                bug("Reset_room: 'O': bad vnum {}.", pReset->arg3);
-                continue;
-            }
+            auto *mob = create_mobile(mobIndex);
 
-            if (pRoom->area->nplayer > 0 || count_obj_list(pObjIndex, pRoom->contents) > 0) {
-                last = false;
-                break;
-            }
+            // Pet shop mobiles get ACT_PET set.
+            ROOM_INDEX_DATA *previousRoomIndex;
+            previousRoomIndex = get_room_index(room->vnum - 1);
+            if (previousRoomIndex && IS_SET(previousRoomIndex->room_flags, ROOM_PET_SHOP))
+                SET_BIT(mob->act, ACT_PET);
 
-            pObj = create_object(pObjIndex);
-            pObj->cost = 0;
-            obj_to_room(pObj, pRoom);
+            char_to_room(mob, room);
+            lastMob = mob;
+            lastMobWasReset = true;
             break;
+        }
 
-        case RESETS_PUT_OBJ_OBJ:
-            if (!(pObjIndex = get_obj_index(pReset->arg1))) {
-                bug("Reset_room: 'P': bad vnum {}.", pReset->arg1);
+        case RESETS_OBJ_IN_ROOM: {
+            OBJ_INDEX_DATA *objIndex;
+            ROOM_INDEX_DATA *roomIndex;
+            if (!(objIndex = get_obj_index(reset->arg1))) {
+                bug("Reset_room: 'O': bad vnum {}.", reset->arg1);
                 continue;
             }
 
-            if (!(pObjToIndex = get_obj_index(pReset->arg3))) {
-                bug("Reset_room: 'P': bad vnum {}.", pReset->arg3);
+            if (!(roomIndex = get_room_index(reset->arg3))) {
+                bug("Reset_room: 'O': bad vnum {}.", reset->arg3);
                 continue;
             }
 
+            if (room->area->nplayer > 0 || count_obj_list(objIndex, room->contents) > 0) {
+                continue;
+            }
+
+            auto object = create_object(objIndex);
+            object->cost = 0;
+            obj_to_room(object, room);
+            break;
+        }
+
+        case RESETS_PUT_OBJ_OBJ: {
             int limit, count;
-            if (pReset->arg2 > 20) /* old format reduced from 50! */
+            OBJ_INDEX_DATA *containedObjIndex;
+            OBJ_INDEX_DATA *containerObjIndex;
+            OBJ_DATA *containerObj;
+            if (!(containedObjIndex = get_obj_index(reset->arg1))) {
+                bug("Reset_room: 'P': bad vnum {}.", reset->arg1);
+                continue;
+            }
+
+            if (!(containerObjIndex = get_obj_index(reset->arg3))) {
+                bug("Reset_room: 'P': bad vnum {}.", reset->arg3);
+                continue;
+            }
+
+            if (reset->arg2 > 20) /* old format reduced from 50! */
                 limit = 6;
-            else if (pReset->arg2 == -1) /* no limit */
+            else if (reset->arg2 == -1) /* no limit */
                 limit = 999;
             else
-                limit = pReset->arg2;
+                limit = reset->arg2;
 
-            if (pRoom->area->nplayer > 0 || (LastObj = get_obj_type(pObjToIndex)) == nullptr
-                || (LastObj->in_room == nullptr && !last) || (pObjIndex->count >= limit && number_range(0, 4) != 0)
-                || (count = count_obj_list(pObjIndex, LastObj->contains)) > pReset->arg4) {
-                last = false;
-                break;
-            }
-
-            while (count < pReset->arg4) {
-                pObj = create_object(pObjIndex);
-                obj_to_obj(pObj, LastObj);
-                count++;
-                if (pObjIndex->count >= limit)
-                    break;
-            }
-
-            /*
-             * Ensure that the container gets reset.
-             */
-            if (LastObj->item_type == ITEM_CONTAINER) {
-                LastObj->value[1] = LastObj->pIndexData->value[1];
-            }
-            last = true;
-            break;
-
-        case RESETS_GIVE_OBJ_MOB:
-        case RESETS_EQUIP_OBJ_MOB:
-            if (!(pObjIndex = get_obj_index(pReset->arg1))) {
-                bug("Reset_room: 'E' or 'G': bad vnum {}.", pReset->arg1);
+            // Don't create the contained object if:
+            // The area has players right now, or if the containing object doesn't exist in the world,
+            // or if already too many instances of contained object (and without 80% chance of "over spawning"),
+            // or if count of contained object within the container's current room exceeds the item-in-room limit.
+            if (room->area->nplayer > 0 || (containerObj = get_obj_type(containerObjIndex)) == nullptr
+                || (containedObjIndex->count >= limit && number_range(0, 4) != 0)
+                || (count = count_obj_list(containedObjIndex, containerObj->contains)) > reset->arg4) {
                 continue;
             }
 
-            if (!last)
-                break;
-
-            if (!LastMob) {
-                bug("Reset_room: 'E' or 'G': null mob for vnum {}.", pReset->arg1);
-                last = false;
-                break;
-            }
-
-            if (LastMob->pIndexData->pShop) /* Shop-keeper? */
-            {
-                pObj = create_object(pObjIndex);
-                SET_BIT(pObj->extra_flags, ITEM_INVENTORY);
-            }
-
-            else {
-                if (pReset->arg2 > 50) /* old format */
-                    limit = 6;
-                else if (pReset->arg2 == -1) /* no limit */
-                    limit = 999;
-                else
-                    limit = pReset->arg2;
-
-                if (pObjIndex->count < limit || number_range(0, 4) == 0) {
-                    pObj = create_object(pObjIndex);
-#ifdef notdef /* Hack for object levels */
-                    /* error message if it is too high */
-                    if (pObj->level > LastMob->level + 3
-                        || (pObj->item_type == ITEM_WEAPON && pReset->command == 'E' && pObj->level < LastMob->level - 5
-                            && pObj->level < 45))
-                        fprintf(stderr, "Err: obj %s (%d) -- %d, mob %s (%d) -- %d\n", pObj->short_descr,
-                                pObj->pIndexData->vnum, pObj->level, LastMob->short_descr, LastMob->pIndexData->vnum,
-                                LastMob->level);
-#endif
-                } else
+            while (count < reset->arg4) {
+                auto object = create_object(containedObjIndex);
+                obj_to_obj(object, containerObj);
+                count++;
+                if (containedObjIndex->count >= limit)
                     break;
             }
 
-            obj_to_char(pObj, LastMob);
-            if (pReset->command == RESETS_EQUIP_OBJ_MOB)
-                equip_char(LastMob, pObj, pReset->arg3);
-            last = true;
+            // Close the container if required.
+            if (containerObj->item_type == ITEM_CONTAINER) {
+                containerObj->value[1] = containerObj->pIndexData->value[1];
+            }
             break;
+        }
+
+        case RESETS_GIVE_OBJ_MOB:
+        case RESETS_EQUIP_OBJ_MOB: {
+            int limit;
+            OBJ_INDEX_DATA *objIndex;
+            OBJ_DATA *object;
+            if (!(objIndex = get_obj_index(reset->arg1))) {
+                bug("Reset_room: 'E' or 'G': bad vnum {}.", reset->arg1);
+                continue;
+            }
+
+            if (!lastMobWasReset)
+                continue;
+
+            if (!lastMob) {
+                bug("Reset_room: 'E' or 'G': null mob for vnum {}.", reset->arg1);
+                lastMobWasReset = false;
+                continue;
+            }
+
+            if (lastMob->pIndexData->pShop) { /* Shop-keeper? */
+                object = create_object(objIndex);
+                SET_BIT(object->extra_flags, ITEM_INVENTORY);
+            } else {
+                if (reset->arg2 > 50) /* old format */
+                    limit = 6;
+                else if (reset->arg2 == -1) /* no limit */
+                    limit = 999;
+                else
+                    limit = reset->arg2;
+
+                if (objIndex->count < limit || number_range(0, 4) == 0) {
+                    object = create_object(objIndex);
+                } else
+                    continue;
+            }
+
+            obj_to_char(object, lastMob);
+            if (reset->command == RESETS_EQUIP_OBJ_MOB)
+                equip_char(lastMob, object, reset->arg3);
+            lastMobWasReset = true;
+            break;
+        }
 
         case RESETS_EXIT_FLAGS: break;
 
-        case RESETS_RANDOMIZE_EXITS:
-            if (!(pRoomIndex = get_room_index(pReset->arg1))) {
-                bug("Reset_room: 'R': bad vnum {}.", pReset->arg1);
+        case RESETS_RANDOMIZE_EXITS: {
+            ROOM_INDEX_DATA *roomIndex;
+            if (!(roomIndex = get_room_index(reset->arg1))) {
+                bug("Reset_room: 'R': bad vnum {}.", reset->arg1);
                 continue;
             }
 
-            for (int d0 = 0; d0 < pReset->arg2 - 1; d0++) {
+            for (int d0 = 0; d0 < reset->arg2 - 1; d0++) {
                 auto door0 = try_cast_direction(d0).value();
-                auto door1 = try_cast_direction(number_range(d0, pReset->arg2 - 1)).value();
-                std::swap(pRoomIndex->exit[door0], pRoomIndex->exit[door1]);
+                auto door1 = try_cast_direction(number_range(d0, reset->arg2 - 1)).value();
+                std::swap(roomIndex->exit[door0], roomIndex->exit[door1]);
             }
             break;
+        }
         }
     }
 }
@@ -1014,7 +1013,6 @@ void reset_room(ROOM_INDEX_DATA *pRoom) {
 void reset_area(AREA_DATA *pArea) {
     ROOM_INDEX_DATA *pRoom;
     int vnum;
-
     for (vnum = pArea->lvnum; vnum <= pArea->uvnum; vnum++) {
         if ((pRoom = get_room_index(vnum)))
             reset_room(pRoom);
