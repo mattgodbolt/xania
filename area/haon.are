@@ -2573,14 +2573,7 @@ E   1   6000   10     16     a lumber axe wielded
 E   1   6001   10      5     a chequered shirt on body                
 E   1   6002   10      8     a pair of leather boots on feet                
 D   0   6009    0      1  Outside a small cabin in the forest: Door north closed
-M 0 309 5 6012 1  1   John the Lumberjack into An intersection in the dense forest
-  
-M 0 309 5 6015 1  1   John the Lumberjack into A small path in the dense forest
-  
-M 0 309 5 6017 1  1   John the Lumberjack into A small path in the dense forest
-  
-M 0 309 5 6019 1  1   John the Lumberjack into A small path in the dense forest
-  
+
 M 0 6002 1 6022 1  1   the brown bear into Inside the cave
   
 M 0 6004 1 6023 1  1   the fallow deer into On a small, grassy field

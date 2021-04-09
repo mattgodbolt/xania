@@ -262,7 +262,6 @@ You see your mighty guildmaster in his glowing suit of armour. He appears to
 be a formidable warrior and evidently, you are in capable hands.
 ~
 human~
-
 BKSV DFZ 1000 0
 36 0 1d1+1999 1d1+199 3d8+24 punch
 -30 -30 -30 -30
@@ -2578,7 +2577,7 @@ bracer standard merc~
 a standard issue bracer~
 You see a standard issue bracer here.~
 bronze~
-9 0 4097
+armor 0 4097
 2 4 4 1 0
 6 1 0 P
 E

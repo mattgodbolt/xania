@@ -182,7 +182,6 @@ void load_objects(FILE *fp);
 
 void load_resets(FILE *fp);
 void new_reset(ROOM_INDEX_DATA *, RESET_DATA *);
-void validate_resets();
 
 void load_rooms(FILE *fp);
 
@@ -482,84 +481,6 @@ void load_resets(FILE *fp) {
     }
 }
 
-void validate_resets() {
-    OBJ_INDEX_DATA *temp_index;
-    ROOM_INDEX_DATA *pRoom;
-    RESET_DATA *pReset, *pReset_next, *pReset_last;
-    int vnum;
-    bool Okay, oldBoot;
-
-    for (auto &pArea : AreaList::singleton()) {
-        for (vnum = pArea->lvnum; vnum <= pArea->uvnum; vnum++) {
-            oldBoot = fBootDb;
-            fBootDb = false;
-            pRoom = get_room_index(vnum);
-            fBootDb = oldBoot;
-
-            pReset_last = nullptr;
-            if (pRoom) {
-                for (pReset = pRoom->reset_first; pReset; pReset = pReset_next) {
-                    pReset_next = pReset->next;
-                    Okay = true;
-
-                    /*
-                     * Validate parameters.
-                     * We're calling the index functions for the side effect.
-                     */
-                    switch (pReset->command) {
-                    case RESETS_MOB_IN_ROOM:
-                        if (!(get_mob_index(pReset->arg1))) {
-                            Okay = false;
-                            bug("Get_mob_index: bad vnum {} in reset in room {}.", pReset->arg1, pRoom->vnum);
-                        }
-                        break;
-                    case RESETS_OBJ_IN_ROOM:
-                        temp_index = get_obj_index(pReset->arg1);
-                        if (temp_index)
-                            temp_index->reset_num++;
-                        else {
-                            Okay = false;
-                            bug("Get_obj_index: bad vnum {} in reset in room {}.", pReset->arg1, pRoom->vnum);
-                        }
-                        break;
-                    case RESETS_PUT_OBJ_OBJ:
-                        temp_index = get_obj_index(pReset->arg1);
-                        if (temp_index)
-                            temp_index->reset_num++;
-                        else {
-                            Okay = false;
-                            bug("Get_obj_index: bad vnum {} in reset in room {}.", pReset->arg1, pRoom->vnum);
-                        }
-                        break;
-                    case RESETS_GIVE_OBJ_MOB:
-                    case RESETS_EQUIP_OBJ_MOB:
-                        temp_index = get_obj_index(pReset->arg1);
-                        if (temp_index)
-                            temp_index->reset_num++;
-                        else {
-                            Okay = false;
-                            bug("Get_obj_index: bad vnum {} in reset in room {}.", pReset->arg1, pRoom->vnum);
-                        }
-                        break;
-                    case RESETS_EXIT_FLAGS:
-                    case RESETS_RANDOMIZE_EXITS: break;
-                    }
-
-                    if (!Okay) {
-                        /* This is a wrong reset. Remove it. */
-                        if (pReset_last)
-                            pReset_last->next = pReset_next;
-                        else
-                            pRoom->reset_first = pReset_next;
-                        /* free_reset_data(pReset); TODO: This is old code, figure out if it's needed... */
-                    } else
-                        pReset_last = pReset;
-                }
-            }
-        }
-    }
-}
-
 /* Snarf a room section. */
 void load_rooms(FILE *fp) {
 
@@ -678,11 +599,11 @@ void load_shops(FILE *fp) {
     for (;;) {
         MobIndexData *pMobIndex;
         int iTrade;
-
-        pShop = static_cast<SHOP_DATA *>(alloc_perm(sizeof(*pShop)));
-        pShop->keeper = fread_number(fp);
-        if (pShop->keeper == 0)
+        auto shopkeeper_vnum = fread_number(fp);
+        if (shopkeeper_vnum == 0) 
             break;
+        pShop = static_cast<SHOP_DATA *>(alloc_perm(sizeof(*pShop)));
+        pShop->keeper = shopkeeper_vnum;
         for (iTrade = 0; iTrade < MAX_TRADE; iTrade++)
             pShop->buy_type[iTrade] = fread_number(fp);
         pShop->profit_buy = fread_number(fp);
@@ -967,12 +888,8 @@ void reset_room(ROOM_INDEX_DATA *room) {
                 object = create_object(objIndex);
                 SET_BIT(object->extra_flags, ITEM_INVENTORY);
             } else {
-                if (reset->arg2 > 50) /* old format */
-                    limit = 6;
-                else if (reset->arg2 == -1) /* no limit */
-                    limit = 999;
-                else
-                    limit = reset->arg2;
+                limit = reset->arg2;
+                // FIXME probability check...
 
                 if (objIndex->count < limit || number_range(0, 4) == 0) {
                     object = create_object(objIndex);

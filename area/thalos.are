@@ -2237,13 +2237,13 @@ P 1 3105 3 5227 1  1   the glass cabinet
 D   0   5267    3      1  A valley in the dark dwarf forest: Door west closed
 D   0   5268    1      1  A small ugly cave: Door east closed
 D   0   5270    5      1  Down the path into a dead end: Door down closed
-M 0 5110 2 5270 1  1   The stone golem into Down the path into a dead end  
+M 0 5208 2 5270 1  1   The stone golem into Down the path into a dead end  
 E   1   5100   99     16      wielded                
-M 0 5110 2 5270 1  1   The stone golem into Down the path into a dead end  
+M 0 5208 2 5270 1  1   The stone golem into Down the path into a dead end  
 E   1   5100   99     16      wielded                
-M 0 5111 2 5267 1  1   The stone golem into A valley in the dark dwarf forest  
+M 0 5208 2 5267 1  1   The stone golem into A valley in the dark dwarf forest  
 E   1   5100   99     16      wielded                
-M 0 5111 2 5272 1  1   The stone golem into A dim trail in the dwarf forest  
+M 0 5208 2 5272 1  1   The stone golem into A dim trail in the dwarf forest  
 E   1   5100   99     16      wielded                
 S
 #SPECIALS

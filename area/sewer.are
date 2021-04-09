@@ -4193,7 +4193,7 @@ and the one of his heads hangs down. At the rope around his stomach
 hangs dead mouses and rats. He does not smell good.
 ~
 orc~
-CA J +200 0
+CA J 200 0
 6 3 1d1+125 1d1+120 2d3+3 slash
 -9 -9 -9 -7
 FENUC 0 0 0

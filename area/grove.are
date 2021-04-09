@@ -555,7 +555,7 @@ clear blue eyes you can see that He is aware of the world, and wise to its
 traps and pitfalls.
 ~
 unique~
-GHA DHN +1000 0
+GHA DHN 1000 0
 20 9 1d1+560 1d1+400 4d5+10 slash
 -18 -18 -18 -12
 FENU 0 0 0
@@ -572,7 +572,7 @@ clear blue eyes you can see that She is aware of the world, and wise to its
 traps and pitfalls.
 ~
 unique~
-GHA DHN +1000 0
+GHA DHN 1000 0
 20 9 1d1+560 1d1+400 4d5+10 slash
 -18 -18 -18 -12
 FENU 0 0 0

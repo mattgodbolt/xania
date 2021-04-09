@@ -2934,8 +2934,8 @@ S
 *
 M 0 4000 1 4030 1  1      The large snake  
 G 1 4001 10         Carry a cartographer corpse
-P 1 4002 3 4001 1  1      Which contains 50 coins.  
 G 1 4154 9 	     and a map
+P 1 4002 3 4001 1  1      Corpse contains 50 coins.  
 *
 M 0 4001 2 4025 1  1      a green snake  
 M 0 4001 2 4015 1  1      a green snake  
@@ -3046,12 +3046,6 @@ G 1 4104 3         Poisoned slime
 *
 M 0 4102 3 4103 1  1     A snake  
 G 1 4103 10        Slime
-*
-M 0 3005 5 4103 1  1 	   A thief  
-E 1 4053 4 16		thieve's dirk
-E 1 3068 8 7		hard leather pants
-E 1 3066 8 5		hard leather jerkin
-E 1 3069 8 8		hard leather boots 
 *
 M 0 4104 3 4124 1  1     A orc  
 E 1 4057 8 16		heavy mace

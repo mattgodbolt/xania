@@ -2076,71 +2076,68 @@ S
 * the town
 * mobs and equipment
 *
+O 0 3135 10 5808  fountain at cross roads
 M 0 5801 15 5806 1  1      storm trooper
-  
 E 1 5801 20 6            helmet
 E 1 5805 20 5            plate
 E 1 5831 -1 16           blaster
+
 M 0 5801 15 5808 1  1      storm trooper
-
-O 0 3135 10 5808  fountain at cross roads
-
 E 1 5805 20 5            plate
 E 1 5831 -1 16           blaster
-M 0 5801 15 5816 1  1      storm trooper
-  
+
+M 0 5801 15 5816 1  1      storm trooper 
 E 1 5801 20 6            helmet
 E 1 5805 20 5            plate
 E 1 5802 20 7            leg plates
 E 1 5803 20 10           arm guards
 E 1 5804 20 8            boots
 E 1 5831 -1 16           blaster
-M 0 5801 15 5814 1  1      storm trooper
-  
+
+M 0 5801 15 5814 1  1      storm trooper 
 E 1 5805 20 5            plate
 E 1 5802 20 7            leg plates
 E 1 5803 20 10           arm guards
 E 1 5831 -1 16           blaster
+
 M 0 5801 15 5818 1  1      storm trooper
-  
 E 1 5801 20 6            helmet
 E 1 5805 20 5            plate
 E 1 5802 20 7            leg plates
 E 1 5803 20 10           arm guards
+
 M 0 5801 15 5824 1  1      storm trooper
-  
 E 1 5805 20 5            plate
 E 1 5831 -1 16           blaster
+
 M 0 5801 15 5836 1  1      storm trooper
-  
 E 1 5805 20 5            plate
 E 1 5831 -1 16           blaster
+
 M 0 5801 15 5840 1  1      storm trooper
-  
 E 1 5801 20 6            helmet
 E 1 5831 -1 16           blaster
+
 M 0 5801 15 5845 1  1      storm trooper
-  
 E 1 5831 -1 16           blaster
+
 M 0 5801 15 5821 1  1      storm trooper
-  
 E 1 5831 -1 16           blaster
-*
+
 M 0 5802 10 5804 1  1      jawa
-  
 E 1 5829 20 16           hand blaster
+
 M 0 5802 10 5809 1  1      jawa
   
 M 0 5802 10 5818 1  1      jawa
   
 M 0 5802 10 5825 1  1      jawa
-  
 E 1 5829 20 16           hand blaster
+
 M 0 5802 10 5831 1  1      jawa
-  
 E 1 5829 20 16           hand blaster
+
 M 0 5802 10 5839 1  1      jawa
-  
 E 1 5829 20 16           hand blaster
 *
 * Droid Shop
@@ -2148,124 +2145,91 @@ E 1 5829 20 16           hand blaster
 M 0 5802 10 5819 1  1      jawa
   
 M 0 5805 20 5820 1  1      small droid
-  
-*
-M 0 5803 2 5803 1  1       sand person
-  
-E 1 5812 -1 15           gaffi stick
-M 0 5803 2 5803 1  1       sand person
-  
-E 1 5812 -1 15           gaffi stick
-*
-M 0 5804 1 5803 1  1       bantha
-  
-*
-M 0 5805 20 5806 1  1      small droid
-  
-M 0 5805 20 5815 1  1      small droid
-  
-M 0 5805 20 5825 1  1      small droid
-  
-M 0 5805 20 5844 1  1      small droid
-  
-M 0 5805 20 5830 1  1      small droid
-  
-*
-M 0 5806 4 5809 1  1       droid
-  
-M 0 5806 4 5810 1  1       droid
-  
-M 0 5806 4 5834 1  1       droid
-  
-M 0 5806 4 5822 1  1       droid
-  
-*
-M 0 5807 2 5840 1  1       large droid
-  
-E 1 5806 -1 0            power converter
-M 0 5807 2 5845 1  1       large droid
-  
-G 1 5807 3               restraining bolt
-*
-M 0 5808 10 5805 1  1      town person
-  
-E 1 5813 -1 16           hand blaster
-M 0 5808 10 5807 1  1      town person
-  
-M 0 5808 10 5812 1  1      town person
-  
-E 1 5813 -1 16           hand blaster
-M 0 5808 10 5816 1  1      town person
-  
-G 1 5816 -1              map
-M 0 5808 10 5816 1  1      town person
 
+M 0 5803 2 5803 1  1       sand person
+E 1 5812 -1 15           gaffi stick
+
+M 0 5803 2 5803 1  1       sand person
+E 1 5812 -1 15           gaffi stick
+
+M 0 5804 1 5803 1  1       bantha
+M 0 5805 20 5806 1  1      small droid
+M 0 5805 20 5815 1  1      small droid
+M 0 5805 20 5825 1  1      small droid
+M 0 5805 20 5844 1  1      small droid
+M 0 5805 20 5830 1  1      small droid
+M 0 5806 4 5809 1  1       droid
+M 0 5806 4 5810 1  1       droid  
+M 0 5806 4 5834 1  1       droid
+M 0 5806 4 5822 1  1       droid  
+M 0 5807 2 5840 1  1       large droid
+E 1 5806 -1 0            power converter
+
+M 0 5807 2 5845 1  1       large droid
+G 1 5807 3               restraining bolt
+
+M 0 5808 10 5805 1  1      town person
+E 1 5813 -1 16           hand blaster
+
+M 0 5808 10 5807 1  1      town person
+M 0 5808 10 5812 1  1      town person
+E 1 5813 -1 16           hand blaster
+
+M 0 5808 10 5816 1  1      town person
+G 1 5816 -1              map
+
+M 0 5808 10 5816 1  1      town person
 M 0 5828 2 5816 1  1      grinning alien
 M 0 5828 2 5817 1  1      grinning alien
 
 M 0 5808 10 5839 1  1      town person
-  
 E 1 5813 -1 16           hand blaster
+
 M 0 5808 10 5826 1  1      town person
-  
 M 0 5808 10 5841 1  1      town person
-  
 E 1 5813 -1 16           hand blaster
-*
+
 M 0 5809 10 5808 1  1      town person
-  
 M 0 5809 10 5821 1  1      town person
-  
 M 0 5809 10 5823 1  1      town person
-  
 G 1 5816 -1              map
+
 M 0 5809 10 5813 1  1      town person
-  
 M 0 5809 10 5816 1  1      town person
-  
 M 0 5809 10 5833 1  1      town person
-  
 M 0 5809 10 5807 1  1      town person
-  
 M 0 5809 10 5811 1  1      town person
-  
-*
 M 0 5810 5 5844 1  1       space man
-  
 E 1 5814 -1 16           hand blaster
+
 M 0 5810 5 5818 1  1       space man
-  
 E 1 5814 -1 16           hand blaster
-*
+
 M 0 5814 2 5844 1  1       mechanic
-  
 E 1 5809 -1 13           utility belt
 E 1 5832 -1 16           blaster
+
 M 0 5814 2 5845 1  1       mechanic
-  
 E 1 5832 -1 16           blaster
-*
+
 M 0 5816 3 5814 1  1       pilot
-  
 G 1 5816 -1              map
 E 1 5832 -1 16           blaster
+
 M 0 5816 3 5841 1  1       pilot
-  
 E 1 5832 -1 16           blaster
-*
+
 M 0 5818 1 5813 1  1       uncle owen
-  
 E 1 5832 -1 16           blaster
-*
+
 M 0 5820 1 5834 1  1       imperial spy
-  
 E 1 5815 5 16           laser pistol
-*
+
 M 0 5821 1 5842 1  1       chewbacca
-  
 E 1 5828 5 16           large blaster
-*
+
 O 1 5808 5 5828          bad motivator
+
 *
 * doors
 *
@@ -2282,107 +2246,82 @@ D 0 5838 3 1
 * mobs and equipment
 *
 M 0 5801 15 5847 1  1      storm trooper
-  
 E 1 5805 20 5            plate
 E 1 5831 -1 16           blaster
+
 M 0 5801 15 5849 1  1      storm trooper
-  
 E 1 5804 20 8            boots
 E 1 5831 -1 16           blaster
+
 M 0 5801 15 5851 1  1      storm trooper
-  
 E 1 5831 -1 16           blaster
+
 M 0 5801 15 5854 1  1      storm trooper
-  
 E 1 5801 20 6            helmet
 E 1 5805 20 5            plate
-*
+
 M 0 5802 10 5846 1  1      jawa
-  
 E 1 5829 -1 16           hand blaster
+
 M 0 5802 10 5856 1  1      jawa
-  
-*
 M 0 5808 10 5850 1  1      town person
-  
 M 0 5808 10 5852 1  1      town person
-  
 E 1 5813 -1 16           hand blaster
-*
+
 M 0 5809 10 5848 1  1      town person
-  
-*
 M 0 5810 5 5850 1  1       space man
-  
 E 1 5814 -1 16           hand blaster
+
 M 0 5810 5 5848 1  1       space man
-  
 E 1 5814 -1 16           hand blaster
+
 M 0 5810 5 5855 1  1       space man
-  
-*
 M 0 5811 1 5852 1  1       keyboardist
-  
-*
 M 0 5812 2 5852 1  1       musician
-  
 M 0 5812 2 5852 1  1       musician
-  
-*
 M 0 5813 1 5853 1  1       man
-  
 E 1 5811 -1 17           pipe
-*
+
 M 0 5815 1 5856 1  1       smuggler
-  
 E 1 5814 -1 16           hand blaster
-*
+
 M 0 5816 3 5850 1  1       pilot
-  
 E 1 5832 -1 16           blaster
-*
+
 M 0 5817 2 5855 1  1       drunk pilot
-  
 E 1 5831 -1 16           blaster
+
 M 0 5817 2 5853 1  1       drunk pilot
-  
 E 1 5831 -1 16           blaster
-*
+
 M 0 5819 1 5857 1  1       greedo
-  
 E 1 5830 -1 16           handcannon
-*
+
 M 0 5822 1 5848 1  1       jedi
-  
 E 1 5810 -1 14           plastic bracelet
 *
 * hero area
 *
 O 1 5821 1 5859          table
-*
+
 M 0 5827 1 5859 1  1       angela
-  
 G 1 5822 -1              friendship bracelet(92)
 *
 * shops
 *
 M 0 5826 1 5832 1  1       rain
-  
 G 1 5817 -1              white cloud
 G 1 5818 -1              red cloud
-*
+
 M 0 5823 1 5850 1  1       bartender
-  
 G 1 5824 -1              tea
 G 1 5825 -1              whisky
-*
+
 M 0 5824 1 5813 1  1       shopkeeper
-  
 G 1 5819 -1              canteen
 G 1 5820 -1              backpack
-*
+
 M 0 5825 1 5816 1  1       tom
-  
 G 1 5823 -1              meal
 G 1 5824 -1              tea
 G 1 5826 -1              lemonade
