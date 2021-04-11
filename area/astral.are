@@ -3276,72 +3276,72 @@ R   0   1942    6         Walking the Silvery Strand: Door(s) 0-6 randomized
 R   0   1943    6         Walking the Silvery Strand: Door(s) 0-6 randomized
 R   0   1944    6         Walking the Silvery Strand: Door(s) 0-6 randomized
 M 0 1900 1 1906 1  1   The Astral Guardian into The Astral Gate  
-E   0   1900    1     16     a massive slate-grey sledgehammer wielded                
+E   0   1900  90     16     a massive slate-grey sledgehammer wielded                
 D   0   1906    0      1  The Astral Gate: Door north closed
 D   0   1907    2      1  Into the Astral Plane: Door south closed
 M 0 1901 2 1933 1  1   A pitch-black nightmare into Lost in the Astral Plane  
-G   0   1904    1            a small demon's amulet in inventory
+G   0   1904  90            a small demon's amulet in inventory
 M 0 1901 2 1934 1  1   A pitch-black nightmare into Lost in the Astral Plane  
-G   0   1904    1            a small demon's amulet in inventory
+G   0   1904  90            a small demon's amulet in inventory
 M 0 1902 1 1946 1  1   An evil night hag into Deep Within the Astral Plane  
-G   0   1905    1            a devilish talisman in inventory
+G   0   1905  90            a devilish talisman in inventory
 M 0 1903 4 1920 1  1   An invisible stalker into Wandering the Astral Plane  
-G   0   1914    1            some astral powder in inventory
+G   0   1914  90            some astral powder in inventory
 M 0 1903 4 1924 1  1   An invisible stalker into Travelling the Astral Plane  
-G   0   1914    1            some astral powder in inventory
+G   0   1914  90            some astral powder in inventory
 M 0 1903 4 1926 1  1   An invisible stalker into Travelling the Astral Plane  
-G   0   1914    1            some astral powder in inventory
+G   0   1914  90            some astral powder in inventory
 M 0 1903 4 1930 1  1   An invisible stalker into Traversing the Astral Plane  
-G   0   1914    1            some astral powder in inventory
+G   0   1914  90            some astral powder in inventory
 M 0 1904 10 1913 1  1   A poor soulless being into Roaming the Astral Plane  
-E   0   1926    1     16     a rusted sword wielded                
+E   0   1926  90     16     a rusted sword wielded                
 M 0 1904 10 1914 1  1   A poor soulless being into Roaming the Astral Plane  
-E   0   1926    1     16     a rusted sword wielded                
+E   0   1926  90     16     a rusted sword wielded                
 M 0 1904 10 1915 1  1   A poor soulless being into Roaming the Astral Plane  
-E   0   1926    1     16     a rusted sword wielded                
+E   0   1926  90     16     a rusted sword wielded                
 M 0 1904 10 1916 1  1   A poor soulless being into Roaming the Astral Plane  
-E   0   1926    1     16     a rusted sword wielded                
+E   0   1926  90     16     a rusted sword wielded                
 M 0 1904 10 1917 1  1   A poor soulless being into Roaming the Astral Plane  
-E   0   1926    1     16     a rusted sword wielded                
+E   0   1926  90     16     a rusted sword wielded                
 M 0 1904 10 1918 1  1   A poor soulless being into Wandering the Astral Plane  
-E   0   1926    1     16     a rusted sword wielded                
+E   0   1926  90     16     a rusted sword wielded                
 M 0 1904 10 1919 1  1   A poor soulless being into Wandering the Astral Plane  
-E   0   1926    1     16     a rusted sword wielded                
+E   0   1926  90     16     a rusted sword wielded                
 M 0 1904 10 1920 1  1   A poor soulless being into Wandering the Astral Plane  
-E   0   1926    1     16     a rusted sword wielded                
+E   0   1926  90     16     a rusted sword wielded                
 M 0 1904 10 1921 1  1   A poor soulless being into Wandering the Astral Plane  
-E   0   1926    1     16     a rusted sword wielded                
+E   0   1926  90     16     a rusted sword wielded                
 M 0 1904 10 1922 1  1   A poor soulless being into Wandering the Astral Plane  
-E   0   1926    1     16     a rusted sword wielded                
+E   0   1926  90     16     a rusted sword wielded                
 M 0 1905 8 1918 1  1   A githyanki hunter into Wandering the Astral Plane  
-E   0   1907    1     16     a silvery dagger wielded                
+E   0   1907  90     16     a silvery dagger wielded                
 M 0 1905 8 1920 1  1   A githyanki hunter into Wandering the Astral Plane  
-E   0   1907    1     16     a silvery dagger wielded                
+E   0   1907  90     16     a silvery dagger wielded                
 M 0 1905 8 1922 1  1   A githyanki hunter into Wandering the Astral Plane  
-E   0   1907    1     16     a silvery dagger wielded                
+E   0   1907  90     16     a silvery dagger wielded                
 M 0 1905 8 1924 1  1   A githyanki hunter into Travelling the Astral Plane  
-E   0   1907    1     16     a silvery dagger wielded                
+E   0   1907  90     16     a silvery dagger wielded                
 M 0 1906 6 1923 1  1   A githyanki warrior into Travelling the Astral Plane  
-E   0   1909    1     16     a thin two-handed sword wielded                
-E   0   1915    1      5     a splint mail vest on body                
+E   0   1909  63     16     a thin two-handed sword wielded                
+E   0   1915  63      5     a splint mail vest on body                
 M 0 1906 6 1927 1  1   A githyanki warrior into Travelling the Astral Plane  
-E   0   1909    1     16     a thin two-handed sword wielded                
-E   0   1915    1      5     a splint mail vest on body                
+E   0   1909  63     16     a thin two-handed sword wielded                
+E   0   1915  63      5     a splint mail vest on body                
 M 0 1908 3 1930 1  1   A githyanki knight into Traversing the Astral Plane  
-E   0   1910    1     16     a silvery sword wielded
-E   0   1915    1      5     a splint mail vest on body                
-E   0   1916    1      7     a splint mail skirt on legs                
-E   0   1917    1     10     a pair of splint mail sleeves on arms                
+E   0   1910  40     16     a silvery sword wielded
+E   0   1915  40      5     a splint mail vest on body                
+E   0   1916  40      7     a splint mail skirt on legs                
+E   0   1917  40     10     a pair of splint mail sleeves on arms                
 M 0 1910 6 1929 1  1   An evil gish into Traversing the Astral Plane  
-E   0   1906    1     16     a silvery knife wielded                
+E   0   1906  90     16     a silvery knife wielded                
 M 0 1910 6 1931 1  1   An evil gish into Traversing the Astral Plane  
-E   0   1906    1     16     a silvery knife wielded                
+E   0   1906  90     16     a silvery knife wielded                
 M 0 1915 3 1945 1  1   An insubstantial ghost into Deep Within the Astral Plane  
-G   0   1921    1            a vial of murky fluid in inventory
+G   0   1921  90            a vial of murky fluid in inventory
 M 0 1915 3 1947 1  1   An insubstantial ghost into Deep Within the Astral Plane  
-G   0   1921    1            a vial of murky fluid in inventory
+G   0   1921  90            a vial of murky fluid in inventory
 M 0 1915 3 1949 1  1   An insubstantial ghost into Deep Within the Astral Plane  
-G   0   1921    1            a vial of murky fluid in inventory
+G   0   1921  90            a vial of murky fluid in inventory
 D   0   1950    0      1  Inside the Githyanki Keep: Door north closed
 D   0   1951    2      1  A guard station: Door south closed
 D   0   1951    1      1  A guard station: Door east closed
@@ -3376,64 +3376,64 @@ D   0   1977    5      1  Before the Altar: Door down closed
 D   0   1978    4      1  A Gateway to the Underworld: Door up closed
 D   0   1978    5      2  A Gateway to the Underworld: Door down locked
 M 0 1907 8 1951 1  1   A githyanki guardian into A guard station  
-E   0   1908    1     16     an extremely sharp and thin sword wielded                
-E   0   1915    1      5     a splint mail vest on body                
+E   0   1908  63     16     an extremely sharp and thin sword wielded                
+E   0   1915  63      5     a splint mail vest on body                
 M 0 1907 8 1951 1  1   A githyanki guardian into A guard station  
-E   0   1908    1     16     an extremely sharp and thin sword wielded                
-E   0   1915    1      5     a splint mail vest on body                
+E   0   1908  63     16     an extremely sharp and thin sword wielded                
+E   0   1915  63      5     a splint mail vest on body                
 M 0 1907 8 1965 1  1   A githyanki guardian into The Githyanki Weaponry  
-E   0   1908    1     16     an extremely sharp and thin sword wielded                
-E   0   1915    1      5     a splint mail vest on body                
+E   0   1908  63     16     an extremely sharp and thin sword wielded                
+E   0   1915  63      5     a splint mail vest on body                
 M 0 1907 8 1965 1  1   A githyanki guardian into The Githyanki Weaponry  
-E   0   1908    1     16     an extremely sharp and thin sword wielded                
-E   0   1915    1      5     a splint mail vest on body                
+E   0   1908  63     16     an extremely sharp and thin sword wielded                
+E   0   1915  63      5     a splint mail vest on body                
 M 0 1907 8 1967 1  1   A githyanki guardian into The Githyanki Armoury  
-E   0   1908    1     16     an extremely sharp and thin sword wielded                
-E   0   1915    1      5     a splint mail vest on body                
+E   0   1908  63     16     an extremely sharp and thin sword wielded                
+E   0   1915  63      5     a splint mail vest on body                
 M 0 1907 8 1967 1  1   A githyanki guardian into The Githyanki Armoury  
-E   0   1908    1     16     an extremely sharp and thin sword wielded                
-E   0   1915    1      5     a splint mail vest on body                
+E   0   1908  63     16     an extremely sharp and thin sword wielded                
+E   0   1915  63      5     a splint mail vest on body                
 M 0 1907 8 1969 1  1   A githyanki guardian into A guard station  
-E   0   1908    1     16     an extremely sharp and thin sword wielded                
-E   0   1915    1      5     a splint mail vest on body                
+E   0   1908  63     16     an extremely sharp and thin sword wielded                
+E   0   1915  63      5     a splint mail vest on body                
 M 0 1907 8 1969 1  1   A githyanki guardian into A guard station  
-E   0   1908    1     16     an extremely sharp and thin sword wielded                
-E   0   1915    1      5     a splint mail vest on body                
+E   0   1908  63     16     an extremely sharp and thin sword wielded                
+E   0   1915  63      5     a splint mail vest on body                
 M 0 1908 3 1955 1  1   A githyanki knight into A grey road  
-E   0   1910    1     16     a silvery sword wielded
-E   0   1915    1      5     a splint mail vest on body                
-E   0   1916    1      7     a splint mail skirt on legs                
-E   0   1917    1     10     a pair of splint mail sleeves on arms                
+E   0   1910  40     16     a silvery sword wielded
+E   0   1915  40      5     a splint mail vest on body                
+E   0   1916  40      7     a splint mail skirt on legs                
+E   0   1917  40     10     a pair of splint mail sleeves on arms                
 M 0 1911 6 1953 1  1   An evil gish into A grey road  
-E   0   1906    1     16     a silvery knife wielded                
+E   0   1906  90     16     a silvery knife wielded                
 M 0 1911 6 1959 1  1   An evil gish into A grey road  
-E   0   1906    1     16     a silvery knife wielded                
+E   0   1906  90     16     a silvery knife wielded                
 M 0 1911 6 1962 1  1   An evil gish into A small building  
-E   0   1906    1     16     a silvery knife wielded                
+E   0   1906  90     16     a silvery knife wielded                
 M 0 1911 6 1963 1  1   An evil gish into A small building  
-E   0   1906    1     16     a silvery knife wielded                
+E   0   1906  90     16     a silvery knife wielded                
 M 0 1911 6 1962 1  1   An evil gish into A small building  
-E   0   1906    1     16     a silvery knife wielded                
-G   0   1922    1            a silvery-colored potion in inventory
+E   0   1906  63     16     a silvery knife wielded                
+G   0   1922  63            a silvery-colored potion in inventory
 M 0 1911 6 1963 1  1   An evil gish into A small building  
-E   0   1906    1     16     a silvery knife wielded                
-G   0   1922    1            a silvery-colored potion in inventory
+E   0   1906  63     16     a silvery knife wielded                
+G   0   1922  63            a silvery-colored potion in inventory
 M 0 1912 4 1964 1  1   A warlock of the Gith into A large dwelling  
-E   0   1910    1     16     a silvery sword wielded                
-G   0   1903    1            a scroll with githyanki writings on it in inventory
+E   0   1910  63     16     a silvery sword wielded                
+G   0   1903  63            a scroll with githyanki writings on it in inventory
 M 0 1912 4 1973 1  1   A warlock of the Gith into A large dwelling  
-E   0   1910    1     16     a silvery sword wielded                
-G   0   1903    1            a scroll with githyanki writings on it in inventory
+E   0   1910  63     16     a silvery sword wielded                
+G   0   1903  63            a scroll with githyanki writings on it in inventory
 M 0 1912 4 1974 1  1   A warlock of the Gith into South End of the Hall  
-E   0   1910    1     16     a silvery sword wielded                
-G   0   1903    1            a scroll with githyanki writings on it in inventory
+E   0   1910  63     16     a silvery sword wielded                
+G   0   1903  63            a scroll with githyanki writings on it in inventory
 M 0 1912 4 1974 1  1   A warlock of the Gith into South End of the Hall  
-E   0   1910    1     16     a silvery sword wielded                
-G   0   1903    1            a scroll with githyanki writings on it in inventory
+E   0   1910  63     16     a silvery sword wielded                
+G   0   1903  63            a scroll with githyanki writings on it in inventory
 M 0 1916 1 1972 1  1   An imprisoned githzerai into A tiny cell  
 M 0 1917 1 1971 1  1   A tortured mindflayer prisoner into A cramped cell  
 M 0 1918 1 1968 1  1   The enslaved red dragon into Inside the furnace  
-E   0   1913    1      0     a bright flaming stone as light               
+E   0   1913  80      0     a bright flaming stone as light               
 M 0 1919 6 1968 1  1   A massive blast of fire into Inside the furnace  
 M 0 1919 6 1968 1  1   A massive blast of fire into Inside the furnace  
 M 0 1919 6 1968 1  1   A massive blast of fire into Inside the furnace  
@@ -3441,25 +3441,25 @@ M 0 1919 6 1968 1  1   A massive blast of fire into Inside the furnace
 M 0 1919 6 1968 1  1   A massive blast of fire into Inside the furnace  
 M 0 1919 6 1968 1  1   A massive blast of fire into Inside the furnace  
 M 0 1909 2 1976 1  1   A githyanki protector into The Altar Chamber  
-E   0   1910    1     16     a silvery sword wielded
-E   0   1915    1      5     a splint mail vest on body                
-E   0   1916    1      7     a splint mail skirt on legs                
-E   0   1917    1     10     a pair of splint mail sleeves on arms                
-E   0   1918    1      9     a pair of ornately designed gauntlets on hands               
+E   0   1910  36     16     a silvery sword wielded
+E   0   1915  36      5     a splint mail vest on body                
+E   0   1916  36      7     a splint mail skirt on legs                
+E   0   1917  36     10     a pair of splint mail sleeves on arms                
+E   0   1918  36      9     a pair of ornately designed gauntlets on hands               
 M 0 1909 2 1977 1  1   A githyanki protector into Before the Altar  
-E   0   1910    1     16     a silvery sword wielded
-E   0   1915    1      5     a splint mail vest on body                
-E   0   1916    1      7     a splint mail skirt on legs                
-E   0   1917    1     10     a pair of splint mail sleeves on arms                
-E   0   1918    1      9     a pair of ornately designed gauntlets on hands               
+E   0   1910  36     16     a silvery sword wielded
+E   0   1915  36      5     a splint mail vest on body                
+E   0   1916  36      7     a splint mail skirt on legs                
+E   0   1917  36     10     a pair of splint mail sleeves on arms                
+E   0   1918  36      9     a pair of ornately designed gauntlets on hands               
 M 0 1913 1 1977 1  1   The lich-queen into Before the Altar  
-E   0   1911    1     16     an iron barbed flail wielded                
-E   0   1924    1     17     a black pentagram held                   
-G   0   1902    1            a black etched tablet in inventory
+E   0   1911  54     16     an iron barbed flail wielded                
+E   0   1924 100     17     a black pentagram held                   
+G   0   1902  54            a black etched tablet in inventory
 M 0 1914 1 1979 1  1   Lord Gith into Utter darkness and despair  
-E   0   1912    1     16     The unholy sword of the githyanki wielded                
-E   0   1919    1      5     a decaying vest made from cracked leather on body                
-G   0   1925    1            a rotting pouch in inventory
+E   0   1912  54     16     The unholy sword of the githyanki wielded                
+E   0   1919  54      5     a decaying vest made from cracked leather on body                
+G   0   1925 100            a rotting pouch in inventory
 S
 #SPECIALS
 

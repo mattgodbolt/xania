@@ -15440,63 +15440,63 @@ A
 
 #RESETS
 M 0 16001 35 16001 1  1   the enforcer eye into Corner of Wyrm Street and Sunset  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16008 1  1   the enforcer eye into Wyrm street  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16010 1  1   the enforcer eye into Wyrm street  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16018 1  1   the enforcer eye into Wyrm street  
 M 0 16001 35 16032 1  1   the enforcer eye into Moonlight Avenue  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16035 1  1   the enforcer eye into Sunrise  
 M 0 16001 35 16037 1  1   the enforcer eye into Sunset  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16048 1  1   the enforcer eye into Diamond Street  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16063 1  1   the enforcer eye into Sunset  
 M 0 16001 35 16069 1  1   the enforcer eye into Emerald Street  
 M 0 16001 35 16080 1  1   the enforcer eye into Slaver's Route  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16087 1  1   the enforcer eye into Slaver's Route at Emerald  
 M 0 16001 35 16092 1  1   the enforcer eye into Slaver's Route  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16100 1  1   the enforcer eye into The slave's square  
 M 0 16001 35 16105 1  1   the enforcer eye into Sunrise  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16109 1  1   the enforcer eye into Street of the Gods, Snikt  
 M 0 16001 35 16120 1  1   the enforcer eye into Street of the Gods, Calliope  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16129 1  1   the enforcer eye into Road of Shadows  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16136 1  1   the enforcer eye into Road of Shadows  
 M 0 16001 35 16142 1  1   the enforcer eye into Road of Shadows  
 M 0 16001 35 16148 1  1   the enforcer eye into Forgotten Alley  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16155 1  1   the enforcer eye into Forgotten Alley  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16162 1  1   the enforcer eye into Forgotten Alley  
 M 0 16001 35 16172 1  1   the enforcer eye into Forgotten Alley  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16181 1  1   the enforcer eye into Azurite Street  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16186 1  1   the enforcer eye into Death's Lane  
 M 0 16001 35 16193 1  1   the enforcer eye into Death's Lane  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16201 1  1   the enforcer eye into Traveller's Crescent  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16212 1  1   the enforcer eye into Traveller's Crescent  
 M 0 16001 35 16217 1  1   the enforcer eye into Traveller's Crescent  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16337 1  1   the enforcer eye into The eastern entrance  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16336 1  1   the enforcer eye into Prison Hall  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16338 1  1   the enforcer eye into Western Entrance  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16001 35 16346 1  1   the enforcer eye into The end of the prison hallway  
-E   1  16001   -1      5     Scale of the enforcer on body                
+E   1  16001  90      5     Scale of the enforcer on body                
 M 0 16002 24 16003 1  1   the floating eye into Wyrm street  
-G   1  16002    5            Blood shot eye in inventory
+G   1  16002 100            Blood shot eye in inventory
 M 0 16002 24 16052 1  1   the floating eye into Diamond Street  
 M 0 16002 24 16087 1  1   the floating eye into Slaver's Route at Emerald  
 M 0 16002 24 16088 1  1   the floating eye into Slaver's Route before the Inn  
@@ -15505,7 +15505,7 @@ M 0 16002 24 16108 1  1   the floating eye into Street of the Gods, Silence
 M 0 16002 24 16113 1  1   the floating eye into Street of the Gods, Jhaele  
 M 0 16002 24 16120 1  1   the floating eye into Street of the Gods, Calliope  
 M 0 16002 24 16139 1  1   the floating eye into Road of Shadows  
-G   1  16002    5            Blood shot eye in inventory
+G   1  16002 100            Blood shot eye in inventory
 M 0 16002 24 16071 1  1   the floating eye into Sunrise  
 M 0 16002 24 16020 1  1   the floating eye into North east corner on Wrym and Sunrise  
 M 0 16002 24 16040 1  1   the floating eye into Sunset  
@@ -15514,7 +15514,7 @@ M 0 16002 24 16096 1  1   the floating eye into The Gathering Place
 M 0 16002 24 16177 1  1   the floating eye into Sunrise  
 M 0 16002 24 16152 1  1   the floating eye into Forgotten Alley  
 M 0 16002 24 16047 1  1   the floating eye into Diamond Street  
-G   1  16002    5            Blood shot eye in inventory
+G   1  16002 100            Blood shot eye in inventory
 M 0 16002 24 16047 1  1   the floating eye into Diamond Street  
 M 0 16002 24 16073 1  1   the floating eye into Sunrise  
 M 0 16002 24 16073 1  1   the floating eye into Sunrise  
@@ -15522,110 +15522,110 @@ M 0 16002 24 16083 1  1   the floating eye into Slaver's Route
 M 0 16002 24 16083 1  1   the floating eye into Slaver's Route  
 M 0 16002 24 16198 1  1   the floating eye into Beginning of Sunset  
 M 0 16002 24 16198 1  1   the floating eye into Beginning of Sunset  
-G   1  16002    5            Blood shot eye in inventory
+G   1  16002 100            Blood shot eye in inventory
 M 0 16003 3 16331 1  1   the prisoner into Prison Cell  
 M 0 16003 3 16334 1  1   the prisoner into Prison Cell  
 M 0 16003 3 16343 1  1   the prisoner into Prison Cell  
 M 0 16004 2 16345 1  1   the great enforcing eye into Prison Cell  
-G   1  16003    5            Slime of the enforcing eye in inventory
+G   1  16003  90            Slime of the enforcing eye in inventory
 M 0 16004 2 16347 1  1   the great enforcing eye into Chamber of the Beholder  
-G   1  16003    2           Slime of the enforcing eye in inventory
+G   1  16003  90           Slime of the enforcing eye in inventory
 M 0 16005 1 16339 1  1   the huge beholder into Prison Cell  
-G   1  16004    2            A huge eye of justice in inventory
+G   1  16004  90            A huge eye of justice in inventory
 M 0 16006 1 16239 1  1   the beholder into Vast Hall  
-G   1  16005    2            Beholder's eyestalk in inventory
+G   1  16005  90            Beholder's eyestalk in inventory
 M 0 16007 16 16089 1  1   the svirfneblin into Slaver's Route Before the Prisons  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16101 1  1   the svirfneblin into The slave's square  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16144 1  1   the svirfneblin into Sunrise  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16056 1  1   the svirfneblin into Diamond Street  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16046 1  1   the svirfneblin into Diamond Street  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16065 1  1   the svirfneblin into Moonlight Avenue  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16063 1  1   the svirfneblin into Sunset  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16147 1  1   the svirfneblin into Forgotten Alley  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16036 1  1   the svirfneblin into Sunset  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16034 1  1   the svirfneblin into Sunrise  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16086 1  1   the svirfneblin into Slaver's Route  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16201 1  1   the svirfneblin into Traveller's Crescent  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16209 1  1   the svirfneblin into Traveller's Crescent  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16128 1  1   the svirfneblin into Road of Shadows at Sunset  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16133 1  1   the svirfneblin into Road of Shadows  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16007 16 16110 1  1   the svirfneblin into Street of the Gods, Ironhand  
-E   1  16006   16     16     Glinting gnome mace wielded                
+E   1  16006 100     16     Glinting gnome mace wielded                
 M 0 16008 12 16197 1  1   the drow trader into Beginning of Death's Lane  
-E   1  16007   12     16     Sword of darkness wielded                
+E   1  16007 100     16     Sword of darkness wielded                
 M 0 16008 12 16177 1  1   the drow trader into Sunrise  
-E   1  16007   12     16     Sword of darkness wielded                
+E   1  16007 100     16     Sword of darkness wielded                
 M 0 16008 12 16142 1  1   the drow trader into Road of Shadows  
-E   1  16007   12     16     Sword of darkness wielded                
+E   1  16007 100     16     Sword of darkness wielded                
 M 0 16008 12 16115 1  1   the drow trader into Street of the Gods, Dizzy  
-E   1  16007   12     16     Sword of darkness wielded                
+E   1  16007 100     16     Sword of darkness wielded                
 M 0 16008 12 16112 1  1   the drow trader into Street of the Gods, Lenny  
-E   1  16007   12     16     Sword of darkness wielded                
+E   1  16007 100     16     Sword of darkness wielded                
 M 0 16008 12 16119 1  1   the drow trader into Street of the Gods, Garion  
-E   1  16007   12     16     Sword of darkness wielded                
+E   1  16007 100     16     Sword of darkness wielded                
 M 0 16008 12 16041 1  1   the drow trader into Ruby Street  
-E   1  16007   12     16     Sword of darkness wielded                
+E   1  16007 100     16     Sword of darkness wielded                
 M 0 16008 12 16133 1  1   the drow trader into Road of Shadows  
-E   1  16007   12     16     Sword of darkness wielded                
+E   1  16007 100     16     Sword of darkness wielded                
 M 0 16008 12 16208 1  1   the drow trader into Traveller's Crescent  
-E   1  16007   12     16     Sword of darkness wielded                
+E   1  16007 100     16     Sword of darkness wielded                
 M 0 16008 12 16175 1  1   the drow trader into Sunrise  
-E   1  16007   12     16     Sword of darkness wielded                
+E   1  16007 100     16     Sword of darkness wielded                
 M 0 16008 12 16080 1  1   the drow trader into Slaver's Route  
-E   1  16007   12     16     Sword of darkness wielded                
+E   1  16007 100     16     Sword of darkness wielded                
 M 0 16008 12 16100 1  1   the drow trader into The slave's square  
-E   1  16007   12     16     Sword of darkness wielded                
+E   1  16007 100     16     Sword of darkness wielded                
 M 0 16009 18 16018 1  1   the duergar into Wyrm street  
 M 0 16009 18 16030 1  1   the duergar into Sapphire street before the tavern  
 M 0 16009 18 16022 1  1   the duergar into North end of sunset  
 M 0 16009 18 16157 1  1   the duergar into Forgotten Alley  
-E   1  16008    5      6     Dark grey helm on head                
+E   1  16008  90      6     Dark grey helm on head                
 M 0 16009 18 16140 1  1   the duergar into Road of Shadows  
 M 0 16009 18 16132 1  1   the duergar into Road of Shadows  
-E   1  16008    5      6     Dark grey helm on head                
+E   1  16008  90      6     Dark grey helm on head                
 M 0 16009 18 16210 1  1   the duergar into Traveller's Crescent  
 M 0 16009 18 16218 1  1   the duergar into Traveller's Crescent  
 M 0 16009 18 16167 1  1   the duergar into The Forgotten Alley  
-E   1  16008    5      6     Dark grey helm on head                
+E   1  16008  90      6     Dark grey helm on head                
 M 0 16009 18 16134 1  1   the duergar into Road of Shadows at Azurite  
 M 0 16009 18 16134 1  1   the duergar into Road of Shadows at Azurite  
 M 0 16009 18 16115 1  1   the duergar into Street of the Gods, Dizzy  
 M 0 16009 18 16111 1  1   the duergar into Street of the Gods, Strahd  
-E   1  16008    5      6     Dark grey helm on head                
+E   1  16008  90      6     Dark grey helm on head                
 M 0 16009 18 16113 1  1   the duergar into Street of the Gods, Jhaele  
 M 0 16009 18 16097 1  1   the duergar into The Gathering Place  
 M 0 16009 18 16097 1  1   the duergar into The Gathering Place  
 M 0 16009 18 16109 1  1   the duergar into Street of the Gods, Snikt  
 M 0 16009 18 16103 1  1   the duergar into Sunrise before the cages  
-E   1  16008    5      6     Dark grey helm on head                
+E   1  16008  90      6     Dark grey helm on head                
 M 0 16010 1 16135 1  1   the necromancer into Road of Shadows  
-E   1  16009    2     10     Sleeves of knowledge on arms                
+E   1  16009  90     10     Sleeves of knowledge on arms                
 M 0 16011 1 16135 1  1   the behir into Road of Shadows  
-G   1  16010    2            A piece of polished blood stone in inventory
+G   1  16010  90            A piece of polished blood stone in inventory
 M 0 16012 1 16135 1  1   the fighter into Road of Shadows  
-E   1  16011    2      5     Breast plate of strength on body                
+E   1  16011  90      5     Breast plate of strength on body                
 M 0 16013 1 16135 1  1   a high priest of Xevior into Road of Shadows  
-E   1  16012    5     17     A shining holy symbol of Xevior held                   
-E   1  16097    5     18     Emblem earring                   
+E   1  16012  63     17     A shining holy symbol of Xevior held                   
+E   1  16097  63     18     Emblem earring                   
 M 0 16014 10 16211 1  1   the lizard man into Traveller's Crescent  
-E   1  16013    5      7     Ripped leather pants on legs                
+E   1  16013 100      7     Ripped leather pants on legs                
 M 0 16014 10 16148 1  1   the lizard man into Forgotten Alley  
-E   1  16013    5      7     Ripped leather pants on legs                
+E   1  16013 100      7     Ripped leather pants on legs                
 M 0 16014 10 16153 1  1   the lizard man into Forgotten Alley  
 M 0 16014 10 16034 1  1   the lizard man into Sunrise  
 M 0 16014 10 16091 1  1   the lizard man into Slaver's Route  
@@ -15635,27 +15635,27 @@ M 0 16014 10 16117 1  1   the lizard man into Street of the Gods, RoX
 M 0 16014 10 16121 1  1   the lizard man into Street of the Gods, Garth  
 M 0 16014 10 16131 1  1   the lizard man into Road of Shadows  
 M 0 16015 1 16221 1  1   the purple worm into Quiet Desolation  
-G   1  16014    2            Small purple worm scale in inventory
+G   1  16014  90            Small purple worm scale in inventory
 M 0 16016 1 16220 1  1   the huge purple worm into Destroyed Section of the Tunnel  
-G   1  16015    2            Huge purple worm scale in inventory
+G   1  16015  90            Huge purple worm scale in inventory
 M 0 16017 3 16228 1  1   the beholder's underling into Entry Hall  
-E   1  16016    3      9     Gauntlets of the eye on hands               
+E   1  16016  90      9     Gauntlets of the eye on hands               
 M 0 16017 3 16229 1  1   the beholder's underling into Jaded Hall  
-E   1  16016    3      9     Gauntlets of the eye on hands               
+E   1  16016  90      9     Gauntlets of the eye on hands               
 M 0 16017 3 16242 1  1   the beholder's underling into Guest Chamber  
 M 0 16018 3 16237 1  1   the beholder legionnaire into Entrance to the Vast Hall  
-E   1  16017    4      6     Helm of the eye on head                
+E   1  16017  90      6     Helm of the eye on head                
 M 0 16018 3 16237 1  1   the beholder legionnaire into Entrance to the Vast Hall  
-E   1  16017    4      6     Helm of the eye on head                
+E   1  16017  90      6     Helm of the eye on head                
 M 0 16018 3 16237 1  1   the beholder legionnaire into Entrance to the Vast Hall  
-E   1  16017    4      6     Helm of the eye on head                
+E   1  16017  90      6     Helm of the eye on head                
 M 0 16019 1 16243 1  1   the supreme attendant into The Supreme Attendant's Chamber  
-E   1  16016    3      9     Gauntlets of the eye on hands               
-E   1  16017    4      6     Helm of the eye on head                
+E   1  16016  63      9     Gauntlets of the eye on hands               
+E   1  16017  63      6     Helm of the eye on head                
 M 0 16020 1 16238 1  1   the grell into Vast Hall  
 M 0 16021 1 16247 1  1   the Barkeep into The Gemstone  
-G   1   3002   -1             in inventory
-G   1  16093   -1            merchant's gold in inventory
+G   1   3002 100             in inventory
+G   1  16093 100            merchant's gold in inventory
 M 0 16022 4 16247 1  1   the duergar patron into The Gemstone  
 M 0 16022 4 16244 1  1   the duergar patron into The Gemstone  
 M 0 16022 4 16245 1  1   the duergar patron into The Gemstone  
@@ -15664,15 +15664,15 @@ M 0 16023 3 16247 1  1   the drow patron into The Gemstone
 M 0 16024 2 16244 1  1   the human patron into The Gemstone  
 M 0 16024 2 16246 1  1   the human patron into The Gemstone  
 M 0 16025 1 16245 1  1   Caris into The Gemstone  
-E   1   3072   -1      5      on body                
-E   1   3073   -1      6      on head                
-E   1   3074   -1      7      on legs                
-E   1   3077   -1     10      on arms                
-E   1   9212   -1     14      on left wrist          
-E   1   16095   -1     11      as shield              
-E   1   2365   -1     16      wielded                
+E   1   3072  30      5      on body                
+E   1   3073  30      6      on head                
+E   1   3074  30      7      on legs                
+E   1   3077  30     10      on arms                
+E   1   9212  30     14      on left wrist          
+E   1   16095  30     11      as shield              
+E   1   2365  30     16      wielded                
 M 0 16026 1 16245 1  1   Antryg into The Gemstone  
-E   1   1615   -1     14      on left wrist          
+E   1   1615  90     14      on left wrist          
 M 0 16027 7 16251 1  1   the gremlin into Twisting Passage  
 M 0 16027 7 16253 1  1   the gremlin into Chaotic Cluttered Room  
 M 0 16027 7 16254 1  1   the gremlin into Dark Chaotic Corridor  
@@ -15681,70 +15681,70 @@ M 0 16027 7 16260 1  1   the gremlin into Dark Corridor
 M 0 16027 7 16263 1  1   the gremlin into A Gloomy Room  
 M 0 16027 7 16273 1  1   the gremlin into Abandoned Rest Room  
 M 0 16028 3 16258 1  1   the slime creature into Damp Cluttered Room  
-E   1  16019    9     16     Very muddy branch wielded                
+E   1  16019  90     16     Very muddy branch wielded                
 M 0 16028 3 16258 1  1   the slime creature into Damp Cluttered Room  
-E   1  16019    9     16     Very muddy branch wielded                
+E   1  16019  90     16     Very muddy branch wielded                
 M 0 16028 3 16273 1  1   the slime creature into Abandoned Rest Room  
-E   1  16019    9     16     Very muddy branch wielded                
+E   1  16019  90     16     Very muddy branch wielded                
 M 0 16029 5 16248 1  1   the huge rat into Deserted Warehouse  
 M 0 16029 5 16257 1  1   the huge rat into Twisting Dark Corridor  
 M 0 16029 5 16264 1  1   the huge rat into The Corridor in the Abandoned Warehouse  
 M 0 16029 5 16268 1  1   the huge rat into The Corridor  
 M 0 16029 5 16271 1  1   the huge rat into End of the Corridor  
 M 0 16030 5 16250 1  1   the jinxkin into Cluttered Room  
-E   1  16018    5     16     A very sharp pin wielded                
+E   1  16018  90     16     A very sharp pin wielded                
 M 0 16030 5 16252 1  1   the jinxkin into Small Dusty Enclave  
-E   1  16018    5     16     A very sharp pin wielded                
+E   1  16018  90     16     A very sharp pin wielded                
 M 0 16030 5 16253 1  1   the jinxkin into Chaotic Cluttered Room  
-E   1  16018    5     16     A very sharp pin wielded                
+E   1  16018  90     16     A very sharp pin wielded                
 M 0 16030 5 16255 1  1   the jinxkin into Dark Small Room  
-E   1  16018    5     16     A very sharp pin wielded                
+E   1  16018  90     16     A very sharp pin wielded                
 M 0 16030 5 16269 1  1   the jinxkin into The Old Office  
-E   1  16018    5     16     A very sharp pin wielded                
+E   1  16018  90     16     A very sharp pin wielded                
 M 0 16031 7 16252 1  1   the jermlaine into Small Dusty Enclave  
-E   1  16019    9     16     Very muddy branch wielded                
+E   1  16019  90     16     Very muddy branch wielded                
 M 0 16031 7 16263 1  1   the jermlaine into A Gloomy Room  
-E   1  16019    9     16     Very muddy branch wielded                
+E   1  16019  90     16     Very muddy branch wielded                
 M 0 16031 7 16264 1  1   the jermlaine into The Corridor in the Abandoned Warehouse  
-E   1  16019    9     16     Very muddy branch wielded                
+E   1  16019  90     16     Very muddy branch wielded                
 M 0 16031 7 16267 1  1   the jermlaine into Cramped Dim Room  
-E   1  16019    9     16     Very muddy branch wielded                
+E   1  16019  90     16     Very muddy branch wielded                
 M 0 16031 7 16267 1  1   the jermlaine into Cramped Dim Room  
-E   1  16019    9     16     Very muddy branch wielded                
+E   1  16019  90     16     Very muddy branch wielded                
 M 0 16031 7 16269 1  1   the jermlaine into The Old Office  
-E   1  16019    9     16     Very muddy branch wielded                
+E   1  16019  90     16     Very muddy branch wielded                
 M 0 16031 7 16269 1  1   the jermlaine into The Old Office  
-E   1  16019    9     16     Very muddy branch wielded                
+E   1  16019  90     16     Very muddy branch wielded                
 M 0 16032 1 16298 1  1   the bodak into Audience Chamber  
-E   1  16021    2     17     A black wand inlaid with gold symbols held                   
-E   1  16022    2     13     Girth of protection around waist           
+E   1  16021  63     17     A black wand inlaid with gold symbols held                   
+E   1  16022  63     13     Girth of protection around waist           
 M 0 16033 1 16285 1  1   the mage into Small Well Furnished Chamber  
-G   1  16023    2            Dull eyes in inventory
+G   1  16023  90            Dull eyes in inventory
 M 0 16034 3 16290 1  1   the iron golem into Main Hall  
-E   1  16024    3     16     An Iron Sword wielded                
+E   1  16024  90     16     An Iron Sword wielded                
 M 0 16034 3 16294 1  1   the iron golem into Main Hall  
-E   1  16024    3     16     An Iron Sword wielded                
+E   1  16024  90     16     An Iron Sword wielded                
 M 0 16034 3 16296 1  1   the iron golem into Audience Chamber  
-E   1  16024    3     16     An Iron Sword wielded                
+E   1  16024  90     16     An Iron Sword wielded                
 M 0 16035 4 16283 1  1   the stone golem into A Hallway in the Mansion  
-E   1  16025    4     16     A Huge Stone Mace wielded                
+E   1  16025  90     16     A Huge Stone Mace wielded                
 M 0 16035 4 16286 1  1   the stone golem into End of Hall in the Mansion  
-E   1  16025    4     16     A Huge Stone Mace wielded                
+E   1  16025  90     16     A Huge Stone Mace wielded                
 M 0 16035 4 16293 1  1   the stone golem into Main Hall  
-E   1  16025    4     16     A Huge Stone Mace wielded                
+E   1  16025  90     16     A Huge Stone Mace wielded                
 M 0 16035 4 16297 1  1   the stone golem into Audience Chamber  
-E   1  16025    4     16     A Huge Stone Mace wielded                
+E   1  16025  90     16     A Huge Stone Mace wielded                
 M 0 16036 1 16282 1  1   Itreres into Guest Chamber  
-E   1   16096   -1     16      wielded                
-E   1   2009   -1      5      on body                
-E   1    623   -1      7      on legs                
-E   1  16026    2     11     Black Shield of Protection as shield              
+E   1   16096  40     16      wielded                
+E   1   2009  40      5      on body                
+E   1    623  40      7      on legs                
+E   1  16026  40     11     Black Shield of Protection as shield              
 M 0 16037 1 16294 1  1   the imp into Main Hall  
-E   1  16027    2     17     A small black stone held                   
+E   1  16027  90     17     A small black stone held                   
 M 0 16038 2 16289 1  1   the babau into Secret Chamber  
-G   1  16028    2            Demon Horn in inventory
+G   1  16028  90            Demon Horn in inventory
 M 0 16038 2 16295 1  1   the babau into Audience Chamber  
-G   1  16028    2            Demon Horn in inventory
+G   1  16028  90            Demon Horn in inventory
 M 0 16039 2 16280 1  1   the servant into Guest Room  
 M 0 16039 2 16287 1  1   the servant into Dining Hall  
 M 0 16040 1 16288 1  1   the gibbering mouther into Dining Hall  
@@ -15752,85 +15752,85 @@ M 0 16041 3 16085 1  1   the worker of the night into Slaver's route, before the
 M 0 16041 3 16301 1  1   the worker of the night into Whoring Area  
 M 0 16041 3 16303 1  1   the worker of the night into Whoring Area  
 M 0 16042 2 16302 1  1   a maid of passion into Whoring Area  
-E   1  16029    2     12     Translucent Robe about body             
+E   1  16029 100     12     Translucent Robe about body             
 M 0 16042 2 16303 1  1   a maid of passion into Whoring Area  
-E   1  16029    2     12     Translucent Robe about body             
+E   1  16029 100     12     Translucent Robe about body             
 M 0 16043 1 16304 1  1   a granter of pleasure into Whoring Area  
-E   1  16030    2     13     Belt of pleasure around waist           
+E   1  16030 100     13     Belt of pleasure around waist           
 M 0 16044 2 16301 1  1   a preferred customer into Whoring Area  
-E   1  16031    2      1     Ring of nobility on left finger         
+E   1  16031 100      1     Ring of nobility on left finger         
 M 0 16044 2 16302 1  1   a preferred customer into Whoring Area  
-E   1  16031    2      1     Ring of nobility on left finger         
+E   1  16031 100      1     Ring of nobility on left finger         
 M 0 16045 1 16300 1  1   the pimp into Paying Room  
-G   1  16032    1            Gold Teeth in inventory
+G   1  16032 100            Gold Teeth in inventory
 M 0 16046 3 16310 1  1   the halfling patron into Common Room  
 M 0 16046 3 16314 1  1   the halfling patron into Common Room  
 M 0 16047 3 16310 1  1   the half-orc into Common Room  
-E   1  16033    2     16     A broken bottle wielded                
+E   1  16033 100     16     A broken bottle wielded                
 M 0 16047 3 16311 1  1   the half-orc into Common Room  
-E   1  16033    2     16     A broken bottle wielded                
+E   1  16033 100     16     A broken bottle wielded                
 M 0 16048 3 16308 1  1   the svirfneblin patron into Common Room  
 M 0 16049 1 16314 1  1   the inn keeper into Common Room  
-G   1   3002   -1             in inventory
-G   1  16093   -1            merchant's gold in inventory
+G   1   3002 100             in inventory
+G   1  16093 100            merchant's gold in inventory
 M 0 16050 1 16310 1  1   Limbeck into Common Room  
-E   1  16034    2      8     A pair of dusty boots on feet                
+E   1  16034  90      8     A pair of dusty boots on feet                
 M 0 16051 1 16318 1  1   Geg into Inn Room  
-E   1  16035    2      6     A gnome hat on head                
+E   1  16035  90      6     A gnome hat on head                
 M 0 16052 1 16312 1  1   Drevlin into Inn Room  
-E   1  16036    2      8     Boots of flying on feet                
+E   1  16036  90      8     Boots of flying on feet                
 M 0 16053 1 16308 1  1   Jarre into Common Room  
-E   1  16037    2     14     Bracer of strength on left wrist          
+E   1  16037  90     14     Bracer of strength on left wrist          
 M 0 16054 3 16308 1  1   the serving wench into Common Room  
 M 0 16054 3 16314 1  1   the serving wench into Common Room  
 M 0 16055 1 16319 1  1   the Slave Dealer into Entrance to the Slaver's Market  
-G   1  16094   -1            not so rich merchant gold in inventory
+G   1  16094 100            not so rich merchant gold in inventory
 M 0 16056 15 16088 1  1   the slave trader into Slaver's Route before the Inn  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16056 15 16089 1  1   the slave trader into Slaver's Route Before the Prisons  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16056 15 16092 1  1   the slave trader into Slaver's Route  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16056 15 16077 1  1   the slave trader into Slaver's Route  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16056 15 16101 1  1   the slave trader into The slave's square  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16056 15 16068 1  1   the slave trader into Emerald Street  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16056 15 16140 1  1   the slave trader into Road of Shadows  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16056 15 16123 1  1   the slave trader into Street of the Gods, Etaine  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16056 15 16198 1  1   the slave trader into Beginning of Sunset  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16056 15 16080 1  1   the slave trader into Slaver's Route  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16056 15 16084 1  1   the slave trader into Slaver's Route (midtown)  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16056 15 16089 1  1   the slave trader into Slaver's Route Before the Prisons  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16056 15 16092 1  1   the slave trader into Slaver's Route  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16056 15 16099 1  1   the slave trader into The Slave's Square  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16056 15 16325 1  1   the slave trader into Slave Hall  
-E   1  16038   15     16     Slaver's Whip wielded                
+E   1  16038  90     16     Slaver's Whip wielded                
 M 0 16057 12 16100 1  1   a slaver buyer into The slave's square  
-G   1  16039   12            A pair of manacles in inventory
+G   1  16039  90            A pair of manacles in inventory
 M 0 16057 12 16321 1  1   a slaver buyer into Slave Hall  
-G   1  16039   12            A pair of manacles in inventory
+G   1  16039  90            A pair of manacles in inventory
 M 0 16057 12 16323 1  1   a slaver buyer into Slave Hall  
-G   1  16039   12            A pair of manacles in inventory
+G   1  16039  90            A pair of manacles in inventory
 M 0 16057 12 16090 1  1   a slaver buyer into Slaver's Route  
-G   1  16039   12            A pair of manacles in inventory
+G   1  16039  90            A pair of manacles in inventory
 M 0 16057 12 16098 1  1   a slaver buyer into The Slave's Square  
-G   1  16039   12            A pair of manacles in inventory
+G   1  16039  90            A pair of manacles in inventory
 M 0 16057 12 16101 1  1   a slaver buyer into The slave's square  
-G   1  16039   12            A pair of manacles in inventory
+G   1  16039  90            A pair of manacles in inventory
 M 0 16057 12 16045 1  1   a slaver buyer into Moonlight Avenue  
-G   1  16039   12            A pair of manacles in inventory
+G   1  16039  90            A pair of manacles in inventory
 M 0 16057 12 16094 1  1   a slaver buyer into The Gathering Place  
-G   1  16039   12            A pair of manacles in inventory
+G   1  16039  90            A pair of manacles in inventory
 M 0 16057 12 16090 1  1   a slaver buyer into Slaver's Route  
 M 0 16057 12 16093 1  1   a slaver buyer into Before the east entrance  
 M 0 16057 12 16202 1  1   a slaver buyer into Traveller's Crescent  
@@ -15847,205 +15847,205 @@ M 0 16023 3 16354 1  1   the drow patron into Dining Area
 M 0 16046 3 16342 1  1   the halfling patron into Prison Hall  
 M 0 16048 3 16354 1  1   the svirfneblin patron into Dining Area  
 M 0 16065 1 16352 1  1   the Bar Tender into The Dining Area  
-G   1   3002   -1             in inventory
-G   1  16094   -1            not so rich merchant gold in inventory
+G   1   3002 100             in inventory
+G   1  16094 100            not so rich merchant gold in inventory
 M 0 16066 1 16353 1  1   Prax into Dining Area  
-E   1  16040    2      3     A mage cloak on neck                
+E   1  16040  90      3     A mage cloak on neck                
 M 0 16067 1 16353 1  1   Thespan into Dining Area  
-E   1  16041    2     16     A jagged long sword wielded                
+E   1  16041  90     16     A jagged long sword wielded                
 M 0 16068 1 16353 1  1   Endolar into Dining Area  
-E   1  16042    2     16     An ebony dagger wielded                
+E   1  16042  90     16     An ebony dagger wielded                
 M 0 16069 1 16351 1  1   Snaromba into Dining Area  
-E   1  16043    2      0     A glowing sphere as light               
+E   1  16043 100      0     A glowing sphere as light               
 M 0 16070 1 16351 1  1   Anmictes into Dining Area  
-E   1  16044    2     14     A midnight blue bracer on left wrist          
+E   1  16044 100     14     A midnight blue bracer on left wrist          
 M 0 16071 1 16351 1  1   Emba into Dining Area  
-E   1  16045    2     16     An ebony morning star wielded                
+E   1  16045 100     16     An ebony morning star wielded                
 M 0 16072 1 16351 1  1   Shillikif into Dining Area  
-E   1  16046    2      5     Black drow chainmail on body                
+E   1  16046 100      5     Black drow chainmail on body                
 M 0 16073 1 16356 1  1   Yie'Stei into The Glowing Hand  
-G   1  16059    2            Scroll of reveal in inventory
-G   1  16060    2            Hand of shocking grasp in inventory
-G   1  16061    2            Potion of detection in inventory
-G   1  16093   -1            merchant's gold in inventory
+G   1  16059 100            Scroll of reveal in inventory
+G   1  16060 100            Hand of shocking grasp in inventory
+G   1  16061 100            Potion of detection in inventory
+G   1  16093 100            merchant's gold in inventory
 M 0 16074 1 16357 1  1   Zae'tres into The Cracked Sword  
-G   1  16047    2            A drow sword in inventory
-G   1  16048    2            A drow dagger in inventory
-G   1  16049    2            A drow mace in inventory
-G   1  16093   -1            merchant's gold in inventory
+G   1  16047 100            A drow sword in inventory
+G   1  16048 100            A drow dagger in inventory
+G   1  16049 100            A drow mace in inventory
+G   1  16093 100            merchant's gold in inventory
 M 0 16075 1 16358 1  1   Raesarnt into The Dented Shield  
-G   1  16050    2            Duergar breastplate in inventory
-G   1  16051    2            A duergar helm in inventory
-G   1  16052    2            A duergar shield in inventory
-G   1  16053    2            Duergar leggings in inventory
-G   1  16054    2           A duergar bracer in inventory
-G   1  16093   -1            merchant's gold in inventory
+G   1  16050 100            Duergar breastplate in inventory
+G   1  16051 100            A duergar helm in inventory
+G   1  16052 100            A duergar shield in inventory
+G   1  16053 100            Duergar leggings in inventory
+G   1  16054 100           A duergar bracer in inventory
+G   1  16093 100            merchant's gold in inventory
 M 0 16076 1 16359 1  1   Satori into The Sparkling Jewel  
-G   1  16093   -1            merchant's gold in inventory
+G   1  16093 100            merchant's gold in inventory
 M 0 16077 1 16360 1  1   Jiestis into The Darkened Root  
-G   1  16055   -1            A brown mushroom in inventory
-G   1  16056   -1            A large mushroom in inventory
-G   1  16057   20            Red moss in inventory
-G   1  16058   20            A dirty root in inventory
-G   1  16093   20            merchant's gold in inventory
+G   1  16055 100            A brown mushroom in inventory
+G   1  16056 100            A large mushroom in inventory
+G   1  16057 100            Red moss in inventory
+G   1  16058 100            A dirty root in inventory
+G   1  16093 100            merchant's gold in inventory
 M 0 16078 2 16364 1  1   the svirfneblin into Svirfneblin Chamber  
-E   1  16062    2      7     Svirfneblin leggings on legs                
+E   1  16062 100      7     Svirfneblin leggings on legs                
 M 0 16078 2 16365 1  1   the svirfneblin into Svirfneblin Hallway  
-E   1  16062    2      7     Svirfneblin leggings on legs                
+E   1  16062 100      7     Svirfneblin leggings on legs                
 M 0 16079 1 16366 1  1   the svirfneblin dignitary into Svirfneblin Chamber  
-E   1  16063    2      3     Necklace of nobility on neck                
+E   1  16063 100      3     Necklace of nobility on neck                
 M 0 16080 1 16368 1  1   the caretaker into Svirfneblin Chamber  
-E   1  16064    2     16     A broadsword named 'Vision' wielded                
+E   1  16064 100     16     A broadsword named 'Vision' wielded                
 M 0 16081 16 16015 1  1   the footpad into Wyrm street  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16081 16 16001 1  1   the footpad into Corner of Wyrm Street and Sunset  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16081 16 16021 1  1   the footpad into Moonlight ave  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16081 16 16039 1  1   the footpad into Sunset  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16081 16 16048 1  1   the footpad into Diamond Street  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16081 16 16035 1  1   the footpad into Sunrise  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16081 16 16024 1  1   the footpad into Sunset  
 M 0 16081 16 16011 1  1   the footpad into Wyrm street  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16081 16 16061 1  1   the footpad into Sunset  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16081 16 16071 1  1   the footpad into Sunrise  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16081 16 16088 1  1   the footpad into Slaver's Route before the Inn  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16081 16 16099 1  1   the footpad into The Slave's Square  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16081 16 16130 1  1   the footpad into Road of Shadows  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16081 16 16140 1  1   the footpad into Road of Shadows  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16081 16 16179 1  1   the footpad into Azurite Street  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16081 16 16190 1  1   the footpad into Death's Lane  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16082 5 16110 1  1   the cutpurse into Street of the Gods, Ironhand  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16082 5 16129 1  1   the cutpurse into Road of Shadows  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16082 5 16137 1  1   the cutpurse into Road Of Shadows  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16082 5 16145 1  1   the cutpurse into Forgotten Alley  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16082 5 16201 1  1   the cutpurse into Traveller's Crescent  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065 100     15     Thief's patch on right wrist         
 M 0 16083 5 16020 1  1   the filcher into North east corner on Wrym and Sunrise  
-E   1  16066    5      9     Thief's gloves on hands               
+E   1  16066 100      9     Thief's gloves on hands               
 M 0 16083 5 16063 1  1   the filcher into Sunset  
-E   1  16066    5      9     Thief's gloves on hands               
+E   1  16066 100      9     Thief's gloves on hands               
 M 0 16083 5 16066 1  1   the filcher into Moonlight Avenue  
-E   1  16066    5      9     Thief's gloves on hands               
+E   1  16066 100      9     Thief's gloves on hands               
 M 0 16083 5 16131 1  1   the filcher into Road of Shadows  
-E   1  16066    5      9     Thief's gloves on hands               
+E   1  16066 100      9     Thief's gloves on hands               
 M 0 16083 5 16215 1  1   the filcher into Traveller's Crescent  
-E   1  16066    5      9     Thief's gloves on hands               
+E   1  16066 100      9     Thief's gloves on hands               
 M 0 16084 5 16048 1  1   the rogue into Diamond Street  
-E   1  16067    5      3     A gold chain on neck                
+E   1  16067 100      3     A gold chain on neck                
 M 0 16084 5 16103 1  1   the rogue into Sunrise before the cages  
-E   1  16067    4      3     A gold chain on neck                
+E   1  16067 100      3     A gold chain on neck                
 M 0 16084 5 16125 1  1   the rogue into Sunset  
-E   1  16067    4      3     A gold chain on neck                
+E   1  16067 100      3     A gold chain on neck                
 M 0 16084 5 16185 1  1   the rogue into Death's Lane  
-E   1  16067    4      3     A gold chain on neck                
+E   1  16067 100      3     A gold chain on neck                
 M 0 16084 5 16193 1  1   the rogue into Death's Lane  
-E   1  16067    4      3     A gold chain on neck                
+E   1  16067 100      3     A gold chain on neck                
 M 0 16085 8 16370 1  1   the sharper into Thieves' Guard Room  
 M 0 16085 8 16370 1  1   the sharper into Thieves' Guard Room  
-E   1  16068    4     17     Lucky dice held                   
+E   1  16068  90     17     Lucky dice held                   
 M 0 16085 8 16371 1  1   the sharper into Thieves' Guard Room  
 M 0 16085 8 16371 1  1   the sharper into Thieves' Guard Room  
-E   1  16068    4     17     Lucky dice held                   
+E   1  16068  90     17     Lucky dice held                   
 M 0 16085 8 16375 1  1   the sharper into Thieves' Guard Room  
 M 0 16085 8 16375 1  1   the sharper into Thieves' Guard Room  
-E   1  16068    4     17     Lucky dice held                   
+E   1  16068  90     17     Lucky dice held                   
 M 0 16085 8 16376 1  1   the sharper into Thieves' Guard Room  
 M 0 16085 8 16376 1  1   the sharper into Thieves' Guard Room  
-E   1  16068    4     17     Lucky dice held                   
+E   1  16068  90     17     Lucky dice held                   
 M 0 16086 3 16378 1  1   the magsman into Hallway in the Thieves' Guild  
-E   1  16069    3      3     A dark cloak on neck                
+E   1  16069  90      3     A dark cloak on neck                
 M 0 16086 3 16388 1  1   the magsman into Personal Chamber  
-E   1  16069    3      3     A dark cloak on neck                
+E   1  16069  90      3     A dark cloak on neck                
 M 0 16086 3 16396 1  1   the magsman into Private Chamber  
-E   1  16069    3      3     A dark cloak on neck                
+E   1  16069  90      3     A dark cloak on neck                
 M 0 16087 3 16383 1  1   the master thief into Thieves' Council Chamber  
-E   1  16070    3     18     Golden earring                
+E   1  16070  90     18     Golden earring                
 M 0 16087 3 16391 1  1   the master thief into Master Thief's Room  
-E   1  16070    3     18     Golden earring                
+E   1  16070  90     18     Golden earring                
 M 0 16087 3 16394 1  1   the master thief into Private Room  
-E   1  16070    3     18     Golden earring                
+E   1  16070  90     18     Golden earring                
 M 0 16088 1 16385 1  1   the head thief into Thieves' Council Chamber  
-E   1  16071    2     16     A jewelled dagger wielded                
+E   1  16071  90     16     A jewelled dagger wielded                
 M 0 16089 1 16390 1  1   Meliadus into Mage Chamber  
-E   1  16072    2      0     A hand grasping an orb as light               
-E   1  16073    2     12     A long flowing robe about body             
+E   1  16072  63      0     A hand grasping an orb as light               
+E   1  16073  63     12     A long flowing robe about body             
 M 0 16090 1 16381 1  1   the trainer into Training Room  
 M 0 16091 6 16179 1  1   the bravo into Azurite Street  
-E   1  16074   12     16     A blade of poison wielded                
+E   1  16074  90     16     A blade of poison wielded                
 M 0 16091 6 16127 1  1   the bravo into Azurite Street  
-E   1  16074   12     16     A blade of poison wielded                
+E   1  16074  90     16     A blade of poison wielded                
 M 0 16091 6 16144 1  1   the bravo into Sunrise  
-E   1  16074   12     16     A blade of poison wielded                
+E   1  16074  90     16     A blade of poison wielded                
 M 0 16091 6 16172 1  1   the bravo into Forgotten Alley  
-E   1  16074   12     16     A blade of poison wielded                
+E   1  16074  90     16     A blade of poison wielded                
 M 0 16091 6 16193 1  1   the bravo into Death's Lane  
-E   1  16074   12     16     A blade of poison wielded                
+E   1  16074  90     16     A blade of poison wielded                
 M 0 16091 6 16209 1  1   the bravo into Traveller's Crescent  
-E   1  16074   12     16     A blade of poison wielded                
+E   1  16074  90     16     A blade of poison wielded                
 M 0 16092 6 16139 1  1   the murderer into Road of Shadows  
-E   1  16074   12     16     A blade of poison wielded                
+E   1  16074  90     16     A blade of poison wielded                
 M 0 16092 6 16170 1  1   the murderer into Forgotten Alley  
-E   1  16074   12     16     A blade of poison wielded                
+E   1  16074  90     16     A blade of poison wielded                
 M 0 16092 6 16106 1  1   the murderer into Sunrise  
-E   1  16074   12     16     A blade of poison wielded                
+E   1  16074  90     16     A blade of poison wielded                
 M 0 16092 6 16154 1  1   the murderer into Forgotten Alley  
-E   1  16074   12     16     A blade of poison wielded                
+E   1  16074  90     16     A blade of poison wielded                
 M 0 16092 6 16177 1  1   the murderer into Sunrise  
-E   1  16074   12     16     A blade of poison wielded                
+E   1  16074  90     16     A blade of poison wielded                
 M 0 16092 6 16182 1  1   the murderer into Azurite Street  
-E   1  16074   12     16     A blade of poison wielded                
+E   1  16074  90     16     A blade of poison wielded                
 M 0 16093 6 16189 1  1   the thug into Death's Lane  
 M 0 16093 6 16175 1  1   the thug into Sunrise  
 M 0 16093 6 16163 1  1   the thug into Forgotten Alley  
 M 0 16093 6 16160 1  1   the thug into Forgotten Alley  
-E   1  16075    3     10     Assassin's sleeves on arms                
+E   1  16075  90     10     Assassin's sleeves on arms                
 M 0 16093 6 16184 1  1   the thug into Death's Lane  
-E   1  16075    3     10     Assassin's sleeves on arms                
+E   1  16075  90     10     Assassin's sleeves on arms                
 M 0 16093 6 16188 1  1   the thug into Death's Lane  
-E   1  16075    3     10     Assassin's sleeves on arms                
+E   1  16075  90     10     Assassin's sleeves on arms                
 M 0 16094 3 16167 1  1   the killer into The Forgotten Alley  
-E   1  16076    3     14     Skull tattoo on left wrist          
+E   1  16076  90     14     Skull tattoo on left wrist          
 M 0 16094 3 16190 1  1   the killer into Death's Lane  
-E   1  16076    3     14     Skull tattoo on left wrist          
+E   1  16076  90     14     Skull tattoo on left wrist          
 M 0 16094 3 16197 1  1   the killer into Beginning of Death's Lane  
-E   1  16076    3     14     Skull tattoo on left wrist          
+E   1  16076  90     14     Skull tattoo on left wrist          
 M 0 16095 2 16400 1  1   the assassin into Hallway in the Assassin's Guild  
-E   1  16077    2     16     A garotte wielded                
+E   1  16077  90     16     A garotte wielded                
 M 0 16095 2 16402 1  1   the assassin into Chamber in the Assassin's Guild  
-E   1  16077    2     16     A garotte wielded                
+E   1  16077  90     16     A garotte wielded                
 M 0 16096 3 16413 1  1   the expert assassin into Assassin's Meeting Chamber  
-E   1  16078    3      6     An assassin's mask on head                
+E   1  16078  90      6     An assassin's mask on head                
 M 0 16096 3 16415 1  1   the expert assassin into Hallway in the Assassin's Guild  
-E   1  16078    3      6     An assassin's mask on head                
+E   1  16078  90      6     An assassin's mask on head                
 M 0 16096 3 16421 1  1   the expert assassin into Assassin's Information Gathering  
-E   1  16078    3      6     An assassin's mask on head                
+E   1  16078  90      6     An assassin's mask on head                
 M 0 16097 2 16405 1  1   the senior assassin into Chamber in the Assassin's Guild  
-E   1  16079    2     14     Flaming dagger tattoo on left wrist          
+E   1  16079  90     14     Flaming dagger tattoo on left wrist          
 M 0 16097 2 16423 1  1   the senior assassin into Assassin's Scrying Chamber  
-E   1  16079    2     14     Flaming dagger tattoo on left wrist          
+E   1  16079  90     14     Flaming dagger tattoo on left wrist          
 M 0 16098 2 16409 1  1   the prime assassin into Chamber in the Assassin's Guild  
-E   1  16080    2     14     Wyvern tattoo on left wrist          
+E   1  16080  90     14     Wyvern tattoo on left wrist          
 M 0 16098 1 16411 1  1   the prime assassin into Assassin's Meeting Chamber  
-E   1  16080    1     14     Wyvern tattoo on left wrist          
+E   1  16080  90     14     Wyvern tattoo on left wrist          
 M 0 16099 1 16412 1  1   the guildmaster into Assassin's Meeting Chamber  
-E   1  16081    1     10     Dragon tattoo on arms                
+E   1  16081  90     10     Dragon tattoo on arms                
 M 0 16100 1 16419 1  1   the trainer into Assassin's Training Room  
 M 0 16101 3 16437 1  1   the darken beast into Experimentation Room  
 M 0 16101 3 16437 1  1   the darken beast into Experimentation Room  
@@ -16055,75 +16055,75 @@ M 0 16103 3 16430 1  1   the dretch into Large Hall
 M 0 16103 3 16434 1  1   the dretch into Large Hall  
 M 0 16103 3 16432 1  1   the dretch into Large Hall  
 M 0 16104 4 16429 1  1   The platinum golem into Large Hall  
-E   1  16082    4      6     A diamond helm on head                
+E   1  16082  90      6     A diamond helm on head                
 M 0 16104 4 16430 1  1   The platinum golem into Large Hall  
-E   1  16082    4      6     A diamond helm on head                
+E   1  16082  90      6     A diamond helm on head                
 M 0 16104 4 16432 1  1   The platinum golem into Large Hall  
-E   1  16082    4      6     A diamond helm on head                
+E   1  16082  90      6     A diamond helm on head                
 M 0 16104 4 16436 1  1   The platinum golem into Experimenting Room  
-E   1  16082    4      6     A diamond helm on head                
+E   1  16082  90      6     A diamond helm on head                
 M 0 16105 1 16431 1  1   Gulthac into Guest Room  
 M 0 16106 1 16435 1  1   Eurandus into Eurandus' Room  
 M 0 16107 1 16439 1  1   the Keeper into Viewing Room  
-E   1  16083    2     11     The keeper's shield as shield              
+E   1  16083  90     11     The keeper's shield as shield              
 M 0 16108 1 16440 1  1   the xaren into The Cage  
 M 0 16109 1 16441 1  1   the cloaker into The Cage  
 M 0 16110 1 16444 1  1   Lord Rygar into Common Room  
 M 0 16111 1 16444 1  1   Orak into Common Room  
-E   1  16065   20     15     Thief's patch on right wrist         
+E   1  16065  90     15     Thief's patch on right wrist         
 M 0 16112 1 16447 1  1   Sabrakarn into Inn Room  
 M 0 16113 1 16448 1  1   Hangharid into Inn Room  
-E   1   2390   -1     15      on right wrist         
+E   1   2390  90     15      on right wrist         
 M 0 16114 1 16453 1  1   Sifrim into Inn Room  
 M 0 16115 1 16450 1  1   Wismarel into Inn Room  
 M 0 16116 1 16454 1  1   Methuen into Inn Room  
 M 0 16117 1 16451 1  1   Cedrena into Inn Room  
 M 0 16118 1 16443 1  1   the inn keep into Common Room at Bar  
-G   1   3002   -1             in inventory
-G   1  16093   -1            merchant's gold in inventory
+G   1   3002 100             in inventory
+G   1  16093 100            merchant's gold in inventory
 M 0 16054 3 16445 1  1   the serving wench into Common Room  
 M 0 16047 3 16445 1  1   the half-orc into Common Room  
-E   1  16033   -1     16     A broken bottle wielded                
+E   1  16033 100     16     A broken bottle wielded                
 M 0 16048 3 16442 1  1   the svirfneblin patron into Common Room of the Traveller's Den  
 M 0 16119 3 16458 1  1   the demon clan member into Split in the Hallway  
-E   1  16084    3      1     A demon clan signet ring on left finger         
+E   1  16084 100      1     A demon clan signet ring on left finger         
 M 0 16119 3 16471 1  1   the demon clan member into End of the Hallway  
-E   1  16084    3      1     A demon clan signet ring on left finger         
+E   1  16084 100      1     A demon clan signet ring on left finger         
 M 0 16119 3 16474 1  1   the demon clan member into Hallway in the Demon Clan  
-E   1  16084    3      1     A demon clan signet ring on left finger         
+E   1  16084 100      1     A demon clan signet ring on left finger         
 M 0 16120 3 16459 1  1   a demon clan mage into Hallway in the Demon Clan  
-E   1  16085    3     14     Demon bracer on left wrist          
+E   1  16085  90     14     Demon bracer on left wrist          
 M 0 16120 3 16462 1  1   a demon clan mage into Eastern Summoning Chamber  
-E   1  16085    3     14     Demon bracer on left wrist          
+E   1  16085  90     14     Demon bracer on left wrist          
 M 0 16120 3 16470 1  1   a demon clan mage into Clan Member's Sleeping Quarters  
-E   1  16085    3     14     Demon bracer on left wrist          
+E   1  16085  90     14     Demon bracer on left wrist          
 M 0 16121 3 16456 1  1   a demon clan fighter into Entrance to Demon Clan  
-E   1  16086    3     16     A demon blade wielded                
+E   1  16086  90     16     A demon blade wielded                
 M 0 16121 3 16458 1  1   a demon clan fighter into Split in the Hallway  
-E   1  16086    3     16     A demon blade wielded                
+E   1  16086  90     16     A demon blade wielded                
 M 0 16121 3 16479 1  1   a demon clan fighter into Hallway in the Demon Clan  
-E   1  16086    3     16     A demon blade wielded                
+E   1  16086  90     16     A demon blade wielded                
 M 0 16122 3 16462 1  1   the demon summoner into Eastern Summoning Chamber  
-E   1  16087    3     17     Gem of gate held                   
+E   1  16087  90     17     Gem of gate held                   
 M 0 16122 3 16477 1  1   the demon summoner into Western Summoning Chamber  
-E   1  16087    3     17     Gem of gate held                   
+E   1  16087  90     17     Gem of gate held                   
 M 0 16122 3 16482 1  1   the demon summoner into Northern Summoning Room  
-E   1  16087    3     17     Gem of gate held                   
+E   1  16087  90     17     Gem of gate held                   
 M 0 16123 2 16460 1  1   the cambion into Clan Member's Sleeping Quarters  
-E   1  16088    4      5     Demon Plate on body                
+E   1  16088  90      5     Demon Plate on body                
 M 0 16123 2 16475 1  1   the cambion into Western Summoning Chamber  
-E   1  16088    4      5     Demon Plate on body                
+E   1  16088  90      5     Demon Plate on body                
 M 0 16124 2 16461 1  1   a noble cambion into Eastern Summoning Chamber  
-E   1  16088    4      5     Demon Plate on body                
+E   1  16088  90      5     Demon Plate on body                
 M 0 16124 2 16480 1  1   a noble cambion into Northern Summoning Room  
-E   1  16088    4      5     Demon Plate on body                
+E   1  16088  90      5     Demon Plate on body                
 M 0 16125 1 16478 1  1   Irmugar into Western Summoning Chamber  
-E   1  16089    1     11     Demon fire as shield              
+E   1  16089  90     11     Demon fire as shield              
 M 0 16126 1 16478 1  1   the hezron into Western Summoning Chamber  
 M 0 16127 4 16100 1  1   an eye of fear and flame into The slave's square  
-G   1  16090    2            A fire gem in inventory
+G   1  16090  90            A fire gem in inventory
 M 0 16127 4 16123 1  1   an eye of fear and flame into Street of the Gods, Etaine  
-G   1  16090    2            A fire gem in inventory
+G   1  16090  90            A fire gem in inventory
 M 0 16127 4 16140 1  1   an eye of fear and flame into Road of Shadows  
 M 0 16127 4 16074 1  1   an eye of fear and flame into Slaver's Route  
 M 0 16128 6 16193 1  1   the revenant into Death's Lane  

@@ -1462,29 +1462,29 @@ M 0 5015 4 5032 1  1   The dustdigger into The Sands of Sorrow
   
 M 0 5000 3 5025 1  1   The dervish into The Sands of Sorrow
   
-E   1   3021   25     16      wielded                
+E   1   3021 100     16      wielded                
 M 0 5000 3 5027 1  1   The dervish into The Sands of Sorrow
   
-E   1   3021   25     16      wielded                
+E   1   3021 100     16      wielded                
 M 0 5000 3 5029 1  1   The dervish into The Sands of Sorrow
   
-E   1   3021   25     16      wielded                
+E   1   3021 100     16      wielded                
 M 0 5001 1 5031 1  1   The dervish into The Sands of Sorrow
   
-E   1   3022   25     16      wielded                
+E   1   3022 100     16      wielded                
 M 0 5002 5 5031 1  1   The coral snake into The Sands of Sorrow
   
 M 0 5003 5 5028 1  1   The small scorpion into The Sands of Sorrow
   
 M 0 5004 1 5028 1  1   The giant, purple sand worm into The Sands of Sorrow
   
-G   1   5019   10            a pink potion in inventory
-G   1   5020    5            a platinum wand in inventory
-G   1   5021    1            a strange energy bow in inventory
+G   1   5019 100            a pink potion in inventory
+G   1   5020 100            a platinum wand in inventory
+G   1   5021 100            a strange energy bow in inventory
 M 0 5005 1 5065 1  1   the brass dragon into The mysterious lair.
   
-G   1   5024    1            a golden key in inventory
-G   1   5022   10            An encrypted scroll in inventory
+G   1   5024 100            a golden key in inventory
+G   1   5022  90            An encrypted scroll in inventory
 O   0   5023    1   5070  load an iron bound chest into A small shaft
 P 1 5025 3 5023 1  1   Load a copper bracelet into an iron bound chest
   
@@ -1507,30 +1507,30 @@ M 0 5017 1 5058 1  1   The rabid camel into Beside the camels
   
 M 0 5006 1 5061 1  1   The nomad leader into The main tent
   
-E   1   5016   10     16     a long, curved sabre wielded                
+E   1   5016 100     16     a long, curved sabre wielded                
 M 0 5007 1 5060 1  1   The nomad commander into The main tent
   
-E   1   5017   15     16     a curved scimitar wielded                
+E   1   5017 100     16     a curved scimitar wielded                
 M 0 5008 5 5059 1  1   The nomad warrior into The warrior's tent.
   
-E   1   5018   25     16     a long, pointed cutlass wielded                
+E   1   5018 100     16     a long, pointed cutlass wielded                
 M 0 5009 10 5057 1  1   The slave into Inside a small tent
   
 M 0 5010 1 5011 1  1   The dracolich into Giant cave
   
-E   1   5001    8      5     A glowing suit of banded mail on body                
-E   1   5002    8     16     the halberd wielded                
+E   1   5001  63      5     A glowing suit of banded mail on body                
+E   1   5002  63     16     the halberd wielded                
 M 0 5011 3 5009 1  1   The drider into At the foot of the rubble
   
-E   1   3022   50     16      wielded                
+E   1   3022 100     16      wielded                
 M 0 5012 3 5014 1  1   The dark dwarf into Damp hallway
   
-E   1   5000   15     16     A small mining pick wielded                
+E   1   5000 100     16     A small mining pick wielded                
 M 0 5013 4 5021 1  1   the myconoid into Fungus temple
   
 M 0 5014 1 5021 1  1   The myconoid shaman into Fungus temple
   
-E   1   5003    5      3     the amulet on neck                
+E   1   5003 100      3     the amulet on neck                
 O   0   5005    1   5011  load A large leg bone into Giant cave
 O   0   5007    1   5060  load a small wicker basket into The main tent
 P 0 5012 3 5007 1  1   Load a bunch of stakes into a small wicker basket

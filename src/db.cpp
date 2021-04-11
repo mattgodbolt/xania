@@ -867,7 +867,6 @@ void reset_room(ROOM_INDEX_DATA *room) {
 
         case RESETS_GIVE_OBJ_MOB:
         case RESETS_EQUIP_OBJ_MOB: {
-            int limit;
             OBJ_INDEX_DATA *objIndex;
             OBJ_DATA *object;
             if (!(objIndex = get_obj_index(reset->arg1))) {
@@ -888,10 +887,12 @@ void reset_room(ROOM_INDEX_DATA *room) {
                 object = create_object(objIndex);
                 SET_BIT(object->extra_flags, ITEM_INVENTORY);
             } else {
-                limit = reset->arg2;
-                // FIXME probability check...
-
-                if (objIndex->count < limit || number_range(0, 4) == 0) {
+                const auto drop_rate = reset->arg2;
+                if (drop_rate <= 0 || drop_rate > 100) {
+                    bug("Invalid object drop rate: {} for object #{}", drop_rate, reset->arg1);
+                    exit(1);
+                }
+                if (number_percent() <= drop_rate) {
                     object = create_object(objIndex);
                 } else
                     continue;

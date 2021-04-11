@@ -1833,10 +1833,10 @@ M 0 9101 40 9162 1  1   the screaming, filthy harpy into Croquet game
   
 M 0 9102 2 9123 1  1   the screaming harpy leader into Absolutely disgusting lair.
   
-G   1   9104   50            magenta potion in inventory
+G   1   9104  90            magenta potion in inventory
 M 0 9102 2 9124 1  1   the screaming harpy leader into Absolutely disgusting lair.
   
-G   1   9105    1            an ancient illustrated parchment in inventory
+G   1   9105  90            an ancient illustrated parchment in inventory
 M 0 9103 5 9148 1  1   the ghostly air elemental into Raging hurricane.
   
 M 0 9103 5 9109 1  1   the ghostly air elemental into A fluffy white cloud.
@@ -1849,10 +1849,10 @@ M 0 9103 5 9177 1  1   the ghostly air elemental into Foyer.
   
 M 0 9104 2 9182 1  1   the mysterious effreeti into Western tower.
   
-G   1   9102    9            a pair of carved bronze bracers in inventory
+G   1   9102  90            a pair of carved bronze bracers in inventory
 M 0 9104 2 9187 1  1   the mysterious effreeti into Eastern tower.
   
-G   1   9103   20            an ornate brooch in inventory
+G   1   9103  90            an ornate brooch in inventory
 M 0 9105 1 9156 1  1   the gigantic roc into Roc's Nest.
   
 M 0 9106 1 9153 1  1   the gigantic roc into Calm cloud.

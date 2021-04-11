@@ -1601,100 +1601,100 @@ S
 * -------- Mobiles --------
 *
 M 0 801 9 803 1  1    stone-head 1  
-G  1  821  3                  boxing gloves
+G  1  821  80                  boxing gloves
 M 0 801 9 804 1  1    stone-head 2  
 M 0 801 9 805 1  1    stone-head 3  
-G  1  825  3                  bomb
+G  1  825 100                  bomb
 M 0 801 9 806 1  1    stone-head 4  
 M 0 801 9 807 1  1    stone-head 5  
-G  1  825  3                  bomb
+G  1  825 100                  bomb
 M 0 801 9 810 1  1    stone-head 6  
 M 0 801 9 811 1  1    stone-head 7  
-G  1  821  3                  boxing gloves
+G  1  821  80                  boxing gloves
 M 0 801 9 837 1  1    stone-head 8  
 M 0 801 9 838 1  1    stone-head 9  
 *
 M 0 802 6 805 1  1    bird-head 1  
 M 0 802 6 806 1  1    bird-head 2  
-E  1  824  3   17           equip Heart of Love
+E  1  824  80   17           equip Heart of Love
 M 0 802 6 812 1  1    bird-head 3  
 M 0 802 6 813 1  1    bird-head 4  
 M 0 802 6 815 1  1    bird-head 5  
-E  1  824  3   17           equip Heart of Love
+E  1  824  80   17           equip Heart of Love
 M 0 802 6 817 1  1    bird-head 6  
 *
 M 0 803 5 808 1  1    magnet-head 1  
 M 0 803 5 810 1  1    magnet-head 2  
-G  1  826  -1                 red marble
+G  1  826  80                 red marble
 M 0 803 5 813 1  1    magnet-head 3  
 M 0 803 5 816 1  1    magnet-head 4  
-G  1  827  -1                 green marble
+G  1  827  80                 green marble
 M 0 803 5 838 1  1    magnet-head 5  
 *
 M 0 804 5 809 1  1    flying-disc 1  
 M 0 804 5 817 1  1    flying-disc 2  
-E  1  823  3   16        equip The Flaming Dragon
+E  1  823  80   16        equip The Flaming Dragon
 M 0 804 5 819 1  1    flying-disc 3  
 M 0 804 5 820 1  1    flying-disc 4  
 M 0 804 5 834 1  1    flying-disc 5  
 *
 M 0 805 5 812 1  1    Skull-head 1  
 M 0 805 5 814 1  1    Skull-head 2  
-E  1  822  3    8           equip a pair of roller-skates
-E  1  823  3   16           equip The Flaming Dragon
+E  1  822  54    8           equip a pair of roller-skates
+E  1  823  54   16           equip The Flaming Dragon
 M 0 805 5 832 1  1    Skull-head 3  
 M 0 805 5 834 1  1    Skull-head 4  
-E  1  822  3    8           equip a pair of roller-skates
+E  1  822  80    8           equip a pair of roller-skates
 M 0 805 5 836 1  1    Skull-head 5  
 *
 M 0 806 1 818 1  1    Pacman 1  
-E  1  814  4    8           equip The Cloud
 *
+E  1  814  70    8           equip The Cloud
 M 0 807 3 822 1  1    evil bomb 1  
-E  1  816  4    5           equip Golden Armor
+E  1  816  70    5           equip Golden Armor
 M 0 807 3 825 1  1    evil bomb 2  
 M 0 807 3 831 1  1    evil bomb 3  
 *
 M 0 808 1 821 1  1    Windman  
-E  1  803  -1  16
-G  1  801  5                 stone key
 *
+E  1  803  70  16
+G  1  801 100                 stone key
 M 0 809 1 822 1  1    Thunderman  
-G  1  804  5                  The Gauntlets of Thunder
 *
+G  1  804  70                  The Gauntlets of Thunder
 M 0 810 1 823 1  1    Rainman  
-E  1  805  5    5           equip The Armor of Rain
 *
+E  1  805  70    5           equip The Armor of Rain
 M 0 811 1 824 1  1    Lightningman  
-G  1  806  5                The Badge of Lightning
 *
+G  1  806  70                The Badge of Lightning
 M 0 812 1 826 1  1    GoldLord  
-G  1  815  5                The Gold Aura
 *
+G  1  815  70                The Gold Aura
 M 0 813 1 827 1  1    WoodLord  
-G  1  817  5                  Wooden Mask
 *
+G  1  817  70                  Wooden Mask
 M 0 814 1 828 1  1    WaterLord  
-G  1  818  5                  Water Snake
-G  1  802  5                 glass key
 *
+G  1  818  70                  Water Snake
+G  1  802 100                 glass key
 M 0 815 1 829 1  1    FireLord  
-G  1  819  5                  Belt of Fire
-E  1  810  4  16              Blood Sucker
 *
+G  1  819  45                  Belt of Fire
+E  1  810  45  16              Blood Sucker
 M 0 816 1 830 1  1    EarthLord  
-E  1  820  5  16              Claw of Earth
 *
+E  1  820  70  16              Claw of Earth
 M 0 817 1 833 1  1    Evil Bomberman (Bomberman II)  
-E  1  807  4    0             The Light Bulb
-G  1  808  4                  The Baseball Cap
-E  1  809  4   16             Saint Sword
-G  1  811  4                  The Wrist Band of Angel
-G  1  812  4                  Sceptre of Soul
-G  1  813  4                  Shield of Wish
 *
 * ------ DOORS STATE ------
 *
+E  1  807  21    0             The Light Bulb
+G  1  808  21                  The Baseball Cap
+E  1  809  21   16             Saint Sword
+G  1  811  21                  The Wrist Band of Angel
+G  1  812  21                  Sceptre of Soul
+G  1  813  21                  Shield of Wish
 D  0  801  0  1       close the gate #1 outside
 *
 D  0  802  0  1       close the door #1

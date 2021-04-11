@@ -1343,8 +1343,8 @@ O   0    304    3    323  load wild flowers into The steep foothills
 O   0    304    3    338  load wild flowers into Grassy plains
 M 0 305 1 344 1  1   Shudde-M'ell into The Hall of G'harne
   
-G   1    310    5            a strange template in inventory
-G   1    311    5            a clear potion in inventory
+G   1    310  63            a strange template in inventory
+G   1    311  63            a clear potion in inventory
 M 0 309 10 324 1  1   the cute rabbit into The steep foothills
   
 M 0 309 10 318 1  1   the cute rabbit into Grassy plains
@@ -1353,13 +1353,13 @@ M 0 309 10 334 1  1   the cute rabbit into The ancient path
   
 M 0 300 1 323 1  1   Aruncus the Druid into The steep foothills
   
-E   1    308    2     17     a druish staff held                   
-E   1    307    2      3     a strange amulet on neck                
-G   1    312    1            a scroll titled 'jhyfrdow' in inventory
-G   1    302   10            a small dusk of poison ivy in inventory
+E   1    308 100     17     a druish staff held                   
+E   1    307 100      3     a strange amulet on neck                
+G   1    312 100            a scroll titled 'jhyfrdow' in inventory
+G   1    302 100            a small dusk of poison ivy in inventory
 M 0 301 1 331 1  1   Sorbus the Hermit into Hermit's hut
   
-G   1    303    2            a dark red jar in inventory
+G   1    303 100            a dark red jar in inventory
 O   0    309   30    331  load a rabbit roast into Hermit's hut
 S
 #SPECIALS

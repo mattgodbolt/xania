@@ -2152,83 +2152,83 @@ A
 
 #RESETS
 M 0 5200 1 5250 1  1   The mighty beholder into The Temple of Thalos  
-E   1   5208    3     11     a sturdy iron shield as shield
-E   1   5223   10      3     a dark green cloak on neck
-E   1   5254   10     18     gold earring
+E   1   5208  48     11     a sturdy iron shield as shield
+E   1   5223  48      3     a dark green cloak on neck
+E   1   5254  48     18     gold earring
 M 0 5201 12 5234 1  1   The lamia into The private gardens and courtyard of Thalos  
-E   1   5232    5     17     an incandescent blue stone held                   
-E   1   5252   -1     16     a long slim dagger wielded                
+E   1   5232 100     17     an incandescent blue stone held                   
+E   1   5252 100     16     a long slim dagger wielded                
 M 0 5201 12 5232 1  1   The lamia into The city hall  
-E   1   5217    2     17     a silver flute held                   
-E   1   5252   -1     16     a long slim dagger wielded                
+E   1   5217 100     17     a silver flute held                   
+E   1   5252 100     16     a long slim dagger wielded                
 M 0 5201 12 5236 1  1   The lamia into A collapsed home  
-E   1   5237    5     17     a lavender and green stone held                   
-E   1   5252   -1     16     a long slim dagger wielded                
+E   1   5237 100     17     a lavender and green stone held                   
+E   1   5252 100     16     a long slim dagger wielded                
 M 0 5201 12 5240 1  1   The lamia into A back alley  
-E   1   5241    5     17     a pink and green stone held                   
-E   1   5252   -1     16     a long slim dagger wielded                
+E   1   5241 100     17     a pink and green stone held                   
+E   1   5252 100     16     a long slim dagger wielded                
 M 0 5201 12 5218 1  1   The lamia into A back alley  
-E   1   5250    2     17     a mandolin held                   
-E   1   5252   -1     16     a long slim dagger wielded                
+E   1   5250 100     17     a mandolin held                   
+E   1   5252 100     16     a long slim dagger wielded                
 M 0 5201 12 5216 1  1   The lamia into A back alley  
-E   1   5233    5     17     a deep red stone held                   
-E   1   5252   -1     16     a long slim dagger wielded                
+E   1   5233 100     17     a deep red stone held                   
+E   1   5252 100     16     a long slim dagger wielded                
 M 0 5201 12 5219 1  1   The lamia into The guild house  
-E   1   5231    5     17     a scarlet and blue stone held                   
-E   1   5252   -1     16     a long slim dagger wielded                
+E   1   5231 100     17     a scarlet and blue stone held                   
+E   1   5252 100     16     a long slim dagger wielded                
 M 0 5201 12 5220 1  1   The lamia into The produce stand  
-E   1   5252   -1     16     a long slim dagger wielded                
+E   1   5252 100     16     a long slim dagger wielded                
 M 0 5201 12 5226 1  1   The lamia into A ruined clay dwelling  
-E   1   5235    5     17     a pearly white stone held                   
-E   1   5252   -1     16     a long slim dagger wielded                
+E   1   5235 100     17     a pearly white stone held                   
+E   1   5252 100     16     a long slim dagger wielded                
 M 0 5201 12 5224 1  1   The lamia into Under the watchtower  
-E   1   5243    5     17     a clear stone held                   
-E   1   5252   -1     16     a long slim dagger wielded                
+E   1   5243 100     17     a clear stone held                   
+E   1   5252 100     16     a long slim dagger wielded                
 M 0 5201 12 5204 1  1   The lamia into A Garden Path  
-E   1   5251    2     17     a golden harp held                   
-E   1   5252   -1     16     a long slim dagger wielded                
+E   1   5251 100     17     a golden harp held                   
+E   1   5252 100     16     a long slim dagger wielded                
 M 0 5201 12 5205 1  1   The lamia into A Garden Path  
-E   1   5230    5     17     a pale blue stone held                   
-E   1   5252   -1     16     a long slim dagger wielded                
+E   1   5230 100     17     a pale blue stone held                   
+E   1   5252 100     16     a long slim dagger wielded                
 O   0   5228   10   5242  load a rotten arm into A bath house
 O   0   5219    5   5217  load a chunk of venison into The meat stand
 O   0   5220    1   5234  load a large cracked fountain into The private gardens and courtyard of Thalos
 O   0   5207    5   5229  load a battered iron breast plate into An abandoned shop
 M 0 5202 1 5229 1  1   The mimic into An abandoned shop  
-G   1   5210    2            a black potion in inventory
-E   1   5214    4     17     a smooth quartz ball held                   
+G   1   5210 100            a black potion in inventory
+E   1   5214 100     17     a smooth quartz ball held                   
 M 0 5203 1 5226 1  1   The mimic into A ruined clay dwelling  
-G   1   5215    8            a tattered scroll in inventory
-G   1   5239    5            a dull grey stone in inventory
+G   1   5215 100            a tattered scroll in inventory
+G   1   5239 100            a dull grey stone in inventory
 M 0 5204 1 5219 1  1   The mimic into The guild house  
-G   1   5218    8            a demon-faced talisman in inventory
-G   1   5211    2            an orange potion in inventory
+G   1   5218 100            a demon-faced talisman in inventory
+G   1   5211 100            an orange potion in inventory
 M 0 5205 1 5238 1  1   The mimic into A small shack  
-E   1   5214    4     17     a smooth quartz ball held                   
+E   1   5214 100     17     a smooth quartz ball held                   
 M 0 5206 1 5236 1  1   The mimic into A collapsed home  
-E   1   5222    8     12     a black silk robe about body             
+E   1   5222 100     12     a black silk robe about body             
 M 0 5207 4 5232 1  1   The horned lizard into The city hall  
-E   0   5253    4     10     some lizard scales on arms                
+E   0   5253 100     10     some lizard scales on arms                
 M 0 5207 4 5217 1  1   The horned lizard into The meat stand  
 M 0 5207 4 5227 1  1   The horned lizard into A collapsed stone dwelling  
 M 0 5207 4 5244 1  1   The horned lizard into An upright house  
 M 0 5208 8 5247 1  1   The stone golem into The south-west watchtower  
-E   1   5221   80     16     a two-handed sword wielded                
-E   1   5224    8     17     an engraved ebony seal held                   
-E   1   5200    8      5     a mithril vest on body                
-E   1   5204    8      8     a pair of mithril boots on feet                
+E   1   5221  48     16     a two-handed sword wielded                
+E   1   5224 100     17     an engraved ebony seal held                   
+E   1   5200  48      5     a mithril vest on body                
+E   1   5204  48      8     a pair of mithril boots on feet                
 M 0 5208 8 5246 1  1   The stone golem into The north-west watchtower  
-E   1   5221   80     16     a two-handed sword wielded                
-E   1   5226    8     17     an engraved ivory seal held                   
-E   1   5203    8     10     some mithril sleeves on arms                
+E   1   5221  63     16     a two-handed sword wielded                
+E   1   5226 100     17     an engraved ivory seal held                   
+E   1   5203  63     10     some mithril sleeves on arms                
 M 0 5208 8 5248 1  1   The stone golem into The north-east watchtower  
-E   1   5221   80     16     a two-handed sword wielded                
-E   1   5205    8      7     a set of mithril leggings on legs                
-E   1   5206    8     13     a mithril girth around waist           
+E   1   5221  48     16     a two-handed sword wielded                
+E   1   5205  48      7     a set of mithril leggings on legs                
+E   1   5206  48     13     a mithril girth around waist           
 M 0 5208 8 5254 1  1   The stone golem into The south-east watchtower  
-E   1   5221   80     16     a two-handed sword wielded                
-E   1   5201    8      6     a mithril helm on head                
-E   1   5202    8      9     a pair of mithril gauntlets on hands               
+E   1   5221  48     16     a two-handed sword wielded                
+E   1   5201  48      6     a mithril helm on head                
+E   1   5202  48      9     a pair of mithril gauntlets on hands               
 O   0   5225    1   5231  load the desk into South wing of the city hall
 P 1 5215 3 5225 1  1   Load a tattered scroll into the desk  
 P 1 5216 3 5225 1  1   Load a bound scroll into the desk  
@@ -2238,13 +2238,13 @@ D   0   5267    3      1  A valley in the dark dwarf forest: Door west closed
 D   0   5268    1      1  A small ugly cave: Door east closed
 D   0   5270    5      1  Down the path into a dead end: Door down closed
 M 0 5208 2 5270 1  1   The stone golem into Down the path into a dead end  
-E   1   5100   99     16      wielded                
+E   1   5100  90     16      wielded                
 M 0 5208 2 5270 1  1   The stone golem into Down the path into a dead end  
-E   1   5100   99     16      wielded                
+E   1   5100  90     16      wielded                
 M 0 5208 2 5267 1  1   The stone golem into A valley in the dark dwarf forest  
-E   1   5100   99     16      wielded                
+E   1   5100  90     16      wielded                
 M 0 5208 2 5272 1  1   The stone golem into A dim trail in the dwarf forest  
-E   1   5100   99     16      wielded                
+E   1   5100  90     16      wielded                
 S
 #SPECIALS
 

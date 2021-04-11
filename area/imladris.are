@@ -3329,144 +3329,144 @@ O 0 12051 3 12072
 
 
 M 0 12000 1 12056 1  1        elflord  
-E 1 12001 3 12          robe
-E 1 12002 3 16          dagger
-E 1 12003 3  6          helm
-G 1 12042 1		silver key
 
+E 1 12001  48 12          robe
+E 1 12002  48 16          dagger
+E 1 12003  48  6          helm
+G 1 12042 100		silver key
 M 0 12001 1 12053 1  1        wizard  
-E 1 12000 2 17          pipe
 
+E 1 12000  90 17          pipe
 M 0 12002 1 12052 1  1        southerner  
-E 1 12004 3 16          sword
-E 1 12005 2 17          horn
-E 1 12006 4 8           bronze boots
 
+E 1 12004  48 16          sword
+E 1 12005  48 17          horn
+E 1 12006  48 8           bronze boots
 M 0 12003 1 12025 1  1        elvish presley  
-E 1 12035 5 17          lyre
-E 1 12052 1 8 		blue suede shoes
-G 1 12038 15            lembas
 
+E 1 12035 100 17          lyre
+E 1 12052 100 8 		blue suede shoes
+G 1 12038 100            lembas
 M 0 12004 1 12052 1  1        storyteller  
-E 1 12007 3 17          quill
-G 1 12008 3             parchment
 
+E 1 12007 100 17          quill
+G 1 12008 100             parchment
 M 0 12005 1 12049 1  1        noble dwarf  
-E 1 12009 4 11          shield
-E 1 12010 4 14          bracer
-E 1 12011 3 16          axe
 
+E 1 12009 100 11          shield
+E 1 12010 100 14          bracer
+E 1 12011 100 16          axe
 M 0 12008 1 12049 1  1 	dwarf  
-E 1 12019 4 11		shield
-E 1 12011 3 16		axe
-E 1 12010 4 14		bracer
 
+E 1 12019 100 11		shield
+E 1 12011 100 16		axe
+E 1 12010 100 14		bracer
 M 0 12006 1 12073 1  1        princess  
-E 1 12013 3 12          negligee
-E 1 12012 3 17          phial
-E 1 12053 3 18          earring
 
+E 1 12013 100 12          negligee
+E 1 12012 100 17          phial
+E 1 12053 100 18          earring
 M 0 12007 1 12004 1  1        warrior  
-E 1 12014 3 11          shield
-E 1 12015 3 16          sword
-E 1 12016 3 7           leggings
-E 1 12017 2 5           shirt
-E 1 12018 3 6           helm
-G 1 12038 15            lembas
 
+E 1 12014  33 11          shield
+E 1 12015  33 16          sword
+E 1 12016  33 7           leggings
+E 1 12017  33 5           shirt
+E 1 12018  33 6           helm
+G 1 12038  33            lembas
 M 0 12009 1 12072 1  1        archer  
-E 1 12020 4 16          bow
-E 1 12021 3 10          sleeves
-E 1 12022 2 8           silent boots
 
+E 1 12020 100 16          bow
+E 1 12021 100 10          sleeves
+E 1 12022 100 8           silent boots
 M 0 12010 1 12051 1  1        ranger  
-E 1 12023 3 12          cloak
-E 1 12024 4 13          scabbard
-G 1 12038 15            lembas
 
+E 1 12023  63 12          cloak
+E 1 12024 100 13          scabbard
+G 1 12038  63            lembas
 M 0 12011 1 12067 1  1        wounded hobbit  
-G 1 12025 3             burden
-G 1 12038 15            lembas
 
+G 1 12025 100             burden
+G 1 12038 100            lembas
 M 0 12012 1 12067 1  1        tough hobbit  
-E 1 12026 5 5           shirt
-E 1 12027 5 7           pants
-E 1 12028 5 13          belt
 
+E 1 12026 100 5           shirt
+E 1 12027 100 7           pants
+E 1 12028 100 13          belt
 M 0 12013 1 12059 1  1        young hobbit  
-E 1 12026 5 5           shirt
-E 1 12027 5 7           pants
-E 1 12028 5 13          belt
 
+E 1 12026 100 5           shirt
+E 1 12027 100 7           pants
+E 1 12028 100 13          belt
 M 0 12014 1 12052 1  1        sneaky hobbit  
-E 1 12026 5 5           shirt
-E 1 12027 5 7           pants
-E 1 12028 5 13          belt
 
+E 1 12026 100 5           shirt
+E 1 12027 100 7           pants
+E 1 12028 100 13          belt
 M 0 12015 3 12003 1  1        ringwraith  
-E 1 12029 3 12          cloak
-E 1 12030 3 6           hood
-E 1 12031 3 16          blade
 
+E 1 12029  48 12          cloak
+E 1 12030  48 6           hood
+E 1 12031  48 16          blade
 M 0 12015 3 12006 1  1        ringwraith  
-E 1 12029 3 12          cloak
-E 1 12030 3 6           hood
-E 1 12031 3 16          blade
 
+E 1 12029  48 12          cloak
+E 1 12030  48 6           hood
+E 1 12031  48 16          blade
 M 0 12016 3 12010 1  1        ringwraith  
-E 1 12029 3 12          cloak
-E 1 12030 3 6           hood
-E 1 12031 3 16          blade
 
+E 1 12029  48 12          cloak
+E 1 12030  48 6           hood
+E 1 12031  48 16          blade
 M 0 12017 6 12007 1  1        orc  
-E 1 12032 4 5           ringmail
-E 1 12033 4 16          spear
-E 1 12034 4 11          shield
 
+E 1 12032 100 5           ringmail
+E 1 12033 100 16          spear
+E 1 12034 100 11          shield
 M 0 12017 6 12007 1  1        orc  
-E 1 12032 4 5           ringmail
-E 1 12033 4 16          spear
-E 1 12034 4 11          shield
 
+E 1 12032 100 5           ringmail
+E 1 12033 100 16          spear
+E 1 12034 100 11          shield
 M 0 12018 1 12007 1  1        sergeant  
-E 1 12034 4 11          shield
 
+E 1 12034 100 11          shield
 M 0 12019 1 12020 1  1        sea horse  
 
 M 0 12020 1 12084 1  1        orc captain  
-E 1 12034 4 5           ringmail
-E 1 12033 4 16          spear
-E 1 12034 4 11          shield
 
+E 1 12034 100 5           ringmail
+E 1 12033 100 16          spear
+E 1 12034 100 11          shield
 M 0 12017 6 12084 1  1        orc  
-E 1 12032 4 5           ringmail
-E 1 12033 4 16          spear
-E 1 12034 4 11          shield
 
+E 1 12032 100 5           ringmail
+E 1 12033 100 16          spear
+E 1 12034 100 11          shield
 M 0 12023 3 12021 1  1        guard  
-E 1 12046 4 5           shirt
-E 1 12047 4 10          sleeves
-E 1 12048 4 7           pants
-E 1 12049 4 12          cloak
-E 1 12050 4 16          staff
 
+E 1 12046 100 5           shirt
+E 1 12047 100 10          sleeves
+E 1 12048 100 7           pants
+E 1 12049 100 12          cloak
+E 1 12050 100 16          staff
 M 0 12023 3 12021 1  1        guard  
-E 1 12046 4 5           shirt
-E 1 12047 4 10          sleeves
-E 1 12048 4 7           pants
-E 1 12049 4 12          cloak
-E 1 12050 4 16          staff
 
+E 1 12046 100 5           shirt
+E 1 12047 100 10          sleeves
+E 1 12048 100 7           pants
+E 1 12049 100 12          cloak
+E 1 12050 100 16          staff
 M 0 12023 3 12021 1  1        guard  
-E 1 12046 4 5           shirt
-E 1 12048 4 7           pants
 
+E 1 12046 100 5           shirt
+E 1 12048 100 7           pants
 M 0 12021 1 12044 1  1        smith  
-G 1 12039 1             broken sword
 
+G 1 12039 100             broken sword
 M 0 12022 1 12045 1  1        tanner  
-G 1 12038 15            lembas
 
+G 1 12038 100            lembas
 M 0 12024 4 12035 1  1        elves  
 M 0 12025 5 12035 1  1   
 M 0 12024 4 12039 1  1   
@@ -3474,16 +3474,16 @@ M 0 12025 5 12039 1  1
 M 0 12025 5 12026 1  1   
 
 M 0 12026 3 12026 1  1        gardener  
-G 1 12038 15            lembas
-G 1 12041 3             seeds
 
+G 1 12038 100            lembas
+G 1 12041 100             seeds
 M 0 12024 4 12037 1  1        elves  
 M 0 12025 5 12039 1  1   
 M 0 12024 4 12041 1  1   
 
 M 0 12025 5 12041 1  1   
-G 1 12038 15            lembas
 
+G 1 12038 100            lembas
 M 0 12026 3 12076 1  1        gardener  
 
 M 0 12026 3 12080 1  1        gardener  

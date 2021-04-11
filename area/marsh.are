@@ -782,7 +782,7 @@ weapon would probably be quite destructive, if not a little cumbersome.
 M 0 8301 2 8303 1  1   a swamp troll into Marshy Forest  
 M 0 8301 2 8308 1  1   a swamp troll into Pool of Quick Sand  
 M 0 8302 6 8303 1  1   a green troll into Marshy Forest  
-G   1   8307   20            A murky green potion in inventory
+G   1   8307 100            A murky green potion in inventory
 M 0 8302 6 8304 1  1   a green troll into On a hill.  
 M 0 8302 6 8306 1  1   a green troll into An Oozing Bog  
 M 0 8303 3 8303 1  1   an ogre into Marshy Forest  
@@ -790,8 +790,8 @@ M 0 8303 3 8313 1  1   an ogre into By the Monolith.
 M 0 8303 3 8307 1  1   an ogre into Swamp Thing's Lair  
 M 0 8304 1 8307 1  1   the Swamp Thing into Swamp Thing's Lair  
 M 0 8305 2 8306 1  1   a gnoll into An Oozing Bog  
-E   1   8303   20      5     A suit of chainmail on body                
-E   1   8308    2     16      wielded                
+E   1   8303  63      5     A suit of chainmail on body                
+E   1   8308  63     16      wielded                
 M 0 8306 2 8304 1  1   a huge hairy beast into On a hill.  
 M 0 8306 2 8310 1  1   a huge hairy beast into Gloomy Path Through the Marsh.  
 M 0 8307 2 8305 1  1   a rather small beast into An Oozing Bog  
@@ -804,8 +804,8 @@ M 0 8310 2 8305 1  1   a large snake into An Oozing Bog
 M 0 8312 2 8310 1  1   the Marsh Hag into Gloomy Path Through the Marsh.  
 M 0 8312 2 8309 1  1   the Marsh Hag into A Dark Pool.  
 M 0 8313 1 8310 1  1   a Death Slaad into Gloomy Path Through the Marsh.  
-E   1   8306    1     16     A huge, wicked-looking scythe wielded                
-E   1   8302    5      6     a dark horned helmet on head                
+E   1   8306  63     16     A huge, wicked-looking scythe wielded                
+E   1   8302  63      6     a dark horned helmet on head                
 M 0 8314 6 8304 1  1   a marsh wolf into On a hill.  
 M 0 8314 6 8305 1  1   a marsh wolf into An Oozing Bog  
 M 0 8314 6 8306 1  1   a marsh wolf into An Oozing Bog  
@@ -813,22 +813,22 @@ M 0 8314 6 8307 1  1   a marsh wolf into Swamp Thing's Lair
 M 0 8314 6 8308 1  1   a marsh wolf into Pool of Quick Sand  
 M 0 8314 6 8309 1  1   a marsh wolf into A Dark Pool.  
 M 0 8318 2 8312 1  1   a shambling mound into Near Vegetation from Hell.  
-G   1   8307   20            A murky green potion in inventory
+G   1   8307 100            A murky green potion in inventory
 M 0 8318 2 8312 1  1   a shambling mound into Near Vegetation from Hell.  
-G   1   8307   20            A murky green potion in inventory
+G   1   8307 100            A murky green potion in inventory
 M 0 8321 2 8318 1  1   a gargoyle into Before the Great Gates.  
 M 0 8321 2 8318 1  1   a gargoyle into Before the Great Gates.  
 M 0 8320 5 8307 1  1   a marsh giant into Swamp Thing's Lair  
-G   1   8301   10            a long spear in inventory
+G   1   8301 100            a long spear in inventory
 M 0 8320 5 8309 1  1   a marsh giant into A Dark Pool.  
-G   1   8301   10            a long spear in inventory
+G   1   8301 100            a long spear in inventory
 M 0 8320 5 8311 1  1   a marsh giant into Cloud of Darkness.  
-G   1   8301   10            a long spear in inventory
+G   1   8301 100            a long spear in inventory
 M 0 8320 5 8313 1  1   a marsh giant into By the Monolith.  
-G   1   8301   10            a long spear in inventory
+G   1   8301 100            a long spear in inventory
 M 0 8320 5 8315 1  1   a marsh giant into Northern Lake Side.  
-G   1   8301   10            a long spear in inventory
-E   1   8302    5      6     a dark horned helmet on head                
+G   1   8301 100            a long spear in inventory
+E   1   8302 100      6     a dark horned helmet on head                
 S
 #SPECIALS
 

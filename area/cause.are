@@ -640,29 +640,29 @@ D 0 26022 4 2
 
 
 M 0 26025 1 26004 1  1   the guardian into The guardians room  
-G   1  26005   1            a key in inventory
-G   1  26006   1            a key in inventory
+G   1  26005 100            a key in inventory
+G   1  26006 100            a key in inventory
 M 0 26038 1 26006 1  1   the master of knowledge into The viewing chair  
 M 0 26026 1 26007 1  1   your greed into a hideous room  
-G   1  26008   1              a key in Inventory &
+G   1  26008 100              a key in Inventory &
 M 0 26027 1 26009 1  1   your pride into a hideous room  
-G   1  26010   1              a key in Inventory &
+G   1  26010 100              a key in Inventory &
 M 0 26028 1 26011 1  1   your hatred into a hideous room  
-G   1  26012   1              a key in Inventory &
+G   1  26012 100              a key in Inventory &
 M 0 26029 1 26013 1  1   your jealousy into a hideous room  
-G   1  26014   1              a key in Inventory &
+G   1  26014 100              a key in Inventory &
 M 0 26032 1 26015 1  1   your guilt into a hideous room  
-G   1  26017   1              a key in Inventory &
+G   1  26017 100              a key in Inventory &
 M 0 26030 1 26016 1  1   your self respect into a hideous room  
-G   1  26018   1              a key in Inventory &
+G   1  26018 100              a key in Inventory &
 M 0 26033 1 26019 1  1   your self doubt into a hideous room  
-G   1  26021   1              a key in Inventory &
+G   1  26021 100              a key in Inventory &
 M 0 26031 1 26020 1  1   your honour into a hideous room  
-G   1  26021   1              a key in Inventory &
+G   1  26021 100              a key in Inventory &
 M 0 26035 1 26022 1  1   an adept of evil into A room of choices  
-G   1  26024   1              a key in Inventory &
+G   1  26024 100              a key in Inventory &
 M 0 26034 1 26022 1  1   an adept of good into A room of choices  
-G   1  26023   1              a key in Inventory &
+G   1  26023 100              a key in Inventory &
 M 0 26036 1 26023 1  1   God into GODS ROOM  
 M 0 26037 1 26024 1  1   Satan into SATANS ROOM  
 S

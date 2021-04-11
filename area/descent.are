@@ -4598,15 +4598,15 @@ weapon 0 AN
 
 #RESETS
 M 0 10401 2 10405 1  1   the Guardian of Hell into Gateway to Hell  
-E   1  10401   80     16     a wicked looking trident wielded                
+E   1  10401  90     16     a wicked looking trident wielded                
 M 0 10401 2 10405 1  1   the Guardian of Hell into Gateway to Hell  
-E   1  10401   80     16     a wicked looking trident wielded                
+E   1  10401  90     16     a wicked looking trident wielded                
 M 0 10402 1 10416 1  1   the pile of gold coins into Greed  
 M 0 10405 1 10416 1  1   the gold bar into Greed  
 M 0 10403 1 10417 1  1   the male Dee into Bedroom.  
-E   1  10402   80     16     a black leather whip wielded                
+E   1  10402  90     16     a black leather whip wielded                
 M 0 10404 1 10417 1  1   the female Dee into Bedroom.  
-E   1  10403   80     16     hickey maker wielded                
+E   1  10403  90     16     hickey maker wielded                
 M 0 10406 1 10415 1  1   a scrumptious chicken pot pie into Gluttony  
 M 0 10407 1 10415 1  1   a yummy beef pot pie into Gluttony  
 M 0 10408 1 10415 1  1   a yummy vegetable pot pie into Gluttony  
@@ -4616,15 +4616,15 @@ M 0 10409 6 10410 1  1   a damned soul into Hall of the Damned
 M 0 10410 2 10413 1  1   a tortured soul into Trapped souls  
 M 0 10411 1 10414 1  1   the half-eaten person into Tortured Beings  
 M 0 10412 2 10412 1  1   the living wall into Living Walls  
-G   1  10405    8            angel's skull in inventory
+G   1  10405  90            angel's skull in inventory
 M 0 10412 2 10429 1  1   the living wall into Living Walls  
-G   1  10404    8            a black hilted sword called, "Farslayer" in inventory
+G   1  10404  90            a black hilted sword called, "Farslayer" in inventory
 M 0 10413 2 10426 1  1   skeletal warrior into Blackened Hallway  
-E   1  10406   80      5     rotting flesh on body                
-E   1  10407   80     16     vorpal blade wielded                
+E   1  10406  63      5     rotting flesh on body                
+E   1  10407  63     16     vorpal blade wielded                
 M 0 10413 2 10428 1  1   skeletal warrior into Blood Room  
-E   1  10406   80      5     rotting flesh on body                
-E   1  10407   80     16     vorpal blade wielded                
+E   1  10406  63      5     rotting flesh on body                
+E   1  10407  63     16     vorpal blade wielded                
 M 0 10414 1 10419 1  1   bloody severed arm into Room full of Body Parts.  
 M 0 10415 1 10419 1  1   bloody severed foot into Room full of Body Parts.  
 M 0 10416 1 10419 1  1   bloody severed nose into Room full of Body Parts.  
@@ -4632,61 +4632,61 @@ M 0 10417 1 10420 1  1   the blood from the fountain into Fountain of Blood.
 M 0 10418 4 10423 1  1   the lost soul into Room of Lost Souls  
 M 0 10418 4 10424 1  1   the lost soul into Room of Lost Souls  
 M 0 10419 1 10425 1  1   crispy critter into Pit of Fire  
-E   1  10408   80     16     flaming claw wielded                
+E   1  10408  90     16     flaming claw wielded                
 M 0 10420 2 10430 1  1   pile of bones into Skeleton Factory  
 M 0 10421 2 10445 1  1   the manes into Cell  
-E   1  10444   80     16     mane's claws wielded                
+E   1  10444  90     16     mane's claws wielded                
 M 0 10421 2 10440 1  1   the manes into Cell  
-E   1  10444   80     16     mane's claws wielded                
+E   1  10444  90     16     mane's claws wielded                
 M 0 10422 1 10433 1  1   the prisoner Raiden into Cell  
 M 0 10423 1 10437 1  1   a prisoner in hell into Cell  
 M 0 10424 1 10449 1  1   a prisoner in hell into Cell  
 M 0 10425 3 10442 1  1   demonguard into Stone Hall  
-E   1  10409   80      5     demonskin on body                
-E   1  10410   80     16     demon teeth wielded                
+E   1  10409  63      5     demonskin on body                
+E   1  10410  63     16     demon teeth wielded                
 M 0 10425 3 10436 1  1   demonguard into Stone Hall  
-E   1  10409   80      5     demonskin on body                
-E   1  10410   80     16     demon teeth wielded                
+E   1  10409  63      5     demonskin on body                
+E   1  10410  63     16     demon teeth wielded                
 M 0 10425 3 10438 1  1   demonguard into Stone Hall  
-E   1  10409   80      5     demonskin on body                
-E   1  10410   80     16     demon teeth wielded                
+E   1  10409  63      5     demonskin on body                
+E   1  10410  63     16     demon teeth wielded                
 M 0 10426 2 10470 1  1   the burning fool into Lake of Fire  
-E   1  10411   80     10     burning flesh on arms                
+E   1  10411  90     10     burning flesh on arms                
 M 0 10426 2 10460 1  1   the burning fool into Fire Pits of Hades  
-E   1  10411   80     10     burning flesh on arms                
+E   1  10411  90     10     burning flesh on arms                
 M 0 10427 2 10467 1  1   male construction worker into Construction Area  
-E   1  10445   80     16     welding torch wielded                
+E   1  10445  90     16     welding torch wielded                
 M 0 10428 3 10467 1  1   female construction worker into Construction Area  
-E   1  10412   80     16     rivet gun wielded                
+E   1  10412  90     16     rivet gun wielded                
 M 0 10427 2 10456 1  1   male construction worker into Construction Area  
-E   1  10445   80     16     welding torch wielded                
+E   1  10445  90     16     welding torch wielded                
 M 0 10428 3 10456 1  1   female construction worker into Construction Area  
-E   1  10412   80     16     rivet gun wielded                
+E   1  10412  90     16     rivet gun wielded                
 M 0 10429 1 10465 1  1   female construction worker into Construction Area  
-E   1  10413   80     16     circular saw wielded                
+E   1  10413  90     16     circular saw wielded                
 M 0 10428 3 10456 1  1   female construction worker into Construction Area  
-E   1  10412   80     16     rivet gun wielded                
+E   1  10412  90     16     rivet gun wielded                
 M 0 10430 1 10470 1  1   fire devil into Lake of Fire  
-E   1  10414   80     16     box of matches wielded                
+E   1  10414  90     16     box of matches wielded                
 M 0 10468 1 10460 1  1   Greater Fire Demon into Fire Pits of Hades  
-E   1  10415   80     16     bloody black talon wielded                
-G   1  10416    8            jar of blood in inventory
+E   1  10415  54     16     bloody black talon wielded                
+G   1  10416  54            jar of blood in inventory
 M 0 10431 1 10469 1  1   wall of fire into Wall of Fire  
 M 0 10432 1 10454 1  1   hell hound into Hall of Fire  
-E   1  10417   80     16     hell hound teeth wielded                
+E   1  10417  90     16     hell hound teeth wielded                
 M 0 10433 1 10541 1  1   frozen body into Ice Room  
-G   1  10418    8            icy bottle in inventory
+G   1  10418  90            icy bottle in inventory
 M 0 10434 1 10483 1  1   ice devil into Ice Room  
-E   1  10419   80     16     ice spear wielded                
+E   1  10419  80     16     ice spear wielded                
 M 0 10435 1 10473 1  1   soul trapped under the ice into Ice Room  
 M 0 10436 2 10484 1  1   half frozen body into Meat Locker  
-E   1  10420   80     16     large meat hook wielded                
+E   1  10420  90     16     large meat hook wielded                
 M 0 10469 2 10474 1  1   side of frozen beef into Meat Locker  
-G   1  10421    8            meat in inventory
+G   1  10421  90            meat in inventory
 M 0 10436 2 10475 1  1   half frozen body into Meat Locker  
-E   1  10420   80     16     large meat hook wielded                
+E   1  10420  90     16     large meat hook wielded                
 M 0 10469 2 10485 1  1   side of frozen beef into Meat Locker  
-G   1  10421    8            meat in inventory
+G   1  10421  90            meat in inventory
 M 0 10437 4 10476 1  1   killer penguin into Penguin Room  
 M 0 10437 4 10477 1  1   killer penguin into Penguin Room  
 M 0 10437 4 10486 1  1   killer penguin into Penguin Room  
@@ -4695,74 +4695,74 @@ M 0 10438 2 10488 1  1   I-scream worker into Ice-Creamery
 M 0 10438 2 10478 1  1   I-scream worker into Ice Creamery  
 M 0 10439 1 10479 1  1   Ice Screamer into Ice Creamery  
 M 0 10440 1 10462 1  1   Demonic Foreman into Foreman's Office  
-G   1  10422   17            blueprint in inventory
+G   1  10422  80            blueprint in inventory
 M 0 10441 1 10500 1  1   Secretary of Hell into Administration of Hell  
-E   1  10446   80      6     blond wig on head                
+E   1  10446  80      6     blond wig on head                
 M 0 10442 2 10498 1  1   office worker from hell into Blackened Hall  
-E   1  10423   80     16     electric eraser wielded                
+E   1  10423  80     16     electric eraser wielded                
 M 0 10442 2 10506 1  1   office worker from hell into Blackened Hall  
-E   1  10423   80     16     electric eraser wielded                
+E   1  10423  80     16     electric eraser wielded                
 M 0 10443 3 10491 1  1   records worker into Records Hall  
 M 0 10443 3 10492 1  1   records worker into Records Hall  
 M 0 10443 3 10493 1  1   records worker into Records Hall  
 M 0 10444 1 10494 1  1   Santa Claus into Records Hall  
-E   1  10424   80      6     spectacles on head                
+E   1  10424  80      6     spectacles on head                
 M 0 10445 1 10497 1  1   High Priest of Hell into Office of the High Priest  
-E   1  10425   80     17     unholy symbol held                   
-E   1  10426   80     12     unholy robe about body             
+E   1  10425  54     17     unholy symbol held                   
+E   1  10426  54     12     unholy robe about body             
 M 0 10446 1 10495 1  1   a bowl of blood into Small Altar  
 M 0 10447 6 10511 1  1   jury member into Court Room  
 M 0 10448 1 10521 1  1   Judge Whopper into Judge's Chambers  
 M 0 10449 1 10512 1  1   Lawyer from Hell into Lawyers Office  
-E   1  10427   80     16     sharp teeth of a lawyer wielded                
+E   1  10427  80     16     sharp teeth of a lawyer wielded                
 M 0 10450 1 10513 1  1   Complaints Officer into Office of Complaints  
 M 0 10451 1 10514 1  1   bastard hiramoto into Pawn Shop  
-G   1  10428    8            golden ring in inventory
-G   1  10429    8            engagement ring in inventory
-G   1  10430    8            prenuptial agreement in inventory
+G   1  10428 100            golden ring in inventory
+G   1  10429 100            engagement ring in inventory
+G   1  10430 100            prenuptial agreement in inventory
 M 0 10452 3 10520 1  1   maintenance worker into Maintenance Walkway  
-E   1  10431   80     16     ionic torque wrench wielded                
-E   1  10447   80      5     yellow jumpsuit on body                
+E   1  10431  63     16     ionic torque wrench wielded                
+E   1  10447  63      5     yellow jumpsuit on body                
 M 0 10452 3 10519 1  1   maintenance worker into Maintenance Walkway  
-E   1  10431   80     16     ionic torque wrench wielded                
-E   1  10447   80      5     yellow jumpsuit on body                
+E   1  10431  63     16     ionic torque wrench wielded                
+E   1  10447  63      5     yellow jumpsuit on body                
 M 0 10452 3 10529 1  1   maintenance worker into Maintenance Room  
-E   1  10431   80     16     ionic torque wrench wielded                
-E   1  10447   80      5     yellow jumpsuit on body                
+E   1  10431  63     16     ionic torque wrench wielded                
+E   1  10447  63      5     yellow jumpsuit on body                
 M 0 10453 2 10522 1  1   weeds into Courtyard  
 M 0 10453 2 10533 1  1   weeds into Courtyard  
 M 0 10454 1 10524 1  1   Stanley into Stanely's Magical Steeds  
-G   1  10432    -1            figurine of a horse in inventory
-G   1  10433    -1            figurine of a winged horse in inventory
-G   1  10434    -1            figurine of a nightmare in inventory
-G   1  10435    -1            figurine of a black dragon in inventory
-G   1  10436    -1            figurine of a red dragon in inventory
-G   1  10437    -1            figurine of a white dragon in inventory
-G   1  10438    -1            figurine of a green dragon in inventory
-G   1  10439    -1            figurine of a blue dragon in inventory
+G   1  10432 100            figurine of a horse in inventory
+G   1  10433 100            figurine of a winged horse in inventory
+G   1  10434 100            figurine of a nightmare in inventory
+G   1  10435 100            figurine of a black dragon in inventory
+G   1  10436 100            figurine of a red dragon in inventory
+G   1  10437 100            figurine of a white dragon in inventory
+G   1  10438 100            figurine of a green dragon in inventory
+G   1  10439 100            figurine of a blue dragon in inventory
 M 0 10455 1 10526 1  1   half eaten horse carcass into Inside Big Mouth's Stomach  
 M 0 10456 1 10526 1  1   stomach dragon into Inside Big Mouth's Stomach  
 M 0 10457 1 10526 1  1   rancid turkey leg into Inside Big Mouth's Stomach  
 M 0 10458 1 10528 1  1   reactor specialist into Reactor Control Room  
-E   1  10440   80     17     geiger counter held                   
-E   1  10442   80      5     black jumpsuit on body                
+E   1  10440  54     17     geiger counter held                   
+E   1  10442  54      5     black jumpsuit on body                
 M 0 10459 1 10528 1  1   reactor worker into Reactor Control Room  
-E   1  10441   80     16     photon displacement matrix wielded                
-E   1  10442   80      5     black jumpsuit on body                
+E   1  10441  63     16     photon displacement matrix wielded                
+E   1  10442  63      5     black jumpsuit on body                
 M 0 10460 1 10539 1  1   Homer Simpson into Secondary Control Room  
 M 0 10471 1 10531 1  1   juicy steak into Hell's Kitchen  
 M 0 10461 1 10531 1  1   devils food cake into Hell's Kitchen  
 M 0 10462 1 10531 1  1   mad cook into Hell's Kitchen  
-E   1  10448   80     16     cleaver wielded                
+E   1  10448  80     16     cleaver wielded                
 M 0 10463 2 10535 1  1   frantic lady into Hallway of The Mall from Hell  
 M 0 10463 2 10515 1  1   frantic lady into Hallway of The Mall from Hell  
 M 0 10464 1 10538 1  1   nuclear technician into Reactor Room Floor  
-E   1  10442   80      5     black jumpsuit on body                
+E   1  10442  90      5     black jumpsuit on body                
 M 0 10466 2 10538 1  1   radiation into Reactor Room Floor  
 M 0 10465 1 10537 1  1   stray proton into Inside the Reactor Core  
 M 0 10466 2 10537 1  1   radiation into Inside the Reactor Core  
 M 0 10467 1 10540 1  1   the Chief Engineer of Hell into Office of the Chief Engineer  
-G   1  10443    8            antacid pill in inventory
+G   1  10443  80            antacid pill in inventory
 M 0 10470 2 10530 1  1   guard dog into Break Room  
 D   0  10404    3      1  Landing: Door west closed
 D   0  10405    1      1  Gateway to Hell: Door east closed

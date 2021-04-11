@@ -2166,46 +2166,46 @@ potion H A
 #RESETS
 M 0 1502 3 1503 1  1   a gnome man into A Road in the Village
   
-E   1   1503   20     16     A gnarled staff wielded                
+E   1   1503 100     16     A gnarled staff wielded                
 M 0 1502 3 1505 1  1   a gnome man into A Road in the Village
   
-E   1   1503   20     16     A gnarled staff wielded                
+E   1   1503 100     16     A gnarled staff wielded                
 M 0 1502 3 1506 1  1   a gnome man into A Road in the Village
   
-E   1   1503   20     16     A gnarled staff wielded                
+E   1   1503 100     16     A gnarled staff wielded                
 M 0 1500 3 1509 1  1   a gnome child into A Small Gnome House
   
-G   1   1502   20            A toy boomerang in inventory
+G   1   1502 100            A toy boomerang in inventory
 M 0 1501 3 1509 1  1   a gnome woman into A Small Gnome House
   
 M 0 1500 3 1510 1  1   a gnome child into A Small Gnome House
   
-G   1   1502   20            A toy boomerang in inventory
+G   1   1502 100            A toy boomerang in inventory
 M 0 1501 3 1510 1  1   a gnome woman into A Small Gnome House
   
 M 0 1500 3 1511 1  1   a gnome child into A Small Gnome House
   
-G   1   1502   20            A toy boomerang in inventory
+G   1   1502 100            A toy boomerang in inventory
 M 0 1501 3 1511 1  1   a gnome woman into A Small Gnome House
   
 M 0 1503 3 1513 1  1   a gnome scientist into A Small Gnome House
   
-G   1   1511   12            a wicker basket in inventory
+G   1   1511 100            a wicker basket in inventory
 P 1 1513 3 1511 1  1   Load some grain into a wicker basket
   
 M 0 1503 3 1514 1  1   a gnome scientist into A Gnome Shop
   
-G   1   1511   12            a wicker basket in inventory
+G   1   1511 100            a wicker basket in inventory
 P 1 1512 3 1511 1  1   Load some peanuts into a wicker basket
   
 M 0 1503 3 1515 1  1   a gnome scientist into A Gnome Shop
   
-E   1   1514   12     16     a skiff wielded                
+E   1   1514 100     16     a skiff wielded                
 M 0 1504 3 1519 1  1   a gnome guard into A Small Hut
   
-G   1   1500    3            a bloody key in inventory
-G   1   1506   10            a bloody potion in inventory
-E   1   1507   10      3     a bloody cloak on neck                
+G   1   1500 100            a bloody key in inventory
+G   1   1506 100            a bloody potion in inventory
+E   1   1507 100      3     a bloody cloak on neck                
 M 0 1508 2 1522 1  1   a field mouse into The Field of Mice's Dreams
   
 M 0 1508 2 1522 1  1   a field mouse into The Field of Mice's Dreams
@@ -2214,23 +2214,23 @@ M 0 1507 1 1524 1  1   a small troll into Darker Cave
   
 M 0 1504 6 1527 1  1   a gnome guard into The Iron Gateway
   
-E   1   1504   20     16     A gnome sword wielded                
+E   1   1504 100     16     A gnome sword wielded                
 M 0 1504 6 1530 1  1   a gnome guard into The Barracks
   
-E   1   1504   20     16     A gnome sword wielded                
+E   1   1504 100     16     A gnome sword wielded                
 M 0 1504 6 1530 1  1   a gnome guard into The Barracks
   
-E   1   1504   20     16     A gnome sword wielded                
+E   1   1504 100     16     A gnome sword wielded                
 M 0 1504 6 1534 1  1   a gnome guard into The Mess Hall
   
-E   1   1504   12     16     A gnome sword wielded                
+E   1   1504 100     16     A gnome sword wielded                
 D   0   1536    1      2  A Small Unused Room: Door east locked
 M 0 1509 3 1541 1  1   a rat into Prison Cell
   
-E   1   1505   10     11     a studded shield as shield              
+E   1   1505 100     11     a studded shield as shield              
 M 0 1510 3 1542 1  1   a large rat into Prison Cell
   
-E   1   1503   12     16     A gnarled staff wielded                
+E   1   1503 100     16     A gnarled staff wielded                
 M 0 1511 3 1543 1  1   a giant rat into Prison Cell
   
 R   0   1548    4         A Damp Hallway: Door(s) 0-4 randomized
@@ -2243,7 +2243,7 @@ R   0   1554    4         A Damp Hallway: Door(s) 0-4 randomized
 R   0   1555    4         A Damp Hallway: Door(s) 0-4 randomized
 M 0 1512 1 1545 1  1   the troll into End of the Dark Hallway
   
-G   1   1501    4            a dirty key in inventory
+G   1   1501 100            a dirty key in inventory
 D   0   1545    3      2  End of the Dark Hallway: Door west locked
 D   0   1546    1      2  A Ladder: Door east locked
 M 0 1513 10 1548 1  1   a black bat into A Damp Hallway
@@ -2268,66 +2268,66 @@ M 0 1514 10 1555 1  1   the zombie gnome into A Damp Hallway
   
 M 0 1515 1 1556 1  1   the fire bat into The End of the Hallway
   
-G   1   1505   18            a studded shield in inventory
-G   1   1512   20            some peanuts in inventory
-G   1   1516    3            a pile of coins in inventory
+G   1   1505 100            a studded shield in inventory
+G   1   1512 100            some peanuts in inventory
+G   1   1516 100            a pile of coins in inventory
 O   0   1517    3   1557  load a pile of coins into The Altar
 O   0   1518    3   1557  load a pile of coins into The Altar
 M 0 1505 1 1558 1  1   the chief gnome into The Chief's House
   
-E   1   1508    5      1     A bat ring on left finger         
-E   1   1509   12      3     A bead necklace on neck                
-E   1   1510    5     16     An electrum sword wielded                
+E   1   1508 100      1     A bat ring on left finger         
+E   1   1509 100      3     A bead necklace on neck                
+E   1   1510 100     16     An electrum sword wielded                
 M 0 1520 6 1563 1  1   a hobgoblin miner into Mine Shaft
   
 M 0 1520 6 1565 1  1   a hobgoblin miner into Mine Shaft
   
 M 0 1518 5 1569 1  1   the hobgoblin bodyguard into The Throne Room
   
-E   1   1521   30     16     a large club wielded                
+E   1   1521 100     16     a large club wielded                
 M 0 1518 5 1569 1  1   the hobgoblin bodyguard into The Throne Room
   
-E   1   1521   30     16     a large club wielded                
+E   1   1521 100     16     a large club wielded                
 M 0 1518 5 1569 1  1   the hobgoblin bodyguard into The Throne Room
   
-E   1   1521   30     16     a large club wielded                
+E   1   1521 100     16     a large club wielded                
 M 0 1518 5 1569 1  1   the hobgoblin bodyguard into The Throne Room
   
-E   1   1521   30     16     a large club wielded                
+E   1   1521 100     16     a large club wielded                
 M 0 1518 5 1569 1  1   the hobgoblin bodyguard into The Throne Room
   
-E   1   1521   30     16     a large club wielded                
+E   1   1521 100     16     a large club wielded                
 M 0 1519 1 1569 1  1   the king of the hobgoblins into The Throne Room
   
-E   1   1520    5      5     heavy banded mail on body                
+E   1   1520 100      5     heavy banded mail on body                
 M 0 1521 1 1570 1  1   the treasurer into The Treasury
   
 O   1   1516   10   1570  load a pile of coins into The Treasury
 O   1   1517   10   1570  load a pile of coins into The Treasury
 M 0 1517 30 1571 1  1   the hobgoblin soldier into Guarded Room
   
-E   1   1521   40     16     a large club wielded                
+E   1   1521 100     16     a large club wielded                
 M 0 1517 30 1571 1  1   the hobgoblin soldier into Guarded Room
   
-E   1   1521   40     16     a large club wielded                
+E   1   1521 100     16     a large club wielded                
 M 0 1517 30 1571 1  1   the hobgoblin soldier into Guarded Room
   
-E   1   1521   40     16     a large club wielded                
+E   1   1521 100     16     a large club wielded                
 M 0 1517 30 1571 1  1   the hobgoblin soldier into Guarded Room
   
-E   1   1521   40     16     a large club wielded                
+E   1   1521 100     16     a large club wielded                
 M 0 1517 30 1572 1  1   the hobgoblin soldier into Guarded Room
   
-E   1   1521   40     16     a large club wielded                
+E   1   1521 100     16     a large club wielded                
 M 0 1517 30 1572 1  1   the hobgoblin soldier into Guarded Room
   
-E   1   1521   40     16     a large club wielded                
+E   1   1521 100     16     a large club wielded                
 M 0 1517 30 1572 1  1   the hobgoblin soldier into Guarded Room
   
-E   1   1521   40     16     a large club wielded                
+E   1   1521 100     16     a large club wielded                
 M 0 1517 30 1572 1  1   the hobgoblin soldier into Guarded Room
   
-E   1   1521   40     16     a large club wielded                
+E   1   1521 100     16     a large club wielded                
 O   0   1521   40   1573  load a large club into Hobgoblin Armory
 M 0 1522 6 1577 1  1   a gnome prisoner into A Jail Cell
   

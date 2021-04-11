@@ -1190,84 +1190,84 @@ M 0 5100 15 5122 1  1   the goblin slave into Slave Chamber
   
 M 0 5101 10 5118 1  1   the drow commoner into Warrior's Academy
   
-E   1   5100   50     16     a commoner's longsword wielded                
+E   1   5100 100     16     a commoner's longsword wielded                
 M 0 5101 10 5133 1  1   the drow commoner into Warrior's Barracks
   
-E   1   5100   50     16     a commoner's longsword wielded                
+E   1   5100 100     16     a commoner's longsword wielded                
 M 0 5102 4 5104 1  1   the drow warrior noble into 3rd House
   
-E   1   5101   12     16     a noble's longsword wielded                
+E   1   5101 100     16     a noble's longsword wielded                
 M 0 5102 4 5124 1  1   the drow warrior noble into 4th house
   
-E   1   5101   12     16     a noble's longsword wielded                
+E   1   5101 100     16     a noble's longsword wielded                
 M 0 5102 4 5108 1  1   the drow warrior noble into 2nd House
   
-E   1   5101   12     16     a noble's longsword wielded                
+E   1   5101 100     16     a noble's longsword wielded                
 M 0 5102 4 5111 1  1   the drow warrior noble into 1st House
   
-E   1   5101   12     16     a noble's longsword wielded                
+E   1   5101 100     16     a noble's longsword wielded                
 M 0 5103 4 5104 1  1   the drow mage noble into 3rd House
   
-E   1   5102    4     16     a snake headed whip wielded                
+E   1   5102 100     16     a snake headed whip wielded                
 M 0 5103 4 5124 1  1   the drow mage noble into 4th house
   
-E   1   5102    4     16     a snake headed whip wielded                
+E   1   5102 100     16     a snake headed whip wielded                
 M 0 5103 4 5108 1  1   the drow mage noble into 2nd House
   
-E   1   5102    4     16     a snake headed whip wielded                
+E   1   5102 100     16     a snake headed whip wielded                
 M 0 5103 4 5111 1  1   the drow mage noble into 1st House
   
-E   1   5102    4     16     a snake headed whip wielded                
+E   1   5102 100     16     a snake headed whip wielded                
 M 0 5104 4 5104 1  1   the drow priestess into 3rd House
   
-E   1   5103    4     16     a snake headed whip wielded                
+E   1   5103 100     16     a snake headed whip wielded                
 M 0 5104 4 5124 1  1   the drow priestess into 4th house
   
-E   1   5103    4     16     a snake headed whip wielded                
+E   1   5103 100     16     a snake headed whip wielded                
 M 0 5104 4 5108 1  1   the drow priestess into 2nd House
   
-E   1   5103    4     16     a snake headed whip wielded                
+E   1   5103 100     16     a snake headed whip wielded                
 M 0 5104 4 5111 1  1   the drow priestess into 1st House
   
-E   1   5103    4     16     a snake headed whip wielded                
+E   1   5103 100     16     a snake headed whip wielded                
 M 0 5105 3 5118 1  1   The drow master into Warrior's Academy
   
-E   1   5105    3     16     a black longsword wielded                
-E   1   5110    5     17     a silvery blue wand held                   
+E   1   5105  63     16     a black longsword wielded                
+E   1   5110  63     17     a silvery blue wand held                   
 M 0 5105 3 5120 1  1   The drow master into Mage's Academy
   
-E   1   5104    2     16     a snake headed whip wielded                
-E   1   5110    5     17     a silvery blue wand held                   
+E   1   5104  63     16     a snake headed whip wielded                
+E   1   5110  63     17     a silvery blue wand held                   
 M 0 5105 3 5116 1  1   The drow master into Cleric Academy
   
-E   1   5104    2     16     a snake headed whip wielded                
-E   1   5110    5     17     a silvery blue wand held                   
+E   1   5104  63     16     a snake headed whip wielded                
+E   1   5110  63     17     a silvery blue wand held                   
 M 0 5106 2 5150 1  1   The weapons master into Weaponsmaster's Chamber
   
-E   1   5105    3     16     a black longsword wielded                
-E   1   5109    1      9     a pair of gauntlets on hands               
+E   1   5105  63     16     a black longsword wielded                
+E   1   5109  63      9     a pair of gauntlets on hands               
 M 0 5106 2 5101 1  1   The weapons master into City street
   
-E   1   5105    3     16     a black longsword wielded                
+E   1   5105  90     16     a black longsword wielded                
 M 0 5107 3 5125 1  1   the matron mother into Throne Room
   
-E   1   5104    3     16     a snake headed whip wielded                
-G   1   5114    3            a small bright green hat in inventory
+E   1   5104  63     16     a snake headed whip wielded                
+G   1   5114  63            a small bright green hat in inventory
 M 0 5107 3 5105 1  1   the matron mother into Throne Room
   
-E   1   5104    3     16     a snake headed whip wielded                
-E   1   5111    2      6     a small helmet on head                
+E   1   5104  63     16     a snake headed whip wielded                
+E   1   5111  63      6     a small helmet on head                
 M 0 5107 3 5109 1  1   the matron mother into Throne Room
   
-E   1   5104    3     16     a snake headed whip wielded                
-E   1   5108    2     10     a pair of bracers on arms                
+E   1   5104  63     16     a snake headed whip wielded                
+E   1   5108  63     10     a pair of bracers on arms                
 M 0 5108 1 5113 1  1   the matron mother into Main Chamber
   
-E   1   5104    1     16     a snake headed whip wielded                
-E   1   5112    1      1     a small ruby ring on left finger         
+E   1   5104  63     16     a snake headed whip wielded                
+E   1   5112  63      1     a small ruby ring on left finger         
 M 0 5109 1 5148 1  1   the yochlol into Dais
   
-E   1   5113    1     16     a spider shaped dagger wielded                
+E   1   5113  90     16     a spider shaped dagger wielded                
 D   0   5100    4      1  City Entrance: Door up closed
 S
 #SPECIALS

@@ -6411,169 +6411,169 @@ O 0 3098 1 3058
 *
 
 M 0 3011 1 3001 1  1        Concordius
-E 1 3005 10 9         clawfist 
-E 1 3388 10 11         shield
-E 1 3389 10 5
 *
+E 1 3005  33 9         clawfist 
+E 1 3388  33 11         shield
+E 1 3389  33 5
 M 0 3162 1 3001 1  1        Aquila
 *
 O 0 3010 1 3054       Donation pit
 *
 M 0 3000 1 3033 1  1        The Wizard Shop Keeper  
-G 1 3040 -1             identify scroll.
-G 1 3041 -1             potion of see invisible.
-G 1 3039 -1    cancel scroll
-G 1 3042 -1    recall scroll
-G 1 3043 -1    ring of protection
-G 1 3044 -1    wand of magic missiles
 *
+G 1 3040 100             identify scroll.
+G 1 3041 100             potion of see invisible.
+G 1 3039 100    cancel scroll
+G 1 3042 100    recall scroll
+G 1 3043 100    ring of protection
+G 1 3044 100    wand of magic missiles
 M 0 3003 1 3011 1  1        The weaponsmith  
 
 * additional weapons equipment added 29/6/99 Faramir
 
-G 1 3380 -1
-G 1 3381 -1
-G 1 3382 -1
-G 1 3383 -1
 
 * normal items
 
-G 1 3385 -1   stiletto
-G 1 3351 -1       standard issue dagger
-G 1 3020 -1       thin dagger
-G 1 3021 -1       small sword
-G 1 3350 -1       standard issue sword
-G 1 3022 -1       long sword
-G 1 3384 -1    flail
-G 1 3023 -1    club
-G 1 3352 -1    standard issue mace
-G 1 3024 -1    wooden mace
-G 1 3025 -1    hand axe
-G 1 3026 -1    battle axe
-G 1 3027 -1    spear
-G 1 3028 -1    staff
-G 1 3029 -1    flail
 
-E 1 3022 -1 16            wields a longsword
 *
+G 1 3380 100
+G 1 3381 100
+G 1 3382 100
+G 1 3383 100
+G 1 3385 100   stiletto
+G 1 3351 100       standard issue dagger
+G 1 3020 100       thin dagger
+G 1 3021 100       small sword
+G 1 3350 100       standard issue sword
+G 1 3022 100       long sword
+G 1 3384 100    flail
+G 1 3023 100    club
+G 1 3352 100    standard issue mace
+G 1 3024 100    wooden mace
+G 1 3025 100    hand axe
+G 1 3026 100    battle axe
+G 1 3027 100    spear
+G 1 3028 100    staff
+G 1 3029 100    flail
+E 1 3022 100 16            wields a longsword
 M 0 3004 1 3020 1  1        The armourer  
 
-G 1 3373 -1    mercenary issue kit: shirt
-G 1 3374 -1    coif
-G 1 3375 -1    skirt
-G 1 3376 -1    boots
-G 1 3377 -1    gauntlets
-G 1 3378 -1    sleeves
-G 1 3379 -1    shield
 
-G 1 3110 -1    chain shirt
-G 1 3111 -1    chain coif
-G 1 3112 -1    chain skirt
-G 1 3113 -1    iron boots
-G 1 3114 -1    chain gauntlets
-G 1 3115 -1    chain sleeves
-G 1 3116 -1    large metal shield
 
-G 1 3072 -1    scale jerkin
-G 1 3073 -1    scale coif
-G 1 3074 -1    scale skirt
-G 1 3075 -1    reinf. boots
-G 1 3076 -1    reinf. gloves
-G 1 3077 -1    scale sleeves
-G 1 3097 -1    small metal shield
-G 1 3117 -1    small wooden shield
 
-E 1 3022 -1 16          wields a longsword
 *
+G 1 3373 100    mercenary issue kit: shirt
+G 1 3374 100    coif
+G 1 3375 100    skirt
+G 1 3376 100    boots
+G 1 3377 100    gauntlets
+G 1 3378 100    sleeves
+G 1 3379 100    shield
+G 1 3110 100    chain shirt
+G 1 3111 100    chain coif
+G 1 3112 100    chain skirt
+G 1 3113 100    iron boots
+G 1 3114 100    chain gauntlets
+G 1 3115 100    chain sleeves
+G 1 3116 100    large metal shield
+G 1 3072 100    scale jerkin
+G 1 3073 100    scale coif
+G 1 3074 100    scale skirt
+G 1 3075 100    reinf. boots
+G 1 3076 100    reinf. gloves
+G 1 3077 100    scale sleeves
+G 1 3097 100    small metal shield
+G 1 3117 100    small wooden shield
+E 1 3022 100 16          wields a longsword
 M 0 3002 1 3010 1  1        The grocer  
-G 1 3030 -1    torch
-G 1 3031 -1    lantern
-G 1 3138 -1    water skin
-G 1 3032 -1    bag
-G 1 3033 -1    box
-E 1 3022 900 16         wields a longsword
 *
-M 0 3001 1 3009 1  1        Mr Cholmondley-Warner (the baker)
-G 1 3009 -1    pie
-G 1 3013 -1    roll
-G 1 3012 -1    cookies
-G 1 3014 -1    danish
-G 1 3011 -1    bread
+G 1 3030 100    torch
+G 1 3031 100    lantern
+G 1 3138 100    water skin
+G 1 3032 100    bag
+G 1 3033 100    box
 E 1 3022 100 16         wields a longsword
+M 0 3001 1 3009 1  1        Mr Cholmondley-Warner (the baker)
 *
+G 1 3009 100    pie
+G 1 3013 100    roll
+G 1 3012 100    cookies
+G 1 3014 100    danish
+G 1 3011 100    bread
+E 1 3022 100 16         wields a longsword
 M 0 3008 1 3031 1  1        The Pet Shop Boy  
 *
 M 0 3009 1 3034 1  1        The Jeweller  
 * stuff to be added RSN
 *
 M 0 3010 1 3035 1  1        The Leather Worker  
-G 1 3060 -1    leather jerkin
-G 1 3061 -1    leather cap
-G 1 3062 -1    leather pants
-G 1 3063 -1    leather boots
-G 1 3064 -1    leather gloves
-G 1 3065 -1    leather sleeves
-G 1 3052 -1    leather bracer
-G 1 3053 -1    leather belt
-G 1 3054 -1    leather girdle
-G 1 3066 -1    hard leather jerkin
-G 1 3067 -1    hard leather cap
-G 1 3068 -1    hard leather pants
-G 1 3069 -1    hard leather boots
-G 1 3070 -1    hard leather gloves
-G 1 3071 -1    hard leather sleeves
 *
+G 1 3060 100    leather jerkin
+G 1 3061 100    leather cap
+G 1 3062 100    leather pants
+G 1 3063 100    leather boots
+G 1 3064 100    leather gloves
+G 1 3065 100    leather sleeves
+G 1 3052 100    leather bracer
+G 1 3053 100    leather belt
+G 1 3054 100    leather girdle
+G 1 3066 100    hard leather jerkin
+G 1 3067 100    hard leather cap
+G 1 3068 100    hard leather pants
+G 1 3069 100    hard leather boots
+G 1 3070 100    hard leather gloves
+G 1 3071 100    hard leather sleeves
 M 0 3006 1 3049 1  1        A Captain (selling boats) at Levee  
-G 1 3050 -1              Give a raft to the captain
-G 1 3051 -1              Give canoe to Captain
 *
+G 1 3050 100              Give a raft to the captain
+G 1 3051 100              Give canoe to Captain
 M 0 3007 1 3050 1  1        Sailor training in the warehouse  
 *
 M 0 3070 1 3056 1  1          The Apothecary  
-G 1 3080 -1    healing
-G 1 3081 -1    sanct
-G 1 3082 -1    divine protection
-G 1 3083 -1    cure light
-G 1 3084 -1    cure serious
-G 1 3085 -1    cure critical
-G 1 3086 -1    antidote
-G 1 3087 -1    sight
-G 1 3088 -1    holy water
-G 1 3089 -1    armor
-G 1 3090 -1    negation
-G 1 3091 -1    flying
-G 1 3092 -1    true sight
+G 1 3080 100    healing
+G 1 3081 100    sanct
+G 1 3082 100    divine protection
+G 1 3083 100    cure light
+G 1 3084 100    cure serious
+G 1 3085 100    cure critical
+G 1 3086 100    antidote
+G 1 3087 100    sight
+G 1 3088 100    holy water
+G 1 3089 100    armor
+G 1 3090 100    negation
+G 1 3091 100    flying
+G 1 3092 100    true sight
 M 0 3040 1 3007 1  1        The bartender  
-G 1 3000 -1
-G 1 3001 -1
-E 1 3022 -1 16            wields a longsword
 *
+G 1 3000 100
+G 1 3001 100
+E 1 3022 100 16            wields a longsword
 M 0 3043 1 3003 1  1        The Clerics waiter.  
-G 1 3002 -1
-G 1 3004 -1
-E 1 3022 -1 16          wields a longsword
 *
+G 1 3002 100
+G 1 3004 100
+E 1 3022 100 16          wields a longsword
 M 0 3042 1 3018 1  1        The Magic Users Waiter  
-G 1 3002 -1
-G 1 3003 -1
-E 1 3022 -1 16            wields a longsword
 *
+G 1 3002 100
+G 1 3003 100
+E 1 3022 100 16            wields a longsword
 M 0 3045 1 3022 1  1        The Fighters Waiter  
-G 1 3002 -1
-G 1 3003 -1
-G 1 3004 -1
-E 1 3022 -1 16            wields a longsword
 *
+G 1 3002 100
+G 1 3003 100
+G 1 3004 100
+E 1 3022 100 16            wields a longsword
 M 0 3044 1 3028 1  1        The Knight's Waiter  
-G 1 3003 -1
-G 1 3004 -1
-E 1 3022 -1 16            wields a longsword
 *
+G 1 3003 100
+G 1 3004 100
+E 1 3022 100 16            wields a longsword
 M 0 3046 1 3048 1  1        Filthy (bartender) in Grubby Inn  
-G 1 3003 -1
-G 1 3004 -1
-E 1 3022 -1 16            wields a longsword
 *
+G 1 3003 100
+G 1 3004 100
+E 1 3022 100 16            wields a longsword
 M 0 3020 1 3019 1  1        The Magic Users Guildmaster  
 M 0 3021 1 3002 1  1        The Clerics Guildmaster  
 M 0 3022 1 3029 1  1        The Knights Guildmaster  
@@ -6584,121 +6584,121 @@ M 0 3024 1 3017 1  1        The Sorcerer Guard
 M 0 3025 1 3004 1  1        The Priest Guard  
 *
 M 0 3026 1 3027 1  1        The Barbarian Guard  
-E 1 3022 -1 16            wields a longsword
 *
+E 1 3022  90 16            wields a longsword
 M 0 3027 1 3021 1  1        The Knight Guard  
-E 1 3022 -1 16            wields a longsword
 *
+E 1 3022  90 16            wields a longsword
 M 0 3150 1 3150 1  1          The waitress in Kate's Diner  
-G 1 3154 -1    irish red
-G 1 3152 -1    stew
-G 1 3153 -1    breadsticks
-G 1 3151 -1    soup
-G 1 1103 -1    pipeweed bread
-G 1 3150 -1    cinnamon coffee
-G 1 3100 -1    tea
 *
+G 1 3154 100    irish red
+G 1 3152 100    stew
+G 1 3153 100    breadsticks
+G 1 3151 100    soup
+G 1 1103 100    pipeweed bread
+G 1 3150 100    cinnamon coffee
+G 1 3100 100    tea
 M 0 3160 1 3160 1  1          Melancholy in the map shop  
-G 1 3168 -1    map/olympus
-G 1 3167 -1    map/new thalos
-G 1 3166 -1    map/moria level one
-G 1 3165 -1    map/dwarven kingdom
-G 1 3164 -1    map/south
-G 1 3163 -1    map/thera
-G 1 3162 -1       map/midg
+G 1 3168 100    map/olympus
+G 1 3167 100    map/new thalos
+G 1 3166 100    map/moria level one
+G 1 3165 100    map/dwarven kingdom
+G 1 3164 100    map/south
+G 1 3163 100    map/thera
+G 1 3162 100       map/midg
 M 0 3161 1 3160 1  1          Snake in the map shop  
 D 0 3160 0 2      close and lock north door
 D 0 3161 2 2      close and lock from other side
 *
 M 0 3060 12 3004 1  1       Cityguard 1  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3386 -1 16    sword
-E 1 3353 -1 5     vest
-E 1 3355 -1 4     cloak
 *
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3355 100 4     cloak
 M 0 3060 12 3014 1  1       Cityguard 2  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3386 -1 16    sword
-E 1 3353 -1 5     vest
-E 1 3356 -1 6            helmet
 *
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3356 100 6            helmet
 M 0 3060 10 3017 1  1       Cityguard 3  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3386 -1 16    sword
-E 1 3353 -1 5     vest
-E 1 3357 -1 7            leggings
 *
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3357 100 7            leggings
 M 0 3060 10 3021 1  1       Cityguard 4  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3386 -1 16    sword
-E 1 3353 -1 5     vest
-E 1 3358 -1 8            boots
 *
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3358 100 8            boots
 M 0 3060 12 3027 1  1       Cityguard 5  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3386 -1 16    sword
-E 1 3353 -1 5     vest
-E 1 3359 -1 9            gloves
 *
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3359 100 9            gloves
 M 0 3067 2 3041 1  1       Cityguard 1 at east gate  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3386 -1 16    sword
-E 1 3353 -1 5     vest
-E 1 3360 -1 10           sleeves
 *
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3360 100 10           sleeves
 M 0 3067 2 3041 1  1       Cityguard 2 at east gate  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3386 -1 16    sword
-E 1 3353 -1 5     vest
-E 1 3354 -1 11           shield
 *
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3354 100 11           shield
 M 0 3068 2 3040 1  1       Cityguard 1 at west gate  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3386 -1 16    sword
-E 1 3353 -1 5     vest
-E 1 3361 -1 12           cape
 *
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3361 100 12           cape
 M 0 3068 2 3040 1  1       Cityguard 2 at west gate  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3386 -1 16    sword
-E 1 3353 -1 5     vest
-E 1 3362 -1 13           belt
 *
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3362 100 13           belt
 M 0 3071 2 3255 1  1       Cityguard 1 at south gate  
-E 1 3365 -1 0           banner
-E 1 3364 -1 1           signet ring
-E 1 3386 -1 16          sword
-E 1 3353 -1 5           vest
-E 1 3361 -1 12           cape
 *
+E 1 3365 100 0           banner
+E 1 3364 100 1           signet ring
+E 1 3386 100 16          sword
+E 1 3353 100 5           vest
+E 1 3361 100 12           cape
 M 0 3071 2 3255 1  1       Cityguard 2 at south gate  
-E 1 3365 -1 0           banner
-E 1 3364 -1 1           signet ring
-E 1 3386 -1 16          sword
-E 1 3353 -1 5           vest
-E 1 3362 -1 13           belt
 *
+E 1 3365 100 0           banner
+E 1 3364 100 1           signet ring
+E 1 3386 100 16          sword
+E 1 3353 100 5           vest
+E 1 3362 100 13           belt
 M 0 3072 1 3262 1  1       Cityguard at north gate  
-E 1 3365 -1 0           banner
-E 1 3364 -1 1           signet ring
-E 1 3386 -1 16          sword
-E 1 3353 -1 5           vest
-E 1 3354 -1 11           shield
 *
+E 1 3365 100 0           banner
+E 1 3364 100 1           signet ring
+E 1 3386 100 16          sword
+E 1 3353 100 5           vest
+E 1 3354 100 11           shield
 M 0 3063 5 3026 1  1        A vagabond (at Dark Alley)  
-E 1 3021 -1 16            wields a shortsword
-E 1 3066 -1 5       wears a hard leather jerkin
-E 1 3052 -1 15      wears a leather bracer
 *
+E 1 3021 100 16            wields a shortsword
+E 1 3066 100 5       wears a hard leather jerkin
+E 1 3052 100 15      wears a leather bracer
 M 0 3064 3 3007 1  1        A Happy Drunk (at Inn)  
 M 0 3065 2 3044 1  1        A Beggar in poor alley  
 M 0 3065 2 3048 1  1        A Beggar in Grubby Inn  
@@ -6718,9 +6718,9 @@ M 0 3093 1 3032 1  1        Rottweiler in pet shop
 M 0 3094 1 3032 1  1        Wolf in pet shop  
 *
 M 0 3005 5 3027 1  1       thief at entrance to knight guild  
-E 1 3351 -1 16
+E 1 3351 100 16
 M 0 3005 5 3128 1  1       thief on concourse  
-E 1 3351 -1 16
+E 1 3351 100 16
 O 0 3135 10 1200  fountain at chat room
 O 0 3135 10 3005  fountain at temple
 O 0 3139 15 3008  letter at receptionist
@@ -6738,13 +6738,13 @@ O 0 3134 3 3102       Bench 2 at promenade
 O 0 3134 3 3103       Bench 3 at promenade
 *
 M 0 3100 1 3106 1  1        Maid in Park Cafe  
-G 1 3100 -1             A cup of tea
-G 1 3101 -1             A cup of coffee
-G 1 3102 -1             A cup of water
 *
+G 1 3100 100             A cup of tea
+G 1 3101 100             A cup of coffee
+G 1 3102 100             A cup of water
 M 0 3120 1 3106 1  1        Sexton in Park Cafe  
-G 1 3121 2               A rusty old key (to graveyard)
 *
+G 1 3121 100               A rusty old key (to graveyard)
 M 0 3121 1 3114 1  1        Swan in Pond  
 M 0 3122 1 3114 1  1        Duckling in Pond  
 M 0 3123 1 3109 1  1        Sparrow in Park  
@@ -6752,71 +6752,71 @@ M 0 3124 2 3113 1  1        Duck 1 in Park
 M 0 3124 2 3115 1  1        Duck 2 in Park  
 *
 M 0 3140 1 3142 1  1        Captain of the Guard in H.Q.  
-E 1 3387 -1 16          sword
-G 1 3122 2               Give Captain A wooden key to the desk.
-G 1 3137 2               Give Captain A steel key to the jail.
+E 1 3387 100 16          sword
+G 1 3122 100               Give Captain A wooden key to the desk.
+G 1 3137 100               Give Captain A steel key to the jail.
 M 0 3141 4 3142 1  1        Mad Guard in H.Q.
-E 1 3387 -1 16          sword
+E 1 3387 100 16          sword
 M 0 3141 4 3142 1  1        Mad Guard in H.Q.  
-E 1 3387 -1 16          sword
+E 1 3387 100 16          sword
 M 0 3141 4 3142 1  1        Mad Guard in H.Q.  
-E 1 3387 -1 16          sword
+E 1 3387 100 16          sword
 M 0 3141 4 3142 1  1        Mad Guard in H.Q.  
-E 1 3387 -1 16          sword
 *
+E 1 3387 100 16          sword
 O 0 3130 1 3142       Load the desk
 P 1 3123 3 3130 1  1          Put brass key in desk  
 O 0 3131 1 3142       Load the safe
 P 1 3132 3 3131 1  1        Put money in safe  
 *
 M 0 3060 20 3111 1  1       Cityguard 1  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3386 -1 16    sword
-E 1 3353 -1 5     vest
-G 1 3120 8                 Has an iron key to Captain's Office
 *
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+G 1 3120 100                 Has an iron key to Captain's Office
 M 0 3060 20 3111 1  1       Cityguard 2  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3386 -1 16    sword
-E 1 3353 -1 5     vest
-E 1 3363 -1 15          bracer
 *
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3363 100 15          bracer
 M 0 3060 20 3111 1  1       Cityguard 3  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3386 -1 16    sword
-E 1 3353 -1 5     vest
 *
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
 M 0 3060 20 3111 1  1       Cityguard 4  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3386 -1 16    sword
-E 1 3353 -1 5     vest
 *
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
 M 0 3142 1 3137 1  1        Secretary at town hall  
 M 0 3143 1 3138 1  1        Mayor at town hall  
 *E 1 3133 80 17         Has the City Key
-E 1 3124 5 16         Mayor's sword
 *
+E 1 3124  90 16         Mayor's sword
 M 0 3069 4 3138 1  1        Cityguard for the Mayor  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3387 -1 16    sword
+E 1 3365  48 0     banner
+E 1 3364  48 1     signet ring
+E 1 3387  48 16    sword
 M 0 3069 4 3138 1  1        Cityguard for the Mayor  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3387 -1 16    sword
+E 1 3365  48 0     banner
+E 1 3364  48 1     signet ring
+E 1 3387  48 16    sword
 M 0 3069 4 3138 1  1        Cityguard for the Mayor  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3387 -1 16    sword
+E 1 3365  48 0     banner
+E 1 3364  48 1     signet ring
+E 1 3387  48 16    sword
 M 0 3069 4 3138 1  1        Cityguard for the Mayor  
-E 1 3365 -1 0     banner
-E 1 3364 -1 1     signet ring
-E 1 3387 -1 16    sword
 *
+E 1 3365  48 0     banner
+E 1 3364  48 1     signet ring
+E 1 3387  48 16    sword
 M 0 3144 1 3120 1  1        Town Crier  
 *
 O 0 3135 1 3141       Fountain on Penny Lane
@@ -6825,16 +6825,16 @@ O 0 3136 1 3141       20 coins on Penny Lane
 M 0 3012 1 3054 1  1       Healer in temple altar  
 *
 M 0 3163 1 3360 1  1       Astradamus in the necropolis
-G 1 3398 -1    octarine shard
-G 1 3397 -1    sanctified shard
-G 1 3396 -1    imbued shard
-G 1 3395 -1    greater shard
-G 1 3394 -1    burnished shard
-G 1 3393 -1    polished shard
-G 1 3392 -1    dull shard
-G 1 3391 -1    minor shard
-G 1 3390 -1    lesser shard
 *
+G 1 3398 100    octarine shard
+G 1 3397 100    sanctified shard
+G 1 3396 100    imbued shard
+G 1 3395 100    greater shard
+G 1 3394 100    burnished shard
+G 1 3393 100    polished shard
+G 1 3392 100    dull shard
+G 1 3391 100    minor shard
+G 1 3390 100    lesser shard
 O 0 3399 -1 3360      Summoning Stone in the necropolis
 *
 O 0 3011 -1 30012     Put bread safe room

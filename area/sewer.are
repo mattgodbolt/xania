@@ -4796,63 +4796,63 @@ D   0   7202    0      1  The Lair: Door north closed
 D   0   7208    0      1  The lair entrance.: Door north closed
 M 0 7200 1 7201 1  1   the master mindflayer into The inner Lair
   
-E   1   7200    4     16     the devil rod wielded                
-E   1   7203    4      3     a purple cloak on neck                
-G   1   7205 7200            a black key in inventory
+E   1   7200 100     16     the devil rod wielded                
+E   1   7203 100      3     a purple cloak on neck                
+G   1   7205 100            a black key in inventory
 O   0   7204    6   7200  load an neon blue potion into The Treasury
 M 0 7201 1 7203 1  1   the senior mindflayer into The Lair
   
-E   1   7201    4     16     the large mace wielded                
+E   1   7201 100     16     the large mace wielded                
 M 0 7202 2 7205 1  1   the junior mindflayer into The Lair
   
-E   1   7202    8     16     the small mace wielded                
+E   1   7202 100     16     the small mace wielded                
 M 0 7202 2 7207 1  1   the junior mindflayer into The lair.
   
-E   1   7202    8     16     the small mace wielded                
+E   1   7202 100     16     the small mace wielded                
 O   0   7206    4   7206  load a strange white skull into The lair.
 M 0 7203 10 7214 1  1   the ugly wererat into The drain end.
   
-E   1   7211   16     16     a short sword wielded                
+E   1   7211 100     16     a short sword wielded                
 M 0 7203 10 7213 1  1   the ugly wererat into The sewer drain.
   
-E   1   7211   16     16     a short sword wielded                
+E   1   7211 100     16     a short sword wielded                
 M 0 7203 10 7215 1  1   the ugly wererat into The half-wet drain.
   
-E   1   7211   16     16     a short sword wielded                
+E   1   7211 100     16     a short sword wielded                
 M 0 7203 10 7217 1  1   the ugly wererat into The half-dry drain.
   
-G   1   7208   20            a small stick in inventory
-E   1   7211   16     16     a short sword wielded                
+G   1   7208 100            a small stick in inventory
+E   1   7211 100     16     a short sword wielded                
 M 0 7203 10 7219 1  1   the ugly wererat into A dry sewer drain.
   
-E   1   7209    4      8     a pair of muddy boots on feet                
-E   1   7211   16     16     a short sword wielded                
+E   1   7209 100      8     a pair of muddy boots on feet                
+E   1   7211 100     16     a short sword wielded                
 M 0 7203 10 7221 1  1   the ugly wererat into The sewer drain.
   
-G   1   7208   20            a small stick in inventory
-E   1   7211   16     16     a short sword wielded                
+G   1   7208 100            a small stick in inventory
+E   1   7211 100     16     a short sword wielded                
 M 0 7203 10 7223 1  1   the ugly wererat into The sewer bend.
   
-E   1   7209    4      8     a pair of muddy boots on feet                
-E   1   7211   16     16     a short sword wielded                
+E   1   7209 100      8     a pair of muddy boots on feet                
+E   1   7211 100     16     a short sword wielded                
 M 0 7203 10 7225 1  1   the ugly wererat into The sewer
   
-E   1   7211   16     16     a short sword wielded                
+E   1   7211 100     16     a short sword wielded                
 M 0 7203 10 7233 1  1   the ugly wererat into The sewer drain
   
-G   1   7208   20            a small stick in inventory
-E   1   7211   16     16     a short sword wielded                
+G   1   7208 100            a small stick in inventory
+E   1   7211 100     16     a short sword wielded                
 M 0 7203 10 7233 1  1   the ugly wererat into The sewer drain
   
-E   1   7209    4      8     a pair of muddy boots on feet                
-E   1   7211   16     16     a short sword wielded                
+E   1   7209 100      8     a pair of muddy boots on feet                
+E   1   7211 100     16     a short sword wielded                
 M 0 7204 1 7234 1  1   the gigantic rat into The rat's lair
   
 D   0   7280    4      1  The entrance.: Door up closed
 D   0   7116    5      1  The northeastern corner of the ledge: Door down closed
 M 0 7002 5 7285 1  1   the great sewer rat into The tortureroom.
   
-E   1   7190   10      2     a glinting ring of silver on right finger        
+E   1   7190 100      2     a glinting ring of silver on right finger        
 M 0 7002 5 7285 1  1   the great sewer rat into The tortureroom.
   
 M 0 7000 8 7286 1  1   the horrifying Mudmonster into The hells yard
@@ -4880,15 +4880,15 @@ D   0   7404    2      1  Cave turning-point: Door south closed
 D   0   7405    0      1  The secret room: Door north closed
 M 0 7040 1 7428 1  1   the red dragon into Dragons lair
   
-E   1   7304   99      5     a red dragon torso on body                
-E   1   7305   99      7     red dragonscale leggings on legs                
-E   1   7306   99      9     a pair of red dragon claws on hands               
-E   1   7307   99      6     a red dragonhelm on head                
-E   1   7308   99     11     the red dragon shield as shield              
-E   1   7309   99     10     a pair of a red dragon's rear claws on arms                
-E   1   7310   99      8     red dragon arm guards on feet                
-E   1   7216   99     16     a red dragon claw wielded                
-E   1   7303   99     17     the Red DragonOrb held                   
+E   1   7304  28      5     a red dragon torso on body                
+E   1   7305  28      7     red dragonscale leggings on legs                
+E   1   7306  28      9     a pair of red dragon claws on hands               
+E   1   7307  28      6     a red dragonhelm on head                
+E   1   7308  28     11     the red dragon shield as shield              
+E   1   7309  28     10     a pair of a red dragon's rear claws on arms                
+E   1   7310  28      8     red dragon arm guards on feet                
+E   1   7216  28     16     a red dragon claw wielded                
+E   1   7303  28     17     the Red DragonOrb held                   
 M 0 7041 2 7444 1  1   the sea hag into The south end of the pool
   
 M 0 7042 2 7435 1  1   the guardian naga into Dark tunnel

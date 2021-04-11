@@ -1344,22 +1344,22 @@ D   0   6531    0      1  Queen's waiting room: Door north closed
 D   0   6532    2      1  Bedroom: Door south closed
 M 0 6500 4 6505 1  1   the dwarven guard into Entrance to Mountain
   
-E   1   6504   10     16     a hammer wielded                
-E   1   6505   10      5     dwarven plate mail on body                
-G   1   6502   10            a deep green key in inventory
+E   1   6504  63     16     a hammer wielded                
+E   1   6505  63      5     dwarven plate mail on body                
+G   1   6502 100            a deep green key in inventory
 M 0 6500 4 6505 1  1   the dwarven guard into Entrance to Mountain
   
-E   1   6504   10     16     a hammer wielded                
-E   1   6505   10      5     dwarven plate mail on body                
+E   1   6504  63     16     a hammer wielded                
+E   1   6505  63      5     dwarven plate mail on body                
 M 0 6500 4 6540 1  1   the dwarven guard into Dark path
   
-E   1   6504   10     16     a hammer wielded                
-E   1   6505   10      5     dwarven plate mail on body                
-G   1   6502   10            a deep green key in inventory
+E   1   6504  63     16     a hammer wielded                
+E   1   6505  63      5     dwarven plate mail on body                
+G   1   6502 100            a deep green key in inventory
 M 0 6500 4 6540 1  1   the dwarven guard into Dark path
   
-E   1   6504   10     16     a hammer wielded                
-E   1   6505   10      5     dwarven plate mail on body                
+E   1   6504  63     16     a hammer wielded                
+E   1   6505  63      5     dwarven plate mail on body                
 O   0   6506    1   6534  load long, black stick into Hospital
 O   0   6507    2   6513  load long, black stick into Inside the entrance
 O   0   6507    2   6505  load long, black stick into Entrance to Mountain
@@ -1373,59 +1373,59 @@ M 0 6501 6 6501 1  1   the dwarven worker into Path, base of mountain
   
 M 0 6502 1 6527 1  1   the wraith into Wine cellar
   
-G   1   6502   10            a deep green key in inventory
+G   1   6502 100            a deep green key in inventory
 M 0 6503 1 6516 1  1   the storekeeper into Hide & Tooth Shop
   
-G   1   6504   10            a hammer in inventory
-G   1   6505   10            dwarven plate mail in inventory
-G   1   6510   10            A dwarven helmet in inventory
-G   1   6511   10            a dwarven golden ring in inventory
-G   1   6512   10            Dwarven gloves in inventory
-E   1   6504   10     16     a hammer wielded                
+G   1   6504 100            a hammer in inventory
+G   1   6505 100            dwarven plate mail in inventory
+G   1   6510 100            A dwarven helmet in inventory
+G   1   6511 100            a dwarven golden ring in inventory
+G   1   6512 100            Dwarven gloves in inventory
+E   1   6504 100     16     a hammer wielded                
 M 0 6504 1 6535 1  1   the baker into Granite Head's Bakery
   
-G   1   3000   10             in inventory
-G   1   3003   10             in inventory
-G   1   3009   10             in inventory
-G   1   3031   10             in inventory
-E   1   6504   10     16     a hammer wielded                
+G   1   3000 100             in inventory
+G   1   3003 100             in inventory
+G   1   3009 100             in inventory
+G   1   3031 100             in inventory
+E   1   6504 100     16     a hammer wielded                
 M 0 6505 1 6515 1  1   the giant lizard into Turn in road
   
 M 0 6506 2 6508 1  1   the giant into Narrow north-south path
   
 M 0 6500 6 6509 1  1   the dwarven guard into Door to Kingdom
   
-E   1   6509   10     16     a two-handed dwarven axe wielded                
-E   1   6510   10      6     A dwarven helmet on head                
-E   1   6511   10      1     a dwarven golden ring on left finger         
+E   1   6509  48     16     a two-handed dwarven axe wielded                
+E   1   6510  48      6     A dwarven helmet on head                
+E   1   6511  48      1     a dwarven golden ring on left finger         
 M 0 6500 6 6509 1  1   the dwarven guard into Door to Kingdom
   
-E   1   6512   10      9     Dwarven gloves on hands               
-E   1   6509   10     16     a two-handed dwarven axe wielded                
-E   1   6505   10      5     dwarven plate mail on body                
+E   1   6512  48      9     Dwarven gloves on hands               
+E   1   6509  48     16     a two-handed dwarven axe wielded                
+E   1   6505  48      5     dwarven plate mail on body                
 M 0 6507 4 6543 1  1   the dwarven miner into Path in the mine
   
-E   1   6508   10     16     dwarven club wielded                
+E   1   6508 100     16     dwarven club wielded                
 M 0 6507 4 6543 1  1   the dwarven miner into Path in the mine
   
-E   1   6508   10     16     dwarven club wielded                
+E   1   6508 100     16     dwarven club wielded                
 M 0 6507 4 6542 1  1   the dwarven miner into Inside the mine
   
-E   1   6508   10     16     dwarven club wielded                
+E   1   6508 100     16     dwarven club wielded                
 M 0 6508 4 6543 1  1   the dwarven mine leader into Path in the mine
   
-E   1   6512   10      9     Dwarven gloves on hands               
-E   1   6509  10     16     axe wielded
+E   1   6512  63      9     Dwarven gloves on hands               
+E   1   6509  63     16     axe wielded
 M 0 6510 4 6534 1  1   the dwarven peon into Hospital
   
 M 0 6510 4 6534 1  1   the dwarven peon into Hospital
   
 M 0 6514 4 6521 1  1   the barracks guard into Entrance to barracks
   
-E   1   6509   10     16     a two-handed dwarven axe wielded                
+E   1   6509 100     16     a two-handed dwarven axe wielded                
 M 0 6514 4 6521 1  1   the barracks guard into Entrance to barracks
   
-E   1   6509   10     16     a two-handed dwarven axe wielded                
+E   1   6509 100     16     a two-handed dwarven axe wielded                
 M 0 6500 4 6521 1  1   the dwarven guard into Entrance to barracks
   
 M 0 6500 4 6521 1  1   the dwarven guard into Entrance to barracks
@@ -1436,8 +1436,8 @@ M 0 6511 8 6523 1  1   the dwarf into First Barrack room
   
 M 0 6511 8 6523 1  1   the dwarf into First Barrack room
   
-E   1   6504   10     16     a hammer wielded                
-E   1   6514   10     17     a castle key held                   
+E   1   6504 100     16     a hammer wielded                
+E   1   6514 100     17     a castle key held                   
 M 0 6511 8 6523 1  1   the dwarf into First Barrack room
   
 M 0 6511 8 6523 1  1   the dwarf into First Barrack room
@@ -1449,7 +1449,7 @@ M 0 6502 2 6524 1  1   the wraith into Back of Barracks
   
 M 0 6511 8 6524 1  1   the dwarf into Back of Barracks
   
-G   1   6520   10            a map of Castle Strangelove in inventory
+G   1   6520 100            a map of Castle Strangelove in inventory
 M 0 6512 3 6528 1  1   the unwanted son into Stairs in castle
   
 M 0 6512 3 6529 1  1   the unwanted son into Stairs
@@ -1464,11 +1464,11 @@ M 0 6515 4 6531 1  1   the man in waiting into Queen's waiting room
   
 M 0 6509 1 6534 1  1   the dwarven doctor into Hospital
   
-E   1   6506   10     17     long, black stick held                   
-G   1   6519   10            a box of birth control pills in inventory
+E   1   6506 100     17     long, black stick held                   
+G   1   6519 100            a box of birth control pills in inventory
 M 0 6516 1 6553 1  1   the mazekeeper into The Mazekeeper's Room
   
-G   1   6519   10            a box of birth control pills in inventory
+G   1   6519  90            a box of birth control pills in inventory
 M 0 6517 2 6548 1  1   the giant snake into Maze
   
 M 0 6517 2 6549 1  1   the giant snake into Maze
@@ -1478,10 +1478,10 @@ O   0   6517    6   6545  load a chunk of coal into Coal Room
 O   0   6518    3   6551  load a mining pick into Mining equipment room
 M 0 6500 2 6512 1  1   the dwarven guard into Door to Castle
   
-E   1   6508   10     16     dwarven club wielded                
+E   1   6508  90     16     dwarven club wielded                
 M 0 6500 2 6512 1  1   the dwarven guard into Door to Castle
   
-E   1   6508   10     16     dwarven club wielded                
+E   1   6508  90     16     dwarven club wielded                
 M 0 6505 1 6520 1  1   the giant lizard into Path next to barracks
   
 S

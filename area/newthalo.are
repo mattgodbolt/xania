@@ -7385,17 +7385,17 @@ fountain 0 0
 #RESETS
 M 0 9504 1 9501 1  1   the receptionist into The Reception Area  
 M 0 9505 1 9502 1  1   the withered mage/bartender into The Dancing Daemon Inn  
-G   1   9569  910            a bottle of grog in inventory
-G   1   9568  910            a glass of wine in inventory
-G   1   9567  910            a glass of blue oasis in inventory
+G   1   9569 100            a bottle of grog in inventory
+G   1   9568 100            a glass of wine in inventory
+G   1   9567 100            a glass of blue oasis in inventory
 M 0 9506 1 9502 1  1   Brother John into The Dancing Daemon Inn  
 M 0 9507 1 9503 1  1   a panhandler into The Medina  
 M 0 9508 1 9504 1  1   a panhandler into The Medina  
 M 0 9539 1 9505 1  1   Caramon into The Southern Market Square  
-E   1   9515   60      5     a suit of banded mail on body                
-E   1   9600    4     16     the halberd wielded                
+E   1   9515  63      5     a suit of banded mail on body                
+E   1   9600  63     16     the halberd wielded                
 M 0 9537 2 9506 1  1   the tax collector into The Center of Market Square  
-G   1   9500   10            the palace key of New Thalos in inventory
+G   1   9500 100            the palace key of New Thalos in inventory
 M 0 9540 1 9506 1  1   Raistlin into The Center of Market Square  
 O   0   9601    1   9506  load A fountain into The Center of Market Square
 O   0   9613    1   9618  load A small fountain into Mage's Courtyard
@@ -7409,22 +7409,22 @@ M 0 9509 20 9510 1  1   a beggar into The Common Square
 M 0 9547 1 9511 1  1   the dirt devil into Outside the Southern Gate of New Thalos  
 M 0 9549 1 9511 1  1   the raggety dervish into Outside the Southern Gate of New Thalos  
 M 0 9565 1 9642 1  1   the shipwright into Shipwright  
-G   1   3061   20             in inventory
-G   1   3060   30             in inventory
+G   1   3061 100             in inventory
+G   1   3060 100             in inventory
 M 0 9548 1 9511 1  1   the lamia into Outside the Southern Gate of New Thalos  
 D   0   9511    0      1  Outside the Southern Gate of New Thalos: Door north closed
 M 0 9561 20 9512 1  1   the sultan's guard into The Southern Bridge  
-E   1   9513   50     16     a scimitar wielded                
-E   1   9517   53      5     a suit of field plate on body                
-E   1   9521   52     11     a splinted shield as shield              
+E   1   9513 100     16     a scimitar wielded                
+E   1   9517 100      5     a suit of field plate on body                
+E   1   9521 100     11     a splinted shield as shield              
 M 0 9562 20 9513 1  1   the sultans guard into Inside the South Gate of New Thalos  
-E   1   9513   50     16     a scimitar wielded                
-E   1   9517   53      5     a suit of field plate on body                
-E   1   9521   72     11     a splinted shield as shield              
+E   1   9513 100     16     a scimitar wielded                
+E   1   9517 100      5     a suit of field plate on body                
+E   1   9521 100     11     a splinted shield as shield              
 M 0 9562 20 9513 1  1   the sultans guard into Inside the South Gate of New Thalos  
-E   1   9513   50     16     a scimitar wielded                
-E   1   9517   53      5     a suit of field plate on body                
-E   1   9521   42     11     a splinted shield as shield              
+E   1   9513 100     16     a scimitar wielded                
+E   1   9517 100      5     a suit of field plate on body                
+E   1   9521 100     11     a splinted shield as shield              
 D   0   9513    2      1  Inside the South Gate of New Thalos: Door south closed
 M 0 9582 15 9514 1  1   The Royal Guard into The Northwestern Market Square  
 M 0 9541 1 9515 1  1   Curley GreenLeaf into The Northern Market Square  
@@ -7434,55 +7434,55 @@ M 0 9592 14 9517 1  1   the bodyguard into The Eastern Market Square
 M 0 9592 14 9517 1  1   the bodyguard into The Eastern Market Square  
 M 0 9533 2 9517 1  1   A nomad merchant into The Eastern Market Square  
 M 0 9561 20 9518 1  1   the sultan's guard into Sultan's Walk  
-E   1   9517   43      5     a suit of field plate on body                
-E   1   9521   42     11     a splinted shield as shield              
+E   1   9517 100      5     a suit of field plate on body                
+E   1   9521 100     11     a splinted shield as shield              
 M 0 9561 20 9519 1  1   the sultan's guard into Sultan's Walk  
-E   1   9513    1     16     a scimitar wielded                
-E   1   9517   43      5     a suit of field plate on body                
-E   1   9521   42     11     a splinted shield as shield              
+E   1   9513 100     16     a scimitar wielded                
+E   1   9517 100      5     a suit of field plate on body                
+E   1   9521 100     11     a splinted shield as shield              
 M 0 9561 20 9520 1  1   the sultan's guard into Sultan's Walk  
-E   1   9513    1     16     a scimitar wielded                
-E   1   9517   43      5     a suit of field plate on body                
-E   1   9521   42     11     a splinted shield as shield              
+E   1   9513 100     16     a scimitar wielded                
+E   1   9517 100      5     a suit of field plate on body                
+E   1   9521 100     11     a splinted shield as shield              
 M 0 9562 20 9522 1  1   the sultans guard into Inside the Northern Gate of New Thalos  
-E   1   9513    1     16     a scimitar wielded                
-E   1   9517   43      5     a suit of field plate on body                
-E   1   9521   42     11     a splinted shield as shield              
+E   1   9513 100     16     a scimitar wielded                
+E   1   9517 100      5     a suit of field plate on body                
+E   1   9521 100     11     a splinted shield as shield              
 M 0 9562 20 9522 1  1   the sultans guard into Inside the Northern Gate of New Thalos  
-E   1   9513    1     16     a scimitar wielded                
-E   1   9517   43      5     a suit of field plate on body                
-E   1   9521   42     11     a splinted shield as shield              
+E   1   9513 100     16     a scimitar wielded                
+E   1   9517 100      5     a suit of field plate on body                
+E   1   9521 100     11     a splinted shield as shield              
 D   0   9522    0      1  Inside the Northern Gate of New Thalos: Door north closed
 M 0 9562 20 9523 1  1   the sultans guard into Inside the West Gate of New Thalos  
-E   1   9513    1     16     a scimitar wielded                
-E   1   9517   43      5     a suit of field plate on body                
-E   1   9521   42     11     a splinted shield as shield              
+E   1   9513 100     16     a scimitar wielded                
+E   1   9517 100      5     a suit of field plate on body                
+E   1   9521 100     11     a splinted shield as shield              
 M 0 9562 20 9523 1  1   the sultans guard into Inside the West Gate of New Thalos  
-E   1   9513    1     16     a scimitar wielded                
-E   1   9517   43      5     a suit of field plate on body                
-E   1   9521   42     11     a splinted shield as shield              
+E   1   9513 100     16     a scimitar wielded                
+E   1   9517 100      5     a suit of field plate on body                
+E   1   9521 100     11     a splinted shield as shield              
 D   0   9523    3      1  Inside the West Gate of New Thalos: Door west closed
 M 0 9542 22 9524 1  1   the wandering prophet into West Main Street  
 M 0 9520 2 9525 1  1   a construction worker into West Main Street  
-E   1   9586    2     16     a sledge hammer wielded                
+E   1   9586 100     16     a sledge hammer wielded                
 M 0 9520 2 9525 1  1   a construction worker into West Main Street  
-E   1   9586    2     16     a sledge hammer wielded                
+E   1   9586 100     16     a sledge hammer wielded                
 M 0 9519 1 9525 1  1   the foreman into West Main Street  
-E   1   9585    1     16     a fountain pen wielded                
+E   1   9585 100     16     a fountain pen wielded                
 M 0 9568 15 9527 1  1   a tourist into East Main Street  
 M 0 9568 15 9528 1  1   a tourist into East Main Street  
 M 0 9544 15 9529 1  1   the vulture into East Main Street  
 M 0 9544 15 9530 1  1   the vulture into East Main Street  
 M 0 9562 20 9531 1  1   the sultans guard into Inside the Eastern Gate of New Thalos  
-E   1   9517   43      5     a suit of field plate on body                
-E   1   9521   42     11     a splinted shield as shield              
+E   1   9517 100      5     a suit of field plate on body                
+E   1   9521 100     11     a splinted shield as shield              
 M 0 9562 20 9531 1  1   the sultans guard into Inside the Eastern Gate of New Thalos  
-E   1   9517   43      5     a suit of field plate on body                
-E   1   9521   42     11     a splinted shield as shield              
+E   1   9517 100      5     a suit of field plate on body                
+E   1   9521 100     11     a splinted shield as shield              
 D   0   9531    1      1  Inside the Eastern Gate of New Thalos: Door east closed
 M 0 9518 1 9532 1  1   Cassandra into Cassandra's Catch of the Day  
-G   1   9564   20            a salted herring in inventory
-G   1   9565   20            a mussel in inventory
+G   1   9564  63            a salted herring in inventory
+G   1   9565  63            a mussel in inventory
 M 0 9536 18 9533 1  1   the dockworker into West Ishtar Drive  
 M 0 9536 18 9533 1  1   the dockworker into West Ishtar Drive  
 M 0 9536 18 9533 1  1   the dockworker into West Ishtar Drive  
@@ -7500,9 +7500,9 @@ M 0 9582 15 9550 1  1   The Royal Guard into The Casbah
 M 0 9582 15 9552 1  1   The Royal Guard into The Casbah  
 M 0 9544 20 9553 1  1   the vulture into The Casbah  
 M 0 9545 2 9555 1  1   the old man into Kali Row  
-E   1   9590    2     16     a chessboard wielded                
+E   1   9590 100     16     a chessboard wielded                
 M 0 9545 2 9555 1  1   the old man into Kali Row  
-E   1   9590    2     16     a chessboard wielded                
+E   1   9590 100     16     a chessboard wielded                
 D   0   9559    5      1  Alley: Door down closed
 M 0 9544 4 9563 1  1   the vulture into Guildsman's Row  
 M 0 9543 4 9565 1  1   the alley cat into Alley  
@@ -7551,26 +7551,26 @@ M 0 9592 14 9613 1  1   the bodyguard into The Temple Gates
 M 0 9542 21 9613 1  1   the wandering prophet into The Temple Gates  
 M 0 9543 14 9614 1  1   the alley cat into Ahkeem's Stuff  
 M 0 9542 21 9614 1  1   the wandering prophet into Ahkeem's Stuff  
-E   1   9602    4      7     a pair of white baggy pants on legs                
+E   1   9602 100      7     a pair of white baggy pants on legs                
 M 0 9513 1 9614 1  1   Ahkeem the tailor into Ahkeem's Stuff  
-E   1   9583    1     16     a pair of sewing shears wielded                
-G   1   9555   10            a silk jacket in inventory
-G   1   9554   10            a sash in inventory
-G   1   9553   10            a pair of sandles in inventory
-G   1   9552   10            an embroiderd robe in inventory
-G   1   9551   10            a common robe in inventory
-G   1   9550   10            a pair of hose in inventory
-G   1   9549   10            a girdle in inventory
-G   1   9548   10            a fur cloak in inventory
-G   1   9547   10            a pair of hiking boots in inventory
-G   1   9546   10            a belt in inventory
+E   1   9583 100     16     a pair of sewing shears wielded                
+G   1   9555 100            a silk jacket in inventory
+G   1   9554 100            a sash in inventory
+G   1   9553 100            a pair of sandles in inventory
+G   1   9552 100            an embroiderd robe in inventory
+G   1   9551 100            a common robe in inventory
+G   1   9550 100            a pair of hose in inventory
+G   1   9549 100            a girdle in inventory
+G   1   9548 100            a fur cloak in inventory
+G   1   9547 100            a pair of hiking boots in inventory
+G   1   9546 100            a belt in inventory
 M 0 9592 14 9615 1  1   the bodyguard into Vera's Veggies  
 M 0 9514 1 9615 1  1   Vera the veggie lady into Vera's Veggies  
-G   1   9560   10            some dates in inventory
-G   1   9559   10            a fig in inventory
-G   1   9558   10            a tomato in inventory
-G   1   9557   10            a carrot in inventory
-G   1   9556   10            an egg in inventory
+G   1   9560 100            some dates in inventory
+G   1   9559 100            a fig in inventory
+G   1   9558 100            a tomato in inventory
+G   1   9557 100            a carrot in inventory
+G   1   9556 100            an egg in inventory
 M 0 9522 1 9616 1  1   The statue of Wandera into The Museum of the Greater Gods  
 M 0 9527 1 9616 1  1   The statue of Elmet into The Museum of the Greater Gods  
 M 0 9526 1 9616 1  1   The statue of Luxor into The Museum of the Greater Gods  
@@ -7578,41 +7578,41 @@ M 0 9525 1 9616 1  1   The statue of Rohan into The Museum of the Greater Gods
 D   0   9617    2      1  Base of the Tower: Door south closed
 M 0 9544 20 9622 1  1   the vulture into The Butchary  
 M 0 9515 1 9622 1  1   Butch the meatcutter into The Butchary  
-E   1   9584    1     16     a meat cleaver wielded                
-G   1   9563   10            a whole chicken in inventory
-G   1   9562   10            a side of beef in inventory
-G   1   9561   10            a leg of lamb in inventory
+E   1   9584 100     16     a meat cleaver wielded                
+G   1   9563 100            a whole chicken in inventory
+G   1   9562 100            a side of beef in inventory
+G   1   9561 100            a leg of lamb in inventory
 M 0 9544 20 9623 1  1   the vulture into The Witch's Brew  
 M 0 9579 1 9623 1  1   Elvira into The Witch's Brew  
-G   1   9574   10            a dark blue potion in inventory
-G   1   9572   10            a crystal clear potion in inventory
-G   1   9571   10            a deep-green potion in inventory
-G   1   9570   10            a glowing blue vial in inventory
+G   1   9574 100            a dark blue potion in inventory
+G   1   9572 100            a crystal clear potion in inventory
+G   1   9571 100            a deep-green potion in inventory
+G   1   9570 100            a glowing blue vial in inventory
 M 0 9544 20 9624 1  1   the vulture into Braheem's Magic Shop  
 M 0 9592 14 9624 1  1   the bodyguard into Braheem's Magic Shop  
 M 0 9580 1 9624 1  1   Braheem into Braheem's Magic Shop  
-G   1   9582   10            a pink wand in inventory
-G   1   9581   10            a wand of oak in inventory
-G   1   9579   10            a grey-silver wand in inventory
-G   1   9578   10            a scroll of recall in inventory
+G   1   9582 100            a pink wand in inventory
+G   1   9581 100            a wand of oak in inventory
+G   1   9579 100            a grey-silver wand in inventory
+G   1   9578 100            a scroll of recall in inventory
 M 0 9556 1 9625 1  1   the guildguard into Entrance to the Mage's Tower  
 M 0 9533 12 9626 1  1   A nomad merchant into Entrance to the Guild of Barbarians'  
 M 0 9558 1 9626 1  1   the guildguard into Entrance to the Guild of Barbarians'  
 M 0 9511 1 9628 1  1   the shopkeeper into The General Store  
-G   1   9538   10            a belt pouch in inventory
-G   1   9539   10            a candle in inventory
-G   1   9537   10            a basket in inventory
-G   1   9536   10            a backpack in inventory
-G   1   9535   10            an oil lamp in inventory
-G   1   9534   10            a sack in inventory
+G   1   9538 100            a belt pouch in inventory
+G   1   9539 100            a candle in inventory
+G   1   9537 100            a basket in inventory
+G   1   9536 100            a backpack in inventory
+G   1   9535 100            an oil lamp in inventory
+G   1   9534 100            a sack in inventory
 M 0 9516 1 9629 1  1   Abdul the armorer into Abdul's Armor  
-G   1   9521  140            a splinted shield in inventory
-G   1   9520   10            a wooden shield in inventory
-G   1   9519   10            a suit of splintmail in inventory
-G   1   9518   10            a suit of ringmail in inventory
-G   1   9517   22            a suit of field plate in inventory
-G   1   9516   10            a suit of brigandine in inventory
-G   1   9515   20            a suit of banded mail in inventory
+G   1   9521 100            a splinted shield in inventory
+G   1   9520 100            a wooden shield in inventory
+G   1   9519 100            a suit of splintmail in inventory
+G   1   9518 100            a suit of ringmail in inventory
+G   1   9517 100            a suit of field plate in inventory
+G   1   9516 100            a suit of brigandine in inventory
+G   1   9515 100            a suit of banded mail in inventory
 D   0   9630    1      1  The Knight's Guild: Door east closed
 M 0 9564 1 9631 1  1   the mercenary into The Mercenary's Guild  
 M 0 9544 20 9632 1  1   the vulture into The Assassins' rooms.  
@@ -7621,53 +7621,53 @@ D   0   9632    3      0  The Assassins' rooms.: Door west open
 M 0 9502 1 9634 1  1   the guildmaster into Tournament and Practice Yard  
 D   0   9634    1      1  Tournament and Practice Yard: Door east closed
 M 0 9510 1 9635 1  1   the baker into The Bread Stand  
-G   1   9545   10            some nuts in inventory
-G   1   9543   10            some iron rations in inventory
-G   1   9542   10            some dry rations in inventory
-G   1   9541   10            a bread in inventory
-G   1   9540   10            a hunk of cheese in inventory
+G   1   9545 100            some nuts in inventory
+G   1   9543 100            some iron rations in inventory
+G   1   9542 100            some dry rations in inventory
+G   1   9541 100            a bread in inventory
+G   1   9540 100            a hunk of cheese in inventory
 M 0 9533 12 9636 1  1   A nomad merchant into Igor's Implements of Destruction  
 M 0 9593 1 9780 1  1   Teppic into Teppic's shop  
-G   1   9609   10            a dagger in inventory
-G   1   9610   10            a dagger in inventory
-G   1   9611   10            a dagger in inventory
-G   1   9612   10            a dagger in inventory
+G   1   9609 100            a dagger in inventory
+G   1   9610 100            a dagger in inventory
+G   1   9611 100            a dagger in inventory
+G   1   9612 100            a dagger in inventory
 M 0 9517 1 9636 1  1   Igor the weaponsmith into Igor's Implements of Destruction  
-E   1   9591    1     17     a sesame seed held                   
-G   1   9514   10            a rapier in inventory
-G   1   9513   18            a scimitar in inventory
-G   1   9512   10            a two-handed bastard sword in inventory
-G   1   9511   10            a sickle in inventory
-G   1   9510   10            a guisarme in inventory
-G   1   9509   10            a glaive in inventory
-G   1   9508   10            a fauchard in inventory
-G   1   9507   10            a bill-guisarme in inventory
-G   1   9506   10            a bec de corbine in inventory
-G   1   9505   10            a bardiche in inventory
-G   1   9504   10            an awl-pike in inventory
-G   1   9503   10            a morningstar in inventory
+E   1   9591 100     17     a sesame seed held                   
+G   1   9514 100            a rapier in inventory
+G   1   9513 100            a scimitar in inventory
+G   1   9512 100            a two-handed bastard sword in inventory
+G   1   9511 100            a sickle in inventory
+G   1   9510 100            a guisarme in inventory
+G   1   9509 100            a glaive in inventory
+G   1   9508 100            a fauchard in inventory
+G   1   9507 100            a bill-guisarme in inventory
+G   1   9506 100            a bec de corbine in inventory
+G   1   9505 100            a bardiche in inventory
+G   1   9504 100            an awl-pike in inventory
+G   1   9503 100            a morningstar in inventory
 D   0   9636    5      2  Igor's Implements of Destruction: Door down locked
 M 0 9584 1 9637 1  1   Stitch, the leather dude. into Ye Old Leather Shoppe  
-G   1   9533   10            a leather shield in inventory
-G   1   9532   10            a pair of studded leather gloves in inventory
-G   1   9531   10            a pair of studded leather pants in inventory
-G   1   9530   10            a pair of studded leather sleeves in inventory
-G   1   9529   10            a studded leather jacket in inventory
-G   1   9528   10            a pair of padded leather boots in inventory
-G   1   9527   10            a pair of leather gloves in inventory
-G   1   9526   10            a pair of leather pants in inventory
-G   1   9525   10            a leather cap in inventory
-G   1   9524   10            a pair of leather sleeves in inventory
-G   1   9523   10            a leather jacket in inventory
-G   1   9522   10            a buckler in inventory
+G   1   9533 100            a leather shield in inventory
+G   1   9532 100            a pair of studded leather gloves in inventory
+G   1   9531 100            a pair of studded leather pants in inventory
+G   1   9530 100            a pair of studded leather sleeves in inventory
+G   1   9529 100            a studded leather jacket in inventory
+G   1   9528 100            a pair of padded leather boots in inventory
+G   1   9527 100            a pair of leather gloves in inventory
+G   1   9526 100            a pair of leather pants in inventory
+G   1   9525 100            a leather cap in inventory
+G   1   9524 100            a pair of leather sleeves in inventory
+G   1   9523 100            a leather jacket in inventory
+G   1   9522 100            a buckler in inventory
 M 0 9583 1 9638 1  1   Patch the bartender into Smuggler's Inn  
-G   1   9577   10            a shot in inventory
-G   1   9576   10            a barrel of beer in inventory
-G   1   9575   10            a flaming scorpion in inventory
+G   1   9577 100            a shot in inventory
+G   1   9576 100            a barrel of beer in inventory
+G   1   9575 100            a flaming scorpion in inventory
 M 0 9566 1 9644 1  1   the blacksmith into The Forge  
-G   1   9589  100            a riding crop in inventory
-G   1   9588   10            a saddle in inventory
-G   1   9587   10            a horse shoe in inventory
+G   1   9589 100            a riding crop in inventory
+G   1   9588 100            a saddle in inventory
+G   1   9587 100            a horse shoe in inventory
 M 0 9567 6 9645 1  1   a horse into The Royal Stables  
 M 0 9567 6 9645 1  1   a horse into The Royal Stables  
 M 0 9567 6 9645 1  1   a horse into The Royal Stables  
@@ -7681,7 +7681,7 @@ M 0 9544 20 9649 1  1   the vulture into The Hay Loft
 D   0   9650    1      0  The Grand Entrance: Door east open
 D   0   9653    0      0  Jail: Door north open
 M 0 9589 1 9654 1  1   the mayor into City Hall  
-G   1   9501   10            the Key to the City of New Thalos in inventory
+G   1   9501 100            the Key to the City of New Thalos in inventory
 M 0 9544 20 9655 1  1   the vulture into The Boyer/Fletcher's  
 D   0   9658    3      0  The Palace Gate: Door west open
 M 0 9560 2 9661 1  1   a servant boy into Kitchen  
@@ -7735,7 +7735,7 @@ D   0   9689    0      0  Throne Room: Door north open
 D   0   9689    1      0  Throne Room: Door east open
 D   0   9689    2      0  Throne Room: Door south open
 M 0 9552 1 9691 1  1   the jailer into Jailer's Room  
-G   1   9593   10            the jail key in inventory
+G   1   9593 100            the jail key in inventory
 D   0   9691    1      1  Jailer's Room: Door east closed
 D   0   9691    4      1  Jailer's Room: Door up closed
 D   0   9692    0      2  Tunnel in the Dungeon: Door north locked
@@ -7749,7 +7749,7 @@ D   0   9695    0      2  Tunnel in the Dungeon: Door north locked
 D   0   9695    1      1  Tunnel in the Dungeon: Door east closed
 D   0   9695    2      2  Tunnel in the Dungeon: Door south locked
 M 0 9587 1 9696 1  1   the wolverine into Secret Cell  
-E   1   9599    1     16     the wolverine claw wielded                
+E   1   9599 100     16     the wolverine claw wielded                
 D   0   9696    3      1  Secret Cell: Door west closed
 M 0 9575 1 9697 1  1   the chimera into Cell  
 D   0   9697    2      2  Cell: Door south locked
@@ -7788,12 +7788,12 @@ M 0 9595 1 9801 1  1   a mare into store
 M 0 9594 1 9801 1  1   a Shire horse into store  
 M 0 9597 1 9801 1  1   A war horse into store  
 M 0 9600 1 9802 1  1   The leather tanner into The tack shop  
-G   1   9603    1            a leather saddle in inventory
-G   1   9604    1            a bronzed saddle in inventory
-G   1   9605    1            a jewelled saddle in inventory
-G   1   9606    1            some reigns in inventory
-G   1   9607    1            some reigns made from twisted vines in inventory
-G   1   9608    1            glowing horseshoes in inventory
+G   1   9603 100            a leather saddle in inventory
+G   1   9604 100            a bronzed saddle in inventory
+G   1   9605 100            a jewelled saddle in inventory
+G   1   9606 100            some reigns in inventory
+G   1   9607 100            some reigns made from twisted vines in inventory
+G   1   9608 100            glowing horseshoes in inventory
 S
 #SHOPS
 9511	 1  8 12 13 15	200 100		0 23	; general store

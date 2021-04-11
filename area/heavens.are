@@ -1481,17 +1481,17 @@ M 0 1007 2 1036 1  1   A cloud giant into In the air ...
   
 M 0 1008 1 1019 1  1   Perseus into In the air ...
   
-E   1   1002    1      6     The Mighty Horn of Perseus on head                
+E   1   1002  70      6     The Mighty Horn of Perseus on head                
 M 0 1009 1 1009 1  1   Icarus into In the air ...
   
-E   1   1003    1     12     The Mighty Wings of Icarus about body             
+E   1   1003  70     12     The Mighty Wings of Icarus about body             
 M 0 1010 1 1021 1  1   Nitrius into In the air ...
   
-E   1   1005    1     13     The Mighty Girth of Nitrius around waist           
-E   1   1006    1     16     The Fangs of Nitrius wielded                
+E   1   1005  45     13     The Mighty Girth of Nitrius around waist           
+E   1   1006  45     16     The Fangs of Nitrius wielded                
 M 0 1011 1 1001 1  1   Butterfly of Chaos into In the air ...
   
-G   1   1004    1            a cocoon in inventory
+G   1   1004  80            a cocoon in inventory
 S
 #SPECIALS
 

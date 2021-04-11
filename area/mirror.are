@@ -2831,128 +2831,128 @@ A
 
 #RESETS
 M 0 5306 1 5319 1  1   the fanatic priest into The guild house  
-E   1   5218    8      3      on neck                
-E   1   5222    8     12      about body             
-E   1   5252  150     16      wielded                
-E   1   5239    9     17      held                   
+E   1   5218 100      3      on neck                
+E   1   5222 100     12      about body             
+E   1   5252 100     16      wielded                
+E   1   5239 100     17      held                   
 M 0 5305 1 5336 1  1   Gordon the Brave into An impressive house  
-E   1   5204    8      8      on feet                
-E   1   5203    8     10      on arms                
-E   1   5205    8      7      on legs                
-E   1   5206    8     13      around waist           
-E   1   5201    8      6      on head                
-E   1   5202    8      9      on hands               
-E   1   5301    8      5     a beautiful iron breast plate on body                
-E   1   5332    2     16      wielded                
-E   1   5226   12     17      held                   
+E   1   5204  29      8      on feet                
+E   1   5203  29     10      on arms                
+E   1   5205  29      7      on legs                
+E   1   5206  29     13      around waist           
+E   1   5201  29      6      on head                
+E   1   5202  29      9      on hands               
+E   1   5301  29      5     a beautiful iron breast plate on body                
+E   1   5332  29     16      wielded                
+E   1   5226 100     17      held                   
 M 0 5300 1 5350 1  1   the baby beholder into The Temple of Thalos  
-E   1   5243    9     17      held                   
+E   1   5243 100     17      held                   
 M 0 5307 1 5350 1  1   the priest of Thalos into The Temple of Thalos  
-E   1   5302    8     17     a green serpentine staff held                   
-E   1   5334   10      3     brown cloak on neck
+E   1   5302  63     17     a green serpentine staff held                   
+E   1   5334  63      3     brown cloak on neck
 M 0 5301 20 5300 1  1   the pet lamia into The Grand Gate of Thalos  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5302 1  1   the pet lamia into Main Street  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5304 1  1   the pet lamia into A Garden Path  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5306 1  1   the pet lamia into A Garden Path  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5308 1  1   the pet lamia into The market place  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5310 1  1   the pet lamia into A Side Street  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5312 1  1   the pet lamia into A side street  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5314 1  1   the pet lamia into A side street  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5316 1  1   the pet lamia into A back alley  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5318 1  1   the pet lamia into A back alley  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5320 1  1   the pet lamia into The produce stand  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5322 1  1   the pet lamia into The tapestry stand  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5324 1  1   the pet lamia into Under the watchtower  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5326 1  1   the pet lamia into A simple clay dwelling  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5328 1  1   the pet lamia into A back alley  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5330 1  1   the pet lamia into The Tavern of the Sun  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5332 1  1   the pet lamia into The city hall  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5334 1  1   the pet lamia into The private gardens and courtyard of Thalos  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5336 1  1   the pet lamia into An impressive house  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5338 1  1   the pet lamia into The Library Addition  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5340 1  1   the pet lamia into A back alley  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5342 1  1   the pet lamia into A bath house  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5344 1  1   the pet lamia into A Resting Room  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5346 1  1   the pet lamia into The north-west watchtower  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5348 1  1   the pet lamia into The north-east watchtower  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5350 1  1   the pet lamia into The Temple of Thalos  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5352 1  1   the pet lamia into Under a watchtower  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 M 0 5301 20 5354 1  1   the pet lamia into The south-east watchtower  
-E   1   5300   99      3     a lamia collar on neck                
+E   1   5300 100      3     a lamia collar on neck                
 O   0   5306    1   5334  load a large beautiful fountain into The private gardens and courtyard of Thalos
 M 0 5330 2 5300 1  1   bard of Thalos into The Grand Gate of Thalos  
-E   1   5311    3     17     a silver flute held                   
+E   1   5311 100     17     a silver flute held                   
 M 0 5329 2 5330 1  1   bard of Thalos into The Tavern of the Sun  
-E   1   5309    3     17     a mandolin held                   
+E   1   5309 100     17     a mandolin held                   
 M 0 5329 2 5330 1  1   bard of Thalos into The Tavern of the Sun  
-E   1   5310    3     17     a golden harp held                   
+E   1   5310 100     17     a golden harp held                   
 M 0 5316 2 5345 1  1   a young scholar into On the second floor of the library  
 M 0 5315 1 5337 1  1   the librarian into A Public Library  
 M 0 5319 2 5342 1  1   a man into A bath house  
 M 0 5318 4 5344 1  1   a beautiful masseuse into A Resting Room  
 M 0 5308 8 5347 1  1   the stone golem into The south-west watchtower  
-E   1   5221   80     16      wielded                
-E   1   5232    9     17      held                   
+E   1   5221  63     16      wielded                
+E   1   5232  63     17      held                   
 M 0 5308 8 5346 1  1   the stone golem into The north-west watchtower  
-E   1   5221   80     16      wielded                
-E   1   5233    9     17      held                   
+E   1   5221  63     16      wielded                
+E   1   5233  63     17      held                   
 M 0 5308 8 5348 1  1   the stone golem into The north-east watchtower  
-E   1   5221   80     16      wielded                
-E   1   5235    9     17      held                   
+E   1   5221  63     16      wielded                
+E   1   5235  63     17      held                   
 M 0 5308 8 5354 1  1   the stone golem into The south-east watchtower  
-E   1   5221   80     16      wielded                
-E   1   5237    9     17      held                   
+E   1   5221  63     16      wielded                
+E   1   5237  63     17      held                   
 M 0 5311 1 5317 1  1   George the Butcher into The meat stand  
-G   1   5219   99             in inventory
-E   1    601   99     16      wielded                
-G   1    602   99             in inventory
-G   1    603   99             in inventory
-G   1    604   99             in inventory
-G   1    605   99             in inventory
+G   1   5219 100             in inventory
+E   1    601 100     16      wielded                
+G   1    602 100             in inventory
+G   1    603 100             in inventory
+G   1    604 100             in inventory
+G   1    605 100             in inventory
 M 0 5312 1 5320 1  1   Farmer Betty into The produce stand  
-G   1    609   99             in inventory
-G   1    610   99             in inventory
-G   1    611   99             in inventory
-G   1    612   99             in inventory
-G   1    613   99             in inventory
+G   1    609 100             in inventory
+G   1    610 100             in inventory
+G   1    611 100             in inventory
+G   1    612 100             in inventory
+G   1    613 100             in inventory
 M 0 5313 1 5329 1  1   Thaellor the dwarf into A busy shop  
 M 0 5310 1 5330 1  1   Dan the Barkeep into The Tavern of the Sun  
-G   1    648   99             in inventory
-G   1    649   99             in inventory
-G   1    650   99             in inventory
+G   1    648 100             in inventory
+G   1    649 100             in inventory
+G   1    650 100             in inventory
 M 0 5314 1 5321 1  1   Ben the Smith into The smithy  
-G   1    601   99             in inventory
-G   1    615   99             in inventory
+G   1    601 100             in inventory
+G   1    615 100             in inventory
 M 0 5317 1 5338 1  1   an old wizard into The Library Addition  
 M 0 5309 1 5331 1  1   the mayor of Thalos into South wing of the city hall  
-E   1   5224    9     17      held                   
+E   1   5224 100     17      held                   
 O   0   5307    1   5331  load the curved desk into South wing of the city hall
 P 1 5304 3 5307 1  1   Load a scroll of enchantment into the curved desk  
 P 1 5305 3 5307 1  1   Load a bound scroll into the curved desk  
@@ -2962,105 +2962,105 @@ P 1 3105 3 5308 1  1   the glass cabinet
 P 1 5214 3 5308 1  1   the glass cabinet  
 P 1 5230 3 5308 1  1   the glass cabinet  
 M 0 5320 3 5335 1  1   An imperial cityguard into A small guard house  
-E   1   5330   99      1     an imperial city guard signet ring on left finger         
-E   1   5321   99      4     an imperial cloak on neck                
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5327   99     12     an imperial cape about body             
-E   1   5328   99     13     an imperial belt around waist           
-E   1   5317  199     16     an imperial sword wielded                
+E   1   5330 100      1     an imperial city guard signet ring on left finger         
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5328 100     13     an imperial belt around waist           
+E   1   5317 100     16     an imperial sword wielded                
 M 0 5320 3 5335 1  1   An imperial cityguard into A small guard house  
-E   1   5330   99      1     an imperial city guard signet ring on left finger         
-E   1   5321   99      4     an imperial cloak on neck                
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5327   99     12     an imperial cape about body             
-E   1   5329   99     14     an imperial metal bracer on left wrist          
-E   1   5318  199     16     an imperial mace wielded                
+E   1   5330 100      1     an imperial city guard signet ring on left finger         
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5329 100     14     an imperial metal bracer on left wrist          
+E   1   5318 100     16     an imperial mace wielded                
 M 0 5320 3 5335 1  1   An imperial cityguard into A small guard house  
-E   1   5321   99      4     an imperial cloak on neck                
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5327   99     12     an imperial cape about body             
-E   1   5328   99     13     an imperial belt around waist           
-E   1   5329   99     14     an imperial metal bracer on left wrist          
-E   1   5317  199     16     an imperial sword wielded                
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5328 100     13     an imperial belt around waist           
+E   1   5329 100     14     an imperial metal bracer on left wrist          
+E   1   5317 100     16     an imperial sword wielded                
 M 0 5321 2 5300 1  1   an imperial cityguard into The Grand Gate of Thalos  
-E   1   5331   99      0     an imperial war banner as light               
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5322   99      6     an imperial helm on head                
-E   1   5323   99      7     a pair of imperial plate leggings on legs                
-E   1   5324   99      8     a pair of imperial plate boots on feet                
-E   1   5325   99      9     a pair of imperial plate gloves on hands               
-E   1   5320   99     11     an imperial shield as shield              
-E   1   5318  199     16     an imperial mace wielded                
+E   1   5331 100      0     an imperial war banner as light               
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5322 100      6     an imperial helm on head                
+E   1   5323 100      7     a pair of imperial plate leggings on legs                
+E   1   5324 100      8     a pair of imperial plate boots on feet                
+E   1   5325 100      9     a pair of imperial plate gloves on hands               
+E   1   5320 100     11     an imperial shield as shield              
+E   1   5318 100     16     an imperial mace wielded                
 M 0 5321 2 5300 1  1   an imperial cityguard into The Grand Gate of Thalos  
-E   1   5331   99      0     an imperial war banner as light               
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5324   99      8     a pair of imperial plate boots on feet                
-E   1   5325   99      9     a pair of imperial plate gloves on hands               
-E   1   5326   99     10     a pair of imperial plate sleeves on arms                
-E   1   5320   99     11     an imperial shield as shield              
-E   1   5317  199     16     an imperial sword wielded                
+E   1   5331 100      0     an imperial war banner as light               
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5324 100      8     a pair of imperial plate boots on feet                
+E   1   5325 100      9     a pair of imperial plate gloves on hands               
+E   1   5326 100     10     a pair of imperial plate sleeves on arms                
+E   1   5320 100     11     an imperial shield as shield              
+E   1   5317 100     16     an imperial sword wielded                
 M 0 5303 11 5300 1  1   an imperial cityguard into The Grand Gate of Thalos  
-E   1   5321   99      4     an imperial cloak on neck                
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5327   99     12     an imperial cape about body             
-E   1   5329   99     14     an imperial metal bracer on left wrist          
-E   1   5318  199     16     an imperial mace wielded                
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5329 100     14     an imperial metal bracer on left wrist          
+E   1   5318 100     16     an imperial mace wielded                
 M 0 5303 11 5304 1  1   an imperial cityguard into A Garden Path  
-E   1   5321   99      4     an imperial cloak on neck                
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5320   99     11     an imperial shield as shield              
-E   1   5317  199     16     an imperial sword wielded                
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5320 100     11     an imperial shield as shield              
+E   1   5317 100     16     an imperial sword wielded                
 M 0 5303 11 5307 1  1   an imperial cityguard into The market place  
-E   1   5321   99      4     an imperial cloak on neck                
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5328   99     13     an imperial belt around waist           
-E   1   5329   99     14     an imperial metal bracer on left wrist          
-E   1   5318  199     16     an imperial mace wielded                
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5328 100     13     an imperial belt around waist           
+E   1   5329 100     14     an imperial metal bracer on left wrist          
+E   1   5318 100     16     an imperial mace wielded                
 M 0 5303 11 5313 1  1   an imperial cityguard into A side street  
-E   1   5330   99      1     an imperial city guard signet ring on left finger         
-E   1   5321   99      4     an imperial cloak on neck                
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5320   99     11     an imperial shield as shield              
-E   1   5317  199     16     an imperial sword wielded                
+E   1   5330 100      1     an imperial city guard signet ring on left finger         
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5320 100     11     an imperial shield as shield              
+E   1   5317 100     16     an imperial sword wielded                
 M 0 5303 11 5315 1  1   an imperial cityguard into Under another grand watchtower  
-E   1   5321   99      4     an imperial cloak on neck                
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5327   99     12     an imperial cape about body             
-E   1   5328   99     13     an imperial belt around waist           
-E   1   5318  199     16     an imperial mace wielded                
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5328 100     13     an imperial belt around waist           
+E   1   5318 100     16     an imperial mace wielded                
 M 0 5303 11 5324 1  1   an imperial cityguard into Under the watchtower  
-E   1   5321   99      4     an imperial cloak on neck                
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5320   99     11     an imperial shield as shield              
-E   1   5317  199     16     an imperial sword wielded                
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5320 100     11     an imperial shield as shield              
+E   1   5317 100     16     an imperial sword wielded                
 M 0 5303 11 5331 1  1   an imperial cityguard into South wing of the city hall  
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5327   99     12     an imperial cape about body             
-E   1   5328   99     13     an imperial belt around waist           
-E   1   5329   99     14     an imperial metal bracer on left wrist          
-E   1   5318  199     16     an imperial mace wielded                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5328 100     13     an imperial belt around waist           
+E   1   5329 100     14     an imperial metal bracer on left wrist          
+E   1   5318 100     16     an imperial mace wielded                
 M 0 5303 11 5334 1  1   an imperial cityguard into The private gardens and courtyard of Thalos  
-E   1   5330   99      1     an imperial city guard signet ring on left finger         
-E   1   5321   99      4     an imperial cloak on neck                
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5320   99     11     an imperial shield as shield              
-E   1   5317  199     16     an imperial sword wielded                
+E   1   5330 100      1     an imperial city guard signet ring on left finger         
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5320 100     11     an imperial shield as shield              
+E   1   5317 100     16     an imperial sword wielded                
 M 0 5303 11 5341 1  1   an imperial cityguard into Under a watchtower  
-E   1   5321   99      4     an imperial cloak on neck                
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5327   99     12     an imperial cape about body             
-E   1   5318  199     16     an imperial mace wielded                
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5318 100     16     an imperial mace wielded                
 M 0 5303 11 5350 1  1   an imperial cityguard into The Temple of Thalos  
-E   1   5321   99      4     an imperial cloak on neck                
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5320   99     11     an imperial shield as shield              
-E   1   5317  199     16     an imperial sword wielded                
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5320 100     11     an imperial shield as shield              
+E   1   5317 100     16     an imperial sword wielded                
 M 0 5303 11 5352 1  1   an imperial cityguard into Under a watchtower  
-E   1   5330   99      1     an imperial city guard signet ring on left finger         
-E   1   5319   99      5     an imperial chest plate on body                
-E   1   5327   99     12     an imperial cape about body             
-E   1   5328   99     13     an imperial belt around waist           
-E   1   5318  199     16     an imperial mace wielded                
+E   1   5330 100      1     an imperial city guard signet ring on left finger         
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5328 100     13     an imperial belt around waist           
+E   1   5318 100     16     an imperial mace wielded                
 M 0 5304 9 5302 1  1   a female citizen of Thalos into Main Street  
 M 0 5302 9 5304 1  1   a citizen of Thalos into A Garden Path  
 M 0 5304 9 5307 1  1   a female citizen of Thalos into The market place  
@@ -3084,30 +3084,30 @@ R   0   5376    6         The Void: Door(s) 0-6 randomized
 R   0   5377    6         The Void: Door(s) 0-6 randomized
 R   0   5378    5         The Void: Door(s) 0-5 randomized
 M 0 5327 1 5368 1  1   a druid into A clearing in the woods  
-G   1   5313   99            some bluish herbs in inventory
+G   1   5313 100            some bluish herbs in inventory
 M 0 5327 2 5371 1  1   a druid into The holy grove  
-G   1   5315   99            some grayish herbs in inventory
+G   1   5315 100            some grayish herbs in inventory
 M 0 5328 1 5374 1  1   a druidess into The croquet lawn  
-G   1   5314   99            some purplish herbs in inventory
+G   1   5314 100            some purplish herbs in inventory
 M 0 5328 2 5372 1  1   a druidess into The holy grove  
-G   1   5316   99            some orangish herbs in inventory
+G   1   5316 100            some orangish herbs in inventory
 M 0 5322 2 5367 1  1   a doe into The holy grove  
 M 0 5323 3 5370 1  1   a deer into The sacred glade  
 M 0 5324 1 5369 1  1   a stag into The holy grove  
 M 0 5325 3 5373 1  1   a small bunny into The sunny field  
 M 0 5326 4 5372 1  1   a harmless snake into The holy grove  
 M 0 5334 1 5384 1  1   the cityguard into Inside the East Gate of Midgaard  
-E   1   3365   99      0      as light               
-E   1   3364   99      1      on left finger         
-E   1   3386  199     16      wielded                
-E   1   3353   99      5      on body                
-E   1   3354   99     11      as shield              
+E   1   3365 100      0      as light               
+E   1   3364 100      1      on left finger         
+E   1   3386 100     16      wielded                
+E   1   3353 100      5      on body                
+E   1   3354 100     11      as shield              
 M 0 5331 1 5381 1  1   the cityguard into Market Square  
-E   1   3365   99      0      as light               
-E   1   3364   99      1      on left finger         
-E   1   3386  199     16      wielded                
-E   1   3353   99      5      on body                
-E   1   3355  199      4      on neck                
+E   1   3365 100      0      as light               
+E   1   3364 100      1      on left finger         
+E   1   3386 100     16      wielded                
+E   1   3353 100      5      on body                
+E   1   3355 100      4      on neck                
 M 0 5332 2 5380 1  1   the janitor into The Temple Square  
 M 0 5333 3 5382 1  1   the beastly fido into The Main Street  
 M 0 5323 3 5358 1  1   a deer into The dwarf forest  

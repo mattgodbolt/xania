@@ -1429,35 +1429,35 @@ M 0 30101 2 30101 1  1
 M 0 30102 1 30103 1  1   
 * Elf Sacrifice with Shield
 M 0 30103 1 30127 1  1   
-E 1 30101 20 11
 * Goblin Sacrifice with Helm
+E 1 30101 100 11
 M 0 30104 1 30112 1  1   
-E 1 30102 20 6
 * Evil Mage with Amulet
+E 1 30102 100 6
 M 0 30105 1 30115 1  1   
-E 1 30103 20 3
 * Evil Warrior with Sword
+E 1 30103  90 3
 M 0 30106 1 30116 1  1   
-E 1 30104 20 16
 * Fire Elemental with Key
+E 1 30104  90 16
 M 0 30107 1 30122 1  1   
-E 1 30114 2 17
 * Frost Elemental with Key
+E 1 30114 100 17
 M 0 30108 1 30123 1  1   
-E 1 30114 2 17
 * Death Knight with Key
+E 1 30114 100 17
 M 0 30109 1 30118 1  1   
-E 1 30118 1 17
 * Evil Mage Lord with Bracelet
+E 1 30118 100 17
 M 0 30110 1 30117 1  1   
-E 1 30107 20 14
 * Evil Warrior Lord with Pike
+E 1 30107  70 14
 M 0 30111 1 30120 1  1   
-E 1 30108 20 16
 * Dragon with Key
+E 1 30108  70 16
 M 0 30112 1 30126 1  1   
-E 1 30115 1 17
 * Potions in First Trial
+E 1 30115 100 17
 O 0 30111 1 30113
 O 0 30112 1 30113
 O 0 30113 1 30113

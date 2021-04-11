@@ -582,30 +582,30 @@ P 1 10125 3 10126 1  1
 ** Load Mobs and Equipment **
 
 M 0 10120 2 10141 1  1  guard dog 1  
-E 1 10127 10 3    equip collar
 
+E 1 10127  70 3    equip collar
 M 0 10120 2 10141 1  1        guard dog 2  
-E 1 10127 10 3          equip collar
 
+E 1 10127  70 3          equip collar
 M 0 10122 1 10136 1  1  load dawn warrior  
-E 1 10128 5 7     equip leather shorts
 
+E 1 10128  70 7     equip leather shorts
 M 0 10121 1 10138 1  1  load fire  
 
 M 0 10123 1 10144 1  1  load armourer  
-E 1 10129 3 16    equip axe
-G 1 10134 1 17    give key to chest
 
+E 1 10129  70 16    equip axe
+G 1 10134 100 17    give key to chest
 M 0 10124 1 10143 1  1  load snake charmer  
-E 1 10130 3 10    equip viper
 
+E 1 10130  70 10    equip viper
 M 0 10125 1 10142 1  1  load arlua  
-E 1 10131 2 7     equip swirling mist
-E 1 10133 3 16    equip whip
 
+E 1 10131  45 7     equip swirling mist
+E 1 10133  45 16    equip whip
 M 0 10126 1 10145 1  1  load spider  
-E 1 10132 3 17    eqiup web
 
+E 1 10132  70 17    eqiup web
 M 0 10129 1 10146 1  1        load servant stables  
 M 0 10127 1 10147 1  1        load nazgul store room  
 M 0 10128 1 10147 1  1        load dragon store room  

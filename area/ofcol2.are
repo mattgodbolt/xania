@@ -3258,150 +3258,150 @@ D   0    637    3      1  Impy Way: Door west closed
 D   0    638    3      1  House: Door west closed
 D   0    640    1      1  House: Door east closed
 M 0 600 8 608 1  1   the Ofcol cityguard into Impy Way  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    621   99      5     brass plate on body                
-E   1    630   99     16     a claymore wielded                
-E   1    622   99      6     a brass helm on head                
+E   1    620 100      1     an Ofcol signet ring on left finger         
+E   1    621 100      5     brass plate on body                
+E   1    630 100     16     a claymore wielded                
+E   1    622 100      6     a brass helm on head                
 M 0 600 8 604 1  1   the Ofcol cityguard into The Leather Shop  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    621   99      5     brass plate on body                
-E   1    630   99     16     a claymore wielded                
-E   1    623   99      7     brass leggings on legs                
+E   1    620 100      1     an Ofcol signet ring on left finger         
+E   1    621 100      5     brass plate on body                
+E   1    630 100     16     a claymore wielded                
+E   1    623 100      7     brass leggings on legs                
 M 0 600 8 601 1  1   the Ofcol cityguard into The Big Intersection  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    621   99      5     brass plate on body                
-E   1    630   99     16     a claymore wielded                
-E   1    624   99      8     brass boots on feet                
+E   1    620 100      1     an Ofcol signet ring on left finger         
+E   1    621 100      5     brass plate on body                
+E   1    630 100     16     a claymore wielded                
+E   1    624 100      8     brass boots on feet                
 M 0 600 8 650 1  1   the Ofcol cityguard into Swiftest Way  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    621   99      5     brass plate on body                
-E   1    630   99     16     a claymore wielded                
-E   1    625   99      9     brass gauntlets on hands               
+E   1    620 100      1     an Ofcol signet ring on left finger         
+E   1    621 100      5     brass plate on body                
+E   1    630 100     16     a claymore wielded                
+E   1    625 100      9     brass gauntlets on hands               
 M 0 600 8 642 1  1   the Ofcol cityguard into The Big Intersection  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    621   99      5     brass plate on body                
-E   1    630   99     16     a claymore wielded                
-E   1    626   99     10     brass sleeves on arms                
+E   1    620 100      1     an Ofcol signet ring on left finger         
+E   1    621 100      5     brass plate on body                
+E   1    630 100     16     a claymore wielded                
+E   1    626 100     10     brass sleeves on arms                
 M 0 600 8 647 1  1   the Ofcol cityguard into Swiftest Way  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    621   99      5     brass plate on body                
-E   1    630   99     16     a claymore wielded                
-E   1    627   99     11     a brass shield as shield              
+E   1    620 100      1     an Ofcol signet ring on left finger         
+E   1    621 100      5     brass plate on body                
+E   1    630 100     16     a claymore wielded                
+E   1    627 100     11     a brass shield as shield              
 M 0 600 8 667 1  1   the Ofcol cityguard into Raff Way  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    621   99      5     brass plate on body                
-E   1    630   99     16     a claymore wielded                
-E   1    628   99     13     a brass girth around waist           
+E   1    620 100      1     an Ofcol signet ring on left finger         
+E   1    621 100      5     brass plate on body                
+E   1    630 100     16     a claymore wielded                
+E   1    628 100     13     a brass girth around waist           
 M 0 600 8 637 1  1   the Ofcol cityguard into Impy Way  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    621   99      5     brass plate on body                
-E   1    630   99     16     a claymore wielded                
-E   1    629   99     14     a brass bracer on left wrist          
+E   1    620 100      1     an Ofcol signet ring on left finger         
+E   1    621 100      5     brass plate on body                
+E   1    630 100     16     a claymore wielded                
+E   1    629 100     14     a brass bracer on left wrist          
 M 0 601 1 601 1  1   Marshall Diana into The Big Intersection  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    639   99      5     platinum plate on body                
-E   1    640   99      6     the platinum helmet on head                
-E   1    641   99      7     platinum leggings on legs                
-E   1    642   99      8     platinum boots on feet                
-E   1    643   99      9     platinum gauntlets on hands               
-E   1    644   99     10     platinum sleeves on arms                
-E   1    645   99     11     the platinum spiked shield as shield              
-E   1    646   99     13     the platinum girth around waist           
-E   1    647   99     16     Holy Avenger wielded                
+E   1    620  27      1     an Ofcol signet ring on left finger         
+E   1    639  27      5     platinum plate on body                
+E   1    640  27      6     the platinum helmet on head                
+E   1    641  27      7     platinum leggings on legs                
+E   1    642  27      8     platinum boots on feet                
+E   1    643  27      9     platinum gauntlets on hands               
+E   1    644  27     10     platinum sleeves on arms                
+E   1    645  27     11     the platinum spiked shield as shield              
+E   1    646  27     13     the platinum girth around waist           
+E   1    647  27     16     Holy Avenger wielded                
 O 0 3135 10 601  fountain at The Big Intersection
 M 0 602 1 669 1  1   Captain Derrick into The Temple of Ofcol  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    631   99      5     silver plate on body                
-E   1    653   99     16     a ranseur wielded                
-E   1    632   99      6     A silver helm on head                
-E   1    633   99      7     silver leggings on legs                
-E   1    634   99      8     silver boots on feet                
-E   1    635   99      9     silver gauntlets on hands               
-E   1    626   99     10     brass sleeves on arms                
-E   1    627   99     11     a brass shield as shield              
-E   1    628   99     13     a brass girth around waist           
+E   1    620  27      1     an Ofcol signet ring on left finger         
+E   1    631  27      5     silver plate on body                
+E   1    653  27     16     a ranseur wielded                
+E   1    632  27      6     A silver helm on head                
+E   1    633  27      7     silver leggings on legs                
+E   1    634  27      8     silver boots on feet                
+E   1    635  27      9     silver gauntlets on hands               
+E   1    626  27     10     brass sleeves on arms                
+E   1    627  27     11     a brass shield as shield              
+E   1    628  27     13     a brass girth around waist           
 M 0 603 1 699 1  1   Captain Jacklyn into Outside the Entrance to the Golden Citadel  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    631   99      5     silver plate on body                
-E   1    653   99     16     a ranseur wielded                
-E   1    632   99      6     A silver helm on head                
-E   1    623   99      7     brass leggings on legs                
-E   1    624   99      8     brass boots on feet                
-E   1    625   99      9     brass gauntlets on hands               
-E   1    636   99     10     silver sleeves on arms                
-E   1    637   99     11     the silver shield as shield              
-E   1    638   99     13     the silver girth around waist           
+E   1    620  27      1     an Ofcol signet ring on left finger         
+E   1    631  27      5     silver plate on body                
+E   1    653  27     16     a ranseur wielded                
+E   1    632  27      6     A silver helm on head                
+E   1    623  27      7     brass leggings on legs                
+E   1    624  27      8     brass boots on feet                
+E   1    625  27      9     brass gauntlets on hands               
+E   1    636  27     10     silver sleeves on arms                
+E   1    637  27     11     the silver shield as shield              
+E   1    638  27     13     the silver girth around waist           
 M 0 623 3 699 1  1   the Ofcol cityguard into Outside the Entrance to the Golden Citadel  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    621   99      5     brass plate on body                
-E   1    630   99     16     a claymore wielded                
-E   1    627   99     11     a brass shield as shield              
-G   1    651   99            the citadel key in inventory
+E   1    620 100      1     an Ofcol signet ring on left finger         
+E   1    621 100      5     brass plate on body                
+E   1    630 100     16     a claymore wielded                
+E   1    627 100     11     a brass shield as shield              
+G   1    651 100            the citadel key in inventory
 M 0 623 3 699 1  1   the Ofcol cityguard into Outside the Entrance to the Golden Citadel  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    621   99      5     brass plate on body                
-E   1    630   99     16     a claymore wielded                
-E   1    627   99     11     a brass shield as shield              
-G   1    651   99            the citadel key in inventory
+E   1    620 100      1     an Ofcol signet ring on left finger         
+E   1    621 100      5     brass plate on body                
+E   1    630 100     16     a claymore wielded                
+E   1    627 100     11     a brass shield as shield              
+G   1    651 100            the citadel key in inventory
 M 0 623 3 699 1  1   the Ofcol cityguard into Outside the Entrance to the Golden Citadel  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    621   99      5     brass plate on body                
-E   1    630   99     16     a claymore wielded                
-E   1    627   99     11     a brass shield as shield              
-G   1    651   99            the citadel key in inventory
+E   1    620 100      1     an Ofcol signet ring on left finger         
+E   1    621 100      5     brass plate on body                
+E   1    630 100     16     a claymore wielded                
+E   1    627 100     11     a brass shield as shield              
+G   1    651 100            the citadel key in inventory
 M 0 634 3 698 1  1   the Ofcol cityguard into Inside the Entrance to the Golden Citadel  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    621   99      5     brass plate on body                
-E   1    630   99     16     a claymore wielded                
-E   1    627   99     11     a brass shield as shield              
-G   1    651   99            the citadel key in inventory
+E   1    620 100      1     an Ofcol signet ring on left finger         
+E   1    621 100      5     brass plate on body                
+E   1    630 100     16     a claymore wielded                
+E   1    627 100     11     a brass shield as shield              
+G   1    651 100            the citadel key in inventory
 M 0 634 3 698 1  1   the Ofcol cityguard into Inside the Entrance to the Golden Citadel  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    621   99      5     brass plate on body                
-E   1    630   99     16     a claymore wielded                
-E   1    627   99     11     a brass shield as shield              
-G   1    651   99            the citadel key in inventory
+E   1    620 100      1     an Ofcol signet ring on left finger         
+E   1    621 100      5     brass plate on body                
+E   1    630 100     16     a claymore wielded                
+E   1    627 100     11     a brass shield as shield              
+G   1    651 100            the citadel key in inventory
 M 0 634 3 698 1  1   the Ofcol cityguard into Inside the Entrance to the Golden Citadel  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    621   99      5     brass plate on body                
-E   1    630   99     16     a claymore wielded                
-E   1    627   99     11     a brass shield as shield              
-G   1    651   99            the citadel key in inventory
+E   1    620 100      1     an Ofcol signet ring on left finger         
+E   1    621 100      5     brass plate on body                
+E   1    630 100     16     a claymore wielded                
+E   1    627 100     11     a brass shield as shield              
+G   1    651 100            the citadel key in inventory
 M 0 604 1 603 1  1   Jim the Blacksmith into The Blacksmith  
-G   1    600   99            a hand axe in inventory
-G   1    601   99            a meat cleaver in inventory
-G   1    615   99            a pitchfork in inventory
-G   1    667   99            a chest in inventory
+G   1    600 100            a hand axe in inventory
+G   1    601 100            a meat cleaver in inventory
+G   1    615 100            a pitchfork in inventory
+G   1    667 100            a chest in inventory
 M 0 605 1 604 1  1   Sam into The Leather Shop  
-G   1    616   99            a leather vest in inventory
-G   1    617   99            some leather sleeves in inventory
-G   1    618   99            some leather leggings in inventory
-G   1    619   99            some leather boots in inventory
+G   1    616 100            a leather vest in inventory
+G   1    617 100            some leather sleeves in inventory
+G   1    618 100            some leather leggings in inventory
+G   1    619 100            some leather boots in inventory
 M 0 606 1 606 1  1   Madam Tracy into The Pawn Shop.  
-G   1    606   99            an emerald ring in inventory
-G   1    607   99            a glass trinket in inventory
-G   1    608   99            a golden necklace in inventory
+G   1    606 100            an emerald ring in inventory
+G   1    607 100            a glass trinket in inventory
+G   1    608 100            a golden necklace in inventory
 M 0 607 1 607 1  1   Marty into The Meat Store  
-G   1    602   99            a side of beef in inventory
-G   1    603   99            a side of pork in inventory
-G   1    604   99            a side of horse in inventory
-G   1    605   99            a defeathered chicken in inventory
+G   1    602 100            a side of beef in inventory
+G   1    603 100            a side of pork in inventory
+G   1    604 100            a side of horse in inventory
+G   1    605 100            a defeathered chicken in inventory
 M 0 622 1 609 1  1   Nyles the Bartender into Nyles' House of Ale  
-G   1    648   99            a shot of whiskey in inventory
-G   1    649   99            a quart of ale in inventory
-G   1    650   99            a quart of port brew in inventory
+G   1    648 100            a shot of whiskey in inventory
+G   1    649 100            a quart of ale in inventory
+G   1    650 100            a quart of port brew in inventory
 M 0 608 1 610 1  1   Farmer Elizabeth into Farmer's Market  
-G   1    609   99            a head of cabbage in inventory
-G   1    610   99            a head of lettuce in inventory
-G   1    611   99            a bottle of milk in inventory
-G   1    612   99            an apple in inventory
-G   1    613   99            an ear of corn in inventory
+G   1    609 100            a head of cabbage in inventory
+G   1    610 100            a head of lettuce in inventory
+G   1    611 100            a bottle of milk in inventory
+G   1    612 100            an apple in inventory
+G   1    613 100            an ear of corn in inventory
 M 0 609 1 600 1  1   Granny Jenkins into Granny's Still Room  
 O   0    649   99    600  load a quart of ale into Granny's Still Room
 M 0 610 1 617 1  1   Jack into Slaughterhouse  
-E   1    601   99     16     a meat cleaver wielded                
+E   1    601 100     16     a meat cleaver wielded                
 M 0 611 1 620 1  1   Farmer Sara into Barn  
-E   1    615   99     16     a pitchfork wielded                
+E   1    615 100     16     a pitchfork wielded                
 O   0    614   99    620  load a pile of hay into Barn
 O   0    611   99    620  load a bottle of milk into Barn
 M 0 612 4 619 1  1   a hen into Chicken Coop  
@@ -3433,70 +3433,70 @@ M 0 620 2 635 1  1   the girl into House
 M 0 620 2 652 1  1   the girl into Small House  
 M 0 624 1 609 1  1   a bard into Nyles' House of Ale  
 M 0 621 3 627 1  1   the maid into Bedroom  
-G   1    665   99            a house key in inventory
-E   1    666   99     16     a broom wielded                
+G   1    665 100            a house key in inventory
+E   1    666 100     16     a broom wielded                
 M 0 621 3 629 1  1   the maid into Big House  
-G   1    665   99            a house key in inventory
-E   1    666   99     16     a broom wielded                
+G   1    665 100            a house key in inventory
+E   1    666 100     16     a broom wielded                
 M 0 621 3 643 1  1   the maid into Big House  
-G   1    665   99            a house key in inventory
-E   1    666   99     16     a broom wielded                
+G   1    665 100            a house key in inventory
+E   1    666 100     16     a broom wielded                
 M 0 625 2 674 1  1   a servant into A Hallway of the Golden Citadel  
 M 0 625 2 673 1  1   a servant into The Anteroom to the Temple of Ofcol  
 M 0 626 2 682 1  1   a squire into A Hallway of the Golden Citadel  
 M 0 626 2 683 1  1   a squire into A Hallway of the Golden Citadel  
 M 0 627 1 678 1  1   a page into A Hallway of the Golden Citadel  
 M 0 628 1 669 1  1   the Priestess of Ofcol into The Temple of Ofcol  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    664   99     12     a golden robe about body             
-E   1    652   99      3     the Holy Symbol of Bahamut on neck                
+E   1    620  48      1     an Ofcol signet ring on left finger         
+E   1    664  48     12     a golden robe about body             
+E   1    652  48      3     the Holy Symbol of Bahamut on neck                
 M 0 629 1 688 1  1   Chaplain Jerrold into The Hall of the DragonLords  
-E   1    664   99     12     a golden robe about body             
+E   1    664  90     12     a golden robe about body             
 M 0 630 3 688 1  1   a Dragonlord into The Hall of the DragonLords  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    654   99      5     a golden dragonscale torso on body                
-E   1    660   99     11     a golden dragonscale shield as shield              
-E   1    662   99     16     the Golden Claw wielded                
-E   1    656   99      6     golden dragonscale leggings on head                
-E   1    657   99      7     golden dragonscale boots on legs                
+E   1    620  33      1     an Ofcol signet ring on left finger         
+E   1    654  33      5     a golden dragonscale torso on body                
+E   1    660  33     11     a golden dragonscale shield as shield              
+E   1    662  33     16     the Golden Claw wielded                
+E   1    656  33      6     golden dragonscale leggings on head                
+E   1    657  33      7     golden dragonscale boots on legs                
 M 0 630 3 688 1  1   a Dragonlord into The Hall of the DragonLords  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    654   99      5     a golden dragonscale torso on body                
-E   1    660   99     11     a golden dragonscale shield as shield              
-E   1    662   99     16     the Golden Claw wielded                
-E   1    657   99      8     golden dragonscale boots on feet                
-E   1    658   99      9     golden dragonscale gauntlets on hands               
+E   1    620  33      1     an Ofcol signet ring on left finger         
+E   1    654  33      5     a golden dragonscale torso on body                
+E   1    660  33     11     a golden dragonscale shield as shield              
+E   1    662  33     16     the Golden Claw wielded                
+E   1    657  33      8     golden dragonscale boots on feet                
+E   1    658  33      9     golden dragonscale gauntlets on hands               
 M 0 630 3 688 1  1   a Dragonlord into The Hall of the DragonLords  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    654   99      5     a golden dragonscale torso on body                
-E   1    660   99     11     a golden dragonscale shield as shield              
-E   1    659   99     10     golden dragonscale sleeves on arms                
-E   1    661   99     13     a golden dragonscale girth around waist           
+E   1    620  36      1     an Ofcol signet ring on left finger         
+E   1    654  36      5     a golden dragonscale torso on body                
+E   1    660  36     11     a golden dragonscale shield as shield              
+E   1    659  36     10     golden dragonscale sleeves on arms                
+E   1    661  36     13     a golden dragonscale girth around waist           
 M 0 631 1 693 1  1   The Ancient Gold Dragon into The Dragon Chamber  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    668   99     16     the Golden Talons wielded
-E   1    663   99     17     the Gold Dragon Orb held                   
+E   1    620  48      1     an Ofcol signet ring on left finger         
+E   1    668  48     16     the Golden Talons wielded
+E   1    663  48     17     the Gold Dragon Orb held                   
 M 0 632 2 693 1  1   an attendant of the dragon into The Dragon Chamber  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    664   99     12     a golden robe about body             
+E   1    620  63      1     an Ofcol signet ring on left finger         
+E   1    664  63     12     a golden robe about body             
 M 0 632 2 693 1  1   an attendant of the dragon into The Dragon Chamber  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    664   99     12     a golden robe about body             
+E   1    620  63      1     an Ofcol signet ring on left finger         
+E   1    664  63     12     a golden robe about body             
 M 0 633 3 690 1  1   a Dragonknight into An Upper Chamber of the Golden Citadel  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    654   99      5     a golden dragonscale torso on body                
-E   1    660   99     11     a golden dragonscale shield as shield              
-E   1    662   99     16     the Golden Claw wielded                
+E   1    620  40      1     an Ofcol signet ring on left finger         
+E   1    654  40      5     a golden dragonscale torso on body                
+E   1    660  40     11     a golden dragonscale shield as shield              
+E   1    662  40     16     the Golden Claw wielded                
 M 0 633 3 676 1  1   a Dragonknight into A Hallway of the Golden Citadel  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    654   99      5     a golden dragonscale torso on body                
-E   1    660   99     11     a golden dragonscale shield as shield              
-E   1    662   99     16     the Golden Claw wielded                
+E   1    620  40      1     an Ofcol signet ring on left finger         
+E   1    654  40      5     a golden dragonscale torso on body                
+E   1    660  40     11     a golden dragonscale shield as shield              
+E   1    662  40     16     the Golden Claw wielded                
 M 0 633 3 681 1  1   a Dragonknight into A Hallway of the Golden Citadel  
-E   1    620   99      1     an Ofcol signet ring on left finger         
-E   1    654   99      5     a golden dragonscale torso on body                
-E   1    660   99     11     a golden dragonscale shield as shield              
-E   1    662   99     16     the Golden Claw wielded                
+E   1    620  40      1     an Ofcol signet ring on left finger         
+E   1    654  40      5     a golden dragonscale torso on body                
+E   1    660  40     11     a golden dragonscale shield as shield              
+E   1    662  40     16     the Golden Claw wielded                
 S
 
 #SHOPS

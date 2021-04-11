@@ -2933,8 +2933,8 @@ S
 * Level 1
 *
 M 0 4000 1 4030 1  1      The large snake  
-G 1 4001 10         Carry a cartographer corpse
-G 1 4154 9 	     and a map
+G 1 4001 100         Carry a cartographer corpse
+G 1 4154 100 	     and a map
 P 1 4002 3 4001 1  1      Corpse contains 50 coins.  
 *
 M 0 4001 2 4025 1  1      a green snake  
@@ -2945,65 +2945,65 @@ M 0 4002 3 4017 1  1      a centipede
 M 0 4002 3 4020 1  1      a centipede  
 *
 M 0 4003 6 4021 1  1      a kobold  
-E 1 4003 8 16		dagger
+E 1 4003 100 16		dagger
 M 0 4003 6 4021 1  1      a kobold  
-E 1 3023 10 16		club
+E 1 3023 100 16		club
 M 0 4003 6 4013 1  1      a kobold  
-E 1 3021 10 16		small sword
-E 1 3117 10 11          wooden shield
+E 1 3021 100 16		small sword
+E 1 3117 100 11          wooden shield
 M 0 4003 6 4013 1  1      a kobold  
-E 1 3023 10 16		club
+E 1 3023 100 16		club
 M 0 4003 6 4027 1  1      a kobold  
-E 1 3021 10 16		small sword
+E 1 3021 100 16		small sword
 M 0 4003 6 4027 1  1      a kobold  
-E 1 3025 8 16		hand axe
-E 1 3117 10 11		wooden shield
 *
+E 1 3025 100 16		hand axe
+E 1 3117 100 11		wooden shield
 M 0 4004 3 4015 1  1      an orc  
-E 1 3029 3 16		flail
+E 1 3029 100 16		flail
 M 0 4004 3 4028 1  1      an orc  
-E 1 4004 4 16		bullwhip
+E 1 4004 100 16		bullwhip
 M 0 4004 3 4028 1  1      an orc  
 *
 M 0 4005 1 4022 1  1      a large orc  
-E 1 4000 5 1        	ring of weakness on left finger
-E 1 3022 -1 16		longsword
-E 1 3114 9 9		chain mail gauntlets 
 *
 * In the valley
+E 1 4000 100 1        	ring of weakness on left finger
+E 1 3022 100 16		longsword
+E 1 3114 100 9		chain mail gauntlets 
 M 0 4057 2 4042 1  1 	    mountain lion  
 *
 M 0 4058 1 4044 1  1      hill giant  
-E 1 4005 5 16		a huge club
-E 1 4006 5 12		smelly furs
 *
 * Moria level 2
 *
+E 1 4005 100 16		a huge club
+E 1 4006 100 12		smelly furs
 M 0 4050 1 4062 1  1      a warrior  
-E 1 4051 3 6          	give him a helmet of saving throw
-E 1 4054 4 16		war axe
-E 1 3116 10 11		large metal shield
 *
+E 1 4051 100 6          	give him a helmet of saving throw
+E 1 4054 100 16		war axe
+E 1 3116 100 11		large metal shield
 M 0 4051 4 4070 1  1      a warrior  
-E 1 3027 10 16		spear
-E 1 3072 20 6		scale coif
+E 1 3027 100 16		spear
+E 1 3072 100 6		scale coif
 M 0 4051 4 4050 1  1      a warrior  
-E 1 4056 5 16		two-headed flail
-E 1 3077 20 10		scale sleevces 		
+E 1 4056 100 16		two-headed flail
+E 1 3077 100 10		scale sleevces 		
 M 0 4051 4 4073 1  1      a warrior  
-E 1 4055 5 16		broad sword
-E 1 3072 20 5		scale jerkin
+E 1 4055 100 16		broad sword
+E 1 3072 100 5		scale jerkin
 M 0 4051 4 4055 1  1      a warrior  
-E 1 4057 5 16		heavy mace
-E 1 3074 20 7		scale skirt
 *
+E 1 4057 100 16		heavy mace
+E 1 3074 100 7		scale skirt
 M 0 4052 3 4056 1  1      a hobgoblin  
-E 1 3023 20 16		club
+E 1 3023 100 16		club
 M 0 4052 3 4065 1  1      a hobgoblin  
-E 1 4156 20 16		sharpened hand axe
+E 1 4156 100 16		sharpened hand axe
 M 0 4052 3 4059 1  1      a hobgoblin  
-E 1 4156 29 16		sharpened hand axe
 *
+E 1 4156 100 16		sharpened hand axe
 M 0 4053 2 4058 1  1      a snake  
 M 0 4053 2 4068 1  1      a snake  
 *
@@ -3012,18 +3012,18 @@ M 0 4054 3 4053 1  1      a centipede
 M 0 4054 3 4052 1  1      a centipede  
 *
 M 0 4055 2 4064 1  1      a hobgoblin  
-E 1 4058 5 16		falchion
-G 1 4050 5         	give him a purple potion
+E 1 4058 100 16		falchion
+G 1 4050 100         	give him a purple potion
 M 0 4055 2 4071 1  1      a hobgoblin  
-E 1 4059 5 16		voulge
-G 1 4050 5         	give him a purple potion
 *
+E 1 4059 100 16		voulge
+G 1 4050 100         	give him a purple potion
 M 0 4056 2 4067 1  1      an orc  
-E 1 4004 10 16		bullwhip
-E 1 3097 20 11		small metal shield
+E 1 4004 100 16		bullwhip
+E 1 3097 100 11		small metal shield
 M 0 4056 2 4057 1  1      an orc  
-E 1 3026 20 16		battle axe
 *
+E 1 3026 100 16		battle axe
 O 0 4052 8 4068     plant a mushroom
 O 0 4052 8 4069     plant a mushroom
 O 0 4052 8 4070     plant a mushroom
@@ -3032,37 +3032,37 @@ O 0 4052 8 4071     plant a mushroom
 * Moria Level 3
 *
 M 0 4100 1 4114 1  1     The mage  
-G 1 4102 4         	Scroll of identify.
-G 1 4155 9		map of third level
-E 1 3385 -1 16		stiletto
 *
+G 1 4102 100         	Scroll of identify.
+G 1 4155 100		map of third level
+E 1 3385 100 16		stiletto
 M 0 4101 1 4122 1  1     The troll  
-E 1 4100 2 16         The blade
 *
+E 1 4100 100 16         The blade
 M 0 4102 2 4111 1  1     The snakes  
-G 1 4103 10        Slime
+G 1 4103 100        Slime
 M 0 4102 2 4111 1  1     The snakes  
-G 1 4104 3         Poisoned slime
 *
+G 1 4104 100         Poisoned slime
 M 0 4102 3 4103 1  1     A snake  
-G 1 4103 10        Slime
 *
+G 1 4103 100        Slime
 M 0 4104 3 4124 1  1     A orc  
-E 1 4057 8 16		heavy mace
-G 1 4104 10        Slime
 *
+E 1 4057 100 16		heavy mace
+G 1 4104 100        Slime
 M 0 4105 3 4108 1  1     A centipede  
 *
 M 0 4106 2 4113 1  1     A warrior  
-E 1 4105 5 16		iron-shod staff
-E 1 4101 3 9         	Some gloves
 *
+E 1 4105 100 16		iron-shod staff
+E 1 4101 100 9         	Some gloves
 M 0 4107 1 4119 1  1     A kobold  
-E 1 3023 10 16		a club
-G 1 4104 10        Slime
 *
 * Moria Level 4
 *
+E 1 3023 100 16		a club
+G 1 4104 100        Slime
 M 0 4150 2 4155 1  1     A blue bat  
 M 0 4150 2 4170 1  1     A blue bat  
 M 0 4151 2 4157 1  1     A red bat  
@@ -3075,17 +3075,17 @@ M 0 4154 2 4164 1  1     A black bat
 M 0 4154 2 4157 1  1     A black bat  
 *
 M 0 4155 1 4158 1  1     A thief  
-E 1 4152 3 16      Wielding a silver dagger
 *
+E 1 4152 100 16      Wielding a silver dagger
 M 0 4156 1 4151 1  1     A mean troll  
-E 1 4105 5 16		morning star
 *
+E 1 4105 100 16		morning star
 M 0 4157 2 4167 1  1     A mage  
-E 1 3385 -1 16          stiletto
+E 1 3385 100 16          stiletto
 M 0 4157 2 4167 1  1     Second mage  
-E 1 4151 3 17		staff of harming
-E 1 3385 -1 16          standard issue dagger
 *
+E 1 4151 100 17		staff of harming
+E 1 3385 100 16          standard issue dagger
 M 0 4158 2 4162 1  1     A snake  
 M 0 4158 2 4169 1  1     A snake  
 *
@@ -3093,12 +3093,12 @@ M 0 4159 2 4168 1  1     A little troll
 M 0 4159 2 4153 1  1     A little troll  
 *
 M 0 4160 2 4160 1  1     An orc  
-E 1 3045 20 5		scale jacket
-E 1 4055 9 16		broad sword
-G 1 4150 6         Give him a cure critical potion
+E 1 3045 100 5		scale jacket
+E 1 4055 100 16		broad sword
+G 1 4150 100         Give him a cure critical potion
 M 0 4160 2 4161 1  1     An orc  
-E 1 3110 20 5		chain shirt
-E 1 3026 20 16		battle axe
+E 1 3110 100 5		chain shirt
+E 1 3026 100 16		battle axe
 S
 
 

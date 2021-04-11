@@ -1974,16 +1974,16 @@ M 0 9303 1 9322 1  1   a young nebula into Another Edge of the Galaxy
   
 M 0 9304 3 9322 1  1   a speedy comet into Another Edge of the Galaxy
   
-E   1   9301   50     16     a comet's tail wielded                
+E   1   9301 100     16     a comet's tail wielded                
 M 0 9304 3 9322 1  1   a speedy comet into Another Edge of the Galaxy
   
-E   1   9301   50     16     a comet's tail wielded                
+E   1   9301 100     16     a comet's tail wielded                
 M 0 9304 2 9317 1  1   a speedy comet into A Small Clearing
   
-E   1   9301   50     16     a comet's tail wielded                
+E   1   9301 100     16     a comet's tail wielded                
 M 0 9304 2 9317 1  1   a speedy comet into A Small Clearing
   
-E   1   9301   50     16     a comet's tail wielded                
+E   1   9301 100     16     a comet's tail wielded                
 M 0 9305 1 9304 1  1   a red supergiant into On an InterGalactic Walkway
   
 M 0 9305 1 9308 1  1   a red supergiant into On the Bridge of Stars
@@ -2002,15 +2002,15 @@ M 0 9307 1 9310 1  1   a horsehead nebula into The Throne Room of the Nebula Kin
   
 M 0 9308 1 9330 1  1   poor Andromeda into The Offering Chamber
   
-E   1   9328    1     17     chains of Andromeda held                   
+E   1   9328 100     17     chains of Andromeda held                   
 M 0 9309 1 9332 1  1   the mighty Hercules into Hercules' Mighty Throne
   
-E   1   9302    1     10     the Titanic Arm plates of Hercules on arms                
+E   1   9302 100     10     the Titanic Arm plates of Hercules on arms                
 M 0 9310 1 9317 1  1   the wild Pegasus into A Small Clearing
   
 M 0 9311 1 9328 1  1   Orion the hunter into Orion's Hunting Lodge
   
-E   1   9304    1     13     the Titanic Belt of Orion around waist           
+E   1   9304 100     13     the Titanic Belt of Orion around waist           
 M 0 9312 7 9326 1  1   the Pleiades into The Homes of the Pleiades
   
 M 0 9312 7 9326 1  1   the Pleiades into The Homes of the Pleiades
@@ -2027,69 +2027,69 @@ M 0 9312 7 9326 1  1   the Pleiades into The Homes of the Pleiades
   
 M 0 9313 1 9363 1  1   the Head of Draco into Approaching the Head of Draco
   
-G   1   9305    1            An ugly skull of Draco in inventory
+G   1   9305  90            An ugly skull of Draco in inventory
 M 0 9314 1 9358 1  1   a baby draco into Near the Legs of Draco
   
 M 0 9314 2 9360 1  1   a baby draco into Between the Wings of Draco
   
 M 0 9315 1 9342 1  1   Aries into On a Hill
   
-G   1   9324    1            a spring shoot in inventory
-E   1   9306    1      3     the Titanic Fleece of Aries on neck                
+G   1   9324 100            a spring shoot in inventory
+E   1   9306  90      3     the Titanic Fleece of Aries on neck                
 M 0 9316 1 9343 1  1   Taurus into Inside a Spanish Bull-Ring
   
-E   1   9307    1      8     the Titanic Hoof of Taurus on feet                
+E   1   9307  90      8     the Titanic Hoof of Taurus on feet                
 M 0 9317 1 9344 1  1   Gemini into Inside a study
   
-E   1   9308    1      6     the Titanic Mask of Gemini on head                
+E   1   9308  90      6     the Titanic Mask of Gemini on head                
 M 0 9318 1 9344 1  1   Gemini into Inside a study
   
 M 0 9319 1 9345 1  1   Cancer into Along the seashore
   
-G   1   9325    1            a summer flower in inventory
-E   1   9309    1      5     the Titanic Shell of Cancer on body                
+G   1   9325 100            a summer flower in inventory
+E   1   9309  90      5     the Titanic Shell of Cancer on body                
 M 0 9320 1 9346 1  1   Leo into Within the Deep Jungle
   
-E   1   9310    1     12     the Titanic Skin of Leo about body             
+E   1   9310  90     12     the Titanic Skin of Leo about body             
 M 0 9321 1 9347 1  1   Virgo into Inside a Luxurious Bedroom
   
-E   1   9311    1     14     the Titanic Bracelet of Virgo on left wrist          
+E   1   9311  90     14     the Titanic Bracelet of Virgo on left wrist          
 M 0 9322 1 9348 1  1   Libra into The Supreme Court
   
-G   1   9326    1            an autumn leaf in inventory
-G   1   9312    1            the Titanic Scale of Libra in inventory
-E   1   9313    1     11     the Titanic Scale of Libra as shield              
+G   1   9326 100            an autumn leaf in inventory
+G   1   9312  63            the Titanic Scale of Libra in inventory
+E   1   9313  63     11     the Titanic Scale of Libra as shield              
 M 0 9323 1 9349 1  1   Scorpio into In the Dry Desert
   
-E   1   9314    1     16     the Sting of Scorpio wielded                
+E   1   9314  90     16     the Sting of Scorpio wielded                
 M 0 9324 1 9350 1  1   Sagittarius into In the Woods
   
-E   1   9315    1     17     the Arrow of Sagittarius held                   
-E   1   9316    1     16     the Titanic Bow of Sagittarius wielded                
+E   1   9315  63     17     the Arrow of Sagittarius held                   
+E   1   9316  63     16     the Titanic Bow of Sagittarius wielded                
 M 0 9325 1 9351 1  1   Capricorn into On a Mountain Peak
   
-G   1   9327    1            a winter branch in inventory
-E   1   9317    1      9     the Titanic Horns of Capricon on hands               
+G   1   9327 100            a winter branch in inventory
+E   1   9317  90      9     the Titanic Horns of Capricon on hands               
 M 0 9326 1 9352 1  1   Aquarius into Inside a Waterfall
   
-E   1   9318    1     17     the Ancient Vessel of Aquarius held                   
+E   1   9318  90     17     the Ancient Vessel of Aquarius held                   
 M 0 9327 1 9353 1  1   Pisces the mermaid into Inside a Gigantic Clam
   
-E   1   9319    1      7     the Titanic Tail of Pisces on legs                
+E   1   9319  90      7     the Titanic Tail of Pisces on legs                
 M 0 9328 1 9353 1  1   Pisces the fish into Inside a Gigantic Clam
   
 M 0 9329 1 9370 1  1   Ursa Major the bear into End of the Dipper
   
 M 0 9330 1 9365 1  1   Cassiopeia the Queen into Cassiopeia's Throne
   
-E   1   9320    1      1     the Ring of Dignity on left finger         
+E   1   9320  90      1     the Ring of Dignity on left finger         
 M 0 9331 1 9367 1  1   Cepheus the King into Cepheus' Throne
   
-E   1   9321    1      0     the Sceptre of Might as light               
+E   1   9321  90      0     the Sceptre of Might as light               
 M 0 9332 1 9371 1  1   Polaris, the polar star into The Polar Star
   
-E   1   9322    1      2     the ring of the universe on right finger        
-E   1   9323    1     16     the Great Dipper of the Skies wielded                
+E   1   9322  63      2     the ring of the universe on right finger        
+E   1   9323  63     16     the Great Dipper of the Skies wielded                
 D   0   9339    4      2  On the Mystic Chains: Door up locked
 D   0   9354    4      2  End of the Mystic Chains: Door up locked
 D   0   9359    1      2  On the Back of Draco: Door east locked

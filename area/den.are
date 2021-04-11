@@ -2355,120 +2355,120 @@ S
 #RESETS
 *
 M 0 18101 1 18101 1  1  	Caretaker  
-E 1 18101 5 17 		Gory Key
-E 1 18102 5 13		Brown Belt
 *
+E 1 18101 100 17 		Gory Key
+E 1 18102  80 13		Brown Belt
 M 0 18102 1 18106 1  1  	Huge Pirhana  
-E 1 18103 5 6		Guppy Guts
 *
+E 1 18103  80 6		Guppy Guts
 M 0 18103 3 18106 1  1  	Pirhana  
 *
 M 0 18104 1 18107 1  1  	Orca  
 *
 M 0 18105 1 18108 1  1  	C. Black Lagoon  
-E 1 18104 1 8 		Clawed Feet
 *
+E 1 18104  70 8 		Clawed Feet
 M 0 18106 1 18110 1  1 	Jaws  
-E 1 18105 2 16 		Shark's Tooth
 *
+E 1 18105  70 16 		Shark's Tooth
 M 0 18107 1 18103 1  1  	Igor  
-E 1 18106 3 5 		Hunchback
 *
+E 1 18106  80 5 		Hunchback
 M 0 18108 1 18103 1  1  	Dr. Frank  
-E 1 18107 2 17 		Manual of the Undead
 *
+E 1 18107  70 17 		Manual of the Undead
 M 0 18109 1 18104 1  1 	Monster  
-E 1 18108 1 6		Brains
-E 1 18109 1 16		Decaying Arm
-E 1 18143 5 18      Bolts
 *
+E 1 18108  33 6		Brains
+E 1 18109  33 16		Decaying Arm
+E 1 18143  33 18      Bolts
 M 0 18110 1 18114 1  1 	Godzooki  
-E 1 18110 5 16		Bubble Blower
 *
+E 1 18110  80 16		Bubble Blower
 M 0 18111 1 18115 1  1  	Mothra  
-E 1 18111 5 9           Mothra's Wings
 *
+E 1 18111  70 9           Mothra's Wings
 M 0 18112 1 18116 1  1        Rhodan  
-E 1 18112 5 9		Rhodan's Claws
 *
+E 1 18112  70 9		Rhodan's Claws
 M 0 18113 1 18118 1  1  	Smog Monster  
-E 1 18113 1 12		Smoggy Aura
 *
+E 1 18113  70 12		Smoggy Aura
 M 0 18114 1 18119 1  1  	Mechazilla  
 *
 M 0 18115 1 18120 1  1  	Godzilla  
-E 1 18114 1 17		Orb of the Dragon Kings
 *
+E 1 18114  70 17		Orb of the Dragon Kings
 M 0 18116 1 18112 1  1  	Mighty Joe Young  
-E 1 18115 10 17 	Hug Banana
 *
+E 1 18115  70 17 	Hug Banana
 M 0 18117 1 18113 1  1  	King Kong  
-E 1 18116 1 5 		Hairy Chest
 *
+E 1 18116  70 5 		Hairy Chest
 M 0 18118 1 18123 1  1 	Medusa  
-E 1 18117 10 17		Gorgon's Head
 *
+E 1 18117  80 17		Gorgon's Head
 M 0 18119 1 18122 1  1 	Chuckie  
 *
 M 0 18120 1 18125 1  1 	The Blob  
-E 1 18118 10 17		Ball of Ectoplasm
 *
+E 1 18118  70 17		Ball of Ectoplasm
 M 0 18121 1 18126 1  1 	Wolfman  
 *
 M 0 18122 1 18129 1  1  	Invisible Man  
 *
 M 0 18123 1 18128 1  1  	The Mummy  
-E 1 18119 1 10 		Wrappings
 *
+E 1 18119  80 10 		Wrappings
 M 0 18124 1 18132 1  1 	Grim Reaper  
-E 1 18120 2 3 		Cowl
-E 1 18121 5 16		Scythe
 *
+E 1 18120  45 3 		Cowl
+E 1 18121  45 16		Scythe
 M 0 18125 1 18131 1  1 	Phantom of the Opera  
-E 1 18122 1 6 		Ghostly Mask
 *
+E 1 18122  80 6 		Ghostly Mask
 M 0 18126 1 18135 1  1  	Blue Mistress  
-E 1 18123 4 14		Blue Bracer
 *
+E 1 18123  80 14		Blue Bracer
 M 0 18127 1 18136 1  1 	White Mistress  
-E 1 18124 4 14 		White Bracer
 *
+E 1 18124  80 14 		White Bracer
 M 0 18128 1 18137 1  1  	Red Mistress  
-E 1 18125 4 14		Red Bracer
 *
+E 1 18125  80 14		Red Bracer
 M 0 18129 1 18138 1  1  	Black Mistress  
-E 1 18126 4 14		Black Bracer
 *
+E 1 18126  70 14		Black Bracer
 M 0 18130 1 18139 1  1 	Van Helsing  
-E 1 18127 10 16 	Bloody Stake
 *
+E 1 18127  70 16 	Bloody Stake
 M 0 18131 1 18140 1  1 	Dracula  
-E 1 18128 2 16		Fangs
-E 1 18129 2 12		Cloak of Darkness
 *
+E 1 18128  45 16		Fangs
+E 1 18129  45 12		Cloak of Darkness
 M 0 18132 1 18143 1  1  	Pinhead  
-E 1 18130 4 16		Runed Cube
-E 1 18131 1 6		The Pinhead
 *
+E 1 18130  45 16		Runed Cube
+E 1 18131  45 6		The Pinhead
 M 0 18133 1 18144 1  1  	Michael Myers  
-E 1 18132 2 16		Your Leg
 *
+E 1 18132  70 16		Your Leg
 M 0 18134 1 18147 1  1 	Freddy Krueger  
-E 1 18133 2 16		Freddy's Claw
 *
+E 1 18133  70 16		Freddy's Claw
 M 0 18135 1 18146 1  1 	Jason Voorhees  
-E 1 18134 1 6 		Hockey Mask
-E 1 18135 2 16		Machete
-E 1 18136 4 1 		Mom's Finger
 *
+E 1 18134  33 6 		Hockey Mask
+E 1 18135  33 16		Machete
+E 1 18136  33 1 		Mom's Finger
 M 0 18136 1 18148 1  1  	Master of the Den  
-G 1 18137 -1		Bat Wing
-G 1 18138 -1		Earthworm Eye
-G 1 18139 -1 		Frog Claw
-G 1 18140 -1 		Snake Blood
-G 1 18141 -1		Cat Skin
-G 1 18142 -1		Den Map
 * Closing/Locking Doors.
+G 1 18137 100		Bat Wing
+G 1 18138 100		Earthworm Eye
+G 1 18139 100 		Frog Claw
+G 1 18140 100 		Snake Blood
+G 1 18141 100		Cat Skin
+G 1 18142 100		Den Map
 D 0 18101 3 2 	Front Door
 D 0 18102 1 2
 D 0 18102 2 2  	Water Door

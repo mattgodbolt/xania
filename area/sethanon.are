@@ -1733,64 +1733,64 @@ S
 
 #RESETS
 M 0 28001 6 28011 1  1        Load 6 night hawks  
-E 1 28001 2 3          Equip nighthawk amulet (lim: 2)
+E 1 28001  90 3          Equip nighthawk amulet (lim: 2)
 M 0 28001 6 28012 1  1   
-E 1 28001 2 3
+E 1 28001  90 3
 M 0 28001 6 28009 1  1   
-E 1 28001 2 3
+E 1 28001  90 3
 M 0 28001 6 28016 1  1   
-E 1 28001 2 3
+E 1 28001  90 3
 M 0 28001 6 28004 1  1   
-E 1 28001 2 3
+E 1 28001  90 3
 M 0 28001 6 28017 1  1   
-E 1 28001 2 3
 
+E 1 28001  90 3
 M 0 28002 6 28011 1  1        Load 6 moredhel  
-E 1 28002 3 16         Equip moredhel long sword (lim:3)
+E 1 28002  90 16         Equip moredhel long sword (lim:3)
 M 0 28002 6 28010 1  1          
-E 1 28002 3 16
-E 1 28004 3 5          Equip armor if not in camp(lim:3)
+E 1 28002  63 16
+E 1 28004  63 5          Equip armor if not in camp(lim:3)
 M 0 28002 6 28012 1  1    
-E 1 28002 3 16
+E 1 28002  90 16
 M 0 28002 6 28018 1  1    
-E 1 28002 3 16
+E 1 28002  90 16
 M 0 28002 6 28004 1  1    
-E 1 28002 3 16
-E 1 28004 3 5          Equip armor if not in camp(lim:3)
+E 1 28002  63 16
+E 1 28004  63 5          Equip armor if not in camp(lim:3)
 M 0 28002 6 28018 1  1    
-E 1 28002 3 16
+E 1 28002  90 16
 M 0 28002 6 28006 1  1    
-E 1 28002 3 16
 
+E 1 28002  90 16
 M 0 28003 4 28014 1  1        Load 4 elehel  
-E 1 28003 4 16         Equip eledhel long sword (lim:4)
-E 1 28004 4 5          Equip armor if not in camp(lim:4)
+E 1 28003  63 16         Equip eledhel long sword (lim:4)
+E 1 28004  63 5          Equip armor if not in camp(lim:4)
 M 0 28003 4 28021 1  1   
-E 1 28003 4 16
-E 1 28004 4 5          Equip armor (lim:4)
+E 1 28003  63 16
+E 1 28004  63 5          Equip armor (lim:4)
 M 0 28003 4 28015 1  1   
-E 1 28003 4 16
-E 1 28004 4 5          Equip armor (lim:4)
+E 1 28003  63 16
+E 1 28004  63 5          Equip armor (lim:4)
 M 0 28003 4 28020 1  1   
-E 1 28003 4 16
-E 1 28004 4 5          Equip armor (lim:4)
 
+E 1 28003  63 16
+E 1 28004  63 5          Equip armor (lim:4)
 M 0 28004 4 28026 1  1        Load 4 Yabon Soldiers   
-E 1 28005 3 5          Equip Tabard (lim:3)
+E 1 28005  80 5          Equip Tabard (lim:3)
 M 0 28004 4 28029 1  1   
-E 1 28005 3 5
+E 1 28005  80 5
 M 0 28004 4 28031 1  1   
-E 1 28005 3 5
+E 1 28005  80 5
 M 0 28004 4 28032 1  1   
-E 1 28005 3 5
 
+E 1 28005  80 5
 M 0 28005 3 28024 1  1        Load 3 Lesser Path mages  
-E 1 28006 2 12         Equip Grey Robe (lim:2)
+E 1 28006  80 12         Equip Grey Robe (lim:2)
 M 0 28005 3 28020 1  1   
-E 1 28006 2 12
+E 1 28006  80 12
 M 0 28005 3 28021 1  1   
-E 1 28006 2 12
 
+E 1 28006  80 12
 M 0 28006 3 28007 1  1        Load 3 Firedrakes  
 M 0 28006 3 28023 1  1   
 M 0 28006 3 28019 1  1   
@@ -1803,19 +1803,19 @@ M 0 28007 3 28017 1  1
 
 
 M 0 28008 3 28027 1  1        Load 3 Knights of Zun  
-E 1 28008 4 5          Equip Zun Plate (lim:4)
-E 1 28016 4 11         Equip Shield of Zun (lim:4)
+E 1 28008  54 5          Equip Zun Plate (lim:4)
+E 1 28016  54 11         Equip Shield of Zun (lim:4)
 M 0 28008 3 28028 1  1   
-E 1 28008 4 5
-E 1 28016 4 11
+E 1 28008  54 5
+E 1 28016  54 11
 M 0 28008 3 28037 1  1   
-E 1 28008 4 5
-E 1 28016 4 11
 
+E 1 28008  54 5
+E 1 28016  54 11
 M 0 28009 4 28005 1  1        Load 4 Priests of the Emerald Queen  
-E 1 28009 3 3           Equip Snake Amulet (lim:3)
+E 1 28009  80 3           Equip Snake Amulet (lim:3)
 M 0 28009 4 28005 1  1   
-E 1 28009 3 3
+E 1 28009  80 3
 M 0 28009 4 28006 1  1   
 M 0 28009 4 28011 1  1   
 
@@ -1823,49 +1823,49 @@ M 0 28010 4 28022 1  1        Load 4 Monks of Lims-Kragma
 M 0 28010 4 28022 1  1   
 M 0 28010 4 28022 1  1   
 M 0 28010 4 28045 1  1   
-E 1 28010 1 6           equip circlet of Lims-Kragma (lim:1)
 
+E 1 28010  80 6           equip circlet of Lims-Kragma (lim:1)
 M 0 28011 2 28006 1  1        Load 2 Black Slayers  
-E 1 28012 2 3           Equip Slayer Taisman (lim:2)
+E 1 28012  80 3           Equip Slayer Taisman (lim:2)
 M 0 28011 2 28018 1  1    
-E 1 28012 2 3  
 
+E 1 28012  80 3  
 M 0 28012 2 28039 1  1        Load 2 Greater Path Mages  
-E 1 28011 2 12          Equip Black Robe (lim:2)
-E 1 28017 -1 17         Equip Silver Cylinder
+E 1 28011  54 12          Equip Black Robe (lim:2)
+E 1 28017  54 17         Equip Silver Cylinder
 M 0 28012 2 28035 1  1   
-E 1 28011 2 12
-E 1 28017 -1 17
 
+E 1 28011  54 12
+E 1 28017  54 17
 M 0 28013 1 28039 1  1        Load Arutha  
-E 1 28013 2 16          Equip Rapier (lim:2)
-E 1 28014 1 3           Equip Talisman (lim:1)
 
+E 1 28013 100 16          Equip Rapier (lim:2)
+E 1 28014 100 3           Equip Talisman (lim:1)
 M 0 28014 1 28006 1  1        Load Murmandus  
-E 1 28018 1 5           Equip Birthmark (lim:1)
-E 1 28013 2 16          Equip Rapier (lim:2)
-E 1 28019 2 13         Equip Girdle (lim:2)
 
+E 1 28018  33 5           Equip Birthmark (lim:1)
+E 1 28013  33 16          Equip Rapier (lim:2)
+E 1 28019  33 13         Equip Girdle (lim:2)
 M 0 28015 1 28031 1  1        Load Jimmy the Hand  
 
 M 0 28016 1 28043 1  1        Load Ryath  
-G 1 28025 1             Give Phaze Key
 
+G 1 28025 100             Give Phaze Key
 M 0 28017 1 28044 1  1        Load Tomas  
-E 1 28020 2 5          Equip Valheru Armor (lim:2)
-E 1 28021 1 16          Equip Sword of Ashen-Shugar (lim:1)
 
+E 1 28020  45 5          Equip Valheru Armor (lim:2)
+E 1 28021  45 16          Equip Sword of Ashen-Shugar (lim:1)
 M 0 28018 1 28042 1  1        Load Milamber  
-E 1 28015 2 1           Equip Ring of the Assembly (lim:2)
-E 1 28022 1 12          Equip Milamber's Robe (lim:1)
 
+E 1 28015  45 1           Equip Ring of the Assembly (lim:2)
+E 1 28022  45 12          Equip Milamber's Robe (lim:1)
 M 0 28019 1 28044 1  1        Load Macross  
-E 1 28015 -1 1          Equip Ring of the Assembly (Unlimited)
-E 1 28023 -1 0          Equip Staff of Macross (Unlimited)
-E 1 28017 -1 17         Equip Silver Cylinder (Unlimited)
-E 1 28011 -1 12         Equip Black Robe (Unlimited)
-E 1 28010 -1 6          Equip Circlet of Lims-Kragma (Unlimited)
 
+E 1 28015 100 1          Equip Ring of the Assembly (Unlimited)
+E 1 28023 100 0          Equip Staff of Macross (Unlimited)
+E 1 28017 100 17         Equip Silver Cylinder (Unlimited)
+E 1 28011 100 12         Equip Black Robe (Unlimited)
+E 1 28010 100 6          Equip Circlet of Lims-Kragma (Unlimited)
 O 0 28026 1 28043       Fill Treasury (lim:1)
 O 0 28024 1 28044       Load Lifestone (lim:1) (nopurge)
 

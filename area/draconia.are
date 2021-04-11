@@ -1558,7 +1558,7 @@ M 0 2200 5 2239 1  1   the dragon hatchling into Clearing
   
 M 0 2200 5 2201 1  1   the dragon hatchling into The Tower Gates
   
-G   1   2231    10           a steel key in inventory
+G   1   2231 100           a steel key in inventory
 M 0 2200 5 2202 1  1   the dragon hatchling into The Foyer
   
 M 0 2200 5 2203 1  1   the dragon hatchling into Hallway
@@ -1575,16 +1575,16 @@ M 0 2200 5 2205 1  1   the dragon hatchling into Nursery
   
 M 0 2201 7 2203 1  1   the Draconian into Hallway
   
-E   1   2200   20     16     a jagged spear wielded                
+E   1   2200 100     16     a jagged spear wielded                
 M 0 2201 7 2204 1  1   the Draconian into Hallway
   
-E   1   2200   20     16     a jagged spear wielded                
+E   1   2200 100     16     a jagged spear wielded                
 M 0 2201 7 2204 1  1   the Draconian into Hallway
   
-E   1   2200   20     16     a jagged spear wielded                
+E   1   2200 100     16     a jagged spear wielded                
 M 0 2201 7 2204 1  1   the Draconian into Hallway
   
-E   1   2200   20     16     a jagged spear wielded                
+E   1   2200 100     16     a jagged spear wielded                
 M 0 2200 5 2207 1  1   the dragon hatchling into End of the Hallway
   
 M 0 2227 5 2207 1  1   A human slave into End of the Hallway
@@ -1593,10 +1593,10 @@ M 0 2200 5 2206 1  1   the dragon hatchling into Storage Room
   
 M 0 2226 1 2208 1  1   a large hydra into Guardian's Room
   
-G   1   2234    1            a grey key in inventory
-G   1   2243    9            a golden wand in inventory
-G   1   2223   20            a stone club in inventory
-E   1   2244    5     17     a silver staff held                   
+G   1   2234 100            a grey key in inventory
+G   1   2243 100            a golden wand in inventory
+G   1   2223 100            a stone club in inventory
+E   1   2244 100     17     a silver staff held                   
 D   0   2204    1      1  Hallway east closed
 D   0   2204    3      1  Hallway west closed
 D   0   2205    3      1  Nursery west closed
@@ -1609,52 +1609,52 @@ D   0   2209    3      2  The Treasure Room: Door west locked
 D   0   2222    3      2  The Crypt Ends: Door west locked
 M 0 2201 7 2210 1  1   the Draconian into The Second Floor
   
-E   1   2200   20     16     a jagged spear wielded                
+E   1   2200 100     16     a jagged spear wielded                
 M 0 2207 20 2210 1  1   A bodyguard into The Second Floor
   
-E   1   2286   20     16     a copper hammer wielded                
+E   1   2286 100     16     a copper hammer wielded                
 M 0 2207 10 2211 1  1   A bodyguard into The Court
   
-E   1   2286   50     16     a copper hammer wielded                
+E   1   2286 100     16     a copper hammer wielded                
 M 0 2207 10 2211 1  1   A bodyguard into The Court
   
-E   1   2260   50     16     a golden scimitar wielded                
+E   1   2260 100     16     a golden scimitar wielded                
 M 0 2206 5 2212 1  1   a concubine into Hall O' Pleasure
   
-E   1   2201   50     16     a silver dagger wielded                
+E   1   2201 100     16     a silver dagger wielded                
 M 0 2206 5 2212 1  1   a concubine into Hall O' Pleasure
   
-G   1   2233    2            a white key in inventory
-E   1   2201   50     16     a silver dagger wielded                
+G   1   2233 100            a white key in inventory
+E   1   2201 100     16     a silver dagger wielded                
 M 0 2206 5 2212 1  1   a concubine into Hall O' Pleasure
   
-G   1   2240    2            a black key in inventory
-E   1   2201   50     16     a silver dagger wielded                
+G   1   2240 100            a black key in inventory
+E   1   2201 100     16     a silver dagger wielded                
 M 0 2206 5 2212 1  1   a concubine into Hall O' Pleasure
   
-E   1   2201   50     16     a silver dagger wielded                
+E   1   2201 100     16     a silver dagger wielded                
 M 0 2203 1 2214 1  1   a powerful mage into The Library
   
-E   1   2223   50     12     a stone club about body             
-E   1   2250   50     17     a black staff held                   
-G   1   2251   50            a cyan potion in inventory
-E   1   2261   50      3     a diamond brooch on neck                
+E   1   2223  40     12     a stone club about body             
+E   1   2250  40     17     a black staff held                   
+G   1   2251  40            a cyan potion in inventory
+E   1   2261  40      3     a diamond brooch on neck                
 M 0 2242 5 2214 1  1   the draconian fool into The Library
   
 M 0 2204 1 2214 1  1   the holy Draconian into The Library
   
-E   1   2220   50      3     a holy symbol on neck                
-E   1   2211   50     14     a platinum bracelet. on left wrist          
-E   1   2210   50     13     a white silk belt around waist           
-G   1   2270   50            a runed scroll in inventory
-G   1   2252   50            a magenta potion in inventory
+E   1   2220  40      3     a holy symbol on neck                
+E   1   2211  40     14     a platinum bracelet. on left wrist          
+E   1   2210 100     13     a white silk belt around waist           
+G   1   2270  40            a runed scroll in inventory
+G   1   2252  40            a magenta potion in inventory
 M 0 2205 1 2216 1  1   the Draconian King into The Court Ends
   
-E   1   2222    8     16     an emerald sword wielded                
-E   1   2276   50     12     a fur cloak about body             
-E   1   2242   50     11     a crested shield as shield              
-E   1   2254   50      9     a pair of spiked gauntlets on hands               
-G   1   2232    2            A ruby key in inventory
+E   1   2222  40     16     an emerald sword wielded                
+E   1   2276  40     12     a fur cloak about body             
+E   1   2242  40     11     a crested shield as shield              
+E   1   2254  40      9     a pair of spiked gauntlets on hands               
+G   1   2232 100            A ruby key in inventory
 M 0 2207 5 2216 1  1   A bodyguard into The Court Ends
   
 M 0 2207 5 2216 1  1   A bodyguard into The Court Ends
@@ -1667,9 +1667,9 @@ M 0 2242 5 2216 1  1   the draconian fool into The Court Ends
   
 M 0 2243 1 2217 1  1   the Draconian Queen into bedroom
   
-E   1   2203   50     14     a dragon skin bracelet on left wrist          
-E   1   2204   50     13     a black silk belt around waist           
-E   1   2287   20     16     gem encrusted dagger wielded  
+E   1   2203  48     14     a dragon skin bracelet on left wrist          
+E   1   2204  48     13     a black silk belt around waist           
+E   1   2287  48     16     gem encrusted dagger wielded  
 M 0 2227 5 2217 1  1   A human slave into bedroom
   
 M 0 2227 5 2217 1  1   A human slave into bedroom
@@ -1694,29 +1694,29 @@ M 0 2240 5 2236 1  1   a Draconian zombie into The End of the tunnel
   
 M 0 2223 1 2220 1  1   the Great White Dragon into The Lair
   
-E   1   2246   50      5     scale mail on body                
+E   1   2246  90      5     scale mail on body                
 M 0 2222 1 2221 1  1   the Great Black Dragon into A Lair
   
-E   1   2280   50      7     a pair of dragon scale leggings on legs                
+E   1   2280  90      7     a pair of dragon scale leggings on legs                
 M 0 2202 1 2222 1  1   the dragon master into The Crypt Ends
   
-E   1   2202   50     16     a dragon's tooth knife wielded                
-E   1   2281   50     10     a set of dragon scale sleeves on arms                
-E   1   2271   50      9     a pair of dragon skin gloves on hands               
+E   1   2202  48     16     a dragon's tooth knife wielded                
+E   1   2281  48     10     a set of dragon scale sleeves on arms                
+E   1   2271  48      9     a pair of dragon skin gloves on hands               
 M 0 2221 1 2226 1  1   the Great Red Dragon into Lair
   
-E   1   2275   50      6     a helm of dragonkind on head                
-E   1   2245   50     17     the staff of the dragon held                   
-G   1   2299    2            a tarnished gold key in inventory
+E   1   2275  63      6     a helm of dragonkind on head                
+E   1   2245  63     17     the staff of the dragon held                   
+G   1   2299 100            a tarnished gold key in inventory
 M 0 2225 1 2230 1  1   the Ancient Green Dragon into THE Lair
   
-G   1   2241    2            a platinum key in inventory
-G   1   2285   50            a dragon tailed whip in inventory
-E   1   2261   50      3     a diamond brooch on neck                
+G   1   2241 100            a platinum key in inventory
+G   1   2285  63            a dragon tailed whip in inventory
+E   1   2261  63      3     a diamond brooch on neck                
 M 0 2220 1 2231 1  1   Tiamat into The End...
   
-E   1   2224    5      1     a diamond ring on left finger         
-E   1   2230    5      2     a copper ring on right finger        
+E   1   2224  54      1     a diamond ring on left finger         
+E   1   2230  54      2     a copper ring on right finger        
 S
 #SPECIALS
 

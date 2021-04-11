@@ -5319,8 +5319,8 @@ D   0   1316    3      1  Dining Room: Door west closed
 D   0   1317    5      1  Dark Hallway: Door down closed
 M 0 1305 1 1318 1  1   Strick the bartender into Mages Tavern
   
-G   1   1351  100            a herbal brew in inventory
-G   1   1352  100            a waybread in inventory
+G   1   1351 100            a herbal brew in inventory
+G   1   1352 100            a waybread in inventory
 M 0 1306 1 1319 1  1   Tatorious into The Magic Shop
   
 D   0   1320    1      1  the kitchen: Door east closed
@@ -5334,18 +5334,18 @@ P 1 1306 3 1302 1  1   Load a finger sandwich into a meat locker
   
 M 0 1307 1 1320 1  1   Ezmerelda into the kitchen
   
-E   1   1355    2     16     a meat cleaver wielded                
+E   1   1355  90     16     a meat cleaver wielded                
 M 0 1308 1 1320 1  1   The cook's assistant into the kitchen
   
 D   0   1321    4      1  Below the trapdoor: Door up closed
 D   0   1323    0      2  A dark passage: Door north locked
 M 0 1309 1 1327 1  1   The prisoner into A dark cell
   
-E   1   1356    1     14     some chain shackles on left wrist          
+E   1   1356 100     14     some chain shackles on left wrist          
 D   0   1327    2      2  A dark cell: Door south locked
 M 0 1310 1 1328 1  1   the Jailor into The Jailor's office
   
-E   1   1323    1     17     an old key held                   
+E   1   1323 100     17     an old key held                   
 D   0   1330    0      1  The hallway: Door north closed
 D   0   1330    2      1  The hallway: Door south closed
 D   0   1331    0      1  A bend in the hallway: Door north closed
@@ -5447,16 +5447,16 @@ D   0   1358    2      1  A hallway: Door south closed
 D   0   1359    0      1  The training room: Door north closed
 M 0 1326 3 1359 1  1   a young mage into The training room
   
-E   1   1357    6     16     a silvery dagger wielded                
+E   1   1357 100     16     a silvery dagger wielded                
 M 0 1326 3 1359 1  1   a young mage into The training room
   
-E   1   1357    6     16     a silvery dagger wielded                
+E   1   1357 100     16     a silvery dagger wielded                
 M 0 1326 3 1359 1  1   a young mage into The training room
   
-E   1   1357    6     16     a silvery dagger wielded                
+E   1   1357 100     16     a silvery dagger wielded                
 M 0 1327 1 1359 1  1   the battle mistress into The training room
   
-E   1   1357    6     17     a silvery dagger held                   
+E   1   1357 100     17     a silvery dagger held                   
 D   0   1361    0      1  A dueling room: Door north closed
 D   0   1362    1      1  A hallway: Door east closed
 D   0   1363    1      1  A hallway: Door east closed
@@ -5484,12 +5484,12 @@ M 0 1331 2 1371 1  1   a scribe into A small office
 D   0   1373    1      1  The master scribe's workshop: Door east closed
 M 0 1332 1 1373 1  1   the master scribe into The master scribe's workshop
   
-G   1   1359    2            a scroll in inventory
-G   1   1360    2            a bound scroll in inventory
-G   1   1361    1            a long cylindrical tube in inventory
+G   1   1359  63            a scroll in inventory
+G   1   1360  63            a bound scroll in inventory
+G   1   1361 100            a long cylindrical tube in inventory
 M 0 1333 1 1373 1  1   the scribe's assistant into The master scribe's workshop
   
-G   1   1362    3            an old scroll in inventory
+G   1   1362 100            an old scroll in inventory
 D   0   1374    0      1  A hallway: Door north closed
 D   0   1375    2      1  A store room: Door south closed
 M 0 1313 5 1375 1  1   a pair of disembodied eyes into A store room
@@ -5515,8 +5515,8 @@ P 1 1319 3 1315 1  1   Load a curved scimitar into a chest
   
 M 0 1334 1 1382 1  1   the Enchanter into The master Enchanter's chamber
   
-E   1   1316    1     17     a small key held                   
-G   1   1363    1            a scroll written on blue paper in inventory
+E   1   1316 100     17     a small key held                   
+G   1   1363  90            a scroll written on blue paper in inventory
 M 0 1335 1 1382 1  1   a dancing sword into The master Enchanter's chamber
   
 D   0   1384    2      1  A hallway: Door south closed
@@ -5524,7 +5524,7 @@ D   0   1386    0      1  A laboratory: Door north closed
 D   0   1387    2      1  A hallway: Door south closed
 M 0 1336 1 1388 1  1   the Mad Alchemist into The Mad Alchemist's workroom
   
-E   1   1364    5     17     a leather pouch held                   
+E   1   1364 100     17     a leather pouch held                   
 P 1 1365 3 1364 1  1   Load a silver stirring spoon into a leather pouch
   
 P 1 1367 3 1364 1  1   Load a bright red potion into a leather pouch
@@ -5538,15 +5538,15 @@ P 1 1370 3 1364 1  1   Load a milky white potion into a leather pouch
 D   0   1390    0      1  The pentagram chamber: Door north closed
 M 0 1337 1 1390 1  1   the master summoner into The pentagram chamber
   
-E   1   1371    2     17     a black staff held                   
+E   1   1371  90     17     a black staff held                   
 D   0   1391    1      1  A hallway: Door east closed
 D   0   1394    3      1  An empty room: Door west closed
 D   0   1395    0      1  The charm master's chamber: Door north closed
 D   0   1395    3      1  The charm master's chamber: Door west closed
 M 0 1338 1 1395 1  1   the master charmer into The charm master's chamber
   
-E   1   1372    1     17     a golden flute held                   
-G   1   1373    1            a small figurine in inventory
+E   1   1372  63     17     a golden flute held                   
+G   1   1373  63            a small figurine in inventory
 D   0   1397    2      1  The animal pens: Door south closed
 M 0 1339 4 1398 1  1   a wooden golem into The end of the hallway
   
@@ -5562,8 +5562,8 @@ D   0   1402    1      1  The master spellbinder's chamber: Door east closed
 D   0   1402    3      1  The master spellbinder's chamber: Door west closed
 M 0 1340 1 1402 1  1   the master spell binder into The master spellbinder's chamber
   
-E   1   1325    1     17     a silvery key held                   
-E   1   1374    2     13     a holstered belt around waist           
+E   1   1325 100     17     a silvery key held                   
+E   1   1374 100     13     a holstered belt around waist           
 P 1 1375 3 1374 1  1   Load a blackened wand into a holstered belt
   
 D   0   1403    1      1  The spellbinder's cache: Door east closed
@@ -5586,7 +5586,7 @@ D   0   1409    1      1  The golem master's workshop: Door east closed
 D   0   1409    5      1  The golem master's workshop: Door down closed
 M 0 1341 1 1409 1  1   the golem maker into The golem master's workshop
   
-E   1   1376    2     17     a runed chisel held                   
+E   1   1376  90     17     a runed chisel held                   
 M 0 1342 1 1409 1  1   a granite golem into The golem master's workshop
   
 M 0 1345 2 1409 1  1   a cloth golem into The golem master's workshop
@@ -5605,7 +5605,7 @@ D   0   1416    2      1  A hallway: Door south closed
 D   0   1417    0      1  The master of illusion's chamber: Door north closed
 M 0 1348 1 1417 1  1   the master of illusions into The master of illusion's chamber
   
-E   1   1377    3     13     a beltpouch around waist           
+E   1   1377 100     13     a beltpouch around waist           
 P 1 1378 3 1377 1  1   Load some sparkling dust into a beltpouch
   
 D   0   1419    2      1  A hallway: Door south closed
@@ -5614,15 +5614,15 @@ D   0   1422    1      1  A hallway: Door east closed
 D   0   1423    3      1  A dark room: Door west closed
 M 0 1349 1 1425 1  1   the Necromancer into The Necromancer's Lair
   
-E   1   1379    2      3     a dark cowl on neck                
-E   1   1380    2     17     an ashen wand held                   
+E   1   1379  63      3     a dark cowl on neck                
+E   1   1380  63     17     an ashen wand held                   
 M 0 1350 4 1425 1  1   an animated skeleton into The Necromancer's Lair
   
 M 0 1350 4 1425 1  1   an animated skeleton into The Necromancer's Lair
   
 M 0 1351 1 1425 1  1   an undead giant into The Necromancer's Lair
   
-E   1   1381    1     16     a huge spiked club wielded                
+E   1   1381 100     16     a huge spiked club wielded                
 M 0 1339 5 1428 1  1   a wooden golem into The end of the hallway
   
 M 0 1339 5 1428 1  1   a wooden golem into The end of the hallway
@@ -5655,41 +5655,41 @@ D   0   1452    2      1  A grey tiled hallway: Door south closed
 D   0   1453    0      1  The antechamber: Door north closed
 M 0 1354 1 1453 1  1   the master's apprentice into The antechamber
   
-E   1   1382    1     12     a grey robe about body             
-E   1   1384    1     14     a glinting silver bracelet on left wrist          
+E   1   1382 100     12     a grey robe about body             
+E   1   1384  90     14     a glinting silver bracelet on left wrist          
 M 0 1355 1 1454 1  1   a grey cat into The main chamber
   
 M 0 1356 1 1454 1  1   the master of Neutrality into The main chamber
   
-E   1   1383    1      3     a long grey cloak on neck                
-E   1   1385    1     16     an iron shod staff wielded                
-E   1   1386    1     17     a ward minor held                   
+E   1   1383  48      3     a long grey cloak on neck                
+E   1   1385  48     16     an iron shod staff wielded                
+E   1   1386  48     17     a ward minor held                   
 D   0   1460    1      1  The end of the hallway: Door east closed
 D   0   1461    3      1  The chamber of darkness: Door west closed
 M 0 1357 1 1461 1  1   a black robed apprentice into The chamber of darkness
   
-E   1   1387    1     12     a black robe about body             
-E   1   1388    1     14     an onyx bracelet on left wrist          
+E   1   1387 100     12     a black robe about body             
+E   1   1388  90     14     an onyx bracelet on left wrist          
 M 0 1358 1 1464 1  1   a black cat into The inner chamber
   
 M 0 1359 1 1464 1  1   the master of the black robes into The inner chamber
   
-E   1   1389    1      3     a dark black cloak on neck                
-E   1   1390    1     16     a sharp shard of obsidian wielded                
-E   1   1386    1     17     a ward minor held                   
+E   1   1389  48      3     a dark black cloak on neck                
+E   1   1390  48     16     a sharp shard of obsidian wielded                
+E   1   1386  48     17     a ward minor held                   
 D   0   1466    3      1  A bright hallway: Door west closed
 D   0   1467    1      1  An antechamber: Door east closed
 M 0 1360 1 1467 1  1   a white robed apprentice into An antechamber
   
-E   1   1391    1     12     a white robe about body             
-E   1   1392    1     14     a white gold bracelet on left wrist          
+E   1   1391 100     12     a white robe about body             
+E   1   1392  90     14     a white gold bracelet on left wrist          
 M 0 1361 1 1469 1  1   a white cat into The chamber of the white light
   
 M 0 1362 1 1469 1  1   The master of goodness into The chamber of the white light
   
-E   1   1393    1      3     a white cloak on neck                
-E   1   1394    1     16     an ivory hilted dagger wielded                
-E   1   1386    1     17     a ward minor held                   
+E   1   1393  48      3     a white cloak on neck                
+E   1   1394  48     16     an ivory hilted dagger wielded                
+E   1   1386  48     17     a ward minor held                   
 D   0   1473    0      1  A wide hallway: Door north closed
 D   0   1474    0      1  A wide hallway: Door north closed
 D   0   1474    2      1  A wide hallway: Door south closed
@@ -5698,15 +5698,15 @@ D   0   1475    2      1  A wide hallway: Door south closed
 D   0   1476    2      1  The entranceway: Door south closed
 M 0 1363 1 1477 1  1   A calico cat into The audience chamber
   
-E   1   1395    1      3     a spiked collar on neck                
+E   1   1395  90      3     a spiked collar on neck                
 M 0 1364 1 1477 1  1   The Grand Mistress into The audience chamber
   
-E   1   1401    2      5     a tight fitting green dragon scale shirt on body                
-E   1   1397    1      1     a small emerald ring on left finger         
-E   1   1398    1     14     an emerald bracelet on left wrist          
-E   1   1399    1     17     a ward major held                   
-E   1   1400    1     16     the ebony kris wielded                
-G   1   1339    1            an intricately carved key in inventory
+E   1   1401  36      5     a tight fitting green dragon scale shirt on body                
+E   1   1397  36      1     a small emerald ring on left finger         
+E   1   1398  36     14     an emerald bracelet on left wrist          
+E   1   1399  36     17     a ward major held                   
+E   1   1400  36     16     the ebony kris wielded                
+G   1   1339 100            an intricately carved key in inventory
 D   0   1480    1      1  The altar: Door east closed
 D   0   1480    3      1  The altar: Door west closed
 O   0   1336    1   1480  load a golden altar into The altar

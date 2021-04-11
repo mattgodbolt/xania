@@ -1915,18 +1915,18 @@ R   0   3446    4         The Lower Chambers and Tombs of the Undead: Door(s) 0-
 R   0   3447    4         The Lower Chambers and Tombs of the Undead: Door(s) 0-4 randomized
 R   0   3449    4         The Lower Chambers and Tombs of the Undead: Door(s) 0-4 randomized
 M 0 3405 1 3405 1  1   the priest into Inside the Chapel     |R <Warning, you are entering a high level area!>|w  
-G   1   3430   99            a silver key in inventory
+G   1   3430 100            a silver key in inventory
 D   0   3405    0      2  Inside the Chapel     |R <Warning, you are entering a high level area!>|w: Door north locked
 D   0   3405    5      2  Inside the Chapel     |R <Warning, you are entering a high level area!>|w: Door down locked
 O   0   3400    1   3405  load a candlestick into Inside the Chapel     |R <Warning, you are entering a high level area!>|w
 M 0 3400 8 3441 1  1   the bony skeleton into The Lower Chambers and Tombs of the Undead  
-E   1   3421   15     16     a rusty curved scimitar wielded                
+E   1   3421  80     16     a rusty curved scimitar wielded                
 M 0 3400 8 3430 1  1   the bony skeleton into The Lower Chambers and Tombs of the Undead  
-E   1   3421   15     16     a rusty curved scimitar wielded                
+E   1   3421  80     16     a rusty curved scimitar wielded                
 M 0 3400 8 3410 1  1   the bony skeleton into The Lower Chambers and Tombs of the Undead  
-E   1   3421   15     16     a rusty curved scimitar wielded                
+E   1   3421  80     16     a rusty curved scimitar wielded                
 M 0 3400 8 3419 1  1   the bony skeleton into The Tomb of Cristis  
-E   1   3421   15     16     a rusty curved scimitar wielded                
+E   1   3421  80     16     a rusty curved scimitar wielded                
 M 0 3401 8 3414 1  1   the undead zombie into The Tomb of Shohan  
 M 0 3401 8 3414 1  1   the undead zombie into The Tomb of Shohan  
 M 0 3401 8 3414 1  1   the undead zombie into The Tomb of Shohan  
@@ -1940,61 +1940,61 @@ M 0 3402 8 3462 1  1   The ghoul into The Catacombs
 M 0 3402 8 3437 1  1   The ghoul into The Grand Hall of Kings  
 M 0 3402 8 3409 1  1   The ghoul into The Acolyte's Bedroom  
 M 0 3403 1 3411 1  1   The wraith into The Lower Chambers and Tombs of the Undead  
-E   1   3425    3     17     An auburn-colored orb held                   
+E   1   3425  80     17     An auburn-colored orb held                   
 M 0 3404 1 3460 1  1   The guardian vampire into Den of the Vampire  
-E   1   3428    3     16     a pitch-black longsword that flames brightly... wielded                
-E   1   3427   10     12     a dark black cape about body             
-E   1   3419    1     17     key to the coffin held                   
-G   1   3424    5            a tightly rolled scroll in inventory
+E   1   3428  33     16     a pitch-black longsword that flames brightly... wielded                
+E   1   3427  33     12     a dark black cape about body             
+E   1   3419 100     17     key to the coffin held                   
+G   1   3424  33            a tightly rolled scroll in inventory
 M 0 3406 4 3466 1  1   the Mi-Go into The Gilded Hallway  
-E   1   3403    8      5     disgusting pinkish plasma webbing on body                
+E   1   3403  70      5     disgusting pinkish plasma webbing on body                
 M 0 3406 4 3463 1  1   the Mi-Go into The Catacombs  
-E   1   3403    8      5     disgusting pinkish plasma webbing on body                
+E   1   3403  70      5     disgusting pinkish plasma webbing on body                
 M 0 3406 4 3455 1  1   the Mi-Go into The Catacombs  
-E   1   3403    8      5     disgusting pinkish plasma webbing on body                
+E   1   3403  70      5     disgusting pinkish plasma webbing on body                
 M 0 3407 5 3465 1  1   The nightgaunt into The Gilded Hallway  
-E   1   3402    5     16     a nightgaunt's tickler wielded                
+E   1   3402  80     16     a nightgaunt's tickler wielded                
 M 0 3407 5 3465 1  1   The nightgaunt into The Gilded Hallway  
-E   1   3402    5     16     a nightgaunt's tickler wielded                
+E   1   3402  80     16     a nightgaunt's tickler wielded                
 M 0 3407 5 3457 1  1   The nightgaunt into The Catacombs  
-E   1   3402    5     16     a nightgaunt's tickler wielded                
+E   1   3402  80     16     a nightgaunt's tickler wielded                
 M 0 3407 5 3452 1  1   The nightgaunt into The Catacombs  
-E   1   3402    5     16     a nightgaunt's tickler wielded                
+E   1   3402  80     16     a nightgaunt's tickler wielded                
 M 0 3407 5 3453 1  1   The nightgaunt into The Catacombs  
-E   1   3402    5     16     a nightgaunt's tickler wielded                
+E   1   3402  80     16     a nightgaunt's tickler wielded                
 M 0 3408 1 3471 1  1   The hunting horror into A Secret Passageway  
-E   1   3425    3     17     An auburn-colored orb held                   
-G   1   3426   10            A bar of gold in inventory
+E   1   3425  54     17     An auburn-colored orb held                   
+G   1   3426  54            A bar of gold in inventory
 M 0 3409 4 3444 1  1   some cave weeds into The Lower Chambers and Tombs of the Undead  
 M 0 3409 4 3444 1  1   some cave weeds into The Lower Chambers and Tombs of the Undead  
 M 0 3409 4 3426 1  1   some cave weeds into The Lower Chambers and Tombs of the Undead  
 M 0 3409 4 3426 1  1   some cave weeds into The Lower Chambers and Tombs of the Undead  
 M 0 3410 1 3449 1  1   Snapper Joe into The Lower Chambers and Tombs of the Undead  
-E   1   3414   10     16     a whisper thin rapier wielded                
-E   1   3429    5      5     a worn and dented breast plate on body                
-E   1   3411    2     17     a large black dirty key held                   
+E   1   3414  54     16     a whisper thin rapier wielded                
+E   1   3429  54      5     a worn and dented breast plate on body                
+E   1   3411 100     17     a large black dirty key held                   
 M 0 3411 1 3434 1  1   The X-ist flesh eater into The Tomb of Frath  
-E   1   3414   10     16     a whisper thin rapier wielded                
-E   1   3431   10     18     skull earring
-G   1   3412    2            the mummified head of Jubal the Benevolent in inventory
+E   1   3414  54     16     a whisper thin rapier wielded                
+E   1   3431  54     18     skull earring
+G   1   3412 100            the mummified head of Jubal the Benevolent in inventory
 P 1 3413 3 3412 1  1   Load a black marble ring into the mummified head of Jubal the Benevolent  
 M 0 3412 1 3424 1  1   the spirit of King Crotus into The Tomb of Crotus  
-E   1   3416    1     17     a heavy iron key held                   
+E   1   3416 100     17     a heavy iron key held                   
 O   0   3415    1   3424  load a stone sarcophagus into The Tomb of Crotus
 P 1 3417 3 3415 1  1   Load a wineflask into a stone sarcophagus  
 P 1 3418 3 3415 1  1   Load a mound of coins fit for a dead king into a stone sarcophagus  
 M 0 3413 5 3432 1  1   the rock slug into The Grand Hall of Kings  
-G   1   3422   10            a piece of slime in inventory
+G   1   3422  90            a piece of slime in inventory
 M 0 3413 5 3417 1  1   the rock slug into The Grand Hall of Kings  
-G   1   3422   10            a piece of slime in inventory
+G   1   3422  90            a piece of slime in inventory
 M 0 3413 5 3450 1  1   the rock slug into Entrance to the Forbidden Catacombs  
-G   1   3422   10            a piece of slime in inventory
+G   1   3422  90            a piece of slime in inventory
 M 0 3413 5 3418 1  1   the rock slug into The Shrine of Cristis  
-G   1   3422   10            a piece of slime in inventory
+G   1   3422  90            a piece of slime in inventory
 M 0 3413 5 3441 1  1   the rock slug into The Lower Chambers and Tombs of the Undead  
-G   1   3422   10            a piece of slime in inventory
+G   1   3422  90            a piece of slime in inventory
 M 0 3414 1 3468 1  1   The mad etcher into The Gilded Hallway  
-E   1   3423    4      5     an artist's smock on body                
+E   1   3423  90      5     an artist's smock on body                
 M 0 3415 1 3468 1  1   The spectral etcher's wife into The Gilded Hallway  
 M 0 3416 4 3426 1  1   The half-decomposed body into The Lower Chambers and Tombs of the Undead  
 M 0 3416 4 3442 1  1   The half-decomposed body into The Lower Chambers and Tombs of the Undead  

@@ -699,7 +699,7 @@ M 0 9402 1 9403 1  1   Foreman Floyd into Foreman's Office
   
 M 0 9408 1 9404 1  1   A large rat into Foreman's Bathroom
   
-G   1   9409    5            (Flaming) a rat carcass in inventory
+G   1   9409 100            (Flaming) a rat carcass in inventory
 M 0 9405 7 9404 1  1   The toxic slime into Foreman's Bathroom
   
 M 0 9403 9 9406 1  1   The Cityguard head into Mob Factory Storage Area

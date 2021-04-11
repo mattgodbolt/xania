@@ -3264,29 +3264,29 @@ D 0 27267 1 2 Orlop/Brig
 D 0 27268 3 2
 
 M 0 27200 1 27254 1  1  1    captain
-G 1 27200 -1 Silvery Key
-E 1 27234 5 17               chronometer 
-E 1 27235 5 7                peg leg 
-E 1 27236 5 16               vengeance 
-E 1 27272 5 14               talkative parrot 
 
+G 1 27200 100 Silvery Key
+E 1 27234  27 17               chronometer 
+E 1 27235  27 7                peg leg 
+E 1 27236  27 16               vengeance 
+E 1 27272  27 14               talkative parrot 
 M 0 27201 1 27272 1  1  1    lieutenant
-E 1 27237 5 12               waistcoat 
 
+E 1 27237  80 12               waistcoat 
 M 0 27202 1 27273 1  1  1    petty officer
-E 1 27240 5 3                neckerchief
 
+E 1 27240  80 3                neckerchief
 M 0 27203 1 27221 1  1  1    warrant officer
-E 1 27241 5 3                compass
 
+E 1 27241  80 3                compass
 M 0 27204 1 27274 1  1  1    ambassador
-E 1 27238 5 16               stiletto
-E 1 27239 5 1                ring
-E 1 27264 5 17               death warrant
 
+E 1 27238  33 16               stiletto
+E 1 27239  33 1                ring
+E 1 27264  33 17               death warrant
 M 0 27205 1 27211 1  1  1    ensign
-E 1 27242 5 17               manual
 
+E 1 27242  80 17               manual
 M 0 27206 7 27201 1  1  1    swarthy seafarer
 
 M 0 27206 7 27202 1  1  1    swarthy seafarer
@@ -3304,45 +3304,45 @@ M 0 27206 7 27216 1  1  1    swarthy seafarer
 M 0 27207 3 27210 1  1  1    bearded seadog
 
 M 0 27207 3 27213 1  1  1    bearded seadog
-E 1 27250 5 17               ale
 
+E 1 27250  80 17               ale
 M 0 27207 3 27215 1  1  1    bearded seadog
 
 M 0 27208 3 27218 1  1  1    angry seadog
-E 1 27243 5 16               cutlass
 
+E 1 27243  80 16               cutlass
 M 0 27208 3 27206 1  1  1    angry seadog
-E 1 27243 5 16               cutlass
 
+E 1 27243  80 16               cutlass
 M 0 27208 3 27224 1  1  1    angry seadog
-E 1 27243 5 16               cutlass
 
+E 1 27243  80 16               cutlass
 M 0 27209 4 27210 1  1  1    burly boatswain
-E 1 27244 5 9                gauntlets
 
+E 1 27244  80 9                gauntlets
 M 0 27209 4 27250 1  1  1    burly boatswain
-E 1 27274 4 18               stud
 
+E 1 27274  80 18               stud
 M 0 27209 4 27263 1  1  1    burly boatswain
 
 M 0 27209 4 27269 1  1  1    burly boatswain
-E 1 27244 5 9                gauntlets
 
+E 1 27244  80 9                gauntlets
 M 0 27210 1 27264 1  1  1    quartermaster
-E 1 27245 5 14               tattoo
-E 1 27247 5 11               buckler
 
+E 1 27245  54 14               tattoo
+E 1 27247  54 11               buckler
 M 0 27211 1 27251 1  1  1    master gunner
-E 1 27246 5 10               armguards
 
+E 1 27246  80 10               armguards
 M 0 27212 4 27244 1  1  1    loader
-E 1 27248 5 16               rod
 
+E 1 27248  80 16               rod
 M 0 27212 4 27245 1  1  1    loader
 
 M 0 27212 4 27256 1  1  1    loader
-E 1 27248 5 16               rod
 
+E 1 27248  80 16               rod
 M 0 27212 4 27257 1  1  1    loader
 
 M 0 27213 4 27245 1  1  1    powder monkey
@@ -3354,23 +3354,23 @@ M 0 27213 4 27257 1  1  1    powder monkey
 M 0 27213 4 27258 1  1  1    powder monkey
 
 M 0 27214 4 27231 1  1  1    coxswain
-E 1 27249 5 13               rope
 
+E 1 27249  80 13               rope
 M 0 27214 4 27233 1  1  1    coxswain
 
 M 0 27214 4 27226 1  1  1    coxswain
-E 1 27249 5 13               rope
 
+E 1 27249  80 13               rope
 M 0 27214 4 27239 1  1  1    coxswain
 
 M 0 27215 4 27228 1  1  1    apprentice
-E 1 27251 5 6                hat
 
+E 1 27251  80 6                hat
 M 0 27215 4 27233 1  1  1    apprentice
 
 M 0 27215 4 27237 1  1  1    apprentice
-E 1 27251 5 6                hat
 
+E 1 27251  80 6                hat
 M 0 27215 4 27241 1  1  1    apprentice
 
 M 0 27216 2 27243 1  1  1    seagulls
@@ -3378,19 +3378,19 @@ M 0 27216 2 27243 1  1  1    seagulls
 M 0 27216 2 27229 1  1  1    seagulls
 
 M 0 27217 1 27238 1  1  1    lookout
-E 1 27252 5 17               telescope
 
+E 1 27252  80 17               telescope
 M 0 27218 1 27267 1  1  1    sentry
-E 1 27253 5 3                neckbrace
-E 1 27269 5 16               hatchet
-G 1 27201 -1                 iron key
 
+E 1 27253  54 3                neckbrace
+E 1 27269  54 16               hatchet
+G 1 27201 100                 iron key
 M 0 27219 1 27268 1  1  1    infiltrator
-E 1 27254 5 17               quill
 
+E 1 27254  80 17               quill
 M 0 27220 1 27261 1  1  1    surgeon
-E 1 27255 5 12               gown
 
+E 1 27255  80 12               gown
 M 0 27221 3 27269 1  1  1    stowaway
 
 M 0 27221 3 27271 1  1  1    stowaway
@@ -3398,35 +3398,35 @@ M 0 27221 3 27271 1  1  1    stowaway
 M 0 27221 3 27265 1  1  1    stowaway
 
 M 0 27222 1 27248 1  1  1    helmsman
-G 1 27256 5                  satchel
 
+G 1 27256 100                  satchel
 M 0 27223 1 27213 1  1  1    harpoonist
-E 1 27257 5 16               gown
 
+E 1 27257  80 16               gown
 M 0 27224 2 27225 1  1  1    stormsister
-E 1 27258 5 1                ring
 
+E 1 27258  80 1                ring
 M 0 27224 2 27242 1  1  1    stormsister
-E 1 27258 5 2                ring
 
+E 1 27258  80 2                ring
 M 0 27225 1 27276 1  1  1    hammerhead
 
 M 0 27226 1 27280 1  1  1    remora
 
 M 0 27227 1 27282 1  1  1    ibliat
-E 1 27263 5 5                carapace
 
+E 1 27263  80 5                carapace
 M 0 27228 1 27286 1  1  1    nereus
-G 1 27261 5                  eye
-G 1 27262 5                  cloak
 
+G 1 27261  45                  eye
+G 1 27262  45                  cloak
 M 0 27229 1 27259 1  1  1    cook
-E 1 27259 5 14               bracelet
 
+E 1 27259  80 14               bracelet
 M 0 27230 1 27247 1  1  1    ropemaker
-E 1 27260 5 8                boots
-E 1 27273 5 13               rope
 
+E 1 27260  54 8                boots
+E 1 27273  54 13               rope
 M 0 27231 3 27218 1  1  1    oarsman
 M 0 27231 3 27220 1  1  1    oarsman
 M 0 27231 3 27252 1  1  1    oarsman

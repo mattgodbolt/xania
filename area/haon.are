@@ -2569,9 +2569,9 @@ weapon G AN
 #RESETS
 M 0 6000 1 6009 1  1   John the Lumberjack into Outside a small cabin in the forest
   
-E   1   6000   10     16     a lumber axe wielded                
-E   1   6001   10      5     a chequered shirt on body                
-E   1   6002   10      8     a pair of leather boots on feet                
+E   1   6000 100     16     a lumber axe wielded                
+E   1   6001 100      5     a chequered shirt on body                
+E   1   6002 100      8     a pair of leather boots on feet                
 D   0   6009    0      1  Outside a small cabin in the forest: Door north closed
 
 M 0 6002 1 6022 1  1   the brown bear into Inside the cave
@@ -2617,15 +2617,15 @@ M 0 6103 4 6118 1  1   the large, black wolf into A small path in the deep, dark
   
 M 0 6112 1 6143 1  1   the huge, green dragon into The cave of the Green Dragon
   
-G   1   6110   10            a yellow potion in inventory
-G   1   6112   10            an iron crown in inventory
-G   1   6111   10            a large round shield in inventory
+G   1   6110  48            a yellow potion in inventory
+G   1   6112  48            an iron crown in inventory
+G   1   6111  48            a large round shield in inventory
 M 0 6115 1 6100 1  1   Shargugh into A narrow trail through the deep, dark forest
   
-E   1   6114    3      1     an iron ring on left finger         
+E   1   6114 100      1     an iron ring on left finger         
 M 0 6116 1 6155 1  1   the elder druid into The cultist temple.
   
-E   1   6155    1     16     the morning star wielded                
+E   1   6155 100     16     the morning star wielded                
 D   1   6152    1      1  The circle of trees.: Door east closed
 D   1   6153    3      1  Inside the great tree.: Door west closed
 O   0   6102    1   6103  load a colossal tree into A narrow trail through the deep, dark forest

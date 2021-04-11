@@ -3726,9 +3726,9 @@ armor 0 AD
 
 #RESETS
 M 0 2300 1 2307 1  1   the Dark Ethereal Knight into The bloody intersection  
-E   1   2346    5      5     a suit of ethereal plate on body                
-E   1   2347    5      6     an ethereal helm on head                
-E   1   2348   10     16     an ethereal blade wielded                
+E   1   2346  48      5     a suit of ethereal plate on body                
+E   1   2347  48      6     an ethereal helm on head                
+E   1   2348  48     16     an ethereal blade wielded                
 M 0 2301 1 2314 1  1   the Old Treant into Before the huge tree  
 M 0 2302 1 2316 1  1   the Cave Dweller into Inside the horrid cave  
 M 0 2303 4 2311 1  1   the Rock Toad into The sparse foothills  
@@ -3736,135 +3736,135 @@ M 0 2303 4 2312 1  1   the Rock Toad into Standing on level ground
 M 0 2303 4 2313 1  1   the Rock Toad into In the foothills  
 M 0 2303 4 2319 1  1   the Rock Toad into The hills above the shoreline  
 M 0 2304 1 2330 1  1   the Weeping Willow into The turn in the swampy path  
-G   1   2349   15            a willow branch in inventory
+G   1   2349  90            a willow branch in inventory
 M 0 2305 3 2332 1  1   the Mistling into Lost in the Mist  
 M 0 2305 3 2337 1  1   the Mistling into Lost in the Mist  
 M 0 2305 3 2333 1  1   the Mistling into Lost in the Mist  
 M 0 2306 1 2336 1  1   the Swamp Wraith into Lost in the Mist  
-G   1   2384   20            a misty potion in inventory
+G   1   2384  90            a misty potion in inventory
 M 0 2307 5 2346 1  1   the Ogre Villager into The firepit before the lodge  
-E   1   2385   25     13     a belt pouch around waist           
+E   1   2385 100     13     a belt pouch around waist           
 M 0 2307 5 2343 1  1   the Ogre Villager into Inside the gates  
-E   1   2385   25     13     a belt pouch around waist           
+E   1   2385 100     13     a belt pouch around waist           
 M 0 2307 5 2345 1  1   the Ogre Villager into The gathering place  
 M 0 2307 5 2348 1  1   the Ogre Villager into The entryway to the lodge  
 M 0 2307 5 2344 1  1   the Ogre Villager into Among the crude huts  
 M 0 2308 4 2347 1  1   the Ogre Warrior into The village dump  
-E   1   2386   25     16     an ogre spear wielded                
+E   1   2386 100     16     an ogre spear wielded                
 M 0 2308 4 2342 1  1   the Ogre Warrior into Among the crude huts  
-E   1   2386   25     16     an ogre spear wielded                
+E   1   2386 100     16     an ogre spear wielded                
 M 0 2308 4 2348 1  1   the Ogre Warrior into The entryway to the lodge  
-E   1   2386   25     16     an ogre spear wielded                
+E   1   2386 100     16     an ogre spear wielded                
 M 0 2308 4 2346 1  1   the Ogre Warrior into The firepit before the lodge  
-E   1   2386   25     16     an ogre spear wielded                
+E   1   2386 100     16     an ogre spear wielded                
 M 0 2309 4 2348 1  1   the Ogre Guard into The entryway to the lodge  
-E   1   2387   25     16     an ogre war club wielded                
+E   1   2387 100     16     an ogre war club wielded                
 M 0 2309 4 2342 1  1   the Ogre Guard into Among the crude huts  
-E   1   2387   25     16     an ogre war club wielded                
+E   1   2387 100     16     an ogre war club wielded                
 M 0 2309 4 2341 1  1   the Ogre Guard into The gate before the Ogre Village  
-E   1   2387   25     16     an ogre war club wielded                
+E   1   2387 100     16     an ogre war club wielded                
 M 0 2309 4 2341 1  1   the Ogre Guard into The gate before the Ogre Village  
-E   1   2387   25     16     an ogre war club wielded                
+E   1   2387 100     16     an ogre war club wielded                
 M 0 2310 1 2349 1  1   The Ogre Shaman into The throne room  
-E   1   2388   20     12     a bearskin cloak about body             
-E   1   2389   10      6     a pair of feathered earrings on head                
+E   1   2388  63     12     a bearskin cloak about body             
+E   1   2389  63      6     a pair of feathered earrings on head                
 M 0 2311 1 2350 1  1   the Ogre Chieftain into The chieftain's room  
-E   1   2390    5      9     gauntlets of ogre power on hands               
-E   1   2391   10     16     a massive club wielded                
+E   1   2390  63      9     gauntlets of ogre power on hands               
+E   1   2391  63     16     a massive club wielded                
 M 0 2312 3 2351 1  1   the Plains Barbarian into The frigid wastelands  
-E   1   2392   20      4     a thick fur cape on neck                
-E   1   2393   20      5     a fur lined tunic on body                
-E   1   2360   20      8     a pair of fur lined boots on feet                
+E   1   2392  48      4     a thick fur cape on neck                
+E   1   2393  48      5     a fur lined tunic on body                
+E   1   2360  48      8     a pair of fur lined boots on feet                
 M 0 2312 3 2354 1  1   the Plains Barbarian into The frigid wastelands  
-E   1   2392   20      4     a thick fur cape on neck                
-E   1   2393   20      5     a fur lined tunic on body                
-E   1   2360   20      8     a pair of fur lined boots on feet                
+E   1   2392  48      4     a thick fur cape on neck                
+E   1   2393  48      5     a fur lined tunic on body                
+E   1   2360  48      8     a pair of fur lined boots on feet                
 M 0 2312 3 2359 1  1   the Plains Barbarian into The frigid wastelands  
-E   1   2392   20      4     a thick fur cape on neck                
-E   1   2393   20      5     a fur lined tunic on body                
-E   1   2360   20      8     a pair of fur lined boots on feet                
+E   1   2392  48      4     a thick fur cape on neck                
+E   1   2393  48      5     a fur lined tunic on body                
+E   1   2360  48      8     a pair of fur lined boots on feet                
 M 0 2313 3 2357 1  1   the White Yeti into The frigid wastelands  
-E   1   2361   20     12     the white pelt of a yeti about body             
+E   1   2361 100     12     the white pelt of a yeti about body             
 M 0 2313 3 2359 1  1   the White Yeti into The frigid wastelands  
-E   1   2361   20     12     the white pelt of a yeti about body             
+E   1   2361 100     12     the white pelt of a yeti about body             
 M 0 2313 3 2355 1  1   the White Yeti into The frigid wastelands  
-E   1   2361   20     12     the white pelt of a yeti about body             
+E   1   2361 100     12     the white pelt of a yeti about body             
 M 0 2314 3 2352 1  1   the Ice Worm into The frigid wastelands  
 M 0 2314 3 2354 1  1   the Ice Worm into The frigid wastelands  
 M 0 2314 3 2356 1  1   the Ice Worm into The frigid wastelands  
 M 0 2315 5 2363 1  1   the Minotaur Citizen into The city streets of Mahn-Tor  
-E   1   2362   35     16     a kopesh sword wielded                
+E   1   2362 100     16     a kopesh sword wielded                
 M 0 2315 5 2367 1  1   the Minotaur Citizen into The Square of Mahn-Tor  
-E   1   2362   35     16     a kopesh sword wielded                
+E   1   2362 100     16     a kopesh sword wielded                
 M 0 2315 5 2365 1  1   the Minotaur Citizen into The city streets of Mahn-Tor  
-E   1   2362   35     16     a kopesh sword wielded                
+E   1   2362 100     16     a kopesh sword wielded                
 M 0 2315 5 2364 1  1   the Minotaur Citizen into Inside the gates of Mahn-Tor  
-E   1   2362   35     16     a kopesh sword wielded                
+E   1   2362 100     16     a kopesh sword wielded                
 M 0 2315 5 2370 1  1   the Minotaur Citizen into The Mahn-Tor Equipment Shop  
-E   1   2362   35     16     a kopesh sword wielded                
+E   1   2362 100     16     a kopesh sword wielded                
 M 0 2316 3 2368 1  1   the Minotaur Guard into The streets of Mahn-Tor  
-E   1   2363   15     10     a pair of steel vambraces on arms                
-E   1   2364   15      7     a pair of steel greaves on legs                
-E   1   2365   10     16     a battle axe wielded                
+E   1   2363  48     10     a pair of steel vambraces on arms                
+E   1   2364  48      7     a pair of steel greaves on legs                
+E   1   2365  48     16     a battle axe wielded                
 M 0 2316 3 2366 1  1   the Minotaur Guard into The city streets of Mahn-Tor  
-E   1   2363   15     10     a pair of steel vambraces on arms                
-E   1   2364   15      7     a pair of steel greaves on legs                
-E   1   2365   10     16     a battle axe wielded                
+E   1   2363  48     10     a pair of steel vambraces on arms                
+E   1   2364  48      7     a pair of steel greaves on legs                
+E   1   2365  48     16     a battle axe wielded                
 M 0 2316 3 2362 1  1   the Minotaur Guard into Before the gates of Mahn-Tor  
-E   1   2363   15     10     a pair of steel vambraces on arms                
-E   1   2364   15      7     a pair of steel greaves on legs                
-E   1   2365   10     16     a battle axe wielded                
+E   1   2363  48     10     a pair of steel vambraces on arms                
+E   1   2364  48      7     a pair of steel greaves on legs                
+E   1   2365  48     16     a battle axe wielded                
 M 0 2317 3 2367 1  1   the Minotaur Warrior into The Square of Mahn-Tor  
-E   1   2366   15      5     a steel breast plate on body                
-E   1   2367   15      6     a steel helm on head                
-E   1   2368   10     16     a huge halberd wielded                
+E   1   2366  48      5     a steel breast plate on body                
+E   1   2367  48      6     a steel helm on head                
+E   1   2368  48     16     a huge halberd wielded                
 M 0 2317 3 2376 1  1   the Minotaur Warrior into A small guard house  
-E   1   2366   15      5     a steel breast plate on body                
-E   1   2367   15      6     a steel helm on head                
-E   1   2368   10     16     a huge halberd wielded                
+E   1   2366  48      5     a steel breast plate on body                
+E   1   2367  48      6     a steel helm on head                
+E   1   2368  48     16     a huge halberd wielded                
 M 0 2317 3 2378 1  1   the Minotaur Warrior into A small guard house  
-E   1   2366   15      5     a steel breast plate on body                
-E   1   2367   15      6     a steel helm on head                
-E   1   2368   10     16     a huge halberd wielded                
+E   1   2366  48      5     a steel breast plate on body                
+E   1   2367  48      6     a steel helm on head                
+E   1   2368  48     16     a huge halberd wielded                
 M 0 2318 1 2377 1  1   the Minotaur Gatekeeper into Before the Keep of Mahn-Tor  
-G   1   2350    1            the keep key in inventory
+G   1   2350 100            the keep key in inventory
 M 0 2319 2 2380 1  1   the High Minotaur Guard into The Hall  
-E   1   2369   15      6     a blue steel helm and visor on head                
-E   1   2370   15      7     a pair of blue steel greaves on legs                
-E   1   2371   15     10     a pair of blue steel vambraces on arms                
-E   1   2366   15      5     a steel breast plate on body                
-E   1   2372   10     16     a two-handed sword wielded                
+E   1   2369  36      6     a blue steel helm and visor on head                
+E   1   2370  36      7     a pair of blue steel greaves on legs                
+E   1   2371  36     10     a pair of blue steel vambraces on arms                
+E   1   2366  36      5     a steel breast plate on body                
+E   1   2372  36     16     a two-handed sword wielded                
 M 0 2319 2 2379 1  1   the High Minotaur Guard into The entryway to the Keep of Mahn-Tor  
-E   1   2369   15      6     a blue steel helm and visor on head                
-E   1   2370   15      7     a pair of blue steel greaves on legs                
-E   1   2371   15     10     a pair of blue steel vambraces on arms                
-E   1   2366   15      5     a steel breast plate on body                
-E   1   2372   10     16     a two-handed sword wielded                
+E   1   2369  36      6     a blue steel helm and visor on head                
+E   1   2370  36      7     a pair of blue steel greaves on legs                
+E   1   2371  36     10     a pair of blue steel vambraces on arms                
+E   1   2366  36      5     a steel breast plate on body                
+E   1   2372  36     16     a two-handed sword wielded                
 M 0 2320 2 2383 1  1   the Royal Minotaur Guard into Standing before the throne  
-E   1   2373   10      6     a red steel helm and visor on head                
-E   1   2374   10      7     a pair of red steel greaves on legs                
-E   1   2375   10     10     a pair of red steel vambraces on arms                
-E   1   2366   15      5     a steel breast plate on body                
-E   1   2376   10     16     a minotaur glaive wielded                
+E   1   2373  36      6     a red steel helm and visor on head                
+E   1   2374  36      7     a pair of red steel greaves on legs                
+E   1   2375  36     10     a pair of red steel vambraces on arms                
+E   1   2366  36      5     a steel breast plate on body                
+E   1   2376  36     16     a minotaur glaive wielded                
 M 0 2320 2 2382 1  1   the Royal Minotaur Guard into The Great Hall  
-E   1   2373   10      6     a red steel helm and visor on head                
-E   1   2374   10      7     a pair of red steel greaves on legs                
-E   1   2375   10     10     a pair of red steel vambraces on arms                
-E   1   2366   15      5     a steel breast plate on body                
-E   1   2376   10     16     a minotaur glaive wielded                
+E   1   2373  36      6     a red steel helm and visor on head                
+E   1   2374  36      7     a pair of red steel greaves on legs                
+E   1   2375  36     10     a pair of red steel vambraces on arms                
+E   1   2366  36      5     a steel breast plate on body                
+E   1   2376  36     16     a minotaur glaive wielded                
 M 0 2321 2 2385 2  1   the Elite Minotaur Guard into The secret hallway  
-E   1   2377    5      6     a crimson steel helm and visor on head                
-E   1   2378    5      7     a pair of crimson steel greaves on legs                
-E   1   2379    5     10     a pair of crimson steel vambraces on arms                
-E   1   2366   15      5     a steel breast plate on body                
-E   1   2380    5     16     a huge morningstar wielded                
+E   1   2377  36      6     a crimson steel helm and visor on head                
+E   1   2378  36      7     a pair of crimson steel greaves on legs                
+E   1   2379  36     10     a pair of crimson steel vambraces on arms                
+E   1   2366  36      5     a steel breast plate on body                
+E   1   2380  36     16     a huge morningstar wielded                
 M 0 2321 2 2385 2  1   the Elite Minotaur Guard into The secret hallway  
-E   1   2377    5      6     a crimson steel helm and visor on head                
-E   1   2378    5      7     a pair of crimson steel greaves on legs                
-E   1   2379    5     10     a pair of crimson steel vambraces on arms                
-E   1   2366   15      5     a steel breast plate on body                
-E   1   2380    5     16     a huge morningstar wielded                
-G   1   2359    1            a runed key in inventory
+E   1   2377  36      6     a crimson steel helm and visor on head                
+E   1   2378  36      7     a pair of crimson steel greaves on legs                
+E   1   2379  36     10     a pair of crimson steel vambraces on arms                
+E   1   2366  36      5     a steel breast plate on body                
+E   1   2380  36     16     a huge morningstar wielded                
+G   1   2359 100            a runed key in inventory
 M 0 2322 5 2393 1  1   the Harem Girl into The Harem Room  
 M 0 2322 5 2393 1  1   the Harem Girl into The Harem Room  
 M 0 2322 5 2393 1  1   the Harem Girl into The Harem Room  
@@ -3872,9 +3872,9 @@ M 0 2322 5 2393 1  1   the Harem Girl into The Harem Room
 M 0 2322 5 2393 1  1   the Harem Girl into The Harem Room  
 M 0 2323 1 2395 1  1   the Minotaur Butler into The main living room  
 M 0 2324 1 2387 1  1   the Minotaur Ring-Keeper into The Guard Post  
-E   1   2381   20     17     some huge spiked brass knuckles held                   
-E   1   2383    5     16     a huge wooden maul wielded                
-E   1   2382    3     13     a multi-coloured key ring around waist           
+E   1   2381  63     17     some huge spiked brass knuckles held                   
+E   1   2383  63     16     a huge wooden maul wielded                
+E   1   2382 100     13     a multi-coloured key ring around waist           
 P 1 2351 3 2382 1  1   Load a red key into a multi-coloured key ring  
 P 1 2352 3 2382 1  1   Load a black key into a multi-coloured key ring  
 P 1 2353 3 2382 1  1   Load a white key into a multi-coloured key ring  
@@ -3884,60 +3884,60 @@ P 1 2356 3 2382 1  1   Load a maroon key into a multi-coloured key ring
 P 1 2357 3 2382 1  1   Load a green key into a multi-coloured key ring  
 P 1 2358 3 2382 1  1   Load a grey key into a multi-coloured key ring  
 M 0 2325 1 2372 1  1   Gorak into Gorak's Training Room  
-E   1   2300   10      9     a pair of minotaur combat gloves on hands               
-E   1   2301    5      5     a suit of spiked garde armor on body                
-E   1   2302    5      7     a pair of black minotaur greaves on legs                
-E   1   2303    5     10     a pair of black minotaur vambraces on arms                
-E   1   2304    3     16     the rod of weaponry wielded                
+E   1   2300  36      9     a pair of minotaur combat gloves on hands               
+E   1   2301  36      5     a suit of spiked garde armor on body                
+E   1   2302  36      7     a pair of black minotaur greaves on legs                
+E   1   2303  36     10     a pair of black minotaur vambraces on arms                
+E   1   2304  36     16     the rod of weaponry wielded                
 M 0 2326 1 2373 1  1   Darkoth into Darkoth's Dark Study  
-E   1   2305   20     12     a pitch black cloak about body             
-E   1   2306   15      4     a black plate neckguard on neck                
-E   1   2307    5      9     a pair of spiked gauntlets on hands               
-E   1   2308   10     11     the shadow shield as shield              
-E   1   2309    3     16     a shortsword named "Nightbringer" wielded                
+E   1   2305 100     12     a pitch black cloak about body             
+E   1   2306  40      4     a black plate neckguard on neck                
+E   1   2307  40      9     a pair of spiked gauntlets on hands               
+E   1   2308  40     11     the shadow shield as shield              
+E   1   2309  40     16     a shortsword named "Nightbringer" wielded                
 M 0 2327 1 2374 1  1   Tyrgoth into Tyrgoth's Inner Sanctum  
-E   1   2310   10      6     a golden helm and visor on head                
-E   1   2311    5      5     a gilded gold breast plate on body                
-E   1   2312   15      4     a billowing white cape  on neck                
-E   1   2313   20     11     a huge tower shield as shield              
-E   1   2314    3     16     a huge mace named "Dawnbringer" wielded                
+E   1   2310  36      6     a golden helm and visor on head                
+E   1   2311  36      5     a gilded gold breast plate on body                
+E   1   2312  36      4     a billowing white cape  on neck                
+E   1   2313  36     11     a huge tower shield as shield              
+E   1   2314  36     16     a huge mace named "Dawnbringer" wielded                
 M 0 2328 1 2391 1  1   Amyrok into Amyrok's Arcane Study  
-E   1   2315   10      1     a pair of wire rimmed spectacles on left finger         
-E   1   2316    5      2     a banded ring on right finger        
-E   1   2317    5     12     a minor globe of invulnerability about body             
-E   1   2318    3     16     a gnarled magius staff wielded                
-E   1   2319   10     13     a girdle of many pouches around waist           
+E   1   2315  40      1     a pair of wire rimmed spectacles on left finger         
+E   1   2316  40      2     a banded ring on right finger        
+E   1   2317  40     12     a minor globe of invulnerability about body             
+E   1   2318  40     16     a gnarled magius staff wielded                
+E   1   2319 100     13     a girdle of many pouches around waist           
 M 0 2329 1 2390 1  1   Sumaron into Sumaron's Sanctum  
-E   1   2320   15     12     a heavy woolen robe about body             
-E   1   2321    5      3     a broach of life on neck                
-E   1   2322   20     17     a manual of healing arts held                   
-E   1   2323    3     16     a huge mithril mace wielded                
-E   1   2324   15      4     a golden holy symbol on neck                
+E   1   2320  36     12     a heavy woolen robe about body             
+E   1   2321  36      3     a broach of life on neck                
+E   1   2322  36     17     a manual of healing arts held                   
+E   1   2323  36     16     a huge mithril mace wielded                
+E   1   2324  36      4     a golden holy symbol on neck                
 M 0 2330 1 2394 1  1   Nasturn into Nasturn's Humble Abode  
-E   1   2325   10      1     a thick marble ring on left finger         
-E   1   2326   10     15     a thick marble bracelet on right wrist         
-E   1   2327   10      8     boots of striding on feet                
-E   1   2328   10     12     an icy white cloak about body             
-E   1   2329    3     16     an ice staff wielded                
+E   1   2325  36      1     a thick marble ring on left finger         
+E   1   2326  36     15     a thick marble bracelet on right wrist         
+E   1   2327  36      8     boots of striding on feet                
+E   1   2328  36     12     an icy white cloak about body             
+E   1   2329  36     16     an ice staff wielded                
 M 0 2331 1 2399 1  1   Belrak into Belrak's Green Room  
-E   1   2330   10      2     a carved wooden ring on right finger        
-E   1   2331   20     17     the horn of life held                   
-E   1   2332   10     13     the belt of life around waist           
-G   1   2333    5            a blood red stone in inventory
-E   1   2334    3     16     a huge crossbow wielded                
+E   1   2330  36      2     a carved wooden ring on right finger        
+E   1   2331  36     17     the horn of life held                   
+E   1   2332  36     13     the belt of life around waist           
+G   1   2333  36            a blood red stone in inventory
+E   1   2334  36     16     a huge crossbow wielded                
 M 0 2332 1 2398 1  1   Dorgar into Dorgar's Dismal Domicile  
-E   1   2335   15     12     a small leather pack about body             
-E   1   2336   10      6     a black leather hood on head                
-E   1   2337   20     10     a pair of black leather sleeves on arms                
-E   1   2338   10      7     a pair of black leather pants on legs                
-E   1   2339   10     16     a wicked shortsword wielded                
+E   1   2335 100     12     a small leather pack about body             
+E   1   2336  40      6     a black leather hood on head                
+E   1   2337  40     10     a pair of black leather sleeves on arms                
+E   1   2338  40      7     a pair of black leather pants on legs                
+E   1   2339  40     16     a wicked shortsword wielded                
 M 0 2333 1 2396 1  1   Mahn-Tor into The Master Bedroom  
-E   1   2340    5     12     a major globe of invulnerability about body             
-E   1   2341    5      5     a suit of black minotaur chainmail on body                
-E   1   2342   15     14     a spiked buckler on left wrist          
-E   1   2343   10      2     a studded ring on right finger        
-E   1   2344   10      6     a horned minotaur helm on head                
-E   1   2345    1     16     Mahn-Tor's Great Axe wielded                
+E   1   2340  33     12     a major globe of invulnerability about body             
+E   1   2341  33      5     a suit of black minotaur chainmail on body                
+E   1   2342  33     14     a spiked buckler on left wrist          
+E   1   2343  33      2     a studded ring on right finger        
+E   1   2344  33      6     a horned minotaur helm on head                
+E   1   2345  33     16     Mahn-Tor's Great Axe wielded                
 D   0   2377    1      2  Before the Keep of Mahn-Tor: Door east locked
 D   0   2379    3      2  The entryway to the Keep of Mahn-Tor: Door west locked
 D   0   2383    1      1  Standing before the throne: Door east closed

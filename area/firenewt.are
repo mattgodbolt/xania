@@ -926,61 +926,61 @@ food 0 A
 
 #RESETS
 M 0 2901 2 2903 1  1   a mountain goat into Mountain side  
-E   1   2901  500     16     horns wielded                
+E   1   2901  90     16     horns wielded                
 M 0 2901 2 2904 1  1   a mountain goat into Mountain side  
-E   1   2901  500     16     horns wielded                
+E   1   2901  90     16     horns wielded                
 M 0 2902 2 2904 1  1   a mountain ewe into Mountain side  
-G   1   2902  100            milk bladder in inventory
+G   1   2902  90            milk bladder in inventory
 M 0 2902 2 2904 1  1   a mountain ewe into Mountain side  
-G   1   2902  100            milk bladder in inventory
+G   1   2902  90            milk bladder in inventory
 M 0 2903 6 2904 1  1   a mountain kid into Mountain side  
 M 0 2903 6 2904 1  1   a mountain kid into Mountain side  
 M 0 2903 6 2904 1  1   a mountain kid into Mountain side  
 M 0 2904 10 2910 1  1   a fire newt worker into Inside the mountain  
-E   1   2903  100     16     shovel wielded                
+E   1   2903  90     16     shovel wielded                
 M 0 2904 10 2914 1  1   a fire newt worker into Store room  
 M 0 2904 10 2914 1  1   a fire newt worker into Store room  
-E   1   2903  100     16     shovel wielded                
+E   1   2903  90     16     shovel wielded                
 M 0 2904 10 2916 1  1   a fire newt worker into Bottom of the mountain  
-E   1   2903  100     16     shovel wielded                
+E   1   2903  90     16     shovel wielded                
 M 0 2904 10 2917 1  1   a fire newt worker into The tunnel  
 M 0 2904 10 2918 1  1   a fire newt worker into Bend in the tunnel  
-E   1   2903  100     16     shovel wielded                
+E   1   2903  90     16     shovel wielded                
 M 0 2904 10 2919 1  1   a fire newt worker into The tunnel  
-E   1   2903  100     16     shovel wielded                
+E   1   2903  90     16     shovel wielded                
 M 0 2904 10 2921 1  1   a fire newt worker into The tunnel  
 M 0 2904 10 2923 1  1   a fire newt worker into The tunnel  
-E   1   2903  100     16     shovel wielded                
+E   1   2903  90     16     shovel wielded                
 M 0 2904 10 2921 1  1   a fire newt worker into The tunnel  
 M 0 2905 6 2911 1  1   a fire newt guard into Guard room  
-E   1   2904  100     16     short sword wielded                
+E   1   2904  80     16     short sword wielded                
 M 0 2905 6 2911 1  1   a fire newt guard into Guard room  
-E   1   2904  100     16     short sword wielded                
+E   1   2904  80     16     short sword wielded                
 M 0 2905 6 2911 1  1   a fire newt guard into Guard room  
-E   1   2904  100     16     short sword wielded                
+E   1   2904  80     16     short sword wielded                
 M 0 2905 6 2912 1  1   a fire newt guard into Guard room  
-E   1   2905  100     16     hand axe wielded                
+E   1   2905  80     16     hand axe wielded                
 M 0 2905 6 2912 1  1   a fire newt guard into Guard room  
-E   1   2904  100     16     short sword wielded                
+E   1   2904  80     16     short sword wielded                
 M 0 2905 6 2912 1  1   a fire newt guard into Guard room  
-E   1   2905  100     16     hand axe wielded                
+E   1   2905  80     16     hand axe wielded                
 M 0 2906 4 2915 1  1   a fire newt worker into Workers' quarters  
-E   1   2903  100     16     shovel wielded                
+E   1   2903  90     16     shovel wielded                
 M 0 2906 4 2915 1  1   a fire newt worker into Workers' quarters  
-E   1   2903  100     16     shovel wielded                
+E   1   2903  90     16     shovel wielded                
 M 0 2906 4 2915 1  1   a fire newt worker into Workers' quarters  
 M 0 2906 4 2915 1  1   a fire newt worker into Workers' quarters  
 M 0 2907 6 2919 1  1   fire newt guard into The tunnel  
-E   1   2905  100     16     hand axe wielded                
+E   1   2905  80     16     hand axe wielded                
 M 0 2907 6 2921 1  1   fire newt guard into The tunnel  
-E   1   2905  100     16     hand axe wielded                
+E   1   2905  80     16     hand axe wielded                
 M 0 2907 6 2923 1  1   fire newt guard into The tunnel  
-E   1   2904  100     16     short sword wielded                
+E   1   2904  80     16     short sword wielded                
 M 0 2907 6 2923 1  1   fire newt guard into The tunnel  
 M 0 2907 6 2918 1  1   fire newt guard into Bend in the tunnel  
-E   1   2904  100     16     short sword wielded                
+E   1   2904  80     16     short sword wielded                
 M 0 2907 6 2917 1  1   fire newt guard into The tunnel  
-E   1   2904  100     16     short sword wielded                
+E   1   2904  80     16     short sword wielded                
 O   0   2906   20   2915  load chainmail into Workers' quarters
 M 0 2908 2 2920 1  1   a fire newt mother into Fire Newt House  
 M 0 2908 2 2922 1  1   a fire newt mother into Fire Newt House  
@@ -997,32 +997,32 @@ M 0 2909 12 2922 1  1   a fire newt baby into Fire Newt House
 M 0 2909 12 2922 1  1   a fire newt baby into Fire Newt House  
 M 0 2909 12 2922 1  1   a fire newt baby into Fire Newt House  
 M 0 2910 2 2924 1  1   a fire newt sergeant into Entrance to the town hall  
-E   1   2906   20      5     chainmail on body                
-E   1   2907   20     16     pick wielded                
+E   1   2906  54      5     chainmail on body                
+E   1   2907  54     16     pick wielded                
 M 0 2910 2 2927 1  1   a fire newt sergeant into Outside the temple  
-E   1   2906   20      5     chainmail on body                
-E   1   2907   20     16     pick wielded                
+E   1   2906  54      5     chainmail on body                
+E   1   2907  54     16     pick wielded                
 M 0 2911 4 2925 1  1   a fire newt general into The Waiting Room  
-E   1   2906   20      5     chainmail on body                
-E   1   2907   20     16     pick wielded                
+E   1   2906  54      5     chainmail on body                
+E   1   2907  54     16     pick wielded                
 M 0 2911 4 2925 1  1   a fire newt general into The Waiting Room  
-E   1   2906   20      5     chainmail on body                
-E   1   2907   20     16     pick wielded                
+E   1   2906  54      5     chainmail on body                
+E   1   2907  54     16     pick wielded                
 M 0 2911 4 2928 1  1   a fire newt general into Entrance to the temple  
-E   1   2906   20      5     chainmail on body                
-E   1   2907   20     16     pick wielded                
+E   1   2906  54      5     chainmail on body                
+E   1   2907  54     16     pick wielded                
 M 0 2911 4 2928 1  1   a fire newt general into Entrance to the temple  
-E   1   2906   20      5     chainmail on body                
-E   1   2907   20     16     pick wielded                
+E   1   2906  54      5     chainmail on body                
+E   1   2907  54     16     pick wielded                
 M 0 2912 1 2926 1  1   a fire newt leader into The Leader's Office  
-E   1   2911   10     16     broad axe wielded                
-E   1   2912   10      5     leather suit on body                
+E   1   2911  54     16     broad axe wielded                
+E   1   2912  54      5     leather suit on body                
 M 0 2913 1 2929 1  1   a fire newt priest into Inside the Temple  
-E   1   2913   10     16     mace wielded                
+E   1   2913  80     16     mace wielded                
 M 0 2914 2 2930 1  1   a fire lizard into The room before the doors  
-G   1   2914   10            orange potion in inventory
+G   1   2914  80            orange potion in inventory
 M 0 2914 2 2930 1  1   a fire lizard into The room before the doors  
-G   1   2914   10            orange potion in inventory
+G   1   2914  80            orange potion in inventory
 O   0   2915  100   2931  load a newt egg into The Egg Room
 D   0   2928    1      1  Entrance to the temple: Door east closed
 D   0   2929    3      1  Inside the Temple: Door west closed

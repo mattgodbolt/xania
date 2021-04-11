@@ -2252,261 +2252,261 @@ O 0 533 1 501  ; Signpost outside
 O 0 3135 10 506 ; fountain northern courtyard
 
 M 0 501 1 555 1  1  ; King Arthur  
-E 1 501 10 16  ; Sword
-E 1 511 10 13  ; Scabbard
-E 1 512 10 5   ; Platemail
-E 1 514 10 8   ; Boots
-E 1 515 -1 17 ; Crucifix
 *
+E 1 501  24 16  ; Sword
+E 1 511  24 13  ; Scabbard
+E 1 512  24 5   ; Platemail
+E 1 514  24 8   ; Boots
+E 1 515  24 17 ; Crucifix
 M 0 502 1 536 1  1  ; Morgana  
-G 1 519 -1    ; Load Potion
-E 1 502 10 16  ; Jewelled Dagger
-E 1 525 10 3   ; Robes
-E 1 526 10 4   ; Beads
 *
+G 1 519  27    ; Load Potion
+E 1 502  27 16  ; Jewelled Dagger
+E 1 525  27 3   ; Robes
+E 1 526  27 4   ; Beads
 M 0 503 1 514 1  1  ; The Merlin  
-E 1 513 10 3   ; Robes
-E 1 510 10 17  ; Staff
 *
+E 1 513  45 3   ; Robes
+E 1 510  45 17  ; Staff
 M 0 504 1 562 1  1  ; Queen Gwenefwhar  
-G 1 527 -1    ; Mirror
-E 1 515 -1 17  ; Crucifix
 *
+G 1 527  45    ; Mirror
+E 1 515  45 17  ; Crucifix
 M 0 505 1 562 1  1  ; Lancelot  
-E 1 503 10 16  ; Sword
-E 1 515 10 17  ; Crucifix
-E 1 516 10 5   ; Platemail
-E 1 517 10 3   ; Pendant
 *
+E 1 503  27 16  ; Sword
+E 1 515  27 17  ; Crucifix
+E 1 516  27 5   ; Platemail
+E 1 517  27 3   ; Pendant
 M 0 506 1 560 1  1  ; Prince Markham  
-E 1 504 10 16  ; Sword
-E 1 518 10 5   ; Chainmail
 *
+E 1 504  45 16  ; Sword
+E 1 518  45 5   ; Chainmail
 M 0 508 1 554 1  1  ; Priest  
-E 1 506 10 16  ; Candlestick
-E 1 515 10 17  ; Crucifix
-E 1 520 10 3   ; Robes
 *
+E 1 506  40 16  ; Candlestick
+E 1 515  40 17  ; Crucifix
+E 1 520  40 3   ; Robes
 M 0 509 1 524 1  1  ; Jester  
-E 1 522 10 7   ; Trousers
-E 1 508 10 16  ; Bladder Onna Stick
 *
+E 1 522  54 7   ; Trousers
+E 1 508  54 16  ; Bladder Onna Stick
 M 0 513 1 512 1  1  ; Chef  
-E 1 524 10 3   ; Apron
-E 1 509 10 16  ; Cleaver
 *
+E 1 524  63 3   ; Apron
+E 1 509  63 16  ; Cleaver
 M 0 507 12 552 1  1  ; Knights of Round Table (1)  
-E 1 505 10 16   ; Sword
-E 1 515 10 17   ; Crucifix
-E 1 516 10 5    ; Plate Mail
 *
+E 1 505  33 16   ; Sword
+E 1 515  33 17   ; Crucifix
+E 1 516  33 5    ; Plate Mail
 M 0 507 12 552 1  1  ; Knights of Round Table (2)  
-E 1 505 10 16   ; Sword
-E 1 515 10 17   ; Crucifix
-E 1 516 10 5    ; Plate Mail
 *
+E 1 505  33 16   ; Sword
+E 1 515  33 17   ; Crucifix
+E 1 516  33 5    ; Plate Mail
 M 0 507 12 552 1  1  ; Knights of Round Table (3)  
-E 1 505 10 16   ; Sword
-E 1 515 10 17   ; Crucifix
-E 1 516 10 5    ; Plate Mail
 *
+E 1 505  33 16   ; Sword
+E 1 515  33 17   ; Crucifix
+E 1 516  33 5    ; Plate Mail
 M 0 507 12 552 1  1  ; Knights of Round Table (4)  
-E 1 505 10 16   ; Sword
-E 1 515 10 17   ; Crucifix
-E 1 516 10 5    ; Plate Mail
 *
+E 1 505  33 16   ; Sword
+E 1 515  33 17   ; Crucifix
+E 1 516  33 5    ; Plate Mail
 M 0 507 12 552 1  1  ; Knights of Round Table (5)  
-E 1 505 10 16   ; Sword
-E 1 515 10 17   ; Crucifix
-E 1 516 10 5    ; Plate Mail
 *
+E 1 505  33 16   ; Sword
+E 1 515  33 17   ; Crucifix
+E 1 516  33 5    ; Plate Mail
 M 0 507 12 552 1  1  ; Knights of Round Table (6)  
-E 1 505 10 16   ; Sword
-E 1 515 10 17   ; Crucifix
-E 1 516 10 5    ; Plate Mail
 *
+E 1 505  33 16   ; Sword
+E 1 515  33 17   ; Crucifix
+E 1 516  33 5    ; Plate Mail
 M 0 507 12 553 1  1  ; Knights of Round Table (7)  
-E 1 505 10 16   ; Sword
-E 1 515 10 17   ; Crucifix
-E 1 516 10 5    ; Plate Mail
 *
+E 1 505  33 16   ; Sword
+E 1 515  33 17   ; Crucifix
+E 1 516  33 5    ; Plate Mail
 M 0 507 12 553 1  1  ; Knights of Round Table (8)  
-E 1 505 10 16   ; Sword
-E 1 515 10 17   ; Crucifix
-E 1 516 10 5    ; Plate Mail
 *
+E 1 505  33 16   ; Sword
+E 1 515  33 17   ; Crucifix
+E 1 516  33 5    ; Plate Mail
 M 0 507 12 553 1  1  ; Knights of Round Table (9)  
-E 1 505 10 16   ; Sword
-E 1 515 10 17   ; Crucifix
-E 1 516 10 5    ; Plate Mail
 *
+E 1 505  33 16   ; Sword
+E 1 515  33 17   ; Crucifix
+E 1 516  33 5    ; Plate Mail
 M 0 507 12 553 1  1  ; Knights of Round Table (10)  
-E 1 505 10 16   ; Sword
-E 1 515 10 17   ; Crucifix
-E 1 516 10 5    ; Plate Mail
 *
+E 1 505  33 16   ; Sword
+E 1 515  33 17   ; Crucifix
+E 1 516  33 5    ; Plate Mail
 M 0 507 12 553 1  1  ; Knights of Round Table (11)  
-E 1 505 10 16   ; Sword
-E 1 515 10 17   ; Crucifix
-E 1 516 10 5    ; Plate Mail
 *
+E 1 505  33 16   ; Sword
+E 1 515  33 17   ; Crucifix
+E 1 516  33 5    ; Plate Mail
 M 0 507 12 553 1  1  ; Knights of Round Table (12)  
-E 1 505 10 16   ; Sword
-E 1 515 10 17   ; Crucifix
-E 1 516 10 5    ; Plate Mail
 *
+E 1 505  33 16   ; Sword
+E 1 515  33 17   ; Crucifix
+E 1 516  33 5    ; Plate Mail
 M 0 512 30 502 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 502 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 504 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 506 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 508 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 510 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 515 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 517 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 520 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 525 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 528 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 532 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 535 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 535 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 535 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 535 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 534 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 534 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 534 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 533 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 533 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 533 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 533 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 533 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 533 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 529 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 535 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 539 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 545 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 545 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 550 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 550 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 546 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 546 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 563 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 564 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 565 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 512 30 566 1  1  ; Foot Soldier  
-E 1 521 10 5    ; Chainmail
-E 1 507 10 16   ; Polearm
 *
+E 1 521  54 5    ; Chainmail
+E 1 507  54 16   ; Polearm
 M 0 510 6 561 1  1   ; Lady in Waiting  
 *
 M 0 510 6 561 1  1   ; Lady in Waiting  
@@ -2548,10 +2548,10 @@ M 0 511 20 515 1  1  ; Commoner
 O 0 528 1 558  ; Key to Morgana's Secret Entrance
 *
 M 0 514 1 537 1  1   ; Grocer  
-G 15 529 -1    ; Cabbages
-G 15 530 -1    ; Carrots
-G 15 531 -1    ; Baked Potatoes
 *
+G 15 529 100    ; Cabbages
+G 15 530 100    ; Carrots
+G 15 531 100    ; Baked Potatoes
 D 0 512 0 1    ; Close door to store room
 D 0 513 2 1    ; Close door inside store room
 D 0 526 1 2    ; Lock Door to Morgana's Secret Room

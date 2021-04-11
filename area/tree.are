@@ -773,13 +773,13 @@ A
 
 #RESETS
 M 0 9900 6 9914 1  1   a Hollyphant into A Middle Branch of Yggdrasil  
-G   1   9908   80            a hollyphant tusk in inventory
+G   1   9908  90            a hollyphant tusk in inventory
 M 0 9900 6 9914 1  1   a Hollyphant into A Middle Branch of Yggdrasil  
-G   1   9908   80            a hollyphant tusk in inventory
+G   1   9908  90            a hollyphant tusk in inventory
 M 0 9901 1 9922 1  1   a planetar into An Upper Branch of Yggdrasil  
-E   1   9902   99     16     a holy bastard sword wielded                
+E   1   9902  80     16     a holy bastard sword wielded                
 M 0 9902 6 9920 1  1   a Shedu into An Upper Branch of Yggdrasil  
-G   1   9904   99            a cloudy glass staff in inventory
+G   1   9904  90            a cloudy glass staff in inventory
 M 0 9902 6 9913 1  1   a Shedu into A Middle Branch of Yggdrasil  
 M 0 9903 10 9907 1  1   a dretch into The Roots of Yggdrasil  
 M 0 9903 10 9907 1  1   a dretch into The Roots of Yggdrasil  
@@ -788,25 +788,25 @@ M 0 9904 8 9906 1  1   a chasme into A Lower Branch of Yggdrasil
 M 0 9905 10 9903 1  1   a babau into A Lower Branch of Yggdrasil  
 M 0 9905 10 9903 1  1   a babau into A Lower Branch of Yggdrasil  
 M 0 9906 4 9923 1  1   a yagnodemon into The Roots of Yggdrasil  
-E   1   9900   99     16     a body-wrecker wielded                
+E   1   9900  80     16     a body-wrecker wielded                
 M 0 9906 4 9923 1  1   a yagnodemon into The Roots of Yggdrasil  
-E   1   9900   99     16     a body-wrecker wielded                
+E   1   9900  80     16     a body-wrecker wielded                
 M 0 9907 1 9908 1  1   Kostchtchie into The Roots of Yggdrasil  
-E   1   9901   30     16     a huge hammer of cold iron wielded                
+E   1   9901  70     16     a huge hammer of cold iron wielded                
 M 0 9908 8 9911 1  1   a nabassu into A Lower Branch of Yggdrasil  
-G   1   9906   99            a sparkling green potion in inventory
+G   1   9906  90            a sparkling green potion in inventory
 M 0 9908 8 9911 1  1   a nabassu into A Lower Branch of Yggdrasil  
 M 0 9909 1 9915 1  1   a cloud dragon into A Middle Branch of Yggdrasil  
 M 0 9910 1 9921 1  1   a solar into An Upper Branch of Yggdrasil  
-G   1   9905   80            a set of sleeves of crystal in inventory
+G   1   9905  80            a set of sleeves of crystal in inventory
 M 0 9911 10 9901 1  1   a wemic into The Trunk of Yggdrasil  
-G   1   9903   99            a looking glass in inventory
+G   1   9903  90            a looking glass in inventory
 M 0 9911 10 9917 1  1   a wemic into The Middle Trunk of Yggrasil  
 M 0 9912 6 9910 1  1   a frost giant into The Roots of Yggdrasil  
-G   1   9909   99            a cast iron girth in inventory
+G   1   9909  90            a cast iron girth in inventory
 M 0 9912 6 9910 1  1   a frost giant into The Roots of Yggdrasil  
 M 0 9912 6 9916 1  1   a frost giant into A Middle Branch of Yggdrasil  
-G   1   9907   99            a paper triangle in inventory
+G   1   9907  90            a paper triangle in inventory
 M 0 9912 6 9916 1  1   a frost giant into A Middle Branch of Yggdrasil  
 M 0 9913 2 9912 1  1   a gorgimera into The Deepest Roots of Yggdrasil  
 M 0 9914 1 9918 1  1   Ratatosk into The Upper Trunk of Yggrasil  

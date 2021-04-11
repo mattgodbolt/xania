@@ -1264,8 +1264,8 @@ It has a nice sky blue colour and a smell like peppermint.
 #RESETS
 M 0 6319 1 6134 1  1   the Queen Spider into 
   
-G   1   6308   10            a big pile of gold coins in inventory
-G   1   6309    5            a blue potion in inventory
+G   1   6308 100            a big pile of gold coins in inventory
+G   1   6309 100            a blue potion in inventory
 M 0 6318 3 6134 1  1   the huge, poisonous spider into 
   
 M 0 6318 3 6134 1  1   the huge, poisonous spider into 
@@ -1312,22 +1312,22 @@ M 0 6311 1 6373 1  1   the Hermit into The Hermit's Corner
   
 M 0 6315 1 6350 1  1   the Ki-Rin into The Ki-Rin Chamber
   
-G   1   6309   10            a blue potion in inventory
-G   1   6309   10            a blue potion in inventory
+G   1   6309  63            a blue potion in inventory
+G   1   6309  63            a blue potion in inventory
 M 0 6314 1 6399 1  1   Arachnos into The Lair of Arachnos
   
-G   1   6303    2            a pontiff's headress in inventory
-G   1   6304    2            a black knight's visor in inventory
+G   1   6303  63            a pontiff's headress in inventory
+G   1   6304  63            a black knight's visor in inventory
 M 0 6312 1 6370 1  1   the Donjonkeeper into The Donjonkeep
   
-G   1   6309   10            a blue potion in inventory
+G   1   6309  90            a blue potion in inventory
 M 0 6313 1 6367 1  1   The guardian into The Guardian's Room
   
 M 0 6306 3 6330 1  1   the drone spider into The Young Wormkin's Crib
   
 M 0 6302 1 6360 1  1   Yevaud into Yevaud's Lair
   
-G   1   6304    2            a black knight's visor in inventory
+G   1   6304  90            a black knight's visor in inventory
 M 0 6316 1 6330 1  1   the young dragon wormkin into The Young Wormkin's Crib
   
 M 0 6317 1 6340 1  1   the medium dragon wormkin into The Elder Wormkin's Room

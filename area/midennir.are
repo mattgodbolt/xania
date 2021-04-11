@@ -1302,59 +1302,59 @@ M 0 3500 2 3521 1  1             Wyvern at Carnage  *   Copper II by ?      *
   
 M 0 3501 8 3512 1  1        Load Goblin in forest   * Heavy Modificatios    *
   
-E 1 3500 18 16          sword
-E 1 3045 6 5		jacket
+E 1 3500 100 16          sword
+E 1 3045 100 5		jacket
 M 0 3501 8 3512 1  1             Goblin in forest   *   by VampLestat       *
   
-E 1 3500 18 16          sword
-E 1 3502 6 6		helmet
-E 1 3075 6 8		boots
+E 1 3500 100 16          sword
+E 1 3502 100 6		helmet
+E 1 3075 100 8		boots
 M 0 3501 8 3509 1  1             Goblin in forest   *   for Merc Mud        *
   
-E 1 3500 18 16          sword
-E 1 3072 6 5		jerkin
+E 1 3500 100 16          sword
+E 1 3072 100 5		jerkin
 M 0 3501 8 3506 1  1             Goblin in forest
   
-E 1 3500 18 16          sword
-E 1 3074 6 7		skirt
+E 1 3500 100 16          sword
+E 1 3074 100 7		skirt
 M 0 3501 8 3513 1  1             Goblin in forest
   
-E 1 3500 18 16          sword
-E 1 3077 6 10		sleeves
+E 1 3500 100 16          sword
+E 1 3077 100 10		sleeves
 M 0 3501 8 3556 1  1             Goblin in Cavern
   
-E 1 3500 18 16          sword
-E 1 3076 6 9		gloves
+E 1 3500 100 16          sword
+E 1 3076 100 9		gloves
 M 0 3506 4 3551 1  1        Load Lieutenant at Entrance
   
-E 1 3502 -1 6		helmet
-E 1 3500 20 16		sword
-E 1 3072 8 5            jerkin
+E 1 3502 100 6		helmet
+E 1 3500 100 16		sword
+E 1 3072 100 5            jerkin
 M 0 3506 4 3556 1  1        Lieutenant at Cavern
   
-E 1 3500 20 16          sword
-E 1 3502 -1 6		helmet
-E 1 3072 8 5            jerkin
+E 1 3500 100 16          sword
+E 1 3502 100 6		helmet
+E 1 3072 100 5            jerkin
 M 0 3507 1 3556 1  1        Load Leader at Cavern
   
-E 1 3072 -1 5		scale mail jerkin
-E 1 3501 6 16		long spear
-E 1 3502 -1 6		helmet 
+E 1 3072 100 5		scale mail jerkin
+E 1 3501 100 16		long spear
+E 1 3502 100 6		helmet 
 M 0 3502 1 3575 1  1        Load Small Boy at Ambush
   
 M 0 3503 1 3576 1  1        Load Innkeeper at Bar
   
 M 0 3504 1 3577 1  1        Load Bard at Table
   
-E 1 3505 3 16		magic dagger
+E 1 3505 100 16		magic dagger
 M 0 3505 4 3584 1  1        Load Horseman at End of Trail
   
-E 1 3503 8 3		wear cloak
-E 1 3022 -1 16		sword
+E 1 3503 100 3		wear cloak
+E 1 3022 100 16		sword
 M 0 3505 4 3584 1  1             Horseman at End of Trail
   
-E 1 3504 4 14		wear magical bracer
-E 1 3022 -1 16		sword
+E 1 3504 100 14		wear magical bracer
+E 1 3022 100 16		sword
 S
 
 

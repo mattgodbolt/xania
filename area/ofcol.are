@@ -172,13 +172,13 @@ M 0 303 5 5556 1  1    into The Local Inn
 M 0 303 5 5550 1  1    into Village street  
 M 0 304 5 5553 1  1    into The small alley  
 M 0 304 5 5552 1  1    into Village square  
-E   1   3020   99     16      wielded                
+E   1   3020 100     16      wielded                
 M 0 306 1 5555 1  1    into Luxan's mixed shop  
-G   1    304  100             in inventory
-G   1   3030  100             in inventory
+G   1    304 100             in inventory
+G   1   3030 100             in inventory
 M 0 308 1 5556 1  1    into The Local Inn  
-G   1   3000  100             in inventory
-G   1   3001  100             in inventory
+G   1   3000 100             in inventory
+G   1   3001 100             in inventory
 M 0 350 1 5577 1  1    into Ravan's hideout  
 S
 #SHOPS

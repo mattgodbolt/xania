@@ -1555,45 +1555,45 @@ map olympus secret~
 
 #RESETS
 M 0 915 1 924 1  1   Julius the Green Grocer into Bakery  
-G   1    914   10            a bunch of grapes in inventory
-G   1    918   10            an apple in inventory
-G   1    919   10            a pear in inventory
-G   1    920   10            a orange in inventory
-G   1    921   10            a kiwi in inventory
+G   1    914 100            a bunch of grapes in inventory
+G   1    918 100            an apple in inventory
+G   1    919 100            a pear in inventory
+G   1    920 100            a orange in inventory
+G   1    921 100            a kiwi in inventory
 M 0 916 1 927 1  1   the Alchemist into Mystic Shop  
-G   1    905    1            an ivory staff in inventory
-G   1    909    1            ambrosia in inventory
-G   1    910    1            a glowing necklace in inventory
-G   1    926    1            nectar in inventory
+G   1    905  40            an ivory staff in inventory
+G   1    909  40            ambrosia in inventory
+G   1    910  40            a glowing necklace in inventory
+G   1    926  40            nectar in inventory
 M 0 917 1 936 1  1   Clive the Weapons Master into Weapon Shop  
-G   1    907    1            a silver bow in inventory
-G   1    913    1            a notched axe in inventory
+G   1    907  63            a silver bow in inventory
+G   1    913  63            a notched axe in inventory
 M 0 918 1 935 1  1   Samuel the Armourer into Armoury  
-G   1    904    1            a pair of winged sandals in inventory
-G   1    908    1            flaming gauntlets in inventory
-G   1    911    1            a sapphire ring in inventory
+G   1    904  48            a pair of winged sandals in inventory
+G   1    908  48            flaming gauntlets in inventory
+G   1    911  48            a sapphire ring in inventory
 M 0 914 1 929 1  1   Odin into Guest Quarters  
-E   1    924  100     12     a blue robe about body             
-E   1    925  100      6     a wide brimmed hat on head                
+E   1    924  54     12     a blue robe about body             
+E   1    925  54      6     a wide brimmed hat on head                
 M 0 901 1 910 1  1   Zeus into Throne Room  
-E   1    900  100      5     The Aegis on body                
-E   1    901  100     16     The Thunder Bolt wielded                
-G   1    926  100            nectar in inventory
-G   1    909    5            ambrosia in inventory
+E   1    900  34      5     The Aegis on body                
+E   1    901  34     16     The Thunder Bolt wielded                
+G   1    926  34            nectar in inventory
+G   1    909  34            ambrosia in inventory
 M 0 902 1 920 1  1   Prometheus into Cell  
-G   1    928   20            a secret map of Olympus in inventory
-E   1    908  100      9     flaming gauntlets on hands               
+G   1    928  54            a secret map of Olympus in inventory
+E   1    908  54      9     flaming gauntlets on hands               
 M 0 920 2 921 1  1   a chimera into Cell  
 M 0 920 2 922 1  1   a chimera into Cell  
 M 0 907 1 925 1  1   Athena into Residence  
-E   1    910  100      3     a glowing necklace on neck                
-E   1    905  100     17     an ivory staff held                   
-G   1    926  100            nectar in inventory
-G   1    909    5            ambrosia in inventory
+E   1    910  34      3     a glowing necklace on neck                
+E   1    905  34     17     an ivory staff held                   
+G   1    926  34            nectar in inventory
+G   1    909  34            ambrosia in inventory
 M 0 905 1 926 1  1   Apollo into Residence  
-E   1    907  100     16     a silver bow wielded                
-G   1    926  100            nectar in inventory
-G   1    909    5            ambrosia in inventory
+E   1    907  40     16     a silver bow wielded                
+G   1    926  40            nectar in inventory
+G   1    909  40            ambrosia in inventory
 M 0 923 10 904 1  1   A citizen into Entrance  
 M 0 923 10 905 1  1   A citizen into Zeus Street  
 M 0 923 10 906 1  1   A citizen into Zeus Street  
@@ -1604,57 +1604,57 @@ M 0 923 10 934 1  1   A citizen into Ares Street
 M 0 925 4 914 1  1   A Cook into Kitchen  
 M 0 925 4 914 1  1   A Cook into Kitchen  
 M 0 926 1 918 1  1   The Jailer into Dungeon  
-G   1    927   10            A Cell key in inventory
+G   1    927 100            A Cell key in inventory
 M 0 912 4 925 1  1   A serving boy into Residence  
-E   1    915  100     17     a fan made of peacock feathers held                   
-G   1    914  100            a bunch of grapes in inventory
+E   1    915 100     17     a fan made of peacock feathers held                   
+G   1    914 100            a bunch of grapes in inventory
 M 0 912 4 925 1  1   A serving boy into Residence  
-E   1    915  100     17     a fan made of peacock feathers held                   
-G   1    914  100            a bunch of grapes in inventory
+E   1    915 100     17     a fan made of peacock feathers held                   
+G   1    914 100            a bunch of grapes in inventory
 M 0 911 4 926 1  1   an apprentice musician into Residence  
-E   1    916  100     17     a lute held                   
-G   1    921  100            a kiwi in inventory
+E   1    916 100     17     a lute held                   
+G   1    921 100            a kiwi in inventory
 M 0 911 4 926 1  1   an apprentice musician into Residence  
-E   1    916  100     17     a lute held                   
-G   1    921  100            a kiwi in inventory
+E   1    916 100     17     a lute held                   
+G   1    921 100            a kiwi in inventory
 M 0 919 1 931 1  1   Ra the Sun God into Guest Quarters  
-E   1    922  100      3     the Amulet of Ra on neck                
-E   1    923  100     16     the Sword of the Sun wielded                
+E   1    922  54      3     the Amulet of Ra on neck                
+E   1    923  54     16     the Sword of the Sun wielded                
 M 0 922 3 933 1  1   a roc into Stable  
 M 0 922 3 933 1  1   a roc into Stable  
 M 0 924 3 933 1  1   a pegasus into Stable  
 M 0 924 3 933 1  1   a pegasus into Stable  
 M 0 908 1 937 1  1   Hephaestus into Smithy  
-E   1    912  100     11     a brightly glowing shield as shield              
-G   1    926  100            nectar in inventory
-G   1    909    5            ambrosia in inventory
+E   1    912  40     11     a brightly glowing shield as shield              
+G   1    926  40            nectar in inventory
+G   1    909  40            ambrosia in inventory
 M 0 909 4 937 1  1   A Golden Maiden into Smithy  
-G   1    917  100            a gold nugget in inventory
+G   1    917  90            a gold nugget in inventory
 M 0 909 4 937 1  1   A Golden Maiden into Smithy  
-G   1    917  100            a gold nugget in inventory
+G   1    917  90            a gold nugget in inventory
 M 0 906 1 938 1  1   Ares into The Planning Room  
-E   1    903  100     16     the Spear of Ares wielded                
-G   1    926  100            nectar in inventory
-G   1    909    5            ambrosia in inventory
+E   1    903  40     16     the Spear of Ares wielded                
+G   1    926  40            nectar in inventory
+G   1    909  40            ambrosia in inventory
 M 0 910 4 938 1  1   A Soldier into The Planning Room  
-E   1    913  100     16     a notched axe wielded                
-G   1    919  100            a pear in inventory
+E   1    913  63     16     a notched axe wielded                
+G   1    919  63            a pear in inventory
 M 0 910 4 938 1  1   A Soldier into The Planning Room  
-E   1    913  100     16     a notched axe wielded                
-G   1    919  100            a pear in inventory
+E   1    913  63     16     a notched axe wielded                
+G   1    919  63            a pear in inventory
 M 0 921 1 945 1  1   Hera into Bed Room  
-E   1    911  100      1     a sapphire ring on left finger         
-G   1    926  100            nectar in inventory
-G   1    909    5            ambrosia in inventory
+E   1    911  40      1     a sapphire ring on left finger         
+G   1    926  40            nectar in inventory
+G   1    909  40            ambrosia in inventory
 M 0 904 1 946 1  1   Poseidon into Bed Room  
-E   1    906  100     16     Poseidon's Trident wielded                
-G   1    926  100            nectar in inventory
-G   1    909    5            ambrosia in inventory
+E   1    906  40     16     Poseidon's Trident wielded                
+G   1    926  40            nectar in inventory
+G   1    909  40            ambrosia in inventory
 M 0 903 1 947 1  1   Hermes into Bed Room  
-E   1    904  100      8     a pair of winged sandals on feet                
-E   1    902  100      6     A Winged Helmet on head                
-G   1    926  100            nectar in inventory
-G   1    909    5            ambrosia in inventory
+E   1    904  34      8     a pair of winged sandals on feet                
+E   1    902  34      6     A Winged Helmet on head                
+G   1    926  34            nectar in inventory
+G   1    909  34            ambrosia in inventory
 M 0 913 5 954 1  1   A hound of war into The Believer  
 M 0 913 5 954 1  1   A hound of war into The Believer  
 M 0 913 5 954 1  1   A hound of war into The Believer  

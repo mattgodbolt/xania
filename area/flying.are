@@ -1867,177 +1867,177 @@ D 0 13017 3 1 door out of armoury
 
 * Load in the minotaur
 M 0 13017 1 13025 1  1   
-G 9 13013 100           Minotaur teeth
-E 1 13014 8 6           Minotaur horn
-E 1 13015 4 16          Minotaur's axe
-E 1 13016 5 7           Mino Leggings
-E 1 13017 5 9           Mino gloves
-E 1 13019 5 15          Mutant claw
-E 1 13020 3 3           shoudler reinforcer
 
 * Put the dwarf head and fill it up :-)
+G 9 13013  30           Minotaur teeth
+E 1 13014  30 6           Minotaur horn
+E 1 13015  30 16          Minotaur's axe
+E 1 13016  30 7           Mino Leggings
+E 1 13017  30 9           Mino gloves
+E 1 13019  30 15          Mutant claw
+E 1 13020  30 3           shoudler reinforcer
 O 0 13018 1 13025 Put the head in
 P 1 13021 3 13018 1  1  and the brain  
 
 * Load in our goblin teams
 M 0 13013 2 13004 1  1        loader  
-E 1 13041 10 13           loincloth
-E 1 13042 2 17            explosive
+E 1 13041  63 13           loincloth
+E 1 13042  63 17            explosive
 M 0 13014 2 13004 1  1        sergeant  
-E 1 13041 10 13           loincloth
-E 1 13040 10 16           whip
+E 1 13041  63 13           loincloth
+E 1 13040  63 16           whip
 M 0 13013 2 13006 1  1        loader  
-E 1 13041 10 13           loincloth
-E 1 13042 2 17            explosive
+E 1 13041  63 13           loincloth
+E 1 13042  63 17            explosive
 M 0 13014 2 13006 1  1        sergeant  
-E 1 13041 10 13         loincloth
-E 1 13040 10 16           whip
 
 * Load in some prisoners
+E 1 13041  63 13         loincloth
+E 1 13040  63 16           whip
 M 0 13007 8 13013 1  1   
-E 1 13001 25 12
+E 1 13001  90 12
 M 0 13007 8 13012 1  1   
-E 1 13001 25 12
+E 1 13001  90 12
 M 0 13007 8 13012 1  1   
 M 0 13007 8 13012 1  1   
-E 1 13001 25 12
+E 1 13001  90 12
 M 0 13007 8 13014 1  1   
-E 1 13001 25 12
+E 1 13001  90 12
 M 0 13007 8 13014 1  1   
-E 1 13001 25 12
 * and an escaped one
+E 1 13001  90 12
 M 0 13008 8 13012 1  1   
-E 1 13001 25 12
 
 *Load in the old man
+E 1 13001  90 12
 M 0 13012 1 13000 1  1   
 
 *A gully dwarf wandering around
 M 0 13002 6 13009 1  1  ..on the left wing  
-E 1 13022 -1 5
+E 1 13022  90 5
 M 0 13002 6 13007 1  1   
-E 1 13022 -1 5
+E 1 13022  90 5
 M 0 13006 6 13003 1  1   
-E 1 13022 -1 5
 *A gully warrior
+E 1 13022  90 5
 M 0 13005 2 13008 1  1   
-E 1 13022 -1 5
-E 1 13024 -1 16
+E 1 13022  63 5
+E 1 13024  63 16
 M 0 13005 6 13011 1  1   
-E 1 13022 -1 5
-E 1 13023 -1 3
-E 1 13024 -1 16
 *A messenger
+E 1 13022  48 5
+E 1 13023  48 3
+E 1 13024  48 16
 M 0 13004 6 13016 1  1   
-E 1 13022 -1 5
 
 *The casualties and cleric
+E 1 13022  90 5
 M 0 13010 1 13021 1  1      The cleric  
-E 1 13007 5 16          mace
-E 1 13008 10 12         robes
-E 1 13009 2 3           effigy
+E 1 13007  48 16          mace
+E 1 13008  48 12         robes
+E 1 13009  48 3           effigy
 M 0 13011 3 13021 1  1      A casualty (1)  
-E 1 13010 2 12         bloodstained breastplate
-E 1 13004 10 13         loincloth
+E 1 13010  63 12         bloodstained breastplate
+E 1 13004  63 13         loincloth
 M 0 13011 3 13021 1  1      A casualty (2)  
-E 1 13010 2 12         bloodstained breastplate
-E 1 13004 10 13         loincloth
+E 1 13010  63 12         bloodstained breastplate
+E 1 13004  63 13         loincloth
 M 0 13011 3 13021 1  1      A casualty (3)  
-E 1 13010 2 12         bloodstained breastplate
-E 1 13004 10 13         loincloth
 
 * Snotlings
+E 1 13010  63 12         bloodstained breastplate
+E 1 13004  63 13         loincloth
 M 0 13015 3 13026 1  1   
-E 1 13000 6 6
+E 1 13000  90 6
 M 0 13015 3 13026 1  1   
-E 1 13000 6 6
+E 1 13000  90 6
 M 0 13015 3 13026 1  1   
-E 1 13000 6 6
 
 * Gobbos making bombs
+E 1 13000  90 6
 M 0 13016 3 13018 1  1   
-E 1 13041 13 10           loincloth
-E 1 13042 17 2            explosive
+E 1 13041  63 10           loincloth
+E 1 13042  63 2            explosive
 M 0 13016 3 13018 1  1   
-E 1 13041 13 10           loincloth
-E 1 13042 17 2            explosive
 
 * Orc guards
+E 1 13041  63 10           loincloth
+E 1 13042  63 2            explosive
 M 0 13001 5 13005 1  1          guard by jail  
-E 1 13025 4 16              spear
-E 1 13026 2 5               jerkin
-E 1 13027 3 8               stompers
-E 1 13028 4 10              sleeves
-E 1 13029 3 12              cloak
-E 1 13030 9 7               trousers
-G 1 13031 10                manacles
+E 1 13025  30 16              spear
+E 1 13026  30 5               jerkin
+E 1 13027  30 8               stompers
+E 1 13028  30 10              sleeves
+E 1 13029  30 12              cloak
+E 1 13030  30 7               trousers
+G 1 13031  30                manacles
 M 0 13001 5 13009 1  1          guard in wing  
-E 1 13025 4 16              spear
-E 1 13026 2 5               jerkin
-E 1 13027 3 8               stompers
-E 1 13028 4 10              sleeves
-E 1 13029 3 12              cloak
-E 1 13030 9 7               trousers
-G 1 13031 10                manacles
+E 1 13025  30 16              spear
+E 1 13026  30 5               jerkin
+E 1 13027  30 8               stompers
+E 1 13028  30 10              sleeves
+E 1 13029  30 12              cloak
+E 1 13030  30 7               trousers
+G 1 13031  30                manacles
 M 0 13001 5 13003 1  1          guard in east bit  
-E 1 13025 4 16              spear
-E 1 13026 2 5               jerkin
-E 1 13027 3 8               stompers
-E 1 13028 4 10              sleeves
-E 1 13029 3 12              cloak
-E 1 13030 9 7               trousers
-G 1 13031 10                manacles
 
 * Orc shaman
+E 1 13025  30 16              spear
+E 1 13026  30 5               jerkin
+E 1 13027  30 8               stompers
+E 1 13028  30 10              sleeves
+E 1 13029  30 12              cloak
+E 1 13030  30 7               trousers
+G 1 13031  30                manacles
 M 0 13000 1 13020 1  1          orc shaman in kitchen  
-E 1 13032 1 12              cloak
-E 1 13033 3 6               headdress
-E 1 13034 1 17              staff
 
 * Draconian Warriors
+E 1 13032  48 12              cloak
+E 1 13033  48 6               headdress
+E 1 13034  48 17              staff
 M 0 13003 4 13017 1  1          warrior in armoury  
-E 1 13002 3 16              axe
-E 1 13003 6 5               breastplate
-E 1 13004 9 13              loin
-E 1 13005 2 14              bracelet
-E 1 13006 4 11              shield
+E 1 13002  36 16              axe
+E 1 13003  36 5               breastplate
+E 1 13004  36 13              loin
+E 1 13005  36 14              bracelet
+E 1 13006  36 11              shield
 M 0 13003 4 13023 1  1          warrior in quarters  
-E 1 13002 3 16              axe
-E 1 13003 6 5               breastplate
-E 1 13004 9 13              loin
-E 1 13006 4 11              shield
+E 1 13002  40 16              axe
+E 1 13003  40 5               breastplate
+E 1 13004  40 13              loin
+E 1 13006  40 11              shield
 M 0 13003 4 13023 1  1          warrior in quarters  
-E 1 13002 3 16              axe
-E 1 13004 9 13              loin
-E 1 13006 4 11              shield
+E 1 13002  48 16              axe
+E 1 13004  48 13              loin
+E 1 13006  48 11              shield
 M 0 13003 4 13015 1  1          warrior in water room  
-E 1 13002 3 16              axe
-E 1 13003 6 5               breastplate
-E 1 13004 9 13              loin
-E 1 13006 4 11              shield
 
 * Drac mage
+E 1 13002  40 16              axe
+E 1 13003  40 5               breastplate
+E 1 13004  40 13              loin
+E 1 13006  40 11              shield
 M 0 13009 1 13024 1  1          mid of stairs  
-E 1 13011 2 16              whip
-E 1 13012 4 11              shield
 
 * Master mage
+E 1 13011  63 16              whip
+E 1 13012  63 11              shield
 M 0 13018 1 13027 1  1          top stairs  
-E 1 13043 9 16              dagg
-E 1 13044 2 3               talisman
-E 1 13045 9 12              shroud
 
 * Orc troopers
+E 1 13043  48 16              dagg
+E 1 13044  48 3               talisman
+E 1 13045  48 12              shroud
 M 0 13019 2 13010 1  1          right wing  
-E 1 13035 9 16              sword
-E 1 13036 9 5               plate
-E 1 13037 2 17              fag
+E 1 13035  48 16              sword
+E 1 13036  48 5               plate
+E 1 13037  48 17              fag
 M 0 13019 2 13002 1  1          next to right wing  
-E 1 13035 9 16              sword
-E 1 13036 9 5               plate
-E 1 13037 2 17              fag
 
 * The end!
+E 1 13035  48 16              sword
+E 1 13036  48 5               plate
+E 1 13037  48 17              fag
 S
 
 #SPECIALS
