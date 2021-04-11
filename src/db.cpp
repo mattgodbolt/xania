@@ -600,7 +600,7 @@ void load_shops(FILE *fp) {
         MobIndexData *pMobIndex;
         int iTrade;
         auto shopkeeper_vnum = fread_number(fp);
-        if (shopkeeper_vnum == 0) 
+        if (shopkeeper_vnum == 0)
             break;
         pShop = static_cast<SHOP_DATA *>(alloc_perm(sizeof(*pShop)));
         pShop->keeper = shopkeeper_vnum;

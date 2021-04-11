@@ -116,6 +116,10 @@ State thy name and enter the realm of Xania: ~
 Welcome to Xania! See 'help rules' and 'help commands'.
 
 [ Recent Gameplay Updates! ]
+Apr 11: Higher level mobiles will now be equipped with objects using
+a chance based calculation. You may have to kill an NPC several times to 
+get all of its loot!
+
 Mar 25: Most 'buff' spells will automatically refresh an existing buff of the
 same type, unless the existing buff was cast by a higher level player.
 
