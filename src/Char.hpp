@@ -133,6 +133,7 @@ struct Char {
     [[nodiscard]] bool is_sneaking() const;
     [[nodiscard]] bool is_hiding() const;
     [[nodiscard]] bool is_berserk() const;
+    [[nodiscard]] bool is_shopkeeper() const;
     [[nodiscard]] bool has_detect_invis() const;
     [[nodiscard]] bool has_detect_hidden() const;
     [[nodiscard]] bool has_detect_magic() const;

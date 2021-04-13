@@ -850,6 +850,16 @@ void fread_pet(Char *ch, FILE *fp) {
     }
 }
 
+namespace {
+
+void retrofit_item_unique_flag(OBJ_DATA *obj) {
+    if (IS_SET(obj->pIndexData->extra_flags, ITEM_UNIQUE) && !IS_SET(obj->extra_flags, ITEM_UNIQUE)) {
+        SET_BIT(obj->extra_flags, ITEM_UNIQUE);
+    }
+}
+
+}
+
 void fread_obj(Char *ch, FILE *fp) {
     OBJ_DATA *obj;
     std::string word;
@@ -922,6 +932,7 @@ void fread_obj(Char *ch, FILE *fp) {
             obj->enchanted = true;
         } else if (matches(word, "ExtraFlags") || matches(word, "ExtF")) {
             obj->extra_flags = fread_number(fp);
+            retrofit_item_unique_flag(obj);
         } else if (matches(word, "ExtraDescr") || matches(word, "ExDe")) {
             auto keyword = fread_stdstring(fp);
             auto description = fread_stdstring(fp);

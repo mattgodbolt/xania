@@ -24,6 +24,7 @@
 #include <range/v3/algorithm/find.hpp>
 
 #include <cstdlib>
+#include <set>
 
 extern const char *target_name; /* Included from magic.c */
 extern void handle_corpse_summoner(Char *ch, Char *victim, OBJ_DATA *obj);
@@ -88,7 +89,13 @@ void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container) {
         return;
     }
 
+    if (obj_move_violates_uniqueness(container != nullptr ? std::optional<Char *>(container->carried_by) : std::nullopt,
+                                     ch, obj, ch->carrying)) {
+        act(deity_name + " forbids you from possessing more than one $p.", ch, obj, nullptr, To::Char);
+        return;
+    }
     if (container != nullptr) {
+
         if (container->pIndexData->vnum == objects::Pit && ch->get_trust() < obj->level) {
             ch->send_line("You are not powerful enough to use it.");
             return;
@@ -282,6 +289,12 @@ void do_put(Char *ch, const char *argument) {
             return;
         }
 
+        if (obj_move_violates_uniqueness(ch, container->carried_by, obj, container)) {
+            act(deity_name + " forbids you from putting more than one $p there, even cheap replicas.", ch, obj, nullptr,
+                To::Char);
+            return;
+        }
+
         if (get_obj_weight(obj) + get_obj_weight(container) > container->value[0]) {
             ch->send_line("It won't fit.");
             return;
@@ -305,6 +318,12 @@ void do_put(Char *ch, const char *argument) {
             if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == WEAR_NONE
                 && obj != container && can_drop_obj(ch, obj)
                 && get_obj_weight(obj) + get_obj_weight(container) <= container->value[0]) {
+
+                if (obj_move_violates_uniqueness(ch, container->carried_by, obj, container)) {
+                    act(deity_name + " forbids you from putting more than one $p there, even cheap replicas.", ch, obj,
+                        nullptr, To::Char);
+                    continue;
+                }
                 if (container->pIndexData->vnum == objects::Pit) {
                     if (obj->timer)
                         continue;
@@ -584,6 +603,11 @@ void do_give(Char *ch, const char *argument) {
         return;
     }
 
+    if (obj_move_violates_uniqueness(ch, victim, obj, victim->carrying)) {
+        act(deity_name + " has forbidden $N from possessing more than one $p.", ch, obj, victim, To::Char);
+        return;
+    }
+
     if (victim->carry_number + get_obj_number(obj) > can_carry_n(victim)) {
         act("$N has $S hands full.", ch, nullptr, victim, To::Char);
         return;
@@ -631,6 +655,21 @@ void pour_from_to(OBJ_DATA *obj, OBJ_DATA *target_obj) {
         obj->value[1]--;
         target_obj->value[1]++;
     } while ((obj->value[1] > 0) && (target_obj->value[1] < target_obj->value[0]) && (pour_volume < 50));
+}
+
+// Recursively collect the object index data of all in the source object list having the ITEM_UNIQUE flag.
+void collect_unique_obj_indexes(const GenericList<OBJ_DATA *> &objects, std::set<OBJ_INDEX_DATA *> &unique_obj_idxs) {
+
+    for (const auto object : objects) {
+        if (IS_SET(object->extra_flags, ITEM_UNIQUE)) {
+            unique_obj_idxs.insert(object->pIndexData);
+        }
+        // This is a small optimization as all OBJ_DATAs have a contains list but only these types are valid containers.
+        if (object->item_type == ITEM_CONTAINER || object->item_type == ITEM_CORPSE_NPC
+            || object->item_type == ITEM_CORPSE_PC) {
+            collect_unique_obj_indexes(object->contains, unique_obj_idxs);
+        }
+    }
 }
 
 }
@@ -1956,6 +1995,11 @@ void do_buy(Char *ch, const char *argument) {
             return;
         }
 
+        if (obj_move_violates_uniqueness(keeper, ch, obj, ch->carrying)) {
+            act(deity_name + " forbids you from possessing more than one $p.", ch, obj, nullptr, To::Char);
+            return;
+        }
+
         /* haggle */
         roll = number_percent();
         if (ch->is_pc() && roll < get_skill_learned(ch, gsn_haggle)) {
@@ -2255,4 +2299,39 @@ void do_hailcorpse(Char *ch) {
     }
     act("$n's prayers for assistance are ignored by the Gods.", ch);
     act("Your prayers for assistance are ignored. Your corpse cannot be found.", ch, nullptr, nullptr, To::Char);
+}
+
+bool obj_move_violates_uniqueness(std::optional<Char *> source_char, std::optional<Char *> dest_char,
+                                  OBJ_DATA *moving_obj, OBJ_DATA *obj_to) {
+    GenericList<OBJ_DATA *> objs_to;
+    objs_to.add_back(obj_to);
+    return obj_move_violates_uniqueness(source_char, dest_char, moving_obj, objs_to);
+}
+
+bool obj_move_violates_uniqueness(std::optional<Char *> source_char, std::optional<Char *> dest_char,
+                                  OBJ_DATA *moving_obj, GenericList<OBJ_DATA *> &objs_to) {
+    // If we know in advance the object(s) being moved aren't changing ownership we can take a shortcut.
+    // This simplifies things like: "get innerbag outerbag", where they are carrying outerbag, and innerbag
+    // contains a unique item. Shopkeepers are permitted to be given unique items, they can resell them.
+    if (source_char == dest_char || (dest_char && dest_char.value()->is_shopkeeper())) {
+        return false;
+    }
+
+    std::set<OBJ_INDEX_DATA *> moving_unique_obj_idxs;
+    std::set<OBJ_INDEX_DATA *> from_or_to_unique_obj_idxs;
+
+    GenericList<OBJ_DATA *> moving_objects;
+    moving_objects.add_back(moving_obj);
+
+    collect_unique_obj_indexes(moving_objects, moving_unique_obj_idxs);
+    // The most common case is a non-unique non-container is being moved.
+    if (moving_unique_obj_idxs.empty()) {
+        return false;
+    }
+    collect_unique_obj_indexes(objs_to, from_or_to_unique_obj_idxs);
+    std::vector<OBJ_INDEX_DATA *> intersection;
+    std::set_intersection(moving_unique_obj_idxs.begin(), moving_unique_obj_idxs.end(),
+                          from_or_to_unique_obj_idxs.begin(), from_or_to_unique_obj_idxs.end(),
+                          std::back_inserter(intersection));
+    return !intersection.empty();
 }

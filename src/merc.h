@@ -608,10 +608,11 @@ static inline constexpr auto ff = BIT(31);
 #define ITEM_PROTECT_CONTAINER (R)
 #define ITEM_NO_LOCATE (S)
 #define ITEM_SUMMON_CORPSE (T)
+#define ITEM_UNIQUE (U)
 
 #define ITEM_EXTRA_FLAGS                                                                                               \
     "glow hum dark lock evil invis magic nodrop bless antigood antievil antineutral "                                  \
-    "noremove inventory nopurge rotdeath visdeath protected nolocate summon_corpse"
+    "noremove inventory nopurge rotdeath visdeath protected nolocate summon_corpse unique"
 
 /*
  * Wear flags.
@@ -1296,6 +1297,10 @@ void unride_char(Char *ch, Char *pet);
 /* act_obj.c */
 bool can_loot(const Char *ch, const OBJ_DATA *obj);
 void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container);
+bool obj_move_violates_uniqueness(std::optional<Char *> source_char, std::optional<Char *> dest_char,
+                                  OBJ_DATA *moving_obj, OBJ_DATA *obj_to);
+bool obj_move_violates_uniqueness(std::optional<Char *> source_char, std::optional<Char *> dest_char,
+                                  OBJ_DATA *moving_obj, GenericList<OBJ_DATA *> &objs_to);
 
 /* act_wiz.c */
 

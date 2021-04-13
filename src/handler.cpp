@@ -1300,6 +1300,8 @@ std::string extra_bit_name(unsigned int extra_flags) {
         buf += " rot_death";
     if (extra_flags & ITEM_NO_LOCATE)
         buf += " no_locate";
+    if (extra_flags & ITEM_UNIQUE)
+        buf += " unique";
     if (buf.empty())
         return "none";
     return buf.substr(1);
