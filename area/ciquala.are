@@ -676,7 +676,7 @@ Ciquala's sword~
 Ciquala's sword~
 A large, black sword lies here.~
 adamantite~
-weapon BCJ AN
+weapon BCJU AN
 'sword' 4 13 'pierce' 0
 52 13 10561 P
 E
@@ -693,7 +693,7 @@ Ciquala's robe~
 Ciquala's robe~
 A heavy pile of black cloth lies in the dust.~
 cloth~
-armor H KA
+armor HU KA
 13 13 13 0 0
 52 8 10608 P
 A
@@ -704,7 +704,7 @@ Ciquala's staff~
 Ciquala's staff~
 a black staff lies on the ground.~
 wood~
-staff GH AO
+staff GHU AO
 40 10 10 28 0
 52 2 10612 P
 A

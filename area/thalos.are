@@ -1716,7 +1716,7 @@ mithril vest~
 a mithril vest~
 A vest made of mithril plates lies heaped on the floor.~
 mithril~
-armor GK AD
+armor GKU AD
 8 8 8 0 0
 25 30 5089 P
 A
@@ -1729,7 +1729,7 @@ helm mithril~
 a mithril helm~
 Here lies a large mithril helm.~
 mithril~
-armor GK AE
+armor GKU AE
 8 8 8 0 0
 25 10 5131 P
 A
@@ -1740,7 +1740,7 @@ gauntlets mithril~
 a pair of mithril gauntlets~
 A pair of mithril gauntlets rests on the ground.~
 mithril~
-armor GK AH
+armor GKU AH
 8 8 8 0 0
 25 10 5057 P
 A
@@ -1753,7 +1753,7 @@ sleeves mithril~
 some mithril sleeves~
 A set of mithril sleeves lies on the ground.~
 mithril~
-armor GK AI
+armor GKU AI
 8 8 8 0 0
 25 10 5200 P
 A
@@ -1766,7 +1766,7 @@ boots mithril~
 a pair of mithril boots~
 A pair of mithril boots stands has been left here.~
 mithril~
-armor GK AG
+armor GKU AG
 8 8 8 0 0
 25 6 5114 P
 A
@@ -1779,7 +1779,7 @@ leggings mithril~
 a set of mithril leggings~
 A set of mithril leggings lie here unattended.~
 mithril~
-armor GK AF
+armor GKU AF
 8 8 8 0 0
 25 10 5142 P
 A
@@ -1792,7 +1792,7 @@ girth mithril~
 a mithril girth~
 A large iron girth lies at your feet.~
 mithril~
-armor GK AL
+armor GKU AL
 8 8 8 0 0
 25 6 5002 P
 A

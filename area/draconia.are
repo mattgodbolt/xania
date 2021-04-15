@@ -1160,7 +1160,7 @@ knife tooth dragon~
 a dragon's tooth knife~
 A dangerous looking knife made from a dragon's tooth has been left here.~
 bone~
-weapon 0 AN
+weapon U AN
 'dagger' 4 5 'pierce' 0
 27 8 5603 P
 A
@@ -1213,7 +1213,7 @@ symbol holy~
 a holy symbol~
 A golden holy symbol is here.~
 bronze~
-armor A ACO
+armor AU ACO
 7 7 7 0 0
 22 2 4577 P
 A
@@ -1235,7 +1235,7 @@ sword emerald~
 an emerald sword~
 An emerald long sword is leaning against the wall.~
 glass~
-weapon 0 AN
+weapon U AN
 'sword' 5 5 'slash' 0
 26 24 5222 P
 
@@ -1253,7 +1253,7 @@ ring diamond~
 a diamond ring~
 A diamond ring lies gleaming on the ground.~
 glass~
-armor 0 AB
+armor U AB
 13 13 13 0 0
 54 6 10948 P
 A
@@ -1351,7 +1351,7 @@ wand golden~
 a golden wand~
 A golden wand has been dropped here.~
 gold~
-wand A AO
+wand AU AO
 25 10 10 59 0
 18 5 3705 P
 
@@ -1369,7 +1369,7 @@ staff dragon~
 the staff of the dragon~
 A powerful oak staff has been left here.~
 wood~
-staff AG AO
+staff AGU AO
 25 10 10 6 0
 45 5 9236 P
 
@@ -1440,7 +1440,7 @@ brooch diamond~
 a diamond brooch~
 A diamond brooch.~
 glass~
-armor G AC
+armor GU AC
 7 7 7 0 0
 22 2 4552 P
 A
@@ -1471,7 +1471,7 @@ helm dragon~
 a helm of dragonkind~
 A helm made of a dragon's skull is lying on the ground.~
 bone~
-armor 0 AE
+armor U AE
 12 12 12 0 0
 45 15 9305 P
 A
@@ -1495,7 +1495,7 @@ leggings dragon scale~
 a pair of dragon scale leggings~
 A pair of dragon scale leggings is lying on the ground.~
 bronze~
-armor 0 AF
+armor U AF
 10 10 10 0 0
 39 15 8126 P
 
@@ -1504,7 +1504,7 @@ sleeves dragon scale~
 a set of dragon scale sleeves~
 A set of dragon scale sleeves is lying on the ground.~
 bronze~
-armor 0 AI
+armor U AI
 8 8 8 0 0
 27 12 5597 P
 
@@ -1535,7 +1535,7 @@ gem encrusted dagger~
 a gem encrusted dagger~
 A gem encrusted dagger is lying here.~
 silver~
-weapon 0 AN
+weapon U AN
 'dagger' 3 7 'pierce' 0
 20 10 1427 P
 

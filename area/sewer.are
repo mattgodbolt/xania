@@ -4538,7 +4538,7 @@ shield~
 the shield of the rose~
 The shield of the rose rests on the floor.~
 bronze~
-armor GIKL AJ
+armor GIKLU AJ
 10 8 8 8 0
 25 60 5171 P
 E
@@ -4644,7 +4644,7 @@ orb dragonorb~
 the Red DragonOrb~
 A large reddish sphere is in the center of the room.~
 glass~
-staff GJ AO
+staff GJU AO
 13 10 10 36 0
 30 5 6175 P
 A
@@ -4657,7 +4657,7 @@ red torso~
 a red dragon torso~
 There is a pile of red dragonscale on the floor.~
 adamantite~
-armor GJ AD
+armor GJU AD
 9 9 9 0 0
 30 20 6119 P
 A
@@ -4670,7 +4670,7 @@ leggings red~
 red dragonscale leggings~
 On the floor you see two red dragonscale leggings.~
 adamantite~
-armor GJ AF
+armor GJU AF
 9 9 9 0 0
 30 17 6292 P
 A
@@ -4683,7 +4683,7 @@ claws dragonclaws red~
 a pair of red dragon claws~
 You can see a pair of large red dragon claws on the floor.~
 adamantite~
-furniture GJ AH
+furniture GJU AH
 9 0 0 0 0
 30 4 6050 P
 A
@@ -4694,7 +4694,7 @@ skull dragonhelm red~
 a red dragonhelm~
 A helmet fashioned into the likeness of a dragon skull is here.~
 adamantite~
-armor GJ AE
+armor GJU AE
 9 9 9 0 0
 30 15 6066 P
 A
@@ -4709,7 +4709,7 @@ shield red~
 the red dragon shield~
 A large red dragon shield rests on the floor.~
 adamantite~
-armor GJ AJ
+armor GJU AJ
 9 9 9 0 0
 30 10 6041 P
 A
@@ -4720,7 +4720,7 @@ greaves red~
 a pair of a red dragon's rear claws~
 A pair of a red dragon's rear claws is on the floor.~
 adamantite~
-armor GJ AG
+armor GJU AG
 9 9 9 0 0
 30 30 6246 P
 A
@@ -4733,7 +4733,7 @@ arm guards red~
 red dragon arm guards~
 On the ground you see two red arm guards.~
 adamantite~
-armor GJ AI
+armor GJU AI
 9 9 9 0 0
 30 40 6133 P
 A

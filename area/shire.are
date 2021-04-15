@@ -1703,7 +1703,7 @@ sting~
 Sting~
 Sting lies here.~
 mithril~
-weapon ABK AN
+weapon ABKU AN
 'dagger' 4 5 'bite' 0
 19 1 3905 P
 A
@@ -1755,7 +1755,7 @@ one ring~
 the One Ring~
 The One Ring is here.~
 gold~
-armor G ABO
+armor GU ABO
 6 6 6 0 0
 19 3 3874 P
 A
@@ -1768,7 +1768,7 @@ elven bow~
 an elven bow~
 An elven bow lies here.~
 wood~
-weapon BGK AN
+weapon BGKU AN
 'exotic' 3 6 'whip' 0
 17 10 3431 P
 A
@@ -1788,7 +1788,7 @@ thain girth~
 the thain girth~
 The girth of the thain lies here.~
 steel~
-armor 0 AL
+armor U AL
 5 5 5 0 0
 14 4 2870 P
 A
@@ -1855,7 +1855,7 @@ elven jewel~
 an ancient elven jewel~
 A jewel glistens beautifully here.~
 silver~
-armor ABGK AO
+armor ABGKU AO
 3 3 3 3 0
 6 2 1249 P
 E

@@ -128,7 +128,7 @@ rod divine power~
 a rod of divine power~
 You see a red coloured rod lying here innocently.~
 adamantite~
-armor AB AO
+armor ABU AO
 0 0 0 0 0
 1 1 1 P
 A
@@ -146,7 +146,7 @@ robes ithil white~
 The robes of Ithil~
 You see a long, pearly white robe here.~
 cloth~
-armor I AD
+armor IU AD
 33 33 33 16 0
 99 5 43000 P
 E
@@ -174,7 +174,7 @@ staff gondor pear~
 Staff of Gondor~
 A long, pearwood staff lies here.~
 bronze~
-weapon IH AN
+weapon IHU AN
 'exotic' 20 6 'divine' B
 99 15 0 P
 E
@@ -199,7 +199,7 @@ seal stewardship red circular~
 a seal of stewardship~
 You see a small, red circular object here.~
 vellum~
-wand G AO
+wand GU AO
 60 10 10 3 0
 0 1 4000 P
 E
@@ -212,7 +212,7 @@ shadow death dark~
 Shadow of Death~
 You see the tendrils of a long dark shadow here, trying to fill the room.~
 stone~
-armor CGMO AK
+armor CGMOU AK
 30 30 30 15 0
 91 30 0 P
 E
@@ -229,7 +229,7 @@ rusty scythe~
 a rusty looking scythe~
 You see an enormous, black scythe here, ready to decapitate somebody.~
 iron~
-weapon CGHO ANP
+weapon CGHOU ANP
 'polearm' 15 6 'cleave' DEFG
 91 50 0 P
 E
@@ -248,7 +248,7 @@ skull face terrifying~
 a terrifying skull face~
 The large skull face which you see here sends a shiver down your spine.~
 stone~
-armor ACHMO AE
+armor ACHMOU AE
 30 30 30 15 0
 91 30 0 P
 E
@@ -264,7 +264,7 @@ hour glass hourglass~
 an hourglass~
 You see a large, crystalline hourglass here.~
 glass~
-treasure BCMO AO
+treasure BCMOU AO
 0 0 0 0 0
 91 10 80000 P
 E
@@ -281,7 +281,7 @@ manky old trainers~
 some manky old trainers~
 You see a pair of really old, well worn trainers here.~
 cloth~
-armor GM AG
+armor GMU AG
 33 33 33 16 0
 99 1 0 P
 E
@@ -294,7 +294,7 @@ jeans pair blue~
 a pair of jeans~
 You see a some bog standard blue jeans here.~
 cloth~
-armor G AF
+armor GU AF
 33 33 33 16 0
 99 4 0 P
 E
@@ -308,7 +308,7 @@ cheap shirt~
 a cheap t-shirt~
 You see a really scraggy, cheap t-shirt here.~
 cloth~
-armor G AD
+armor GU AD
 33 33 33 16 0
 99 3 0 P
 E
@@ -321,7 +321,7 @@ sunshine sun shine grin cheesy~
 a sunshine grin~
 You see a gorgeous, cheesy smile here, waiting to be worn.~
 gold~
-armor G AE
+armor GU AE
 33 33 33 16 0
 99 5 50000 P
 E
@@ -335,7 +335,7 @@ leather belt black~
 a black leather belt~
 You see a shiny, black leather belt here.~
 leather~
-armor G AL
+armor GU AL
 33 33 33 16 0
 99 3 0 P
 E
@@ -348,7 +348,7 @@ cat boots brown industrial~
 CAT boots~
 You see a pair of brown, industrial boots.~
 leather~
-armor G AG
+armor GU AG
 33 33 33 16 0
 99 5 0 P
 E
@@ -362,7 +362,7 @@ tie die shirt multicoloured~
 a tie dye t-shirt~
 You see a tasteful multicoloured shirt here.~
 cloth~
-armor AG AD
+armor AGU AD
 33 33 33 16 0
 99 2 0 P
 E
@@ -392,7 +392,7 @@ holy saint christopher pendant~
 a pendant of Saint Christopher~
 You see a small, holy pendant here.~
 silver~
-armor GI AC
+armor GIU AC
 33 33 33 20 0
 99 1 0 P
 E
@@ -406,7 +406,7 @@ jeans pair green~
 a pair of green jeans~
 You see a some bog standard green jeans here.~
 cloth~
-armor G AF
+armor GU AF
 33 33 33 16 0
 99 4 0 P
 E
@@ -420,7 +420,7 @@ portable computer risc pc compact~
 a portable RISC PC~
 You see an awesomely powerful, compact computer here.~
 steel~
-container ABGH AO
+container ABGHU AO
 500 1 0 0 0
 99 1 10000 P
 E
@@ -436,7 +436,7 @@ gem clan krellstone~
 a sacred Krellstone clan gem~
 A multi-faceted lump of Krellstone glows softly here.~
 octarine~
-treasure AB AO
+treasure ABU AO
 0 0 0 0 0
 1 0 0 P
 E
@@ -471,7 +471,7 @@ helm shadow~
 (|bBlack Aura|w) the Helm of a Shadow Soldier~
 (|bBlack Aura|w) A dark helm is here.~
 adamantite~
-armor GCE AE
+armor GCEU AE
 6 6 6 3 0
 20 10 1000 P
 E
@@ -490,7 +490,7 @@ cloak shadow~
 (|bBlack Aura|w) the Cloak of a Shadow Warrior~
 (|bBlack Aura|w) A dark cloak floats ominously above ground here.~
 cloth~
-armor CEG AK
+armor CEGU AK
 13 13 13 7 0
 40 10 1500 P
 E 
@@ -509,7 +509,7 @@ gauntlets shadow~
 (|bBlack Aura|w) the Gauntlets of a Shadow Master~
 (|bBlack Aura|w) Two dark gauntlets rest here.~
 adamantite~
-armor BCEG AH
+armor BCEGU AH
 16 16 16 8 0
 50 10 3000 P
 E
@@ -524,7 +524,7 @@ shield avatar~
 (|bBlack Aura|w) the Shield of an Avatar of Mephistopheles~
 (|bBlack Aura|w)The Shield of an Avatar of Mephistopheles is here.~
 steel~
-armor AEG AJ
+armor AEGU AJ
 23 23 23 15 0
 70 130 9000 P
 E
@@ -542,7 +542,7 @@ pendant shadow~
 (|bBlack Aura|w) the Pendant of the Shadow King~
 (|bBlack Aura|w) A dark pendant on a chain is here.~
 mithril~
-armor CEG AC
+armor CEGU AC
 30 30 30 15 0
 90 15 14000 P
 E
@@ -561,7 +561,7 @@ shroud shadow~
 (|bBlack Aura|w) the Shroud of the Shadow King~
 (|bBlack Aura|w) The Shroud of the Shadow King is here.~
 cloth~
-armor CEG AD
+armor CEGU AD
 30 30 30 30 0
 90 15 14000 P
 E
@@ -578,7 +578,7 @@ pill joint~
 a JoinT~
 a small rolled joint waits to be smoked~
 pill~
-pill EG AO
+pill EGU AO
 50 frenzy~ "cure critical" 0 0
 91 1 900 P
 E

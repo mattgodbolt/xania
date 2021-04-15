@@ -2715,7 +2715,7 @@ chronometer mechanical device~
 a Harrison chronometer~
 A small mechanical device has been left here.~
 steel~
-armor G AO
+armor GU AO
 22 22 22 0 0
 75 1 1500 P
 A
@@ -2730,7 +2730,7 @@ peg leg~
 a steel peg leg~
 An artificial leg made of steel lies here.~
 steel~
-armor G AF
+armor GU AF
 22 22 22 0 0
 75 3 1800 P
 A
@@ -2745,7 +2745,7 @@ vengeance blade~
 Vengeance~
 An vicious blade glints here.~
 adamantite~
-weapon G AN
+weapon GU AN
 'sword' 15 5 'slash' D
 75 5 5043 P
 A
@@ -2758,7 +2758,7 @@ waistcoat~
 an officer's waistcoat~
 A cream silk waistcoat lies discarded.~
 cloth~
-armor G AK
+armor GU AK
 22 22 22 0 0
 75 3 1843 P
 A
@@ -2773,7 +2773,7 @@ stiletto kris~
 kris of a thousand lies~
 An wicked stiletto with a blackened point is on the ground.~
 adamantite~
-weapon G AN
+weapon GU AN
 'dagger' 10 8 'pierce' G
 78 3 4013 P
 A
@@ -2784,7 +2784,7 @@ signet ring~
 an ambassador's signet ring~
 A gold signet ring with a stamp of authority catches your attention.~
 gold~
-armor G AB
+armor GU AB
 22 22 22 0 0
 78 1 2043 P
 A
@@ -2799,7 +2799,7 @@ scarlet neckerchief~
 a scarlet neckerchief~
 A scarlet neckerchief adorned with silver thread sits in a heap.~
 cloth~
-armor G AC
+armor GU AC
 21 21 21 0 0
 73 1 2000 P
 A
@@ -2814,7 +2814,7 @@ compass~
 a fine silver compass~
 A fine silver compass case glints pleasingly.~
 silver~
-armor G ACO
+armor GU ACO
 21 21 21 0 0
 73 1 1543 P
 A
@@ -2829,7 +2829,7 @@ manual~
 a training manual~
 A voluminous training manual has been left here.~
 paper~
-armor G AO
+armor GU AO
 20 20 20 0 0
 72 2 5043 P
 A
@@ -2853,7 +2853,7 @@ voyager gauntlets~
 voyager's gauntlets~
 A sturdy pair of gauntlets rest here.~
 leather~
-armor G AH
+armor GU AH
 17 17 17 0 0
 61 4 943 P
 A
@@ -2866,7 +2866,7 @@ seafarer tattoo skin~
 a seafarer's tattoo~
 A circle of tattoed skin has been torn off.~
 leather~
-armor G AM
+armor GU AM
 17 17 17 0 0
 62 1 755 P
 A
@@ -2877,7 +2877,7 @@ fireproof armguards~
 a pair of fireproof armguards~
 A pair of dark red armguards rest here.~
 steel~
-armor G AI
+armor GU AI
 16 16 16 20 0
 60 6 901 P
 A
@@ -2914,7 +2914,7 @@ mystical rope~
 a length of mystical rope~
 A length of rope is curled up here.~
 leather~
-armor G AL
+armor GU AL
 14 14 14 0 0
 51 3 3043 P
 A
@@ -2947,7 +2947,7 @@ telescope instrument~
 a silver-plated telescope~
 A high quality instrument has been carelessly discarded.~
 silver~
-armor G AO
+armor GU AO
 15 15 15 8 0
 55 3 2543 P
 A
@@ -2962,7 +2962,7 @@ black adamantite neckbrace~
 an adamantite neckbrace~
 A black neckbrace looks pretty uncomfortable.~
 adamantite~
-armor G AC
+armor GU AC
 18 18 18 9 0
 65 10 2143 P
 A
@@ -3054,7 +3054,7 @@ eye~
 the eye of eternity~
 A great eye filled with wisdom gazes at you.~
 octarine~
-armor G AO
+armor GU AO
 27 23 27 22 0
 90 1 5043 P
 A
@@ -3069,7 +3069,7 @@ cloak abyss~
 cloak of the abyssal depths~
 A cloak woven from a thousand ocean sprits lies here.~
 octarine~
-armor G AK
+armor GU AK
 27 23 27 22 0
 90 10 5043 P
 A
@@ -3195,7 +3195,7 @@ talkative parrot~
 a talkative parrot~
 A talkative parrot perches here muttering to herself.~
 bone~
-armor G AM
+armor GU AM
 22 22 22 0 0
 75 1 2500 P
 A
@@ -3210,7 +3210,7 @@ elven rope~
 a length of elven rope~
 A length of elven rope is curled up here.~
 octarine~
-armor GK AL
+armor GKU AL
 17 17 17 9 0
 65 3 3543 P
 A
@@ -3225,7 +3225,7 @@ gold stud~
 a privateer's gold stud~
 A gold stud catches your eye.~
 gold~
-armor A AQ
+armor AU AQ
 13 13 13 0 0
 61 1 3902 P
 A

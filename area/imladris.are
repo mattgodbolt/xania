@@ -2446,7 +2446,7 @@ robes~
 the ornate robes of the Elf Lord~
 An ornate, crimson red robe lie here.~
 cloth~
-armor BG AK
+armor BGU AK
 5 5 5 5 0
 24 9 3500 P
 
@@ -2466,7 +2466,7 @@ dagger loriana~
 a black hilted dagger called "Loriana"~
 A large, black hilted dagger lies here.~
 steel~
-weapon BI AN
+weapon BIU AN
 'dagger' 4 7 'wrath' D
 24 10 2500 P
 E
@@ -2487,7 +2487,7 @@ helm crown~
 the silver-winged helm of the Elf Lord~
 Graceful, silver wings sweep up from a beautiful crown.~
 silver~
-armor B AE
+armor BU AE
 5 5 5 5 0
 24 14 1900 P
 
@@ -2506,7 +2506,7 @@ mighty sword~
 a mighty, two-handed sword~
 A well polished sword which is bigger than you lies discarded.~
 adamantite~
-weapon K ANP
+weapon KU ANP
 'sword' 4 6 'cleave' F
 22 28 565 P
 
@@ -2583,7 +2583,7 @@ golden dragonwing shield~
 the golden DragonWing shield~
 The symbol of a golden dragon wing adorns the surface of this shield.~
 steel~
-armor A AJ
+armor AU AJ
 3 4 4 2 0
 14 15 1650 P
 E
@@ -2663,7 +2663,7 @@ emerald dragonwing shield~
 the emerald DragonWing shield~
 The symbol of an emerald dragon wing adorns the surface of this shield.~
 steel~
-armor A AJ
+armor AU AJ
 4 4 5 3 0
 20 15 1950 P
 E
@@ -2686,7 +2686,7 @@ sword~
 the sword of an Elflord~
 You notice a well made sword lying here.~
 adamantite~
-weapon 0 AN
+weapon U AN
 'sword' 4 6 'pierce' 0
 20 18 980 P
 E
@@ -2841,7 +2841,7 @@ great burden~
 a great burden~
 A circular piece of metal doesn't look like it's worth picking up.~
 gold~
-trash AB AO
+trash ABU AO
 0 0 0 0 0
 1 200 0 P
 
@@ -2943,7 +2943,7 @@ wraithblade weapon blade~
 the Wraithblade~
 A foul weapon from the black heart of Mordor begs to kill.~
 adamantite~
-weapon BCM AN
+weapon BCMU AN
 'dagger' 3 8 'frbite' B
 18 20 2450 P
 

@@ -1530,7 +1530,7 @@ neutralizer sword~
 the neutralizer~
 A long thin sword with a wide blade makes you wonder.~
 steel~
-weapon BJK AN
+weapon BJKU AN
 'sword' 3 5 'slash' 0
 15 9 3041 P
 A
@@ -1543,7 +1543,7 @@ sword excalibur~
 The sword Excalibur~
 A sword gleams by the light of its magical silvery blade.~
 steel~
-weapon AGKL AN
+weapon AGKLU AN
 'sword' 5 6 'slash' 0
 30 15 6240 P
 A
@@ -1556,7 +1556,7 @@ crown~
 A kingly crown~
 The crown of a long lost King lies forgotten here.~
 gold~
-key I AE
+key IU AE
 15 0 0 0 0
 24 10 4900 P
 A
@@ -1633,7 +1633,7 @@ prism wand~
 a prism wand~
 A wand made of a triangular prism twinkles in the dust.~
 glass~
-wand AG AO
+wand AGU AO
 11 4 4 10 0
 20 4 4108 P
 

@@ -328,7 +328,7 @@ sabre~
 The Sabre of Wind~
 A Sabre that is shining brightly is here.~
 adamantite~
-weapon ABEG AN
+weapon ABEGU AN
 'sword' 13 6 'slice' D
 83 15 700 P
 E
@@ -346,7 +346,7 @@ gauntlets~
 The Gauntlets of Thunder~
 A pair of flaming gauntlets is lying here.~
 adamantite~
-armor ABG AH
+armor ABGU AH
 21 21 23 20 0
 83 5 1000 P
 E
@@ -364,7 +364,7 @@ armor~
 The Armor of Rain~
 A gleaming armor is lying here.~
 adamantite~
-armor ABG AD
+armor ABGU AD
 22 21 22 20 0
 83 12 1100 P
 E
@@ -385,7 +385,7 @@ badge~
 The Badge of Lightning~
 A shimmering badge is being left here.~
 adamantite~
-armor ABG AC
+armor ABGU AC
 21 23 22 18 0
 84 10 1200 P
 E
@@ -403,7 +403,7 @@ light bulb~
 The Light Bulb~
 A flickering light bulb lies here.~
 adamantite~
-light ABGI A
+light ABGIU A
 0 0 999 0 0
 90 8 1500 P
 E
@@ -423,7 +423,7 @@ baseball cap~
 The Baseball Cap~
 An old cap lies here.~
 steel~
-armor ABG AE
+armor ABGU AE
 26 26 26 25 0
 90 10 1700 P
 E
@@ -468,7 +468,7 @@ blood sucker~
 Blood Sucker~
 A dark, red sword is lying here.~
 iron~
-weapon CG AN
+weapon CGU AN
 'exotic' 15 5 'bite' D
 87 20 4000 P
 E
@@ -505,7 +505,7 @@ sceptre~
 Sceptre of Soul~
 A sceptre lies here.~
 stone~
-armor ABG AO
+armor ABGU AO
 24 26 25 21 0
 90 20 4500 P
 E
@@ -526,7 +526,7 @@ shield~
 Shield of Wish~
 A shield lies here.~
 steel~
-armor ABG AJ
+armor ABGU AJ
 27 24 26 20 0
 90 18 3000 P
 E
@@ -545,7 +545,7 @@ cloud~
 The Cloud~
 A cloud of air is here.~
 steel~
-armor ABG AG
+armor ABGU AG
 23 22 24 19 0
 80 7 2500 P
 E
@@ -563,7 +563,7 @@ aura~
 The Gold Aura~
 An aura is here.~
 steel~
-armor ABGK AK
+armor ABGKU AK
 25 21 23 17 0
 88 10 0 P
 E
@@ -583,7 +583,7 @@ armor~
 Golden Armor~
 An armor shimmering with the color of gold is here.~
 gold~
-armor ABG AD
+armor ABGU AD
 23 23 22 13 0
 80 15 2500 P
 E
@@ -598,7 +598,7 @@ mask~
 Wooden Mask~
 A mask lies here.~
 wood~
-armor ABG AE
+armor ABGU AE
 26 19 22 22 0
 87 10 1700 P
 E
@@ -618,7 +618,7 @@ snake~
 Water Snake~
 A snake is wriggling here.~
 leather~
-armor ABG AC
+armor ABGU AC
 22 23 25 20 0
 86 9 1400 P
 E
@@ -637,7 +637,7 @@ belt~
 Belt of Fire~
 A flaming belt lies here.~
 leather~
-armor ABG AL
+armor ABGU AL
 26 21 24 18 0
 87 10 2500 P
 E
@@ -655,7 +655,7 @@ claw~
 Claw of Earth~
 A giant claw is lying here.~
 stone~
-weapon ABG AN
+weapon ABGU AN
 'exotic' 8 10 'claw' D
 86 8 2500 P
 E
@@ -704,7 +704,7 @@ dragon~
 The Flaming Dragon~
 A blue flame in the shape of a dragon glows here.~
 steel~
-weapon ABG AN
+weapon ABGU AN
 'exotic' 13 5 'flbite' A
 70 10 3200 P
 E
@@ -720,7 +720,7 @@ love heart~
 Heart of Love~
 A beautified heart is here.~
 glass~
-armor ABGK AO
+armor ABGKU AO
 17 12 16 8 0
 54 8 1000 P
 E

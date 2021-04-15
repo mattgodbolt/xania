@@ -1559,7 +1559,7 @@ arm hercules~
 the Titanic Arm plates of Hercules~
 Arm plates of the Zodiac lie here.~
 steel~
-armor AGK AI
+armor AGKU AI
 6 6 6 0 0
 19 10 3837 P
 E
@@ -1576,7 +1576,7 @@ belt orion~
 the Titanic Belt of Orion~
 A belt of the Zodiac lies here.~
 stone~
-armor AGK AL
+armor AGKU AL
 6 6 6 0 0
 19 7 3833 P
 E
@@ -1592,7 +1592,7 @@ skull draco~
 An ugly skull of Draco~
 A massive skull of a dead Draco lies here.~
 bone~
-staff BGH AO
+staff BGHU AO
 15 5 5 6 0
 25 20 5227 P
 
@@ -1601,7 +1601,7 @@ fleece aries~
 the Titanic Fleece of Aries~
 A fleece of the Zodiac lies here.~
 cloth~
-armor AGK AC
+armor AGKU AC
 7 7 7 0 0
 22 9 4456 P
 E
@@ -1616,7 +1616,7 @@ hoof taurus~
 the Titanic Hoof of Taurus~
 A hoof of the Zodiac lies here.~
 bone~
-armor AGK AG
+armor AGKU AG
 7 7 7 0 0
 22 10 4566 P
 E
@@ -1633,7 +1633,7 @@ mask gemini~
 the Titanic Mask of Gemini~
 A mask of the Zodiac lies here.~
 bone~
-armor AGHK AE
+armor AGHKU AE
 7 7 7 0 0
 22 7 4434 P
 E
@@ -1651,7 +1651,7 @@ shell cancer~
 the Titanic Shell of Cancer~
 A shell of the Zodiac lies here.~
 bone~
-armor AGK AD
+armor AGKU AD
 7 7 7 0 0
 22 15 4426 P
 E
@@ -1667,7 +1667,7 @@ skin leo~
 the Titanic Skin of Leo~
 A skin of the Zodiac lies here.~
 leather~
-armor AGK AK
+armor AGKU AK
 7 7 7 0 0
 22 15 4588 P
 E
@@ -1680,7 +1680,7 @@ bracelet virgo~
 the Titanic Bracelet of Virgo~
 A bracelet of the Zodiac lies here.~
 silver~
-armor AGK AM
+armor AGKU AM
 7 7 7 0 0
 22 4 4502 P
 E
@@ -1695,7 +1695,7 @@ scale libra~
 the Titanic Scale of Libra~
 A shield of the Zodiac lies here.~
 bone~
-armor AGK AJ
+armor AGKU AJ
 7 7 7 0 0
 22 15 4451 P
 E
@@ -1712,7 +1712,7 @@ scale libra~
 the Titanic Scale of Libra~
 A shield of the Zodiac lies here.~
 bone~
-armor BGH AJ
+armor BGHU AJ
 7 7 7 0 0
 22 15 4456 P
 E
@@ -1729,7 +1729,7 @@ sting scorpio~
 the Sting of Scorpio~
 Sting of the Zodiac lies here.~
 bone~
-weapon AGK AN
+weapon AGKU AN
 'exotic' 4 5 'pierce' 0
 22 7 4412 P
 E
@@ -1746,7 +1746,7 @@ arrow sagittarius~
 the Arrow of Sagittarius~
 the Arrow of Sagittarius lies here.~
 wood~
-wand AGK AO
+wand AGKU AO
 10 10 10 30 0
 22 7 4417 P
 E
@@ -1759,7 +1759,7 @@ bow sagittarius~
 the Titanic Bow of Sagittarius~
 the Titanic Bow of Sagittarius lies here.~
 wood~
-weapon AGK AN
+weapon AGKU AN
 'exotic' 4 5 'blast' 0
 22 20 4459 P
 E
@@ -1776,7 +1776,7 @@ horns capricon~
 the Titanic Horns of Capricon~
 a pair of horns of the Zodiac lies here.~
 bone~
-armor AGK AH
+armor AGKU AH
 7 7 7 0 0
 22 6 4411 P
 E
@@ -1794,7 +1794,7 @@ vessel aquarius~
 the Ancient Vessel of Aquarius~
 A vessel of the Zodiac lies here.~
 wood~
-staff AGK AO
+staff AGKU AO
 10 10 10 80 0
 22 12 4509 P
 E
@@ -1808,7 +1808,7 @@ tail pisces~
 the Titanic Tail of Pisces~
 A fish tail of the Zodiac lies here.~
 stone~
-armor AGK AF
+armor AGKU AF
 7 7 7 0 0
 22 10 4497 P
 E
@@ -1826,7 +1826,7 @@ ring dignity~
 the Ring of Dignity~
 A ring of specialty lies here.~
 gold~
-armor ABFGK AB
+armor ABFGKU AB
 8 8 8 0 0
 26 3 5414 P
 E
@@ -1844,7 +1844,7 @@ sceptre might~
 the Sceptre of Might~
 A sceptre of interest lies here.~
 brass~
-light ABFGK ACDEGHIJKLMN
+light ABFGKU ACDEGHIJKLMN
 0 0 999 0 0
 26 4 5351 P
 E
@@ -1861,7 +1861,7 @@ ring universe~
 the ring of the universe~
 Here lies a fortune ... a small ring of power.~
 platinum~
-armor ABFGI AB
+armor ABFGIU AB
 9 9 9 0 0
 30 3 6237 P
 E
@@ -1878,7 +1878,7 @@ great dipper~
 the Great Dipper of the Skies~
 A dazzling white object lies on the ground.~
 stone~
-weapon ABFGI AN
+weapon ABFGIU AN
 'exotic' 6 5 'blast' 0
 30 20 6293 P
 A
@@ -1927,7 +1927,7 @@ chains andromeda~
 chains of Andromeda~
 Some chains lie on the floor.~
 steel~
-trash AF A
+trash AFU A
 0 0 0 0 0
 18 50 3649 P
 E

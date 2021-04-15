@@ -228,7 +228,7 @@ Excalibur~
 The mighty Excalibur, sacred sword of the Druids, lies in a beam of
 pure light.~
 steel~
-weapon ABGHIK AN
+weapon ABGHIKU AN
 'sword' 15 6 'slice' DEF
 90 22 6000 P
 E
@@ -259,7 +259,7 @@ dagger jewelled~
 jewelled dagger of Anwe~
 The jewelled dagger of Anwe lies here in an eerie blue light.~
 steel~
-weapon AGHLM AN
+weapon AGHLMU AN
 'dagger' 11 8 'divine' BE
 87 25 6000 P
 E
@@ -279,7 +279,7 @@ sword deceiver~
 sword of the deceiver~
 A large, magnificent sword of ancient origin waits to be wielded.~
 steel~
-weapon BG AN
+weapon BGU AN
 'sword' 8 12 'slash' DE
 85 25 5500 P
 E
@@ -303,7 +303,7 @@ black sword hilted~
 a huge black hilted sword~
 A huge black hilted sword glares at you from its resting place.~
 iron~
-weapon BCEJ AN
+weapon BCEJU AN
 'sword' 6 15 'chop' BDF
 88 25 5400 G
 E
@@ -327,7 +327,7 @@ a Knight of the Round Table's sword~
 A razor edged sword, worn by the Knight's of Camelot, lies unattended
 here.~
 steel~
-weapon IK AN
+weapon IKU AN
 'sword' 5 15 'slice' D
 75 15 3300 P
 E
@@ -431,7 +431,7 @@ scabbard jewelled~
 the Jewelled Scabbard of the druids~
 An awe inspiringly decorated scabbard dazzles you.~
 leather~
-armor GHIK AL
+armor GHIKU AL
 25 25 25 13 0
 89 10 3500 P
 E
@@ -449,7 +449,7 @@ plate mail platemail~
 King Arthur's Platemail~
 A magnificent suit of platemail gleams in the light.~
 steel~
-armor ABGK AD
+armor ABGKU AD
 23 23 23 12 0
 86 20 7800 P
 A
@@ -461,7 +461,7 @@ cloak robes~
 Merlin's cloak~
 The robes of the Merlin lie discarded upon the ground.~
 octarine~
-armor GHIK ACK
+armor GHIKU ACK
 23 23 23 12 0
 85 8 12000 P
 E
@@ -482,7 +482,7 @@ chain boots~
 Arthur's chainmail boots~
 A pair of ordinary chainmail boots have been discarded here.~
 steel~
-armor G AG
+armor GU AG
 23 23 23 12 0
 87 12 5000 G
 A
@@ -498,7 +498,7 @@ crucifix~
 a golden crucifix~
 A length of plain rope holds a golden crucifix.~
 gold~
-armor ABGK ACL
+armor ABGKU ACL
 12 12 12 8 0
 48 8 3405 P
 E
@@ -515,7 +515,7 @@ plate mail arthurian~
 Arthurian platemail~
 A suit of Arthurian platemail glints in the light.~
 steel~
-armor AG AD
+armor AGU AD
 20 20 20 10 0
 78 18 4500 P
 A
@@ -530,7 +530,7 @@ the heart of Queen Gwenefwhar~
 A pendant with a lock of Queen Gwenefwhar's hair entombed in it
 has been discarded.~
 gold~
-armor GHIK AC
+armor GHIKU AC
 20 20 20 10 0
 87 9 6000 P
 E
@@ -549,7 +549,7 @@ dark chain mail chainmail~
 Prince Markham's Chainmail~
 A suit of darkened chainmail.~
 iron~
-armor BCEJ AD
+armor BCEJU AD
 24 22 25 20 0
 88 28 5100 P
 E
@@ -595,7 +595,7 @@ chain mail chainmail~
 Arthurian chainmail~
 A suit of Arthurian Chainmail.~
 iron~
-armor AG AD
+armor AGU AD
 12 10 14 10 0
 48 14 3000 P
 A
@@ -652,7 +652,7 @@ blue robes~
 Morgana's Blue robes~
 The blue robes of a priestess~
 cloth~
-armor ABG AK
+armor ABGU AK
 23 23 23 18 0
 87 6 4500 P
 E

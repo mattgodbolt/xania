@@ -1925,7 +1925,7 @@ avalanche~
 the Avalanche~
 An avalanche is about to crush you!~
 stone~
-weapon 0 AN
+weapon U AN
 'exotic' 3 7 'blast' 0
 23 16 4717 P
 A
@@ -1936,7 +1936,7 @@ star morning~
 the Morning Star~
 A chain with a star on the end lies here.~
 steel~
-weapon A AN
+weapon AU AN
 'flail' 4 7 'pierce' 0
 28 11 5773 P
 A
@@ -1949,7 +1949,7 @@ shock whip~
 The Shock Whip~
 A whip hums innocently too itself.~
 leather~
-weapon B AN
+weapon BU AN
 'whip' 2 11 'stab' 0
 22 10 4549 P
 A

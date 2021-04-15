@@ -171,7 +171,7 @@ wand spell book cure lesser~
 Uruk's lesser spell book~
 You see an ancient volume gathering dust.~
 vellum~
-wand ABCIHE AO
+wand ABCIHEU AO
 90 10 10 14 0
 91 5 0 D
 E
@@ -294,7 +294,7 @@ master spell book~
 Uruk's spell book~
 A great book wriggles as the massive power inside it struggles to be released.~
 vellum~
-wand ABCIHFE AO
+wand ABCIHFEU AO
 120 5 5 505 0
 91 5 0 D
 E

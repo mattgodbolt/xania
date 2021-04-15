@@ -436,7 +436,7 @@ circlet lims lims-kragma~
 Circlet of Lims-Kragma~
 A red adamantite circlet lies here~
 adamantite~
-armor ACGJ AE
+armor ACGJU AE
 16 18 17 10 0
 66 1 45000 P
 E
@@ -453,7 +453,7 @@ robe black greater~
 Black Robe~
 A robe of a greater path mage lies here~
 cloth~
-armor AG AK
+armor AGU AK
 19 16 19 17 0
 70 10 56000 P
 A
@@ -464,7 +464,7 @@ slayer talisman black~
 Black Slayer Talisman~
 a talisman of the black slayer lies here~
 iron~
-armor ACEHJM AC
+armor ACEHJMU AC
 18 20 20 0 0
 65 5 5000 P
 A
@@ -497,7 +497,7 @@ ring assembly~
 Ring of the Assembly~
 a humming, glowing ring lies here~
 gold~
-armor ABG AB
+armor ABGU AB
 22 21 23 20 0
 82 2 60000 P
 A
@@ -508,7 +508,7 @@ shield zun~
 Shield of Zun~
 A silver shield lies here~
 silver~
-armor AIK AJ
+armor AIKU AJ
 17 16 16 15 0
 62 115 48000 P
 A
@@ -534,7 +534,7 @@ birthmark murmandus purple~
 Murmandus's Birthmark~
 A birthmark lies here~
 vellum~
-armor ACEJHM AD
+armor ACEJHMU AD
 1 1 2 30 0
 83 1 0 P
 E
@@ -550,7 +550,7 @@ girdle murmandus~
 Girdle of Murmandus~
 The girdle of Murmandus hovers before you~
 steel~
-armor ACEJ AL
+armor ACEJU AL
 20 22 21 12 0
 83 30 95000 P
 A
@@ -565,7 +565,7 @@ armour valheru~
 Valheru Armour~
 a suit of gold and white armour is here~
 gold~
-armor ABCGL AD
+armor ABCGLU AD
 30 29 31 30 0
 90 25 130000 P
 E
@@ -582,7 +582,7 @@ sword ashen ashen-shugar tomas~
 Sword of Ashen-Shugar~
 a golden hilted sword lies here pulsing with power~
 adamantite~
-weapon ABCEGIL AN
+weapon ABCEGILU AN
 'exotic' 13 7 'divine' CD
 91 20 150000 P
 A
@@ -599,7 +599,7 @@ robe~
 Milamber's Robe~
 A black robe lies here in a pile~
 cloth~
-armor ABGL AK
+armor ABGLU AK
 35 32 37 35 0
 91 50 10000 P
 A
@@ -610,7 +610,7 @@ staff macross~
 Staff of Macross~
 a simple wooden staff lies here~
 wood~
-light AG A
+light AGU A
 0 0 999 0 0
 90 10 1000 P
 A
@@ -623,7 +623,7 @@ lifestone stone green~
 Lifestone~
 The Lifestone rests here on a Pedestal.~
 glass~
-furniture ABCEFGIJKLO 0
+furniture ABCEFGIJKLOU 0
 0 0 0 0 0
 100 10000 1000000 P
 E

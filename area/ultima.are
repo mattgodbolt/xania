@@ -4814,7 +4814,7 @@ bow~
 Iolo's bow~
 Iolo's bow stands against a wall.~
 wood~
-weapon AB AN
+weapon ABU AN
 'exotic' 2 3 'blast' 0
 11 4 2228 P
 E
@@ -4849,7 +4849,7 @@ infinity bow~
 the Infinity Bow~
 The Infinity Bow floats here.~
 wood~
-weapon ABK AN
+weapon ABKU AN
 'spear' 4 9 'blast' 0
 31 3 6397 P
 E
@@ -4904,7 +4904,7 @@ staff jannas~
 a staff~
 Janna's staff lies here.~
 wood~
-weapon AK AN
+weapon AKU AN
 'spear' 4 4 'crush' 0
 15 7 3025 P
 E
@@ -4921,7 +4921,7 @@ sword~
 a sword~
 Geoffrey's sword gleams in the sun.~
 silver~
-weapon AK AN
+weapon AKU AN
 'sword' 6 4 'slash' 0
 22 7 4507 P
 E
@@ -4991,7 +4991,7 @@ amulet~
 the Amulet of Love~
 The most beautiful amulet lies in a pile here.~
 glass~
-armor AKL AC
+armor AKLU AC
 9 9 9 0 0
 34 1 6959 P
 A
@@ -5028,7 +5028,7 @@ rapier~
 a rapier~
 Dupre's rapier is here.~
 steel~
-weapon AK AN
+weapon AKU AN
 'sword' 6 5 'pierce' 0
 33 13 6768 P
 A
@@ -5106,7 +5106,7 @@ red helmet face~
 a big red face~
 The empty shell of the Guardian head lies here.~
 vellum~
-armor CEJL AE
+armor CEJLU AE
 12 12 12 0 0
 45 10 9052 P
 E
@@ -5186,7 +5186,7 @@ helmet~
 Sentri's helmet~
 Sentri's helmet is here.~
 steel~
-armor K AE
+armor KU AE
 10 10 10 0 0
 35 30 7187 P
 A
@@ -5199,7 +5199,7 @@ sleeves~
 Sentri's sleeves~
 Sentri's sleeves lies here.~
 steel~
-armor K AI
+armor KU AI
 10 10 10 0 0
 35 40 7301 P
 A
@@ -5212,7 +5212,7 @@ girth~
 Sentri's girth~
 Sentri's girth is here.~
 steel~
-armor K AL
+armor KU AL
 10 10 10 0 0
 35 40 7108 P
 A
@@ -5225,7 +5225,7 @@ two-handed sword~
 Sentri's two-handed sword~
 Sentri's two-handed sword is here.~
 steel~
-weapon K AN
+weapon KU AN
 'exotic' 5 6 'slash' 0
 35 20 7173 P
 A
@@ -5238,7 +5238,7 @@ gloves~
 Sentri's gloves~
 Sentri's gloves are here.~
 steel~
-armor K AH
+armor KU AH
 10 10 10 0 0
 35 40 7042 P
 A
@@ -5251,7 +5251,7 @@ boots~
 Sentri's boots~
 Sentri's boots are here.~
 steel~
-armor K AG
+armor KU AG
 10 10 10 0 0
 35 40 7257 P
 A
@@ -5264,7 +5264,7 @@ leggings~
 Sentri's leggings~
 Sentri left his leggings here.~
 steel~
-armor K AF
+armor KU AF
 10 10 10 0 0
 35 40 7241 P
 A
@@ -5277,7 +5277,7 @@ armour~
 Sentri's armour~
 Sentri left his armour here.~
 steel~
-armor K AD
+armor KU AD
 10 10 10 0 0
 35 30 7233 P
 A
@@ -5290,7 +5290,7 @@ fellowship medallion~
 a Fellowship medallion~
 A triangular shaped medallion is here.~
 stone~
-armor 0 AC
+armor U AC
 10 10 10 0 0
 37 6 7565 P
 A
@@ -5303,7 +5303,7 @@ glass sword~
 The Glass Sword~
 The most amazingly well crafted sword lies here.~
 glass~
-weapon FGI AN
+weapon FGIU AN
 'exotic' 6 7 'slice' 0
 50 4 10412 P
 E
@@ -5325,7 +5325,7 @@ crown~
 British's crown~
 A jewel encrusted crown is here.~
 gold~
-armor A AE
+armor AU AE
 15 15 15 0 0
 60 10 12488 P
 E
@@ -5343,7 +5343,7 @@ British's sceptre~
 A pure gold sceptre is topped with a perfect crystal orb of
 power.~
 gold~
-armor A AO
+armor AU AO
 15 15 15 0 0
 60 1 12345 P
 E
@@ -5367,7 +5367,7 @@ silver amulet~
 British's amulet~
 A silver amulet lies here.~
 silver~
-armor A AC
+armor AU AC
 15 15 15 0 0
 60 1 12419 P
 E

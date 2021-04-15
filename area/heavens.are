@@ -1353,7 +1353,7 @@ mighty horn perseus~
 The Mighty Horn of Perseus~
 A huge, ornate horn lies here.~
 adamantite~
-armor ABG AE
+armor ABGU AE
 30 30 30 17 0
 90 40 18240 P
 E
@@ -1372,7 +1372,7 @@ mighty wings icarus~
 The Mighty Wings of Icarus~
 A enormous pair of silvery wings lie here.~
 silver~
-armor ABG AK
+armor ABGU AK
 30 30 30 17 0
 90 35 18124 P
 E
@@ -1400,7 +1400,7 @@ girth nitrius mighty metal battered rusty~
 The Mighty Girth of Nitrius~
 You see a battered, rusty old piece of metal here.~
 steel~
-armor ABG AL
+armor ABGU AL
 30 30 30 22 0
 90 28 18449 P
 E
@@ -1416,7 +1416,7 @@ acid fang fangs nitrius~
 The Fangs of Nitrius~
 You see a huge pair of fangs glowing here.~
 steel~
-weapon ABG AN
+weapon ABGU AN
 'exotic' 13 7 'acbite' CE
 90 35 18756 P
 E

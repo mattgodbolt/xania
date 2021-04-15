@@ -3797,7 +3797,7 @@ outdoor jacket~
 a wildman's outdoor jacket~
 You see a silvery outdoor jacket with big buttons here.~
 silver~
-armor AGK AK
+armor AGKU AK
 13 13 13 12 0
 48 12 24000 P
 E
@@ -3858,7 +3858,7 @@ slippers comfortable~
 a pair of comfortable slippers~
 A pair of soft, tan brown slippers are here.~
 iron~
-armor ABEJM AG
+armor ABEJMU AG
 20 19 20 19 0
 80 10 40000 P
 E
@@ -3876,7 +3876,7 @@ blade destruction~
 the blade of destruction~
 A huge two handed weapon with a terrifying blackened blade floats here.~
 adamantite~
-weapon ABCE ANP
+weapon ABCEU ANP
 'polearm' 10 8 'cleave' BDF
 80 38 49000 P
 E
@@ -3897,7 +3897,7 @@ chocolate brown suit~
 a chocolate brown suit~
 A very smart brown suit is here.~
 bronze~
-armor IK AD
+armor IKU AD
 18 18 18 18 0
 72 18 12600 P
 E
@@ -3955,7 +3955,7 @@ an explorer's shield~
 An intricate metal shield is here with a detailed planetary symbol embossed
 upon it's surface.~
 adamantite~
-armor AI AJ
+armor AIU AJ
 23 23 23 19 0
 78 33 39000 P
 E
@@ -3993,7 +3993,7 @@ an explorer's monocle~
 A small circular disc of glass with a platinum frame and chain lies
 here.~
 glass~
-armor GHI AE
+armor GHIU AE
 19 19 19 19 0
 78 6 37000 P
 E
@@ -4014,7 +4014,7 @@ moog notebook cheaply writing pad~
 the Moog's notebook~
 You see a cheaply bound writing pad here.~
 paper~
-staff BIK AO
+staff BIKU AO
 80 5 5 37 0
 80 5 20000 G
 E
@@ -4069,7 +4069,7 @@ knife swiss army~
 the Swiss Army Knife~
 You see a multi-bladed pocket knife with a bright red case here.~
 steel~
-weapon IK AN
+weapon IKU AN
 'dagger' 6 9 'pierce' D
 52 3 13000 P
 E
@@ -4111,7 +4111,7 @@ midnight warps black cloth~
 midnight wraps~
 You see some black cloth here.~
 cloth~
-armor C AD
+armor CU AD
 23 23 23 21 0
 86 5 43000 P
 E
@@ -4132,7 +4132,7 @@ hands emptiness~
 hands of emptiness~
 You see a curious pair of hands here.~
 adamantite~
-weapon CFGI ANP
+weapon CFGIU ANP
 'exotic' 9 9 'punch' BEF
 86 25 45000 P
 E
@@ -4153,7 +4153,7 @@ false toenails toe nails~
 a set of false toe nails~
 You see ten small toe nail sized objects made of stone here.~
 stone~
-armor ABGIK AG
+armor ABGIKU AG
 22 22 22 20 0
 83 12 20750 P
 E
@@ -4169,7 +4169,7 @@ spot beauty~
 a beauty spot~
 You see a small, cute, brown spot here.~
 vellum~
-armor AGIK AC
+armor AGIKU AC
 22 22 22 18 0
 83 1 41500 P
 A
@@ -4215,7 +4215,7 @@ sober effigy sobriety pendant~
 a pendant of sobriety~
 You see a colourless effigy of a sober face here.~
 glass~
-armor GK AC
+armor GKU AC
 16 16 16 14 0
 58 5 14500 P
 E
@@ -4236,7 +4236,7 @@ wolfgang stethoscope~
 Wolfgang's stethoscope~
 You see a precision stethoscope here.~
 steel~
-weapon I AN
+weapon IU AN
 'flail' 9 6 'whip' B
 54 8 9450 P
 E
@@ -4340,7 +4340,7 @@ bracelet bracer dragon kind wreath scales~
 the bracelet of dragonkind~
 A glistening wreath of green dragon scales lies here.~
 adamantite~
-armor EJ AM
+armor EJU AM
 24 22 22 20 0
 85 9 45500 P
 E
@@ -4363,7 +4363,7 @@ ajandurah staff utter negativity glistening length adamantite~
 Ajandurah's staff of utter negativity~
 A glistening length of adamantite lies here.~
 adamantite~
-weapon GIKL ANP
+weapon GIKLU ANP
 'polearm' 10 6 'magic' BF
 61 22 30500 P
 E

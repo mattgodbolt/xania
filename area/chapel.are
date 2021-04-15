@@ -1601,7 +1601,7 @@ head jubal mummy~
 the mummified head of Jubal the Benevolent~
 The mummified head of Jubal the Benevolent is lolling back and forth.~
 vellum~
-container K A
+container KU A
 3 5 0 0 0
 70 20 14497 P
 E
@@ -1692,7 +1692,7 @@ a mound of coins fit for a dead king~
 you see a mound of coins fit for a dead king here~
 gold~
 money 0 A
-35000 0 0 0 0
+8000 0 0 0 0
 0 50 0 P
 
 #3419
@@ -1838,7 +1838,7 @@ flaming gavel~
 a pitch-black gavel that flames brightly...~
 A flaming gavel lies here~
 adamantite~
-weapon G AN
+weapon GU AN
 'mace' 15 6 'slash' 0
 91 20 19064 P
 E

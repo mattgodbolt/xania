@@ -2682,7 +2682,7 @@ rod weaponry~
 the rod of weaponry~
 A shiny metal rod lies here.~
 steel~
-weapon AGI AN
+weapon AGIU AN
 'mace' 6 5 'blast' 0
 30 24 6278 P
 A
@@ -2736,7 +2736,7 @@ shield shadow~
 the shadow shield~
 A shadowy shield rests here.~
 adamantite~
-armor AGJL AJ
+armor AGJLU AJ
 9 9 9 0 0
 30 15 6082 P
 E
@@ -2751,7 +2751,7 @@ nightbringer short sword shortsword~
 a shortsword named "Nightbringer"~
 A very evil looking shortsword lies here.~
 steel~
-weapon CGJL AN
+weapon CGJLU AN
 'sword' 6 5 'pierce' 0
 30 9 6258 P
 E
@@ -2814,7 +2814,7 @@ dawnbringer mace huge~
 a huge mace named "Dawnbringer"~
 A huge mace lies here. It radiates an aura of power.~
 adamantite~
-weapon AGKL AN
+weapon AGKLU AN
 'mace' 6 5 'blast' 0
 30 24 6246 P
 E
@@ -2861,7 +2861,7 @@ globe minor~
 a minor globe of invulnerability~
 A small globe rests here. It shimmers and radiates power.~
 glass~
-armor AG AK
+armor AGU AK
 9 9 9 0 0
 30 1 6245 P
 E
@@ -2876,7 +2876,7 @@ staff gnarled magius~
 a gnarled magius staff~
 A gnarled staff lies here.~
 wood~
-weapon G AN
+weapon GU AN
 'spear' 6 5 'blast' 0
 30 10 6072 P
 E
@@ -2952,7 +2952,7 @@ symbol holy golden~
 a golden holy symbol~
 A small holy symbol on a golden chain lies here.~
 gold~
-armor G AC
+armor GU AC
 9 9 9 0 0
 30 3 6227 P
 A
@@ -3011,7 +3011,7 @@ staff ice~
 an ice staff~
 A staff made of ice rests here.~
 stone~
-weapon G AN
+weapon GU AN
 'spear' 6 5 'blast' 0
 30 13 6119 P
 E
@@ -3041,7 +3041,7 @@ horn life~
 the horn of life~
 A severed minotaur horn lies here.~
 bone~
-wand G AO
+wand GU AO
 30 8 8 16 0
 30 5 6292 P
 E
@@ -3154,7 +3154,7 @@ globe major~
 a major globe of invulnerability~
 A large globe rests here, pulsing uneasily.~
 glass~
-armor ABG AK
+armor ABGU AK
 9 9 9 0 0
 33 1 6626 P
 E
@@ -3213,7 +3213,7 @@ axe great~
 Mahn-Tor's Great Axe~
 An extremely huge axe is resting here.~
 adamantite~
-weapon BG AN
+weapon BGU AN
 'axe' 5 6 'slash' 0
 33 26 6862 P
 E
@@ -3230,7 +3230,7 @@ plate ethereal suit~
 a suit of ethereal plate~
 A suit of shimmering plate rests here.~
 adamantite~
-armor AJ AD
+armor AJU AD
 8 8 8 0 0
 25 2 5157 P
 E
@@ -3245,7 +3245,7 @@ helm ethereal~
 an ethereal helm~
 A shimmering helm rests here.~
 adamantite~
-armor AJ AE
+armor AJU AE
 8 8 8 0 0
 25 5 5054 P
 E
@@ -3258,7 +3258,7 @@ blade ethereal~
 an ethereal blade~
 A shimmering blade lies here.~
 steel~
-weapon AJ AN
+weapon AJU AN
 'exotic' 5 5 'slash' 0
 25 3 5199 P
 E

@@ -994,7 +994,7 @@ clawfist~
 Clawfist~
 A golden claw catches the light.~
 adamantite~
-armor BI HA
+armor BIU HA
 19 18 19 20 0
 80 20 3000 P
 A
@@ -2799,7 +2799,7 @@ shield sun~
 the Arbiter's shield~
 A shield embossed with the image of the sun lies here.~
 bronze~
-armor ABG AJ
+armor ABGU AJ
 24 24 24 20 0
 86 18 3000 P
 E
@@ -2819,7 +2819,7 @@ toga linen~
 a fine linen toga~
 A fine linen toga lies in a crumpled heap.~
 cloth~
-armor AG AD
+armor AGU AD
 20 20 20 28 0
 85 10 3000 P
 E
@@ -2842,7 +2842,7 @@ lesser summoning shard~
 a lesser summoning shard~
 a lesser shard of summoning has been left here.~
 silver~
-treasure GT A
+treasure GTU A
 0 0 0 0 0
 2 1 250 P
 E
@@ -2854,7 +2854,7 @@ minor summoning shard~
 a minor summoning shard~
 a minor shard of summoning has been left here.~
 silver~
-treasure GT A
+treasure GTU A
 0 0 0 0 0
 12 1 1950 P
 E
@@ -2866,7 +2866,7 @@ dull summoning shard~
 a dull summoning shard~
 a dull shard of summoning has been left here.~
 silver~
-treasure GT A
+treasure GTU A
 0 0 0 0 0
 22 1 3750 P
 E
@@ -2878,7 +2878,7 @@ polished summoningshard~
 a polished summoning shard~
 a polished shard of summoning has been left here.~
 silver~
-treasure GT A
+treasure GTU A
 0 0 0 0 0
 32 1 5500 P
 E
@@ -2890,7 +2890,7 @@ burnished summoning shard~
 a burnished summoning shard~
 a burnished shard of summoning has been left here.~
 silver~
-treasure GT A
+treasure GTU A
 0 0 0 0 0
 42 1 7000 P
 E
@@ -2902,7 +2902,7 @@ greater summoning shard~
 a greater summoning shard~
 a greater shard of summoning has been left here.~
 silver~
-treasure GT A
+treasure GTU A
 0 0 0 0 0
 52 1 8850 P
 E
@@ -2914,7 +2914,7 @@ imbued summoning shard~
 an imbued summoning shard~
 an imbued shard of summoning has been left here.~
 silver~
-treasure GT A
+treasure GTU A
 0 0 0 0 0
 62 1 10450 P
 E
@@ -2926,7 +2926,7 @@ sanctified summoning shard~
 a sanctified summoning shard~
 a sanctified shard of summoning has been left here.~
 silver~
-treasure GT A
+treasure GTU A
 0 0 0 0 0
 72 1 12450 P
 E
@@ -2938,7 +2938,7 @@ octarine summoning shard~
 an octarine summoning shard~
 an octarine shard of summoning has been left here.~
 octarine~
-treasure GT A
+treasure GTU A
 0 0 0 0 0
 82 1 14250 P
 E

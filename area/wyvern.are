@@ -1511,7 +1511,7 @@ rod might~
 the rod of might~
 A Rod of Might is lying here.~
 glass~
-weapon BG AN
+weapon BGU AN
 'mace' 4 5 'blast' 0
 16 13 3200 P
 A
@@ -1549,7 +1549,7 @@ bracer~
 a mithril bracer~
 A magical bracer made from mithril lies on the ground!~
 mithril~
-armor BG AI
+armor BGU AI
 6 6 6 0 0
 18 2 3725 P
 A
@@ -1662,7 +1662,7 @@ gnarled staff~
 a gnarled staff~
 A gnarled looking staff lies on the ground.~
 wood~
-weapon AG AN
+weapon AGU AN
 'spear' 2 6 'pound' 0
 6 7 1255 P
 A
@@ -1673,7 +1673,7 @@ ancient sword~
 an ancient long sword~
 An ancient long sword has been left here.~
 octarine~
-weapon BG AN
+weapon BGU AN
 'sword' 3 8 'slash' 0
 20 10 4075 P
 A

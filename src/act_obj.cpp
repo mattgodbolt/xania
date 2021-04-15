@@ -2318,7 +2318,7 @@ bool obj_move_violates_uniqueness(std::optional<Char *> source_char, std::option
     }
 
     std::set<OBJ_INDEX_DATA *> moving_unique_obj_idxs;
-    std::set<OBJ_INDEX_DATA *> from_or_to_unique_obj_idxs;
+    std::set<OBJ_INDEX_DATA *> to_unique_obj_idxs;
 
     GenericList<OBJ_DATA *> moving_objects;
     moving_objects.add_back(moving_obj);
@@ -2328,10 +2328,9 @@ bool obj_move_violates_uniqueness(std::optional<Char *> source_char, std::option
     if (moving_unique_obj_idxs.empty()) {
         return false;
     }
-    collect_unique_obj_indexes(objs_to, from_or_to_unique_obj_idxs);
+    collect_unique_obj_indexes(objs_to, to_unique_obj_idxs);
     std::vector<OBJ_INDEX_DATA *> intersection;
-    std::set_intersection(moving_unique_obj_idxs.begin(), moving_unique_obj_idxs.end(),
-                          from_or_to_unique_obj_idxs.begin(), from_or_to_unique_obj_idxs.end(),
-                          std::back_inserter(intersection));
+    std::set_intersection(moving_unique_obj_idxs.begin(), moving_unique_obj_idxs.end(), to_unique_obj_idxs.begin(),
+                          to_unique_obj_idxs.end(), std::back_inserter(intersection));
     return !intersection.empty();
 }

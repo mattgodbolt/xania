@@ -1334,7 +1334,7 @@ evil black dagger~
 an evil looking black dagger~
 A black dagger is here radiating evil.~
 adamantite~
-weapon E AN
+weapon EU AN
 'dagger' 9 9 'pierce' 0
 81 10 16365 P
 A
@@ -1345,7 +1345,7 @@ black staff~
 a black staff~
 A long blackened stick is here~
 wood~
-weapon E AN
+weapon EU AN
 'exotic' 8 9 'pound' 0
 80 10 16503 P
 A
@@ -1356,7 +1356,7 @@ heap scales black dragonscale robes~
 dragonscale robes~
 You see a shimering black heap of scales.~
 cloth~
-armor EGJL AD
+armor EGJLU AD
 19 19 19 0 0
 83 20 16650 P
 A
@@ -1367,7 +1367,7 @@ dragonfang robes~
 dragonfang robes~
 You see a pile of tiny bones.~
 bone~
-armor 0 AD
+armor U AD
 19 19 19 0 0
 81 20 16879 P
 A
@@ -1530,7 +1530,7 @@ coordinator earring~
 earring of co-ordination~
 A tiny earring lies on the ground.~
 glass~
-armor A AQ
+armor AU AQ
 16 16 16 0 0
 78 1 3902 P
 A

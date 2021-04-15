@@ -1213,7 +1213,7 @@ aegis plate~
 The Aegis~
 A powerful breast plate has been left here.~
 steel~
-armor FGK AD
+armor FGKU AD
 15 15 15 0 0
 60 50 12373 P
 A
@@ -1224,7 +1224,7 @@ hammer thunder bolt thunderbolt~
 The Thunder Bolt~
 A huge hammer has been carelessly dropped here.~
 steel~
-weapon FGK AN
+weapon FGKU AN
 'mace' 5 12 'crush' 0
 60 24 12202 P
 A
@@ -1235,7 +1235,7 @@ helmet winged~
 A Winged Helmet~
 A helmet with small wings lies here.~
 steel~
-armor FGK AE
+armor FGKU AE
 14 14 14 0 0
 56 5 11411 P
 A
@@ -1246,7 +1246,7 @@ spear ares~
 the Spear of Ares~
 A wicked spear rests on the ground here.~
 steel~
-armor FGJ AN
+armor FGJU AN
 3 5 12 2 0
 59 18 12250 P
 A
@@ -1259,7 +1259,7 @@ sandals winged~
 a pair of winged sandals~
 A pair of well made sandals lies here.~
 leather~
-armor FGK AG
+armor FGKU AG
 9 9 9 0 0
 34 5 7117 P
 
@@ -1268,7 +1268,7 @@ staff ivory~
 an ivory staff~
 An ivory staff.~
 wood~
-staff FGK AO
+staff FGKU AO
 30 3 3 36 0
 50 8 10112 P
 
@@ -1277,7 +1277,7 @@ trident poseidon~
 Poseidon's Trident~
 A huge three pronged spear lies here.~
 adamantite~
-weapon FGK AN
+weapon FGKU AN
 'spear' 5 12 'stab' 0
 59 16 11907 P
 A
@@ -1288,7 +1288,7 @@ bow silver~
 a silver bow~
 A silver bow.~
 silver~
-weapon FGK AN
+weapon FGKU AN
 'exotic' 6 7 'pound' 0
 50 15 10180 P
 A
@@ -1301,7 +1301,7 @@ gauntlets flaming~
 flaming gauntlets~
 A pair of metal gauntlets flame here.~
 steel~
-armor FGK AH
+armor FGKU AH
 9 9 9 0 0
 34 6 6976 P
 A
@@ -1321,7 +1321,7 @@ necklace glowing~
 a glowing necklace~
 A necklace with an inner glow lies here.~
 silver~
-armor FGK AC
+armor FGKU AC
 13 13 13 0 0
 50 2 10116 P
 A
@@ -1332,7 +1332,7 @@ ring sapphire~
 a sapphire ring~
 A sapphire ring lies here.~
 stone~
-armor FGK AB
+armor FGKU AB
 9 9 9 0 0
 34 1 6956 P
 A
@@ -1345,7 +1345,7 @@ shield glowing~
 a brightly glowing shield~
 A shield lies here, filling the room with its aura.~
 gold~
-armor FGK AJ
+armor FGKU AJ
 14 14 14 0 0
 55 10 11085 P
 A
@@ -1437,7 +1437,7 @@ amulet~
 the Amulet of Ra~
 A sun shaped medallion is lying here.~
 glass~
-armor FGK AC
+armor FGKU AC
 15 15 15 0 0
 60 1 12331 P
 A
@@ -1448,7 +1448,7 @@ sun sword~
 the Sword of the Sun~
 A beautiful sword with the rising sun etched on the pommel is lying here.~
 gold~
-weapon FGK AN
+weapon FGKU AN
 'sword' 7 8 'slash' 0
 60 20 12560 P
 A
@@ -1459,7 +1459,7 @@ robe blue~
 a blue robe~
 A deep blue robe is on the ground here.~
 cloth~
-armor FGK AK
+armor FGKU AK
 15 15 15 0 0
 60 10 12494 P
 A

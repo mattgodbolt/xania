@@ -116,24 +116,13 @@ State thy name and enter the realm of Xania: ~
 Welcome to Xania! See 'help rules' and 'help commands'.
 
 [ Recent Gameplay Updates! ]
+Apr 15: Some special and/or powerful objects are now regarded by the Gods
+as unique. You can only possess one instance of a unique item at a time.
+
 Apr 11: Higher level mobiles will now be equipped with objects using
 a chance based calculation. You may have to kill an NPC several times to 
 get all of its loot!
 
-Mar 25: Most 'buff' spells will automatically refresh an existing buff of the
-same type, unless the existing buff was cast by a higher level player.
-
-Dec 16: 'Other' sex can be chosen during char creation. New 'pronouns' command
-lets you customise how in-game messages refer to you, see 'help pronouns'.
-
-Dec 13: There's an earring item slot now. Earrings are quite rare, there's
-only 11 to be found in Xania at the moment!
- 
-Dec 10: Cooldown timer is now displayed in your prompt by default, or add it
-as a customization with '%c' (see help prompt).
-
-Dec 7: New area! The Valkyrie. It's a naval themed area for levels 50-75 or so
-over in the Dragon Sea. It has some secrets and interesting storyline bosses. 
 |g[Hit return to continue]|w
 ~ 
  

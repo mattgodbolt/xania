@@ -497,7 +497,7 @@ katana sword~
 Leonardo's Katana blade~
 An oriental style sword is lying on the ground.~
 steel~
-weapon B AN
+weapon BU AN
 'sword' 8 8 'slash' D
 65 15 1000 G
 A 
@@ -510,7 +510,7 @@ numchucks~
 Michaelangelo's numchucks~
 Some numchucks with slime on them are here.~
 stone~
-weapon B ANP
+weapon BU ANP
 'mace' 8 8 'pound' F
 65 15 1000 G
 A
@@ -523,7 +523,7 @@ bokken pole~
 Donatello's bokken~
 A long wooden pole has been dropped here.~
 wood~
-weapon B ANP
+weapon BU ANP
 'polearm' 8 8 'smash' F
 65 15 1000 G
 A 
@@ -536,7 +536,7 @@ sai~
 Raphael's sai~
 Someone has left their sai lying here~
 steel~
-weapon B AN
+weapon BU AN
 'dagger' 8 8 'stab' 0
 65 15 1000 G
 A
@@ -549,7 +549,7 @@ takashima blade~
 the Takashima blade~
 A finely crafted Takashima blade is resting on the ground~
 steel~
-weapon 0 AN
+weapon U AN
 'sword' 9 9 'slash' 0
 82 20 5000 G
 A
@@ -751,7 +751,7 @@ eye izanagi ring~
 the Eye of Izanagi~
 A small ring with a gem shaped like an eye is sitting here.~
 silver~
-armor AG AB
+armor AGU AB
 10 12 10 16 0
 85 3 15000 G
 A

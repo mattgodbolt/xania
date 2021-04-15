@@ -2880,7 +2880,7 @@ plate platinum~
 platinum plate~
 A pile of silvery metal is on the floor.~
 platinum~
-armor GK AD
+armor GKU AD
 9 9 9 0 0
 33 50 6838 P
 A
@@ -2893,7 +2893,7 @@ helmet platinum~
 the platinum helmet~
 A silvery helmet is on the floor.~
 platinum~
-armor GK AE
+armor GKU AE
 9 9 9 0 0
 33 30 6915 P
 A
@@ -2906,7 +2906,7 @@ leggings platinum~
 platinum leggings~
 Some silvery leggings are on the floor.~
 platinum~
-armor GK AF
+armor GKU AF
 9 9 9 0 0
 33 40 6721 P
 A
@@ -2919,7 +2919,7 @@ boots platinum~
 platinum boots~
 Some silvery boots are on the floor.~
 platinum~
-armor GK AG
+armor GKU AG
 9 9 9 0 0
 33 40 6716 P
 A
@@ -2932,7 +2932,7 @@ gauntlets platinum~
 platinum gauntlets~
 A pair of silvery gauntlets are on the floor.~
 platinum~
-armor GK AH
+armor GKU AH
 9 9 9 0 0
 33 40 6670 P
 A
@@ -2945,7 +2945,7 @@ sleeves platinum~
 platinum sleeves~
 A pair of silvery sleeves are on the floor.~
 platinum~
-armor GK AI
+armor GKU AI
 9 9 9 0 0
 33 40 6799 P
 A
@@ -2958,7 +2958,7 @@ shield spiked platinum~
 the platinum spiked shield~
 A jagged, silvery shield is on the floor.~
 platinum~
-armor GK AJ
+armor GKU AJ
 9 9 9 0 0
 33 40 6736 P
 A
@@ -2971,7 +2971,7 @@ girth platinum~
 the platinum girth~
 A silvery girth is on the floor.~
 platinum~
-armor GK AL
+armor GKU AL
 9 9 9 0 0
 33 40 6852 P
 A
@@ -2984,7 +2984,7 @@ avenger holy sword~
 Holy Avenger~
 A glowing silvery sword is hovering here, ready to possess an owner.~
 platinum~
-weapon GK AN
+weapon GKU AN
 'sword' 4 8 'slice' 0
 33 25 6613 P
 A
@@ -3033,7 +3033,7 @@ symbol holy~
 the Holy Symbol of Bahamut~
 A very shiny symbol is on the floor.~
 silver~
-armor GIKL AC
+armor GIKLU AC
 9 9 9 0 0
 30 5 6159 P
 A
@@ -3085,7 +3085,7 @@ leggings golden~
 golden dragonscale leggings~
 Some golden dragonscale leggings are on the floor!~
 gold~
-armor GK AF
+armor GKU AF
 8 8 8 0 0
 29 10 6030 P
 A
@@ -3098,7 +3098,7 @@ boots golden~
 golden dragonscale boots~
 Some golden dragonscale boots are on the floor!~
 gold~
-armor GK AG
+armor GKU AG
 8 8 8 0 0
 29 10 6089 P
 A
@@ -3111,7 +3111,7 @@ gauntlets golden~
 golden dragonscale gauntlets~
 Some golden dragonscale gauntlets are on the floor!~
 gold~
-armor GK AH
+armor GIKLU AH
 8 8 8 0 0
 29 10 6015 P
 A
@@ -3124,7 +3124,7 @@ sleeves golden~
 golden dragonscale sleeves~
 Some golden dragonscale sleeves are on the floor!~
 gold~
-armor GK AI
+armor GKU AI
 8 8 8 0 0
 29 10 5910 P
 A
@@ -3137,7 +3137,7 @@ shield golden~
 a golden dragonscale shield~
 A golden dragonscale shield is on the floor!~
 gold~
-armor GK AJ
+armor GKU AJ
 7 7 7 0 0
 21 10 4394 P
 A
@@ -3150,7 +3150,7 @@ girth golden~
 a golden dragonscale girth~
 A golden dragonscale girth is on the floor!~
 gold~
-armor GK AL
+armor GKU AL
 8 8 8 0 0
 29 10 5945 P
 A
@@ -3163,7 +3163,7 @@ claw golden~
 the Golden Claw~
 A huge golden claw is on the floor~
 gold~
-weapon GK AN
+weapon GKU AN
 'exotic' 5 4 'claw' 0
 21 20 4289 P
 A
@@ -3174,7 +3174,7 @@ orb dragonorb~
 the Gold Dragon Orb~
 A very large pearl-like sphere is in the center of this room.~
 pearl~
-staff GKL AO
+staff GKLU AO
 14 4 4 28 0
 37 30 7688 P
 A
@@ -3187,7 +3187,7 @@ robe golden~
 a golden robe~
 A golden robe is on the floor.~
 cloth~
-armor GK AK
+armor GKU AK
 7 7 7 0 0
 20 10 4133 P
 A
@@ -3229,7 +3229,7 @@ golden talons~
 the Golden Talons~
 Huge golden talons are on the floor~
 gold~
-weapon GK AN
+weapon GKU AN
 'exotic' 6 6 'claw' 0
 36 20 4889 P
 A

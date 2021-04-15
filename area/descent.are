@@ -4150,7 +4150,7 @@ sword farslayer~
 a black hilted sword called, "Farslayer"~
 A black hilted sword with engravings on the blade lies here.~
 ~
-weapon BFGHJM AN
+weapon BFGHJMU AN
 'sword' 5 9 'pierce' 0
 45 25 9399 P
 E
@@ -4430,7 +4430,7 @@ figurine horse~
 figurine of a horse~
 You see a small figurine of a horse on the ground.~
 china~
-wand AG AO
+wand AGU AO
 13 13 13 12 0
 54 3 500 P
 A
@@ -4441,7 +4441,7 @@ figurine winged horse pegasus~
 figurine of a winged horse~
 You see a small figurine of a winged horse on the ground.~
 china~
-wand AG AO
+wand AGU AO
 54 25 25 56 0
 54 3 500 P
 A
@@ -4452,7 +4452,7 @@ figurine dark horse nightmare~
 figurine of a nightmare~
 You see a small figurine of a dark horse on the ground.~
 china~
-wand AG AO
+wand AGU AO
 54 20 20 66 0
 54 3 500 P
 A
@@ -4463,7 +4463,7 @@ figurine black dragon~
 figurine of a black dragon~
 You see a small figurine of a black dragon on the ground.~
 china~
-wand AG AO
+wand AGU AO
 54 10 10 201 0
 54 3 500 P
 A
@@ -4474,7 +4474,7 @@ figurine red dragon~
 figurine of a red dragon~
 You see a small figurine of a red dragon on the ground.~
 china~
-wand AG AO
+wand AGU AO
 54 10 10 69 0
 54 3 500 P
 A
@@ -4485,7 +4485,7 @@ figurine white dragon~
 figurine of a white dragon~
 You see a small figurine of a white dragon on the ground.~
 china~
-wand AG AO
+wand AGU AO
 3 10 10 36 0
 54 3 500 P
 A
@@ -4496,7 +4496,7 @@ figurine green dragon~
 figurine of a green dragon~
 You see a small figurine of a green dragon on the ground.~
 china~
-wand AG AO
+wand AGU AO
 40 10 10 70 0
 54 3 700 P
 A
@@ -4507,7 +4507,7 @@ figurine blue dragon~
 figurine of a blue dragon~
 You see a small figurine of a blue dragon on the ground.~
 ~
-wand AG AO
+wand AGU AO
 54 10 10 99 0
 54 3 500 P
 A
