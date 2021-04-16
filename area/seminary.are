@@ -3493,7 +3493,7 @@ slimy key~
 a slimy key~
 A slimy green key lies here.~
 bronze~
-key FGMO A
+key FGO A
 0 0 0 0 0
 70 1 450 G
 E
@@ -3858,7 +3858,7 @@ slippers comfortable~
 a pair of comfortable slippers~
 A pair of soft, tan brown slippers are here.~
 iron~
-armor ABEJMU AG
+armor ABEJU AG
 20 19 20 19 0
 80 10 40000 P
 E
@@ -4033,7 +4033,7 @@ curious interesting wood graphite~
 a curious pencil~
 A short length of graphite filled wood lies here.~
 wood~
-wand CEGM AO
+wand CEG AO
 85 5 5 69 0
 85 1 14875 P
 A

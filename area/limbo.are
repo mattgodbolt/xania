@@ -70,7 +70,7 @@ template~
 template~
 This is the template object for area editor~
 octarine~
-light ABCDEFGHIJKLMONPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ
+light ABCDEFGHIJKLONPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ
 0 0 0 0 0
 0 0 0 P
 #10

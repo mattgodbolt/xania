@@ -222,6 +222,12 @@ void load_objects(FILE *fp) {
         pObjIndex->item_type = item_lookup(fread_word(fp));
 
         pObjIndex->extra_flags = fread_flag(fp);
+
+        if (IS_OBJ_STAT(pObjIndex, ITEM_NOREMOVE) && pObjIndex->item_type != ITEM_WEAPON) {
+            bug("Only weapons are meant to have ITEM_NOREMOVE: {} {}", pObjIndex->vnum, pObjIndex->name);
+            exit(1);
+        }
+
         pObjIndex->wear_flags = fread_flag(fp);
 
         temp = fread_letter(fp);

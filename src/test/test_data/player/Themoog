@@ -218,16 +218,6 @@ AffD 'sanctuary' 100  15   0   0        128
 End
 
 #O
-Vnum 30015
-Nest 0
-ExtF 192
-WStr worn in eyes~
-Wear 6
-Lev  99
-Cost 0
-End
-
-#O
 Vnum 30014
 Nest 0
 Wear 5

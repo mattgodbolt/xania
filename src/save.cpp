@@ -852,10 +852,21 @@ void fread_pet(Char *ch, FILE *fp) {
 
 namespace {
 
-void retrofit_item_unique_flag(OBJ_DATA *obj) {
+void set_unique_item_flag(OBJ_DATA *obj) {
     if (IS_SET(obj->pIndexData->extra_flags, ITEM_UNIQUE) && !IS_SET(obj->extra_flags, ITEM_UNIQUE)) {
         SET_BIT(obj->extra_flags, ITEM_UNIQUE);
     }
+}
+
+void remove_noremove_item_flag_non_weapon(OBJ_DATA *obj) {
+    if (obj->item_type != ITEM_WEAPON && IS_SET(obj->extra_flags, ITEM_NOREMOVE)) {
+        REMOVE_BIT(obj->extra_flags, ITEM_NOREMOVE);
+    }
+}
+
+void upgrade_legacy_item_extra_flags(OBJ_DATA *obj) {
+    set_unique_item_flag(obj);
+    remove_noremove_item_flag_non_weapon(obj);
 }
 
 }
@@ -932,7 +943,7 @@ void fread_obj(Char *ch, FILE *fp) {
             obj->enchanted = true;
         } else if (matches(word, "ExtraFlags") || matches(word, "ExtF")) {
             obj->extra_flags = fread_number(fp);
-            retrofit_item_unique_flag(obj);
+            upgrade_legacy_item_extra_flags(obj);
         } else if (matches(word, "ExtraDescr") || matches(word, "ExDe")) {
             auto keyword = fread_stdstring(fp);
             auto description = fread_stdstring(fp);

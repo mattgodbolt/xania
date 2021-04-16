@@ -219,7 +219,7 @@ token wyrm dragon shield~
 TOKEN FOR Shield of the Great Wyrm~
 A shield displaying the symbol of the dragon lies here <TOKEN>.~
 vellum~
-trash IM AO
+trash GI AO
 2 2 2 2 0
 5 3 350 P
 E
@@ -258,7 +258,7 @@ token wyrm dragon sword~
 TOKEN FOR Sword of the Great Wyrm~
 A fine sword with dragon markings lies here <TOKEN>.~
 vellum~
-trash AHIM AO
+trash AHI AO
 1 6 5 1 DE
 30 30 1000 P
 E
@@ -431,7 +431,7 @@ wyrm dragon shield~
 Shield of the Great Wyrm~
 A shield displaying the symbol of the dragon lies here.~
 steel~
-armor IM AJ
+armor IG AJ
 2 2 2 2 0
 5 3 350 P
 E

@@ -2058,7 +2058,6 @@ void spell_damnation(int sn, int level, Char *ch, void *vo) {
     }
 
     ch->gold -= (mana * 100);
-    SET_BIT(obj->extra_flags, ITEM_NODROP);
     SET_BIT(obj->extra_flags, ITEM_NOREMOVE);
     ch->send_line("You turn red in the face and curse your weapon into the pits of hell!");
 }
@@ -3006,10 +3005,9 @@ void spell_refresh(int sn, int level, Char *ch, void *vo) {
 }
 
 namespace {
-bool is_cursed(const OBJ_DATA *obj) { return IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE); }
-void try_remove_curse(const Char *victim, int level, OBJ_DATA *obj) {
+bool is_noremove(const OBJ_DATA *obj) { return IS_OBJ_STAT(obj, ITEM_NOREMOVE); }
+void try_strip_noremove(const Char *victim, int level, OBJ_DATA *obj) {
     if (!saves_dispel(level, obj->level)) {
-        REMOVE_BIT(obj->extra_flags, ITEM_NODROP);
         REMOVE_BIT(obj->extra_flags, ITEM_NOREMOVE);
         act("$p glows blue.", victim, obj, nullptr, To::Char);
         act("$p glows blue.", victim, obj, nullptr, To::Room);
@@ -3037,15 +3035,15 @@ void spell_remove_curse(int sn, int level, Char *ch, void *vo) {
 
     for (int iWear = 0; iWear < MAX_WEAR; iWear++) {
         auto *obj = get_eq_char(victim, iWear);
-        if (obj && is_cursed(obj)) {
-            try_remove_curse(victim, level, obj);
+        if (obj && is_noremove(obj)) {
+            try_strip_noremove(victim, level, obj);
             return;
         }
     }
 
     for (auto *obj : victim->carrying) {
-        if (is_cursed(obj)) {
-            try_remove_curse(victim, level, obj);
+        if (is_noremove(obj)) {
+            try_strip_noremove(victim, level, obj);
             return;
         }
     }

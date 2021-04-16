@@ -212,7 +212,7 @@ shadow death dark~
 Shadow of Death~
 You see the tendrils of a long dark shadow here, trying to fill the room.~
 stone~
-armor CGMOU AK
+armor CGHOU AK
 30 30 30 15 0
 91 30 0 P
 E
@@ -248,7 +248,7 @@ skull face terrifying~
 a terrifying skull face~
 The large skull face which you see here sends a shiver down your spine.~
 stone~
-armor ACHMOU AE
+armor ACHOU AE
 30 30 30 15 0
 91 30 0 P
 E
@@ -264,7 +264,7 @@ hour glass hourglass~
 an hourglass~
 You see a large, crystalline hourglass here.~
 glass~
-treasure BCMOU AO
+treasure BCHOU AO
 0 0 0 0 0
 91 10 80000 P
 E
@@ -281,7 +281,7 @@ manky old trainers~
 some manky old trainers~
 You see a pair of really old, well worn trainers here.~
 cloth~
-armor GMU AG
+armor GHU AG
 33 33 33 16 0
 99 1 0 P
 E
@@ -376,7 +376,7 @@ contact lenses~
 contact lenses~
 You can just make out the glimmer of a pair of contact lenses here.~
 glass~
-armor HMG AE
+armor HG AE
 33 33 33 16 0
 99 1 0 P
 E

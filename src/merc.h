@@ -600,7 +600,7 @@ static inline constexpr auto ff = BIT(31);
 #define ITEM_ANTI_GOOD (J)
 #define ITEM_ANTI_EVIL (K)
 #define ITEM_ANTI_NEUTRAL (L)
-#define ITEM_NOREMOVE (M)
+#define ITEM_NOREMOVE (M) // Only weapons are meant to have this, it prevents disarm.
 #define ITEM_INVENTORY (N)
 #define ITEM_NOPURGE (O)
 #define ITEM_ROT_DEATH (P)

@@ -116,6 +116,13 @@ State thy name and enter the realm of Xania: ~
 Welcome to Xania! See 'help rules' and 'help commands'.
 
 [ Recent Gameplay Updates! ]
+Apr 16: 
+*   The 'get all corpse' command, including 'autoloot' mode, no longer
+automatically loots non-droppable or non-removeable objects.
+*   Objects marked as 'no drop' can longer have their 'no drop' status 
+removed by the 'remove curse' spell. The 'damnation' spell no longer sets
+the 'no drop' status too, but it still weapons immune from disarm in combat!
+
 Apr 15: Some special and/or powerful objects are now regarded by the Gods
 as unique. You can only possess one instance of a unique item at a time.
 

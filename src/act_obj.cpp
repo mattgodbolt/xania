@@ -1002,8 +1002,9 @@ bool remove_obj(Char *ch, int iWear, bool fReplace) {
     if (!fReplace)
         return false;
 
-    if (IS_SET(obj->extra_flags, ITEM_NOREMOVE)) {
-        act("|rYou can't remove $p.|w", ch, obj, nullptr, To::Char);
+    if (IS_OBJ_STAT(obj, ITEM_NOREMOVE)) {
+        act("|rYou can't remove $p because it is cursed. Seek one who is skilled in benedictions.|w", ch, obj, nullptr,
+            To::Char);
         return false;
     }
 

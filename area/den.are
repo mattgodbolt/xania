@@ -814,7 +814,7 @@ Orb Dragon Kings~
 The Orb of the Dragon Kings~
 A huge orb sits on the ground here, calling you to pick it up.~
 stone~
-armor ABJHM AO
+armor ABJH AO
 23 23 23 23 0
 90 25 8000 P
 E
@@ -903,7 +903,7 @@ Cowl~
 Cowl of the Reaper~
 A dark cowl lies on the ground here.~
 leather~
-armor ABFHJM AC
+armor ABFHJU AC
 20 20 20 10 0
 85 20 6000 P
 E
@@ -1123,7 +1123,7 @@ Hockey Mask~
 Hockey Mask~
 A battered, bloody hockey mask lies here.~
 adamantite~
-armor ABFHM AE
+armor ABFHU AE
 25 25 25 25 0
 91 25 15000 P
 E
