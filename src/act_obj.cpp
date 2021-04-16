@@ -126,6 +126,16 @@ void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container) {
     }
 }
 
+namespace {
+
+bool is_mass_looting_npc_undroppable_obj(const OBJ_DATA *obj, const OBJ_DATA *container,
+                                         const char looting_all_item_dot) {
+    return container->item_type == ITEM_CORPSE_NPC && looting_all_item_dot == '\0'
+           && (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE));
+}
+
+}
+
 void do_get(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
@@ -221,6 +231,14 @@ void do_get(Char *ch, const char *argument) {
                         ch->send_line("Don't be so greedy!");
                         return;
                     }
+                    if (is_mass_looting_npc_undroppable_obj(obj, container, arg1[3])) {
+                        act("You refrain from looting $p as it appears to be undroppable. You can still 'get' it using "
+                            "its name.",
+                            ch, obj, nullptr, To::Char);
+                        act("$n refrains from looting $p as it appears to be undroppable.", ch, obj, nullptr, To::Room);
+                        continue;
+                    }
+
                     get_obj(ch, obj, container);
                 }
             }
@@ -481,7 +499,7 @@ void do_drop(Char *ch, const char *argument) {
         }
 
         if (!can_drop_obj(ch, obj)) {
-            ch->send_line("You can't let go of it.");
+            ch->send_line("You can't let go of it. Use 'trash' if you want to destroy it.");
             return;
         }
 
