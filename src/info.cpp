@@ -22,7 +22,6 @@
 
 #include <cstdio>
 #include <cstring>
-#include <dirent.h>
 #include <sys/stat.h>
 #include <unordered_map>
 

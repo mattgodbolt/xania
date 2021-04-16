@@ -36,7 +36,6 @@ enum class DescriptorState {
 };
 
 const char *short_name_of(DescriptorState state);
-
 /*
  * Descriptor (channel) structure.
  */
@@ -107,7 +106,9 @@ public:
     void set_endpoint(uint32_t netaddr, uint16_t port, std::string_view raw_full_hostname);
 
     [[nodiscard]] const std::string &host() const noexcept { return masked_host_; }
+    void host(std::string_view host) { masked_host_ = host; }
     [[nodiscard]] std::string login_time() const noexcept;
+    void login_time(Time login_time) { login_time_ = login_time; }
 
     [[nodiscard]] bool flush_output() noexcept;
 

@@ -8,5 +8,6 @@
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "cmake.configureOnOpen": true,
     "cmake.buildDirectory" : "cmake-build-debug",
-    "cmake.installPrefix" : "${workspaceFolder}/install"
+    "cmake.installPrefix" : "${workspaceFolder}/install",
+    "editor.acceptSuggestionOnEnter": "off"
 }

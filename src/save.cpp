@@ -35,9 +35,6 @@ std::string filename_for_god(std::string_view player_name) {
     return fmt::format("{}{}", Configuration::singleton().gods_dir(), initial_caps_only(player_name));
 }
 
-char *login_from;
-char *login_at;
-
 /*
  * Array of containers read for proper re-nesting of objects.
  */
@@ -53,7 +50,7 @@ void fwrite_char(const Char *ch, FILE *fp);
 void fwrite_objs(const Char *ch, const GenericList<OBJ_DATA *> &objs, FILE *fp, int iNest = 0);
 void fwrite_one_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest);
 void fwrite_pet(const Char *ch, const Char *pet, FILE *fp);
-void fread_char(Char *ch, FILE *fp);
+void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp);
 void fread_pet(Char *ch, FILE *fp);
 void fread_obj(Char *ch, FILE *fp);
 
@@ -80,42 +77,43 @@ void set_bits_from_pfile(Char *ch, FILE *fp) {
     }
 }
 
+void CharSaver::save(const Char &ch) const {
+    FILE *god_file = fopen(filename_for_god(ch.name).c_str(), "w");
+    FILE *player_file = fopen(filename_for_player(ch.name).c_str(), "w");
+    save(ch, god_file, player_file);
+    if (god_file)
+        fclose(god_file);
+    if (player_file)
+        fclose(player_file);
+}
+
+void CharSaver::save(const Char &ch, FILE *god_file, FILE *player_file) const {
+    if (!ch.player()) // At the moment NPCs can't be persisted.
+        return;
+    const Char *player = ch.player();
+    if (player->is_immortal() || player->level >= LEVEL_IMMORTAL) {
+        if (god_file) {
+            fprintf(god_file, "Lev %2d Trust %2d  %s%s\n", player->level, player->get_trust(), player->name.c_str(),
+                    player->pcdata->title.c_str());
+        } else {
+            bug("Unable to write god file for {}", player->name);
+        }
+    }
+    if (player_file) {
+        save_char_obj(player, player_file);
+    } else {
+        bug("Unable to write player file for {}", player->name);
+    }
+}
+
 /*
  * Save a character and inventory.
  * Would be cool to save NPC's too for quest purposes,
  *   some of the infrastructure is provided.
  */
 void save_char_obj(const Char *ch) {
-    FILE *fp;
-
-    if (ch = ch->player(); !ch)
-        return;
-
-    /* create god log */
-    if (ch->is_immortal() || ch->level >= LEVEL_IMMORTAL) {
-        auto godsave = filename_for_god(ch->name);
-        if ((fp = fopen(godsave.c_str(), "w")) == nullptr) {
-            bug("Save_char_obj: fopen");
-            perror(godsave.c_str());
-        }
-
-        fprintf(fp, "Lev %2d Trust %2d  %s%s\n", ch->level, ch->get_trust(), ch->name.c_str(),
-                ch->pcdata->title.c_str());
-        fclose(fp);
-    }
-
-    auto player_temp = filename_for_player(ch->name + ".tmp");
-    if ((fp = fopen(player_temp.c_str(), "w")) == nullptr) {
-        bug("Save_char_obj: fopen {} {}", player_temp, strerror(errno));
-    } else {
-        save_char_obj(ch, fp);
-        fclose(fp);
-        /* move the file */
-        auto player_file = filename_for_player(ch->name);
-        if (rename(player_temp.c_str(), player_file.c_str()) != 0) {
-            bug("Unable to move temporary player name {}!! rename failed: {}!", player_file.c_str(), strerror(errno));
-        }
-    }
+    CharSaver saver;
+    saver.save(*ch);
 }
 
 void save_char_obj(const Char *ch, FILE *fp) {
@@ -131,12 +129,14 @@ void save_char_obj(const Char *ch, FILE *fp) {
  * Write the char.
  */
 void fwrite_char(const Char *ch, FILE *fp) {
+    using namespace magic_enum;
     int sn, gn;
 
     fprintf(fp, "#%s\n", ch->is_npc() ? "MOB" : "PLAYER");
 
     fprintf(fp, "Name %s~\n", ch->name.c_str());
-    fprintf(fp, "Vers %d\n", 4);
+    // Whenever a player file is written it's automatically using the latest version.
+    fprintf(fp, "Vers %d\n", enum_integer<CharVersion>(CharVersion::Latest));
     if (!ch->short_descr.empty())
         fprintf(fp, "ShD  %s~\n", ch->short_descr.c_str());
     if (!ch->long_descr.empty())
@@ -419,7 +419,10 @@ void fwrite_one_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest) {
     fwrite_objs(ch, obj->contains, fp, iNest + 1);
 }
 
-void load_into_char(Char &character, FILE *fp) {
+// Although the LastLogin* fields are read from the player file, it's transient info unused
+// by the mud, and when a Char is saved it's read from the Char's Descriptor. But capturing
+// LastLogin* makes it easier to do offline processing of player files.
+void load_into_char(Char &character, LastLoginInfo &last_login, FILE *fp) {
     int iNest;
 
     for (iNest = 0; iNest < MAX_NEST; iNest++)
@@ -433,13 +436,13 @@ void load_into_char(Char &character, FILE *fp) {
         }
 
         if (letter != '#') {
-            bug("Load_char_obj: # not found.");
+            bug("load_char_obj: # not found.");
             break;
         }
 
         auto *word = fread_word(fp);
         if (!str_cmp(word, "PLAYER")) {
-            fread_char(&character, fp);
+            fread_char(&character, last_login, fp);
             affect_strip(&character, gsn_ride);
         } else if (!str_cmp(word, "OBJECT") || !str_cmp(word, "O"))
             fread_obj(&character, fp);
@@ -448,7 +451,7 @@ void load_into_char(Char &character, FILE *fp) {
         else if (!str_cmp(word, "END"))
             break;
         else {
-            bug("Load_char_obj: bad section.");
+            bug("load_char_obj: bad section.");
             break;
         }
     }
@@ -470,7 +473,8 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
     auto *fp = fopen(filename_for_player(player_name).c_str(), "r");
     if (fp) {
         res.newly_created = false;
-        load_into_char(*ch, fp);
+        LastLoginInfo ignored;
+        load_into_char(*ch, ignored, fp);
         fclose(fp);
     }
 
@@ -494,15 +498,6 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
         ch->form = race_table[ch->race].form;
         ch->parts = race_table[ch->race].parts;
     }
-
-    if (!res.newly_created && ch->version < 4) {
-        // #216  In PFile Version 4, the strength of all armour is increased by 100 to go along
-        // with the corresponding resetting of Char's default armour value of 0 from 100.
-        // This is part of a general reorganization of hit calculations.
-        for (int i = 0; i < 4; i++) {
-            ch->armor[i] -= 101;
-        }
-    }
     return res;
 }
 
@@ -521,7 +516,8 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
         break;                                                                                                         \
     }
 
-void fread_char(Char *ch, FILE *fp) {
+void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
+    using namespace magic_enum;
     for (;;) {
         const std::string word = lower_case(feof(fp) ? "end" : fread_word(fp));
         if (word.empty() || word[0] == '*') {
@@ -548,12 +544,12 @@ void fread_char(Char *ch, FILE *fp) {
                 int sn;
                 sn = skill_lookup(fread_word(fp));
                 if (sn < 0)
-                    bug("Fread_char: unknown skill.");
+                    bug("fread_char: unknown skill.");
                 else
                     af.type = sn;
             } else /* old form */
                 af.type = fread_number(fp);
-            if (ch->version == 0)
+            if (ch->version == CharVersion::Zero)
                 af.level = ch->level;
             else
                 af.level = fread_number(fp);
@@ -582,7 +578,7 @@ void fread_char(Char *ch, FILE *fp) {
                 }
             }
             if (!found) {
-                bug("Unable to find clan '{}'", clan_char);
+                bug("fread_char: unable to find clan '{}'", clan_char);
             }
         } else if (word == "class" || word == "cla") {
             ch->class_num = fread_number(fp);
@@ -627,7 +623,7 @@ void fread_char(Char *ch, FILE *fp) {
             int gn = group_lookup(temp);
             if (gn < 0) {
                 fprintf(stderr, "%s", temp);
-                bug("Fread_char: unknown group.");
+                bug("fread_char: unknown group.");
             } else {
                 gn_add(ch, gn);
             }
@@ -660,9 +656,9 @@ void fread_char(Char *ch, FILE *fp) {
         } else if (word == "longdescr" || word == "lnd") {
             ch->long_descr = fread_stdstring(fp);
         } else if (word == "lastloginfrom") {
-            login_from = fread_string(fp);
+            last_login.login_from = fread_stdstring(fp);
         } else if (word == "lastloginat") {
-            login_at = fread_string(fp);
+            last_login.login_at = fread_stdstring(fp);
         } else if (word == "minoffset") {
             ch->pcdata->minoffset = 0;
             // Timezone hours and minutes offset are unused currently but we've kept
@@ -703,7 +699,7 @@ void fread_char(Char *ch, FILE *fp) {
             if (auto sex = Sex::try_from_ordinal(fread_number(fp))) {
                 ch->sex = *sex;
             } else {
-                bug("Fread_char: unknown sex.");
+                bug("fread_char: unknown sex.");
             }
         } else if (word == "shortdescr" || word == "shd") {
             ch->short_descr = fread_stdstring(fp);
@@ -713,14 +709,14 @@ void fread_char(Char *ch, FILE *fp) {
             const int sn = skill_lookup(temp);
             if (sn < 0) {
                 fprintf(stderr, "%s", temp);
-                bug("Fread_char: unknown skill.");
+                bug("fread_char: unknown skill.");
             } else
                 ch->pcdata->learned[sn] = value;
         } else if (word == "truesex" || word == "tsex") {
             if (auto sex = Sex::try_from_ordinal(fread_number(fp))) {
                 ch->pcdata->true_sex = *sex;
             } else {
-                bug("Fread_char: unknown truesex.");
+                bug("fread_char: unknown truesex.");
             }
         } else if (word == "trai") {
             ch->train = fread_number(fp);
@@ -729,7 +725,13 @@ void fread_char(Char *ch, FILE *fp) {
         } else if (word == "title" || word == "titl") {
             ch->set_title(fread_stdstring(fp));
         } else if (word == "version" || word == "vers") {
-            ch->version = fread_number(fp);
+            auto raw_version = fread_number(fp);
+            auto version = enum_cast<CharVersion>(raw_version);
+            if (version.has_value()) {
+                ch->version = version.value();
+            } else {
+                bug("fread_char: unknown version: {}", raw_version);
+            }
         } else if (word == "vnum") {
             ch->pIndexData = get_mob_index(fread_number(fp));
         } else if (word == "wimpy" || word == "wimp") {
@@ -755,12 +757,12 @@ void fread_pet(Char *ch, FILE *fp) {
     if (matches(word, "Vnum")) {
         int vnum = fread_number(fp);
         if (get_mob_index(vnum) == nullptr) {
-            bug("Fread_pet: bad vnum {}.", vnum);
+            bug("fread_pet: bad vnum {}.", vnum);
             pet = create_mobile(get_mob_index(mobiles::Fido));
         } else
             pet = create_mobile(get_mob_index(vnum));
     } else {
-        bug("Fread_pet: no vnum in file.");
+        bug("fread_pet: no vnum in file.");
         pet = create_mobile(get_mob_index(mobiles::Fido));
     }
 
@@ -783,7 +785,7 @@ void fread_pet(Char *ch, FILE *fp) {
             AFFECT_DATA af;
             int sn = skill_lookup(fread_word(fp));
             if (sn < 0)
-                bug("Fread_pet: unknown skill #{}", sn);
+                bug("fread_pet: unknown skill #{}", sn);
             else
                 af.type = sn;
 
@@ -839,12 +841,12 @@ void fread_pet(Char *ch, FILE *fp) {
             if (auto sex = Sex::try_from_ordinal(fread_number(fp))) {
                 pet->sex = *sex;
             } else {
-                bug("Fread_pet: unknown sex.");
+                bug("fread_pet: unknown sex.");
             }
         } else if (matches(word, "ShD")) {
             pet->short_descr = fread_stdstring(fp);
         } else {
-            bug("Fread_pet: no match for {}.", word);
+            bug("fread_pet: no match for {}.", word);
             fread_to_eol(fp);
         }
     }
@@ -894,7 +896,7 @@ void fread_obj(Char *ch, FILE *fp) {
 
         vnum = fread_number(fp);
         if (get_obj_index(vnum) == nullptr) {
-            bug("Fread_obj: bad vnum {}.", vnum);
+            bug("fread_obj: bad vnum {}.", vnum);
         } else {
             obj = create_object(get_obj_index(vnum));
             new_format = true;
@@ -924,7 +926,7 @@ void fread_obj(Char *ch, FILE *fp) {
                 const char *affected_by = fread_word(fp);
                 sn = skill_lookup(affected_by);
                 if (sn < 0)
-                    bug("Fread_obj: unknown skill {}.", affected_by);
+                    bug("fread_obj: unknown skill {}.", affected_by);
                 else
                     af.type = sn;
             } else /* old form */
@@ -950,7 +952,7 @@ void fread_obj(Char *ch, FILE *fp) {
             obj->extra_descr.emplace_back(EXTRA_DESCR_DATA{keyword, description});
         } else if (matches(word, "End")) {
             if (!fNest || !fVnum || obj->pIndexData == nullptr) {
-                bug("Fread_obj: incomplete object.");
+                bug("fread_obj: incomplete object.");
                 extract_obj(obj);
                 return;
             } else {
@@ -979,7 +981,7 @@ void fread_obj(Char *ch, FILE *fp) {
         } else if (matches(word, "Nest")) {
             iNest = fread_number(fp);
             if (iNest < 0 || iNest >= MAX_NEST) {
-                bug("Fread_obj: bad nest {}.", iNest);
+                bug("fread_obj: bad nest {}.", iNest);
             } else {
                 rgObjNest[iNest] = obj;
                 fNest = true;
@@ -997,9 +999,9 @@ void fread_obj(Char *ch, FILE *fp) {
             const char *spell = fread_word(fp);
             int sn = skill_lookup(spell);
             if (iValue < 0 || iValue > 3) {
-                bug("Fread_obj: bad iValue {}.", iValue);
+                bug("fread_obj: bad iValue {}.", iValue);
             } else if (sn < 0) {
-                bug("Fread_obj: unknown skill {}.", spell);
+                bug("fread_obj: unknown skill {}.", spell);
             } else {
                 obj->value[iValue] = sn;
             }
@@ -1021,7 +1023,7 @@ void fread_obj(Char *ch, FILE *fp) {
         } else if (matches(word, "Vnum")) {
             int vnum = fread_number(fp);
             if ((obj->pIndexData = get_obj_index(vnum)) == nullptr)
-                bug("Fread_obj: bad vnum {}.", vnum);
+                bug("fread_obj: bad vnum {}.", vnum);
             else
                 fVnum = true;
         } else if (matches(word, "WearFlags") || matches(word, "WeaF")) {
@@ -1033,7 +1035,7 @@ void fread_obj(Char *ch, FILE *fp) {
         } else if (matches(word, "WStr")) {
             obj->wear_string = fread_stdstring(fp);
         } else {
-            bug("Fread_obj: no match for {}.", word);
+            bug("fread_obj: no match for {}.", word);
             fread_to_eol(fp);
         }
     }

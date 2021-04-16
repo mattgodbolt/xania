@@ -1,0 +1,109 @@
+#AREA	
+limbo_test.are~
+Limbotest~
+{None } Faramir    Limbotest~
+1 100
+
+#ROOMS
+#1
+The Void~
+A sign says "This is just a test of the void".
+~
+8 1
+S
+
+#2
+Limbo~
+A sign says "This is just a test of limbo".
+~
+8 1
+S
+
+#3001
+The Temple of Isca~
+A sign says "This is just a test of the temple".
+~
+4|8 0
+S
+#0
+
+#MOBILES
+#1
+Joe~
+Joe the Plumber~
+Joey is busy plumbing.
+~
+~
+unique~
+0 0 1000 0
+26 5 5d10+550 26d5+100 4d6+3 chomp
+-30 -30 -30 -25
+MNc AB CD 0
+stand stand male 500
+DHZ ACDEFHJKPQUVX M 0
+
+#3093
+rottweiler dog pet~
+the rottweiler~
+A large, loyal rottweiler is here.
+~
+The rottweiler looks like a strong, fierce fighter.
+~
+dog~
+BU F 400 0
+7 3 6d10+60 1d1+149 2d4+1 bite
+-11 -11 -11 -7
+CDL 0 C 0
+stand stand male 0
+0 0 medium 0
+
+#0
+
+#OBJECTS
+#2
+coin gold~
+a gold coin~
+One miserable gold coin.~
+gold~
+money 0 A
+1 0 0 0 0
+0 1 0 P
+
+#809
+unique sword~
+unique sword~
+A brilliantly glowing sword is here.~
+steel~
+weapon ABGKU AN
+'sword' 2 4 'pierce' B
+3 23 6000 P
+
+#3350
+standard issue sword~
+a standard issue sword~
+You see a standard issue sword here.~
+steel~
+weapon G AN
+'sword' 2 4 'slash' 0
+3 5 75 P
+E
+sword~
+You see a sword of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+A
+18 1
+A
+19 1
+A
+20 -1
+
+#0
+
+#RESETS
+S
+
+#SPECIALS
+S
+
+#$

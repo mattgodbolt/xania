@@ -21,7 +21,6 @@
 #include "string_utils.hpp"
 
 #include <range/v3/algorithm/count.hpp>
-#include <range/v3/algorithm/fill.hpp>
 
 #include <cctype>
 #include <cstdio>
@@ -213,91 +212,6 @@ int get_weapon_skill(Char *ch, int sn) {
     }
 
     return URANGE(0, skill, 100);
-}
-
-/* used to de-screw characters */
-void reset_char(Char *ch) {
-    int loc, mod;
-    OBJ_DATA *obj;
-    int i;
-
-    if (ch->is_npc())
-        return;
-
-    if (ch->pcdata->perm_hit == 0 || ch->pcdata->perm_mana == 0 || ch->pcdata->perm_move == 0
-        || ch->pcdata->last_level == 0) {
-        /* do a FULL reset */
-        for (loc = 0; loc < MAX_WEAR; loc++) {
-            obj = get_eq_char(ch, loc);
-            if (obj == nullptr)
-                continue;
-            // TODO: this is similar to the unapply but not quite the same - is it important?
-            if (!obj->enchanted)
-                for (const auto &af : obj->pIndexData->affected) {
-                    mod = af.modifier;
-                    switch (af.location) {
-                    default: break;
-                    case AffectLocation::Sex:
-                        ch->sex += mod; // TODO test
-                        break;
-                    case AffectLocation::Mana: ch->max_mana -= mod; break;
-                    case AffectLocation::Hit: ch->max_hit -= mod; break;
-                    case AffectLocation::Move: ch->max_move -= mod; break;
-                    }
-                }
-
-            for (const auto &af : obj->affected) {
-                mod = af.modifier;
-                switch (af.location) {
-                default: break;
-                case AffectLocation::Sex: ch->sex += mod; break;
-                case AffectLocation::Mana: ch->max_mana -= mod; break;
-                case AffectLocation::Hit: ch->max_hit -= mod; break;
-                case AffectLocation::Move: ch->max_move -= mod; break;
-                }
-            }
-        }
-        /* now reset the permanent stats */
-        ch->pcdata->perm_hit = ch->max_hit;
-        ch->pcdata->perm_mana = ch->max_mana;
-        ch->pcdata->perm_move = ch->max_move;
-        using namespace std::chrono;
-        ch->pcdata->last_level = (int)duration_cast<hours>(ch->played).count();
-    }
-
-    /* now restore the character to his/her true condition */
-    ranges::fill(ch->mod_stat, 0);
-
-    ch->max_hit = ch->pcdata->perm_hit;
-    ch->max_mana = ch->pcdata->perm_mana;
-    ch->max_move = ch->pcdata->perm_move;
-
-    for (i = 0; i < 4; i++)
-        ch->armor[i] = -1; // #216 -1 armour is the new normal
-
-    ch->hitroll = 0;
-    ch->damroll = 0;
-    ch->saving_throw = 0;
-
-    /* now start adding back the effects */
-    for (loc = 0; loc < MAX_WEAR; loc++) {
-        obj = get_eq_char(ch, loc);
-        if (obj == nullptr)
-            continue;
-        for (i = 0; i < 4; i++)
-            ch->armor[i] -= apply_ac(obj, loc, i);
-
-        if (!obj->enchanted)
-            for (const auto &af : obj->pIndexData->affected)
-                af.apply(*ch);
-
-        for (auto &af : obj->affected)
-            af.apply(*ch);
-    }
-
-    /* now add back spell effects */
-    for (auto &af : ch->affected)
-        af.apply(*ch);
 }
 
 /*
@@ -578,26 +492,25 @@ int apply_ac(OBJ_DATA *obj, int iWear, int type) {
         return 0;
 
     switch (iWear) {
-    case WEAR_BODY: return obj->value[type];
-    case WEAR_HEAD: return obj->value[type];
-    case WEAR_LEGS: return obj->value[type];
-    case WEAR_FEET: return obj->value[type];
-    case WEAR_HANDS: return obj->value[type];
-    case WEAR_ARMS: return obj->value[type];
-    case WEAR_SHIELD: return obj->value[type];
-    case WEAR_FINGER_L: return obj->value[type];
-    case WEAR_FINGER_R: return obj->value[type];
-    case WEAR_NECK_1: return obj->value[type];
-    case WEAR_NECK_2: return obj->value[type];
-    case WEAR_ABOUT: return obj->value[type];
-    case WEAR_WAIST: return obj->value[type];
-    case WEAR_WRIST_L: return obj->value[type];
-    case WEAR_WRIST_R: return obj->value[type];
-    case WEAR_HOLD: return obj->value[type];
+    case WEAR_BODY:
+    case WEAR_HEAD:
+    case WEAR_LEGS:
+    case WEAR_FEET:
+    case WEAR_HANDS:
+    case WEAR_ARMS:
+    case WEAR_SHIELD:
+    case WEAR_FINGER_L:
+    case WEAR_FINGER_R:
+    case WEAR_NECK_1:
+    case WEAR_NECK_2:
+    case WEAR_ABOUT:
+    case WEAR_WAIST:
+    case WEAR_WRIST_L:
+    case WEAR_WRIST_R:
+    case WEAR_HOLD:
     case WEAR_EARS: return obj->value[type];
+    default: return 0;
     }
-
-    return 0;
 }
 
 /*

@@ -2,6 +2,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "AffectList.hpp"
+#include "CharVersion.hpp"
 #include "Constants.hpp"
 #include "Descriptor.hpp"
 #include "ExtraFlags.hpp"
@@ -21,6 +22,11 @@ struct OBJ_DATA;
 struct ROOM_INDEX_DATA;
 struct GEN_DATA;
 struct MPROG_ACT_LIST;
+
+struct LastLoginInfo {
+    std::string login_from;
+    std::string login_at;
+};
 
 /*
  * One character (PC or NPC).
@@ -45,7 +51,7 @@ struct Char {
     GEN_DATA *gen_data{};
     std::string name;
 
-    sh_int version{};
+    CharVersion version{};
     std::string short_descr;
     std::string long_descr;
     std::string description;

@@ -49,7 +49,9 @@ void AFFECT_DATA::modify(Char &ch, bool apply) const {
     case AffectLocation::Weight:
     case AffectLocation::Gold:
     case AffectLocation::Exp:
-        // TODO(193) should we do something with these?
+        // TODO(193) should we do something with these? If they get implemented then it may involve
+        // persisting a pristine (unmodified) field value like pcdata.true_sex, and also updating
+        // pfu's ResetChar to reset the value back to the pristine before applying any affects.
         break;
     }
 }
