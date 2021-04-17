@@ -877,8 +877,7 @@ void update_handler() {
         do_chal_tick();
 
         /* tip wizard */
-        if (ignore_tips == false) /* once every two ticks */
-            tip_players();
+        tip_players();
     }
 
     aggr_update();
