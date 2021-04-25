@@ -249,7 +249,7 @@ extern void do_string(Char *ch, const char *argument);
 extern void do_switch(Char *ch, const char *arg);
 extern void do_tell(Char *ch, const char *argument);
 extern void do_time(Char *ch);
-extern void do_tipwizard(Char *ch, const char *arg);
+extern void do_tipwizard(Char *ch, ArgParser args);
 extern void do_title(Char *ch, const char *arg);
 extern void do_train(Char *ch, ArgParser args);
 extern void do_transfer(Char *ch, ArgParser args);

@@ -10,6 +10,7 @@
 #include "AFFECT_DATA.hpp"
 #include "DescriptorList.hpp"
 #include "MobIndexData.hpp"
+#include "Tip.hpp"
 #include "VnumMobiles.hpp"
 #include "comm.hpp"
 #include "common/Configuration.hpp"
@@ -21,13 +22,13 @@
 #include "merc.h"
 #include "string_utils.hpp"
 
-#include <fmt/format.h>
-#include <range/v3/numeric/accumulate.hpp>
-
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <fmt/format.h>
+#include <range/v3/algorithm/for_each.hpp>
+#include <range/v3/numeric/accumulate.hpp>
 
 /*
  * KLUDGEMONGER III, Revenge of Kludgie, the Malicious Code Murderer...
@@ -35,9 +36,8 @@
 
 /* tip wizard */
 
-bool ignore_tips;
-TIP_TYPE *tip_top; /* top of and current list item */
-TIP_TYPE *tip_current;
+static std::vector<Tip> tips;
+static size_t tip_current = 0;
 
 /* report_object, takes an object_index_data obj and a param boot and returns the 'worth' of an
    object in points.  If boot is non-zero it will also 'BUG' these, along with any other things
@@ -540,96 +540,56 @@ void do_smite(Char *ch, const char *argument) {
 }
 
 void load_tipfile() {
+    tips.clear();
 
-    FILE *fp = nullptr;
-    int tipcount = 0;
-    TIP_TYPE *ptt = nullptr;
-
-    tip_top = tip_current = nullptr; /* initialise globals */
-
+    FILE *fp;
     if ((fp = fopen(Configuration::singleton().tip_file().c_str(), "r")) == nullptr) {
         bug("Couldn't open tip file \'{}\' for reading", Configuration::singleton().tip_file());
-        ignore_tips = true;
         return;
     }
     for (;;) {
-        char c;
-        ptt = nullptr;
-
+        int c;
         while (isspace(c = getc(fp)))
             ;
         ungetc(c, fp);
-        if (feof(fp)) {
-            fclose(fp);
-            log_string("Loaded {} tips", tipcount);
-            if (tipcount == 0)
-                ignore_tips = true; /* don't bother polling the tip loop*/
-            tip_current = tip_top;
-            return;
-        }
-        ptt = (TIP_TYPE *)malloc(sizeof(TIP_TYPE));
-        ptt->next = nullptr;
-        ptt->tip = fread_string(fp);
-
-        if (tip_top == nullptr) {
-            tip_top = ptt;
-            tip_current = tip_top;
-        } else
-            tip_current->next = ptt;
-        tip_current = ptt;
-        tipcount++;
+        if (feof(fp))
+            break;
+        tips.emplace_back(Tip::from_file(fp));
     }
-    /* now set the current tip to the top of the list ready for use*/
+    fclose(fp);
+    log_string("Loaded {} tips", tips.size());
 }
 
 void tip_players() {
-    /* check the tip wizard list first ... */
+    if (tips.empty())
+        return;
 
-    if (tip_current == nullptr)
-        tip_current = tip_top; /* send us back to top of list */
+    if (tip_current >= tips.size())
+        tip_current = 0;
 
-    if (tip_top == nullptr) { /* we didn't load a tip file so ignore */
-        ignore_tips = true;
-        return;
-    }
-    if (tip_current->tip == nullptr) {
-        tip_current = tip_current->next;
-        return;
-    }
-    if (strlen(tip_current->tip) == 0) {
-        tip_current = tip_current->next;
-        return;
-    }
-    auto tip = fmt::format("|WTip: {}|w\n\r", tip_current->tip);
-    for (auto &d : descriptors().playing()) {
-        Char *ch = d.person();
-        if (ch->is_set_extra(EXTRA_TIP_WIZARD))
-            ch->send_to(tip);
-    }
-    tip_current = tip_current->next;
+    auto tip = fmt::format("|WTip: {}|w\n\r", tips[tip_current].tip());
+    ranges::for_each(descriptors().playing() | DescriptorFilter::to_person()
+                         | ranges::views::filter([](const Char &ch) { return ch.is_set_extra(EXTRA_TIP_WIZARD); }),
+                     [&tip](const Char &ch) { ch.send_to(tip); });
+    tip_current++;
 }
 
-void do_tipwizard(Char *ch, const char *arg) {
-
-    if (arg[0] == '\0') {
-        if (ch->is_set_extra(EXTRA_TIP_WIZARD)) {
-            ch->remove_extra(EXTRA_TIP_WIZARD);
-            ch->send_line("Tipwizard deactivated.");
-        } else {
-            ch->set_extra(EXTRA_TIP_WIZARD);
+void do_tipwizard(Char *ch, ArgParser args) {
+    if (args.empty()) {
+        if (ch->toggle_extra(EXTRA_TIP_WIZARD)) {
             ch->send_line("Tipwizard activated!");
+        } else {
+            ch->send_line("Tipwizard deactivated.");
         }
         return;
     }
-    if (!strcmp(arg, "on")) {
+    auto arg = args.shift();
+    if (matches(arg, "on")) {
         ch->set_extra(EXTRA_TIP_WIZARD);
         ch->send_line("Tipwizard activated!");
-        return;
-    }
-    if (!strcmp(arg, "off")) {
+    } else if (matches(arg, "off")) {
         ch->remove_extra(EXTRA_TIP_WIZARD);
         ch->send_line("Tipwizard deactivated.");
-        return;
-    }
-    ch->send_line("Syntax: tipwizard {on/off}");
+    } else
+        ch->send_line("Syntax: tipwizard {on/off}");
 }

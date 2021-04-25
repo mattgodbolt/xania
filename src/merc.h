@@ -1016,13 +1016,6 @@ struct reset_data {
     sh_int arg4;
 };
 
-/* tip wizard type - Faramir Sep 21 1998 */
-
-typedef struct _tip_type {
-    const char *tip;
-    struct _tip_type *next;
-} TIP_TYPE;
-
 /*
  * Room type.
  */
@@ -1475,10 +1468,6 @@ int get_skill_learned(Char *ch, int gsn);
 
 void load_tipfile(); /* tip wizard - Faramir 21 Sep 1998 */
 void tip_players();
-
-extern bool ignore_tips;
-extern TIP_TYPE *tip_top; /* top of list (humour!) */
-extern TIP_TYPE *tip_current;
 
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998*/
 

@@ -8,9 +8,9 @@ class Sex {
 public:
     enum class Type : ush_int { neutral, male, female };
     Sex();
-    Sex(Type sex);
-    Sex operator+=(const int mod);
-    Sex operator+(const int mod);
+    explicit Sex(Type sex);
+    Sex operator+=(int mod);
+    Sex operator+(int mod);
     bool operator==(const Sex &rhs) const;
     bool operator!=(const Sex &rhs) const;
     [[nodiscard]] bool is_neutral() const;
@@ -29,7 +29,7 @@ public:
     [[nodiscard]] static std::string names_csv();
 
 private:
-    static std::string_view name(const Type sex);
+    static std::string_view name(Type sex);
 
     Type sex_;
 };

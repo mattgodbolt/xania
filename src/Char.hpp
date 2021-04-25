@@ -237,6 +237,14 @@ struct Char {
     }
     void set_extra(unsigned int flag) noexcept;
     void remove_extra(unsigned int flag) noexcept;
+    [[nodiscard]] bool toggle_extra(unsigned int flag) noexcept {
+        if (is_set_extra(flag)) {
+            remove_extra(flag);
+            return false;
+        }
+        set_extra(flag);
+        return true;
+    }
 
     [[nodiscard]] int get_damroll() const noexcept;
     [[nodiscard]] int get_hitroll() const noexcept;
