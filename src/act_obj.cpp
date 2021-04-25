@@ -89,8 +89,7 @@ void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container) {
         return;
     }
 
-    if (obj_move_violates_uniqueness(container != nullptr ? std::optional<Char *>(container->carried_by) : std::nullopt,
-                                     ch, obj, ch->carrying)) {
+    if (obj_move_violates_uniqueness(container != nullptr ? container->carried_by : nullptr, ch, obj, ch->carrying)) {
         act(deity_name + " forbids you from possessing more than one $p.", ch, obj, nullptr, To::Char);
         return;
     }
@@ -2320,19 +2319,18 @@ void do_hailcorpse(Char *ch) {
     act("Your prayers for assistance are ignored. Your corpse cannot be found.", ch, nullptr, nullptr, To::Char);
 }
 
-bool obj_move_violates_uniqueness(std::optional<Char *> source_char, std::optional<Char *> dest_char,
-                                  OBJ_DATA *moving_obj, OBJ_DATA *obj_to) {
+bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *moving_obj, OBJ_DATA *obj_to) {
     GenericList<OBJ_DATA *> objs_to;
     objs_to.add_back(obj_to);
     return obj_move_violates_uniqueness(source_char, dest_char, moving_obj, objs_to);
 }
 
-bool obj_move_violates_uniqueness(std::optional<Char *> source_char, std::optional<Char *> dest_char,
-                                  OBJ_DATA *moving_obj, GenericList<OBJ_DATA *> &objs_to) {
+bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *moving_obj,
+                                  GenericList<OBJ_DATA *> &objs_to) {
     // If we know in advance the object(s) being moved aren't changing ownership we can take a shortcut.
     // This simplifies things like: "get innerbag outerbag", where they are carrying outerbag, and innerbag
     // contains a unique item. Shopkeepers are permitted to be given unique items, they can resell them.
-    if (source_char == dest_char || (dest_char && dest_char.value()->is_shopkeeper())) {
+    if (source_char == dest_char || (dest_char && dest_char->is_shopkeeper())) {
         return false;
     }
 
