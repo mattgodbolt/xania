@@ -1,6 +1,7 @@
 #pragma once
+
 #include "Char.hpp"
-#include "CharVersion.hpp"
+
 #include <spdlog/spdlog.h>
 #include <vector>
 
@@ -29,7 +30,7 @@ public:
 };
 
 struct CharUpgraderResult {
-    CharUpgraderResult();
+    CharUpgraderResult() = default;
     CharUpgraderResult(Char *ch, bool upgraded);
     ~CharUpgraderResult(); // remove the upgraded Char from the world
     // returns true if the Char was logged in and is valid. false if it couldn't be loaded (e.g. empty file)
@@ -37,8 +38,8 @@ struct CharUpgraderResult {
     // all valid chars.
     operator bool() const noexcept;
     operator Char &() const noexcept;
-    Char *ch_; // set if a Char file was found, but it may still be invalid.
-    bool upgraded_; // true if at least one task was performed
+    Char *ch_{}; // set if a Char file was found, but it may still be invalid.
+    bool upgraded_{}; // true if at least one task was performed
 };
 
 using Tasks = std::vector<std::unique_ptr<UpgradeTask>>;

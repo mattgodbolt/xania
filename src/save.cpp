@@ -78,7 +78,14 @@ void set_bits_from_pfile(Char *ch, FILE *fp) {
 }
 
 void CharSaver::save(const Char &ch) const {
-    FILE *god_file = fopen(filename_for_god(ch.name).c_str(), "w");
+    if (!ch.player()) // At the moment NPCs can't be persisted.
+        return;
+    const Char *player = ch.player();
+    FILE *god_file = nullptr;
+    // Only open the god file if it's an imm so we don't end up an empty god file for mortals.
+    if (player->is_immortal()) {
+        god_file = fopen(filename_for_god(ch.name).c_str(), "w");
+    }
     FILE *player_file = fopen(filename_for_player(ch.name).c_str(), "w");
     save(ch, god_file, player_file);
     if (god_file)
@@ -91,7 +98,7 @@ void CharSaver::save(const Char &ch, FILE *god_file, FILE *player_file) const {
     if (!ch.player()) // At the moment NPCs can't be persisted.
         return;
     const Char *player = ch.player();
-    if (player->is_immortal() || player->level >= LEVEL_IMMORTAL) {
+    if (player->is_immortal()) {
         if (god_file) {
             fprintf(god_file, "Lev %2d Trust %2d  %s%s\n", player->level, player->get_trust(), player->name.c_str(),
                     player->pcdata->title.c_str());
@@ -549,10 +556,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
                     af.type = sn;
             } else /* old form */
                 af.type = fread_number(fp);
-            if (ch->version == CharVersion::Zero)
-                af.level = ch->level;
-            else
-                af.level = fread_number(fp);
+            af.level = fread_number(fp);
             af.duration = fread_number(fp);
             af.modifier = fread_number(fp);
             af.location = static_cast<AffectLocation>(fread_number(fp));

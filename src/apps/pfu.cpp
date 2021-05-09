@@ -8,6 +8,8 @@
 #include "save.hpp"
 
 #include <dirent.h>
+#include <filesystem>
+#include <iostream>
 #include <magic_enum.hpp>
 #include <optional>
 #include <range/v3/algorithm/fill.hpp>
@@ -16,8 +18,9 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-
 namespace pfu {
+
+namespace fs = std::filesystem;
 
 // Register new tasks here. Ideally in ascending order of CharVersion. You can have multiple
 // tasks for any given version.
@@ -28,25 +31,20 @@ Tasks register_tasks() {
 }
 
 std::vector<std::string> collect_player_names(const std::string &player_dir, Logger &logger) {
-    DIR *dir = opendir(player_dir.c_str());
-    if (!dir) {
-        logger.critical("Couldn't open player directory: {}", strerror(errno));
+    if (!fs::exists(player_dir) || !fs::is_directory(player_dir)) {
+        logger.critical("Couldn't open player directory: {}", player_dir);
         return {};
     }
     std::vector<std::string> names;
-    struct dirent *entry;
-    struct stat st;
-    while ((entry = readdir(dir))) {
-        if (entry->d_type == DT_REG) {
-            std::string filename = player_dir + entry->d_name;
-            if (!stat(filename.c_str(), &st) && st.st_size > 0) {
-                names.emplace_back(entry->d_name);
+    for (auto &file : fs::directory_iterator(player_dir)) {
+        if (file.is_regular_file()) {
+            if (file.file_size() > 0) {
+                names.emplace_back(file.path().filename().string());
             } else {
-                logger.warn("Ignoring bad player file: {}", filename);
+                logger.warn("Ignoring bad player file: {}", file.path().string());
             }
         }
     }
-    closedir(dir);
     return names;
 }
 
@@ -89,7 +87,6 @@ ResetModifiableAttrs::ResetModifiableAttrs(CharVersion version) : UpgradeTask(ve
 // this was introduced, but it was probably to fix "attribute drift" e.g. where the modifiers of a spell affect
 // got changed in the code without retrospectively adjusting the player's stats.
 void ResetModifiableAttrs::execute(Char &ch) const {
-    OBJ_DATA *obj;
     // Restore the character to his/her true condition
     // All of the attributes reset here are ones that can be modified in AFFECT_DATA.cpp
     ranges::fill(ch.mod_stat, 0);
@@ -104,7 +101,7 @@ void ResetModifiableAttrs::execute(Char &ch) const {
     ch.sex = ch.pcdata->true_sex;
     // add back object effects
     for (auto loc = 0; loc < MAX_WEAR; loc++) {
-        obj = get_eq_char(&ch, loc);
+        auto *obj = get_eq_char(&ch, loc);
         if (!obj)
             continue;
         for (size_t i = 0; i < ch.armor.size(); i++)
@@ -121,8 +118,6 @@ void ResetModifiableAttrs::execute(Char &ch) const {
     for (auto &af : ch.affected)
         af.apply(ch);
 }
-
-CharUpgraderResult::CharUpgraderResult() : ch_(nullptr), upgraded_(false) {}
 
 CharUpgraderResult::CharUpgraderResult(Char *ch, bool upgraded) : ch_(ch), upgraded_(upgraded) {}
 
