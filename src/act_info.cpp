@@ -127,6 +127,13 @@ void set_prompt(Char *ch, const char *prompt);
 
 std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort) {
     std::string buf;
+    std::string desc = fShort ? obj->short_descr : obj->description;
+    if (desc.empty()) {
+        desc = "This object has no description. Please inform the IMP.";
+        bug("Object {} has no description", obj->pIndexData->vnum);
+    }
+    if (IS_OBJ_STAT(obj, ITEM_UNIQUE))
+        buf += "(U) ";
     if (IS_OBJ_STAT(obj, ITEM_INVIS))
         buf += "(|cInvis|w) ";
     if (ch->has_detect_evil() && IS_OBJ_STAT(obj, ITEM_EVIL))
@@ -137,14 +144,7 @@ std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort)
         buf += "(|WGlowing|w) ";
     if (IS_OBJ_STAT(obj, ITEM_HUM))
         buf += "(|yHumming|w) ";
-
-    buf += fShort ? obj->short_descr : obj->description;
-
-    if (buf.empty()) {
-        buf = "This object has no description. Please inform the IMP.";
-        bug("Object {} has no description", obj->pIndexData->vnum);
-    }
-
+    buf += desc;
     return buf;
 }
 
