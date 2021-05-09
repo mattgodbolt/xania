@@ -270,6 +270,12 @@ bool matches_start(std::string_view lhs, std::string_view rhs) {
     return matches(lhs, rhs.substr(0, lhs.size()));
 }
 
+bool matches_end(std::string_view lhs, std::string_view rhs) {
+    if (lhs.size() > rhs.size() || lhs.empty())
+        return false;
+    return matches(lhs, rhs.substr(rhs.size() - lhs.size()));
+}
+
 bool matches_inside(std::string_view needle, std::string_view haystack) {
     auto needle_low = needle | ranges::views::transform(tolower);
     auto haystack_low = haystack | ranges::views::transform(tolower);

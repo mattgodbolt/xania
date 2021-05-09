@@ -23,6 +23,7 @@
 #include "TimeInfoData.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
+#include "ban.hpp"
 #include "challeng.h"
 #include "common/Fd.hpp"
 #include "common/doorman_protocol.h"
@@ -589,8 +590,8 @@ void nanny(Descriptor *d, const char *argument) {
             }
 
             // Check for a newban on player's site. This is the one time we use the full host name.
-            if (check_ban(d->raw_full_hostname().c_str(), BAN_NEWBIES)
-                || check_ban(d->raw_full_hostname().c_str(), BAN_PERMIT)) {
+            if (check_ban(d->raw_full_hostname(), BAN_NEWBIES) || check_ban(d->raw_full_hostname(), BAN_PERMIT)
+                || check_ban(d->raw_full_hostname(), BAN_ALL)) {
                 d->write("Your site has been banned.  Only existing players from your site may connect.\n\r");
                 d->close();
                 return;
@@ -623,8 +624,9 @@ void nanny(Descriptor *d, const char *argument) {
 
         SetEchoState(d, 1);
 
-        // This is the one time we use the full host name.
-        if (check_ban(d->raw_full_hostname().c_str(), BAN_PERMIT) && (!ch->is_set_extra(EXTRA_PERMIT))) {
+        // This is a time we use the full host name.
+        if (check_ban(d->raw_full_hostname(), BAN_ALL)
+            || (check_ban(d->raw_full_hostname(), BAN_PERMIT) && !ch->is_set_extra(EXTRA_PERMIT))) {
             d->write("Your site has been banned.  Sorry.\n\r");
             d->close();
             return;

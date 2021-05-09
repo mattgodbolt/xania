@@ -45,6 +45,8 @@ std::string fread_stdstring(FILE *fp);
 char *fread_string_eol(FILE *fp);
 void fread_to_eol(FILE *fp);
 std::string fread_stdstring_eol(FILE *fp);
+char *fread_word(FILE *fp);
+inline std::string fread_stdstring_word(FILE *fp) { return std::string(fread_word(fp)); }
 
 MobIndexData *get_mob_index(int vnum);
 void add_mob_index(MobIndexData mob_index_data);
@@ -54,3 +56,5 @@ inline auto all_mob_indexes() {
            | ranges::views::transform([](const auto &p) -> const MobIndexData & { return p.second; });
 }
 void mprog_read_programs(FILE *fp, MobIndexData *pMobIndex);
+
+char *print_flags(int value);

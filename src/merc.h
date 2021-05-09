@@ -52,7 +52,6 @@ typedef struct _BUFFER BUFFER;
  * Structure types.
  */
 struct AREA_DATA;
-typedef struct ban_data BAN_DATA;
 class Descriptor;
 typedef struct exit_data EXIT_DATA;
 struct EXTRA_DESCR_DATA;
@@ -66,23 +65,6 @@ struct SHOP_DATA;
 /* Merc22 MOBProgs */
 struct MPROG_DATA; /* MOBprogram */
 
-/*
- * Site ban structure.
- */
-struct ban_data {
-    BAN_DATA *next;
-    char *name;
-    int ban_flags;
-    int level;
-};
-
-/* Ban defines */
-#define BAN_PERMANENT 1
-#define BAN_NEWBIES 2
-#define BAN_PERMIT 4
-#define BAN_PREFIX 8
-#define BAN_SUFFIX 16
-#define BAN_ALL 32
 
 /**
  * Indexes into attack_table that are used by specific weapon enchantment spells
@@ -1262,7 +1244,6 @@ extern const struct flag_type wear_flags[];
  */
 extern SHOP_DATA *shop_first;
 
-extern BAN_DATA *ban_list;
 extern GenericList<Char *> char_list;
 extern GenericList<OBJ_DATA *> object_list;
 
@@ -1297,12 +1278,6 @@ bool obj_move_violates_uniqueness(std::optional<Char *> source_char, std::option
 
 /* act_wiz.c */
 
-/* ban.c */
-void save_bans();
-void load_bans();
-bool check_ban(const char *site, int type);
-void ban_site(Char *ch, const char *site, bool fType);
-
 /* db.c */
 void boot_db();
 void area_update();
@@ -1313,7 +1288,6 @@ void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
 const char *get_extra_descr(std::string_view name, const std::vector<EXTRA_DESCR_DATA> &ed);
 OBJ_INDEX_DATA *get_obj_index(int vnum);
 ROOM_INDEX_DATA *get_room_index(int vnum);
-char *fread_word(FILE *fp);
 void *alloc_mem(int sMem);
 void *alloc_perm(int sMem);
 void free_mem(void *pMem, int sMem);
