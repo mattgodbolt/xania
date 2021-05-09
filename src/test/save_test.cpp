@@ -2,50 +2,13 @@
 #include "save.hpp"
 
 #include "MemFile.hpp"
+#include "fileutils.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
 
 #include <catch2/catch.hpp>
 
 using namespace std::literals;
-
-namespace {
-
-std::string read_whole_file(const std::string &name) {
-    INFO("reading whole file " << name);
-    auto fp = ::fopen(name.c_str(), "rb");
-    REQUIRE(fp);
-    ::fseek(fp, 0, SEEK_END);
-    auto len = ::ftell(fp);
-    REQUIRE(len > 0);
-    size_t len_ok = (size_t)len;
-    ::fseek(fp, 0, SEEK_SET);
-    std::string result;
-    result.resize(len);
-    REQUIRE(::fread(result.data(), 1, len, fp) == len_ok);
-    ::fclose(fp);
-    return result;
-}
-
-void write_file(const std::string &filename, std::string_view data) {
-    INFO("writing file " << filename);
-    auto fp = ::fopen(filename.c_str(), "wb");
-    REQUIRE(fp);
-    REQUIRE(::fwrite(data.data(), 1, data.size(), fp) == data.size());
-    ::fclose(fp);
-}
-
-// short up deficiencies in diff reporting.
-void diff_mismatch(std::string_view lhs, std::string_view rhs) {
-    // If you find yourself debugging, set this ENV var to run meld.
-    if (!::getenv("MELD_ON_DIFF"))
-        return;
-    write_file("/tmp/lhs", lhs);
-    write_file("/tmp/rhs", rhs);
-    CHECK(system("meld /tmp/lhs /tmp/rhs") == 0);
-}
-
-}
 
 TEST_CASE("loading and saving player files") {
     // For now: prevent us from loading multiple times, as there's no tear-down, and it takes ages.
@@ -90,7 +53,7 @@ TEST_CASE("loading and saving player files") {
         }
         // This works as we deliberately strip the Last* things from the pfiles in the test dir.
         SECTION("and it should save (nearly) exactly") {
-            std::string expected = read_whole_file(TEST_DATA_DIR "/player/" + initial_caps_only(name));
+            std::string expected = test::read_whole_file(TEST_DATA_DIR "/player/" + initial_caps_only(name));
             // remove all `\r`s - bit of a workaround. Don't fully understand what's going on,
             // but the loader currently ignores then, and replaces all \n with \n\r anyway. Seems
             // likely there's some newline conversion going on in mem_file that isn't happening in
@@ -98,7 +61,7 @@ TEST_CASE("loading and saving player files") {
             auto replaced = replace_strings(std::string(mem_file.as_string_view()), "\r", "");
             CHECK(replaced == expected);
             if (replaced != expected)
-                diff_mismatch(replaced, expected);
+                test::diff_mismatch(replaced, expected);
         }
     }
 }

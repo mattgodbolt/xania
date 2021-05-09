@@ -1352,7 +1352,6 @@ int get_skill(const Char *ch, int sn);
 int get_weapon_sn(Char *ch);
 int get_weapon_skill(Char *ch, int sn);
 int get_age(const Char *ch);
-void reset_char(Char *ch);
 int get_curr_stat(const Char *ch, Stat stat);
 int get_max_train(Char *ch, Stat stat);
 int can_carry_n(Char *ch);
@@ -1416,9 +1415,6 @@ const char *form_bit_name(int form_flags);
 const char *part_bit_name(int part_flags);
 const char *weapon_bit_name(int weapon_flags);
 const char *comm_bit_name(int comm_flags);
-
-/* info.c */
-void load_player_list();
 
 /* interp.c */
 void interpret(Char *ch, const char *argument);

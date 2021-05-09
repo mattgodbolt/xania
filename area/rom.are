@@ -121,7 +121,7 @@ Apr 16:
 automatically loots non-droppable or non-removeable objects.
 *   Objects marked as 'no drop' can longer have their 'no drop' status 
 removed by the 'remove curse' spell. The 'damnation' spell no longer sets
-the 'no drop' status too, but it still weapons immune from disarm in combat!
+the 'no drop' status too, but it still makes weapons immune from disarm!
 
 Apr 15: Some special and/or powerful objects are now regarded by the Gods
 as unique. You can only possess one instance of a unique item at a time.

@@ -974,8 +974,6 @@ void nanny(Descriptor *d, const char *argument) {
         d->write("\n\rWelcome to Xania.  May your stay be eventful.\n\r");
         char_list.add_front(ch);
         d->state(DescriptorState::Playing);
-        reset_char(ch);
-
         /* Moog: tell doorman we logged in OK */
         {
             Packet p;
@@ -1014,7 +1012,7 @@ void nanny(Descriptor *d, const char *argument) {
             /* turn on the newbie's tips */
             ch->set_extra(EXTRA_TIP_WIZARD);
 
-        } else if (ch->in_room != nullptr) {
+        } else if (ch->in_room) {
             char_to_room(ch, ch->in_room);
         } else if (ch->is_immortal()) {
             char_to_room(ch, get_room_index(rooms::Chat));
@@ -1037,7 +1035,7 @@ void nanny(Descriptor *d, const char *argument) {
             ch->gold -= (ch->gold - 250000) / 2;
         }
 
-        if (ch->pet != nullptr) {
+        if (ch->pet) {
             char_to_room(ch->pet, ch->in_room);
             act("|P$n|W has entered the game.", ch->pet);
         }
