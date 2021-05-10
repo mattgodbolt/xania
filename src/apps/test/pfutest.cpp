@@ -1,9 +1,9 @@
 #include "pfu.hpp"
-#include "../test/MemFile.hpp"
-#include "../test/fileutils.hpp"
 #include "common/Configuration.hpp"
 #include "save.hpp"
 #include "string_utils.hpp"
+#include "test/MemFile.hpp"
+#include "test/fileutils.hpp"
 
 #include <catch2/catch.hpp>
 #include <fmt/format.h>
