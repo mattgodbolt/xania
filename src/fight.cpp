@@ -14,7 +14,7 @@
 #include "VnumMobiles.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
-#include "challeng.h"
+#include "challenge.hpp"
 #include "comm.hpp"
 #include "handler.hpp"
 #include "interp.h"

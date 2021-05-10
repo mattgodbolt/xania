@@ -23,7 +23,7 @@
 #include "TimeInfoData.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
-#include "challeng.h"
+#include "challenge.hpp"
 #include "common/Fd.hpp"
 #include "common/doorman_protocol.h"
 #include "db.h"

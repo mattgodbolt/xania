@@ -1,10 +1,10 @@
 /*************************************************************************/
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
-/*  (C) 1995-2000 Xania Development Team                                    */
+/*  (C) 1995-2000 Xania Development Team                                 */
 /*  See the header to file: merc.h for original code copyrights          */
 /*                                                                       */
-/*  challeng.h: supervised player combat. Originally by Rohan and        */
-/*              Wandera. Revised by Oshea 26/8/96                        */
+/*  challenge.hpp: supervised player combat. Originally by Rohan and     */
+/*                 Wandera. Revised by Oshea 26/8/96                     */
 /*************************************************************************/
 
 #pragma once

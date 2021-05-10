@@ -13,7 +13,7 @@
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "WeatherData.hpp"
-#include "challeng.h"
+#include "challenge.hpp"
 #include "comm.hpp"
 #include "handler.hpp"
 #include "interp.h"

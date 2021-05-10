@@ -15,7 +15,7 @@
 #include "TimeInfoData.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
-#include "challeng.h"
+#include "challenge.hpp"
 #include "comm.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"

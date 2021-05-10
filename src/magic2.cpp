@@ -13,7 +13,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "VnumRooms.hpp"
-#include "challeng.h"
+#include "challenge.hpp"
 #include "comm.hpp"
 #include "interp.h"
 #include "lookup.h"

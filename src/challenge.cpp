@@ -7,7 +7,7 @@
 /*              Wandera. Revised by Oshea 26/8/96                        */
 /*************************************************************************/
 
-#include "challeng.h"
+#include "challenge.hpp"
 #include "Descriptor.hpp"
 #include "Logging.hpp"
 #include "VnumRooms.hpp"

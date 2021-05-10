@@ -9,7 +9,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "VnumRooms.hpp"
-#include "challeng.h"
+#include "challenge.hpp"
 #include "comm.hpp"
 #include "handler.hpp"
 #include "interp.h"

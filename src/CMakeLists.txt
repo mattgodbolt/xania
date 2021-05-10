@@ -16,8 +16,8 @@ add_library(xania_lib STATIC
         ban.cpp
         buffer.cpp
         buffer.h
-        challeng.cpp
-        challeng.h
+        challenge.cpp
+        challenge.hpp
         channels.cpp
         clan.cpp
         clan.h
