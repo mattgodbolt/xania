@@ -9,6 +9,7 @@
 
 #include "save.hpp"
 #include "AFFECT_DATA.hpp"
+#include "CharFileMeta.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumMobiles.hpp"
 #include "VnumRooms.hpp"
@@ -100,8 +101,8 @@ void CharSaver::save(const Char &ch, FILE *god_file, FILE *player_file) const {
     const Char *player = ch.player();
     if (player->is_immortal()) {
         if (god_file) {
-            fprintf(god_file, "Lev %2d Trust %2d  %s%s\n", player->level, player->get_trust(), player->name.c_str(),
-                    player->pcdata->title.c_str());
+            fmt::print(god_file, "Lev {:<2} Trust {:<2}  {}{}\n", player->level, player->get_trust(), player->name,
+                       player->pcdata->title);
         } else {
             bug("Unable to write god file for {}", player->name);
         }
@@ -129,203 +130,204 @@ void save_char_obj(const Char *ch, FILE *fp) {
     /* save the pets */
     if (ch->pet != nullptr && ch->pet->in_room == ch->in_room)
         fwrite_pet(ch, ch->pet, fp);
-    fprintf(fp, "#END\n");
+    namespace cf = charfilemeta;
+    fmt::print(fp, "#{}\n", cf::SectionEnd);
 }
 
 /*
  * Write the char.
  */
 void fwrite_char(const Char *ch, FILE *fp) {
+    namespace cf = charfilemeta;
     using namespace magic_enum;
-    int sn, gn;
-
-    fprintf(fp, "#%s\n", ch->is_npc() ? "MOB" : "PLAYER");
-
-    fprintf(fp, "Name %s~\n", ch->name.c_str());
+    fmt::print(fp, "#{}\n", ch->is_npc() ? cf::SectionMobile : cf::SectionPlayer);
+    fmt::print(fp, "{} {}~\n", cf::Name, ch->name);
     // Whenever a player file is written it's automatically using the latest version.
-    fprintf(fp, "Vers %d\n", enum_integer<CharVersion>(CharVersion::Latest));
+    fmt::print(fp, "{} {}\n", cf::Version, enum_integer<CharVersion>(CharVersion::Latest));
     if (!ch->short_descr.empty())
-        fprintf(fp, "ShD  %s~\n", ch->short_descr.c_str());
+        fmt::print(fp, "{} {}~\n", cf::ShortDescription, ch->short_descr);
     if (!ch->long_descr.empty())
-        fprintf(fp, "LnD  %s~\n", ch->long_descr.c_str());
+        fmt::print(fp, "{} {}~\n", cf::LongDescription, ch->long_descr);
     if (!ch->description.empty())
-        fprintf(fp, "Desc %s~\n", ch->description.c_str());
-    fprintf(fp, "Race %s~\n", pc_race_table[ch->race].name);
-    fprintf(fp, "Sex  %d\n", ch->sex.ordinal());
-    fprintf(fp, "Cla  %d\n", ch->class_num);
-    fprintf(fp, "Levl %d\n", ch->level);
+        fmt::print(fp, "{} {}~\n", cf::Description, ch->description);
+    fmt::print(fp, "{} {}~\n", cf::Race, pc_race_table[ch->race].name);
+    fmt::print(fp, "{}  {}\n", cf::Sex, ch->sex.ordinal());
+    fmt::print(fp, "{}  {}\n", cf::Class, ch->class_num);
+    fmt::print(fp, "{} {}\n", cf::Level, ch->level);
     if (auto *pc_clan = ch->pc_clan()) {
-        fprintf(fp, "Clan %d\n", (int)pc_clan->clan.clanchar);
-        fprintf(fp, "CLevel %d\n", pc_clan->clanlevel);
-        fprintf(fp, "CCFlags %d\n", pc_clan->channelflags);
+        fmt::print(fp, "{} {}\n", cf::Clan, (int)pc_clan->clan.clanchar);
+        fmt::print(fp, "{} {}\n", cf::ClanLevel, pc_clan->clanlevel);
+        fmt::print(fp, "{} {}\n", cf::ClanChanFlags, pc_clan->channelflags);
     }
     if (ch->trust != 0)
-        fprintf(fp, "Tru  %d\n", ch->trust);
+        fmt::print(fp, "{} {}\n", cf::Trust, ch->trust);
     using namespace std::chrono;
-    fprintf(fp, "Plyd %d\n", (int)duration_cast<seconds>(ch->total_played()).count());
-    fprintf(fp, "Note %d\n", (int)Clock::to_time_t(ch->last_note));
-    fprintf(fp, "Scro %d\n", ch->lines);
-    fprintf(fp, "Room %d\n",
-            (ch->in_room == get_room_index(rooms::Limbo) && ch->was_in_room != nullptr)
-                ? ch->was_in_room->vnum
-                : ch->in_room == nullptr ? 3001 : ch->in_room->vnum);
+    fmt::print(fp, "{} {}\n", cf::PlayedTime, (int)duration_cast<seconds>(ch->total_played()).count());
+    fmt::print(fp, "{} {}\n", cf::LastNote, (int)Clock::to_time_t(ch->last_note));
+    fmt::print(fp, "{} {}\n", cf::Scroll, ch->lines);
+    fmt::print(fp, "{} {}\n", cf::Room,
+               (ch->in_room == get_room_index(rooms::Limbo) && ch->was_in_room != nullptr)
+                   ? ch->was_in_room->vnum
+                   : ch->in_room == nullptr ? rooms::MidgaardTemple : ch->in_room->vnum);
 
-    fprintf(fp, "HMV  %d %d %d %d %d %d\n", ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move, ch->max_move);
-    if (ch->gold > 0)
-        fprintf(fp, "Gold %ld\n", ch->gold);
-    else
-        fprintf(fp, "Gold %d\n", 0);
-    fprintf(fp, "Exp  %ld\n", ch->exp);
+    fmt::print(fp, "{}  {} {} {} {} {} {}\n", cf::HitManaMove, ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move,
+               ch->max_move);
+    fmt::print(fp, "{} {}\n", cf::Gold, ch->gold > 0 ? ch->gold : 0);
+    fmt::print(fp, "{}  {}\n", cf::Experience, ch->exp);
     if (ch->act != 0)
-        fprintf(fp, "Act  %ld\n", ch->act);
+        fmt::print(fp, "{}  {}\n", cf::ActFlags, ch->act);
     if (ch->affected_by != 0)
-        fprintf(fp, "AfBy %d\n", ch->affected_by);
-    fprintf(fp, "Comm %ld\n", ch->comm);
+        fmt::print(fp, "{} {}\n", cf::AffectedBy, ch->affected_by);
+    fmt::print(fp, "{} {}\n", cf::CommFlags, ch->comm);
     if (ch->invis_level != 0)
-        fprintf(fp, "Invi %d\n", ch->invis_level);
-    fprintf(fp, "Pos  %d\n", ch->position == POS_FIGHTING ? POS_STANDING : ch->position);
+        fmt::print(fp, "{} {}\n", cf::InvisLevel, ch->invis_level);
+    fmt::print(fp, "{}  {}\n", cf::Position, ch->position == POS_FIGHTING ? POS_STANDING : ch->position);
     if (ch->practice != 0)
-        fprintf(fp, "Prac %d\n", ch->practice);
+        fmt::print(fp, "{} {}\n", cf::Practice, ch->practice);
     if (ch->train != 0)
-        fprintf(fp, "Trai %d\n", ch->train);
+        fmt::print(fp, "{} {}\n", cf::Train, ch->train);
     if (ch->saving_throw != 0)
-        fprintf(fp, "Save  %d\n", ch->saving_throw);
-    fprintf(fp, "Alig  %d\n", ch->alignment);
+        fmt::print(fp, "{} {}\n", cf::SavingThrow, ch->saving_throw);
+    fmt::print(fp, "{}  {}\n", cf::Alignment, ch->alignment);
     if (ch->hitroll != 0)
-        fprintf(fp, "Hit   %d\n", ch->hitroll);
+        fmt::print(fp, "{}   {}\n", cf::HitRoll, ch->hitroll);
     if (ch->damroll != 0)
-        fprintf(fp, "Dam   %d\n", ch->damroll);
-    fprintf(fp, "ACs %d %d %d %d\n", ch->armor[0], ch->armor[1], ch->armor[2], ch->armor[3]);
+        fmt::print(fp, "{}   {}\n", cf::DamRoll, ch->damroll);
+    fmt::print(fp, "{} {} {} {} {}\n", cf::ArmourClasses, ch->armor[0], ch->armor[1], ch->armor[2], ch->armor[3]);
     if (ch->wimpy != 0)
-        fprintf(fp, "Wimp  %d\n", ch->wimpy);
-    fprintf(fp, "Attr %d %d %d %d %d\n", ch->perm_stat[Stat::Str], ch->perm_stat[Stat::Int], ch->perm_stat[Stat::Wis],
-            ch->perm_stat[Stat::Dex], ch->perm_stat[Stat::Con]);
+        fmt::print(fp, "{}  {}\n", cf::Wimpy, ch->wimpy);
+    fmt::print(fp, "{} {} {} {} {} {}\n", cf::Attribs, ch->perm_stat[Stat::Str], ch->perm_stat[Stat::Int],
+               ch->perm_stat[Stat::Wis], ch->perm_stat[Stat::Dex], ch->perm_stat[Stat::Con]);
 
-    fprintf(fp, "AMod %d %d %d %d %d\n", ch->mod_stat[Stat::Str], ch->mod_stat[Stat::Int], ch->mod_stat[Stat::Wis],
-            ch->mod_stat[Stat::Dex], ch->mod_stat[Stat::Con]);
+    fmt::print(fp, "{} {} {} {} {} {}\n", cf::AttribModifiers, ch->mod_stat[Stat::Str], ch->mod_stat[Stat::Int],
+               ch->mod_stat[Stat::Wis], ch->mod_stat[Stat::Dex], ch->mod_stat[Stat::Con]);
 
     if (ch->is_npc()) {
-        fprintf(fp, "Vnum %d\n", ch->pIndexData->vnum);
+        fmt::print(fp, "{} {}\n", cf::Vnum, ch->pIndexData->vnum);
     } else {
-        fprintf(fp, "Pass %s~\n", ch->pcdata->pwd.c_str());
+        fmt::print(fp, "{} {}~\n", cf::Password, ch->pcdata->pwd);
         if (!ch->pcdata->bamfin.empty())
-            fprintf(fp, "Bin  %s~\n", ch->pcdata->bamfin.c_str());
+            fmt::print(fp, "{}  {}~\n", cf::BamfIn, ch->pcdata->bamfin);
         if (!ch->pcdata->bamfout.empty())
-            fprintf(fp, "Bout %s~\n", ch->pcdata->bamfout.c_str());
-        fprintf(fp, "Titl %s~\n", ch->pcdata->title.c_str());
-        fprintf(fp, "Afk %s~\n", ch->pcdata->afk.c_str());
-        fprintf(fp, "Colo %d\n", ch->pcdata->colour);
-        fprintf(fp, "Prmt %s~\n", ch->pcdata->prompt.c_str());
-        fprintf(fp, "Pnts %d\n", ch->pcdata->points);
-        fprintf(fp, "TSex %d\n", ch->pcdata->true_sex.ordinal());
-        fprintf(fp, "LLev %d\n", ch->pcdata->last_level);
-        fprintf(fp, "HMVP %d %d %d\n", ch->pcdata->perm_hit, ch->pcdata->perm_mana, ch->pcdata->perm_move);
-        /* Rohan: Save info data */
-        fprintf(fp, "Info_message %s~\n", ch->pcdata->info_message.c_str());
+            fmt::print(fp, "{} {}~\n", cf::BamfOut, ch->pcdata->bamfout);
+        fmt::print(fp, "{} {}~\n", cf::Title, ch->pcdata->title);
+        fmt::print(fp, "{} {}~\n", cf::Afk, ch->pcdata->afk);
+        fmt::print(fp, "{} {}\n", cf::Colour, (int)ch->pcdata->colour);
+        fmt::print(fp, "{} {}~\n", cf::Prompt, ch->pcdata->prompt);
+        fmt::print(fp, "{} {}\n", cf::CreationPoints, ch->pcdata->points);
+        fmt::print(fp, "{} {}\n", cf::TrueSex, ch->pcdata->true_sex.ordinal());
+        fmt::print(fp, "{} {}\n", cf::LastLevelTime, ch->pcdata->last_level);
+        fmt::print(fp, "{} {} {} {}\n", cf::HitManaMovePerm, ch->pcdata->perm_hit, ch->pcdata->perm_mana,
+                   ch->pcdata->perm_move);
+        fmt::print(fp, "{} {}~\n", cf::InfoMsg, ch->pcdata->info_message);
         if (ch->desc) {
-            fprintf(fp, "LastLoginFrom %s~\n", ch->desc->host().c_str());
-            fprintf(fp, "LastLoginAt %s~\n", ch->desc->login_time().c_str());
+            fmt::print(fp, "{} {}~\n", cf::LastLoginFrom, ch->desc->host());
+            fmt::print(fp, "{} {}~\n", cf::LastLoginAt, ch->desc->login_time());
         }
 
         /* save prefix PCFN 19-05-97 */
-        fprintf(fp, "Prefix %s~\n", ch->pcdata->prefix.c_str());
+        fmt::print(fp, "{} {}~\n", cf::Prefix, ch->pcdata->prefix);
 
         // Timezone hours and minutes offset are unused currently.
-        fprintf(fp, "HourOffset %d\n", ch->pcdata->houroffset);
-        fprintf(fp, "MinOffset %d\n", ch->pcdata->minoffset);
+        fmt::print(fp, "{} {}\n", cf::HourOffset, ch->pcdata->houroffset);
+        fmt::print(fp, "{} {}\n", cf::MinOffset, ch->pcdata->minoffset);
+        fmt::print(fp, "{} {}~\n", cf::ExtraBits, extra_bit_string(*ch));
+        fmt::print(fp, "{} {} {} {}\n", cf::Condition, ch->pcdata->condition[0], ch->pcdata->condition[1],
+                   ch->pcdata->condition[2]);
+        fmt::print(fp, "{} {}~\n", cf::PronounPossessive, ch->pcdata->pronouns.possessive);
+        fmt::print(fp, "{} {}~\n", cf::PronounSubjective, ch->pcdata->pronouns.subjective);
+        fmt::print(fp, "{} {}~\n", cf::PronounObjective, ch->pcdata->pronouns.objective);
+        fmt::print(fp, "{} {}~\n", cf::PronounReflexive, ch->pcdata->pronouns.reflexive);
 
-        fmt::print(fp, "ExtraBits {}~\n", extra_bit_string(*ch));
-
-        fprintf(fp, "Cond %d %d %d\n", ch->pcdata->condition[0], ch->pcdata->condition[1], ch->pcdata->condition[2]);
-
-        fprintf(fp, "Possessive %s~\n", ch->pcdata->pronouns.possessive.c_str());
-        fprintf(fp, "Subjective %s~\n", ch->pcdata->pronouns.subjective.c_str());
-        fprintf(fp, "Objective %s~\n", ch->pcdata->pronouns.objective.c_str());
-        fprintf(fp, "Reflexive %s~\n", ch->pcdata->pronouns.reflexive.c_str());
-
-        for (sn = 0; sn < MAX_SKILL; sn++) {
-            if (skill_table[sn].name != nullptr && ch->pcdata->learned[sn] > 0) // NOT get_skill_learned
-            {
-                fprintf(fp, "Sk %d '%s'\n", ch->pcdata->learned[sn], skill_table[sn].name); // NOT get_skill_learned
+        for (auto sn = 0; sn < MAX_SKILL; sn++) {
+            if (skill_table[sn].name != nullptr && ch->pcdata->learned[sn] > 0) {
+                fmt::print(fp, "{} {} '{}'\n", cf::Skill, ch->pcdata->learned[sn],
+                           skill_table[sn].name); // NOT get_skill_learned
             }
         }
 
-        for (gn = 0; gn < MAX_GROUP; gn++) {
+        for (auto gn = 0; gn < MAX_GROUP; gn++) {
             if (group_table[gn].name != nullptr && ch->pcdata->group_known[gn]) {
-                fprintf(fp, "Gr '%s'\n", group_table[gn].name);
+                fmt::print(fp, "{} '{}'\n", cf::SkillGroup, group_table[gn].name);
             }
         }
     }
 
+    std::stringstream ss;
     for (const auto &af : ch->affected) {
         if (af.type < 0 || af.type >= MAX_SKILL)
             continue;
-
-        fprintf(fp, "AffD '%s' %3d %3d %3d %3d %10d\n", skill_table[af.type].name, af.level, af.duration, af.modifier,
-                static_cast<int>(af.location), af.bitvector);
+        ss = std::stringstream();
+        ss << "'" << skill_table[af.type].name << "'";
+        fmt::print(fp, "{} {:<17} {:>3} {:>3} {:>3} {:>3} {:>10}\n", cf::Affected, ss.str(), af.level, af.duration,
+                   af.modifier, static_cast<int>(af.location), af.bitvector);
     }
-    fprintf(fp, "End\n\n");
+    fmt::print(fp, "{}\n\n", cf::End);
 }
 
 /* write a pet */
 void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
-    fprintf(fp, "#PET\n");
+    namespace cf = charfilemeta;
+    fmt::print(fp, "#{}\n", cf::SectionPet);
 
-    fprintf(fp, "Vnum %d\n", pet->pIndexData->vnum);
+    fmt::print(fp, "{} {}\n", cf::Vnum, pet->pIndexData->vnum);
 
-    fprintf(fp, "Name %s~\n", pet->name.c_str());
+    fmt::print(fp, "{} {}~\n", cf::Name, pet->name);
     if (pet->short_descr != pet->pIndexData->short_descr)
-        fprintf(fp, "ShD  %s~\n", pet->short_descr.c_str());
+        fmt::print(fp, "{}  {}~\n", cf::ShortDescription, pet->short_descr);
     if (pet->long_descr != pet->pIndexData->long_descr)
-        fprintf(fp, "LnD  %s~\n", pet->long_descr.c_str());
+        fmt::print(fp, "{}  {}~\n", cf::LongDescription, pet->long_descr);
     if (pet->description != pet->pIndexData->description)
-        fprintf(fp, "Desc %s~\n", pet->description.c_str());
+        fmt::print(fp, "{} {}~\n", cf::Description, pet->description);
     if (pet->race != pet->pIndexData->race)
-        fprintf(fp, "Race %s~\n", race_table[pet->race].name);
-    fprintf(fp, "Sex  %d\n", pet->sex.ordinal());
+        fmt::print(fp, "{} {}~\n", cf::Race, race_table[pet->race].name);
+    fmt::print(fp, "{}  {}\n", cf::Sex, pet->sex.ordinal());
     if (pet->level != pet->pIndexData->level)
-        fprintf(fp, "Levl %d\n", pet->level);
-    fprintf(fp, "HMV  %d %d %d %d %d %d\n", pet->hit, pet->max_hit, pet->mana, pet->max_mana, pet->move, pet->max_move);
+        fmt::print(fp, "{} {}\n", cf::Level, pet->level);
+    fmt::print(fp, "{}  {} {} {} {} {} {}\n", cf::HitManaMove, pet->hit, pet->max_hit, pet->mana, pet->max_mana,
+               pet->move, pet->max_move);
     if (pet->gold > 0)
-        fprintf(fp, "Gold %ld\n", pet->gold);
+        fmt::print(fp, "{} {}\n", cf::Gold, pet->gold);
     if (pet->exp > 0)
-        fprintf(fp, "Exp  %ld\n", pet->exp);
+        fmt::print(fp, "{}  {}\n", cf::Experience, pet->exp);
     if (pet->act != pet->pIndexData->act)
-        fprintf(fp, "Act  %ld\n", pet->act);
+        fmt::print(fp, "{}  {}\n", cf::ActFlags, pet->act);
     if (pet->affected_by != pet->pIndexData->affected_by)
-        fprintf(fp, "AfBy %d\n", pet->affected_by);
+        fmt::print(fp, "{} {}\n", cf::AffectedBy, pet->affected_by);
     if (pet->comm != 0)
-        fprintf(fp, "Comm %ld\n", pet->comm);
-    fprintf(fp, "Pos  %d\n", pet->position == POS_FIGHTING ? POS_STANDING : pet->position);
+        fmt::print(fp, "{} {}\n", cf::CommFlags, pet->comm);
+    fmt::print(fp, "{}  {}\n", cf::Position, pet->position == POS_FIGHTING ? POS_STANDING : pet->position);
     if (pet->saving_throw != 0)
-        fprintf(fp, "Save %d\n", pet->saving_throw);
+        fmt::print(fp, "{} {}\n", cf::SavingThrow, pet->saving_throw);
     if (pet->alignment != pet->pIndexData->alignment)
-        fprintf(fp, "Alig %d\n", pet->alignment);
+        fmt::print(fp, "{} {}\n", cf::Alignment, pet->alignment);
     if (pet->hitroll != pet->pIndexData->hitroll)
-        fprintf(fp, "Hit  %d\n", pet->hitroll);
+        fmt::print(fp, "{}  {}\n", cf::HitRoll, pet->hitroll);
     if (pet->damroll != pet->pIndexData->damage.bonus())
-        fprintf(fp, "Dam  %d\n", pet->damroll);
-    fprintf(fp, "ACs  %d %d %d %d\n", pet->armor[0], pet->armor[1], pet->armor[2], pet->armor[3]);
-    fprintf(fp, "Attr %d %d %d %d %d\n", pet->perm_stat[Stat::Str], pet->perm_stat[Stat::Int],
-            pet->perm_stat[Stat::Wis], pet->perm_stat[Stat::Dex], pet->perm_stat[Stat::Con]);
-    fprintf(fp, "AMod %d %d %d %d %d\n", pet->mod_stat[Stat::Str], pet->mod_stat[Stat::Int], pet->mod_stat[Stat::Wis],
-            pet->mod_stat[Stat::Dex], pet->mod_stat[Stat::Con]);
+        fmt::print(fp, "{}  {}\n", cf::DamRoll, pet->damroll);
+    fmt::print(fp, "{}  {} {} {} {}\n", cf::ArmourClasses, pet->armor[0], pet->armor[1], pet->armor[2], pet->armor[3]);
+    fmt::print(fp, "{} {} {} {} {} {}\n", cf::Attribs, pet->perm_stat[Stat::Str], pet->perm_stat[Stat::Int],
+               pet->perm_stat[Stat::Wis], pet->perm_stat[Stat::Dex], pet->perm_stat[Stat::Con]);
+    fmt::print(fp, "{} {} {} {} {} {}\n", cf::AttribModifiers, pet->mod_stat[Stat::Str], pet->mod_stat[Stat::Int],
+               pet->mod_stat[Stat::Wis], pet->mod_stat[Stat::Dex], pet->mod_stat[Stat::Con]);
 
+    std::stringstream ss;
     for (const auto &af : pet->affected) {
         if (af.type < 0 || af.type >= MAX_SKILL)
             continue;
-
-        fprintf(fp, "AffD '%s' %3d %3d %3d %3d %10d\n", skill_table[af.type].name, af.level, af.duration, af.modifier,
-                static_cast<int>(af.location), af.bitvector);
+        ss = std::stringstream();
+        ss << "'" << skill_table[af.type].name << "'";
+        fmt::print(fp, "{} {:<17} {:>3} {:>3} {:>3} {:>3} {:>10}\n", cf::Affected, ss.str(), af.level, af.duration,
+                   af.modifier, static_cast<int>(af.location), af.bitvector);
     }
 
     if (ch->riding == pet) {
-        fprintf(fp, "Ridden\n");
+        fmt::print(fp, "{}\n", cf::Ridden);
     }
 
     fwrite_objs(pet, pet->carrying, fp);
 
-    fprintf(fp, "End\n");
+    fmt::print(fp, "{}\n", cf::End);
 }
 
 void fwrite_objs(const Char *ch, const GenericList<OBJ_DATA *> &objs, FILE *fp, int iNest) {
@@ -346,66 +348,61 @@ void fwrite_one_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest) {
         || (obj->item_type == ITEM_MAP && !obj->value[0]))
         return;
 
-    fprintf(fp, "#O\n");
-    fprintf(fp, "Vnum %d\n", obj->pIndexData->vnum);
+    namespace cf = charfilemeta;
+    fmt::print(fp, "#{}\n", cf::SectionObject);
+    fmt::print(fp, "{} {}\n", cf::Vnum, obj->pIndexData->vnum);
     if (obj->enchanted)
-        fprintf(fp, "Enchanted\n");
-    fprintf(fp, "Nest %d\n", iNest);
+        fmt::print(fp, "{}\n", cf::Enchanted);
+    fmt::print(fp, "{} {}\n", cf::Nest, iNest);
 
     /* these data are only used if they do not match the defaults */
 
     if (obj->name != obj->pIndexData->name)
-        fmt::print(fp, "Name {}~\n", obj->name);
+        fmt::print(fp, "{} {}~\n", cf::Name, obj->name);
     if (obj->short_descr != obj->pIndexData->short_descr)
-        fmt::print(fp, "ShD  {}~\n", obj->short_descr);
+        fmt::print(fp, "{}  {}~\n", cf::ShortDescription, obj->short_descr);
     if (obj->description != obj->pIndexData->description)
-        fmt::print(fp, "Desc {}~\n", obj->description);
+        fmt::print(fp, "{} {}~\n", cf::Description, obj->description);
     if (obj->extra_flags != obj->pIndexData->extra_flags)
-        fprintf(fp, "ExtF %d\n", obj->extra_flags);
+        fmt::print(fp, "{} {}\n", cf::ExtraFlags, obj->extra_flags);
     if (obj->wear_flags != obj->pIndexData->wear_flags)
-        fprintf(fp, "WeaF %d\n", obj->wear_flags);
+        fmt::print(fp, "{} {}\n", cf::WearFlags, obj->wear_flags);
     if (obj->wear_string != obj->pIndexData->wear_string)
-        fmt::print(fp, "WStr {}~\n", obj->wear_string);
+        fmt::print(fp, "{} {}~\n", cf::WearString, obj->wear_string);
     if (obj->item_type != obj->pIndexData->item_type)
-        fprintf(fp, "Ityp %d\n", obj->item_type);
+        fmt::print(fp, "{} {}\n", cf::ItemType, obj->item_type);
     if (obj->weight != obj->pIndexData->weight)
-        fprintf(fp, "Wt   %d\n", obj->weight);
+        fmt::print(fp, "{}   {}\n", cf::Weight, obj->weight);
 
     /* variable data */
 
-    fprintf(fp, "Wear %d\n", obj->wear_loc);
+    fmt::print(fp, "{} {}\n", cf::WearLoc, obj->wear_loc);
     if (obj->level != 0)
-        fprintf(fp, "Lev  %d\n", obj->level);
+        fmt::print(fp, "{}  {}\n", cf::ObjectLevel, obj->level);
     if (obj->timer != 0)
-        fprintf(fp, "Time %d\n", obj->timer);
-    fprintf(fp, "Cost %d\n", obj->cost);
+        fmt::print(fp, "{} {}\n", cf::Time, obj->timer);
+    fmt::print(fp, "{} {}\n", cf::Cost, obj->cost);
     if (obj->value[0] != obj->pIndexData->value[0] || obj->value[1] != obj->pIndexData->value[1]
         || obj->value[2] != obj->pIndexData->value[2] || obj->value[3] != obj->pIndexData->value[3]
         || obj->value[4] != obj->pIndexData->value[4])
-        fprintf(fp, "Val  %d %d %d %d %d\n", obj->value[0], obj->value[1], obj->value[2], obj->value[3], obj->value[4]);
+        fmt::print(fp, "{}  {} {} {} {} {}\n", cf::Val, obj->value[0], obj->value[1], obj->value[2], obj->value[3],
+                   obj->value[4]);
 
     switch (obj->item_type) {
     case ITEM_POTION:
     case ITEM_SCROLL:
-        if (obj->value[1] > 0) {
-            fprintf(fp, "Spell 1 '%s'\n", skill_table[obj->value[1]].name);
+        for (auto i = 1; i < 4; i++) { // potion & scroll spells occupy object value slots 1-3
+            if (obj->value[i] > 0) {
+                fmt::print(fp, "{} {} '{}'\n", cf::Spell, i, skill_table[obj->value[i]].name);
+            }
         }
-
-        if (obj->value[2] > 0) {
-            fprintf(fp, "Spell 2 '%s'\n", skill_table[obj->value[2]].name);
-        }
-
-        if (obj->value[3] > 0) {
-            fprintf(fp, "Spell 3 '%s'\n", skill_table[obj->value[3]].name);
-        }
-
         break;
 
     case ITEM_PILL:
     case ITEM_STAFF:
     case ITEM_WAND:
         if (obj->value[3] > 0) {
-            fprintf(fp, "Spell 3 '%s'\n", skill_table[obj->value[3]].name);
+            fmt::print(fp, "{} 3 '{}'\n", cf::Spell, skill_table[obj->value[3]].name);
         }
 
         break;
@@ -414,14 +411,14 @@ void fwrite_one_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest) {
     for (auto &af : obj->affected) {
         if (af.type < 0 || af.type >= MAX_SKILL)
             continue;
-        fprintf(fp, "AffD '%s' %d %d %d %d %d\n", skill_table[af.type].name, af.level, af.duration, af.modifier,
-                static_cast<int>(af.location), af.bitvector);
+        fmt::print(fp, "{} '{}' {} {} {} {} {}\n", cf::Affected, skill_table[af.type].name, af.level, af.duration,
+                   af.modifier, static_cast<int>(af.location), af.bitvector);
     }
 
     for (const auto &ed : obj->extra_descr)
-        fmt::print(fp, "ExDe {}~ {}~\n", ed.keyword, ed.description);
+        fmt::print(fp, "{} {}~ {}~\n", cf::ExtraDescription, ed.keyword, ed.description);
 
-    fprintf(fp, "End\n\n");
+    fmt::print(fp, "{}\n\n", cf::End);
 
     fwrite_objs(ch, obj->contains, fp, iNest + 1);
 }
@@ -435,6 +432,7 @@ void load_into_char(Char &character, LastLoginInfo &last_login, FILE *fp) {
     for (iNest = 0; iNest < MAX_NEST; iNest++)
         rgObjNest[iNest] = nullptr;
 
+    namespace cf = charfilemeta;
     for (;;) {
         auto letter = fread_letter(fp);
         if (letter == '*') {
@@ -446,19 +444,18 @@ void load_into_char(Char &character, LastLoginInfo &last_login, FILE *fp) {
             bug("load_char_obj: # not found.");
             break;
         }
-
-        auto *word = fread_word(fp);
-        if (!str_cmp(word, "PLAYER")) {
+        auto word = fread_stdstring_eol(fp);
+        if (word == cf::SectionPlayer) {
             fread_char(&character, last_login, fp);
             affect_strip(&character, gsn_ride);
-        } else if (!str_cmp(word, "OBJECT") || !str_cmp(word, "O"))
+        } else if (word == cf::SectionObject)
             fread_obj(&character, fp);
-        else if (!str_cmp(word, "PET"))
+        else if (word == cf::SectionPet)
             fread_pet(&character, fp);
-        else if (!str_cmp(word, "END"))
+        else if (word == cf::SectionEnd)
             break;
         else {
-            bug("load_char_obj: bad section.");
+            bug("load_char_obj: bad section: '{}'", word);
             break;
         }
     }
@@ -524,55 +521,48 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
     }
 
 void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
+    namespace cf = charfilemeta;
     using namespace magic_enum;
     for (;;) {
-        const std::string word = lower_case(feof(fp) ? "end" : fread_word(fp));
+        const std::string word = feof(fp) ? cf::End : fread_word(fp);
         if (word.empty() || word[0] == '*') {
             fread_to_eol(fp);
-        } else if (word == "act") {
+        } else if (word == cf::ActFlags) {
             ch->act = fread_number(fp);
-        } else if (word == "affectedby" || word == "afby") {
+        } else if (word == cf::AffectedBy) {
             ch->affected_by = fread_number(fp);
-        } else if (word == "afk") {
+        } else if (word == cf::Afk) {
             ch->pcdata->afk = fread_stdstring(fp);
-        } else if (matches_start(word, "alig")) {
+        } else if (word == cf::Alignment) {
             ch->alignment = fread_number(fp);
-        } else if (word == "armor" || word == "ac") {
-            fread_to_eol(fp);
-        } else if (word == "acs") {
+        } else if (word == cf::ArmourClasses) {
             for (int i = 0; i < 4; i++) {
                 ch->armor[i] = fread_number(fp);
             }
-        } else if (word == "affect" || word == "aff" || word == "affd") {
+        } else if (word == cf::Affected) {
             AFFECT_DATA af;
-
-            // Ick.
-            if (word == "affd") {
-                int sn;
-                sn = skill_lookup(fread_word(fp));
-                if (sn < 0)
-                    bug("fread_char: unknown skill.");
-                else
-                    af.type = sn;
-            } else /* old form */
-                af.type = fread_number(fp);
+            int sn = skill_lookup(fread_word(fp));
+            if (sn < 0)
+                bug("fread_char: unknown skill.");
+            else
+                af.type = sn;
             af.level = fread_number(fp);
             af.duration = fread_number(fp);
             af.modifier = fread_number(fp);
             af.location = static_cast<AffectLocation>(fread_number(fp));
             af.bitvector = fread_number(fp);
             ch->affected.add_at_end(af);
-        } else if (word == "attrmod" || word == "amod") {
+        } else if (word == cf::AttribModifiers) {
             for (auto &stat : ch->mod_stat)
                 stat = fread_number(fp);
-        } else if (word == "attrperm" || word == "attr") {
+        } else if (word == cf::Attribs) {
             for (auto &stat : ch->perm_stat)
                 stat = fread_number(fp);
-        } else if (word == "bamfin" || word == "bin") {
+        } else if (word == cf::BamfIn) {
             ch->pcdata->bamfin = fread_stdstring(fp);
-        } else if (word == "bamfout" || word == "bout") {
+        } else if (word == cf::BamfOut) {
             ch->pcdata->bamfout = fread_stdstring(fp);
-        } else if (word == "clan") {
+        } else if (word == cf::Clan) {
             const auto clan_char = fread_number(fp);
             bool found = false;
             for (auto &clan : clantable) {
@@ -584,151 +574,149 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
             if (!found) {
                 bug("fread_char: unable to find clan '{}'", clan_char);
             }
-        } else if (word == "class" || word == "cla") {
+        } else if (word == cf::Class) {
             ch->class_num = fread_number(fp);
-        } else if (word == "clevel") {
+        } else if (word == cf::ClanLevel) {
             if (ch->pc_clan()) {
                 ch->pc_clan()->clanlevel = fread_number(fp);
             } else {
                 bug("fread_char: CLAN level with no clan");
                 fread_to_eol(fp);
             }
-        } else if (word == "ccflags") {
+        } else if (word == cf::ClanChanFlags) {
             if (ch->pc_clan()) {
                 ch->pc_clan()->channelflags = fread_number(fp);
             } else {
                 bug("fread_char: CLAN channelflags with no clan");
                 fread_to_eol(fp);
             }
-        } else if (word == "condition" || word == "cond") {
-            // TODO: look at this - is there some constant for the number 3?
+        } else if (word == cf::Condition) {
+            // #256 look at this - is there some constant for the number 3?
             ch->pcdata->condition[0] = fread_number(fp);
             ch->pcdata->condition[1] = fread_number(fp);
             ch->pcdata->condition[2] = fread_number(fp);
-        } else if (word == "colo") {
-            ch->pcdata->colour = fread_number(fp);
-        } else if (word == "comm") {
+        } else if (word == cf::Colour) {
+            ch->pcdata->colour = fread_number(fp); // #256 should be a bool?
+        } else if (word == cf::CommFlags) {
             ch->comm = fread_number(fp);
-        } else if (word == "damroll" || word == "dam") {
+        } else if (word == cf::DamRoll) {
             ch->damroll = fread_number(fp);
-        } else if (word == "description" || word == "desc") {
+        } else if (word == cf::Description) {
             ch->description = fread_stdstring(fp);
-        } else if (word == "end") {
+        } else if (word == cf::End) {
             return;
-        } else if (word == "exp") {
+        } else if (word == cf::Experience) {
             ch->exp = fread_number(fp);
-        } else if (word == "extrabits") {
+        } else if (word == cf::ExtraBits) {
             set_bits_from_pfile(ch, fp);
             fread_to_eol(fp);
-        } else if (word == "gold") {
+        } else if (word == cf::Gold) {
             ch->gold = fread_number(fp);
-        } else if (word == "group" || word == "gr") {
+        } else if (word == cf::SkillGroup) {
             char *temp = fread_word(fp);
             int gn = group_lookup(temp);
             if (gn < 0) {
-                fprintf(stderr, "%s", temp);
-                bug("fread_char: unknown group.");
+                bug("fread_char: unknown group: {}", temp);
             } else {
                 gn_add(ch, gn);
             }
-        } else if (word == "hitroll" || word == "hit") {
+        } else if (word == cf::HitRoll) {
             ch->hitroll = fread_number(fp);
-        } else if (word == "houroffset") {
+        } else if (word == cf::HourOffset) {
             ch->pcdata->houroffset = 0;
             // Timezone hours and minutes offset are unused currently but we've kept
             // them in the pfiles for compatibility/potential reuse in future.
             fread_number(fp);
-        } else if (word == "hpmanamove" || word == "hmv") {
+        } else if (word == cf::HitManaMove) {
             ch->hit = fread_number(fp);
             ch->max_hit = fread_number(fp);
             ch->mana = fread_number(fp);
             ch->max_mana = fread_number(fp);
             ch->move = fread_number(fp);
             ch->max_move = fread_number(fp);
-        } else if (word == "hpmanamoveperm" || word == "hmvp") {
+        } else if (word == cf::HitManaMovePerm) {
             ch->pcdata->perm_hit = fread_number(fp);
             ch->pcdata->perm_mana = fread_number(fp);
             ch->pcdata->perm_move = fread_number(fp);
-        } else if (word == "invislevel" || word == "invi") {
+        } else if (word == cf::InvisLevel) {
             ch->invis_level = fread_number(fp);
-        } else if (word == "info_message") {
+        } else if (word == cf::InfoMsg) {
             ch->pcdata->info_message = fread_stdstring(fp);
-        } else if (word == "lastlevel" || word == "llev") {
+        } else if (word == cf::LastLevelTime) {
             ch->pcdata->last_level = fread_number(fp);
-        } else if (word == "level" || word == "lev" || word == "levl") {
+        } else if (word == cf::Level) {
             ch->level = fread_number(fp);
-        } else if (word == "longdescr" || word == "lnd") {
+        } else if (word == cf::LongDescription) {
             ch->long_descr = fread_stdstring(fp);
-        } else if (word == "lastloginfrom") {
+        } else if (word == cf::LastLoginFrom) {
             last_login.login_from = fread_stdstring(fp);
-        } else if (word == "lastloginat") {
+        } else if (word == cf::LastLoginAt) {
             last_login.login_at = fread_stdstring(fp);
-        } else if (word == "minoffset") {
+        } else if (word == cf::MinOffset) {
             ch->pcdata->minoffset = 0;
             // Timezone hours and minutes offset are unused currently but we've kept
             // them in the pfiles for compatibility/potential reuse in future.
             fread_number(fp);
-        } else if (word == "name") {
+        } else if (word == cf::Name) {
             ch->name = fread_stdstring(fp);
-        } else if (word == "note") {
+        } else if (word == cf::LastNote) {
             ch->last_note = Clock::from_time_t(fread_number(fp));
-        } else if (word == "password" || word == "pass") {
+        } else if (word == cf::Password) {
             ch->pcdata->pwd = fread_stdstring(fp);
-        } else if (word == "played" || word == "plyd") {
+        } else if (word == cf::PlayedTime) {
             ch->played = Seconds(fread_number(fp));
-        } else if (word == "points" || word == "pnts") {
+        } else if (word == cf::CreationPoints) {
             ch->pcdata->points = fread_number(fp);
-        } else if (word == "position" || word == "pos") {
+        } else if (word == cf::Position) {
             ch->position = fread_number(fp);
-        } else if (word == "practice" || word == "prac") {
+        } else if (word == cf::Practice) {
             ch->practice = fread_number(fp);
-        } else if (word == "prompt" || word == "prmt") {
+        } else if (word == cf::Prompt) {
             ch->pcdata->prompt = fread_stdstring(fp);
-        } else if (word == "prefix") {
+        } else if (word == cf::Prefix) {
             ch->pcdata->prefix = fread_stdstring(fp);
-        } else if (word == "race") {
+        } else if (word == cf::Race) {
             ch->race = race_lookup(fread_string(fp));
-        } else if (word == "room") {
+        } else if (word == cf::Room) {
             ch->in_room = get_room_index(fread_number(fp));
             if (ch->in_room == nullptr)
                 ch->in_room = get_room_index(rooms::Limbo);
-        } else if (word == "savingthrow" || word == "save") {
+        } else if (word == cf::SavingThrow) {
             ch->saving_throw = fread_number(fp);
-        } else if (word == "scro") {
+        } else if (word == cf::Scroll) {
             ch->lines = fread_number(fp);
             // kludge to avoid memory bug
             if (ch->lines == 0 || ch->lines > 52)
                 ch->lines = 52;
-        } else if (word == "sex") {
+        } else if (word == cf::Sex) {
             if (auto sex = Sex::try_from_ordinal(fread_number(fp))) {
                 ch->sex = *sex;
             } else {
                 bug("fread_char: unknown sex.");
             }
-        } else if (word == "shortdescr" || word == "shd") {
+        } else if (word == cf::ShortDescription) {
             ch->short_descr = fread_stdstring(fp);
-        } else if (word == "skill" || word == "sk") {
+        } else if (word == cf::Skill) {
             const int value = fread_number(fp);
             const char *temp = fread_word(fp);
             const int sn = skill_lookup(temp);
             if (sn < 0) {
-                fprintf(stderr, "%s", temp);
-                bug("fread_char: unknown skill.");
+                bug("fread_char: unknown skill: {}", temp);
             } else
                 ch->pcdata->learned[sn] = value;
-        } else if (word == "truesex" || word == "tsex") {
+        } else if (word == cf::TrueSex) {
             if (auto sex = Sex::try_from_ordinal(fread_number(fp))) {
                 ch->pcdata->true_sex = *sex;
             } else {
                 bug("fread_char: unknown truesex.");
             }
-        } else if (word == "trai") {
+        } else if (word == cf::Train) {
             ch->train = fread_number(fp);
-        } else if (word == "trust" || word == "tru") {
+        } else if (word == cf::Trust) {
             ch->trust = fread_number(fp);
-        } else if (word == "title" || word == "titl") {
+        } else if (word == cf::Title) {
             ch->set_title(fread_stdstring(fp));
-        } else if (word == "version" || word == "vers") {
+        } else if (word == cf::Version) {
             auto raw_version = fread_number(fp);
             auto version = enum_cast<CharVersion>(raw_version);
             if (version.has_value()) {
@@ -736,17 +724,17 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
             } else {
                 bug("fread_char: unknown version: {}", raw_version);
             }
-        } else if (word == "vnum") {
+        } else if (word == cf::Vnum) {
             ch->pIndexData = get_mob_index(fread_number(fp));
-        } else if (word == "wimpy" || word == "wimp") {
+        } else if (word == cf::Wimpy) {
             ch->wimpy = fread_number(fp);
-        } else if (word == "possessive") {
+        } else if (word == cf::PronounPossessive) {
             ch->pcdata->pronouns.possessive = fread_stdstring(fp);
-        } else if (word == "subjective") {
+        } else if (word == cf::PronounSubjective) {
             ch->pcdata->pronouns.subjective = fread_stdstring(fp);
-        } else if (word == "objective") {
+        } else if (word == cf::PronounObjective) {
             ch->pcdata->pronouns.objective = fread_stdstring(fp);
-        } else if (word == "reflexive") {
+        } else if (word == cf::PronounReflexive) {
             ch->pcdata->pronouns.reflexive = fread_stdstring(fp);
         }
     }
@@ -754,11 +742,12 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
 
 /* load a pet from the forgotten reaches */
 void fread_pet(Char *ch, FILE *fp) {
+    namespace cf = charfilemeta;
     std::string word;
     Char *pet;
     /* first entry had BETTER be the vnum or we barf */
-    word = feof(fp) ? "END" : fread_word(fp);
-    if (matches(word, "Vnum")) {
+    word = feof(fp) ? cf::End : fread_word(fp);
+    if (word == cf::Vnum) {
         int vnum = fread_number(fp);
         if (get_mob_index(vnum) == nullptr) {
             bug("fread_pet: bad vnum {}.", vnum);
@@ -771,21 +760,21 @@ void fread_pet(Char *ch, FILE *fp) {
     }
 
     for (;;) {
-        word = feof(fp) ? "END" : fread_word(fp);
+        word = feof(fp) ? cf::End : fread_word(fp);
         if (word.empty() || word[0] == '*') {
             fread_to_eol(fp);
         } else if (word[0] == '#') {
             fread_obj(pet, fp);
-        } else if (matches(word, "Act")) {
+        } else if (word == cf::ActFlags) {
             pet->act = fread_number(fp);
-        } else if (matches(word, "AfBy")) {
+        } else if (word == cf::AffectedBy) {
             pet->affected_by = fread_number(fp);
-        } else if (matches(word, "Alig")) {
+        } else if (word == cf::Alignment) {
             pet->alignment = fread_number(fp);
-        } else if (matches(word, "ACs")) {
+        } else if (word == cf::ArmourClasses) {
             for (int i = 0; i < 4; i++)
                 pet->armor[i] = fread_number(fp);
-        } else if (matches(word, "AffD")) {
+        } else if (word == cf::Affected) {
             AFFECT_DATA af;
             int sn = skill_lookup(fread_word(fp));
             if (sn < 0)
@@ -799,55 +788,55 @@ void fread_pet(Char *ch, FILE *fp) {
             af.location = static_cast<AffectLocation>(fread_number(fp));
             af.bitvector = fread_number(fp);
             pet->affected.add_at_end(af);
-        } else if (matches(word, "AMod")) {
+        } else if (word == cf::AttribModifiers) {
             for (auto &stat : pet->mod_stat)
                 stat = fread_number(fp);
-        } else if (matches(word, "Attr")) {
+        } else if (word == cf::Attribs) {
             for (auto &stat : pet->perm_stat)
                 stat = fread_number(fp);
-        } else if (matches(word, "Comm")) {
+        } else if (word == cf::CommFlags) {
             pet->comm = fread_number(fp);
-        } else if (matches(word, "Dam")) {
+        } else if (word == cf::DamRoll) {
             pet->damroll = fread_number(fp);
-        } else if (matches(word, "Desc")) {
+        } else if (word == cf::Description) {
             pet->description = fread_stdstring(fp);
-        } else if (matches(word, "End")) {
+        } else if (word == cf::End) {
             pet->leader = ch;
             pet->master = ch;
             ch->pet = pet;
             return;
-        } else if (matches(word, "Exp")) {
+        } else if (word == cf::Experience) {
             pet->exp = fread_number(fp);
-        } else if (matches(word, "Gold")) {
+        } else if (word == cf::Gold) {
             pet->gold = fread_number(fp);
-        } else if (matches(word, "Hit")) {
+        } else if (word == cf::HitRoll) {
             pet->hitroll = fread_number(fp);
-        } else if (matches(word, "HMV")) {
+        } else if (word == cf::HitManaMove) {
             pet->hit = fread_number(fp);
             pet->max_hit = fread_number(fp);
             pet->mana = fread_number(fp);
             pet->max_mana = fread_number(fp);
             pet->move = fread_number(fp);
             pet->max_move = fread_number(fp);
-        } else if (matches(word, "Levl")) {
+        } else if (word == cf::Level) {
             pet->level = fread_number(fp);
-        } else if (matches(word, "LnD")) {
+        } else if (word == cf::LongDescription) {
             pet->long_descr = fread_stdstring(fp);
-        } else if (matches(word, "Name")) {
+        } else if (word == cf::Name) {
             pet->name = fread_stdstring(fp);
-        } else if (matches(word, "Pos")) {
+        } else if (word == cf::Position) {
             pet->position = fread_number(fp);
-        } else if (matches(word, "Race")) {
+        } else if (word == cf::Race) {
             pet->race = race_lookup(fread_string(fp));
-        } else if (matches(word, "Save")) {
+        } else if (word == cf::SavingThrow) {
             pet->saving_throw = fread_number(fp);
-        } else if (matches(word, "Sex")) {
+        } else if (word == cf::Sex) {
             if (auto sex = Sex::try_from_ordinal(fread_number(fp))) {
                 pet->sex = *sex;
             } else {
                 bug("fread_pet: unknown sex.");
             }
-        } else if (matches(word, "ShD")) {
+        } else if (word == cf::ShortDescription) {
             pet->short_descr = fread_stdstring(fp);
         } else {
             bug("fread_pet: no match for {}.", word);
@@ -878,6 +867,7 @@ void upgrade_legacy_item_extra_flags(OBJ_DATA *obj) {
 }
 
 void fread_obj(Char *ch, FILE *fp) {
+    namespace cf = charfilemeta;
     OBJ_DATA *obj;
     std::string word;
     int iNest;
@@ -893,8 +883,8 @@ void fread_obj(Char *ch, FILE *fp) {
     new_format = false;
     make_new = false;
 
-    word = feof(fp) ? "End" : fread_word(fp);
-    if (matches(word, "Vnum")) {
+    word = feof(fp) ? cf::End : fread_word(fp);
+    if (word == cf::Vnum) {
         int vnum;
         first = false; /* fp will be in right place */
 
@@ -918,43 +908,39 @@ void fread_obj(Char *ch, FILE *fp) {
         if (first)
             first = false;
         else
-            word = feof(fp) ? "End" : fread_word(fp);
+            word = feof(fp) ? cf::End : fread_word(fp);
         if (word.empty() || word[0] == '*') {
             fread_to_eol(fp);
-        } else if (matches(word, "Affect") || matches(word, "Aff") || matches(word, "AffD")) {
+        } else if (word == cf::Affected) {
             AFFECT_DATA af;
-
             // Spell effects on chars and customized objects in PFiles
-            if (matches(word, "AffD")) {
-                int sn;
-                const char *affected_by = fread_word(fp);
-                sn = skill_lookup(affected_by);
-                if (sn < 0)
-                    bug("fread_obj: unknown skill {}.", affected_by);
-                else
-                    af.type = sn;
-            } else /* old form */
-                af.type = fread_number(fp);
+            int sn;
+            const char *affected_by = fread_word(fp);
+            sn = skill_lookup(affected_by);
+            if (sn < 0)
+                bug("fread_obj: unknown skill {}.", affected_by);
+            else
+                af.type = sn;
             af.level = fread_number(fp);
             af.duration = fread_number(fp);
             af.modifier = fread_number(fp);
             af.location = static_cast<AffectLocation>(fread_number(fp));
             af.bitvector = fread_number(fp);
             obj->affected.add_at_end(af);
-        } else if (matches(word, "Cost")) {
+        } else if (word == cf::Cost) {
             obj->cost = fread_number(fp);
-        } else if (matches(word, "Description") || matches(word, "Desc")) {
-            obj->description = fread_string(fp);
-        } else if (matches(word, "Enchanted")) {
+        } else if (word == cf::Description) {
+            obj->description = fread_stdstring(fp);
+        } else if (word == cf::Enchanted) {
             obj->enchanted = true;
-        } else if (matches(word, "ExtraFlags") || matches(word, "ExtF")) {
+        } else if (word == cf::ExtraFlags) {
             obj->extra_flags = fread_number(fp);
             upgrade_legacy_item_extra_flags(obj);
-        } else if (matches(word, "ExtraDescr") || matches(word, "ExDe")) {
+        } else if (word == cf::ExtraDescription) {
             auto keyword = fread_stdstring(fp);
             auto description = fread_stdstring(fp);
             obj->extra_descr.emplace_back(EXTRA_DESCR_DATA{keyword, description});
-        } else if (matches(word, "End")) {
+        } else if (word == cf::End) {
             if (!fNest || !fVnum || obj->pIndexData == nullptr) {
                 bug("fread_obj: incomplete object.");
                 extract_obj(obj);
@@ -976,13 +962,13 @@ void fread_obj(Char *ch, FILE *fp) {
                     obj_to_obj(obj, rgObjNest[iNest - 1]);
                 return;
             }
-        } else if (matches(word, "ItemType") || matches(word, "Ityp")) {
+        } else if (word == cf::ItemType) {
             obj->item_type = fread_number(fp);
-        } else if (matches(word, "Level") || matches(word, "Lev")) {
+        } else if (word == cf::ObjectLevel) {
             obj->level = fread_number(fp);
-        } else if (matches(word, "Name")) {
+        } else if (word == cf::Name) {
             obj->name = fread_stdstring(fp);
-        } else if (matches(word, "Nest")) {
+        } else if (word == cf::Nest) {
             iNest = fread_number(fp);
             if (iNest < 0 || iNest >= MAX_NEST) {
                 bug("fread_obj: bad nest {}.", iNest);
@@ -990,15 +976,9 @@ void fread_obj(Char *ch, FILE *fp) {
                 rgObjNest[iNest] = obj;
                 fNest = true;
             }
-        } else if (matches(word, "Oldstyle")) {
-            // TODO(Forrey): I don't believe 'Oldstyle' can be used any more.
-            // Figure out whether this can ever happen, and if not, remove this
-            // code and the 'make_new' handling.
-            if (obj->pIndexData != nullptr)
-                make_new = true;
-        } else if (matches(word, "ShortDescr") || matches(word, "ShD")) {
-            obj->short_descr = fread_string(fp);
-        } else if (matches(word, "Spell")) {
+        } else if (word == cf::ShortDescription) {
+            obj->short_descr = fread_stdstring(fp);
+        } else if (word == cf::Spell) {
             int iValue = fread_number(fp);
             const char *spell = fread_word(fp);
             int sn = skill_lookup(spell);
@@ -1009,34 +989,27 @@ void fread_obj(Char *ch, FILE *fp) {
             } else {
                 obj->value[iValue] = sn;
             }
-        } else if (matches_start(word, "Timer")) {
+        } else if (word == cf::Time) {
             obj->timer = fread_number(fp);
-        } else if (matches(word, "Values") || matches(word, "Vals")) {
-            obj->value[0] = fread_number(fp);
-            obj->value[1] = fread_number(fp);
-            obj->value[2] = fread_number(fp);
-            obj->value[3] = fread_number(fp);
-            if (obj->item_type == ITEM_WEAPON && obj->value[0] == 0)
-                obj->value[0] = obj->pIndexData->value[0];
-        } else if (matches(word, "Val")) {
+        } else if (word == cf::Val) {
             obj->value[0] = fread_number(fp);
             obj->value[1] = fread_number(fp);
             obj->value[2] = fread_number(fp);
             obj->value[3] = fread_number(fp);
             obj->value[4] = fread_number(fp);
-        } else if (matches(word, "Vnum")) {
+        } else if (word == cf::Vnum) {
             int vnum = fread_number(fp);
             if ((obj->pIndexData = get_obj_index(vnum)) == nullptr)
                 bug("fread_obj: bad vnum {}.", vnum);
             else
                 fVnum = true;
-        } else if (matches(word, "WearFlags") || matches(word, "WeaF")) {
+        } else if (word == cf::WearFlags) {
             obj->wear_flags = fread_number(fp);
-        } else if (matches(word, "WearLoc") || matches(word, "Wear")) {
+        } else if (word == cf::WearLoc) {
             obj->wear_loc = fread_number(fp);
-        } else if (matches(word, "Weight") || matches(word, "Wt")) {
+        } else if (word == cf::Weight) {
             obj->weight = fread_number(fp);
-        } else if (matches(word, "WStr")) {
+        } else if (word == cf::WearString) {
             obj->wear_string = fread_stdstring(fp);
         } else {
             bug("fread_obj: no match for {}.", word);
