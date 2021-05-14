@@ -8,7 +8,7 @@ Levl 100
 Clan 68
 CLevel 0
 CCFlags 1
-Tru  100
+Tru 100
 Plyd 100270627
 Note 1594669532
 Scro 22
@@ -22,7 +22,7 @@ Comm 96256
 Pos  8
 Prac 104
 Trai 102
-Save  -12
+Save -12
 Alig  0
 Hit   13
 Dam   6
@@ -208,13 +208,13 @@ Gr 'maledictions'
 Gr 'protective'
 Gr 'transportation'
 Gr 'weather'
-AffD 'faerie fire' 100  99 200  17        256
-AffD 'haste' 100  49   4   2    2097152
-AffD 'giant strength' 100  99   4   1          0
-AffD 'armor' 100  23 -20  17          0
-AffD 'bless' 100 105 -12  24          0
-AffD 'bless' 100 105  12  18          0
-AffD 'sanctuary' 100  15   0   0        128
+AffD 'faerie fire'     100  99 200  17        256
+AffD 'haste'           100  49   4   2    2097152
+AffD 'giant strength'  100  99   4   1          0
+AffD 'armor'           100  23 -20  17          0
+AffD 'bless'           100 105 -12  24          0
+AffD 'bless'           100 105  12  18          0
+AffD 'sanctuary'       100  15   0   0        128
 End
 
 #O

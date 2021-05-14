@@ -18,7 +18,7 @@ Comm 17004544
 Pos  8
 Prac 14
 Trai 1
-Save  -12
+Save -12
 Alig  5
 Hit   13
 Dam   1
@@ -94,8 +94,8 @@ Gr 'combat'
 Gr 'enhancement'
 Gr 'maledictions'
 Gr 'protective'
-AffD 'bless'  97  80 -12  24          0
-AffD 'bless'  90  80  12  18          0
+AffD 'bless'            97  80 -12  24          0
+AffD 'bless'            90  80  12  18          0
 End
 
 #O

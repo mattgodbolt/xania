@@ -50,7 +50,11 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [],
+            "environment": [
+                { "name" : "MELD_ON_DIFF",
+                    "value" : "1"
+                  }
+            ],
             "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [
