@@ -46,7 +46,7 @@ TEST_CASE("register tasks") {
     SECTION("expected task count") {
         const auto all_tasks = register_tasks();
 
-        REQUIRE(all_tasks.size() == 1);
+        REQUIRE(all_tasks.size() == 2);
     }
 }
 

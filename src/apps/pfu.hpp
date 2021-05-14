@@ -25,8 +25,17 @@ private:
 // will include it explicitly for versions where we need it to run.
 class ResetModifiableAttrs : public UpgradeTask {
 public:
-    ResetModifiableAttrs(CharVersion version);
+    explicit ResetModifiableAttrs(CharVersion version);
     void execute(Char &ch) const override;
+};
+
+class AddUniqueItemFlags : public UpgradeTask {
+public:
+    explicit AddUniqueItemFlags(CharVersion version);
+    void execute(Char &ch) const override;
+
+private:
+    void walk_inventory_set_unique_flag(const GenericList<OBJ_DATA *> &objects) const;
 };
 
 struct CharUpgraderResult {

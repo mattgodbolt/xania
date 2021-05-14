@@ -7,7 +7,6 @@
 #include "merc.h"
 #include "save.hpp"
 
-#include <dirent.h>
 #include <filesystem>
 #include <iostream>
 #include <magic_enum.hpp>
@@ -15,9 +14,7 @@
 #include <range/v3/algorithm/fill.hpp>
 #include <range/v3/view/filter.hpp>
 #include <spdlog/spdlog.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
+
 namespace pfu {
 
 namespace fs = std::filesystem;
@@ -27,6 +24,7 @@ namespace fs = std::filesystem;
 Tasks register_tasks() {
     Tasks all_tasks;
     all_tasks.emplace_back(std::make_unique<ResetModifiableAttrs>(CharVersion::Five));
+    all_tasks.emplace_back(std::make_unique<AddUniqueItemFlags>(CharVersion::Five));
     return all_tasks;
 }
 
@@ -119,6 +117,22 @@ void ResetModifiableAttrs::execute(Char &ch) const {
         af.apply(ch);
 }
 
+AddUniqueItemFlags::AddUniqueItemFlags(CharVersion version) : UpgradeTask(version) {}
+
+void AddUniqueItemFlags::walk_inventory_set_unique_flag(const GenericList<OBJ_DATA *> &objects) const {
+    for (auto object : objects) {
+        if (IS_SET(object->pIndexData->extra_flags, ITEM_UNIQUE) && !IS_SET(object->extra_flags, ITEM_UNIQUE)) {
+            SET_BIT(object->extra_flags, ITEM_UNIQUE);
+        }
+        if (object->item_type == ITEM_CONTAINER || object->item_type == ITEM_CORPSE_NPC
+            || object->item_type == ITEM_CORPSE_PC) {
+            walk_inventory_set_unique_flag(object->contains);
+        }
+    }
+}
+
+void AddUniqueItemFlags::execute(Char &ch) const { walk_inventory_set_unique_flag(ch.carrying); }
+
 CharUpgraderResult::CharUpgraderResult(Char *ch, bool upgraded) : ch_(ch), upgraded_(upgraded) {}
 
 CharUpgraderResult::~CharUpgraderResult() {
@@ -186,5 +200,4 @@ Char *CharUpgrader::simulate_login() {
     } else
         return nullptr;
 }
-
 }
