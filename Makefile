@@ -18,10 +18,10 @@ CONDA_VERSION?=4.9.2
 CONDA_ROOT:=$(TOOLS_DIR)/conda-$(CONDA_VERSION)
 CONDA_INSTALLER=$(TOOLS_DIR)/conda-$(CONDA_VERSION)/installer.sh
 CONDA:=$(CONDA_ROOT)/bin/conda
-CONAN_VERSION=1.34.1
+CONAN_VERSION=1.36
 PIP:=$(CONDA_ROOT)/bin/pip
 CONAN:=$(CONDA_ROOT)/bin/conan
-SOURCE_FILES:=$(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name \*.C -o -name *.hpp)
+SOURCE_FILES:=$(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name *.hpp)
 
 ifeq ($(shell which ninja),)
 CMAKE_GENERATOR_FLAGS?=
@@ -51,7 +51,7 @@ dirs:
 $(CONDA): | $(CURL)
 	@mkdir -p $(CONDA_ROOT)
 	@echo "Installing conda locally..."
-	$(CURL) $(CURL_OPTIONS) https://repo.anaconda.com/miniconda/Miniconda3-py38_${CONDA_VERSION}-Linux-x86_64.sh -o $(CONDA_INSTALLER)
+	$(CURL) $(CURL_OPTIONS) https://repo.anaconda.com/miniconda/Miniconda3-py39_${CONDA_VERSION}-Linux-x86_64.sh -o $(CONDA_INSTALLER)
 	@chmod +x $(CONDA_INSTALLER)
 	$(CONDA_INSTALLER) -u -b -p $(CONDA_ROOT)
 $(PIP): $(CONDA) # ideally would specify two outputs in $(CONDA) but make -j fails with that
