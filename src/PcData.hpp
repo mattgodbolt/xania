@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Constants.hpp"
+#include "PcNutrition.hpp"
 #include "Pronouns.hpp"
 #include "Sex.hpp"
 #include "clan.h"
@@ -28,6 +29,9 @@ struct PcData {
 
     int last_level{};
     std::array<sh_int, 3> condition{0, 48, 48};
+    PcNutrition inebriation = PcNutrition::sober();
+    PcNutrition hunger = PcNutrition::fed();
+    PcNutrition thirst = PcNutrition::hydrated();
     std::array<sh_int, MAX_SKILL> learned{};
     std::array<bool, MAX_GROUP> group_known{};
     sh_int points{};

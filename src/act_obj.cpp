@@ -858,7 +858,7 @@ void do_drink(Char *ch, const char *argument) {
         }
     }
 
-    if (ch->is_pc() && ch->pcdata->condition[COND_DRUNK] > 10) {
+    if (ch->is_inebriated()) {
         ch->send_line("You fail to reach your mouth.  *Hic*");
         return;
     }
@@ -867,10 +867,10 @@ void do_drink(Char *ch, const char *argument) {
     default: ch->send_line("You can't drink from that."); break;
 
     case ITEM_FOUNTAIN:
-        if (ch->is_pc())
-            ch->pcdata->condition[COND_THIRST] = 48;
         act("$n drinks from $p.", ch, obj, nullptr, To::Room);
-        ch->send_line("You are no longer thirsty.");
+        if (const auto opt_message = ch->delta_thirst(48)) {
+            ch->send_line(*opt_message);
+        }
         break;
 
     case ITEM_DRINK_CON:
@@ -880,26 +880,29 @@ void do_drink(Char *ch, const char *argument) {
         }
 
         if ((liquid = obj->value[2]) >= LIQ_MAX) {
-            bug("Do_drink: bad liquid number {}.", liquid);
+            bug("do_drink: bad liquid number {}.", liquid);
             liquid = obj->value[2] = 0;
         }
 
         act("$n drinks $T from $p.", ch, obj, liq_table[liquid].liq_name, To::Room);
         act("You drink $T from $p.", ch, obj, liq_table[liquid].liq_name, To::Char);
 
+        // Liquids are more complex than foods because they can have variable bonuses to all three nutrition
+        // types including negative ones.
         amount = number_range(3, 10);
         amount = UMIN(amount, obj->value[1]);
-
-        gain_condition(ch, COND_DRUNK, amount * liq_table[liquid].liq_affect[COND_DRUNK]);
-        gain_condition(ch, COND_FULL, amount * liq_table[liquid].liq_affect[COND_FULL]);
-        gain_condition(ch, COND_THIRST, amount * liq_table[liquid].liq_affect[COND_THIRST]);
-
-        if (ch->is_pc() && ch->pcdata->condition[COND_DRUNK] > 10)
-            ch->send_line("You feel drunk.");
-        if (ch->is_pc() && ch->pcdata->condition[COND_FULL] > 40)
-            ch->send_line("You are full.");
-        if (ch->is_pc() && ch->pcdata->condition[COND_THIRST] > 40)
-            ch->send_line("You do not feel thirsty.");
+        if (const auto opt_message =
+                ch->delta_inebriation(amount * liq_table[liquid].liq_affect[Nutrition::LiquidAffect::Inebriation])) {
+            ch->send_line(*opt_message);
+        }
+        if (const auto opt_message =
+                ch->delta_hunger(amount * liq_table[liquid].liq_affect[Nutrition::LiquidAffect::Satiation])) {
+            ch->send_line(*opt_message);
+        }
+        if (const auto opt_message =
+                ch->delta_thirst(amount * liq_table[liquid].liq_affect[Nutrition::LiquidAffect::Hydration])) {
+            ch->send_line(*opt_message);
+        }
 
         if (obj->value[3] != 0) {
             /* The shit was poisoned ! */
@@ -940,7 +943,7 @@ void do_eat(Char *ch, const char *argument) {
             return;
         }
 
-        if (ch->is_pc() && ch->pcdata->condition[COND_FULL] > 40) {
+        if (!ch->is_hungry()) {
             ch->send_line("You are too full to eat more.");
             return;
         }
@@ -952,17 +955,9 @@ void do_eat(Char *ch, const char *argument) {
     switch (obj->item_type) {
 
     case ITEM_FOOD:
-        if (ch->is_pc()) {
-            int condition;
-
-            condition = ch->pcdata->condition[COND_FULL];
-            gain_condition(ch, COND_FULL, obj->value[0]);
-            if (condition == 0 && ch->pcdata->condition[COND_FULL] > 0)
-                ch->send_line("You are no longer hungry.");
-            else if (ch->pcdata->condition[COND_FULL] > 40)
-                ch->send_line("You are full.");
+        if (const auto opt_message = ch->delta_hunger(obj->value[0])) {
+            ch->send_line(*opt_message);
         }
-
         if (obj->value[3] != 0) {
             /* The shit was poisoned! */
 

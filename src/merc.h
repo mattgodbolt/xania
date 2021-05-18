@@ -747,13 +747,6 @@ static inline constexpr auto ff = BIT(31);
  ***************************************************************************/
 
 /*
- * Conditions.
- */
-#define COND_DRUNK 0
-#define COND_FULL 1
-#define COND_THIRST 2
-
-/*
  * Positions.
  */
 #define POS_DEAD 0
@@ -1444,7 +1437,6 @@ SpecialFunc spec_lookup(const char *name);
 /* update.c */
 void advance_level(Char *ch);
 void gain_exp(Char *ch, int gain);
-void gain_condition(Char *ch, int iCond, int value);
 void update_handler();
 bool is_safe_sentient(Char *ch, Char *wch);
 

@@ -369,3 +369,64 @@ bool Char::carrying_object_vnum(int vnum) const noexcept {
 size_t Char::num_group_members_in_room() const noexcept {
     return ranges::count_if(in_room->people, [&](auto *gch) { return is_same_group(gch, this); });
 }
+
+std::optional<std::string_view> Char::delta_inebriation(const sh_int delta) noexcept {
+    return delta_nutrition(
+        [this]() -> auto & { return pcdata->inebriation; }, delta);
+}
+
+std::optional<std::string_view> Char::delta_hunger(const sh_int delta) noexcept {
+    return delta_nutrition(
+        [this]() -> auto & { return pcdata->hunger; }, delta);
+}
+
+std::optional<std::string_view> Char::delta_thirst(const sh_int delta) noexcept {
+    return delta_nutrition(
+        [this]() -> auto & { return pcdata->thirst; }, delta);
+}
+
+std::optional<std::string_view> Char::delta_nutrition(const auto supplier, const sh_int delta) noexcept {
+    // Skip NPCs, they don't have a pcdata and nutrition isn't relevant.
+    // We should probably make heroes to get drunk/hungry/thirsty as they are still mortal.
+    if (delta == 0 || is_npc() || is_hero()) {
+        return std::nullopt;
+    }
+    return supplier().apply_delta(delta);
+}
+
+std::optional<std::string> Char::describe_nutrition() const {
+    if (is_npc()) {
+        return std::nullopt;
+    }
+    const auto drunk = pcdata->inebriation.is_unhealthy();
+    const auto hungry = pcdata->hunger.is_unhealthy();
+    const auto thirsty = pcdata->thirst.is_unhealthy();
+    static std::array delimiters = {"", " and ", ", "};
+    if (!drunk && !hungry && !thirsty)
+        return std::nullopt;
+
+    const auto message =
+        fmt::format("|wYou are |W{}|w{}|W{}|w{}|W{}|w.", drunk ? pcdata->inebriation.unhealthy_adjective() : "",
+                    drunk ? delimiters[hungry + thirsty] : "", hungry ? pcdata->hunger.unhealthy_adjective() : "",
+                    (thirsty && hungry) ? " and " : "", thirsty ? pcdata->thirst.unhealthy_adjective() : "");
+    return message;
+}
+
+std::optional<std::string> Char::report_nutrition() const {
+    if (is_npc()) {
+        return std::nullopt;
+    }
+    const auto message = fmt::format("Thirst: {}  Hunger: {}  Inebriation: {}", pcdata->thirst.get(),
+                                     pcdata->hunger.get(), pcdata->inebriation.get());
+    return message;
+}
+
+bool Char::is_inebriated() const noexcept { return is_pc() && pcdata->inebriation.is_unhealthy(); }
+
+bool Char::is_hungry() const noexcept { return is_pc() && !pcdata->hunger.is_satisfied(); }
+
+bool Char::is_starving() const noexcept { return is_pc() && pcdata->hunger.is_unhealthy(); }
+
+bool Char::is_thirsty() const noexcept { return is_pc() && !pcdata->thirst.is_satisfied(); }
+
+bool Char::is_parched() const noexcept { return is_pc() && pcdata->thirst.is_unhealthy(); }

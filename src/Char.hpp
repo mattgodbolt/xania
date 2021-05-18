@@ -263,8 +263,28 @@ struct Char {
 
     [[nodiscard]] size_t num_group_members_in_room() const noexcept;
 
+    // Apply a delta to the Char's inebriation/hunger/thirst and return an optional
+    // message to send to the player. Has no effect on NPCs.
+    std::optional<std::string_view> delta_inebriation(const sh_int delta) noexcept;
+    std::optional<std::string_view> delta_hunger(const sh_int delta) noexcept;
+    std::optional<std::string_view> delta_thirst(const sh_int delta) noexcept;
+    // Print the nutrition scores in words.
+    [[nodiscard]] std::optional<std::string> describe_nutrition() const;
+    // Print the nutrition scores numerically.
+    [[nodiscard]] std::optional<std::string> report_nutrition() const;
+    [[nodiscard]] bool is_inebriated() const noexcept;
+    // Hungry means they may have some appetite but they may not be starving, and are not satisified.
+    [[nodiscard]] bool is_hungry() const noexcept;
+    // Starving is worse than hungry - a starving Char regenerates slower.
+    [[nodiscard]] bool is_starving() const noexcept;
+    // Thirsty means they may have some thirst but they may not be parched, and are not satisified.
+    [[nodiscard]] bool is_thirsty() const noexcept;
+    // Parched is worse than thirsty - a parched Char regenerates slower.
+    [[nodiscard]] bool is_parched() const noexcept;
+
 private:
     template <typename Func>
     [[nodiscard]] OBJ_DATA *find_filtered_obj(std::string_view argument, Func filter) const;
+    [[nodiscard]] std::optional<std::string_view> delta_nutrition(const auto supplier, const sh_int delta) noexcept;
     static int num_active_;
 };

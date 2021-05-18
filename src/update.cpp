@@ -212,11 +212,12 @@ int hit_gain(Char *ch) {
         default: gain /= 2; break;
         }
 
-        if (ch->pcdata->condition[COND_FULL] == 0)
+        if (ch->is_starving()) {
             gain /= 2;
-
-        if (ch->pcdata->condition[COND_THIRST] == 0)
+        }
+        if (ch->is_parched()) {
             gain /= 2;
+        }
     }
 
     if (IS_AFFECTED(ch, AFF_POISON))
@@ -261,11 +262,12 @@ int mana_gain(Char *ch) {
         default: gain /= 2; break;
         }
 
-        if (ch->pcdata->condition[COND_FULL] == 0)
+        if (ch->is_starving()) {
             gain /= 2;
-
-        if (ch->pcdata->condition[COND_THIRST] == 0)
+        }
+        if (ch->is_parched()) {
             gain /= 2;
+        }
     }
 
     if (IS_AFFECTED(ch, AFF_POISON))
@@ -293,11 +295,12 @@ int move_gain(Char *ch) {
         case POS_RESTING: gain += get_curr_stat(ch, Stat::Dex) / 2; break;
         }
 
-        if (ch->pcdata->condition[COND_FULL] == 0)
+        if (ch->is_starving()) {
             gain /= 2;
-
-        if (ch->pcdata->condition[COND_THIRST] == 0)
+        }
+        if (ch->is_parched()) {
             gain /= 2;
+        }
     }
 
     if (IS_AFFECTED(ch, AFF_POISON))
@@ -313,31 +316,6 @@ int move_gain(Char *ch) {
         gain *= 2;
 
     return UMIN(gain, ch->max_move - ch->move);
-}
-
-void gain_condition(Char *ch, int iCond, int value) {
-    int condition;
-
-    if (value == 0 || ch->is_npc() || ch->level >= LEVEL_HERO)
-        return;
-
-    condition = ch->pcdata->condition[iCond];
-    if (condition == -1)
-        return;
-    ch->pcdata->condition[iCond] = URANGE(0, condition + value, 48);
-
-    if (ch->pcdata->condition[iCond] == 0) {
-        switch (iCond) {
-        case COND_FULL: ch->send_line("You are hungry."); break;
-
-        case COND_THIRST: ch->send_line("You are thirsty."); break;
-
-        case COND_DRUNK:
-            if (condition != 0)
-                ch->send_line("You are sober.");
-            break;
-        }
-    }
 }
 
 /*
@@ -526,9 +504,12 @@ void char_update() {
                 ch->timer = 0;
 
             move_idle_char_to_limbo(ch);
-            gain_condition(ch, COND_DRUNK, -1);
-            gain_condition(ch, COND_FULL, -1);
-            gain_condition(ch, COND_THIRST, -1);
+            ch->delta_inebriation(-1);
+            ch->delta_hunger(-1);
+            ch->delta_thirst(-1);
+            if (const auto opt_nutrition = ch->describe_nutrition()) {
+                ch->send_line(*opt_nutrition);
+            }
         }
 
         if (!ch->affected.empty()) {

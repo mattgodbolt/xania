@@ -232,8 +232,8 @@ void fwrite_char(const Char *ch, FILE *fp) {
         fmt::print(fp, "{} {}\n", cf::HourOffset, ch->pcdata->houroffset);
         fmt::print(fp, "{} {}\n", cf::MinOffset, ch->pcdata->minoffset);
         fmt::print(fp, "{} {}~\n", cf::ExtraBits, extra_bit_string(*ch));
-        fmt::print(fp, "{} {} {} {}\n", cf::Condition, ch->pcdata->condition[0], ch->pcdata->condition[1],
-                   ch->pcdata->condition[2]);
+        fmt::print(fp, "{} {} {} {}\n", cf::Condition, ch->pcdata->inebriation.get(), ch->pcdata->hunger.get(),
+                   ch->pcdata->thirst.get());
         fmt::print(fp, "{} {}~\n", cf::PronounPossessive, ch->pcdata->pronouns.possessive);
         fmt::print(fp, "{} {}~\n", cf::PronounSubjective, ch->pcdata->pronouns.subjective);
         fmt::print(fp, "{} {}~\n", cf::PronounObjective, ch->pcdata->pronouns.objective);
@@ -591,10 +591,9 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
                 fread_to_eol(fp);
             }
         } else if (word == cf::Condition) {
-            // #256 look at this - is there some constant for the number 3?
-            ch->pcdata->condition[0] = fread_number(fp);
-            ch->pcdata->condition[1] = fread_number(fp);
-            ch->pcdata->condition[2] = fread_number(fp);
+            ch->pcdata->inebriation.set(fread_number(fp));
+            ch->pcdata->hunger.set(fread_number(fp));
+            ch->pcdata->thirst.set(fread_number(fp));
         } else if (word == cf::Colour) {
             ch->pcdata->colour = fread_number(fp); // #256 should be a bool?
         } else if (word == cf::CommFlags) {

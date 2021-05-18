@@ -71,6 +71,7 @@ add_library(xania_lib STATIC
         Types.hpp
         Stats.cpp Stats.hpp
         ExtraFlags.hpp
+        PcNutrition.hpp PcNutrition.cpp
         PcData.hpp
         Constants.hpp
         handler.hpp
@@ -92,8 +93,7 @@ add_library(xania_lib STATIC
         SectorType.cpp SectorType.hpp
         PerEnum.hpp
         GenericList.hpp
-        Sex.hpp
-        Sex.cpp
+        Sex.hpp Sex.cpp
         Tip.cpp Tip.hpp)
 target_link_libraries(
         xania_lib

@@ -1201,10 +1201,8 @@ void do_mstat(Char *ch, const char *argument) {
     ch->send_to(
         fmt::format("Sentient 'victim': {}\n\r", victim->sentient_victim.empty() ? "(none)" : victim->sentient_victim));
 
-    if (victim->is_pc()) {
-        bug_snprintf(buf, sizeof(buf), "Thirst: %d  Full: %d  Drunk: %d\n\r", victim->pcdata->condition[COND_THIRST],
-                     victim->pcdata->condition[COND_FULL], victim->pcdata->condition[COND_DRUNK]);
-        ch->send_to(buf);
+    if (const auto opt_nutrition = victim->report_nutrition()) {
+        ch->send_line(*opt_nutrition);
     }
 
     bug_snprintf(buf, sizeof(buf), "Carry number: %d  Carry weight: %d\n\r", victim->carry_number,
@@ -2754,13 +2752,7 @@ void do_mset(Char *ch, const char *argument) {
             ch->send_line("Not on NPC's.");
             return;
         }
-
-        if (value < -1 || value > 100) {
-            ch->send_line("Thirst range is -1 to 100.");
-            return;
-        }
-
-        victim->pcdata->condition[COND_THIRST] = value;
+        victim->pcdata->thirst.set(value);
         return;
     }
 
@@ -2769,13 +2761,7 @@ void do_mset(Char *ch, const char *argument) {
             ch->send_line("Not on NPC's.");
             return;
         }
-
-        if (value < -1 || value > 100) {
-            ch->send_line("Drunk range is -1 to 100.");
-            return;
-        }
-
-        victim->pcdata->condition[COND_DRUNK] = value;
+        victim->pcdata->inebriation.set(value);
         return;
     }
 
@@ -2784,13 +2770,7 @@ void do_mset(Char *ch, const char *argument) {
             ch->send_line("Not on NPC's.");
             return;
         }
-
-        if (value < -1 || value > 100) {
-            ch->send_line("Full range is -1 to 100.");
-            return;
-        }
-
-        victim->pcdata->condition[COND_FULL] = value;
+        victim->pcdata->hunger.set(value);
         return;
     }
 

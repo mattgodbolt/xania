@@ -1064,18 +1064,6 @@ void describe_armour(Char *ch, int type, const char *name) {
         ch->send_line("|CYou are|w: |y{} |W{}|w. (|W{}|w)", armour_desc[armour_index], name, GET_AC(ch, type));
 }
 
-void describe_condition(Char *ch) {
-    bool drunk = ch->pcdata->condition[COND_DRUNK] > 10;
-    bool hungry = ch->pcdata->condition[COND_FULL] == 0;
-    bool thirsty = ch->pcdata->condition[COND_THIRST] == 0;
-    static const char *delimiters[] = {"", " and ", ", "};
-
-    if (!drunk && !hungry && !thirsty)
-        return;
-    ch->send_line("|CYou are|w: {}{}{}{}{}.", drunk ? "|Wdrunk|w" : "", drunk ? delimiters[hungry + thirsty] : "",
-                  hungry ? "|Whungry|w" : "", (thirsty && hungry) ? " and " : "", thirsty ? "|Wthirsty|w" : "");
-}
-
 const char *get_align_description(int align) {
     static const std::array align_descriptions = {"|Rsatanic", "|Rdemonic", "|Yevil",    "|Ymean",   "|Mneutral",
                                                   "|Gkind",    "|Ggood",    "|Wsaintly", "|Wangelic"};
@@ -1156,8 +1144,9 @@ void do_score(Char *ch) {
         col3.flush();
     }
 
-    if (ch->is_pc())
-        describe_condition(ch);
+    if (const auto opt_nutrition_msg = ch->describe_nutrition()) {
+        ch->send_line(*opt_nutrition_msg);
+    }
 
     if (IS_SET(ch->comm, COMM_AFFECT)) {
         ch->send_line("");
