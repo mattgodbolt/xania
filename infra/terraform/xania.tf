@@ -39,7 +39,7 @@ resource "aws_route_table" "xania" {
 }
 
 resource "aws_route_table_association" "xania" {
-  subnet_id      = aws_subnet.xania-1a.id
+  subnet_id = aws_subnet.xania-1a.id
   route_table_id = aws_route_table.xania.id
 }
 
@@ -157,6 +157,28 @@ resource "aws_s3_bucket" "xania" {
   tags = {
     Site = "mud.xania.org"
   }
+  lifecycle_rule {
+    id = "backups_to_cold"
+    enabled = true
+    prefix = "backups"
+    transition {
+      days = 30
+      storage_class = "STANDARD_IA"
+    }
+  }
+  lifecycle_rule {
+    id = "releases_to_cold_then_delete"
+    enabled = true
+    prefix = "releases"
+    transition {
+      days = 30
+      storage_class = "STANDARD_IA"
+    }
+    expiration {
+      days = 120
+    }
+  }
+
 }
 
 resource "aws_iam_role_policy_attachment" "xania_attach_policy" {
