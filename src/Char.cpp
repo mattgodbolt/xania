@@ -41,7 +41,7 @@ bool Char::is_prowlinvis_to(const Char &victim) const {
 }
 
 bool Char::is_immortal() const { return get_trust() >= LEVEL_IMMORTAL; }
-bool Char::is_hero() const { return get_trust() >= LEVEL_IMMORTAL; }
+bool Char::is_hero() const { return get_trust() >= LEVEL_HERO; }
 
 // Retrieve a character's trusted level for permission checking.
 int Char::get_trust() const {
@@ -387,8 +387,7 @@ std::optional<std::string_view> Char::delta_thirst(const sh_int delta) noexcept 
 
 std::optional<std::string_view> Char::delta_nutrition(const auto supplier, const sh_int delta) noexcept {
     // Skip NPCs, they don't have a pcdata and nutrition isn't relevant.
-    // We should probably make heroes to get drunk/hungry/thirsty as they are still mortal.
-    if (delta == 0 || is_npc() || is_hero()) {
+    if (delta == 0 || is_npc() || is_immortal()) {
         return std::nullopt;
     }
     return supplier().apply_delta(delta);

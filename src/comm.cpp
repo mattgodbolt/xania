@@ -710,7 +710,7 @@ void nanny(Descriptor *d, const char *argument) {
             if (ch->pcdata->colour) {
                 ch->send_line("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!");
             }
-            if (ch->is_hero()) {
+            if (ch->is_immortal()) {
                 do_help(ch, "imotd");
                 d->state(DescriptorState::ReadIMotd);
             } else {
@@ -723,7 +723,7 @@ void nanny(Descriptor *d, const char *argument) {
             case 'Y':
                 ch->pcdata->colour = true;
                 ch->send_line("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!");
-                if (ch->is_hero()) {
+                if (ch->is_immortal()) {
                     do_help(ch, "imotd");
                     d->state(DescriptorState::ReadIMotd);
                 } else {
@@ -735,7 +735,7 @@ void nanny(Descriptor *d, const char *argument) {
             case 'n':
             case 'N':
                 ch->pcdata->colour = false;
-                if (ch->is_hero()) {
+                if (ch->is_immortal()) {
                     do_help(ch, "imotd");
                     d->state(DescriptorState::ReadIMotd);
                 } else {

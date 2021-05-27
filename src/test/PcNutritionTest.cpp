@@ -208,9 +208,9 @@ TEST_CASE("Char nutrition") {
             const auto msg = ch.delta_inebriation(-1);
             CHECK(!msg);
         }
-        SECTION("inebriation unchanged because player is hero") {
+        SECTION("inebriation unchanged because player is immortal") {
             ch.pcdata->inebriation.set(1);
-            ch.level = LEVEL_IMMORTAL; // This should be LEVEL_HERO?
+            ch.level = LEVEL_IMMORTAL;
 
             const auto msg = ch.delta_inebriation(-1);
             CHECK(!msg);

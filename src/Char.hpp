@@ -172,6 +172,7 @@ struct Char {
     [[nodiscard]] bool has_holylight() const;
     [[nodiscard]] bool is_immortal() const;
     [[nodiscard]] bool is_mortal() const { return !is_immortal(); }
+    // True for max level mortals and for all immortals.
     [[nodiscard]] bool is_hero() const;
 
     // Return a character's skill at the given skill number
