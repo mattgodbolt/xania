@@ -1,5 +1,7 @@
 #include "PcNutrition.hpp"
 #include "Char.hpp"
+#include "Constants.hpp"
+#include "merc.h"
 
 #include <catch2/catch.hpp>
 
@@ -92,9 +94,16 @@ TEST_CASE("Char nutrition") {
 
             CHECK(*message == "|wYou are |Wdrunk|w, |Whungry|w and |Wthirsty|w.");
         }
+        SECTION("npc undescribable") {
+            SET_BIT(ch.act, ACT_IS_NPC);
+
+            const auto message = ch.describe_nutrition();
+
+            CHECK(!message);
+        }
     }
     SECTION("report nutrition") {
-        SECTION("drunk") {
+        SECTION("all values") {
             ch.pcdata->inebriation.set(11);
             ch.pcdata->hunger.set(12);
             ch.pcdata->thirst.set(13);
@@ -102,6 +111,13 @@ TEST_CASE("Char nutrition") {
             const auto message = ch.report_nutrition();
 
             CHECK(*message == "Thirst: 13  Hunger: 12  Inebriation: 11");
+        }
+        SECTION("npc unreportable") {
+            SET_BIT(ch.act, ACT_IS_NPC);
+
+            const auto message = ch.report_nutrition();
+
+            CHECK(!message);
         }
     }
     SECTION("health checks") {
@@ -114,6 +130,12 @@ TEST_CASE("Char nutrition") {
             ch.pcdata->inebriation.set(11);
 
             CHECK(ch.is_inebriated());
+        }
+        SECTION("inebriated but npc unreportable") {
+            ch.pcdata->inebriation.set(11);
+            SET_BIT(ch.act, ACT_IS_NPC);
+
+            CHECK(!ch.is_inebriated());
         }
         SECTION("is not hungry") {
             ch.pcdata->hunger.set(41);
@@ -179,6 +201,21 @@ TEST_CASE("Char nutrition") {
             CHECK(*msg == "You feel drunk.");
             CHECK(ch.pcdata->inebriation.get() == 11);
         }
+        SECTION("inebriation unchanged because npc") {
+            ch.pcdata->inebriation.set(1);
+            SET_BIT(ch.act, ACT_IS_NPC);
+
+            const auto msg = ch.delta_inebriation(-1);
+            CHECK(!msg);
+        }
+        SECTION("inebriation unchanged because player is hero") {
+            ch.pcdata->inebriation.set(1);
+            ch.level = LEVEL_IMMORTAL; // This should be LEVEL_HERO?
+
+            const auto msg = ch.delta_inebriation(-1);
+            CHECK(!msg);
+            CHECK(ch.pcdata->inebriation.get() == 1);
+        }
         SECTION("hunger hungry") {
             ch.pcdata->hunger.set(1);
 
@@ -192,6 +229,13 @@ TEST_CASE("Char nutrition") {
             const auto msg = ch.delta_hunger(1);
             CHECK(!msg);
             CHECK(ch.pcdata->hunger.get() == 40);
+        }
+        SECTION("hunger zero delta so no change or message") {
+            ch.pcdata->hunger.set(0);
+
+            const auto msg = ch.delta_hunger(0);
+            CHECK(!msg);
+            CHECK(ch.pcdata->hunger.get() == 0);
         }
         SECTION("hunger satisfied") {
             ch.pcdata->hunger.set(39);
