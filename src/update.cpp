@@ -190,9 +190,9 @@ int hit_gain(Char *ch) {
 
         switch (ch->position) {
         default: gain /= 2; break;
-        case POS_SLEEPING: gain = 3 * gain / 2; break;
-        case POS_RESTING: break;
-        case POS_FIGHTING: gain /= 3; break;
+        case Position::Type::Sleeping: gain = 3 * gain / 2; break;
+        case Position::Type::Resting: break;
+        case Position::Type::Fighting: gain /= 3; break;
         }
 
     } else {
@@ -206,9 +206,9 @@ int hit_gain(Char *ch) {
         }
 
         switch (ch->position) {
-        case POS_SLEEPING: break;
-        case POS_RESTING: gain /= 1.7; break;
-        case POS_FIGHTING: gain /= 4.5; break;
+        case Position::Type::Sleeping: break;
+        case Position::Type::Resting: gain /= 1.7; break;
+        case Position::Type::Fighting: gain /= 4.5; break;
         default: gain /= 2; break;
         }
 
@@ -242,9 +242,9 @@ int mana_gain(Char *ch) {
         gain = 5 + ch->level;
         switch (ch->position) {
         default: gain /= 2; break;
-        case POS_SLEEPING: gain = 3 * gain / 2; break;
-        case POS_RESTING: break;
-        case POS_FIGHTING: gain /= 3; break;
+        case Position::Type::Sleeping: gain = 3 * gain / 2; break;
+        case Position::Type::Resting: break;
+        case Position::Type::Fighting: gain /= 3; break;
         }
     } else {
         gain = (get_curr_stat(ch, Stat::Wis) + get_curr_stat(ch, Stat::Int) + ch->level) / 2;
@@ -257,8 +257,8 @@ int mana_gain(Char *ch) {
         gain = (gain * class_table[ch->class_num].fMana) / 7;
 
         switch (ch->position) {
-        case POS_SLEEPING: break;
-        case POS_RESTING: gain /= 1.7; break;
+        case Position::Type::Sleeping: break;
+        case Position::Type::Resting: gain /= 1.7; break;
         default: gain /= 2; break;
         }
 
@@ -291,8 +291,9 @@ int move_gain(Char *ch) {
         gain = UMAX(15, ch->level);
 
         switch (ch->position) {
-        case POS_SLEEPING: gain += get_curr_stat(ch, Stat::Dex); break;
-        case POS_RESTING: gain += get_curr_stat(ch, Stat::Dex) / 2; break;
+        case Position::Type::Sleeping: gain += get_curr_stat(ch, Stat::Dex); break;
+        case Position::Type::Resting: gain += get_curr_stat(ch, Stat::Dex) / 2; break;
+        default:; // unchanged
         }
 
         if (ch->is_starving()) {
@@ -341,7 +342,7 @@ void mobile_update() {
         }
 
         /* That's all for sleeping / busy monster, and empty zones */
-        if (ch->position != POS_STANDING)
+        if (ch->is_pos_preoccupied())
             continue;
 
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
@@ -351,7 +352,7 @@ void mobile_update() {
             /* If ch dies or changes
                position due to it's random
                trigger continue - Kahn */
-            if (ch->position < POS_STANDING)
+            if (ch->is_pos_preoccupied())
                 continue;
         }
         /* Scavenge */
@@ -394,7 +395,7 @@ void weather_update() {
 
     if (auto update_msg = weather_info.describe_change(weather_before); !update_msg.empty()) {
         for (auto &d : descriptors().playing()) {
-            if (IS_OUTSIDE(d.character()) && IS_AWAKE(d.character()))
+            if (IS_OUTSIDE(d.character()) && d.character()->is_pos_awake())
                 d.character()->send_to(update_msg);
         }
     }
@@ -467,7 +468,7 @@ void char_update() {
         if (ch->timer > 30)
             ch_quit = ch;
 
-        if (ch->position >= POS_STUNNED) {
+        if (ch->position >= Position::Type::Stunned) {
             if (ch->hit < ch->max_hit)
                 ch->hit += hit_gain(ch);
             else
@@ -484,7 +485,7 @@ void char_update() {
                 ch->move = ch->max_move;
         }
 
-        if (ch->position == POS_STUNNED)
+        if (ch->position == Position::Type::Stunned)
             update_pos(ch);
 
         if (ch->is_pc() && ch->level < LEVEL_IMMORTAL) {
@@ -597,9 +598,9 @@ void char_update() {
             act("$n shivers and suffers.", ch);
             ch->send_line("You shiver and suffer.");
             damage(ch, ch, 2, gsn_poison, DAM_POISON);
-        } else if (ch->position == POS_INCAP && number_range(0, 1) == 0) {
+        } else if (ch->position == Position::Type::Incap && number_range(0, 1) == 0) {
             damage(ch, ch, 1, TYPE_HIT, DAM_NONE);
-        } else if (ch->position == POS_MORTAL) {
+        } else if (ch->position == Position::Type::Mortal) {
             damage(ch, ch, 1, TYPE_HIT, DAM_NONE);
         }
     }
@@ -641,7 +642,7 @@ void obj_update() {
             }
             // Only report wear-offs for those affects who are completely gone.
             for (auto sn : removed_this_tick_with_msg)
-                act(skill_table[sn].msg_off, obj->carried_by, obj, nullptr, To::Char, POS_SLEEPING);
+                act(skill_table[sn].msg_off, obj->carried_by, obj, nullptr, To::Char, Position::Type::Sleeping);
         }
 
         if (obj->timer <= 0 || --obj->timer > 0)
@@ -737,7 +738,7 @@ void aggr_update() {
 }
 
 void do_aggressive_sentient(Char *wch, Char *ch) {
-    if (IS_SET(ch->act, ACT_SENTIENT) && ch->fighting == nullptr && !IS_AFFECTED(ch, AFF_CALM) && IS_AWAKE(ch)
+    if (IS_SET(ch->act, ACT_SENTIENT) && ch->fighting == nullptr && !IS_AFFECTED(ch, AFF_CALM) && ch->is_pos_awake()
         && !IS_AFFECTED(ch, AFF_CHARM) && can_see(ch, wch)) {
         if (ch->hit == ch->max_hit && ch->mana == ch->max_mana)
             ch->sentient_victim.clear();
@@ -750,7 +751,7 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
     }
     if (IS_SET(ch->act, ACT_AGGRESSIVE) && !IS_SET(ch->in_room->room_flags, ROOM_SAFE) && !IS_AFFECTED(ch, AFF_CALM)
         && (ch->fighting == nullptr) // Changed by Moog
-        && !IS_AFFECTED(ch, AFF_CHARM) && IS_AWAKE(ch) && !(IS_SET(ch->act, ACT_WIMPY) && IS_AWAKE(wch))
+        && !IS_AFFECTED(ch, AFF_CHARM) && ch->is_pos_awake() && !(IS_SET(ch->act, ACT_WIMPY) && wch->is_pos_awake())
         && can_see(ch, wch) && !number_bits(1) == 0) {
 
         /*
@@ -763,7 +764,7 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
         Char *victim = nullptr;
         for (auto *vch : wch->in_room->people) {
             if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && ch->level >= vch->level - 5
-                && (!IS_SET(ch->act, ACT_WIMPY) || !IS_AWAKE(vch)) && can_see(ch, vch)) {
+                && (!IS_SET(ch->act, ACT_WIMPY) || !vch->is_pos_awake()) && can_see(ch, vch)) {
                 if (number_range(0, count) == 0)
                     victim = vch;
                 count++;

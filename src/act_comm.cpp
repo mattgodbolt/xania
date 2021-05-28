@@ -63,7 +63,7 @@ void announce(std::string_view buf, const Char *ch) {
 
     for (auto &victim : descriptors().all_who_can_see(*ch) | DescriptorFilter::to_person()) {
         if (!IS_SET(victim.comm, COMM_NOANNOUNCE) && !IS_SET(victim.comm, COMM_QUIET))
-            act(buf, &victim, nullptr, ch, To::Char, POS_DEAD);
+            act(buf, &victim, nullptr, ch, To::Char, Position::Type::Dead);
     }
 }
 
@@ -106,18 +106,18 @@ static void tell_to(Char *ch, Char *victim, const char *text) {
         act("|W$E|c is not receiving replies.|w", ch, nullptr, victim, To::Char);
 
     } else if (IS_SET(victim->act, PLR_AFK) && victim->is_pc()) {
-        act(fmt::format("|W$N|c is {}.|w", victim->pcdata->afk), ch, nullptr, victim, To::Char, POS_DEAD);
+        act(fmt::format("|W$N|c is {}.|w", victim->pcdata->afk), ch, nullptr, victim, To::Char, Position::Type::Dead);
         if (IS_SET(victim->comm, COMM_SHOWAFK)) {
             // TODO(#134) use the victim's timezone info.
             act(fmt::format("|c\007AFK|C: At {}, $n told you '{}|C'.|w", formatted_time(current_time), text).c_str(),
-                ch, nullptr, victim, To::Vict, POS_DEAD);
-            act("|cYour message was logged onto $S screen.|w", ch, nullptr, victim, To::Char, POS_DEAD);
+                ch, nullptr, victim, To::Vict, Position::Type::Dead);
+            act("|cYour message was logged onto $S screen.|w", ch, nullptr, victim, To::Char, Position::Type::Dead);
             victim->reply = ch;
         }
 
     } else {
-        act("|CYou tell $N '$t|C'|w", ch, text, victim, To::Char, POS_DEAD);
-        act("|C$n tells you '$t|C'|w", ch, text, victim, To::Vict, POS_DEAD);
+        act("|CYou tell $N '$t|C'|w", ch, text, victim, To::Char, Position::Type::Dead);
+        act("|C$n tells you '$t|C'|w", ch, text, victim, To::Vict, Position::Type::Dead);
         victim->reply = ch;
         chatperform(victim, ch, text);
     }
@@ -324,12 +324,12 @@ void do_quit(Char *ch) {
         return;
     }
 
-    if (ch->position == POS_FIGHTING) {
+    if (ch->is_pos_fighting()) {
         ch->send_line("|RNo way! You are fighting.|w");
         return;
     }
 
-    if (ch->position < POS_STUNNED) {
+    if (ch->is_pos_dying()) {
         ch->send_line("|RYou're not DEAD yet.|w");
         return;
     }
@@ -454,7 +454,7 @@ void fallen_off_mount(Char *ch) {
     check_improve(ch, gsn_ride, false, 3);
 
     WAIT_STATE(ch, 2 * PULSE_VIOLENCE);
-    ch->position = POS_RESTING;
+    ch->position = Position::Type::Resting;
     damage(pet, ch, number_range(2, 2 + 2 * ch->size + pet->size), gsn_bash, DAM_BASH);
 }
 
@@ -837,7 +837,7 @@ void chatperformtoroom(std::string_view text, Char *ch) {
         return;
 
     for (auto *vch : ch->in_room->people)
-        if (vch->is_npc() && IS_SET(vch->pIndexData->act, ACT_TALKATIVE) && IS_AWAKE(vch)) {
+        if (vch->is_npc() && IS_SET(vch->pIndexData->act, ACT_TALKATIVE) && vch->is_pos_awake()) {
             if (number_percent() > 66) /* less spammy - Fara */
                 chatperform(vch, ch, text);
         }

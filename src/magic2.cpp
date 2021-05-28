@@ -83,7 +83,7 @@ void tornado_mental(Char *ch, Char *victim, int level) {
     af.modifier = -(1 + (level >= 20) + (level >= 30) + (level >= 50) + (level >= 75) + (level >= 91));
     affect_to_char(victim, af);
     WAIT_STATE(ch, PULSE_VIOLENCE * 2);
-    victim->position = POS_RESTING;
+    victim->position = Position::Type::Resting;
 }
 
 void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {

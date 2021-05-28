@@ -53,9 +53,8 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
     res_flags = fread_flag(fp) | race_table[race].res;
     vuln_flags = fread_flag(fp) | race_table[race].vuln;
 
-    // vital statistics
-    start_pos = position_lookup(fread_word(fp));
-    default_pos = position_lookup(fread_word(fp));
+    start_pos = Position::read_from_word(fp);
+    default_pos = Position::read_from_word(fp);
     if (auto opt_sex = Sex::try_from_name(fread_word(fp))) {
         sex = *opt_sex;
     } else {

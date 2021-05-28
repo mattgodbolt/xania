@@ -516,26 +516,26 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const OBJ_DATA 
         switch (arg[1]) /* arg should be "$*" so just get the letter */
         {
         case 'i':
-            lhsvl = mob->position;
+            lhsvl = mob->position.integer();
             rhsvl = atoi(val);
             return mprog_veval(lhsvl, opr, rhsvl);
         case 'n':
             if (actor) {
-                lhsvl = actor->position;
+                lhsvl = actor->position.integer();
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
         case 't':
             if (vict) {
-                lhsvl = vict->position;
+                lhsvl = vict->position.integer();
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
         case 'r':
             if (rndm) {
-                lhsvl = rndm->position;
+                lhsvl = rndm->position.integer();
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
@@ -1410,10 +1410,10 @@ void mprog_give_trigger(Char *mob, Char *ch, OBJ_DATA *obj) {
 
 void mprog_greet_trigger(Char *mob) {
     for (auto *vmob : mob->in_room->people)
-        if (vmob->is_npc() && mob != vmob && can_see(vmob, mob) && (vmob->fighting == nullptr) && IS_AWAKE(vmob)
+        if (vmob->is_npc() && mob != vmob && can_see(vmob, mob) && (vmob->fighting == nullptr) && vmob->is_pos_awake()
             && (vmob->pIndexData->progtypes & GREET_PROG))
             mprog_percent_check(vmob, mob, nullptr, nullptr, GREET_PROG);
-        else if (vmob->is_npc() && (vmob->fighting == nullptr) && IS_AWAKE(vmob)
+        else if (vmob->is_npc() && (vmob->fighting == nullptr) && vmob->is_pos_awake()
                  && (vmob->pIndexData->progtypes & ALL_GREET_PROG))
             mprog_percent_check(vmob, mob, nullptr, nullptr, ALL_GREET_PROG);
 }

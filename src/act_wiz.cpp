@@ -1191,7 +1191,7 @@ void do_mstat(Char *ch, const char *argument) {
     ch->send_to(buf);
 
     ch->send_line("Hit: {}  Dam: {}  Saves: {}  Position: {}  Wimpy: {}", victim->get_hitroll(), victim->get_damroll(),
-                  victim->saving_throw, victim->position, victim->wimpy);
+                  victim->saving_throw, victim->position.name(), victim->wimpy);
 
     if (victim->is_npc()) {
         ch->send_line("Damage: {}  Message:  {}", victim->damage, attack_table[victim->dam_type].noun);
@@ -2173,7 +2173,7 @@ void do_awaken(Char *ch, const char *argument) {
         ch->send_line("They aren't here.");
         return;
     }
-    if (IS_AWAKE(victim)) {
+    if (!victim->is_pos_sleeping()) {
         ch->send_line("Duh!  They're not even asleep!");
         return;
     }
@@ -2184,9 +2184,9 @@ void do_awaken(Char *ch, const char *argument) {
     }
 
     REMOVE_BIT(victim->affected_by, AFF_SLEEP);
-    victim->position = POS_STANDING;
+    victim->position = Position::Type::Standing;
 
-    act("$n gives $t a kick, and wakes them up.", ch, victim->short_descr, nullptr, To::Room, POS_RESTING);
+    act("$n gives $t a kick, and wakes them up.", ch, victim->short_descr, nullptr, To::Room, Position::Type::Resting);
 }
 
 void do_owhere(Char *ch, const char *argument) {
@@ -2269,10 +2269,10 @@ void do_coma(Char *ch, const char *argument) {
     af.bitvector = AFF_SLEEP;
     affect_join(victim, af);
 
-    if (IS_AWAKE(victim)) {
+    if (victim->is_pos_awake()) {
         victim->send_line("You feel very sleepy ..... zzzzzz.");
         act("$n goes to sleep.", victim);
-        victim->position = POS_SLEEPING;
+        victim->position = Position::Type::Sleeping;
     }
 }
 

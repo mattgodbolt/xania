@@ -75,7 +75,7 @@ void violence_update() {
         if (!victim || ch->in_room == nullptr)
             continue;
 
-        if (IS_AWAKE(ch) && ch->in_room == victim->in_room)
+        if (ch->is_pos_awake() && ch->in_room == victim->in_room)
             multi_hit(ch, victim, TYPE_UNDEFINED);
         else
             stop_fighting(ch, false);
@@ -97,7 +97,7 @@ void violence_update() {
 /* for auto assisting */
 void check_assist(Char *ch, Char *victim) {
     for (auto *rch : ch->in_room->people) {
-        if (IS_AWAKE(rch) && rch->fighting == nullptr) {
+        if (rch->is_pos_awake() && rch->fighting == nullptr) {
 
             /* quick check for ASSIST_PLAYER */
             if (ch->is_pc() && rch->is_npc() && IS_SET(rch->off_flags, ASSIST_PLAYERS)
@@ -210,7 +210,7 @@ void multi_hit(Char *ch, Char *victim, int dt) {
         ch->wait = UMAX(0, ch->wait - PULSE_VIOLENCE);
 
     /* no attacks for stunnies -- just a check */
-    if (ch->position < POS_RESTING)
+    if (ch->is_pos_sleeping() || ch->is_pos_stunned_or_dying())
         return;
 
     if (ch->is_npc()) {
@@ -400,7 +400,7 @@ void one_hit(Char *ch, Char *victim, int dt) {
      * Can't beat a dead char!
      * Guard against weird room-leavings.
      */
-    if (victim->position == POS_DEAD || ch->in_room != victim->in_room)
+    if (victim->is_pos_dead() || ch->in_room != victim->in_room)
         return;
 
     /*
@@ -469,9 +469,9 @@ void one_hit(Char *ch, Char *victim, int dt) {
 
     // Victim is more vulnerable if they're stunned or sleeping,
     // and a little less so if they're resting or sitting.
-    if (victim->position < POS_RESTING)
+    if (victim->is_pos_sleeping() || victim->is_pos_stunned_or_dying())
         victim_ac *= 0.8f;
-    else if (victim->position < POS_FIGHTING)
+    else if (victim->is_pos_relaxing())
         victim_ac *= 0.9f;
 
     if (victim_ac >= 0) {
@@ -548,9 +548,9 @@ void one_hit(Char *ch, Char *victim, int dt) {
         }
     }
 
-    if (!IS_AWAKE(victim))
+    if (victim->is_pos_sleeping() || victim->is_pos_stunned_or_dying())
         dam *= 2;
-    else if (victim->position < POS_FIGHTING)
+    else if (victim->is_pos_relaxing())
         dam = dam * 3 / 2;
 
     if (dt == gsn_backstab && wield != nullptr) {
@@ -621,7 +621,7 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
     bool immune;
     sh_int victim_room_vnum;
 
-    if (victim->position == POS_DEAD)
+    if (victim->is_pos_dead())
         return false;
 
     /*
@@ -655,14 +655,14 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
             return false;
         check_killer(ch, victim);
 
-        if (victim->position > POS_STUNNED) {
+        if (!victim->is_pos_stunned_or_dying()) {
             if (victim->fighting == nullptr)
                 set_fighting(victim, ch);
             if (victim->timer <= 4)
-                victim->position = POS_FIGHTING;
+                victim->position = Position::Type::Fighting;
         }
 
-        if (victim->position > POS_STUNNED) {
+        if (!victim->is_pos_stunned_or_dying()) {
             if (ch->fighting == nullptr)
                 set_fighting(ch, victim);
 
@@ -753,22 +753,22 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
     }
 
     switch (victim->position) {
-    case POS_MORTAL:
+    case Position::Type::Mortal:
         act("|r$n is mortally wounded, and will die soon, if not aided.|w", victim);
         victim->send_line("|rYou are mortally wounded, and will die soon, if not aided.|w");
         break;
 
-    case POS_INCAP:
+    case Position::Type::Incap:
         act("|r$n is incapacitated and will slowly die, if not aided.|w", victim);
         victim->send_line("|rYou are incapacitated and will slowly die, if not aided.|w");
         break;
 
-    case POS_STUNNED:
+    case Position::Type::Stunned:
         act("|r$n is stunned, but will probably recover.|w", victim);
         victim->send_line("|rYou are stunned, but will probably recover.|w");
         break;
 
-    case POS_DEAD:
+    case Position::Type::Dead:
         act("|R$n is DEAD!!|w", victim);
         victim->send_line("|RYou have been KILLED!!|w");
         break;
@@ -784,13 +784,13 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
     /*
      * Sleep spells and extremely wounded folks.
      */
-    if (!IS_AWAKE(victim))
+    if (!victim->is_pos_awake())
         stop_fighting(victim, false);
 
     /*
      * Payoff for killing things.
      */
-    if (victim->position == POS_DEAD) {
+    if (victim->is_pos_dead()) {
         group_gain(ch, victim);
 
         if (victim->is_pc()) {
@@ -1079,7 +1079,7 @@ bool check_parry(Char *ch, Char *victim) {
     OBJ_DATA *weapon;
     int chance;
 
-    if (!IS_AWAKE(victim))
+    if (!victim->is_pos_awake())
         return false;
     if (get_eq_char(victim, WEAR_WIELD) == nullptr)
         return false;
@@ -1111,7 +1111,7 @@ bool check_shield_block(Char *ch, Char *victim) {
     OBJ_DATA *weapon;
     int chance;
 
-    if (!IS_AWAKE(victim))
+    if (!victim->is_pos_awake())
         return false;
     if (get_eq_char(victim, WEAR_SHIELD) == nullptr)
         return false;
@@ -1142,7 +1142,7 @@ bool check_shield_block(Char *ch, Char *victim) {
  */
 bool check_dodge(Char *ch, Char *victim) {
     int chance;
-    if (!IS_AWAKE(victim))
+    if (!victim->is_pos_awake())
         return false;
 
     if (victim->is_npc()) {
@@ -1171,27 +1171,27 @@ bool check_dodge(Char *ch, Char *victim) {
  */
 void update_pos(Char *victim) {
     if (victim->hit > 0) {
-        if (victim->position <= POS_STUNNED)
-            victim->position = POS_STANDING;
+        if (victim->is_pos_stunned_or_dying())
+            victim->position = Position::Type::Standing;
         return;
     }
 
     if (victim->is_npc() && victim->hit < 1) {
-        victim->position = POS_DEAD;
+        victim->position = Position::Type::Dead;
         return;
     }
 
     if (victim->hit <= -11) {
-        victim->position = POS_DEAD;
+        victim->position = Position::Type::Dead;
         return;
     }
 
     if (victim->hit <= -6)
-        victim->position = POS_MORTAL;
+        victim->position = Position::Type::Mortal;
     else if (victim->hit <= -3)
-        victim->position = POS_INCAP;
+        victim->position = Position::Type::Incap;
     else
-        victim->position = POS_STUNNED;
+        victim->position = Position::Type::Stunned;
 }
 
 /*
@@ -1208,7 +1208,7 @@ void set_fighting(Char *ch, Char *victim) {
         affect_strip(ch, gsn_sleep);
 
     ch->fighting = victim;
-    ch->position = POS_FIGHTING;
+    ch->position = Position::Type::Fighting;
 }
 
 /*
@@ -1218,7 +1218,7 @@ void stop_fighting(Char *ch, bool fBoth) {
     for (auto *fch : char_list) {
         if (fch == ch || (fBoth && fch->fighting == ch)) {
             fch->fighting = nullptr;
-            fch->position = fch->is_npc() ? ch->default_pos : POS_STANDING;
+            fch->position = fch->is_npc() ? ch->default_pos : Position::Type::Standing;
             update_pos(fch);
         }
     }
@@ -1370,7 +1370,7 @@ void raw_kill(Char *victim) {
     victim->affected_by = race_table[victim->race].aff;
     if (!in_duel(victim))
         victim->armor.fill(-1);
-    victim->position = POS_RESTING;
+    victim->position = Position::Type::Resting;
     victim->hit = UMAX(1, victim->hit);
     victim->mana = UMAX(1, victim->mana);
     victim->move = UMAX(1, victim->move);
@@ -1992,8 +1992,7 @@ void do_berserk(Char *ch) {
 
     /* modifiers */
 
-    /* fighting */
-    if (ch->position == POS_FIGHTING)
+    if (ch->is_pos_fighting())
         chance += 10;
 
     /* damage -- below 50% of hp helps, above hurts */
@@ -2080,7 +2079,7 @@ void do_bash(Char *ch, const char *argument) {
         return;
     }
 
-    if (victim->position < POS_FIGHTING) {
+    if (victim->is_pos_relaxing() || victim->is_pos_stunned_or_dying()) {
         act("You'll have to let $M get back up first.", ch, nullptr, victim, To::Char);
         return;
     }
@@ -2140,7 +2139,7 @@ void do_bash(Char *ch, const char *argument) {
         else
             WAIT_STATE(victim, 3 * PULSE_VIOLENCE);
         WAIT_STATE(ch, skill_table[gsn_bash].beats);
-        victim->position = POS_RESTING;
+        victim->position = Position::Type::Resting;
         damage(ch, victim, number_range(2, 2 + 2 * ch->size + chance / 20), gsn_bash, DAM_BASH);
         if (victim->ridden_by != nullptr) {
             thrown_off(victim->ridden_by, victim);
@@ -2151,7 +2150,7 @@ void do_bash(Char *ch, const char *argument) {
         act("$n falls flat on $s face.", ch, nullptr, victim, To::NotVict);
         act("You evade $n's bash, causing $m to fall flat on $s face.", ch, nullptr, victim, To::Vict);
         check_improve(ch, gsn_bash, false, 1);
-        ch->position = POS_RESTING;
+        ch->position = Position::Type::Resting;
         WAIT_STATE(ch, skill_table[gsn_bash].beats * 3 / 2);
         if (ch->ridden_by != nullptr) {
             thrown_off(ch->ridden_by, ch);
@@ -2326,7 +2325,7 @@ void do_trip(Char *ch, const char *argument) {
         return;
     }
 
-    if (victim->position < POS_FIGHTING) {
+    if (victim->is_pos_relaxing() || victim->is_pos_stunned_or_dying()) {
         act("$N is already down.", ch, nullptr, victim, To::Char);
         return;
     }
@@ -2371,7 +2370,7 @@ void do_trip(Char *ch, const char *argument) {
 
         WAIT_STATE(victim, 2 * PULSE_VIOLENCE);
         WAIT_STATE(ch, skill_table[gsn_trip].beats);
-        victim->position = POS_RESTING;
+        victim->position = Position::Type::Resting;
         damage(ch, victim, number_range(2, 2 + 2 * victim->size), gsn_trip, DAM_BASH);
         if (victim->ridden_by != nullptr) {
             thrown_off(victim->ridden_by, victim);
@@ -2425,7 +2424,7 @@ void do_kill(Char *ch, const char *argument) {
         return;
     }
 
-    if (ch->position == POS_FIGHTING) {
+    if (ch->is_pos_fighting()) {
         ch->send_line("You do the best you can!");
         return;
     }
@@ -2474,7 +2473,7 @@ void do_murder(Char *ch, const char *argument) {
         return;
     }
 
-    if (ch->position == POS_FIGHTING) {
+    if (ch->is_pos_fighting()) {
         ch->send_line("You do the best you can!");
         return;
     }
@@ -2540,7 +2539,7 @@ void do_backstab(Char *ch, const char *argument) {
 
     check_killer(ch, victim);
     WAIT_STATE(ch, skill_table[gsn_backstab].beats);
-    if (ch->is_pc() && (!IS_AWAKE(victim) || number_percent() < get_skill_learned(ch, gsn_backstab))) {
+    if (ch->is_pc() && (!victim->is_pos_awake() || number_percent() < get_skill_learned(ch, gsn_backstab))) {
         check_improve(ch, gsn_backstab, true, 1);
         multi_hit(ch, victim, gsn_backstab);
     } else {
@@ -2556,8 +2555,8 @@ void do_flee(Char *ch) {
     int attempt;
 
     if ((victim = ch->fighting) == nullptr) {
-        if (ch->position == POS_FIGHTING)
-            ch->position = POS_STANDING;
+        if (ch->is_pos_fighting())
+            ch->position = Position::Type::Standing;
         ch->send_line("You aren't fighting anyone.");
         return;
     }

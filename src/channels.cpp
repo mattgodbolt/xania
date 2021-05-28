@@ -113,7 +113,7 @@ void channel_command(Char *ch, const char *argument, unsigned long chan_flag, co
         for (auto &d : descriptors().all_but(*ch)) {
             auto *victim = d.person();
             if (!IS_SET(victim->comm, chan_flag) && !IS_SET(victim->comm, COMM_QUIET)) {
-                act(desc_other, ch, argument, d.character(), To::Vict, POS_DEAD);
+                act(desc_other, ch, argument, d.character(), To::Vict, Position::Type::Dead);
             }
         }
     }
@@ -131,10 +131,10 @@ void do_immtalk(Char *ch, std::string_view argument) {
 
     const char *format = IS_SET(ch->act, PLR_AFK) ? "|w(|cAFK|w)|W $n: |c$t|w" : "|W$n: |c$t|w";
     if (ch->get_trust() >= LEVEL_HERO)
-        act(format, ch, argument, nullptr, To::Char, POS_DEAD);
+        act(format, ch, argument, nullptr, To::Char, Position::Type::Dead);
     for (auto &d : descriptors().playing()) {
         if (d.character()->is_immortal() && !IS_SET(d.character()->comm, COMM_NOWIZ))
-            act(format, ch, argument, d.character(), To::Vict, POS_DEAD);
+            act(format, ch, argument, d.character(), To::Vict, Position::Type::Dead);
     }
 }
 

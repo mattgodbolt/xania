@@ -523,7 +523,7 @@ void do_smite(Char *ch, const char *argument) {
     if (victim->hit < 1)
         victim->hit = 1; /* Cap the damage */
 
-    victim->position = POS_RESTING;
+    victim->position = Position::Type::Resting;
     /* Knock them into resting and disarm them regardless of whether they have talon or a noremove weapon */
 
     if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr) {

@@ -32,6 +32,19 @@ bool Char::is_shopkeeper() const { return is_npc() && pIndexData->pShop; }
 bool Char::has_detect_hidden() const { return IS_SET(affected_by, AFF_DETECT_HIDDEN); }
 bool Char::has_holylight() const { return is_pc() && IS_SET(act, PLR_HOLYLIGHT); }
 
+bool Char::is_pos_dead() const { return position == Position::Type::Dead; }
+bool Char::is_pos_dying() const { return position < Position::Type::Stunned; }
+bool Char::is_pos_stunned_or_dying() const { return position < Position::Type::Sleeping; }
+bool Char::is_pos_sleeping() const { return position == Position::Type::Sleeping; }
+bool Char::is_pos_relaxing() const {
+    return position == Position::Type::Sleeping || position == Position::Type::Resting
+           || position == Position::Type::Sitting;
+}
+bool Char::is_pos_awake() const { return position > Position::Type::Sleeping; }
+bool Char::is_pos_fighting() const { return position == Position::Type::Fighting; }
+bool Char::is_pos_preoccupied() const { return position < Position::Type::Standing; }
+bool Char::is_pos_standing() const { return position == Position::Type::Standing; }
+
 bool Char::is_wizinvis() const { return is_pc() && IS_SET(act, PLR_WIZINVIS); }
 bool Char::is_wizinvis_to(const Char &victim) const { return is_wizinvis() && victim.get_trust() < invis_level; }
 
@@ -284,7 +297,9 @@ int Char::num_active_ = 0;
 
 extern char str_empty[]; // Soon, to die...
 
-Char::Char() : name(str_empty), logon(current_time), position(POS_STANDING) /*todo once not in merc.h put in header*/ {
+Char::Char()
+    : name(str_empty), logon(current_time),
+      position(Position::Type::Standing) /*todo once not in merc.h put in header*/ {
     ranges::fill(armor, -1); // #216 -1 armour is the new normal
     ranges::fill(perm_stat, 13);
     ++num_active_;
@@ -343,8 +358,8 @@ void Char::set_not_afk() {
         return;
     send_line("|cYour keyboard welcomes you back!|w");
     send_line("|cYou are no longer marked as being afk.|w");
-    ::act("|W$n's|w keyboard has welcomed $m back!", this, nullptr, nullptr, To::Room, POS_DEAD);
-    ::act("|W$n|w is no longer afk.", this, nullptr, nullptr, To::Room, POS_DEAD);
+    ::act("|W$n's|w keyboard has welcomed $m back!", this, nullptr, nullptr, To::Room, Position::Type::Dead);
+    ::act("|W$n|w is no longer afk.", this, nullptr, nullptr, To::Room, Position::Type::Dead);
     announce("|W###|w (|cAFK|w) $N has returned to $S keyboard.", this);
     REMOVE_BIT(act, PLR_AFK);
 }
@@ -353,8 +368,8 @@ void Char::set_afk(std::string_view afk_message) {
     pcdata->afk = afk_message;
     SET_BIT(act, PLR_AFK);
     ::act(fmt::format("|cYou notify the mud that you are {}|c.|w", afk_message), this, nullptr, nullptr, To::Char,
-          POS_DEAD);
-    ::act(fmt::format("|W$n|w is {}|w.", afk_message), this, nullptr, nullptr, To::Room, POS_DEAD);
+          Position::Type::Dead);
+    ::act(fmt::format("|W$n|w is {}|w.", afk_message), this, nullptr, nullptr, To::Room, Position::Type::Dead);
     announce(fmt::format("|W###|w (|cAFK|w) $N is {}|w.", afk_message), this);
 }
 

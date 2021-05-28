@@ -745,20 +745,6 @@ static inline constexpr auto ff = BIT(31);
  *                   (End of this section ... stop here)                   *
  *                                                                         *
  ***************************************************************************/
-
-/*
- * Positions.
- */
-#define POS_DEAD 0
-#define POS_MORTAL 1
-#define POS_INCAP 2
-#define POS_STUNNED 3
-#define POS_SLEEPING 4
-#define POS_RESTING 5
-#define POS_SITTING 6
-#define POS_FIGHTING 7
-#define POS_STANDING 8
-
 /*
  * ACT bits for players.
  */
@@ -1066,7 +1052,7 @@ struct skill_type {
 
     SpellFunc spell_fun; /* Spell function pointer  */
     sh_int target; /* Legal targets                */
-    sh_int minimum_position; /* Position for caster / user   */
+    Position::Type minimum_position;
     sh_int *pgsn; /* Pointer to associated gsn    */
     sh_int slot; /* Slot for #OBJECT loading     */
     sh_int min_mana; /* Minimum mana used            */
@@ -1187,8 +1173,8 @@ extern sh_int gsn_bless;
  */
 #define IS_AFFECTED(ch, sn) (IS_SET((ch)->affected_by, (sn)))
 
-#define IS_AWAKE(ch) (ch->position > POS_SLEEPING)
-#define GET_AC(ch, type) ((ch)->armor[type] + (IS_AWAKE(ch) ? dex_app[get_curr_stat(ch, Stat::Dex)].defensive : 0))
+#define GET_AC(ch, type)                                                                                               \
+    ((ch)->armor[type] + (ch->is_pos_awake() ? dex_app[get_curr_stat(ch, Stat::Dex)].defensive : 0))
 
 #define IS_OUTSIDE(ch) (!IS_SET((ch)->in_room->room_flags, ROOM_INDOORS))
 

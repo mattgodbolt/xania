@@ -251,7 +251,7 @@ void do_cast(Char *ch, const char *argument) {
             return;
         }
 
-        if (ch->position < POS_STANDING) {
+        if (ch->is_pos_preoccupied()) {
             ch->send_line("You can't concentrate enough.");
             return;
         }
@@ -344,7 +344,7 @@ void do_cast(Char *ch, const char *argument) {
             return;
         }
 
-        if (ch->position < POS_STANDING) {
+        if (ch->is_pos_preoccupied()) {
             ch->send_line("You can't concentrate enough.");
             return;
         }
@@ -407,7 +407,7 @@ void do_cast(Char *ch, const char *argument) {
             return;
         }
 
-        if (ch->position < POS_STANDING) {
+        if (ch->is_pos_preoccupied()) {
             ch->send_line("You can't concentrate enough.");
             return;
         }
@@ -798,7 +798,7 @@ void spell_call_lightning(int sn, int level, Char *ch, void *vo) {
             continue;
         }
 
-        if (vch->in_room->area == ch->in_room->area && IS_OUTSIDE(vch) && IS_AWAKE(vch))
+        if (vch->in_room->area == ch->in_room->area && IS_OUTSIDE(vch) && vch->is_pos_awake())
             vch->send_line("Lightning flashes in the sky.");
     }
 }
@@ -813,7 +813,7 @@ void spell_calm(int sn, int level, Char *ch, void *vo) {
 
     /* get sum of all mobile levels in the room */
     for (auto *vch : ch->in_room->people) {
-        if (vch->position == POS_FIGHTING) {
+        if (vch->is_pos_fighting()) {
             count++;
             if (vch->is_npc())
                 mlevel += vch->level;
@@ -840,7 +840,7 @@ void spell_calm(int sn, int level, Char *ch, void *vo) {
 
             vch->send_line("A wave of calm passes over you.");
 
-            if (vch->fighting || vch->position == POS_FIGHTING)
+            if (vch->fighting || vch->is_pos_fighting())
                 stop_fighting(vch, false);
 
             if (vch->is_npc())
@@ -3145,10 +3145,10 @@ void spell_sleep(int sn, int level, Char *ch, void *vo) {
     af.bitvector = AFF_SLEEP;
     affect_join(victim, af);
 
-    if (IS_AWAKE(victim)) {
+    if (victim->is_pos_awake()) {
         victim->send_line("You feel very sleepy ..... zzzzzz.");
         act("$n goes to sleep.", victim);
-        victim->position = POS_SLEEPING;
+        victim->position = Position::Type::Sleeping;
     }
 }
 

@@ -18,7 +18,8 @@
 
 #pragma once
 
-int position_lookup(const char *name);
+#include "Position.hpp"
+
 int size_lookup(const char *name);
 
 int liq_lookup(const char *name);

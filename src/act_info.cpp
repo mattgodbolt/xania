@@ -27,6 +27,7 @@
 
 #include <fmt/chrono.h>
 #include <fmt/format.h>
+#include <magic_enum.hpp>
 #include <range/v3/algorithm/find_if.hpp>
 #include <range/v3/iterator/operations.hpp>
 
@@ -247,32 +248,27 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
     if (victim->is_pc() && !IS_SET(ch->comm, COMM_BRIEF))
         buf += victim->pcdata->title;
 
+    buf += " is ";
+    buf += victim->position.present_progressive_verb();
     switch (victim->position) {
-    case POS_DEAD: buf += " is |RDEAD|w!!"; break;
-    case POS_MORTAL: buf += " is |Rmortally wounded.|w"; break;
-    case POS_INCAP: buf += " is |rincapacitated.|w"; break;
-    case POS_STUNNED: buf += " is |rlying here stunned.|w"; break;
-    case POS_SLEEPING: buf += " is sleeping here."; break;
-    case POS_RESTING: buf += " is resting here."; break;
-    case POS_SITTING: buf += " is sitting here."; break;
-    case POS_STANDING:
+    case Position::Type::Standing:
         if (victim->riding != nullptr) {
-            buf += fmt::format(" is here, riding {}.", victim->riding->name);
+            buf += fmt::format(", riding {}.", victim->riding->name);
         } else {
-            buf += " is here.";
+            buf += ".";
         }
         break;
-    case POS_FIGHTING:
-        buf += " is here, fighting ";
+    case Position::Type::Fighting:
         if (victim->fighting == nullptr)
-            buf += "thin air??";
+            buf += " thin air??";
         else if (victim->fighting == ch)
-            buf += "|RYOU!|w";
+            buf += " |RYOU!|w";
         else if (victim->in_room == victim->fighting->in_room) {
-            buf += fmt::format("{}.", pers(victim->fighting, ch));
+            buf += fmt::format(" {}.", pers(victim->fighting, ch));
         } else
-            buf += "somone who left??";
+            buf += " somone who left??";
         break;
+    default:;
     }
 
     buf += "\n\r";
@@ -325,12 +321,12 @@ void do_peek(Char *ch, const char *argument) {
     if (ch->desc == nullptr)
         return;
 
-    if (ch->position < POS_SLEEPING) {
+    if (ch->is_pos_stunned_or_dying()) {
         ch->send_line("You can't see anything but stars!");
         return;
     }
 
-    if (ch->position == POS_SLEEPING) {
+    if (ch->is_pos_sleeping()) {
         ch->send_line("You can't see anything, you're sleeping!");
         return;
     }
@@ -893,12 +889,12 @@ bool check_look(Char *ch) {
     if (ch->desc == nullptr)
         return false;
 
-    if (ch->position < POS_SLEEPING) {
+    if (ch->is_pos_stunned_or_dying()) {
         ch->send_line("You can't see anything but stars!");
         return false;
     }
 
-    if (ch->position == POS_SLEEPING) {
+    if (ch->is_pos_sleeping()) {
         ch->send_line("You can't see anything, you're sleeping!");
         return false;
     }
@@ -1044,9 +1040,6 @@ void do_worth(Char *ch) {
 
 namespace {
 
-const std::array position_desc = {"dead",    "mortally wounded", "incapacitated", "stunned", "sleeping",
-                                  "resting", "sitting",          "fighting",      "standing"};
-
 void describe_armour(Char *ch, int type, const char *name) {
     static const std::array armour_desc = {
         "hopelessly vulnerable to",  "defenseless against",        "barely protected from",
@@ -1089,7 +1082,7 @@ void do_score(Char *ch) {
     col2.stat("Race", race_table[ch->race].name)
         .stat("Class", ch->is_npc() ? "mobile" : class_table[ch->class_num].name)
         .stat("Sex", ch->sex.name())
-        .stat("Position", position_desc[ch->position])
+        .stat("Position", ch->position.short_description())
         .stat_of("Items", ch->carry_number, can_carry_n(ch))
         .stat_of("Weight", ch->carry_weight, can_carry_w(ch))
         .stat("Gold", ch->gold)
@@ -1656,7 +1649,7 @@ void do_practice(Char *ch, const char *argument) {
 
         ch->send_line("You have {} practice sessions left.", ch->practice);
     } else {
-        if (!IS_AWAKE(ch)) {
+        if (!ch->is_pos_awake()) {
             ch->send_line("In your dreams, or what?");
             return;
         }

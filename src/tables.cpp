@@ -29,13 +29,6 @@ struct flag_stat_type {
     bool stat;
 };
 
-/* for position */
-const struct position_type position_table[] = {{"dead", "dead"},           {"mortally wounded", "mort"},
-                                               {"incapacitated", "incap"}, {"stunned", "stun"},
-                                               {"sleeping", "sleep"},      {"resting", "rest"},
-                                               {"sitting", "sit"},         {"fighting", "fight"},
-                                               {"standing", "stand"},      {nullptr, nullptr}};
-
 /* for sizes */
 const struct size_type size_table[] = {{"tiny"},
                                        {"small"},

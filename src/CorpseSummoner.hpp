@@ -12,7 +12,7 @@ public:
     struct Dependencies {
         virtual ~Dependencies() = default;
         virtual void interpret(Char *, std::string) = 0;
-        virtual void act(std::string_view, const Char *, Act1Arg, Act2Arg, To, int) = 0;
+        virtual void act(std::string_view, const Char *, Act1Arg, Act2Arg, To, const Position::Type) = 0;
         virtual void act(std::string_view, const Char *, Act1Arg, Act2Arg, To) = 0;
         virtual void obj_from_char(OBJ_DATA *) = 0;
         virtual void obj_to_char(OBJ_DATA *, Char *) = 0;

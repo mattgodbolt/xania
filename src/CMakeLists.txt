@@ -94,7 +94,8 @@ add_library(xania_lib STATIC
         PerEnum.hpp
         GenericList.hpp
         Sex.hpp Sex.cpp
-        Tip.cpp Tip.hpp)
+        Tip.cpp Tip.hpp
+        Position.hpp Position.cpp)
 target_link_libraries(
         xania_lib
         xania_common

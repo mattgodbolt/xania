@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Dice.hpp"
+#include "Position.hpp"
 #include "Sex.hpp"
 #include "Types.hpp"
 
@@ -39,8 +40,8 @@ struct MobIndexData {
     long imm_flags{};
     long res_flags{};
     long vuln_flags{};
-    sh_int start_pos{};
-    sh_int default_pos{};
+    Position start_pos{};
+    Position default_pos{};
     Sex sex;
     sh_int race{};
     long gold{};

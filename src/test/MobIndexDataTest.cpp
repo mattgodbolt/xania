@@ -57,8 +57,8 @@ stand stand male 200
         CHECK(mob->ac == std::array<sh_int, 4>{-2, -2, -2, -2});
         CHECK(mob->sex.is_male());
         // TODO: check flags
-        CHECK(mob->default_pos == POS_STANDING);
-        CHECK(mob->start_pos == POS_STANDING);
+        CHECK(mob->default_pos == Position::Type::Standing);
+        CHECK(mob->start_pos == Position::Type::Standing);
         CHECK(mob->size == SIZE_MEDIUM);
         CHECK(mob->material == MATERIAL_DEFAULT);
     }

@@ -5,8 +5,6 @@
 #include <magic_enum.hpp>
 #include <optional>
 
-using namespace magic_enum;
-
 namespace {
 
 Sex::Type operator+=(Sex::Type &sex, const int mod) {
@@ -14,15 +12,15 @@ Sex::Type operator+=(Sex::Type &sex, const int mod) {
         // nothing to do
         return sex;
     }
-    auto val = enum_integer<Sex::Type>(sex);
-    const ush_int count = enum_count<Sex::Type>();
+    auto val = magic_enum::enum_integer<Sex::Type>(sex);
+    const ush_int count = magic_enum::enum_count<Sex::Type>();
     // As modifiers can be negative and taking the modulus of a negative
     // value can result in a negative, we have to flip the result around.
     auto result = (val + mod) % count;
     if (result < 0) {
         result += count;
     }
-    sex = *enum_cast<Sex::Type>(result);
+    sex = *magic_enum::enum_cast<Sex::Type>(result);
     return sex;
 }
 
@@ -54,11 +52,11 @@ bool Sex::is_male() const { return sex_ == Type::male; }
 
 bool Sex::is_female() const { return sex_ == Type::female; }
 
-std::string_view Sex::name(const Type sex) { return enum_name<Type>(sex); }
+std::string_view Sex::name(const Type sex) { return magic_enum::enum_name<Type>(sex); }
 
 std::string_view Sex::name() const { return name(sex_); }
 
-ush_int Sex::ordinal() const { return enum_integer<Sex::Type>(sex_); }
+ush_int Sex::ordinal() const { return magic_enum::enum_integer<Sex::Type>(sex_); }
 
 Sex::Type Sex::type() const { return sex_; }
 
@@ -81,7 +79,7 @@ std::optional<Sex> Sex::try_from_name(std::string_view name) {
 }
 
 std::optional<Sex> Sex::try_from_ordinal(const int sex) {
-    if (auto enum_val = enum_cast<Type>(sex)) {
+    if (auto enum_val = magic_enum::enum_cast<Type>(sex)) {
         return Sex(*enum_val);
     } else {
         return std::nullopt;
@@ -103,6 +101,6 @@ std::optional<Sex> Sex::try_from_char(const char c) {
 }
 
 std::string Sex::names_csv() {
-    constexpr auto &names = enum_names<Type>();
+    constexpr auto &names = magic_enum::enum_names<Type>();
     return fmt::format("{}", fmt::join(names, ", "sv));
 }

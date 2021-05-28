@@ -54,7 +54,7 @@ bool doSleepActions(Char *ch, ROOM_INDEX_DATA *home) {
     int sleepFactor = sleepiness;
     int random;
 
-    if (ch->position == POS_SLEEPING) {
+    if (ch->is_pos_sleeping()) {
         sleepiness -= SLEEP_PT_ASLEEP;
         if (sleepFactor < WAKE_AT) {
             do_wake(ch, ArgParser(""));
@@ -165,7 +165,7 @@ bool spec_phil(Char *ch) {
     int interest = 0;
 
     /* Check fighting state */
-    if (ch->position == POS_FIGHTING)
+    if (ch->is_pos_fighting())
         return false;
 
     /* Check sleep state */
@@ -180,7 +180,7 @@ bool spec_phil(Char *ch) {
         return true;
 
     /* If Phil is asleep, just end it there */
-    if (ch->position == POS_SLEEPING)
+    if (ch->is_pos_sleeping())
         return false;
 
     /* Check for known people in this, and neighbouring, rooms */
@@ -191,7 +191,7 @@ bool spec_phil(Char *ch) {
             if (findInterestingChar(exitData->u1.to_room, &follow, &interest))
                 takeExit = exit;
     }
-    if (follow != nullptr && (follow->in_room != room) && (ch->position == POS_STANDING)) {
+    if (follow != nullptr && (follow->in_room != room) && (ch->is_pos_standing())) {
         move_char(ch, takeExit);
     }
 

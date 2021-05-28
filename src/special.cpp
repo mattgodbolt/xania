@@ -125,7 +125,7 @@ Char *pick_passive_victim(const Char *ch, F filter) {
 
 /* Core procedure for dragons. */
 bool dragon(Char *ch, const char *spell_name) {
-    if (ch->position != POS_FIGHTING)
+    if (!ch->is_pos_fighting())
         return false;
 
     auto victim = pick_fighting_victim(ch, [](auto) { return number_bits(3) == 0; });
@@ -141,7 +141,7 @@ bool dragon(Char *ch, const char *spell_name) {
 
 /* Special procedures for mobiles. */
 bool spec_breath_any(Char *ch) {
-    if (ch->position != POS_FIGHTING)
+    if (!ch->is_pos_fighting())
         return false;
 
     switch (number_bits(3)) {
@@ -167,7 +167,7 @@ bool spec_breath_frost(Char *ch) { return dragon(ch, "frost breath"); }
 bool spec_breath_gas(Char *ch) {
     int sn;
 
-    if (ch->position != POS_FIGHTING)
+    if (!ch->is_pos_fighting())
         return false;
 
     if ((sn = skill_lookup("gas breath")) < 0)
@@ -184,7 +184,7 @@ bool spec_DEATH(Char *ch) {
     ROOM_INDEX_DATA *home; /* Death's house */
     int lowest_percent = 15; /* Lowest percentage of hp Death gates to */
 
-    if (ch->position < POS_STANDING)
+    if (ch->is_pos_preoccupied())
         return false;
 
     if ((home = get_room_index(rooms::DeathHome)) == nullptr) {
@@ -201,8 +201,7 @@ bool spec_DEATH(Char *ch) {
 
     /* check for Phil the meerkat being beaten the shit out of */
     phil = get_mob_by_vnum(mobiles::PhilMeerkat);
-    if (phil && (phil->position == POS_FIGHTING) && /* if phil is fighting */
-        ((phil->hit * 100) / phil->max_hit < 10)) /* and has less than 10% hp */
+    if (phil && (phil->is_pos_fighting()) && ((phil->hit * 100) / phil->max_hit < 10)) /* and has less than 10% hp */
         lowest_person = phil;
     /* end */
 
@@ -216,7 +215,7 @@ bool spec_DEATH(Char *ch) {
         return true;
     }
 
-    if ((lowest_person->in_room != ch->in_room) && (lowest_person->position == POS_FIGHTING)) {
+    if ((lowest_person->in_room != ch->in_room) && (lowest_person->is_pos_fighting())) {
         act("$n disappears through a gate seeking to usher souls elsewhere.", ch);
         char_from_room(ch);
         char_to_room(ch, lowest_person->in_room);
@@ -242,7 +241,7 @@ bool spec_DEATH(Char *ch) {
 
     /* End sanity test ... the less bugs the better, eh? */
 
-    if ((lowest_person->position != POS_FIGHTING) && (number_percent() > 60)) {
+    if ((!lowest_person->is_pos_fighting()) && (number_percent() > 60)) {
         act("$n sighs as another soul slips through his fingers.", ch);
         act("$n disappears through a gate to seek souls elsewhere.", ch);
         char_from_room(ch);
@@ -265,7 +264,7 @@ bool spec_DEATH(Char *ch) {
 }
 
 bool spec_cast_adept(Char *ch) {
-    if (!IS_AWAKE(ch))
+    if (!ch->is_pos_awake())
         return false;
 
     auto *victim = pick_passive_victim(ch, [&](auto *victim) {
@@ -313,7 +312,7 @@ bool spec_cast_cleric(Char *ch) {
     const char *spell;
     int sn;
 
-    if (ch->position != POS_FIGHTING)
+    if (!ch->is_pos_fighting())
         return false;
 
     auto *victim = pick_fighting_victim(ch, [](auto) { return number_bits(2) == 0; });
@@ -386,7 +385,7 @@ bool spec_cast_judge(Char *ch) {
     const char *spell;
     int sn;
 
-    if (ch->position != POS_FIGHTING)
+    if (!ch->is_pos_fighting())
         return false;
 
     auto *victim = pick_fighting_victim(ch, [](auto) { return number_bits(2) == 0; });
@@ -404,7 +403,7 @@ bool spec_cast_mage(Char *ch) {
     const char *spell;
     int sn;
 
-    if (ch->position != POS_FIGHTING)
+    if (!ch->is_pos_fighting())
         return false;
 
     auto *victim = pick_fighting_victim(ch, [](auto) { return number_bits(3) == 0; });
@@ -479,7 +478,7 @@ bool spec_cast_undead(Char *ch) {
     const char *spell;
     int sn;
 
-    if (ch->position != POS_FIGHTING)
+    if (!ch->is_pos_fighting())
         return false;
 
     auto *victim = pick_fighting_victim(ch, [](auto) { return number_bits(3) == 0; });
@@ -562,7 +561,7 @@ bool spec_cast_bastard(Char *ch) {
     const char *spell;
     int sn;
 
-    if (ch->position != POS_FIGHTING)
+    if (!ch->is_pos_fighting())
         return false;
 
     auto *victim = pick_fighting_victim(ch, [](auto) { return number_bits(3) == 0; });
@@ -621,7 +620,7 @@ bool spec_cast_bastard(Char *ch) {
 }
 
 bool spec_executioner(Char *ch) {
-    if (!IS_AWAKE(ch) || ch->fighting != nullptr)
+    if (!ch->is_pos_awake() || ch->fighting != nullptr)
         return false;
 
     auto *victim = pick_passive_victim(ch, [](Char *vch) { return vch->is_player_killer() || vch->is_player_thief(); });
@@ -653,7 +652,7 @@ bool spec_puff(Char *ch) {
     Char *victim;
     extern int social_count;
 
-    if (!IS_AWAKE(ch))
+    if (!ch->is_pos_awake())
         return false;
 
     victim = nullptr;
@@ -725,7 +724,7 @@ bool spec_puff(Char *ch) {
     */
 
     else {
-        if (ch->position < POS_FIGHTING) {
+        if (ch->is_pos_relaxing() || ch->is_pos_stunned_or_dying()) {
             act("For a moment, $n seems lucid...", ch);
             act("   ...but then $e returns to $s contemplations once again.", ch);
             act("For a moment, the world's mathematical beauty is lost to you!", ch, nullptr, nullptr, To::Char);
@@ -742,7 +741,7 @@ bool spec_puff(Char *ch) {
          what could possibly be a better resolution to conflict? ;)
          Oh-- and notice that Puff casts her one spell VERY well.     */
 
-    if (ch->position != POS_FIGHTING)
+    if (!ch->is_pos_fighting())
         return false;
 
     victim = pick_fighting_victim(ch, [](auto) { return number_bits(2) == 0; });
@@ -756,7 +755,7 @@ bool spec_puff(Char *ch) {
 }
 
 bool spec_fido(Char *ch) {
-    if (!IS_AWAKE(ch))
+    if (!ch->is_pos_awake())
         return false;
 
     for (auto *corpse : ch->in_room->contents) {
@@ -776,7 +775,7 @@ bool spec_fido(Char *ch) {
 }
 
 bool spec_guard(Char *ch) {
-    if (!IS_AWAKE(ch) || ch->fighting != nullptr)
+    if (!ch->is_pos_awake() || ch->fighting != nullptr)
         return false;
 
     if (auto *victim =
@@ -805,7 +804,7 @@ bool spec_guard(Char *ch) {
 }
 
 bool spec_janitor(Char *ch) {
-    if (!IS_AWAKE(ch))
+    if (!ch->is_pos_awake())
         return false;
 
     for (auto *trash : ch->in_room->contents) {
@@ -847,7 +846,7 @@ bool spec_mayor(Char *ch) {
 
     if (ch->fighting != nullptr)
         return spec_cast_cleric(ch);
-    if (!move || ch->position < POS_SLEEPING)
+    if (!move || ch->is_pos_stunned_or_dying())
         return false;
 
     switch (path[pos]) {
@@ -857,12 +856,12 @@ bool spec_mayor(Char *ch) {
     case '3': move_char(ch, Direction::West); break;
 
     case 'W':
-        ch->position = POS_STANDING;
+        ch->position = Position::Type::Standing;
         act("$n awakens and groans loudly.", ch);
         break;
 
     case 'S':
-        ch->position = POS_SLEEPING;
+        ch->position = Position::Type::Sleeping;
         act("$n lies down and falls asleep.", ch);
         break;
 
@@ -898,7 +897,7 @@ bool spec_mayor(Char *ch) {
 bool spec_poison(Char *ch) {
     Char *victim;
 
-    if (ch->position != POS_FIGHTING || (victim = ch->fighting) == nullptr || number_percent() > 2 * ch->level)
+    if (!ch->is_pos_fighting() || (victim = ch->fighting) == nullptr || number_percent() > 2 * ch->level)
         return false;
 
     act("You bite $N!", ch, nullptr, victim, To::Char);
@@ -911,14 +910,14 @@ bool spec_poison(Char *ch) {
 bool spec_thief(Char *ch) {
     long gold;
 
-    if (ch->position != POS_STANDING)
+    if (ch->is_pos_preoccupied())
         return false;
 
     for (auto *victim : ch->in_room->people) {
         if (victim->is_npc() || victim->level >= LEVEL_IMMORTAL || number_bits(5) != 0 || !can_see(ch, victim))
             continue;
 
-        if (IS_AWAKE(victim) && number_range(0, ch->level) == 0) {
+        if (victim->is_pos_awake() && number_range(0, ch->level) == 0) {
             act("You discover $n's hands in your wallet!", ch, nullptr, victim, To::Vict);
             act("$N discovers $n's hands in $S wallet!", ch, nullptr, victim, To::NotVict);
             return true;

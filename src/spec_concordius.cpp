@@ -189,9 +189,9 @@ void aquila_patrols(Char *ch) {
  * Note that this function will be called once every 4 seconds.
  */
 bool spec_concordius(Char *ch) {
-    if (ch->position < POS_FIGHTING)
+    if (ch->is_pos_relaxing() || ch->is_pos_stunned_or_dying())
         return false;
-    if (ch->position == POS_FIGHTING) {
+    if (ch->is_pos_fighting()) {
         concordius_fights(ch);
     } else {
         concordius_patrols(ch);
@@ -204,7 +204,7 @@ bool spec_concordius(Char *ch) {
  * She follows him around and makes a fuss.
  */
 bool spec_aquila_pet(Char *ch) {
-    if (ch->position < POS_FIGHTING) {
+    if (ch->is_pos_relaxing() || ch->is_pos_stunned_or_dying()) {
         return false;
     }
     aquila_patrols(ch);

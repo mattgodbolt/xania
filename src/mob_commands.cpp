@@ -178,7 +178,7 @@ void do_mpkill(Char *ch, const char *argument) {
         return;
     }
 
-    if (ch->position == POS_FIGHTING) {
+    if (ch->is_pos_fighting()) {
         bug("MpKill - Already fighting from vnum {}", ch->pIndexData->vnum);
         return;
     }

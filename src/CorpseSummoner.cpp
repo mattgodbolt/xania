@@ -64,7 +64,7 @@ std::optional<std::string_view> CorpseSummoner::is_catalyst_invalid(Char *player
 
 bool CorpseSummoner::check_catalyst(Char *player, Char *summoner, OBJ_DATA *catalyst) {
     if (auto reason = is_catalyst_invalid(player, catalyst)) {
-        mud_.act("|C$n tells you '$t|C'|w", summoner, *reason, player, To::Vict, POS_DEAD);
+        mud_.act("|C$n tells you '$t|C'|w", summoner, *reason, player, To::Vict, Position::Type::Dead);
         mud_.obj_from_char(catalyst);
         mud_.obj_to_char(catalyst, player);
         mud_.act("$n gives $p to $N.", summoner, catalyst, player, To::NotVict);
@@ -105,7 +105,7 @@ void CorpseSummoner::apply_summoning_fatigue(Char *player) {
     mud_.affect_to_char(player, af);
     player->send_line("You are stunned and fall the ground.");
     mud_.act("$n is knocked off $s feet!", player, nullptr, nullptr, To::Room);
-    player->position = POS_RESTING;
+    player->position = Position::Type::Resting;
 }
 
 namespace {
@@ -118,7 +118,7 @@ class DependenciesImpl : public CorpseSummoner::Dependencies {
 public:
     DependenciesImpl();
     void interpret(Char *ch, std::string msg);
-    void act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to, int position);
+    void act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to, const Position::Type position);
     void act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to);
     void obj_from_char(OBJ_DATA *obj);
     void obj_to_char(OBJ_DATA *obj, Char *ch);
@@ -142,7 +142,8 @@ void DependenciesImpl::interpret(Char *ch, std::string msg) {
     ::interpret(ch, msg.c_str());
 } // TODO interpret() should take a string_view really
 
-void DependenciesImpl::act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to, int position) {
+void DependenciesImpl::act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to,
+                           const Position::Type position) {
     ::act(msg, ch, arg1, arg2, to, position);
 }
 
@@ -177,7 +178,7 @@ CorpseSummoner corpse_summoner(dependencies);
  * these in the Necropolis, but there could be more in future.
  */
 bool spec_summoner(Char *ch) {
-    if (ch->position < POS_STANDING || ch->in_room->vnum != rooms::MidgaardNecropolis)
+    if (ch->is_pos_preoccupied() || ch->in_room->vnum != rooms::MidgaardNecropolis)
         return false;
     corpse_summoner.summoner_awaits(ch, system_clock::to_time_t(current_time));
     return true;

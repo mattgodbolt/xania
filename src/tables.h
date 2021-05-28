@@ -20,11 +20,6 @@
 
 #include "merc.h"
 
-struct position_type {
-    const char *name;
-    const char *short_name;
-};
-
 struct size_type {
     const char *name;
 };
@@ -40,8 +35,6 @@ struct weapon_type {
     sh_int *gsn;
 };
 
-/* game tables */
-extern const struct position_type position_table[];
 extern const struct size_type size_table[];
 
 /* items */

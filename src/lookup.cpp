@@ -17,9 +17,13 @@
  ***************************************************************************/
 
 #include "Logging.hpp"
+#include "Position.hpp"
 #include "merc.h"
 #include "string_utils.hpp"
 #include "tables.h"
+
+#include <magic_enum.hpp>
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,20 +42,6 @@ int numeric_lookup_check(const char *name, int max) {
         return retVal;
     else
         return -1;
-}
-
-/*
- * All lookup functions tweaked by TM cos of bad area designers :)
- */
-int position_lookup(const char *name) {
-    int pos;
-
-    for (pos = 0; position_table[pos].name != nullptr; pos++) {
-        if (LOWER(name[0]) == LOWER(position_table[pos].name[0]) && !str_prefix(name, position_table[pos].name))
-            return pos;
-    }
-    bug("Load_objects: Unknown position: {}", name);
-    exit(1);
 }
 
 int size_lookup(const char *name) {

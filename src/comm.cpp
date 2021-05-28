@@ -1156,7 +1156,7 @@ void page_to_char(const char *txt, Char *ch) {
 }
 
 void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To type) {
-    act(format, ch, arg1, arg2, type, POS_RESTING);
+    act(format, ch, arg1, arg2, type, Position::Type::Resting);
 }
 
 namespace {
@@ -1251,16 +1251,16 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
     return upper_first_character(buf) + "\n\r";
 }
 
-bool act_to_person(const Char *person, int min_pos) {
+bool act_to_person(const Char *person, const Position::Type min_position) {
     // Ignore folks with no descriptor, or below minimum position.
-    return person->desc != nullptr && person->position >= min_pos;
+    return person->desc != nullptr && person->position >= min_position;
 }
 
 std::vector<const Char *> folks_in_room(const ROOM_INDEX_DATA *room, const Char *ch, const Char *vch, const To &type,
-                                        int min_pos) {
+                                        const Position::Type min_position) {
     std::vector<const Char *> result;
     for (auto *person : room->people) {
-        if (!act_to_person(person, min_pos))
+        if (!act_to_person(person, min_position))
             continue;
         // Never consider the character themselves (they're handled explicitly elsewhere).
         if (person == ch)
@@ -1273,12 +1273,13 @@ std::vector<const Char *> folks_in_room(const ROOM_INDEX_DATA *room, const Char 
     return result;
 }
 
-std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg arg2, To type, int min_pos) {
+std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg arg2, To type,
+                                        const Position::Type min_position) {
     const ROOM_INDEX_DATA *room{};
 
     switch (type) {
     case To::Char:
-        if (act_to_person(ch, min_pos))
+        if (act_to_person(ch, min_position))
             return {ch};
         else
             return {};
@@ -1288,7 +1289,7 @@ std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg
             bug("Act: null or incorrect type of vch");
             return {};
         }
-        if (vch->in_room == nullptr || ch == vch || !act_to_person(vch, min_pos))
+        if (vch->in_room == nullptr || ch == vch || !act_to_person(vch, min_position))
             return {};
 
         return {vch};
@@ -1306,13 +1307,13 @@ std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg
     case To::NotVict: room = ch->in_room; break;
     }
 
-    auto result = folks_in_room(room, ch, vch, type, min_pos);
+    auto result = folks_in_room(room, ch, vch, type, min_position);
 
     // If we're sending messages to the challenge arena...
     if (room->vnum == rooms::ChallengeArena) {
         // also include all the folks in the viewing gallery with the appropriate position. We assume the victim
         // is not somehow in the viewing gallery.
-        auto viewing = folks_in_room(get_room_index(rooms::ChallengeGallery), ch, vch, type, min_pos);
+        auto viewing = folks_in_room(get_room_index(rooms::ChallengeGallery), ch, vch, type, min_position);
         result.insert(result.end(), viewing.begin(), viewing.end());
     }
 
@@ -1321,13 +1322,14 @@ std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg
 
 }
 
-void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To type, int min_pos) {
+void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To type,
+         const Position::Type min_position) {
     if (format.empty() || !ch || !ch->in_room)
         return;
 
     const Char *vch = std::get_if<const Char *>(&arg2) ? *std::get_if<const Char *>(&arg2) : nullptr;
 
-    for (auto *to : collect_folks(ch, vch, arg2, type, min_pos)) {
+    for (auto *to : collect_folks(ch, vch, arg2, type, min_position)) {
         auto formatted = format_act(format, ch, arg1, arg2, to, vch);
         to->send_to(formatted);
         /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */

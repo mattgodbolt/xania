@@ -8,6 +8,7 @@
 #include "ExtraFlags.hpp"
 #include "MobIndexData.hpp"
 #include "PcData.hpp"
+#include "Position.hpp"
 #include "Sex.hpp"
 #include "Stats.hpp"
 #include "Types.hpp"
@@ -82,7 +83,7 @@ struct Char {
     unsigned long vuln_flags{};
     sh_int invis_level{};
     unsigned int affected_by{};
-    sh_int position{};
+    Position position{};
     sh_int practice{};
     sh_int train{};
     sh_int carry_weight{};
@@ -106,8 +107,8 @@ struct Char {
     unsigned long off_flags{};
     Dice damage; // This is non-wielding damage, and does not include the damroll bonus.
     sh_int dam_type{};
-    sh_int start_pos{};
-    sh_int default_pos{};
+    Position start_pos{};
+    Position default_pos{};
 
     unsigned long extra_flags[(MAX_EXTRA_FLAGS / 32) + 1]{};
 
@@ -140,6 +141,24 @@ struct Char {
     [[nodiscard]] bool is_hiding() const;
     [[nodiscard]] bool is_berserk() const;
     [[nodiscard]] bool is_shopkeeper() const;
+
+    // Some positional convenience methods in order of most to least vulnerable.
+
+    [[nodiscard]] bool is_pos_dead() const;
+    // Dead,  mortally wounded or incapacitated.
+    [[nodiscard]] bool is_pos_dying() const;
+    // Dead,  mortally wounded, incapacitated or stunned.
+    [[nodiscard]] bool is_pos_stunned_or_dying() const;
+    [[nodiscard]] bool is_pos_sleeping() const;
+    [[nodiscard]] bool is_pos_relaxing() const;
+    // True if the Char is in any state higher than Sleeping (note that this is _not_ the same as !is_sleeping())
+    [[nodiscard]] bool is_pos_awake() const;
+    [[nodiscard]] bool is_pos_fighting() const;
+    // In any state other than standing ready for action.
+    [[nodiscard]] bool is_pos_preoccupied() const;
+    // Standing ready for action.
+    [[nodiscard]] bool is_pos_standing() const;
+
     [[nodiscard]] bool has_detect_invis() const;
     [[nodiscard]] bool has_detect_hidden() const;
     [[nodiscard]] bool has_detect_magic() const;

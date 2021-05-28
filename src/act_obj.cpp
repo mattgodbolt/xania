@@ -1718,15 +1718,15 @@ void do_steal(Char *ch, const char *argument) {
     if (is_safe(ch, victim))
         return;
 
-    if (victim->position == POS_FIGHTING) {
-        ch->send_line("You'd better not -- you might get hit.");
+    if (victim->is_pos_fighting()) {
+        ch->send_line("You'd better not, you might get hit.");
         return;
     }
 
     WAIT_STATE(ch, skill_table[gsn_steal].beats);
-    percent = number_percent() + (IS_AWAKE(victim) ? 10 : -50);
+    percent = number_percent() + (victim->is_pos_awake() ? 10 : -50);
 
-    if (ch->level + 5 < victim->level || victim->position == POS_FIGHTING || victim->is_pc()
+    if (ch->level + 5 < victim->level || victim->is_pos_fighting() || victim->is_pc()
         || (ch->is_pc() && percent > get_skill_learned(ch, gsn_steal))) {
         /*
          * Failure.

@@ -139,11 +139,10 @@ void save_char_obj(const Char *ch, FILE *fp) {
  */
 void fwrite_char(const Char *ch, FILE *fp) {
     namespace cf = charfilemeta;
-    using namespace magic_enum;
     fmt::print(fp, "#{}\n", ch->is_npc() ? cf::SectionMobile : cf::SectionPlayer);
     fmt::print(fp, "{} {}~\n", cf::Name, ch->name);
     // Whenever a player file is written it's automatically using the latest version.
-    fmt::print(fp, "{} {}\n", cf::Version, enum_integer<CharVersion>(CharVersion::Latest));
+    fmt::print(fp, "{} {}\n", cf::Version, magic_enum::enum_integer<CharVersion>(CharVersion::Latest));
     if (!ch->short_descr.empty())
         fmt::print(fp, "{} {}~\n", cf::ShortDescription, ch->short_descr);
     if (!ch->long_descr.empty())
@@ -181,7 +180,9 @@ void fwrite_char(const Char *ch, FILE *fp) {
     fmt::print(fp, "{} {}\n", cf::CommFlags, ch->comm);
     if (ch->invis_level != 0)
         fmt::print(fp, "{} {}\n", cf::InvisLevel, ch->invis_level);
-    fmt::print(fp, "{}  {}\n", cf::Position, ch->position == POS_FIGHTING ? POS_STANDING : ch->position);
+    fmt::print(
+        fp, "{}  {}\n", cf::Position,
+        magic_enum::enum_integer<Position::Type>(ch->is_pos_fighting() ? Position::Type::Standing : ch->position));
     if (ch->practice != 0)
         fmt::print(fp, "{} {}\n", cf::Practice, ch->practice);
     if (ch->train != 0)
@@ -296,7 +297,9 @@ void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
         fmt::print(fp, "{} {}\n", cf::AffectedBy, pet->affected_by);
     if (pet->comm != 0)
         fmt::print(fp, "{} {}\n", cf::CommFlags, pet->comm);
-    fmt::print(fp, "{}  {}\n", cf::Position, pet->position == POS_FIGHTING ? POS_STANDING : pet->position);
+    fmt::print(
+        fp, "{}  {}\n", cf::Position,
+        magic_enum::enum_integer<Position::Type>(pet->is_pos_fighting() ? Position::Type::Standing : pet->position));
     if (pet->saving_throw != 0)
         fmt::print(fp, "{} {}\n", cf::SavingThrow, pet->saving_throw);
     if (pet->alignment != pet->pIndexData->alignment)
@@ -522,7 +525,6 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
 
 void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
     namespace cf = charfilemeta;
-    using namespace magic_enum;
     for (;;) {
         const std::string word = feof(fp) ? cf::End : fread_word(fp);
         if (word.empty() || word[0] == '*') {
@@ -595,7 +597,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
             ch->pcdata->hunger.set(fread_number(fp));
             ch->pcdata->thirst.set(fread_number(fp));
         } else if (word == cf::Colour) {
-            ch->pcdata->colour = fread_number(fp); // #256 should be a bool?
+            ch->pcdata->colour = fread_number(fp);
         } else if (word == cf::CommFlags) {
             ch->comm = fread_number(fp);
         } else if (word == cf::DamRoll) {
@@ -667,7 +669,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
         } else if (word == cf::CreationPoints) {
             ch->pcdata->points = fread_number(fp);
         } else if (word == cf::Position) {
-            ch->position = fread_number(fp);
+            ch->position = Position::read_from_number(fp);
         } else if (word == cf::Practice) {
             ch->practice = fread_number(fp);
         } else if (word == cf::Prompt) {
@@ -717,7 +719,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
             ch->set_title(fread_stdstring(fp));
         } else if (word == cf::Version) {
             auto raw_version = fread_number(fp);
-            auto version = enum_cast<CharVersion>(raw_version);
+            auto version = magic_enum::enum_cast<CharVersion>(raw_version);
             if (version.has_value()) {
                 ch->version = version.value();
             } else {
@@ -824,7 +826,7 @@ void fread_pet(Char *ch, FILE *fp) {
         } else if (word == cf::Name) {
             pet->name = fread_stdstring(fp);
         } else if (word == cf::Position) {
-            pet->position = fread_number(fp);
+            pet->position = Position::read_from_number(fp);
         } else if (word == cf::Race) {
             pet->race = race_lookup(fread_string(fp));
         } else if (word == cf::SavingThrow) {

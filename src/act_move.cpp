@@ -171,10 +171,10 @@ void move_char(Char *ch, Direction door) {
         return;
 
     for (auto *fch : in_room->people) {
-        if (fch->master == ch && IS_AFFECTED(fch, AFF_CHARM) && fch->position < POS_STANDING)
+        if (fch->master == ch && IS_AFFECTED(fch, AFF_CHARM) && fch->is_pos_preoccupied())
             do_stand(fch);
 
-        if (fch->master == ch && fch->position == POS_STANDING) {
+        if (fch->master == ch && fch->is_pos_standing()) {
 
             if (IS_SET(ch->in_room->room_flags, ROOM_LAW) && (fch->is_npc() && IS_SET(fch->act, ACT_AGGRESSIVE))) {
                 act("$N may not enter here.", ch, nullptr, fch, To::Char);
@@ -272,10 +272,10 @@ void do_enter(Char *ch, std::string_view argument) {
                         return;
 
                     for (auto *fch : in_room->people) {
-                        if (fch->master == ch && IS_AFFECTED(fch, AFF_CHARM) && fch->position < POS_STANDING)
+                        if (fch->master == ch && IS_AFFECTED(fch, AFF_CHARM) && fch->is_pos_preoccupied())
                             do_stand(fch);
 
-                        if (fch->master == ch && fch->position == POS_STANDING) {
+                        if (fch->master == ch && fch->is_pos_standing()) {
 
                             if (IS_SET(ch->in_room->room_flags, ROOM_LAW)
                                 && (fch->is_npc() && IS_SET(fch->act, ACT_AGGRESSIVE))) {
@@ -640,7 +640,7 @@ void do_pick(Char *ch, ArgParser args) {
 
     /* look for guards */
     for (auto *gch : ch->in_room->people) {
-        if (gch->is_npc() && IS_AWAKE(gch) && ch->level + 5 < gch->level) {
+        if (gch->is_npc() && gch->is_pos_awake() && ch->level + 5 < gch->level) {
             act("$N is standing too close to the lock.", ch, nullptr, gch, To::Char);
             return;
         }
@@ -727,7 +727,11 @@ void do_stand(Char *ch) {
     }
 
     switch (ch->position) {
-    case POS_SLEEPING:
+    case Position::Type::Dead: ch->send_line("You're dead tired and can't get up!"); break;
+    case Position::Type::Mortal:
+    case Position::Type::Incap: ch->send_line("You're mortally wounded and can't stand up!"); break;
+    case Position::Type::Stunned: ch->send_line("You're too disorientated to stand up!"); break;
+    case Position::Type::Sleeping:
         if (IS_AFFECTED(ch, AFF_SLEEP)) {
             ch->send_line("You can't wake up!");
             return;
@@ -735,50 +739,54 @@ void do_stand(Char *ch) {
 
         ch->send_line("You wake and stand up.");
         act("$n wakes and stands up.", ch);
-        ch->position = POS_STANDING;
+        ch->position = Position::Type::Standing;
         break;
 
-    case POS_RESTING:
-    case POS_SITTING:
+    case Position::Type::Resting:
+    case Position::Type::Sitting:
         ch->send_line("You stand up.");
         act("$n stands up.", ch);
-        ch->position = POS_STANDING;
+        ch->position = Position::Type::Standing;
         break;
 
-    case POS_STANDING: ch->send_line("You are already standing."); break;
+    case Position::Type::Standing: ch->send_line("You are already standing."); break;
 
-    case POS_FIGHTING: ch->send_line("You are already fighting!"); break;
+    case Position::Type::Fighting: ch->send_line("You are already fighting!"); break;
     }
 }
 
 void do_rest(Char *ch) {
     if (ch->riding != nullptr) {
-        ch->send_line("You cannot rest - the saddle is too uncomfortable!");
+        ch->send_line("You cannot rest, the saddle is too uncomfortable!");
         return;
     }
 
     switch (ch->position) {
-    case POS_SLEEPING:
+    case Position::Type::Sleeping:
         ch->send_line("You wake up and start resting.");
         act("$n wakes up and starts resting.", ch);
-        ch->position = POS_RESTING;
+        ch->position = Position::Type::Resting;
         break;
 
-    case POS_RESTING: ch->send_line("You are already resting."); break;
+    case Position::Type::Resting: ch->send_line("You are already resting."); break;
 
-    case POS_STANDING:
+    case Position::Type::Standing:
         ch->send_line("You rest.");
         act("$n sits down and rests.", ch);
-        ch->position = POS_RESTING;
+        ch->position = Position::Type::Resting;
         break;
 
-    case POS_SITTING:
+    case Position::Type::Sitting:
         ch->send_line("You rest.");
         act("$n rests.", ch);
-        ch->position = POS_RESTING;
+        ch->position = Position::Type::Resting;
         break;
 
-    case POS_FIGHTING: ch->send_line("You are already fighting!"); break;
+    case Position::Type::Fighting: ch->send_line("You are already fighting!"); break;
+    case Position::Type::Dead: ch->send_line("You're dead tired and can't get comfortable!"); break;
+    case Position::Type::Mortal:
+    case Position::Type::Incap: ch->send_line("You're mortally wounded and in too much pain to rest!"); break;
+    case Position::Type::Stunned: ch->send_line("You're too disorientated to rest!"); break;
     }
 }
 
@@ -789,22 +797,26 @@ void do_sit(Char *ch) {
     }
 
     switch (ch->position) {
-    case POS_SLEEPING:
+    case Position::Type::Sleeping:
         ch->send_line("You wake up.");
         act("$n wakes and sits up.\n\r", ch);
-        ch->position = POS_SITTING;
+        ch->position = Position::Type::Sitting;
         break;
-    case POS_RESTING:
+    case Position::Type::Resting:
         ch->send_line("You stop resting.");
-        ch->position = POS_SITTING;
+        ch->position = Position::Type::Sitting;
         break;
-    case POS_SITTING: ch->send_line("You are already sitting down."); break;
-    case POS_FIGHTING: ch->send_line("Maybe you should finish this fight first?"); break;
-    case POS_STANDING:
+    case Position::Type::Sitting: ch->send_line("You are already sitting down."); break;
+    case Position::Type::Fighting: ch->send_line("Maybe you should finish this fight first?"); break;
+    case Position::Type::Standing:
         ch->send_line("You sit down.");
         act("$n sits down on the ground.\n\r", ch);
-        ch->position = POS_SITTING;
+        ch->position = Position::Type::Sitting;
         break;
+    case Position::Type::Dead: ch->send_line("You're dead tired and can't get comfortable!"); break;
+    case Position::Type::Mortal:
+    case Position::Type::Incap: ch->send_line("You're mortally wounded and in too much pain to sit!"); break;
+    case Position::Type::Stunned: ch->send_line("You're too disorientated to sit!"); break;
     }
 }
 
@@ -815,26 +827,29 @@ void do_sleep(Char *ch) {
     }
 
     switch (ch->position) {
-    case POS_SLEEPING: ch->send_line("You are already sleeping."); break;
+    case Position::Type::Sleeping: ch->send_line("You are already sleeping."); break;
 
-    case POS_RESTING:
-    case POS_SITTING:
-    case POS_STANDING:
+    case Position::Type::Resting:
+    case Position::Type::Sitting:
+    case Position::Type::Standing:
         ch->send_line("You go to sleep.");
         act("$n goes to sleep.", ch);
-        ch->position = POS_SLEEPING;
+        ch->position = Position::Type::Sleeping;
         break;
 
-    case POS_FIGHTING: ch->send_line("You are already fighting!"); break;
+    case Position::Type::Fighting: ch->send_line("You are already fighting!"); break;
+    case Position::Type::Dead: ch->send_line("You're dead tired and can't get comfortabe!"); break;
+    case Position::Type::Mortal:
+    case Position::Type::Incap: ch->send_line("You're mortally wounded and in too much pain to sleep!"); break;
+    case Position::Type::Stunned: ch->send_line("You're too disorientated to sleep!"); break;
     }
 }
 
 void do_wake(Char *ch, ArgParser args) {
     if (args.empty()) {
-        /* Changed by rohan so that if you are resting or sitting, when you type
-           wake, it will still make you stand up */
-        /*      if (IS_AWAKE(ch)) {*/
-        if (ch->position != POS_RESTING && ch->position != POS_SITTING && ch->position != POS_SLEEPING) {
+        /* o.g. changed by rohan so that if you are resting or sitting, when you type
+           wake, it will still make you stand up. And 'wake' cannot be used when in any incapacitated state. */
+        if (!ch->is_pos_relaxing()) {
             ch->send_line("You are already awake!");
             return;
         } else {
@@ -843,7 +858,7 @@ void do_wake(Char *ch, ArgParser args) {
         }
     }
 
-    if (!IS_AWAKE(ch)) {
+    if (!ch->is_pos_awake()) {
         ch->send_line("You are asleep yourself!");
         return;
     }
@@ -854,7 +869,7 @@ void do_wake(Char *ch, ArgParser args) {
         return;
     }
 
-    if (IS_AWAKE(victim)) {
+    if (victim->is_pos_awake()) {
         act("$N is already awake.", ch, nullptr, victim, To::Char);
         return;
     }
@@ -864,7 +879,7 @@ void do_wake(Char *ch, ArgParser args) {
         return;
     }
 
-    victim->position = POS_STANDING;
+    victim->position = Position::Type::Standing;
     act("You wake $M.", ch, nullptr, victim, To::Char);
     act("$n wakes you.", ch, nullptr, victim, To::Vict);
 }

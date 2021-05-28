@@ -11,7 +11,9 @@ namespace {
 struct MockDependencies : public CorpseSummoner::Dependencies {
 
     MAKE_MOCK2(interpret, void(Char *, std::string), override);
-    MAKE_MOCK6(act, void(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to, int position),
+    MAKE_MOCK6(act,
+               void(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to,
+                    const Position::Type position),
                override);
     MAKE_MOCK5(act, void(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to), override);
     MAKE_MOCK1(obj_from_char, void(OBJ_DATA *obj), override);
@@ -133,8 +135,9 @@ TEST_CASE("check catalyst") {
 
     SECTION("with invalid catalyst") {
         trompeloeil::sequence seq;
-        REQUIRE_CALL(mock, act("|C$n tells you '$t|C'|w", &mob,
-                               "Sorry, this item cannot be used to summon your corpse."sv, &player, To::Vict, POS_DEAD))
+        REQUIRE_CALL(mock,
+                     act("|C$n tells you '$t|C'|w", &mob, "Sorry, this item cannot be used to summon your corpse."sv,
+                         &player, To::Vict, Position::Type::Dead))
             .IN_SEQUENCE(seq);
         REQUIRE_CALL(mock, obj_from_char(&catalyst)).IN_SEQUENCE(seq);
         REQUIRE_CALL(mock, obj_to_char(&catalyst, &player)).IN_SEQUENCE(seq);
@@ -252,7 +255,7 @@ TEST_CASE("summon corpse") {
 
         summoner.summon_corpse(&player, &mob, &catalyst);
 
-        CHECK(player.position == POS_RESTING);
+        CHECK(player.position == Position::Type::Resting);
     }
 
     SECTION("failed summmon as corpse cannot be found") {

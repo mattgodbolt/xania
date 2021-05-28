@@ -112,7 +112,7 @@ void do_challenge(Char *ch, const char *argument) {
     /* this, along with a few other tweaks - paranoia code! Challenge has
        been prone to crashes for a variety of reasons...this will help
        reduce such problems --Fara */
-    if (victim->position == POS_FIGHTING) {
+    if (victim->is_pos_fighting()) {
         ch->send_to("|cYou pray for the right to duel and the Gods inform you that your opponent\n\ris already "
                     "engaged in combat.|w\n\r");
         return;
