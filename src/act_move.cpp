@@ -923,7 +923,8 @@ void do_visible(Char *ch) {
     REMOVE_BIT(ch->affected_by, AFF_HIDE);
     REMOVE_BIT(ch->affected_by, AFF_INVISIBLE);
     REMOVE_BIT(ch->affected_by, AFF_SNEAK);
-    ch->send_line("Ok.");
+    ch->send_line("You slowly fade back into existence.");
+    act("$n fades into existence.", ch);
 }
 
 void do_recall(Char *ch, ArgParser args) {
