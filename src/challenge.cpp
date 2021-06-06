@@ -399,7 +399,7 @@ void do_duel(Char *ch, const char *argument) {
         if (ch->fighting != nullptr || victim->fighting != nullptr)
             return;
         challenge_fighting = true;
-        multi_hit(ch, victim, 100);
+        multi_hit(ch, victim, TYPE_UNDEFINED);
         return;
     }
 

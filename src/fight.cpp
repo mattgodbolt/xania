@@ -191,14 +191,6 @@ void multi_hit(Char *ch, Char *victim, int dt) {
 
     if (!ch->in_room || !victim->in_room)
         return;
-    /* If in combat room */
-
-    if (ch->in_room->vnum == rooms::ChallengeArena || victim->in_room->vnum == rooms::ChallengeArena) {
-        if (dt == 100)
-            dt = TYPE_UNDEFINED;
-        else if (ch->fighting == nullptr)
-            return;
-    }
 
     /* if mob has sentient bit set, set victim name in memory */
     if (IS_SET(victim->act, ACT_SENTIENT) && ch->is_pc()) {
