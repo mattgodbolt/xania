@@ -486,14 +486,6 @@ void do_cast(Char *ch, const char *argument) {
                 return;
             }
         }
-        /*
-                if ( ch == victim )
-                {
-                    ch ->send_to( "You can't do that to yourself.\n\r");
-                    return;
-                }
-        */
-
         if (ch->is_pc()) {
 
             if (is_safe_spell(ch, victim, false) && victim != ch) {

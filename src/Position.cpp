@@ -17,28 +17,28 @@ extern int fread_number(FILE *fp);
 
 namespace {
 
-const std::array bad_positions{"Lie still; you are DEAD."sv,
-                               "You are hurt far too bad for that."sv,
-                               "You are hurt far too bad for that."sv,
-                               "You are too stunned to do that."sv,
-                               "In your dreams, or what?"sv,
-                               "You're resting. Try standing up first!"sv,
-                               "Better stand up first."sv,
-                               "No way!  You are still fighting!"sv,
-                               "You're standing."sv};
+constexpr std::array bad_positions{"Lie still; you are DEAD."sv,
+                                   "You are hurt far too bad for that."sv,
+                                   "You are hurt far too bad for that."sv,
+                                   "You are too stunned to do that."sv,
+                                   "In your dreams, or what?"sv,
+                                   "You're resting. Try standing up first!"sv,
+                                   "Better stand up first."sv,
+                                   "No way!  You are still fighting!"sv,
+                                   "You're standing."sv};
 
-const std::array present_progressive_verbs{"|RDEAD|w!!"sv,
-                                           "|Rmortally wounded|w."sv,
-                                           "|rincapacitated|w."sv,
-                                           "|rlying here stunned|w."sv,
-                                           "sleeping here."sv,
-                                           "resting here."sv,
-                                           "sitting here."sv,
-                                           "here, fighting"sv,
-                                           "here"sv};
+constexpr std::array present_progressive_verbs{"|RDEAD|w!!"sv,
+                                               "|Rmortally wounded|w."sv,
+                                               "|rincapacitated|w."sv,
+                                               "|rlying here stunned|w."sv,
+                                               "sleeping here."sv,
+                                               "resting here."sv,
+                                               "sitting here."sv,
+                                               "here, fighting"sv,
+                                               "here"sv};
 
-const std::array short_descriptions{"dead"sv,    "mortally wounded"sv, "incapacitated"sv, "stunned"sv, "sleeping"sv,
-                                    "resting"sv, "sitting"sv,          "fighting"sv,      "standing"sv};
+constexpr std::array short_descriptions{"dead"sv,    "mortally wounded"sv, "incapacitated"sv, "stunned"sv, "sleeping"sv,
+                                        "resting"sv, "sitting"sv,          "fighting"sv,      "standing"sv};
 
 }
 
