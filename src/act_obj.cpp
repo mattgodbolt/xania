@@ -14,6 +14,7 @@
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "comm.hpp"
+#include "fight.hpp"
 #include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
@@ -1745,7 +1746,7 @@ void do_steal(Char *ch, const char *argument) {
         if (ch->is_pc()) {
             if (victim->is_npc()) {
                 check_improve(ch, gsn_steal, false, 2);
-                multi_hit(victim, ch, TYPE_UNDEFINED);
+                multi_hit(victim, ch);
             } else {
                 log_string(buf);
                 if (!IS_SET(ch->act, PLR_THIEF)) {
@@ -2257,7 +2258,7 @@ void do_throw(Char *ch, const char *argument) {
             explode_bomb(bomb, ch, ch);
         }
     }
-    multi_hit(ch, victim, TYPE_UNDEFINED);
+    multi_hit(ch, victim);
 }
 
 /* hailcorpse for getting out of sticky situations ooeer --Fara */

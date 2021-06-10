@@ -12,9 +12,11 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
+#include "challenge.hpp"
 #include "chat/chatlink.h"
 #include "comm.hpp"
 #include "common/Configuration.hpp"
+#include "fight.hpp"
 #include "handler.hpp"
 #include "info.hpp"
 #include "interp.h"
@@ -455,7 +457,7 @@ void fallen_off_mount(Char *ch) {
 
     WAIT_STATE(ch, 2 * PULSE_VIOLENCE);
     ch->position = Position::Type::Resting;
-    damage(pet, ch, number_range(2, 2 + 2 * ch->size + pet->size), gsn_bash, DAM_BASH);
+    damage(pet, ch, number_range(2, 2 + 2 * ch->size + pet->size), &skill_table[gsn_bash], DAM_BASH);
 }
 
 void unride_char(Char *ch, Char *pet) {

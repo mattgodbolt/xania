@@ -13,6 +13,7 @@
 #include "VnumRooms.hpp"
 #include "comm.hpp"
 #include "db.h"
+#include "fight.hpp"
 #include "interp.h"
 #include "lookup.h"
 #include "magic.h"
@@ -628,7 +629,7 @@ bool spec_executioner(Char *ch) {
         return false;
     ch->yell(fmt::format("{} is a {}!  PROTECT THE INNOCENT!  MORE BLOOOOD!!!", victim->name,
                          victim->is_player_killer() ? "KILLER" : "THIEF"));
-    multi_hit(ch, victim, TYPE_UNDEFINED);
+    multi_hit(ch, victim);
     char_to_room(create_mobile(get_mob_index(mobiles::Cityguard)), ch->in_room);
     char_to_room(create_mobile(get_mob_index(mobiles::Cityguard)), ch->in_room);
     return true;
@@ -782,7 +783,7 @@ bool spec_guard(Char *ch) {
             pick_passive_victim(ch, [](Char *vch) { return vch->is_player_killer() || vch->is_player_thief(); })) {
         ch->yell(fmt::format("{} is a {}!  PROTECT THE INNOCENT!  BANZAI!!", victim->name,
                              victim->is_player_killer() ? "KILLER" : "THIEF"));
-        multi_hit(ch, victim, TYPE_UNDEFINED);
+        multi_hit(ch, victim);
         return true;
     }
 
@@ -796,7 +797,7 @@ bool spec_guard(Char *ch) {
     }
     if (ech) {
         act("$n screams 'PROTECT THE INNOCENT!!  BANZAI!!", ch);
-        multi_hit(ch, ech, TYPE_UNDEFINED);
+        multi_hit(ch, ech);
         return true;
     }
 

@@ -1,6 +1,7 @@
 #include "Descriptor.hpp"
 
 #include "TimeInfoData.hpp"
+#include "challenge.hpp"
 #include "comm.hpp"
 #include "common/mask_hostname.hpp"
 #include "merc.h"

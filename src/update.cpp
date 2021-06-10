@@ -16,7 +16,9 @@
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "WeatherData.hpp"
+#include "challenge.hpp"
 #include "comm.hpp"
+#include "fight.hpp"
 #include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
@@ -593,15 +595,15 @@ void char_update() {
             dam = UMIN(ch->level, 5);
             ch->mana = UMAX(0, ch->mana - dam);
             ch->move = UMAX(0, ch->move - dam);
-            damage(ch, ch, dam, gsn_plague, DAM_DISEASE);
+            damage(ch, ch, dam, &skill_table[gsn_plague], DAM_DISEASE);
         } else if (IS_AFFECTED(ch, AFF_POISON) && ch != nullptr) {
             act("$n shivers and suffers.", ch);
             ch->send_line("You shiver and suffer.");
-            damage(ch, ch, 2, gsn_poison, DAM_POISON);
+            damage(ch, ch, 2, &skill_table[gsn_poison], DAM_POISON);
         } else if (ch->position == Position::Type::Incap && number_range(0, 1) == 0) {
-            damage(ch, ch, 1, TYPE_HIT, DAM_NONE);
+            damage(ch, ch, 1, &attack_table[0], DAM_NONE);
         } else if (ch->position == Position::Type::Mortal) {
-            damage(ch, ch, 1, TYPE_HIT, DAM_NONE);
+            damage(ch, ch, 1, &attack_table[0], DAM_NONE);
         }
     }
 
@@ -746,7 +748,7 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
             if (is_safe_sentient(ch, wch))
                 return;
             ch->yell(fmt::format("|WAha! I never forget a face, prepare to die {}!!!|w", wch->name));
-            multi_hit(ch, wch, TYPE_UNDEFINED);
+            multi_hit(ch, wch);
         }
     }
     if (IS_SET(ch->act, ACT_AGGRESSIVE) && !IS_SET(ch->in_room->room_flags, ROOM_SAFE) && !IS_AFFECTED(ch, AFF_CALM)
@@ -772,7 +774,7 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
         }
 
         if (victim != nullptr)
-            multi_hit(ch, victim, TYPE_UNDEFINED);
+            multi_hit(ch, victim);
     }
 }
 

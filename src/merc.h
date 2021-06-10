@@ -43,6 +43,7 @@
 #include <string>
 #include <unistd.h>
 #include <utility>
+#include <variant>
 #include <vector>
 
 /* Buffer structure */
@@ -1017,14 +1018,6 @@ struct ROOM_INDEX_DATA {
 };
 
 /*
- * Types of attacks.
- * Must be non-overlapping with spell/skill types,
- * but may be arbitrary beyond that.
- */
-#define TYPE_UNDEFINED -1
-#define TYPE_HIT 1000
-
-/*
  *  Target types.
  */
 #define TAR_IGNORE 0
@@ -1308,20 +1301,6 @@ bool str_cmp(const char *astr, const char *bstr);
 bool str_prefix(const char *astr, const char *bstr);
 bool str_suffix(const char *astr, const char *bstr);
 void append_file(Char *ch, const char *file, const char *str);
-
-/* fight.c */
-bool is_safe(Char *ch, Char *victim);
-bool is_safe_spell(Char *ch, Char *victim, bool area);
-void violence_update();
-void multi_hit(Char *ch, Char *victim, int dt);
-bool damage(Char *ch, Char *victim, int dam, int dt, int _class);
-void update_pos(Char *victim);
-void stop_fighting(Char *ch, bool fBoth);
-void do_chal_tick();
-void do_chal_canc(Char *ch);
-void do_room_check(Char *ch);
-void do_flee_check(Char *ch);
-void death_cry(Char *ch);
 
 /* handler.c */
 int check_immune(Char *ch, int dam_type);

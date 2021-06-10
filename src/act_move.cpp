@@ -11,6 +11,7 @@
 #include "VnumRooms.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
+#include "fight.hpp"
 #include "handler.hpp"
 #include "interp.h"
 #include "merc.h"

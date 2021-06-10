@@ -15,6 +15,7 @@
 #include "VnumRooms.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
+#include "fight.hpp"
 #include "interp.h"
 #include "lookup.h"
 #include "magic.h"
@@ -60,7 +61,7 @@ void tornado_dam(Char *ch, Char *victim, int level) {
     int sn = skill_lookup("psychic tornado");
 
     dam = dice(level, 20);
-    damage(ch, victim, dam, sn, DAM_MENTAL);
+    damage(ch, victim, dam, &skill_table[sn], DAM_MENTAL);
 }
 
 void tornado_mental(Char *ch, Char *victim, int level) {

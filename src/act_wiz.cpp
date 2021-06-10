@@ -19,6 +19,7 @@
 #include "comm.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"
+#include "fight.hpp"
 #include "flags.h"
 #include "handler.hpp"
 #include "interp.h"

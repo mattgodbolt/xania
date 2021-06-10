@@ -23,6 +23,7 @@
 #include "MobIndexData.hpp"
 #include "comm.hpp"
 #include "db.h"
+#include "fight.hpp"
 #include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
@@ -183,7 +184,7 @@ void do_mpkill(Char *ch, const char *argument) {
         return;
     }
 
-    multi_hit(ch, victim, TYPE_UNDEFINED);
+    multi_hit(ch, victim);
 }
 
 /* lets the mobile destroy an object in its inventory

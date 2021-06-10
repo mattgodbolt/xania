@@ -12,6 +12,7 @@
 #include "Logging.hpp"
 #include "VnumRooms.hpp"
 #include "comm.hpp"
+#include "fight.hpp"
 #include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
@@ -399,7 +400,7 @@ void do_duel(Char *ch, const char *argument) {
         if (ch->fighting != nullptr || victim->fighting != nullptr)
             return;
         challenge_fighting = true;
-        multi_hit(ch, victim, TYPE_UNDEFINED);
+        multi_hit(ch, victim);
         return;
     }
 

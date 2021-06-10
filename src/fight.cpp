@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "fight.hpp"
 #include "AFFECT_DATA.hpp"
 #include "Format.hpp"
 #include "Logging.hpp"
@@ -49,15 +50,17 @@ bool check_dodge(Char *ch, Char *victim);
 void check_killer(Char *ch, Char *victim);
 bool check_parry(Char *ch, Char *victim);
 bool check_shield_block(Char *ch, Char *victim);
-void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool immune);
+bool is_attack_skill(const AttackType atk_type, const sh_int skill_num);
+bool is_attack_skill(const skill_type *opt_skill, const sh_int skill_num);
+void dam_message(Char *ch, Char *victim, const int dam, AttackType atk_type, const int dam_type, const bool immune);
 void announce(std::string_view buf, const Char *ch);
 void death_cry(Char *ch);
 void group_gain(Char *ch, Char *victim);
 int xp_compute(Char *gch, Char *victim, int total_levels);
 bool is_safe(Char *ch, Char *victim);
 void make_corpse(Char *ch);
-void one_hit(Char *ch, Char *victim, int dt);
-void mob_hit(Char *ch, Char *victim, int dt);
+void one_hit(Char *ch, Char *victim, const skill_type *opt_skill);
+void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill);
 void raw_kill(Char *victim);
 void set_fighting(Char *ch, Char *victim);
 void disarm(Char *ch, Char *victim);
@@ -76,7 +79,7 @@ void violence_update() {
             continue;
 
         if (ch->is_pos_awake() && ch->in_room == victim->in_room)
-            multi_hit(ch, victim, TYPE_UNDEFINED);
+            multi_hit(ch, victim);
         else
             stop_fighting(ch, false);
 
@@ -105,7 +108,7 @@ void check_assist(Char *ch, Char *victim) {
                 // moog: copied from do_emote:
                 act("|W$n screams and attacks!|w", rch);
                 act("|W$n screams and attacks!|w", rch, nullptr, nullptr, To::Char);
-                multi_hit(rch, victim, TYPE_UNDEFINED);
+                multi_hit(rch, victim);
                 continue;
             }
 
@@ -113,7 +116,7 @@ void check_assist(Char *ch, Char *victim) {
             if (ch->is_pc() || IS_AFFECTED(ch, AFF_CHARM)) {
                 if (((rch->is_pc() && IS_SET(rch->act, PLR_AUTOASSIST)) || IS_AFFECTED(rch, AFF_CHARM))
                     && is_same_group(ch, rch))
-                    multi_hit(rch, victim, TYPE_UNDEFINED);
+                    multi_hit(rch, victim);
 
                 continue;
             }
@@ -150,7 +153,7 @@ void check_assist(Char *ch, Char *victim) {
                         // moog: copied from do_emote:
                         act("|W$n screams and attacks!|w", rch);
                         act("|W$n screams and attacks!|w", rch, nullptr, nullptr, To::Char);
-                        multi_hit(rch, target, TYPE_UNDEFINED);
+                        multi_hit(rch, target);
                     }
                 }
             }
@@ -183,10 +186,12 @@ std::string describe_fight_condition(const Char &victim) {
     return fmt::format("{} {}\n\r", InitialCap{victim.short_name()}, wound_for(percent));
 }
 
+void multi_hit(Char *ch, Char *victim) { multi_hit(ch, victim, nullptr); }
+
 /*
  * Do one group of attacks.
  */
-void multi_hit(Char *ch, Char *victim, int dt) {
+void multi_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     int chance;
 
     if (!ch->in_room || !victim->in_room)
@@ -206,11 +211,11 @@ void multi_hit(Char *ch, Char *victim, int dt) {
         return;
 
     if (ch->is_npc()) {
-        mob_hit(ch, victim, dt);
+        mob_hit(ch, victim, opt_skill);
         return;
     }
 
-    one_hit(ch, victim, dt);
+    one_hit(ch, victim, opt_skill);
 
     if (ch->in_room != nullptr && victim->in_room != nullptr && ch->in_room->vnum == rooms::ChallengeArena
         && victim->in_room->vnum == rooms::ChallengeArena) {
@@ -221,14 +226,14 @@ void multi_hit(Char *ch, Char *victim, int dt) {
         return;
 
     if ((IS_AFFECTED(ch, AFF_HASTE)) && !(IS_AFFECTED(ch, AFF_LETHARGY)))
-        one_hit(ch, victim, dt);
+        one_hit(ch, victim, opt_skill);
 
-    if (ch->fighting != victim || dt == gsn_backstab)
+    if (ch->fighting != victim || is_attack_skill(opt_skill, gsn_backstab))
         return;
 
     chance = get_skill(ch, gsn_second_attack) / 2;
     if (number_percent() < chance) {
-        one_hit(ch, victim, dt);
+        one_hit(ch, victim, opt_skill);
         check_improve(ch, gsn_second_attack, true, 5);
         if (ch->fighting != victim)
             return;
@@ -236,7 +241,7 @@ void multi_hit(Char *ch, Char *victim, int dt) {
 
     chance = get_skill(ch, gsn_third_attack) / 4;
     if (number_percent() < chance) {
-        one_hit(ch, victim, dt);
+        one_hit(ch, victim, opt_skill);
         check_improve(ch, gsn_third_attack, true, 6);
         if (ch->fighting != victim)
             return;
@@ -244,13 +249,13 @@ void multi_hit(Char *ch, Char *victim, int dt) {
 }
 
 /* procedure for all mobile attacks */
-void mob_hit(Char *ch, Char *victim, int dt) {
+void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     int chance, number;
     if (IS_SET(ch->off_flags, OFF_BACKSTAB) && (ch->fighting == nullptr) && (get_eq_char(ch, WEAR_WIELD) != nullptr)
         && (victim->hit == victim->max_hit))
-        one_hit(ch, victim, gsn_backstab);
+        one_hit(ch, victim, &skill_table[gsn_backstab]);
     else
-        one_hit(ch, victim, dt);
+        one_hit(ch, victim, opt_skill);
     if (ch->fighting != victim)
         return;
 
@@ -259,19 +264,22 @@ void mob_hit(Char *ch, Char *victim, int dt) {
     if (IS_SET(ch->off_flags, OFF_AREA_ATTACK)) {
         for (auto *vch : ch->in_room->people) {
             if ((vch != victim && vch->fighting == ch))
-                one_hit(ch, vch, dt);
+                one_hit(ch, vch, opt_skill);
         }
     }
 
     if (IS_AFFECTED(ch, AFF_HASTE) || IS_SET(ch->off_flags, OFF_FAST))
-        one_hit(ch, victim, dt);
+        one_hit(ch, victim, opt_skill);
 
-    if (ch->fighting != victim || dt == gsn_backstab)
+    // Perform no additional hits if the mob is not actually fighting the victim (a 'single blow' situation presumably)
+    // or if the caller specified that backstab is being used, probably so that a backstabbing mob doesn't wreck the
+    // player.
+    if (ch->fighting != victim || is_attack_skill(opt_skill, gsn_backstab))
         return;
 
     chance = get_skill(ch, gsn_second_attack) / 2;
     if (number_percent() < chance) {
-        one_hit(ch, victim, dt);
+        one_hit(ch, victim, opt_skill);
         if (ch->fighting != victim)
             return;
 
@@ -280,7 +288,7 @@ void mob_hit(Char *ch, Char *victim, int dt) {
         // from landing, which can be quite nasty if it happens.
         chance = get_skill(ch, gsn_third_attack) / 4;
         if (number_percent() < chance) {
-            one_hit(ch, victim, dt);
+            one_hit(ch, victim, opt_skill);
             if (ch->fighting != victim)
                 return;
         }
@@ -356,20 +364,15 @@ void mob_hit(Char *ch, Char *victim, int dt) {
 /*
  * Hit one guy once.
  */
-void one_hit(Char *ch, Char *victim, int dt) {
-    OBJ_DATA *wield;
+void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     int victim_ac;
     int thac0;
     int thac0_00;
     int thac0_32;
     int dam;
     int diceroll;
-    int sn, skill;
-    int dam_type;
     bool self_hitting = false;
     AFFECT_DATA *af;
-
-    sn = -1;
 
     /* just in case */
     if (victim == ch || ch == nullptr || victim == nullptr)
@@ -395,33 +398,18 @@ void one_hit(Char *ch, Char *victim, int dt) {
     if (victim->is_pos_dead() || ch->in_room != victim->in_room)
         return;
 
-    /*
-     * Figure out the type of damage message.
-     */
-    wield = get_eq_char(ch, WEAR_WIELD);
-
-    if (dt == TYPE_UNDEFINED) {
-        dt = TYPE_HIT;
-        if (wield != nullptr && wield->item_type == ITEM_WEAPON)
-            dt += wield->value[3];
-        else
-            dt += ch->dam_type;
+    const auto wield = get_eq_char(ch, WEAR_WIELD);
+    const auto atk_table_idx = (wield && wield->item_type == ITEM_WEAPON) ? wield->value[3] : ch->dam_type;
+    const auto dam_type = attack_table[atk_table_idx].damage;
+    AttackType atk_type;
+    if (!opt_skill) {
+        atk_type = &attack_table[atk_table_idx];
+    } else {
+        atk_type = opt_skill;
     }
 
-    if (dt < TYPE_HIT)
-        if (wield != nullptr)
-            dam_type = attack_table[wield->value[3]].damage;
-        else
-            dam_type = attack_table[ch->dam_type].damage;
-    else
-        dam_type = attack_table[dt - TYPE_HIT].damage;
-
-    if (dam_type == -1)
-        dam_type = DAM_BASH;
-
-    /* get the weapon skill */
-    sn = get_weapon_sn(ch);
-    skill = get_weapon_skill(ch, sn);
+    const auto wielding_skill_num = get_weapon_sn(ch);
+    const auto weapon_skill = get_weapon_skill(ch, wielding_skill_num);
 
     /*
      * Calculate to-hit-armor-class-0 versus armor.
@@ -444,13 +432,14 @@ void one_hit(Char *ch, Char *victim, int dt) {
     }
 
     thac0 = interpolate(ch->level, thac0_00, thac0_32);
-    thac0 *= (skill / 100.f);
+    thac0 *= (weapon_skill / 100.f);
     thac0 -= ch->get_hitroll();
     // Blindness caused by blind spell or dirt kick reduces your chance of landing a blow
     if (!can_see(ch, victim))
         thac0 *= 0.8f;
-    if (dt == gsn_backstab)
+    if (is_attack_skill(opt_skill, gsn_backstab)) {
         thac0 -= get_skill(ch, gsn_backstab) / 3;
+    }
 
     switch (dam_type) {
     case (DAM_PIERCE): victim_ac = GET_AC(victim, AC_PIERCE); break;
@@ -481,7 +470,7 @@ void one_hit(Char *ch, Char *victim, int dt) {
 
     if (diceroll >= hit_chance) {
         /* Miss. */
-        damage(ch, victim, 0, dt, dam_type);
+        damage(ch, victim, 0, atk_type, dam_type);
         return;
     }
 
@@ -493,10 +482,10 @@ void one_hit(Char *ch, Char *victim, int dt) {
         dam = ch->damage.roll();
 
     else {
-        if (sn != -1)
-            check_improve(ch, sn, true, 5);
+        if (weapon_skill != -1)
+            check_improve(ch, wielding_skill_num, true, 5);
         if (wield != nullptr) {
-            dam = dice(wield->value[1], wield->value[2]) * skill / 100;
+            dam = dice(wield->value[1], wield->value[2]) * weapon_skill / 100;
 
             /* Sharp weapon flag implemented by Wandera */
             if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON) && !self_hitting)
@@ -526,7 +515,7 @@ void one_hit(Char *ch, Char *victim, int dt) {
             if (get_eq_char(ch, WEAR_SHIELD) == nullptr) /* no shield = more */
                 dam = (int)((float)dam * 21.f / 20.f);
         } else
-            dam = number_range(1 + 4 * skill / 100, 2 * ch->level / 3 * skill / 100);
+            dam = number_range(1 + 4 * weapon_skill / 100, 2 * ch->level / 3 * weapon_skill / 100);
     }
 
     /*
@@ -545,21 +534,21 @@ void one_hit(Char *ch, Char *victim, int dt) {
     else if (victim->is_pos_relaxing())
         dam = dam * 3 / 2;
 
-    if (dt == gsn_backstab && wield != nullptr) {
+    if (wield && is_attack_skill(opt_skill, gsn_backstab)) {
         if (wield->value[0] != 2)
             dam *= 2 + ch->level / 10;
         else
             dam *= 2 + ch->level / 8;
     }
 
-    dam += ch->get_damroll() * UMIN(100, skill) / 100;
+    dam += ch->get_damroll() * UMIN(100, weapon_skill) / 100;
 
     if (dam <= 0)
         dam = 1;
     if (dam > DAMAGE_CAP)
         dam = DAMAGE_CAP;
 
-    damage(ch, victim, dam, dt, dam_type);
+    damage(ch, victim, dam, atk_type, dam_type);
 
     if (wield == nullptr || wield->item_type != ITEM_WEAPON)
         return;
@@ -604,14 +593,16 @@ void loot_and_sacrifice_corpse(Char *looter, Char *victim, sh_int victim_room_vn
 }
 
 /*
- * Inflict damage from a hit.
+ * Inflict damage from a hit. The raw damage is adjusted based on damage cap
+ * and spell effects.
  */
-bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
+bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_type, const int dam_type) {
     int temp;
     OBJ_DATA *wield;
     AFFECT_DATA *octarineFire;
     bool immune;
     sh_int victim_room_vnum;
+    auto adjusted_damage = raw_damage;
 
     if (victim->is_pos_dead())
         return false;
@@ -619,12 +610,12 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
     /*
      * Cap the damage if required, even for imms, and bug it if it's a player doing something suspicious.
      */
-    if (dam > DAMAGE_CAP) {
+    if (raw_damage > DAMAGE_CAP) {
         if (ch->is_pc() && ch->is_mortal()) {
             bug("Player {} fighting {} in #{}, damage {} exceeds {} cap!", ch->name, victim->name, ch->in_room->vnum,
-                dam, DAMAGE_CAP);
+                raw_damage, DAMAGE_CAP);
         }
-        dam = DAMAGE_CAP;
+        adjusted_damage = DAMAGE_CAP;
     }
 
     /*
@@ -635,7 +626,7 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
         /*
          * Increase by (level / 8) %
          */
-        dam += (int)((float)dam * (float)octarineFire->level / 800.f);
+        adjusted_damage += (int)((float)adjusted_damage * (float)octarineFire->level / 800.f);
     }
 
     if (victim != ch) {
@@ -664,7 +655,7 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
             if (ch->is_npc() && victim->is_npc() && IS_AFFECTED(victim, AFF_CHARM) && victim->master != nullptr
                 && victim->master->in_room == ch->in_room && number_bits(3) == 0) {
                 stop_fighting(ch, false);
-                multi_hit(ch, victim->master, TYPE_UNDEFINED);
+                multi_hit(ch, victim->master);
                 return false;
             }
         }
@@ -690,20 +681,18 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
      * Damage modifiers.
      */
     if (IS_AFFECTED(victim, AFF_SANCTUARY))
-        dam /= 1.6f;
+        adjusted_damage /= 1.6f;
 
     if (IS_AFFECTED(victim, AFF_PROTECTION_EVIL) && ch->is_evil())
-        dam -= dam / 4;
+        adjusted_damage -= adjusted_damage / 4;
 
     if (IS_AFFECTED(victim, AFF_PROTECTION_GOOD) && ch->is_good())
-        dam -= dam / 4;
+        adjusted_damage -= adjusted_damage / 4;
 
     immune = false;
 
-    /*
-     * Check for parry, shield block and dodge.
-     */
-    if (dt >= TYPE_HIT && ch != victim) {
+    // #257 Enhance so that some skill based attacks like bash and trip can be dodged?
+    if (ch != victim && ch && std::holds_alternative<const attack_type *>(atk_type)) {
         if (check_parry(ch, victim))
             return false;
         if (check_dodge(ch, victim))
@@ -715,24 +704,24 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
     switch (check_immune(victim, dam_type)) {
     case (IS_IMMUNE):
         immune = true;
-        dam = 0;
+        adjusted_damage = 0;
         break;
-    case (IS_RESISTANT): dam -= dam / 3; break;
-    case (IS_VULNERABLE): dam += dam / 2; break;
+    case (IS_RESISTANT): adjusted_damage -= adjusted_damage / 3; break;
+    case (IS_VULNERABLE): adjusted_damage += adjusted_damage / 2; break;
     }
     if (((wield = get_eq_char(ch, WEAR_WIELD)) != nullptr) && check_material_vulnerability(victim, wield))
-        dam += dam / 2;
+        adjusted_damage += adjusted_damage / 2;
 
-    dam_message(ch, victim, dam, dt, dam_type, immune);
+    dam_message(ch, victim, adjusted_damage, atk_type, dam_type, immune);
 
-    if (dam == 0)
+    if (adjusted_damage == 0)
         return false;
 
     /*
      * Hurt the victim.
      * Inform the victim of his new state.
      */
-    victim->hit -= dam;
+    victim->hit -= adjusted_damage;
     if (victim->is_pc() && victim->level >= LEVEL_IMMORTAL && victim->hit < 1)
         victim->hit = 1;
     update_pos(victim);
@@ -740,8 +729,8 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
     wield = get_eq_char(ch, WEAR_WIELD);
 
     if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON) && (IS_SET(wield->value[4], WEAPON_VAMPIRIC))) {
-        ch->hit += (dam / 100) * 10;
-        victim->hit -= (dam / 100) * 10;
+        ch->hit += (adjusted_damage / 100) * 10;
+        victim->hit -= (adjusted_damage / 100) * 10;
     }
 
     switch (victim->position) {
@@ -766,7 +755,7 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
         break;
 
     default:
-        if (dam > victim->max_hit / 4)
+        if (adjusted_damage > victim->max_hit / 4)
             victim->send_line("That really did |RHURT|w!");
         if (victim->hit < victim->max_hit / 4)
             victim->send_line("You sure are |RBLEEDING|w!");
@@ -851,7 +840,7 @@ bool damage(Char *ch, Char *victim, int dam, int dt, int dam_type) {
     /*
      * Wimp out?
      */
-    if (victim->is_npc() && dam > 0 && victim->wait < PULSE_VIOLENCE / 2) {
+    if (victim->is_npc() && adjusted_damage > 0 && victim->wait < PULSE_VIOLENCE / 2) {
         if ((IS_SET(victim->act, ACT_WIMPY) && number_bits(2) == 0 && victim->hit < victim->max_hit / 5)
             || (IS_AFFECTED(victim, AFF_CHARM) && victim->master != nullptr
                 && victim->master->in_room != victim->in_room))
@@ -1656,11 +1645,40 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
     return xp;
 }
 
-void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool immune) {
+bool is_attack_skill(const skill_type *opt_skill, const sh_int skill_num) {
+    if (skill_num < 0 || skill_num >= MAX_SKILL) {
+        return false;
+    }
+    return opt_skill && &skill_table[skill_num] == opt_skill;
+}
+
+bool is_attack_skill(const AttackType atk_type, const sh_int skill_num) {
+    if (skill_num < 0 || skill_num >= MAX_SKILL) {
+        return false;
+    } else if (const auto attack_skill = std::get_if<const skill_type *>(&atk_type)) {
+        return is_attack_skill(*attack_skill, skill_num);
+    } else {
+        return false;
+    }
+}
+
+void send_dam_messages(const Char *ch, const Char *victim, std::string_view to_room, std::string_view to_char,
+                       std::string_view to_vict) {
+    if (ch == victim) {
+        act(to_room, ch);
+        act(to_char, ch, nullptr, nullptr, To::Char);
+    } else {
+        act(to_room, ch, nullptr, victim, To::NotVict);
+        act(to_char, ch, nullptr, victim, To::Char);
+        act(to_vict, ch, nullptr, victim, To::Vict);
+    }
+}
+
+void dam_message(Char *ch, Char *victim, const int dam, const AttackType atk_type, const int dam_type,
+                 const bool immune) {
     std::string to_room, to_char, to_vict;
     char vs[80];
     char vp[80];
-    std::string_view attack;
     char body_part[32]; /* should be ample */
     const char *d_pref = nullptr;
     const char *d_suff = nullptr;
@@ -1765,9 +1783,9 @@ void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool imm
     /* HACK to cope with headbutting - you only ever headbutt a head..
        never anywhere else! even if you are shorty fighting big mama */
 
-    if (dt == gsn_headbutt) {
+    if (is_attack_skill(atk_type, gsn_headbutt)) {
         SET_BIT(part_flag, PART_HEAD);
-        goto got_location; /* GOTO */
+        goto got_location; // FIXME...this whole thing needs cleaning up.
     }
 
     d = 0;
@@ -1865,63 +1883,56 @@ void dam_message(Char *ch, Char *victim, int dam, int dt, int dam_type, bool imm
 
     const auto ch_dam_label = dam > 0 && ch->level >= 20 ? fmt::format(" ({})", dam) : "";
     const auto vict_dam_label = dam > 0 && victim->level >= 20 ? fmt::format(" ({})", dam) : "";
-
-    if (dt == TYPE_HIT) {
+    std::string_view attack_noun;
+    if (const auto at = std::get_if<const attack_type *>(&atk_type)) {
+        // The first entry in the attack table represents the raw notion of being
+        // hit by _something_ unspecific, so it uses different descriptive text.
+        if (*at == &attack_table[0]) {
+            if (ch == victim) {
+                to_room = fmt::format("$n {} $s {}{}|w", vp, body_part, punct);
+                to_char = fmt::format("You {} your own {}{}|w{}", vs, body_part, punct, ch_dam_label);
+            } else {
+                to_room = fmt::format("$n {} $N's {}{}|w", vp, body_part, punct);
+                to_char = fmt::format("You {} $N's {}{}|w{}", vs, body_part, punct, ch_dam_label);
+                to_vict = fmt::format("$n {} your {}{}|w{}", vp, body_part, punct, vict_dam_label);
+            }
+            send_dam_messages(ch, victim, to_room, to_char, to_vict);
+            return;
+        } else {
+            attack_noun = (*at)->noun;
+        }
+    } else if (const auto attack_skill = std::get_if<const skill_type *>(&atk_type)) {
+        attack_noun = (*attack_skill)->noun_damage;
+    } else {
+        bug("dam_message: bad attack type");
+        attack_noun = attack_table[0].noun;
+    }
+    if (immune) {
         if (ch == victim) {
-            to_room = fmt::format("$n {} $s {}{}|w", vp, body_part, punct);
-            to_char = fmt::format("You {} your own {}{}|w{}", vs, body_part, punct, ch_dam_label);
+            to_room = fmt::format("$n is |Wunaffected|w by $s own {}.|w", attack_noun);
+            to_char = fmt::format("Luckily, you are immune to that.|w");
         } else {
-            to_room = fmt::format("$n {} $N's {}{}|w", vp, body_part, punct);
-            to_char = fmt::format("You {} $N's {}{}|w{}", vs, body_part, punct, ch_dam_label);
-            to_vict = fmt::format("$n {} your {}{}|w{}", vp, body_part, punct, vict_dam_label);
+            to_room = fmt::format("$N is |Wunaffected|w by $n's {}.|w", attack_noun);
+            to_char = fmt::format("$N is |Wunaffected|w by your {}!|w", attack_noun);
+            to_vict = fmt::format("$n's {} is powerless against you.|w", attack_noun);
         }
     } else {
-        if (dt >= 0 && dt < MAX_SKILL)
-            attack = skill_table[dt].noun_damage;
-        else if (dt >= TYPE_HIT && dt <= TYPE_HIT + MAX_DAMAGE_MESSAGE) /* this might be broken*/
-            attack = attack_table[dt - TYPE_HIT].noun;
-        else {
-            bug("Dam_message: bad dt {}. ch: {} in room {},  victim: {} in room {}, dam_type: {}.", dt, ch->name,
-                ch->in_room->vnum, victim->name, victim->in_room->vnum, dam_type);
-            dt = TYPE_HIT;
-            attack = attack_table[0].name;
-        }
-
-        if (immune) {
-            if (ch == victim) {
-                to_room = fmt::format("$n is |Wunaffected|w by $s own {}.|w", attack);
-                to_char = fmt::format("Luckily, you are immune to that.|w");
-            } else {
-                to_room = fmt::format("$N is |Wunaffected|w by $n's {}.|w", attack);
-                to_char = fmt::format("$N is |Wunaffected|w by your {}!|w", attack);
-                to_vict = fmt::format("$n's {} is powerless against you.|w", attack);
-            }
+        if (ch == victim) {
+            to_room = fmt::format("$n's {} {} $m{}|w", attack_noun, vp, punct);
+            to_char = fmt::format("Your {} {} you{}|w{}", attack_noun, vp, punct, ch_dam_label);
         } else {
-            if (ch == victim) {
-                to_room = fmt::format("$n's {} {} $m{}|w", attack, vp, punct);
-                to_char = fmt::format("Your {} {} you{}|w{}", attack, vp, punct, ch_dam_label);
+            if (dam_prop == 0 && is_attack_skill(atk_type, gsn_bash)) {
+                to_room = fmt::format("$n's {} {} $N{}|w", attack_noun, vp, punct);
+                to_char = fmt::format("Your {} {} $N{}|w{}", attack_noun, vp, punct, ch_dam_label);
+                to_vict = fmt::format("$n's {} {} you{}|w{}", attack_noun, vp, punct, vict_dam_label);
             } else {
-                if (dt == gsn_bash && dam_prop == 0) {
-                    to_room = fmt::format("$n's {} {} $N{}|w", attack, vp, punct);
-                    to_char = fmt::format("Your {} {} $N{}|w{}", attack, vp, punct, ch_dam_label);
-                    to_vict = fmt::format("$n's {} {} you{}|w{}", attack, vp, punct, vict_dam_label);
-                } else {
-                    to_room = fmt::format("$n's {} {} $N's {}{}|w", attack, vp, body_part, punct);
-                    to_char = fmt::format("Your {} {} $N's {}{}|w{}", attack, vp, body_part, punct, ch_dam_label);
-                    to_vict = fmt::format("$n's {} {} your {}{}|w{}", attack, vp, body_part, punct, vict_dam_label);
-                }
+                to_room = fmt::format("$n's {} {} $N's {}{}|w", attack_noun, vp, body_part, punct);
+                to_char = fmt::format("Your {} {} $N's {}{}|w{}", attack_noun, vp, body_part, punct, ch_dam_label);
+                to_vict = fmt::format("$n's {} {} your {}{}|w{}", attack_noun, vp, body_part, punct, vict_dam_label);
             }
         }
     }
-
-    if (ch == victim) {
-        act(to_room, ch);
-        act(to_char, ch, nullptr, nullptr, To::Char);
-    } else {
-        act(to_room, ch, nullptr, victim, To::NotVict);
-        act(to_char, ch, nullptr, victim, To::Char);
-        act(to_vict, ch, nullptr, victim, To::Vict);
-    }
+    send_dam_messages(ch, victim, to_room, to_char, to_vict);
 }
 
 /*
@@ -2132,12 +2143,12 @@ void do_bash(Char *ch, const char *argument) {
             WAIT_STATE(victim, 3 * PULSE_VIOLENCE);
         WAIT_STATE(ch, skill_table[gsn_bash].beats);
         victim->position = Position::Type::Resting;
-        damage(ch, victim, number_range(2, 2 + 2 * ch->size + chance / 20), gsn_bash, DAM_BASH);
+        damage(ch, victim, number_range(2, 2 + 2 * ch->size + chance / 20), &skill_table[gsn_bash], DAM_BASH);
         if (victim->ridden_by != nullptr) {
             thrown_off(victim->ridden_by, victim);
         }
     } else {
-        damage(ch, victim, 0, gsn_bash, DAM_BASH);
+        damage(ch, victim, 0, &skill_table[gsn_bash], DAM_BASH);
         act("You fall flat on your face!", ch, nullptr, victim, To::Char);
         act("$n falls flat on $s face.", ch, nullptr, victim, To::NotVict);
         act("You evade $n's bash, causing $m to fall flat on $s face.", ch, nullptr, victim, To::Vict);
@@ -2253,7 +2264,7 @@ void do_dirt(Char *ch, const char *argument) {
     if (number_percent() < chance) {
         AFFECT_DATA af;
         act("$n is blinded by the dirt in $s eyes!", victim);
-        damage(ch, victim, number_range(2, 5), gsn_dirt, DAM_NONE);
+        damage(ch, victim, number_range(2, 5), &skill_table[gsn_dirt], DAM_NONE);
         victim->send_line("You can't see a thing!");
         check_improve(ch, gsn_dirt, true, 2);
         WAIT_STATE(ch, skill_table[gsn_dirt].beats);
@@ -2267,7 +2278,7 @@ void do_dirt(Char *ch, const char *argument) {
 
         affect_to_char(victim, af);
     } else {
-        damage(ch, victim, 0, gsn_dirt, DAM_NONE);
+        damage(ch, victim, 0, &skill_table[gsn_dirt], DAM_NONE);
         check_improve(ch, gsn_dirt, false, 2);
         WAIT_STATE(ch, skill_table[gsn_dirt].beats);
     }
@@ -2363,12 +2374,12 @@ void do_trip(Char *ch, const char *argument) {
         WAIT_STATE(victim, 2 * PULSE_VIOLENCE);
         WAIT_STATE(ch, skill_table[gsn_trip].beats);
         victim->position = Position::Type::Resting;
-        damage(ch, victim, number_range(2, 2 + 2 * victim->size), gsn_trip, DAM_BASH);
+        damage(ch, victim, number_range(2, 2 + 2 * victim->size), &skill_table[gsn_trip], DAM_BASH);
         if (victim->ridden_by != nullptr) {
             thrown_off(victim->ridden_by, victim);
         }
     } else {
-        damage(ch, victim, 0, gsn_trip, DAM_BASH);
+        damage(ch, victim, 0, &skill_table[gsn_trip], DAM_BASH);
         WAIT_STATE(ch, skill_table[gsn_trip].beats * 2 / 3);
         check_improve(ch, gsn_trip, false, 1);
     }
@@ -2399,7 +2410,7 @@ void do_kill(Char *ch, const char *argument) {
 
     if (victim == ch) {
         ch->send_line("You hit yourself.  Ouch!");
-        multi_hit(ch, ch, TYPE_UNDEFINED);
+        multi_hit(ch, ch);
         return;
     }
 
@@ -2423,7 +2434,7 @@ void do_kill(Char *ch, const char *argument) {
 
     WAIT_STATE(ch, 1 * PULSE_VIOLENCE);
     check_killer(ch, victim);
-    multi_hit(ch, victim, TYPE_UNDEFINED);
+    multi_hit(ch, victim);
 }
 
 void do_murde(Char *ch) { ch->send_line("If you want to MURDER, spell it out."); }
@@ -2473,7 +2484,7 @@ void do_murder(Char *ch, const char *argument) {
     WAIT_STATE(ch, 1 * PULSE_VIOLENCE);
     victim->yell(fmt::format("Help! I am being attacked by {}!", ch->short_name()));
     check_killer(ch, victim);
-    multi_hit(ch, victim, TYPE_UNDEFINED);
+    multi_hit(ch, victim);
 }
 
 void do_backstab(Char *ch, const char *argument) {
@@ -2533,10 +2544,10 @@ void do_backstab(Char *ch, const char *argument) {
     WAIT_STATE(ch, skill_table[gsn_backstab].beats);
     if (ch->is_pc() && (!victim->is_pos_awake() || number_percent() < get_skill_learned(ch, gsn_backstab))) {
         check_improve(ch, gsn_backstab, true, 1);
-        multi_hit(ch, victim, gsn_backstab);
+        multi_hit(ch, victim, &skill_table[gsn_backstab]);
     } else {
         check_improve(ch, gsn_backstab, false, 1);
-        damage(ch, victim, 0, gsn_backstab, DAM_NONE);
+        damage(ch, victim, 0, &skill_table[gsn_backstab], DAM_NONE);
     }
 }
 
@@ -2725,7 +2736,7 @@ void do_headbutt(Char *ch, const char *argument) {
     WAIT_STATE(ch, skill_table[gsn_headbutt].beats);
 
     if ((chance = number_percent()) < get_skill_learned(ch, gsn_headbutt)) {
-        damage(ch, victim, number_range(ch->level / 3, ch->level), gsn_headbutt, DAM_BASH);
+        damage(ch, victim, number_range(ch->level / 3, ch->level), &skill_table[gsn_headbutt], DAM_BASH);
         check_improve(ch, gsn_headbutt, true, 2);
 
         if (ch->size >= (victim->size - 1) && ch->size <= (victim->size + 1)) {
@@ -2826,10 +2837,10 @@ void do_kick(Char *ch, const char *argument) {
 
     WAIT_STATE(ch, skill_table[gsn_kick].beats);
     if (number_percent() < get_skill_learned(ch, gsn_kick)) {
-        damage(ch, victim, number_range(1, ch->level), gsn_kick, DAM_BASH);
+        damage(ch, victim, number_range(1, ch->level), &skill_table[gsn_kick], DAM_BASH);
         check_improve(ch, gsn_kick, true, 1);
     } else {
-        damage(ch, victim, 0, gsn_kick, DAM_BASH);
+        damage(ch, victim, 0, &skill_table[gsn_kick], DAM_BASH);
         check_improve(ch, gsn_kick, false, 1);
     }
 }

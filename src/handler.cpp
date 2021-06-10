@@ -15,6 +15,7 @@
 #include "WeatherData.hpp"
 #include "buffer.h"
 #include "comm.hpp"
+#include "fight.hpp"
 #include "interp.h"
 #include "lookup.h"
 #include "merc.h"
