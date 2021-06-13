@@ -32,6 +32,11 @@
 #include <ctime>
 #include <sys/types.h>
 
+struct BodyPart {
+    const unsigned long part_flag;
+    const std::string description;
+};
+
 #define MAX_DAMAGE_MESSAGE 32
 
 // Cap on damage deliverable by any single hit.
@@ -52,7 +57,8 @@ bool check_parry(Char *ch, Char *victim);
 bool check_shield_block(Char *ch, Char *victim);
 bool is_attack_skill(const AttackType atk_type, const sh_int skill_num);
 bool is_attack_skill(const skill_type *opt_skill, const sh_int skill_num);
-void dam_message(Char *ch, Char *victim, const int dam, AttackType atk_type, const int dam_type, const bool immune);
+void dam_message(Char *ch, Char *victim, const int dam, AttackType atk_type, const int dam_type, const bool immune,
+                 const BodyPart &body_part);
 void announce(std::string_view buf, const Char *ch);
 void death_cry(Char *ch);
 void group_gain(Char *ch, Char *victim);
@@ -65,6 +71,7 @@ void raw_kill(Char *victim);
 void set_fighting(Char *ch, Char *victim);
 void disarm(Char *ch, Char *victim);
 void lose_level(Char *ch);
+BodyPart random_body_part(Char *ch, Char *victim, const AttackType atk_type);
 
 /*extern void thrown_off( Char *ch, Char *pet);*/
 
@@ -712,8 +719,10 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
     if (((wield = get_eq_char(ch, WEAR_WIELD)) != nullptr) && check_material_vulnerability(victim, wield))
         adjusted_damage += adjusted_damage / 2;
 
-    dam_message(ch, victim, adjusted_damage, atk_type, dam_type, immune);
-
+    const auto body_part = random_body_part(ch, victim, atk_type);
+    // Track which body part was hit, if slaim this seeds which part gets cut off.
+    victim->hit_location = body_part.part_flag;
+    dam_message(ch, victim, adjusted_damage, atk_type, dam_type, immune, body_part);
     if (adjusted_damage == 0)
         return false;
 
@@ -1674,261 +1683,230 @@ void send_dam_messages(const Char *ch, const Char *victim, std::string_view to_r
     }
 }
 
-void dam_message(Char *ch, Char *victim, const int dam, const AttackType atk_type, const int dam_type,
-                 const bool immune) {
-    std::string to_room, to_char, to_vict;
-    char vs[80];
-    char vp[80];
-    char body_part[32]; /* should be ample */
-    const char *d_pref = nullptr;
-    const char *d_suff = nullptr;
-    char *ptr = body_part;
-    const char *damstr_ptr = nullptr;
-    char damltr_ptr = '\0';
-    const char *plural;
-    sh_int b, c, d, prob, size_diff;
-    long part_flag = 0;
-    char punct;
-    signed int dam_prop;
-    bool found = false, back1 = false;
+struct ImpactVerbs {
+    // Creates a new ImpactVerbs structure on the stack.
+    [[nodiscard]] static ImpactVerbs create(const int dam_proportion, const int dam_type);
+    const std::string singular;
+    const std::string plural;
+};
 
-    memset(body_part, 0, 32);
-    dam_prop = 0;
-
-    victim->hit_location = 0;
-    if (dam != 0) { /* don't do any funny business if we have missed them! */
-        if (victim->max_hit != 0)
-            dam_prop = (dam * 100) / victim->max_hit; /* proportionate dam */
-        else
-            dam_prop = (dam * 100) / 1;
-        dam_prop += number_range(2, ch->level / 6); /* modifier */
-    }
-    punct = (dam_prop <= 20) ? '.' : '!';
-
-    if (dam_prop >= 0 && dam_prop <= 12) {
-        d_pref = "|w";
-        d_suff = "|w";
-    } else if (dam_prop >= 16 && dam_prop <= 30) {
-        d_pref = "|G";
-        d_suff = "|w";
-    } else if (dam_prop >= 31 && dam_prop <= 61) {
-        d_pref = "|Y";
-        d_suff = "|w";
-    } else if (dam_prop >= 62 && dam_prop <= 80) {
-        d_pref = "|W***  ";
-        d_suff = "  ***|w";
-    } else if (dam_prop >= 81 && dam_prop <= 120) {
-        d_pref = "|R<<<  ";
-        d_suff = "  >>>|w";
-    } else {
-        d_pref = "|w";
-        d_suff = "|w";
-    }
-
-    strcpy(vs, d_pref);
-    for (b = 0; dam_string_table[b].dam_types[DAM_NONE] != nullptr && !found; b++) {
-        if (dam_prop <= dam_string_table[b].amount) {
-            if (dam_type > 0 && dam_string_table[b].dam_types[dam_type] != nullptr)
-                damstr_ptr = dam_string_table[b].dam_types[dam_type];
-            else /*default damage string */
-                damstr_ptr = dam_string_table[b].dam_types[0];
-            strcat(vs, damstr_ptr);
-            damltr_ptr = damstr_ptr[strlen(damstr_ptr) - 1];
-            /* FIX ME add multi dam types*/
-            found = true;
+ImpactVerbs ImpactVerbs::create(const int dam_proportion, const int dam_type) {
+    const struct dam_string_type *found_type = nullptr;
+    for (auto index = 0; dam_string_table[index].dam_types[DAM_NONE]; index++) {
+        if (dam_proportion <= dam_string_table[index].damage_proportion) {
+            found_type = &dam_string_table[index];
+            break;
         }
     }
-    if (!found) {
-        damstr_ptr = "does |RUNSPEAKABLE|w things to";
-        strcat(vs, damstr_ptr);
-        damltr_ptr = '\0';
-        found = true;
+    if (!found_type) {
+        return ImpactVerbs{"does |RUNSPEAKABLE|w things to", "does |RUNSPEAKABLE|w things to"};
     }
-    strcat(vs, d_suff); /* that's the singular description made */
-    /* some cunning pluralisation...*/
-
-    switch (damltr_ptr) {
-
-    case '\0': plural = ""; break;
-
+    std::string singular, plural;
+    if (dam_type > 0 && found_type->dam_types[dam_type]) {
+        singular = found_type->dam_types[dam_type];
+    } else { // there's no specific noun for the damage type being delivered and the proportion
+        singular = found_type->dam_types[0];
+    }
+    plural = singular;
+    // Pluralize it
+    const auto last = std::prev(plural.end());
+    switch (*last) {
     case 'y':
-        plural = "ies";
-        back1 = true;
+        plural.pop_back();
+        plural += "ies";
         break;
     case 'Y':
-        plural = "IES";
-        back1 = true;
+        plural.pop_back();
+        plural += "IES";
         break;
     case 'h':
     case 's':
-    case 'x': plural = "es"; break;
+    case 'x': plural += "es"; break;
     case 'H':
     case 'S':
-    case 'X': plural = "ES"; break;
-    default: /* hopefully nobody puts numbers or punct and end of descrip */
-        if (isupper(damltr_ptr))
-            plural = "S";
-        else
-            plural = "s";
-        break;
+    case 'X': plural += "es"; break;
+    default: plural += std::isupper(*last) ? "S" : "s";
     }
-    strcpy(vp, d_pref);
-    strcat(vp, damstr_ptr);
-    if (back1 == true) /* do we need to erase the last char?*/
-        vp[strlen(vp) - 1] = '\0'; /* nuke the last char, e.g. 'y' */
-    strcat(vp, plural);
-    strcat(vp, d_suff);
-    /* done */
+    return {singular, plural};
+}
 
-    /* HACK to cope with headbutting - you only ever headbutt a head..
-       never anywhere else! even if you are shorty fighting big mama */
-
-    if (is_attack_skill(atk_type, gsn_headbutt)) {
-        SET_BIT(part_flag, PART_HEAD);
-        goto got_location; // FIXME...this whole thing needs cleaning up.
-    }
-
-    d = 0;
-    size_diff = 0;
-    prob = 0;
-
-    /* this section allows us to adjust the probability of where the char hits
-       the victim. This is dependent on size, unless ch is affected by fly or
-       haste in which case you are pretty likely to be able to hit them anywhere
-    */
-    size_diff = ch->size - victim->size;
-
+// This allows us to adjust the probability of where the char hits
+// the victim. This is dependent on size, unless ch is affected by fly or
+// haste in which case you are pretty likely to be able to hit them anywhere
+int body_size_diff(Char *ch, Char *victim) {
     if (is_affected(ch, AFF_FLYING) || is_affected(ch, AFF_HASTE))
-        size_diff = 0;
+        return 0;
+    return ch->size - victim->size;
+}
 
-    if (size_diff == 0)
-        prob = 100;
+// Small creatures are more likely to hit the lower parts of their opponent
+// and less likely to hit the higher parts, and vice versa
+int chance_to_hit_body_part(const int body_size_diff, const race_body_type &body_part) {
+    if (body_size_diff >= 2) {
+        /* i.e. if we are quite a bit bigger than them */
+        switch (body_part.pos) {
+        case 3: return 100; // hitting high up
+        case 2: return 66;
+        default: return 33;
+        }
+    } else if (body_size_diff <= -2) {
+        /* i.e. the other way around this time */
+        switch (body_part.pos) {
+        case 3: return 33;
+        case 2: return 66;
+        default: return 100;
+        }
+    } else if (body_size_diff == 0)
+        return 100;
     else
-        prob = 75;
+        return 75;
+}
 
-    while (ch != victim && body_part[0] == '\0' && d < 32) { /* d to avoid unecessary loops */
-        ptr = &body_part[0];
-        c = number_range(0, MAX_BODY_PARTS - 1);
-        part_flag = race_body_table[c].part_flag;
+std::string gen_body_part_description(const race_body_type &body_part) {
+    std::string desc;
+    if (body_part.pair) { /* a paired part */
+        switch (number_range(0, 4) % 2) {
+        case 0: desc = "left "; break;
+        case 1:
+        default: desc = "left "; break;
+        }
+    }
+    if (body_part.part_flag & PART_ARMS) {
+        switch (number_range(0, 6) % 3) {
+        case 0: desc += "bicep"; break;
+        case 1: desc += "shoulder"; break;
+        default: desc += "forearm"; break;
+        }
+    } else if (body_part.part_flag & PART_LEGS) {
+        switch (number_range(0, 6) % 3) {
+        case 0: desc += "thigh"; break;
+        case 1: desc += "knee"; break;
+        default: desc += "calf"; break;
+        }
+    } else {
+        desc += body_part.name;
+    }
+    return desc;
+}
 
-        if (race_table[victim->race].parts & part_flag) {
-
-            /* this bit of code adds an element of realism for bipedal creatures at least:
-               small ones are more likely to hit the lower parts of their opponent,
-               less likely to hit the higher parts e.g. head, and vice versa */
-            if (size_diff >= 2) {
-                /* i.e. if we are quite a bit bigger than them */
-                switch (race_body_table[c].pos) {
-                case 3: /* we're hitting them high up */ prob = 100; break;
-                case 2: prob = 66; break;
-                case 1:
-                default: prob = 33;
-                }
-            }
-            if (size_diff <= -2) {
-                /* i.e. the other way around this time */
-                switch (race_body_table[c].pos) {
-                case 3: /* we're hitting them high up */ prob = 33; break;
-                case 2: prob = 66; break;
-                case 1:
-                default: prob = 100;
-                }
-            }
-            if (number_percent() < prob) {
-
-                /* using hit_location field in char_data - quite important in case the victim
-                   dies - he might lose a body part, it needs to be appropriate to the
-                   final wound inflicted */
-                SET_BIT(victim->hit_location, part_flag);
-                if (race_body_table[c].pair == true) { /* a paired part */
-
-                    switch (number_range(0, 4) % 2) {
-                    case 0:
-                        strcpy(ptr, "left ");
-                        ptr += 5; /* change if necessary! */
-                        break;
-                    case 1:
-                    default:
-                        strcpy(ptr, "right ");
-                        ptr += 6;
-                        break;
-                    }
-                }
-                if (part_flag & PART_ARMS) {
-                    switch (number_range(0, 6) % 3) {
-                    case 0: strcpy(ptr, "bicep"); break;
-                    case 1: strcpy(ptr, "shoulder"); break;
-                    default: strcpy(ptr, "forearm"); break;
-                    }
-                } else if (part_flag & PART_LEGS) {
-
-                    switch (number_range(0, 6) % 3) {
-                    case 0: strcpy(ptr, "thigh"); break;
-                    case 1: strcpy(ptr, "knee"); break;
-                    default: strcpy(ptr, "calf"); break;
-                    }
-                } else {
-                    strcpy(ptr, race_body_table[c].name);
-                }
+// Selects a victim body part semi-randomly taking in relative size of the combatants into account
+// and returns the description and body part flag.
+// If a headbutt lands it always hits the victim's head! And if the attacker hits itself
+// the caller never reports the affected body part anyway.
+BodyPart random_body_part(Char *ch, Char *victim, const AttackType atk_type) {
+    if (is_attack_skill(atk_type, gsn_headbutt) || ch == victim) {
+        return {PART_HEAD, "head"};
+    }
+    const auto size_diff = body_size_diff(ch, victim);
+    for (auto tries = 0; tries < 5; tries++) {
+        const auto random_part = number_range(0, MAX_BODY_PARTS - 1);
+        if (race_table[victim->race].parts & race_body_table[random_part].part_flag) {
+            const auto chance = chance_to_hit_body_part(size_diff, race_body_table[random_part]);
+            if (number_percent() < chance) {
+                return {race_body_table[random_part].part_flag,
+                        gen_body_part_description(race_body_table[random_part])};
             }
         }
-        d++;
     }
-    if (strlen(ptr) <= 2) { /* i.e if previous loop was not fruitful */
+    return {PART_HEAD, "head"};
+}
 
-    got_location: /* GOTO - we only come here indirectly if headbutt */
-        strcpy(ptr, "head");
-        victim->hit_location = race_body_table[0].part_flag;
+std::pair<std::string, std::string> make_dam_message_prefix_suffix(const int proportion) {
+    if (proportion >= 0 && proportion <= 12) {
+        return {"|w", "|w"};
+    } else if (proportion >= 16 && proportion <= 30) {
+        return {"|G", "|w"};
+    } else if (proportion >= 31 && proportion <= 61) {
+        return {"|Y", "|w"};
+    } else if (proportion >= 62 && proportion <= 80) {
+        return {"|W***  ", "  ***|w"};
+    } else if (proportion >= 81 && proportion <= 120) {
+        return {"|R<<<  ", "  >>>|w"};
+    } else {
+        return {"|w", "|w"};
     }
+}
 
+int calc_dam_proportion(Char *ch, const Char *victim, const int dam) {
+    int proportion = 0;
+    if (dam != 0) { /* don't do any funny business if we have missed them! */
+        if (victim->max_hit != 0)
+            proportion = (dam * 100) / victim->max_hit; /* proportionate dam */
+        else
+            proportion = (dam * 100) / 1;
+        proportion += number_range(2, ch->level / 6); /* modifier */
+    }
+    return proportion;
+}
+
+void dam_message(Char *ch, Char *victim, const int dam, const AttackType atk_type, const int dam_type,
+                 const bool immune, const BodyPart &body_part) {
+    std::string to_room, to_char, to_vict;
+    const auto proportion = calc_dam_proportion(ch, victim, dam);
+    const auto punct = (proportion <= 20) ? '.' : '!';
+    const auto pref_suff = make_dam_message_prefix_suffix(proportion);
+    const auto impact_verbs = ImpactVerbs::create(proportion, dam_type);
     const auto ch_dam_label = dam > 0 && ch->level >= 20 ? fmt::format(" ({})", dam) : "";
     const auto vict_dam_label = dam > 0 && victim->level >= 20 ? fmt::format(" ({})", dam) : "";
-    std::string_view attack_noun;
+    std::string_view attack_verb;
     if (const auto at = std::get_if<const attack_type *>(&atk_type)) {
         // The first entry in the attack table represents the raw notion of being
         // hit by _something_ unspecific, so it uses different descriptive text.
         if (*at == &attack_table[0]) {
             if (ch == victim) {
-                to_room = fmt::format("$n {} $s {}{}|w", vp, body_part, punct);
-                to_char = fmt::format("You {} your own {}{}|w{}", vs, body_part, punct, ch_dam_label);
+                to_room = fmt::format("$n {}{}{} $s {}{}|w", pref_suff.first, impact_verbs.plural, pref_suff.second,
+                                      body_part.description, punct);
+                to_char = fmt::format("You {}{}{} your own {}{}|w{}", pref_suff.first, impact_verbs.singular,
+                                      pref_suff.second, body_part.description, punct, ch_dam_label);
             } else {
-                to_room = fmt::format("$n {} $N's {}{}|w", vp, body_part, punct);
-                to_char = fmt::format("You {} $N's {}{}|w{}", vs, body_part, punct, ch_dam_label);
-                to_vict = fmt::format("$n {} your {}{}|w{}", vp, body_part, punct, vict_dam_label);
+                to_room = fmt::format("$n {}{}{} $N's {}{}|w", pref_suff.first, impact_verbs.plural, pref_suff.second,
+                                      body_part.description, punct);
+                to_char = fmt::format("You {}{}{} $N's {}{}|w{}", pref_suff.first, impact_verbs.singular,
+                                      pref_suff.second, body_part.description, punct, ch_dam_label);
+                to_vict = fmt::format("$n {}{}{} your {}{}|w{}", pref_suff.first, impact_verbs.plural, pref_suff.second,
+                                      body_part.description, punct, vict_dam_label);
             }
             send_dam_messages(ch, victim, to_room, to_char, to_vict);
             return;
         } else {
-            attack_noun = (*at)->noun;
+            attack_verb = (*at)->verb;
         }
     } else if (const auto attack_skill = std::get_if<const skill_type *>(&atk_type)) {
-        attack_noun = (*attack_skill)->noun_damage;
+        attack_verb = (*attack_skill)->verb;
     } else {
         bug("dam_message: bad attack type");
-        attack_noun = attack_table[0].noun;
+        attack_verb = attack_table[0].verb;
     }
     if (immune) {
         if (ch == victim) {
-            to_room = fmt::format("$n is |Wunaffected|w by $s own {}.|w", attack_noun);
+            to_room = fmt::format("$n is |Wunaffected|w by $s own {}.|w", attack_verb);
             to_char = fmt::format("Luckily, you are immune to that.|w");
         } else {
-            to_room = fmt::format("$N is |Wunaffected|w by $n's {}.|w", attack_noun);
-            to_char = fmt::format("$N is |Wunaffected|w by your {}!|w", attack_noun);
-            to_vict = fmt::format("$n's {} is powerless against you.|w", attack_noun);
+            to_room = fmt::format("$N is |Wunaffected|w by $n's {}.|w", attack_verb);
+            to_char = fmt::format("$N is |Wunaffected|w by your {}!|w", attack_verb);
+            to_vict = fmt::format("$n's {} is powerless against you.|w", attack_verb);
         }
     } else {
         if (ch == victim) {
-            to_room = fmt::format("$n's {} {} $m{}|w", attack_noun, vp, punct);
-            to_char = fmt::format("Your {} {} you{}|w{}", attack_noun, vp, punct, ch_dam_label);
+            to_room = fmt::format("$n's {} {}{}{} $m{}|w", attack_verb, pref_suff.first, impact_verbs.plural,
+                                  pref_suff.second, punct);
+            to_char = fmt::format("Your {} {}{}{} you{}|w{}", attack_verb, pref_suff.first, impact_verbs.plural,
+                                  pref_suff.second, punct, ch_dam_label);
         } else {
-            if (dam_prop == 0 && is_attack_skill(atk_type, gsn_bash)) {
-                to_room = fmt::format("$n's {} {} $N{}|w", attack_noun, vp, punct);
-                to_char = fmt::format("Your {} {} $N{}|w{}", attack_noun, vp, punct, ch_dam_label);
-                to_vict = fmt::format("$n's {} {} you{}|w{}", attack_noun, vp, punct, vict_dam_label);
+            if (proportion == 0 && is_attack_skill(atk_type, gsn_bash)) {
+                to_room = fmt::format("$n's {} {}{}{} $N{}|w", attack_verb, pref_suff.first, impact_verbs.plural,
+                                      pref_suff.second, punct);
+                to_char = fmt::format("Your {} {}{}{} $N{}|w{}", attack_verb, pref_suff.first, impact_verbs.plural,
+                                      pref_suff.second, punct, ch_dam_label);
+                to_vict = fmt::format("$n's {} {}{}{} you{}|w{}", attack_verb, pref_suff.first, impact_verbs.plural,
+                                      pref_suff.second, punct, vict_dam_label);
             } else {
-                to_room = fmt::format("$n's {} {} $N's {}{}|w", attack_noun, vp, body_part, punct);
-                to_char = fmt::format("Your {} {} $N's {}{}|w{}", attack_noun, vp, body_part, punct, ch_dam_label);
-                to_vict = fmt::format("$n's {} {} your {}{}|w{}", attack_noun, vp, body_part, punct, vict_dam_label);
+                to_room = fmt::format("$n's {} {}{}{} $N's {}{}|w", attack_verb, pref_suff.first, impact_verbs.plural,
+                                      pref_suff.second, body_part.description, punct);
+                to_char = fmt::format("Your {} {}{}{} $N's {}{}|w{}", attack_verb, pref_suff.first, impact_verbs.plural,
+                                      pref_suff.second, body_part.description, punct, ch_dam_label);
+                to_vict = fmt::format("$n's {} {}{}{} your {}{}|w{}", attack_verb, pref_suff.first, impact_verbs.plural,
+                                      pref_suff.second, body_part.description, punct, vict_dam_label);
             }
         }
     }

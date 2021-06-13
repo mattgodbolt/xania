@@ -167,14 +167,14 @@ struct class_type {
 
 struct attack_type {
     const char *name; /* message in the area file */
-    const char *noun; /* message in the mud */
+    const char *verb; /* message in the mud */
     int damage; /* damage class */
 };
 
 #define MAX_DAM 18 /* this should really be down below with dam types*/
 
 struct dam_string_type {
-    int amount; /* the amount of damage inflicted */
+    int damage_proportion; /* the proportion of the victim's total hit points inflicted */
     /* followed by the nice groovy descriptions */
     const char *dam_types[MAX_DAM];
 };
@@ -1050,7 +1050,7 @@ struct skill_type {
     sh_int slot; /* Slot for #OBJECT loading     */
     sh_int min_mana; /* Minimum mana used            */
     sh_int beats; /* Waiting time after use       */
-    const char *noun_damage; /* Damage message               */
+    const char *verb; /* Damage message               */
     const char *msg_off; /* Wear off message for the wearer  */
     DispelMagicFunc dispel_fun;
     /* If a spell effect can be dispelled or cancelled, set this to contain the

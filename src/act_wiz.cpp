@@ -1195,7 +1195,7 @@ void do_mstat(Char *ch, const char *argument) {
                   victim->saving_throw, victim->position.name(), victim->wimpy);
 
     if (victim->is_npc()) {
-        ch->send_line("Damage: {}  Message:  {}", victim->damage, attack_table[victim->dam_type].noun);
+        ch->send_line("Damage: {}  Message:  {}", victim->damage, attack_table[victim->dam_type].verb);
     }
     ch->send_line("Fighting: {}", victim->fighting ? victim->fighting->name : "(none)");
 
