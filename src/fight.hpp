@@ -8,11 +8,11 @@
 #include <string>
 #include <variant>
 
+#include "CombatTypes.hpp"
+
 struct Char;
 struct skill_type;
 struct attack_type;
-
-using AttackType = std::variant<const attack_type *, const skill_type *>;
 
 std::string describe_fight_condition(const Char &victim);
 bool is_safe(Char *ch, Char *victim);

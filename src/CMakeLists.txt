@@ -95,7 +95,9 @@ add_library(xania_lib STATIC
         GenericList.hpp
         Sex.hpp Sex.cpp
         Tip.cpp Tip.hpp
-        Position.hpp Position.cpp)
+        Position.hpp Position.cpp
+        CombatTypes.hpp
+        DamageMessages.hpp DamageMessages.cpp)
 target_link_libraries(
         xania_lib
         xania_common
