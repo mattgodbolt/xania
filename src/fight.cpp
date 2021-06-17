@@ -180,6 +180,18 @@ std::string_view wound_for(int percent) {
         return "is in |rawful condition|w.";
     return "is |Rbleeding to death|w.";
 }
+
+void send_dam_messages(const Char *ch, const Char *victim, const DamageMessages &messages) {
+    if (ch == victim) {
+        act(messages.to_room(), ch);
+        act(messages.to_char(), ch, nullptr, nullptr, To::Char);
+    } else {
+        act(messages.to_room(), ch, nullptr, victim, To::NotVict);
+        act(messages.to_char(), ch, nullptr, victim, To::Char);
+        act(messages.to_victim(), ch, nullptr, victim, To::Vict);
+    }
+}
+
 }
 
 std::string describe_fight_condition(const Char &victim) {
@@ -590,17 +602,6 @@ void loot_and_sacrifice_corpse(Char *looter, Char *victim, sh_int victim_room_vn
                 do_sacrifice(looter, "corpse");
             }
         }
-    }
-}
-
-void send_dam_messages(const Char *ch, const Char *victim, const DamageMessages messages) {
-    if (ch == victim) {
-        act(messages.to_room(), ch);
-        act(messages.to_char(), ch, nullptr, nullptr, To::Char);
-    } else {
-        act(messages.to_room(), ch, nullptr, victim, To::NotVict);
-        act(messages.to_char(), ch, nullptr, victim, To::Char);
-        act(messages.to_victim(), ch, nullptr, victim, To::Vict);
     }
 }
 

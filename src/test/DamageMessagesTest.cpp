@@ -85,8 +85,8 @@ TEST_CASE("damage messages") {
     SECTION("no attack verb") {
         atk_type = &attack_table[0];
         std::tie(damage, to_char, to_victim, to_room) =
-            GENERATE(table<int, std::string_view, std::string_view, std::string_view>({
-                // clang-format off
+            GENERATE(table<int, std::string_view, std::string_view, std::string_view>(
+                {// clang-format off
             make_tuple(0, "You |wmiss|w $N's left calf.|w", "$n |wmisses|w your left calf.|w", "$n |wmisses|w $N's left calf.|w"),
             make_tuple(1, "You |wscrape|w $N's left calf.|w", "$n |wscrapes|w your left calf.|w", "$n |wscrapes|w $N's left calf.|w"),
             make_tuple(2, "You |wscratch|w $N's left calf.|w", "$n |wscratches|w your left calf.|w", "$n |wscratches|w $N's left calf.|w"),
@@ -107,7 +107,7 @@ TEST_CASE("damage messages") {
             make_tuple(35, "You |YMUTILATE|w $N's left calf!|w", "$n |YMUTILATES|w your left calf!|w", "$n |YMUTILATES|w $N's left calf!|w"),
             make_tuple(62, "You |W***  DEMOLISH  ***|w $N's left calf!|w", "$n |W***  DEMOLISHES  ***|w your left calf!|w", "$n |W***  DEMOLISHES  ***|w $N's left calf!|w"),
             make_tuple(81, "You |R<<<  ANNIHILATE  >>>|w $N's left calf!|w", "$n |R<<<  ANNIHILATES  >>>|w your left calf!|w", "$n |R<<<  ANNIHILATES  >>>|w $N's left calf!|w"),
-            make_tuple(121, "You |wdo |RUNSPEAKABLE|w things to|w $N's left calf!|w", "$n |wdoes |RUNSPEAKABLE|w things to|w your left calf!|w", "$n |wdoes |RUNSPEAKABLE|w things to|w $N's left calf!|w"),
+            make_tuple(121, "You |wdo |RUNSPEAKABLE|w things to|w $N's left calf!|w", "$n |wdoes |RUNSPEAKABLE|w things to|w your left calf!|w", "$n |wdoes |RUNSPEAKABLE|w things to|w $N's left calf!|w")
         })); // clang-format on
 
         SECTION("to char, victim and room") {
@@ -121,10 +121,10 @@ TEST_CASE("damage messages") {
     }
     SECTION("attacking self and no attack verb") {
         atk_type = &attack_table[0];
-        std::tie(damage, to_char, to_room) = GENERATE(table<int, std::string_view, std::string_view>({
-            // clang-format off
+        std::tie(damage, to_char, to_room) = GENERATE(table<int, std::string_view, std::string_view>(
+            {// clang-format off
             make_tuple(0, "You |wmiss|w your own left calf.|w", "$n |wmisses|w $s left calf.|w"),
-            make_tuple(1, "You |wscrape|w your own left calf.|w", "$n |wscrapes|w $s left calf.|w"),
+            make_tuple(1, "You |wscrape|w your own left calf.|w", "$n |wscrapes|w $s left calf.|w")
         })); // clang-format on
 
         SECTION("to char and room") {
@@ -138,11 +138,11 @@ TEST_CASE("damage messages") {
     SECTION("with slice verb") {
         atk_type = &attack_table[1]; // the slice attack type
         std::tie(damage, to_char, to_victim, to_room) =
-            GENERATE(table<int, std::string_view, std::string_view, std::string_view>({
-                // clang-format off
+            GENERATE(table<int, std::string_view, std::string_view, std::string_view>(
+                {// clang-format off
             make_tuple(0, "Your slice |wmisses|w $N's left calf.|w", "$n's slice |wmisses|w your left calf.|w", "$n's slice |wmisses|w $N's left calf.|w"),
             make_tuple(1, "Your slice |wscrapes|w $N's left calf.|w", "$n's slice |wscrapes|w your left calf.|w", "$n's slice |wscrapes|w $N's left calf.|w"),
-            make_tuple(121, "Your slice |wdoes |RUNSPEAKABLE|w things to|w $N's left calf!|w", "$n's slice |wdoes |RUNSPEAKABLE|w things to|w your left calf!|w", "$n's slice |wdoes |RUNSPEAKABLE|w things to|w $N's left calf!|w"),
+            make_tuple(121, "Your slice |wdoes |RUNSPEAKABLE|w things to|w $N's left calf!|w", "$n's slice |wdoes |RUNSPEAKABLE|w things to|w your left calf!|w", "$n's slice |wdoes |RUNSPEAKABLE|w things to|w $N's left calf!|w")
         })); // clang-format on
 
         SECTION("to char, victim and room") {
@@ -156,11 +156,11 @@ TEST_CASE("damage messages") {
     }
     SECTION("attacking self with slice verb") {
         atk_type = &attack_table[1];
-        std::tie(damage, to_char, to_room) = GENERATE(table<int, std::string_view, std::string_view>({
-            // clang-format off
+        std::tie(damage, to_char, to_room) = GENERATE(table<int, std::string_view, std::string_view>(
+            {// clang-format off
             make_tuple(0, "Your slice |wmisses|w you.|w", "$n's slice |wmisses|w $m.|w"),
             make_tuple(1, "Your slice |wscrapes|w you.|w", "$n's slice |wscrapes|w $m.|w"),
-            make_tuple(121, "Your slice |wdoes |RUNSPEAKABLE|w things to|w you!|w", "$n's slice |wdoes |RUNSPEAKABLE|w things to|w $m!|w"),
+            make_tuple(121, "Your slice |wdoes |RUNSPEAKABLE|w things to|w you!|w", "$n's slice |wdoes |RUNSPEAKABLE|w things to|w $m!|w")
         })); // clang-format on
 
         SECTION("to char and room") {
@@ -174,9 +174,9 @@ TEST_CASE("damage messages") {
     SECTION("victim is immune") {
         atk_type = &attack_table[1];
         std::tie(damage, to_char, to_victim, to_room) =
-            GENERATE(table<int, std::string_view, std::string_view, std::string_view>({
-                // clang-format off
-            make_tuple(0, "$N is |Wunaffected|w by your slice!|w", "$n's slice is powerless against you.|w", "$N is |Wunaffected|w by $n's slice.|w"),
+            GENERATE(table<int, std::string_view, std::string_view, std::string_view>(
+                {// clang-format off
+            make_tuple(0, "$N is |Wunaffected|w by your slice!|w", "$n's slice is powerless against you.|w", "$N is |Wunaffected|w by $n's slice.|w")
         })); // clang-format on
 
         SECTION("to char, victim and room") {
@@ -190,9 +190,9 @@ TEST_CASE("damage messages") {
     }
     SECTION("attacking self and immune") {
         atk_type = &attack_table[1];
-        std::tie(damage, to_char, to_room) = GENERATE(table<int, std::string_view, std::string_view>({
-            // clang-format off
-            make_tuple(0, "Luckily, you are immune to that.|w", "$n is |Wunaffected|w by $s own slice.|w"),
+        std::tie(damage, to_char, to_room) = GENERATE(table<int, std::string_view, std::string_view>(
+            {// clang-format off
+            make_tuple(0, "Luckily, you are immune to that.|w", "$n is |Wunaffected|w by $s own slice.|w")
         })); // clang-format on
 
         SECTION("to char and room") {
@@ -200,6 +200,40 @@ TEST_CASE("damage messages") {
             const auto dmg_messages = DamageMessages::create(&victim, &victim, context, rng);
 
             CHECK(dmg_messages.to_char() == to_char);
+            CHECK(dmg_messages.to_room() == to_room);
+        }
+    }
+}
+
+// Extends the tests above to include the damage amount which appears for players level 20+
+TEST_CASE("damage messages with damage amount") {
+    Char ch{};
+    ch.level = 20;
+    Char victim{};
+    victim.level = 20;
+    victim.max_hit = 100;
+    AttackType atk_type;
+    InjuredPart injured_part{PART_LEGS, "left calf"};
+    KnuthRng rng(0xdeadbeef);
+
+    using std::make_tuple;
+    int damage;
+    std::string_view to_char, to_victim, to_room;
+
+    SECTION("with slice verb") {
+        atk_type = &attack_table[1]; // the slice attack type
+        std::tie(damage, to_char, to_victim, to_room) =
+            GENERATE(table<int, std::string_view, std::string_view, std::string_view>(
+                {// clang-format off
+            make_tuple(25, "Your slice |Gmaims|w $N's left calf!|w (25)", "$n's slice |Gmaims|w your left calf!|w (25)", "$n's slice |Gmaims|w $N's left calf!|w")
+        })); // clang-format on
+
+        SECTION("to char, victim and room") {
+            DamageContext context{damage, atk_type, DAM_SLASH, false, injured_part};
+            const auto dmg_messages = DamageMessages::create(&ch, &victim, context, rng);
+
+            CHECK(dmg_messages.to_char() == to_char);
+            CHECK(dmg_messages.to_victim() == to_victim);
             CHECK(dmg_messages.to_room() == to_room);
         }
     }
