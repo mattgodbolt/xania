@@ -24,7 +24,7 @@ TEST_CASE("injured part creation") {
     set_form(victim, "human", "medium");
     AttackType atk_type = &attack_table[1]; // slice
     KnuthRng rng(0xdeadbaff); // a magic number that'll consistently select the body parts below.
-    const auto left_bicep = InjuredPart{PART_ARMS, "left bicep"};
+    const auto right_bicep = InjuredPart{PART_ARMS, "right bicep"};
     const auto head = InjuredPart{PART_HEAD, "head"};
 
     SECTION("headbutt to the face") {
@@ -34,25 +34,25 @@ TEST_CASE("injured part creation") {
 
         CHECK(head == part);
     }
-    SECTION("equal body size left bicep") {
+    SECTION("equal body size right bicep") {
 
         const auto part = InjuredPart::random_from_victim(&ch, &victim, atk_type, rng);
 
-        CHECK(left_bicep == part);
+        CHECK(right_bicep == part);
     }
-    SECTION("greater body size left bicep") {
+    SECTION("greater body size right bicep") {
         set_form(ch, "human", "giant");
 
         const auto part = InjuredPart::random_from_victim(&ch, &victim, atk_type, rng);
 
-        CHECK(left_bicep == part);
+        CHECK(right_bicep == part);
     }
-    SECTION("smaller body size left bicep") {
+    SECTION("smaller body size right bicep") {
         set_form(ch, "human", "tiny");
 
         const auto part = InjuredPart::random_from_victim(&ch, &victim, atk_type, rng);
 
-        CHECK(left_bicep == part);
+        CHECK(right_bicep == part);
     }
     SECTION("exotic race with wings") {
         const auto wings = InjuredPart{PART_WINGS, "wings"};

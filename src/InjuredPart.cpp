@@ -48,7 +48,7 @@ std::string gen_body_part_description(const race_body_type &body_part, Rng &rng)
     std::string desc;
     if (body_part.pair) { /* a paired part */
         switch (rng.number_range(0, 4) % 2) {
-        case 0: desc = "left "; break;
+        case 0: desc = "right "; break;
         case 1:
         default: desc = "left "; break;
         }
