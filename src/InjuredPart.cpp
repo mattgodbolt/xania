@@ -13,11 +13,13 @@
 
 namespace {
 
+enum class PartHeight { Low = 0, Mid = 1, High = 2 };
+
 struct body_part_attrs {
     const unsigned long part_flag; /* one of the PART_* */
     const char *name; /* verbose string */
     const bool pair; /* do we normally find a pair of these? e.g. arm*/
-    const sh_int pos; /* lower = 1, middle = 2, upper = 3 */
+    const PartHeight height;
     const char *spill_msg; /* msg when victim killed */
     const int obj_vnum; /* object to deposit when dead */
 };
@@ -26,34 +28,36 @@ const struct body_part_attrs body_part_attrs_table[MAX_BODY_PARTS] = {
     /*
       format:
       {       BODY_PART, "description", found in a pair?, location }  */
-    {PART_HEAD, "head", false, 3, "$n's severed head plops on the ground.",
+    {PART_HEAD, "head", false, PartHeight::High, "$n's severed head plops on the ground.",
      objects::SeveredHead}, /* don't move from top of list */
-    {PART_ARMS, "arm", true, 2, "$n's arm is sliced from $s dead body.", objects::SlicedArm}, /* double */
+    {PART_ARMS, "arm", true, PartHeight::Mid, "$n's arm is sliced from $s dead body.", objects::SlicedArm}, /* double */
 
-    {PART_LEGS, "leg", true, 1, "$n's leg is sliced from $s dead body.", objects::SlicedLeg}, /* double */
-    {PART_HEART, "chest", false, 2, "$n's heart is torn from $s chest.", objects::TornHeart},
+    {PART_LEGS, "leg", true, PartHeight::Low, "$n's leg is sliced from $s dead body.", objects::SlicedLeg}, /* double */
+    {PART_HEART, "chest", false, PartHeight::Mid, "$n's heart is torn from $s chest.", objects::TornHeart},
 
-    {PART_BRAINS, "head", false, 3, "$n's head is shattered, and $s brains splash all over you.", objects::Brains},
+    {PART_BRAINS, "head", false, PartHeight::High, "$n's head is shattered, and $s brains splash all over you.",
+     objects::Brains},
 
-    {PART_GUTS, "midriff", false, 2, "$n spills $s guts all over the floor.", objects::Guts},
+    {PART_GUTS, "midriff", false, PartHeight::Mid, "$n spills $s guts all over the floor.", objects::Guts},
 
-    {PART_HANDS, "hand", true, 2, 0, 0}, /* double */
-    {PART_FEET, "shin", true, 1, 0, 0}, /* double. No feet! */
-    {PART_FINGERS, "hand", true, 2, 0, 0}, /* double */
-    {PART_EAR, "head", false, 3, "$n's severed head plops on the ground.", objects::SeveredHead},
-    {PART_EYE, "head", false, 3, "$n's severed head plops on the ground.", objects::SeveredHead},
-    {PART_LONG_TONGUE, "tongue", false, 3, "$n's severed head plops on the ground.", objects::SeveredHead},
-    {PART_EYESTALKS, "eye stalks", false, 2, 0, 0}, /* weird */
-    {PART_TENTACLES, "tentacles", false, 2, 0, 0},
-    {PART_FINS, "fin", false, 2, 0, 0},
-    {PART_WINGS, "wings", false, 2, "$n's wing is sliced off and lands with a crunch.", objects::SlicedWing},
-    {PART_TAIL, "tail", false, 1, 0, 0},
-    {PART_CLAWS, "claws", false, 2, "$n's claw flies off and narrowly misses you.", objects::SlicedClaw},
-    {PART_FANGS, "fangs", false, 3, 0, 0},
-    {PART_HORNS, "horn", false, 3, 0, 0},
-    {PART_SCALES, "scales", false, 2, "$n's heart is torn from $s chest.", objects::TornHeart},
-    {PART_TUSKS, "tusk", false, 2, 0, 0}};
-
+    {PART_HANDS, "hand", true, PartHeight::Mid, 0, 0}, /* double */
+    {PART_FEET, "shin", true, PartHeight::Low, 0, 0}, /* double. No feet! */
+    {PART_FINGERS, "hand", true, PartHeight::Mid, 0, 0}, /* double */
+    {PART_EAR, "head", false, PartHeight::High, "$n's severed head plops on the ground.", objects::SeveredHead},
+    {PART_EYE, "head", false, PartHeight::High, "$n's severed head plops on the ground.", objects::SeveredHead},
+    {PART_LONG_TONGUE, "tongue", false, PartHeight::High, "$n's severed head plops on the ground.",
+     objects::SeveredHead},
+    {PART_EYESTALKS, "eye stalks", false, PartHeight::Mid, 0, 0}, /* weird */
+    {PART_TENTACLES, "tentacles", false, PartHeight::Mid, 0, 0},
+    {PART_FINS, "fin", false, PartHeight::Mid, 0, 0},
+    {PART_WINGS, "wings", false, PartHeight::Mid, "$n's wing is sliced off and lands with a crunch.",
+     objects::SlicedWing},
+    {PART_TAIL, "tail", false, PartHeight::Low, 0, 0},
+    {PART_CLAWS, "claws", false, PartHeight::Mid, "$n's claw flies off and narrowly misses you.", objects::SlicedClaw},
+    {PART_FANGS, "fangs", false, PartHeight::High, 0, 0},
+    {PART_HORNS, "horn", false, PartHeight::High, 0, 0},
+    {PART_SCALES, "scales", false, PartHeight::Mid, "$n's heart is torn from $s chest.", objects::TornHeart},
+    {PART_TUSKS, "tusk", false, PartHeight::Mid, 0, 0}};
 
 // This allows us to adjust the probability of where the char hits
 // the victim. This is dependent on size, unless ch is affected by fly or
@@ -69,16 +73,16 @@ int body_size_diff(const Char *ch, const Char *victim) {
 int chance_to_hit_body_part(const int body_size_diff, const body_part_attrs &body_part) {
     if (body_size_diff >= 2) {
         /* i.e. if we are quite a bit bigger than them */
-        switch (body_part.pos) {
-        case 3: return 100; // hitting high up
-        case 2: return 66;
+        switch (body_part.height) {
+        case PartHeight::High: return 100; // hitting high up
+        case PartHeight::Mid: return 66;
         default: return 33;
         }
     } else if (body_size_diff <= -2) {
         /* i.e. the other way around this time */
-        switch (body_part.pos) {
-        case 3: return 33;
-        case 2: return 66;
+        switch (body_part.height) {
+        case PartHeight::High: return 33;
+        case PartHeight::Mid: return 66;
         default: return 100;
         }
     } else if (body_size_diff == 0)
@@ -114,6 +118,8 @@ std::string gen_body_part_description(const body_part_attrs &body_part, Rng &rng
     return desc;
 }
 
+const InjuredPart Head{"head", body_part_attrs_table[0].spill_msg, body_part_attrs_table[0].obj_vnum};
+
 }
 
 bool InjuredPart::operator==(const InjuredPart &rhs) const {
@@ -125,7 +131,7 @@ bool InjuredPart::operator==(const InjuredPart &rhs) const {
 
 InjuredPart InjuredPart::random_from_victim(const Char *ch, const Char *victim, const AttackType atk_type, Rng &rng) {
     if (is_attack_skill(atk_type, gsn_headbutt) || ch == victim) {
-        return {"head", body_part_attrs_table[0].spill_msg, body_part_attrs_table[0].obj_vnum};
+        return Head;
     }
     const auto size_diff = body_size_diff(ch, victim);
     for (auto tries = 0; tries < 8; tries++) {
@@ -142,7 +148,7 @@ InjuredPart InjuredPart::random_from_victim(const Char *ch, const Char *victim, 
             }
         }
     }
-    return {"head", body_part_attrs_table[0].spill_msg, body_part_attrs_table[0].obj_vnum};
+    return Head;
 }
 
 std::ostream &operator<<(std::ostream &os, const InjuredPart &part) {
