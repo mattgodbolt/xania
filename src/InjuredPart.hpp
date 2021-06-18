@@ -7,6 +7,7 @@
 
 #include "AttackType.hpp"
 
+#include <ostream>
 #include <string>
 
 class Char;
@@ -26,6 +27,10 @@ struct InjuredPart {
     [[nodiscard]] static InjuredPart random_from_victim(const Char *ch, const Char *victim, const AttackType atk_type,
                                                         Rng &rng);
 
+    bool operator==(const InjuredPart &rhs) const;
+
     const unsigned long part_flag;
     const std::string description;
 };
+
+std::ostream &operator<<(std::ostream &os, InjuredPart const &part);

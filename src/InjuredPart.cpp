@@ -8,6 +8,8 @@
 #include "Rng.hpp"
 #include "merc.h"
 
+#include <tuple>
+
 namespace {
 
 // This allows us to adjust the probability of where the char hits
@@ -42,23 +44,23 @@ int chance_to_hit_body_part(const int body_size_diff, const race_body_type &body
         return 75;
 }
 
-std::string gen_body_part_description(const race_body_type &body_part) {
+std::string gen_body_part_description(const race_body_type &body_part, Rng &rng) {
     std::string desc;
     if (body_part.pair) { /* a paired part */
-        switch (number_range(0, 4) % 2) {
+        switch (rng.number_range(0, 4) % 2) {
         case 0: desc = "left "; break;
         case 1:
         default: desc = "left "; break;
         }
     }
     if (body_part.part_flag & PART_ARMS) {
-        switch (number_range(0, 6) % 3) {
+        switch (rng.number_range(0, 6) % 3) {
         case 0: desc += "bicep"; break;
         case 1: desc += "shoulder"; break;
         default: desc += "forearm"; break;
         }
     } else if (body_part.part_flag & PART_LEGS) {
-        switch (number_range(0, 6) % 3) {
+        switch (rng.number_range(0, 6) % 3) {
         case 0: desc += "thigh"; break;
         case 1: desc += "knee"; break;
         default: desc += "calf"; break;
@@ -68,6 +70,11 @@ std::string gen_body_part_description(const race_body_type &body_part) {
     }
     return desc;
 }
+
+}
+
+bool InjuredPart::operator==(const InjuredPart &rhs) const {
+    return std::tie(part_flag, description) == std::tie(rhs.part_flag, rhs.description);
 }
 
 InjuredPart InjuredPart::random_from_victim(const Char *ch, const Char *victim, const AttackType atk_type, Rng &rng) {
@@ -75,15 +82,22 @@ InjuredPart InjuredPart::random_from_victim(const Char *ch, const Char *victim, 
         return {PART_HEAD, "head"};
     }
     const auto size_diff = body_size_diff(ch, victim);
-    for (auto tries = 0; tries < 5; tries++) {
+    for (auto tries = 0; tries < 8; tries++) {
         const auto random_part = rng.number_range(0, MAX_BODY_PARTS - 1);
+        // Note that this looks up the victim's body parts by race, rather than reading the Char.parts field directly.
+        // Which is probably more robust as the race_table is immutable.
         if (race_table[victim->race].parts & race_body_table[random_part].part_flag) {
             const auto chance = chance_to_hit_body_part(size_diff, race_body_table[random_part]);
             if (rng.number_percent() < chance) {
                 return {race_body_table[random_part].part_flag,
-                        gen_body_part_description(race_body_table[random_part])};
+                        gen_body_part_description(race_body_table[random_part], rng)};
             }
         }
     }
     return {PART_HEAD, "head"};
+}
+
+std::ostream &operator<<(std::ostream &os, const InjuredPart &part) {
+    os << "part_flag: " << part.part_flag << ", description: " << part.description;
+    return os;
 }
