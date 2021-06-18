@@ -5,12 +5,14 @@
 /*************************************************************************/
 #pragma once
 
-#include <string>
-
 #include "AttackType.hpp"
+
+#include <optional>
+#include <string>
 
 struct Char;
 struct skill_type;
+struct InjuredPart;
 
 std::string describe_fight_condition(const Char &victim);
 bool is_safe(Char *ch, Char *victim);
@@ -21,4 +23,5 @@ void multi_hit(Char *ch, Char *victim, const skill_type *opt_skill);
 bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType attack_type, const int dam_type);
 void update_pos(Char *victim);
 void stop_fighting(Char *ch, bool fBoth);
+void raw_kill(Char *victim, std::optional<InjuredPart> opt_injured_part);
 void death_cry(Char *ch);

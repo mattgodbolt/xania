@@ -102,7 +102,6 @@ struct Char {
     unsigned long parts{};
     sh_int size{};
     sh_int material{};
-    unsigned long hit_location{}; /* for verbose combat sequences */
     /* mobile stuff */
     unsigned long off_flags{};
     Dice damage; // This is non-wielding damage, and does not include the damroll bonus.

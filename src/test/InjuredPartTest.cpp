@@ -24,8 +24,8 @@ TEST_CASE("injured part creation") {
     set_form(victim, "human", "medium");
     AttackType atk_type = &attack_table[1]; // slice
     KnuthRng rng(0xdeadbaff); // a magic number that'll consistently select the body parts below.
-    const auto right_bicep = InjuredPart{PART_ARMS, "right bicep"};
-    const auto head = InjuredPart{PART_HEAD, "head"};
+    const auto right_bicep = InjuredPart{"right bicep", "$n's arm is sliced from $s dead body.", 14};
+    const auto head = InjuredPart{"head", "$n's severed head plops on the ground.", 12};
 
     SECTION("headbutt to the face") {
         atk_type = &skill_table[gsn_headbutt];
@@ -55,7 +55,7 @@ TEST_CASE("injured part creation") {
         CHECK(right_bicep == part);
     }
     SECTION("exotic race with wings") {
-        const auto wings = InjuredPart{PART_WINGS, "wings"};
+        const auto wings = InjuredPart{"wings", "$n's wing is sliced off and lands with a crunch.", 18};
         set_form(victim, "song bird", "medium");
 
         const auto part = InjuredPart::random_from_victim(&ch, &victim, atk_type, rng);

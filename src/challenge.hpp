@@ -16,6 +16,5 @@ int in_duel(const Char *ch);
 void do_chal_tick();
 void do_chal_canc(Char *ch);
 int do_check_chal(Char *ch);
-void raw_kill(Char *victim);
 void do_room_check(Char *ch);
 void do_flee_check(Char *ch);

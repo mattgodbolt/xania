@@ -60,7 +60,6 @@ bool is_safe(Char *ch, Char *victim);
 void make_corpse(Char *ch);
 void one_hit(Char *ch, Char *victim, const skill_type *opt_skill);
 void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill);
-void raw_kill(Char *victim);
 void set_fighting(Char *ch, Char *victim);
 void disarm(Char *ch, Char *victim);
 void lose_level(Char *ch);
@@ -723,11 +722,8 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
     if (((wield = get_eq_char(ch, WEAR_WIELD)) != nullptr) && check_material_vulnerability(victim, wield))
         adjusted_damage += adjusted_damage / 2;
 
-    const auto body_part = InjuredPart::random_from_victim(ch, victim, atk_type, Rng::global_rng());
-    // Track which body part was hit, if slaim this seeds which part gets cut off.
-    victim->hit_location = body_part.part_flag;
-
-    const DamageContext dam_context{adjusted_damage, atk_type, dam_type, immune, body_part};
+    const auto injured_part = InjuredPart::random_from_victim(ch, victim, atk_type, Rng::global_rng());
+    const DamageContext dam_context{adjusted_damage, atk_type, dam_type, immune, injured_part};
     const auto dam_messages = DamageMessages::create(ch, victim, dam_context, Rng::global_rng());
     send_dam_messages(ch, victim, dam_messages);
 
@@ -828,7 +824,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
             }
         }
         victim_room_vnum = victim->in_room->vnum;
-        raw_kill(victim);
+        raw_kill(victim, injured_part);
 
         for (auto *mob : char_list)
             if (mob->is_npc() && IS_SET(mob->act, ACT_SENTIENT) && matches(mob->sentient_victim, victim->name))
@@ -1273,62 +1269,21 @@ void make_corpse(Char *ch) {
     obj_to_room(corpse, ch->in_room);
 }
 
-/*
- * Improved Death_cry contributed by Diavolo.
- * Modified to by Faramir to deal with verbose fight sequences
- */
 void death_cry(Char *ch) {
     ROOM_INDEX_DATA *was_in_room;
-    const char *msg;
-    int vnum;
-    int i = 0;
-    bool found = false;
+    std::string_view msg;
 
-    vnum = 0;
-    msg = "You hear $n's death cry.";
-
-    switch (number_range(0, 3)) {
-
+    switch (number_range(0, 1)) {
     case 1:
         if (ch->material == 0) {
             msg = "$n splatters blood on your armor.";
             break;
-        } /* roll on through to the next case....*/
-        // fall through
-    case 2:
-        if (ch->hit_location != 0) {
-            for (; i < MAX_BODY_PARTS && !found; i++) {
-
-                if (IS_SET(ch->hit_location, race_body_table[i].part_flag)) {
-                    msg = race_body_table[i].spill_msg;
-                    vnum = race_body_table[i].obj_vnum;
-                    found = true;
-                }
-            }
         }
-        break;
-    case 0:
+        // fall through
     default: msg = "$n hits the ground ... DEAD."; break;
     }
 
     act(msg, ch);
-
-    if (vnum != 0) {
-        auto *obj = create_object(get_obj_index(vnum));
-        obj->timer = number_range(4, 7);
-        obj->short_descr = fmt::sprintf(obj->short_descr, ch->short_name());
-        obj->description = fmt::sprintf(obj->description, ch->short_name());
-
-        if (obj->item_type == ITEM_FOOD) {
-            if (IS_SET(ch->form, FORM_POISON))
-                obj->value[3] = 1;
-            else if (!IS_SET(ch->form, FORM_EDIBLE))
-                obj->item_type = ITEM_TRASH;
-        }
-
-        obj_to_room(obj, ch->in_room);
-    }
-
     if (ch->is_npc())
         msg = "You hear something's death cry.";
     else
@@ -1345,11 +1300,38 @@ void death_cry(Char *ch) {
     ch->in_room = was_in_room;
 }
 
-void raw_kill(Char *victim) {
+void detach_injured_part(const Char *victim, std::optional<InjuredPart> opt_injured_part) {
+    if (!opt_injured_part) {
+        return;
+    }
+    const auto part = *opt_injured_part;
+    if (part.opt_spill_msg) {
+        act(part.opt_spill_msg.value(), victim);
+    }
+    if (part.opt_spill_obj_vnum) {
+        const auto vnum = part.opt_spill_obj_vnum.value();
+        auto *obj = create_object(get_obj_index(vnum));
+        obj->timer = number_range(4, 7);
+        obj->short_descr = fmt::sprintf(obj->short_descr, victim->short_name());
+        obj->description = fmt::sprintf(obj->description, victim->short_name());
+
+        if (obj->item_type == ITEM_FOOD) {
+            if (IS_SET(victim->form, FORM_POISON))
+                obj->value[3] = 1;
+            else if (!IS_SET(victim->form, FORM_EDIBLE))
+                obj->item_type = ITEM_TRASH;
+        }
+
+        obj_to_room(obj, victim->in_room);
+    }
+}
+
+void raw_kill(Char *victim, std::optional<InjuredPart> opt_injured_part) {
     stop_fighting(victim, true);
     /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
     mprog_death_trigger(victim);
     death_cry(victim);
+    detach_injured_part(victim, opt_injured_part);
 
     if (!in_duel(victim))
         make_corpse(victim);
@@ -2673,5 +2655,5 @@ void do_slay(Char *ch, const char *argument) {
     act("You slay $M in cold blood!", ch, nullptr, victim, To::Char);
     act("$n slays you in cold blood!", ch, nullptr, victim, To::Vict);
     act("$n slays $N in cold blood!", ch, nullptr, victim, To::NotVict);
-    raw_kill(victim);
+    raw_kill(victim, std::nullopt);
 }

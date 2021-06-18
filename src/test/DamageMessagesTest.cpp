@@ -76,7 +76,7 @@ TEST_CASE("damage messages") {
     victim.level = 2;
     victim.max_hit = 100; // So that the damage amounts are also their proportion.
     AttackType atk_type;
-    InjuredPart injured_part{PART_LEGS, "left calf"};
+    InjuredPart injured_part{"left calf", std::nullopt, std::nullopt};
     KnuthRng rng(0xdeadbeef);
 
     using std::make_tuple;
@@ -213,7 +213,7 @@ TEST_CASE("damage messages with damage amount") {
     victim.level = 20;
     victim.max_hit = 100;
     AttackType atk_type;
-    InjuredPart injured_part{PART_LEGS, "left calf"};
+    InjuredPart injured_part{"left calf", std::nullopt, std::nullopt};
     KnuthRng rng(0xdeadbeef);
 
     using std::make_tuple;

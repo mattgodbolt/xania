@@ -9,6 +9,7 @@
 
 #include "challenge.hpp"
 #include "Descriptor.hpp"
+#include "InjuredPart.hpp"
 #include "Logging.hpp"
 #include "VnumRooms.hpp"
 #include "comm.hpp"
@@ -441,7 +442,7 @@ int do_check_chal(Char *ch) {
     else
         who = 1;
 
-    raw_kill(ch);
+    raw_kill(ch, std::nullopt);
     if (imm == nullptr) {
         bug("do_check_chal: crash potential here guys, challengee/r is being killed...");
         return 0;

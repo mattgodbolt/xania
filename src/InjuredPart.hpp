@@ -7,6 +7,7 @@
 
 #include "AttackType.hpp"
 
+#include <optional>
 #include <ostream>
 #include <string>
 
@@ -20,8 +21,7 @@ class Rng;
 // used in calculations that benefit the entire body.
 struct InjuredPart {
 
-    // Selects a victim body part semi-randomly taking in relative size of the combatants into account
-    // and returns the description and body part flag.
+    // Selects a victim body part semi-randomly taking in relative size of the combatants into account.
     // If a headbutt lands it always hits the victim's head! And if the attacker hits itself
     // the caller never reports the affected body part anyway.
     [[nodiscard]] static InjuredPart random_from_victim(const Char *ch, const Char *victim, const AttackType atk_type,
@@ -29,8 +29,9 @@ struct InjuredPart {
 
     bool operator==(const InjuredPart &rhs) const;
 
-    const unsigned long part_flag;
     const std::string description;
+    const std::optional<std::string_view> opt_spill_msg;
+    const std::optional<int> opt_spill_obj_vnum;
 };
 
 std::ostream &operator<<(std::ostream &os, InjuredPart const &part);

@@ -74,30 +74,38 @@ std::string gen_body_part_description(const race_body_type &body_part, Rng &rng)
 }
 
 bool InjuredPart::operator==(const InjuredPart &rhs) const {
-    return std::tie(part_flag, description) == std::tie(rhs.part_flag, rhs.description);
+    return std::forward_as_tuple(description, opt_spill_msg ? opt_spill_msg.value() : "",
+                                 opt_spill_obj_vnum ? opt_spill_obj_vnum.value() : 0)
+           == std::forward_as_tuple(rhs.description, rhs.opt_spill_msg ? rhs.opt_spill_msg.value() : "",
+                                    rhs.opt_spill_obj_vnum ? rhs.opt_spill_obj_vnum.value() : 0);
 }
 
 InjuredPart InjuredPart::random_from_victim(const Char *ch, const Char *victim, const AttackType atk_type, Rng &rng) {
     if (is_attack_skill(atk_type, gsn_headbutt) || ch == victim) {
-        return {PART_HEAD, "head"};
+        return {"head", race_body_table[0].spill_msg, race_body_table[0].obj_vnum};
     }
     const auto size_diff = body_size_diff(ch, victim);
     for (auto tries = 0; tries < 8; tries++) {
-        const auto random_part = rng.number_range(0, MAX_BODY_PARTS - 1);
+        const auto partnum = rng.number_range(0, MAX_BODY_PARTS - 1);
+        const auto &part = race_body_table[partnum];
         // Note that this looks up the victim's body parts by race, rather than reading the Char.parts field directly.
         // Which is probably more robust as the race_table is immutable.
-        if (race_table[victim->race].parts & race_body_table[random_part].part_flag) {
-            const auto chance = chance_to_hit_body_part(size_diff, race_body_table[random_part]);
+        if (race_table[victim->race].parts & part.part_flag) {
+            const auto chance = chance_to_hit_body_part(size_diff, part);
             if (rng.number_percent() < chance) {
-                return {race_body_table[random_part].part_flag,
-                        gen_body_part_description(race_body_table[random_part], rng)};
+                return {gen_body_part_description(part, rng),
+                        part.spill_msg ? std::optional<std::string_view>{part.spill_msg} : std::nullopt,
+                        part.obj_vnum ? std::optional<int>{part.obj_vnum} : std::nullopt};
             }
         }
     }
-    return {PART_HEAD, "head"};
+    return {"head", race_body_table[0].spill_msg, race_body_table[0].obj_vnum};
 }
 
 std::ostream &operator<<(std::ostream &os, const InjuredPart &part) {
-    os << "part_flag: " << part.part_flag << ", description: " << part.description;
+    const auto str = fmt::format("description: {}, spill_msg: {}, spill_obj_vnum: {}", part.description,
+                                 (part.opt_spill_msg ? *(part.opt_spill_msg) : "{}"),
+                                 (part.opt_spill_obj_vnum ? part.opt_spill_obj_vnum.value() : 0));
+    os << str;
     return os;
 }
