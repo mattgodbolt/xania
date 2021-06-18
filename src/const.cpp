@@ -273,40 +273,6 @@ const struct pc_race_type pc_race_table[] = {
 
 };
 
-/* used to determine the damage message in fight.c */
-
-const struct race_body_type race_body_table[MAX_BODY_PARTS] = {
-    /*
-      format:
-      {       BODY_PART, "description", found in a pair?, location }  */
-    {PART_HEAD, "head", false, 3, "$n's severed head plops on the ground.",
-     objects::SeveredHead}, /* don't move from top of list */
-    {PART_ARMS, "arm", true, 2, "$n's arm is sliced from $s dead body.", objects::SlicedArm}, /* double */
-
-    {PART_LEGS, "leg", true, 1, "$n's leg is sliced from $s dead body.", objects::SlicedLeg}, /* double */
-    {PART_HEART, "chest", false, 2, "$n's heart is torn from $s chest.", objects::TornHeart},
-
-    {PART_BRAINS, "head", false, 3, "$n's head is shattered, and $s brains splash all over you.", objects::Brains},
-
-    {PART_GUTS, "midriff", false, 2, "$n spills $s guts all over the floor.", objects::Guts},
-
-    {PART_HANDS, "hand", true, 2, 0, 0}, /* double */
-    {PART_FEET, "shin", true, 1, 0, 0}, /* double. No feet! */
-    {PART_FINGERS, "hand", true, 2, 0, 0}, /* double */
-    {PART_EAR, "head", false, 3, "$n's severed head plops on the ground.", objects::SeveredHead},
-    {PART_EYE, "head", false, 3, "$n's severed head plops on the ground.", objects::SeveredHead},
-    {PART_LONG_TONGUE, "tongue", false, 3, "$n's severed head plops on the ground.", objects::SeveredHead},
-    {PART_EYESTALKS, "eye stalks", false, 2, 0, 0}, /* weird */
-    {PART_TENTACLES, "tentacles", false, 2, 0, 0},
-    {PART_FINS, "fin", false, 2, 0, 0},
-    {PART_WINGS, "wings", false, 2, "$n's wing is sliced off and lands with a crunch.", objects::SlicedWing},
-    {PART_TAIL, "tail", false, 1, 0, 0},
-    {PART_CLAWS, "claws", false, 2, "$n's claw flies off and narrowly misses you.", objects::SlicedClaw},
-    {PART_FANGS, "fangs", false, 3, 0, 0},
-    {PART_HORNS, "horn", false, 3, 0, 0},
-    {PART_SCALES, "scales", false, 2, "$n's heart is torn from $s chest.", objects::TornHeart},
-    {PART_TUSKS, "tusk", false, 2, 0, 0}};
-
 /*
  * Class table.
  */

@@ -173,15 +173,6 @@ struct attack_type {
 
 #define MAX_DAM 18 /* this should really be down below with dam types*/
 
-struct race_body_type {
-    unsigned long part_flag; /* one of the PART_* */
-    const char *name; /* verbose string */
-    bool pair; /* do we normally find a pair of these? e.g. arm*/
-    sh_int pos; /* lower = 1, middle = 2, upper = 3 */
-    const char *spill_msg; /* msg when victim killed */
-    int obj_vnum; /* object to deposit when dead */
-};
-
 struct race_type {
     const char *name; /* call name of the race */
     bool pc_race; /* can be chosen by pcs */
@@ -1203,7 +1194,6 @@ extern const struct class_type class_table[MAX_CLASS];
 extern const struct attack_type attack_table[];
 extern const struct race_type race_table[];
 extern const struct pc_race_type pc_race_table[];
-extern const struct race_body_type race_body_table[]; /* verbose body parts*/
 extern const struct liq_type liq_table[LIQ_MAX + 1];
 extern const struct skill_type skill_table[MAX_SKILL];
 extern const struct group_type group_table[MAX_GROUP];
