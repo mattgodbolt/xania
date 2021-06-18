@@ -1,6 +1,11 @@
+/*************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
+/*  (C) 2021 Xania Development Team                                      */
+/*  See merc.h and README for original copyrights                        */
+/*************************************************************************/
 #pragma once
 
-#include "CombatTypes.hpp"
+#include "DamageContext.hpp"
 
 struct Char;
 class Rng;

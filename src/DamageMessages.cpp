@@ -1,12 +1,15 @@
+/*************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
+/*  (C) 2021 Xania Development Team                                      */
+/*  See merc.h and README for original copyrights                        */
+/*************************************************************************/
 #include "DamageMessages.hpp"
-
+#include "AttackType.hpp"
 #include "Char.hpp"
 #include "merc.h"
 
 #include <fmt/format.h>
 #include <variant>
-
-extern bool is_attack_skill(const AttackType atk_type, const sh_int skill_num);
 
 namespace {
 

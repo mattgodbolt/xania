@@ -96,7 +96,8 @@ add_library(xania_lib STATIC
         Sex.hpp Sex.cpp
         Tip.cpp Tip.hpp
         Position.hpp Position.cpp
-        CombatTypes.hpp
+        AttackType.hpp AttackType.cpp
+        InjuredPart.hpp InjuredPart.cpp
         DamageMessages.hpp DamageMessages.cpp)
 target_link_libraries(
         xania_lib

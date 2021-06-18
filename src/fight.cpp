@@ -11,6 +11,7 @@
 #include "AFFECT_DATA.hpp"
 #include "DamageMessages.hpp"
 #include "Format.hpp"
+#include "InjuredPart.hpp"
 #include "Logging.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumMobiles.hpp"
@@ -51,8 +52,6 @@ bool check_dodge(Char *ch, Char *victim);
 void check_killer(Char *ch, Char *victim);
 bool check_parry(Char *ch, Char *victim);
 bool check_shield_block(Char *ch, Char *victim);
-bool is_attack_skill(const AttackType atk_type, const sh_int skill_num);
-bool is_attack_skill(const skill_type *opt_skill, const sh_int skill_num);
 void announce(std::string_view buf, const Char *ch);
 void death_cry(Char *ch);
 void group_gain(Char *ch, Char *victim);
@@ -65,7 +64,6 @@ void raw_kill(Char *victim);
 void set_fighting(Char *ch, Char *victim);
 void disarm(Char *ch, Char *victim);
 void lose_level(Char *ch);
-InjuredPart random_injured_part(Char *ch, Char *victim, const AttackType atk_type);
 
 /*extern void thrown_off( Char *ch, Char *pet);*/
 
@@ -725,7 +723,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
     if (((wield = get_eq_char(ch, WEAR_WIELD)) != nullptr) && check_material_vulnerability(victim, wield))
         adjusted_damage += adjusted_damage / 2;
 
-    const auto body_part = random_injured_part(ch, victim, atk_type);
+    const auto body_part = InjuredPart::random_from_victim(ch, victim, atk_type, Rng::global_rng());
     // Track which body part was hit, if slaim this seeds which part gets cut off.
     victim->hit_location = body_part.part_flag;
 
@@ -1662,104 +1660,6 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
     xp = (xp * gch->level / total_levels) * 1.5;
 
     return xp;
-}
-
-bool is_attack_skill(const skill_type *opt_skill, const sh_int skill_num) {
-    if (skill_num < 0 || skill_num >= MAX_SKILL) {
-        return false;
-    }
-    return opt_skill && &skill_table[skill_num] == opt_skill;
-}
-
-bool is_attack_skill(const AttackType atk_type, const sh_int skill_num) {
-    if (skill_num < 0 || skill_num >= MAX_SKILL) {
-        return false;
-    } else if (const auto attack_skill = std::get_if<const skill_type *>(&atk_type)) {
-        return is_attack_skill(*attack_skill, skill_num);
-    } else {
-        return false;
-    }
-}
-
-// This allows us to adjust the probability of where the char hits
-// the victim. This is dependent on size, unless ch is affected by fly or
-// haste in which case you are pretty likely to be able to hit them anywhere
-int body_size_diff(Char *ch, Char *victim) {
-    if (is_affected(ch, AFF_FLYING) || is_affected(ch, AFF_HASTE))
-        return 0;
-    return ch->size - victim->size;
-}
-
-// Small creatures are more likely to hit the lower parts of their opponent
-// and less likely to hit the higher parts, and vice versa
-int chance_to_hit_body_part(const int body_size_diff, const race_body_type &body_part) {
-    if (body_size_diff >= 2) {
-        /* i.e. if we are quite a bit bigger than them */
-        switch (body_part.pos) {
-        case 3: return 100; // hitting high up
-        case 2: return 66;
-        default: return 33;
-        }
-    } else if (body_size_diff <= -2) {
-        /* i.e. the other way around this time */
-        switch (body_part.pos) {
-        case 3: return 33;
-        case 2: return 66;
-        default: return 100;
-        }
-    } else if (body_size_diff == 0)
-        return 100;
-    else
-        return 75;
-}
-
-std::string gen_body_part_description(const race_body_type &body_part) {
-    std::string desc;
-    if (body_part.pair) { /* a paired part */
-        switch (number_range(0, 4) % 2) {
-        case 0: desc = "left "; break;
-        case 1:
-        default: desc = "left "; break;
-        }
-    }
-    if (body_part.part_flag & PART_ARMS) {
-        switch (number_range(0, 6) % 3) {
-        case 0: desc += "bicep"; break;
-        case 1: desc += "shoulder"; break;
-        default: desc += "forearm"; break;
-        }
-    } else if (body_part.part_flag & PART_LEGS) {
-        switch (number_range(0, 6) % 3) {
-        case 0: desc += "thigh"; break;
-        case 1: desc += "knee"; break;
-        default: desc += "calf"; break;
-        }
-    } else {
-        desc += body_part.name;
-    }
-    return desc;
-}
-
-// Selects a victim body part semi-randomly taking in relative size of the combatants into account
-// and returns the description and body part flag.
-// If a headbutt lands it always hits the victim's head! And if the attacker hits itself
-// the caller never reports the affected body part anyway.
-InjuredPart random_injured_part(Char *ch, Char *victim, const AttackType atk_type) {
-    if (is_attack_skill(atk_type, gsn_headbutt) || ch == victim) {
-        return {PART_HEAD, "head"};
-    }
-    const auto size_diff = body_size_diff(ch, victim);
-    for (auto tries = 0; tries < 5; tries++) {
-        const auto random_part = number_range(0, MAX_BODY_PARTS - 1);
-        if (race_table[victim->race].parts & race_body_table[random_part].part_flag) {
-            const auto chance = chance_to_hit_body_part(size_diff, race_body_table[random_part]);
-            if (number_percent() < chance) {
-                return {race_body_table[random_part].part_flag,
-                        gen_body_part_description(race_body_table[random_part])};
-            }
-        }
-    }
-    return {PART_HEAD, "head"};
 }
 
 /*

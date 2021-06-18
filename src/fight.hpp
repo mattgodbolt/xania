@@ -6,13 +6,11 @@
 #pragma once
 
 #include <string>
-#include <variant>
 
-#include "CombatTypes.hpp"
+#include "AttackType.hpp"
 
 struct Char;
 struct skill_type;
-struct attack_type;
 
 std::string describe_fight_condition(const Char &victim);
 bool is_safe(Char *ch, Char *victim);
