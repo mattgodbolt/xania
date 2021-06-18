@@ -565,7 +565,7 @@ courtesy of the Mayor's warehouses.  Only empty equipment slots are affected.
 
 0 AUTO AUTOLIST AUTOLOOT AUTOGOLD AUTOSAC AUTOEXIT AUTOASSIST AUTOSPLIT
 AUTOPEEK~
-ROM uses varies automatic actions, to ease the boredom of always splitting
+Xania uses varies automatic actions, to ease the boredom of always splitting
 gold and sacrificing corpses.  The commands are as follows:
 
 autolist  : list all automatic actions
@@ -578,6 +578,7 @@ autoassit : makes you help group members in combat
 |Wautopeek|w  : if you have the peek skill, this will toggle its use
 
 brief           activates and deactivates short descriptions
+showdefence     toggles whether dodge, parry and shield blocks are shown
 compact         used to remove most 'empty' lines of text
 nosum           toggle between state of summonability
 nofol           prevent people following you, and gets rid of pets
@@ -587,9 +588,10 @@ noloot		permits or denies looting of your corpse
 Typing a command sets the action (except for autolist), typing it again removes
 it. 
 ~ 
--1 BRIEF COMPACT NOSUM NOFOLLOW SHOWAFK NOLOOT~
+-1 BRIEF COMPACT NOSUM NOFOLLOW SHOWAFK NOLOOT SHOWDEFENCE~
 
 brief           activates and deactivates short descriptions
+showdefence     toggles whether dodge, parry and shield blocks are shown
 compact         used to remove most 'empty' lines of text
 nosum           toggle between state of summonability
 nofol           prevent people following you, and gets rid of pets
