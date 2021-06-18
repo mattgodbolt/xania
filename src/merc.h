@@ -173,12 +173,6 @@ struct attack_type {
 
 #define MAX_DAM 18 /* this should really be down below with dam types*/
 
-struct dam_string_type {
-    int damage_proportion; /* the proportion of the victim's total hit points inflicted */
-    /* followed by the nice groovy descriptions */
-    const char *dam_types[MAX_DAM];
-};
-
 struct race_body_type {
     unsigned long part_flag; /* one of the PART_* */
     const char *name; /* verbose string */
@@ -1210,7 +1204,6 @@ extern const struct attack_type attack_table[];
 extern const struct race_type race_table[];
 extern const struct pc_race_type pc_race_table[];
 extern const struct race_body_type race_body_table[]; /* verbose body parts*/
-extern const struct dam_string_type dam_string_table[]; /*verbose dam types */
 extern const struct liq_type liq_table[LIQ_MAX + 1];
 extern const struct skill_type skill_table[MAX_SKILL];
 extern const struct group_type group_table[MAX_GROUP];

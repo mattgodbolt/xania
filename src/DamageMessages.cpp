@@ -13,6 +13,52 @@
 
 namespace {
 
+struct dam_proportion_verbs {
+    int damage_proportion;
+    const char *dam_type_verbs[MAX_DAM];
+};
+
+const struct dam_proportion_verbs dam_proportion_verbs_table[] = {
+    {0, {"miss", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+    {1, {"scrape", 0, 0, 0, "touch", 0, "touch", "brush", 0, "taint", "touch", 0, 0, 0, 0, 0, 0, 0}},
+    {2, {"scratch", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+    {3, {"bruise", 0, 0, 0, "hurt", "hurt", "hurt", "hurt", "burn", "sicken", "entangle", 0, 0, 0, 0, 0, 0, 0}},
+    {4, {"graze", 0, 0, 0, "sting", "cool", "spark", "gnaw", "fry", "nauseate", "stir", 0, 0, 0, 0, 0, 0, 0}},
+    {5, {"hit", 0, 0, 0, "scald", "chill", "zap", "sting", "sear", "score", "smolder", 0, 0, 0, 0, 0, 0, 0}},
+    {6, {"cut", 0, 0, 0, "blister", "ice", "shock", "blister", "torment", "torment", "pain", 0, 0, 0, 0, 0, 0, 0}},
+    {7,
+     {"injure", 0, 0, 0, "burn", "frost", "stun", "scald", "torment", "palpitate", "palpitate", 0, 0, 0, 0, 0, 0, 0}},
+    {8,
+     {"wound", 0, 0, 0, "torch", "freeze", "electrify", "boil", "corrupt", "torture", "torture", 0, 0, 0, 0, 0, 0, 0}},
+    {10,
+     {"split", 0, 0, 0, "sizzle", "solidify", "electrocute", "smack", "defile", "agonize", "agonize", 0, 0, 0, 0, 0, 0,
+      0}},
+    {12,
+     {"gash", 0, 0, 0, "frazzle", "crackle", "frazzle", "deteriorate", "defile", "crush", "purge", 0, 0, 0, 0, 0, 0,
+      0}},
+    {14,
+     {"shred", 0, 0, 0, "crisp", "shatter", "crisp", "perforate", "defile", "dirty", "cleanse", 0, 0, 0, 0, 0, 0, 0}},
+    {16,
+     {"maul", 0, 0, 0, "cook", "crystalize", "impale", "dissipate", "defile", "smash", "pacify", 0, 0, 0, 0, 0, 0, 0}},
+
+    {18, {"decimate", 0, 0, 0, "grill", 0, "scorch", "splutter", 0, "blacken", "purify", 0, 0, 0, 0, 0, 0, 0}},
+
+    {22, {"eviscerate", 0, 0, 0, "roast", 0, "sear", "frizzle", 0, "curse", "redeem", 0, 0, 0, 0, 0, 0, 0}},
+    {26, {"devastate", 0, 0, 0, "sear", 0, "cook", "splatter", 0, "ruin", "crystalize", 0, 0, 0, 0, 0, 0, 0}},
+    {30, {"maim", 0, 0, 0, "char", 0, "roast", "sear", 0, "enslave", "spiritualize", 0, 0, 0, 0, 0, 0, 0}},
+    {35, {"MUTILATE", 0, 0, 0, "BRAND", "FREEZE", "ELECTRIFY", "DISSOLVE", 0, 0, "VITRIFY", 0, 0, 0, 0, 0, 0, 0}},
+    {40, {"DISEMBOWEL", 0, 0, 0, "MELT", 0, "ELECTROCUTE", "MELT", 0, "PURGE", "PURGE", 0, 0, 0, 0, 0, 0, 0}},
+    {45, {"DISMEMBER", 0, 0, 0, "ENGULF", 0, "CAUTERIZE", "DECOMPOSE", 0, "CRUCIFY", "CRUCIFY", 0, 0, 0, 0, 0, 0, 0}},
+    {50, {"MASSACRE", 0, 0, 0, "NUKE", 0, "NUKE", "DISINTEGRATE", 0, "CONDEMN", "CONDEMN", 0, 0, 0, 0, 0, 0, 0}},
+    {56, {"MANGLE", 0, 0, 0, "ATOMIZE", 0, 0, "ATOMIZE", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+    {62, {"DEMOLISH", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+    {70, {"DEVASTATE", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+    {80, {"OBLITERATE", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+    {90, {"ANNIHILATE", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+    {120, {"ERADICATE", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+    {120, /* leave last item in list null */
+     {nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}};
+
 int calc_dam_proportion(const Char *ch, const Char *victim, const int damage, Rng &rng) {
     int proportion = 0;
     if (damage != 0) { /* don't do any funny business if we have missed them! */
@@ -68,10 +114,10 @@ constexpr auto DoesUnspeakableThings = "does |RUNSPEAKABLE|w things to";
 } // namespace
 
 ImpactVerbs ImpactVerbs::create(const bool has_attack_verb, const int dam_proportion, const int dam_type) {
-    const struct dam_string_type *found_type = nullptr;
-    for (auto index = 0; dam_string_table[index].dam_types[DAM_NONE]; index++) {
-        if (dam_proportion <= dam_string_table[index].damage_proportion) {
-            found_type = &dam_string_table[index];
+    const struct dam_proportion_verbs *found_type = nullptr;
+    for (auto index = 0; dam_proportion_verbs_table[index].dam_type_verbs[DAM_NONE]; index++) {
+        if (dam_proportion <= dam_proportion_verbs_table[index].damage_proportion) {
+            found_type = &dam_proportion_verbs_table[index];
             break;
         }
     }
@@ -79,10 +125,10 @@ ImpactVerbs ImpactVerbs::create(const bool has_attack_verb, const int dam_propor
         return ImpactVerbs{has_attack_verb ? DoesUnspeakableThings : DoUnspeakableThings, DoesUnspeakableThings};
     }
     std::string singular, plural;
-    if (dam_type > 0 && found_type->dam_types[dam_type]) {
-        singular = found_type->dam_types[dam_type];
+    if (dam_type > 0 && found_type->dam_type_verbs[dam_type]) {
+        singular = found_type->dam_type_verbs[dam_type];
     } else { // there's no specific noun for the damage type being delivered and the proportion
-        singular = found_type->dam_types[0];
+        singular = found_type->dam_type_verbs[0];
     }
     plural = singular;
     // Pluralize it
