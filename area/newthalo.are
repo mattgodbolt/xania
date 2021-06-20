@@ -7777,8 +7777,6 @@ M 0 9540 1 9795 1  1   Raistlin into On a dock
 D   0   9798    3      0  Under the dock: Door west open
 M 0 9591 1 9799 1  1   the Ixitxachitl into Lair of the Ixitxachitl  
 D   0   9799    1      0  Lair of the Ixitxachitl: Door east open
-D   0   9800    4      1  Stable: Door up closed
-D   0   9630    5      1  The Knight's Guild: Door down closed
 D   0   9800    1      0  Stable: Door east open
 D   0   9802    3      0  The tack shop: Door west open
 M 0 9599 1 9800 1  1   The horse seller into Stable  
