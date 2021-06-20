@@ -21,6 +21,7 @@
 #include "lookup.h"
 #include "magic.h"
 #include "merc.h"
+#include "ride.hpp"
 #include "string_utils.hpp"
 
 #include <range/v3/algorithm/count.hpp>
@@ -718,8 +719,6 @@ void extract_obj(OBJ_DATA *obj) {
     --obj->pIndexData->count;
     delete obj;
 }
-
-/* extern void thrown_off(Char *ch, Char *pet); */
 
 std::vector<std::unique_ptr<Char>> chars_to_reap;
 void reap_old_chars() { chars_to_reap.clear(); }

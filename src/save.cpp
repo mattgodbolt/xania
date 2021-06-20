@@ -43,8 +43,6 @@ std::string filename_for_god(std::string_view player_name) {
 #define MAX_NEST 100
 static OBJ_DATA *rgObjNest[MAX_NEST];
 
-extern void char_ride(Char *ch, Char *pet);
-
 /*
  * Local functions.
  */

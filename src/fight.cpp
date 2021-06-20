@@ -25,6 +25,7 @@
 #include "lookup.h"
 #include "merc.h"
 #include "mob_prog.hpp"
+#include "ride.hpp"
 #include "save.hpp"
 #include "skills.hpp"
 #include "string_utils.hpp"
@@ -67,8 +68,6 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill);
 void set_fighting(Char *ch, Char *victim);
 void disarm(Char *ch, Char *victim);
 void lose_level(Char *ch);
-
-/*extern void thrown_off( Char *ch, Char *pet);*/
 
 /*
  * Control the fights going on.

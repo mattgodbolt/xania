@@ -1196,12 +1196,9 @@ void stop_follower(Char *ch);
 void nuke_pets(Char *ch);
 void die_follower(Char *ch);
 bool is_same_group(const Char *ach, const Char *bch);
-void thrown_off(Char *ch, Char *pet);
-void fallen_off_mount(Char *ch);
 
 /* act_move.c */
 void move_char(Char *ch, Direction door);
-void unride_char(Char *ch, Char *pet);
 
 /* ban.c */
 void save_bans();

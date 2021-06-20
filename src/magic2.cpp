@@ -22,6 +22,7 @@
 #include "lookup.h"
 #include "magic.h"
 #include "merc.h"
+#include "ride.hpp"
 
 /* Faramir's rather devious tornado spell....watch out for players who
  * use this to annoy others! :)

@@ -28,6 +28,7 @@
 #include "magic.h"
 #include "merc.h"
 #include "mob_prog.hpp"
+#include "ride.hpp"
 #include "save.hpp"
 #include "skills.hpp"
 #include "string_utils.hpp"
