@@ -14,6 +14,8 @@
 #include "lookup.h"
 #include "magic.h"
 #include "merc.h"
+#include "update.hpp"
+
 #include <cstdio>
 #include <cstring>
 #include <map>

@@ -22,6 +22,7 @@
 #include "merc.h"
 #include "skills.hpp"
 #include "string_utils.hpp"
+#include "update.hpp"
 
 #include <cstdio>
 #include <cstring>

@@ -1323,12 +1323,6 @@ void obj_cast_spell(int sn, int level, Char *ch, Char *victim, OBJ_DATA *obj);
 /* special.c */
 SpecialFunc spec_lookup(const char *name);
 
-/* update.c */
-void advance_level(Char *ch);
-void gain_exp(Char *ch, int gain);
-void update_handler();
-bool is_safe_sentient(Char *ch, Char *wch);
-
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
 #define MACRO_STRINGIFY_(s) #s
 

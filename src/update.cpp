@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "update.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
@@ -55,6 +56,24 @@ int count_updated = 0;
 /* used for saving */
 static const uint32_t save_every_n = 30u;
 uint32_t save_number = 0;
+
+/*
+ * ch - the sentient mob
+ * victim - the hapless victim
+ *  this func added to prevent the spam which was occuring when a sentient
+ * mob encountered his foe in a safe room --fara
+ */
+
+bool is_safe_sentient(Char *ch, const Char *victim) {
+    if (ch->in_room == nullptr)
+        return false;
+    if (IS_SET(ch->in_room->room_flags, ROOM_SAFE)) {
+        ch->yell(fmt::format("|WIf it weren't for the law, you'd be dead meat {}!!!|w", victim->name));
+        ch->sentient_victim.clear();
+        return true;
+    }
+    return false;
+}
 
 /* Advancement stuff. */
 void advance_level(Char *ch) {
@@ -777,24 +796,6 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
         if (victim != nullptr)
             multi_hit(ch, victim);
     }
-}
-
-/*
- * ch - the sentient mob
- * wch - the hapless victim
- *  this func added to prevent the spam which was occuring when a sentient
- * mob encountered his foe in a safe room --fara
- */
-
-bool is_safe_sentient(Char *ch, Char *wch) {
-    if (ch->in_room == nullptr)
-        return false;
-    if (IS_SET(ch->in_room->room_flags, ROOM_SAFE)) {
-        ch->yell(fmt::format("|WIf it weren't for the law, you'd be dead meat {}!!!|w", wch->name));
-        ch->sentient_victim.clear();
-        return true;
-    }
-    return false;
 }
 
 /* This function resets the player count every day */

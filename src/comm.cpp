@@ -35,6 +35,7 @@
 #include "save.hpp"
 #include "skills.hpp"
 #include "string_utils.hpp"
+#include "update.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
 

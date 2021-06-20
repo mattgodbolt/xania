@@ -54,7 +54,7 @@ add_library(xania_lib STATIC
         special.cpp
         tables.cpp
         tables.h
-        update.cpp
+        update.hpp update.cpp
         wiznet.cpp
         entity_balance.cpp
         CommandSet.hpp
