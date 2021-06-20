@@ -7,7 +7,6 @@
 /*                                                                       */
 /*************************************************************************/
 
-#include "AFFECT_DATA.hpp"
 #include "ArgParser.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
@@ -16,14 +15,11 @@
 #include "chat/chatlink.h"
 #include "comm.hpp"
 #include "common/Configuration.hpp"
-#include "fight.hpp"
 #include "handler.hpp"
 #include "info.hpp"
 #include "interp.h"
-#include "merc.h"
 #include "ride.hpp"
 #include "save.hpp"
-#include "skills.hpp"
 
 #include <fmt/format.h>
 
