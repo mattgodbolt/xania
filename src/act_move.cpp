@@ -644,7 +644,7 @@ void do_pick(Char *ch, ArgParser args) {
         }
     }
 
-    if (ch->is_pc() && number_percent() > get_skill_learned(ch, gsn_pick_lock)) {
+    if (ch->is_pc() && number_percent() > ch->get_skill(gsn_pick_lock)) {
         ch->send_line("You failed.");
         check_improve(ch, gsn_pick_lock, false, 2);
         return;
@@ -886,7 +886,7 @@ void do_sneak(Char *ch) {
     ch->send_line("You attempt to move silently.");
     affect_strip(ch, gsn_sneak);
 
-    if (ch->is_npc() || number_percent() < get_skill_learned(ch, gsn_sneak)) {
+    if (number_percent() < ch->get_skill(gsn_sneak)) {
         check_improve(ch, gsn_sneak, true, 3);
         AFFECT_DATA af;
         af.type = gsn_sneak;
@@ -972,13 +972,7 @@ void do_recall(Char *ch, ArgParser args) {
     }
 
     if (ch->fighting) {
-        int lose, skill;
-
-        if (ch->is_npc())
-            skill = 40 + ch->level;
-        else
-            skill = get_skill_learned(ch, gsn_recall);
-
+        const auto skill = ch->get_skill(gsn_recall);
         if (number_percent() < 80 * skill / 100) {
             check_improve(ch, gsn_recall, false, 6);
             WAIT_STATE(ch, 4);
@@ -986,10 +980,10 @@ void do_recall(Char *ch, ArgParser args) {
             return;
         }
 
-        lose = (ch->desc != nullptr) ? 25 : 50;
-        gain_exp(ch, 0 - lose);
+        const auto lose_exp = (ch->desc != nullptr) ? 25 : 50;
+        gain_exp(ch, 0 - lose_exp);
         check_improve(ch, gsn_recall, true, 4);
-        ch->send_line("You recall from combat!  You lose {} exps.", lose);
+        ch->send_line("You recall from combat!  You lose {} exps.", lose_exp);
         stop_fighting(ch, true);
     }
 

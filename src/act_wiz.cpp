@@ -909,7 +909,7 @@ void do_mskills(Char *ch, const char *argument) {
             break;
 
         if (get_skill_level(victim, sn) < LEVEL_HERO && skill_table[sn].spell_fun == spell_null
-            && victim->pcdata->learned[sn] > 0) // NOT get_skill_learned
+            && victim->pcdata->learned[sn] > 0) // NOT victim.get_skill()
         {
             found = true;
             lev = get_skill_level(victim, sn);
@@ -917,7 +917,7 @@ void do_mskills(Char *ch, const char *argument) {
                 bug_snprintf(buf, sizeof(buf), "%-18s  n/a      ", skill_table[sn].name);
             else
                 bug_snprintf(buf, sizeof(buf), "%-18s %3d%%      ", skill_table[sn].name,
-                             victim->pcdata->learned[sn]); // NOT get_skill_
+                             victim->pcdata->learned[sn]); // NOT victim.get_skill()
 
             if (skill_list[lev][0] == '\0')
                 bug_snprintf(skill_list[lev], sizeof(skill_list[lev]), "\n\rLevel %2d: %s", lev, buf);
@@ -981,7 +981,7 @@ void do_mspells(Char *ch, const char *argument) {
             break;
 
         if (get_skill_level(victim, sn) < LEVEL_HERO && skill_table[sn].spell_fun != spell_null
-            && victim->pcdata->learned[sn] > 0) // NOT get_skill_learned
+            && victim->pcdata->learned[sn] > 0) // NOT victim.get_skill()
         {
             found = true;
             lev = get_skill_level(victim, sn);
@@ -1072,8 +1072,7 @@ void do_mpracs(Char *ch, const char *argument) {
     for (sn = 0; sn < MAX_SKILL; sn++) {
         if (skill_table[sn].name == nullptr)
             break;
-        if (victim->level < get_skill_level(victim, sn)
-            || victim->pcdata->learned[sn] < 1 /* skill is not known NOT get_skill_learned */)
+        if (victim->level < get_skill_level(victim, sn) || victim->pcdata->learned[sn] < 1 /* NOT victim.get_skill() */)
             continue;
 
         bug_snprintf(buf, sizeof(buf), "%-18s %3d%%  ", skill_table[sn].name, victim->pcdata->learned[sn]);

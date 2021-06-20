@@ -1725,7 +1725,7 @@ void do_steal(Char *ch, const char *argument) {
     percent = number_percent() + (victim->is_pos_awake() ? 10 : -50);
 
     if (ch->level + 5 < victim->level || victim->is_pos_fighting() || victim->is_pc()
-        || (ch->is_pc() && percent > get_skill_learned(ch, gsn_steal))) {
+        || (ch->is_pc() && percent > ch->get_skill(gsn_steal))) {
         /*
          * Failure.
          */
@@ -1942,7 +1942,7 @@ void do_buy(Char *ch, const char *argument) {
 
         /* haggle */
         roll = number_percent();
-        if (ch->is_pc() && roll < get_skill_learned(ch, gsn_haggle)) {
+        if (ch->is_pc() && roll < ch->get_skill(gsn_haggle)) {
             cost -= cost / 2 * roll / 100;
             ch->send_line("You haggle the price down to {} coins.", cost);
             check_improve(ch, gsn_haggle, true, 4);
@@ -2013,7 +2013,7 @@ void do_buy(Char *ch, const char *argument) {
 
         /* haggle */
         roll = number_percent();
-        if (ch->is_pc() && roll < get_skill_learned(ch, gsn_haggle)) {
+        if (ch->is_pc() && roll < ch->get_skill(gsn_haggle)) {
             cost -= obj->cost / 2 * roll / 100;
             ch->send_line("You haggle the price down to {} coins.", cost);
             check_improve(ch, gsn_haggle, true, 4);
@@ -2138,7 +2138,7 @@ void do_sell(Char *ch, const char *argument) {
     act("$n sells $p.", ch, obj, nullptr, To::Room);
     /* haggle */
     roll = number_percent();
-    if (ch->is_pc() && roll < get_skill_learned(ch, gsn_haggle)) {
+    if (ch->is_pc() && roll < ch->get_skill(gsn_haggle)) {
         ch->send_line("You haggle with the shopkeeper.");
         cost += obj->cost / 2 * roll / 100;
         cost = UMIN(cost, 95 * get_cost(keeper, obj, true) / 100);
@@ -2230,7 +2230,7 @@ void do_throw(Char *ch, const char *argument) {
 
     WAIT_STATE(ch, 2 * PULSE_VIOLENCE);
 
-    chance = get_skill_learned(ch, gsn_throw);
+    chance = ch->get_skill(gsn_throw);
 
     chance += URANGE(-20, (ch->level - victim->level), 20) - number_percent();
 

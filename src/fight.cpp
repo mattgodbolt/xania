@@ -257,10 +257,13 @@ void multi_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 /* procedure for all mobile attacks */
 void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     int chance, number;
-    if (IS_SET(ch->off_flags, OFF_BACKSTAB) && (ch->fighting == nullptr) && (get_eq_char(ch, WEAR_WIELD) != nullptr)
-        && (victim->hit == victim->max_hit))
+    // NPCs with the backstab act bit have a chance to land a backstab on the victim if they're unhurt.
+    // Typically this will be the initial blow from an aggressive mob.
+    if (IS_SET(ch->off_flags, OFF_BACKSTAB) && victim->hit == victim->max_hit
+        && number_percent() < ch->get_skill(gsn_backstab)) {
         one_hit(ch, victim, &skill_table[gsn_backstab]);
-    else
+        return;
+    } else
         one_hit(ch, victim, opt_skill);
     if (ch->fighting != victim)
         return;
@@ -868,7 +871,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
         if (victim->is_npc()) {
             fallchance = URANGE(2, victim->level * 2, 98);
         } else {
-            fallchance = get_skill_learned(victim, gsn_ride);
+            fallchance = victim->get_skill(gsn_ride);
         }
         switch (dam_type) {
         case DAM_BASH: break;
@@ -1067,8 +1070,6 @@ void check_killer(Char *ch, Char *victim) {
  */
 bool check_parry(Char *ch, Char *victim) {
     OBJ_DATA *weapon;
-    int chance;
-
     if (!victim->is_pos_awake())
         return false;
     if (get_eq_char(victim, WEAR_WIELD) == nullptr)
@@ -1077,12 +1078,7 @@ bool check_parry(Char *ch, Char *victim) {
         if (weapon->value[0] == WEAPON_WHIP)
             return false;
     }
-    if (victim->is_npc()) {
-        chance = (victim->level / 4) + 1;
-        if (is_affected(victim, gsn_insanity))
-            chance -= 10;
-    } else
-        chance = get_skill_learned(victim, gsn_parry) / 3;
+    auto chance = victim->get_skill(gsn_parry) / 3;
     chance = UMAX(5, chance + victim->level - ch->level);
     if (number_percent() >= chance)
         return false;
@@ -1099,8 +1095,6 @@ bool check_parry(Char *ch, Char *victim) {
  */
 bool check_shield_block(Char *ch, Char *victim) {
     OBJ_DATA *weapon;
-    int chance;
-
     if (!victim->is_pos_awake())
         return false;
     if (get_eq_char(victim, WEAR_SHIELD) == nullptr)
@@ -1109,12 +1103,7 @@ bool check_shield_block(Char *ch, Char *victim) {
         if (weapon->value[0] == WEAPON_WHIP)
             return false;
     }
-    if (victim->is_npc()) {
-        chance = (victim->level / 4) + 1;
-        if (is_affected(victim, gsn_insanity))
-            chance -= 10;
-    } else
-        chance = get_skill_learned(victim, gsn_shield_block) / 3;
+    auto chance = victim->get_skill(gsn_shield_block) / 3;
     chance = UMAX(5, chance + victim->level - ch->level);
     if (number_percent() >= chance)
         return false;
@@ -1131,17 +1120,10 @@ bool check_shield_block(Char *ch, Char *victim) {
  * Check for dodge.
  */
 bool check_dodge(Char *ch, Char *victim) {
-    int chance;
     if (!victim->is_pos_awake())
         return false;
 
-    if (victim->is_npc()) {
-        chance = (victim->level / 4) + 1;
-        if (is_affected(victim, gsn_insanity))
-            chance -= 10;
-    } else
-        chance = get_skill_learned(victim, gsn_dodge) / 3;
-
+    auto chance = victim->get_skill(gsn_dodge) / 3;
     auto ddex = get_curr_stat(victim, Stat::Dex) - get_curr_stat(ch, Stat::Dex);
     chance += ddex;
     chance = UMAX(5, chance + victim->level - ch->level);
@@ -2198,12 +2180,11 @@ void do_backstab(Char *ch, const char *argument) {
 
     one_argument(argument, arg);
 
-    /* Death : removed NPC check, so mobs can backstab */
-    if (ch->is_pc())
-        if ((ch->level < get_skill_level(ch, gsn_backstab)) || (get_skill_learned(ch, gsn_backstab) == 0)) {
-            ch->send_line("That might not be a good idea. You might hurt yourself.");
-            return;
-        }
+    const auto chance = ch->get_skill(gsn_backstab);
+    if (chance <= 0) {
+        ch->send_line("That might not be a good idea. You might hurt yourself.");
+        return;
+    }
 
     if (arg[0] == '\0') {
         ch->send_line("Backstab whom?");
@@ -2246,12 +2227,12 @@ void do_backstab(Char *ch, const char *argument) {
 
     check_killer(ch, victim);
     WAIT_STATE(ch, skill_table[gsn_backstab].beats);
-    if (ch->is_pc() && (!victim->is_pos_awake() || number_percent() < get_skill_learned(ch, gsn_backstab))) {
+    if (!victim->is_pos_awake() || number_percent() < chance) {
         check_improve(ch, gsn_backstab, true, 1);
         multi_hit(ch, victim, &skill_table[gsn_backstab]);
     } else {
         check_improve(ch, gsn_backstab, false, 1);
-        damage(ch, victim, 0, &skill_table[gsn_backstab], DAM_NONE);
+        damage(ch, victim, 0, &skill_table[gsn_backstab], DAM_NONE); // zero damage hit, trigger a fight.
     }
 }
 
@@ -2347,7 +2328,7 @@ void do_rescue(Char *ch, const char *argument) {
     }
 
     WAIT_STATE(ch, skill_table[gsn_rescue].beats);
-    if (ch->is_pc() && number_percent() > get_skill_learned(ch, gsn_rescue)) {
+    if (ch->is_pc() && number_percent() > ch->get_skill(gsn_rescue)) {
         ch->send_line("You fail the rescue.");
         check_improve(ch, gsn_rescue, false, 1);
         return;
@@ -2439,7 +2420,7 @@ void do_headbutt(Char *ch, const char *argument) {
 
     WAIT_STATE(ch, skill_table[gsn_headbutt].beats);
 
-    if ((chance = number_percent()) < get_skill_learned(ch, gsn_headbutt)) {
+    if ((chance = number_percent()) < ch->get_skill(gsn_headbutt)) {
         damage(ch, victim, number_range(ch->level / 3, ch->level), &skill_table[gsn_headbutt], DAM_BASH);
         check_improve(ch, gsn_headbutt, true, 2);
 
@@ -2540,11 +2521,11 @@ void do_kick(Char *ch, const char *argument) {
     }
 
     WAIT_STATE(ch, skill_table[gsn_kick].beats);
-    if (number_percent() < get_skill_learned(ch, gsn_kick)) {
+    if (number_percent() < ch->get_skill(gsn_kick)) {
         damage(ch, victim, number_range(1, ch->level), &skill_table[gsn_kick], DAM_BASH);
         check_improve(ch, gsn_kick, true, 1);
     } else {
-        damage(ch, victim, 0, &skill_table[gsn_kick], DAM_BASH);
+        damage(ch, victim, 0, &skill_table[gsn_kick], DAM_BASH); // zero damage hit, trigger a fight.
         check_improve(ch, gsn_kick, false, 1);
     }
 }

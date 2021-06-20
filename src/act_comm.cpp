@@ -374,7 +374,7 @@ void do_ride(Char *ch, const char *argument) {
     if (ch->is_npc())
         return;
 
-    if (get_skill_learned(ch, gsn_ride) == 0) {
+    if (ch->get_skill(gsn_ride) == 0) {
         ch->send_line("Huh?");
         return;
     }
@@ -426,7 +426,7 @@ void do_dismount(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (get_skill_learned(ch, gsn_ride) == 0) {
+    if (ch->get_skill(gsn_ride) == 0) {
         ch->send_line("Huh?");
         return;
     }

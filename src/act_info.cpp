@@ -306,8 +306,7 @@ void show_char_to_char_1(Char *victim, Char *ch) {
         }
     }
 
-    if (victim != ch && ch->is_pc() && number_percent() < get_skill_learned(ch, gsn_peek)
-        && IS_SET(ch->act, PLR_AUTOPEEK)) {
+    if (victim != ch && ch->is_pc() && number_percent() < ch->get_skill(gsn_peek) && IS_SET(ch->act, PLR_AUTOPEEK)) {
         ch->send_line("\n\rYou peek at the inventory:");
         check_improve(ch, gsn_peek, true, 4);
         show_list_to_char(victim->carrying, ch, true, true);
@@ -343,7 +342,7 @@ void do_peek(Char *ch, const char *argument) {
     argument = one_argument(argument, arg1);
 
     if ((victim = get_char_room(ch, arg1)) != nullptr) {
-        if (victim != ch && ch->is_pc() && number_percent() < get_skill_learned(ch, gsn_peek)) {
+        if (victim != ch && ch->is_pc() && number_percent() < ch->get_skill(gsn_peek)) {
             ch->send_line("\n\rYou peek at their inventory:");
             check_improve(ch, gsn_peek, true, 4);
             show_list_to_char(victim->carrying, ch, true, true);
@@ -749,17 +748,16 @@ void do_nosummon(Char *ch) {
 }
 
 void do_lore(Char *ch, OBJ_DATA *obj, std::string_view description) {
-    int sn = skill_lookup("identify");
-
-    if (ch->is_pc() && number_percent() > get_skill_learned(ch, skill_lookup("lore"))) {
+    if (ch->is_pc() && number_percent() > ch->get_skill(skill_lookup("lore"))) {
         ch->send_line(description);
         check_improve(ch, gsn_lore, false, 1);
     } else {
+        const auto identify = skill_lookup("identify");
         if (ch->is_mortal())
-            WAIT_STATE(ch, skill_table[sn].beats);
+            WAIT_STATE(ch, skill_table[identify].beats);
         ch->send_line(description);
         check_improve(ch, gsn_lore, true, 1);
-        (*skill_table[sn].spell_fun)(sn, ch->level, ch, (void *)obj);
+        (*skill_table[identify].spell_fun)(identify, ch->level, ch, (void *)obj);
     }
 }
 
@@ -1641,7 +1639,7 @@ void do_practice(Char *ch, const char *argument) {
         for (auto sn = 0; sn < MAX_SKILL; sn++) {
             if (skill_table[sn].name == nullptr)
                 break;
-            auto skill_level = ch->pcdata->learned[sn]; // NOT get_skill_learned
+            auto skill_level = ch->pcdata->learned[sn]; // NOT ch.get_skill()
             if (ch->level >= get_skill_level(ch, sn) && skill_level > 0)
                 col.add("{:<18} {:3}%", skill_table[sn].name, skill_level);
         }
@@ -1670,7 +1668,7 @@ void do_practice(Char *ch, const char *argument) {
             return;
         }
 
-        auto &skill_level = ch->pcdata->learned[sn]; // NOT get_skill_learned
+        auto &skill_level = ch->pcdata->learned[sn]; // NOT ch.get_skill()
         if (ch->level < get_skill_level(ch, sn) || skill_level < 1) {
             ch->send_line("You can't practice that.");
             return;

@@ -1356,7 +1356,6 @@ int get_skill_trains(Char *ch, int gsn);
 int get_group_trains(Char *ch, int gsn);
 int get_group_level(Char *ch, int gsn);
 int check_material_vulnerability(Char *ch, OBJ_DATA *object);
-int get_skill_learned(Char *ch, int gsn);
 
 void load_tipfile(); /* tip wizard - Faramir 21 Sep 1998 */
 void tip_players();

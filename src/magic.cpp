@@ -269,7 +269,7 @@ void do_cast(Char *ch, const char *argument) {
 
         WAIT_STATE(ch, skill_table[sn].beats * 2);
 
-        if (ch->is_pc() && number_percent() > get_skill_learned(ch, sn)) {
+        if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
             ch->send_line("You lost your concentration.");
             check_improve(ch, sn, false, 8);
             ch->mana -= mana / 2;
@@ -370,8 +370,7 @@ void do_cast(Char *ch, const char *argument) {
         }
 
         WAIT_STATE(ch, skill_table[sn].beats * 2);
-
-        if (ch->is_pc() && number_percent() > get_skill_learned(ch, sn)) {
+        if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
             ch->send_line("You lost your concentration.");
             check_improve(ch, sn, false, 8);
             ch->mana -= mana / 2;
@@ -434,7 +433,7 @@ void do_cast(Char *ch, const char *argument) {
 
         WAIT_STATE(ch, skill_table[sn].beats * 2);
 
-        if (ch->is_pc() && number_percent() > get_skill_learned(ch, sn)) {
+        if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
             ch->send_line("You lost your concentration.");
             check_improve(ch, sn, false, 8);
             ch->mana -= mana / 2;
@@ -553,7 +552,7 @@ void do_cast(Char *ch, const char *argument) {
 
     WAIT_STATE(ch, skill_table[sn].beats);
 
-    if (ch->is_pc() && number_percent() > get_skill_learned(ch, sn)) {
+    if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
         ch->send_line("You lost your concentration.");
         check_improve(ch, sn, false, 1);
         ch->mana -= mana / 2;

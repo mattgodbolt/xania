@@ -83,7 +83,7 @@ void do_gain(Char *ch, const char *argument) {
             if (skill_table[sn].name == nullptr)
                 break;
 
-            if (!ch->pcdata->learned[sn] // NOT get_skill_learned
+            if (!ch->pcdata->learned[sn] // NOT ch.get_skill()
                 && ((i = get_skill_trains(ch, sn)) != 0)) {
                 bug_snprintf(buf, sizeof(buf), "%-18s %-5d ", skill_table[sn].name, i);
                 ch->send_to(buf);
@@ -160,7 +160,7 @@ void do_gain(Char *ch, const char *argument) {
             return;
         }
 
-        if (ch->pcdata->learned[sn]) // NOT get_skill_learned
+        if (ch->pcdata->learned[sn]) // NOT ch.get_skill()
         {
             act("$N tells you 'You already know that skill!'", ch, nullptr, trainer, To::Char);
             return;
@@ -202,7 +202,7 @@ void do_spells(Char *ch) {
             break;
 
         if (get_skill_level(ch, sn) < LEVEL_HERO && skill_table[sn].spell_fun != spell_null
-            && ch->pcdata->learned[sn] > 0) { // NOT get_skill_learned
+            && ch->pcdata->learned[sn] > 0) { // NOT ch.get_skill()
             lev = get_skill_level(ch, sn);
             if (ch->level < lev)
                 buf = fmt::format("{:<18}   n/a           ", skill_table[sn].name);
@@ -251,7 +251,7 @@ void do_skills(Char *ch) {
             break;
 
         if (get_skill_level(ch, sn) < LEVEL_HERO && skill_table[sn].spell_fun == spell_null
-            && ch->pcdata->learned[sn] > 0) // NOT get_skill_learned
+            && ch->pcdata->learned[sn] > 0) // NOT ch.get_skill()
         {
             found = true;
             lev = get_skill_level(ch, sn);
@@ -321,7 +321,7 @@ void list_group_costs(Char *ch) {
         if (skill_table[sn].name == nullptr)
             break;
 
-        if (!ch->gen_data->skill_chosen[sn] && ch->pcdata->learned[sn] == 0 // NOT get_skill_learned
+        if (!ch->gen_data->skill_chosen[sn] && ch->pcdata->learned[sn] == 0 // NOT ch.get_skill()
             && skill_table[sn].spell_fun == spell_null && get_skill_trains(ch, sn) > 0) {
             bug_snprintf(buf, sizeof(buf), "%-18s %-5d ", skill_table[sn].name, get_skill_trains(ch, sn));
             ch->send_to(buf);
@@ -533,7 +533,7 @@ bool parse_gen_groups(Char *ch, const char *argument) {
             ch->send_line("Skill dropped.");
             ch->gen_data->skill_chosen[sn] = false;
             ch->gen_data->points_chosen -= get_skill_trains(ch, sn);
-            ch->pcdata->learned[sn] = 0; // NOT get_skill_learned
+            ch->pcdata->learned[sn] = 0; // NOT ch.get_skill()
             ch->pcdata->points -= get_skill_trains(ch, sn);
             return true;
         }
@@ -655,7 +655,7 @@ void check_improve(Char *ch, int sn, bool success, int multiplier) {
     }
 
     else {
-        chance = URANGE(5, get_skill_learned(ch, sn) / 2, 30);
+        chance = URANGE(5, ch->get_skill(sn) / 2, 30);
         if (number_percent() < chance) {
             ch->pcdata->learned[sn] += number_range(1, 3);
             ch->pcdata->learned[sn] = UMIN(ch->pcdata->learned[sn], 100);

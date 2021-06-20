@@ -243,7 +243,7 @@ void fwrite_char(const Char *ch, FILE *fp) {
         for (auto sn = 0; sn < MAX_SKILL; sn++) {
             if (skill_table[sn].name != nullptr && ch->pcdata->learned[sn] > 0) {
                 fmt::print(fp, "{} {} '{}'\n", cf::Skill, ch->pcdata->learned[sn],
-                           skill_table[sn].name); // NOT get_skill_learned
+                           skill_table[sn].name); // NOT ch.get_skill()
             }
         }
 

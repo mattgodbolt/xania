@@ -202,7 +202,7 @@ int hit_gain(Char *ch) {
         gain = UMAX(3, get_curr_stat(ch, Stat::Con) - 3 + ch->level);
         gain += class_table[ch->class_num].hp_max - 10;
         number = number_percent();
-        if (number < get_skill_learned(ch, gsn_fast_healing)) {
+        if (number < ch->get_skill(gsn_fast_healing)) {
             gain += number * gain / 100;
             if (ch->hit < ch->max_hit)
                 check_improve(ch, gsn_fast_healing, true, 8);
@@ -252,7 +252,7 @@ int mana_gain(Char *ch) {
     } else {
         gain = (get_curr_stat(ch, Stat::Wis) + get_curr_stat(ch, Stat::Int) + ch->level) / 2;
         number = number_percent();
-        if (number < get_skill_learned(ch, gsn_meditation)) {
+        if (number < ch->get_skill(gsn_meditation)) {
             gain += number * gain / 100;
             if (ch->mana < ch->max_mana)
                 check_improve(ch, gsn_meditation, true, 8);

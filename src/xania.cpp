@@ -283,23 +283,6 @@ int get_skill_trains(Char *ch, int gsn) {
     return (skill_table[gsn].rating[ch->class_num]);
 }
 
-// New skill learned function - use instead of looking it up directly in the pcdata!!
-// Similar to get_skill
-int get_skill_learned(Char *ch, int skill_number) {
-    // Mobs calling this get either 100 or 90
-    if (ch->is_npc()) {
-        if (is_affected(ch, gsn_insanity))
-            return 90;
-        else
-            return 100;
-    } else {
-        if (is_affected(ch, gsn_insanity))
-            return (9 * ch->pcdata->learned[skill_number]) / 10;
-        else
-            return ch->pcdata->learned[skill_number];
-    }
-}
-
 /*****************************************
  ******************************************************************/
 int get_group_trains(Char *ch, int gsn) {

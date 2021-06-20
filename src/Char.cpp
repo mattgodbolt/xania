@@ -163,7 +163,10 @@ int Char::get_skill(int skill_number) const {
         if (skill_number == gsn_sneak)
             skill = level * 2 + 20;
 
-        if (skill_number == gsn_second_attack && (is_warrior() || is_thief()))
+        else if (skill_number == gsn_recall)
+            skill = 40 + level;
+
+        else if (skill_number == gsn_second_attack && (is_warrior() || is_thief()))
             // i.e. level 100 NPC: 50% skill (and thus chance) of 2nd attack happening.
             skill = UMAX(25, level / 2);
 
@@ -172,6 +175,13 @@ int Char::get_skill(int skill_number) const {
             // modifiers like Berserk), which means a 70% chance of it happening,
             // and only if their 2nd attack succeeded.
             skill = level - 30;
+
+        else if (skill_number == gsn_parry || skill_number == gsn_dodge || skill_number == gsn_shield_block)
+            // Defensive melee skills: Warrior/Thief NPCs are a little better at them than Mage/Cleric.
+            skill = 15 + (level / (is_warrior() || is_thief() ? 2 : 3));
+
+        else if (skill_number == gsn_backstab && IS_SET(off_flags, OFF_BACKSTAB))
+            return 10 + (level / 5);
 
         else if (skill_number == gsn_hand_to_hand)
             skill = 40 + 2 * level;
