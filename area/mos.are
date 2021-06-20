@@ -335,7 +335,7 @@ Tall and dressed in black cloaks, the spy remains hidden, looking for
 all who he might be able to sell out to the Empire.
 ~
 human~
-CGRT HVPQ -1000 0
+CFGRT HVPQ -1000 0
 95 20 40d100+6000 1d1+899 10d10+120 divine
 -85 -85 -85 -35
 ABCDEFHIJKOQ AB P I
