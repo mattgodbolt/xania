@@ -3394,3 +3394,95 @@ void do_sacname(Char *ch, ArgParser args) {
     deity_name = args.remaining();
     ch->send_line("Players now sacrifice to {}.", deity_name);
 }
+
+void do_smit(Char *ch) { ch->send_line("If you wish to smite someone, then SPELL it out!"); }
+
+void do_smite(Char *ch, const char *argument) {
+    /* Power of the Immortals! By Faramir
+                                 Don't use this too much, it hurts :) */
+
+    const char *smitestring;
+    Char *victim;
+    OBJ_DATA *obj;
+
+    if (argument[0] == '\0') {
+        ch->send_line("Upon whom do you wish to unleash your power?");
+        return;
+    }
+
+    if ((victim = get_char_room(ch, argument)) == nullptr) {
+        ch->send_line("They aren't here.");
+        return;
+    } /* Not (visibly) present in room! */
+
+    /* In case a mort thinks he can get away
+                             with it, shah right! MMFOOMB
+                             Should be dealt with in interp.c already*/
+
+    if (ch->is_npc()) {
+        ch->send_line("You must take your true form before unleashing your power.");
+        return;
+    } /* done whilst switched? No way Jose */
+
+    if (victim->get_trust() > ch->get_trust()) {
+
+        ch->send_line("You failed.\n\rUmmm...beware of retaliation!");
+        act("$n attempted to smite $N!", ch, nullptr, victim, To::NotVict);
+        act("$n attempted to smite you!", ch, nullptr, victim, To::Vict);
+        return;
+    }
+    /* Immortals cannot smite those with a
+                             greater trust than themselves */
+
+    smitestring = "__NeutralSmite";
+
+    if (ch->alignment >= 300) {
+        smitestring = "__GoodSmite";
+    } /* Good Gods */
+    if (ch->alignment <= -300) {
+        smitestring = "__BadSmite";
+    } /* Establish what message will actually
+           be sent when the smite takes place.
+           Evil Gods have their own evil method of
+           incurring their wrath, and so neutral and
+           good Gods =)  smitemessage default of 0
+           for neutral. */
+
+    /* ok, now the appropriate smite
+                                           string has been determined we must
+                                           send it to the victim, and tell
+                                           the smiter and others in the room. */
+
+    do_help(victim, smitestring);
+    act("|WThe wrath of the Gods has fallen upon you!\n\rYou are blown helplessly from your feet and are stunned!|w",
+        ch, nullptr, victim, To::Vict);
+
+    if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr) {
+        act("|R$n has been cast down by the power of $N!|w", victim, nullptr, ch, To::NotVict);
+    } else {
+        act("|R$n has been cast down by the power of $N!\n\rTheir weapon is sent flying!|w", victim, nullptr, ch,
+            To::NotVict);
+    }
+
+    ch->send_line("You |W>>> |YSMITE|W <<<|w {} with all of your Godly powers!",
+                  (victim == ch) ? "yourself" : victim->name);
+
+    victim->hit /= 2; /* easiest way of halving hp? */
+    if (victim->hit < 1)
+        victim->hit = 1; /* Cap the damage */
+
+    victim->position = Position::Type::Resting;
+    /* Knock them into resting and disarm them regardless of whether they have talon or a noremove weapon */
+
+    if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr) {
+        return;
+    } /* can't be disarmed if no weapon */
+    else {
+        obj_from_char(obj);
+        obj_to_room(obj, victim->in_room);
+        if (victim->is_npc() && victim->wait == 0 && can_see_obj(victim, obj))
+            get_obj(victim, obj, nullptr);
+    } /* disarms them, and NPCs will collect
+              their weapon if they can see it.
+              Ta-daa, smite compleeeeeet. Ouch. */
+}

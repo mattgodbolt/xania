@@ -177,6 +177,90 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
     }
 }
 
+void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
+    (void)sn;
+    (void)level;
+    (void)vo;
+    /* is of type TAR_IGNORE so ignore *vo */
+
+    int num_of_corpses = 0, corpse, chance;
+
+    if (ch->is_npc())
+        return;
+
+    /* scan the room looking for an appropriate objects...count them */
+    for (auto *obj : ch->in_room->contents) {
+        if ((obj->pIndexData->item_type == ITEM_CORPSE_NPC) || (obj->pIndexData->item_type == ITEM_CORPSE_PC))
+            num_of_corpses++;
+    }
+
+    /* Did we find *any* corpses? */
+    if (num_of_corpses == 0) {
+        ch->send_line("There are no dead in this room to reincarnate!");
+        return;
+    }
+
+    /* choose a corpse at random & find its corresponding OBJ_DATA */
+    corpse = number_range(1, num_of_corpses);
+    OBJ_DATA *obj{};
+    for (auto *c : ch->in_room->contents) {
+        if ((c->pIndexData->item_type == ITEM_CORPSE_NPC) || (c->pIndexData->item_type == ITEM_CORPSE_PC)) {
+            if (--corpse == 0) {
+                obj = c;
+                break;
+            }
+        }
+    }
+
+    if (obj == nullptr) { /* Oh dear */
+        bug("spell_reincarnate: Couldn't find corpse!");
+        return;
+    }
+
+    /* Tell people what happened */
+    act("$n summons mighty powers and reanimates $s.", ch, nullptr, obj, To::Room);
+    act("You summon mighty powers and reanimate $s.", ch, nullptr, obj, To::Char);
+
+    /* Can we re-animate this corpse? Include check for a non-empty PC corpse */
+
+    chance = URANGE(1, (50 + ((ch->level - obj->pIndexData->level) * 3)), 99);
+
+    if ((number_percent() > chance) || /* if random failed */
+        ((obj->pIndexData->item_type == ITEM_CORPSE_PC) && !obj->contains.empty()))
+    /* if non-empty PC corpse */ {
+        act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, To::Room);
+        act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, To::Char);
+        return;
+    } else {
+        Char *animated;
+
+        act("$s stands up.", ch, nullptr, obj, To::Room);
+        act("$s stands up.", ch, nullptr, obj, To::Char);
+        animated = create_mobile(get_mob_index(mobiles::Zombie));
+        if (animated == nullptr) {
+            bug("spell_reincarnate: Couldn't find corpse vnum!");
+            return;
+        }
+
+        /* Put the zombie in the room */
+        char_to_room(animated, ch->in_room);
+        /* Give the zombie the kit that was in the corpse */
+        animated->carrying = std::move(obj->contains);
+        obj->contains.clear();
+        /* Give the zombie its correct name and stuff */
+        animated->long_descr = fmt::printf(animated->description, obj->description);
+        animated->name = fmt::printf(animated->name, obj->name);
+
+        /* Say byebye to the corpse */
+        extract_obj(obj);
+
+        /* Set up the zombie correctly */
+        animated->master = ch;
+        animated->leader = ch;
+        do_follow(animated, ArgParser(ch->name));
+    }
+}
+
 /* commented out for time being --Fara  */
 
 // void spell_raise_dead (int sn, int level, Char *ch, void *vo)
