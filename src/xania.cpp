@@ -192,39 +192,6 @@ void do_prefix(Char *ch, const char *argument) {
     }
 }
 
-/********************************************************************************************/
-
-/*****************************************
- ******************************************************************/
-int is_made_of(OBJ_DATA *obj, const char *material);
-
-int check_material_vulnerability(Char *ch, OBJ_DATA *object) {
-
-    if (IS_SET(ch->vuln_flags, VULN_WOOD)) {
-        if (is_made_of(object, "wood"))
-            return 1;
-    }
-
-    if (IS_SET(ch->vuln_flags, VULN_SILVER)) {
-        if (is_made_of(object, "silver"))
-            return 1;
-    }
-
-    if (IS_SET(ch->vuln_flags, VULN_IRON)) {
-        if (is_made_of(object, "iron"))
-            return 1;
-    }
-    return 0;
-}
-
-int is_made_of(OBJ_DATA *obj, const char *material) {
-    if (!str_cmp(material_table[obj->pIndexData->material].material_name, material))
-        return 1;
-    return 0;
-}
-
-
-
 void load_tipfile() {
     tips.clear();
 

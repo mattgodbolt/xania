@@ -7,16 +7,14 @@
 /*                                                                       */
 /*************************************************************************/
 
-/* spells used in Merc */
-
 /*
- * Spell functions.
- * Defined in magic.c.
+ * Magic & spells.
  */
 
 #pragma once
 
 struct Char;
+struct OBJ_DATA;
 
 bool check_dispel(int dis_level, Char *victim, int spell_num);
 void spell_psy_tornado(int spell_num, int level, Char *ch, void *vo);
@@ -127,3 +125,5 @@ void spell_lightning_breath(int spell_num, int level, Char *ch, void *vo);
 void spell_general_purpose(int spell_num, int level, Char *ch, void *vo);
 void spell_high_explosive(int spell_num, int level, Char *ch, void *vo);
 void spell_raise_dead(int spell_num, int level, Char *ch, void *vo);
+
+void explode_bomb(OBJ_DATA *bomb, Char *ch, Char *thrower);

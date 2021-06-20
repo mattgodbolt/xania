@@ -17,6 +17,7 @@
 #include "VnumMobiles.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
+#include "act_obj.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
 #include "handler.hpp"

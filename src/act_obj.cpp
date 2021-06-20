@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "act_obj.hpp"
 #include "AFFECT_DATA.hpp"
 #include "Logging.hpp"
 #include "Pronouns.hpp"
@@ -17,6 +18,7 @@
 #include "fight.hpp"
 #include "handler.hpp"
 #include "interp.h"
+#include "magic.h"
 #include "merc.h"
 #include "mob_prog.hpp"
 #include "save.hpp"
@@ -31,16 +33,6 @@
 
 extern const char *target_name; /* Included from magic.c */
 extern void handle_corpse_summoner(Char *ch, Char *victim, OBJ_DATA *obj);
-
-/*
- * Local functions.
- */
-bool remove_obj(Char *ch, int iWear, bool fReplace);
-void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace);
-Char *find_keeper(Char *ch);
-int get_cost(Char *keeper, OBJ_DATA *obj, bool fBuy);
-
-void explode_bomb(OBJ_DATA *bomb, Char *ch, Char *thrower);
 
 /* RT part of the corpse looting code */
 
@@ -130,10 +122,419 @@ void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container) {
 
 namespace {
 
+/*
+ * Remove an object.
+ */
+bool remove_obj(Char *ch, int iWear, bool fReplace) {
+    OBJ_DATA *obj;
+
+    if ((obj = get_eq_char(ch, iWear)) == nullptr)
+        return true;
+
+    if (!fReplace)
+        return false;
+
+    if (IS_OBJ_STAT(obj, ITEM_NOREMOVE)) {
+        act("|rYou can't remove $p because it is cursed. Seek one who is skilled in benedictions.|w", ch, obj, nullptr,
+            To::Char);
+        return false;
+    }
+
+    unequip_char(ch, obj);
+    act("$n stops using $p.", ch, obj, nullptr, To::Room);
+    act("You stop using $p.", ch, obj, nullptr, To::Char);
+    return true;
+}
+
+/*
+ * Wear one object.
+ * Optional replacement of existing objects.
+ * Big repetitive code, ick.
+ */
+void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
+    if (ch->level < obj->level) {
+        ch->send_line("You must be level {} to use this object.", obj->level);
+        act("$n tries to use $p, but is too inexperienced.", ch, obj, nullptr, To::Room);
+        return;
+    }
+
+    bool use_default_message = obj->wear_string.empty();
+    if (!use_default_message) {
+        act("$n uses $p.", ch, obj, nullptr, To::Room);
+        act("You use $p.", ch, obj, nullptr, To::Char);
+    }
+
+    if (obj->item_type == ITEM_LIGHT) {
+        if (!remove_obj(ch, WEAR_LIGHT, fReplace))
+            return;
+
+        if (use_default_message) {
+            act("$n lights $p and holds it.", ch, obj, nullptr, To::Room);
+            act("You light $p and hold it.", ch, obj, nullptr, To::Char);
+        }
+
+        equip_char(ch, obj, WEAR_LIGHT);
+        return;
+    }
+
+    if (CAN_WEAR(obj, ITEM_WEAR_FINGER)) {
+        if (get_eq_char(ch, WEAR_FINGER_L) != nullptr && get_eq_char(ch, WEAR_FINGER_R) != nullptr
+            && !remove_obj(ch, WEAR_FINGER_L, fReplace) && !remove_obj(ch, WEAR_FINGER_R, fReplace))
+            return;
+
+        if (get_eq_char(ch, WEAR_FINGER_L) == nullptr) {
+            if (use_default_message) {
+                act("$n wears $p on $s left finger.", ch, obj, nullptr, To::Room);
+                act("You wear $p on your left finger.", ch, obj, nullptr, To::Char);
+            }
+            equip_char(ch, obj, WEAR_FINGER_L);
+            return;
+        }
+
+        if (get_eq_char(ch, WEAR_FINGER_R) == nullptr) {
+            if (use_default_message) {
+                act("$n wears $p on $s right finger.", ch, obj, nullptr, To::Room);
+                act("You wear $p on your right finger.", ch, obj, nullptr, To::Char);
+            }
+            equip_char(ch, obj, WEAR_FINGER_R);
+            return;
+        }
+
+        bug("Wear_obj: no free finger.");
+        ch->send_line("You already wear two rings.");
+        return;
+    }
+
+    if (CAN_WEAR(obj, ITEM_WEAR_NECK)) {
+        if (get_eq_char(ch, WEAR_NECK_1) != nullptr && get_eq_char(ch, WEAR_NECK_2) != nullptr
+            && !remove_obj(ch, WEAR_NECK_1, fReplace) && !remove_obj(ch, WEAR_NECK_2, fReplace))
+            return;
+
+        if (get_eq_char(ch, WEAR_NECK_1) == nullptr) {
+            if (use_default_message) {
+                act("$n wears $p around $s neck.", ch, obj, nullptr, To::Room);
+                act("You wear $p around your neck.", ch, obj, nullptr, To::Char);
+            }
+            equip_char(ch, obj, WEAR_NECK_1);
+            return;
+        }
+
+        if (get_eq_char(ch, WEAR_NECK_2) == nullptr) {
+            if (use_default_message) {
+                act("$n wears $p around $s neck.", ch, obj, nullptr, To::Room);
+                act("You wear $p around your neck.", ch, obj, nullptr, To::Char);
+            }
+            equip_char(ch, obj, WEAR_NECK_2);
+            return;
+        }
+
+        bug("Wear_obj: no free neck.");
+        ch->send_line("You already wear two neck items.");
+        return;
+    }
+
+    if (CAN_WEAR(obj, ITEM_WEAR_BODY)) {
+        if (!remove_obj(ch, WEAR_BODY, fReplace))
+            return;
+        if (use_default_message) {
+            act("$n wears $p on $s body.", ch, obj, nullptr, To::Room);
+            act("You wear $p on your body.", ch, obj, nullptr, To::Char);
+        }
+        equip_char(ch, obj, WEAR_BODY);
+        return;
+    }
+
+    if (CAN_WEAR(obj, ITEM_WEAR_HEAD)) {
+        if (!remove_obj(ch, WEAR_HEAD, fReplace))
+            return;
+        if (use_default_message) {
+            act("$n wears $p on $s head.", ch, obj, nullptr, To::Room);
+            act("You wear $p on your head.", ch, obj, nullptr, To::Char);
+        }
+        equip_char(ch, obj, WEAR_HEAD);
+        return;
+    }
+
+    if (CAN_WEAR(obj, ITEM_WEAR_LEGS)) {
+        if (!remove_obj(ch, WEAR_LEGS, fReplace))
+            return;
+        if (use_default_message) {
+            act("$n wears $p on $s legs.", ch, obj, nullptr, To::Room);
+            act("You wear $p on your legs.", ch, obj, nullptr, To::Char);
+        }
+        equip_char(ch, obj, WEAR_LEGS);
+        return;
+    }
+
+    if (CAN_WEAR(obj, ITEM_WEAR_FEET)) {
+        if (!remove_obj(ch, WEAR_FEET, fReplace))
+            return;
+        if (use_default_message) {
+            act("$n wears $p on $s feet.", ch, obj, nullptr, To::Room);
+            act("You wear $p on your feet.", ch, obj, nullptr, To::Char);
+        }
+        equip_char(ch, obj, WEAR_FEET);
+        return;
+    }
+
+    if (CAN_WEAR(obj, ITEM_WEAR_HANDS)) {
+        if (!remove_obj(ch, WEAR_HANDS, fReplace))
+            return;
+        if (use_default_message) {
+            act("$n wears $p on $s hands.", ch, obj, nullptr, To::Room);
+            act("You wear $p on your hands.", ch, obj, nullptr, To::Char);
+        }
+        equip_char(ch, obj, WEAR_HANDS);
+        return;
+    }
+
+    if (CAN_WEAR(obj, ITEM_WEAR_ARMS)) {
+        if (!remove_obj(ch, WEAR_ARMS, fReplace))
+            return;
+        if (use_default_message) {
+            act("$n wears $p on $s arms.", ch, obj, nullptr, To::Room);
+            act("You wear $p on your arms.", ch, obj, nullptr, To::Char);
+        }
+        equip_char(ch, obj, WEAR_ARMS);
+        return;
+    }
+
+    if (CAN_WEAR(obj, ITEM_WEAR_ABOUT)) {
+        if (!remove_obj(ch, WEAR_ABOUT, fReplace))
+            return;
+        if (use_default_message) {
+            act("$n wears $p about $s body.", ch, obj, nullptr, To::Room);
+            act("You wear $p about your body.", ch, obj, nullptr, To::Char);
+        }
+        equip_char(ch, obj, WEAR_ABOUT);
+        return;
+    }
+
+    if (CAN_WEAR(obj, ITEM_WEAR_WAIST)) {
+        if (!remove_obj(ch, WEAR_WAIST, fReplace))
+            return;
+        if (use_default_message) {
+            act("$n wears $p about $s waist.", ch, obj, nullptr, To::Room);
+            act("You wear $p about your waist.", ch, obj, nullptr, To::Char);
+        }
+        equip_char(ch, obj, WEAR_WAIST);
+        return;
+    }
+
+    if (CAN_WEAR(obj, ITEM_WEAR_WRIST)) {
+        if (get_eq_char(ch, WEAR_WRIST_L) != nullptr && get_eq_char(ch, WEAR_WRIST_R) != nullptr
+            && !remove_obj(ch, WEAR_WRIST_L, fReplace) && !remove_obj(ch, WEAR_WRIST_R, fReplace))
+            return;
+
+        if (get_eq_char(ch, WEAR_WRIST_L) == nullptr) {
+            if (use_default_message) {
+                act("$n wears $p around $s left wrist.", ch, obj, nullptr, To::Room);
+                act("You wear $p around your left wrist.", ch, obj, nullptr, To::Char);
+            }
+            equip_char(ch, obj, WEAR_WRIST_L);
+            return;
+        }
+
+        if (get_eq_char(ch, WEAR_WRIST_R) == nullptr) {
+            if (use_default_message) {
+                act("$n wears $p around $s right wrist.", ch, obj, nullptr, To::Room);
+                act("You wear $p around your right wrist.", ch, obj, nullptr, To::Char);
+            }
+            equip_char(ch, obj, WEAR_WRIST_R);
+            return;
+        }
+
+        bug("Wear_obj: no free wrist.");
+        ch->send_line("You already wear two wrist items.");
+        return;
+    }
+
+    if (CAN_WEAR(obj, ITEM_WEAR_SHIELD)) {
+        OBJ_DATA *weapon;
+
+        if (!remove_obj(ch, WEAR_SHIELD, fReplace))
+            return;
+
+        weapon = get_eq_char(ch, WEAR_WIELD);
+        if (weapon != nullptr && ch->size < SIZE_LARGE && IS_WEAPON_STAT(weapon, WEAPON_TWO_HANDS)) {
+            ch->send_line("Your hands are tied up with your weapon!");
+            return;
+        }
+
+        if (use_default_message) {
+            act("$n wears $p as a shield.", ch, obj, nullptr, To::Room);
+            act("You wear $p as a shield.", ch, obj, nullptr, To::Char);
+        }
+        equip_char(ch, obj, WEAR_SHIELD);
+        return;
+    }
+
+    if (CAN_WEAR(obj, ITEM_WIELD)) {
+        int sn, skill;
+
+        if (!remove_obj(ch, WEAR_WIELD, fReplace))
+            return;
+
+        if (ch->is_pc() && get_obj_weight(obj) > str_app[get_curr_stat(ch, Stat::Str)].wield) {
+            ch->send_line("It is too heavy for you to wield.");
+            return;
+        }
+
+        if (ch->is_pc() && ch->size < SIZE_LARGE && IS_WEAPON_STAT(obj, WEAPON_TWO_HANDS)
+            && get_eq_char(ch, WEAR_SHIELD) != nullptr) {
+            ch->send_line("You need two hands free for that weapon.");
+            return;
+        }
+
+        if (use_default_message) {
+            act("$n wields $p.", ch, obj, nullptr, To::Room);
+            act("You wield $p.", ch, obj, nullptr, To::Char);
+        }
+        equip_char(ch, obj, WEAR_WIELD);
+
+        sn = get_weapon_sn(ch);
+
+        if (sn == gsn_hand_to_hand)
+            return;
+
+        skill = get_weapon_skill(ch, sn);
+
+        if (skill >= 100)
+            act("$p feels like a part of you!", ch, obj, nullptr, To::Char);
+        else if (skill > 85)
+            act("You feel quite confident with $p.", ch, obj, nullptr, To::Char);
+        else if (skill > 70)
+            act("You are skilled with $p.", ch, obj, nullptr, To::Char);
+        else if (skill > 50)
+            act("Your skill with $p is adequate.", ch, obj, nullptr, To::Char);
+        else if (skill > 25)
+            act("$p feels a little clumsy in your hands.", ch, obj, nullptr, To::Char);
+        else if (skill > 1)
+            act("You fumble and almost drop $p.", ch, obj, nullptr, To::Char);
+        else
+            act("You don't even know which is end is up on $p.", ch, obj, nullptr, To::Char);
+
+        return;
+    }
+
+    if (CAN_WEAR(obj, ITEM_HOLD))
+        if (!(ch->is_npc() && IS_SET(ch->act, ACT_PET))) {
+            if (!remove_obj(ch, WEAR_HOLD, fReplace))
+                return;
+            if (use_default_message) {
+                act("$n holds $p in $s hands.", ch, obj, nullptr, To::Room);
+                act("You hold $p in your hands.", ch, obj, nullptr, To::Char);
+            }
+            equip_char(ch, obj, WEAR_HOLD);
+            return;
+        }
+
+    if (CAN_WEAR(obj, ITEM_WEAR_EARS)) {
+        if (!remove_obj(ch, WEAR_EARS, fReplace))
+            return;
+        if (use_default_message) {
+            act("$n wears $p on $s ears.", ch, obj, nullptr, To::Room);
+            act("You wear $p on your ears.", ch, obj, nullptr, To::Char);
+        }
+        equip_char(ch, obj, WEAR_EARS);
+        return;
+    }
+
+    if (fReplace)
+        ch->send_line("You can't wear, wield, or hold that.");
+}
+
+bool is_made_of(OBJ_DATA *obj, const char *material) {
+    return !str_cmp(material_table[obj->pIndexData->material].material_name, material);
+}
+
 bool is_mass_looting_npc_undroppable_obj(const OBJ_DATA *obj, const OBJ_DATA *container,
                                          const char looting_all_item_dot) {
     return container->item_type == ITEM_CORPSE_NPC && looting_all_item_dot == '\0'
            && (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE));
+}
+
+Char *shopkeeper_in(const ROOM_INDEX_DATA &room) {
+    for (auto *maybe_keeper : room.people) {
+        if (maybe_keeper->is_npc() && maybe_keeper->pIndexData->pShop)
+            return maybe_keeper;
+    }
+    return nullptr;
+}
+
+Char *find_keeper(Char *ch) {
+    auto *keeper = shopkeeper_in(*ch->in_room);
+    if (!keeper) {
+        ch->send_line("You can't do that here.");
+        return nullptr;
+    }
+
+    // Undesirables.
+    if (ch->is_player_killer()) {
+        keeper->say("Killers are not welcome!");
+        keeper->yell(fmt::format("{} the KILLER is over here!", ch->name));
+        return nullptr;
+    }
+
+    if (ch->is_player_thief()) {
+        keeper->say("Thieves are not welcome!");
+        keeper->yell(fmt::format("{} the THIEF is over here!", ch->name));
+        return nullptr;
+    }
+
+    // Shop hours.
+    const auto *pShop = keeper->pIndexData->pShop;
+    if (time_info.hour() < pShop->open_hour) {
+        keeper->say("Sorry, I am closed. Come back later.");
+        return nullptr;
+    }
+
+    if (time_info.hour() > pShop->close_hour) {
+        keeper->say("Sorry, I am closed. Come back tomorrow.");
+        return nullptr;
+    }
+
+    // Invisible or hidden people.
+    if (!keeper->can_see(*ch)) {
+        keeper->say("I don't trade with folks I can't see.");
+        return nullptr;
+    }
+
+    return keeper;
+}
+
+int get_cost(Char *keeper, OBJ_DATA *obj, bool fBuy) {
+    SHOP_DATA *pShop;
+    int cost;
+
+    if (obj == nullptr || (pShop = keeper->pIndexData->pShop) == nullptr)
+        return 0;
+
+    if (fBuy) {
+        cost = obj->cost * pShop->profit_buy / 100;
+    } else {
+        int itype;
+
+        cost = 0;
+        for (itype = 0; itype < MAX_TRADE; itype++) {
+            if (obj->item_type == pShop->buy_type[itype]) {
+                cost = obj->cost * pShop->profit_sell / 100;
+                break;
+            }
+        }
+
+        for (auto *obj2 : keeper->carrying) {
+            if (obj->pIndexData == obj2->pIndexData) {
+                cost = 0;
+                break;
+            }
+        }
+    }
+
+    if (obj->item_type == ITEM_STAFF || obj->item_type == ITEM_WAND)
+        cost = cost * obj->value[2] / obj->value[1];
+
+    return cost;
 }
 
 }
@@ -983,328 +1384,6 @@ void do_eat(Char *ch, const char *argument) {
     extract_obj(obj);
 }
 
-/*
- * Remove an object.
- */
-bool remove_obj(Char *ch, int iWear, bool fReplace) {
-    OBJ_DATA *obj;
-
-    if ((obj = get_eq_char(ch, iWear)) == nullptr)
-        return true;
-
-    if (!fReplace)
-        return false;
-
-    if (IS_OBJ_STAT(obj, ITEM_NOREMOVE)) {
-        act("|rYou can't remove $p because it is cursed. Seek one who is skilled in benedictions.|w", ch, obj, nullptr,
-            To::Char);
-        return false;
-    }
-
-    unequip_char(ch, obj);
-    act("$n stops using $p.", ch, obj, nullptr, To::Room);
-    act("You stop using $p.", ch, obj, nullptr, To::Char);
-    return true;
-}
-
-/*
- * Wear one object.
- * Optional replacement of existing objects.
- * Big repetitive code, ick.
- */
-void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
-    if (ch->level < obj->level) {
-        ch->send_line("You must be level {} to use this object.", obj->level);
-        act("$n tries to use $p, but is too inexperienced.", ch, obj, nullptr, To::Room);
-        return;
-    }
-
-    bool use_default_message = obj->wear_string.empty();
-    if (!use_default_message) {
-        act("$n uses $p.", ch, obj, nullptr, To::Room);
-        act("You use $p.", ch, obj, nullptr, To::Char);
-    }
-
-    if (obj->item_type == ITEM_LIGHT) {
-        if (!remove_obj(ch, WEAR_LIGHT, fReplace))
-            return;
-
-        if (use_default_message) {
-            act("$n lights $p and holds it.", ch, obj, nullptr, To::Room);
-            act("You light $p and hold it.", ch, obj, nullptr, To::Char);
-        }
-
-        equip_char(ch, obj, WEAR_LIGHT);
-        return;
-    }
-
-    if (CAN_WEAR(obj, ITEM_WEAR_FINGER)) {
-        if (get_eq_char(ch, WEAR_FINGER_L) != nullptr && get_eq_char(ch, WEAR_FINGER_R) != nullptr
-            && !remove_obj(ch, WEAR_FINGER_L, fReplace) && !remove_obj(ch, WEAR_FINGER_R, fReplace))
-            return;
-
-        if (get_eq_char(ch, WEAR_FINGER_L) == nullptr) {
-            if (use_default_message) {
-                act("$n wears $p on $s left finger.", ch, obj, nullptr, To::Room);
-                act("You wear $p on your left finger.", ch, obj, nullptr, To::Char);
-            }
-            equip_char(ch, obj, WEAR_FINGER_L);
-            return;
-        }
-
-        if (get_eq_char(ch, WEAR_FINGER_R) == nullptr) {
-            if (use_default_message) {
-                act("$n wears $p on $s right finger.", ch, obj, nullptr, To::Room);
-                act("You wear $p on your right finger.", ch, obj, nullptr, To::Char);
-            }
-            equip_char(ch, obj, WEAR_FINGER_R);
-            return;
-        }
-
-        bug("Wear_obj: no free finger.");
-        ch->send_line("You already wear two rings.");
-        return;
-    }
-
-    if (CAN_WEAR(obj, ITEM_WEAR_NECK)) {
-        if (get_eq_char(ch, WEAR_NECK_1) != nullptr && get_eq_char(ch, WEAR_NECK_2) != nullptr
-            && !remove_obj(ch, WEAR_NECK_1, fReplace) && !remove_obj(ch, WEAR_NECK_2, fReplace))
-            return;
-
-        if (get_eq_char(ch, WEAR_NECK_1) == nullptr) {
-            if (use_default_message) {
-                act("$n wears $p around $s neck.", ch, obj, nullptr, To::Room);
-                act("You wear $p around your neck.", ch, obj, nullptr, To::Char);
-            }
-            equip_char(ch, obj, WEAR_NECK_1);
-            return;
-        }
-
-        if (get_eq_char(ch, WEAR_NECK_2) == nullptr) {
-            if (use_default_message) {
-                act("$n wears $p around $s neck.", ch, obj, nullptr, To::Room);
-                act("You wear $p around your neck.", ch, obj, nullptr, To::Char);
-            }
-            equip_char(ch, obj, WEAR_NECK_2);
-            return;
-        }
-
-        bug("Wear_obj: no free neck.");
-        ch->send_line("You already wear two neck items.");
-        return;
-    }
-
-    if (CAN_WEAR(obj, ITEM_WEAR_BODY)) {
-        if (!remove_obj(ch, WEAR_BODY, fReplace))
-            return;
-        if (use_default_message) {
-            act("$n wears $p on $s body.", ch, obj, nullptr, To::Room);
-            act("You wear $p on your body.", ch, obj, nullptr, To::Char);
-        }
-        equip_char(ch, obj, WEAR_BODY);
-        return;
-    }
-
-    if (CAN_WEAR(obj, ITEM_WEAR_HEAD)) {
-        if (!remove_obj(ch, WEAR_HEAD, fReplace))
-            return;
-        if (use_default_message) {
-            act("$n wears $p on $s head.", ch, obj, nullptr, To::Room);
-            act("You wear $p on your head.", ch, obj, nullptr, To::Char);
-        }
-        equip_char(ch, obj, WEAR_HEAD);
-        return;
-    }
-
-    if (CAN_WEAR(obj, ITEM_WEAR_LEGS)) {
-        if (!remove_obj(ch, WEAR_LEGS, fReplace))
-            return;
-        if (use_default_message) {
-            act("$n wears $p on $s legs.", ch, obj, nullptr, To::Room);
-            act("You wear $p on your legs.", ch, obj, nullptr, To::Char);
-        }
-        equip_char(ch, obj, WEAR_LEGS);
-        return;
-    }
-
-    if (CAN_WEAR(obj, ITEM_WEAR_FEET)) {
-        if (!remove_obj(ch, WEAR_FEET, fReplace))
-            return;
-        if (use_default_message) {
-            act("$n wears $p on $s feet.", ch, obj, nullptr, To::Room);
-            act("You wear $p on your feet.", ch, obj, nullptr, To::Char);
-        }
-        equip_char(ch, obj, WEAR_FEET);
-        return;
-    }
-
-    if (CAN_WEAR(obj, ITEM_WEAR_HANDS)) {
-        if (!remove_obj(ch, WEAR_HANDS, fReplace))
-            return;
-        if (use_default_message) {
-            act("$n wears $p on $s hands.", ch, obj, nullptr, To::Room);
-            act("You wear $p on your hands.", ch, obj, nullptr, To::Char);
-        }
-        equip_char(ch, obj, WEAR_HANDS);
-        return;
-    }
-
-    if (CAN_WEAR(obj, ITEM_WEAR_ARMS)) {
-        if (!remove_obj(ch, WEAR_ARMS, fReplace))
-            return;
-        if (use_default_message) {
-            act("$n wears $p on $s arms.", ch, obj, nullptr, To::Room);
-            act("You wear $p on your arms.", ch, obj, nullptr, To::Char);
-        }
-        equip_char(ch, obj, WEAR_ARMS);
-        return;
-    }
-
-    if (CAN_WEAR(obj, ITEM_WEAR_ABOUT)) {
-        if (!remove_obj(ch, WEAR_ABOUT, fReplace))
-            return;
-        if (use_default_message) {
-            act("$n wears $p about $s body.", ch, obj, nullptr, To::Room);
-            act("You wear $p about your body.", ch, obj, nullptr, To::Char);
-        }
-        equip_char(ch, obj, WEAR_ABOUT);
-        return;
-    }
-
-    if (CAN_WEAR(obj, ITEM_WEAR_WAIST)) {
-        if (!remove_obj(ch, WEAR_WAIST, fReplace))
-            return;
-        if (use_default_message) {
-            act("$n wears $p about $s waist.", ch, obj, nullptr, To::Room);
-            act("You wear $p about your waist.", ch, obj, nullptr, To::Char);
-        }
-        equip_char(ch, obj, WEAR_WAIST);
-        return;
-    }
-
-    if (CAN_WEAR(obj, ITEM_WEAR_WRIST)) {
-        if (get_eq_char(ch, WEAR_WRIST_L) != nullptr && get_eq_char(ch, WEAR_WRIST_R) != nullptr
-            && !remove_obj(ch, WEAR_WRIST_L, fReplace) && !remove_obj(ch, WEAR_WRIST_R, fReplace))
-            return;
-
-        if (get_eq_char(ch, WEAR_WRIST_L) == nullptr) {
-            if (use_default_message) {
-                act("$n wears $p around $s left wrist.", ch, obj, nullptr, To::Room);
-                act("You wear $p around your left wrist.", ch, obj, nullptr, To::Char);
-            }
-            equip_char(ch, obj, WEAR_WRIST_L);
-            return;
-        }
-
-        if (get_eq_char(ch, WEAR_WRIST_R) == nullptr) {
-            if (use_default_message) {
-                act("$n wears $p around $s right wrist.", ch, obj, nullptr, To::Room);
-                act("You wear $p around your right wrist.", ch, obj, nullptr, To::Char);
-            }
-            equip_char(ch, obj, WEAR_WRIST_R);
-            return;
-        }
-
-        bug("Wear_obj: no free wrist.");
-        ch->send_line("You already wear two wrist items.");
-        return;
-    }
-
-    if (CAN_WEAR(obj, ITEM_WEAR_SHIELD)) {
-        OBJ_DATA *weapon;
-
-        if (!remove_obj(ch, WEAR_SHIELD, fReplace))
-            return;
-
-        weapon = get_eq_char(ch, WEAR_WIELD);
-        if (weapon != nullptr && ch->size < SIZE_LARGE && IS_WEAPON_STAT(weapon, WEAPON_TWO_HANDS)) {
-            ch->send_line("Your hands are tied up with your weapon!");
-            return;
-        }
-
-        if (use_default_message) {
-            act("$n wears $p as a shield.", ch, obj, nullptr, To::Room);
-            act("You wear $p as a shield.", ch, obj, nullptr, To::Char);
-        }
-        equip_char(ch, obj, WEAR_SHIELD);
-        return;
-    }
-
-    if (CAN_WEAR(obj, ITEM_WIELD)) {
-        int sn, skill;
-
-        if (!remove_obj(ch, WEAR_WIELD, fReplace))
-            return;
-
-        if (ch->is_pc() && get_obj_weight(obj) > str_app[get_curr_stat(ch, Stat::Str)].wield) {
-            ch->send_line("It is too heavy for you to wield.");
-            return;
-        }
-
-        if (ch->is_pc() && ch->size < SIZE_LARGE && IS_WEAPON_STAT(obj, WEAPON_TWO_HANDS)
-            && get_eq_char(ch, WEAR_SHIELD) != nullptr) {
-            ch->send_line("You need two hands free for that weapon.");
-            return;
-        }
-
-        if (use_default_message) {
-            act("$n wields $p.", ch, obj, nullptr, To::Room);
-            act("You wield $p.", ch, obj, nullptr, To::Char);
-        }
-        equip_char(ch, obj, WEAR_WIELD);
-
-        sn = get_weapon_sn(ch);
-
-        if (sn == gsn_hand_to_hand)
-            return;
-
-        skill = get_weapon_skill(ch, sn);
-
-        if (skill >= 100)
-            act("$p feels like a part of you!", ch, obj, nullptr, To::Char);
-        else if (skill > 85)
-            act("You feel quite confident with $p.", ch, obj, nullptr, To::Char);
-        else if (skill > 70)
-            act("You are skilled with $p.", ch, obj, nullptr, To::Char);
-        else if (skill > 50)
-            act("Your skill with $p is adequate.", ch, obj, nullptr, To::Char);
-        else if (skill > 25)
-            act("$p feels a little clumsy in your hands.", ch, obj, nullptr, To::Char);
-        else if (skill > 1)
-            act("You fumble and almost drop $p.", ch, obj, nullptr, To::Char);
-        else
-            act("You don't even know which is end is up on $p.", ch, obj, nullptr, To::Char);
-
-        return;
-    }
-
-    if (CAN_WEAR(obj, ITEM_HOLD))
-        if (!(ch->is_npc() && IS_SET(ch->act, ACT_PET))) {
-            if (!remove_obj(ch, WEAR_HOLD, fReplace))
-                return;
-            if (use_default_message) {
-                act("$n holds $p in $s hands.", ch, obj, nullptr, To::Room);
-                act("You hold $p in your hands.", ch, obj, nullptr, To::Char);
-            }
-            equip_char(ch, obj, WEAR_HOLD);
-            return;
-        }
-
-    if (CAN_WEAR(obj, ITEM_WEAR_EARS)) {
-        if (!remove_obj(ch, WEAR_EARS, fReplace))
-            return;
-        if (use_default_message) {
-            act("$n wears $p on $s ears.", ch, obj, nullptr, To::Room);
-            act("You wear $p on your ears.", ch, obj, nullptr, To::Char);
-        }
-        equip_char(ch, obj, WEAR_EARS);
-        return;
-    }
-
-    if (fReplace)
-        ch->send_line("You can't wear, wield, or hold that.");
-}
-
 void do_wear(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     one_argument(argument, arg);
@@ -1799,95 +1878,6 @@ void do_steal(Char *ch, const char *argument) {
     check_improve(ch, gsn_steal, true, 2);
 }
 
-/*
- * Shopping commands.
- */
-
-namespace {
-Char *shopkeeper_in(const ROOM_INDEX_DATA &room) {
-    for (auto *maybe_keeper : room.people) {
-        if (maybe_keeper->is_npc() && maybe_keeper->pIndexData->pShop)
-            return maybe_keeper;
-    }
-    return nullptr;
-}
-}
-
-Char *find_keeper(Char *ch) {
-    auto *keeper = shopkeeper_in(*ch->in_room);
-    if (!keeper) {
-        ch->send_line("You can't do that here.");
-        return nullptr;
-    }
-
-    // Undesirables.
-    if (ch->is_player_killer()) {
-        keeper->say("Killers are not welcome!");
-        keeper->yell(fmt::format("{} the KILLER is over here!", ch->name));
-        return nullptr;
-    }
-
-    if (ch->is_player_thief()) {
-        keeper->say("Thieves are not welcome!");
-        keeper->yell(fmt::format("{} the THIEF is over here!", ch->name));
-        return nullptr;
-    }
-
-    // Shop hours.
-    const auto *pShop = keeper->pIndexData->pShop;
-    if (time_info.hour() < pShop->open_hour) {
-        keeper->say("Sorry, I am closed. Come back later.");
-        return nullptr;
-    }
-
-    if (time_info.hour() > pShop->close_hour) {
-        keeper->say("Sorry, I am closed. Come back tomorrow.");
-        return nullptr;
-    }
-
-    // Invisible or hidden people.
-    if (!keeper->can_see(*ch)) {
-        keeper->say("I don't trade with folks I can't see.");
-        return nullptr;
-    }
-
-    return keeper;
-}
-
-int get_cost(Char *keeper, OBJ_DATA *obj, bool fBuy) {
-    SHOP_DATA *pShop;
-    int cost;
-
-    if (obj == nullptr || (pShop = keeper->pIndexData->pShop) == nullptr)
-        return 0;
-
-    if (fBuy) {
-        cost = obj->cost * pShop->profit_buy / 100;
-    } else {
-        int itype;
-
-        cost = 0;
-        for (itype = 0; itype < MAX_TRADE; itype++) {
-            if (obj->item_type == pShop->buy_type[itype]) {
-                cost = obj->cost * pShop->profit_sell / 100;
-                break;
-            }
-        }
-
-        for (auto *obj2 : keeper->carrying) {
-            if (obj->pIndexData == obj2->pIndexData) {
-                cost = 0;
-                break;
-            }
-        }
-    }
-
-    if (obj->item_type == ITEM_STAFF || obj->item_type == ITEM_WAND)
-        cost = cost * obj->value[2] / obj->value[1];
-
-    return cost;
-}
-
 void do_buy(Char *ch, const char *argument) {
     int cost, roll;
 
@@ -2344,4 +2334,23 @@ bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *
     std::set_intersection(moving_unique_obj_idxs.begin(), moving_unique_obj_idxs.end(), to_unique_obj_idxs.begin(),
                           to_unique_obj_idxs.end(), std::back_inserter(intersection));
     return !intersection.empty();
+}
+
+int check_material_vulnerability(Char *ch, OBJ_DATA *object) {
+
+    if (IS_SET(ch->vuln_flags, VULN_WOOD)) {
+        if (is_made_of(object, "wood"))
+            return 1;
+    }
+
+    if (IS_SET(ch->vuln_flags, VULN_SILVER)) {
+        if (is_made_of(object, "silver"))
+            return 1;
+    }
+
+    if (IS_SET(ch->vuln_flags, VULN_IRON)) {
+        if (is_made_of(object, "iron"))
+            return 1;
+    }
+    return 0;
 }

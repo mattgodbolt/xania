@@ -12,9 +12,11 @@
  */
 
 #include "AFFECT_DATA.hpp"
+#include "VnumMobiles.hpp"
 #include "VnumRooms.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
+#include "db.h"
 #include "fight.hpp"
 #include "interp.h"
 #include "lookup.h"

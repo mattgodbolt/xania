@@ -33,7 +33,6 @@
  * Local functions.
  */
 void say_spell(Char *ch, int sn);
-void explode_bomb(OBJ_DATA *bomb, Char *ch, Char *thrower);
 
 namespace {
 

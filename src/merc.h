@@ -1202,14 +1202,6 @@ void fallen_off_mount(Char *ch);
 /* act_move.c */
 void move_char(Char *ch, Direction door);
 void unride_char(Char *ch, Char *pet);
-/* act_obj.c */
-bool can_loot(const Char *ch, const OBJ_DATA *obj);
-void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container);
-bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *moving_obj, OBJ_DATA *obj_to);
-bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *moving_obj,
-                                  GenericList<OBJ_DATA *> &objs_to);
-
-/* act_wiz.c */
 
 /* ban.c */
 void save_bans();
@@ -1339,7 +1331,6 @@ bool is_safe_sentient(Char *ch, Char *wch);
 
 /* xania.c - a mishmash */
 void check_xania();
-int check_material_vulnerability(Char *ch, OBJ_DATA *object);
 
 void load_tipfile(); /* tip wizard - Faramir 21 Sep 1998 */
 void tip_players();

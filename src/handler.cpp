@@ -13,6 +13,7 @@
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "WeatherData.hpp"
+#include "act_obj.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "fight.hpp"
