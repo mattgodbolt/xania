@@ -8,7 +8,7 @@ add_subdirectory(test)
 add_subdirectory(apps)
 
 add_library(xania_lib STATIC
-        act_comm.cpp
+        act_comm.hpp act_comm.cpp
         act_info.cpp
         act_move.cpp
         act_obj.cpp

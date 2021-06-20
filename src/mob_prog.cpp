@@ -20,6 +20,7 @@
 
 #include "mob_prog.hpp"
 #include "Logging.hpp"
+#include "interp.h"
 #include "merc.h"
 #include "string_utils.hpp"
 

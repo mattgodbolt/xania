@@ -16,7 +16,11 @@
 struct Char;
 struct ROOM_INDEX_DATA;
 
-extern void interp_initialise();
+void interp_initialise();
+bool check_social(Char *ch, std::string_view command, std::string_view argument);
+void interpret(Char *ch, const char *argument);
+const char *one_argument(const char *argument, char *arg_first);
+char *one_argument(char *argument, char *arg_first); // TODO(MRG) get rid of this as soon as we can.
 
 /*
  * Command functions.
@@ -295,7 +299,3 @@ extern void do_clantalk(Char *ch, const char *arg);
 extern void do_clanwho(Char *ch);
 extern void do_clanset(Char *ch, const char *arg);
 /* end of clan stuff */
-
-/* Misc stuff */
-extern void announce(std::string_view buf, const Char *ch);
-bool check_social(Char *ch, std::string_view command, std::string_view argument);

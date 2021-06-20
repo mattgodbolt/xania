@@ -43,6 +43,7 @@ static inline constexpr auto RoomResetAgeUnoccupiedArea = 10;
 
 /* Externally referenced functions. */
 void wiznet_initialise();
+SpecialFunc spec_lookup(const char *name);
 
 /*
  * Globals.

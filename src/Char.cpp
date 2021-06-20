@@ -4,6 +4,7 @@
 #include "Note.hpp"
 #include "Sex.hpp"
 #include "TimeInfoData.hpp"
+#include "act_comm.hpp"
 #include "comm.hpp"
 #include "interp.h"
 #include "merc.h"

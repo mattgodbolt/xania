@@ -13,6 +13,7 @@
 #include "MobIndexData.hpp"
 #include "db.h"
 #include "lookup.h"
+#include "magic.h"
 #include "merc.h"
 #include "string_utils.hpp"
 

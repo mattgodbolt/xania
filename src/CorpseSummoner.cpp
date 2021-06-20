@@ -9,6 +9,7 @@
 #include "Char.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumRooms.hpp"
+#include "interp.h"
 #include "lookup.h"
 #include "merc.h"
 #include "string_utils.hpp"
@@ -17,6 +18,8 @@
 
 using namespace std::chrono;
 using namespace std::literals;
+SpecialFunc spec_lookup(const char *name);
+
 CorpseSummoner::CorpseSummoner(Dependencies &dependencies) : mud_{dependencies}, last_advice_time_{0} {}
 
 time_t CorpseSummoner::last_advice_time() { return last_advice_time_; }

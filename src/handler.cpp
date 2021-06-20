@@ -19,6 +19,7 @@
 #include "fight.hpp"
 #include "interp.h"
 #include "lookup.h"
+#include "magic.h"
 #include "merc.h"
 #include "string_utils.hpp"
 

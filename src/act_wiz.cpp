@@ -52,6 +52,7 @@ void do_maffects(Char *ch, const char *argument);
 void do_mpracs(Char *ch, const char *argument);
 void do_minfo(Char *ch, const char *argument);
 void do_mspells(Char *ch, const char *argument);
+SpecialFunc spec_lookup(const char *name);
 
 /*
  * Local functions.

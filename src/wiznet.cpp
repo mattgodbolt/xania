@@ -9,6 +9,7 @@
 
 #include "CommandSet.hpp"
 #include "Descriptor.hpp"
+#include "interp.h"
 
 #include <fmt/format.h>
 

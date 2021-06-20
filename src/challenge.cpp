@@ -12,6 +12,7 @@
 #include "InjuredPart.hpp"
 #include "Logging.hpp"
 #include "VnumRooms.hpp"
+#include "act_comm.hpp"
 #include "comm.hpp"
 #include "fight.hpp"
 #include "handler.hpp"

@@ -10,6 +10,7 @@
 #include "interp.h"
 #include "CommandSet.hpp"
 #include "Note.hpp"
+#include "act_comm.hpp"
 #include "comm.hpp"
 #include "handler.hpp"
 #include "merc.h"
@@ -36,8 +37,6 @@ inline constexpr auto L8 = MAX_LEVEL - 8; /* avatar */
 inline constexpr auto IM = LEVEL_IMMORTAL; /* angel */
 inline constexpr auto HE = LEVEL_HERO; /* hero */
 }
-
-bool MP_Commands(Char *ch);
 
 enum class CommandLogLevel { Normal, Always, Never };
 
@@ -697,17 +696,4 @@ void do_wizhelp(Char *ch) {
         strcat(col.buf, "\n\r");
         ch->send_to(col.buf);
     }
-}
-
-bool MP_Commands(Char *ch) /* Can MOBProged mobs
-                                   use mpcommands? true if yes.
-                                   - Kahn */
-{
-    if (ch->is_switched())
-        return false;
-
-    if (ch->is_npc() && ch->pIndexData->progtypes && !IS_AFFECTED(ch, AFF_CHARM))
-        return true;
-
-    return false;
 }

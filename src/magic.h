@@ -6,17 +6,17 @@
 /*  magic.h:  wild and wonderful spells                                  */
 /*                                                                       */
 /*************************************************************************/
-
-/*
- * Magic & spells.
- */
-
 #pragma once
 
 struct Char;
 struct OBJ_DATA;
 
+int mana_cost(Char *ch, int min_mana, int level);
+int slot_lookup(int slot);
+bool saves_spell(int level, const Char *victim);
+void obj_cast_spell(int sn, int level, Char *ch, Char *victim, OBJ_DATA *obj);
 bool check_dispel(int dis_level, Char *victim, int spell_num);
+
 void spell_psy_tornado(int spell_num, int level, Char *ch, void *vo);
 void spell_insanity(int spell_num, int level, Char *ch, void *vo);
 void spell_null(int spell_num, int level, Char *ch, void *vo);

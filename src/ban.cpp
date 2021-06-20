@@ -22,6 +22,7 @@
 #include "comm.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"
+#include "interp.h"
 #include "merc.h"
 #include "string_utils.hpp"
 

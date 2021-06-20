@@ -1309,20 +1309,6 @@ const char *part_bit_name(int part_flags);
 const char *weapon_bit_name(int weapon_flags);
 const char *comm_bit_name(int comm_flags);
 
-/* interp.c */
-void interpret(Char *ch, const char *argument);
-const char *one_argument(const char *argument, char *arg_first);
-char *one_argument(char *argument, char *arg_first); // TODO(MRG) get rid of this as soon as we can.
-
-/* magic.c */
-int mana_cost(Char *ch, int min_mana, int level);
-int slot_lookup(int slot);
-bool saves_spell(int level, const Char *victim);
-void obj_cast_spell(int sn, int level, Char *ch, Char *victim, OBJ_DATA *obj);
-
-/* special.c */
-SpecialFunc spec_lookup(const char *name);
-
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
 #define MACRO_STRINGIFY_(s) #s
 
