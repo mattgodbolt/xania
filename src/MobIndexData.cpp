@@ -103,7 +103,6 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
         }
     }
 
-    // Merc-2.2 MOBProgs - Faramir 31/8/1998
     auto letter = fread_letter(fp);
     if (letter == '>') {
         ungetc(letter, fp);

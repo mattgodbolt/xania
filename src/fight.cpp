@@ -23,6 +23,7 @@
 #include "interp.h"
 #include "lookup.h"
 #include "merc.h"
+#include "mob_prog.hpp"
 #include "save.hpp"
 #include "string_utils.hpp"
 
@@ -84,13 +85,8 @@ void violence_update() {
         if ((victim = ch->fighting) == nullptr)
             continue;
 
-        /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         mprog_hitprcnt_trigger(ch, victim);
         mprog_fight_trigger(ch, victim);
-
-        /*
-         * Fun for the whole family!
-         */
         check_assist(ch, victim);
     }
 }
@@ -1328,7 +1324,6 @@ void detach_injured_part(const Char *victim, std::optional<InjuredPart> opt_inju
 
 void raw_kill(Char *victim, std::optional<InjuredPart> opt_injured_part) {
     stop_fighting(victim, true);
-    /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
     mprog_death_trigger(victim);
     death_cry(victim);
     detach_injured_part(victim, opt_injured_part);

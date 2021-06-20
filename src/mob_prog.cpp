@@ -18,6 +18,7 @@
  *  such installation can be found in INSTALL.  Enjoy...         N'Atas-Ha *
  ***************************************************************************/
 
+#include "mob_prog.hpp"
 #include "Logging.hpp"
 #include "merc.h"
 #include "string_utils.hpp"

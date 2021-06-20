@@ -37,7 +37,6 @@ inline constexpr auto IM = LEVEL_IMMORTAL; /* angel */
 inline constexpr auto HE = LEVEL_HERO; /* hero */
 }
 
-/* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
 bool MP_Commands(Char *ch);
 
 enum class CommandLogLevel { Normal, Always, Never };
@@ -387,7 +386,6 @@ void interp_initialise() {
     add_command("imotd", do_imotd, Position::Type::Dead, IM);
     add_command(":", do_immtalk, Position::Type::Dead, IM, CommandLogLevel::Normal, false);
 
-    /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
     /* MOBprogram commands. */
     add_command("mpasound", do_mpasound, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
     add_command("mpjunk", do_mpjunk, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);

@@ -22,6 +22,7 @@
 #include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
+#include "mob_prog.hpp"
 #include "save.hpp"
 #include "string_utils.hpp"
 
@@ -347,8 +348,6 @@ void mobile_update() {
         if (ch->is_pos_preoccupied())
             continue;
 
-        /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
-        /* MOBprogram random trigger */
         if (ch->in_room->area->nplayer > 0) {
             mprog_random_trigger(ch);
             /* If ch dies or changes
@@ -713,7 +712,6 @@ void obj_update() {
 void do_aggressive_sentient(Char *, Char *);
 void aggr_update() {
     for (auto *wch : char_list) {
-        /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         /* MOBProgram ACT_PROG trigger */
         if (wch->is_npc() && wch->mpactnum > 0 && wch->in_room->area->nplayer > 0) {
             MPROG_ACT_LIST *tmp_act, *tmp2_act;

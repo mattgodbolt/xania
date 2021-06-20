@@ -31,6 +31,7 @@
 #include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
+#include "mob_prog.hpp"
 #include "save.hpp"
 #include "string_utils.hpp"
 
@@ -150,7 +151,6 @@ void handle_signal_shutdown() {
         // vch->d->c check added by TM to avoid crashes when
         // someone hasn't logged in but the mud is shut down
         if (vch->is_pc() && vch->desc && vch->desc->is_playing()) {
-            /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
             MOBtrigger = false;
             do_save(vch);
             vch->send_line("|RXania has been asked to shutdown by the operating system.|w");
@@ -1332,7 +1332,6 @@ void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To
     for (auto *to : collect_folks(ch, vch, arg2, type, min_position)) {
         auto formatted = format_act(format, ch, arg1, arg2, to, vch);
         to->send_to(formatted);
-        /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         if (MOBtrigger) {
             auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1);
             // TODO: heinous const_cast here. Safe, but annoying and worth unpicking deeper down.

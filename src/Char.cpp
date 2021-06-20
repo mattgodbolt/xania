@@ -7,6 +7,7 @@
 #include "comm.hpp"
 #include "interp.h"
 #include "merc.h"
+#include "mob_prog.hpp"
 #include "string_utils.hpp"
 
 #include <chat/chatlink.h>
@@ -330,7 +331,6 @@ void Char::say(std::string_view message) {
     chatperformtoroom(message, this);
     // TODO: one day we will make this take string_views. but for now:
     auto as_std = std::string(message);
-    /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
     mprog_speech_trigger(as_std.c_str(), this);
 }
 

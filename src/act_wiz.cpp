@@ -26,6 +26,7 @@
 #include "lookup.h"
 #include "magic.h"
 #include "merc.h"
+#include "mob_prog.hpp"
 #include "save.hpp"
 #include "string_utils.hpp"
 #include "tables.h"
@@ -608,9 +609,8 @@ void do_stat(Char *ch, const char *argument) {
         return;
     }
 
-    /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
     if (!str_cmp(arg, "prog")) {
-        do_mpstat(ch, string); /* in mob_commands.c */
+        do_mpstat(ch, string);
         return;
     }
 
@@ -3187,7 +3187,6 @@ void do_force(Char *ch, const char *argument) {
 
         for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust()) {
-                /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;
                 act(buf, ch, nullptr, vch, To::Vict);
                 interpret(vch, argument);
@@ -3201,7 +3200,6 @@ void do_force(Char *ch, const char *argument) {
 
         for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level < LEVEL_HERO) {
-                /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;
                 act(buf, ch, nullptr, vch, To::Vict);
                 interpret(vch, argument);
@@ -3215,7 +3213,6 @@ void do_force(Char *ch, const char *argument) {
 
         for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level >= LEVEL_HERO) {
-                /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
                 MOBtrigger = false;
                 act(buf, ch, nullptr, vch, To::Vict);
                 interpret(vch, argument);
@@ -3243,7 +3240,6 @@ void do_force(Char *ch, const char *argument) {
             ch->send_line("Not at your level!");
             return;
         }
-        /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         MOBtrigger = false;
         act(buf, ch, nullptr, victim, To::Vict);
         interpret(victim, argument);

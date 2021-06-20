@@ -18,6 +18,7 @@
 #include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
+#include "mob_prog.hpp"
 #include "save.hpp"
 #include "string_utils.hpp"
 
@@ -590,8 +591,6 @@ void do_give(Char *ch, const char *argument) {
         act(fmt::format("$n gives you {} gold.", amount), ch, nullptr, victim, To::Vict);
         act("$n gives $N some gold.", ch, nullptr, victim, To::NotVict);
         act(fmt::format("You give $N {} gold.", amount), ch, nullptr, victim, To::Char);
-
-        /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
         mprog_bribe_trigger(victim, ch, amount);
         return;
     }
@@ -643,8 +642,6 @@ void do_give(Char *ch, const char *argument) {
 
     obj_from_char(obj);
     obj_to_char(obj, victim);
-
-    /* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
     MOBtrigger = false;
 
     act("$n gives $p to $N.", ch, obj, victim, To::NotVict);

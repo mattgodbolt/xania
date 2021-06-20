@@ -23,6 +23,7 @@
 #include "interp.h"
 #include "lookup.h"
 #include "merc.h"
+#include "mob_prog.hpp"
 #include "string_utils.hpp"
 
 #include <range/v3/algorithm/fill.hpp>
@@ -2070,8 +2071,6 @@ void append_file(Char *ch, const char *file, const char *str) {
         fclose(fp);
     }
 }
-
-/* Merc-2.2 MOBProgs - Faramir 31/8/1998 */
 
 /* This routine transfers between alpha and numeric forms of the
  *  mob_prog bitvector types. This allows the use of the words in the

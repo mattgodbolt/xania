@@ -20,7 +20,7 @@ extern void interp_initialise();
 
 /*
  * Command functions.
- * Defined in act_*.c (mostly).
+ * Defined in act_*.cpp (mostly).
  */
 extern void do_permban(Char *ch, const char *arg);
 extern void do_permit(Char *ch, const char *arg);
