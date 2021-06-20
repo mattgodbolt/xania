@@ -1329,9 +1329,6 @@ void gain_exp(Char *ch, int gain);
 void update_handler();
 bool is_safe_sentient(Char *ch, Char *wch);
 
-/* xania.c - a mishmash */
-void check_xania();
-
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
 #define MACRO_STRINGIFY_(s) #s
 

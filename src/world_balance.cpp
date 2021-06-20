@@ -1,38 +1,21 @@
 /*************************************************************************/
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
 /*  (C) 1995-2000 Xania Development Team                                 */
-/*  See the header to file: merc.h for original code copyrights          */
-/*                                                                       */
-/*  xania.c: a variety of Xania-specific modifications and new utilities */
-/*                                                                       */
+/*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
-#include "DescriptorList.hpp"
+#include "Char.hpp"
 #include "MobIndexData.hpp"
-#include "Tip.hpp"
-#include "VnumMobiles.hpp"
-#include "comm.hpp"
-#include "common/Configuration.hpp"
-#include "db.h"
-#include "handler.hpp"
-#include "interp.h"
-#include "lookup.h"
-#include "magic.h"
 #include "merc.h"
 #include "string_utils.hpp"
 
-#include <cctype>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
 #include <fmt/format.h>
 #include <range/v3/algorithm/for_each.hpp>
 #include <range/v3/numeric/accumulate.hpp>
+#include <range/v3/view/transform.hpp>
 
-/* report_object, takes an object_index_data obj and a param boot and returns the 'worth' of an
-   object in points.  If boot is non-zero it will also 'BUG' these, along with any other things
-   that could be wrong with the object */
+namespace {
 
 void objectbug(std::string_view str, OBJ_INDEX_DATA *obj) {
     log_string("obj> {} (#{}): {}", obj->short_descr, obj->vnum, str);
@@ -42,6 +25,9 @@ void mobbug(std::string_view str, MobIndexData *mob) {
     log_string("mob> {} (#{}): {}", mob->short_descr, mob->vnum, str);
 }
 
+/* report_object, takes an object_index_data obj and a param boot and returns the 'worth' of an
+   object in points.  If boot is non-zero it will also 'BUG' these, along with any other things
+   that could be wrong with the object */
 int report_object(OBJ_DATA *object, int boot) {
     int averagedam, allowedaverage;
     OBJ_INDEX_DATA *obj = object->pIndexData;
@@ -111,11 +97,13 @@ void report_mobile(MobIndexData *mob) {
         mobbug("has too few health points", mob);
 }
 
-/* check_xania - check all of Xania and report those things that aren't what they should be */
+}
 
-void check_xania() {
+/* report_world_balance - report entities that have stats that are unbalanced */
+
+void report_entity_imbalance() {
     bug("obj> **********************************************************************");
-    bug("obj> **               Beginning sweep of all object in Xania             **");
+    bug("obj> **               Beginning sweep of all objects                     **");
     bug("obj> **********************************************************************");
 
     for (auto *object : object_list) {

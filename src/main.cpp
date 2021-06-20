@@ -17,13 +17,12 @@
 
 /* SIGTRAP on/off */
 bool debug = false;
-/* check the mobs/objects */
-bool printinfo = false;
+extern void report_entity_imbalance();
 
 int main(int argc, char **argv) {
     // Init time.
     current_time = Clock::now();
-
+    bool show_entity_imbalance = false;
     log_string("Xania {} booting...", BUILD_FULL_VERSION);
     const auto &config = Configuration::singleton();
     /*
@@ -36,7 +35,7 @@ int main(int argc, char **argv) {
             debug = true;
         } else if (*argv[num] == 'L') {
             num++;
-            printinfo = true;
+            show_entity_imbalance = true;
         }
     }
     const auto pipe_file = fmt::format(PIPE_FILE, config.port(), getenv("USER") ? getenv("USER") : "unknown");
@@ -48,8 +47,8 @@ int main(int argc, char **argv) {
     boot_db();
     load_bans();
     startchat(config.chat_data_file());
-    if (printinfo)
-        check_xania();
+    if (show_entity_imbalance)
+        report_entity_imbalance();
     load_tipfile();
     log_string("Xania version {} is ready to rock via {}.", BUILD_VERSION, pipe_file);
 
