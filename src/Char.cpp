@@ -181,22 +181,22 @@ int Char::get_skill(int skill_number) const {
             skill = 15 + (level / (is_warrior() || is_thief() ? 2 : 3));
 
         else if (skill_number == gsn_backstab && IS_SET(off_flags, OFF_BACKSTAB))
-            return 10 + (level / 5);
+            skill = UMAX(30, level / 3);
 
         else if (skill_number == gsn_hand_to_hand)
             skill = 40 + 2 * level;
 
         else if (skill_number == gsn_trip && IS_SET(off_flags, OFF_TRIP))
-            skill = 10 + 3 * level;
+            skill = UMAX(30, level / 3);
 
         else if (skill_number == gsn_bash && IS_SET(off_flags, OFF_BASH))
-            skill = 10 + 3 * level;
+            skill = UMAX(30, level / 3);
 
         else if (skill_number == gsn_disarm && (IS_SET(off_flags, OFF_DISARM) || is_warrior() || is_thief()))
-            skill = 20 + 3 * level;
+            skill = UMAX(30, level / 3);
 
         else if (skill_number == gsn_berserk && IS_SET(off_flags, OFF_BERSERK))
-            skill = 3 * level;
+            skill = UMAX(30, level / 3);
 
         else if (skill_number == gsn_sword || skill_number == gsn_dagger || skill_number == gsn_spear
                  || skill_number == gsn_mace || skill_number == gsn_axe || skill_number == gsn_flail
