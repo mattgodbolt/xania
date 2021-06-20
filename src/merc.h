@@ -1328,17 +1328,6 @@ int slot_lookup(int slot);
 bool saves_spell(int level, const Char *victim);
 void obj_cast_spell(int sn, int level, Char *ch, Char *victim, OBJ_DATA *obj);
 
-/* skills.c */
-bool parse_gen_groups(Char *ch, const char *argument);
-void list_group_costs(Char *ch);
-unsigned int exp_per_level(const Char *ch, int points);
-void check_improve(Char *ch, int sn, bool success, int multiplier);
-int group_lookup(const char *name);
-void gn_add(Char *ch, int gn);
-void gn_remove(Char *ch, int gn);
-void group_add(Char *ch, const char *name, bool deduct);
-void group_remove(Char *ch, const char *name);
-
 /* special.c */
 SpecialFunc spec_lookup(const char *name);
 
@@ -1350,11 +1339,6 @@ bool is_safe_sentient(Char *ch, Char *wch);
 
 /* xania.c - a mishmash */
 void check_xania();
-int get_skill_level(const Char *ch, int gsn);
-int get_skill_difficulty(Char *ch, int gsn);
-int get_skill_trains(Char *ch, int gsn);
-int get_group_trains(Char *ch, int gsn);
-int get_group_level(Char *ch, int gsn);
 int check_material_vulnerability(Char *ch, OBJ_DATA *object);
 
 void load_tipfile(); /* tip wizard - Faramir 21 Sep 1998 */

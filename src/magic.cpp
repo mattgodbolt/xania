@@ -20,6 +20,7 @@
 #include "interp.h"
 #include "lookup.h"
 #include "merc.h"
+#include "skills.hpp"
 #include "string_utils.hpp"
 
 #include <cstdio>

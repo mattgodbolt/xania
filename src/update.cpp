@@ -24,6 +24,7 @@
 #include "merc.h"
 #include "mob_prog.hpp"
 #include "save.hpp"
+#include "skills.hpp"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>

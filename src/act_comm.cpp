@@ -22,6 +22,7 @@
 #include "interp.h"
 #include "merc.h"
 #include "save.hpp"
+#include "skills.hpp"
 
 #include <fmt/format.h>
 

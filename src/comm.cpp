@@ -33,6 +33,7 @@
 #include "merc.h"
 #include "mob_prog.hpp"
 #include "save.hpp"
+#include "skills.hpp"
 #include "string_utils.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>

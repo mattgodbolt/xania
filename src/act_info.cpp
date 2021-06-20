@@ -23,6 +23,7 @@
 #include "lookup.h"
 #include "merc.h"
 #include "save.hpp"
+#include "skills.hpp"
 #include "string_utils.hpp"
 
 #include <fmt/chrono.h>
