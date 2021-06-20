@@ -332,15 +332,11 @@ void load_area(FILE *fp, const std::string &area_name) {
     pArea->lvnum = fread_number(fp);
     pArea->uvnum = fread_number(fp);
     pArea->area_num = area_list.count();
-    pArea->area_flags = AREA_LOADING;
     pArea->filename = area_name;
 
     pArea->age = RoomResetAgeOccupiedArea; // trigger an area reset when main game loop starts
     pArea->nplayer = 0;
     pArea->empty = false;
-
-    if (AreaList::singleton().back())
-        REMOVE_BIT(AreaList::singleton().back()->area_flags, AREA_LOADING);
 
     AreaList::singleton().add(std::move(pArea));
 

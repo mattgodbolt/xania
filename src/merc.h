@@ -198,8 +198,6 @@ struct pc_race_type /* additional data for pc races */
     sh_int size; /* aff bits for the race */
 };
 
-/* verbose damage types - Faramir Aug 98 */
-
 /*
  * A kill structure (indexed by level).
  */
@@ -1388,10 +1386,6 @@ void gain_exp(Char *ch, int gain);
 void update_handler();
 bool is_safe_sentient(Char *ch, Char *wch);
 
-/* web page functions */
-bool web_see(Char *ch);
-void web_who();
-
 /* xania.c - a mishmash */
 void check_xania();
 int get_skill_level(const Char *ch, int gsn);
@@ -1421,14 +1415,6 @@ void mprog_hitprcnt_trigger(Char *mob, Char *ch);
 void mprog_death_trigger(Char *mob);
 void mprog_random_trigger(Char *mob);
 void mprog_speech_trigger(const char *txt, const Char *mob);
-
-/*
- * Area flags.
- */
-#define AREA_NONE 0
-#define AREA_LOADING 4 /* Used for counting in db.c */
-
-#define NO_FLAG -99 /* Must not be used in flags or stats. */
 
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
 #define MACRO_STRINGIFY_(s) #s

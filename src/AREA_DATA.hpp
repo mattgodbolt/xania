@@ -23,7 +23,6 @@ struct AREA_DATA {
     int lvnum{};
     int uvnum{};
     int area_num{};
-    unsigned int area_flags{};
 };
 
 class AreaList {
