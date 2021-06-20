@@ -1,6 +1,7 @@
 #include "merc.h"
 
 #include "TimeInfoData.hpp"
+#include "Tip.hpp"
 #include "chat/chatlink.h"
 #include "comm.hpp"
 #include "common/Configuration.hpp"

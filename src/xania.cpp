@@ -30,15 +30,6 @@
 #include <range/v3/algorithm/for_each.hpp>
 #include <range/v3/numeric/accumulate.hpp>
 
-/*
- * KLUDGEMONGER III, Revenge of Kludgie, the Malicious Code Murderer...
- */
-
-/* tip wizard */
-
-static std::vector<Tip> tips;
-static size_t tip_current = 0;
-
 /* report_object, takes an object_index_data obj and a param boot and returns the 'worth' of an
    object in points.  If boot is non-zero it will also 'BUG' these, along with any other things
    that could be wrong with the object */
@@ -168,81 +159,4 @@ void do_immworth(Char *ch, const char *argument) {
         ch->send_line("Object '{}' has {} point(s), within the {} point maximum.", obj->pIndexData->short_descr, worth,
                       shouldbe);
     }
-}
-
-/* do_prefix added 19-05-97 PCFN */
-void do_prefix(Char *ch, const char *argument) {
-    if (ch = ch->player(); !ch)
-        return;
-
-    auto prefix = smash_tilde(argument);
-    if (prefix.length() > (MAX_STRING_LENGTH - 1))
-        prefix.resize(MAX_STRING_LENGTH - 1);
-
-    if (prefix.empty()) {
-        if (ch->pcdata->prefix.empty()) {
-            ch->send_line("No prefix to remove.");
-        } else {
-            ch->send_line("Prefix removed.");
-            ch->pcdata->prefix.clear();
-        }
-    } else {
-        ch->pcdata->prefix = prefix;
-        ch->send_line("Prefix set to \"{}\"", ch->pcdata->prefix);
-    }
-}
-
-void load_tipfile() {
-    tips.clear();
-
-    FILE *fp;
-    if ((fp = fopen(Configuration::singleton().tip_file().c_str(), "r")) == nullptr) {
-        bug("Couldn't open tip file \'{}\' for reading", Configuration::singleton().tip_file());
-        return;
-    }
-    for (;;) {
-        int c;
-        while (isspace(c = getc(fp)))
-            ;
-        ungetc(c, fp);
-        if (feof(fp))
-            break;
-        tips.emplace_back(Tip::from_file(fp));
-    }
-    fclose(fp);
-    log_string("Loaded {} tips", tips.size());
-}
-
-void tip_players() {
-    if (tips.empty())
-        return;
-
-    if (tip_current >= tips.size())
-        tip_current = 0;
-
-    auto tip = fmt::format("|WTip: {}|w\n\r", tips[tip_current].tip());
-    ranges::for_each(descriptors().playing() | DescriptorFilter::to_person()
-                         | ranges::views::filter([](const Char &ch) { return ch.is_set_extra(EXTRA_TIP_WIZARD); }),
-                     [&tip](const Char &ch) { ch.send_to(tip); });
-    tip_current++;
-}
-
-void do_tipwizard(Char *ch, ArgParser args) {
-    if (args.empty()) {
-        if (ch->toggle_extra(EXTRA_TIP_WIZARD)) {
-            ch->send_line("Tipwizard activated!");
-        } else {
-            ch->send_line("Tipwizard deactivated.");
-        }
-        return;
-    }
-    auto arg = args.shift();
-    if (matches(arg, "on")) {
-        ch->set_extra(EXTRA_TIP_WIZARD);
-        ch->send_line("Tipwizard activated!");
-    } else if (matches(arg, "off")) {
-        ch->remove_extra(EXTRA_TIP_WIZARD);
-        ch->send_line("Tipwizard deactivated.");
-    } else
-        ch->send_line("Syntax: tipwizard {on/off}");
 }

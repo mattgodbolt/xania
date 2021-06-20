@@ -1332,9 +1332,6 @@ bool is_safe_sentient(Char *ch, Char *wch);
 /* xania.c - a mishmash */
 void check_xania();
 
-void load_tipfile(); /* tip wizard - Faramir 21 Sep 1998 */
-void tip_players();
-
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
 #define MACRO_STRINGIFY_(s) #s
 

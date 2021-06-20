@@ -14,3 +14,6 @@ public:
 
     [[nodiscard]] static Tip from_file(FILE *fp);
 };
+
+void load_tipfile();
+void tip_players();

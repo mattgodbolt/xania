@@ -1862,3 +1862,25 @@ void do_alist(Char *ch) {
             fmt::format(format_str, pArea->area_num, pArea->areaname, pArea->lvnum, pArea->uvnum, pArea->filename);
     ch->page_to(buffer);
 }
+
+/* do_prefix added 19-05-97 PCFN */
+void do_prefix(Char *ch, const char *argument) {
+    if (ch = ch->player(); !ch)
+        return;
+
+    auto prefix = smash_tilde(argument);
+    if (prefix.length() > (MAX_STRING_LENGTH - 1))
+        prefix.resize(MAX_STRING_LENGTH - 1);
+
+    if (prefix.empty()) {
+        if (ch->pcdata->prefix.empty()) {
+            ch->send_line("No prefix to remove.");
+        } else {
+            ch->send_line("Prefix removed.");
+            ch->pcdata->prefix.clear();
+        }
+    } else {
+        ch->pcdata->prefix = prefix;
+        ch->send_line("Prefix set to \"{}\"", ch->pcdata->prefix);
+    }
+}
