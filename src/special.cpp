@@ -11,6 +11,7 @@
 #include "TimeInfoData.hpp"
 #include "VnumMobiles.hpp"
 #include "VnumRooms.hpp"
+#include "act_move.hpp"
 #include "act_obj.hpp"
 #include "comm.hpp"
 #include "db.h"

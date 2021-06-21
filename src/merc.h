@@ -1197,9 +1197,6 @@ void nuke_pets(Char *ch);
 void die_follower(Char *ch);
 bool is_same_group(const Char *ach, const Char *bch);
 
-/* act_move.c */
-void move_char(Char *ch, Direction door);
-
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
 #define MACRO_STRINGIFY_(s) #s
 

@@ -9,6 +9,7 @@
 
 #include "Logging.hpp"
 #include "VnumRooms.hpp"
+#include "act_move.hpp"
 #include "comm.hpp"
 #include "db.h"
 #include "handler.hpp"

@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "act_move.hpp"
 #include "AFFECT_DATA.hpp"
 #include "VnumRooms.hpp"
 #include "challenge.hpp"

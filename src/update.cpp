@@ -19,6 +19,7 @@
 #include "VnumRooms.hpp"
 #include "WeatherData.hpp"
 #include "act_comm.hpp"
+#include "act_move.hpp"
 #include "act_obj.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
