@@ -15,6 +15,7 @@
 #include "Help.hpp"
 #include "TimeInfoData.hpp"
 #include "WeatherData.hpp"
+#include "act_comm.hpp"
 #include "comm.hpp"
 #include "db.h"
 #include "fight.hpp"

@@ -1190,13 +1190,6 @@ extern std::string deity_name;
 /* Added by Rohan, to try to make count work properly */
 extern size_t max_on;
 
-/* act_comm.c */
-void add_follower(Char *ch, Char *master);
-void stop_follower(Char *ch);
-void nuke_pets(Char *ch);
-void die_follower(Char *ch);
-bool is_same_group(const Char *ach, const Char *bch);
-
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
 #define MACRO_STRINGIFY_(s) #s
 

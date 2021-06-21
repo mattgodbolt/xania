@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "act_comm.hpp"
 #include "ArgParser.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
