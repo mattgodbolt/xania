@@ -1200,12 +1200,6 @@ bool is_same_group(const Char *ach, const Char *bch);
 /* act_move.c */
 void move_char(Char *ch, Direction door);
 
-/* ban.c */
-void save_bans();
-void load_bans();
-bool check_ban(const char *site, int type);
-void ban_site(Char *ch, const char *site, bool fType);
-
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
 #define MACRO_STRINGIFY_(s) #s
 
