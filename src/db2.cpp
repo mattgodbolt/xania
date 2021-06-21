@@ -12,6 +12,7 @@
 #include "Logging.hpp"
 #include "MobIndexData.hpp"
 #include "db.h"
+#include "handler.hpp"
 #include "lookup.h"
 #include "magic.h"
 #include "merc.h"

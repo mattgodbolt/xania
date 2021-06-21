@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "handler.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
@@ -1008,6 +1009,12 @@ bool can_see(const Char *ch, const Char *victim) {
         return false;
     }
     return ch->can_see(*victim);
+}
+
+std::string_view pers(const Char *ch, const Char *looker) {
+    if (!looker->can_see(*ch))
+        return "someone";
+    return ch->is_npc() ? ch->short_descr : ch->name;
 }
 
 /*

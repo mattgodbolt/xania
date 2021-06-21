@@ -6,6 +6,7 @@
 #include "TimeInfoData.hpp"
 #include "act_comm.hpp"
 #include "comm.hpp"
+#include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
 #include "mob_prog.hpp"

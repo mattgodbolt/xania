@@ -7,6 +7,7 @@
 #include "AttackType.hpp"
 #include "Rng.hpp"
 #include "VnumObjects.hpp"
+#include "handler.hpp"
 #include "merc.h"
 
 #include <tuple>

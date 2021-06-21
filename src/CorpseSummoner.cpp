@@ -9,6 +9,7 @@
 #include "Char.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumRooms.hpp"
+#include "handler.hpp"
 #include "interp.h"
 #include "lookup.h"
 #include "merc.h"

@@ -20,6 +20,7 @@
 #include "WeatherData.hpp"
 #include "buffer.h"
 #include "common/Configuration.hpp"
+#include "handler.hpp"
 #include "interp.h"
 #include "lookup.h"
 #include "merc.h"

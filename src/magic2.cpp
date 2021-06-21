@@ -2,14 +2,7 @@
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
 /*  (C) 1995-2000 Xania Development Team                                    */
 /*  See the header to file: merc.h for original code copyrights          */
-/*                                                                       */
-/*  magic2.c:  more spells, magic.c is a monster file                    */
-/*                                                                       */
 /*************************************************************************/
-/*
- * Xania --
- * newer spells. magic.c is a monster already.
- */
 
 #include "AFFECT_DATA.hpp"
 #include "VnumMobiles.hpp"
@@ -18,6 +11,7 @@
 #include "comm.hpp"
 #include "db.h"
 #include "fight.hpp"
+#include "handler.hpp"
 #include "interp.h"
 #include "lookup.h"
 #include "magic.h"

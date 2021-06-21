@@ -1,11 +1,108 @@
+/***************************************************************************
+ *  Original Diku Mud copyright (C) 1990, 1991 by Sebastian Hammer,        *
+ *  Michael Seifert, Hans Henrik St{rfeldt, Tom Madsen, and Katja Nyboe.   *
+ *                                                                         *
+ *  Merc Diku Mud improvments copyright (C) 1992, 1993 by Michael          *
+ *  Chastain, Michael Quan, and Mitchell Tse.                              *
+ *                                                                         *
+ *  In order to use any part of this Merc Diku Mud, you must comply with   *
+ *  both the original Diku license in 'license.doc' as well the Merc       *
+ *  license in 'license.txt'.  In particular, you may not remove either of *
+ *  these copyright notices.                                               *
+ *                                                                         *
+ *  Much time and thought has gone into this software and you are          *
+ *  benefitting.  We hope that you share your changes too.  What goes      *
+ *  around, comes around.                                                  *
+ ***************************************************************************/
+
+/*************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
+/*  (C) 1995-2000 Xania Development Team                                 */
+/*  See the header to file: merc.h for original code copyrights          */
+/*************************************************************************/
 #pragma once
+
+#include "GenericList.hpp"
+#include "Types.hpp"
 
 #include <string_view>
 
 struct Char;
+enum class Stat;
+struct AFFECT_DATA;
+struct OBJ_DATA;
+struct OBJ_INDEX_DATA;
+struct ROOM_INDEX_DATA;
 
 [[nodiscard]] Char *get_char_room(Char *ch, std::string_view argument);
 [[nodiscard]] Char *get_char_world(Char *ch, std::string_view argument);
 void extract_char(Char *ch, bool delete_from_world);
 void reap_old_chars();
 [[nodiscard]] int race_lookup(std::string_view name);
+
+int check_immune(Char *ch, int dam_type);
+int material_lookup(std::string_view name);
+int class_lookup(const char *name);
+int get_skill(const Char *ch, int sn);
+int get_weapon_sn(Char *ch);
+int get_weapon_skill(Char *ch, int sn);
+int get_age(const Char *ch);
+int get_curr_stat(const Char *ch, Stat stat);
+int get_max_train(Char *ch, Stat stat);
+int can_carry_n(Char *ch);
+int can_carry_w(Char *ch);
+void affect_to_char(Char *ch, const AFFECT_DATA &af);
+void affect_to_obj(OBJ_DATA *obj, const AFFECT_DATA &af);
+void affect_remove(Char *ch, const AFFECT_DATA &af);
+void affect_remove_obj(OBJ_DATA *obj, const AFFECT_DATA &af);
+void affect_strip(Char *ch, int sn);
+bool is_affected(const Char *ch, int sn);
+AFFECT_DATA *find_affect(Char *ch, int sn);
+void affect_join(Char *ch, const AFFECT_DATA &af);
+void char_from_room(Char *ch);
+void char_to_room(Char *ch, ROOM_INDEX_DATA *pRoomIndex);
+void obj_to_char(OBJ_DATA *obj, Char *ch);
+void obj_from_char(OBJ_DATA *obj);
+int apply_ac(OBJ_DATA *obj, int iWear, int type);
+OBJ_DATA *get_eq_char(Char *ch, int iWear);
+void equip_char(Char *ch, OBJ_DATA *obj, int iWear);
+void unequip_char(Char *ch, OBJ_DATA *obj);
+int count_obj_list(OBJ_INDEX_DATA *obj, const GenericList<OBJ_DATA *> &list);
+void obj_from_room(OBJ_DATA *obj);
+void obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *pRoomIndex);
+void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to);
+void obj_from_obj(OBJ_DATA *obj);
+void extract_obj(OBJ_DATA *obj);
+
+/* MRG added */
+bool check_sub_issue(OBJ_DATA *obj, Char *ch);
+
+Char *get_mob_by_vnum(sh_int vnum);
+OBJ_DATA *get_obj_type(OBJ_INDEX_DATA *pObjIndexData);
+OBJ_DATA *get_obj_list(const Char *ch, std::string_view argument, GenericList<OBJ_DATA *> &list);
+OBJ_DATA *get_obj_carry(Char *ch, const char *argument);
+OBJ_DATA *get_obj_wear(Char *ch, const char *argument);
+OBJ_DATA *get_obj_here(const Char *ch, std::string_view argument);
+OBJ_DATA *get_obj_world(Char *ch, std::string_view argument);
+OBJ_DATA *create_money(int amount);
+int get_obj_number(OBJ_DATA *obj);
+int get_obj_weight(OBJ_DATA *obj);
+bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex);
+bool room_is_private(ROOM_INDEX_DATA *pRoomIndex);
+bool can_see(const Char *ch, const Char *victim);
+std::string_view pers(const Char *ch, const Char *looker);
+bool can_see_obj(const Char *ch, const OBJ_DATA *obj);
+bool can_see_room(const Char *ch, const ROOM_INDEX_DATA *pRoomIndex);
+bool can_drop_obj(Char *ch, OBJ_DATA *obj);
+const char *item_type_name(OBJ_DATA *obj);
+const char *item_index_type_name(OBJ_INDEX_DATA *obj);
+std::string affect_bit_name(unsigned int vector);
+std::string extra_bit_name(unsigned int extra_flags);
+const char *wear_bit_name(int wear_flags);
+const char *act_bit_name(int act_flags);
+const char *off_bit_name(int off_flags);
+const char *imm_bit_name(int imm_flags);
+const char *form_bit_name(int form_flags);
+const char *part_bit_name(int part_flags);
+const char *weapon_bit_name(int weapon_flags);
+const char *comm_bit_name(int comm_flags);

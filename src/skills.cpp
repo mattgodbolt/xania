@@ -10,6 +10,7 @@
 #include "skills.hpp"
 #include "Logging.hpp"
 #include "comm.hpp"
+#include "handler.hpp"
 #include "interp.h"
 #include "lookup.h"
 #include "magic.h"

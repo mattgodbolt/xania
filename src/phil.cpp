@@ -10,6 +10,7 @@
 #include "Logging.hpp"
 #include "VnumRooms.hpp"
 #include "comm.hpp"
+#include "handler.hpp"
 #include "interp.h"
 #include "merc.h"
 #include "string_utils.hpp"
