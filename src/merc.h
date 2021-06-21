@@ -1184,12 +1184,6 @@ extern GenericList<OBJ_DATA *> object_list;
 extern bool fLogAll;
 extern KILL_DATA kill_table[];
 
-/* Moog added stuff */
-extern std::string deity_name;
-
-/* Added by Rohan, to try to make count work properly */
-extern size_t max_on;
-
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
 #define MACRO_STRINGIFY_(s) #s
 

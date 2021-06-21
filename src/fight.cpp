@@ -20,6 +20,7 @@
 #include "act_comm.hpp"
 #include "act_move.hpp"
 #include "act_obj.hpp"
+#include "act_wiz.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
 #include "db.h"

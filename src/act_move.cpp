@@ -10,6 +10,7 @@
 #include "act_move.hpp"
 #include "AFFECT_DATA.hpp"
 #include "VnumRooms.hpp"
+#include "act_wiz.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
 #include "db.h"

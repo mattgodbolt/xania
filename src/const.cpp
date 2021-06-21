@@ -3398,8 +3398,6 @@ const struct group_type group_table[MAX_GROUP] = {
 
 };
 
-std::string deity_name = "Etaine";
-
 const struct materials_type material_table[] = {
     /* { percentage resilience, name } */
     {0, "none"},      {40, "default"}, {90, "adamantite"}, {70, "iron"},      {15, "glass"},

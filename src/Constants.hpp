@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 // String and memory management parameters.
 static inline constexpr auto MAX_KEY_HASH = 1024;

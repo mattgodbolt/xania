@@ -66,6 +66,8 @@
 using namespace std::literals;
 
 extern bool check_ban(const char *site, int type);
+extern size_t max_on;
+
 /*
  * Global variables.
  */

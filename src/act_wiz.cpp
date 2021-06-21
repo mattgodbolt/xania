@@ -1,12 +1,10 @@
 /*************************************************************************/
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
-/*  (C) 1995-2000 Xania Development Team                                    */
+/*  (C) 1995-2000 Xania Development Team                                 */
 /*  See the header to file: merc.h for original code copyrights          */
-/*                                                                       */
-/*  act_wiz.c: commands for immortals                                    */
-/*                                                                       */
 /*************************************************************************/
 
+#include "act_wiz.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
@@ -44,6 +42,9 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+
+// Mutable, imms can change it using the sacname command.
+std::string deity_name = "Etaine";
 
 static const char ROOM_FLAGS[] = "dark * nomob indoors * * * * * private safe solitary petshop norecall 100imponly "
                                  "92godonly heroonly newbieonly law";

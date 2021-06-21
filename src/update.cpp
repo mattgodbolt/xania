@@ -41,6 +41,8 @@
 #include <ctime>
 #include <sys/types.h>
 
+extern size_t max_on;
+
 /*
  * Local functions.
  */
