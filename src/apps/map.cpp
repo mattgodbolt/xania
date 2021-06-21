@@ -1,3 +1,4 @@
+#include "db.h"
 #include "merc.h"
 
 #include "AREA_DATA.hpp"

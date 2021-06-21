@@ -17,6 +17,7 @@
 
 #include "mob_prog.hpp"
 #include "Logging.hpp"
+#include "db.h"
 #include "handler.hpp"
 #include "interp.h"
 #include "merc.h"

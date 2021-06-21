@@ -17,6 +17,7 @@
 #include "act_obj.hpp"
 #include "buffer.h"
 #include "comm.hpp"
+#include "db.h"
 #include "fight.hpp"
 #include "interp.h"
 #include "lookup.h"

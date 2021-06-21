@@ -10,6 +10,7 @@
 #include "flags.h"
 #include "buffer.h"
 #include "comm.hpp"
+#include "db.h"
 #include "merc.h"
 
 #include <cctype>

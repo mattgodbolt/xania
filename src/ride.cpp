@@ -6,6 +6,7 @@
 #include "ride.hpp"
 #include "Char.hpp"
 #include "comm.hpp"
+#include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
 #include "interp.h"

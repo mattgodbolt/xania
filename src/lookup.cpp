@@ -18,6 +18,7 @@
 
 #include "Logging.hpp"
 #include "Position.hpp"
+#include "db.h"
 #include "merc.h"
 #include "string_utils.hpp"
 #include "tables.h"

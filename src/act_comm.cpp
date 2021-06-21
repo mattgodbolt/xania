@@ -15,6 +15,7 @@
 #include "chat/chatlink.h"
 #include "comm.hpp"
 #include "common/Configuration.hpp"
+#include "db.h"
 #include "handler.hpp"
 #include "info.hpp"
 #include "interp.h"

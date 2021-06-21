@@ -1,4 +1,5 @@
 #include "common/Configuration.hpp"
+#include "db.h"
 #include "save.hpp"
 
 #include "MemFile.hpp"

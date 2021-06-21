@@ -20,6 +20,7 @@
 #include "act_obj.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
+#include "db.h"
 #include "handler.hpp"
 #include "interp.h"
 #include "lookup.h"

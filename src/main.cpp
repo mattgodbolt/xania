@@ -7,6 +7,7 @@
 #include "common/Configuration.hpp"
 #include "common/Time.hpp"
 #include "common/doorman_protocol.h"
+#include "db.h"
 #include "string_utils.hpp"
 
 #include <cstdlib>

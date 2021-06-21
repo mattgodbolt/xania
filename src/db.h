@@ -20,7 +20,10 @@
 #include <string>
 
 struct MobIndexData;
+struct OBJ_DATA;
 struct OBJ_INDEX_DATA;
+struct EXTRA_DESCR_DATA;
+struct ROOM_INDEX_DATA;
 
 extern bool fBootDb;
 extern int newobjs;
@@ -30,6 +33,33 @@ extern int top_affect;
 
 extern int top_vnum_room;
 extern int top_vnum_obj;
+
+void boot_db();
+void area_update();
+Char *create_mobile(MobIndexData *pMobIndex);
+void clone_mobile(Char *parent, Char *clone);
+OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex);
+void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
+const char *get_extra_descr(std::string_view name, const std::vector<EXTRA_DESCR_DATA> &ed);
+OBJ_INDEX_DATA *get_obj_index(int vnum);
+ROOM_INDEX_DATA *get_room_index(int vnum);
+char *fread_word(FILE *fp);
+void *alloc_mem(int sMem);
+void *alloc_perm(int sMem);
+void free_mem(void *pMem, int sMem);
+char *str_dup(const char *str);
+void free_string(char *pstr);
+int number_fuzzy(int number);
+int number_range(int from, int to);
+int number_percent();
+int number_bits(int width);
+int number_mm();
+int dice(int number, int size);
+int interpolate(int level, int value_00, int value_32);
+bool str_cmp(const char *astr, const char *bstr);
+bool str_prefix(const char *astr, const char *bstr);
+bool str_suffix(const char *astr, const char *bstr);
+void append_file(Char *ch, const char *file, const char *str);
 
 /* from db2.c */
 

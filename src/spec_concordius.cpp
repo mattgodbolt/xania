@@ -7,6 +7,7 @@
 #include "AREA_DATA.hpp"
 #include "Char.hpp"
 #include "comm.hpp"
+#include "db.h"
 #include "interp.h"
 #include "lookup.h"
 #include "merc.h"

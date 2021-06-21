@@ -3,6 +3,7 @@
 #include "WrappedFd.hpp"
 #include "common/Configuration.hpp"
 #include "common/Time.hpp"
+#include "db.h"
 #include "handler.hpp"
 #include "merc.h"
 #include "save.hpp"
