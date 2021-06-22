@@ -57,7 +57,6 @@ typedef struct ban_data BAN_DATA;
 class Descriptor;
 typedef struct exit_data EXIT_DATA;
 struct EXTRA_DESCR_DATA;
-typedef struct kill_data KILL_DATA;
 struct OBJ_DATA;
 struct OBJ_INDEX_DATA;
 typedef struct program PROGRAM;
@@ -194,14 +193,6 @@ struct pc_race_type /* additional data for pc races */
     Stats stats; /* starting stats */
     Stats max_stats; /* maximum stats */
     sh_int size; /* aff bits for the race */
-};
-
-/*
- * A kill structure (indexed by level).
- */
-struct kill_data {
-    sh_int number;
-    sh_int killed;
 };
 
 /***************************************************************************
@@ -1182,7 +1173,6 @@ extern GenericList<Char *> char_list;
 extern GenericList<OBJ_DATA *> object_list;
 
 extern bool fLogAll;
-extern KILL_DATA kill_table[];
 
 #define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
 #define MACRO_STRINGIFY_(s) #s

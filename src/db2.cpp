@@ -164,7 +164,6 @@ void load_mobiles(FILE *fp) {
             break;
 
         assign_area_vnum(maybe_mob->vnum);
-        kill_table[URANGE(0, maybe_mob->level, MAX_LEVEL - 1)].number++;
         add_mob_index(std::move(*maybe_mob));
     }
 }

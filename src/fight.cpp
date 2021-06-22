@@ -1321,7 +1321,6 @@ void raw_kill(Char *victim, std::optional<InjuredPart> opt_injured_part) {
 
     if (victim->is_npc()) {
         victim->pIndexData->killed++;
-        kill_table[URANGE(0, victim->level, MAX_LEVEL - 1)].killed++;
         extract_char(victim, true);
         return;
     }

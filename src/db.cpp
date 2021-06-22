@@ -54,7 +54,6 @@ SHOP_DATA *shop_first;
 SHOP_DATA *shop_last;
 
 GenericList<Char *> char_list;
-KILL_DATA kill_table[MAX_LEVEL];
 GenericList<OBJ_DATA *> object_list;
 
 sh_int gsn_backstab;
