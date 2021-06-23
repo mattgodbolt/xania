@@ -10,6 +10,7 @@
 #pragma once
 
 #include "Constants.hpp"
+#include "GenericList.hpp"
 #include "MobIndexData.hpp"
 #include "buffer.h"
 
@@ -25,14 +26,19 @@ struct OBJ_INDEX_DATA;
 struct EXTRA_DESCR_DATA;
 struct ROOM_INDEX_DATA;
 
+/*
+ * Mutable global variables.
+ */
+extern GenericList<Char *> char_list;
+extern GenericList<OBJ_DATA *> object_list;
 extern bool fBootDb;
 extern int newobjs;
 extern OBJ_INDEX_DATA *obj_index_hash[MAX_KEY_HASH];
 extern int top_obj_index;
 extern int top_affect;
-
 extern int top_vnum_room;
 extern int top_vnum_obj;
+extern int social_count;
 
 void boot_db();
 void area_update();
@@ -61,9 +67,7 @@ bool str_prefix(const char *astr, const char *bstr);
 bool str_suffix(const char *astr, const char *bstr);
 void append_file(Char *ch, const char *file, const char *str);
 
-/* from db2.c */
-
-extern int social_count;
+/* from db2.cpp */
 
 char fread_letter(FILE *fp);
 int fread_number(FILE *fp);

@@ -1162,9 +1162,3 @@ extern const struct flag_type room_flags[];
 extern const struct flag_type sector_flags[];
 extern const struct flag_type extra_flags[];
 extern const struct flag_type wear_flags[];
-
-/*
- * Global variables.
- */
-extern GenericList<Char *> char_list;
-extern GenericList<OBJ_DATA *> object_list;

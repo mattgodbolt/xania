@@ -52,11 +52,9 @@ SHOP_DATA *shop_last;
 void wiznet_initialise();
 SpecialFunc spec_lookup(const char *name);
 
-/*
- * Globals.
- */
-
+// Mutable global: modified whenever a new Char is loaded from the database or when a player Char logs in or out.
 GenericList<Char *> char_list;
+// Mutable global: modified whenever a new object is created or destroyed.
 GenericList<OBJ_DATA *> object_list;
 
 sh_int gsn_backstab;

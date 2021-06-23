@@ -7,6 +7,7 @@
 #include "AFFECT_DATA.hpp"
 #include "Char.hpp"
 #include "MobIndexData.hpp"
+#include "db.h"
 #include "handler.hpp"
 #include "merc.h"
 #include "string_utils.hpp"

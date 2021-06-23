@@ -2,6 +2,7 @@
 
 #include "Char.hpp"
 #include "comm.hpp"
+#include "db.h"
 #include <chrono>
 
 using namespace std::literals;
