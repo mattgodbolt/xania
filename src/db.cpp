@@ -38,8 +38,14 @@
 #include <sys/resource.h>
 
 namespace {
+
 static inline constexpr auto RoomResetAgeOccupiedArea = 15;
 static inline constexpr auto RoomResetAgeUnoccupiedArea = 10;
+
+// Formerly global, but for the time being only referenced in this file.
+SHOP_DATA *shop_first;
+SHOP_DATA *shop_last;
+
 }
 
 /* Externally referenced functions. */
@@ -49,9 +55,6 @@ SpecialFunc spec_lookup(const char *name);
 /*
  * Globals.
  */
-
-SHOP_DATA *shop_first;
-SHOP_DATA *shop_last;
 
 GenericList<Char *> char_list;
 GenericList<OBJ_DATA *> object_list;
