@@ -32,7 +32,12 @@
 
 char *print_flags(int value);
 
+namespace {
+
+// Formerly global, but for the time being only referenced in this file.
 BAN_DATA *ban_list;
+
+}
 
 BAN_DATA *new_ban() {
     BAN_DATA *res;

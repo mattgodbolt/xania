@@ -1166,6 +1166,5 @@ extern const struct flag_type wear_flags[];
 /*
  * Global variables.
  */
-extern BAN_DATA *ban_list;
 extern GenericList<Char *> char_list;
 extern GenericList<OBJ_DATA *> object_list;
