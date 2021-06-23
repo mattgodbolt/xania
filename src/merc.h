@@ -1150,15 +1150,3 @@ extern const struct skill_type skill_table[MAX_SKILL];
 extern const struct group_type group_table[MAX_GROUP];
 extern struct social_type social_table[MAX_SOCIALS];
 extern const char *title_table[MAX_CLASS][MAX_LEVEL + 1][2];
-
-struct flag_type {
-    const char *name;
-    int bit;
-    bool settable;
-};
-
-extern const struct flag_type door_resets[];
-extern const struct flag_type room_flags[];
-extern const struct flag_type sector_flags[];
-extern const struct flag_type extra_flags[];
-extern const struct flag_type wear_flags[];

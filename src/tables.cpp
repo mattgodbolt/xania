@@ -24,11 +24,6 @@
 #include <sys/types.h>
 #include <time.h>
 
-struct flag_stat_type {
-    const struct flag_type *structure;
-    bool stat;
-};
-
 /* for sizes */
 const struct size_type size_table[] = {{"tiny"},
                                        {"small"},
