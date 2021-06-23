@@ -1173,14 +1173,3 @@ extern GenericList<Char *> char_list;
 extern GenericList<OBJ_DATA *> object_list;
 
 extern bool fLogAll;
-
-#define MACRO_STRINGIFY(s) MACRO_STRINGIFY_(s)
-#define MACRO_STRINGIFY_(s) #s
-
-#include "Logging.hpp" // TODO remove with haste!
-
-#define bug_snprintf(...)                                                                                              \
-    do {                                                                                                               \
-        if (snprintf(__VA_ARGS__) < 0)                                                                                 \
-            bug("Buffer too small at " __FILE__ ":" MACRO_STRINGIFY(__LINE__) " - message was truncated");             \
-    } while (0)

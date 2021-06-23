@@ -17,6 +17,7 @@
 #include "magic.h"
 #include "merc.h"
 #include "ride.hpp"
+#include "string_utils.hpp"
 
 /* Faramir's rather devious tornado spell....watch out for players who
  * use this to annoy others! :)

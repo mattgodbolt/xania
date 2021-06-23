@@ -16,6 +16,7 @@
 #include "lookup.h"
 #include "magic.h"
 #include "merc.h"
+#include "string_utils.hpp"
 #include "update.hpp"
 
 #include <cstdio>

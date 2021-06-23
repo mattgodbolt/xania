@@ -11,6 +11,7 @@
 #include "ArgParser.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
+#include "Logging.hpp"
 #include "TimeInfoData.hpp"
 #include "challenge.hpp"
 #include "chat/chatlink.h"

@@ -6,6 +6,7 @@
 #include "DamageMessages.hpp"
 #include "AttackType.hpp"
 #include "Char.hpp"
+#include "Logging.hpp"
 #include "merc.h"
 
 #include <fmt/format.h>
@@ -14,7 +15,7 @@
 namespace {
 
 struct dam_proportion_verbs {
-    int damage_proportion;
+    const int damage_proportion;
     const char *dam_type_verbs[MAX_DAM];
 };
 
