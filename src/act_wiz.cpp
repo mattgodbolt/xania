@@ -43,8 +43,12 @@
 #include <cstdlib>
 #include <cstring>
 
-// Mutable, imms can change it using the sacname command.
+// Mutable global: imms can change it using the sacname command.
 std::string deity_name = "Etaine";
+
+// Log-all switch.
+// Mutable global: imms can toggle it using the log command.
+bool fLogAll = false;
 
 static const char ROOM_FLAGS[] = "dark * nomob indoors * * * * * private safe solitary petshop norecall 100imponly "
                                  "92godonly heroonly newbieonly law";

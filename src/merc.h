@@ -1171,5 +1171,3 @@ extern SHOP_DATA *shop_first;
 extern BAN_DATA *ban_list;
 extern GenericList<Char *> char_list;
 extern GenericList<OBJ_DATA *> object_list;
-
-extern bool fLogAll;

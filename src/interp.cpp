@@ -41,10 +41,7 @@ inline constexpr auto HE = LEVEL_HERO; /* hero */
 
 enum class CommandLogLevel { Normal, Always, Never };
 
-/*
- * Log-all switch.
- */
-bool fLogAll = false;
+extern bool fLogAll;
 
 // Function object for commands run by the interpreter, the do_ functions.
 using CommandFunc = std::function<void(Char *ch, const char *argument)>;
