@@ -9,6 +9,8 @@
 
 #include "skills.hpp"
 #include "Logging.hpp"
+#include "Races.hpp"
+#include "SkillTables.hpp"
 #include "comm.hpp"
 #include "db.h"
 #include "handler.hpp"

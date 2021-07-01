@@ -5,14 +5,18 @@
 /*************************************************************************/
 #pragma once
 
-#include "Attacks.hpp"
-#include "InjuredPart.hpp"
-
-// Combines damage related values used when generating damage messages sent to a player.
-struct DamageContext {
-    const int damage;
-    const AttackType atk_type;
-    const int dam_type;
-    const bool immune;
-    const InjuredPart &injured_part;
+/*
+ * Structure for a social in the socials table.
+ */
+struct social_type {
+    char name[20];
+    const char *char_no_arg;
+    const char *others_no_arg;
+    const char *char_found;
+    const char *others_found;
+    const char *vict_found;
+    const char *char_auto;
+    const char *others_auto;
 };
+
+extern struct social_type social_table[];

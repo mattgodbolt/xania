@@ -4,15 +4,23 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #pragma once
+#include "Types.hpp"
 
-#include "Attacks.hpp"
-#include "InjuredPart.hpp"
+// TODO: constants
+#define LIQ_WATER 0
+#define LIQ_MAX 17
 
-// Combines damage related values used when generating damage messages sent to a player.
-struct DamageContext {
-    const int damage;
-    const AttackType atk_type;
-    const int dam_type;
-    const bool immune;
-    const InjuredPart &injured_part;
+struct liq_type {
+    const char *liq_name;
+    const char *liq_color;
+    sh_int liq_affect[3];
 };
+
+extern const struct liq_type liq_table[];
+
+struct materials_type {
+    sh_int magical_resilience;
+    const char *material_name;
+};
+
+extern const struct materials_type material_table[];

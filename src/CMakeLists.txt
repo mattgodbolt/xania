@@ -22,7 +22,12 @@ add_library(xania_lib STATIC
         clan.cpp
         clan.h
         comm.cpp
-        const.cpp
+        Attacks.hpp Attacks.cpp
+        Classes.hpp Classes.cpp
+        Materials.hpp Materials.cpp
+        Races.hpp Races.cpp
+        Titles.hpp Titles.cpp
+        Socials.hpp
         db2.cpp
         db.cpp
         db.h
@@ -48,6 +53,7 @@ add_library(xania_lib STATIC
         phil.h
         ride.hpp ride.cpp
         save.cpp save.hpp
+        SkillTables.hpp SkillTables.cpp
         skills.cpp
         spec_concordius.cpp
         CorpseSummoner.hpp
@@ -71,7 +77,7 @@ add_library(xania_lib STATIC
         Char.cpp Char.hpp
         Types.hpp
         Stats.cpp Stats.hpp
-        ExtraFlags.hpp
+        ExtraFlags.hpp ExtraFlags.cpp
         PcNutrition.hpp PcNutrition.cpp
         PcData.hpp
         Constants.hpp
@@ -97,7 +103,6 @@ add_library(xania_lib STATIC
         Sex.hpp Sex.cpp
         Tip.cpp Tip.hpp
         Position.hpp Position.cpp
-        AttackType.hpp AttackType.cpp
         InjuredPart.hpp InjuredPart.cpp
         DamageMessages.hpp DamageMessages.cpp)
 target_link_libraries(

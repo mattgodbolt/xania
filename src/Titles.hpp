@@ -4,15 +4,6 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #pragma once
+#include "Constants.hpp"
 
-#include "Attacks.hpp"
-#include "InjuredPart.hpp"
-
-// Combines damage related values used when generating damage messages sent to a player.
-struct DamageContext {
-    const int damage;
-    const AttackType atk_type;
-    const int dam_type;
-    const bool immune;
-    const InjuredPart &injured_part;
-};
+extern const char *title_table[MAX_CLASS][MAX_LEVEL + 1][2];

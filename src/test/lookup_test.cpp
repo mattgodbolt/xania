@@ -1,3 +1,4 @@
+#include "SkillTables.hpp"
 #include "lookup.h"
 #include "merc.h"
 

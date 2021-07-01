@@ -1,4 +1,6 @@
 #include "MobIndexData.hpp"
+#include "Attacks.hpp"
+#include "Races.hpp"
 
 #include "CatchFormatters.hpp"
 #include "merc.h"

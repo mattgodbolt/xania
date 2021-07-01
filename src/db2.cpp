@@ -11,6 +11,7 @@
 #include "AREA_DATA.hpp"
 #include "Logging.hpp"
 #include "MobIndexData.hpp"
+#include "Socials.hpp"
 #include "db.h"
 #include "handler.hpp"
 #include "lookup.h"
@@ -44,6 +45,7 @@ struct social_type social_table[MAX_SOCIALS];
 int social_count = 0;
 
 /* snarf a socials file */
+// TODO: move this to Socials.cpp probably...
 void load_socials(FILE *fp) {
     for (;;) {
         struct social_type social;

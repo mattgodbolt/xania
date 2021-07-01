@@ -10,6 +10,7 @@
 #include "interp.h"
 #include "CommandSet.hpp"
 #include "Note.hpp"
+#include "Socials.hpp"
 #include "act_comm.hpp"
 #include "comm.hpp"
 #include "db.h"

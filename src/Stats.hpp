@@ -1,3 +1,8 @@
+/*************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
+/*  (C) 2021 Xania Development Team                                      */
+/*  See merc.h and README for original copyrights                        */
+/*************************************************************************/
 #pragma once
 
 #include "Types.hpp"
@@ -14,7 +19,10 @@ enum class Stat {
     Dex = 3,
     Con = 4
 };
-static constexpr inline auto MAX_STATS = 5;
+static constexpr inline auto MAX_STATS = 5; // str, dex, wis, int, con
+static constexpr inline auto MaxStatValue = 25; // character stats cannot go above this. TODO: this should be unsigned?
+static constexpr inline auto StatTableSize = MaxStatValue + 1;
+
 inline std::string_view to_short_string(Stat stat) {
     using namespace std::literals;
     switch (stat) {
@@ -53,3 +61,34 @@ public:
     friend auto begin(Stats &stat) { return stat.stats_.begin(); }
     friend auto end(Stats &stat) { return stat.stats_.end(); }
 };
+
+// Character stat bonus table structures.
+struct str_app_type {
+    sh_int tohit;
+    sh_int todam;
+    sh_int carry;
+    sh_int wield;
+};
+
+struct int_app_type {
+    sh_int learn;
+};
+
+struct wis_app_type {
+    sh_int practice;
+};
+
+struct dex_app_type {
+    sh_int defensive;
+};
+
+struct con_app_type {
+    sh_int hitp;
+    sh_int shock;
+};
+
+extern const struct str_app_type str_app[];
+extern const struct int_app_type int_app[];
+extern const struct wis_app_type wis_app[];
+extern const struct dex_app_type dex_app[];
+extern const struct con_app_type con_app[];

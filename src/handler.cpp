@@ -10,7 +10,10 @@
 #include "handler.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
+#include "Classes.hpp"
 #include "Descriptor.hpp"
+#include "Materials.hpp"
+#include "Races.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "WeatherData.hpp"
@@ -234,10 +237,10 @@ int get_curr_stat(const Char *ch, Stat stat) { return ch->curr_stat(stat); }
 
 /* command for returning max training score */
 int get_max_train(Char *ch, Stat stat) {
-    int max;
+    uint max;
 
     if (ch->is_npc() || ch->level > LEVEL_IMMORTAL)
-        return 25;
+        return MaxStatValue;
 
     max = pc_race_table[ch->race].max_stats[stat];
     if (class_table[ch->class_num].attr_prime == stat)
@@ -246,7 +249,7 @@ int get_max_train(Char *ch, Stat stat) {
          else*/
         max += 2;
 
-    return UMIN(max, 25);
+    return UMIN(max, MaxStatValue);
 }
 
 /*

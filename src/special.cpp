@@ -8,6 +8,8 @@
 /*************************************************************************/
 
 #include "Logging.hpp"
+#include "SkillTables.hpp"
+#include "Socials.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumMobiles.hpp"
 #include "VnumRooms.hpp"

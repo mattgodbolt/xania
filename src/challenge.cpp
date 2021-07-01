@@ -8,9 +8,11 @@
 /*************************************************************************/
 
 #include "challenge.hpp"
+#include "Classes.hpp"
 #include "Descriptor.hpp"
 #include "InjuredPart.hpp"
 #include "Logging.hpp"
+#include "Races.hpp"
 #include "VnumRooms.hpp"
 #include "act_comm.hpp"
 #include "comm.hpp"

@@ -6,11 +6,17 @@
 #pragma once
 
 #include "Types.hpp"
-
 #include <variant>
 
-struct attack_type;
 struct skill_type;
+
+struct attack_type {
+    const char *name; /* message in the area file */
+    const char *verb; /* message in the mud */
+    int damage; /* damage class */
+};
+
+extern const struct attack_type attack_table[];
 
 // When an attack is made via multi_hit(), one_hit() or directly to damage()
 // it may be a regular physical blow (attack_type) or a particular skill.

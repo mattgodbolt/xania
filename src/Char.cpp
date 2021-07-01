@@ -1,7 +1,14 @@
+/*************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
+/*  (C) 2021 Xania Development Team                                      */
+/*  See merc.h and README for original copyrights                        */
+/*************************************************************************/
 #include "Char.hpp"
 
+#include "Classes.hpp"
 #include "DescriptorList.hpp"
 #include "Note.hpp"
+#include "Races.hpp"
 #include "Sex.hpp"
 #include "TimeInfoData.hpp"
 #include "act_comm.hpp"
@@ -137,9 +144,10 @@ sh_int Char::curr_stat(Stat stat) const { return URANGE(3, perm_stat[stat] + mod
 
 sh_int Char::max_stat(Stat stat) const {
     if (is_npc() || level > LEVEL_IMMORTAL)
-        return 25;
+        return MaxStatValue;
 
-    return UMIN(pc_race_table[race].max_stats[stat] + (class_table[class_num].attr_prime == stat ? 6 : 4), 25);
+    return UMIN(pc_race_table[race].max_stats[stat] + (class_table[class_num].attr_prime == stat ? 6 : 4),
+                MaxStatValue);
 }
 
 bool Char::is_affected_by(int skill_number) const { return affected.find_by_skill(skill_number); }

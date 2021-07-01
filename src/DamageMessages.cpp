@@ -4,9 +4,10 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "DamageMessages.hpp"
-#include "AttackType.hpp"
+#include "Attacks.hpp"
 #include "Char.hpp"
 #include "Logging.hpp"
+#include "SkillTables.hpp"
 #include "merc.h"
 
 #include <fmt/format.h>

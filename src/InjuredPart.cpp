@@ -4,7 +4,8 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "InjuredPart.hpp"
-#include "AttackType.hpp"
+#include "Attacks.hpp"
+#include "Races.hpp"
 #include "Rng.hpp"
 #include "VnumObjects.hpp"
 #include "handler.hpp"

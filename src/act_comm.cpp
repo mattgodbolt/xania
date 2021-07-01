@@ -9,9 +9,11 @@
 
 #include "act_comm.hpp"
 #include "ArgParser.hpp"
+#include "Classes.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Logging.hpp"
+#include "Races.hpp"
 #include "TimeInfoData.hpp"
 #include "challenge.hpp"
 #include "chat/chatlink.h"

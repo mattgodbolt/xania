@@ -10,6 +10,8 @@
 #include "magic.h"
 #include "AFFECT_DATA.hpp"
 #include "Format.hpp"
+#include "Materials.hpp"
+#include "SkillTables.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "WeatherData.hpp"

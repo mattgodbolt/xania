@@ -9,10 +9,13 @@
 
 #include "fight.hpp"
 #include "AFFECT_DATA.hpp"
+#include "Classes.hpp"
 #include "DamageMessages.hpp"
 #include "Format.hpp"
 #include "InjuredPart.hpp"
 #include "Logging.hpp"
+#include "Races.hpp"
+#include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumMobiles.hpp"
 #include "VnumObjects.hpp"

@@ -5,7 +5,7 @@
 /*************************************************************************/
 #pragma once
 
-#include "AttackType.hpp"
+#include "Attacks.hpp"
 
 #include <optional>
 #include <string>

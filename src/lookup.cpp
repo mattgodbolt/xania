@@ -16,8 +16,11 @@
  * ROM license, in the file Rom24/doc/rom.license
  ***************************************************************************/
 
+#include "Attacks.hpp"
 #include "Logging.hpp"
+#include "Materials.hpp"
 #include "Position.hpp"
+#include "SkillTables.hpp"
 #include "db.h"
 #include "merc.h"
 #include "string_utils.hpp"

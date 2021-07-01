@@ -96,38 +96,6 @@ struct ban_data {
 #define ATTACK_TABLE_INDEX_ACID_WASH 31
 
 /*
- * Attribute bonus structures.
- */
-struct str_app_type {
-    sh_int tohit;
-    sh_int todam;
-    sh_int carry;
-    sh_int wield;
-};
-
-struct materials_type {
-    sh_int magical_resilience;
-    const char *material_name;
-};
-
-struct int_app_type {
-    sh_int learn;
-};
-
-struct wis_app_type {
-    sh_int practice;
-};
-
-struct dex_app_type {
-    sh_int defensive;
-};
-
-struct con_app_type {
-    sh_int hitp;
-    sh_int shock;
-};
-
-/*
  * Shop types.
  */
 #define MAX_TRADE 5
@@ -142,58 +110,7 @@ struct SHOP_DATA {
     unsigned int close_hour; /* First closing hour           */
 };
 
-/*
- * Per-class stuff.
- */
-static constexpr inline auto MAX_GUILD = 3;
-struct class_type {
-    const char *name; /* the full name of the class */
-    char who_name[4]; /* Three-letter name for 'who'  */
-    Stat attr_prime; /* Prime attribute              */
-    sh_int weapon; /* First weapon                 */
-    sh_int guild[MAX_GUILD]; /* Vnum of guild rooms          */
-    sh_int skill_adept; /* Maximum skill level          */
-    sh_int thac0_00; /* Thac0 for level  0           */
-    sh_int thac0_32; /* Thac0 for level 32           */
-    sh_int hp_min; /* Min hp gained on leveling    */
-    sh_int hp_max; /* Max hp gained on leveling    */
-    sh_int fMana; /* Class gains mana on level    */
-    const char *base_group; /* base skills gained           */
-    const char *default_group; /* default skills gained        */
-};
-
-struct attack_type {
-    const char *name; /* message in the area file */
-    const char *verb; /* message in the mud */
-    int damage; /* damage class */
-};
-
 #define MAX_DAM 18 /* this should really be down below with dam types*/
-
-struct race_type {
-    const char *name; /* call name of the race */
-    bool pc_race; /* can be chosen by pcs */
-    unsigned long act; /* act bits for the race */
-    unsigned long aff; /* aff bits for the race */
-    unsigned long off; /* off bits for the race */
-    unsigned long imm; /* imm bits for the race */
-    unsigned long res; /* res bits for the race */
-    unsigned long vuln; /* vuln bits for the race */
-    unsigned long form; /* default form flag for the race */
-    unsigned long parts; /* default parts for the race */
-};
-
-struct pc_race_type /* additional data for pc races */
-{
-    const char *name; /* MUST be in race_type */
-    char who_name[6];
-    sh_int points; /* cost in points of the race */
-    sh_int class_mult[MAX_CLASS]; /* exp multiplier for class, * 100 */
-    std::array<const char *, 5> skills{}; /* bonus skills for the race */
-    Stats stats; /* starting stats */
-    Stats max_stats; /* maximum stats */
-    sh_int size; /* aff bits for the race */
-};
 
 /***************************************************************************
  *                                                                         *
@@ -810,18 +727,6 @@ struct FingerInfo {
           invis_level(invis_level), i_message(i_message) {}
 };
 
-/*
- * Liquids.
- */
-#define LIQ_WATER 0
-#define LIQ_MAX 17
-
-struct liq_type {
-    const char *liq_name;
-    const char *liq_color;
-    sh_int liq_affect[3];
-};
-
 // Extra description data for a room or object.
 struct EXTRA_DESCR_DATA {
     std::string keyword; // Keyword in look/examine
@@ -965,47 +870,6 @@ struct ROOM_INDEX_DATA {
 #define TAR_CHAR_OTHER 6
 
 /*
- *  Skill rating magic numbers.
- */
-#define SKILL_UNATTAINABLE 0
-#define SKILL_ATTAINABLE -1
-#define SKILL_ASSASSIN -2 /* Hacky kludge, ohyes. */
-
-/*
- * Skills include spells as a particular case.
- */
-struct skill_type {
-    const char *name; /* Name of skill                */
-    sh_int skill_level[MAX_CLASS]; /* Level needed by class        */
-    sh_int rating[MAX_CLASS]; /* How hard it is to learn      */
-
-    SpellFunc spell_fun; /* Spell function pointer  */
-    sh_int target; /* Legal targets                */
-    Position::Type minimum_position;
-    sh_int *pgsn; /* Pointer to associated gsn    */
-    sh_int slot; /* Slot for #OBJECT loading     */
-    sh_int min_mana; /* Minimum mana used            */
-    sh_int beats; /* Waiting time after use       */
-    const char *verb; /* Damage message               */
-    const char *msg_off; /* Wear off message for the wearer  */
-    DispelMagicFunc dispel_fun;
-    /* If a spell effect can be dispelled or cancelled, set this to contain the
-     * message sent to others in the room about a victim */
-    const char *dispel_victim_msg_to_room;
-    /* AFFECT bit if this is a dispellable affect that can permanently affect an NPC
-     * i.e. it's a spell applied in the area file that is not going to appear
-     * as an entry in an AffectList.
-     */
-    const unsigned int dispel_npc_perm_affect_bit;
-};
-
-struct group_type {
-    const char *name;
-    sh_int rating[MAX_CLASS];
-    const char *spells[MAX_IN_GROUP];
-};
-
-/*
  * These are skill_lookup return values for common skills and spells.
  */
 extern sh_int gsn_sharpen;
@@ -1115,38 +979,3 @@ extern sh_int gsn_bless;
 #define CAN_WEAR(obj, part) (IS_SET((obj)->wear_flags, (part)))
 #define IS_OBJ_STAT(obj, stat) (IS_SET((obj)->extra_flags, (stat)))
 #define IS_WEAPON_STAT(obj, stat) (IS_SET((obj)->value[4], (stat)))
-
-/*
- * Structure for a social in the socials table.
- */
-struct social_type {
-    char name[20];
-    const char *char_no_arg;
-    const char *others_no_arg;
-    const char *char_found;
-    const char *others_found;
-    const char *vict_found;
-    const char *char_auto;
-    const char *others_auto;
-};
-
-/*
- * Global constants.
- */
-extern const struct str_app_type str_app[26];
-extern const struct int_app_type int_app[26];
-extern const struct wis_app_type wis_app[26];
-extern const struct dex_app_type dex_app[26];
-extern const struct con_app_type con_app[26];
-
-extern const struct materials_type material_table[];
-
-extern const struct class_type class_table[MAX_CLASS];
-extern const struct attack_type attack_table[];
-extern const struct race_type race_table[];
-extern const struct pc_race_type pc_race_table[];
-extern const struct liq_type liq_table[LIQ_MAX + 1];
-extern const struct skill_type skill_table[MAX_SKILL];
-extern const struct group_type group_table[MAX_GROUP];
-extern struct social_type social_table[MAX_SOCIALS];
-extern const char *title_table[MAX_CLASS][MAX_LEVEL + 1][2];
