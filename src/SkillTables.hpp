@@ -20,16 +20,8 @@
  */
 struct skill_type {
     const char *name; /* Name of skill                */
-    sh_int skill_level[MAX_CLASS]; /* Level needed by class        */
-    sh_int rating[MAX_CLASS]; /* How hard it is to learn      */
-
     SpellFunc spell_fun; /* Spell function pointer  */
-    sh_int target; /* Legal targets                */
-    Position::Type minimum_position;
     sh_int *pgsn; /* Pointer to associated gsn    */
-    sh_int slot; /* Slot for #OBJECT loading     */
-    sh_int min_mana; /* Minimum mana used            */
-    sh_int beats; /* Waiting time after use       */
     const char *verb; /* Damage message               */
     const char *msg_off; /* Wear off message for the wearer  */
     DispelMagicFunc dispel_fun;
@@ -41,6 +33,13 @@ struct skill_type {
      * as an entry in an AffectList.
      */
     const unsigned int dispel_npc_perm_affect_bit;
+    sh_int target; /* Legal targets                */
+    Position::Type minimum_position;
+    sh_int slot; /* Slot for #OBJECT loading     */
+    sh_int min_mana; /* Minimum mana used            */
+    sh_int beats; /* Waiting time after use       */
+    sh_int skill_level[MAX_CLASS]; /* Level needed by class        */
+    sh_int rating[MAX_CLASS]; /* How hard it is to learn      */
 };
 
 struct group_type {
