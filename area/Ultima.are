@@ -1,0 +1,5782 @@
+#AREA   
+Ultima.are~
+Ultima~
+{ 5 50} Casret  Ultima~
+2400 2590
+
+#ROOMS
+#2400
+Entrance to Ultima~
+The blue moongate casts an strange blue light upon a huge gate to
+the south.  The gate is open and beyond it you see a simple
+village.  Around the gate there are two pedestals.  On the first
+pedestal, there is a magic scroll.  On the second there is a
+plaque.
+~
+CD 0
+D2
+There is a huge gate
+~
+gate~
+1 -1 2401
+D5
+A blue moongate
+~
+moongate~
+1 -1 315
+E
+plaque~
+The plaque reads, "The Ultima Area was made for Merc 2.0."
+~
+S
+#2401
+New Magincia Road~
+This is the main road of New Magincia.  To the south the dirt
+path continues to the south and a huge gate to the north.
+~
+0 1
+D0
+There is a huge gate.
+~
+gate~
+1 -1 2400
+D2
+~
+~
+0 -1 2402
+S
+#2402
+New Magincia Road~
+The path continues to the south and the north.  You see the
+tracks of sheep here.
+~
+0 1
+D0
+The path continues to the north.
+~
+~
+0 -1 2401
+D2
+There is a shimmering light to the south.
+~
+~
+0 -1 2403
+S
+#2403
+The New Magincia Moongate~
+You see another moongate here, exactly between the crossing of
+two paths.
+~
+C 1
+D0
+~
+~
+0 -1 2402
+D1
+~
+~
+0 -1 2413
+D2
+~
+~
+0 -1 2404
+D3
+~
+~
+0 -1 2408
+D4
+Through the translucent moongate you think you see... books?~
+moongate~
+2 2408 2416
+S
+#2404
+New Magincia Road~
+The path continues to the south and north.  On the east there
+seems to be administrative building.
+~
+0 1
+D0
+There is a shimmering light.
+~
+~
+0 -1 2403
+D1
+~
+door~
+1 -1 2414
+D2
+~
+~
+0 -1 2405
+S
+#2405
+New Magincia Road~
+The dirt road path ends here in a grove.  You can continue back
+to the north, and there is an old abandoned house to the west.
+~
+0 1
+D0
+~
+~
+0 -1 2404
+D3
+~
+door~
+1 -1 2410
+S
+#2406
+Stables~
+This is the stables for the shepherd.  There are many fine horses
+here.  You can return to the barn in to the south.
+~
+D 1
+D2
+The front part of the barn is to the south.
+~
+~
+0 -1 2407
+S
+#2407
+Barn~
+This is your basic barn, with hay and stables to the north.
+~
+D 1
+D0
+You hear neighing, intermixed with a strange talking.
+~
+~
+0 -1 2406
+D2
+~
+door~
+1 -1 2408
+S
+#2408
+Humility Lane~
+This is a even smaller dirt path that crosses New Maginica Road. 
+To your north there is a barn, and to the south you see a
+condemned building, though you cannot enter this way.  West is
+blocked off a herd of sheep.
+~
+0 1
+D0
+~
+door~
+1 -1 2407
+D1
+There is a shimmering light to the east.
+~
+~
+1 -1 2403
+S
+#2409
+Condemned House~
+This place is wrecked, the rafters have fell, and light shines
+through a large hole in the roof.  You wonder what kinds of
+animals have taken home here.
+~
+D 1
+D2
+~
+~
+0 -1 2410
+S
+#2410
+Condemned House~
+As you walk into the house, you realize that this house must not
+have been reconstructed yet from the ruin of Old Magincia.  Faint
+intimations of foolish pride still can be seen through the
+wreckage.
+~
+D 1
+D0
+~
+~
+0 -1 2409
+D1
+~
+door~
+1 -1 2405
+S
+#2411
+Attic~
+The attic is dark, and you smell some vestiges of bat guano.
+~
+D 1
+D5
+The rest of the house is down.
+~
+trapdoor~
+1 -1 2412
+S
+#2412
+House~
+This is a small humble house.  You do not see much here, though
+there are some faint squeaking.
+~
+D 1
+D2
+~
+door~
+1 -1 2413
+D4
+You see the faint outline of a trapdoor.
+~
+trapdoor~
+1 -1 2411
+S
+#2413
+Humility Lane~
+This is a very small path.  It ends here with a fence to the
+east.  To the west is the Moongate, and to the north there is a
+small house.
+~
+0 1
+D0
+~
+door~
+1 -1 2412
+D3
+~
+door~
+1 -1 2403
+S
+#2414
+Entrance to the Office~
+Though this room is small, it acts as a meeting place for Katrina
+and any other person that she has to meet.  You can exit to the
+west or enter an office to the south.
+~
+D 1
+D2
+~
+~
+0 -1 2415
+D3
+~
+door~
+1 -1 2404
+S
+#2415
+Katrina's Office~
+This is office is very sparse... and humble.  There are no
+decorations, in fact the room is bare except for a simple desk
+and its chair.
+~
+D 1
+D0
+~
+~
+0 -1 2414
+S
+#2416
+Library~
+This is an amazing HUGE library.  Its musty smell, and the
+collapsed bookshelf to your north, tell you that it also must be
+ancient.  In any case you can't get out of the Library (remember
+the collapsed shelves?) so just pick a book and start reading. 
+The stacks continue to the east and west.
+~
+D 0
+D1
+~
+~
+0 -1 2417
+D3
+~
+~
+0 -1 2436
+E
+book books shelves~
+These shelves deal with the fascinating letter A.  Among the more
+interesting books are, "Andersen's tips on Area Building."  "The
+Art of Spamming" and  "Axes and You."
+~
+S
+#2417
+Library~
+The Library continues here, with exits to the east and west.
+~
+D 0
+D1
+~
+~
+0 -1 2418
+D3
+~
+~
+0 -1 2416
+E
+book books shelves~
+These books are about the letters B and C.  Some titles are:
+'Boom Boxes: How large will they become?' and 'Cutlery: The fine
+points of Killing' and of course the classic, 'Casret's Titles.'
+~
+S
+#2418
+Library~
+The Library continues here, with exits to the east and west.
+~
+D 0
+D1
+~
+~
+0 -1 2419
+D3
+~
+~
+0 -1 2417
+E
+book books shelves~
+This shelf has books dealing with the 'D's'.  'Dracula, Blood
+Sucker or Beavis fan?' seems to be the most interesting book
+here.
+~
+S
+#2419
+Library~
+The Library continues here, with exits to the east and south.
+~
+D 0
+D2
+~
+~
+0 -1 2420
+D3
+~
+~
+0 -1 2418
+E
+book books shelves~
+The 'E' section is here.  One book, "Howard Stern" doesn't seem
+to belong here.
+~
+S
+#2420
+Library~
+The Library continues here, with exits to the north and west.
+~
+D 0
+D0
+~
+~
+0 -1 2419
+D3
+You see a big desk and a man.
+~
+~
+0 -1 2421
+E
+book books shelves~
+You find 'Fax Fun' and 'Farts: How to Blame it on the Dog.' in
+this section of the library.
+~
+S
+#2421
+Library Office~
+A big desk dominates this room.  All books must go through this
+office before getting taken out.  Through this office, and
+through this man.
+~
+D 0
+D1
+~
+~
+0 -1 2420
+D3
+~
+~
+0 -1 2422
+S
+#2422
+Library~
+The Library continues here, with exits to the west and east.
+~
+D 0
+D1
+You see a huge desk and man.
+~
+~
+0 -1 2421
+D3
+~
+~
+0 -1 2423
+E
+book books shelves~
+The books here start with 'G'.  'Grating Cheese with Julia
+Childs' and 'Garamond: What kind of font is this anyway?' lie
+here.
+~
+S
+#2423
+Library~
+The Library continues here, with exits to the east and south .
+~
+D 0
+D1
+~
+~
+0 -1 2422
+D2
+~
+~
+0 -1 2424
+E
+book books shelves~
+The books here comprise 'H' and 'I'.  'Hiya: The Women who Use
+it, and the Man who Use the Women'  and 'Icaza Loves Ya' are here
+in a gaudy and annoying covers.
+~
+S
+#2424
+Library~
+The Library continues here, with exits to the north and east.
+~
+D 0
+D0
+~
+~
+0 -1 2423
+D1
+~
+~
+0 -1 2425
+E
+book books shelves~
+These books start with the letter 'J'.  'Jokey Smurf's Greatest
+Explosions' and 'The Judge take on New York' seem to be the most
+popular books.
+~
+S
+#2425
+Library~
+The Library continues here, with exits to the west and east.
+~
+D 0
+D1
+~
+~
+0 -1 2426
+D3
+~
+~
+0 -1 2424
+E
+book books shelves~
+Hmmm this is the 'K' section, and 'Kicking Vs. Bashing' is here.
+~
+S
+#2426
+Library~
+The Library continues here, with exits to the west and east.
+~
+D 0
+D1
+~
+~
+0 -1 2427
+D3
+~
+~
+0 -1 2425
+E
+book books shelves~
+A book titled, 'Lick me, Lick you'  is here.
+~
+S
+#2427
+Library~
+The Library continues here, with exits to the west and south.
+~
+D 0
+D2
+~
+~
+0 -1 2429
+D3
+~
+~
+0 -1 2426
+E
+book books shelves~
+'Mahatma Teachs French' and 'MC Echser: The Rap Star and
+Paradoxical Artist'.
+~
+S
+#2428
+The Library Moongate~
+A blue moongate is here, lighting up the otherwise featureless
+room.
+~
+CD 0
+D0
+~
+shelf~
+1 -1 2432
+D4
+Through the moongate, there is a party.
+~
+moongate~
+2 2409 2437
+S
+#2429
+Library~
+The Library continues here, with exits to the north and west.
+~
+D 0
+D0
+~
+~
+0 -1 2427
+D3
+~
+~
+0 -1 2430
+E
+book books shelves~
+Hmmm... This is the 'N' section... but 'Nothing' seems to be
+here.
+~
+S
+#2430
+Library~
+The Library continues here, with exits to the east and west.
+~
+D 0
+D1
+~
+~
+0 -1 2429
+D3
+~
+~
+0 -1 2431
+E
+book books shelves~
+This is the 'OP' section.  You hear moaning behind those stacks,
+yup there there on the floor there is another P.
+~
+S
+#2431
+Library~
+The Library continues here, with exits to the east and west.
+~
+D 0
+D1
+~
+~
+0 -1 2430
+D3
+~
+~
+0 -1 2432
+E
+book books shelves~
+'Quai Mackdaddy Monk and 'Rhinoplasty, or The Inebriation of Wild
+Animals' are here.
+~
+S
+#2432
+Library~
+The Library continues here, with exits to the east and west..
+~
+D 0
+D1
+~
+~
+0 -1 2431
+D2
+Hinges on a shelf?
+~
+Shelf~
+1 -1 2428
+D3
+~
+~
+0 -1 2433
+E
+book books shelves~
+'Secret Door: The Shelf' is on the shelf.
+~
+S
+#2433
+Library~
+The Library continues here, with exits to the east and north.
+~
+D 0
+D0
+~
+~
+0 -1 2434
+D1
+~
+~
+0 -1 2432
+E
+book books shelves~
+'Textile Farming' and 'Tempting Miss. Daisy' is here.
+~
+S
+#2434
+Library~
+The Library continues here, with exits to the south and north.
+~
+D 0
+D0
+There is an odd chattering to the north.
+~
+~
+0 -1 2435
+D2
+~
+~
+0 -1 2433
+E
+book books shelves~
+'Ultima: The Building of an Area' and 'Vulva Void' are here.
+~
+S
+#2435
+Web~
+There is a Huge Web sitting here, stretching from shelf to shelf.
+And stupid you wandered into it.
+~
+D 0
+D0
+~
+~
+0 -1 2436
+D2
+~
+~
+0 -1 2434
+S
+#2436
+Library~
+The Library continues here, with exits to the south and east.
+~
+D 0
+D1
+~
+~
+0 -1 2416
+D2
+There is a strange chattering noise to the south.
+~
+~
+0 -1 2435
+E
+book books shelves~
+"Yaz: Grooming Tips" is here.
+~
+S
+#2437
+The Center of the Tavern~
+The moongate has opened inside of a huge party.  There are bards
+and other townsman.  This must be Britain.  There are people
+everywhere carrying their drinks and singing everywhere.  The
+party continues to the north, east south and west.
+~
+D 0
+D0
+~
+~
+0 -1 2439
+D1
+~
+~
+0 -1 2442
+D2
+~
+~
+0 -1 2444
+D3
+~
+~
+0 -1 2441
+S
+#2438
+The Northwest Corner of the Tavern~
+This is where the tavern entrance would be if it wasn't packed
+with humans trying to get in or get out.  There is no chance of
+you leaving the tavern tonight.you can return to the part to the
+east and the south.
+~
+D 0
+D1
+~
+~
+0 -1 2439
+D2
+~
+~
+0 -1 2441
+S
+#2439
+The North Wall of the Tavern~
+Party-goers mingle here in front of the bar.  They seem to be
+having a great time and wish for you to join them.  You can
+continue on to the south, east or north.
+~
+D 0
+D1
+~
+~
+0 -1 2440
+D2
+~
+~
+0 -1 2437
+D3
+~
+~
+0 -1 2438
+S
+#2440
+The Northeast Corner of the Tavern~
+Along this east wall of the tavern are all the tables for the
+meals.  Outside the windows you see cobblestone streets.
+~
+D 0
+D2
+~
+~
+0 -1 2442
+D3
+~
+~
+0 -1 2439
+S
+#2441
+The West Wall of the Tavern~
+The band has set up here, against the west wall.  Many people
+dance to the music.
+~
+D 0
+D0
+~
+~
+0 -1 2438
+D1
+~
+~
+0 -1 2437
+D2
+~
+~
+0 -1 2443
+S
+#2442
+The East Wall of the Tavern~
+The tables are set up here, you see many couples and group just
+sitting and talking.  They have drinks on their tables and smiles
+on there face.
+~
+D 0
+D0
+~
+~
+0 -1 2440
+D2
+~
+~
+0 -1 2445
+D3
+~
+~
+0 -1 2437
+S
+#2443
+The Southwest Corner of the Tavern~
+There are many people here, but even through their scent, there
+seems to be a slight stench.
+~
+D 0
+D0
+~
+~
+0 -1 2441
+D1
+~
+~
+0 -1 2444
+D5
+~
+cellar~
+1 -1 2446
+S
+#2444
+The South Wall of the Tavern~
+The South Wall windows overlook the sea.  There seems to be a
+island far to the south, and boats just floating in the ports. 
+The party-goers just wander around here.
+~
+D 0
+D0
+~
+~
+0 -1 2437
+D1
+~
+~
+0 -1 2445
+D3
+~
+~
+0 -1 2443
+S
+#2445
+The Southeast Corner of the Tavern~
+There are tables here that continue to the north.  The
+party-goers just mingle and hit on each other.
+~
+D 0
+D0
+~
+~
+0 -1 2442
+D3
+~
+~
+0 -1 2444
+S
+#2446
+Cellar~
+The stairway seems to lie down into the cellar.  It stinks of
+wine, beer and snakes here.
+~
+CD 0
+D1
+~
+~
+0 -1 2447
+D2
+~
+~
+0 -1 2449
+D4
+~
+stairs~
+1 -1 2443
+S
+#2447
+Cellar~
+There are huge wine casks against this wall.  Most seem intact
+though one is eaten through, and the inside seems to have a gooey
+green substance.
+~
+AD 0
+D1
+There is the sound of singing in that corner.
+~
+~
+0 -1 2448
+D2
+There is a shimmering light to the south.
+~
+~
+0 -1 2450
+D3
+~
+~
+0 -1 2446
+S
+#2448
+Cellar~
+There is a chair in corner.  And plenty of empty bottles.  There
+is also the evidence of the green substance here as well.
+~
+AD 0
+D2
+~
+~
+0 -1 2451
+D3
+~
+~
+0 -1 2447
+S
+#2449
+Cellar~
+There is a slime trail here.  There seems to be much broken glass
+down here.
+~
+AD 0
+D0
+~
+~
+0 -1 2446
+D1
+~
+~
+0 -1 2450
+D2
+~
+~
+0 -1 2452
+S
+#2450
+The Britain Moongate~
+The place around the moongate, as always, seems clean and neat. 
+The blue light of the moongate has become a comforting sight to
+you.
+~
+CD 0
+D0
+~
+~
+0 -1 2447
+D1
+~
+~
+0 -1 2451
+D2
+~
+~
+0 -1 2453
+D3
+~
+~
+0 -1 2449
+D4
+Through the moongate there is a large courtroom.~
+moongate~
+2 2410 2456
+S
+#2451
+Cellar~
+The walls are leaking here.  You here the bang of feet and the
+shifting of chairs from above.
+~
+D 0
+D0
+~
+~
+0 -1 2448
+D2
+~
+~
+0 -1 2454
+D3
+~
+~
+0 -1 2450
+S
+#2452
+Cellar~
+The damp walls of this corner bother you... not because it's
+damp.  Because its not water!
+~
+AD 0
+D0
+~
+~
+0 -1 2449
+D1
+~
+~
+0 -1 2453
+S
+#2453
+Cellar~
+The smells and ventilation of this cellar are overpowering.
+~
+AD 0
+D0
+There is a shimmering light.
+~
+~
+0 -1 2450
+D1
+~
+~
+0 -1 2454
+D3
+~
+~
+0 -1 2452
+S
+#2454
+Cellar~
+This corner of the cellar is the ugliest.  From the smell in the
+corner it is obvious where the Drunks clear their guts.
+~
+AD 0
+D0
+~
+~
+0 -1 2451
+D3
+~
+~
+0 -1 2453
+S
+#2455
+The Yew Entrance~
+To the south you see a large courthouse and a small part of Yew. 
+Most of Yew is secretly hidden in the branches of the forest. 
+To the north you see one of the most dangerous parts of this same
+forest.
+~
+C 3
+D0
+~
+~
+0 -1 2470
+D2
+~
+~
+0 -1 2456
+S
+#2456
+In Front of the Courthouse~
+The immense Courthouse faces this street.  All of Brittainia's
+crime goes here to be tried.  There is little crime anymore
+though, after the great enlightenment.  There is also a pub to
+the west.
+~
+0 1
+D0
+~
+~
+0 -1 2455
+D1
+~
+~
+0 -1 2457
+D2
+The courthouse doors lie this way.
+~
+doors~
+1 -1 2463
+D3
+~
+~
+0 -1 2462
+S
+#2457
+Justice Row~
+The cobblestone road leads into a clearing of the woods to the
+east and to a pub to the west.  To your south you see a great
+Courthouse, but its entrance is on the east.
+~
+0 1
+D1
+~
+~
+0 -1 2458
+D3
+~
+~
+0 -1 2456
+S
+#2458
+Under the Stone Arch~
+You stand under a large stone arch.  To your east there is a
+bonfire.  Around the bonfire, are these same stone arches; they
+form a circle around the clearing.
+~
+0 3
+D1
+There are chanting druids and a large bonfire to the east.
+~
+~
+0 -1 2459
+D3
+~
+~
+0 -1 2457
+S
+#2459
+Bonfire~
+The heat from the bonfire warms you even at the fringe of the
+ceremony.  Here, Druids form a circle and chant the sacred
+mantra.
+~
+0 3
+D3
+~
+~
+0 -1 2458
+S
+#2460
+Pub~
+You are in a happy little pub.  There are many little tables and
+citizens are talking here.
+~
+D 1
+D1
+~
+~
+0 -1 2461
+S
+#2461
+Justice Row~
+There are some citizens strolling on the road.  There is a Pub to
+the west.
+~
+0 1
+D1
+~
+~
+0 -1 2462
+D3
+~
+~
+0 -1 2460
+S
+#2462
+Justice Row~
+Perhaps the only real street in a city where all the citizens
+are nestled in trees, it leads east to west.
+~
+0 1
+D1
+~
+~
+0 -1 2456
+D3
+~
+~
+0 -1 2461
+S
+#2463
+The Audience Room~
+This is where people would sit to see the cases and wait for the
+Judge.  To the North you see the actual Bench.  All around are
+the pew-like seats.
+~
+D 1
+D0
+~
+doors~
+1 -1 2456
+D2
+~
+~
+0 -1 2464
+S
+#2464
+The Bench~
+The Bench is one of the most imposing things you've seen.  You
+have to crane your neck to even glimpse at the Judge.  There are
+no lawyers, there is only justice.  To the east and west there
+are the prisons.
+~
+D 1
+D0
+~
+~
+0 -1 2463
+D1
+~
+door~
+1 -1 2465
+D3
+~
+door~
+1 -1 2466
+S
+#2465
+Prison~
+To the north you see a cell.  Locks are unnecessary, because the
+prisoners are kept in their cells by magic.
+~
+D 1
+D0
+The prisoner looks at you and growls.
+~
+~
+0 -1 2468
+D3
+~
+door~
+1 -1 2464
+S
+#2466
+Prison~
+To the north you see a cell.  Locks are unnecessary, because the
+prisoners are kept in their cells by magic.
+~
+D 1
+D0
+The prisoner is a small man.
+~
+~
+0 -1 2467
+D1
+~
+door~
+1 -1 2464
+S
+#2467
+Prison Cell~
+This is a cell where they keep dangerous prisoners.
+~
+D 1
+D2
+~
+~
+0 -1 2466
+S
+#2468
+Prison Cell~
+This is a cell where they keep dangerous prisoners.
+~
+D 1
+D2
+~
+~
+0 -1 2465
+S
+#2469
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+You see trees.
+~
+~
+0 -1 2478
+D1
+You see trees.
+~
+~
+0 -1 2470
+D2
+You see trees.
+~
+~
+0 -1 2479
+D3
+You see trees.
+~
+~
+0 -1 2473
+S
+#2470
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+You see trees.
+~
+~
+0 -1 2477
+D1
+You see trees.
+~
+~
+0 -1 2471
+D2
+You see the entrance to Yew.
+~
+~
+0 -1 2455
+D3
+You see trees.
+~
+~
+0 -1 2469
+S
+#2471
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+You see trees.
+~
+~
+0 -1 2476
+D1
+You see trees.
+~
+~
+0 -1 2472
+D2
+You see trees.
+~
+~
+0 -1 2481
+D3
+You see trees.
+~
+~
+0 -1 2470
+S
+#2472
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+You see trees.
+~
+~
+0 -1 2475
+D1
+You see trees.
+~
+~
+0 -1 2473
+D2
+You see trees.
+~
+~
+0 -1 2482
+D3
+You see trees.
+~
+~
+0 -1 2471
+S
+#2473
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+You see trees.
+~
+~
+0 -1 2474
+D1
+You see trees.
+~
+~
+0 -1 2469
+D2
+You see trees.
+~
+~
+0 -1 2483
+D3
+You see trees.
+~
+~
+0 -1 2472
+S
+#2474
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+You see trees.
+~
+~
+0 -1 2483
+D1
+You see trees.
+~
+~
+0 -1 2478
+D2
+You see trees.
+~
+~
+0 -1 2473
+D3
+You see trees.
+~
+~
+0 -1 2475
+S
+#2475
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+You see trees.
+~
+~
+0 -1 2482
+D1
+You see trees.
+~
+~
+0 -1 2474
+D2
+You see trees.
+~
+~
+0 -1 2472
+D3
+You see trees.
+~
+~
+0 -1 2476
+S
+#2476
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+You see trees.
+~
+~
+0 -1 2481
+D1
+You see trees.
+~
+~
+0 -1 2475
+D2
+You see trees.
+~
+~
+0 -1 2471
+D3
+You see trees.
+~
+~
+0 -1 2477
+S
+#2477
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+You see trees.
+~
+~
+0 -1 2480
+D1
+You see trees.
+~
+~
+0 -1 2476
+D2
+You see trees.
+~
+~
+0 -1 2470
+D3
+You see trees.
+~
+~
+0 -1 2478
+S
+#2478
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+You see trees.
+~
+~
+0 -1 2479
+D1
+You see trees.
+~
+~
+0 -1 2477
+D2
+You see trees.
+~
+~
+0 -1 2469
+D3
+You see trees.
+~
+~
+0 -1 2474
+S
+#2479
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+You see trees.
+~
+~
+0 -1 2469
+D1
+You see trees.
+~
+~
+0 -1 2480
+D2
+You see trees.
+~
+~
+0 -1 2478
+D3
+You see trees.
+~
+~
+0 -1 2483
+S
+#2480
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+There is a shimmering light.
+~
+~
+0 -1 2484
+D1
+You see trees.
+~
+~
+0 -1 2481
+D2
+You see trees.
+~
+~
+0 -1 2477
+D3
+You see trees.
+~
+~
+0 -1 2479
+S
+#2481
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+You see trees.
+~
+~
+0 -1 2471
+D1
+You see trees.
+~
+~
+0 -1 2482
+D2
+You see trees.
+~
+~
+0 -1 2476
+D3
+You see trees.
+~
+~
+0 -1 2480
+S
+#2482
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+You see trees.
+~
+~
+0 -1 2472
+D1
+You see trees.
+~
+~
+0 -1 2483
+D2
+You see trees.
+~
+~
+0 -1 2475
+D3
+You see trees.
+~
+~
+0 -1 2481
+S
+#2483
+Yew Forest~
+This is the Yew Forest.  The trees look all the same.  Consequently
+you are lost.
+~
+A 3
+D0
+You see trees.
+~
+~
+0 -1 2473
+D1
+You see trees.
+~
+~
+0 -1 2479
+D2
+You see trees.
+~
+~
+0 -1 2474
+D3
+You see trees.
+~
+~
+0 -1 2482
+S
+#2484
+The Yew Moongate~
+There is your way out, through the blue moongate.
+~
+C 3
+D2
+You see trees.
+~
+~
+0 -1 2480
+D4
+Through the moongate you see a cave opening.
+~
+moongate~
+2 2411 2485
+S
+#2485
+Dungeon Entrance~
+There is a huge maw of an entrance to one of the terrible
+Dungeons.  After the Age of Enlightenment only 8 sources of evil
+still survive in the world.  These are the eight Dungeons.  Now
+they are being cleaned out.
+~
+C 3
+D4
+A cold draft pours out of the dungeon.
+~
+~
+0 -1 2487
+D5
+~
+~
+0 -1 2484
+S
+#2486
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D0
+~
+~
+0 -1 2490
+S
+#2487
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D0
+~
+~
+0 -1 2491
+D5
+~
+~
+0 -1 2485
+S
+#2488
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D0
+~
+~
+0 -1 2492
+D1
+~
+~
+0 -1 2489
+S
+#2489
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D3
+~
+~
+0 -1 2488
+S
+#2490
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D0
+~
+~
+0 -1 2494
+D1
+~
+~
+0 -1 2491
+D2
+~
+~
+0 -1 2486
+S
+#2491
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D0
+~
+~
+0 -1 2495
+D1
+~
+~
+0 -1 2492
+D2
+~
+~
+0 -1 2487
+D3
+~
+~
+0 -1 2490
+S
+#2492
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D1
+~
+~
+0 -1 2493
+D2
+~
+~
+0 -1 2488
+D3
+~
+~
+0 -1 2491
+S
+#2493
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D0
+~
+~
+0 -1 2497
+D3
+~
+~
+0 -1 2492
+S
+#2494
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D0
+~
+~
+0 -1 2498
+D2
+~
+~
+0 -1 2490
+S
+#2495
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D0
+~
+~
+0 -1 2499
+D1
+~
+~
+0 -1 2496
+D2
+~
+~
+0 -1 2491
+S
+#2496
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D0
+~
+~
+0 -1 2500
+D3
+~
+~
+0 -1 2495
+S
+#2497
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D2
+~
+~
+0 -1 2493
+S
+#2498
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D2
+~
+~
+0 -1 2494
+S
+#2499
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D2
+~
+~
+0 -1 2495
+S
+#2500
+The Dungeon~
+These dungeon rooms seem all the same.  There are signs of recent
+battling everywhere.
+~
+A 0
+D1
+There is a shimmering light.
+~
+~
+0 -1 2501
+D2
+~
+~
+0 -1 2496
+S
+#2501
+The Dungeon Moongate~
+You feel safe within the blue glow of the moongate.
+~
+C 0
+D3
+~
+~
+0 -1 2500
+D4
+~
+moongate gate moon~
+2 2412 2502
+S
+#2502
+Minoc~
+The moongate has lead to the ocean side city of Minoc.  To the
+north, there is the sea; and to the south there is the town of
+Minoc.
+~
+C 0
+D0
+~
+~
+0 -1 2515
+D2
+~
+~
+0 -1 2504
+S
+#2503
+The Armourer~
+The Armourer buys and sells armour.  His smithy is impressive
+with all of his greatest works hanging on the walls.
+~
+A 0
+D1
+~
+door~
+1 -1 2504
+S
+#2504
+Minoc's Fountain~
+This is the entrance of Minoc.  To the east you see the
+weaponsmith, and to the west is the Armourer.  To the south there
+seems to be a large road.
+~
+A 0
+D0
+~
+~
+0 -1 2502
+D1
+~
+door~
+1 -1 2505
+D2
+~
+~
+0 -1 2508
+D3
+~
+door~
+1 -1 2503
+S
+#2505
+The Weaponsmith~
+The best Weaponsmith in the realm is here.  His shop is full of
+hanging weapons.
+~
+A 0
+D3
+~
+door~
+1 -1 2504
+S
+#2506
+The Boatseller~
+This is the shop where you can purchase vehicles to cross the
+sea.
+~
+A 0
+D1
+~
+door~
+1 -1 2507
+S
+#2507
+Sacrifice Street~
+This Street goes from east to west.  To the west is a shop and to
+the south is a home.
+~
+A 0
+D1
+~
+~
+0 -1 2508
+D2
+~
+door~
+1 -1 2511
+D3
+~
+door~
+1 -1 2506
+S
+#2508
+Sacrifice Street~
+This Street runs from east to west. To the west there is a shop,
+and to there east there is a forge.
+~
+A 0
+D0
+~
+~
+0 -1 2504
+D1
+~
+~
+0 -1 2509
+D3
+~
+~
+0 -1 2507
+S
+#2509
+Sacrifice Street~
+This Street runs from west to east.  There is a home to the south
+and forge to the east.
+~
+A 0
+D1
+~
+door~
+1 -1 2510
+D2
+~
+door~
+1 -1 2512
+D3
+~
+~
+0 -1 2508
+S
+#2510
+Forge~
+The heat of the place cause blisters to form.  The rhythmic beat
+of hammer against the forge causes you to believe that someone is
+working here.
+~
+A 0
+D3
+~
+door~
+1 -1 2509
+S
+#2511
+Residence~
+This residence is very small.  It befits the teaching of
+sacrifice without any item that is extra.
+~
+A 0
+D0
+~
+door~
+1 -1 2507
+S
+#2512
+Residence~
+This residence is very small.  It befits the teaching of
+sacrifice without any item that is extra.
+~
+A 0
+D0
+~
+door~
+1 -1 2509
+S
+#2513
+The Beach~
+This beach ends here.  You can go east or west.
+~
+A 0
+D1
+~
+~
+0 -1 2514
+D3
+~
+~
+0 -1 2584
+S
+#2514
+The Beach~
+The beach extends from west to east, the waves are too heavy here
+to enter the ocean.
+~
+A 0
+D1
+~
+~
+0 -1 2515
+D3
+~
+~
+0 -1 2513
+S
+#2515
+The Beach~
+The beach here is perfect, glistening white sands, perfect sun. 
+Too bad there is a monster infestation....
+~
+A 0
+D1
+~
+~
+0 -1 2516
+D2
+~
+~
+0 -1 2502
+D3
+~
+~
+0 -1 2514
+S
+#2516
+The Beach~
+The Beach seems so idyllic, to bad these monster keep showing up.
+~
+A 0
+D1
+~
+~
+0 -1 2517
+D3
+~
+~
+0 -1 2515
+S
+#2517
+The Beach~
+The Beach ends here.
+~
+A 0
+D3
+~
+~
+0 -1 2516
+S
+#2518
+The Whirlpool~
+This is a nasty whirlpool.  The boat is tossed and turned
+everywhere.
+~
+0 7
+D0
+~
+~
+0 -1 2521
+D1
+~
+~
+0 -1 2519
+D2
+A swampy lagoon.
+~
+~
+0 -1 2584
+D3
+~
+~
+0 -1 2520
+S
+#2519
+The Whirlpool~
+This is a nasty whirlpool.  The boat is tossed and turned
+everywhere.
+~
+0 7
+D0
+~
+~
+0 -1 2522
+D1
+~
+~
+0 -1 2520
+D2
+~
+~
+0 -1 2525
+D3
+~
+~
+0 -1 2518
+S
+#2520
+The Whirlpool~
+This is a nasty whirlpool.  The boat is tossed and turned
+everywhere.
+~
+0 7
+D0
+~
+~
+0 -1 2523
+D1
+~
+~
+0 -1 2518
+D2
+~
+~
+0 -1 2526
+D3
+~
+~
+0 -1 2519
+S
+#2521
+The Whirlpool~
+This is a nasty whirlpool.  The boat is tossed and turned
+everywhere.
+~
+0 7
+D0
+~
+~
+0 -1 2524
+D1
+~
+~
+0 -1 2522
+D2
+~
+~
+0 -1 2518
+D3
+~
+~
+0 -1 2523
+S
+#2522
+The Whirlpool~
+This is a nasty whirlpool.  The boat is tossed and turned
+everywhere.
+~
+0 7
+D0
+~
+~
+0 -1 2525
+D1
+~
+~
+0 -1 2523
+D2
+~
+~
+0 -1 2519
+D3
+~
+~
+0 -1 2521
+S
+#2523
+The Whirlpool~
+This is a nasty whirlpool.  The boat is tossed and turned
+everywhere.
+~
+0 7
+D0
+~
+~
+0 -1 2526
+D1
+~
+~
+0 -1 2521
+D2
+~
+~
+0 -1 2520
+D3
+~
+~
+0 -1 2522
+S
+#2524
+The Whirlpool~
+This is a nasty whirlpool.  The boat is tossed and turned
+everywhere.
+~
+0 7
+D0
+There is a shimmering light to the north
+~
+~
+0 -1 2527
+D1
+~
+~
+0 -1 2525
+D2
+~
+~
+0 -1 2521
+D3
+~
+~
+0 -1 2526
+S
+#2525
+The Whirlpool~
+This is a nasty whirlpool.  The boat is tossed and turned
+everywhere.
+~
+0 7
+D0
+~
+~
+0 -1 2519
+D1
+~
+~
+0 -1 2526
+D2
+~
+~
+0 -1 2522
+D3
+~
+~
+0 -1 2524
+S
+#2526
+The Whirlpool~
+This is a nasty whirlpool.  The boat is tossed and turned
+everywhere.
+~
+0 7
+D0
+~
+~
+0 -1 2520
+D1
+~
+~
+0 -1 2524
+D2
+~
+~
+0 -1 2523
+D3
+~
+~
+0 -1 2525
+S
+#2527
+The Minoc Moongate~
+The sea waves lap up against the Moongate.
+~
+C 1
+D2
+~
+~
+0 -1 2524
+D4
+Through the moongate you see a large campfire.
+~
+moongate~
+2 2413 2528
+S
+#2528
+A Campfire~
+This campfire sits in the middle of the camp.  Many of the
+paladins stand by it looking it the desert beyond.  Some just
+wander by.  To the south is a small tent, to the north are more
+tents. 
+~
+0 10
+D0
+~
+~
+0 -1 2538
+D1
+~
+~
+0 -1 2529
+D2
+~
+tent~
+1 -1 2532
+S
+#2529
+Between the Tents~
+There is a grand tent to the south, entered into through the
+east.
+~
+0 10
+D1
+~
+~
+0 -1 2530
+D3
+~
+~
+0 -1 2528
+S
+#2530
+In front of the Grand Tent~
+To the south, there is a huge tent.  To the east lies a smaller
+tent.
+~
+0 10
+D1
+~
+tent~
+1 -1 2531
+D2
+~
+tent~
+1 -1 2534
+D3
+~
+~
+0 -1 2529
+S
+#2531
+A Small Tent~
+The paladin's tent is very Spartan, as he has to live without
+much in order to develop his Honor.
+~
+D 10
+D3
+~
+tent~
+1 -1 2530
+S
+#2532
+A Small Tent~
+The paladin's tent is very Spartan, as he has to live without
+much in order to develop his Honor.
+~
+D 10
+D0
+~
+tent~
+1 -1 2528
+S
+#2533
+The Treasure Tent~
+There is a HUGE stack of treasure here.  It is truly immense.  It
+would make you easily a millionaire.  If you could even take a
+tenth of it, you could buy your levels.  But the treasure is
+surrounded by a shield.  A shield that only the truly Honorable
+could get through.  And if you were truly honorable you wouldn't
+take the treasure.
+~
+D 10
+D1
+~
+~
+0 -1 2534
+S
+#2534
+The Grand Tent~
+This tent is absolutely huge.  To the east is the map room.  To
+the south there is Dupre.  To the east is the treasure room.
+~
+D 10
+D0
+~
+tent~
+1 -1 2530
+D1
+~
+~
+0 -1 2535
+D2
+~
+~
+0 -1 2536
+D3
+~
+~
+0 -1 2533
+S
+#2535
+The Map Tent~
+This room has many maps and scrolls all over the table.  There is
+one in particular that interest you.
+~
+D 10
+D3
+~
+~
+0 -1 2534
+E
+scroll~
+The scroll reads as follows:
+Dear Lord British,
+     This is Dupre reporting about the paladin expedition.  We
+are in the process of clearing the desert of those annoying
+sandtraps.  Unfortunately one of my men had wandered into the
+dragon cave and was slayed by that evil creature.  We need
+another knight, and also he had a moonstone.  Thank you, my
+liege.
+                         Your Servant,
+                         Dupre
+~
+E
+map~
+The map has a rough drawing of the camp and to the north a small
+segment of the desert, and a drawing of a winged lizard near the
+very north.
+~
+S
+#2536
+Dupre's Tent~
+This is the commander tent.  It is full of commander type things.
+~
+D 10
+D0
+~
+~
+0 -1 2534
+S
+#2537
+A Small Tent~
+The paladin's tent is very Spartan, as he has to live without
+much in order to develop his Honor.
+~
+D 10
+D1
+~
+tent~
+1 -1 2538
+S
+#2538
+Desert Entrance~
+You feel the hot desert wind blow sand into your face as you look
+at those dunes.
+~
+0 10
+D0
+~
+~
+0 -1 2541
+D1
+~
+tent~
+1 -1 2539
+D3
+~
+tent~
+1 -1 2537
+S
+#2539
+A Small Tent~
+The paladin's tent is very Spartan, as he has to live without
+much in order to develop his Honor.
+~
+D 10
+D3
+~
+tent~
+1 -1 2538
+S
+#2540
+The Desert~
+The desert in the northeast part of Britannia is a perfect
+example of its kind.  Dry, ugly, and lots of sand.
+~
+0 10
+D0
+There is a shimmering light.
+~
+~
+0 -1 2544
+D1
+~
+~
+0 -1 2541
+S
+#2541
+The Desert~
+The Desert is an ugly place.  Sand whips into your eyes, making
+you unsure of where you are and what you see.
+~
+0 10
+D1
+~
+~
+0 -1 2542
+D2
+~
+~
+0 -1 2538
+D3
+~
+~
+0 -1 2540
+S
+#2542
+The Desert~
+You trudge on.  This desert seems endless.
+~
+0 10
+D0
+~
+~
+0 -1 2546
+D1
+There is a shimmering light.
+~
+~
+0 -1 2543
+D3
+~
+~
+0 -1 2541
+S
+#2543
+The Desert Moongate~
+Your thirst seems to slacken as you see the comforting glow of
+the moongate.
+~
+C 10
+D3
+~
+~
+0 -1 2542
+D4
+Through the moongate you seem to see a shrine.
+~
+moongate~
+2 2414 2549
+S
+#2544
+The Desert Moongate~
+Your thirst seems to slacken as you see the comforting glow of
+the moongate.
+~
+0 10
+D2
+~
+~
+0 -1 2540
+D4
+There is just blue.
+~
+moongate~
+2 -1 1
+S
+#2545
+The Desert~
+There is a large cave to the north.  Smoke pours out of it, at
+regular intervals.
+~
+0 10
+D0
+The smoke obscures all vision.
+~
+~
+0 -1 2548
+D1
+~
+~
+0 -1 2546
+S
+#2546
+The Desert~
+The sands blows into your ear and eyes.
+~
+0 10
+D1
+There is a shimmering light.
+~
+~
+0 -1 2547
+D2
+~
+~
+0 -1 2542
+D3
+~
+~
+0 -1 2545
+S
+#2547
+The Desert Moongate~
+Your thirst seems to slacken as you see the comforting glow of
+the moongate.
+~
+0 10
+D3
+~
+~
+0 -1 2546
+D4
+There is just blue.
+~
+moongate~
+2 -1 1
+S
+#2548
+The Dragon Cave~
+The cave is smoky.  There is a a glint of gold.
+~
+0 10
+D2
+~
+~
+0 -1 2545
+S
+#2549
+The Shrine of Spirituality~
+In this room a huge ankh sits on a pedestal.  The Shrine is the
+source of all magical power.  The Timelord himself lives here. 
+There is a moongate here also.  And last of all there is a huge
+engraving taking up the west wall.
+~
+C 2
+D0
+You peer into the blackness, and hear shrieks and sounds totally
+inhuman.~
+~
+0 -1 2554
+D2
+Peace infuses your body.  The graveyard is a solemn and sobering
+place.
+~
+~
+0 -1 2557
+D4
+Through the moongate you see a castle.
+~
+moongate~
+2 2415 2562
+E
+engraving~
+Pilgrim,
+     You have reached the final step on your way to enlightenment. 
+In this last step you will be shown ultimate evil to your north,
+and ultimate food to your south.  This is the land of the undead.
+
+Both those whose goodness links them to the land, and those whose
+evilness was rejected dead are here.  To have true spirituality
+one must know both.  Once you have been strengthened and forge
+through the evil, there is one final test before you prove
+yourself equal to the Avatar himself.  You must endure the test
+of time.
+~
+E
+ankh~
+Through your entire journey you have not understood the real
+symbol of the ankh.  Its true beauty only realizes itself to you
+now.  This knowledge transcends all that come before.
+~
+S
+#2550
+The Place of Ultimate Evil~
+The ground itself seems malevolent.  It sinks and engulfs you.
+~
+AN 0
+D1
+~
+~
+0 -1 2551
+D2
+~
+~
+0 -1 2553
+S
+#2551
+The Place of Ultimate Evil~
+The air sickens you.  You choke on whatever flows through the
+air.
+~
+AN 0
+D1
+~
+~
+0 -1 2552
+D2
+~
+~
+0 -1 2554
+D3
+~
+~
+0 -1 2550
+S
+#2552
+The Place of Ultimate Evil~
+It is dark, there is no evidence of light except what you have
+with you.  And this is swallowed by the darkness within 2 feet.
+~
+AN 0
+D2
+~
+~
+0 -1 2555
+D3
+~
+~
+0 -1 2551
+S
+#2553
+The Place of Ultimate Evil~
+Sounds are very weird in this place.  Some sounds, like shrieks
+and blood-curdling shouts are amplified, and you hear them
+frequently.  Other's like your own voice, will not travel to
+beyond a inch from your face.
+~
+AN 0
+D0
+~
+~
+0 -1 2550
+D1
+~
+~
+0 -1 2554
+S
+#2554
+The Place of Ultimate Evil~
+When you enter this place all of your senses are immediately
+blasted.  You breath in that total evilness and feel dirty.  You
+want to leave right now.
+~
+AN 0
+D0
+~
+~
+0 -1 2551
+D1
+~
+~
+0 -1 2555
+D2
+~
+~
+0 -1 2549
+D3
+~
+~
+0 -1 2553
+S
+#2555
+The Place of Ultimate Evil~
+You feel things all over your body.  Sucking it and hurting it.
+~
+AN 0
+D0
+~
+~
+0 -1 2552
+D3
+~
+~
+0 -1 2554
+S
+#2556
+The Graveyard~
+The graveyard background noises seem to sooth you.  The are light
+and peaceful.  Your own voices carries so well and softly that
+you seem to be telepathically communicating.
+~
+0 2
+D1
+~
+~
+0 -1 2557
+D2
+~
+~
+0 -1 2559
+S
+#2557
+The Graveyard~
+When you walk into here you are immediately soothed.  Nothing
+could be wrong with the world.  All your senses are pleased.
+~
+0 2
+D0
+There is a shimmering light.
+~
+~
+0 -1 2549
+D1
+~
+~
+0 -1 2558
+D2
+~
+~
+0 -1 2560
+D3
+~
+~
+0 -1 2556
+S
+#2558
+The Graveyard~
+You feel a light breath of air under your clothing.  It massages
+you.
+~
+0 2
+D2
+~
+~
+0 -1 2561
+D3
+~
+~
+0 -1 2557
+S
+#2559
+The Graveyard~
+The ground itself here seems to welcome your footsteps.  It is
+springy and causes you little fatigue.
+~
+0 2
+D0
+~
+~
+0 -1 2556
+D1
+~
+~
+0 -1 2560
+S
+#2560
+The Graveyard~
+The scent of the air refreshes you.  It is sweet and lovely.
+~
+0 2
+D0
+~
+~
+0 -1 2557
+D1
+~
+~
+0 -1 2561
+D3
+~
+~
+0 -1 2559
+S
+#2561
+The Graveyard~
+The light here is bright and lovely.
+~
+0 2
+D0
+~
+~
+0 -1 2558
+D3
+~
+~
+0 -1 2560
+S
+#2562
+Lord British's Castle Entrance~
+This building is awe-inspiring.  Just smaller then Yaz's own. 
+Anyway Lord British's personal Jester is here to entertain you.
+~
+0 0
+D0
+You see a fountain.
+~
+~
+0 -1 2563
+S
+#2563
+Castle Fountain~
+A lovely fountain sits here.  To the north you see a guard.
+~
+0 0
+D0
+~
+~
+0 -1 2565
+D2
+~
+~
+0 -1 2562
+S
+#2564
+A staircase~
+There is a magical staircase going up.  Beware, for those who go
+up shall not return down.  The other exits except for the west
+are closed for construction.
+~
+0 0
+D1
+~
+~
+0 -1 2565
+D4
+You see the altars of enlightenment.
+~
+~
+0 -1 2569
+S
+#2565
+Hallways~
+This is the entrance for Lord British.  Through the great doors
+to the north you can enter.  Another hallways passes across this
+one.
+~
+0 0
+D0
+~
+doors~
+1 -1 2567
+D1
+~
+~
+0 -1 2566
+D2
+~
+~
+0 -1 2563
+D3
+~
+~
+0 -1 2564
+S
+#2566
+Hallway~
+This is a hallway that would regularly extend from west to east,
+but it is closed for reconstruction.  There is though a room to
+your north that can be entered.
+~
+0 0
+D0
+~
+door~
+1 -1 2568
+D3
+~
+~
+0 -1 2565
+S
+#2567
+The Throne Room~
+In the Throne Room there are the two most important figures in
+the world.  The avatar and Lord British himself.
+~
+0 0
+D2
+~
+doors~
+1 -1 2565
+S
+#2568
+Batlin's Room~
+Batlin, the molester of animals, and the general jerk, lives
+here.
+~
+0 0
+D2
+~
+door~
+1 -1 2566
+S
+#2569
+The Altar of Honesty~
+You may gain true enlightenment here.  There is a large plaque on
+the wall.  The path continues only if you use the mantra, to
+gain enlightenment.
+~
+0 0
+D0
+The Path Of Enlightenment leads on.
+~
+Path~
+2 2404 2570
+E
+plaque~
+Honesty is the scrupulous respect for truth-the willingness never
+to deceive oneself or another.
+~
+S
+#2570
+The Altar of Compassion~
+You may gain true enlightenment here.  There is a large plaque on
+the wall.  The path continues only if you use the mantra, to
+gain enlightenment.
+~
+0 0
+D0
+The Path Of Enlightenment leads on.
+~
+Path~
+2 2400 2571
+E
+plaque~
+Compassion is nonjudgmental empathy for one's fellow creatures. 
+It is pure love.
+~
+S
+#2571
+The Altar of Valor~
+You may gain true enlightenment here.  There is a large plaque on
+the wall.  The path continues only if you use the mantra, to
+gain enlightenment.
+~
+0 0
+D0
+The Path Of Enlightenment leads on.
+~
+Path~
+2 2406 2572
+E
+plaque~
+Valor is the courage to take actions in support of one's
+convictions.
+~
+S
+#2572
+The Altar of Justice~
+You may gain true enlightenment here.  There is a large plaque on
+the wall.  The path continues only if you use the mantra, to
+gain enlightenment.
+~
+0 0
+D0
+The Path Of Enlightenment leads on.
+~
+Path~
+2 2402 2573
+E
+plaque~
+Justice is devotion to truth, tempered by love.
+~
+S
+#2573
+The Altar of Sacrifice~
+You may gain true enlightenment here.  There is a large plaque on
+the wall.  The path continues only if you use the mantra, to
+gain enlightenment.
+~
+0 0
+D0
+The Path Of Enlightenment leads on.
+~
+Path~
+2 2405 2574
+E
+plaque~
+Sacrifice is the courage to give of oneself in the name of love.
+~
+S
+#2574
+The Altar of Honour~
+You may gain true enlightenment here.  There is a large plaque on
+the wall.  The path continues only if you use the mantra, to
+gain enlightenment.
+~
+0 0
+D0
+The Path Of Enlightenment leads on.
+~
+Path~
+2 2407 2575
+E
+plaque~
+Honour is the courage to stand for truth, against any odds.
+~
+S
+#2575
+The Altar of Spirituality~
+You may gain true enlightenment here.  There is a large plaque on
+the wall.  The path continues only if you use the mantra, to
+gain enlightenment.
+~
+0 0
+D0
+The Path Of Enlightenment leads on.
+~
+Path~
+2 2403 2576
+E
+plaque~
+Spirituality is the concern with one's inner being and how one
+deals with truth, love, and courage.
+~
+S
+#2576
+The Altar of Humility~
+You may gain true enlightenment here.  There is a large plaque on
+the wall.  The path continues only if you use the mantra, to
+gain enlightenment.
+~
+0 0
+D0
+The Path Of Enlightenment ends there.
+~
+Path~
+2 2401 2577
+E
+plaque~
+Humility is perceiving one's place in the world, not according
+to one's own accomplishments, but  according to the intrinsic
+value of all individuals.
+~
+S
+#2577
+The Enlightenment~
+A voice booms out, "You are now eight part enlightened.  To truly
+become an Avatar though you must experience what he has
+experienced.  Go through the time warp and fight his enemies. 
+Beware only High Mortals should attempt this challenge."
+~
+0 0
+D4
+The Time Warp changes space, and fluxes its surroundings.
+~
+warp~
+2 2416 2578
+S
+#2578
+In the Warp~
+This is a forest.  You were sent very far back in time.  Before
+there was a Britannia.  Almost before there was a Lord British. 
+This is the time of Mondain.  The first enemy that the Avatar
+met.
+~
+0 0
+D4
+The Time Warp leads you to another place.
+~
+warp~
+2 2416 2579
+S
+#2579
+In the Warp~
+You are in a featureless room.  You see the apprentice and lover
+of Mondain here.  Minax.  She does not seem happy to see you.
+~
+0 0
+D4
+The Time Warp zips to the future.
+~
+warp~
+2 2416 2580
+S
+#2580
+In the Warp~
+You see the last of the Triad of Evil.  With its destruction came
+the breaking of the world.
+~
+0 0
+D4
+The Time Warp continues on.
+~
+warp~
+2 2416 2581
+S
+#2581
+The Enlightenment~
+A voice booms out, "You have now truly became Enlightened.  You
+have fought and defeated the Avatar's enemy of the past.  Now the
+time warp leads to the future.  Only the truly courageous can
+survive the enemies there."
+~
+0 0
+D4
+The Time Warp changes space, and fluxes its surroundings.
+~
+warp~
+2 2416 2582
+S
+#2582
+In the Warp~
+You seem to be in a castle.  But there are torture devices here,
+and an angry King.
+~
+0 0
+D4
+The Time Warp sputters and crackles.
+~
+warp~
+2 2416 2583
+S
+#2583
+In the Warp~
+You seem to be in a blue room.  It seems to be only 2 dimensional
+as it sparkles.  There is also a big red face here.
+~
+0 0
+S
+#2584
+The Lagoon~
+The whirlpool-like ocean is to the north, and the beach is back to the east.
+~
+0 0
+D0
+The Ocean Roars.
+~
+~
+0 -1 2518
+D1
+The beach sparkles.
+~
+~
+0 -1 2513
+S
+#0
+
+#MOBILES
+#2400
+insects swarm bugs~
+the insects~
+You hear buzzing, and see a swarm of insects flying at you.
+~
+These insects are more of an annoyance than a threat.  It is made
+up of hundreds of annoying insects.
+~
+unique~
+FA T -200 0
+2 1 1d1+40 1d1+40 1d2+1 slash
+-15 -15 -15 -15
+FENU 0 0 0
+stand stand neutral 81
+0 0 medium 0
+
+#2401
+bat~
+the bat~
+A black furry bat flies into your face.
+~
+You hear a high pitch screech.  It is a black furry bat.  This
+annoying creature usually travel in flocks, so WATCH OUT.
+~
+bat~
+BFA T -500 0
+4 2 1d1+80 1d1+80 2d3+2 acbite
+-16 -16 -16 -16
+FENU 0 0 0
+stand stand male 167
+0 0 medium 0
+
+#2402
+shepherd man~
+the shepherd~
+A humble shepherd is here looking after his sheep.
+~
+The shepherd is a a patient old man, who has spent all his days
+looking after his sheep, and all his nights studying the virtue
+of Humility.  Through the his wrinkled face though you can see
+his proud dignity and begin to sense that he was once a warrior.
+~
+human~
+GA 0 1000 0
+4 2 1d1+80 1d1+80 2d3+2 slash
+-16 -16 -16 -16
+FENU 0 0 0
+stand stand male 164
+0 0 medium 0
+
+#2403
+girl child~
+the girl~
+A smiling young girl is here.
+~
+The girl looks shyly at you.  Even at this young age, she has
+learned enough of her culture to be humble.   She jumps rope and
+look up at you expectantly.
+~
+human~
+HA 0 1000 0
+3 1 1d1+60 1d1+60 2d3+1 slash
+-16 -16 -16 -15
+FENU 0 0 0
+stand stand female 124
+0 0 medium 0
+
+#2404
+sheep~
+the sheep~
+A sheep peacefully eats grass.
+~
+Even the sheep in New Magincia seem to exude humbleness.  The
+sheep has pure white fleece.
+~
+unique~
+BHA 0 1000 0
+3 1 1d1+60 1d1+60 2d3+1 slash
+-16 -16 -16 -15
+FENU 0 0 0
+stand stand neutral 124
+0 0 medium 0
+
+#2405
+woman shepherd~
+Katrina the Shepherd~
+Katrina the Shepherd is her looking over the village.
+~
+Katrina was one of the Warriors of Destiny.  She epitomizes the
+virtue of humility.  After her great Enlightenment, she traveled
+back to her home and helped rebuild Magincia.  She still is a
+great warrior and an able guardian of New Magincia.
+~
+human~
+GCA H 1000 0
+5 2 1d1+100 1d1+100 2d3+2 slash
+-16 -16 -16 -16
+FENU 0 0 0
+stand stand female 201
+0 0 medium 0
+
+#2406
+rat~
+the giant rat~
+A rat is knawing on a book.
+~
+This giant rat is smelly and fleas jump up from fur.  The rats
+have been a great problem in the Library because they eat and
+shred the books.  This rat seems to be rabid, so beware his
+teeth.
+~
+unique~
+FA 0 -1000 0
+5 2 1d1+100 1d1+100 2d3+2 pound
+-16 -16 -16 -16
+FENU 0 0 0
+stand stand neutral 205
+0 0 medium 0
+
+#2407
+spider~
+the giant spider~
+The giant spider sits on its web.
+~
+This scavenger has seemed to collected many things, including
+books, scrolls, and other scraps.  His glistening teeth drip with
+poison.
+~
+unique~
+BCFA 0 -1000 0
+8 4 1d1+184 1d1+160 3d3+4 slash
+-17 -17 -17 -17
+FENU 0 0 0
+stand stand neutral 335
+0 0 medium 0
+
+#2408
+mage~
+the mage~
+A mage stands here reading a book.
+~
+The mage in his ever-increasing search for Honesty and Truth, has
+come to library to peruse the ancient tomes of knowledge.  He
+glances at you, and returns to his study.
+~
+elf~
+GA E 1000 0
+6 3 1d1+138 1d1+120 2d3+3 slash
+-17 -17 -17 -16
+FENU 0 0 0
+stand stand male 240
+0 0 medium 0
+
+#2409
+nystul Librarian mage~
+Nystul the Librarian~
+Nystul the Librarian sits at his desk, writing some scrolls.
+~
+Nystul is the mentor, teacher, mage of the Lyceum.  He is a
+shining example of Truth.  His head is bowed over a book, but
+power radiates from him.
+~
+elf~
+BA H 1000 0
+30 15 1d1+1034 1d1+600 5d5+15 slash
+-25 -25 -25 -22
+FENU 0 0 0
+stand stand male 1538
+0 0 medium 0
+
+#2410
+mariah mage~
+Mariah the Mage~
+Mariah walks around the stacks, busily looking for a book.
+~
+Mariah is another Warrior of Destiny.  She joined the Avatar to
+add some magical punch during his Enlightenment.  She seems
+serene in her total devotion to the virtue of Honesty.
+~
+elf~
+GA H 1000 0
+8 4 1d1+184 1d1+160 3d3+4 slash
+-17 -17 -17 -17
+FENU 0 0 0
+stand stand female 335
+0 0 medium 0
+
+#2411
+slime puddle mass~
+the slime~
+An ugly green mass sits on the ground in a puddle.
+~
+The slime is an amorphous goo.  It seems pretty wimpy, but it has
+alot of friends.  As you look at it you wonder who these things
+reproduce.
+~
+unique~
+FHA 0 -1000 0
+7 3 1d1+161 1d1+140 3d3+3 slash
+-17 -17 -17 -16
+FENU 0 0 0
+stand stand neutral 284
+0 0 medium 0
+
+#2412
+snake~
+the snake~
+The snake strikes.
+~
+The green snake tongue darts in and out tasting the air.  It
+sense spilled beer, and the distinctive taste of human.
+~
+snake~
+FHA 0 -1000 0
+9 4 1d1+207 1d1+180 3d3+4 punch
+-18 -18 -18 -17
+FENU 0 0 0
+stand stand male 373
+0 0 medium 0
+
+#2413
+horse Smithy~
+Mr. Smithy~
+Mr. Smithy, the talking horse, is chewing hay.
+~
+This useless horse is a novelty, he can talk.  Though his talk is
+often meaningless and he gives out irrelevant clues, his sleek
+body and his much practiced jaw muscles can be very dangerous.
+~
+human~
+BA 0 500 0
+25 12 1d1+862 1d1+500 5d5+12 slash
+-23 -23 -23 -21
+FENU 0 0 0
+stand stand male 1279
+0 0 medium 0
+
+#2414
+bard musician~
+the bard~
+A bard sits here strumming his mandolin.
+~
+The bard seems happy and content to play his mandolin.  He is a
+seeker of compassion, but in the his spare time he sings and
+dances.
+~
+hobbit~
+BA 0 750 0
+9 4 1d1+207 1d1+180 3d3+4 slash
+-18 -18 -18 -17
+FENU 0 0 0
+stand stand male 367
+0 0 medium 0
+
+#2415
+beggar~
+the beggar~
+A beggar is here with his hand out.
+~
+He is more accustomed to receiving Compassion, than giving it. 
+But help him out gov, give him a few coins.
+~
+human~
+A 0 500 0
+8 4 1d1+184 1d1+160 3d3+4 slash
+-17 -17 -17 -17
+FENU 0 0 0
+stand stand male 331
+0 0 medium 0
+
+#2416
+iolo bard musician~
+Iolo the Bard~
+Iolo sits here with a bottle in his hand, and a smile on his
+face.
+~
+Iolo is one of the first Warrior of Destiny.  He seems to be a
+little bit tipsy from the party and you wonder why he has
+wandered down to the cellar.  Anyway, in the spirit of the virtue
+Compassion that he embodies, he holds out a bottle for you.
+~
+human~
+BA H 1000 0
+11 5 1d1+275 1d1+220 3d4+5 slash
+-18 -18 -18 -17
+FENU 0 0 0
+stand stand male 444
+0 0 medium 0
+
+#2417
+jester chuckles~
+Chuckles the Jester~
+Chuckles the Jester is juggling and entertaining.
+~
+Chuckles the Jester is here mumbling, 'Spam Spam.'  This annoying
+characters is Lord British's major entertainment.  He is laughing
+and telling corny jokes.  He seems to hold his dinner in his
+hands, and when he dance the bells on his hat jingle merrily.
+~
+human~
+BA H 1000 0
+33 16 1d1+1212 1d1+660 6d6+16 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand male 1703
+0 0 medium 0
+
+#2418
+townsman man~
+the townsman~
+A townsman is here downing drinks.
+~
+This townsman is here partying and having many drinks.  Though he
+is also an ardent believer in Compassion, and a responsible
+citizen, he knows the value of a good party.
+~
+human~
+A 0 1000 0
+9 4 1d1+207 1d1+180 3d3+4 slash
+-18 -18 -18 -17
+FENU 0 0 0
+stand stand male 375
+0 0 medium 0
+
+#2419
+gwenno bard~
+Gwenno the Bard~
+Gwenno the Bard, Iolo's happy wife, wanders around with bow in
+hand.
+~
+You see a pretty woman, with finally sculptured musculature. 
+She's seems to guard the party with a her Infinity Bow, the best
+bow in the Ultima world.  Her kindly eyes seem to emit pure
+Compassion, and as she wanders she helps the drunks up and leads
+them out the door.
+~
+hobbit~
+A H 1000 0
+31 15 1d1+1111 1d1+620 6d5+15 slash
+-25 -25 -25 -22
+FENU 0 0 0
+stand stand female 1564
+0 0 medium 0
+
+#2420
+orc ape~
+the orc~
+A mutated ape carries a spear.
+~
+This orc is a disgusting animal, this ape-like monster scratches
+it armpits.  It travels in herds and is a coward.
+~
+orc~
+FHA 0 -1000 0
+11 5 1d1+275 1d1+220 3d4+5 pound
+-18 -18 -18 -17
+FENUC 0 0 0
+stand stand male 440
+0 0 medium 0
+
+#2421
+troll~
+the troll~
+A stony troll swings his club.
+~
+This huge monster is immense and powerful.  Over a chest and a
+head taller then you, his meaty arms swings a club at you.
+~
+troll~
+FA 0 -1000 0
+13 6 1d1+325 1d1+260 4d4+6 slash
+-19 -19 -19 -18
+FENU 0 0 0
+stand stand male 536
+0 0 medium 0
+
+#2422
+wisp ball~
+the wisp~
+A blue ball of light soars over to you and winks.
+~
+The Wisp is constantly blinking.  It wish's information exchange.
+
+It looks peaceful, but will defend itself.
+~
+modron~
+CA H 0 0
+15 7 1d1+375 1d1+300 4d4+7 slice
+-20 -20 -20 -18
+FENU 0 0 0
+stand stand neutral 627
+0 0 medium 0
+
+#2423
+druid~
+the forest druid~
+A chanting druid walks the woods.
+~
+Dressed in long robes that obscure his face, the druid is softly
+chanting words and traveling through the woods.  He is one that
+is secure in his sense of Justice, and enlightened in the ways of
+judging others.  Through his communion with nature, he has gained
+power.
+~
+dwarf~
+A 0 1000 0
+12 6 1d1+300 1d1+240 3d4+6 slash
+-19 -19 -19 -18
+FENU 0 0 0
+stand stand male 490
+0 0 medium 0
+
+#2424
+druid~
+the city druid~
+A druid walks around a flame.
+~
+This druid seems to be entranced by the fire.  She chants softly
+as he waves her hand and stares into the flame.  She is one with
+the flame.  When she looks at you her hard eyes, only judge,
+seeking Justice.
+~
+dwarf~
+BA 0 1000 0
+12 6 1d1+300 1d1+240 3d4+6 slash
+-19 -19 -19 -18
+FENU 0 0 0
+stand stand female 502
+0 0 medium 0
+
+#2425
+judge~
+The Judge~
+The Judge sits here.
+~
+You cannot help but shiver as you see the Judge sit here
+silently.  His eyes pierce into your soul, and he knows.  He
+knows your faults.  He knows your virtues.  He knows if you've
+been bad or good.... so be good.  This ultimate purveyor of
+Justice, sends criminals to jail everyday, sometimes with his
+bare hands.
+~
+human~
+BA H 1000 0
+32 16 1d1+1144 1d1+640 6d6+16 slash
+-25 -25 -25 -23
+FENU 0 0 0
+stand stand male 1616
+0 0 medium 0
+
+#2426
+jaana druid~
+Jaana the Druid~
+Jaana the Druid is in deep meditation.
+~
+You meet the another Warrior of Destiny.  She helped to lead the
+magical force to the Avatar.  The Avatar's mentor in Justice; she
+has gone to the woods to drive life into a corner.
+~
+dwarf~
+A HW 1000 0
+15 7 1d1+375 1d1+300 4d4+7 pound
+-20 -20 -20 -18
+FENU 0 0 0
+stand stand female 609
+0 0 medium 0
+
+#2427
+prisoner~
+the dirty prisoner~
+The Prisoner grips the bars with his dirty hands.
+~
+The Prisoner seems to a be slimy character.  He was a thief, and
+Justice was done to him.  You glimpse light shining off of
+something black in his hands.
+~
+elf~
+BHA P -666 0
+11 5 1d1+275 1d1+220 3d4+5 slash
+-18 -18 -18 -17
+FENU 0 0 0
+stand stand male 452
+0 0 medium 0
+
+#2428
+prisoner~
+the prisoner~
+The Prisoner is big and grins evilly at you.
+~
+This Prisoner was convicted of one of the most heinous crimes,
+MURDER.  It took many guards and druids to restrain this beast.
+~
+elf~
+BFA 0 -1000 0
+14 7 1d1+350 1d1+280 4d4+7 slash
+-19 -19 -19 -18
+FENU 0 0 0
+stand stand male 564
+0 0 medium 0
+
+#2429
+citizen yewsman~
+the citizen of yew~
+A citizen of Yew walks around.
+~
+Being a the second largest city in Britannia, second only to
+Britain itself; this city employs and houses many people.  This
+citizen of the city of Justice strolls the street, sure of his
+Virtue.
+~
+human~
+HA 0 1000 0
+13 6 1d1+325 1d1+260 4d4+6 slice
+-19 -19 -19 -18
+FENU 0 0 0
+stand stand male 525
+0 0 medium 0
+
+#2430
+bartender~
+the bartender~
+A bartender stands here in middle of a throng of people.
+~
+A smiling face asks you want you would like to drink.  Well
+versed in compassion, he has heard and sympathized with many
+people how have gone to him for advice.  His advice to you, is to
+kick back and enjoy a drink.
+~
+human~
+A 0 1000 0
+10 5 1d1+230 1d1+200 3d3+5 slash
+-18 -18 -18 -17
+FENU 0 0 0
+stand stand male 402
+0 0 medium 0
+
+#2431
+owner bartender~
+the pub owner~
+The owner of the pub walks around to her customers.
+~
+The pub owner waves and smiles to you.  She asks what you want to
+drink and eat.
+~
+human~
+BA 0 1000 0
+13 6 1d1+325 1d1+260 4d4+6 slash
+-19 -19 -19 -18
+FENU 0 0 0
+stand stand female 532
+0 0 medium 0
+
+#2432
+ettin~
+the ettin~
+The ettin scratches its heads, and attack.
+~
+With its two head, it should make sense that this monster should
+have double the intelligence.  But in fact it has half.
+~
+dog~
+FA 0 -1000 0
+16 8 1d1+464 1d1+320 4d4+8 slash
+-20 -20 -20 -19
+FENU 0 0 0
+stand stand neutral 659
+0 0 medium 0
+
+#2433
+gremlin~
+the gremlin~
+This little creature sneaks around and steals your food.
+~
+He seems to be just a head with little hands and feet sticking
+out of it.  It does not seem like these things could hurt you,
+but your money pouch seems much lighter.
+~
+goblin~
+CHA PQ -1000 0
+15 7 1d1+375 1d1+300 4d4+7 slash
+-20 -20 -20 -18
+FENU 0 0 0
+stand stand neutral 607
+0 0 medium 0
+
+#2434
+headless~
+the headless~
+The headless creature seems to be heading right for you!
+~
+No one really understands how these things can sense, but as it
+unerringly reaches for you, you know it does.  In any case these
+creatures are strong and endurable.
+~
+unique~
+FA 0 -1000 0
+19 9 1d1+551 1d1+380 4d4+9 slash
+-21 -21 -21 -19
+FENU 0 0 0
+stand stand neutral 772
+0 0 medium 0
+
+#2435
+fighter~
+the fighter~
+A muscular fighter searches here.
+~
+This fighter is cleaning out the dungeons.  In the peaceful time
+following the Avatar's success, there are few ways to show Valor.
+
+One of the more dangerous is to descend into the pits of hell and
+clean them out.
+~
+giant~
+A 0 1000 0
+18 9 1d1+522 1d1+360 4d4+9 slash
+-21 -21 -21 -19
+FENUC 0 0 0
+stand stand female 721
+0 0 medium 0
+
+#2436
+geoffrey~
+Geoffrey the Fighter~
+Geoffrey the Fighter leads this campaign.
+~
+The muscle power of the Warriors of Destiny, Geoffrey is immense.
+
+His board shoulders make you look like a mouse.  He epitomizes
+Valor.
+~
+giant~
+A H 1000 0
+22 11 1d1+727 1d1+440 5d5+11 slash
+-22 -22 -22 -20
+FENUC 0 0 0
+stand stand male 1145
+0 0 medium 0
+
+#2437
+lord serpent simon~
+Lord Simon~
+Lord Simon of the Serpent Hold stares at your form.
+~
+His movements are liquid and art.  As he makes a few practice
+swings, you HOPE that you are never on the receiving end of his
+immense sword.  This is The Lord of Serpent Hold, courage itself
+solidified into a human form.
+~
+giant~
+A H 1000 0
+33 16 1d1+1162 1d1+660 6d6+16 punch
+-26 -26 -26 -23
+FENUC 0 0 0
+stand stand male 1724
+0 0 medium 0
+
+#2438
+mimic~
+the mimic~
+A treasure chest is here, overflowing with gold.
+~
+The treasure chest reforms, and spits out a glob of poison. 
+Beware adventurer of the Mimic.
+~
+unique~
+FA 0 -1000 0
+26 13 1d1+888 1d1+520 5d5+13 slash
+-23 -23 -23 -21
+FENU 0 0 0
+stand stand neutral 1364
+0 0 medium 0
+
+#2439
+gazer eyeball~
+the gazer~
+A floating eyeball glares at you.
+~
+This creature is comprised of one main eyeball and several
+auxiliary eyeballs coming of the main.  The eyeballs draw you in,
+making you forget who you are....
+~
+unique~
+FA 0 -1000 0
+23 11 1d1+792 1d1+460 5d5+11 slash
+-22 -22 -22 -20
+FENU 0 0 0
+stand stand neutral 1186
+0 0 medium 0
+
+#2440
+tinker~
+a tinker~
+A tinker is fiddling with one device or another.
+~
+The tinker has huge rippling muscles and a scarred skin.  You
+realize that his great Sacrifice to his craft has led to his
+incredible strength and weaponskill.  This is not one you wish to
+fight.
+~
+dwarf~
+A 0 1000 0
+25 12 1d1+836 1d1+500 5d5+12 slash
+-23 -23 -23 -21
+FENU 0 0 0
+stand stand male 1303
+0 0 medium 0
+
+#2441
+julia~
+Julia the Tinker~
+Julia the Tinker is here forging a sword.~
+Julia the Tinker provided some of the muscle power to the Avatar,
+during his Great Quest for enlightenment.  She was a Warrior of
+Destiny and you see that not much has changed since those days. 
+She represents Sacrifice in everything she does, she is the 
+Keeper of Oral History, as well as a prominent weaponsmith.
+~
+dwarf~
+BA H 1000 0
+28 14 1d1+958 1d1+560 5d5+14 slash
+-24 -24 -24 -22
+FENU 0 0 0
+stand stand female 1403
+0 0 medium 0
+
+#2442
+lady~
+The Lady of Empath Abbey~
+The Lady of Empath Abbey stands here.
+~
+When you see her your heart almost stops, as you feel the intense
+waves of pure Love come from here body.  Her love for you almost
+knocks you down.  You cannot hurt this one.
+~
+human~
+A H 1000 0
+34 17 1d1+1213 1d1+680 6d6+17 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand female 1709
+0 0 medium 0
+
+#2443
+sandtrap tentacle~
+the sandtrap~
+A tentacle reaches out of the sand, and latches onto your leg.
+~
+The Sandtrap burrows around under the stand, and comes onto
+travellers hidden.  No one is really sure what the Sandtrap looks
+like, but it is a dangerous foe.
+~
+human~
+CFHA PQ -1000 0
+29 14 1d1+1002 1d1+580 5d5+14 slash
+-24 -24 -24 -22
+FENU 0 0 0
+stand stand neutral 1510
+0 0 medium 0
+
+#2444
+dragon~
+the dragon~
+A dragon lies on his heap of treasure, turns his head, and fire
+come billowing out of his maw.
+~
+The dragon looks like every other dragon you've seen, wings,
+tail, fire.  Only this one doesn't have a  dorky color attached
+to it.  And doesn't talk about annoying C terms. 
+~
+dragon~
+BFA 0 -1000 0
+32 16 1d1+1128 1d1+640 6d6+16 flbite
+-25 -25 -25 -23
+FENUC 0 0 0
+stand stand neutral 1643
+0 0 medium 0
+
+#2445
+paladin~
+the paladin~
+A paladin practices his sword strokes here.
+~
+This paladin works hard to keep his Honor and the Honor of his
+people.  Honor does not lead his life, Honor is his life.  His
+shiny armour and equally shiny sword serves to remind you that he
+is among Brittannia's most powerful battalion.
+~
+dwarf~
+A 0 1000 0
+30 15 1d1+1016 1d1+600 5d5+15 acbite
+-25 -25 -25 -22
+FENU 0 0 0
+stand stand male 1500
+0 0 medium 0
+
+#2446
+dupre paladin~
+Dupre the Paladin~
+Sitting here, Dupre the Paladin consults his maps.
+~
+Dupre the Paladin was constant companion of the Avatar and a
+Warrior of Destiny.  He is a symbol of Honor.  He is right now
+trying to figure out a plan of attack to get the dragon.
+~
+dwarf~
+BA H 1000 0
+33 16 1d1+1187 1d1+660 6d6+16 flbite
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand male 1692
+0 0 medium 0
+
+#2447
+reaper~
+the reaper~
+The reaper strikes out with his tentacles.
+~
+The reaper is immobilized and attached to the ground.  Even with
+this disadvantage his tentacles and magical powers more then make
+up for disadvantage.
+~
+unique~
+BFA 0 -1000 0
+31 15 1d1+1123 1d1+620 6d5+15 slash
+-25 -25 -25 -22
+FENU 0 0 0
+stand stand neutral 1579
+0 0 medium 0
+
+#2448
+gargoyle king draxthanum~
+Draxthanum the Gargoyle~
+The King of Gargoyles is here.
+~
+Draxthanum the Winged Gargoyle is here to observe the odd habits
+of humans and there combat tactics.  He is red with wings, and is
+strong and his aura is overpowering.
+~
+bat~
+A H 1000 0
+35 17 1d1+1232 1d1+700 6d6+17 punch
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand male 1789
+0 0 medium 0
+
+#2449
+ghost spirit~
+the spirit~
+The spirit of peaceful man floats around here.
+~
+This ghost seems peaceful, even though he is chained to the earth
+through some responsibility.
+~
+undead~
+A 0 1000 0
+32 16 1d1+1139 1d1+640 6d6+16 slash
+-25 -25 -25 -23
+FENU 0 0 0
+stand stand neutral 1609
+0 0 medium 0
+
+#2450
+ghost spirit~
+the ghost~
+This ghost was an evil man in a past life.
+~
+In through its transparent face, you can see a grimace of
+evilness and swoops over to you.
+~
+undead~
+FA 0 -1000 0
+32 16 1d1+1136 1d1+640 6d6+16 slash
+-25 -25 -25 -23
+FENU 0 0 0
+stand stand neutral 1629
+0 0 medium 0
+
+#2451
+skeleton~
+the skeleton~
+The skeleton walks around in tattered clothing.
+~
+The skeleton has rotting bits of flesh attached to his bones.  He
+carries a rusty shield and sword.  In fact the only thing
+completely clean on him is his white teeth, perhaps from his
+nightly meals of flesh and bone.
+~
+undead~
+FA 0 -1000 0
+33 16 1d1+1188 1d1+660 6d6+16 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand neutral 1668
+0 0 medium 0
+
+#2452
+daemon demon~
+the daemon~
+He unfurls his wings and swoops into you.
+~
+The most dangerous undead, and among the most dangerous of all
+monsters, this beast can use all magics, is strong and hardy. 
+Right now he seems to be busy... killing you.
+~
+modron~
+FA H -1000 0
+34 17 1d1+1248 1d1+680 6d6+17 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand neutral 1730
+0 0 medium 0
+
+#2453
+mourner~
+the mourner~
+A mourner bows his head over the grave.
+~
+A mourner is in tears.  She is crying over the grave of a loved
+one.  She is expressing poignant Spirituality.  This gives her
+strength to persevere.
+~
+human~
+A 0 1000 0
+33 16 1d1+1168 1d1+660 6d6+16 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand female 1650
+0 0 medium 0
+
+#2454
+shamino ranger~
+Shamino the Ranger~
+Shamino the Ranger sits here, meditating.
+~
+The last Warrior of Destiny, Shamino sits here in a yoga
+position.  The Enlightened smile on his face confirms that he
+indeed is one with the spirit of Spirituality.
+~
+human~
+BA H 1000 0
+35 17 1d1+1226 1d1+700 6d6+17 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand male 1756
+0 0 medium 0
+
+#2455
+timelord~
+the Timelord~
+The Timelord is here in an aura of power.
+~
+The Hourglass that he holds in his hand actually controls the
+fickle powers of time.  This being is so awe-inspiring that you
+fell an urge to prostrate yourself to him.  But as all godly
+powers must be, he is truly and totally neutral.
+~
+modron~
+AB H 0 0
+40 20 1d1+1420 1d1+800 6d6+20 slice
+-28 -28 -28 -25
+FENU 0 0 0
+stand stand male 2059
+0 0 medium 0
+
+#2456
+guardian~
+The Guardian~
+The Guardian as far as you can tell is just a big red face.
+~
+First you hear a booming voice.  'You will join the Fellowship.' 
+He is the latest, and some people say greatest of the Avatar's
+enemies.  And now you have the joy of meeting him.
+~
+modron~
+BFA H -1000 0
+45 22 1d1+1864 1d1+900 7d7+22 slash
+-30 -30 -30 -26
+FENU 0 0 0
+stand stand male 2282
+0 0 medium 0
+
+#2457
+blackthorn~
+Blackthorn~
+Blackthorn wonders how he lost the throne.
+~
+Blackthorn was more misguided rather then evil.  Though he was
+still a foe of Avatar that eventually was destroyed, during this
+era he still is corrupt and VERY, VERY dangerous.
+~
+wolf~
+BFA H -1000 0
+43 21 1d1+1762 1d1+860 7d6+21 slash
+-29 -29 -29 -25
+FENU 0 0 0
+stand stand male 2202
+0 0 medium 0
+
+#2458
+exodus~
+Exodus~
+Exodus is here, reveling in his island fortress.
+~
+Exodus, the horrible progeny of Minax and Mondain is here.  More
+powerful then his parents, he is also more dangerous.  He was the
+last of the Triad that the Avatar destroyed.
+~
+giant~
+BFA H -1000 0
+41 20 1d1+1667 1d1+820 6d6+20 slash
+-28 -28 -28 -25
+FENUC 0 0 0
+stand stand neutral 2080
+0 0 medium 0
+
+#2459
+minax~
+Minax~
+Minax is here conjuring up the evil spirits.
+~
+More powerful then her master and lover, Minax is as beautiful as
+she is dangerous.  Bold enough to take on the forces of evil
+without the gem, she eventually proved to be their mistress. 
+Without the Avatar the world would still be under her complete
+power.
+~
+giant~
+BFA H -1000 0
+39 19 1d1+1416 1d1+780 6d6+19 pound
+-28 -28 -28 -24
+FENUC 0 0 0
+stand stand female 2044
+0 0 medium 0
+
+#2460
+mondain~
+Mondain~
+Mondain grips his evil gem and conjures magic to destroy you.
+~
+Mondain. the first of the Triad of Evil, was the first foe that
+the man, later to be known as the Avatar, was to face.  Mondain
+has killed his father to gain the power of the dark gem that he
+wielded.
+~
+giant~
+BFA H -1000 0
+37 18 1d1+1332 1d1+740 6d6+18 slash
+-27 -27 -27 -24
+FENUC 0 0 0
+stand stand male 1898
+0 0 medium 0
+
+#2461
+sentri guard~
+Sentri~
+Sentri stoically stands here, protecting his Lord and castle from
+harm.
+~
+Sentri is a powerful man, whose only job is to protect the life
+of Lord British.  In seeing this done he is completely armored
+and wields a heavy blade.
+~
+giant~
+BA 0 1000 0
+35 17 1d1+1268 1d1+700 6d6+17 slash
+-26 -26 -26 -23
+FENUC 0 0 0
+stand stand male 1809
+0 0 medium 0
+
+#2462
+batlin~
+Batlin~
+Batlin says, 'Join the Fellowship.'
+~
+Batlin is an evil man that goes around and corrupts the young. 
+You see also that he has a full set of mantras, probably stolen
+from their rightful owners.  He is though protected by the power
+of his god.
+~
+bat~
+A H -1000 0
+37 18 1d1+1303 1d1+740 6d6+18 slash
+-27 -27 -27 -24
+FENU 0 0 0
+stand stand male 1937
+0 0 medium 0
+
+#2463
+avatar~
+The Avatar~
+The Avatar is here chatting to Lord British.
+~
+The Avatar is the symbol of courage and truth and love, and all
+that descends from it.  He has mastered Compassion, Humility,
+Justice, Spirituality, Honesty, Sacrifice, Valor, and Honor.  He
+truly is an inspiration to those who know him.
+~
+human~
+BA H 1000 0
+50 25 1d1+2017 1d1+1000 7d7+25 slash
+-31 -31 -31 -27
+FENU 0 0 0
+stand stand male 2508
+0 0 medium 0
+
+#2464
+lord british~
+Lord British~
+Lord British is healing the Avatar's wounds.
+~
+Lord British sits in his throne.  When you see him, you know the
+meaning of true leadership.  His charisma is almost tangible.  On
+him you see the three crown jewels.  These hold power both
+figuratively and  truly.
+~
+human~
+BA H 1000 0
+60 30 1d1+3012 1d1+1200 8d7+30 slash
+-35 -35 -35 -30
+FENU 0 0 0
+stand stand male 3711
+0 0 medium 0
+
+#2465
+shark~
+the shark~
+The shark smells blood.
+~
+This fish can sense blood in the water and comes to kill you.
+~
+unique~
+FA 0 -1000 0
+25 12 1d1+853 1d1+500 5d5+12 slash
+-23 -23 -23 -21
+FENU 0 0 0
+stand stand male 1307
+0 0 medium 0
+
+#2466
+seahorse~
+sea horse seahorse~
+The peaceful seahorse swims here.
+~
+The seahorse is an amazingly beautiful creature.  Its swimming
+and diving please you.
+~
+unique~
+A 0 500 0
+28 14 1d1+948 1d1+560 5d5+14 slash
+-24 -24 -24 -22
+FENU 0 0 0
+stand stand male 1412
+0 0 medium 0
+
+#2467
+squid~
+the squid~
+The squid's tentacles reach for you.
+~
+The squid easily is double the boat in size.  Its tentacles are
+huge and you fear as it grabs for you.
+~
+unique~
+FA 0 -1000 0
+30 15 1d1+1039 1d1+600 5d5+15 slash
+-25 -25 -25 -22
+FENU 0 0 0
+stand stand male 1564
+0 0 medium 0
+
+#2468
+armourer~
+the armourer~
+The Armourer stands here.
+~
+The Armourer sells... armour.
+~
+human~
+BA CH 1000 0
+100 50 1d1+9439 1d1+2000 10d10+50 slash
+-48 -48 -48 -40
+FENUH 0 0 0
+stand stand male 6104
+0 0 medium 0
+
+#2469
+weaponseller~
+the weaponseller~
+The Weaponseller stands here.
+~
+The Weaponseller sells... weapons.
+~
+human~
+BA CH 1000 0
+100 50 1d1+9234 1d1+2000 10d10+50 slash
+-48 -48 -48 -40
+FENUH 0 0 0
+stand stand male 6247
+0 0 medium 0
+
+#2470
+boatseller~
+the boatseller~
+The Boatseller stands here.
+~
+The Boatseller sells... boats.
+~
+human~
+BA CH 1000 0
+100 50 1d1+9410 1d1+2000 10d10+50 slash
+-48 -48 -48 -40
+FENUH 0 0 0
+stand stand male 6124
+0 0 medium 0
+
+#0
+
+#OBJECTS
+#2400
+mantra compassion mu~
+Mu~
+Mu, the Mantra of Compassion is here.~
+iron~
+key B A
+0 0 0 0 0
+11 1 2299 P
+
+#2401
+mantra humility lum~
+Lum~
+Lum, the Mantra of Humility is here.~
+iron~
+key B A
+0 0 0 0 0
+5 1 1028 P
+
+#2402
+mantra justice beh~
+Beh~
+Beh, the Mantra of Justice is here.~
+iron~
+key B A
+0 0 0 0 0
+15 1 3039 P
+
+#2403
+mantra spirituality ohm~
+Ohm~
+Ohm, the Mantra of Spirituality is here.~
+iron~
+key B A
+0 0 0 0 0
+35 1 7261 P
+
+#2404
+mantra honesty ahm~
+Ahm~
+ahm, the Mantra of Honesty is here.~
+iron~
+key B A
+0 0 0 0 0
+8 1 1639 P
+
+#2405
+mantra sacrifice cah~
+Cah~
+Cah, the Mantra of Sacrifice is here.~
+iron~
+key B A
+0 0 0 0 0
+28 1 5661 P
+
+#2406
+mantra valor ra~
+Ra~
+Ra, the Mantra of Valor is here.~
+iron~
+key B A
+0 0 0 0 0
+22 1 4600 P
+
+#2407
+mantra honor summ~
+Summ~
+Summ, the Mantra of Honor is here.~
+iron~
+key B A
+0 0 0 0 0
+33 1 6698 P
+
+#2408
+moonstone~
+Moonstone~
+A totally featureless Moonstone is here.~
+stone~
+key 0 A
+0 0 0 0 0
+4 1 833 P
+
+#2409
+moonstone~
+Moonstone~
+A totally featureless Moonstone is here.~
+stone~
+key 0 A
+0 0 0 0 0
+8 1 1654 P
+
+#2410
+moonstone~
+Moonstone~
+A totally featureless Moonstone is here.~
+stone~
+key 0 A
+0 0 0 0 0
+9 1 1817 P
+
+#2411
+moonstone~
+Moonstone~
+A totally featureless Moonstone is here.~
+stone~
+key 0 A
+0 0 0 0 0
+11 1 2210 P
+
+#2412
+moonstone~
+Moonstone~
+A totally featureless Moonstone is here.~
+stone~
+key 0 A
+0 0 0 0 0
+19 1 3836 P
+
+#2413
+moonstone~
+Moonstone~
+A totally featureless Moonstone is here.~
+stone~
+key 0 A
+0 0 0 0 0
+30 1 6064 P
+
+#2414
+moonstone~
+Moonstone~
+A totally featureless Moonstone is here.~
+stone~
+key 0 A
+0 0 0 0 0
+32 1 6529 P
+
+#2415
+moonstone~
+Moonstone~
+A totally featureless Moonstone is here.~
+stone~
+key 0 A
+0 0 0 0 0
+34 1 7055 P
+
+#2416
+hourglass~
+the Hourglass~
+You feel an aura of power emanating from the Hourglass.~
+glass~
+key A AO
+0 0 0 0 0
+40 1 8000 P
+A
+9     -50
+A
+4       2
+
+#2417
+crook~
+the shepherd's crook~
+The crook lies here.~
+wood~
+weapon 0 AN
+'exotic' 1 2 'pound' 0
+4 4 835 P
+
+#2418
+doll~
+the doll~
+An old rag doll is here.~
+cloth~
+trash H A
+0 0 0 0 0
+3 30 608 P
+E
+rag old doll~
+The rag doll seems to take on the weight of the child you killed.
+~
+
+#2419
+sword~
+Katrina's sword~
+Katrina's sword gleams prettily.~
+gold~
+weapon K AN
+'sword' 2 3 'slice' 0
+5 2 1047 P
+E
+sword~
+The sword is shined and cared for with much care.  It glows with
+the light of virtue.
+~
+
+#2420
+scroll~
+a wrinkled scroll~
+A scroll rescued from the spider's web.~
+paper~
+scroll 0 A
+10 43 43 43 0
+8 1 1634 P
+
+#2421
+dagger~
+a magic dagger~
+The magic dagger lies here, pulsating.~
+octarine~
+weapon B AN
+'dagger' 6 5 'pierce' 0
+30 4 6045 P
+A
+3       2
+A
+18      2
+
+#2422
+robe~
+a robe~
+The robes of a mage lies here.~
+cloth~
+armor 0 AK
+4 4 4 0 0
+6 5 1231 P
+E
+robe~
+These robes are comfortable and clean.
+~
+
+#2423
+horseshoes~
+horseshoes~
+Smithy's horseshoes are here.~
+iron~
+armor A AG
+8 8 8 0 0
+25 7 5232 P
+A
+19      3
+
+#2424
+instrument mandolin~
+a mandolin~
+The fine instrument lies here.~
+wood~
+weapon 0 AN
+'mace' 3 4 'blast' 0
+9 5 1874 P
+
+#2425
+cup~
+a cup~
+The beggar's cup is here.~
+wood~
+container 0 AC
+0 0 0 0 0
+8 1 1616 P
+
+#2426
+gold~
+some gold pieces~
+Gold pieces.~
+gold~
+money 0 A
+50 0 0 0 0
+0 5 0 P
+
+#2427
+bottle~
+the bottle~
+Iolo's bottle sits here.~
+glass~
+potion 0 A
+11 1 1 0 0
+11 1 2206 P
+
+#2428
+bow~
+Iolo's bow~
+Iolo's bow stands against a wall.~
+wood~
+weapon ABU AN
+'exotic' 2 3 'blast' 0
+11 4 2228 P
+E
+bow iolo~
+Crafted by the master himself, Iolo, the bow is finely made.  It
+wood gleams, and as you pluck the string the clearest note
+sounds.
+~
+A
+2       1
+
+#2429
+chicken~
+a chicken~
+A chicken is lying on the ground.~
+food~
+weapon K AN
+'exotic' 5 6 'pound' 0
+33 6 6807 P
+E
+chicken~
+As you look closer you see this isn't a real chicken, it's one of
+those gag rubber chickens. 
+~
+A
+8       3
+A
+19      3
+
+#2430
+infinity bow~
+the Infinity Bow~
+The Infinity Bow floats here.~
+wood~
+weapon ABKU AN
+'spear' 4 9 'blast' 0
+31 3 6397 P
+E
+infinity bow~
+The bow is immense, yet light.  You see no string, but as your
+hands touch the bow a string of pure energy appears and the bow
+vibrates with power.
+~
+A
+2       3
+A
+19      5
+
+#2431
+spear~
+a wooden spear~
+A simple wooden spear lies here.~
+wood~
+weapon 0 AN
+'spear' 4 4 'stab' 0
+11 4 2227 P
+
+#2432
+club~
+a stone club~
+A stone club is here.~
+stone~
+weapon 0 AN
+'mace' 4 4 'pound' 0
+13 10 2729 P
+
+#2433
+gavel~
+a gavel~
+The Judge's gavel lies here.~
+wood~
+weapon K AN
+'mace' 5 6 'pound' 0
+32 5 6662 P
+E
+judge gavel~
+The Gavel is made of ironwood, and seems to have some of the
+qualities of Justice in it.
+~
+A
+4       3
+A
+12     10
+
+#2434
+staff jannas~
+a staff~
+Janna's staff lies here.~
+wood~
+weapon AKU AN
+'spear' 4 4 'crush' 0
+15 7 3025 P
+E
+staff~
+Janna's staff is strangely shaped, in a double helix form.  As
+you look at the two snake-like pieces of wood, they seem to
+move.
+~
+A
+4       1
+
+#2435
+sword~
+a sword~
+Geoffrey's sword gleams in the sun.~
+silver~
+weapon AKU AN
+'sword' 6 4 'slash' 0
+22 7 4507 P
+E
+geoffreys sword~
+Geoffrey's sword is heavy but sharp.  When you touch the jeweled
+hilt, power floods into your arm.~
+A
+1       1
+
+#2436
+sword~
+a sword~
+A simple sword is here.~
+steel~
+weapon 0 AN
+'sword' 4 5 'slice' 0
+18 5 3601 P
+
+#2437
+sword bastard~
+a bastard sword~
+Simon's monstrous bastard sword lies here.~
+octarine~
+weapon AK AN
+'sword' 5 7 'slash' 0
+33 18 6764 P
+E
+sword bastard~
+This is the biggest and best sword you've ever seen.  It's
+balance is perfect and it is sharp and sure.  When you grab it,
+you suddenly feel incredibly strong, and incredibly courageous.
+~
+A
+1       4
+
+#2438
+hammer~
+a hammer~
+A tinker's hammer lies here.~
+iron~
+weapon 0 AN
+'mace' 6 4 'crush' 0
+25 12 5096 P
+
+#2439
+sword~
+a sword~
+Julia's hot, glowing sword lies here.~
+steel~
+weapon AK AN
+'sword' 5 5 'slice' 0
+28 8 5700 P
+E
+glowing sword hot~
+Julia was working on this sword before you attacked her.  Though
+it has been removed from the forge for a long time, it seems to
+continue to glow as if Julia's vengeful spirit has taken its
+place.
+~
+A
+19      3
+A
+18     -2
+
+#2440
+amulet~
+the Amulet of Love~
+The most beautiful amulet lies in a pile here.~
+glass~
+armor AKLU AC
+9 9 9 0 0
+34 1 6959 P
+A
+4       2
+A
+5       2
+
+#2441
+sword~
+a shiny sword~
+A sword lies on the ground.~
+silver~
+weapon 0 AN
+'sword' 6 5 'slice' 0
+30 10 6064 P
+A
+18      2
+
+#2442
+armour~
+shiny armour~
+A paladin's suit of armour lies here.~
+silver~
+armor 0 AD
+9 9 9 0 0
+30 15 6071 P
+A
+1       1
+A
+17     -5
+
+#2443
+rapier~
+a rapier~
+Dupre's rapier is here.~
+steel~
+weapon AKU AN
+'sword' 6 5 'pierce' 0
+33 13 6768 P
+A
+1       1
+A
+2       1
+
+#2444
+boomerang~
+a boomerang~
+A gargoyle's boomerang is here.~
+wood~
+weapon B AN
+'exotic' 5 6 'blast' 0
+35 6 7086 P
+E
+boomerang~
+Though this seems like your basic boomerang, it is much more.  It
+hums with an unearthly tone, waiting for its power to be
+unleashed.
+~
+
+#2445
+rusty sword~
+a rusty sword~
+A corroded, rusty sword is here.~
+iron~
+weapon HM AN
+'sword' 6 5 'slice' 0
+33 9 6881 P
+A
+18      4
+
+#2446
+rusty shield~
+a rusty shield~
+A spiked rusty shield lies here.~
+platinum~
+armor H AJ
+9 9 9 0 0
+33 5 6811 P
+A
+19      3
+A
+17     -3
+
+#2447
+cloak~
+a magic cloak~
+A magic cloak is here.~
+cloth~
+armor A AC
+10 10 10 0 0
+35 6 7061 P
+A
+12     10
+A
+13     10
+
+#2448
+aura power~
+an aura of power~
+A bright light of power shoots into the air.~
+octarine~
+armor A AD
+11 11 11 0 0
+40 1 8169 P
+A
+17     10
+A
+4       2
+
+#2449
+red helmet face~
+a big red face~
+The empty shell of the Guardian head lies here.~
+vellum~
+armor CEJLU AE
+12 12 12 0 0
+45 10 9052 P
+E
+face head helmet red~
+When you slew the evil Guardian, all that was left was his
+corporal form that he inhabited.  That of the big red head.
+~
+A
+3       1
+A
+4       2
+A
+5       2
+A
+12 20
+A
+13 20
+
+#2450
+spiked mace~
+a spiked mace~
+Waves of corruption come off this evilly enchanted spiked mace.~
+stone~
+weapon EJL AN
+'mace' 7 6 'pound' 0
+43 5 9016 P
+A
+19      5
+A
+18      5
+
+#2451
+black death armour~
+a completely black armour~
+This completely black armor reeks of death.~
+leather~
+armor CEJL AD
+11 11 11 0 0
+41 9 8472 P
+A
+17      2
+A
+14   -100
+A
+19      3
+
+#2452
+evil charm~
+an evil charm~
+You see a very oddly shaped charm...  it might be worth it to
+look at its shape.~
+stone~
+armor EJL AC
+10 10 10 0 0
+39 3 8105 P
+E
+shape~
+The charm looks to be a mummified part of a body.  It is about 3
+inches long, and... NO it could not be....
+~
+A
+12     28
+
+#2453
+evil gem~
+an evil gem~
+The evil gem pulsates.~
+glass~
+staff CEJL AO
+24 4 4 1 0
+37 1 7416 P
+A
+12     28
+
+#2454
+helmet~
+Sentri's helmet~
+Sentri's helmet is here.~
+steel~
+armor KU AE
+10 10 10 0 0
+35 30 7187 P
+A
+4       2
+A
+12     15
+
+#2455
+sleeves~
+Sentri's sleeves~
+Sentri's sleeves lies here.~
+steel~
+armor KU AI
+10 10 10 0 0
+35 40 7301 P
+A
+1       2
+A
+13     15
+
+#2456
+girth~
+Sentri's girth~
+Sentri's girth is here.~
+steel~
+armor KU AL
+10 10 10 0 0
+35 40 7108 P
+A
+13     15
+A
+24     -6
+
+#2457
+two-handed sword~
+Sentri's two-handed sword~
+Sentri's two-handed sword is here.~
+steel~
+weapon KU AN
+'exotic' 5 6 'slash' 0
+35 20 7173 P
+A
+18      3
+A
+19      3
+
+#2458
+gloves~
+Sentri's gloves~
+Sentri's gloves are here.~
+steel~
+armor KU AH
+10 10 10 0 0
+35 40 7042 P
+A
+18      3
+A
+13     15
+
+#2459
+boots~
+Sentri's boots~
+Sentri's boots are here.~
+steel~
+armor KU AG
+10 10 10 0 0
+35 40 7257 P
+A
+2       1
+A
+13     15
+
+#2460
+leggings~
+Sentri's leggings~
+Sentri left his leggings here.~
+steel~
+armor KU AF
+10 10 10 0 0
+35 40 7241 P
+A
+2       1
+A
+18      3
+
+#2461
+armour~
+Sentri's armour~
+Sentri left his armour here.~
+steel~
+armor KU AD
+10 10 10 0 0
+35 30 7233 P
+A
+18      3
+A
+13     20
+
+#2462
+fellowship medallion~
+a Fellowship medallion~
+A triangular shaped medallion is here.~
+stone~
+armor U AC
+10 10 10 0 0
+37 6 7565 P
+A
+12     10
+A
+4      -1
+
+#2463
+glass sword~
+The Glass Sword~
+The most amazingly well crafted sword lies here.~
+glass~
+weapon FGIU AN
+'exotic' 6 7 'slice' 0
+50 4 10412 P
+E
+glass sword~
+Invisible to the naked eye, this sword is the best crafted, as
+you look at it, its amazing shape and size brings tears to your
+eyes.  You know that this is the best weapon that you will ever
+see.
+~
+A
+18      5
+A
+19      5
+A
+1       1
+
+#2464
+crown~
+British's crown~
+A jewel encrusted crown is here.~
+gold~
+armor AU AE
+15 15 15 0 0
+60 10 12488 P
+E
+british crown~
+Legend has it that this most perfect of crowns has within one of
+its jewels, a perfect ray of sunlight.  He who wears it must
+truly be enlightened.
+~
+A
+12     50
+
+#2465
+sceptre~
+British's sceptre~
+A pure gold sceptre is topped with a perfect crystal orb of
+power.~
+gold~
+armor AU AO
+15 15 15 0 0
+60 1 12345 P
+E
+sceptre~
+The second of the crown jewels, this sceptre is amazingly light,
+and amazingly powerful.  It is pure gold, but topped with an orb
+of power.
+~
+E
+orb~
+The orb of power is transparent to the point of sightlessness. 
+It holds within a vast store of power.
+~
+A
+18      4
+A
+19      3
+
+#2466
+silver amulet~
+British's amulet~
+A silver amulet lies here.~
+silver~
+armor AU AC
+15 15 15 0 0
+60 1 12419 P
+E
+amulet~
+British's amulet is in the shape of the great earth serpent.
+~
+A
+13     50
+
+#2467
+fountain~
+a fountain~
+A fountain shaped in an Ankh pours water.~
+stone~
+fountain 0 0
+0 0 0 0 0
+1 1000 207 P
+
+#2468
+boat~
+a boat~
+A boat lies here.~
+wood~
+boat 0 A
+0 0 0 0 0
+1 20 202 P
+
+#0
+
+#RESETS
+M 0 2400 5 2408 1  1   the insects into Humility Lane
+  
+M 0 2401 1 2411 1  1   the bat into Attic
+  
+G   0   2408 100            Moonstone in inventory
+M 0 2402 10 2401 1  1   the shepherd into New Magincia Road
+  
+E   0   2417  80     16     the shepherd's crook wielded
+M 0 2402 10 2407 1  1   the shepherd into Barn
+  
+E   0   2417  80     16     the shepherd's crook wielded    
+M 0 2402 10 2413 1  1   the shepherd into Humility Lane
+  
+E   0   2417  80     16     the shepherd's crook wielded
+M 0 2403 5 2402 1  1   the girl into New Magincia Road
+  
+E   0   2418  70     17     the doll held
+M 0 2403 5 2408 1  1   the girl into Humility Lane
+  
+E   0   2418  70     17     the doll held
+M 0 2403 5 2412 1  1   the girl into House
+  
+E   0   2418  70     17     the doll held
+M 0 2404 10 2401 1  1   the sheep into New Magincia Road
+  
+M 0 2404 10 2404 1  1   the sheep into New Magincia Road
+  
+M 0 2404 10 2408 1  1   the sheep into Humility Lane
+  
+M 0 2404 10 2413 1  1   the sheep into Humility Lane
+  
+M 0 2405 1 2415 1  1   Katrina the Shepherd into Katrina's Office
+  
+E   0   2419  70     16     Katrina's sword wielded
+E   0   2401 100     17     Lum held
+M 0 2406 10 2424 1  1   the giant rat into Library
+  
+M 0 2407 1 2435 1  1   the giant spider into Web
+  
+G   0   2409 100            Moonstone in inventory
+G   0   2420  70           a wrinkled scroll in inventory
+M 0 2408 10 2430 1  1   the mage into Library
+  
+E   0   2422  70      5     a robe on body
+M 0 2409 1 2421 1  1   Nystul the Librarian into Library Office
+  
+E   0   2421  70     16     a magic dagger wielded
+M 0 2410 1 2418 1  1   Mariah the Mage into Library
+  
+E   0   2404 100     17     Ahm held
+M 0 2411 20 2452 1  1   the slime into Cellar
+  
+M 0 2412 1 2454 1  1   the snake into Cellar
+  
+G   0   2410 100           Moonstone in inventory
+M 0 2413 1 2406 1  1   Mr. Smithy into Stables
+  
+E   0   2423  70      8     horseshoes on feet
+M 0 2414 5 2444 1  1   the bard into The South Wall of the Tavern
+  
+E   0   2424  70     16     a mandolin wielded
+M 0 2415 3 2437 1  1   the beggar into The Center of the Tavern
+  
+E   0   2425 100     17     a cup held
+P 0 2426 3 2425 1  1   Load some gold pieces into a cup
+  
+M 0 2416 1 2448 1  1   Iolo the Bard into Cellar
+  
+G   0   2427 100            the bottle in inventory
+E   0   2428 100     16     Iolo's bow wielded
+E   0   2400 100     17     Mu held
+M 0 2417 1 2562 1  1   Chuckles the Jester into Lord British's Castle Entrance
+  
+E   0   2429  90    16     a chicken wielded
+M 0 2418 10 2439 1  1   the townsman into The North Wall of the Tavern
+  
+M 0 2419 1 2445 1  1   Gwenno the Bard into The Southeast Corner of the Tavern
+  
+E   0   2430  90     16     the Infinity Bow wielded
+M 0 2420 5 2480 1  1   the orc into Yew Forest
+  
+E   0   2431 100    16     a wooden spear wielded
+M 0 2421 20 2473 1  1   the troll into Yew Forest
+  
+E   0   2432 100     16     a stone club wielded
+M 0 2422 10 2481 1  1   the wisp into Yew Forest
+  
+M 0 2423 10 2478 1  1   the forest druid into Yew Forest
+  
+M 0 2424 10 2459 1  1   the city druid into Bonfire
+  
+M 0 2425 1 2464 1  1   The Judge into The Bench
+  
+E   0   2433  90     16     a gavel wielded
+M 0 2426 1 2470 1  1   Jaana the Druid into Yew Forest
+  
+E   0   2402 100     17     Beh held
+E   0   2434 100     16     a staff wielded
+M 0 2427 1 2467 1  1   the dirty prisoner into Prison Cell
+  
+G   0   2411 100            Moonstone in inventory
+M 0 2428 1 2468 1  1   the prisoner into Prison Cell
+  
+M 0 2429 5 2456 1  1   the citizen of yew into In Front of the Courthouse
+  
+M 0 2430 1 2439 1  1   the bartender into The North Wall of the Tavern
+  
+M 0 2431 1 2460 1  1   the pub owner into Pub
+  
+M 0 2432 10 2488 1  1   the ettin into The Dungeon
+  
+M 0 2433 10 2490 1  1   the gremlin into The Dungeon
+  
+M 0 2434 1 2492 1  1   the headless into The Dungeon
+  
+G   0   2412 100            Moonstone in inventory
+M 0 2435 10 2486 1  1   the fighter into The Dungeon
+  
+E   0   2436 100     16     a sword wielded
+M 0 2436 1 2487 1  1   Geoffrey the Fighter into The Dungeon
+  
+E   0   2406 100     17     Ra held
+E   0   2435  90     16     a sword wielded
+M 0 2437 1 2488 1  1   Lord Simon into The Dungeon
+  
+E   0   2437  90     16     a bastard sword wielded
+M 0 2438 2 2516 1  1   the mimic into The Beach
+  
+M 0 2438 2 2517 1  1   the mimic into The Beach
+  
+M 0 2439 2 2514 1  1   the gazer into The Beach
+  
+M 0 2439 2 2515 1  1   the gazer into The Beach
+  
+M 0 2465 5 2522 1  1   the shark into The Whirlpool
+  
+M 0 2466 5 2521 1  1   sea horse seahorse into The Whirlpool
+  
+M 0 2467 1 2523 1  1   the squid into The Whirlpool
+  
+G   0   2413 100            Moonstone in inventory
+M 0 2440 5 2508 1  1   a tinker into Sacrifice Street
+  
+E   0   2438  90     16     a hammer wielded
+M 0 2440 5 2511 1  1   a tinker into Residence
+  
+E   0   2438  90     16     a hammer wielded
+M 0 2440 5 2512 1  1   a tinker into Residence
+  
+E   0   2438  90     16     a hammer wielded
+M 0 2441 1 2510 1  1   Julia the Tinker into Forge
+  
+E   0   2405 100     17     Cah held
+E   0   2439  90     16     a sword wielded
+M 0 2442 1 2508 1  1   The Lady of Empath Abbey into Sacrifice Street
+  
+E   0   2440  90      3     the Amulet of Love on neck
+M 0 2468 1 2503 1  1   the armourer into The Armourer
+  
+M 0 2469 1 2505 1  1   the weaponseller into The Weaponsmith
+  
+M 0 2470 1 2506 1  1   the boatseller into The Boatseller
+  
+G   0   2468 100            a boat in inventory
+M 0 2443 10 2541 1  1   the sandtrap into The Desert
+  
+M 0 2444 1 2548 1  1   the dragon into The Dragon Cave
+  
+G   0   2414 100            Moonstone in inventory
+M 0 2445 6 2537 1  1   the paladin into A Small Tent
+  
+E   0   2441  63     17     a shiny sword held
+E   0   2442  63      5     shiny armour on body
+M 0 2445 6 2538 1  1   the paladin into Desert Entrance
+  
+E   0   2441  63     17     a shiny sword held
+E   0   2442  63      5     shiny armour on body
+M 0 2445 6 2539 1  1   the paladin into A Small Tent
+  
+E   0   2441  63     17     a shiny sword held
+E   0   2442  63      5     shiny armour on body
+M 0 2445 6 2529 1  1   the paladin into Between the Tents
+  
+E   0   2441  63     17     a shiny sword held
+E   0   2442  63      5     shiny armour on body
+M 0 2445 6 2532 1  1   the paladin into A Small Tent
+  
+E   0   2441  63     17     a shiny sword held
+E   0   2442  63      5     shiny armour on body
+M 0 2445 6 2531 1  1   the paladin into A Small Tent
+  
+E   0   2441  63     17     a shiny sword held
+E   0   2442  63      5     shiny armour on body
+M 0 2446 1 2536 1  1   Dupre the Paladin into Dupre's Tent
+  
+E   0   2407 100     17     Summ held
+E   0   2443  90     16     a rapier wielded
+M 0 2448 1 2534 1  1   Draxthanum the Gargoyle into The Grand Tent
+  
+E   0   2444  90     16     a boomerang wielded
+M 0 2447 3 2550 1  1   the reaper into The Place of Ultimate Evil
+  
+M 0 2447 3 2552 1  1   the reaper into The Place of Ultimate Evil
+  
+M 0 2447 3 2555 1  1   the reaper into The Place of Ultimate Evil
+  
+M 0 2449 5 2560 1  1   the spirit into The Graveyard
+  
+M 0 2450 5 2553 1  1   the ghost into The Place of Ultimate Evil
+  
+M 0 2451 3 2555 1  1   the skeleton into The Place of Ultimate Evil
+  
+E   0   2445  63     16     a rusty sword wielded
+E   0   2446  63     11     a rusty shield as shield
+M 0 2452 1 2551 1  1   the daemon into The Place of Ultimate Evil
+  
+G   0   2415 100            Moonstone in inventory
+M 0 2453 4 2560 1  1   the mourner into The Graveyard
+  
+M 0 2454 1 2561 1  1   Shamino the Ranger into The Graveyard
+  
+E   0   2447  90     12     a magic cloak about body
+E   0   2403 100     17     Ohm held
+M 0 2455 1 2549 1  1   the Timelord into The Shrine of Spirituality
+  
+E   0   2416 100     17     the Hourglass held
+E   0   2448  90      5     an aura of power on body
+M 0 2456 1 2583 1  1   The Guardian into In the Warp
+  
+E   0   2449  90      6     a big red face on head
+M 0 2457 1 2582 1  1   Blackthorn into In the Warp
+  
+E   0   2450  90     16     a spiked mace wielded
+M 0 2458 1 2580 1  1   Exodus into In the Warp
+  
+E   0   2451  90      5     a completely black armour on body  
+M 0 2459 1 2579 1  1   Minax into In the Warp
+  
+E   0   2452  90      3     an evil charm on neck
+M 0 2460 1 2578 1  1   Mondain into In the Warp
+  
+E   0   2453  90     17     an evil gem held
+M 0 2461 1 2565 1  1   Sentri into Hallways
+  
+E   0   2454  29      6     Sentri's helmet on head
+E   0   2455  29     10     Sentri's sleeves on arms
+E   0   2456  29     13     Sentri's girth around waist
+E   0   2457  29     16     Sentri's two-handed sword wielded
+E   0   2458  29      9     Sentri's gloves on hands
+E   0   2459  29      8     Sentri's boots on feet
+E   0   2460  29      7     Sentri's leggings on legs
+E   0   2461  29      5     Sentri's armour on body
+M 0 2462 1 2568 1  1   Batlin into Batlin's Room
+  
+G   0   2400 100            Mu in inventory
+G   0   2401 100            Lum in inventory
+G   0   2402 100            Beh in inventory
+G   0   2403 100            Ohm in inventory
+G   0   2404 100            Ahm in inventory
+G   0   2405 100            Cah in inventory
+G   0   2406 100            Ra in inventory
+G   0   2407 100            Summ in inventory
+E   0   2462  90      3     a Fellowship medallion on neck
+M 0 2463 1 2567 1  1   The Avatar into The Throne Room
+  
+E   0   2463  90     16     The Glass Sword wielded
+M 0 2464 1 2567 1  1   Lord British into The Throne Room
+  
+E   0   2464  40      6     British's crown on head
+E   0   2465  40     17     British's sceptre held
+E   0   2466  40      3     British's amulet on neck
+O   0   2467    1   2563  load a fountain into Castle Fountain
+O   0   2467    1   2504  load a fountain into Minoc's Fountain
+D   0   2407    2      1  Barn: Door south closed
+D   0   2408    0      1  Humility Lane: Door north closed
+D   0   2403    4      2  The New Magincia Moongate: Door up locked
+D   0   2404    1      1  New Magincia Road: Door east closed
+D   0   2414    3      1  Entrance to the Office: Door west closed
+D   0   2405    3      1  New Magincia Road: Door west closed
+D   0   2410    1      1  Condemned House: Door east closed
+D   0   2413    0      1  Humility Lane: Door north closed
+D   0   2412    2      1  House: Door south closed
+D   0   2412    4      1  House: Door up closed
+D   0   2411    5      1  Attic: Door down closed
+D   0   2432    2      1  Library: Door south closed
+D   0   2428    0      1  The Library Moongate: Door north closed
+D   0   2428    4      2  The Library Moongate: Door up locked
+D   0   2443    5      1  The Southwest Corner of the Tavern: Door down closed
+D   0   2446    4      1  Cellar: Door up closed
+D   0   2450    4      2  The Britain Moongate: Door up locked
+D   0   2456    2      0  In Front of the Courthouse: Door south open
+D   0   2463    0      0  The Audience Room: Door north open
+D   0   2464    1      1  The Bench: Door east closed
+D   0   2465    3      1  Prison: Door west closed
+D   0   2464    3      1  The Bench: Door west closed
+D   0   2466    1      1  Prison: Door east closed
+D   0   2484    4      2  The Yew Moongate: Door up locked
+D   0   2501    4      2  The Dungeon Moongate: Door up locked
+D   0   2504    1      0  Minoc's Fountain: Door east open
+D   0   2505    3      0  The Weaponsmith: Door west open
+D   0   2504    3      0  Minoc's Fountain: Door west open
+D   0   2503    1      0  The Armourer: Door east open
+D   0   2507    2      1  Sacrifice Street: Door south closed
+D   0   2511    0      1  Residence: Door north closed
+D   0   2507    3      1  Sacrifice Street: Door west closed
+D   0   2506    1      1  The Boatseller: Door east closed
+D   0   2509    2      1  Sacrifice Street: Door south closed
+D   0   2512    0      1  Residence: Door north closed
+D   0   2509    1      1  Sacrifice Street: Door east closed
+D   0   2510    3      1  Forge: Door west closed
+D   0   2527    4      2  The Minoc Moongate: Door up locked
+D   0   2528    2      1  A Campfire: Door south closed
+D   0   2532    0      1  A Small Tent: Door north closed
+D   0   2530    1      1  In front of the Grand Tent: Door east closed
+D   0   2531    3      1  A Small Tent: Door west closed
+D   0   2530    2      1  In front of the Grand Tent: Door south closed
+D   0   2534    0      1  The Grand Tent: Door north closed
+D   0   2538    1      1  Desert Entrance: Door east closed
+D   0   2539    3      1  A Small Tent: Door west closed
+D   0   2538    3      1  Desert Entrance: Door west closed
+D   0   2537    1      1  A Small Tent: Door east closed
+D   0   2543    4      2  The Desert Moongate: Door up locked
+D   0   2544    4      2  The Desert Moongate: Door up locked
+D   0   2547    4      2  The Desert Moongate: Door up locked
+D   0   2549    4      2  The Shrine of Spirituality: Door up locked
+D   0   2566    0      1  Hallway: Door north closed
+D   0   2568    2      1  Batlin's Room: Door south closed
+D   0   2565    0      0  Hallways: Door north open
+D   0   2567    2      0  The Throne Room: Door south open
+D   0   2569    0      2  The Altar of Honesty: Door north locked
+D   0   2570    0      2  The Altar of Compassion: Door north locked
+D   0   2571    0      2  The Altar of Valor: Door north locked
+D   0   2572    0      2  The Altar of Justice: Door north locked
+D   0   2573    0      2  The Altar of Sacrifice: Door north locked
+D   0   2573    0      2  The Altar of Sacrifice: Door north locked
+D   0   2574    0      2  The Altar of Honour: Door north locked
+D   0   2575    0      2  The Altar of Spirituality: Door north locked
+D   0   2576    0      2  The Altar of Humility: Door north locked
+D   0   2577    4      2  The Enlightenment: Door up locked
+D   0   2578    4      2  In the Warp: Door up locked
+D   0   2579    4      2  In the Warp: Door up locked
+D   0   2580    4      2  In the Warp: Door up locked
+D   0   2581    4      2  The Enlightenment: Door up locked
+D   0   2582    4      2  In the Warp: Door up locked
+R   0   2469    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2470    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2471    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2472    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2473    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2474    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2475    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2476    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2477    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2478    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2479    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2480    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2481    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2482    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2483    4         Yew Forest: Door(s) 0-4 randomized
+R   0   2518    4         The Whirlpool: Door(s) 0-4 randomized
+R   0   2519    4         The Whirlpool: Door(s) 0-4 randomized
+R   0   2520    4         The Whirlpool: Door(s) 0-4 randomized
+R   0   2521    4         The Whirlpool: Door(s) 0-4 randomized
+R   0   2522    4         The Whirlpool: Door(s) 0-4 randomized
+R   0   2523    4         The Whirlpool: Door(s) 0-4 randomized
+R   0   2524    4         The Whirlpool: Door(s) 0-4 randomized
+R   0   2525    4         The Whirlpool: Door(s) 0-4 randomized
+R   0   2526    4         The Whirlpool: Door(s) 0-4 randomized
+S
+#SHOPS
+
+
+
+
+
+
+ 2468	9  0  0  0  0	110   90	0 23 ; armorer
+ 2469   5  0  0  0  0   110   90	0 23 ; weaponsmith
+ 2470  22  0  0  0  0   110   90	0 23 ; boatseller
+0
+
+#$

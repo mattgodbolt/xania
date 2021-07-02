@@ -1,0 +1,635 @@
+#AREA   
+UruksFortress.are~
+Uruk's Fortress~
+{70 91} Uruk    Uruk's Fortress~
+10120 10160
+
+#MOBILES
+#10120
+guard dog~
+a guard dog~
+A rabid guard dog growls at you.
+~
+A big athletic looking dog crouches as though to spring.
+~
+unique~
+FCG HNcc -600 0
+83 42 1d1+6698 1d1+324 10d8+42 bite
+-55 -58 -52 -65
+DFHCPQRL 0 J F
+stand stand male 0
+0 0 large 0
+#10121
+fire~
+The Fire~
+A bright fire is burning with a fierce heat.
+~
+You shield your eyes from the bright fire. Watch out or you may get burnt.
+~
+unique~
+FB H 0 0
+88 30 1d1+2500 1d1+2300 10d8+15 flbite
+-16 -16 -16 -27
+0 DHO 0 0
+stand stand neutral 0
+0 0 medium 0
+
+#10122
+dawn warrior~
+a dawn warrior~
+A dawn warrior stands here guarding the gateway to Uruk's Fortress.
+He looks bored, killing you gives him something to do.
+~
+A huge warrior with bulging musles grins, you wonder where such a brute
+came from. Uruk summoned him from the dawn of time to protect his Fortress.
+~
+orc~
+FB H 0 0
+101 51 1d1+8000 1d1+500 15d6+51 beating
+-55 -55 -55 -55
+DF 0 C 0
+stand stand male 50
+0 0 huge 0
+
+#10123
+armourer orc~
+Uruk's armourer~
+A strong looking Orc is here cleaning weapons.
+~
+The armourer is a trusted friend of Uruk. In fact they grew up together.
+Both were members of the Uruk-hai tribe.
+~
+orc~
+FB HDF -1000 0
+94 47 1d1+7486 1d1+164 15d6+47 punch
+-62 -62 -62 -62
+BDEFHIKN 0 C H
+stand stand male 2000
+0 0 large 0
+
+#10124
+snake charmer~
+a snake charmer~
+A snake charmer is on the rack.
+He says "Don't mind me, I am just stretching"
+~
+The snake charmer tried to sweet talk Uruk into letting him stay in his
+fortress. Uruk is a bit of a snake, but did not fall victim to the charmers sweet talk.
+The snake charmer smiles painfully.
+~
+human~
+BCHS H -178 0
+83 41 1d1+6580 1d1+453 10d8+41 sting
+-45 -46 -44 -45
+F AB N 0
+stand stand male 5000
+0 0 medium 0
+
+#10125
+arlua girlfriend~
+Uruk's girlfriend~
+Arlua is sat on the bed reading a book.
+~
+A beautiful dark-elf mage giggles.
+Arlua and Uruk were once great enemies, unable to overcome Uruk by force
+Arlua changed her tactics. Uruk thinks he won the fight because she backed
+down, it is strange how she now always gets her own way!
+~
+elf~
+BLRF DFVTH -1000 0
+108 54 1d1+8970 1d1+768 15d9+54 claw
+-55 -52 -58 -56
+HBFKE 0 J O
+sit sit female 1264
+0 0 small 0
+
+#10126
+spider demon~
+The SpideR DemoN~
+The SpideR DemoN is spinning it's web.
+~
+A great spider summoned from the DemoN DimensionS spins a great web.
+The SpideR DemoN looks like a pretty easy kill, if you had the slay command.
+~
+unique~
+BFC HVQ -950 0
+104 52 1d1+7834 1d1+473 15d6+52 digestion
+-65 -65 -65 -65
+FJOIHE Q D N
+stand stand neutral 0
+0 0 huge 0
+
+#10127
+nazgul~
+a nazgul~
+A large fierce nazgul hovers over head.
+~
+~
+unique~
+d VT -200 0
+79 30 1d1+6200 1d1+640 8d10+20 acbite
+-50 -50 -50 -35
+CDELN LQ E N
+stand stand male 0
+0 0 giant 0
+
+#10128
+dragon~
+a dragon~
+A massive dragon lies here waiting for its master.
+~
+~
+unique~
+d VTH -200 0
+92 72 1d1+15478 1d1+1287 15d10+72 flbite
+-65 -65 -65 -65
+CDEFHIMNO HO CD M
+stand stand female 0
+0 0 giant 0
+
+#10129
+sly servant boy~
+a sly servant boy~
+A small boy says 'hello how can I help'.
+~
+A small boy straightens his back as you look at him.
+He greets you quickly with a big smile, he looks friendly, but
+then you notice the strange glint in his eye.
+~
+unique~
+B DF -360 0
+47 12 1d1+3000 1d1+400 4d10+15 claw
+-30 -30 -30 -30
+K B CD O
+stand stand male 0
+0 0 medium 0
+#0
+#OBJECTS
+
+#10125
+wand spell book cure lesser~
+Uruk's lesser spell book~
+You see an ancient volume gathering dust.~
+vellum~
+wand ABCIHEU AO
+90 10 10 14 0
+91 5 0 D
+E
+wand spell book cure lesser~
+This ancient text is simply oozing with power, evil power. It's deep
+red cover has been bordered with a tough metal rim, and the pages
+have gilted edges. There is an inscription written in an arcane
+orcish tongue, on the front.
+~
+#10126
+chest~
+a strong looking chest~
+You see a large, strong chest inscribed with magic runes here.~
+steel~
+container BD 0
+200 15 10134 0 0
+90 2000 10000 P
+E
+chest~
+This mighty chest is made of a burnished steel which hardly reflects
+the dim light in the chimney. The runes carved upon the surface glow
+with a curious amber and the whole chest radiates a heart chilling glow.
+You come to the conclusion that this chest contains some item of terrible
+power.
+~
+
+#10127
+collar studded~
+a studded leather collar~
+A dirty smelly ring of studded leather lies discarded on the floor~
+leather~
+armor CEIJ AC
+14 15 14 11 0
+60 5 200 W
+A
+18 2
+A
+19 3
+#10128
+shorts~
+leather shorts~
+A offensive smell permeates from a large pair of shorts.~
+leather~
+armor 0 AF
+25 24 26 18 0
+90 9 8 A
+A
+18 3
+A
+19 4
+#10129
+axe~
+an axe~
+A rusty axe has been left here.~
+adamantite~
+weapon EJMHI ANP
+'axe' 15 6 'chop' FC
+91 38 9000 A
+#10130
+vipers coiled~
+(Deadly) Coiled Vipers~
+A Viper hisses and spits at you.~
+glass~
+armor AB AI
+18 16 17 12 0
+78 12 23000 P
+A
+12 40
+A
+3 1
+A
+5 1
+#10131
+magical mist~
+a swirling magical mist~
+A magical mist swirls round the room.~
+silver~
+armor 0 AF
+18 25 24 28 0
+90 0 0 P
+A
+12 70
+#10132
+web silvery~
+a silvery spiders web~
+There is a spiders web floating in the air.~
+silver~
+armor AJ AK
+24 28 18 25 0
+87 8 17000 A
+A
+18 5
+A
+1 2
+#10133
+long black whip skin~
+a long black whip~
+The skin of a long dead snake is coiled on the floor.~
+leather~
+weapon CFJ AN
+'whip' 15 6 'sting' A
+90 12 33000 A
+A
+2 2
+A
+1 1
+A
+12 12
+#10134
+old key~
+an old key~
+An old looking key lies hidden in the dust.
+A strange magical force makes it very heavy.~
+wood~
+key BCF AN
+0 0 0 0 0
+90 100 5 W
+#10135
+master spell book~
+Uruk's spell book~
+A great book wriggles as the massive power inside it struggles to be released.~
+vellum~
+wand ABCIHFEU AO
+120 5 5 505 0
+91 5 0 D
+E
+master spell book~
+This is THE spell book of the master of evil magic, Uruk. You open the first
+page and are pleasantly surprised to see text in a language which you are
+able to read! It says, "The Book of Evil Fire, by Uruk leader of the Uruk-hai.
+This book is the pinnacle of my life's works. Do not use it, for its power
+shall destroy you!" You shudder at the thought.
+~
+
+#0
+
+#ROOMS
+#10135
+The Perilous Causeway
+    *** CAUTION - ENTERING HIGH LEVEL AREA ***
+          <PROCEED AT YOUR OWN PERIL>
+~
+You pick your way across a narrow causeway which heads north towards
+a large set of doors built into the mountainside, and back south towards
+some grassy plains. The rocky scree is insecure and you lose your foothold
+several times. The mountain looms over you and the sense of impending doom
+is overwhelming.
+~
+A 5
+D0
+The Entrance to a secure fortress
+~
+door~
+1 -1 10136
+D2
+The slopes of the mountain
+~
+~
+0 -1 901
+S
+#10136
+The Entrance Hall~
+You stand in a large room with steal pegs along one wall, the floor is of
+cold grey stone. There is a large ornate door way to your north. A strange smell floats in from the west. The south wind blows in from the open arch.
+~
+0 0
+D0
+You open the large wooden door and look though the ornate doorway.
+The Main hall is on the other side.
+~
+door~
+1 -1 10137
+D2
+Perilous Causeway
+~
+door~
+1 -1 10135
+D3
+Into the stables.
+~
+door~
+1 -1 10146
+S
+#10137
+The Main Hall~
+A homely looking place with a blazing fire burning to the north.
+A large portrait with a golden frame is on the wall next to a large
+tapestry. There are some dark wooden doors to the east.
+~
+DN 0
+D0
+You are brave if you enter the fire!
+~
+fire place~
+0 -1 10138
+D1
+A dark stairway.
+~
+door~
+1 -1 10140
+D2
+The entrance hall.
+~
+door~
+1 -1 10136
+E
+portrait~
+A large shimmering picture of Uruk hangs on the wall.
+The portait says "Do not touch my spell book, or else"
+~
+S
+#10138
+The Fire Place~
+You are in a fire place made from roughly hewn stone, blackened
+with ash and soot. There is a funny smell, a bit like roast pork.
+Smoke from the bright fire gushes up the chimney.
+The chimney looks quite thin.
+~
+DN 10
+D4
+A thin chimney.
+~
+chimney~
+0 -1 10139
+D2
+The Main Hall, are you leaving, the fire must be to hot.
+~
+fire_place~
+0 -1 10137
+S
+#10139
+Stuck in the chimney~
+You are stuck in the dirty smelly chimney, it's your own fault the chimney
+did look quite thin. You can hardly see because of all the smoke and fumes.
+The smoke clears for a second, you catch a glimpse of a shelf set back into
+the wall, on the shelf is a strong box.
+~
+ACDL 0
+S
+#10140
+A Dark Stairway~
+You are in a dark stairway. The stone stairs spiral upwards.
+There are faint signs of movement from the north.
+The only way out of this dreary place is up the stairs.
+~
+A 0
+D4
+It is to dark to tell what horrors await you above.
+~
+stair~
+0 -1 10141
+D3
+As the stairs are steep you may exit west into the main hall.
+~
+door~
+1 -1 10137
+S
+#10141
+The Landing~
+You are standing on the landing. There is a thick Dwarf skin
+rug beneath your feet, the beard is still attached.
+You think to yourself 'I hope Uruk is not at home'.
+The flameing tourchs on the walls give off little light.
+There are two door one to the north and one to the south.
+A light draught makes you look up.
+~
+DN 0
+D0
+A strong oak door
+~
+door~
+1 -1 10142
+D2
+A small worn door
+~
+door~
+1 -1 10143
+D4
+A ladder slides down and nearly knocks you on the head, you can climb
+the ladder into the dark eerie loft.
+~
+trap door~
+1 -1 10145
+D5
+The landing, be careful you may trip and fall down the ladder.
+~
+stair~
+0 -1 10140
+E
+up~
+There is a trap door in the ceiling.~
+S
+#10142
+The Bed Chamber~
+Your are in a well furnished room. There are arrow slits faceing out
+to the east and a cactus growing in the corner. In the centre of the room
+is a large four poster bed. It has been recently made. There is a large
+mat which looks a little out of place.
+~
+DN 0
+D5
+Under the mat is a trap door.
+~
+trap~
+1 -1 10144
+D2
+The landing.
+~
+blue door~
+1 -1 10141
+E
+slit~
+You look out of an arrow slit onto a valley of rolling hills.~
+S
+#10144
+The Armoury~
+You have entered a large room stacked from floor to ceiling with weapons.
+Uruk likes to have a large range at his disposal.
+To the south lies a well concealed door.
+~
+D 0
+D4
+You could bravely climb back up though the trap door.
+~
+trap~
+1 -1 10142
+D2
+The well concealed door.
+~
+door~
+1 -1 10140
+S
+#10143
+Torture chamber~
+You are in a modern looking torture chamber.
+There is a rack and some thumb screws.
+The walls are nicely tiled with human flesh.
+On the floor is blood and half dead rats.
+~
+DN 0
+D0
+If you do not feel like being tortured leave south.
+~
+door~
+1 -1 10141
+E
+thumb~
+Some painful looking thumb screws.~
+E
+rack~
+A rack lies here, it is well worn from Uruk keeping his staff obedient.~
+S
+#10145
+The Loft~
+You have climbed into a dark loft.
+Be careful ANYTHING! could live up here.
+~
+DA 0
+D5
+You could climb back down the ladder, a wise move.
+~
+trap~
+1 -1 10141
+S
+#10146
+Uruks stables~
+You are in a large, dark room. The smell of rotting straw is so over
+powering that you feel sick. Set into the walls are some strong iron
+rings, it looks as though at some time a great beast was housed here.
+~
+DM 0
+D1
+Back to the entrance hall.
+~
+door~
+1 -1 10136
+S
+#10147
+Store Room~
+the store room
+~
+D 0
+S
+#0
+#RESETS
+
+** Shut all doors **
+D 0 10135 0 1
+D 0 10136 2 1
+D 0 10141 0 1
+D 0 10144 4 1
+D 0 10142 2 1
+D 0 10142 5 1
+D 0 10141 2 1
+D 0 10143 0 1
+D 0 10141 4 1
+D 0 10145 5 1
+D 0 10144 2 1
+D 0 10136 0 1
+D 0 10136 3 1
+D 0 10146 1 1
+** Load Chest **
+
+O 0 10126 1 10139
+P 1 10135 3 10126 1  1  put in scrolls  
+P 1 10125 3 10126 1  1   
+
+** Load Mobs and Equipment **
+
+M 0 10120 2 10141 1  1  guard dog 1  
+
+E 1 10127  70 3    equip collar
+M 0 10120 2 10141 1  1        guard dog 2  
+
+E 1 10127  70 3          equip collar
+M 0 10122 1 10136 1  1  load dawn warrior  
+
+E 1 10128  70 7     equip leather shorts
+M 0 10121 1 10138 1  1  load fire  
+
+M 0 10123 1 10144 1  1  load armourer  
+
+E 1 10129  70 16    equip axe
+G 1 10134 100 17    give key to chest
+M 0 10124 1 10143 1  1  load snake charmer  
+
+E 1 10130  70 10    equip viper
+M 0 10125 1 10142 1  1  load arlua  
+
+E 1 10131  45 7     equip swirling mist
+E 1 10133  45 16    equip whip
+M 0 10126 1 10145 1  1  load spider  
+
+E 1 10132  70 17    eqiup web
+M 0 10129 1 10146 1  1        load servant stables  
+M 0 10127 1 10147 1  1        load nazgul store room  
+M 0 10128 1 10147 1  1        load dragon store room  
+S
+#SHOPS
+10129 0 0 0 0 0 100 100 0 23    servant boy in stable
+0
+#SPECIALS
+
+M 10125 spec_cast_bastard
+M 10121 spec_breath_fire
+M 10126 spec_poison
+
+
+S
+#$
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,476 @@
+#AREA 
+LairOfTheShadowCouncil.are~
+Lair of the Shadow Council~
+[Clans] Lair of the Shadow Council|w~
+30200 30220
+
+#MOBILES
+#30200
+master shadow~
+A Shadow Master~
+(|bBlack Aura|w) A dark motionless figure stares at you.
+~
+This is a very high ranking member of the Shadow Council.
+He has carried out many orders for Klaus, the Shadow King, and has earned
+his reputation.
+~
+human~
+GT NTQV -1000 0
+50 25 2d50+2100 1d1+325 5d10+25 wrath
+-32 -32 -32 -27
+FHK AM 0 NS
+stand stand male 2000
+0 0 medium 0
+
+#30201
+warrior shadow~
+a Shadow Warrior~
+(|bBlack Aura|w) A moving shadow is here.
+~
+This is a Shadow Warrior. He is surrounded by a black aura, which enshrouds
+him in darkness. He has already passed through the soldier training courses
+of the clan, and is now a full-fledged Shadow Warrior.
+~
+human~
+GTc NQV -1000 0
+40 20 3d10+1500 1d1+320 5d7+20 wrath
+-28 -28 -28 -24
+FGHKC AM 0 NS
+stand stand male 1000
+0 0 medium 0
+
+#30202
+avatar mephistopheles~
+an Avatar of Mephistopheles~
+An Avatar of Mephistopheles stands here, willing you help you practice.
+~
+Dressed in dark robes, this is an elven graduate to the Shadow Council. He
+wears no aura, and doesn't blend with the shadows like lower ranking members.
+Being so powerful, he feels no need to conceal himself.
+~
+elf~
+GRTKc NVc -1000 0
+70 35 3d100+4200 1d1+700 3d45+20 wrath
+-42 -42 -42 -35
+CDFH ABM 0 NS
+stand stand male 1
+0 0 medium 0
+
+#30203
+soldier shadow~
+a Shadow Soldier~
+A dwarven Shadow Soldier is here.
+~
+This dwarf is the lowest ranking member of the Shadow Council.
+He has passed through the initiation, and is just beginning to learn the
+ropes of the clan. The armor he wears illustrates his rank in the Council.
+~
+dwarf~
+GTc NQV -1000 0
+20 10 2d50+480 1d1+200 4d5+10 pierce
+-22 -22 -22 -19
+CFGK A M NS
+stand stand male 1000
+0 0 medium 0
+
+#30204
+merchant dwarven tjis~
+Tjis~
+The dwarven merchant to the Shadow Council is here.
+~
+Tjis is a short, tough looking dwarf. He is very important to Mephistopheles
+as a blacksmith. He wears a grizzled beard and an eye patch. He will supply
+you with Council equipment for a price.
+~
+dwarf~
+BGTVc HVc -1000 0
+91 30 1d1+8000 1d1+600 8d10+30 wrath
+-45 -45 -45 -35
+CDIKN ABLQ 0 0
+stand stand male 7000
+0 0 small 0
+
+#30205
+shadow daemon~
+The Lord Mephistopheles~
+(|bBlack Aura|w) an enormous shadow looks down upon you.
+~
+This is Mephistopheles, the Shadow Daemon. He stands at fifteen feet in 
+height, a troll shouldered giant cloaked in a dark robe, and well learned 
+in the ways of both magic and weapon combat. He is here to protect Klaus 
+and the Shadow Council.
+~
+giant~
+BGNQRT DFHNVc -1000 0
+140 70 1d1+29999 1d1+1310 10d14+70 wrath
+-55 -55 -55 -47
+BCDEFHIKNQ ABMP D NS
+stand stand male 7000
+0 0 huge 0
+
+#0
+
+
+#OBJECTS
+
+#30205
+donation pit hole~
+the Shadow Council donation pit~
+a gaping, black pit has been gouged from the solid earth~
+stone~
+container O 0
+10000 0 0 1000 0
+0 0 0  P
+E
+pit~
+This donation pit contains the evil goods of the members of the Shadow 
+Council. Its steep sides fall sharply so be careful that you don't fall in.
+~
+
+#30206
+helm shadow~
+(|bBlack Aura|w) the Helm of a Shadow Soldier~
+(|bBlack Aura|w) A dark helm is here.~
+adamantite~
+armor GCE AE
+6 6 6 3 0
+20 10 1000 P
+E
+helm dark~
+This is a dark and magickal helmet, forged by Mephistopheles' dwarven minions.
+It has an evil, magickal aura surrounding it.
+~
+A
+18 1
+A
+19 2
+
+
+#30207
+cloak shadow~
+(|bBlack Aura|w) the Cloak of a Shadow Warrior~
+(|bBlack Aura|w) A dark cloak floats ominously above ground here.~
+cloth~
+armor CEG AK
+13 13 13 7 0
+40 10 1500 P
+E 
+cloak dark~
+A magickal cloak covered in darkness
+~
+A
+18 2
+A
+19 2
+A
+14 -30
+
+#30208
+gauntlets shadow~
+(|bBlack Aura|w) the Gauntlets of a Shadow Master~
+(|bBlack Aura|w) Two dark gauntlets rest here.~
+adamantite~
+armor BCEG AH
+16 16 16 8 0
+50 10 3000 P
+E
+gauntlets dark~
+Two pitch black gauntlets engraved with magickal runes.
+~
+A
+18 4
+
+#30209
+shield avatar~
+(|bBlack Aura|w) the Shield of an Avatar of Mephistopheles~
+(|bBlack Aura|w)The Shield of an Avatar of Mephistopheles is here.~
+steel~
+armor AEG AJ
+23 23 23 15 0
+70 130 9000 P
+E
+shield mephistopheles~
+This is a strong and heavy, yet surprisingly thin shield. It wears the
+engravement of the Mephistopheles and the Shadow Council.
+~
+A
+17 -5
+A
+19 3
+
+#30210
+pendant shadow~
+(|bBlack Aura|w) the Pendant of the Shadow King~
+(|bBlack Aura|w) A dark pendant on a chain is here.~
+mithril~
+armor CEG AC
+30 30 30 15 0
+90 15 14000 P
+E
+pendant dark~
+This is a gem on a chain, encrypted with runes and shrouded in darkness.
+~
+A
+18 4
+A
+19 4
+A
+13 -20
+
+#30211
+shroud shadow~
+(|bBlack Aura|w) the Shroud of the Shadow King~
+(|bBlack Aura|w) The Shroud of the Shadow King is here.~
+cloth~
+armor CEG AD
+30 30 30 30 0
+90 15 14000 P
+E
+shroud shadow~
+This black robe is the personal property of the Shadow King.
+~
+A
+17 -5
+A
+24 -6
+
+#30212
+pill joint~
+a JoinT~
+a small rolled joint waits to be smoked~
+pill~
+pill EG AO
+50 frenzy~ "cure critical" 0 0
+91 1 900 P
+E
+pill joint~
+This is a small rolled piece of paper containing the the shredded leaves 
+of a rather interesting piece of vegetation.
+~
+
+#0
+
+#ROOMS
+#30213
+|bStairway to the Lair of the Shadow Council 
+[Shadow Council of Mephistopheles Clan]|w~
+You make your way down a long dark stairway, quickly approaching the secret
+Temple of the Shadow Council. You see a dim light below you. The tunnel
+walls around you are a foul, earthy black colour and an evil stench
+emanates from the oily liquid which clings to them. Up above, the
+shielded stairway opens out into dark enclosed space, somewhere in
+the city of Midgaard.
+~
+AD 0
+D4 
+You see faint shafts of light.
+~
+~
+0 -1 3058
+D5
+a walk down the dark stairway
+~
+~
+0 -1 30214
+S
+
+#30214
+Entrance to the Lair of the Shadow Council~
+You have arrived at the secret underground lair of the Shadow Council.
+The lighting here is dim but adequate, consisting of only a few glowing
+runes carved into the walls. Under the watchful eye of Mephistopheles, you
+feel safe in this evil sanctuary. From here, a long hallway stretches east,
+into other rooms of the Secret Lair. A tall statue stands in the corner of
+the room.
+~
+D 0
+D1
+a walk through a dim hallway
+~
+~
+0 -1 30215
+D4
+a walk back up the dark stairway
+~
+~
+0 -1 30213
+E
+statue~
+This is a statue of Klaus, the powerful wolf and founder of the Shadow Council.
+His viciously sharp teeth and claws make him look very frightening. In the
+sheath at his side is the blade Raunen Song, bloodsword.
+~
+S
+
+#30215
+The Dark Hallway~
+This is a pretty ordinary looking room in the Council's Lair.
+Looking around, you can see a plaque mailed to the wall, and another statue
+in the corner. You can hear the scuffling of feet in the darkness, and you
+also notice a shadowy door to the north. You can continue east, or go back 
+west.
+~
+AD 0
+D0
+through the dark door
+~
+north door~
+1 -1 30216
+D3
+back to the entrance to the Lair of the Shadow Council
+~
+~
+0 -1 30214
+D1
+a walk deeper into the lair
+~
+~
+0 -1 30217
+E
+plaque~
+________________________________
+| Lair of the Shadow Council   |
+| original design and build by |
+| Klaus Aug. 8th 1996          |                 
+--------------------------------
+~
+E 
+statue~
+This is a statue of Kaeh, the powerful half-elven Knight, and a founding
+member of the Shadow Council of Mephistopheles. She wears powerful armor,
+and a sharp sword, and is not to be messed with.
+~
+S
+
+#30216
+The Barracks of the Shadow Council~
+When you step into this room, you immediately notice the cozy beds and the
+bright fire roaring in the fireplace. You feel very warm and comfortable
+just standing here. This is where members of the Shadow Council rest, to
+regain strength, and meditate, to regain magickal power. Light from the fire
+flares off of a statue in the corner.
+~
+D 0
+D2
+a walk back through the door
+~
+south door~
+1 -1 30215
+E
+statue~
+You aren't sure you recognize the person this statue portrays. It is a tall
+griffon, carrying a short sword and wearing a dark robe. This is in fact,
+Pepe, the original leader of the Shadow Council.
+~
+S
+
+#30217
+End of the Dark Hallway~
+Moving deeper into the Lair of the Council, you have come upon a brightly
+lit room. Sitting behind a desk is a dwarf, willing to sell you Council
+supplies. A door here leads north, and an open exit is south. You can make
+out a little writing on the east wall.
+~
+D 0
+D2
+passing north, through the door
+~
+north door~
+1 -1 30218
+D0
+leaving south
+~
+~
+0 -1 30219
+D3
+back to the dark hallway
+~
+~
+0 -1 30215
+E
+writing~
+This dwarf is the merchant for the Shadow Council of Mephistopheles.
+he will sell you equipment, but will also buy any weapons, armor, wands,
+scrolls or potion you might have. You are encouraged to sell any extra items
+here, so he can sell them to other members. If he cannot buy what you wish
+to sell, please go south and drop it in the donation pit.
+ 
+                                       -Klaus the Shadow King
+~
+S
+
+#30218
+The Council Donation room~
+This is a well lit room used for depositing extra items you may have, for
+the benefit of other Council members. If the merchant north won't purchase
+an item you have, please put it in the pit here.
+~
+D 0
+D0 
+a walk back to the end of the dark hallway
+~
+~
+0 -1 30217
+S 
+
+#30219
+The Council Practice room~
+This is the room where members of the Shadow Council can practice the dark
+magicks and skills to defeat their enemies. A tall elf is here assisting in
+the teaching. In the air you can detect the powerful odour of a mysterious
+drug, which you assume the Council members consume in order to enhance 
+their performance.
+~
+D 0
+D2
+a walk south through the door
+~
+south door~
+1 -1 30217
+S
+
+#0
+
+#RESETS
+
+O 0 30205 1 30218
+*
+M 0 30203 2 30215 1  1    
+*
+E 1 30206  90 6
+M 0 30201 2 30215 1  1   
+*
+E 1 30207  63 3
+E 1 30207  63 4
+M 0 30200 1 30217 1  1   
+*
+E 1 30208  90 9
+M 0 30202 1 30219 1  1   
+*
+E 1 30209 100 11
+M 0 30205 1 30214 1  1   
+*
+E 1 30210  33 3
+E 1 30210  33 4
+E 1 30211  33 12
+M 0 30204 1 30217 1  1   
+
+G 1 30206 100
+G 1 30207 100
+G 1 30208 100
+G 1 30209 100
+G 1 30210 100
+G 1 30211 100
+O 0 30212 3 30219
+S 
+
+
+#SHOPS
+30204   2 3 5 9 10 200 60 0 23
+0
+
+#SPECIALS
+M 30205 spec_breath_acid 
+M 30202 spec_cast_mage
+S
+#$

@@ -1,0 +1,3142 @@
+#AREA   
+OldThalos.are~
+Old Thalos~
+{ 1 30} Kahn    Old Thalos~
+5300 5390
+
+#ROOMS
+#5300
+The Grand Gate of Thalos~
+You stand in the archway of a gigantic stone archway. The two
+steel gates look indestructible, yet they are elaborate in engravings.  You can
+hear laughter and good cheer from the other side of these gates.  Obviously, 
+the city is teeming with activity!  There is a small gold plaque on mounted
+on the archway.
+~
+0 1
+D1
+You are saddened at the thought of leaving this beautiful place.
+~
+~
+0 -1 5356
+D3
+You see happiness everywhere. Houses cover your vision. You see strange cute
+beasts walking hand in hand with people.
+~
+~
+0 0 5301
+E
+plaque sign~
+This zone has been heavily modified by Kahn and Hatchet of MERC Industries
+and integrated by Kahn of MERC Industries.
+copyright 1993
+~
+S
+#5301
+Main Street~
+This is a magnificent street, immaculate all over. The streets are filled
+with people rushing from building to building and a balmy zephyr blows by
+you.  The whole city is teeming with activity.  A cobbled alley leads north
+and south.  Children run pass you as they play tag.
+~
+0 1
+D0
+It's a cobbled alley.
+~
+~
+0 0 5339
+D1
+The entrance to the city lies this way.
+~
+~
+0 0 5300
+D2
+It's a cobbled alley.
+~
+~
+0 0 5355
+D3
+Main Street lies this way.
+~
+~
+0 0 5302
+S
+#5302
+Main Street~
+This is a magnificent street, immaculate all over.  The streets are filled
+with people rushing from building to building and a balmy zephyr blows by you.
+The whole city is teeming with activity.  On one side is a beautiful house 
+while on the other is the entrance to a large mansion.  Sounds of people hard
+at work echo within the mansion.  Near the center of town you see a large 
+domed building, magnificent and immense.
+~
+0 1
+D0
+A store lies this way.
+~
+~
+0 0 5336
+D1
+Main Street continues back east.
+~
+~
+0 0 5301
+D2
+The main building in the city, the City Hall is there.
+~
+~
+0 0 5332
+D3
+A lush, green garden path lies this way.
+~
+~
+0 0 5303
+S
+#5303
+A Garden Path~
+A circular path surrounds a magnificent domed temple in the center
+of the city. Flowers grow on the sides of the path and the lush trees are 
+laden with fruit.  Vines and ivy snake up the sides of the temple, making this
+temple truly a blend of nature and man's work of art.
+~
+0 1
+D0
+The garden path continues around the building.
+~
+~
+0 0 5304
+D1
+This is the main street leading to the city's entrance.
+~
+~
+0 0 5302
+D2
+The garden path continues around the building.
+~
+~
+0 0 5306
+D3
+You can hear music coming from within the temple.
+~
+~
+0 0 5350
+S
+#5304
+A Garden Path~
+A circular path surrounds a magnificent domed temple in the center
+of the city. Flowers grow on the sides of the path and the lush trees are
+laden with fruit.  Vines and ivy snake up the sides of the temple, making this
+temple truly a blend of nature and man's work of art.
+~
+0 1
+D0
+A side street leads off to the northern half of the city.
+~
+~
+0 0 5311
+D2
+The garden path continues around the building.
+~
+~
+0 0 5303
+D3
+The garden path continues around the building.
+~
+~
+0 0 5305
+S
+#5305
+A garden path~
+A circular path surrounds a magnificent domed temple in the center
+of the city. Flowers grow on the sides of the path and the lush trees are
+laden with fruit.  Vines and ivy snake up the sides of the temple, making this
+temple truly a blend of nature and man's work of art.
+~
+0 1
+D1
+The garden path continues around the building.
+~
+~
+0 0 5304
+D2
+You can hear music coming from within the temple.
+~
+~
+0 0 5350
+S
+#5306
+A Garden Path~
+A circular path surrounds a magnificent domed temple in the center
+of the city. Flowers grow on the sides of the path and the lush trees are
+laden with fruit.  Vines and ivy snake up the sides of the temple, making this
+temple truly a blend of nature and man's work of art.
+~
+0 1
+D0
+The garden path continues around the building.
+~
+~
+0 0 5303
+D2
+A small side street leads to the southern half of the city.
+~
+~
+0 0 5312
+S
+#5307
+The market place~
+You stand in the middle of a large square lined on each side with
+baskets, carts, and stands of all shapes and sizes.  The little shops are 
+filled with goods sold to the demanding public.
+~
+0 1
+D0
+A small table is here, laden with fine jewelery and gems sold by the jeweler.
+~
+~
+0 0 5325
+D2
+Fruits and vegetables are piled on boxes waiting to be sold and eaten.
+~
+~
+0 0 5320
+D3
+The market place continues.
+~
+~
+0 0 5308
+S
+#5308
+The market place~
+You stand in the middle of a large square lined on each side with
+baskets, carts, and stands of all shapes and sizes.  The little shops are
+filled with goods sold to the demanding public.
+~
+0 1
+D0
+Beautiful carpets and enormous bales of silk are being stared with awe by
+the citizens.
+~
+~
+0 0 5322
+D1
+The center of the market lies this way.
+~
+~
+0 0 5307
+D2
+>From the great smell, the meat and poultry stand must be south!
+~
+~
+0 0 5317
+S
+#5309
+A Side Street~
+This small side street leads east and west into back alleys while
+to the south you see a beautifully designed temple. Shrieks of little
+children playing games in the distance catch your attention.
+~
+0 1
+D1
+~
+~
+0 0 5343
+D2
+~
+~
+0 0 5310
+D3
+~
+~
+0 0 5328
+S
+#5310
+A Side Street~
+You are in the common section of the city. More buildings made of
+clay and stone be dazzles you. Most of these homes are designed so
+beautifully you just cant keep your eyes off them.  The street
+continues north and south and buildings line the street.
+~
+0 1
+D0
+~
+~
+0 0 5309
+D1
+A small doorway leads into a little humble dwelling.
+~
+~
+1 -1 5344
+D2
+~
+~
+0 0 5311
+D3
+A small clay dwelling sits here.
+~
+~
+0 0 5326
+S
+#5311
+A Side Street~
+This small side street leads away from the garden path to the south.
+Around you stand large numbers of commoners' houses.  Many citizens
+pass by you with a friendly hello.  You almost feel like home here.
+~
+0 1
+D0
+~
+~
+0 0 5310
+D1
+An unusually tall dwelling stands looming over you.
+~
+~
+0 0 5337
+D2
+A garden path circles around the temple.
+~
+~
+0 0 5304
+D3
+Here lies a small stone house with a thatched roof.
+~
+~
+0 0 5327
+S
+#5312
+A side street~
+This small side street leads south away from the temple into the
+business section of town. To the east is the famous City Hall of Thalos.  
+Well disciplined guards stand at attention, watching over the city hall, but
+you don't see any source of threats in THIS city.  North is a garden path,
+west is a smithy, and this side street continues south.
+~
+0 1
+D0
+A small garden path encircles the temple.
+~
+~
+0 0 5306
+D1
+You see what is most definitely city hall.  This building is the most
+elaborate of all the building here in Thalos.
+~
+~
+1 -1 5332
+D2
+~
+~
+0 0 5313
+D3
+Inside the building you see long pieces of metal, an oven, and some
+anvils.  Obviously a smithy.
+~
+~
+0 0 5321
+S
+#5313
+A side street~
+This small side street is lined with great beautifully designed
+buildings. To the north is the magnificent temple while to the
+south lies the entrance to a small friendly tavern. The street continues
+north and south.
+~
+0 1
+D0
+~
+~
+0 0 5312
+D1
+>From the looks of it, this is a very impressive two story abode.
+The entire first floor is covered with a huge marble bar with merry men
+telling tall tales and drinking their fill.
+~
+~
+0 0 5330
+D2
+~
+~
+0 0 5314
+D3
+This seems to be the only guild house in the entire city. You feel uneasy
+about this building.  For some reason it seems not to belong.
+~
+~
+0 0 5319
+S
+#5314
+A side street~
+You are at the end of a long street leading to the center of the city.
+A long alley runs east and west.
+~
+0 1
+D0
+~
+~
+0 0 5313
+D1
+~
+~
+0 0 5351
+D2
+~
+~
+0 0 5329
+D3
+~
+~
+0 0 5318
+S
+#5315
+Under another grand watchtower~
+You stand at the base of a tall ivy covered watchtower built to
+protect the city from invaders.  You get the feeling of safety here in
+Thalos.
+~
+0 1
+D0
+~
+~
+0 0 5316
+D1
+~
+~
+0 0 5318
+D4
+~
+~
+0 0 5347
+S
+#5316
+A back alley~
+This alley leads to the rear of meat stand. The aroma of fresh and
+char-broiled meat catches your sense of smell.  You wipe the drool
+off your chin the instant you know it is there.
+~
+0 1
+D0
+You see the back-side of the market place meat stand.
+~
+~
+0 0 5317
+D2
+A tall watchtower stands a silent vigil over the city.
+~
+~
+0 0 5315
+S
+#5317
+The meat stand~
+A large stand has been set up here with metal hooks and wooden racks
+in the background.  Hanging on the hooks are huge slabs of meat
+and other game.  This stand is packed with produce, and a sudden burst
+of laughter catches you by surprise as little children play around
+your ankles.
+~
+0 1
+D0
+The market place lies this way.
+~
+~
+0 0 5308
+D1
+This is a cart full of fresh vegetables and fruits.  You are almost
+tempted to take some.
+~
+~
+0 0 5320
+D2
+~
+~
+0 0 5316
+S
+#5318
+A back alley~
+A narrow alley leads east to a wider street and west to one of
+the city watchtowers.
+~
+0 1
+D1
+A small side street welcomes you.
+~
+~
+0 0 5314
+D3
+A tall watchtower stands a silent vigil over the city.
+~
+~
+0 0 5315
+S
+#5319
+The guild house~
+You are standing in this city's ONLY guild house.  Tables and chairs
+are set about for the occupants' comfort.  Weapons are stacked neatly on the
+weapons rack.  Each weapon looks polished, sharpened, and oiled.
+Draped along the back wall is the proud banner of Thalos in all its glory.
+~
+D 1
+D1
+A small side street runs past the building.
+~
+~
+0 0 5313
+S
+#5320
+The produce stand~
+A large cart sits here carrying fresh fruit and vegetables.
+Hungry children swarm all about the tasty treats the merchants are
+giving out for free.
+~
+0 1
+D0
+The market place is jammed packed with people scurrying about.
+~
+~
+0 0 5307
+D3
+A strong aromatic smell emanates from the meat stand next to you.
+~
+~
+0 0 5317
+S
+#5321
+The smithy~
+In here you find tools and anvils used to make various weapons
+and items. The walls are fully stocked with pieces of armor and weaponry.
+~
+D 1
+D1
+A small side street runs past the building.
+~
+~
+0 0 5312
+S
+#5322
+The tapestry stand~
+Beautiful tapestries and rugs hang all over the walls.  Fancy
+robes and various articles of clothing hang about for sale. You stare with
+awe at how much work must have been put into these cloths.
+~
+0 1
+D0
+~
+~
+0 0 5323
+D1
+A fine jewelry stand lies majestically next to you.
+~
+~
+0 0 5325
+D2
+The market place is swarming with people scurrying about.
+~
+~
+0 0 5308
+S
+#5323
+A back alley~
+A narrow alley leads north to one of the city watchtowers while
+to the south there lies a market stand full of expensive clothes and rugs.
+~
+0 1
+D0
+A tall watchtower stands a silent vigil over the city.
+~
+~
+0 0 5324
+D2
+~
+~
+0 0 5322
+S
+#5324
+Under the watchtower~
+You stand under one of the city watchtowers built to protect
+the city from invaders.  You know that you are safe from any danger.
+~
+0 1
+D1
+~
+~
+0 0 5328
+D2
+~
+~
+0 0 5323
+D4
+Above you stands a tall watchtower.
+~
+~
+0 0 5346
+S
+#5325
+The jewelery stand~
+A table stands covered with fine jewelery and gems.  The jeweler
+stands proudly over his collection as he polishes and cleans each one.
+~
+0 1
+D2
+The market place is packed with people scurrying about doing their
+business.
+~
+~
+0 0 5307
+D3
+Next to you is a stand full of fine clothes and expensive rugs.
+~
+~
+0 0 5322
+S
+#5326
+A simple clay dwelling~
+This is a very plain house with a few chairs and a bed.
+A warmed and lit fireplace suggests that the dwelling is currently
+occupied.  You should leave before the owner finds you here.
+~
+D 1
+D1
+Outside is a small side street.
+~
+~
+0 0 5310
+S
+#5327
+A stone dwelling~
+This small house is the dwelling of a humble citizen of Thalos.
+A few rafters stand with thatched straw blowing with the wind gusts
+blowing through the city.
+~
+0 1
+D1
+A small side street runs past the house.
+~
+~
+0 0 5311
+S
+#5328
+A back alley~
+A narrow alley leads east to one of the city watchtowers and west to
+a small side street.
+~
+0 1
+D1
+~
+~
+0 0 5309
+D3
+~
+~
+0 0 5324
+S
+#5329
+A busy shop~
+From the outside this place looks like an ordinary building,
+but inside these cramped quarters you discover a shop filled with
+armor, weapons, and various other goods. A small sign posted on the wall
+flutters in the wind.
+~
+D 1
+D0
+A small side street runs past the shop.
+~
+~
+0 0 5314
+S
+#5330
+The Tavern of the Sun~
+A glorious place, this tavern is second home for many citizens of
+Thalos.  Tables and chairs are set in rows, bottles and glasses filled, and
+a small performance stage teaming with dazzling entertainment. Musical
+instruments and personal belongings lie in piles belonging to each member
+of this room.
+~
+0 1
+D3
+A small side street runs past the tavern.
+~
+~
+0 0 5313
+S
+#5331
+South wing of the city hall~
+You stand in a large room attached to this end of the hallway which
+leads back north to the reception area. Pedestals and columns stand
+faithfully.  Valuable items hang from the walls each to be admired
+by onlookers.  Chairs lie around, and a large curved desk. To the east
+is a vine-covered archway leading out into a private courtyard.
+~
+D 1
+D0
+The long hallway leads back to the main reception area of the city hall.
+~
+~
+0 0 5332
+D1
+~
+~
+0 0 5334
+S
+#5332
+The city hall~
+This is the main reception area of Thalos' city hall. The walls have
+been painted in pure white and thick lush carpet line the floor wall to wall.
+A side door on the west wall allows you to go out to one of the city's side 
+streets.  Hallways lead south and east.
+~
+D 1
+D0
+Main street runs past the city hall.
+~
+~
+0 0 5302
+D1
+A hallway leads to the east wing of the city hall.
+~
+~
+0 0 5333
+D2
+A hallway leads to the south wing of the city hall.
+~
+~
+0 0 5331
+D3
+~
+~
+1 -1 5312
+S
+#5333
+East wing of the city hall~
+Here lies fancy office, possibly the mayor's. A few green plants
+and pieces of furniture make this place breathtaking.  There is a large
+glass cabinet along the wall. A long hallway leads west back to the
+reception area and an ivy-covered archway leads south into a private
+courtyard.
+~
+D 1
+D2
+~
+~
+0 0 5334
+D3
+~
+~
+0 0 5332
+S
+#5334
+The private gardens and courtyard of Thalos~
+You stare in awe as the beauty of this place takes you by
+surprise.  Exotic flowers and trees are planted in neat rows and lawn
+benches line the walk ways.  A large marble fountain in the center of the
+courtyard stands. Above stands one of the four watchtowers. Archways
+north and west lead back into the city hall.
+~
+0 1
+D0
+~
+~
+0 0 5333
+D3
+~
+~
+0 0 5331
+S
+#5335
+A small guard house~
+This is the barracks for Thalos' cityguards.  Guards populate this
+shack ready, willing, and able to ward off any trouble.  This small
+shack stands guarding both to the entrance to the city and to the city hall.
+~
+0 1
+D1
+The alley runs by this building.
+~
+~
+0 0 5355
+S
+#5336
+An impressive house~
+This house houses the Defender of Thalos.  He represents all that
+is good and right in this city.  As the most skilled fighting machine,
+he is the commander of the guard.
+~
+0 1
+D2
+Main street runs past this dwelling.
+~
+~
+0 0 5302
+S
+#5337
+A Public Library~
+This seems to be the tallest structure in the city.  Rows and rows of books
+line the 20 foot tall bookcases, and a quiet serenity can be felt by all here.
+~
+D 1
+D1
+Another room in the library is here.
+~
+~
+0 0 5338
+D3
+A small side street winds past this building.
+~
+~
+0 0 5311
+D4
+You see a second floor to the library.
+~
+~
+0 0 5345
+S
+#5338
+The Library Addition~
+There are more shelves and tables here.  Vials of strange potions line a
+section of the wall, and books and other items of power line another.  The exit
+is to the west.
+~
+D 1
+D3
+The main room of the library is there.
+~
+~
+0 0 5337
+S
+#5339
+A back alley~
+A narrow back alley goes south to main street and north towards
+a watchtower.  People quietly pass you by.
+~
+0 1
+D0
+You see a mighty watchtower north.
+~
+~
+0 0 5340
+D2
+Main street runs past here.
+~
+~
+0 0 5301
+S
+#5340
+A back alley~
+A narrow back alley leads north to one of the city watchtowers
+and south towards main street.  The shade cast by the watchtower is very
+refreshing.
+~
+0 1
+D0
+A tall watchtower stands a silent vigil over the city.
+~
+~
+0 0 5341
+D2
+The cobbled alley continues on.
+~
+~
+0 0 5339
+S
+#5341
+Under a watchtower~
+You stand under a tall watchtower. Narrow back alleys lead west and
+south and a sturdy ladder leads up into the tower.
+~
+0 1
+D2
+~
+~
+0 0 5340
+D3
+~
+~
+0 0 5343
+D4
+You see up the powerful watchtower.
+~
+~
+0 0 5348
+S
+#5342
+A bath house~
+This is the bath house for the commoners of the city. Hot steamy water 
+wells up from a hole in the floor. Obviously there is a hot spring located 
+under the city (making the decision to put a city here seem much more 
+reasonable). To the west is another room.
+~
+D 1
+D0
+A cobbled alley is there.
+~
+~
+0 0 5343
+D3
+Another resting room is here.
+~
+~
+0 0 5344
+S
+#5343
+A back alley~
+A narrow back alley leads west to a small side street and east to one
+of the city watchtowers. Great amounts of steam issue forth from the
+building to the south.  It looks very inviting.
+~
+0 1
+D1
+A watchtower stands a silent vigil over the city.
+~
+~
+0 0 5341
+D2
+You hear laughter and splashing.
+~
+~
+0 0 5342
+D3
+A side street greets you.
+~
+~
+0 0 5309
+S
+#5344
+A Resting Room~
+You are in a resting room.  Soft mats line the floor, and you see many
+people just relaxing on them.  The comfort of this place is so inviting, you 
+want to join them.  Great amounts of steam issue forth from the hole in the 
+east wall.
+~
+D 1
+D1
+~
+~
+0 0 5342
+D3
+A small side street runs past the building.
+~
+~
+0 0 5310
+S
+#5345
+On the second floor of the library~
+You see more books here.  Through windows, you have a glorious view of
+a nearby bay.  Birds fly by your window.
+~
+0 1
+D5
+~
+~
+0 0 5337
+S
+#5346
+The north-west watchtower~
+You stand atop one of the city watchtowers. The view is magnificent
+from here and you can see all the way to the western mountains.  You are 
+confident nothing can touch this tower.
+~
+0 1
+D5
+The city lies below.
+~
+~
+0 0 5324
+S
+#5347
+The south-west watchtower~
+You stand atop one of the city watchtowers. The view is magnificent
+from here and you can see all the way to the western mountains. To the
+south bay stretches to the horizon.  You are confident nothing can touch this
+tower.
+~
+0 1
+D5
+The city lies below.
+~
+~
+0 0 5315
+S
+#5348
+The north-east watchtower~
+You stand atop one of the city watchtowers. The view is magnificent
+from here.  Green fields stretch to the horizon.  You are confident nothing
+can touch this tower.
+~
+0 1
+D5
+The city lies below.
+~
+~
+0 0 5341
+S
+#5350
+The Temple of Thalos~
+You stand within one of the most holy places in the realm. This stunning 
+domed temple houses the city's worshipers en masse. Long benches line the 
+aisles and the altar glistens with the gold and platinum inlay.The walls and 
+roof are all made of ceramic, making this place reflect the sun well.  
+    The greenery around the temple itself makes this place a great blend of
+nature and man's works of art.
+~
+DH 1
+D0
+A side street leads to the northern half of the city.
+~
+~
+0 0 5305
+D1
+Main street leads out to the main gate of the city.
+~
+~
+0 0 5303
+S
+#5351
+A back alley~
+A narrow alley leads east to a wider street and west to one of
+the city watchtowers.  Little kids play tag around you.
+~
+0 1
+D1
+A tall watchtower stands a silent vigil over the city.
+~
+~
+0 0 5352
+D3
+A small side street greets you.
+~
+~
+0 0 5314
+S
+#5352
+Under a watchtower~
+You stand at the base of a tall watchtower built to protect the city
+from invaders.  From the looks of things, its doing a great job.
+~
+0 1
+D0
+~
+~
+0 0 5353
+D3
+~
+~
+0 0 5351
+D4
+~
+~
+0 0 5354
+S
+#5353
+A back alley~
+A narrow alley leads south to one of the city watchtowers.
+~
+0 1
+D0
+The alley continues to the north.
+~
+~
+0 0 5355
+D2
+A tall watchtower stands a silent vigil over the city.
+~
+~
+0 0 5352
+S
+#5354
+The south-east watchtower~
+You stand atop one of the city watchtowers. The view is magnificent
+from here and you can see all the way to the western mountains. To the
+south the you see the bay.  You're confident nothing can touch this tower.
+~
+0 1
+D5
+The city lies below.
+~
+~
+0 0 5352
+S
+#5355
+A back alley~
+A narrow alley leads north to the main street, and south toward a tall
+watchtower.  A building is to the west.
+~
+0 1
+D0
+You see main street.
+~
+~
+0 0 5301
+D2
+~
+~
+0 0 5353
+D3
+You see a little building.
+~
+~
+0 0 5335
+S
+#5356
+A trail at the end of the dwarf forest~
+The trail ends here, with tall, leafy, green trees all around you.
+To the west, you can see a huge beautiful and radiant city.  Something
+about it gives you a relaxed feeling.  To the east is your way back home.
+~
+0 2
+D1
+You see the trail.
+~
+~
+0 0 5357
+D3
+You see Thalos!
+~
+~
+0 0 5300
+S
+#5357
+A trail at the end of the dwarf forest~
+A side trail here leads from the dwarf forest.  It is definitely milder
+here.  The trail continues to the east from here.
+~
+0 2
+D1
+You see the bend ahead of you.
+~
+~
+0 0 5358
+D3
+You see the trail continue on.
+~
+~
+0 0 5356
+S
+#5358
+The dwarf forest~
+You see tall, healthy green trees here.  The trail bends north to
+west from here.
+~
+0 3
+D0
+You see the trail bend north.
+~
+~
+0 0 5359
+D3
+You see the trail bend west.
+~
+~
+0 0 5357
+S
+#5359
+The dwarf forest~
+You see more big green trees here.  It looks almost as if this place was
+blessed by a god to be green and mild.  The trail leads north and south.
+~
+0 3
+D0
+You see the trail continue north.
+~
+~
+0 0 5360
+D2
+You see the trail continue south.
+~
+~
+0 0 5358
+S
+#5360
+The dwarf forest~
+You see more big green trees here.  It looks almost as if this place was
+blessed by a god to be green and mild.  The trail leads north and south.
+~
+0 3
+D0
+You see the trail continue north.
+~
+~
+0 0 5361
+D2
+You see the trail continue south.
+~
+~
+0 0 5359
+S
+#5361
+The dwarf forest~
+You see many big green trees here.  You see many leaves on these huge
+trees.  Grass layer the ground with 2 inches of padding.
+~
+0 3
+D0
+You see the trail continue north.
+~
+~
+0 0 5362
+D2
+You see the trail continue south.
+~
+~
+0 0 5360
+S
+#5362
+The Cross Roads~
+The roads cross here.  Midgaard is to the west.  To the east, you see the
+stately oaks and poplars of the holy grove.  A wide path leads south through
+the dwarven forest.  To the north is a very desolate trail.
+~
+0 1
+D0
+~
+~
+0 0 5363
+D1
+~
+~
+0 0 5369
+D2
+~
+~
+0 0 5361
+D3
+~
+~
+0 0 5364
+S
+#5363
+The Lane~
+You are strolling along a pleasant, shady lane. The road is lined on both
+sides by tall, stately trees which lend the scene with a sense of quiet
+serenity. You can follow the road north or south.
+~
+0 1
+D0
+~
+~
+0 0 5365
+D2
+~
+~
+0 0 5362
+S
+#5364
+City Entrance~
+You stand on the outskirts of a construction site - Midgaard; the capital
+of this land. The road leads east into the peace and quiet - and dangers -
+of the forest; and to the west it becomes the main street of the town;
+surrounded by building foundations of unfinished shops, houses, and temple. 
+~
+C 1
+D1
+~
+~
+0 0 5362
+D3
+~
+~
+0 0 5385
+S
+#5365
+The Plains~
+You are standing on the plains. This is a vast desolate place where the
+wind can howl undisturbed since nothing but you bars its way. However you
+are not the first to wander here. Before you somebody has left footprints.
+The footprints make a path that looks rather bewildered and is not the kind
+of path to lead to anywhere significant or important but it seems to have
+made up its mind to enter the hills far away north.  A little distance
+further, you lose the trail and decide not to get lost.
+~
+0 1
+D2
+~
+~
+0 0 5363
+S
+#5366
+The holy grove~
+You are standing amidst the ancient oaks and poplars in the holy grove. You
+can feel a strange sensation of contentedness and relief seeping through You,
+as if great burdens have been lifted from Your shoulders. From here, friendly-
+looking paths lead east and south.
+~
+0 3
+D1
+The path wind its way through the tall trees, disappearing out of sight.
+~
+~
+0 -1 5367
+D2
+The path wind its way through the tall trees, disappearing out of sight.
+~
+~
+0 -1 5369
+S
+#5367
+The holy grove~
+You are standing amidst the ancient oaks and poplars in the holy grove. You
+feel unusually happy here, as if great burdens have been lifted from Your
+shoulders. From here, pleasant-looking paths lead east, west and south.
+~
+0 3
+D1
+The path wind its way through the tall trees, towards a clearing faintly seen.
+~
+~
+0 -1 5368
+D2
+The path wind its way through the tall trees, towards an open area barely
+visible in the distance.
+~
+~
+0 -1 5370
+D3
+The path wind its way through the tall trees, disappearing out of sight.
+~
+~
+0 -1 5366
+S
+#5368
+A clearing in the woods~
+You are standing in a clearing in the light woods. Somehow, this place
+seems powerfully DIFFERENT from the rest of the forest, as if something is
+severely strained in the fabric of reality here.
+~
+C 3
+D0
+A small, narrow path winds north, and is quickly lost in the bushes. It
+looks quite a wilderness there!
+~
+~
+0 -1 5375
+D2
+There is a path winding its way south through the tall poplars, disappearing
+out of sight some 100 yds. away.
+~
+~
+0 -1 5371
+D3
+There is a friendly-looking path leading west through the tall trees.
+~
+~
+0 -1 5367
+S
+#5369
+The holy grove~
+You are standing amidst the ancient oaks and poplars in the holy grove. You
+feel calm and relaxed here, as if great burdens have been lifted from Your
+shoulders. From here, pleasant-looking paths lead east, north and south. To
+the west, through the trees, You can see the road to Midgaard's construction
+site.
+~
+C 3
+D0
+The path wind its way through the tall trees, disappearing out of sight.
+~
+~
+0 -1 5366
+D1
+The path wind its way through the tall trees, towards a clearing faintly seen.
+~
+~
+0 -1 5370
+D2
+The path wind its way through the tall trees, into the grove.
+~
+~
+0 -1 5372
+D3
+Through the trees, you can see the Midgaard road. Far to the west, You can
+barely glimpse the construction of the city itself.
+~
+~
+0 -1 5362
+S
+#5370
+The sacred glade~
+You are standing in the middle of the sacred glades, where the citizens of
+Thalos come to celebrate the spring, where farmers give thanks for bountiful
+harvest in the fall, and where lovers stroll in summer. You feel seasons of
+remembered happiness and joy taking Your sorrows and worries away from You,
+leaving You calm and invigorate, ready for the world. Paths lead into the
+holy grove to the east, north and west, while to the south a wide, sunny field
+slopes down to a sparkling lake.
+~
+0 3
+D0
+The path wind its way north, disappearing through the tall trees.
+~
+~
+0 -1 5367
+D1
+The path wind its way through the tall trees, disappearing out of sight.
+~
+~
+0 -1 5371
+D2
+To the south, a wide, sunny field stretch out, sloping down towards a brightly
+glittering lake.
+~
+~
+0 -1 5373
+D3
+The path wind its way west between stately poplars and oaks.
+~
+~
+0 -1 5369
+S
+#5371
+The holy grove~
+You are standing amidst the ancient oaks and poplars in the holy grove. You
+can feel a strange sensation of joy and calm seeping through You, as if great
+burdens have been lifted from Your shoulders. To the south, You glimpse an open
+area through the trees, while paths lead away north and west.
+~
+0 3
+D0
+The path wind its way through the tall trees, disappearing out of sight.
+~
+~
+0 -1 5368
+D2
+To the south, just beyond the trees, you can see a wide green lawn, and past
+the lawn, a softly shimmering, rainbow-colored dome covering the foundation
+for a structure.
+~
+~
+0 -1 5374
+D3
+The path wind its way through the tall trees, disappearing out of sight.
+~
+~
+0 -1 5370
+E
+foundation~
+The foundation looks like it is for a sprawling, two-story affair with three
+wings.  On the ground is some building material, marble would do, if marble
+changed color slowly, continuously, through the entire spectrum.  There are
+also large panes of glass stacked over near one of the corners of the
+foundation.
+~
+S
+#5372
+The holy grove~
+You are standing amidst the tall, majestic trees in the southern end of the
+holy grove. Paths lead north and east. To the east, You can see a wide, open
+field, sloping gently down towards a bright, glittering lake. Somehow, here
+you feel an inexplicable happiness, as if the world's troubles no longer
+really matter to you.
+~
+0 3
+D0
+The path leading north is soon lost out of sight amongst the ancient oaks and
+poplars.
+~
+~
+0 -1 5369
+D1
+To the east, the path leads out into a wide, sunny summer's field, sloping
+south towards a beautiful lake. Past the field You can see the construction
+of a large foundation for a structure shimmering gently in all the rainbow's
+colours.
+~
+~
+0 -1 5373
+E
+foundation construction~
+The foundation looks like it is for a sprawling, two-story affair with three
+wings.  On the ground is some building material, marble would do, if marble
+changed color slowly, continuously, through the entire spectrum.  There are
+also large panes of glass stacked over near one of the corners of the
+foundation.
+~
+S
+#5373
+The sunny field~
+You are standing in the middle of a wide, summery, sunlit field. There is a
+fragrance of spring in the air, a sound of summer and a feeling of eternal
+Saturday afternoon. To the south is a clear, sparkling lake, and to the north
+and west is the holy grove. In the wood's edge, to the east, is construction,
+shimmering softly through the colors of the rainbow. You feel as if You
+could spend the rest of your life here, lying on your back and looking at the
+patterns of the clouds as they gently drift across the sky.
+~
+D 2
+D0
+There is a path leading north towards the sacred glade.
+~
+~
+0 -1 5370
+D3
+There is a small path leading into the woods to the west.
+~
+~
+0 -1 5372
+E
+dome construction structure east e~
+The foundation looks like it is for a sprawling, two-story affair with three
+wings.  On the ground is some building material, marble would do, if marble
+changed color slowly, continuously, through the entire spectrum.  There are
+also large panes of glass stacked over near one of the corners of the
+foundation.
+~
+S
+#5374
+The croquet lawn~
+You are standing on a immaculately manicured green lawn, the kind you only
+get after 200 years of meticulous work. There is a winding stone path leading
+from the wood's edge to the north, to the softly shimmering, rainbow-colored
+dome covering construction to the south. This place enjoys a perpetual cool,
+sunny summers after-noon.
+~
+C 2
+D0
+To the north, the winding stone path leads into the holy grove.
+~
+~
+0 -1 5371
+E
+dome construction south s~
+The foundation looks like it is for a sprawling, two-story affair with three
+wings.  On the ground is some building material, marble would do, if marble
+changed color slowly, continuously, through the entire spectrum.  There are
+also large panes of glass stacked over near one of the corners of the
+foundation.
+~
+S
+#5375
+The Void~
+You are standing in the middle of something you cannot explain.  You see
+stars yet you cannot see what you are standing on.  You are not standing
+on any sort of physical 'ground' as you can see yet you are not floating
+either.  Occasionally, the starry 'sky' fades into a fuzzy, yet bright,
+rainbow then back to its normal state.  In the middle of this room is
+a ladder standing vertical.
+~
+0 3
+D1
+You see stars.
+~
+~
+0 0 5378
+D2
+You see a fuzzy portal of some sort and a little green.
+~
+~
+0 0 5368
+D3
+You see stars.
+~
+~
+0 0 5378
+D4
+You see stars.
+~
+~
+0 0 5376
+D5
+You see stars.
+~
+~
+0 0 5376
+S
+#5376
+The Void~
+You are standing in the middle of something you cannot explain.  You see
+stars yet you cannot see what you are standing on.  You are not standing
+on any sort of physical 'ground' as you can see yet you are not floating
+either.  Occasionally, the starry 'sky' fades into a fuzzy, yet bright,
+rainbow then back to its normal state.
+~
+0 3
+D0
+You see stars.
+~
+~
+0 0 5377
+D1
+You see stars.
+~
+~
+0 0 5376
+D2
+You see stars.
+~
+~
+0 0 5377
+D3
+You see stars.
+~
+~
+0 0 5376
+D4
+You see stars.
+~
+~
+0 0 5375
+D5
+You see stars.
+~
+~
+0 0 5375
+S
+#5377
+The Void~
+You are standing in the middle of something you cannot explain.  You see
+stars yet you cannot see what you are standing on.  You are not standing
+on any sort of physical 'ground' as you can see yet you are not floating
+either.  Occasionally, the starry 'sky' fades into a fuzzy, yet bright,
+rainbow then back to its normal state.
+~
+0 3
+D0
+You see stars.
+~
+~
+0 0 5376
+D1
+You see stars.
+~
+~
+0 0 5377
+D2
+You see stars.
+~
+~
+0 0 5376
+D3
+You see stars.
+~
+~
+0 0 5377
+D4
+You see stars.
+~
+~
+0 0 5378
+D5
+You see stars.
+~
+~
+0 0 5378
+S
+#5378
+The Void~
+You are standing in the middle of something you cannot explain.  You see
+stars yet you cannot see what you are standing on.  You are not standing
+on any sort of physical 'ground' as you can see yet you are not floating
+either.  Occasionally, the starry 'sky' fades into a fuzzy, yet bright,
+rainbow then back to its normal state.  In the middle of this room is
+a ladder standing vertical.
+~
+0 3
+D1
+You see stars.
+~
+~
+0 0 5375
+D2
+You see a fuzzy portal of some sort and a little green.
+~
+~
+0 0 8903
+D3
+You see stars.
+~
+~
+0 0 5375
+D4
+You see stars.
+~
+~
+0 0 5377
+D5
+You see stars.
+~
+~
+0 0 5377
+S
+#5379
+The Temple Of Midgaard~
+You are in the southern end of the temple hall in the Temple of Midgaard.
+The temple has been constructed from giant marble blocks, eternal in
+appearance, and most of the walls are covered by ancient wall paintings
+picturing Gods, Giants and peasants.
+   Large steps lead down through the grand temple gate, descending the huge
+mound upon which the temple is built and ends on the temple square below.
+   You notice that this building is quite new.  A small plaque is on this wall.
+~
+CDK 0
+D0
+At the northern end of the temple hall is a statue and a huge altar.
+~
+~
+0 -1 5386
+D2
+You see the temple square.
+~
+~
+0 -1 5380
+E
+plaque~
+This entire world has been integrated, modified, debugged, and enhanced by
+Hatchet, Kahn, and Furey of MERC Industries to be run by any MERC Mud.
+1992 December 17
+~
+S
+#5380
+The Temple Square~
+You are standing on the temple square.  Huge marble steps lead up to the
+temple gate.  The ground is just dirt but there are plans to make the road
+cobble stone.  Just south of here you see a blooming market square, the
+center of Midgaard.
+~
+0 1
+D0
+You see the temple.
+~
+~
+0 -1 5379
+D2
+You see the Market Square.
+~
+~
+0 -1 5381
+S
+#5381
+Market Square~
+You are standing on the market square, the Square of Midgaard.  It seems
+that a large, peculiar looking statue is being built here in the middle of
+the square.  Roads lead to the north and east, north to the temple square,
+east is the main street.
+~
+0 1
+D0
+You see the temple square.
+~
+~
+0 -1 5380
+D1
+You see the main street.
+~
+~
+0 -1 5382
+E
+statue~
+What you see is an uncompleted statue of what you think is the Midgaard
+mascot.
+~
+S
+#5382
+The Main Street~
+You are on Main Street crossing through this booming town.  The main
+street continues east.  To the west you see and hear a small market place.
+~
+0 1
+D1
+You see Main Street.
+~
+~
+0 -1 5383
+D3
+You see the market square.
+~
+~
+0 -1 5381
+S
+#5383
+The Main Street~
+The main street, to the east you leave town and to the west the street
+leads to the market square.
+~
+0 1
+D1
+You see the city gate.
+~
+~
+0 -1 5384
+D3
+You see the main street leading to the market square.
+~
+~
+0 -1 5382
+S
+#5384
+Inside the East Gate of Midgaard~
+You are by two small newly built towers that have been built into the
+city wall and connected with a footbridge across the heavy wooden gate.
+Main Street leads west from here.
+~
+0 1
+D1
+You see the city gate.
+~
+gate~
+1 3133 5385
+D3
+You see Main Street.~
+~
+0 -1 5383
+E
+bridge footbridge~
+It is too high up to reach but it looks as if one easily could walk across it
+from one tower to the other.
+~
+E
+gate~
+It is a set of very big double doors made from hard wood.  They have been
+reinforced with large iron bands to make them even more sturdy.  One of the
+doors is equipped with a very big lock.
+~
+E
+tower towers~
+Both of the towers are built from large grey rocks that have been fastened to
+each other with some kind of mortar, just like the city wall.
+~
+E
+wall~
+It is built from large grey rocks that have been fastened to each other with
+some kind of mortar.  It is far too high to climb.
+~
+S
+#5385
+Outside the East Gate of Midgaard~
+You are by two small towers that have been built into the city wall and
+connected with a footbridge across the heavy wooden gate.  To the east the
+plains stretch out in the distance.
+~
+0 1
+D1
+You see the plains.~
+~
+0 -1 5364
+D3
+You see the city gate.
+~
+gate~
+1 3133 5384
+E
+bridge footbridge~
+It is too high up to reach but it looks as if one easily could walk across it
+from one tower to the other.
+~
+E
+gate~
+It is a set of very big double doors made from hard wood.  They have been
+reinforced with large iron bands to make them even more sturdy.  One of the
+doors is equipped with a very big lock.
+~
+E
+tower towers~
+Both of the towers are built from large grey rocks that have been fastened to
+each other with some kind of mortar, just like the city wall.
+~
+E
+wall~
+It is built from large grey rocks that have been fastened to each other with
+some kind of mortar.  It is far too high to climb.
+~
+S
+#5386
+By the Temple Altar~
+You are by the temple altar in the northern end of the Temple of Midgaard.
+A huge altar made from white polished marble is standing in front of you and
+behind it is a ten foot tall sitting statue of Odin, the King of the Gods.
+~
+DK 0
+D2
+You see the southern end of the temple.
+~
+~
+0 -1 5379
+E
+altar~
+Even though the altar is more than ten feet long it appears to be made from a
+single block of white virgin marble.
+~
+E
+statue odin king god~
+The statue represents the one-eyed Odin sitting on a his throne.  He has
+long, grey hair and beard and a strict look on his face.  On top of the
+throne, just above his shoulders, his two ravens Hugin and Munin are sitting
+and at his feet are his wolves Gere and Freke.
+~
+S
+#0
+
+#MOBILES
+#5300
+baby beholder~
+the baby beholder~
+You meet a baby beholder's cute gaze!
+~
+It has a large central eye that blinks like a guppy and eyestalks atop the 
+round body which can charm you with its cuteness.  Baby beholders are known for
+their playful personality.  Hmmm....  It looks like the baby is teething!
+~
+unique~
+BCHA D 500 0
+5 2 1d1+100 1d1+100 2d3+2 slash
+-9 -9 -9 -7
+FENU 0 0 0
+stand stand neutral 208
+0 0 medium 0
+
+#5301
+lamia pet~
+the pet lamia~
+A pet lamia stands here waiting for her next command.
+~
+This is a creature with the upper torso of a beautiful woman, but the lower
+body of a four-legged beast.
+~
+fido~
+CHA 0 500 0
+4 2 1d1+80 1d1+80 2d3+2 slash
+-8 -8 -8 -7
+FENU 0 0 0
+stand stand female 167
+0 0 medium 0
+
+#5302
+citizen man~
+a citizen of Thalos~
+A citizen of Thalos is here, conversing with everyone.
+~
+He smiles at you, almost as if he knows you.  He is so friendly, you have no
+choice but to reciprocate.
+~
+human~
+GHA 0 500 0
+5 2 1d1+100 1d1+100 2d3+2 scratch
+-9 -9 -9 -7
+FENU 0 0 0
+stand stand male 203
+0 0 medium 0
+
+#5303
+guard imperial cityguard~
+an imperial cityguard~
+An imperial cityguard is here, keeping the peace of Thalos.
+~
+He is dressed in plate, and he looks quite formidable.  At the moment, though,
+he is just giggling with a kid running about.
+~
+human~
+CGA H 1000 0
+17 8 1d1+493 1d1+340 4d4+8 slash
+-16 -16 -16 -11
+FENU 0 0 0
+stand stand male 704
+0 0 medium 0
+
+#5304
+citizen woman female~
+a female citizen of Thalos~
+A female citizen of Thalos is here, showing off her new dress.
+~
+She is beautiful, dressed in a sundress that sparkles with gems sown in.  She
+smiles at you, and your heart flutters at the thought that you have her
+attention, if only for a moment.
+~
+human~
+GHA 0 500 0
+5 2 1d1+100 1d1+100 2d3+2 slash
+-9 -9 -9 -7
+FENU 0 0 0
+stand stand female 206
+0 0 medium 0
+
+#5305
+gordon defender~
+Gordon the Brave~
+Gordon the Brave, the Defender of Thalos, is here, looking at no
+one but you, the only stranger in town.
+~
+Gordon is dressed in full mithril plate, and he looks indestructible.  He eyes
+you suspiciously not only because you are a stranger, but because you are an
+ARMED stranger.  Better not do any funny stuff in his presence.
+~
+human~
+LA H 1000 0
+35 17 1d1+1271 1d1+700 6d6+17 slash
+-27 -27 -27 -16
+FENU 0 0 0
+stand stand male 1786
+0 0 medium 0
+
+#5306
+priest~
+the fanatic priest~
+A fanatic priest is here, foretelling the destruction of Thalos.
+~
+The priest must have lost his mind.  He keeps saying that one day, evil will
+prevail and take over Thalos and bring the whole city down.  Obviously, no one
+listens to this fool.  The priest's right fist is covered in golden silk,
+and he clenches it at you.  Other than that, he is dressed all in black.
+~
+human~
+BHA 0 -500 0
+10 5 1d1+230 1d1+200 3d3+5 slash
+-12 -12 -12 -9
+FENU 0 0 0
+stand stand male 417
+0 0 medium 0
+
+#5307
+priest~
+the priest of Thalos~
+The priest of Thalos tells you of the glories of this city.
+~
+He stands here gloriously telling of Thalos's history, how it is now referred 
+by the world as 'The City of Peace'.  He is very happy to be the high priest 
+here.
+~
+human~
+BA H 1000 0
+20 10 1d1+580 1d1+400 4d5+10 slash
+-18 -18 -18 -12
+FENU 0 0 0
+stand stand male 1003
+0 0 medium 0
+
+#5308
+golem stone~
+the stone golem~
+In the corner you see a large, stone golem faithfully standing watch.
+~
+It is a big chunk of rock that has been magically formed into a giant
+stone creature.  It stands here guarding the city.
+~
+unique~
+BA N 1000 0
+30 15 1d1+1013 1d1+600 5d5+15 pound
+-24 -24 -24 -15
+FENU 0 0 0
+stand stand neutral 1558
+0 0 medium 0
+
+#5309
+mayor~
+the mayor of Thalos~
+The mayor of Thalos is sitting here, doing his paperwork.
+~
+He looks very busy, but he takes the time to say, 'Hi!  Welcome to Thalos!'
+He looks very proud of his work.
+~
+human~
+BLA 0 800 0
+20 10 1d1+580 1d1+400 4d5+10 slash
+-18 -18 -18 -12
+FENU 0 0 0
+stand stand female 1016
+0 0 medium 0
+
+#5310
+dan barkeep~
+Dan the Barkeep~
+Dan the Barkeep stands by the counter wiping a glass.
+~
+He looks at you, and says, 'What's your poison, stranger?'
+~
+elf~
+BA 0 600 0
+30 15 1d1+997 1d1+600 5d5+15 slash
+-24 -24 -24 -15
+FENU 0 0 0
+stand stand male 1546
+0 0 medium 0
+
+#5311
+george butcher~
+George the Butcher~
+George the Butcher is here whacking away at a side of beef.
+~
+Looking down at you with blood splattered all over his face and apron,
+he asks, 'How much you want?'
+~
+human~
+BA 0 600 0
+30 15 1d1+1011 1d1+600 5d5+15 slash
+-24 -24 -24 -15
+FENU 0 0 0
+stand stand male 1514
+0 0 medium 0
+
+#5312
+farmer betty~
+Farmer Betty~
+Farmer Betty looks at you sweetly offering you some apples.
+~
+She smiles at you meekly.
+~
+half-elf~
+BA 0 650 0
+30 15 1d1+1033 1d1+600 5d5+15 slash
+-24 -24 -24 -15
+FENU 0 0 0
+stand stand female 1506
+0 0 medium 0
+
+#5313
+thaellor dwarf~
+Thaellor the dwarf~
+Thaellor is here selling his metal wares.
+~
+Thaellor sweats rivers and complains about the heat as he pounds the
+metal into items of defence and destruction.
+~
+dwarf~
+BA 0 550 0
+30 15 1d1+1012 1d1+600 5d5+15 slash
+-24 -24 -24 -15
+FENU 0 0 0
+stand stand female 1521
+0 0 medium 0
+
+#5314
+ben smith~
+Ben the Smith~
+Ben the Smith sells metal odds and ends to anyone interested.
+~
+Ben tries to pawn his various wares to you.
+~
+human~
+BA 0 600 0
+30 15 1d1+1020 1d1+600 5d5+15 slash
+-24 -24 -24 -15
+FENU 0 0 0
+stand stand male 1554
+0 0 medium 0
+
+#5315
+librarian~
+the librarian~
+The librarian is here shelving books away neatly.
+~
+The librarian looks busy and whispers, 'Shhh!'
+~
+human~
+BHA 0 500 0
+8 4 1d1+184 1d1+160 3d3+4 slash
+-10 -10 -10 -8
+FENU 0 0 0
+stand stand female 328
+0 0 medium 0
+
+#5316
+scholar boy~
+a young scholar~
+A young scholar studies quietly in the corner.
+~
+This young scholar is studying to be a priest.
+~
+human~
+BHA 0 500 0
+6 3 1d1+138 1d1+120 2d3+3 slash
+-9 -9 -9 -7
+FENU 0 0 0
+stand stand male 247
+0 0 medium 0
+
+#5317
+wizard~
+an old wizard~
+An old wizard sits quietly at the counter waiting for a sale.
+~
+This old wizard almost looks like he is about to fall over and sleep.
+~
+elf~
+BA D 550 0
+30 15 1d1+1013 1d1+600 5d5+15 slash
+-24 -24 -24 -15
+FENU 0 0 0
+stand stand male 1562
+0 0 medium 0
+
+#5318
+masseuse woman~
+a beautiful masseuse~
+A beautiful woman is here offering you a massage.
+~
+She is beautiful, dressed in a sundress that sparkles with gems sown in. She
+smiles at you, and your heart flutters at the thought that you have her
+attention, and you jump to her offer for a massage.
+~
+human~
+BHA 0 700 0
+4 2 1d1+80 1d1+80 2d3+2 slash
+-8 -8 -8 -7
+FENU 0 0 0
+stand stand female 163
+0 0 medium 0
+
+#5319
+bather man~
+a man~
+A man is here bathing.
+~
+He smiles at you, almost as if he knows you.  He is so friendly, you have no
+choice but to reciprocate and join him and the others in the soothing pool.
+~
+human~
+BHA 0 650 0
+5 2 1d1+100 1d1+100 2d3+2 scratch
+-9 -9 -9 -7
+FENU 0 0 0
+stand stand male 208
+0 0 medium 0
+
+#5320
+guard imperial cityguard~
+An imperial cityguard~
+An imperial cityguard overseeing patrols in the city.
+~
+He is dressed in plate, and he looks quite formidable.  At the moment,
+he is looking at a map of Thalos aside his fellow co-workers keeping
+track of each city patrol.
+~
+human~
+BCGA H 1000 0
+17 8 1d1+493 1d1+340 4d4+8 slash
+-16 -16 -16 -11
+FENU 0 0 0
+stand stand male 712
+0 0 medium 0
+
+#5321
+guard cityguard~
+an imperial cityguard~
+An imperial cityguard guards the Grand Gate.
+~
+He is dressed in plate, and he looks quite formidable.  At the moment,
+he is watching the children play with amusement.
+~
+human~
+BCGA H 1000 0
+17 8 1d1+493 1d1+340 4d4+8 slash
+-16 -16 -16 -11
+FENU 0 0 0
+stand stand male 702
+0 0 medium 0
+
+#5322
+doe~
+a doe~
+A doe munches on grass.
+~
+This peaceful creature looks at you with big dark eyes.  Her nose twitches as
+she sniffs at you, but she goes back to chewing some grass.
+~
+unique~
+GHA 0 0 0
+5 2 1d1+100 1d1+100 2d3+2 slash
+-9 -9 -9 -7
+FENU 0 0 0
+stand stand female 204
+0 0 medium 0
+
+#5323
+deer~
+a deer~
+A deer stares back at you.
+~
+The deer looks angered at your intrusion.  He butts his head against you, 
+albeit ineffectively.
+~
+unique~
+GHA 0 0 0
+6 3 1d1+138 1d1+120 2d3+3 slash
+-9 -9 -9 -7
+FENU 0 0 0
+stand stand male 240
+0 0 medium 0
+
+#5324
+stag deer~
+a stag~
+A large deer stag protects his territory.
+~
+He eyes you with contained anger.  You'd better leave him alone!
+~
+unique~
+FGHA 0 0 0
+8 4 1d1+184 1d1+160 3d3+4 slash
+-10 -10 -10 -8
+FENU 0 0 0
+stand stand male 325
+0 0 medium 0
+
+#5325
+bunny rabbit~
+a small bunny~
+A small bunny pokes from bush to bush.
+~
+This bunny looks so adorable, you wished you had one just like this!
+~
+rabbit~
+GHA 0 0 0
+2 1 1d1+40 1d1+40 1d2+1 slash
+-7 -7 -7 -6
+FENU 0 0 0
+stand stand neutral 83
+0 0 medium 0
+
+#5326
+snake~
+a harmless snake~
+A small snake slithers between the grass.
+~
+Upon careful inspection, you are sure it is NOT a cobra!
+~
+snake~
+FGHA P 0 0
+4 2 1d1+80 1d1+80 2d3+2 slash
+-8 -8 -8 -7
+FENU 0 0 0
+stand stand neutral 167
+0 0 medium 0
+
+#5327
+druid~
+a druid~
+A druid is here in meditation.
+~
+He doesn't like you bothering him, but is too polite to ask you to leave.
+~
+human~
+GHA DN 1000 0
+10 5 1d1+230 1d1+200 3d3+5 slash
+-12 -12 -12 -9
+FENU 0 0 0
+stand stand male 412
+0 0 medium 0
+
+#5328
+druidess~
+a druidess~
+A druidess peers at you.
+~
+She wonders why you are staring at her, and how you got in here.
+~
+human~
+GHA DN 1000 0
+10 5 1d1+230 1d1+200 3d3+5 slash
+-12 -12 -12 -9
+FENU 0 0 0
+stand stand female 404
+0 0 medium 0
+
+#5329
+musician bard~
+bard of Thalos~
+A bard sings of the glory of Thalos.
+~
+This musical fellow plays a happy song with his fellow comrades.
+~
+human~
+BCA 0 450 0
+6 3 1d1+138 1d1+120 2d3+3 slash
+-9 -9 -9 -7
+FENU 0 0 0
+stand stand male 244
+0 0 medium 0
+
+#5330
+musician bard~
+bard of Thalos~
+This bard merrily skips along singing of the glory of Thalos.
+~
+This musical fellow wanders the world singing of the glory of Thalos.
+~
+human~
+CA 0 550 0
+7 3 1d1+161 1d1+140 3d3+3 slash
+-10 -10 -10 -8
+FENU 0 0 0
+stand stand male 293
+0 0 medium 0
+
+#5331
+cityguard guard~
+the cityguard~
+A cityguard stands here.
+~
+A big, strong, helpful, trustworthy guard.
+~
+human~
+ACG 0 1000 0
+15 7 1d1+375 1d1+300 4d4+7 slash
+-15 -15 -15 -10
+FENU 0 0 0
+stand stand male 618
+0 0 medium 0
+
+#5332
+janitor~
+the janitor~
+A janitor is walking around, cleaning up.
+~
+~
+human~
+A 0 900 0
+1 0 1d1+20 1d1+20 1d2+0 slash
+-6 -6 -6 -6
+FENU 0 0 0
+stand stand male 40
+0 0 medium 0
+
+#5333
+fido dog~
+the beastly fido~
+Beastly Fido is here.
+~
+Fido is a small dog that has a foul smell and pieces of rotted meat hanging
+around his teeth.
+~
+fido~
+AFGH D -700 0
+6 3 1d1+125 1d1+120 2d3+3 digestion
+-9 -9 -9 -7
+FENU 0 0 0
+stand stand male 246
+0 0 medium 0
+
+#5334
+cityguard guard~
+the cityguard~
+A cityguard is here, guarding the gate.
+~
+A big, strong, helpful, trustworthy guard.
+~
+human~
+ABG 0 1000 0
+15 7 1d1+375 1d1+300 4d4+7 slash
+-15 -15 -15 -10
+FENU 0 0 0
+stand stand male 617
+0 0 medium 0
+
+#0
+
+#OBJECTS
+#5300
+collar~
+a lamia collar~
+A lamia collar is on the ground.~
+leather~
+armor 0 AC
+3 3 3 0 0
+4 5 818 P
+
+#5301
+breast plate iron~
+a beautiful iron breast plate~
+A beautiful iron breast plate lies here.~
+iron~
+armor 0 AD
+10 10 10 0 0
+35 125 7293 P
+A
+18      1
+
+#5302
+staff serpentine~
+a green serpentine staff~
+A green serpentine staff has been left here.~
+wood~
+staff G AO
+20 2 2 23 0
+20 12 4173 P
+
+#5304
+scroll magic~
+a scroll of enchantment~
+A scroll of magical enchantment has been left here.~
+vellum~
+scroll G A
+30 24 1 1 0
+0 15 0 P
+
+#5305
+scroll bound~
+a bound scroll~
+A bound scroll of detection lies at your feet.~
+vellum~
+scroll G A
+30 18 19 20 0
+0 15 0 P
+
+#5306
+fountain~
+a large beautiful fountain~
+An elaborate white marble fountain is here.~
+stone~
+fountain 0 0
+10 10 0 0 0
+0 0 0 P
+E
+fountain~
+You see the most beautiful fountain in the world.  The white marble glistens
+as sunlight hits its wet surfaces.  Fish swim around in the inner fountain, and
+an exterior fountain is reserved just for drinking.
+~
+
+#5307
+desk~
+the curved desk~
+A beautiful desk made from a gigantic sea shell is here.~
+wood~
+container 0 0
+100 13 5224 0 0
+0 0 0 P
+E
+desk~
+The sea shell desk here is just gorgeous.  The creamy white of the table
+surface makes you dream of being in a pool swimming among mermaids.
+~
+
+#5308
+cabinet~
+the glass cabinet~
+A sturdy glass cabinet is here.~
+wood~
+container 0 0
+500 13 5226 0 0
+0 0 0 P
+E
+cabinet~
+A cabinet made of oak and mahogany, this piece of woodmanship is just splendid 
+to view.  The wood is varnished with a very strong stain that looks as if it
+would last longer than the cabinet itself.
+~
+
+#5309
+mandolin~
+a mandolin~
+A mandolin lies against the wall.~
+wood~
+staff G AO
+18 5 5 15 0
+6 20 1220 P
+
+#5310
+harp golden~
+a golden harp~
+A beautiful golden harp is waiting to be played.~
+wood~
+staff G AO
+30 1 1 6 0
+6 100 1220 P
+
+#5311
+flute silver~
+a silver flute~
+A brilliant silver flute glimmers from its holster.~
+silver~
+staff AG AO
+30 1 1 7 0
+7 6 1444 P
+
+#5312
+potion green~
+a green potion~
+You see a green potion on the floor.~
+glass~
+potion 0 A
+20 203 0 0 0
+1 5 1 P
+
+#5313
+herbs~
+some bluish herbs~
+Some bluish herbs are scattered here.~
+vellum~
+pill 0 A
+15 0 0 3 0
+10 1 2047 P
+
+#5314
+herbs~
+some purplish herbs~
+Some purplish herbs are scattered here.~
+vellum~
+pill 0 A
+15 0 0 82 0
+10 1 2085 P
+
+#5315
+herbs~
+some grayish herbs~
+Some grayish herbs are scattered here.~
+vellum~
+pill 0 A
+5 0 39 33 0
+10 1 2089 P
+
+#5316
+herbs~
+some orangish herbs~
+Some orangish herbs are scattered here.~
+vellum~
+pill 0 A
+5 0 0 16 0
+10 1 2052 P
+
+#5317
+sword~
+an imperial sword~
+You see an imperial sword here.~
+steel~
+weapon G AN
+'sword' 4 4 'slash' 0
+17 5 3507 P
+E
+sword~
+You see a sword of great craftsmanship.  Imprinted on the side is:
+Xanian Industries
+~
+A
+18      2
+A
+19      2
+
+#5318
+mace~
+an imperial mace~
+You see an imperial mace here.~
+steel~
+weapon G AN
+'mace' 4 4 'pound' 0
+17 5 3498 P
+E
+mace~
+You see a mace of great craftsmanship.  Imprinted on the side is:
+Xanian Industries
+~
+A
+18      2
+A
+19      2
+
+#5319
+chest plate~
+an imperial chest plate~
+You see an imperial chest plate here.~
+steel~
+armor 0 AD
+6 6 6 0 0
+17 5 3444 P
+E
+chest plate~
+You see a chest plate of great craftsmanship.  Stamped on the side is:
+Xanian Industries
+~
+
+#5320
+shield~
+an imperial shield~
+You see an imperial shield here.~
+steel~
+armor 0 AJ
+6 6 6 0 0
+17 5 3496 P
+E
+shield~
+You see a shield of great craftsmanship.  Imprinted on the side is:
+Xanian Industries
+~
+
+#5321
+cloak~
+an imperial cloak~
+You see an imperial cloak here.~
+steel~
+armor 0 AC
+6 6 6 0 0
+17 5 3460 P
+E
+cloak~
+You see a cloak of great craftsmanship.  Imprinted on the side is:
+Xanian Industries
+~
+
+#5322
+helm~
+an imperial helm~
+You see an imperial helm here.~
+steel~
+armor 0 AE
+6 6 6 0 0
+17 5 3473 P
+E
+helm~
+You see a helm of great craftsmanship.  Imprinted on the side is:
+Xanian Industries
+~
+
+#5323
+plate leggings~
+a pair of imperial plate leggings~
+You see a pair of imperial plate leggings here.~
+steel~
+armor 0 AF
+6 6 6 0 0
+17 5 3413 P
+E
+plate leggings~
+You see plate leggings of great craftsmanship.  Imprinted on the side is:
+Xanian Industries
+~
+
+#5324
+plate boots~
+a pair of imperial plate boots~
+You see a pair of imperial plate boots here.~
+bronze~
+armor 0 AG
+6 6 6 0 0
+17 5 3427 P
+E
+plate boots~
+You see plate boots of great craftsmanship.  Imprinted on the side is:
+Xanian Industries
+~
+
+#5325
+plate gloves~
+a pair of imperial plate gloves~
+You see a pair of imperial plate gloves here.~
+bronze~
+armor 0 AH
+6 6 6 0 0
+17 5 3552 P
+E
+plate gloves~
+You see plate gloves of great craftsmanship.  Imprinted on the side is:
+Xanian Industries
+~
+
+#5326
+plate sleeves~
+a pair of imperial plate sleeves~
+You see a pair of imperial plate sleeves here.~
+steel~
+armor 0 AI
+6 6 6 0 0
+17 5 3513 P
+E
+plate sleeves~
+You see plate sleeves of great craftsmanship.  Imprinted on the side is:
+Xanian Industries
+~
+
+#5327
+cape~
+an imperial cape~
+You see an imperial cape here.~
+cloth~
+armor 0 AK
+6 6 6 0 0
+17 5 3507 P
+E
+cape~
+You see a cape of great craftsmanship.  Imprinted on the side is:
+Xanian Industries
+~
+
+#5328
+belt~
+an imperial belt~
+You see an imperial belt here.~
+leather~
+armor 0 AL
+6 6 6 0 0
+17 5 3557 P
+E
+belt~
+You see a belt of great craftsmanship.  Imprinted on the side is:
+Xanian Industries
+~
+
+#5329
+metal bracer~
+an imperial metal bracer~
+You see an imperial metal bracer here.~
+steel~
+armor 0 AM
+6 6 6 0 0
+17 5 3520 P
+E
+metal bracer~
+You see a metal bracer of great craftsmanship.  Imprinted on the side is:
+Xanian Industries
+~
+
+#5330
+ring signet~
+an imperial city guard signet ring~
+You see a ring with a strange symbol on the floor.~
+stone~
+armor G AB
+6 6 6 0 0
+17 1 3463 P
+A
+17     -6
+A
+24     -2
+
+#5331
+imperial banner~
+an imperial war banner~
+An imperial war banner is on the floor here.~
+brass~
+light AG A
+0 0 999 0 0
+17 1 3513 P
+E
+banner~
+The war banner is black and depicts a glyph of a glowing, orange flame.
+~
+A
+24     -2
+A
+17     -2
+
+#5332
+sword great blade~
+a great, two-handed sword~
+A great blade lies discarded.~
+adamantite~
+weapon 0 ANP
+'sword' 5 7 'slash' F
+34 15 5400 P
+E
+sword~
+This weapon has a blade of the purest, blackest adamantite you have
+clapped eyes upon. The haft has been bound in thick, brown leather
+and it looks as if you'll need both hands to get a good grip.
+~
+
+#5334
+cloak brown~
+a brown cloak~
+A beautiful brown cloak has been dropped by someone.~
+cloth~
+armor G AC
+7 7 7 0 0
+20 12 1800 P
+A
+13      4
+
+#0
+
+#RESETS
+M 0 5306 1 5319 1  1   the fanatic priest into The guild house  
+E   1   5218 100      3      on neck                
+E   1   5222 100     12      about body             
+E   1   5252 100     16      wielded                
+E   1   5239 100     17      held                   
+M 0 5305 1 5336 1  1   Gordon the Brave into An impressive house  
+E   1   5204  29      8      on feet                
+E   1   5203  29     10      on arms                
+E   1   5205  29      7      on legs                
+E   1   5206  29     13      around waist           
+E   1   5201  29      6      on head                
+E   1   5202  29      9      on hands               
+E   1   5301  29      5     a beautiful iron breast plate on body                
+E   1   5332  29     16      wielded                
+E   1   5226 100     17      held                   
+M 0 5300 1 5350 1  1   the baby beholder into The Temple of Thalos  
+E   1   5243 100     17      held                   
+M 0 5307 1 5350 1  1   the priest of Thalos into The Temple of Thalos  
+E   1   5302  63     17     a green serpentine staff held                   
+E   1   5334  63      3     brown cloak on neck
+M 0 5301 20 5300 1  1   the pet lamia into The Grand Gate of Thalos  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5302 1  1   the pet lamia into Main Street  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5304 1  1   the pet lamia into A Garden Path  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5306 1  1   the pet lamia into A Garden Path  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5308 1  1   the pet lamia into The market place  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5310 1  1   the pet lamia into A Side Street  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5312 1  1   the pet lamia into A side street  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5314 1  1   the pet lamia into A side street  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5316 1  1   the pet lamia into A back alley  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5318 1  1   the pet lamia into A back alley  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5320 1  1   the pet lamia into The produce stand  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5322 1  1   the pet lamia into The tapestry stand  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5324 1  1   the pet lamia into Under the watchtower  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5326 1  1   the pet lamia into A simple clay dwelling  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5328 1  1   the pet lamia into A back alley  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5330 1  1   the pet lamia into The Tavern of the Sun  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5332 1  1   the pet lamia into The city hall  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5334 1  1   the pet lamia into The private gardens and courtyard of Thalos  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5336 1  1   the pet lamia into An impressive house  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5338 1  1   the pet lamia into The Library Addition  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5340 1  1   the pet lamia into A back alley  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5342 1  1   the pet lamia into A bath house  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5344 1  1   the pet lamia into A Resting Room  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5346 1  1   the pet lamia into The north-west watchtower  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5348 1  1   the pet lamia into The north-east watchtower  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5350 1  1   the pet lamia into The Temple of Thalos  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5352 1  1   the pet lamia into Under a watchtower  
+E   1   5300 100      3     a lamia collar on neck                
+M 0 5301 20 5354 1  1   the pet lamia into The south-east watchtower  
+E   1   5300 100      3     a lamia collar on neck                
+O   0   5306    1   5334  load a large beautiful fountain into The private gardens and courtyard of Thalos
+M 0 5330 2 5300 1  1   bard of Thalos into The Grand Gate of Thalos  
+E   1   5311 100     17     a silver flute held                   
+M 0 5329 2 5330 1  1   bard of Thalos into The Tavern of the Sun  
+E   1   5309 100     17     a mandolin held                   
+M 0 5329 2 5330 1  1   bard of Thalos into The Tavern of the Sun  
+E   1   5310 100     17     a golden harp held                   
+M 0 5316 2 5345 1  1   a young scholar into On the second floor of the library  
+M 0 5315 1 5337 1  1   the librarian into A Public Library  
+M 0 5319 2 5342 1  1   a man into A bath house  
+M 0 5318 4 5344 1  1   a beautiful masseuse into A Resting Room  
+M 0 5308 8 5347 1  1   the stone golem into The south-west watchtower  
+E   1   5221  63     16      wielded                
+E   1   5232  63     17      held                   
+M 0 5308 8 5346 1  1   the stone golem into The north-west watchtower  
+E   1   5221  63     16      wielded                
+E   1   5233  63     17      held                   
+M 0 5308 8 5348 1  1   the stone golem into The north-east watchtower  
+E   1   5221  63     16      wielded                
+E   1   5235  63     17      held                   
+M 0 5308 8 5354 1  1   the stone golem into The south-east watchtower  
+E   1   5221  63     16      wielded                
+E   1   5237  63     17      held                   
+M 0 5311 1 5317 1  1   George the Butcher into The meat stand  
+G   1   5219 100             in inventory
+E   1    601 100     16      wielded                
+G   1    602 100             in inventory
+G   1    603 100             in inventory
+G   1    604 100             in inventory
+G   1    605 100             in inventory
+M 0 5312 1 5320 1  1   Farmer Betty into The produce stand  
+G   1    609 100             in inventory
+G   1    610 100             in inventory
+G   1    611 100             in inventory
+G   1    612 100             in inventory
+G   1    613 100             in inventory
+M 0 5313 1 5329 1  1   Thaellor the dwarf into A busy shop  
+M 0 5310 1 5330 1  1   Dan the Barkeep into The Tavern of the Sun  
+G   1    648 100             in inventory
+G   1    649 100             in inventory
+G   1    650 100             in inventory
+M 0 5314 1 5321 1  1   Ben the Smith into The smithy  
+G   1    601 100             in inventory
+G   1    615 100             in inventory
+M 0 5317 1 5338 1  1   an old wizard into The Library Addition  
+M 0 5309 1 5331 1  1   the mayor of Thalos into South wing of the city hall  
+E   1   5224 100     17      held                   
+O   0   5307    1   5331  load the curved desk into South wing of the city hall
+P 1 5304 3 5307 1  1   Load a scroll of enchantment into the curved desk  
+P 1 5305 3 5307 1  1   Load a bound scroll into the curved desk  
+P 1 5231 3 5307 1  1   the curved desk  
+O   0   5308    1   5333  load the glass cabinet into East wing of the city hall
+P 1 3105 3 5308 1  1   the glass cabinet  
+P 1 5214 3 5308 1  1   the glass cabinet  
+P 1 5230 3 5308 1  1   the glass cabinet  
+M 0 5320 3 5335 1  1   An imperial cityguard into A small guard house  
+E   1   5330 100      1     an imperial city guard signet ring on left finger         
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5328 100     13     an imperial belt around waist           
+E   1   5317 100     16     an imperial sword wielded                
+M 0 5320 3 5335 1  1   An imperial cityguard into A small guard house  
+E   1   5330 100      1     an imperial city guard signet ring on left finger         
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5329 100     14     an imperial metal bracer on left wrist          
+E   1   5318 100     16     an imperial mace wielded                
+M 0 5320 3 5335 1  1   An imperial cityguard into A small guard house  
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5328 100     13     an imperial belt around waist           
+E   1   5329 100     14     an imperial metal bracer on left wrist          
+E   1   5317 100     16     an imperial sword wielded                
+M 0 5321 2 5300 1  1   an imperial cityguard into The Grand Gate of Thalos  
+E   1   5331 100      0     an imperial war banner as light               
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5322 100      6     an imperial helm on head                
+E   1   5323 100      7     a pair of imperial plate leggings on legs                
+E   1   5324 100      8     a pair of imperial plate boots on feet                
+E   1   5325 100      9     a pair of imperial plate gloves on hands               
+E   1   5320 100     11     an imperial shield as shield              
+E   1   5318 100     16     an imperial mace wielded                
+M 0 5321 2 5300 1  1   an imperial cityguard into The Grand Gate of Thalos  
+E   1   5331 100      0     an imperial war banner as light               
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5324 100      8     a pair of imperial plate boots on feet                
+E   1   5325 100      9     a pair of imperial plate gloves on hands               
+E   1   5326 100     10     a pair of imperial plate sleeves on arms                
+E   1   5320 100     11     an imperial shield as shield              
+E   1   5317 100     16     an imperial sword wielded                
+M 0 5303 11 5300 1  1   an imperial cityguard into The Grand Gate of Thalos  
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5329 100     14     an imperial metal bracer on left wrist          
+E   1   5318 100     16     an imperial mace wielded                
+M 0 5303 11 5304 1  1   an imperial cityguard into A Garden Path  
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5320 100     11     an imperial shield as shield              
+E   1   5317 100     16     an imperial sword wielded                
+M 0 5303 11 5307 1  1   an imperial cityguard into The market place  
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5328 100     13     an imperial belt around waist           
+E   1   5329 100     14     an imperial metal bracer on left wrist          
+E   1   5318 100     16     an imperial mace wielded                
+M 0 5303 11 5313 1  1   an imperial cityguard into A side street  
+E   1   5330 100      1     an imperial city guard signet ring on left finger         
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5320 100     11     an imperial shield as shield              
+E   1   5317 100     16     an imperial sword wielded                
+M 0 5303 11 5315 1  1   an imperial cityguard into Under another grand watchtower  
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5328 100     13     an imperial belt around waist           
+E   1   5318 100     16     an imperial mace wielded                
+M 0 5303 11 5324 1  1   an imperial cityguard into Under the watchtower  
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5320 100     11     an imperial shield as shield              
+E   1   5317 100     16     an imperial sword wielded                
+M 0 5303 11 5331 1  1   an imperial cityguard into South wing of the city hall  
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5328 100     13     an imperial belt around waist           
+E   1   5329 100     14     an imperial metal bracer on left wrist          
+E   1   5318 100     16     an imperial mace wielded                
+M 0 5303 11 5334 1  1   an imperial cityguard into The private gardens and courtyard of Thalos  
+E   1   5330 100      1     an imperial city guard signet ring on left finger         
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5320 100     11     an imperial shield as shield              
+E   1   5317 100     16     an imperial sword wielded                
+M 0 5303 11 5341 1  1   an imperial cityguard into Under a watchtower  
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5318 100     16     an imperial mace wielded                
+M 0 5303 11 5350 1  1   an imperial cityguard into The Temple of Thalos  
+E   1   5321 100      4     an imperial cloak on neck                
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5320 100     11     an imperial shield as shield              
+E   1   5317 100     16     an imperial sword wielded                
+M 0 5303 11 5352 1  1   an imperial cityguard into Under a watchtower  
+E   1   5330 100      1     an imperial city guard signet ring on left finger         
+E   1   5319 100      5     an imperial chest plate on body                
+E   1   5327 100     12     an imperial cape about body             
+E   1   5328 100     13     an imperial belt around waist           
+E   1   5318 100     16     an imperial mace wielded                
+M 0 5304 9 5302 1  1   a female citizen of Thalos into Main Street  
+M 0 5302 9 5304 1  1   a citizen of Thalos into A Garden Path  
+M 0 5304 9 5307 1  1   a female citizen of Thalos into The market place  
+M 0 5302 9 5308 1  1   a citizen of Thalos into The market place  
+M 0 5304 9 5312 1  1   a female citizen of Thalos into A side street  
+M 0 5302 9 5316 1  1   a citizen of Thalos into A back alley  
+M 0 5304 9 5326 1  1   a female citizen of Thalos into A simple clay dwelling  
+M 0 5302 9 5327 1  1   a citizen of Thalos into A stone dwelling  
+M 0 5304 9 5330 1  1   a female citizen of Thalos into The Tavern of the Sun  
+M 0 5302 9 5330 1  1   a citizen of Thalos into The Tavern of the Sun  
+M 0 5304 9 5332 1  1   a female citizen of Thalos into The city hall  
+M 0 5302 9 5338 1  1   a citizen of Thalos into The Library Addition  
+M 0 5304 9 5340 1  1   a female citizen of Thalos into A back alley  
+M 0 5302 9 5344 1  1   a citizen of Thalos into A Resting Room  
+M 0 5304 9 5344 1  1   a female citizen of Thalos into A Resting Room  
+M 0 5302 9 5350 1  1   a citizen of Thalos into The Temple of Thalos  
+M 0 5304 9 5361 1  1   a female citizen of Thalos into The dwarf forest  
+M 0 5302 9 5367 1  1   a citizen of Thalos into The holy grove  
+R   0   5375    5         The Void: Door(s) 0-5 randomized
+R   0   5376    6         The Void: Door(s) 0-6 randomized
+R   0   5377    6         The Void: Door(s) 0-6 randomized
+R   0   5378    5         The Void: Door(s) 0-5 randomized
+M 0 5327 1 5368 1  1   a druid into A clearing in the woods  
+G   1   5313 100            some bluish herbs in inventory
+M 0 5327 2 5371 1  1   a druid into The holy grove  
+G   1   5315 100            some grayish herbs in inventory
+M 0 5328 1 5374 1  1   a druidess into The croquet lawn  
+G   1   5314 100            some purplish herbs in inventory
+M 0 5328 2 5372 1  1   a druidess into The holy grove  
+G   1   5316 100            some orangish herbs in inventory
+M 0 5322 2 5367 1  1   a doe into The holy grove  
+M 0 5323 3 5370 1  1   a deer into The sacred glade  
+M 0 5324 1 5369 1  1   a stag into The holy grove  
+M 0 5325 3 5373 1  1   a small bunny into The sunny field  
+M 0 5326 4 5372 1  1   a harmless snake into The holy grove  
+M 0 5334 1 5384 1  1   the cityguard into Inside the East Gate of Midgaard  
+E   1   3365 100      0      as light               
+E   1   3364 100      1      on left finger         
+E   1   3386 100     16      wielded                
+E   1   3353 100      5      on body                
+E   1   3354 100     11      as shield              
+M 0 5331 1 5381 1  1   the cityguard into Market Square  
+E   1   3365 100      0      as light               
+E   1   3364 100      1      on left finger         
+E   1   3386 100     16      wielded                
+E   1   3353 100      5      on body                
+E   1   3355 100      4      on neck                
+M 0 5332 2 5380 1  1   the janitor into The Temple Square  
+M 0 5333 3 5382 1  1   the beastly fido into The Main Street  
+M 0 5323 3 5358 1  1   a deer into The dwarf forest  
+M 0 5326 4 5356 1  1   a harmless snake into A trail at the end of the dwarf forest  
+S
+#SHOPS
+5310    0  0  0  0  0   120  90         0 23   ; The barkeep
+5311    5 17 19  0  0   110  90         6 20   ; The grocer/meat seller
+5312   19  0  0  0  0   110  90         7 19   ; The produce seller
+5313    5  9  0  0  0   130  70         5 21   ; The armourer
+5314    1  8 12 13 22   135  65         8 18   ; The smithy
+5317    2  3  4 10  0   120  50         9 17   ; The Wizard
+0
+
+#SPECIALS
+M  5300 spec_cast_mage
+M  5303 spec_guard
+M  5305 spec_guard
+M  5306 spec_cast_cleric
+M  5307 spec_cast_cleric
+M  5317 spec_cast_mage
+M  5320 spec_guard
+M  5321 spec_guard
+M  5327 spec_cast_cleric
+M  5328 spec_cast_cleric
+M  5331 spec_guard
+M  5332 spec_janitor
+M  5333 spec_fido
+M  5334 spec_guard
+S
+
+#$

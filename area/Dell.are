@@ -1,0 +1,298 @@
+#AREA 
+Dell.are~
+The Dell~
+{ ALL } Wandera The Dell~
+12100  12120 
+#MOBILES
+#12100
+priest~
+a priest of Wandera~
+A priest loyal to Wandera stands here.
+A priest of Wandera beams a smile at you.
+~
+A strong, holy man stands here preaching about the strengh and kindness of
+Wandera the greater god. He appears friendly but in the kind, smiling 
+face you can see a harshness, it would be wise not to test his patience.
+~
+human~
+BQ CDFHV 1000 0
+112 56 1d1+7600 1d1+1444 10d11+56 wrath
+-65 -65 -65 -65
+FKIHE N C Z
+stand stand male 1236
+0 0 medium 0
+#12101
+follower man~
+a follower~
+A man devoted to the god Wandera sits here praying.
+~
+A follower says 'Please god hear my prayer'.
+A follower looks at you.
+A follower says 'Do you worship Wandera?'.
+~
+human~
+GH V 600 0
+42 21 1d1+2100 1d1+604 8d5+21 punch
+-20 -20 -20 -15
+Q AB J N
+sit sit male 27
+0 0 medium 0
+#12102
+knight~
+a knight~
+A knight of the church swirls his sword in a great arc.
+He cuts a hair from your head.
+~
+A huge muscular man smiles broadly.
+He is wearing a shiny chainmail belt with a scalberd hanging from it.
+~
+human~
+B HNV 900 0
+64 32 1d1+3200 1d1+868 8d8+32 slice
+-25 -25 -25 -20
+EDCFHIKN AEI D Z
+stand stand male 0
+0 0 large 0
+#12103
+nonbeliver man stupid~
+a nonbeliver~
+A stupid man that does not believe in the power of Wandera.
+~
+This man walks the land paying heed to no god.
+His purpose for being on the land of Xania seems to be to make lots of money.
+~
+human~
+CH KU -300 0
+23 11 1d1+1150 1d1+376 3d9+11 claw
+-17 -17 -17 -15
+NE AN O Y
+stand stand male 0
+0 0 medium 0
+#12104
+wise old man~
+a wise man~
+An old, wise looking man stands here reflecting on life.
+~
+You should bow before this man, in his life he has travelled far across Xania.
+He has been to places you have not heard of, or have been too scared to enter.
+Thoughout his travel's he was guided and protected by Wandera. 
+He has learnt much whilst wandering Xania and has on him some 
+things that you may find useful.
+~
+human~
+B DFH 768 0
+78 39 1d1+3900 1d1+1036 1d1+100 cleave
+-45 -45 -45 -45
+CDBJFK AB CDNO I
+stand stand male 0
+0 0 medium 0
+#0
+#OBJECTS
+#12105
+faith ball light~
+faith in god~
+A ball of light floats in the sky above your head.~
+octarine~
+light AIKL A
+0 0 999 0 0
+76 1 0 P
+E
+faith light ball~
+The faith of the priest of Wandera was so strong that over time it took 
+physical shape in the form of a ball of light that hovered continuely 
+above him to help guide and protect him on his journeys.
+~ 
+A
+12 40
+A
+19 3
+#12106
+prayer book bomb~
+a prayer book~
+A leather bound book lies trodden into the ground.~
+leather~
+bomb A AO
+42 506 506 506 506
+38 15 2000 A
+A
+4 3
+#12107
+sword belt~
+a sword belt~
+A chainmail belt lies here attacted to a large sheath.~
+adamantite~
+armor I AL
+20 18 19 12 0
+62 18 7800 A
+A
+19 4
+A
+18 3
+#12108
+huge sword~
+(Magical) a huge sword~
+A huge shining sword floats here about 1 metre from the ground.~
+octarine~
+weapon AFIG AN
+'sword' 7 9 'slice' AD
+62 0 29000 P
+E
+huge sword~
+This sword was created by Wandera using great forces of magic. 
+Wield it well and let your aim be true.~
+A
+12 45
+#12109
+nothing~
+nothing~
+. ~
+octarine~
+container FG AK
+999 1 0 0 0
+23 5 15 G
+E
+nothing~
+|WWOW|w you can see |rnothing|w. 
+The reason for this is that the nonbeliver who once owned this was 
+very worried about theft of |rhis|w possessions. 
+If no one could find anything on him no one could charge him with theft. 
+So he came up with a cunning plan, and this invisible holder is the result.
+~
+A
+3 3
+#12110
+small green bottle~
+a small green bottle~
+A small bottle of potion lies on its side.~
+glass~
+potion 0 A
+15 44 0 0 0
+10 5 580 P
+#12111
+fairy wing~
+the wing of a fairy~
+A delicate wing floats gently to the ground.~
+vellum~
+staff AI AO
+20 3 3 56 0
+10 1 980 P
+#0
+#ROOMS
+#12112
+Grassy dell~
+You are in a small dell. There is lush green grass beneath your feet.
+The purity of the air makes you feel vibrant and young. 
+It occurs to you that this place seems too good, too perfect.
+No mortal gardener no matter how talented could produce such a healthy place.
+As you watch, a bush to the north starts to sway. 
+It's movement increases until it is a blur. It busts into bright |Rred flames|w
+The flames burn stronger until they are bright |WWhite|w. 
+The flames rise and take human form it beckons you to come north.
+~
+N 2
+D0
+A flaming bush.
+~
+bush~
+1 -1 12113
+D2
+The desolate plains look unhospitable compared to where you are.
+~
+~
+0 -1 301
+E
+bush flaming~
+A figure made up from white hot flame stands before you beckoning you to go
+north towards him.
+~
+S
+#12113
+An avenue~
+You are standing in a narrow avenue. There are tall beach trees to each side 
+of you so tightly packed that there is no space between them. 
+Despite this apparent over crowding they appear to be very healthy. 
+The avenue streatchs away north-wards.
+~
+0 2
+D0
+~
+~
+0 -1 12114
+D2
+~
+~
+0 -1 12112
+S
+#12114
+A large clearing~
+You are in the middle of a large clearing. There are some plants and bushes
+growing randomly, they all look surprisingly healthy. Directly in the middle of
+the clearing is a massive bean stalk stretching upwards into the clouds.
+~
+0 2
+D4
+~
+~
+0 -1 12115
+D2
+~
+~
+0 -1 12113
+S
+#12115
+Throne room~
+You are standing in the clouds. As you watch the clouds start to move, they
+swirl around and then begin to take shape. The movement dies away. A large
+throne is left floating about four metres away from the surface of the cloud.
+~
+0 2
+D5
+~
+~
+0 -1 12114
+E
+throne~
+A large throne floats in space waiting for the great god Wandera to come back
+from his journy and be seated upon it again.
+~
+S
+#0
+
+#RESETS
+M 0 12100 1 12115 1  1 
+  
+
+E 1 12105  70 0
+M 0 12101 1 12115 1  1 
+  
+
+E 1 12106  90 17
+M 0 12102 1 12113 1  1 
+  
+
+E 1 12107  54 13
+E 1 12108  54 16
+M 0 12103 1 12114 1  1 
+  
+
+E 1 12109 100 12
+M 0 12104 1 12114 1  1 
+  
+
+G 1 12110 100
+G 1 12111 100
+S
+#SHOPS
+12104 0 0 0 0 0 100 100 0 23 
+0
+
+
+#SPECIALS
+M  12100 spec_cast_cleric
+S
+
+
+
+#$
+
+

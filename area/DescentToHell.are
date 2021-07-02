@@ -1,0 +1,4855 @@
+#AREA   
+DescentToHell.are~
+Descent to Hell~
+{30 55} Strahd  Descent to Hell~
+10401 10550
+
+#ROOMS
+#10401
+Stone Archway~
+This is a ancient stone archway. Various faces of demons and other grim
+pictures are painted onto it. Stone gargoyles and demons glare down at
+you from atop the arch.
+There is a bronze plaque above the archway.
+~
+AD 0
+D0
+You see a closet.
+~
+~
+0 -1 11082
+D3
+It's too dark to see.
+~
+~
+0 -1 10402
+E
+plaque~
+************
+Descent to Hell
+************
+
+You just GO TO HELL!!!!
+*chuckle*
+
+Made for levels 30-50
+
+Brought to you by Strahd
+~
+S
+#10402
+Ancient Room~
+You are standing in a large stone room. Feels like a crypt. Ancient murals
+of Hell and punishment cover the walls.In the middle of the room are stairs
+that lead down in to the darkness. From the stairway you can smell
+brimstone and sulfur.
+To the west it looks as if there is a shrine.
+~
+AD 0
+D1
+It is too dark to see.
+~
+~
+0 -1 10401
+D3
+You see an ancient shrine.
+~
+~
+0 -1 10418
+D5
+You see a dark stairway.
+~
+~
+0 -1 10403
+S
+#10403
+Dark Stairway~
+You are standing at the bottom of  long dark stairway. The smell of
+brimstone and sulfur choke you. Screams of pain and terror fill the air.
+Stone faces carved into the walls seem to laugh at you.
+Maybe this is not such a good idea after all....
+~
+AD 0
+D3
+Its too dark to see.
+~
+~
+0 -1 10404
+D4
+You see a dark stairway.
+~
+~
+0 -1 10402
+S
+#10404
+Landing~
+This landing has been scorched as if a large brushfire swept through it.
+Bits of ash and burnt vegetation covers everything. The walls and floor are
+flawlessly smooth and the ceiling is covered with carved faces and ancient
+symbols and runes.
+A large black iron gates tower over you to the west.
+You see a large gateway to the west.
+~
+AD 0
+D1
+Its too dark to see.
+~
+~
+0 -1 10403
+D3
+You see the Gates of Hell
+~
+gates~
+1 -1 10405
+E
+gates~
+These black iron gates are covered with grotesque faces and other
+creatures in various poses and acts of violence and lust. The gates
+seem to make your blood run cold...
+~
+S
+#10405
+Gateway to Hell~
+You stand next to the very gateway of Hell. You are surrounded by 
+the sounds of torture and pain. Screams pierce the air and rattle your
+nerves. Displays of the treats of Hell are in all directions.
+A large black iron gates tower over you to the east.
+~
+AD 0
+D0
+Its too smoky to see.
+~
+~
+0 -1 10416
+D1
+The Gates of Hell
+~
+gates~
+1 -1 10404
+D2
+Its too smoky to see.
+~
+~
+0 -1 10426
+D3
+Its too smoky to see.
+~
+~
+0 -1 10406
+E
+gates~
+These black iron gates are covered with grotesque faces and other
+creatures in various poses and acts of violence and lust. The gates
+seem to make your blood run cold...
+~
+S
+#10406
+Hall of the Damned~
+This hallway is a monument to the millions of damned souls in hell.
+The walls are made up of various body parts and other unidentifiable
+things. Many of the faces that make up the wall scream out to you for
+help. Their arms desperately grasp at your clothing as you pass.
+~
+AD 0
+D0
+Its too smoky to see.
+~
+~
+0 -1 10415
+D1
+Its too smoky to see.
+~
+~
+0 -1 10405
+D2
+Its too smoky to see.
+~
+~
+0 -1 10425
+D3
+Its too smoky to see.
+~
+~
+0 -1 10407
+S
+#10407
+Hall of the Damned~
+This hallway is a monument to the millions of damned souls in hell.
+The walls are made up of various body parts and other unidentifiable
+things. Many of the faces that make up the wall scream out to you for
+help. Their arms desperately grasp at your clothing as you pass.
+~
+AD 0
+D0
+Its too smoky to see.
+~
+~
+0 -1 10414
+D1
+Its too smoky to see.
+~
+~
+0 -1 10406
+D2
+Its too smoky to see.
+~
+~
+0 -1 10424
+D3
+Its too smoky to see.
+~
+~
+0 -1 10408
+S
+#10408
+Hall of the Damned~
+This hallway is a monument to the millions of damned souls in hell.
+The walls are made up of various body parts and other unidentifiable
+things. Many of the faces that make up the wall scream out to you for
+help. Their arms desperately grasp at your clothing as you pass.
+~
+AD 0
+D0
+Its too smoky to see.
+~
+~
+0 -1 10413
+D1
+Its too smoky to see.
+~
+~
+0 -1 10407
+D2
+Its too smoky to see.
+~
+~
+0 -1 10423
+D3
+Its too smoky to see.
+~
+~
+0 -1 10409
+S
+#10409
+Hall of the Damned~
+This hallway is a monument to the millions of damned souls in hell.
+The walls are made up of various body parts and other unidentifiable
+things. Many of the faces that make up the wall scream out to you for
+help. Their arms desperately grasp at your clothing as you pass.
+~
+AD 0
+D0
+Its too smoky to see.
+~
+~
+0 -1 10412
+D1
+Its too smoky to see.
+~
+~
+0 -1 10408
+D2
+Its too smoky to see.
+~
+~
+0 -1 10422
+D3
+Its too smoky to see.
+~
+~
+0 -1 10410
+D5
+You see a dark stairway leading down.
+~
+stairs~
+0 -1 10421
+S
+#10410
+Hall of the Damned~
+This hallway is a monument to the millions of damned souls in hell.
+The walls are made up of various body parts and other unidentifiable
+things. Many of the faces that make up the wall scream out to you for
+help. Their arms desperately grasp at your clothing as you pass.
+~
+AD 0
+D0
+Its too smoky to see.
+~
+~
+0 -1 10411
+D1
+Its too smoky to see.
+~
+~
+0 -1 10409
+S
+#10411
+Mural of the Dead~
+You stand before a large mural. The mural depicts mountains of dead
+bodies piled up to the sky. The mural covers the whole north wall from
+floor to ceiling. You can almost smell the stench of decaying flesh.
+~
+AD 0
+D1
+Its too smoky to see.
+~
+~
+0 -1 10412
+D2
+Its too smoky to see.
+~
+~
+0 -1 10410
+S
+#10412
+Living Walls~
+The walls here actually consist of greying and sinewy flesh - faces, hands,
+broken bones, feet, and toes jutting from the surface. You hear low moans
+of horror, pain, and sorrow issuing from the walls.
+~
+AD 0
+D1
+Its too smoky to see.
+~
+~
+0 -1 10413
+D2
+Its too smoky to see.
+~
+~
+0 -1 10409
+D3
+Its too smoky to see.
+~
+~
+0 -1 10411
+S
+#10413
+Trapped souls~
+There are many souls trapped behind the walls of this room. Almost as if
+trapped beneath the surface of a frozen lake. Even the floor and ceiling
+show the screaming faces behind them.
+~
+AD 0
+D1
+Its too smoky to see.
+~
+~
+0 -1 10414
+D2
+Its too smoky to see.
+~
+~
+0 -1 10408
+D3
+Its too smoky to see.
+~
+~
+0 -1 10412
+S
+#10414
+Tortured Beings~
+This room is filled with instruments of torture. Beings of all shapes and
+sizes are being brought to the thresholds of pain and beyond. Some are
+being sliced into thousands of pieces. Others stretched until it seems as if
+they are made of rubber. All caught in an unending play of agony.
+~
+AD 0
+D1
+Its too smoky to see.
+~
+~
+0 -1 10415
+D2
+Its too smoky to see.
+~
+~
+0 -1 10407
+D3
+Its too smoky to see.
+~
+~
+0 -1 10413
+S
+#10415
+Gluttony~
+Before you is a room filled with all sorts of food. The smell of pastries and
+Hamburger assault your senses. All sorts of food lay everywhere you look.
+Cookies, twinkies, steak, prime rib, almost anything you can think of, call
+out to you. You suddenly feel VERY hungry.
+~
+AD 0
+D1
+Its too smoky to see.
+~
+~
+0 -1 10416
+D2
+Its too smoky to see.
+~
+~
+0 -1 10406
+D3
+Its too smoky to see.
+~
+~
+0 -1 10414
+S
+#10416
+Greed~
+What luck! A room full of treasure. Gold, diamonds, riches beyond
+imagination! Wait! You suddenly feel as if it is all slowly disappearing.
+Someone is taking your treasure. They have no right! It is yours! You
+found it first. Let them go get thier own treasures!
+You see a door to the east.
+~
+AD 0
+D1
+You see a bedroom door.
+~
+door~
+1 -1 10417
+D2
+Its too smoky to see.
+~
+~
+0 -1 10405
+D3
+Its too smoky to see.
+~
+~
+0 -1 10415
+S
+#10417
+Bedroom.~
+This is a small bedroom. It is well furnished and a drastic change from
+the room you just stepped out of. A bed stands against the far wall.
+Apon the headboard of the bead are carved two cherub looking figures,
+with the words 'DEE & DEE' written below them.
+The door to the bedroom is to the west.
+~
+AD 0
+D3
+You see a bedroom door.
+~
+door~
+1 -1 10416
+S
+#10418
+Ancient Shrine~
+This is an ancient abandon shrine of some unknown god. It has been
+vandalized and torn apart. What used to be the shrine has been reduced to
+a large pile of stone and other debris. Various runes and demonic faces
+have been spray painted on the walls and floor. Nailed to the ceiling are
+an assortement of skeletons. All seem to have been dead for a very long
+time. All surfaces of the room are covered with dried blood and dust. 
+~
+AD 0
+D1
+It is too dark to see.
+~
+~
+0 -1 10402
+S
+#10419
+Room full of Body Parts.~
+The room is filled with piles of arms, legs, heads, and other unidentifiable
+parts of many different creatures. The stench is overwhelming. The body
+parts seem to wiggle and scream as you get closer. They are still alive!!
+~
+AD 0
+D1
+It is too dark to see.
+~
+~
+0 -1 10420
+D2
+It is too dark to see.
+~
+~
+0 -1 10429
+S
+#10420
+Fountain of Blood.~
+This room is made of a rough black stone. The walls seem to ooze black
+sludge. In the middle of the room stands a stone fountain of a demon spitting
+blood.
+~
+AD 0
+D2
+It is too dark to see.
+~
+~
+0 -1 10430
+D3
+It is too dark to see.
+~
+~
+0 -1 10419
+S
+#10421
+Bloody Stairway.~
+You are standing on a very slippy stairway. The walls and stairs are
+covered with blood and gore. Pieces of goo and ooze drip from the
+ceiling overhead. You almost slip a couple times on the stairway.
+The stench here is overwhelming.
+~
+AD 0
+D4
+It is too dark to see.
+~
+~
+0 -1 10409
+D5
+It is too dark to see.
+~
+~
+0 -1 10431
+S
+#10422
+Ancient Room~
+This is a very old and dusty room. It looks empty except for a few shards
+or bone and flesh.
+~
+AD 0
+D0
+It is too dark to see.
+~
+~
+0 -1 10409
+D1
+It is too dark to see.
+~
+~
+0 -1 10423
+S
+#10423
+Room of Lost Souls~
+This looks like a waiting room or sorts. Dust and cobwebs are everywhere.
+Wooden benches line the walls. A digital number sign is posted on the wall.
+It currently reads, 'Now Serving Number 1'.
+A ticket dispenser is bolted to the wall.
+~
+AD 0
+D0
+It is too dark to see.
+~
+~
+0 -1 10408
+D1
+It is too dark to see.
+~
+~
+0 -1 10424
+D3
+It is too dark to see.
+~
+~
+0 -1 10422
+E
+dispenser~
+This is one of those red ticket dispensers that never seem to work right.
+~
+S
+#10424
+Room of Lost Souls~
+This looks like a waiting room or sorts. Dust and cobwebs are everywhere.
+Wooden benches line the walls. A digital number sign is posted on the wall.
+It currently reads, 'Now Serving Number 1'.
+A ticket dispenser is bolted to the wall.
+~
+AD 0
+D0
+It is too dark to see.
+~
+~
+0 -1 10407
+D1
+It is too dark to see.
+~
+~
+0 -1 10425
+D3
+It is too dark to see.
+~
+~
+0 -1 10423
+E
+dispenser~
+This is one of those red ticket dispensers that never seem to work right.
+~
+S
+#10425
+Pit of Fire~
+You enter a plain stone room with a large fire pit in the center of it.
+As you look closer at the pit you realize that hundreds of people are being
+burned inside it. They Scream out to you. The noise is deafening. Several
+minor imps and workers push more people into the pit, whistling while
+~
+D 0
+D0
+It is too dark to see.
+~
+~
+0 -1 10406
+D1
+It is too dark to see.
+~
+~
+0 -1 10426
+D3
+It is too dark to see.
+~
+~
+0 -1 10424
+S
+#10426
+Blackened Hallway~
+This dark hallway looks as if it was made by a lavaworm...All the surfaces
+in it are melted and burnt. The smell of brimstone and sulfur fill the air.
+~
+AD 0
+D0
+It is too dark to see.
+~
+~
+0 -1 10405
+D1
+It is too dark to see.
+~
+~
+0 -1 10427
+D3
+It is too dark to see.
+~
+~
+0 -1 10425
+S
+#10427
+Blackened Hallway~
+This dark hallway looks as if it was made by a lavaworm...All the surfaces
+in it are melted and burnt. The smell of brimstone and sulfur fill the air.
+~
+AD 0
+D1
+It is too dark to see.
+~
+~
+0 -1 10428
+D3
+It is too dark to see.
+~
+~
+0 -1 10426
+S
+#10428
+Blood Room~
+You enter the room and are immediately assaulted by the smell of rotting
+flesh and blood. The walls are covered with the crimson fluid as it runs
+down from the ceiling.
+~
+AD 0
+D1
+It is too dark to see.
+~
+~
+0 -1 10429
+D3
+It is too dark to see.
+~
+~
+0 -1 10427
+S
+#10429
+Living Walls~
+The walls here actually consist of greying and sinewy flesh - faces, hands,
+broken bones, feet, and toes jutting from the surface. You hear low moans
+of horror, pain, and sorrow issuing from the walls.
+~
+AD 0
+D0
+It is too dark to see.
+~
+~
+0 -1 10419
+D1
+It is too dark to see.
+~
+~
+0 -1 10430
+D3
+It is too dark to see.
+~
+~
+0 -1 10428
+S
+#10430
+Skeleton Factory~
+This is probably where they make all the skeletons for nightmares and
+graveyards. The room is simply littered with bones. A poster on the
+wall reads, "Remember ....the head bone is connected to the neck bone.."
+The poster continues on...but it seems to get very technical and boring..
+~
+AD 0
+D0
+It is too dark to see.
+~
+~
+0 -1 10420
+D3
+It is too dark to see.
+~
+~
+0 -1 10429
+S
+#10431
+Bottom of Stairway~
+You are standing at the bottom of a bloody stairway. Or at least you
+thought it was a stairway. It seems to be just a painting the the wall.
+This roughly carved room with evil runes carved  in to the stone floor.
+There is a hallway to the east.
+~
+AD 0
+D1
+It is too dark to see.
+~
+~
+0 -1 10432
+S
+#10432
+Stone Hall~
+This is a roughly carved hallway. The air here is damp and musty. You 
+hear the sound of something dripping in the distance. Your footsteps
+echo down the hall as you walk. There is a strange and deathly silence
+that fills these halls...
+The hall continues to the south and the west.
+~
+AD 0
+D2
+It is too dark to see.
+~
+~
+0 -1 10442
+D3
+It is too dark to see.
+~
+~
+0 -1 10431
+S
+#10433
+Cell~
+The cell is very damp and very musty. The walls are covered with moisture
+and dirt. The smell of urine is very potent here.
+The steel bars to the cell are to the south.
+~
+AD 0
+D2
+You see bars
+~
+bars~
+1 -1 10443
+S
+#10434
+Stone Hall~
+This is a roughly carved hallway. The air here is damp and musty. You 
+hear the sound of something dripping in the distance. Your footsteps
+echo down the hall as you walk. There is a strange and deathly silence
+that fills these halls...
+The hallway continues to the east and the south.
+~
+AD 0
+D1
+It is too dark to see.
+~
+~
+0 -1 10435
+D2
+It is too dark to see.
+~
+~
+0 -1 10444
+S
+#10435
+Stone Hall~
+This is a roughly carved hallway. The air here is damp and musty. You 
+hear the sound of something dripping in the distance. Your footsteps
+echo down the hall as you walk. There is a strange and deathly silence
+that fills these halls...
+To the south you see the steel bars of a cell.
+~
+AD 0
+D1
+It is too dark to see.
+~
+~
+0 -1 10436
+D2
+You see the steel bars of a cell.
+~
+bars~
+1 -1 10445
+D3
+It is too dark to see.
+~
+~
+0 -1 10434
+S
+#10436
+Stone Hall~
+This is a roughly carved hallway. The air here is damp and musty. You 
+hear the sound of something dripping in the distance. Your footsteps
+echo down the hall as you walk. There is a strange and deathly silence
+that fills these halls...
+The hallway contines to the south and the west.
+~
+AD 0
+D2
+It is too dark to see.
+~
+~
+0 -1 10446
+D3
+It is too dark to see.
+~
+~
+0 -1 10435
+S
+#10437
+Cell~
+The cell is very damp and very musty. The walls are covered with moisture
+and dirt. The smell of urine is very potent here.
+The steel bars to the cell are to the south.
+~
+AD 0
+D2
+You see bars
+~
+bars~
+1 -1 10447
+S
+#10438
+Stone Hall~
+This is a roughly carved hallway. The air here is damp and musty. You 
+hear the sound of something dripping in the distance. Your footsteps
+echo down the hall as you walk. There is a strange and deathly silence
+that fills these halls...
+The hallway contines to the south and the east.
+~
+AD 0
+D1
+It is too dark to see.
+~
+~
+0 -1 10439
+D2
+It is too dark to see.
+~
+~
+0 -1 10448
+S
+#10439
+Stone Hall~
+This is a roughly carved hallway. The air here is damp and musty. You 
+hear the sound of something dripping in the distance. Your footsteps
+echo down the hall as you walk. There is a strange and deathly silence
+that fills these halls...
+The hallway contines to the west.
+~
+AD 0
+D1
+You see the steel bars to a cell.
+~
+bars~
+1 -1 10440
+D2
+You see the steel bars to a cell.
+~
+bars~
+1 -1 10449
+D3
+It is too dark to see.
+~
+~
+0 -1 10438
+D5
+You see a dark stairway down....
+~
+~
+0 -1 10450
+S
+#10440
+Cell~
+The cell is very damp and very musty. The walls are covered with moisture
+and dirt. The smell of urine is very potent here.
+The steel bars to the cell are to the west.
+~
+AD 0
+D3
+You see bars
+~
+bars~
+1 -1 10439
+S
+#10441
+Hidden Room~
+This is a long forgotten room. Ancient torture equipment stands around
+collecting dust. Most of this stuff was probably replace with modern
+hi tech torture devices and for sentimental reasons wasn't thrown away.
+~
+AD 0
+D2
+Its too dark to see.
+~
+~
+0 -1 10451
+S
+#10442
+Stone Hall~
+This is a roughly carved hallway. The air here is damp and musty. You 
+hear the sound of something dripping in the distance. Your footsteps
+echo down the hall as you walk. There is a strange and deathly silence
+that fills these halls...
+The hallway contines to the north and east.
+~
+AD 0
+D0
+Its too dark to see.
+~
+~
+0 -1 10432
+D1
+Its too dark to see.
+~
+~
+0 -1 10443
+S
+#10443
+Stone Hall~
+This is a roughly carved hallway. The air here is damp and musty. You 
+hear the sound of something dripping in the distance. Your footsteps
+echo down the hall as you walk. There is a strange and deathly silence
+that fills these halls...
+The hallway contines to the east and west.
+The bars to a cell are to the north.
+~
+AD 0
+D0
+You see bars to a cell.
+~
+bars~
+1 -1 10433
+D1
+Its too dark to see.
+~
+~
+0 -1 10444
+D3
+Its too dark to see.
+~
+~
+0 -1 10442
+S
+#10444
+Stone Hall~
+This is a roughly carved hallway. The air here is damp and musty. You 
+hear the sound of something dripping in the distance. Your footsteps
+echo down the hall as you walk. There is a strange and deathly silence
+that fills these halls...
+The hallway contines to the north and west.
+~
+AD 0
+D0
+Its too dark to see.
+~
+~
+0 -1 10434
+D3
+Its too dark to see.
+~
+~
+0 -1 10443
+S
+#10445
+Cell~
+The cell is very damp and very musty. The walls are covered with moisture
+and dirt. The smell of urine is very potent here.
+The steel bars to the cell are to the north.
+~
+AD 0
+D0
+You see bars
+~
+bars~
+1 -1 10435
+S
+#10446
+Stone Hall~
+This is a roughly carved hallway. The air here is damp and musty. You 
+hear the sound of something dripping in the distance. Your footsteps
+echo down the hall as you walk. There is a strange and deathly silence
+that fills these halls...
+The hallway contines to the north and east.
+~
+AD 0
+D0
+Its too dark to see.
+~
+~
+0 -1 10436
+D1
+Its too dark to see.
+~
+~
+0 -1 10447
+S
+#10447
+Stone Hall~
+This is a roughly carved hallway. The air here is damp and musty. You 
+hear the sound of something dripping in the distance. Your footsteps
+echo down the hall as you walk. There is a strange and deathly silence
+that fills these halls...
+The hallway contines to the east and west.
+You see bars to a cell to the north.
+~
+AD 0
+D0
+You see bars to a cell.
+~
+bars~
+1 -1 10437
+D1
+Its too dark to see.
+~
+~
+0 -1 10448
+D3
+Its too dark to see.
+~
+~
+0 -1 10446
+S
+#10448
+Stone Hall~
+This is a roughly carved hallway. The air here is damp and musty. You 
+hear the sound of something dripping in the distance. Your footsteps
+echo down the hall as you walk. There is a strange and deathly silence
+that fills these halls...
+The hallway contines to the north and west.
+~
+AD 0
+D0
+Its too dark to see.
+~
+~
+0 -1 10438
+D3
+Its too dark to see.
+~
+~
+0 -1 10447
+S
+#10449
+Cell~
+The cell is very damp and very musty. The walls are covered with moisture
+and dirt. The smell of urine is very potent here.
+The steel bars to the cell are to the north.
+~
+AD 0
+D0
+You see bars
+~
+bars~
+1 -1 10439
+S
+#10450
+Hot Stairs~
+You are standing on a long stairway. The air around you is heavy and hot.
+The stone walls are hot to the touch and your sweat sizzles as it hits the
+ground. Cool air flows out from a crack in the wall to the east.
+The smell of brimstone and smoke is all around you.
+The stairs continue down.
+~
+AD 0
+D4
+It is too dark to see.
+~
+~
+0 -1 10439
+D5
+It is too dark to see.
+~
+~
+0 -1 10461
+S
+#10451
+Crack in Wall~
+This is a rather large crack in the wall. On closer inspection it appears to be
+a passageway that was closed off long ago. It was probably reopened by
+an earthquake or something.
+An ancient passageway continues to the north.
+Hot gusts of air come from the west.
+~
+AD 0
+D0
+It is too dark to see.
+~
+~
+0 -1 10441
+D3
+It is too dark to see.
+~
+~
+0 -1 10450
+S
+#10452
+Stone Arch~
+Before you stands the a large stone arch decorated with many runes you
+cannot decifer. It looks as though it has been closed up for a long time.
+To the east is a hallway of fire.
+To the south you see a large metal door with the words, 'FOREMAN'
+written on the door.
+There is a dark stairway down in the corner of the room.
+~
+AD 0
+D1
+You see a hall of fire.
+~
+~
+0 -1 10453
+D2
+You see the Foreman's office.
+~
+~
+1 -1 10462
+D5
+You see a dark stairway down.
+~
+~
+0 -1 10463
+S
+#10453
+Hall of Fire~
+You are standing in a hallway made of fire. The walls are ablaze with
+yellow and blue flames. The smell of the hot air and sulfur burn your
+lungs as you inhale, and dry your mouth as you exhale. The stone floor
+burns at your feet and hungrily drinks up every drop of sweat as they
+fall from your body.
+The hall of fire continues to the east.
+You see a stone archway to the west.
+~
+AD 0
+D1
+You see a hall of fire.
+~
+~
+0 -1 10454
+D3
+You see a stone archway.
+~
+~
+0 -1 10452
+S
+#10454
+Hall of Fire~
+You are standing in a hallway made of fire. The walls are ablaze with
+yellow and blue flames. The smell of the hot air and sulfur burn your
+lungs as you inhale, and dry your mouth as you exhale. The stone floor
+burns at your feet and hungrily drinks up every drop of sweat as they
+fall from your body.
+The hall of fire continues to the south and west.
+~
+AD 0
+D2
+You see a hall of fire.
+~
+~
+0 -1 10464
+D3
+You see a stone archway.
+~
+~
+0 -1 10453
+S
+#10455
+Construction Area~
+This part of Hell seems to be under repair. Workers are fixing and replacing
+what look like various gas mains and other pipework. You can see many
+gas lines and electrical conduits within the dismantled walls. Partially
+hidden fire sprinklers are being installed in the ceilings.
+You see more contruction to the east and south.
+~
+AD 0
+D1
+You see a construction area.
+~
+~
+0 -1 10456
+D2
+You see a construction area.
+~
+~
+0 -1 10465
+S
+#10456
+Construction Area~
+This part of Hell seems to be under repair. Workers are fixing and replacing
+what look like various gas mains and other pipework. You can see many
+gas lines and electrical conduits within the dismantled walls. Partially
+hidden fire sprinklers are being installed in the ceilings.
+You see more contruction to the east and west.
+~
+AD 0
+D1
+You see a construction area.
+~
+~
+0 -1 10457
+D2
+You see a construction area.
+~
+~
+0 -1 10455
+S
+#10457
+Construction Area~
+This part of Hell seems to be under repair. Workers are fixing and replacing
+what look like various gas mains and other pipework. You can see many
+gas lines and electrical conduits within the dismantled walls. Partially
+hidden fire sprinklers are being installed in the ceilings.
+You see more contruction to the south and west.
+~
+AD 0
+D2
+You see a construction area.
+~
+~
+0 -1 10467
+D3
+You see a construction area.
+~
+~
+0 -1 10456
+S
+#10458
+Hall of Fire~
+You are standing in a hallway made of fire. The walls are ablaze with
+yellow and blue flames. The smell of the hot air and sulfur burn your
+lungs as you inhale, and dry your mouth as you exhale. The stone floor
+burns at your feet and hungrily drinks up every drop of sweat as they
+fall from your body.
+The hall of fire continues to the east and south.
+~
+AD 0
+D1
+You see a hall of fire.
+~
+~
+0 -1 10459
+D2
+You see a hall of fire.
+~
+~
+0 -1 10468
+S
+#10459
+Hall of Fire~
+You are standing in a hallway made of fire. The walls are ablaze with
+yellow and blue flames. The smell of the hot air and sulfur burn your
+lungs as you inhale, and dry your mouth as you exhale. The stone floor
+burns at your feet and hungrily drinks up every drop of sweat as they
+fall from your body.
+The hall of fire continues to the west.
+A room full of fire pits lies to the east.
+A wall of fire crackles merrily to the south.
+~
+AD 0
+D1
+You see a room full of fire pits.
+~
+~
+0 -1 10460
+D2
+You see a wall of fire.
+~
+~
+0 -1 10469
+D3
+You see a hall of fire.
+~
+~
+0 -1 10458
+S
+#10460
+Fire Pits of Hades~
+This room is filled with many small fire pits. Countless damned souls are
+being burnt and roasted within the the white flames that erupt from the
+many pits. Wailing and screams of pain chill your bones in this hot room.
+To the south you see a lake of fire.
+A fire hall lies to the west.
+~
+AD 0
+D2
+You see a lake of fire.
+~
+~
+0 -1 10470
+D3
+You see a hall of fire.
+~
+~
+0 -1 10459
+S
+#10461
+Fire Mural~
+Apon all the walls of this room is an enormous mural. Pictures of burning
+bodies and tortured souls seem to be the main theme of the art. Bright reds
+and hot blues are enphasized throughout the mural. As you stare at it the
+characters within it seem to move and struggle in pain. The hot air around
+you smells of sulfur and methane. To the south you see a stone hallway.
+Hot air blows in at you from the doorway. The air stirs up the methane and
+steals your breath. You choke and gag...
+~
+AD 0
+D2
+You see a stone hallway.
+~
+~
+0 -1 10471
+S
+#10462
+Foreman's Office~
+You stand in a crudly constructed office. Blueprints and change orders are
+scattered everywhere. A metal filing cabinet stands in the corner. Before
+you stands a stone table covered with blueprints. On the wall is a 
+construction plaque that reads, "4th DEMONsion Contruction"
+~
+AD 0
+D0
+You see the door to the office.
+~
+~
+1 -1 10452
+S
+#10463
+Cold Stairway~
+You stand apon a cold stone stairway. Hot air blows down on you from
+higher up the stairwell. From below you a freezing gusts bite at your skin
+and make you shiver. Icicles drip slowly from the ceiling onto the frosted
+stone floor.
+~
+AD 0
+D4
+It is too dark to see.
+~
+~
+0 -1 10452
+D5
+It is too dark to see.
+~
+~
+0 -1 10472
+S
+#10464
+Hall of Fire~
+You are standing in a hallway made of fire. The walls are ablaze with
+yellow and blue flames. The smell of the hot air and sulfur burn your
+lungs as you inhale, and dry your mouth as you exhale. The stone floor
+burns at your feet and hungrily drinks up every drop of sweat as they
+fall from your body.
+The hall of fire continues to the north and east.
+~
+AD 0
+D0
+You see a hall of fire.
+~
+~
+0 -1 10454
+D1
+You see a wall of fire.
+~
+~
+0 -1 10465
+S
+#10465
+Construction Area~
+This part of Hell seems to be under repair. Workers are fixing and replacing
+what look like various gas mains and other pipework. You can see many
+gas lines and electrical conduits within the dismantled walls. Partially
+hidden fire sprinklers are being installed in the ceilings.
+You see more contruction to the north and east.
+A hall of fire is to the west.
+~
+AD 0
+D0
+You see a construction area.
+~
+~
+0 -1 10455
+D1
+You see a construction area.
+~
+~
+0 -1 10466
+D3
+You see a Hall of fire.
+~
+~
+0 -1 10464
+S
+#10466
+Construction Area~
+This part of Hell seems to be under repair. Workers are fixing and replacing
+what look like various gas mains and other pipework. You can see many
+gas lines and electrical conduits within the dismantled walls. Partially
+hidden fire sprinklers are being installed in the ceilings.
+You see more contruction to the east and west.
+~
+AD 0
+D1
+You see a construction area.
+~
+~
+0 -1 10467
+D3
+You see a construction area.
+~
+~
+0 -1 10465
+S
+#10467
+Construction Area~
+This part of Hell seems to be under repair. Workers are fixing and replacing
+what look like various gas mains and other pipework. You can see many
+gas lines and electrical conduits within the dismantled walls. Partially
+hidden fire sprinklers are being installed in the ceilings.
+You see more contruction to the north and west.
+A hall of fire lies to the east.
+~
+AD 0
+D0
+You see a construction area.
+~
+~
+0 -1 10457
+D1
+You see a hall of fire.
+~
+~
+0 -1 10468
+D3
+You see a construction area.
+~
+~
+0 -1 10466
+S
+#10468
+Hall of Fire~
+You are standing in a hallway made of fire. The walls are ablaze with
+yellow and blue flames. The smell of the hot air and sulfur burn your
+lungs as you inhale, and dry your mouth as you exhale. The stone floor
+burns at your feet and hungrily drinks up every drop of sweat as they
+fall from your body.
+The hall of fire continues to the north.
+There are loud noises of contruction to the west.
+~
+AD 0
+D0
+You see a hall of fire.
+~
+~
+0 -1 10458
+D3
+You see a construction area.
+~
+~
+0 -1 10467
+S
+#10469
+Wall of Fire~
+This large room is cut in into sections by small walls of fire. The walls
+to move slowly changing the layout of the room. As you examine the room
+further you notice various posts around the room to which people are
+chained to. The firewalls seem to move in patterns that leave the poor
+people directly in the path of the oncoming fire. The walls seem to creep
+ever so slowly towards them. The people blister and scream as the fire gets
+closer. Thier deaths seem like minutes of agony and pain, and even as they
+burst into flames they seem incapable of grasping the merciful attention of
+death...
+To the north you see a hall of fire.
+To the east you see a lake of fire.
+~
+AD 0
+D0
+You see a hall of fire.
+~
+~
+0 -1 10459
+D1
+You see a Lake of fire.
+~
+~
+0 -1 10470
+S
+#10470
+Lake of Fire~
+You stand one the shore of a large lake of fire. The smoke and heat fill this
+enormous room. You can barely make out shapes of something moving
+withing the dancing flames of blue and gold..
+~
+AD 0
+D0
+It is too smoky to see.
+~
+~
+0 -1 10460
+D1
+It is too smoky to see.
+~
+~
+0 -1 10471
+D3
+It is too smoky to see.
+~
+~
+0 -1 10469
+S
+#10471
+Hot Hall~
+The stone floor below you heats your feet uncomfortably. The ceiling and
+walls glow a dull red and you sweat uncomfortably under the heat.
+~
+AD 0
+D0
+You see a Mural Room.
+~
+~
+0 -1 10461
+D3
+It is too smoky to see.
+~
+~
+0 -1 10470
+S
+#10472
+Icy Landing~
+This landing is made entirely of ice. Its walls bear carvings of battle and
+hunting scenes in bas-relief. These carved scenes show ice devils slaying
+angels, hunting mortals and other gruesome pictures.
+To the east you see a room of ice.
+~
+AD 0
+D1
+You see a room of ice.
+~
+~
+0 -1 10541
+D4
+Too dark to tell
+~
+~
+0 -1 10463
+S
+#10473
+Ice Room~
+You are standing in a room of ice. Icicles of every size hang from the
+ceiling. Some shake with every sound. Your reflection off the ice walls
+seems to dance and wiggle as you move about.
+To the south you see more of the frozen room.
+To the west you see an Icy landing.
+~
+AD 0
+D2
+You see a room of ice.
+~
+~
+0 -1 10483
+D3
+You see a room of ice.
+~
+~
+0 -1 10541
+S
+#10474
+Meat Locker~
+You are standing in what looks like a meat locker. Rows of beef and other
+meats hang from large steel hooks. You also notice that many of the
+things hanging from the hooks are corpses of people. They reach out to
+you as you pass them as if to plead for help from their frozen mouths. 
+The meat locker continues to the east and south.
+~
+AD 0
+D1
+You see more of the Meat locker
+~
+~
+0 -1 10475
+D2
+You see more of the Meat locker
+~
+~
+0 -1 10484
+S
+#10475
+Meat Locker~
+Rows of beef and other meats hang from large steel hooks. You notice that 
+many of the things hanging from the hooks are corpses of people. They 
+reach out to you as you pass them as if to plead for help from their frozen 
+mouths. 
+The meat locker continues to the south and west.
+There is a freezer door to the east.
+~
+AD 0
+D1
+You see a freezer door.
+~
+freezer~
+1 -1 10476
+D2
+You see more of the Meat locker
+~
+~
+0 -1 10485
+S
+#10476
+Penguin Room~
+This is what appears to be a replica of an iceberg. Penguins waddle about
+the room pecking at many poor souls half trapped in the icy floor. You
+seem to be outside, as the walls are painted to seem as if you are standing
+on a vast icy slab with nothing but ocean around you. 
+The iceberg continues to the south and east.
+There is a freezer door to the west.
+~
+AD 0
+D1
+You see lots and lots of ice.
+~
+~
+0 -1 10477
+D2
+You see lots and lots of ice.
+~
+~
+0 -1 10486
+D3
+You see a freezer door.
+~
+door freezer~
+1 -1 10475
+S
+#10477
+Penguin Room~
+This is what appears to be a replica of an iceberg. Penguins waddle about
+the room pecking at many poor souls half trapped in the icy floor. You
+seem to be outside, as the walls are painted to seem as if you are standing
+on a vast icy slab with nothing but ocean around you. 
+The iceberg continues to the south and east.
+There is a freezer door to the west.
+~
+AD 0
+D2
+You see lots and lots of ice.
+~
+~
+0 -1 10487
+D3
+You see lots and lots of ice.
+~
+~
+0 -1 10476
+S
+#10478
+Ice Creamery~
+You appear to be standing in a ice-creamery. Many ice-cream workers run
+frantically around tending to the various machines.
+The factory continues to the east and south.
+~
+AD 0
+D1
+You see lots of ice-cream machines.
+~
+~
+0 -1 10479
+D2
+You see lots of ice-cream machines.
+~
+~
+0 -1 10488
+S
+#10479
+Ice Creamery~
+You appear to be standing in a ice-creamery. There seems to be a
+group of people here shouting into containers and then quickly covering 
+them. How odd...
+The factory continues to the south and west.
+There is a steel door to the east.
+~
+AD 0
+D1
+You see a steel door.
+~
+door steel~
+1 -1 10480
+D2
+You see lots of ice-cream machines.
+~
+~
+0 -1 10489
+D3
+You see lots of ice-cream machines.
+~
+~
+0 -1 10478
+S
+#10480
+White Marble Hall~
+You are standing in a white marble hallway. It is dry and clean. Many
+portraits of demons and devils in business suits adorn the walls on either
+side of you.
+The hall continues to the south.
+To the west is a steel door.
+~
+AD 0
+D2
+You see a marble hallway.
+~
+~
+0 -1 10490
+D3
+You see a steel door.
+~
+door steel~
+1 -1 10479
+S
+#10481
+Refrigerator Room~
+This room is filled with giant refrigerators. All of them have no doors and
+their contents have spilled onto the floor.
+The only exit is east.
+~
+AD 0
+D1
+You see a room of ice.
+~
+~
+0 -1 10482
+S
+#10482
+Ice Room~
+You are standing in a room of ice. Icicles of every size hang from the
+ceiling. Some shake with every sound. Your reflection off the ice walls
+seems to dance and wiggle as you move about.
+To the north and east you see more of the frozen room.
+To the west you see a room full of refrigerators.
+~
+AD 0
+D0
+You see a room of ice.
+~
+~
+0 -1 10541
+D1
+You see a room of ice.
+~
+~
+0 -1 10483
+D3
+You see a room full of refrigerators.
+~
+~
+0 -1 10481
+S
+#10483
+Ice Room~
+You are standing in a room of ice. Icicles of every size hang from the
+ceiling. Some shake with every sound. Your reflection off the ice walls
+seems to dance and wiggle as you move about.
+To the north and west you see more of the frozen room.
+To the east you see a freezer door.
+~
+AD 0
+D0
+You see a room of ice.
+~
+~
+0 -1 10473
+D1
+You see a freezer door.
+~
+door freezer~
+1 -1 10484
+D3
+You see a room of ice.
+~
+~
+0 -1 10482
+S
+#10484
+Meat Locker~
+You stand in a large meat locker. Chunks of meat hang on the wall and 
+larger corpses hang from steel hooks. Frozen blood and other 
+unrecognizable pieces are littered on the floor.
+The meat locker continues to the north and east.
+There is a freezer door to the west.
+~
+AD 0
+D0
+You see more of the Meat locker
+~
+~
+0 -1 10474
+D1
+You see more of the Meat locker
+~
+~
+0 -1 10485
+D3
+You see a freezer door.
+~
+door freezer~
+1 -1 10483
+S
+#10485
+Meat Locker~
+Rows of beef and other meats hang from large steel hooks. 
+The meat locker continues to the north and west.
+~
+AD 0
+D0
+You see more of the Meat locker
+~
+~
+0 -1 10475
+D3
+You see more of the Meat locker
+~
+~
+0 -1 10484
+S
+#10486
+Penguin Room~
+This is what appears to be a replica of an iceberg. Penguins waddle about
+the room pecking at many poor souls half trapped in the icy floor. You
+seem to be outside, as the walls are painted to seem as if you are standing
+on a vast icy slab with nothing but ocean around you. 
+The iceberg continues to the north and east.
+~
+AD 0
+D0
+You see lots and lots of ice.
+~
+~
+0 -1 10476
+D1
+You see lots and lots of ice.
+~
+~
+0 -1 10487
+S
+#10487
+Penguin Room~
+This is what appears to be a replica of an iceberg. Penguins waddle about
+the room pecking at many poor souls half trapped in the icy floor. You
+seem to be outside, as the walls are painted to seem as if you are standing
+on a vast icy slab with nothing but ocean around you. 
+The iceberg continues to the north and west.
+You can hear sounds of machinery to the east.
+~
+AD 0
+D0
+You see lots and lots of ice.
+~
+~
+0 -1 10477
+D1
+You see a dark passageway.
+~
+~
+0 -1 10488
+S
+#10488
+Ice-Creamery~
+You walk into part of an ice-cream factory. Many different types of
+ice-cream and other deserts are made by these machines. Above one
+of the machines a sign reads, 'Eye Splean I Screamery'.
+The factory continues to the north and east.
+You can hear sounds of penguins to the west.
+~
+AD 0
+D0
+You see lots of ice-cream machines.
+~
+~
+0 -1 10478
+D1
+You see lots of ice-cream machines.
+~
+~
+0 -1 10489
+D3
+You see a dark passageway.
+~
+~
+0 -1 10487
+S
+#10489
+Ice-Creamery~
+You stand amidst dozens of ice-cream machines. Workers rush about
+for machine to machine, adjusting dials and checking gauges.
+The factory continues to the north and west.
+~
+AD 0
+D0
+You see lots of ice-cream machines.
+~
+~
+0 -1 10479
+D3
+You see lots of ice-cream machines.
+~
+~
+0 -1 10488
+S
+#10490
+Marble Hall~
+You are walking down a white marble hallway. Large portraits of demons
+and devils adorn the walls on either side of you. As you look again you
+realize that they aren't demons and devils after all, but lawyers....well ok...
+depends on your point of view...
+The hallway continues to the north.
+There is an office to the south.
+~
+AD 0
+D0
+You see a white marble hallway.
+~
+~
+0 -1 10480
+D2
+You see an office.
+~
+~
+0 -1 10500
+S
+#10491
+Records Hall~
+This Hallway is actually an enourmous records library. Millions of records
+are kept here detailing the status of peoples lives. These are confidential
+files and only authorized personnel are allowed to view them.
+The records room continues to the east.
+~
+AD 0
+D1
+You see rows and rows of records.
+~
+~
+0 -1 10492
+S
+#10492
+Records Hall~
+This Hallway is actually an enourmous records library. Millions of records
+are kept here detailing the status of peoples lives. These are confidential
+files and only authorized personnel are allowed to view them.
+The records room continues to the east and west.
+There is another hallway to the south.
+~
+AD 0
+D1
+You see rows and rows of records.
+~
+~
+0 -1 10493
+D2
+You see the Halls of Judgement.
+~
+~
+0 -1 10502
+D3
+You see rows and rows of records.
+~
+~
+0 -1 10491
+S
+#10493
+Records Hall~
+This Hallway is actually an enourmous records library. Millions of records
+are kept here detailing the status of peoples lives. These are confidential
+files and only authorized personnel are allowed to view them.
+The records room continues to the east and west.
+~
+AD 0
+D1
+You see rows and rows of records.
+~
+~
+0 -1 10494
+D3
+You see rows and rows of records.
+~
+~
+0 -1 10492
+S
+#10494
+Records Hall~
+This Hallway is actually an enourmous records library. Millions of records
+are kept here detailing the status of peoples lives. These are confidential
+files and only authorized personnel are allowed to view them.
+The records room continues to the west.
+~
+AD 0
+D3
+You see rows and rows of records.
+~
+~
+0 -1 10493
+S
+#10495
+Small Altar~
+This is the private prayer room of the high priest. a small altar stands
+against the west wall. Evil symbols and pictures are plastered everywhere.
+The new propaganda posters for hell are posted behind the altar.
+You see a blackened hall to the east.
+~
+AD 0
+D1
+You see a blackened hallway.
+~
+~
+0 -1 10496
+E
+poster~
+Don't go to heaven....They're boring....
+
+***GO TO HELL!!!****
+
+You'll be damned if you don't  ;)
+~
+S
+#10496
+Blackened Hall~
+This hall looks as if it was burned out recently. The walls are charred and
+smoking. Ashes and bits of burnt timber crunch under your feet as you 
+walk down the hall. A sign on the wall reads, 'No Non-smoking Please'. 
+The hall continues to the south.
+There is a stone door to the east and a prayer room to the west.
+~
+AD 0
+D1
+You see a stone door.
+~
+door stone~
+1 -1 10497
+D2
+You see a blackened hall.
+~
+~
+0 -1 10506
+D3
+You see a prayer room.
+~
+~
+0 -1 10495
+S
+#10497
+Office of the High Priest~
+This is the office of the High Priest of Hell. A black stone desk stands
+before you. The office is lavishly furnished with gold, gems and many
+antiques. A large portrait of a demons face is on the wall behind his desk.
+You see a stone door to the west.
+~
+AD 0
+D3
+You see a stone door.
+~
+door stone~
+1 -1 10496
+S
+#10498
+Blackened Hall~
+This hall looks as if it was burned out recently. The walls are charred and
+smoking. Ashes and bits of burnt timber crunch under your feet as you 
+walk down the hall. A sign on the wall reads, 'No Non-smoking Please'. 
+The hall continues to the east and south.
+~
+AD 0
+D1
+You see a blackened hall.
+~
+~
+0 -1 10499
+D2
+You see a blackened hall.
+~
+~
+0 -1 10508
+S
+#10499
+Blackened Hall~
+This hall looks as if it was burned out recently. The walls are charred and
+smoking. Ashes and bits of burnt timber crunch under your feet as you 
+walk down the hall. A sign on the wall reads, 'No Non-smoking Please'.
+The hall continues to the west.
+A glass door is to the east. 
+~
+AD 0
+D1
+You see a glass door.
+~
+door glass~
+1 -1 10500
+D3
+You see a blackened hall.
+~
+~
+0 -1 10498
+S
+#10500
+Administration of Hell~
+This is the entrance to the Administration offices of Hell. The secretaries
+desk sits quietly in the middle of the room. To the south is a metal door
+labeled, 'Authorized Personnel Only'
+To the west is a large glass door.
+There is a stairway down on the opposite side of the room.
+There is a sign posted next to the stairs.
+~
+AD 0
+D0
+You see a marble hall.
+~
+~
+0 -1 10490
+D2
+You see a metal door.
+~
+door metal~
+1 -1 10510
+D3
+You see a glass door.
+~
+door glass~
+1 -1 10499
+D5
+You see a stairway down.
+~
+stairway~
+0 -1 10509
+E
+sign~
+****ATTENTION***
+The Abyss is CLOSED for construction.
+
+We will open for your painful pleasures
+
+soon....
+
+-Strahd-
+~
+S
+#10501
+Halls of Judgement~
+You are standing in the Halls of Judgement. There are many alcoves 
+which contain different methods of torture. Each more grotesque than
+the one before it. On the wall a plaque reads, 'If you are here...You are
+Guilty...You have been judged...sound fair? Too bad..'
+The hall continues to the east.
+The Courtroom is to the south.
+~
+AD 0
+D1
+You see the Halls of Judgement.
+~
+~
+0 -1 10502
+D2
+You see the Court of Hell.
+~
+~
+0 -1 10511
+S
+#10502
+Halls of Judgement~
+You are standing in the Halls of Judgement. There are many alcoves 
+which contain different methods of torture. Each more grotesque than
+the one before it. 
+The hall continues to the east and west.
+The hall of records is to the north.
+~
+AD 0
+D0
+You see the Hall of Records.
+~
+~
+0 -1 10492
+D1
+You see the Halls of Judgement.
+~
+~
+0 -1 10503
+D3
+You see the Halls of Judgement.
+~
+~
+0 -1 10501
+S
+#10503
+Halls of Judgement~
+You are standing in the Halls of Judgement. There are many alcoves 
+which contain different methods of torture. Each more grotesque than
+the one before it. 
+The hall continues to the east and west.
+The Office of Complaints is to the south.
+~
+AD 0
+D1
+You see the Halls of Judgement.
+~
+~
+0 -1 10504
+D2
+You see the Office of Complaints.
+~
+~
+0 -1 10513
+D3
+You see the Halls of Judgement.
+~
+~
+0 -1 10502
+S
+#10504
+Halls of Judgement~
+You are standing in the Halls of Judgement. There are many alcoves 
+which contain different methods of torture. Each more grotesque than
+the one before it. 
+The hall continues to the east and west.
+~
+AD 0
+D1
+You see the Halls of Judgement.
+~
+~
+0 -1 10505
+D3
+You see the Halls of Judgement.
+~
+~
+0 -1 10503
+S
+#10505
+Halls of Judgement~
+You are standing in the Halls of Judgement. There are many alcoves 
+which contain different methods of torture. Each more grotesque than
+the one before it. 
+The hall continues to the east and west.
+~
+AD 0
+D1
+You see the Halls of Judgement.
+~
+~
+0 -1 10506
+D3
+You see the Halls of Judgement.
+~
+~
+0 -1 10504
+S
+#10506
+Blackened Hall~
+This hall looks as if it was burned out recently. The walls are charred and
+smoking. Ashes and bits of burnt timber crunch under your feet as you 
+walk down the hall. A sign on the wall reads, 'No Non-smoking Please'.
+There are exits in all directions.
+~
+AD 0
+D0
+You see a blackened hall.
+~
+~
+0 -1 10496
+D1
+You see a blackened hall.
+~
+~
+0 -1 10507
+D2
+You see the hallway of the Mall from Hell .
+~
+~
+0 -1 10516
+D3
+You see the Halls of Judgement.
+~
+~
+0 -1 10505
+S
+#10507
+Blackened Hall~
+This hall looks as if it was burned out recently. The walls are charred and
+smoking. Ashes and bits of burnt timber crunch under your feet as you 
+walk down the hall. A sign on the wall reads, 'No Non-smoking Please'.
+The hallway continues to the east and west.
+~
+AD 0
+D1
+You see a blackened hall.
+~
+~
+0 -1 10508
+D3
+You see a blackened hall.
+~
+~
+0 -1 10506
+S
+#10508
+Blackened Hall~
+This hall looks as if it was burned out recently. The walls are charred and
+smoking. Ashes and bits of burnt timber crunch under your feet as you 
+walk down the hall. A sign on the wall reads, 'No Non-smoking Please'.
+The hallway continues to the north and west.
+~
+AD 0
+D0
+You see a blackened hall.
+~
+~
+0 -1 10498
+D3
+You see a blackened hall.
+~
+~
+0 -1 10507
+S
+#10509
+Stairs to the Abyss~
+These dark stairs are made out of the bones of the damned. They rattle
+softly as you tread apon them as if to cry out in protest. The air is filled
+with the wailing of lost souls and the blood curdling screams of the
+punished.
+~
+AD 0
+D5
+You see the eternal darkness of the Abyss.
+~
+~
+0 -1 10518
+S
+#10510
+Maintenance Walkway~
+This is a maintence accessway. You walk on a metal catwalk hundreds of 
+feet above the floor. The catwalk sways unsteadily as you walk on it.
+The catwalk continues to the south.
+To the north is a steel door.
+~
+AD 0
+D0
+You see a steel door.
+~
+door steel~
+1 -1 10500
+D2
+You see a maintenance walkway.
+~
+~
+0 -1 10520
+S
+#10511
+Court Room~
+This is the Courts of Hell. Here you are convicted, sentenced and punished.
+An no...you don't get a trial. You don't deserve one. The courtroom is
+filled with spectators and jury members. They seem to have no real reason
+to be here since there isn't going to be a trial. They jeer and boo you as you
+stand in the middle of the courtroom.
+To the north is the Halls of Judgement.
+Behind the judges bench is a wooden door.
+~
+AD 0
+D0
+You see the Halls of Judgement.
+~
+~
+0 -1 10501
+D2
+You see a large wooden door.
+~
+~
+0 -1 10521
+S
+#10512
+Lawyers Office~
+As you look around you, you realize you've entered a lawyers office. Now
+you know you are in Hell....Everything in this office seems to be made of
+snakeskin. This is the only lawyers office in hell, so if you don't  like them
+you're out of luck. But then again...if you are in hell...you must've run
+out of luck a while ago.
+To the east is the Office of Complaints.
+To the south you see a courtyard.
+~
+AD 0
+D1
+You see the Office of Complaints.
+~
+~
+0 -1 10513
+D2
+You see a courtyard.
+~
+~
+0 -1 10522
+S
+#10513
+Office of Complaints~
+This is a relatively small office. There is a large hole in the wall where a 
+clerk usually sits and takes complaints about hell. As you peek behind
+the counter you see a large paper shredder and alot of shredded complaints.
+a sign over the clerks desk reads, 'Hours: 12:00am - 12:01am'
+To the west is a lawyers office.
+To the north you see the Halls of Judgement.
+~
+AD 0
+D0
+You see the Halls of Judgement.
+~
+~
+0 -1 10503
+D3
+You see a lawyers office
+~
+~
+0 -1 10512
+S
+#10514
+Pawn Shop~
+You are standing in Hiramoto's Buy & Sell. This poor bastard has
+been damned to hell to serve the public for eternity. He will buy most
+anything you have, since business is slow. Not many people visit
+Hell. The store is filled with worthless junk. Piles of aluminum balls,
+and bottle cap collections fill the corners of the room. Thing of
+every description lie about the store.
+To the east you see the Mall from Hell.
+~
+AD 0
+D1
+You see the Mall from Hell.
+~
+~
+0 -1 10515
+S
+#10515
+Hallway of The Mall from Hell~
+This is definetly the Mall from hell...there are no stores!
+Only in hell would they have a mall with no stores.
+To the east you see the Mall from Hell.
+To the west you see Hiramoto's Buy & Sell.
+The hall continues to the east and south.
+~
+AD 0
+D1
+You see the Mall from Hell.
+~
+~
+0 -1 10516
+D2
+You see the Mall from Hell.
+~
+~
+0 -1 10525
+D3
+You see Hiramoto's Buy & Sell.
+~
+~
+0 -1 10514
+S
+#10516
+Hallway of The Mall from Hell~
+This is definetly the Mall from hell...there are no stores!
+Only in hell would they have a mall with no stores.
+To the north you see a blackened hallway.
+To the east you see the office of Big Mouth.
+The hallway continues to the west.
+~
+AD 0
+D0
+You see a blackened hall.
+~
+~
+0 -1 10506
+D1
+You see the office of Big Mouth.
+~
+~
+0 -1 10517
+D3
+You see the hallways of the Mall from Hell.
+~
+~
+0 -1 10515
+S
+#10517
+The Office of Big Mouth~
+This is the office of Big Mouth, head demon of Hell's Administration.
+The room is decorated posters of naked women and autographed pictures
+of famous tortured souls. Behind a large oaken desk sleeps Big Mouth.
+This mouth looks large enough to step into if it were open. You wonder
+what this guy eats...
+~
+AD 0
+D3
+You see the hallways of the Mall from Hell.
+~
+~
+0 -1 10516
+D5
+You see Big Mouth's mouth.
+~
+mouth big mouth's~
+1 -1 10526
+S
+#10518
+Stairs to the Abyss~
+These dark stairs are made out of the bones of the damned. They rattle
+softly as you tread apon them as if to cry out in protest. The air is filled
+with the wailing of lost souls and the blood curdling screams of the
+punished.
+~
+AD 0
+D5
+You see the eternal darkness of the Abyss.
+~
+~
+0 -1 10527
+S
+#10519
+Maintenance Walkway~
+This is a maintence accessway. You walk on a metal catwalk hundreds of 
+feet above the floor. The catwalk sways unsteadily as you walk on it.
+The catwalk continues to the east and south.
+~
+AD 0
+D1
+You see a maintenance walkway.
+~
+~
+0 -1 10520
+D2
+You see a maintenance walkway.
+~
+~
+0 -1 10529
+S
+#10520
+Maintenance Walkway~
+This is a maintence accessway. You walk on a metal catwalk hundreds of 
+feet above the floor. The catwalk sways unsteadily as you walk on it.
+The catwalk continues to the north and west.
+~
+AD 0
+D0
+You see a maintenance walkway.
+~
+~
+0 -1 10510
+D3
+You see a maintenance walkway.
+~
+~
+0 -1 10519
+S
+#10521
+Judge's Chambers~
+This is the private chambers of the High Judge of Hell. He has a cushy job
+and his office reflects that. A golden torches light the walls with dancing
+blue and yellow flames. The judge's black crystal desk sparkles in the 
+torchlight.
+~
+D 0
+D0
+You see the Courtroom of Hell.
+~
+~
+0 -1 10511
+S
+#10522
+Courtyard~
+This courtyard is barren and neglected. Small weeds grow up inbetween
+the concrete slabs. An old defunct fountain sputters with a grey-brown
+ooze.
+A lawyers office is to the north.
+The courtyard continues to the east and south.
+~
+AD 0
+D0
+You see a lawyers office.
+~
+~
+0 -1 10512
+D1
+You see a more of the courtyard.
+~
+~
+0 -1 10523
+D2
+You see a more of the courtyard.
+~
+~
+0 -1 10532
+S
+#10523
+Courtyard~
+This courtyard is barren and neglected. Small weeds grow up inbetween
+the concrete slabs. An old defunct fountain sputters with a grey-brown
+ooze.
+The courtyard continues to the west and south.
+Stanley's Magical Steeds is to the east.
+~
+AD 0
+D1
+You see Stanley's Magical Steeds store.
+~
+~
+0 -1 10524
+D2
+You see a more of the courtyard.
+~
+~
+0 -1 10533
+D3
+You see a more of the courtyard.
+~
+~
+0 -1 10522
+S
+#10524
+Stanely's Magical Steeds~
+This is the shop of Stanely. He used to be an old mage selling cursed
+trinkets at the town of Solace. He has recently set up shop in hell selling
+magical figurines. Each figuring is in the shape of some sort of steed.
+Some are recognizable and some are not. Rumor has it that Stanely made
+a deal with a devil....so I guess his lease is up in seven years.....
+A courtyard is to the west.
+To the south you see the Mall from Hell.
+~
+AD 0
+D2
+You see a hallway of the Mall from Hell.
+~
+~
+0 -1 10534
+D3
+You see an abandon courtyard.
+~
+~
+0 -1 10523
+S
+#10525
+Hallway of The Mall from Hell~
+This is definetly the Mall from hell...there are no stores!
+Only in hell would they have a mall with no stores.
+The hallway continues to the north and south.
+~
+AD 0
+D0
+You see a hall of the Mall from Hell.
+~
+~
+0 -1 10515
+D1
+You see a hall of the Mall from Hell.
+~
+~
+0 -1 10535
+S
+#10526
+Inside Big Mouth's Stomach~
+You are standing inside Big Mouth's stomach. It is roomy in here. Small
+animals and other odds and ends lie about the stomach. Is that a dragon  
+you see? Nah...couldn't be...
+~
+AD 0
+D4
+You see Big Mouth's throat.
+~
+mouth big mouth's throat~
+1 -1 10517
+S
+#10527
+Stairs to the Abyss~
+These dark stairs are made out of the bones of the damned. They rattle
+softly as you tread apon them as if to cry out in protest. The air is filled
+with the wailing of lost souls and the blood curdling screams of the
+punished.
+~
+AD 0
+D5
+You see the eternal darkness of the Abyss.
+~
+~
+0 -1 10536
+S
+#10528
+Reactor Control Room~
+This is the reactor control room of hell. From here the workers control
+the main reactor and power supply for all of hell and the abyss. Workers
+stroll back and forth, from station to station monitoring the reactor core.
+A large glass window look out on to the reactor floor below.
+There are some stairs down to the reactor floor to the south.
+There is a maintenance room to the east.
+~
+AD 0
+D1
+You see a maintenance room.
+~
+~
+0 -1 10529
+D2
+You see stairs down to the reactor floor.
+~
+~
+0 -1 10538
+S
+#10529
+Maintenance Room~
+You are standing in the primary maintenance room of hell. Tools of all
+shapes and sizes are neatly hung on the walls, each with its own painted-on
+silhouette behind it.
+To the west is the reactor control room.
+To the east is the break room.
+To the north is a maintenance walkway.
+To the south is the secondary control room.
+~
+AD 0
+D0
+You see a maintenance walkway.
+~
+~
+0 -1 10519
+D1
+You see a break room.
+~
+~
+0 -1 10530
+D2
+You see the secondary control room.
+~
+~
+0 -1 10539
+D3
+You see the reactor control room.
+~
+~
+0 -1 10528
+S
+#10530
+Break Room~
+This is the break room for the maintenance workers. tables are filled with
+donuts and coffee. As a cruel joke, the cheif engineer has posted his guard
+dogs to guard the room so that no one can take a break.
+To the west is the primary maintenance room.
+To the south is the chief engineers office.
+~
+AD 0
+D2
+You see the chief engineers office.
+~
+~
+0 -1 10540
+D3
+You see the primary maintenance room.
+~
+~
+0 -1 10529
+S
+#10531
+Hell's Kitchen~
+Welcome to Hell's kitchen, where everything is delicious....you just can't
+have any....This is where the many foods of the world of Farside are made.
+The chefs are usually very busy, but they always have extra time to torture
+a guest....
+To the east is a courtyard.
+~
+AD 0
+D1
+You see an abandon courtyard.
+~
+~
+0 -1 10532
+S
+#10532
+Courtyard~
+This courtyard is barren and neglected. Small weeds grow up inbetween
+the concrete slabs. An old defunct fountain sputters with a grey-brown
+ooze.
+The courtyard continues to the north and east.
+You see a kitchen to the west.
+~
+AD 0
+D0
+You see more of the courtyard.
+~
+~
+0 -1 10522
+D1
+You see a more of the courtyard.
+~
+~
+0 -1 10533
+D3
+You see a kitchen.
+~
+~
+0 -1 10531
+S
+#10533
+Courtyard~
+This courtyard is barren and neglected. Small weeds grow up inbetween
+the concrete slabs. An old defunct fountain sputters with a grey-brown
+ooze.
+The courtyard continues to the north and west.
+~
+AD 0
+D0
+You see more of the courtyard.
+~
+~
+0 -1 10523
+D3
+You see a more of the courtyard.
+~
+~
+0 -1 10532
+S
+#10534
+Hallway of The Mall from Hell~
+This is definetly the Mall from hell...there are no stores!
+Only in hell would they have a mall with no stores.
+The hallway continues to the east.
+Stanely's magic steeds are to the north.
+~
+AD 0
+D0
+You see Stanely's Magic Steeds.
+~
+~
+0 -1 10524
+D1
+You see a hall of the Mall from Hell.
+~
+~
+0 -1 10535
+S
+#10535
+Hallway of The Mall from Hell~
+This is definetly the Mall from hell...there are no stores!
+Only in hell would they have a mall with no stores.
+The hallway continues to the north and west.
+~
+AD 0
+D0
+You see a hall of the Mall from Hell.
+~
+~
+0 -1 10525
+D1
+You see a hall of the Mall from Hell.
+~
+~
+0 -1 10534
+S
+#10536
+Stairs to the Abyss~
+These dark stairs are made out of the bones of the damned. They rattle
+softly as you tread apon them as if to cry out in protest. The air is filled
+with the wailing of lost souls and the blood curdling screams of the
+punished. You can't seem to find the Abyss...you seem to recall a seeing a
+sign....now what did it say again?......
+~
+AD 0
+S
+#10537
+Inside the Reactor Core~
+You are standing on the inside of the reactor core. Actually you seem to
+be floating in the plasma energy of the reactor. You can see the core
+chamber fall off into the distance as it seems to be bottomless. Nuclear
+particles and other strange things whiz by you at blinding speeds.
+You see a maintenance hatch to the east.
+~
+AD 0
+D1
+You see a maintenance hatch.
+~
+hatch maintenance reactor core~
+1 -1 10538
+S
+#10538
+Reactor Room Floor~
+The room is taken up almost entirely by the enormous reactor core. The
+core pulses rhythmically as it generates the heat and power for the entire
+region of hell. Many workers in orange jumpsuits run frantically around
+with geiger counters and plasma torches fixing breaches in the core.
+You see a reactor core maintenance hatch to the west.
+A stairway to the control room is to the north.
+~
+AD 0
+D0
+You see the stairs to the control room.
+~
+~
+0 -1 10528
+D3
+You see a reactor core maintence hatch.
+~
+hatch maintenance reactor core~
+1 -1 10537
+S
+#10539
+Secondary Control Room~
+This is the secondary control room for the reactor core. It is usually used in
+emergencies when the primary control room is contaminated or damaged.
+It isn't used very often since the primary control room is in perfect 
+working order.
+~
+AD 0
+D0
+You see the primary maintenance room.
+~
+~
+0 -1 10529
+S
+#10540
+Office of the Chief Engineer~
+This office belongs to the chief engineer of hell. Blueprints and pencils 
+are scattered about the room. The air is heavy with the smell of amonia
+and sweat. A display of the reactor core is mounted into the wall.
+One wall is completely filled with monitors, each showing various
+status reports for the reactor core.
+~
+AD 0
+D0
+You see the break room.
+~
+~
+0 -1 10530
+S
+#10541
+Ice Room~
+You are standing in a room of ice. Icicles of every size hang from the
+ceiling. Some shake with every sound. Your reflection off the ice walls
+seems to dance and wiggle as you move about.
+~
+AD 0
+D1
+You see a room of ice.
+~
+~
+0 -1 10473
+D2
+You see a room of ice.
+~
+~
+0 -1 10482
+D3
+You see a room of ice.
+~
+~
+0 -1 10472
+S
+#0
+
+#MOBILES
+#10401
+Guardian guard~
+the Guardian of Hell~
+A Guardian of Hell stands here keeping you the hell out.
+~
+The guardian is a stone devil. A hideous creation from the dark laboratories
+of hell. Its black eyes stare into you soul with a hunger that makes you
+shiver. The guardian stands motionless before you, its rough grey skin
+looks impervious to normal weapons.
+~
+undead~
+ABG DEFJ -900 0
+42 21 1d1+1681 1d1+840 6d6+21 slash
+-29 -29 -29 -25
+FENU 0 0 0
+stand stand neutral 2163
+0 0 medium 0
+
+#10402
+pile coins~
+the pile of gold coins~
+A pile of gold coins lies on the ground.
+~
+A large sparkly pile of gold coins.
+~
+unique~
+ABG J -800 0
+29 14 1d1+959 1d1+580 5d5+14 slash
+-24 -24 -24 -22
+FENU 0 0 0
+stand stand neutral 1484
+0 0 medium 0
+
+#10403
+male dee demon~
+the male Dee~
+The male demon Dee lies on the bed here waiting to please you.
+~
+This is the most handsome male you have ever seen. His naked body
+makes your mouth water.
+~
+undead~
+ABG J -1000 0
+35 17 1d1+1267 1d1+700 6d6+17 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand male 1825
+0 0 medium 0
+
+#10404
+female dee demon~
+the female Dee~
+The female demon Dee lies on the bed here waiting to please you.
+~
+This is the most beautiful female you have ever seen. The curves of her
+naked body make you sweat, and babble uncontrollably.
+~
+undead~
+ABG J -1000 0
+35 17 1d1+1231 1d1+700 6d6+17 chomp
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand female 1812
+0 0 medium 0
+
+#10405
+bar gold~
+the gold bar~
+A shiny gold bar lies on the ground.
+~
+This gold bar must be worth bucks!
+~
+unique~
+ABG J -800 0
+37 18 1d1+1318 1d1+740 6d6+18 slash
+-27 -27 -27 -24
+FENU 0 0 0
+stand stand neutral 1884
+0 0 medium 0
+
+#10406
+chicken pot pie~
+a scrumptious chicken pot pie~
+A yummy looking chicken pot pie is here on the ground.
+~
+You see a golden crusted pot pie filled with chicken and vegetables.
+~
+unique~
+ABG J -800 0
+43 21 1d1+1739 1d1+860 7d6+21 slash
+-29 -29 -29 -25
+FENU 0 0 0
+stand stand neutral 2203
+0 0 medium 0
+
+#10407
+beef pot pie~
+a yummy beef pot pie~
+A yummy looking beef pot pie is here on the ground.
+~
+You see a golden crusted pot pie filled with beef and vegetables.
+~
+unique~
+ABG J -800 0
+43 21 1d1+1737 1d1+860 7d6+21 slash
+-29 -29 -29 -25
+FENU 0 0 0
+stand stand neutral 2169
+0 0 medium 0
+
+#10408
+vegetable pot pie~
+a yummy vegetable pot pie~
+A yummy looking vegetable pot pie is here on the ground.
+~
+You see a golden crusted pot pie filled with vegetables.
+~
+unique~
+ABG J -800 0
+43 21 1d1+1787 1d1+860 7d6+21 slash
+-29 -29 -29 -25
+FENU 0 0 0
+stand stand neutral 2187
+0 0 medium 0
+
+#10409
+damned soul~
+a damned soul~
+A damned soul wanders aimlessly here.
+~
+You see a faint silhouette of a person. Looking closely at it you can barely 
+make out features that would identify it as the person it was in life.
+~
+undead~
+AG J -700 0
+36 18 1d1+1318 1d1+720 6d6+18 slash
+-27 -27 -27 -24
+FENU 0 0 0
+stand stand neutral 1836
+0 0 medium 0
+
+#10410
+tortured soul~
+a tortured soul~
+A tortured soul screams out in pain.
+~
+You see a unrecognizable person going through unheard of and
+indescribable torture. It screams out at you in pain and terror.
+~
+undead~
+ABG J -800 0
+34 17 1d1+1242 1d1+680 6d6+17 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand neutral 1709
+0 0 medium 0
+
+#10411
+half-eaten person~
+the half-eaten person~
+A half-eaten person lies here writhing in agony.
+~
+This poor soul looks as if he has been chewed on and been spit out.
+It writhes in agony and pain as it gasps frantically for Death to answer
+its desperate plea...
+~
+undead~
+ABG J -757 0
+15 7 1d1+375 1d1+300 4d4+7 slash
+-20 -20 -20 -18
+FENU 0 0 0
+stand stand neutral 605
+0 0 medium 0
+
+#10412
+living wall~
+the living wall~
+A wall stands here. Its surface seems to move and come to life...
+~
+The wall consist of greying and sinewy flesh - faces, hands,
+broken bones, feet, and toes jutting from the surface. You hear low moans
+of horror, pain, and sorrow issuing from the walls.
+~
+undead~
+ABG J -1000 0
+45 22 1d1+1867 1d1+900 7d7+22 slash
+-30 -30 -30 -26
+FENU 0 0 0
+stand stand neutral 2343
+0 0 medium 0
+
+#10413
+skeletal warrior~
+skeletal warrior~
+A skeletal warrior wanders the planes of hell.
+~
+Rotting flesh and gore drops from the bones of this creature.
+Its decaying eyes stare at you intently as it sees only you
+delicious and juicy brain.
+~
+undead~
+AG J -743 0
+35 17 1d1+1253 1d1+700 6d6+17 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand neutral 1750
+0 0 medium 0
+
+#10414
+bloody severed arm~
+bloody severed arm~
+A bloody severed arm lies here.
+~
+The blood arm of some poor luckless indivudual. The stench of the 
+gore covered limb makes you want to retch.
+~
+unique~
+ABG J -884 0
+34 17 1d1+1248 1d1+680 6d6+17 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand neutral 1752
+0 0 medium 0
+
+#10415
+bloody severed foot~
+bloody severed foot~
+A bloody severed foot lies here.
+~
+This bloody foot definitely wasn't a lucky one.
+~
+unique~
+ABG J -800 0
+34 17 1d1+1214 1d1+680 6d6+17 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand neutral 1740
+0 0 medium 0
+
+#10416
+bloody severed nose~
+bloody severed nose~
+A bloody severed nose lies here.
+~
+I wonder how the person that lost this smells...hopefully not as bad as
+this nose does...
+~
+unique~
+ABG J -800 0
+34 17 1d1+1217 1d1+680 6d6+17 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand neutral 1738
+0 0 medium 0
+
+#10417
+blood~
+the blood from the fountain~
+The blood in the fountain gurgles merrily.
+~
+You see gallons and gallons of thick red blood gurgling in the fountian.
+~
+unique~
+ABG J -950 0
+43 21 1d1+1788 1d1+860 7d6+21 slash
+-29 -29 -29 -25
+FENU 0 0 0
+stand stand neutral 2157
+0 0 medium 0
+
+#10418
+Lost soul~
+the lost soul~
+A lost soul stands here looking lost.
+~
+This soul is definetely clueless to where it is. He holds a ticket
+that reads #14349023402342039840293481234900049.
+~
+undead~
+ABG J -500 0
+36 18 1d1+1300 1d1+720 6d6+18 slash
+-27 -27 -27 -24
+FENU 0 0 0
+stand stand neutral 1820
+0 0 medium 0
+
+#10419
+crispy critter~
+crispy critter~
+A crispy critter is here being burned to death.
+~
+This once used to be a person. Now it is only a charred and smoking
+hulk that is being burned for eternity...I screams out as the flames lick
+at its body and devour its flesh...
+~
+undead~
+ABG J -800 0
+30 15 1d1+1027 1d1+600 5d5+15 slash
+-25 -25 -25 -22
+FENU 0 0 0
+stand stand neutral 1518
+0 0 medium 0
+
+#10420
+pile bones skeleton~
+pile of bones~
+A decaying pile of bones lies here on the ground.
+~
+Stringy bits of flesh blow gently in the breeze. The bones rattle as you walk
+by them.
+~
+undead~
+ABG J -700 0
+37 18 1d1+1328 1d1+740 6d6+18 slash
+-27 -27 -27 -24
+FENU 0 0 0
+stand stand neutral 1856
+0 0 medium 0
+
+#10421
+manes sub-demon~
+the manes~
+A manes is here wandering the planes of hell looking for something to kill.
+~
+A gruesome sub-demon who used to be a mortal. It is a semi-intelligent
+creature who attacks anyone they encounter with nails and teeth. They are
+often feed apon by Demon lords and princes. there green and red blotched
+skin gives them a diseased and decaying look. They somewhat resemble
+shadows or ghasts.
+~
+undead~
+AFG HJ -900 0
+35 17 1d1+1243 1d1+700 6d6+17 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand neutral 1827
+0 0 medium 0
+
+#10422
+prisoner raiden~
+the prisoner Raiden~
+The prisoner of hell, Raiden sits here for eternity.
+~
+This is a sad individual. He smells strongly of the rotten food that has been
+thrown at him. He sits here chained to the wall; banished to hell forever by
+the God.
+~
+undead~
+ABG J -1000 0
+34 17 1d1+1200 1d1+680 6d6+17 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand male 1766
+0 0 medium 0
+
+#10423
+prisoner hell~
+a prisoner in hell~
+A sad looking individual sits here awaiting torture.
+~
+She is sad looking indeed. Cuts and scraps all over her. Many scars
+and burns cover her face and arms.
+~
+human~
+ABG J -800 0
+32 16 1d1+1161 1d1+640 6d6+16 slash
+-25 -25 -25 -23
+FENU 0 0 0
+stand stand female 1668
+0 0 medium 0
+
+#10424
+prisoner hell~
+a prisoner in hell~
+A sad looking individual sits here awaiting torture.
+~
+He is sad looking indeed. Cuts and scraps all over him. Many scars
+and burns cover her face and arms. One of his arms is broken at the
+forearm and hangs limply by his side.
+~
+human~
+ABG J -800 0
+32 16 1d1+1136 1d1+640 6d6+16 slash
+-25 -25 -25 -23
+FENU 0 0 0
+stand stand male 1631
+0 0 medium 0
+
+#10425
+demonguard demon guard~
+demonguard~
+A demonguard patrols the planes of hell.
+~
+This very large demon stands before you licking its daggerlike teeth.
+Yellow spittle runs down the scales of his blackened skin.
+~
+undead~
+AG J -800 0
+41 20 1d1+1657 1d1+820 6d6+20 slash
+-28 -28 -28 -25
+FENU 0 0 0
+stand stand neutral 2096
+0 0 medium 0
+
+#10426
+burning fool~
+the burning fool~
+A burning fool is here, crisping away.
+~
+You can barely make out anything on it. All you can make out is the flames 
+of hell consuming it and the smell of burning flesh.
+~
+undead~
+ABG J -900 0
+42 21 1d1+1731 1d1+840 6d6+21 slash
+-29 -29 -29 -25
+FENU 0 0 0
+stand stand neutral 2163
+0 0 medium 0
+
+#10427
+construction worker male~
+male construction worker~
+A construction worker is here welding pipework.
+~
+He is the typical contruction worker. T-shirt, jeans, yellow hard hat.
+As you look closer at the hard hat you notice 
+it says, '4th DEMONsion Construction Co.'
+~
+human~
+AG J -666 0
+45 22 1d1+1818 1d1+900 7d7+22 slash
+-30 -30 -30 -26
+FENU 0 0 0
+stand stand male 2355
+0 0 medium 0
+
+#10428
+construction worker female~
+female construction worker~
+A construction worker is here working riviting framework.
+~
+He is the typical contruction worker. T-shirt, jeans, yellow hard hat.
+As you look closer at the hard hat you notice 
+it says, '4th DEMONsion Construction Co.'
+~
+human~
+AG J -666 0
+45 22 1d1+1841 1d1+900 7d7+22 slash
+-30 -30 -30 -26
+FENU 0 0 0
+stand stand female 2289
+0 0 medium 0
+
+#10429
+construction worker female~
+female construction worker~
+A construction worker is here working cutting structural steel.
+~
+She is the typical contruction worker. T-shirt, jeans, yellow hard hat.
+As you look closer at the hard hat you notice 
+it says, '4th DEMONsion Construction Co.'
+~
+human~
+AG J -666 0
+45 22 1d1+1800 1d1+900 7d7+22 slash
+-30 -30 -30 -26
+FENU 0 0 0
+stand stand female 2253
+0 0 medium 0
+
+#10430
+fire devil~
+fire devil~
+A fire devil stands here with a box of matches lighting up poor souls.
+~
+It is an undescribly grotesque creature. Its pale green-yellow skin erupts
+with blisters and puss. As you look at it, it smiles at you with sharp blood
+covered teeth. This is definetly a face only a mother could love.
+~
+unique~
+ABG J -1000 0
+48 24 1d1+1942 1d1+960 7d7+24 slash
+-31 -31 -31 -27
+FENU 0 0 0
+stand stand neutral 2430
+0 0 medium 0
+
+#10431
+wall fire~
+wall of fire~
+A wall of fire is here, creeping slowly across the room.
+~
+It is simply a large door sized wall of fire. It slowly inches across the room
+burning everything in its path; Including the poor souls that are chained to
+various posts around the room.
+~
+unique~
+ABG J -600 0
+45 22 1d1+1821 1d1+900 7d7+22 slash
+-30 -30 -30 -26
+FENU 0 0 0
+stand stand neutral 2292
+0 0 medium 0
+
+#10432
+hell hound~
+hell hound~
+A hell hound runs free through the halls of hell.
+~
+This freak of a canine is rusty red to red brown in color. Its eyes glow an
+ghastly red. Its sooty black teeth and tongue are covered with green spittle
+that runs down its  dung covered coat.
+~
+undead~
+ABFG DFJQ -900 0
+46 23 1d1+1925 1d1+920 7d7+23 slash
+-30 -30 -30 -26
+FENU 0 0 0
+stand stand neutral 2315
+0 0 medium 0
+
+#10433
+frozen body~
+frozen body~
+A frozen body lies here on the ground.
+~
+As you look at the corpse you recoil as you notice its eyes still move.
+They stare intently from its bluish face as if pleading for your help.
+~
+undead~
+ABG J -900 0
+50 25 1d1+2038 1d1+1000 7d7+25 slash
+-31 -31 -31 -27
+FENU 0 0 0
+stand stand neutral 2514
+0 0 medium 0
+
+#10434
+ice devil~
+ice devil~
+A Greater Ice Devil stands here cheerfully freezing souls..
+~
+This devil is a mix of bug, bird, humanoid, and who knows what else.
+Its multifaceted eyes stare everywhere. It goes about its business of 
+slowly and painfully freezing the damned souls, quickly thawing them
+and then starting over. Every couple of minutes it takes time out to 
+break an apendage off of a nearby soul and beat the soul with it.
+~
+unique~
+ABG HJ -1000 0
+53 26 1d1+2727 1d1+1060 7d7+26 punch
+-32 -32 -32 -28
+FENU 0 0 0
+stand stand neutral 3266
+0 0 medium 0
+
+#10435
+trapped soul ice~
+soul trapped under the ice~
+A soul trapped under the ice gasps desperately for air.
+~
+This poor soul has been incased in ice; almost as if it is caught under an
+iceflow. It desperatly gasps for air for a few minutes and then seems to
+die for a second before it is restored and begins thrashing about again.
+~
+undead~
+ABG J -789 0
+49 24 1d1+1980 1d1+980 7d7+24 slash
+-31 -31 -31 -27
+FENU 0 0 0
+stand stand neutral 2486
+0 0 medium 0
+
+#10436
+half frozen body~
+half frozen body~
+A half frozen body hangs here on a meat hook.
+~
+A large meat hook is imbedded deep withing the back of the body. You
+see small white maggots eating away at the body. The flesh seems to
+move and wriggle with a life of its own...
+~
+undead~
+ABG J -876 0
+45 22 1d1+1876 1d1+900 7d7+22 slash
+-30 -30 -30 -26
+FENU 0 0 0
+stand stand neutral 2272
+0 0 medium 0
+
+#10437
+killer penguin~
+killer penguin~
+A small penguin waddles around here on the ice.
+~
+What a cute little penguin....wait why is it looking at you that way...
+HEY! penguins don't have teeth!
+~
+undead~
+ABFG J -876 0
+52 26 1d1+2644 1d1+1040 7d7+26 slash
+-32 -32 -32 -28
+FENU 0 0 0
+stand stand neutral 3192
+0 0 medium 0
+
+#10438
+I-scream worker~
+I-scream worker~
+An I-scream worker runs from machine to machine.
+~
+It moves about so frantically you can't really get a chance to look at it.
+It runs about screaming, 'I SCREAM, YOU SCREAM!
+
+WE ALL SCREAM FOR I SCREAM!!!'
+
+~
+undead~
+ABG J -706 0
+50 25 1d1+2044 1d1+1000 7d7+25 slash
+-31 -31 -31 -27
+FENU 0 0 0
+stand stand neutral 2567
+0 0 medium 0
+
+#10439
+Ice Screamer~
+Ice Screamer~
+An Ice Screamer is here yelling into empty cartons.
+~
+He is dressing in a white jumpsuit with the words,
+
+'Eye Splean I Screamery'
+
+written on it in large yellow letters.
+~
+undead~
+ABG J -706 0
+50 25 1d1+2071 1d1+1000 7d7+25 slash
+-31 -31 -31 -27
+FENU 0 0 0
+stand stand neutral 2510
+0 0 medium 0
+
+#10440
+Construction Foreman Demonic~
+Demonic Foreman~
+A Demonic Foreman sits here looking at blueprints.
+~
+This huge demon has somehow managed to fit himself into
+a oversized orange jumpsuit. The words,
+
+'4th DEMONsion Construction Co.' are written on the 
+back in large black letters.
+He seems none too happy to see you.
+~
+undead~
+ABFG DFJ -1000 0
+51 25 1d1+2632 1d1+1020 7d7+25 slice
+-32 -32 -32 -27
+FENU 0 0 0
+stand stand male 3093
+0 0 medium 0
+
+#10441
+Secretary of Hell~
+Secretary of Hell~
+The Secretary of Hell sits here watching the phones ring.
+~
+This very sexy secretary seems to be just sitting here amusing herself
+by watching the little lights on the telephone blink. She is oblivious
+to your presence and seems fascinated by the phones.
+~
+human~
+ABG DFJ -700 0
+53 26 1d1+2662 1d1+1060 7d7+26 slice
+-32 -32 -32 -28
+FENU 0 0 0
+stand stand female 3193
+0 0 medium 0
+
+#10442
+office worker hell~
+office worker from hell~
+An office worker from hell is here looking for a boss to piss off.
+~
+Just looking at them makes your blood boil. 
+AAAAAAAAAAaaaaaaaaaaaarrrrrrrrgggggghhhhh!!!!!!!!!!!
+~
+human~
+ABG DFJ -1000 0
+53 26 1d1+2762 1d1+1060 7d7+26 slash
+-32 -32 -32 -28
+FENU 0 0 0
+stand stand neutral 3271
+0 0 medium 0
+
+#10443
+records worker~
+records worker~
+A records worker is here filing bad reports.
+~
+You see a rather plain looking office personel here filing a file on someone.
+~
+human~
+ABG DFJ -1000 0
+52 26 1d1+2675 1d1+1040 7d7+26 slash
+-32 -32 -32 -28
+FENU 0 0 0
+stand stand neutral 3175
+0 0 medium 0
+
+#10444
+santa claus~
+Santa Claus~
+Santa Claus is here checking who has been naughty...
+~
+Its a jolly old man, with red cheeks and a rolly poley belly and a laugh
+as jolly as you can get.
+~
+human~
+ABG DFJ 1000 0
+54 27 1d1+2832 1d1+1080 7d7+27 slash
+-33 -33 -33 -28
+FENU 0 0 0
+stand stand male 3263
+0 0 medium 0
+
+#10445
+high priest hell~
+High Priest of Hell~
+The High Priest of Hell is here eating 'I Scream'.
+~
+The dark black robes hide most of his features, but you can barely make
+out his emaciated face beneath his hood.
+~
+dragon~
+ABG DFJ -1000 0
+54 27 1d1+2714 1d1+1080 7d7+27 slash
+-33 -33 -33 -28
+FENUC 0 0 0
+stand stand male 3276
+0 0 medium 0
+
+#10446
+bowl blood~
+a bowl of blood~
+A bowl of blood sits here on the altar.
+~
+Its is a wooden bowl filled with blood and bits of flesh.
+~
+unique~
+ABFG DFJ -900 0
+49 24 1d1+1967 1d1+980 7d7+24 slash
+-31 -31 -31 -27
+FENU 0 0 0
+stand stand neutral 2474
+0 0 medium 0
+
+#10447
+jury member~
+jury member~
+A jury member sits here with a guilty sign, waiting for a trial to begin.
+~
+It seems to be a lesser demon disguised as mortal. Fair trial...not likely.
+~
+undead~
+ABG DFJ -800 0
+40 20 1d1+1464 1d1+800 6d6+20 slash
+-28 -28 -28 -25
+FENU 0 0 0
+stand stand neutral 2099
+0 0 medium 0
+
+#10448
+Judge Whopper~
+Judge Whopper~
+Judge Whopper sits here trying to think of a painful sentence.
+~
+This is the High Judge of Hell. He has never found anyone innocent,
+and is notorious for his painful and harsh punishments.
+~
+undead~
+ABG DFJ -1000 0
+53 26 1d1+2749 1d1+1060 7d7+26 slash
+-32 -32 -32 -28
+FENU 0 0 0
+stand stand neutral 3207
+0 0 medium 0
+
+#10449
+lawyer hell~
+Lawyer from Hell~
+The Lawyer from Hell sits here playing games on his laptop computer.
+~
+Slimy, sleezy and has very sharp teeth...a lawyer all right...
+~
+undead~
+ABG DFJ -1000 0
+52 26 1d1+2614 1d1+1040 7d7+26 slash
+-32 -32 -32 -28
+FENU 0 0 0
+stand stand neutral 3182
+0 0 medium 0
+
+#10450
+complaints officer~
+Complaints Officer~
+The Complaints Officer is here watching her favorite soap opera.
+~
+She seems not to notice you; But is absorbed in her favorite soap,
+
+'As The Hell Burns'
+
+~
+undead~
+ABG DFJ -1000 0
+50 25 1d1+2067 1d1+1000 7d7+25 slash
+-31 -31 -31 -27
+FENU 0 0 0
+stand stand female 2528
+0 0 medium 0
+
+#10451
+bastard hiramoto~
+bastard hiramoto~
+The Bastard Hiramoto stands here trying to learn Kung Fu from a book.
+~
+He looks at you and says, 'I think my Kung Fu is no good'
+and then goes back to practicing.
+
+He is known to buy anything....and sell anything people sell him.
+~
+human~
+ABG DFJ -600 0
+50 25 1d1+2008 1d1+1000 7d7+25 slash
+-31 -31 -31 -27
+FENU 0 0 0
+stand stand male 2516
+0 0 medium 0
+
+#10452
+maintenance worker~
+maintenance worker~
+A maintenance worker is here fixing stuff.
+~
+He is in a yellow jumpsuit with a large nuclear warning symbol on the back.
+~
+orc~
+ABG DFJ -750 0
+49 24 1d1+1971 1d1+980 7d7+24 slash
+-31 -31 -31 -27
+FENUC 0 0 0
+stand stand neutral 2539
+0 0 medium 0
+
+#10453
+weeds~
+weeds~
+A weed is growing out of the cement here.
+~
+You see a nasty yellow and purple weed.
+~
+unique~
+ABG DFJ -1000 0
+50 25 1d1+2008 1d1+1000 7d7+25 slash
+-31 -31 -31 -27
+FENU 0 0 0
+stand stand neutral 2543
+0 0 medium 0
+
+#10454
+stanley~
+Stanley~
+Stanley stands here waiting to sell you one of his wonderful figurines.
+~
+He is a crafty old fart who looks about 1000 years old. But his figurines
+are pretty well known. He was rumored to disappear around Solace
+100 years ago.
+~
+modron~
+ABG DFJ -700 0
+54 27 1d1+2757 1d1+1080 7d7+27 slash
+-33 -33 -33 -28
+FEN 0 0 0
+stand stand male 3360
+0 0 medium 0
+
+#10455
+half eaten horse carcass~
+half eaten horse carcass~
+A half eaten horse carcass is here being digested.
+~
+This is what used to be a horse....maybe...its hard to tell; half of it has
+been digested already.
+~
+undead~
+ABG DFJ -800 0
+29 14 1d1+988 1d1+580 5d5+14 slash
+-24 -24 -24 -22
+FENU 0 0 0
+stand stand neutral 1460
+0 0 medium 0
+
+#10456
+stomach dragon~
+stomach dragon~
+A stomach dragon is here digesting Big Mouth's food.
+~
+A large brown and green slime covered reptile. It seems to move around
+to each food item and proceed to barf acid all over it.
+~
+dragon~
+ABG DFJ -900 0
+29 14 1d1+981 1d1+580 5d5+14 slash
+-24 -24 -24 -22
+FENUC 0 0 0
+stand stand neutral 1487
+0 0 medium 0
+
+#10457
+rancid turkey leg~
+rancid turkey leg~
+A rancid turkey leg sits in a pool of slime here.
+~
+Its one of those really nasty pieces of food in the refrigerator that 
+disappears and you wonder if it just walked away....
+~
+unique~
+ABG DFJ -900 0
+5 2 1d1+100 1d1+100 2d3+2 slash
+-16 -16 -16 -16
+FENU 0 0 0
+stand stand neutral 202
+0 0 medium 0
+
+#10458
+reactor specialist~
+reactor specialist~
+A reactor specialist sits here checking on the reactor core.
+~
+He is dressed in a black jumpsuit with a large nuclear warning symbol on
+the back.
+~
+orc~
+ABG J -900 0
+53 26 1d1+2660 1d1+1060 7d7+26 slash
+-32 -32 -32 -28
+FENUC 0 0 0
+stand stand male 3237
+0 0 medium 0
+
+#10459
+reactor worker~
+reactor worker~
+A reactor worker sits here monitoring various screens.
+~
+He is dressed in a black jumpsuit with a large lighting bolt symbol on
+the back.
+~
+orc~
+ABG J -900 0
+49 24 1d1+1964 1d1+980 7d7+24 slash
+-31 -31 -31 -27
+FENUC 0 0 0
+stand stand male 2512
+0 0 medium 0
+
+#10460
+homer simpson~
+Homer Simpson~
+Homer Simpson sits here eating donuts.
+~
+A balding fat man with jelly stains on his uniform.
+He suddenly spills his coffee and shouts out, 'DOH!'
+Warning lights blink rapidly as the coffee shorts out the control panel.
+Homer calmly stands up and unplugs the control panel and sits down
+for a nap.
+~
+human~
+ABG HJ -900 0
+52 26 1d1+2686 1d1+1040 7d7+26 slash
+-32 -32 -32 -28
+FENU 0 0 0
+stand stand male 3207
+0 0 medium 0
+
+#10461
+Devils food cake~
+devils food cake~
+A nice slice of devils food cake is here waiting to be eaten.
+~
+Mmmmmm...don't you just want to take a bite?
+~
+unique~
+ABG J -900 0
+52 26 1d1+2662 1d1+1040 7d7+26 slash
+-32 -32 -32 -28
+FENU 0 0 0
+stand stand neutral 3126
+0 0 medium 0
+
+#10462
+mad cook~
+mad cook~
+A mad cook is here cooking up a storm.
+~
+You spots you and screams, 'Git awa froom mi food!'
+
+'I'll kill you!'
+~
+troll~
+ABFG J -900 0
+52 26 1d1+2711 1d1+1040 7d7+26 slash
+-32 -32 -32 -28
+FENU 0 0 0
+stand stand male 3239
+0 0 medium 0
+
+#10463
+frantic lady~
+frantic lady~
+A frantic lady is here tearing her hair out looking for a sale.
+~
+~
+human~
+AG J -600 0
+48 24 1d1+1988 1d1+960 7d7+24 slash
+-31 -31 -31 -27
+FENU 0 0 0
+stand stand female 2485
+0 0 medium 0
+
+#10464
+nuclear technician~
+nuclear technician~
+A nuclear technician is here fiddling with his rad suit.
+~
+~
+human~
+ABG J -850 0
+45 22 1d1+1851 1d1+900 7d7+22 slash
+-30 -30 -30 -26
+FENU 0 0 0
+stand stand male 2272
+0 0 medium 0
+
+#10465
+stray proton~
+stray proton~
+A stray proton is here wizzing about.
+~
+~
+unique~
+ABG J -850 0
+44 22 1d1+1830 1d1+880 7d6+22 slash
+-29 -29 -29 -26
+FENU 0 0 0
+stand stand neutral 2225
+0 0 medium 0
+
+#10466
+radiation~
+radiation~
+Radiation is here doing unknown things to you.
+~
+~
+unique~
+ABG J -1000 0
+52 26 1d1+2622 1d1+1040 7d7+26 slash
+-32 -32 -32 -28
+FENU 0 0 0
+stand stand neutral 3147
+0 0 medium 0
+
+#10467
+chief engineer hell~
+the Chief Engineer of Hell~
+The Chief Engineer of Hell is here playing with the panic button.
+~
+He kinda reminds you a an old Bart Simpson. He seems to be enjoying
+the panic button at the moment; Chuckling happily as workers below on
+the reactor floor frantically check dials and gauges while flashing lights
+and sirens sound.
+~
+ogre~
+ABG J -1000 0
+54 27 1d1+2774 1d1+1080 7d7+27 slash
+-33 -33 -33 -28
+FENU 0 0 0
+stand stand male 3341
+0 0 medium 0
+
+#10468
+Greater Fire Demon~
+Greater Fire Demon~
+A Greater Fire Demon stands here laughing at each scream he hears.
+~
+This large black scaled demon laughs merrily as he watches poor souls
+scream out in pain. He pokes and picks at the flesh of the damned who
+were unlucky enough to be tortured close to him. His black taloned 
+nails rip slowly through their flesh, as he cackles with glee at the
+sounds of their unending pain...
+~
+unique~
+ABG HJ -1000 0
+56 28 1d1+2937 1d1+1120 7d7+28 slash
+-33 -33 -33 -29
+FENU 0 0 0
+stand stand neutral 3456
+0 0 medium 0
+
+#10469
+frozen side beef~
+side of frozen beef~
+A frozen side of beef hangs here on a hook.
+~
+This enormous carcass looks as if it came from a small dragon or a very
+large cow.
+~
+unique~
+ABG J -675 0
+31 15 1d1+1135 1d1+620 6d5+15 flbite
+-25 -25 -25 -22
+FENU 0 0 0
+stand stand neutral 1609
+0 0 medium 0
+
+#10470
+guard dog~
+guard dog~
+A guard dog sits here guarding the break room.
+~
+A vicious looking pit bull / demon dog mix is here slobering on the donuts.
+~
+unique~
+ABG J -900 0
+45 22 1d1+1870 1d1+900 7d7+22 bite
+-30 -30 -30 -26
+FENU 0 0 0
+stand stand neutral 2292
+0 0 medium 0
+
+#10471
+juicy steak~
+juicy steak~
+A mouth watering juicy steak is here steaming.
+~
+Mmmmmmm.....steak....mmmmmm...you feel your mouth start to water.
+~
+uniq8ue~
+ABG J -900 0
+35 17 1d1+1263 1d1+700 6d6+17 slash
+-26 -26 -26 -23
+FENU 0 0 0
+stand stand neutral 1824
+0 0 medium 0
+
+#0
+
+#OBJECTS
+#10401
+wicked trident~
+a wicked looking trident~
+A wicked looking trident is stuck into the ground here.~
+steel~
+weapon AEGJ AN
+'spear' 6 7 'stab' 0
+42 7 8522 P
+
+#10402
+black leather whip~
+a black leather whip~
+A black leather whip lies on the ground here.~
+~
+weapon BEJ AN
+'whip' 5 7 'whip' 0
+35 7 7037 P
+
+#10403
+hickey maker~
+hickey maker~
+A hickey maker lies on the ground here making a soft sucking sound.~
+vellum~
+weapon 0 AN
+'exotic' 5 7 'suction' 0
+35 7 7192 P
+
+#10404
+sword farslayer~
+a black hilted sword called, "Farslayer"~
+A black hilted sword with engravings on the blade lies here.~
+~
+weapon BFGHJMU AN
+'sword' 5 9 'pierce' 0
+45 25 9399 P
+E
+sword~
+The blade of the sword is a full meter long, and straight as an arrow, with
+lightly fluted sides. Both edges keened down to perfect lines, invisibly
+sharp. Perfection like this could of only been forged by a god. The black
+hilt is contrasted only by the faint symbol of a white arrow.
+Apon the blade is engraved a poem:
+
+                      Farslayer howls across the world
+                      For thy heart, for thy heart, who hast wronged me!
+                      Vengeance is his who casts the blade
+                      Yet he will in the end no triumph see.
+
+~
+A
+14    -20
+A
+18      5
+A
+19      5
+
+#10405
+angel's skull~
+angel's skull~
+An angel's skull lies here on the ground.~
+bone~
+armor 0 AE
+12 12 12 0 0
+45 4 9312 P
+A
+12     33
+A
+3       2
+
+#10406
+rotting flesh~
+rotting flesh~
+Some rotting flesh lies here in a pile.~
+vellum~
+armor 0 AD
+10 10 10 0 0
+35 3 7140 P
+
+#10407
+dagger vorpal blade~
+vorpal blade~
+A magnificently crafted blade lies here humming softly.~
+~
+weapon 0 AN
+'dagger' 5 7 'slice' 0
+35 6 7096 P
+
+#10408
+flaming claw~
+flaming claw~
+A flaming claw lies here burning brightly.~
+bronze~
+weapon 0 AN
+'mace' 5 6 'claw' 0
+30 4 6068 P
+
+#10409
+Demonskin~
+demonskin~
+A black scaley pile of demonskin lies here.~
+vellum~
+armor 0 AD
+11 11 11 0 0
+41 4 8249 P
+
+#10410
+demon teeth~
+demon teeth~
+A bunch of very sharp slimy teeth lie here.~
+bone~
+weapon 0 AN
+'exotic' 6 7 'bite' 0
+41 1 8385 P
+
+#10411
+burning flesh~
+burning flesh~
+A pile of burning flesh lies here.~
+vellum~
+armor 0 AI
+11 11 11 0 0
+42 5 8654 P
+
+#10412
+rivet gun~
+rivet gun~
+A rivet gun loaded with hot rivets lies here.~
+steel~
+wand 0 AO
+30 4 4 27 0
+45 7 9022 P
+
+#10413
+circular saw~
+circular saw~
+A circular saw lies here humming.~
+steel~
+weapon B AN
+'flail' 5 9 'slice' 0
+45 7 9071 P
+
+#10414
+box matches~
+box of matches~
+A box of matches lies here ready to light something.~
+paper~
+staff A AO
+42 8 8 26 0
+48 2 9858 P
+
+#10415
+bloody black talon~
+bloody black talon~
+A severed bloody black talon lies here.~
+steel~
+weapon EG AN
+'dagger' 7 8 'claw' 0
+56 6 11223 P
+
+#10416
+jar of blood~
+jar of blood~
+A dark jar of blood lies here.~
+glass~
+potion 0 A
+45 504 3 502 0
+56 5 11680 P
+
+#10417
+hell hound teeth~
+hell hound teeth~
+The bloody teeth of a hell hound sit here.~
+bone~
+weapon 0 AN
+'exotic' 7 7 'bite' 0
+46 2 9360 P
+
+#10418
+icy bottle~
+icy bottle~
+An icy bottle sits here sits on the floor.~
+~
+potion 0 A
+40 8 68 36 0
+40 5 8207 P
+
+#10419
+ice spear~
+ice spear~
+A spear made out of ice lies here.~
+steel~
+weapon 0 AN
+'spear' 6 9 'pierce' 0
+53 5 10752 P
+
+#10420
+large meat hook~
+large meat hook~
+A large meat hook is stuck into the ground.~
+steel~
+weapon 0 AN
+'exotic' 5 9 'whip' 0
+45 3 9443 P
+
+#10421
+meat~
+meat~
+A chuck of meat lies here.~
+food~
+food 0 A
+30 0 0 0 0
+31 2 6411 P
+
+#10422
+blueprint~
+blueprint~
+A construction blueprint lies on the ground.~
+paper~
+food 0 AO
+31 0 0 0 0
+51 1 10364 P
+
+#10423
+electric eraser~
+electric eraser~
+A electric eraser lies on the ground waiting an erasermate.~
+vellum~
+weapon 0 AN
+'mace' 6 9 'slash' 0
+53 1 10997 P
+
+#10424
+spectacles~
+spectacles~
+A set of spectacles lies here on the ground. Don't step on them.~
+steel~
+armor 0 AE
+13 13 13 0 0
+54 1 10848 P
+A
+3       2
+
+#10425
+unholy symbol~
+unholy symbol~
+A sinistar looking symbol of evil lies here smoldering.~
+iron~
+wand 0 AO
+53 50 50 33 0
+54 2 10857 P
+
+#10426
+unholy robe pile cloth~
+unholy robe~
+A stinking pile of cloth lies here.~
+cloth~
+armor EJ AK
+13 13 13 0 0
+54 4 11052 P
+A
+12     50
+
+#10427
+sharp teeth lawyer~
+sharp teeth of a lawyer~
+A set of sharp evil looking teeth lie here. Probably a lawyer's.~
+bone~
+weapon G AN
+'exotic' 7 7 'pierce' 0
+52 2 10420 P
+
+#10428
+golden ring~
+golden ring~
+A golden ring lies on the ground here.~
+gold~
+money 0 AB
+5000 0 0 0 0
+50 1 10330 P
+
+#10429
+engagement ring~
+engagement ring~
+An engagement ring lies here.~
+gold~
+money 0 AB
+7000 0 0 0 0
+50 1 10009 P
+
+#10430
+prenuptial agreement~
+prenuptial agreement~
+A prenuptial agreement lies here.~
+paper~
+scroll 0 A
+51 1 0 0 0
+50 1 10269 P
+
+#10431
+ionic torque wrench~
+ionic torque wrench~
+You see an ionic torque wrench on the ground.~
+iron~
+weapon 0 A
+'mace' 7 7 'pound' 0
+49 3 10028 P
+
+#10432
+figurine horse~
+figurine of a horse~
+You see a small figurine of a horse on the ground.~
+china~
+wand AGU AO
+13 13 13 12 0
+54 3 500 P
+A
+14     20
+
+#10433
+figurine winged horse pegasus~
+figurine of a winged horse~
+You see a small figurine of a winged horse on the ground.~
+china~
+wand AGU AO
+54 25 25 56 0
+54 3 500 P
+A
+14     25
+
+#10434
+figurine dark horse nightmare~
+figurine of a nightmare~
+You see a small figurine of a dark horse on the ground.~
+china~
+wand AGU AO
+54 20 20 66 0
+54 3 500 P
+A
+14     30
+
+#10435
+figurine black dragon~
+figurine of a black dragon~
+You see a small figurine of a black dragon on the ground.~
+china~
+wand AGU AO
+54 10 10 201 0
+54 3 500 P
+A
+14     35
+
+#10436
+figurine red dragon~
+figurine of a red dragon~
+You see a small figurine of a red dragon on the ground.~
+china~
+wand AGU AO
+54 10 10 69 0
+54 3 500 P
+A
+14     35
+
+#10437
+figurine white dragon~
+figurine of a white dragon~
+You see a small figurine of a white dragon on the ground.~
+china~
+wand AGU AO
+3 10 10 36 0
+54 3 500 P
+A
+14     35
+
+#10438
+figurine green dragon~
+figurine of a green dragon~
+You see a small figurine of a green dragon on the ground.~
+china~
+wand AGU AO
+40 10 10 70 0
+54 3 700 P
+A
+14     35
+
+#10439
+figurine blue dragon~
+figurine of a blue dragon~
+You see a small figurine of a blue dragon on the ground.~
+~
+wand AGU AO
+54 10 10 99 0
+54 3 500 P
+A
+14     35
+
+#10440
+geiger counter~
+geiger counter~
+You see a geiger counter here.~
+steel~
+wand A AO
+52 10 10 18 0
+53 2 11125 P
+
+#10441
+photon displacement matrix~
+photon displacement matrix~
+You see a photon displacement matrix on the ground.~
+steel~
+wand AB AO
+49 1 1 500 0
+49 7 10276 P
+
+#10442
+black jumpsuit~
+black jumpsuit~
+You see a black jumpsuit on the ground.~
+leather~
+armor A AD
+12 12 12 0 0
+45 4 9406 P
+
+#10443
+antacid pill~
+antacid pill~
+You see an antacid pill here.~
+food~
+pill 0 A
+54 14 43 507 0
+54 1 11212 P
+
+#10444
+manes claw claws~
+mane's claws~
+The severed claws of a sub-demon lie here, twitching.~
+bone~
+weapon 0 AN
+'exotic' 5 7 'claw' 0
+35 4 7134 P
+
+#10445
+welding torch~
+welding torch~
+A welding torch sits on the ground here.~
+iron~
+weapon 0 AN
+'exotic' 5 9 'blast' 0
+45 7 9175 P
+
+#10446
+blond wig~
+blond wig~
+A blond wig lies on the ground.~
+cloth~
+armor 0 AE
+13 13 13 0 0
+53 2 10947 P
+
+#10447
+yellow jumpsuit nuclear symbol~
+yellow jumpsuit~
+You see a yellow jumpsuit with a nuclear warning symbol.~
+iron~
+armor 0 AD
+12 12 12 0 0
+49 3 10015 P
+
+#10448
+cleaver~
+cleaver~
+You see a nasty looking cleaver stuck in the ground.~
+iron~
+weapon 0 AN
+'axe' 7 7 'slice' 0
+52 6 10717 P
+
+#0
+
+#RESETS
+M 0 10401 2 10405 1  1   the Guardian of Hell into Gateway to Hell  
+E   1  10401  90     16     a wicked looking trident wielded                
+M 0 10401 2 10405 1  1   the Guardian of Hell into Gateway to Hell  
+E   1  10401  90     16     a wicked looking trident wielded                
+M 0 10402 1 10416 1  1   the pile of gold coins into Greed  
+M 0 10405 1 10416 1  1   the gold bar into Greed  
+M 0 10403 1 10417 1  1   the male Dee into Bedroom.  
+E   1  10402  90     16     a black leather whip wielded                
+M 0 10404 1 10417 1  1   the female Dee into Bedroom.  
+E   1  10403  90     16     hickey maker wielded                
+M 0 10406 1 10415 1  1   a scrumptious chicken pot pie into Gluttony  
+M 0 10407 1 10415 1  1   a yummy beef pot pie into Gluttony  
+M 0 10408 1 10415 1  1   a yummy vegetable pot pie into Gluttony  
+M 0 10409 6 10406 1  1   a damned soul into Hall of the Damned  
+M 0 10409 6 10408 1  1   a damned soul into Hall of the Damned  
+M 0 10409 6 10410 1  1   a damned soul into Hall of the Damned  
+M 0 10410 2 10413 1  1   a tortured soul into Trapped souls  
+M 0 10411 1 10414 1  1   the half-eaten person into Tortured Beings  
+M 0 10412 2 10412 1  1   the living wall into Living Walls  
+G   1  10405  90            angel's skull in inventory
+M 0 10412 2 10429 1  1   the living wall into Living Walls  
+G   1  10404  90            a black hilted sword called, "Farslayer" in inventory
+M 0 10413 2 10426 1  1   skeletal warrior into Blackened Hallway  
+E   1  10406  63      5     rotting flesh on body                
+E   1  10407  63     16     vorpal blade wielded                
+M 0 10413 2 10428 1  1   skeletal warrior into Blood Room  
+E   1  10406  63      5     rotting flesh on body                
+E   1  10407  63     16     vorpal blade wielded                
+M 0 10414 1 10419 1  1   bloody severed arm into Room full of Body Parts.  
+M 0 10415 1 10419 1  1   bloody severed foot into Room full of Body Parts.  
+M 0 10416 1 10419 1  1   bloody severed nose into Room full of Body Parts.  
+M 0 10417 1 10420 1  1   the blood from the fountain into Fountain of Blood.  
+M 0 10418 4 10423 1  1   the lost soul into Room of Lost Souls  
+M 0 10418 4 10424 1  1   the lost soul into Room of Lost Souls  
+M 0 10419 1 10425 1  1   crispy critter into Pit of Fire  
+E   1  10408  90     16     flaming claw wielded                
+M 0 10420 2 10430 1  1   pile of bones into Skeleton Factory  
+M 0 10421 2 10445 1  1   the manes into Cell  
+E   1  10444  90     16     mane's claws wielded                
+M 0 10421 2 10440 1  1   the manes into Cell  
+E   1  10444  90     16     mane's claws wielded                
+M 0 10422 1 10433 1  1   the prisoner Raiden into Cell  
+M 0 10423 1 10437 1  1   a prisoner in hell into Cell  
+M 0 10424 1 10449 1  1   a prisoner in hell into Cell  
+M 0 10425 3 10442 1  1   demonguard into Stone Hall  
+E   1  10409  63      5     demonskin on body                
+E   1  10410  63     16     demon teeth wielded                
+M 0 10425 3 10436 1  1   demonguard into Stone Hall  
+E   1  10409  63      5     demonskin on body                
+E   1  10410  63     16     demon teeth wielded                
+M 0 10425 3 10438 1  1   demonguard into Stone Hall  
+E   1  10409  63      5     demonskin on body                
+E   1  10410  63     16     demon teeth wielded                
+M 0 10426 2 10470 1  1   the burning fool into Lake of Fire  
+E   1  10411  90     10     burning flesh on arms                
+M 0 10426 2 10460 1  1   the burning fool into Fire Pits of Hades  
+E   1  10411  90     10     burning flesh on arms                
+M 0 10427 2 10467 1  1   male construction worker into Construction Area  
+E   1  10445  90     16     welding torch wielded                
+M 0 10428 3 10467 1  1   female construction worker into Construction Area  
+E   1  10412  90     16     rivet gun wielded                
+M 0 10427 2 10456 1  1   male construction worker into Construction Area  
+E   1  10445  90     16     welding torch wielded                
+M 0 10428 3 10456 1  1   female construction worker into Construction Area  
+E   1  10412  90     16     rivet gun wielded                
+M 0 10429 1 10465 1  1   female construction worker into Construction Area  
+E   1  10413  90     16     circular saw wielded                
+M 0 10428 3 10456 1  1   female construction worker into Construction Area  
+E   1  10412  90     16     rivet gun wielded                
+M 0 10430 1 10470 1  1   fire devil into Lake of Fire  
+E   1  10414  90     16     box of matches wielded                
+M 0 10468 1 10460 1  1   Greater Fire Demon into Fire Pits of Hades  
+E   1  10415  54     16     bloody black talon wielded                
+G   1  10416  54            jar of blood in inventory
+M 0 10431 1 10469 1  1   wall of fire into Wall of Fire  
+M 0 10432 1 10454 1  1   hell hound into Hall of Fire  
+E   1  10417  90     16     hell hound teeth wielded                
+M 0 10433 1 10541 1  1   frozen body into Ice Room  
+G   1  10418  90            icy bottle in inventory
+M 0 10434 1 10483 1  1   ice devil into Ice Room  
+E   1  10419  80     16     ice spear wielded                
+M 0 10435 1 10473 1  1   soul trapped under the ice into Ice Room  
+M 0 10436 2 10484 1  1   half frozen body into Meat Locker  
+E   1  10420  90     16     large meat hook wielded                
+M 0 10469 2 10474 1  1   side of frozen beef into Meat Locker  
+G   1  10421  90            meat in inventory
+M 0 10436 2 10475 1  1   half frozen body into Meat Locker  
+E   1  10420  90     16     large meat hook wielded                
+M 0 10469 2 10485 1  1   side of frozen beef into Meat Locker  
+G   1  10421  90            meat in inventory
+M 0 10437 4 10476 1  1   killer penguin into Penguin Room  
+M 0 10437 4 10477 1  1   killer penguin into Penguin Room  
+M 0 10437 4 10486 1  1   killer penguin into Penguin Room  
+M 0 10437 4 10487 1  1   killer penguin into Penguin Room  
+M 0 10438 2 10488 1  1   I-scream worker into Ice-Creamery  
+M 0 10438 2 10478 1  1   I-scream worker into Ice Creamery  
+M 0 10439 1 10479 1  1   Ice Screamer into Ice Creamery  
+M 0 10440 1 10462 1  1   Demonic Foreman into Foreman's Office  
+G   1  10422  80            blueprint in inventory
+M 0 10441 1 10500 1  1   Secretary of Hell into Administration of Hell  
+E   1  10446  80      6     blond wig on head                
+M 0 10442 2 10498 1  1   office worker from hell into Blackened Hall  
+E   1  10423  80     16     electric eraser wielded                
+M 0 10442 2 10506 1  1   office worker from hell into Blackened Hall  
+E   1  10423  80     16     electric eraser wielded                
+M 0 10443 3 10491 1  1   records worker into Records Hall  
+M 0 10443 3 10492 1  1   records worker into Records Hall  
+M 0 10443 3 10493 1  1   records worker into Records Hall  
+M 0 10444 1 10494 1  1   Santa Claus into Records Hall  
+E   1  10424  80      6     spectacles on head                
+M 0 10445 1 10497 1  1   High Priest of Hell into Office of the High Priest  
+E   1  10425  54     17     unholy symbol held                   
+E   1  10426  54     12     unholy robe about body             
+M 0 10446 1 10495 1  1   a bowl of blood into Small Altar  
+M 0 10447 6 10511 1  1   jury member into Court Room  
+M 0 10448 1 10521 1  1   Judge Whopper into Judge's Chambers  
+M 0 10449 1 10512 1  1   Lawyer from Hell into Lawyers Office  
+E   1  10427  80     16     sharp teeth of a lawyer wielded                
+M 0 10450 1 10513 1  1   Complaints Officer into Office of Complaints  
+M 0 10451 1 10514 1  1   bastard hiramoto into Pawn Shop  
+G   1  10428 100            golden ring in inventory
+G   1  10429 100            engagement ring in inventory
+G   1  10430 100            prenuptial agreement in inventory
+M 0 10452 3 10520 1  1   maintenance worker into Maintenance Walkway  
+E   1  10431  63     16     ionic torque wrench wielded                
+E   1  10447  63      5     yellow jumpsuit on body                
+M 0 10452 3 10519 1  1   maintenance worker into Maintenance Walkway  
+E   1  10431  63     16     ionic torque wrench wielded                
+E   1  10447  63      5     yellow jumpsuit on body                
+M 0 10452 3 10529 1  1   maintenance worker into Maintenance Room  
+E   1  10431  63     16     ionic torque wrench wielded                
+E   1  10447  63      5     yellow jumpsuit on body                
+M 0 10453 2 10522 1  1   weeds into Courtyard  
+M 0 10453 2 10533 1  1   weeds into Courtyard  
+M 0 10454 1 10524 1  1   Stanley into Stanely's Magical Steeds  
+G   1  10432 100            figurine of a horse in inventory
+G   1  10433 100            figurine of a winged horse in inventory
+G   1  10434 100            figurine of a nightmare in inventory
+G   1  10435 100            figurine of a black dragon in inventory
+G   1  10436 100            figurine of a red dragon in inventory
+G   1  10437 100            figurine of a white dragon in inventory
+G   1  10438 100            figurine of a green dragon in inventory
+G   1  10439 100            figurine of a blue dragon in inventory
+M 0 10455 1 10526 1  1   half eaten horse carcass into Inside Big Mouth's Stomach  
+M 0 10456 1 10526 1  1   stomach dragon into Inside Big Mouth's Stomach  
+M 0 10457 1 10526 1  1   rancid turkey leg into Inside Big Mouth's Stomach  
+M 0 10458 1 10528 1  1   reactor specialist into Reactor Control Room  
+E   1  10440  54     17     geiger counter held                   
+E   1  10442  54      5     black jumpsuit on body                
+M 0 10459 1 10528 1  1   reactor worker into Reactor Control Room  
+E   1  10441  63     16     photon displacement matrix wielded                
+E   1  10442  63      5     black jumpsuit on body                
+M 0 10460 1 10539 1  1   Homer Simpson into Secondary Control Room  
+M 0 10471 1 10531 1  1   juicy steak into Hell's Kitchen  
+M 0 10461 1 10531 1  1   devils food cake into Hell's Kitchen  
+M 0 10462 1 10531 1  1   mad cook into Hell's Kitchen  
+E   1  10448  80     16     cleaver wielded                
+M 0 10463 2 10535 1  1   frantic lady into Hallway of The Mall from Hell  
+M 0 10463 2 10515 1  1   frantic lady into Hallway of The Mall from Hell  
+M 0 10464 1 10538 1  1   nuclear technician into Reactor Room Floor  
+E   1  10442  90      5     black jumpsuit on body                
+M 0 10466 2 10538 1  1   radiation into Reactor Room Floor  
+M 0 10465 1 10537 1  1   stray proton into Inside the Reactor Core  
+M 0 10466 2 10537 1  1   radiation into Inside the Reactor Core  
+M 0 10467 1 10540 1  1   the Chief Engineer of Hell into Office of the Chief Engineer  
+G   1  10443  80            antacid pill in inventory
+M 0 10470 2 10530 1  1   guard dog into Break Room  
+D   0  10404    3      1  Landing: Door west closed
+D   0  10405    1      1  Gateway to Hell: Door east closed
+D   0  10416    1      1  Greed: Door east closed
+D   0  10417    3      1  Bedroom.: Door west closed
+D   0  10443    0      1  Stone Hall: Door north closed
+D   0  10433    2      1  Cell: Door south closed
+D   0  10435    2      1  Stone Hall: Door south closed
+D   0  10445    0      1  Cell: Door north closed
+D   0  10447    0      1  Stone Hall: Door north closed
+D   0  10437    2      1  Cell: Door south closed
+D   0  10439    2      1  Stone Hall: Door south closed
+D   0  10449    0      1  Cell: Door north closed
+D   0  10439    1      1  Stone Hall: Door east closed
+D   0  10440    3      1  Cell: Door west closed
+D   0  10452    2      1  Stone Arch: Door south closed
+D   0  10462    0      1  Foreman's Office: Door north closed
+D   0  10476    3      1  Penguin Room: Door west closed
+D   0  10475    1      1  Meat Locker: Door east closed
+D   0  10479    1      1  Ice Creamery: Door east closed
+D   0  10480    3      1  White Marble Hall: Door west closed
+D   0  10483    1      1  Ice Room: Door east closed
+D   0  10484    3      1  Meat Locker: Door west closed
+D   0  10496    1      1  Blackened Hall: Door east closed
+D   0  10497    3      1  Office of the High Priest: Door west closed
+D   0  10499    1      1  Blackened Hall: Door east closed
+D   0  10500    3      1  Administration of Hell: Door west closed
+D   0  10500    2      1  Administration of Hell: Door south closed
+D   0  10510    0      1  Maintenance Walkway: Door north closed
+D   0  10538    3      1  Reactor Room Floor: Door west closed
+D   0  10537    1      1  Inside the Reactor Core: Door east closed
+D   0  11082    2      1  : Door south closed
+S
+#SHOPS
+10451 	5  2  9  4  3	 110 75	 0 23	; Hiramoto
+10454 	0  0  0  0  0	 110 75	 0 23	; Stanley
+0
+#SPECIALS
+M  10401 spec_cast_judge                              Guardian of Hell
+M  10402 spec_thief                                        Pile of Coins (mob)
+M  10405 spec_thief                                        gold bar (mob)
+M  10411 spec_cast_undead                            half-eaten person
+M  10412 spec_cast_undead                            living wall
+M  10421 spec_fido                                         manes
+M  10422 spec_fido                                         Prisoner Raiden
+M  10425 spec_poison                                    demonguard
+M  10432 spec_breath_fire                              hell hound
+M  10434 spec_breath_frost                            ice devil
+M  10439 spec_breath_frost                            Ice Screamer
+M  10442 spec_thief                                   office worker from hell
+M  10445 spec_cast_cleric                               High Priest of Hell
+M  10448 spec_cast_judge                               Judge Whopper
+M  10456 spec_breath_acid                              stomach dragon
+M  10468 spec_breath_fire                              Greater Fire Demon
+M  10470 spec_fido                                         guard dog
+*
+*
+*
+*
+**************************NOTES************************
+*
+* THIS AREA RESERVES VNUM 10401-10600
+* Slots alloted are 104 & 105
+* And is Connected at vnum #10401 to 
+* #10082 ( kid's closet in the farmer's house)
+*
+*
+*
+*
+*
+*
+* Add following connect points to Crystalmir lake: kid's closet (#10082)
+* In Kids closet add door.
+*                     
+*                      D1
+*                      You see an evil book.
+*                      ~
+*                      book~
+*                      1 -1 10401
+*
+*
+*
+*****************************DATE 1/30/94***************
+* BUG FIXES 1/30/94 Minor bug fixes.
+*
+*
+*** converted to new format 27/3/96 for Xania
+S
+
+#$

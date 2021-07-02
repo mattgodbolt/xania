@@ -1,0 +1,928 @@
+#AREA   
+Penthouse.are~
+Penthouse~
+{Imrtl} Faramir Penthouse~
+30000 30050
+
+#MOBILES
+
+#30000
+phil meerkat~
+Phil the meerkat~
+Phil the meerkat is here.
+~
+This is a bright, alert little creature, covered in a pelt of short, light
+brown fur.  Although at a glace it may look like just another animal, the
+look in its eyes conveys both an air of self-confidence and an ample
+intelligence.
+~
+unique~
+ABGQV FHNV 1000 0
+100 50 1d1+10000 1d1+2000 15d7+57 scratch
+-55 -75 -45 -30015
+EFHJN ABLQ H I
+stand stand male 0
+0 0 small 0
+#30001
+lesser minion~
+a lesser minion of Death~
+A lesser minion of Death stands here, trying to get a life.
+~
+A huge skeletal form, robed in a gloomy shadow towers over your puny form.
+Its skull face stares down at you with an impassive grin, before rubbing
+a bony finger along the blade of the huge scythe it is carrying. Actually,
+it appears to be quite a friendly looking entity, especially considering
+the circumstances of its existence.
+~
+undead~
+OQTVc CDHNTUVZ 0 0
+100 50 1d1+8984 1d1+1183 15d7+55 cleave
+-45 -45 -45 -33
+ACDEFHIKU ABHILMNR CDO 0
+stand stand neutral 0
+0 0 huge 0
+#30002
+squeak rat pet~
+the Death of Rats~
+The Death of Rats is here.
+~
+The small figure is only six inches tall, is wearing a black robe, and
+is holding a small scythe in one skeletal paw.  A bone-white nose with
+brittle grey whiskers protrudes from the shadowy hood.
+It says...SQUEAK.
+~
+unique~
+IHOUV HUNCDEFTZ 0 0
+100 30 1d1+30000 1d1+15000 1d1+30 scratch
+-45 -45 -45 -45
+EFIKMN ADHINR 0 0
+stand stand neutral 0
+0 0 small 0
+#30003
+wolf bert~
+A large vicious looking wolf~
+A large black wolf stands here....his teeth gleeming!
+~
+The wolf stares back at you with a mischevious glint in his eye!
+~
+unique~
+CIHOUV HUNCDEFTZ 10 0
+60 30 1d1+25000 1d1+1000 1d1+2000 scratch
+-45 -45 -45 -45
+EFIKMN ADHINR 0 0
+stand stand neutral 0
+0 0 small 0
+
+#30004
+siberian white tiger pet~
+ShebA ThE SavagE TigeR~
+ShebA PurrS AT YoU LovinglY (HaS AnY OnE FeD HeR?)
+~
+WelL ArD TigeR SitS HerE GuardinG LuxoR WitH HeR EntirE BeinG
+~
+unique~
+IHOUV HUNCDEFTZ 10 0
+91 30 1d1+30000 1d1+15000 1d1+30 scratch
+-45 -45 -45 -45
+EFIKMN ADHINR 0 0
+stand stand neutral 0
+0 0 large 0
+
+#30005
+shaiga bengal tiger~
+Shaiga the Bengal Tiger~
+You see Shaiga, the gorgeous Bengal tiger lying here.
+~
+It looks like a big wooly pussy.
+~
+unique~
+IHOUV HUNCDEFTZ 10 0
+113 38 1d1+24000 1d1+15000 12d6+38 claw
+-53 -53 -53 -53
+EFIKMN ABLOQP 0 0
+stand stand neutral 0
+0 0 large 0
+
+#30014
+forbidden anals arses arseholes ass assholes assfucks assfuckers asswipes autofelchers backsides balls bastards beastiality bigboys bigdicks bigknobs bitches bollocks bollox brahma breasts buckets buggerme buggery buggerxania butt buttfucks buttfuckers captaincum christ craps crapholes cumrags cumstains cumholes cunts cuntfeatures cuntfuckers cuntholes cuntlips cuntwipes dildo dicks dickfeatures dickheads dickfucks dickfuckers dopes dossers drugs druggies enemas expertmudders fadge fanny farts fartfucks fartheads felchers fucks fuckers fuckheads fuckme fuckoff fuckxania fuckyouxania fuckmudders fuckthismud gayboy genitalia genitals getalife gipo gits gitfaces hash helmets idiots imbeciles immsucks iscarian jehova jesus jesuschrist joints juices killme knackered knickers knobs knockers lesbians lickers licks lickme lowlife madrom merc merde mingers moistcunts motherfucker mothers momma muds mudders mudfuckers mudsuckers muthafuckas muthafuckers nerds niggaz nigger niggers nipples nolives orals orgasmics orgasms orifices penis penises piles pissers pissy plebs pkillers pratt pricks punks queeros queers quickies rivers rom shaggable shaggers shagging shits shitheads shitters slags sluts sods sodoff spammers stains studs suckers tits titty titties tossers tosspots turds urine vishnu wankers wankerish wankxanias xaniasucks yousuck youallsuck~
+Forbidden~
+Forbidden
+~
+Forbidden names for new characters. This is a very limited list, so beyond these, immortals will review
+player names that are against the spirit of the game on a case by case basis.
+~
+unique~
+IHOUV HUNCDEFTZ 10 0
+113 38 1d1+24000 1d1+15000 12d6+38 claw
+-53 -53 -53 -53
+EFIKMN ABLOQP 0 0
+stand stand neutral 0
+0 0 large 0
+
+#0
+
+#OBJECTS
+
+#30000
+rod divine power~
+a rod of divine power~
+You see a red coloured rod lying here innocently.~
+adamantite~
+armor ABU AO
+0 0 0 0 0
+1 1 1 P
+A
+1 15
+A
+2 15
+A
+3 15
+A
+4 15
+A
+5 15
+#30001
+robes ithil white~
+The robes of Ithil~
+You see a long, pearly white robe here.~
+cloth~
+armor IU AD
+33 33 33 16 0
+99 5 43000 P
+E
+robes ithil white~
+This long ceremonial robe glistens with a pearly white sheen. It is
+embroidered with golden thread in the form of a tree.
+~
+A
+2 3
+A
+5 3
+A
+13 100
+A
+19 5
+A
+22 -12
+A
+23 -12
+A
+24 -12
+
+#30002
+staff gondor pear~
+Staff of Gondor~
+A long, pearwood staff lies here.~
+bronze~
+weapon IHU AN
+'exotic' 20 6 'divine' B
+99 15 0 P
+E
+staff gondor pear~
+You see a long shaft of unblemished, white wood, crafted from the fossilised
+tree of gondor.
+~
+A
+3 4
+A
+4 4
+A
+9 100
+A
+12 100
+A
+24 -20
+
+
+#30003
+seal stewardship red circular~
+a seal of stewardship~
+You see a small, red circular object here.~
+vellum~
+wand GU AO
+60 10 10 3 0
+0 1 4000 P
+E
+seal stewardship red circular~
+You see a small, bright red wax seal bearing the imprint of a white tree.
+~
+
+#30004
+shadow death dark~
+Shadow of Death~
+You see the tendrils of a long dark shadow here, trying to fill the room.~
+stone~
+armor CGHOU AK
+30 30 30 15 0
+91 30 0 P
+E
+shadow death dark~
+You see a long, dark, ethereal shadow with some gleaming black buttons and
+a silk lined collar. It look pretty heavy and thus, quite uncomfortable.
+~
+A
+12 100
+A
+24 -20
+#30005
+rusty scythe~
+a rusty looking scythe~
+You see an enormous, black scythe here, ready to decapitate somebody.~
+iron~
+weapon CGHOU ANP
+'polearm' 15 6 'cleave' DEFG
+91 50 0 P
+E
+rusty scythe~
+A huge, weathered curve of iron stands atop a long knarled staff.
+~
+A
+18 3
+A
+19 3
+A
+24 -6
+
+#30006
+skull face terrifying~
+a terrifying skull face~
+The large skull face which you see here sends a shiver down your spine.~
+stone~
+armor ACHOU AE
+30 30 30 15 0
+91 30 0 P
+E
+skull face terrifying~
+Bleached white bone forms the shape of a humanoid skull. A curious blue
+aura emanates from each eye socket and reflects off a huge set of
+crumbling white teeth.
+~
+A
+24 -20
+#30007
+hour glass hourglass~
+an hourglass~
+You see a large, crystalline hourglass here.~
+glass~
+treasure BCHOU AO
+0 0 0 0 0
+91 10 80000 P
+E
+hour glass hourglass~
+This crude device, designed to measure the remaining lifespan of mortals,
+is a curved crystalline form. It appears to be very valuable.
+~
+A
+9 -100
+A
+13 -500
+#30008
+manky old trainers~
+some manky old trainers~
+You see a pair of really old, well worn trainers here.~
+cloth~
+armor GHU AG
+33 33 33 16 0
+99 1 0 P
+E
+manky old trainers~
+You see a pair of rough looking, cheap, smelly trainers. They need a wash.
+~
+
+#30009
+jeans pair blue~
+a pair of jeans~
+You see a some bog standard blue jeans here.~
+cloth~
+armor GU AF
+33 33 33 16 0
+99 4 0 P
+E
+jeans pair blue~
+These old jeans have clearly experienced years of heavy use as their
+blue has faded to a creamy white at the knees.
+~
+
+#30010
+cheap shirt~
+a cheap t-shirt~
+You see a really scraggy, cheap t-shirt here.~
+cloth~
+armor GU AD
+33 33 33 16 0
+99 3 0 P
+E
+cheap shirt~
+This is a tasteless stripey t-shirt with dirty collar and a buttoned neck.
+~
+
+#30011
+sunshine sun shine grin cheesy~
+a sunshine grin~
+You see a gorgeous, cheesy smile here, waiting to be worn.~
+gold~
+armor GU AE
+33 33 33 16 0
+99 5 50000 P
+E
+sunshine sun shine cheesy~
+You see a smile so fine that it would be capable of pulling even the most
+reserved of girls.
+~
+
+#30012
+leather belt black~
+a black leather belt~
+You see a shiny, black leather belt here.~
+leather~
+armor GU AL
+33 33 33 16 0
+99 3 0 P
+E
+leather belt black~
+You see a length of black leather ideal for suspending a pair of jeans.
+~
+
+#30013
+cat boots brown industrial~
+CAT boots~
+You see a pair of brown, industrial boots.~
+leather~
+armor GU AG
+33 33 33 16 0
+99 5 0 P
+E
+cat boots brown industrial~
+These fine, well built boots have a brown suede finish, durable laces
+and a large yellow tag on the side which says "CAT".
+~
+
+#30014
+tie die shirt multicoloured~
+a tie dye t-shirt~
+You see a tasteful multicoloured shirt here.~
+cloth~
+armor AGU AD
+33 33 33 16 0
+99 2 0 P
+E
+tie die shirt mulitcoloured~
+This cheap t-shirt has been especially coloured in order to ward off
+evil spirits and incompatible girls.
+~
+
+#30015
+contact lenses~
+contact lenses~
+You can just make out the glimmer of a pair of contact lenses here.~
+glass~
+armor HG AE
+33 33 33 16 0
+99 1 0 P
+E
+contact lenses~
+These high quality viewing implements are barely visible to the naked
+eye, but when worn, provide divine enlightenment!
+~
+A
+4 5
+
+#30016
+holy saint christopher pendant~
+a pendant of Saint Christopher~
+You see a small, holy pendant here.~
+silver~
+armor GIU AC
+33 33 33 20 0
+99 1 0 P
+E
+holy saint christopher pendant~
+This tiny, silver symbol bears the image of Saint Christopher crossing
+a river.
+~
+
+#30017
+jeans pair green~
+a pair of green jeans~
+You see a some bog standard green jeans here.~
+cloth~
+armor GU AF
+33 33 33 16 0
+99 4 0 P
+E
+jeans pair green~
+You are looking at a pair of very rare green jeans, designed purposfully
+to not match with any other item of clothing in the world.
+~
+
+#30018
+portable computer risc pc compact~
+a portable RISC PC~
+You see an awesomely powerful, compact computer here.~
+steel~
+container ABGHU AO
+500 1 0 0 0
+99 1 10000 P
+E
+portable computer risc pc compact~
+This beautiful, amazingly useful tool has been especially constructed with
+durability in mind, hence the titanium case. Its viewscreen is full of
+16.7 million glorious colours and the images it is processing are moving
+so fast it is impossible to see what they are!
+~
+
+#30024
+gem clan krellstone~
+a sacred Krellstone clan gem~
+A multi-faceted lump of Krellstone glows softly here.~
+octarine~
+treasure ABU AO
+0 0 0 0 0
+1 0 0 P
+E
+gem clan krellstone~
+This beautiful crystal shimmers with an iridescent, turqoise aura. You are
+almost hypnotised by this curious object, before you remember that it
+can only be used for the purposes of clan finances in the lands of Xania.
+
+Each piece of Krellstone is hewn from a larger chunk called the Krell-arda.
+The Krell-arda can only be found at the very core of Xania itself, so it is
+the rareness of this material, and its great durability which makes it so
+precious to the Gods. They are willing to allow mortals to use Krellstone as
+a store of wealth, as long as they get each back before the end of time.....
+~
+
+#30205
+donation pit hole~
+the Shadow Council donation pit~
+a gaping, black pit has been gouged from the solid earth~
+stone~
+container O 0
+10000 0 0 1000 0
+0 0 0  P
+E
+pit~
+This donation pit contains the evil goods of the members of the Shadow 
+Council. Its steep sides fall sharply so be careful that you don't fall in.
+~
+
+#30206
+helm shadow~
+(|bBlack Aura|w) the Helm of a Shadow Soldier~
+(|bBlack Aura|w) A dark helm is here.~
+adamantite~
+armor GCEU AE
+6 6 6 3 0
+20 10 1000 P
+E
+helm dark~
+This is a dark and magickal helmet, forged by Mephistopheles' dwarven minions.
+It has an evil, magickal aura surrounding it.
+~
+A
+18 1
+A
+19 2
+
+
+#30207
+cloak shadow~
+(|bBlack Aura|w) the Cloak of a Shadow Warrior~
+(|bBlack Aura|w) A dark cloak floats ominously above ground here.~
+cloth~
+armor CEGU AK
+13 13 13 7 0
+40 10 1500 P
+E 
+cloak dark~
+A magickal cloak covered in darkness
+~
+A
+18 2
+A
+19 2
+A
+14 -30
+
+#30208
+gauntlets shadow~
+(|bBlack Aura|w) the Gauntlets of a Shadow Master~
+(|bBlack Aura|w) Two dark gauntlets rest here.~
+adamantite~
+armor BCEGU AH
+16 16 16 8 0
+50 10 3000 P
+E
+gauntlets dark~
+Two pitch black gauntlets engraved with magickal runes.
+~
+A
+18 4
+
+#30209
+shield avatar~
+(|bBlack Aura|w) the Shield of an Avatar of Mephistopheles~
+(|bBlack Aura|w)The Shield of an Avatar of Mephistopheles is here.~
+steel~
+armor AEGU AJ
+23 23 23 15 0
+70 130 9000 P
+E
+shield mephistopheles~
+This is a strong and heavy, yet surprisingly thin shield. It wears the
+engravement of the Mephistopheles and the Shadow Council.
+~
+A
+17 -5
+A
+19 3
+
+#30210
+pendant shadow~
+(|bBlack Aura|w) the Pendant of the Shadow King~
+(|bBlack Aura|w) A dark pendant on a chain is here.~
+mithril~
+armor CEGU AC
+30 30 30 15 0
+90 15 14000 P
+E
+pendant dark~
+This is a gem on a chain, encrypted with runes and shrouded in darkness.
+~
+A
+18 4
+A
+19 4
+A
+13 -20
+
+#30211
+shroud shadow~
+(|bBlack Aura|w) the Shroud of the Shadow King~
+(|bBlack Aura|w) The Shroud of the Shadow King is here.~
+cloth~
+armor CEGU AD
+30 30 30 30 0
+90 15 14000 P
+E
+shroud shadow~
+This black robe is the personal property of the Shadow King.
+~
+A
+17 -5
+A
+24 -6
+
+#30212
+pill joint~
+a JoinT~
+a small rolled joint waits to be smoked~
+pill~
+pill EGU AO
+50 frenzy~ "cure critical" 0 0
+91 1 900 P
+E
+pill joint~
+This is a small rolled piece of paper containing the the shredded leaves 
+of a rather interesting piece of vegetation.
+~
+
+
+
+
+#0
+
+#ROOMS
+
+
+#30001
+In the wardrobe~
+You step into a small wardrobe that is simply full of nasty old
+fur coats which emit a rank, musty smell. The darkness falls around
+you, causing a feeling of impending claustrophobia. The wardrobe seems
+to go on forever, as you shuffle through its hidden depths.....
+Will you ever reach the other end?
+~
+ADQ 0
+D0
+The Living Room
+~
+~
+0 -1 30002
+D1
+Firefawn's Fantasy Field
+~
+~
+0 -1 30010
+D3
+Valhalla
+~
+~
+0 -1 1219
+D5
+Tajil's Basement
+~
+~
+0 -1 30015
+S
+
+#30002
+The Living Room~
+You enter the living room of the immortals of X-Rom. There is a large,
+brown, comfortable sofa here, standing on the polished wooden floor.
+A well worn rug lies before a low, glass coffee table and a TV set
+sits in the corner. Over on the other side of the room you notice
+an awesome looking stereo system that appears to be quite capable
+of blowing the whole of Midgaard into outer space! There is a picture
+of Keanu Reeves on the wall that has been covered in graffiti and
+various obscenities. There are doorways in all directions and you
+can't but help detect a smell from the west.
+~
+D 0
+D0
+Faramir's Chambers
+~
+~
+0 -1 30004
+D1
+Moog's Bedroom
+~
+~
+0 -1 30005
+D2
+The Wardrobe
+~
+~
+0 -1 30001
+D3
+Wandera's nest in the trees
+~
+~
+0 -1 30006
+D4
+Realm of Death
+~
+~
+0 -1 30003
+D5
+Rohan's Bedroom
+~
+~
+0 -1 30007
+S
+#30003
+Realm of Death~
+You step into an icy cold, dark chamber which is illuminated by an
+enchanting blue light. The walls have been tiled and huge rusty
+chains are swingly gently from the ceiling. A modern, steel and
+leather chair sits in the centre of the room and you can almost
+swear that you saw it on some TV show once. An unpleasant reddish
+liquid shimmers beneath your feet as is it failing to flow down
+the drain which the plumber failed to fix yet again. Typical.
+~
+AD 0
+D0
+Luxor's Cardboard Box
+~
+~
+0 -1 30009
+D5
+A living room
+~
+~
+0 -1 30002
+D4
+Death's Office
+~
+~
+0 -1 30008
+S
+
+#30004
+Faramir's Gaff~
+You find yourself in a cosy little bedroom featuring blank yellow
+walls, a solid black table and a boring pine bed. The large glossy
+'The Matrix' poster on the far wall features a particularly fine shot
+of Carrie-Anne Moss.
+  
+A chubby computer sits under the table, its disk whirring like a hair
+drier in a 70s barber shop. The view from the window is green and 
+unremarkable except for the perma-sunset on the horizon that Faramir
+nicked from Death while he wasn't looking.
+~
+D 0
+D2
+A living room
+~
+~
+0 -1 30002
+S
+#30005
+The Moog's Bedroom~
+You wade through knee-deep rubbish into The Moog's bedroom.  You dread
+to think what colour the carpet is - as it has not seen the light of
+day for several centuries anything could have happened.  Eerie lifeforms
+which have seemingly evolved to subsist from rubbish and undergarments
+writhe around.  In short, this room is a mess!  A computer desk stands to 
+the south corner of the room, again littered with rubbish, and coffee cups.
+A small network of various computers labour intently around and about the
+desk - why The Moog would need more than one computer you just don't know.
+One of the machines is running a developmental version of Xania - as you
+glance at the screen you see it crash with a nasty error - another bug for 
+The Moog to fix, by the look of it.  A 56k modem glows red next to the 
+monitor; its LEDs and that of the network hub are the only sources of light
+in the room.
+~
+D 0
+D3
+A living room
+~
+~
+0 -1 30002
+S
+#30006
+Wandera's nest in the trees~
+You are high up in a mighty tree, a platform made from strips of octarine
+cleverly woven together is beneath your feet, you gasp as you realise how far
+the ground is below you.
+
+Relax you are quite safe, you would not be here unless Wandera had invited
+you. Lie back into the soft leaves and speak what is on your mind, fear not
+what you say as from the true god you have no secrets.
+~
+D 0
+D1
+A living room
+~
+~
+0 -1 30002
+D5
+A throne room
+~
+~
+0 -1 12115
+S
+#30007
+Rohan's Bedroom~
+You enter a cosy little bedroom with, believe it or not, a bed,
+desk a set of shelves and a tall cupboard. The sun always shines
+in through the window to the east and you hear the faint sound
+of a "Chariot of Fire" in the background.
+~
+D 0
+D4
+A living room
+~
+~
+0 -1 30002
+S
+
+
+#30008
+Death's Office~
+
+The stony silence of this room is broken only by the loud ticking of a
+grandfather clock which sits in the corner.  Upon the walls are rows
+upon rows of shelving, which carry on infinitely, and on the shelves
+sit tiny hourglasses, each one carefully named.  You glance upon an
+hourglass with your own name inscribed upon it, and you worry as there
+seems not to be much sand left in it...
+~
+D 0
+D5
+Realm of Death
+~
+~
+0 -1 30003
+S
+
+#30009
+Luxor's Cardboard Box~
+
+As you enter this tiny little box (Come on you cant rent much more than this
+on a student wage in London) You look around to find a dx2 66 humming away
+wondering if its a unix box or a PC. In the corner you see a Guitar covered in
+dust as is most thinga here. The one thing that makes this box so different
+from all the other rooms in this place is the walls, they arnt just covered
+with tiger posters, pictures, and paintings, but, there are pictures ontop of
+tigers ontop of the posters. (I think it can be said that Luxor Likes Tigers)
+You see a filty rugby ball on the floor (Boy has that seen a few scrums)
+The sounds of Phill Collins put an over all feeling of suicide over you and
+you wonder how you will ever escape ahhhh yes the same way you came in.........
+~
+D 0
+D2
+Realm of Death
+~
+~
+0 -1 30003
+S
+
+#30010
+Firefawn's Fantasy Field~
+Before you lies a vast field, half in shadows and half in light.  A small
+wispy breeze is warmed as it passes from night into day.  Creatures of the
+night scurry beneath the crescent moon while animals of the day romp and
+forage under the noonday sun.  A feeling of tranquility passes over you as
+you realize that while you're here, you are absolutely safe...until Firefawn
+returns.
+~
+D 0
+D3
+The Wardrobe
+~
+~
+0 -1 30001
+D1
+Oshea's study
+~
+~
+0 -1 30013
+S
+
+#30013
+Oshea's study~
+A simple room, with a bed and rugs on the floor.  You notice different
+memorabilia dotted around the room.  As you look around you notice a
+shofar, and a lump of wall from Jericho.  You see some odd scrolls
+that you don't recognize the writing of but you guess that it might
+be Hebrew.  In the corner, you notice a piece of parchment with Greek
+on it. It appears to be the source of much study at the moment.
+~
+D 0
+D3
+Firefawn's Fantasy Field
+~
+~
+0 -1 30010
+D1
+Harlequin's Lab
+~
+~
+0 -1 30014
+S
+#30014
+Harlequin's Lab~
+You enter a brilliant white room.  To your left stands a closed fumehood, 
+as you peer closely at the flasks inside you can see what looks like some 
+fairy liquid being boiled and turned into freshly squeezed orange juice.  
+Over by the far wall stands a glowing Rega amplifier that is used to heat 
+the room as well as deafen all who enter.  As you stumble round the lab 
+you trip over a pair of discarded DMs and fall head long into the largest 
+pile of CDs you have ever seen.  Gradually your eyes become adjusted to 
+the glare of the overhead fluorescent bulbs and you notice an unmade 
+camp bed set up just in front of you.  Clearly Harlequin wants to be close 
+to his work, but what on Xania is he making?  A cure for cancer, a 
+vaccine against AIDS, nah its just something to clean the fridge with.
+~
+D 0
+D3
+Oshea's study
+~
+~
+0 -1 30013
+S
+
+
+#30015
+Tajil's Basement~
+Upon climbing down into a small, pipe-filled basement, you instantly duck 
+your head to avoid collision with a precariously suspended ventilation duct. 
+Bits of gravel and old nails crunch underfoot as you step across the dusty 
+concrete floor, surveying Tajil's belongings. A green shag carpet covers the 
+far half of the floor, and the dim candlelight allows you to see various 
+band posters and flyers adorning the freshly painted navy blue walls. Tajil 
+has been forced to adopt a monastic lifestyle, as is evident by his use of a 
+pile of broken water-pipes and old fur coats from upstairs as a bed. 
+Apparently, times have been rough lately, and the Imps were hard-pressed to 
+grant Tajil anything more than a utility room as his immortal domain. 
+Shelved in the far corner, a slowly spinning record player hisses and skips, 
+punctuating the echoing silence of the basement.
+~
+D 0
+D4
+In the wardrobe
+~
+~
+0 -1 30001
+S
+
+
+#0
+#RESETS
+M 0 30001 1 30003 1  1   
+E 1 30004  27 12
+E 1 30005  27 16
+E 1 30006  27 6
+E 1 30007  27 17
+O 0 5030 1 30009
+M 0 30004 1 30009 1  1   
+M 0 30000 1 1158 1  1   
+S
+
+#SPECIALS
+M 30001 spec_death
+M 30000 spec_phil
+S
+
+#$

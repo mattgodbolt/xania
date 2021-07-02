@@ -1,0 +1,1899 @@
+#AREA 
+Sethanon.are~
+Sethanon~
+{45 90} Corak   Sethanon~
+28001 28050
+
+#MOBILES
+#28001
+thief nighthawk~
+a nighthawk~
+A nighthawk stands before you exacting tribute from the weak.
+~
+You see a member of the nighthawks.  He is obviously a trained thief and
+killer.  You'd better do what he says.
+~
+human~
+CS BPQ -750 0
+45 10 10d15+800 1d1+249 2d5+25 punch
+-48 -40 -45 -30
+BEFHNU B LP 0
+stand stand male 3000
+0 0 medium 0
+
+#28002
+moredhel elf warrior~
+a moredhel warrior~
+A moredhel stands here cursing good.
+~
+Before you stands a member of the evil race of elves known as the
+moredhel.  Identical to they're eledhel brothers except for coal black
+eyes, these beings still radiate evil.  This warrior seems ready to
+strike down good where ever it manifests.
+~
+elf~
+FT JV -750 0
+50 9 5d25+1000 1d1+499 2d10+30 pound
+-55 -45 -51 -30
+CDEFHIJKN 0 LQ 0
+stand stand male 1000
+0 0 medium 0
+
+#28003
+eledhel warrior elf~
+an eledhel warrior~
+An eledhel warrior stands here looking for evil.
+~
+Eledhel are the good elves.  They are constantly attempting to turn
+moredhel from the dark path, back to the ways of light.  This elf looks
+ready to assist you
+~
+elf~
+HL CJ 750 0
+50 7 5d25+800 1d1+599 1d10+32 pound
+-50 -52 -51 -42
+CEFHIKLQS 0 LQ 0
+stand stand male 1000
+0 0 medium 0
+
+#28004
+yabon soldier warrior~
+a soldier~
+A Yabon soldier stands here polishing his arms.
+~
+This soldier of Yabon stands here polishing his arms and talking about
+his battles with the Tsurani
+~
+human~
+T N 300 0
+52 8 1d1+999 1d1+249 3d6+30 smash
+-45 -46 -41 -25
+CDEFIJKNOU 0 0 0
+stand stand male 0
+0 0 medium 0
+
+#28005
+lesser mage grey grey-robed~
+a grey-robed mage~
+A grey-robed mage is here practising his arts.
+~
+Before you is a mage wearing a grey robe, signifying a user of the  
+lesser path.  I wonder where his mentor is?
+~
+human~
+R EH 0 0
+54 6 10d10+600 10d10+700 10d4+10 claw
+-43 -44 -46 -42
+FK 0 B 0
+stand stand male 3000
+0 0 medium 0
+
+#28006
+drake fire dragon~
+a fire drake~
+A lesser dragon is hunting here.
+~
+Smaller than a dragon but just as deadly, fire drakes are known to be
+fierce fighters and deadly hunters.  It is rumoured that fire drakes are
+resistant to fire.
+~
+dragon~
+C NT 0 0
+55 8 10d20+2200 10d10+800 10d4+30 flbite
+-55 -53 -54 -40
+ACDHMNO 0 H I
+stand stand neutral 5000
+0 0 large 0
+
+#28007
+stone dwarf warrior~
+a dwarf~
+A dwarven warrior from stone mountain is here.
+~
+This tough little dwarf from the stone mountain is looking for things to
+fight.  Do you want to try to take this formidable fighter?
+~
+dwarf~
+FT NV 200 0
+60 10 15d10+2900 1d1+499 1d1+39 pound
+-55 -58 -57 -36
+CDEFHIJKN 0 0 0
+stand stand male 0
+0 0 medium 0
+
+#28008
+knight zun~
+a knight~
+A Knight of Zun is here.
+~
+A Knight from the city of Zun is here to prove himself in battle.
+~
+human~
+TL CHZ 450 0
+65 10 2d100+2700 1d1+699 12d5+15 smash
+-58 -57 -60 -38
+CEHIKNT LP C 0
+stand stand male 0
+0 0 medium 0
+
+#28009
+priest emerald~
+a priest~
+A priest of the Emerald Queen is radiating evil here.
+~
+A priest worshipping the Emerald Queen, the Valheru goddess of snakes
+is a terrible foe to combat.
+~
+human~
+FQ HK -1000 0
+69 10 10d10+3000 10d10+1000 10d5+10 wrath
+-55 -56 -65 -51
+FK KP C HN
+stand stand neutral 0
+0 0 medium 0
+
+#28010
+monk lims lims-kragma~
+a monk of Lims-Kragma~
+A monk of Lims-Kragma chants here.
+~
+Lims-Kragma, the death goddess has many fanatical followers.  One stands
+here ready to strike the unwary and give tribute to his goddess.
+~
+human~
+FT NV -500 0
+70 13 10d50+4500 1d1+999 6d6+25 divine
+-63 -58 -60 -44
+DEFHIKN AB K JN
+stand stand male 0
+0 0 medium 0
+
+#28011
+slayer black~
+a black slayer~
+A black slayer rises before you.
+~
+Black slayers are the most feared creatures in existence.  Anyone who
+makes a pledge to the Valheru will be brought back after death as a  
+black slayer.  These creatures can not be harmed by any magic except 
+fire and can drain health from a man!
+~
+human~
+F DKNZ -1000 0
+70 10 1d1+4199 1d1+299 10d6+20 wrath
+-62 -61 -63 -55
+FGO BIJKO MPQS HNY
+stand stand neutral 0
+0 0 large 0
+
+#28012
+mage greater black~
+a black-robed mage~
+A black-robed mage stands here incanting spells.
+~
+Black-robed mages are to be feared.  They are masters of the greater path
+and able to cast devastating spells, while protected from most magic.
+~
+human~
+R HNVZ 0 0
+75 10 20d5+5000 20d5+1000 10d5+20 slap
+-66 -63 -64 -60
+FK 0 BCHIJK 0
+stand stand male 0
+0 0 medium 0
+
+#28013
+arutha prince krondor~
+Arutha~
+Arutha, the prince of Krondor, is here.
+~
+The Lord of the West and Bane of Darkness, Arutha has been called by many
+titles but he's always been a great hunter of evil.
+~
+human~
+BTaa CDEFHNV 1000 0
+85 15 100d4+6500 1d1+499 5d6+43 beating
+-68 -66 -67 -55
+CDEFHIKLNOQ MN GJK E
+stand stand male 0
+0 0 medium 0
+
+#28014
+murmandus moredhel elf leader~
+Murmandus~
+Murmandus, leader of the moredhel, stands here.
+~
+Murmandus is looking for the Lord of the West.  With Arutha out of the
+way, Murmandus can restore the Emerald Queen to this reality!
+~
+elf~
+FRT HN -1000 0
+85 15 100d4+6500 1d1+1299 5d6+43 wrath
+-65 -67 -68 -57
+BCDEFHIKNO BLPQ CD N
+stand stand male 0
+0 0 medium 0
+
+#28015
+hand jimmy thief~
+Jimmy the Hand~
+Jimmy the Hand is here.
+~
+Jimmy the Hand, former thief and now companion to Arutha is here 
+guarding Sethanon from the invasion.
+~
+human~
+CGS BHNPQUV 750 0
+72 7 30d10+4000 1d1+399 4d8+32 hit
+-57 -60 -62 -45
+BCEFGHIKN LQ D 0
+stand stand male 0
+0 0 medium 0
+
+#28016
+ryath gold dragon~
+a gold dragon~
+Ryath, gold dragon and mount of Tomas is here guarding the life stone
+~
+Ryath is the great gold dragon Tomas has summoned to aid him in the 
+defence of the lifestone.  This looks to be one of the most beautiful
+and deadly creatures ever to exist.
+~
+dragon~
+FBTL BDHNT 1000 0
+90 15 1d1+9999 1d1+999 5d10+45 acbite
+-85 -86 -87 -76
+ACDIKMO LK CD F
+stand stand female 0
+0 0 giant 0
+
+#28017
+tomas gold golden warrior~
+a golden warrior~
+Tomas, inheritor of Ashen-Shugar's mantle is here.
+~
+Tomas once a boy-hood friend of pug is here.  Once Tomas donned the armour
+of the ancient Valheru Ashen-Shugar, their souls became fused into one
+awesome being of power.
+~
+elf~ 
+MBTL CEHJNTV 500 0
+105 20 10d20+10000 1d1+1999 8d8+52 divine
+-95 -86 -93 -84
+CDEFGHIKNOR BHLQ CKNO E
+stand stand male 0
+0 0 large 0
+
+#28018
+milamber black robed mage~
+Milamber~
+Milamber is here.
+~
+Milamber of the Assembly also known as Pug of Stardock is here incanting
+spells.  An aura of power surrounds his body
+~
+human~
+RL HN 500 0
+105 12 10d100+9000 1d1+2499 6d6+50 hit
+-91 -87 -85 -100
+FGHK ENOP CDHIJK 0
+stand stand male 0
+0 0 medium 0
+
+#28019
+macross black wizard~
+Macross~
+Macross the Black appears before you.
+~
+Macross the Black is the most powerful sorcerer ever to live! Power 
+emanates from his body.
+~
+human~
+BJKRVb BCDEFHJPQRTV -200 0
+140 22 1d1+24999 1d1+3999 1d1+149 wrath
+-115 -115 -115 -135
+AFGH C DEFGHIJK 0
+stand stand male 0
+0 0 medium 0
+
+#0
+
+#OBJECTS
+#28001
+amulet hawk nighthawk~
+Nighthawk Amulet~
+A nighthawk amulet lies here~
+gold~
+armor ACEGJ AC
+11 10 10 0 0
+40 3 16000 P
+E
+nighthawk~
+Nighthawks are paid assassins.  They work for the highest bidder,
+sending their victims to meet Lims-Kragma.
+~
+A
+2 1
+A
+18 2
+A
+19 2
+
+#28002
+sword moredhel longsword~
+Moredhel Longsword~
+a slender steel longsword lies here~
+steel~
+weapon ACEJ AN
+'sword' 5 10 'slash' 0
+48 10 18000 P
+A
+1 1
+
+#28003
+sword eledhel longsword~
+Eledhel Longsword~
+a slender steel longsword lies here~
+steel~
+weapon AIK AN
+'sword' 5 10 'slash' 0
+48 10 18000 P
+A
+2 1
+
+#28004
+armour chain elven~
+Elven Chain~
+A suit of chain armour lies here~
+steel~
+armor A AD
+13 12 13 5 0
+48 20 30000 P
+A 
+2 1
+A
+3 2
+
+#28005
+tabard yabon cloth~
+Yabon Tabard~
+A pile of cloth lies here~
+cloth~
+armor 0 AD
+15 10 15 0 0
+50 3 10000 P
+A
+5 1
+A
+13 20
+
+#28006
+robe grey lesser~
+Grey Robe~
+A grey robe of the lesser path lies here~
+cloth~
+armor AG AK
+13 11 12 13 0
+50 10 28000 P
+A
+12 40
+
+
+#28008
+plate zun~
+Zun Plate Mail~
+a suit of plate lies here~
+steel~
+armor AGIK AD
+18 17 19 10 0
+60 30 38000 P
+A
+13 30
+A
+18 2
+
+#28009
+snake amulet emerald~
+snake amulet~
+an amulet of the Emerald Queen~
+glass~
+armor ACEJH AC
+15 15 14 0 0
+65 4 40000 P
+E
+Queen~
+The Emerald Queen is an ancient Valheru who wants to challenge the gods
+for the rulership of this plane of existence.  She id rumoured to be more
+powerful than any immortal and threatens to usurp their control!  The
+Emerald Queen is also known as the system administrator!
+~
+A
+6 1
+A
+12 40
+#28010
+circlet lims lims-kragma~
+Circlet of Lims-Kragma~
+A red adamantite circlet lies here~
+adamantite~
+armor ACGJU AE
+16 18 17 10 0
+66 1 45000 P
+E
+lims-kragma~
+Lims-Kragma is the goddess of death.  All will come into her service
+eventually.
+~
+A
+1 2
+A
+12 35
+#28011
+robe black greater~
+Black Robe~
+A robe of a greater path mage lies here~
+cloth~
+armor AGU AK
+19 16 19 17 0
+70 10 56000 P
+A
+12 56
+
+#28012
+slayer talisman black~
+Black Slayer Talisman~
+a talisman of the black slayer lies here~
+iron~
+armor ACEHJU AC
+18 20 20 0 0
+65 5 5000 P
+A
+13 49
+
+#28013
+rapier steel~
+steel rapier~
+a steel rapier lies here~
+steel~
+weapon ABI AN
+'sword' 7 12 'slice' D
+82 10 75000 P
+A
+2 2
+
+#28014
+small talisman hammer~
+A Small Talisman~
+A small hammer talisman glows here~
+adamantite~
+armor ABIK AC
+20 22 21 25 0
+80 5 68000 P
+A
+24 -18
+
+#28015
+ring assembly~
+Ring of the Assembly~
+a humming, glowing ring lies here~
+gold~
+armor ABGU AB
+22 21 23 20 0
+82 2 60000 P
+A
+12 63
+
+#28016
+shield zun~
+Shield of Zun~
+A silver shield lies here~
+silver~
+armor AIKU AJ
+17 16 16 15 0
+62 115 48000 P
+A
+2 1
+A
+13 24
+A
+17 -4
+
+#28017
+silver cylinder~
+A Silver Cylinder~
+A strange device lies here~
+glass~
+wand BG AO
+90 10 10 42 0
+72 5 40000 P
+A
+14 56
+
+#28018
+birthmark murmandus purple~
+Murmandus's Birthmark~
+A birthmark lies here~
+vellum~
+armor ACEJHU AD
+1 1 2 30 0
+83 1 0 P
+E
+murmandus~
+Mythical leader of the moredhel.  Murmandus wants to bring the Emerald
+Queen back into the world.
+~
+A
+12 63
+
+#28019
+girdle murmandus~
+Girdle of Murmandus~
+The girdle of Murmandus hovers before you~
+steel~
+armor ACEJU AL
+20 22 21 12 0
+83 30 95000 P
+A
+1 2
+A
+5 1
+A
+13 20
+
+#28020
+armour valheru~
+Valheru Armour~
+a suit of gold and white armour is here~
+gold~
+armor ABCGLU AD
+30 29 31 30 0
+90 25 130000 P
+E
+armour valheru~
+Although the spirit of the Valheru has left this armour, it is still a
+powerful suit of armour.  This suit allows its wearer to sacrifice magic
+power for health and near invulnerability to dragon breath
+~
+A
+23 -20
+
+#28021
+sword ashen ashen-shugar tomas~
+Sword of Ashen-Shugar~
+a golden hilted sword lies here pulsing with power~
+adamantite~
+weapon ABCEGILU AN
+'exotic' 13 7 'divine' CD
+91 20 150000 P
+A
+12 24
+A
+13 24
+A
+18 2
+A
+19 2
+
+#28022
+robe~
+Milamber's Robe~
+A black robe lies here in a pile~
+cloth~
+armor ABGLU AK
+35 32 37 35 0
+91 50 10000 P
+A
+12 70
+
+#28023
+staff macross~
+Staff of Macross~
+a simple wooden staff lies here~
+wood~
+light AGU A
+0 0 999 0 0
+90 10 1000 P
+A
+12 28
+A
+1 1
+
+#28024
+lifestone stone green~
+Lifestone~
+The Lifestone rests here on a Pedestal.~
+glass~
+furniture ABCEFGIJKLOU 0
+0 0 0 0 0
+100 10000 1000000 P
+E
+Lifestone green stone~
+The Lifestone is an green Diamond approximately the size of a large dog.
+This stone is tied to every living thing on this plane.  If this stone
+is destroyed, this mud will cease to exist.  The Lifestone is sometimes
+referred to as the processor.  The Emerald Queen wants the Lifestone to
+manipulate at her will, without the interference of the immortals.  If 
+the Emerald Queen or one of her minions can get to this stone, she will 
+be able to get what she wants.
+~
+
+#28025
+phaze key~
+Phaze Key~
+A key to another phaze lies here~
+glass~
+key ABF 0
+0 0 0 0 0
+1 1 1 P
+E
+phaze~
+This key will allow you to enter another phaze where reality is slightly
+different from your current one. 
+~
+#28026
+treasure gold~
+gold~
+Gold coins cover the floor~
+gold~
+money 0 A
+50000 0 0 0 0
+1 0 50000 P
+
+#0
+
+#ROOMS
+#28001
+Hills around Sethanon
+	<Caution! Entering High Level Area!>
+~
+        You are on the hilltops near the fabled city of Sethanon.  
+dwarves and fire drakes are here fending off the moredhel invasion.
+To the south and east you see more hills.  To the west you see a 
+strange glowing swirl of light that looks like a portal to another
+realm.
+~
+0 4
+D1
+Along the hill tops.
+~
+~
+0 -1 28002
+D2
+Along the hill tops. 
+~
+~
+0 -1 28007
+D3
+Blood Sea Portal
+~
+portal~
+0 -1 2326
+S
+
+#28002
+Hills around Sethanon~
+        You are on the hilltops near the fabled city of Sethanon.  
+dwarves and fire drakes are here fending off the moredhel invasion.
+To the east and west you see more hills.  Below you see the fields of
+Sethanon.
+~
+0 4
+D1
+Along the hill tops.
+~
+~
+0 -1 28003
+D3
+Along the hill tops.
+~
+~
+0 -1 28001
+D5
+Descent to the field.
+~
+~
+0 -1 28008
+S
+
+#28003
+Hills around Sethanon~        
+        You are on the hilltops near the fabled city of Sethanon.  
+dwarves and fire drakes are here fending off the moredhel invasion.
+To the east and west you see more hills.  Below you see the fields of
+Sethanon.
+~
+0 4
+D1
+Along the hill tops.
+~
+~
+0 -1 28004
+D3
+Along the hill tops.
+~
+~
+0 -1 28002
+D5
+Descent to the field.
+~
+~
+0 -1 28009
+S
+
+#28004
+Hills around Sethanon~        
+        You are on the hilltops near the fabled city of Sethanon.  
+dwarves and fire drakes are here fending off the moredhel invasion.
+To the west you see more hills.  Below you see the fields of
+Sethanon.
+~
+0 4
+D3
+Along the hill tops.
+~
+~
+0 -1 28003
+D5
+Descent to the field.
+~
+~
+0 -1 28010
+S
+
+#28005
+Circle of Stones~
+        The stones before you are arranged in a circle.  They seem to
+form some sort of crude worshipping area.  
+~
+0 2
+D2
+Path to camp.
+~
+~
+0 -1 28011
+S
+
+#28006
+Murmandus' Camp~
+        This is Murmandus' command center.  From here he is launching 
+his invasion of Sethanon.  There are many moredhel, nighthawks, black
+slayers and priests here.  This particular section is Murmandus' command
+tent.  You wonder if he's here or leading his army in the field.
+~
+0 2
+D2
+Camp.
+~
+~
+0 -1 28012
+S
+
+#28007
+Hills around Sethanon~        
+        You are on the hilltops near the fabled city of Sethanon.  
+dwarves and fire drakes are here fending off the moredhel invasion.
+To the north and south you see more hills.  To the east you see the 
+fields of Sethanon.
+~
+0 4
+D0
+Along the hill tops.
+~
+~
+0 -1 28001
+D2
+Along the hill tops.
+~
+~
+0 -1 28013
+D1
+Descent to the field.
+~
+~
+0 -1 28008
+S
+
+#28008
+Field near Sethanon~
+        You are at the north-west corner of the fields outside the 
+fabled city of Sethanon.  Lesser path mages and eledhel are fending
+off another attack by the nighthawks and moredhel.  To the east and 
+south the field continues.  Above you and to the west the are hills
+surrounding Sethanon.
+~
+0 2
+D1
+East to the field.
+~
+~
+0 -1 28009
+D2
+South to the field.
+~
+~
+0 -1 28014
+D3
+Ascent into the hills.
+~
+~
+0 -1 28007
+D4
+Climb into the hills
+~
+~
+0 -1 28002
+S
+
+#28009
+Field near Sethanon~
+        You are at the northern end of the fields outside the 
+fabled city of Sethanon.  Lesser path mages and eledhel are fending
+off another attack by the nighthawks and moredhel.  To the east, west 
+and south the field continues.  Above you are hills surrounding Sethanon.
+~
+0 2
+D1
+East to the field.
+~
+~
+0 -1 28010
+D2
+South to the field.
+~
+~
+0 -1 28015
+D3
+West to the field.
+~
+~
+0 -1 28008
+D4
+Climb into the hills.
+~
+~
+0 -1 28003
+S
+
+#28010
+Field near Sethanon~
+        You are at the northern-eastern end of the fields outside the 
+fabled city of Sethanon.  Lesser path mages and eledhel are fending
+off another attack by the nighthawks and moredhel.  To the south and 
+west the field continues.  Above you are hills surrounding Sethanon.
+To the east lies the entrance to Murmandus' field camp.
+~
+0 2
+D1
+East to the camp.
+~
+~
+0 -1 28011
+D2
+South to the field.
+~
+~
+0 -1 28016
+D3
+West to the field.
+~
+~
+0 -1 28009
+D4
+Climb into the hills
+~
+~
+0 -1 28004
+S
+
+#28011
+Murmandus' Camp~
+        This is the entrance to murmandus's camp.  Priests, black
+slayers, nighthawks, and moredhel are arming themselves for another
+assault on the city of Sethanon.  To the west is the entrance to the
+fields, to the north is a strange circle of stones.  Above you are the
+hills surrounding Sethanon, and to the east is another section of the 
+camp.
+~
+0 2
+D0
+Path to the shrine.
+~
+~
+0 -1 28005
+D1
+Murmandus's camp.
+~
+~
+0 -1 28012
+D3
+Entrance to the field.
+~
+~
+0 -1 28010
+D4
+Climb into the hills.
+~
+~
+0 -1 28017
+S
+
+#28012
+Murmandus's Camp~
+        You are in the middle of Murmandus' camp.  All around you the
+forces of evil are staging drills and arming for war.  To the north is
+Murmandus' command tent.  To the east and west are more sections of the
+camp.
+~
+0 2
+D0
+Command Tent.
+~
+~
+0 -1 28006
+D1
+Murmandus' camp.
+~
+~
+0 -1 28018
+D3
+Murmandus' camp
+~
+~
+0 -1 28011
+S
+
+#28013
+Hills around Sethanon~        
+        You are on the hilltops near the fabled city of Sethanon.  
+dwarves and fire drakes are here fending off the moredhel invasion.
+To the north and south you see more hills.  To the east you see the 
+fields of Sethanon.
+~
+0 4
+D0
+Along the hill tops.
+~
+~
+0 -1 28007
+D2
+Along the hill tops.
+~
+~
+0 -1 28019
+D5
+Descent to the field.
+~
+~
+0 -1 28014
+S
+
+#28014
+Field near Sethanon~
+        You are at the eastern end of the fields outside the fabled city 
+of Sethanon.  Lesser path mages and eledhel are fending off another 
+attack by the nighthawks and moredhel.  To the north, south and east the 
+field continues.  Above you are hills surrounding Sethanon. 
+~
+0 2
+D0
+North to the field.
+~
+~
+0 -1 28008
+D1
+East to the field.
+~
+~
+0 -1 28015
+D2
+South to the field.
+~
+~
+0 -1 28020
+D4
+Climb into the hills.
+~
+~
+0 -1 28013
+S
+
+#28015
+Field near Sethanon~
+        You are in the middle of the fields outside the fabled city of 
+Sethanon.  Lesser path mages and eledhel are fending off another attack 
+by the nighthawks and moredhel.  To the north, south, east and west the 
+field continues.
+~
+0 2
+D0
+North to the field.
+~
+~
+0 -1 28009
+D1
+East to the field.
+~
+~
+0 -1 28016
+D2
+South to the field.
+~
+~
+0 -1 28021
+D3
+West to the field.
+~
+~
+0 -1 28014
+S
+
+#28016
+Field near Sethanon~
+        You are at the western end of the fields outside the fabled city 
+of Sethanon.  Lesser path mages and eledhel are fending off another 
+attack by the nighthawks and moredhel.  To the north and west the field 
+continues.  To the south lies a temple.  To the east are hills 
+surrounding Sethanon. 
+~
+0 2
+D0
+North to the field.
+~
+~
+0 -1 28010
+D1
+Climb into the hills
+~
+~
+0 -1 28017
+D2
+South to the temple.
+~
+~
+0 -1 28022
+D3
+West to the field.
+~
+~
+0 -1 28015
+S
+
+#28017
+Hills around Sethanon~        
+        You are on the hilltops near the fabled city of Sethanon.  
+dwarves and fire drakes are here fending off the moredhel invasion.  To 
+the north you see more hills.  To the west you see the fields of 
+Sethanon. To the south lies more hills.  Below you is murmandus' camp.
+~
+0 4
+D2
+Along the hill tops.
+~
+~
+0 -1 28023
+D3
+Descent to the field.
+~
+~
+0 -1 28016
+D5
+~
+~
+0 -1 28011
+S
+
+#28018
+Murmandus's Camp~
+        You are in the eastern most portion of Murmandus' camp.  All 
+around you the forces of evil are staging drills and arming for war.  To 
+west is another section of the camp.
+~
+0 2
+D3
+Murmandus' camp
+~
+~
+0 -1 28012
+S
+
+#28019
+Hills around Sethanon~        
+        You are on the hilltops near the fabled city of Sethanon.  
+dwarves and fire drakes are here fending off the moredhel invasion.
+To the north you see more hills.  To the east you see the 
+fields of Sethanon.
+~
+0 4
+D0
+Along the hill tops.
+~
+~
+0 -1 28013
+D5
+Descent to the field.
+~
+~
+0 -1 28020
+S
+
+#28020
+Field near Sethanon~
+        You are in the southern part of the fields outside the fabled city 
+of Sethanon.  Lesser path mages and eledhel are fending off another 
+attack by the nighthawks and moredhel.  To the north and east the field 
+continues.  To the south lies the fields in front of Sethanon.  Above you
+rise the hills around Sethanon.
+~
+0 2
+D0
+North to the field.
+~
+~
+0 -1 28014
+D1
+East to the field.
+~
+~
+0 -1 28021
+D2
+South to the field.
+~
+~
+0 -1 28024
+D4
+Rise into the hills.
+~
+~
+0 -1 28019
+S
+
+#28021
+Field near Sethanon~
+        You are in the southern part of the fields outside the fabled 
+city of Sethanon.  Lesser path mages and eledhel are fending off another 
+attack by the nighthawks and moredhel.  To the north and west the field 
+continues.  To the south lies the fields before Sethanon and to the east
+is a great temple.
+~
+0 2
+D0
+North to the field.
+~
+~
+0 -1 28015
+D1
+East to the temple.
+~
+~
+0 -1 28022
+D2
+South to the field.
+~
+~
+0 -1 28025
+D3
+West to the field.
+~
+~
+0 -1 28020
+S
+
+#28022
+Temple of Lims-Kragma~
+        You have entered a small temple just outside the gates of 
+Sethanon.  This temple is dedicated to the worship of the death goddess
+Lims-Kragma.  Priest are hurrying about the temple preparing to defend
+themselves against the moredhel attack. To the north and west are 
+entrances to the field.
+There is a dedication sign here.
+~
+0 0
+D0
+Into the fields.
+~
+~
+0 -1 28016
+D3
+Into the fields.
+~
+~
+0 -1 28021
+E
+sign dedication~
+        This temple was built by the Immortals to protect the city of
+Sethanon against an attack by evil forces.  While Lims-Kragma is viewed
+to be an evil god, some understand that she is truly neutral and that
+allying with her brings many benefits.  You can barely make out what the 
+sign says through all the blood covering it.
+
+************************************************************************
+*                                                                      *
+*        To any who may attack sethanon let it be known that they      *
+* bring upon themselves the wrath of Lims-Kragma,  Before her divine   *
+* wisdom you shall relive your crimes and death for eternity.          *                                        
+       
+*                                                                      *
+************************************************************************
+~
+S
+
+#28023
+Hills around Sethanon~
+        This set of hills seems to have no exit except the way you came.
+~
+0 2
+D0
+Back to the hills.
+~
+~
+0 -1 28017
+S
+
+#28024
+Field before Sethanon~
+        You are at the fields at the base of the mighty fortified city  
+of Sethanon.  To the south lies the gates to the city, which appear to 
+have been destroyed in an earlier attack leaving that way open to 
+passage.  To the east lies a similar field and to the north lies the 
+fields around sethanon.
+~
+0 2
+D0
+North to the fields.
+~
+~
+0 -1 28020
+D1
+East to the fields.
+~
+~
+0 -1 28025
+D2
+Entrance to Sethanon.
+~
+gate~
+0 -1 28027
+S
+
+#28025
+Field before Sethanon~
+        You are at the fields at the base of the mighty fortified city  
+of Sethanon.  To the south lies the gates to the city, which appear to 
+have been destroyed in an earlier attack leaving that way open to 
+passage.  To the west lies a similar field and to the north lies the 
+fields around sethanon.
+~
+0 2
+D0
+North to the fields.
+~
+~
+0 -1 28021
+D2
+Entrance to Sethanon.
+~
+gate~
+0 -1 28028
+D3
+West to the fields.
+~
+~
+0 -1 28024
+S
+
+#28026
+Guard Tower~
+        You are in the guard tower of Sethanon.  This room is filled 
+with Yabon soldiers who's job is to protect this entrance from attack.
+To the east lies the main gate of Sethanon.
+~
+D 0
+D1
+Main gate of Sethanon
+~
+~
+0 -1 28027
+S
+
+
+#28027
+Entrance to Sethanon~
+        You have just passed through the main gates of the city of
+Sethanon.  These gates are guarded by Knights of Zun.  It would take
+quite an army to assault this city.  But it appears minions of the 
+Emerald Queen have already destroyed the gates in an earlier assault.
+To the west is a guard tower.  To the south lies the main hall of the
+city.  To the east lies the other half of the entrance, and to the north
+through the gates lies the fields before the city.
+~
+D 0
+D0
+Exit from the city.
+~
+gate~
+0 -1 28024
+D1
+To the other half of the entrance.
+~
+~
+0 -1 28028
+D2
+Into the city.
+~
+~
+0 -1 28031
+D3
+Into the guard tower.
+~
+~
+0 -1 28026
+S
+
+#28028
+Entrance to Sethanon~
+        You have just passed through the main gates of the city of
+Sethanon.  These gates are guarded by Knights of Zun.  It would take
+quite an army to assault this city.  But it appears minions of the 
+Emerald Queen have already destroyed the gates in an earlier assault.
+To the east is a guard tower.  To the south lies the main hall of the
+city.  To the west lies the other half of the entrance, and to the north
+through the gates lies the fields before the city.
+~
+D 0
+D0
+Exit from the city.
+~
+gate~
+0 -1 28025
+D1
+Into the guard tower.
+~
+~
+0 -1 28029
+D2
+Into the city.
+~
+~
+0 -1 28032
+D3
+To the other half of the entrance.
+~
+~
+0 -1 28027
+S
+
+#28029
+Guard Tower~
+        You are in the guard tower of Sethanon.  This room is filled 
+with Yabon soldiers who's job is to protect this entrance from attack.
+To the west lies the main gate of Sethanon.
+~
+D 0
+D3
+Main gate of Sethanon
+~
+~
+0 -1 28028
+S
+
+#28030
+Secret passage~
+        You have entered a secret passage that slopes down below the
+main hall.  To the south the passage continues.  To the east is an
+illusion of a stone wall.
+~
+C 0
+D1
+Though the illusionary wall.
+~
+wall~
+1 -1 28031
+D2
+Down the passage.
+~
+~
+0 -1 28033
+S
+
+#28031
+Main Hall~
+        You are at the northern end of the main hall of Sethanon.  All
+exits into the city have been blocked off.  To the north lies the main
+gates.  To the east and south the hall continues.
+~
+D 0
+D0
+To the main gates.
+~
+~
+0 -1 28027
+D1
+Main hall.
+~
+~
+0 -1 28032
+D2
+Main Hall.
+~
+~
+0 -1 28034
+D3
+Secret passage.
+~
+wall~
+1 -1 28030
+S
+
+#28032
+Main Hall~
+        You are at the northern end of the main hall of Sethanon.  All
+exits into the city have been blocked off.  To the north lies the main
+gates.  To the west and south the hall continues.
+~
+D 0
+D0
+To the main gates.
+~
+~
+0 -1 28028
+D2
+Main Hall.
+~
+~
+0 -1 28035
+D3
+Main hall.
+~
+~
+0 -1 28031
+S
+
+#28033
+Secret passage~
+        You are in a secret passage that slopes down below the main 
+hall.  To the north and south the passage continues.  
+~
+C 0
+D0
+Up the passage.
+~
+~
+0 -1 28030
+D2
+Down the passage.
+~
+~
+0 -1 28036
+S
+
+#28034
+Main Hall~
+        You are in the main hall of Sethanon.  All exits into the city 
+have been blocked off.  To the north, east and south the hall continues.
+~
+D 0
+D0
+Main hall.
+~
+~
+0 -1 28031
+D1
+Main hall.
+~
+~
+0 -1 28035
+D2
+Main hall.
+~
+~
+0 -1 28037
+S
+
+#28035
+Main Hall~
+        You are at the northern end of the main hall of Sethanon.  All
+exits into the city have been blocked off.  To the north, west and south 
+the hall continues.
+~
+D 0
+D0
+Main hall.
+~
+~
+0 -1 28032
+D2
+Main Hall.
+~
+~
+0 -1 28038
+D3
+Main hall.
+~
+~
+0 -1 28034
+S
+
+#28036
+Secret passage~
+        You are in a secret passage that slopes down below the main 
+hall.  To the north the passage continues.  To the south is some sort
+of small shrine.
+~
+C 0
+D0
+Up the passage.
+~
+~
+0 -1 28033
+D2
+Into the shrine
+~
+~
+0 -1 28045
+S
+
+#28037
+Main Hall~
+        You are in the main hall of Sethanon.  All exits into the city 
+have been blocked off.  To the north, east and south the hall continues.
+~
+D 0
+D0
+Main hall.
+~
+~
+0 -1 28034
+D1
+Main hall.
+~
+~
+0 -1 28038
+D2
+Main hall.
+~
+~
+0 -1 28039
+S
+
+#28038
+Main Hall~
+        You are at the northern end of the main hall of Sethanon.  All
+exits into the city have been blocked off.  To the north, west and south 
+the hall continues.
+~
+D 0
+D0
+Main hall.
+~
+~
+0 -1 28035
+D2
+Main Hall.
+~
+~
+0 -1 28040
+D3
+Main hall.
+~
+~
+0 -1 28037
+S
+
+#28039
+Main Hall~
+        You are in the main hall of Sethanon.  All exits into the city 
+have been blocked off.  To the north and east the hall continues.  
+Arutha, Lord of the West's throne is here.
+~
+D 0
+D0
+Main hall.
+~
+~
+0 -1 28037
+D1
+Main hall.
+~
+~
+0 -1 28040
+D2
+Main hall.
+~
+wall~
+1 -1 28041
+S
+
+#28040
+Main Hall~
+        You are at the northern end of the main hall of Sethanon.  All
+exits into the city have been blocked off.  To the north and west the 
+hall continues.
+~
+D 0
+D0
+Main hall.
+~
+~
+0 -1 28038
+D3
+Main hall.
+~
+~
+0 -1 28039
+S
+
+#28041
+Secret Passage~
+        You step through the illusionary wall into a tight passage.  
+This passage slopes sharply down into the heart of the city.  You go 
+down approximately 200 feet before you run into a bright room to the
+south.
+~
+AD 0
+D0
+Back through illusion.
+~
+wall~
+1 -1 28039
+D2
+Into bright room.
+~
+~
+0 -1 28042
+S
+
+#28042
+Entrance to the Treasury~
+        You are standing at the entrance to the ancient treasury of the
+city of Sethanon.  Rumour has it that the treasure is well guarded and 
+that no one is capable of taking all of the treasure.  To the north lies
+a dark passage, to the south is the treasure room.
+~
+D 0
+D0
+Back into darkness.
+~
+~
+0 -1 28041
+D2
+Into the treasury.
+~
+~
+0 -1 28043
+S
+
+#28043
+Treasury~
+        This treasury is indeed guarded!  Before you stands an ancient 
+golden dragon!  This creature is a very powerful guardian.  The treasure 
+must be more than you've ever dreamed of for such a powerful guardian!
+~
+D 0
+D0
+Exit the Treasury.
+~
+~
+0 -1 28042
+D5
+Changing Phazes
+~
+phaze~
+2 28025 28044
+S
+
+#28044
+Lifestone Room~
+        As you eyes adjust to the sudden changing of phazes you notice
+the biggest jewel you've ever seen!  This jewel is being guarded by a 
+powerful golden warrior and a mysterious sorcerer.  There are no visible
+exits from this room.
+~
+D 0
+D4
+Exiting the alternate phaze.
+~
+Phaze~
+2 28025 28043
+S
+
+#28045
+Shrine~
+        You have entered a small shrine of Lims-Kragma.  Only monks are
+allowed to be in here.  The only exit is to the north.
+~
+DN 0
+D0
+Back to the passage.
+~
+~
+0 -1 28036
+S
+
+#0
+
+#RESETS
+M 0 28001 6 28011 1  1        Load 6 night hawks  
+E 1 28001  90 3          Equip nighthawk amulet (lim: 2)
+M 0 28001 6 28012 1  1   
+E 1 28001  90 3
+M 0 28001 6 28009 1  1   
+E 1 28001  90 3
+M 0 28001 6 28016 1  1   
+E 1 28001  90 3
+M 0 28001 6 28004 1  1   
+E 1 28001  90 3
+M 0 28001 6 28017 1  1   
+
+E 1 28001  90 3
+M 0 28002 6 28011 1  1        Load 6 moredhel  
+E 1 28002  90 16         Equip moredhel long sword (lim:3)
+M 0 28002 6 28010 1  1          
+E 1 28002  63 16
+E 1 28004  63 5          Equip armor if not in camp(lim:3)
+M 0 28002 6 28012 1  1    
+E 1 28002  90 16
+M 0 28002 6 28018 1  1    
+E 1 28002  90 16
+M 0 28002 6 28004 1  1    
+E 1 28002  63 16
+E 1 28004  63 5          Equip armor if not in camp(lim:3)
+M 0 28002 6 28018 1  1    
+E 1 28002  90 16
+M 0 28002 6 28006 1  1    
+
+E 1 28002  90 16
+M 0 28003 4 28014 1  1        Load 4 elehel  
+E 1 28003  63 16         Equip eledhel long sword (lim:4)
+E 1 28004  63 5          Equip armor if not in camp(lim:4)
+M 0 28003 4 28021 1  1   
+E 1 28003  63 16
+E 1 28004  63 5          Equip armor (lim:4)
+M 0 28003 4 28015 1  1   
+E 1 28003  63 16
+E 1 28004  63 5          Equip armor (lim:4)
+M 0 28003 4 28020 1  1   
+
+E 1 28003  63 16
+E 1 28004  63 5          Equip armor (lim:4)
+M 0 28004 4 28026 1  1        Load 4 Yabon Soldiers   
+E 1 28005  80 5          Equip Tabard (lim:3)
+M 0 28004 4 28029 1  1   
+E 1 28005  80 5
+M 0 28004 4 28031 1  1   
+E 1 28005  80 5
+M 0 28004 4 28032 1  1   
+
+E 1 28005  80 5
+M 0 28005 3 28024 1  1        Load 3 Lesser Path mages  
+E 1 28006  80 12         Equip Grey Robe (lim:2)
+M 0 28005 3 28020 1  1   
+E 1 28006  80 12
+M 0 28005 3 28021 1  1   
+
+E 1 28006  80 12
+M 0 28006 3 28007 1  1        Load 3 Firedrakes  
+M 0 28006 3 28023 1  1   
+M 0 28006 3 28019 1  1   
+
+M 0 28007 3 28003 1  1        Load 3 Stone Mountain Dwarves  
+
+M 0 28007 3 28002 1  1   
+
+M 0 28007 3 28017 1  1   
+
+
+M 0 28008 3 28027 1  1        Load 3 Knights of Zun  
+E 1 28008  54 5          Equip Zun Plate (lim:4)
+E 1 28016  54 11         Equip Shield of Zun (lim:4)
+M 0 28008 3 28028 1  1   
+E 1 28008  54 5
+E 1 28016  54 11
+M 0 28008 3 28037 1  1   
+
+E 1 28008  54 5
+E 1 28016  54 11
+M 0 28009 4 28005 1  1        Load 4 Priests of the Emerald Queen  
+E 1 28009  80 3           Equip Snake Amulet (lim:3)
+M 0 28009 4 28005 1  1   
+E 1 28009  80 3
+M 0 28009 4 28006 1  1   
+M 0 28009 4 28011 1  1   
+
+M 0 28010 4 28022 1  1        Load 4 Monks of Lims-Kragma  
+M 0 28010 4 28022 1  1   
+M 0 28010 4 28022 1  1   
+M 0 28010 4 28045 1  1   
+
+E 1 28010  80 6           equip circlet of Lims-Kragma (lim:1)
+M 0 28011 2 28006 1  1        Load 2 Black Slayers  
+E 1 28012  80 3           Equip Slayer Taisman (lim:2)
+M 0 28011 2 28018 1  1    
+
+E 1 28012  80 3  
+M 0 28012 2 28039 1  1        Load 2 Greater Path Mages  
+E 1 28011  54 12          Equip Black Robe (lim:2)
+E 1 28017  54 17         Equip Silver Cylinder
+M 0 28012 2 28035 1  1   
+
+E 1 28011  54 12
+E 1 28017  54 17
+M 0 28013 1 28039 1  1        Load Arutha  
+
+E 1 28013 100 16          Equip Rapier (lim:2)
+E 1 28014 100 3           Equip Talisman (lim:1)
+M 0 28014 1 28006 1  1        Load Murmandus  
+
+E 1 28018  33 5           Equip Birthmark (lim:1)
+E 1 28013  33 16          Equip Rapier (lim:2)
+E 1 28019  33 13         Equip Girdle (lim:2)
+M 0 28015 1 28031 1  1        Load Jimmy the Hand  
+
+M 0 28016 1 28043 1  1        Load Ryath  
+
+G 1 28025 100             Give Phaze Key
+M 0 28017 1 28044 1  1        Load Tomas  
+
+E 1 28020  45 5          Equip Valheru Armor (lim:2)
+E 1 28021  45 16          Equip Sword of Ashen-Shugar (lim:1)
+M 0 28018 1 28042 1  1        Load Milamber  
+
+E 1 28015  45 1           Equip Ring of the Assembly (lim:2)
+E 1 28022  45 12          Equip Milamber's Robe (lim:1)
+M 0 28019 1 28044 1  1        Load Macross  
+
+E 1 28015 100 1          Equip Ring of the Assembly (Unlimited)
+E 1 28023 100 0          Equip Staff of Macross (Unlimited)
+E 1 28017 100 17         Equip Silver Cylinder (Unlimited)
+E 1 28011 100 12         Equip Black Robe (Unlimited)
+E 1 28010 100 6          Equip Circlet of Lims-Kragma (Unlimited)
+O 0 28026 1 28043       Fill Treasury (lim:1)
+O 0 28024 1 28044       Load Lifestone (lim:1) (nopurge)
+
+D 0 28043 5 2           Lock phaze from outside
+D 0 28044 4 2           Lock phaze from inside
+D 0 28031 3 2           Lock illusionary wall outside
+D 0 28030 1 2           Lock illusionary wall inside
+D 0 28039 2 2           Lock illusionary wall outside
+D 0 28041 0 2           Lock illusionary wall inside
+
+S              
+
+#SPECIALS
+M 28005 spec_cast_judge
+M 28006 spec_breath_fire
+M 28008 spec_guard
+M 28009 spec_cast_cleric
+M 28011 spec_cast_undead
+M 28012 spec_cast_mage
+M 28014 spec_poison
+M 28015 spec_thief
+M 28016 spec_breath_any
+M 28018 spec_cast_mage
+M 28019 spec_cast_mage
+S
+
+#$
+
+
+
+

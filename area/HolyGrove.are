@@ -1,0 +1,1017 @@
+#AREA   
+HolyGrove.are~
+Holy Grove~
+{ 5 20} Alfa    Holy Grove~
+8901 8999
+
+
+#ROOMS
+#8901
+The holy grove~
+You are standing amidst the ancient oaks and poplars in the holy grove. You
+can feel a strange sensation of contentedness and relief seeping through You,
+as if great burdens have been lifted from Your shoulders. From here, friendly-
+looking paths lead east and south.
+~
+0 3
+D1
+The path wind its way through the tall trees, disappearing out of sight.
+~
+~
+0 -1 8902
+D2
+The path wind its way through the tall trees, disappearing out of sight.
+~
+~
+0 -1 8904
+S
+#8902
+The holy grove~
+You are standing amidst the ancient oaks and poplars in the holy grove. You
+feel unusually happy here, as if great burdens have been lifted from Your
+shoulders. From here, pleasant-looking paths lead east, west and south.
+~
+0 3
+D1
+The path wind its way through the tall trees, towards a clearing faintly seen.
+~
+~
+0 -1 8903
+D2
+The path wind its way through the tall trees, towards an open area barely
+visible in the distance.
+~
+~
+0 -1 8905
+D3
+The path wind its way through the tall trees, disappearing out of sight.
+~
+~
+0 -1 8901
+S
+#8903
+A clearing in the woods~
+You are standing in a clearing in the light woods. Somehow, this place
+seems powerfully DIFFERENT from the rest of the forest, as if something is
+severely strained in the fabric of reality here.  There is a small tablet 
+on one of the trees.
+~
+C 3
+D0
+A small, narrow path winds north, and is quickly lost in the bushes. It
+looks quite a wilderness there!
+~
+~
+0 -1 5378
+D2
+There is a path winding its way south through the tall poplars, disappearing
+out of sight some 100 yds. away.
+~
+~
+0 -1 8906
+D3
+There is a friendly-looking path leading west through the tall trees.
+~
+~
+0 -1 8902
+E
+tablet~
+This zone has been populated by Merc.  1993
+~
+S
+#8904
+The holy grove~
+You are standing amidst the ancient oaks and poplars in the holy grove. You
+feel calm and relaxed here, as if great burdens have been lifted from Your
+shoulders. From here, pleasant-looking paths lead east, north and south. To
+the west, through the trees, You can see a faint trail leading towards the
+eastern road.
+~
+C 3
+D0
+The path wind its way through the tall trees, disappearing out of sight.
+~
+~
+0 -1 8901
+D1
+The path wind its way through the tall trees, towards a clearing faintly seen.
+~
+~
+0 -1 8905
+D2
+The path wind its way through the tall trees, into the grove.
+~
+~
+0 -1 8907
+D3
+You can barely see a path leading back towards the eastern road.
+~
+~
+0 -1 8951
+S
+#8905
+The sacred glade~
+You are standing in the middle of the sacred glades, where the citizens of
+Midgaard come to celebrate the spring, where farmers give thanks for bountiful
+harvest in the fall, and where lovers stroll in summer. You feel seasons of
+remembered happiness and joy taking Your sorrows and worries away from You,
+leaving You calm and invigorated, ready for the world. Paths lead into the
+holy grove to the east, north and west, while to the south a wide, sunny field
+slopes down to a sparkling lake.  Above you is a strange shimmering, almost
+like something from another world....
+~
+0 3
+D0
+The path wind its way north, disappearing through the tall trees.
+~
+~
+0 -1 8902
+D1
+The path wind its way through the tall trees, disappearing out of sight.
+~
+~
+0 -1 8906
+D2
+To the south, a wide, sunny field stretch out, sloping down towards a brightly
+glittering lake.
+~
+~
+0 -1 8908
+D3
+The path wind its way west between stately poplars and oaks.
+~
+~
+0 -1 8904
+D4
+The shimmering grows in intensity as you look at it, beckoning you to reach
+upwards...
+~
+~
+0 -1 9000
+S
+#8906
+The holy grove~
+You are standing amidst the ancient oaks and poplars in the holy grove. You
+can feel a strange sensation of joy and calm seeping through You, as if great
+burdens have been lifted from Your shoulders. To the south, You glimpse an open
+area through the trees, while paths lead away north and west.
+~
+0 3
+D0
+The path wind its way through the tall trees, disappearing out of sight.
+~
+~
+0 -1 8903
+D2
+To the south, just beyond the trees, you can see a wide green lawn, and past
+the lawn, a softly shimmering, rainbow-colored mansion.
+~
+~
+0 -1 8909
+D3
+The path wind its way through the tall trees, disappearing out of sight.
+~
+~
+0 -1 8905
+E
+mansion~
+The mansion is a sprawling, two-story affair with three wings, where the top
+of one wing serves as balcony. The walls look as marble would do, if marble
+changed color slowly, continuously, through the entire spectrum. There are
+large windows all over the house.
+~
+S
+#8907
+The holy grove~
+You are standing amidst the tall, majestic trees in the southern end of the
+holy grove. Paths lead north and east. To the east, You can see a wide, open
+field, sloping gently down towards a bright, glittering lake. Somehow, here
+you feel an inexplicable happiness, as if the world's troubles no longer
+really matter to you.
+~
+0 3
+D0
+The path leading north is soon lost out of sight amongst the ancient oaks and
+poplars.
+~
+~
+0 -1 8904
+D1
+To the east, the path leads out into a wide, sunny summer's field, sloping
+south towards a beautiful lake. Past the field You can see a stately mansion,
+shimmering gently in all the rainbow's colours.
+~
+~
+0 -1 8908
+E
+mansion~
+The mansion is a sprawling, two-story affair with three wings, where the top
+of one wing serves as balcony. The walls look as marble would do, if marble
+changed color slowly, continuously, through the entire spectrum. There are
+large windows all over the house.
+~
+S
+#8908
+The sunny field~
+You are standing in the middle of a wide, summery, sunlit field. There is a
+fragrance of spring in the air, a sound of summer and a feeling of eternal
+Saturday afternoon. To the south is a clear, sparkling lake, and to the north
+and west is the holy grove. In the wood's edge, to the east, is a stately man-
+sion, shimmering softly through the colors of the rainbow. You feel as if You
+could spend the rest of your life here, lying on your back and looking at the
+patterns of the clouds as they gently drift across the sky.
+~
+D 2
+D0
+There is a path leading north towards the sacred glade.
+~
+~
+0 -1 8905
+D1
+To the east, You can see the rainbow-colored mansion, shimmering like some-
+thing out of this world.
+~
+~
+0 -1 8919
+D3
+There is a small path leading into the woods to the west.
+~
+~
+0 -1 8907
+E
+mansion~
+The mansion is a sprawling, two-story affair with three wings, where the top
+of one wing serves as balcony. The walls look as marble would do, if marble
+changed color slowly, continuously, through the entire spectrum. There are
+large windows all over the house. There is a terrace in front of the house,
+next to the low wing, which is almost completely windows.
+~
+S
+#8909
+The croquet lawn~
+You are standing on a immaculately manicured green lawn, the kind you only
+get after 200 years of meticulous work. There is a winding stone path leading
+from the wood's edge to the north, to the softly shimmering, rainbow-colored
+mansion to the south. This place enjoys a perpetual cool, sunny summers after-
+noon.
+~
+C 2
+D0
+To the north, the winding stone path leads into the holy grove.
+~
+~
+0 -1 8906
+D2
+To the south, the path leads straight up to the front door of the mansion.
+~
+door~
+1 -1 8910
+E
+mansion~
+The mansion is a sprawling, two-story affair with three wings, where the top
+of one wing serves as balcony. The walls look as marble would do, if marble
+changed color slowly, continuously, through the entire spectrum. There are
+large windows all over the house.
+~
+S
+#8910
+The foyer~
+You are standing in the foyer of Dragon's mansion. The wide double door to
+the croquet lawn is to the north, flanked by large windows. The walls are
+panelled in oak and hung with strange paintings.  There is door in the south
+wall.
+~
+CD 0
+D0
+Through the windows next to the door you can see the croquet lawn, bathed in
+afternoon sunlight.
+~
+door~
+1 -1 8909
+D2
+~
+door~
+1 -1 8911
+E
+painting paintings~
+They are strange indeed, works of breathtaking precision depicting obviously
+impossible motifs, like a sky filled with headless men, all dressed in some
+black costume (including hats), or a lady standing, blue from the waist up, or
+some pieces of plankwood that seems to be melting away like snow, or a night
+sky with a dove-shaped hole of bright day sky in the middle.
+~
+S
+#8911
+The hallway~
+You are in the north end of a connecting hallway, tastefully decorated with
+oak paneling and the coat-of-arms of various famous nobles hung on the walls.
+The hallway leads south, and there is a door in the eastern wall.
+~
+D 0
+D0
+~
+door~
+1 -1 8910
+D1
+~
+door~
+1 -1 8912
+D2
+~
+~
+0 -1 8913
+S
+#8912
+The blue room~
+You are in the blue room, one of the guest rooms in Dragon's mansion. The
+walls are (surprise!) blue, and the rest of the room is decorated in similar
+shades, producing a very nice, cool effect. There is a large bed and a
+matching set of sofas, easy-chairs and a coffee table. Through the venetian
+blinds in front of the large east window you can see the edge of the grove.
+~
+DJ 0
+D3
+~
+door~
+1 -1 8911
+S
+#8913
+The hallway~
+You are standing in the south end of the hallway. There are doors in the
+elegant oak-panelled walls to the south, east and west. Many different
+coat-of-arms adorn the walls here.
+~
+D 0
+D0
+~
+~
+0 -1 8911
+D1
+~
+door~
+1 -1 8914
+D2
+~
+door~
+1 -1 8915
+D3
+~
+door~
+1 -1 8916
+S
+#8914
+The red room~
+You are in the red room, one of the guest rooms in Dragon's mansion. The
+walls are wallpapered a deep warm red, and dark mahogany panelling nicely com-
+plements them. There is a large, warm waterbed and a sofa group in dark wood
+with leather upholstery, including a coffee table. Heavy brown curtains are
+pulled away from the wide windows, to reveal a nice view towards the grove.
+~
+DJ 0
+D3
+~
+door~
+1 -1 8913
+S
+#8915
+The kitchen~
+You are standing in the middle of Dragon's kitchen. Contrary to popular
+belief, He *doesn't* eat virgins, which is amply demonstrated by the large
+variety of foodstuffs found here on the shelves. There are numerous cans of
+tomatoes, peas, corn etc., vines of garlic, a *Huge* array of small spice jars
+along several shelves and a large combo refrigerator/freezer. A big oven and
+stove is lurking in a corner. There is some proof here that Dragon is a less
+than meticulous housekeeper... There are doors to the north and west.
+~
+D 0
+D0
+~
+door~
+1 -1 8913
+D3
+~
+door~
+1 -1 8918
+S
+#8916
+The ballroom~
+You are standing in the middle of a vast palisander floor. This is where
+Dragon entertains large number of guests, but the cloth-covered chairs
+standing forlornly in a corner suggests that this does not happen often.
+There are doors in the south and west walls, while to the east there is a
+short corridor to the greenhouse.
+~
+D 0
+D1
+~
+door~
+1 -1 8913
+D2
+~
+door~
+1 -1 8918
+D3
+~
+~
+0 -1 8917
+S
+#8917
+The greenhouse~
+This is Dragons' greenhouse. Green light filters in slantwise through the
+plants, giving the room a subtropical ambience. It is not really hot in here,
+though, rather a pleasantly warm temperature. The walls are all windows, except 
+the eastern one joining the greenhouse to the main building, but it is hard to 
+see out for all the greenery here. There is a set of easy-chairs and a glass
+coffee table. To the south, there is a wide double door out to a sunlit 
+terrace.
+~
+DJ 0
+D1
+~
+~
+0 -1 8916
+D2
+~
+door~
+1 -1 8919
+S
+#8918
+The dining hall~
+This is Dragons' dining hall. There is a large long solid oak table,
+seating at least 24, with heavy, wooden chairs to match. The oak panel walls
+are filled with paintings. There are doors to the north and east, and to the
+west there is a wide double door opening out onto the sunlit terrace.
+~
+D 0
+D0
+~
+door~
+1 -1 8916
+D1
+~
+door~
+1 -1 8915
+D3
+~
+wide door~
+1 -1 8919
+E
+painting paintings~
+There are many, many beautiful paintings of famous dragons of history and
+literature. There is a big one of Smaug, a group picture of Cuspidorian Toxic
+Dragons, a rather fearsome picture of Norse Chaos incarnate, a grainy black-
+and-white photograph of Vorgulremik the Steel Dragon, a romantic picture of 
+Dalvenjah the Mindijaran and Allan the man become dragon. There are three
+empty frames labeled 'The Chimerical', 'The Mythical' and 'The Hypothetical',
+A panoramic picture of Strabo flying between the worlds dominate one wall, 
+while a dragons-eye view of Pern (with dragons in the foreground, of course) 
+fills another. There even are a few rare medieval renditions of the great 
+beast of the Revelation. Over the head of the table hangs a rather modest 
+portrait of a silver Dragon, sparkling with blue lightening, looking amused.
+~
+S
+#8919
+The terrace~
+You are standing on a sunlit terrace in front of Dragon's mansion. To the
+west, there is a splendid view over the field down over the lake. To the north
+is the greenhouse, its large windowpanes shimmering with weird and wonderful
+colors, while a double door leads into the house proper to the east. It is
+warm and calm here. There is a white-painted table with a parasol here,
+together with a matched set of chairs.
+~
+CD 0
+D0
+~
+door~
+1 -1 8917
+D1
+~
+double door~
+1 -1 8918
+D3
+~
+~
+0 -1 8908
+S
+#8950
+At the edge of the grove~
+You are standing at the entrace of a beautiful grove of trees, and your
+heart is filled with pure, peaceful thoughts.  This looks like a safe place
+to recover from the wounds of adventuring.  A faint path through the grove
+lies to the north, and you can see the eastern road to the south.
+~
+0 3
+D0
+A faint trail leads deeper into the grove.
+~
+~
+0 -1 8951
+D2
+A wide road lies to the south.
+~
+~
+0 -1 3526
+S
+#8951
+Inside the grove~
+As you walk among the stately oaks of this grove, you feel at peace and 
+in harmony with this beautiful forest.  If only the rest of the lands were
+so tranquil.  The trail turns towards the east, leading into the secluded
+trees of the druids' holy grove, and a path back to the eastern road lies
+south.
+~
+0 3
+D1
+You see the stately oaks and poplars of the holy grove.
+~
+~
+0 -1 8904
+D2
+A faint trail heads towards the eastern road.
+~
+~
+0 -1 8950
+S
+#8999
+The fog~
+You are in a grey fog, falling, screaming in pain as you realize
+that you are being torn to nothing, atom by atom, falling and falling 
+and falling ...
+...
+.
+~
+C 0
+S
+#0
+
+#MOBILES
+#8900
+hierophant~
+The Hierophant~
+The old Hierophant of the holy grove is here, gathering hollies.
+~
+He is a very old man, dressed in an old robe; but from the glint in his
+clear blue eyes you can see that He is aware of the world, and wise to its
+traps and pitfalls.
+~
+unique~
+GHA DHN 1000 0
+20 9 1d1+560 1d1+400 4d5+10 slash
+-18 -18 -18 -12
+FENU 0 0 0
+stand stand male 1047
+0 0 medium 0
+
+#8901
+hierophant~
+The Hierophant~
+The old Hierophant of the holy grove is here, gathering ivy.
+~
+She is a very old woman, dressed in an old gown; but from the glint in her
+clear blue eyes you can see that She is aware of the world, and wise to its
+traps and pitfalls.
+~
+unique~
+GHA DHN 1000 0
+20 9 1d1+560 1d1+400 4d5+10 slash
+-18 -18 -18 -12
+FENU 0 0 0
+stand stand female 1015
+0 0 medium 0
+
+#8902
+elder druid~
+an elder druid~
+An elder druid stands here, watching the local flora and wildlife.
+~
+He looks ageless, as do all druids.  His grey beard contrasts strongly with
+his lack of wrinkles.
+~
+unique~
+GHA N 1000 0
+13 6 1d1+305 1d1+260 4d4+6 beating
+-14 -14 -14 -10
+FENU 0 0 0
+stand stand male 526
+0 0 medium 0
+
+#8903
+elder druidess~
+an elder druidess~
+An elder druidess stands here, watching the local fauna and feeding rabbits.
+~
+She looks ageless, as do all druids.  She smiles a beautiful smile at you.
+~
+unique~
+GHA N 1000 0
+13 6 1d1+305 1d1+260 4d4+6 slash
+-14 -14 -14 -10
+FENU 0 0 0
+stand stand female 544
+0 0 medium 0
+
+#8904
+doe~
+a doe~
+A doe is here, munching on grass.
+~
+This peaceful creature looks at you with big dark eyes.  Her nose twitches as
+she sniffs at you, but she goes back to chewing some grass.
+~
+unique~
+GHA 0 0 0
+5 2 1d1+80 1d1+100 2d3+2 slash
+-9 -9 -9 -7
+FENU 0 0 0
+stand stand female 209
+0 0 medium 0
+
+#8905
+deer~
+a deer~
+A deer is here, staring back at you.
+~
+The deer looks angered at your intrusion.  He butts his head against you, 
+albeit ineffectively.
+~
+unique~
+GHA 0 0 0
+6 3 1d1+125 1d1+120 2d3+3 slash
+-9 -9 -9 -7
+FENU 0 0 0
+stand stand male 251
+0 0 medium 0
+
+#8906
+stag deer large~
+a stag~
+A large deer stag is here, protecting his territory.
+~
+He eyes you with contained anger.  You'd better leave him alone!
+~
+unique~
+FGHA 0 0 0
+8 3 1d1+169 1d1+160 3d3+4 slash
+-10 -10 -10 -8
+FENU 0 0 0
+stand stand male 332
+0 0 medium 0
+
+#8907
+bunny rabbit~
+a small bunny~
+A small bunny is here, poking from bush to bush.
+~
+This bunny looks so adorable, you wished you had one just like this!
+~
+unique~
+GHA 0 0 0
+2 1 1d1+35 1d1+40 1d2+1 slash
+-7 -7 -7 -6
+FENU 0 0 0
+stand stand neutral 83
+0 0 medium 0
+
+#8908
+snake~
+a harmless snake~
+A small snake slithers between the grass.
+~
+Upon careful inspection, you are sure it is NOT a cobra!
+~
+unique~
+FGHA P 0 0
+4 2 1d1+65 1d1+80 2d3+2 slash
+-8 -8 -8 -7
+FENU 0 0 0
+stand stand neutral 167
+0 0 medium 0
+
+#8909
+druid~
+a druid~
+A druid is here in meditation.
+~
+He doesn't like you bothering him, but is too polite to ask you to leave.
+~
+unique~
+GHA DN 1000 0
+10 4 1d1+215 1d1+200 3d3+5 slash
+-12 -12 -12 -9
+FENU 0 0 0
+stand stand male 409
+0 0 medium 0
+
+#8910
+druidess~
+a druidess~
+A druidess is here, peering at you.
+~
+She wonders why you are staring at her, and how you got in here.
+~
+unique~
+GHA DN 1000 0
+10 4 1d1+215 1d1+200 3d3+5 slash
+-12 -12 -12 -9
+FENU 0 0 0
+stand stand female 411
+0 0 medium 0
+
+#0
+
+#OBJECTS
+#8901
+closet~
+a closet~
+There is a wooden closet tucked into a corner.~
+~
+container 0 0
+100 1 0 0 0
+0 500 0 P
+E
+closet~
+It is large, yet gracefully made, obviously of Scandinavian design.
+~
+
+#8902
+jar~
+a spice jar~
+A small unlabeled spice jar is standing here.~
+~
+container 0 A
+5 5 0 0 0
+0 1 0 P
+
+#8903
+powder black~
+some black powder~
+Some strong-smelling black powder has been carelessly scattered here.~
+~
+food 0 A
+2 0 0 0 0
+0 1 0 P
+E
+powder~
+*        *         *
+      *      *       *
+****   AAAHHHH-TSHOU!   ****
+      *      *       *
+    *        *         *
+~
+
+#8904
+kernel kernels~
+some small yellow kernels~
+Some small yellow kernels have been accidentally left here.~
+~
+food 0 AO
+1 0 0 0 0
+0 1 0 P
+E
+kernel kernels~
+Look fairly dull...
+~
+
+#8905
+paper wad~
+a crumpled wad of paper~
+There is a crumpled wad of paper here, left behind by some messy bypasser.~
+~
+trash 0 AO
+0 0 0 0 0
+0 1 0 P
+E
+paper wad~
+It looks old and worn, but You can still make out a faint lettering on it, 
+written in a strange, alien hand:
+
+o    WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING!   o
+o                                                                     o
+o    MSGS: MATRIX CONTROL      TO   SUBSYSTEMS/<ALL>                  o
+o    ACT : REQUIRED            T:   NOW                               o
+o                                                                     o
+o    RECENT DATAQUAKE EVALUATED... EVALUATION FOLLOWS...              o
+o    MASSIVE SEGMENTATION HAS OCCURRED... ALL SUBSIDIARY SECTORS      o
+o    SHUTDOWN... CENTRAL SHUTDOWN: AUTOMATICS ENGAGED...              o
+o                                                                     o
+o    DATALEAK DETECTED... DIRECTION:FOREIGN VIRTUAL REALITY, CODENAME o
+o    ASSIGNED: 'Midgaard'...                                          o
+o    SPECIFIC LOCATION: UNCERTAIN, BEING WITHIN 'Midgaard' SUBSECTOR  o
+o    CODENAME ASSIGNED: 'Holy Grove'...                               o
+o    BEWARE INTRUSIONS POSSIBLE. ADVISE EXTREME CAUTION...            o
+o    .                                                                o
+o    .                                                                o
+o    .                                                                o
+o                                                                     o
+o    MSGS: MATRIX CONTROL      TO   SUBSYSTEMS/<Sark>                 o
+o                                              <101110101101>         o
+o                                              <1101111010101101>     o
+o    ACT : URGENT              T:   IMMEDIATE                         o
+o                                                                     o
+o    INTRUDERS DETECTED IN MAIN MATRIX... DIRECTIVE SEARCH AND        o
+o    ELIMINATE...                                                     o
+o    .                                                                o
+o    .                                                                o
+o                                                                     o
+~
+
+#8910
+staff wooden~
+a wooden staff~
+You see a wooden staff on the floor.~
+~
+weapon K AN
+'spear' 3 4 'pound' 0
+13 5 2662 P
+E
+staff wooden~
+This oaken staff is very hefty but balanced.
+~
+
+#8911
+robe brown cloth~
+a brown robe~
+Some brown cloth is on the floor.~
+~
+armor K AD
+7 7 7 0 0
+20 5 4055 P
+E
+robe brown cloth~
+This robe is rough, but appears quite durable.
+~
+A
+12     10
+
+#8913
+herbs~
+some bluish herbs~
+Some bluish herbs are scattered here.~
+~
+pill 0 A
+15 0 0 3 0
+10 1 2033 P
+
+#8914
+herbs~
+some purplish herbs~
+Some purplish herbs are scattered here.~
+~
+pill 0 A
+15 0 0 82 0
+10 1 2043 P
+
+#8915
+herbs~
+some blackish herbs~
+Some blackish herbs are scattered here.~
+~
+pill 0 A
+5 0 0 4 0
+20 1 4128 P
+
+#8916
+herbs~
+some grayish herbs~
+Some grayish herbs are scattered here.~
+~
+pill 0 A
+5 0 39 33 0
+10 1 2084 P
+
+#8917
+herbs~
+some reddish herbs~
+Some reddish herbs are scattered here.~
+~
+pill 0 A
+15 0 0 20 0
+13 1 2658 P
+
+#8918
+herbs~
+some orangish herbs~
+Some orangish herbs are scattered here.~
+~
+pill 0 A
+5 0 0 16 0
+10 1 2067 P
+
+#8919
+herbs~
+some pinkish herbs~
+Some pinkish herbs are scattered here.~
+~
+pill 0 A
+5 0 43 33 0
+13 1 2604 P
+
+#8920
+staff oaken~
+a fine oaken staff~
+You see an oak staff on the floor.~
+~
+weapon K AN
+'spear' 5 4 'pound' 0
+20 5 2662 P
+E
+staff oaken~
+This oaken staff is very hefty but balanced.
+~
+
+#0
+
+#RESETS
+M 0 8900 1 8905 1  1   The Hierophant into The sacred glade
+  
+E   1   8920  40     16     oaken staff wielded
+E   1   8911  40      5     a brown robe on body                
+G   1   8919  40            some pinkish herbs in inventory
+G   1   8918  40            some orangish herbs in inventory
+M 0 8901 1 8901 1  1   The Hierophant into The holy grove
+  
+E   1   8920  40     16     oaken staff wielded
+E   1   8911  40      5     a brown robe on body                
+G   1   8913  40            some bluish herbs in inventory
+G   1   8915  40            some blackish herbs in inventory
+M 0 8902 1 8902 1  1   an elder druid into The holy grove
+  
+E   1   8910 100      5     a wooden staff on body                
+G   1   8914 100            some purplish herbs in inventory
+G   1   8916 100            some grayish herbs in inventory
+M 0 8903 1 8904 1  1   an elder druidess into The holy grove
+  
+E   1   8910 100      5     a wooden staff on body                
+G   1   8919 100            some pinkish herbs in inventory
+G   1   8917 100            some reddish herbs in inventory
+M 0 8904 2 8905 1  1   a doe into The sacred glade
+  
+M 0 8905 2 8906 1  1   a deer into The holy grove
+  
+M 0 8906 1 8905 1  1   a stag into The sacred glade
+  
+M 0 8907 4 8903 1  1   a small bunny into A clearing in the woods
+  
+M 0 8907 4 8903 1  1   a small bunny into A clearing in the woods
+  
+M 0 8908 9 8906 1  1   a harmless snake into The holy grove
+  
+M 0 8909 1 8911 1  1   a druid into The hallway
+  
+G   1   8913 100            some bluish herbs in inventory
+M 0 8909 2 8918 1  1   a druid into The dining hall
+  
+G   1   8916 100            some grayish herbs in inventory
+M 0 8910 1 8914 1  1   a druidess into The red room
+  
+G   1   8914 100            some purplish herbs in inventory
+M 0 8910 2 8917 1  1   a druidess into The greenhouse
+  
+G   1   8918 100            some orangish herbs in inventory
+O   0   8901    2   8912  load a closet into The blue room
+O   0   8901    2   8914  load a closet into The red room
+O   0   8902    2   8915  load a spice jar into The kitchen
+P 1 8903 3 8902 1  1   Load some black powder into a spice jar
+  
+O   0   8902    2   8915  load a spice jar into The kitchen
+P 1 8904 3 8902 1  1   Load some small yellow kernels into a spice jar
+  
+O   0   8905    1   8915  load a crumpled wad of paper into The kitchen
+D   0   8914    3      1  The red room: Door west closed
+D   0   8913    1      1  The hallway: Door east closed
+D   0   8912    3      1  The blue room: Door west closed
+D   0   8911    1      1  The hallway: Door east closed
+D   0   8911    0      1  The hallway: Door north closed
+D   0   8910    2      1  The foyer: Door south closed
+D   0   8910    0      1  The foyer: Door north closed
+D   0   8909    2      1  The croquet lawn: Door south closed
+D   0   8913    2      1  The hallway: Door south closed
+D   0   8915    0      1  The kitchen: Door north closed
+D   0   8913    3      1  The hallway: Door west closed
+D   0   8916    1      1  The ballroom: Door east closed
+D   0   8918    0      1  The dining hall: Door north closed
+D   0   8916    2      1  The ballroom: Door south closed
+D   0   8918    1      1  The dining hall: Door east closed
+D   0   8915    3      1  The kitchen: Door west closed
+D   0   8918    3      1  The dining hall: Door west closed
+D   0   8919    1      1  The terrace: Door east closed
+D   0   8917    2      1  The greenhouse: Door south closed
+D   0   8919    0      1  The terrace: Door north closed
+S
+#SPECIALS
+
+
+
+
+
+
+M  8900 spec_cast_cleric
+M  8901 spec_cast_cleric
+M  8902 spec_cast_cleric
+M  8903 spec_cast_cleric
+M  8908 spec_poison
+M  8909 spec_cast_cleric
+M  8910 spec_cast_cleric
+S
+
+#$

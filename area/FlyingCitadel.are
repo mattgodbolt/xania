@@ -1,0 +1,2056 @@
+#AREA   
+FlyingCitadel.are~
+The Flying Citadel~
+{20 50} TheMoog The Flying Citadel~
+13000 13050
+
+#ROOMS
+#13000
+Sheer face~
+You are at the bottom of a sheer face.  The rock here is dark, sharp and
+distinctly menacing.  Glancing upwards you see a huge shadow looming above
+you - what can it be?  You can see a path in the mountain to the west.
+~
+0 0
+D4
+You can fly up the cliff-face is magically propelled.
+~
+~
+0 -1 13028
+D3
+You see a pathway to the west.
+~
+~
+0 -1 901
+S
+#13028
+Flying above the cliff-face~
+You are flying above the cliff-face.  Below you is a path in the mountain,
+and further above you can see a huge flying chunk of rock!  What can this thing
+be - and how can you find out?  Upwards seems the only way to find out.  To the
+far north-east you see a fortress in the mountains.
+~
+0 9
+D4
+You see a huge levitating chunk of rock.
+~
+~
+0 -1 13029
+D5
+You see the cliff face.
+~
+~
+0 -1 13000
+S
+#13029
+Next to a flying citadel!~
+You find yourself next to a huge flying citadel!  What terrible magics are
+holding this huge chunk of rock in the air?  You see a gap in the walls around 
+the citadel to the north.
+~
+0 9
+D5
+You see free space.
+~
+~
+0 -1 13028
+D0
+You see a gap in the wall.
+~
+~
+0 -1 13001
+S
+#13001
+Citadel South~
+You find yourself in a smelly alleyway.  The walls are oozing a red
+substance, as if the walls themselves are bleeding.  There must be some
+hideous magic holding the citadel in the air, and the terrible strain on the
+rocks is manifest.  The alley continues to the east and west, and a small hole
+to the south permits you to leave the citadel.
+~
+D 1
+D2
+You see a gap in the wall.
+~
+~
+0 -1 13029
+D3
+The smelly alley continues to the west, you can see faint traces of smoke.
+~
+~
+0 -1 13008
+D1
+The smelly alley continues to the east.
+~
+~
+0 -1 13002
+E
+walls~
+The walls are leaking a glutinous red substance.  You gingerly poke a finger in
+the horrid ooze, and inspect it closely.  It |Ris|w blood!  Feeling your stomach
+churning, you quickly wipe it off on your cloak and try not to think where the
+blood has come from...
+~
+S
+
+#13002
+Citadel South-East~
+You are in a T-junction, between an alley which runs from east to west, and
+one which continues to the north.  There is a rope-ladder here which leads to a
+trap-door in the ceiling.  On the cobbled floor are various bits of broken
+armour, all coated in blood.  More worryingly, there are half-chewed arms and
+legs, of both draconian and human race.  Obviously whatever was eating this
+is partial to any kind of flesh ... maybe even yours!
+~
+D 1
+D0
+A northerly corridor.
+~
+~
+0 -1 13003
+D1
+The alley ends abruptly to the east.
+~
+~
+0 -1 13010
+D4
+The rope-ladder leads up to a trapdoor in the ceiling.  You can hear muffled
+shouting from above.
+~
+trap-door trap door~
+1 -1 13023
+D3
+The alley continues eastwards.
+~
+~
+0 -1 13001
+E
+rope-ladder rope ladder~
+The rope-ladder appears to be made of a tough substance, not unlike cowhide.
+~
+E
+half-chewed half chewed arms legs~
+These horrid items are not for the weak of stomach - they really are human,
+dwarven and draconian appendages, slightly chewed.
+~
+S
+#13003
+Citadel East~
+You are in a north-south corridor.  The walls here, like elsewhere, are 
+dripping with a red substance.  You feel a slight draft emanating from the
+north, where you can just make out a mass of rusted metal.  To the south you
+see a T-junction.
+~
+D 1
+D0
+The corridor continues to the north where you can just make out a mass of rusted
+metal.
+~
+~
+0 -1 13004
+D2
+The corridor ends in a T-junction to the south.
+~
+~
+0 -1 13002
+E
+walls~
+The walls are leaking a glutinous red substance.  You gingerly poke a finger in
+the horrid ooze, and inspect it closely.  It |Ris|w blood!  Feeling your stomach
+churning, you quickly wipe it off on your cloak and try not to think where the
+blood has come from...
+~
+S
+
+#13004
+Citadel North-East~
+You feel the wind ruffling your hair - the source of the rushing air a huge
+hole in the north wall.  Pointing out of the window is a huge rusted metal
+siege cannon.  Standing on tip-toes you can just about peer through the huge
+hole - and you can see the mountainous terrain.  A ladder leads up to a trap-
+door in the ceiling.
+~
+D 1
+D4
+The ladder leads upwards to a trap-door in the ceiling.
+~
+trap-door trap door~
+1 -1 13017
+D3
+You see an open space to the east.
+~
+~
+0 -1 13005
+D2
+You can see a corridor to the south.
+~
+~
+0 -1 13003
+E
+seige cannon rusted metal~
+This device has obviously not been built by the draconians, rather stolen from
+some castle or other - still, it is a powerful machine.  You can smell burnt
+gunpowder, and you see wisps of blueish smoke trail out of the barrel of the
+cannon.
+~
+S
+
+#13005
+Citadel North Courtyard~
+You find yourself in a open space, walled only to the south.  There is a
+corridor running from east to west, and the courtyard tapers to the north.  You
+feel the cold wind on your face.  Stamping your feet to keep them warm,
+you note the hollow sound...
+~
+D 1
+D5
+The trap-door leads into darkness...
+~
+trap-door hollow floor~
+1 -1 13012
+D0
+The courtyard tapers to a point to the north.
+~
+~
+0 -1 13011
+D1
+You can see a huge rusted machine.~
+~
+0 -1 13004
+D3
+You can see a huge rusted machine.~
+~
+0 -1 13006
+E
+floor ground hollow sound~
+Scraping the dirt off of the ground you see a trap-door!
+~
+S
+
+#13006
+Citadel North-West~
+You feel the wind ruffling your hair - the source of the rushing air a huge
+hole in the north wall.  Pointing out of the window is a huge rusted metal
+siege cannon.  What tremendous power a cannon of that size must possess!  A
+ladder leads up to a trap-door in the ceiling.
+~
+D 1
+D4
+The ladder leads upwards to a trap-door in the ceiling.
+~
+trap-door trap door~
+1 -1 13015
+D1
+You see an open space to the west.
+~
+~
+0 -1 13005
+D2
+You can see a corridor to the south.
+~
+~
+0 -1 13007
+E
+seige cannon rusted metal~
+This device has obviously not been built by the draconians, rather stolen from
+some castle or other - still, it is a powerful machine.  You can smell burnt
+gunpowder, and you see wisps of blueish smoke trail out of the barrel of the
+cannon.
+~
+S
+
+#13007
+Citadel West~
+You are in a north-south corridor.  The walls here, like elsewhere, are
+dripping with a red substance.  You feel a slight draft emanating from the
+north, where you can just make out a mass of rusted metal.  To the south you
+see a T-junction.
+~
+D 1
+D0
+The corridor continues to the north where you can just make out a mass of
+rusted metal.
+~
+~
+0 -1 13006
+D2
+The corridor ends in a T-junction to the south, where you can see wisps of
+smoke curling gently around.
+~
+~
+0 -1 13008
+E
+walls~
+The walls are leaking a glutinous red substance.  You gingerly poke a finger in
+the horrid ooze, and inspect it closely.  It |Ris|w blood!  Feeling your stomach
+churning, you quickly wipe it off on your cloak and try not to think where the
+blood has come from...
+~
+S
+
+#13008
+Citadel South-West~
+You are at a T-junction where an alley meets a corridor - the alleyway runs
+from east to west, and the corridor continues northwards.  The floor is
+cobbled, and in a heap next to you lie a pile of bodies.  The bodies have
+been doused in some flammable mixture and are burning slowly.  The
+sickly-sweet smell of decay assaults your nostrils and you feel sickened to
+the core as many of the bodies have been hideously mutilated...and some are
+still moving...
+A rope leads to a trap-door in the ceiling, from which you hear distant
+groaning.
+~
+D 1
+D4
+The rope leads up to a trap-door - you can hear the groaning of creatures in
+pain emananating from it.
+~
+trap-door trap door~
+1 -1 13021
+D0
+You see a corridor leading northwards.
+~
+~
+0 -1 13007
+D1
+You see a dinghy alleyway continue to the west.
+~
+~
+0 -1 13001
+D3
+The area to the west is brighter, and you feel a draft coming from it.
+~
+~
+0 -1 13009
+E
+pile bodies burning~
+The wretched pile of bodies, some twitching still, is made up of an assortment
+of humans, dwarves, elves and even draconians and orcs.  The smell of burning
+and rotting flesh is enough to keep you away from it.  A column of smoke winds
+its way gently upwards through a crack in the trapdoor.
+~
+S
+
+#13009
+Western Wing~
+The alleyway ends, rather abruptly, at a brick wall.  The only source of
+light is a huge hole in the wall, about ten feet up - but it has been barred
+over, perhaps to prevent anyone escaping ... although they'd only be escaping
+to a four hundred foot drop...
+You can see wisps of smoke emanating from a pile to the west.
+~
+D 1
+D1
+You can see a T-junction to the west, at the centre of which lies a burning
+pile.
+~
+~
+0 -1 13008
+S
+
+#13010
+Eastern Wing~
+Here the corridor disappears into a 400 foot sheer drop!  You can hear the
+rushing of air, and you feel the wind ruffling your hair.  The scorched cobbles
+make you wonder if the damage was caused by some huge siege weapon, or was it
+simply that the structure of the citadel couldn't take it any more.  The only
+exit, other than a 400 foot plunge, is to the west.
+~
+D 1
+D3
+You can see a T-junction.
+~
+~
+0 -1 13002
+E
+drop plunge hole 400 foot~
+It's a great big gaping hole!  What do you expect to see?  You feel slightly
+queasy as you peer over the edge - the landscape is so small from up here!
+What magic is powerful enough to hold an entire Citadel in mid-air?
+~
+S
+
+#13011
+Northern Lookout Post~
+The courtyard has tapered to a point - and the view is tremendous!  You can
+see for miles and miles - below you is the peak of a huge mountain, and you
+see the spires of a fortress nestled upon it.
+~
+0 1
+D2
+You see a cobbled courtyard to the south.
+~
+~
+0 -1 13005
+S
+#13012
+Deep in the darkest dungeons~
+The smell in here is appalling!  The fetid stench of decay, bodily waste and
+other unmentionables is almost tangible.  All around you, attached to the
+walls, are manacles - some of which are occupied by shivering dwarves, and
+the odd skeleton.
+~
+A 0
+D1
+The darkness continues to the east.
+~
+~
+0 -1 13014
+D3
+The darkness continues to the west.
+~
+~
+0 -1 13013
+D4
+There is an opening above.
+~
+trap-door trap door~
+1 -1 13005
+S
+
+#13013
+Deep in the darkest dungeons~
+The smell in here is appalling!  The fetid stench of decay, bodily waste and
+other unmentionables is almost tangible.  All around you, attached to the
+walls, are manacles - some of which are occupied by shivering dwarves, and
+the odd skeleton.
+~
+A 0
+D1
+The darkness continues to the east.
+~
+~
+0 -1 13012
+S
+
+#13014
+Deep in the darkest dungeons~
+The smell in here is appalling!  The fetid stench of decay, bodily waste and
+other unmentionables is almost tangible.  All around you, attached to the
+walls, are manacles - some of which are occupied by shivering dwarves, and
+the odd skeleton.
+~
+A 0
+D3
+The darkness continues to the west.
+~
+~
+0 -1 13012
+S
+
+#13015
+Transmogrification extrapolator~
+The room is almost filled by a huge copper tank which has a tap attached to
+it, at about waist-height.  Every four or five seconds the tap drips and there
+is a nearly-clear puddle of liquid beneath it.  At the top of the tank is a
+complicated network of pipes which leads to a funnel-shaped device attached to
+the north wall.  You imagine that this is some kind of air intake.  The pipes
+are heated by a burning torch which has been suspended underneath them.  You
+see a stairwell to the east, and a doorway to the south.  A trapdoor is set
+into the floor.
+~
+D 1
+D5
+It's a trapdoor.
+~
+trapdoor~
+1 -1 13006
+D1
+You see the bottom of a stairwell.
+~
+~
+0 -1 13016
+D2
+There is a doorway to the south.
+~
+door~
+1 -1 13018
+S
+#13016
+Bottom of the stairwell~
+You find yourself at the bottom of a stairwell.  To the east is a door from
+which you hear the sounds of metalworking, and to the west is an odd-shaped
+piece of machinery.  The stairs lead upwards into darkness.
+~
+D 1
+D1
+You see a doorway to the east, from which the sounds of metalworking can be
+heard.
+~
+door~
+1 -1 13017
+D3
+You can see a very odd-shaped machine to the west.
+~
+~
+0 -1 13015
+D4
+The stairs lead upwards into darkness and shadow.
+~
+~
+0 -1 13026
+S
+#13017
+Draconian armoury~
+You have entered the draconian armoury - and impressive it is.  The walls are
+fairly covered in plundered armour and weapons - altough they seem rather in
+need of the attention of a blacksmith as they are mostly dented and rusting.
+To the west you see a door, and there is a trapdoor set into the ground.
+~
+D 1
+D5
+A trapdoor.
+~
+trapdoor~
+1 -1 13004
+D3
+You see the bottom of a stairwell.
+~
+door~
+1 -1 13016
+E
+armour plundered weapons~
+The armour and weapons must have been stolen - you recognise the familiar armour
+of the guards in New Thalos amongst other less recognisable pieces of kit.  They
+all have one thing common - they are all in terrible condition.
+~
+S
+#13018
+Goblin explosive factory~
+Upon entering the room you notice the acrid smell of explosives and slightly
+singed hair.  This is some kind of assembly line for explosives to power the
+cannons on the lower deck.  Draconians and orcs have too much self-preservation
+to even go near the explosives, but the goblins are stupid enough to assemble
+the potentially lethal cocktails to create explosives.  To the north is a
+strange machine, and a doors lead east and south.
+~
+D 1
+D0
+You see a strange machine.
+~
+~
+0 -1 13015
+D1
+There is a door to the east.
+~
+door~
+1 -1 13019
+D2
+You see a door to the south - you hear the groaning of creatures in pain.
+~
+door~
+1 -1 13021
+S
+#13019
+Winch room~
+Whoops!  You nearly fell down a huge hole in the middle of the room!  Above
+the hole is a winch and a hooked rope dangles down from it.  This must be how
+the draconians bring up supplies from the ground below.  To the east you can
+see a kitchen, and a door leads west.
+~
+D 1
+D1
+You see a kitchen.
+~
+~
+0 -1 13020
+D3
+You see a door to the east.
+~
+door~
+1 -1 13018
+E
+winch hooked rope~
+The winch has a series of cogs which link it to a handle on the northern wall.
+The rope has a hook at the end, presumable it is used to bring supplies into the
+citadel.
+~
+S
+#13020
+Kitchen~
+This room is bustling with activity; draconians making their excuse for food,
+from meat they have presumably 'collected' themselves.  A cooking pot sits on
+the side, bubbling slightly. The disconcerting thing about the pot is that a
+human finger keeps bubbling to the surface. You see the winch-room to the west.
+~
+D 1
+D3
+You see the winch-room.
+~
+~
+0 -1 13019
+E
+cooking pot~
+Yuck - I wouldn't touch it if I were you!
+~
+S
+#13021
+Draconian infirmary~
+Two sturdy wooden tables, with curious channels gouged in them are the main
+features in this room.  They are stained almost red, and you wonder why.
+Glancing at the wall you notice a set of crude instruments hanging up - and you
+realise you have entered the draconian's crude infirmary.  The draconian bones
+in the corner lay testimony to the ineffectiveness of the 'treatment' given
+here.  There is a door to the north, and you see a staircase to the east.  A
+trapdoor in the ground leads downwards.
+~
+D 0
+D5
+You see a trapdoor.
+~
+trapdoor~
+1 -1 13008
+D0
+You see a door leading north.
+~
+door~
+1 -1 13018
+D1
+There is a staircase to the east.
+~
+~
+0 -1 13022
+E
+instrument medical crude~
+The medical instruments, such as they may be called, include mainly sharp
+spikes and saws - all are bloodied and you hope you are never at the receiving
+end of the treatment in this room!
+~
+E
+sturdy wooden tables gouged channels~
+The tables are the draconian equivalent of operating tables - except the odd
+beer-stain tells that these are nothing more than mess-tables with a huge blood
+channel carved in them.  You guess that the draconian surgery is far from
+perfect...
+~
+S
+#13022
+The bottom of a staircase~
+You find yourself at the bottom of a spiral staircase which leads upwards
+into the gloom.  From the east you hear a rasping, buzzing noise, and from
+the west comes the slightly disconcering sound of creatures in pain.
+~
+D 0
+D3
+Westwards lies the draconian infirmary.
+~
+~
+0 -1 13021
+D1
+To the east you can see the draconian's sleeping quarters.
+~
+door~
+1 -1 13023
+D4
+Above you see only darkness.
+~
+~
+0 -1 13024
+S
+#13023
+Draconian sleeping quarters~
+This darkened room contains rows of mats lying on the floor. Upon some of the
+mats are the hunched bodies of draconians - you sincerely hope they are fast
+asleep or even better dead!  Apart from the mats, the room is bare of all
+creature comforts, and is drafty, cold and dank.  The draconians are surely a
+sturdy race to be able to live in such conditions.  On the ground is a trap-
+door.
+~
+AD 1
+D5
+A trapdoor.
+~
+trapdoor~
+1 -1 13002
+D3
+To the west is a staircase.
+~
+door~
+1 -1 13022
+S
+#13024
+Further up the staircase~
+You are half-way up a staircase.  Above and below you is only darkness.
+~
+AD 1
+D4
+Too dark to tell.
+~
+~
+0 -1 13025
+D5
+Too dark to tell.
+~
+~
+0 -1 13022
+S
+#13025
+In the Minotaur's lair~
+Aha!  The source of the evil within the citadel is not the draconians!  They
+are lead by a hideous Minotaur High Lord whose lair you have just entered.
+The room is covered in filth, blood and decay - the meals of this creature are
+delivered live by the looks of it!
+~
+AD 1
+D5
+Too dark to tell.
+~
+~
+0 -1 13024
+S
+#13026
+Mind battery room~
+This room is most odd - it is full of manacled snotlings.  Quite why these
+poor creatures are chained here is not immediately obvious - but glancing
+around you notice a large spike on the ceiling.  Each snotling is wearing a
+helmet with a spike on it - and if you look carefully you see some kind of
+magical lightning jumping from the snotling's head to the spike on the ceiling.
+You guess that these poor creatures are being used as some kind of magical
+battery - perhaps this is where the power that hold the citadel up come from.
+~
+A 1
+D5
+You see the bottom of the stairs.
+~
+~
+0 -1 13016
+D4
+Too dark to tell.
+~
+~
+0 -1 13027
+S
+#13027
+The control room~
+You have entered the presence of a powerful draconian mage.  This is where
+the energy delivered by the snotling mind-batteries is put to use.  Two globes
+are magically suspended at waist height in the centre of the room, below them
+is a pentagram carved on the floor.  This is where the mage must control the
+citadel.
+~
+AD 1
+D5
+You see the snotling mind-battery.
+~
+~
+0 -1 13026
+S
+#0
+
+#MOBILES
+#13000
+evil orc shaman~
+the orc shaman~
+An orc magic-user stands here, practising dark arts.
+~
+This orc is more intelligent than most - he has grasped some of the more crude
+magics, but the dark froth around the corners of his mouth lay testimony to his
+insanity.  He wears a crude tatter of a robe, inscribed with unholy sigils of
+evil.  He perhaps was a student of the evil orc mage Uruk.
+~
+orc~
+FGHR DEH -950 0
+42 22 10d6+1770 10d6+460 10d4+19 blast
+-17 -17 -17 -17
+FJNQ ABQ CL N
+stand stand male 200
+0 0 medium 0
+
+#13001
+orc guard~
+the orc guard~
+An orc guard lowers his weapon and charges at you!
+~
+The orc guard is very stupid - but once he has an idea in his head you won't be
+able to stop him!  Currently the only thing he's thinking of is impaling you on
+his spear!
+~ 
+orc~
+FGT HZ -800 0
+36 18 8d8+1170 5d6+200 6d6+18 pound
+-18 -17 -16 -15
+CEFHKQ A 0 N
+stand stand male 80
+0 0 medium 0
+
+#13002
+gully grubby dwarf creature~
+the gully dwarf~
+A grubby creature is picking its nose here.
+~
+What at first seems to be a collection of dirty laundry is, in fact, a gully
+dwarf.  Possibly the stupidest creature in all of Xania, the gully dwarf
+posesses none of the intelligence or bravery of their more well-known cousins,
+nor the sheer evil cunning of the Dewar.  The average gully dwarf makes slow-
+worms look like Nobel prize-winners, but don't be lulled into a false sense of
+security - a gully dwarf fights like a whirling dervish of pointed teeth, feet
+and sharp nails.
+~
+dwarf~
+CSH FQZ -50 0
+20 10 4d10+400 1d1+99 4d5+10 bite
+-15 -15 -15 -15
+DFN A 0 0
+stand stand male 2
+0 0 small 0
+
+#13003
+draconian warrior~
+the draconian warrior~
+A heavily armoured draconian warrior hisses to itself.
+~
+The draconian race was a mistake - never planned by the Gods of Xania, it was
+created by the accidental unleashing of powerful magics.  These magics have now
+been banished from Xania, but their legacy remains - and this draconian seems
+none too happy to be disturbed!
+Six foot four tall, with a scaly humanoid appearance, the draconian warrior is
+a formidable opponent.
+~
+dragon~
+BFGT FHTa -980 0
+39 21 2d2+2040 1d1+249 3d13+19 hit
+-18 -17 -16 -15
+CEFIKMQ A EK 0
+stand stand male 93
+0 0 large 0
+
+#13004
+gully dwarf messenger dirty creature~
+the gully dwarf messenger~
+A dirty creature is scurrying around.
+~
+This gully dwarf seems especially trusted - for who knows what reason - because
+it is carrying messages to and from the control tower of the Flying Citadel.
+Perhaps the messages it carries are not important as the average gully dwarf
+would probably be more likely to eat the message than carry it safely to its
+destination.
+~
+dwarf~
+CGS 0 -110 0
+23 11 4d10+400 1d1+99 2d12+11 bite
+-15 -16 -15 -15
+DFIJN A 0 0
+stand stand male 4
+0 0 small 0
+
+#13005
+gully dwarf warrior~
+the gully dwarf warrior~
+A gully dwarf squats here, holding a sword by the wrong end.
+~
+An armed gully dwarf?  Surely this is some kind of sick joke, you think!  Who-
+ever armed this poor creature must be more insane than evil as the poor thing
+has already near-impaled itself and now it is holding the sword by the wrong
+end.  Its helmet is much too big for it and it can hardly see!
+~
+dwarf~
+CGS A -100 0
+24 11 4d10+450 1d1+99 3d8+12 bite
+-16 -16 -16 -15
+DFIJN A 0 0
+stand stand male 43
+0 0 small 0
+
+#13006
+gully dwarf creature~
+the gully dwarf~
+A grubby creature is picking its nose here.
+~
+What at first seems to be a collection of dirty laundry is, in fact, a gully
+dwarf.  Possibly the stupidest creature in all of Xania, the gully dwarf
+posesses none of the intelligence or bravery of their more well-known cousins,
+ nor the sheer evil cunning of the Dewar.  The average gully dwarf makes slow-
+worms look like Nobel prize-winners, but don't be lulled into a false sense of
+security - a gully dwarf fights like a whirling dervish of pointed teeth, feet
+and sharp nails.
+~
+dwarf~
+CSH FQZ -50 0
+21 10 4d10+400 1d1+99 3d7+11 bite
+-15 -15 -15 -15
+DFN A 0 0
+stand stand female 4
+0 0 small 0
+
+#13007
+prisoner dewar dwarf~
+the Dewar prisoner~
+A dwarven prisoner is manacled to the wall.
+~
+This wretched individual is a Dewar - a dark dwarf - imprisoned for who knows
+what reason - perhaps he has double-crossed the draconians too many times.  He
+seems to be suffering from the terrible conditions in the prison - but then so
+are you!
+~
+dwarf~
+BC MY -900 0
+25 12 4d10+392 1d1+249 5d5+12 beating
+-15 -15 -15 -15
+FINU A LQ I
+sit sit male 0
+0 0 medium 0
+
+#13008
+escaped dewar dwarf prisoner~
+the escaped prisoner~
+An escaped prisoner staggers around.
+~
+This bedraggled, and very ill-looking, Dewar dwarf has escaped from the dungeon
+and is wandering around randomly, burbling insanity.  There are flecks of spit
+in his white beard, and his eyes are bright red.  Still trailing his manacles
+behind him, this Dewar is not going to get past the guards in this state.
+~
+dwarf~
+CFHS MYX -910 0
+26 14 4d10+405 1d1+249 5d5+13 beating
+-15 -15 -15 -15
+CDFHIJNU A LQ I
+stand stand male 0
+0 0 medium 0
+
+#13009
+draconian magic user mage bozak~
+the Bozak magic-user~
+A draconian mage traces arcane sigils in the air.
+~
+A rarity indeed - a Bozak or draconian magic user.  Only once or twice a
+century is such an abomination hatched on Xania - and this Bozak looks only
+too keen to blast you into oblivion!  With one clawed hand raised, he traces
+an evil sigil in the air and prepares to attack.
+~
+dragon~
+FGHR HUT -1000 0
+45 25 4d10+1850 2d10+520 5d9+22 claw
+-17 -17 -17 -17
+CEFI AB CK 0
+stand stand male 600
+0 0 large 0
+
+#13010
+draconian cleric evil~
+the evil draconian cleric~
+A draconian cleric tends to the injured warriors.
+~
+This draconian is a worshipper of the evil draconian god D'zkhul - long
+banished from Xania, but whose influence can be felt here still.  Dressed in
+black robes and wearing an effigy of D'zkhul around her neck, this draconian
+is undoubtedbly the embondiment of evil.  She is tending to the fallen
+warriors here, not for any humanitarian reasons, but simply as the draconian
+fighting force must be kept at its peak to further the draconians' evil goals.
+~
+dragon~
+BGQL HTZ -1000 0
+40 22 4d10+1650 2d10+450 4d10+20 divine
+-17 -16 -17 -18
+CDEFKMR ABN CK F
+stand stand male 540
+0 0 large 0
+
+#13011
+draconian warrior casualty~
+the draconian warrior~
+A draconian warrior lies on the ground in a pool of yellow blood.
+~
+This draconian has been injured, and is lying semi-incapacitated in a pool of
+sickly yellow blood.  As to what has caused such a mighty warrior to be in such
+a condition, you can only wonder.  The warrior has a charred wound on his
+stomach, and many small cuts and bruises over his body.
+~
+dragon~
+BGT FHTa -980 0
+36 17 2d2+1241 1d1+249 6d6+18 hit
+-18 -17 -16 -15
+CEFIKMQ A EK 0
+stand stand male 76
+0 0 large 0
+
+#13012
+human column wizened man~
+the wizened half-man~
+A wizened old man stands here - he is made of stone from the waist down!
+~
+The old man has been afflicted by some evil curse.  From the waist down he has
+been petrified.  He notices your interest in him:
+
+  ``My tale is a long story.  Suffice to say I have been hideously tortured
+    by the Bozak mages - their  never-ending quest to destroy the forces of
+    good.  They have forged a small city and by  some immense magical power
+    have imbued it  with the ability  of flight - a flying  citadel!  I was
+    the first to discover their evil plot - and how I have payed for it!''
+
+The man sighs deeply, and continues:
+
+  ``Be warned, adventurer.  You must use magical powers to get to the cita-
+    del, and when you get there you must be careful!''
+~
+unique~
+BCU CDEFHJN 0 0
+50 27 1d1+4999 1d1+4999 6d8+25 divine
+-25 -25 -25 -25
+0 0 0 0
+stand stand male 1
+0 0 large 0
+
+#13013
+goblin cannon-loader loader~
+the goblin cannon-loader~
+A goblin stands here, loading explosives into the cannon.
+~
+This goblin has been consigned to the job of taking the potentially lethal
+charges and putting them into the cannon.  He then has the dubious honour of
+lighting the fuse.  It is a foolish individual who stays near the charges
+when they go off!  The goblin is covered from head to foot in soot, and has
+reddish strips running down his back - more likely than not the legacy of a
+whip.
+~
+goblin~
+BCH 0 -150 0
+25 12 10d10+500 5d2+49 5d5+12 claw
+-16 -15 -15 -16
+CFIJNR A L 0
+stand stand male 4
+0 0 small 0
+
+#13014
+goblin sergeant~
+the goblin sergeant~
+A maniacal goblin brandishes a whip here.
+~
+This goblin is what only can be described as power-crazed.  For an unknown
+reason he has been promoted to the rank of sergeant, and whip in hand he is
+going to keep the other goblins in line.  He appears to be in charge of the
+loading and firing of the siege cannon.  Smeared in soot and sweat, he appears
+harmless enough, but his pointed teeth and sheer maniac expression tell a
+different tale.
+~
+goblin~
+BCH N -400 0
+28 14 10d10+550 5d2+49 4d7+13 claw
+-16 -16 -16 -16
+CFIJN A L 0
+stand stand male 6
+0 0 small 0
+
+#13015
+snotling mind battery~
+the snotling~
+A snotling drools quietly to itself in a corner.
+~
+This snotling, or dwarf goblin, is gibbering quietly to itself in a corner.  It
+is dribbling green gunk, and it is wearing a helmet which is emanating an arc
+of energy which connects to a spike of metal in the ceiling.  You realise this
+poor creature is being used as some kind of mental battery for the evil
+purposes of the draconians.
+~
+goblin~
+B RW -100 0
+20 10 10d10+326 10d10+400 4d5+10 charge
+-15 -15 -15 -15
+DFN AC L P
+stand stand male 0
+0 0 tiny 0
+
+#13016
+goblin making explosives~
+the goblin~
+A goblin concerns herself with making explosives.
+~
+A surprise indeed - a goblin entrusted with making explosives!  She has
+bulbous eyes, and is covered in dirt, and she is obviously concentrating
+intently.  You wonder what evil madness would consider using goblins in such a
+delicate task as making explosives - and edge away from her slightly...
+~
+goblin~
+BCH P -210 0
+24 11 10d10+460 5d2+49 6d4+12 claw
+-15 -15 -15 -15
+CFIJNR A L 0
+stand stand female 10
+0 0 small 0
+
+#13017
+minotaur high lord~
+the Minotaur High Lord~
+A huge vicious-looking Minotaur glares at you.
+~
+This huge beast towers above you, its muscles rippling.  You feel sure that
+disturbing him from whatever he was doing, devouring a dwarf by the looks of
+it, was a bad idea.  For this is the Minotaur Lord, mutated by D'zkhul to be
+partially draconian - and he is a formidable opponent.
+
+He is wielding a mighty two-handed axe using just one hand - for his right arm
+is that of a dragon's!
+~
+minotaur~
+BFTV CDEFHNV -1000 0
+50 32 10d10+2490 50d4+400 7d7+25 pound
+-19 -18 -17 -15
+CDEFHKV AB JK N
+stand stand male 6666
+0 0 huge 0
+
+#13018
+bozak arch-mage boss wizard draconian~
+the Draconian Arch-mage~
+A draconian Arch-mage stands on the pentagram, with his hand on the two spheres.
+~
+The Arch-mage is an imposing figure even by draconian standards.  You get the
+feeling he could handle himself without having to use his awesome magical
+abilities.  Fully six feet five he is at the peak of physical, mental and
+magical form, unfortunately for you!
+~
+dragon~
+BCFR CDFHZ -1000 0
+48 26 10d10+1950 2d2+1997 6d8+24 claw
+-18 -18 -15 -17
+FIK AB COP N
+stand stand male 350
+0 0 medium 0
+
+#13019
+orc trooper~
+the orc trooper~
+An orc trooper stands here, smoking.
+~
+This orc trooper didn't quite meet up to the standards for being entrusted as
+a guard.  He may have failed the requirements to get into the Imladris invasion
+force - and has been consigned to boring duties.  He is in a foul mood.
+~
+orc~
+CGT 0 -890 0
+32 18 5d10+750 1d1+99 4d8+16 slash
+-16 -17 -17 -15
+DER A 0 0
+stand stand male 20
+0 0 medium 0
+#0
+
+#OBJECTS
+#13000
+helmet stupidity~
+the helmet of stupidity~
+A helmet with a spike on top lies here.~
+adamantite~
+armor AHE AE
+1 1 1 1 0
+16 30 230 G
+E
+helmet of stupidity~
+This helmet is a strange one - it has a picture of a brain on the side of it,
+and doesn't appear to be for the purposes of armour...
+~
+A
+3 -3
+A
+12 12
+A
+23 -1
+#13001
+tattered clothes rags~
+a pile of tattered rags~
+A pile of dirty, tattered clothes has been left on the floor.~
+cloth~
+clothing 0 AD
+0 0 0 0 0
+20 10 0 W
+E
+tattered clothes rags~
+A horrid, smelly clump of material.
+~
+#13002
+draconian axe~
+the draconian axe~
+An evil-looking axe lies on the ground.~
+steel~
+weapon CEJ AN
+'axe' 6 6 'chop' D
+35 40 4000 G
+E
+draconian axe~
+This axe belongs, or rather belonged, to a draconian warrior.  It is serrated
+and emanates an evil aura.  The pommel is made of a cow hide-like material which
+you sincerely hope is not what you think it could be...
+~
+A
+23 -5
+#13003
+draconian breastplate~
+the draconian breastplate~
+A breastplate with the emblem of a draconian rusts on the floor.~
+iron~
+armor E AD
+13 11 10 3 0
+36 45 4124 G
+E
+draconian breastplate~
+This breastplate is pitted and dented with years of combat.  It has an emblem
+of a fighting draconian, arms aloft, on it.  It is made of heavy iron, and looks
+very sturdy.
+~
+A
+19 3
+A
+18 1
+#13004
+draconian loincloth cloth~
+the draconian loincloth~
+A piece of cloth lies in the dirt.~
+cloth~
+armor 0 AL
+5 5 12 6 0
+36 8 423 G
+E
+draconian loincloth cloth~
+You don't want to think about what this was covering up...
+~
+A
+14 10
+A
+20 -2
+#13005
+bracelet silver~
+the silver bracelet~
+A silver bracelet glitters with an unholy glow.~
+silver~
+armor ABEJ AM
+10 9 7 2 0
+34 7 3000 P
+E
+bracelet silver~
+~
+A
+12 14
+A
+24 -4
+#13006
+draconian shield dragon wing~
+the draconian shield~
+A shield shaped like a dragon wing lies here.~
+leather~
+armor E AJ
+11 10 13 4 0
+35 20 2978 P
+E
+draconian shield~
+This shield has been fashioned in the shape of a dragon wing.  It is made of
+a skeleton of bones, with dragon skin stretched across them.
+~
+A
+2 1
+A
+5 1
+A
+17 -2
+#13007
+draconian mace skull~
+(|gHideous|w) the draconian mace~
+A mace tipped in a human skull has been left here.~
+bone~
+weapon ACEJ AN
+'mace' 6 7 'crush' C
+39 25 3152 P
+E
+draconian mace skull~
+The skull of some unfortunate human has been impaled on a shard of metal,
+spiked, and is now being used as a formidable weapon!
+~
+A
+2 -1
+#13008
+black robes draconian dark cloth evil~
+some evil black robes~
+A dark pile of cloth lies here.~
+cloth~
+armor ACEJ AK
+12 11 3 12 0
+38 20 1235 G
+E
+black robes draconian dark cloth evil~
+The robes of a draconian cleric, the robes emanate evil and darkness.
+~
+A
+12 30
+#13009
+effigy D'zkhul likeness~
+an effigy of the draconian god D'zkhul~
+A hideous likeness of D'zkhul grins at you.~
+adamantite~
+wand ABE ACO
+43 4 4 demonfire~ 0
+37 4 2123 P
+E
+effigy D'zkhul likeness~
+Cast out by the Greater Gods of Xania, D'zkhul now skulks in the nether plains,
+waiting for a time at which he can return to take control of the world.  Let
+us pray that never happens!
+~
+A
+6 1
+A
+18 1
+#13010
+draconian breastplate blood-stained~
+the draconian breastplate~
+A blood-stained breastplate with the emblem of a draconian rusts on the floor.~
+iron~
+armor E AD
+10 9 7 3 0
+34 45 4124 G
+E
+draconian breastplate~
+This breastplate is pitted and dented with years of combat.  It is covered in
+blood, and has an emblem of a fighting draconian, arms aloft, on it.  It is
+made of heavy iron, and looks very sturdy.
+~
+A
+19 1
+A
+18 1
+#13011
+whip energy magic thin~
+the energy whip~
+An almost invisibly thin line of energy pulses to itself.~
+octarine~
+weapon BCEFGJ ANP
+'whip' 4 12 'magic' DEF
+44 2 6000 P
+E
+whip energy magic thin~
+This shockingly thin and light weapon leaves a trail of death and destruction
+in its path - so thin that it slices through armour like a knife through
+butter!  It is so thin, however that if you did not hold it with two hands it
+would probably slip between your fingers and be lost forever!
+~
+A
+2 1
+A
+19 2
+#13012
+magic force shield energy~
+(|MRepel|w) a shield made of energy~
+A near-invisible line of energy pulses here.~
+octarine~
+armor BJCEFGH AJ
+14 2 15 14 0
+43 4 5512 P
+E
+magic force shield energy~
+A pulsing field of energy, it is nearly insubstantial until a weapon gets near
+it - then it becomes as hard as steel!
+~
+A
+13 17
+A
+24 -4
+#13013
+teeth tooth minotaur yellow~
+a minotaur tooth~
+The yellowy-stained curved tooth of a minotaur lies here.~
+bone~
+bomb CEJ AO
+40 weaken~ lethargy~ curse~ 0
+47 4 300 P
+E
+teeth tooth minotaur yellow~
+This cursed tooth holds a volatile mixture of magic and evil.  It could
+decompose dramatically any second!
+~
+A
+1 -1
+A
+2 -1
+A
+5 -1
+A
+13 -80
+#13014
+horn minotaur~
+a minotaur horn~
+The battered horn of a minotaur lies here.~
+bone~
+pill CE A
+46 poison~ sanctuary~ shield~ 0
+48 10 0 P
+E
+horn minotaur~
+This horn looks dangerous - the fetid stench is almost overbearing.
+~
+A
+18 2
+A
+19 2
+A
+1 1
+#13015
+immense axe~
+the immense axe~
+An immense axe lies here.~
+iron~
+weapon ABEJ ANP
+'axe' 5 11 'cleave' F
+50 50 0 P
+E
+immense axe~
+Once belonging to a mighty human, and designed to be used two-handed, the
+Minotaur Lord's axe was used one-handed!  Sadly, lacking the strength of the
+Lord, you must use it with both hands.  Truly an immense weapon, it weighs as
+much as you would expect from a weapon made of solid iron.
+~
+A
+18 -2
+A
+19 +4
+A
+13 7
+A
+12 7
+A
+5 1
+A
+1 1
+#13016
+leggings barbed~
+some barbed leggings~
+A pair of barbed leggings lies on the ground.~
+steel~
+armor ACEJ AF
+16 13 16 14 3
+49 20 0 P
+E
+leggings barbed~
+Made of woven steel, with razor-sharp barbs all over, these leggings are the
+essential part of any evil Minotaur's equipment.  Dried flesh is evident all
+over the leggings.
+~
+A
+2 -1
+A
+5 2
+A
+13 21
+#13017
+gloves barbed~
+a pair of barbed gloves~
+The evilly sharp barbs on a pair of gloves catch the light.~
+steel~
+armor ACEJ AH
+14 11 14 12 4
+48 5 0 P
+E
+gloves barbed~
+Made of woven steel, these gloves feature a plethora of evilly sharp barbs all
+over.  Inside, the gloves are made of a fine gossamer, making them extremely
+comfortable to wear - just never wear them inside out!
+~
+A
+2 2
+A
+19 3
+#13018
+head dwarven disembodied~
+the disembodied dwarven head~
+The disembodied head of a dwarf bleeds slowly into the pool of blood
+around it.~
+bone~
+container KO 0
+1000 5 0 0 0
+20 30 0 P
+E
+head dwarven disembodied~
+This sickly sight is too horrible to mention - but as you insist:
+
+The wretched, late, owner of this head has been brutally savaged by what looks
+like a clawed creature.  The top of the skull has nearly been separated from
+the rest of the head and you can almost see the grey matter within.  Yuck!
+~
+#13019
+dragon claw mutant~
+the mutant claw of a half-dragon, half-minotaur creature~
+The severed dragon-claw of a mutant minotaur drips blood on the floor.~
+bone~
+staff ABHE AO
+52 5 5 earthquake~ 0
+49 10 0 P
+E
+dragon claw mutant~
+Complete with tendrils still hanging from the severed end, this truly is a
+repulsive object.
+~
+A
+14 2
+#13020
+huge reinforcer re-inforcer shoulder~
+the shoulder reinforcer~
+A huge shoulder reinforcer lays here.~
+steel~
+armor GJB AC
+16 15 15 0 0
+50 15 0 P
+E
+huge reinforcer re-inforcer shoulder~
+A large piece of steel, serrated by sharp barbs, with a strap on it.  It was
+once worn by the Minotaur Lord, but somehow it has come to be in your possesion.
+You can feel the reflected evil and hatred of the Minotaur Lord emanating from
+it.
+~
+A
+13 6
+#13021
+brain dwarf dwarven~
+(|rDisgusting|w) a dwarven brain~
+A truly stomach-churning object lies here - the brain of a dwarf.~
+~
+pill H A
+35 poison~ plague~ weaken~ 0
+20 5 0 P
+E
+brain dwarf dwarven~
+I can't believe you're even looking at it!  It's horrible!
+~
+#13022
+filthy rags smelly horrid~
+some filthy rags~
+A pile of filthy, smelly rags.~
+cloth~
+armor 0 AD
+4 4 4 2 0
+21 10 1 W
+E
+filthy rags smelly horrid~
+Ugh!
+~
+#13023
+dead lizard~
+the dead lizard~
+A very dead-looking lizard.~
+bone~
+bomb G AO
+24 poison~ harm~ 0 0
+22 5 0 G
+E
+dead lizard~
+It's definitely dead.  Very dead.
+~
+#13024
+sword notched bent~
+a notched sword~
+A notched and bent sword lies here.~
+steel~
+weapon 0 AN
+'sword' 4 5 'slash' 0
+23 10 5 G
+E
+sword notched bent~
+This sword has obviouly been badly treated.  It's pitted and bent and notched,
+and has some suspiciously tooth-shaped marks on the handle.  Perhaps some inept
+minion of D'zkhul mistook it for a meal?
+~
+#13025
+spear~
+the spear~
+A spear lies disused in the dirt.~
+iron~
+weapon 0 AN
+'spear' 9 4 'charge' DF
+36 9 15 G
+A
+2 -1
+E
+spear~
+It's a sharp bit of metal on a stick.  A kind of knife-kebab, you could say!
+~
+#13026
+jerkin chain-mail chain mail orc~
+the orc chain-mail jerkin~
+A jerkin made of chain-mail lies unused here.~
+iron~
+armor 0 AD
+9 11 11 3 0
+34 20 200 P
+E
+jerkin chain-mail chain mail orc~
+A jerkin stained with both red and green blood - this item has seen a lot of
+action, and yet it has been well-looked after.
+~
+#13027
+shoes stompers pair~
+a pair of stompers~
+A pair of orc stompers rest here.~
+leather~
+armor 0 AG
+11 11 3 9 0
+33 5 10 G
+E
+shoes stompers pair~
+A crude and stained - and very smelly - pair of Orc stompers.
+~
+#13028
+sleeves chain mail chain-mail~
+a pair of chain-mail sleeves~
+Some chain-mail sleeves have been left on the ground.~
+iron~
+armor 0 AI
+11 12 9 1 0
+34 6 20 G
+E
+sleeves chain mail chain-mail~
+A pair of dented and buckled chain-mail sleeves. Not very comfortable, but
+usable enough.
+~
+#13029
+jacket orc green~
+a green orc jacket~
+A green orc jacket sits in the dust.~
+leather~
+armor 0 AK
+9 13 12 2 0
+32 5 30 G
+E
+jacket orc green~
+Horribly stained under the armpits, and with some dubious red patches, this is
+not a designer item.  Nevertheless, it affords reasonable protection from the
+elements.
+~
+#13030
+trousers orc~
+a pair of orc trousers~
+A pair of orc trousers lie on the ground.~
+leather~
+armor 0 AF
+9 9 8 2 0
+33 5 1 G
+E
+trousers orc~
+Servicable, but not at all comfortable.
+~
+#13031
+manacles rusting~
+a pair of manacles~
+A rusting pair of manacles has been left on the floor.~
+iron~
+armor 0 AM
+3 3 2 0 0
+33 14 1 G
+E
+manacles rusting~
+Used for keeping people under control, you would imagine.
+~
+A
+2 -3
+#13032
+cloak shamanic cloth~
+the shamanic cloak~
+A bundle of cloth lies on the ground.~
+cloth~
+armor J AK
+13 13 10 4 0
+40 1 50 G
+E
+cloak shamanic cloth~
+Covered in shamanic symbols, this cloak seems to move by itself - it is
+unusually light.
+~
+A
+2 2
+#13033
+shamanic headdress~
+the shamanic headdress~
+An evil-looking headdress lies on the floor.~
+cloth~
+armor J AE
+12 10 10 3 0
+39 1 30 G
+E
+shamanic headdress~
+Strange symbols adorn this impractibly tall headdress.  Feathers and various
+body-parts stick out from the top.
+~
+A
+12 20
+#13034
+shamanic staff wood piece~
+the shamanic staff~
+A piece of wood has been left on the floor.~
+wood~
+light J A
+0 0 999 0 0
+41 2 200 G
+E
+the shamanic staff~
+Deceptively simple-looking, this wooden staff is a source of unholy light.
+~
+A
+18 2
+A
+19 3
+#13035
+orcish sword curved blood-stained~
+the orcish sword~
+A curved sword lies on the ground.~
+steel~
+weapon 0 AN
+'sword' 6 5 'slice' 0
+30 7 20 G
+E
+orcish sword curved blood-stained~
+A curved piece of metal, with a crudely made handle - what an excuse for a
+sword.
+~
+#13036
+orc plate piece metal dented~
+the orc plate~
+A dented piece of metal lies on the floor.~
+steel~
+armor 0 AD
+11 10 11 4 0
+31 10 1 G
+E
+orc plate piece metal dented~
+A piece of steel panel-beaten into a crude plate, with leather straps to affix
+it to your body.
+~
+A
+1 1
+#13037
+cigarette smouldering fag dog-end~
+a smouldering cigarette~
+You see a smouldering dog-end on the ground.~
+paper~
+light J A
+0 0 998 0 0
+29 1 1 W
+E
+cigarette smouldering fag dog-end~
+Bad for your health!
+~
+A
+5 -1
+A
+4 -1
+A
+13 18
+#13038
+dirty loincloth~
+a dirty loincloth~
+A dirty loincloth has been tossed on the ground.~
+leather~
+armor 0 AL
+7 3 5 0 0
+28 1 1 W
+E
+dirty loincloth~
+You dread to think what was wearing this before you got your hand on it - or
+what this loincloth was covering up!
+~
+#13039
+filthy clothing dirty laundry~
+some filthy clothing~
+A pile of filthy laundry lies on the ground.~
+cloth~
+armor 0 AK
+2 2 2 0 0
+28 1 1 W
+E
+filthy clothing dirty laundry~
+Filthy.  What else can I say?
+~
+#13040
+goblin horsewhip whip~
+a horsewhip~
+A horsewhip has been left on the floor.~
+leather~
+weapon 0 AN
+'whip' 5 5 'whip' 0
+26 3 1 G
+E
+goblin horsewhip whip~
+This whip has been used to keep the goblins in line!
+~
+#13041
+dirty loincloth~
+a dirty loincloth~
+A dirty loincloth has been tossed on the ground.~
+leather~
+armor 0 AL
+5 2 4 0 0
+25 1 1 W
+E
+dirty loincloth~
+You dread to think what was wearing this before you got your hand on it - or
+what this loincloth was covering up!
+~
+#13042
+gunpowder~
+some gunpowder~
+A pile of gunpowder has carelessly been left here.~
+vellum~
+bomb 0 AO
+28 402 402 402 0
+24 1 1 G
+E
+gunpowder~
+BANG!!!  Just kidding - but be careful - this stuff is dangerous!
+~
+#13043
+draconian dagger bloodstained~
+a draconian dagger~
+A bloodstained draconian dagger has been left here.~
+steel~
+weapon J AN
+'dagger' 5 10 'wrath' 0
+47 3 400 P
+E
+draconian dagger bloodstained~
+Disgustingly blood-stained, this dagger is very sharp indeed.  It has runes
+inscribed up and down the length of the blade, imbueing it with magical
+properties.
+~
+A
+12 35
+#13044
+talisman D'zkhul likeness~
+a talisman of the draconian god D'zkhul~
+A hideous talisman of D'zkhul lies on the ground~
+adamantite~
+wand ABEJ ACO
+50 4 4 demonfire~ 0
+46 4 3012 P
+E
+talisman D'zkhul likeness~
+Cast out by the Greater Gods of Xania, D'zkhul now skulks in the nether plains,
+waiting for a time at which he can return to take control of the world.  Let
+us pray that never happens!
+~
+A
+6 1
+A
+18 5
+#13045
+shroud darkness cloth~
+a shroud of darkness~
+A dark piece of cloth lies in a bundle on the floor.~
+cloth~
+armor CEJ AD
+15 14 13 0 0
+47 2 100 P
+E
+shroud darkness cloth~
+The fabric of the shroud seems to suck in the light around it - this a strange
+piece of clothing indeed!
+~
+A
+12 40
+#0
+
+#RESETS
+* Close all the trapdoors
+D 0 13002 4 1 from below
+D 0 13004 4 1 from below
+D 0 13006 4 1 from below
+D 0 13008 4 1 from below
+D 0 13023 5 1 from above
+D 0 13017 5 1 from above
+D 0 13015 5 1 from above
+D 0 13021 5 1 from above
+D 0 13005 5 1 trap to prison
+D 0 13012 4 1 trap out of prison
+
+* Close the doors on the first floor
+D 0 13021 0 1 door out of infirm
+D 0 13018 2 1 door into infirm
+D 0 13022 1 1 door into sleep
+D 0 13023 3 1 door out of sleep
+D 0 13018 1 1 door into winch
+D 0 13019 3 1 door out winch
+D 0 13016 1 1 door into armoury
+D 0 13017 3 1 door out of armoury
+
+* Load in the minotaur
+M 0 13017 1 13025 1  1   
+
+* Put the dwarf head and fill it up :-)
+G 9 13013  30           Minotaur teeth
+E 1 13014  30 6           Minotaur horn
+E 1 13015  30 16          Minotaur's axe
+E 1 13016  30 7           Mino Leggings
+E 1 13017  30 9           Mino gloves
+E 1 13019  30 15          Mutant claw
+E 1 13020  30 3           shoudler reinforcer
+O 0 13018 1 13025 Put the head in
+P 1 13021 3 13018 1  1  and the brain  
+
+* Load in our goblin teams
+M 0 13013 2 13004 1  1        loader  
+E 1 13041  63 13           loincloth
+E 1 13042  63 17            explosive
+M 0 13014 2 13004 1  1        sergeant  
+E 1 13041  63 13           loincloth
+E 1 13040  63 16           whip
+M 0 13013 2 13006 1  1        loader  
+E 1 13041  63 13           loincloth
+E 1 13042  63 17            explosive
+M 0 13014 2 13006 1  1        sergeant  
+
+* Load in some prisoners
+E 1 13041  63 13         loincloth
+E 1 13040  63 16           whip
+M 0 13007 8 13013 1  1   
+E 1 13001  90 12
+M 0 13007 8 13012 1  1   
+E 1 13001  90 12
+M 0 13007 8 13012 1  1   
+M 0 13007 8 13012 1  1   
+E 1 13001  90 12
+M 0 13007 8 13014 1  1   
+E 1 13001  90 12
+M 0 13007 8 13014 1  1   
+* and an escaped one
+E 1 13001  90 12
+M 0 13008 8 13012 1  1   
+
+*Load in the old man
+E 1 13001  90 12
+M 0 13012 1 13000 1  1   
+
+*A gully dwarf wandering around
+M 0 13002 6 13009 1  1  ..on the left wing  
+E 1 13022  90 5
+M 0 13002 6 13007 1  1   
+E 1 13022  90 5
+M 0 13006 6 13003 1  1   
+*A gully warrior
+E 1 13022  90 5
+M 0 13005 2 13008 1  1   
+E 1 13022  63 5
+E 1 13024  63 16
+M 0 13005 6 13011 1  1   
+*A messenger
+E 1 13022  48 5
+E 1 13023  48 3
+E 1 13024  48 16
+M 0 13004 6 13016 1  1   
+
+*The casualties and cleric
+E 1 13022  90 5
+M 0 13010 1 13021 1  1      The cleric  
+E 1 13007  48 16          mace
+E 1 13008  48 12         robes
+E 1 13009  48 3           effigy
+M 0 13011 3 13021 1  1      A casualty (1)  
+E 1 13010  63 12         bloodstained breastplate
+E 1 13004  63 13         loincloth
+M 0 13011 3 13021 1  1      A casualty (2)  
+E 1 13010  63 12         bloodstained breastplate
+E 1 13004  63 13         loincloth
+M 0 13011 3 13021 1  1      A casualty (3)  
+
+* Snotlings
+E 1 13010  63 12         bloodstained breastplate
+E 1 13004  63 13         loincloth
+M 0 13015 3 13026 1  1   
+E 1 13000  90 6
+M 0 13015 3 13026 1  1   
+E 1 13000  90 6
+M 0 13015 3 13026 1  1   
+
+* Gobbos making bombs
+E 1 13000  90 6
+M 0 13016 3 13018 1  1   
+E 1 13041  63 10           loincloth
+E 1 13042  63 2            explosive
+M 0 13016 3 13018 1  1   
+
+* Orc guards
+E 1 13041  63 10           loincloth
+E 1 13042  63 2            explosive
+M 0 13001 5 13005 1  1          guard by jail  
+E 1 13025  30 16              spear
+E 1 13026  30 5               jerkin
+E 1 13027  30 8               stompers
+E 1 13028  30 10              sleeves
+E 1 13029  30 12              cloak
+E 1 13030  30 7               trousers
+G 1 13031  30                manacles
+M 0 13001 5 13009 1  1          guard in wing  
+E 1 13025  30 16              spear
+E 1 13026  30 5               jerkin
+E 1 13027  30 8               stompers
+E 1 13028  30 10              sleeves
+E 1 13029  30 12              cloak
+E 1 13030  30 7               trousers
+G 1 13031  30                manacles
+M 0 13001 5 13003 1  1          guard in east bit  
+
+* Orc shaman
+E 1 13025  30 16              spear
+E 1 13026  30 5               jerkin
+E 1 13027  30 8               stompers
+E 1 13028  30 10              sleeves
+E 1 13029  30 12              cloak
+E 1 13030  30 7               trousers
+G 1 13031  30                manacles
+M 0 13000 1 13020 1  1          orc shaman in kitchen  
+
+* Draconian Warriors
+E 1 13032  48 12              cloak
+E 1 13033  48 6               headdress
+E 1 13034  48 17              staff
+M 0 13003 4 13017 1  1          warrior in armoury  
+E 1 13002  36 16              axe
+E 1 13003  36 5               breastplate
+E 1 13004  36 13              loin
+E 1 13005  36 14              bracelet
+E 1 13006  36 11              shield
+M 0 13003 4 13023 1  1          warrior in quarters  
+E 1 13002  40 16              axe
+E 1 13003  40 5               breastplate
+E 1 13004  40 13              loin
+E 1 13006  40 11              shield
+M 0 13003 4 13023 1  1          warrior in quarters  
+E 1 13002  48 16              axe
+E 1 13004  48 13              loin
+E 1 13006  48 11              shield
+M 0 13003 4 13015 1  1          warrior in water room  
+
+* Drac mage
+E 1 13002  40 16              axe
+E 1 13003  40 5               breastplate
+E 1 13004  40 13              loin
+E 1 13006  40 11              shield
+M 0 13009 1 13024 1  1          mid of stairs  
+
+* Master mage
+E 1 13011  63 16              whip
+E 1 13012  63 11              shield
+M 0 13018 1 13027 1  1          top stairs  
+
+* Orc troopers
+E 1 13043  48 16              dagg
+E 1 13044  48 3               talisman
+E 1 13045  48 12              shroud
+M 0 13019 2 13010 1  1          right wing  
+E 1 13035  48 16              sword
+E 1 13036  48 5               plate
+E 1 13037  48 17              fag
+M 0 13019 2 13002 1  1          next to right wing  
+
+* The end!
+E 1 13035  48 16              sword
+E 1 13036  48 5               plate
+E 1 13037  48 17              fag
+S
+
+#SPECIALS
+M   13000 spec_cast_mage
+M   13003 spec_breath_frost
+M   13009 spec_cast_mage
+M   13010 spec_cast_cleric
+M   13011 spec_breath_frost
+M   13017 spec_poison
+M   13018 spec_cast_mage
+S
+
+#RESETS
+S
+
+#$

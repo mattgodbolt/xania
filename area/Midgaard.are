@@ -1,0 +1,6907 @@
+#AREA 
+Midgaard.are~
+Midgaard~
+{ All } Diku    Midgaard~
+3000 3380
+
+
+#MOBILES
+#3000
+dawnstone~
+Dawnstone~
+Dawnstone gazes up from her work, and gives you a smile.
+~
+Dawnstone is a gorgeous blonde-haired elven sorceress.  Her pale blue
+eyes meet yours for an instant, and she gives you a wry grin.  She has
+been the talk of the town since she took over the magic shop, from the
+wizard who retired recently.
+~
+elf~
+BV D 900 0
+23 0 1d1+999 1d1+999 1d8+32 magic
+-30 -30 -30 -30
+AF ABCD 0 0
+stand stand female 15000
+0 0 medium 0
+#3001
+mister cholmondley-warner warner baker~
+Mister Cholmondley-Warner~
+Mister Cholmondley-Warner greets you with a cheesey grin.
+~
+He is a slim, middle aged man with a pale face, waxed moustache and a
+pair of wire rimmed glasses. His hands are those of a man who cares as
+much about making baked products as life itself.
+~
+human~
+BV 0 900 0
+23 0 1d1+999 1d1+99 1d8+20 beating
+-30 -30 -30 -30
+CDF ABCD 0 0
+stand stand male 500
+0 0 medium 0
+#3002
+grocer~
+the grocer~
+A grocer stands at the counter, with a slightly impatient look on his face.
+~
+The grocer is a wiry, weasely man who looks at you as if you are
+wasting his time even being in his shop.  With a derisory snort he
+carries on with his accounting.
+~
+human~
+BV 0 900 0
+23 0 1d1+999 1d1+99 1d8+20 beating
+-30 -30 -30 -30
+EFJ ABCD 0 0
+stand stand male 1300
+0 0 medium 0
+#3003
+imperial quartermaster~
+the Imperial Quartermaster~
+The Imperial Quartermaster is keeping an eye on his extensive stocks.
+~
+He is a short, stocky man in his late 50's who appears to have seen
+more than a little combat experience. A great bushy beard rushes forth
+from his ruddy face and you can just discern a set of foul, yellow
+teeth.
+~
+human~
+BTV 0 900 0
+150 10 1d1+999 1d1+99 1d8+32 punch
+-30 -30 -30 -30
+CEIK ABCD 0 0
+stand stand male 25000
+0 0 medium 0
+#3004
+razorblade armourer~
+Razorblade the armourer~
+Razorblade, the armourer stands here.
+~
+The legendary Imperial armourer, Razorblade, stands behind the
+counter.  This character is well known throughout Xania as the
+supplier of the best armour money can buy.
+~
+human~
+BV 0 900 0
+150 10 1d1+999 1d1+99 1d8+32 punch
+-30 -30 -30 -30
+CEFJKN ABCD 0 0
+stand stand male 25000
+0 0 medium 0
+#3005
+thief~
+the thief~
+A thief, all dressed in black.
+~
+Well COUNT your money!
+~
+human~
+CHS PQ -100 0
+8 1 6d8+80 1d1+99 1d5+1 punch
+-13 -11 -12 -8
+EFJN 0 0 0
+stand stand male 100
+0 0 medium 0
+#3006
+captain~
+the captain~
+A retired captain stands here, selling boats.
+~
+This captain has killed more sharks than you have eaten peas.
+~
+human~
+BTV 0 900 0
+23 10 1d1+999 1d1+99 1d8+32 beating
+-30 -30 -30 -30
+CEI ABCD 0 0
+stand stand male 1300
+0 0 medium 0
+#3007
+sailor~
+the sailor~
+A sailor stands here, waiting to train you.
+~
+He looks like a strong, fit sailor.
+~
+human~
+BJTV 0 900 0
+23 5 1d1+999 1d1+99 1d4+23 beating
+-30 -30 -30 -30
+FHJN ABCD 0 0
+stand stand male 58
+0 0 medium 0
+#3008
+boy~
+the pet shop boy~
+A pet shop boy is here, humming a rather catchy little tune.
+~
+He is young and close-cropped and looks quite happy.
+~
+human~
+BV 0 900 0
+23 0 1d1+999 1d1+99 1d8+20 punch
+-30 -30 -30 -30
+0 ABCD 0 0
+stand stand male 4000
+0 0 medium 0
+#3009
+jeweller~
+the jeweller~
+The jeweller is standing behind the desk.
+~
+He is fat and has a content although watchful look on his face.
+~
+human~
+BV 0 900 0
+23 0 1d1+999 1d1+99 1d8+22 slap
+-30 -30 -30 -30
+AF ABCD 0 0
+stand stand male 58000
+0 0 medium 0
+#3010
+leather worker~
+the leather worker~
+The leather worker is sitting by the table, sewing a leather cap.
+~
+She looks as an honest, hard-working artisan who only just earns enough to
+keep herself going.
+~
+human~
+BV 0 900 0
+23 0 1d1+999 1d1+99 1d8+20 punch
+-30 -30 -30 -30
+AFN ABCD 0 0
+stand stand female 4500
+0 0 medium 0
+#3011
+Concordius~
+Concordius~
+Concordius stands here keeping the peace.
+~
+Concordius is a tall imposing figure with a weathered face that suggests great
+experience. 
+
+Word has it that Concordius is some kind of arbiter, or arbitrator, 
+or was it arboretum? You didn't quite catch what the guy said.
+
+A lightweight toga spans his lean body. An intricate claw-like
+object adorns to his right hand, and a bronze shield depicting a sun is 
+strapped to his left arm.
+
+Although he seems to be quite relaxed, his upright posture and alertness
+indicate that he is ready to respond at a moment's notice.
+As he speaks, his sonorous voice leaves you feeling enlightened.
+~
+human~
+BMTV CDFHJZ 1000 0
+86 30 1d1+6999 1d1+999 4d10+30 slash
+-43 -43 -43 -35
+ACDEFHIKLNOT ABP CD 0
+stand stand male 0
+0 0 huge 0
+
+#3012
+druidic acolyte iscarian healer~
+the acolyte~
+An Iscarian druid stands before the altar, willing to heal you. 
+~
+The druid has a vast, curly beard and is wearing a dirtied white
+cloak. He appears to be very experienced and has undoubtedly wandered
+the entire realm of Xania.
+
+Type 'heal' to see what is on offer.
+
+<worn around neck>  a bejewelled Iscarian pendant
+<enshrouding body>  a dirtied, white cloak
+~
+human~
+MBQVa DFH 1000 0
+75 0 1d1+999 1d1+999 2d4+30 divine
+-35 -30 -30 -30
+FHIK ABCD 0 0
+stand stand male 5000
+0 0 medium 0
+
+#3020
+guildmaster master~
+the guildmaster~
+Your guildmaster is standing here.
+~
+Even though your guildmaster looks old and tired, you can clearly see the
+vast amount of knowledge she possesses. She is wearing fine magic clothing,
+and you notice that she is surrounded by a blue shimmering aura.
+~
+elf~
+BKRV DEFJZ 1000 0
+36 0 1d1+1999 1d1+999 3d8+24 magic
+-30 -30 -30 -30
+FG ABCD 0 0
+stand stand female 0
+0 0 medium 0
+#3021
+guildmaster master~
+the guildmaster~
+Your guildmaster is standing here.
+~
+You are in no doubt that this guildmaster is truly close to your god; he has
+a peaceful, loving look. You notice that he is surrounded by a white aura.
+~
+human~
+BKQV CDEFHZ 1000 0
+36 0 1d1+1999 1d1+999 3d8+24 divine
+-30 -30 -30 -30
+EFHIK ABCD 0 0
+stand stand male 0
+0 0 medium 0
+#3022
+guildmaster master~
+the guildmaster~
+Your guildmaster is standing here.
+~
+You see your mighty guildmaster in his glowing suit of armour. He appears to
+be a formidable warrior and evidently, you are in capable hands.
+~
+human~
+BKSV DFZ 1000 0
+36 0 1d1+1999 1d1+199 3d8+24 punch
+-30 -30 -30 -30
+BEFHJN ABCD 0 0
+stand stand female 0
+0 0 medium 0
+#3023
+guildmaster master~
+the guildmaster~
+Your guildmaster is standing here.
+~
+This terrifying barbarian is fully equiped with bulging muscles and a long
+mane of black hair. His fearsome face is etched with wisdom, some of which
+you hope to make use of now......
+~
+dwarf~
+BKTV DF 1000 0
+36 0 1d1+1999 1d1+199 3d8+24 beating
+-35 -35 -35 -35
+ACDEIK ABCD 0 0
+stand stand male 0
+0 0 medium 0
+#3024
+sorcerer~
+the sorcerer~
+A sorcerer is guarding the entrance.
+~
+He is an experienced mage who has specialized in the field of Combat Magic.
+He is here to guard the Mage's Guild and his superior knowledge of offensive
+as well as defensive spells make him a deadly opponent.
+~
+elf~
+BRTV BDJ 800 0
+30 5 1d1+999 1d1+499 10d4+10 magic
+-25 -25 -25 -23
+AEG AB CD 0
+stand stand male 2000
+0 0 medium 0
+#3025
+templar~
+the knight templar~
+A knight templar is guarding the entrance.
+~
+He is a specially trained warrior belonging to the military order of the Faith.
+His duty is to protect the faithful from persecution and infidel attacks and
+his religious devotion combined with his superior skill makes him a deadly
+opponent.
+~
+human~
+BQTV DJ 800 0
+30 5 1d1+999 1d1+499 5d8+10 divine
+-25 -25 -25 -22
+DEIK AB CD 0
+stand stand male 2000
+0 0 medium 0
+#3026
+knight~
+the knight~
+An knight is guarding the entrance.
+~
+He is an expert warrior who has attained knighthood through countless
+chivalrous deeds.  His duty is to protect the Guild of Knights and his
+extreme skill combined with his experience in warfare makes him a deadly
+opponent.
+~
+human~
+BTV DFP 800 0
+30 8 1d1+999 1d1+99 4d10+12 pierce
+-27 -27 -27 -21
+BEFJN AB CD 0
+stand stand male 2000
+0 0 medium 0
+#3027
+barbarian~
+the barbarian~
+A barbarian is guarding the entrance.
+~
+The barbarian is a huge tower of tanned muscle, wearing a simple loin
+cloth. The sword he wields could take your head clean off, so you gotta ask
+yourself the question, "Do you feel lucky punk? Well, do ya?"
+~
+human~
+BTV DF 800 0
+30 10 1d1+999 1d1+199 11d4+10 punch
+-25 -25 -25 -19
+ACDEHIK AB CD 0
+stand stand male 2000
+0 0 medium 0
+#3040
+bartender~
+the bartender~
+A bartender watches you calmly, while he skillfully mixes a drink.
+~
+A tired looking Bartender who hates trouble in his bar.
+~
+human~
+BV 0 900 0
+23 0 1d1+499 1d1+99 1d8+18 beating
+-21 -21 -21 -15
+FHJN AB CD 0
+stand stand male 150
+0 0 medium 0
+#3041
+waiter~
+the waiter~
+A waiter is going around from one place to another.
+~
+A tired looking waiter.
+~
+human~
+BV 0 900 0
+23 0 1d1+499 1d1+99 1d8+18 beating
+-21 -21 -21 -15
+FHJN AB CD 0
+stand stand male 150
+0 0 medium 0
+#3042
+waiter~
+the waiter~
+A man who in his young days was a famous sorcerer but now leads a quiet,
+peaceful life as a waiter.
+~
+~
+human~
+BRV D 600 0
+23 0 1d1+499 1d1+99 1d8+18 beating
+-21 -21 -21 -15
+FJN AB CD 0
+stand stand male 150
+0 0 medium 0
+#3043
+waiter~
+the waiter~
+A waiter who seems to have reached contact with God.
+~
+~
+human~
+BQV 0 600 0
+23 0 1d1+499 1d1+99 1d8+18 beating
+-21 -21 -21 -15
+FHJN AB CD 0
+stand stand male 150
+0 0 medium 0
+#3044
+waiter~
+the waiter~
+A waiter who knows where all his customers keep their money.
+~
+~
+human~
+BSV 0 600 0
+23 0 1d1+499 1d1+99 1d8+18 beating
+-21 -21 -21 -15
+FHJN AB CD 0
+stand stand male 150
+0 0 medium 0
+#3045
+waiter~
+the waiter~
+A waiter who easily could kill you, and still carry quite a few firebreathers.
+~
+~
+human~
+BTV 0 600 0
+23 0 1d1+499 1d1+99 1d8+18 beating
+-21 -21 -21 -15
+BFHJN AB CD 0
+stand stand male 150
+0 0 medium 0
+#3046
+filthy~
+Filthy~
+Filthy is standing here, eager to serve you a special drink.
+~
+Filthy looks real, ehm, dirty. He likes to keep his costumers happy,
+but do not mess with him or else he'll get upset.
+~
+human~
+BSV 0 600 0
+23 2 1d1+499 1d1+99 1d8+18 beating
+-23 -23 -23 -19
+BEFJN AB CD 0
+stand stand male 200
+0 0 medium 0
+#3060
+cityguard guard~
+the cityguard~
+A cityguard stands here.
+~
+A big, strong, helpful, trustworthy guard.
+~
+human~
+CGT 0 1000 0
+15 3 15d15+160 1d1+149 2d4+4 punch
+-15 -15 -15 -7
+CDEKLTU 0 C 0
+stand stand male 150
+0 0 medium 0
+
+#3061
+janitor~
+the janitor~
+A janitor is walking around, cleaning up.
+~
+~
+human~
+GH 0 900 0
+1 0 2d6+10 1d1+99 1d5+1 pound
+-5 -5 -5 -5
+NU 0 0 C
+stand stand male 10
+0 0 medium 0
+
+#3062
+gutter rat~
+a gutter rat~
+A verminous gutter rat eyes you greedily and gnashes its teeth.
+~
+This small, grey-furred creature is a fine example of the vermin who
+roam the streets of cities like Midgaard. It has a long, pink tail and
+beady black eyes.
+~
+fido~
+FGHU 0 -200 0
+0 0 1d6+4 1d1+99 1d4+0 bite
+-5 -5 -5 -5
+0 0 0 0
+stand stand male 0
+0 0 small 0
+
+#3063
+vagabond~
+the vagabond~
+A vagabond is here, looking for victims.
+~
+He looks pretty mean.
+~
+human~
+CS 0 -200 0
+5 1 2d6+54 1d1+99 1d6+2 punch
+-8 -10 -10 -5
+BJNQ 0 0 C
+stand stand male 18
+0 0 medium 0
+#3064
+drunk~
+the drunk~
+A singing, happy drunk wanders around, singing about Moria.
+~
+A drunk who seems to be too happy, and to carry too much money.
+~
+human~
+G 0 400 0
+2 -1 2d6+22 1d1+99 1d6+0 beating
+-7 -7 -7 -5
+U 0 0 C
+stand stand male 65
+0 0 medium 0
+#3065
+beggar~
+the beggar~
+A beggar is here, asking for a few coins.
+~
+The beggar looks like she is fed up with life.
+~
+human~
+B 0 400 0
+1 0 2d6+10 1d1+99 1d5+1 beating
+-7 -7 -7 -5
+FJNU 0 0 C
+stand stand female 0
+0 0 medium 0
+#3066
+cat~
+an alley cat~
+An alley cat hisses at you.
+~
+The alley cat is half starved and more than a little feral.
+~
+cat~
+FGHU 0 -200 0
+0 1 1d6+4 1d1+99 1d4+1 scratch
+-7 -7 -7 -6
+DR 0 0 C
+stand stand male 0
+0 0 small 0
+#3067
+cityguard guard~
+the cityguard~
+A cityguard is here, guarding the gate.
+~
+A big, strong, helpful, trustworthy guard.
+~
+human~
+BT 0 1000 0
+15 3 15d15+150 1d1+149 2d4+4 punch
+-15 -15 -15 -7
+CDEKLTU 0 C 0
+stand stand male 150
+0 0 medium 0
+#3068
+cityguard guard~
+the cityguard~
+A cityguard is here, guarding the gate.
+~
+A big, strong, helpful, trustworthy guard.
+~
+human~
+BT 0 1000 0
+15 3 15d15+150 1d1+149 2d4+4 punch
+-15 -15 -15 -7
+CDEKLTU 0 C 0
+stand stand male 150
+0 0 medium 0
+#3069
+cityguard guard~
+the cityguard~
+A cityguard is here, guarding the mayor.
+~
+A big, strong, helpful, trustworthy guard.
+~
+human~
+BT BQ 1000 0
+20 4 20d20+180 1d1+199 2d4+7 punch
+-19 -21 -21 -15
+CDEHKLTU 0 C 0
+stand stand male 500
+0 0 medium 0
+#3070
+shopkeeper old man~
+the ancient potion-brewer~
+An old man eyes you greedily.
+The old man says, 'Would you like to buy a nice love potion?'
+~
+He looks very dangerous.  I wouldn't try to rob him.
+~
+human~
+BQRV DEF 1000 0
+32 0 1d1+999 1d1+999 10d10+10 magic
+-30 -30 -30 -30
+FGH ABCD 0 0
+stand stand male 5000
+0 0 medium 0
+#3071
+cityguard guard~
+the cityguard~
+A cityguard is here, guarding the gate alertly.
+~
+A big, strong, helpful, trustworthy guard.
+~
+human~
+BT 0 1000 0
+15 3 15d15+160 1d1+149 2d4+4 punch
+-15 -15 -15 -7
+CDEKLTU 0 C 0
+stand stand male 150
+0 0 medium 0
+#3072
+cityguard guard~
+the cityguard~
+A cityguard is here, guarding the gate.  He is half asleep.
+~
+A big, strong, helpful, trustworthy guard.
+~
+human~
+BT 0 1000 0
+15 3 15d15+150 1d1+149 2d4+4 punch
+-15 -15 -15 -7
+CDEKLTU 0 C 0
+stand stand male 150
+0 0 medium 0
+#3090
+kitten cat pet~
+the kitten~
+A small loyal kitten is here.
+~
+The kitten looks like a cute, little, fierce fighter.
+~
+cat~
+BU 0 400 0
+1 2 2d6+11 1d1+99 1d4+0 scratch
+-7 -7 -7 -5
+0 0 C 0
+stand stand male 0
+0 0 tiny 0
+#3091
+puppy dog pet~
+the puppy~
+A small loyal puppy is here.
+~
+The puppy looks like a cute, little, fierce fighter.
+~
+dog~
+BU F 400 0
+3 2 4d6+25 1d1+99 1d6+0 bite
+-8 -8 -8 -5
+N 0 C 0
+stand stand male 0
+0 Q S 0
+#3092
+beagle dog pet~
+the beagle~
+A small, quick, loyal beagle is here.
+~
+The beagle looks like a fierce fighter.
+~
+dog~
+BU F 400 0
+5 3 3d12+50 1d1+99 1d6+0 bite
+-10 -10 -10 -6
+N 0 C 0
+stand stand male 0
+0 Q S 0
+#3093
+rottweiler dog pet~
+the rottweiler~
+A large, loyal rottweiler is here.
+~
+The rottweiler looks like a strong, fierce fighter.
+~
+dog~
+BU F 400 0
+7 3 6d10+60 1d1+149 2d4+1 bite
+-11 -11 -11 -7
+CDL 0 C 0
+stand stand male 0
+0 0 medium 0
+#3094
+wolf pet~
+the wolf~
+A large, trained wolf is here.
+~
+The wolf looks like a strong, fearless fighter.
+~
+wolf~
+BU F 0 0
+9 3 6d10+80 1d1+99 2d5+1 bite
+-11 -11 -11 -7
+C 0 C 0
+stand stand male 0
+0 0 medium 0
+#3100
+maid~
+the maid~
+The maid is waiting for your order.
+~
+She is very beautiful with golden hair, and deep blue eyes. A good reason
+for coming here more often.
+~
+human~
+BV 0 1000 0
+23 2 1d1+499 1d1+99 1d8+12 beating
+-30 -30 -30 -30
+FG AB CD 0
+stand stand female 180
+0 0 medium 0
+#3120
+sexton~
+the sexton~
+A sexton is sitting here, drinking hot tea.
+~
+The sexton looks like he is relaxing after another grave-digging job.
+~
+human~
+BH 0 800 0
+3 0 2d6+35 1d1+99 1d7+0 punch
+-8 -8 -8 -5
+0 0 0 C
+sit sit male 75
+0 0 medium 0
+#3121
+swan~
+the swan~
+A swan is swimming around in the pond.
+~
+The white swan is very elegant.
+~
+water fowl~
+BU 0 1000 0
+1 0 2d6+10 1d1+99 1d5+0 peck
+-7 -7 -7 -5
+CFR 0 R C
+stand stand male 0
+0 0 small 0
+#3122
+duckling~
+the duckling~
+A duckling is swimming around in the pond.
+~
+The duckling is adorable, it looks most of all like a tiny furball.
+~
+water fowl~
+BU 0 1000 0
+0 0 1d4+0 1d1+99 1d1+0 peck
+-5 -5 -5 -5
+FR 0 R C
+stand stand male 0
+0 0 tiny 0
+#3123
+sparrow~
+the sparrow~
+A sparrow is flapping around on the ground.
+~
+The sparrow looks like it is enjoying life.
+~
+song bird~
+GHU 0 1000 0
+0 0 2d6+0 1d1+99 1d3+0 peck
+-5 -5 -5 -5
+R 0 0 C
+stand stand male 0
+0 0 tiny 0
+#3124
+duck~
+the duck~
+A duck is here, quacking happily.
+~
+The duck is quite fat.  It looks like it is enjoying life.
+~
+water fowl~
+GU 0 1000 0
+1 0 2d6+5 1d1+99 1d4+0 peck
+-5 -5 -5 -5
+FR 0 R C
+stand stand male 0
+0 0 small 0
+#3140
+captain~
+the captain~
+The captain of the guard is looking very upset.
+~
+A big, strong, angry captain.
+~
+human~
+BCFT D 1000 0
+17 4 15d15+190 1d1+199 2d4+6 punch
+-17 -17 -17 -9
+CDEHKLU 0 C 0
+stand stand male 500
+0 0 medium 0
+#3141
+cityguard guard~
+the cityguard~
+A cityguard stands here, looking very upset.
+~
+A big, strong, angry guard.
+~
+human~
+BCFT 0 1000 0
+15 3 15d15+10 1d1+149 2d4+4 punch
+-15 -15 -15 -7
+CDEHKLU 0 C 0
+stand stand male 150
+0 0 medium 0
+#3142
+secretary~
+the secretary~
+A secretary is sitting at the desk.
+~
+She looks very busy.
+The Secretary says 'Sorry, but the Mayor is extremely busy today'.
+The Secretary says 'Please sit down and have a seat in the meantime'.
+~
+human~
+B 0 900 0
+12 2 4d12+148 1d1+99 2d7+1 slap
+-15 -15 -15 -7
+FHI 0 0 0
+sit sit female 100
+0 0 medium 0
+#3143
+mayor~
+the mayor~
+The mayor is here.  He shakes your hand.
+~
+He is a stocky, middle-aged man with thin, grey hair.
+~
+human~
+BL N 900 0
+23 6 6d10+500 1d1+199 1d8+12 punch
+-30 -30 -30 -30
+EFNS AB CD 0
+sleep sleep male 1000
+0 0 medium 0
+#3144
+crier~
+the town crier~
+The town crier is here, weeping quietly.
+~
+He is very good at his job - completely dissolved in tears.
+~
+human~
+H 0 900 0
+1 0 2d6+10 1d1+99 1d5+0 slap
+-5 -5 -5 -5
+D 0 0 C
+stand stand male 14
+0 0 medium 0
+#3150
+esme waitress~
+Esme~
+Esme the waitress hums to herself and wonders what you'd like to order.
+~
+Esme brushes a lock of dark hair away from her wire-rimmed glasess and
+smiles warmly at you.
+~
+human~
+BV 0 900 0
+25 0 1d1+999 1d1+199 1d8+10 slap
+-30 -30 -30 -30
+FG ABCD 0 0
+stand stand female 1000
+0 0 medium 0
+#3160
+melancholy mel~
+Melancholy~
+Melancholy is here, digging through a pile of scrolls, papers, and maps.
+~
+Ragged brown hair frames a ghostly, pale face.  Puffy eyelids surround two
+sky blue, haunting eyes.  An old, brown robe is wrapped around her frail
+frame.  She looks up from her pile of papers and maps and looks inquiringly
+at you, smiling faintly.
+~
+human~
+BV 0 900 0
+25 0 1d1+999 1d1+199 5d6+20 slap
+-30 -30 -30 -30
+FG ABCD 0 0
+stand stand female 1000
+0 0 medium 0
+#3161
+lister green tree snake~
+Lister~
+A green tree snake is sitting here on a pile of books.
+~
+This is Melancholy's pet tree snake, Lister.  Something seems odd about his
+jaw, almost as if he were smiling at you.  He's quite friendly, but don't
+get him drunk.
+~
+snake~
+BV D 200 0
+15 3 11d10+200 1d1+99 4d6+4 bite
+-21 -20 -17 -11
+FHNR 0 F 0
+stand stand male 0
+0 0 small 0
+#3162
+aquila tamed eagle~
+Aquila~
+A tamed eagle perches on a wall.
+~
+The dark brown feathers of Aquila's wings stand in contrast 
+to the bright white plume of her head. Her pale yellow eyes gaze intently, taking 
+in every movement nearby. Her bright yellow beak curves to a fine point and
+the hardened sinews of her talons twitch rhythmically.
+~
+bird~
+BV CDFJZ 1000 0
+80 30 10d100+2500 1d1+99 5d6+30 claw
+-40 -40 -40 -32
+FHQT ABP C 0
+stand stand female 0
+0 0 small 0
+#3163
+astradamus summoner~
+Astradamus the Summoner~
+Astradamus the Summoner kneels before the summoning stone. 
+~
+Astradamus is a berobed druid with a bald head. You see that where his eyes once
+were, only a pair of blackened sockets now remain and it leaves you wondering what
+happened to him.
+
+His palms rest gently on the great summoning stone and filaments of light
+from its runes appear to meld with his fingers.
+~
+human~
+BV DFH 1000 0
+75 0 1d1+999 1d1+999 2d4+30 divine
+-35 -30 -30 -30
+FHIK ABCD 0 0
+stand stand male 5000
+0 0 medium 0
+#0
+
+
+
+#OBJECTS
+#3000
+barrel beer~
+a barrel of beer~
+A beer barrel has been left here.~
+wood~
+drink 0 A
+50 50 'beer' 0 0
+0 25 300 P
+#3001
+bottle beer~
+a bottle of beer~
+A beer bottle has been left here.~
+glass~
+drink 0 A
+8 8 'beer' 0 0
+0 2 20 P
+#3002
+bottle ale~
+a bottle of ale~
+A dark bottle of ale has been left here.~
+glass~
+drink 0 A
+8 8 'ale' 0 0
+0 2 10 P
+#3003
+bottle firebreather~
+a bottle of firebreather~
+A bottle of firebreather has been left here.~
+glass~
+drink 0 A
+8 8 'firebreather' 0 0
+0 2 50 P
+#3004
+bottle local~
+a bottle of local specialty~
+A dark bottle has been left here.~
+glass~
+drink 0 A
+8 8 'local specialty' 0 0
+0 2 20 P
+#3005
+clawfist~
+Clawfist~
+A golden claw catches the light.~
+adamantite~
+armor BIU HA
+19 18 19 20 0
+80 20 3000 P
+A
+18 5
+A
+19 5
+E
+clawfist~
+This object is shaped like a claw featuring several talons and it's is about the
+size of a human hand. It's plated in gold yet between each claw and at the base
+you can see that it is formed from a darker, harder metal. Judging by the pits
+and scratches this is no ornament.
+~ 
+#3009
+potpie pot pie~
+a big pot pie~
+A big pot pie has been left here.~
+food~
+food 0 A
+40 0 0 0 0
+0 2 40 P
+#3010
+pit~
+the donation pit~
+A pit for sacrifices is in front of the altar.~
+~
+container O 0
+10000 0 0 1000 0
+0 0 0  P
+E
+pit~
+This donation pit is use for the good of everyone. Bring items to it
+so that others may reap their benefits. 
+~
+#3011
+bread~
+a bread~
+A loaf of bread is here. It doesn't look too stale.~
+food~
+food 0 A
+10 0 0 0 0
+0 1 10 P
+#3012
+cinnamon roll~
+a cinnamon roll~
+A piping hot cinnamon roll is here. It looks delicious!~
+food~
+food 0 A
+13 0 0 0 0
+0 1 13 P
+#3013
+biscuits~
+a packet of Cholmondley-Warner's finest biscuits~
+A packet of biscuits lies here.~
+food~
+food 0 A
+18 0 0 0 0
+0 1 18 P
+#3014
+danish blueberry~
+a blueberry danish~
+A scrumptious blueberry danish is here.~
+food~
+food 0 A
+15 0 0 0 0
+0 1 15 P
+#3020
+thin dagger~
+a thin dagger~
+A dagger with a long thin blade is here.~
+steel~
+weapon 0 AN
+'dagger' 1 4 'stab' 0
+0 1 10 G
+#3021
+sword small~
+a small sword~
+A small sword lies here.~
+steel~
+weapon 0 AN
+'sword' 1 5 'slice' 0
+0 3 60 G
+#3022
+sword long~
+a long sword~
+A long sword has been left here.~
+steel~
+weapon 0 AN
+'sword' 2 5 'slash' 0
+7 5 250 G
+#3023
+club~
+a club~
+A stout wooden club is here.~
+wood~
+weapon 0 AN
+'mace' 1 7 'pound' 0
+3 3 25 G
+A
+18 -1
+#3024
+mace steel~
+a steel mace~
+A steel mace is here.~
+steel~
+weapon 0 AN
+'mace' 2 4 'pound' 0
+6 10 70 G
+A
+19 1
+#3025
+axe hand~
+a hand axe~
+A small hand axe lies forgotten on the floor.~
+iron~
+weapon 0 AN
+'axe' 1 6 'chop' 0
+0 5 50 G
+#3026
+axe battle~
+a battle axe~
+A large steel axe rests on the ground.~
+steel~
+weapon 0 AN
+'axe' 2 5 'chop' F
+7 9 200 G
+#3027
+spear~
+a spear~
+A long spear leans against the wall.~
+steel~
+weapon 0 AN
+'spear' 1 8 'pierce' 0
+4 5 50 G
+#3028
+wooden staff~
+a wooden staff~
+A stout wooden staff lies on the floor.~
+wood~
+weapon 0 AN
+'spear' 1 8 'pound' F
+4 4 40 G
+A
+17 -2
+#3029
+flail~
+a flail~
+A small iron flail is here.~
+iron~
+weapon 0 AN
+'flail' 1 7 'pound' 0
+3 5 50 G
+A
+17 1
+#3030
+torch~
+a torch~
+A large torch.~
+wood~
+light 0 A
+0 0 50 0 0
+0 1 10 G
+#3031
+hooded brass lantern~
+a hooded brass lantern~
+A hooded brass lantern has been left here.~
+brass~
+light 0 A
+0 0 250 0 0
+0 4 60 P
+E
+lantern~
+It is a large and robust but somewhat battered oil lantern made from brass,
+equipped with a handle to make it handy and a hood to protect its flame.
+Some letters have been scratched on its bottom.
+~
+E
+letters~
+They say, "Use 'hold lantern' to activate."
+~
+#3032
+bag~
+a bag~
+A small bag.~
+leather~
+container 0 A
+50 0 0 5 0
+0 2 20 G
+#3033
+box~
+a box~
+A small box.~
+wood~
+container 0 A
+10 0 0 5 0
+0 3 50 G
+#3039
+scroll cancellation~
+a scroll of cancellation~
+A rolled vellum scroll is here.~
+vellum~
+scroll G AO
+15 507 0 0 0
+0 1 2400 P
+E
+scroll~
+Use this scroll to remove magical curses.
+~
+#3040
+scroll identify~
+a scroll of identify~
+A scroll has carelessly been left here.~
+vellum~
+scroll G AO
+12 53 0 0 0
+5 1 2000 P
+E
+scroll identify~
+The scroll has a magic formula drawn upon it:
+     ???
+    ?   ?
+       ?
+      ?
+      ?
+      *
+~
+#3041
+potion yellow~
+a yellow potion of see invisible~
+A small yellow potion has carelessly been left here.~
+glass~
+potion G AO
+12 19 0 0 0
+0 1 400 P
+E
+potion yellow~
+The potion has a small label 'Detect The Invisible'.
+~
+#3042
+scroll recall~
+a scroll of recall~
+A scroll has carelessly been left here.~
+vellum~
+scroll G AO
+20 42 0 0 0
+0 2 2000 P
+E
+scroll~
+The scroll has written a formula of 'Word of Recall' upon it.
+~
+#3043
+ring protection~
+a ring of protection~
+an enchanted ring of protection sits on the floor.~
+silver~
+treasure G AB
+0 0 0 0 0
+5 1 5000 P
+E
+ring~
+It's a silver ring set with a gleaming moonstone.
+~
+A
+17 -2
+A
+24 -1
+#3044
+wand magic missile missiles~
+a wand of magic missiles~
+a wooden stick lies on the ground.~
+wood~
+wand G AO
+4 10 10 32 0
+0 1 4000 P
+E
+wand~
+It has a little note that says 'point this end at target'.
+~
+#3045
+jacket scale mail~
+a scale mail jacket~
+A scale mail jacket is lying on the ground.~
+steel~
+armor 0 AD
+3 4 4 0 2
+5 16 600 G
+#3046
+bronze breast plate~
+a bronze breast plate~
+A bronze breast plate is lying on the ground.~
+bronze~
+armor 0 AD
+6 5 7 0 5
+15 20 7000 G
+#3050
+raft~
+a raft~
+A raft has been left here.~
+wood~
+boat 0 A
+0 0 0 0 0
+0 75 400 A
+E
+raft~
+The raft looks very primitive.
+~
+#3051
+canoe~
+a canoe~
+A canoe has been left here.~
+wood~
+boat 0 A
+0 0 0 0 0
+0 32 1000 G
+E
+canoe~
+The canoe is fairly light.
+~
+#3052
+bracer strong leather~
+a leather bracer~
+A strong leather bracer is here.~
+leather~
+armor 0 AM
+0 2 2 0 0
+0 1 80 G
+#3053
+belt leather~
+a leather belt~
+A soft leather belt is here.~
+leather~
+armor 0 AL
+1 2 2 0 0
+0 1 50 G
+#3054
+girdle leather~
+a leather girdle~
+A wide leather girdle is here.~
+leather~
+armor 0 AL
+1 3 3 0 1
+3 2 100 G
+#3060
+jerkin leather~
+a leather jerkin~
+A leather jerkin is lying on the ground.~
+leather~
+armor 0 AD
+1 2 2 0 0
+0 5 100 G
+#3061
+cap leather~
+a leather cap~
+A leather cap is lying on the ground.~
+leather~
+armor 0 AE
+1 2 2 0 0
+0 1 50 G
+#3062
+pants leather~
+a pair of leather pants~
+A pair of leather pants is lying on the ground.~
+leather~
+armor 0 AF
+1 2 2 0 0
+0 5 50 G
+#3063
+boots leather~
+a pair of leather boots~
+A pair of leather boots lies here.~
+leather~
+armor 0 AG
+1 2 2 0 0
+0 3 50 G
+#3064
+gloves leather~
+a pair of leather gloves~
+A pair of leather gloves is lying on the ground.~
+leather~
+armor 0 AH
+1 2 2 0 0
+0 1 50 G
+#3065
+sleeves leather~
+a pair of leather sleeves~
+A pair of leather sleeves is lying on the ground.~
+leather~
+armor 0 AI
+1 2 2 0 0
+0 3 50 G
+#3066
+jerkin hard leather~
+a hard leather jerkin~
+A hard leather jerkin is lying on the ground.~
+leather~
+armor 0 AD
+1 3 3 0 1
+3 8 200 G
+#3067
+cap hard leather~
+a hard leather cap~
+A hard leather cap is lying on the ground.~
+leather~
+armor 0 AE
+1 3 3 0 0
+3 2 100 G
+#3068
+pants hard leather~
+a pair of hard leather pants~
+A pair of hard leather pants is lying on the ground.~
+leather~
+armor 0 AF
+1 3 3 0 1
+3 7 100 G
+#3069
+boots hard leather~
+a pair of hard leather boots~
+A pair of hard leather boots lies here.~
+leather~
+armor 0 AG
+1 3 3 0 1
+3 4 100 G
+#3070
+gloves hard leather~
+a pair of hard leather gloves~
+A pair of hard leather gloves is lying on the ground.~
+leather~
+armor 0 AH
+1 3 3 0 1
+3 1 100 G
+#3071
+sleeves hard leather~
+a pair of hard leather sleeves~
+A pair of hard leather sleeves is lying on the ground.~
+leather~
+armor 0 AI
+1 3 3 0 1
+3 4 100 G
+#3072
+jerkin scale mail~
+a scale mail jerkin~
+A scale mail jerkin is lying on the ground.~
+steel~
+armor 0 AD
+3 4 4 0 2
+5 14 500 P
+#3073
+coif scale mail~
+a scale mail coif~
+A scale mail coif is lying on the ground.~
+steel~
+armor 0 AE
+3 4 4 0 1
+5 4 250 P
+#3074
+long skirt scale mail~
+a long scale mail skirt~
+A long scale mail skirt is lying on the ground.~
+steel~
+armor 0 AF
+3 4 4 0 2
+5 8 250 P
+#3075
+boots reinforced~
+a pair of reinforced boots~
+A pair of reinforced boots lies here.~
+leather~
+armor 0 AG
+3 4 4 0 2
+5 4 250 P
+#3076
+gloves reinforced~
+a pair of reinforced gloves~
+A pair of reinforced gloves is lying on the ground.~
+leather~
+armor 0 AH
+3 4 4 0 2
+5 2 250 P
+#3077
+sleeves scale mail~
+a pair of scale mail sleeves~
+A pair of scale mail sleeves is lying on the ground.~
+steel~
+armor 0 AI
+3 4 4 0 2
+5 6 250 P
+#3080
+potion heal healing~
+a potion of healing~
+A potion of healing is here.~
+glass~
+potion G AO
+20 28 0 0 0
+15 5 2000 P
+#3081
+potion sanct sanctuary~
+a potion of sanctuary~
+A potion of sanctuary is here.~
+glass~
+potion G AO
+20 36 0 0 0
+10 5 2500 P
+#3082
+potion divine~
+a potion of divine protection~
+A potion of divine protection is here.~
+crystal~
+potion ABGI AO
+35 36 66 1 0
+20 5 9500 P
+#3083
+potion cure light~
+a potion of cure light wounds~
+A potion of cure light wounds is here.~
+glass~
+potion G AO
+5 16 0 0 0
+0 4 50 P
+#3084
+potion cure serious~
+a potion of cure serious wounds~
+A potion of cure serious wounds is here.~
+glass~
+potion G AO
+10 61 0 0 0
+5 5 150 P
+#3085
+potion cure critical critic~
+a potion of cure critical wounds~
+A potion of cure critical wounds is here.~
+glass~
+potion G AO
+15 15 0 0 0
+8 5 500 P
+#3086
+potion antidote bottle~
+a bottle of antidote~
+A bottle of antidote is here.~
+clay~
+potion G AO
+14 43 16 501 0
+0 5 150 P
+#3087
+potion cure blindness~
+a potion of cure blindness~
+A potion of cure blindness is here.~
+glass~
+potion G AO
+13 14 0 0 0
+0 5 100 P
+#3088
+vial holy water~
+a vial of holy water~
+A vial of holy water is here.~
+crystal~
+potion AGI AO
+20 3 34 35 0
+5 5 1500 P
+#3089
+potion armor~
+a potion of armor~
+A potion of armor is here.~
+glass~
+potion G AO
+10 1 0 0 0
+0 5 250 P
+#3090
+potion negation~
+a potion of negation~
+A potion of negation is here.~
+glass~
+potion BG AO
+35 507 0 0 0
+0 5 500 P
+#3091
+potion fly flying~
+a potion of flying~
+A potion of flying is here.~
+glass~
+potion G AO
+9 56 0 0 0
+0 5 100 P
+#3092
+potion true sight~
+a potion of true sight~
+A potion of true sight is here.~
+glass~
+potion G AO
+10 19 20 44 0
+0 5 250 P
+
+#3097
+shield small metal~
+a small metal shield~
+A small metal shield is lying on the ground.~
+steel~
+armor 0 AJ
+4 4 4 1 2
+5 3 500 P
+
+#3098
+scroll parchment page~
+a page from Book II, Lore of Xania~
+A piece of ancient, curled parchment lies before you.~
+vellum~
+scroll ABI AO
+1 calm~ 0 0 0 
+1 1 1 A
+E
+scroll parchment page~
+Xania is  a land  which was once  populated by  the ancient Iscarians.
+Legend has it that this race of people  held a culture of great beauty
+and wisdom. It was their early efforts at  creating a peaceful, lawful
+society which resulted in cities such as Midgaard being founded in the
+otherwise barbarous Xanian  lands. Their original temple still  stands
+today in Midgaard   and it is  there  where  you can see  some  of the
+examples of the Iscarian livelihood. 
+
+Many an  age has passed since the  construction of the city and during
+that time, evil  infiltrated the works of  the Iscarians. It came from
+the  wild outlands, manifested  in the form of blood-crazed barbarians
+who brought unparalleled terror to the innocent and death to those who
+did not submit. 
+
+Nobody really knows the source of this  potent malice, but Midgaardian
+scholars who have studied the stars have come to  a concensus that the
+Iscarians were a   race doomed to  destruction ever   since their very
+creation. For it  is believed that the source   of their demise  was a
+fundamental floor  in  the design  of the  cosmos itself; something so
+powerful that even the mighty  Isca-sorceri, the Iscarians learned  in
+the ways of magic, were unable to thwart its progress. 
+
+Apart from the Temple  of Isca and a  few  of the tomes  detailing the
+Lore of Xania, there is very little left of the Iscarians today. A few
+scattered   peoples roam  the  land   claiming  that  they are  direct
+descendants   of Isca but few   acknowledge  this, and  some, such  as
+disciples of   the Great Wyrm,   hold a  completely different  view of
+Xanian history and hold the Iscarians in contempt.
+~
+
+#3100
+tea cup~
+a cup of tea~
+A cup has been set here.~
+china~
+drink 0 A
+2 2 'tea' 0 0
+0 1 5 P
+E
+cup~
+It is a small simple cup.
+~
+#3101
+coffee cup~
+a cup of coffee~
+A cup has been set here.~
+china~
+drink 0 A
+2 2 'coffee' 0 0
+0 1 7 P
+E
+cup~
+It is a small simple cup.
+~
+#3102
+water cup~
+a cup of water~
+A cup has been set here.~
+clay~
+drink 0 A
+3 3 'water' 0 0
+0 1 1 P
+E
+cup~
+It is a large simple cup.
+~
+#3105
+bracer bronze~
+a bronze bracer~
+A bronze bracer is lying on the ground.~
+bronze~
+armor 0 AM
+3 6 6 0 3
+15 3 2500 G
+#3106
+bracer iron~
+an iron bracer~
+An iron bracer is lying on the ground.~
+iron~
+armor 0 AM
+3 7 7 0 3
+18 4 5000 G
+#3110
+shirt chain mail~
+a chain mail shirt~
+A chain mail shirt is lying on the ground.~
+steel~
+armor 0 AD
+5 4 5 0 3
+10 18 1000 P
+#3111
+coif chain mail~
+a chain mail coif~
+A chain mail coif is lying on the ground.~
+steel~
+armor 0 AE
+5 4 5 0 2
+10 5 500 P
+#3112
+skirt chain mail~
+a long chain mail skirt~
+A long chain mail skirt is lying on the ground.~
+steel~
+armor 0 AF
+5 4 5 0 3
+10 10 500 P
+#3113
+boots iron-bound~
+a pair of iron-bound boots~
+A pair of iron-bound boots lies here.~
+iron~
+armor 0 AG
+5 4 5 0 3
+10 6 500 P
+#3114
+gauntlets chain mail~
+a pair of chain mail gauntlets~
+A pair of chain mail gauntlets is lying on the ground.~
+steel~
+armor 0 AH
+5 4 5 0 3
+10 4 500 P
+#3115
+sleeves chain mail~
+a pair of chain mail sleeves~
+A pair of chain mail sleeves is lying on the ground.~
+steel~
+armor 0 AI
+5 4 5 0 3
+10 8 500 P
+#3116
+shield large metal~
+a large metal shield~
+A large metal shield is lying on the ground.~
+steel~
+armor 0 AJ
+5 5 5 2 4
+10 10 1000 P
+#3117
+shield small wooden~
+a small wooden shield~
+A small wooden shield is lying on the ground.~
+wood~
+armor 0 AJ
+4 3 2 1 1
+3 2 100 P
+#3120
+key iron~
+a key~
+An iron key has been left here.~
+iron~
+key 0 A
+0 0 0 0 0
+0 1 0 G
+E
+key iron~
+The iron key is not special.
+~
+#3121
+key rusty~
+a key~
+A rusty key has been left here.~
+iron~
+key 0 A
+0 0 0 0 0
+0 1 0 W
+E
+key rusty~
+The key is a fairly large rusty key.  You notice some fresh dirt on it.
+~
+#3122
+key wooden~
+a key~
+A wooden key has been left here.~
+wood~
+key 0 A
+0 0 0 0 0
+0 1 0 G
+E
+key wooden~
+The wooden key is not special.
+~
+#3123
+key brass~
+a key~
+A brass key has been left here.~
+brass~
+key 0 A
+0 0 0 0 0
+0 1 0 G
+E
+key brass~
+The brass key is small and looks like it fits a very complicated lock.
+~
+#3124
+sword long~
+a long sword~
+A long sword has been left here.~
+steel~
+weapon 0 AN
+'sword' 2 5 'slash' D
+10 5 600 P
+E
+sword long~
+This is the ceremonial sword of the Mayor of Midgaard.
+~
+#3129
+hand cuffs~
+a pair of hand cuffs~
+A pair of hand cuffs has been left here.~
+iron~
+trash 0 AO
+0 0 0 0 0
+0 4 200 A
+#3130
+desk drawer~
+the desk~
+A desk is set against the western wall.~
+wood~
+container 0 0
+34 15 3122 20 0
+0 100 0 G
+E
+desk drawer~
+The desk looks very sparse, there is a drawer in the left side.
+~
+E
+drawer~
+You notice a keyhole in the drawer.
+~
+#3131
+safe~
+the safe~
+A safe is placed in a dark corner of the room.
+The safe has a keyhole.~
+iron~
+container 0 0
+34 15 3123 20 0
+0 100 0 G
+E
+safe~
+The safe is very heavy.
+~
+#3132
+gold coins~
+the gold~
+A lot of gold is here.~
+gold~
+money 0 A
+26192 0 0 0 0
+0 0 26192 P
+E
+gold coins~
+Looks like at least 10,000 coins.~
+#3133
+city key~
+the City Key~
+The very big City Key is lying here.
+It is probably the biggest key you have seen in your life.  It is made from
+polished gold and has various patterns on it along with the Midgaard Coat of
+Arms.~
+gold~
+key 0 A
+0 0 0 0 0
+0 25 10000 G
+#3134
+bench~
+the Bench~
+A white-painted wooden bench is standing here.~
+wood~
+furniture 0 0
+0 0 0 0 0
+0 100 600 G
+E
+bench~
+It is a quite heavy but very comfortable bench.  It is placed with its front
+towards the river so you can sit and watch the river and the houses on the
+other side.
+~
+#3135
+fountain water~
+a fountain~
+A small white fountain gushes forth here.~
+~
+fountain 0 0
+50 50 0 0 0
+0 500 3000 G
+E
+fountain~
+It is very nice.  Made from fine white marble.
+~
+#3136
+coins gold~
+a small pile of gold coins~
+A small pile of gold coins lies here.~
+gold~
+money 0 1
+20 0 0 0 0
+0 0 20 P
+#3137
+key steel~
+a steel key~
+A large steel key has been left here.~
+steel~
+key 0 A
+0 0 0 0 0
+0 1 0 G
+E
+key steel~
+A key of this size must fit a very strong lock.
+~
+#3138
+skin water buffalo~
+a buffalo water skin~
+A bloated dead buffalo is on the floor.~
+leather~
+drink 0 A
+20 20 'water' 0 0
+0 5 30 G
+#3139
+letter resignation~
+the receptionist's letter of resignation~
+The receptionist's letter of resignation is taped to the wall.~
+paper~
+furniture 0 0
+0 0 0 0 0
+0 0 0 P
+E
+letter resignation~
+The letter is written in a bold and feminine Carolinian hand.
+
+    To whom it may concern,
+
+        Merc Industries has installed a new no-rent save and quit
+        system.  Apparently one can now save and quit at any time
+        from anywhere inside a town or out.  My services here are
+        no longer required.
+
+    Diana the Receptionist
+~
+#3140
+notice liquidation bank~
+the bank's notice of liquidation~
+The bank's notice of liquidation is taped to the wall.~
+paper~
+furniture 0 0
+0 0 0 0 0
+0 0 0 P
+E
+notice liquidation bank~
+The letter is written in a reserved and dignified Spencer hand.
+
+    To whom it may concern,
+
+        Merc Industries has charmed your money.  Apparently one's
+        gold will remain close, even beyond death. We are closing
+        down our offices and ATM machines.  Our services here are
+        no longer required.
+
+    Midgaard City Bank
+~
+#3150
+coffee cup cinnamon~
+a cup of cinnamon coffee~
+A piping hot cup of cinnamon coffee is here.~
+china~
+drink 0 A
+3 3 'coffee' 0 0
+0 1 25 P
+E
+coffee~
+It's a nice flavorful blend, just right for late-night mudding sessions.
+~
+#3151
+soup bowl~
+a bowl of chicken noodle soup~
+A nice hot bowl of chicken noodle soup is here.~
+wood~
+food 0 A
+8 0 0 0 0
+0 2 30 P
+E
+soup~
+This looks like just the thing for a cold!
+~
+#3152
+stew beef bowl~
+a bowl of beef stew~
+A bowl of nice thick beef stew, with lots of veggetables, sits here.~
+clay~
+food 0 A
+25 0 0 0 0
+0 3 50 P
+E
+stew~
+This is Kate's special stew, guaranteed to keep hunger pangs away for many
+hours.  Care for a bite?
+~
+#3153
+breadstick bread stick~
+a breadstick~
+A yummy breadstick, covered with sesame seeds, is here.~
+food~
+food 0 A
+4 0 0 0 0
+0 1 5 P
+E
+breadstick~
+A nice, crunchy breadstick with just enough seasoning.  Better buy two.
+~
+#3154
+beer bottle george killian's irish red~
+a bottle of George Killian's Irish Red~
+A dark-tinted bottle of beer is here.~
+glass~
+drink 0 A
+8 8 'beer' 0 0
+0 2 20 P
+E
+beer bottle~
+It's a fine beer for serious drinkers, complete with the famous horse head
+logo.  Worth every penny.
+~
+#3161
+key white~
+a white key~
+A white key has been left here.~
+ivory~
+key 0 AO
+0 0 0 0 0
+0 1 0 G
+#3162
+map midgaard~
+a map of the city of Midgaard~
+A rolled up map is here.~
+paper~
+map 0 A
+1 0 0 0 0
+0 1 100 P
+E
+map midgaard~
+.
+                        * * * MIDGAARD * * *
+                         = = ========== = =
+                       (C) ROM, Mapped by Ezra
+
+                                     Rainbow Bridge (Asgard and Valhalla)
+                                    /
+          North            Temple Altar   Mud School <--- ** NEWBIES **
+            |   /Up        (Healer, Pit,      |           ** GO HERE **
+            | /                Tomb)     /Entrace to
+     West---+---East             |      /  Mud School
+          / |                 Temple of       |
+    Down/   |                   Isca        Arena
+          South               (Recall)
+                                 |
+                                 |   /In the Air   /Defunct Reception
+                  Cleric         | /             /
+       Northern   Guild----Temple Square---Imperial---Bar    Northern
+       Midgaard              (Fountain)    Tavern            Midgaard
+        (Empty)  Magic           |                           (Empty)
+           |     Shop   Bakery   |    Grocer    Weaponsmith     |
+           |       |      |      |       |           |          |
+To    <---West---Main-Street---Market----Main-Street-+--------East--->Cross
+Shire,    Gate     |      |    Square    |           |        Gate    Roads
+Forest of  |     Mage  Armoury   |     Jeweler   Barbarian      |
+Hoan-Dor   |     Guild           |                 Guild     Wall Road
+          Wall                   |                              |
+          Road  Leather  Map     |    Grebe's  Pet   Apothecary |
+           |     Shop    Shop    |    Tavern   Shop  (Potions)  |
+           |      |       |    Common   |       |       |       |
+          Wall---Poor-Alley----Square---Dark-Alley------+----Wall Road
+          Road    |       |      |      |       |       |       |
+           |   Temple   Grubby   |   Knights  Levee   Warehouse |
+           |  Of Stupid  Inn     |    Guild   (Boats) (Sailor)  |
+           |                    Dump            |               |
+          Wall  Mob      Sewers/ |              |             Wall
+          Road--Factory          |              |             Road
+           |                   South         Midgaard           |         To the
+         Bridge                Bridge         River---------> Bridge <--> Sands
+           |                     |                              |           of
+        Southern              Southern                       Southern     Sorrow
+        Midgaard              Midgaard                       Midgaard
+~
+#3163
+map xania~
+a map of Xania~
+A rolled up map is here.~
+paper~
+map 0 A
+1 0 0 0 0
+0 1 150 P
+E
+map Xania~
+.
+                         * * * Northern Xania  * * *
+                          = = ================== = =
+                           (C) ROM, Tangled by Ezra
+
+                                                   Moria
+                             Olympus          New    |    Dwarven--Mines
+Mage            Elven Valley    |     Ofcol--Ofcol   +----Kingdom
+Tower                       \   |       |            |       |    \Catacombs
+  |    Dragon Tower          Plains-----+            |   Day-Care
+  |   /                         |       |            |             Void---Old
+Shadow                      Northern  Stones of      |   Nirvana\    |   Thalos
+Grove---Galaxy              Midgaard   G'harne       |            \Holy
+  |                             |                    |     Smurf   Grove
+   \  Arachnos    Shire  Asgard | In the Air         |    Village    |
+     \   |          |         \ | /                  |       |       |    Check
+      Forest Of-----+-------Midgaard---------------Cross---Eastern Road---Point
+      Haon Dor              / | | | \              Roads             |
+     /     |     Mob Factory  | | |  Machine            \        Gnome Village
+  Old    Troll               /  | |  Dreams               \
+ Marsh    Den           Sewer   |  \            Ruins of---Dwarf---Frigid Waste
+                                |    \Midgaard   Thalos    Forest         |
+       Redferne's---Chain---Southern    River                |  \      Keep of
+       Residence            Midgaard         \       Wyvern--+  Drow   Mahn-tor
+           |                  / | \          Sands of Tower  |  City
+         Clouds      Gang Land  | Graveyard  Sorrow          |
+        (Harpies)               |      \           \       Elemental
+                            Miden'nir   Church   Mega-City  Canyon
+                            (Goblins)  Catacombs    One
+
+This map shows just about all the major areas on ROM.  This map is NOT drawn
+to scale, some of the directions were changed to make everything fit.  This
+map shows the GENERAL location of an area with respect to the other areas.
+Type "areas" for a complete list with suggested levels and the authors.
+~
+#3164
+map southern midgaard~
+a map of southern Midgaard~
+A rolled up map is here.~
+paper~
+map 0 A
+1 0 0 0 0
+0 1 100 P
+E
+map southern midgaard~
+.
+                         * * * SOUTHERN MIDGAARD * * *
+                          = = =================== = =
+                               Untangled by Ezra
+
+ West                          South             Kate's                   East
+Bridge                         Bridge            Diner                   Bridge
+  |                              |                 |                       |
+Northwest                        |              Austral                Northeast
+Concourse---Promenade--------Promenade----------Square-----------------Concourse
+    |           |                |                 |                       |
+    |           |                |                 |          Fountain     |
+    |           |                |              Emerald           |        |
+Concourse     Park              Park-----Park     Ave----Penny--Penny--Concourse
+    |         Road            Entrance   Cafe      |     Lane   Lane       |
+    |           |                |              Emerald                    |
+    |           |                |                Ave                      |
+    |           |                |                 |                       |
+    |  Guard  Park     Park     The      Park   Emerald   Town             |
+    |   HQ----Road---Entrance---Park---Entrance---Ave-----Hall             |
+    |           |                                  |                       |
+    |         Park              Emerald---------Emerald---Gang             |
+    |         Road                Ave             Ave     Land             |
+    |           |                  |                                       |
+    |         Park----------------Road----------Park                       |
+    |         Road             /Crossing        Road                       |
+    |                     Chain    |              |                        |
+Concourse                /         |            Park----Elm-----Elm----Concourse
+    |       (Redferne's, Harpies)  |            Road   Street  Street      |
+    |                              |              |              |         |
+    |                Emerald----Emerald         Park         Graveyard     |
+    |                  Ave        Ave           Road    (Church Catacombs) |
+    |                   |                         |                        |
+    |                Emerald                    Park                       |
+    |                  Ave                      Road                       |
+    |                   |                         |                        |
+Concourse-----------Concourse------Inside-----Concourse----------------Concourse
+                                 South Gate
+                                     |
+                                 Miden'Nir
+                                 (Goblins)
+
+~
+#3165
+map dwarven kingdom dwarf~
+a map of the Dwarven Kingdom~
+A rolled up map is here.~
+paper~
+map 0 A
+1 0 0 0 0
+0 1 100 P
+E
+map dwarven kingdom dwarf~
+.
+                         * * * The Dwarven Kingdom * * *
+                          = = ===================== = =
+                                Untangled by Ezra
+
+                    Dwarven
+                    Hospital
+                       |                                              *Path to
+         North of---Path by---Path by---Barracks     Guard--Door to----Castle
+          Shops     Hospital  Barracks  Entrance     House  Kingdom  Strangelove
+Granite     |                              |                   |
+Head's---Path North                      First               Narrow
+Bakery    of Shop                       Barracks              Path
+            |                              |                   |
+         Hide and    Turn               Back of     Bend in--Narrow
+        Tooth Shop--in Road             Barracks     Path     Path
+                       |                    \         |
+                    Path to               Dwarven   Narrow
+                    Village              Catacombs   Path
+                       |                              |
+             Store  *Inside    Entrance     Top of   Dark   *Mine
+             Room---Entrance--To Mountain--Mountain--Path--Entrance
+                \                             |                 \
+               Wine                        Middle of          Dwarven
+              Cellar                       Mountain            Mines
+                  \                            |
+                Dwarven                    Base of
+               Catacombs    Moria          Mountain           North
+                              |               |           Up\   |
+                              |            Path to            \ |
+                            Plains--Hills--Dwarven      West----+----East
+                              |            Kingdom              | \
+                              |               |                 |   \Down
+              Midgaard <----Cross          Dwarven            South
+                            Roads          Drop-off
+                                          (Day-Care)
+
+*key required
+~
+#3166
+map moria first~
+a map of the first level of Moria~
+A rolled up map is here.~
+paper~
+map 0 A
+1 0 0 0 0
+0 1 150 P
+E
+map moria first~
+* * * MORIA - Map 1 * * *                                           To Mahn-Tor
+ = = =============== = =                                                 |
+Talk about a mess! by Ezra                                           Foothills
+                                                                         |
+This is as far as our courageous, noble, brave           Light Cave    Valley
+and apparently quite deceased cartographers                   |           |
+could get.  Perhaps more maps could be found             Smelly Tunnel  Cave
+in the depths of Moria itself.                                |           |
+                                                  Cave---Many Tunnels---Tunnel
+                                                    |         |           |
+         West End--Large Cave--East End           Cave      Tunnel      *Hole
+            |          |                            |         |        (Map 2)
+            |        Tunnel---------Tunnel--------Tunnel----Tunnel
+            |                                       |
+ *Hole----Damp----Damp  Tunnel--Tunnel--Tunnel    Tunnel
+(Map 3)  Tunnel  Tunnel   |               |         |
+                   |      |            (*Map 3)  The Cave
+                   |      |                         |
+                   |    Tunnel--Light--Maze      End of
+                   |            Cave    |        The Path
+                   |                  Light         |
+                   |                  Cave      The Hills--> Dwarven Kingdom
+                   |                    |           |
+                 Tunnel----Tunnel-----Light     The Plains
+                                      Cave          |
+                                                 The Lane
+                                                    |
+                                      Midgaard <--Cross--> Eastern Road
+                                                  Roads
+                                                    |
+                                               Dwarf Forest
+~
+#3167
+map new thalos~
+a map of New Thalos ~
+A rolled up map is here.~
+paper~
+map 0 A
+1 0 0 0 0
+0 1 200 P
+E
+map new thalos~
+.
+           * * * **************** New Thalos ***************** * * *
+                   "Not Thalos or Old Thalos but New Thalos"
+            = = =============================================== = =
+                     (C) ROM - This place is HUGE! by Ezra
+
+                                   Plains
+                                     |
+Northwest--West Casbah-------------North-----------------Casbah--------Northeast
+  Tower     |                       Gate                    |            Tower
+          Alley                      |                      |              |
+            |    Guard            Sultan's                  |  Library----Kali
+          Alley  House              Walk                    |             Row
+                   |                 |      Dancing         |              |
+     Sultan's----Grand----Palace--Sultan's--Daemon          |   Dance-----Kali
+      Palace    Entrance   Gate     Walk      Inn           |   Hall      Row
+                   |                 |                      |
+                 Guard               |         Bowyer--Guildsman's--Mason's
+                 House               |         Guild       Row      Guild
+ High                                |                      |
+Priest                               |         Weaver--Guildsman's--Craftsman
+Chamber  Altar                    Sultan's     Guild       Row        Guild
+  |        |                        Walk                    |
+Inside--Inside--Donation             |         Tanner--Guildsman's--Museum
+Temple  Temple    Room               |         Guild       Row      of the
+  |        |                         |                      |       Greater
+Cleric     |                         |                 Guildsman's---Gods
+Guild     /                          |                     Row
+        /                            |                      |
+     Temple             Ahkeem's  Sultan's  Vera's     Guildsman's         Mage
+     Gates                Stuff     Walk   Veggies         Row             Tower
+       |     Alley--Alley    |       |       |              |                |
+     Temple    |           Market--Market--Market           | Witch's  Magic |
+     Square  Alley   Bank--Square  Square  Square--Butchery |  Brew    Shop  |
+       |       |             |       |       |              |    |      |    |
+West--West---West---West---Market--Center--Market---East--East--East--East--East
+Gate  Main   Main   Main   Square  Square  Square   Main  Main  Main  Main  Gate
+  |    |       |             |       |       |              |    |
+  |  Repair  Alley  Store--Market--Market--Market--Abdul's  | Mercenary--Thieves
+  |   Shop     |           Square  Square  Sqaure   Armor   |   Guild     Guild
+  |          Alley--Alley    |       |       |             Alley              Barbarian                  Bread   Medina  Igor's  Leather  |           Smuggler
+  Guild                    Stand     |    Weapons   Shop---Alley--Alley---Inn
+                                   Medina                        /
+      Warehouse    Shipwright        |     Forge  Stables      /    Cass's  Dump
+       |     |          |          Common    |       |        |       |      |
+       +-----West Ishtar Drive-----Square----+---East Ishtar Drive----+------+
+                        |            |
+                    Boat Ramp        |
+                        |          South
+===================Ishtar River====Bridge======================> To Dragon Sea
+                                     |
+                                   South
+                                   Gate
+~
+#3168
+map olympus~
+a map of Olympus~
+A rolled up map is here.~
+paper~
+map 0 A
+1 0 0 0 0
+0 1 250 P
+E
+map olympus~
+.
+                               *****OLYMPUS*****
+                               =================
+                                    (C) ROM
+                               Mapped by  Regnan
+                               =================
+
+                                   Bedroom
+                                      |
+                                   Northern
+                                     Hall
+                        Western       |         Eastern
+              Bedroom----Hall----Second Floor----Hall----Bedroom
+                                /     |
+                         Stairway  Southern
+                             |       Hall                    North
+                        Throne Room   |                        |  /Up
+                             |      Bedroom                    |/
+                             |                          West---+---East
+                  Kitchen    |     Stable                     /|
+                     |       |       |                  Down/  |
+        Guest     Western  Castle  Eastern   Guest           South
+       Quarters----Wing----Entry----Wing----Quarters
+                     |       |       |
+                  Storage   Z|    Storage
+                   Roome|S    Room   Smithy
+                            u|t             |
+                            s+--Ares Street-+--Weapon
+                    Mystery  |              |   Shop
+                    Shop-----+           Armoury
+                             |
+                   Residence-+-Residence
+                             |
+                     Bakery--+
+                             |
+                       **Entrance**
+                            /
+                      Mountain
+~
+#3350
+standard issue sword~
+a standard issue sword~
+You see a standard issue sword here.~
+steel~
+weapon G AN
+'sword' 2 4 'slash' 0
+3 5 75 P
+E
+sword~
+You see a sword of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+A
+18 1
+A
+19 1
+#3351
+standard issue dagger~
+a standard issue dagger~
+You see a standard issue dagger here.~
+steel~
+weapon G AN
+'dagger' 3 2 'pierce' 0
+3 2 75 P
+E
+dagger~
+You see a dagger of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+A
+18 1
+A
+19 1
+#3352
+standard issue mace~
+a standard issue mace~
+You see a standard issue mace here.~
+steel~
+weapon G AN
+'mace' 3 2 'pound' 0
+3 10 75 P
+E
+mace~
+You see a mace of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+A
+18 1
+A
+19 1
+#3353
+vest standard merc~
+a standard issue vest~
+You see a standard issue vest here.~
+leather~
+armor 0 AD
+4 4 3 1 1
+6 5 0 P
+E
+vest~
+You see a vest of great craftsmanship.  Stamped on the side is:
+Merc Industries
+~
+#3354
+shield standard merc~
+a standard issue shield~
+You see a standard issue shield here.~
+steel~
+armor 0 AJ
+4 4 4 2 2
+6 3 0 P
+E
+shield~
+You see a shield of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+#3355
+cloak standard merc~
+a standard issue cloak~
+You see a standard issue cloak here.~
+cloth~
+armor 0 AC
+3 5 4 1 1
+6 4 0 P
+E
+cloak~
+You see a cloak of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+#3356
+helmet standard merc~
+a standard issue helmet~
+You see a standard issue helmet here.~
+leather~
+armor 0 AE
+4 4 3 1 1
+6 3 0 P
+E
+helmet~
+You see a helmet of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+#3357
+leggings standard merc~
+a pair of standard issue leggings~
+You see a pair of standard issue leggings here.~
+leather~
+armor 0 AF
+4 4 3 1 1
+6 3 0 P
+E
+leggings~
+You see leggings of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+#3358
+boots standard merc~
+a pair of standard issue boots~
+You see a pair of standard issue boots here.~
+leather~
+armor 0 AG
+4 4 3 1 1
+6 3 0 P
+E
+boots~
+You see boots of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+#3359
+gloves standard merc~
+a pair of standard issue gloves~
+You see a pair of standard issue gloves here.~
+leather~
+armor 0 AH
+4 4 3 1 1
+6 3 0 P
+E
+gloves~
+You see gloves of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+#3360
+sleeves standard merc~
+a pair of standard issue sleeves~
+You see a pair of standard issue sleeves here.~
+leather~
+armor 0 AI
+4 4 3 1 1
+6 2 0 P
+E
+sleeves~
+You see sleeves of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+#3361
+cape standard merc~
+a standard issue cape~
+You see a standard issue cape here.~
+cloth~
+armor 0 AK
+3 4 3 1 1
+6 2 0 P
+E
+cape~
+You see a cape of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+#3362
+belt standard merc~
+a standard issue belt~
+You see a standard issue belt here.~
+bronze~
+armor 0 AL
+4 4 3 1 1
+6 2 0 P
+E
+belt standard merc~
+You see a bronze belt of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+#3363
+bracer standard merc~
+a standard issue bracer~
+You see a standard issue bracer here.~
+bronze~
+armor 0 4097
+2 4 4 1 0
+6 1 0 P
+E
+bracer~
+You see a bracer of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+#3364
+ring signet~
+a city guard signet ring~
+You see a ring with a strange symbol on the floor.~
+copper~
+armor 0 AB
+0 0 0 0 0
+12 1 0 P
+A
+17 -5
+A
+24 -1
+#3365
+banner war merc~
+a war banner~
+A war banner is on the floor here.~
+cloth~
+light AG A
+0 0 500 0 0
+8 1 0 P
+E
+banner~
+This is the official Merc war banner to see you through the darkest realm!
+~
+A
+24 -1
+A
+17 -2
+#3371
+ring diamond wedding~
+a diamond wedding ring~
+Vanya's diamond wedding ring has been left here.~
+diamond~
+treasure I AB
+0 0 0 0 0
+0 1 0 P
+E
+ring diamond wedding~
+A slender gold band set with a marquise-cut four carat blue-white solitaire.
+Inscribed on the inside of the band is: 'Your loving husband, House'.
+~
+A
+24 -2
+#3372
+band gold wedding~
+a gold wedding band~
+House's gold wedding band has been left here.~
+gold~
+treasure I AB
+0 0 0 0 0
+0 1 0 P
+E
+band gold wedding~
+A wide, plain circle of gold inscribed: 'Your loving wife, Vanya'.
+~
+A
+24 -2
+
+
+#3373
+mercenary shirt issue~
+a mercenary issue shirt~
+A mercenary issue shirt is lying on the ground.~
+steel~
+armor A AD
+6 6 7 0 3
+13 18 1200 P
+
+#3374
+coif mercenary issue~
+a mercenary issue coif~
+A mercenary issue coif is lying on the ground.~
+steel~
+armor A AE
+7 6 6 0 2
+13 5 600 P
+
+#3375
+skirt mercenary issue~
+a mercenary issue skirt~
+A mercenary issue skirt is lying on the ground.~
+steel~
+armor A AF
+6 7 6 0 3
+13 10 600 P
+
+#3376
+boots mercenary issue~
+a pair mercenary issue boots~
+A pair of mercenary issue boots stand here.~
+steel~
+armor A AG
+6 6 7 0 3
+13 6 600 P
+
+#3377
+gauntlets mercenary issue~
+a pair of mercenary issue gauntlets~
+A pair of mercenary issue gauntlets are lying on the ground.~
+steel~
+armor A AH
+7 6 7 0 3
+13 4 600 P
+
+#3378
+sleeves mercenary issue~
+a pair of mercenary issue sleeves~
+A pair of mercenary issue sleeves are lying on the ground.~
+steel~
+armor A AI
+6 6 7 0 3
+13 8 600 P
+
+#3379
+shield mercenary issue~
+a mercenary issue shield~
+A mercenary issue shield is lying on the ground.~
+steel~
+armor A AJ
+7 6 7 2 4
+13 10 1200 P
+
+#3380
+mace studded ebony~
+a studded ebony mace~
+A studded ebony mace is here.~
+steel~
+weapon 0 AN
+'mace' 2 5 'pound' 0
+9 10 90 G
+A
+19 1
+
+#3381
+axe defiler wicked~
+a defiler's axe~
+A wicked looking axe lies forgotten on the floor.~
+steel~
+weapon 0 AN
+'axe' 3 4 'chop' 0
+11 5 130 G
+
+#3382
+spear forest oaken~
+a forest spear~
+A oaken forest spear rests here.~
+steel~
+weapon 0 AN
+'spear' 2 5 'pierce' 0
+8 5 90 G
+
+#3383
+polearm ebony~
+an ebony polearm~
+A dull, ebony polearm lies on the floor.~
+wood~
+weapon 0 AN
+'polearm' 2 6 'pound' F
+9 4 100 G
+A
+17 -2
+
+#3384
+shining silvery flail~
+a shining silvery flail~
+A shining silvery flail grabs your attention.~
+steel~
+weapon 0 AN
+'flail' 2 4 'pound' 0
+7 5 90 G
+A
+17 1
+
+#3385
+sharpened stiletto dagger~
+a sharpened stiletto dagger~
+A sharp stiletto dagger gathers dust.~
+steel~
+weapon 0 AN
+'dagger' 2 5 'pierce' 0
+9 10 90 G
+A
+19 1
+#3386
+guardsman hefty blade~
+a guardsman blade~
+You see a hefty blade here.~
+steel~
+weapon G AN
+'sword' 3 4 'slash' 0
+12 5 140 P
+E
+guardsman hefty blade~
+You see a sword of superior craftsmanship. It looks like something a soldier 
+might use.
+~
+#3387
+officer blade~
+an officer's blade~
+You see a hefty blade here.~
+steel~
+weapon G AN
+'sword' 3 6 'slash' 0
+18 5 340 P
+E
+officer blade~
+You see a sword of superior craftsmanship. It looks like something a soldier 
+might use.
+~
+#3388
+shield sun~
+the Arbiter's shield~
+A shield embossed with the image of the sun lies here.~
+bronze~
+armor ABGU AJ
+24 24 24 20 0
+86 18 3000 P
+E
+shield~
+This bronze shield has been embossed with the symbol of the sun. Its outer edge
+has been polished and sharpened such that it probably requires greater skill
+to master in combat compared to more common designs.
+~
+A
+18 2
+A
+19 2
+A
+23 -5
+#3389
+toga linen~
+a fine linen toga~
+A fine linen toga lies in a crumpled heap.~
+cloth~
+armor AGU AD
+20 20 20 28 0
+85 10 3000 P
+E
+toga linen~
+An unusual sparkle reflects off the cloth of this toga. It must
+be enchanted. 
+~
+A
+20 -7
+A
+21 -7
+A
+22 -7
+A
+23 -7
+A
+24 -7
+#3390
+lesser summoning shard~
+a lesser summoning shard~
+a lesser shard of summoning has been left here.~
+silver~
+treasure GTU A
+0 0 0 0 0
+2 1 250 P
+E
+lesser summoning shard~
+This shard can be used to summon corpses of players level 2 to 11.
+~
+#3391
+minor summoning shard~
+a minor summoning shard~
+a minor shard of summoning has been left here.~
+silver~
+treasure GTU A
+0 0 0 0 0
+12 1 1950 P
+E
+minor summoning shard~
+This shard can be used to summon corpses of players level 12 to 21
+~
+#3392
+dull summoning shard~
+a dull summoning shard~
+a dull shard of summoning has been left here.~
+silver~
+treasure GTU A
+0 0 0 0 0
+22 1 3750 P
+E
+dull summoning shard~
+This shard can be used to summon corpses of players level 22 to 31.
+~
+#3393
+polished summoningshard~
+a polished summoning shard~
+a polished shard of summoning has been left here.~
+silver~
+treasure GTU A
+0 0 0 0 0
+32 1 5500 P
+E
+polished summoning shard~
+This shard can be used to summon corpses of players level 32 to 41.
+~
+#3394
+burnished summoning shard~
+a burnished summoning shard~
+a burnished shard of summoning has been left here.~
+silver~
+treasure GTU A
+0 0 0 0 0
+42 1 7000 P
+E
+burnished summoning shard~
+This shard can be used to summon corpses of players level 42 to 51.
+~
+#3395
+greater summoning shard~
+a greater summoning shard~
+a greater shard of summoning has been left here.~
+silver~
+treasure GTU A
+0 0 0 0 0
+52 1 8850 P
+E
+greater summoning shard~
+This shard can be used to summon corpses of players level 52 to 61.
+~
+#3396
+imbued summoning shard~
+an imbued summoning shard~
+an imbued shard of summoning has been left here.~
+silver~
+treasure GTU A
+0 0 0 0 0
+62 1 10450 P
+E
+imbued summoning shard~
+This shard can be used to summon corpses of players level 62 to 71.
+~
+#3397
+sanctified summoning shard~
+a sanctified summoning shard~
+a sanctified shard of summoning has been left here.~
+silver~
+treasure GTU A
+0 0 0 0 0
+72 1 12450 P
+E
+sanctified summoning shard~
+This shard can be used to summon corpses of players level 72 to 91.
+~
+#3398
+octarine summoning shard~
+an octarine summoning shard~
+an octarine shard of summoning has been left here.~
+octarine~
+treasure GTU A
+0 0 0 0 0
+82 1 14250 P
+E
+octarine summoning shard~
+This shard can be used to summon corpses of players level 82 to 91.
+~
+#3399
+summoning stone~
+a summoning stone~
+A tall summoning stone pulses with an ethereal light.~
+stone~
+furniture 0 0
+0 0 0 0 0
+0 1000 600 G
+E
+summoning stone~
+At several metres in height, the summoning stone towers over the necropolis.
+Its blackened stone surface is zig-zagged with strange runes that
+pulse with a mysterious glow. Clearly this artifact is very ancient and
+you can't help wonder how it got here in the first place. Perhaps it was
+placed here by a powerful deity?
+~
+#0
+
+
+
+#ROOMS
+#3001
+The Temple of Isca~
+You find yourself at the southern end of a great hall in the Temple of Isca.
+The temple is beautifully crafted from the finest Morian marble, and
+huge tapestries adorn the walls.  A stairwell leads upwards into the Mud
+School, and the hall continues to the north, where it ends at a lavish altar.
+The Temple square is to the south and there is a plaque on the wall.
+  (type 'up' to go to MUD school)
+~
+4|8 0
+D0
+You can see a lavish altar, along with a set of statues.
+~
+~
+0 -1 3054
+D2
+You see the temple square.
+~
+~
+0 -1 3005
+D4
+You see the entrance to Mud School.
+~
+~
+0 0 3700
+E
+plaque~
+This entire world has been integrated, modified, debugged, and enhanced by
+Hatchet, Kahn, and Furey of MERC Industries to be run by any MERC Mud.
+1992 December 17
+
+Midgaard modified for Xania by the X-men: May 14, 1996 :)
+~
+S
+#3002
+Cleric's Inner Sanctum~
+   This is the inner sanctum. A detailed painting of the heavens is hanging on
+the wall, just above the altar which is set against the western wall.  A well
+in the middle of the floor leads down into darkness.  Vile smells waft from
+the depths.
+~
+12 0
+D1
+You see your favorite place, the bar of divination.
+~
+~
+0 -1 3003
+D5
+You can't see what is down there, it is too dark.  Looks like it would be
+impossible to climb back up.
+~
+~
+0 -1 7026
+S
+#3003
+Cleric's Bar~
+   The bar is one of the finest in the land, lucky it is members only.  Fine
+furniture is set all around the room.  A small sign is hanging on the wall.
+~
+12 0
+D2
+You see the entrance.
+~
+~
+0 -1 3004
+D3
+You see the inner sanctum.
+~
+~
+0 -1 3002
+E
+sign~
+The sign reads:
+Free instructions provided by the waiter:
+
+   Buy  - Buy something (drinkable) from the waiter.
+   List - The waiter will show you all the different drinks and
+          specialties, and tell the price of each.
+~
+S
+#3004
+Entrance to Cleric's Guild~
+   The entrance hall is a small modest room, reflecting the true nature of
+the Clerics.  The exit leads east to the temple square.  A small entrance to
+the bar is in the northern wall.
+~
+8 0
+D0
+You see the bar, richly decorated with really stylish furniture.
+~
+~
+0 -1 3003
+D1
+You see the Temple Square.
+~
+~
+0 -1 3005
+S
+#3005
+The Temple Square~
+This is the most southern end of the Temple of Isca. The surface of
+the marble flooring has been chipped and worn by the thousands of feet
+which have trampled through here since Midgaard was founded. To the
+north, a fine set of curved steps opens before you, leading towards
+the sacred altar. The centre of activity in this city is immediately
+south of you, at Market Square. You hear faint sounds of battle high
+above you and wonder why anyone would wish to fight in this fair city.
+~
+0 1
+D0
+You see the temple.
+~
+~
+0 -1 3001
+D1
+You see the good old Imperial Tavern.
+~
+~
+0 -1 3006
+D2
+You see the Market Square.
+~
+~
+0 -1 3014
+D3
+You see the entrance to the Clerics Guild.
+~
+~
+0 -1 3004
+D4
+You see the air.
+~
+~
+0 -1 3057
+S
+#3006
+Entrance to the Imperial Tavern~
+   You are standing in the entrance hall of the Imperial Tavern.  The hall
+has been wisely decorated with simple but functional furniture.  A small
+staircase leads up to the defunct reception room and the bar is to the east.
+~
+8 0
+D1
+Surprise! You see the bar.
+~
+~
+0 -1 3007
+D3
+You see the temple square.
+~
+~
+0 -1 3005
+D4
+You see the defunct reception room.
+~
+~
+0 -1 3008
+S
+#3007
+The Imperial Tavern~
+   You are standing in the bar which is set against the northern wall. Old
+archaic writing, carvings and symbols cover its top.  A fireplace is built into
+the western wall, and through the southeastern windows you can see the temple
+square.  This place makes you feel like home.
+A small sign with big letters is fastened to the bar.
+~
+8 0
+D3
+You see the exit to the entrance hall.
+~
+~
+0 -1 3006
+E
+sign~
+The sign reads:
+Free instructions provided by the Imperial Tavern.
+
+   Buy  - Buy something (drinkable) from the bartender.
+   List - The bartender will show you all the different drinks and
+          specialties, and tell the price of each.
+~
+E
+writing carving carvings symbols symbol~
+Although it is very hard to understand, you think it looks a lot like beer,
+poems about beer, and small beer-mugs.
+~
+S
+#3008
+The Defunct Reception~
+   You are standing in a dusty, defunct reception.  The staircase leads
+down to the entrance hall.
+~
+8 0
+D5
+You see the entrance hall.
+~
+~
+0 -1 3006
+S
+#3009
+Cholmondley-Warner's Pastry Emporium~
+Before you stands the finest, exquisitely polished mahogany serving
+counter you have ever clapped your eyes upon. Below it, a display case
+has been built in, exhibiting the fine works of Mister Cholmondley-Warner's 
+team of bakers. Your mouth begins to water as the delicious aroma
+assails your nostrils.  If you're getting hungry, buy some bread!
+A small sign is on the counter.
+~
+8 0
+D2
+You see the main street.
+~
+~
+0 -1 3013
+E
+sign~
+Free instructions provided by Mister Cholmondley-Warner:
+
+   Buy  - Will buy you some bread or pastry.
+   List - The baker will kindly tell you the price and sort of the bread in
+          his bakery.
+Tip: buy the cheaper food to start with. The more expensive items
+simply last a little longer.
+~
+S
+#3010
+The General Store~
+   You are inside the general store.  All sorts of items are stacked on shelves
+behind the counter, safely out of your reach.  The grocer leans
+against the counter, doing his book-keeping.
+A small note hangs on the wall.
+~
+8 0
+D2
+You see the main street.
+~
+~
+0 -1 3015
+E
+note~
+The note reads:
+
+  List  - Show which various items are in the store.
+  Buy   - Buy an item.
+  Value - The shopkeeper will (free of charge) tell how much he will
+          pay for your item.
+  Sell  - Sell an item.
+~
+S
+#3011
+Imperial Weapon Supplies~
+A chill wind catches your spine as you step inside this large, granite
+room which echoes the sound of dripping water and the roar of a
+blazing furnace. The Imperial Weapon Suppliers are rumoured to be the
+purveyors of the most destructive and durable blades. You realise that
+this is more than a rumour when your eyes fall upon a huge
+horse-powered grindstone used for honing mighty swords. Beside the
+stone you spot a small sign engraved into a plate of steel.
+~
+8 0
+D2
+You see the main street.
+~
+~
+0 -1 3016
+E
+note sign~
+The sign reads:
+
+  List  - Show which various items are in the store.
+  Buy   - Buy an item.
+  Value - The shopkeeper will (free of charge) tell how much he will
+          pay for your item.
+  Sell  - Sell an item.
+~
+S
+#3012
+Main Street~
+   You are at the end of the main street of Midgaard.  South of here is the
+entrance to the Guild of Magic Users.  The street continues east towards the
+market square.  The magic shop is to the north and to the west is the city
+gate.
+~
+0 1
+D0
+You see the magic shop.
+~
+~
+0 -1 3033
+D1
+You see the main street.
+~
+~
+0 -1 3013
+D2
+You see the entrance to the Guild of Magic Users.
+~
+~
+0 -1 3017
+D3
+You see the city gate.
+~
+~
+0 -1 3040
+S
+#3013
+Main Street~
+   You are on the main street passing through the City of Midgaard.  South of
+here is the entrance to the Armoury, and Mister Cholmondley-Warner's
+Pastry Emporium is to the north.  East of here is the market square.
+~
+0 1
+D0
+You see the food emporium.
+~
+~
+0 -1 3009
+D1
+You see the market square.
+~
+~
+0 -1 3014
+D2
+You see the armoury.
+~
+~
+0 -1 3020
+D3
+You see the main street.
+~
+~
+0 -1 3012
+S
+#3014
+Market Square~
+   You are standing on the market square, the famous Square of Midgaard.
+A large, peculiar looking statue is standing in the middle of the square.
+Roads lead in every direction, north to the temple square, south to the
+common square, east and westbound is the main street.
+~
+0 1
+D0
+You see the temple square.
+~
+~
+0 -1 3005
+D1
+You see the main street.
+~
+~
+0 -1 3015
+D2
+You see the common square.
+~
+~
+0 -1 3025
+D3
+You see the main street.
+~
+~
+0 -1 3013
+
+E
+statue~
+What you see is the Midgaard Worm, stretching around the Palace of Midgaard.
+~
+S
+#3015
+The Main Street~
+   You are on Main Street crossing through town.  To the north is the general
+store, and the main street continues east.  To the west you see and hear the
+market place and to the south is the Jeweller's Shop.
+~
+0 1
+D0
+You see the general store.
+~
+~
+0 -1 3010
+D1
+You see Main Street.
+~
+~
+0 -1 3016
+D2
+You see the Jeweller's Shop.
+~
+~
+0 -1 3034
+D3
+You see the market square.
+~
+~
+0 -1 3014
+S
+#3016
+The Main Street~
+   The main street, to the north is the weapon shop and to the south is the
+Guild of Barbarians.  To the east you leave town and to the west the street
+leads to the market square.
+~
+0 1
+D0
+You see the Imperial Weapon Suppliers shop.
+~
+~
+0 -1 3011
+D1
+You see the city gate.
+~
+~
+0 -1 3041
+D2
+You see the barbarian's guild.
+~
+~
+0 -1 3021
+D3
+You see the main street leading to the market square.
+~
+~
+0 -1 3015
+S
+#3017
+Entrance to Mage's Guild~
+   The entrance hall is a small, poor lighted room.
+~
+8 0
+D0
+You see the main street.
+~
+~
+0 -1 3012
+D2
+You see your favorite place, the Mage's Bar.
+~
+~
+0 -1 3018
+S
+#3018
+Mage's Bar~
+   The bar is one of the wierdest in the land.  Mystical images float around
+the air.  Illusions of fine furniture appear all around the room.
+~
+12 0
+D0
+You see the lobby.
+~
+~
+0 -1 3017
+D1
+You see the laboratory.
+~
+~
+0 -1 3019
+S
+#3019
+Mage's Laboratory~
+   This is the Magical Experiments Laboratory.  Dark smoke-stained stones
+arch over numerous huge oaken tables, most of these cluttered with strange-
+looking pipes and flasks.  The floor is covered with half-erased pentagrams
+and even weirder symbols, and a blackboard in a dark corner has only been
+partially cleaned, some painful-looking letters faintly visible.  A well in
+the middle of the floor leads down into darkness.  Vile smells waft from the
+depths.
+~
+12 0
+D3
+You see the bar.
+~
+~
+0 -1 3018
+D5
+You can't see what is down there, it is too dark.  Looks like it would be
+impossible to climb back up.
+~
+~
+0 -1 7017
+S
+#3020
+Razorblade's Armoury~
+This shop is crowded with many different pieces of armour, from chainmail
+jerkins to huge suits of plate metal.  The northern end of the shop
+has a counter, behind which sits Razorblade himself.
+There is a note pinned to the counter.
+~
+8 0
+D0
+You see the main street.
+~
+~
+0 -1 3013
+E
+note~
+  You can use these commands for trading:
+
+  value <item>     To get the price of an item in your possession.
+  sell <item>      To sell something.
+  buy <item>       To buy something (provided that the shop has it in store).
+  list             Gives you a listing of the shop's inventory.
+
+     RAZORDBLADE DOESN'T GIVE CREDIT; WE DON'T EXPECT TO RECEIVE CREDIT!
+                             NO HAGGLING
+~
+S
+#3021
+Entrance Hall to the Guild of Barbarians'~
+   The entrance hall to the Guild of Barbarians.  A place where one has to be
+careful not to say something wrong (or right).  To the east is the bar and to
+the north is the main street.
+~
+8 0
+D0
+You see the main street.
+~
+~
+0 -1 3016
+D1
+You see the barbarian's bar, many noises comes from there.
+~
+~
+0 -1 3022
+S
+#3022
+The Bar of Barbarians~
+   The bar of barbarians, once upon a time beautifully furnished.  But now the
+furniture is all around you in small pieces.  To the south is the yard, and
+to the west is the entrance hall.
+~
+12 0
+D2
+You see the practice yard.
+~
+~
+0 -1 3023
+D3
+You see the entrance hall to the knights guild.
+~
+~
+0 -1 3021
+S
+#3023
+The Tournament and Practice Yard~
+   The practice yard of the fighters.  To the north is the bar.  A well leads
+down into darkness.
+~
+12 0
+D0
+You see the bar.
+~
+~
+0 -1 3022
+D5
+You can't see what is down there, it is too dark.  Looks like it would be
+impossible to climb back up.
+~
+~
+0 -1 7048
+S
+#3024
+Eastern End of Poor Alley~
+   You are at the poor alley. South of here is the Grubby Inn and to the
+east you see common square. Melancholy's map shop is north. The alley continues
+further west.
+~
+0 1
+D0
+You see Melancholy's Map Shop
+~
+~
+0 -1 3160
+D1
+You see the common square.
+~
+~
+0 -1 3025
+D2
+You see the Inn.
+~
+~
+0 -1 3048
+D3
+You see the poor alley.
+~
+~
+0 -1 3044
+S
+#3025
+The Common Square~
+   The common square, people pass you, talking to each other.  To the west is
+the poor alley and to the east is the dark alley.  To the north, this square
+is connected to the market square.  From the south you notice a nasty smell.
+~
+0 1
+D0
+You see the market square.
+~
+~
+0 -1 3014
+D1
+You see the dark alley.
+~
+~
+0 -1 3026
+D2
+You see the city dump.
+~
+~
+0 -1 3030
+D3
+You see the poor alley.
+~
+~
+0 -1 3024
+D5
+The reception area
+~
+~
+0 -1 9850
+S
+#3026
+The Dark Alley~
+   The dark alley, to the west is the common square and to the south is the
+Guild of Knights.  Grebe's Tavern, the famous sailor's dive, is north.
+The alley continues east.
+~
+0 1
+D0
+You see a foul-smelling sailor's dive.
+~
+~
+0 -1 3352
+D1
+The alley continues east.
+~
+~
+0 -1 3045
+D2
+You see the entrance to the knights guild.
+~
+~
+0 -1 3027
+D3
+You see the common square.
+~
+~
+0 -1 3025
+E
+guild~
+It is the knights guild, don't enter if you're not feeling noble.
+~
+S
+#3027
+Entrance Hall to the Guild of Knights~
+   The entrance hall to the Knights' guild.  A place where valour and honour
+are of the utmost importance.   To the north is the dark alley and to the
+east is the knights' bar.
+~
+8 0
+D0
+You see the alley.
+~
+~
+0 -1 3026
+D1
+You see the knights bar, where many a brave knight will have stood.
+~
+~
+0 -1 3028
+S
+#3028
+The Knights' Bar~
+   The bar of the knights. On the fine oak panelled walls there are many
+paintings of bold knights in great suits of armour. Ancient scrolls are
+pinned to the walls, telling of great quests, some heroic and some
+tragic. A huge sword sits on a rack in the corner of the room, glistening
+in the light....it looks too heavy to be carried by five people, let alone
+one knight!
+~
+12 0
+D2
+You see the secret yard.
+~
+~
+0 -1 3029
+D3
+You see the entrance hall to the knights guild.
+~
+~
+0 -1 3027
+
+S
+#3029
+The Secret Yard~
+   The secret practice yard of the knights.  To the north is the
+bar.  A well leads down into darkness.
+~
+12 0
+D0
+You see the bar.
+~
+~
+0 -1 3028
+D5
+You can't see what is down there, it is too dark.  Looks like it would be
+impossible to climb back up.
+~
+~
+0 -1 7043
+S
+#3030
+The Dump~
+   The dump, where the people from the city drop their garbage.  Through the
+garbage you can see a large junction of pipes, looks like the entrance to the
+sewer system.  South of here you see the river and to the north is the common
+square.  A rickety old bridge leads south to the promenade.
+~
+4 2
+D0
+You see the common square.
+~
+~
+0 -1 3025
+D2
+You see a river between northern and southern Midgaard.  A small bridge
+spans the flow.
+~
+~
+0 -1 3254
+D5
+You see the sewers.
+~
+~
+0 -1 7030
+S
+#3031
+The Pet Shop~
+   The Pet Shop is a small crowded store, full of cages and animals of
+various sorts and sizes.  There is a sign on the wall.
+~
+8|4096 0
+D2
+You see the Alley.
+~
+~
+0 -1 3045
+E
+sign~
+The sign reads:
+
+  Use 'List' to see the available pets.
+  Use 'Buy <pet> <name>' to buy yourself a pet and name it.
+
+  You can use 'order <pet> <instructions>' to order your pets around.
+  If you abuse your pet, it will no longer regard you as its master.
+  If you have several pets you may use 'order all <instructions>'
+
+ Regards,
+
+   The Shopkeeper
+~
+S
+#3032
+Pet Shop Store~
+   This is the small dark room in which the Pet Shop Boy keeps his pets.
+It is vital that this room be immediately after the pet shop.
+A note pinned to the wall says, 'If you are here, you are *very* lost.'
+~
+8 0
+S
+#3033
+Dawnstone's Magic Shop~
+You are in a small room that smells of rare chemicals and spices.
+Dividing the room in two is a large desk, and on the wall behind it are
+numerous shelves crammed with jars, bottles, books and scrolls of all
+sorts and sizes.
+~
+8 0
+D2
+You see the main street.
+~
+~
+0 -1 3012
+E
+jars bottles~
+Some of them are transparent enabling you to see that some contain colored
+powders while others contain body parts of various animals.
+~
+E
+books~
+Most of them appear to be very old and dusty.
+~
+E
+scrolls~
+Each scroll is stored in a leather tube that protects it from moist.
+~
+S
+#3034
+The Jeweller's Shop~
+   You are in a small, beautifully furnished room.  The warm light emanating
+from the small oil lamps on the walls is reflected in the hard, polished
+surface of the big mahogany desk that stands in the centre of the room.
+A small sign with golden letters stands on the desk.
+~
+8 0
+D0
+You see Main Street.
+~
+~
+0 -1 3015
+E
+oil lamps~
+They are made from polished gold and looks as if they are securely fastened
+to the smooth stone walls.
+~
+E
+desk~
+Your face is reflected in its surface.
+~
+E
+sign~
+The golden letters say :-
+
+    Use 'list' to see what is in store,
+        'buy <item>' to buy an item,
+        'sell <item>' to sell an item and
+        'value <item>' to make the jeweller evaluate an item.
+~
+S
+#3035
+The Leather Shop~
+   An acrid smell fills this large room.  Along the walls are numerous
+shelves containing all sorts of animal hide and in the crackling fireplace
+hangs a big iron pot with boiling water.  In the middle of the room is a
+large oak table.
+A wooden sign is hanging above the fireplace.
+~
+8 0
+D2
+You see the alley.
+~
+~
+0 -1 3044
+E
+fireplace~
+It is a rather large fireplace made from heavy granite rocks.
+~
+E
+table~
+It is made from solid oak but appears to be very used.  Its surface is
+covered in marks and scratches.  A large burning candle stands directly on
+the table surface, tallow flowing down its sides.
+~
+E
+pot~
+Several large pieces of leather hide are boiling in the iron pot.
+~
+E
+sign~
+The wooden sign says :-
+
+    Use 'list' to see what is in store,
+        'buy <item>' to buy an item,
+        'sell <item>' to sell an item and
+        'value <item>' to make the leather worker evaluate an item.
+~
+S
+#3040
+Inside the West Gate of Midgaard~
+   You are by two small towers that have been built into the city wall and
+connected with a footbridge across the heavy wooden gate.  Main Street leads
+east and Wall Road leads both north and south from here.
+~
+0 1
+D0
+Wall road runs along the inner city wall to the north.
+~
+~
+0 -1 3257
+D1
+You see Main Street.
+~
+~
+0 -1 3012
+D2
+You see the road running along the inner side of the city wall.  You notice
+that it is called Wall Road.
+~
+~
+0 -1 3042
+D3
+The city gate is to the west.
+~
+gate~
+1 3133 3052
+E
+bridge footbridge~
+It is too high up to reach but it looks as if one easily could walk across it
+from one tower to the other.
+~
+E
+gate~
+It is a set of very big double doors made from hard wood.  They have been
+reinforced with large iron bands to make them even more sturdy.  One of the
+doors is equipped with a very big lock.
+~
+E
+tower towers~
+Both of the towers are built from large grey rocks that have been fastened to
+each other with some kind of mortar, just like the city wall.
+~
+E
+wall~
+It is built from large grey rocks that have been fastened to each other with
+some kind of mortar.  It is far too high to climb.
+~
+S
+#3041
+Inside the East Gate of Midgaard~
+   You are by two small towers that have been built into the city wall and
+connected with a footbridge across the heavy wooden gate.  Main Street leads
+west from here.  Wall road crosses the street, heading north and south along
+the city wall.
+~
+0 1
+D0
+Wall road heads north along the city wall.
+~
+~
+0 -1 3267
+D1
+You see the city gate.
+~
+gate~
+1 3133 3053
+D3
+You see Main Street.~
+~
+0 -1 3016
+D2
+Wall road heads south towards the poor section of town.
+~
+~
+0 0 3250
+E
+bridge footbridge~
+It is too high up to reach but it looks as if one easily could walk across it
+from one tower to the other.
+~
+E
+gate~
+It is a set of very big double doors made from hard wood.  They have been
+reinforced with large iron bands to make them even more sturdy.  One of the
+doors is equipped with a very big lock.
+~
+E
+tower towers~
+Both of the towers are built from large grey rocks that have been fastened to
+each other with some kind of mortar, just like the city wall.
+~
+E
+wall~
+It is built from large grey rocks that have been fastened to each other with
+some kind of mortar.  It is far too high to climb.
+~
+S
+#3042
+Wall Road~
+   You are walking next to the western city wall.  The road continues further
+south and the city gate is just north of here.
+~
+0 1
+D0
+You see the city gate.
+~
+~
+0 -1 3040
+D2
+The road continues further south.
+~
+~
+0 -1 3043
+E
+wall~
+It is built from large grey rocks that have been fastened to each other with
+some kind of mortar.  It is far too high to climb.
+~
+S
+#3043
+Wall Road~
+   You are walking next to the western city wall.  Wall Road continues further
+north and south.  A small, poor alley leads east.
+Some letters have been written on the wall here.
+~
+0 1
+D0
+The road continues further north.
+~
+~
+0 -1 3042
+D1
+The alley leads east.
+~
+~
+0 -1 3044
+D2
+The road continues further south.
+~
+~
+0 -1 3047
+E
+letters~
+It says 'Who watches the watchmen?'
+~
+E
+wall~
+It is built from large grey rocks that have been fastened to each other with
+some kind of mortar.  It is far too high to climb.
+~
+S
+#3044
+Poor Alley~
+   You are in narrow and dirty alley leading east and west.  The leather shop
+is to the north.
+~
+0 1
+D0
+The leather shop is to the north.
+~
+~
+0 -1 3035
+D1
+The alley leads east.
+~
+~
+0 -1 3024
+D2
+There is an ornate doorway to the south.
+~
+~
+0 -1 3170
+D3
+The alley leads west.
+~
+~
+0 -1 3043
+S
+#3045
+Alley at Levee~
+   You are standing in the alley which continues east and west.  South of
+here you see the levee.  North is the Pet Shop.
+~
+0 1
+D0
+You see, hear, and smell the pet shop.
+~
+~
+0 0 3031
+D1
+The alley leads east.
+~
+~
+0 -1 3046
+D2
+You see the levee.
+~
+~
+0 -1 3049
+D3
+The alley leads west.
+~
+~
+0 -1 3026
+S
+#3046
+Eastern end of Alley~
+   You are standing at the eastern end of the alley,  near the city walls.
+Wall road loops around the city to your east, and you can see an old
+three-story warehouse to the south.  The Fountain of Youth Apothecary is
+north.
+~
+0 1
+D0
+You see a pricey-looking potion shop.
+~
+~
+0 0 3056
+D1
+You see wall road, running a north-south loop around the city.
+~
+~
+0 -1 3251
+D2
+You see the warehouse.
+~
+~
+0 -1 3050
+D3
+You see the alley.
+~
+~
+0 -1 3045
+S
+#3047
+Wall Road~
+   You are standing on the road next to the western city wall which
+continues north.  South of here is a bridge across the river.  To the east,
+you see an odd looking building painted bright orange with purple trim...
+it must be the Mob Factory!
+~
+0 1
+D0
+You see the road.
+~
+~
+0 -1 3043
+D1
+You see the purple-and-orange Mob Factory.  Someone has no taste.
+~
+~
+0 -1 9400
+D2
+You see the bridge.
+~
+~
+0 -1 3051
+E
+wall~
+It is built from large grey rocks that have been fastened to each other with
+some kind of mortar.  It is far too high to climb.
+~
+S
+#3048
+Grubby Inn~
+   You are inside the old Grubby Inn.  This place has not been cleaned for
+several decades, vile smells make you dizzy.
+~
+8 0
+D0
+You see the alley.
+~
+~
+0 -1 3024
+S
+#3049
+Levee~
+  You are at the levee.  South of here you see the river gently flowing west.
+The river bank is very low making it possible to enter the river.  Directly
+across the river you can see a small boat landing built off of Kate's Diner.
+~
+0 1
+D0
+You see the Alley.
+~
+~
+0 -1 3045
+D2
+You see the river flowing west.
+~
+~
+0 -1 3203
+S
+#3050
+Abandoned Warehouse~
+   You are inside the only room in the old warehouse.  The place is very dusty
+and appears to have been unused for many years.  The skylight spills
+violet-tinged light.
+~
+8 0
+D0
+You see the alley.
+~
+~
+0 -1 3046
+D4
+You see machine dreams and taste violet phosphor.
+~
+~
+0 0 8604
+S
+#3051
+On the Bridge~
+   You are standing on the stone bridge crosses the river.  The bridge is
+built out from the western city wall and the river flows west through an
+opening in the wall ten feet below the bridge.
+~
+0 1
+D0
+You see the road.
+~
+~
+0 -1 3047
+D2
+You see the Concourse.
+~
+~
+0 -1 3100
+E
+bridge~
+It is built from large grey rocks that have been fastened to each other with
+some kind of mortar, just like the wall.
+~
+E
+opening~
+You cannot really see it from here as it is somewhere beneath your feet.
+~
+E
+wall~
+It is built from large grey rocks that have been fastened to each other with
+some kind of mortar.  It is far too high to climb.
+~
+S
+#3052
+Outside the West Gate of Midgaard~
+   You are by two small towers that have been built into the city wall and
+connected with a footbridge across the heavy wooden gate.  To the west you
+can see the edge of a big forest. A small dusty trail leads north along the
+wall.
+~
+0 1
+D0
+The trail continues around the City of Midgaard.
+~
+~
+0 -1 3900
+D1
+The city gate is to the east.
+~
+gate~
+1 3133 3040
+D3
+The forest edge is to the west.
+~
+~
+0 -1 6000
+E
+bridge footbridge~
+It is too high up to reach but it looks as if one easily could walk across it
+from one tower to the other.
+~
+E
+gate~
+It is a set of very big double doors made from hard wood.  They have been
+reinforced with large iron bands to make them even more sturdy.  One of the
+doors is equipped with a very big lock.
+~
+E
+tower towers~
+Both of the towers are built from large grey rocks that have been fastened to
+each other with some kind of mortar, just like the city wall.
+~
+E
+wall~
+It is built from large grey rocks that have been fastened to each other with
+some kind of mortar.  It is far too high to climb.
+~
+S
+#3053
+Outside the East Gate of Midgaard~
+   You are by two small towers that have been built into the city wall and
+connected with a footbridge across the heavy wooden gate.  To the east the
+plains stretch out in the distance. To the north a small dusty trail follow
+the city wall.
+~
+0 1
+D0
+The trail continues around the City of Midgaard.
+~
+~
+0 -1 3908
+D1
+You see the plains.~
+~
+0 -1 3503
+D3
+You see the city gate.
+~
+gate~
+1 3133 3041
+E
+bridge footbridge~
+It is too high up to reach but it looks as if one easily could walk across it
+from one tower to the other.
+~
+E
+gate~
+It is a set of very big double doors made from hard wood.  They have been
+reinforced with large iron bands to make them even more sturdy.  One of the
+doors is equipped with a very big lock.
+~
+E
+tower towers~
+Both of the towers are built from large grey rocks that have been fastened to
+each other with some kind of mortar, just like the city wall.
+~
+E
+wall~
+It is built from large grey rocks that have been fastened to each other with
+some kind of mortar.  It is far too high to climb.
+~
+S
+#3054
+Before the Altar of Isca~
+Your feet stand upon the vast expanse of the Temple of Isca. Here, a 
+beautiful marble altar has been placed, its sides engraved with ornate,
+mystical runes and symbols. 
+
+Under the altar, stone steps wind downwards towards the necropolis.
+
+Pillars of the purest white pearlescent rock stand firmly on either side,
+supporting a deeply arched roof. The whole temple is brightly illuminated by
+the end of a rainbow which cascades down above the temple, almost reaching
+into the donation pit which opens before your feet. 
+
+In the corners of the hall, stand statues of mythical and 
+legendary figures whose exploits form the ancient history of Xania.
+~
+8|1024 0
+D0
+The altar stands north of you
+~
+altar~
+1 -1 3058
+D2
+You see the southern end of the temple.
+~
+~
+0 -1 3001
+D4
+Bifrost, the Rainbow Bridge, hangs in the sky above you.
+~
+~
+0 -1 1215
+E
+altar~
+Even though the altar is more than ten feet long it appears to be made from a
+single block of white virgin marble.
+~
+E
+statues~
+In the northeastern corner, the statue of the Great Wyrm towers above
+you. His almighty, draconian form features large, impervious scales,
+razor sharp talons and an array of teeth which even the Gods would be
+terrified of. 
+
+In the northwestern corner, the statue does not resemble any humanoid
+form, but a huge X instead. You assume that this has some sacred
+meaning which the original creators of the temple wished to bestow
+upon their home. 
+
+The other corners hold vast torsos of mighty warriors, mages,
+barbarians, divinities and legendary explorers, none of whom you
+recognise.
+~
+D5
+The darkness of the Iscarian necropolis beckons.
+~
+~
+0 -1 3360
+S
+#3056
+The Fountain of Youth Apothecary~
+   An old man putters around behind the counter, making strange love potions
+and curative philtres.  He turns as you enter, and looks on with avarice.
+Judging from the furnishings, he's been made very wealthy by his trade.
+~
+8 0
+D2
+You see the eastern end of alley.
+~
+~
+0 -1 3046
+S
+#3057
+In the air...~
+WOW you can fly!  You are floating in the air above Temple Square of Midgaard.
+~
+4 9
+D4
+More of the same.
+~
+~
+0 0 1017
+D5
+Back down on the earth where you should be!
+~
+~
+0 0 3005
+S
+
+#3058
+Within the Altar~
+Somehow you have managed to climb inside the sacred Altar of Isca! It 
+is very dim and cramped in here and what function this small space serves
+boggles the mind. You are most surprised to detect the stench of raw
+malice in here, especially as you had assumed that the Temple of Isca
+was a sacred, holy place. It seems that there is some infestation of
+evil deep down below....
+~
+ACDK 0
+D2
+You see the temple of Isca
+~
+altar~
+1 -1 3054
+S
+
+#3100
+Northwest end of Concourse~
+   You are at the concourse, the city wall is just west.  A small promenade
+goes east, and the bridge is just north of here.  The concourse continues
+south along the city wall.
+~
+0 1
+D0
+You see the Bridge.
+~
+~
+0 -1 3051
+D1
+You see the promenade.
+~
+~
+0 -1 3101
+D2
+The concourse continues south.
+~
+~
+0 -1 3270
+S
+#3101
+Promenade~
+   The river gently flows west just north of here.  The promenade continues
+further east and to the west you see the city wall.  Park Road leads south
+from here.
+~
+0 1
+D1
+The promenade.
+~
+~
+0 -1 3102
+D2
+Park Road leads south.
+~
+~
+0 -1 3131
+D3
+You see the Concourse.
+~
+~
+0 -1 3100
+S
+#3102
+Promenade~
+   The river gently flows west just north of here.  The promenade continues
+both east and west.  A rickety bridge crosses the river to the north, towards
+the city dump (fortunately, the wind is blowing towards the dump today).
+South of here you see the entrance to the park, and a small building seems
+to be just west of the entrance.  Austral Square, home Kate's Diner, lies
+to your east.
+~
+0 1
+D0
+A rickety old bridge crosses the river, heading towards the city dump.
+~
+~
+0 -1 3254
+D1
+You see people moving in and out of Kate's Diner.
+~
+~
+0 -1 3103
+D2
+You see the park entrance.
+~
+~
+0 -1 3105
+D3
+You see the promenade.
+~
+~
+0 -1 3101
+S
+#3103
+Austral Square~
+The Promenade opens here onto Austral Square, on the south bank of the
+Midaard River.  All around you is the bustle of Southern Midgaard--
+shopkeepers on break, a town gossip or two prattling away.  You hear the
+river lapping at the pilings of the dock by Kate's Diner, which is to your
+north.  Emerald Avenue begins to the south, the Promenade continues west,
+and the concourse ends to your east.
+~
+0 1
+D0
+You smell the heavenly scents of Kate's Diner.
+~
+~
+0 -1 3150
+D1
+You see the Concourse.
+~
+~
+0 -1 3104
+D2
+The small path leads south.
+~
+~
+0 -1 3132
+D3
+You see the promenade.
+~
+~
+0 -1 3102
+S
+#3104
+Northeast end of Concourse~
+   You are at the Concourse.  The city wall is just east and Austral Square,
+home of Kate's Diner, is west.  Looking across the river you see an old
+warehouse.  A strong stone bridge crosses the river to the north, where the
+concourse becomes wall road.  The Concourse continues south along the wall.
+~
+0 1
+D0
+A strong stone bridge crosses the river.
+~
+~
+0 -1 3253
+D2
+The Concourse continues south, towards an intersection with Penny Lane.
+~
+~
+0 -1 3272
+D3
+You Austral Square.
+~
+~
+0 -1 3103
+E
+wall~
+It is built from large grey rocks that have been fastened to each other with
+some kind of mortar.  It is far too high to climb.
+~
+S
+#3105
+Park Entrance~
+   You are standing just inside the small park of Midgaard.  To the north is
+the promenade and a small path leads south into the park.  To your east is
+the famous Park Cafe.
+~
+4 1
+D0
+You see the promenade.
+~
+~
+0 -1 3102
+D1
+You see Park Cafe.
+~
+~
+0 -1 3106
+D2
+You see the park.
+~
+~
+0 -1 3108
+S
+#3106
+Park Cafe~
+   You are inside Park Cafe, a very well lighted, cosy place. The cafe
+is built from large logs. Through the windows in the northern wall you
+see the river, and through the southern window you see many vigorous
+colorful plants.
+~
+8 0
+D3
+You see the park entrance.
+~
+~
+0 -1 3105
+S
+#3107
+Small path through the park~
+   You are walking along a small path through the park.  The path continues
+south and east.
+~
+0 1
+D1
+~
+~
+0 -1 3108
+D2
+~
+~
+0 -1 3113
+S
+#3108
+Small path in the park~
+   You are standing on a small path inside the park.  The park entrance is
+just north of here, and Park Cafe is just east of the entrance.  The path
+leads further east and west.
+~
+0 1
+D0
+You see the northern park entrance.
+~
+~
+0 -1 3105
+D1
+~
+~
+0 -1 3109
+D3
+~
+~
+0 -1 3107
+S
+#3109
+Small path in the park~
+   You are on a small path running through the park.  It continues west and
+south and just north of here you see the southern wall of Park Cafe.
+~
+0 1
+D2
+~
+~
+0 -1 3115
+D3
+~
+~
+0 -1 3108
+S
+#3110
+Cityguard Head Quarters~
+   You are inside a tidy office.  A big desk made from dark wood is standing
+in the centre of the room.
+~
+8 0
+D1
+You see Park Road.
+~
+door~
+1 -1 3111
+D3
+You see a sign saying 'KEEP OUT'.
+~
+door~
+1 3120 3142
+S
+#3111
+Park Road~
+   The road continues north and south.  A building is just west of here, you
+notice a sign on the door.  The park entrance is to the east.
+~
+0 1
+D0
+~
+~
+0 -1 3131
+D1
+You see the park entrance.
+~
+~
+0 -1 3112
+D2
+~
+~
+0 -1 3118
+D3
+You see the cityguard head quarters.
+~
+door~
+1 -1 3110
+E
+building door sign~
+The sign on the door says:-
+
+                 Cityguard Head Quarters
+~
+S
+#3112
+Western Park Entrance~
+   You are standing at the western end of the park.  A small path leads east
+into the park and going west through the entrance you will reach Park Road.
+~
+4 1
+D1
+~
+~
+0 -1 3113
+D3
+~
+~
+0 -1 3111
+S
+#3113
+A path in the park~
+   You are in the park.  The paths lead north and west.  Westwards is the
+park entrance and to the east you see a small pond.
+~
+0 1
+D0
+~
+~
+0 -1 3107
+D1
+You see the pond.
+~
+~
+0 -1 3114
+D3
+You see the western park entrance.
+~
+~
+0 -1 3112
+S
+#3114
+The Pond~
+   You are swimming around in the pond, feeling rather stupid.  You can get
+back on the path from the eastern and western end of the pond.
+~
+0 6
+D1
+~
+~
+0 -1 3115
+D3
+~
+~
+0 -1 3113
+S
+#3115
+A path in the park~
+   You are in the park.  The paths lead north and east.  Eastwards is the
+park entrance and to the west you see a small pond.
+~
+0 1
+D0
+~
+~
+0 -1 3109
+D1
+~
+~
+0 -1 3116
+D3
+~
+~
+0 -1 3114
+S
+#3116
+Eastern Park Entrance~
+   You are standing at the eastern end of the park.  A small path leads west
+into the park.  Going east through the entrance you will reach Emerald
+Avenue.
+~
+4 1
+D1
+~
+~
+0 -1 3117
+D3
+~
+~
+0 -1 3115
+S
+#3117
+Emerald Avenue~
+   You are at Emerald Avenue which continues north and south.  To the west is
+the park entrance and to the east is the not very big Town Hall of Midgaard.
+~
+0 1
+D0
+~
+~
+0 -1 3132
+D1
+~
+~
+0 -1 3137
+D2
+~
+~
+0 -1 3119
+D3
+~
+~
+0 -1 3116
+S
+#3118
+Park Road~
+You are on Park Road which leads north and south.
+~
+0 1
+D0
+~
+~
+0 -1 3111
+D2
+~
+~
+0 -1 3135
+S
+#3119
+Emerald Avenue~
+You are standing at a bend on Emerald Avenue.  The road leads north and west.
+To the east, you see some run-down slums...it looks like the bad part of
+town.
+~
+0 1
+D0
+~
+~
+0 -1 3117
+D1
+You see some dangerous looking slums...just the right place for a gang.
+~
+~
+0 -1 2101
+D3
+~
+~
+0 -1 3133
+S
+#3120
+Road Crossing~
+   You are in the middle of the road cross.  Roads lead in all directions.
+A huge black iron chain as thick as a tree trunk is fastened into the ground
+at the centre of the road cross.  Its other end leads directly upwards towards
+the sky.
+A road sign is here.
+~
+0 1
+D0
+~
+~
+0 -1 3133
+D1
+~
+~
+0 -1 3136
+D2
+~
+~
+0 -1 3134
+D3
+~
+~
+0 -1 3135
+D4
+The chain disappears in the clouds.~
+~
+0 -1 7914
+E
+sign~
+The sign points in all directions:
+
+   North - Emerald Avenue.
+   East  - Park Road.
+   South - Emerald Avenue.
+   West  - Park Road.
+
+Someone has added the following with red paint:
+
+   Up    - Redferne's Flying Citadel.
+~
+E
+chain~
+The the chain reaches the clouds high above you.  It must take some really
+powerful magic to hold such a chain in place.
+~
+S
+#3121
+Emerald Avenue~
+   You are standing at a bend on Emerald Avenue.  The road leads south and
+east.
+~
+0 1
+D1
+~
+~
+0 -1 3134
+D2
+~
+~
+0 -1 3125
+S
+#3122
+Park Road~
+   You are on Park Road which leads south and north.  Elm Street is east of
+here.
+~
+0 1
+D0
+~
+~
+0 -1 3136
+D1
+~
+~
+0 -1 3123
+D2
+~
+~
+0 -1 3126
+S
+#3123
+Elm Street~
+   You are on Elm street.  Park Road is to the west and Elm Street continues
+in eastward direction.
+~
+0 1
+D1
+~
+~
+0 -1 3124
+D3
+~
+~
+0 -1 3122
+S
+#3124
+Elm Street~
+   You near the end of Elm Street.  An old elm tree grows here.  A heavy
+iron grating is south, surrounding the city's graveyard.  You can see a sign
+hanging on the grate.  The concourse crosses Elm Street to the east.
+~
+0 1
+D1
+You see the concourse.
+~
+~
+0 -1 3273
+D3
+~
+~
+0 -1 3123
+D2
+Through the solid iron bars you see the graveyard.
+~
+grate~
+1 3121 3600
+E
+grate grating~
+Looks heavy.  A small sign is hanging on it.
+~
+E
+sign~
+The sign says :-
+
+                          Graveyard of Midgaard
+
+    Many brave adventurers have found their final resting place here.
+          Please show respect and do not desecrate their tombs.
+~
+E
+elm tree~
+The fresh young leaves of the elm tree wave gently in the wind.
+~
+S
+#3125
+Emerald Avenue~
+You are on Emerald Avenue which continues north.
+The Concourse is south of here.
+~
+0 1
+D0
+~
+~
+0 -1 3121
+D2
+~
+~
+0 -1 3128
+S
+#3126
+Park Road~
+You are on Park Road which continues north.  The Concourse is south of here.
+~
+0 1
+D0
+~
+~
+0 -1 3122
+D2
+~
+~
+0 -1 3129
+S
+#3127
+On the Concourse~
+   You are at the southwest corner of the city wall.  The Concourse leads
+both north and east.
+~
+0 1
+D0
+~
+~
+0 -1 3271
+D1
+~
+~
+0 -1 3128
+S
+#3128
+On the Concourse~
+You are walking around the scenic concourse as it continues its path around
+the city of Midgaard.  The south gate of the city lies to your east, and the
+southwestern corner of the city wall is west.  Emerald Avenue stretches out
+to the north.
+~
+0 1
+D0
+Emerald avenue lies to the north.
+~
+~
+0 -1 3125
+D1
+You can see the heavily guarded southern gate of Midgaard.
+~
+~
+0 -1 3255
+D3
+~
+~
+0 -1 3127
+S
+#3129
+On the Concourse~
+The concourse continues its path around the city.  The southern gates of the
+city are west of here, and park road lies north.  The northeastern corner of
+the city wall is east.
+~
+1 1
+D0
+~
+~
+0 -1 3126
+D1
+~
+~
+0 -1 3130
+D3
+You see the south gate of Midgaard.
+~
+~
+0 -1 3255
+S
+#3130
+On the Concourse~
+   You are at the southeast corner of the city wall.  The Concourse leads
+both north and west.
+~
+0 1
+D0
+~
+~
+0 -1 3273
+D3
+~
+~
+0 -1 3129
+S
+#3131
+Park Road~
+   You are at Park Road which continues north and south.
+~
+0 1
+D0
+~
+~
+0 -1 3101
+D2
+~
+~
+0 -1 3111
+S
+#3132
+Emerald Avenue~
+   You are standing on the north end of Emerald Avenue.  To the north is
+Austral Square and Kate's Diner, to the east is the small street Penny Lane.
+~
+0 1
+D0
+~
+~
+0 -1 3103
+D1
+~
+~
+0 -1 3139
+D2
+~
+~
+0 -1 3117
+S
+#3133
+Emerald Avenue~
+   You are standing at a bend on Emerald Avenue.  To the east the road goes on
+and to the south is the Road Crossing.
+~
+0 1
+D1
+~
+~
+0 -1 3119
+D2
+~
+~
+0 -1 3120
+S
+#3134
+Emerald Avenue~
+   You are standing at a bend on Emerald Avenue.  To the west the road goes on
+and to the north is the Road Crossing.
+~
+0 1
+D0
+~
+~
+0 -1 3120
+D3
+~
+~
+0 -1 3121
+S
+#3135
+Park Road~
+   You are at a bend on Park Road.  To the north the road goes on and to the
+east is the Road Crossing.  To the south, the ancient cliffs rise from deep
+under the ground, forming a wall.
+~
+0 1
+D0
+~
+~
+0 -1 3118
+D1
+~
+~
+0 -1 3120
+S
+#3136
+Park Road~
+   You are at a bend on Park Road.  To the south the road goes on and to the
+west is the Road Crossing.
+~
+0 1
+D2
+~
+~
+0 -1 3122
+D3
+~
+~
+0 -1 3120
+S
+#3137
+The Waiting Room~
+   You are standing in the waiting room at the town hall.  Wooden chairs stand
+along the walls and a long desk is placed in the middle of the room.
+~
+8 0
+D1
+It looks like some kind of office.
+~
+~
+0 -1 3138
+D3
+The exit west leads to Emerald Avenue.
+~
+~
+0 -1 3117
+S
+#3138
+The Mayor's Office~
+   You are in the not very big office of the Mayor of Midgaard.  A large and
+polished but completely empty desk is standing in front of an armchair that
+looks so comfortable that it most of all resembles a bed with the head end
+raised slightly.
+~
+8 0
+D3
+The waiting room is to the west.
+~
+~
+0 -1 3137
+E
+chair armchair~
+This chair is really a masterpiece.  A chair where one can sit as comfortably
+as in a bed.  All lecture halls should be equipped with these things.
+~
+S
+#3139
+Penny Lane~
+   You are on Penny Lane.  Emerald Avenue is to the west and Penny Lane
+continues in eastward direction.
+~
+0 1
+D1
+~
+~
+0 -1 3140
+D3
+~
+~
+0 -1 3132
+S
+#3140
+Penny Lane~
+   You are on Penny Lane.  The narrow road continues north and west, and
+the concourse intersects this street to the east.
+~
+0 1
+D0
+~
+~
+0 -1 3141
+D1
+You see the concourse.
+~
+~
+0 -1 3272
+D3
+~
+~
+0 -1 3139
+S
+#3141
+The end of Penny Lane~
+You are at the end of Penny Lane.  The only exit appears to be south.
+~
+0 1
+D2
+~
+~
+0 -1 3140
+S
+#3142
+Captain's Office~
+   You are in the Office of the Captain of the Guard.  The Midgaard Coat of
+Arms is hanging on the north wall and a heavy steel door is to the south.
+~
+8 0
+D1
+You see the Cityguard Head Quarters.
+~
+door~
+1 3120 3110
+D2
+You see the heavy steel door.
+~
+door~
+1 3137 3143
+E
+arms~
+Although a bit dusty the Coat of Arms is an excellent piece of work.
+~
+S
+#3143
+The Jail~
+   You are in a dark and humid jail.  The dark stone walls are hard and cold
+to the touch.  A heavy steel door is to the north.
+~
+8 0
+D0
+You see the heavy steel door.
+~
+door~
+1 3137 3142
+E
+wall walls~
+The walls are marked with lots of scratches.  Some of them spell sentences
+like "JAIL IS BETTER THAN SQL" and "INGRES STRIKES AGAIN".
+~
+S
+#3150
+Kate's Diner~
+The smells of baking bread and simmering stew lead you dancing through
+the doorway of the diner.  No greasy spoons to be seen here-- the
+booth walls are covered in casual paisleys; the chairs are carved wood,
+rescued from garage sales.  Most tables have chess or backgammon boards
+carved and painted on their fingertip-smooth tops.  The refrain of some
+musical or other from the 1930's blends with the dusty golden light and the
+wonderful smells to put you completely at ease.  A huge picture window
+looks out over the Midgaard River, and a doorway leads north onto the dock
+and the South Bank river landing, while the main entrance to the south
+returns you to Austral Square.
+On most days you will find Kate here, testing a batch of stew or brewing
+a special pot of cinnamon coffee, eerily just in time for your arrival
+Pull up a chair, perhaps play a game, and take time out to talk.
+~
+DK 0
+D0
+A small boat landing lets boats land at the diner.
+~
+~
+0 -1 3203
+D2
+You see Austral Square.
+~
+~
+0 -1 3103
+D4
+You see the far-off halls of Valhalla.
+~
+~
+0 -1 1219
+E
+window landing~
+  You can see a rickety bridge to your northwest, leading back into
+Central Midgaard.  A rustic dock connects the Diner with the Midgaard
+River, and a boat or two floats lazily past.  Across the river you can see
+the Levee and the Guild of Knights, but they seem very far away from all
+of this...
+~
+S
+#3160
+Melancholy's Maps~
+   As you walk in, a sudden gust of wind enters the shop and sends several
+scraps of paper fly around the room.  You blink as the dust you've stirred
+up stings your eyes, and take a look around the shop.  This shop is cluttered
+with old pieces of parchment, stacks of books, and odd scraps.  A desk with
+slightly less clutter than the rest of the shop is in front of you.  A scroll
+case full of scrolls is behind the desk.  A bookcase is to the left of you,
+and to the left is a window overlooking the Common Square.  A small door,
+half hidden by a stack of books, leads to a room in the back of the shop.
+~
+BC 0
+D0
+A sign on the door says, "Unauthorized Personel Prohibited".
+~
+door~
+2 3161 3161
+D2
+To the south is the Poor Alley.  Across the alley, you see the Grubby Inn.
+~
+~
+0 -1 3024
+E
+bookcase~
+You see many cartographer journals and topographical studies.  You also see
+quite a few tomes written by someone named "Anson MacDonald".
+~
+E
+window~
+You peer out the window and see a cityguard beating up an old lady.
+~
+S
+#3161
+Melancholy's Room~
+   A faint smell of incense teases your nose as you enter this room.  You
+step onto a soft bearskin rug and look around.  A simple bed lies against
+the far wall.  At the foot of it is a sturdy, ironbound chest, most likely
+full of Melancholy's trappings from her adventuring days.  On a small table
+under a window to the east is a vase with a single white rose.  Other than
+that, the room is quite bare.
+~
+BCJ 0
+D2
+A small door to the south leads out into the map shop.
+~
+door~
+2 3161 3160
+D4
+~
+~
+0 -1 1219
+E
+chest~
+This chest is firmly locked, and the device by which it opens is beyond your
+reckoning.
+~
+S
+#3170
+Temple Of Stupid~
+   As you enter the abandoned warehouse your eyes blink violently to
+adjust to the almost total darkness.  You wonder where the windows are
+as you step into a mud puddle in the middle of the floor.  As your eyes
+adjust, you realize that there are mud puddles all around the room, and
+this is some weird version of windows.  In a flash of revelation, you
+realize that you've entered the Temple of Stupid.
+~
+D 0
+D0
+Poor Alley is to the north.
+~
+~
+0 -1 3044
+D4
+~
+~
+0 -1 1219
+E
+puddle puddles~
+The puddles on the floor are filthy and exude a foul stench.
+~
+S
+#3200
+Under the Bridge~
+   The arch under the bridge is covered by seaweed for one foot above the
+surface of the river.  The water gently flows through an opening in the lower
+part of the city wall.
+~
+0 7
+D1
+~
+~
+0 -1 3201
+D3
+You see the river flowing west into the Forest of Haon-Dor.~
+~
+0 -1 9772
+E
+wall~
+It is built from large grey rocks that have been fastened to each other with
+some kind of mortar.  Looks pretty solid.
+~
+S
+#3201
+On the River~
+   North of here you see the miserable buildings of the poor alley.  The
+river flows west towards the bridge.  The riverbanks are too steep to climb.
+~
+0 7
+D1
+~
+~
+0 -1 3202
+D3
+~
+~
+0 -1 3200
+S
+#3202
+On the River~
+   North of here you see the dump.  The river flows from east to west.  The
+riverbanks are too steep to climb.  A bridge passes overhead, connecting the
+dump to the promenade.
+~
+0 7
+D1
+~
+~
+0 -1 3203
+D3
+~
+~
+0 -1 3201
+S
+#3203
+On the River~
+   The levee is directly north of here, and a small boat landing for Kate's
+Diner is to the south.  The river flows in an east west direction.
+~
+4 7
+D0
+~
+~
+0 -1 3049
+D1
+~
+~
+0 -1 3204
+D2
+You see the landing in the back of Kate's Diner.
+You are hungry.
+~
+~
+0 -1 3150
+D3
+~
+~
+0 -1 3202
+S
+#3204
+On the River~
+   You see the warehouse on the northern riverbank.  East of here the river
+passes under the eastern bridge and through the city wall. The banks of the
+levee are west, in the direction of the current.
+~
+0 7
+D1
+~
+~
+0 -1 3205
+D3
+~
+~
+0 -1 3203
+S
+#3205
+On the River~
+   The river enters from a hole in the eastern city wall.  The hole has been
+blocked by several vertically positioned iron bars set into the wall. Overhead
+you can see the stone buttresses of the eastern bridge.
+~
+0 7
+D1
+The iron bars are broken, allowing passage through the hole in the wall.
+Beyond the bars you see a dark tunnel.
+bars~
+~
+0 -1 5001
+D3
+~
+~
+0 -1 3204
+S
+#3250
+Wall Road~
+   Wall road extends north and south along the eastern walls of the city.
+The east gate is north of you, south is an intersection with a dark alley. You
+check to make sure you still have your wallet.
+~
+0 1
+D0
+The eastern gate of the city is north.
+~
+~
+0 -1 3041
+D2
+You see an intersection with a dark alley.
+~
+~
+0 -1 3251
+S
+#3251
+Wall Road~
+   You are walking along the eastern wall of the city, on a road extending
+between the east gate and a bridge to the south.  A dark, dirty alley lies east
+of here.  You step carefully around a pool of liquid...who knows what it could
+be in a place this foul...
+~
+0 1
+D0
+Wall road continues to the north, heading towards the gate.
+~
+~
+0 -1 3250
+D2
+Wall road continues to the south, towards a bridge over the Midgaard river.
+~
+~
+0 -1 3252
+D3
+A dirty, unlight alley lies to the west...it looks like a perfect spot for a
+mugging.
+~
+~
+0 -1 3046
+S
+#3252
+Wall Road~
+   The walls of Midgaard tower above you to the east, keeping the city safe
+from its enemies...you hope.  An intersection with a dark alley lies north,
+and a bridge over the Midgaard river is south.  Beyond the bridge wall road
+turns in the concourse.
+~
+0 1
+D0
+You see an intersection with a dark alley.
+~
+~
+0 -1 3251
+D2
+The eastern bridge crosses the river to the south.
+~
+~
+0 -1 3253
+S
+#3253
+On the Bridge~
+   You are crossing a strong stone bridge, which spans the Midgaard river.
+Below you, the river flows into an opening in the city wall, sealed with
+strong metal bars.  North of you is wall road, south of here the concourse
+loops around the inside of the city walls.
+~
+0 1
+D0
+Wall road continues to the north.
+~
+~
+0 -1 3252
+D2
+The concourse stretches around the southern parts of Midgaard.
+~
+~
+0 -1 3104
+E
+opening bars river~
+Hmm...some of the bars have been ripped out of the wall.  Enough to pass a
+good sized raft or canoe, or perhaps even a barge.  You wonder what sort of
+beast had the strength to do this.
+~
+S
+#3254
+The South Bridge~
+   You are standing on a small, rickety bridge leading from the Midgaard
+City Dump to the much more attractive promenade of the southern parts of
+Midgaard.  You can smell the stench of the dump to the north, the fresher
+air of the promenade seems preferable.  Below you are the swift-moving
+currents of the Midgaard river.
+~
+0 1
+D0
+You can see the clutter of the City Dump.
+~
+~
+0 0 3030
+D2
+The beautiful promenade lies along the river.  What a romantic place to visit!
+~
+~
+0 -1 3102
+S
+#3255
+Inside the South Gate of Midgaard~
+   Two strong stone towers surround a heavy wooden gate set into the city wall,
+to guard against the goblins that lurk in the southern forests.  You can exit
+the city to the south, if you dare, or walk down the concourse to the east
+or west.
+~
+0 1
+D1
+The concourse heads east along the inside of the city wall.
+~
+~
+0 -1 3129
+D2
+You see the southern gate.
+~
+~
+1 3133 3256
+D3
+The concourse heads west along the inside of the city wall.
+~
+~
+0 -1 3128
+S
+#3256
+Outside the South Gate of Midgaard~
+You are standing outside the strong wooden gate on the southern walls of
+Midgaard.  Guards eye you suspiciously from the two towers on either side of
+the gate, as they stand watch to protect the city from the goblins of this
+forest.  The trees and goblins of the Miden'nir are south, the gate back to
+Migaard lies north.
+~
+0 3
+D0
+You see the southern gate.
+~
+~
+1 3133 3255
+D2
+The green forests of the Miden'nir are south, hiding countless goblin warriors.
+~
+~
+0 -1 3505
+S
+#3257
+Wall Road~
+You are walking along wall road, just north of the west gate of Midgaard.
+The road continues along the western wall to the north, towards an intersection
+with a busy market street.
+~
+0 1
+D0
+You see an intersection between wall road and a busy market street.
+~
+~
+0 -1 3258
+D2
+The west gate of the city lies south.
+~
+~
+0 -1 3040
+S
+#3258
+Wall Road~
+Wall road intersects with a crowded market street here, filled with shops and
+artisans.  The street stretches off to the east, towards the far wall of the
+city.  Wall road continues to the north and south.
+~
+0 1
+D0
+Wall road continues to the north, towards the northwestern corner of the wall.
+~
+~
+0 -1 3259
+D1
+You see the shops and craftsmen of Market Road.
+~
+~
+0 -1 3301
+D2
+Wall road continues alongside the western wall, heading towards the west gate.
+~
+~
+0 -1 3257
+S
+#3259
+Wall Road~
+You are walking along wall road, which extends along the inside of the western
+wall of Midgaard.  To the south, you can see an intersection with a crowded
+market street.  The northwestern corner of the city wall lies ahead to the
+north.
+~
+0 1
+D0
+You see the northwestern corner of the city wall.
+~
+~
+0 -1 3260
+D2
+To the south, wall road intersects with a crowded market street.
+~
+~
+0 -1 3258
+S
+#3260
+The Northwest Corner~
+You are standing beneath the northwestern corner of the city wall, on a turn
+in wall road.  You can head south, towards the west gate, or east, to the
+north gate.
+~
+0 1
+D1
+Wall road continues along the northern wall of the city.
+~
+~
+0 -1 3261
+D2
+Wall road continues along the western wall of the city.
+~
+~
+0 -1 3259
+S
+#3261
+Wall Road~
+The city walls tower over you as walk down wall road, between the northwestern
+corner of the wall to the west, and the northern gate of Midgaard to the east.
+~
+0 1
+D1
+Wall road continues to the east, towards the northern gate of Midgaard.
+~
+~
+0 -1 3262
+D3
+You can see the northwest corner of the city wall to the west.
+~
+~
+0 -1 3260
+S
+#3262
+Inside the North Gate of Midgaard~
+Two small towers surround a strong wooden gate, connected by a small stone
+bridge set with murder holes.  This gate is not as heavily guarded as the
+others, as the plains outside are safe to travel.  You can leave Midgaard to
+the north, or continues along wall road to the west and east.  A teeming market
+street is visible to the south, and beyond that the graceful spires of the
+Temple of Isca, but there is no way to reach them from here.
+~
+0 1
+D0
+The northern plains are visible through the gate.
+~
+~
+1 3133 3268
+D1
+Wall road continues to the east, alongside the northern wall.
+~
+~
+0 -1 3263
+D3
+Wall road continues to the west, alongside the northern wall.
+~
+~
+0 -1 3261
+S
+#3263
+Wall Road~
+You are walking along wall road, between the northern gate of the city and the
+northeastern corner of the city walls.  You can see bloodstains on the road...
+better be on guard for thieves.
+~
+0 1
+D1
+You see the northeastern corner of the city walls.
+~
+~
+0 -1 3264
+D3
+The northern gate of the city lies east.
+~
+~
+0 -1 3262
+S
+#3264
+The Northeast Corner~
+Wall road turns the corner here, as you pass by the northeastern edge of the
+city wall.  The north gate lies to your west, and the road south leads to the
+eastern gate of Midgaard.
+~
+0 1
+D2
+Wall road continues to the south, along the eastern wall of the city.
+~
+~
+0 -1 3265
+D3
+Wall road continues to the west, along the northern wall of the city.
+~
+~
+0 -1 3263
+S
+#3265
+Wall Road~
+  Just south of you is an intersection with a crowded market street.  The
+eastern wall of Midgaard is beside you, and to the north you can see the
+northeast corner of the city wall.
+~
+0 1
+D0
+You can see the northeast corner of the city wall.
+~
+~
+0 -1 3264
+D2
+You see an intersection with a crowded street.
+~
+~
+0 -1 3266
+S
+#3266
+Wall Road~
+Here, wall road meets up with a busy market street heading off towards the
+west, and the far fall of the city.  You can smell spices, perfume, freshly
+cured hide, and other strange scents, all mingle together in one heady aroma.
+Wall road continues to the north and south.
+~
+0 1
+D0
+Wall road continues to the north, along the eastern wall of the city.
+~
+~
+0 -1 3265
+D2
+Wall road continues to the south, towards the east gate of Midgaard.
+~
+~
+0 -1 3267
+D3
+You see a mass of people heading down Market Road.
+~
+~
+0 -1 3316
+S
+#3267
+Wall Road~
+You are near the center of wall road, just north of the east gate of the city.
+To the north, you can see an intersection with a crowded market street.
+The guards at the gate eye you suspiciously from afar.
+~
+0 1
+D0
+You see an intersection with a busy market street.
+~
+~
+0 -1 3266
+D2
+You see the well-guarded east gate of Midgaard.
+~
+~
+0 -1 3041
+S
+#3268
+Outside the North Gate of Midgaard~
+  You stand outside the north gate of the walled city of Midgaard.  A dusty
+trail is visibile to the north, it stretches around the walls of the city.
+Further north are the wide expanses of the northern plains, leading to the
+village of Ofcol.  You can return to Midgaard to the south.
+~
+0 2
+D0
+You see a dusty trail leading around the city.
+~
+~
+0 -1 3904
+D2
+You see the north gate of Midgaard.
+~
+~
+1 3133 3262
+S
+#3270
+On the Concourse~
+The strong stone walls of Midgaard rise up to the west, keeping evil at bay.
+The concourse heads towards a bridge to the north, and continues south
+alongside a beautiful park.
+~
+0 1
+D0
+The concourse continues to the north, along the city wall.
+~
+~
+0 -1 3100
+D2
+The concourse heads south, passing by a beautiful park.
+~
+~
+0 -1 3271
+S
+#3271
+On the Concourse near the park~
+You are walking down the Concourse, along the western wall of Midgaard.  To
+the north, the road passes by a beautiful park, to the south, you can see
+the southwest corner of the city wall.
+~
+0 1
+D0
+The concourse heads north, passing by a beautiful park.
+~
+~
+0 -1 3270
+D2
+You can see the southwest corner of the city wall.
+~
+~
+0 -1 3127
+S
+#3272
+On the Concourse at Penny Lane~
+You are on a road leading around the inner walls of Midgaard.  To the north,
+the concourse heads towards a bridge into northern Midgaard.  To the south,
+you can see an intersection with Elm Street.  The quaint paved streets of
+Penny Lane lie west.
+~
+0 1
+D0
+The concourse continues to the north, towards the east bridge.
+~
+~
+0 -1 3104
+D2
+The concourse continues south, towards an intersection with Elm Street.
+~
+~
+0 -1 3273
+D3
+You see Penny Lane.
+~
+~
+0 -1 3140
+S
+#3273
+On the Concourse at Elm Street~
+The air grows chill as you pass near the Elm Street graveyard.  The walls of
+Midgaard are to the east, and the concourse continues to the north and south.
+To your west, you see Elm Street at the graveyard entrance.
+~
+0 1
+D0
+The concourse continues to the north, towards an intersection with Penny Lane.
+~
+~
+0 -1 3272
+D2
+The concourse continues to the south, towards the southeast corner of the wall.
+~
+~
+0 -1 3130
+D3
+You see Elm Street and the graveyard entrance.
+~
+~
+0 -1 3124
+S
+#3301
+Market Road~
+  You are standing on the western end of Market Road.  The traffic here
+is light.  This is a quieter section of Midgaard.  You can hear the sound of
+haggling coming from the east.
+~
+0 1
+D1
+Market Road continues east.
+~
+~
+0 -1 3302
+D3
+Wall Road is to the west.
+~
+~
+0 -1 3258
+S
+#3302
+Market Road~
+  You are walking along Market Road.  There is a slightly unpleasant
+smell in the air.  It seems to be coming from a doorway to the north.
+Looking up, you realize that it is the butchers shop.  To the south of
+you is the jewellers shop.  Market Road continues on to the east and
+the west.
+~
+0 1
+D0
+The butchers shop is to the north.
+~
+~
+0 -1 3335
+D1
+Market Road continues east.
+~
+~
+0 -1 3303
+D2
+The jewellers shop is to the south.
+~
+~
+0 -1 3334
+D3
+Market Road continues west.
+~
+~
+0 -1 3301
+S
+#3303
+Market Road~
+  The shops on this stretch of Market road are long-closed and boarded up.
+Not much traffic passes through this part, as there is nothing to buy.
+~
+0 1
+D1
+Market Road continues to the east.
+~
+~
+0 -1 3314
+D3
+Market Road continues to the west.
+~
+~
+0 -1 3302
+S
+#3314
+Market Road~
+  Noise and light abound on this part of Market Road.  The sounds of
+music and laughter pour out from a busy inn and pub to the south.  It's
+doors are open wide, and you can see happy people inside the building.
+To the north of you is a large trading post.  The scents of spices and
+incense mix pleasantly and pour through the door.  Market road continues
+off to the east and west.
+~
+0 1
+D0
+A large trading post is to the north.
+~
+~
+0 -1 3353
+D1
+Market Road continues to the east.
+~
+~
+0 -1 3315
+D2
+A busy pub is to the south.
+~
+~
+0 -1 3355
+D3
+Market Road continues to the west.
+~
+~
+0 -1 3303
+S
+#3315
+Market Road~
+  Market Road seems to widen here slightly, allowing more traffic to
+travel through the area.  To the south is another entrance to the busy
+pub.  This door is also open wide and spilling forth the sounds of
+happy patrons.  North of you is a small florists shop.  If you close
+your eyes, you can smell the roses, petunias, tulips, and carnations.
+Market Road continues to the east and west.
+~
+0 1
+D0
+A small florists shop is to the north.
+~
+~
+0 -1 3354
+D1
+Market Road continues to the east.
+~
+~
+0 -1 3316
+D2
+A busy pub is to the south.
+~
+~
+0 -1 3356
+D3
+Market Road continues to the west.
+~
+~
+0 -1 3314
+S
+#3316
+Market Road~
+  You are at the eastern end of Market Road.  To the east of you, the
+tall wall around the city looms up before you and casts its shadow on
+you.  Market Road continues to the west.
+~
+0 1
+D1
+Wall Road is east of here.
+~
+~
+0 -1 3266
+D3
+Market Road continues to the west.
+~
+~
+0 -1 3315
+S
+#3335
+A Butcher's Shop~
+  An somewhat unpleasant smell assaults your nose as you walk through
+the open door of the shop.  The scent of raw meat, blood and sweat are
+are among the more recognizable odors.  They seem to be the standard
+aromas of a good butchers shop.  Various slabs and shoulders of beef,
+deer, rabbit and other animals hang on large hooks along the walls and
+in rest piles on butchering blocks.  A sign hangs nearby. Large wooden
+numbers hang from a large nail on the sign.
+~
+0 0
+D2
+Market Road is through the door to the south.
+~
+~
+0 -1 3302
+E
+sign signs numbers~
+The sign says: Please take a number.
+The top number is: 42
+~
+S
+#3334
+A Jeweller's Shop~
+  A few strategically placed lanterns keep this shop well-lit in the
+absence of any windows.  The room is surprisingly well appointed with
+tapestries hanging on the walls.  Large oak cases are situated in the
+back of the room, obviously designed for displaying jewellery.  A simple
+work bench is located to the front of the shop and a few tools are strewn
+about on it.  There is a heavy door in the back of the room.  You assume
+that it leads to the jewellers back room where he stores his valuables.
+~
+0 0
+D0
+Market Road is to the north.
+~
+~
+0 -1 3302
+S
+#3352
+Grebe's Tavern~
+    Dive.  That's all you can say about this place; its a
+dive.  You step carefully over the dead and/or drunk sailors
+on the floor toward the center of the room.  There's no
+decorations on the wall; they've all been ripped down in anger
+or for use as weapons at one time or another.  Looking around,
+you search vainly for a clean table to sit at, and then give up.
+~
+8 0
+D2
+A dark alley is to the south.
+~
+~
+0 0 3026
+E
+table tables~
+You find a table that's relatively vomit-free.
+~
+E
+wall walls~
+Bare, except for the holes.
+~
+S
+#3353
+The Trading Post~
+  Bolts of cloth are stacked in monstrous heaps around the room.  Barrells
+of spices fill the corners.  Crates and boxes are stacked in a haphazard
+manner about the room.  Merchants wander in and out of a back door, moving
+strange boxes filled with mysterious goods and bound for exotic locations.
+A schedule for the various caravans is posted on the walls.  This is the
+local trading post.  It hums and buzzes with excitement.
+~
+0 0
+D2
+Market Road is to the south.
+~
+~
+0 -1 3314
+E
+schedule~
+The writing is small and close.  You don't want to strain your eyes looking
+at it.
+~
+S
+#3354
+A Florists Shop~
+  The fragrant scent of flowers in full bloom embraces you as you enter
+the shop.  Pots and bowls with roses, petunias, daisies, tulips, and
+carnations line the shelves along the walls.  Smaller pots of herbs and
+spices rest on tables near the front of the room.  A counter stands in
+the back of the room.  A woman is there, trimming some sort of small,
+green plant.
+~
+0 0
+D2
+Market Road is to the south.
+~
+~
+0 -1 3315
+S
+#3355
+Andy's Pub~
+  The busy pub is filled with patrons.  People are laughing and singing.
+A minstrel plays his lute in another part of the pub, and a few people
+are even dancing.  Andy, the pubs owner, wanders around and checks to see
+that the needs of his customers are met.  The bar is to your south.  East
+of you is another section of the pub.  You know that there are rooms to
+be had somewhere around here...
+~
+0 0
+D0
+Market Road is to the north.
+~
+~
+0 -1 3314
+D1
+You see another room in the pub.
+~
+~
+0 -1 3356
+D2
+The bar is to the south of you.
+~
+~
+0 -1 3357
+S
+#30011
+The Combat Room~
+You stand in the centre of a large circular room. There are exits in all
+directions. The walls are made of tough grey stone, the floor is covered
+with a thin layer of sand and in some places blood.
+This place looks old, like it has stood here for centuries.
+Are you ready to fight and maybe die in such a place?
+~
+N 10
+D0
+A stone arch.
+~
+~
+0 -1 -3001
+D1
+A stone arch.
+~
+~
+0 -1 -3001
+D2
+A stone arch.
+~
+~
+0 -1 -3001
+D3
+A stone arch.
+~
+~
+0 -1 -3001
+D4
+A stone arch.
+~
+~
+0 -1 -3001
+D5
+A stone arch.
+~
+~
+0 -1 -3001
+S
+#30012
+The preparation room~
+You are in a plain but comfortable room. A large fire burns to the south.
+In the centre of the room is a table. Upon the table is some bread and water.
+Take your ease, eat and drink. You must be fit to fight.
+
+Be calm, you are quite safe. Now you must prepare for your duel.
+When you are ready walk north into the Combat room.
+~
+KN 0
+D0
+A shimmering magical portal.
+~
+~
+0 -1 -30011
+S
+#3356
+A Room in the Pub~
+  This part of the pub is filled with dancing and singing.  A wandering
+minstrel is on a chair in a corner with his lute.  A busty red headed
+woman is standing near him and singing a tale of comedic heroism. Drunk
+men sit laughing at their tables and busy bar maids weave through the
+crowd with full mugs and horns of ale and mead.  Another part of the pub
+is located to your west. The bar is to the south.  A set of steps occupy
+in a corner of the room.  They lead up to the inn section of this
+prosperous establishment.
+~
+0 0
+D0
+Market Road is to the north.
+~
+~
+0 -1 3315
+D2
+The bar is to your south.
+~
+~
+0 -1 3358
+D3
+Another room in the pub is to your west.
+~
+~
+0 -1 3355
+D4
+A set of stairs leads up to the reception area.
+~
+~
+0 -1 3359
+S
+#3357
+The Bar~
+  A long mahogany bar is set in the back of the pub.  Mugs line a shelf
+behind the bar.  Bottles of strong, nasty looking liquids decorate one
+of the lower shelves.  A large cask rests on a table behind the bar.  A
+strong but friendly-looking bartender stands next to the cask polishing
+glasses.  A couple of the bar maids stand in a corner and throw the most
+inviting glances your way.
+A sign is on the wall.
+~
+0 0
+D0
+The pub proper is to the north.
+~
+~
+0 -1 3355
+E
+sign~
+The sign says: Don't forget our dinner menu.
+~
+S
+#3358
+The Bar~
+  A long mahogany bar is set in the back of the pub.  Mugs line a shelf
+behind the bar.  Bottles of strong, nasty looking liquids decorate one
+of the lower shelves.  A large cask rests on a table behind the bar.  A
+strong but friendly looking bartender stands next to the cask polishing
+glasses.  A couple of the bar maids stand in a corner and throw the most
+inviting glances your way.
+~
+0 0
+D0
+The pub proper is to the north.
+~
+~
+0 -1 3356
+E
+sign~
+The sign says: Don't forget our dinner menu.
+~
+S
+#3359
+The Inn~
+  You are standing upstairs from Andy's Pub at Andy's Inn.  A few chairs
+and a couple of end tables give the room a `homey' atmosphere.  A large
+stone fireplace burns brightly against one wall and warms the room.  A
+large oak desk is nestled in one corner of the room.  A small man with
+wire-framed glasses sits behind the desk working dilligently on his books.
+He looks up as you enter the room.  He looks at you quizzically.  He is
+probably waiting for you to ask him for a room.
+~
+0 0
+D5
+The stairs lead back down to the pub.
+~
+~
+0 -1 3356
+S
+#3360
+Before the Summoning Stone~
+You are standing in an enormous stone necropolis. Peering through the dusty
+darkness, you see that there are great number of stone
+caskets of all shapes and sizes stacked up against the walls.
+
+A stone pillar etched with mysterious glowing runes pulses with a
+pale light. This must be the Summoning Stone of Astradamus!
+
+A sign has been bolted into the ground before it.
+~
+8|1024 0
+D4
+The stairs lead up to the temple.
+~
+~
+0 -1 3054
+E
+sign~
+.   To summon your corpse, purchase a summoning shard appropriate for your character's level 
+    and give it to the summoner. Type 'list' to see the shards for sale. 
+    Shard Type        | Level Range
+    -------------------------------
+    lesser shard      |    2 - 11
+    minor shard       |   12 - 21
+    dull shard        |   22 - 31
+    polished shard    |   32 - 41
+    burnished shard   |   42 - 51
+    greater shard     |   52 - 61
+    imbued shard      |   62 - 71
+    sanctified shard  |   72 - 81
+    octarine shard    |   82 - 91
+~
+S
+#0
+
+#RESETS
+
+
+D 0 3054 0 1          close doors to Within the Altar and load the scroll
+D 0 3058 2 1 
+O 0 3098 1 3058
+
+*
+* -- northern Midgaard --
+*
+
+M 0 3011 1 3001 1  1        Concordius
+*
+E 1 3005  33 9         clawfist 
+E 1 3388  33 11         shield
+E 1 3389  33 5
+M 0 3162 1 3001 1  1        Aquila
+*
+O 0 3010 1 3054       Donation pit
+*
+M 0 3000 1 3033 1  1        The Wizard Shop Keeper  
+*
+G 1 3040 100             identify scroll.
+G 1 3041 100             potion of see invisible.
+G 1 3039 100    cancel scroll
+G 1 3042 100    recall scroll
+G 1 3043 100    ring of protection
+G 1 3044 100    wand of magic missiles
+M 0 3003 1 3011 1  1        The weaponsmith  
+
+* additional weapons equipment added 29/6/99 Faramir
+
+
+* normal items
+
+
+*
+G 1 3380 100
+G 1 3381 100
+G 1 3382 100
+G 1 3383 100
+G 1 3385 100   stiletto
+G 1 3351 100       standard issue dagger
+G 1 3020 100       thin dagger
+G 1 3021 100       small sword
+G 1 3350 100       standard issue sword
+G 1 3022 100       long sword
+G 1 3384 100    flail
+G 1 3023 100    club
+G 1 3352 100    standard issue mace
+G 1 3024 100    wooden mace
+G 1 3025 100    hand axe
+G 1 3026 100    battle axe
+G 1 3027 100    spear
+G 1 3028 100    staff
+G 1 3029 100    flail
+E 1 3022 100 16            wields a longsword
+M 0 3004 1 3020 1  1        The armourer  
+
+
+
+
+*
+G 1 3373 100    mercenary issue kit: shirt
+G 1 3374 100    coif
+G 1 3375 100    skirt
+G 1 3376 100    boots
+G 1 3377 100    gauntlets
+G 1 3378 100    sleeves
+G 1 3379 100    shield
+G 1 3110 100    chain shirt
+G 1 3111 100    chain coif
+G 1 3112 100    chain skirt
+G 1 3113 100    iron boots
+G 1 3114 100    chain gauntlets
+G 1 3115 100    chain sleeves
+G 1 3116 100    large metal shield
+G 1 3072 100    scale jerkin
+G 1 3073 100    scale coif
+G 1 3074 100    scale skirt
+G 1 3075 100    reinf. boots
+G 1 3076 100    reinf. gloves
+G 1 3077 100    scale sleeves
+G 1 3097 100    small metal shield
+G 1 3117 100    small wooden shield
+E 1 3022 100 16          wields a longsword
+M 0 3002 1 3010 1  1        The grocer  
+*
+G 1 3030 100    torch
+G 1 3031 100    lantern
+G 1 3138 100    water skin
+G 1 3032 100    bag
+G 1 3033 100    box
+E 1 3022 100 16         wields a longsword
+M 0 3001 1 3009 1  1        Mr Cholmondley-Warner (the baker)
+*
+G 1 3009 100    pie
+G 1 3013 100    roll
+G 1 3012 100    cookies
+G 1 3014 100    danish
+G 1 3011 100    bread
+E 1 3022 100 16         wields a longsword
+M 0 3008 1 3031 1  1        The Pet Shop Boy  
+*
+M 0 3009 1 3034 1  1        The Jeweller  
+* stuff to be added RSN
+*
+M 0 3010 1 3035 1  1        The Leather Worker  
+*
+G 1 3060 100    leather jerkin
+G 1 3061 100    leather cap
+G 1 3062 100    leather pants
+G 1 3063 100    leather boots
+G 1 3064 100    leather gloves
+G 1 3065 100    leather sleeves
+G 1 3052 100    leather bracer
+G 1 3053 100    leather belt
+G 1 3054 100    leather girdle
+G 1 3066 100    hard leather jerkin
+G 1 3067 100    hard leather cap
+G 1 3068 100    hard leather pants
+G 1 3069 100    hard leather boots
+G 1 3070 100    hard leather gloves
+G 1 3071 100    hard leather sleeves
+M 0 3006 1 3049 1  1        A Captain (selling boats) at Levee  
+*
+G 1 3050 100              Give a raft to the captain
+G 1 3051 100              Give canoe to Captain
+M 0 3007 1 3050 1  1        Sailor training in the warehouse  
+*
+M 0 3070 1 3056 1  1          The Apothecary  
+G 1 3080 100    healing
+G 1 3081 100    sanct
+G 1 3082 100    divine protection
+G 1 3083 100    cure light
+G 1 3084 100    cure serious
+G 1 3085 100    cure critical
+G 1 3086 100    antidote
+G 1 3087 100    sight
+G 1 3088 100    holy water
+G 1 3089 100    armor
+G 1 3090 100    negation
+G 1 3091 100    flying
+G 1 3092 100    true sight
+M 0 3040 1 3007 1  1        The bartender  
+*
+G 1 3000 100
+G 1 3001 100
+E 1 3022 100 16            wields a longsword
+M 0 3043 1 3003 1  1        The Clerics waiter.  
+*
+G 1 3002 100
+G 1 3004 100
+E 1 3022 100 16          wields a longsword
+M 0 3042 1 3018 1  1        The Magic Users Waiter  
+*
+G 1 3002 100
+G 1 3003 100
+E 1 3022 100 16            wields a longsword
+M 0 3045 1 3022 1  1        The Fighters Waiter  
+*
+G 1 3002 100
+G 1 3003 100
+G 1 3004 100
+E 1 3022 100 16            wields a longsword
+M 0 3044 1 3028 1  1        The Knight's Waiter  
+*
+G 1 3003 100
+G 1 3004 100
+E 1 3022 100 16            wields a longsword
+M 0 3046 1 3048 1  1        Filthy (bartender) in Grubby Inn  
+*
+G 1 3003 100
+G 1 3004 100
+E 1 3022 100 16            wields a longsword
+M 0 3020 1 3019 1  1        The Magic Users Guildmaster  
+M 0 3021 1 3002 1  1        The Clerics Guildmaster  
+M 0 3022 1 3029 1  1        The Knights Guildmaster  
+M 0 3023 1 3023 1  1        The Barbarian's Guildmaster  
+*
+M 0 3024 1 3017 1  1        The Sorcerer Guard  
+*
+M 0 3025 1 3004 1  1        The Priest Guard  
+*
+M 0 3026 1 3027 1  1        The Barbarian Guard  
+*
+E 1 3022  90 16            wields a longsword
+M 0 3027 1 3021 1  1        The Knight Guard  
+*
+E 1 3022  90 16            wields a longsword
+M 0 3150 1 3150 1  1          The waitress in Kate's Diner  
+*
+G 1 3154 100    irish red
+G 1 3152 100    stew
+G 1 3153 100    breadsticks
+G 1 3151 100    soup
+G 1 1103 100    pipeweed bread
+G 1 3150 100    cinnamon coffee
+G 1 3100 100    tea
+M 0 3160 1 3160 1  1          Melancholy in the map shop  
+G 1 3168 100    map/olympus
+G 1 3167 100    map/new thalos
+G 1 3166 100    map/moria level one
+G 1 3165 100    map/dwarven kingdom
+G 1 3164 100    map/south
+G 1 3163 100    map/thera
+G 1 3162 100       map/midg
+M 0 3161 1 3160 1  1          Snake in the map shop  
+D 0 3160 0 2      close and lock north door
+D 0 3161 2 2      close and lock from other side
+*
+M 0 3060 12 3004 1  1       Cityguard 1  
+*
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3355 100 4     cloak
+M 0 3060 12 3014 1  1       Cityguard 2  
+*
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3356 100 6            helmet
+M 0 3060 10 3017 1  1       Cityguard 3  
+*
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3357 100 7            leggings
+M 0 3060 10 3021 1  1       Cityguard 4  
+*
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3358 100 8            boots
+M 0 3060 12 3027 1  1       Cityguard 5  
+*
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3359 100 9            gloves
+M 0 3067 2 3041 1  1       Cityguard 1 at east gate  
+*
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3360 100 10           sleeves
+M 0 3067 2 3041 1  1       Cityguard 2 at east gate  
+*
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3354 100 11           shield
+M 0 3068 2 3040 1  1       Cityguard 1 at west gate  
+*
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3361 100 12           cape
+M 0 3068 2 3040 1  1       Cityguard 2 at west gate  
+*
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3362 100 13           belt
+M 0 3071 2 3255 1  1       Cityguard 1 at south gate  
+*
+E 1 3365 100 0           banner
+E 1 3364 100 1           signet ring
+E 1 3386 100 16          sword
+E 1 3353 100 5           vest
+E 1 3361 100 12           cape
+M 0 3071 2 3255 1  1       Cityguard 2 at south gate  
+*
+E 1 3365 100 0           banner
+E 1 3364 100 1           signet ring
+E 1 3386 100 16          sword
+E 1 3353 100 5           vest
+E 1 3362 100 13           belt
+M 0 3072 1 3262 1  1       Cityguard at north gate  
+*
+E 1 3365 100 0           banner
+E 1 3364 100 1           signet ring
+E 1 3386 100 16          sword
+E 1 3353 100 5           vest
+E 1 3354 100 11           shield
+M 0 3063 5 3026 1  1        A vagabond (at Dark Alley)  
+*
+E 1 3021 100 16            wields a shortsword
+E 1 3066 100 5       wears a hard leather jerkin
+E 1 3052 100 15      wears a leather bracer
+M 0 3064 3 3007 1  1        A Happy Drunk (at Inn)  
+M 0 3065 2 3044 1  1        A Beggar in poor alley  
+M 0 3065 2 3048 1  1        A Beggar in Grubby Inn  
+*
+M 0 3062 15 3024 1  1       The Cute Little Doggy Fido (at Poor Alley)  
+M 0 3062 15 3025 1  1       The Cute Little Doggy Fido (at Common Square)  
+M 0 3062 15 3016 1  1       The Cute Little Doggy Fido (at Main Street)  
+M 0 3062 15 3012 1  1       The Cute Little Doggy Fido (at Main Street)  
+M 0 3066 1 3026 1  1        The Alley Cat (at Dark Alley)  
+*
+M 0 3061 5 3006 1  1        The janitor (at Inn Entrance)  
+*
+M 0 3090 1 3032 1  1        Kitten in pet shop  
+M 0 3091 1 3032 1  1        Puppy in pet shop  
+M 0 3092 1 3032 1  1        Beagle in pet shop  
+M 0 3093 1 3032 1  1        Rottweiler in pet shop  
+M 0 3094 1 3032 1  1        Wolf in pet shop  
+*
+M 0 3005 5 3027 1  1       thief at entrance to knight guild  
+E 1 3351 100 16
+M 0 3005 5 3128 1  1       thief on concourse  
+E 1 3351 100 16
+O 0 3135 10 1200  fountain at chat room
+O 0 3135 10 3005  fountain at temple
+O 0 3139 15 3008  letter at receptionist
+O 0 3140 15 3008  notice at receptionist
+*
+* -- southern Midgaard --
+*
+D 0 3110 3 2          Lock Captain's door from outside
+D 0 3142 1 2          Lock Captain's door from inside
+D 0 3142 2 2          Lock jail from outside
+D 0 3143 0 2          Lock jail from inside
+*
+O 0 3134 3 3101       Bench 1 at promenade
+O 0 3134 3 3102       Bench 2 at promenade
+O 0 3134 3 3103       Bench 3 at promenade
+*
+M 0 3100 1 3106 1  1        Maid in Park Cafe  
+*
+G 1 3100 100             A cup of tea
+G 1 3101 100             A cup of coffee
+G 1 3102 100             A cup of water
+M 0 3120 1 3106 1  1        Sexton in Park Cafe  
+*
+G 1 3121 100               A rusty old key (to graveyard)
+M 0 3121 1 3114 1  1        Swan in Pond  
+M 0 3122 1 3114 1  1        Duckling in Pond  
+M 0 3123 1 3109 1  1        Sparrow in Park  
+M 0 3124 2 3113 1  1        Duck 1 in Park  
+M 0 3124 2 3115 1  1        Duck 2 in Park  
+*
+M 0 3140 1 3142 1  1        Captain of the Guard in H.Q.  
+E 1 3387 100 16          sword
+G 1 3122 100               Give Captain A wooden key to the desk.
+G 1 3137 100               Give Captain A steel key to the jail.
+M 0 3141 4 3142 1  1        Mad Guard in H.Q.
+E 1 3387 100 16          sword
+M 0 3141 4 3142 1  1        Mad Guard in H.Q.  
+E 1 3387 100 16          sword
+M 0 3141 4 3142 1  1        Mad Guard in H.Q.  
+E 1 3387 100 16          sword
+M 0 3141 4 3142 1  1        Mad Guard in H.Q.  
+*
+E 1 3387 100 16          sword
+O 0 3130 1 3142       Load the desk
+P 1 3123 3 3130 1  1          Put brass key in desk  
+O 0 3131 1 3142       Load the safe
+P 1 3132 3 3131 1  1        Put money in safe  
+*
+M 0 3060 20 3111 1  1       Cityguard 1  
+*
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+G 1 3120 100                 Has an iron key to Captain's Office
+M 0 3060 20 3111 1  1       Cityguard 2  
+*
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+E 1 3363 100 15          bracer
+M 0 3060 20 3111 1  1       Cityguard 3  
+*
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+M 0 3060 20 3111 1  1       Cityguard 4  
+*
+E 1 3365 100 0     banner
+E 1 3364 100 1     signet ring
+E 1 3386 100 16    sword
+E 1 3353 100 5     vest
+M 0 3142 1 3137 1  1        Secretary at town hall  
+M 0 3143 1 3138 1  1        Mayor at town hall  
+*E 1 3133 80 17         Has the City Key
+*
+E 1 3124  90 16         Mayor's sword
+M 0 3069 4 3138 1  1        Cityguard for the Mayor  
+E 1 3365  48 0     banner
+E 1 3364  48 1     signet ring
+E 1 3387  48 16    sword
+M 0 3069 4 3138 1  1        Cityguard for the Mayor  
+E 1 3365  48 0     banner
+E 1 3364  48 1     signet ring
+E 1 3387  48 16    sword
+M 0 3069 4 3138 1  1        Cityguard for the Mayor  
+E 1 3365  48 0     banner
+E 1 3364  48 1     signet ring
+E 1 3387  48 16    sword
+M 0 3069 4 3138 1  1        Cityguard for the Mayor  
+*
+E 1 3365  48 0     banner
+E 1 3364  48 1     signet ring
+E 1 3387  48 16    sword
+M 0 3144 1 3120 1  1        Town Crier  
+*
+O 0 3135 1 3141       Fountain on Penny Lane
+O 0 3136 1 3141       20 coins on Penny Lane
+*
+M 0 3012 1 3054 1  1       Healer in temple altar  
+*
+M 0 3163 1 3360 1  1       Astradamus in the necropolis
+*
+G 1 3398 100    octarine shard
+G 1 3397 100    sanctified shard
+G 1 3396 100    imbued shard
+G 1 3395 100    greater shard
+G 1 3394 100    burnished shard
+G 1 3393 100    polished shard
+G 1 3392 100    dull shard
+G 1 3391 100    minor shard
+G 1 3390 100    lesser shard
+O 0 3399 -1 3360      Summoning Stone in the necropolis
+*
+O 0 3011 -1 30012     Put bread safe room
+O 0 3135 -1 30012     Put water safe room
+S
+#SHOPS
+ 3000  2  3  4 10  0  105  15  0 23 ; The Wizard
+ 3001  0  0  0  0  0  110 100  0 23 ; Cholmondley
+ 3002  1  8 13 15 19  150  40  0 23 ; The Grocer
+ 3003  5  6  7  0  0  130  40  0 23 ; The Weaponsmith
+ 3004  9  0  0  0  0  100  50  0 23 ; The Armourer
+ 3006 22  0  0  0  0  120  90  6 22 ; The Captain
+ 3008  0  0  0  0  0  100 100  0 23 ; The Pet Shop Boy
+ 3009  8  0  0  0  0  150  50  0 23    ; The Jeweller
+ 3010  9  0  0  0  0  110  50  0 23   ; The Leather Worker
+
+ 3040  0  0  0  0  0  110 100  0 23 ; The Bartender
+ 3042  0  0  0  0  0  100 100  0 23 ; The Waiter (mage)
+ 3043  0  0  0  0  0  110 100  0 23 ; The Waiter (cleric)
+ 3044  0  0  0  0  0  170 100  0 23 ; The Waiter (knight)
+ 3045  0  0  0  0  0  150 100  0 23 ; The Waiter (fighter)
+ 3046  0  0  0  0  0  100  90  0 23 ; Filthy
+ 3070   10  0  0  0  0  1000 100  0 23   ; Apothecary
+ 3150    0  0  0  0  0   100 100  0 23   ; Kate's Diner
+ 3160  0  0  0  0  0   100 100    0 23 ; Mel's Maps
+
+ 3100  0  0  0  0  0  110  90  6 23 ; The Maid
+ 3163  0  0  0  0  0  100  200  0 23 ; Summoner
+
+0
+
+#MOBPROGS
+
+M 3064 drunk.prg
+M 3065 beggar.prg
+M 3067 gategrd2.prg
+M 3068 gategrd2.prg
+S
+
+#SPECIALS
+M  3000 spec_cast_mage
+M  3005 spec_thief
+M  3011 spec_executioner
+M  3012 spec_cast_adept
+M  3020 spec_cast_mage
+M  3021 spec_cast_cleric
+M  3024 spec_cast_mage
+M  3042 spec_cast_mage
+M  3043 spec_cast_cleric
+*
+M  3060 spec_guard
+M  3061 spec_janitor
+M  3062 spec_fido
+M  3067 spec_guard
+M  3068 spec_guard
+M  3069 spec_guard
+*
+M  3100 spec_cast_cleric
+M  3120 spec_cast_cleric
+M  3143 spec_mayor
+M  3011 spec_concordius
+M  3162 spec_aquila_pet
+M  3163 spec_summoner
+
+S
+
+
+
+#$
+
