@@ -60,7 +60,7 @@ struct EXTRA_DESCR_DATA;
 struct OBJ_DATA;
 struct OBJ_INDEX_DATA;
 typedef struct program PROGRAM;
-typedef struct reset_data RESET_DATA;
+struct ResetData;
 struct ROOM_INDEX_DATA;
 struct SHOP_DATA;
 
@@ -826,18 +826,6 @@ static constexpr inline auto EXIT_VNUM_COSMETIC = -1;
 #define RESETS_END_SECTION 'S' /* end of the resets section */
 
 /*
- * Area-reset definition.
- */
-struct reset_data {
-    RESET_DATA *next;
-    char command;
-    sh_int arg1;
-    sh_int arg2;
-    sh_int arg3;
-    sh_int arg4;
-};
-
-/*
  * Room type.
  */
 struct ROOM_INDEX_DATA {
@@ -854,8 +842,8 @@ struct ROOM_INDEX_DATA {
     sh_int light{};
     SectorType sector_type{SectorType::Inside};
 
-    RESET_DATA *reset_first{};
-    RESET_DATA *reset_last{};
+    ResetData *reset_first{};
+    ResetData *reset_last{};
 };
 
 /*

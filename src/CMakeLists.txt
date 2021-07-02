@@ -97,6 +97,7 @@ add_library(xania_lib STATIC
         Help.cpp Help.hpp
         Rng.cpp Rng.hpp
         MobIndexData.cpp MobIndexData.cpp
+        ResetData.hpp
         Dice.cpp Dice.hpp
         SectorType.cpp SectorType.hpp
         PerEnum.hpp

@@ -15,6 +15,7 @@
 #include "Help.hpp"
 #include "MobIndexData.hpp"
 #include "Note.hpp"
+#include "ResetData.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
@@ -112,7 +113,6 @@ sh_int gsn_staves;
 sh_int gsn_wands;
 sh_int gsn_recall;
 
-/* a bunch of xania spells and skills */
 sh_int gsn_headbutt;
 sh_int gsn_ride;
 sh_int gsn_throw;
@@ -186,7 +186,7 @@ void load_mobiles(FILE *fp);
 void load_objects(FILE *fp);
 
 void load_resets(FILE *fp);
-void new_reset(ROOM_INDEX_DATA *, RESET_DATA *);
+void new_reset(ROOM_INDEX_DATA *, ResetData *);
 
 void load_rooms(FILE *fp);
 
@@ -357,28 +357,28 @@ void load_helps(FILE *fp) {
 /*
  * Adds a reset to a room.
  */
-void new_reset(ROOM_INDEX_DATA *pR, RESET_DATA *pReset) {
-    RESET_DATA *pr;
+void new_reset(ROOM_INDEX_DATA *room, ResetData *reset) {
+    ResetData *last_reset;
 
-    if (!pR) {
+    if (!room) {
         return;
     }
-    pr = pR->reset_last;
+    last_reset = room->reset_last;
 
-    if (!pr) {
-        pR->reset_first = pReset;
-        pR->reset_last = pReset;
+    if (!last_reset) {
+        room->reset_first = reset;
+        room->reset_last = reset;
     } else {
-        pR->reset_last->next = pReset;
-        pR->reset_last = pReset;
-        pR->reset_last->next = nullptr;
+        room->reset_last->next = reset;
+        room->reset_last = reset;
+        room->reset_last->next = nullptr;
     }
 
     top_reset++;
 }
 
 void load_resets(FILE *fp) {
-    RESET_DATA *pReset;
+    ResetData *pReset;
     ROOM_INDEX_DATA *pRoomIndex;
     EXIT_DATA *pexit;
     int iLastRoom = 0;
@@ -401,7 +401,7 @@ void load_resets(FILE *fp) {
             continue;
         }
 
-        pReset = static_cast<RESET_DATA *>(alloc_perm(sizeof(*pReset)));
+        pReset = static_cast<ResetData *>(alloc_perm(sizeof(*pReset)));
         pReset->command = letter;
         /* if_flag */ fread_number(fp);
         pReset->arg1 = fread_number(fp);
@@ -737,7 +737,7 @@ void area_update() {
  * Reset one room.  Called by reset_area.
  */
 void reset_room(ROOM_INDEX_DATA *room) {
-    RESET_DATA *reset;
+    ResetData *reset;
     Char *lastMob = nullptr;
     bool lastMobWasReset = false;
     if (!room)
