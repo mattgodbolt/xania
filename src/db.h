@@ -35,9 +35,7 @@ extern bool fBootDb;
 extern int newobjs;
 extern OBJ_INDEX_DATA *obj_index_hash[MAX_KEY_HASH];
 extern int top_obj_index;
-extern int top_affect;
-extern int top_vnum_room;
-extern int top_vnum_obj;
+extern int top_obj_affect;
 extern int social_count;
 
 void boot_db();

@@ -320,7 +320,7 @@ void load_objects(FILE *fp) {
                 af.location = static_cast<AffectLocation>(fread_number(fp));
                 af.modifier = fread_number(fp);
                 pObjIndex->affected.add(af);
-                top_affect++;
+                top_obj_affect++;
             }
 
             else if (letter == 'E') {
@@ -358,7 +358,6 @@ void load_objects(FILE *fp) {
         pObjIndex->next = obj_index_hash[iHash];
         obj_index_hash[iHash] = pObjIndex;
         top_obj_index++;
-        top_vnum_obj = top_vnum_obj < vnum ? vnum : top_vnum_obj;
         assign_area_vnum(vnum);
     }
 }

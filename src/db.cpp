@@ -45,9 +45,19 @@ namespace {
 static inline constexpr auto RoomResetAgeOccupiedArea = 15;
 static inline constexpr auto RoomResetAgeUnoccupiedArea = 10;
 
-// Formerly global, but for the time being only referenced in this file.
 SHOP_DATA *shop_first;
 SHOP_DATA *shop_last;
+
+std::map<int, MobIndexData> mob_indexes; // a map only so things like "vnum mob XXX" are ordered.
+char *string_hash[MAX_KEY_HASH];
+
+char *string_space;
+char *top_string;
+
+int top_exit;
+int top_reset;
+int top_room;
+int top_shop;
 
 }
 
@@ -59,7 +69,20 @@ SpecialFunc spec_lookup(const char *name);
 GenericList<Char *> char_list;
 // Mutable global: modified whenever a new object is created or destroyed.
 GenericList<OBJ_DATA *> object_list;
+// Mutable global: object template pointers.
+OBJ_INDEX_DATA *obj_index_hash[MAX_KEY_HASH];
+// Mutable global: room template pointers.
+ROOM_INDEX_DATA *room_index_hash[MAX_KEY_HASH];
+// Mutable global: index number of the latest object template to be created.
+int top_obj_index;
+// Mutable global: count of object templates. TODO: Get rid of this.
+int newobjs = 0;
+// Mutable global: index number of the latest affect on an object.
+int top_obj_affect;
 
+char str_empty[1]; // TODO: Get rid of this and str_dup()
+
+// Global skill numbers initialized once on startup.
 sh_int gsn_backstab;
 sh_int gsn_dodge;
 sh_int gsn_hide;
@@ -84,8 +107,6 @@ sh_int gsn_mass_invis;
 sh_int gsn_poison;
 sh_int gsn_plague;
 sh_int gsn_sleep;
-
-/* new gsns */
 
 sh_int gsn_axe;
 sh_int gsn_dagger;
@@ -123,28 +144,6 @@ sh_int gsn_raise_dead;
 sh_int gsn_octarine_fire;
 sh_int gsn_insanity;
 sh_int gsn_bless;
-
-/* Locals. */
-std::map<int, MobIndexData> mob_indexes; // a map only so things like "vnum mob XXX" are ordered.
-OBJ_INDEX_DATA *obj_index_hash[MAX_KEY_HASH];
-ROOM_INDEX_DATA *room_index_hash[MAX_KEY_HASH];
-char *string_hash[MAX_KEY_HASH];
-
-char *string_space;
-char *top_string;
-char str_empty[1];
-
-int top_affect;
-int top_exit;
-int top_help;
-int top_obj_index;
-int top_reset;
-int top_room;
-int top_shop;
-int mobile_count = 0;
-int newobjs = 0;
-int top_vnum_room;
-int top_vnum_obj;
 
 /*
  * Merc-2.2 MOBprogram locals - Faramir 31/8/1998
@@ -1827,7 +1826,7 @@ void do_areas(Char *ch, ArgParser args) {
 void do_memory(Char *ch) {
     char buf[MAX_STRING_LENGTH];
 
-    snprintf(buf, sizeof(buf), "Affects %5d\n\r", top_affect);
+    snprintf(buf, sizeof(buf), "Affects %5d\n\r", top_obj_affect);
     ch->send_to(buf);
     ch->send_line("Areas   {:5}", AreaList::singleton().count());
     snprintf(buf, sizeof(buf), "Exits   %5d\n\r", top_exit);
