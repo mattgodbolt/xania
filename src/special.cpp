@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "Logging.hpp"
+#include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "Socials.hpp"
 #include "TimeInfoData.hpp"

@@ -15,6 +15,7 @@
 #include "Help.hpp"
 #include "MobIndexData.hpp"
 #include "Note.hpp"
+#include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumRooms.hpp"

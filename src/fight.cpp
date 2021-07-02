@@ -15,6 +15,7 @@
 #include "InjuredPart.hpp"
 #include "Logging.hpp"
 #include "Races.hpp"
+#include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumMobiles.hpp"

@@ -14,6 +14,7 @@
 #include "DescriptorList.hpp"
 #include "Logging.hpp"
 #include "Races.hpp"
+#include "SkillNumbers.hpp"
 #include "TimeInfoData.hpp"
 #include "challenge.hpp"
 #include "chat/chatlink.h"

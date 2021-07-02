@@ -12,6 +12,7 @@
 #include "Logging.hpp"
 #include "Materials.hpp"
 #include "Pronouns.hpp"
+#include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumObjects.hpp"

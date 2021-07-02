@@ -7,6 +7,7 @@
 #include "Attacks.hpp"
 #include "Races.hpp"
 #include "Rng.hpp"
+#include "SkillNumbers.hpp"
 #include "VnumObjects.hpp"
 #include "handler.hpp"
 #include "merc.h"

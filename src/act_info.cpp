@@ -16,6 +16,7 @@
 #include "Help.hpp"
 #include "Materials.hpp"
 #include "Races.hpp"
+#include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "Socials.hpp"
 #include "TimeInfoData.hpp"

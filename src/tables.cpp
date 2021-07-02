@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tables.h"
+#include "SkillNumbers.hpp"
 #include "VnumObjects.hpp"
 #include "merc.h"
 #include <stdio.h>

@@ -2,6 +2,7 @@
 
 #include "Char.hpp"
 #include "Logging.hpp"
+#include "SkillNumbers.hpp"
 #include "handler.hpp"
 #include "merc.h"
 

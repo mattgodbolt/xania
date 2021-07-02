@@ -53,6 +53,7 @@ add_library(xania_lib STATIC
         phil.h
         ride.hpp ride.cpp
         save.cpp save.hpp
+        SkillNumbers.hpp
         SkillTables.hpp SkillTables.cpp
         skills.cpp
         spec_concordius.cpp

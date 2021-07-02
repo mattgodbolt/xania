@@ -5,6 +5,7 @@
 /*************************************************************************/
 #include "ride.hpp"
 #include "Char.hpp"
+#include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "comm.hpp"
 #include "db.h"

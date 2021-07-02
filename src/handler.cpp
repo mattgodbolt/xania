@@ -14,6 +14,7 @@
 #include "Descriptor.hpp"
 #include "Materials.hpp"
 #include "Races.hpp"
+#include "SkillNumbers.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "WeatherData.hpp"

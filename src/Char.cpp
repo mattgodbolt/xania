@@ -10,6 +10,7 @@
 #include "Note.hpp"
 #include "Races.hpp"
 #include "Sex.hpp"
+#include "SkillNumbers.hpp"
 #include "TimeInfoData.hpp"
 #include "act_comm.hpp"
 #include "comm.hpp"

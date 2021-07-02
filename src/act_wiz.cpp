@@ -12,6 +12,7 @@
 #include "DescriptorList.hpp"
 #include "MobIndexData.hpp"
 #include "Races.hpp"
+#include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumObjects.hpp"

@@ -11,6 +11,7 @@
 #include "AFFECT_DATA.hpp"
 #include "CharFileMeta.hpp"
 #include "Races.hpp"
+#include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumMobiles.hpp"

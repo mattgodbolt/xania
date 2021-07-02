@@ -22,6 +22,7 @@
 #include "Note.hpp"
 #include "Pronouns.hpp"
 #include "Races.hpp"
+#include "SkillNumbers.hpp"
 #include "TimeInfoData.hpp"
 #include "Titles.hpp"
 #include "VnumObjects.hpp"
