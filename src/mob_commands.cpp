@@ -39,7 +39,7 @@
  * Local functions.
  */
 
-ROOM_INDEX_DATA *find_location(Char *ch, std::string_view arg);
+Room *find_location(Char *ch, std::string_view arg);
 
 /* This routine transfers between alpha and numeric forms of the
  *  mob_prog bitvector types. It allows the words to show up in mpstat to
@@ -120,7 +120,7 @@ void do_mpstat(Char *ch, const char *argument) {
 
 void do_mpasound(Char *ch, const char *argument) {
 
-    ROOM_INDEX_DATA *was_in_room;
+    Room *was_in_room;
 
     if (ch->is_pc()) {
         ch->send_line("Huh?");
@@ -409,7 +409,7 @@ void do_mppurge(Char *ch, const char *argument) {
 
 void do_mpgoto(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    ROOM_INDEX_DATA *location;
+    Room *location;
 
     if (ch->is_pc()) {
         ch->send_line("Huh?");
@@ -438,8 +438,8 @@ void do_mpgoto(Char *ch, const char *argument) {
 
 void do_mpat(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    ROOM_INDEX_DATA *location;
-    ROOM_INDEX_DATA *original;
+    Room *location;
+    Room *original;
 
     if (ch->is_pc()) {
         ch->send_line("Huh?");
@@ -482,7 +482,7 @@ void do_mpat(Char *ch, const char *argument) {
 void do_mptransfer(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
-    ROOM_INDEX_DATA *location;
+    Room *location;
 
     if (ch->is_pc()) {
         ch->send_line("Huh?");

@@ -16,6 +16,7 @@
 #include "InjuredPart.hpp"
 #include "Logging.hpp"
 #include "Races.hpp"
+#include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
@@ -1259,7 +1260,7 @@ void make_corpse(Char *ch) {
 }
 
 void death_cry(Char *ch) {
-    ROOM_INDEX_DATA *was_in_room;
+    Room *was_in_room;
     std::string_view msg;
 
     switch (number_range(0, 1)) {
@@ -2247,8 +2248,8 @@ void do_backstab(Char *ch, const char *argument) {
 }
 
 void do_flee(Char *ch) {
-    ROOM_INDEX_DATA *was_in;
-    ROOM_INDEX_DATA *now_in;
+    Room *was_in;
+    Room *now_in;
     Char *victim;
     int attempt;
 

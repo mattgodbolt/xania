@@ -14,6 +14,7 @@
 #include "Descriptor.hpp"
 #include "Materials.hpp"
 #include "Races.hpp"
+#include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
@@ -402,14 +403,14 @@ void char_from_room(Char *ch) {
 /*
  * Move a char into a room.
  */
-void char_to_room(Char *ch, ROOM_INDEX_DATA *pRoomIndex) {
-    if (pRoomIndex == nullptr) {
+void char_to_room(Char *ch, Room *pRoom) {
+    if (pRoom == nullptr) {
         bug("Char_to_room: nullptr.");
         return;
     }
 
-    ch->in_room = pRoomIndex;
-    pRoomIndex->people.add_front(ch);
+    ch->in_room = pRoom;
+    pRoom->people.add_front(ch);
 
     if (ch->is_pc()) {
         if (ch->in_room->area->empty) {
@@ -653,9 +654,9 @@ bool check_sub_issue(OBJ_DATA *obj, Char *ch) {
 /*
  * Move an obj into a room.
  */
-void obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *pRoomIndex) {
-    pRoomIndex->contents.add_front(obj);
-    obj->in_room = pRoomIndex;
+void obj_to_room(OBJ_DATA *obj, Room *pRoom) {
+    pRoom->contents.add_front(obj);
+    obj->in_room = pRoom;
     obj->carried_by = nullptr;
     obj->in_obj = nullptr;
 }
@@ -757,7 +758,7 @@ void extract_char(Char *ch, bool delete_from_world) {
     char_from_room(ch);
 
     if (!delete_from_world) {
-        char_to_room(ch, get_room_index(rooms::MidgaardAltar));
+        char_to_room(ch, get_room(rooms::MidgaardAltar));
         return;
     }
 
@@ -966,14 +967,14 @@ int get_obj_weight(OBJ_DATA *obj) {
 /*
  * True if room is dark.
  */
-bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex) {
-    if (pRoomIndex->light > 0)
+bool room_is_dark(Room *pRoom) {
+    if (pRoom->light > 0)
         return false;
 
-    if (IS_SET(pRoomIndex->room_flags, ROOM_DARK))
+    if (IS_SET(pRoom->room_flags, ROOM_DARK))
         return true;
 
-    if (pRoomIndex->sector_type == SectorType::Inside || pRoomIndex->sector_type == SectorType::City)
+    if (pRoom->sector_type == SectorType::Inside || pRoom->sector_type == SectorType::City)
         return false;
 
     if (weather_info.is_dark())
@@ -985,25 +986,25 @@ bool room_is_dark(ROOM_INDEX_DATA *pRoomIndex) {
 /*
  * True if room is private.
  */
-bool room_is_private(ROOM_INDEX_DATA *pRoomIndex) {
-    auto count = ranges::distance(pRoomIndex->people);
+bool room_is_private(Room *pRoom) {
+    auto count = ranges::distance(pRoom->people);
 
-    if (IS_SET(pRoomIndex->room_flags, ROOM_PRIVATE) && count >= 2)
+    if (IS_SET(pRoom->room_flags, ROOM_PRIVATE) && count >= 2)
         return true;
 
-    if (IS_SET(pRoomIndex->room_flags, ROOM_SOLITARY) && count >= 1)
+    if (IS_SET(pRoom->room_flags, ROOM_SOLITARY) && count >= 1)
         return true;
 
-    if (IS_SET(pRoomIndex->room_flags, ROOM_IMP_ONLY))
+    if (IS_SET(pRoom->room_flags, ROOM_IMP_ONLY))
         return true;
 
     return false;
 }
 
 /* visibility on a room -- for entering and exits */
-bool can_see_room(const Char *ch, const ROOM_INDEX_DATA *pRoomIndex) {
+bool can_see_room(const Char *ch, const Room *pRoom) {
     // TODO remove
-    return ch->can_see(*pRoomIndex);
+    return ch->can_see(*pRoom);
 }
 
 bool can_see(const Char *ch, const Char *victim) {

@@ -79,7 +79,7 @@ GenericList<OBJ_DATA *> object_list;
 // Mutable global: object template pointers.
 OBJ_INDEX_DATA *obj_index_hash[MAX_KEY_HASH];
 // Mutable global: room template pointers.
-ROOM_INDEX_DATA *room_index_hash[MAX_KEY_HASH];
+Room *room_hash[MAX_KEY_HASH];
 // Mutable global: index number of the latest object template to be created.
 int top_obj_index;
 
@@ -188,7 +188,7 @@ void load_mobiles(FILE *fp);
 void load_objects(FILE *fp);
 
 void load_resets(FILE *fp);
-void new_reset(ROOM_INDEX_DATA *, ResetData *);
+void new_reset(Room *, ResetData *);
 
 void load_rooms(FILE *fp);
 
@@ -358,7 +358,7 @@ void load_helps(FILE *fp) {
 /*
  * Adds a reset to a room.
  */
-void new_reset(ROOM_INDEX_DATA *room, ResetData *reset) {
+void new_reset(Room *room, ResetData *reset) {
     ResetData *last_reset;
 
     if (!room) {
@@ -380,7 +380,7 @@ void new_reset(ROOM_INDEX_DATA *room, ResetData *reset) {
 
 void load_resets(FILE *fp) {
     ResetData *pReset;
-    ROOM_INDEX_DATA *pRoomIndex;
+    Room *pRoom;
     Exit *pexit;
     int iLastRoom = 0;
     int iLastObj = 0;
@@ -426,33 +426,33 @@ void load_resets(FILE *fp) {
             exit(1);
             break;
         case RESETS_MOB_IN_ROOM:
-            if ((pRoomIndex = get_room_index(pReset->arg3))) {
-                new_reset(pRoomIndex, pReset);
+            if ((pRoom = get_room(pReset->arg3))) {
+                new_reset(pRoom, pReset);
                 iLastRoom = pReset->arg3;
             }
             break;
         case RESETS_OBJ_IN_ROOM:
-            if ((pRoomIndex = get_room_index(pReset->arg3))) {
-                new_reset(pRoomIndex, pReset);
+            if ((pRoom = get_room(pReset->arg3))) {
+                new_reset(pRoom, pReset);
                 iLastObj = pReset->arg3;
             }
             break;
         case RESETS_PUT_OBJ_OBJ:
-            if ((pRoomIndex = get_room_index(iLastObj)))
-                new_reset(pRoomIndex, pReset);
+            if ((pRoom = get_room(iLastObj)))
+                new_reset(pRoom, pReset);
             break;
         case RESETS_GIVE_OBJ_MOB:
         case RESETS_EQUIP_OBJ_MOB:
-            if ((pRoomIndex = get_room_index(iLastRoom))) {
-                new_reset(pRoomIndex, pReset);
+            if ((pRoom = get_room(iLastRoom))) {
+                new_reset(pRoom, pReset);
                 iLastObj = iLastRoom;
             }
             break;
         case RESETS_EXIT_FLAGS: {
-            pRoomIndex = get_room_index(pReset->arg1);
+            pRoom = get_room(pReset->arg1);
             auto opt_door = try_cast_direction(pReset->arg2);
 
-            if (!opt_door || !pRoomIndex || (pexit = pRoomIndex->exit[*opt_door]) == nullptr
+            if (!opt_door || !pRoom || (pexit = pRoom->exit[*opt_door]) == nullptr
                 || !IS_SET(pexit->rs_flags, EX_ISDOOR)) {
                 bug("Load_resets: 'D': exit {} not door.", pReset->arg2);
                 exit(1);
@@ -472,8 +472,8 @@ void load_resets(FILE *fp) {
                 exit(1);
             }
 
-            if ((pRoomIndex = get_room_index(pReset->arg1)))
-                new_reset(pRoomIndex, pReset);
+            if ((pRoom = get_room(pReset->arg1)))
+                new_reset(pRoom, pReset);
 
             break;
         }
@@ -508,26 +508,26 @@ void load_rooms(FILE *fp) {
             break;
 
         fBootDb = false;
-        if (get_room_index(vnum) != nullptr) {
+        if (get_room(vnum) != nullptr) {
             bug("Load_rooms: vnum {} duplicated.", vnum);
             exit(1);
         }
         fBootDb = true;
 
-        auto *pRoomIndex = new ROOM_INDEX_DATA;
-        pRoomIndex->area = area_last;
-        pRoomIndex->vnum = vnum;
-        pRoomIndex->name = fread_string(fp);
-        pRoomIndex->description = fread_string(fp);
-        pRoomIndex->room_flags = fread_flag(fp);
+        auto *pRoom = new Room;
+        pRoom->area = area_last;
+        pRoom->vnum = vnum;
+        pRoom->name = fread_string(fp);
+        pRoom->description = fread_string(fp);
+        pRoom->room_flags = fread_flag(fp);
         /* horrible hack */
         if (3000 <= vnum && vnum < 3400)
-            SET_BIT(pRoomIndex->room_flags, ROOM_LAW);
+            SET_BIT(pRoom->room_flags, ROOM_LAW);
         int sector_value = fread_number(fp);
         if (auto sector_type = try_get_sector_type(sector_value)) {
-            pRoomIndex->sector_type = *sector_type;
+            pRoom->sector_type = *sector_type;
         } else {
-            bug("Invalid sector type {}, defaulted to {}", sector_value, pRoomIndex->sector_type);
+            bug("Invalid sector type {}, defaulted to {}", sector_value, pRoom->sector_type);
         }
 
         for (;;) {
@@ -575,12 +575,12 @@ void load_rooms(FILE *fp) {
                 case 4: pexit->rs_flags = EX_ISDOOR | EX_PASSPROOF | EX_PICKPROOF; break;
                 }
 
-                pRoomIndex->exit[*opt_door] = pexit;
+                pRoom->exit[*opt_door] = pexit;
                 top_exit++;
             } else if (letter == 'E') {
                 auto keyword = fread_stdstring(fp);
                 auto description = fread_stdstring(fp);
-                pRoomIndex->extra_descr.emplace_back(EXTRA_DESCR_DATA{keyword, description});
+                pRoom->extra_descr.emplace_back(EXTRA_DESCR_DATA{keyword, description});
             } else {
                 bug("Load_rooms: vnum {} has flag not 'DES'.", vnum);
                 exit(1);
@@ -588,8 +588,8 @@ void load_rooms(FILE *fp) {
         }
 
         iHash = vnum % MAX_KEY_HASH;
-        pRoomIndex->next = room_index_hash[iHash];
-        room_index_hash[iHash] = pRoomIndex;
+        pRoom->next = room_hash[iHash];
+        room_hash[iHash] = pRoom;
         top_room++;
     }
 }
@@ -888,39 +888,39 @@ void load_objects(FILE *fp) {
  * Check for bad reverse exits.
  */
 void fix_exits() {
-    ROOM_INDEX_DATA *pRoomIndex;
-    ROOM_INDEX_DATA *to_room;
+    Room *pRoom;
+    Room *to_room;
     Exit *pexit;
     Exit *pexit_rev;
     int iHash;
 
     for (iHash = 0; iHash < MAX_KEY_HASH; iHash++) {
-        for (pRoomIndex = room_index_hash[iHash]; pRoomIndex != nullptr; pRoomIndex = pRoomIndex->next) {
+        for (pRoom = room_hash[iHash]; pRoom != nullptr; pRoom = pRoom->next) {
             bool fexit;
 
             fexit = false;
             for (auto door : all_directions) {
-                if ((pexit = pRoomIndex->exit[door]) != nullptr) {
-                    if (pexit->u1.vnum <= 0 || get_room_index(pexit->u1.vnum) == nullptr)
+                if ((pexit = pRoom->exit[door]) != nullptr) {
+                    if (pexit->u1.vnum <= 0 || get_room(pexit->u1.vnum) == nullptr)
                         pexit->u1.to_room = nullptr;
                     else {
                         fexit = true;
-                        pexit->u1.to_room = get_room_index(pexit->u1.vnum);
+                        pexit->u1.to_room = get_room(pexit->u1.vnum);
                     }
                 }
             }
             if (!fexit)
-                SET_BIT(pRoomIndex->room_flags, ROOM_NO_MOB);
+                SET_BIT(pRoom->room_flags, ROOM_NO_MOB);
         }
     }
 
     for (iHash = 0; iHash < MAX_KEY_HASH; iHash++) {
-        for (pRoomIndex = room_index_hash[iHash]; pRoomIndex != nullptr; pRoomIndex = pRoomIndex->next) {
+        for (pRoom = room_hash[iHash]; pRoom != nullptr; pRoom = pRoom->next) {
             for (auto door : all_directions) {
-                if ((pexit = pRoomIndex->exit[door]) != nullptr && (to_room = pexit->u1.to_room) != nullptr
-                    && (pexit_rev = to_room->exit[reverse(door)]) != nullptr && pexit_rev->u1.to_room != pRoomIndex
+                if ((pexit = pRoom->exit[door]) != nullptr && (to_room = pexit->u1.to_room) != nullptr
+                    && (pexit_rev = to_room->exit[reverse(door)]) != nullptr && pexit_rev->u1.to_room != pRoom
                     && !pexit->is_one_way) {
-                    bug("Fix_exits: {} -> {}:{} -> {}.", pRoomIndex->vnum, static_cast<int>(door), to_room->vnum,
+                    bug("Fix_exits: {} -> {}:{} -> {}.", pRoom->vnum, static_cast<int>(door), to_room->vnum,
                         static_cast<int>(reverse(door)),
                         (pexit_rev->u1.to_room == nullptr) ? 0 : pexit_rev->u1.to_room->vnum);
                 }
@@ -950,11 +950,11 @@ void area_update() {
         ++pArea->age;
         if ((!pArea->empty && pArea->age >= RoomResetAgeOccupiedArea)
             || (pArea->empty && pArea->age >= RoomResetAgeUnoccupiedArea)) {
-            ROOM_INDEX_DATA *pRoomIndex;
+            Room *pRoom;
             reset_area(pArea.get());
             pArea->age = number_range(0, 3);
-            pRoomIndex = get_room_index(rooms::MudschoolEntrance);
-            if (pRoomIndex != nullptr && pArea.get() == pRoomIndex->area)
+            pRoom = get_room(rooms::MudschoolEntrance);
+            if (pRoom != nullptr && pArea.get() == pRoom->area)
                 pArea->age = RoomResetAgeUnoccupiedArea;
             else if (pArea->nplayer == 0)
                 pArea->empty = true;
@@ -965,7 +965,7 @@ void area_update() {
 /*
  * Reset one room.  Called by reset_area.
  */
-void reset_room(ROOM_INDEX_DATA *room) {
+void reset_room(Room *room) {
     ResetData *reset;
     Char *lastMob = nullptr;
     bool lastMobWasReset = false;
@@ -1014,9 +1014,9 @@ void reset_room(ROOM_INDEX_DATA *room) {
             auto *mob = create_mobile(mobIndex);
 
             // Pet shop mobiles get ACT_PET set.
-            ROOM_INDEX_DATA *previousRoomIndex;
-            previousRoomIndex = get_room_index(room->vnum - 1);
-            if (previousRoomIndex && IS_SET(previousRoomIndex->room_flags, ROOM_PET_SHOP))
+            Room *previousRoom;
+            previousRoom = get_room(room->vnum - 1);
+            if (previousRoom && IS_SET(previousRoom->room_flags, ROOM_PET_SHOP))
                 SET_BIT(mob->act, ACT_PET);
 
             char_to_room(mob, room);
@@ -1027,13 +1027,13 @@ void reset_room(ROOM_INDEX_DATA *room) {
 
         case RESETS_OBJ_IN_ROOM: {
             OBJ_INDEX_DATA *objIndex;
-            ROOM_INDEX_DATA *roomIndex;
+            Room *room;
             if (!(objIndex = get_obj_index(reset->arg1))) {
                 bug("Reset_room: 'O': bad vnum {}.", reset->arg1);
                 continue;
             }
 
-            if (!(roomIndex = get_room_index(reset->arg3))) {
+            if (!(room = get_room(reset->arg3))) {
                 bug("Reset_room: 'O': bad vnum {}.", reset->arg3);
                 continue;
             }
@@ -1138,8 +1138,8 @@ void reset_room(ROOM_INDEX_DATA *room) {
         case RESETS_EXIT_FLAGS: break;
 
         case RESETS_RANDOMIZE_EXITS: {
-            ROOM_INDEX_DATA *roomIndex;
-            if (!(roomIndex = get_room_index(reset->arg1))) {
+            Room *room;
+            if (!(room = get_room(reset->arg1))) {
                 bug("Reset_room: 'R': bad vnum {}.", reset->arg1);
                 continue;
             }
@@ -1147,7 +1147,7 @@ void reset_room(ROOM_INDEX_DATA *room) {
             for (int d0 = 0; d0 < reset->arg2 - 1; d0++) {
                 auto door0 = try_cast_direction(d0).value();
                 auto door1 = try_cast_direction(number_range(d0, reset->arg2 - 1)).value();
-                std::swap(roomIndex->exit[door0], roomIndex->exit[door1]);
+                std::swap(room->exit[door0], room->exit[door1]);
             }
             break;
         }
@@ -1159,10 +1159,10 @@ void reset_room(ROOM_INDEX_DATA *room) {
  * Reset one area.
  */
 void reset_area(AREA_DATA *pArea) {
-    ROOM_INDEX_DATA *pRoom;
+    Room *pRoom;
     int vnum;
     for (vnum = pArea->lvnum; vnum <= pArea->uvnum; vnum++) {
-        if ((pRoom = get_room_index(vnum)))
+        if ((pRoom = get_room(vnum)))
             reset_room(pRoom);
     }
 }
@@ -1387,7 +1387,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
 
     case ITEM_PORTAL:
         if (obj->value[0] != 0) {
-            obj->destination = get_room_index(obj->value[0]);
+            obj->destination = get_room(obj->value[0]);
             if (!obj->destination)
                 bug("Couldn't find room index {} for a portal (vnum {})", obj->value[0], pObjIndex->vnum);
             obj->value[0] = 0; // Prevents ppl ever finding the vnum in the obj
@@ -1494,19 +1494,19 @@ OBJ_INDEX_DATA *get_obj_index(int vnum) {
 }
 
 /*
- * Translates mob virtual number to its room index struct.
+ * Translates mob virtual number to its Room.
  * Hash table lookup.
  */
-ROOM_INDEX_DATA *get_room_index(int vnum) {
-    ROOM_INDEX_DATA *pRoomIndex;
+Room *get_room(int vnum) {
+    Room *pRoom;
 
-    for (pRoomIndex = room_index_hash[vnum % MAX_KEY_HASH]; pRoomIndex != nullptr; pRoomIndex = pRoomIndex->next) {
-        if (pRoomIndex->vnum == vnum)
-            return pRoomIndex;
+    for (pRoom = room_hash[vnum % MAX_KEY_HASH]; pRoom != nullptr; pRoom = pRoom->next) {
+        if (pRoom->vnum == vnum)
+            return pRoom;
     }
 
     if (fBootDb) {
-        bug("Get_room_index: bad vnum {}.", vnum);
+        bug("get_room: bad vnum {}.", vnum);
         exit(1);
     }
 
@@ -2090,7 +2090,7 @@ void do_dump(Char *ch) {
     MobIndexData *pMobIndex;
     PcData *pc;
     OBJ_INDEX_DATA *pObjIndex;
-    ROOM_INDEX_DATA *room;
+    Room *room;
     Exit *exit;
     Descriptor *d;
     AFFECT_DATA *af;

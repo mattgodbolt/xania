@@ -13,6 +13,7 @@
 #include "Logging.hpp"
 #include "Materials.hpp"
 #include "Pronouns.hpp"
+#include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
@@ -461,7 +462,7 @@ bool is_mass_looting_npc_undroppable_obj(const OBJ_DATA *obj, const OBJ_DATA *co
            && (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE));
 }
 
-Char *shopkeeper_in(const ROOM_INDEX_DATA &room) {
+Char *shopkeeper_in(const Room &room) {
     for (auto *maybe_keeper : room.people) {
         if (maybe_keeper->is_npc() && maybe_keeper->pIndexData->pShop)
             return maybe_keeper;
@@ -779,7 +780,7 @@ void do_donate(Char *ch, const char *argument) {
     }
 
     /* get the pit's OBJ_DATA * */
-    auto *altar = get_room_index(rooms::MidgaardAltar);
+    auto *altar = get_room(rooms::MidgaardAltar);
 
     auto pit_it = ranges::find(altar->contents, objects::Pit, [](auto *obj) { return obj->pIndexData->vnum; });
     if (pit_it == altar->contents.end()) {
@@ -1896,23 +1897,23 @@ void do_buy(Char *ch, const char *argument) {
     if (IS_SET(ch->in_room->room_flags, ROOM_PET_SHOP)) {
         char arg[MAX_INPUT_LENGTH];
         Char *pet;
-        ROOM_INDEX_DATA *pRoomIndexNext;
-        ROOM_INDEX_DATA *in_room;
+        Room *pRoomNext;
+        Room *in_room;
 
         if (ch->is_npc())
             return;
 
         argument = one_argument(argument, arg);
 
-        pRoomIndexNext = get_room_index(ch->in_room->vnum + 1);
-        if (pRoomIndexNext == nullptr) {
+        pRoomNext = get_room(ch->in_room->vnum + 1);
+        if (pRoomNext == nullptr) {
             bug("Do_buy: bad pet shop at vnum {}.", ch->in_room->vnum);
             ch->send_line("Sorry, you can't buy that here.");
             return;
         }
 
         in_room = ch->in_room;
-        ch->in_room = pRoomIndexNext;
+        ch->in_room = pRoomNext;
         pet = get_char_room(ch, arg);
         ch->in_room = in_room;
 
@@ -2038,18 +2039,18 @@ void do_buy(Char *ch, const char *argument) {
 
 void do_list(Char *ch, const char *argument) {
     if (IS_SET(ch->in_room->room_flags, ROOM_PET_SHOP)) {
-        ROOM_INDEX_DATA *pRoomIndexNext;
+        Room *pRoomNext;
         bool found;
 
-        pRoomIndexNext = get_room_index(ch->in_room->vnum + 1);
-        if (pRoomIndexNext == nullptr) {
+        pRoomNext = get_room(ch->in_room->vnum + 1);
+        if (pRoomNext == nullptr) {
             bug("Do_list: bad pet shop at vnum {}.", ch->in_room->vnum);
             ch->send_line("You can't do that here.");
             return;
         }
 
         found = false;
-        for (auto *pet : pRoomIndexNext->people) {
+        for (auto *pet : pRoomNext->people) {
             if (IS_SET(pet->act, ACT_PET)) {
                 if (!found) {
                     found = true;

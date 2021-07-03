@@ -24,7 +24,7 @@ struct MobIndexData;
 struct OBJ_DATA;
 struct OBJ_INDEX_DATA;
 struct EXTRA_DESCR_DATA;
-struct ROOM_INDEX_DATA;
+struct Room;
 
 /*
  * Mutable global variables.
@@ -43,7 +43,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex);
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
 const char *get_extra_descr(std::string_view name, const std::vector<EXTRA_DESCR_DATA> &ed);
 OBJ_INDEX_DATA *get_obj_index(int vnum);
-ROOM_INDEX_DATA *get_room_index(int vnum);
+Room *get_room(int vnum);
 char *fread_word(FILE *fp);
 void *alloc_mem(int sMem);
 void *alloc_perm(int sMem);

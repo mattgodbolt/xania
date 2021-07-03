@@ -11,7 +11,7 @@
 
 struct Char;
 struct OBJ_DATA;
-struct ROOM_INDEX_DATA;
+struct Room;
 
 void game_loop_unix(Fd control);
 Fd init_socket(const char *file);
@@ -24,7 +24,7 @@ void page_to_char(const char *txt, Char *ch);
 enum class To { Room, NotVict, Vict, Char, GivenRoom };
 
 using Act1Arg = std::variant<nullptr_t, const OBJ_DATA *, std::string_view>;
-using Act2Arg = std::variant<nullptr_t, const OBJ_DATA *, std::string_view, const Char *, const ROOM_INDEX_DATA *>;
+using Act2Arg = std::variant<nullptr_t, const OBJ_DATA *, std::string_view, const Char *, const Room *>;
 void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To type);
 void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To type,
          const Position::Type min_position);

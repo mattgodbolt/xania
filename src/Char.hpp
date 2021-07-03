@@ -20,7 +20,7 @@ class Note;
 class Sex;
 struct MobIndexData;
 struct OBJ_DATA;
-struct ROOM_INDEX_DATA;
+struct Room;
 struct GEN_DATA;
 struct MPROG_ACT_LIST;
 
@@ -46,8 +46,8 @@ struct Char {
     AffectList affected;
     std::unique_ptr<Note> pnote;
     GenericList<OBJ_DATA *> carrying;
-    ROOM_INDEX_DATA *in_room{};
-    ROOM_INDEX_DATA *was_in_room{};
+    Room *in_room{};
+    Room *was_in_room{};
     std::unique_ptr<PcData> pcdata;
     GEN_DATA *gen_data{};
     std::string name;
@@ -128,7 +128,7 @@ struct Char {
     // True if char can see object.
     [[nodiscard]] bool can_see(const OBJ_DATA &object) const;
     // True if char can see a room.
-    [[nodiscard]] bool can_see(const ROOM_INDEX_DATA &room) const;
+    [[nodiscard]] bool can_see(const Room &room) const;
 
     [[nodiscard]] bool is_npc() const;
     [[nodiscard]] bool is_pc() const { return !is_npc(); }

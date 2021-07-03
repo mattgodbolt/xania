@@ -14,7 +14,7 @@
 #include <string_view>
 
 struct Char;
-struct ROOM_INDEX_DATA;
+struct Room;
 
 void interp_initialise();
 bool check_social(Char *ch, std::string_view command, std::string_view argument);
@@ -259,7 +259,7 @@ extern void do_train(Char *ch, ArgParser args);
 extern void do_transfer(Char *ch, ArgParser args);
 extern void do_tras(Char *ch, ArgParser args);
 extern void do_trash(Char *ch, ArgParser args);
-extern void transfer(const Char *imm, Char *victim, ROOM_INDEX_DATA *location);
+extern void transfer(const Char *imm, Char *victim, Room *location);
 extern void do_trip(Char *ch, const char *arg);
 extern void do_trust(Char *ch, const char *arg);
 extern void do_typo(Char *ch, const char *arg);

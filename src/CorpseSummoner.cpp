@@ -7,6 +7,7 @@
 #include "CorpseSummoner.hpp"
 #include "AFFECT_DATA.hpp"
 #include "Char.hpp"
+#include "Room.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumRooms.hpp"
 #include "handler.hpp"
@@ -127,7 +128,7 @@ public:
     void obj_from_char(OBJ_DATA *obj);
     void obj_to_char(OBJ_DATA *obj, Char *ch);
     void obj_from_room(OBJ_DATA *obj);
-    void obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *room);
+    void obj_to_room(OBJ_DATA *obj, Room *room);
     void extract_obj(OBJ_DATA *obj);
     void affect_to_char(Char *ch, const AFFECT_DATA &af);
     GenericList<OBJ_DATA *> &object_list();
@@ -161,7 +162,7 @@ void DependenciesImpl::obj_to_char(OBJ_DATA *obj, Char *ch) { ::obj_to_char(obj,
 
 void DependenciesImpl::obj_from_room(OBJ_DATA *obj) { ::obj_from_room(obj); }
 
-void DependenciesImpl::obj_to_room(OBJ_DATA *obj, ROOM_INDEX_DATA *room) { ::obj_to_room(obj, room); }
+void DependenciesImpl::obj_to_room(OBJ_DATA *obj, Room *room) { ::obj_to_room(obj, room); }
 
 void DependenciesImpl::extract_obj(OBJ_DATA *obj) { ::extract_obj(obj); }
 

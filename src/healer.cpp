@@ -12,6 +12,7 @@
    any use of this code must include this header */
 
 #include "Char.hpp"
+#include "Room.hpp"
 #include "comm.hpp"
 #include "db.h"
 #include "interp.h"
@@ -21,7 +22,7 @@
 #include "string_utils.hpp"
 
 namespace {
-Char *find_healer(ROOM_INDEX_DATA *room) {
+Char *find_healer(Room *room) {
     for (auto *mob : room->people) {
         if (mob->is_npc() && IS_SET(mob->act, ACT_IS_HEALER))
             return mob;

@@ -1012,7 +1012,7 @@ void nanny(Descriptor *d, const char *argument) {
 
             ch->pcdata->learned[get_weapon_sn(ch)] = 40;
 
-            char_to_room(ch, get_room_index(rooms::MudschoolEntrance));
+            char_to_room(ch, get_room(rooms::MudschoolEntrance));
             ch->send_line("");
             do_help(ch, "NEWBIE INFO");
             ch->send_line("");
@@ -1025,9 +1025,9 @@ void nanny(Descriptor *d, const char *argument) {
         } else if (ch->in_room) {
             char_to_room(ch, ch->in_room);
         } else if (ch->is_immortal()) {
-            char_to_room(ch, get_room_index(rooms::Chat));
+            char_to_room(ch, get_room(rooms::Chat));
         } else {
-            char_to_room(ch, get_room_index(rooms::MidgaardTemple));
+            char_to_room(ch, get_room(rooms::MidgaardTemple));
         }
 
         announce(fmt::format("|W### |P{}|W has entered the game.|w", ch->name), ch);
@@ -1266,7 +1266,7 @@ bool act_to_person(const Char *person, const Position::Type min_position) {
     return person->desc != nullptr && person->position >= min_position;
 }
 
-std::vector<const Char *> folks_in_room(const ROOM_INDEX_DATA *room, const Char *ch, const Char *vch, const To &type,
+std::vector<const Char *> folks_in_room(const Room *room, const Char *ch, const Char *vch, const To &type,
                                         const Position::Type min_position) {
     std::vector<const Char *> result;
     for (auto *person : room->people) {
@@ -1285,7 +1285,7 @@ std::vector<const Char *> folks_in_room(const ROOM_INDEX_DATA *room, const Char 
 
 std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg arg2, To type,
                                         const Position::Type min_position) {
-    const ROOM_INDEX_DATA *room{};
+    const Room *room{};
 
     switch (type) {
     case To::Char:
@@ -1305,7 +1305,7 @@ std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg
         return {vch};
 
     case To::GivenRoom:
-        if (auto arg2_as_room_ptr = std::get_if<const ROOM_INDEX_DATA *>(&arg2)) {
+        if (auto arg2_as_room_ptr = std::get_if<const Room *>(&arg2)) {
             room = *arg2_as_room_ptr;
         } else {
             bug("Act: null room with To::GivenRoom.");
@@ -1323,7 +1323,7 @@ std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg
     if (room->vnum == rooms::ChallengeArena) {
         // also include all the folks in the viewing gallery with the appropriate position. We assume the victim
         // is not somehow in the viewing gallery.
-        auto viewing = folks_in_room(get_room_index(rooms::ChallengeGallery), ch, vch, type, min_position);
+        auto viewing = folks_in_room(get_room(rooms::ChallengeGallery), ch, vch, type, min_position);
         result.insert(result.end(), viewing.begin(), viewing.end());
     }
 

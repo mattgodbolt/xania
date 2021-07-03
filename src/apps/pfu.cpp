@@ -192,7 +192,7 @@ Char *CharUpgrader::simulate_login() {
         if (ch->in_room) {
             char_to_room(ch, ch->in_room);
         } else {
-            char_to_room(ch, get_room_index(rooms::MidgaardTemple));
+            char_to_room(ch, get_room(rooms::MidgaardTemple));
         }
         if (ch->pet) {
             char_to_room(ch->pet, ch->in_room);

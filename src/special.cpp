@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "Logging.hpp"
+#include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "Socials.hpp"
@@ -188,13 +189,13 @@ bool spec_breath_lightning(Char *ch) { return dragon(ch, "lightning breath"); }
 bool spec_DEATH(Char *ch) {
     Char *lowest_person = nullptr;
     Char *phil;
-    ROOM_INDEX_DATA *home; /* Death's house */
+    Room *home; /* Death's house */
     int lowest_percent = 15; /* Lowest percentage of hp Death gates to */
 
     if (ch->is_pos_preoccupied())
         return false;
 
-    if ((home = get_room_index(rooms::DeathHome)) == nullptr) {
+    if ((home = get_room(rooms::DeathHome)) == nullptr) {
         bug("Couldn't get Death's home index.");
         return false;
     }

@@ -10,6 +10,7 @@
 #include "skills.hpp"
 #include "Logging.hpp"
 #include "Races.hpp"
+#include "Room.hpp"
 #include "SkillTables.hpp"
 #include "comm.hpp"
 #include "db.h"
@@ -26,7 +27,7 @@
 #include <map>
 
 namespace {
-Char *find_trainer(ROOM_INDEX_DATA *room) {
+Char *find_trainer(Room *room) {
     for (auto *trainer : room->people)
         if (trainer->is_npc() && IS_SET(trainer->act, ACT_GAIN))
             return trainer;

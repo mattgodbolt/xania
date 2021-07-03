@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Descriptor.hpp"
+#include "Room.hpp"
 #include "merc.h"
 
 #include <range/v3/view/filter.hpp>

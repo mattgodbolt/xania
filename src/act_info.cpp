@@ -1630,7 +1630,7 @@ void do_report(Char *ch) {
 }
 
 namespace {
-Char *find_prac_mob(ROOM_INDEX_DATA *room) {
+Char *find_prac_mob(Room *room) {
     for (auto *mob : room->people) {
         if (mob->is_npc() && IS_SET(mob->act, ACT_PRACTICE))
             return mob;
@@ -1812,7 +1812,7 @@ void do_password(Char *ch, const char *argument) {
 /* MrG Scan command */
 
 void do_scan(Char *ch) {
-    ROOM_INDEX_DATA *current_place;
+    Room *current_place;
     Exit *pexit;
     int count_num_rooms;
     int num_rooms_scan = UMAX(1, ch->level / 10);

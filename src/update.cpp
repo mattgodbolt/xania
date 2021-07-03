@@ -441,7 +441,7 @@ void weather_update() {
  */
 void move_active_char_from_limbo(Char *ch) {
     if (ch == nullptr || ch->desc == nullptr || !ch->desc->is_playing() || ch->was_in_room == nullptr
-        || ch->in_room != get_room_index(rooms::Limbo))
+        || ch->in_room != get_room(rooms::Limbo))
         return;
 
     ch->timer = 0;
@@ -471,14 +471,14 @@ void move_idle_char_to_limbo(Char *ch) {
             if (ch->level > 1)
                 save_char_obj(ch);
             char_from_room(ch);
-            char_to_room(ch, get_room_index(rooms::Limbo));
+            char_to_room(ch, get_room(rooms::Limbo));
             if (ch->pet) { /* move pets too */
                 if (ch->pet->fighting)
                     stop_fighting(ch->pet, true);
                 act("$n flickers and phases out", ch->pet);
                 ch->pet->was_in_room = ch->pet->in_room;
                 char_from_room(ch->pet);
-                char_to_room(ch->pet, get_room_index(rooms::Limbo));
+                char_to_room(ch->pet, get_room(rooms::Limbo));
             }
         }
     }

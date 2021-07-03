@@ -60,7 +60,7 @@ struct OBJ_DATA;
 struct OBJ_INDEX_DATA;
 typedef struct program PROGRAM;
 struct ResetData;
-struct ROOM_INDEX_DATA;
+struct Room;
 struct SHOP_DATA;
 
 /*
@@ -769,7 +769,7 @@ struct OBJ_DATA {
     std::vector<EXTRA_DESCR_DATA> extra_descr;
     AffectList affected{};
     OBJ_INDEX_DATA *pIndexData{};
-    ROOM_INDEX_DATA *in_room{};
+    Room *in_room{};
     bool enchanted{};
     std::string owner;
     std::string name;
@@ -787,7 +787,7 @@ struct OBJ_DATA {
     sh_int material{};
     sh_int timer{};
     std::array<int, 5> value{};
-    ROOM_INDEX_DATA *destination{};
+    Room *destination{};
 };
 
 /**
@@ -802,29 +802,6 @@ struct OBJ_DATA {
 #define RESETS_RANDOMIZE_EXITS 'R' /* randomize room exits */
 #define RESETS_COMMENT '*' /* comment line */
 #define RESETS_END_SECTION 'S' /* end of the resets section */
-
-struct Exit;
-
-/*
- * Room type.
- */
-struct ROOM_INDEX_DATA {
-    ROOM_INDEX_DATA *next{};
-    GenericList<Char *> people;
-    GenericList<OBJ_DATA *> contents;
-    std::vector<EXTRA_DESCR_DATA> extra_descr{};
-    AREA_DATA *area{};
-    PerDirection<Exit *> exit{};
-    char *name{};
-    char *description{};
-    sh_int vnum{};
-    unsigned int room_flags{};
-    sh_int light{};
-    SectorType sector_type{SectorType::Inside};
-
-    ResetData *reset_first{};
-    ResetData *reset_last{};
-};
 
 /*
  *  Target types.

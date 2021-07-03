@@ -11,6 +11,7 @@
 #include "AFFECT_DATA.hpp"
 #include "Classes.hpp"
 #include "Exit.hpp"
+#include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "VnumRooms.hpp"
@@ -204,7 +205,7 @@ void move_char(Char *ch, Direction door) {
 }
 
 void do_enter(Char *ch, std::string_view argument) {
-    ROOM_INDEX_DATA *to_room, *in_room;
+    Room *to_room, *in_room;
     int count = 0;
     auto &&[number, arg] = number_argument(argument);
     if (ch->riding) {
@@ -428,7 +429,7 @@ void do_open(Char *ch, ArgParser args) {
         ch->send_line("Ok.");
 
         /* open the other side */
-        ROOM_INDEX_DATA *to_room;
+        Room *to_room;
         Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
@@ -483,7 +484,7 @@ void do_close(Char *ch, ArgParser args) {
         ch->send_line("Ok.");
 
         /* close the other side */
-        ROOM_INDEX_DATA *to_room;
+        Room *to_room;
         Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
@@ -557,7 +558,7 @@ void do_lock(Char *ch, ArgParser args) {
         act("$n locks the $d.", ch, nullptr, pexit->keyword, To::Room);
 
         /* lock the other side */
-        ROOM_INDEX_DATA *to_room;
+        Room *to_room;
         Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
@@ -629,7 +630,7 @@ void do_unlock(Char *ch, ArgParser args) {
         act("$n unlocks the $d.", ch, nullptr, pexit->keyword, To::Room);
 
         /* unlock the other side */
-        ROOM_INDEX_DATA *to_room;
+        Room *to_room;
         Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
@@ -719,7 +720,7 @@ void do_pick(Char *ch, ArgParser args) {
         check_improve(ch, gsn_pick_lock, true, 2);
 
         /* pick the other side */
-        ROOM_INDEX_DATA *to_room;
+        Room *to_room;
         Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
@@ -965,7 +966,7 @@ void do_recall(Char *ch, ArgParser args) {
         }
     }
 
-    auto *location = get_room_index(vnum);
+    auto *location = get_room(vnum);
     if (!location) {
         ch->send_line("You are completely lost.");
         return;
@@ -1020,7 +1021,7 @@ void do_recall(Char *ch, ArgParser args) {
 }
 
 namespace {
-Char *find_trainer(ROOM_INDEX_DATA *room) {
+Char *find_trainer(Room *room) {
     for (auto *mob : room->people) {
         if (mob->is_npc() && IS_SET(mob->act, ACT_TRAIN))
             return mob;

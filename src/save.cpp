@@ -11,6 +11,7 @@
 #include "AFFECT_DATA.hpp"
 #include "CharFileMeta.hpp"
 #include "Races.hpp"
+#include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
@@ -167,7 +168,7 @@ void fwrite_char(const Char *ch, FILE *fp) {
     fmt::print(fp, "{} {}\n", cf::LastNote, (int)Clock::to_time_t(ch->last_note));
     fmt::print(fp, "{} {}\n", cf::Scroll, ch->lines);
     fmt::print(fp, "{} {}\n", cf::Room,
-               (ch->in_room == get_room_index(rooms::Limbo) && ch->was_in_room != nullptr)
+               (ch->in_room == get_room(rooms::Limbo) && ch->was_in_room != nullptr)
                    ? ch->was_in_room->vnum
                    : ch->in_room == nullptr ? rooms::MidgaardTemple : ch->in_room->vnum);
 
@@ -681,9 +682,9 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
         } else if (word == cf::Race) {
             ch->race = race_lookup(fread_string(fp));
         } else if (word == cf::Room) {
-            ch->in_room = get_room_index(fread_number(fp));
+            ch->in_room = get_room(fread_number(fp));
             if (ch->in_room == nullptr)
-                ch->in_room = get_room_index(rooms::Limbo);
+                ch->in_room = get_room(rooms::Limbo);
         } else if (word == cf::SavingThrow) {
             ch->saving_throw = fread_number(fp);
         } else if (word == cf::Scroll) {

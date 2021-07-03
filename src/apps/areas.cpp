@@ -1,4 +1,5 @@
 #include "Exit.hpp"
+#include "Room.hpp"
 #include "db.h"
 #include "merc.h"
 
@@ -39,14 +40,14 @@ int main(int argc, const char **argv) {
     for (auto &a : AreaList::singleton())
         areas[a->areaname].name = a->areaname;
 
-    extern ROOM_INDEX_DATA *room_index_hash[MAX_KEY_HASH];
+    extern Room *room_hash[MAX_KEY_HASH];
 
-    for (auto *first_room_with_hash : room_index_hash)
-        for (auto *pRoomIndex = first_room_with_hash; pRoomIndex; pRoomIndex = pRoomIndex->next) {
-            auto *this_area = pRoomIndex->area;
+    for (auto *first_room_with_hash : room_hash)
+        for (auto *pRoom = first_room_with_hash; pRoom; pRoom = pRoom->next) {
+            auto *this_area = pRoom->area;
             auto &area_info = areas[this_area->areaname];
             for (auto door : all_directions) {
-                if (auto pexit = pRoomIndex->exit[door]) {
+                if (auto pexit = pRoom->exit[door]) {
                     auto *to = pexit->u1.to_room;
                     if (to && to->area != this_area) {
                         area_info.adjacent.emplace(&areas[to->area->areaname]);

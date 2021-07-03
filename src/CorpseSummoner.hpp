@@ -18,7 +18,7 @@ public:
         virtual void obj_from_char(OBJ_DATA *) = 0;
         virtual void obj_to_char(OBJ_DATA *, Char *) = 0;
         virtual void obj_from_room(OBJ_DATA *) = 0;
-        virtual void obj_to_room(OBJ_DATA *, ROOM_INDEX_DATA *) = 0;
+        virtual void obj_to_room(OBJ_DATA *, Room *) = 0;
         virtual void extract_obj(OBJ_DATA *) = 0;
         virtual void affect_to_char(Char *, const AFFECT_DATA &paf) = 0;
         virtual GenericList<OBJ_DATA *> &object_list() = 0;

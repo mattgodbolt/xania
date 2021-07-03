@@ -13,6 +13,7 @@
 #include "InjuredPart.hpp"
 #include "Logging.hpp"
 #include "Races.hpp"
+#include "Room.hpp"
 #include "VnumRooms.hpp"
 #include "act_comm.hpp"
 #include "comm.hpp"
@@ -230,7 +231,7 @@ void do_ready(Char *ch) {
         return;
     }
 
-    auto prep_room = get_room_index(rooms::ChallengePrep);
+    auto prep_room = get_room(rooms::ChallengePrep);
     if (!prep_room) {
         bug("Unable to find CHAL_PREP room!");
         return;
@@ -451,7 +452,7 @@ int do_check_chal(Char *ch) {
         bug("do_check_chal: crash potential here guys, challengee/r is being killed...");
         return 0;
     }
-    auto altar = get_room_index(rooms::MidgaardAltar);
+    auto altar = get_room(rooms::MidgaardAltar);
     if (!altar) {
         bug("do_check_chal: couldn't find altar!");
         return 0;

@@ -11,6 +11,7 @@
 #include "AFFECT_DATA.hpp"
 #include "Format.hpp"
 #include "Materials.hpp"
+#include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "VnumObjects.hpp"
@@ -3226,7 +3227,7 @@ void spell_summon(int sn, int level, Char *ch, void *vo) {
 void spell_teleport(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     Char *victim = (Char *)vo;
-    ROOM_INDEX_DATA *pRoomIndex;
+    Room *pRoom;
 
     if (victim->in_room == nullptr || IS_SET(victim->in_room->room_flags, ROOM_NO_RECALL)
         || (ch->is_pc() && victim->fighting != nullptr)
@@ -3236,10 +3237,10 @@ void spell_teleport(int sn, int level, Char *ch, void *vo) {
     }
 
     for (;;) {
-        pRoomIndex = get_room_index(number_range(0, 65535));
-        if (pRoomIndex != nullptr)
-            if (can_see_room(ch, pRoomIndex) && !IS_SET(pRoomIndex->room_flags, ROOM_PRIVATE)
-                && !IS_SET(pRoomIndex->room_flags, ROOM_SOLITARY))
+        pRoom = get_room(number_range(0, 65535));
+        if (pRoom != nullptr)
+            if (can_see_room(ch, pRoom) && !IS_SET(pRoom->room_flags, ROOM_PRIVATE)
+                && !IS_SET(pRoom->room_flags, ROOM_SOLITARY))
                 break;
     }
 
@@ -3248,7 +3249,7 @@ void spell_teleport(int sn, int level, Char *ch, void *vo) {
 
     act("$n vanishes!", victim);
     char_from_room(victim);
-    char_to_room(victim, pRoomIndex);
+    char_to_room(victim, pRoom);
     if (!ch->riding) {
         act("$n slowly fades into existence.", victim);
     } else {
@@ -3306,12 +3307,12 @@ void spell_word_of_recall(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
     Char *victim = (Char *)vo;
-    ROOM_INDEX_DATA *location;
+    Room *location;
 
     if (victim->is_npc())
         return;
 
-    if ((location = get_room_index(rooms::MidgaardTemple)) == nullptr) {
+    if ((location = get_room(rooms::MidgaardTemple)) == nullptr) {
         victim->send_line("You are completely lost.");
         return;
     }
@@ -3578,7 +3579,7 @@ void spell_teleport_object(int sn, int level, Char *ch, void *vo) {
     char arg1[MAX_STRING_LENGTH];
     char arg2[MAX_STRING_LENGTH];
     char buf[MAX_STRING_LENGTH];
-    ROOM_INDEX_DATA *old_room;
+    Room *old_room;
 
     target_name = one_argument(target_name, arg1);
     one_argument(target_name, arg2);

@@ -1,4 +1,5 @@
 #include "Exit.hpp"
+#include "Room.hpp"
 #include "db.h"
 #include "merc.h"
 
@@ -10,7 +11,7 @@
 
 #include <unordered_set>
 
-extern ROOM_INDEX_DATA *room_index_hash[MAX_KEY_HASH];
+extern Room *room_hash[MAX_KEY_HASH];
 
 static constexpr PerDirection<std::string_view> compass_pt = {"n", "e", "s", "w", "ne", "sw"};
 static constexpr PerDirection<std::string_view> bidir_name = {"n/s", "e/w", "n/s", "e/w", "u/d", "u/d"};
@@ -21,25 +22,24 @@ void render_area(FILE *out_file, AREA_DATA *area) {
     fmt::print(out_file, "    label=\"{}\";\n", area->areaname);
     fmt::print(out_file, "    style=filled;\n");
     fmt::print(out_file, "    node [shape=box];\n");
-    for (auto *first_room_with_hash : room_index_hash) {
-        for (auto *pRoomIndex = first_room_with_hash; pRoomIndex; pRoomIndex = pRoomIndex->next) {
-            if (pRoomIndex->area != area)
+    for (auto *first_room_with_hash : room_hash) {
+        for (auto *pRoom = first_room_with_hash; pRoom; pRoom = pRoom->next) {
+            if (pRoom->area != area)
                 continue;
-            fmt::print("    v{} [label=\"{}\"];\n", pRoomIndex->vnum, pRoomIndex->name);
+            fmt::print("    v{} [label=\"{}\"];\n", pRoom->vnum, pRoom->name);
             for (auto door : all_directions) {
-                if (auto pexit = pRoomIndex->exit[door]) {
+                if (auto pexit = pRoom->exit[door]) {
                     auto *to = pexit->u1.to_room;
                     if (!to)
                         continue;
-                    if (to != pRoomIndex && to->exit[reverse(door)]
-                        && to->exit[reverse(door)]->u1.to_room == pRoomIndex) {
+                    if (to != pRoom && to->exit[reverse(door)] && to->exit[reverse(door)]->u1.to_room == pRoom) {
                         // Two way; write a single exit only for the lowest vnummed.
-                        if (pRoomIndex->vnum <= to->vnum) {
-                            fmt::print("    v{}:{} -> v{}:{} [dir=both label=\"{}\"];\n", pRoomIndex->vnum,
-                                       compass_pt[door], to->vnum, compass_pt[reverse(door)], bidir_name[door]);
+                        if (pRoom->vnum <= to->vnum) {
+                            fmt::print("    v{}:{} -> v{}:{} [dir=both label=\"{}\"];\n", pRoom->vnum, compass_pt[door],
+                                       to->vnum, compass_pt[reverse(door)], bidir_name[door]);
                         }
                     } else {
-                        fmt::print("    v{}:{} -> v{} [label={}];\n", pRoomIndex->vnum, compass_pt[door], to->vnum,
+                        fmt::print("    v{}:{} -> v{} [label={}];\n", pRoom->vnum, compass_pt[door], to->vnum,
                                    to_string(door));
                     }
                 }

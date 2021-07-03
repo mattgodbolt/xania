@@ -301,7 +301,7 @@ bool Char::can_see(const OBJ_DATA &object) const {
     return true;
 }
 
-bool Char::can_see(const ROOM_INDEX_DATA &room) const {
+bool Char::can_see(const Room &room) const {
     if (IS_SET(room.room_flags, ROOM_IMP_ONLY) && get_trust() < MAX_LEVEL)
         return false;
 

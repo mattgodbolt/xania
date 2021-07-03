@@ -68,7 +68,7 @@ SpecialFunc spec_lookup(const char *name);
 /*
  * Local functions.
  */
-ROOM_INDEX_DATA *find_location(Char *ch, std::string_view arg);
+Room *find_location(Char *ch, std::string_view arg);
 
 /* Permits or denies a player from playing the Mud from a PERMIT banned site */
 void do_permit(Char *ch, const char *argument) {
@@ -372,12 +372,12 @@ void do_pecho(Char *ch, const char *argument) {
     ch->send_line("personal> {}", argument);
 }
 
-ROOM_INDEX_DATA *find_location(Char *ch, std::string_view arg) {
+Room *find_location(Char *ch, std::string_view arg) {
     Char *victim;
     OBJ_DATA *obj;
 
     if (is_number(arg))
-        return get_room_index(parse_number(arg));
+        return get_room(parse_number(arg));
 
     if (matches(arg, "here"))
         return ch->in_room;
@@ -411,7 +411,7 @@ void do_transfer(Char *ch, ArgParser args) {
     /*
      * Thanks to Grodyn for the optional location parameter.
      */
-    ROOM_INDEX_DATA *location{};
+    Room *location{};
     if (where.empty()) {
         location = ch->in_room;
     } else {
@@ -434,7 +434,7 @@ void do_transfer(Char *ch, ArgParser args) {
     transfer(ch, victim, location);
 }
 
-void transfer(const Char *imm, Char *victim, ROOM_INDEX_DATA *location) {
+void transfer(const Char *imm, Char *victim, Room *location) {
     if (victim->in_room == nullptr) {
         imm->send_line("They are in limbo.");
         return;
@@ -478,8 +478,8 @@ void do_newlock(Char *ch) {
 
 void do_at(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    ROOM_INDEX_DATA *location;
-    ROOM_INDEX_DATA *original;
+    Room *location;
+    Room *original;
 
     argument = one_argument(argument, arg);
 
@@ -524,7 +524,7 @@ void do_goto(Char *ch, const char *argument) {
         return;
     }
 
-    ROOM_INDEX_DATA *location;
+    Room *location;
     if ((location = find_location(ch, argument)) == nullptr) {
         ch->send_line("No such location.");
         return;
@@ -573,7 +573,7 @@ void do_stat(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     const char *string;
     OBJ_DATA *obj;
-    ROOM_INDEX_DATA *location;
+    Room *location;
     Char *victim;
 
     string = one_argument(argument, arg);
@@ -3074,7 +3074,7 @@ void do_rset(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     char arg3[MAX_INPUT_LENGTH];
-    ROOM_INDEX_DATA *location;
+    Room *location;
     int value;
 
     char smash_tilded[MAX_INPUT_LENGTH];

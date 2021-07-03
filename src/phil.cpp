@@ -9,6 +9,7 @@
 
 #include "Exit.hpp"
 #include "Logging.hpp"
+#include "Room.hpp"
 #include "VnumRooms.hpp"
 #include "act_move.hpp"
 #include "comm.hpp"
@@ -54,7 +55,7 @@ const char *randomSocial() {
 
 /* do the right thing depending on the current state of sleepiness */
 /* returns true if something happened, otherwise false if everything's boring */
-bool doSleepActions(Char *ch, ROOM_INDEX_DATA *home) {
+bool doSleepActions(Char *ch, Room *home) {
     int sleepFactor = sleepiness;
     int random;
 
@@ -110,7 +111,7 @@ bool doSleepActions(Char *ch, ROOM_INDEX_DATA *home) {
 }
 
 /* does a random social on a randomly selected person in the current room */
-void doRandomSocial(Char *ch, ROOM_INDEX_DATA *home) {
+void doRandomSocial(Char *ch, Room *home) {
     (void)home;
 
     auto charsInRoom = ranges::distance(ch->in_room->people);
@@ -142,7 +143,7 @@ int charInterest(Char *ch) {
 }
 
 /* Check if there's a more interesting char in this room than has been found before */
-bool findInterestingChar(ROOM_INDEX_DATA *room, Char **follow, int *interest) {
+bool findInterestingChar(Room *room, Char **follow, int *interest) {
     bool retVal = false;
     int currentInterest;
 
@@ -161,8 +162,8 @@ bool findInterestingChar(ROOM_INDEX_DATA *room, Char **follow, int *interest) {
 /* Special program for 'Phil' - Forrey's meerkat 'pet'. */
 /* Note that this function will be called once every 4 seconds. */
 bool spec_phil(Char *ch) {
-    ROOM_INDEX_DATA *home;
-    ROOM_INDEX_DATA *room;
+    Room *home;
+    Room *room;
     Char *follow = nullptr;
     Direction takeExit = Direction::North;
     Exit *exitData;
@@ -173,7 +174,7 @@ bool spec_phil(Char *ch) {
         return false;
 
     /* Check sleep state */
-    if ((home = get_room_index(rooms::ForreyHome)) == nullptr) {
+    if ((home = get_room(rooms::ForreyHome)) == nullptr) {
         bug("Couldn't get Forrey's home index.");
         return false;
     }

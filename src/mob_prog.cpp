@@ -17,6 +17,7 @@
 
 #include "mob_prog.hpp"
 #include "Logging.hpp"
+#include "Room.hpp"
 #include "db.h"
 #include "handler.hpp"
 #include "interp.h"

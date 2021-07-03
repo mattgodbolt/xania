@@ -7,14 +7,14 @@
 
 #include "Types.hpp"
 
-struct ROOM_INDEX_DATA;
+struct Room;
 
 /*
  * Exit data.
  */
 struct Exit {
     union {
-        ROOM_INDEX_DATA *to_room;
+        Room *to_room;
         sh_int vnum;
     } u1;
     sh_int exit_info{};

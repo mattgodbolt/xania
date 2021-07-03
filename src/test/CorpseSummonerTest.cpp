@@ -1,4 +1,5 @@
 #include "CorpseSummoner.hpp"
+#include "Room.hpp"
 #include "merc.h"
 
 #include <catch2/catch.hpp>
@@ -19,7 +20,7 @@ struct MockDependencies : public CorpseSummoner::Dependencies {
     MAKE_MOCK1(obj_from_char, void(OBJ_DATA *obj), override);
     MAKE_MOCK2(obj_to_char, void(OBJ_DATA *obj, Char *ch), override);
     MAKE_MOCK1(obj_from_room, void(OBJ_DATA *obj), override);
-    MAKE_MOCK2(obj_to_room, void(OBJ_DATA *obj, ROOM_INDEX_DATA *room), override);
+    MAKE_MOCK2(obj_to_room, void(OBJ_DATA *obj, Room *room), override);
     MAKE_MOCK1(extract_obj, void(OBJ_DATA *obj), override);
     MAKE_MOCK2(affect_to_char, void(Char *ch, const AFFECT_DATA &paf), override);
     MAKE_MOCK0(object_list, GenericList<OBJ_DATA *> &(), override);
@@ -27,7 +28,7 @@ struct MockDependencies : public CorpseSummoner::Dependencies {
     MAKE_CONST_MOCK0(weaken_sn, int(), override);
 };
 
-OBJ_DATA make_test_obj(ROOM_INDEX_DATA *room, std::string_view descr, int item_type) {
+OBJ_DATA make_test_obj(Room *room, std::string_view descr, int item_type) {
     OBJ_DATA obj;
     obj.in_room = room;
     obj.short_descr = descr;
@@ -162,8 +163,8 @@ TEST_CASE("get pc corpse world") {
     CorpseSummoner summoner(mock);
     Char player{};
     Char mob{};
-    ROOM_INDEX_DATA object_room{};
-    ROOM_INDEX_DATA player_room{};
+    Room object_room{};
+    Room player_room{};
     auto tests_corpse_desc{"corpse of Test"};
 
     SECTION("no pc corpse in world") {
@@ -216,8 +217,8 @@ TEST_CASE("get pc corpse world") {
 TEST_CASE("summon corpse") {
     MockDependencies mock;
     CorpseSummoner summoner(mock);
-    ROOM_INDEX_DATA object_room{};
-    ROOM_INDEX_DATA player_room{};
+    Room object_room{};
+    Room player_room{};
     Char player{};
     player.name = "Test";
     player.level = 12;
