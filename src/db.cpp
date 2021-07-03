@@ -380,7 +380,7 @@ void new_reset(Room *room, ResetData *reset) {
 
 void load_resets(FILE *fp) {
     ResetData *pReset;
-    Room *pRoom;
+    Room *room;
     Exit *pexit;
     int iLastRoom = 0;
     int iLastObj = 0;
@@ -426,33 +426,33 @@ void load_resets(FILE *fp) {
             exit(1);
             break;
         case RESETS_MOB_IN_ROOM:
-            if ((pRoom = get_room(pReset->arg3))) {
-                new_reset(pRoom, pReset);
+            if ((room = get_room(pReset->arg3))) {
+                new_reset(room, pReset);
                 iLastRoom = pReset->arg3;
             }
             break;
         case RESETS_OBJ_IN_ROOM:
-            if ((pRoom = get_room(pReset->arg3))) {
-                new_reset(pRoom, pReset);
+            if ((room = get_room(pReset->arg3))) {
+                new_reset(room, pReset);
                 iLastObj = pReset->arg3;
             }
             break;
         case RESETS_PUT_OBJ_OBJ:
-            if ((pRoom = get_room(iLastObj)))
-                new_reset(pRoom, pReset);
+            if ((room = get_room(iLastObj)))
+                new_reset(room, pReset);
             break;
         case RESETS_GIVE_OBJ_MOB:
         case RESETS_EQUIP_OBJ_MOB:
-            if ((pRoom = get_room(iLastRoom))) {
-                new_reset(pRoom, pReset);
+            if ((room = get_room(iLastRoom))) {
+                new_reset(room, pReset);
                 iLastObj = iLastRoom;
             }
             break;
         case RESETS_EXIT_FLAGS: {
-            pRoom = get_room(pReset->arg1);
+            room = get_room(pReset->arg1);
             auto opt_door = try_cast_direction(pReset->arg2);
 
-            if (!opt_door || !pRoom || (pexit = pRoom->exit[*opt_door]) == nullptr
+            if (!opt_door || !room || (pexit = room->exit[*opt_door]) == nullptr
                 || !IS_SET(pexit->rs_flags, EX_ISDOOR)) {
                 bug("Load_resets: 'D': exit {} not door.", pReset->arg2);
                 exit(1);
@@ -472,8 +472,8 @@ void load_resets(FILE *fp) {
                 exit(1);
             }
 
-            if ((pRoom = get_room(pReset->arg1)))
-                new_reset(pRoom, pReset);
+            if ((room = get_room(pReset->arg1)))
+                new_reset(room, pReset);
 
             break;
         }
@@ -514,20 +514,20 @@ void load_rooms(FILE *fp) {
         }
         fBootDb = true;
 
-        auto *pRoom = new Room;
-        pRoom->area = area_last;
-        pRoom->vnum = vnum;
-        pRoom->name = fread_string(fp);
-        pRoom->description = fread_string(fp);
-        pRoom->room_flags = fread_flag(fp);
+        auto *room = new Room;
+        room->area = area_last;
+        room->vnum = vnum;
+        room->name = fread_string(fp);
+        room->description = fread_string(fp);
+        room->room_flags = fread_flag(fp);
         /* horrible hack */
         if (3000 <= vnum && vnum < 3400)
-            SET_BIT(pRoom->room_flags, ROOM_LAW);
+            SET_BIT(room->room_flags, ROOM_LAW);
         int sector_value = fread_number(fp);
         if (auto sector_type = try_get_sector_type(sector_value)) {
-            pRoom->sector_type = *sector_type;
+            room->sector_type = *sector_type;
         } else {
-            bug("Invalid sector type {}, defaulted to {}", sector_value, pRoom->sector_type);
+            bug("Invalid sector type {}, defaulted to {}", sector_value, room->sector_type);
         }
 
         for (;;) {
@@ -575,12 +575,12 @@ void load_rooms(FILE *fp) {
                 case 4: pexit->rs_flags = EX_ISDOOR | EX_PASSPROOF | EX_PICKPROOF; break;
                 }
 
-                pRoom->exit[*opt_door] = pexit;
+                room->exit[*opt_door] = pexit;
                 top_exit++;
             } else if (letter == 'E') {
                 auto keyword = fread_stdstring(fp);
                 auto description = fread_stdstring(fp);
-                pRoom->extra_descr.emplace_back(EXTRA_DESCR_DATA{keyword, description});
+                room->extra_descr.emplace_back(EXTRA_DESCR_DATA{keyword, description});
             } else {
                 bug("Load_rooms: vnum {} has flag not 'DES'.", vnum);
                 exit(1);
@@ -588,8 +588,8 @@ void load_rooms(FILE *fp) {
         }
 
         iHash = vnum % MAX_KEY_HASH;
-        pRoom->next = room_hash[iHash];
-        room_hash[iHash] = pRoom;
+        room->next = room_hash[iHash];
+        room_hash[iHash] = room;
         top_room++;
     }
 }
@@ -888,19 +888,19 @@ void load_objects(FILE *fp) {
  * Check for bad reverse exits.
  */
 void fix_exits() {
-    Room *pRoom;
+    Room *room;
     Room *to_room;
     Exit *pexit;
     Exit *pexit_rev;
     int iHash;
 
     for (iHash = 0; iHash < MAX_KEY_HASH; iHash++) {
-        for (pRoom = room_hash[iHash]; pRoom != nullptr; pRoom = pRoom->next) {
+        for (room = room_hash[iHash]; room != nullptr; room = room->next) {
             bool fexit;
 
             fexit = false;
             for (auto door : all_directions) {
-                if ((pexit = pRoom->exit[door]) != nullptr) {
+                if ((pexit = room->exit[door]) != nullptr) {
                     if (pexit->u1.vnum <= 0 || get_room(pexit->u1.vnum) == nullptr)
                         pexit->u1.to_room = nullptr;
                     else {
@@ -910,17 +910,17 @@ void fix_exits() {
                 }
             }
             if (!fexit)
-                SET_BIT(pRoom->room_flags, ROOM_NO_MOB);
+                SET_BIT(room->room_flags, ROOM_NO_MOB);
         }
     }
 
     for (iHash = 0; iHash < MAX_KEY_HASH; iHash++) {
-        for (pRoom = room_hash[iHash]; pRoom != nullptr; pRoom = pRoom->next) {
+        for (room = room_hash[iHash]; room != nullptr; room = room->next) {
             for (auto door : all_directions) {
-                if ((pexit = pRoom->exit[door]) != nullptr && (to_room = pexit->u1.to_room) != nullptr
-                    && (pexit_rev = to_room->exit[reverse(door)]) != nullptr && pexit_rev->u1.to_room != pRoom
+                if ((pexit = room->exit[door]) != nullptr && (to_room = pexit->u1.to_room) != nullptr
+                    && (pexit_rev = to_room->exit[reverse(door)]) != nullptr && pexit_rev->u1.to_room != room
                     && !pexit->is_one_way) {
-                    bug("Fix_exits: {} -> {}:{} -> {}.", pRoom->vnum, static_cast<int>(door), to_room->vnum,
+                    bug("Fix_exits: {} -> {}:{} -> {}.", room->vnum, static_cast<int>(door), to_room->vnum,
                         static_cast<int>(reverse(door)),
                         (pexit_rev->u1.to_room == nullptr) ? 0 : pexit_rev->u1.to_room->vnum);
                 }
@@ -950,11 +950,11 @@ void area_update() {
         ++pArea->age;
         if ((!pArea->empty && pArea->age >= RoomResetAgeOccupiedArea)
             || (pArea->empty && pArea->age >= RoomResetAgeUnoccupiedArea)) {
-            Room *pRoom;
+            Room *room;
             reset_area(pArea.get());
             pArea->age = number_range(0, 3);
-            pRoom = get_room(rooms::MudschoolEntrance);
-            if (pRoom != nullptr && pArea.get() == pRoom->area)
+            room = get_room(rooms::MudschoolEntrance);
+            if (room != nullptr && pArea.get() == room->area)
                 pArea->age = RoomResetAgeUnoccupiedArea;
             else if (pArea->nplayer == 0)
                 pArea->empty = true;
@@ -1159,11 +1159,11 @@ void reset_room(Room *room) {
  * Reset one area.
  */
 void reset_area(AREA_DATA *pArea) {
-    Room *pRoom;
+    Room *room;
     int vnum;
     for (vnum = pArea->lvnum; vnum <= pArea->uvnum; vnum++) {
-        if ((pRoom = get_room(vnum)))
-            reset_room(pRoom);
+        if ((room = get_room(vnum)))
+            reset_room(room);
     }
 }
 
@@ -1498,11 +1498,11 @@ OBJ_INDEX_DATA *get_obj_index(int vnum) {
  * Hash table lookup.
  */
 Room *get_room(int vnum) {
-    Room *pRoom;
+    Room *room;
 
-    for (pRoom = room_hash[vnum % MAX_KEY_HASH]; pRoom != nullptr; pRoom = pRoom->next) {
-        if (pRoom->vnum == vnum)
-            return pRoom;
+    for (room = room_hash[vnum % MAX_KEY_HASH]; room != nullptr; room = room->next) {
+        if (room->vnum == vnum)
+            return room;
     }
 
     if (fBootDb) {

@@ -23,23 +23,23 @@ void render_area(FILE *out_file, AREA_DATA *area) {
     fmt::print(out_file, "    style=filled;\n");
     fmt::print(out_file, "    node [shape=box];\n");
     for (auto *first_room_with_hash : room_hash) {
-        for (auto *pRoom = first_room_with_hash; pRoom; pRoom = pRoom->next) {
-            if (pRoom->area != area)
+        for (auto *room = first_room_with_hash; room; room = room->next) {
+            if (room->area != area)
                 continue;
-            fmt::print("    v{} [label=\"{}\"];\n", pRoom->vnum, pRoom->name);
+            fmt::print("    v{} [label=\"{}\"];\n", room->vnum, room->name);
             for (auto door : all_directions) {
-                if (auto pexit = pRoom->exit[door]) {
+                if (auto pexit = room->exit[door]) {
                     auto *to = pexit->u1.to_room;
                     if (!to)
                         continue;
-                    if (to != pRoom && to->exit[reverse(door)] && to->exit[reverse(door)]->u1.to_room == pRoom) {
+                    if (to != room && to->exit[reverse(door)] && to->exit[reverse(door)]->u1.to_room == room) {
                         // Two way; write a single exit only for the lowest vnummed.
-                        if (pRoom->vnum <= to->vnum) {
-                            fmt::print("    v{}:{} -> v{}:{} [dir=both label=\"{}\"];\n", pRoom->vnum, compass_pt[door],
+                        if (room->vnum <= to->vnum) {
+                            fmt::print("    v{}:{} -> v{}:{} [dir=both label=\"{}\"];\n", room->vnum, compass_pt[door],
                                        to->vnum, compass_pt[reverse(door)], bidir_name[door]);
                         }
                     } else {
-                        fmt::print("    v{}:{} -> v{} [label={}];\n", pRoom->vnum, compass_pt[door], to->vnum,
+                        fmt::print("    v{}:{} -> v{} [label={}];\n", room->vnum, compass_pt[door], to->vnum,
                                    to_string(door));
                     }
                 }

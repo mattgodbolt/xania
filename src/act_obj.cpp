@@ -1897,7 +1897,7 @@ void do_buy(Char *ch, const char *argument) {
     if (IS_SET(ch->in_room->room_flags, ROOM_PET_SHOP)) {
         char arg[MAX_INPUT_LENGTH];
         Char *pet;
-        Room *pRoomNext;
+        Room *roomNext;
         Room *in_room;
 
         if (ch->is_npc())
@@ -1905,15 +1905,15 @@ void do_buy(Char *ch, const char *argument) {
 
         argument = one_argument(argument, arg);
 
-        pRoomNext = get_room(ch->in_room->vnum + 1);
-        if (pRoomNext == nullptr) {
+        roomNext = get_room(ch->in_room->vnum + 1);
+        if (roomNext == nullptr) {
             bug("Do_buy: bad pet shop at vnum {}.", ch->in_room->vnum);
             ch->send_line("Sorry, you can't buy that here.");
             return;
         }
 
         in_room = ch->in_room;
-        ch->in_room = pRoomNext;
+        ch->in_room = roomNext;
         pet = get_char_room(ch, arg);
         ch->in_room = in_room;
 
@@ -2039,18 +2039,18 @@ void do_buy(Char *ch, const char *argument) {
 
 void do_list(Char *ch, const char *argument) {
     if (IS_SET(ch->in_room->room_flags, ROOM_PET_SHOP)) {
-        Room *pRoomNext;
+        Room *roomNext;
         bool found;
 
-        pRoomNext = get_room(ch->in_room->vnum + 1);
-        if (pRoomNext == nullptr) {
+        roomNext = get_room(ch->in_room->vnum + 1);
+        if (roomNext == nullptr) {
             bug("Do_list: bad pet shop at vnum {}.", ch->in_room->vnum);
             ch->send_line("You can't do that here.");
             return;
         }
 
         found = false;
-        for (auto *pet : pRoomNext->people) {
+        for (auto *pet : roomNext->people) {
             if (IS_SET(pet->act, ACT_PET)) {
                 if (!found) {
                     found = true;

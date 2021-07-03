@@ -43,11 +43,11 @@ int main(int argc, const char **argv) {
     extern Room *room_hash[MAX_KEY_HASH];
 
     for (auto *first_room_with_hash : room_hash)
-        for (auto *pRoom = first_room_with_hash; pRoom; pRoom = pRoom->next) {
-            auto *this_area = pRoom->area;
+        for (auto *room = first_room_with_hash; room; room = room->next) {
+            auto *this_area = room->area;
             auto &area_info = areas[this_area->areaname];
             for (auto door : all_directions) {
-                if (auto pexit = pRoom->exit[door]) {
+                if (auto pexit = room->exit[door]) {
                     auto *to = pexit->u1.to_room;
                     if (to && to->area != this_area) {
                         area_info.adjacent.emplace(&areas[to->area->areaname]);

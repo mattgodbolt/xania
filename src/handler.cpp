@@ -403,14 +403,14 @@ void char_from_room(Char *ch) {
 /*
  * Move a char into a room.
  */
-void char_to_room(Char *ch, Room *pRoom) {
-    if (pRoom == nullptr) {
+void char_to_room(Char *ch, Room *room) {
+    if (room == nullptr) {
         bug("Char_to_room: nullptr.");
         return;
     }
 
-    ch->in_room = pRoom;
-    pRoom->people.add_front(ch);
+    ch->in_room = room;
+    room->people.add_front(ch);
 
     if (ch->is_pc()) {
         if (ch->in_room->area->empty) {
@@ -654,9 +654,9 @@ bool check_sub_issue(OBJ_DATA *obj, Char *ch) {
 /*
  * Move an obj into a room.
  */
-void obj_to_room(OBJ_DATA *obj, Room *pRoom) {
-    pRoom->contents.add_front(obj);
-    obj->in_room = pRoom;
+void obj_to_room(OBJ_DATA *obj, Room *room) {
+    room->contents.add_front(obj);
+    obj->in_room = room;
     obj->carried_by = nullptr;
     obj->in_obj = nullptr;
 }
@@ -967,14 +967,14 @@ int get_obj_weight(OBJ_DATA *obj) {
 /*
  * True if room is dark.
  */
-bool room_is_dark(Room *pRoom) {
-    if (pRoom->light > 0)
+bool room_is_dark(Room *room) {
+    if (room->light > 0)
         return false;
 
-    if (IS_SET(pRoom->room_flags, ROOM_DARK))
+    if (IS_SET(room->room_flags, ROOM_DARK))
         return true;
 
-    if (pRoom->sector_type == SectorType::Inside || pRoom->sector_type == SectorType::City)
+    if (room->sector_type == SectorType::Inside || room->sector_type == SectorType::City)
         return false;
 
     if (weather_info.is_dark())
@@ -986,25 +986,25 @@ bool room_is_dark(Room *pRoom) {
 /*
  * True if room is private.
  */
-bool room_is_private(Room *pRoom) {
-    auto count = ranges::distance(pRoom->people);
+bool room_is_private(Room *room) {
+    auto count = ranges::distance(room->people);
 
-    if (IS_SET(pRoom->room_flags, ROOM_PRIVATE) && count >= 2)
+    if (IS_SET(room->room_flags, ROOM_PRIVATE) && count >= 2)
         return true;
 
-    if (IS_SET(pRoom->room_flags, ROOM_SOLITARY) && count >= 1)
+    if (IS_SET(room->room_flags, ROOM_SOLITARY) && count >= 1)
         return true;
 
-    if (IS_SET(pRoom->room_flags, ROOM_IMP_ONLY))
+    if (IS_SET(room->room_flags, ROOM_IMP_ONLY))
         return true;
 
     return false;
 }
 
 /* visibility on a room -- for entering and exits */
-bool can_see_room(const Char *ch, const Room *pRoom) {
+bool can_see_room(const Char *ch, const Room *room) {
     // TODO remove
-    return ch->can_see(*pRoom);
+    return ch->can_see(*room);
 }
 
 bool can_see(const Char *ch, const Char *victim) {

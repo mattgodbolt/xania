@@ -27,13 +27,13 @@
  */
 
 void tornado_teleport(Char *ch, Char *victim) {
-    Room *pRoom;
+    Room *room;
 
     for (;;) {
-        pRoom = get_room(number_range(0, 65535));
-        if (pRoom != nullptr)
-            if (can_see_room(ch, pRoom) && !IS_SET(pRoom->room_flags, ROOM_PRIVATE)
-                && !IS_SET(pRoom->room_flags, ROOM_SOLITARY))
+        room = get_room(number_range(0, 65535));
+        if (room != nullptr)
+            if (can_see_room(ch, room) && !IS_SET(room->room_flags, ROOM_PRIVATE)
+                && !IS_SET(room->room_flags, ROOM_SOLITARY))
                 break;
     }
 
@@ -42,7 +42,7 @@ void tornado_teleport(Char *ch, Char *victim) {
 
     act("$n is consumed by the tornado and vanishes!", victim);
     char_from_room(victim);
-    char_to_room(victim, pRoom);
+    char_to_room(victim, room);
     victim->send_line("...you appear to have been blown to another part of Xania!");
 
     if (!ch->riding) {
