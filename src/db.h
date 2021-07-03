@@ -23,7 +23,7 @@
 struct MobIndexData;
 struct OBJ_DATA;
 struct OBJ_INDEX_DATA;
-struct EXTRA_DESCR_DATA;
+struct ExtraDescription;
 struct Room;
 
 /*
@@ -41,7 +41,7 @@ Char *create_mobile(MobIndexData *pMobIndex);
 void clone_mobile(Char *parent, Char *clone);
 OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex);
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
-const char *get_extra_descr(std::string_view name, const std::vector<EXTRA_DESCR_DATA> &ed);
+const char *get_extra_descr(std::string_view name, const std::vector<ExtraDescription> &ed);
 OBJ_INDEX_DATA *get_obj_index(int vnum);
 Room *get_room(int vnum);
 char *fread_word(FILE *fp);

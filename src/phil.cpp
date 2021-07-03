@@ -8,6 +8,7 @@
 /************************************************************************/
 
 #include "Exit.hpp"
+#include "ExtraDescription.hpp"
 #include "Logging.hpp"
 #include "Room.hpp"
 #include "VnumRooms.hpp"

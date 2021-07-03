@@ -1,4 +1,5 @@
 #include "CorpseSummoner.hpp"
+#include "ExtraDescription.hpp"
 #include "Room.hpp"
 #include "merc.h"
 

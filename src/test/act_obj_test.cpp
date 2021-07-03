@@ -1,3 +1,4 @@
+#include "ExtraDescription.hpp"
 #include "MemFile.hpp"
 #include "merc.h"
 

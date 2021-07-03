@@ -1,3 +1,4 @@
+#include "ExtraDescription.hpp"
 #include "Room.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"

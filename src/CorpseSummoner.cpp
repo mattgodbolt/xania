@@ -7,6 +7,7 @@
 #include "CorpseSummoner.hpp"
 #include "AFFECT_DATA.hpp"
 #include "Char.hpp"
+#include "ExtraDescription.hpp"
 #include "Room.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumRooms.hpp"

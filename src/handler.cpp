@@ -12,6 +12,7 @@
 #include "AREA_DATA.hpp"
 #include "Classes.hpp"
 #include "Descriptor.hpp"
+#include "ExtraDescription.hpp"
 #include "Materials.hpp"
 #include "Races.hpp"
 #include "Room.hpp"

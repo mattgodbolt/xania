@@ -9,6 +9,7 @@
 
 #include "magic.h"
 #include "AFFECT_DATA.hpp"
+#include "ExtraDescription.hpp"
 #include "Format.hpp"
 #include "Materials.hpp"
 #include "Room.hpp"

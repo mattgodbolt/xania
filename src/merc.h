@@ -55,7 +55,7 @@ typedef struct _BUFFER BUFFER;
 struct AREA_DATA;
 typedef struct ban_data BAN_DATA;
 class Descriptor;
-struct EXTRA_DESCR_DATA;
+struct ExtraDescription;
 struct OBJ_DATA;
 struct OBJ_INDEX_DATA;
 typedef struct program PROGRAM;
@@ -726,18 +726,12 @@ struct FingerInfo {
           invis_level(invis_level), i_message(i_message) {}
 };
 
-// Extra description data for a room or object.
-struct EXTRA_DESCR_DATA {
-    std::string keyword; // Keyword in look/examine
-    std::string description; // What to see
-};
-
 /*
  * Prototype for an object.
  */
 struct OBJ_INDEX_DATA {
     OBJ_INDEX_DATA *next{};
-    std::vector<EXTRA_DESCR_DATA> extra_descr;
+    std::vector<ExtraDescription> extra_descr;
     AffectList affected{};
     std::string name;
     std::string short_descr;
@@ -766,7 +760,7 @@ struct OBJ_DATA {
     GenericList<OBJ_DATA *> contains;
     OBJ_DATA *in_obj{};
     Char *carried_by{};
-    std::vector<EXTRA_DESCR_DATA> extra_descr;
+    std::vector<ExtraDescription> extra_descr;
     AffectList affected{};
     OBJ_INDEX_DATA *pIndexData{};
     Room *in_room{};

@@ -10,6 +10,7 @@
 #include "save.hpp"
 #include "AFFECT_DATA.hpp"
 #include "CharFileMeta.hpp"
+#include "ExtraDescription.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
@@ -921,7 +922,7 @@ void fread_obj(Char *ch, FILE *fp) {
         } else if (word == cf::ExtraDescription) {
             auto keyword = fread_stdstring(fp);
             auto description = fread_stdstring(fp);
-            obj->extra_descr.emplace_back(EXTRA_DESCR_DATA{keyword, description});
+            obj->extra_descr.emplace_back(ExtraDescription{keyword, description});
         } else if (word == cf::End) {
             if (!fNest || !fVnum || obj->pIndexData == nullptr) {
                 bug("fread_obj: incomplete object.");

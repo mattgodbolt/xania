@@ -12,6 +12,7 @@
    any use of this code must include this header */
 
 #include "Char.hpp"
+#include "ExtraDescription.hpp"
 #include "Room.hpp"
 #include "comm.hpp"
 #include "db.h"

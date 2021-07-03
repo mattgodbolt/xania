@@ -12,6 +12,7 @@
 #include "Classes.hpp"
 #include "DamageMessages.hpp"
 #include "Exit.hpp"
+#include "ExtraDescription.hpp"
 #include "Format.hpp"
 #include "InjuredPart.hpp"
 #include "Logging.hpp"

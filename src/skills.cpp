@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "skills.hpp"
+#include "ExtraDescription.hpp"
 #include "Logging.hpp"
 #include "Races.hpp"
 #include "Room.hpp"

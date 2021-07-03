@@ -6,6 +6,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "Exit.hpp"
+#include "ExtraDescription.hpp"
 #include "Room.hpp"
 #include "SkillTables.hpp"
 #include "VnumMobiles.hpp"

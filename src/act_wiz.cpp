@@ -676,7 +676,7 @@ void do_rstat(Char *ch, std::string_view argument) {
 
     if (!location->extra_descr.empty()) {
         ch->send_line("Extra description keywords: '{}'.",
-                      fmt::join(location->extra_descr | ranges::view::transform(&EXTRA_DESCR_DATA::keyword), " "));
+                      fmt::join(location->extra_descr | ranges::view::transform(&ExtraDescription::keyword), " "));
     }
 
     ch->send_to("Characters:");
@@ -875,7 +875,7 @@ void do_ostat(Char *ch, const char *argument) {
     if (!obj->extra_descr.empty() || !obj->pIndexData->extra_descr.empty()) {
         ch->send_line("Extra description keywords: '{}'",
                       fmt::join(ranges::view::concat(obj->extra_descr, obj->pIndexData->extra_descr)
-                                    | ranges::view::transform(&EXTRA_DESCR_DATA::keyword),
+                                    | ranges::view::transform(&ExtraDescription::keyword),
                                 " "));
     }
 
@@ -2950,7 +2950,7 @@ void do_string(Char *ch, const char *argument) {
 
             strcat(args, "\n\r");
 
-            obj->extra_descr.emplace_back(EXTRA_DESCR_DATA{arg3, args});
+            obj->extra_descr.emplace_back(ExtraDescription{arg3, args});
             return;
         }
     }

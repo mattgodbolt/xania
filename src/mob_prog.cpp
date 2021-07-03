@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "mob_prog.hpp"
+#include "ExtraDescription.hpp"
 #include "Logging.hpp"
 #include "Room.hpp"
 #include "db.h"

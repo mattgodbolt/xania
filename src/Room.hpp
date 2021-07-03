@@ -11,7 +11,7 @@
 #include "Types.hpp"
 
 struct OBJ_DATA;
-struct EXTRA_DESCR_DATA;
+struct ExtraDescription;
 struct AREA_DATA;
 struct Exit;
 struct ResetData;
@@ -23,7 +23,7 @@ struct Room {
     Room *next{};
     GenericList<Char *> people;
     GenericList<OBJ_DATA *> contents;
-    std::vector<EXTRA_DESCR_DATA> extra_descr{};
+    std::vector<ExtraDescription> extra_descr{};
     AREA_DATA *area{};
     PerDirection<Exit *> exit{};
     char *name{};

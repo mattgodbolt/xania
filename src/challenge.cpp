@@ -10,6 +10,7 @@
 #include "challenge.hpp"
 #include "Classes.hpp"
 #include "Descriptor.hpp"
+#include "ExtraDescription.hpp"
 #include "InjuredPart.hpp"
 #include "Logging.hpp"
 #include "Races.hpp"

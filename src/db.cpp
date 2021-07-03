@@ -580,7 +580,7 @@ void load_rooms(FILE *fp) {
             } else if (letter == 'E') {
                 auto keyword = fread_stdstring(fp);
                 auto description = fread_stdstring(fp);
-                room->extra_descr.emplace_back(EXTRA_DESCR_DATA{keyword, description});
+                room->extra_descr.emplace_back(ExtraDescription{keyword, description});
             } else {
                 bug("Load_rooms: vnum {} has flag not 'DES'.", vnum);
                 exit(1);
@@ -846,7 +846,7 @@ void load_objects(FILE *fp) {
             else if (letter == 'E') {
                 auto keyword = fread_stdstring(fp);
                 auto description = fread_stdstring(fp);
-                pObjIndex->extra_descr.emplace_back(EXTRA_DESCR_DATA{keyword, description});
+                pObjIndex->extra_descr.emplace_back(ExtraDescription{keyword, description});
             }
 
             else {
@@ -1445,7 +1445,7 @@ void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
 /*
  * Get an extra description from a list.
  */
-const char *get_extra_descr(std::string_view name, const std::vector<EXTRA_DESCR_DATA> &ed) {
+const char *get_extra_descr(std::string_view name, const std::vector<ExtraDescription> &ed) {
     if (auto it = ranges::find_if(ed, [&name](const auto &ed) { return is_name(name, ed.keyword); }); it != ed.end())
         return it->description.c_str();
     return nullptr;

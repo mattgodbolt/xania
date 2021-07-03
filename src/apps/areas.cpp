@@ -1,4 +1,5 @@
 #include "Exit.hpp"
+#include "ExtraDescription.hpp"
 #include "Room.hpp"
 #include "db.h"
 #include "merc.h"

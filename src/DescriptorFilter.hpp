@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Descriptor.hpp"
+#include "ExtraDescription.hpp"
 #include "Room.hpp"
 #include "merc.h"
 

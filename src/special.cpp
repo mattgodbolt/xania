@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "ExtraDescription.hpp"
 #include "Logging.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
