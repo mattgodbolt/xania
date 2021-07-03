@@ -669,14 +669,6 @@ static inline constexpr auto ff = BIT(31);
 /* spare flags used for new channels */
 #define COMM_NOALLEGE (X)
 
-/* Data for generating characters -- only used during generation */
-struct GEN_DATA {
-    GEN_DATA *next;
-    bool skill_chosen[MAX_SKILL];
-    bool group_chosen[MAX_GROUP];
-    int points_chosen;
-};
-
 /**
  * Commands used in #RESETS section of area files
  */

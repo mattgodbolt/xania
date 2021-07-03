@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "skills.hpp"
+#include "CharGeneration.hpp"
 #include "ExtraDescription.hpp"
 #include "Logging.hpp"
 #include "Races.hpp"
@@ -311,7 +312,7 @@ void list_group_costs(Char *ch) {
         if (group_table[gn].name == nullptr)
             break;
 
-        if (!ch->gen_data->group_chosen[gn] && !ch->pcdata->group_known[gn] && (get_group_trains(ch, gn) > 0)) {
+        if (!ch->generation->group_chosen[gn] && !ch->pcdata->group_known[gn] && (get_group_trains(ch, gn) > 0)) {
             bug_snprintf(buf, sizeof(buf), "%-18s %-5d ", group_table[gn].name, get_group_trains(ch, gn));
             ch->send_to(buf);
             if (++col % 3 == 0)
@@ -331,7 +332,7 @@ void list_group_costs(Char *ch) {
         if (skill_table[sn].name == nullptr)
             break;
 
-        if (!ch->gen_data->skill_chosen[sn] && ch->pcdata->learned[sn] == 0 // NOT ch.get_skill()
+        if (!ch->generation->skill_chosen[sn] && ch->pcdata->learned[sn] == 0 // NOT ch.get_skill()
             && skill_table[sn].spell_fun == spell_null && get_skill_trains(ch, sn) > 0) {
             bug_snprintf(buf, sizeof(buf), "%-18s %-5d ", skill_table[sn].name, get_skill_trains(ch, sn));
             ch->send_to(buf);
@@ -345,7 +346,7 @@ void list_group_costs(Char *ch) {
 
     bug_snprintf(buf, sizeof(buf), "Creation points: %d\n\r", ch->pcdata->points);
     ch->send_to(buf);
-    bug_snprintf(buf, sizeof(buf), "Experience per level: %u\n\r", exp_per_level(ch, ch->gen_data->points_chosen));
+    bug_snprintf(buf, sizeof(buf), "Experience per level: %u\n\r", exp_per_level(ch, ch->generation->points_chosen));
     ch->send_to(buf);
 }
 
@@ -365,7 +366,7 @@ void list_group_chosen(Char *ch) {
         if (group_table[gn].name == nullptr)
             break;
 
-        if (ch->gen_data->group_chosen[gn] && get_group_trains(ch, gn) > 0) {
+        if (ch->generation->group_chosen[gn] && get_group_trains(ch, gn) > 0) {
             bug_snprintf(buf, sizeof(buf), "%-18s %-5d ", group_table[gn].name, get_group_trains(ch, gn));
             ch->send_to(buf);
             if (++col % 3 == 0)
@@ -385,7 +386,7 @@ void list_group_chosen(Char *ch) {
         if (skill_table[sn].name == nullptr)
             break;
 
-        if (ch->gen_data->skill_chosen[sn] && get_skill_level(ch, sn) > 0) {
+        if (ch->generation->skill_chosen[sn] && get_skill_level(ch, sn) > 0) {
             bug_snprintf(buf, sizeof(buf), "%-18s %-5d ", skill_table[sn].name, get_skill_trains(ch, sn));
             ch->send_to(buf);
             if (++col % 3 == 0)
@@ -396,9 +397,9 @@ void list_group_chosen(Char *ch) {
         ch->send_line("");
     ch->send_line("");
 
-    bug_snprintf(buf, sizeof(buf), "Creation points: %d\n\r", ch->gen_data->points_chosen);
+    bug_snprintf(buf, sizeof(buf), "Creation points: %d\n\r", ch->generation->points_chosen);
     ch->send_to(buf);
-    bug_snprintf(buf, sizeof(buf), "Experience per level: %u\n\r", exp_per_level(ch, ch->gen_data->points_chosen));
+    bug_snprintf(buf, sizeof(buf), "Experience per level: %u\n\r", exp_per_level(ch, ch->generation->points_chosen));
     ch->send_to(buf);
 }
 
@@ -467,7 +468,7 @@ bool parse_gen_groups(Char *ch, const char *argument) {
 
         gn = group_lookup(argument);
         if (gn != -1) {
-            if (ch->gen_data->group_chosen[gn] || ch->pcdata->group_known[gn]) {
+            if (ch->generation->group_chosen[gn] || ch->pcdata->group_known[gn]) {
                 ch->send_line("You already know that group!");
                 return true;
             }
@@ -479,8 +480,8 @@ bool parse_gen_groups(Char *ch, const char *argument) {
 
             bug_snprintf(buf, sizeof(buf), "%s group added\n\r", group_table[gn].name);
             ch->send_to(buf);
-            ch->gen_data->group_chosen[gn] = true;
-            ch->gen_data->points_chosen += get_group_trains(ch, gn);
+            ch->generation->group_chosen[gn] = true;
+            ch->generation->points_chosen += get_group_trains(ch, gn);
             gn_add(ch, gn);
             if (ch->pcdata->points < 200)
                 ch->pcdata->points += get_group_trains(ch, gn);
@@ -489,7 +490,7 @@ bool parse_gen_groups(Char *ch, const char *argument) {
 
         sn = skill_lookup(argument);
         if (sn != -1) {
-            if (ch->gen_data->skill_chosen[sn] || ch->pcdata->learned[sn] > 0) {
+            if (ch->generation->skill_chosen[sn] || ch->pcdata->learned[sn] > 0) {
                 ch->send_line("You already know that skill!");
                 return true;
             }
@@ -506,8 +507,8 @@ bool parse_gen_groups(Char *ch, const char *argument) {
             }
             bug_snprintf(buf, sizeof(buf), "%s skill added\n\r", skill_table[sn].name);
             ch->send_to(buf);
-            ch->gen_data->skill_chosen[sn] = true;
-            ch->gen_data->points_chosen += get_skill_trains(ch, sn);
+            ch->generation->skill_chosen[sn] = true;
+            ch->generation->points_chosen += get_skill_trains(ch, sn);
             ch->pcdata->learned[sn] = 1;
             if (ch->pcdata->points < 200)
                 ch->pcdata->points += get_skill_trains(ch, sn);
@@ -525,13 +526,13 @@ bool parse_gen_groups(Char *ch, const char *argument) {
         }
 
         gn = group_lookup(argument);
-        if (gn != -1 && ch->gen_data->group_chosen[gn]) {
+        if (gn != -1 && ch->generation->group_chosen[gn]) {
             ch->send_line("Group dropped.");
-            ch->gen_data->group_chosen[gn] = false;
-            ch->gen_data->points_chosen -= get_group_trains(ch, gn);
+            ch->generation->group_chosen[gn] = false;
+            ch->generation->points_chosen -= get_group_trains(ch, gn);
             gn_remove(ch, gn);
             for (i = 0; i < MAX_GROUP; i++) {
-                if (ch->gen_data->group_chosen[gn])
+                if (ch->generation->group_chosen[gn])
                     gn_add(ch, gn);
             }
             ch->pcdata->points -= get_group_trains(ch, gn);
@@ -539,10 +540,10 @@ bool parse_gen_groups(Char *ch, const char *argument) {
         }
 
         sn = skill_lookup(argument);
-        if (sn != -1 && ch->gen_data->skill_chosen[sn]) {
+        if (sn != -1 && ch->generation->skill_chosen[sn]) {
             ch->send_line("Skill dropped.");
-            ch->gen_data->skill_chosen[sn] = false;
-            ch->gen_data->points_chosen -= get_skill_trains(ch, sn);
+            ch->generation->skill_chosen[sn] = false;
+            ch->generation->points_chosen -= get_skill_trains(ch, sn);
             ch->pcdata->learned[sn] = 0; // NOT ch.get_skill()
             ch->pcdata->points -= get_skill_trains(ch, sn);
             return true;

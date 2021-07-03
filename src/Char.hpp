@@ -21,7 +21,7 @@ class Sex;
 struct MobIndexData;
 struct Object;
 struct Room;
-struct GEN_DATA;
+struct CharGeneration;
 struct MPROG_ACT_LIST;
 
 struct LastLoginInfo {
@@ -49,7 +49,7 @@ struct Char {
     Room *in_room{};
     Room *was_in_room{};
     std::unique_ptr<PcData> pcdata;
-    GEN_DATA *gen_data{};
+    CharGeneration *generation{};
     std::string name;
 
     CharVersion version{};

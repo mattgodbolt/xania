@@ -15,6 +15,7 @@
 #include "comm.hpp"
 #include "AREA_DATA.hpp"
 #include "Ban.hpp"
+#include "CharGeneration.hpp"
 #include "Classes.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
@@ -932,8 +933,8 @@ void nanny(Descriptor *d, const char *argument) {
         switch (argument[0]) {
         case 'y':
         case 'Y':
-            ch->gen_data = (GEN_DATA *)alloc_perm(sizeof(*ch->gen_data));
-            ch->gen_data->points_chosen = ch->pcdata->points;
+            ch->generation = (CharGeneration *)alloc_perm(sizeof(*ch->generation));
+            ch->generation->points_chosen = ch->pcdata->points;
             do_help(ch, "group header");
             list_group_costs(ch);
             ch->send_line("You already have the following skills:");
@@ -958,7 +959,8 @@ void nanny(Descriptor *d, const char *argument) {
         if (!str_cmp(argument, "done")) {
             snprintf(buf, sizeof(buf), "Creation points: %d\n\r", ch->pcdata->points);
             ch->send_to(buf);
-            snprintf(buf, sizeof(buf), "Experience per level: %d\n\r", exp_per_level(ch, ch->gen_data->points_chosen));
+            snprintf(buf, sizeof(buf), "Experience per level: %d\n\r",
+                     exp_per_level(ch, ch->generation->points_chosen));
             if (ch->pcdata->points < 40)
                 ch->train = (40 - ch->pcdata->points + 1) / 2;
             ch->send_to(buf);
