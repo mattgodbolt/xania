@@ -12,6 +12,7 @@
 #include "AREA_DATA.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
+#include "Exit.hpp"
 #include "Help.hpp"
 #include "MobIndexData.hpp"
 #include "Note.hpp"
@@ -380,7 +381,7 @@ void new_reset(ROOM_INDEX_DATA *room, ResetData *reset) {
 void load_resets(FILE *fp) {
     ResetData *pReset;
     ROOM_INDEX_DATA *pRoomIndex;
-    EXIT_DATA *pexit;
+    Exit *pexit;
     int iLastRoom = 0;
     int iLastObj = 0;
 
@@ -536,7 +537,7 @@ void load_rooms(FILE *fp) {
                 break;
 
             if (letter == 'D') {
-                EXIT_DATA *pexit;
+                Exit *pexit;
                 int locks;
 
                 auto opt_door = try_cast_direction(fread_number(fp));
@@ -545,7 +546,7 @@ void load_rooms(FILE *fp) {
                     exit(1);
                 }
 
-                pexit = static_cast<EXIT_DATA *>(alloc_perm(sizeof(*pexit)));
+                pexit = static_cast<Exit *>(alloc_perm(sizeof(*pexit)));
                 pexit->description = fread_string(fp);
                 pexit->keyword = fread_string(fp);
                 pexit->exit_info = 0;
@@ -889,8 +890,8 @@ void load_objects(FILE *fp) {
 void fix_exits() {
     ROOM_INDEX_DATA *pRoomIndex;
     ROOM_INDEX_DATA *to_room;
-    EXIT_DATA *pexit;
-    EXIT_DATA *pexit_rev;
+    Exit *pexit;
+    Exit *pexit_rev;
     int iHash;
 
     for (iHash = 0; iHash < MAX_KEY_HASH; iHash++) {
@@ -972,7 +973,7 @@ void reset_room(ROOM_INDEX_DATA *room) {
         return;
 
     for (auto exit_dir : all_directions) {
-        EXIT_DATA *exit;
+        Exit *exit;
         if ((exit = room->exit[exit_dir])) {
             exit->exit_info = exit->rs_flags;
             if ((exit->u1.to_room != nullptr) && ((exit = exit->u1.to_room->exit[reverse(exit_dir)]))) {
@@ -2090,7 +2091,7 @@ void do_dump(Char *ch) {
     PcData *pc;
     OBJ_INDEX_DATA *pObjIndex;
     ROOM_INDEX_DATA *room;
-    EXIT_DATA *exit;
+    Exit *exit;
     Descriptor *d;
     AFFECT_DATA *af;
     FILE *fp;

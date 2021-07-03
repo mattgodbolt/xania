@@ -7,6 +7,7 @@
 /*                                                                      */
 /************************************************************************/
 
+#include "Exit.hpp"
 #include "Logging.hpp"
 #include "VnumRooms.hpp"
 #include "act_move.hpp"
@@ -164,7 +165,7 @@ bool spec_phil(Char *ch) {
     ROOM_INDEX_DATA *room;
     Char *follow = nullptr;
     Direction takeExit = Direction::North;
-    EXIT_DATA *exitData;
+    Exit *exitData;
     int interest = 0;
 
     /* Check fighting state */

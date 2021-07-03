@@ -11,6 +11,7 @@
 #include "AFFECT_DATA.hpp"
 #include "Classes.hpp"
 #include "DamageMessages.hpp"
+#include "Exit.hpp"
 #include "Format.hpp"
 #include "InjuredPart.hpp"
 #include "Logging.hpp"
@@ -2265,7 +2266,7 @@ void do_flee(Char *ch) {
 
     was_in = ch->in_room;
     for (attempt = 0; attempt < 6; attempt++) {
-        EXIT_DATA *pexit;
+        Exit *pexit;
         auto door = random_direction();
         if ((pexit = was_in->exit[door]) == nullptr || pexit->u1.to_room == nullptr
             || IS_SET(pexit->exit_info, EX_CLOSED)

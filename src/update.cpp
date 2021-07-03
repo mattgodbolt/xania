@@ -13,6 +13,7 @@
 #include "Classes.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
+#include "Exit.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
@@ -360,7 +361,7 @@ int move_gain(Char *ch) {
  * -- Furey
  */
 void mobile_update() {
-    EXIT_DATA *pexit;
+    Exit *pexit;
 
     /* Examine all mobs. */
     for (auto *ch : char_list) {

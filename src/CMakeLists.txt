@@ -28,6 +28,7 @@ add_library(xania_lib STATIC
         Races.hpp Races.cpp
         Titles.hpp Titles.cpp
         Socials.hpp Socials.cpp
+        Exit.hpp
         db.cpp
         db.h
         fight.cpp

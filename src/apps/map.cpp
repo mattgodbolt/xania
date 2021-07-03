@@ -1,3 +1,4 @@
+#include "Exit.hpp"
 #include "db.h"
 #include "merc.h"
 

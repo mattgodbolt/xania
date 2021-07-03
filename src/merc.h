@@ -55,7 +55,6 @@ typedef struct _BUFFER BUFFER;
 struct AREA_DATA;
 typedef struct ban_data BAN_DATA;
 class Descriptor;
-typedef struct exit_data EXIT_DATA;
 struct EXTRA_DESCR_DATA;
 struct OBJ_DATA;
 struct OBJ_INDEX_DATA;
@@ -791,27 +790,6 @@ struct OBJ_DATA {
     ROOM_INDEX_DATA *destination{};
 };
 
-/*
- * Exit data.
- */
-struct exit_data {
-    union {
-        ROOM_INDEX_DATA *to_room;
-        sh_int vnum;
-    } u1;
-    sh_int exit_info;
-    sh_int key;
-    char *keyword;
-    char *description;
-
-    EXIT_DATA *next;
-    int rs_flags;
-    bool is_one_way;
-};
-
-// If an exit's vnum is this value the exit goes nowhere but it can be looked at
-static constexpr inline auto EXIT_VNUM_COSMETIC = -1;
-
 /**
  * Commands used in #RESETS section of area files
  */
@@ -825,6 +803,8 @@ static constexpr inline auto EXIT_VNUM_COSMETIC = -1;
 #define RESETS_COMMENT '*' /* comment line */
 #define RESETS_END_SECTION 'S' /* end of the resets section */
 
+struct Exit;
+
 /*
  * Room type.
  */
@@ -834,7 +814,7 @@ struct ROOM_INDEX_DATA {
     GenericList<OBJ_DATA *> contents;
     std::vector<EXTRA_DESCR_DATA> extra_descr{};
     AREA_DATA *area{};
-    PerDirection<EXIT_DATA *> exit{};
+    PerDirection<Exit *> exit{};
     char *name{};
     char *description{};
     sh_int vnum{};

@@ -10,6 +10,7 @@
 #include "act_move.hpp"
 #include "AFFECT_DATA.hpp"
 #include "Classes.hpp"
+#include "Exit.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "VnumRooms.hpp"
@@ -428,7 +429,7 @@ void do_open(Char *ch, ArgParser args) {
 
         /* open the other side */
         ROOM_INDEX_DATA *to_room;
-        EXIT_DATA *pexit_rev;
+        Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
 
@@ -483,7 +484,7 @@ void do_close(Char *ch, ArgParser args) {
 
         /* close the other side */
         ROOM_INDEX_DATA *to_room;
-        EXIT_DATA *pexit_rev;
+        Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
             SET_BIT(pexit_rev->exit_info, EX_CLOSED);
@@ -557,7 +558,7 @@ void do_lock(Char *ch, ArgParser args) {
 
         /* lock the other side */
         ROOM_INDEX_DATA *to_room;
-        EXIT_DATA *pexit_rev;
+        Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
             SET_BIT(pexit_rev->exit_info, EX_LOCKED);
@@ -629,7 +630,7 @@ void do_unlock(Char *ch, ArgParser args) {
 
         /* unlock the other side */
         ROOM_INDEX_DATA *to_room;
-        EXIT_DATA *pexit_rev;
+        Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
             REMOVE_BIT(pexit_rev->exit_info, EX_LOCKED);
@@ -719,7 +720,7 @@ void do_pick(Char *ch, ArgParser args) {
 
         /* pick the other side */
         ROOM_INDEX_DATA *to_room;
-        EXIT_DATA *pexit_rev;
+        Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
             REMOVE_BIT(pexit_rev->exit_info, EX_LOCKED);

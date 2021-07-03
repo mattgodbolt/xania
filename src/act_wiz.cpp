@@ -10,6 +10,7 @@
 #include "Classes.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
+#include "Exit.hpp"
 #include "MobIndexData.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
