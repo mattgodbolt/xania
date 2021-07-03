@@ -17,6 +17,7 @@
 #include "ObjectIndex.hpp"
 #include "Pronouns.hpp"
 #include "Room.hpp"
+#include "Shop.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
@@ -466,7 +467,7 @@ bool is_mass_looting_npc_undroppable_obj(const Object *obj, const Object *contai
 
 Char *shopkeeper_in(const Room &room) {
     for (auto *maybe_keeper : room.people) {
-        if (maybe_keeper->is_npc() && maybe_keeper->pIndexData->pShop)
+        if (maybe_keeper->is_npc() && maybe_keeper->pIndexData->shop)
             return maybe_keeper;
     }
     return nullptr;
@@ -493,13 +494,13 @@ Char *find_keeper(Char *ch) {
     }
 
     // Shop hours.
-    const auto *pShop = keeper->pIndexData->pShop;
-    if (time_info.hour() < pShop->open_hour) {
+    const auto *shop = keeper->pIndexData->shop;
+    if (time_info.hour() < shop->open_hour) {
         keeper->say("Sorry, I am closed. Come back later.");
         return nullptr;
     }
 
-    if (time_info.hour() > pShop->close_hour) {
+    if (time_info.hour() > shop->close_hour) {
         keeper->say("Sorry, I am closed. Come back tomorrow.");
         return nullptr;
     }
@@ -514,21 +515,20 @@ Char *find_keeper(Char *ch) {
 }
 
 int get_cost(Char *keeper, Object *obj, bool fBuy) {
-    SHOP_DATA *pShop;
+    Shop *shop;
     int cost;
 
-    if (obj == nullptr || (pShop = keeper->pIndexData->pShop) == nullptr)
+    if (obj == nullptr || (shop = keeper->pIndexData->shop) == nullptr)
         return 0;
 
     if (fBuy) {
-        cost = obj->cost * pShop->profit_buy / 100;
+        cost = obj->cost * shop->profit_buy / 100;
     } else {
-        int itype;
-
+        uint itype;
         cost = 0;
-        for (itype = 0; itype < MAX_TRADE; itype++) {
-            if (obj->item_type == pShop->buy_type[itype]) {
-                cost = obj->cost * pShop->profit_sell / 100;
+        for (itype = 0; itype < MaxTrade; itype++) {
+            if (obj->item_type == shop->buy_type[itype]) {
+                cost = obj->cost * shop->profit_sell / 100;
                 break;
             }
         }

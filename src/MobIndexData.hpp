@@ -10,14 +10,14 @@
 #include <optional>
 #include <string>
 
-struct SHOP_DATA;
+struct Shop;
 struct MPROG_DATA;
 
 // Prototype for a mob.
 // This is the in-memory version of #MOBILES.
 struct MobIndexData {
     SpecialFunc spec_fun{};
-    SHOP_DATA *pShop{};
+    Shop *shop{};
     sh_int vnum{};
     sh_int count{};
     sh_int killed{};

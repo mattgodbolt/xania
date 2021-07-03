@@ -2,6 +2,7 @@
 #include "MemFile.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "Shop.hpp"
 #include "merc.h"
 
 #include <catch2/catch.hpp>
@@ -74,9 +75,9 @@ TEST_CASE("unique object enforcement") {
             )mob");
             auto opt_char_to_idx = MobIndexData::from_file(shopkeeper.file());
             REQUIRE(opt_char_to_idx);
-            SHOP_DATA shop{};
+            Shop shop{};
             char_to.pIndexData = &opt_char_to_idx.value();
-            char_to.pIndexData->pShop = &shop;
+            char_to.pIndexData->shop = &shop;
             SET_BIT(char_to.act, ACT_IS_NPC);
             char_to.carrying.add_back(&existing_obj);
 

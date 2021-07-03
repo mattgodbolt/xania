@@ -43,7 +43,7 @@ bool Char::has_detect_invis() const { return IS_SET(affected_by, AFF_DETECT_INVI
 bool Char::is_sneaking() const { return IS_SET(affected_by, AFF_SNEAK); }
 bool Char::is_hiding() const { return IS_SET(affected_by, AFF_HIDE); }
 bool Char::is_berserk() const { return IS_SET(affected_by, AFF_BERSERK); }
-bool Char::is_shopkeeper() const { return is_npc() && pIndexData->pShop; }
+bool Char::is_shopkeeper() const { return is_npc() && pIndexData->shop; }
 bool Char::has_detect_hidden() const { return IS_SET(affected_by, AFF_DETECT_HIDDEN); }
 bool Char::has_holylight() const { return is_pc() && IS_SET(act, PLR_HOLYLIGHT); }
 

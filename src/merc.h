@@ -94,21 +94,6 @@ struct ban_data {
 #define ATTACK_TABLE_INDEX_TAME_LIGHTNING 28
 #define ATTACK_TABLE_INDEX_ACID_WASH 31
 
-/*
- * Shop types.
- */
-#define MAX_TRADE 5
-
-struct SHOP_DATA {
-    SHOP_DATA *next; /* Next shop in list            */
-    sh_int keeper; /* Vnum of shop keeper mob      */
-    sh_int buy_type[MAX_TRADE]; /* Item types shop will buy     */
-    sh_int profit_buy; /* Cost multiplier for buying   */
-    sh_int profit_sell; /* Cost multiplier for selling  */
-    unsigned int open_hour; /* First opening hour           */
-    unsigned int close_hour; /* First closing hour           */
-};
-
 #define MAX_DAM 18 /* this should really be down below with dam types*/
 
 /***************************************************************************

@@ -3208,7 +3208,7 @@ void spell_summon(int sn, int level, Char *ch, void *vo) {
         return;
     }
     if (victim->is_npc()) {
-        if (victim->pIndexData->pShop != nullptr || IS_SET(victim->act, ACT_IS_HEALER) || IS_SET(victim->act, ACT_GAIN)
+        if (victim->pIndexData->shop != nullptr || IS_SET(victim->act, ACT_IS_HEALER) || IS_SET(victim->act, ACT_GAIN)
             || IS_SET(victim->act, ACT_PRACTICE)) {
             act("The guildspersons' convention prevents your summons.", ch, nullptr, nullptr, To::Char);
             act("The guildspersons' convention protects $n from summons.", victim);

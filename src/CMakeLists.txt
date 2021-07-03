@@ -25,6 +25,7 @@ add_library(xania_lib STATIC
         Attacks.hpp Attacks.cpp
         Classes.hpp Classes.cpp
         Materials.hpp Materials.cpp
+        Shop.hpp
         Races.hpp Races.cpp
         Titles.hpp Titles.cpp
         Socials.hpp Socials.cpp

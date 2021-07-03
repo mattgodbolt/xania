@@ -19,6 +19,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ResetData.hpp"
+#include "Shop.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "Socials.hpp"
@@ -50,8 +51,8 @@ namespace {
 static inline constexpr auto RoomResetAgeOccupiedArea = 15;
 static inline constexpr auto RoomResetAgeUnoccupiedArea = 10;
 
-SHOP_DATA *shop_first;
-SHOP_DATA *shop_last;
+Shop *shop_first;
+Shop *shop_last;
 
 std::map<int, MobIndexData> mob_indexes; // a map only so things like "vnum mob XXX" are ordered.
 char *string_hash[MAX_KEY_HASH];
@@ -598,33 +599,33 @@ void load_rooms(FILE *fp) {
 
 /* Snarf a shop section. */
 void load_shops(FILE *fp) {
-    SHOP_DATA *pShop;
+    Shop *shop;
 
     for (;;) {
         MobIndexData *pMobIndex;
-        int iTrade;
+        uint iTrade;
         auto shopkeeper_vnum = fread_number(fp);
         if (shopkeeper_vnum == 0)
             break;
-        pShop = static_cast<SHOP_DATA *>(alloc_perm(sizeof(*pShop)));
-        pShop->keeper = shopkeeper_vnum;
-        for (iTrade = 0; iTrade < MAX_TRADE; iTrade++)
-            pShop->buy_type[iTrade] = fread_number(fp);
-        pShop->profit_buy = fread_number(fp);
-        pShop->profit_sell = fread_number(fp);
-        pShop->open_hour = fread_number(fp);
-        pShop->close_hour = fread_number(fp);
+        shop = static_cast<Shop *>(alloc_perm(sizeof(*shop)));
+        shop->keeper = shopkeeper_vnum;
+        for (iTrade = 0; iTrade < MaxTrade; iTrade++)
+            shop->buy_type[iTrade] = fread_number(fp);
+        shop->profit_buy = fread_number(fp);
+        shop->profit_sell = fread_number(fp);
+        shop->open_hour = fread_number(fp);
+        shop->close_hour = fread_number(fp);
         fread_to_eol(fp);
-        pMobIndex = get_mob_index(pShop->keeper);
-        pMobIndex->pShop = pShop;
+        pMobIndex = get_mob_index(shop->keeper);
+        pMobIndex->shop = shop;
 
         if (shop_first == nullptr)
-            shop_first = pShop;
+            shop_first = shop;
         if (shop_last != nullptr)
-            shop_last->next = pShop;
+            shop_last->next = shop;
 
-        shop_last = pShop;
-        pShop->next = nullptr;
+        shop_last = shop;
+        shop->next = nullptr;
         top_shop++;
     }
 }
@@ -1115,7 +1116,7 @@ void reset_room(Room *room) {
                 continue;
             }
 
-            if (lastMob->pIndexData->pShop) { /* Shop-keeper? */
+            if (lastMob->pIndexData->shop) { /* Shop-keeper? */
                 object = create_object(objIndex);
                 SET_BIT(object->extra_flags, ITEM_INVENTORY);
             } else {
