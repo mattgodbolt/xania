@@ -8,6 +8,7 @@
 #include "AFFECT_DATA.hpp"
 #include "Char.hpp"
 #include "ExtraDescription.hpp"
+#include "Object.hpp"
 #include "Room.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumRooms.hpp"
@@ -36,7 +37,7 @@ void CorpseSummoner::summoner_awaits(Char *ch, const time_t time_secs) {
     }
 }
 
-void CorpseSummoner::summon_corpse(Char *player, Char *summoner, OBJ_DATA *catalyst) {
+void CorpseSummoner::summon_corpse(Char *player, Char *summoner, Object *catalyst) {
     mud_.act("$n clutches $p between $s bony fingers and begins to whisper.", summoner, catalyst, nullptr, To::Room);
     mud_.act("The runes on the summoning stone begin to glow more brightly!", summoner, catalyst, nullptr, To::Room);
     std::string corpse_name = fmt::format("corpse of {}", player->name);
@@ -59,7 +60,7 @@ bool CorpseSummoner::check_summoner_preconditions(Char *player, Char *summoner) 
         return true;
 }
 
-std::optional<std::string_view> CorpseSummoner::is_catalyst_invalid(Char *player, OBJ_DATA *catalyst) {
+std::optional<std::string_view> CorpseSummoner::is_catalyst_invalid(Char *player, Object *catalyst) {
     if (!IS_SET(catalyst->extra_flags, ITEM_SUMMON_CORPSE)) {
         return object_wrong_type;
     } else if (catalyst->level + ShardLevelRange < player->level) {
@@ -68,7 +69,7 @@ std::optional<std::string_view> CorpseSummoner::is_catalyst_invalid(Char *player
         return {};
 }
 
-bool CorpseSummoner::check_catalyst(Char *player, Char *summoner, OBJ_DATA *catalyst) {
+bool CorpseSummoner::check_catalyst(Char *player, Char *summoner, Object *catalyst) {
     if (auto reason = is_catalyst_invalid(player, catalyst)) {
         mud_.act("|C$n tells you '$t|C'|w", summoner, *reason, player, To::Vict, Position::Type::Dead);
         mud_.obj_from_char(catalyst);
@@ -86,7 +87,7 @@ bool CorpseSummoner::check_catalyst(Char *player, Char *summoner, OBJ_DATA *cata
  * matches on short description because corpse names (keywords) don't include the
  * corpse owner's name.
  */
-std::optional<OBJ_DATA *> CorpseSummoner::get_pc_corpse_world(Char *ch, std::string_view corpse_short_descr) {
+std::optional<Object *> CorpseSummoner::get_pc_corpse_world(Char *ch, std::string_view corpse_short_descr) {
     for (auto obj : mud_.object_list()) {
         if (obj->item_type == ITEM_CORPSE_PC && obj->in_room && obj->in_room != ch->in_room) {
             if (matches(corpse_short_descr, obj->short_descr))
@@ -126,13 +127,13 @@ public:
     void interpret(Char *ch, std::string msg);
     void act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to, const Position::Type position);
     void act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to);
-    void obj_from_char(OBJ_DATA *obj);
-    void obj_to_char(OBJ_DATA *obj, Char *ch);
-    void obj_from_room(OBJ_DATA *obj);
-    void obj_to_room(OBJ_DATA *obj, Room *room);
-    void extract_obj(OBJ_DATA *obj);
+    void obj_from_char(Object *obj);
+    void obj_to_char(Object *obj, Char *ch);
+    void obj_from_room(Object *obj);
+    void obj_to_room(Object *obj, Room *room);
+    void extract_obj(Object *obj);
     void affect_to_char(Char *ch, const AFFECT_DATA &af);
-    GenericList<OBJ_DATA *> &object_list();
+    GenericList<Object *> &object_list();
     [[nodiscard]] SpecialFunc spec_fun_summoner() const;
     [[nodiscard]] int weaken_sn() const;
 
@@ -157,19 +158,19 @@ void DependenciesImpl::act(std::string_view msg, const Char *ch, Act1Arg arg1, A
     ::act(msg, ch, arg1, arg2, to);
 }
 
-void DependenciesImpl::obj_from_char(OBJ_DATA *obj) { ::obj_from_char(obj); }
+void DependenciesImpl::obj_from_char(Object *obj) { ::obj_from_char(obj); }
 
-void DependenciesImpl::obj_to_char(OBJ_DATA *obj, Char *ch) { ::obj_to_char(obj, ch); }
+void DependenciesImpl::obj_to_char(Object *obj, Char *ch) { ::obj_to_char(obj, ch); }
 
-void DependenciesImpl::obj_from_room(OBJ_DATA *obj) { ::obj_from_room(obj); }
+void DependenciesImpl::obj_from_room(Object *obj) { ::obj_from_room(obj); }
 
-void DependenciesImpl::obj_to_room(OBJ_DATA *obj, Room *room) { ::obj_to_room(obj, room); }
+void DependenciesImpl::obj_to_room(Object *obj, Room *room) { ::obj_to_room(obj, room); }
 
-void DependenciesImpl::extract_obj(OBJ_DATA *obj) { ::extract_obj(obj); }
+void DependenciesImpl::extract_obj(Object *obj) { ::extract_obj(obj); }
 
 void DependenciesImpl::affect_to_char(Char *ch, const AFFECT_DATA &af) { ::affect_to_char(ch, af); }
 
-GenericList<OBJ_DATA *> &DependenciesImpl::object_list() { return ::object_list; }
+GenericList<Object *> &DependenciesImpl::object_list() { return ::object_list; }
 
 SpecialFunc DependenciesImpl::spec_fun_summoner() const { return spec_fun_summoner_; }
 
@@ -190,7 +191,7 @@ bool spec_summoner(Char *ch) {
     return true;
 }
 
-void handle_corpse_summoner(Char *player, Char *summoner, OBJ_DATA *catalyst) {
+void handle_corpse_summoner(Char *player, Char *summoner, Object *catalyst) {
     if (!corpse_summoner.check_summoner_preconditions(player, summoner)) {
         return;
     }

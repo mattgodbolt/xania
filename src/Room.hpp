@@ -10,7 +10,7 @@
 #include "SectorType.hpp"
 #include "Types.hpp"
 
-struct OBJ_DATA;
+struct Object;
 struct ExtraDescription;
 struct AREA_DATA;
 struct Exit;
@@ -22,7 +22,7 @@ struct ResetData;
 struct Room {
     Room *next{};
     GenericList<Char *> people;
-    GenericList<OBJ_DATA *> contents;
+    GenericList<Object *> contents;
     std::vector<ExtraDescription> extra_descr{};
     AREA_DATA *area{};
     PerDirection<Exit *> exit{};

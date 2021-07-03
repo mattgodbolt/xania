@@ -16,6 +16,7 @@
 #include "Format.hpp"
 #include "InjuredPart.hpp"
 #include "Logging.hpp"
+#include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
@@ -595,7 +596,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
  * Loot a corpse and sacrifice it after something dies.
  */
 void loot_and_sacrifice_corpse(Char *looter, Char *victim, sh_int victim_room_vnum) {
-    OBJ_DATA *corpse;
+    Object *corpse;
     if (looter->is_pc() && victim->is_npc() && looter->in_room->vnum == victim_room_vnum) {
         corpse = get_obj_list(looter, "corpse", looter->in_room->contents);
         if (IS_SET(looter->act, PLR_AUTOLOOT) && corpse && !corpse->contains.empty()) { /* exists and not empty */
@@ -621,7 +622,7 @@ void loot_and_sacrifice_corpse(Char *looter, Char *victim, sh_int victim_room_vn
  */
 bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_type, const int dam_type) {
     int temp;
-    OBJ_DATA *wield;
+    Object *wield;
     AFFECT_DATA *octarineFire;
     bool immune;
     sh_int victim_room_vnum;
@@ -1083,7 +1084,7 @@ void check_killer(Char *ch, Char *victim) {
  * or parried. mwahahaha
  */
 bool check_parry(Char *ch, Char *victim) {
-    OBJ_DATA *weapon;
+    Object *weapon;
     if (!victim->is_pos_awake())
         return false;
     if (get_eq_char(victim, WEAR_WIELD) == nullptr)
@@ -1108,7 +1109,7 @@ bool check_parry(Char *ch, Char *victim) {
  * Check for shield block.
  */
 bool check_shield_block(Char *ch, Char *victim) {
-    OBJ_DATA *weapon;
+    Object *weapon;
     if (!victim->is_pos_awake())
         return false;
     if (get_eq_char(victim, WEAR_SHIELD) == nullptr)
@@ -1216,7 +1217,7 @@ void stop_fighting(Char *ch, bool fBoth) {
 void make_corpse(Char *ch) {
     std::string name;
 
-    OBJ_DATA *corpse{};
+    Object *corpse{};
     if (ch->is_npc()) {
         name = ch->short_descr;
         corpse = create_object(get_obj_index(objects::NonPlayerCorpse));
@@ -1639,7 +1640,7 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
  * Caller must check for successful attack.
  */
 void disarm(Char *ch, Char *victim) {
-    OBJ_DATA *obj;
+    Object *obj;
 
     if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr)
         return;
@@ -1667,7 +1668,7 @@ void disarm(Char *ch, Char *victim) {
 
 void do_berserk(Char *ch) {
     int chance, hp_percent;
-    /*    OBJ_DATA *wield = get_eq_char( ch, WEAR_WIELD );*/
+    /*    Object *wield = get_eq_char( ch, WEAR_WIELD );*/
 
     if ((chance = get_skill(ch, gsn_berserk)) == 0 || (ch->is_npc() && !IS_SET(ch->off_flags, OFF_BERSERK))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_berserk))) {
@@ -2189,7 +2190,7 @@ void do_murder(Char *ch, const char *argument) {
 void do_backstab(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     Char *victim;
-    OBJ_DATA *obj;
+    Object *obj;
 
     one_argument(argument, arg);
 
@@ -2465,7 +2466,7 @@ void do_headbutt(Char *ch, const char *argument) {
 /* Wandera's little baby is just slipping in here */
 /**/
 void do_sharpen(Char *ch) {
-    OBJ_DATA *weapon;
+    Object *weapon;
     int chance;
 
     if ((weapon = get_eq_char(ch, WEAR_WIELD)) == nullptr) {
@@ -2545,7 +2546,7 @@ void do_kick(Char *ch, const char *argument) {
 
 void do_disarm(Char *ch) {
     Char *victim;
-    OBJ_DATA *obj;
+    Object *obj;
     int chance, hth, ch_weapon, vict_weapon, ch_vict_weapon;
 
     hth = 0;

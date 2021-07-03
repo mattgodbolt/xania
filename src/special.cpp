@@ -9,6 +9,7 @@
 
 #include "ExtraDescription.hpp"
 #include "Logging.hpp"
+#include "Object.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"

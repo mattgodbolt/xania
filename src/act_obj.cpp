@@ -13,6 +13,7 @@
 #include "ExtraDescription.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
+#include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "Pronouns.hpp"
 #include "Room.hpp"
@@ -42,11 +43,11 @@
 #include <set>
 
 extern const char *target_name; /* Included from magic.c */
-extern void handle_corpse_summoner(Char *ch, Char *victim, OBJ_DATA *obj);
+extern void handle_corpse_summoner(Char *ch, Char *victim, Object *obj);
 
 /* RT part of the corpse looting code */
 
-bool can_loot(const Char *ch, const OBJ_DATA *obj) {
+bool can_loot(const Char *ch, const Object *obj) {
     if (ch->is_immortal())
         return true;
 
@@ -73,7 +74,7 @@ bool can_loot(const Char *ch, const OBJ_DATA *obj) {
     return false;
 }
 
-void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container) {
+void get_obj(Char *ch, Object *obj, Object *container) {
     if (!CAN_WEAR(obj, ITEM_TAKE)) {
         ch->send_line("You can't take that.");
         return;
@@ -136,7 +137,7 @@ namespace {
  * Remove an object.
  */
 bool remove_obj(Char *ch, int iWear, bool fReplace) {
-    OBJ_DATA *obj;
+    Object *obj;
 
     if ((obj = get_eq_char(ch, iWear)) == nullptr)
         return true;
@@ -161,7 +162,7 @@ bool remove_obj(Char *ch, int iWear, bool fReplace) {
  * Optional replacement of existing objects.
  * Big repetitive code, ick.
  */
-void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
+void wear_obj(Char *ch, Object *obj, bool fReplace) {
     if (ch->level < obj->level) {
         ch->send_line("You must be level {} to use this object.", obj->level);
         act("$n tries to use $p, but is too inexperienced.", ch, obj, nullptr, To::Room);
@@ -360,7 +361,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
     }
 
     if (CAN_WEAR(obj, ITEM_WEAR_SHIELD)) {
-        OBJ_DATA *weapon;
+        Object *weapon;
 
         if (!remove_obj(ch, WEAR_SHIELD, fReplace))
             return;
@@ -454,12 +455,11 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
         ch->send_line("You can't wear, wield, or hold that.");
 }
 
-bool is_made_of(OBJ_DATA *obj, const char *material) {
+bool is_made_of(Object *obj, const char *material) {
     return !str_cmp(material_table[obj->objIndex->material].material_name, material);
 }
 
-bool is_mass_looting_npc_undroppable_obj(const OBJ_DATA *obj, const OBJ_DATA *container,
-                                         const char looting_all_item_dot) {
+bool is_mass_looting_npc_undroppable_obj(const Object *obj, const Object *container, const char looting_all_item_dot) {
     return container->item_type == ITEM_CORPSE_NPC && looting_all_item_dot == '\0'
            && (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE));
 }
@@ -513,7 +513,7 @@ Char *find_keeper(Char *ch) {
     return keeper;
 }
 
-int get_cost(Char *keeper, OBJ_DATA *obj, bool fBuy) {
+int get_cost(Char *keeper, Object *obj, bool fBuy) {
     SHOP_DATA *pShop;
     int cost;
 
@@ -552,7 +552,7 @@ int get_cost(Char *keeper, OBJ_DATA *obj, bool fBuy) {
 void do_get(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
-    OBJ_DATA *container;
+    Object *container;
     bool found;
 
     argument = one_argument(argument, arg1);
@@ -669,7 +669,7 @@ void do_get(Char *ch, const char *argument) {
 void do_put(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
-    OBJ_DATA *container;
+    Object *container;
 
     argument = one_argument(argument, arg1);
     argument = one_argument(argument, arg2);
@@ -781,7 +781,7 @@ void do_donate(Char *ch, const char *argument) {
         return;
     }
 
-    /* get the pit's OBJ_DATA * */
+    /* get the pit's Object * */
     auto *altar = get_room(rooms::MidgaardAltar);
 
     auto pit_it = ranges::find(altar->contents, objects::Pit, [](auto *obj) { return obj->objIndex->vnum; });
@@ -951,7 +951,7 @@ void do_give(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     Char *victim;
-    OBJ_DATA *obj;
+    Object *obj;
 
     argument = one_argument(argument, arg1);
     argument = one_argument(argument, arg2);
@@ -1066,7 +1066,7 @@ void do_give(Char *ch, const char *argument) {
 
 namespace {
 
-OBJ_DATA *find_pour_target(GenericList<OBJ_DATA *> &list, OBJ_DATA *obj) {
+Object *find_pour_target(GenericList<Object *> &list, Object *obj) {
     for (auto *target_obj : list) {
         if (target_obj->item_type == ITEM_DRINK_CON && obj != target_obj) {
             return target_obj;
@@ -1075,7 +1075,7 @@ OBJ_DATA *find_pour_target(GenericList<OBJ_DATA *> &list, OBJ_DATA *obj) {
     return nullptr;
 }
 
-void pour_from_to(OBJ_DATA *obj, OBJ_DATA *target_obj) {
+void pour_from_to(Object *obj, Object *target_obj) {
     int pour_volume = 0;
     do {
         pour_volume++;
@@ -1085,13 +1085,13 @@ void pour_from_to(OBJ_DATA *obj, OBJ_DATA *target_obj) {
 }
 
 // Recursively collect the object index data of all in the source object list having the ITEM_UNIQUE flag.
-void collect_unique_obj_indexes(const GenericList<OBJ_DATA *> &objects, std::set<ObjectIndex *> &unique_obj_idxs) {
+void collect_unique_obj_indexes(const GenericList<Object *> &objects, std::set<ObjectIndex *> &unique_obj_idxs) {
 
     for (const auto object : objects) {
         if (IS_SET(object->extra_flags, ITEM_UNIQUE)) {
             unique_obj_idxs.insert(object->objIndex);
         }
-        // This is a small optimization as all OBJ_DATAs have a contains list but only these types are valid containers.
+        // This is a small optimization as all Objects have a contains list but only these types are valid containers.
         if (object->item_type == ITEM_CONTAINER || object->item_type == ITEM_CORPSE_NPC
             || object->item_type == ITEM_CORPSE_PC) {
             collect_unique_obj_indexes(object->contains, unique_obj_idxs);
@@ -1197,7 +1197,7 @@ void do_pour(Char *ch, const char *argument) {
 }
 
 namespace {
-OBJ_DATA *find_fountain(GenericList<OBJ_DATA *> &list) {
+Object *find_fountain(GenericList<Object *> &list) {
     for (auto *fountain : list)
         if (fountain->item_type == ITEM_FOUNTAIN)
             return fountain;
@@ -1207,7 +1207,7 @@ OBJ_DATA *find_fountain(GenericList<OBJ_DATA *> &list) {
 
 void do_fill(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
+    Object *obj;
 
     one_argument(argument, arg);
 
@@ -1249,7 +1249,7 @@ void do_fill(Char *ch, const char *argument) {
 
 void do_drink(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
+    Object *obj;
     int amount;
     int liquid;
 
@@ -1334,7 +1334,7 @@ void do_drink(Char *ch, const char *argument) {
 
 void do_eat(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
+    Object *obj;
 
     one_argument(argument, arg);
     if (arg[0] == '\0') {
@@ -1420,7 +1420,7 @@ void do_wear(Char *ch, const char *argument) {
 
 void do_remove(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
+    Object *obj;
 
     one_argument(argument, arg);
 
@@ -1439,7 +1439,7 @@ void do_remove(Char *ch, const char *argument) {
 
 void do_sacrifice(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
+    Object *obj;
     int gold;
 
     one_argument(argument, arg);
@@ -1520,7 +1520,7 @@ void do_trash(Char *ch, ArgParser args) {
 
 void do_quaff(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
+    Object *obj;
 
     one_argument(argument, arg);
 
@@ -1559,8 +1559,8 @@ void do_recite(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     Char *victim;
-    OBJ_DATA *scroll;
-    OBJ_DATA *obj;
+    Object *scroll;
+    Object *obj;
 
     argument = one_argument(argument, arg1);
     argument = one_argument(argument, arg2);
@@ -1614,7 +1614,7 @@ void do_recite(Char *ch, const char *argument) {
 }
 
 void do_brandish(Char *ch) {
-    OBJ_DATA *staff;
+    Object *staff;
     int sn;
 
     if ((staff = get_eq_char(ch, WEAR_HOLD)) == nullptr) {
@@ -1690,8 +1690,8 @@ void do_brandish(Char *ch) {
 void do_zap(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     Char *victim;
-    OBJ_DATA *wand;
-    OBJ_DATA *obj;
+    Object *wand;
+    Object *obj;
 
     one_argument(argument, arg);
     if (arg[0] == '\0' && ch->fighting == nullptr) {
@@ -1782,7 +1782,7 @@ void do_steal(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     Char *victim;
-    OBJ_DATA *obj;
+    Object *obj;
     int percent;
 
     argument = one_argument(argument, arg1);
@@ -1971,7 +1971,7 @@ void do_buy(Char *ch, const char *argument) {
         return;
     } else {
         Char *keeper;
-        OBJ_DATA *obj;
+        Object *obj;
 
         if ((keeper = find_keeper(ch)) == nullptr)
             return;
@@ -2096,7 +2096,7 @@ void do_list(Char *ch, const char *argument) {
 void do_sell(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     Char *keeper;
-    OBJ_DATA *obj;
+    Object *obj;
     int cost, roll;
 
     one_argument(argument, arg);
@@ -2164,7 +2164,7 @@ void do_sell(Char *ch, const char *argument) {
 void do_value(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     Char *keeper;
-    OBJ_DATA *obj;
+    Object *obj;
     int cost;
 
     one_argument(argument, arg);
@@ -2205,7 +2205,7 @@ void do_value(Char *ch, const char *argument) {
 void do_throw(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     Char *victim;
-    OBJ_DATA *bomb;
+    Object *bomb;
     int chance;
 
     one_argument(argument, arg);
@@ -2261,7 +2261,7 @@ void do_throw(Char *ch, const char *argument) {
 
 /* hailcorpse for getting out of sticky situations ooeer --Fara */
 namespace {
-OBJ_DATA *find_corpse(Char *ch, GenericList<OBJ_DATA *> &list) {
+Object *find_corpse(Char *ch, GenericList<Object *> &list) {
     for (auto *current_obj : list)
         if (current_obj->item_type == ITEM_CORPSE_PC && matches_inside(ch->name, current_obj->short_descr))
             return current_obj;
@@ -2313,14 +2313,14 @@ void do_hailcorpse(Char *ch) {
     act("Your prayers for assistance are ignored. Your corpse cannot be found.", ch, nullptr, nullptr, To::Char);
 }
 
-bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *moving_obj, OBJ_DATA *obj_to) {
-    GenericList<OBJ_DATA *> objs_to;
+bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *moving_obj, Object *obj_to) {
+    GenericList<Object *> objs_to;
     objs_to.add_back(obj_to);
     return obj_move_violates_uniqueness(source_char, dest_char, moving_obj, objs_to);
 }
 
-bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *moving_obj,
-                                  GenericList<OBJ_DATA *> &objs_to) {
+bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *moving_obj,
+                                  GenericList<Object *> &objs_to) {
     // If we know in advance the object(s) being moved aren't changing ownership we can take a shortcut.
     // This simplifies things like: "get innerbag outerbag", where they are carrying outerbag, and innerbag
     // contains a unique item. Shopkeepers are permitted to be given unique items, they can resell them.
@@ -2331,7 +2331,7 @@ bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *
     std::set<ObjectIndex *> moving_unique_obj_idxs;
     std::set<ObjectIndex *> to_unique_obj_idxs;
 
-    GenericList<OBJ_DATA *> moving_objects;
+    GenericList<Object *> moving_objects;
     moving_objects.add_back(moving_obj);
 
     collect_unique_obj_indexes(moving_objects, moving_unique_obj_idxs);
@@ -2346,7 +2346,7 @@ bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *
     return !intersection.empty();
 }
 
-int check_material_vulnerability(Char *ch, OBJ_DATA *object) {
+int check_material_vulnerability(Char *ch, Object *object) {
 
     if (IS_SET(ch->vuln_flags, VULN_WOOD)) {
         if (is_made_of(object, "wood"))

@@ -12,6 +12,7 @@
 #include "Classes.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"
+#include "Object.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"

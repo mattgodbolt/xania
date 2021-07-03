@@ -12,6 +12,7 @@
 #include "ExtraDescription.hpp"
 #include "Format.hpp"
 #include "Materials.hpp"
+#include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
@@ -221,12 +222,12 @@ void do_cast(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     Char *victim;
-    OBJ_DATA *obj;
-    OBJ_DATA *potion;
+    Object *obj;
+    Object *potion;
     ObjectIndex *i_Potion;
-    OBJ_DATA *scroll;
+    Object *scroll;
     ObjectIndex *i_Scroll;
-    OBJ_DATA *bomb;
+    Object *bomb;
     void *vo;
     int sn;
     int pos;
@@ -589,7 +590,7 @@ void do_cast(Char *ch, const char *argument) {
 /*
  * Cast spells at targets using a magical object.
  */
-void obj_cast_spell(int sn, int level, Char *ch, Char *victim, OBJ_DATA *obj) {
+void obj_cast_spell(int sn, int level, Char *ch, Char *victim, Object *obj) {
     void *vo;
 
     if (sn <= 0)
@@ -663,7 +664,7 @@ void spell_acid_blast(int sn, int level, Char *ch, void *vo) {
 void spell_acid_wash(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
 
     if (obj->item_type != ITEM_WEAPON) {
         ch->send_line("That isn't a weapon.");
@@ -1096,7 +1097,7 @@ void spell_continual_light(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
     (void)vo;
-    OBJ_DATA *light;
+    Object *light;
 
     light = create_object(get_obj_index(objects::LightBall));
     obj_to_room(light, ch->in_room);
@@ -1121,7 +1122,7 @@ void spell_control_weather(int sn, int level, Char *ch, void *vo) {
 void spell_create_food(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)vo;
-    OBJ_DATA *mushroom = create_object(get_obj_index(objects::Mushroom));
+    Object *mushroom = create_object(get_obj_index(objects::Mushroom));
     mushroom->value[0] = 5 + level;
     obj_to_room(mushroom, ch->in_room);
     act("$p suddenly appears.", ch, mushroom, nullptr, To::Room);
@@ -1131,7 +1132,7 @@ void spell_create_food(int sn, int level, Char *ch, void *vo) {
 void spell_create_spring(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)vo;
-    OBJ_DATA *spring = create_object(get_obj_index(objects::Spring));
+    Object *spring = create_object(get_obj_index(objects::Spring));
     spring->timer = level;
     obj_to_room(spring, ch->in_room);
     act("$p flows from the ground.", ch, spring, nullptr, To::Room);
@@ -1140,7 +1141,7 @@ void spell_create_spring(int sn, int level, Char *ch, void *vo) {
 
 void spell_create_water(int sn, int level, Char *ch, void *vo) {
     (void)sn;
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
 
     if (obj->item_type != ITEM_DRINK_CON) {
         ch->send_line("It is unable to hold water.");
@@ -1441,7 +1442,7 @@ void spell_detect_magic(int sn, int level, Char *ch, void *vo) {
 void spell_detect_poison(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
 
     if (obj->item_type == ITEM_DRINK_CON || obj->item_type == ITEM_FOOD) {
         if (obj->value[3] != 0)
@@ -1537,7 +1538,7 @@ void spell_earthquake(int sn, int level, Char *ch, void *vo) {
 void spell_remove_invisible(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
 
     if (obj->wear_loc != -1) {
         ch->send_line("You have to be carrying it to remove invisible on it!");
@@ -1576,7 +1577,7 @@ void spell_remove_invisible(int sn, int level, Char *ch, void *vo) {
 void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
 
     if (obj->wear_loc != -1) {
         ch->send_line("You have to be carrying it to remove alignment on it!");
@@ -1620,7 +1621,7 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
 }
 
 void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
 
     if (obj->item_type != ITEM_ARMOR) {
         ch->send_line("That isn't an armor.");
@@ -1751,7 +1752,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
 }
 
 void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
 
     if ((obj->item_type != ITEM_WEAPON) && (obj->item_type != ITEM_ARMOR)) {
         ch->send_line("That isn't a weapon or armour.");
@@ -1942,7 +1943,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
 void spell_protect_container(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
 
     if (obj->item_type != ITEM_CONTAINER) {
         ch->send_line("That isn't a container.");
@@ -1967,7 +1968,7 @@ void spell_protect_container(int sn, int level, Char *ch, void *vo) {
 /*PGW A new group to give Barbarians a helping hand*/
 void spell_vorpal(int sn, int level, Char *ch, void *vo) {
     (void)level;
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
 
     if (obj->item_type != ITEM_WEAPON) {
         ch->send_line("This isn't a weapon.");
@@ -1992,7 +1993,7 @@ void spell_vorpal(int sn, int level, Char *ch, void *vo) {
 
 void spell_venom(int sn, int level, Char *ch, void *vo) {
     (void)level;
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
 
     if (obj->item_type != ITEM_WEAPON) {
         ch->send_line("That isn't a weapon.");
@@ -2017,7 +2018,7 @@ void spell_venom(int sn, int level, Char *ch, void *vo) {
 
 void spell_black_death(int sn, int level, Char *ch, void *vo) {
     (void)level;
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
 
     if (obj->item_type != ITEM_WEAPON) {
         ch->send_line("That isn't a weapon.");
@@ -2042,7 +2043,7 @@ void spell_black_death(int sn, int level, Char *ch, void *vo) {
 
 void spell_damnation(int sn, int level, Char *ch, void *vo) {
     (void)level;
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
 
     if (obj->item_type != ITEM_WEAPON) {
         ch->send_line("That isn't a weapon.");
@@ -2068,7 +2069,7 @@ void spell_damnation(int sn, int level, Char *ch, void *vo) {
 void spell_vampire(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
 
     if (obj->item_type != ITEM_WEAPON) {
         ch->send_line("That isn't a weapon.");
@@ -2088,7 +2089,7 @@ void spell_vampire(int sn, int level, Char *ch, void *vo) {
 
 void spell_tame_lightning(int sn, int level, Char *ch, void *vo) {
     (void)level;
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
 
     if (obj->item_type != ITEM_WEAPON) {
         ch->send_line("That isn't a weapon.");
@@ -2235,7 +2236,7 @@ void spell_fly(int sn, int level, Char *ch, void *vo) {
 
 void spell_frenzy(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    /*  OBJ_DATA *wield = get_eq_char( ch, WEAR_WIELD );*/
+    /*  Object *wield = get_eq_char( ch, WEAR_WIELD );*/
 
     AFFECT_DATA af;
     if (is_affected(victim, sn) || IS_AFFECTED(victim, AFF_BERSERK)) {
@@ -2543,7 +2544,7 @@ void spell_holy_word(int sn, int level, Char *ch, void *vo) {
 void spell_identify(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
-    OBJ_DATA *obj = (OBJ_DATA *)vo;
+    Object *obj = (Object *)vo;
     char buf[MAX_STRING_LENGTH];
 
     ch->send_line("Object '{}' is type {}, extra flags {}.", obj->name, item_type_name(obj),
@@ -3008,8 +3009,8 @@ void spell_refresh(int sn, int level, Char *ch, void *vo) {
 }
 
 namespace {
-bool is_noremove(const OBJ_DATA *obj) { return IS_OBJ_STAT(obj, ITEM_NOREMOVE); }
-void try_strip_noremove(const Char *victim, int level, OBJ_DATA *obj) {
+bool is_noremove(const Object *obj) { return IS_OBJ_STAT(obj, ITEM_NOREMOVE); }
+void try_strip_noremove(const Char *victim, int level, Object *obj) {
     if (!saves_dispel(level, obj->level)) {
         REMOVE_BIT(obj->extra_flags, ITEM_NOREMOVE);
         act("$p glows blue.", victim, obj, nullptr, To::Char);
@@ -3550,7 +3551,7 @@ void spell_high_explosive(int sn, int level, Char *ch, void *vo) {
     damage(ch, victim, dam, &skill_table[sn], DAM_PIERCE);
 }
 
-void explode_bomb(OBJ_DATA *bomb, Char *ch, Char *thrower) {
+void explode_bomb(Object *bomb, Char *ch, Char *thrower) {
     int chance;
     int sn, position;
     void *vo = (void *)ch;
@@ -3577,7 +3578,7 @@ void spell_teleport_object(int sn, int level, Char *ch, void *vo) {
     (void)level;
     (void)vo;
     Char *victim;
-    OBJ_DATA *object;
+    Object *object;
     char arg1[MAX_STRING_LENGTH];
     char arg2[MAX_STRING_LENGTH];
     char buf[MAX_STRING_LENGTH];

@@ -56,7 +56,7 @@ struct AREA_DATA;
 typedef struct ban_data BAN_DATA;
 class Descriptor;
 struct ExtraDescription;
-struct OBJ_DATA;
+struct Object;
 struct ObjectIndex;
 typedef struct program PROGRAM;
 struct ResetData;
@@ -724,37 +724,6 @@ struct FingerInfo {
                std::string_view last_login_from, sh_int invis_level, bool i_message)
         : name(name), info_message(info_message), last_login_at(last_login_at), last_login_from(last_login_from),
           invis_level(invis_level), i_message(i_message) {}
-};
-
-/*
- * One object.
- */
-struct OBJ_DATA {
-    GenericList<OBJ_DATA *> contains;
-    OBJ_DATA *in_obj{};
-    Char *carried_by{};
-    std::vector<ExtraDescription> extra_descr;
-    AffectList affected{};
-    ObjectIndex *objIndex{};
-    Room *in_room{};
-    bool enchanted{};
-    std::string owner;
-    std::string name;
-    std::string short_descr;
-    std::string description;
-    sh_int item_type{};
-    unsigned int extra_flags{};
-    int wear_flags{};
-    std::string wear_string;
-    int wear_loc{};
-    sh_int weight{};
-    int cost{};
-    sh_int level{};
-    sh_int condition{};
-    sh_int material{};
-    sh_int timer{};
-    std::array<int, 5> value{};
-    Room *destination{};
 };
 
 /**

@@ -20,6 +20,7 @@
 #include "Help.hpp"
 #include "MobIndexData.hpp"
 #include "Note.hpp"
+#include "Object.hpp"
 #include "Pronouns.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
@@ -1228,7 +1229,7 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
         case 'R': buf += himself_herself(vch); break;
 
         case 'p':
-            if (auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1)) {
+            if (auto arg1_as_obj_ptr = std::get_if<const Object *>(&arg1)) {
                 auto &obj1 = *arg1_as_obj_ptr;
                 buf += can_see_obj(to, obj1) ? obj1->short_descr : "something";
             } else {
@@ -1238,7 +1239,7 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
             break;
 
         case 'P':
-            if (auto arg2_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg2)) {
+            if (auto arg2_as_obj_ptr = std::get_if<const Object *>(&arg2)) {
                 auto &obj2 = *arg2_as_obj_ptr;
                 buf += can_see_obj(to, obj2) ? obj2->short_descr : "something";
             } else {
@@ -1343,7 +1344,7 @@ void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To
         auto formatted = format_act(format, ch, arg1, arg2, to, vch);
         to->send_to(formatted);
         if (MOBtrigger) {
-            auto arg1_as_obj_ptr = std::get_if<const OBJ_DATA *>(&arg1);
+            auto arg1_as_obj_ptr = std::get_if<const Object *>(&arg1);
             // TODO: heinous const_cast here. Safe, but annoying and worth unpicking deeper down.
             mprog_act_trigger(formatted.c_str(), const_cast<Char *>(to), ch,
                               arg1_as_obj_ptr ? *arg1_as_obj_ptr : nullptr, vch);

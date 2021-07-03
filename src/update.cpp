@@ -14,6 +14,7 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
+#include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -393,7 +394,7 @@ void mobile_update() {
         /* Scavenge */
         if (IS_SET(ch->act, ACT_SCAVENGER) && !ch->in_room->contents.empty() && number_bits(6) == 0) {
             int max = 1;
-            OBJ_DATA *obj_best{};
+            Object *obj_best{};
             for (auto *obj : ch->in_room->contents) {
                 if (CAN_WEAR(obj, ITEM_TAKE) && can_loot(ch, obj) && obj->cost > max && obj->cost > 0) {
                     obj_best = obj;
@@ -524,7 +525,7 @@ void char_update() {
             update_pos(ch);
 
         if (ch->is_pc() && ch->level < LEVEL_IMMORTAL) {
-            OBJ_DATA *obj;
+            Object *obj;
 
             if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->item_type == ITEM_LIGHT && obj->value[2] > 0) {
                 if (--obj->value[2] == 0 && ch->in_room != nullptr) {

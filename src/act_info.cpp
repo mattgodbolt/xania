@@ -16,6 +16,7 @@
 #include "Exit.hpp"
 #include "Help.hpp"
 #include "Materials.hpp"
+#include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
@@ -50,7 +51,7 @@ using namespace std::literals;
 
 namespace {
 
-std::string wear_string_for(const OBJ_DATA *obj, int wear_location) {
+std::string wear_string_for(const Object *obj, int wear_location) {
     constexpr std::array<std::string_view, MAX_WEAR> where_name = {
         "used as light",     "worn on finger",   "worn on finger",
         "worn around neck",  "worn around neck", "worn on body",
@@ -127,7 +128,7 @@ size_t max_on = 0;
 /*
  * Local functions.
  */
-std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort);
+std::string format_obj_to_char(const Object *obj, const Char *ch, bool fShort);
 void show_char_to_char_0(const Char *victim, const Char *ch);
 void show_char_to_char_1(Char *victim, Char *ch);
 void show_char_to_char(const GenericList<Char *> &list, const Char *ch);
@@ -136,7 +137,7 @@ bool check_blind(const Char *ch);
 /* Mg's funcy shun */
 void set_prompt(Char *ch, const char *prompt);
 
-std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort) {
+std::string format_obj_to_char(const Object *obj, const Char *ch, bool fShort) {
     std::string buf;
     std::string desc = fShort ? obj->short_descr : obj->description;
     if (desc.empty()) {
@@ -163,7 +164,7 @@ std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort)
  * Show a list to a character.
  * Can coalesce duplicated items.
  */
-void show_list_to_char(const GenericList<OBJ_DATA *> &list, const Char *ch, bool fShort, bool fShowNothing) {
+void show_list_to_char(const GenericList<Object *> &list, const Char *ch, bool fShort, bool fShowNothing) {
     if (!ch->desc)
         return;
 
@@ -757,7 +758,7 @@ void do_nosummon(Char *ch) {
     }
 }
 
-void do_lore(Char *ch, OBJ_DATA *obj, std::string_view description) {
+void do_lore(Char *ch, Object *obj, std::string_view description) {
     if (ch->is_pc() && number_percent() > ch->get_skill(skill_lookup("lore"))) {
         ch->send_line(description);
         check_improve(ch, gsn_lore, false, 1);
@@ -788,7 +789,7 @@ void room_look(const Char &ch, bool force_full) {
     show_char_to_char(ch.in_room->people, &ch);
 }
 
-void look_in_object(const Char &ch, const OBJ_DATA &obj) {
+void look_in_object(const Char &ch, const Object &obj) {
     switch (obj.item_type) {
     default: ch.send_line("That is not a container."); break;
 
@@ -818,7 +819,7 @@ void look_in_object(const Char &ch, const OBJ_DATA &obj) {
     }
 }
 
-const char *try_get_descr(const OBJ_DATA &obj, std::string_view name) {
+const char *try_get_descr(const Object &obj, std::string_view name) {
     if (auto *pdesc = get_extra_descr(name, obj.extra_descr))
         return pdesc;
     if (auto *pdesc = get_extra_descr(name, obj.objIndex->extra_descr))
@@ -1418,7 +1419,7 @@ void do_equipment(Char *ch) {
 }
 
 namespace {
-OBJ_DATA *find_comparable(Char *ch, OBJ_DATA *obj_to_compare_to) {
+Object *find_comparable(Char *ch, Object *obj_to_compare_to) {
     for (auto *obj : ch->carrying) {
         if (obj->wear_loc != WEAR_NONE && can_see_obj(ch, obj) && obj_to_compare_to->item_type == obj->item_type
             && (obj_to_compare_to->wear_flags & obj->wear_flags & ~ITEM_TAKE) != 0) {
@@ -1441,7 +1442,7 @@ void do_compare(Char *ch, ArgParser args) {
         return;
     }
 
-    OBJ_DATA *obj2{};
+    Object *obj2{};
     if (args.empty()) {
         obj2 = find_comparable(ch, obj1);
         if (!obj2) {

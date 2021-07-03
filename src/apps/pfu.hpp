@@ -35,7 +35,7 @@ public:
     void execute(Char &ch) const override;
 
 private:
-    void walk_inventory_set_unique_flag(const GenericList<OBJ_DATA *> &objects) const;
+    void walk_inventory_set_unique_flag(const GenericList<Object *> &objects) const;
 };
 
 struct CharUpgraderResult {

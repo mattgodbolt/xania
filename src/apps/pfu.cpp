@@ -1,4 +1,5 @@
 #include "pfu.hpp"
+#include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "VnumRooms.hpp"
 #include "WrappedFd.hpp"
@@ -121,7 +122,7 @@ void ResetModifiableAttrs::execute(Char &ch) const {
 
 AddUniqueItemFlags::AddUniqueItemFlags(CharVersion version) : UpgradeTask(version) {}
 
-void AddUniqueItemFlags::walk_inventory_set_unique_flag(const GenericList<OBJ_DATA *> &objects) const {
+void AddUniqueItemFlags::walk_inventory_set_unique_flag(const GenericList<Object *> &objects) const {
     for (auto object : objects) {
         if (IS_SET(object->objIndex->extra_flags, ITEM_UNIQUE) && !IS_SET(object->extra_flags, ITEM_UNIQUE)) {
             SET_BIT(object->extra_flags, ITEM_UNIQUE);

@@ -12,6 +12,7 @@
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
 #include "MobIndexData.hpp"
+#include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
@@ -375,7 +376,7 @@ void do_pecho(Char *ch, const char *argument) {
 
 Room *find_location(Char *ch, std::string_view arg) {
     Char *victim;
-    OBJ_DATA *obj;
+    Object *obj;
 
     if (is_number(arg))
         return get_room(parse_number(arg));
@@ -573,7 +574,7 @@ void do_goto(Char *ch, const char *argument) {
 void do_stat(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     const char *string;
-    OBJ_DATA *obj;
+    Object *obj;
     Room *location;
     Char *victim;
 
@@ -706,7 +707,7 @@ void do_rstat(Char *ch, std::string_view argument) {
 
 void do_ostat(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
+    Object *obj;
     ObjectIndex *objIndex;
     sh_int dam_type;
     int vnum;
@@ -1560,13 +1561,13 @@ void do_return(Char *ch) {
 /* trust levels for load and clone */
 /* cut out by Faramir but func retained in case of any
    calls I don't know about. */
-bool obj_check(Char *ch, OBJ_DATA *obj) { return ch->get_trust() >= obj->level; }
+bool obj_check(Char *ch, Object *obj) { return ch->get_trust() >= obj->level; }
 
 /* for clone, to insure that cloning goes many levels deep */
-void recursive_clone(Char *ch, OBJ_DATA *obj, OBJ_DATA *clone) {
-    for (OBJ_DATA *c_obj : obj->contains) {
+void recursive_clone(Char *ch, Object *obj, Object *clone) {
+    for (Object *c_obj : obj->contains) {
         if (obj_check(ch, c_obj)) {
-            OBJ_DATA *t_obj = create_object(c_obj->objIndex);
+            Object *t_obj = create_object(c_obj->objIndex);
             clone_object(c_obj, t_obj);
             obj_to_obj(t_obj, clone);
             recursive_clone(ch, c_obj, t_obj);
@@ -1578,7 +1579,7 @@ void recursive_clone(Char *ch, OBJ_DATA *obj, OBJ_DATA *clone) {
 void do_clone(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     Char *mob = nullptr;
-    OBJ_DATA *obj = nullptr;
+    Object *obj = nullptr;
     const char *rest = one_argument(argument, arg);
 
     if (arg[0] == '\0') {
@@ -1597,7 +1598,7 @@ void do_clone(Char *ch, const char *argument) {
 
     /* clone an object */
     if (obj != nullptr) {
-        OBJ_DATA *clone;
+        Object *clone;
 
         if (!obj_check(ch, obj)) {
             ch->send_line("Your powers are not great enough for such a task.");
@@ -1616,7 +1617,7 @@ void do_clone(Char *ch, const char *argument) {
         act("You clone $p.", ch, clone, nullptr, To::Char);
     } else if (mob != nullptr) {
         Char *clone;
-        OBJ_DATA *new_obj;
+        Object *new_obj;
 
         if (mob->is_pc()) {
             ch->send_line("You can only clone mobiles.");
@@ -1677,7 +1678,7 @@ void do_mload(Char *ch, const char *argument) {
 void do_oload(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
     ObjectIndex *objIndex;
-    OBJ_DATA *obj;
+    Object *obj;
 
     argument = one_argument(argument, arg1);
     one_argument(argument, arg2);
@@ -2206,7 +2207,7 @@ void do_awaken(Char *ch, const char *argument) {
 
 void do_owhere(Char *ch, const char *argument) {
     char target_name[MAX_INPUT_LENGTH];
-    OBJ_DATA *in_obj;
+    Object *in_obj;
     bool found;
     int number = 0;
 
@@ -2831,7 +2832,7 @@ void do_string(Char *ch, const char *argument) {
     char arg2[MAX_INPUT_LENGTH];
     char arg3[MAX_INPUT_LENGTH];
     Char *victim;
-    OBJ_DATA *obj;
+    Object *obj;
 
     char smash_tilded[MAX_INPUT_LENGTH];
     strncpy(smash_tilded, smash_tilde(argument).c_str(),
@@ -2963,7 +2964,7 @@ void do_oset(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     char arg3[MAX_INPUT_LENGTH];
-    OBJ_DATA *obj;
+    Object *obj;
     int value;
 
     char smash_tilded[MAX_INPUT_LENGTH];
@@ -3417,7 +3418,7 @@ void do_smite(Char *ch, const char *argument) {
 
     const char *smitestring;
     Char *victim;
-    OBJ_DATA *obj;
+    Object *obj;
 
     if (argument[0] == '\0') {
         ch->send_line("Upon whom do you wish to unleash your power?");

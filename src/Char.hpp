@@ -19,7 +19,7 @@
 class Note;
 class Sex;
 struct MobIndexData;
-struct OBJ_DATA;
+struct Object;
 struct Room;
 struct GEN_DATA;
 struct MPROG_ACT_LIST;
@@ -45,7 +45,7 @@ struct Char {
     Descriptor *desc{};
     AffectList affected;
     std::unique_ptr<Note> pnote;
-    GenericList<OBJ_DATA *> carrying;
+    GenericList<Object *> carrying;
     Room *in_room{};
     Room *was_in_room{};
     std::unique_ptr<PcData> pcdata;
@@ -126,7 +126,7 @@ struct Char {
     // True if char can see victim.
     [[nodiscard]] bool can_see(const Char &victim) const;
     // True if char can see object.
-    [[nodiscard]] bool can_see(const OBJ_DATA &object) const;
+    [[nodiscard]] bool can_see(const Object &object) const;
     // True if char can see a room.
     [[nodiscard]] bool can_see(const Room &room) const;
 
@@ -229,10 +229,10 @@ struct Char {
     void set_title(std::string title);
 
     // Gets an item in a character's inventory. Returns nullptr if not found. Supports numbered argument.
-    [[nodiscard]] OBJ_DATA *find_in_inventory(std::string_view argument) const;
+    [[nodiscard]] Object *find_in_inventory(std::string_view argument) const;
 
     // Gets an item a character is wearing. Returns nullptr if not found. Supports numbered argument.
-    [[nodiscard]] OBJ_DATA *find_worn(std::string_view argument) const;
+    [[nodiscard]] Object *find_worn(std::string_view argument) const;
 
     // Return the name used to describe the char in short text.
     [[nodiscard]] std::string_view short_name() const noexcept {
@@ -303,7 +303,7 @@ struct Char {
 
 private:
     template <typename Func>
-    [[nodiscard]] OBJ_DATA *find_filtered_obj(std::string_view argument, Func filter) const;
+    [[nodiscard]] Object *find_filtered_obj(std::string_view argument, Func filter) const;
     [[nodiscard]] std::optional<std::string_view> delta_nutrition(const auto supplier, const sh_int delta) noexcept;
     static int num_active_;
 };

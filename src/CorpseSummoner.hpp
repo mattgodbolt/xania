@@ -15,13 +15,13 @@ public:
         virtual void interpret(Char *, std::string) = 0;
         virtual void act(std::string_view, const Char *, Act1Arg, Act2Arg, To, const Position::Type) = 0;
         virtual void act(std::string_view, const Char *, Act1Arg, Act2Arg, To) = 0;
-        virtual void obj_from_char(OBJ_DATA *) = 0;
-        virtual void obj_to_char(OBJ_DATA *, Char *) = 0;
-        virtual void obj_from_room(OBJ_DATA *) = 0;
-        virtual void obj_to_room(OBJ_DATA *, Room *) = 0;
-        virtual void extract_obj(OBJ_DATA *) = 0;
+        virtual void obj_from_char(Object *) = 0;
+        virtual void obj_to_char(Object *, Char *) = 0;
+        virtual void obj_from_room(Object *) = 0;
+        virtual void obj_to_room(Object *, Room *) = 0;
+        virtual void extract_obj(Object *) = 0;
         virtual void affect_to_char(Char *, const AFFECT_DATA &paf) = 0;
-        virtual GenericList<OBJ_DATA *> &object_list() = 0;
+        virtual GenericList<Object *> &object_list() = 0;
         virtual SpecialFunc spec_fun_summoner() const = 0;
         virtual int weaken_sn() const = 0;
     };
@@ -31,7 +31,7 @@ public:
     /**
      * Find a player's corpse and teleport it into the room. Consumes the catalyst used to trigger.
      */
-    void summon_corpse(Char *player, Char *summoner, OBJ_DATA *catalyst);
+    void summon_corpse(Char *player, Char *summoner, Object *catalyst);
 
     time_t last_advice_time();
 
@@ -39,9 +39,9 @@ public:
 
     bool check_summoner_preconditions(Char *player, Char *summoner);
 
-    std::optional<std::string_view> is_catalyst_invalid(Char *player, OBJ_DATA *catalyst);
+    std::optional<std::string_view> is_catalyst_invalid(Char *player, Object *catalyst);
 
-    bool check_catalyst(Char *player, Char *summoner, OBJ_DATA *catalyst);
+    bool check_catalyst(Char *player, Char *summoner, Object *catalyst);
 
     /**
      * Find a player corpse in the world.
@@ -49,7 +49,7 @@ public:
      * matches on short description because corpse names (keywords) don't include the
      * corpse owner's name.
      */
-    std::optional<OBJ_DATA *> get_pc_corpse_world(Char *ch, std::string_view corpse_short_descr);
+    std::optional<Object *> get_pc_corpse_world(Char *ch, std::string_view corpse_short_descr);
 
 private:
     void apply_summoning_fatigue(Char *player);

@@ -7,6 +7,7 @@
 #include "AFFECT_DATA.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"
+#include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "Room.hpp"
 #include "SkillTables.hpp"
@@ -203,9 +204,9 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    /* choose a corpse at random & find its corresponding OBJ_DATA */
+    /* choose a corpse at random & find its corresponding Object */
     corpse = number_range(1, num_of_corpses);
-    OBJ_DATA *obj{};
+    Object *obj{};
     for (auto *c : ch->in_room->contents) {
         if ((c->objIndex->item_type == ITEM_CORPSE_NPC) || (c->objIndex->item_type == ITEM_CORPSE_PC)) {
             if (--corpse == 0) {
@@ -268,7 +269,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 
 // void spell_raise_dead (int sn, int level, Char *ch, void *vo)
 //{
-// OBJ_DATA *victim;
+// Object *victim;
 // AFFECT_DATA af;
 //
 /* no corpse raising in a lawful place please */
@@ -287,7 +288,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 //  if (victim->pIndexData->vnum == objects::NonPlayerCorpse) {
 //    Char *zombie;
 //    MobIndexData *zIndex;
-//    OBJ_DATA *obj, *objNext;
+//    Object *obj, *objNext;
 //    int zLevel, i;
 //    float zScale;
 //

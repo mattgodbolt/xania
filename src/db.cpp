@@ -16,6 +16,7 @@
 #include "Help.hpp"
 #include "MobIndexData.hpp"
 #include "Note.hpp"
+#include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ResetData.hpp"
 #include "SkillNumbers.hpp"
@@ -76,7 +77,7 @@ SpecialFunc spec_lookup(const char *name);
 // Mutable global: modified whenever a new Char is loaded from the database or when a player Char logs in or out.
 GenericList<Char *> char_list;
 // Mutable global: modified whenever a new object is created or destroyed.
-GenericList<OBJ_DATA *> object_list;
+GenericList<Object *> object_list;
 // Mutable global: object template pointers.
 ObjectIndex *obj_index_hash[MAX_KEY_HASH];
 // Mutable global: room template pointers.
@@ -1053,7 +1054,7 @@ void reset_room(Room *room) {
             int limit, count;
             ObjectIndex *containedObjIndex;
             ObjectIndex *containerObjIndex;
-            OBJ_DATA *containerObj;
+            Object *containerObj;
             if (!(containedObjIndex = get_obj_index(reset->arg1))) {
                 bug("Reset_room: 'P': bad vnum {}.", reset->arg1);
                 continue;
@@ -1099,7 +1100,7 @@ void reset_room(Room *room) {
         case RESETS_GIVE_OBJ_MOB:
         case RESETS_EQUIP_OBJ_MOB: {
             ObjectIndex *objIndex;
-            OBJ_DATA *object;
+            Object *object;
             if (!(objIndex = get_obj_index(reset->arg1))) {
                 bug("Reset_room: 'E' or 'G': bad vnum {}.", reset->arg1);
                 continue;
@@ -1330,15 +1331,15 @@ void clone_mobile(Char *parent, Char *clone) {
  * TheMoog 1/10/2k : fixes up portal objects - value[0] of a portal
  * if non-zero is looked up and then destination set accordingly.
  */
-OBJ_DATA *create_object(ObjectIndex *objIndex) {
-    OBJ_DATA *obj;
+Object *create_object(ObjectIndex *objIndex) {
+    Object *obj;
 
     if (objIndex == nullptr) {
         bug("Create_object: nullptr objIndex.");
         exit(1);
     }
 
-    obj = new OBJ_DATA; // TODO! make an actual constructor for this!
+    obj = new Object; // TODO! make an actual constructor for this!
     obj->objIndex = objIndex;
     obj->in_room = nullptr;
     obj->enchanted = false;
@@ -1412,7 +1413,7 @@ OBJ_DATA *create_object(ObjectIndex *objIndex) {
 }
 
 /* duplicate an object exactly -- except contents */
-void clone_object(OBJ_DATA *parent, OBJ_DATA *clone) {
+void clone_object(Object *parent, Object *clone) {
     if (parent == nullptr || clone == nullptr)
         return;
 
@@ -2144,7 +2145,7 @@ void do_dump(Char *ch) {
         aff_count += obj->affected.size();
     }
 
-    fprintf(fp, "Objs	%4d (%8ld bytes)\n", count, count * (sizeof(OBJ_DATA)));
+    fprintf(fp, "Objs	%4d (%8ld bytes)\n", count, count * (sizeof(Object)));
 
     /* affects */
     fprintf(fp, "Affects	%4d (%8ld bytes)\n", aff_count, aff_count * (sizeof(*af)));

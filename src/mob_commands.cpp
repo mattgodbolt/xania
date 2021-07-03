@@ -22,6 +22,7 @@
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
 #include "MobIndexData.hpp"
+#include "Object.hpp"
 #include "comm.hpp"
 #include "db.h"
 #include "fight.hpp"
@@ -330,7 +331,7 @@ void do_mpoload(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
     ObjectIndex *objIndex;
-    OBJ_DATA *obj;
+    Object *obj;
 
     if (ch->is_pc()) {
         ch->send_line("Huh?");

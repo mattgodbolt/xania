@@ -10,7 +10,7 @@
 #include <variant>
 
 struct Char;
-struct OBJ_DATA;
+struct Object;
 struct Room;
 
 void game_loop_unix(Fd control);
@@ -23,8 +23,8 @@ void page_to_char(const char *txt, Char *ch);
  */
 enum class To { Room, NotVict, Vict, Char, GivenRoom };
 
-using Act1Arg = std::variant<nullptr_t, const OBJ_DATA *, std::string_view>;
-using Act2Arg = std::variant<nullptr_t, const OBJ_DATA *, std::string_view, const Char *, const Room *>;
+using Act1Arg = std::variant<nullptr_t, const Object *, std::string_view>;
+using Act2Arg = std::variant<nullptr_t, const Object *, std::string_view, const Char *, const Room *>;
 void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To type);
 void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To type,
          const Position::Type min_position);

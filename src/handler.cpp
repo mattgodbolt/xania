@@ -14,6 +14,7 @@
 #include "Descriptor.hpp"
 #include "ExtraDescription.hpp"
 #include "Materials.hpp"
+#include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
@@ -184,7 +185,7 @@ int get_skill(const Char *ch, int sn) { return ch->get_skill(sn); }
 
 /* for returning weapon information */
 int get_weapon_sn(Char *ch) {
-    OBJ_DATA *wield;
+    Object *wield;
     int sn;
 
     wield = get_eq_char(ch, WEAR_WIELD);
@@ -296,7 +297,7 @@ void affect_modify(Char *ch, const AFFECT_DATA &af, bool fAdd) {
      * Check for weapon wielding.
      * Guard against recursion (for weapons with affects).
      */
-    OBJ_DATA *wield;
+    Object *wield;
     if (ch->is_pc() && (wield = get_eq_char(ch, WEAR_WIELD)) != nullptr
         && get_obj_weight(wield) > str_app[get_curr_stat(ch, Stat::Str)].wield) {
         static int depth;
@@ -321,7 +322,7 @@ void affect_to_char(Char *ch, const AFFECT_DATA &af) {
 }
 
 /* give an affect to an object */
-void affect_to_obj(OBJ_DATA *obj, const AFFECT_DATA &af) { obj->affected.add(af); }
+void affect_to_obj(Object *obj, const AFFECT_DATA &af) { obj->affected.add(af); }
 
 /*
  * Remove an affect from a char.
@@ -336,7 +337,7 @@ void affect_remove(Char *ch, const AFFECT_DATA &af) {
     ch->affected.remove(af);
 }
 
-void affect_remove_obj(OBJ_DATA *obj, const AFFECT_DATA &af) {
+void affect_remove_obj(Object *obj, const AFFECT_DATA &af) {
     if (obj->affected.empty()) {
         bug("Affect_remove_object: no affect.");
         return;
@@ -380,7 +381,7 @@ void affect_join(Char *ch, const AFFECT_DATA &af) {
  * Move a char out of a room.
  */
 void char_from_room(Char *ch) {
-    OBJ_DATA *obj;
+    Object *obj;
 
     if (ch->in_room == nullptr) {
         bug("Char_from_room: nullptr.");
@@ -467,7 +468,7 @@ void char_to_room(Char *ch, Room *room) {
 /*
  * Give an obj to a char.
  */
-void obj_to_char(OBJ_DATA *obj, Char *ch) {
+void obj_to_char(Object *obj, Char *ch) {
     ch->carrying.add_front(obj);
     obj->carried_by = ch;
     obj->in_room = nullptr;
@@ -479,7 +480,7 @@ void obj_to_char(OBJ_DATA *obj, Char *ch) {
 /*
  * Take an obj from its character.
  */
-void obj_from_char(OBJ_DATA *obj) {
+void obj_from_char(Object *obj) {
     Char *ch;
 
     if ((ch = obj->carried_by) == nullptr) {
@@ -501,7 +502,7 @@ void obj_from_char(OBJ_DATA *obj) {
 /*
  * Find the ac value of an obj, including position effect.
  */
-int apply_ac(OBJ_DATA *obj, int iWear, int type) {
+int apply_ac(Object *obj, int iWear, int type) {
     if (obj->item_type != ITEM_ARMOR)
         return 0;
 
@@ -530,7 +531,7 @@ int apply_ac(OBJ_DATA *obj, int iWear, int type) {
 /*
  * Find a piece of eq on a character.
  */
-OBJ_DATA *get_eq_char(Char *ch, int iWear) {
+Object *get_eq_char(Char *ch, int iWear) {
     if (ch == nullptr)
         return nullptr;
 
@@ -547,7 +548,7 @@ OBJ_DATA *get_eq_char(Char *ch, int iWear) {
  * then poison them and inform the room. The poison effect doesn't
  * stack with existing poison, that would be pretty nasty.
  */
-void enforce_material_vulnerability(Char *ch, OBJ_DATA *obj) {
+void enforce_material_vulnerability(Char *ch, Object *obj) {
     if (check_material_vulnerability(ch, obj) == 1) {
         act("As you equip $p it burns you, causing you to shriek in pain!", ch, obj, nullptr, To::Char);
         act("$n shrieks in pain!", ch, obj, nullptr, To::Room);
@@ -561,7 +562,7 @@ void enforce_material_vulnerability(Char *ch, OBJ_DATA *obj) {
 /*
  * Equip a char with an obj.
  */
-void equip_char(Char *ch, OBJ_DATA *obj, int iWear) {
+void equip_char(Char *ch, Object *obj, int iWear) {
     if (get_eq_char(ch, iWear) != nullptr) {
         bug("Equip_char: {} #{} already equipped in slot {}.", ch->name, (ch->is_npc() ? ch->pIndexData->vnum : 0),
             iWear);
@@ -599,7 +600,7 @@ void equip_char(Char *ch, OBJ_DATA *obj, int iWear) {
 /*
  * Unequip a char with an obj.
  */
-void unequip_char(Char *ch, OBJ_DATA *obj) {
+void unequip_char(Char *ch, Object *obj) {
     if (obj->wear_loc == WEAR_NONE) {
         bug("Unequip_char: already unequipped.");
         return;
@@ -622,14 +623,14 @@ void unequip_char(Char *ch, OBJ_DATA *obj) {
 /*
  * Count occurrences of an obj in a list.
  */
-int count_obj_list(ObjectIndex *objIndex, const GenericList<OBJ_DATA *> &list) {
+int count_obj_list(ObjectIndex *objIndex, const GenericList<Object *> &list) {
     return ranges::count(list, objIndex, [](auto *obj) { return obj->objIndex; });
 }
 
 /*
  * Move an obj out of a room.
  */
-void obj_from_room(OBJ_DATA *obj) {
+void obj_from_room(Object *obj) {
     if (!obj->in_room) {
         bug("obj_from_room: nullptr.");
         return;
@@ -643,7 +644,7 @@ void obj_from_room(OBJ_DATA *obj) {
     obj->in_room = nullptr;
 }
 
-bool check_sub_issue(OBJ_DATA *obj, Char *ch) {
+bool check_sub_issue(Object *obj, Char *ch) {
     int vnum = obj->objIndex->vnum;
     if (((vnum >= 3700) && (vnum <= 3713)) || (vnum == 3716) || (vnum == 3717)) {
         act("$n drops the $p. It disappears in a puff of acrid smoke.", ch, obj, nullptr, To::Room);
@@ -656,7 +657,7 @@ bool check_sub_issue(OBJ_DATA *obj, Char *ch) {
 /*
  * Move an obj into a room.
  */
-void obj_to_room(OBJ_DATA *obj, Room *room) {
+void obj_to_room(Object *obj, Room *room) {
     room->contents.add_front(obj);
     obj->in_room = room;
     obj->carried_by = nullptr;
@@ -666,7 +667,7 @@ void obj_to_room(OBJ_DATA *obj, Room *room) {
 /*
  * Move an object into an object.
  */
-void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to) {
+void obj_to_obj(Object *obj, Object *obj_to) {
     obj_to->contains.add_front(obj);
     obj->in_obj = obj_to;
     obj->in_room = nullptr;
@@ -685,8 +686,8 @@ void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to) {
 /*
  * Move an object out of an object.
  */
-void obj_from_obj(OBJ_DATA *obj) {
-    OBJ_DATA *obj_from;
+void obj_from_obj(Object *obj) {
+    Object *obj_from;
 
     if ((obj_from = obj->in_obj) == nullptr) {
         bug("Obj_from_obj: null obj_from.");
@@ -710,7 +711,7 @@ void obj_from_obj(OBJ_DATA *obj) {
 /*
  * Extract an obj from the world.
  */
-void extract_obj(OBJ_DATA *obj) {
+void extract_obj(Object *obj) {
     if (obj->in_room != nullptr)
         obj_from_room(obj);
     else if (obj->carried_by != nullptr)
@@ -831,7 +832,7 @@ Char *get_mob_by_vnum(sh_int vnum) {
  * Find some object with a given index data.
  * Used by area-reset 'P' command.
  */
-OBJ_DATA *get_obj_type(ObjectIndex *objIndex) {
+Object *get_obj_type(ObjectIndex *objIndex) {
     for (auto *obj : object_list)
         if (obj->objIndex == objIndex)
             return obj;
@@ -842,7 +843,7 @@ OBJ_DATA *get_obj_type(ObjectIndex *objIndex) {
 /*
  * Find an obj in a list.
  */
-OBJ_DATA *get_obj_list(const Char *ch, std::string_view argument, GenericList<OBJ_DATA *> &list) {
+Object *get_obj_list(const Char *ch, std::string_view argument, GenericList<Object *> &list) {
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
     for (auto *obj : list) {
@@ -858,7 +859,7 @@ OBJ_DATA *get_obj_list(const Char *ch, std::string_view argument, GenericList<OB
 /*
  * Find an obj in player's inventory.
  */
-OBJ_DATA *get_obj_carry(Char *ch, const char *argument) {
+Object *get_obj_carry(Char *ch, const char *argument) {
     // TODO remove
     return ch->find_in_inventory(argument);
 }
@@ -866,7 +867,7 @@ OBJ_DATA *get_obj_carry(Char *ch, const char *argument) {
 /*
  * Find an obj in player's equipment.
  */
-OBJ_DATA *get_obj_wear(Char *ch, const char *argument) {
+Object *get_obj_wear(Char *ch, const char *argument) {
     // TODO remove
     return ch->find_worn(argument);
 }
@@ -874,7 +875,7 @@ OBJ_DATA *get_obj_wear(Char *ch, const char *argument) {
 /*
  * Find an obj in the room or in inventory.
  */
-OBJ_DATA *get_obj_here(const Char *ch, std::string_view argument) {
+Object *get_obj_here(const Char *ch, std::string_view argument) {
     if (auto *obj = get_obj_list(ch, argument, ch->in_room->contents))
         return obj;
 
@@ -888,7 +889,7 @@ OBJ_DATA *get_obj_here(const Char *ch, std::string_view argument) {
 }
 
 /* Written by Wandera & Death */
-OBJ_DATA *get_object(sh_int vnum) {
+Object *get_object(sh_int vnum) {
     if (ObjectIndex *objIndex = get_obj_index(vnum); objIndex != nullptr) {
         return create_object(objIndex);
     }
@@ -898,7 +899,7 @@ OBJ_DATA *get_object(sh_int vnum) {
 /*
  * Find an obj in the world.
  */
-OBJ_DATA *get_obj_world(Char *ch, std::string_view argument) {
+Object *get_obj_world(Char *ch, std::string_view argument) {
     if (auto *obj = get_obj_here(ch, argument))
         return obj;
 
@@ -917,7 +918,7 @@ OBJ_DATA *get_obj_world(Char *ch, std::string_view argument) {
 /*
  * Create a 'money' obj.
  */
-OBJ_DATA *create_money(int amount) {
+Object *create_money(int amount) {
     if (amount <= 0) {
         bug("Create_money: zero or negative money {}.", amount);
         amount = 1;
@@ -939,7 +940,7 @@ OBJ_DATA *create_money(int amount) {
  * Return # of objects which an object counts as.
  * Thanks to Tony Chamberlain for the correct recursive code here.
  */
-int get_obj_number(OBJ_DATA *obj) {
+int get_obj_number(Object *obj) {
     int number;
 
     if (obj->item_type == ITEM_CONTAINER || obj->item_type == ITEM_MONEY)
@@ -956,7 +957,7 @@ int get_obj_number(OBJ_DATA *obj) {
 /*
  * Return weight of an object, including weight of contents.
  */
-int get_obj_weight(OBJ_DATA *obj) {
+int get_obj_weight(Object *obj) {
     int weight;
 
     weight = obj->weight;
@@ -1029,7 +1030,7 @@ std::string_view pers(const Char *ch, const Char *looker) {
 /*
  * True if char can see obj.
  */
-bool can_see_obj(const Char *ch, const OBJ_DATA *obj) {
+bool can_see_obj(const Char *ch, const Object *obj) {
     // TODO remove
     return ch->can_see(*obj);
 }
@@ -1037,7 +1038,7 @@ bool can_see_obj(const Char *ch, const OBJ_DATA *obj) {
 /*
  * True if char can drop obj.
  */
-bool can_drop_obj(Char *ch, OBJ_DATA *obj) {
+bool can_drop_obj(Char *ch, Object *obj) {
     if (!IS_SET(obj->extra_flags, ITEM_NODROP))
         return true;
 
@@ -1050,7 +1051,7 @@ bool can_drop_obj(Char *ch, OBJ_DATA *obj) {
 /*
  * Return ascii name of an item type.
  */
-const char *item_type_name(OBJ_DATA *obj) {
+const char *item_type_name(Object *obj) {
     switch (obj->item_type) {
     case ITEM_LIGHT: return "light";
     case ITEM_SCROLL: return "scroll";

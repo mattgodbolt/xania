@@ -9,12 +9,12 @@
 #pragma once
 
 struct Char;
-struct OBJ_DATA;
+struct Object;
 
 int mana_cost(Char *ch, int min_mana, int level);
 int slot_lookup(int slot);
 bool saves_spell(int level, const Char *victim);
-void obj_cast_spell(int sn, int level, Char *ch, Char *victim, OBJ_DATA *obj);
+void obj_cast_spell(int sn, int level, Char *ch, Char *victim, Object *obj);
 bool check_dispel(int dis_level, Char *victim, int spell_num);
 
 void spell_psy_tornado(int spell_num, int level, Char *ch, void *vo);
@@ -126,4 +126,4 @@ void spell_general_purpose(int spell_num, int level, Char *ch, void *vo);
 void spell_high_explosive(int spell_num, int level, Char *ch, void *vo);
 void spell_raise_dead(int spell_num, int level, Char *ch, void *vo);
 
-void explode_bomb(OBJ_DATA *bomb, Char *ch, Char *thrower);
+void explode_bomb(Object *bomb, Char *ch, Char *thrower);

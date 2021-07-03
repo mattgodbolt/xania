@@ -7,6 +7,7 @@
 #include "AFFECT_DATA.hpp"
 #include "Char.hpp"
 #include "MobIndexData.hpp"
+#include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "db.h"
 #include "handler.hpp"
@@ -31,7 +32,7 @@ void mobbug(std::string_view str, MobIndexData *mob) {
 /* report_object, takes an object_index_data obj and a param boot and returns the 'worth' of an
    object in points.  If boot is non-zero it will also 'BUG' these, along with any other things
    that could be wrong with the object */
-int report_object(OBJ_DATA *object, int boot) {
+int report_object(Object *object, int boot) {
     int averagedam, allowedaverage;
     ObjectIndex *obj = object->objIndex;
 
@@ -130,7 +131,7 @@ void report_entity_imbalance() {
 }
 
 void do_immworth(Char *ch, const char *argument) {
-    OBJ_DATA *obj;
+    Object *obj;
     int worth, shouldbe;
 
     if ((obj = get_obj_world(ch, argument)) == nullptr) {

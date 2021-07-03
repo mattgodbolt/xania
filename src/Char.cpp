@@ -8,6 +8,7 @@
 #include "Classes.hpp"
 #include "DescriptorList.hpp"
 #include "Note.hpp"
+#include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "Races.hpp"
 #include "Sex.hpp"
@@ -256,7 +257,7 @@ bool Char::is_comm_brief() const { return is_pc() && IS_SET(comm, COMM_BRIEF); }
 bool Char::should_autoexit() const { return is_pc() && IS_SET(act, PLR_AUTOEXIT); }
 
 template <typename Func>
-OBJ_DATA *Char::find_filtered_obj(std::string_view argument, Func filter) const {
+Object *Char::find_filtered_obj(std::string_view argument, Func filter) const {
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
     for (auto *obj : carrying) {
@@ -269,15 +270,15 @@ OBJ_DATA *Char::find_filtered_obj(std::string_view argument, Func filter) const 
     return nullptr;
 }
 
-OBJ_DATA *Char::find_in_inventory(std::string_view argument) const {
-    return find_filtered_obj(argument, [](const OBJ_DATA &obj) { return obj.wear_loc == WEAR_NONE; });
+Object *Char::find_in_inventory(std::string_view argument) const {
+    return find_filtered_obj(argument, [](const Object &obj) { return obj.wear_loc == WEAR_NONE; });
 }
 
-OBJ_DATA *Char::find_worn(std::string_view argument) const {
-    return find_filtered_obj(argument, [](const OBJ_DATA &obj) { return obj.wear_loc != WEAR_NONE; });
+Object *Char::find_worn(std::string_view argument) const {
+    return find_filtered_obj(argument, [](const Object &obj) { return obj.wear_loc != WEAR_NONE; });
 }
 
-bool Char::can_see(const OBJ_DATA &object) const {
+bool Char::can_see(const Object &object) const {
     if (has_holylight())
         return true;
 
@@ -398,11 +399,11 @@ void Char::set_afk(std::string_view afk_message) {
 }
 
 bool Char::has_boat() const noexcept {
-    return is_immortal() || ranges::contains(carrying, ITEM_BOAT, &OBJ_DATA::item_type);
+    return is_immortal() || ranges::contains(carrying, ITEM_BOAT, &Object::item_type);
 }
 
 bool Char::carrying_object_vnum(int vnum) const noexcept {
-    return ranges::contains(carrying | ranges::views::transform(&OBJ_DATA::objIndex), vnum, &ObjectIndex::vnum);
+    return ranges::contains(carrying | ranges::views::transform(&Object::objIndex), vnum, &ObjectIndex::vnum);
 }
 
 size_t Char::num_group_members_in_room() const noexcept {

@@ -8,11 +8,11 @@
 #include "GenericList.hpp"
 
 class Char;
-struct OBJ_DATA;
+struct Object;
 
-bool can_loot(const Char *ch, const OBJ_DATA *obj);
-void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container);
-bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *moving_obj, OBJ_DATA *obj_to);
-bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *moving_obj,
-                                  GenericList<OBJ_DATA *> &objs_to);
-int check_material_vulnerability(Char *ch, OBJ_DATA *object);
+bool can_loot(const Char *ch, const Object *obj);
+void get_obj(Char *ch, Object *obj, Object *container);
+bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *moving_obj, Object *obj_to);
+bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *moving_obj,
+                                  GenericList<Object *> &objs_to);
+int check_material_vulnerability(Char *ch, Object *object);

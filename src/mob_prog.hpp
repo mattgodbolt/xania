@@ -8,17 +8,17 @@
 /* Merc-2.2 MOBProgs - Faramir 31/8/1998*/
 
 struct Char;
-struct OBJ_DATA;
+struct Object;
 struct AREA_DATA;
 
 void do_mpstat(Char *ch, char *argument);
 
-void mprog_wordlist_check(const char *arg, Char *mob, const Char *actor, const OBJ_DATA *obj, const void *vo, int type);
-void mprog_percent_check(Char *mob, Char *actor, OBJ_DATA *object, void *vo, int type);
-void mprog_act_trigger(const char *buf, Char *mob, const Char *ch, const OBJ_DATA *obj, const void *vo);
+void mprog_wordlist_check(const char *arg, Char *mob, const Char *actor, const Object *obj, const void *vo, int type);
+void mprog_percent_check(Char *mob, Char *actor, Object *object, void *vo, int type);
+void mprog_act_trigger(const char *buf, Char *mob, const Char *ch, const Object *obj, const void *vo);
 void mprog_bribe_trigger(Char *mob, Char *ch, int amount);
 void mprog_entry_trigger(Char *mob);
-void mprog_give_trigger(Char *mob, Char *ch, OBJ_DATA *obj);
+void mprog_give_trigger(Char *mob, Char *ch, Object *obj);
 void mprog_greet_trigger(Char *mob);
 void mprog_fight_trigger(Char *mob, Char *ch);
 void mprog_hitprcnt_trigger(Char *mob, Char *ch);
@@ -30,7 +30,7 @@ struct MPROG_ACT_LIST {
     MPROG_ACT_LIST *next;
     char *buf;
     const Char *ch;
-    const OBJ_DATA *obj;
+    const Object *obj;
     const void *vo;
 };
 

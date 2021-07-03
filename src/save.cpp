@@ -11,6 +11,7 @@
 #include "AFFECT_DATA.hpp"
 #include "CharFileMeta.hpp"
 #include "ExtraDescription.hpp"
+#include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
@@ -47,14 +48,14 @@ std::string filename_for_god(std::string_view player_name) {
  * Array of containers read for proper re-nesting of objects.
  */
 #define MAX_NEST 100
-static OBJ_DATA *rgObjNest[MAX_NEST];
+static Object *rgObjNest[MAX_NEST];
 
 /*
  * Local functions.
  */
 void fwrite_char(const Char *ch, FILE *fp);
-void fwrite_objs(const Char *ch, const GenericList<OBJ_DATA *> &objs, FILE *fp, int iNest = 0);
-void fwrite_one_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest);
+void fwrite_objs(const Char *ch, const GenericList<Object *> &objs, FILE *fp, int iNest = 0);
+void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, int iNest);
 void fwrite_pet(const Char *ch, const Char *pet, FILE *fp);
 void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp);
 void fread_pet(Char *ch, FILE *fp);
@@ -338,9 +339,9 @@ void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
     fmt::print(fp, "{}\n", cf::End);
 }
 
-void fwrite_objs(const Char *ch, const GenericList<OBJ_DATA *> &objs, FILE *fp, int iNest) {
+void fwrite_objs(const Char *ch, const GenericList<Object *> &objs, FILE *fp, int iNest) {
     // TODO: if/when we support reverse iteration of GenericLists, we can reverse directly here.
-    auto obj_ptrs = objs | ranges::to<std::vector<OBJ_DATA *>>;
+    auto obj_ptrs = objs | ranges::to<std::vector<Object *>>;
     for (auto *obj : obj_ptrs | ranges::views::reverse)
         fwrite_one_obj(ch, obj, fp, iNest);
 }
@@ -348,7 +349,7 @@ void fwrite_objs(const Char *ch, const GenericList<OBJ_DATA *> &objs, FILE *fp, 
 /*
  * Write a single object and its contents.
  */
-void fwrite_one_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest) {
+void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, int iNest) {
     /*
      * Scupper storage characters.
      */
@@ -853,7 +854,7 @@ void fread_pet(Char *ch, FILE *fp) {
 
 void fread_obj(Char *ch, FILE *fp) {
     namespace cf = charfilemeta;
-    OBJ_DATA *obj;
+    Object *obj;
     std::string word;
     int iNest;
     bool fNest;
@@ -883,7 +884,7 @@ void fread_obj(Char *ch, FILE *fp) {
     }
 
     if (obj == nullptr) /* either not found or old style */
-        obj = new OBJ_DATA;
+        obj = new Object;
 
     fNest = false;
     fVnum = true;

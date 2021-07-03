@@ -1,13 +1,14 @@
 #include "ExtraDescription.hpp"
 #include "MemFile.hpp"
+#include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "merc.h"
 
 #include <catch2/catch.hpp>
 
-extern bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *moving_obj,
-                                         GenericList<OBJ_DATA *> &objs_to);
-extern bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *moving_obj, OBJ_DATA *obj_to);
+extern bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *moving_obj,
+                                         GenericList<Object *> &objs_to);
+extern bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *moving_obj, Object *obj_to);
 
 TEST_CASE("unique object enforcement") {
 
@@ -16,11 +17,11 @@ TEST_CASE("unique object enforcement") {
     ObjectIndex obj_idx{};
     obj_idx.item_type = ITEM_LIGHT;
 
-    OBJ_DATA existing_obj{};
+    Object existing_obj{};
     existing_obj.objIndex = &obj_idx;
     existing_obj.item_type = obj_idx.item_type;
 
-    OBJ_DATA moving_obj{};
+    Object moving_obj{};
     moving_obj.objIndex = &obj_idx;
     moving_obj.item_type = obj_idx.item_type;
     // Default case for most tests: both the existing & moving object instances are flagged unique.
@@ -93,7 +94,7 @@ TEST_CASE("unique object enforcement") {
     SECTION("moving to a container") {
         ObjectIndex container_idx;
         container_idx.item_type = ITEM_CONTAINER;
-        OBJ_DATA container{};
+        Object container{};
         container.objIndex = &container_idx;
         container.item_type = container_idx.item_type;
 

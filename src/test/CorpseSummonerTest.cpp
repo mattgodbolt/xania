@@ -1,5 +1,6 @@
 #include "CorpseSummoner.hpp"
 #include "ExtraDescription.hpp"
+#include "Object.hpp"
 #include "Room.hpp"
 #include "merc.h"
 
@@ -18,19 +19,19 @@ struct MockDependencies : public CorpseSummoner::Dependencies {
                     const Position::Type position),
                override);
     MAKE_MOCK5(act, void(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to), override);
-    MAKE_MOCK1(obj_from_char, void(OBJ_DATA *obj), override);
-    MAKE_MOCK2(obj_to_char, void(OBJ_DATA *obj, Char *ch), override);
-    MAKE_MOCK1(obj_from_room, void(OBJ_DATA *obj), override);
-    MAKE_MOCK2(obj_to_room, void(OBJ_DATA *obj, Room *room), override);
-    MAKE_MOCK1(extract_obj, void(OBJ_DATA *obj), override);
+    MAKE_MOCK1(obj_from_char, void(Object *obj), override);
+    MAKE_MOCK2(obj_to_char, void(Object *obj, Char *ch), override);
+    MAKE_MOCK1(obj_from_room, void(Object *obj), override);
+    MAKE_MOCK2(obj_to_room, void(Object *obj, Room *room), override);
+    MAKE_MOCK1(extract_obj, void(Object *obj), override);
     MAKE_MOCK2(affect_to_char, void(Char *ch, const AFFECT_DATA &paf), override);
-    MAKE_MOCK0(object_list, GenericList<OBJ_DATA *> &(), override);
+    MAKE_MOCK0(object_list, GenericList<Object *> &(), override);
     MAKE_CONST_MOCK0(spec_fun_summoner, SpecialFunc(), override);
     MAKE_CONST_MOCK0(weaken_sn, int(), override);
 };
 
-OBJ_DATA make_test_obj(Room *room, std::string_view descr, int item_type) {
-    OBJ_DATA obj;
+Object make_test_obj(Room *room, std::string_view descr, int item_type) {
+    Object obj;
     obj.in_room = room;
     obj.short_descr = descr;
     obj.item_type = item_type;
@@ -99,7 +100,7 @@ TEST_CASE("is catalyst valid") {
     MockDependencies mock;
     CorpseSummoner summoner(mock);
     Char player{};
-    OBJ_DATA catalyst{};
+    Object catalyst{};
 
     SECTION("item is not pc corpse summoner") {
         auto msg = summoner.is_catalyst_invalid(&player, &catalyst);
@@ -133,7 +134,7 @@ TEST_CASE("check catalyst") {
     CorpseSummoner summoner(mock);
     Char player{};
     Char mob{};
-    OBJ_DATA catalyst{};
+    Object catalyst{};
 
     SECTION("with invalid catalyst") {
         trompeloeil::sequence seq;
@@ -169,8 +170,8 @@ TEST_CASE("get pc corpse world") {
     auto tests_corpse_desc{"corpse of Test"};
 
     SECTION("no pc corpse in world") {
-        OBJ_DATA weapon = make_test_obj(&object_room, "", ITEM_WEAPON);
-        auto obj_list = GenericList<OBJ_DATA *>::of(&weapon);
+        Object weapon = make_test_obj(&object_room, "", ITEM_WEAPON);
+        auto obj_list = GenericList<Object *>::of(&weapon);
         REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
         auto found = summoner.get_pc_corpse_world(&player, tests_corpse_desc);
@@ -180,8 +181,8 @@ TEST_CASE("get pc corpse world") {
 
     SECTION("ignore corpse owned by another player") {
         char descr[] = "corpse of Sinbad";
-        OBJ_DATA corpse = make_test_obj(&object_room, descr, ITEM_CORPSE_PC);
-        auto obj_list = GenericList<OBJ_DATA *>::of(&corpse);
+        Object corpse = make_test_obj(&object_room, descr, ITEM_CORPSE_PC);
+        auto obj_list = GenericList<Object *>::of(&corpse);
         player.in_room = &player_room;
         REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
@@ -192,8 +193,8 @@ TEST_CASE("get pc corpse world") {
 
     SECTION("ignore player's corpse in same room as summoner") {
         char descr[] = "corpse of Sinbad";
-        OBJ_DATA corpse = make_test_obj(&player_room, descr, ITEM_CORPSE_PC);
-        auto obj_list = GenericList<OBJ_DATA *>::of(&corpse);
+        Object corpse = make_test_obj(&player_room, descr, ITEM_CORPSE_PC);
+        auto obj_list = GenericList<Object *>::of(&corpse);
         REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
         auto found = summoner.get_pc_corpse_world(&player, tests_corpse_desc);
@@ -203,8 +204,8 @@ TEST_CASE("get pc corpse world") {
 
     SECTION("found player's corpse") {
         char descr[] = "corpse of Test";
-        OBJ_DATA corpse = make_test_obj(&object_room, descr, ITEM_CORPSE_PC);
-        auto obj_list = GenericList<OBJ_DATA *>::of(&corpse);
+        Object corpse = make_test_obj(&object_room, descr, ITEM_CORPSE_PC);
+        auto obj_list = GenericList<Object *>::of(&corpse);
         REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
         auto found = summoner.get_pc_corpse_world(&player, tests_corpse_desc);
@@ -226,15 +227,15 @@ TEST_CASE("summon corpse") {
     player.in_room = &player_room;
     Char mob{};
     mob.in_room = &player_room;
-    OBJ_DATA catalyst;
+    Object catalyst;
     catalyst.level = 12;
     SET_BIT(catalyst.extra_flags, ITEM_SUMMON_CORPSE);
     const auto weaken_sn{68};
 
     SECTION("successful summmon") {
         char descr[] = "corpse of Test";
-        OBJ_DATA corpse = make_test_obj(&object_room, descr, ITEM_CORPSE_PC);
-        auto obj_list = GenericList<OBJ_DATA *>::of(&corpse);
+        Object corpse = make_test_obj(&object_room, descr, ITEM_CORPSE_PC);
+        auto obj_list = GenericList<Object *>::of(&corpse);
         trompeloeil::sequence seq;
         REQUIRE_CALL(mock, act("$n clutches $p between $s bony fingers and begins to whisper."sv, &mob, &catalyst,
                                nullptr, To::Room))
@@ -261,8 +262,8 @@ TEST_CASE("summon corpse") {
     }
 
     SECTION("failed summmon as corpse cannot be found") {
-        OBJ_DATA objects{};
-        auto obj_list = GenericList<OBJ_DATA *>::of(&objects);
+        Object objects{};
+        auto obj_list = GenericList<Object *>::of(&objects);
         trompeloeil::sequence seq;
         REQUIRE_CALL(mock, act("$n clutches $p between $s bony fingers and begins to whisper."sv, &mob, &catalyst,
                                nullptr, To::Room))

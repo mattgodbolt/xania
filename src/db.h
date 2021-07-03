@@ -21,7 +21,7 @@
 #include <string>
 
 struct MobIndexData;
-struct OBJ_DATA;
+struct Object;
 struct ObjectIndex;
 struct ExtraDescription;
 struct Room;
@@ -30,7 +30,7 @@ struct Room;
  * Mutable global variables.
  */
 extern GenericList<Char *> char_list;
-extern GenericList<OBJ_DATA *> object_list;
+extern GenericList<Object *> object_list;
 extern bool fBootDb;
 extern ObjectIndex *obj_index_hash[MAX_KEY_HASH];
 extern int top_obj_index;
@@ -39,8 +39,8 @@ void boot_db();
 void area_update();
 Char *create_mobile(MobIndexData *pMobIndex);
 void clone_mobile(Char *parent, Char *clone);
-OBJ_DATA *create_object(ObjectIndex *objIndex);
-void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
+Object *create_object(ObjectIndex *objIndex);
+void clone_object(Object *parent, Object *clone);
 const char *get_extra_descr(std::string_view name, const std::vector<ExtraDescription> &ed);
 ObjectIndex *get_obj_index(int vnum);
 Room *get_room(int vnum);
