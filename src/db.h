@@ -32,11 +32,8 @@ struct ROOM_INDEX_DATA;
 extern GenericList<Char *> char_list;
 extern GenericList<OBJ_DATA *> object_list;
 extern bool fBootDb;
-extern int newobjs;
 extern OBJ_INDEX_DATA *obj_index_hash[MAX_KEY_HASH];
 extern int top_obj_index;
-extern int top_obj_affect;
-extern int social_count;
 
 void boot_db();
 void area_update();
@@ -64,9 +61,6 @@ bool str_cmp(const char *astr, const char *bstr);
 bool str_prefix(const char *astr, const char *bstr);
 bool str_suffix(const char *astr, const char *bstr);
 void append_file(Char *ch, const char *file, const char *str);
-
-/* from db2.cpp */
-
 char fread_letter(FILE *fp);
 int fread_number(FILE *fp);
 int fread_spnumber(FILE *fp);

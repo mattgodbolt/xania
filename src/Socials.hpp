@@ -22,5 +22,6 @@ struct social_type {
 };
 
 extern struct social_type social_table[];
+extern int social_count;
 
 void load_socials(FILE *fp);
