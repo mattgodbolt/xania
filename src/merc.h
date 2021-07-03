@@ -711,21 +711,6 @@ struct GEN_DATA {
     int points_chosen;
 };
 
-/* Rohan's finger_info structure to cache all char's info data */
-struct FingerInfo {
-    std::string name;
-    std::string info_message;
-    std::string last_login_at;
-    std::string last_login_from;
-    sh_int invis_level{};
-    bool i_message{};
-    explicit FingerInfo(std::string_view name) : name(name) {}
-    FingerInfo(std::string_view name, std::string_view info_message, std::string_view last_login_at,
-               std::string_view last_login_from, sh_int invis_level, bool i_message)
-        : name(name), info_message(info_message), last_login_at(last_login_at), last_login_from(last_login_from),
-          invis_level(invis_level), i_message(i_message) {}
-};
-
 /**
  * Commands used in #RESETS section of area files
  */

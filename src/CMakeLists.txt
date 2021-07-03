@@ -40,7 +40,7 @@ add_library(xania_lib STATIC
         flags.h
         handler.cpp
         healer.cpp
-        info.cpp
+        Finger.hpp Finger.cpp
         interp.cpp
         interp.h
         lookup.cpp
@@ -72,7 +72,6 @@ add_library(xania_lib STATIC
         CommandSet.hpp
         Descriptor.cpp Descriptor.hpp
         string_utils.cpp string_utils.hpp string_utils_impl.hpp
-        info.hpp
         TimeInfoData.cpp TimeInfoData.hpp
         WeatherData.cpp WeatherData.hpp
         WrappedFd.cpp WrappedFd.hpp

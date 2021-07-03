@@ -7,7 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
-#include "info.hpp"
+#include "Finger.hpp"
 #include "ArgParser.hpp"
 #include "Logging.hpp"
 #include "TimeInfoData.hpp"
@@ -15,7 +15,6 @@
 #include "db.h"
 #include "handler.hpp"
 #include "interp.h"
-#include "merc.h"
 #include "save.hpp"
 #include "string_utils.hpp"
 
@@ -25,9 +24,6 @@
 #include <cstring>
 #include <sys/stat.h>
 #include <unordered_map>
-
-void do_finger(Char *ch, ArgParser args);
-FingerInfo read_char_info(std::string_view player_name);
 
 // For finger info.
 namespace {
@@ -42,6 +38,48 @@ FingerInfo *search_info_cache(std::string_view name) {
     return nullptr;
 }
 FingerInfo *search_info_cache(const Char *ch) { return search_info_cache(ch->name); }
+
+Char *find_char_by_name(std::string_view name) {
+    // Find out if char is logged on (irrespective of whether we can see that char or not - hence I don't use
+    // get_char_world, as it only returns chars we can see
+    for (auto *wch : char_list)
+        if (matches(wch->name, name))
+            return wch;
+    return nullptr;
+}
+
+FingerInfo read_char_info(std::string_view player_name) {
+    FingerInfo info(player_name);
+    if (auto fp = WrappedFd::open(filename_for_player(player_name))) {
+        for (;;) {
+            const std::string word = lower_case(fread_word(fp));
+            if (feof(fp))
+                break;
+            if (word == "end") {
+                return info;
+            } else if (word == "extrabits") {
+                const char *line = fread_string(fp);
+                info.i_message = line[EXTRA_INFO_MESSAGE] == '1';
+                fread_to_eol(fp);
+            } else if (word == "invislevel" || word == "invis") {
+                info.invis_level = fread_number(fp);
+            } else if (word == "info_message") {
+                info.info_message = fread_stdstring(fp);
+            } else if (word == "lastloginfrom") {
+                info.last_login_from = fread_stdstring(fp);
+            } else if (word == "lastloginat") {
+                info.last_login_at = fread_stdstring(fp);
+            } else if (word == "name") {
+                info.name = fread_stdstring(fp);
+            } else {
+                fread_to_eol(fp);
+            }
+        }
+    } else {
+        bug("Could not open player file '{}' to extract info.", info.name.c_str());
+    }
+    return info;
+}
 
 }
 
@@ -164,21 +202,6 @@ void do_setinfo(Char *ch, const char *argument) {
     ch->send_line("setinfo clear              Clear all the fields.");
 }
 
-/* MrG finger command - oo-er! */
-/* VERY BROKEN and not included :-) */
-/* Now updated by Rohan, and hopefully included */
-/* Shows info on player as set by setinfo, plus datestamp as to
-   when char was last logged on */
-namespace {
-Char *find_char_by_name(std::string_view name) {
-    // Find out if char is logged on (irrespective of whether we can see that char or not - hence I don't use
-    // get_char_world, as it only returns chars we can see
-    for (auto *wch : char_list)
-        if (matches(wch->name, name))
-            return wch;
-    return nullptr;
-}
-}
 void do_finger(Char *ch, ArgParser args) {
     if (args.empty()) {
         do_setinfo(ch, "");
@@ -277,6 +300,7 @@ void do_finger(Char *ch, ArgParser args) {
 }
 
 void remove_info_for_player(std::string_view player_name) { info_cache.erase(std::string(player_name)); }
+
 void update_info_cache(Char *ch) {
     if (auto cur = search_info_cache(ch)) {
         cur->invis_level = ch->invis_level;
@@ -291,37 +315,4 @@ void update_info_cache(Char *ch) {
             cur->last_login_at = formatted_time(current_time);
         }
     }
-}
-
-FingerInfo read_char_info(std::string_view player_name) {
-    FingerInfo info(player_name);
-    if (auto fp = WrappedFd::open(filename_for_player(player_name))) {
-        for (;;) {
-            const std::string word = lower_case(fread_word(fp));
-            if (feof(fp))
-                break;
-            if (word == "end") {
-                return info;
-            } else if (word == "extrabits") {
-                const char *line = fread_string(fp);
-                info.i_message = line[EXTRA_INFO_MESSAGE] == '1';
-                fread_to_eol(fp);
-            } else if (word == "invislevel" || word == "invis") {
-                info.invis_level = fread_number(fp);
-            } else if (word == "info_message") {
-                info.info_message = fread_stdstring(fp);
-            } else if (word == "lastloginfrom") {
-                info.last_login_from = fread_stdstring(fp);
-            } else if (word == "lastloginat") {
-                info.last_login_at = fread_stdstring(fp);
-            } else if (word == "name") {
-                info.name = fread_stdstring(fp);
-            } else {
-                fread_to_eol(fp);
-            }
-        }
-    } else {
-        bug("Could not open player file '{}' to extract info.", info.name.c_str());
-    }
-    return info;
 }
