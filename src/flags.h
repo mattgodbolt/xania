@@ -19,6 +19,9 @@ static constexpr auto INVALID_BIT = static_cast<unsigned long>(-1);
  *	  the character attempting to modify the flag
  */
 unsigned long flag_set(const char *format, const char *arg, unsigned long current_val, Char *ch);
+
+char *print_flags(int value);
+
 /*
  * Display the current flags
  */

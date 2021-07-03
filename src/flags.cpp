@@ -17,6 +17,25 @@
 #include <cstdlib>
 #include <cstring>
 
+char *print_flags(const int value) {
+    static char buf[36];
+    char *b = buf;
+    int bit;
+    static char table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef";
+    buf[0] = '\0';
+    if (value == 0) {
+        snprintf(buf, sizeof(buf), "0");
+        return (char *)&buf;
+    }
+
+    for (bit = 0; bit < 32; bit++) {
+        if ((value & (1 << bit)) != 0)
+            *b++ = table[bit];
+    }
+    *b = '\0';
+    return (char *)&buf;
+}
+
 void display_flags(const char *format, Char *ch, unsigned long current_val) {
     char buf[MAX_STRING_LENGTH];
     const char *src;
