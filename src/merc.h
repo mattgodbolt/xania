@@ -53,7 +53,6 @@ typedef struct _BUFFER BUFFER;
  * Structure types.
  */
 struct AREA_DATA;
-typedef struct ban_data BAN_DATA;
 class Descriptor;
 struct ExtraDescription;
 struct Object;
@@ -62,24 +61,6 @@ typedef struct program PROGRAM;
 struct ResetData;
 struct Room;
 struct SHOP_DATA;
-
-/*
- * Site ban structure.
- */
-struct ban_data {
-    BAN_DATA *next;
-    char *name;
-    int ban_flags;
-    int level;
-};
-
-/* Ban defines */
-#define BAN_PERMANENT 1
-#define BAN_NEWBIES 2
-#define BAN_PERMIT 4
-#define BAN_PREFIX 8
-#define BAN_SUFFIX 16
-#define BAN_ALL 32
 
 /**
  * Indexes into attack_table that are used by specific weapon enchantment spells

@@ -18,6 +18,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Ban.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "common/Configuration.hpp"
@@ -33,14 +34,20 @@
 
 namespace {
 
-// Formerly global, but for the time being only referenced in this file.
-BAN_DATA *ban_list;
+struct Ban {
+    Ban *next{};
+    char *name{};
+    int ban_flags{};
+    int level{};
+};
+
+Ban *ban_list;
 
 }
 
-BAN_DATA *new_ban() {
-    BAN_DATA *res;
-    res = (BAN_DATA *)(malloc(sizeof(BAN_DATA)));
+Ban *new_ban() {
+    Ban *res;
+    res = (Ban *)(malloc(sizeof(Ban)));
     res->level = 0;
     res->name = nullptr;
     res->next = nullptr;
@@ -48,13 +55,13 @@ BAN_DATA *new_ban() {
     return res;
 }
 
-void free_ban(BAN_DATA *foo) {
+void free_ban(Ban *foo) {
     free_string(foo->name);
     free(foo);
 }
 
 void save_bans() {
-    BAN_DATA *pban;
+    Ban *ban;
     FILE *fp;
     bool found = false;
     const auto ban_file = Configuration::singleton().ban_file();
@@ -63,10 +70,10 @@ void save_bans() {
         perror(ban_file.c_str());
     }
 
-    for (pban = ban_list; pban != nullptr; pban = pban->next) {
-        if (IS_SET(pban->ban_flags, BAN_PERMANENT)) {
+    for (ban = ban_list; ban != nullptr; ban = ban->next) {
+        if (IS_SET(ban->ban_flags, BAN_PERMANENT)) {
             found = true;
-            fprintf(fp, "%s %d %s\n", pban->name, pban->level, print_flags(pban->ban_flags));
+            fprintf(fp, "%s %d %s\n", ban->name, ban->level, print_flags(ban->ban_flags));
         }
     }
 
@@ -77,7 +84,7 @@ void save_bans() {
 
 void load_bans() {
     FILE *fp;
-    BAN_DATA *ban_last;
+    Ban *ban_last;
     const auto ban_file = Configuration::singleton().ban_file();
 
     if ((fp = fopen(ban_file.c_str(), "r")) == nullptr)
@@ -85,7 +92,7 @@ void load_bans() {
 
     ban_last = nullptr;
     for (;;) {
-        BAN_DATA *pban;
+        Ban *pban;
         if (feof(fp)) {
             fclose(fp);
             return;
@@ -108,7 +115,7 @@ void load_bans() {
 }
 
 bool check_ban(const char *site, int type) {
-    BAN_DATA *pban;
+    Ban *pban;
 
     char host[MAX_STRING_LENGTH];
 
@@ -141,7 +148,7 @@ void ban_site(Char *ch, const char *argument, bool fPerm) {
     char arg2[MAX_INPUT_LENGTH];
     char *name;
     BUFFER *buffer;
-    BAN_DATA *pban, *prev;
+    Ban *pban, *prev;
     bool prefix = false, suffix = false;
     int type;
 
@@ -246,8 +253,8 @@ void do_permban(Char *ch, const char *argument) { ban_site(ch, argument, true); 
 void do_allow(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH], *aargh = arg;
     char buf[MAX_STRING_LENGTH];
-    BAN_DATA *prev;
-    BAN_DATA *curr;
+    Ban *prev;
+    Ban *curr;
 
     one_argument(argument, arg);
 

@@ -13,7 +13,7 @@ add_library(xania_lib STATIC
         act_move.hpp act_move.cpp
         act_obj.cpp
         act_wiz.hpp act_wiz.cpp
-        ban.cpp
+        Ban.hpp Ban.cpp
         buffer.cpp
         buffer.h
         challenge.cpp

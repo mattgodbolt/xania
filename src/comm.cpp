@@ -14,6 +14,7 @@
 
 #include "comm.hpp"
 #include "AREA_DATA.hpp"
+#include "Ban.hpp"
 #include "Classes.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
@@ -70,7 +71,6 @@
 
 using namespace std::literals;
 
-extern bool check_ban(const char *site, int type);
 extern size_t max_on;
 
 /*
