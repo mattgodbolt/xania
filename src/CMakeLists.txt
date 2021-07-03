@@ -27,7 +27,7 @@ add_library(xania_lib STATIC
         Materials.hpp Materials.cpp
         Races.hpp Races.cpp
         Titles.hpp Titles.cpp
-        Socials.hpp
+        Socials.hpp Socials.cpp
         db2.cpp
         db.cpp
         db.h

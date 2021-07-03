@@ -5,6 +5,8 @@
 /*************************************************************************/
 #pragma once
 
+#include <cstdio>
+
 /*
  * Structure for a social in the socials table.
  */
@@ -20,3 +22,5 @@ struct social_type {
 };
 
 extern struct social_type social_table[];
+
+void load_socials(FILE *fp);

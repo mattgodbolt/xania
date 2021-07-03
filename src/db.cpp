@@ -18,6 +18,7 @@
 #include "ResetData.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
+#include "Socials.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumRooms.hpp"
 #include "WeatherData.hpp"
@@ -190,7 +191,6 @@ void new_reset(ROOM_INDEX_DATA *, ResetData *);
 void load_rooms(FILE *fp);
 
 void load_shops(FILE *fp);
-void load_socials(FILE *fp);
 void load_specials(FILE *fp);
 
 void fix_exits();
